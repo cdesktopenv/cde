@@ -1,0 +1,3767 @@
+<!-- $XConsortium: appa.sgm /main/8 1996/09/08 19:35:01 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Appendix Id="TTUG.MsgTk.div.1">
+<Title Id="TTUG.MsgTk.mkr.1">メッセージ・ツールキット</Title>
+<Para>ToolTalkメッセージ・ツールキットは、 ToolTalkアプリケーション・プログラミン
+グ・インタフェース（API）のハイレベルなインタフェースです。同じメッセージ・プロト
+コルに準拠する他のアプリケーションとの最適な相互運用のための基本的なToolTalkのメッ
+セージと機能をアプリケーションへ簡単に統合できるよう共通の定義と規約を提供します。
+</Para>
+<Para>ToolTalkメッセージ・ツールキットのメッセージの大部分は標準ToolTalkメッセージ
+・セットに含まれています。メッセージ・ツールキットの関数は別々にコーディングする
+必要があるいくつかのタスクを透過的に処理します。たとえば、
+<IndexTerm>
+<Primary>ttdt_file_join</Primary>
+</IndexTerm><Filename>ttdt_file_join</Filename>関数はパターンを登録し、指定された
+配信範囲にある指定のファイルへのDeleted、Reverted、Moved、およびSaved通知を監視し
+ます。コールバック・メッセージも呼び出します。</Para>
+<Sect1 Id="TTUG.MsgTk.div.2">
+<Title>ToolTalkメッセージ・ツールキットの一般的な説明</Title>
+<Para>相互運用は、別々に開発されたアプリケーションを同時に実行する場合には重要な
+テーマです。相互運用アプリケーションの開発者は、ツールキットのメッセージを一致させ
+ています。つまり、プロトコルは小型の十分に定義されたインタフェースを形成します。こ
+のインタフェースは、アプリケーションの自律性を最大限にします。</Para>
+<Para>ToolTalkメッセージ・ツールキットは、アプリケーションの相互運用において重要で
+あり、メッセージに対する完全なサポートを提供します。メッセージ・プロトコル仕様は、
+メッセージの設定とアプリケーションがメッセージを受信したときの動作を含んでいます。
+これらのメッセージは、アプリケーションの機能を利用するために既存のアプリケーション
+に対して更新できます。共有している情報を送信、受信、および使用するために既存の
+アプリケーションにこれらのメッセージを簡単に追加することができます。</Para>
+<Para>ToolTalkメッセージ規約に準拠しているツールは、意味が異なる場合同じToolTalk
+構文を使用しません。同じ意味の場合は異なるToolTalk構文を使用するのでツール間の通信
+に失敗することもありません。プロトコルが監視されている場合、互いに影響を及ぼすこと
+なく連携するアプリケーションを変更したり置き換えることもできます。</Para>
+<Para>メッセージ・ツールキットのメッセージの大部分は標準ToolTalkメッセージ・セット
+に含まれています。標準ToolTalkメッセージ・セットの詳細については、
+<Emphasis>ToolTalk Reference Manual</Emphasis>を参照してください。
+<!--Original XRef content: 'Table&numsp;A&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.2">に、この章で説明する
+関数の一覧を示します。これらの関数は、ToolTalkメッセージ・ツールキットの一部を構成
+します。</Para>
+<Table Id="TTUG.MsgTk.tbl.1" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.2">ToolTalkメッセージ・ツールキット関数</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="2.5 in">
+<ColSpec Colname="2" Colwidth="2.5 in">
+<THead>
+<Row>
+<Entry><Para><Literal>関数</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>ttdt_close</Command></Para></Entry>
+<Entry><Para><Emphasis>ToolTalk通信終端を破棄します。</Emphasis></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_file_event</Command></Para></Entry>
+<Entry><Para>ファイルに関するイベントを通知します</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_file_join</Command></Para></Entry>
+<Entry><Para>ファイルに関するToolTalkイベントを監視できるように登録します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_file_notice</Command></Para></Entry>
+<Entry><Para>ファイルに関する標準ToolTalk通知を作成して送信します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_file_quit</Command></Para></Entry>
+<Entry><Para>ファイルに関するToolTalkイベントにおける配信対象を登録解除します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>ttdt_file_request</Filename></Para></Entry>
+<Entry><Para>ファイルに関する標準ToolTalk要求を作成して送信します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_Get_Modified</Command></Para></Entry>
+<Entry><Para>ファイルに変更内容を保留しているToolTalkクライアントがないかどうかを
+問い合わせます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_message_accept</Command></Para></Entry>
+<Entry><Para>ToolTalk要求の処理を引き受けます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_open</Command></Para></Entry>
+<Entry><Para>ToolTalk通信終端を作成します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_Revert</Command></Para></Entry>
+<Entry><Para>ファイルの内容を最後に保存した内容に戻すようToolTalkクライアントに
+要求します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_Save</Command></Para></Entry>
+<Entry><Para>ToolTalkクライアントがファイルを保存するよう要求します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_sender_imprint_on</Command></Para></Entry>
+<Entry><Para>ツールに指定のToolTalkツールの動作や特性をエミュレートさせます。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_session_join</Command></Para></Entry>
+<Entry><Para>ToolTalkセッションに参加し、多くの標準デスクトップ・メッセージの
+パターンとデフォルトのコールバックを登録します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_session_quit</Command></Para></Entry>
+<Entry><Para>セッションに参加した時に登録したパターンとデフォルトのコールバックを
+すべて登録解除し、ToolTalkセッションを終了します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_subcontract_manage</Command></Para></Entry>
+<Entry><Para>未処理の要求を管理します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>ttmedia_Deposit</Filename></Para></Entry>
+<Entry><Para>ドキュメントにチェックポイントを設定するためのDeposit要求を送信
+します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttmedia_load</Command></Para></Entry>
+<Entry><Para>ドキュメントの表示、編集、作成のためのMedia Exchange要求を作成して
+送信します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>ttmedia_load_reply</Filename></Para></Entry>
+<Entry><Para>Display要求、Edit要求、Compose要求に返信します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttmedia_ptype_declare</Command></Para></Entry>
+<Entry><Para>Media Exchangeメディア・エディタのptypeを宣言します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_block_while</Filename></Para></Entry>
+<Entry><Para>返信などの待機中にプログラムをブロックします。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_message_abandon</Filename></Para></Entry>
+<Entry><Para>メッセージを無視または拒否してから破棄します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>tttk_message_create</Command></Para></Entry>
+<Entry><Para>メッセージ規約に準拠しているメッセージを作成します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_message_fail</Filename></Para></Entry>
+<Entry><Para>メッセージを無視します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_message_receive</Filename></Para></Entry>
+<Entry><Para>次のToolTalkメッセージを取り出します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_message_reject</Filename></Para></Entry>
+<Entry><Para>メッセージを拒否します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_op_string</Filename></Para></Entry>
+<Entry><Para>オペレーションに対する文字列を返します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_string_op</Filename></Para></Entry>
+<Entry><Para>文字列に対するオペレーションを返します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>tttk_Xt_input_handler</Command></Para></Entry>
+<Entry><Para>XtクライアントのためのToolTalkイベントを処理します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect1>
+<Sect1 Id="TTUG.MsgTk.div.3">
+<Title>ツールキットの規約</Title>
+<Para>ツールキットのメッセージ規約の大部分は、標準ToolTalkメッセージ・セットの記述
+で構成されます。この節では、特定の標準メッセージ・セットには関係ない規約について
+説明します。</Para>
+<Table Id="TTUG.MsgTk.tbl.2" Frame="Topbot">
+<Title>メッセージ・ツールキット規約</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.5 in">
+<ColSpec Colname="2" Colwidth="5.5 in">
+<THead>
+<Row>
+<Entry><Para><Literal>フィールド</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>fileAttrib</Para></Entry>
+<Entry><Para>メッセージのファイル属性を設定できるかどうか、または設定する必要があ
+るかどうかを示します。ToolTalkサービスには、各メッセージがファイルを参照し、名前が
+付いているファイルを「配信対象」としているクライアントにメッセージを配信
+できる機能（「ファイル配信範囲指定機能」と呼ぶ）があります。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>opName</Para></Entry>
+<Entry><Para>オペレーションまたはイベントの名前（「op」ともいう）。重要
+なのは、ツールが異なっても意味が同じものに対しては同じopNameを使用することです。
+メッセージが標準のものではない場合、そのopNameは一意でなければいけません。たとえば
+、opNameに<Filename>Company_Product</Filename>（ <Symbol Role="Variable">
+Acme_HoarkTool_Hoark_My_Frammistat</Symbol>など）という接頭辞を付けます。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>requiredArgs</Para></Entry>
+<Entry><Para>メッセージに必ず含まれていなければならない引き数。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>optionalArgs</Para></Entry>
+<Entry><Para>メッセージに含まれることもある特別引き数。メッセージ内のオプションの
+引き数は、指定の順序で必須の引き数の後ろに指定しなければなりません。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>vtype argumentName</Para></Entry>
+<Entry><Para>特定の引き数についての記述。vtypeは、メッセージ引き数に含まれるデー
+タの種類を表す文字列で、プログラマが定義します。ToolTalkサービスは、送信メッセージ
+・インスタンスと登録されているメッセージ・パターンとを照合する場合にだけvtypeを
+使用します。各vtypeは、規約により一般的な単一の既知のデータ型に対応づけなければな
+りません。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect1>
+<Sect1 Id="TTUG.MsgTk.div.4">
+<Title>アプリケーション記述時のメッセージ・ツールキットの使用</Title>
+<Para>ツールキットを使用するには、
+<IndexTerm>
+<Primary>ToolTalkメッセージ・ツールキットのヘッダ・ファイル</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ファイル</Primary>
+<Secondary>ToolTalkメッセージ・ツールキットのヘッダ</Secondary>
+</IndexTerm>ToolTalkメッセージ・ツールキットのヘッダ・ファイルを組み込みます。
+</Para>
+<ProgramListing>#include &lt;Tt/tttk.h></ProgramListing>
+</Sect1>
+<Sect1 Id="TTUG.MsgTk.div.5">
+<Title>ToolTalkメッセージ・ツールキット</Title>
+<Para>この節では、ToolTalkメッセージ・ツールキットの一部である関数について説明しま
+す。</Para>
+<Example Id="TTUG.MsgTk.tbl.3">
+<Title><IndexTerm>
+<Primary>ttdt_close</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_close</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_close</Secondary>
+</IndexTerm>ttdt_close</Title>
+<ProgramListing>Tt_status     ttdt_close(   const char *     procid,
+                            const char *     new_procid,
+                            int              sendStopped );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_close</Filename>関数は、ToolTalk通信終端を破棄します。この関
+数は、
+<IndexTerm>
+<Primary>ToolTalk関数</Primary>
+<Secondary>tt_close</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>tt_close関数</Primary>
+</IndexTerm>ToolTalk関数<Filename>tt_close</Filename>を呼び出します。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>procid</Command>の値が<Command>!= 0</Command>の場合、この関数は次を
+呼び出します。</Para>
+</ListItem>
+</ItemizedList>
+<programlisting><IndexTerm><Primary>tt_default_procid_set( procid )</Primary></IndexTerm>tt_default_procid_set(  procid  )</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>new_procid</Filename>の値が<Command>!= 0</Command>の場合、この関数
+は次を呼び出します。</Para>
+</ListItem>
+</ItemizedList>
+<programlisting><IndexTerm><Primary>tt_default_procid_set( new_procid )</Primary></IndexTerm>tt_default_procid_set(  new_procid )</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>sendStopped</Command>パラメータが設定されている場合、この関数は
+<IndexTerm>
+<Primary>Stopped通知</Primary>
+</IndexTerm>Stopped通知を送信します。</Para>
+</ListItem>
+</ItemizedList>
+<Para><Filename>ttdt_close</Filename>関数は、ToolTalk関数
+<IndexTerm>
+<Primary>tt_default_procid_set関数</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk関数</Primary>
+<Secondary>tt_default_procid_set</Secondary>
+</IndexTerm><Filename>tt_default_procid_set</Filename>および<Filename>tt_close
+</Filename>が返すどのようなエラーも可能性があります。Sending通知が失敗した場合、
+エラーは伝達されません。</Para>
+<Example Id="TTUG.MsgTk.tbl.4">
+<Title><IndexTerm>
+<Primary>ttdt_file_event</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_file_event</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_file_event</Secondary>
+</IndexTerm>ttdt_file_event</Title>
+<ProgramListing>Tt_status    ttdt_file_event( Tt_message     context,
+                              Tttk_op        event,
+                              Tt_pattern *   patterns,
+                              int            send );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_file_event</Filename>関数は、ToolTalkサービスを介してファイル
+に関するイベントを通知します。この関数は、指定されたファイルに関係のあるイベントを
+知らせるToolTalkメッセージを作成し、必要に応じて送信します。このファイルは、
+<IndexTerm>
+<Primary>ttdt_file_join</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_file_join</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_file_join</Secondary>
+</IndexTerm><Command>patterns</Command>の作成時に、
+<Filename>ttdt_file_join</Filename>関数に渡されたパス名で示されます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;3'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.3">では、
+<Symbol Role="Variable">event</Symbol>パラメータの値に対応する通知内容を示します。
+</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="TTUG.MsgTk.tbl.5" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.3">eventパラメータの通知内容</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.70041 in">
+<THead>
+<Row>
+<Entry><Para><Literal>通知されるevent</Literal></Para></Entry>
+<Entry><Para><Literal>通知内容</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TTDT_MODIFIED</Primary>
+</IndexTerm>TTDT_MODIFIED</Filename></Para></Entry>
+<Entry><Para><Filename>ttdt_file_join</Filename>関数に渡された配信範囲を登録し、
+<IndexTerm>
+<Primary>Get_Modified要求</Primary>
+</IndexTerm>Get_Modified要求、
+<IndexTerm>
+<Primary>Save要求</Primary>
+</IndexTerm>Save要求、
+<IndexTerm>
+<Primary>Revert要求</Primary>
+</IndexTerm>Revert要求を処理する配信対象ツールへイベントを通知します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TTDT_SAVED</Primary>
+</IndexTerm>TTDT_SAVED,
+
+<IndexTerm>
+<Primary>TTDT_REVERTED</Primary>
+</IndexTerm>TTDT_REVERTED</Filename></Para></Entry>
+<Entry><Para>Get_Modified要求、Save要求、Revert要求のハンドラ・パターンを登録解除
+します。</Para><Para><Command>send</Command>パラメータが設定された場合、配信範囲に
+応じて
+<IndexTerm>
+<Primary>Saved通知</Primary>
+</IndexTerm>Saved通知か
+<IndexTerm>
+<Primary>Reverted通知</Primary>
+</IndexTerm>Reverted通知を送信します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>send</Command>パラメータを設定すると、配信範囲に
+<IndexTerm>
+<Primary>Modified通知</Primary>
+</IndexTerm>Modified通知を送信します。</Para>
+</ListItem>
+<ListItem>
+<Para><Command>context</Command>パラメータがゼロ以外の値のとき、このルーチンによっ
+て作成されるメッセージはスロット名が
+<IndexTerm>
+<Primary>ENV_</Primary>
+</IndexTerm><Filename>ENV_</Filename>で始まるすべてのコンテキストを継承します。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;4'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.4">では、この関数が返す
+可能性のあるエラーの一覧を示します。</Para>
+<Table Id="TTUG.MsgTk.tbl.6" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.4">ttdt_file_eventが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.61706 in">
+<ColSpec Colname="2" Colwidth="3.41271 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_EINVAL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_EINVAL</Secondary>
+</IndexTerm>TT_DESKTOP_EINVAL</Filename></Para></Entry>
+<Entry><Para>イベント通知が無効です。有効なイベント通知は、
+<Filename>TTDT_MODIFIED</Filename>、 <Filename>TTD_TSAVED</Filename>、
+<Filename>TTDT_REVERTED</Filename>です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para><Command>patterns</Command>パラメータがNULLです。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが受信したメッセージの数が、正しく処理可能なアクティ
+ブ・メッセージの最大数(2000)に達しました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。 
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.7">
+<Title><IndexTerm>
+<Primary>ttdt_file_join</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_file_join</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_file_join</Secondary>
+</IndexTerm>ttdt_file_join</Title>
+<ProgramListing>Tt_message  ( *Ttdt_file_cb) (  Tt_message     msg,
+                                Tttk_op        op,
+                                char *         pathname,
+                                void *         clientdata,
+                                int            same_euid_egid,
+                                int            same_procid );
+
+Tt_pattern * ttdt_file_join(    const char *   pathname,
+                                Tt_scope          the_scope,
+                                int               join,
+                                Ttdt_file_cb       cb,
+                                void *             clientdata );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_file_join</Filename>関数は、指定のファイルに関するToolTalk
+イベントを監視できるように登録します。
+<IndexTerm>
+<Primary>Deleted通知</Primary>
+</IndexTerm>Deleted、
+<IndexTerm>
+<Primary>Modified通知</Primary>
+</IndexTerm>Modified、
+<IndexTerm>
+<Primary>Reverted通知</Primary>
+</IndexTerm>Reverted、
+<IndexTerm>
+<Primary>Moved通知</Primary>
+</IndexTerm>Moved、
+<IndexTerm>
+<Primary>Saved通知</Primary>
+</IndexTerm>Savedの５種類の通知を監視するように配信範囲に登録します。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>コールバック・メッセージ引き数
+<IndexTerm>
+<Primary>Ttdt_file_cb</Primary>
+</IndexTerm><Filename>Ttdt_file_cb</Filename>は、
+<!--Original XRef content: 'Table&numsp;A&hyphen;5'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.5">に示すパラメータ
+を取ります。</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="TTUG.MsgTk.tbl.8" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.5">Ttdt_file_cbが取るパラメータ</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.73148 in">
+<THead>
+<Row>
+<Entry><Para><Literal>パラメータ</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>message</Command></Para></Entry>
+<Entry><Para>送信中のメッセージ。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>op</Command></Para></Entry>
+<Entry><Para>要求されているオペレーション。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>pathname</Command></Para></Entry>
+<Entry><Para>メッセージに関連付けられたファイルのパス名。このコピーは、 
+<IndexTerm>
+<Primary>tt_free</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk関数</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm>ToolTalk関数<Filename>tt_free</Filename>で解放できます。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>clientdata</Command></Para></Entry>
+<Entry><Para>メッセージに含まれているクライアント・データ</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>same_euid_egid</Filename></Para></Entry>
+<Entry><Para>送信側を識別するフラグ。この値がtrueの場合は、送信側の信頼性は高いで
+す。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>same_procid</Filename></Para></Entry>
+<Entry><Para>送信側を識別するフラグ。この値がtrueの場合は、送信側のprocidは受信側
+と同じです。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>the_scope</Filename>パラメータの値がゼロ（つまり、
+<IndexTerm>
+<Primary>TT_SCOPE_NONE</Primary>
+</IndexTerm><Filename>TT_SCOPE_NONE</Filename>）の場合、
+ファイルの配信範囲はデフォルト（
+<IndexTerm>
+<Primary>TT_BOTH</Primary>
+</IndexTerm><Filename>TT_BOTH</Filename>）に設定されます。しかし、たとえば
+ToolTalkデータベース・サーバ<Filename>rpc.ttdbserver</Filename>が
+<Command>pathname</Command>を所有するファイル・サーバにインストールされていない
+場合、ファイル配信範囲は
+<IndexTerm>
+<Primary>TT_FILE_IN_SESSION</Primary>
+</IndexTerm><Filename>TT_FILE_IN_SESSION</Filename>に設定されます。</Para>
+<Para><Filename>ttdt_file_join</Filename>は<Filename>the_scope</Filename>の値およ
+び<Command>pathname</Command>のコピーとを<Filename>Tt_patterns</Filename>型の戻り
+値に関連付けることで、<Filename>ttdt_file_quit</Filename>関数がパターンにアクセス
+することを可能にします。呼び出し側は、<Filename>ttdt_file_join</Filename>呼び出し
+が返ると、<Command>pathname</Command>を変更または解放することができます。</Para>
+</ListItem>
+<ListItem>
+<Para><Command>join</Command>パラメータの値がtrueの場合、この関数は次を呼び出します。</Para>
+</ListItem>
+</ItemizedList>
+<programlisting><IndexTerm><Primary>tt_file_join( pathname )</Primary></IndexTerm>tt_file_join(   pathname   )</ProgramListing>
+<Para>この関数は、NULLで終了する<Filename>Tt_pattern</Filename>型の配列を返しま
+す。この配列を破棄するには、
+<IndexTerm>
+<Primary>ttdt_file_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_file_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_file_quit</Secondary>
+</IndexTerm><Filename>ttdt_file_quit</Filename>関数を使用します。エラーが返される
+場合、返された配列は 
+<IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm><Filename>tt_ptr_error</Filename>で解読できるエラー・ポインタです。
+<!--Original XRef content: 'Table&numsp;A&hyphen;6'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.6">は、
+<Filename>ttdt_file_join</Filename>関数が返す可能性のあるエラーの一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.9" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.6">ttdt_file_joinが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.74074 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが
+実行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがイン
+ストールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、このオペレーションに必要なToolTalkデータベースに
+アクセスできませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、指定されたToolTalkデータベースを予期した場所で見
+つけることができませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PATH</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PATH</Secondary>
+</IndexTerm>TT_ERR_PATH</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、指定されたファイル・パス名でディレクトリを読み取
+ることができませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.10">
+<Title><IndexTerm>
+<Primary>ttdt_file_notice</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_file_notice</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_file_notice</Secondary>
+</IndexTerm>ttdt_file_notice</Title>
+<ProgramListing>Tt_message   ttdt_file_notice(     Tt_message     context,
+                                   Tttk_op        op,
+                                   Tt_scope       scope,
+                                   const char *   pathname,
+                                   int            send_and_destroy );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_file_notice</Filename>関数は、ファイルに関する標準ToolTalk
+通知を作成し、必要に応じて送信します。
+<IndexTerm>
+<Primary>Created通知</Primary>
+</IndexTerm>Created、
+<IndexTerm>
+<Primary>Deleted通知</Primary>
+</IndexTerm>Deleted、
+<IndexTerm>
+<Primary>Moved通知</Primary>
+</IndexTerm>Moved、
+<IndexTerm>
+<Primary>Reverted通知</Primary>
+</IndexTerm>Reverted、
+<IndexTerm>
+<Primary>Saved通知</Primary>
+</IndexTerm>Saved、
+<IndexTerm>
+<Primary>Modified通知</Primary>
+</IndexTerm>Modifiedの６種類の標準ファイル通知を作成するには、この関数を使用しま
+す。</Para>
+<Note>
+<Para>
+<IndexTerm>
+<Primary>ttdt_file_event</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_file_event</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_file_event</Secondary>
+</IndexTerm><Filename>ttdt_file_event</Filename>関数は、<Filename>ttdt_file_notice
+</Filename>関数よりもハイレベルなインタフェースです。Moved通知以外のすべての通知を
+送信する場合は、この関数を使用するようにしてください。</Para>
+</Note>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>context</Command>パラメータがゼロ以外の値のとき、このルーチンによっ
+て作成されるメッセージは、スロット名が<Filename>ENV_</Filename>で始まるすべての
+コンテキストを継承します。</Para>
+</ListItem>
+<ListItem>
+<Para>この関数は指定の<Symbol Role="Variable">op</Symbol>パラメータと
+<Emphasis>scope</Emphasis>パラメータで通知を作成し、そのファイルの属性を
+<Command>pathname</Command>パラメータに設定します。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>send_and_destroy</Filename>パラメータを設定すると、この関数はメッ
+セージを送信してから破棄します。</Para>
+<Para><Filename>send_and_destroy</Filename>パラメータの値がfalseの場合、作成された
+メッセージが返されます。<Filename>send_and_destroy</Filename>パラメータの値がtrue
+の場合、ゼロが返されます。</Para>
+</ListItem>
+</ItemizedList>
+<Para>エラーが発生すると、エラー・ポインタが返されます。<Filename>Tt_status
+</Filename>を調べるには、<Filename>tt_ptr_error</Filename>を使用します。
+<!--Original XRef content: 'Table&numsp;A&hyphen;7'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.7">では、この関数が返す
+可能性のあるエラーについて説明します。</Para>
+<Table Id="TTUG.MsgTk.tbl.11" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.7">ttdt_file_noticeが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.55754 in">
+<ColSpec Colname="2" Colwidth="3.42263 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが受信したメッセージの数が、正しく処理可能なアクティ
+ブ・メッセージの最大数(2000)に達しました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、このオペレーションに必要なToolTalkデータベースに
+アクセスできませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、指定されたToolTalkデータベースを予期した場所で見
+つけることができませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_EINVAL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_EINVAL</Secondary>
+</IndexTerm>TT_DESKTOP_EINVAL</Filename></Para></Entry>
+<Entry><Para>オペレーションが移動され、<Filename>send_and_destroy</Filename>
+パラメータの値がtrueです。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>パス名がNULLか、ToolTalkエラー・ポインタでした。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.12">
+<Title><IndexTerm>
+<Primary>ttdt_file_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_file_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_file_quit</Secondary>
+</IndexTerm>ttdt_file_quit</Title>
+<ProgramListing>Tt_status    ttdt_file_quit( Tt_pattern *  patterns,
+                             int           quit );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_file_quit</Filename>関数は、ファイルのToolTalkイベントにおけ
+る配信対象を登録解除します。この関数はパターンを破棄します。
+<Command>quit</Command>パラメータが設定されると、この関数は次を呼び出します。
+</Para>
+<programlisting><IndexTerm><Primary>tt_file_quit( pathname )</Primary></IndexTerm>tt_file_quit( pathname )</ProgramListing>
+<Para>
+<IndexTerm>
+<Primary>ttdt_file_join</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_file_join</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_file_join</Secondary>
+</IndexTerm><Emphasis>patterns</Emphasis>の作成時に<Filename>ttdt_file_join
+</Filename>関数に渡したパス名における配信対象を登録解除する場合にこの関数を使用し
+ます。
+<!--Original XRef content: 'Table&numsp;A&hyphen;8'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.9">にこの関数が返す可能性
+のあるエラーの一覧を示します。</Para>
+<Table Id="TTUG.MsgTk.tbl.13" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.8">ttdt_file_quitが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.73017 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、このオペレーションに必要なToolTalkデータベースに
+アクセスできませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、指定されたToolTalkデータベースを予期した場所で見
+つけることができませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Command></Para></Entry>
+<Entry><Para>パターンがNULLが、無効です。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.14">
+<Title><IndexTerm>
+<Primary>ttdt_file_request</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_file_request</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_file_request</Secondary>
+</IndexTerm>ttdt_file_request</Title>
+<ProgramListing>Tt_message        ttdt_file_request( Tt_message           context,
+                                     Tttk_op              op,
+                                     Tt_scope             scope,
+                                     const char           pathname,
+                                     Ttdt_file_cb         cb,
+                                     void                 client_data,
+                                     int                  send_and_destroy );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_file_request</Filename>関数は、標準デスクトップのファイルに対
+する配信範囲指定要求（Get_Modified、Save、Revertなど）を作成し、必要に応じて送信し
+ます。</Para>
+<Note>
+<Para>この関数は、
+<Filename>ttdt_Get_Modified</Filename>関数、
+<IndexTerm>
+<Primary>tdt_Get_Modified</Primary>
+</IndexTerm><Filename>ttdt_Save</Filename>関数、
+<IndexTerm>
+<Primary>ttdt_Save</Primary>
+</IndexTerm><Filename>ttdt_Revert</Filename>
+<IndexTerm>
+<Primary>ttdt_Revert</Primary>
+</IndexTerm>関数よりもローレベルのインタフェースです。要求を作成してから送信し、そ
+の応答に応じてブロックします。</Para>
+</Note>
+<Para><Filename>ttdt_file_request</Filename>関数は、指定の<Symbol Role="Variable">
+op</Symbol>と<Symbol Role="Variable">scope</Symbol>で要求を作成し、そのファイル
+属性を<Symbol Role="Variable">pathname</Symbol>に設定します。デスクトップ・メッセ
+ージ規約に従い、<Filename>TT_IN</Filename>とvtype <Command>File</Command>のまだ
+設定されていないTt_mode型引き数が要求に追加されます。指定のオペレーションが
+<IndexTerm>
+<Primary>TTDT_GET_MODIFIED</Primary>
+</IndexTerm><Filename>TTDT_GET_MODIFIED</Filename>の場合は、
+<Filename>TT_OUT</Filename>とvtype <Command>Boolean</Command>のまだ設定されていな
+いTt_mode型引き数も要求に追加されます。</Para>
+<Para><Symbol Role="Variable">context</Symbol>以外の値のとき、このルーチンによって
+作成される要求は、スロット名が<Filename>ENV_</Filename>で始まるすべてのコンテキス
+トを<Symbol Role="Variable">context</Symbol>から継承します。</Para>
+<Para>この関数は、作成された要求のメッセージ・コールバックとして<Emphasis>cb
+</Emphasis>をインストールし、クライアント・データが確実にコールバックに渡されるよ
+うにします。<Emphasis>send</Emphasis>がtrueの場合、この関数はハンドルを返す前に要
+求を送信します。</Para>
+<Para>この関数は正常終了時に、作成されたTt_messageを返します。エラーが発生すると、
+エラー・ポインタが返されます。Tt_statusを調べるには、<Filename>tt_ptr_error
+</Filename>を使用します。
+<!--Original XRef content: 'Table&numsp;A&hyphen;8'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.8">には、この関数が返す
+可能性のあるエラーの一覧を示します。</Para>
+<Table Id="TTUG.MsgTk.tbl.15" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.9">ttdt_file_requestが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.40046 in">
+<ColSpec Colname="2" Colwidth="3.55656 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが受信したメッセージの数が、正しく処理可能なアクテ
+ィブ・メッセージの最大数(2000)に達しました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、このオペレーションに必要なToolTalkデータベースに
+アクセスできませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、指定されたToolTalkデータベースを予期した場所で見
+つけることができませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Command></Para></Entry>
+<Entry><Para>パス名がNULLか、無効です。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.16">
+<Title><IndexTerm>
+<Primary>ttdt_Get_Modified</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_Get_Modified</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_Get_Modified</Secondary>
+</IndexTerm>ttdt_Get_Modified</Title>
+<ProgramListing>int          ttdt_Get_Modified(   Tt_message      context,
+                                  const char *    pathname,
+                                  Tt_scope        the_scope,
+                                  XtAppContext    app2run,
+                                  int             ms_timeout );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_Get_Modified</Filename>関数は、ファイルに変更内容を保留してい
+るToolTalkクライアントがないかどうか問い合わせます。この関数は、
+<IndexTerm>
+<Primary>Get_Modified要求</Primary>
+</IndexTerm>Get_Modified要求を送信して応答を待ちます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Symbol Role="Variable">context</Symbol>パラメータがゼロ以外の値のとき、この
+ルーチンによって作成されるメッセージは、スロット名が<Filename>ENV_</Filename>で
+始まるすべてのコンテキストを継承します。</Para>
+</ListItem>
+<ListItem>
+<Para>Get_Modified要求は、固定表示を行うつもりの<Symbol Role="Variable">pathname
+</Symbol>に変更内容を保留しているToolTalkクライアントがないかどうか問い合わせ
+ます。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>the_scope</Emphasis>パラメータは、Get_Modified要求が送信される配信
+範囲を示します。このパラメータの値がゼロ（つまり
+<IndexTerm>
+<Primary>TT_SCOPE_NONE</Primary>
+</IndexTerm><Filename>TT_SCOPE_NONE</Filename>）の場合、ファイルの配信範囲は
+デフォルト（<IndexTerm>
+<Primary>TT_BOTH</Primary>
+</IndexTerm><Filename>TT_BOTH</Filename>）に設定されます。しかし、
+たとえばToolTalkデータベース・サーバ<Filename>rpc.ttdbserver</Filename>が、
+<Symbol Role="Variable">pathname</Symbol>を所有するファイル・サーバにインストール
+されていない場合、ファイル配信範囲は
+<IndexTerm>
+<Primary>TT_FILE_IN_SESSION</Primary>
+</IndexTerm><Filename>TT_FILE_IN_SESSION</Filename>に設定されます。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>app2run</Emphasis>パラメータと<Emphasis>ms_timeout</Emphasis>
+パラメータは、
+<IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm>この関数が送信するGet_Modified要求への応答をブロックするために、
+<Filename>tttk_block_while</Filename>関数に渡されます。</Para>
+</ListItem>
+</ItemizedList>
+<Para>Get_Modified要求が指定のタイムアウト時間内に肯定応答を受信すると、
+<Filename>ttdt_Get_Modified</Filename>関数はゼロ以外を返します。そうでない場合は、
+ゼロを返します。この呼び出しはエラーを返しません。</Para>
+<Example Id="TTUG.MsgTk.tbl.17">
+<Title><IndexTerm>
+<Primary>ttdt_message_accept</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ttdt_message_receive</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_message_accept</Secondary>
+</IndexTerm>ttdt_message_accept</Title>
+<ProgramListing>Tt_pattern *     ttdt_message_accept(     Tt_message         contract,
+                                          Ttdt_contract_cb   cb,
+                                          void *             clientdata,
+                                          Widget             shell,
+                                          int                accept,
+                                          int                sendStatus );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_message_accept</Filename>関数は、ToolTalk要求を処理することを
+受け入れます。ツールは、要求の処理（つまり、無視したり拒否したりすること）を受け入
+れる場合にこの関数を呼び出します。</Para>
+<Para>
+<IndexTerm>
+<Primary>Ttdt_contract_cb argument</Primary>
+</IndexTerm><StructName Role="typedef">Ttdt_contract_cb</StructName>引き数は、
+<!--Original XRef content: 'Table&numsp;A&hyphen;10'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.10">に示すパラメータを
+取ります。</Para>
+<Table Id="TTUG.MsgTk.tbl.18" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.10">Ttdt_contract_cb引き数が取るパラメータ</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.61707 in">
+<ColSpec Colname="2" Colwidth="3.37302 in">
+<THead>
+<Row>
+<Entry><Para><Literal>パラメータ</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>Tt_message msg</Command></Para></Entry>
+<Entry><Para>通信状態にある要求。
+
+クライアント・プログラムは、この要求を無視または拒否する、あるいはメッセージに応答
+します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tttk_op op</Command></Para></Entry>
+<Entry><Para>着信中の要求のオペレーション</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Widget shell</Command></Para></Entry>
+<Entry><Para><Filename>ttdt_message_accept</Filename>関数に渡すシェル。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>void *clientdata</Command></Para></Entry>
+<Entry><Para><Filename>ttdt_message_accept</Filename>関数に渡すクライアント・
+データ。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tt_message contract</Command></Para></Entry>
+<Entry><Para><Filename>ttdt_message_accept</Filename>関数に渡すコントラクト。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>メッセージ<Emphasis>msg</Emphasis>を正常に処理すると、コールバックはゼロを
+返します。そうでない場合は、<Filename>Tt _message</Filename>に送られた
+<Filename>tt_error_pointer</Filename>を返します。</Para>
+<Para>メッセージ<Emphasis>msg</Emphasis>を処理しない場合、コールバックはメッセージ
+を返し、<Filename>TT_CALLBACK_CONTINUE</Filename>ルーチンを呼び出しスタックに渡し
+てメッセージを他のコールバックに提供するか、メッセージを
+<Filename>tt_message_receive</Filename>呼び出しに返します。</Para>
+<Para><Filename>ttdt_message_accept</Filename>関数は、ハンドラを宛先とする要求（
+<!--Original XRef content: 'Table&numsp;A&hyphen;11'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.11">を参照してください）
+をデフォルト・セッションで登録します。</Para>
+<Table Id="TTUG.MsgTk.tbl.19" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.11">ttdt_message_acceptが登録する要求</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.0 in">
+<ColSpec Colname="2" Colwidth="6.00926 in">
+<THead>
+<Row>
+<Entry><Para><Literal>要求</Literal></Para></Entry>
+<Entry><Para><Literal>How Request Is Handled</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Get_Geometry要求</Primary>
+</IndexTerm>Get_Geometr
+y,
+
+<IndexTerm>
+<Primary>Set_Geometry要求</Primary>
+</IndexTerm>Set_Geometr
+y</Command></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータがNULLでない場合は、
+これらの要求は透過的に処理されます。<Symbol Role="Variable">shell</Symbol>パラメー
+タがNULLで、<Emphasis>cb</Emphasis>パラメータがNULLでない場合は、これらの要求はコ
+ールバック・ルーチンに渡されます。それ以外の場合は、これらの要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Get_Iconified要求</Primary>
+</IndexTerm>Get_Iconifi
+ed,
+<IndexTerm>
+<Primary>Set_Iconified要求</Primary>
+</IndexTerm>Set_Iconifi
+ed</Command></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータがNULLでない場合は、
+これらの要求は透過的に処理されます。<Symbol Role="Variable">shell</Symbol>パラメー
+タがNULLで、<Emphasis>cb</Emphasis>パラメータがNULLでない場合は、これらの要求はコ
+ールバック・ルーチンに渡されます。それ以外の場合は、これらの要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Get_Mapped要求</Primary>
+</IndexTerm>Get_Mapped,
+
+<IndexTerm>
+<Primary>Set_Mapped要求</Primary>
+</IndexTerm>Set_Mapped</Command></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータがNULLでない場合は、
+これらの要求は透過的に処理されます。<Symbol Role="Variable">shell</Symbol>パラメー
+タがNULLで、<Emphasis>cb</Emphasis>パラメータがNULLでない場合は、これらの要求はコ
+ールバック・ルーチンに渡されます。それ以外の場合は、これらの要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Raise要求</Primary>
+</IndexTerm>Raise</Command></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータがNULLでない場合は、
+これらの要求は透過的に処理されます。<Symbol Role="Variable">shell</Symbol>パラメー
+タがNULLで、<Emphasis>cb</Emphasis>パラメータがNULLでない場合は、これらの要求はコ
+ールバック・ルーチンに渡されます。それ以外の場合は、これらの要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Lower要求</Primary>
+</IndexTerm>Lower</Command></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータがNULLでない場合は、
+これらの要求は透過的に処理されます。<Symbol Role="Variable">shell</Symbol>パラメー
+タがNULLで、<Emphasis>cb</Emphasis>パラメータがNULLでない場合は、これらの要求はコ
+ールバック・ルーチンに渡されます。それ以外の場合は、これらの要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Get_XInfo</Command>,
+<IndexTerm>
+<Primary>Get_XInfo要求</Primary>
+</IndexTerm><Command>Set_XInfo</Command><IndexTerm>
+<Primary>Set_XInfo要求</Primary>
+</IndexTerm></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータがNULLでない場合は、
+これらの要求は透過的に処理されます。<Symbol Role="Variable">shell</Symbol>パラメー
+タがNULLで、<Emphasis>cb</Emphasis>パラメータがNULLでない場合は、これらの要求はコ
+ールバック・ルーチンに渡されます。それ以外の場合は、これらの要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Pause要求</Primary>
+</IndexTerm>Pause</Command></Para></Entry>
+<Entry><Para><Emphasis>cb</Emphasis>パラメータがNULLでない場合、この要求はコールバ
+ック・ルーチンに渡されます。それ以外の場合は、この要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Resume要求</Primary>
+</IndexTerm>Resume</Command></Para></Entry>
+<Entry><Para><Emphasis>cb</Emphasis>パラメータがNULLでない場合、この要求はコールバ
+ック・ルーチンに渡されます。それ以外の場合は、この要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Quit要求</Primary>
+</IndexTerm>Quit</Command></Para></Entry>
+<Entry><Para><Emphasis>cb</Emphasis>パラメータがNULLでない場合、この要求はコールバ
+ック・ルーチンに渡されます。それ以外の場合は、この要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Get_Status要求</Primary>
+</IndexTerm>Get_Status</Filename></Para></Entry>
+<Entry><Para><Emphasis>cb</Emphasis>パラメータがNULLでない場合、この要求はコールバ
+ック・ルーチンに渡されます。それ以外の場合は、この要求はエラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para><Emphasis>contract</Emphasis>引き数が
+<IndexTerm>
+<Primary>TT_WRN_START_MESSAGE</Primary>
+</IndexTerm><Filename>TT_WRN_START_MESSAGE</Filename>メッセージ・ステータスの時、
+メッセージはツールを起動します。</Para>
+<Note>
+<Para>起動したツールは、そのptypeにすでにディスパッチされているほかのメッセージを
+受信するため、コントラクトを受け入れる前に使用したい配信範囲に参加する必要がありま
+す。そうしないと、ツールは動作中にそのptypeの宣言を解除しなければなりません。ツー
+ルがどの配信範囲にも参加していないと、ディスパッチされたメッセージによってptypeの
+他のインスタンスが起動されます。</Para>
+</Note>
+<Para><Emphasis>accept</Emphasis>がtureの場合、<Filename>ttdt_message_accept</Filename>関数は次を呼び出します。</Para>
+<programlisting><IndexTerm><Primary>tt_message_accept( contract )</Primary></IndexTerm>
+tt_message_accept(   contract   )</ProgramListing>
+<Para><Emphasis>sendStatus</Emphasis>引き数がtrueの場合、
+<IndexTerm>
+<Primary>ttdt_open</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ttdt_open</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_open</Secondary>
+</IndexTerm><Filename>ttdt_open</Filename>関数に渡されたパラメータ（存在する場合）
+を使用して、<Filename>ttdt_message_accept</Filename>関数は要求側にStatus通知を送信
+します。</Para>
+<Para>この関数は、NULLで終了する<Filename>Tt_pattern</Filename>型の配列を返しま
+す。この配列を破棄する場合は、
+<IndexTerm>
+<Primary>tttk_patterns_destroy</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_patterns_destroy</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_patterns_destroy</Secondary>
+</IndexTerm><Filename>tttk_patterns_destroy</Filename>関数を使用します。エラーが
+返される場合、返された配列は
+<IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm><Filename>tt_ptr_error</Filename>で解読されるエラー・ポインタに
+なります。
+<!--Original XRef content: 'Table&numsp;A&hyphen;12'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.12">は、
+<Filename>ttdt_message_accept</Filename>関数が返す可能性のあるエラーの一覧です。
+</Para>
+<Table Id="TTUG.MsgTk.tbl.20" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.12">ttdt_message_acceptが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.73017 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>渡されたポインタが、このオペレーションに適した型のオブジェクトを指し
+ていません。たとえば、文字列が必要なときにポインタは整数を指している場合などです。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_UNIMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_UNIMP</Secondary>
+</IndexTerm>TT_ERR_UNIMP</Command></Para></Entry>
+<Entry><Para>デフォルト・セッションのttsessionは、<Filename>tt_message_accept
+</Filename>関数をサポートしていないバージョン（1.0または1.0.1)です。</Para><Para><Literal>注:</Literal>contract引き数のメッセージ・ステータスが<Filename>TT_WRN_START_MESSAGE</Filename>の場合、ツールのptypeに対して送信される
+メッセージは、contractが拒否、応答、または無視されるまでブロックされます。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.21">
+<Title><IndexTerm>
+<Primary>ttdt_open</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_open</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_open</Secondary>
+</IndexTerm>ttdt_open</Title>
+<ProgramListing>char *        ttdt_open(    int *          ttfd,
+                            const char *   toolname,
+                            const char *   vendor,
+                            const char *   version,
+                            int            sendStarted );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_open</Filename>関数は、ToolTalk通信終端を作成します。この
+関数は、
+<IndexTerm>
+<Primary>tt_open関数</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk関数</Primary>
+<Secondary>tt_open</Secondary>
+</IndexTerm><Filename>tt_open</Filename>関数と
+<IndexTerm>
+<Primary>tt_fd</Primary>
+</IndexTerm><Filename>tt_fd</Filename>関数を呼び出します。
+<Filename>ttdt_open</Filename>関数は、<Emphasis>toolname</Emphasis>、
+<Emphasis>vendor</Emphasis>、<Symbol Role="Variable">version</Symbol>と作成された
+procidとを関連付けます。新しいprocidのデフォルト・コンテキストを
+<IndexTerm>
+<Primary>environ(5)</Primary>
+</IndexTerm><Filename MoreInfo="RefEntry">environ(5)</Filename>から初期化します。
+<Emphasis>sendStarted</Emphasis>引き数が設定された場合は、
+<IndexTerm>
+<Primary>Started通知</Primary>
+</IndexTerm>Started通知を送信します。</Para>
+<Para><Filename>ttdt_open</Filename>関数は、
+<IndexTerm>
+<Primary>tt_free関数</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk関数</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm><Filename>tt_free</Filename>関数で解放できる文字列に、作成されたprocid
+を返します。</Para>
+<Para>この関数は、<Filename>tt_open</Filename>関数および<Filename>tt_fd</Filename>
+関数で発生したどのようなエラーも返すことができます。Started通知が失敗した場合、
+エラーは伝達されません。</Para>
+<Example Id="TTUG.MsgTk.tbl.22">
+<Title><IndexTerm>
+<Primary>ttdt_Revert</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_Revert</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_Revert</Secondary>
+</IndexTerm>ttdt_Revert</Title>
+<ProgramListing>Tt_status    ttdt_Revert( Tt_message       context,
+                          const char *    pathname,
+                          Tt_scope        the_scope,
+                          XtAppContext    app2run,
+                          int             ms_timeout );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_Revert</Filename>関数は、ファイル内容を元に戻すようにToolTalk
+クライアントに要求します。この関数は、
+<IndexTerm>
+<Primary>Revert要求</Primary>
+</IndexTerm>Revert要求を<Emphasis>the_scope</Emphasis>に送信し、応答を待ちます。
+Revert要求は、<Emphasis>pathname</Emphasis>に保留中の変更を破棄するように、処理中
+であるToolTalkクライアントに求めます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Symbol Role="Variable">context</Symbol>パラメータがゼロ以外の値のとき、この
+ルーチンによって作成されるメッセージは、スロット名<Filename>ENV_</Filename>で始ま
+るすべてのコンテキストを継承します。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>the_scope</Emphasis>パラメータの値がゼロ（つまり
+<IndexTerm>
+<Primary>TT_SCOPE_NONE</Primary>
+</IndexTerm><Filename>TT_SCOPE_NONE</Filename>）の場合、
+ファイルの配信範囲はデフォルト（
+<IndexTerm>
+<Primary>TT_BOTH</Primary>
+</IndexTerm><Filename>TT_BOTH</Filename>）に設定されます。しかし、たとえばToolTalk
+データベース・サーバrpc.ttdbserverが<Symbol Role="Variable">pathname</Symbol>を
+所有するファイル・サーバにインストールされていない場合、ファイル配信範囲は
+<IndexTerm>
+<Primary>TT_FILE_IN_SESSION</Primary>
+</IndexTerm><Filename>TT_FILE_IN_SESSION</Filename>に設定されます。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>app2run</Emphasis>パラメータと<Emphasis>ms_timeout</Emphasis>パラ
+メータは、
+<IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm>この関数が送信するRevert要求への応答をブロックするために、
+<Filename>tttk_block_while</Filename>関数に渡されます。</Para>
+</ListItem>
+</ItemizedList>
+<Para>要求が指定のタイムアウト時間内に肯定応答を受信すると、<Filename>ttdt_Revert
+</Filename>関数は<Filename>TT_OK</Filename>を返します。そうでない場合は、失敗した
+応答に対する
+<Filename><IndexTerm>
+<Primary>tt_message_status</Primary>
+</IndexTerm>tt_message_status</Filename>の戻り値、または
+<!--Original XRef content: 'Table&numsp;A&hyphen;13'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.13">に示すエラーのいずれ
+かを返します。</Para>
+<Table Id="TTUG.MsgTk.tbl.23" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.13">ttdt_Revertが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.73611 in">
+<ColSpec Colname="2" Colwidth="3.23414 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが受信したメッセージの数が、正しく処理可能なアクティ
+ブ・メッセージの最大数(2000)に達しました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、このオペレーションに必要なToolTalkデータベースに
+アクセスできませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、指定されたToolTalkデータベースを予期した場所で見
+つけることができませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETIMEOUT</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ETIMEOUT</Secondary>
+</IndexTerm>TT_DESKTOP_ETIMEOUT</Filename></Para></Entry>
+<Entry><Para>指定されたタイムアウト時間内に応答を受信しませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETPROTO</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_EPROTO</Secondary>
+</IndexTerm>TT_DESKTOP_EPROTO</Filename></Para></Entry>
+<Entry><Para>要求が無視されました。しかしハンドラは、特定のエラー・ステータスの
+代わりに失敗した応答に対するtt_message_statusの戻り値をTT_OKに設定します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>パス名がNULLか、ToolTalkエラー・ポインタです。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.24">
+<Title><IndexTerm>
+<Primary>ttdt_Save</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_Save</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_Save</Secondary>
+</IndexTerm>ttdt_Save</Title>
+<ProgramListing>Tt_status    ttdt_Save( Tt_message     context,
+                        const char *   pathname,
+                        Tt_scope    the_scope,
+                        XtAppContext     app2run,
+                        int            ms_timeout );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_Save</Filename>関数は、ファイルを保存するようにToolTalkクライ
+アントに要求します。この関数は、
+<IndexTerm>
+<Primary>Save要求</Primary>
+</IndexTerm>Save要求を<Emphasis>the_scope</Emphasis>に送信し、応答を待ちます。Save
+要求は、<Emphasis>pathname</Emphasis>に保留中の変更を破棄するように、処理中である
+ToolTalkクライアントに求めます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Symbol Role="Variable">context</Symbol>パラメータの値がゼロ以外の値のとき、
+このルーチンによって作成されるメッセージは、スロット名が<Filename>ENV_</Filename>
+で始まるすべてのコンテキストを継承します。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>the_scope</Emphasis>パラメータの値がゼロ（つまり
+<IndexTerm>
+<Primary>TT_SCOPE_NONE</Primary>
+</IndexTerm><Filename>TT_SCOPE_NONE</Filename>）の場合、
+ファイル配信範囲はデフォルト（
+<IndexTerm>
+<Primary>TT_BOTH</Primary>
+</IndexTerm><Filename>TT_BOTH</Filename>）に設定されます。しかし、たとえばToolTalk
+データベース・サーバ<Filename>rpc.ttdbserver</Filename>が
+<Symbol Role="Variable">pathname</Symbol>を所有するファイル・サーバにインストール
+されていない場合、ファイル配信範囲は
+<IndexTerm>
+<Primary>TT_FILE_IN_SESSION</Primary>
+</IndexTerm><Filename>TT_FILE_IN_SESSION</Filename>に設定されます。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>app2run</Emphasis>パラメータと<Emphasis>ms_timeout</Emphasis>パラ
+メータは、この関数が送信するSave要求への応答をブロックするために、
+<IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm><Filename>tttk_block_while</Filename>関数に渡されます。</Para>
+</ListItem>
+</ItemizedList>
+<Para>要求が指定のタイムアウト時間内に肯定応答を受信すると、<Filename>ttdt_Save
+</Filename>関数は、<Filename>TT_OK</Filename>を返します。そうでない場合は、失敗し
+た応答に対する
+<Filename><IndexTerm>
+<Primary>tt_message_status</Primary>
+</IndexTerm>tt_message_status</Filename>の戻り値、または
+<!--Original XRef content: 'Table&numsp;A&hyphen;14'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.14">に示すエラーのいずれ
+かを返します。</Para>
+<Table Id="TTUG.MsgTk.tbl.25" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.14">ttdt_Saveが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.73611 in">
+<ColSpec Colname="2" Colwidth="3.23414 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが受信したメッセージの数が、正しく処理可能なアクティ
+ブ・メッセージの最大数(2000)に達しました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、このオペレーションに必要なToolTalkデータベースに
+アクセスできませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、指定されたToolTalkデータベースを予期した場所で見
+つけることができませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETIMEOUT</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ETIMEOUT</Secondary>
+</IndexTerm>TT_DESKTOP_ETIMEOUT</Filename></Para></Entry>
+<Entry><Para>指定されたタイムアウト時間内に応答を受信できませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETPROTO</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_EPROTO</Secondary>
+</IndexTerm>TT_DESKTOP_EPROTO</Filename></Para></Entry>
+<Entry><Para>要求が無視されました。しかし、ハンドラは、特定のエラー・ステータスの
+代わりに失敗した応答に対するtt_message_statusの戻り値をTT_OKに設定します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>パス名がNULLか、ToolTalkエラー・ポインタです。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.26">
+<Title><IndexTerm>
+<Primary>ttdt_sender_imprint_on</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_sender_imprint_on</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_sender_imprint_on</Secondary>
+</IndexTerm>ttdt_sender_imprint_on</Title>
+<ProgramListing>Tt_status    ttdt_sender_imprint_on(  const char *   handler,
+                                      Tt_message     contract,
+                                      char **        display,
+                                      int *          width,
+                                      int *          height,
+                                      int *          xoffset,
+                                      int *          yoffset,
+                                      XtAppContext   app2run,
+                                      int            ms_timeout );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_sender_imprint_on</Filename>関数を呼び出すと、呼び出し側ツー
+ル(以下、ツールBとします)で別のツール(以下ツールAとします)の動作と特定の特性が採
+用されます。ツールBは、ツールAのX11ディスプレイ、ロケール、現在のワーキング・ディ
+レクトリを採用します。更に、自身を正しい位置に置くためにツールAのX11ジオメトリを
+取得します。</Para>
+<Para><Symbol Role="Variable">display</Symbol>パラメータがNULLの場合、
+<IndexTerm>
+<Primary>$DISPLAY</Primary>
+</IndexTerm><IndexTerm>
+<Primary>環境変数</Primary>
+<Secondary>$DISPLAY</Secondary>
+</IndexTerm>環境変数<Filename>$DISPLAY</Filename>は、ツールAのディスプレイに設定
+されます。<Symbol Role="Variable">display</Symbol>パラメータがNULLでない場合、
+ツールAのディスプレイがこのパラメータに返されます。戻り値は、
+<IndexTerm>
+<Primary>ToolTalk関数</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>tt_free 関数</Primary>
+</IndexTerm>ToolTalkの<Filename>tt_free</Filename>関数で解放できる文字列です。
+</Para>
+<Para>この関数は、
+<IndexTerm>
+<Primary>Get_Geometry要求</Primary>
+</IndexTerm>Get_Geometry要求をツールAに送信します。ツールAがジオメトリ・パラメータ
+に対して値を返さない場合は、次のようになります。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Symbol Role="Variable">width</Symbol>パラメータに対して値が返されない場合、
+<Filename>-1</Filename>を設定します。</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">height</Symbol>パラメータに対して値が返されない場
+合、<Filename>-1</Filename>を設定します。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>xoffset</Emphasis>パラメータに対して値が返されない場合、
+<Filename>INT_MAX</Filename>を設定します。</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">yoffset</Symbol>パラメータに対して値が返されない場合
+、<Filename>INT_MAX</Filename>を設定します。</Para>
+</ListItem>
+</ItemizedList>
+<Para><Filename>ttdt_sender_imprint_on</Filename>関数の
+<Symbol Role="Variable">width</Symbol>パラメータ、
+<Symbol Role="Variable">height</Symbol>パラメータ、
+<Symbol Role="Variable">xoffset</Symbol>パラメータ、および
+<Symbol Role="Variable">yoffset</Symbol>パラメータすべてにNULLを設定すると、
+<IndexTerm>
+<Primary>Get_Geometry要求</Primary>
+</IndexTerm>Get_Geometry要求はツールAに送信されません。</Para>
+<Para><Emphasis>app2run</Emphasis>パラメータと<Emphasis>ms_timeout</Emphasis>パラ
+メータは、この関数が送信するGet_Geometry要求への応答をブロックするために、
+<IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm><Filename>tttk_block_while</Filename>関数に渡されます。</Para>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;15'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.15">は、この関数が返す
+可能性のあるエラーの一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.27" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.15">ttdt_sender_imprint_onが返す可能性のあるエラー
+</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.8254 in">
+<ColSpec Colname="2" Colwidth="3.16469 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_DESKTOP_ETIMEDOUT</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ETIMEOUT</Secondary>
+</IndexTerm>TT_DESKTOP_ETIMEDOUT</Command></Para></Entry>
+<Entry><Para>指定されたタイムアウト時間内に送信された要求の一部が完了しませんでし
+た。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが受信したメッセージの数が、正しく処理可能なアクティ
+ブ・メッセージの最大数(2000)に達しました。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.28">
+<Title><IndexTerm>
+<Primary>ttdt_session_join</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_session_join</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_session_join</Secondary>
+</IndexTerm>ttdt_session_join</Title>
+<ProgramListing>Tt_message   ( *Ttdt_contract_cb)       (  Tt_message      msg,
+                                           void *          clientdata
+                                           Tt_message       contract );
+
+Tt_pattern * ttdt_session_join( const char *        sessid,
+                                Ttdt_session_cb     cb,
+                                Widget              shell,
+                                void *              clientdata,
+                                int                 join );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_session_join</Filename>関数は、「デスクトップの良き市民
+」としてToolTalkセッションに参加します。つまり、セッション
+<Emphasis>sessid</Emphasis>への参加時に多くの標準デスクトップ・メッセージ・インタ
+フェースのパターンとデフォルト・コールバックを登録します。
+<!--Original XRef content: 'Table&numsp;A&hyphen;16'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.16">は、この関数が現在
+登録しているメッセージ・インタフェースの一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.29" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.16">ttdt_session_joinが登録している標準メッセージ</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="5.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>要求</Literal></Para></Entry>
+<Entry><Para><Literal>処理方法</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Environment要求</Primary>
+</IndexTerm>Get_Environment,
+<IndexTerm>
+<Primary>Set_Environment要求</Primary>
+</IndexTerm>Set_Environment</Para></Entry>
+<Entry><Para>これらのメッセージは透過的に処理されます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Locale要求</Primary>
+</IndexTerm>Get_Locale,
+<IndexTerm>
+<Primary>Set_Locale要求</Primary>
+</IndexTerm>Set_Locale</Para></Entry>
+<Entry><Para>これらのメッセージは透過的に処理されます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Situation要求</Primary>
+</IndexTerm>Get_Situation,
+<IndexTerm>
+<Primary>Set_Situation要求</Primary>
+</IndexTerm>Set_Situation</Para></Entry>
+<Entry><Para>これらのメッセージは透過的に処理されます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Signal要求</Primary>
+</IndexTerm>Signal</Para></Entry>
+<Entry><Para>このメッセージは透過的に処理されます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Sysinfo要求</Primary>
+</IndexTerm>Get_Sysinfo</Para></Entry>
+<Entry><Para>このメッセージは透過的に処理されます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Geometry要求</Primary>
+</IndexTerm>Get_Geometry,
+<IndexTerm>
+<Primary>Set_Geometry要求</Primary>
+</IndexTerm>Set_Geometry</Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータの値がNULLでなく、シ
+ェルが実体化された<Emphasis>mappedWhenManaged</Emphasis>
+<Emphasis>applicationShellWidget</Emphasis>の場合、このメッセージは透過的に処理さ
+れます。シェルが<Emphasis>mappedWhenManaged applicationShellWidge</Emphasis>でない
+場合は、エラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Iconified要求</Primary>
+</IndexTerm>Get_Iconified,
+<IndexTerm>
+<Primary>Get_Iconified要求</Primary>
+</IndexTerm>Get_Iconified</Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータの値がNULLでなく、シ
+ェルが実体化された<Emphasis>mappedWhenManaged</Emphasis>
+<Emphasis>applicationShellWidget</Emphasis>の場合、このメッセージは透過的に処理さ
+れます。シェルが<Emphasis>mappedWhenManaged applicationShellWidge</Emphasis>でない
+場合は、エラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Get_Mapped要求</Primary>
+</IndexTerm>Get_Mapped,
+<IndexTerm>
+<Primary>Set_Mapped要求</Primary>
+</IndexTerm>Set_Mapped</Command></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータの値がNULLでなく、シ
+ェルが実体化された<Emphasis>mappedWhenManaged</Emphasis>
+<Emphasis>applicationShellWidget</Emphasis>の場合、このメッセージは透過的に処理さ
+れます。シェルが<Emphasis>mappedWhenManaged applicationShellWidge</Emphasis>でない
+場合は、エラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Raise要求</Primary>
+</IndexTerm>Raise</Command></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータの値がNULLでなく、シ
+ェルが実体化された<Emphasis>mappedWhenManaged</Emphasis>
+<Emphasis>applicationShellWidget</Emphasis>の場合、このメッセージは透過的に処理さ
+れます。シェルが<Emphasis>mappedWhenManaged applicationShellWidge</Emphasis>でない
+場合は、エラー
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Lower要求</Primary>
+</IndexTerm>Lower</Command></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータの値がNULLでなく、シ
+ェルが実体化された<Emphasis>mappedWhenManaged</Emphasis>
+<Emphasis>applicationShellWidget</Emphasis>の場合、このメッセージは透過的に処理さ
+れます。シェルが<Emphasis>mappedWhenManaged applicationShellWidge</Emphasis>でない
+場合は、エラー
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Get_XInfo要求</Primary>
+</IndexTerm>Get_XInfo</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータの値がNULLでない場
+合、このメッセージは透過的に処理されます。それ以外の場合は、エラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm><Filename>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Set_XInfo要求</Primary>
+</IndexTerm>Set_XInfo</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータの値がNULLでなく、シ
+ェルが実体化された<Emphasis>mappedWhenManaged</Emphasis>
+<Emphasis>applicationShellWidget</Emphasis>の場合、このメッセージは透過的に処理さ
+れます。シェルが<Emphasis>mappedWhenManaged applicationShellWidge</Emphasis>でない
+場合は、エラー
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Pause要求</Primary>
+</IndexTerm>Pause</Command></Para></Entry>
+<Entry><Para><Emphasis>cb</Emphasis>パラメータがNULLでない場合、このメッセージはコ
+ールバックに渡されます。<Emphasis>cb</Emphasis>パラメータがNULLの場合は、エラー
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Resume要求</Primary>
+</IndexTerm>Resume</Command></Para></Entry>
+<Entry><Para><Emphasis>cb</Emphasis>パラメータがNULLでない場合、このメッセージはコ
+ールバックに渡されます。<Emphasis>cb</Emphasis>パラメータがNULLの場合は、エラー
+<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUPとともに異常終了します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Quit要求</Primary>
+</IndexTerm>Quit</Command></Para></Entry>
+<Entry><Para><Emphasis>cb</Emphasis>パラメータがNULLでない場合、このメッセージはコ
+ールバックに渡されます。<Emphasis>cb</Emphasis>パラメータがNULLの場合は、エラー
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Get_Status要求</Primary>
+</IndexTerm>Get_Status</Filename></Para></Entry>
+<Entry><Para><Emphasis>cb</Emphasis>パラメータがNULLでない場合、このメッセージはコ
+ールバックに渡されます。<Emphasis>cb</Emphasis>パラメータがNULLの場合は、エラー
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>とともに異常終了します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Do_Command要求</Primary>
+</IndexTerm>Do_Command</Filename></Para></Entry>
+<Entry><Para><Emphasis>cb</Emphasis>パラメータがNULLでない場合、このメッセージはコ
+ールバックに渡されます。<Emphasis>cb</Emphasis>パラメータがNULLの場合は、エラー
+<SystemItem Class="Constant"><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</SystemItem>とともに異常終了します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para><Emphasis>sessid</Emphasis>パラメータがNULLの場合、デフォルト・セッションに
+参加します。</Para>
+<Para><Emphasis>join</Emphasis>パラメータが設定されている場合、指定のセッションに
+参加します。</Para>
+<Para>
+<IndexTerm>
+<Primary>ttdt_contract_cb</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_contract_cb</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_contract_cb</Secondary>
+</IndexTerm><Filename>Ttdt_contract_cb</Filename>メッセージは、
+<!--Original XRef content: 'Table&numsp;A&hyphen;17'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.17">に示すパラメータを
+取ります。コールバックはメッセージを処理しない場合は、メッセージを返します。メッセ
+ージを処理する場合は、ゼロあるいは<Filename>Tt_message</Filename>に送られたエラー
+・ポインタを返します。 </Para>
+<Table Id="TTUG.MsgTk.tbl.30" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.17">Ttdt_session_cbが取るパラメータ</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.5 in">
+<ColSpec Colname="2" Colwidth="3.5 in">
+<THead>
+<Row>
+<Entry><Para><Literal>パラメータ</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>Tt_message</Filename> <Command>msg</Command></Para></Entry>
+<Entry><Para>通信状態にある要求。
+
+クライアント・プログラムは、この要求を無視または拒否する、あるいはメッセージに応答
+します。</Para><Para><Literal>注</Literal>:処理後にメッセージ<Emphasis>msg
+</Emphasis>を破棄してください。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>void *</Command><Command>clientdata</Command></Para></Entry>
+<Entry><Para><Filename>ttdt_session_join</Filename>または
+<Filename>ttdt_message_accept</Filename>関数のどちらかに渡されるクライアント・デー
+タ。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Tt_message</Filename> <Command>contract</Command></Para></Entry>
+<Entry><Para><Filename>ttdt_message_accept</Filename>関数に渡されるコントラクト。
+コールバックが<Filename>ttdt_session_join</Filename>関数によってインストールされる
+と、<Emphasis>contract</Emphasis>パラメータの値は必ずゼロになります。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para><Filename>ttdt_session_join</Filename>関数は、NULLで終了する
+<Filename>Tt_pattern</Filename>型の配列を返します。この配列は、
+<IndexTerm>
+<Primary>ttdt_session_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_session_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_session_quit</Secondary>
+</IndexTerm><Filename>ttdt_session_quit</Filename>関数に渡され破棄することができま
+す。エラーが発生すると、返された配列はエラー・ポインタになります。
+<Filename>Tt_Status</Filename>を調べるには、
+<Filename><IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm>tt_ptr_error</Filename>を使用します。
+<!--Original XRef content: 'Table&numsp;A&hyphen;18'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.18">は、返される可能性の
+あるエラーの一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.31" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.18">ttdt_session_joinが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_SESSION</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_SESSION</Secondary>
+</IndexTerm>TT_ERR_SESSION</Para></Entry>
+<Entry><Para>旧式、または無効なToolTalkセッションが指定されました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Para></Entry>
+<Entry><Para>渡されたポインタが、このオペレーションに適した型のオブジェクトを指し
+ていません。たとえば、文字列が必要なときにポインタは整数を指している場合などです。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.32">
+<Title><IndexTerm>
+<Primary>ttdt_session_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_session_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_session_quit</Secondary>
+</IndexTerm>ttdt_session_quit</Title>
+<ProgramListing>Tt_status    ttdt_session_quit( const char *     sessid,
+                                Tt_pattern *     sess_pats,
+                                int              quit );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_session_quit</Filename>関数は、「デスクトップの良き市民
+」としてToolTalkセッションを終了します。つまり、セッションへの参加時に登録し
+たすべてのパターンとデフォルト・コールバックを登録解除します。</Para>
+<Para>この関数は、<Emphasis>sess_pats</Emphasis>で指定されたすべてのパターンを破棄
+します。<Symbol Role="Variable">quit</Symbol>パラメータが設定されると、セッシ
+ョン<Emphasis>sessid</Emphasis>を終了します。<Emphasis>sessid</Emphasis>パラメータ
+がNULLの場合は、デフォルト・セッションを終了します。</Para>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;19'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.19">は、この関数が返す
+可能性のあるエラーの一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.33" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.19">ttdt_session_quitが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_SESSION</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_SESSION</Secondary>
+</IndexTerm>TT_ERR_SESSION</Filename></Para></Entry>
+<Entry><Para>旧式、または無効なToolTalkセッションが指定されました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>渡されたポインタが、このオペレーションに適した型のオブジェクトを指し
+ていません。たとえば、文字列が必要なときにポインタは整数を指している場合などです。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.34">
+<Title><IndexTerm>
+<Primary>ttdt_subcontract_manage</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_subcontract_manage</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_subcontract_manage</Secondary>
+</IndexTerm>ttdt_subcontract_manage</Title>
+<ProgramListing>Tt_pattern * ttdt_subcontract_manage(  Tt_message         subcontract,
+                                       Ttdt_contract_cb   cb,
+                                       Widget             shell,
+                                       void *             clientdata );
+</ProgramListing>
+</Example>
+<Para><Filename>ttdt_subcontract_manage</Filename>関数は、未処理の要求を管理します
+。この関数が呼び出されると、要求側ツールは要求を処理しているツールとの間で行われる
+デスクトップ上の標準的な対話を管理できます。この関数は、
+<Filename>TT_HANDLER</Filename>を宛先とする
+<IndexTerm>
+<Primary>Get_Geometry要求</Primary>
+</IndexTerm>Get_Geometry要求と
+<IndexTerm>
+<Primary>Get_XInfo要求</Primary>
+</IndexTerm>Get_XInfo要求、
+および
+<IndexTerm>
+<Primary>Status通知</Primary>
+</IndexTerm>Status通知のための登録をデフォルト・セッションで行います。</Para>
+<Para><Symbol Role="Variable">shell</Symbol>パラメータがNULLの場合、要求または通知
+が<Emphasis>cb</Emphasis>パラメータに渡されます。
+<Symbol Role="Variable">shell</Symbol>パラメータがNULでない場合は、要求は透過的に
+処理されます。</Para>
+<Para><Filename>ttdt_subcontract_manage</Filename>関数は、NULLで終了するTt_pattern
+型の配列を返します。この配列は、
+<IndexTerm>
+<Primary>ttdt_session_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_session_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_session_quit</Secondary>
+</IndexTerm><Filename>ttdt_session_quit</Filename>関数に渡して破棄することができま
+す。エラーが発生すると、返された配列はエラー・ポインタになります。
+<Filename>Tt_Status</Filename>を調べるには、
+<Filename><IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm>tt_ptr_error</Filename>を使用します。
+<!--Original XRef content: 'Table&numsp;A&hyphen;20'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.20">は、返される可能性の
+あるエラーの一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.35" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.20">ttdt_subcontract_manageが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.72025 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para><Emphasis>subcontract</Emphasis>パラメータが有効な
+<Filename>Tt_message</Filename>ではありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_EINVAL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_EINVAL</Secondary>
+</IndexTerm>TT_ERR_EINVAL</Command></Para></Entry>
+<Entry><Para><Symbol Role="Variable">shell</Symbol>パラメータと
+<Emphasis>cb</Emphasis>パラメータの両方がNULLです。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.36">
+<Title><IndexTerm>
+<Primary>ttmedia_Deposit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttmedia_Deposit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttmedia_Deposit</Secondary>
+</IndexTerm>ttmedia_Deposit</Title>
+<ProgramListing>Tt_status   ttmedia_Deposit(     Tt_message              load_contract,
+                                 const char *            buffer_id,
+                                 const char *            media_type,
+                                 const unsigned char *   new_contents,
+                                 int                     new_len,
+                                 const char *            pathname,
+                                 XtAppContext            app2run,
+                                 int                     ms_timeout );
+</ProgramListing>
+</Example>
+<Para><Filename>ttmedia_Deposit</Filename>関数はDeposit要求を送信して、Edit、
+Compose、OpenなどのMedia Exchange load_contract要求の変換対象であったドキュメント
+にチェックポイントを設定します。</Para>
+<Para>この関数はDeposit要求を作成して送信し、その要求が成功したか失敗したかを返し
+ます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Emphasis>load_contract</Emphasis>は、このエディタがドキュメントを読み込むこ
+とを要求します。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>buffer_id</Emphasis>は、ドキュメントがOpen要求により読み込まれた
+場合に、このエディタが作成したバッファのIDです。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>media_type</Emphasis>は、送信された要求の
+<Emphasis>contents</Emphasis>引き数のvtypeです。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>new_contents</Emphasis>とnew_lenは、
+<Emphasis>contents</Emphasis>の引き数の値です。</Para>
+</ListItem>
+</ItemizedList>
+<Para>要求が送信されると、<Emphasis>app2run</Emphasis>と<Emphasis>ms_timeout
+</Emphasis>は、応答を待つために、<Filename>tttk_block_while</Filename>関数に渡され
+ます。</Para>
+<Table Id="TTUG.MsgTk.tbl.37" Frame="Topbot">
+<Title>ttmedia_Depositが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.5619 in">
+<ColSpec Colname="2" Colwidth="3.43056 in">
+<THead>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが受信したメッセージの数が、正しく処理可能なアクティ
+ブ・メッセージの最大数(2000)に達しました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、このオペレーションに必要なToolTalkデータベースに
+アクセスできませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、指定されたToolTalkデータベースを予期した場所で見
+つけることができませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETIMEOUT</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP_ETIMEOUT</Secondary>
+</IndexTerm>TT_DESKTOP_ETIMEOUT</Filename></Para></Entry>
+<Entry><Para>指定されたタイムアウト時間内に応答を受信しませんでした。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>パス名がNULL、または、ToolTalkエラー・ポインタです。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.38">
+<Title><IndexTerm>
+<Primary>ttmedia_load</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttmedia_load</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttmedia_load</Secondary>
+</IndexTerm>ttmedia_load</Title>
+<ProgramListing>Tt_message   (*Ttmedia_load_msg_cb) (  Tt_message         msg,
+                                       void *             clientdata,
+                                       Tttk_op            op,
+                                       unsigned char *    contents,
+                                       int                len,
+                                       char *             file  );
+
+Tt_message   ttmedia_load( Tt_message             context,
+                           Ttmedia_load_msg_cb    cb,
+                           void *                 clientdata,
+                           Tttk_op                op,
+                           const char *           media_type,
+                           const unsigned char *  contents,
+                           int                    len,
+                           const char *           file,
+                           const char *           docname,
+                           int                    send );
+</ProgramListing>
+</Example>
+<Para><Command>ttmedia_load関数</Command>は、ドキュメントの表示、編集、作成を行う
+Media Exchange要求を作成し、必要に応じて送信します。この関数は、
+<IndexTerm>
+<Primary>Display要求</Primary>
+</IndexTerm>Display、
+<IndexTerm>
+<Primary>Edit要求</Primary>
+</IndexTerm>Edit、
+<IndexTerm>
+<Primary>Compose要求</Primary>
+</IndexTerm>Composeのいずれかの要求を作成して送信します。</Para>
+<Note>
+<Para>要求のハンドラとの標準的な対話を管理するには、このメッセージで作成した要求の
+送信後すぐに
+<IndexTerm>
+<Primary>ttdt_subcontract_manage</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttdt_subcontract_manage</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttdt_subcontract_manage</Secondary>
+</IndexTerm><Filename>ttdt_subcontract_manage</Filename>関数を使用してください。
+</Para>
+</Note>
+<Para><Symbol Role="Variable">context</Symbol>引き数の値がゼロ以外のとき、この
+ルーチンによって作成されるメッセージは、スロット名が
+<IndexTerm>
+<Primary>ENV_</Primary>
+</IndexTerm><Filename>ENV_</Filename>で始まるすべてのコンテキストを継承します。
+</Para>
+<Para><Emphasis>clientdata</Emphasis>引き数は、応答を受信する場合、またはドキュメ
+ントの中間バージョンが
+<IndexTerm>
+<Primary>Deposit要求</Primary>
+</IndexTerm>Deposit要求によってチェックポイントを設定される場合に
+<Emphasis>cb</Emphasis>引き数に渡されます。</Para>
+<Para><Symbol Role="Variable">op</Symbol>引き数は、
+<IndexTerm>
+<Primary>TTME_DISPLAY</Primary>
+</IndexTerm><Filename>TTME_DISPLAY</Filename>、
+<IndexTerm>
+<Primary>TTME_EDIT</Primary>
+</IndexTerm><Filename>TTME_EDIT</Filename>、
+<Filename><IndexTerm>
+<Primary>TTME_COMPOSE</Primary>
+</IndexTerm>TTME_COMPOSE</Filename>のいずれかでなければなりません。</Para>
+<Para><Emphasis>media_type</Emphasis>引き数は、ドキュメントのデータ形式に名前を付
+けます。通常、この引き数により、要求を処理するためにどのアプリケーションを選択する
+か決定します。</Para>
+<Para><Emphasis>contents</Emphasis>引き数と<Emphasis>len</Emphasis>引き数はドキュ
+メントを指定します。これらの両方の引き数の値がゼロで、
+<Symbol Role="Variable">file</Symbol>引き数がゼロでない場合、ドキュメントは指定の
+ファイルに格納されていると想定されます。</Para>
+<Para><Emphasis>docname</Emphasis>引き数がNULLでないとき、その値はドキュメントの
+タイトルとして使用されます。</Para>
+<Para><Emphasis>send</Emphasis>引き数がtrueのとき、メッセージは返される前に送信さ
+れます。</Para>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;22'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.21">は、
+<IndexTerm>
+<Primary>Ttmedia_load_msg_cb message</Primary>
+</IndexTerm><Filename>Ttmedia_load_msg_cb</Filename>メッセージが取るパラメータの
+一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.39" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.21">Ttmedia_load_msg_cbがとるパラメータ</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.54661 in">
+<ColSpec Colname="2" Colwidth="3.45339 in">
+<THead>
+<Row>
+<Entry><Para><Literal>パラメータ</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>Tt_message msg</Command></Para></Entry>
+<Entry><Para>要求に対する対応。または読み込み要求の
+<IndexTerm>
+<Primary>Deposit要求</Primary>
+</IndexTerm>
+<Filename>t
+<IndexTerm>
+<Primary>t_message_id</Primary>
+</IndexTerm>t_message_id</Filename>を指定する
+<Emphasis>messageID</Emphasis>引き数を持ったDeposit要求。このパラメータの値が
+Deposit要求である場合、クライアント・プログラムは要求に応答するか、無視しなければ
+なりません。</Para><Para><Literal>注</Literal>: メッセージ<Emphasis>msg</Emphasis>は処理後に破棄してください。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tttk_op op</Command></Para></Entry>
+<Entry><Para>メッセージのオペレーション（
+<IndexTerm>
+<Primary>TTME_DEPOSIT</Primary>
+</IndexTerm><Filename>TTME_DEPOSIT</Filename>あるいは
+<IndexTerm>
+<Primary>ttmedia_load</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttmedia_load</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttmedia_load</Secondary>
+</IndexTerm><Filename>ttmedia_load</Filename>メッセージに渡されたオペレーション）
+。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>unsigned char *
+contents
+
+int len
+
+char *file</Command></Para></Entry>
+<Entry><Para>到着中のドキュメントの内容。<Emphasis>len</Emphasis>引き数がゼロのと
+き、ドキュメントは指定のファイルに格納されています。<Emphasis>contents</Emphasis>
+引き数または<Symbol Role="Variable">file</Symbol>引き数がNULLでない場合は、
+ToolTalk関数
+<IndexTerm>
+<Primary>tt_free 関数</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk関数</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm><Filename>tt_free</Filename>を使用してそれらを解放してください。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>void *clientdata</Command></Para></Entry>
+<Entry><Para>
+<IndexTerm>
+<Primary>ttmedia_load</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttmedia_load</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttmedia_load</Secondary>
+</IndexTerm><Filename>ttmedia_load</Filename>メッセージに渡されたクライアント・
+データ。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>メッセージが正常に処理されると、コールバックはゼロを返します。処理中にエラー
+が発生した場合は、コールバックは<Filename>Tt_message</Filename>に伝えられたエラー
+・ポインタを返します。</Para>
+<Para>コールバックがメッセージ<Emphasis>msg</Emphasis>を処理しない場合、コールバッ
+クはメッセージを返します。このときツールキットは、<Filename>TT_CALLBACK_CONTINUE
+</Filename>ルーチンを呼び出しスタックに渡してメッセージを他のコールバックに
+提供するか、メッセージを<Filename>tt_message_receive</Filename>関数に返します。
+</Para>
+<Para>終了時に<Filename>ttmedia_load</Filename>関数は、作成した要求を返します。
+エラーが発生した場合、この関数はエラー・ポインタを返します。<Filename>Tt_Status
+</Filename>を調べるには、
+<Filename><IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm>tt_ptr_error</Filename>を使用します。
+<!--Original XRef content: 'Table&numsp;A&hyphen;23'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.22">は、返される可能性の
+あるエラーの一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.40" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.22">ttmedia_loadが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.60714 in">
+<ColSpec Colname="2" Colwidth="3.39286 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが受信したメッセージの数が、正しく処理可能なアクティ
+ブ・メッセージの最大数(2000)に達しました。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.41">
+<Title><IndexTerm>
+<Primary>ttmedia_load_reply</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttmedia_load_reply</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttmedia_load_reply</Secondary>
+</IndexTerm>ttmedia_load_reply</Title>
+<ProgramListing>Tt_message    ttmedia_load_reply   (   Tt_message             contract,
+                                       const unsigned char *  new_contents,
+                                       int                    new_len,
+                                       int                    reply_and_destroy );
+</ProgramListing>
+</Example>
+<Para>ドキュメントの表示、編集、作成を行うMedia Exchange要求に対して応答するには、
+<Filename>ttmedia_load_reply</Filename>関数を使用します。</Para>
+<Para><Emphasis>new_contents</Emphasis>引き数と<Emphasis>new_len</Emphasis>引き数
+の両方がゼロでない場合、それらの値は<Emphasis>contract</Emphasis>引き数の適切な
+出力引き数に、ドキュメントの新しい内容を設定するのに使用されます。
+<Emphasis>reply_and_destroy</Emphasis>引き数がtrueの場合、<Emphasis>contract
+</Emphasis>引き数に対して応答が行われ、その後メッセージは破棄されます。</Para>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;24'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.23"> は、返される可能性の
+あるエラーの一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.42" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.23">ttmedia_load_replyが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.60714 in">
+<ColSpec Colname="2" Colwidth="3.39286 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NUM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NUM</Secondary>
+</IndexTerm>TT_ERR_NUM</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOTHANDLER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOTHANDLER</Secondary>
+</IndexTerm>TT_ERR_NOTHANDLER</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.43">
+<Title><IndexTerm>
+<Primary>ttmedia_ptype_declare</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>ttmedia_ptype_declare</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>ttmedia_ptype_declare</Secondary>
+</IndexTerm>ttmedia_ptype_declare</Title>
+<ProgramListing>Tt_message   (*Ttmedia_load_pat_cb) (  Tt_message         msg,
+                                       void *             clientdata,
+                                       Tttk_op            op,
+                                       Tt_status          diagnosis,
+                                       unsigned char *    contents,
+                                       int                len,
+                                       char *             file,
+                                       char *             docname );
+
+Tt_status    ttmedia_ptype_declare( const char *            ptype,
+                                    int                     base_opnum,
+                                    Ttmedia_load_pat_cb     cb,
+                                    void *                  clientdata,
+                                    int                     declare );
+</ProgramListing>
+</Example>
+<Para><Filename>ttmedia_ptype_declare</Filename>関数は、Media Exchangeメディア・
+エディタのptypeを宣言します。この関数は、特定のメディア型用のMedia Exchange
+メッセージ・インタフェースを実装するエディタを初期化します。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>エディタが<Emphasis>ptype</Emphasis>でサポートされる種類のドキュメントを編集
+するように要求される場合、この関数は<Emphasis>cb</Emphasis>引き数を呼び出します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>この関数は、ptypeに含まれていると想定される一連のシグニチャに、ツールキット
+内部のオペレーション番号(<Emphasis>opnum</Emphasis>)コールバックをインストールしま
+す。ツールキット内部のopnumコールバックは、これらのシグニチャのいずれかに一致する
+要求を受信すると、<Emphasis>clientdata</Emphasis>を<Emphasis>cb</Emphasis>引き数
+に渡します。opnumsは、<Emphasis>base_opnum</Emphasis>からはじまり、ゼロか1000の
+倍数でなければなりません。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>declare</Emphasis>引き数がtrueのとき、この関数は次を呼び出します。
+</Para>
+</ListItem>
+</ItemizedList>
+<programlisting><IndexTerm><Primary>tt_ptype_declare( ptype )</Primary></IndexTerm>
+tt_ptype_declare(   ptype  )</ProgramListing>
+<Para>ptypeが複数の異なるメディア型を実現する場合、
+<Filename>ttmedia_ptype_declare</Filename>関数を２回以上呼び出すことができます。
+<Emphasis>base_opnum</Emphasis>には、各呼び出しで異なる値を指定しなければなりませ
+ん。</Para>
+<Note>
+<Para><Filename>ttmedia_ptype_declare</Filename>関数は何回でも呼び出すことができま
+すが、<Emphasis>declare</Emphasis>引き数を「true」に設定できるのは１回だ
+けです。</Para>
+</Note>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;25'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.24">は、
+<IndexTerm>
+<Primary>Ttmedia_load_pat_cb message</Primary>
+</IndexTerm><Filename>Ttmedia_load_pat_cb</Filename>メッセージが取るパラメータ
+の一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.44" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.24">Ttmedia_load_pat_cbメッセージが取るパラメータ</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.75926 in">
+<ColSpec Colname="2" Colwidth="3.24074 in">
+<THead>
+<Row>
+<Entry><Para><Literal>パラメータ</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>Tt_message msg</Command></Para></Entry>
+<Entry><Para>送信された要求。クライアント・プログラムは、この要求を無視または拒否
+する、あるいは要求に応答しなければなりません。</Para></Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tttk_op op</Command></Para></Entry>
+<Entry><Para>着信中のオペレーション（
+<IndexTerm>
+<Primary>TTME_COMPOSE</Primary>
+</IndexTerm><Filename>TTME_COMPOSE</Filename>、
+<IndexTerm>
+<Primary>TTME_EDIT</Primary>
+</IndexTerm><Filename>TTME_EDIT</Filename>、<Filename><IndexTerm>
+<Primary>TTME_DISPLAY</Primary>
+</IndexTerm>TTME_DISPLAY</Filename>のいずれか）。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tt_status diagnosis</Command></Para></Entry>
+<Entry><Para>ツールキットが要求を無視するように勧告するときのエラーコード
+（たとえば、
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENODATA</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_DESKTOP</Secondary>
+</IndexTerm>TT_DESKTOP_ENODATA</Filename>）。diagnosisが<Filename>TT_OK</Filename>
+ではなく、コールバック・ルーチンがメッセージ<Emphasis>msg</Emphasis>を返す場合、
+ツールキットはメッセージ<Emphasis>msg</Emphasis>を無視し、破棄します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>unsigned char *
+contents
+
+int len
+
+char *file</Command></Para></Entry>
+<Entry><Para>着信中のドキュメントの内容。<Emphasis>len</Emphasis>引き数がゼロのと
+き、ドキュメントは指定のファイルに格納されています。<Emphasis>contents</Emphasis>
+引き数または<Symbol Role="Variable">file</Symbol>引き数がNULLでない場合は、
+ToolTalk関数
+<IndexTerm>
+<Primary>tt_free関数</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk関数</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm>tt_freeを使用してそれらの引き数を解放します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>char * docname</Command></Para></Entry>
+<Entry><Para>ドキュメントに名前が付けられている場合は、その名前。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>void * clientdata</Command></Para></Entry>
+<Entry><Para><Filename>ttmedia_ptype_declare</Filename>メッセージに渡す
+クライアント・データ。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>メッセージが正常に処理されると、コールバックはゼロを返します。処理中にエラー
+が発生した場合は、コールバックは<Filename>Tt_message</Filename>に伝えられたエラー
+・ポインタを返します。</Para>
+<Para>コールバックがメッセージ<Emphasis>msg</Emphasis>を処理せず、
+<Emphasis>diagnosis</Emphasis>引き数の値が<Filename>TT_OK</Filename>でない場合、
+コールバックはメッセージを返します。このとき、ツールキットは
+<Filename>TT_CALLBACK_CONTINUE</Filename>ルーチンを呼び出しスタックに渡してメッセ
+ージを他のコールバックに提供するか、メッセージを<Filename>tt_message_receive
+</Filename>呼び出しに返します。</Para>
+<Para>エラーが発生すると、この関数は
+<!--Original XRef content: 'Table&numsp;A&hyphen;26'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.25">にあるエラーのいずれ
+かを返します。</Para>
+<Table Id="TTUG.MsgTk.tbl.45" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.25">ttmedia_ptype_declareが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PTYPE</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PTYPE</Secondary>
+</IndexTerm>TT_ERR_PTYPE</Filename></Para></Entry>
+<Entry><Para>ToolTalkサービスが、指定されたptypeを検出することができませんでした。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>渡されたポインタが、このオペレーションに適した型のオブジェクトを指し
+ていません。たとえば、文字列が必要なときにポインタは整数を指している場合などです。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.46">
+<Title><IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm>tttk_block_while</Title>
+<ProgramListing>Tt_status    tttk_block_while( const int *  blocked,
+                               int          ms_timeout );
+</ProgramListing>
+</Example>
+<Para><Command>tttk_block_while</Command>関数は、<Emphasis>ms_timout</Emphasis>で
+指定されたタイムアウト時間中、応答を待っているプログラムをブロックします。</Para>
+<Example Id="TTUG.MsgTk.tbl.47">
+<Title><IndexTerm>
+<Primary>tttk_message_abandon</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_message_abandon</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_message_abandon</Secondary>
+</IndexTerm>tttk_message_abandon</Title>
+<ProgramListing>Tt_status   tttk_message_abandon     ( Tt_message     msg );
+</ProgramListing>
+</Example>
+<Para><Filename>tttk_message_abandon</Filename>関数は、要求を放棄した後に破棄しま
+す。</Para>
+<Note>
+<Para>プログラムは、メッセージを理解できずに処分したいときはメッセージを放棄しなけ
+ればなりません。</Para>
+</Note>
+<Para>エラーが発生すると、この関数は
+<!--Original XRef content: 'Table&numsp;A&hyphen;27'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.26">にあるエラーのうちの
+いずれかを返します。</Para>
+<Table Id="TTUG.MsgTk.tbl.48" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.26">tttk_message_abandonが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.75 in">
+<ColSpec Colname="2" Colwidth="3.25 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインスト
+ールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>渡されたポインタが、このオペレーションに適した型のオブジェクトを指し
+ていません。たとえば、文字列が必要なときにポインタは整数を指している場合などです。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOTHANDLER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOTHANDLER</Secondary>
+</IndexTerm>TT_ERR_NOTHANDLER</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.49">
+<Title><IndexTerm>
+<Primary>tttk_message_create</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_message_create</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_message_create</Secondary>
+</IndexTerm>tttk_message_create</Title>
+<ProgramListing>Tt_message   tttk_message_create( Tt_message             context,
+                                  Tt_class               the_class,
+                                  Tt_scope               the_scope,
+                                  const char *           handler,
+                                  const char *           op,
+                                  Tt_message_callback    callback );
+</ProgramListing>
+</Example>
+<Para><Filename>tttk_message_create</Filename>関数は、規約に従ったメッセージを作成
+します。この関数を使用すれば、継承されたコンテキストをあるメッセージから別のメッセ
+ージに伝達するメッセージを簡単に作成できます。</Para>
+<Para><Filename>tttk_message_create</Filename>関数はメッセージを作成し、スロット名
+が<Filename>ENV_</Filename>で始まる<Symbol Role="Variable">context</Symbol> 
+からすべてのコンテキスト・スロットを新しいメッセージ上にコピーします。作成された
+メッセージには、<Emphasis>the_class</Emphasis>パラメータに指定された
+<Filename>Tt_class</Filename>値と<Emphasis>the_scope</Emphasis>パラメータに指定さ
+れた<Filename>Tt_scope</Filename>値が設定されます。</Para>
+<Para><Emphasis>handler</Emphasis>パラメータがNULLの場合、メッセージには
+<Filename><IndexTerm>
+<Primary>TT_PROCEDURE</Primary>
+</IndexTerm>TT_PROCEDURE</Filename>の<Filename>Tt_address</Filename>が設定されま
+す。<Emphasis>handler</Emphasis>パラメータがNULLでない場合は、メッセージは
+<Filename>TT_HANDLER</Filename>を経由してprocidに送信されます。</Para>
+<Para><Symbol Role="Variable">op</Symbol>引き数がNULLでない場合、その値にはメッセ
+ージの<Symbol Role="Variable">op</Symbol>引き数が設定されます。</Para>
+<Para>コールバック引き数がNULLでない場合、その値がメッセージ・コールバックとして
+メッセージに追加されます。</Para>
+<Para>正常終了時には、<Filename>tttk_message_create</Filename>関数は作成した
+<Filename>Tt_message</Filename>を返します。これは、他の<Filename>Tt_message
+</Filename>と同じ方法で変更、送信、破棄することができます。</Para>
+<Para>エラーが発生すると、エラー・ポインタが返されます。<Filename>Tt_status
+</Filename>を調べるには、
+<IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm><Filename>tt_ptr_error</Filename>を使用します。
+<!--Original XRef content: 'Table&numsp;A&hyphen;28'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.27">は、返される可能性の
+あるエラーの一覧です。</Para>
+<Table Id="TTUG.MsgTk.tbl.50" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.27">tttk_message_createが返す可能性のあるエラー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75926 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラーの値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>ttsessionプロセスを使用できません。ToolTalkサービスは、ttsessionが実
+行されていない場合はその再起動を試みます。このエラーは、ToolTalkサービスがインス
+トールされていないか正しくインストールされていないかのどちらかを示します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>指定されたプロセス識別子が旧式か、無効です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>オペレーションを実行するのに十分なメモリがありません。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.51">
+<Title><IndexTerm>
+<Primary>tttk_message_destroy</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_message_destroy</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_message_destroy</Secondary>
+</IndexTerm>tttk_message_destroy</Title>
+<ProgramListing>Tt_status   tttk_message_destroy ( Tt_message    msg );
+</ProgramListing>
+</Example>
+<Para><Filename>tttk_message_destroy</Filename>関数は、規約に従うすべてのメッセー
+ジを破棄します。</Para>
+<Note>
+<Para>このメッセージは、
+<IndexTerm>
+<Primary>tt_message_destroy message</Primary>
+</IndexTerm><Filename>tt_message_destroy</Filename>
+メッセージの代わりに使用できます。</Para>
+</Note>
+<Para><Filename>tttk_message_destroy</Filename>関数は、
+<Filename>ttdt_message_accept</Filename>関数あるいは、
+<Filename>ttdt_subcontract_manage</Filename>関数によってメッセージに格納された
+すべてのパターンを破棄し、その後メッセージ<Emphasis>msg</Emphasis>を
+<Filename>tt_message_destroy</Filename>関数に渡します。</Para>
+<Para>この関数は、<Filename>tt_message_destroy</Filename>関数によって返された値を
+返します。</Para>
+<Example Id="TTUG.MsgTk.tbl.52">
+<Title><IndexTerm>
+<Primary>tttk_message_fail</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_message_fail</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_message_fail</Secondary>
+</IndexTerm>tttk_message_fail</Title>
+<ProgramListing>Tt_status    tttk_message_fail( Tt_message     msg,
+                                Tt_status      status,
+                                const char *   status_string,
+                                int            destroy );
+</ProgramListing>
+</Example>
+<Para><Filename>tttk_mesage_fail</Filename>関数は、メッセージ<Emphasis>msg
+</Emphasis>を無視した後で破棄します。</Para>
+<Note>
+<Para>プログラムは、メッセージを理解できずに処分したいときはメッセージを破棄しなけ
+ればなりません。</Para>
+</Note>
+<Para>状態が<Filename>TT_SENT</Filename>であるメッセージは無視できます。メッセージ
+が、ハンドラが宛先指定されているメッセージ、あるいは
+<Filename><IndexTerm>
+<Primary>TT_WRN_START_MESSAGE</Primary>
+</IndexTerm>TT_WRN_START_MESSAGE</Filename>のtt_message_statusを持つ場合、その
+メッセージを無視できます。</Para>
+<Para>この関数は、<Filename>TT_DESKTOP_ENOTSUP</Filename>を返します。</Para>
+<Example Id="TTUG.MsgTk.tbl.53">
+<Title><IndexTerm>
+<Primary>tttk_message_receive</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_message_receive</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_message_receive</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>tttk_message_reject</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_message_reject</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_message_reject</Secondary>
+</IndexTerm>tttk_message_receive</Title>
+<ProgramListing>Tt_status    tttk_message_receive( const char* procid );
+</ProgramListing>
+</Example>
+<Para><Filename>tttk_message_receive</Filename>関数は、
+<IndexTerm>
+<Primary>tt_message_receive</Primary>
+</IndexTerm><Filename>tt_message_receive</Filename>関数を呼び出し、次のToolTalk
+メッセージを取り出します。</Para>
+<Para><ComputerOutput>procid</ComputerOutput>が0でない場合、この関数は次を呼び出し
+ます。</Para>
+<ProgramListing>tt_default_procid_set( procid )</ProgramListing>
+<Example Id="TTUG.MsgTk.tbl.54">
+<Title><IndexTerm>
+<Primary>tttk_message_reject</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_message_reject</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_message_reject</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>tttk_message_reject</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_message_reject</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_message_reject</Secondary>
+</IndexTerm>tttk_message_reject</Title>
+<ProgramListing>Tt_status    tttk_message_reject( Tt_message      msg,
+                                  Tt_status       status,
+                                  const char*     status_string,
+                                  int             destroy );
+</ProgramListing>
+</Example>
+<Para><Filename>tttk_message_reject</Filename>関数は、メッセージ<Emphasis>msg
+</Emphasis>を拒否した後で破棄します。</Para>
+<Note>
+<Para>プログラムは、メッセージを理解できずに処分したいときはメッセージを放棄しなけ
+ればなりません。</Para>
+</Note>
+<Para>状態が<Filename>TT_SENT</Filename>であるメッセージは拒否できます。
+メッセージが、<Symbol Role="Variable">ハンドラが宛先指定されているメッセージでない
+</Symbol>、あるいは
+<Filename><IndexTerm>
+<Primary>TT_WRN_START_MESSAGE</Primary>
+</IndexTerm>TT_WRN_START_MESSAGE</Filename>以外のtt_message_statusを持つ場合、その
+メッセージを拒否できます。</Para>
+<Para>この関数は、<Filename>TT_DESKTOP_ENOTSUP</Filename>を返します。</Para>
+<Example Id="TTUG.MsgTk.tbl.55">
+<Title><IndexTerm>
+<Primary>tttk_op_string</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_op_string</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット・メッセージ</Primary>
+<Secondary>tttk_op_string</Secondary>
+</IndexTerm>tttk_op_string</Title>
+<ProgramListing>char         *tttk_op_string(    Tttk_op     op);
+</ProgramListing>
+</Example>
+<Para><Filename>tttk_op_string</Filename>関数は、正常終了する場合はオペレーション
+<Symbol Role="Variable">op</Symbol>に対する文字列を返します。そうでない場合、この
+関数はゼロを返します。</Para>
+<Note>
+<Para>返された文字列を解除するには、<Filename>tt_free</Filename>関数を使用して
+ください。</Para>
+</Note>
+<ProgramListing>Tttk_op   tttk_string_op(     const char *    opstring );</ProgramListing>
+<Para><Filename>tttk_string_op</Filename>関数は、指定の文字列に対するオペレーショ
+ンを保持している文字列を返します。エラーが発生すると、この関数は
+<Filename>TTDT_OP_NONE</Filename>を返します。</Para>
+<Example Id="TTUG.MsgTk.tbl.56">
+<Title><IndexTerm>
+<Primary>tttk_Xt_input_handler</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ・セット</Primary>
+<Secondary>ツールキット</Secondary>
+<Tertiary>tttk_Xt_input_handler</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>ツールキット messages</Primary>
+<Secondary>tttk_Xt_input_handler</Secondary>
+</IndexTerm>tttk_Xt_input_handler</Title>
+<ProgramListing>void         tttk_Xt_input_handler(   XtPointer     procid,
+                                      int *         source,
+                                      XtInputId *   id );
+</ProgramListing>
+</Example>
+<Para><Filename>tttk_Xt_input_handler</Filename>関数は、Xtクライアントのための
+ToolTalkイベントを処理します。一部のメッセージがコールバックで処理されないと予期
+される場合を除き、この関数をXt入力ハンドラとして使用します。</Para>
+<Para>この関数は、<Emphasis>procid</Emphasis>引き数を
+<IndexTerm>
+<Primary>tttk_message_receive関数</Primary>
+</IndexTerm><Filename>tttk_message_receive</Filename>
+関数に渡し、すべての返されたメッセージ（つまり、コールバックで処理されない
+メッセージ）を<Filename><IndexTerm>
+<Primary>tttk_message_abandon</Primary>
+</IndexTerm>tttk_message_abandon</Filename>関数に渡します。</Para>
+<Para>この関数がエラー
+<IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー・メッセージ</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm><Filename>TT_ERR_NOMP</Filename>を返すと、
+<Filename>tttk_Xt_input_handler</Filename>関数は
+<Emphasis>id</Emphasis>パラメータを
+<IndexTerm>
+<Primary>XtRemoveInput functio</Primary>
+</IndexTerm> <Command>XtRemoveInput</Command>関数に渡します。</Para>
+</Sect1>
+</Appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 05:02:32-->

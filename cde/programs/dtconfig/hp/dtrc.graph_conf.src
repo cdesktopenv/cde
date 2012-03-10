@@ -1,0 +1,51 @@
+XCOMM!/sbin/sh
+XCOMM $XConsortium: dtrc.graph_conf.src /main/1 1996/07/24 11:42:43 drk $
+XCOMM
+XCOMM This version of the CDE dtconfig script is for use in the HP-UX
+XCOMM operating environment.
+XCOMM
+XCOMM  Common Desktop Environment
+XCOMM
+XCOMM  (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM  (c) Copyright 1993-1994,1996 Hewlett-Packard Company.
+XCOMM  (c) Copyright 1993-1994,1996 International Business Machines Corp.
+XCOMM  (c) Copyright 1993-1994,1996 Sun Microsystems, Inc.
+XCOMM  (c) Copyright 1993-1994,1996 Novell, Inc. 
+XCOMM  (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM  (c) Copyright 1996 Hitachi.
+XCOMM
+XCOMM This script:
+XCOMM	- copies CDE_INSTALLATION_TOP/config/Xservers to
+XCOMM		CDE_CONFIGURATION_TOP/config if it does not yet exist,
+XCOMM	- uses ioscan to find out if the system has a graphics card
+XCOMM		installed,
+XCOMM	- comments out the "Local" entry in the Xservers file if it
+XCOMM		does not,
+XCOMM
+XCOMM Location:	CDE_INSTALLATION_TOP/config/dtrc.d/20_graph_conf
+
+PATH=/sbin:/usr/sbin:/usr/bin:/usr/dt/bin
+export PATH
+
+XCOMM
+XCOMM create CDE_CONFIGURATION_TOP/config/Xservers if it does not exist
+
+if [ ! -f CDE_CONFIGURATION_TOP/config/Xservers ]; then
+    cp CDE_INSTALLATION_TOP/config/Xservers \
+	CDE_CONFIGURATION_TOP/config/Xservers
+fi
+
+XCOMM
+XCOMM comment out the Local entry if there is no graphics card
+
+if [[ -z `ioscan -kC graphics` ]]; then
+    TAB="	"
+    TS="[${TAB} ]"
+    sed -e "s:^${TS}*\*${TS}${TS}*Local:#  *	Local:" \
+	< CDE_CONFIGURATION_TOP/config/Xservers \
+	> /tmp/Xservers.tmp
+    cp /tmp/Xservers.tmp CDE_CONFIGURATION_TOP/config/Xservers
+    rm -f  /tmp/Xservers.tmp
+fi
+
+XCOMM ##################             eof         #####################

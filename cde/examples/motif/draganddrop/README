@@ -1,0 +1,76 @@
+/* $XConsortium: README /main/2 1996/07/15 14:04:42 drk $ */
+
+    This directory contains an example illustrating a typical use of
+    the Motif DragAndDrop feature.
+
+    When the demo comes up, it does not have any valid drop sites. It
+    comes up with different color rectangles which act as drag sources
+    for dragging the colors around. You can create the drop sites as
+    follows:
+        Move the pointer into the drawing area (with white background).
+        Press MouseBtn1 and drag. You will see the rubberbanding effect.
+        Release MouseBtn1 after dragging some distance. A rectangle
+        will appear with one of its corners corresponding to the point
+        of MouseBtn1 press, and the diagonally opposite corner 
+        corresponding to the point of MouseBtn1 release. The rectangle
+        comes up filled with black by default. You can create any number
+        of rectangles like this.
+
+    To initiate a drag, you move the pointer over to the drag source,
+    press BTransfer (which is MouseBtn2 by default), and start dragging.
+    Immediately, you will notice that the cursor changes to a painter's
+    palette in the same color as the color rectangle from which the
+    drag is initiated.
+
+    The rectanlges inside the drawing area that you created will act 
+    as valid drop sites for colors. You can test this by, for example,
+    initiating the drag from the yellow color rectangle, dragging over
+    to one of the rectangles inside the drawing area, and releasing
+    BTransfer. 
+
+    While you are dragging, you will notice several things.
+    When you are dragging over root window, the dragicon consists of
+    only the painter's palette. When you drag over parts of the 
+    drawing area where there are no rectangles, you will notice that
+    the dragicon changes to include a "DO NOT ENTER!" sign on top of
+    the painter's palette; when you are dragging over any of the 
+    rectangles inside the drawing area, you will see that the 
+    "DO NOT ENTER!" sign gets replaced with a painter's brush.
+
+    To attempt a drop, you will release BTransfer. If you release
+    BTranfer with the pointer over any part of drawing area outside
+    of the rectangles, or anywhere on the root window, you will see
+    that the dragicon snaps back to the point of drag initiation,
+    and disappears. This is an indication that the drop you
+    attempted was a failure. On the other hand, if you release
+    BTransfer with the pointer over any of the rectangles inside 
+    the drawing area, you will see that the dragicon melts into
+    the background and disappears; this indicates that the drop
+    you attempted was a success. Also, when the rectangle on which
+    the drop was attempted, gets filled with the color that was
+    being dragged around (yellow, in our example).
+
+    The rectangles inside the drawing area themselves act as drag
+    sources. You can initiate the drag with the pointer on any
+    rectangle, and you will notice that the cursor changes to
+    a rectangle (either of the same size or a smaller size depending
+    on X cursor size constraints). You can drag a rectangle from
+    one place and drop it onto a new place inside the drawing area.
+    The rectangle gets physically moved to the new position. If,
+    on the other hand, you want to copy the rectangle to a new
+    position, you can use the appropriate modifier key while dragging,
+    and/or at the time you attempt the drop (<Ctrl> is the modifier
+    key for copy in the current implementation). When you drag
+    a rectangle with no modifier key pressed or with <Shift>
+    pressed, you will notice that the solid rectangle from where
+    you initiated the drag gets replaced by a hollow rectangle with
+    dotted-line borders. It will continue to be this way, for
+    the duration of the drag or until you press the <Ctrl> key,
+    which will change the operation to Copy; at which time it will
+    regain its original solid form.
+
+    A couple of other things to note. Anytime during dragging, you
+    can cancel that drag by hitting the Cancel key. Also, during
+    dragging, anytime you hit the Help key, you will get a dialog
+    giving you some information about whether the drop will
+    succeed, what are the drop operations possible, etc.

@@ -1,0 +1,319 @@
+#!/bin/sh
+set -h
+
+###############################################################################
+#
+# $XConsortium: dtinfogen /main/10 1996/09/06 14:24:23 cde-hal $
+# $Version$
+# $XConsortium: dtinfogen /main/10 1996/09/06 14:24:23 cde-hal $ 
+#
+# Copyright (c) 1994 HaL Computer Systems, Inc.  All rights reserved.
+# UNPUBLISHED -- rights reserved under the Copyright Laws of the United
+# States.  Use of a copyright notice is precautionary only and does not
+# imply publication or disclosure.
+#
+# This software contains confidential information and trade secrets of HaL
+# Computer Systems, Inc.  Use, disclosure, or reproduction is prohibited
+# without the prior express written permission of HaL Computer Systems, Inc.
+#
+#                         RESTRICTED RIGHTS LEGEND
+# Use, duplication, or disclosure by the Government is subject to
+# restrictions as set forth in subparagraph (c)(l)(ii) of the Rights in
+# Technical Data and Computer Software clause at DFARS 252.227-7013.
+#                        HaL Computer Systems, Inc.
+#                  1315 Dell Avenue, Campbell, CA  95008               $
+#
+###############################################################################
+
+###############################################################################
+#
+#	Set up shell traps
+#
+###############################################################################
+
+USERPATH=$PATH
+PATH=/bin:/usr/bin:/usr/sbin
+RETCODE=0
+
+trap '\
+	RETCODE=${RETCODE:-$?}		;\
+        exit $RETCODE \
+' 0 1 2 3 4 5 6 7 8 10 12 15
+
+###############################################################################
+#
+#	Environment variables that this shell script sets/changes:
+#
+###############################################################################
+
+export	ARCH DTINFO_HOME OTK_NAME PATH
+
+
+###############################################################################
+#
+#	Functions:
+#		err_f		 - reports an error message and exits
+#		msg_f		 - reports messages
+#		mybasename_f	 - returns a basename using expr in BASE
+#		mydirname_f	 - returns a path using expr in HEAD
+#					user's font path
+#		warn_f		 - reports a warning message
+#
+###############################################################################
+
+###############################################################################
+
+
+err_f () {
+
+msg_f "${OTK_NAME:-$0}: *** ERROR - $@"
+exit 3
+
+}
+
+###############################################################################
+
+msg_f () {
+
+echo "
+$@ 
+" 1>&2
+
+}
+
+###############################################################################
+
+mybasename_f() {
+
+if [ -z "$1" ] ; then
+	err_f "mybasename_f() passed an empty argument."
+fi
+
+BASE=`expr \
+	$1 : '.*/\([^/][^/]*\)$' \| \
+	$1 : '\([^/][^/]*\)$' \| \
+	"\/"`
+
+if [ "$BASE" = "\/" ] ; then
+	warn_f "mybasename_f() passed a path [$1]."
+	BASE=""
+fi
+
+}
+
+###############################################################################
+
+mydirname_f() {
+
+if [ -z "$1" ] ; then
+	err_f "mydirname_f() passed an empty path."
+fi
+
+HEAD=`expr \
+	$1 : '\(.*[^/]\)//*[^/]*$' \| \
+	$1 : '\(/\)[^/]*$' \| \
+	.`
+
+if [ "$HEAD" = "$1" ] ; then
+	HEAD="."
+elif [ -z "$HEAD" ] ; then
+	HEAD="/"
+fi
+
+}
+
+###############################################################################
+
+warn_f () {
+
+msg_f "${OTK_NAME:-$0}: *** WARNING - $@"
+
+}
+
+###############################################################################
+
+###############################################################################
+#
+#	Initialize some useful variables
+#
+###############################################################################
+
+       CMD=$0
+DTINFO_HOME=${DTINFO_HOME:-""}
+
+ARGUMENT=""
+while [ $# -gt 0 ] ; do
+	if [ -n "`echo $1 | egrep ' '`" ] ; then
+		ARGUMENT="$ARGUMENT \"$1\""
+	else
+		ARGUMENT="$ARGUMENT $1"
+	fi
+	shift
+done
+
+    THISPLACE=`pwd`
+  mydirname_f $CMD
+         HERE=`(cd $HEAD ; pwd)`
+ mybasename_f $CMD
+     OTK_NAME=$BASE
+
+###############################################################################
+#
+#	Determine the OS running to see if the binary will run at all,
+#	also provide a mechanism to choose the correct binary for a
+#	particular architecture automagically.
+#
+###############################################################################
+
+          OS=`uname -sr`
+LINKTESTFLAG="-h"
+case "$OS" in
+
+	AIX*)
+		ARCH=aix
+		LINKTESTFLAG="-L"
+	;;
+
+	HP-UX*)
+		ARCH=hpux
+	;;
+ 
+	IRIX*)
+		ARCH=irix
+		LINKTESTFLAG="-l"
+	;;
+ 
+	OSF1*)
+		ARCH=osf1
+		LINKTESTFLAG="-L"
+	;;
+ 
+	SunOS\ 4.1*)
+		ARCH=sunos
+	;;
+
+	SunOS\ 5*)
+		case "`uname -m`" in
+ 
+			hal*) 
+				ARCH=halos
+			;;
+ 
+			i86*)
+				ARCH=solaris-386
+			;;
+ 
+			sun4*) 
+				ARCH=solaris
+			;;
+		esac
+	;;
+
+	UNIX_System_V\ 4.2*)
+		# Based on DS/90 server...
+		case "`uname -m`" in
+			DS/90*)
+				ARCH=uxpds
+			;;
+		esac
+	;;
+
+	*4.2MP)
+		ARCH=mips
+	;;
+
+	*)
+		err_f "Does not run under [$OS]"
+	;;
+esac
+
+	
+###############################################################################
+#
+#	Find the toolkit's real home.
+#
+###############################################################################
+
+if [ $LINKTESTFLAG $CMD -a -z "$DTINFO_HOME" ] ; then
+	cd $HERE
+	while [ $LINKTESTFLAG $OTK_NAME ] ; do
+		OLD=$CMD
+		CMD=`ls -l $OTK_NAME | sed -e 's/.*->[ ]*//g'`
+		mydirname_f $CMD
+		cd $HEAD
+		mybasename_f $CMD
+		OTK_NAME=$BASE
+		HEAD=`pwd`
+		 CMD=$HEAD/$OTK_NAME
+	done
+	mydirname_f $HEAD
+
+elif [ -z "$DTINFO_HOME" ] ; then
+
+	#######################################################################
+	#
+	#	An explicit path has been given, but the environment variable
+	#	is not set.
+	#
+	#######################################################################
+
+	if [ "$HERE" = "." ] ; then
+		HERE=`pwd`
+	elif [ `expr $HERE : '.*\.\..*'` -gt 0 ] ; then
+		cd $HERE
+		HERE=`pwd`
+	fi
+	mydirname_f $HERE
+
+else
+
+	if [ -d $DTINFO_HOME ] ; then
+	
+		cd $DTINFO_HOME
+		DTINFO_HOME=`pwd`
+
+	else
+
+		err_f "The DtInfo ToolKit does not appear to be installed
+correctly in [$DTINFO_HOME].  Set the environment variable, 
+DTINFO_HOME, to the directory where the DtInfo ToolKit is installed, 
+or use a fully qualified path when invoking [otk]."
+
+	fi
+
+fi
+
+###############################################################################
+#
+#	Look in a default place if DTINFO_HOME not set.
+#	Set path to default information library
+#	Add DTINFO_BIN to path
+#
+###############################################################################
+
+DTINFO_HOME=${DTINFO_HOME:-$HEAD}
+ DTINFO_BIN=${DTINFO_BIN:-$DTINFO_HOME/bin}
+# the infolib/etc dir contains most library and bin type files
+ DTINFO_LIB=${DTINFO_LIB:-$DTINFO_HOME/infolib/etc}
+      PATH=${DTINFO_BIN}:${DTINFO_LIB}:${PATH}
+
+if [ ! -d $DTINFO_LIB ] ; then
+
+	err_f "The $ARCH binaries were not installed in
+               $DTINFO_BIN"
+
+fi
+
+PATH=${PATH}:${USERPATH}
+
+###############################################################################
+#
+#	Create the command line and invoke the DtInfo build tools
+#
+###############################################################################
+
+cd $THISPLACE
+eval $DTINFO_LIB/dtinfogen_worker $ARGUMENT
+RETCODE=$?
+
+exit $RETCODE

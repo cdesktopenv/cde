@@ -1,0 +1,55 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 16:00:11 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = -DPORTABLE_DB
+INCLUDES = -I$(DTMMDBSRC)/storage -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES)
+
+LinkSourceFile(abs_storage.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(chunks_index.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(heap_comp_funcs.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(lru.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(page.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(page_cache.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(page_rep.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(page_storage.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(rep_cell.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(rep_policy.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(store_test.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(unixf_storage.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(version.C,$(DTMMDBSRC)/storage)
+LinkSourceFile(vm_storage.C,$(DTMMDBSRC)/storage)
+
+SRCS =	abs_storage.C	chunks_index.C	heap_comp_funcs.C \
+	lru.C		page.C		page_cache.C \
+	page_rep.C	page_storage.C	rep_cell.C \
+	rep_policy.C	store_test.C	unixf_storage.C \
+	version.C	vm_storage.C
+OBJS = $(SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

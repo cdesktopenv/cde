@@ -1,0 +1,449 @@
+<!-- $XConsortium: Concepts.sgm /main/10 1996/10/29 21:34:20 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<!-- Help volume: Filemgr  -->
+<!-- File name:   Concepts -->
+<Chapter Id="Concepts">
+<Title>File Manager Concepts</Title>
+<Para>For a better understanding of File Manager, you may want to read the
+following topics.
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HFMGR.CNCP.item.1">
+<Para><XRef Linkend="TheHierarchicalFileSystemSI"></Para>
+</ListItem>
+<ListItem Id="HFMGR.CNCP.item.2">
+<Para><XRef Linkend="PathConcepts"></Para>
+</ListItem>
+<ListItem Id="HFMGR.CNCP.item.3">
+<Para><XRef Linkend="FileOwnershipAndSecuritySI"></Para>
+</ListItem>
+<ListItem Id="HFMGR.CNCP.item.4">
+<Para><XRef Linkend="DesktopIntro"></Para>
+</ListItem>
+<ListItem Id="HFMGR.CNCP.item.5">
+<Para><XRef Linkend="MatchingPatterns"></Para>
+</ListItem>
+<ListItem Id="HFMGR.CNCP.item.6">
+<Para><XRef Linkend="IconBrowser"></Para>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="TheHierarchicalFileSystemSI">
+<Title>Hierarchical File System</Title>
+<IndexTerm>
+<Primary>hierarchical file system</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>file: system, hierarchical</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>definition: file</Primary>
+</IndexTerm>
+<Para>If you are new to computers, the idea of a hierarchical file system may
+also be new to you. This topic describes the basic components of the
+hierarchical file system.
+</Para>
+<Procedure>
+<Title>What's a File?</Title>
+<Step>
+<Para>A <Symbol Role="Variable">file</Symbol> is a container that holds information. Most of the
+files you use contain information (data) in some particular
+format&emdash;a document, a spreadsheet, a chart. The format is
+the particular way the data is arranged inside the file.
+The format of a file is known as its data type.</Para>
+<Para>When File Manager is in one of its icon-view modes, you can identify the
+data type of a file by the icon used to represent the file.
+Each data type has a different icon.</Para>
+<Para>Most application programs understand a limited number of data types. For
+example, a document editor probably cannot read a spreadsheet file.
+The desktop helps you recognize different types of files using a
+<GlossTerm Role="baseform=data types">data type</GlossTerm> database. A data type identifies
+the files of a particular format and associates them with the appropriate
+applications. In most cases, when you
+double-click on a file, the desktop will automatically launch
+the application that understands that file's data type.</Para>
+<Para>The maximum allowable size of a file name varies from system to system.
+Some operating systems do not allow file names longer than 14 characters.
+If necessary, consult your system administrator.
+</Para>
+</Step>
+</Procedure>
+<Procedure>
+<Title>What's a Folder?</Title>
+<IndexTerm>
+<Primary>definition: folder</Primary>
+</IndexTerm>
+<Step>
+<Para>A <Emphasis>folder</Emphasis> is a container for files, similar to a folder in
+a file cabinet. In fact, File Manager uses a folder icon to represent a
+folder. A folder can contain other folders&emdash;
+sometimes called <Emphasis>subfolders</Emphasis>. With folders and subfolders,
+you can create multiple layers of organization that form a hierarchy.
+(in other contexts, folders are often referred to as directories.)</Para>
+<Para>If you drew a picture of the folder hierarchy with each subfolder
+underneath the folder that contains it&emdash;its parent
+folder&emdash;and drew a line from each folder to its parent, the
+picture would look like an upside-down tree. Therefore, we often call
+the folder hierarchy a folder <Emphasis>tree</Emphasis>.</Para>
+<Para>Within any single folder, each file name must
+have a unique name. However, files
+in different folders can have the same name.</Para>
+<Para>As you navigate from folder to folder, your current location is
+referred to as the <Emphasis>current folder</Emphasis>.
+</Para>
+</Step>
+</Procedure>
+<Procedure>
+<Title>What's a Path?</Title>
+<IndexTerm>
+<Primary>definition: path</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>path: defined</Primary>
+</IndexTerm>
+<Step>
+<Para>The location of a file is often specified
+by listing the names of the folders and
+subfolders that lead to the file&emdash;this list is called a <Emphasis>path</Emphasis>.
+(See <XRef Linkend="PathConcepts">.) A file's path is
+visible in two places in File Manager. First it is shown in
+the iconic path as a string of folders. Second, it is shown in
+text form in the text path line above the view area.
+</Para>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="PathConcepts">
+<Title>Paths and Path Names</Title>
+<Para>The path to an object is a way to specify where the object is located
+in the file system. There are three ways to specify the path:
+absolute path, relative path, and fully qualified path.
+</Para>
+<Procedure>
+<Title>Absolute Paths</Title>
+<Step>
+<Para>A path is an <Emphasis>absolute</Emphasis> path if it begins at the <Emphasis>root folder</Emphasis>.
+The root folder is the highest folder in the hierarchical folder tree.
+If a path begins with a slash
+(<ComputerOutput>/</ComputerOutput>), it is an absolute path specified from the root folder. For
+example, the following is an absolute path to the file <ComputerOutput>letter</ComputerOutput>:
+</Para>
+<ProgramListing>/usr/dt/config/letter</ProgramListing>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Relative Paths</Title>
+<Step>
+<Para>A path is <Emphasis>relative</Emphasis> if it describes the location of a file or folder
+as it relates to the current folder.
+If you are in a folder and you want to move down the folder tree,
+you don't need to type the full path name. You
+can just type the path starting with the name
+of the next folder in the path.
+If a path does not begin
+with a slash, it is a relative path. For example, if the current
+folder is <ComputerOutput>/usr/dt</ComputerOutput>,
+and you want to move to the folder ''/usr/dt/config/letters,''
+you would use the following relative path:
+</Para>
+<ProgramListing>config/letters</ProgramListing>
+<IndexTerm>
+<Primary>.. (parent folder)</Primary>
+</IndexTerm>
+<Para>Two special folder names are useful when specifying relative paths.
+The <ComputerOutput>.</ComputerOutput> folder (sometimes called "dot") represents the current
+folder. The <ComputerOutput>..</ComputerOutput> folder (sometimes called "dot-dot") represents
+the <Symbol Role="Variable">parent</Symbol> folder&emdash;the folder one level up in the folder
+hierarchy. For example, if your current folder is
+<ComputerOutput>/usr/dt/config/panels</ComputerOutput>, then the relative path to the <ComputerOutput>sys.dtwmrc</ComputerOutput>
+file becomes:
+</Para>
+<ProgramListing>../sys.dtwmrc</ProgramListing>
+<Para>because the file is in the <ComputerOutput>/usr/dt/config</ComputerOutput> folder, one level
+above the current folder.
+<!-- Do we need the following section if Remote Systems is out?
+************************************************************
+<procedure>The Network Path
+ 
+Both the absolute and relative path names are by the operating system as
+well as by the desktop.  The network path is a special path used only by
+certain applications in the desktop.  It includes the name of the system
+containing the file system.</Para>
+<Para>Here is an example of a network path.  The name of the system is
+``mysystem'':</Para>
+<Para><ex>mysystem:/usr/dt/config/sys.dtwmrc<\ex>
+************************************************************
+--></Para>
+</Step>
+</Procedure>
+<Procedure>
+<Title>See Also</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HFMGR.CNCP.item.7">
+<Para><XRef Linkend="ToChangeToAnotherDirectoryTA">
+<!-- * <xref ToSpecifyRemotePath> --></Para>
+</ListItem>
+<ListItem Id="HFMGR.CNCP.item.8">
+<Para><XRef Linkend="ToFindAFileByNameTA"></Para>
+</ListItem>
+<ListItem Id="HFMGR.CNCP.item.9">
+<Para><XRef Linkend="ToFindAFileByContentsTA"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="FileOwnershipAndSecuritySI">
+<Title>Object Ownership and Security</Title>
+<Para>Three groups of users can access objects:
+<Emphasis>owner</Emphasis>, <Emphasis>group</Emphasis>, and
+<Emphasis>other</Emphasis>.
+Access is divided into three functions:
+<Emphasis>read</Emphasis>
+permission, <Emphasis>write</Emphasis> permission,
+and <Emphasis>execute</Emphasis> permission.
+</Para>
+<Procedure>
+<Title>Who Has Access?</Title>
+<Step>
+<Para>The three basic classes of users are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><GlossTerm Role="nogloss">Owner</GlossTerm></Term>
+<ListItem>
+<Para>Usually the person who created the file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><GlossTerm Role="nogloss">Group</GlossTerm></Term>
+<ListItem>
+<Para>Several users that have been grouped together by
+the system administrator. For example, the
+members of a department might belong to the same
+group.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><GlossTerm Role="nogloss">Other</GlossTerm></Term>
+<ListItem>
+<Para>All other users on the system.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Step>
+</Procedure>
+<Procedure>
+<Title>What Kind of Access?</Title>
+<Step>
+<Para>The access permissions on a file specifies how that file can be accessed by
+the owner, members of the group, and other users.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><GlossTerm Role="nogloss">Read Permission</GlossTerm></Term>
+<ListItem>
+<Para>Allows access to copy or view the
+contents of the object.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><GlossTerm Role="nogloss">Write Permission</GlossTerm></Term>
+<ListItem>
+<Para>Allows access to change the contents
+of the object or remove the object.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><GlossTerm Role="nogloss">Execute Permission</GlossTerm></Term>
+<ListItem>
+<Para>For a file, allows access to <Emphasis>run</Emphasis>
+the file (for executable files,
+scripts, and actions). For a
+folder, allows access to run
+commands, scripts, and actions
+within that folder.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>With File Manager, you can view and change the access permissions for
+files or folders.
+See <XRef Linkend="ToChangeAnObjectsOwnerTA"> and <XRef Linkend="ToChangeAnObjectsPermissionsTA">.
+</Para>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Examples</Title>
+<Step>
+<Para>To make a folder private:
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HFMGR.CNCP.item.10">
+<Para>Change the folder's properties, giving yourself (the owner) read,
+write, and execute permission, but giving no permissions for group and
+other. This means that only you and the root user can view the
+contents of the folder.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>To make an object that you've created available for everyone to use, but
+protect it so it isn't inadvertently overwritten:
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HFMGR.CNCP.item.11">
+<Para>Change the file's properties, giving read and execute permission to
+owner, group, and other. Don't give anyone write permission.
+</Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Default Permissions</Title>
+<Step>
+<Para>The default permissions used when you create a new file or folder may be
+altered by your system administrator. To determine what your current
+defaults are, create a new file or folder, then Select
+Change Permissions from the Selected menu to view the
+default permissions.
+</Para>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="DesktopIntro">
+<Title>Making Objects More Accessible - Introducing &newline; Workspace Objects</Title>
+<IndexTerm>
+<Primary>workspace objects</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>workspace: objects</Primary>
+</IndexTerm>
+<Para>File Manager provides a way to view all the objects in your file
+system. However, the object is only visible when you are viewing the
+folder it is in.</Para>
+<Para>To make an object more accessible, you can put it directly on the
+workspace backdrop.
+The workspace is that area or surface on which windows appear to lie.
+(See <XRef Linkend="ToPutAnObjectOnTheDesktopTA">.) When an object is placed there,
+it is called a <Emphasis>workspace object</Emphasis>.</Para>
+<Para>Placing an object on the workspace does not alter the original file or
+folder. In fact, the icon that appears on the desktop is really just
+a shortcut (link) for accessing the real file or folder. Any operation you
+perform on the workspace object is actually performed on the file or
+folder it represents.
+</Para>
+<Procedure>
+<Title>Workspace Objects Appear in One Workspace</Title>
+<Step>
+<Para>When you place an object on the workspace, it appears only in the current
+workspace. If you want the object in other workspaces, you must switch
+to those workspaces and put the object on them.
+</Para>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Using Workspace Objects</Title>
+<Step>
+<Para>You use workspace objects exactly like the objects inside
+the File Manager or Application Manager windows.
+To execute an object's default action, double-click
+its icon on the desktop.</Para>
+<Para>Each workspace object also has a pop-up menu containing commands
+and actions for the object. To display the pop-up menu for a workspace
+object
+using the mouse, point to the icon, then press and hold mouse button 3.
+To display the menu through the keyboard, press Alt+Tab until
+the icon is highlighted, then press Shift+F10.
+</Para>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="MatchingPatterns">
+<Title>Matching Patterns for Finding Files</Title>
+<IndexTerm>
+<Primary>wildcards, matching</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>matching wildcards</Primary>
+</IndexTerm>
+<Para>When you specify a file or folder name, you can include wildcard
+characters such as asterisk (<ComputerOutput>*</ComputerOutput>) and question mark (<ComputerOutput>?</ComputerOutput>). The <ComputerOutput>*</ComputerOutput>
+matches any string of zero or more characters, and <ComputerOutput>?</ComputerOutput>
+matches any single character.
+</Para>
+<Procedure>
+<Title>Examples</Title>
+<Step>
+<VariableList>
+<VarListEntry>
+<Term><ComputerOutput>ba*</ComputerOutput></Term>
+<ListItem>
+<Para>Matches all names that begin with the string <ComputerOutput>ba</ComputerOutput>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><ComputerOutput>ba?</ComputerOutput></Term>
+<ListItem>
+<Para>Matches all three letter names that begin with the string <ComputerOutput>ba</ComputerOutput>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><ComputerOutput>*.vf</ComputerOutput></Term>
+<ListItem>
+<Para>Matches all names that end with the <ComputerOutput>.vf</ComputerOutput> extension
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><ComputerOutput>*.???</ComputerOutput></Term>
+<ListItem>
+<Para>Matches all names that have a three-character dot extension
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Note>
+<Para>The file name and contents can be specified using the same regular
+expression syntax allowed by the <ComputerOutput>find</ComputerOutput> command. (Refer to the
+<ComputerOutput>find (1)</ComputerOutput> man page for more information.)
+</Para>
+</Note>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="IconBrowser">
+<Title>Using File Manager as an Icon Browser</Title>
+<Para>Files with names that end in
+<ComputerOutput>.pm</ComputerOutput> or <ComputerOutput>.bm</ComputerOutput> contain icon drawings.
+These are the icons that File Manager uses when it builds icons. By default,
+you must open these files to see the drawings they contain. If you enable
+icon browsing, File Manager will make the icon for each file look like
+whatever drawing is stored inside the file.</Para>
+<Para>To find out how to reconfigure File Manager for icon browsing, see:
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HFMGR.CNCP.item.12">
+<Para><XRef Linkend="ToEnableIconBrowsingTA"></Para>
+</ListItem>
+<ListItem Id="HFMGR.CNCP.item.13">
+<Para><XRef Linkend="ToDisableIconBrowsingTA"></Para>
+</ListItem>
+</ItemizedList>
+<!-- EOF: Concepts -->
+</Sect1>
+</Chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 16:32:19-->

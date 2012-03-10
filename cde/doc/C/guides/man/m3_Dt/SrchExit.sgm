@@ -1,0 +1,83 @@
+<!-- $XConsortium: dtsrexit.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchExit">]]>
+<refmeta><refentrytitle>DtSearchExit</refentrytitle>
+<manvolnum>library call</manvolnum></refmeta>
+<refnamediv>
+<refname><function>DtSearchExit</function></refname>
+<refpurpose>Perform orderly shutdown of search engine</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/Search.h></funcsynopsisinfo>
+<funcdef>void <function>DtSearchExit</function></funcdef>
+<paramdef>int <parameter>return-code</parameter></paramdef>
+</funcsynopsis>
+<funcsynopsis>
+<funcdef>void <function>DtSearchAddUserExit</function></funcdef>
+<paramdef>void (*<parameter>user_exit</parameter>)(int)</paramdef>
+</funcsynopsis>
+<funcsynopsis>
+<funcdef>void <function>DtSearchRemoveUserExit</function></funcdef>
+<paramdef></paramdef>
+</funcsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para><function>DtSearchExit</function> is an internal exit call for the
+online API. It may be called by any API module when a fatal error or
+aborting signal is detected. It performs an orderly shutdown of the
+search engine including graceful database closure, communications
+disconnect, release of system resources, restoration of environment,
+etc., as necessary. It will call a user exit function if one was
+installed by <function>DtSearchAddUserExit</function>.
+</para>
+<para>The final action is a call to the standard system
+<function>exit</function> function so <function>DtSearchExit</function>
+never returns. The <symbol role="variable">return_code</symbol> passed
+to <function>DtSearchExit</function> will eventually be the value passed
+to <function>exit</function>.</para> <para>Usage of
+<function>DtSearchExit</function> is not required to use the DtSearch
+API. Each API function does its own resource cleanup before returning to
+the caller so process termination outside of the API need not make
+further reference to the API.
+</para>
+<para>For the convenience of API users, <function>DtSearchAddUserExit</function>
+may be called to install an optional <function>user_exit</function> function
+which will be called from within <function>DtSearchExit</function>. The
+<function>user_exit</function> argument is a pointer to a user written function that takes an
+integer argument and returns void. If <function>DtSearchExit</function>
+is called, the value of <symbol>return_code</symbol> will be passed as the
+argument to the <function>user_exit</function> function.
+</para>
+<para>Calling <function>DtSearchAddUserExit</function> replaces a
+<function>user_exit</function> installed by a previous call, if any.
+User exits are typically installed to ensure that required application
+cleanup is performed if the API should happen to abort. Since
+<function>DtSearchExit</function> may be called from within a signal
+catching function, <function>user_exit</function> should not call
+functions which would be unsafe for a signal catcher to call, as defined
+by the POSIX standard.
+</para>
+<para><function>DtSearchRemoveUserExit</function> may be called to remove any
+user_exit installed by a previous call to
+<function>DtSearchAddUserExit</function>.
+</para>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para><function>DtSearchExit</function> and the <function>user_exit</function>
+installed by <function>DtSearchAddUserExit</function> do not return.
+</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtSrAPI;,
+&cdeman.DtSearch;
+</para>
+</refsect1></refentry>

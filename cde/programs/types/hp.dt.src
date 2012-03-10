@@ -1,0 +1,96 @@
+XCOMM ##########################################################################
+XCOMM 
+XCOMM      hp.dt
+XCOMM 
+XCOMM      Action and DataType definitions for the Hewlett Packard's 
+XCOMM      Common Desktop Environment (CDE) DT components.
+XCOMM 
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+XCOMM 
+XCOMM      $XConsortium: hp.dt.src /main/4 1996/04/23 17:35:54 drk $
+XCOMM 
+XCOMM ##########################################################################
+#define HASH #
+set DtDbVersion=1.0
+
+XCOMM ##########################################################################
+XCOMM 
+%|nls-10-#HASH WARNING:...#|
+XCOMM 
+XCOMM ##########################################################################
+
+XCOMM ##################################################################
+XCOMM 
+%|nls-12-#HASH Actions#|
+XCOMM 
+XCOMM ##################################################################
+ACTION Sam
+{
+        LABEL           %|nls-15001-#Sam#|
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dtaction -user root -timeout 1 SamI
+        DESCRIPTION     %|nls-15002-#The#|
+}
+
+XCOMM #####
+
+ACTION SamI
+{
+        LABEL           %|nls-15001-#Sam#|
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     /usr/bin/sam
+        DESCRIPTION     %|nls-15003-#The#|
+}
+
+XCOMM #####
+
+ACTION Hpterm
+{
+        LABEL           %|nls-15004-#Hpterm#|
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     hpterm
+        DESCRIPTION     %|nls-15005-#The#|
+}
+
+XCOMM ##################################################################
+XCOMM 
+%|nls-11-#HASH Data Attributes#|
+XCOMM 
+XCOMM ##################################################################
+
+DATA_ATTRIBUTES BMF
+{
+        ACTIONS         Open,Print
+        ICON            arizona
+        NAME_TEMPLATE   %s.bmf
+        MIME_TYPE	application/octet-stream
+        DESCRIPTION     %|nls-15006-#A#|
+}
+DATA_CRITERIA BMF1
+{
+        DATA_ATTRIBUTES_NAME BMF
+        MODE            f
+        PATH_PATTERN    *.bmf
+}
+ACTION Open
+{
+        LABEL           %|nls-1-Open|
+        ARG_TYPE        BMF
+        TYPE            MAP
+        MAP_ACTION      (None)
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        BMF
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+XCOMM ######################## EOF ############################################

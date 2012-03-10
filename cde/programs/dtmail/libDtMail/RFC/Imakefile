@@ -1,0 +1,53 @@
+XCOMM $TOG: Imakefile /main/8 1998/08/05 13:25:32 mgreess $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		DtMail
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#include <Threads.tmpl>
+
+INCLUDES = -I. -I../Common -I../../include -I../../include/utils -I$(CDELIBSRC)
+
+#if HasVFork
+VFORK_DEFINES = -DHAS_VFORK
+#else
+VFORK_DEFINES =
+#endif
+
+#ifndef DtMailDefines
+# define DtMailDefines
+#endif
+DEFINES = -DTTLOCK_OFF $(VFORK_DEFINES) DtMailDefines
+
+SRCS = \
+	AliasExpand.C		MIMEBodyPart.C \
+	MIMEPartial.C		RFCBodyPart.C \
+	RFCEnvelope.C		RFCFormat.C \
+	RFCMIME.C		RFCMailBox.C \
+	RFCMailValues.C		RFCMessage.C \
+	RFCTransport.C		SunV3.C \
+	V3BodyPart.C
+
+/*
+ * NOTE: All changes here must be mirrored in ../Imakefile's RFC_OBJS
+ */
+OBJS = \
+	AliasExpand.o		MIMEBodyPart.o \
+	MIMEPartial.o		RFCBodyPart.o \
+	RFCEnvelope.o		RFCFormat.o \
+	RFCMailBox.o		RFCMailValues.o \
+	RFCMessage.o		RFCMIME.o \
+	RFCTransport.o		SunV3.o \
+	V3BodyPart.o
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

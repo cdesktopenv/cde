@@ -1,0 +1,1739 @@
+<!-- $XConsortium: ch10.sgm /main/9 1996/09/08 19:33:42 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.CrAct.div.1">
+<Title Id="SAG.CrAct.mkr.1">Creating Actions Manually<IndexTerm><Primary>actions</Primary><Secondary>creating manually</Secondary></IndexTerm></Title>
+<Para>There are two ways to create actions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Using the Create Action desktop application</Para>
+</ListItem>
+<ListItem>
+<Para>Manually creating an action definition</Para>
+</ListItem>
+</ItemizedList>
+<Para>Creating an action manually requires you to edit a database file. This chapter
+describes how to manually create action definitions.</Para>
+<InformalTable Id="SAG.CrAct.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Reasons You Must Create an Action Manually156'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Creating an Action Manually: General Steps157'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.7"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Building the Execution String for a COMMAND Action166'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.19"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Windowing Support and Terminal Emulators for COMMAND Actions
+173'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.40"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Restricting Actions to Certain Arguments174'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.44"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Creating Actions that Run Applications on Remote Systems177'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.49"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Using Variables in Action and Data Type Definitions178'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.52"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Invoking Actions from a Command Line179'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.57"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Creating Localized Actions181'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.61"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Creating Actions for ToolTalk Applications182'--><XRef Role="JumpText" Linkend="SAG.CrAct.div.64"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="SAG.CrAct.div.2">
+<Title>See Also</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>For an introduction to actions, see
+<!--Original XRef content: 'Chapter&numsp;8, &xd2;Introduction to Actions and
+Data Types'--><XRef Role="ChapNumAndTitle" Linkend="SAG.IntAc.mkr.1">.</Para>
+</ListItem>
+<ListItem>
+<Para>For information about using Create Action, see
+<!--Original XRef content: 'Chapter&numsp;9, &xd2;Creating Actions
+and Data Types Using Create Action'--><XRef Role="ChapNumAndTitle" Linkend="SAG.dtCrA.mkr.1">.</Para>
+</ListItem>
+<ListItem>
+<Para>For reference information about action definitions, see the
+<Filename>dtactionfile(4)</Filename> man page.</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.3">
+<Title Id="SAG.CrAct.mkr.2">Reasons You Must Create an Action Manually</Title>
+<Para><IndexTerm>
+<Primary>actions</Primary>
+<Secondary>types of</Secondary>
+</IndexTerm>There are three basic types of actions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>COMMAND</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>MAP</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>TT_MSG</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para Id="SAG.CrAct.mkr.3">The Create Action tool is designed to create certain types of <Command>COMMAND</Command> and <Command>MAP</Command>
+actions. All <Filename>TT_MSG</Filename> actions must be created manually.</Para>
+<Para>For more information, see
+<!--Original XRef content: '&xd2;Limitations of Create Action&xd3; on page&numsp;142'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.dtCrA.mkr.3">.</Para>
+<Sect2 Id="SAG.CrAct.div.4">
+<Title>COMMAND Actions<IndexTerm><Primary>COMMAND action</Primary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>COMMAND</Secondary></IndexTerm></Title>
+<Para>A <Emphasis>command action</Emphasis> executes a command that starts an application or utility, runs
+a shell script, or executes an operating system command. The definition of the
+action includes the command to be executed (the <Filename>EXEC_STRING</Filename>).</Para>
+<Para>The Create Action tool can be used to create the most common types of
+command actions. However, there may be some situations where you must
+create the action manually; for example, you must create a <Command>COMMAND</Command> action
+manually if the action specifies:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Multiple-file arguments with a different prompt for each argument.</Para>
+</ListItem>
+<ListItem>
+<Para>Action invocation&mdash;the ability of actions to invoke other actions.</Para>
+</ListItem>
+<ListItem>
+<Para>Argument-count dependent behavior&mdash;the ability to create an action that
+has very different behaviors for different numbers of file arguments.</Para>
+</ListItem>
+<ListItem>
+<Para>A remote execution host&mdash;the ability to run an application on a system other
+than the one containing the action definition.</Para>
+</ListItem>
+<ListItem>
+<Para>Change of user&mdash;the ability to run the action as a different user (for
+example, to prompt for the root password and then run as root).</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.5">
+<Title>MAP Actions<IndexTerm><Primary>MAP actions</Primary><Secondary>definition</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>MAP</Secondary></IndexTerm></Title>
+<Para>A <Emphasis>map action</Emphasis> is an action that is ``mapped'' to another action rather than
+directly specifying a command or ToolTalk message</Para>
+<Para>Mapping provides the ability to specify alternative names for actions. For
+example, a built-in command action named IconEditor starts Icon Editor. The
+database also includes an Open action, restricted in the definition to bitmap
+and pixmap files (by the <Filename>ARG_TYPE</Filename> field), that is mapped to the IconEditor
+action. This lets the user start Icon Editor by selecting a bitmap or pixmap file
+in File Manager and then choosing Open from the Selected menu.</Para>
+<Para>Create Action provides limited mapping for Open and Print actions. All other
+map actions must be created manually.</Para>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.6">
+<Title>TT_MSG (ToolTalk Message) Actions<IndexTerm><Primary>actions</Primary><Secondary>TT_MSG</Secondary></IndexTerm></Title>
+<Para><Filename>TT_MSG</Filename> actions send a ToolTalk message. All <Filename>TT_MSG</Filename> actions must be created
+manually.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.7">
+<Title Id="SAG.CrAct.mkr.4">Creating an Action Manually: General Steps<IndexTerm><Primary>actions</Primary><Secondary>creating manually</Secondary></IndexTerm></Title>
+<Para>This section explains how to create a configuration file for an action definition.</Para>
+<Sect2 Id="SAG.CrAct.div.8">
+<Title Id="SAG.CrAct.mkr.5">Configuration Files for Actions<IndexTerm><Primary>actions</Primary><Secondary>configuration files</Secondary></IndexTerm><IndexTerm><Primary>configuration files</Primary><Secondary>action</Secondary></IndexTerm><IndexTerm><Primary>dt files</Primary></IndexTerm></Title>
+<Para>Configuration files containing action definitions must meet these requirements:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The files must use the naming convention <Symbol Role="Variable">name</Symbol><Filename>.dt</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>database search path</Primary>
+</IndexTerm><IndexTerm>
+<Primary>search paths</Primary>
+<Secondary>actions</Secondary>
+</IndexTerm>The files must be located on the database (actions and data types) search
+path. The default search path is:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="144*">
+<colspec colwidth="384*">
+<TBody>
+<Row>
+<Entry><Para>Personal actions</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>System-wide actions</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Built-in actions</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>. You should
+not use this directory.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+<Para>For information on modifying the actions/data types search path, see
+<!--Original XRef content: '&xd2;Setting
+the Value of a Search Path&xd3; on page&numsp;115'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.6">.</Para>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.9" Role="Procedure">
+<Title Id="SAG.CrAct.mkr.6">To Create an Action Manually<IndexTerm><Primary>actions</Primary><Secondary>creating manually</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Open an existing database file or create a new one. See the previous section,
+<!--Original XRef content: '&xd2;Configuration Files for Actions'--><XRef Role="SectionTitle" Linkend="SAG.CrAct.mkr.5">.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the action definition using the syntax:</Para>
+<programlisting>ACTION <Symbol Role="Variable">action_name</Symbol>
+{
+ TYPE <Symbol Role="Variable">action_type
+ action_field</Symbol>
+ &hellip;
+}
+</ProgramListing>
+<Para>where:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="177*">
+<colspec colwidth="351*">
+<TBody>
+<Row>
+<Entry><Para><Emphasis>action_name</Emphasis><IndexTerm><Primary>actions</Primary><Secondary>name</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Name used to run the action.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Emphasis>action_type</Emphasis><IndexTerm><Primary>actions</Primary><Secondary>types of</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para><Command>COMMAND</Command> (default), <Command>MAP</Command>, or <Filename>TT_MSG.</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Emphasis>action_field</Emphasis><IndexTerm><Primary>actions</Primary><Secondary>fields</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>One of the required or optional fields for this type of action.
+All fields consist of a keyword and a value.
+Many of the action fields are covered in this chapter. For
+more information, see the dtactionfile(4) man page.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>Save the file.</Para>
+</ListItem>
+<ListItem>
+<Para>If you want the action icon to have a unique image, create the icons for the
+action. The default location for icons is:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal icons: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide icons: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language.</Symbol> The default
+<Symbol Role="Variable">language</Symbol> is <Command>C</Command>.</Para>
+<Para>For more information, see
+<!--Original XRef content: '&xd2;Specifying the Icon Image Used by an Action&xd3;
+on page&numsp;163'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FrPC.div.25">.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Double-click Reload Actions in the Desktop_Tools application group.</Para>
+</ListItem>
+<ListItem>
+<Para>Create an action file for the action. The action file creates an icon in File
+Manager or Application Manager that represents the action. (If the action is
+written to start an application, the icon is called an<IndexTerm>
+<Primary>application icon</Primary>
+</IndexTerm>
+<Emphasis>application icon</Emphasis>.)</Para>
+<Para>To create the action file, create an executable file with the same name as
+<Emphasis>action_name</Emphasis>. You can put the file in any directory to which you have write
+permission. You can create as many action files as you like.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.10">
+<Title Id="SAG.CrAct.mkr.7">Example of Creating a COMMAND Action<IndexTerm><Primary>COMMAND action</Primary><Secondary>example</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>example</Secondary></IndexTerm></Title>
+<Para>The following steps create a personal action that starts a fax application on
+remote system AppServerA. The command for starting the fax application is:</Para>
+<ProgramListing>/usr/fax/bin/faxcompose [<Symbol Role="Variable">filename</Symbol>]</ProgramListing>
+<OrderedList>
+<ListItem>
+<Para>Create the file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/Fax.dt</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>Put the following action definition into the file:</Para>
+<programlisting>ACTION FaxComposer
+{
+ TYPE         COMMAND
+ ICON         fax
+ WINDOW_TYPE  NO_STDIO
+ EXEC_STRING  /usr/fax/bin/faxcompose -c &percnt;Arg_1&percnt;
+ EXEC_HOST       AppServerA
+ DESCRIPTION  Runs the fax composer
+}</ProgramListing>
+<Para>The <Filename>WINDOW_TYPE</Filename> and <Filename>EXEC_STRING</Filename> fields describe the behavior of the
+action.</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="127*">
+<colspec colwidth="401*">
+<TBody>
+<Row>
+<Entry><Para><Filename>WINDOW_TYPE</Filename></Para></Entry>
+<Entry><Para>The <Filename>NO_STDIO</Filename> keyword specifies that the action does
+not have to run in a terminal emulator window.
+See
+<!--Original XRef content: '&xd2;Specifying the Window Support for the Action&xd3;
+on page&numsp;173'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrAct.div.41">.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>EXEC_STRING</Filename></Para></Entry>
+<Entry><Para>The syntax <Filename>&percnt;Arg_1&percnt;</Filename> accepts a dropped file. If the
+action icon is double-clicked, the action opens an
+empty fax composer window. See
+<!--Original XRef content: '&xd2;Building the Execution String for a COMMAND
+Action&xd3; on page&numsp;166'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrAct.div.19">.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>Save the file.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Use Icon Editor to create the following image files in the
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename>
+directory:
+</Para>
+<itemizedlist>
+<ListItem>
+<Para><literal>fax.m.pm</literal>, size 32 by 32 pixels
+</Para>
+</ListItem>
+<ListItem>
+<Para><literal>fax.t.pm</literal>, size 16 by 16 pixels
+</Para>
+</ListItem>
+</itemizedlist>
+</ListItem>
+<ListItem>
+<Para>Double-click Reload Actions in the Desktop_Tools
+application group.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Create an executable file named <literal>FaxComposer</literal>
+in a directory to which you have write permission (for example, your
+home directory).
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.11">
+<Title Id="SAG.CrAct.mkr.8">Example of Creating a MAP Action<IndexTerm><Primary>MAP actions</Primary><Secondary>example</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>example</Secondary></IndexTerm></Title>
+<Para>Suppose most of the files you fax are created with Text Editor and are of data
+type TEXTFILE (files named *<Filename>.txt</Filename>).</Para>
+<Para>These steps add a ``Fax'' menu item to the data type's Selected menu.</Para>
+<OrderedList>
+<ListItem>
+<Para>Open the file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/Fax.dt</Filename> that was created in the
+previous example.</Para>
+</ListItem>
+<ListItem>
+<Para>Add this map action definition to the file:</Para>
+<programlisting>ACTION Fax
+{
+ ARG_TYPE    TEXTFILE
+ TYPE        MAP
+ MAP_ACTION  FaxComposer
+}
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>Save the file.</Para>
+</ListItem>
+<ListItem>
+<Para>Copy the data attributes definition for TEXTFILE from
+/<Filename>usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtpad.dt</Filename> to a new file
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/textfile.dt</Filename>. Add the Fax action to the
+<Command>ACTIONS</Command> field.</Para>
+<programlisting>DATA_ATTRIBUTES TEXTFILE
+{
+ ACTIONS  Open,Print,Fax
+ ICON     Dtpenpd
+ &hellip;
+}
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>Save the file.</Para>
+</ListItem>
+<ListItem>
+<Para>Open Application Manager and double-click Reload Actions in the
+Desktop_Tools application group.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.12" Role="Procedure">
+<Title Id="SAG.CrAct.mkr.9">To Reload the Actions/Data Types Database<IndexTerm><Primary>data types</Primary><Secondary>reloading</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>Reload Actions</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>reloading</Secondary></IndexTerm><IndexTerm><Primary>database</Primary><Secondary>reloading actions</Secondary></IndexTerm><IndexTerm><Primary>Reload Actions action</Primary></IndexTerm><IndexTerm><Primary>database</Primary><Secondary>reloading</Secondary></IndexTerm><IndexTerm><Primary>Reload Actions action</Primary></IndexTerm></Title>
+<Para>In order for new or edited action definitions to take effect, the desktop must
+reread the database.</Para>
+<OrderedList>
+<ListItem>
+<Para>Open the Desktop_Tools application group and double-click Reload Actions.</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">Or</Symbol>, execute the command:</Para>
+<programlisting>dtaction ReloadActions
+</ProgramListing>
+</ListItem>
+</OrderedList>
+<Para><IndexTerm>
+<Primary>Reload Actions action</Primary>
+</IndexTerm>ReloadActions is the name of the action whose icon is labeled ``Reload
+Actions.''</Para>
+<Para>The actions database is also reread when the user:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Logs in</Para>
+</ListItem>
+<ListItem>
+<Para>Restarts the Workspace Manager</Para>
+</ListItem>
+<ListItem>
+<Para>Saves an action in the Create Action window by choosing Save from the File
+menu</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.13">
+<Title>Creating an Action File (Icon) for an Action<IndexTerm><Primary>action icon</Primary><Secondary>creating</Secondary></IndexTerm><IndexTerm><Primary>application icon</Primary><Secondary>creating</Secondary></IndexTerm><IndexTerm><Primary>action file</Primary><Secondary>creating</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>files representing, See action file</Secondary></IndexTerm><IndexTerm><Primary>action icon</Primary></IndexTerm><IndexTerm><Primary>icons</Primary><Secondary>action icons</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>icons representing</Secondary></IndexTerm></Title>
+<Para>An<IndexTerm>
+<Primary>action file</Primary>
+</IndexTerm>
+<Emphasis>action file</Emphasis> is a file created to provide a visual representation of the action in
+File Manager or Application Manager.</Para>
+<Figure>
+<Title>Action files (also called action icons or application icons) in Application Manager</Title>
+<Graphic Entityref="SAG.CrAct.fig.1" Id="SAG.CrAct.grph.1"></Graphic>
+</Figure>
+<Para>Since an action file's icon represents an action, it is sometimes called an <Emphasis><IndexTerm>
+<Primary>action icon</Primary>
+</IndexTerm>action
+icon</Emphasis>. If the underlying action starts an application, the action file icon is called
+an <Emphasis>application icon</Emphasis>.</Para>
+<Para>Double-clicking the action icon runs the action. The action icon may also be a
+drop zone.</Para>
+<Sect3 Id="SAG.CrAct.div.14" Role="Procedure">
+<Title>To Create an Action File (Action Icon)</Title>
+<OrderedList>
+<ListItem>
+<Para>Create an executable file with the same name as the<IndexTerm>
+<Primary>actions</Primary>
+<Secondary>name</Secondary>
+</IndexTerm>
+action name. The
+content of the file does not matter.</Para>
+</ListItem>
+</OrderedList>
+<Para>For example, if the action definition is:</Para>
+<programlisting>ACTION  MyFavoriteApp
+{
+ EXEC_STRING    Mfa -file &percnt;Arg_1&percnt;
+ DESCRIPTION    Runs MyFavoriteApp
+ ICON           Mfapp
+}
+</ProgramListing>
+<Para>then the action file would be an executable file named <Command>MyFavoriteApp</Command>. In File
+Manager and Application Manager, the <Command>MyFavoriteApp</Command> file would use the
+icon image <Filename>Mfapp.</Filename><Symbol Role="Variable">size</Symbol><Filename>.</Filename><Symbol Role="Variable">type</Symbol>. Double-clicking <Command>MyFavoriteApp</Command>'s icon would
+run the action's execution string, and the icon's On Item help would be the
+contents of the
+<Command>DESCRIPTION</Command> field (<Command>Runs MyFavoriteApp</Command>).<IndexTerm><Primary>help</Primary><Secondary>on action file</Secondary></IndexTerm><IndexTerm><Primary>DESCRIPTION field</Primary></IndexTerm>
+</Para>
+</Sect3>
+<Sect3 Id="SAG.CrAct.div.15">
+<Title>Action Labels<IndexTerm><Primary>actions</Primary><Secondary>labels</Secondary></IndexTerm><IndexTerm><Primary>labels</Primary><Secondary>actions</Secondary></IndexTerm><IndexTerm><Primary>LABEL action field</Primary></IndexTerm></Title>
+<Para>If the action definition includes the <Command>LABEL</Command> field, the action file will be labeled
+in File Manager and Application Manager with the contents of this field rather
+than the file name (<Symbol Role="Variable">action_name</Symbol>). For example, if the action definition includes:</Para>
+<programlisting>ACTION  MyFavoriteApp
+{
+ LABEL      Favorite Application
+ &hellip;
+}
+</ProgramListing>
+<Para>then the action icon will be labeled ``Favorite Application.''</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.16">
+<Title Id="SAG.CrAct.mkr.10">Specifying the Icon Image Used by an Action<IndexTerm><Primary>actions</Primary><Secondary>icons for</Secondary></IndexTerm><IndexTerm><Primary>icons</Primary><Secondary>actions</Secondary></IndexTerm></Title>
+<Para>Use the <Command>ICON</Command> field to specify the icon used in File Manager and Application
+Manager for the action icons created for the action.</Para>
+<Para>If you do not specify an icon, the system uses the default action icon<IndexTerm>
+<Primary>actions</Primary>
+<Secondary>default icon</Secondary>
+</IndexTerm>
+image
+files <Filename>/usr/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol><Filename>/Dtactn.*</Filename>.</Para>
+<Figure>
+<Title>Default action icon image</Title>
+<Graphic Entityref="SAG.CrAct.fig.2" Id="SAG.CrAct.grph.2"></Graphic>
+</Figure>
+<Para>The default action icon can be changed using the resource:<IndexTerm>
+<Primary>actionIcon resource</Primary>
+</IndexTerm>
+</Para>
+<programlisting>*actionIcon:    <Symbol Role="Variable">icon_file_name</Symbol>
+</ProgramListing>
+<Para>where <Symbol Role="Variable">icon_file_name</Symbol> can be a base name or absolute path.</Para>
+<Para>The value of the <Command>ICON</Command> field can be:<IndexTerm>
+<Primary>ICON field</Primary>
+<Secondary>allowable values</Secondary>
+</IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>A base file name.</Para>
+<Para>The<IndexTerm>
+<Primary>base file name</Primary>
+</IndexTerm>
+base file name is the name of the file containing the icon image minus
+the file-name suffixes for size (<Command>m</Command> and <Command>t</Command>) and image type (<Command>bm</Command> and <Command>pm</Command>). For
+example, if files are named <Filename>GameIcon.m.pm</Filename> and <Filename>GameIcon.t.pm</Filename>, use
+<Command>GameIcon</Command>.</Para>
+<Para>If you use the base file name, the icon files must be placed in a directory on
+the icon search path:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal icons: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide icons: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>An absolute path to the icon file, including the full file name.</Para>
+<Para>You should use the absolute path only if the icon file is not located on the
+icon search path. For example, if icon file <Filename>GameIcon.m.pm</Filename> is placed in the
+directory <Filename>/doc/projects</Filename>, which is not on the icon search path, the value
+of the <Command>ICON</Command> field would be <Filename>/doc/projects/GameIcon.m.pm</Filename>.</Para>
+</ListItem>
+</ItemizedList>
+<Para><!--Original XRef content: 'Table&numsp;10&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CrAct.tbl.1"> lists icon sizes you should create and the corresponding file names.</Para>
+<Table Id="SAG.CrAct.tbl.1" Frame="Topbot">
+<Title Id="SAG.CrAct.mkr.11">Icon Names and Sizes for Action Icons</Title>
+<TGroup Cols="3" colsep="0" rowsep="0">
+<ColSpec Colname="1" Colwidth="1.0 in">
+<ColSpec Colname="2" Colwidth="1.25 in">
+<ColSpec Colname="3" Colwidth="1.25 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Size in Pixels</Literal></Para></Entry>
+<Entry><Para><Literal>Bitmap Name</Literal></Para></Entry>
+<Entry><Para><Literal>Pixmap Name</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>48 by 48</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>32 by 32</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>16 by 16</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.pm</Filename></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.17" Role="Procedure">
+<Title>To Modify an Existing Action Definition<IndexTerm><Primary>actions</Primary><Secondary>editing</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>modifying</Secondary></IndexTerm><IndexTerm><Primary>editing actions</Primary></IndexTerm></Title>
+<Para>You can modify any of the actions available on your system, including built-in
+actions.</Para>
+<Note>
+<Para>Use caution when modifying the built-in action database. The built-in
+actions are designed to work well with the desktop applications.</Para>
+</Note>
+<OrderedList>
+<ListItem>
+<Para>Locate the definition of the action you want to modify.</Para>
+<Para>The default locations for action definitions are:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Built-in actions: <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide actions: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>Personal actions: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para>
+<Para>Your system might include additional locations. To see a list of the locations
+your system uses for actions, execute the command:<IndexTerm><Primary>actions</Primary><Secondary>search path, See database search path</Secondary></IndexTerm>
+</Para>
+<ProgramListing>dtsearchpath -v<IndexTerm><Primary>dtsearchpath</Primary></IndexTerm>
+</ProgramListing>
+<Para>Your system uses the directories listed under<IndexTerm>
+<Primary>DTDATABASESEARCHPATH variable</Primary>
+<Secondary>usage</Secondary>
+</IndexTerm>
+DTDATABASESEARCHPATH.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>If necessary, copy the text of the action definition to a new or existing file in
+one of these directories:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>System-wide actions: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>Personal actions: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para>
+<Para>You must copy built-in actions, since you should not edit files in the
+<Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol> directory.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Edit the action definition. When you are done, save the file.</Para>
+</ListItem>
+<ListItem>
+<Para>Double-click Reload Actions in the Desktop_Tools application group.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.18">
+<Title Id="SAG.CrAct.mkr.12">Precedence in Action Definitions<IndexTerm><Primary>actions</Primary><Secondary>precedence rules</Secondary></IndexTerm><IndexTerm><Primary>precedence</Primary><Secondary>action database assembly</Secondary></IndexTerm></Title>
+<Para>When the user invokes an action, the system searches the database for a
+matching action name. When more than one action exists with that name, the
+system uses precedence rules to decide which one to use.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If no other precedence rules apply, the precedence is based on the location of
+the definition. The following list is ordered from higher to lower
+precedence:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal actions (<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename>)</Para>
+</ListItem>
+<ListItem>
+<Para>System-wide local actions (<Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>)</Para>
+</ListItem>
+<ListItem>
+<Para>System-wide remote actions
+(<Symbol Role="Variable">hostname</Symbol>:<Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>). The remote hosts
+searched are those listed in the application search path.</Para>
+</ListItem>
+<ListItem>
+<Para>Built-in actions (<Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>)</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Within a given directory, the <Filename>*.dt</Filename> files are read in alphabetical order.</Para>
+</ListItem>
+<ListItem>
+<Para>Actions restricted by <Filename><IndexTerm>
+<Primary>ARG_CLASS field</Primary>
+</IndexTerm>ARG_CLASS</Filename>, <Filename><IndexTerm>
+<Primary>ARG_TYPE field</Primary>
+</IndexTerm>ARG_TYPE</Filename>, <Filename><IndexTerm>
+<Primary>ARG_MODE field</Primary>
+</IndexTerm>ARG_MODE</Filename>, or <Filename><IndexTerm>
+<Primary>ARG_COUNT field</Primary>
+</IndexTerm>ARG_COUNT</Filename>
+have precedence over unrestricted actions. (The default for these four fields
+is <Filename>*</Filename>.)</Para>
+<Para>Where more than one restriction applies, the precedence order from high to
+low is:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>ARG_CLASS</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>ARG_TYPE</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>ARG_MODE</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>ARG_COUNT</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>Where more than one restricted <Filename>ARG_COUNT</Filename> exists, the precedence order
+from high to low is:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Specific integer value <Symbol Role="Variable">n</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>&lt;</Filename><Symbol Role="Variable">n</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>></Filename><Symbol Role="Variable">n</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>*</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</ItemizedList>
+<Para>For example, consider the following portions of action definitions:</Para>
+<programlisting>ACTION EditGraphics
+# EditGraphics-1
+{
+ ARG_TYPE    XWD
+ &hellip;
+}
+ACTION EditGraphics
+# EditGraphics-2
+{
+ ARG_COUNT      0
+ &hellip;
+}
+ACTION EditGraphics
+# EditGraphics-3
+{
+ ARG_TYPE    *
+    &hellip;
+}
+</ProgramListing>
+<Para>Double-clicking the EditGraphics action icon starts EditGraphics-2 because no
+argument is provided and <Filename>ARG_COUNT</Filename> <Filename>0</Filename> has precedence. When an XWD-type
+file argument is provided, EditGraphics-1 is used because it specified the XWD
+<Filename>ARG_TYPE</Filename>. EditGraphics-3 is used for all other file arguments.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.19">
+<Title Id="SAG.CrAct.mkr.13">Building the Execution String for a COMMAND Action<IndexTerm><Primary>actions</Primary><Secondary>execution string</Secondary></IndexTerm><IndexTerm><Primary>execution string</Primary></IndexTerm><IndexTerm><Primary>command line for actions</Primary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>execution string</Secondary></IndexTerm><IndexTerm><Primary>COMMAND action</Primary><Secondary>execution string</Secondary></IndexTerm><IndexTerm><Primary>EXEC_STRING field, See execution string</Primary></IndexTerm></Title>
+<Para>The minimum requirements for a <Command><IndexTerm>
+<Primary>COMMAND action</Primary>
+<Secondary>required fields</Secondary>
+</IndexTerm>COMMAND</Command> action are two fields&mdash;<Command>ACTION</Command> and
+<Filename>EXEC_STRING</Filename>.</Para>
+<programlisting>ACTION <Symbol Role="Variable">action_name</Symbol>
+{
+    EXEC_STRING <Symbol Role="Variable">execution_string</Symbol>
+}
+</ProgramListing>
+<Para>The execution string is the most important part of a <Command>COMMAND</Command> action definition.
+It uses syntax similar to the command line you would execute in a Terminal
+window but includes additional syntax for handling file and string arguments.</Para>
+<Sect2 Id="SAG.CrAct.div.20">
+<Title>General Features of Execution Strings<IndexTerm><Primary>execution string</Primary><Secondary>general features</Secondary></IndexTerm></Title>
+<Para>Execution strings may include:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>File and non-file arguments</Para>
+</ListItem>
+<ListItem>
+<Para>Shell syntax</Para>
+</ListItem>
+<ListItem>
+<Para>Absolute paths or names of executables</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.CrAct.div.21">
+<Title>Action Arguments<IndexTerm><Primary>actions</Primary><Secondary>arguments</Secondary></IndexTerm><IndexTerm><Primary>arguments</Primary><Secondary>for actions</Secondary></IndexTerm></Title>
+<Para>An argument is information required by a command or application for it to run
+properly. For example, consider the command line you could use to open a file
+in Text Editor:</Para>
+<ProgramListing>dtpad <Symbol Role="Variable">filename</Symbol></ProgramListing>
+<Para>In this command <Symbol Role="Variable">filename</Symbol> is a file argument of the <Command>dtpad</Command> command.</Para>
+<Para>Actions, like applications and commands, can have arguments. There are two
+types of data that a <Command>COMMAND</Command> action can use:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Files</Para>
+</ListItem>
+<ListItem>
+<Para>String data</Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.CrAct.div.22">
+<Title>Using Shells in Execution Strings<IndexTerm><Primary>execution string</Primary><Secondary>shell syntax</Secondary></IndexTerm><IndexTerm><Primary>shell</Primary><Secondary>syntax in execution string</Secondary></IndexTerm></Title>
+<Para>The execution string is executed directly, rather than through a shell. However,
+you can explicitly invoke a shell in the execution string.</Para>
+<Para>For example:</Para>
+<programlisting>EXEC_STRING    \
+  /bin/sh -c \
+  'tar -tvf &percnt;(File)Arg_1&percnt; 2>&amp;1 | \${PAGER:-more};\
+  echo &ldquo;\\n*** Select Close from the Window menu to close ***&rdquo;'
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.CrAct.div.23">
+<Title>Name or Absolute Path of the Executable<IndexTerm><Primary>execution string</Primary><Secondary>specifying the executable</Secondary></IndexTerm></Title>
+<Para>If your application is located in a directory listed in the<IndexTerm>
+<Primary>PATH variable</Primary>
+</IndexTerm>
+PATH variable, you can
+use the simple executable name. If the application is elsewhere, you must use
+the<IndexTerm>
+<Primary>execution string</Primary>
+<Secondary>absolute path in</Secondary>
+</IndexTerm>
+absolute path to the executable file.</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.24">
+<Title Id="SAG.CrAct.mkr.14">Creating an Action that Uses No Arguments<IndexTerm><Primary>execution string</Primary><Secondary>no arguments</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>no arguments</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>without data</Secondary></IndexTerm></Title>
+<Para>Use the same syntax for the <Filename>EXEC_STRING</Filename> that you would use to start the
+application from a command line.</Para>
+<Sect3 Id="SAG.CrAct.div.25">
+<Title>Examples</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This execution string is part of an action that starts the X client <Command>xcutsel</Command>.</Para>
+<programlisting>EXEC_STRING xcutsel</programlisting>
+</ListItem>
+<ListItem>
+<Para>This execution string starts the client <Command>xclock</Command> with a digital clock. The
+command line includes a command-line option but requires no arguments.</Para>
+<programlisting>EXEC_STRING xclock -digital</programlisting>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.26">
+<Title Id="SAG.CrAct.mkr.15">Creating an Action that Accepts a Dropped File<IndexTerm><Primary>execution string</Primary><Secondary>dropped files</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>accepting dropped files</Secondary></IndexTerm><IndexTerm><Primary>drop zone</Primary><Secondary>action icon</Secondary></IndexTerm><IndexTerm><Primary>dropped file, action that accepts</Primary></IndexTerm></Title>
+<Para>Use this syntax for the file argument:<IndexTerm><Primary>Arg_n syntax</Primary></IndexTerm>
+</Para>
+<ProgramListing>&percnt;Arg_<Symbol Role="Variable">n</Symbol>&percnt;
+</ProgramListing>
+<Para>or</Para>
+<ProgramListing>&percnt;(File)Arg_<Symbol Role="Variable">n</Symbol>&percnt;
+</ProgramListing>
+<Para><Filename>(File)</Filename> is optional, since arguments supplied to <Filename>Arg_</Filename><Symbol Role="Variable">n</Symbol> are assumed (by
+default) to be files. (See
+<!--Original XRef content: '&xd2;Interpreting a File Argument as a String&xd3; on page&numsp;170'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrAct.div.31">
+for use of the <Filename>&percnt;(String)Arg_</Filename><Symbol Role="Variable">n</Symbol><Filename>&percnt;</Filename> syntax.)</Para>
+<Para>This syntax lets the user drop a data file object on the action icon to start the
+action with that file argument. It substitutes the <Symbol Role="Variable">n</Symbol>th argument into the
+command line. The file can be a local or remote file.</Para>
+<Sect3 Id="SAG.CrAct.div.27">
+<Title>Examples</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This execution string executes <Command>wc -w</Command> using a dropped file as the
+parameter.</Para>
+<programlisting>EXEC_STRING wc -w &percnt;Arg_1&percnt;</programlisting>
+</ListItem>
+<ListItem>
+<Para>This example shows a portion of a definition for an action that works only
+with directory arguments. When a directory is dropped on the action icon,
+the action displays a list of all the files in the directory with read-write
+permission.</Para>
+<programlisting>ACTION  List_Writable_Files
+{
+    ARG_TYPE     FOLDER
+    EXEC_STRING  /bin/sh -c 'ls -l &percnt;Arg_1&percnt; | grep rw-'
+    &hellip;
+}
+</ProgramListing>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.28">
+<Title Id="SAG.CrAct.mkr.16">Creating an Action that Prompts for a File Argument<IndexTerm><Primary>execution string</Primary><Secondary>prompting for file</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>prompting for file</Secondary></IndexTerm><IndexTerm><Primary>arguments</Primary><Secondary>prompting for</Secondary></IndexTerm><IndexTerm><Primary>prompts for actions</Primary></IndexTerm><IndexTerm><Primary>2</Primary></IndexTerm></Title>
+<Para>Use this syntax for the file argument:</Para>
+<ProgramListing>&percnt;(File)&ldquo;<Symbol Role="Variable">prompt</Symbol>&rdquo;&percnt;</ProgramListing>
+<Para>This syntax creates an action that displays a prompt for a file name when the
+user double-clicks the action icon.</Para>
+<Para>For example, this execution string displays a dialog box that prompts for the
+file argument of the <Command>wc -w</Command> command:</Para>
+<ProgramListing>EXEC_STRING wc -w &percnt;(File)&ldquo;Count words in file:&rdquo;&percnt;</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.29">
+<Title Id="SAG.CrAct.mkr.17">Creating an Action that Accepts a Dropped File or Prompts for One<IndexTerm><Primary>actions</Primary><Secondary>accepting dropped file or prompting</Secondary></IndexTerm></Title>
+<Para>Use this syntax for the file argument:</Para>
+<ProgramListing>&percnt;Arg_<Symbol Role="Variable">n</Symbol>&ldquo;<Symbol Role="Variable">prompt</Symbol>&rdquo;&percnt;</ProgramListing>
+<Para>or</Para>
+<ProgramListing>&percnt;(File)Arg_<Symbol Role="Variable">n</Symbol>&ldquo;<Symbol Role="Variable">prompt</Symbol>&rdquo;&percnt;</ProgramListing>
+<Para>This syntax produces an action that:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Accepts a dropped file as the file argument.</Para>
+</ListItem>
+<ListItem>
+<Para>Displays a dialog box that prompts for a file name when the user double-
+clicks the action icon.</Para>
+</ListItem>
+</ItemizedList>
+<Para>For example, this execution string performs <Command>lp</Command> <Filename>-oraw</Filename> on a dropped file. If the
+action is started by double-clicking the icon, a dialog box appears prompting
+for the file name.</Para>
+<ProgramListing>EXEC_STRING lp -oraw &percnt;Arg_1&ldquo;File to print:&rdquo;&percnt;</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.30">
+<Title Id="SAG.CrAct.mkr.18">Creating an Action that Prompts for a Non-File Argument<IndexTerm><Primary>execution string</Primary><Secondary>prompting for string</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>non-file arguments</Secondary></IndexTerm><IndexTerm><Primary>arguments</Primary><Secondary>non-file</Secondary></IndexTerm><IndexTerm><Primary>string action arguments</Primary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>arguments, non-file</Secondary></IndexTerm></Title>
+<Para>Use this syntax for the non-file parameter:</Para>
+<ProgramListing>&percnt;&ldquo;<Symbol Role="Variable">prompt</Symbol>&rdquo;&percnt;</ProgramListing>
+<Para>or</Para>
+<ProgramListing>&percnt;(String)&ldquo;<Symbol Role="Variable">prompt</Symbol>&rdquo;&percnt;</ProgramListing>
+<Para><Filename>(String)</Filename> is optional, since quoted text is interpreted, by default, as string
+data. This syntax displays a dialog box that prompts for non-file data; do not
+use this syntax when prompting for a file name.</Para>
+<Para>For example, this execution string runs the <Command>xwd</Command> command and prompts for a
+value to be added to each pixel:</Para>
+<ProgramListing>EXEC_STRING xwd -add &percnt;&ldquo;Add value:&rdquo;&percnt; -out &percnt;Arg_1&ldquo;Filename:&rdquo;&percnt;</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.31">
+<Title Id="SAG.CrAct.mkr.19">Interpreting a File Argument as a String</Title>
+<Para>Use this syntax for the argument:</Para>
+<ProgramListing>&percnt;(String)Arg_<Symbol Role="Variable">n</Symbol>&percnt;</ProgramListing>
+<Para>For example, this execution string prints a file with a banner containing the file
+name, using the command <Command>lp -t</Command><Symbol Role="Variable">banner filename.</Symbol></Para>
+<ProgramListing>EXEC_STRING lp -t&percnt;(String)Arg_1&percnt; &percnt;(File)Arg_1&ldquo;File to print:&rdquo;&percnt;</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.32">
+<Title Id="SAG.CrAct.mkr.20">Providing Shell Capabilities in an Action<IndexTerm><Primary>actions</Primary><Secondary>providing shells</Secondary></IndexTerm><IndexTerm><Primary>shells</Primary><Secondary>in actions</Secondary></IndexTerm><IndexTerm><Primary>shell</Primary><Secondary>used in action</Secondary></IndexTerm></Title>
+<Para>Specify the shell in the execution string:</Para>
+<programlisting>/bin/sh -c '<Symbol Role="Variable">command</Symbol>'
+/bin/ksh -c '<Symbol Role="Variable">command</Symbol>'
+/bin/csh -c '<Symbol Role="Variable">command'</Symbol>
+</ProgramListing>
+<Sect3 Id="SAG.CrAct.div.33">
+<Title>Examples</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This execution string illustrates an action that uses shell piping.</Para>
+</ListItem>
+</ItemizedList>
+<ProgramListing>EXEC_STRING /bin/sh -c 'ps | lp'</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This is a more complex execution string that requires shell processing and
+accepts a file argument.</Para>
+</ListItem>
+</ItemizedList>
+<ProgramListing>EXEC_STRING /bin/sh -c 'tbl &percnt;Arg_1&ldquo;Man Page:&rdquo;&percnt; | troff -man'</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This execution string requires that the argument be a compressed file. The
+action uncompresses the file and prints it using <Command>lp -oraw</Command>.</Para>
+</ListItem>
+</ItemizedList>
+<programlisting>EXEC_STRING  /bin/sh -c 'cat &percnt;Arg_1 &ldquo;File to print:&ldquo;&percnt; | \
+             uncompress | lp -oraw'
+</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This execution string starts a shell script.</Para>
+</ListItem>
+</ItemizedList>
+<ProgramListing>EXEC_STRING /usr/local/bin/StartGnuClient</ProgramListing>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.34">
+<Title>Creating COMMAND Actions for Multiple File Arguments<IndexTerm><Primary>execution string</Primary><Secondary>multiple-file arguments</Secondary></IndexTerm><IndexTerm><Primary>arguments</Primary><Secondary>multiple for actions</Secondary></IndexTerm></Title>
+<Para>There are three ways for actions to handle multiple file arguments:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The action can be run repreatedly, once for each argument. When an
+<Filename>EXEC_STRING</Filename> contains a single file argument and multiple file arguments
+are provided by dropping multiple files on the action icon, the action is run
+separately for each file argument.</Para>
+<Para>For example if multiple file arguments are supplied to the following action
+definition:</Para>
+<programlisting>ACTION DisplayScreenImage
+{
+ EXEC_STRING  xwud -in &percnt;Arg_1&percnt;
+ &hellip;
+}
+</ProgramListing>
+<Para>the DisplayScreenImage action is run repeatedly.</Para>
+</ListItem>
+<ListItem>
+<Para>The action can use two or more non-interchangeable file arguments. For
+example:</Para>
+<programlisting>xsetroot -cursor <Symbol Role="Variable">cursorfile maskfile</Symbol></programlisting>
+<Para>requires two unique files in a particular order.</Para>
+</ListItem>
+<ListItem>
+<Para>The action can perform the same command sequentially on each file
+argument. For example:</Para>
+<programlisting>pr <Symbol Role="Variable">file</Symbol> [<Symbol Role="Variable">file</Symbol> &hellip;]</programlisting>
+<Para>will print one or many files in one print job.</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.CrAct.div.35">
+<Title Id="SAG.CrAct.mkr.21">Creating an Action for Non-Interchangeable Arguments<IndexTerm><Primary>actions</Primary><Secondary>non-interchangeable arguments</Secondary></IndexTerm><IndexTerm><Primary>arguments</Primary><Secondary>non-interchangeable, for actions</Secondary></IndexTerm></Title>
+<Para>Use one of the following syntax conventions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If you want the action to prompt for the file names, use this syntax for each
+file argument:</Para>
+<programlisting>&percnt;(File)&ldquo;<Symbol Role="Variable">prompt</Symbol>&rdquo;&percnt;</programlisting>
+<Para>Use a different <Symbol Role="Variable">prompt</Symbol> string for each argument.</Para>
+<Para>For example, this execution string prompts for two files.</Para>
+<programlisting>EXEC_STRING  xsetroot -cursor &percnt;(File)&ldquo;Cursor bitmap:&rdquo;&percnt; \
+             &percnt;(File)&ldquo;Mask bitmap:&rdquo;&percnt;
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>To accept dropped files, use this syntax for each file argument:</Para>
+<programlisting>&percnt;Arg_<Symbol Role="Variable">n</Symbol>&percnt;</programlisting>
+<Para>using different values of <Symbol Role="Variable">n</Symbol> for each argument. For example:</Para>
+<programlisting>EXEC_STRING  diff &percnt;Arg_1&percnt; &percnt;Arg_2&percnt;</programlisting>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.CrAct.div.36">
+<Title Id="SAG.CrAct.mkr.22">Creating an Action with Interchangeable File Arguments<IndexTerm><Primary>actions</Primary><Secondary>interchangeable arguments</Secondary></IndexTerm><IndexTerm><Primary>arguments</Primary><Secondary>interchangeable for actions</Secondary></IndexTerm></Title>
+<Para>Use one of the following syntax conventions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>To create an action that accepts dropped files and issues a command in the
+form <Symbol Role="Variable">command file</Symbol><Subscript>1</Subscript> <Symbol Role="Variable">file</Symbol><Subscript>2</Subscript> &hellip;, use this syntax for the file arguments:</Para>
+<programlisting>&percnt;Args&percnt;</programlisting>
+</ListItem>
+<ListItem>
+<Para>To create an action that accepts multiple dropped files, or displays a prompt
+for a single file when double-clicked, use this syntax for the file arguments:</Para>
+<programlisting>&percnt;Arg_<Filename>1</Filename>&ldquo;<Symbol Role="Variable">prompt</Symbol>&rdquo;&percnt; &percnt;Args&percnt;</programlisting>
+<Para>The action will issue the command in the form: <Symbol Role="Variable">command file</Symbol><Subscript>1</Subscript> <Symbol Role="Variable">file</Symbol><Subscript>2</Subscript> &hellip;.</Para>
+</ListItem>
+</ItemizedList>
+<Sect4 Id="SAG.CrAct.div.37">
+<Title>Examples</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This execution string creates an action that executes:</Para>
+<ProgramListing>pr <Symbol Role="Variable">file</Symbol><Subscript>1</Subscript> <Symbol Role="Variable">file</Symbol><Subscript>2</Subscript></ProgramListing>
+<Para>with multiple file arguments.</Para>
+<ProgramListing>EXEC_STRING pr &percnt;Args&percnt;</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>This execution string creates an action similar to the previous example,
+except that the action displays a prompt when double-clicked (no file
+arguments).</Para>
+</ListItem>
+</ItemizedList>
+<ProgramListing>EXEC_STRING  pr &percnt;Arg_1&ldquo;File(s) to print:&rdquo;&percnt; &percnt;Args&percnt;</ProgramListing>
+</Sect4>
+</Sect3>
+<Sect3 Id="SAG.CrAct.div.38">
+<Title Id="SAG.CrAct.mkr.23">Creating an Action for Multiple Dropped Files<IndexTerm><Primary>actions</Primary><Secondary>accepting multiple dropped files</Secondary></IndexTerm></Title>
+<Para>To accept multiple dropped file arguments and execute a command line in the
+form:</Para>
+<ProgramListing><Symbol Role="Variable">command</Symbol> <Symbol Role="Variable">file</Symbol><Subscript>1</Subscript> <Symbol Role="Variable">file</Symbol><Subscript>2</Subscript> &hellip;</ProgramListing>
+<Para>use the syntax:</Para>
+<ProgramListing>&percnt;Args&percnt;</ProgramListing>
+<Sect4 Id="SAG.CrAct.div.39">
+<Title>Examples</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This execution string executes a script named Checkout for multiple files:</Para>
+</ListItem>
+</ItemizedList>
+<programlisting>EXEC_STRING  /usr/local/bin/Checkout \
+             &percnt;Arg_1&ldquo;Check out what file?&rdquo;&percnt; &percnt;Args&percnt;
+</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This execution string executes <Command>lp -oraw</Command> with multiple files:</Para>
+</ListItem>
+</ItemizedList>
+<ProgramListing>EXEC_STRING  lp -oraw &percnt;Arg_1&ldquo;File to print:&rdquo;&percnt; &percnt;Args&percnt;</ProgramListing>
+</Sect4>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.40">
+<Title Id="SAG.CrAct.mkr.24">Windowing Support and Terminal Emulators for COMMAND Actions<IndexTerm><Primary>actions</Primary><Secondary>windowing support for</Secondary></IndexTerm><IndexTerm><Primary>terminal emulator</Primary><Secondary>for actions</Secondary></IndexTerm></Title>
+<Para>There are several ways that <Command>COMMAND</Command> actions support windows on the desktop.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the application has its own window, the action can be written to provide
+no additional window support. This option is also used when an action runs
+a command that requires no direct user input and has no output.</Para>
+</ListItem>
+<ListItem>
+<Para>If the application must run in a terminal emulator window, the action can be
+written to open a window and then run the application. There are several
+terminal options.</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.CrAct.div.41">
+<Title Id="SAG.CrAct.mkr.25">Specifying the Window Support for the Action</Title>
+<Para>Use the <Filename>WINDOW_TYPE</Filename> field to specify the type of windowing support required
+by the action.</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="145*">
+<colspec colwidth="383*">
+<TBody>
+<Row>
+<Entry><Para>WINDOW_TYPE<IndexTerm><Primary>WINDOW_TYPE field</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Windowing Support Provided</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>NO_STDIO</Filename><IndexTerm><Primary>NO_STDIO window support</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>None. Use <Filename>NO_STDIO</Filename> if the application has its own
+window, or if the command has no visible output.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>PERM_TERMINAL</Filename><IndexTerm><Primary>PERM_TERMINAL window support</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Permanent terminal emulator window. The action
+opens a terminal window that remains open until the
+user explicitly closes it. The user can enter data into the
+window. Use with commands that take some input,
+produce some output, then terminate (for example,
+<Command>ls</Command> <Symbol Role="Variable">directory</Symbol>).</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>TERMINAL</Command><IndexTerm><Primary>TERMINAL window support</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Temporary terminal emulator window. The action
+opens a terminal window that closes as soon as the
+command is completed. Use with full-screen
+commands (for example, <Command>vi</Command>).</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.42">
+<Title Id="SAG.CrAct.mkr.26">Specifying Command-Line Options for the Terminal Emulator<IndexTerm><Primary>terminal emulator</Primary><Secondary>command-line options for actions</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>terminal options</Secondary></IndexTerm></Title>
+<Para>Use the <Filename>TERM_OPTS</Filename> field in the action definition to specify command-line
+options for the terminal emulator.</Para>
+<Para>For example, the following action prompts for the execution host:</Para>
+<programlisting>ACTION OpenTermOnSystemUserChooses
+{
+ WINDOW_TYPE    PERM_TERMINAL
+ EXEC_HOST      &percnt;(String)&ldquo;Remote terminal on:&rdquo;&percnt;
+ TERM_OPTS      -title &percnt;(String)&ldquo;Window title:&rdquo;&percnt;
+ EXEC_STRING    $SHELL
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.43">
+<Title Id="SAG.CrAct.mkr.27">Specifying a Different Default Terminal Emulator<IndexTerm><Primary>terminal emulator</Primary><Secondary>default for actions</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>terminal support for</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>default terminal</Secondary></IndexTerm></Title>
+<Para>The default terminal emulator used by actions is <Command>dtterm</Command>. You can change this
+to another terminal emulator. The default terminal emulator is used when the
+action does not explicitly specify a terminal emulator to use.</Para>
+<Para>The terminal emulator used by actions must have these command-line options:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>-title</Command> <Symbol Role="Variable">window_title</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Command>-e</Command> <Symbol Role="Variable">command</Symbol></Para>
+</ListItem>
+</ItemizedList>
+<Para>Two resources determine the default terminal emulator used by actions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><IndexTerm>
+<Primary>localTerminal resource</Primary>
+</IndexTerm>The <Command>localTerminal</Command> resource specifies the terminal emulator used by local
+applications.</Para>
+<programlisting>*localTerminal:    <Symbol Role="Variable">terminal</Symbol></programlisting>
+<Para>For example:</Para>
+<Para>*localTerminal: xterm</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.CrAct.mkr.28">The <Command>remoteTerminal</Command> resource specifies the terminal emulator used by
+remote applications.</Para>
+<ProgramListing>*remoteTerminal:   <Symbol Role="Variable">host</Symbol>:<Symbol Role="Variable">terminal</Symbol> [,<Symbol Role="Variable">host</Symbol>:<Symbol Role="Variable">terminal</Symbol>&hellip;]</ProgramListing>
+<Para>For example:</Para>
+<ProgramListing>*remoteTerminal: sysibm1:/usr/bin/xterm,syshp2:/usr/bin/yterm</ProgramListing>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.44">
+<Title Id="SAG.CrAct.mkr.29">Restricting Actions to Certain Arguments<IndexTerm><Primary>actions</Primary><Secondary>restricting arguments</Secondary></IndexTerm><IndexTerm><Primary>arguments</Primary><Secondary>restricting for actions</Secondary></IndexTerm></Title>
+<Para>Restricting an action to a particular type of argument refines the action. For
+example, it is useful to restrict an action that invokes a viewer for PostScript
+files to only PostScript file arguments; with the restriction, the action will
+return an error dialog if a non-PostScript file is specified.</Para>
+<Para>You can restrict actions based on:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The data type of the file argument.</Para>
+</ListItem>
+<ListItem>
+<Para>The number of file arguments&mdash;for example, no arguments versus one or
+more arguments. This provides different drop and double-click behavior for
+the action icon.</Para>
+</ListItem>
+<ListItem>
+<Para>The read/write mode of the argument.</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.CrAct.div.45">
+<Title Id="SAG.CrAct.mkr.30">Restricting an Action to a Specified Data Type<IndexTerm><Primary>actions</Primary><Secondary>restricted by data type</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>restricting actions based on</Secondary></IndexTerm></Title>
+<Para><IndexTerm>
+<Primary>ARG_TYPE field</Primary>
+</IndexTerm>Use the <Filename>ARG_TYPE</Filename> field to specify the data types for which the action is valid.
+Use the data attribute name.</Para>
+<Para>You can enter a list of data types; separate the entries with commas.</Para>
+<Para>For example, the following action definition assumes a Gif data type has been
+created.</Para>
+<programlisting>ACTION Open_Gif
+{
+ TYPE           COMMAND
+ LABEL          &ldquo;Display Gif&rdquo;
+ WINDOW_TYPE    NO_STDIO
+ ARG_TYPE       Gif
+ ICON           xgif
+ DESCRIPTION    Displays gif files
+ EXEC_STRING    xgif
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.46">
+<Title>Restricting an Action Based on the Number of Arguments<IndexTerm><Primary>actions</Primary><Secondary>argument count restrictions</Secondary></IndexTerm><IndexTerm><Primary>arguments</Primary><Secondary>number of for actions</Secondary></IndexTerm></Title>
+<Para><IndexTerm>
+<Primary>ARG_COUNT field</Primary>
+</IndexTerm>Use the <Filename>ARG_COUNT</Filename> field to specify the number of arguments the action can
+accept. Valid values are:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="42*">
+<colspec colwidth="486*">
+<TBody>
+<Row>
+<Entry><Para><Filename>*</Filename></Para></Entry>
+<Entry><Para>(Default) Any number of arguments. Other values have precedence
+over <Filename>*</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">n</Symbol></Para></Entry>
+<Entry><Para>Any non-negative integer, including 0.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>></Filename><Symbol Role="Variable">n</Symbol></Para></Entry>
+<Entry><Para>More than <Symbol Role="Variable">n</Symbol> arguments.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>&lt;</Filename><Symbol Role="Variable">n</Symbol></Para></Entry>
+<Entry><Para>Fewer than <Symbol Role="Variable">n</Symbol> arguments.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>One use for <Filename>ARG_COUNT</Filename> is to provide different action icon behavior, depending
+on whether the user double-clicks the icon or drops a file on it. See the next
+section,
+<!--Original XRef content: '&xd2;To Provide Different Double-Click and Drop Behavior'--><XRef Role="SectionTitle" Linkend="SAG.CrAct.div.47">.</Para>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.47" Role="Procedure">
+<Title Id="SAG.CrAct.mkr.31">To Provide Different Double-Click and Drop Behavior<IndexTerm><Primary>actions</Primary><Secondary>different double-click and drop functionality</Secondary></IndexTerm><IndexTerm><Primary>ARG_COUNT field</Primary></IndexTerm></Title>
+<Para>Use this procedure to create an action that accepts a dropped file but does not
+prompt for a file when the action icon is double-clicked.</Para>
+<OrderedList>
+<ListItem>
+<Para>Create an action definition for the double-click functionality.</Para>
+<Para>Use the <Filename>ARG_COUNT</Filename> field to specify <Filename>0</Filename> arguments. Use a syntax for the
+<Filename>EXEC_STRING</Filename> that does not accept a dropped argument.</Para>
+</ListItem>
+<ListItem>
+<Para>Create a second action definition for the drop functionality.</Para>
+<Para>Use the <Filename>ARG_COUNT</Filename> field to specify <Filename>>0</Filename> argument. Use a syntax for the
+<Filename>EXEC_STRING</Filename> that accepts a dropped file.</Para>
+</ListItem>
+</OrderedList>
+<Para>For example, suppose the following two command lines can be used to start an
+editor named <Command>vedit</Command>:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>To start the editor with no file argument:</Para>
+<programlisting>vedit</programlisting>
+</ListItem>
+<ListItem>
+<Para>To start the editor with a file argument that is opened as a read-only
+document:</Para>
+<programlisting>vedit -R <Symbol Role="Variable">filename</Symbol></programlisting>
+</ListItem>
+</ItemizedList>
+<Para>The following two actions create drop and double-click functionality for an
+action named Vedit. The first action has precedence when the database is
+searched for a match, since <Filename>ARG_COUNT</Filename> <Filename>0</Filename> is more specific than the implied
+<Filename>ARG_COUNT</Filename> <Filename>*</Filename> of the drop functionality definition.</Para>
+<programlisting># Double-click functionality
+ACTION Vedit
+{
+ TYPE         COMMAND
+ ARG_COUNT    0
+ WINDOW_TYPE  PERM_TERMINAL
+ EXEC_STRING  vedit
+}
+
+# Drop functionality
+ACTION Vedit
+{
+ TYPE          COMMAND
+ WINDOW_TYPE   PERM_TERMINAL
+ EXEC_STRING   vedit -R &percnt;Arg_1&percnt;
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.48">
+<Title>Restricting an Action Based on the Mode of the Argument</Title>
+<Para>Use the <Filename>ARG_MODE</Filename> field to specify the read/write mode of the argument. Valid
+values are:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="41*">
+<colspec colwidth="487*">
+<TBody>
+<Row>
+<Entry><Para><Filename>*</Filename></Para></Entry>
+<Entry><Para>(Default) Any mode</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>!w</Filename></Para></Entry>
+<Entry><Para>Non-writable</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>w</Command></Para></Entry>
+<Entry><Para>Writable</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.49">
+<Title Id="SAG.CrAct.mkr.32">Creating Actions that Run Applications on Remote Systems<IndexTerm><Primary>actions</Primary><Secondary>running remote applications</Secondary></IndexTerm><IndexTerm><Primary>remote execution</Primary><Secondary>by actions</Secondary></IndexTerm></Title>
+<Para>When discussing actions and remote execution, there are two terms that are
+used frequently:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="108*">
+<colspec colwidth="420*">
+<TBody>
+<Row>
+<Entry><Para>database host<IndexTerm><Primary>database host</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The system containing the action definition</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>execution host<IndexTerm><Primary>execution host</Primary><Secondary>creating actions for</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The system where the executable runs</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>In most situations, actions and their applications are located on the same
+system; since the default execution host for an action is the database host, no
+special syntax is required.</Para>
+<Para>However, when the execution host is different from the database host, the
+action definition must specify where the execution string should be run.</Para>
+<Para>The ability to locate actions and applications on different systems is part of the
+client/server architecture of the desktop. For a more in-depth discussion of
+networked applications, see
+<!--Original XRef content: '&xd2;Administering Application Services&xd3; on page&numsp;99'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.15">.</Para>
+<Sect2 Id="SAG.CrAct.div.50">
+<Title Id="SAG.CrAct.mkr.33">Creating an Action that Runs a Remote Application<IndexTerm><Primary>EXEC_HOST field</Primary></IndexTerm><IndexTerm><Primary>DatabaseHost&percnt</Primary></IndexTerm><IndexTerm><Primary>LocalHost&percnt</Primary></IndexTerm><IndexTerm><Primary>DisplayHost&percnt</Primary></IndexTerm><IndexTerm><Primary>SessionHost&percnt</Primary></IndexTerm></Title>
+<Para><IndexTerm>
+<Primary>EXEC_HOST field</Primary>
+</IndexTerm><IndexTerm>
+<Primary>execution host</Primary>
+<Secondary>specified by EXEC_HOST field</Secondary>
+</IndexTerm>Use the <Filename>EXEC_HOST</Filename> field in the action definition to specify the location of the
+application.</Para>
+<Para>Valid values for <Filename>EXEC_HOST</Filename> are:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="148*">
+<colspec colwidth="380*">
+<TBody>
+<Row>
+<Entry><Para><Filename>&percnt;DatabaseHost&percnt;</Filename><IndexTerm><Primary>DataBaseHost keyword</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The host where the action is defined.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>&percnt;LocalHost&percnt;</Filename></Para></Entry>
+<Entry><Para>The host where the action is invoked (the <Emphasis>session server</Emphasis>).</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>&percnt;DisplayHost&percnt;</Filename><IndexTerm><Primary>DisplayHost keyword</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The host running the X server (not allowed for X
+terminals).</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>&percnt;SessionHost&percnt;</Filename><IndexTerm><Primary>SessionHost keyword</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The host where the controlling Login Manager is running.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">hostname</Symbol></Para></Entry>
+<Entry><Para>The named host. Use this value for environments in which
+the action should always be invoked on one particular
+host.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>&percnt;&ldquo;</Filename><Symbol Role="Variable">prompt</Symbol><Filename>&rdquo;&percnt;</Filename></Para></Entry>
+<Entry><Para>Prompts the user for the host name each time the action is
+invoked.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The default value is <Filename>&percnt;DatabaseHost&percnt;</Filename>, <Filename>&percnt;LocalHost&percnt;</Filename>.<IndexTerm>
+<Primary>EXEC_HOST field</Primary>
+<Secondary>default value</Secondary>
+</IndexTerm>
+Thus, when the
+<Filename>EXEC_HOST</Filename> field is omitted, the action first attempts to run the command on
+the host containing the action definition. If this fails, the action attempts to run
+the command on the session server.</Para>
+<Sect3 Id="SAG.CrAct.div.51">
+<Title>Examples</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This field specifies host <Command>ddsyd</Command>:</Para>
+</ListItem>
+</ItemizedList>
+<ProgramListing>EXEC_HOST  ddsyd</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The field prompts for a host name:</Para>
+</ListItem>
+</ItemizedList>
+<ProgramListing>EXEC_HOST  &percnt;&ldquo;Host containing application:&rdquo;&percnt;</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>This field specifies that the action will attempt to run the application on the
+host containing the action definition. If this fails, the action will attempt to
+run the application on host <Command>ddsyd</Command>.</Para>
+</ListItem>
+</ItemizedList>
+<ProgramListing>EXEC_HOST  &percnt;DatabaseHost&percnt;, ddsyd</ProgramListing>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.52">
+<Title Id="SAG.CrAct.mkr.34">Using Variables in Action and Data Type Definitions<IndexTerm><Primary>variables</Primary><Secondary>in action definitions</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>variables in definitions</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>variables in definitions</Secondary></IndexTerm></Title>
+<Para>You can include string variables and environment variables in action and data
+type definition files.</Para>
+<Sect2 Id="SAG.CrAct.div.53">
+<Title Id="SAG.CrAct.mkr.35">Using String Variables in an Action<IndexTerm><Primary>string variables in action definitions</Primary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>string variables in</Secondary></IndexTerm></Title>
+<Para>A string variable definition remains in effect from the location of the definition
+to the end of the file. There are no global string variables for the database.</Para>
+<Para>If a string variable and environment variable have the same name, the string
+variable has precedence.</Para>
+<Sect3 Id="SAG.CrAct.div.54" Role="Procedure">
+<Title>To Define a String Variable</Title>
+<OrderedList>
+<ListItem>
+<Para>Use the syntax:</Para>
+<programlisting>set <Symbol Role="Variable">variable_name</Symbol>=<Symbol Role="Variable">value</Symbol></programlisting>
+</ListItem>
+</OrderedList>
+<Para>Variable names can contain any alphanumeric characters and underscore (<Filename>_</Filename>).
+Each variable definition must be on a separate line.</Para>
+<Para>For example:</Para>
+<programlisting>set Remote_Application_Server=sysapp
+set Remote_File_Server=sysdata
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.CrAct.div.55" Role="Procedure">
+<Title>To Reference a String Variable</Title>
+<OrderedList>
+<ListItem>
+<Para>Use the syntax:</Para>
+<programlisting>$[<Filename>{</Filename>]<Symbol Role="Variable">variable_name</Symbol>[<Filename>}</Filename>]</programlisting>
+</ListItem>
+</OrderedList>
+<Para>For example:</Para>
+<programlisting>EXEC-HOST   $Remote_Application_Server
+CWD   /net/${Remote_File_Server}/doc/project
+</ProgramListing>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.56">
+<Title Id="SAG.CrAct.mkr.36">Using Environment Variables in Actions and Data Types<IndexTerm><Primary>environment variables</Primary><Secondary>action definitions</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>environment variables</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Reference an environment variable using the syntax:</Para>
+<programlisting><Filename>$[{]</Filename><Symbol Role="Variable">variable</Symbol>[<Filename>}]</Filename>.</programlisting>
+</ListItem>
+</OrderedList>
+<Para>The variable is expanded (replaced by its value) when the database is loaded.
+If a string variable and environment variable have the same name, the string
+variable has precedence.</Para>
+<Para>For example, this execution string prints a file with a banner containing the
+login name.</Para>
+<ProgramListing>EXEC-STRING lp -t$LOGNAME &percnt;(File)Arg_1&percnt;</ProgramListing>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.57">
+<Title Id="SAG.CrAct.mkr.37">Invoking Actions from a Command Line<IndexTerm><Primary>actions</Primary><Secondary>running other actions</Secondary></IndexTerm></Title>
+<Para>The desktop provides the <Command>dtaction</Command> command for running actions from a
+command line. You can use <Command>dtaction</Command> to run actions from:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Scripts</Para>
+</ListItem>
+<ListItem>
+<Para>Other actions</Para>
+</ListItem>
+<ListItem>
+<Para>A terminal emulator command line</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.CrAct.div.58">
+<Title>Syntax of dtaction<IndexTerm><Primary>dtaction</Primary><Secondary>syntax</Secondary></IndexTerm></Title>
+<ProgramListing>dtaction [-user <Symbol Role="Variable">user_name</Symbol>] [-execHost <Symbol Role="Variable">hostname</Symbol>] <Symbol Role="Variable">action_name</Symbol> [<Symbol Role="Variable">argument</Symbol> [<Symbol Role="Variable">argument</Symbol>]&hellip;]</ProgramListing>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="95*">
+<colspec colwidth="433*">
+<TBody>
+<Row>
+<Entry><Para><Filename>-user</Filename> <Symbol Role="Variable">user_name</Symbol></Para></Entry>
+<Entry><Para>Provides the ability to run the action as a different
+user. If <Command>dtaction</Command> is invoked by a user other than
+<Symbol Role="Variable">user_name,</Symbol> a prompt is displayed for the password.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>-<Command>execHost</Command> <Symbol Role="Variable">hostname</Symbol></Para></Entry>
+<Entry><Para>For <Command>COMMAND</Command> actions only; specifies the host on
+which the command will be run.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">argument</Symbol></Para></Entry>
+<Entry><Para>Arguments to the action; usually file arguments.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The <Command>dtaction</Command> client has additional command-line options. For more
+information, see the <Filename MoreInfo="RefEntry">dtaction</Filename>(1) man page.</Para>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.59">
+<Title>Creating an Action that Runs Another Action<IndexTerm><Primary>actions</Primary><Secondary>running other actions</Secondary></IndexTerm></Title>
+<Para>Use <Command>dtaction</Command> in the <Filename>EXEC_STRING</Filename> of the action.</Para>
+<Para>For example, the following action uses a built-in action named Spell (the action
+is labeled ``Check Spelling'' in Application Manager). The new action runs Text
+Editor and the Spell action, displaying the spelling errors in a separate
+terminal emulator window.</Para>
+<programlisting>ACTION EditAndSpell
+{
+ WINDOW_TYPE    NO_STDIO
+ EXEC_STRING    /bin/sh -c 'dtaction Spell \
+     &percnt;Arg_1&ldquo;File:&rdquo;&percnt;; dtpad &percnt;Arg_1&percnt;'
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.60">
+<Title Id="SAG.CrAct.mkr.38">Creating an Action that Runs as a Different User<IndexTerm><Primary>actions</Primary><Secondary>running as different user</Secondary></IndexTerm><IndexTerm><Primary>user, changing for action</Primary></IndexTerm><IndexTerm><Primary>dtaction</Primary><Secondary>used to change user</Secondary></IndexTerm></Title>
+<Para>Use the following syntax in the <Filename>EXEC_STRING</Filename>:</Para>
+<ProgramListing>EXEC_STRING   dtaction -user <Symbol Role="Variable">user_name</Symbol> <Symbol Role="Variable">action_name</Symbol> [<Symbol Role="Variable">file_argument</Symbol>]</ProgramListing>
+<Para>The new user (<Symbol Role="Variable">user_name</Symbol>) must have display access to the system through one
+of the following mechanisms:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Read permission on the login user's <Filename>.Xauthority</Filename> file</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>Or</Emphasis>, xhost permission</Para>
+</ListItem>
+</ItemizedList>
+<Para>For example, the following two actions provide the ability to become root and
+edit an app-defaults file.</Para>
+<programlisting>ACTION AppDefaults
+{
+ WINDOW_TYPE  NO_STDIO
+ EXEC_STRING  /usr/dt/bin/dtaction -user root \
+              EditAppDefaults &percnt;Arg_1&ldquo;File:&rdquo;&percnt;
+}
+ACTION EditAppDefaults
+{
+ WINDOW_TYPE  TERMINAL
+ EXEC_STRING  /bin/sh -c 'chmod +w &percnt;Arg_1&percnt;; \
+              vi &percnt;Arg_1&percnt;; chmod -w &percnt;Arg_1&percnt;'
+}
+</ProgramListing>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.61">
+<Title Id="SAG.CrAct.mkr.39">Creating Localized Actions<IndexTerm><Primary>actions</Primary><Secondary>localized</Secondary></IndexTerm><IndexTerm><Primary>localization</Primary><Secondary>actions</Secondary></IndexTerm></Title>
+<Para>The search path for data types includes language-dependent locations. The
+desktop uses the value of LANG to determine the locations searched for data
+type definitions.</Para>
+<Sect2 Id="SAG.CrAct.div.62">
+<Title>Locations for Localized Actions</Title>
+<Para>Localized action definitions must be placed in the proper language-dependent
+directories along the actions search path.</Para>
+<Para>The default search path is:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Personal actions: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide actions: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>Built-in actions: <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.CrAct.div.63" Role="Procedure">
+<Title>To Localize an Existing Action<IndexTerm><Primary>actions</Primary><Secondary>labels</Secondary></IndexTerm><IndexTerm><Primary>labels</Primary><Secondary>actions</Secondary></IndexTerm><IndexTerm><Primary>localization</Primary><Secondary>action label</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Create a file in the appropriate language-dependent directory (for example,
+in <Filename>/etc/dt/appconfig/types/japanese</Filename>).</Para>
+</ListItem>
+<ListItem>
+<Para>Copy the action definition to the language-dependent configuration file.</Para>
+<Para>For example, you might copy an action definition from</Para>
+<programlisting><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/types/C/<Symbol Role="Variable">file</Symbol>.dt</programlisting>
+<Para>to</Para>
+<programlisting><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/types/japanese/<Symbol Role="Variable">newfile</Symbol>.dt</programlisting>
+</ListItem>
+<ListItem>
+<Para>Add a <Command>LABEL</Command> field or modify the existing <Command>LABEL</Command> field.</Para>
+<programlisting>LABEL   <Symbol Role="Variable">string</Symbol></programlisting>
+<Para>Application Manager and File Manager use the label string to identify the
+action's icon.</Para>
+</ListItem>
+<ListItem>
+<Para>Localize any of the following fields in the action definition:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>For localized icons: <Command>ICON</Command></Para>
+</ListItem>
+<ListItem>
+<Para>For localized On Item help: <Command>DESCRIPTION</Command></Para>
+</ListItem>
+<ListItem>
+<Para>For localized prompts: any quoted text in the <Filename>EXEC_STRING</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrAct.div.64">
+<Title Id="SAG.CrAct.mkr.40">Creating Actions for ToolTalk Applications<IndexTerm><Primary>TT_MSG action</Primary><Secondary>creating</Secondary></IndexTerm><IndexTerm><Primary>ToolTalk</Primary><Secondary>applications, actions for</Secondary></IndexTerm><IndexTerm><Primary>ToolTalk</Primary><Secondary>action, See TT_MSG action</Secondary></IndexTerm></Title>
+<Note>
+<Para>The following information applies only to applications that support
+ToolTalk messaging.</Para>
+</Note>
+<Para>Use the action type <Filename>TT_MSG</Filename> to create an action that sends a ToolTalk message.
+</Para>
+<programlisting>ACTION <Symbol Role="Variable">action_name</Symbol>
+{
+ TYPE  TT_MSG
+ &hellip;
+}
+</ProgramListing>
+<Sect2 Id="SAG.CrAct.div.65">
+<Title>addressing and disposition Fields</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The ToolTalk <Command>addressing</Command> field is always set to <Filename>TT_PROCEDURE</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>The ToolTalk <Command>disposition</Command> field defaults to the specification in the static
+message pattern.</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.CrAct.div.66">
+<Title>Unsupported Messages</Title>
+<Para>The following are not supported by <Filename>TT_MSG</Filename>-type actions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>ToolTalk object-oriented messages</Para>
+</ListItem>
+<ListItem>
+<Para>Context arguments in messages</Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.CrAct.div.67">
+<Title>Keywords for TT_MSG Actions<IndexTerm><Primary>TT_MSG action</Primary><Secondary>keywords</Secondary></IndexTerm></Title>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="140*">
+<colspec colwidth="388*">
+<THead>
+<Row>
+<Entry><Para>Keyword</Para></Entry>
+<Entry><Para>Use</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>TT_CLASS</Filename></Para></Entry>
+<Entry><Para>Defines the value of the ToolTalk <Command>class</Command> message field</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>TT_SCOPE</Filename></Para></Entry>
+<Entry><Para>Defines the value of the ToolTalk <Command>scope</Command> message field</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>TT_OPERATION</Filename></Para></Entry>
+<Entry><Para>Defines the value of the ToolTalk <Command>operation</Command> message
+field.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>TT_FILE</Filename></Para></Entry>
+<Entry><Para>Defines the value of the ToolTalk <Command>file</Command> message field</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>TT_ARGn_MODE</Filename></Para></Entry>
+<Entry><Para>Defines the value of the ToolTalk <Command>mode</Command> attribute for
+the <Symbol Role="Variable">n</Symbol>th message argument</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>TT_ARGn_VTYPE</Filename></Para></Entry>
+<Entry><Para>Defines the value of the ToolTalk <Command>vtype</Command> attribute of
+the <Symbol Role="Variable">n</Symbol>th message argument</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>TT_ARGn_VALUE</Filename></Para></Entry>
+<Entry><Para>Defines the value of the <Symbol Role="Variable">n</Symbol>th message argument</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect3>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

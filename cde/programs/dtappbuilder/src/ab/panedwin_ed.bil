@@ -1,0 +1,574 @@
+//       $XConsortium: panedwin_ed.bil /main/3 1995/11/06 17:44:38 rswiston $
+//
+//  @(#)panedwin_ed.bil	1.12 21 Mar 1995 
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module panedwin_ed
+(
+
+:element dialog
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Paned Window Editor"
+	:resizable		:true
+	:visible		:false
+	:default-button		apply_button
+	:help-button		help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABMakePanedWindow"
+	:help-text		"The Paned Window Editor provides a way to associate existing individual panes into a single vertically-paned collection."
+	:children		(
+		objlist_panel
+		attrs_ctrlpanel
+		activate_panel
+	)
+)
+:element objlist_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		objlist
+		objlist_label
+	)
+)
+:element objlist
+(
+	:type			:list
+	:x			141
+	:y			2
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 4)
+	:south-attachment	(:point 0 4)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:grid-line 32 4)
+)
+:element objlist_label
+(
+	:type			:label
+	:x			23
+	:y			5
+	:label-type		:string
+	:label			"Paned Window\nObjects:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:east-attachment	(:grid-line 32 0)
+)
+:element attrs_ctrlpanel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			80
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:obj objlist_panel 0)
+	:south-attachment	(:obj dialog -2)
+	:east-attachment	(:obj dialog -2)
+	:west-attachment	(:point 0 0)
+	:children		(
+		item_attrs_sep
+		height_cb
+		item_attrs_sep3
+		name_cb
+		group
+		group2
+		group3
+		init_state_cb
+	)
+)
+:element item_attrs_sep
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			14
+	:y			203
+	:width			512
+	:height			7
+	:visible		:true
+	:north-attachment	(:obj group 5)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:point 0 4)
+)
+:element height_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			188
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 188)
+	:west-attachment	(:point 0 2)
+)
+:element item_attrs_sep3
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			0
+	:y			37
+	:width			512
+	:height			7
+	:visible		:true
+	:north-attachment	(:obj group3 0)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:point 0 4)
+)
+:element name_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			5
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:point 0 2)
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			22
+	:y			79
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:obj item_attrs_sep3 4)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 22)
+	:children		(
+		geo_label
+		pane_height_lbl
+		min_height_field
+		max_height_field
+		panelist_label
+		panelist
+		width_field
+		height_field
+		width_value
+		height_value
+	)
+)
+:element geo_label
+(
+	:type			:label
+	:x			0
+	:y			77
+	:label-type		:string
+	:label			"Pane Geometry:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge width_field 0)
+	:south-attachment	(:obj-edge width_field 0)
+	:east-attachment	(:grid-line 27 0)
+)
+:element pane_height_lbl
+(
+	:type			:label
+	:x			23
+	:y			112
+	:label-type		:string
+	:label			"Pane Height:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge min_height_field 0)
+	:south-attachment	(:obj-edge min_height_field 0)
+	:east-attachment	(:grid-line 27 0)
+)
+:element min_height_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			121
+	:y			112
+	:label-type		:string
+	:label			"Min:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		4
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj width_field 9)
+	:west-attachment	(:grid-line 27 4)
+)
+:element max_height_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			204
+	:y			112
+	:label-type		:string
+	:label			"Max:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		4
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge min_height_field 0)
+	:west-attachment	(:obj min_height_field 4)
+)
+:element panelist_label
+(
+	:type			:label
+	:x			65
+	:y			0
+	:label-type		:string
+	:label			"Panes:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:grid-line 27 0)
+)
+:element panelist
+(
+	:type			:list
+	:x			119
+	:y			1
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:grid-line 27 4)
+)
+:element width_field
+(
+	:type			:label
+	:x			122
+	:y			76
+	:label-type		:string
+	:label			"W:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj panelist 3)
+	:west-attachment	(:grid-line 27 4)
+)
+:element height_field
+(
+	:type			:label
+	:x			187
+	:y			73
+	:label-type		:string
+	:label			"H:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge width_field 0)
+	:west-attachment	(:obj-edge max_height_field 0)
+)
+:element width_value
+(
+	:type			:label
+	:x			144
+	:y			73
+	:label-type		:string
+	:label			"   0"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge width_field 0)
+	:west-attachment	(:obj width_field 3)
+)
+:element height_value
+(
+	:type			:label
+	:x			205
+	:y			72
+	:label-type		:string
+	:label			"   0"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge width_field 0)
+	:west-attachment	(:obj height_field 3)
+)
+:element group2
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			37
+	:y			201
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		10
+	:hattach_type		:grid-line
+	:border-frame		:none
+	:north-attachment	(:obj item_attrs_sep 15)
+	:south-attachment	(:point 0 15)
+	:west-attachment	(:grid-line 19 0)
+	:children		(
+		attach_button
+		helptxt_button
+		conn_button
+	)
+)
+:element attach_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Attachments..."
+	:active			:true
+	:visible		:true
+)
+:element helptxt_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help Text..."
+	:active			:true
+	:visible		:true
+)
+:element conn_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Connections..."
+	:active			:true
+	:visible		:true
+)
+:element group3
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			34
+	:y			15
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		5
+	:vattach_type		:grid-line
+	:border-frame		:none
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:point 0 34)
+	:children		(
+		name_field
+		init_state_cbox
+	)
+)
+:element name_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Object Name:"
+	:label-position		:west
+	:num-columns		30
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element init_state_cbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Initial State:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		init_state_cbox_Visible_item
+		init_state_cbox_Active_item
+	)
+)
+:element init_state_cbox_Visible_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Visible"
+	:active			:true
+	:selected		:true
+)
+:element init_state_cbox_Active_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Active"
+	:active			:true
+	:selected		:true
+)
+:element init_state_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			40
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 40)
+	:west-attachment	(:point 0 2)
+)
+:element activate_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		ok_button
+		apply_button
+		reset_button
+		cancel_button
+		help_button
+	)
+)
+:element ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 19 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element reset_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:element pw_east_attach_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"The paned window's children have different\nEast attachments.  The paned window's East\nattachment was set to be the same as the\nrightmost child's.  If the paned window's East\nattachment is not what is desired, you can fix\nit by using the Attachments Editor."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The children of a paned window must all have the\nsame right-edge and left-edge attachments. The\npanes that were selected to make the paned window\nhad different right-edge attachments. Therefore,\nthe right-edge attachment was changed for one or\nmore of the children, so that they all match. If\nyou don't like the default attachments, you can\nchange them via the Attachments Editor."
+)
+:element pw_west_attach_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"The paned window's children have different\nWest attachments.  The paned window's West\nattachment was set to be the same as the\nleftmost child's.  If the paned window's West\nattachment is not what is desired, you can fix\nit by using the Attachments Editor."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The children of a paned window must all have the\nsame right-edge and left-edge attachments. The\npanes that were selected to make the paned window\nhad different left-edge attachments. Therefore,\nthe left-edge attachment was changed for one or\nmore of the children, so that they all match. If\nyou don't like the default attachments, you can\nchange them via the Attachments Editor.\n"
+)
+)

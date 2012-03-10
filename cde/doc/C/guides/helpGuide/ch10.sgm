@@ -1,0 +1,275 @@
+<!-- $XConsortium: ch10.sgm /main/11 1996/09/08 19:40:44 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.DiaEv.div.1">
+<title id="HRDC.DiaEv.mkr.1">Handling Events in Help Dialogs</title>
+<para>This chapter describes several Help dialog events that an application
+must be equipped to handle.</para>
+<informaltable id="HRDC.DiaEv.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Supporting Help Dialog Events229'--><xref
+role="JumpText" linkend="HRDC.DiaEv.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Responding to Hyperlink Events230'--><xref
+role="JumpText" linkend="HRDC.DiaEv.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Detecting When Help Dialogs Are Dismissed232'--><xref
+role="JumpText" linkend="HRDC.DiaEv.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Using the Application-Configured
+Button233'--><xref role="JumpText" linkend="HRDC.DiaEv.mkr.6"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="HRDC.DiaEv.div.2">
+<title id="HRDC.DiaEv.mkr.2">Supporting Help Dialog Events</title>
+<indexterm><primary>help dialog</primary><secondary>handling events in</secondary></indexterm><indexterm><primary>event</primary>
+<secondary>in help dialog, handling</secondary></indexterm><indexterm><primary>dialog</primary><secondary>handling event in</secondary></indexterm>
+<para>Like other widgets within your application, help windows have some behavior
+that must be supported by the application.</para>
+<sect2 id="HRDC.DiaEv.div.3">
+<title>Hyperlink Events</title>
+<para>Most standard hyperlink events are handled internally by the Help System.
+However, there are four types of hyperlinks that your application is responsible
+for handling:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>Jump-new-view hyperlinks</emphasis> &mdash;Your application must create a new help dialog to honor
+the author's request for a topic to be displayed in a new help window.</para>
+</listitem><listitem><para><emphasis>Man page links</emphasis>&mdash;Your
+application must create a new quick help dialog (or get one from your cache)
+to display a man page. Typically, the size of man page windows is different
+from all other help windows.</para>
+</listitem><listitem><para><emphasis>Application-defined links</emphasis>&mdash;Your
+application must interpret the data associated with these links. Application-defined
+links exist only if you and the author have collaborated to create them.
+</para>
+</listitem><listitem><para><emphasis>Text file links</emphasis>&mdash;Your
+application must create a quick help dialog (or get one from you cache) to
+display the text file.</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.DiaEv.div.4">
+<title>When Dialogs Are Dismissed</title>
+<para>When the user closes a help dialog, your application needs to know so
+it can store the dialog in its cache, or destroy it. The general help dialog
+supports a help closed callback. To detect when a quick dialog is dismissed,
+add a callback to its Close button.</para>
+</sect2>
+<sect2 id="HRDC.DiaEv.div.5">
+<title>Quick Help Buttons</title>
+<para>The behavior for some of the buttons in quick help dialogs must be handled
+by your application. These buttons can be managed and unmanaged as needed.
+You add behavior just like any other push button: using an activate callback.
+</para>
+<sect3 id="HRDC.DiaEv.div.6">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><link linkend="HRDC.WrTop.div.33" endterm="HRDC.WrTop.mkr.14"></link>describes the types of links supported by the Help System
+and explains how to create them.</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.DiaEv.div.7">
+<title id="HRDC.DiaEv.mkr.3">Responding to Hyperlink Events</title> <indexterm><primary>responding to</primary><secondary>hyperlink event</secondary></indexterm><indexterm>
+<primary>hyperlink</primary><secondary>event, responding to</secondary></indexterm><indexterm>
+<primary>event</primary><secondary>hyperlink, responding to</secondary></indexterm>
+<para>Your application needs to provide support only for the types of hyperlinks
+used within the help volume to be displayed. In general, it is recommended
+that you provide support for all link types.</para>
+<para>For your application to be notified when a hyperlink is chosen, it must
+add a <emphasis>hyperlink callback</emphasis> to the help dialog. You must
+write a callback function that handles the hyperlink appropriately.</para>
+<sect2 id="HRDC.DiaEv.div.8" role="Procedure">
+<title id="HRDC.DiaEv.mkr.4">To Provide a Hyperlink Callback<indexterm><primary>hyperlink</primary><secondary>callback, providing</secondary></indexterm><indexterm>
+<primary>callback</primary><secondary>hyperlink, providing</secondary></indexterm><indexterm>
+<primary>&lt;Filename | Command>XtAddCallback &lt;Default Para Font></primary></indexterm><indexterm>
+<primary>function</primary><secondary>&lt;Filename | Command>XtAddCallback() &lt;Default Para Font></secondary></indexterm></title>
+<orderedlist><listitem><para>Add a hyperlink callback to each help dialog
+as shown:</para>
+<programlisting>XtAddCallback ( <symbol role="Variable">helpDialog</symbol>, DtNhyperlLinkCallback,
+<symbol role="Variable">HyperlinkCB</symbol>, (XtPointer)NULL);</programlisting>
+<para>Where <symbol role="Variable">helpDialog</symbol> is the widget ID of
+the help dialog and <symbol role="Variable">HyperlinkCB</symbol> is the name
+of the callback function for handling hyperlinks.</para>
+</listitem><listitem><para>Write the <symbol role="Variable">HyperlinkCB</symbol>
+function to handle the hyperlink events that can occur within the dialog.
+</para>
+</listitem></orderedlist>
+<para>Within the hyperlink callback, you have access to the following callback
+structure (which is declared in <filename>&lt;Dt/Help.h></filename>):<indexterm>
+<primary>&lt;Filename | Command>DtHelpDialogCallbackStruct &lt;Default Para Font></primary>
+</indexterm><indexterm><primary>structure</primary><secondary>&lt;Filename | Command>DtHelpDialogCallbackStruct &lt;Default Para Font></secondary></indexterm></para>
+<programlisting>typedef struct
+ {
+int      reason;
+XEvent  *event;
+char    *locationId;
+char    *helpVolume;
+char    *specification;
+int      hyperType;
+int      windowHint;
+} DtHelpDialogCallbackStruct;</programlisting>
+<para>The <command>hyperType</command> element indicates which type of link
+was executed. Its possible values are: <filename>DtHELP_LINK_TOPIC</filename> <command>,</command> <filename>DtHELP_LINK_MAN_PAGE</filename><command>,</command> <filename>DtHELP_LINK_APP_DEFINE</filename><command>, or</command> <filename>DtHELP_LINK_TEXT_FILE</filename><command>. For a description of which structure elements are valid
+for different types refer to the</command> <filename moreinfo="RefEntry">DtHelpDialog</filename>(3) man page.</para>
+<para>The <computeroutput>windowHint</computeroutput> element indicates a
+window type. Its possible values are: <systemitem>DtHELP_CURRENT_WINDOW</systemitem>, <systemitem>DtHELP_POPUP_WINDOW</systemitem>, or
+<systemitem>DtHELP_NEW_WINDOW.</systemitem></para>
+<sect3 id="HRDC.DiaEv.div.9">
+<title>Example</title>
+<para>The following function, <filename>HyperlinkCB()</filename>, illustrates
+the general structure needed to handle hyperlink callbacks.</para>
+<programlisting>XtCallbackProc
+HyperlinkCB (widget, clientData, callData)
+     Widget     widget;
+     XtPointer  clientData;
+     XtPointer  callData;
+  {
+     DtHelpDialogCallbackStruct *hyperData =
+        (DtHelpDialogCallbackStruct *) callData;
+     switch ((int)hyperData-> hyperType)
+        {
+           case DtHELP_LINK_TOPIC:
+             /* <symbol role="Variable">Handles  &ldquo;jump new view&rdquo;hyperlinks.</symbol> */
+             break;
+           case DtHELP_LINK_MAN_PAGE:
+             /* <symbol role="Variable">Handles  &ldquo;man page&rdquo; hyperlinks.</symbol> */
+             break;
+           case DtHELP_LINK_APP_DEFINE:
+             /* <symbol role="Variable">Handles &ldquo;application-defined&rdquo; hyperlinks.</symbol> */
+             break;
+           case DtHELP_LINK_TEXT_FILE:
+             /* <symbol role="Variable">Handles &ldquo;text file&rdquo; hyperlinks.</symbol> */
+             break;
+           default:
+             break;
+   }</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.DiaEv.div.10">
+<title id="HRDC.DiaEv.mkr.5">Detecting When Help Dialogs Are Dismissed<indexterm>
+<primary>help dialog</primary><secondary>detecting when dismissed</secondary>
+</indexterm><indexterm><primary>dialog</primary><secondary>detecting when
+dismissed</secondary></indexterm></title>
+<para>To detect when a general help dialog is closed, add the following callback
+to the dialog:</para>
+<programlisting>XtAddCallback (<symbol role="Variable">helpDialog</symbol>, DtNcloseCallback,
+               <symbol role="Variable">HelpCloseCB</symbol>, (XtPointer)NULL);
+</programlisting>
+<para><indexterm><primary>callback</primary><secondary>close callback example</secondary></indexterm>Where <symbol role="Variable">helpDialog</symbol>
+is the widget ID for the help dialog and <symbol role="Variable">HelpCloseCB</symbol> is the name of the callback procedure you've written to handle
+closing dialogs.</para>
+<para>To detect when a quick help dialog is closed, add the following callback
+to the dialog's OK button:</para>
+<programlisting>XtAddCallback (DtHelpQuickDialogGetChild ( <symbol role="Variable">helpDialog</symbol>,
+DtHELP_QUICK_OK_BUTTON), XmNactivateCallback, <symbol role="Variable">HelpCloseCB</symbol>,
+(XtPointer)NULL);</programlisting>
+<para>Where <symbol role="Variable">helpDialog</symbol> is the widget ID for
+the help dialog and <symbol role="Variable">HelpCloseCB</symbol> is the name
+of the callback procedure you've written to handle closing dialogs.</para>
+</sect1>
+<sect1 id="HRDC.DiaEv.div.11">
+<title id="HRDC.DiaEv.mkr.6">Using the Application-Configured Button<indexterm>
+<primary>button, application-configured</primary></indexterm></title>
+<para>The quick help dialog's application-configured button lets you add custom
+behavior to any quick help dialog. This button can be used for anything you
+want, but its intended purpose is to provide a path to more help in one of
+these two ways:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Lets the user progressively
+ask for more information. This is sometimes called progressive disclosure.
+In this case, the default button label (More) is appropriate.</para>
+</listitem><listitem><para><emphasis>L</emphasis>ets the user open a general
+help dialog for general browsing of the application's help volume. In this
+case, Browse&hellip; is the most appropriate button label.</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.DiaEv.div.12" role="Procedure">
+<title id="HRDC.DiaEv.mkr.7">To Enable the Application-Configured Button<indexterm>
+<primary>application-configured, button enabling</primary></indexterm></title>
+<orderedlist><listitem><para>Get the button's ID.</para>
+</listitem><listitem><para>Add an activate callback to the button.</para>
+</listitem><listitem><para>Manage the button.</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.DiaEv.div.13">
+<title>Example</title>
+<para>The following code segment gets the button's ID, assigns a callback,
+and manages the button. It assumes that <command>quickHelpDialog</command>
+was just created.</para>
+<programlisting>Widget  moreButton;
+moreButton = DtHelpQuickDialogGetChild (quickHelpDialog,
+                                     DtHELP_QUICK_MORE_BUTTON);
+XtAddCallback (moreButton, XmNactivateCallback,
+               MoreHelpCB, NULL);
+XtManageChild (moreButton);</programlisting>
+</sect3>
+<sect3 id="HRDC.DiaEv.div.14">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><!--Original XRef content: '&ldquo;To
+Create a Quick Help Dialog&rdquo; on page&numsp;211'--><xref role="SecTitleAndPageNum"
+linkend="HRDC.CrDia.mkr.7"></para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtHelpDialog</filename>(3)
+man page</para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtHelpQuickDialog</filename>(3) man page</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+
+<sect2 id="HRDC.DiaEv.div.12a" role="Procedure"><title id="HRDC.DiaEv.mkr.7a">To Access DtInfo by Using the "More" Button</title>
+<para>As an extension to the desktop DtHelp facility, an application may add a local callback for the "More" button on the quick help dialog, which subsequently invokes dtinfo for additional information related to the quick help presentation, and/or directly invokes DtInfo for detailed help (such as for "On Application" or "On Window").</para>
+<para>If you want your application to provide the user access to a local information corpus at a specific point of relevance, you use the built-in function <command>DtActionInvoke()</command>. The anchor point may be as broad as the top of a bookcase, or as fine as a specific section. Targets within sections are also possible, as long as they have been given externally unique link IDs during construction of the data.</para>
+<sect3><title>Example</title>
+<para>This section describes the use of the CDE desktop action API to invoke (or connect to) DtInfo.</para>
+<para>Before <command>DtActionInvoke</command> is called, the application must first call <command>DtInitialize</command> to initialize the desktop services library, and <command>DtDbLoad</command> to load the actions and datatypes database. Since the DtInfo actions and datatype entries are part of the CDE desk top, there is no need to use the <command>DtDbReloadNotify</command> function for these alone.</para>
+<programlisting>#include &lt;Dt/Action.h>
+#include &lt;limits.h>
+#include &lt;locale.h>
+   ...
+int info_bridge( char * infolib, char* uulocator)
+{
+  char info_uuid[ MAXFQLOCATORBUFSIZE ];
+  char exec_host[ MAXHOSTNAMESIZE ];
+  DtActionArg* args = NULL;
+  Xegetshorthostname(localhost, MAXHOSTNAMESIZE);
+  args = (DtActionArg*) XtCalloc( 2, sizeof(DtActionArg) );
+   ...
+  args[0].argclass = DtACTION_BUFFER;
+  args[0].u.buffer.bp = (void*) infolib;
+  args[0].u.buffer.size = strlen( infolib) + 1;
+  args[0].u.buffer.writable = False;
+     ...
+  sprintf( info_uuid, "%s%s", "mmdb:LOCATOR=", uulocator );
+    args[1].argclass = DtACTION_BUFFER;
+  args[1].u.buffer.bp = (void*) info_uuid;
+  args[1].u.buffer.size = strlen( info_uuid) + 1;
+  args[1].u.buffer.writable = False;
+
+  actionId = DtActionInvoke(
+    w,
+    "DtShowInfoAtLOC",
+    args,
+    2,
+    NULL,
+    exec_host,
+    NULL,
+    True,
+    NULL,
+    NULL
+  );
+     ...
+  XtFree( args );
+}
+
+</programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub Caret>
+<?Pub *0000018925>
+

@@ -1,0 +1,693 @@
+<!-- $XConsortium: ch09.sgm /main/9 1996/09/08 19:33:33 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.dtCrA.div.1">
+<Title Id="SAG.dtCrA.mkr.1">Creating Actions and Data Types Using Create Action<IndexTerm><Primary>Create Action</Primary></IndexTerm></Title>
+<Para>Create Action is a tool for creating:<IndexTerm><Primary>Create Action</Primary><Secondary>introduction</Secondary></IndexTerm><IndexTerm><Primary>dtCreate, See Create Action</Primary></IndexTerm>
+</para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>An action to start an application</Para>
+</ListItem>
+<ListItem>
+<Para>One or more data types for an application's data files</Para>
+</ListItem>
+<ListItem>
+<Para>Actions for opening and printing the application's data files</Para>
+</ListItem>
+</ItemizedList>
+<Para>Create Action is also useful for creating simple actions for running operating
+system commands and shell scripts.</Para>
+<InformalTable Id="SAG.dtCrA.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'What Create Action Does141'--><XRef Role="JumpText" Linkend="SAG.dtCrA.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Limitations of Create Action142'--><XRef Role="JumpText" Linkend="SAG.dtCrA.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Creating an Action and Data Type for an Application with Create
+Action143'--><XRef Role="JumpText" Linkend="SAG.dtCrA.div.6"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>For reference information, see the <Filename MoreInfo="RefEntry">dtcreate</Filename>(1) man page.</Para>
+<Sect1 Id="SAG.dtCrA.div.2">
+<Title Id="SAG.dtCrA.mkr.2">What Create Action Does<IndexTerm><Primary>Create Action</Primary><Secondary>functionality</Secondary></IndexTerm></Title>
+<Para>Create Action includes a main window and a set of dialog boxes for creating
+an action and its associated data types.</Para>
+<Para>Create Action does the following:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Creates an action definition that runs a command.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>Create Action</Primary>
+<Secondary>configuration file created</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>action definition file, created by Create Action</Primary>
+</IndexTerm>Creates a file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/</Filename><Symbol Role="Variable">action_name</Symbol><Filename>.dt.</Filename> This file stores
+the action and data type definitions created for the application.</Para>
+</ListItem>
+<ListItem>
+<Para>Creates an<IndexTerm>
+<Primary>action file</Primary>
+</IndexTerm>
+<Emphasis>action file</Emphasis> in the user's home directory. The action file is an
+executable file with the same<IndexTerm>
+<Primary>actions</Primary>
+<Secondary>name</Secondary>
+</IndexTerm>
+name as the action.</Para>
+<Para>The action file's representation in File Manager is called an<IndexTerm>
+<Primary>application icon</Primary>
+<Secondary>using Create Action</Secondary>
+</IndexTerm>
+<Emphasis>application icon</Emphasis>
+because double-clicking it starts the application.</Para>
+<Para>Optionally, you can make the action icon a drop zone by specifying
+dropable data types when you create the action.</Para>
+</ListItem>
+<ListItem>
+<Para>Creates one or more data types for the application's data files (optional).</Para>
+</ListItem>
+<ListItem>
+<Para>Creates an Open action for each data type.</Para>
+</ListItem>
+<ListItem>
+<Para>Creates a Print action for each data type (optional).</Para>
+</ListItem>
+<ListItem>
+<Para>Reloads the database of actions and data types. This makes the actions and
+data types take effect immediately.</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.dtCrA.div.3">
+<Title Id="SAG.dtCrA.mkr.3">Limitations of Create Action<IndexTerm><Primary>Create Action</Primary><Secondary>limitations</Secondary></IndexTerm></Title>
+<Para>Create Action is designed to create actions and data types for running
+applications. However, actions and data types are very flexible, and include
+additional functionality that can only be accessed if you create the definitions
+manually.</Para>
+<Para>For more information, see:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;10, &xd2;Creating Actions Manually'--><XRef Role="ChapNumAndTitle" Linkend="SAG.CrAct.div.1"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;11, &xd2;Creating Data Types Manually'--><XRef Role="ChapNumAndTitle" Linkend="SAG.CrDT.div.1"></Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.dtCrA.div.4">
+<Title>Action Limitations<IndexTerm><Primary>actions</Primary><Secondary>limitations of Create Action</Secondary></IndexTerm></Title>
+<Para>You cannot use Create Action to create the action for an application if any of
+the following conditions are true:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The command line requires a<IndexTerm>
+<Primary>actions</Primary>
+<Secondary>non-file arguments</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>&lt;$nopage>actions</Primary>
+<Secondary>parameters, See arguments</Secondary>
+</IndexTerm>
+non-file argument (parameter).</Para>
+<Para>For example, you cannot use Create Action to write an action for the
+command:</Para>
+<ProgramListing>lp -d<Symbol Role="Variable">device filename</Symbol></ProgramListing>
+<Para>where the user has to supply <Symbol Role="Variable">device</Symbol> each time the command is executed.</Para>
+</ListItem>
+<ListItem>
+<Para>The application icon must have a different label than the action name.</Para>
+<Para>For example, you cannot use Create Action to provide a local-language
+version of an existing action.</Para>
+</ListItem>
+<ListItem>
+<Para>The action requires any of the advanced features of the action database.</Para>
+<Para>Examples of these advanced features are actions that:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Launch commands on systems remote from the action definition</Para>
+</ListItem>
+<ListItem>
+<Para>Invoke other actions</Para>
+</ListItem>
+<ListItem>
+<Para>Must be run as a different user (for example, as superuser)</Para>
+</ListItem>
+<ListItem>
+<Para>Make extensive use of the ``map'' feature</Para>
+</ListItem>
+<ListItem>
+<Para>Have very different behaviors, depending on the number of file
+arguments supplied to the action</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.dtCrA.div.5">
+<Title>Data Type Limitations<IndexTerm><Primary>data types</Primary><Secondary>requirements for manual creation</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>limitation of Create Action</Secondary></IndexTerm></Title>
+<Para>You cannot use Create Action to create the data type for an application if any
+of the following conditions are true:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The data type must have additional actions associated with it other than
+Open and Print.</Para>
+</ListItem>
+<ListItem>
+<Para>The Open action for the data type is not the action's command.</Para>
+<Para>For example, you cannot use Create Action to create the data type that
+provides a unique icon for the directory representing the application's
+application group.</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.dtCrA.div.6">
+<Title Id="SAG.dtCrA.mkr.4">Creating an Action and Data Type for an Application with Create Action<IndexTerm><Primary>Create Action</Primary><Secondary>using</Secondary></IndexTerm></Title>
+<Para>There are some things you'll need to know about the application before you
+run Create Action.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The command line for starting the application.</Para>
+<Para>You'll need to know whether the command line includes a required file
+argument, an optional file argument, or no file argument.</Para>
+<Para>If the application requires a non-file argument, you cannot use Create
+Action to create the action.</Para>
+</ListItem>
+<ListItem>
+<Para>The types of data files an application can accept.</Para>
+<Para>Some applications can accept only one type of data. Others (for example, an
+ASCII editor or graphics editor) can accept multiple data types.</Para>
+</ListItem>
+<ListItem>
+<Para>The way the application identifies its data files.</Para>
+<Para>This may be a naming convention (for example, file names ending
+with<Filename>.doc</Filename>), and/or may depend on the content of the file. If the application
+does not use a file-name convention, you can still set one up for the action
+icon.</Para>
+</ListItem>
+<ListItem>
+<Para>Optional: The command line to print the files</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.dtCrA.div.7" Role="Procedure">
+<Title Id="SAG.dtCrA.mkr.5">To Create an Action for an Application</Title>
+<OrderedList>
+<ListItem>
+<Para>Double-click Create Action in the Desktop_Apps application group.<IndexTerm><Primary>Create Action</Primary><Secondary>starting</Secondary></IndexTerm>
+</Para>
+<Figure>
+<Title>Create Action icon in Application Manager</Title>
+<Graphic Entityref="SAG.dtCrA.fig.1" Id="SAG.dtCrA.grph.1"></Graphic>
+</Figure>
+<Para><IndexTerm>
+<Primary>Create Action</Primary>
+<Secondary>main window</Secondary>
+</IndexTerm>This displays the main Create Action window.</Para>
+<Figure>
+<Title>Create Action main window</Title>
+<Graphic Entityref="SAG.dtCrA.fig.2" Id="SAG.dtCrA.grph.2"></Graphic>
+</Figure>
+</ListItem>
+<ListItem>
+<Para>Type the name that will label the action icon into the<IndexTerm>
+<Primary>Action Name field in Create Action</Primary>
+</IndexTerm><IndexTerm>
+<Primary>Create Action</Primary>
+<Secondary>action name</Secondary>
+</IndexTerm>
+Action Name text field.</Para>
+</ListItem>
+<ListItem>
+<Para>Use the<IndexTerm>
+<Primary>Action Icons controls, in Create Action</Primary>
+</IndexTerm>
+Action Icons controls to specify the icon for the application. Initially,
+the default icon is shown.</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>To choose a different, existing icon, click Find Set to display the Find Set
+dialog box. See
+<!--Original XRef content: '&xd2;Using the Find Set Dialog Box To Specify an Icon&xd3; on
+page&numsp;152'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.dtCrA.div.9">.</Para>
+</ListItem>
+<ListItem>
+<Para>To create new icons, choose Edit Icon to run the Icon Editor.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>In the Command When Action Icon Is Opened text field, type the command
+to start the application.</Para>
+<Para><IndexTerm>
+<Primary>Create Action</Primary>
+<Secondary>action command syntax</Secondary>
+</IndexTerm>Use the syntax <Filename>$</Filename><Symbol Role="Variable">n</Symbol> for a file argument; for example:</Para>
+<programlisting>emacs
+bitmap $1
+diff $1 $2
+lp -oraw $1
+</Programlisting>
+<Para>If the command line includes a file argument
+(<Filename>$</Filename><Symbol Role="Variable">n</Symbol>), then the
+action icon will be a drop zone for files.<IndexTerm><Primary>Create Action</Primary><Secondary>specifying file argument</Secondary></IndexTerm><IndexTerm><Primary>file argument</Primary><Secondary>specified with Create Action</Secondary></IndexTerm>
+</Para>
+<Para>The command lines are not passed to a shell unless you explicitly specify
+the use of a shell. For example, these lines use shell processing:</Para>
+<programlisting>/bin/sh -c 'ps | lp'
+/bin/sh -c 'spell $1 | more'
+</Programlisting>
+</ListItem>
+<ListItem>
+<Para>Type the On Item help text for the action icon into the Help Text For Action
+Icon text field.</Para>
+<Para><IndexTerm>
+<Primary>help</Primary>
+<Secondary>specified using Create Action</Secondary>
+</IndexTerm>The text will automatically wrap in the text field. However, these line breaks
+are not preserved online. If you want to specify a hard line break, use <filename></Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>actions</Primary>
+<Secondary>window support</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>window support for actions</Primary>
+</IndexTerm>Choose the windowing support required by the action from the Window
+Type option menu.</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="165*">
+<colspec colwidth="363*">
+<TBody>
+<Row>
+<Entry><Para>Graphical (X-Window)</Para></Entry>
+<Entry><Para>The application creates its own window</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Terminal (Auto-Close)<IndexTerm><Primary>terminal emulator</Primary><Secondary>action auto-close option</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The application will run in a terminal emulator
+window that closes automatically when the
+user exits the application</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Terminal (Manual Close)<IndexTerm><Primary>terminal emulator</Primary><Secondary>action manual-close option</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The application will run in a terminal emulator
+window that remains open until the user
+explicitly closes it</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>No Output<IndexTerm><Primary>actions</Primary><Secondary>no display output</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The application does not produce output to the
+display</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>Proceed as follows:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>If your application has data files, and you want to create one or more data
+types for them, see the next section,
+<!--Original XRef content: '&xd2;To Create One or More Data Types
+for an Application'--><XRef Role="SectionTitle" Linkend="SAG.dtCrA.div.8">.''</Para>
+</ListItem>
+<ListItem>
+<Para>If you do not need to create a data type, save the action by choosing Save
+from the File menu. Then, test the new action by double-clicking its icon
+in your home directory.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.dtCrA.div.8" Role="Procedure">
+<Title Id="SAG.dtCrA.mkr.6">To Create One or More Data Types for an Application<IndexTerm><Primary>Create Action</Primary><Secondary>data type creation</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>created with Create Action</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Define the action for the application using the procedure in the previous
+section,
+<!--Original XRef content: '&xd2;To Create an Action for an Application'--><XRef Role="SectionTitle" Linkend="SAG.dtCrA.mkr.5">.</Para>
+</ListItem>
+<ListItem>
+<Para>Click the Advanced button in the Create Action window to expand the
+window.</Para>
+<Figure>
+<Title>Advanced features in the main Create Action window</Title>
+<Graphic Entityref="SAG.dtCrA.fig.3" Id="SAG.dtCrA.grph.3"></Graphic>
+</Figure>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>file prompt, specified with Create Action</Primary>
+</IndexTerm><IndexTerm>
+<Primary>Create Action</Primary>
+<Secondary>file prompt</Secondary>
+</IndexTerm>If you want the application icon to prompt for a file argument when the icon
+is double-clicked, type the text of the prompt into the ``When Action Opens,
+Ask Users for'' text field.</Para>
+<Para>Use these guidelines for this text field:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>You must use this field if the application's command line has a <Symbol Role="Variable">required</Symbol> file
+argument.</Para>
+</ListItem>
+<ListItem>
+<Para>You must leave this field blank if the command line does not include a file
+argument.</Para>
+</ListItem>
+<ListItem>
+<Para>If the file argument in the application's command line is optional, you
+have a choice. If you supply the prompt text, the action icon will prompt
+for the file when double-clicked. If you do not supply the prompt text, the
+action will be executed with a null string as the file argument.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Specify the types of files that the action will accept as arguments:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>If the action can accept any data type, select All Data Types.</Para>
+</ListItem>
+<ListItem>
+<Para>If the action can accept only the data type(s) you create for the application,
+select Only Above List.</Para>
+</ListItem>
+</ItemizedList>
+<Para>Initially, the<IndexTerm>
+<Primary>Data Types list in Create Action</Primary>
+</IndexTerm>
+Datatypes That Use This Action list is empty. As you create
+data types for the application, they are added to the list.</Para>
+</ListItem>
+<ListItem>
+<Para>Click Add beside the Datatypes That Use This Action list box to display the
+Add Data Type dialog box.</Para>
+<Figure>
+<Title>Create Action's Add Datatype dialog box</Title>
+<Graphic Entityref="SAG.dtCrA.fig.4" Id="SAG.dtCrA.grph.4"></Graphic>
+</Figure>
+</ListItem>
+<ListItem>
+<Para>Optional: If you don't want to use the default data type name, type a new
+name for the data type into the<IndexTerm>
+<Primary>Name of Data Type text field</Primary>
+</IndexTerm><IndexTerm>
+<Primary>Create Action</Primary>
+<Secondary>data type name</Secondary>
+</IndexTerm>
+Name of Datatype Family text field.</Para>
+<Para>The name cannot include spaces. The data type name is not visible to
+application users; it is used in the actions/data types database to identify
+the data type definition.</Para>
+</ListItem>
+<ListItem>
+<Para>Click the Edit button beside the<IndexTerm>
+<Primary>Identifying Characteristics</Primary>
+<Secondary>dialog box</Secondary>
+</IndexTerm>
+Identifying Characteristics box to display
+the Identifying Characteristics dialog box.</Para>
+<Figure>
+<Title>Create Action's Identifying Characteristics dialog box</Title>
+<Graphic Entityref="SAG.dtCrA.fig.5" Id="SAG.dtCrA.grph.5"></Graphic>
+</Figure>
+<Para>Characteristics of a data type are the criteria used to differentiate the data
+type from others. You can choose one or more of the following criteria:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="137*">
+<colspec colwidth="391*">
+<TBody>
+<Row>
+<Entry><Para>Files or Folder</Para></Entry>
+<Entry><Para>The data type applies only to files or only to folders</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Name Pattern<IndexTerm><Primary>data types</Primary><Secondary>name-based</Secondary></IndexTerm><IndexTerm><Primary>name-based data types</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Data typing based on the file name</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Permission Pattern<IndexTerm><Primary>permission pattern, specified with Create Action</Primary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>permission pattern</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Read, write, execute permissions</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Contents<IndexTerm><Primary>data types</Primary><Secondary>content-based</Secondary></IndexTerm><IndexTerm><Primary>content-based data type</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Contents of a specified portion of the file</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<para>Select whether the data type represents a file or folder.
+</para>
+<Figure>
+<Title>Specifying a file or directory characteristic for a data type.</Title>
+<Graphic Entityref="SAG.dtCrA.fig.6" Id="SAG.dtCrA.grph.6"></Graphic>
+</Figure>
+</ListItem>
+<ListItem>
+<Para>If the data typing depends on the name, select the Name Pattern check box
+and fill in the text field.</Para>
+<Figure>
+<Title>Specifying the file name characteristic for a data type</Title>
+<Graphic Entityref="SAG.dtCrA.fig.7" Id="SAG.dtCrA.grph.7"></Graphic>
+</Figure>
+<Para>You can use * and ? as wildcards:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="35*">
+<colspec colwidth="493*">
+<TBody>
+<Row>
+<Entry><Para><Filename>*</Filename></Para></Entry>
+<Entry><Para>Matches any sequence of characters</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>?</Filename></Para></Entry>
+<Entry><Para>Matches any single character</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<para>If the data typing depends on the permissions, select the
+Permission Pattern check box and select the permissions for the data type.
+</para>
+<Figure>
+<Title>Specifying the permission characteristics for a data type</Title>
+<Graphic Entityref="SAG.dtCrA.fig.8" Id="SAG.dtCrA.grph.8"></Graphic>
+</Figure>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="47*">
+<colspec colwidth="481*">
+<TBody>
+<Row>
+<Entry><Para>On</Para></Entry>
+<Entry><Para>The file must have the specified permission</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Off</Para></Entry>
+<Entry><Para>The file must lack the specified permission</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Either</Para></Entry>
+<Entry><Para>The specified permission does not matter</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<para>If the data typing depends on the contents, select the Contents
+check box and supply the requested information&mdash;Pattern to search for and
+Type of contents. Optionally, you can supply the byte location where the
+search should start.
+</para>
+<Figure>
+<Title>Specifying the contents characteristics for a data type</Title>
+<Graphic Entityref="SAG.dtCrA.fig.9" Id="SAG.dtCrA.grph.9"></Graphic>
+</Figure>
+<Note>
+<Para>Use of content-based data typing may affect the performance of the
+system.</Para>
+</Note>
+</ListItem>
+<ListItem>
+<Para>Click OK to close the Identifying Characteristics dialog box.</Para>
+<Para>The characteristics will be displayed in the Identifying Characteristics field
+using this coding:<IndexTerm><Primary>Identifying Characteristics</Primary><Secondary>field</Secondary></IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="35*">
+<colspec colwidth="493*">
+<TBody>
+<Row>
+<Entry><Para>d</Para></Entry>
+<Entry><Para>A directory</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>r</Para></Entry>
+<Entry><Para>The file has read permission</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>w</Para></Entry>
+<Entry><Para>The file has write permission</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>x</Para></Entry>
+<Entry><Para>The file has execute permission</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>!</Para></Entry>
+<Entry><Para>Logical operator NOT</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>&amp;</Para></Entry>
+<Entry><Para>Logical operator AND</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>Type the help text for the data files into the Help Text text field.</Para>
+</ListItem>
+<ListItem>
+<Para>Use the Datatype Icons controls to specify the icon for the application.
+Initially, the default icon is shown.</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>To choose a different, existing icon, click Find Set to display the Find Set
+dialog box. See
+<!--Original XRef content: '&xd2;Using the Find Set Dialog Box To Specify an Icon&xd3; on
+page&numsp;152'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.dtCrA.div.9">.</Para>
+</ListItem>
+<ListItem>
+<Para>To create new icons, click Edit Icon to run the Icon Editor.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Verify the command in the Command to Open this Datatype text field. This
+is the command that will be executed when the user double-clicks a data
+file.</Para>
+</ListItem>
+<ListItem>
+<Para>Optional: If the application supplies a print command for printing data files
+from the command line, type the command into the Command to Print this
+Datatype text field, using the syntax <Filename>$</Filename><Symbol Role="Variable">n</Symbol> for a file argument.</Para>
+</ListItem>
+<ListItem>
+<Para>Do one of the following to save the data type definition:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Click OK to save the data type and close the Add Datatype dialog box.</Para>
+</ListItem>
+<ListItem>
+<Para>Click Apply to save the data type without closing the Add Datatype dialog
+box. This let you immediately proceed to define another data type for the
+action.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.dtCrA.div.9">
+<Title Id="SAG.dtCrA.mkr.7">Using the Find Set Dialog Box To Specify an Icon<IndexTerm><Primary>Create Action</Primary><Secondary>specifying icons</Secondary></IndexTerm><IndexTerm><Primary>icons</Primary><Secondary>Find Set dialog box</Secondary></IndexTerm><IndexTerm><Primary>Find Set dialog box</Primary></IndexTerm></Title>
+<Para>The Find Set dialog box is displayed when you click Find Set in the Create
+Action main window or in the Add Datatype window. Use the dialog box to
+specify the icon that will be used for the action or data type.</Para>
+<Figure>
+<Title>Find Set dialog box<IndexTerm><Primary>data types</Primary><Secondary>icons for</Secondary></IndexTerm><IndexTerm><Primary>icons</Primary><Secondary>data types</Secondary></IndexTerm><IndexTerm><Primary>icons</Primary><Secondary>actions</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>icons for</Secondary></IndexTerm></Title>
+<Graphic Entityref="SAG.dtCrA.fig.10" Id="SAG.dtCrA.grph.10"></Graphic>
+</Figure>
+<Para>The Find Set dialog box lets you specify a set of icon image files located:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>In a directory on the icon search path. The Icon Folders list includes all the
+directories on the icon search path.</Para>
+</ListItem>
+<ListItem>
+<Para>In a registration package that will be integrated with the desktop using
+<Command>dtappintegrate</Command>. These icons are not yet located in a directory on the icon
+search path, but will be placed there by <Command>dtappintegrate</Command>.</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>The action and data type definitions created using Create Action write
+out the base name for the icon files (the file name minus the file-name suffixes
+for size and type). Icons for actions and data types created with Create Action
+must eventually be placed in directories on the icon search path.</Para>
+</Note>
+<Sect3 Id="SAG.dtCrA.div.10" Role="Procedure">
+<Title>To Specify a Set of Icons Located on the Icon Search Path</Title>
+<OrderedList>
+<ListItem>
+<Para>In the Find Set dialog box's Icon Folders list, double-click the folder path
+containing the icon.</Para>
+<Para>The Icon Files list will show all the icon files in that folder.</Para>
+</ListItem>
+<ListItem>
+<Para>In the Icon Files list, click the icon you want to use.</Para>
+<Para>This places the base name of the icon file in the Enter Icon File name text
+field.</Para>
+</ListItem>
+<ListItem>
+<Para>Click OK.</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+<Sect3 Id="SAG.dtCrA.div.11" Role="Procedure">
+<Title>To Specify an Icon in a Registration Package</Title>
+<Para>If you are a system administrator or programmer creating a registration
+package, the icon image files are initially located in a directory in the
+registration package:</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/icons/<Symbol Role="Variable">language</Symbol></ProgramListing>
+<Para>After registration with <Command>dtappintegrate</Command>, the icon files will be copied to
+<Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol>, which is on the icon search path.</Para>
+<Para>Use this procedure to specify icons that are part of a registration package:</Para>
+<OrderedList>
+<ListItem>
+<Para>In the Find Set dialog box's Enter Icon Filename text field, type the base
+name of the icon file.</Para>
+</ListItem>
+<ListItem>
+<Para>Click OK.</Para>
+<Para>Create Action displays a dialog box to inform you that the icons were not
+found in directories on the icon search path.</Para>
+</ListItem>
+<ListItem>
+<Para>In the information dialog box that appears, choose No Change.</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

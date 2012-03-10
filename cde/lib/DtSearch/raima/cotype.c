@@ -1,0 +1,73 @@
+/* $XConsortium: cotype.c /main/2 1996/05/09 03:57:15 drk $ */
+/*
+ *   COMPONENT_NAME: austext
+ *
+ *   FUNCTIONS: d_cotype
+ *
+ *   ORIGINS: 157
+ *
+ *   OBJECT CODE ONLY SOURCE MATERIALS
+ */
+/*-----------------------------------------------------------------------
+   cotype.c -- db_VISTA owner type module.
+
+   (C) Copyright 1987 by Raima Corporation.
+-----------------------------------------------------------------------*/
+
+/* ********************** EDIT HISTORY *******************************
+
+ SCR    DATE    INI                   DESCRIPTION
+----- --------- --- -----------------------------------------------------
+      04-Aug-88 RTK MULTI_TASK changes
+*/
+
+#include <stdio.h>
+#include "vista.h"
+#include "dbtype.h"
+
+
+/* Get current owner type
+*/
+d_cotype(set, cotype TASK_PARM DBN_PARM)
+int set;
+int FAR *cotype;
+TASK_DECL
+DBN_DECL
+{
+   char FAR *orec;
+   INT crt;
+#ifndef SINGLE_USER
+   int dbopen_sv;
+#endif
+   SET_ENTRY FAR *set_ptr;
+
+   DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
+
+   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+      RETURN( db_status );
+
+   if ( ! curr_own[set] )
+      RETURN( dberr( S_NOCO ) );
+
+   /* set up to allow unlocked read */
+#ifndef SINGLE_USER
+   dbopen_sv = dbopen;
+   dbopen = 2;
+#endif
+
+   /* Read current owner */
+   dio_read(curr_own[set], (char FAR * FAR *)&orec, NOPGHOLD);
+#ifndef SINGLE_USER
+   dbopen = dbopen_sv;
+#endif
+   if (db_status != S_OKAY)
+      RETURN( db_status );
+
+   /* Fetch record type from record header */
+   bytecpy(&crt, orec, sizeof(INT));
+   crt &= ~RLBMASK; /* mask off rlb */
+   *cotype = (int)crt + RECMARK;
+
+   RETURN( db_status );
+}
+/* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin cotype.c */

@@ -1,0 +1,1319 @@
+<!-- $XConsortium: ch05.sgm /main/10 1996/09/08 19:32:55 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.ClSrv.div.1">
+<Title Id="SAG.ClSrv.mkr.1">Configuring the Desktop in a Network</Title>
+<Para>The desktop is designed to work well in a highly networked environment. The
+architecture of the desktop lets system administrators distribute computing
+resources throughout the network, including:<IndexTerm><Primary>networking</Primary><Secondary>See also servers</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Applications.</Para>
+</ListItem>
+<ListItem>
+<Para>Data files for applications.</Para>
+</ListItem>
+<ListItem>
+<Para>Desktop session services (desktop applications such as Login Manager and
+File Manager).</Para>
+</ListItem>
+<ListItem>
+<Para>Help services. Help data files can be put on a central help server.</Para>
+<InformalTable Id="SAG.ClSrv.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Overview of Desktop Networking86'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'General Steps for Configuring Desktop Networking90'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.7"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Configuring Base Operating System Networking for the Desktop90'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.8"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Configuring Desktop Clients and Servers93'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.18"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Administering Application Services99'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.32"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="SAG.ClSrv.div.2">
+<Title Id="SAG.ClSrv.mkr.2">Overview of Desktop Networking<IndexTerm><Primary>networking</Primary><Secondary>overview</Secondary></IndexTerm><IndexTerm><Primary>client-server configuration, See networking</Primary></IndexTerm></Title>
+<Para>The operating system provides a variety of networking services, including
+distributed file systems and remote execution. X servers provide additional
+networking capabilities, including access to remote displays and security
+services.</Para>
+<Para>The desktop layers a user interface on top of these networking features. The
+goals of this interface and its underlying architecture are to make networked
+systems:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Easier to use. Users can run applications and access data files without
+worrying about where in the network the applications and data are located.</Para>
+</ListItem>
+<ListItem>
+<Para>Easier to administer. The desktop provides application integration tools and
+networked search paths that make it easier for systems to locate remote data
+and applications. In addition the desktop's file-name mapping process
+makes it easier to administer complex networks containing numerous
+servers.</Para>
+</ListItem>
+<ListItem>
+<Para>Flexible. While the administration features of the desktop have been
+designed for certain common network situations, the desktop can
+accommodate many other customized network configurations.</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.ClSrv.div.3">
+<Title>Types of Networked Desktop Services<IndexTerm><Primary>networking</Primary><Secondary>types of services</Secondary></IndexTerm></Title>
+<Para>Networking lets a user sitting at a particular display access various computing
+services distributed among other systems, such as:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The desktop session and its applications&mdash;for example, Workspace Manager
+and File Manager</Para>
+</ListItem>
+<ListItem>
+<Para>Other applications</Para>
+</ListItem>
+<ListItem>
+<Para>Data files</Para>
+</ListItem>
+</ItemizedList>
+<Para>Networking terminology uses the term<IndexTerm>
+<Primary>servers</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+<Symbol Role="Variable">server</Symbol> to describe a system that
+provides computing services to one or more other systems. When a system
+receives services from a server, it is called a<IndexTerm>
+<Primary>clients</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+<Symbol Role="Variable">client</Symbol> of that server.</Para>
+<Para>In a complex network, a system may use services located on a number of
+systems throughout the network. Furthermore, a system may act as a
+particular type of server (for example, a session server) and may also be a
+client (for example, of an application server).</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.4">
+<Title>Typical Network Situations</Title>
+<Para>From a desktop perspective, a typical network configuration may contain some
+combination of these major components:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="148*">
+<colspec colwidth="380*">
+<TBody>
+<Row>
+<Entry><Para>Displays</Para></Entry>
+<Entry><Para>Where the X server is running</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Login/Session servers<IndexTerm><Primary>session</Primary><Secondary>servers</Secondary><Tertiary>login</Tertiary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Where the desktop applications (Login Manager,
+Workspace Manager, etc.) run</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Application servers<IndexTerm><Primary>servers</Primary><Secondary>application</Secondary></IndexTerm><IndexTerm><Primary>application servers</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Where other applications run</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>File servers<IndexTerm><Primary>servers</Primary><Secondary>file</Secondary></IndexTerm><IndexTerm><Primary>file servers</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Where data used by applications is located</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>One of the most common network configurations involves systems accessing
+an application server.
+<!--Original XRef content: 'Figure&numsp;5&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.ClSrv.mkr.1"> illustrates a workstation that uses an
+application server. The X server and desktop session are running on the
+workstation.</Para>
+<Figure>
+<Title Id="SAG.ClSrv.mkr.3">Application servers provide services to the desktop session</Title>
+<Graphic Entityref="SAG.ClSrv.fig.1" Id="SAG.ClSrv.grph.1"></Graphic>
+</Figure>
+<Para>Networks also frequently use<IndexTerm>
+<Primary>file servers</Primary>
+</IndexTerm>
+file servers to store large amounts of data. This
+data may be used by applications running on an application server, or by the
+desktop applications (for example, File Manager needs access to data files to
+display them in the File Manager window).</Para>
+<Figure>
+<Title>Files servers provide data to application servers and session servers</Title>
+<Graphic Entityref="SAG.ClSrv.fig.2" Id="SAG.ClSrv.grph.2"></Graphic>
+</Figure>
+<Para><IndexTerm>
+<Primary>X terminals</Primary>
+<Secondary>obtaining session services</Secondary>
+</IndexTerm>X terminals run the X server and obtain desktop session services from another
+system.</Para>
+<Figure>
+<Title>X terminals get session services from a session server</Title>
+<Graphic Entityref="SAG.ClSrv.fig.3" Id="SAG.ClSrv.grph.3"></Graphic>
+</Figure>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.5">
+<Title>Other Networking Situations</Title>
+<Para>The desktop is flexible and can support more complex network configurations.
+This usually involves making various services, in addition to file servers,
+available to application servers.</Para>
+<Figure>
+<Title>Services required by a desktop application server can be distributed</Title>
+<Graphic Entityref="SAG.ClSrv.fig.4" Id="SAG.ClSrv.grph.4"></Graphic>
+</Figure>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.6">
+<Title Id="SAG.ClSrv.mkr.4">Summary&mdash;Types of Servers<IndexTerm><Primary>servers</Primary><Secondary>types</Secondary></IndexTerm></Title>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.74in">
+<colspec colwidth="4.19in">
+<TBody>
+<Row>
+<Entry><Para>Display</Para></Entry>
+<Entry><Para>The system running the X server.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Login and session server</Para></Entry>
+<Entry><Para>The system running the desktop session (Login
+Manager, Session Manager, Window Manager, File
+Manager, etc.)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Application server</Para></Entry>
+<Entry><Para>A system on which an application runs. Also called
+the <Emphasis>execution host</Emphasis>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>File server</Para></Entry>
+<Entry><Para>A system on which data files for applications are
+stored</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Help server<IndexTerm><Primary>servers</Primary><Secondary>help</Secondary></IndexTerm><IndexTerm><Primary>help servers</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>A system on which help data files are stored</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>(Action) database server<IndexTerm><Primary>action servers, See database servers</Primary></IndexTerm><IndexTerm><Primary>database servers</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>A system where files containing action and data
+type definitions are stored</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Icon server<IndexTerm><Primary>servers</Primary><Secondary>icon</Secondary></IndexTerm><IndexTerm><Primary>icon servers</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>A system on which icon files are stored</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The network may include additional servers, such as a password server, mail
+server, video server, etc.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.ClSrv.div.7">
+<Title Id="SAG.ClSrv.mkr.5">General Steps for Configuring Desktop Networking<IndexTerm><Primary>networking</Primary><Secondary>general configuration steps</Secondary></IndexTerm></Title>
+<Para>There are three general steps for configuring desktop networking:</Para>
+<OrderedList>
+<ListItem>
+<Para>Configure base operating system network services.</Para>
+<Para>These are the networking services provided by your operating system upon
+which the desktop depends. See
+<!--Original XRef content: '&xd2;Configuring Base Operating System
+Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.8">.</Para>
+</ListItem>
+<ListItem>
+<Para>Install and configure desktop networking software and services.</Para>
+<Para>These are the services required by the desktop, regardless of the type of
+client or server system being set up. See
+<!--Original XRef content: '&xd2;Configuring Desktop Clients and
+Servers&xd3; on page&numsp;93'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.18">.</Para>
+</ListItem>
+<ListItem>
+<Para>Configure the particular type of server or client.</Para>
+<Para>For example, configuring an application server requires different steps than
+configuring a file server. See
+<!--Original XRef content: '&xd2;Administering Application Services&xd3; on
+page&numsp;99'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.32">.</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="SAG.ClSrv.div.8">
+<Title Id="SAG.ClSrv.mkr.6">Configuring Base Operating System Networking for the Desktop<IndexTerm><Primary>networking</Primary><Secondary>base configuration</Secondary></IndexTerm></Title>
+<Para>The desktop requires the following base networking configuration:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Users must have a login account on the session server and on each system
+providing desktop services to the session server. The user must have the
+same user ID and group ID on all client and server systems.</Para>
+</ListItem>
+<ListItem>
+<Para>Systems must have access to remote file systems containing data used by the
+session and other applications.</Para>
+</ListItem>
+<ListItem>
+<Para>The <Command>lp</Command> print spooler must be configured to access remote printers.</Para>
+</ListItem>
+<ListItem>
+<Para><Command>sendmail</Command> must be configured for email services.</Para>
+</ListItem>
+<ListItem>
+<Para>X authorization must be set up.</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.ClSrv.div.9">
+<Title>Providing Login Accounts to Users<IndexTerm><Primary>login accounts</Primary></IndexTerm></Title>
+<Para>This section describes the login account requirements for desktop networking.</Para>
+<Sect3 Id="SAG.ClSrv.div.10">
+<Title>Providing Login Accounts</Title>
+<Para>Users must have a login account on:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>All systems providing services to the desktop, including application servers,
+file servers, and systems providing networked printers.</Para>
+</ListItem>
+<ListItem>
+<Para>All session servers the user may access. Usually, session servers are used
+with X terminals.</Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.11">
+<Title>Providing Consistent User and Group IDs</Title>
+<Para>UNIX users are identified by a login name and a<IndexTerm>
+<Primary>UID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>user ID</Primary>
+</IndexTerm>
+numeric user ID (UID). In a
+desktop network, the user should have the same login name and UID on all
+client and server systems.</Para>
+<Para>UNIX users are also assigned to one or more login groups. Each group has a
+group name and a numeric group ID<IndexTerm>
+<Primary>GID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>group ID</Primary>
+</IndexTerm>
+(GID). In a desktop network, all systems
+should use consistent group names and group IDs.</Para>
+<Para>For more information, see the <Filename MoreInfo="RefEntry">id</Filename>(1) or <Filename MoreInfo="RefEntry">id</Filename>(1m) man page.</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.12">
+<Title Id="SAG.ClSrv.mkr.7">Configuring Distributed File System Access<IndexTerm><Primary>files</Primary><Secondary>access to distributed</Secondary></IndexTerm></Title>
+<Para>The desktop uses NFS for sharing files between systems. You must
+identify all the file systems in your network that contain shared files
+and ensure that they are correctly mounted on all appropriate systems.<IndexTerm><Primary>file sharing</Primary></IndexTerm><IndexTerm><Primary>NFS</Primary></IndexTerm><IndexTerm><Primary>files</Primary><Secondary>remote access</Secondary></IndexTerm><IndexTerm><Primary>files</Primary><Secondary>mounting</Secondary></IndexTerm>
+</Para>
+<Para>Typically, you must provide the following remote file access:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The<IndexTerm>
+<Primary>home directory</Primary>
+<Secondary>shared</Secondary>
+</IndexTerm>
+user's home directory must be shared by all desktop client and server
+systems. This is necessary because:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>The home directory contains data files that must be accessed by
+applications on remote systems. For example, applications using data files
+frequently use the home directory as the default data file location.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>authentication directory</Primary>
+</IndexTerm><IndexTerm>
+<Primary>dtspcd</Primary>
+<Secondary>authentication directory</Secondary>
+</IndexTerm>The home directory is the default <Command>dtspcd</Command> authentication directory. For
+more information about the <Command>dtspcd</Command>, see
+<!--Original XRef content: '&xd2;Configuring the Subprocess
+Control Daemon&xd3; on page&numsp;97'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.25">.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>If users require access to data files that are not in their home directory, these
+data files must be shared by all the desktop client and server systems that
+operate on the data files.</Para>
+</ListItem>
+<ListItem>
+<Para>The desktop installation and configuration directories (<Filename>/usr/dt</Filename> and
+<Filename>/etc/dt</Filename>) must be shared by all the desktop client and server systems so
+that all of the user's applications access the same desktop configuration files.</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.ClSrv.div.13">
+<Title>Providing a Networked Home Directory<IndexTerm><Primary>home directory</Primary><Secondary>networked</Secondary></IndexTerm></Title>
+<Para>A desktop network works most effectively when users have a single home
+directory that is shared among all client and server systems on the network.</Para>
+<Para>A networked home directory lets users use different systems in the network
+without losing personal customizations and configurations. This is because
+personal customizations and the information required to restore the previous
+session are saved in subdirectories of the home directory.</Para>
+<Para>A common home directory is also required by:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The default X authorization mechanism. See
+<!--Original XRef content: '&xd2;Configuring X Authorization&xd3;
+on page&numsp;93'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.17">.</Para>
+</ListItem>
+<ListItem>
+<Para>The desktop subprocess control daemon, which is involved in launching
+remote applications, must be able to write to the user's home directory.</Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.14">
+<Title>File-Name Consistency<IndexTerm><Primary>files</Primary><Secondary>name consistency</Secondary></IndexTerm><IndexTerm><Primary>file-name consistency</Primary></IndexTerm></Title>
+<Para>You should configure the network so that users can access their data files from
+all systems using the same name. This is known as providing <Emphasis>file-name
+consistency</Emphasis>, and is usually accomplished by creating appropriate<IndexTerm>
+<Primary>symbolic links</Primary>
+<Secondary>file-name consistency</Secondary>
+</IndexTerm>
+symbolic links.
+For example you can configure every system so that each user's home
+directory is available as <Filename>/users/</Filename><Symbol Role="Variable">login_name</Symbol> by creating a symbolic link to the
+actual mount location of the directory.</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.15">
+<Title>Configuring Access to Remote Printers<IndexTerm><Primary>printers</Primary><Secondary>remote access</Secondary></IndexTerm></Title>
+<Para>The desktop uses the<IndexTerm>
+<Primary>lp print spooler</Primary>
+</IndexTerm>
+<Command>lp</Command> print spooler for accessing local or remote printers.
+See the <Filename MoreInfo="RefEntry">lpadmin</Filename>(1m) man page for information on configuring the <Command>lp</Command> spooler.</Para>
+<Para><IndexTerm>
+<Primary>printing</Primary>
+<Secondary>testing</Secondary>
+</IndexTerm>Before attempting to print using the desktop graphical interface, you should
+test that you can correctly print to all printers using the<IndexTerm>
+<Primary>lp command</Primary>
+</IndexTerm>
+<Command>lp</Command> command.</Para>
+<Para><IndexTerm>
+<Primary>printers</Primary>
+<Secondary>device names</Secondary>
+</IndexTerm>It is highly recommended that you use consistent printer device names. For
+example, if a particular printer is known as <Filename>Postscript1</Filename> on the system to
+which it is directly connected, all other systems accessing the printer remotely
+should also use the name <Filename>Postscript1</Filename>.</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.16">
+<Title>Configuring Electronic Mail<IndexTerm><Primary>electronic mail, configuring</Primary></IndexTerm><IndexTerm><Primary>networking</Primary><Secondary>electronic mail</Secondary></IndexTerm></Title>
+<Para>The desktop mailer uses <Command>sendmail</Command> for delivering mail between systems. See
+the<IndexTerm>
+<Primary>sendmail</Primary>
+</IndexTerm>
+<Filename MoreInfo="RefEntry">sendmail</Filename>(1m) man page for more information on how to configure email
+connectivity.</Para>
+<Para>Before attempting to send or receive mail from the desktop, you should test
+that you can correctly send and receive mail using the<IndexTerm>
+<Primary>mailx</Primary>
+</IndexTerm>
+<Command>mailx</Command> command.</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.17">
+<Title Id="SAG.ClSrv.mkr.8">Configuring X Authorization<IndexTerm><Primary>X authorization</Primary></IndexTerm><IndexTerm><Primary>authorization, X</Primary></IndexTerm><IndexTerm><Primary>networking</Primary><Secondary>X authorization</Secondary></IndexTerm></Title>
+<Para>The desktop uses the default X mechanism for authorizing remote applications
+(X clients) to access a local display. The easiest way to configure this is to
+provide a networked home directory for each user. This ensures that the
+following requirements are met:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The user must have read and write permission to the file
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xauthority.</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>The <Filename>.Xauthority</Filename> file on an application server must contain the &ldquo;magic
+cookie&rdquo; for the display on which the application will run.</Para>
+</ListItem>
+</ItemizedList>
+<Para>For more information, see the <Filename MoreInfo="RefEntry">X</Filename>(1) or <Filename MoreInfo="RefEntry">xauth</Filename>(1) man pages.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.ClSrv.div.18">
+<Title Id="SAG.ClSrv.mkr.9">Configuring Desktop Clients and Servers<IndexTerm><Primary>clients</Primary><Secondary>of server, configuring</Secondary></IndexTerm><IndexTerm><Primary>servers</Primary><Secondary>configuring</Secondary></IndexTerm><IndexTerm><Primary>networking</Primary><Secondary>configuring clients and servers</Secondary></IndexTerm></Title>
+<Para>This section covers network configuration requirements that are specific to the
+desktop&mdash;that is, these capabilities are provided by the desktop rather than by
+the base operating system.</Para>
+<Para>The section is divided into two parts:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Configuring login and session services.</Para>
+</ListItem>
+<ListItem>
+<Para>Configuring services required by applications and their data. This includes
+application, database, icon, file, and help servers and their clients.</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.ClSrv.div.19">
+<Title>Configuring Login and Session Services<IndexTerm><Primary>session servers, See login servers&lt</Primary></IndexTerm><IndexTerm><Primary>login servers</Primary><Secondary>configuring</Secondary></IndexTerm></Title>
+<Para>A login/session server is a system that supplies desktop services (Login
+Manager, Session Manager, File Manager, Window Manager, etc.) to a display
+and X server.</Para>
+<Para>Typically, a session server supplies services to X terminals. However, a network
+configuration can be set up that concentrates session services on one or more
+servers that are accessed by both X terminals and workstations.</Para>
+<Para>The Login Manager is the desktop component responsible for supplying login
+services to other displays. Once the user has logged in, the Session Manager is
+started for the user.<IndexTerm><Primary>servers</Primary><Secondary>session</Secondary></IndexTerm><IndexTerm><Primary>X terminals</Primary></IndexTerm><IndexTerm><Primary>servers</Primary><Secondary>login</Secondary></IndexTerm>
+</Para>
+<Para>For information about configuring login/session servers and X terminals, see
+<!--Original XRef content: '&xd2;Displaying a Login Screen on a Network Display&xd3; on page&numsp;6'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.LogMg.mkr.6">.</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.19a">
+<Title>Configuring Input Method Servers<IndexTerm><Primary>input method servers</Primary><Secondary>configuring</Secondary></IndexTerm></Title>
+<Para>An Input Method Server (IMS) is launched by the <command>dtimsstart</command> command.
+<command>dtimsstart</command> is normally invoked automatically
+at Xsession startup (user login) by the script
+<filename>/usr/dt/config/Xsession.d/0020.dtims</filename>.
+</para>
+<para>Depending on the currently selected locale, environment variables,
+configuration files, and command-line options, <command>dtimsstart</command>
+displays a selection window from which the user can select the IMS to
+use. From the selection window, the user can also request to start an
+IMS on a remote system. In this case, <command>dtimsstart</command>:
+</para>
+<itemizedlist>
+<listitem>
+<para>Executes the <Symbol>DtImsGetRemoteConf</Symbol>
+action to retrieve information about IMSs registered on the specified remote system
+</para>
+</listitem>
+<listitem>
+<para>Lists the registered IMSs in the selection window
+</para>
+</listitem>
+<listitem>
+<para>Executes the <Symbol>DtImsRunRemoteIms</Symbol>
+action to start the user-selected IMS on the remote system
+</para>
+</listitem>
+</itemizedlist>
+<para>When searching for IMSs on a remote system,
+<command>dtimsstart</command> retrieves only registered IMSs.
+To be registered on a system (local or remote), an IMS
+must:
+</para>
+<itemizedlist>
+<listitem>
+<para>Be defined in the entry file for the current locale.
+Each locale has its own entry file that lists the IMSs that
+support that locale. The location of the locale entry file is
+<filename>/usr/dt/config/ims/&lt;locale_name></filename>.
+</para>
+</listitem>
+<listitem>
+<para>Have its own entry file on the system.
+The IMS entry file describes the attributes of an IMS.
+The attributes include the supported protocols,
+the name of the server on which the IMS runs,
+the command line options for the IMS, and an
+indication whether the IMS allows remote execution or not.
+The location of the IMS entry files is
+<filename>/usr/dt/config/ims/&lt;ims_name></filename>.
+</para>
+</listitem>
+</itemizedlist>
+<para>For descriptions of the file formats, with examples, refer to the
+<command>dtimsstart</command> man page.
+</para>
+<para>To define the hosts on which an IMS can be found, you can configure the
+<literal>imServerHosts</literal> application resource. This resource (which is
+used by the Style Manager when identifying IMSs for user selection) contains a comma-separated
+list of host names. For example:
+</para>
+<programlisting>*imServerHosts: xylo,expo
+</programlisting>
+</sect2>
+<Sect2 Id="SAG.ClSrv.div.20">
+<Title>Configuring Other Application-Related Services</Title>
+<Para>This section covers networking requirements common to the desktop:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><IndexTerm>
+<Primary>application servers</Primary>
+<Secondary>configuring</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>servers</Primary>
+<Secondary>application</Secondary>
+</IndexTerm>Application servers</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>database servers</Primary>
+<Secondary>configuring</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>servers</Primary>
+<Secondary>database</Secondary>
+</IndexTerm>Database servers</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>icon servers</Primary>
+<Secondary>configuring</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>servers</Primary>
+<Secondary>icon</Secondary>
+</IndexTerm>Icon servers</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>help servers</Primary>
+<Secondary>configuring</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>servers</Primary>
+<Secondary>help</Secondary>
+</IndexTerm>Help servers</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.ClSrv.div.21" Role="Procedure">
+<Title Id="SAG.ClSrv.mkr.10">To Configure Desktop Clients and Servers</Title>
+<OrderedList>
+<ListItem>
+<Para>Provide the operating system network configurations required by the
+desktop.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on
+page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6">.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>files</Primary>
+<Secondary>required for networking</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>networking</Primary>
+<Secondary>files required for</Secondary>
+</IndexTerm>Install the desktop or the minimum set of files:</Para>
+<Para>You must install:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>The entire Common Desktop Environment runtime file sets</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>Or</Emphasis>, these sets of files:<IndexTerm><Primary>CDE-MIN files</Primary></IndexTerm><IndexTerm><Primary>CDE-TT files</Primary></IndexTerm>
+CDE-MIN and CDE-TT
+</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>Installation and file sets may differ among vendors.</Para>
+</Note>
+</ListItem>
+<ListItem>
+<Para>Configure the system for the ToolTalk
+filename database server daemon <Command>rpc.ttdbserver.</Command><IndexTerm><Primary>filename database server</Primary></IndexTerm><IndexTerm><Primary>rpc.ttdbserver</Primary></IndexTerm>
+</Para>
+<Para>This should happen automatically when the desktop is installed. For more
+information, see
+<!--Original XRef content: '&xd2;Configuring the ToolTalk Database Server&xd3; on page&numsp;98'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.29">.</Para>
+</ListItem>
+<ListItem>
+<Para>Install and configure the subprocess control daemon (<Command><IndexTerm>
+<Primary>dtspcd</Primary>
+</IndexTerm>dtspcd</Command>).</Para>
+<Para>This should happen automatically when the desktop is installed. For more
+information, see
+<!--Original XRef content: '&xd2;Configuring the Subprocess Control Daemon&xd3; on page&numsp;97'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.25">.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>files</Primary>
+<Secondary>remote data</Secondary>
+</IndexTerm>Mount all required remote data.</Para>
+<Para>Data is considered &ldquo;remote&rdquo; when it is located on a system other than the
+system on which the application using the data is running.</Para>
+<Para>For example:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>If an application uses data located on a file server, it must mount those
+files.</Para>
+</ListItem>
+<ListItem>
+<Para>If File Manager icons are located on an icon server, the session server must
+mount those files.</Para>
+</ListItem>
+<ListItem>
+<Para>If the network uses a help server for desktop help files, the session server
+and all application servers must mount the help data.</Para>
+<Para>For more information about mount points, see the next section,
+<!--Original XRef content: '&xd2;Configuring the Mount Point for Remote File Systems'--><XRef Role="SectionTitle" Linkend="SAG.ClSrv.div.22">.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.22">
+<Title Id="SAG.ClSrv.mkr.11">Configuring the Mount Point for Remote File Systems<IndexTerm><Primary>files</Primary><Secondary>mount point</Secondary></IndexTerm><IndexTerm><Primary>mount point for remote files</Primary></IndexTerm></Title>
+<Para><IndexTerm>
+<Primary>file-name mapping</Primary>
+</IndexTerm>When the desktop passes file names from one system to another, it must
+transform, or <Emphasis>map</Emphasis>, those file names to names that make sense to the destinition
+system. This mapping is necessary because a file may be mounted in different
+locations on the different systems, and therefore must be accessed using
+different names. For example the file /<Filename>projects/big</Filename> on <Command>sysA</Command> may be
+accessed as <Filename>/net/sysA/projects/big</Filename> on <Command>sysB</Command>.</Para>
+<Sect4 Id="SAG.ClSrv.div.23">
+<Title>Requirements for File-Name Mapping</Title>
+<Para>To correctly perform this file-name mapping, one of the following must be true:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The <Command>mount</Command> command is used to statically mount file systems. These types of
+static mounts are typically configured in a file such as <Filename>/etc/checklist</Filename>,
+<Filename>/etc/mnttab</Filename>, or <Filename>/etc/filesystems</Filename>.</Para>
+<Para>For file-name mapping to work correctly between systems, file system
+mounts must use consistent host names. If a host is known by several names
+(for example, aliases, or if the host has more than one LAN address that are
+known by different names), you must use the same name and form of the
+name for all mounts.</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>Or</Emphasis>, the automounter is used to mount file systems at the default <Filename>/net</Filename>
+mount point.</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>Or</Emphasis>, the<IndexTerm>
+<Primary>automounter</Primary>
+</IndexTerm>
+automounter is used to mount file systems at a location other than
+<Filename>/net</Filename> and the DTMOUNTPOINT environment variable is set to indicate the
+mount point. See the next section,
+<!--Original XRef content: '&xd2;Setting a Value for DTMOUNTPOINT'--><XRef Role="SectionTitle" Linkend="SAG.ClSrv.div.24">.</Para>
+</ListItem>
+</ItemizedList>
+<Para>For information about the automounter, see the <Filename MoreInfo="RefEntry">automount</Filename>(1m) man page.</Para>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.24">
+<Title Id="SAG.ClSrv.mkr.12">Setting a Value for<IndexTerm><Primary>DTMOUNTPOINT variable</Primary><Secondary>setting</Secondary></IndexTerm>DTMOUNTPOINT</Title>
+<Para><IndexTerm>
+<Primary>DTMOUNTPOINT variable</Primary>
+<Secondary>processes that use</Secondary>
+</IndexTerm>You must set the DTMOUNTPOINT environment variable if both of the
+following conditions are true:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The automounter is used to mount file systems.</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>And</Emphasis>, remote file systems are mounted at a location other than <Filename>/net</Filename>.</Para>
+</ListItem>
+</ItemizedList>
+<Para><IndexTerm>
+<Primary>DTMOUNTPOINT variable</Primary>
+<Secondary>processes requiring</Secondary>
+</IndexTerm>DTMOUNTPOINT must be set for processes, including:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The user's desktop processes that are automatically started when the user
+logs in, such as the Workspace Manager (<Command>dtwm</Command>) and File Manager (<Command>dtfile</Command>)</Para>
+</ListItem>
+<ListItem>
+<Para>System processes such as <Filename><IndexTerm>
+<Primary>rpc.ttdbserver</Primary>
+</IndexTerm>rpc.ttdbserver</Filename> and <Command>dtspcd</Command> that are started by
+mechanisms such as <Command>inetd</Command></Para>
+</ListItem>
+<ListItem>
+<Para>Applications that are started by the desktop on local or remote systems</Para>
+</ListItem>
+<ListItem>
+<Para>Applications that are started by the user from a shell command line</Para>
+</ListItem>
+</ItemizedList>
+<Para>To set DTMOUNTPOINT for all of these processes&rdquo;</Para>
+<OrderedList>
+<ListItem>
+<Para>Edit the file <Filename>/etc/inetd.conf</Filename>:<IndexTerm><Primary>inetd.conf</Primary></IndexTerm>
+</Para>
+<orderedlist>
+<ListItem>
+<Para>Find the <Command><IndexTerm>
+<Primary>dtspcd</Primary>
+</IndexTerm>dtspcd</Command> entry and add:</Para>
+<programlisting>-mount_point <Symbol Role="Variable">mount_point</Symbol></programlisting>
+</ListItem>
+<ListItem>
+<Para>Find the <Filename>rpc.ttdbserver</Filename> entry and add:</Para>
+<programlisting>-m <Symbol Role="Variable">mount_point</Symbol></programlisting>
+<Para>For example if the automounter is being used with a mount point of <Command>/nfs</Command>,
+the entries in <Filename>/etc/inetd.conf</Filename> are:</Para>
+<ProgramListing>dtspc stream tcp nowait root /usr/dt/bin/dtspcd /usr/dt/bin/dtspcd -mount_point /nfs
+rpc stream tcp wait root /usr/dt/bin/rpc.ttdbserver 100083 1 rpc.ttdbserver -m /nfs</ProgramListing>
+</ListItem>
+</OrderedList>
+</ListItem>
+<ListItem>
+<Para>Perform the procedure on your system that rereads <Filename>/etc/inetd.conf</Filename>. For
+more information, see the <Filename MoreInfo="RefEntry">inetd</Filename>(1m) man page.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>DTMOUNTPOINT variable</Primary>
+<Secondary>inherited by users</Secondary>
+</IndexTerm>Set DTMOUNTPOINT such that its value is inherited by user logins.</Para>
+<Para>This can be done by setting the variable in <Filename>/etc/dt/config/Xsession.d</Filename>.
+For more information on setting environment variables, see
+<!--Original XRef content: '&xd2;To Set
+Environment Variables&xd3; on page&numsp;32'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.SesMg.mkr.9">.</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.25">
+<Title Id="SAG.ClSrv.mkr.13">Configuring the Subprocess Control Daemon</Title>
+<Para>The desktop<IndexTerm>
+<Primary>subprocess control service, See SPC&lt;$nopage></Primary>
+</IndexTerm>
+subprocess control (<IndexTerm>
+<Primary>SPC</Primary>
+</IndexTerm>SPC) service provides client/server command
+execution.</Para>
+<Para>The desktop<IndexTerm>
+<Primary>subprocess control daemon, See dtspcd&lt;$nopage></Primary>
+</IndexTerm>
+subprocess control daemon (<Command><IndexTerm>
+<Primary>dtspcd</Primary>
+</IndexTerm>dtspcd</Command>) is used by the desktop to
+launch remote applications. It is an <Command>inet</Command> daemon that accepts requests from
+remote clients to execute commands. For more information on how to
+configure <Command>inet</Command> daemons, see the <Filename MoreInfo="RefEntry">inetd.conf</Filename>(1m) man page.</Para>
+<Para>The desktop action invocation library uses the SPC service to invoke remote
+actions.</Para>
+<Sect4 Id="SAG.ClSrv.div.26">
+<Title>To Configure<IndexTerm><Primary>dtspcd</Primary><Secondary>configuring</Secondary></IndexTerm> dtspcd</Title>
+<OrderedList>
+<ListItem>
+<Para>Confirm that <Command>dtspc</Command> is properly registered in both <Filename>/etc/services</Filename> and
+<Filename>/etc/inetd.conf</Filename>. See the <Filename MoreInfo="RefEntry">dtspcd</Filename>(1m) man page.</Para>
+</ListItem>
+<ListItem>
+<Para>HP-UX only: Ensure that <Filename>/usr/adm/inetd.sec</Filename> is properly configured.
+See the <Filename MoreInfo="RefEntry"><IndexTerm>
+<Primary>inetd.sec</Primary>
+</IndexTerm>inetd.sec(4)</Filename> man page.</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.27">
+<Title><IndexTerm><Primary>SPC</Primary><Secondary>security</Secondary></IndexTerm>SPC Security</Title>
+<Para>Authentication for the subprocess control service is based on file system
+authentication. The <Command>dtspcd</Command> must have access to an <Emphasis>authentication directory</Emphasis> that
+is also mounted by all SPC client systems.</Para>
+<Para>By default the <Command><IndexTerm>
+<Primary>dtspcd</Primary>
+<Secondary>authentication directory</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>authentication directory</Primary>
+</IndexTerm>dtspcd</Command> authentication directory is the user's home directory.
+However, you can configure the <Command>dtspcd</Command> to use a different location by setting
+the <Filename>-auth_dir</Filename> option in the <Filename>/etc/inetd.conf</Filename> directory. See the
+<Filename>dtspcd</Filename>(1m) man page for more information.</Para>
+<Para>Because SPC authentication is based on file system authentication, the SPC
+service is only as secure as your distributed file system. If you are using the
+desktop in a network where you do not trust the distributed file system, you
+may wish to disable the <Command>dtspcd</Command>. To disable the <Command>dtspcd</Command>, comment out the
+<Command>dtspc</Command> entry in <Filename>/etc/services</Filename>.</Para>
+</Sect4>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.28">
+<Title><IndexTerm><Primary>environment variables</Primary><Secondary>remote execution</Secondary></IndexTerm>Configuring Environment Variables for Remote Execution</Title>
+<Para>When the desktop uses an action to start an application on a remote system,
+the user's environment variables are copied to the remote system and placed in
+the environment of the application.</Para>
+<Para>By default, some of the environment variables are altered before they are
+copied to the remote system. You can configure both the action invocation
+component and the subprocess control service of the desktop to perform
+additional environment variable processing before the variables are placed into
+the application's environment.</Para>
+<Para>For more information on the default configuration and how to modify it,
+see the <Filename>dtactionfile(4)</Filename> and <Filename>dtspcdenv(4)</Filename> man pages.</Para>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.29">
+<Title Id="SAG.ClSrv.mkr.14">Configuring the ToolTalk Database Server<IndexTerm><Primary>ToolTalk</Primary><Secondary>Database Server, See rpc.ttdbserver</Secondary></IndexTerm></Title>
+<Para>One component of ToolTalk is the ToolTalk database server,
+<Filename>/usr/dt/bin/rpc.ttdbserver</Filename>.</Para>
+<Para>The ToolTalk database server is used by the ToolTalk messaging service and for
+file-name mapping. It is usually registered in <Filename>/etc/inetd.conf</Filename> when the
+desktop is installed and needs no additional configuration.</Para>
+<Para>For more information on the ToolTalk database server and its configuration
+options, see the <Filename>rpc.ttdbserver</Filename>(1m) man page.</Para>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.30">
+<Title>Configuring the ToolTalk Message Server<IndexTerm><Primary>ToolTalk Message Server, See ttsession</Primary></IndexTerm></Title>
+<Para>The ToolTalk message server is <Command>ttsession</Command>.
+By default, it does not require any
+configuration; it is started by the <Command>Xession</Command> script during login.</Para>
+<Para>See the <Command>ttsession</Command> man page for more information on the ToolTalk message
+server and its configuration options.<IndexTerm><Primary>ttsession</Primary></IndexTerm>
+</Para>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.31">
+<Title>Configuring the<IndexTerm><Primary>Calendar daemon</Primary></IndexTerm>Calendar Daemon</Title>
+<Para>One component of the Calendar application is the Calendar daemon
+<Filename><IndexTerm>
+<Primary>rpc.cmsd</Primary>
+</IndexTerm>rpc.cmsd</Filename>. It is usually registered in <Filename>/etc/inetd.conf</Filename> when the desktop is
+installed and needs no additional configuration.</Para>
+<Para>For more information on the Calendar daemon and its configuration options,
+see the <Filename>rpc.cmsd</Filename><Filename MoreInfo="RefEntry"></Filename>(1) man page.</Para>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.ClSrv.div.32">
+<Title Id="SAG.ClSrv.mkr.15">Administering Application Services<IndexTerm><Primary>application servers</Primary><Secondary>administering</Secondary></IndexTerm></Title>
+<Para>This section covers specific configuration requirements for:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Application servers and their clients</Para>
+</ListItem>
+<ListItem>
+<Para>Desktop servers that provide special services&mdash;database servers, icon
+servers, and help servers</Para>
+</ListItem>
+</ItemizedList>
+<Para>It also covers networking requirements for two special configurations for
+networked applications:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Remote execution hosts</Para>
+</ListItem>
+<ListItem>
+<Para>Applications running across file system mounts</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.ClSrv.div.33">
+<Title>Search Path Environment Variables</Title>
+<Para>The desktop uses a set of environment variables to specify the search path used
+to find application desktop configuration files such as the actions and data
+types database, help files, and icon files.</Para>
+<Para>For information on how to use the search path environment variables, see
+<!--Original XRef content: 'Chapter&numsp;7, &xd2;Desktop Search Paths'--><XRef Role="ChapNumAndTitle" Linkend="SAG.Datab.div.1">,'' or the <Filename MoreInfo="RefEntry">dtenvvar(5)</Filename> man page.</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.34">
+<Title>Configuring an Application Server and Its Clients<IndexTerm><Primary>remote execution</Primary><Secondary>configuring application server</Secondary></IndexTerm></Title>
+<Para>In the standard application server configuration, the application server
+contains all the binary and configuration files associated with the application,
+including:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The application executable(s)</Para>
+</ListItem>
+<ListItem>
+<Para>Standard application configuration files such as app-defaults, message
+catalogs, and shared libraries for that application.</Para>
+</ListItem>
+<ListItem>
+<Para>Desktop configuration files:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Action and data type definition files</Para>
+</ListItem>
+<ListItem>
+<Para>Icon image files</Para>
+</ListItem>
+<ListItem>
+<Para>Desktop help data files</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</ItemizedList>
+<Figure>
+<Title>Standard application server configuration<IndexTerm><Primary>application servers</Primary><Secondary>standard configuration</Secondary></IndexTerm></Title>
+<Graphic Entityref="SAG.ClSrv.fig.5" Id="SAG.ClSrv.grph.5"></Graphic>
+</Figure>
+<Sect3 Id="SAG.ClSrv.div.35" Role="Procedure">
+<Title>To Configure an Application Server<IndexTerm><Primary>application servers</Primary><Secondary>configuring</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Provide the operating system network configurations required by the
+desktop.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on
+page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6">.</Para>
+</ListItem>
+<ListItem>
+<Para>Provide the general desktop configuration required for servers.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10">.</Para>
+</ListItem>
+<ListItem>
+<Para>Install the application(s).</Para>
+</ListItem>
+<ListItem>
+<Para>If an application does not automatically register itself, you must perform the
+registration procedure.</Para>
+<Para>See
+<!--Original XRef content: 'Chapter&numsp;4, &xd2;Registering an Application'--><XRef Role="ChapNumAndTitle" Linkend="SAG.RegAp.mkr.1">.</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.36" Role="Procedure">
+<Title>To Configure the Client of an Application Server<IndexTerm><Primary>application servers</Primary><Secondary>client of</Secondary></IndexTerm><IndexTerm><Primary>application servers</Primary><Secondary>configuring client of</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Provide the operating system network configurations required by the
+desktop.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on
+page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6">.</Para>
+</ListItem>
+<ListItem>
+<Para>Provide the general desktop configuration required for clients.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10">.</Para>
+</ListItem>
+<ListItem>
+<Para>Add the application server to the application search path on a system-wide
+or personal basis:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.01in">
+<colspec colwidth="3.88in">
+<TBody>
+<Row>
+<Entry><Para>System-wide</Para></Entry>
+<Entry><Para>Set the DTSPSYSAPPHOSTS variable in
+<Filename>/etc/dt/config/Xsession.d/0010.dtpaths</Filename><IndexTerm><Primary>DTSPSYSAPPHOSTS variable</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Personal</Para></Entry>
+<Entry><Para>Set the DTSPUSERAPPHOSTS variable in
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename><IndexTerm><Primary>DTSPUSERAPPHOSTS variable</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</OrderedList>
+<Para>For example, the following line in
+/<Filename>etc/dt/config/Xsession.d/0010.dtpaths</Filename> adds a system with
+hostname <Command>SysAAA</Command> and <Command>SysBBB</Command> to the application search path:</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=SysAAA:,SysBBB:</ProgramListing>
+<Para>For more information about setting the application search path, see:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Application Search Path&xd3; on page&numsp;116'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.7"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Setting the Value of a Search Path&xd3; on page&numsp;115'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.3"></Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.37">
+<Title Id="SAG.ClSrv.mkr.16">Configuring Database, Icon, and Help Services<IndexTerm><Primary>icon servers</Primary><Secondary>configuring</Secondary></IndexTerm><IndexTerm><Primary>help servers</Primary><Secondary>configuring</Secondary></IndexTerm><IndexTerm><Primary>database servers</Primary><Secondary>configuring</Secondary></IndexTerm><IndexTerm><Primary>database servers</Primary><Secondary>configuring</Secondary></IndexTerm><IndexTerm><Primary>servers</Primary><Secondary>actions</Secondary></IndexTerm><IndexTerm><Primary>servers</Primary><Secondary>data types</Secondary></IndexTerm><IndexTerm><Primary>servers</Primary><Secondary>actions</Secondary></IndexTerm><IndexTerm><Primary>servers</Primary><Secondary>data types</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>server for</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>server for</Secondary></IndexTerm></Title>
+<Para>Usually, the action and data type definitions, icons, and help data files
+associated with an application are installed onto the same system as the
+application.</Para>
+<Para>For example, consider the typical configuration of help data files:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The help files for File Manager are usually located on the session server. The
+desktop finds them because the help search path automatically searches the
+proper locations on the session server.</Para>
+</ListItem>
+<ListItem>
+<Para>The help files for other applications are usually located on the same
+application server as the application. The session server finds them because
+modifying the application search path automatically modifies the help
+search path.</Para>
+</ListItem>
+</ItemizedList>
+<Para>There may be situations in which you want to place database (actions and data
+types), help, or icon data elsewhere on the network. For example, if your
+network uses multiple session servers, you might want to create a help server
+on which all the help data files for desktop applications (File Manager, Style
+Manager, etc.) are stored. This conserves disk space because the help files do
+not need to be duplicated on each session server.</Para>
+<Sect3 Id="SAG.ClSrv.div.38" Role="Procedure">
+<Title Id="SAG.ClSrv.mkr.17">To Create a Database, Help, or Icon Server<IndexTerm><Primary>database servers</Primary><Secondary>creating</Secondary></IndexTerm><IndexTerm><Primary>icon servers</Primary><Secondary>creating</Secondary></IndexTerm><IndexTerm><Primary>help servers</Primary><Secondary>creating</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Provide the operating system network configurations required by the
+desktop.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on
+page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6">.</Para>
+</ListItem>
+<ListItem>
+<Para>Provide the general desktop configuration required for clients.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10">.</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.ClSrv.mkr.18">Install the database, help, or icon files.</Para>
+<Para>The files can be located anywhere on the system. However, it may be easier
+to use the following locations, since these are the directories automatically
+searched when a system has been designated an application server.</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Database files: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>Help files: <Filename>/etc/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para>Icon files: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>If you are setting up a database server, the actions must be written to specify
+where their commands (<Filename>EXEC_STRING</Filename>s) will run. See
+<!--Original XRef content: '&xd2;Specifying a Remote
+Execution Host&xd3; on page&numsp;104'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.41">.</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.39" Role="Procedure">
+<Title>To Configure the Session Server to Find a Database, Icon, or Help Server<IndexTerm><Primary>help servers</Primary><Secondary>client of</Secondary></IndexTerm><IndexTerm><Primary>icon servers</Primary><Secondary>client of</Secondary></IndexTerm><IndexTerm><Primary>database servers</Primary><Secondary>client of</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Provide the operating system network configurations required by the
+desktop.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on
+page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6">.</Para>
+</ListItem>
+<ListItem>
+<Para>Provide the general desktop configuration required for clients.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10">.</Para>
+</ListItem>
+<ListItem>
+<Para>Add the database, icon, or help server to the appropriate search path.</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>If you placed the data files in the locations specified in
+<!--Original XRef content: 'Step&numsp;3'--><XRef Role="Step" Linkend="SAG.ClSrv.mkr.18"> of
+<!--Original XRef content: '&xd2;To
+Create a Database, Help, or Icon Server'--><XRef Role="SectionTitle" Linkend="SAG.ClSrv.mkr.17">, you can modify the application
+search path.</Para>
+</ListItem>
+<ListItem>
+<Para>If you placed the data files in other locations, you must modify the specific
+search path.</Para>
+<Para>For example, if you placed the help files in directory <Filename>/etc/dt/help</Filename> on
+system <Command>SysCCC</Command>, you would add the following line to
+/<Filename>etc/dt/config/Xsession.d/0010.dtpaths</Filename>:</Para>
+<programlisting>DTSPSYSHELP=/net/SysCCC/etc/dt/help</programlisting>
+</ListItem>
+</itemizedlist>
+<Para>For more information about setting search paths, see:</Para>
+<itemizedlist>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Database (Action/Data Types) Search Path&xd3; on page&numsp;120'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.14"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Icon Search Path&xd3; on page&numsp;122'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.20"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Help Search Path&xd3; on page&numsp;123'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.26"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Setting the Value of a Search Path&xd3; on page&numsp;115'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.3"></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.40">
+<Title>Special Networked Application Configurations</Title>
+<Para>This section describes how to configure systems to run applications:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Elsewhere than on the system containing the action&mdash;on a remote execution
+host</Para>
+</ListItem>
+<ListItem>
+<Para>Locally across file system mounts</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.ClSrv.div.41">
+<Title Id="SAG.ClSrv.mkr.19">Specifying a Remote Execution Host<IndexTerm><Primary>remote execution</Primary><Secondary>with action remote from application</Secondary></IndexTerm></Title>
+<Para>In the typical application server configuration, the action definition is located
+on the same system as the application executable. However,<IndexTerm>
+<Primary>actions</Primary>
+<Secondary>running remote applications</Secondary>
+</IndexTerm>
+actions can be
+written to execute commands on other systems. In this configuration, the
+system containing the application is called the <Emphasis><IndexTerm>
+<Primary>execution host</Primary>
+<Secondary>specifying</Secondary>
+</IndexTerm>execution host</Emphasis>.<IndexTerm>
+<Primary>EXEC_HOST, See execution host&lt;$nopage></Primary>
+</IndexTerm></Para>
+<Para>The action definition may be located on the session server or on a system that
+provides action and data type services to the session server&mdash;called a <Emphasis><IndexTerm>
+<Primary>database servers</Primary>
+</IndexTerm><IndexTerm>
+<Primary>database host</Primary>
+</IndexTerm>database
+server</Emphasis> or <Emphasis>database host</Emphasis>.</Para>
+<Para>Action definitions use the <Filename>EXEC_HOST</Filename> field to specify where their commands
+(<Filename>EXEC_STRING</Filename>s) should be run. For example, the following action definition
+specifies that an <Command>xload</Command> client be run on a system with host name <Command>SysDDD</Command>:</Para>
+<programlisting>ACTION XloadSysDDD
+{ TYPE        COMMAND
+ EXEC_HOST    SysDDD
+ EXEC_STRING  /usr/bin/X11/xload -label SysDDD
+}
+</ProgramListing>
+<Para>If the <Filename><IndexTerm>
+<Primary>EXEC_HOST field</Primary>
+<Secondary>multiple values</Secondary>
+</IndexTerm>EXEC_HOST</Filename> field specifies more than one host name, then the desktop
+tries to execute the <Filename>EXEC_STRING</Filename> on each host in order until it finds one that
+can run the action. For example, the following <Filename>EXEC_HOST</Filename> field specifies that
+the action should first attempt to run the <Filename>EXEC_STRING</Filename> on <Command>SysDDD</Command>, and,
+failing this, try <Command>SysEEE</Command>.</Para>
+<ProgramListing>EXEC_HOST  SysDDD,SysEEE</ProgramListing>
+<Para>If the <Filename><IndexTerm>
+<Primary>EXEC_HOST field</Primary>
+<Secondary>default value</Secondary>
+</IndexTerm>EXEC_HOST</Filename> field is not set for an action, it defaults to the value
+<Filename>&percnt;DatabaseHost&percnt;</Filename>. The value of <Filename>&percnt;DatabaseHost&percnt;</Filename> is obtained from the
+database search path.</Para>
+<Para>For example, suppose the database search path has been modified by adding
+the following line to <Filename>/etc/dt/config/Xsession.d/0010.dtpaths</Filename>:<IndexTerm><Primary>database search path</Primary><Secondary>affect on EXEC_HOST</Secondary></IndexTerm><IndexTerm><Primary>DTSPSYSDATABASEHOSTS variable</Primary><Secondary>effect on EXEC_HOST</Secondary></IndexTerm><IndexTerm><Primary>EXEC_HOST field</Primary><Secondary>affected by database search path</Secondary></IndexTerm>
+</Para>
+<programlisting>DTSPSYSDATABASEHOSTS=SysAAA:,/net/SysBBB/etc/dt/appconfig/types/C
+</ProgramListing>
+<Para><Command>SysAAA</Command> is specified using the host-qualified syntax&mdash;<Filename>SysAAA:</Filename>. An action
+definition found using this element of the search path sets the database host to
+<Command>SysAAA</Command>. However, an action found using the <Filename>/net/SysBBB</Filename>&hellip; portion of the
+search path sets the database host to the local system because the syntax does
+not include the host qualifier.</Para>
+<Sect4 Id="SAG.ClSrv.div.42">
+<Title>To Configure the Remote Execution Host<IndexTerm><Primary>execution host</Primary><Secondary>configuring</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Provide the operating system network configurations required by the
+desktop.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on
+page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6">.</Para>
+</ListItem>
+<ListItem>
+<Para>Provide the general desktop configuration required for servers.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10">.</Para>
+</ListItem>
+<ListItem>
+<Para>Ensure that the applications are properly installed and configured for local
+execution.</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.43">
+<Title>To Configure the System Containing the Action Definition</Title>
+<OrderedList>
+<ListItem>
+<Para>Provide the operating system network configurations required by the
+desktop.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on
+page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6">.</Para>
+</ListItem>
+<ListItem>
+<Para>Provide the general desktop configuration required for servers.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10">.</Para>
+</ListItem>
+<ListItem>
+<Para>Create and install the action definitions and application groups.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Creating Actions that Run Applications on Remote Systems&xd3; on
+page&numsp;177'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrAct.div.49"> and
+<!--Original XRef content: '&xd2;Creating and Administering General Application Groups&xd3; on
+page&numsp;45'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CnfAM.mkr.10">.</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.44">
+<Title>To Configure the Session Server</Title>
+<OrderedList>
+<ListItem>
+<Para>Provide the operating system network configurations required by the
+desktop.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on
+page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6">.</Para>
+</ListItem>
+<ListItem>
+<Para>Provide the general desktop configuration required for clients.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10">.</Para>
+</ListItem>
+<ListItem>
+<Para>Modify the actions search path to include the database host.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Database (Action/Data Types) Search Path&xd3; on page&numsp;120'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.14">.</Para>
+</ListItem>
+<ListItem>
+<Para>Modify the application search path to include the execution host.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Application Search Path&xd3; on page&numsp;116'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.7">.</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.45">
+<Title>Running Applications Locally<IndexTerm><Primary>mounts,running applications across</Primary></IndexTerm><IndexTerm><Primary>applications</Primary><Secondary>running locally across mounts</Secondary></IndexTerm><IndexTerm><Primary>networking</Primary><Secondary>running applications across mounts</Secondary></IndexTerm></Title>
+<Para>The standard application server configuration runs applications on the
+application server. Sometimes it is desirable to have the application installed
+on a remote system but executed locally on the session server.</Para>
+<Figure>
+<Title>Execution across mount points</Title>
+<Graphic Entityref="SAG.ClSrv.fig.6" Id="SAG.ClSrv.grph.6"></Graphic>
+</Figure>
+<Sect4 Id="SAG.ClSrv.div.46">
+<Title>To Configure the Application Server</Title>
+<Para>No special configuration is required.</Para>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.47">
+<Title>To Configure the Session Server</Title>
+<OrderedList>
+<ListItem>
+<Para>Modify the application search path. Use the local absolute path to the
+application.</Para>
+</ListItem>
+</OrderedList>
+<Para>For example, you might use the following variable definition to find an
+application registered on <Command>sysAAA</Command>:</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=/net/SysAAA/etc/dt/appconfig/appmanager/C</ProgramListing>
+<Para>The session server must be able to access the application's configuration files,
+such as app-defaults, message catalogs, and shared libraries.</Para>
+</Sect4>
+</Sect3>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

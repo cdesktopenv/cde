@@ -1,0 +1,92 @@
+<!-- $XConsortium: appc.sgm /main/6 1996/09/08 19:35:15 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+
+<Title Id="TTUG.ttmt.mkr.1">スレッド・セイフToolTalkアプリケーションの作成</Title>
+<indexterm><primary>スレッド・セイフToolTalkアプリケーション</primary><secondary>作成</secondary></indexterm>
+<Para>アプリケーション開発者は、マルチ・スレッド・セイフToolTalkライブラリを使用する
+ことによって、ToolTalkのためのマルチ・スレッド・アプリケーションを作成することができ
+ます。このとき、アプリケーション・コード中のToolTalkリソースのロックを明示的に管理
+する必要はありません。<Filename>Xthreads.h</Filename>スレッドAPIラッパーの拡張版を
+使用しているので、マルチ・スレッドlibttを多様なスレッド実装に問題なく移植でき
+ます。
+</para>
+<para>libttリソースの内部を保護するため、プロセス単位のロックを導入し保守します。
+ウィンドウ・ツールキットの場合と違い、libttに大量の時間をさくアプリケーションはほ
+とんどないので、より精緻なロック技法の付加並列性によって性能が大幅に向上すること
+はありません。
+</para>
+<para>デフォルト<literal>procid</literal>、<function>tt_mark</function>に操作され
+る記憶装置のスタック、<function>tt_release</function> APIなどのいくつかのToolTalk
+のグローバル値には、ToolTalkのAPI呼び出しを行うスレッドが参照できるように、一貫し
+た状態でなければならないものがあります。（これらの値はスレッド固有のデータとなり
+ます。）この動作を初期化し、新しいデータを操作するためにさらにAPI呼び出しが導入さ
+れます。現在のスレッドにスレッド固有の値が設定されると、プロセス単位の値のか
+わりにスレッド固有の値を参照するため既存のAPI呼び出しを変更します。スレッド固有の
+値が設定されない場合は、プロセス単位の値が使用されます。
+</para>
+<para>すべてのプラットフォームでマルチ・スレッド機能が使用できるとはかぎりません。
+そのため、ライブラリに機能の存在を尋ねるAPIがあります。たとえマルチ・スレッド機能
+を使用できないプラットフォームであっても、新規のAPI呼び出しを実装し
+<Symbol>TT_ERR_UNIMP</Symbol>をスレッド固有のものに対して返せるようにします。
+そうすればアプリケーション開発者は、未解決のシンボルの問題にかかわることなく
+実行時のチェックが行えます。
+</para>
+<para>APIの要約を次に示します。
+</para>
+<itemizedlist>
+<listitem>
+<para><function>tt_feature_enabled</function>は、指定された機能が使用できるかどうか
+決定します。
+<indexterm><primary>スレッド・セイフToolTalkアプリケーション</primary><secondary>tt_feature_enabled</secondary></indexterm>
+<indexterm><primary>tt_feature_enabled関数</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_feature_required</function>は、指定された機能が要求されているこ
+とを宣言し、その機能が存在する場合、使用可能にします。
+<indexterm><primary>スレッド・セイフToolTalkアプリケーション</primary><secondary>tt_feature_required</secondary></indexterm>
+<indexterm><primary>tt_feature_required関数</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_thread_session_set</function>は、スレッドのためのデフォルト・
+セッションを設定します。
+<indexterm><primary>スレッド・セイフToolTalkアプリケーション</primary><secondary>tt_thread_session_set</secondary></indexterm>
+<indexterm><primary>tt_thread_session_set関数</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_thread_session</function>は、スレッドのためのデフォルト・
+セッションを取り出します。
+<indexterm><primary>スレッド・セイフToolTalkアプリケーション</primary><secondary>tt_thread_session</secondary></indexterm>
+<indexterm><primary>tt_thread_session関数</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_thread_procid_set</function>は、スレッドのためのデフォルト・
+プロセスIDを設定します。
+<indexterm><primary>スレッド・セイフToolTalkアプリケーション</primary><secondary>tt_thread_procid_set</secondary></indexterm>
+<indexterm><primary>tt_thread_procid_set関数</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_procid_session</function>は、指定されたプロセスIDと関連する
+セッションを返します。
+<indexterm><primary>スレッド・セイフToolTalkアプリケーション</primary><secondary>tt_procid_session</secondary></indexterm>
+<indexterm><primary>tt_procid_session関数</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>Tttt_c</function>は、typedefと列挙型です。
+<indexterm><primary>スレッド・セイフToolTalkアプリケーション</primary><secondary>Tttt_c</secondary></indexterm>
+<indexterm><primary>Tttt_c typdef/列挙型宣言</primary></indexterm>
+<indexterm><primary>Tttt_c typdef/enum declarations</primary></indexterm>
+</para>
+</listitem>
+</itemizedlist>

@@ -1,0 +1,73 @@
+<!-- $XConsortium: MmdbBGST.sgm /main/5 1996/08/30 13:05:17 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.INFO.DtMmdbBookGetShortTitle">]]><refmeta><refentrytitle>
+DtMmdbBookGetShortTitle</refentrytitle><manvolnum>library call</manvolnum></refmeta><refnamediv>
+<refname><function>DtMmdbBookGetShortTitle</function></refname><refpurpose>obtains
+the short title of a book</refpurpose></refnamediv><refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;DtMmdb.h></funcsynopsisinfo>
+<funcdef>const char* <function>DtMmdbBookGetShortTitle</function></funcdef>
+<paramdef>DtMmdbInfoRequest* <parameter>request</parameter></paramdef>
+<paramdef>unsigned int* <parameter>length</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtMmdbBookGetShortTitle</function> function
+returns the short title of the specified book object. Do not use the
+<function>free</function> function on the returned pointer. Table lookup is involved
+when the identifier is specified by either the
+<symbol role="Variable">primary_oid</symbol> or
+<symbol role="Variable">sequence_num</symbol> field.
+</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">request</symbol></term>
+<listitem>
+<para>Specifies the bookcase in the bookcase descriptor field, as well
+as a valid value in the <symbol role="Variable">primary_oid</symbol>, the
+<symbol role="Variable">secondary_oid</symbol>, or the
+<symbol role="Variable">sequence_num</symbol> field.
+The <symbol role="Variable">primary_oid</symbol> represents the
+DtInfo Database object identifier of the TOC section; the
+<symbol role="Variable">secondary_oid</symbol> represents the
+object identifier of the book itself; and the
+<symbol role="Variable">sequence_num</symbol> represents
+the sequence number of the book within the bookcase (0 based).
+If more than one of these fields have a valid value, the
+order of precedence is:
+<symbol role="Variable">primary_oid</symbol>,
+<symbol role="Variable">secondary_oid</symbol>, and, last,
+<symbol role="Variable">sequence_num</symbol>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">length</symbol></term>
+<listitem>
+<para>Specifies the variable to receive the length of the
+returned short title, if the returned pointer to the title is not NULL.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>If <function>DtMmdbBookGetShortTitle</function> completes
+successfully, it returns a pointer to the book's short title.
+If it fails, it returns a NULL pointer.
+</para>
+</refsect1><refsect1>
+<title>EXAMPLE</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtMmdbBookGetLongTitle;
+</para>
+</refsect1></refentry>

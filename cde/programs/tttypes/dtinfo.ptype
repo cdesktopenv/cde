@@ -1,0 +1,41 @@
+/*
+ * $XConsortium: dtinfo.ptype /main/1 1996/06/17 14:28:05 rcs $ 
+ *
+ * (c) Copyright 1996 Digital Equipment Corporation.
+ * (c) Copyright 1996 Hewlett-Packard Company.
+ * (c) Copyright 1996 International Business Machines Corp.
+ * (c) Copyright 1996 Sun Microsystems, Inc.
+ * (c) Copyright 1996 Novell, Inc. 
+ * (c) Copyright 1996 FUJITSU LIMITED.
+ * (c) Copyright 1996 Hitachi.
+ */
+
+#include "dtinfo_start.opnums"
+
+ptype DtInfo {
+       	start 	"/usr/dt/infolib/etc/dtinfo_start";
+	handle:
+		session DtInfo_LoadInfoLib (
+				in string action_name,
+				in string info_lib_host,
+				in string locale)
+			=> start opnum = LOAD_INFO_LIB;
+
+		session DtInfo_ShowInfoAtLoc (
+				in string action_name,
+				in string info_lib_host,
+				in string locale,
+				in string section)
+			=> start opnum =  SHOW_INFO_AT_LOC;	
+	observe:
+		session DtInfo_Quit () => opnum = QUIT_DTINFO;
+}
+
+ptype DtInfoPrint {
+      start "/usr/dt/bin/dtinfo -print";
+      handle:
+
+      /* print a specified section */
+      session DtInfo_PrintInfoAtLoc()
+                                        => start opnum=PRINT_INFO_AT_LOC;
+};

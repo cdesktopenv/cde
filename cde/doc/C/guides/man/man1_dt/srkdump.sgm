@@ -1,0 +1,191 @@
+<!-- $XConsortium: srkdump.sgm /main/6 1996/09/08 19:56:56 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![%CDE.C.CDE; [<refentry id="CDE.SEARCH.dtsrkdump">]]>
+<refmeta><refentrytitle>dtsrkdump</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtsrkdump</command></refname><refpurpose>
+Produce reports about DtSearch database keys
+</refpurpose></refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtsrkdump</command>
+<group choice="plain">
+<arg choice="plain">&minus;o</arg>
+<arg choice="plain">&minus;w</arg>
+<arg choice="plain">&minus;ow</arg>
+</group>
+<arg choice="opt">&minus;v</arg>
+<arg choice="opt"><group choice="plain">
+<arg choice="plain">&minus;t<replaceable>threshold</replaceable></arg>
+<arg choice="plain">&minus;p<replaceable>percent</replaceable></arg>
+</group></arg>
+<arg choice="plain"><replaceable>dbname</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para><command>dtsrkdump</command> is a convenience utility that traverses the
+word/stem, document, or both b-trees for the specified DtSearch database
+and prints a summary report about the keys to stdout. The
+<literal>&minus;v</literal> option additionally prints a detailed key by
+key report. <command>dtsrkdump</command> can be used to confirm
+integrity of the b-trees, and to count and report currently available
+documents and keytypes.
+</para>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para>The following options are available:</para>
+<note>
+<para>If an option takes a value, the value must be directly appended to
+the option name without white space.</para>
+</note>
+<variablelist>
+<varlistentry><term><literal>&minus;o</literal></term>
+<listitem>
+<para>Instructs <command>dtsrkdump</command> to produce a report for unique
+document keys. You must specify this argument or the <literal>&minus;w</literal>
+or <literal>&minus;ow</literal> argument.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;w</literal></term>
+<listitem>
+<para>Instructs <command>dtsrkdump</command> to produce a report for word and
+stem keys. You must specify this argument or the
+<literal>&minus;o</literal> or <literal>&minus;ow</literal> argument.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;ow</literal></term>
+<listitem>
+<para>Instructs <command>dtsrkdump</command> to produce reports for both
+unique document keys and word and stem keys. You must specify this
+argument or the <literal>&minus;o</literal> or
+<literal>&minus;w</literal> argument.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;v</literal></term>
+<listitem>
+<para>Specifies verbose mode, which generates a report item for every key in
+the database. Use this option with caution when working with very large
+databases.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;t</literal><Symbol Role="Variable">threshold</Symbol></term>
+<listitem>
+<para>Sets the frequency of occurrence threshold for reporting words to
+<Symbol Role="Variable">threshold</Symbol>. <command>dtsrkdump</command>
+will output only those words that occure in at least
+<Symbol Role="Variable">threshold</Symbol> records. Setting the threshhold to 1
+will output all words. If neither the <literal>&minus;t</literal> nor
+<literal>&minus;p</literal> option is specified, the default threshold
+is <literal>&minus;t100</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;t</literal><Symbol Role="Variable">percent</Symbol></term>
+<listitem>
+<para>Sets the frequency threshold for reporting words to a percentage of all
+records. <Symbol Role="Variable">percent</Symbol> is a floating-point
+number between 0 and 100, and can include the decimal point.
+<command>dtsrkdump</command> will output only those words that occur
+in at least <Symbol Role="Variable">percent</Symbol> of all records. If
+neither the <literal>&minus;t</literal> nor <literal>&minus;p</literal>
+option is specified, the default threshold is <literal>&minus;t100</literal>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>OPERAND</title>
+<para>The <Symbol Role="Variable">dbname</Symbol> argument specifies the name
+of the database to be traversed. A path prefix is optional. The database
+name is the 1 to 8 ASCII character string used at creation time
+</para>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>RETURN VALUES</title>
+<para>The return values are as follows:</para>
+<variablelist>
+<varlistentry><term>0</term>
+<listitem>
+<para><command>dtsrkdump</command> completed successfully.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>non-zero</term>
+<listitem>
+<para><command>dtsrkdump</command> encountered an error.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para><command>dtsrkdump</command> opens all database files for
+<Symbol Role="Variable">dbname</Symbol>.
+</para>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>Output a summary report on the objects (documents) in the local database
+named <filename>mydb</filename>. The summary report will print the
+document count for each keytype in the database.
+</para>
+<programlisting>
+dtsrkdump -o mydb
+</programlisting>
+<para>Output a summary report on the words and stems in the local database
+named <filename>mydb</filename>. The summary report will print the count
+of each index term in the database from the three word b-trees.
+</para>
+<programlisting>
+dtsrkdump -w mydb
+</programlisting>
+<para>Output every document key in database <filename>jpndb</filename> in
+directory <filename>/usr/dtsearch</filename>, plus a summary report of
+the document count for each keytype in the database, plus every word or
+stem that occurs in 20 or more documents, plus a summary report of
+counts of each term for the word b-trees.
+</para>
+<programlisting>
+dtsrkdump -ow -v -t20 /usr/dtsearch/jpndb
+</programlisting>
+<para>Output the same as the previous example except that the detail word and
+stem will only contain terms that occur in 80.5% or more of the
+database.
+</para>
+<programlisting>
+dtsrkdump -ow -v -p80.5 /usr/dtsearch/jpndb
+</programlisting>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtsrdbfiles;,
+&cdeman.DtSearch;
+</para>
+</refsect1>
+</refentry>
+

@@ -1,0 +1,819 @@
+comment
+  comcon:comcon {
+/* $XConsortium: context.dat /main/3 1995/07/17 19:50:00 lehors $ */
+/*
+              Copyright 1986 Tandem Computers Incorporated.
+This product and information is proprietary of Tandem Computers Incorporated.
+                   Copyright (c) 1986, 1987, 1988, 1989 Hewlett-Packard Co.
+
+Context.dat defines the state transitions for program BUILD.
+*/
+                  }
+ ;
+
+produces
+  postel:content
+  postsref:entity
+  post2sref:entity2
+ ;
+
+except
+  lastm:excon
+  postc:excon
+ ;
+
+paropen
+  rule:firstparname
+ ;
+
+param
+  sref:pcon,
+  postc:pcon,
+  skipex:pcon,
+  excon:pcon,
+  lastm:pcon,
+  mcon:pcon,
+  postuse:pcon,
+  typedent:pcon {found(&poccur, param) ;}
+
+  postsref:pcon {
+            adddefent(thisrule);
+            found(&poccur, param);
+            }
+ ;
+
+shortref
+  rule:scon
+ ;
+
+usemap
+  pcon:ucon,
+  postc:ucon,
+  skipex:ucon,
+  excon:ucon,
+  lastm:ucon,
+  mcon:ucon,
+  default:ucon,
+  iddefault:ucon,
+  postdef:ucon,
+  curdef:ucon {found(&uoccur, "<USEMAP> or <ADDMAP>") ;}
+ ;
+
+addmap
+  pcon:ucon,
+  postc:ucon,
+  skipex:ucon,
+  excon:ucon,
+  lastm:ucon,
+  mcon:ucon,
+  default:ucon,
+  iddefault:ucon,
+  postdef:ucon,
+  curdef:ucon {
+            if (standard) 
+	      {
+	      M_WCHAR *w_addmap, *w_tagc;
+
+	      w_addmap = MakeWideCharString(addmap);
+	      w_tagc = MakeWideCharString(tagc);
+              m_err2("%s%s not defined in the SGML standard",w_addmap,w_tagc);
+	      m_free(w_addmap,"wide character string");
+	      m_free(w_tagc,"wide character string");
+	      }
+            else {
+              useoradd = FALSE;
+              found(&uoccur, "<USEMAP> or <ADDMAP>");
+              }
+            }
+ ;
+
+empty
+  ucon:postucon {srefp = EMPTYMAP ;}
+ ;
+
+entstart
+  rule:entdec {entrule = TRUE ;}
+ ;
+
+tagc
+  postucon:skipex
+
+  ucon:sref {
+            defmapname();
+            if (addmapname(genname, TRUE)) srefp = curmap + 1;
+            else m_err1("Default map name %s already in use", genname) ; 
+            }
+
+  sconet:s2ref
+  parname:p2con
+  error:error
+
+  entval:rule,
+  typedec:rule,
+  postent:rule {entrule = FALSE ;}
+ ;
+  
+ero
+  entity:entname
+  entity2:ent2name
+ ;
+
+entsystem
+  entity:typedent {SETETYPE(thisrule, M_SYSTEM) ;}
+  entity2:typed2ent {SETETYPE(mapname, M_SYSTEM) ;}
+  entval:typedec {entity->type = M_SYSTEM ;}
+ ;
+
+entst
+  entity:typedent {SETETYPE(thisrule, M_STARTTAG) ;}
+  entity2:typed2ent {SETETYPE(mapname, M_STARTTAG) ;}
+  entval:typedec {entity->type = M_STARTTAG ;}
+  mcon:mcon {smin = TRUE ;}
+ ;
+
+entet
+  entity:typedent {SETETYPE(thisrule, M_ENDTAG) ;}
+  entity2:typed2ent {SETETYPE(mapname, M_ENDTAG) ;}
+  entval:typedec {entity->type = M_ENDTAG ;}
+  mcon:mcon {emin = TRUE ;}
+ ;
+
+entmd
+  entity:typedent {SETETYPE(thisrule, M_MD) ;}
+  entity2:typed2ent {SETETYPE(mapname, M_MD) ;}
+  entval:typedec {entity->type = M_MD ;}
+ ;
+
+entpi
+  entity:typedent {SETETYPE(thisrule, M_PI) ;}
+  entity2:typed2ent {SETETYPE(mapname, M_PI) ;}
+  entval:typedec {entity->type = M_PI ;}
+ ;
+
+entsdata
+  entity:typedent {SETETYPE(thisrule, M_SDATA) ;}
+  entity2:typed2ent {SETETYPE(mapname, M_SDATA) ;}
+  entval:typedec {entity->type = M_SDATA ;}
+ ;
+
+min
+  pcon:mcon,
+  sref:mcon,
+  postc:mcon,
+  skipex:mcon,
+  excon:mcon,
+  lastm:mcon,
+  default:mcon,
+  iddefault:mcon,
+  postdef:mcon,
+  curdef:mcon,
+  postuse:mcon,
+  typedent:mcon {found(&moccur, min) ;}
+
+  postsref:mcon {
+            adddefent(thisrule);
+            found(&moccur, min);
+            }
+ ;
+
+grpo
+  rule:ngname
+  content:model {
+            contype = m_token;
+            ruletree = curtree = gettreenode();
+            }
+  model:model {
+            curtree->first = gettreenode();
+            curtree->first->parent = curtree;
+            curtree = curtree->first;
+            }
+  submod:model {
+            curtree->right = gettreenode();
+            curtree->right->parent = curtree->parent;
+            curtree = curtree->right;
+            }
+  openex:exname
+
+  type:ntname,
+  type2:nt2name {
+            newpar->type = m_token;
+            newpar->kwlist = M_NULLVAL;
+            }
+ ;
+
+grpc
+  namegroup:postel
+
+  modcon:occur2,
+  samecon:occur2,
+  occur:occur2,
+  occur2:occur2 {endmodel() ;}
+
+  exlist:excon
+  ntgroup:default
+  nt2group:default2
+ ;
+
+emi
+  model:neednm {
+            if (standard) 
+              m_error("Explicit minimization is not provided in IS 8879");
+            else {
+              curtree->first = gettreenode();
+              curtree->first->parent = curtree;
+              curtree = curtree->first;
+              curtree->terminal = TRUE;
+              curtree->minim = TRUE;
+              }
+            }
+  submod:neednm2 {
+            if (standard) 
+              m_error("Explicit minimization is not provided in IS 8879");
+            else {
+              curtree->right = gettreenode();
+              curtree->right->parent = curtree->parent;
+              curtree = curtree->right;
+              curtree->terminal = TRUE;
+              curtree->minim = TRUE;
+              }
+            }
+ ;
+
+incl
+  excon:openex {
+            lhs->elt->inptr = excount + 1;
+            exlist = NULL;
+            }
+ ;
+
+excl
+  excon:openex {
+            lhs->elt->exptr = excount + 1;
+            exlist = NULL;
+            }
+ ;
+
+psep
+  default:pcon
+  default2:p2con
+  iddefault:pcon
+  id2default:p2con
+  postdef:pcon
+  post2def:p2con
+  curdef:pcon
+  cur2def:p2con
+  postuse:sref
+  post2use:s2ref
+  typedent:sref
+  typed2ent:s2ref
+  postsref:sref {adddefent(thisrule) ;}
+  post2sref:s2ref {adddefent(mapname) ;}
+ ;
+
+rend
+  rule:rule
+
+  lastm:rule,
+  skipex:rule,
+  postc:rule,
+  excon:rule,
+  default:rule,
+  iddefault:rule,
+  postdef:rule,
+  curdef:rule,
+  error:rule,
+  mcon:rule,
+  postuse:rule,
+  pcon:rule,
+  sref:rule,
+  typedent:rule {rulend() ;}
+
+  postsref:rule {
+            adddefent(thisrule);
+            rulend();
+            }
+
+  default2:rule,
+  id2default:rule,
+  post2def:rule,
+  cur2def:rule {prulend() ;}
+
+  post2use:rule,
+  s2ref:rule,
+  typed2ent:rule {ruleinit() ;}
+
+  post2sref:rule {
+            adddefent(mapname);
+            ruleinit();
+            }
+ ;
+
+opt
+  lastm:postc,
+  occur:modcon,
+  occur2:samecon {curtree->occurrence = m_token ;}
+ ;
+
+plus
+  lastm:postc,
+  occur:modcon,
+  occur2:samecon {curtree->occurrence = m_token ;}
+ ;
+
+rep
+  lastm:postc,
+  occur:modcon,
+  occur2:samecon {curtree->occurrence = m_token ;}
+ ;
+
+seq
+  modcon:submod,
+  occur:submod {curtree->parent->connector = SEQ ; }
+
+  samecon:submod,
+  occur2:submod {
+            if (m_token != curtree->parent->connector)
+              m_error("All connectors in a submodel should be identical");
+            }
+ ;
+
+or
+  modcon:submod,
+  occur:submod {curtree->parent->connector = OR ; }
+
+  samecon:submod,
+  occur2:submod {
+           if (m_token != curtree->parent->connector)
+             m_error("All connectors in a submodel should be identical");
+           }
+ ;
+
+and
+  modcon:submod,
+  occur:submod {curtree->parent->connector = AND ; }
+
+  samecon:submod,  
+  occur2:submod {
+           if (m_token != curtree->parent->connector)
+             m_error("All connectors in a submodel should be identical");
+           }
+ ;
+
+vi
+  curdef:defval,
+  cur2def:def2val {
+            if (standard) {
+	      M_WCHAR *w_current;
+
+	      w_current = MakeWideCharString(current);
+              warning1("Warning: %s initial values disallowed in ISO 8879",
+		       w_current);
+              warning2("         Parameter %s for element %s",
+                       newpar->paramname,
+                       thisrule);
+	      m_free(w_current,"wide character string");
+              }
+            }
+ ;
+
+entlit
+  entity:litent {
+            adddefent(thisrule);
+            entclen = 0;
+            }
+  entity2:lit2ent {
+            adddefent(mapname);
+            entclen = 0;
+            }
+
+  declitent:postent,
+  litent:postuse,
+  lit2ent:post2use,
+  edeclitent:postent,
+  elitent:postuse,
+  elit2ent:post2use {
+            entcontent[entclen] = M_EOS;
+            entity->content =
+              (M_WCHAR *) m_malloc(entclen + 1, "entity content");
+	    w_strcpy(entity->content, entcontent);
+            entity->wheredef = M_DBUILD;
+            }
+
+  entval:declitent,
+  typedec:declitent,
+  typedent:litent,
+  typed2ent:lit2ent {entclen = 0 ;}
+ ;
+
+lit
+  litcon:litcon
+  default:default
+  default2:default2
+  defval:defval
+  def2val:def2val
+  sref:sref
+  s2ref:s2ref
+ ;
+
+entlita
+  entity:litaent {
+            adddefent(thisrule);
+            entclen = 0;
+            }
+  entity2:lita2ent {
+            adddefent(mapname);
+            entclen = 0;
+            }
+
+  declitaent:postent,
+  litaent:postuse,
+  lita2ent:post2use,
+  edclitaent:postent
+  elitaent:postuse
+  elita2ent:post2use {
+            entcontent[entclen] = M_EOS;
+            entity->content = 
+              (M_WCHAR *) m_malloc(entclen + 1, "entity content");
+            w_strcpy(entity->content, entcontent);
+            entity->wheredef = M_DBUILD;
+            }
+
+  entval:declitaent,
+  typedec:declitaent,
+  typedent:litaent,
+  typed2ent:lita2ent {entclen = 0 ;}
+ ;
+
+lita
+  litcon:litcon
+  default:default
+  default2:default2
+  defval:defval
+  def2val:def2val
+  sref:sref
+  s2ref:s2ref
+ ;
+
+rnicdata
+  model:modcon {
+            curtree->first = gettreenode();
+            curtree->first->parent = curtree;
+            curtree = curtree->first;
+            curtree->terminal = TRUE;
+            curtree->value = NULL;
+            /* While the SGML Standard treats #CDATA as a single character
+            with the occurrence indicator REP (optional and repeatable), here
+            it is treated as a variable-length string with occurrence
+            indicator OPT (optional).  As a result, a single error message
+            is issued when text occurs in an invalid context instead of
+            repeating the diagnostic for each character */
+            curtree->occurrence = OPT;
+            }
+
+  submod:samecon {
+            curtree->right = gettreenode();
+            curtree->right->parent = curtree->parent;
+            curtree = curtree->right;
+            curtree->terminal = TRUE;
+            curtree->value = NULL;
+            curtree->occurrence = OPT;
+            }
+ ;
+
+connor
+  namegroup:ngname
+  exlist:exname
+  ntgroup:ntname
+  nt2group:nt2name
+ ;
+
+connseq
+  namegroup:ngname
+  exlist:exname
+  ntgroup:ntname
+  nt2group:nt2name
+ ;
+
+connand
+  namegroup:ngname
+  exlist:exname
+  ntgroup:ntname
+  nt2group:nt2name
+ ;
+
+current
+  default:curdef,
+  default2:cur2def {
+            newpar->deftype = m_token;
+            newpar->defval = M_NULLVAL;
+            }
+ ;
+
+required
+  iddefault:postdef,
+  default:postdef,
+  id2default:post2def,
+  default2:post2def {newpar->deftype = m_token ;}
+ ;
+
+nulldef
+  default:postdef
+  default2:post2def
+  iddefault:postdef
+  id2default:post2def
+ ;
+
+any
+  content:postc {contype = m_token ;}
+ ;
+
+none
+  content:skipex {contype = m_token ;}
+ ;
+
+rcdata
+  content:skipex {contype = m_token ;}
+ ;
+
+cdata
+  content:skipex {contype = m_token ;}
+
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+
+  entity:typedent {SETETYPE(thisrule, M_CDATAENT) ;}
+  entity2:typed2ent {SETETYPE(mapname, M_CDATAENT) ;}
+  entval:typedec {entity->type = M_CDATAENT ;}
+ ;
+
+cro
+  litcon:litcon
+ ;
+
+litrs
+  litcon:litcon
+ ;
+
+litrsc
+  litcon:litcon
+ ;
+
+litre
+  litcon:litcon
+ ;
+
+litrec
+  litcon:litcon
+ ;
+
+littab
+  litcon:litcon
+ ;
+
+littabc
+  litcon:litcon
+ ;
+
+litspace
+  litcon:litcon
+ ;
+
+litcspace
+  litcon:litcon
+ ;
+
+refc
+  charent:charent
+ ;
+
+id
+  type:iddefault,
+  type2:id2default {
+            if (idoccur) m_error("Only one ID parameter allowed in a rule");
+            else {
+              idoccur = TRUE;
+              newpar->type = m_token;
+              }
+            }
+ ;
+
+idref
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+idrefs
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+nametype
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+names
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+nmtoken
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+nmtokens
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+number
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+numbers
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+nutoken
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+nutokens
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+entatt
+  type:default,
+  type2:default2 {newpar->type = m_token ;}
+ ;
+
+
+endfile
+  curdef:rule,
+  default:rule,
+  iddefault:rule,
+  excon:rule,
+  lastm:rule,
+  postc:rule,
+  postdef:rule,
+  skipex:rule,
+  mcon:rule,
+  postuse:rule,
+  typedent:rule {
+            rulend() ; 
+            done();
+            }
+
+  postsref:rule {
+            adddefent(thisrule);
+            rulend();
+            done();
+            }
+
+  cur2def:rule,
+  default2:rule,
+  id2default:rule,
+  post2def:rule {prulend() ; done() ;}
+
+  rule:rule,
+  post2use:rule,
+  post2sref:rule,
+  typed2ent:rule {done() ;}
+ ;
+
+name
+  default:postdef,
+  default2:post2def {
+            newpar->deftype = NAME;
+            setdefault(name);
+            }
+
+  defval:postdef,
+  def2val:post2def {setdefault(name) ;}
+
+  exname:exlist {addex() ;}
+
+  model:occur {
+            curtree->first = gettreenode();
+            curtree->first->parent = curtree;
+            curtree = curtree->first;
+            curtree->terminal = TRUE;
+            curtree->value = ntrelt(name);
+            }
+
+  submod:occur2 {
+            curtree->right = gettreenode();
+            curtree->right->parent = curtree->parent;
+            curtree = curtree->right;
+            curtree->terminal = TRUE;
+            curtree->value = ntrelt(name);
+            }
+
+  neednm:occur,
+  neednm2:occur2
+            {curtree->value = ntrelt(name) ;}
+
+  ngname:namegroup {savelhs(FALSE) ;}
+
+  nt2name:nt2group,
+  ntname:ntgroup {addkeyword() ;}
+
+  pcon:type,
+  p2con:type2 {addpar() ;}
+
+  rule:postel {savelhs(FALSE) ;}
+
+  ucon:postucon {
+            addmapname(name, FALSE);
+            srefp = curmap + 1;
+            }
+
+  entname:postuse,
+  ent2name:post2use {addndent(name) ;}
+
+  firstparname:parname,
+  parname:parname {savelhs(TRUE) ;}
+
+  scon:sconet {
+            if (! addmapname(name, TRUE))
+              m_err1("Map name %s already in use", name);
+            else w_strcpy(mapname, name);
+            }
+
+  entdec:entval {
+            if (! addent(name)) 
+              m_err1("Entity %s already defined", name);
+            }
+ ;
+
+literal
+  default:postdef,
+  default2:post2def {
+            newpar->deftype = NAME;
+            setdefault(literal);
+            }
+
+  defval:postdef,
+  def2val:post2def {setdefault(literal) ;}
+
+  sref:postsref,
+  s2ref:post2sref {addsref(literal) ;}
+ ;
+
+text
+  declitent:declitent {
+            if (entclen >= M_LITLEN) {
+              curcon = EDECLITENT;
+              m_error("Entity content too long");
+              }
+            else entcontent[entclen++] = scanval;
+            }
+  declitaent:declitaent {
+            if (entclen >= M_LITLEN) {
+              curcon = EDCLITAENT;
+              m_error("Entity content too long");
+              }
+            else entcontent[entclen++] = scanval;
+            }
+  litent:litent {
+            if (entclen >= M_LITLEN) {
+              curcon = ELITENT;
+              m_error("Entity content too long");
+              }
+            else entcontent[entclen++] = scanval;
+            }
+  lit2ent:lit2ent {
+            if (entclen >= M_LITLEN) {
+              curcon = ELIT2ENT;
+              m_error("Entity content too long");
+              }
+            else entcontent[entclen++] = scanval;
+            }
+  litaent:litaent {
+            if (entclen >= M_LITLEN) {
+              curcon = ELITAENT;
+              m_error("Entity content too long");
+              }
+            else entcontent[entclen++] = scanval;
+            }
+  lita2ent:lita2ent {
+            if (entclen >= M_LITLEN) {
+              curcon = ELITA2ENT;
+              m_error("Entity content too long");
+              }
+            else entcontent[entclen++] = scanval;
+            }
+
+  edeclitent:edeclitent
+  edclitaent:edclitaent
+  elitent:elitent
+  elit2ent:elit2ent
+  elitaent:elitaent
+  elita2ent:elita2ent
+ ;
+

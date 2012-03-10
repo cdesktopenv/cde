@@ -1,0 +1,1885 @@
+<!-- $XConsortium: ch04.sgm /main/2 1996/12/17 06:27:05 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.RegAp.div.1">
+<Title Id="SAG.RegAp.mkr.1">アプリケーションの登録</Title>
+<Para><IndexTerm>
+<Primary>&lt;$nopage>アプリケーションの登録、「登録」を参照してください</Primary></IndexTerm>
+この章では、アプリケーションの登録パッケージの作成方法と、デスクトップへのアプリケーションの登録方法について説明します。
+</Para>
+<InformalTable Id="SAG.RegAp.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.125 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Overview of Application Registration54'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'General Steps for Registering an Application57'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.5"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 1: Modifying Font and Color Resources58'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.6"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 2: Creating the Desktop Application Root60'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.9"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 3: Creating the Registration Package Directories60'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.10"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 4: Creating the Actions and Data Types for the Application62'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.13"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 5: Putting the Help Files in the Registration Package66'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.19"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 6: Putting Information Libraries in the Registration Package'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.19a"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 7: Creating Icons for the Application67'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.20"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 8: Creating the Application Group68'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.22"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 9: Registering the Application Using dtappintegrate75'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.30"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Example of Creating a Registration Package77'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.38"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para Id="SAG.RegAp.mkr.2">
+アプリケーションを完全にデスクトップへ登録するには、次の内容を備えていることが必要です。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーション・マネージャのトップレベルにある、独自のアプリケーション・グループ
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションを起動するアクション（アプリケーション・グループではアクションはアイコンで表示される）
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+オプションで、データ・ファイルのデータ型
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+アプリケーションの登録は、次のように設定すると、アプリケーションのオペレーションを妨げません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーションの実行可能ファイル自身の変更を含まないこと。したがって、すでにシステムに存在するアプリケーションも登録できます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションが任意に提供するファイル（実行可能ファイルおよび <Filename>app-defaults</Filename> など）を他のファイルの位置へ移動させる必要がないこと。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+簡単に元に戻せること。<Command>dtappintegrate</Command> ツールはアプリケーションの登録に使用されますが、プロセスを逆にたどれるようなコマンド行オプションも提供します。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+次のユーザは登録パッケージの作成が必要です。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+既存アプリケーションをデスクトップへ登録するシステム管理者
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+デスクトップ化アプリケーションのインストール・パッケージを作成するソフトウェア・プログラマ
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="SAG.RegAp.div.2">
+<Title Id="SAG.RegAp.mkr.3">アプリケーション登録の概要<IndexTerm><Primary>アプリケーション</Primary><Secondary>登録処理、「登録」を参照してください</Secondary></IndexTerm><IndexTerm><Primary>登録</Primary><Secondary>概要</Secondary></IndexTerm></Title>
+<Para>
+この節では次のことを説明します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーション登録の目的
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション登録によって提供されるアプリケーションの機能
+</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>
+既存アプリケーションの登録方法の詳細については、
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package&xd3; on page&numsp;77'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.38"> を参照してください。
+</Para>
+</Note>
+<Sect2 Id="SAG.RegAp.div.3">
+<Title>アプリケーション登録によって提供される機能<IndexTerm><Primary>アプリケーション</Primary><Secondary>登録の機能</Secondary></IndexTerm><IndexTerm><Primary>登録パッケージ</Primary><Secondary>〜の目的</Secondary></IndexTerm><IndexTerm><Primary>登録</Primary><Secondary>〜によって提供される機能</Secondary></IndexTerm></Title>
+<Para>
+<IndexTerm><Primary>アプリケーション・マネージャ</Primary><Secondary>〜によるアプリケーションの統合</Secondary></IndexTerm>
+アプリケーションを登録すると、次のようなことをグラフィカルに実行できます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーションの配置
+</Para>
+<Para>
+インストール時、アプリケーションはアプリケーション・マネージャに「登録」され、独自のアプリケーション・グループを持ちます。
+</Para>
+</ListItem>
+</ItemizedList>
+<Figure>
+<Title Id="SAG.RegAp.mkr.4">アプリケーション・マネージャのトップレベルにあるアプリケーション・グループ</Title>
+<Graphic Entityref="SAG.RegAp.fig.1" Id="SAG.RegAp.grph.1"></Graphic>
+</Figure>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーションの起動
+</Para>
+<Para>
+アプリケーションのアプリケーション・グループには、ダブルクリックするとアプリケーションを起動できるアイコンがあります。
+</Para>
+</ListItem>
+</ItemizedList>
+<Figure>
+<Title>アプリケーションを起動するためのアイコンを含むアプリケーション・グループ</Title>
+<Graphic Entityref="SAG.RegAp.fig.2" Id="SAG.RegAp.grph.2"></Graphic>
+</Figure>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<IndexTerm><Primary>アプリケーション</Primary><Secondary>データ型の目的</Secondary></IndexTerm>
+<IndexTerm><Primary>データ型</Primary><Secondary>作成の目的</Secondary></IndexTerm>
+データ・ファイルの識別および操作。アプリケーションのデータ・ファイルにはファイル・マネージャで一意のアイコンがあります。
+</Para>
+<Para>
+ユーザは、データ・ファイル・アイコンを次の作業に使用できます。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+アプリケーションの起動（開く）
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+データ・ファイルの印刷
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</ItemizedList>
+<Figure>
+<Title>[開く]と[印刷]が表示されているデータ・ファイルのポップアップ・メニュー</Title>
+<Graphic Entityref="SAG.RegAp.fig.3" Id="SAG.RegAp.grph.3"></Graphic>
+</Figure>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+（音声）データのメール送信、圧縮、表示、再生など、他のオペレーションの実行
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.4">
+<Title>アプリケーション登録の目的<IndexTerm><Primary>登録</Primary><Secondary>〜の目的</Secondary></IndexTerm></Title>
+<Para>
+<IndexTerm><Primary>構成ファイル</Primary><Secondary>登録パッケージの</Secondary></IndexTerm>
+登録されたデスクトップ・アプリケーションには、デスクトップがアプリケーションのユーザ・インタフェースを提供するのに使用する次のような構成ファイルがあります。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アクションおよびデータ型定義ファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アイコン・イメージ（ピックスマップまたはビットマップ）・ファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・グループを作成するディレクトリおよびファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+オプションで、デスクトップ・ヘルプ・ファイルおよびフロントパネル定義ファイル
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+これらのファイルをデスクトップが認識および使用するには、デスクトップの検索パスで指定したディレクトリに入っていなければなりません。
+</Para>
+<Para>
+アプリケーションの構成ファイルが無数のディレクトリに分散されている場合、アプリケーションを管理するのは難しくなります。したがって、デスクトップは、アプリケーションがひとつのディレクトリの下にすべてのデスクトップ構成ファイルを集められるようにします。このグループ化されたファイルを
+<IndexTerm><Primary>登録パッケージ</Primary><Secondary>定義</Secondary></IndexTerm>
+<Symbol Role="Variable">「登録パッケージ」</Symbol>と呼びます。
+</Para>
+<Para>
+アプリケーションがデスクトップ化されている場合、登録パッケージはインストール・パッケージの一部として提供されます。自分で構成ファイルを作成するシステム管理者は、自分で登録パッケージを作成できます。
+</Para>
+<Para>
+登録パッケージの構成ファイルは正しい検索パス・ディレクトリにないため、デスクトップで使用できません。これらのファイルを正しい場所に置くプロセスを、アプリケーションの
+<IndexTerm><Primary>登録</Primary><Secondary>定義</Secondary></IndexTerm>
+<Symbol Role="Variable">「登録」</Symbol>
+または
+<Symbol Role="Variable">「統合」</Symbol>
+と呼びます。
+</Para>
+<Para>
+デスクトップは、正しい検索パス・ディレクトリにあるファイルのシンボリック・リンク表示を作成することにより、登録を行うツール <Command>dtappintegrate</Command> を提供します。
+</Para>
+<Para>
+多くのデスクトップ化アプリケーションは、インストール・プロセス中に自動的に <Command>dtappintegrate</Command> を実行します。既存アプリケーションを統合するシステム管理者は、登録パッケージを作成した後で自分で実行できます。
+</Para>
+<Para>
+一度アプリケーションをシステムのデスクトップに登録すると、システムの全ユーザがアプリケーションを使用できます。システムがデスクトップの
+<IndexTerm><Primary>アプリケーション・サーバ</Primary><Secondary>アプリケーションの適用可能性</Secondary></IndexTerm>
+アプリケーション・サーバとして設定されている場合、ネットワークの他のシステムもアプリケーションを使用できます。
+</Para>
+<Para>
+<Command>dtappintegrate</Command> ツールには、リンクを切ることによってプロセスを逆に行うコマンド行オプションがあります。このオプションを使うとアプリケーション・マネージャからアプリケーションを削除するのが容易になるため、アプリケーションを別のアプリケーション・サーバに移動したり更新したりできます。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.5">
+<Title Id="SAG.RegAp.mkr.5">アプリケーション登録の一般的な手順<IndexTerm><Primary>登録</Primary><Secondary>一般的な手順</Secondary></IndexTerm></Title>
+<Note>
+<Para>
+これらの手順によってアプリケーション・パッケージを作成する方法の詳細な例については、
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package&xd3; on page&numsp;77'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.38"> を参照してください。
+</Para>
+</Note>
+<OrderedList>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.6">
+フォントおよびカラーを設定するアプリケーションのリソースを変更します。変更しないと、デスクトップのダイナミック・フォントおよびダイナミック・カラーが正しく動作しません。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Step 1: Modifying Font and Color Resources&xd3; on page&numsp;58'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.6"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.7">
+アプリケーションのルート位置を作成します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Step 2: Creating the Desktop Application Root&xd3; on page&numsp;60'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.9"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.8">
+アプリケーション・ルートの下にディレクトリ構造を作成します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Step 3: Creating the Registration Package Directories&xd3; on page&numsp;60'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.10"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.9">
+アプリケーションのアクションおよびデータ型を作成します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Step 4: Creating the Actions and Data Types for the Application&xd3; on page&numsp;62'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.13"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.10">
+適切なディレクトリにヘルプ・ファイルを入れます。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Step 5: Putting the Help Files in the Registration Package&xd3; on page&numsp;66'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.19"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.10a">
+適切なディレクトリにオンライン・マニュアル (infolib) のファイルを入れます。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Step 6: Putting the Infolib Files in the Registration Package&xd3; on page&numsp;66'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.19a"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.11">
+アプリケーションのアイコンを作成します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Step 7: Creating Icons for the Application&xd3; on page&numsp;67'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.20"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.12">
+アプリケーションのアプリケーション・グループを作成します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Step 8: Creating the Application Group&xd3; on page&numsp;68'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.22"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.13">
+<Command>dtappintegrate</Command> を使用してアプリケーションを登録します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Step 9: Registering the Application Using dtappintegrate&xd3; on page&numsp;75'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.30"> を参照してください。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.6">
+<Title Id="SAG.RegAp.mkr.14">手順１: フォント・リソースおよびカラー・リソースの変更<IndexTerm><Primary>登録</Primary><Secondary>リソースの変更</Secondary></IndexTerm><IndexTerm><Primary>登録</Primary><Secondary>リソースの変更</Secondary></IndexTerm></Title>
+<Note>
+<Para>
+アプリケーションのリソースの変更例については、
+<!--Original XRef content: 'page&numsp;78'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.16"> の
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> の
+<!--Original XRef content: 'Step&numsp;1'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.6"> を参照してください。
+</Para>
+</Note>
+<Para>
+デスクトップは、インタフェース・フォントおよびウィンドウ・カラーを設定および処理するための機能を提供します。アプリケーションがこれらの機能を正しく使用するには、アプリケーションの <Filename>app-defaults</Filename> ファイルを変更してください。
+</Para>
+<Sect2 Id="SAG.RegAp.div.7">
+<Title>フォント・リソースの変更<IndexTerm><Primary>スタイル・マネージャ</Primary><Secondary>〜によるフォントの統合</Secondary></IndexTerm><IndexTerm><Primary>登録</Primary><Secondary>フォントの変更</Secondary></IndexTerm><IndexTerm><Primary>フォント</Primary><Secondary>リソース、登録の変更</Secondary></IndexTerm></Title>
+<Note>
+<Para>
+本節の内容は、Motif 1.2&trade;（またはそれ以降のバージョン）を使用して作成されたアプリケーションに適用されます。スタイル・マネージャは、Motif の初期のバージョンを使用して作成したアプリケーションのインタフェース・フォントを設定することができません。
+</Para>
+</Note>
+<Para>
+デスクトップ・スタイル・マネージャは、アプリケーションがアプリケーション固有のインタフェース・フォントを作成しない場合、Motif 1.2（またはそれ以降のバージョン）を使用して作成したアプリケーションのインタフェース・フォントを設定します。 
+</Para>
+<Para>
+スタイル・マネージャは、次の２つのフォントを提供します。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="95*">
+<colspec colwidth="433*">
+<TBody>
+<Row>
+<Entry><Para>システム・フォント</Para></Entry>
+<Entry><Para>
+ラベル、メニュー、ボタンなどのシステム領域で使用します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ユーザ・フォント</Para></Entry>
+<Entry><Para>
+テキスト・フィールドなど編集可能領域で使用します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+それぞれのフォントは、フォント・ダイアログ・ボックスの１から７までの７種類のサイズで指定します。スタイル・マネージャ・フォントは、<Filename>/usr/dt/app-defaults/</Filename><Symbol Role="Variable">language</Symbol><Filename>/Dtstyle</Filename> に設定されたスタイル・マネージャのリソースによって、システムの実際のフォントに接続されます。
+</Para>
+<Para>
+アプリケーションにスタイル・マネージャ・フォントを使用する場合、インタフェース・フォントを使用しているすべてのアプリケーションのリソースを削除してください。デスクトップは自動的にアプリケーションのリソースを適切に設定します。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="207*">
+<colspec colwidth="321*">
+<TBody>
+<Row>
+<Entry><Para><Command>FontList</Command></Para></Entry>
+<Entry><Para>システム・フォントに設定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>XmText*FontList</Filename></Para></Entry>
+<Entry><Para>ユーザ・フォントに設定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>XmTextField*FontList</Filename></Para></Entry>
+<Entry><Para>ユーザ・フォントに設定します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.8">
+<Title>カラー・リソースの変更<IndexTerm><Primary>登録</Primary><Secondary>カラーの変更</Secondary></IndexTerm><IndexTerm><Primary>カラー・リソース、登録の変更</Primary></IndexTerm></Title>
+<Para>
+<IndexTerm><Primary>スタイル・マネージャ</Primary><Secondary>〜によるカラーの統合</Secondary></IndexTerm>
+スタイル・マネージャは、アプリケーション・カラーを動的に変更する機能を提供します。アプリケーションは、Motif 1.1 またはそれ以降のバージョンで作成されたクライアントでなければなりません。他のツールキットで作成されたクライアントは、カラーを動的に変更できません。カラーの変更は、クライアントの再起動時に有効になります。
+</Para>
+<Para>
+デスクトップが提供する動的カラーをもっとも簡単に使用する方法は、バックグラウンド・カラーおよびフォアグラウンド・カラーのアプリケーションのカラー・リソースを削除することです。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.9">
+<Title Id="SAG.RegAp.mkr.15">手順２: デスクトップ・アプリケーション・ルートの作成<IndexTerm><Primary>アプリケーション</Primary><Secondary>ルート・ディレクトリ</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション</Primary><Secondary>app_root ディレクトリ</Secondary></IndexTerm><IndexTerm><Primary>登録</Primary><Secondary>アプリケーション・ルート・ディレクトリ</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・ルート・ディレクトリ</Primary></IndexTerm></Title>
+<Note>
+<Para>
+アプリケーションのデスクトップ・アプリケーション・ルート・ディレクトリの作成例については、
+<!--Original XRef content: 'page&numsp;78'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.17"> の
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> の
+<!--Original XRef content: 'Step&numsp;2'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.7"> を参照してください。
+</Para>
+</Note>
+<Para>
+アプリケーションの登録パッケージ・ファイルは、アプリケーション・ルートまたは <Symbol Role="Variable"><IndexTerm><Primary>&lt;$nopage>app_root、「アプリケーション・ルート・ディレクトリ」を参照してください</Primary></IndexTerm>app_root</Symbol> と呼ばれるディレクトリの下でグループ化されます。デスクトップの構成ファイル用に使用される <Symbol Role="Variable">app_root</Symbol> ディレクトリは、アプリケーションのインストール <Symbol Role="Variable">app_root</Symbol> と同じディレクトリか、または他の場所でもかまいません。
+</Para>
+<Para>
+たとえば、アプリケーションが <Filename>/usr/BTE</Filename> ディレクトリの下にあるとします。これと同じディレクトリを、デスクトップの構成ファイルの <Symbol Role="Variable">app_root</Symbol> として使用することができます。ただし、既存のデスクトップ化されていないアプリケーションを統合する場合は、異なるデスクトップ <Symbol Role="Variable">app_root</Symbol> ディレクトリを作成することを推奨します。そうすれば、アプリケーションの更新時に、作成した構成ファイルが上書きされることはありません。
+</Para>
+<Para>
+たとえば、システム管理者がデスクトップ <Symbol Role="Variable">app_root</Symbol> ディレクトリとして、ディレクトリ <Filename>/etc/desktop_approots/BTE</Filename> を作成することもできます。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.10">
+<Title Id="SAG.RegAp.mkr.16">手順３: 登録パッケージ・ディレクトリの作成<IndexTerm><Primary>登録パッケージ</Primary><Secondary>ディレクトリ</Secondary></IndexTerm></Title>
+<Note>
+<Para>
+アプリケーションの登録パッケージ・ディレクトリの作成例については、
+<!--Original XRef content: 'page&numsp;79'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.33"> の
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> の
+<!--Original XRef content: 'Step&numsp;3'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.8"> を参照してください。
+</Para>
+</Note>
+<Para>
+登録パッケージは、デスクトップ・アプリケーションにグラフィカル・インタフェースを提供するために使用するデスクトップ構成ファイルのグループです。
+</Para>
+<Sect2 Id="SAG.RegAp.div.11">
+<Title>登録パッケージの内容</Title>
+<Para>デスクトップ構成ファイルには次のものがあります。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アクションおよびデータ型定義ファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アイコン・イメージ・ファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・グループ・ディレクトリとその内容
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+オプションで、オンライン・マニュアル(infolib)ファイル、ヘルプ・データ・ファイルおよびフロントパネル構成ファイル
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+登録パッケージは、アプリケーション・ルートまたは <Symbol Role="Variable">app_root</Symbol> と呼ばれるトップレベルのディレクトリの下に集められます。
+</Para>
+<Figure>
+<Title Id="SAG.RegAp.mkr.17">アプリケーション・ルート・ディレクトリの下にある登録パッケージ</Title>
+<Graphic Entityref="SAG.RegAp.fig.4" Id="SAG.RegAp.grph.4"></Graphic>
+</Figure>
+<Para>
+<Symbol Role="Variable">app_root</Symbol> ディレクトリの下にある構成フィールドのおもなカテゴリは、次のとおりです。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.21in">
+<colspec colwidth="4.55in">
+<THead>
+<Row>
+<Entry><Para>サブディレクトリ</Para></Entry>
+<Entry><Para>内容</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><filename>types</filename></Para></Entry>
+<Entry><Para>アクションおよびデータ型定義ファイル</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><filename>help</filename></Para></Entry>
+<Entry><Para>デスクトップ・ヘルプ・ファイル</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><filename>icons</filename></Para></Entry>
+<Entry><Para>アプリケーションのアクションおよびデータ型が使用するビットマップおよびピックスマップのイメージ・ファイル</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><filename>appmanager</filename></Para></Entry>
+<Entry><Para>アプリケーション・グループを作成するディレクトリおよび内容</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><filename>infolib</filename></Para></Entry>
+<Entry><Para>インフォメーション・ライブラリ、ブックケース、およびブックとして編成されるオンライン・マニュアルのファイル</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+おもなカテゴリはそれぞれ、言語依存ファイルのサブディレクトリです。デフォルト言語ファイルは <Command>C</Command> ディレクトリにあります。
+</Para>
+<Sect3 Id="SAG.RegAp.div.12">
+<Title>登録パッケージを作成するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+次のようなディレクトリを作成します。言語依存構成ファイルを指定する場合、各言語について別のディレクトリを作成します。ひとつの言語しか指定しない場合は、ファイルを <Command>C</Command> ディレクトリに入れます。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/infolib/</Filename><Symbol Role="Variable">language</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol><Symbol Role="Variable">/</Symbol><Symbol Role="Variable">appgroup_name,</Symbol> ここで、
+<Symbol Role="Variable">appgroup_name</Symbol> は、アプリケーション・グループの名前です。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+たとえば、
+<!--Original XRef content: 'Figure&numsp;4&hyphen;5'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.11"> は、<Symbol Role="Variable">appgroup_name</Symbol> が &ldquo;Media_Tools.&rdquo; であるグループを含むアプリケーション・マネージャを示します。
+</Para>
+</ListItem>
+</OrderedList>
+<Figure>
+<Title Id="SAG.RegAp.mkr.18">アプリケーション・マネージャのトップレベルにあるアプリケーション・グループ</Title>
+<Graphic Entityref="SAG.RegAp.fig.5" Id="SAG.RegAp.grph.5"></Graphic>
+</Figure>
+<Para>
+<Command>dtappintegrate</Command> ツールは、<Filename>types</Filename>、<Filename>help</Filename>、<Filename>icons</Filename>、<Filename>infolib</Filename>、および <Filename>appmanager</Filename> ディレクトリのデスクトップ構成ファイルでしか動作しません。アプリケーションのバイナリ実行可能ファイル、<Filename>app-defaults</Filename>、メッセージ・カタログ・ファイルとは別々に管理されます。
+</Para>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.13">
+<Title Id="SAG.RegAp.mkr.19">手順４: アプリケーションのアクションおよびデータ型の作成<IndexTerm><Primary>アクション</Primary><Secondary>登録で要求される</Secondary></IndexTerm><IndexTerm><Primary>データ型</Primary><Secondary>登録で要求される</Secondary></IndexTerm><IndexTerm><Primary>登録</Primary><Secondary>必要なアクション</Secondary></IndexTerm><IndexTerm><Primary>登録</Primary><Secondary>必要なデータ型</Secondary></IndexTerm></Title>
+<Note>
+<Para>
+アプリケーションのアクションおよびデータ型の作成例については、
+<!--Original XRef content: 'page&numsp;79'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.34"> の
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> の
+<!--Original XRef content: 'Step&numsp;4'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.9"> を参照してください。
+</Para>
+</Note>
+<Para>
+アクションおよびデータ型は、アプリケーションのユーザ・インタフェースを提供します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アクションは、アプリケーションを起動するためのコマンドのユーザ・インタフェースを提供します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+データ型は、アプリケーションのデータ・ファイル用にカスタマイズされた外観と動作を提供します。
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.RegAp.div.14">
+<Title>アプリケーションが要求するアクションおよびデータ型<IndexTerm><Primary>アプリケーション</Primary><Secondary>要求されるアクション</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション</Primary><Secondary>要求されるデータ型</Secondary></IndexTerm></Title>
+<Para>
+典型的なアプリケーションは、次にようなアクションおよびデータ型定義が必要です。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーションを開くアクション。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションのデータ・ファイルのデータ型。データ型を作成する場合、次のものも作成してください。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+アプリケーションのデータ・ファイルの[開く]アクション
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションのデータ・ファイルの[印刷]アクション
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・グループのデータ型（<!--Original XRef content: '&xd2;Configuring the Application Group To Use a Unique Icon&xd3; on page&numsp;70'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.25"> を参照してください）。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+アクションおよびデータ型がどのようにデスクトップで使用されるかについては、
+<!--Original XRef content: 'Chapter&numsp;8, &xd2;Introduction to Actions and Data Types'--><XRef Role="ChapNumAndTitle" Linkend="SAG.IntAc.div.1"> を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.15">
+<Title>アクションおよびデータ型定義構成ファイルの位置</Title>
+<Para>
+アクションおよびデータ型は、構成ファイルに定義されます。アクションおよびデータ型定義が入っているファイル名の規約としては、必ず拡張子 <Filename>.dt</Filename> を付けるということだけです。規約にしたがって、<Symbol Role="Variable">action_name</Symbol><Filename>.dt</Filename> または <Symbol Role="Variable">application_name</Symbol><Filename>.dt</Filename> とファイル名を名付けられます。
+</Para>
+<Para>
+次のディレクトリにあるアプリケーション・ルートの下に、アクションおよびデータ型の入っているファイルを置きます。
+</para>
+<programlisting><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>
+</programlisting>
+<Para>
+デフォルトの <Symbol Role="Variable">language</Symbol> は <Command>C</Command> です。
+</Para>
+<Figure>
+<Title>アクションおよびデータ型定義ファイル</Title>
+<Graphic Entityref="SAG.RegAp.fig.6" Id="SAG.RegAp.grph.6"></Graphic>
+</Figure>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.16">
+<Title>アクションおよびデータ型の作成方法</Title>
+<Para>
+次のいずれかの方法で、アクションおよびデータ型を作成できます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+[アクション作成]ツールを使用する
+</Para>
+<Para>
+[アクション作成]は、入力するためのテキスト・フィールドがあり、使いやすいインタフェースを提供します。ただし、このツールには一定の制限があります。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+定義を手動で作成する
+</Para>
+<Para>
+この方法で作成する場合、定義を作成するための構文を知っていることが必要ですが、機能のすべてにアクセスできます。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.17" Role="Procedure">
+<Title>[アクション作成]を使用してアクションおよびデータ型を作成するには</Title>
+<Para>
+この手順は、[アクション作成]ユーティリティを使用して、アプリケーションのアクションおよびデータ型を作成します。
+</Para>
+<Para>
+[アクション作成]の詳細については、オンライン・ヘルプを使用するか、
+<!--Original XRef content: 'Chapter&numsp;9, &xd2;Creating Actions and Data Types Using Create Action'--><XRef Role="ChapNumAndTitle" Linkend="SAG.dtCrA.div.1"> を参照してください。
+</Para>
+<OrderedList>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.20">
+[デスクトップアプリケーション]アプリケーション・グループを開き、[アクション作成]をダブルクリックします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[アクション作成]を使用して、アプリケーションとそのデータ型用のアクションおよびデータ型定義を作成します。
+</Para>
+<Para>
+[アクション作成]で作成した構成ファイルは、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/type/</Filename><Symbol Role="Variable">action_name</Symbol><Filename>.dt</Filename> に書かれます。アクション・ファイル（アクションと同じ名前を持つ実行可能ファイル）は、ホーム・ディレクトリに置かれます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ホーム・ディレクトリに作成されたアクション・ファイルを使用して、アクションをテストします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アクション定義ファイル <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/type/</Filename><Symbol Role="Variable">action_name</Symbol><Filename>.dt</Filename> を次のディレクトリにコピーします。
+</para>
+<programlisting><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・グループ・ディレクトリが作成された後（<!--Original XRef content: 'Section&numsp;, &xd2;Step 7: Creating the Application Group,&xd3; on page&numsp;68'--><XRef Role="SecNumTitleAnsPage" Linkend="SAG.RegAp.div.22"> を参照してください）、アクション・ファイル <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/</Filename><Symbol Role="Variable">action_name</Symbol> を <Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol><Symbol Role="Variable">/</Symbol><Symbol Role="Variable">appgroup_name</Symbol> ディレクトリにコピーします。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.18" Role="Procedure">
+<Title>アクションおよびデータ型を手動で作成するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+アプリケーションのアクションおよびデータ型が入っている構成ファイルを作成します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+アクションおよびデータ型定義ファイルは、<Symbol Role="Variable">name</Symbol><Filename>.dt</Filename> というファイル名の命名規則に必ずしたがわなければなりません。
+</Para>
+<Para>
+アクションおよびデータ型定義は、ひとつのファイル、または複数のファイルに分けて入れることができます。各ファイルは、システム管理者が簡単にアプリケーションへ接続できるファイル名を使用します。
+</Para>
+<Para>
+アクションおよびデータ型の名前は、必ず１語にしてください（埋め込みスペースも使用しないでください）。下線文字を使用することもできます。規約により、アクションまたはデータ型の名前の最初の文字は大文字にします。既存のアクション名またはファイル名は使用しないでください。上級ユーザおよびシステム管理者が、簡単にアプリケーションに接続できる名前を使用します。
+</Para>
+<Para>
+アクション名と異なる名前のラベルが付いたアプリケーションのアイコンを使いたい場合は、アクション定義に <Command>LABEL</Command> フィールドを取り込みます。
+</Para>
+<Para>
+アクションおよびデータ型の作成方法については、次の章を参照してください。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;8, &xd2;Introduction to Actions and Data Types'--><XRef Role="ChapNumAndTitle" Linkend="SAG.IntAc.div.1"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;9, &xd2;Creating Actions and Data Types Using Create Action'--><XRef Role="ChapNumAndTitle" Linkend="SAG.dtCrA.div.1"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;10, &xd2;Creating Actions Manually'--><XRef Role="ChapNumAndTitle" Linkend="SAG.CrAct.div.1"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;11, &xd2;Creating Data Types Manually'--><XRef Role="ChapNumAndTitle" Linkend="SAG.CrDT.div.1"></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.19">
+<Title Id="SAG.RegAp.mkr.21">手順５: 登録パッケージへのヘルプ・ファイルの組み込み<IndexTerm><Primary>登録</Primary><Secondary>ヘルプ・ファイル</Secondary></IndexTerm><IndexTerm><Primary>ヘルプ・ファイル</Primary><Secondary>登録パッケージへの</Secondary></IndexTerm></Title>
+<Note>
+<Para>
+登録パッケージへのヘルプ・ファイルの追加例については、
+<!--Original XRef content: 'page&numsp;81'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.20"> の
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> の
+<!--Original XRef content: 'Step&numsp;5'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.10"> を参照してください。
+</Para>
+</Note>
+<Para>
+アプリケーションがデスクトップの
+<IndexTerm><Primary>ヘルプ・ボリューム</Primary><Secondary>登録パッケージの位置</Secondary></IndexTerm>
+ヘルプ・ボリューム（デスクトップのヘルプ開発者キットで作成されたヘルプ・ボリューム）を取り込む場合、ヘルプ・ボリュームのマスタ・ファイル（<Filename>*.sdl</Filename>）をディレクトリ <Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol> に置いてください。
+</Para>
+<Para>
+<IndexTerm><Primary>&lt;$nopage>ヘルプ</Primary><Secondary>「ヘルプ・ボリューム」、「ヘルプ・ファイル」も参照してください</Secondary></IndexTerm>
+ヘルプ・ファイルが使用するグラフィックは、通常 <Command>graphics</Command> サブディレクトリに置きます。グラフィックは、ヘルプ・ボリュームが作成されたときと同じ、マスタ・ヘルプ・ボリューム（<Filename>*.sdl</Filename>）に関連するディレクトリになければなりません。
+</Para>
+<Para>
+アプリケーションがヘルプ・ボリュームを提供しない場合、
+<IndexTerm><Primary>ヘルプ開発者の</Primary></IndexTerm><IndexTerm><Primary>キット</Primary></IndexTerm>
+ヘルプ開発者キットがあれば作成できます。
+</Para>
+<Para>
+<IndexTerm><Primary>ヘルプ・ボリューム</Primary><Secondary>統合のレベル</Secondary></IndexTerm>
+ヘルプ・ボリュームの統合には、次の２つのレベルがあります。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<IndexTerm><Primary>ヘルプ</Primary><Secondary>完全統合</Secondary></IndexTerm>
+完全統合
+</Para>
+<Para>
+デスクトップ・ヘルプを完全に統合すると、アイテムヘルプや[ヘルプ]メニューなどのアプリケーションからヘルプ・ボリュームにアクセスできます。この統合には、アプリケーションの実行可能ファイルの変更も含まれます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>ヘルプ</Primary><Secondary>部分統合</Secondary></IndexTerm>
+部分統合
+</Para>
+<Para>
+デスクトップ・ヘルプを部分的に統合すると、ヘルプ・マネージャのトップレベルからデスクトップ・ヘルプを使用できます。ただし、アプリケーションのウィンドウからはヘルプ・ボリュームにアクセスできません。アプリケーション・グループからヘルプへアクセスできるアクションも提供されます。次の例にあるアクションは、ヘルプ・マスタ・ファイル <Filename>MyApp.sdl</Filename> にあるヘルプ・ボリュームを表示します。
+<IndexTerm><Primary>ヘルプ・ボリューム</Primary><Secondary>マスタ・ヘルプ・ファイル</Secondary></IndexTerm><IndexTerm><Primary>.sdl ファイル</Primary></IndexTerm>
+</Para>
+<programlisting>ACTION OpenMyAppHelp
+{
+  LABEL           MyAppHelp
+  ARG_COUNT       0
+  TYPE            COMMAND
+  WINDOW_TYPE     NO_STDIO
+  EXEC_STRING     /usr/dt/bin/dthelpview -helpVolume MyApp
+  DESCRIPTION     Displays help for the MyApp application.
+}
+</programlisting>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.19a">
+<Title Id="SAG.RegAp.mkr.21a">手順６: 登録パッケージへのインフォメーション・ライブラリの組み込み<IndexTerm><Primary>登録</Primary><Secondary>インフォメーション・ライブラリ (infolibs)</Secondary></IndexTerm><IndexTerm><Primary>インフォメーション・ライブラリ (infolibs)</Primary><Secondary>登録パッケーシへの</Secondary></IndexTerm></Title>
+<Para>
+アプリケーションに（デスクトップのインフォメーション・システム開発者キットで作成された）オンライン・マニュアルが含まれている場合、マニュアルを含むインフォメーション・ライブラリ（ <Filename>*.dti</Filename>）は、次のディレクトリに置かれなければなりません。
+<IndexTerm><Primary>インフォメーション・ライブラリ (infolib)</Primary><Secondary>登録パッケージの位置</Secondary></IndexTerm>
+</para>
+<programlisting><Symbol Role="Variable">app_root</Symbol><Filename>/dt/infolib/</Filename><Symbol Role="Variable">language</Symbol>
+</programlisting>
+<Para>
+DocBook のブック・ファイル（<Filename>*.sgm</Filename>）によって使用されるグラフィックは、通常 <Command>graphics</Command> サブディレクトリに置かれます。グラフィックは、インフォメーション・ライブラリが作成されたときのように、インフォメーション・ライブラリ（<Filename>*.dti</Filename>）と関係する同じディレクトリに置かれなければなりません。
+</Para>
+<Para>
+アプリケーションがオンライン・マニュアルを提供しない場合、インフォメーション・システム開発者キットがあれば、作成することができます。
+<IndexTerm><Primary>インフォメーション・システム開発者キット</Primary></IndexTerm>
+</Para>
+<Para>
+インフォメーション・ライブラリの統合には２つのレベルがあります。
+<IndexTerm><Primary>インフォメーション・ライブラリ (infolib)</Primary><Secondary>統合のレベル</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+完全統合
+<IndexTerm><Primary>インフォメーション・ライブラリ (infolib)</Primary><Secondary>完全統合</Secondary></IndexTerm>
+</Para>
+<Para>
+インフォメーション・ライブラリを完全に統合すると、<Symbol>DtActionInvoke</Symbol> を使用してアプリケーションからアクセスし、インフォメーション・マネージャの特定のトピックを表示することができます。完全な統合には、アプリケーションの実行可能ファイルの変更も含まれます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+部分統合
+<IndexTerm><Primary>インフォメーション・ライブラリ (infolib)</Primary><Secondary>部分統合</Secondary></IndexTerm>
+</Para>
+<Para>
+インフォメーション・ライブラリを部分的に統合すると、インフォメーション・マネージャのトップレベルから使用可能になります。ただし、アプリケーションのウィンドウからインフォメーション・ライブラリにアクセスできません。アプリケーション・グループからインフォメーション・ライブラリにアクセスできるアクションも提供されます。次の例にあるアクションは、インフォメーション・ライブラリ <Filename>MyApp.dti</Filename> にあるインフォメーション・ライブラリを表示します。
+</Para>
+<programlisting>ACTION OpenMyAppInfolib
+{
+  LABEL           MyAppInfolib
+  ARG_TYPE        InfoLib
+  TYPE            MAP
+  MAP_ACTION      DtLoadInfoLib /usr/dt/infolib/C/MyAppInfolib.dti
+  DESCRIPTION     Invokes the Information Manager to display the online
+                  documentation for MyApp application.
+}
+</programlisting>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.20">
+<Title Id="SAG.RegAp.mkr.22">手順７: アプリケーション用アイコンの作成<IndexTerm><Primary>登録</Primary><Secondary>アイコンの要件</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>登録で要求されるもの</Secondary></IndexTerm></Title>
+<Note>
+<Para>
+アプリケーションのアイコン・ファイルの作成例については、
+<!--Original XRef content: 'page&numsp;82'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.36"> の
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> の
+<!--Original XRef content: 'Step&numsp;6'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.11"> を参照してください。
+</Para>
+</Note>
+<Para>
+デスクトップは、アクション、データ型、アプリケーション・グループのデフォルト・アイコンを提供します。しかし、アプリケーション固有のアイコンを作成したくなることもあるでしょう。
+</Para>
+<Para>
+アイコンはディレクトリ <Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol> にあります。
+</Para>
+<Sect2 Id="SAG.RegAp.div.21">
+<Title>デスクトップに必要なアイコン</Title>
+<Para>
+アプリケーションは次のようなアイコン・イメージをデスクトップで使用します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Emphasis Role="Lead-in">アクション・アイコン</Emphasis>。
+ダブルクリックするとアプリケーション（アクション）が起動するアイコンです。アプリケーションを起動するアクションの <Command>ICON</Command> フィールドで参照されます。
+<IndexTerm><Primary>アイコン</Primary><Secondary>アプリケーションの起動</Secondary></IndexTerm><IndexTerm><Primary>アプリケーションのアイコン</Primary><Secondary>デスクトップで要求される</Secondary></IndexTerm><IndexTerm><Primary>アクション・アイコン</Primary><Secondary>デスクトップで要求される</Secondary></IndexTerm>
+</Para>
+<Para>
+サイズは極小、中、大の３種類です。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in">データ型アイコン</Emphasis>。
+このアイコンは、ファイル・マネージャにあるアプリケーションのデータ・ファイルを表示するのに使用します。データ型定義の <Command>ICON</Command> フィールドで参照されます。
+</Para>
+<Para>
+アプリケーションが複数のデータ型をサポートする場合、各データ型ごとに異なるアイコンを指定してください。
+<IndexTerm><Primary>アイコン</Primary><Secondary>データ型</Secondary></IndexTerm><IndexTerm><Primary>データ型</Primary><Secondary>〜のアイコン</Secondary></IndexTerm>
+</Para>
+<Para>
+サイズは極小、中の２種類です。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in">
+<IndexTerm><Primary>icons</Primary><Secondary>アプリケーション・グループ</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>〜のアイコン</Secondary></IndexTerm>
+アプリケーション・グループ・アイコン</Emphasis>。
+アプリケーション・マネージャのトップレベルにあるディレクトリを示すアイコンです。アプリケーション・グループのためのデータ型定義の <Command>ICON</Command> フィールドで参照されます（<!--Original XRef content: '&xd2;Step 7: Creating the Application Group&xd3; on page&numsp;68'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.22"> を参照してください）。
+</Para>
+<Para>
+サイズは極小、中の２種類です。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+カラー（８ビット以上）とモノクロ（８ビット未満）ディスプレイをサポートするには、各アイコンでピックスマップとビットマップの両方のバージョンを用意する必要があります。
+</Para>
+<Table Id="SAG.RegAp.tbl.1" Frame="Topbot">
+<Title>アイコン・ファイルの命名規則</Title>
+<TGroup Cols="4" colsep="0" rowsep="0">
+<ColSpec Colname="1" Colwidth="0.65 in">
+<ColSpec Colname="2" Colwidth="1.70 in">
+<ColSpec Colname="3" Colwidth="1.30 in">
+<ColSpec Colname="4" Colwidth="1.35 in">
+<THead>
+<Row>
+<Entry><Para><Literal>サイズ</Literal></Para></Entry>
+<Entry><Para><Literal>ピクセル・サイズ</Literal></Para></Entry>
+<Entry><Para><Literal>ビットマップ名</Literal></Para></Entry>
+<Entry><Para><Literal>ピックスマップ名</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>極小</Para></Entry>
+<Entry><Para>16 × 16</Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.t.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.t.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>中</Para></Entry>
+<Entry><Para>32 × 32</Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.m.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.m.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>大</Para></Entry>
+<Entry><Para>48 × 48</Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.l.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.l.pm</Filename></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>
+ビットマップ・ファイルを提供しない場合、デスクトップは、ピックスマップ・ファイル
+のカラー指定を白黒にマップします。このマッピングでは、希望どおりの表示にならないことがあります。
+</Para>
+<Para>
+アイコンの詳細については、
+<!--Original XRef content: '&xd2;Icon Image Files&xd3; on page&numsp;201'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrIcn.div.2"> を参照してください。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.22">
+<Title Id="SAG.RegAp.mkr.23">手順８: アプリケーション・グループの作成<IndexTerm><Primary>登録</Primary><Secondary>アプリケーション・グループ</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>登録パッケージの作成</Secondary></IndexTerm></Title>
+<Note>
+<Para>
+アプリケーション・グループの作成例については、
+<!--Original XRef content: 'page&numsp;82'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.37"> の
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> の
+<!--Original XRef content: 'Step&numsp;7'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.12"> を参照してください。
+</Para>
+</Note>
+<Para>
+アプリケーションのアクションおよびデータ型定義を作成したら、ユーザが実際に見るアプリケーション・グループとその内容を作成するための構成ファイルを必ず作成してください。
+</Para>
+<Para>
+<IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>〜のためのディレクトリ</Secondary></IndexTerm>
+アプリケーション・グループは、アプリケーション・マネージャのトップレベルにあるディレクトリです（
+<!--Original XRef content: 'Figure&numsp;4&hyphen;1 on page&numsp;55'--><XRef Role="CodeOrFigOrTabAndPNum" Linkend="SAG.RegAp.mkr.4"> を参照してください）。
+</Para>
+<Para>
+アプリケーション・グループの作成には、次の３つの手順があります。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+登録パッケージにアプリケーション・グループ・ディレクトリを作成する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+オプションとして、アプリケーション・グループが一意のアイコンを使用するように設定する。これには、アプリケーション・グループ・ディレクトリのデータ型定義作成も含まれます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・グループの内容を作成する
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.RegAp.div.23">
+<Title>アプリケーション・グループ・ディレクトリの作成</Title>
+<Para>
+アプリケーション・グループを作成するには、<!--Original XRef content: 'Figure&numsp;4&hyphen;7'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.13"> のように、<Command>appmanager</Command> の下の登録パッケージにディレクトリを作成します。
+</Para>
+<Figure>
+<Title Id="SAG.RegAp.mkr.24">appmanager ディレクトリ</Title>
+<Graphic Entityref="SAG.RegAp.fig.7" Id="SAG.RegAp.grph.7"></Graphic>
+</Figure>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.24">
+<Title>アプリケーション・グループ名<IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>名前</Secondary></IndexTerm></Title>
+<Para>
+<!--Original XRef content: 'Figure&numsp;4&hyphen;7'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.24"> の &lt;appgroup_name> は、アプリケーション・グループ名です。
+</Para>
+<Figure>
+<Title>アプリケーション・グループ名 (&lt;appgroup_name>)</Title>
+<Graphic Entityref="SAG.RegAp.fig.8" Id="SAG.RegAp.grph.8"></Graphic>
+</Figure>
+<Para>
+名前は使用可能なファイル名（ディレクトリ名）でかまいません。アプリケーションを説明する名前を使用します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.25">
+<Title Id="SAG.RegAp.mkr.25">固有のアイコンを使用するようにアプリケーション・グループを設定する<IndexTerm><Primary>アイコン</Primary><Secondary>アプリケーション・グループ</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>〜のアイコン</Secondary></IndexTerm></Title>
+<Para>
+デスクトップはデフォルトのアプリケーション・グループ・アイコンを提供しますが、カスタム・アイコンが必要になる場合もあります。
+</Para>
+<Para>
+アプリケーション・グループに固有のアイコンを指定する場合、次のものを必ず作成してください。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーション・マネージャのトップレベルに表示されるディレクトリのデータ型
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+データ型の[開く]および[印刷]アクション
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+たとえば、Media_Tools という名前のアプリケーション・グループを作成するとします。ファイル <Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/</Filename><Symbol Role="Variable">name</Symbol><Filename>.dt</Filename> にある次のデータ型定義が、アプリケーション・グループ・アイコンに一意のアイコンを割り当てます。
+</Para>
+<programlisting>DATA_ATTRIBUTES  Media_ToolsAppgroup
+{
+   ACTIONS       OpenInPlace,OpenNewView
+   ICON          MediaTools
+   DESCRIPTION   Double-click to open the Media_Tools \
+                 application group
+}
+DATA_CRITERIA           Media_ToolsAppgroupCriteria1
+{
+   DATA_ATTRIBUTES_NAME Media_ToolsAppgroup
+   MODE                 d
+   PATH_PATTERN         */appmanager/*/Media_Tools
+}
+</ProgramListing>
+<Para>
+定義の属性セクションが使用するアイコンを使用します。定義の条件セクションは、<Command>appmanager</Command> というディレクトリのサブディレクトリである <Filename>Media_Tools</Filename> というディレクトリにデータ型が定義されるように指定します。
+</Para>
+<Para>
+<!--Original XRef content: 'Figure&numsp;4&hyphen;9'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.14"> に、アプリケーション・グループ名とデータ型定義との関係を示します。データ型定義の <Filename>PATH_PATTERN</Filename> フィールドは、アプリケーション・グループに固有のアイコンを結合します。
+</Para>
+<Figure>
+<Title Id="SAG.RegAp.mkr.26">アプリケーション・グループが一意のアイコンを獲得する方法</Title>
+<Graphic Entityref="SAG.RegAp.fig.9" Id="SAG.RegAp.grph.9"></Graphic>
+</Figure>
+<Para>
+<IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>〜のアクション</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>〜のデータ型</Secondary></IndexTerm>
+アプリケーション・グループのデータ型の[開く]および[印刷]アクションも、次のように作成してください。
+</Para>
+<ProgramListing>ACTION Open
+{
+ ARG_TYPE   Media_ToolsAppGroup
+ TYPE   MAP
+ MAP_ACTION   OpenAppGroup
+}
+ACTION Print
+{
+ ARG_TYPE   Media_ToolsAppGroup
+ TYPE   MAP
+ MAP_ACTION   PrintAppGroup
+}
+</ProgramListing>
+<Para>
+OpenAppGroup および PrintAppGroup アクションは、<Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtappman.dt</Filename> に定義された組み込みアクションです。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.26">
+<Title>アプリケーション・グループの作成<IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>内容</Secondary></IndexTerm><IndexTerm><Primary>登録パッケージ</Primary><Secondary>アプリケーション・グループの内容</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション・グループでもっとも重要な項目は、アプリケーションを起動するアイコン（アクション・アイコン）です。アプリケーション・グループに一連のアプリケーションが含まれていれば、通常は各アプリケーションのアイコンがあります。
+</Para>
+<Para>
+ひとつ以上のアクション・アイコンの他に、アプリケーション・グループに含まれているものを次に示します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>ひとつ以上の README ファイル</Para>
+</ListItem>
+<ListItem>
+<Para>ひとつ以上のサンプル・データ・ファイル</Para>
+</ListItem>
+<ListItem>
+<Para>テンプレート</Para>
+</ListItem>
+<ListItem>
+<Para>ダブルクリックしてヘルプ情報を表示するためのアイコン</Para>
+</ListItem>
+<ListItem>
+<Para>マニュアル・ページ</Para>
+</ListItem>
+<ListItem>
+<Para>特殊なフロントパネル・コントロール</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+アプリケーション・グループには、サブディレクトリを含めることができます。
+</Para>
+<Sect3 Id="SAG.RegAp.div.27">
+<Title>アクション・ファイル（アプリケーション・アイコン）の作成<IndexTerm><Primary>アイコン</Primary><Secondary>アプリケーションの登録</Secondary></IndexTerm><IndexTerm><Primary>登録パッケージ</Primary><Secondary>アプリケーション・アイコン</Secondary></IndexTerm><IndexTerm><Primary>登録</Primary><Secondary>「登録パッケージ」も参照してください</Secondary></IndexTerm><IndexTerm><Primary>登録パッケージ</Primary><Secondary>「登録」も参照してください</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション・グループには、アプリケーションを起動するアイコンがあります。グループが一連のアプリケーションを提供する場合、各アプリケーションにアイコンがあります。これらのアイコンは基本のアクションを示すため、<Symbol Role="Variable">アプリケーション・アイコン</Symbol> または <Symbol Role="Variable">アクション・アイコン</Symbol> と呼びます。
+</Para>
+<Para>
+アクション・アイコンは、次のように実行するアクションとおなじ名前の実行可能ファイルを作成することによって作成します。
+</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/appmanager/<Symbol Role="Variable">appgroup_name</Symbol>/<Symbol Role="Variable">action_name</Symbol></ProgramListing>
+<Para>
+このファイルは、基本のアクションの視覚的な表示を作成することが目的であるため、
+<IndexTerm><Primary>アクション・ファイル</Primary><Secondary>作成</Secondary></IndexTerm><Symbol Role="Variable">アクション・ファイル</Symbol> と呼ばれます。
+</Para>
+<Para>
+たとえば、BestTextEditor アプリケーションを実行する BestTextEditor というアクションを作成する場合、BestTextEditor という名前の実行可能ファイルを作成します。ファイル・マネージャおよびアプリケーション・マネージャでは、アクション・ファイルは、アクション定義で指定したアイコン・イメージを使用します。
+</Para>
+<Para>
+<!--Original XRef content: 'Figure&numsp;4&hyphen;10'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.15"> は、アプリケーション・マネージャのウィンドウでのアクション定義、アクション・ファイル、実際の入力形式の関係を示しています。
+</Para>
+<Figure>
+<Title Id="SAG.RegAp.mkr.27">アプリケーション・アイコンはアプリケーション・グループのファイル</Title>
+<Graphic Entityref="SAG.RegAp.fig.10" Id="SAG.RegAp.grph.10"></Graphic>
+</Figure>
+</Sect3>
+<Sect3 Id="SAG.RegAp.div.28">
+<Title>Read Me ファイル<IndexTerm><Primary>アプリケーション・パッケージ、「登録パッケージ」を参照してください</Primary></IndexTerm><IndexTerm><Primary>readme ファイル</Primary></IndexTerm><IndexTerm><Primary>登録パッケージ</Primary><Secondary>readme ファイル</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>readme ファイル</Secondary></IndexTerm></Title>
+<Para>
+デスクトップは、アプリケーションの README ファイルに使用できる README データ型を提供します。次のいずれかの形式を使用します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>README</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>readme</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>README.*</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>Read.*.Me</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>read.*.me</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>READ.*.ME</Filename></Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.RegAp.div.29">
+<Title>特殊なフロントパネル・コントロールの作成<IndexTerm><Primary>フロントパネル</Primary><Secondary>登録パッケージのコントロール</Secondary></IndexTerm><IndexTerm><Primary>登録パッケージ</Primary><Secondary>フロントパネル・コントロール</Secondary></IndexTerm></Title>
+<Para>
+通常は、フロントパネル・コントロールの定義を指定する必要はありません。サブパネルの[アイコンのインストール]コントロールへアクション・アイコンをドロップすることにより、フロントパネルにアプリケーションを追加できます。
+</Para>
+<Para>
+アクション・アイコンと異なる動作をするコントロールをユーザがインストールできるようにする場合、アプリケーションのコントロール定義を含むフロントパネル構成ファイルを作成する必要が生じます。たとえば、コントロールはファイルを監視し、そのファイルが変更されると表示を変更します。
+</Para>
+<Para>
+フロントパネル構成ファイルは、<Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol> ディレクトリにあります。ファイル名の命名規則は <Symbol Role="Variable">name</Symbol><Filename>.fp</Filename> です。
+</Para>
+<Para>
+コントロールを含む構成ファイルを提供すると、サブパネルの[アイコンのインストール]コントロールに <Filename>*.fp</Filename> ファイルをドロップすることにより、サブパネルにコントロールを追加できます。
+</Para>
+<Para>
+たとえば、以下の定義を、アプリケーション・グループのフロントパネル構成ファイルに指定できます。このファイルをサブパネルの[アイコンのインストール]コントロールへドロップする場合、BestTextEditor アプリケーションのひとつのインスタンスを実行するサブパネルでコントロールが作成されます。BestTextEditor がすでに実行されている場合は、現在のワークスペースのウィンドウ・スタックのいちばん上にウィンドウが移動します。
+</Para>
+<programlisting>CONTROL BestTextEditorControl
+{
+ TYPE    icon
+ ICON    BTEFPanel
+ PUSH_RECALL    True
+ CLIENT_NAME    BTEd
+ PUSH_ACTION    BTEditor
+ DROP_ACTION    BTEditor
+ HELP_STRING    Starts the BestTextEditor application.
+}
+</ProgramListing>
+<Para>
+フロントパネル構成ファイル作成の詳細については、次を参照してください。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;13, &xd2;Advanced Front Panel Customization'--><XRef Role="ChapNumAndTitle" Linkend="SAG.FrPC.div.1"></Para>
+</ListItem>
+<ListItem>
+<Para><Filename MoreInfo="RefEntry">dtfpfile(4)</Filename> のマニュアル・ページ</Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.30">
+<Title Id="SAG.RegAp.mkr.28">手順９: dtappintegrate を使用したアプリケーションの登録<IndexTerm><Primary>dtappintegrate</Primary></IndexTerm><IndexTerm><Primary>登録</Primary><Secondary>dtappintegrate</Secondary></IndexTerm></Title>
+<Note>
+<Para>
+アプリケーションの登録例については、
+<!--Original XRef content: 'page&numsp;83'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.38"> の
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> の
+<!--Original XRef content: 'Step&numsp;8'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.13"> を参照してください。
+</Para>
+</Note>
+<Para>
+アプリケーション・ルートの下に登録パッケージを作成した後、実際にアプリケーションの登録を行うことができます。
+</Para>
+<Para>
+アプリケーションを登録すると、登録パッケージと、デスクトップ検索パスに沿って配置されているディレクトリとがリンクされます（
+<!--Original XRef content: '&xd2;How dtappintegrate Integrates Applications&xd3; on page&numsp;76'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.33"> を参照してください）。
+</Para>
+<Sect2 Id="SAG.RegAp.div.31" Role="Procedure">
+<Title>アプリケーションを dtappintegrate で登録するには</Title>
+<Para>
+アプリケーションがデスクトップ化されている場合、<Command>dtappintegrate</Command> は通常インストール・プロセスの最終手順として自動的に実行されます。自動的に実行されない場合、またはデスクトップ化されていないアプリケーションを統合するよう構成ファイルを作成した場合は、次のように手動で <Command>dtappintegrate</Command> を実行できます。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+root でログインします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+次のコマンドを実行します。
+</Para>
+<ProgramListing>/usr/dt/bin/dtappintegrate -s <Symbol Role="Variable">app_root</Symbol></ProgramListing>
+<Para>
+<Symbol Role="Variable">app_root</Symbol> はデスクトップ・アプリケーション・ルート・ディレクトリです。詳細については、
+<Filename MoreInfo="RefEntry">dtappintegrate</Filename>(1) のマニュアル・ページを参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[デスクトップツール]アプリケーション・グループを開き、[アプリケーションの再読込み]をダブルクリックします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションが正しく登録されていることを次のように確認します。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+アプリケーション・マネージャのトップレベルを表示します。新規アプリケーション・グループがアプリケーション・マネージャに表示されているか確認します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・グループを開いてアクション・アイコンをダブルクリックします。
+</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</OrderedList>
+<Sect3 Id="SAG.RegAp.div.32">
+<Title>dtappintegrate の構文とオプション<IndexTerm><Primary>dtappintegrate</Primary><Secondary>構文</Secondary></IndexTerm></Title>
+<ProgramListing>dtappintegrate -s <Symbol Role="Variable">app_root</Symbol> [-t <Symbol Role="Variable">target_path</Symbol> ] [-l <Symbol Role="Variable">language</Symbol> ] [-u]</ProgramListing>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="106*">
+<colspec colwidth="422*">
+<TBody>
+<Row>
+<Entry><Para><literal>-s</literal> <Symbol Role="Variable">app_root</Symbol></Para></Entry>
+<Entry><Para>
+必須パラメータです。アプリケーションをインストールするアプリケーション・ルートを指定します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><literal>-t</literal> <Symbol Role="Variable">target_path</Symbol></Para></Entry>
+<Entry><Para>
+オプションのパラメータで、システム上でのデフォルト位置は <Command>/etc/dt/appconfig</Command> です。デスクトップ構成ファイルをリンクする位置を指定します。アプリケーション検索パスの位置を必ず使用してください。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><literal>-l</literal> <Symbol Role="Variable">language</Symbol></Para></Entry>
+<Entry><Para>
+オプションのパラメータで、デフォルトは全言語です。統合する言語依存デスクトップ構成ファイルを指定します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>-u</Filename></Para></Entry>
+<Entry><Para>
+オプションのパラメータです。アプリケーションを統合せず、統合中に設定されたリンクをすべて削除します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.33">
+<Title Id="SAG.RegAp.mkr.29">dtappintegrate によるアプリケーションの統合方法<IndexTerm><Primary>シンボリック・リンク</Primary><Secondary>登録時に作成された</Secondary></IndexTerm><IndexTerm><Primary>dtappintegrate</Primary><Secondary>機能性</Secondary></IndexTerm></Title>
+<Para>
+<Command>dtappintegrate</Command> は、インストールされたファイルと、デスクトップが構成ファイルを検索する位置とのリンクを設定します。
+</Para>
+<Sect3 Id="SAG.RegAp.div.34">
+<Title>アクションとデータ型<IndexTerm><Primary>アクション</Primary><Secondary>dtappintegrate で統合された</Secondary></IndexTerm><IndexTerm><Primary>データ型</Primary><Secondary>dtappintegrate で統合された</Secondary></IndexTerm></Title>
+<Para>
+<Command>dtappintegrate</Command> は、登録パッケージのアクションおよびデータ型定義ファイルから、アクション・データベースのヘルプ検索パスに沿ったシステム全体のディレクトリへシンボリック・リンクを作成します。これは
+</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/types/<Symbol Role="Variable">language</Symbol>/*.dt</ProgramListing>
+<Para>を</Para>
+<ProgramListing>/etc/dt/appconfig/types/<Symbol Role="Variable">language</Symbol><Filename>/*</Filename>.dt</ProgramListing>
+<Para>へリンクさせることによって行います。</Para>
+</sect3>
+<Sect3 Id="SAG.RegAp.div.34a">
+<Title>インフォメーション・ライブラリ<IndexTerm><Primary>インフォメーション・ライブラリ (infolibs)</Primary><Secondary>dtappintegrate で統合された</Secondary></IndexTerm></Title>
+<Para>
+<Command>dtappintegrate</Command> は、登録パッケージのインフォメーション・ライブラリ (infolilbs) から、インフォメーション・ライブラリの検索パスに沿ったシステム全体のディレクトリへシンボリック・リンクを作成します。これは
+</Para>
+<programlisting><Symbol Role="Variable">app_root</Symbol>/dt/infolib/<Symbol Role="Variable">language</Symbol>/*.dti
+</ProgramListing>
+<Para>を</Para>
+<programlisting>/etc/dt/infolib/<Symbol Role="Variable">language</Symbol>/*.dti
+</ProgramListing>
+<Para>へリンクさせることによって行います。</Para>
+</sect3>
+<Sect3 Id="SAG.RegAp.div.35">
+<Title>ヘルプ・ファイル<IndexTerm><Primary>ヘルプ・ファイル</Primary><Secondary>dtappintegrate で統合された</Secondary></IndexTerm></Title>
+<Para>
+<Command>dtappintegrate</Command> は、登録パッケージのヘルプ・ファイルから、ヘルプ検索パスに沿ったシステム全体のディレクトリへシンボリック・リンクを作成します。これは
+</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/help/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">help_file.</Symbol>sdl</ProgramListing>
+<Para>を</Para>
+<ProgramListing>/etc/dt/appconfig/help/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">help_file.</Symbol>sdl</ProgramListing>
+<Para>へリンクさせることによって行います。</Para>
+</Sect3>
+<Sect3 Id="SAG.RegAp.div.36">
+<Title>アイコン・ファイル<IndexTerm><Primary>アイコン</Primary><Secondary>dtappintegrate で統合された</Secondary></IndexTerm></Title>
+<Para>
+<Command>dtappintegrate</Command> は、登録パッケージのアイコン・ファイルから、アイコン検索パスに沿ったシステム全体のディレクトリへシンボリック・リンクを作成します。これは
+</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/icons/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">icon_files</Symbol></ProgramListing>
+<Para>を</Para>
+<ProgramListing>/etc/dt/appconfig/icons/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">icon_files</Symbol></ProgramListing>
+<Para>へリンクさせることによって行います。</Para>
+</Sect3>
+<Sect3 Id="SAG.RegAp.div.37">
+<Title>アプリケーション・グループ<IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>dtappintegrate で統合された</Secondary></IndexTerm></Title>
+<Para>
+アプリケーションのアプリケーション・グループをアプリケーション・マネージャのトップレベルに置くため、<Command>dtappintegrate</Command> は登録パッケージのアプリケーション・グループ・ディレクトリとアプリケーション検索パスに沿ったシステム全体の場所とをリンクします。これは
+</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/appmanager/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">appgroup_name</Symbol></ProgramListing>
+<Para>を</Para>
+<ProgramListing>/etc/dt/appconfig/appmanager/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">appgroup_name</Symbol></ProgramListing>
+<Para>へリンクさせることによって行います。</Para>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.38">
+<Title Id="SAG.RegAp.mkr.30">登録パッケージの作成例<IndexTerm><Primary>登録</Primary><Secondary>例</Secondary></IndexTerm><IndexTerm><Primary>登録パッケージ</Primary><Secondary>作成例</Secondary></IndexTerm></Title>
+<Para>
+次の手順では、既存のデスクトップ化されていない BestTextEditor というアプリケーションに登録パッケージを作成します。
+</Para>
+<Sect2 Id="SAG.RegAp.div.39">
+<Title>``BestTextEditor'' について知っておくべき情報</Title>
+<Para>
+この例では、BestTextEditor アプリケーションについて、次の事実を想定しています。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ディレクトリ <Filename>/usr/BTE</Filename> にインストールされています。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ユーザのセッション言語はデフォルト値の <Command>C</Command> です。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+BestTextEditor を起動するコマンド行は次のとおりです。
+</Para>
+<ProgramListing>BTEd [<Symbol Role="Variable">filename</Symbol>]</ProgramListing>
+<Para>
+<Symbol Role="Variable">filename</Symbol> は新規ウィンドウを開くデータ・ファイル名です。BestTextEditor は独自のウィンドウを作成します。つまり、端末エミュレータ・ウィンドウ内で実行することはできません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+BestTextEditor は次の２種類のデータ・ファイルを作成し使用します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+ドキュメンテーション・ファイル。ファイル名の命名規則は <Filename>*.bte</Filename> です。BestTextEditor は <Filename>.bte</Filename> データ・ファイルを印刷するためにコマンド行を提供します。コマンド構文は次のとおりです。
+</Para>
+<ProgramListing>BTEPrint [-d <Symbol Role="Variable">destination</Symbol>] [-s] <Symbol Role="Variable">filename</Symbol></ProgramListing>
+<Para>各オプションの説明を次に示します。</Para>
+<variablelist>
+<varlistentry><term><literal>-d</literal> <Symbol Role="Variable">destination</Symbol></term>
+<listitem>
+<para>
+宛先プリンタを指定します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>-s</literal></term>
+<listitem>
+<para>
+サイレント印刷を指定します。アプリケーションの印刷ダイアログ・ボックスは表示されません。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">filename</Symbol></term>
+<listitem>
+<para>
+印刷するファイルを指定します。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</ListItem>
+<ListItem>
+<Para>
+テンプレート・ファイル。ファイル名の命名規則は <Filename>*.tpl</Filename> です。テンプレート・ファイルは印刷できません。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+BestTextEditor の、既存のデスクトップでない app-defaults ファイルには、インタフェース・フォントと、フォアグラウンド・カラーおよびバックグラウンド・カラーのリソースがあります。	
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+BestTextEditor のオンライン・ヘルプ・ボリュームは、デスクトップのヘルプ開発キットを使用して作成されます。オンライン・ヘルプ・ボリュームは組み込まれると、次のソース・ファイルを使用します。
+</Para>
+<programlisting>&hellip;/BTEHelp.htg
+&hellip;/graphics/BTE1.xwd
+&hellip;/graphics/BTE2.xwd
+</Programlisting>
+<Para>
+そして、ファイル &hellip;<Filename>/</Filename><Filename>BTEHelp.sdl</Filename> を生成します。
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.RegAp.div.40">
+<Title>``BestTextEditor'' を登録するための手順</Title>
+<Para>
+次の手順によって、BestTextEditor を登録します。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+<Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.31">
+フォント・リソースとカラー・リソースを修正します。
+</Emphasis>
+</Para>
+<Para>
+BestTextEditor の app-defaults ファイルでは、以下を設定するリソースを削除します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>テキストのフォント</Para>
+</ListItem>
+<ListItem>
+<Para>フォアグラウンドおよびバックグラウンドのカラー</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.32">
+アプリケーション・ルートを作成します。
+</Emphasis>
+</Para>
+<Para>
+次のディレクトリを作成します。
+</Para>
+<ProgramListing>/desktop_approots/BTE</ProgramListing>
+<Para>
+既存のアプリケーションを統合する場合、アプリケーションのインストール位置以外のどこかに、アプリケーション・ルート・ディレクトリを作成してください。そうしないと、アプリケーションを更新したときに、作成した構成ファイルが削除されることがあります。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.33">
+登録パッケージ・ディレクトリを作成します。
+</Emphasis>>
+</Para>
+<Para>
+次のディレクトリを作成します。
+</Para>
+<ProgramListing><Filename>/desktop_approots/BTE/dt/appconfig/types/C</Filename>
+<Filename>/desktop_approots/BTE/dt/appconfig/help/C</Filename>
+<Filename>/desktop_approots/BTE/dt/appconfig/icons/C</Filename>
+<Filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/BestTextEditor</Filename></ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.34">
+アプリケーションのアクションおよびデータ型を作成します。
+</Emphasis>
+</Para>
+<orderedlist>
+<ListItem>
+<Para>
+アクションおよびデータ型定義の構成ファイルを作成します。
+</Para>
+<ProgramListing>/desktop_approots/BTE/dt/appconfig/types/C/BTE.dt</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+BestTextEditor を実行するためのアクション定義を作成します。
+</Para>
+<programlisting>ACTION BTEditor
+{
+  WINDOW_TYPE    NO_STDIO
+  ICON    BTERun
+  DESCRIPTION    Double-click this icon or drop a BTE data \
+      file on it to run BestTextEditor.
+  EXEC_STRING    /usr/BTE/BTEd &percnt;Arg_1&percnt;
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+<Command>*.bte</Command> ファイルのデータ型を作成します。
+</Para>
+<programlisting>DATA_ATTRIBUTES BTEDataFile
+{
+  DESCRIPTION    BestTextEditor data file.
+  ICON    BTEData
+  ACTIONS    Open,Print
+}
+
+DATA_CRITERIA BTEDataFileCriteria1
+{
+  DATA_ATTRIBUTES_NAME      BTEDataFile
+  NAME_PATTERN      *.bte
+  MODE      f
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>*.tpl</Filename> ファイルのデータ型を作成します。
+</Para>
+<programlisting>DATA_ATTRIBUTES BTETemplateFile
+{
+  DESCRIPTION    BestTextEditor template file.
+  ICON    BTETempl
+  ACTIONS    Open
+}
+
+DATA_CRITERIAL BTETemplateFileCriteria1
+{
+  DATA_ATTRIBUTES_NAME      BTETemplateFile
+  NAME_PATTERN      *.tpl
+  MODE      f
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>*.bte</Filename> ファイルの[開く]アクションを作成します。
+</Para>
+<programlisting>ACTION Open
+{
+  ARG_TYPE   BTEDataFile
+  TYPE   MAP
+  MAP_ACTION   BTEditor
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>*.bte</Filename> ファイルの[印刷]アクションを作成します。
+</Para>
+<Para>
+次の例は、データ・ファイルを印刷する簡単な[印刷]アクションです。これらのアクションには、LPDEST 環境変数が必要で、<Command>-s</Command> 印刷オプションを無視します（LPDEST を設定しない場合、アクションは異常終了する可能性があります）。
+</Para>
+<programlisting>ACTION Print
+{
+  ARG_TYPE    BTEDataFile
+  TYPE    MAP
+  MAP_ACTION    BTEPrintData
+}
+ACTION BTEPrintData
+}
+  WINDOW_TYPE     NO_STDIO
+  EXEC_STRING     BTEPrint -d $LPDEST &percnt;Arg_1&percnt;
+}
+</programlisting>
+<Para>
+次は、BTEPrintData アクションと付随するスクリプトの別のバージョンを示します。アクションとスクリプトは、LPDEST が設定されていないか、サイレント印刷が要求されている状況を処理します。
+</Para>
+<programlisting>ACTION BTEPrintData
+{
+  WINDOW_TYPE    NO_STDIO
+  EXEC_STRING    /usr/BTE/bin/BTEenvprint &percnt;(File)Arg_1&percnt;
+}
+</programlisting>
+<Para>
+<Filename>/usr/BTE/bin/BTEenvprint</Filename> スクリプトは次のとおりです。
+</Para>
+<programlisting># BTEenvprint
+#!/bin/sh
+DEST=&rdquo;&rdquo;
+SILENT=&rdquo;&rdquo;
+if [ $LPDEST ]; then
+  DEST=&rdquo;-d $LPDEST&rdquo;
+fi
+<Command>BTEPrint $DEST $SILENT $1</Command>
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+<Command>*.tpl</Command> ファイルの[開く]アクションを作成します。
+</Para>
+<programlisting>ACTION Open
+{
+  ARG_TYPE   BTETemplateFile
+  TYPE   MAP
+  MAP_ACTION   BTEditor
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>*.tpl</Filename> ファイルの[印刷]アクションを作成します。
+</Para>
+<programlisting>ACTION Print
+{
+  ARG_TYPES    BTETemplateFile
+  TYPE    MAP
+  MAP_ACTION    NoPrint
+}
+</programlisting>
+<Para>
+NoPrint は、ファイルが印刷できないことをユーザに通知するダイアログ・ボックスを表示する組み込みアクションです。
+</Para>
+</ListItem>
+</orderedlist>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.35">
+ヘルプ・ファイルを登録パッケージに組み込みます。
+</Emphasis>
+</Para>
+<orderedlist>
+<ListItem>
+<Para>
+ヘルプ・ファイルを次の位置に置きます。
+</Para>
+<programlisting>/desktop_approots/BTE/dt/appconfig/help/C/BTEHelp.sdl
+/desktop_approots/BTE/dt/appconfig/help/C/graphics/BTE1.xwd
+/desktop_approots/BTE/dt/appconfig/help/C/graphics/BTE2.xwd
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+次のファイルを作成します。
+</Para>
+<programlisting>/desktop_approots/BTE/dt/appconfig/types/C/BTEhelp.dt
+</programlisting>
+<Para>
+次のアクション定義をファイルに入れます。
+</Para>
+<programlisting>ACTION BTEHelp
+{
+  WINDOW_TYPE    NO_STDIO
+  EXEC_STRING    /usr/dt/bin/dthelpview -helpVolume \
+      BTEHelp.sdl
+  DESCRIPTION    Opens the BestTextEditor help volume.
+}
+</programlisting>
+</ListItem>
+</orderedlist>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.36">
+アプリケーションのアイコンを作成します。
+</Emphasis>
+</Para>
+<Para>
+[アイコン・エディタ]を使用してアイコンを作成します。次に示すサイズに関するガイドラインを使用します。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="117*">
+<colspec colwidth="411*">
+<THead>
+<Row>
+<Entry><Para>名前</Para></Entry>
+<Entry><Para>サイズ</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.t.pm</Filename></Para></Entry>
+<Entry><Para>16 × 16</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.m.pm</Filename></Para></Entry>
+<Entry><Para>32 × 32</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.l.pm</Filename></Para></Entry>
+<Entry><Para>64 × 64</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+以下のアイコン・ファイルを、ディレクトリ
+<Filename>/desktop_approots/BTE/dt/appconfig/icons/C</Filename>
+に作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+アプリケーションを実行するアクションを示すアイコン: <Filename>BTERun.t.pm</Filename>、<Filename>BTERun.m.pm</Filename>、<Filename>BTERun.l.pm</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>*.bte</Filename> ファイルを示すアイコン: <Filename>BTEData.t.pm</Filename>、<Filename>BTEData.m.pm</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>*.tpl</Filename> ファイルを示すアイコン: <Filename>BTETempl.t.pm</Filename>、<Filename>BTETempl.m.pm</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・グループ（手順７で使用）を示すアイコン: <Filename>BTEApp.t.pm</Filename>、<Filename>BTEApp.m.pm</Filename>
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.37">
+アプリケーション・グループを作成します。
+</Emphasis>
+<IndexTerm><Primary>アプリケーション・グループ</Primary><Secondary>作成例</Secondary></IndexTerm>
+</Para>
+<orderedlist>
+<ListItem>
+<Para>
+まだ作成していなければ、ディレクトリを作成します。
+</Para>
+<ProgramListing>/desktop_approots/BTE/dt/appconfig/appmanager/C/BestTextEditor</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+この手順はオプションです。アプリケーション・グループのデータ型および関連するアクションを作成して、アプリケーション・グループ・アイコンに一意のアイコンを作成します。この手順を省略すると、アプリケーション・グループはデフォルト・アイコンを使用します。
+</Para>
+<Para>
+次のデータ型およびアクション定義をファイル
+<Filename>/desktop_approots/BTE/dt/appconfig/types/C/BTE.dt</Filename>
+に追加します。
+データ型は、アイコンを BestTextEditor アプリケーション・グループが使用するように指定します。アクションは、組み込みアプリケーション・グループと同様の、[開く]および[印刷]の動作を提供します。
+</Para>
+<programlisting>DATA_ATTRIBUTES BestTextEditorAppGroup
+{
+  ACTIONS   OpenInPlace,OpenNewView
+  ICON   BTEApp
+}
+DATA_CRITERIA BestTextEditorAppGroupCriterial
+{
+  DATA_ATTRIBUTES_NAME      BestTextEditorAppGroup
+  MODE      d
+  PATH_PATTERN      */appmanager/*/BestTextEditor
+}
+ACTION Open
+{
+  ARG_TYPE   BestTextEditorAppGroup
+  TYPE   MAP
+  MAP_ACTION   OpenAppGroup
+}
+ACTION Print
+{
+  ARG_TYPE   BestTextEditorAppGroup
+  TYPE   MAP
+  MAP_ACTION   PrintAppGroup
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションを起動するアプリケーション・グループにアイコンを作成します。これを行うには、次のファイルを作成し、ファイルを実行可能にします。
+</Para>
+<ProgramListing><Filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/BestTextEditor/BTEditor</Filename></ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+ヘルプ・ボリュームを開くアプリケーション・グループにアクション・ファイルを作成します。これを行うには、次のファイルを作成し、ファイルを実行可能にします。
+</Para>
+<ProgramListing><Filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/BestTextEditor/BTEHelp</Filename></ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・グループに、README ファイル、サンプル・データ、テンプレート・ファイルなどの他のファイルを置きます。
+</Para>
+</ListItem>
+</orderedlist>
+</listitem>
+<ListItem>
+<Para>
+<Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.38">
+アプリケーションを登録します。
+</Emphasis>
+</Para>
+<Para>
+端末エミュレータ・ウィンドウで次のようにします。
+</Para>
+<orderedlist>
+<ListItem>
+<Para>
+root でログインします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+次のコマンドを実行します。
+</Para>
+<ProgramListing>/usr/dt/bin/dtappintegrate -s /desktop_approots/BTE</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+[デスクトップツール]アプリケーション・グループを開き、[アプリケーションの再読込み]をダブルクリックします。
+</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</OrderedList>
+</Sect3>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

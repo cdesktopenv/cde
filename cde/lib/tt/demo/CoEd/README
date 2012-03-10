@@ -1,0 +1,80 @@
+/* $XConsortium: README /main/2 1996/07/15 14:07:37 drk $ */
+This is CoEd, a shared text editor.  Building CoEd requires DevGuide,
+C++, and ToolTalk (which is part of OpenWindows).  CoEd is known to
+build with DevGuide 3.0.1, C++ from SPARCompilers 2.0.1, and either
+OpenWindows 3.1 or OpenWindows 3.2.
+
+NOTE: The libgolit in DevGuide 3.0.1 was based on the OW3.0.1/3.1 OLIT
+libraries, and has some incompatibilites with the OW3.2 OLIT
+libraries.  A CoEd built with with libgolit 3.0.1 and running under
+OW3.2 will crash, e.g., if you press MENU or HELP over the OLIT
+textedit widget embedded in CoEd.  However, the basic features of
+editing, selecting, copy/paste, drag-and-drop, and scrolling seem to
+work.
+
+Run it with "CoEd <filename>".  (Of course, the ToolTalk dbserver must
+be installed on the machine that owns the file.  See the ToolTalk
+Setup And Administration Guide.)
+
+Basically, it's an editor that uses ToolTalk so that multiple
+instances of the editor can edit the same file at the same time,
+and have all the changes keep in sync.  It has some serious limitations:
+
+- CoEd has no facility for saving the edited file to disk.
+
+- All the CoEd's must come up before any typing occurs.  We haven't
+  implemented the part of the protocol where newcomers can request
+  the current state of the file.  CoEd's can quit at any time without
+  messing up the others.  Here's a sketch for the rest of
+  the protocol, in case anyone is interested in completely implementing
+  the dOPT algorithm (cf. C.A. Ellis and S.J. Gibbs,
+  "Concurrency Control in Groupware Systems", Proc. 1989 ACM SIGMOD,
+  Int. Conf. on the Mgt. of Data).
+
+   * CoEd protocol
+      * Notices every editor should register for
+         * Text_File_Changed(
+              in CoEdTextVersion appliesTo,
+              in int		changeNum,
+              in int		start,
+              in int		end,
+              in string		text )
+         * Text_File_Poll_Version()
+            * Used by the moderator to detect quiescence.
+         * Text_File_Saved()
+         * Text_File_Reverted()
+         * Text_File_Renamed(
+              in string		newName )
+      * Requests every editor should register to handle
+         * Text_File_New_Moderator()
+            * Sent by the Moderator when closing the file.  Whoever
+              handles it must register for the Moderator requests and
+              act as the new Moderator.
+      * Point-to-point notices the Moderator should be ready for
+         * Text_File_Version_Vote(
+              in CoEdTextVersion myVersion )
+            * When a Text_File_Poll_Version notice is received,
+              this notice is sent directly to the party that called
+              for the version vote.
+      * Requests the moderator should register to handle
+         * Text_File_Join(
+              out CoEdSiteIDList coEditors )
+            * Sent every time an editor opens a file.  If the request
+              fails, then no one is editing the file and the requestor
+              should become the Moderator -- i.e., register to handle
+              this request.  If the request succeeds, then issue a
+              Text_File_Poll_Version notice, and wait until each
+              coEditor responds with a Text_File_Version_Vote.
+              Then send a Text_File_Update_Me request to catch up on
+              what you've missed.
+         * Text_File_Update_Me(
+              inout CoEdTextVersion	version,
+              out string		text )
+            * Sent by new coEditors after they've received a
+              Text_File_Version_Vote from each coEditor they learned
+              about when they did their Text_File_Join.  In the
+              request, <version> is the earliest version of the text
+              that would not leave the requestor with missing changes
+              from any of the coEditors.  In the reply, <version> is
+              identical to or later than the requested version, and
+              corresponds to the <text> in the reply.

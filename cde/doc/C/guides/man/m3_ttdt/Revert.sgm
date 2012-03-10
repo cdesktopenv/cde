@@ -1,0 +1,170 @@
+<!-- $XConsortium: Revert.sgm /main/5 1996/08/30 14:25:27 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN255.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN255.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttdt_Revert</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttdt_Revert</Function></RefName>
+<RefPurpose>request a ToolTalk client to revert a file
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Revert.sgm /main/5 1996/08/30 14:25:27 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>ttdt_Revert</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>context</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>pathname</Parameter></ParamDef>
+<ParamDef>Tt_scope <Parameter>the_scope</Parameter></ParamDef>
+<ParamDef>XtAppContext <Parameter>app2run</Parameter></ParamDef>
+<ParamDef>int <Parameter>ms_timeout</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttdt_Revert</Function> function
+sends a
+<Symbol Role="Message">Revert</Symbol> request in the
+<Emphasis>the_scope</Emphasis> argument and waits for the reply.
+A
+<Symbol Role="Message">Revert</Symbol> request asks the handling
+ToolTalk client to discard any changes pending on
+<Symbol Role="Variable">pathname</Symbol>.</Para>
+<Para>The
+<Symbol Role="Variable">context</Symbol> argument describes the environment to use.
+If
+<Symbol Role="Variable">context</Symbol> is not zero, messages created by
+<Function>ttdt_Revert</Function> inherit from
+<Symbol Role="Variable">context</Symbol> all contexts whose slotname begins with the characters
+<SystemItem Class="Constant">ENV_</SystemItem>.</Para>
+<Para>The
+<Emphasis>the_scope</Emphasis> argument identifies the scope of the request.
+If
+<Emphasis>the_scope</Emphasis> is
+<SystemItem Class="Constant">TT_SCOPE_NONE</SystemItem>, <Function>ttdt_Revert</Function> tries
+<SystemItem Class="Constant">TT_BOTH</SystemItem>, and falls back to
+<SystemItem Class="Constant">TT_FILE_IN_SESSION</SystemItem> if, for example,
+the ToolTalk database server
+is not installed on the file server that owns
+<Symbol Role="Variable">pathname</Symbol>.</Para>
+<Para>The
+<Function>ttdt_Revert</Function> function passes
+<Emphasis>app2run</Emphasis> and
+<Emphasis>ms_timeout</Emphasis> to
+&cdeman.tttk.block.while;, blocking on the reply to the
+<Symbol Role="Message">Save</Symbol> request it sends.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttdt_Revert</Function> function returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The sent request received an affirmative reply within
+<Emphasis>ms_timeout</Emphasis> milliseconds.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_ETIMEDOUT</Term>
+<ListItem>
+<Para>No reply was received within
+<Emphasis>ms_timeout</Emphasis> milliseconds.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_EPROTO</Term>
+<ListItem>
+<Para>The request was failed, but the handler set the
+<Function>tt_message_status</Function> of the failure reply to
+<SystemItem Class="Constant">TT_OK</SystemItem>, instead of a specific error status.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBAVAIL</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the ToolTalk database
+needed for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBEXIST</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the specified ToolTalk database
+in the expected place.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMEM</Term>
+<ListItem>
+<Para>There is insufficient memory available to perform the function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_OVERFLOW</Term>
+<ListItem>
+<Para>The ToolTalk service has more active messages than it can handle.
+(The maximum number of active messages is
+implementation specific, but is at least 2000.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The
+<Symbol Role="Variable">pathname</Symbol> argument was
+<SystemItem Class="Constant">NULL</SystemItem> or was a ToolTalk error pointer.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The specified process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttdt.Save;, &cdeman.ttdt.file.join;, &cdeman.ttdt.file.event;, &cdeman.tttk.block.while;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

@@ -1,0 +1,17 @@
+hdr,sys	dlfcn,dl,ldr
+lib	dlopen,shl_load,loadbind
+cat{
+	#ifdef _lib_dlopen
+	#   define SHOPT_FS_3D	1
+	#endif /* _lib_dlopen */
+	#ifdef _lib_shl_load
+	#   define SHOPT_FS_3D	1
+	#endif /* _lib_shl_load */
+	#ifdef _lib_loadbind
+	#   define SHOPT_FS_3D	1
+	#endif /* _lib_loadbind */
+	#ifdef SHOPT_FS_3D
+	#   undef mount
+	#   include	<fs3d.h>
+	#endif /* SHOPT_FS_3D */
+}end

@@ -1,0 +1,777 @@
+/* $TOG: README /main/4 1999/08/30 10:44:07 mgreess $ */
+	1.8 10/27/92
+Copyright (c) 1992 by Sun Microsystems, Inc.
+
+
+TOOLTALK IMPLEMENTATION OVERVIEW
+
+
+This document presents a roadmap to understanding the implementation
+of the main message-passing features of ToolTalk 1.0.1. It does not
+aim to describe the details of the algorithms used. In order to find
+these out it is necessary to read the source code as well as the
+comments. This document should give the reader an overall picture of
+how all the various objects that implement message-passing fit
+together as well as familiarity with where to find the code that
+implements a particular feature. Finally some naming conventions used
+throughout the code are given.
+
+
+********** Please update this document as the code is changed **********
+
+
+
+MEMORY MANAGEMENT
+
+The only memory management policy used througout the code is
+reference-counting. This is an automatic sort of memory management
+since objects are "magically" deleted when there are no longer
+references to them. This functionality is implemented by way of
+pointer classes that behave just like normal pointers except that they
+maintain a reference count in the object they point to. It is
+important *not* to mix normal pointers with counted pointers.
+
+MIXING POINTERS
+
+You should never use a C pointer with refcounted objects (i.e., those
+inheriting from _Tt_object (actually, from _Tt_new; I have no idea why
+_Tt_new and _Tt_object are different)).  You should always use
+refcounting pointers ("ptrs") with _Tt_objects.  The danger is as
+follows:
+
+	_Tt_object *evilRef;
+	{
+		evilRef = new _Tt_object;
+		//
+		// refCount is now zero, but evilRef is pointing at our
+		// object!
+		//
+		...
+		_Tt_object_ptr goodRef = evilRef;
+		//
+		// refCount is now 1
+		//
+		...
+		//
+		// goodRef goes out of scope.
+		// goodRef::~_Tt_object_ptr() decrements the refCount
+		// to zero, and deletes our object because the
+		// refCount is now zero.
+		//
+	}
+	int foo = evilRef->dataMember;	// core dump
+
+If you need a static pointer to a _Tt_object, you cannot have a static
+_Tt_object_ptr, because static C++ instances aren't allowed.  But you
+don't want to have a static _Tt_object *, because then you have to
+eternally worry about never showing it to a refcounting pointer (which
+would try to delete it when it was done with it).
+
+The best thing to do is have a static _Tt_object_ptr *:
+
+	static _Tt_object_ptr *ppGlobalObj;
+	ppGlobalObj = new _Tt_object_ptr;
+	*ppGlobalObj = new _Tt_object;
+
+Now you can use *ppGlobalObj wherever you would have used your static
+_Tt_object_ptr.  The _Tt_object you allocated is safely refcounted, so
+you can let refcounting pointers do whatever they want with it.
+When it's time to clean up, you just
+
+	delete ppGlobalObj;
+
+This is a call to ppGlobalObj->~_Tt_object_ptr(), which decrements the
+refcount of your object, and *optionally* deletes it if the refcount
+is zero.  This way, you don't delete your object out from under anyone
+who still has a reference to it.
+
+REFCOUNTING INSIDE CONSTRUCTORS
+
+Inside a constructor, never assign the 'this' pointer of a refcounted
+object to an automatic refcounting pointer.  Inside the constructor,
+the refcount is still zero.  Assigning 'this' into a refcounting
+pointer will increment the refcount to 1.  But before the constructor
+returns, the automatic refcounting pointer on the stack will be
+destructed.  The destructor will decrement the object's refcount back
+to zero, and therefore delete the object -- before the constructor
+even returns!
+
+	_Tt_foo::_Tt_foo()
+	{
+		// On entry, _Tt_foo::_refcount_ == 0
+		_Tt_foo_ptr evilRef = this;
+		// Now, _Tt_foo::_refcount_ == 1
+		...
+		// On exit, evilRef->~_Tt_foo_ptr() will be called.
+		// It will decrement the refcount to zero, and
+		// then delete this object under construction!
+	}
+
+Also, be sure not to pass the 'this' pointer to any routine that might
+hold a temporary reference to the object while the routine runs.
+(Here, "hold a temporary reference to" means "increment the refcount
+and then decrement it".)  If you must pass the 'this' pointer anywhere
+from within the constructor, cast it to const first so that the
+compiler will protect you from any routine with an intention of
+modifying its refcount.  If you absolutely must pass the 'this'
+pointer to a routine that might only temporarily reference it, then
+manually increment the refcount before doing so, and then manually
+decrement the refcount before returning from the constructor
+
+CYCLICAL REFERENCES
+
+Avoid creating data structures that permit cyclical references.
+A single reference cycle can cause a massive memory leak.
+
+COMMENT CONVENTIONS
+
+Throughout the code, any comments preceded by XXX: denote notes to the
+reader of problems or suggestions for the code they describe. 
+
+
+
+DESCRIPTION OF OBJECT CLASSES
+
+This section presents all the object classes used to implement the
+message-passing portion of ToolTalk along with a brief description of
+what each class represents and in which files it can be found. Before
+describing the classes we need to mention some important naming
+conventions as well as some general comments about client/server
+conventions.
+
+Many of the object classes described below have client-side and
+server-side implementations. For example, a client-side version of a
+ToolTalk message has methods to send the message to the server. On the
+server-side there is a corresponding _Tt_message that processes the
+new message. In the 1.0 version of ToolTalk, these methods were
+roughly coded as:
+
+		void _Tt_some_object::
+		sample_method(...)
+		{
+			if (_tt_mp->in_server()) {
+				... do server-specific actions ...
+			} else {
+				... do client-specific actions ...
+			}	
+		}
+
+where the "in_server" method for the _Tt_mp class returns 1 if the
+environment is in server mode (which is true if the method is
+executing on behalf of ttsession). The problem with this scheme is
+that the library was excessively big because the code to implement the
+server, ttsession, was contained in the library even though it wasn't
+needed for the clients.
+
+Because of this, the 1.0.1 version split up this method in one of two
+ways. The first method is to create two subclasses of the object. One
+of the subclasses, named with a "_c_" infix, represents the
+client-side state and methods for the object. The other subclass,
+named with a "_s_" infix, represents the server-side state and methods
+for the object.  Each of these subclasses then contains the
+corresponding method which now doesn't need the conditional test. The
+example above then becomes:
+
+		void _Tt_c_some_object::
+		sample_method(...)
+		{
+			... do client-specific actions ...
+		}
+
+
+		void _Tt_s_some_object::
+		sample_method(...)
+		{
+			... do server-specific actions ...
+		}
+
+The other mechanism is to still have one object class but name the
+object with a "c_" prefix for the client-specific method, and an "s_"
+prefix for the server-specific method.
+
+In the 4/93 version of ToolTalk, more classes were split up so that
+no references to server-only classes would appear in client code.
+As part of this, the client-to-server XDR methods were slightly
+changed.  You will see (in mp_rpc_implement.C) that apparently
+the server uses a XDR function to decode the arguments of some
+RPCs which is different from the encoding XDR function.  This
+seemingly violates the central dogma of XDR, but it really isn't
+as bad as it looks.  What is happpening is that we have class
+hierarchies like:
+
+          _Tt_pattern
+               |
+       ------------------
+       |                |
+  _Tt_s_pattern     _Tt_c_pattern          
+
+Only _Tt_pattern has an XDR method -- that is, the data that appears
+on the wire is only the common data. A client would create a _Tt_c_pattern
+and XDR it out; the server then XDR's it in as a _Tt_s_pattern, but
+the _Tt_pattern::XDR routine does all the work and the only difference
+is the virtual function table (and any private _Tt_s_pattern data,
+which would be initialized by the _Tt_s_pattern constructor.)
+
+
+The following classes are related to the main message-passing
+functionality in ToolTalk. Details on what methods they implement and
+precise algorithms are in the source code along with the comments
+throughout the code.
+
+
+Class: _Tt_arg
+File: tt/lib/mp/mp_arg.C (client/server methods)
+      tt/lib/mp/mp_s_arg.C (server-only methods)
+
+This class represents an argument to a message or pattern. Its methods
+implement matching arguments with other arguments and constructing and
+updating arguments.
+
+
+Class: _Tt_auth
+File: tt/lib/mp/mp_auth.C (client/server methods)
+      tt/lib/mp/mp_auth_functions.C (utility functions copied from libICE)
+
+This class maintains the authorization level being used by the server
+(cookie, des, unix, none).  In the case of the cookie authorization
+scheme, this class also is responsible for generating the cookie and
+writing it to and reading it from the authority file.
+
+Class: _Tt_desktop
+File: tt/lib/mp/mp_desktop.C
+
+This class represents "desktop" sessions. Currently this means X11
+server sessions but the methods reflect an interface that is largely
+independent of X11. As a result, all X11-dependent code is isolated in
+this one module.
+
+
+Class:	_Tt_c_message (subclass of _Tt_message)
+File:	tt/lib/mp/mp_c_message.C
+
+This class represents client-only view of ToolTalk messages. It
+contains methods for sending messages to the ttsession server.
+
+
+Class:	_Tt_c_procid (subclass of _Tt_procid)
+File:	tt/lib/mp/mp_c_procid.C
+
+This class implements client-only methods needed to reply to messages
+and to retrieve new messages for the ToolTalk client represented by
+this class.
+
+
+Class:	_Tt_file
+File:	tt/lib/mp/mp_file.C (server/client methods)
+        tt/lib/mp/mp_s_file.C (server-only methods)
+
+This class represents file objects. The functionality implemented is
+for querying for specs contained in the file, joining and quitting
+file scopes, and queuing and de-queueing messages on file objects.
+
+
+Class:	_Tt_message
+File:	tt/lib/mp/mp_message.C
+
+This class represents a ToolTalk message. This class represents
+methods that are common to both clients and ttsession. Its subclasses,
+_Tt_s_message and _Tt_c_message described below implement methods
+specific to client manipulation and server manipulation respectively.
+The code is structured so that _Tt_message objects contain the methods
+to do delivery to other clients.
+
+
+Class: _Tt_mp 
+File:  tt/lib/mp/mp_mp.C
+
+This class represents the global state needed by the message-passing
+objects. In particular, this object contains many object caches that
+are needed by the system as well as holds references to some important
+objects such as the default session object.
+
+
+Class:	_Tt_node
+File:	tt/lib/mp/mp_node.C
+
+This class represents a ToolTalk spec. Its methods create/destroy
+specs in a database and add properties to an existing spec.
+
+
+Class:	_Tt_observer
+File:	tt/lib/mp/mp_observer.C
+
+This class is a very simple class that basically just stores some
+message fields that can change for static observers of a message. It
+is used only by the _Tt_s_message class. This class is mainly used as
+to hold the information necessary to honor static observer "promises"
+for message disposition processing.
+
+
+Class:	_Tt_otype
+File:	tt/lib/mp/mp_otype.C
+
+This class implements methods needed to deal with otype definitions.
+In general the operations needed are for setting and returning the
+observer, inherited, and handler signatures for this otype definition
+as well as printing out the otype definition which, in addition to
+debugging, is used to print out the definition for storage under the
+Classing Engine and also for dumping out compiled type databases in
+source format.
+
+
+Class:	_Tt_pattern
+File:	tt/lib/mp/mp_pattern.C (server/client methods)
+        tt/lib/mp/mp_s_pattern.C (server-only methods)
+
+This class represents a ToolTalk pattern. Client-side methods
+implement adding/deleting fields to the pattern and
+registering/unregistering the pattern by invoking the proper rpc
+routines on the server. Server-side methods implement the appropiate
+actions for registering/unregistering patterns as well as matching
+patterns to messages.
+
+
+Class:	_Tt_procid
+File:	tt/lib/mp/mp_procid.C
+
+This class represents a ToolTalk client. It represents all of the
+methods and data necessary for sending a message to a ToolTalk client.
+Its subclasses, _Tt_s_procid and _Tt_c_procid, implement the needed
+server-only and client-only methods.
+
+
+Class:	_Tt_ptype
+File:	tt/lib/mp/mp_ptype.C
+
+This class implements methods needed to deal with ptype definitions
+and with starting new instances of ptypes which is functionality
+needed to implement the start disposition options for ToolTalk
+messages. Also, as with _Tt_otype objects, printing methods are also
+defined that are used for storage in type databases and dumping out
+ptype definitions in source format.
+
+
+Class:	_Tt_rpc_client
+File:	tt/lib/mp/mp_rpc_client.C
+
+This class represents a client rpc connection. The methods implemented
+are basically wrappers around the rpc interfaces with the important
+difference that the api to this object is the same regardless of
+whether tli rpc or non-tli rpc is used. The methods for this object
+are ifdefed to use tli rpc or not.
+
+
+Class:	_Tt_rpc_server
+File:	tt/lib/mp/mp_rpc_server.C
+
+This class represents an rpc server. The methods implemented are
+wrappers around the rpc server interfaces with the difference that
+both tli and non-tli rpc is supported by ifdefing the implementation
+code for the methods to select which rpc interface to use.
+
+
+Class:	_Tt_s_message (subclass of _Tt_message)
+File:	tt/lib/mp/mp_s_message.C
+
+This class represents a ToolTalk message with some specialized methods
+that are specific to server-side manipulation of messages. In
+particular this class implements methods to dispatch a message (ie.
+match the message against static patterns), and deliver the message to
+ToolTalk clients with patterns that match it. There are also methods
+to implement the reliability for messages that don't match any active
+client's patterns.
+
+
+Class: _Tt_s_mp
+File:  tt/lib/mp/mp_s_mp.C
+
+This class represents the global server-only state needed by the
+message-passing objects. It contains object caches that are relevant
+to the server module as well as the ptypes and otypes that were read
+in from the type database.
+
+
+Class:	_Tt_s_procid (subclass of _Tt_procid)
+File:	tt/lib/mp/mp_s_procid.C
+
+This class implements server-only methods needed to send messages to
+ToolTalk clients and also methods which process replies to previously
+sent messages.
+
+
+Class:	_Tt_session
+File:	tt/lib/mp/mp_session.C (server/client methods)
+        tt/lib/mp/mp_s_session.C (server-only methods)
+
+This class represents a ToolTalk session. It has methods that apply in
+client-side and server-side environments. The main functionality
+required is establishing ToolTalk sessions, advertising the addressing
+information to contact the session, and methods for connecting to a
+session given its addressing information and auto-starting a session
+if necessary.
+
+
+Class: _Tt_signature
+File: tt/lib/mp/mp_signature.C
+
+This class represents a ToolTalk signature which can be either an
+otype or ptype signature. The main methods for this object allow one
+to create a signature, match the signature against an operation name
+and a list of arguments, and match the signature against relevant
+message fields.
+
+
+Class:	_Tt_stream_socket
+File:	tt/lib/mp/mp_stream_socket.C
+
+This class represents a stream connection. Its methods are ifdefed
+depending on whether TCP sockets are to be used or TLI streams.
+
+
+Class:	_Tt_typedb
+File:	tt/lib/mp/mp_typedb.C
+
+This class represents the ToolTalk type database. It has methods for
+reading and writing the database in either a native xdr format or to
+the Classing Engine. Important Note: since  the typedb on disk is
+a table_ptr and not just a table, it's possible to have a null
+table and a non-null _ptr, which if xdr-decoded will crash the
+_Tt_object_table xdr method, because the default constructor
+for that class tries to decode a null table.
+
+
+Class: _Tt_global
+File:  tt/lib/util/tt_global_env.C
+
+This class is where any global information that is not specific to
+message-passing is kept. In particular any global flags or caches are
+kept in this object. This class also keeps the number representing the
+current xdr version to be used by all xdr methods.
+
+
+Class: _Tt_host
+File:  tt/lib/util/tt_host.C
+
+This class packages up methods for mapping host addresses to host
+names and viceversa.
+
+
+Class: _Tt_xdr_version
+File: tt/lib/util/tt_xdr_version.C
+
+This class provides a mechanism for temporarily setting the default
+xdr version. It sets the version to a given number in the constructor
+and then resets the default to the previous value in the destructor.
+
+
+Class: _Tt_new_ptr
+File: tt/lib/util/tt_new_ptr.C
+
+Generic version of a pointer class. This implements the
+reference-counting machinery. See declare_ptr_to and implement_ptr_to
+in tt/lib/util/tt_ptr.h to see how a specialized pointer class is
+derived from this generic class.
+
+
+Class: _Tt_object_list
+File: tt/lib/util/tt_object_list.C
+
+Generic version of a list class. See declare_list_of and
+implement_list_of in tt/lib/util/tt_list.h to see how a specialized
+list class is derived from the generic one.
+
+
+Class: _Tt_object_table
+File: tt/lib/util/tt_object_table.C
+
+Generic version of a table class. See declare_table_of and
+implement_table_of in tt/lib/util/tt_table.h to see how a specialized
+list class is derived from the generic one.  Important note: unfortunately
+you can crash this method by trying to de-xdr on online db because
+the default constructor for that class tries to decode a null table.
+
+
+FINDING ONE'S WAY AROUND
+
+The rich functionality offered by ToolTalk is implemented partly in
+the client library, partly in the server (which itself is implemented
+by objects contained in a server library). Thus it isn't always
+trivial to find which code implements a certain feature. A good
+heuristic to use is to decide whether the particular feature is likely
+to be implemented on the client side or server side. If it is likely a
+client-side feature then it is accessible through one of the tooltalk
+api calls. These are all implemented in the tt/lib/api/c directory
+where the files are named api_<noun> where <noun> is the name of the
+entity being operated on by the api call. For example,
+tt_pattern_create can be found in "api_pattern.C". The api calls that
+don't operate on a particular entity are found in "api_mp.C". For
+example, tt_open and tt_fd can be found there. 
+
+Once the code for the api is located, the way the feature is
+implemented can be traced through the code. Occasionally the api call
+may interact with the server-side code. This is usually in the form of
+an api call such as:
+
+        ...
+	rstatus = call(TT_RPC_JOIN_SESSION,
+		       (xdrproc_t)tt_xdr_procid,
+		       (char *)&procid,
+		       (xdrproc_t)xdr_int,
+		       (char *)&status);
+	...	       
+
+
+This will cause an rpc stub to be invoked which then invokes the
+appropiate methods on the server side. All the rpc stubs are
+implemented in tt/lib/mp/mp_rpc_implement.C. Furthermore, the naming
+scheme for these stubs is to add an underscore to the front of the
+enum used to make the call on the client side and then turn all the
+letters into lower case. In the example above, one would then look for
+the "_tt_rpc_join_session" function in tt/lib/mp/mp_rpc_implement.C. 
+
+The details of how the call is mapped to this rpc stub and what
+processing goes on before the rpc stub is invoked can be found in the
+_tt_service_rpc function which does the actual rpc dispatching.
+
+Since most of the functionality is initiated by an api call (the
+exception being the initializiation of the server itself), this
+strategy usually succeeds in finding the code one is looking for. 
+
+
+We now list some guides into the code implementing some of the major
+features in ToolTalk.  For each piece of functionality some important
+methods and/or files are listed which represent the main code that
+implements the given functionality. Looking at the code for the given
+methods and their associated comments should give a good idea as to
+how the functionality is implemented.
+
+
+		********** Please add to this list **********	
+
+- RPC REQUEST HANDLING 
+
+(client) _Tt_session::call - single method that all other methods use
+when they want to invoke an rpc call.
+
+(server) tt/lib/mp/mp_rpc_implement.C contains all of the rpc stubs
+that get invoked on the server side in response to an rpc request from
+a client. The dispatch function in this file "_tt_service_rpc" does
+the actual dispatching of the rpc request (_tt_service_rpc is actually
+invoked by the rpc function svc_getreqset which is called from
+_Tt_s_mp::main_loop by calling _Tt_rpc_server::run).
+
+Looking at the various rpc stubs in mp_rpc_implement.C is an
+excellent way of navigating the code to find out how each particular
+rpc call is used. In particular, a good strategy for finding out how
+an api call is implemented is by looking at the definition of the api
+call and tracing through the code until _Tt_session::call invocations
+are found. Using the rpc procedure number passed into the
+_Tt_session::call method one can then look in mp_rpc_implement.C to
+see what happens on the server side.
+
+
+- NULL MESSAGE SENDING/RECEIVING LOOP
+
+This loop consists of a client sending a request message to ttsession
+when no patterns match the message. The message gets failed and
+returned to the sender. Understanding the code involved in this loop
+means that one understands the basic low-level mechanism by which the
+messages sent to and received from ttsession. The major methods
+involved here are:
+
+(client) _Tt_c_message::dispatch - send message to ttsession
+(server) _Tt_s_message::dispatch - match message with static patterns. 
+(server) _Tt_s_message::deliver - match message with dynamic patterns. 
+(server) _Tt_s_procid::add_message - add a message to procid's message
+				     queue. 
+(server) _Tt_s_procid::signal_new_message - signal a procid that it has
+					    a new message.
+(client) _Tt_c_procid::next_message - get next message from ttsession
+(server) _Tt_s_procid::next_message - return next message from ttsession
+
+
+- DISPATCHING AND DELIVERING A MESSAGE
+
+(server) _Tt_s_message::dispatch
+(server) _Tt_s_message::deliver
+
+
+
+- STARTING A NEW PTYPE
+
+(server) _Tt_s_message::handle_no_recipients
+(server) _Tt_s_message::change_state
+(server) _Tt_ptype::start
+
+
+- PROCESSING THE REPLY TO A MESSAGE
+
+(client) _Tt_c_procid::update_msg
+(server) _Tt_s_procid::update_msg
+(server) _Tt_message::update_msg
+(server) _Tt_s_message::change_state
+
+
+- HONORING START AND QUEUE RELIABILITY OPTIONS
+
+_Tt_s_message::deliver
+_Tt_s_message::handle_no_recipients
+
+For file-scope messages, queueing is actually handled on the client
+side. For more details look in:
+
+_Tt_c_message::c_dispatch
+_Tt_file::q_message
+_Tt_file::dq_message
+_Tt_file::c_join
+
+
+- READING IN CLASSING ENGINE DATABASES
+
+_Tt_typedb::init_ce
+
+- ADDING/MERGING NEW TYPES TO A TYPE DATABASE
+
+_Tt_typedb::begin_write
+_Tt_typedb::end_write
+_Tt_typedb::insert_ptype
+_Tt_typedb::insert_otype
+
+
+- DECLARING A PTYPE
+
+_tt_rpc_declare_ptype
+_Tt_s_procid::declare_ptype
+
+
+- DETECTING PTYPE LAUNCH FAILURE
+
+sig_handler (in tt/bin/ttsession/mp_server.C)
+notify_launch_failure (in tt/bin/ttsession/mp_server.C)
+_Tt_ptype::launch_failed
+
+
+- AUTO-STARTING A SESSION 
+
+tt_open (tt/lib/api/c/api_mp.C)
+_Tt_mp::init
+_Tt_session::init
+_Tt_session::c_init
+
+
+- ESTABLISHING RPC CONNECTION TO THE SERVER
+
+_Tt_session::client_session_init - client-side processing
+_Tt_s_mp::main_loop - unix and network rpc connection
+_Tt_session::u_rpc_init - unix socket rpc connection
+
+
+- XDR/RPC VERSIONING SCHEME
+
+_tt_service_rpc (tt/lib/mp/mp_rpc_implement.C)
+_Tt_xdr_version (tt/lib/util/tt_xdr_version)
+_Tt_global::set_xdr_version (tt/lib/util/tt_global_env.C)
+_Tt_global::xdr_version (tt/lib/util/tt_global_env.C)
+
+
+- TRACE/DEBUG/ERROR OUTPUT
+
+For trace output in ttsession and in slib, use the _Tt_trace
+class.
+
+For debug output in the old dm code, do it according to the
+$TT_DM_DEBUG level.  No other module has a similar debug output
+facility.
+
+When an error is detected in the client library and a Tt_status
+other than TT_ERR_INTERNAL is going to be passed up through
+the API to diagnose it, then the client library should not
+emit any message anywhere.  That's the job of the application using
+libtt.
+
+_tt_syslog( 0, LOG_ERR, ) should be used in the client library when:
+  - a TT_ERR_INTERNAL (bug) arises and we want to diagnose what happened;
+  - a partial failure of an API call occurs, but the API call is still
+    considered to have succeeded.  For example, when tt_message_send()
+    for a file-scoped message cannot contact one of the interested
+    sessions.
+
+The daemons (ttsession and dbserver) should pass either 0 or stderr
+to _tt_syslog(), depending on whether they are in daemon mode or not.
+
+In CDE, certain parts (tt_type_comp, ttrm et al.) of ToolTalk are
+likely to be run from tools that have stderr aimed at /dev/null.
+These parts of ToolTalk should never write to stderr directly, nor
+call perror(), nc_perror(), t_error(), etc.  Instead, they should pass
+stderr to _tt_syslog(), and use strerror() (or %m), nc_strerror(),
+t_strerror(), etc.  _tt_syslog() will prefix, route, suppress, and
+multiplex the output appropriately. For example, in CDE we will
+probably multiplex our error output onto ~/.dt/errorlog.  For
+suppression, _tt_syslog() obeys _tt_global->silent.
+
+No output should include un-internationalized English.  The output
+should include only ToolTalk-ese and catgets() strings.  (ToolTalk-ese
+can be C/C++ use of the ToolTalk API, or the ToolTalk types language.)
+All modules that call catgets() should include "util/tt_gettext.h", so
+that they are really calling _tt_catgets() instead of the one in
+/usr/lib.  This lets us map catgets() to something else on platforms
+where it is not supported.
+
+It is OK to write normal output to stdout.
+
+ASSIGNING NEW CATGETS MESSAGE IDS
+
+When you code up a new call to catgets(), choose your message set out
+of util/tt_gettext.h, and use -1 as the message id.  Then follow this
+procedure to update the message catalog:
+
+0. Make sure your source file(s) is(are) checked in; ttgenmsg will
+   refuse to work on checked-out files.
+0a. Make sure /home/tooltalk/tools/bin is in your PATH
+1. Check out SUNW_TOOLTALK.msg and SUNW_TOOLTALK.sets
+2. Run "make msgs" from the top of the tree.
+2a. Run msgfix which will sort and clean up "msgs" into "msgs.fixed"
+3. Check in SUNW_TOOLTALK.sets (which now has been updated).
+4. Copy "msgs.fixed" to SUNW_TOOLTALK.msg and check it in.
+5. Check in your updated source files.
+
+Note to source customers: ttgenmsg depends on genmsg, an internal
+SunSoft tool, and so ttgenmsg is not included in the ToolTalk source
+distribution.  If you add any new catgets() messages, you will have to
+manually assign message ids and update the message catalog.
+
+Note to ToolTalk developers: ttgenmsg and genmsg are in
+/home/tooltalk/tools/bin.
+
+THREADING ISSUES
+
+ - Locking granularity:
+    ToolTalk API calls acquire a global lock which they hold as long
+    as they are doing operations that can't block.  The original
+    intention was to drop the locks around RPC calls and re-acquire
+    them immediately after returning from such calls.  This proved to
+    be unworkable because it resulted in crashes in the RPC library.
+    As of the time of this writing, locks are held around RPC calls,
+    which introduces the danger of a blocking call causing a deadlock
+    in the entire TT library, since only one thread is actually
+    manipulating TT structures at any particular time in a process.
+
+ - ttsession threading
+    Currently ttsession only uses a thread for registering as a client
+    of itself.  This is an atomic operation and its success or failure
+    doesn't have a significant effect on ttsession's ability to serve
+    client processes.  ttsession tracing won't work until the
+    thread completes successfully.
+
+ - ALL thread-specific storage should be from malloc calls, NEVER local
+    storage.  Also, all storage obtained from tt_malloc-type calls is
+    thread-specific.
+
+ - Calling tt_message_receive and receiving the same message simultaneously
+    in different threads causes the message object to be updated from under
+    the calling code.  This happens, for instance, when one thread has a
+    handle pattern registered and another has an observe pattern registered,
+    and they both match the same message.  The biggest danger here is
+    if one thread deletes a message while another thread is accessing
+    data from the message.  It is up to the client program to regulate
+    access to TT message data.

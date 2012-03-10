@@ -1,0 +1,518 @@
+<!-- $XConsortium: ch09.sgm /main/10 1996/09/08 19:40:34 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.HReq.div.1">
+<title id="HRDC.HReq.mkr.1">ヘルプ要求への応答</title>
+<para>この章では、ヘルプ・ダイアログ・ウィジェットのリソースの設定によって、さまざまなヘルプ情報を表示する方法を説明します。
+</para>
+<informaltable id="HRDC.HReq.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Requesting Help215'--><xref role="JumpText"
+linkend="HRDC.HReq.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Displaying Help Topics216'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a Help Topic217'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a String of Text218'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a Text File219'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a Man Page220'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.8"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Enabling the Help Key (F1)220'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.9"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Providing a Help Menu224'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.11"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Supporting Item Help Mode225'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.12"></para></entry></row></tbody></tgroup>
+</informaltable>
+<sect1 id="HRDC.HReq.div.2">
+<title id="HRDC.HReq.mkr.2">ヘルプの要求</title>
+<indexterm><primary>〜への応答</primary><secondary>ヘルプ要求</secondary></indexterm><indexterm><primary>要求、ヘルプへの応答</primary></indexterm>
+<para>アプリケーションの使用中にユーザがヘルプを要求したときは、どのヘルプ・トピックを表示すべきか、アプリケーション側で決定します。
+</para>
+<sect2 id="HRDC.HReq.div.3">
+<title>コンテキストの検知</title>
+<para>「バージョン」のヘルプ（通常は著作権のトピックが表示されます）など、特定の情報を明示的に要求するヘルプ要求もあります。しかし、それ以外のヘルプ要求では、コンテキストの検知を必要とします。つまり、アプリケーションにおけるユーザの現在のコンテキストに基づいて、適切なヘルプ・トピックを選択する処理が必要となります。
+</para>
+<para>たとえば、アプリケーションは、適切なヘルプ・トピックを判断するため、モードや設定のステータスをテストすることがあります。あるいは、入力フィールドの値をテストし、その値が有効でなければ詳細ヘルプを、有効であれば一般ヘルプを表示することもあります。
+</para>
+</sect2>
+<sect2 id="HRDC.HReq.div.4">
+<title>エントリ・ポイント</title>
+<para><emphasis>エントリ・ポイント</emphasis> とは、ヘルプ・ボリューム内の特定の場所のことで、通常はトピックの先頭です。アプリケーション内でヘルプを要求すると、エントリ・ポイントに直接アクセスできます。
+</para>
+<para>設計者の観点から言えば、エントリ・ポイントはヘルプ・ボリュームの適切な場所にIDを指定することによって設定されます。プログラマの観点から言えば、ユーザがヘルプを要求できるようにし、特定のヘルプが要求されたときに適切なIDを使用することでエントリ・ポイントが作成されます。
+</para>
+<para>ユーザがヘルプを要求する方法には、次の４種類があります。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>[ヘルプ]キー</emphasis>（ほとんどのキーボードでは[F1]キー）を押す
+</para>
+</listitem><listitem><para>ダイアログ・ボックスの[ヘルプ]ボタンをクリックする
+</para>
+</listitem><listitem><para>アプリケーションの[ヘルプ]メニューからコマンドを選択する
+</para>
+</listitem><listitem><para>[アイテムヘルプ]を選択する
+</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="HRDC.HReq.div.5">
+<title id="HRDC.HReq.mkr.3">ヘルプ・トピックの表示</title>
+<para>ヘルプが要求されると、アプリケーションが表示するヘルプ・トピックを決定します。次に、ヘルプ・ダイアログを（必要ならば）作成し、管理して、ヘルプ・トピックを表示するための適切なリソースを設定します。
+</para>
+<para>ほとんどの要求については、アプリケーションのヘルプ・ボリュームの一部であるヘルプ・トピックが表示されます。しかし、ヘルプ・システムのヘルプ・ダイアログは、マニュアル・ページ、テキスト・ファイル、単純なテキスト文字列を表示することもできます。
+</para>
+<para id="HRDC.HReq.mkr.4">ヘルプ・システムのダイアログは、Xt イントリンシクスと Motif プログラミングに排他的に基づいているので、他のウィジェットと同じように、リソースを設定することによって、ヘルプ・ダイアログ内の値を変更できます。
+</para>
+<para><systemitem class="resource">DtNhelpType</systemitem> リソースは、表示すべき情報の種類を決定します。次のいずれかの値が設定されます。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><systemitem class="constant">DtHELP_TYPE_TOPIC</systemitem> ヘルプ・ボリュームの一部である通常のヘルプ・トピックを表示します。ボリュームは <systemitem class="resource">DtNhelpVolume</systemitem> リソースを設定して指定します。トピックは <systemitem class="resource">DtNLocationId</systemitem> リソースを設定して指定します。
+</para>
+</listitem><listitem><para><systemitem class="constant">DtHELP_TYPE_STRING</systemitem> アプリケーションが提供する文字列を表示します。自動的な行の折り返しは使用できないため、改行は文字列で指定してください。文字列は <systemitem class="resource">DtNstringData</systemitem> リソースを設定して指定します。
+</para>
+</listitem><listitem><para><systemitem class="constant">DtHELP_TYPE_DYNAMIC_STRING</systemitem> アプリケーションが提供する文字列を、行の折り返しでテキストをフォーマットした状態で表示します。改行は段落の区切りを示します。文字列は <systemitem class="resource">DtNstringData</systemitem> リソースを設定して指定します。
+</para>
+</listitem><listitem><para><systemitem class="constant">DtHELP_TYPE_FILE</systemitem> テキスト・ファイルを表示します。表示するファイルの名前は <systemitem class="resource">DtNhelpFile</systemitem> リソースを設定して指定します。
+</para>
+</listitem><listitem><para><systemitem class="constant">DtHELP_TYPE_MAN_PAGE</systemitem> ヘルプ・ダイアログのマニュアル参照ページ（マニュアル・ページ）を表示します。表示するマニュアル・ページは <systemitem class="resource">DtNmanPage</systemitem> リソースを設定して指定します。
+</para>
+</listitem></itemizedlist>
+<para>上記の値は、<filename>Help.h</filename> ファイルで定義されています。
+</para>
+<sect2 id="HRDC.HReq.div.6">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.CrDia.mkr.1"></para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.HReq.div.7" role="Procedure">
+<title id="HRDC.HReq.mkr.5">ヘルプ・トピックを表示するには</title>
+<orderedlist><listitem><para>ヘルプ・ダイアログを作成します。</para>
+</listitem><listitem><para>次のようなヘルプ・ダイアログのリソースを設定します。
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="164*">
+<colspec align="left" colwidth="364*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNhelpType</systemitem></para></entry>
+<entry align="left" valign="top"><para><systemitem class="constant">DtHELP_TYPE_TOPIC</systemitem> を設定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNhelpVolume</systemitem></para></entry>
+<entry align="left" valign="top"><para>アプリケーションのボリューム名を設定します。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNlocationId</systemitem></para></entry>
+<entry align="left" valign="top"><para>表示するトピックのIDを設定します。
+</para></entry></row></tbody></tgroup></informaltable>
+<para>サイズやタイトルなど、その他の値も設定できます。
+</para>
+</listitem><listitem><para><function>XtManageChild()</function> を使用してダイアログを管理します。</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.HReq.div.8">
+<title>例</title>
+<para>次のプログラム・セグメントは、IDである <symbol>getting-started</symbol> が付いたトピックを、ボリューム <filename>MyVolume</filename> に表示します。
+</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], DtNhelpType,   DtHELP_TYPE_TOPIC);  ac++;
+XtSetArg (al[ac], DtNhelpVolume,  &ldquo;MyVolume&rdquo;);         ac++;
+XtSetArg (al[ac], DtNlocationId,  &ldquo;getting-started&rdquo;);  ac++;
+XtSetArg (al[ac], DtNcolumns,    40);                  ac++;
+XtSetArg (al[ac], DtNrows,       12);                  ac++;
+XtSetValues (helpDialog, al, ac);
+XtManageChild (helpDialog);</programlisting>
+<para>ヘルプ・ボリューム <filename>MyVolume</filename> が未登録の場合、<systemitem class="resource">DtNhelpVolume</systemitem> の値を指定するために、<filename>MyVolume.sdl</filename> ファイルへの絶対パスが必要です。
+</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.HReq.div.9" role="Procedure">
+<title id="HRDC.HReq.mkr.6">テキスト文字列を表示するには</title>
+<orderedlist><listitem><para>簡易ヘルプ・ダイアログを作成します。
+</para>
+<para>一般ヘルプ・ダイアログでも使用できますが、このダイアログの機能は文字列データには、ほとんど適用されないので、使用しないようにしてください。
+</para>
+</listitem><listitem><para>次のようなヘルプ・ダイアログのリソースを設定します。
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="177*">
+<colspec align="left" colwidth="351*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNhelpType</systemitem></para></entry>
+<entry align="left" valign="top"><para><systemitem class="constant">DtHELP_TYPE_DYNAMIC_STRING</systemitem>（行の折り返しを使用する場合）または <systemitem class="constant">DtHELP_TYPE_STRING</systemitem>（改行を有効にしたい場合）を設定します。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNstringData</systemitem></para></entry>
+<entry align="left" valign="top"><para>表示する文字列を設定します。文字列のコピーは、内部的に保持されるので、保存する必要はありません。
+</para></entry></row></tbody></tgroup></informaltable>
+<para>サイズやタイトルなど、その他の値も設定できます。
+</para>
+</listitem><listitem><para><function>XtManageChild()</function> を使用してダイアログを管理します。
+</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.HReq.div.10">
+<title>例</title>
+<para>次のプログラム・セグメントは、変数 <symbol role="Variable">descriptionString</symbol> に格納された文字列を表示します。
+</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], DtNhelpType,   DtHELP_TYPE_DYNAMIC_STRING); ac++;
+XtSetArg (al[ac], DtNstringData, (char *)descriptionString);   ac++;
+XtSetValues (quickHelpDialog, al, ac);
+XtManageChild (quickHelpDialog);</programlisting>
+<para>ヘルプ・ダイアログは、データのコピーを作成するため、文字列が不要になった場合はメモリを解放できます。
+</para>
+<programlisting>XtFree (descriptionString);</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.HReq.div.11" role="Procedure">
+<title id="HRDC.HReq.mkr.7">テキスト・ファイルを表示するには</title>
+<orderedlist><listitem><para>簡易ヘルプ・ダイアログを作成するか、ダイアログ・キャッシュのひとつを取り出します。
+</para>
+<para>一般ヘルプ・ダイアログも使用できますが、このダイアログ機能のほとんどが標準ヘルプ・トピックについてのみ有効なので、使用しないようにしてください。
+</para>
+</listitem><listitem><para>次のようなヘルプ・ダイアログのリソースを設定します。
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="159*">
+<colspec align="left" colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="prompt">DtNhelpType</systemitem></para></entry>
+<entry align="left" valign="top"><para><systemitem class="constant">DtHELP_TYPE_FILE</systemitem> を設定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="prompt">DtNhelpFile</systemitem></para></entry>
+<entry align="left" valign="top"><para>表示するファイル名を設定します。アプリケーションの現在のディレクトリにファイルがない場合は、ファイルへのパスを指定してください。
+</para></entry></row></tbody></tgroup></informaltable>
+<para>サイズやタイトルなど、その他の値も設定できます。特に、幅についてはテキスト・ファイルの標準である80に設定したいときがあるでしょう。
+</para>
+</listitem><listitem><para><function>XtManageChild()</function> を使用してダイアログを管理します。
+</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.HReq.div.12">
+<title>例</title>
+<para>次のプログラム・セグメントは、ファイル <filename>/tmp/printer.list</filename> を表示します。ダイアログのサイズもテキスト・ファイルにより適応するようにします。
+</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], DtNhelpType, DtHELP_TYPE_FILE);      ac++;
+XtSetArg (al[ac], DtNhelpFile,  &ldquo;/tmp/printer.list&rdquo;);  ac++;
+XtSetArg (al[ac], DtNcolumns,  80);                    ac++;
+XtSetArg (al[ac], DtNrows,     20);                    ac++;
+XtSetValues (quickHelpDialog, al, ac);
+XtManageChild (quickHelpDialog);</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.HReq.div.13" role="Procedure">
+<title id="HRDC.HReq.mkr.8">マニュアル・ページを表示するには</title>
+<indexterm><primary>表示</primary><secondary>マニュアル・ページ</secondary></indexterm>
+<indexterm><primary>マニュアル・ページ</primary><secondary>表示</secondary></indexterm>
+<indexterm><primary>&lt;Filename | Command>DtHELP_TYPE_MAN_PAGE &lt;Default Para Font></primary></indexterm>
+<orderedlist><listitem><para>簡易ヘルプ・ダイアログを作成します。
+</para>
+<para>一般ヘルプ・ダイアログも使用できますが、このダイアログ機能のほとんどが
+、標準ヘルプ・トピックについてのみ有効なので、使用しないようにしてください。
+</para>
+</listitem><listitem><para>次のようなヘルプ・ダイアログのリソースを設定します。
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="159*">
+<colspec align="left" colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNhelpType</systemitem></para></entry>
+<entry align="left" valign="top"><para><systemitem class="constant">DtHELP_TYPE_MAN_PAGE</systemitem> を設定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNmanPage</systemitem></para></entry>
+<entry align="left" valign="top"><para>マニュアル・ページの名前を設定します。このリソースの値は、システムの <command>man</command> コマンドへ直接渡されます。したがって、特定のセクションを指定するときは、通常の <command>man</command> コマンドを入力するときのように、セクション番号の前に、マニュアル・ページ名を付けてください。
+</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>サイズやタイトルなど、その他の値も設定できます。
+</para>
+</listitem><listitem><para><function>XtManageChild()</function> を使用してダイアログを管理します。
+</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.HReq.div.14">
+<title>例</title>
+<para>次のプログラム・セグメントは、<command>grep</command> コマンドのマニュアル・ページを表示します。ダイアログのサイズもマニュアル・ページに適応するように設定します。
+</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], DtNhelpType, DtHELP_TYPE_MAN_PAGE);  ac++;
+XtSetArg (al[ac], DtNmanPage,   &ldquo;grep&rdquo;);   ac++;
+XtSetArg (al[ac], DtNcolumns,  80);                          ac++;
+XtSetArg (al[ac], DtNrows,     20);                          ac++;
+XtSetValues (quickHelpDialog, al, ac);
+XtManageChild (quickHelpDialog);</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.HReq.div.15">
+<title id="HRDC.HReq.mkr.9">ヘルプ・キー（[F1]キー）を使用可能にする</title>
+<indexterm><primary>F1 (ヘルプ・キー)</primary></indexterm><indexterm><primary>キー、ヘルプ（[F1]キー）を使用可能にする</primary></indexterm><indexterm><primary>ヘルプ・キー</primary></indexterm>
+<para><emphasis>ヘルプ・キー</emphasis> 機能は、すべての Motif マネージャ・ウィジェットとプリミティブ・ウィジェットに組み込まれています。ヘルプ・キーをアクティブにしたいウィジェットに<emphasis>ヘルプ・コールバック</emphasis>を追加すると、ヘルプ・キーが使用可能になります。
+</para>
+<para>アプリケーション内では、ヘルプに固有のエントリ・ポイントが必要なウィジェットすべてに、それぞれヘルプ・コールバックを追加してください。そのコールバックを呼び出すまで、ヘルプ・コールバック機能は自動的にウィジェット階層を（シェル・ウィジェットまで）上がります。
+</para>
+<para>ヘルプ・コールバックをマネージャ・ウィジェットに追加する場合、ヘルプ・キーを任意の子ウィジェットのために押すと（子ウィジェットに独自のヘルプ・コールバックがなければ）マネージャのヘルプ・コールバックが呼び出されます。
+</para>
+<sect2 id="HRDC.HReq.div.16" role="Procedure">
+<title id="HRDC.HReq.mkr.10">ヘルプ・コールバックを追加するには</title>
+<para><function>XtAddCallback()</function> 関数を次のように使用します。</para>
+<programlisting>XtAddCallback (
+      Widget            widget,
+      String            DtNhelpCallback,
+      XtCallbackProc    HelpRequestCB,
+      XtPointer         clientData );
+
+</programlisting>
+<para>引き数の説明を以下に示します。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="170*">
+<colspec align="left" colwidth="358*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">widget</symbol></para></entry>
+<entry align="left" valign="top"><para>ヘルプ・キーをアクティブにする場所のウィジェットです。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><function role="Variable">HelpRequestCB()</function></para></entry>
+<entry align="left" valign="top"><para>ユーザがヘルプ・キーを押したときにヘルプ要求を処理するアプリケーションの関数です。
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">clientData</symbol></para></entry>
+<entry align="left" valign="top"><para><function>HelpRequestCB()</function> 関数に渡すデータです。通常は、表示するトピックを示します。
+</para></entry></row></tbody></tgroup></informaltable>
+<para>ユーザがヘルプ・キーを押すと、ウィジェットのヘルプ・コールバックが現在のキーボード・フォーカスとともに呼び出されます。ウィジェットにヘルプ・コールバックがない場合、ヘルプ・コールバックをもつもっとも近い祖先のコールバックが呼び出されます。
+</para>
+<para>ヘルプ・コールバックがみつからない場合は、何も処理されません。この場合、ヘルプ・コールバックをアプリケーションの各シェルに追加するようにしてください。このようにすれば、ユーザのヘルプ要求が失われることがありません。
+</para>
+<para>ヘルプ・コールバックをダイアログ・シェルに追加すると、自動的にダイアログの[ヘルプ]ボタンでヘルプ・コールバックを呼び出せるようになります。
+</para>
+</sect2>
+<sect2 id="HRDC.HReq.div.17">
+<title>クライアント・データの重要性</title>
+<para>追加したそれぞれのヘルプ・コールバックで <symbol role="Variable">clientData</symbol> に固有の値を指定すると、各ヘルプ・コールバックを処理するために、別々の関数を書かずに済みます。アプリケーションには、すべてのヘルプ要求を処理するひとつのコールバック手続きをもたせることができます。（<xref role="SecTitleAndPageNum" linkend="HRDC.HReq.mkr.10"> を参照してください。）コールバック手続きでは、ユーザが要求したヘルプを識別するのに <symbol role="Variable">clientData</symbol> を使用します。つまり、ヘルプ・コールバックを追加するごとに、<symbol role="Variable">clientData</symbol> に固有の値を設定してください。</para>
+<sect3 id="HRDC.HReq.div.18">
+<title>例</title>
+<para>次の例は、ID をエントリ・ポイントに指定する方法のひとつを示しています。<filename>HelpEntryIds.h</filename> ファイルは、各ヘルプ・コールバックの <symbol role="Variable">clientData</symbol> に固有の整数を定義するために使用します。各ウィジェットに対する２つの ID 文字列も定義されます。ひとつは通常の[F1]キーのヘルプ用、もうひとつはアイテムヘルプ・モード（ユーザがウィジェットから記述を取得する場所）用です。
+</para>
+<para>この例では、アプリケーションのユーザ・インタフェースが、Name、Address、および Telephone Number という３つの入力フィールドをもつメイン・ウィンドウであると仮定しています。
+次の例は、<filename>HelpEntryIds.h</filename> ファイルの内容です。
+</para>
+<programlisting>#define HELP_volumeName            "MyVolume"
+#define HELP_MainWindow            100
+#define HELP_MainWindow_ID         "basic-tasks"
+#define HELP_MainWindow_ITEM_ID    "main-window-desc"
+
+#define HELP_NameField             101
+#define HELP_NameField_ID          "specifying-a-name"
+#define HELP_NameField_ITEM_ID     "name-field-desc"
+
+#define HELP_AddressField          102
+#define HELP_AddressField_ID       "specifying-an-address"
+#define HELP_AddressField_ITEM_ID  "address-field-desc"
+
+#define HELP_PhoneField            103
+#define HELP_PhoneField_ID         "specifying-a-phone-no"
+#define HELP_PhoneField_ITEM_ID    "phone-field-desc"</programlisting>
+<para>最初にウィジェットを作成したアプリケーションの一部で、次のようにヘルプ・コールバックが各ウィジェットに追加されます。
+</para>
+<programlisting>XtAddCallback (mainWindow, DtNhelpCallback,
+               HelpRequestCB, HELP_MainWindow);
+XtAddCallback (nameField, DtNhelpCallback,
+               HelpRequestCB, HELP_NameField);
+XtAddCallback (addressField, DtNhelpCallback,
+               HelpRequestCB, HELP_AddressField);
+XtAddCallback (phoneField, DtNhelpCallback,
+               HelpRequestCB, HELP_PhoneField);</programlisting>
+<para><function>HelpRequestCB()</function> 関数では、ヘルプ要求を（<command>switch()</command> 文によって）ディスパッチするために、<symbol role="Variable">clientData</symbol> パラメータを使用します。ヘルプ・コールバックが[F1]キーによって呼び出された（フラグは &ldquo;false&rdquo;）のか、アイテム・ヘルプ・モードでユーザがウィジェットを選択した（フラグは &ldquo;true&rdquo;）のかを調べるため、グローバル・フラグ <systemitem class="environvar">itemHelp</systemitem> の値が調べられます。
+</para>
+<programlisting>XtCallbackProc HelpRequestCB (
+      Widget     w,
+      XtPointer  clientData,
+      XtPointer  callData)
+{
+   char    *topicToDisplay;
+   Boolean  useQuickHelpDialog;
+   /* <emphasis>Determine the topic ID for the given `clientData.'</emphasis> */
+   switch ((int)clientData)
+     {
+       case HELP_MainWindow:
+         useQuickHelpDialog = False;
+         if (itemHelpFlag)
+           topicToDisplay = HELP_MainWindow_ITEM_ID;
+         else
+           topicToDisplay = HELP_MainWindow_ID;
+         break;       case HELP_NameField:
+         useQuickHelpDialog = True;
+         if (itemHelpFlag)
+           topicToDisplay = HELP_NameField_ITEM_ID;
+         else
+           topicToDisplay = HELP_NameField_ID;
+         break;       case HELP_AddressField:
+         useQuickHelpDialog = True;
+         if (itemHelpFlag)
+           topicToDisplay = HELP_AddressField_ITEM_ID;
+         else
+           topicToDisplay = HELP_AddressField_ID;
+         break;       case HELP_PhoneField:
+         useQuickHelpDialog = True;
+         if (itemHelpFlag)
+           topicToDisplay = HELP_PhoneField_ITEM_ID;
+         else
+           topicToDisplay = HELP_PhoneField_ID;
+         break;       default:
+         /* <emphasis>An unknown clientData was received.</emphasis> */
+         /* <emphasis>Put your error handling code here.</emphasis> */
+         return;
+         break;
+     }
+   /* <emphasis>Display the topic.</emphasis> */
+   ac = 0;
+   XtSetArg (al[ac], DtNhelpType,   DtHELP_TYPE_TOPIC); ac++;
+   XtSetArg (al[ac], DtNhelpVolume, HELP_volumeName);    ac++;
+   XtSetArg (al[ac], DtNhelpType,   topicToDisplay);     ac++;
+   if (useQuickHelpDialog)
+     {
+        XtSetValues (mainQuickHelpDialog, al, ac);
+        XtManageChild (mainQuickHelpDialog);
+     }
+   else
+     {
+        XtSetValues (mainHelpDialog, al, ac);
+        XtManageChild (mainHelpDialog);
+     }
+   /* <emphasis>Clear the `item help' flag.</emphasis> */
+   itemHelpFlag = False;
+ }
+
+</programlisting>
+<para>上記の関数は、アプリケーションがすべてのヘルプ要求に対して２つのヘルプ・ダイアログ（<command>mainHelpDialog</command> と <command>mainQuickHelpDialog</command>）を使用し、これらのダイアログがすでに作成されていると想定します。また（Xt 引き数リストで使用される）<command>al</command> と <command>ac</command> が別の場所で宣言されていることを仮定しています。
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.HReq.div.19">
+<title id="HRDC.HReq.mkr.11">ヘルプ・メニューの提供<indexterm><primary>ヘルプ・メニュー、提供</primary></indexterm><indexterm><primary>メニュー</primary><secondary>ヘルプ・メニューの提供</secondary></indexterm></title>
+<para><citetitle>CDE/Motif スタイルガイドおよび認証チェックリスト</citetitle> では、各メニュー・バーに[ヘルプ]メニューを含むようにすすめています。[ヘルプ]メニューには、ユーザがアプリケーションでさまざまなオンライン・ヘルプにアクセスできるように、多くのコマンドが用意されています。
+</para>
+<para>もっとも重要なコマンドは次のとおりです。
+</para>
+<itemizedlist><listitem><para><command>Introduction (概要)</command> アプリケーションのヘルプのホーム・トピックを表示し、ユーザがハイパーリンクを使用して、必要な任意の情報へナビゲートできるようにします。
+</para>
+</listitem><listitem><para><command>Using Help (ヘルプの使い方)</command> 「ヘルプの使い方」を表示します。ユーザにヘルプ・システムの使い方を示す情報です。
+</para>
+</listitem><listitem><para><command>Version (バージョン)</command> アプリケーションのバージョン情報と著作権情報を表示します。
+</para>
+</listitem></itemizedlist>
+<para>その他、特殊キーボードの使い方、アプリケーションの使い方、リファレンス、チュートリアルのそれぞれに関するヘルプを表示するコマンドがあります。<citetitle>CDE/Motif スタイルガイドおよび認証チェックリスト</citetitle> のガイドラインや推奨事項の範囲で、使用する[ヘルプ]メニューが、アプリケーションに適応するように設計してください。</para>
+<sect2 id="HRDC.HReq.div.20">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="SecTitleAndPageNum"
+linkend="HRDC.OrgH.mkr.13"> では、設計者がヘルプ・ボリュームのホーム・トピックを作成する方法を説明しています。
+</para>
+</listitem><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.OrgH.mkr.16"> では、設計者が著作権トピックを作成する方法を説明しています。
+</para>
+</listitem><listitem><para><xref role="ChapNumAndTitle" linkend="HRDC.H4Hlp.mkr.1"> では、ヘルプの使い方をみつける方法と、それをアプリケーションに追加する方法を説明しています。
+</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="HRDC.HReq.div.21">
+<title id="HRDC.HReq.mkr.12">アイテムヘルプ・モードのサポート</title>
+<para>一部のアプリケーションは、[ヘルプ]メニューに[アイテムヘルプ]コマンドまたは[ヘルプ・モード]コマンドを備えています。このコマンドは、マウス・ポインタを一時的に <literal>?</literal>（疑問符）の形状に再定義し、ユーザに画面の項目を選択するようにプロンプト要求します。項目を選択すると、その項目の説明をアプリケーションが表示します。
+</para>
+<para>便利な関数に <function>DtHelpReturnSelectedWidgetId()</function> がありますが、これはポインタを疑問符に変更して、ユーザがウィジェットを選択するのを待ちます。選択したウィジェットのIDが返されます。この関数は <function>XmTrackingLocate()</function> に類似していますが、ユーザがエスケープ・キーを押して操作を取り消すと <function>DtHelpReturnSelectedWidgetId()</function> は NULL を返す点が異なります。
+</para>
+<para>選択した項目のヘルプを表示するには、単に返されたウィジェットのヘルプ・コールバックを呼び出すだけです。これは、ウィジェットの使用中に、ユーザが<KeyCap>[F1]</KeyCap>キーを押すのと同じことです。
+</para>
+<para>アイテムヘルプと[F1]ヘルプとを区別させる場合は、ウィジェットのヘルプ・コールバックを呼び出す前にフラグを設定します。こうすると、アイテムヘルプの結果として呼び出すコールバックを判別するときにそのフラグを使用し、それにしたがって応答するようになります。
+</para>
+<sect2 id="HRDC.HReq.div.22" role="Procedure">
+<title id="HRDC.HReq.mkr.13">アイテムヘルプのサポートを追加するには</title>
+<orderedlist><listitem><para><function>DtHelpReturnSelectedWidgetId()</function> 関数を使用して関数を記述します。この関数では、選択したウィジェットのヘルプ・コールバックを呼び出します。次のステップでは、この関数を <function>ProcessOnItemHelp()</function> と呼びますが、他の名前を付けることもできます。
+</para>
+</listitem><listitem><para>[ヘルプ]メニューに<command>アイテムヘルプ</command>というラベルの付いたコマンドを追加します。<function>ProcessOnItemHelp()</function> 関数を呼び出す起動コールバックを追加します。
+</para>
+</listitem><listitem><para>アイテムヘルプを使用するアプリケーションの各ウィジェットに、ヘルプ・コールバックを追加します。
+</para>
+</listitem></orderedlist>
+<para>選択したウィジェットにヘルプ・コールバックがない場合、アプリケーションはその親ウィジェットの検索を試みます。同様に、親ウィジェットにない場合は、その上の階層を検索し、ヘルプ・コールバックがみつかるまで試行を繰り返します。
+</para>
+<sect3 id="HRDC.HReq.div.23">
+<title>例</title>
+<para>次の手続きは、<function>ProcessOnItemHelp()</function> 関数の例ですが、これは[ヘルプ]メニューから <command>[アイテムヘルプ]</command> を選択すると呼び出されます。
+</para>
+<programlisting>void ProcessOnItemHelp(
+   Widget widget)
+{
+ /* <emphasis>Declare a variable for the selected widget.</emphasis> */
+  Widget selWidget=NULL;
+  int status=DtHELP_SELECT_ERROR;
+  /* <emphasis>Get an application shell widget from our widget hierarchy to
+* pass into DtHelpReturnSelectedWidgetId().</emphasis>   */
+
+  while (!XtIsSubclass(widget, applicationShellWidgetClass))
+                   widget = XtParent(widget);
+  status = DtHelpReturnSelectedWidgetId(widget, NULL, &amp;selWidget);
+  switch ((int)status)
+    {
+      case DtHELP_SELECT_ERROR:
+        printf(&ldquo;Selection Error, cannot continue\n&rdquo;);
+      break;
+      case DtHELP_SELECT_VALID:
+         /* <emphasis>We have a valid widget selection, now let's look
+        for a registered help callback to invoke.</emphasis>     */
+
+         while (selWidget != NULL)
+          {
+            if ((XtHasCallbacks(selWidget, XmNhelpCallback)
+                                     == XtCallbackHasSome))
+              {
+                /* <emphasis>Found a help callback, so just call it</emphasis> */
+                XtCallCallbacks((Widget)selWidget,
+                                XmNhelpCallback,NULL);
+                break;
+              }
+            else
+              /* <emphasis>No help callback on current widget, so try
+              the widget's parent</emphasis>   */
+                 selWidget = XtParent(selWidget);
+          }
+      break;
+      case DtHELP_SELECT_ABORT:
+        printf("Selection Aborted by user.\n");
+      break;
+      case DtHELP_SELECT_INVALID:
+        printf("You must select a component within your app.\n");
+      break;
+    }
+}
+
+</programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub *0000036813>

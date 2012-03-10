@@ -1,0 +1,262 @@
+<!-- $XConsortium: f_join.sgm /main/6 1996/09/08 20:22:03 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN259.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN259.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttdt_file_join</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttdt_file_join</Function></RefName>
+<RefPurpose>register to observe ToolTalk events on a file
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: f_join.sgm /main/6 1996/09/08 20:22:03 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_pattern <Function>*ttdt_file_join</Function></FuncDef>
+<ParamDef>const char *<Parameter>pathname</Parameter></ParamDef>
+<ParamDef>Tt_scope <Parameter>the_scope</Parameter></ParamDef>
+<ParamDef>int <Parameter>join</Parameter></ParamDef>
+<ParamDef>Ttdt_file_cb <Parameter>cb</Parameter></ParamDef>
+<ParamDef>void *<Parameter>clientdata</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttdt_file_join</Function> function registers to observe
+<Emphasis>Deleted</Emphasis>, <Symbol Role="Message">Modified</Symbol>, <Symbol Role="Message">Reverted</Symbol>, <Emphasis>Moved</Emphasis>, and
+<Symbol Role="Message">Saved</Symbol> notices.
+</Para>
+<Para>If
+<Emphasis>join</Emphasis> is True,
+<Function>ttdt_file_join</Function> calls
+<Function>tt_file_join</Function> with a
+<Symbol Role="Variable">pathname</Symbol> argument.
+</Para>
+<Para>The
+<Emphasis>the_scope</Emphasis> argument identifies the scope of the request.
+If
+<Emphasis>the_scope</Emphasis> is
+<SystemItem Class="Constant">TT_SCOPE_NONE</SystemItem>, it tries
+<SystemItem Class="Constant">TT_BOTH</SystemItem>, and falls back to
+<SystemItem Class="Constant">TT_FILE_IN_SESSION</SystemItem> if, for example,
+the ToolTalk database server
+is not installed on the file server that owns
+<Symbol Role="Variable">pathname</Symbol>.</Para>
+<Para>The
+<Function>ttdt_file_join</Function> function
+associates
+<Emphasis>the_scope</Emphasis> and a copy of
+<Symbol Role="Variable">pathname</Symbol> with the
+<StructName Role="typedef">Tt_pattern</StructName>s returned, so that
+<Function>ttdt_file_quit</Function> can access them.
+Thus, the caller is free to modify or free
+<Symbol Role="Variable">pathname</Symbol> after
+<Function>ttdt_file_join</Function> returns.
+</Para>
+<Para>The
+<Emphasis>clientdata</Emphasis> argument points to arbitrary data that will be passed
+into the callback unmodified.
+</Para>
+<Para>The
+<StructName Role="typedef">Ttdt_file_cb</StructName> argument is a callback defined as:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message (*Ttdt_file_cb)(Tt_message <Emphasis>msg</Emphasis>,
+        Tttk_op <Symbol Role="Variable">op</Symbol>,
+        char *<Symbol Role="Variable">pathname</Symbol>,
+        void *<Emphasis>clientdata</Emphasis>,
+        int <Emphasis>same_euid_egid</Emphasis>,
+        int <Emphasis>same_procid</Emphasis>);
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">message</Symbol> argument is the message.
+The
+<Symbol Role="Variable">op</Symbol> argument is the operation.
+The
+<Symbol Role="Variable">pathname</Symbol> argument is the pathname of the file the message is about.
+The
+<Emphasis>clientdata</Emphasis> argument is the client data passed into
+<Function>ttdt_file_join</Function>. The
+<Emphasis>same_euid_egid</Emphasis> argument is
+True if the sender can be trusted;
+otherwise it is False.
+The
+<Emphasis>same_procid</Emphasis> argument is True if the sender
+is the same
+procid
+as the receiver;
+otherwise it is False.
+A
+<StructName Role="typedef">Ttdt_file_cb</StructName> must return the message if it does not consume the message.
+(Consuming means replying, rejecting or failing
+a request, and then destroying the message.)
+Otherwise, it must consume the message and return either zero or a
+<Function>tt_error_pointer</Function> cast to
+<StructName Role="typedef">Tt_message</StructName>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttdt_file_join</Function> function
+returns a null-terminated array of
+<StructName Role="typedef">Tt_pattern</StructName>, which can be passed to
+&cdeman.ttdt.file.event; to register for requests that the application should handle
+once it begins to modify the file;
+otherwise, it returns an error pointer.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned handle:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_ERR_DBAVAIL</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the ToolTalk database
+needed for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBEXIST</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the specified ToolTalk database
+in the expected place.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMEM</Term>
+<ListItem>
+<Para>There is insufficient memory available to perform the function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PATH</Term>
+<ListItem>
+<Para>The specified pathname included an unsearchable directory.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The null-terminated array of
+<StructName Role="typedef">Tt_pattern</StructName> returned by
+<Function>ttdt_file_join</Function> should be destroyed by passing the array to
+&cdeman.ttdt.file.quit;.</Para>
+<Para>The
+<Symbol Role="Variable">pathname</Symbol> argument to
+<StructName Role="typedef">Ttdt_file_cb</StructName> is a copy that can be freed using
+&cdeman.tt.free;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>This is the typical algorithm of a
+<StructName Role="typedef">Ttdt_file_cb</StructName>:</Para>
+<InformalExample>
+<ProgramListing>Tt_message myFileCB(Tt_message      msg,
+        Tttk_op         op,
+        char           *pathname,
+        int             trust,
+        int             isMe)
+{
+        tt_free(pathname);
+        Tt_status status = TT_OK;
+        switch(op) {
+            case TTDT_MODIFIED:
+                if ((_modifiedByMe)&amp;&amp;(! isMe)) {
+                        /* Hmm, the other editor either does not know or
+                         * does not care that we are already modifying the
+                         * file, so the last saver will win.
+                         */
+                } else {
+                        /* Interrogate user if she ever modifies the buffer */
+                        _modifiedByOther = 1;
+                        XtAddCallback(myTextWidget, XmNmodifyVerifyCallback,
+                                       myTextModifyCB, 0);
+                }
+                break;
+            case TTDT_GET_MODIFIED:
+                tt_message_arg_ival_set(msg, 1, _modifiedByMe);
+                tt_message_reply(msg);
+                break;
+            case TTDT_SAVE:
+                status = mySave(trust);
+                if (status == TT_OK) {
+                        tt_message_reply(msg);
+                } else {
+                        tttk_message_fail(msg, status, 0, 0);
+                }
+                break;
+            case TTDT_REVERT:
+                status = myRevert(trust);
+                if (status == TT_OK) {
+                        tt_message_reply(msg);
+                } else {
+                        tttk_message_fail(msg, status, 0, 0);
+                }
+                break;
+            case TTDT_REVERTED:
+                if (! isMe) {
+                        _modifiedByOther = 0;
+                }
+                break;
+            case TTDT_SAVED:
+                if (! isMe) {
+                        _modifiedByOther = 0;
+                        int choice = myUserChoice(myContext, myBaseFrame,
+                                                 "Another tool has saved "
+                                                 "this file.", 2, "Ignore",
+                                                 "Revert");
+                        switch(choice) {
+                            case 1:
+                                myRevert(1);
+                                break;
+                        }
+                }
+                break;
+            case TTDT_MOVED:
+            case TTDT_DELETED:
+                /* Do something appropriate */
+                break;
+        }
+        tttk_message_destroy(msg);
+        return 0;
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttdt.file.quit;, &cdeman.ttdt.file.event;, &cdeman.ttdt.Get.Modified;, &cdeman.ttdt.Save;, &cdeman.ttdt.Revert;, &cdeman.tt.file.join;, &cdeman.tt.free;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

@@ -1,0 +1,107 @@
+<!-- $XConsortium: accept_c.sgm /main/3 1996/08/30 13:32:08 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN329.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN329.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_message_accepters_count</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_message_accepter_count</Function></RefName>
+<RefPurpose>return a count of the offer's accepting procids
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>int <Function>tt_message_accepters_count</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>m</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_message_accepters_count</Function>
+function
+returns a count of the procids that are recorded in the
+offer
+<Emphasis>m</Emphasis>
+as having accepted it.
+</Para>
+<Para>The
+<Emphasis>m</Emphasis>
+argument is the opaque handle for the message involved in this operation.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_message_accepters_count</Function>
+function returns a count of the procids that are recorded in the
+offer
+<Emphasis>m</Emphasis>
+as having accepted it.
+The application can use
+<Function>tt_int_error</Function>
+to extract one of the following
+<StructName Role="typedef">Tt_status</StructName>
+values from the returned integer:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>There is no valid default procid, perhaps because
+<Function>tt_open</Function>
+has not yet been called.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_STATE</Term>
+<ListItem>
+<Para>The specified message is not in state
+<SystemItem Class="Constant">TT_RETURNED</SystemItem>.
+Since only
+<SystemItem Class="Constant">TT_OFFER</SystemItem>s
+can be in state
+<SystemItem Class="Constant">TT_RETURNED</SystemItem>,
+this status will be returned if the specified message is a
+<SystemItem Class="Constant">TT_NOTICE</SystemItem>
+or a
+<SystemItem Class="Constant">TT_REQUEST</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The pointer passed does not point to an object of
+the correct type for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;,
+&cdeman.tt.message.accepter;,
+&cdeman.tt.int.error;.
+</Para>
+</RefSect1>
+</RefEntry>

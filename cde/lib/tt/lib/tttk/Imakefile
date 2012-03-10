@@ -1,0 +1,45 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/05/07 19:13:02 drk $
+#define DoNormalLib	NormalLibTt
+#define DoSharedLib	SharedLibTt
+#define DoDebugLib	DebugLibTt
+#define DoProfileLib	ProfileLibTt
+#define LibName		tt
+#define SoRev		SOTTREV
+#define IncSubdir	Tt
+#define LibCreate	NO
+#ifdef TtLargePICTable
+# define LargePICTable	TtLargePICTable
+#endif
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#include <Threads.tmpl>
+
+#include "../../tooltalk.tmpl"
+
+DEFINES =
+INCLUDES = -I../../lib
+
+
+/*** NOTE!
+ *** Every time a .o is added below it needs to be added to
+ *** the lib/tt/lib Imakefile in DB_OBJS and SHARED_DB_OBJS
+ ***/
+
+HEADERS = tttk.h
+
+SRCS =  ttdesktop.C     ttdtfile.C      ttdtprocid.C \
+        ttmedia.C       tttk.C          tttk2free.C \
+        tttkmessage.C   tttkpattern.C   tttkutils.C
+
+OBJS =  ttdesktop.o     ttdtfile.o      ttdtprocid.o \
+        ttmedia.o       tttk.o          tttk2free.o \
+        tttkmessage.o   tttkpattern.o   tttkutils.o
+
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

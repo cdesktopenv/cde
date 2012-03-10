@@ -1,0 +1,514 @@
+<!-- $XConsortium: ch12.sgm /main/2 1996/12/17 06:28:21 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.CrIcn.div.1">
+<Title Id="SAG.CrIcn.mkr.1">デスクトップのアイコンの作成</Title>
+<Para Id="SAG.CrIcn.mkr.2">
+デスクトップ・アイコンは次のものと関連しています。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ファイル・マネージャとアプリケーション・マネージャのアクション・ファイルおよびデータ型
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+フロントパネル・コントロール
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アイコン化されたアプリケーション・ウィンドウ
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションが使用するグラフィック（パレット、ツールバー等）
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ワークスペースの背景
+</Para>
+<InformalTable Id="SAG.CrIcn.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Icon Image Files201'--><XRef Role="JumpText" Linkend="SAG.CrIcn.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Icon Associations204'--><XRef Role="JumpText" Linkend="SAG.CrIcn.div.8"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Icon Design Recommendations207'--><XRef Role="JumpText" Linkend="SAG.CrIcn.div.17"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>
+開発環境用のマニュアルには、デスクトップ・アイコンに関する補足情報が載っています。<Emphasis>CDE/Motif スタイル・ガイドおよび認証チェックリスト</Emphasis> の第４章「ビジュアル・デザイン」を参照してください。
+</Para>
+</Note>
+<Sect1 Id="SAG.CrIcn.div.2">
+<Title Id="SAG.CrIcn.mkr.3">アイコン・イメージ・ファイル</Title>
+<Para>
+デスクトップがアイコン・イメージを使用するためには、アイコン・イメージ・ファイルは次の条件を満たさなければなりません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>フォーマットが適切であること。</Para>
+</ListItem>
+<ListItem>
+<Para>適切なファイル命名規則を使用していること。</Para>
+</ListItem>
+<ListItem>
+<Para>デスクトップのサイズ規則を使用していること。</Para>
+</ListItem>
+<ListItem>
+<Para>アイコン検索パス上のディレクトリに位置すること。</Para>
+</ListItem>
+<ListItem>
+<Para>適切な構文を使用したデスクトップ構造によって呼び出されること。たとえば、フロントパネルに新しいコントロールを作成する場合、フロントパネル定義の <Command>ICON</Command> フィールドを使用してそのコントロールに使用するアイコン・イメージを指定します。
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.CrIcn.div.3">
+<Title>アイコン・ファイルの形式<IndexTerm><Primary>アイコン</Primary><Secondary>検索パス、「アイコン検索パス」を参照してください&lt;$nopage></Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>サーバ、「アイコン・サーバ」を参照してください&lt;nopage></Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>ファイル形式</Secondary></IndexTerm><IndexTerm><Primary>ビットマップ</Primary><Secondary>「アイコン」も参照してください</Secondary></IndexTerm></Title>
+<Para>
+カラー・ディスプレイの場合は、通常 <Filename>.pm</Filename> 拡張子が付いているＸピックスマップ (XPM) 形式のアイコン・ファイルを使用します。それ以外の場合は、通常 <Filename>.bm</Filename> 拡張子が付いているＸビットマップ (XBM) 形式のファイルを使用します。ピックスマップ・ファイルで透明色を使用する場合は、<Filename>.bm</Filename> ファイルを作成したときにマスク・ファイル (<Filename>_m.bm</Filename>) が生成されます。これらのファイルをデスクトップが検索する方法については、
+<!--Original XRef content: '&xd2;Icon Search Path&xd3; on page&numsp;122'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.13"> を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.4">
+<Title>アイコン・ファイル名<IndexTerm><Primary>アイコン</Primary><Secondary>ファイル名</Secondary></IndexTerm><IndexTerm><Primary>ファイル名、アイコン</Primary></IndexTerm></Title>
+<Para>
+アイコンと背景のイメージは、それぞれ別のファイルに格納されます。通常、アイコンはファイル名のベース部分でも指定されます。たとえば、実際には次のようにアイコン・ファイルが格納されていても、アイコンは <ComputerOutput>mail</ComputerOutput> という名前で参照されることがあります。
+<IndexTerm><Primary>アイコン</Primary><Secondary>ファイルの検索方法</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>命名規則</Secondary></IndexTerm><IndexTerm><Primary>.pm filename extension[pm filename]</Primary></IndexTerm><IndexTerm><Primary>.bm filename extension[bm filename]</Primary></IndexTerm><IndexTerm><Primary>ビットマップ</Primary><Secondary>ファイルの検索方法</Secondary></IndexTerm><IndexTerm><Primary>ピックスマップ</Primary><Secondary>ファイルの検索方法</Secondary></IndexTerm><IndexTerm><Primary>2</Primary></IndexTerm><IndexTerm><Primary>イメージ、「アイコン」を参照してください&lt;$nopage></Primary></IndexTerm>
+</Para>
+<ProgramListing>/usr/dt/appconfig/icons/<Symbol Role="Variable">language</Symbol>/mail.l.pm</ProgramListing>
+<Para>
+拡張子を追加するファイル命名規則は、アイコンをサイズと型で分類するのに便利です。デスクトップ・コンポーネントのアイコン名は、次のいずれかの一般的な形式です。
+</Para>
+<Para><Symbol Role="Variable">basename</Symbol><Filename>.</Filename><Symbol Role="Variable">size</Symbol><Filename>.</Filename><Symbol Role="Variable">format</Symbol></Para>
+<Para><Symbol Role="Variable">basename</Symbol><Filename>.</Filename><Symbol Role="Variable">format</Symbol></Para>
+<Para>それぞれの意味は次のとおりです。</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="78*">
+<colspec colwidth="450*">
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">basename</Symbol></Para></Entry>
+<Entry><Para>イメージを参照するのに使用するイメージ・ベース名</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">サイズ</Symbol></Para></Entry>
+<Entry><Para>サイズを示す文字:
+<Command>l</Command> (大)
+<Command>m</Command> (中)
+<Command>s</Command> (小)
+<Command>t</Command> (極小)
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">format</Symbol></Para></Entry>
+<Entry><Para>ファイル形式:
+<Command>pm</Command> (ピックスマップ)
+<Command>bm</Command> (ビットマップ)
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.5">
+<Title Id="SAG.CrIcn.mkr.4">アイコン・サイズ規則<IndexTerm><Primary>アイコン</Primary><Secondary>サイズ規則</Secondary></IndexTerm><IndexTerm><Primary>アイコンのサイズ</Primary></IndexTerm></Title>
+<Para>
+<IndexTerm><Primary>ビットマップ</Primary><Secondary>命名規則</Secondary></IndexTerm><IndexTerm><Primary>ピックスマップ</Primary><Secondary>命名規則</Secondary></IndexTerm>
+<!--Original XRef content: 'Table&numsp;12&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CrIcn.tbl.1"> に、デスクトップ・アイコン用として推奨するピクセル数を示します。
+</Para>
+<Table Id="SAG.CrIcn.tbl.1" Frame="Topbot">
+<Title Id="SAG.CrIcn.mkr.5">アイコン・サイズとファイル名</Title>
+<TGroup Cols="3">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="1.25 in">
+<ColSpec Colname="3" Colwidth="1.375 in">
+<THead>
+<Row>
+<Entry><Para><Literal>アイコン・サイズ</Literal></Para></Entry>
+<Entry><Para><Literal>ビットマップ名</Literal></Para></Entry>
+<Entry><Para><Literal>ピックスマップ名</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>16 × 16 (極小)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>24 × 24 (小)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.s.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.s.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>32 × 32 (中)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>48 × 48 (大)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.pm</Filename></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para Id="SAG.CrIcn.mkr.6">.</Para>
+<Para>
+<!--Original XRef content: 'Table&numsp;12&hyphen;2'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CrIcn.tbl.2"> に、デスクトップ・コンポーネントで使用するアイコン・サイズを示します。使用するアイコンのサイズは、ディスプレイ解像度に依存する場合があります。
+</Para>
+<Table Id="SAG.CrIcn.tbl.2" Frame="Topbot">
+<Title Id="SAG.CrIcn.mkr.7">デスクトップ・コンポーネントとそのアイコン・サイズ</Title>
+<TGroup Cols="4" colsep="0" rowsep="0">
+<colspec colwidth="2.38in">
+<colspec colwidth="1.17in">
+<colspec colwidth="1.23in">
+<colspec colwidth="1.31in">
+<THead>
+<Row>
+<Entry><Para><Literal>デスクトップ・コンポーネント</Literal></Para></Entry>
+<Entry><Para><Literal>高解像度</Literal></Para></Entry>
+<Entry><Para><Literal>中解像度</Literal></Para></Entry>
+<Entry><Para><Literal>低解像度</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>ファイル・マネージャとアプリケーション・マネージャ（名前とアイコンによる表示）</Para></Entry>
+<Entry><Para>中</Para></Entry>
+<Entry><Para>中</Para></Entry>
+<Entry><Para>中</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ファイル・マネージャとアプリケーション・マネージャ（名前と小アイコンによる表示）</Para></Entry>
+<Entry><Para>極小</Para></Entry>
+<Entry><Para>極小</Para></Entry>
+<Entry><Para>極小</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>メイン・フロントパネル・コントロール</Para></Entry>
+<Entry><Para>大</Para></Entry>
+<Entry><Para>大</Para></Entry>
+<Entry><Para>中</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>フロントパネルのサブパネル</Para></Entry>
+<Entry><Para>中</Para></Entry>
+<Entry><Para>中</Para></Entry>
+<Entry><Para>極小</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>フロントパネルのスイッチ・コントロール</Para></Entry>
+<Entry><Para>小</Para></Entry>
+<Entry><Para>小</Para></Entry>
+<Entry><Para>極小</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アイコン化されたウィンドウ</Para></Entry>
+<Entry><Para>大</Para></Entry>
+<Entry><Para>大</Para></Entry>
+<Entry><Para>中</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>
+たとえば、データ型に <ComputerOutput>mail</ComputerOutput> というアイコンを指定して、カラー・ディスプレイを使用し、ファイル・マネージャの設定を小アイコンに変更した場合、使用されるアイコン・イメージは <Filename>mail.t.pm</Filename> です。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.6">
+<Title>アイコン検索パス<IndexTerm><Primary>ビットマップ</Primary><Secondary>検索パス</Secondary></IndexTerm><IndexTerm><Primary>ビットマップ</Primary><Secondary>ファイルの検索方法</Secondary></IndexTerm><IndexTerm><Primary>ピックスマップ</Primary><Secondary>検索パス</Secondary></IndexTerm><IndexTerm><Primary>ピックスマップ</Primary><Secondary>ファイルの検索方法</Secondary></IndexTerm><IndexTerm><Primary>検索パス</Primary><Secondary>アイコン</Secondary></IndexTerm></Title>
+<Para>
+デスクトップは、アイコン・ファイル、すなわちイメージをディレクトリのリストからファイルを検索して見つけます。ディレクトリのリストは <Symbol Role="Variable">アイコン</Symbol><Emphasis>検索パス</Emphasis> と呼ばれ、いくつかの環境変数の値によって決定されます。アイコン検索パスを作成するために、どの変数が使用され、どのように組み合わされるかについて、
+<!--Original XRef content: '&xd2;Icon Search Path&xd3; on page&numsp;122'--><XRef Role="HeadingAndPage" Linkend="SAG.Datab.mkr.13"> で説明しています。
+</Para>
+<Para>デフォルトの検索パスは次のとおりです。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>組み込みアイコン: <Filename>/usr/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>システム共通アイコン: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.7">
+<Title>ネットワークによるアイコンへのアクセス</Title>
+<Para>
+デスクトップは、リモート・システムのアイコンにアクセスできます。アイコン・サーバの作成に関する情報は、
+<!--Original XRef content: '&xd2;Configuring Database, Icon, and Help Services&xd3; on page&numsp;101'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.16"> を参照してください。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrIcn.div.8">
+<Title Id="SAG.CrIcn.mkr.8">アイコンとの関連付け</Title>
+<Para>
+オブジェックトをより速く認識するために、アイコンを次のものと関連付けることができます。
+<IndexTerm><Primary>アイコン</Primary><Secondary>関連付けの作成</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>アクションとデータ型</Para>
+</ListItem>
+<ListItem>
+<Para>フロントパネルとサブパネルのデータ型</Para>
+</ListItem>
+<ListItem>
+<Para>アイコン化されたアプリケーション・ウィンドウ</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.CrIcn.div.9">
+<Title>アイコン・ファイルの指定</Title>
+<Para>
+アクション、データ型、フロントパネル、サブパネルで使用するアイコンは、ベース名だけを指定します（拡張子は付けません）。正しい拡張子が、ディスプレイ解像度、カラー・サポート、ファイル・マネージャの表示オプション（[小アイコン表示]など）に応じて自動的に付けられます。
+</Para>
+<Para>
+検索パスを無効にするには、絶対パスとアイコン名を指定します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.10" Role="Procedure">
+<Title>アイコンをアクションまたはデータ型に関連付けるには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Command>ICON</Command> フィールドを使用してアイコンを指定します。
+</Para>
+<Para>
+アイコン・ファイルが適切な命名規則にしたがっている場合は、アイコンのベース名だけを指定します。ディスプレイの解像度とカラー・サポートに基づいて、正しいアイコンが表示されます。
+<IndexTerm><Primary>アイコン</Primary><Secondary>アクションまたはデータ型との関連付け</Secondary></IndexTerm><IndexTerm><Primary>アクション</Primary><Secondary>〜のアイコンの関連付け</Secondary></IndexTerm><IndexTerm><Primary>データ型</Primary><Secondary>〜のアイコンの関連付け</Secondary></IndexTerm>
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+次のアイコン・サイズを作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>アクション: 大、中、極小</Para>
+</ListItem>
+<ListItem>
+<Para>データ型: 中および極小</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Sect3 Id="SAG.CrIcn.div.11">
+<Title>アクション定義の例</Title>
+<Para>
+次の例は、Island Paint<Superscript>TM</Superscript> 描画ツールを起動するためのアクション定義です。アイコン <Filename>Ipaint.l</Filename> と <Filename>Ipaint.s</Filename> がアクションに関連付けられます。
+</Para>
+<programlisting>ACTION      IslandPaintOpenDoc
+{
+ WINDOW_TYPE  NO-STDIO
+ ICON         Ipaint
+ EXEC_STRING  /usr/bin/IslandPaint &percnt;Arg_1&ldquo;File to open:&rdquo;&percnt;
+}
+</ProgramListing>
+<Para>
+カラー・アイコンを使用している場合は、デスクトップは実際のアイコン・ファイルを探すときに、まず <Filename>.pm</Filename> を追加します。カラー・アイコンを使用していない場合（または <Filename>.pm</Filename> で一致するファイルがない場合）は、デスクトップは <Filename>.bm</Filename> を追加します。
+</Para>
+<Sect4 Id="SAG.CrIcn.div.12">
+<Title>データ型定義の例</Title>
+<Para>
+次のデータ型定義は、アイコン <Filename>comprsd.l</Filename> と <Filename>comprsd.s</Filename> を圧縮ファイルに関連付けます。
+</Para>
+<programlisting>DATA_ATTRIBUTES     COMPRESSED
+{
+ ICON         comprsd
+ ACTIONS      Uncompress
+ DESCRIPTION  A COMPRESSED file has been compressed by the \
+              'compress' command to take up less space.
+}
+</ProgramListing>
+</Sect4>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.13" Role="Procedure">
+<Title>アイコンをフロントパネル・コントロールに表示するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Command>ICON</Command> フィールドを使用してイメージ名を指定します。
+</Para>
+<Para>
+コントロールがファイルを監視する場合（<Filename>MONITOR_TYPE</Filename> がメールまたはファイルに設定されている場合）は、<Command>ALTERNATE_ICON</Command> フィールドを使用して、変更がみつかったときに使用するアイコンを指定します。
+<IndexTerm><Primary>2</Primary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>フロントパネル</Secondary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary><Secondary>〜のアイコンの表示</Secondary></IndexTerm>
+</Para>
+<Para>
+ボタンおよびドロップ領域コントロールにアニメーションを使用することもできます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+次のアイコン・サイズを作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>メイン・パネルとサブパネル: 大、中、極小</Para>
+</ListItem>
+<ListItem>
+<Para>ワークスペース・スイッチ: 小</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Sect3 Id="SAG.CrIcn.div.14">
+<Title>例</Title>
+<Para>
+次のコントロールは、<Command>report</Command> という名前のファイルが <Filename>/doc/ftp/pub/</Filename> ディレクトリにある場合に表示を変更します。そのファイルがない場合は、<Filename>NoReport.pm</Filename> アイコンが表示されます。
+</Para>
+<programlisting>CONTROL MonitorReport
+{
+ CONTAINER_NAME  <Symbol Role="Variable">container_name</Symbol>
+ TYPE            ICON
+ MONITOR_TYPE    file
+ FILE_NAME       /doc/ftp/pub/report
+ ICON            NoReport
+ ALTERNATE_ICON  Report
+}
+</ProgramListing>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.15" Role="Procedure">
+<Title>アイコンをアプリケーション・ウィンドウに関連付けるには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+次のように、ワークスペース・マネージャに <ComputerOutput>iconImage</ComputerOutput> リソースを設定します。
+<IndexTerm><Primary>アイコン</Primary><Secondary>アプリケーション・ウィンドウとの関連付け</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・ウィンドウ、〜とのアイコンの関連付け</Primary></IndexTerm>
+</Para>
+<Para><Filename>Dtwm*</Filename><Symbol Role="Variable">clientname</Symbol><Command>*iconImage:</Command> <Symbol Role="Variable">icon_file_name</Symbol></Para>
+<Para>
+<Symbol Role="Variable">clientname</Symbol> の正しい値を決定するには、アプリケーション・マネージャを開いて、[デスクトップツール]アプリケーション・グループの[ウィンドウ属性]をダブルクリックします。ウィンドウを選択すると、その属性がリスト表示されます。
+<IndexTerm><Primary>WM_CLASS 属性</Primary></IndexTerm>
+WM_CLASS 属性は、ウィンドウのクラス名を引用符で囲んで表示します。
+</Para>
+<Para>
+リソース設定の詳細は、
+<!--Original XRef content: '&xd2;Setting Application Resources&xd3; on page&numsp;256'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.2"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ワークスペース・メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+アイコンがワークスペース・マネージャに認識されたか確認するために、アイコンを変更しようとしているウィンドウをアイコン化してみます。
+</Para>
+<Note>
+<Para>
+一部のアプリケーションでは、デフォルト・ウィンドウ・アイコンを無効にできません。
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.16" Role="Procedure">
+<Title>ファイル・マネージャをアイコン・ブラウザとして使用するには<IndexTerm><Primary>アイコン</Primary><Secondary>ファイル・マネージャでブラウズする</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>アイコン・ブラウザとしてのファイル・マネージャの使用</Secondary></IndexTerm><IndexTerm><Primary>ファイル・マネージャ、アイコン・ブラウザとしての使用</Primary></IndexTerm><IndexTerm><Primary>ファイル・マネージャを使用してアイコンをブラウズする</Primary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+ファイル <Filename>/usr/dt/examples/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/IconBrowse.dt</Filename> を <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/Iconbrowse.dt</Filename> ディレクトリにコピーします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・マネージャを開いて、[デスクトップツール]アプリケーション・グループの[アクションの再読込み]をダブルクリックします。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+アイコン (<Filename>.bm</Filename> および <Filename>.pm</Filename> ファイル) が入っているディレクトリに変更する場合、各アイコンがアイコン名の隣に表示されます。たとえば、<Filename>/usr/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol> ディレクトリに変更すると、多くのデスクトップ・アイコンが表示されます。
+</Para>
+<Note>
+<Para>
+メモリの少いシステムで、アイコン・ブラウザを使用すると、ファイル・マネージャがディレクトリを表示するのが遅くなることがあります。
+</para>
+<para>
+256 × 256 よりも大きいイメージは、デフォルトの構成では表示できません。
+</Para>
+</Note>
+<Para>
+アイコン・ブラウザを使用不可にするには、次のようにします。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+<Filename>IconBrowse.dt</Filename> ファイルの個人用コピーを削除します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・マネージャを開いて、[デスクトップツール]アプリケーション・グループの[アクションの再読込み]をダブルクリックします。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrIcn.div.17">
+<Title Id="SAG.CrIcn.mkr.9">アイコン設計についてのアドバイス<IndexTerm><Primary>アイコン</Primary><Secondary>設計についての推奨</Secondary></IndexTerm></Title>
+<Para>
+関連するアイコンの間では共通のテーマを使用します。たとえば、アプリケーションのアイコンを設計している場合は、アプリケーションのアイコンと、データ・ファイル用のアイコンの間に、意図的に類似性をもたせます。
+</Para>
+<Para>
+設計するカラー・アイコンはすべて、２色のバージョンも使用可能であるようにしてください。カラー・アイコンをモノクロ・ディスプレイかグレースケール・ディスプレイで表示する場合（または使用できる色数が少い場合）、そのアイコンは自動的に２色のバージョンで表示されます。
+</Para>
+<Para>
+システムで使う色数を少くするには、アイコンに使う色数を、デスクトップが提供する色数に限定してください。（アイコン・エディタを使って作成したアイコンはデスクトップ・カラーのみ使用します。）
+</Para>
+<Para>
+デスクトップ・コンポーネントが使用するサイズについては、
+<!--Original XRef content: 'Table&numsp;12&hyphen;1, &xd2;Icon Sizes and File Names,&xd3; on page&numsp;203'--><XRef Role="TableAndPage" Linkend="SAG.CrIcn.mkr.5"> を参照してください。
+</Para>
+<Sect2 Id="SAG.CrIcn.div.18">
+<Title>色の使用法</Title>
+<Para>
+デスクトップ・アイコンは、次の22色のパレットを使用します。
+<IndexTerm><Primary>カラー</Primary><Secondary>アイコンの使用法</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>カラーの使用法</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>グレー８色</Para>
+</ListItem>
+<ListItem>
+<Para>カラー８色: 赤、青、緑、シアン、マゼンタ、黄、黒、白</Para>
+</ListItem>
+<ListItem>
+<Para>ダイナミックカラー６色: フォアグラウンド、バックグラウンド、トップシャドウ、ボトムシャドウ、選択、透明
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+このパレットにより、他のアプリケーションが必要とするカラー・リソースを超えることなく、魅力ある読みやすいアイコンを作成できます。デスクトップで提供されるほとんどのアイコンはグレーを使用し、カラーでアクセントを付けています。
+</Para>
+<Para>
+透明色は、矩形でない輪郭がぼんやりと見えて、アイコンの後ろの色が透けて見えるようなアイコンを作成するのに有用です。
+</Para>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

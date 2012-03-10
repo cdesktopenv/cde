@@ -1,0 +1,39 @@
+XCOMM $XConsortium: Imakefile /main/10 1996/10/09 14:06:18 drk $
+
+       INCLUDES = -I.
+
+        DEPLIBS = $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB)
+  SYS_LIBRARIES = -lm $(DYNLIBSYSLIB) $(REGEXSYSLIB)
+
+
+#if defined(SCOArchitecture)
+  SYS_LIBRARIES = -lm -lcrypt
+#endif
+
+SRCS =	blank.c		dtscreen.c	flame.c		hopalong.c \
+	hsbramp.c	image.c		life.c		pyro.c \
+	qix.c		resource.c	rotor.c		swarm.c \
+	usleep.c	worm.c
+
+OBJS =	blank.o		dtscreen.o	flame.o		hopalong.o \
+	hsbramp.o	image.o		life.o		pyro.o \
+	qix.o		resource.o	rotor.o		swarm.o \
+	usleep.o	worm.o
+
+all::
+
+/**************************************************************************
+ *
+ *  Extra things for the Passwd Etc. version
+ *
+ **************************************************************************/
+
+#ifdef USE_RGY
+      EXTRA_DEFINES = -D__PASSWD_ETC +e
+    EXTRA_LIBRARIES = $(RGYLIB) $(NCKLIB) -lndbm -lBSD ExtraLibraries
+#endif
+
+CppSourceFile(Dtscreen,Dtscreen.src,$(LOCAL_CPP_DEFINES),)
+
+ComplexProgramTarget(dtscreen)

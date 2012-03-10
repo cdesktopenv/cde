@@ -1,0 +1,35 @@
+#!/bin/sh
+# Compile a treeres file
+
+if [ $# != 1 ] ; then
+  echo "usage: treecomp filename"
+fi
+
+if [ ! -f $1 ] ; then
+  echo "treecomp: $1 does not exist"
+  exit 1
+fi
+
+# Look for .res suffix, if found dump output to file without suffix
+
+basename=`basename $1 .res`
+
+if [ $1 != $basename ] ; then
+  dirname=`dirname $1`
+  output=$dirname/$basename
+fi
+
+# Establish commands to run.
+
+CPP=${CPP:-/am/buildsets/qa/current/bin/gpp}
+CPPFLAGS=${CPPFLAGS:-"-C -traditional"}
+TREERES=${TREERES:-treeres}
+
+# Do the deed.
+
+if [ -n "$output" ] ; then
+  $CPP $CPPFLAGS $1 | $TREERES | sed -e "s/VERSION/(Developer - ${USER})/" \
+     > $output
+else
+  $CPP $CPPFLAGS $1 | $TREERES | sed -e "s/VERSION/(Developer - ${USER})/"
+fi

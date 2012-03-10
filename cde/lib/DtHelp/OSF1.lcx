@@ -1,0 +1,563 @@
+!
+! *****************************************************************
+! *                                                               *
+! *    Copyright (c) Digital Equipment Corporation, 1991, 1995    *
+! *                                                               *
+! *   All Rights Reserved.  Unpublished rights  reserved  under   *
+! *   the copyright laws of the United States.                    *
+! *                                                               *
+! *   The software contained on this media  is  proprietary  to   *
+! *   and  embodies  the  confidential  technology  of  Digital   *
+! *   Equipment Corporation.  Possession, use,  duplication  or   *
+! *   dissemination of the software and media is authorized only  *
+! *   pursuant to a valid written license from Digital Equipment  *
+! *   Corporation.                                                *
+! *                                                               *
+! *                                                               *
+! *   THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS *
+! *   OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE   *
+! *   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A     *
+! *   PARTICULAR PURPOSE.                                         *
+! *                                                               *
+! *                                                               *
+! *   RESTRICTED RIGHTS LEGEND   Use, duplication, or disclosure  *
+! *   by the U.S. Government is subject to restrictions  as  set  *
+! *   forth in Subparagraph (c)(1)(ii)  of  DFARS  252.227-7013,  *
+! *   or  in  FAR 52.227-19, as applicable.                       *
+! *                                                               *
+! *****************************************************************
+! 
+!
+! HISTORY
+!
+! @(#)$XConsortium: OSF1.lcx /main/4 1996/10/28 13:57:14 drk $
+!
+!!!!!!!!!!!!!! OSF1 Locale-Related Translations !!!!!!!!!!!!!!
+! File:			OSF1.lcx
+! Default location:	/usr/dt/config/svc/OSF1.lcx
+! Purpose:
+!    Define the OSF1-specific set of locale-related translations.
+! Description:
+!    This file contains the set of all locale-related translations
+!    that  can occur during _DtLcxXlateOpToStd() and _DtLcxStdToOp()
+!    calls on OSF1 platforms. Note that platform-specific tables may
+!    include more than one translation to and from CDE standard
+!    strings if they can be distinguished by version, operation, or
+!    pattern matching.
+!
+!    It is important that additional CDE standard strings only
+!    be created by the CDE owner of the _DtLcx translation service
+!    and NOT be created by an individual vendor or user.  This be because
+!    the purpose of adopting a set of CDE standard strings is to 
+!    support interoperability across platforms.  If individual vendors 
+!    add their own "standard" strings and these strings are not
+!    known on other platforms, then the goal of interoperability
+!    will be defeated.
+!
+!    If you feel that a new CDE standard string is needed,
+!    contact your CDE representative/vendor with a specific
+!    proposal and justification and have them forward it to
+!    the owner of the CDE _DtLcx service.
+!
+!    Note that it is allowed for vendors and users to add new
+!    operations for which translations are specified and which
+!    utilize the standard strings.  If the operations are of
+!    general utility, please bring them to the attention of
+!    your CDE representative/vendor for forwarding to the
+!    _DtLcx owner.
+! Invoked by:
+!    This table is used by the _DtLcx translation service
+! Product:	@(#)Cde1
+! Revision:	$XConsortium: OSF1.lcx /main/4 1996/10/28 13:57:14 drk $
+! Defects:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!! translation specification syntax !!!!!!!!!!!!!!!!!!!
+! Introductory fields:
+! ====================
+! The _DtLcx translation specifications have a fixed number of
+! introductory fields followed by a several standard value
+! fields and the operation-specific value.
+! The introductory fields are:
+!  <platform>.<version range>.<operation(s)>.<kind>
+!
+! Platform generally is the same string as uname(1) -s.
+! Version range utilizes normalized version numbers that 
+!   are acquired using the 'version' translations.
+! Operations are one or more comma-separated strings that
+!   uniquely identify the operation associated with the
+!   operation-specific value.  This string is specified
+!   as part of the request for a translation.
+!
+! Kinds of translations allow the mechanism to support several modes
+!   of operation, each useful for different purposes.  When
+!   reading or writing a specification, pay particular attention
+!   to the kind of specification, as this guides the usage of it.
+!
+! Specification kinds:
+!  .=. means a valid bi-directional translation requiring the op-value 
+!      in the translation specification to exactly match the op-value of 
+!      the call to _DtLcxXlateOpToStd(), e.g. foo matches only foo
+!  .~. means a valid bi-directional translation requiring the op-value 
+!      in the translation specification to match the beginning of the
+!      op-value of the call to _DtLcxXlateOpToStd(), e.g. foo matches 
+!      foo@bar.  This is often useful, e.g. for operation-specific
+!      locale strings that may also contain modifier suffixes.
+!  .>. means only from standard to op-specific (generally a 
+!      compatibility translation, meaning on op-specific value 
+!      that will work for the standard, although that is not 
+!      the straight mapping)
+!  .<. means only from op-specific to standard (generally a
+!      regex in the op-value which is used to map a class of
+!      op values to a standard value)
+!  .0. means that translation is not supported and if a translation
+!      request matches the specification, the request will fail.
+!
+! Standard values:
+! ================
+! _DtLcx defines the order of the standard values in the
+! translations it utilizes.  All translation specifications
+! must adhere to this order.
+!    <std lang_terr>.<std codeset>.<std modifier>
+! In CDE 1.0, no modifiers are standard and that
+! portion of the table is unspecified.  This means
+! that no CDE standard modifiers are available across
+! platforms.  Operations that use only the <std codeset>
+! should specify the wildcard character ("?") for the 
+! <std lang_terr> value.
+!
+! Operation-specific value:
+! =========================
+! The operation-specific value is a string that is used
+! according to the kind of translation.  The syntax is
+!      : <op-string>
+! or   :  "<op-string>", if it contains white space
+!
+! Filling in the table of translations:
+! =====================================
+! The person preparing the translation table should know 
+! the minimum version of the target platform that is
+! be supported.  For example, assume that we must
+! complete the table for all versions 9.00 and higher.
+! 
+! The objective is then to provide two sets of translations:
+! a full set of translations from CDE standard locales to
+! valid platform locales, and a full set of translations
+! from valid platform locales to some or all CDE standard
+! locales.  
+! 
+! Translations from CDE standard locales to valid platform
+! locales must use the .~. .=. or .>. mappings.  When there 
+! is a 1:1 mapping between a CDE locale and a platform locale, 
+! use the .~. or .=. mapping.  See the comment below to 
+! decide which to use.  When there is no 1:1 mapping between 
+! CDE locale and platform locale, use the .>. mapping.  This 
+! provides a valid translation from the CDE locale to the 
+! best-suitable platform locale, but never translates from 
+! that platform locale to the CDE locale.
+! 
+! Translations from every platform locale to the appropriate 
+! CDE locale must use the .~. .=. or .<. mappings.
+! When there is a 1:1 mapping between a platform locale and
+! a CDE standard locale, use the .~. or .=. mapping.  See the
+! comment below to decide which to use.  If there is a 1:1
+! mapping, but the platform locale pattern uses a regular
+! expression, or if more than one platform locale can 
+! be translated to one CDE standard locale, the .<. mapping must 
+! be used.  
+! 
+! If no appropriate CDE standard locale can be found, you have 
+! identified the need for a new CDE standard locale.  Refer to 
+! the instructions at the head of this file for how to go about 
+! registering a new CDE standard locale.  You should not create 
+! a new "standard" locale (the left hand side of the translation 
+! specification) without registering it with CDE, because this 
+! will hinder the free exchange of information across locales 
+! and platforms.
+! 
+! The .=. and .~. mappings are similar.  The difference is
+! that the .=. mapping requires an exact string match between
+! the platform locale and the string provided to the
+! translation routine.  Generally speaking, this mapping
+! is risky unless exact matchings can be guaranteed in
+! all DtLcx clients for the particular operation in question.
+! The .~. mapping is to be preferred, but the .=. translation
+! is useful in limited situations, where similar strings may
+! occur.
+! 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+! define this resource to dump debug/test info
+!*debugDtXlate:  True
+
+!!!!!!!!!!!!!!!! OSF1 Version Identificaton !!!!!!!!!!!!!!!!!
+! These translations are used by the _DtXlateGetXlateEnv()
+! call to determine the version number to use.
+!
+! To understand the translation, realize that the
+! operation-specific regexp(5) pattern on the right
+! hand side is matched against the strings returned
+! by uname(2).  The best match determines the "normalized"
+! version number of the platform, which should range from 
+! 001 and up.  By convention, major release numbers
+! map to centuries and minor release numbers to within
+! the century.
+!
+! To determine the string that the regular expression on the
+! right hand side is matching against, use uname(1) and run
+! 'uname -r' and 'uname -v' and note the strings.  During execution,
+! the strings returned by this command are retrieved and
+! concatenated "rv"--in that order, no extra spaces.
+! This is the string that the pattern must match.
+!
+! Sometimes this string may not be intuitive.  For example,
+! note that AIX 3.2 returns 2 for 'uname -r' and 3 for 'uname -v'.
+! So the pattern string must be 23, not 32.  Do not go by
+! the order of 'uname -rv' or 'uname -vr', as that is not used.
+!!!
+! Define string for OSF/1 Platinum
+OSF1.?.version.<.400:	  "[A-Z]4\\..*"
+! Define string for OSF/1 Gold minor
+OSF1.?.version.<.320:	  "[A-Z]3\\.2.*"	!! any OSF/1 GM version
+! Define string for OSF/1 Gold
+OSF1.?.version.<.300:	  "[A-Z]3\\..*"
+
+!!!!!!!!!!!!!!!! OSF1-specific setlocale translations !!!!!!!!!!!!!!!!!!!
+! These translations are for the string returned by the
+! getlocale() or setlocale(LC_xxx,NULL) operations, but not
+! setlocale(LC_ALL,NULL) operation.
+!
+! It provides translations from OSF1 operation-specific
+! to CDE standard strings and back again.
+!
+! Some language,territory combinations have the following comments:
+!  (1) These ISO territory names may be subject to change
+!      However, their CDE names will continue to be supported
+!  (2) No ISO "territory" name exists for the Arabic-speaking regions of the
+!      world as a whole.  Vendors have sometimes supplied their own.
+!      Those names, when conformant to the ISO model, will be adopted for CDE.
+!
+!Platform Operation Lang_Terr           Op-Value		Language,Territory           Who has
+!---     ---------   ----- 		--------		------------------           -------
+!   Version      Kind      Codeset
+!   ----           -       ---------
+
+
+! setlocales Compliance
+OSF1.400+.setlocale.~.C.ISO-8859-1:     C                       ! setlocales compliance           ,IBM, HP, Sun       , USL
+OSF1.400+.setlocale.~.POSIX.ISO-8859-1: POSIX                   ! setlocales compliance           ,IBM, HP, Sun       , USL
+
+! W European/Americas, Latin 1 codeset
+OSF1.400+.setlocale.~.da_DK.ISO-8859-1:	da_DK.ISO8859-1         ! Danish, Denmark            XoJIG,IBM, HP,           , USL ("da")
+OSF1.400+.setlocale.>.de_AT.ISO-8859-1:	de_DE.ISO8859-1         ! German,Austria             XoJIG,   ,   ,           , USL        
+OSF1.400+.setlocale.~.de_CH.ISO-8859-1:	de_CH.ISO8859-1         ! German,Switzerland         XoJIG,IBM,   ,           , USL        
+OSF1.400+.setlocale.~.de_DE.ISO-8859-1:	de_DE.ISO8859-1         ! German, Germany            XoJIG,IBM, HP, Sun ("de"), USL ("de")
+OSF1.400+.setlocale.>.en_AU.ISO-8859-1:	en_GB.ISO8859-1         ! English,Australia               ,   ,   ,           , USL
+OSF1.400+.setlocale.>.en_CA.ISO-8859-1:	en_US.ISO8859-1         ! English,Canada             XoJIG,   ,   ,           , USL        
+OSF1.400+.setlocale.>.en_DK.ISO-8859-1:	en_GB.ISO8859-1         ! English, Denmark           XoJIG,   ,   ,           , USL        
+OSF1.400+.setlocale.~.en_GB.ISO-8859-1:	en_GB.ISO8859-1         ! English, U.K.              XoJIG,IBM, HP,           , USL ("en")
+OSF1.400+.setlocale.>.en_JP.ISO-8859-1:	en_US.ISO8859-1         ! English, Japan             XoJIG,IBM,   ,           , 
+OSF1.400+.setlocale.>.en_IE.ISO-8859-1:	en_GB.ISO8859-1         ! English, Ireland           XoJIG,   ,   ,           , USL        
+OSF1.400+.setlocale.>.en_MY.ISO-8859-1:	en_US.ISO8859-1         ! English,Malaysia                ,   ,   ,           , USL        
+OSF1.400+.setlocale.>.en_NZ.ISO-8859-1:	en_GB.ISO8859-1         ! English,New Zealand             ,   ,   ,           , USL
+OSF1.400+.setlocale.>.en_KR.ISO-8859-1:	en_US.ISO8859-1         ! English,Korea                   ,   ,   ,           , USL
+OSF1.400+.setlocale.>.en_TW.ISO-8859-1:	en_US.ISO8859-1         ! English,Taiwan                  ,   ,   ,           , USL
+OSF1.400+.setlocale.~.en_US.ISO-8859-1:	en_US.ISO8859-1         ! English, USA               XoJIG,IBM, HP, Sun       , USL
+OSF1.400+.setlocale.>.es_AR.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Argentina              ,   ,   , Sun       , USL
+OSF1.400+.setlocale.>.es_BO.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Bolivia                ,   ,   , Sun
+OSF1.400+.setlocale.>.es_CL.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Chile                  ,   ,   , Sun       , USL
+OSF1.400+.setlocale.>.es_CO.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Columbia               ,   ,   , Sun
+OSF1.400+.setlocale.>.es_CR.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Costa Rica             ,   ,   , Sun
+OSF1.400+.setlocale.>.es_EC.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Ecuador                ,   ,   , Sun
+OSF1.400+.setlocale.~.es_ES.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Spain             XoJIG,IBM, HP, Sun       , USL
+OSF1.400+.setlocale.~.ca_ES.ISO-8859-1:	ca_ES.ISO8859-1         ! Catalan, Spain             XoJIG,IBM, HP, Sun       , USL, DEC
+OSF1.400+.setlocale.>.es_GT.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Guatemala              ,   ,   , Sun
+OSF1.400+.setlocale.>.es_MX.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Mexico                 ,   ,   , Sun       , USL
+OSF1.400+.setlocale.>.es_PE.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Peru                   ,   ,   , Sun
+OSF1.400+.setlocale.>.es_UY.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Uruguay                ,   ,   , Sun
+OSF1.400+.setlocale.>.es_VE.ISO-8859-1:	es_ES.ISO8859-1         ! Spanish, Venezuela              ,   ,   , Sun       , USL
+! OSF1.400+.setlocale.>.et_EE.ISO-8859-1:		        ! Estonian, Estonia          XoJIG, 
+OSF1.400+.setlocale.~.fi_FI.ISO-8859-1:	fi_FI.ISO8859-1	        ! Finnish, Finland           XoJIG,IBM, HP,           , USL ("fi")
+! OSF1.400+.setlocale.>.fo_FO.ISO-8859-1:		        ! Faroese, Faeroe Island     XoJIG,
+OSF1.400+.setlocale.~.fr_BE.ISO-8859-1:	fr_BE.ISO8859-1         ! French,Belgium             XoJIG,   ,   ,           , USL        
+OSF1.400+.setlocale.~.fr_CA.ISO-8859-1:	fr_CA.ISO8859-1         ! French, Canada             XoJIG,IBM, HP,           , USL
+OSF1.400+.setlocale.~.fr_CH.ISO-8859-1:	fr_CH.ISO8859-1         ! French, Switzerland        XoJIG,IBM,   ,           , USL
+OSF1.400+.setlocale.~.fr_FR.ISO-8859-1:	fr_FR.ISO8859-1         ! French, France             XoJIG,IBM, HP, Sun ("fr"), USL ("fr")
+OSF1.400+.setlocale.~.is_IS.ISO-8859-1:	is_IS.ISO8859-1         ! Icelandic, Iceland         XoJIG,IBM, HP,           , USL ("is")
+OSF1.400+.setlocale.>.it_CH.ISO-8859-1:	it_IT.ISO8859-1         ! Italian,Switzerland             ,   ,   ,           , USL        
+OSF1.400+.setlocale.~.it_IT.ISO-8859-1:	it_IT.ISO8859-1         ! Italian, Italy             XoJIG,IBM, HP, Sun ("it"), USL ("it")
+! OSF1.400+.setlocale.>.kl_GL.ISO-8859-1:		        ! Greenlandic, Greenland     XoJIG,
+! OSF1.400+.setlocale.>.lt_LT.ISO-8859-1:		        ! Lithuanian, Lithuania      XoJIG,
+! OSF1.400+.setlocale.>.lv_LV.ISO-8859-1:		        ! Latvian, Latvia            XoJIG,
+OSF1.400+.setlocale.~.nl_BE.ISO-8859-1:	nl_BE.ISO8859-1         ! Dutch, Belgium             XoJIG,IBM,   ,           , USL
+OSF1.400+.setlocale.~.nl_NL.ISO-8859-1:	nl_NL.ISO8859-1         ! Dutch, The Netherlands     XoJIG,IBM, HP,           , USL ("nl")
+OSF1.400+.setlocale.~.no_NO.ISO-8859-1:	no_NO.ISO8859-1         ! Norwegian, Norway          XoJIG,IBM, HP,           , USL ("no")
+OSF1.400+.setlocale.>.pt_BR.ISO-8859-1:	pt_PT.ISO8859-1         ! Portuguese,Brazil               ,   ,   ,           , USL
+OSF1.400+.setlocale.~.pt_PT.ISO-8859-1:	pt_PT.ISO8859-1         ! Portuguese, Portugal       XoJIG,IBM, HP,           , USL
+OSF1.400+.setlocale.>.sv_FI.ISO-8859-1:	sv_SE.ISO8859-1         ! Swedish, Finland           XoJIG,
+OSF1.400+.setlocale.~.sv_SE.ISO-8859-1:	sv_SE.ISO8859-1         ! Swedish, Sweden            XoJIG,IBM, HP, Sun ("sv"), USL ("sv") 
+
+! E European 
+OSF1.400+.setlocale.~.cs_CS.ISO-8859-2: cs_CZ.ISO8859-2		! Czech(1)                        ,IBM, HP
+! OSF1.400+.setlocale.>.hr_HR.ISO-8859-2:			! Croatian, Croatia               ,IBM
+OSF1.400+.setlocale.~.hu_HU.ISO-8859-2:	hu_HU.ISO8859-2		! Hungarian, Hungry          XoJIG,IBM, HP
+OSF1.400+.setlocale.~.pl_PL.ISO-8859-2:	pl_PL.ISO8859-2		! Polish, Poland             XoJIG,IBM, HP 
+! OSF1.400+.setlocale.>.ro_RO.ISO-8859-2:			! Rumanian, Romania          XoJIG,IBM, HP
+! OSF1.400+.setlocale.>.sh_YU.ISO-8859-2:			! Serbocroatian, Yugoslavia(1)    ,IBM, HP 
+OSF1.400+.setlocale.>.sl_CS.ISO-8859-2:	sl_SI.ISO8859-2		! Slovenian                       ,   , HP,           ,    , DEC
+OSF1.400+.setlocale.~.si_SI.ISO-8859-2: sl_SI.ISO8859-2		! Slovenian                       ,IBM,   ,           ,    , DEC
+OSF1.400+.setlocale.~.sk_SK.ISO-8859-2: sk_SK.ISO8859-2		! Slovak                          ,IBM
+
+! N European
+OSF1.400+.setlocale.~.lt_LT.ISO-8859-4:	lt_LT.ISO8859-4 	! Lithuanian, Lithuania           ,   ,   ,           ,    , DEC
+
+! Cyrillic 
+! OSF1.400+.setlocale.>.bg_BG.ISO-8859-5:			! Bulgarian, Bulgaria             ,IBM, HP
+! OSF1.400+.setlocale.>.mk_MK.ISO-8859-5:			! Macedonian                      ,IBM
+OSF1.400+.setlocale.~.ru_RU.ISO-8859-5:	ru_RU.ISO8859-5 	! Russian(1)                      ,IBM, 
+OSF1.400+.setlocale.>.ru_SU.ISO-8859-5:	ru_RU.ISO8859-5 	! Russian(1)                      ,   , HP
+! OSF1.400+.setlocale.>.sp_YU.ISO-8859-5:			! Serbian,Yugoslavia(1)           ,IBM
+
+! Arabic 
+! OSF1.400+.setlocale.>.ar_DZ.ISO-8859-6:			! Arabic(2)                       ,   , HP
+! OSF1.400+.setlocale.>.ar_SA.ISO-8859-6:			! Arabic(2)                       ,IBM, HP
+
+! Hebrew 
+OSF1.400+.setlocale.~.iw_IL.ISO-8859-8:	iw_IL.ISO8859-8		! Hebrew, Israel                  ,IBM, HP
+
+! Greek 
+OSF1.400+.setlocale.~.el_GR.ISO-8859-7:	el_GR.ISO8859-7		! Greek, Greece                   ,IBM, HP
+
+! Turkish 
+OSF1.400+.setlocale.~.tr_TR.ISO-8859-9:	tr_TR.ISO8859-9		! Turkish, Turkey                 ,IBM, HP
+
+! East Asia 
+OSF1.400+.setlocale.~.ja_JP.EUC-JP:	ja_JP			! Japanese, Japan                 ,IBM, HP, Sun ("ja"), USL
+OSF1.400+.setlocale.~.ja_JP.IBM-932:	ja_JP.SJIS		! Japanese, Japan                 ,IBM
+OSF1.400+.setlocale.>.ja_JP.HP-SJIS:    ja_JP.SJIS		! Japanese, Japan aka japanese 15 ,   , HP,
+OSF1.400+.setlocale.~.ja_JP.DEC-KANJI:	ja_JP.deckanji		! Japanese, Japan                 ,   ,   ,           ,    , DEC
+OSF1.400+.setlocale.~.ja_JP.DEC-SKANJI:	ja_JP.sdeckanji		! Japanese, Japan                 ,   ,   ,           ,    , DEC
+OSF1.400+.setlocale.~.ko_KR.EUC-KR:	ko_KR			! Korean, Korea                   ,   ,   ,           ,    , DEC
+OSF1.400+.setlocale.~.zh_CN.EUC-CN:	zh_CN	 		! Chinese, China                  ,IBM,   , Sun ("zh"), USL 
+OSF1.400+.setlocale.>.zh_CN.HP-15CN:	zh_CN			! Chinese, China                  ,   , HP
+OSF1.400+.setlocale.~.zh_TW.DEC-HANYU:	zh_TW			! Chinese, Taiwan                 ,   ,   ,           ,    , DEC
+OSF1.400+.setlocale.~.zh_TW.DEC-BIG5:	zh_TW.big5		! Chinese, Taiwan                 ,   ,   ,           ,    , DEC
+OSF1.400+.setlocale.~.zh_TW.EUC-TW:	zh_TW.eucTW		! Chinese, Taiwan                 ,IBM, HP, Sun       , USL
+OSF1.400+.setlocale.~.zh_HK.EUC-CN:	zh_HK.dechanzi		! Chinese, Hong Kong              ,   ,   ,           ,    , DEC
+OSF1.400+.setlocale.~.zh_HK.DEC-HANYU:	zh_HK.dechanyu		! Chinese, Hong Kong              ,   ,   ,           ,    , DEC
+OSF1.400+.setlocale.~.zh_HK.DEC-BIG5:	zh_HK.big5		! Chinese, Hong Kong              ,   ,   ,           ,    , DEC
+OSF1.400+.setlocale.~.zh_HK.EUC-TW:	zh_HK.eucTW		! Chinese, Hong Kong              ,   ,   ,           ,    , DEC
+! OSF1.400+.setlocale.>.zh_TW.HP-BIG5:		 		! Chinese, Taiwan                 ,   , HP,           , 
+! OSF1.400+.setlocale.>.zh_TW.HP-CCDC:				! Chinese, Taiwan                 ,   , HP,           , 
+! OSF1.400+.setlocale.>.ja_JP.HP-KANA8:				! Japanese, Japan		  ,   , HP,           ,
+
+! Thai 
+OSF1.400+.setlocale.~.th_TH.TIS-620:	th_TH			! Thai, Thailand                  ,IBM, HP
+
+! codesets supported for iconv(1,3) & nl_langinfo and above
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.ISO-8859-1:   	ISO8859-1
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.ISO-8859-2:	ISO8859-2
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.ISO-8859-4:	ISO8859-4
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.ISO-8859-5:	ISO8859-5
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.ISO-8859-6:	ISO8859-6
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.ISO-8859-7:	ISO8859-7
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.ISO-8859-8:	ISO8859-8
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.ISO-8859-9:	ISO8859-9
+OSF1.400+.iconv1,iconv3.=.?.EUC-KR:                             eucKR
+OSF1.400+.nl_langinfo(CODESET).=.?.EUC-KR:                      KSC5601
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.EUC-JP:       	eucJP
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.DEC-KANJI:     deckanji
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.DEC-SKANJI:    sdeckanji
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.EUC-TW:	eucTW
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.DEC-HANYU:	dechanyu
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.DEC-BIG5:	big5
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.EUC-CN:	dechanzi
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).>.?.HP-15CN:	dechanzi
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.IBM-932:	SJIS
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).>.?.HP-SJIS:	SJIS
+OSF1.400+.iconv1,iconv3,nl_langinfo(CODESET).=.?.TIS-620:	TACTIS
+
+! codesets supported for iconv(1,3) only
+OSF1.400+.iconv1,iconv3.=.?.ISO-2022-JP:	ISO-2022-JP
+OSF1.400+.iconv1,iconv3.=.?.ISO-2022-KR:	ISO-2022-KR
+
+! codesets not supported for either iconv(1,3) or nl_langinfo
+! OSF1.?.iconv1,iconv3.~.?.UCS-2:
+! OSF1.?.iconv1,iconv3.~.?.UTF-8:
+! OSF1.?.iconv1,iconv3.~.?.HP-ARABIC8:
+! OSF1.?.iconv1,iconv3.~.?.HP-GREEK8:
+! OSF1.?.iconv1,iconv3.~.?.HP-HEBREW8
+! OSF1.?.iconv1,iconv3.~.?.HP-ROMAN8:
+! OSF1.?.iconv1,iconv3.~.?.HP-TURKISH8:
+! OSF1.?.iconv1,iconv3.~.?.HP-KANA8:
+! OSF1.?.iconv1,iconv3.~.?.ISO-2022-TW:
+! OSF1.?.iconv1,iconv3.~.?.HP-CCDC:
+! OSF1.?.iconv1,iconv3.~.?.HP-BIG5:
+! OSF1.?.iconv1,iconv3.~.?.ISO-2022-CN:
+! OSF1.?.iconv1,iconv3.~.?.IBM-437:
+! OSF1.?.iconv1,iconv3.~.?.IBM-850:
+! OSF1.?.iconv1,iconv3.~.?.IBM-856:
+! OSF1.?.iconv1,iconv3.~.?.IBM-1046:
+
+! multibyte codesets 
+! This translation provides an alternative to a call to
+! using setlocale() and MB_CUR_MAX to determine this.
+OSF1.?.multibyte.=.?.EUC-KR:		3
+OSF1.?.multibyte.=.?.HP-SJIS:		2
+OSF1.?.multibyte.=.?.IBM-932:		2
+OSF1.?.multibyte.=.?.EUC-JP:		3
+OSF1.?.multibyte.=.?.DEC-KANJI:		2
+OSF1.?.multibyte.=.?.DEC-SKANJI:	3
+! OSF1.?.multibyte.~.?.HP-CCDC:		2
+! OSF1.?.multibyte.~.?.HP-BIG5:		2
+OSF1.?.multibyte.=.?.EUC-TW:		4
+OSF1.?.multibyte.=.?.DEC-HANYU:		4
+OSF1.?.multibyte.=.?.DEC-BIG5:		2
+OSF1.?.multibyte.=.?.EUC-CN:		2
+OSF1.?.multibyte.=.?.HP-15CN:		2
+
+! Translations from predefined CCDF-locales to CDE Standard Locales
+OSF1.?.ccdf.=.?.HP-ROMAN8:    	hp-roman8
+OSF1.?.ccdf.=.?.ISO-8859-1:	ISO8859-1
+OSF1.?.ccdf.=.ko_KR.EUC-KR:	hp-korean15
+OSF1.?.ccdf.=.ko_KR.EUC-KR:	eucKR
+OSF1.?.ccdf.=.ja_JP.HP-SJIS:	hp-japanese15
+OSF1.?.ccdf.=.ja_JP.EUC-JP:	eucJP
+OSF1.?.ccdf.=.?.DT-SYMBOL-1:	symbol        !!! standard Dt symbol font
+
+! These CDE standard locales may have CCDF-locales, but they are defined by localizers
+! OSF1.?.ccdf.=.ar_SA.HP-ARABIC8:	arabic8
+! OSF1.?.ccdf.=.el_GR.HP-GREEK8:	greek8
+! OSF1.?.ccdf.=.iw_IL.HP-HEBREW8:	hebrew8
+! OSF1.?.ccdf.=.tr_TR.HP-TURKISH8:	turkish8
+! OSF1.?.ccdf.<.ja_JP.HP-SJIS:		sjis
+! OSF1.?.ccdf.=.ja_JP.HP-KANA8:		kana8
+! OSF1.?.ccdf.<.ja_JP.EUC-JP:		ujis
+! OSF1.?.ccdf.=.zh_CN.HP-CCDC:		roc15		
+
+! Codesets that require multibyte parsing to avoid confusion with shell special chars
+OSF1.?.dtkshSpecialParse.=.ja_JP.HP-JIS:	True
+OSF1.?.dtkshSpecialParse.=.ja_JP.HP-SJIS:	True
+OSF1.?.dtkshSpecialParse.=.ja_JP.IBM-932:	True
+OSF1.?.dtkshSpecialParse.=.zh_TW.HP-BIG5:	True
+OSF1.?.dtkshSpecialParse.=.zh_TW.HP-CCDC:	True
+OSF1.?.dtkshSpecialParse.=.zh_TW.EUC-TW:	True
+OSF1.?.dtkshSpecialParse.=.?.DEC-KANJI:		True
+OSF1.?.dtkshSpecialParse.=.?.DEC-SKANJI:	True
+OSF1.?.dtkshSpecialParse.=.?.DEC-HANYU:		True
+OSF1.?.dtkshSpecialParse.=.?.DEC-BIG5:		True
+
+!! When content is exchanged with other platforms, the interchange codeset
+!! may be different that the codeset used locally.  In CDE1, these translations
+!! are used by dtmail, but other clients may use the same translations
+!! in the future.  For example, to improve interoperability of 8-bit mail,
+!! the mail messages of users working in codesets such as HP-ROMAN8 or IBM-850 
+!! are translated to the interchangeCodeset (in this case, ISO-8859-1) before 
+!! they are sent.  Similarly, the mail of Japanese users is translated to JIS
+!! before it is sent.
+OSF1.?.interchangeCodeset.~.?.ISO-8859-1:	ISO-8859-1	! ISO Latin 1
+! OSF1.?.interchangeCodeset.>.?.HP-ROMAN8:	ISO-8859-1	! HP Roman8 
+! OSF1.?.interchangeCodeset.>.?.IBM-437:	ISO-8859-1	! PC (US)
+! OSF1.?.interchangeCodeset.>.?.IBM-850:	ISO-8859-1	! PC (Multi-lingual)
+OSF1.?.interchangeCodeset.~.?.ISO-8859-2:	ISO-8859-2	! ISO Latin 2
+OSF1.?.interchangeCodeset.~.?.ISO-8859-4:	ISO-8859-4	! ISO Latin 4
+OSF1.?.interchangeCodeset.~.?.ISO-8859-5:	ISO-8859-5	! ISO Latin/Cyrillic
+OSF1.?.interchangeCodeset.~.?.ISO-8859-6:	ISO-8859-6	! ISO Latin/Arabic
+! OSF1.?.interchangeCodeset.>.?.HP-ARABIC8:	ISO-8859-6	! HP Arabic8
+! OSF1.?.interchangeCodeset.>.?.IBM-1046:	ISO-8859-6	! PC Arabic Code Set
+OSF1.?.interchangeCodeset.~.?.ISO-8859-8:	ISO-8859-8	! ISO Latin/Hebrew
+! OSF1.?.interchangeCodeset.>.?.HP-HEBREW8:	ISO-8859-8	! HP Hebrew8
+! OSF1.?.interchangeCodeset.>.?.IBM-856:	ISO-8859-8	! PC Hebrew
+OSF1.?.interchangeCodeset.~.?.ISO-8859-7:	ISO-8859-7	! ISO Latin/Greek
+! OSF1.?.interchangeCodeset.>.?.HP-GREEK8:	ISO-8859-7	! HP Greek8
+OSF1.?.interchangeCodeset.~.?.ISO-8859-9:	ISO-8859-9	! ISO Latin 5
+! OSF1.?.interchangeCodeset.>.?.HP-TURKISH8:	ISO-8859-9	! HP Turkish8
+OSF1.?.interchangeCodeset.~.?.EUC-JP:		ISO-2022-JP	! Japanese EUC
+! OSF1.?.interchangeCodeset.>.?.HP-SJIS:	ISO-2022-JP	! HP Japanese Shift JIS
+OSF1.?.interchangeCodeset.>.?.IBM-932:		ISO-2022-JP	! PC Japanese Shift JIS
+! OSF1.?.interchangeCodeset.>.?.HP-KANA8:	ISO-2022-JP	! HP Japanese Katakana8
+OSF1.?.interchangeCodeset.~.?.DEC-KANJI:	ISO-2022-JP	! Japanese DEC Kanji
+OSF1.?.interchangeCodeset.~.?.DEC-SKANJI:	ISO-2022-JP	! Japanese Super DEC Kanji
+OSF1.?.interchangeCodeset.~.?.EUC-KR:		ISO-2022-KR	! Korean EUC
+! comment when ISO-2022-CN is supported by iconv
+OSF1.?.interchangeCodeset.~.?.EUC-CN:		EUC-CN		! China Chinese EUC
+! OSF1.?.interchangeCodeset.>.?.HP-15CN:	EUC-CN     	! HP Chinese EUC
+! uncomment when ISO-2022-CN is supported by iconv
+! OSF1.?.interchangeCodeset.~.?.EUC-CN:		ISO-2022-CN	! China Chinese EUC
+! ! OSF1.?.interchangeCodeset.>.?.HP-15CN:	ISO-2022-CN    	! HP Chinese EUC
+! comment when ISO-2022-TW is supported by iconv
+OSF1.?.interchangeCodeset.~.?.EUC-TW:		EUC-TW		! Taiwan Chinese EUC
+OSF1.?.interchangeCodeset.~.?.DEC-HANYU:	DEC-HANYU	! Taiwan Chinese DEC Hanyu
+OSF1.?.interchangeCodeset.~.?.DEC-BIG5:		DEC-BIG5	! Taiwan Chinese DEC Big5
+! OSF1.?.interchangeCodeset.>.?.HP-BIG5:	EUC-TW		! HP Big5 Chinese
+! OSF1.?.interchangeCodeset.>.?.HP-CCDC:	EUC-TW		! HP CCDC Chinese 
+! uncomment when ISO-2022-TW is supported by iconv
+! OSF1.?.interchangeCodeset.~.?.EUC-TW:		ISO-2022-TW	! Taiwan Chinese EUC
+! ! OSF1.?.interchangeCodeset.>.?.HP-BIG5:	ISO-2022-TW	! HP Big5 Chinese
+! ! OSF1.?.interchangeCodeset.>.?.HP-CCDC:	ISO-2022-TW	! HP CCDC Chinese 
+OSF1.?.interchangeCodeset.~.?.TIS-620:		TIS-620		! Thai
+OSF1.?.interchangeCodeset.>.?.UCS-2:		UTF-8		! Unicode
+OSF1.?.interchangeCodeset.~.?.UTF-8:		UTF-8		! multibyte Unicode 
+
+!! Codeset identifiers for use with MIME messages.  The .~. translations
+!! are used by dtmail and adhere to the MIME standard, RFC 1521.
+!! Note that the MIME standard states that codeset identifiers are
+!! case-insensitive.  The operation-specific values on the right-hand-side
+!! of the translations below, however, ARE case sensitive.  Before
+!! doing a OpToStd translation, first convert the MIME codeset identifier
+!! to uppercase.  Alternatively, one could provide lower-case versions
+!! of the translations (right-hand-side only should be in lower-case).
+OSF1.?.mime.~.?.ISO-8859-1:	ISO-8859-1	! ISO Latin 1
+OSF1.?.mime.~.?.HP-ROMAN8:	X-HP-ROMAN8	! HP Roman8 
+OSF1.?.mime.~.?.IBM-437:	X-IBM-437	! PC (US)
+OSF1.?.mime.~.?.IBM-850:	X-IBM-850	! PC (Multi-lingual)
+OSF1.?.mime.~.?.ISO-8859-2:	ISO-8859-2	! ISO Latin 2
+OSF1.?.mime.~.?.ISO-8859-4:	ISO-8859-4	! ISO Latin 4
+OSF1.?.mime.~.?.ISO-8859-5:	ISO-8859-5	! ISO Latin/Cyrillic
+OSF1.?.mime.~.?.ISO-8859-6:	ISO-8859-6	! ISO Latin/Arabic
+OSF1.?.mime.~.?.HP-ARABIC8:	X-HP-ARABIC8	! HP Arabic8
+OSF1.?.mime.~.?.IBM-1046:	X-IBM-1046	! PC Arabic Code Set
+OSF1.?.mime.~.?.ISO-8859-8:	ISO-8859-8	! ISO Latin/Hebrew
+OSF1.?.mime.~.?.HP-HEBREW8:	X-HP-HEBREW8	! HP Hebrew8
+OSF1.?.mime.~.?.IBM-856:	X-IBM-856	! PC Hebrew
+OSF1.?.mime.~.?.ISO-8859-7:	ISO-8859-7	! ISO Latin/Greek
+OSF1.?.mime.~.?.HP-GREEK8:	X-HP-GREEK8	! HP Greek8
+OSF1.?.mime.~.?.ISO-8859-9:	ISO-8859-9	! ISO Latin 5
+OSF1.?.mime.~.?.HP-TURKISH8:	X-HP-TURKISH8	! HP Turkish8
+OSF1.?.mime.~.?.EUC-JP:		X-EUC-JP	! Japanese EUC
+OSF1.?.mime.~.?.ISO-2022-JP:	ISO-2022-JP	! Japanese JIS with 7-bit encoding per ISO-2022-JP
+OSF1.?.mime.~.?.HP-SJIS:	X-HP-SJIS	! HP Japanese Shift JIS
+OSF1.?.mime.~.?.IBM-932:	X-IBM-932	! PC Japanese Shift JIS
+OSF1.?.mime.~.?.HP-KANA8:	X-HP-KANA8	! HP Japanese Katakana8
+OSF1.?.mime.~.?.EUC-KR:		X-EUC-KR	! Korean EUC
+OSF1.?.mime.~.?.ISO-2022-KR:	ISO-2022-KR	! Korean with 7-bit encoding per ISO-2022-KR
+OSF1.?.mime.~.?.EUC-CN:		X-EUC-CN	! China Chinese EUC
+OSF1.?.mime.~.?.ISO-2022-CN:	ISO-2022-CN	! China Chinese with 7-bit encoding per ISO-2022-CN
+OSF1.?.mime.~.?.HP-15CN:	X-HP-15CN     	! HP China Chinese EUC
+OSF1.?.mime.~.?.EUC-TW:		X-EUC-TW	! Taiwan Chinese EUC
+OSF1.?.mime.~.?.ISO-2022-TW:	ISO-2022-TW	! Taiwan Chinese with 7-bit encoding per ISO-2022-TW
+OSF1.?.mime.~.?.DEC-HANYU:	X-DEC-HANYU	! Taiwan Chinese DEC Hanyu
+OSF1.?.mime.~.?.DEC-BIG5:	X-DEC-BIG5	! Taiwan Chinese DEC Big5
+OSF1.?.mime.~.?.HP-BIG5:	X-HP-BIG5	! HP Big5 Taiwan Chinese
+OSF1.?.mime.~.?.HP-CCDC:	X-HP-CCDC	! HP CCDC Taiwan Chinese 
+OSF1.?.mime.~.?.TIS-620:	X-TIS-620	! Thai
+OSF1.?.mime.~.?.UCS-2:		X-UCS-2		! Unicode; group 0, plane 0 of ISO-10646
+OSF1.?.mime.~.?.UCS-4:		X-UCS-4		! ISO-10646
+OSF1.?.mime.~.?.UTF-7:		X-UTF-7		! multibyte encoding of Unicode 
+OSF1.?.mime.~.?.UTF-8:		X-UTF-8		! multibyte encoding of Unicode 
+OSF1.?.mime.~.?.UTF-16:		X-UTF-16	! multibyte encoding of Unicode 
+
+!! If other mailers are using other codeset identifiers in their MIME
+!! messages, dtmail will not be able to process them correctly. 
+!! To correct this, additional .<. translations for these identifiers 
+!! can be added to a <platform>.lcx file in the /etc/dt/config/svc 
+!! or $HOME/.dt/config/svc directories.  Such translations should read:
+!! <platform>.?.mime.<.?.<CDE std codeset>: <mailer identifier for the codeset>
+!!
+!! ***NEVER*** use a .~. translation, such as we use above, as this could
+!! cause dtmail to send unexpected identifier strings by overriding the
+!! above definition.  Further, never use .=. or .>. translations.
+!!
+!! These two identifiers are in common usage, as they derive from RFC1521.
+OSF1.?.mime.<.?.ISO-8859-1:	us-ascii	! ISO Latin 1
+OSF1.?.mime.<.?.ISO-8859-1:	US-ASCII	! ISO Latin 1

@@ -1,0 +1,133 @@
+<!-- $XConsortium: dtinfost.sgm /main/6 1996/09/08 20:01:21 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.INFO.dtinfoStyle.dtd">]]>
+<RefMeta>
+<RefEntryTitle>
+dtinfoStyle.dtd
+</RefEntryTitle>
+<ManVolNum>file formats</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><filename>dtinfoStyle.dtd</filename></RefName>
+<RefPurpose><command>dtinfo</command> style
+sheet document type definition
+</RefPurpose>
+</RefNameDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><filename>dtinfoStyle.dtd</filename> describes the SGML features
+available for specifying how a document should be rendered. Style sheets
+associate the elements in a given document hierarchy with on-line or
+print formatting characteristics, and are part of the DtInfo Toolkit.
+</para>
+<para>With <command>dtinfo</command>, you use a single style sheet to specify
+both print and online rendering of the elements in your DTD.
+The print and online feature sets match in function, description,
+and specification, with just four exceptions for print-specific features
+</para>
+<refsect2>
+<title>Basic Style Sheet Format</title>
+<para>The basic style sheet format first defines autonumbers. Then, for each
+element (<SYSTEMITEM>Path</SYSTEMITEM>) the style sheet defines its
+feature set. For information see, "Understanding Dtinfo Style Sheets"
+and "Creating a Style Sheet" in <emphasis>CDE: Information Manager
+Author's and Programmer's Guide</emphasis>.
+</para>
+<para>You can also find an ASCII file of the
+<filename>dtinfoStyle.dtd</filename> in
+<filename>/usr/dt/infolib/%L/SGML/dtinfoStyle.dtd</filename>.
+</para>
+</refsect2>
+<refsect2>
+<title>AutoNumber</title>
+<para>To use system-generated number tokens in element formatting, first
+create an <SYSTEMITEM>AutoNumber</SYSTEMITEM> specification for each
+token stream. (Note that these tokens can only be used with the Prefix,
+Suffix, Header and Footer features.)
+</para>
+<para>A simple example is:
+</para>
+<LITERALLAYOUT>
+&lt;AutoNumber
+
+        id=chapnum
+
+        reset=&rdquo;Book Part&rdquo;
+
+        counter=chapter&gt;
+</LITERALLAYOUT>
+<PARA>A more complex example is:
+</PARA>
+<LITERALLAYOUT>&lt;AutoNumber
+
+        id=fignum
+
+        type=UCroman
+
+        initial=&rdquo;I&rdquo;
+
+        delta=l
+
+        counter=&rdquo;FIG TABLE&rdquo;
+
+        reset=chap&gt;
+
+&lt;path&gt;NUMITEM&lt;/&gt;
+
+        &lt;margin top=4pt bottom=4pt&gt;
+
+        &lt;prefix&gt;&lt;auto id=NumList&gt;&lt;/prefix&gt;
+</LITERALLAYOUT>
+<PARA>where:</PARA>
+<VARIABLELIST>
+<VARLISTENTRY><TERM><SYSTEMITEM>type</SYSTEMITEM></TERM>
+<LISTITEM><PARA>The kind of counter values:Arabic, UCalpha, LCalpha, UCroman, LCroman.
+The default value is Arabic.
+</PARA></LISTITEM>
+</VARLISTENTRY>
+<VARLISTENTRY><TERM><SYSTEMITEM>id</SYSTEMITEM></TERM>
+<LISTITEM><PARA>The unique name of this token. You can refer
+to this name, for example, in a
+<SYSTEMITEM>Prefix</SYSTEMITEM>. Required.
+</PARA></LISTITEM>
+</VARLISTENTRY><VARLISTENTRY><TERM><SYSTEMITEM>initial</SYSTEMITEM></TERM>
+<LISTITEM><PARA>The initial value for this token, which must be consistent with the Type.
+The default is 1.
+</PARA></LISTITEM>
+</VARLISTENTRY>
+<VARLISTENTRY><TERM><SYSTEMITEM>delta</SYSTEMITEM></TERM>
+<LISTITEM><PARA>The value by which the system increments or decrements the token.
+The default is to increment by 1.
+</PARA></LISTITEM>
+</VARLISTENTRY>
+<VARLISTENTRY><TERM><SYSTEMITEM>counter</SYSTEMITEM></TERM>
+<LISTITEM><PARA>The element(s) that cause this token to use the Delta to change
+values. Required.
+</PARA></LISTITEM>
+</VARLISTENTRY>
+<VARLISTENTRY><TERM><SYSTEMITEM>reset</SYSTEMITEM></TERM>
+<LISTITEM><PARA>The element(s) that cause this token to reset to its initial value.
+Required.
+</PARA></LISTITEM>
+</VARLISTENTRY>
+</VARIABLELIST>
+</REFSECT2>
+</REFSECT1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para><emphasis>CDE: Information Manager
+Author's and Programmer's Guide</emphasis>,
+&cdeman.dtinfo;,
+&cdeman.dtinfogen;,
+&cdeman.dtinfoBook.dtd;,
+&cdeman.dtinfoTOC.dtd;
+</Para>
+</RefSect1>
+</RefEntry>
+

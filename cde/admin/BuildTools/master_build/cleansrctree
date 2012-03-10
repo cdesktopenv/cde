@@ -1,0 +1,29 @@
+#! /bin/sh
+
+# This script cleans a source tree of unwanted ,RCSnew* files
+# created when you abort RCS.
+# It also makes all the ,v files have group bin and owner bin --marca
+# marca 2/7/90
+
+USAGE="USAGE: cleansrctree <sourcedir>"
+
+if [ $# -lt 1 ];then
+	echo ""
+	echo "$USAGE"
+	exit 1
+fi
+
+cd /$1
+
+#change owner and group to bin
+echo "FILES NOT OWNER BIN"
+find . -name "*,v" ! -user bin -print -exec chown bin {} \;
+find . -name "*,v" ! -group bin -print -exec chgrp bin {} \;
+echo "FILES not 444"
+find . -name "*,v" -perm 0440 -exec chmod +r {} \; -print
+echo ""
+echo "FILES NOT GROUP BIN"
+echo ""
+echo ",RCS FILES"
+# eliminate , files
+find . -name ",*" -print -exec rm -f {} \;

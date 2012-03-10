@@ -1,0 +1,550 @@
+<!-- $XConsortium: ch08.sgm /main/10 1996/12/20 20:47:44 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.intac.div.1">
+<title id="sag.intac.mkr.1">Introduzione alle azioni e ai tipi di dati</title>
+<para>Le<emphasis><indexterm><primary>azioni</primary><secondary>introduzione</secondary></indexterm><indexterm><primary>tipi di dati</primary><secondary>introduzione</secondary></indexterm> azioni</emphasis> e i <emphasis>tipi di
+dati</emphasis> sono componenti importanti per l'integrazione delle applicazioni
+nel desktop. Essi permettono di creare un'interfaccia utente per l'avvio delle
+applicazioni e per la gestione dei file di dati.</para>
+<informaltable id="sag.intac.itbl.1" frame="all">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Introduzione
+alle azioni130'--><xref role="JumpText" linkend="sag.intac.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Introduzione
+ai tipi di dati137'--><xref role="JumpText" linkend="sag.intac.mkr.5"></para></entry>
+</row></tbody></tgroup></informaltable>
+<para>Questo capitolo contiene un'introduzione ai concetti di azione e di
+tipo di dati. In particolare, esso descrive:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Le ragioni per cui &egrave; utile creare azioni e tipi di
+dati per le applicazioni.</para>
+</listitem>
+<listitem><para>Le relazioni reciproche tra azioni e tipi di dati.</para>
+</listitem>
+<listitem><para>Le relazioni tra azioni e tipi di dati e le operazioni di
+stampa del desktop.</para>
+</listitem>
+</itemizedlist>
+<sect1 id="sag.intac.div.2">
+<title>Vedere anche</title>
+<para>Le procedure e le regole per la creazione delle azioni e dei tipi di
+dati sono trattate in tre capitoli di questo manuale.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il <!--Original XRef content:
+'Capitolo&numsp;9'--><xref role="ChapterNumber" linkend="sag.dtcra.mkr.1">
+spiega come creare azioni e tipi di dati usando l'applicazione del desktop
+Creare azione.</para>
+<para>Questa applicazione pu&ograve; essere usata per creare azioni e tipi
+di dati per la maggior parte delle applicazioni senza bisogno di conoscere
+la sintassi per la loro definizione.</para>
+</listitem>
+<listitem><para>Il <!--Original XRef content: 'Capitolo&numsp;10'--><xref
+role="ChapterNumber" linkend="sag.cract.mkr.1"> e il <!--Original XRef content:
+'Capitolo&numsp;11'--><xref role="ChapterNumber" linkend="sag.crdt.mkr.1">
+spiegano come creare azioni e tipi di dati manualmente creando ed editando
+i file di configurazione.</para>
+<para>La procedura di creazione deve essere eseguita manualmente quando si
+desidera usare le funzioni avanzate non supportate da Creare azione.</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="sag.intac.div.3">
+<title id="sag.intac.mkr.2">Introduzione alle azioni<indexterm><primary>azioni</primary><secondary>introduzione</secondary></indexterm></title>
+<para>Le azioni sono istruzioni scritte per automatizzare alcune operazioni
+del desktop, come l'avvio delle applicazioni e l'apertura dei file di dati.
+Il loro funzionamento &egrave; molto simile a quello delle macro o delle funzioni
+di programmazione. Ogni azione &egrave; associata a un nome che viene usato
+per eseguirla.</para>
+<para>In generale, si definisce un'azione per semplificare l'esecuzione di
+un'operazione dall'interfaccia utente del desktop. Il desktop permette di
+associare alle azioni vari componenti dell'interfaccia utente, come icone,
+controlli del Pannello principale e opzioni dei menu.</para>
+<figure>
+<title>Possibili usi delle azioni</title>
+<graphic id="sag.intac.grph.1" entityref="SAG.IntAc.fig.1"></graphic>
+</figure>
+<para>Ad esempio, il gruppo Strumenti_desktop della Gestione di applicazioni
+contiene varie icone per l'avvio di utility del desktop.</para>
+<figure>
+<title>Icone di azioni nel gruppo di applicazioni Strumenti_desktop</title>
+<graphic id="sag.intac.grph.2" entityref="SAG.IntAc.fig.2"></graphic>
+</figure>
+<para>Facendo doppio clic su una di queste icone viene eseguita l'azione
+corrispondente. L'esempio seguente riporta una parte della definizione dell'azione
+che viene eseguita facendo doppio clic sull'icona Xwd Display. Questa azione
+&egrave; definita nel file di configurazione <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/xclients.dt</filename>:
+</para>
+<programlisting>ACTION Xwud
+{
+  LABEL        Visualizzazione Xwd
+  TYPE         COMMAND
+  EXEC_STRING  /usr/bin/X11/xwud -noclick -in \
+               %(File)Arg_1&ldquo;File xwd da visualizzare:&ldquo;%
+  &hellip;
+}</programlisting>
+<para>Facendo doppio clic sull'icona verr&agrave; eseguito il comando specificato
+nella riga <filename>EXEC_STRING</filename>.</para>
+<para><indexterm><primary>azioni</primary><secondary>uso nel Pannello principale</secondary></indexterm><indexterm><primary>Pannello principale</primary>
+<secondary>uso delle azioni</secondary></indexterm>Anche il Pannello principale
+utilizza le azioni. L'esempio seguente riporta una parte della definizione
+del controllo Terminale del pannello secondario Applicazioni personali. Il
+controllo &egrave; definito nel file di configurazione <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp</filename>:
+</para>
+<programlisting>CONTROL Term
+{
+  ICON         Fpterm
+  LABEL        Terminale
+  PUSH_ACTION  Dtterm
+  &hellip;
+}</programlisting>
+<para>Facendo clic sul controllo Terminale verr&agrave; eseguita l'azione
+specificata nel campo <filename>PUSH_ACTION</filename> &mdash; in questo caso,
+l'azione di nome Dtterm.</para>
+<para><indexterm><primary>azioni</primary><secondary>uso nei menu</secondary>
+</indexterm><indexterm><primary>menu</primary><secondary>uso delle azioni</secondary></indexterm>In molti casi, le azioni vengono usate anche nei menu.
+I file di dati sono normalmente associati ad azioni che compaiono nel relativo
+menu Selezioni nella Gestione di file. Ad esempio, i file XWD (cio&egrave;
+i file che terminano con il suffisso <filename>.xwd</filename> o <filename>.wd</filename>) sono associati a un'azione Aprire che visualizza la loro
+immagine sullo schermo eseguendo l'azione Xwud.</para>
+<figure>
+<title>L'azione Aprire per il file di tipo XWD</title>
+<graphic id="sag.intac.grph.3" entityref="SAG.IntAc.fig.3"></graphic>
+</figure>
+<para>Le azioni che compaiono nel menu<indexterm><primary>Selezioni, menu</primary></indexterm> Selezioni sono specificate nella definizione del tipo
+di dati per i file XWD. Questa definizione si trova nel file di configurazione <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/xclients.dt.</filename></para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+  ACTIONS Open,Print
+  ICON    Dtxwd
+  &hellip;
+}</programlisting>
+<para>Il tipo di dati XWD, e le relative azioni Aprire e Stampare, sono descritti
+in <!--Original XRef content: '&ldquo;Come i tipi di dati collegano i file
+d--><!--i dati alle azioni&rdquo; a pagina&numsp;138'--><xref role="SecTitleAndPageNum"
+linkend="sag.intac.mkr.6">.</para>
+<sect2 id="sag.intac.div.4">
+<title><indexterm><primary>azioni</primary><secondary>creazione di icone per
+le applicazioni</secondary></indexterm><indexterm><primary>applicazioni</primary>
+<secondary>creazione di icone</secondary></indexterm><indexterm><primary>icone</primary><secondary>di applicazioni</secondary></indexterm>Come le azioni
+creano le icone per le applicazioni</title>
+<para>Si consideri l'icona &ldquo;Visualizzazione Xwd&rdquo; nel gruppo Strumenti_desktop
+della Gestione di applicazioni. Facendo doppio clic su questa icona viene
+eseguito il client X <command>xwud</command>. Tuttavia, questa icona non rappresenta
+direttamente l'eseguibile <filename>/usr/bin/X11/xwud</filename>.</para>
+<para>L'icona &ldquo;Visualizzazione Xwd&rdquo; compare nel gruppo di applicazioni
+perch&eacute; la directory contiene un file di nome <command>Xwud</command>
+(vedere la <!--Original XRef content: 'Figura&numsp;8&hyphen;4'--><xref role="CodeOrFigureOrTable"
+linkend="sag.intac.mkr.3">). Questo file rappresenta un'azione sottostante
+con lo stesso nome &mdash; Xwud. Nella definizione dell'azione, il nome dell'azione
+&egrave; quello che segue la parola chiave <command>ACTION</command>:</para>
+<programlisting>ACTION Xwud
+{
+  LABEL         Visualizzazione Xwd
+  TYPE          COMMAND
+  WINDOW_TYPE   NO_STDIO
+  EXEC_STRING   /usr/bin/X11/xwud -noclick -in \
+                %(File)Arg_1"File Xwd da visualizzare:"%
+  DESCRIPTION   L'azione Visualizzazione Xwd (Xwud) visualizza \
+                un file xwd creato con l'azione Catturare Xwd \
+                (Xwd). Utilizza il comando 'xwud'.
+}</programlisting>
+<para><indexterm><primary>file delle azioni</primary><secondary>definizione</secondary></indexterm><indexterm><primary>azioni</primary><secondary>file,
+Vedere file delle azioni&lt;</secondary></indexterm><indexterm><primary>$nopage></primary></indexterm>Il file viene detto <emphasis>file dell'azione</emphasis> perch&eacute;
+rappresenta l'azione. Si definiscono in questo modo i file eseguibili con
+lo stesso nome dell'azione che rappresentano. La sua icona nella Gestione
+di applicazioni (o nella Gestione di file) viene detta<indexterm><primary>icone</primary><secondary>di azioni</secondary></indexterm><indexterm><primary>azioni</primary><secondary>icone</secondary></indexterm> <emphasis>icona dell'azione</emphasis>, o<indexterm><primary>applicazioni</primary><secondary>icone,
+creazione</secondary></indexterm><indexterm><primary>icone</primary><secondary>creazione per le applicazioni</secondary></indexterm> <emphasis>icona dell'applicazione</emphasis>, perch&eacute; permette di avviare l'applicazione che rappresenta
+con un doppio clic.</para>
+<figure>
+<title id="sag.intac.mkr.3">Icona dell'applicazione (o dell'azione) che rappresenta
+il file dell'azione</title>
+<graphic id="sag.intac.grph.4" entityref="SAG.IntAc.fig.4"></graphic>
+</figure>
+<para>Quando la Gestione di applicazioni individua un file eseguibile, essa
+verifica se il database delle azioni contiene un'azione con un nome corrispondente.
+In caso affermativo, il file viene identificato come file dell'azione.</para>
+<para><indexterm><primary>file delle azioni</primary><secondary>contenuto</secondary></indexterm>Il contenuto del file dell'azione &egrave; irrilevante;
+in genere, i file delle azioni contengono un testo di commento che descrive
+la loro funzione nel desktop.</para>
+<note>
+<para>Il <emphasis>file dell'azione</emphasis> non deve essere confuso con
+il <emphasis>file di definizione dell'azione</emphasis>. Il primo &egrave;
+un file con lo stesso nome dell'azione, usato per creare l'<emphasis>icona
+dell'applicazione</emphasis> nella Gestione di file o nella Gestione di applicazioni.
+Il secondo &egrave; un file di nome <symbol role="Variable">nome</symbol><filename>.dt</filename> contenente la definizione dell'azione.</para>
+</note>
+<para>Quando il desktop identifica un file di un'azione, esso ne determina
+l'aspetto e il comportamento utilizzando la definizione di quell'azione.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il campo <filename>EXEC_STRING</filename> specifica il comportamento
+dell'icona dell'applicazione. Nel caso dell'icona &ldquo;Visualizzazione Xwd&rdquo;,
+il campo <filename>EXEC_STRING</filename> specifica l'esecuzione del client
+X <command>xwud</command> con determinati argomenti.</para>
+</listitem>
+<listitem><para>Il campo <command>LABEL</command> specifica l'etichetta usata
+per l'icona dell'applicazione.</para>
+</listitem>
+<listitem><para>Il campo <command>DESCRIPTION</command> contiene il testo
+che verr&agrave; visualizzato richiedendo l'aiuto sull'elemento.</para>
+</listitem>
+<listitem><para>L'icona dell'applicazione Xwud utilizza l'immagine predefinita
+per le azioni perch&eacute; la sua definizione non contiene un campo <command>ICON</command> che specifichi un'immagine diversa.</para>
+<para>Al contrario, l'icona &ldquo;Comprimere File&rdquo; utilizza un'immagine
+diversa perch&eacute; la definizione dell'azione sottostante contiene un campo <command>ICON</command>:</para>
+<para>Ad esempio:</para>
+<programlisting>ACTION Compress
+{
+   LABEL Comprimere File
+   ICON  Dtcmprs
+   &hellip;
+}</programlisting>
+</listitem>
+</itemizedlist>
+<figure>
+<title>Icona specificata dal campo ICON nella definizione dell'azione</title>
+<graphic id="sag.intac.grph.5" entityref="SAG.IntAc.fig.5"></graphic>
+</figure>
+<para>L'azione Xwud viene detta un'azione di <emphasis>comando</emphasis>,
+perch&eacute; la sua definizione contiene il comando da eseguire ( <filename>EXEC_STRING</filename>). Il campo <command>TYPE</command> nella definizione
+dell'azione specifica a quale tipo appartiene l'azione.</para>
+<para>Inizialmente, l'icona &ldquo;Visualizzazione Xwd&rdquo; appare solo
+nel gruppo di applicazioni Strumenti_desktop. Tuttavia, &egrave; possibile
+creare altre copie dell'icona ed inserirle in qualsiasi directory alla quale
+si abbia accesso in scrittura. Finch&eacute; la definizione dell'azione Xwud
+far&agrave; parte del database, qualsiasi file eseguibile creato con il nome <command>Xwud</command> rappresenter&agrave; quell'azione, e la sua icona nella Gestione
+di file o nella Gestione di applicazioni potr&agrave; essere usata per eseguirla.
+</para>
+</sect2>
+<sect2 id="sag.intac.div.5">
+<title id="sag.intac.mkr.4">Come le azioni utilizzano i file di dati come<indexterm>
+<primary>azioni</primary><secondary>uso dei file come argomenti</secondary>
+</indexterm><indexterm><primary>argomenti</primary><secondary>delle azioni</secondary></indexterm> argomenti</title>
+<para>Un <emphasis>argomento</emphasis> di un comando &egrave; un oggetto,
+solitamente un<indexterm><primary>argomenti</primary><secondary>per l'</secondary>
+</indexterm><indexterm><primary>indicazione di file nelle azioni</primary>
+</indexterm> file, su cui il comando viene eseguito. Un'azione pu&ograve; essere
+scritta in modo da accettare un file come argomento.</para>
+<para>Ad esempio, il campo <filename>EXEC_STRING</filename> dell'azione Xwud
+specifica che &egrave; richiesto un file come argomento:</para>
+<programlisting>EXEC_STRING   /usr/bin/X11/xwud -noclick -in \
+              %(File)Arg_1"File Xwd da visualizzare:"%</programlisting>
+<para>Il termine <command>Arg</command> indica l' <symbol role="Variable">argomento.</symbol> La sintassi<indexterm><primary>Arg_1, sintassi</primary>
+</indexterm> <filename>Arg_1</filename> significa che si tratta del primo argomento,
+mentre <filename>(File)</filename> indica che l'azione tratter&agrave; quell'argomento
+come un file.</para>
+<para><indexterm><primary>icone</primary><secondary>rilascio dei file</secondary>
+</indexterm><indexterm><primary>azioni</primary><secondary>accettazione del
+rilascio di un file</secondary></indexterm><indexterm><primary>icone</primary>
+<secondary>doppio clic</secondary></indexterm>Il modo pi&ugrave; semplice
+per specificare un file come argomento consiste nel rilasciare un file di
+dati sull'icona dell'applicazione. Il desktop determina il percorso del file
+rilasciato e lo inserisce nella riga di comando al posto del testo tra i due
+simboli <filename>%</filename> (<computeroutput>%(File)Arg_1&ldquo;File Xwd
+da visualizzare:"%</computeroutput>). In questo modo, il comando che viene
+eseguito &egrave;:</para>
+<programlisting>/usr/bin/X11/xwud -noclick -in <symbol role="Variable">percorso_file</symbol></programlisting>
+<para>Facendo doppio clic sull'icona dell'applicazione, il desktop determina
+dal campo <filename>EXEC_STRING</filename> che &egrave; richiesto un file
+come argomento, e visualizza un riquadro di dialogo che chiede all'utente
+di inserire un percorso o un nome per il file. Nel caso dell'azione Xwud,
+la richiesta sar&agrave;:</para>
+<programlisting>File Xwd da visualizzare:</programlisting>
+<para>Il percorso o il nome del file inserito dall'utente verr&agrave; usato
+come argomento del comando.</para>
+</sect2>
+<sect2 id="sag.intac.div.6">
+<title>Altri impieghi delle azioni<indexterm><primary>azioni</primary><secondary>usi</secondary></indexterm></title>
+<para>Oltre all'impiego descritto per l'avvio delle applicazioni, le azioni
+vengono utilizzate per creare funzionalit&agrave; per altre aree del desktop:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pannello principale.</para>
+<para>La definizione di un controllo del Pannello principale comprende campi
+che specificano le azioni da eseguire quando l'utente fa clic sul controllo
+o vi rilascia un file. Per maggiori informazioni, vedere <!--Original XRef
+content: '&ldquo;Definizione dei controlli
+del Pannell--><!--o principale&rdquo; a pagina&numsp;231'--><xref role="SecTitleAndPageNum"
+linkend="sag.frpc.mkr.15">.</para>
+</listitem>
+<listitem><para>Menu.</para>
+<para>La sintassi per la definizione dei menu di controllo delle finestre
+o degli spazi di lavoro permette di specificare l'azione da eseguire quando
+l'utente seleziona un'opzione. Per maggiori informazioni, vedere <!--Original
+XRef content: '&ldquo;Menu della
+Gestione dello spazio di l--><!--avoro&rdquo; a pagina&numsp;251'--><xref
+role="SecTitleAndPageNum" linkend="sag.wmcnf.mkr.8"> e la pagina di spiegazioni
+<filename moreinfo="refentry">dtwmrc(4)</filename>.</para>
+</listitem>
+<listitem><para>Comunicazioni tra le applicazioni.</para>
+<para>Un'applicazione pu&ograve; essere realizzata in modo da inviare e ricevere
+informazioni usando un tipo speciale di azione, detta messaggio di ToolTalk
+(<filename>TT_MSG</filename>). Le azioni <filename>TT_MSG</filename> sono
+descritte nella documentazione dell'ambiente di sviluppo per il desktop.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="sag.intac.div.7">
+<title id="sag.intac.mkr.5">Introduzione ai tipi di dati<indexterm><primary>tipi di dati</primary><secondary>introduzione</secondary></indexterm></title>
+<para>Quando si crea un nuovo file di dati, l'aspetto e il comportamento della
+sua icona nella Gestione di file varia a seconda del tipo di dati associati
+a quel file. Il desktop comprende un meccanismo di gestione dei tipi di dati
+che offre la possibilit&agrave; di personalizzare l'aspetto e il comportamento
+di file e directory.</para>
+<sect2 id="sag.intac.div.8">
+<title><indexterm><primary>Creare azione</primary><secondary>creazione dei
+tipi di dati</secondary></indexterm><indexterm><primary>tipi di dati</primary>
+<secondary>creazione con Creare azione</secondary></indexterm>Cos'&egrave;
+un tipo di dati?</title>
+<para>Un tipo di dati &egrave; un costrutto definito all'interno del database
+del desktop. L'esempio seguente riporta la definizione del tipo di dati XWD.
+La definizione &egrave; contenuta nel file di configurazione <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/xclients.dt</filename>:
+</para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+   ACTIONS         Open,Print
+   ICON            Dtxwd
+   NAME_TEMPLATE   %s.xwd
+   MIME_TYPE       application/octet-stream
+   SUNV3_TYPE      xwd-file
+   DESCRIPTION     Questo file contiene un'immagine grafica in \
+                   formato XWD. In genere questi file vengono \
+                   creati catturando un'immagine dallo schermo \
+                   con l'azione Catturare Xwd. Il suo tipo di dati \
+                   &egrave; denominato XWD. I file XWD terminano con \
+                   l'estensione '.xwd' o '.wd'.
+}
+
+DATA_CRITERIA XWD1
+{
+   DATA_ATTRIBUTES_NAME  XWD
+   MODE                  f
+   NAME_PATTERN          *.xwd
+}
+
+DATA_CRITERIA XWD2
+{
+   DATA_ATTRIBUTES_NAME  XWD
+   MODE                  f
+   NAME_PATTERN          *.wd
+}</programlisting>
+<para>Ogni definizione di un tipo di dati comprende due parti:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="228*">
+<colspec colwidth="228*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>DATA_ATTRIBUTES</filename></para></entry>
+<entry align="left" valign="top"><para>Gli attributi dei dati descrivono l'aspetto
+e il comportamento del tipo di dati.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>DATA_CRITERIA</filename>
+</para></entry>
+<entry align="left" valign="top"><para>I criteri specificano le regole (basate
+sul nome o sul contenuto) per l'assegnazione del file a un determinato tipo
+di dati.</para></entry></row></tbody></tgroup></informaltable>
+<para>Il campo <filename>DATA_ATTRIBUTES_NAME</filename> collega i criteri
+agli attributi.</para>
+<para>Per ogni attributo (<filename>DATA_ATTRIBUTE</filename>) possono essere
+definiti pi&ugrave; criteri (<filename>DATA_CRITERIA</filename>). Ad esempio,
+il tipo di dati XWD possiede due criteri diversi per i nomi dei file ( <filename>NAME_PATTERN</filename>) che specificano la possibilit&agrave; di
+usare i suffissi <filename>.xwd</filename> o <filename>.wd</filename>.</para>
+</sect2>
+<sect2 id="sag.intac.div.9">
+<title id="sag.intac.mkr.6"><indexterm><primary>tipi di dati</primary><secondary>relazioni con le azioni</secondary></indexterm><indexterm><primary>azioni</primary><secondary>relazioni con i tipi di dati</secondary></indexterm>Come
+i tipi di dati collegano i file di dati alle azioni</title>
+<para>Si consideri il tipo di dati XWD. Per creare un file di tipo XWD, l'utente
+assegna al file un nome che termini con uno dei due suffissi (o estensioni)
+accettati: <filename>.xwd</filename> o<filename>.wd</filename>. Il desktop
+utilizza questo nome come <emphasis>criterio</emphasis> per designare il tipo
+di file.</para>
+<para>Il tipo di dati XWD assegna ad ogni file le seguenti caratteristiche:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Un'icona caratteristica che permette di riconoscere facilmente
+il tipo di file.</para>
+</listitem>
+<listitem><para>Un testo di aiuto che fornisce informazioni sul tipo di dati.
+</para>
+</listitem>
+<listitem><para>Un menu Selezioni personalizzato nella Gestione di file contenente
+le azioni Aprire e Stampare. L'azione Aprire associata ai file XWD esegue
+l'azione Xwud.</para>
+</listitem>
+</itemizedlist>
+<sect3 id="sag.intac.div.10">
+<title>Esecuzione delle azioni dal menu Selezioni<indexterm><primary>Selezioni,
+menu</primary></indexterm></title>
+<para>Il menu Selezioni della Gestione di file &egrave; attivo solo quando
+&egrave; stato selezionato un file o una directory. I comandi che compaiono
+nella parte inferiore del menu variano a seconda del tipo di dati. Nel caso
+dei file XWD, il menu Selezioni presenter&agrave; le opzioni Aprire e Stampare.
+</para>
+<para>Il campo <command>ACTIONS</command> nella definizione del tipo di dati
+specifica i comandi che verranno aggiunti al menu Selezioni per quel tipo
+di dati.</para>
+<programlisting>DATA_ATTRIBUTES XWD
+{  
+      ACTIONS   Open,Print  
+      &hellip;
+}</programlisting>
+<para><indexterm><primary>Selezioni, menu</primary></indexterm>Il contenuto
+del menu Selezioni della Gestione di file dipende dal tipo di dati dell'oggetto
+selezionato. Tuttavia, l'azione Aprire &egrave; comune a molti tipi di dati
+diversi.</para>
+<figure>
+<title>Il menu Selezioni associato a un file XWD</title>
+<graphic id="sag.intac.grph.6" entityref="SAG.IntAc.fig.6"></graphic>
+</figure>
+<para>In genere, l'azione Aprire<indexterm><primary>Aprire, azione</primary>
+</indexterm> avvia l'applicazione a cui &egrave; associato il file di dati.
+Ad esempio, aprendo un file XWD si esegue l'azione Xwud, che a sua volta
+eseguir&agrave; il client X xwud per visualizzare l'immagine del file sullo
+schermo. In altre parole, per il tipo di dati XWD l'azione Aprire coincide
+con l'azione Xwud. Allo stesso modo, aprendo un file di dati di tipo TEXTFILE
+verr&agrave; avviato l'Editor di testo, mentre aprendo un file BM (a mappa
+di bit) o PM (a mappa di pixel) verr&agrave; avviato l'Editor delle icone.
+</para>
+<para>La possibilit&agrave; di creare una serie di azioni Aprire che eseguono
+operazioni diverse si basa su due caratteristiche delle definizioni delle
+azioni:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>azioni</primary><secondary>mappatura</secondary>
+</indexterm><indexterm><primary>mappatura delle azioni</primary></indexterm>La
+mappatura delle azioni.</para>
+<para>La mappatura delle azioni permette di creare un'azione che esegua un'altra
+azione anzich&eacute; eseguire direttamente un comando. Ad esempio, &egrave;
+possibile creare un'azione Aprire che sia mappata per (cio&egrave; che esegua)
+l'azione Xwud.</para>
+</listitem>
+<listitem><para><indexterm><primary>azioni</primary><secondary>restrizione
+dei tipi di dati</secondary></indexterm>La restrizione dei tipi di dati associati
+alle azioni.</para>
+<para>Le definizioni delle azioni possono includere un campo <filename>ARG_TYPE</filename> che limiti l'esecuzione dell'azione a certi tipi di dati. Ad esempio,
+si pu&ograve; specificare che l'azione Aprire mappata per l'azione Xwud venga
+applicata solo ai file di dati di tipo XWD.</para>
+</listitem>
+</itemizedlist>
+<para>Qui di seguito &egrave; riportata la definizione che mappa l'azione
+Aprire dell'azione Xwud per il tipo di dati XWD. La definizione si trova nel
+file di configurazione <filename>/usr/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/xclients.dt</filename>
+del database:</para>
+<programlisting>ACTION Open
+{
+   LABEL       Aprire
+   ARG_TYPE    XWD
+   TYPE        MAP
+   MAP_ACTION  Xwud
+}</programlisting>
+<para>Il campo <command>TYPE</command> specifica che si tratta di un'azione
+di mappatura; il campo <filename>MAP_ACTION</filename> specifica che questa
+azione dovr&agrave; eseguire l'azione Xwud. Il campo <filename>ARG_TYPE</filename>
+specifica che questa azione verr&agrave; applicata solo ai file associati
+al tipo di dati XWD.</para>
+<para>Si confronti ora la definizione precedente dell'azione Aprire con la
+definizione riportata qui di seguito, contenuta nel file del database <filename>/usr/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/dt.dt</filename>:</para>
+<programlisting>ACTION Open
+{
+   LABEL       Aprire
+   ARG_TYPE    BM
+   TYPE        MAP
+   MAP_ACTION  Dticon
+}</programlisting>
+<para>Questa definizione si applica ai file associati al tipo di dati ( <filename>ARG_TYPE</filename>) BM (file a mappa di bit). La definizione mappa l'azione
+Aprire sull'azione Dticon, cio&egrave; sull'azione che avvia l'Editor delle
+icone.</para>
+</sect3>
+<sect3 id="sag.intac.div.11">
+<title><indexterm><primary>tipi di dati</primary><secondary>risposta al doppio
+clic</secondary></indexterm>Definizione dell'effetto del doppio clic in base
+al tipo di dati</title>
+<para>L'effetto del doppio clic associato al tipo di dati &egrave; definito
+dalla prima voce del campo <command>ACTIONS</command>. Nel caso del tipo di
+dati XWD, il doppio clic esegue l'azione Aprire, che a sua volta eseguir&agrave;
+l'azione Xwud.</para>
+</sect3>
+<sect3 id="sag.intac.div.12">
+<title><indexterm><primary>tipi di dati</primary><secondary>risposta al rilascio
+su un'</secondary></indexterm><indexterm><primary>icona</primary></indexterm>Rilascio
+di un file di dati sull'icona di un'azione</title>
+<para>Quando si rilascia un file di dati sull'icona di un'azione, il sistema
+esegue quell'azione usando il file di dati come argomento (vedere <!--Original
+XRef content: '&ldquo;Come le azioni
+utilizzano i file di d--><!--ati come argomenti&rdquo; a pagina&numsp;135'--><xref
+role="SecTitleAndPageNum" linkend="sag.intac.mkr.4">).</para>
+<para>Ad esempio, rilasciando un file di dati XWD sull'icona &ldquo;Visualizzazione
+Xwd&rdquo; verr&agrave; eseguita l'azione Xwud utilizzando come argomento
+il file rilasciato. Il client X <command>xwud</command> verr&agrave; quindi
+eseguito con quel file di dati.</para>
+</sect3>
+</sect2>
+<sect2 id="sag.intac.div.13">
+<title><indexterm><primary>tipi di dati</primary><secondary>stampa</secondary>
+</indexterm><indexterm><primary>stampa</primary><secondary>configurazione
+per un tipo di dati</secondary></indexterm>Creazione di azioni di stampa associate
+ai tipi di dati</title>
+<para>Per stampare un file di dati dal desktop si possono usare i seguenti
+metodi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Usare il comando Stampare del menu Selezioni della Gestione
+di file.</para>
+</listitem>
+<listitem><para>Rilasciare un file di dati su un'area appropriata del desktop
+(il controllo della stampante del Pannello principale o l'icona di una stampante
+nella Gestione della stampa).</para>
+</listitem>
+</itemizedlist>
+<para>Oltre a questi metodi generali, in molti casi &egrave; possibile stampare
+i file dall'interno delle applicazioni.</para>
+<para>I metodi di stampa del desktop utilizzano azioni di nome Stampare. Come
+nel caso di Aprire, il nome Stampare viene usato per molti tipi di dati diversi.
+Ci&ograve; significa che anche le azioni Stampare utilizzano la mappatura
+delle azioni e il campo <filename>ARG_TYPE</filename> per personalizzare la
+stampa per ogni tipo di dati.</para>
+<para>L'esempio seguente riporta l'azione Stampare associata al tipo di dati
+XWD. La definizione si trova in <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/xclients.dt</filename>:</para>
+<programlisting>ACTION Print
+{
+   LABEL       Stampare
+   ARG_TYPE    XWD
+   TYPE        MAP
+   MAP_ACTION  NoPrint
+}</programlisting>
+<para>Questa azione Stampare, specifica per i file XWD, &egrave; mappata su
+un'azione NoPrint. NoPrint &egrave; un'azione speciale definita in <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dt.dt</filename>, che<indexterm><primary>NoPrint, azione</primary></indexterm> visualizza
+un messaggio di avvertimento indicante che il tipo di dati dell'oggetto non
+pu&ograve; essere stampato.</para>
+<para>Si confronti ora l'azione Stampare associata ai file XWD con la seguente
+azione Stampare per i file PCL:</para>
+<programlisting>ACTION Print
+{
+   LABEL       Stampare
+   ARG_TYPE    PCL
+   TYPE        MAP
+   MAP_ACTION  PrintRaw
+}</programlisting>
+<para>L'azione PrintRaw, definita nel file di configurazione <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/print.dt</filename>,
+contiene la riga comandi per la stampa dei file PCL.</para>
+<programlisting>ACTION PrintRaw
+{
+   TYPE          <?Pub Caret>COMMAND
+   WINDOW_TYPE   NO_STDIO
+   EXEC_STRING   /usr/dt/bin/dtlp -w %(File)Arg_1%
+}</programlisting>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:05:15-->
+<?Pub *0000034625>

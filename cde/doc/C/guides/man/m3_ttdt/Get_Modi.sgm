@@ -1,0 +1,97 @@
+<!-- $XConsortium: Get_Modi.sgm /main/5 1996/08/30 14:24:53 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN254.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN254.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttdt_Get_Modified</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttdt_Get_Modified</Function></RefName>
+<RefPurpose>ask if any ToolTalk client has changes pending on a file
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Get_Modi.sgm /main/5 1996/08/30 14:24:53 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>int <Function>ttdt_Get_Modified</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>context</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>pathname</Parameter></ParamDef>
+<ParamDef>Tt_scope <Parameter>the_scope</Parameter></ParamDef>
+<ParamDef>XtAppContext <Parameter>app2run</Parameter></ParamDef>
+<ParamDef>int <Parameter>ms_timeout</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttdt_Get_Modified</Function> function
+sends a
+<Symbol Role="Message">Get_Modified</Symbol> request in the scope
+<Emphasis>the_scope</Emphasis> and waits for the reply.
+A
+<Symbol Role="Message">Get_Modified</Symbol> request asks if any ToolTalk client has
+changes pending on
+<Symbol Role="Variable">pathname</Symbol> that it intends to make persistent.
+</Para>
+<Para>The
+<Symbol Role="Variable">context</Symbol> argument describes the environment to use.
+If
+<Symbol Role="Variable">context</Symbol> is not zero, messages created by
+<Function>ttdt_Get_Modified</Function> inherit from
+<Symbol Role="Variable">context</Symbol> all contexts whose slotname begins with the characters
+<SystemItem Class="Constant">ENV_</SystemItem>. That is, the environment described in
+<Symbol Role="Variable">context</Symbol> is propagated to messages created by
+<Function>ttdt_Get_Modified</Function>.</Para>
+<Para>The
+<Symbol Role="Variable">pathname</Symbol> argument is a pointer to a pathname
+on which the client is operating.
+</Para>
+<Para>The
+<Emphasis>the_scope</Emphasis> argument identifies the scope of the request.
+If
+<Emphasis>the_scope</Emphasis> is
+<SystemItem Class="Constant">TT_SCOPE_NONE</SystemItem>, <Function>ttdt_Get_Modified</Function> tries
+<SystemItem Class="Constant">TT_BOTH</SystemItem>, and falls back to
+<SystemItem Class="Constant">TT_FILE_IN_SESSION</SystemItem> if, for example,
+the ToolTalk database server
+is not installed on the file server that owns
+<Symbol Role="Variable">pathname</Symbol>.</Para>
+<Para>The
+<Function>ttdt_Get_Modified</Function> function
+passes
+<Emphasis>app2run</Emphasis> and
+<Emphasis>ms_timeout</Emphasis> to
+&cdeman.tttk.block.while;, blocking on the reply to the
+<Symbol Role="Message">Get_Modified</Symbol> request it sends.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttdt_Get_Modified</Function> function returns non-zero if the
+<Symbol Role="Message">Get_Modified</Symbol> request receives an affirmative reply within
+<Emphasis>ms_timeout</Emphasis> milliseconds;
+otherwise, it returns zero.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttdt.file.join;, &cdeman.ttdt.file.event;, &cdeman.tttk.block.while;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

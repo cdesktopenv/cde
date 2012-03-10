@@ -1,0 +1,289 @@
+<!-- $XConsortium: ch03.sgm /main/9 1996/09/08 19:46:41 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="RDMAP.devap.div.1">
+<title id="RDMAP.devap.mkr.1">Developing an Application</title>
+<para>This chapter presents information specific to developing a Common Desktop
+Environment application, such as naming conventions and other guidelines.
+It introduces levels of integration, which are the guidelines for determining
+the desktop functionality to incorporate into your application to make it
+increasingly integrated with the desktop. It also provides an overview of
+the Application Builder, a tool to simplify Common Desktop Environment application
+development.</para>
+<informaltable id="RDMAP.devap.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Levels of Desktop Integration32'--><xref
+role="JumpText" linkend="RDMAP.devap.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Desktop Naming Conventions32'--><xref
+role="JumpText" linkend="RDMAP.devap.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Public and Private Interfaces33'--><xref
+role="JumpText" linkend="RDMAP.devap.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Guidelines for Common Desktop Environment
+Databases34'--><xref role="JumpText" linkend="RDMAP.devap.mkr.7"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Application Initialization and libDtSvc34'--><xref
+role="JumpText" linkend="RDMAP.devap.mkr.8"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Application Builder34'--><xref role="JumpText"
+linkend="RDMAP.devap.mkr.9"></para></entry></row></tbody></tgroup></informaltable>
+<sect1 id="RDMAP.devap.div.2">
+<title id="RDMAP.devap.mkr.2">Levels of Desktop Integration<indexterm><primary>desktop</primary><secondary>integration, levels of</secondary></indexterm><indexterm>
+<primary>integration</primary><secondary>levels of</secondary></indexterm><indexterm>
+<primary>application development</primary><secondary>levels of integration</secondary></indexterm></title>
+<para>Users can run any<indexterm><primary>X-based applications</primary>
+</indexterm> X11-based application from a shell command line in the Common
+Desktop Environment. If you want to integrate your application into the desktop,
+however, there are guidelines for you to follow. The Common Desktop Environment
+defines three levels of integration to give you maximum flexibility in designing
+your application or porting an existing application:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>Basic Integration</emphasis> &mdash;Enables your application to be launched from the desktop.
+You do <emphasis>not</emphasis> need to change your application code to perform
+basic integration. See <!--Original XRef content: 'Chapter&numsp;5, &xd2;Basic
+Application Integration'--><xref role="ChapNumAndTitle" linkend="RDMAP.BIntg.mkr.1">,
+for more information.<indexterm><primary>basic integration</primary></indexterm><indexterm>
+<primary>levels of integration</primary><secondary>basic</secondary></indexterm></para>
+</listitem><listitem><para><emphasis>Recommended Integration</emphasis>&mdash;Enables
+your application to enhance its level of consistency with the desktop. See
+<!--Original XRef content: 'Chapter&numsp;6, &xd2;Recommended Integration'--><xref
+role="ChapNumAndTitle" linkend="RDMAP.recin.mkr.1">, for more information.<indexterm>
+<primary>recommended integration</primary></indexterm><indexterm><primary>levels of integration</primary><secondary>recommended</secondary></indexterm></para>
+</listitem><listitem><para><emphasis>Optional Integration</emphasis>&mdash;Enables
+you to leverage services provided by the desktop for achieving specialized
+tasks. See <!--Original XRef content: 'Chapter&numsp;7, &xd2;Optional
+Integration'--><xref role="ChapNumAndTitle" linkend="RDMAP.optin.mkr.1">,
+for more information.<indexterm><primary>optional integration</primary></indexterm><indexterm>
+<primary>levels of integration</primary><secondary>optional</secondary>
+</indexterm></para>
+</listitem></itemizedlist>
+<para>For more information on all three levels of integration, see the <emphasis>Programmer's Guide.</emphasis> Basic Integration is also discussed in the <emphasis>Advanced User's and System Administrator's Guide</emphasis>.</para>
+</sect1>
+<sect1 id="RDMAP.devap.div.3">
+<title id="RDMAP.devap.mkr.3">Desktop Naming Conventions<indexterm><primary>desktop</primary><secondary>naming conventions</secondary></indexterm><indexterm>
+<primary>naming conventions</primary><secondary>desktop</secondary></indexterm><indexterm>
+<primary>conventions, desktop naming</primary></indexterm><indexterm><primary>application development</primary><secondary>desktop naming conventions &lt;$startrange></secondary></indexterm></title>
+<para>The Common Desktop Environment uses naming conventions similar to those
+used by X and Motif. Desktop clients, desktop libraries, and other desktop
+components share a common prefix for externally visible names: <command>dt</command>, <command>Dt</command>, or <command>DT</command>. Private desktop
+structures, functions, and defines (found in the Common Desktop Environment
+code; not for developer use) have an <filename>_dt</filename>, <filename>_Dt</filename>, or <filename>_DT</filename> prefix. <!--Original XRef content:
+'Table&numsp;3&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="RDMAP.devap.mkr.4">
+lists the desktop naming conventions.</para>
+<table id="RDMAP.devap.tbl.1" frame="Topbot">
+<title id="RDMAP.devap.mkr.4">Desktop Naming Conventions</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.69in">
+<colspec colwidth="207*">
+<colspec colwidth="83*">
+<colspec colwidth="262*">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Name</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Prefix</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Example</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Desktop clients and utilities</para></entry>
+<entry align="left" valign="top"><para><command>dt</command></para></entry>
+<entry align="left" valign="top"><para><command>dthelpview</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Resource names and classes</para></entry>
+<entry align="left" valign="top"><para><command>Dt</command></para></entry>
+<entry align="left" valign="top"><para><command>DtNhelpType, DtCHelpType</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Library names</para></entry>
+<entry align="left" valign="top"><para><command>Dt</command></para></entry>
+<entry align="left" valign="top"><para><command>libDtHelp</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Include references</para></entry>
+<entry align="left" valign="top"><para><command>Dt</command></para></entry>
+<entry align="left" valign="top"><para><command>#include &lt;Dt/Help.h></command>
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Public function names</para></entry>
+<entry align="left" valign="top"><para><command>Dt</command></para></entry>
+<entry align="left" valign="top"><para><command>DtCreateHelpDialog</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Public data structure names</para></entry>
+<entry align="left" valign="top"><para><command>Dt</command></para></entry>
+<entry align="left" valign="top"><para><command>DtHelpDialogCallbackStruct</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Constant names</para></entry>
+<entry align="left" valign="top"><para><command>Dt</command></para></entry>
+<entry align="left" valign="top"><para><filename>DtHELP_NEW_WINDOW</filename></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Environment variables</para></entry>
+<entry align="left" valign="top"><para><command>DT</command></para></entry>
+<entry align="left" valign="top"><para><command>DTHELPSEARCHPATH</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Private desktop symbols (structures,
+functions, defines)</para></entry>
+<entry align="left" valign="top"><para><filename>_dt</filename>, <filename>_Dt</filename>, <filename>_DT</filename></para></entry>
+<entry align="left" valign="top"><para><command>_DtHelpFunction, _DtHELP_DEFINE</command></para></entry></row></tbody></tgroup></table>
+<para><!--Original XRef content: 'Table&numsp;3&hyphen;2'--><xref role="CodeOrFigureOrTable"
+linkend="RDMAP.devap.mkr.5"> lists the exceptions to the preceding naming
+conventions.</para>
+<table id="rdmap.devap.tbl.2" frame="topbot">
+<title id="rdmap.devap.mkr.5">Exceptions to Desktop Naming Conventions</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.74in">
+<colspec colwidth="207*">
+<colspec colwidth="189*">
+<colspec colwidth="160*">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Name</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Prefix</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Example</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Common Desktop Environment Motif<indexterm>
+<primary>Motif</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para><command>Xm</command></para></entry>
+<entry align="left" valign="top"><para><command>XmCreateLabel</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>dtksh</command> Convenience
+Functions</para></entry>
+<entry align="left" valign="top"><para><command>Dtksh</command></para></entry>
+<entry align="left" valign="top"><para><command>DtkshAddButtons</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>ToolTalk Messaging Service<indexterm>
+<primary>ToolTalk Messaging Service</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>tt (for functions), Tt (for typedefs),
+TT (for constants)</para></entry>
+<entry align="left" valign="top"><para><filename>tt_open</filename>, Tt_message,
+TT_NOTICE</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>X11R6.2</primary>
+</indexterm>X11R6.2</para></entry>
+<entry align="left" valign="top"><para><command>X</command>, <command>Xt</command></para></entry>
+<entry align="left" valign="top"><para><command>XOpenDisplay, XtCreateWidget</command></para></entry></row></tbody></tgroup></table>
+<caution>
+<para>Do <emphasis>not</emphasis> use the prefixes <command>dt</command>, <command>Dt</command>, <command>DT</command>, <filename>_dt</filename>, <filename>_Dt</filename>, <filename>_DT</filename>, <command>Xm</command>, <command>tt</command>, <command>Tt</command>, <command>TT</command>, <command>X</command>,
+or <command>Xt</command> to define new symbols in your application code.
+If you do, you might define one that has already been defined&mdash;or might
+be defined in the future&mdash;in the Common Desktop Environment, ToolTalk,
+X11, or Motif code.<indexterm><primary>naming conventions</primary><secondary>caution notice</secondary></indexterm><indexterm><primary>desktop</primary>
+<secondary>naming conventions</secondary></indexterm><indexterm><primary>naming conventions</primary><secondary>desktop</secondary></indexterm><indexterm>
+<primary>conventions, desktop naming</primary></indexterm><indexterm><primary>application development</primary><secondary>desktop naming conventions &lt;$endrange></secondary></indexterm></para>
+</caution>
+</sect1>
+<sect1 id="RDMAP.devap.div.4">
+<title id="RDMAP.devap.mkr.6">Public and Private Interfaces<indexterm><primary>public interfaces</primary></indexterm><indexterm><primary>private interfaces</primary></indexterm><indexterm><primary>interfaces</primary><secondary>private</secondary></indexterm><indexterm><primary>interfaces</primary><secondary>public</secondary></indexterm><indexterm><primary>application development</primary><secondary>public and private interfaces</secondary></indexterm></title>
+<para>If a Common Desktop Environment interface is documented in the man pages
+or the Common Desktop Environment documentation set, you can assume that
+the interface is public unless otherwise stated. An interface is not necessarily
+public just because it has a header file associated with it. Interfaces that
+are not documented are private to the Common Desktop Environment and are
+subject to change without notice.</para>
+</sect1>
+<sect1 id="RDMAP.devap.div.5">
+<title id="RDMAP.devap.mkr.7">Guidelines for Common Desktop Environment Databases<indexterm>
+<primary>guidelines</primary><secondary>database syntax</secondary></indexterm><indexterm>
+<primary>database</primary><secondary>syntax</secondary></indexterm><indexterm>
+<primary>syntax, for databases</primary></indexterm><indexterm><primary>application development</primary><secondary>databases, guidelines for</secondary>
+</indexterm></title>
+<para>You can find the syntax for the desktop databases, such as those used
+for actions and data types, in man pages located in the <filename>/usr/dt/man/man4</filename> directory.</para>
+<para>For more information on databases, see the <emphasis>Programmer's Guide</emphasis>.</para>
+</sect1>
+<sect1 id="RDMAP.devap.div.6">
+<title id="RDMAP.devap.mkr.8">Application Initialization and libDtSvc<indexterm>
+<primary>application development</primary><secondary>initialization and libDtSvc</secondary></indexterm><indexterm><primary>desktop</primary><secondary>libDtSvc and application initialization</secondary></indexterm></title>
+<para>If your application uses any of the <command>libDtSvc</command> APIs
+(for actions, data typing, drag and drop, Session Manager, or Workspace Manager),
+it must first initialize the <command>libDtSvc</command> library by calling
+either <filename>DtInitialize()</filename><indexterm><primary>DtInitialize()</primary></indexterm> or <filename>DtAppInitialize()</filename><indexterm>
+<primary>DtAppInitialize()</primary></indexterm>. Refer to the <filename>DtInitialize</filename>(3) or <filename>DtAppInitialize</filename>(3) man
+page for more information.</para>
+</sect1>
+<sect1 id="RDMAP.devap.div.7">
+<title id="RDMAP.devap.mkr.9">Application Builder<indexterm><primary>application
+development</primary><secondary>Application Builder &lt;$startrange></secondary></indexterm></title>
+<para>Application Builder (App Builder) is a tool that enables you to easily
+create the graphical user interface (GUI) for Common Desktop Environment
+applications, without having to write code to call the desktop application
+program interfaces (APIs). It abstracts the Motif toolkit into simple object
+palettes and object property sheets. You can use App Builder to construct
+a wide range of applications, from simple GUI-based programs to complex,
+integrated systems. It supports User Interface Language (UIL) file import
+and export to enable you to migrate your application among other Motif-based
+tools and products.<indexterm><primary>Application Builder</primary><secondary>App Builder</secondary></indexterm><indexterm><primary>App Builder (Application
+Builder)</primary></indexterm></para>
+<para>App Builder is ideally suited for use if you:<indexterm><primary>Application
+Builder</primary><secondary>when to use</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>Are not an expert Motif programmer
+</para>
+</listitem><listitem><para>Are not familiar with the Common Desktop Environment
+Motif widgets</para>
+</listitem><listitem><para>Are not familiar with the desktop services (for
+example,<indexterm><primary>drag and drop</primary></indexterm> drag and
+drop,<indexterm><primary>ToolTalk Messaging Service</primary></indexterm> ToolTalk
+messaging,<indexterm><primary>Session Manager</primary></indexterm> sessioning,<indexterm><primary>Help system</primary></indexterm>
+help, and<indexterm>
+<primary>internationalization</primary></indexterm> internationalization)</para>
+</listitem><listitem><para>Want to build your application user interface quickly
+and be able to change it easily</para>
+</listitem><listitem><para>Are working collaboratively with other people to
+build a single application</para>
+</listitem></itemizedlist>
+<para>In fact, even if you do not fit into any of the preceding categories,
+you will likely find App Builder to be appropriate and helpful for your application
+development.</para>
+<para>Using App Builder, you can:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Lay out the user interface for
+an application, constructing it piece-by-piece from a collection of objects
+from the Common Desktop Environment<indexterm><primary>Motif</primary></indexterm> Motif
+toolkit</para>
+</listitem><listitem><para>Define connections between objects to provide application
+GUI behavior, then use the test mode that enables connections to be tested
+</para>
+</listitem><listitem><para>Add some of the desktop services functionality
+to your application</para>
+</listitem><listitem><para>Edit applications that were previously created
+using App Builder</para>
+</listitem><listitem><para>Merge automatically generated code with hand-generated
+code</para>
+</listitem><listitem><para>Generate C-language source code and associated
+project files (for example, message catalogs) for the application</para>
+</listitem></itemizedlist>
+<para>You can<indexterm><primary>compiling</primary><secondary>an application</secondary></indexterm> compile and invoke your application from within App
+Builder. You can execute the build, run, and debug cycles all from a common
+environment without having to exit and restart App Builder.</para>
+<sect2 id="RDMAP.devap.div.8">
+<title>Demo Programs<indexterm><primary>Application Builder</primary><secondary>demo programs</secondary></indexterm><indexterm><primary>demo programs</primary>
+</indexterm></title>
+<para>You can find the App Builder example programs in <filename>/usr/dt/examples/dtbuilder</filename>. Read the <command>README</command> file for detailed information
+on these programs.</para>
+<sect3 id="RDMAP.devap.div.9">
+<title>Related Documentation</title>
+<para>For more information on Application Builder, see the appropriate man
+pages, the App Builder help volume, and the <emphasis>Application Builder
+User's Guide</emphasis>.<indexterm><primary>application
+development</primary><secondary>Application Builder &lt;$endrange></secondary></indexterm><?Pub Caret></para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:30:53-->
+<?Pub *0000020547>

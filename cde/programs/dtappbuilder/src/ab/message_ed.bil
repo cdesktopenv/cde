@@ -1,0 +1,1128 @@
+
+//       $XConsortium: message_ed.bil /main/3 1995/11/06 17:34:23 rswiston $
+//
+// @(#)message_ed.bil	1.2 11 Jul 1994
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module message_ed
+(
+
+:element dialog
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Message Editor"
+	:resizable		:true
+	:visible		:false
+	:default-button		apply_button
+	:help-button		help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABMessagesEditor"
+	:help-text		"The Message Editor allows application message dialogs to be defined and configured."
+	:children		(
+		ctrl_panel
+		ctrl_panel2
+		dialog_button_panel
+	)
+)
+:element ctrl_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:etched-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj dialog 0)
+	:east-attachment	(:grid-line 34 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		add_del_group
+		module_opmenu
+		group7
+	)
+)
+:element add_del_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			56
+	:y			355
+	:group-type		:column
+	:column-alignment	:left
+	:voffset		8
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj module_opmenu 10)
+	:south-attachment	(:point 0 15)
+	:west-attachment	(:obj-edge module_opmenu 40)
+	:children		(
+		add_msg_btn
+		delete_msg_btn
+	)
+)
+:element add_msg_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Message"
+	:active			:true
+	:visible		:true
+)
+:element delete_msg_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Delete Message"
+	:active			:true
+	:visible		:true
+)
+:element module_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			13
+	:y			314
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj group7 15)
+	:west-attachment	(:obj-edge group7 0)
+	:children		(
+		module_opmenu_No_Modules_item
+	)
+)
+:element module_opmenu_No_Modules_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"No Modules"
+	:active			:true
+	:selected		:true
+)
+:element group7
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			16
+	:y			11
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 11)
+	:east-attachment	(:point 0 16)
+	:west-attachment	(:point 0 16)
+	:children		(
+		msg_list_label
+		msg_list
+	)
+)
+:element msg_list_label
+(
+	:type			:label
+	:x			0
+	:y			0
+	:label-type		:string
+	:label			"Messages:"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element msg_list
+(
+	:type			:list
+	:x			2
+	:y			25
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		16
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj msg_list_label 4)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 2)
+)
+:element ctrl_panel2
+(
+	:type			:container
+	:container-type		:relative
+	:x			239
+	:y			0
+	:visible		:true
+	:border-frame		:etched-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj dialog 0)
+	:east-attachment	(:obj dialog 0)
+	:west-attachment	(:obj ctrl_panel 0)
+	:children		(
+		default_btn_opmenu
+		name_cb
+		title_cb
+		cancel_cb
+		action3_cb
+		action2_cb
+		action1_cb
+		default_btn_cb
+		msg_cb
+		msg_type_group
+		help_cb
+		group
+		group5
+		group6
+	)
+)
+:element default_btn_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			264
+	:y			240
+	:label-type		:string
+	:label			"Default Button:"
+	:label-position		:north
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj msg_type_group 10)
+	:west-attachment	(:obj default_btn_cb 5)
+	:children		(
+		default_btn_opmenu_Action1_item
+		default_btn_opmenu_Action2_item
+		default_btn_opmenu_Action3_item
+		default_btn_opmenu_Cancel_item
+		default_btn_opmenu_None_item
+	)
+)
+:element default_btn_opmenu_Action1_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Action1"
+	:active			:true
+	:selected		:false
+)
+:element default_btn_opmenu_Action2_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Action2"
+	:active			:true
+	:selected		:true
+)
+:element default_btn_opmenu_Action3_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Action3"
+	:active			:true
+	:selected		:false
+)
+:element default_btn_opmenu_Cancel_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Cancel"
+	:active			:true
+	:selected		:false
+)
+:element default_btn_opmenu_None_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"None"
+	:active			:true
+	:selected		:false
+)
+:element name_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			4
+	:y			13
+	:width			3
+	:height			26
+	:bg-color		"White"
+	:fg-color		"White"
+	:visible		:true
+	:north-attachment	(:point 0 13)
+	:west-attachment	(:grid-line 0 4)
+)
+:element title_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			4
+	:y			43
+	:width			3
+	:height			26
+	:bg-color		"White"
+	:fg-color		"White"
+	:visible		:true
+	:north-attachment	(:point 0 43)
+	:west-attachment	(:grid-line 0 4)
+)
+:element cancel_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			4
+	:y			315
+	:width			3
+	:height			24
+	:bg-color		"White"
+	:fg-color		"White"
+	:visible		:true
+	:north-attachment	(:point 0 315)
+	:west-attachment	(:grid-line 0 4)
+)
+:element action3_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			4
+	:y			285
+	:width			3
+	:height			24
+	:bg-color		"White"
+	:fg-color		"White"
+	:visible		:true
+	:north-attachment	(:point 0 285)
+	:west-attachment	(:grid-line 0 4)
+)
+:element action2_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			4
+	:y			255
+	:width			3
+	:height			24
+	:bg-color		"White"
+	:fg-color		"White"
+	:visible		:true
+	:north-attachment	(:point 0 255)
+	:west-attachment	(:grid-line 0 4)
+)
+:element action1_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			4
+	:y			225
+	:width			3
+	:height			24
+	:bg-color		"White"
+	:fg-color		"White"
+	:visible		:true
+	:north-attachment	(:point 0 225)
+	:west-attachment	(:grid-line 0 4)
+)
+:element default_btn_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			254
+	:y			222
+	:width			3
+	:height			45
+	:bg-color		"White"
+	:fg-color		"White"
+	:visible		:true
+	:north-attachment	(:point 0 222)
+	:west-attachment	(:obj group5 30)
+)
+:element msg_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			4
+	:y			75
+	:width			3
+	:height			138
+	:bg-color		"White"
+	:fg-color		"White"
+	:visible		:true
+	:north-attachment	(:point 0 75)
+	:west-attachment	(:grid-line 0 4)
+)
+:element msg_type_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			12
+	:y			88
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:obj group 10)
+	:east-attachment	(:point 0 15)
+	:west-attachment	(:point 0 12)
+	:children		(
+		type_opmenu
+		msg_textp_group
+	)
+)
+:element type_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			0
+	:y			0
+	:label-type		:string
+	:label			"Type:"
+	:label-position		:north
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		type_opmenu_bitmaps_xm_error_xbm_item
+		type_opmenu_bitmaps_xm_information_xbm_item
+		type_opmenu_bitmaps_xm_working_xbm_item
+		type_opmenu_bitmaps_xm_question_xbm_item
+		type_opmenu_bitmaps_xm_warning_xbm_item
+	)
+)
+:element type_opmenu_bitmaps_xm_error_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABmer.m"
+	:active			:true
+	:selected		:false
+)
+:element type_opmenu_bitmaps_xm_information_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABmin.m"
+	:active			:true
+	:selected		:false
+)
+:element type_opmenu_bitmaps_xm_working_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABmwk.m"
+	:active			:true
+	:selected		:false
+)
+:element type_opmenu_bitmaps_xm_question_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABmqs.m"
+	:active			:true
+	:selected		:false
+)
+:element type_opmenu_bitmaps_xm_warning_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABmwn.m"
+	:active			:true
+	:selected		:false
+)
+:element msg_textp_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			95
+	:y			5
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 5)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:obj type_opmenu 19)
+	:children		(
+		msg_textp_label
+		msg_textpane
+	)
+)
+:element msg_textp_label
+(
+	:type			:label
+	:x			0
+	:y			0
+	:label-type		:string
+	:label			"Error Message:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element msg_textpane
+(
+	:type			:text-pane
+	:text-type		:alphanumeric
+	:x			0
+	:y			22
+	:border-frame		:none
+	:num-rows		7
+	:num-columns		36
+	:hscrollbar		:never
+	:vscrollbar		:always
+	:word-wrap		:true
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj msg_textp_label 1)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element help_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			4
+	:y			345
+	:width			3
+	:height			24
+	:bg-color		"White"
+	:fg-color		"White"
+	:visible		:true
+	:north-attachment	(:point 0 345)
+	:west-attachment	(:grid-line 0 4)
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			12
+	:y			13
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		0
+	:vattach_type		:grid-line
+	:border-frame		:none
+	:north-attachment	(:point 0 13)
+	:west-attachment	(:point 0 12)
+	:children		(
+		name_field
+		title_field
+	)
+)
+:element name_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Name:"
+	:label-position		:west
+	:num-columns		20
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element title_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Dialog Title:"
+	:label-position		:west
+	:num-columns		38
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element group5
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			52
+	:y			219
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		0
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj msg_type_group 10)
+	:west-attachment	(:point 0 52)
+	:children		(
+		group2
+		group3
+		group4
+		cancel_cbox
+		help_cbox
+	)
+)
+:element group2
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:group-type		:row
+	:row-alignment		:top
+	:hoffset		0
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		action1_cbox
+		action1_field
+	)
+)
+:element action1_cbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Action1:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		action1_cbox_nolabel_item
+	)
+)
+:element action1_cbox_nolabel_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			" "
+	:active			:true
+	:selected		:false
+)
+:element action1_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:num-columns		8
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element group3
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:group-type		:row
+	:row-alignment		:top
+	:hoffset		0
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		action2_cbox
+		action2_field
+	)
+)
+:element action2_cbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Action2:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		action2_cbox_nolabel_item
+	)
+)
+:element action2_cbox_nolabel_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			" "
+	:active			:true
+	:selected		:true
+)
+:element action2_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:num-columns		8
+	:max-length		80
+	:initial-value		"Retry"
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element group4
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:group-type		:row
+	:row-alignment		:top
+	:hoffset		0
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		action3_cbox
+		action3_field
+	)
+)
+:element action3_cbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Action3:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		action3_cbox_nolabel_item
+	)
+)
+:element action3_cbox_nolabel_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			" "
+	:active			:true
+	:selected		:false
+)
+:element action3_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:num-columns		8
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element cancel_cbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Cancel:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:true
+	:active			:true
+	:visible		:true
+	:children		(
+		cancel_cbox_nolabel_item
+	)
+)
+:element cancel_cbox_nolabel_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			" "
+	:active			:true
+	:selected		:true
+)
+:element help_cbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Help:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		help_cbox_nolabel_item
+	)
+)
+:element help_cbox_nolabel_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			" "
+	:active			:true
+	:selected		:true
+)
+:element group6
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			22
+	:y			396
+	:group-type		:row
+	:row-alignment		:top
+	:hoffset		20
+	:hattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj group5 22)
+	:south-attachment	(:point 0 15)
+	:west-attachment	(:grid-line 10 0)
+	:children		(
+		conn_button
+		help_text_button
+		show_dlg_button
+	)
+)
+:element conn_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Connections..."
+	:active			:true
+	:visible		:true
+)
+:element help_text_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help Text..."
+	:active			:true
+	:visible		:true
+)
+:element show_dlg_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Show Dialog..."
+	:active			:true
+	:visible		:true
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		apply_button
+		reset_button
+		help_button
+		ok_button
+		cancel_button
+	)
+)
+:element apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			145
+	:y			9
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element reset_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			276
+	:y			7
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			505
+	:y			7
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:element ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			13
+	:y			5
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 18 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			420
+	:y			8
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element act1_def_btn_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"The Action1 button is specified as the\ndefault button, but it is not specified\nto exist in the message dialog."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The Action1 button will not exist in the message\ndialog when it is displayed. Therefore, it cannot\nbe the default button."
+)
+:element act2_def_btn_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"The Action2 button is specified as the\ndefault button, but it is not specified\nto exist in the message dialog."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The Action2 button will not exist in the message\ndialog when it is displayed. Therefore, it cannot\nbe the default button."
+)
+:element cancel_def_btn_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"The Cancel button is specified as the\ndefault button, but it is not specified\nto exist in the message dialog."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The Cancel button will not exist in the message\ndialog when it is displayed. Therefore, it cannot\nbe the default button."
+)
+:element act1_lbl_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"A string must be entered for the Action1 button."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"You must supply a label for the Action1 button \nor clear the Action1 checkbox."
+)
+:element act2_lbl_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"A string must be entered for the Action2 button."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"You must supply a label for the Action2 button\nor clear the Action2 checkbox."
+)
+:element act3_def_btn_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"The Action3 button is specified as the\ndefault button, but it is not specfied\nto exist in the message dialog."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The Action3 button will not exist in the message\ndialog when it is displayed. Therefore, it cannot\nbe the default button."
+)
+:element act3_lbl_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"A string must be entered for the Action3 button."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"You must supply a label for the Action3 button\nor clear the Action3 checkbox."
+)
+:element wrn_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"Apply Changes"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+)
+:element no_btns_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"No buttons are specified to exist in\nthe message dialog.  There must be \nat least one button in the message."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"A message dialog must have at least one button\nso that the user can acknowledge the message.\nYou must select one of the button checkboxes."
+)
+:connection
+(
+	:from			apply_button
+	:when			:activate
+	:action-type		:call-function
+	:action			msgEdP_applyCB
+)
+:connection
+(
+	:from			add_msg_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			msgEdP_add_msgCB
+)
+:connection
+(
+	:from			delete_msg_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			msgEdP_del_msgCB
+)
+:connection
+(
+	:from			show_dlg_button
+	:when			:activate
+	:action-type		:call-function
+	:action			msgEdP_show_msgCB
+)
+:connection
+(
+	:from			conn_button
+	:when			:activate
+	:action-type		:call-function
+	:action			msgEdP_show_connCB
+)
+:connection
+(
+	:from			help_text_button
+	:when			:activate
+	:action-type		:call-function
+	:action			msgEdP_show_helpCB
+)
+:connection
+(
+	:from			reset_button
+	:when			:activate
+	:action-type		:call-function
+	:action			msgEdP_resetCB
+)
+:connection
+(
+	:from			ok_button
+	:when			:activate
+	:action-type		:call-function
+	:action			msgEdP_okCB
+)
+:connection
+(
+	:from			cancel_button
+	:when			:activate
+	:action-type		:call-function
+	:action			msgEdP_cancelCB
+)
+)

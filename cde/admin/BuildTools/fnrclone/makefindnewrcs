@@ -1,0 +1,58 @@
+#! /usr/local/bin/perl
+
+eval "exec /usr/local/bin/perl -S $0 $*"
+    if $running_under_some_shell;
+
+$system = `uname -s`;
+$release = `uname -r`;
+$machine = `uname -m`;
+
+if ($system =~ m%SunOS%) {
+   if ($machine =~ m%prep%) {
+       $system = "SunOS_PPC";
+   }
+}
+
+push(@targets,"findnewrcs.${system}");
+
+#
+# for hp need subsystems
+#
+if ($system =~ m%HP-UX%) {
+	# if it's not 700 9.0, don't do HP-UX
+	if ($machine =~ m%.*/7%) {
+		if ($release =~ m%9\.%) {
+			push(@targets,"findnewrcs.700.90");
+			push(@targets,"findnewrcs.800.90");
+		}
+		elsif ($release =~ m%8\.%) {
+			@targets = ("findnewrcs.700.807");
+		}
+		elsif ($release =~ m%10\.%) {
+			@targets = ("findnewrcs.700.100");
+		}
+	}
+	elsif ($machine =~ m%.*/8%) {
+		if ($release =~ m%9\.%) {
+			@targets = ("findnewrcs.800.90");
+		}
+		elsif ($release =~ m%8\.%) {
+			@targets = ("findnewrcs.800.80");
+		}
+		elsif ($release =~ m%7\.%) {
+			@targets = ("findnewrcs.800.70");
+		}
+	}
+	elsif ($machine =~ m%.*/[34]%) {
+		if ($release =~ m%9\.%) {
+			@targets = ("findnewrcs.300.90");
+		}
+		elsif ($release =~ m%8\.%) {
+			@targets = ("findnewrcs.300.80");
+		}
+	}
+}
+
+foreach $target (@targets) {
+	system ("make load${target}");
+}

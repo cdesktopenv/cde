@@ -1,0 +1,285 @@
+
+=================================
+Instructions for IBM AIX Systems 04/11/94
+=================================
+
+The following instructions assume you have already installed the Common Desktop 
+Environment according to the Installation Instructions on the CD jacket.  If 
+CDE is used in a networked environment, all systems should be upgraded at the 
+same time.
+
+There are two ways to start the desktop:
+
+* You can manually start the desktop Login Manager. This method can be used to 
+avoid rebooting the system.  See the section  To Start and Stop the Desktop 
+Manually .
+
+* You can configure the system to start the desktop automatically  upon reboot. 
+ See the section To Enable and Disable Desktop Auto-Start..
+
+Before You Start the Desktop
+============================
+******************************************************************************
+If you have a previous Common Desktop Environment (CDE) version on the system:
+******************************************************************************
+
+Advise all CDE users on the system to remove or rename their $HOME/.dt directory
+and their $HOME/.dtprofile.  The new files are not compatible with the old 
+ones.  If users have customized the $HOME/.dt/dtwmrc file and want to keep 
+it, they will need to cut and paste the appropriate pieces into the new dtwmrc 
+file provided.  
+
+Become the root user on the system.  Make sure all other users on the system 
+are logged out of CDE.  Kill the Login Manager.  
+
+cat /etc/opt/dt/Xpid  (obtain Login Manager process_id)
+
+kill -TERM <process_id>
+
+Killing the Login Manager process works no matter how the process was started. 
+An alternate method is to stop the system resource control for the desktop. 
+This method should only be used if CDE was configured on the system with 
+/opt/dt/bin/dtconfig -e.  If you don't know how CDE was configured on the 
+system, lssrc -s dtsrc will return the status of dtsrc.  If no status 
+is returned, use the kill method in the previous paragraph.
+
+stopsrc -c -s dtsrc
+
+Completely remove the /etc/opt and /opt directory structures from the system. 
+The install script mentioned in the README should have already given you the 
+chance to remove these.  Remove the dtsrc subsystem only if CDE was configured 
+on the system with /opt/dt/bin/dtconfig -e:
+
+rmssys -s dtsrc 
+
+Default Configuration
+
+The Instructions for IBM AIX Systems show basic installation information. 
+We recommend following these instructions before doing any personal 
+customization work except in the case of the Special Configurations.
+
+Special Configurations
+
+If your system has one of these special configurations, you may need to edit 
+certain Login Manager files before starting the desktop.  More detailed 
+information is in the CDE Getting Started Guide.
+
+*         If  the system console is a non-bitmap device (e.g. an ascii 
+terminal)i, comment out the following line in /usr/dt/config/Xservers that
+ starts the Xserver on the console. 
+
+   # :0 Local local@console /path/X [options] :0
+
+*         If the system is an X terminal or a host for X terminals, 
+ CDE must be running on the host and X Display Manager Control Protocol 
+(XDMCP) must be enabled for the X terminal and must direct the Xterminal to 
+contact the Login Manager on a specified host.  
+
+*         If the system has more than one display, see Configuring 
+Multiple Displays in the CDE Getting Started Guide.
+
+To Start and Stop the Desktop Manually
+--------------------------------------
+There are two manual methods to start the desktop:
+
+* You can manually start the CDE Login Manager.  To use this method, you must 
+have permission to log in as root.  This method is preferable, because Login 
+Manager sets certain environment variables that are needed during desktop 
+sessions. See the section Manually Starting and Stopping Login Manager.
+
+* You can log in using conventional methods, and then manually run the 
+CDE Session Manager, which starts a desktop session.  See the section 
+Manually Starting and Stopping Session Manager.  
+
+Manually Starting and Stopping Login Manager
+--------------------------------------------
+To manually start Login Manager:
+
+1.  Log in as root.
+
+2.  Enter:
+
+/usr/dt/bin/dtlogin -daemon
+
+This starts the Login Manager and displays the Login screen.
+Logging in starts a desktop session.
+
+To manually stop Login Manager:
+
+When you stop the Login Manager, you automatically kill all X servers and 
+desktop sessions that it started.
+
+1.  In a terminal emulator window, log in as root.
+
+2.  Obtain the process id of the Login Manager by entering:
+
+cat /var/dt/Xpid
+
+3.  Kill the Login Manager by entering:
+
+kill -TERM <process_id>
+
+where <process_id> is the value obtained from Xpid.
+
+Manually Starting and Stopping Session Manager
+----------------------------------------------
+Using this method 
+
+* leaves you responsible for setting certain environment variables to values 
+required by the desktop if suitable values are not already set in your 
+environment. 
+ 
+
+* allows you to use CDE while others serving from the same system, including 
+the console are not.  
+
+1.  Log in.  (You do not need to log in as root).
+
+2.  With no window system running, from the command line enter:
+
+/usr/bin/X11/xinit /usr/dt/bin/Xsession
+
+HINT:  if a .Xinitrc file is enabled, make sure it is NOT starting another 
+window manager.  Do NOT put the /usr/dt/bin/Xsession in your .profile!
+
+Session Manager stops when you log out.
+
+To Enable and Disable Desktop Auto-Start
+----------------------------------------
+AIX can be configured to start the CDE Desktop automatically when the system 
+is booted.  This method starts CDE as the Session Manager for all users on 
+the system.
+
+There are several ways to do this configuration:
+
+*         From a command line.
+
+*         Using SMIT menus.
+
+*         Using SMIT fastpath.
+
+From a Command Line
+-------------------
+To Enable Desktop Auto-Start:
+
+1.  Log in as root.
+
+2.  From the command line, enter:
+
+/usr/dt/bin/dtconfig -e 
+
+3.  Reboot the machine.
+
+When the system is rebooted, a dtlogin screen will appear.  If you prefer not 
+to reboot at this time, this command will start the Login Manager now.
+
+startsrc -s dtsrc
+
+To Disable Desktop Auto-Start:
+
+1.  Log in as root.
+
+2.  From the command line, enter:
+
+/usr/dt/bin/dtconfig -d
+
+3.  Reboot the machine.
+
+When the system is rebooted, CDE is no longer configured.  If you prefer not 
+to reboot at this time, this command will stop the Login Manager now.
+
+stopsrc -c -s dtsrc
+
+Using SMIT Menus
+----------------
+To Enable Desktop Auto-Start:
+
+1.  Log in as root.
+
+2.  From the command line, enter:
+
+/usr/bin/smit
+
+3.  Go to System Environments.
+
+4.  Go to Change System User Interface.
+
+5.  Select CDE environment.
+
+6.  Press [Enter] when using ASCII SMIT or Click "Do" when using GUI
+SMIT interface.
+
+7.  Exit SMIT.
+
+8.  Reboot the machine.
+
+To Disable Desktop Auto-Start:
+
+1.  Log in as root.
+
+2.  From the command line, enter
+
+/usr/bin/smit
+
+3.  Go to System Environments.
+
+4.  Go to Change System User Interface.
+
+5.  Select Command-line environment.
+
+6.  Press [Enter] when using ASCII SMIT or Click "Do" when 
+   using GUI SMIT interface.
+
+7.  Exit out of SMIT.
+
+8.  Reboot the machine.
+
+Using SMIT `fastpath'
+---------------------
+To Enable Desktop Auto-Start:
+
+1.  Log in as root.
+
+2.  From the command line, enter:
+
+/usr/bin/smit dtconfig
+
+3.  Select CDE environment.
+
+4.  Press [Enter] when using ASCII SMIT or Click "Do" when using GUI 
+SMIT interface.
+
+5.  Exit SMIT.
+
+6.  Reboot the machine. 
+
+To Disable Desktop Auto-Start:
+
+1.  Log in as root.
+
+2.  From the command line, enter:
+
+/usr/bin/smit dtconfig
+
+3.  Select Command-line environment.
+
+4.  Press [Enter] when using ASCII SMIT or Click "Do" when using GUI 
+SMIT interface.
+
+5.  Exit out of SMIT.
+
+6.  Reboot the machine.
+
+Deinstall Instructions
+======================
+The CD also includes a script for deinstallation.  With the CD-ROM mounted 
+according to the Installation Instructions on the CD jacket, enter:
+
+./dinstall.dt
+
+or
+
+./DINSTALL.DT
+
+Everything installed from the installation scripts will be deinstalled.
+

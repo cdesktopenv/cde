@@ -1,0 +1,1157 @@
+XCOMM!/bin/ksh
+XCOMM $XConsortium: install.dt.src /main/6 1996/04/23 11:19:05 drk $
+
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+XCOMM install.dt
+XCOMM
+XCOMM   Script to install the April 1994 Snapshot Desktop on
+XCOMM   HP, IBM, Sun, UXP, USL, or DEC Unix systems from a CDROM
+XCOMM
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+XCOMM
+XCOMM This script does the following:
+XCOMM
+XCOMM - verifies user is root
+XCOMM - displays welcome screen
+XCOMM - displays license agreement screen
+XCOMM - verifies system configuration
+XCOMM - checks for 10/93 snapshot
+XCOMM - displays .dt directory warning
+XCOMM - gathers alternate installation directories
+XCOMM - verifies free space
+XCOMM - displays one last chance screen
+XCOMM - calls install.cde
+XCOMM - displays install complete screen
+XCOMM
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+XCOMM
+XCOMM Override functions
+XCOMM
+XCOMM These routines might have a platform override
+XCOMM
+XCOMM DtiClearScreen
+XCOMM DtiFreeSpace
+XCOMM DtiVerifyConfiguration
+XCOMM DtiWhoami
+XCOMM
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+
+#define HASH #
+#define STAR *
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiClearScreen - clears the screen
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+DtiClearScreen() {
+  clear 1>&2
+  HASH DtiPrint "clear"
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiFreeSpace
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return -none
+XCOMM
+XCOMM ==========================================================================
+
+DtiFreeSpace()
+{
+  DtiReturn "100000000"
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiVerifyConfiguration
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return -none
+XCOMM
+XCOMM ==========================================================================
+
+DtiVerifyConfiguration()
+{
+  DtiReturn "yes"
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiWhoami
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return
+XCOMM   result of system 'whoami' command
+XCOMM
+XCOMM ==========================================================================
+
+DtiWhoami()
+{
+  whoami
+}
+
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+XCOMM
+XCOMM Internal functions
+XCOMM
+XCOMM These routines do not have a platform override
+XCOMM
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+XCOMM
+XCOMM Utility functions
+XCOMM
+XCOMM These routines are not expected to have a platform override
+XCOMM
+XCOMM Exit - log and exit
+XCOMM GetPlatform - identify platform
+XCOMM Log - echo to log
+XCOMM Main - main routine
+XCOMM NewState - specify new state
+XCOMM DtiPrint - echo to stdout and log
+XCOMM DtiReturn - write string to stdout
+XCOMM UnknownState - unexpected state 
+XCOMM
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM Exit - log and exit
+XCOMM
+XCOMM Input
+XCOMM   $1 - data to echo to log
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+Exit()
+{
+  Log "\n\n*"
+  Log "* $(date) $(DtiWhoami)"
+  Log "* $1"
+  Log "*"
+  exit 0
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM GetPlatform
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return
+XCOMM   "hpux"
+XCOMM   "aix"
+XCOMM   "sun"
+XCOMM   "uxp"
+XCOMM   "usl"
+XCOMM   "dec"
+XCOMM ==========================================================================
+
+GetPlatform()
+{
+  if [ -z "$getPlatform" ]; then
+    os=`uname -s`
+    case $os in
+        *HP-UX*) getPlatform=hp;;
+        *AIX*) getPlatform=ibm;;
+        *SunOS*) getPlatform=sun;;
+        *UNIX_System_V*) getPlatform=uxp;;
+        *UNIX_SV*) getPlatform=usl;;
+	*OSF1*) getPlatform=dec;;
+      esac
+  fi
+  DtiReturn $getPlatform
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM GetSpaceNeeded
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return - bytes needed for /usr/dt directory
+XCOMM ==========================================================================
+
+GetSpaceNeeded()
+{
+  DtiReturn "$(awk '/SIZE: / {print $2}' $(pwd)/$DTIPLATFORMDIR/$DTIPACKAGE)"
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM Log - echo to log
+XCOMM
+XCOMM Input
+XCOMM   $1 - data to echo to log
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+Log()
+{
+  printf "$1" $2 $3 $4 $5 $6 $7 $8 $9 >>$dtiLogFile
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM Main
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return - none
+XCOMM
+XCOMM
+XCOMM
+XCOMM State transitions
+XCOMM
+XCOMM 0) entry point
+XCOMM    -> 1
+XCOMM
+XCOMM 1) verify user is root
+XCOMM    user is root -> 3
+XCOMM    user is not root -> 2.1
+XCOMM
+XCOMM 2.*) display message and exit
+XCOMM      -> 99.1
+XCOMM 2.1) user must be root
+XCOMM 2.2) unsupported platform
+XCOMM 2.4) could not find desktop install image
+XCOMM 2.5) desktop install complete without error
+XCOMM 2.6) desktop install complete with error
+XCOMM  
+XCOMM 3) verify platform is supported
+XCOMM    supported platform -> 4.1
+XCOMM    unsupported platform -> 2.2
+XCOMM  
+XCOMM 4.*) display a message
+XCOMM 4.1) display welcome message 
+XCOMM      user selects continue "0" -> 4.2
+XCOMM      user selects exit "99" -> 99.1
+XCOMM  
+XCOMM 4.2) display disclaimer
+XCOMM      user selects continue "0" -> 5
+XCOMM      user selects exit "99" -> 99.1
+XCOMM 
+XCOMM 4.3) display destinations
+XCOMM      user selects change installation root "1" -> 8
+XCOMM      user selects continue "0" -> 12
+XCOMM      user selects exit "99" -> 99.1
+XCOMM 
+XCOMM 4.4) display free space warning
+XCOMM      user selects continue "0" -> 12
+XCOMM      user selects exit "99" -> 99.1
+XCOMM
+XCOMM 4.5) display system configuration warning
+XCOMM      user selects continue "0" -> 6
+XCOMM      user selects exit "99" -> 99.1
+XCOMM 
+XCOMM 4.6) display 10/93 bits exist message
+XCOMM      user selects erase "1" -> 13
+XCOMM      user selects continue "0" -> 4.3
+XCOMM      user selects exit "99" -> 99.1
+XCOMM
+XCOMM 5) verify configuration
+XCOMM    configuration ok -> 6
+XCOMM    configuration not ok -> 4.5
+XCOMM 
+XCOMM 6) verify CDROM
+XCOMM    platform dir found -> 4.3
+XCOMM    platform dir not found -> 2.4
+XCOMM
+XCOMM 7) check for 10/93 bits
+XCOMM    10/93 bits exist -> 4.6
+XCOMM    10/93 bits don't exist -> 4.3
+XCOMM
+XCOMM 8.*) obtain altername directory names
+XCOMM 8.usr) obtain alternate /usr/dt directory name
+XCOMM        user enters "" or "/" -> 4.3 (revert to default)
+XCOMM        user enters "/*" -> 10.usr
+XCOMM        user enters anything else -> 8.usr
+XCOMM 8.etc) obtain alternate /etc/dt directory name
+XCOMM        user enters "" or "/" -> 4.3 (revert to default)
+XCOMM        user enters "/*" -> 10.etc
+XCOMM        user enters anything else -> 8.etc
+XCOMM 8.var) obtain alternate /var/dt directory name
+XCOMM        user enters "" or "/" -> 4.3 (revert to default)
+XCOMM        user enters "/*" -> 10.var
+XCOMM        user enters anything else -> 8.var
+XCOMM 
+XCOMM 11) check available space
+XCOMM     space available -> 12
+XCOMM     space not available -> 4.4
+XCOMM
+XCOMM 12) run install script
+XCOMM     desktop install ok -> 2.5
+XCOMM     desktop install not ok -> 2.6
+XCOMM
+XCOMM 13) erase 10/93 bits
+XCOMM     -> 4.3
+XCOMM
+XCOMM 99.1) exit
+XCOMM 
+XCOMM ==========================================================================
+
+Main()
+{
+  date >$dtiLogFile
+
+  laststate=0
+  state=0
+
+  while :
+  do
+
+    case $state in
+    0) 
+      HASH
+      HASH 0) entry point
+      HASH
+      NewState 1
+      ;;
+
+    1) 
+      HASH
+      HASH 1) verify user is 'root'
+      HASH
+      if [ $(DtiWhoami) = "root" ]; then
+        NewState 3
+      else
+        HASH NewState 3		# for debugging
+        NewState 2.1
+      fi
+      ;;
+
+    2.*)
+      HASH
+      HASH 2.*) display a message and exit
+      HASH
+      DtiClearScreen
+
+      DtiPrint "$msg_2"
+      
+      case ${state##*.} in
+      1)
+        HASH
+        HASH 2.1) user must be root
+        HASH
+        DtiPrint "$msg_2_1"
+        ;;
+      2) 
+        HASH
+        HASH 2.2) unsupported platform
+        HASH
+        DtiPrint "$msg_2_2" $dtiPlatform
+        ;;
+      4)
+        HASH
+        HASH 2.4) no desktop install image
+        HASH
+        DtiPrint "$msg_2_4" $dtiPlatform
+        ;;
+      5)
+        HASH
+        HASH 2.5) desktop install complete without error
+        HASH
+        DtiPrint "$msg_2_5"
+        ;;
+      6)
+        HASH
+        HASH 2.6) desktop install complete with error
+        HASH
+        DtiPrint "$msg_2_6"
+        ;;
+      7)
+        HASH
+        HASH 2.7) not enough space
+        HASH
+        DtiPrint "$msg_2_7" $dtiRoot/$dtiUsrDt \
+                            $dtiSpaceAvail \
+                            $dtiSpaceNeeded
+        ;;
+      *)
+        HASH
+        HASH 2.*) unexpected state
+        HASH
+        UnknownState
+        ;;
+      esac
+      NewState 99.1
+      ;;
+
+    3)
+      HASH
+      HASH 3) verify platform is supported
+      HASH
+      case "$dtiPlatform" in
+        hp|ibm|sun|uxp|usl|dec)
+          NewState 4.1
+          ;;
+        *)
+          NewState 2.2
+          ;;
+      esac
+      ;; 
+
+    4.*)
+      HASH
+      HASH 4.*) display a message and allow user to continue
+      HASH
+      DtiClearScreen
+
+      DtiPrint "$msg_4" 
+
+      case ${state##*.} in
+      1)
+        HASH
+        HASH 4.1) display welcome message
+        HASH
+        let meg=$(GetSpaceNeeded)/$dtiMeg+1
+        DtiPrint "$msg_4_1" " $meg"
+   
+        read response
+
+        case $response in
+        0) NewState 4.2;;
+        99) NewState 99.1;;
+        *) NewState $laststate;;
+        esac
+        ;;
+      2)
+        HASH
+        HASH 4.2) display disclaimer
+        HASH
+        DtiPrint "$msg_4_2"
+       
+        read response
+ 
+        case $response in
+        0) NewState 5;;
+        99) NewState 99.1;;
+        *) NewState $laststate;;
+        esac
+        ;;
+      3)
+        HASH
+        HASH 4.3) display destinations
+        HASH
+        DtiPrint "$msg_4_3" ${dtiRoot:-$dtiDefaultRoot} \
+                            $dtiRoot/$dtiUsrDt \
+                            $dtiRoot/$dtiEtcDt \
+                            $dtiRoot/$dtiVarDt 
+        
+        read response
+
+        case $response in
+        0) NewState 11;;
+        1) NewState 8;;
+        99) NewState 99.1;;
+        *) NewState $state;;
+        esac
+        ;;
+      4)
+        HASH
+        HASH 4.4) not enough space warning
+        HASH
+        DtiPrint "$msg_4_4" $dtiRoot/$dtiUsrDt \
+                            $dtiSpaceAvail \
+                            $dtiSpaceNeeded
+
+        read response
+
+        case $response in
+        0) NewState 4.7;;
+        99) NewState 99.1;;
+        *) NewState $laststate;;
+        esac
+        ;;
+      5)
+        HASH
+        HASH 4.5) unsupported system configuration warning
+        HASH
+        DtiPrint "$msg_4_5" 
+
+        read response
+
+        case $response in
+        0) NewState 6;;
+        99) NewState 99.1;;
+        *) NewState $laststate;;
+        esac
+        ;;
+      6)
+        HASH
+        HASH 4.6) 10/93 bits exist
+        HASH
+        DtiPrint "$msg_4_6"
+
+        if [ "$dti9310dirs" != "" ]; then
+          DtiPrint "$msg_4_6a"
+          for i in $dti9310dirs
+          do
+            DtiPrint "  $i\n"
+          done
+        fi
+
+        if [ "$dti9310links" != "" ]; then
+          DtiPrint "$msg_4_6b"
+          for i in $dti9310links
+          do
+            DtiPrint "  $i\n"
+          done
+        fi
+
+        DtiPrint "$msg_4_6c"
+
+        read response
+
+        case $response in
+        1) NewState 13;;
+        0) NewState 4.8;;
+        99) NewState 99.1;;
+        *) NewState $laststate;;
+        esac
+        ;;
+
+      7)
+        HASH
+        HASH 4.7) display one last chance warning
+        HASH
+        DtiPrint "$msg_4_7"
+
+        dti9404dirs=""
+        dti9404links=""
+
+        for i in $dtiUsrDt $dtiEtcDt $dtiVarDt
+        do
+          if [ -L /$i ]; then
+            dti9404links="$dti9404links /$i"
+          elif [ -d /$i ]; then
+            dti9404dirs="$dti9404dirs /$i"
+          fi
+        done
+
+        if [ "$dti9404dirs" != "" ]; then
+          DtiPrint "$msg_4_7a"
+          for i in $dti9404dirs
+          do
+            DtiPrint "  $i\n"
+          done
+        fi
+
+        if [ "$dti9404links" != "" ]; then
+          DtiPrint "$msg_4_7b"
+          for i in $dti9404links
+          do
+            DtiPrint "  $i\n"
+          done
+        fi
+
+        DtiPrint "$msg_4_7c"
+
+        read response
+
+        case $response in
+        0) NewState 12;;
+        99) NewState 99.1;;
+        *) NewState $laststate;;
+        esac
+        ;;
+
+      8)
+        HASH
+        HASH 4.8) display .dt directory warning
+        HASH
+        DtiPrint "$msg_4_8" $DTIREADME
+
+        read response
+
+        case $response in
+        0) NewState 4.3;;
+        99) NewState 99.1;;
+        *) NewState $laststate;;
+        esac
+        ;;
+
+
+      *)
+        HASH
+        HASH 4.*) unexpected state
+        HASH
+        UnknownState
+        ;;
+      esac
+      ;; 
+
+    5) 
+      HASH
+      HASH 5) verify configuration
+      HASH
+      verifyConfig="$(DtiVerifyConfiguration)"
+      if [ "$verifyConfig" = "yes" ]; then
+        NewState 6 
+      else
+        if [ "$verifyConfig" != "no" ]; then
+          msg_4_5="$verifyConfig"
+        fi
+        NewState 4.5
+      fi
+      ;;
+
+    6)
+      HASH
+      HASH 6) verify CDROM
+      HASH
+      if [ -d "$(pwd)/$DTIPLATFORMDIR" ]; then
+        NewState 7
+      else
+        NewState 2.4
+      fi
+      ;;
+
+    7)
+      HASH
+      HASH 7) check for 10/93 bits
+      HASH
+
+      dti9310dirs=""
+      dti9310links=""
+
+      for i in /opt/dt /etc/opt/dt /var/opt/dt
+      do
+        if [ -d "$i" -a -L "$i" ]; then
+          dti9310dirs="$dti9310dirs $(ResolvePathName $i)"
+          dti9310links="$dti9310links $i"
+        elif [ -d "$i" ]; then
+          dti9310dirs="$dti9310dirs $i"
+        fi
+      done
+
+
+      if [ -z "$dti9310dirs" -a -z "$dti9310links" ]; then
+        NewState 4.3
+      else
+        NewState 4.6
+      fi
+      ;;
+
+    8)
+      HASH
+      HASH 8) obtain alternate installation root
+      HASH
+      DtiClearScreen
+
+      DtiPrint "$msg_2"
+
+      let meg=$(GetSpaceNeeded)/$dtiMeg+1
+
+      DtiPrint "$msg_8" ${dtiRoot:-$dtiDefaultRoot} \
+                        $dtiRoot/$dtiUsrDt \
+                        $dtiRoot/$dtiEtcDt \
+                        $dtiRoot/$dtiVarDt \
+                        " $meg"
+
+      if [ "$msg_8_error" != "" ]; then
+        DtiPrint "  ${msg_8_error}\n\n"
+        msg_8_error=""
+      fi
+
+      DtiPrint "$msg_8b"
+
+      read response
+
+      case $response in
+      "")
+        HASH blank, no change
+        NewState 4.3
+        ;;
+      "/")
+        HASH root, revert to default
+        dtiRoot=""
+        NewState 4.3
+        ;;
+      /usr/dt|/usr/dt/STAR|/etc/dt|/etc/dt/STAR|/var/dt|/var/dt/STAR)
+        HASH can't use these
+        msg_8_error="Please specify something other than '$response'." 
+        NewState $state;;
+      /STAR)
+        HASH absolute path is ok, continue verification
+        dtiProposedRoot=$response
+        if [ -d $dtiProposedRoot ]; then
+          dtiRoot=$dtiProposedRoot
+          NewState 4.3
+        else
+          msg_8_error="Directory '$response' does not exist."
+          NewState $state
+        fi
+        ;;
+      *)
+        HASH anything else is not
+        msg_8_error="The directory you specify must start with a '/'."
+        NewState $state;;
+      esac
+      ;;
+
+    11) 
+      HASH
+      HASH check available space
+      HASH
+      dir=$dtiRoot/$dtiUsrDt
+
+      while [[ ! -z "$dir" && ! -d $dir ]]
+      do
+        dir=${dir%/STAR}
+      done
+
+      [ -z "$dir" ] && dir="/"
+
+      dtiSpaceAvail=$(DtiFreeSpace $dir)
+      dtiSpaceNeeded=$(GetSpaceNeeded)
+
+      if [[ "$dtiSpaceAvail" -lt "$dtiSpaceNeeded" ]]; then
+        NewState 4.4
+      else
+        NewState 4.7
+      fi
+      ;;
+
+    12) 
+      HASH
+      HASH start install script
+      HASH
+      DtiClearScreen
+
+      DtiPrint "$msg_2"
+
+      DtiPrint "Installing the Desktop..."
+
+      options="-clean -z $(pwd)/$DTIPLATFORMDIR"
+
+      if [ "$dtiRoot" != "" ]; then
+        options="$options -pI $dtiRoot/$dtiUsrDt"
+        options="$options -pC $dtiRoot/$dtiEtcDt"
+        options="$options -pV $dtiRoot/$dtiVarDt"
+      fi
+
+      $DTIPLATFORMDIR/$DTIINSTALLCDE $options
+
+      if [ "$?" = "0" ]; then
+        NewState 2.5
+      else
+        NewState 2.6
+      fi
+      ;;
+
+    13)
+      HASH
+      HASH 13) erase 10/93 bits
+      HASH
+      DtiClearScreen
+
+      DtiPrint "$msg_2"
+
+      DtiPrint "Erasing the October 1993 Snapshot ..."
+
+      if [ "$dti9310dirs" != "" ]; then
+        for i in $dti9310dirs
+        do
+          DtiPrint "\nErasing $i ..."
+          rm -rf $i 2>&1 >>$dtiLogFile
+        done
+      fi
+
+      if [ "$dti9310links" != "" ]; then
+        for i in $dti9310links
+        do
+          DtiPrint "\nErasing $i ..."
+          rm $i 2>&1 >>$dtiLogFile
+        done
+      fi
+
+      NewState 4.8
+      ;;
+
+    99.*)
+      HASH
+      HASH 99.*) exit
+      HASH
+      Exit "exit"
+      ;;  
+    *)
+      HASH
+      HASH *) unexpected state
+      HASH
+      UnknownState
+    esac  
+  done
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM Message text
+XCOMM
+XCOMM ==========================================================================
+
+msg_2="\
+The Common Open Systems Environment Desktop\n\
+April 1994 Snapshot CDROM Installation\n\n"
+
+msg_2_1="\
+You must be logged in as 'root' to install the Desktop\n"
+
+msg_2_2="\
+This CD does not contain a Desktop install image for %s.\n"
+
+msg_2_4="\
+This CD does not contain a Desktop install image for %s.\n"
+
+msg_2_5="\
+The Desktop installation is complete.\n\
+
+Please refer to your Getting Started guide for information
+about how to start the Desktop.\n\n"
+
+msg_2_6="\
+The Desktop installation completed with errors.\n\
+
+Please browse the /tmp/installCDE.log file for information
+regarding the problem.\n\n"
+
+msg_4="\
+The Common Open Systems Environment Desktop\n\
+April 1994 Snapshot CDROM Installation\n\n"
+
+msg_4_1="\
+This script will guide you through the installation of
+the Desktop onto your system.\n\
+
+You will need approximately %sMB of available space in
+which to install the Desktop.
+\n\n\
+0) Continue with Desktop Installation\n\
+99) Exit Desktop Installation\n
+\
+Please enter selection: "
+
+msg_4_2="\
+Important: You must sign and return the enclosed Software License
+Agreement before you can use this Software!
+
+
+WARNING: Use of CD-ROM Code is Time Limited: This software is
+         not intended for use beyond the time limitations detailed in 
+         the Software License Agreement.
+
+
+0) Continue with Desktop Installation
+99) Exit Desktop Installation
+
+Please enter selection: "
+
+msg_4_3="\
+The current installation 'root' for the desktop is '%s',
+which means the desktop will be installed in the following directories:
+
+  %s
+  %s
+  %s
+
+You may specify an alternate installation root by selecting (1) below.
+\n\
+1) Select alternate installation root\n\
+\n\
+0) Continue with Desktop Installation\n\
+99) Exit Desktop Installation\n\
+\n\
+Please enter selection: "
+
+msg_4_4="\
+WARNING! There is not enough free space available in which to
+install the Desktop.
+
+Directory: %s
+Space available: %s
+Space needed: %s
+
+It is recommended that you Exit Desktop Installation (99) to
+correct the problem.
+
+0) Continue with Desktop Installation\n\
+99) Exit Desktop Installation\n
+\
+Please enter selection: "
+
+msg_4_5="\
+WARNING! The Desktop does not support this system configuration.
+
+It is recommended that you install the desktop on a supported
+system configuration.
+
+0) Continue with Desktop Installation
+99) Exit Desktop Installation
+
+Please enter selection: "
+
+msg_4_6="\
+The October 1993 Snapshot installation has been detected on this
+system. You may select (1) to erase the October 1993 Snapshot from
+your system. Selecting (1) will:\n"
+
+msg_4_6a="\
+\nErase the following directories and their contents:\n\n"
+
+msg_4_6b="\
+\nRemove the following symbolic links:\n\n"
+
+msg_4_6c="\
+\n\
+1) Erase the October 1993 Snapshot from your system\n\
+\n\
+0) Continue with Desktop Installation\n\
+99) Exit Desktop Installation\n\
+\n\
+Please enter selection: "
+
+msg_4_7="\
+The April 1994 Snapshot will now be installed on your system.\n"
+
+msg_4_7a="\
+
+The contents of the following existing directories will be completely replaced:
+\n"
+
+msg_4_7b="\
+\nThe following existing symbolic links will be replaced:\n\n"
+
+msg_4_7c="\
+\n\
+0) Continue with Desktop Installation\n\
+99) Exit Desktop Installation\n\
+\n\
+Please enter selection: "
+
+msg_4_8="\
+WARNING! Advise all CDE users on the system to remove or rename their
+\$HOME/.dt directory and their \$HOME/.dtprofile.  The April 1994 Desktop
+is not compatible with the October 1993 Desktop versions of these files.
+
+If users have customized the \$HOME/.dt/dtwmrc file and want to keep 
+it, they will need to cut and paste the appropriate pieces into the new
+dtwmrc provided.  
+
+Please see the '%s' file on this CDROM for more information.
+
+0) Continue with Desktop Installation
+99) Exit Desktop Installation
+
+Please enter selection: "
+
+msg_8="\
+The current installation 'root' for the desktop is '%s',
+which means the desktop will be installed in the following directories:
+
+  %s
+  %s
+  %s
+
+To specify a different directory, enter a full directory pathname
+below. Simply press enter to keep the current installation root.
+
+The directory you specify must:
+
+* Be an absolute path (i.e. start with a '/')
+* Be an existing directory
+* Have approximately %sMB of free space\n\n"
+
+msg_8b="\
+Please enter directory name or leave blank to keep the current name
+> "
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM NewState
+XCOMM
+XCOMM Input
+XCOMM   $1 - new state
+XCOMM   $state - current state
+XCOMM Output - none
+XCOMM   $laststate - saved current state
+XCOMM   $state - new state
+XCOMM Return - none
+XCOMM
+XCOMM ==========================================================================
+
+NewState()
+{
+  laststate=$state;
+  state=$1
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiPrint - echo to stderr and log
+XCOMM
+XCOMM Input 
+XCOMM   $1 - data to echo to stdout and log
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+DtiPrint()
+{
+  printf "$1" $2 $3 $4 $5 $6 $7 $8 $9 >&2
+  Log "$1" $2 $3 $4 $5 $6 $7 $8 $9
+}
+
+
+XCOMM =========================================================================
+XCOMM
+XCOMM ResolvePathName
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return
+XCOMM
+XCOMM =========================================================================
+
+ResolvePathName() {
+  if [ "/" = "$1" ]; then
+    echo $1$2
+  elif [ -L $1 ]; then
+    ResolvePathName `/bin/ls -l $1 | awk '{print $NF}'` $2
+  else    ResolvePathName `dirname $1` `basename $1`${2+/}$2
+  fi
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiReturn - return a string to stdout
+XCOMM
+XCOMM Input
+XCOMM   $1 - data to return
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+DtiReturn()
+{
+  echo "$1"
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM UnknownState
+XCOMM
+XCOMM Input
+XCOMM   $laststate - previous state
+XCOMM   $state - current state
+XCOMM Output - none
+XCOMM Return - none
+XCOMM
+XCOMM ==========================================================================
+
+UnknownState()
+{
+  DtiPrint "Fatal error: unexpected state transition $laststate --> $state\n"
+  Exit "Fatal error: unexpected state transition $laststate --> $state\n"
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM entry point
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+umask 0
+
+DTIINSTALLDT=install.dt
+DTIINSTALLCDE=install.cde
+DTIPACKAGE=dt.pkg
+DTIINSTALLDTO=install.dto
+DTICONFIGDIR=config
+
+dtiUsrDt="usr/dt"
+dtiEtcDt="etc/dt"
+dtiVarDt="var/dt"
+
+dtiDefaultRoot="/"
+dtiRoot=""
+
+dtiPlatform=$(GetPlatform)
+DTIPLATFORMDIR=$dtiPlatform
+DTIREADME=config/config.$dtiPlatform
+
+dtiSpaceAvail="0"
+dtiSpaceNeeded="0"
+dtiLogFile="/tmp/install.dt.log"
+
+dtiMeg=1048576
+
+XCOMM
+XCOMM change directories to install.dt location as all
+XCOMM installation packages are relative to this
+XCOMM
+
+if [ ${0##STAR/} != $DTIINSTALLDT ]; then
+  HASH
+  HASH CDROM driver folds filenames to uppercase
+  HASH
+  typeset -u DTIINSTALLDT
+  typeset -u DTIINSTALLCDE
+  typeset -u DTIPACKAGE
+  typeset -u DTIINSTALLDTO
+  typeset -u DTICONFIGDIR
+  typeset -u DTIPLATFORMDIR
+  typeset -u DTIREADME
+fi
+
+if [ ${0%/STAR} != $DTIINSTALLDT ]; then
+  cd ${0%/STAR}
+fi
+
+XCOMM
+XCOMM source in possible platform overrides for certain functions
+XCOMM 
+XCOMM DtiClearScreen
+XCOMM DtiFreeSpace
+XCOMM DtiVerifyConfiguration
+XCOMM DtiWhoami
+XCOMM
+if [ -d "$(pwd)/$DTIPLATFORMDIR" ]; then
+  if [ -f $(pwd)/$DTIPLATFORMDIR/$DTIINSTALLDTO ]; then
+    . $(pwd)/$DTIPLATFORMDIR/$DTIINSTALLDTO
+  fi
+fi
+
+XCOMM
+XCOMM ready to go
+XCOMM
+Main

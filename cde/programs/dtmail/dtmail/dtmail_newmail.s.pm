@@ -1,0 +1,27 @@
+/* XPM */
+/* $XConsortium: dtmail_newmail.s.pm /main/3 1995/07/18 16:10:58 drk $ */
+static char * 16_m_xpm[] = {
+"16 16 7 1",
+" 	s None	c None",
+".	c #000000000000",
+"X	c #B7B7B7B7B7B7",
+"o	c #8C8C8C8C8C8C",
+"O	c #E5E5E5E5E5E5",
+"+	c white",
+"@	c #CCCCCCCCCCCC",
+"                ",
+"                ",
+" .............. ",
+" XXXXXXXXXXXXXX ",
+"................",
+".XXXXXXXXXXXXXX.",
+".XXXXXXXXXXXXXX.",
+".XXXXXXXXXXXXXX.",
+".XXXXXXXXXXXXXX.",
+".XXXXXXXXXXXXXX.",
+"....ooXXXXXX....",
+".O++oooXXXX+++X.",
+".X++ooooooo+++@.",
+".O++++++++++++X.",
+".X@X@X@X@X@X@X@.",
+"................"};

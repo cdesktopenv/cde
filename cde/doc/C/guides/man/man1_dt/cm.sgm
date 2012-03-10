@@ -1,0 +1,417 @@
+<!-- $XConsortium: cm.sgm /main/11 1996/09/08 19:50:10 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN5.rsml.1">
+<refmeta><refentrytitle>dtcm</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtcm</command></refname><refpurpose>The CDE
+Calendar Manager.</refpurpose></refnamediv>
+<!-- (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994 Novell, Inc.-->
+<!-- t-->
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtcm</command><arg choice="opt">-v<replaceable>view</replaceable></arg>
+<arg choice="opt">-c<replaceable>calendar</replaceable></arg><arg choice="opt">-p<replaceable>printer</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para><command>dtcm</command> is the CDE appointment and resource scheduling
+tool. Use it to:</para>
+<!--Start of RS / RE range-->
+<para>- Display day, week, month, and year views of your calendar</para>
+<para>- Schedule single or repeating calendar entries</para>
+<para>- Browse and edit another user's calendar</para>
+<para>- Schedule reminders to give you notice of events</para>
+<para>- Restrict access to your calendar</para>
+<para>- Print high-quality hardcopy</para>
+<para>- View and Schedule entries for a group of calendars</para>
+<para>- Change the time zone context</para>
+<para>- Announce appointments via electronic mail</para>
+<para>- Schedule appointments received in electronic mail</para>
+<!--End of RS / RE range-->
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para><command>dtcm</command> accepts all of the standard X Toolkit command
+line options as well as the following:</para>
+<variablelist>
+<varlistentry><term>-c calendar</term>
+<listitem>
+<para>Specifies the calendar to display. The default value is equivalent
+to $USER@$HOST.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>-p printer</term>
+<listitem>
+<para>Specifies the default printer. The default is the system's default
+printer.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>-v view</term>
+<listitem>
+<para>Specifies the initial view. Values can be "day", "week", "month" or
+"year".</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>CONCEPTS</title>
+<para>A <emphasis>calendar</emphasis> is a persistent entity existing somewhere
+on the network, which contains scheduling data for a <emphasis>user</emphasis>.
+A <emphasis>calendar entry</emphasis> is an event recorded within the context
+of a calendar. Calendar entries supported by dtcm are <emphasis>appointment</emphasis> and <emphasis>to-do</emphasis>. Calendar entries can be <emphasis>single</emphasis>, or <emphasis>repeat</emphasis> entries. A calendar entry
+may have one or more <emphasis>reminders</emphasis> associated with it. A
+reminder causes dtcm to notify you by issuing an <emphasis>alarm</emphasis>
+when the system time enters your specified <emphasis>reminder notice period</emphasis> before the event. When viewing your calendar, you have the notion
+of the <emphasis>current date</emphasis>, which is the date you last selected
+by selecting the Day View, or by clicking in any of the other views. The
+current date does not change until you select another date, even if you have
+navigated out of a view that would contain the current date.</para>
+<para>dtcm presents a <emphasis>network calendar model</emphasis>. To operate
+on a calendar belonging to some user on the network, dtcm establishes a session
+with a <emphasis>calendar server</emphasis>. The calendar server is (conceptually
+at least) a separate process running on the host where the calendar is located.
+It manages all the calendars for the host on which it is running, and can
+service multiple connected applications simultaneously. The calendar server
+responds to authentication, session control and calendar transactions initiated
+by dtcm. In addition dtcm responds to events occurring at the server, such
+as updates caused by other connected applications instances.</para>
+</refsect1>
+<refsect1>
+<title>USAGE</title>
+<para>dtcm has a single main window, containing a graphical calendar. You
+can choose to view day, week, month or year in the main window. Navigating
+between the views is achieved by selecting the view from the <emphasis>View</emphasis> menu, or by clicking one of the navigation buttons displayed in
+the current view.</para>
+<para><literal>Menu</literal> <literal>Bar</literal></para>
+<para><literal>File</literal> <literal>Menu</literal></para>
+<variablelist>
+<varlistentry><term>Print Current View</term>
+<listitem>
+<para>Prints hard-copy based on the currently displayed calendar view.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Print...</term>
+<listitem>
+<para>Brings up a Print Setup window that allows you to select the report
+type to use for the currently selected view, as well as various printing
+options. You can specify a from/to date range, the printer name, and the
+number of copies. You can set other more generic options, such as margins
+and footers, by clicking on the <literal>More...</literal> button.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Options...</term>
+<listitem>
+<para>Brings up default options for all of dtcm's global attributes.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Exit</term>
+<listitem>
+<para>Terminates the dtcm application.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para><symbol role="Message">Edit</symbol> <literal>Menu</literal></para>
+<variablelist>
+<varlistentry><term>Appointment...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up the appointment editor, described below.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>ToDo...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up the to-do editor, described below.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Properties...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up the properties dialog for appointments and to-do entries.
+This item is for properties of calendar data entities. For properties of
+the dtcm application, use the <emphasis>Properties...</emphasis> entry in
+the <emphasis>File</emphasis> menu.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para><literal>View</literal> <literal>Menu</literal></para>
+<variablelist>
+<varlistentry><term>Day</term>
+<listitem>
+<!-- ex-TP-->
+<para>Changes the current view in the main window to Day View.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Week</term>
+<listitem>
+<!-- ex-TP-->
+<para>Changes the current view in the main window to Week View.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Month</term>
+<listitem>
+<!-- ex-TP-->
+<para>Changes the current view in the main window to Month View.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Year</term>
+<listitem>
+<!-- ex-TP-->
+<para>Changes the current view in the main window to Year View.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Appointment List...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up the <emphasis>Appointment List</emphasis> dialog.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>ToDo List...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up the <emphasis>ToDo List</emphasis> dialog.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Find...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up the <emphasis>Find</emphasis> dislog, which you can use to
+locate calendar entries by specifying some search criteria.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Go to Date...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up the <emphasis>Go to Date</emphasis> dialog, which allows you
+to change the view to a specified date. This is a convenient way to get to
+dates that are distant from the current date.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para><literal>Browse</literal> <literal>Menu</literal></para>
+<variablelist>
+<varlistentry><term>Show Other Calendar...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up a dialog to let you connect to a different calendar than the
+one currently displayed, in the main window. You will still be displaying
+a single calendar.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Compare Calendars...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up the <emphasis>Compare Calendars</emphasis> dialog, described
+below.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Menu Editor...</term>
+<listitem>
+<!-- ex-TP-->
+<para>Brings up a dialog that allows you to add frequently used calendars
+to the <emphasis>Browse</emphasis> menu for this and future sessions with
+dtcm.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&lt;user>@&lt;host></term>
+<listitem>
+<para></para>
+<!-- ex-TP-->
+</listitem>
+</varlistentry>
+<varlistentry><term>...</term>
+<listitem>
+<!-- ex-TP-->
+<para>This sequence of entries consists of your own calendar, followed by
+an optional list of calendars that you can add to the menu using the <emphasis>Menu Editor...</emphasis> option described above. Your own calendar always
+appears first. The other options are listed in alphabetical order.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para><literal>Secondary</literal> <literal>Windows</literal></para>
+<para>In addition to the main window, dtcm has several secondary windows,
+which give you access to the scheduling and browsing features of dtcm.</para>
+<para>The <emphasis>Appointment Editor</emphasis> allows scheduling of appointments.
+An appointment is the most common type of calendar entry. It is useful for
+scheduling time-slots in your calendar, and can be exported to other users
+either by direct entry to their calendars, or through electronic mail. To
+invoke the appointment editor, select it from the <emphasis>Schedule</emphasis>
+menu in the main window, or double-click anywhere in the graphical calendar
+view.</para>
+<para>The <emphasis>To Do Editor</emphasis> allows you to maintain a list
+of to-do items for your personal use. To-do entries are not visible to other
+dtcm users who are browsing your calendar; they are private to you. To-do
+entries differ from appointments in that they do not necessarily appear as
+scheduled events in your calendar views. If they have a <emphasis>Due Date</emphasis> associated with them, you will see that on your calendar view.
+The main purpose of to-do entries is to allow you to maintain a list of work
+items, without necessarily allocating calendar time for them. Invoke the
+to-do editor from by selecting it form the <emphasis>Schedule</emphasis> menu
+in the main window.</para>
+<para>The <emphasis>Group Appointment Editor</emphasis> allows you to schedule
+an appointment on multiple calendars at once. Invoke the group appointment
+editor by clicking <emphasis>Schedule</emphasis> in the <emphasis>Compare
+Calendars</emphasis> window. You may optionally announce the appointment
+over electronic mail.</para>
+<para>The <emphasis>Compare Calendars</emphasis> window allows you to connect
+to several calendars simultaneously, and get a graphical overview of busy
+and available time in the resultant "virtual calendar". Invoke the compare
+calendars window by selecting it from the <emphasis>Browse</emphasis> menu
+in the main window.</para>
+<para>The <emphasis>Print Setup Box</emphasis> window allows you to select
+the report type to use for the currently selected view. In addition to selecting
+the view information, you can set a number of generic and printer-specific
+printing options. For example, you can send the output to a file or a printer.
+In the case of printed output, you can specify how many copies you want.
+You can also access another window to set options specific to the printer/spooler
+you are using. For example, you can select paper size, one- or two-sided
+printing, and email notification on completion of the print job.</para>
+<para>The <emphasis>Options</emphasis> window, accessible from the <emphasis>File</emphasis> menu, gives you access to the dtcm options that you can configure.
+There are several categories of options: Editor Defaults; Display Settings;
+Access List and Permissions; Printer Settings; Date Format. Set the options
+to suit your requirements, and save them by clicking <emphasis>Apply</emphasis>.
+</para>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<para>dtcm supports a number of application resources to allow you to configure
+its behaviour. The application class name for dtcm is <emphasis>Dtcm</emphasis>. To set application resources, you can copy the system default
+version of this file from /usr/dt/app-defaults/&lt;LANG>/Dtcm to a personal
+version, typically ~/app-defaults/Dtcm, and edit it with your changes.
+Following is the list of supported resources and their default values.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colname="col1" colwidth="121*">
+<colspec align="left" colname="col2" colwidth="120*">
+<colspec align="left" colwidth="106*">
+<colspec align="left" colwidth="109*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>Application Resources</literal></entry></row>
+<row>
+<entry align="left" valign="top">Name</entry>
+<entry align="left" valign="top">Class</entry>
+<entry align="left" valign="top">Type</entry>
+<entry align="left" valign="top">Default</entry></row>
+<row>
+<entry align="left" valign="top">labelFont</entry>
+<entry align="left" valign="top">LabelFont</entry>
+<entry align="left" valign="top">XmRFontList</entry>
+<entry align="left" valign="top">(varies)</entry>
+</row>
+<row>
+<entry align="left" valign="top">viewFont</entry>
+<entry align="left" valign="top">ViewFont</entry>
+<entry align="left" valign="top">XmRFontList</entry>
+<entry align="left" valign="top">(varies)</entry>
+</row>
+<row>
+<entry align="left" valign="top">bold Font</entry>
+<entry align="left" valign="top">BoldFont</entry>
+<entry align="left" valign="top">XmRFontList</entry>
+<entry align="left" valign="top">(varies)</entry>
+</row>
+<row>
+<entry align="left" valign="top">iconFont</entry>
+<entry align="left" valign="top">IconFont</entry>
+<entry align="left" valign="top">XmRFontList</entry>
+<entry align="left" valign="top">-dt-application-bold-r-normal-sans</entry>
+</row>
+<row>
+<entry align="left" valign="top">applicationFontFamily</entry>
+<entry align="left" valign="top">ApplicationFontFamily</entry>
+<entry align="left" valign="top">XmRXmString</entry>
+<entry align="left" valign="top">application</entry>
+</row>
+</tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry>
+<term>dtcm*labelFont</term>
+<listitem>
+<para>Specifies the font to use for the labels in the calendar's views.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>dtcm*viewFont</term>
+<listitem>
+<para>Specifies the font to use for the text of the appointments in the calendar's views.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>dtcm*boldFont</term>
+<listitem>
+<para>Specifies the font to use for the time ranges in the week view.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>dtcm*iconFont</term>
+<listitem>
+<para>Specifies the icon font.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>dtcm*applicationFontFamily</term>
+<listitem>
+<para>Specifies the font family name to use for the text of the appointments in
+the calendar's views. A font is used with this family name and an appropriate
+size to match the system font size chosen via
+<literal>dtstyle</literal>.
+<Systemitem class="resource">dtcm*viewFont</systemitem>
+and
+<Systemitem class="resource">dtcm*boldFont</systemitem>
+have a higher precedent than
+<Systemitem class="resource">dtcm*applicationFontFamily</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<variablelist>
+<varlistentry><term>/usr/dt/bin/dtcm</term>
+<listitem>
+<!-- ex-TP-->
+<para>This is the executable for dtcm.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>/usr/dt/app-defaults/&lt;LANG>/Dtcm</term>
+<listitem>
+<!-- ex-TP-->
+<para>This is the system-default application defaults file for dtcm.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>/usr/dt/bin/rpc/cmsd</term>
+<listitem>
+<!-- ex-TP-->
+<para>This is the calendar daemon (server) that manages calendars on a machine.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>/var/spool/calendar/callog.&lt;user></term>
+<listitem>
+<!-- ex-TP-->
+<para>This is the persistent calendar database for a user on this machine.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.3 08/21/95 21:30:04-->
+<?Pub *0000016276>

@@ -1,0 +1,1601 @@
+<!-- $XConsortium: ReleaseNotes.sgm /main/13 1996/12/23 17:14:32 dbrooks $ -->
+<!DOCTYPE BOOK PUBLIC "-//HaL and O'Reilly//DTD DocBook//EN" [
+<!ENTITY % ISOpublishing PUBLIC "ISO 8879-1986//ENTITIES Publishing//EN">
+%ISOpublishing;
+<!ENTITY % ISOnumeric PUBLIC "ISO 8879-1986//ENTITIES Numeric and Special Graphic//EN">
+%ISOnumeric;
+]>
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<book>
+<title>CDE 2.1.0 Release Notes</title>
+<bookinfo>
+<bookbiblio>
+<authorgroup>
+<author><firstname> </firstname></author>
+</authorgroup>
+</bookbiblio>
+<legalnotice>
+<title>Legal Notices</title>
+<programlisting>&copy; Copyright 1993, 1994, 1995, 1996 Hewlett-Packard Company
+&copy; Copyright 1993, 1994, 1995, 1996 International Business Machines Corp.
+&copy; Copyright 1993, 1994, 1995, 1996 Sun Microsystems, Inc.
+&copy; Copyright 1993, 1994, 1995, 1996 Novell, Inc.
+&copy; Copyright 1995, 1996 Digital Equipment Corp.
+&copy; Copyright 1995, 1996 Fujitsu Limited
+&copy; Copyright 1995, 1996 Hitachi, Ltd.</programlisting>
+<para>ALL RIGHTS RESERVED</para>
+<para>All marks are trademarks or registered trademarks of their respective
+owners.</para>
+</legalnotice>
+</bookinfo>
+<chapter id=CDERelNotes>
+<title>CDE 2.1.0 Release Notes</title>
+<para><emphasis>December 1996</emphasis></para>
+<para>Legal Notices</para>
+<programlisting>&copy; Copyright 1993, 1994, 1995, 1996 Hewlett-Packard Company
+&copy; Copyright 1993, 1994, 1995, 1996 International Business Machines Corp.
+&copy; Copyright 1993, 1994, 1995, 1996 Sun Microsystems, Inc.
+&copy; Copyright 1993, 1994, 1995, 1996 Novell, Inc.
+&copy; Copyright 1995, 1996 Digital Equipment Corp.
+&copy; Copyright 1995, 1996 Fujitsu Limited
+&copy; Copyright 1995, 1996 Hitachi, Ltd.</programlisting>
+<para>ALL RIGHTS RESERVED</para>
+<para>All marks are trademarks or registered trademarks of their respective
+owners.</para>
+<sect1 id=chap1>
+<title>Introduction</title>
+<para>This document describes the Common Desktop Environment,
+CDE version 2.1.0 and Motif version 2.1.0.
+Wherever "CDE" is used in this document, it means CDE 2.1.0.
+Wherever "Motif" is used, it means Motif 2.1.0.
+</para>
+<para>The release of X11 provided with this CDE distribution is based on
+X11R6.2, which includes additional support for Vertical Writing,
+User-Defined Characters, and the X Print service.</para>
+<para>This document and accompanying text files contain important information.
+Please read them carefully before starting the build and installation procedures.
+</para>
+<para>The command line instructions provided here are for <command>csh</command>.
+They may vary depending on the particular shell you are using.</para>
+</sect1>
+<sect1 id=chap2>
+<title>Unloading the Distribution</title>
+<para>
+If you received this distribution on physical media (tape or CD)
+rather than electronically, the distribution includes
+appropriate instructions in hardcopy form.
+The hardcopy information pertains to your
+particular distribution format.</para>
+<para>The instructions in this document can be used for unloading from electronic
+distribution or tape.</para>
+<sect2 id=sect1>
+<title>Distribution Format</title>
+<para>The distribution consists of a single tape that contains nine tar files.
+These files contain the source code, test code, and documentation of CDE,
+Motif, and X11R6.2</para>
+<para>To unpack the distribution, create a directory to hold all of the sources
+and untar everything into that directory:</para>
+<programlisting>% mkdir $CDESOURCEDIR
+% cd $CDESOURCEDIR
+% tar xf tar-file-name-or-tape-device (nine times)</programlisting>
+<para>where $CDESOURCEDIR designates the CDE master source directory. If you
+are restoring from a tape, you should choose a device name that will not cause
+the tape to rewind between <command>tar</command> commands.</para>
+<para>The directories stored in the nine sections are:</para>
+<programlisting>$CDESOURCEDIR/cde and $CDESOURCEDIR/cde-contrib
+$CDESOURCEDIR/cde-test
+$CDESOURCEDIR/cde/doc
+$CDESOURCEDIR/motif
+$CDESOURCEDIR/motif/tests
+$CDESOURCEDIR/motif/doc
+$CDESOURCEDIR/x11/xc
+$CDESOURCEDIR/x11/xc/test
+$CDESOURCEDIR/x11/xc/doc</programlisting>
+<para>
+If you unpack the entire distribution, you will have the following
+five subdirectories under $CDESOURCEDIR:
+</para>
+<programlisting>cde
+cde-contrib
+cde-test
+motif
+x11</programlisting>
+<para>Note that directory permissions stored in the tar file are generally
+set world-writable. Make sure your <command>umask</command> is set the way
+you want before unpacking the distribution.</para>
+<para>The <filename>cde-contrib</filename> directory contains some unsupported
+contributed CDE software.</para>
+<para>The DocBook SGML source for these release notes can be found in the
+file <filename>$CDESOURCEDIR/cde/ReleaseNotes.sgm</filename>. The PostScript
+output can be found in <filename>$CDESOURCEDIR/cde/ReleaseNotes.ps</filename>.
+</para>
+</sect2>
+<sect2 id=sect2>
+<title>Disk Space Requirements</title>
+<para>The following amounts of disk space are required to unpack the various
+parts of the CDE distribution. All amounts are in MB.</para>
+<programlisting>cde, cde-contrib    93
+cde-test          1361
+cde/doc             91
+motif               19
+motif/tests         39
+motif/doc           15
+x11/xc              90
+x11/xc/test         13
+x11/xc/doc          39</programlisting>
+<para>Approximately 1Gb of additional disk space is required to build the
+release.</para>
+<para>Depending on the platform, approximately 140MB to 160MB of additional
+disk space is required to install the release (C locale only). Sample
+systems that were installed with several locales required between
+170MB and 230MB.</para>
+</sect2>
+</sect1>
+<sect1 id=chap3>
+<title>Building CDE</title>
+<para>This chapter provides a generic description of the build process for
+CDE. The x11, motif, and cde libraries and headers must be installed on your
+system prior to building cde-test. These libraries and headers
+are included in the CDE Distribution.
+</para>
+<para>CDE has been built on the following reference platforms:</para>
+<programlisting>Digital  AlphaStation 200   Digital UNIX V4.0
+
+Fujitsu  DS/90 7000         UXP/DS V20L10
+
+HP       HP9000/7xx         HP-UX 10.01
+
+IBM      RS/6000            AIX 4.2
+
+Novell   Intel 486/Pentium  UnixWare 2.02
+
+Sun      SPARCstation       Solaris 2.4</programlisting>
+<para>For a detailed definition of the reference platforms, see
+"Reference Platforms."</para>
+<para>To build CDE, you must have an ANSI C compiler and a C++ compiler.
+You must also have <command>perl</command> version 4.0 or higher for all platforms
+(except SUN, which needs version 5.0 or higher). <command>perl</command>
+is publicly available via anonymous <command>ftp</command> at ftp.uu.net.
+<command>perl</command> must be installed on your system and available in your $PATH.
+You must not have <filename>/usr/ucb</filename> in your $PATH, or the build
+may fail.
+</para>
+<para>
+If you expect to build the distribution on more than one machine using
+a shared source tree, or if you just want to keep the binaries out of the
+source tree, you may want to use the X11 program <command>lndir</command>
+to create a symbolic link tree on each build machine. The links require additional
+disk space but take less disk space than multiple copies of the source tree.
+</para>
+<para>Create a build directory that is not a subdirectory of the CDE master
+source directory:</para>
+<programlisting>% mkdir $CDEBUILDDIR</programlisting>
+<para>Then, create a symbolic link tree:</para>
+<programlisting>% lndir $CDESOURCEDIR $CDEBUILDDIR</programlisting>
+<para>where $CDESOURCEDIR is the CDE master source directory. Note that the
+directory containing the <command>lndir</command> program must be in your
+$PATH.</para>
+<para>Note that the builds described below may not be done in parallel; each
+subsystem depends upon the results of builds in previous subsystems.</para>
+<sect2 id=sect3>
+<title>Building X11</title>
+<orderedlist>
+<listitem><para>Customize <filename>$CDEBUILDDIR/x11/xc/config/cf/site.def
+</filename> to reflect local preferences for install locations, compilers,
+paths, etc.</para>
+</listitem>
+<listitem><para>Federal law prohibits the X Consortium from shipping Data
+Encryption Standard (DES) source code outside the United States. If you
+have a copy of this source
+(<filename>x11/xc/lib/Xdmcp/Wraphelp.c</filename>) and wish to allow use of
+the <symbol>XDM-AUTHORIZATION-1</symbol> protocol, enable
+<symbol>HasXdmAuth</symbol> in your <filename>site.def</filename>
+file.</para>
+</listitem>
+<listitem><para>Set your current directory as follows:</para>
+<programlisting>% cd $CDEBUILDDIR/x11/xc</programlisting>
+</listitem>
+<listitem><para>See if there is a BootstrapCFlags mentioned in the comments
+in the <filename>&lt;vendor>.cf</filename> file. This file is in the directory <filename>
+$CDEBUILDDIR/x11/xc/config/cf</filename>, and the &lt;vendor> string identifies
+the platform on which you are building. If there isn't a definition for BootstrapCFlags,
+enter:</para>
+<programlisting>% make World >&amp; world.log</programlisting>
+<para>If there is a BootstrapCFlags definition, take its value and enter:</para>
+<programlisting>% make World BOOTSTRAPCFLAGS="value" >&amp; world.log</programlisting>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id=sect4>
+<title>Building Motif</title>
+<orderedlist>
+<listitem><para>Customize <filename>$CDEBUILDDIR/motif/config/cf/site.def
+</filename> to reflect local preferences for install locations, compilers,
+paths, etc.</para>
+</listitem>
+<listitem><para>If you are building with imports (the default setup in <filename>
+site.def</filename>), construct the necessary links, as follows:</para>
+<programlisting>% cd $CDEBUILDDIR/motif
+% mkdir imports
+% cd imports
+% ln -s ../../x11/xc/exports x11</programlisting>
+</listitem>
+<listitem><para>Set your current directory as follows:</para>
+<programlisting>% cd $CDEBUILDDIR/motif</programlisting>
+</listitem>
+<listitem><para>See if there is a BootstrapCFlags mentioned in the comments
+in the <filename>&lt;vendor>.cf</filename> file. This file is in the directory <filename>
+$CDEBUILDDIR/motif/config/cf</filename>. If there isn't a definition for
+BootstrapCFlags, enter:</para>
+<programlisting>% make World >&amp; world.log</programlisting>
+<para>If there is a BootstrapCFlags definition, take its value and enter:</para>
+<programlisting>% make World BOOTSTRAPCFLAGS="value" >&amp; world.log</programlisting>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id=sect5>
+<title>Building CDE</title>
+<orderedlist>
+<listitem><para>Customize <filename>$CDEBUILDDIR/cde/config/cf/site.def</filename>
+to reflect local preferences for install locations, compilers, paths, etc.
+</para>
+</listitem>
+<listitem><para>If you are building with imports (the default setup in <filename>
+site.def</filename>), construct the necessary links, as follows:</para>
+<programlisting>% cd $CDEBUILDDIR/cde
+% mkdir imports
+% cd imports
+% ln -s ../../motif/imports/x11 x11
+% ln -s ../../motif/exports motif</programlisting>
+</listitem>
+<listitem><para>Set your current directory as follows:</para>
+<programlisting>% cd $CDEBUILDDIR/motif</programlisting>
+</listitem>
+<listitem><para>See if there is a BootstrapCFlags mentioned in the comments
+in the <filename>&lt;vendor>.cf</filename> file. This file is in the directory <filename>
+$CDEBUILDDIR/cde/config/cf</filename>. If there isn't a definition for BootstrapCFlags,
+enter:</para>
+<programlisting>% make -k World >&amp; world.log</programlisting>
+<para>If there is a BootstrapCFlags definition, take its value and enter:</para>
+<programlisting>% make -k World BOOTSTRAPCFLAGS="value" >&amp; world.log</programlisting>
+</listitem>
+</orderedlist>
+<para>On Solaris, documents build with a large number of SGML errors that
+can be ignored, as a result of using <command>sgmls</command> rather than
+<command>nsgmls</command>.</para>
+</sect2>
+</sect1>
+<sect1 id=chap4>
+<title>Installing CDE</title>
+<para>CDE should be installed or re-installed in single-user mode.  It may
+not be sufficient merely to stop the CDE-related processes on a system that
+already has a CDE version installed.</para>
+<para>Before installing CDE, check to see if <filename>/usr/dt</filename>
+exists. If this directory or link already exists and you want a completely
+new installation (which is recommended), then rename it or back it up and
+then remove it.</para>
+<variablelist>
+<varlistentry><term>HP-UX only:</term>
+<listitem>
+<para>If CDE is running, use <command>init</command>(1M) to change the runlevel
+to a level that will stop <command>dtlogin</command> and other CDE processes (see <filename>
+/etc/inittab</filename> for more information). For example:</para>
+<programlisting>% /sbin/init 2</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>AIX only:</term>
+<listitem>
+<para>If "lslpp -h | grep X11.Dt" shows an AIX installation of CDE, use <command>
+smit</command> to remove the filesets. Otherwise, if a tar installation of
+CDE was made in <filename>/usr/dt</filename>, remove or rename it.</para>
+<para>If CDE is running, do the following to stop all of the CDE processes:
+</para>
+<orderedlist>
+<listitem><para>Kill all running <command>dtlogin</command> processes</para>
+</listitem>
+<listitem><para>Kill the X server</para>
+</listitem>
+</orderedlist>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The installation process creates directory hierarchies rooted at <filename>
+/etc/dt</filename> and <filename>/var/dt</filename>, but does not install
+any files there. Delete files in these directories with care. Important
+customizations made by applications are stored here, and this information
+may be "unrecoverable" if removed.</para>
+<sect2 id=sect6>
+<title>Installing X11</title>
+<para>To install X do the following as root:</para>
+<programlisting>% cd $CDEBUILDDIR/x11/xc
+% make install >&amp; install.log</programlisting>
+<para>You can install manual pages with:</para>
+<programlisting>% make install.man >&amp; man.log</programlisting>
+</sect2>
+<sect2 id=sect7>
+<title>Installing Motif</title>
+<para>To install Motif do the following as root:</para>
+<programlisting>% cd $CDEBUILDDIR/motif
+% make install.cde >&amp; install.log</programlisting>
+<para>Note this is NOT the same command used to install
+Motif without CDE.</para>
+</sect2>
+<sect2 id=sect8>
+<title>Installing CDE</title>
+<para>To install CDE do the following as root (since <command>inetd</command>
+is affected, you
+should do this at the console, rather than remotely):</para>
+<programlisting>% cd $CDEBUILDDIR/cde
+% ./admin/IntegTools/dbTools/installCDE -s $CDEBUILDDIR/cde</programlisting>
+<para>where $CDEBUILDDIR is the path to the directory where CDE was built.
+This installs CDE into <filename>/usr/dt/</filename>.</para>
+<para>
+You must reboot the system after installation.
+</para>
+<para>This script requires the user to have root permissions.</para>
+<para>To print the usage message for the script, run:</para>
+<programlisting>% installCDE '-?'</programlisting>
+<para>Note that many of the options for <command>installCDE</command> have not been
+tested.</para>
+<para>You must install into <filename>/usr/dt</filename>.
+You can use the <literal>-pI</literal> option to specify an alternative
+directory for the actual file storage, but <filename>/usr/dt</filename>
+will be created as a symbolic link to that directory because
+CDE will not operate without that link.
+</para>
+<para>To start CDE manually, run the following command as user root:</para>
+<programlisting>% /usr/dt/bin/dtlogin</programlisting>
+</sect2>
+<sect2 id=sect9>
+<title>Installing Localized Filesets</title>
+<para>After the base install of CDE, you can install localized filesets.
+Each locale has three filesets: message catalogs, resource and config files,
+and on-line help. The filesets for the C locale are installed by default.
+This section describes how to install filesets for supported locales other
+than C.
+</para>
+<para>To install the localized filesets for a locale, run
+<command>installCDE</command> as root as follows (the quotes are required):</para>
+<programlisting>% $CDEBUILDDIR/cde/admin/IntegTools/dbTools/installCDE \
+        -s $CDEBUILDDIR/cde \
+        -f "CDE-&lt;LOCALE> CDE-MSG-&lt;LOCALE> CDE-HELP-&lt;LOCALE>"</programlisting>
+<para>where "&lt;LOCALE>" is "DE" (German), "ES" (Spanish), "FR" (French),
+"IT" (Italian), or "JP" (Japanese). For example, to install Japanese filesets:
+</para>
+<programlisting>% $CDEBUILDDIR/cde/admin/IntegTools/dbTools/installCDE \
+        -s $CDEBUILDDIR/cde \
+        -f "CDE-JP CDE-MSG-JP CDE-HELP-JP"</programlisting>
+</sect2>
+<sect2 id=sect10>
+<title>Known Installation Problems</title>
+<para>Some known installation problems are listed below (additional information
+may be found in the files <filename>$CDESOURCEDIR/cde/OPENBUGS</filename>
+and <filename>$CDESOURCEDIR/motif/OPENBUGS</filename>):</para>
+<itemizedlist>
+<listitem><para>This problem occurs on Digital only.</para>
+<para>Deconfiguration will attempt to undo the installation operations. If
+it fails or needs to be undone manually, you can restore the non-CDE login
+with:</para>
+<programlisting># ln -f -s ../init.d/xdm /sbin/rc3.d/S95xdm</programlisting>
+<para>Rebooting will return the workstation to xdm mode.</para>
+</listitem>
+<listitem><para>If the Japanese filesets are installed, several files are reported as missing
+during the installation process. The Japanese translations of some
+documents are not part of the initial release of CDE 2.1.  This is not
+harmful to the installation.</para>
+</listitem>
+<listitem><para>On Solaris, the file
+<filename>/proj/cde/programs/nsgmls/nsgmls</filename> is reported as
+missing. This is expected.</para></listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id=chap5>
+<title>X Print Services</title>
+<para>To print with CDE, a print server must be running, and the proper name
+of the server must be supplied to client applications.</para>
+<para>In addition, to enable users to select a printer setup dialog
+from within client applications, a print dialog manager (dtpdm) daemon
+must be running.</para>
+<sect2 id=sect11>
+<title>Running an X Print Server</title>
+<para>Running an X Print Server is identical to running any other X server.
+</para>
+<para>Here is a sample command line for use with a typical configuration:
+</para>
+<programlisting>% Xprt :1 -ac -fp /usr/lib/X11/fonts/misc,\
+/usr/lib/X11/fonts/Type1,/usr/lib/X11/fonts/100dpi,\
+/usr/dt/config/xfonts</programlisting>
+<para>
+The following options are available when running the print server:
+</para>
+<variablelist>
+<varlistentry><term>:1</term>
+<listitem>
+<para>
+Use a different display from the default.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>-ac</term>
+<listitem>
+<para>
+Disable access control, since no simple mechanism
+for sharing keys is provided.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>-fp</term>
+<listitem>
+<para>
+Point to the standard video fonts. Note that the only reason
+for doing this is to add the CDE aliases to the default set.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+In addition, the following new arguments are available:
+</para>
+<variablelist>
+<varlistentry><term>-XpFile</term>
+<listitem>
+<para>
+Points to file listing of available printers instead
+of default.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>XPCONFIGDIR</term>
+<listitem>
+<para>
+Environment variable specifying alternative location of
+configuration files.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The server can be run within a user's session as an individual
+command or at boot time. These two methods of invocation
+represent two distinct styles. The latter style provides a centralized
+departmental service, while the former style usually serves a single
+user. However, because an X print server is no different from any other
+X server, there are many other configuration possibilities available.
+</para>
+</sect2>
+<sect2 id=sect12>
+<title>Informing Clients</title>
+<para>To select an X Print Server from a client that employs the Xprint server,
+simply type the name of the printer like this:</para>
+<programlisting>printerName@host:display</programlisting>
+<para>
+A default printer can be specified by providing a value for either the
+XpPrinter resource or the <systemitem class="environvar">XPRINTER</systemitem>
+environment variable.
+</para>
+<para>
+An alternative, and probably the simplest, way to provide an entire
+set of printers to all clients is to set the
+<systemitem class="environvar">XPSERVERLIST</systemitem> variable (or XpServerList
+resource) to the name of a X Print Server (for example, print_host:1). The
+user's default value of <systemitem class="environvar">LPDEST</systemitem>
+will be combined with the defined value to create a full printer name, allowing
+the user to use the GUI on the print setup box dialog to access other printers.
+</para>
+<para>
+You can set all of the above environment variables in the
+<filename>.dtprofile</filename> file in a user's home directory.
+</para>
+</sect2>
+<sect2 id=sect12point1>
+<title>Print Dialog Manager</title>
+<para>In order for users to access the print setup dialogs, a special
+client called the Print Dialog Manager must be running. The name of
+the daemon that implements the Print Dialog Manager is
+<command>dtpdmd</command>. You can invoke <command>dtpdmd</command>
+in either of two ways:
+</para>
+<itemizedlist>
+<listitem><para>
+Point it at a print server, as follows:
+</para>
+<programlisting>dtpdmd -d print_host:1 &</programlisting>
+</listitem>
+<listitem>
+<para>
+Point it at your video display, as follows:
+</para>
+<programlisting>dtpdmd &</programlisting>
+<para>Note that in this case, the environment variable
+<systemitem class="environvar">XPDMDISPLAY</systemitem>
+must be set to the value <literal>video</literal>. 
+</para>
+</listitem>
+</itemizedlist>
+<para>
+You can apply either of these methods using the
+<filename>.dtprofile</filename> file in
+the user's home directory.
+</para>
+</sect2>
+</sect1>
+<sect1 id=chap6>
+<title>Documentation</title>
+<para>The documentation available with this release consists of:
+</para>
+<itemizedlist>
+<listitem><para>CDE and Motif man pages</para>
+</listitem>
+<listitem><para>CDE and Motif guides</para>
+</listitem>
+<listitem><para>CDE online help</para>
+</listitem>
+</itemizedlist>
+<sect2 id=sect13>
+<title>Man Pages</title>
+<para>This release provides English versions of the CDE and Motif man
+pages in traditional man format. The man pages are generated
+from DocBook source during the build process. Man pages are also
+viewable online with <command>dtinfo</command> using the English CDE information library.</para>
+</sect2>
+<sect2 id=sect14>
+<title>Guides</title>
+<para>The guides provided with this release include:</para>
+<itemizedlist>
+<listitem><para>English CDE guides, which have been converted to DocBook.
+These guides are viewable online with <command>dtinfo</command> using the English CDE
+information library. The DocBook source is located in
+<filename>$CDEBUILDDIR/cde/doc/C/guides</filename>. New volumes in this
+release are the <citetitle>Information Manager User's Guide</citetitle>,
+<citetitle>Information System Author's and Programmer's Guide</citetitle>, and
+<citetitle>Guide to the DocBook DTD</citetitle>.
+</para>
+</listitem>
+<listitem><para>English Motif guides, which have been converted to DocBook.
+These guides are viewable online with <command>dtinfo</command> using the
+English CDE information library. The DocBook source is located in
+<filename>$CDEBUILDDIR/motif/doc/C/guides</filename>.</para>
+<para>With this release, the Motif and CDE style guides have been combined
+and reworked into three new volumes:
+<citetitle>Motif and CDE Style Guide</citetitle>,
+<citetitle>Motif and CDE Style Guide Reference</citetitle>, and
+<citetitle>Motif and CDE Style Guide Certification Checklist</citetitle>.
+</para>
+</listitem>
+<listitem><para>Translations of selected CDE and Motif guides, which have
+been converted to DocBook. The CDE
+<citetitle>User's Guide</citetitle>,
+<citetitle>Information Manager User's Guide</citetitle>, and
+<citetitle>Advanced User's and System Administrator's Guide</citetitle>
+are available in all languages.
+Additional guides are available in Japanese.
+These guides are viewable online with dtinfo
+using the localized CDE information library.
+The DocBook source is located in
+<filename>$CDEBUILDDIR/cde/doc/LANG/guides</filename>, where LANG
+corresponds to one of the following locales:</para>
+<simplelist>
+<member>de_DE.ISO8859-1 (German)</member>
+<member>es_ES.ISO8859-1 (Spanish)</member>
+<member>fr_FR.ISO8859-1 (French)</member>
+<member>it_IT.ISO8859-1 (Italian)</member>
+<member>ja_JP.dt-eucJP (Japanese)</member>
+</simplelist></listitem>
+</itemizedlist>
+</sect2>
+<sect2 id=sect15>
+<title>Online Help</title>
+<para>This release contains complete English and translated CDE online
+help, which has been converted to DocBook. The online help is viewable with
+the Help Manager. New material includes online help for dtinfo and for
+printing. The English online help source can be found in
+<filename>$CDEBUILDDIR/cde/doc/C/help</filename>.
+The translated online help can be found in
+<filename>$CDEBUILDDIR/cde/doc/LANG/help</filename>,
+where LANG corresponds to the locales listed in the "Guides"
+section.</para>
+</sect2>
+</sect1>
+<sect1 id=chap7>
+<title>Building Tests</title>
+<para>This chapter provides a generic description of the build process for
+the CDE Test Suite.</para>
+<para>You must build and install CDE (including X11 and Motif) on your system
+prior to building these tests. Also, the actual CDE build tree must still
+be accessible.</para>
+<para>The CDE test suite has been built on the following reference platforms:
+</para>
+<programlisting>Digital  AlphaStation 200   Digital UNIX V4.0
+
+Fujitsu  DS/90 7000         UXP/DS V20L10
+
+HP       HP9000/7xx         HP-UX 10.01
+
+IBM      RS/6000            AIX 4.2
+
+Novell   Intel 486/Pentium  UnixWare 2.02
+
+Sun      SPARCstation       Solaris 2.4</programlisting>
+<para>For a detailed definition of the reference platforms, see
+"Reference Platforms."</para>
+<sect2 id=sect16>
+<title>Configure the CDE Test Suite Build Environment</title>
+<para>Before building, you must make sure that symbolic links for the <filename>
+OSVersion.tmpl</filename> and the <filename>localtree.tmpl</filename> files
+are created and that these links are correct for your system. You must also
+modify the <filename>site.cf</filename> file. You can not skip this step,
+even though you have built CDE for your system, because the config directory for
+the CDE Test Suite is separate from the CDE build directory.</para>
+<para>Builds have been performed using the optimized shared library templates
+for <filename>localtree.tmpl</filename>.</para>
+<para>To create the links, go to the CDE Test config directory in the build
+directory:</para>
+<programlisting>cd $CDEBUILDDIR/cde-test/config</programlisting>
+<para>Make sure that cdesrcRoot is defined to point to <filename>$CDEBUILDDIR/cde
+</filename> in the file <filename>site.cf</filename>. For example, if $CDEBUILDDIR
+is <filename>/proj</filename>, the following lines should appear in the file
+(do not use environment variables here):</para>
+<programlisting>#ifndef cdesrcRoot
+#define cdesrcRoot /proj/cde
+#endif</programlisting>
+<para>Create the correct links for your system. For example, if your system
+is HP-UX 10.01 you will need to execute the following commands to create these
+links:</para>
+<programlisting>% ln -s OSVersiontemplates/10.01 OSVersion.tmpl
+% ln -s localtemplates/hpux/10.01/optimized.shared localtree.tmpl</programlisting>
+<para>The following are the correct links for the other platforms:</para>
+<variablelist>
+<varlistentry><term>Digital Unix 4.0</term>
+<listitem>
+<programlisting>OSVersion.tmpl -> OSVersiontemplates/4.0
+localtree.tmpl -> localtemplates/dec/alpha/osf/optimized.sharedlibs</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Fujitsu UXP/DS V20L10</term>
+<listitem>
+<programlisting>OSVersion.tmpl -> OSVersiontemplates/20.10
+localtree.tmpl -> localtemplates/uxp/optimized.sharedlibs</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>IBM AIX 4.2</term>
+<listitem>
+<programlisting>OSVersion.tmpl -> OSVersiontemplates/4.2
+localtree.tmpl -> localtemplates/ibm/rs6000/aix4.2/optimized.sharedlibs</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Sun Solaris 2.4</term>
+<listitem>
+<programlisting>OSVersion.tmpl -> OSVersiontemplates/5.4
+localtree.tmpl -> localtemplates/sun/optimized.sharedlibs</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>UNIXWARE</term>
+<listitem>
+<programlisting>OSVersion.tmpl -> OSVersiontemplates/4.2
+localtree.tmpl -> localtemplates/sun/optimized.sharedlibs</programlisting>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<sect2 id=sect17>
+<title>Building the CDE Test Suites</title>
+<para>Change to the directory containing the
+<command>test_build</command> program:</para>
+<programlisting>% cd $CDEBUILDDIR/cde-test/admin/BuildTools/master_build</programlisting>
+<para>Run <command>test_build</command> to build the CDE Test Suite on your
+system:</para>
+<programlisting>% ./test_build -build $CDEBUILDDIR/cde-test \
+        -log $CDEBUILDDIR/cde-test/logs -c</programlisting>
+<para>
+The <command>test_build</command> command makes the Makefiles, includes,
+depend, and all targets in the specified build directory and creates build
+logs in the specified log directory. For a more complete description of the <command>
+test_build</command> options, see the <command>master_build</command>.1 man
+page in <filename>$CDEBUILDDIR/cde/admin/man/man1</filename> (<command>test_build
+</command> and <command>master_build</command> support the same set of options).
+</para>
+</sect2>
+</sect1>
+<sect1 id=chap8>
+<title>Installing Tests</title>
+<para>Test execution is fully functional inside the cde-test directory structure.
+No installation is required.</para>
+</sect1>
+<sect1 id=chap9>
+<title>Running Tests</title>
+<para>The following sections give basic instructions for executing the various
+testing protocols and information on test results.</para>
+<sect2 id=sect18>
+<title>Test Execution</title>
+<sect3>
+<title>Automated Regression Tests</title>
+<para>The test execution cycle is divided into five phases based on
+dependencies.
+The phases are listed below in order of execution. The cycle outlined
+here
+is intended to accommodate the testing of multiple test suites
+automatically.</para>
+<orderedlist>
+<listitem><para>Configure test environment.</para>
+<para>The test environment requires a complete installation of CDE, a
+complete
+test build that includes TET, and a default user environment with the
+following
+X resources set:</para>
+<programlisting>*enableButtonTab: False
+*blinkRate: 0
+dtterm*blinkRate: 250</programlisting>
+<para>The tests can be run either from the test display itself or from a
+remote
+display. The following environment variables must be set:</para>
+<programlisting>TET_ROOT=$CDEBUILDDIR/cde-test
+TET_TMP_DIR=&lt;temporary space dir>
+DISPLAY=&lt;test display>
+PATH=$PATH:.</programlisting>
+<para>Then, general configuration data must be loaded:</para>
+<programlisting>$ . $TET_ROOT/DTConfig/`uname -s`/dt_env.sh -l</programlisting>
+</listitem>
+<listitem><para>Configure the component-specific test environment.</para>
+<para>Component-specific test environment configuration is set
+by:</para>
+<programlisting>$ cd $TET_ROOT/comp_suites/&lt;test suite name>
+$ . config/`uname -s`/env.sh -l</programlisting>
+<para>where &lt;test suite name> corresponds to the directory under
+<filename>$TET_ROOT/comp_suites</filename> for a CDE component
+(for example, dtfile, DtSvc/dragdrop, dthelp/dtHelpApi).
+</para>
+<para>Some test suites require additional setup that will have to be
+done
+manually. The instructions for additional setup (if any) can
+be found in</para>
+<programlisting>$TET_ROOT/comp_suites/&lt;test suite name>/README[.test suite name]
+</programlisting>
+</listitem>
+<listitem><para>Execute test suite.</para>
+<para>Tests are organized under "scenarios" (e.g. REGRESSION, all,
+TOUCH)
+which are listed in the file</para>
+<programlisting>$TET_ROOT/comp_suites/&lt;test suite name>/tet_scen</programlisting>
+<para>The tests are run through TET's <command>tcc</command> (test case
+controller):
+</para>
+<programlisting>$ tcc -i &lt;output dir> -j &lt;journal file> \
+      -e comp_suites/&lt;test suite name> &lt;scenario></programlisting>
+<para>where &lt;journal file> is the path name of the file where test
+journal reports and results are stored. Any test data for inspection
+(for example, images) is stored under &lt;output dir>.</para>
+</listitem>
+<listitem><para>Clean up test suite.</para>
+<para>Component-specific test environment configuration cleanup is
+accomplished
+by:</para>
+<programlisting>$ cd $TET_ROOT/comp_suites/&lt;test suite name>
+$ . config/`uname -s`/env.sh -c</programlisting>
+</listitem>
+<listitem><para>Clean up general test environment.</para>
+<para>General test environment configuration cleanup is accomplished
+by:</para>
+<programlisting>$ . $TET_ROOT/DTConfig/`uname -s`/dt_env.sh -c</programlisting>
+</listitem>
+</orderedlist>
+<para>Alternatively, the test execution script <command>testCDE</command>,
+available in <filename>$TET_ROOT/bin</filename>, can be used. Usage of the
+script is:</para>
+<programlisting>$ $TET_ROOT/bin/testCDE -tet_root $CDEBUILDDIR/cde-test \
+       { -suite &lt;test suite name&gt; | -list &lt;file with list of suites&gt; }
+       [ -scen &lt;test scenario&gt; ] \
+       [ -engr &lt;email address to notify&gt; ] \
+       [ -record ]
+       [ -res &lt;directory path name&gt; ]
+</programlisting>
+<para>The -record option is used to execute relevant suites in record mode (to
+generate golden data). The -res option is used to specify
+an alternative results directory (<filename>$HOME/test-results</filename> is the default).
+When the scenario is not specified using the -scen option, the REGRESSION
+scenario is selected by default.</para>
+<para>In addition to performing the configuration setup, test execution,
+and configuration cleanup steps (listed above for the first method of
+running tests), this script utilizes setup scripts (if any) found under
+<filename>$TET_ROOT/setup/&lt;test suite name&gt;</filename>. These setup scripts automate
+additional manual setup required for some test suites.
+</para>
+<Note>
+<Para>
+In many cases these setup scripts use site specific data such as user-ids.
+Make sure the site-specific data is updated before test execution.
+</Para>
+</Note>
+</sect3>
+<sect3>
+<title>Manual Regression Tests</title>
+<para>The following CDE components have predefined manual tests, with instructions
+located in the specified files. Some suites have a number of instruction
+files, indicated below with appropriate wildcards.</para>
+<programlisting> Suite             |  File (relative to $CDEBUILDDIR/)
+ --------------------------------------------------------------------
+ DefConfig         | cde-test/comp_suites/DefConfig/manual/*_tests
+ DtSvc/DtMsgLog    | cde-test/comp_suites/DtSvc/DtMsgLog/manual/manualtests
+ DtSvc/DtWsm       | cde-test/comp_suites/DtSvc/DtWsm/manual/ws*
+ DtSvc/dragdrop    | cde-test/comp_suites/DtSvc/dragdrop/manual/assertion_misctest
+ DtSvc/visuals     | cde-test/comp_suites/DtSvc/visuals/manual/icons
+ RunTime           | cde-test/comp_suites/RunTime/manual/runtime*.des
+ dtaction          | cde-test/comp_suites/dtaction/manual/test.checklist
+ dtappgather       | cde-test/comp_suites/dtappgather/manual/README
+ dtbuilder         | cde-test/comp_suites/dtbuilder/manual/Instructions
+ dtcalc            | cde-test/comp_suites/dtcalc/manual/*/*
+ dtcm              | cde-test/comp_suites/dtcm/manual/assertions.all
+ dtfp              | cde-test/comp_suites/dtwm/fptests/manual/*/README
+ dthelp            | cde-test/comp_suites/dthelp/manual/DtHelpManualTest.mif
+ dthelp/CREInline  | cde-test/comp_suites/dthelp/manual/CREInline/README
+ dtinfo            | cde-test/comp_suites/dtinfo/manual/README
+ dtlp              | cde-test/comp_suites/dtlp/manual/README
+ dtmail            | cde-test/comp_suites/dtmail/manual/Assertions.manual
+ dtpad             | cde-test/comp_suites/dtpad/manual/dtpad.manual_checklist
+ dtterm            | cde-test/comp_suites/dtterm/manual/manual
+ dtwm              | cde-test/comp_suites/dtwm/wmtests/manual/*/README</programlisting>
+<para>For each suite, simply following the instructions listed in the specified
+files. Any suite-specific instructional information is listed below.</para>
+<variablelist>
+<varlistentry><term>dthelp</term>
+<listitem>
+<para>This file is in FrameMaker format.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>dtmail</term>
+<listitem>
+<para>There are two other files in the same directory called <filename>Mailer.assertion
+</filename> and <filename>README</filename>, the latter of which explains
+which file should be used.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect3>
+<sect3>
+<title>Motif Quality Assurance Test Suite Testing</title>
+<para>Most of the information required to build and run the CDE/QATS can be
+found in the following files:</para>
+<programlisting>$CDEBUILDDIR/motif/tests/docs/Output/draft/ps/chap1
+$CDEBUILDDIR/motif/tests/docs/Output/draft/ps/chap2
+$CDEBUILDDIR/motif/tests/docs/Output/draft/ps/chap3
+$CDEBUILDDIR/motif/tests/docs/Output/draft/ps/chap4
+$CDEBUILDDIR/motif/tests/environment/README</programlisting>
+<para>While these documents describe the original OSF test suite, they are
+applicable with some minor modifications to CDE.</para>
+<itemizedlist>
+<listitem><para>The following environment variables need to be set for running
+in playback mode:</para>
+<itemizedlist>
+<listitem><para><systemitem class="environvar">VFA_TOP</systemitem> to the
+top of the Motif tree (<filename>$CDEBUILDDIR/motif</filename>)</para>
+</listitem>
+<listitem><para><systemitem class="environvar">VISUAL_PATH</systemitem> to
+the parent of the directories containing the recorded images</para>
+</listitem>
+<listitem><para><systemitem class="environvar">VFA_RESULTS_DIR</systemitem>
+to the parent of the output directories (the directories must exist)</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>You can run the automated test suite from the top of the test
+tree by invoking the RUN_auto located in <filename>$CDEBUILDDIR/motif/tests
+</filename>.</para>
+</listitem>
+<listitem><para>When recording, the <systemitem class="environvar">VISUAL_PATH
+</systemitem> and <systemitem class="environvar">VFA_RESULTS_DIR</systemitem>
+should be the same.</para>
+</listitem>
+</itemizedlist>
+<para>The QATS must be run on a display controlled by a Motif 2.x version
+of <command>mwm</command>, not <command>dtwm</command>. A suitable version
+of <command>mwm</command> is built in the
+<filename>$CDEBUILDDIR/motif/clients/mwm</filename> directory.</para>
+</sect3>
+<sect3>
+<title>Interplatform Tests</title>
+<para>Interplatform testing is the testing of CDE application functionality
+between platforms. The following CDE capabilities are tested:</para>
+<itemizedlist>
+<listitem><para>The ability of CDE applications to execute and interoperate
+in distributed fashion across a network of heterogeneous, interoperating
+hosts.</para>
+</listitem>
+<listitem><para>The ability of CDE users to execute the desktop on
+different heterogenous platforms in a consistent manner.</para>
+</listitem>
+</itemizedlist>
+<para>The general process used in the Interplatform tests is to startup CDE
+components from a client host and a daemon host (on the same display) using
+<command>dtaction</command> before running actual tests involving drag and drop on/between
+these components.</para>
+<para>The tests are located in
+<filename>$CDEBUILDDIR/cde-test/sys_suites/Intop/</filename>:
+The information required to initially configure the test systems before a test run
+is in the following files in the same directory:</para>
+<itemizedlist>
+<listitem><para><filename>HowToRun.interplatform</filename></para></listitem>
+<listitem><para><filename>README.interplatform</filename></para></listitem>
+<listitem><para><filename>README</filename></para></listitem>
+</itemizedlist>
+<para>The information in these files includes steps to configure the test
+machines to use the dtspc protocol, which is required by the tests.</para>
+<para>Once the test machines have been correctly setup, the tests can be
+executed in
+a similar fashion to other CDE tests described earlier in this document,
+with the exception that these tests are located in the
+<filename>sys_suites</filename> rather
+than the <filename>comp_suites</filename> sub-directory and so the
+pathnames will have to be correspondingly altered.</para>
+</sect3>
+</sect2>
+<sect2 id=sect19>
+<title>Test Execution Results</title>
+<para>The following sections give details on the results obtained with the
+various test protocols on the reference platforms.</para>
+<sect3>
+<title>Automated Regression Tests</title>
+<para>The following is a partial list of expected results for the six tested
+platforms. The first number indicates the number of passes for the given
+test suite
+and the second number indicates the total number of assertions that were
+run in that test suite.</para>
+<para>Note that not all results are available on all platforms. Defect reports
+have been submitted as appropriate for non-passes.</para>
+<?Pub _newpage>
+<programlisting>Suite                   IBM      Sun      Digital  HP       Fujitsu  Unixware
+=============================================================================
+CREPrinting             3/7      5/7      3/7      6/7      3/7      6/7      
+ConfigDB                0/1      1/1      0/1      1/1      1/1      0/1      
+DefConfig               3/5      3/16     3/23     3/4      2/28     3/4      
+Desktop                          55/57    55/57    55/57    56/57    38/51    
+DevEnv                  1/2      1/3      0/0      2/3      0/0      1/3      
+DtAction                97/109   63/77    70/96    103/125  101/117  43/47    
+DtClientPrinting_dtcm            13/26    13/26    13/26    14/26    13/26    
+DtClientPrinting_dtmail          21/28    21/28    20/24    22/25    17/26    
+DtClientPrinting_dtpad           12/14    11/14    12/14    9/10     12/14    
+DtEditor                32/35    41/42    35/42    41/42    17/40    30/35    
+DtHelp                  0/0               0/0                        0/6      
+DtInit                  8/8      8/8      8/8      8/8      8/8      8/8      
+DtMrm                   8/8      8/33                                2/6      
+DtMsgLog                29/37    27/37    26/35    28/37    31/37    27/35    
+DtSvc                   12/23    0/43     0/2                        0/43     
+DtTerm                  1/3      0/7                                 0/8      
+DtWidget                98/113   113/113  113/113  113/113  98/113   113/113  
+DtWsm                   9/9      9/9      8/11     9/9      9/9      9/11     
+Intop                   158/233                                               
+Dtinfo printing                  19/32    18/32    19/32    3/12     18/27    
+XmMT                    142/148  138/141  49/50                      83/85    
+XmPrinting              15/22    16/22    17/22    17/22    7/7      17/22    
+dragdrop                8/18     12/18    8/18     18/18    11/18    14/18    
+dtGui                   17/34    21/34    15/21    22/34    0/15     0/21     
+dtHelpApi               5/104    92/104   67/75    76/104   0/59     77/104   
+dtHelpCanvas            1/2      2/2      1/2      1/2      2/2      2/2      
+dtHelpGui               52/100   103/126  27/100   58/126   57/82    51/126   
+dtPdm                   1/3      1/5      3/5      1/5      3/5      0/5      
+dtaction                34/36    35/36    33/36    31/36    33/36    32/36    
+dtappgather             0/4      4/4      4/4      4/4      3/4      3/4      
+dtappintegrate          16/17    16/17    13/17    17/17    7/17     17/17    
+dtcalc                  1/2      1/3      1/2      1/2      1/3      1/3      
+dtcm                                               2/126                      
+dtdatatyping            21/27    21/27    18/27    21/27    21/27    18/27    
+dtdocbook               0/3      2/4      2/4      2/4      2/4      2/4      
+dtfile                  10/228   82/229   30/123   8/226    9/218    6/77     
+dtfp                    17/23    20/21    2/21     10/21    7/13     15/20    
+dthelpgen               18/23    20/23    20/23    0/19     19/23    13/19    
+dthelpprint             2/10     2/10     6/10     0/10     7/10     7/10     
+dthelptag               9/9      4/9      9/9      4/9      7/9      9/9      
+dthelpview              20/42    29/42    42/42    33/42    32/42    33/42    
+dtksh                   43/302   285/302  288/302  285/302  297/302  200/302  
+dtlp                    13/14    13/14    12/14    13/14    12/14    12/14    
+dtmail                  60/78    61/82    61/77    67/78    71/78    65/77    
+dtpad                   128/190  141/157  139/157  141/157  128/145  138/153  
+dtscreen                49/55    53/55    31/51    53/55    49/55    49/55    
+dtsearchpath            26/26    26/26    24/26    26/26    0/26     24/26    
+dtsession               39/40    39/40    41/41    40/41    40/41    41/41    
+dtspcd                  11/11                      11/11    0/0      9/11     
+dtsr                    8/12     7/12     8/12     8/12     8/12     7/12     
+dtstyle                 10/10    10/10    10/10    10/10    0/9      8/10     
+dtterm                  131/178  63/85    130/181  133/182  100/137  65/82    
+dttypes                 0/7      0/7      0/0      0/7      0/0      0/7      
+dtwm                    129/129  122/129  118/138  124/133  90/108   94/101   
+mtDtHelp                6/6      0/6      0/0                        0/6      
+mtDtMrm                 69/74    14/67    0/0                        6/58     
+mtDtSvc                 38/43    0/43     0/2                        0/43     
+mtDtTerm                14/19    0/13     0/0                        0/12     
+mtDtWidget              101/107  6/152    6/8                        3/147    
+mttt                             1/2                                          
+sm-wm                            1/6               0/0                        
+tt                      2/30     27/34    4/31     22/31    4/32     10/13    
+xpApi                   77/86    75/86    73/86    77/93    73/86    71/82    
+xpConfig                18/18    8/8      15/18    5/30     15/18    15/18    
+xpddx                   87/250   187/221  143/243  245/252  209/227  60/252   
+-----------------------------------------------------------------------------</programlisting><!--emacsbug -->
+<para>Because QC/Replay was not available on AIX 4.2, the QC/Replay tests
+were not run on the IBM platform.</para>
+</sect3>
+<sect3>
+<title>Motif QATS tests</title>
+<para>The Motif/QATS automated tests and Motif window manager were built as
+described in an earlier section.</para>
+<para>Automated tests were built and run on all reference platforms.
+Sun, HP, and SGI displays were used for displaying tests. Motif window
+managers built on different platforms were used to manage the windows
+while running the tests. The complete QATS is executed on Sun, HPUX, and
+SGI platforms
+while only the new tests or suites were executed on the remaining reference
+platforms.</para>
+<sect4>
+<title>Missing Keys WARNINGS</title>
+<para>The keys on the keyboards used on the HP and Sun platforms are insufficient
+for the needs of the tests (keys missing from the keyboard that were expected
+to be mapped for the tests), causing "AUTOWARNING" errors in every one of
+the tests. The standard report generation scripts detect these benign errors
+and flag the entire test as an error. Since these were not considered to be
+fatal errors (after inspection of the test code), the analysis scripts filtered
+out AUTOWARNING errors that came from missing keys at the very beginning of
+a test run.</para>
+</sect4>
+<sect4>
+<title>New Test Clients</title>
+<para>Several new test clients were added to the QATS during this release, some
+automated and some manual. Test clients were added to the following
+directories:</para>
+<variablelist>
+<varlistentry><term>Automated:</term>
+<listitem><programlisting><filename>tests/Toolkit/Buttons</filename>
+<filename>tests/uil/widgets</filename></programlisting></listitem>
+</varlistentry>
+<varlistentry><term>Manual:</term>
+<listitem><programlisting><filename>tests/Manual/DtWidgets</filename></programlisting></listitem>
+</varlistentry>
+</variablelist>
+<para>Golden data was generated where necessary.</para>
+</sect4>
+<sect4>
+<title>Golden Data Generation</title>
+<para>Some new QATS test suites, which do not have any previous recordings,
+were run in record mode to generate golden data. The recordings were added
+to this release. These new automated test suites are:</para>
+<programlisting>tests/Toolkit/ComboBox
+tests/Toolkit/SpinBox
+tests/Toolkit/Notebook
+tests/Toolkit/IconVC</programlisting>
+</sect4>
+<sect4>
+<title>Test Results</title>
+<para>The results were compared with the recordings made against Motif 2.0.
+The results are mostly consistent with the previous runs carried out at OSF.
+There are failures due to both QATS problems and Motif defects. All the errors/failures
+reported during the run are due to known problems in both QATS and Motif code
+and have defects already opened against them. Also, the results were consistent
+across all the platforms on which the tests were executed.</para>
+</sect4>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id=chap10>
+<title>Compatibility</title>
+<sect2 id=ch10s1>
+<title>OSF/Motif 2.0 Compatibility</title>
+<para>Compatibility with CDE/Motif 1.2 was given great emphasis in this
+release, even at the expense of compatibility with OSF/Motif 2.0.
+Some OSF/Motif 2.0 applications may experience problems because of the
+following changes:</para>
+<itemizedlist>
+<listitem><para>The <symbol>XmCSText</symbol> widget has been withdrawn, as
+have those APIs added to OSF/Motif 2.0 solely to support it.</para>
+</listitem>
+<listitem><para>Mrm support for word-size independent
+<filename>.uid</filename> files has been removed.
+Existing <filename>.uid</filename> files compiled with Motif 2.0
+<command>uil</command> may not be readable.
+As in OSF/Motif 1.2, <filename>.uid</filename> files are portable only
+between machines with the same word size.</para>
+</listitem>
+<listitem><para>New <symbol>XmComboBox</symbol>
+<symbol>XmNpositionMode</symbol> and <symbol>XmSpinBox</symbol>
+<symbol>XmNpositionType</symbol>
+resources default to incompatible index values, and should be forced
+by all applications using these widgets. <symbol>XmONE_BASED</symbol> is
+recommended for <symbol>XmComboBox</symbol> widgets because it lets applications
+distinguish between new values entered in the text field and the first item
+in the list.</para>
+</listitem>
+<listitem><para>The <symbol>_XmStrings</symbol> array has, on some
+machines, been split into multiple sub-arrays with the same techniques used
+by libXt. This preserves compatibility with Motif 1.2 and permits future
+expansion.</para>
+</listitem>
+<listitem><para>In Motif 2.0 there were two distinct
+<symbol>XmREPLACE</symbol> constants, with different values. The
+<symbol>XmMergeMode</symbol> constant has been renamed
+<symbol>XmMERGE_REPLACE</symbol>. This is a source compatibility issue;
+binary compatibility is unaffected.</para>
+</listitem>
+<listitem><para>A variety of changes to visual appearance may be noticed.
+See the <citetitle>Motif 2.1.0 Release Notes</citetitle> for details.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id=ch10s2>
+<title>CDE Binary Compatability</title>
+<para>Binary Compatibility testing was carried out using products provided
+by SunSoft and IBM. In addition, binary executables built locally for the
+CDE 1.0.10 release were tested. Some incompatibilities were found, as
+described below. Some problems were found that were specific
+to the tested application and which we do not believe indicate a compatibility
+problem with the reference system.</para>
+<itemizedlist><listitem>
+<para>As with previous major releases of Motif, binary compatibility is not
+guaranteed for application widgets that subclass Motif widgets without
+using <symbol>XmResolvePartOffsets</symbol> to access instance fields.
+Subclasses that use <symbol>XmResolvePartOffsets</symbol>
+(or <symbol>XmResolveAllPartOffsets</symbol>) should be unaffected.</para>
+</listitem>
+<listitem>
+<para>On AIX, the CDE shared libraries are linked with the reentrant C
+library, <filename>libc_r.a</filename>.
+Legacy applications that reference the non-reentrant
+C library, <filename>libc.a</filename>, will experience difficulties
+because two different copies of data are being referenced. The
+solution recommended by IBM is to build and install a complete set of CDE
+libraries with the non-reentrant compiler, giving them the standard names,
+and another complete reentrant set, giving them names with the <filename>
+_r</filename> suffix (for example, <filename>libXm_r.a</filename>). The default
+configuration files build only the reentrant set.</para>
+</listitem>
+<listitem>
+<para>On AIX, the sample application <command>llenhcapture</command> did
+not execute. We believe this is due to an incompatibility in standard AIX
+libraries.</para>
+</listitem>
+<listitem>
+<para>On AIX, the sample application <command>SDE</command> did not execute,
+as it calls the undocumented and withdrawn function
+<filename>XmStringLoadQueryFont</filename>.</para>
+</listitem><listitem>
+<para>The DtHelp library has a dependency on the math library,
+<filename>libm.a</filename>. On SVR4 systems, any legacy application that
+does not already reference the math library must be re-linked.
+</para>
+</listitem></itemizedlist>
+<para>We did not use Digital or Fujitsu platforms in the BC testing
+since they were not reference platforms for the CDE1.0.10 release.</para>
+</sect2>
+</sect1>
+<sect1 id=chap11>
+<title>Pluggable Authentication Module (PAM)</title>
+<para>Pluggable Authentication Module (PAM) code supplied by SunSoft is included
+with the CDE source. The source is located in the <filename>$CDESOURCEDIR/cde/lib/pam
+</filename> subdirectory. Documentation, manual pages, examples, and a selection
+of modules (back-end code for some common authentication technologies) are
+provided in addition to the front-end pam library.</para>
+<para>PAM is built and installed automatically on Sun platforms. The <command>
+dtlogin</command> source contains conditionally compiled code to invoke the
+PAM front-end API.</para>
+</sect1>
+<sect1 id=chap12>
+<title>New Functionality</title>
+<para>The following paragraphs summarize the new functionality of this release relative
+to CDE1.0. Please refer to the specific on-line documentation for more detailed
+information.</para>
+<sect2 id=sect20>
+<title>Printing</title>
+<para>Starting with this release <command>dtpad</command>, <command>dtmail
+</command> and <command>dtcm</command> are using the X protocol based print
+server. This print server produces output in three formats: PCL, Postscript and
+Raster.</para>
+</sect2>
+<sect2 id=sect21>
+<title>Thread-Safe Libraries</title>
+<para>The following libraries are thread-safe enabled: Xm, tt, DtHelp,
+DtSvc, DtTerm, DtWidget, and Mrm. This means that the libraries themselves
+are thread safe and a multithreaded application need not do explicit
+locking when accessing these libraries. This is supported only for
+platforms that support multithreaded programming.</para>
+</sect2>
+<sect2 id=sect22>
+<title>X11R6.2</title>
+<para>This release is based on X11R6.2, which includes additional support
+for Vertical Writing, User-Defined Characters (UDCs) and the X Print
+Service.</para>
+<para>In addition, session management using the X11R6 XSMP is provided
+and supported by <command>dtsession</command> and
+<command>dtwm</command>.</para>
+</sect2>
+<sect2 id=sect23>
+<title>Internationalization</title>
+<para>There are several new features that support the internationalization
+of CDE and developing applications for international markets. CDE now supports
+the On-The-Spot input method for <command>Xm</command> and <command>dtterm
+</command>.
+Based on the session start-up locale, users can select their preferred
+Input method server either at startup time (using the new Input method
+server selection and launch) or during the session (via
+<command>dtstyle</command>). They can also select
+their preferred input method style (Off-The-Spot, On-The-Spot, etc.)
+via <command>dtstyle</command>.
+Users may use and define their own fonts with the User Definable
+Character (UDC) feature. Also, Vertical Writing is now supported.</para>
+</sect2>
+<sect2 id=sect24>
+<title>On-Line Information Access</title>
+<para>This release provides a standard set of online documentation that
+covers the various CDE and Motif components. The CDE desktop includes the
+Information Manager which can be used to access, read, and search through
+this documentation.</para>
+<para>The Information Manager replaces the the Help Manager on the Front
+Panel. Additional information about using Information Manager is available
+on-line in the <citetitle>CDE: Information Manager User's
+Guide</citetitle> and in the <command>dtinfo</command>
+man page. Information about authoring on-line documentation for use with
+the Information Manager is also available on-line in the
+<citetitle>CDE: Information System Author's and Programmer's
+Guide</citetitle> and in the <command>dtinfogen</command> man page.</para>
+<para>The Information Manager includes a general purpose text
+search and retrieval system. This functionality is provided
+by the DtSearch library and by the dtsr* programs. 
+Applications can also directly access on-line information using
+the DtInfo Database Engine API provided by the DtMmdb library.</para>
+</sect2>
+<sect2 id=sect25>
+<title>Tests</title>
+<para>Several new test suites have been added for this release.
+</para>
+<itemizedlist>
+<listitem><para>Threadsafe Motif, Tooltalk and Dt libraries</para>
+</listitem>
+<listitem><para>Postscript and PCL ddx</para>
+</listitem>
+<listitem><para>Printing: API, PDM, XmPrinting, C/RE, and Dt clients</para>
+</listitem>
+<listitem><para>Dtinfo Desktop and Printing (QC/Replay based)</para>
+</listitem>
+<listitem><para>DtSearch</para>
+</listitem>
+<listitem><para>Error Message API</para>
+</listitem>
+<listitem><para>X11R6 session management</para>
+</listitem>
+<listitem><para>Standalone Window Manager (QC/Replay based)</para>
+</listitem>
+<listitem><para>Motif 2.0 changes (Motif QATS)</para>
+</listitem>
+<listitem><para>dtimsstart</para>
+</listitem>
+<listitem><para>I18N features (Vertical Writing, UDCs, on-the-spot IM)</para>
+</listitem>
+<listitem><para>SDL Converter</para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id=chap13>
+<title>Reference Platforms</title>
+<para>This chapter defines the reference platforms for this release. A reference
+platform is a system configuration on which the shipped CDE source has been
+verified to build and execute.</para>
+<sect2 id=sect26>
+<title>Digital</title>
+<variablelist>
+<varlistentry><term>Component</term>
+<listitem>
+<programlisting>Model                   AlphaStation 200
+RAM                     64 MB
+Graphics                1280x1024 8 plane</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Software</term>
+<listitem>
+<programlisting>OS Version              Digital UNIX V4.0 (Rev. 386)
+
+Patches to OS           none
+
+Network Communications  NIS, NFS
+
+Compiler(s)             DEC C V5.2-023
+                        DEC C++ V5.4-006</programlisting>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<sect2 id=sect27>
+<title>Fujitsu</title>
+<variablelist>
+<varlistentry><term>Component</term>
+<listitem>
+<programlisting>Model                   DS/90 7000
+RAM                     64 MB
+Graphics                1280x1024 8 plane (CF1 or CF3 display
+                        adapter required)</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Software</term>
+<listitem>
+<programlisting>OS Version              UXP/DS V20L10
+
+Patches to OS           PTF Y96021
+                        and see below
+
+Network Communications  NIS, NFS
+
+Compiler(s)             C Development Set (CDS):
+                        CC Driver UXP/DS R2.6
+                        C++ V12L20
+
+X Window System Server  UXP/DS X11R6 XServer V10L10</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Comments</term>
+<listitem>
+<para>The following patches are currently available directly from Fujitsu:
+</para>
+<itemizedlist>
+<listitem><para>OS patch PEF TY12846 is required to repair some RPC
+problems. This fix will be included in V20L10 Y96111.</para>
+</listitem>
+<listitem><para>OS patch TY13126 may be required to fix some problems in
+building the release using NFS.</para></listitem>
+<listitem><para>The listen daemon needs a non-public patch to prevent a core
+dump when <command>rpc.ttdbserverd</command> is started.</para>
+</listitem>
+<listitem><para>A non-public patch is needed to solve an NFS locking problem
+seen at the X Consortium while attempting to perform CDE builds.</para>
+</listitem>
+<listitem><para>A non-public patch must be applied to the C++ compilation
+utilities (package name uxpcplus).</para>
+</listitem>
+<listitem><para>A non-public patch is needed to enter Japanese text; this
+lets the input server <command>xfeoak</command> run using X11R6.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<sect2 id=sect28>
+<title>Hewlett Packard</title>
+<variablelist>
+<varlistentry><term>Component</term>
+<listitem>
+<programlisting>Model                   HP9000/7xx
+RAM                     64 MB
+Graphics                Artist (HP208LC1280) 1280x1024 8 plane</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Software</term>
+<listitem>
+<programlisting>OS Version              HP-UX 10.01
+Patches to OS           see below
+Network Communications  NIS, NFS
+
+Compiler(s)             HP C/ANSI C Developer's Bundle for HP-UX 10.0
+                        HP C++ Compiler Bundle
+                        Patches PHSS_9138 (compiler) and PHSS_8831 (ld)
+Additional components   see below</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Comments</term>
+<listitem>
+<para>The following additional patches should be applied. Patches listed are
+those available as of 11 December, 1996. All HP patches are subject to being
+superseded from time to time; all new patches list the old ones that they
+replace. Current replacement patches may be substituted for those listed below.
+</para>
+<para>The platforms at the X Consortium have some patches that have been
+superseded by those listed.
+</para>
+<para>Some of these patches are needed for correct operation of ClearCase
+release 2.0.3. They may not be necessary to build and run CDE from a locally
+installed tree.</para>
+<programlisting>PHCO_5803       fsck_hfs(1M) patch for possible corruption
+PHKL_5812       Fix panic when opening some fix partition disks
+PHKL_9114       fix for process hangs in semop(2)
+PHKL_9404       JFS, LVM, UFS, pstat cumulative patch
+PHNE_6419       cumulative STREAMS patch
+PHNE_6527       LAN products Patch
+PHNE_7514       cumulative telnet(1) patch
+PHNE_7553       telnetd(1M) cumulative patch
+PHNE_8114       NFS/NIS Runtime cumulative patch
+PHNE_8168       ARPA Transport cumulative patch
+PHNE_9089       Cumulative Mux and Pty Patch</programlisting>
+<para>The kernel parameter <symbol role="Variable">maxuprc</symbol> (maximum
+processes per user) should be increased from its default value of 50 to 100.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<sect2 id=sect29>
+<title>IBM</title>
+<variablelist>
+<varlistentry><term>Component</term>
+<listitem>
+<programlisting>Model                   RS/6000
+RAM                     64 MB
+graphics                1280x1024 8 plane</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Software</term>
+<listitem>
+<programlisting>OS Version              AIX 4.2
+Patches to OS           PTF 446072
+Network Communications  NIS, NFS
+
+Compiler(s)             xlC.C     3.1.4.0
+                        xlC.C++.* 3.1.4.0 (several filesets)
+                        xlC.cpp   3.1.4.0
+                        xlC.rts   3.1.4.0
+Additional components   See below</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Comments</term>
+<listitem>
+<para>Version 3.1.4.0 of the C Programming Information filesets should also
+be installed.</para>
+<para>All platforms require the standard X11 filesets. At the X Consortium,
+we have found that the original standard installs did not have the following
+required fileset:</para>
+<programlisting>X11.samples.lib.Core</programlisting>
+<para>Performance testing using a software technique of removing memory
+requires the fileset perfagent.tools (Performance Analysis and Control
+Commands), version 2.1.3.0, to enable artificial memory degradation.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<sect2 id=sect30>
+<title>Novell</title>
+<variablelist>
+<varlistentry><term>Component</term>
+<listitem>
+<programlisting>Model                   Intel 486/Pentium
+RAM                     64 MB
+Graphics                1280x1024 8 plane</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Software</term>
+<listitem>
+<programlisting>OS Version              UnixWare 2.02
+Patches to OS           PTF2094 - TCP/IP Recovery
+Network Communications  NIS, NFS
+
+Compiler(s)             CCS Optimizing C Compilation System 3.0
+                        C++ Compilation System 2.0
+
+Additional components   See below</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Comments</term>
+<listitem>
+<para>It is necessary to increase some kernel limits, as follows:</para>
+<programlisting>SDATLIM 0x8000000
+HDATLIM 0x8000000
+SSTKLIM 0x8000000
+HSTKLIM 0x8000000
+SVMMLIM 0x10000000
+HVMMLIM 0x10000000
+</programlisting>
+<para>The following optional packages should be installed (this is pkginfo
+format):</para>
+<programlisting>application SDKdocs        Software Development Kit Documentation
+graphics    desksup        Desktop Manager Development
+application ihvkit         IHV Development Kit
+system      nmsdk          Network Management SDK
+system      softint        Software Packaging Tools
+system      stdcomps       Standard Components
+</programlisting>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<sect2 id=sect31>
+<title>Silicon Graphics</title>
+<para>This is a Motif-only platform.</para>
+<variablelist>
+<varlistentry><term>Component</term>
+<listitem>
+<programlisting>Model                   Indigo2
+RAM                     64 MB
+Graphics                1280x1024 8 plane</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Software</term>
+<listitem>
+<programlisting>OS Version              SC4-W4DI2-6.2: 6.2 with Indigo2 R10000 Impact
+Patches to OS           None
+Network Communications  SC4-NFS-6.2.1: NFS software
+
+Compiler(s)             SC4-IDO-7.0: IRIX Development Option
+                        SC4-C++-7.0: C++ compiler</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Comments</term>
+<listitem>
+<para>In addition, there are three patches that apply to the compilers:
+patches 1451, 1453 and 1463.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<sect2 id=sect32>
+<title>Sun</title>
+<variablelist>
+<varlistentry><term>Component</term>
+<listitem>
+<programlisting>Model                   SPARCstation
+RAM                     64 MB
+Graphics                1152x900 8 plane</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Software</term>
+<listitem>
+<programlisting>OS Version              Solaris 2.4
+Patches to OS           see below
+Network Communications  NIS, NFS
+
+Compiler(s)             SPARCompiler C 2.0.1
+                        SPARCompiler C++ 3.0.1
+
+Additional components   See below</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term>Comments</term>
+<listitem>
+<para>The Solaris Common Build Environment is required.</para>
+<para>The following patches are required. This list reflects patch numbers
+available as of 30 October, 1995. From time to time, replacement patches may
+be issued with changed suffix values; the current replacement patches may
+be substituted for those listed below.</para>
+<programlisting>100962-01       C++ patch for USL Cfront, release 3.0.2.
+100974-02       dbx/ld scoped libs
+101880-08       Mime message conversion field error
+101907-05       volume management fixes
+101925-02       Header file fixes
+101933-01       /dev/mouse open causes cursor to freeze
+101945-32       Kernel jumbo patch
+102057-20       Xserver jumbo patch
+102303-05       link editors require to provide for dynamic interfaces
+102330-03       WABI fixes
+102450-02       Docviewer will not start with full colormap
+102650-02       New Tooltalk
+103250-01       fd recalculate fix</programlisting>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+</sect1>
+<sect1 id=chap14>
+<title>Open/Closed Defect Lists</title>
+<para>The following files listing defect reports are provided in the directories <filename>
+$CDESOURCEDIR/cde</filename> and <filename>$CDESOURCEDIR/motif</filename>:
+</para>
+<variablelist>
+<varlistentry><term><filename>OPENBUGS</filename></term>
+<listitem>
+<para>Lists the currently known unresolved defects reported against CDE or
+Motif components respectively.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>CLOSEDBUGS</filename></term>
+<listitem>
+<para>Lists the defects that have been resolved since CDE 1.0.10 or
+Motif 2.0.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+<sect1 id=chap15>
+<title>Additional Note</title>
+<para>The <command>mapconv</command> utility function is available in the <filename>
+cde-contrib</filename> directory. It provides a method for converting a string
+of characters from one codeset type to another type.</para>
+</sect1>
+</chapter>
+</book>
+

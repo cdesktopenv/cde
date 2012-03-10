@@ -1,0 +1,516 @@
+<!-- $XConsortium: ch01.sgm /main/7 1996/09/08 19:45:34 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="DKSUG.Intro.div.1">
+<title id="DKSUG.Intro.mkr.1">Introduction to Desktop KornShell</title>
+<para>Desktop KornShell(<command>ldtksh<indexterm><primary>dtksh</primary>
+<secondary>definition</secondary></indexterm></command>) provides kshell scripts
+with the means for easily accessing most of the existing Xt and Motif&trade;
+functions. <command>dtksh</command> is based on <filename>ksh-93<indexterm>
+<primary>dtksh</primary><secondary>relationshipt to ksh-93</secondary></indexterm><indexterm>
+<primary>ksh-93</primary></indexterm></filename>, which provides a powerful
+set of tools and commands for the shell programmer, and which supports the
+standard set of kshell programming commands.</para>
+<para><command>dtksh</command> supports all the features and commands provided
+by <filename>ksh-93</filename>. In addition, <command>dtksh</command> supports
+a large selection of the <command>libDt</command> functions, most of the
+widget-related Motif functions, a large subset of the Xt Intrinsics functions,
+and a small subset of the Xlib functions. All the supported functions are
+listed in Appendix A.<indexterm><primary>supported functions</primary></indexterm><indexterm>
+<primary>functions</primary><secondary>supported</secondary></indexterm></para>
+<sect1 id="DKSUG.Intro.div.2">
+<title>Using Desktop KornShell to Create Motif Applications</title>
+<para>This section describes how to use <command>dtksh</command> to create<indexterm><primary>Motif applications</primary></indexterm>
+Motif<indexterm>
+<primary>applications, Motif</primary></indexterm> applications. To successfully
+use <command>dtksh</command>, you should have experience with Xlib, the Xt
+Intrinsics, the Motif widgets, and KornShell programming. It is also helpful
+to know the C programming language. If you are not familiar with any of
+these, you should refer to the appropriate documentation. Even if you are
+familiar with these systems, you should have access to the applicable man
+pages for reference.</para>
+<para>In addition, your system should have these libraries:<indexterm><primary>required linbraries</primary></indexterm><indexterm><primary>libraries, required</primary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para><command>libDtHelp</command></para>
+</listitem><listitem><para><command>libDtSvc</command></para>
+</listitem><listitem><para><command>libX11</command></para>
+</listitem><listitem><para><command>libXm</command></para>
+</listitem><listitem><para><command>libXt</command></para>
+</listitem><listitem><para><command>libtt</command></para>
+</listitem></itemizedlist>
+<sect2 id="DKSUG.Intro.div.3">
+<title>Resources<indexterm><primary>resources</primary></indexterm></title>
+<para>Resources are widget variables that you use to define attributes such
+as size, location, or color. Each widget usually has a combination of its
+own resources, plus resources it inherits from higher level widgets. Xt
+Intrinsics and Motif resource names consist of a prefix (<command>XtN</command>
+or <command>XmN</command>) followed by the base name. The first letter of
+the base name is <emphasis>always</emphasis> lowercase, and the first letter
+of subsequent words within the base name is <emphasis>always</emphasis> uppercase.
+The convention for resource names in <command>dtksh</command> scripts is
+to delete the prefix and use the base name. Thus, the resource <command>XmNtopShadowColor</command> becomes <command>topShadowColor</command>.<indexterm>
+<primary>XmNtopShadowColor</primary></indexterm><indexterm><primary>topShadowColor</primary></indexterm></para>
+<para>Some Xt and Motif commands allow the shell script to pass in a variable
+number of<indexterm><primary>parameters, variable number</primary></indexterm> parameters,
+representing resource-value pairs. This is similar to the argument list passed
+to the corresponding Xt or Motif C function. Examples include any of the
+commands used to create a widget, plus the <command>XtSetValues</command>
+command. In <command>dtksh</command>, resources are specified by a string
+with the following syntax:</para>
+<programlisting>resource:<symbol role="Variable">value</symbol></programlisting>
+<para>where <symbol role="Variable">resource</symbol> is the name of the resource
+and <symbol role="Variable">value</symbol> is the value assigned to the resource.
+<command>dtksh</command> automatically converts the <symbol role="Variable">value</symbol> string to an appropriate internal representation. For example:
+</para>
+<programlisting>XtSetValues $WIDGET height:100 width:200 resizePolicy:RESIZE_ANY
+XmCreateLabel LABEL $PARENT myLabel labelString:&rdquo;Close Dialog&rdquo;
+</programlisting>
+<para>When you retrieve widget resource values using <command><indexterm>
+<primary>XtGetValues</primary></indexterm>XtGetValues</command>, the return
+value is placed in an environment variable. Thus, unlike the Xt Intrinsics,
+the <command>dtksh</command> version of <command>XtGetValues</command> uses
+a name:(environment) variable pair, rather than a name:value pair. For example:
+</para>
+<programlisting>XtGetValues $WIDGET height:HEIGHT resizePolicy:POLICY
+             sensitive:SENSITIVE
+echo $HEIGHT
+echo $POLICY
+echo $SENSITIVE</programlisting>
+<para>The preceding <command>dtksh</command> segment might produce this output:
+</para>
+<programlisting>100
+RESIZE ANY
+TRUE</programlisting>
+<para>Certain types of resource values, including string tables and bit masks,
+have special representation. For example, the List widget allows a string
+table to be specified for both the <command>items</command> and <command>selectedItems</command> resources. In <command>dtksh</command>, a string
+table is represented as a comma-separated list of strings, which is similar
+to how Motif treats them. When a resource that returns a string table is
+queried using <command>XtGetValues<indexterm><primary>XtGetValues</primary>
+</indexterm></command>, the resulting value is a comma-separated set of strings.
+</para>
+<para>A resource that expects a bit mask value to be passed to it expects
+the mask to be specified as a string composed of the various mask values
+separated by the |(bar) character. When a resource that returns a bit mask
+is queried, the return value is a string representing the enabled bits, separated
+by the | character. For example, you could use the following command to set
+the <command><indexterm><primary>mwmFunctions</primary></indexterm><indexterm>
+<primary>VendorShell</primary></indexterm>mwmFunctions</command> resource
+for the <command>VendorShell</command> widget class:</para>
+<programlisting>XtSetValues mwmFunctions: MWM_FUNC_ALL|MWM_FUNC_RESIZE</programlisting>
+</sect2>
+<sect2 id="DKSUG.Intro.div.4">
+<title>Unsupported Resources<indexterm><primary>unsupported resources</primary>
+</indexterm><indexterm><primary>resource</primary><secondary>unsupported</secondary></indexterm></title>
+<para><command>dtksh</command> supports most of the Motif resources. The
+following lists unsupported resources. Resources with an * (asterisk) can
+be specified at widget creation time by using <command><indexterm><primary>XtSetValues</primary></indexterm>XtSetValues</command>, but can't be retrieved
+using <command><indexterm><primary>XtGetValues</primary></indexterm>XtGetValues</command>.</para>
+<itemizedlist remap="Bullet1"><listitem><para>All widget and gadget Classes:
+</para>
+<itemizedlist remap="Bullet2"><listitem><para>Any fontlist resource *</para>
+</listitem><listitem><para>Any pixmap resource *</para>
+</listitem></itemizedlist>
+</listitem><listitem><para>Composite:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>insertPosition</command></para>
+</listitem><listitem><para><command>children</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para>Core:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>accelerators</command></para>
+</listitem><listitem><para><command>translations</command> *</para>
+</listitem><listitem><para><command>colormap</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>XmText</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>selectionArray</command></para>
+</listitem><listitem><para><command>selectionArrayCount</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>ApplicationShell</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>argv</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>WMShell</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>iconWindow</command></para>
+</listitem><listitem><para><command>windowGroup</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>Shell</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>createPopupChildrenProc</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>XmSelectionBox</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>textAccelerators</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>Manager</command>, <command>Primitive</command>, and <command>Gadget</command> Subclasses:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>userData</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>XmFileSelectionBox</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>dirSearchProc</command></para>
+</listitem><listitem><para><command>fileSearchProc</command></para>
+</listitem><listitem><para><command>qualifySearchDataProc</command></para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="DKSUG.Intro.div.5">
+<title>dtksh app-defaults File<indexterm><primary>app-defaults file</primary>
+</indexterm></title>
+<para>The <command>dtksh</command> <filename>app-defaults</filename> file,
+named <command>Dtksh</command><indexterm><primary>Dtksh, app-defaults file</primary></indexterm>, is found in a location based on the following path
+description:</para>
+<programlisting>/usr/dt/app-defaults/&lt;LANG></programlisting>
+<para>The only information contained in this <filename>app-defaults</filename>
+file is the inclusion of the standard <command>Dt</command> base
+<filename>app-defaults</filename> file. The following is a listing of the <command>dtksh</command> <filename>app-defaults</filename> file:</para>
+<programlisting>#include &ldquo;Dt&ldquo;</programlisting>
+<para>The file <command>Dt</command> is also located in <computeroutput>/usr/dt/app-defaults/&lt;LANG></computeroutput> and is shown in the following listing.</para>
+<programlisting>*foregroundThreshold: 70
+!###
+!#
+!#  Help system specific resources
+!#
+!###
+
+!#
+!# Display Area Colors
+!#
+!#   These resources set the colors for the display area (where
+!#   actual help text is displayed). The resources are complex
+!#   because they have to override the standard color resources
+!#   in all cases.
+!#
+*XmDialogShell.DtHelpDialog*DisplayArea.background: White
+*XmDialogShell*XmDialogShell.DtHelpDialog*DisplayArea.background:
+White
+*XmDialogShell.DtHelpDialog*DisplayArea.foreground: Black
+*XmDialogShell*XmDialogShell.DtHelpDialog*DisplayArea.foreground:
+Black
+
+!#
+!# Menu Accelerators
+!#
+!#   The following resources establish keyboard accelerators
+!#   for the most frequently accessed menu commands.
+!#
+
+*DtHelpDialogWidget*searchMenu.keyword.acceleratorText: Ctrl+I
+*DtHelpDialogWidget*searchMenu.keyword.accelerator: Ctrl&lt;Key>i
+*DtHelpDialogWidget*navigateMenu.backTrack.acceleratorText: Ctrl+B
+*DtHelpDialogWidget*navigateMenu.backTrack.accelerator: Ctrl&lt;Key>b
+*DtHelpDialogWidget*navigateMenu.homeTopic.acceleratorText: Ctrl+H
+*DtHelpDialogWidget*navigateMenu.homeTopic.accelerator: Ctrl&lt;Key>h
+*DtHelpDialogWidget*fileMenu.close.acceleratorText:   Alt+F4
+*DtHelpDialogWidget*fileMenu.close.accelerator: Alt&lt;Key>f4</programlisting>
+</sect2>
+<sect2 id="DKSUG.Intro.div.6">
+<title>Variable Values<indexterm><primary>variable values</primary></indexterm></title>
+<para>This section describes the types of values for some of the variables
+in a <command>dtksh</command> <filename>app-defaults</filename> file.</para>
+<sect3 id="DKSUG.Intro.div.7">
+<title>Defined Values<indexterm><primary>Defined Values</primary></indexterm></title>
+<para>The C bindings of the interfaces to X, Xt and Motif include many nonstring
+values that are defined in header files. The general format of such values
+consists of an <command>Xt</command> or <command>Xm</command> prefix followed
+by a descriptive name. For example, one of the constraint values for a child
+of a form widget is <filename>XmATTACH_FORM</filename>. Equivalent values
+are specified in <command>dtksh</command> by dropping the prefix, just as
+in a Motif defaults file:</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>XmDIALOG_COMMAND_TEXT</filename>
+becomes <filename>DIALOG_COMMAND_TEXT</filename></para>
+</listitem><listitem><para><filename>XtATTACH_FORM</filename>
+becomes <filename>ATTACH_FORM</filename></para>
+</listitem></itemizedlist>
+</sect3>
+<sect3 id="DKSUG.Intro.div.8">
+<title>Boolean Values<indexterm><primary>Boolean Values</primary></indexterm></title>
+<para>You can specify a Boolean value as a parameter to a <command>dtksh</command>
+command using the words True or False; case is not significant. A Boolean
+result is returned as either True or False, using all lowercase letters.
+</para>
+</sect3>
+</sect2>
+<sect2 id="DKSUG.Intro.div.9">
+<title>Return Values<indexterm><primary>Return Values</primary></indexterm></title>
+<para>Graphical commands in <command>dtksh</command> fall into one of four
+categories, based on the definition of the corresponding C function:</para>
+<orderedlist><listitem><para>The function is void and returns no values.
+Example: <filename>XtMapWidget()</filename></para>
+</listitem><listitem><para>The function is void, but returns one or more values
+through reference parameters. Example: <filename>XmGetColors()</filename></para>
+</listitem><listitem><para>The function returns a non-Boolean value. Example:
+<filename>XtCreateManagedWidget()</filename></para>
+</listitem><listitem><para>The function returns a Boolean value. Example:
+<filename>XtIsSensitive()</filename></para>
+</listitem></orderedlist>
+<sect3 id="DKSUG.Intro.div.10">
+<title>Category 1<indexterm><primary>return value</primary><secondary>category
+1</secondary></indexterm></title>
+<para>A <command>dtksh</command><indexterm><primary>category 1</primary>
+</indexterm> category 1 command follows the calling sequence of its corresponding
+C function. The number and order of parameters can be determined by looking
+at the standard documentation for the function. Example:</para>
+<programlisting>XtMapWidget $FORM
+</programlisting>
+</sect3>
+<sect3 id="DKSUG.Intro.div.11">
+<title>Category 2<indexterm><primary>return value</primary><secondary>category
+2</secondary></indexterm></title>
+<para>A <command>dtksh</command><indexterm><primary>category 2</primary>
+</indexterm> category 2 command also generally follows the calling sequence
+of its corresponding C function. It returns a value in an environment variable,
+instead of passing a pointer to a return variable. Example:</para>
+<programlisting>XmGetColors $FORM $BG FOREGROUND TOPSHADOW BOTTOMSHADOW SELECT
+echo &ldquo;Foreground color = &ldquo; $FOREGROUND</programlisting>
+</sect3>
+<sect3 id="DKSUG.Intro.div.12">
+<title>Category 3<indexterm><primary>return value</primary><secondary>category
+3</secondary></indexterm></title>
+<para>A <command>dtksh</command><indexterm><primary>category 3</primary>
+</indexterm> category 3 command differs slightly from its corresponding C
+function. Where the C function returns its value as the value of the procedure
+call, a <command>dtksh</command> command requires an additional parameter.
+This parameter is the name of an environment variable into which the return
+value is to be placed. It is always the first parameter. Example:
+</para>
+<programlisting>XmTextGetString TEXT_VALUE $TEXT_WIDGET
+echo &ldquo;The value of the text field is &ldquo;$TEXT_VALUE</programlisting>
+</sect3>
+<sect3 id="DKSUG.Intro.div.13">
+<title>Category 4<indexterm><primary>return value</primary><secondary>category
+4</secondary></indexterm></title>
+<para>A <command>dtksh</command><indexterm><primary>category 4</primary>
+</indexterm> category 4 command returns a value that can be used in a conditional
+expression just as in C. If the C function also returns values through reference
+variables (as in category 2), the <command>dtksh</command> command also uses
+variable names for the corresponding parameters. Example:</para>
+<programlisting>if XmIsTraversable $PUSH_BUTTON; then
+echo &ldquo;The pushbutton is traversable&rdquo;
+else
+echo &ldquo;The pushbutton is not traversable&rdquo;
+fi</programlisting>
+<para>Generally, the order and type of parameters passed to a command matches
+those passed to the corresponding C function, except as noted for category
+3 commands.</para>
+</sect3>
+</sect2>
+<sect2 id="DKSUG.Intro.div.14">
+<title>Immediate Return Value<indexterm><primary>return value</primary><secondary>immediate</secondary></indexterm><indexterm><primary>immediate return value</primary></indexterm></title>
+<para>Many of the<indexterm><primary>category 3</primary></indexterm> category
+3 commands return a single value using an environment variable specified
+as the first parameter to the command (for these special commands, the first
+parameter has the name <symbol role="Variable">variable</symbol>). If this
+return value is immediately used in an expression, the special environment
+variable &ldquo;-&ldquo; may be used in place of a variable name. When <command>dtksh</command> encounters &ldquo;-&ldquo; as the name of the environment
+variable in which the return value is to be returned, it instead returns
+the result as the value of the command. This allows the shell script to
+embed the command call in another command call. This feature only works
+for commands that return a single value, and the value is returned in the
+first parameter. For example:</para>
+<programlisting>XtDisplay DISPLAY $FORM
+XSync $DISPLAY true</programlisting>
+<para>can be replaced by the equivalent statement:</para>
+<programlisting>XSync $(XtDisplay &ldquo;-&ldquo; $FORM) true</programlisting>
+<para>The reference to <filename>$DISPLAY</filename> is replaced with the
+value returned by the call to <command>XtDisplay</command>.</para>
+<para>This capability is available for all category 3 commands except those
+that create a widget, those that return more than a single value, and those
+whose first parameter is not a named variable. Commands that do not accept
+&ldquo;-&ldquo; as the environment variable name include the following:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>XtInitialize()</filename></para>
+</listitem><listitem><para><filename>XtCreateApplicationShell()</filename></para>
+</listitem><listitem><para><filename>XtCreatePopupShell()</filename></para>
+</listitem><listitem><para><filename>XtCreateManagedWidget()</filename></para>
+</listitem><listitem><para><filename>XtCreateWidget()</filename></para>
+</listitem><listitem><para>All commands of the form:</para>
+<programlisting>XmCreate...()</programlisting>
+</listitem><listitem><para>Most commands of the form:</para>
+<programlisting>tt_...()</programlisting>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="DKSUG.Intro.div.15">
+<title>Initializing the Xt Intrinsics<indexterm><primary>Xt Intrinsics</primary>
+<secondary>initialize</secondary></indexterm><indexterm><primary>initialize
+Xt Intrinsics</primary></indexterm></title>
+<para>A <command>dtksh</command> script must first initialize the Xt Intrinsics
+before it can call any of the Xlib, Xt, Motif, or <command>libDt</command>
+commands. You accomplish this by invoking the <command><indexterm><primary>XtInitialize</primary></indexterm>XtInitialize</command> command, which returns
+an application shell widget. As is true for all <command>dtksh</command>
+commands that return a widget ID, <command>XtInitialize</command> returns
+the widget ID in the environment variable that is the first argument. For
+example, in:</para>
+<programlisting>XtInitialize TOPLEVEL myShellName Dtksh $0 &ldquo;$@&rdquo;
+</programlisting>
+<para>the widget ID is returned in the environment variable <command>TOPLEVEL</command>.</para>
+<para><command>dtksh</command> provides a default <filename>app-defaults</filename>
+file, which is used if the call to <command>XtInitialize</command> specifies
+an application class name of <command>Dtksh</command>. This
+<filename>app-defaults</filename> file contains the standard set of <command>Dt</command>
+application default values, so <command>dtksh</command> applications have
+a consistent look with other <command>Dt</command> applications.</para>
+<sect2 id="DKSUG.Intro.div.16">
+<title>Creating Widgets<indexterm><primary>widget</primary><secondary>create</secondary></indexterm><indexterm><primary>create widget</primary></indexterm></title>
+<para>There are several commands you can use to create widgets:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="235*">
+<colspec align="left" colwidth="221*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>XtCreateWidget</command><indexterm>
+<primary>XtCreateWidget</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Creates an unmanaged widget.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>XtCreateManagedWidget</command><indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Creates a managed widget.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>XtCreateApplicationShell</command><indexterm>
+<primary>XtCreateApplicationShell</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Creates an application shell.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>XtCreatePopupShell</command><indexterm>
+<primary>XtCreatePopupShell</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Creates a pop-up shell.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>XmCreate</command>&lt; <emphasis>widgettypes</emphasis>></para></entry>
+<entry align="left" valign="top"><para>Creates an unmanaged widget.</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>There is a specific format for each of these commands that you must
+follow. For example, suppose you want to create an unmanaged push button
+widget as a child of the top-level widget. You can use either <command>XtCreateWidget</command> or <command>XmCreatePushButton</command>. The formats
+for these commands are:</para>
+<itemizedlist remap="Bullet1"><listitem><para><computeroutput>XtCreateWidget</computeroutput> <emphasis>variable name widgetclass $parent [resource:value
+...]</emphasis><indexterm><primary>XtCreateWidget</primary></indexterm></para>
+</listitem><listitem><para><computeroutput>XmCreatePushButton</computeroutput> <emphasis>variable $parent name [resource:value ...]</emphasis><indexterm><primary>XmCreatePushButton</primary></indexterm></para>
+</listitem></itemizedlist>
+<para>The actual commands to create a push button widget are:</para>
+<programlisting>XtCreateWidget BUTTON button XmPushButton $TOPLEVEL
+XmCreatePushButton BUTTON $TOPLEVEL button</programlisting>
+<para>Each of the preceeding commands do exactly the same thing: create an
+unmanaged push button. Note that no resource values are set. Suppose that
+you want the background color of the push button to be red, and the foreground
+color to be black. You can set the values of these resources this way:</para>
+<programlisting>XtCreateWidget BUTTON button XmPushButton $TOPLEVEL \
+background:Red \
+foreground:Black
+XmCreatePushButton BUTTON $TOPLEVEL button\
+background:Red \
+foreground:Black</programlisting>
+<para>All of the C functions that create a widget return a<indexterm><primary>widget</primary><secondary>handle</secondary></indexterm><indexterm><primary>handle</primary></indexterm> widget ID, or ID. The corresponding <command>dtksh</command> commands set an environment variable equal to the widget
+ID. These are category 3 commands, so the first argument is the name of
+the environment variable in which to return the widget ID. The widget ID
+is an ASCII string used by <command>dtksh</command> to access the actual
+widget pointer. Either of the following commands could be used to create
+a new form widget; however, in each case the widget ID for the new form widget
+is returned in the environment variable <command>FORM</command>:</para>
+<itemizedlist remap="Bullet1"><listitem><para><command>XtCreateManagedWidget
+FORM name XmForm $PARENT</command><indexterm><primary>XtCreateManagedWidget</primary></indexterm></para>
+</listitem><listitem><para><command>XmCreateForm FORM $PARENT name</command><indexterm>
+<primary>XmCreateForm</primary></indexterm></para>
+</listitem></itemizedlist>
+<para>After either of these commands, you can use <filename>$FORM</filename>
+to reference the new form widget. For example, you could use this command
+to create a label widget within the new form widget:</para>
+<programlisting>XmCreateLabel LABEL $FORM name\
+labelString:&rdquo;Hi Mom&rdquo; \
+CH_FORM \
+leftAttachment:ATTACH_FORM<indexterm><primary>XmCreateLabel</primary></indexterm></programlisting>
+<note>
+<para>There is a special widget ID called NULL, provided for cases where
+a shell script may need to specify a NULL widget. For example, to disable
+the <command>defaultButton</command> resource for a form widget, use the
+command <command>X</command><command>tSetValues $FORM defaultButton:NULL</command></para>
+</note>
+</sect2>
+</sect1>
+<sect1 id="DKSUG.Intro.div.17">
+<title>Using a Callback<indexterm><primary>callback</primary></indexterm></title>
+<para>A callback is a function or procedure that is executed when an event
+or combination of events occurs. For example, a callback is used to achieve
+the desired result when a push button is &ldquo;pressed.&rdquo; It is
+easy for a <command>dtksh</command> shell script to assign a command to be
+activated whenever a particular callback is invoked for a widget. The command
+could be as simple as a string of commands blocked together, or the name
+of the shell function to invoke.</para>
+<sect2 id="DKSUG.Intro.div.18">
+<title>Registering a Callback<indexterm><primary>callback</primary><secondary>register</secondary></indexterm><indexterm><primary>register callback</primary>
+</indexterm></title>
+<para>An application registers a callback with a widget to specify a condition
+in which it is interested and to specify what action should occur when that
+condition occurs. The callback is registered using <command><indexterm>
+<primary>XtAddCallback</primary></indexterm>XtAddCallback</command>. The
+action can be any valid <command>dtksh</command> command. For example:</para>
+<programlisting>XtAddCallback $WIDGET activateCallback &ldquo;ActivateProc&rdquo;
+
+XtAddCallback $WIDGET activateCallback \
+              &ldquo;XtSetSensitive $BUTTON false&rdquo;
+</programlisting>
+</sect2>
+<sect2 id="DKSUG.Intro.div.19">
+<title>Passing Data to a Callback<indexterm><primary>callback</primary><secondary>pass data to</secondary></indexterm></title>
+<para>A callback needs to be passed context information, so it can determine
+what condition led to its call. For a C procedure, this information is typically
+passed in a <command>callData</command> structure. For example, a scale
+widget invoking a <command>valueChangedCallback</command> passes an instance
+of the following structure in <command>callData</command>:</para>
+<programlisting>typedef struct {
+ int reason;
+ XEvent event;
+ int value;
+}XmScaleCallbackStruct;</programlisting>
+<para>The C application's callback then does something like:</para>
+<programlisting>if (scaleCallData->reason == XmCR_VALUE_CHANGED)
+{
+  eventType = scaleCallData->event->type;
+  display = scaleCallData->event->xany.display;
+}</programlisting>
+<para>Similarly, when a callback is invoked in <command>dtksh</command>, the
+following special environment variable is set up before the callback command
+executes:</para>
+<programlisting>CB_WIDGET</programlisting>
+<para>This is set to the widget ID for the widget that is invoking the callback.
+</para>
+<programlisting>CB_CALL_DATA</programlisting>
+<para>This is set to the address of the <command>callData</command> structure
+passed by the widget to the callback.</para>
+<para>The <filename><indexterm><primary>CB_CALL_DATA</primary></indexterm>CB_CALL_DATA</filename> environment variable represents a pointer to a structure, and
+access to its fields uses a syntax similar to that of C. Nested environment
+variables are defined, named the same as the fields of the structure (but
+all in uppercase), and a dot is used to indicate containment of an element
+in a structure. Thus, the previous C code to access the <command>callData</command> provided by the scale widget translates to:</para>
+<programlisting>if [ ${CB_CALL_DATA.REASON} = &ldquo;CR_VALUE_CHANGED&rdquo; ]; then
+ eventType=${CB_CALL_DATA.EVENT.TYPE}
+ display=${CB_CALL_DATA.EVENT.XANY.DISPLAY}
+fi</programlisting>
+<para>The same is true of the event structure within the <command>callData</command> structure.</para>
+<para>For most callback structures, the shell script is able to reference
+any of the fields defined for the particular callback structure, using the
+technique described earlier. In most cases, the shell script is not able
+to alter the values of the fields within these structures. The exception
+to this is the <command>XmTextVerifyCallbackStruct</command>, which is available
+during the <command>losingFocusCallback</command>, the <command>modifyVerifyCallback</command> and the <command>motionVerifyCallback</command> for the text widget.
+<command>dtksh</command> supports the modification of certain fields within
+this structure, to the extent that it is supported by Motif. The following
+fields within the callback structure are capable of being modified:</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>CB_CALL_DATA.DOIT</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.STARTPOS</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.PTR</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.LENGTH</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.FORMAT</filename></para>
+</listitem></itemizedlist>
+<para>This is an example of how one of these fields can be modified:</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>CB_CALL_DATA.DOIT=&rdquo;false&rdquo;</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.PTR=&rdquo;*&rdquo;</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.LENGTH=1</filename></para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000033871>

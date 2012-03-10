@@ -1,0 +1,63 @@
+This library provides an interpreter for CGM '86 binary encoded
+Computer Grapics Metafiles. It will draw the first picture in a
+specified file into a Pixmap and return that Pixmap.
+
+Files:
+
+cgm.h contains common definitions (types, etc.) for all of the cgm
+processing modules. Not needed by external programs.
+
+spec.h contains the sepcification for the external entry point:
+
+Pixmap CGMFileToPixmap (Screen        	*screen,
+			char	        *filename,
+			int		depth,
+			Colormap	colormap,
+			Visual		*visual,
+			GC	        gc,
+			Dimension     	*ret_width,
+			Dimension     	*ret_height,
+			Pixel         	**ret_colors,
+			int	        *ret_number);
+
+filename gives the name of the cgm file to be opened. It is not
+munged in any manner. The first picture in the file will be written
+into a Pixmap of dimension *ret_width by *ret_height. These are not
+read on input, and presently will always fit within a 512 square
+unless the cgm file explicitly asks for a different size by setting
+the scaling mode to be metric. The Pixmap is the return value.
+
+screen, depth and visual are used only on input as information on the
+display to be used. gc is used to provide default foreground and
+background colors, but these may be overridden by the cgm file. It is
+not altered.
+
+If colors are added to the colormap (by XAllocColor), their number and
+Pixels will be in *ret_number and *ret_colors.
+
+cgmcmds.c is the basic command module. It both interprets each cgm
+command and invokes the XLib routines to perform the operations
+requested, so it uses some XLib specific operations. I.e., XLib type
+storage is used for the data.
+
+cgmcommon.c has routines which are encoding and device independent,
+i.e., not very many.
+
+cgmio.c has the I/O routines for reading in the cgm file.
+
+cgmtext.c has the text handling routines, including the definition of
+a single stroked font.
+
+getcgm.c has the external entry point, and interfaces it to the guts
+of the interpreter, i.e., it has the outermost "do-loop".
+
+testcgm.c is not part of the interpreter proper, but simply a test
+program to grab a cgm file (either "test.cgm", or argv[1]), open a
+window and copy the resulting Pixmap into it. It does no backing
+store. 
+
+Error messages: all error messages are of the form, e.g., 
+"burp(stderr, "warning, %d\n", some_int);"
+where "burp" is defined to be "fprintf" in cgm.h. If wanted, burp can
+be redefined.
+

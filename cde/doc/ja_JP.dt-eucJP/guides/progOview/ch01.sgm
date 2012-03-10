@@ -1,0 +1,723 @@
+<!-- $XConsortium: ch01.sgm /main/12 1996/09/08 19:46:22 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="RDMAP.archo.div.1">
+<title id="RDMAP.archo.mkr.1">アーキテクチャの概要　
+</title>
+<para>
+この章では、共通デスクトップ環境のハイレベルなアーキテクチャを説明します
+。デスクトップ実行環境の詳細については、実行時のマニュアル・セットとオンライン・ヘルプ・ボリュームを参照してください。デスクトップ開発環境のコンポーネントの詳細については、
+<!--Original
+XRef content: 'Chapter&numsp;6, &xd2;Recommended Integration'--><xref role="ChapNumAndTitle"
+linkend="RDMAP.recin.mkr.1">, <!--Original XRef content: 'Chapter&numsp;7,
+&xd2;Optional Integration'--><xref role="ChapNumAndTitle" linkend="RDMAP.optin.mkr.1">,
+開発環境用マニュアル・セット、オンライン・マニュアル・ページを参照してください。
+</para>
+<informaltable id="RDMAP.archo.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Conceptual Overview3'--><xref role="JumpText"
+linkend="RDMAP.archo.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Data Interaction GUIs5'--><xref role="JumpText"
+linkend="RDMAP.archo.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Multiuser Collaboration6'--><xref
+role="JumpText" linkend="RDMAP.archo.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Desktop Management7'--><xref role="JumpText"
+linkend="RDMAP.archo.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Motif GUI Engine12'--><xref role="JumpText"
+linkend="RDMAP.archo.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Integration Technologies15'--><xref
+role="JumpText" linkend="RDMAP.archo.mkr.8"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Information TechnologiesXX'--><xref
+role="JumpText" linkend="RDMAP.archo.mkr.10"></para></entry></row>
+</tbody>
+</tgroup></informaltable>
+<sect1 id="RDMAP.archo.div.2">
+<title id="RDMAP.archo.mkr.2">概念</title>
+<para>共通デスクトップ環境<indexterm><primary>
+アーキテクチャ、共通デスクトップ環境</primary></indexterm>アーキテクチャにはプロセスの相互関係が多数あります。
+Xクライアント、ウィンドウ・マネージャ、
+  X Window System&trade; サーバの3つの関係は、比較すると簡単です。
+ 共通デスクトップ環境が適用される範囲は広いですが、システムの階層は
+<indexterm><primary>Motif</primary>
+</indexterm>Motif、Xt、Xlibほどに厳格なものではありません。ハイレベルなシステム間の関係は多様で広範囲です。
+この章では、テクノロジをグループ化し、
+それぞれのデスクトップ・ コンポーネントを図解します。共通デスクトップ環境は
+、次のように分類されます。</para>
+<figure>
+<title>共通デスクトップ環境の概念</title>
+<graphic id="rdmap.archo.igrph.1" entityref="RDMAP.archo.fig.1"></graphic>
+</figure>
+<itemizedlist remap="Bullet1"><listitem><para>データ対話型グラフィカル・ユーザ・インタフェース
+ (GUI): ユーザの対話に応用でき、他のアプリケーションからも呼び出せるアプリケーション・レベルのコンポーネントです。
+ ウィジェットより単位が大きいプログラミング・コンポーネントと考えてください。<indexterm><primary>データ対話型
+グラフィカル・ユーザ・インタフェース</primary></indexterm></para>
+</listitem><listitem><para>マルチユーザでの共用: 
+特にカレンダ管理、 ネットワーク
+・リソースの命名、ネットワーク・ファイル共有の領域において、ネットワーク上での、ユーザ間共用を可能にするAPI(アプリケーション・プログラム・インタフェース)を定義し使用します。<indexterm><primary>マルチユーザでの共用</primary></indexterm></para>
+</listitem><listitem><para>デスクトップ管理: デスクトップの
+エンティティ間の視覚的な関連性を調整するコンポーネントを提供します。
+ウィンドウ・マネージャ、ワークスペース・マネージャ、セッション・マネージャ、
+アプリケーション・マネージャ、ファイル・マネージャ、スタイル・マネージャ、 およびフロントパネルがこれに含まれます。<indexterm>
+<primary>デスクトップ管理</primary></indexterm></para>
+</listitem><listitem><para>Motif GUIエンジン: ユーザが使用できるコントロールを実現するコンポーネントで、共通
+デスクトップ環境のMotif ツールキット、追加ウィジェット、GUIシェル(デスクトップ
+KornShell)、GUI構築ツール(アプリケーション・ビルダ)などです。<indexterm>
+<primary>グラフィカル・ユーザ・インタフェース・エンジン</primary></indexterm></para>
+</listitem><listitem><para>統合テクノロジ: 
+GUIを生成しませんが、デスクトップの他のコンポーネントで、インフラストラクチャとして、使用されるテクノロジです。
+プロセス実行の制御、アプリケーション
+メッセージ機構(機能およびプロトコル)、データ型の作成、メソッドの実行などが含まれます。<indexterm>
+<primary>統合テクノロジ</primary></indexterm></para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="RDMAP.archo.div.3">
+<title id="RDMAP.archo.mkr.3">データ対話型GUI<indexterm><primary>データ対話型
+ グラフィカル・ユーザ・インタフェース &lt;$startrange></primary></indexterm></title>
+<para> 共通デスクトップ環境は登録サービスである
+ToolTalk メッセージ・サービスを提供します。これによりアプリケーションは使用可能な
+サービス・プロバイダを見つけることができます。ToolTalkはローレベルのメッセージ機構インフラストラクチャを提供します。
+アクション・システムと呼ばれるガイド機能は、アプリケーションに対する
+従来の<indexterm><primary>UNIX</primary></indexterm>UNIX&trade;
+のコマンド行インタフェースと共通デスクトップ環境で推奨するToolTalkインタフェースの両方の上に一貫した抽象的な階層を提供します。
+アクションは意味を持つエンティティとして、ソフトウェアの上位レベルによってエンド・ユーザに示されます。
+アクションおよび
+ToolTalkの詳細については、
+<!--Original XRef content: '&xd2;Integration Technologies&xd3; on page&numsp;15'--><xref
+role="SecTitleAndPageNum" linkend="RDMAP.archo.mkr.8">で説明します。</para>
+<para>デスクトップには、<indexterm>
+<primary>アクション</primary></indexterm>アクションまたはToolTalk APIが使用できるコンポーネントがあります。ディレクトリの表示、
+印刷ジョブの実行、[ごみ箱]の内容表示、テキストの編集、ヘルプ情報の表示、
+ カレンダ・アポイントの作成、およびメール・メッセージの作成などを行うGUIがあります。</para>
+<para>アクションや<indexterm><primary>ToolTalk メッセージ・サービス
+</primary></indexterm>ToolTalk メッセージのサポートをアプリケーション
+に組み込んで、アプリケーション固有のサービスをデスクトップおよび他の
+アプリケーションで使用できるようにすることもできます。特に、専用フォーマット・データおよび標準フォーマット・データの両方で、作成、表示、
+編集、印刷のサービスを行います。
+ このように、拡張可能な一連のデータを受け入れるようにコード化されたアプリケーションはシステムに
+<emphasis>メディア</emphasis>・ハンドラを追加すればするほどその機能が自動的に向上します。このようなアプリケーションには、共通デスクトップ環境の
+<indexterm><primary>ファイル・マネージャ</primary></indexterm>ファイル・マネージャ、<indexterm>
+<primary>フロントパネル</primary></indexterm>フロントパネル、および<indexterm><primary>メール・プログラム</primary></indexterm>メール・プログラム・アタッチメントGUIなどがあります。
+</para>
+<para>「メディア」は、
+情報をユーザに伝えるものを指す一般用語として使用されています。デスクトップ はアポイント、
+メール・メッセージ、メール・フォルダ、テキスト、アイコンおよびヘルプ・データ用のメディア・ハンドラを提供します。ベンダは、
+ PostScript&trade;、
+あらゆる種類のイメージ・ファイル・フォーマット、オーディオ<literal><indexterm><primary>データ対話型 グラフィカル・ユーザ・インタフェース &lt;$endrange></primary></indexterm>
+</literal>・データなどその他のメディア・ハンドラを追加することによりデスクトップを拡張できます。</para>
+</sect1>
+<sect1 id="RDMAP.archo.div.4">
+<title id="RDMAP.archo.mkr.4">マルチユーザでの共用<indexterm><primary>マルチユーザでの共用 &lt;$startrange></primary></indexterm></title>
+<para>ToolTalkおよびアクションの機能は
+アプリケーション間の連携を強化しますが、デスクトップもユーザ間での共用テクノロジを定義します。
+つまり、共有のユーザ・データへの分散アクセスです。 デスクトップはいくつかの基本共有
+ 機能を定義し、既存の機能の一番上に構築しています。
+</para>
+<para>既存機能上での構築の例としては、<indexterm>
+<primary>リモート・プロシージャ・コール(RPC)</primary></indexterm>カレンダ管理のリモート・プロシージャ・コール
+(RPC)クライアント/サービスがあります。デスクトップ
+は、ユーザがアポイント情報を共有できるようにクライアント側ライブラリと API、RPCプロトコル、およびデーモン/サービス
+を提供します。(APIは
+<indexterm><primary>X.400 APIアソシエーション(XAPIA)</primary></indexterm>X.400
+アプリケーション・プログラミング・インタフェース・アソシエーション(XAPIA)によって標準化され、UNIX、
+PC、パームトップ・カレンダで相互に使用できる標準になります)。RPCプロトコルにより、ユーザは
+他のユーザのカレンダをブラウズし、直接編集できます。アクセスはユーザ固有のアクセス・コントロール
+機能で制御されます。カレンダはホストに結びつけられ、カレンダのデータはホスト固有のデーモンが管理します。
+デスクトップは
+<computeroutput>user@host</computeroutput>フォーマットによりカレンダを管理します。</para>
+<para>共通デスクトップ環境は従来の分散ファイル・システムを使用して
+、ネットワークで共有できるファイルを管理しま
+す。分散ファイル・システムに依存しないインタフェースを提供するために、
+デスクトップはホスト関連ファイル名をローカルに表現できる
+ファイル名に変換するAPIを提供します。
+デスクトップはNFS&reg;システムに基づいていますが、
+他の分散ファイル・システムへ移植できます。デスクトップ・ファイル名
+マッピングAPIを使用すると、遮断されたファイル名オブジェクトを構築したり、
+ネットワークのデスクトップ・クライアント間で渡したり、ホスト固有の方法で解釈することができます。また、プログラミング・タスクとエンド・
+ユーザ・メタファを単純にするために、共通デスクトップ環境
+のアプリケーションはローカル・ファイルパスとしてリモート・ファイルのリファレンスを提供できます。</para>
+<para>マルチユーザの共有アプリケーション
+を構築する基礎となるものの１つに、ファイルの共有機能があります。ネットワーク・ファイルの命名規則は、
+<emphasis><indexterm>
+<primary>ファイル範囲指定</primary></indexterm>ファイル範囲指定</emphasis>と呼ばれるToolTalkファイル共有機能と結合して、
+ファイル共用によってマルチユーザでの共用を可能にします。ファイル範囲指定は、単純で排他的なアクセス・コントロールのためのメカニズムをもっています。
+協調するクライアントは、
+ファイル範囲指定アクセスを使用してファイルへのアクセスを調整できます。たとえばファイルに排他的アクセスをしているアプリケーション
+は、
+ 他のアプリケーションがファイルへの排他的アクセスを望んでいるときに、ユーザがアクセスを終了したかどうかを確認します。<literal><indexterm>
+<primary>マルチユーザでの共用 &lt;$endrange></primary></indexterm></literal></para>
+</sect1>
+<sect1 id="RDMAP.archo.div.5">
+<title id="RDMAP.archo.mkr.5">デスクトップ管理</title>
+<para>共通デスクトップ環境
+に対応する物理メタファは、たくさんの机(ワークスペース)に囲まれて、椅子に座っているユーザのようなものです。
+ユーザが椅子を(フロントパネル
+の押しボタンをクリックすることによって)回転させると、他の机にアクセスできます。
+各机では次のものを使用できます。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>フォルダ(ディレクトリ)およびレポート(ファイル)が入っている引き出しの集まり( <indexterm>
+<primary>ファイル・マネージャ</primary></indexterm>ファイル・マネージャ表示)
+</para>
+</listitem><listitem><para>デスクトップ (ウィンドウ)
+で使用する書類の集まり。(アイコンとして)わきに置いてあるものもありますが、すぐに手の届く範囲にあります。
+</para>
+</listitem><listitem><para>時計、日付、新規メールの表示、ごみ箱の内容表示を連続して表示する(<indexterm><primary>フロントパネル</primary></indexterm>フロントパネル・アイコンによる)。
+</para>
+</listitem><listitem><para>
+アポイント・ブック(<indexterm><primary>カレンダ</primary></indexterm>カレンダ)、
+メモ帳
+(<indexterm><primary>テキスト・エディタ</primary></indexterm>テキスト・エディタ
+)、端末(エミュレータ)、メールボックス(<indexterm><primary>メール・プログラム</primary>
+</indexterm>メール・プログラム)、プリンタ(<indexterm><primary>印刷マネージャ</primary>
+</indexterm>印刷マネージャ)、オフィス照明コントロール(<indexterm><primary>スタイル・マネージャ</primary></indexterm>スタイル・マネージャ)、電子エージェント・リスト
+(<indexterm><primary>アプリケーション・マネージャ</primary></indexterm>アプリケーション
+・マネージャおよびフロントパネル個人用ツール・ボックス)、ガイドブック(<indexterm>
+<primary>ヘルプ・システム</primary></indexterm>ヘルプ)、ライブラリ
+(インフォメーション・マネージャ）への(フロントパネルのボタンによる）直接アクセス。</para>
+</listitem></itemizedlist>
+<para>ユーザはオブジェクトをドラッグ&ドロップして位置を変更しコピーします。
+サービスにオブジェクトをドロップすると、アポイント・スケジュール、
+編集、メール作成、印刷などの補助を受けられます。</para>
+<sect2 id="RDMAP.archo.div.6">
+<title>セッション管理<indexterm><primary>デスクトップ管理</primary>
+<secondary>セッション管理 &lt;$startrange></secondary></indexterm><indexterm><primary>セッション・マネージャ &lt;$startrange></primary></indexterm></title>
+<para>デスクトップの状態は保存しておくことができます。後で、あるいは別のコンピュータで、
+デスクトップの状態を再現できます。
+セッションは、ユーザのデスクトップの状態の、ある瞬間におけるスナップショットです。
+共通デスクトップ環境は次のようなセッションをサポートし、いずれかをユーザ
+が選択できるようにしています。</para>
+<itemizedlist remap="Bullet1"><listitem><para>ホーム・セッション: 常に起動時と同じ方法で再組み立てされる、
+デスクトップの状態のスナップショット
+</para>
+</listitem><listitem><para>現在のセッション: ログアウト時に保存されるデスクトップの状態
+</para>
+</listitem>
+<listitem>
+<para>ディスプレイ固有のホーム・セッション: 固有のディスプレイのためにユーザが
+作成するホーム・セッション。このディスプレイが存在する場合、通常のホーム・
+セッションより優先されます。</para>
+</listitem>
+<listitem>
+<para>ディスプレイ固有の現在のセッション: 固有のディスプレイのためにユーザが作成
+する現在のセッション。このディスプレイが存在する場合、通常の現在のセッションより
+優先されます。</para>
+</listitem>
+<listitem>
+<para>復旧セッション: 
+通常の<command>ログイン</command>が失敗した時、システムにアクセスするために使用
+できる最小限のセッション。
+</para>
+</listitem>
+</itemizedlist>
+<para>共通デスクトップ環境セッション・マネージャはこれらのアクティビィティを調整しますが、
+アプリケーションの状態の保存についてはアプリケーションが責任をもちます。</para>
+<para>デスクトップは、X11R6 Xセッション管理プロトコルおよびX11R5クライアント間
+通信規約のスタイルをサポートしています。これには、トップレベル・ウィンドウの属性
+を設定するための規約のほとんどが含まれています。デスクトップはこれを拡張し、
+アプリケーションが状態を格納できる特定のファイルを割り当てる機能を提供します。
+アプリケーションを再起動するときにコマンド行フラグがこのファイルを指します。
+複数のトップレベル・ウィンドウを管理するアプリケーションは、それぞれの状態を保存
+しなければなりません。
+</para>
+<para>セッションは特定のユーザに関連付けられます。共通デスクトップ
+環境では、ログイン・マネージャがユーザの最初のログインに責任を持ちます。
+<indexterm><primary>ログイン・マネージャ</primary></indexterm>ログイン・マネージャは、
+<indexterm><primary>UNIX</primary></indexterm>UNIX
+ログイン・プログラムにかわるGUIです。通常は入力されたパスワードがユーザの登録したパスワードかどうかチェックします。
+ただし、ベンダは各プラットフォームに最適な認証スキーマを提供することができます。
+</para>
+<para>ログイン・マネージャはネットワークを認識します。ユーザは、ホストAがサーバであるXディスプレイに向かい、ホストBからのセッションを実行することにより、
+ユーザのデスクトップにログインできます。この
+セッションにより、ユーザの通常の
+ファイルやホストBのサービスにアクセスすることができます。これは
+デスクトップの<indexterm><primary>X11ディスプレイ・マネージャ(XDM)</primary>
+</indexterm>X11ディスプレイ・マネージャ(XDM)としてログイン・マネージャを動作させることにより可能です。XDMコントロール・プロトコル(XDMCP)は
+ネットワーク上でX11ウィンドウ・サーバとXDMとの間で使用されます。ログインマネージャ
+はログイン・ウィンドウまたはホスト選択ウィンドウを、XDMサービスを要求する任意のX11サーバに表示します。
+これにより、XDMCPを認識するX端末で共通デスクトップ環境が使用できます。
+</para>
+<para>Xサーバへ接続するため、デスクトップはXマジック・クッキー・スキーマを使用してアクセスをコントロールします。
+あるホスト・マシン上でユーザが、
+セッション所有者のホーム・ディレクトリ内の特定のファイルを読むことができる場合、Xサーバへアクセスが許可されます。
+このユーザごとの利用権の他にホストごとの利用権があります。
+<indexterm><primary>Xマジック・クッキー・スキーマ
+</primary></indexterm>Xマジック・クッキー・スキーマを使用してXサーバへ接続できないX11R4以前のクライアントをサポートするインストールを行う場合に便利です。</para>
+<para>Xリソースファイルは共通デスクトップ環境
+のセッションのコンテキストで次のように処理されます。まず、一連の共通デスクトップ環境のデフォルト・リソースはホストのリソース・ファイルとマージされ、次に
+ユーザの<filename>$HOME/.Xdefaults</filename> ファイルが続き、次に
+スタイル・マネージャでのユーザとの対話により変更されるリソースのセッション固有ファイルが続きます。その結果はルート・ウィンドウの
+<filename>RESOURCE_MANAGER</filename>属性に格納されます。
+精密なカスタマイズを可能にするために、リソース・
+ファイル上にCプリプロセッサを実行します。<literal><indexterm><primary>デスクトップ管理</primary><secondary>セッション管理 &lt;$endrange></secondary></indexterm><indexterm><primary>セッション・
+マネージャ &lt;$endrange></primary>
+</indexterm></literal>
+</para>
+</sect2>
+<sect2 id="RDMAP.archo.div.7">
+<title>アプリケーション管理<indexterm><primary>デスクトップ管理</primary>
+<secondary>アプリケーション管理 &lt;$startrange></secondary></indexterm>
+</title>
+<para>エンド・ユーザが
+ネットワーク環境を十分に活用できない理由の1つに、リモート・アプリケーションへアクセスしづらいという点があります。
+共通デスクトップ環境は、以下の内容に関する規約を提供します。</para>
+<itemizedlist remap="Bullet1"><listitem><para>ユーザがリモートで実行できるアプリケーションのインストール
+</para>
+</listitem><listitem><para>使用可能なアプリケーションのナビゲーション</para>
+</listitem><listitem><para>
+リモート・アプリケーションの実行</para>
+</listitem></itemizedlist>
+<para>ユーザは使用可能なアプリケーションの集まりを
+アプリケーション・マネージャと呼ばれるGUIツールでブラウズできます。アプリケーションは簡単にアクセスできるようデスクトップにドラッグできます。
+リモート・アプリケーションでも、実行
+アプリケーションのネットワークの位置を隠したまま、単にダブルクリックするだけで起動できます。ユーザ
+はローカル・アプリケーションとリモート・アプリケーションとの違いに気付きません。</para>
+<para>このようなネットワークの透過性は、
+<emphasis><indexterm><primary>アプリケーション
+・サーバ</primary></indexterm>アプリケーション・サーバ</emphasis>として指定したネットワーク・ホスト上にアプリケーションをインストールすると実現されます。
+デスクトップに関するインストールの一部では、
+アプリケーションのインストール階層の規定の場所に特定のファイルを置く必要があります。アプリケーション
+・サーバはそれが提供
+するアプリケーションのリストを管理します。
+ネットワークの各ホストは、
+ユーザがデスクトップにログインしたときに照会するネットワーク上のアプリケーション・サーバのリストを管理します。このプロセスは
+<emphasis>アプリケーションの収集</emphasis>といいます。
+これにより、動的に生成されたアクションのファイル階層がフォルダに配置されます。 (アクションとは、
+アプリケーションの開始など、エンド・ユーザが起動できるオペレーションのことです。<indexterm><primary>アクション</primary></indexterm>)</para>
+<para>共通デスクトップ環境の<indexterm><primary>アプリケーション・マネージャ</primary></indexterm>アプリケーション・マネージャはエンド・
+ユーザに対してファイル・システムの特殊な表示を提供します。アプリケーションはグループ化され、グループは(ディレクトリ階層のように)ネストすることができます。
+アプリケーション
+のインストール・スクリプトは、アプリケーションをグループと関連づけます。この関連は、
+アプリケーション
+・サーバの構成の一部としてシステム管理者が変更できます。アプリケーション
+・マネージャが表示するアクションのセットと配列は、一般に複数のユーザ間で共有されているシステム・リソースです。
+ユーザは表示を変更できません。</para>
+<para>ユーザは<indexterm><primary>アプリケーション
+・マネージャ</primary></indexterm>アプリケーション・マネージャからデスクトップ、ファイルマネージャ、
+フロントパネルなどへアイコンをドラッグできます。 
+収集されたアプリケーションが有効な間、関連したアクションは有効です。アクション
+は抽象化された形式および間接形式で示されるため、アプリケーション
+の実際の位置はいつでも変更できます。この変更はエンド・ユーザに対して透明です。 (
+詳しくは<!--Original XRef content: '&xd2;Method Invocation&xd3;
+on page&numsp;18'--><xref role="SecTitleAndPageNum" linkend="RDMAP.archo.mkr.9">で説明します)。
+ユーザはアクション・アイコンをダブルクリックして、アクションを起動することができます。<indexterm>
+<primary>デスクトップ管理</primary><secondary>アプリケーション管理 &lt;$endrange></secondary></indexterm></para>
+</sect2>
+<sect2 id="RDMAP.archo.div.8">
+<title>オブジェクト管理</title>
+<para>T<literal><indexterm><primary>デスクトップ管理</primary><secondary>オブジェクト管理</secondary></indexterm><indexterm><primary>オブジェクト管理</primary></indexterm></literal>共通デスクトップ環境は完全な
+オブジェクト指向のインフラストラクチャに依存せずに、オブジェクト指向のシステム属性を取り込んでいます。デスクトップは
+ユーザが選択および移動でき、これを任意の場所でドロップするとセマンティックを作成するグラフィック・オンスクリーン・イメージを提供します。
+これらは<symbol role="Variable">オブジェクト</symbol>
+としてユーザに表示されます。<indexterm><primary>ファイル・マネージャ</primary></indexterm>ファイル
+・マネージャ
+は、ファイル・システム内でファイルおよびディレクトリ・オブジェクトをグラフィカルにブラウズおよび変更する方法を提供し、オブジェクトの考え方を実現しています。
+また、アクションを呼び出すためのGUIを提供します。ユーザがファイルを選択すると、
+選択したファイルのタイプに定義されたアクションがユーザに示されます。</para>
+<para>デスクトップ・ベースのアプリケーションが管理するオブジェクトは、ファイルベースである必要はありません。;
+メモリ・バッファ内
+で
+デスクトップ・オブジェクトを示すこともできます。
+共通デスクトップ
+環境のメール・プログラムは、スクロール可能なパネルのアイコンでメッセージへのアタッチメントを表示することにより、<indexterm><primary>Multipurpose Internet Mail
+Extensions(MIME)</primary></indexterm>(MIME)Multipurpose Internet Mail Extensions
+メッセージを処理します。
+これらはドラッグ&ドロップなどを行っている間、ファイルベースのオブジェクト
+のように動作します。ユーザはファイル・マネージャ
+と<indexterm><primary>メール・プログラム</primary></indexterm>メール・プログラムとの間でドラッグできます。ドラッグ&ドロップを使用するアプリケーション
+はファイルベースのオブジェクトとバッファベースのオブジェクトの両方をサポートすることにより、この重要なユーザ・モデルを管理します。デスクトップ・ドラッグ&ドロップAPIおよび
+プロトコルがこれを容易にします。</para>
+</sect2>
+<sect2 id="RDMAP.archo.div.9">
+<title>ウィンドウ管理</title>
+<para><literal><indexterm><primary>デスクトップ管理</primary><secondary>ウィンドウ管理</secondary></indexterm><indexterm><primary>ウィンドウ・マネージャ &lt;$startrange></primary></indexterm></literal>ウィンドウ
+・マネージャは、基本的には、
+<indexterm><primary>フロントパネル</primary></indexterm>フロントパネルGUI
+とワークスペースを提供するよう拡張した Motifウィンドウ・マネージャです。</para>
+<para>フロントパネルは、多くのウィンドウ・マネージャがサポートするルート・ウィンドウ・メニューのグラフィック・バージョンと見なすことができます。
+また、ユーザが共通
+オブジェクトを使用できるように変更したオブジェクト・マネージャとも見なされます。
+フロントパネルは動的システム情報を示し、ユーザ
+がアクションおよびシステム機能を起動できるようにします。ユーザは
+<indexterm><primary>アプリケーション・マネージャ</primary></indexterm>アプリケーション・マネージャおよび<indexterm>
+<primary>ファイル・マネージャ</primary></indexterm>ファイル・マネージャからサブパネルへアクション・アイコンをドラッグ&ドロップすることにより、フロントパネルを動的にカスタマイズします。アプリケーション
+は、フロントパネルを拡張する特殊構成ファイル
+を備え、ドロップの動作やドロップ領域のアニメーションによるフィードバックなどを定義します。
+これらの構成ファイルはカスタマイズの設定に依存してオプションでインストールできます。
+ <!--Original XRef content: 'Figure&numsp;1&hyphen;2'--><xref
+role="CoOrFigureOrTable" linkend="RDMAP.archo.mkr.6">
+に一般的なデスクトップ・フロントパネルを表示します。</para>
+<figure>
+<title id="RDMAP.archo.mkr.6">一般的なフロントパネル</title>
+<graphic id="RDMAP.archo.grph.1" entityref="RDMAP.archo.fig.2"></graphic>
+</figure>
+<para>
+ワークスペースとは、仮想デスクトップと見なされるウィンドウ・マネージャがサポートする概念です。
+アプリケーション・ウィンドウ
+は、1つ以上、またはすべての使用可能なワークスペースに存在します。通常は、ユーザ
+のカスタマイズの一部としてアプリケーション・ウィンドウがどのワークスペースに存在するかをユーザが決定します。
+セッションの再起動時にどのワークスペースにアプリケーションが表示されるかを明示的に指定する以外には、ワークスペースAPIを使用しないでください。一般に
+アプリケーション
+を複数のワークスペースに置くとユーザの優先権が無効になるので、置かないでください。
+<indexterm><primary>デスクトップ管理</primary><secondary>ウィンドウ管理</secondary></indexterm><indexterm>
+<primary>ウィンドウ・マネージャ &lt;$endrange></primary></indexterm></para>
+</sect2>
+<sect2 id="RDMAP.archo.div.10">
+<title>スタイル管理</title>
+<para><literal><indexterm><primary>デスクトップ管理</primary><secondary>スタイル管理</secondary></indexterm><indexterm><primary>スタイル・マネージャ &lt;$startrange></primary></indexterm></literal>スタイル
+・マネージャにより、ユーザはGUIを使用してデスクトップをカスタマイズできます。
+ユーザはほとんどの共通カスタマイズ・オプションについてXリソースなどの高度な概念を気にしないですみます。スタイル・マネージャ
+は、背景の設定、キーボード設定、マウス設定、スクリーンセーバ・オプション、ウィンドウ管理、セッション管理などデスクトップ全体の属性を制御できるようにします。 
+これらの属性は、アプリケーションに直接影響をあたえないか、X
+サーバまたはウィンドウ・マネージャによって間接的に影響をあたえます。</para>
+<para>アプリケーション
+開発者は、フォントの選択、カラーの選択、入力デバイス・マッピングによってより直接的に影響を受けます。Motifツールキットおよび
+共通デスクトップ環境は、これらの設定のほとんどを
+ウィジェットに対して透過的に処理します。ただし、アプリケーション
+がユーザのフォントとカラーの設定に対応する場合、アプリケーションはデスクトップに対して、より統合されているように見えます。直接マウスで対話するアプリケーション
+は、たとえばマウス・ボタンのダブルクリックに同じ最小間隔の値
+(<command>multiClickTime</command>リソース)を使用するなど他のアプリケーションと一貫した動作をすれば、デスクトップにより統合されているように感じられます。</para>
+<para>
+プラットフォーム・ベンダのディスプレイと使用可能なフォント・セットの相違点をなくすため、共通デスクトップ環境
+は実際のフォント名の二次的な名前であるフォント別名を定義します。
+デスクトップが使用するように別名を使用してください。</para>
+<para>スタイル・マネージャはユーザ
+にカラー選択オプションを提供して、デスクトップのカラー・スキーマを調整できるようにします。このカラー情報は
+共通デスクトップ環境だけで使用されるものです。ウィジェットをサブクラス化するアプリケーション
+は、継承されたバックグラウンド・ピクセル値を参照することによって、カラー・スキーマの一部に間接的にアクセスできます。<computeroutput>XmGetColors()</computeroutput>を呼び出すと、 
+3-Dシャドウ・カラーが生成されます。</para>
+<para>共通デスクトップ環境
+は、アイコンで使用するような固定のカラーの使用法を指定しません。ただしこの場合、
+カラーの共有を増進するため、アプリケーションは、共通デスクトップ
+環境アイコン・エディタが提供するカラーを使用してください。<indexterm>
+<primary>デスクトップ管理</primary><secondary>スタイル管理</secondary>
+</indexterm><indexterm><primary>スタイル・マネージャ &lt;$endrange></primary></indexterm>
+</para>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.archo.div.11">
+<title id="RDMAP.archo.mkr.7">Motif GUIエンジン</title>
+<para>MotifツールキットはデスクトップのGUIエンジンとして考えてください。
+この節では共通デスクトップ環境Motif、共通デスクトップ環境ウィジェット、
+およびMotifプログラミングの代替モードについて説明します。</para>
+<sect2 id="RDMAP.archo.div.12">
+<title>共通デスクトップ環境Motifツールキット</title>
+<para> <indexterm><primary>グラフィカル・ユーザ・インタフェース・エンジン</primary><secondary>共通デスクトップ環境Motifツールキット</secondary></indexterm><indexterm>
+<primary>共通デスクトップ環境Motif &lt;$startrange></primary></indexterm>
+共通デスクトップ環境Motif
+ツールキットは、Motif 1.2.3のバグを修正し、機能を拡張し、いくつかの新機能を
+加えたものです。新機能を使用できるよう、明示的にリソースを設定してください。 
+追加された機能には、ファイル選択ボックスGUI
+の変更、既存のリソースの別のデフォルト設定（あらかじめデフォルトのボーダ幅を目立たせてあります)、カラー管理機能の向上、エラー・メッセージ
+の国際化、使いやすさの向上（<indexterm><primary>OPEN LOOK</primary></indexterm>OPEN LOOKユーザの
+共通デスクトップ環境への移行を容易にする効果があります)などがあります。</para>
+<para>共通デスクトップ 環境Motifと<indexterm><primary>Motif 2.0</primary></indexterm>Motif 2.0も互換性が高くなっています。 
+共通デスクトップ環境Motifにある機能のほとんどがMotif
+2.0に導入されています。したがって、開発者はアプリケーションを共通
+デスクトップ環境Motifでコンパイルし、Motif 2.0に再リンクして、アプリケーション
+を正常に実行することができます。ウィジェットサイズの変更からプログラムを保護するように設計されているMotif 1.2 
+サブクラス化ガイドラインに従っていないウィジェット
+のサブクラス化は、うまく動作しない可能性が高くなります。</para>
+<para>ドラッグ＆ドロップ簡易階層は、Motif 1.2ドラッグ＆ドロップAPIの最上位に追加
+されます。また、共通デスクトップ環境は、Motif 1.2登録済みドラッグ・フィードバック
+・プロトコルを使用します。
+ドロップ・サイト・ドラッグ・マネージャ・プロセスは、デスクトップの可視ドロップ領域を追跡しています。
+ドラッグ・ソース・クライアント・プロセスはこのデータを使用してドラッグ・フィードバック対話を管理します。
+ドロップ領域の制限付きドラッグ時の有効性は、ドロップ時まですべて継承され、ドロップが失敗した場合は、<emphasis>もとにスナップ・バックする</emphasis>アニメーションが行われます。
+</para>
+<para>共通デスクトップ環境Motif
+には、Motif 1.2スタイル・ガイドを大幅に拡張したGUIスタイル・ガイドと認証チェックリストが入っています。
+追加事項は入力モデル、ウィンドウ管理、GUI設計原理に関係するものです。<indexterm>
+<primary>グラフィカル・ユーザ・インタフェース・エンジン</primary><secondary>共通デスクトップ
+環境Motifツールキット</secondary></indexterm><indexterm><primary>共通
+デスクトップ環境Motif &lt;$endrange></primary></indexterm></para>
+</sect2>
+<sect2 id="RDMAP.archo.div.13">
+<title>共通デスクトップ環境Motifウィジェット</title>
+<para><indexterm><primary>グラフィカル・ユーザ ・インタフェース・エンジン
+</primary><secondary>共通デスクトップ環境Motifウィジェット</secondary></indexterm><indexterm>
+<primary>共通デスクトップ環境ウィジェット</primary></indexterm>共通デスクトップ
+環境Motifは、
+Motif 1.2.3では使用できない２種類のウィジェットを提供します。</para>
+<itemizedlist remap="Bullet1"><listitem><para>ローレベル・コントロール・ウィジェット
+</para>
+<itemizedlist remap="Bullet2"><listitem><para>SpinBox - テキスト 
+・フィールドおよび矢印ボタンのウィジェット</para>
+</listitem><listitem><para>ComboBox - テキスト・フィールドおよびリスト・ボックスのウィジェット
+</para>
+</listitem><listitem><para>MenuButton - 
+row columnウィジェットに入れる必要のないメニューのウィジェット</para>
+</listitem></itemizedlist>
+<para>上記はMicrosoft&reg;
+WindowsやOPEN LOOK環境からアプリケーションをポートするのに役立ちます。SpinBoxウィジェットおよびComboBoxウィジェット
+ は、Motif 2.0にも相当する物があります。</para>
+</listitem><listitem><para>豊富で高機能なウィジェット</para>
+<itemizedlist remap="Bullet2"><listitem><para>端末エミュレータ・ウィジェット: 
+コマンド行ユーザ・インタフェースをGUIに最適な方法で組み合わせるよう設計されたアプリケーション
+に便利です。</para>
+</listitem><listitem><para>エディタ・ウィジェット: 
+Motif Textウィジェットよりも高機能を備えたプレーン・ テキスト・エディタを埋め込むのに使用できます。
+</para>
+</listitem><listitem><para>ヘルプ・ウィジェット: 
+アプリケーション・ヘルプ・ボリュームとのナビゲーションと対話を処理します。</para>
+<para>ヘルプは、<indexterm><primary>Standard Generalized Markup Language (SGML)</primary></indexterm>Standard Generalized Markup Language (SGML)
+形式のファイルを<emphasis><indexterm><primary>ヘルプタグ</primary></indexterm>ヘルプタグ</emphasis>でコンパイルした、<indexterm><primary>セマンティック記述言語(SDL)</primary></indexterm>セマンティック記述言語(SDL)
+ファイル形式のアプリケーションで提供されます。ヘルプ・システムの特徴は、
+テキストとグラフィック、ハイパーリンク、テキスト
+の動的フォーマット変更、構造化ナビゲーション機能を統合したことです。</para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="RDMAP.archo.div.14">
+<title>GUI Shell</title>
+<para><indexterm><primary>グラフィカル・ユーザ・インタフェース・エンジン</primary><secondary>デスクトップKornShell</secondary></indexterm><indexterm><primary>デスクトップ KornShell
+(dtksh) &lt;$startrange></primary></indexterm>
+共通デスクトップ環境には、デスクトップKornShell
+があります。これはMotif ツールキットのCプログラミングの代わりのインタプリタ・スクリプト言語です。デスクトップ
+KornShellには、選択された頻繁に使用される共通デスクトップ環境API、Xt API、
+Xlib APIがあります。
+環境の機能を十分活用
+するには、コンパイル言語でアクセスしてください。
+しかし、ドラッグ&ドロップ、セッション
+管理、ToolTalkメッセージなどのデスクトップ統合アクティビティを利用するデスクトップKornShellスクリプトを書くことができます。</para>
+<para>シェル・プログラミングに習熟している場合は、次のような理由により、簡単なプログラミング・タスクに
+デスクトップKornShellを使用した方がいいこともあります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>
+シェル・コマンドとGUIコントロールを簡単に組み合わせることができるので、システム管理型アプリケーションによく適応する。
+</para>
+</listitem><listitem><para>
+シェル
+環境は文字ベースの対話を普通に処理するので、文字ベースの
+アプリケーションにGUI制御プログラムを加えやすい。</para>
+</listitem><listitem><para>
+命令セットに依存しないプログラムを、いろいろなホストへ配信するのに適した方法である。たとえば、共通
+デスクトップの<indexterm><primary>メール・プログラム</primary></indexterm>メール・プログラムを使用して、
+受信者がダブルクリックするだけで実行するスクリプトをメールに添付する。
+<indexterm><primary>グラフィカル・ユーザ・インタフェース・エンジン</primary><secondary>デスクトップ KornShell</secondary></indexterm><indexterm><primary>デスクトップ KornShell
+(dtksh) &lt;$endrange></primary>
+</indexterm></para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="RDMAP.archo.div.15">
+<title>GUI構築</title>
+<para> <indexterm><primary>グラフィカル・ユーザ・インタフェース・エンジン</primary><secondary>アプリケーション・ビルダ</secondary></indexterm><indexterm><primary>アプリケーション
+・ビルダ &lt;$startrange></primary>
+</indexterm>共通デスクトップ環境 アプリケーション
+を生成するのに最も簡単で、たぶん最も早い方法は、Motifツールキット 
+・プログラミングをなるべく使わないことです。共通デスクトップ環境アプリケーション・ビルダ
+を使用し、アプリケーションのGUIコントロール部分を構築してください。
+アプリケーション・ビルダはデフォルト・ウィジェット動作をアクセスしやすくすることを目的としています。
+これは、多くのウィジェットで使用可能な難解なリソースをほとんど隠してしまうことにより実現します。また、ドラッグ＆ドロップ、セッション管理、ToolTalkメッセージなどのデスクトップ統合インフラストラクチャをアプリケーションに組み込みやすくします。
+</para>
+<para>アプリケーション・ビルダは、<indexterm><primary>ビルダ・インタフェース言語(BIL)</primary></indexterm>ビルダ・インタフェース言語
+(BIL) ファイルに、ユーザ・インタフェースの状態を保管します。コード・ジェネレータはBIL ファイルを取り込んで、Motifツールキット・コードを作成します。
+ アプリケーション・ビルダは<indexterm><primary>ユーザ・インタフェース言語
+(UIL)</primary></indexterm>ユーザ・インタフェース言語(UIL)ファイルを生成することもできます。</para>
+<para>アプリケーションのユーザ
+・インタフェースを変更すると、アプリケーション・ビルダはカスタム・コードを生成したコードにマージします。生成されたコードは、アプリケーションのGUI状態を保持するためにアプリケーション・ビルダを使用していない場合でも、良いソースコード例になります。
+</para>
+<para>さらに、プログラマ以外の人もアプリケーション・ビルダを使用してアプリケーションのGUIプロトタイプを作成できます。
+プロトタイプは、開発の製造過程でプログラマに渡すことができます。
+ <indexterm><primary>グラフィカル・ユーザ・インタフェース・エンジン</primary><secondary>アプリケーション・ビルダ</secondary></indexterm><indexterm>
+<primary>アプリケーション・ビルダ &lt;$endrange></primary></indexterm></para>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.archo.div.16">
+<title id="RDMAP.archo.mkr.8">統合テクノロジ</title>
+<para>今まで、共通デスクトップ環境のテクノロジは、GUIを画面に表示させることに直接関係していると述べてきました。
+ この節で説明する統合テクノロジは、GUI プロバイダではなく基本インフラストラクチャです。
+</para>
+<sect2 id="RDMAP.archo.div.17">
+<title>プロセスの実行<indexterm><primary>統合テクノロジ</primary>
+<secondary>プロセスの実行</secondary></indexterm><indexterm><primary>プロセスの実行
+</primary></indexterm></title>
+<para>ネットワーク使用環境を提供するため、リモート・ホストで実行しているアプリケーションの起動、管理、結果収集を行う<indexterm><primary>サブ・プロセス・コントロール(SPC)</primary>
+</indexterm>サブ・プロセス・コントロール
+(SPC)機能を、共通デスクトップ環境は提供しています。 
+ リモート・ホストは、ソケットベースのコントロール 機能のリモート側として供給されるSPCデーモンをインストールします。
+このコントロール
+機能はリモート・プロセスが<symbol role="Variable">親</symbol>プロセスに対するローカルな<symbol role="Variable">子</symbol>であるような錯覚を起こさせます。
+親プロセスを管理するユーザの認証は、ユーザのホーム・ディレクトリに<command>setuid</command>ファイルを書く親プロセスの権限<emphasis>と</emphasis>結果を読む子プロセスの権限に基づいています。
+</para>
+<para>SPC APIおよび関連するコントロール・プログラムは、共通
+デスクトップ環境専用です。アクションは、リモートで実行するアプリケーションに対する公開しているAPIを表します。
+</para>
+</sect2>
+<sect2 id="RDMAP.archo.div.18">
+<title>アプリケーション・メッセージ機構<indexterm><primary>統合テクノロジ</primary>
+<secondary>アプリケーション・メッセージ機構</secondary></indexterm><indexterm><primary>ToolTalkメッセージ・サービス &lt;$startrange></primary></indexterm></title>
+<para>ToolTalk メッセージ・サービス は共通デスクトップ環境用のアプリケーション・メッセージ機能です。
+アプリケーション・メッセージ機構は、シングル・ユーザのために動作している複数のアプリケーション間のコントロールおよび協調を指示します。
+ToolTalk セッション・デーモンは、コントロール範囲が通常はXサーバのコントロール範囲と対応しているローカル・メッセージ・ルーティング・プロセスです。
+つまり、セッション内のクライアントが要求を出すと、ToolTalk セッション・マネージャが要求を処理できるクライアントをセッション内から見つけるか起動し、ToolTalk セッション・デーモンが、要求を完了するまで追跡します。
+</para>
+<para>デスクトップは <emphasis>メッセージ・セット</emphasis>という2つの標準 ToolTalk プロトコルを提供します。メッセージ・セットには、プロセスの送信側と受信側とで交換できる多くのメッセージが入っています。
+これらのメッセージ
+は、関連する要求や通知を記述しているものによってグループ化されています。送信側および受信側は同じプロセスまたは異なるホスト上に存在できます。
+メッセージ・セットには、ロー・レベル・メッセージングの詳細に関係なく、プロトコルのセッマンティクスを集められる関連のユーティリティ機能があります。
+一部のメッセージ・セット機能には、デフォルト動作をほとんど何もせずに区別できるようにするものもあります。
+</para>
+<sect3 id="RDMAP.archo.div.19">
+<title>デスクトップ・メッセージ・セット</title>
+<para>このセットは3つの領域に分類されます。1番目はウィンドウ
+動作に関するメッセージです。2番目はファイル・アクセスと短期ファイル
+のライフ・サイクル・コントロールに関連するメッセージです。3番目は拡張言語を備えているが、ライブラリのサポートを一般的に保証できないアプリケーション
+に特有のメッセージです。</para>
+</sect3>
+<sect3 id="RDMAP.archo.div.20">
+<title>メディア・メッセージ・セット</title>
+<para>このセットは、アプリケーションを任意のメディア用コンテナ、またはそのようなコンテナから駆動されるメディア・プレイヤ/エディタにします。
+メディア・メッセージ・インタフェースは、コンテナ・アプリケーション ( <indexterm>
+<primary>メール・プログラム</primary></indexterm>メール・プログラムや <indexterm><primary>ファイル・マネージャ</primary></indexterm>ファイル・マネージャなど) が、メディア型のフォーマットを認識していなくても、任意のメディア型のファイルまたはバッファの作成、表示、編集、印刷を可能にします。
+ToolTalkは、指定されたメディアの型とオペレーションに適するツールに対するコンテナの要求のルートを決定します。
+すでに実行されているインスタンスがその要求を処理するのに最適である場合は、そのインスタンスが選ばれます。<indexterm>
+<primary>統合テクノロジ</primary><secondary>アプリケーション・メッセージ</secondary></indexterm><indexterm><primary>ToolTalk メッセージ・サービス &lt;$endrange></primary></indexterm></para>
+</sect3>
+</sect2>
+<sect2 id="RDMAP.archo.div.21">
+<title>データ型の作成<indexterm><primary>データ型の作成 &lt;$startrange></primary></indexterm>
+</title>
+<para>共通デスクトップ環境は、デスクトップのオブジェクトに対する一定のユーザ・インタフェースを提供します。このため
+、デスクトップにはデータ型の作成と呼ばれる機能
+があり、一連の規準によってオブジェクトの型
+を決定します。規準には、名前のパターンや内容のパターンなど、ファイルベースおよびバッファベースのオブジェクトが共有する潜在的な属性が含まれています。
+他の規準はファイルに関するもので、パス名のパターンとファイル・アクセス権を含んでいます。各
+デスクトップ型に関連するのは、アイコン
+名、名前のテンプレート、ユーザに提示するアクションのリスト、他の型スペース
+(MIME型など)
+に相当する型の名前、この型のテキスト記述などの、拡張可能な一連の属性です。<emphasis>アクション
+およびデータ型データベースは</emphasis>データ規準とデータ属性を格納します。</para>
+<para>一連のデスクトップ型定義は、共通デスクトップ環境が定義し、プラットフォーム・ベンダが供給します。
+アプリケーションのインストール時に、専用データ型およびパブリックなデータ型の両方について、アプリケーションのデータベースを増やしてください。
+</para>
+<para>共通デスクトップ 環境ライブラリAPIによって、アクション
+およびデータ型から情報が抽出されます。データ型作成APIは、オブジェクトのデスクトップ型を決定するためのデータベース型規準に、オブジェクトの属性を一致させます。そのアルゴリズムは、重複を解決するため一連の優先規則を使用します。
+</para>
+<para>共通デスクトップ環境型スペースは、X/Open
+共通デスクトップ環境 標準で定義され、アイコン表示やアクション指定などのデスクトップ指向アクティビティをサポートするために存在しています。
+MIME
+型スペースはInternet Engineering Task Forceで定義され、メール・メッセージ
+部分の交換を行うために存在しています。ToolTalk メディア型スペースは、データをハンドラに一致させるために存在し、Xコンソーシアムで定義されるX選択ターゲット型のサブセットです。
+従って型の定義を完全に行うには、共通デスクトップ環境型、X
+選択ターゲット型、MIME型を定義してください。プライベートな共通デスクトップ環境
+型については、組織名に型名を追加してください。こうすると、型の割り当ての集中管理なしにネーム・スペースが区切られます。
+共通デスクトップ環境では<emphasis>デスクトップ</emphasis>を表す
+<emphasis>Dt</emphasis>という接頭辞を付ける必要があります。<indexterm>
+<primary>データ型の作成 &lt;$endrange></primary></indexterm></para>
+</sect2>
+<sect2 id="RDMAP.archo.div.22">
+<title id="RDMAP.archo.mkr.9">メソッドの実行 <indexterm><primary>アクション &lt;$startrange></primary></indexterm></title>
+<para>共通デスクトップ環境の型は、デスクトップ・オブジェクトのクラスと見なすことができます。
+この類似性により、アクションをクラスのイン
+スタンスで使用できる<indexterm>
+<primary>方法とアクション</primary></indexterm>
+方法と見なすことがきます。したがって、型属性リストのアクション
+属性は、型に使用できるオペレーションを記述しています。アクションおよびデータ型のデータベースにある１つの
+アクションは複数の部分
+から構成されていますが、その多くはオプションです。次のような部分があります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>オペレーションの起動方法の記述。
+ToolTalkによる方法、SPC機能へ渡す実行文字列による方法、端末エミュレータから行う方法などがあります。
+</para>
+</listitem><listitem><para>アクションに関連する引き数の型についての記述
+。受け入れられるデスクトップ
+・オブジェクト(ファイルおよびバッファ)
+の型は、アクションおよびデータ型のデータベースで定義されます。
+アクションはデータ型によってさまざまです。たとえば[開く]アクションはテキスト・ファイルが引き数の場合はテキスト・エディタを、グラフィック・ファイルが引き数の場合はグラフィック・エディタを起動します。
+</para>
+</listitem><listitem><para>アクションに関連する引き数があれば、引き数の数の記述。
+</para>
+</listitem><listitem><para>オペレーションを実行する場所のオプション指定。ローカル・マシン、特定のリモート・マシン、実行可能ファイルのあるマシンなどです。
+さらに、これらの場所はリストされるので、ホストが使用できない場合、リストにある次のホストで実行されます。
+これにより、リモート・ホストが使用不可能になった場合でも、アプリケーションを起動できる可能性を高められるような冗長性が
+提供されます。したがって、組み込みToolTalk機能またはSPC 機能を直接使用することによって、アクションはネットワーク
+分散ガイダンスを提供できます。</para>
+</listitem><listitem><para>アクションのGUIと対話するときユーザが見るオプションのラベル、ヘルプ文字列、アイコン。
+アプリケーションがアクションをユーザに示すときのヒントとして役立ちます。フロントパネル構成ファイルが代替アイコンを提供する場合は、フロントパネルがこのアイコンを無視し、これらのヒントを無視します。
+</para>
+</listitem></itemizedlist>
+<para>ユーザが使用できるアクション
+の集まりは、システムが型データベース情報を集めるのと同時に組み立てられます。実際、関連するアクションと型情報は、通常は
+同じファイルに同時に存在します。
+デスクトップ定義ファイル、システム管理者定義（ホスト固有)ファイル、ユーザ定義ファイルはこの順序で単一の
+(アクションおよびデータ型)
+データベースに組み込まれ、後の定義が優先されます。この検索パス優先順位と検索の順序は、ヘルプ・ボリュームおよびアイコン・ファイル検索用などデスクトップで一般的に使用されます。
+</para>
+<para>アクションおよびデータ型のデータベースと <indexterm><primary>データベース</primary></indexterm>データベース
+とファイル・マネージャは、アクション・ファイルを使用して、表示、起動、移動、コピーなどを行えるファイル・システム・オブジェクトとしてアクションをインスタンス化します。
+データベースにはアクションの実装に対するリファレンスが含まれます(「 <filename>net_app_svr</filename>上の<filename>/usr/bin/app</filename>を実行する」など)。
+ただし、ユーザが直接処理できるオブジェクトとしてアクションを表示することが必要です。
+これはオブジェクトの名前を使用して実行されます。オブジェクト名は、アクションを検索する任意のオブジェクト・マネージャに対するアクションとして識別されます。
+したがって、<command>Dtstyle</command>という実行可能ファイルとDtstyleというアクションがある場合、 
+ファイル・マネージャはそのファイルを内容に関わらず Dtstyle アクションが参照するものとして解釈します。
+また、ファイル・マネージャ
+はアクションのラベルを、ユーザがファイルを見るための名前として使用します。アクション・ラベルはローカライズできますが、アクション名はローカライズできないプログラムのエンティティです。
+</para>
+<para>アクションおよびデータ型のデータベースへのポインタとしてファイルを使用する場合の利点は、ユーザが何もしなくても基本の実装を展開できることです。
+しかし、あるユーザのアクションおよびデータ型のデータベースが、他のユーザのアクションとデータ型に一致しないこともあります。
+したがって、ユーザはアクションのリファレンスを、たとえばメール・メッセージのアタッチメントなどとして交換したり、そのアクションに対して比較できる定義を持つユーザが他にいるかどうかを予期することができません。この問題を解決するには、デスクトップ KornShellスクリプトを交換するのが最善の方法です。
+</para>
+<para>アクションは継承したコマンド行アプリケーションとToolTalk アプリケーションを、デスクトップ・オブジェクト上の多様な分散オペレーションとしてデスクトップに統合するので便利です。
+<literal><indexterm><primary>アクション &lt;$endrange></primary>
+</indexterm></literal></para>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.archo.div.23">
+<title id="RDMAP.archo.mkr.10">情報テクノロジ</title>
+<para>CDE情報テクノロジには、次の機能があります。
+</para>
+<itemizedlist>
+<listitem>
+<para>CDEユーザ・インタフェースに関するヘルプと、CDEアプリケーションに関する
+ ヘルプを提供するヘルプ・システム。
+</para>
+</listitem>
+<listitem>
+<para>インフォメーション・マネージャ。CDEマニュアルとアプリケーション固有
+のマニュアルへのアクセスを提供するするオンライン・マニュアル・アクセス機能。
+</para>
+</listitem>
+</itemizedlist>
+<sect2 id="RDMAP.archo.div.24">
+<title id="RDMAP.archo.mkr.11">ヘルプ・システム</title>
+<indexterm><primary>ヘルプ</primary><secondary>一般情報</secondary></indexterm>
+<para>ヘルプ
+・システムは、CDE アプリケーション用のオンライン・ヘルプを開発するためのツールを設計、プログラミングする完全なセットを提供します。
+</para>
+<itemizedlist>
+<listitem>
+<para>これにより設計者は、フォーマットされたテキスト、グラフィック、ハイパー
+リンク、コミュニケーションをアプリケーションに取り込むことができます。</para>
+</listitem>
+<listitem>
+<para>プログラマに、オンライン・ヘルプをアプリケーションに統合するための
+ツールキットを提供します。ツールキットには、ユーザがオンライン・ヘルプを表示、ナビゲート、探索、印刷するための特別のヘルプ・ダイアログやサポート・ルーチンが含まれます。
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="RDMAP.archo.div.25">
+<title id="RDMAP.archo.mkr.12">インフォメーション・マネージャ</title>
+<indexterm><primary>インフォメーション・マネージャ</primary><secondary>一般情報</secondary></indexterm>
+<para>インフォメーション・マネージャは、ライブラリ情報、ブックケース、ブック、ブック・セクション、ブック・セクションよりも小さい区分、というような階層に構成された
+マニュアルへのオンライン・アクセスを提供します。
+すべてのCDEマニュアルは、インフォメーション・マネージャと共に提供されます。</para>
+<para>アプリケーション固有のマニュアルとインフォメーション・マネージャを統合するために、CDEアプリケーションは、小さいAPI(<Symbol>DtInfo</Symbol>)を呼び出します。
+プログラマは、ブラウザをDtInfoデータベース・エンジンAPI(<Symbol>DtMmdb</Symbol>)を使って作ることもできます。
+</para>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:30:53-->

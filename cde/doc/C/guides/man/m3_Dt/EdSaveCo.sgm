@@ -1,0 +1,217 @@
+<!-- $XConsortium: EdSaveCo.sgm /main/6 1996/09/08 20:03:47 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN38.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN38.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtEditorSaveContentsToFile</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtEditorSaveContentsToFile</Function></RefName>
+<RefPurpose>save the contents of a DtEditor widget to a file
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Editor.h>
+</FuncSynopsisInfo>
+<FuncDef>DtEditorErrorCode <Function>DtEditorSaveContentsToFile</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>char *<Parameter>fileName</Parameter></ParamDef>
+<ParamDef>Boolean <Parameter>overwriteIfExists</Parameter></ParamDef>
+<ParamDef>Boolean <Parameter>hardCarriageReturns</Parameter></ParamDef>
+<ParamDef>Boolean <Parameter>markContentsAsSaved</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtEditorSaveContentsToFile</Function> function saves the entire contents of the DtEditor widget to a file,
+optionally replacing soft line feeds (word wraps)
+with
+<KeySym>newline</KeySym>s. If the file does not exist and the directory has the correct
+write permissions, the file is created.
+If the file exists and the
+<Emphasis>overwriteIfExists</Emphasis> argument is set to
+True,
+the contents of the file are overwritten.
+If the file or its directory does not have the correct write
+permissions, an error is returned.
+</Para>
+<Para>The DtEditor widget tracks whether its contents have changed since they were
+last saved or retrieved.
+If the
+<Emphasis>markContentsAsSaved</Emphasis> argument is set to False,
+a copy of the data is saved without affecting whether
+&cdeman.DtEditorCheckForUnsavedChanges; reports that there are unsaved changes.
+This is useful if the application needs to save a copy of the
+contents to a temporary file.
+</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument specifies the DtEditor widget ID.
+</Para>
+<Para>The
+<Emphasis>fileName</Emphasis> argument is the pathname of the file
+relative to the local system.
+</Para>
+<Para>The
+<Emphasis>overwriteIfExists</Emphasis> argument, if set to
+True,
+causes
+<Function>DtEditorSaveContentsToFile</Function> to save the widget contents even though the file specified by the
+<Emphasis>fileName</Emphasis> argument exists and has correct write permissions.
+If this argument is set to
+False,
+<Function>DtEditorSaveContentsToFile</Function> returns
+<SystemItem Class="Constant">DtEDITOR_WRITABLE_FILE</SystemItem>.</Para>
+<Para>The
+<Emphasis>hardCarriageReturns</Emphasis> argument, if set to
+True,
+indicates that the widget should replace
+any soft line feeds (word wraps) with
+<KeySym>newline</KeySym>s when saving
+the data.
+When this argument is set to
+False,
+any line wrapped because it reaches the
+right edge of the window, is saved as one complete line.
+</Para>
+<Para>The
+<Emphasis>markContentsAsSaved</Emphasis> argument, when set to
+True,
+causes the DtEditor widget to mark that
+all changes made to date have been saved.
+When this argument is set to
+False,
+the DtEditor widget
+does not change its status regarding unsaved changes.
+If an error arises during the save,
+the status does not change, regardless of the
+value of the
+<Emphasis>markContentsAsSaved</Emphasis> argument.
+<![ %CDE.C.CDE; [</Para>
+<Para>For a complete definition of the DtEditor widget
+and its associated resources, see
+&cdeman.DtEditor;. ]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtEditorSaveContentsToFile</Function> function returns
+<SystemItem Class="Constant">DtEDITOR_NO_ERRORS</SystemItem>; otherwise, if it cannot save the data to the file,
+the function returns one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_FILENAME</Term>
+<ListItem>
+<Para>No file was specified.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_UNWRITABLE_FILE</Term>
+<ListItem>
+<Para>The application does not have write
+permission for the file or directory.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_CHAR_SPECIAL_FILE</Term>
+<ListItem>
+<Para>The file is a device-special file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_BLOCK_MODE_FILE</Term>
+<ListItem>
+<Para>The file is a block-mode device.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NO_FILE_ACCESS</Term>
+<ListItem>
+<Para>The file cannot be accessed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_SAVE_FAILED</Term>
+<ListItem>
+<Para>The contents could not be saved for an
+unspecified reason.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_WRITABLE_FILE</Term>
+<ListItem>
+<Para>The named files exist and the
+<Emphasis>overwriteIfExists</Emphasis> argument is set to
+False.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following code segment saves the contents
+of a DtEditor widget to the local file, Foo, substituting
+<KeySym>newline</KeySym>s for soft line feeds.
+It also indicates that all changes
+to the contents of the widget have been saved.
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Widget                  editor;
+DtEditorErrorCode       status;
+char                    *fname = "Foo";
+Boolean                 overwrite = False,
+                        hardReturns = True,
+                        markContentsAsSaved = True;
+status = DtEditorSaveContentsToFile(editor, fname, overwrite,
+                                    hardReturns, markContentsAsSaved);
+switch(status)
+{
+        case DtEDITOR_NO_ERRORS:
+                break;
+        case DtEDITOR_WRITABLE_FILE:
+                printf("Save failed.  The file already exists.&bsol;n");
+                break;
+        default:
+                printf("Could not save contents.&bsol;n");
+                break;
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application should use
+&cdeman.DtEditorGetContents; to retrieve the data in a memory buffer,
+rather than a disk file.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Editor.h;, &cdeman.DtEditor;, &cdeman.DtEditorAppend;, &cdeman.DtEditorAppendFromFile;, &cdeman.DtEditorCheckForUnsavedChanges;, &cdeman.DtEditorGetContents;, &cdeman.DtEditorInsert;, &cdeman.DtEditorInsertFromFile;, &cdeman.DtEditorReplace;, &cdeman.DtEditorReplaceFromFile;, &cdeman.DtEditorSetContentsFromFile;, &cdeman.DtEditorSetContents;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

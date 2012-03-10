@@ -1,0 +1,134 @@
+// $XConsortium: stringChooser.bil /main/2 1996/11/11 11:59:07 drk $
+:bil-version	1 0
+:module stringChooser
+(
+
+:element stringChooser
+(
+	:type			:dialog
+	:x			279
+	:y			546
+	:width			459
+	:height			90
+	:bg-color		"white"
+	:label			"tt_ptype_undeclare"
+	:resizable		:true
+	:visible		:false
+	:default-button		stringOkButton
+	:children		(
+		stringPane
+		dialog_button_panel
+	)
+)
+:element stringPane
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:width			455
+	:height			86
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj stringChooser 0)
+	:east-attachment	(:obj stringChooser 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		stringText
+	)
+)
+:element stringText
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			16
+	:y			10
+	:label-type		:string
+	:label			"ptype"
+	:label-position		:north
+	:num-columns		58
+	:max-length		256
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 10)
+	:west-attachment	(:point 0 16)
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			459
+	:height			48
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		stringOkButton
+		stringCancelButton
+		stringHelpButton
+	)
+)
+:element stringOkButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Undeclare"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 30 0)
+	:west-attachment	(:grid-line 10 0)
+)
+:element stringCancelButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 60 0)
+	:west-attachment	(:grid-line 40 0)
+)
+:element stringHelpButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 90 0)
+	:west-attachment	(:grid-line 70 0)
+)
+:connection
+(
+	:from			stringOkButton
+	:when			:activate
+	:action-type		:call-function
+	:action			stringOkayed
+)
+:connection
+(
+	:from			stringCancelButton
+	:to			stringChooser
+	:when			:activate
+	:action-type		:builtin
+	:action			:hide
+	:arg-type		:void
+)
+:connection
+(
+	:from			stringHelpButton
+	:when			:activate
+	:action-type		:call-function
+	:action			stringHelp
+)
+)

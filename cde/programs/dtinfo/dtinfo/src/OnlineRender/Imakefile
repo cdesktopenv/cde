@@ -1,0 +1,54 @@
+XCOMM $XConsortium: Imakefile /main/8 1996/08/21 15:43:09 drk $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+LIBNAME=OnlineRender
+
+INCLUDES=$(BROWSER_INCLUDES) $(MMDB_INCLUDES) $(STYLE_SHEET_INCLUDES) \
+$(COMMON_CLASS_INCLUDES) 
+DEFINES=-DCDE_NEXT
+
+#ifdef DoLicenseManagement
+EXTRA_DEFINES=-DLICENSE_MANAGEMENT
+EXTRA_INCLUDES=$(LICENSE_L_INCLUDES)
+#endif
+
+#include "Classlist.mk"
+
+SRCS=\
+CanvasRenderer.C \
+FeatureSupport.C \
+FontCache.C \
+SegClientData.C
+
+OBJS= $(SRCS:.C=.o)
+
+make_msgs($(LIBNAME), $(MSGS))
+
+dfiles:
+
+#ifdef UXPArchitecture
+SpecialCPlusPlusObjectRule(ORTemplates.o,, +Tall_tmpls -DEXPAND_TEMPLATES)
+SpecialCPlusPlusExpandRule(ORTemplates..c,ORTemplates.C,+Tall_tmpls -DEXPAND_TEMPLATES)
+#else
+#endif
+#if defined(UseWideChars) && defined(SunArchitecture) && (OSMajorVersion == 4)
+WC_FLAGS=-I/VOB/olias/library/Xwchar/src
+WC_OBJS=\
+CanvasRenderer.o \
+FeatureSupport.o
+
+SpecialCPlusPlusObjectRule($(WC_OBJS),,$(WC_FLAGS))
+#endif
+
+#ifdef AIXArchitecture
+RealLibrary($(LIBNAME),$(OBJS),$(LIBDIR))
+#else
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+SimpleLibraryT($(LIBNAME),$(OBJS),$(LIBDIR))
+#else
+SimpleLibrary($(LIBNAME),$(OBJS),$(LIBDIR))
+#endif
+#endif
+
+DependTarget()

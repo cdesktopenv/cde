@@ -1,0 +1,576 @@
+<!-- $XConsortium: lp.sgm /main/7 1996/09/08 19:54:51 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN26.rsml.1">
+<RefMeta>
+<RefEntryTitle>dtlp</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dtlp</Command></RefName>
+<RefPurpose>gather lp arguments and print a file
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dtlp</Command>
+<Arg Choice="opt">-b <Replaceable>banner_title</Replaceable></Arg>
+<Arg Choice="opt">-d <Replaceable>lpdest</Replaceable></Arg>
+<Arg Choice="opt">-m <Replaceable>print_command</Replaceable></Arg>
+<Arg Choice="opt">-n <Replaceable>copy_count</Replaceable></Arg>
+<Arg Choice="opt">-o <Replaceable>other_options</Replaceable></Arg>
+<Arg Choice="opt">-u <Replaceable>user_filename</Replaceable></Arg>
+<Arg Choice="opt">-a</Arg>
+<Arg Choice="opt">-e</Arg>
+<Arg Choice="opt">-h</Arg>
+<Arg Choice="opt">-r</Arg>
+<Arg Choice="opt">-s</Arg>
+<Arg Choice="opt">-v</Arg>
+<Arg Choice="opt">-w</Arg>
+<Arg Choice="opt"><Replaceable>print_file</Replaceable></Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Command>dtlp</Command> command line utility is a front-end to the
+<Literal>lp</Literal> subsystem.
+The
+<Command>dtlp</Command> utility
+gathers
+<Literal>lp</Literal> print options and prints a specified
+file.
+It operates in two modes:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>GUI mode</Literal></Term>
+<ListItem>
+<Para>By default,
+<Command>dtlp</Command> posts a
+<Symbol Role="Message">Print</Symbol> dialog that appears with <Symbol Role="Message">Print</Symbol>,
+<Literal>Cancel</Literal>, and <Literal>Help</Literal> pushbuttons.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Silent mode</Literal></Term>
+<ListItem>
+<Para>When invoked with the <Emphasis>silent</Emphasis> flag,
+<Command>dtlp</Command> does not present the GUI input dialog.
+It collects input arguments from the command line and environment
+variables.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<RefSect2>
+<Title>The Print Dialog</Title>
+<Para>When invoked normally,
+<Command>dtlp</Command> posts a
+<Symbol Role="Message">Print</Symbol> dialog that shows:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>File</Literal></Term>
+<ListItem>
+<Para>The name of the file to print (a read-only text label).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Printer</Literal></Term>
+<ListItem>
+<Para>The printer device.
+The default is the value of the <SystemItem Class="EnvironVar">LPDEST</SystemItem> environment variable.
+If
+<SystemItem Class="EnvironVar">LPDEST</SystemItem> is unset, then the properly localized string
+<Literal>Default</Literal>
+appears in the text field.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Copies</Literal></Term>
+<ListItem>
+<Para>The number of copies to print.
+The default is 1.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Banner Page Title</Literal></Term>
+<ListItem>
+<Para>The title to appear on the printed banner page,
+and if formatted, in the header of each page.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Print Page Numbers</Literal></Term>
+<ListItem>
+<Para>A checkbox to indicate
+whether the file should be printed formatted (run through the
+<Literal>pr -f</Literal> command) or printed unformatted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Print Command Options</Literal></Term>
+<ListItem>
+<Para>Any options to be passed directly to the
+<Literal>lp</Literal> command.
+For example, some implementations support the <Literal>-o2</Literal>
+option to
+<Literal>lp</Literal> to enable double-page printing.
+</Para>
+<Para>When the user presses the <Symbol Role="Message">Print</Symbol> button, these settings are
+passed onto the
+<Literal>lp</Literal> subsystem,
+along with the values of any other environment settings (see the
+<Symbol>ENVIRONMENT</Symbol> heading in this man page).
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<Para>The
+<Command>dtlp</Command> command accepts a <Emphasis>print_file</Emphasis> name specification.
+If a
+<Emphasis>print_file</Emphasis> is not specified, standard input is assumed.
+When used in
+this fashion, the <Literal>-u</Literal> <Emphasis>user_filename</Emphasis> option can be used to
+pass a name to
+<Command>dtlp</Command> for display in the
+<Symbol Role="Message">Print</Symbol> dialog.
+</Para>
+<RefSect2>
+<Title>Command Line Options and the ENVIRONMENT Setting</Title>
+<Para>The
+<Command>dtlp</Command> command
+is sensitive to some ENVIRONMENT settings.
+In the case in which both a command line option and a
+complementary environment
+setting are
+specified, the command line option takes precedence.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Command Line Options</Title>
+<VariableList>
+<VarListEntry>
+<Term>&minus;b banner_title</Term>
+<ListItem>
+<Para>Set the string used in printing the banner on the title page.
+If the <Literal>-r</Literal> option is also specified, then print this same string
+on the page headers.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;d lpdest</Term>
+<ListItem>
+<Para>Set the printer destination for the file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;m print_command</Term>
+<ListItem>
+<Para>Use this value as the path name of the
+<Literal>lp</Literal> print command.
+The default is
+<Literal>lp</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;n copy_count</Term>
+<ListItem>
+<Para>Print this many copies.
+Default is 1.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;o other_options</Term>
+<ListItem>
+<Para>Pass these options directly through to the
+<Literal>print_command</Literal>, without any interpretation.
+This setting is
+intended for users with advanced printing knowledge.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;u user_filename</Term>
+<ListItem>
+<Para>Use this value as the name of file as it should appear in the
+<Symbol Role="Message">Print</Symbol> dialog or print output.
+Default is <Literal>print_file</Literal>.
+Equivalent to the <Emphasis>DTPRINTUSERFILENAME</Emphasis>
+setting under the <Symbol>ENVIRONMENT</Symbol> heading in this man page.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;a</Term>
+<ListItem>
+<Para>Causes the file to be formatted with the <Literal>man</Literal>
+command.
+If set, then other formatting specifications (such
+as <Literal>-r</Literal>) are ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;e</Term>
+<ListItem>
+<Para>Remove the file after printing it.
+This functionality is intended for temporary files generated by
+applications that
+don't need to persist beyond the act of printing.
+Equivalent to the <Emphasis>DTPRINTFILEREMOVE</Emphasis>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;h</Term>
+<ListItem>
+<Para>Print out a help message.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;r</Term>
+<ListItem>
+<Para>Format the file before printing it, by running it through
+the <Literal>pr -f</Literal> command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;s</Term>
+<ListItem>
+<Para>Print the file silently, without posting the
+<Symbol Role="Message">Print</Symbol> dialog.
+Equivalent to the <Emphasis>DTPRINTSILENT</Emphasis>
+setting under the <Symbol>ENVIRONMENT</Symbol> heading in this man page.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;v</Term>
+<ListItem>
+<Para>Print out verbose messages during the print process.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;w</Term>
+<ListItem>
+<Para>Causes output to the printer to be sent raw, with no
+interpretation of tabs, backspaces, formfeeds, and
+binary characters.
+Useful for printing <Symbol>PCL</Symbol> and <Symbol>PS</Symbol> files.
+If set, then other formatting specifications (such
+as <Literal>-r</Literal>) are ignored; however, the <Literal>-a</Literal> option
+will take precedence over this setting.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>print_file</Term>
+<ListItem>
+<Para>Print this file.
+If <Emphasis>print_file</Emphasis>
+is not supplied, standard input is assumed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT</Title>
+<Para>Following are the names and meanings
+of the environment values that affect the operation of
+<Command>dtlp</Command>:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">LANG</SystemItem></Term>
+<ListItem>
+<Para>Use the specified value to determine the locale of the message strings that
+appear in the
+<Symbol Role="Message">Print</Symbol> dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">LPDEST</SystemItem></Term>
+<ListItem>
+<Para>Use the specified value as the printer destination for the file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>DTPRINTCWD</Emphasis></Term>
+<ListItem>
+<Para>If set to an existing, usable directory, this setting
+causes
+<Command>dtlp</Command> to execute the
+<Literal>lp</Literal> command pipeline from that
+directory.
+By default, uses the current directory
+from which
+<Command>dtlp</Command> is invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>DTPRINTFILEREMOVE</Emphasis></Term>
+<ListItem>
+<Para>Equivalent to the <Literal>-e</Literal>
+command line setting.
+Value must be <SystemItem Class="Constant">True</SystemItem>
+or <SystemItem Class="Constant">False</SystemItem> (case is ignored).
+Default is <SystemItem Class="Constant">False</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>DTPRINTSILENT</Emphasis></Term>
+<ListItem>
+<Para>Equivalent to the <Literal>-s</Literal>
+command line setting.
+Value must be <SystemItem Class="Constant">True</SystemItem>
+or <SystemItem Class="Constant">False</SystemItem> (case is ignored).
+Default is <SystemItem Class="Constant">False</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>DTPRINTUSERFILENAME</Emphasis></Term>
+<ListItem>
+<Para>Equivalent to the <Literal>-u</Literal>
+command line setting.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<RefSect2>
+<Title>Reconciling Options</Title>
+<Para>In the case of conflicting formatting options,
+<Command>dtlp</Command> uses the following decisions to reconcile them:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>If any <Emphasis>raw</Emphasis>
+(as with <Option>-w</Option>), or <Symbol Role="Variable">man</Symbol> (as with
+<Literal>-a</Literal>)
+options are specified, all
+other page formatting and numbering options are turned off;
+otherwise, page printing and formatting are allowed.
+</Para>
+</ListItem>
+<ListItem>
+<Para>In a formatted operation:
+If a banner title is specified (as with
+<Literal>-b</Literal>), it will be used
+as the page header.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If a user filename is specified (as with
+<Literal>-u</Literal> or
+<Emphasis>DTPRINTUSERFILENAME</Emphasis>), it will be used as the page
+header;
+otherwise, the filename itself will be used as the page header.
+</Para>
+</ListItem>
+</ItemizedList>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUES</Title>
+<VariableList>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<Para>Command completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>-1</Term>
+<ListItem>
+<Para>The user pressed the <Literal>Cancel</Literal> button.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>2</Term>
+<ListItem>
+<Para>Usage error.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>3</Term>
+<ListItem>
+<Para>There is no specified file to print.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>4</Term>
+<ListItem>
+<Para>Unable to find the <Command>dtksh</Command> initialization file,
+<Filename>/usr/dt/scripts/DtFuncs.sh</Filename>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>5</Term>
+<ListItem>
+<Para>The file is an invalid file (for example, a directory or a device file).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>6</Term>
+<ListItem>
+<Para>The user has no read permission on the file.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<RefSect2>
+<Title>Command Line</Title>
+<Para>The following command line causes
+<Command>dtlp</Command> to post a
+<Symbol Role="Message">Print</Symbol> dialog
+for <Literal>file1</Literal> with a name displayed of
+<Literal>Your File</Literal> and with the default printer chosen:
+<Literal>/usr/dt/bin/dtlp -u "Your File" file1</Literal>
+The following command line causes
+<Command>dtlp</Command> to silently print two copies of <Literal>file2</Literal> on printer
+<Literal>laser3</Literal>:
+<Literal>/usr/dt/bin/dtlp -n 2 -d laser3 -s file2</Literal>
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Action Definition</Title>
+<Para>The following <Symbol Role="Message">Print</Symbol> action would cause a <Symbol>PCL</Symbol> file to
+be printed using the
+<Command>dtlp</Command> command.
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        PCL
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtlp -w %Arg_1%
+}
+</ProgramListing>
+</InformalExample>
+<Para>The following <Symbol Role="Message">Print</Symbol> action would cause a man page file to
+be printed using the
+<Command>dtlp</Command> command.
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        MAN_PAGE
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtlp -a %Arg_1%
+}
+</ProgramListing>
+</InformalExample>
+<Para>By default,
+these actions will post the
+<Symbol Role="Message">Print</Symbol> dialog.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>LOCALES AND CODESETS</Title>
+<Para>The strings that appear in the
+<Symbol Role="Message">Print</Symbol> dialog are localizable.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term><Filename>/usr/dt/appconfig/types/C/print.dt</Filename></Term>
+<ListItem>
+<Para>Defines the default system <Symbol Role="Message">Print</Symbol> action.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/usr/dt/appconfig/types/C/dt.dt</Filename></Term>
+<ListItem>
+<Para>Defines the default <Symbol Role="Message">Print</Symbol> actions for
+man pages (type <Symbol>MAN</Symbol>), ASCII files (type <Symbol>TEXTFILE</Symbol>),
+PCL files (type <Symbol>PCL</Symbol>), and PS files (type <Symbol>POSTSCRIPT</Symbol>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>/etc/dt/appconfig/types/C/*.dt</Literal></Term>
+<ListItem>
+<Para>The datatype files that implement the per-printer <Symbol Role="Message">Print</Symbol>
+action; these are created by the <Literal>dtprintinfo -populate</Literal> command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/usr/dt/scripts/DtFuncs.sh</Filename></Term>
+<ListItem>
+<Para>The <Command>dtksh</Command> initialization file that defines a number
+of GUI convenience functions, as for creating a dialog box.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>BUGS</Title>
+<Para>The
+<Command>dtlp</Command> <Symbol Role="Message">Print</Symbol> dialog cannot accept quote marks (either <Literal>'</Literal> or <Literal>"</Literal>)
+in the <Literal>Banner Page Title</Literal> text field.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtsearchpath;, &cdeman.dtprintinfo;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

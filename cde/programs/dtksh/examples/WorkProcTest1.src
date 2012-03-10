@@ -1,0 +1,40 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: WorkProcTest1.src /main/3 1996/04/23 20:19:16 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates the usage of an Xt workproc
+XCOMM 
+
+integer count=5
+
+XCOMM  The work proc will be called five time, at which point it will return
+XCOMM  '1', which will cause it to be automatically unregistered.
+function WorkProc1
+{
+   count=$count-1
+   echo "WorkProc1 ("$count")"
+   if [ "$count" -eq 0 ] 
+   then
+      return 1
+   else
+      return 0
+   fi
+}
+
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL workProcTest1 WorkProcTest1 "$0" "$@"
+
+XtAddWorkProc ID1 "WorkProc1"
+
+XtMainLoop

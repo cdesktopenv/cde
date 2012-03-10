@@ -1,0 +1,332 @@
+! 
+! (c) Copyright 1989, 1990, 1991, 1992 OPEN SOFTWARE FOUNDATION, INC. 
+! ALL RIGHTS RESERVED 
+! 
+! 
+! Motif Release 1.2
+! 
+!   $XConsortium: dogs.uil /main/3 1995/10/27 10:43:12 rswiston $
+!******************************************************************************
+
+!******************************************************************************
+!* 
+!*  dogs.uil - Square & Dog widget demo, application UIL file.
+!* 
+!******************************************************************************
+
+module squares
+    version = 'v1.0'
+    names = case_sensitive
+    character_set=iso_latin1
+    objects = { XmPushButton = gadget; XmToggleButton = gadget; }
+
+include file 'Square.uil';
+include file 'Dog.uil';
+
+procedure
+	create_cb(integer);
+	bark_cb(integer);
+	tb_cb(integer);
+	scale_cb(integer);	
+	help_cb(compound_string);
+	exit_cb();
+
+value
+	k_dog1_id : 1;
+	k_dog2_id : 2;
+	k_dog3_id : 3;
+	k_help_id : 4;
+
+value
+	dog1_bark_volume : 90;
+	dog1_bark_time : 1100;
+	dog1_wag_time : 100;
+	dog1_square : false;
+
+	dog2_bark_volume : 40;
+	dog2_bark_time : 400;
+	dog2_wag_time : 100;
+	dog2_square : false;
+
+	dog3_bark_volume : 70;
+	dog3_bark_time : 700;
+	dog3_wag_time : 100;
+	dog3_square : false;
+
+value help_text :
+        compound_string(" ", separate=true) &
+        compound_string(" ", separate=true) &
+        compound_string("osfActivate/MB1 = Bark.", separate=true) &
+        compound_string("W/MB2 = Wag tail.", separate=true) &
+        compound_string("S/Shift-MB2 = Stop.", separate=true) &
+        compound_string("osfHelp = Help.", separate=true) &
+        compound_string("");
+
+
+object app_main : XmMainWindow {
+    controls {
+	XmMenuBar bar;
+	XmForm work;
+        unmanaged XmInformationDialog help_box;
+    };
+    callbacks {
+	XmNhelpCallback=procedure help_cb(compound_string("Dogs") & help_text);
+    };
+};
+
+object help_box : XmInformationDialog {
+    arguments {
+        XmNmessageAlignment = XmALIGNMENT_BEGINNING;
+        XmNdialogTitle = "Help";
+        XmNokLabelString = "Dismiss";
+    };
+    callbacks {
+        MrmNcreateCallback = procedure create_cb(k_help_id);
+    };
+};
+
+object bar : XmMenuBar {
+    arguments {
+	XmNmenuHelpWidget = XmCascadeButton help;
+    };
+    controls {
+	XmCascadeButton file;
+	XmCascadeButton help;
+    };
+};
+
+object file : XmCascadeButton {
+    arguments { XmNlabelString = "File"; XmNmnemonic = keysym('F'); };
+    controls { XmPulldownMenu file_pd; };
+};
+object file_pd : XmPulldownMenu {
+    controls {
+	XmPushButton exit_pb;
+    };
+};
+object exit_pb : XmPushButton {
+    arguments { XmNlabelString = "Exit"; XmNmnemonic = keysym('E');};
+    callbacks { XmNactivateCallback = procedure exit_cb(); };
+};
+
+object help : XmCascadeButton {
+    arguments { XmNlabelString = "Help"; XmNmnemonic = keysym('H'); };
+    controls { XmPulldownMenu help_pd; };
+};
+object help_pd : XmPulldownMenu {
+    arguments { XmNtearOffModel = XmTEAR_OFF_ENABLED; };
+    controls {
+	XmPushButton help_pb;
+    };
+};
+object help_pb : XmPushButton {
+    arguments { XmNlabelString = "On Dogs"; XmNmnemonic = keysym('D');};
+    callbacks { XmNactivateCallback = procedure help_cb
+		(compound_string("Dogs") & help_text); };
+};
+
+
+object work : XmForm {
+    controls {
+	XmFrame frame;
+	XmScale scale1;
+	XmScale scale2;
+	XmScale scale3;
+	XmSeparator sep;
+	XmToggleButton tb1;
+	XmToggleButton tb2;
+	XmToggleButton tb3;
+    };
+};
+
+object frame : XmFrame {
+    arguments {
+	XmNrightAttachment = XmATTACH_FORM; XmNrightOffset = 5;
+	XmNleftAttachment = XmATTACH_FORM; XmNleftOffset = 5;
+	XmNtopAttachment = XmATTACH_FORM; XmNtopOffset = 5;
+	XmNbottomAttachment = XmATTACH_WIDGET; XmNbottomOffset = 10;
+	XmNbottomWidget = XmScale scale1;
+    };
+    controls {
+	user_defined square;
+    };
+};
+
+object square : user_defined procedure SquareCreate {
+    arguments {
+	XmNwidth = 600;
+	XmNheight = 220;
+	XmNresizePolicy = XmRESIZE_GROW;
+	SquareNmajorDimension = SquareWIDTH;
+    };
+    controls {
+	user_defined dog1;
+	user_defined dog2;
+	user_defined dog3;
+    };
+};
+
+object dog1 : user_defined procedure DogCreate {
+    arguments {
+	SquareNmakeSquare = dog1_square;
+	XmNx = 20;
+	XmNy = 20;
+	XmNforeground = color('red', foreground);
+	XmNbackground = color('lightblue', background);
+        XmNshadowThickness = 12;
+	DogNwagTime = dog1_wag_time;
+	DogNbarkTime = dog1_bark_time;
+    };
+    callbacks {
+        MrmNcreateCallback = procedure create_cb(k_dog1_id);
+	DogNbarkCallback = procedure bark_cb(dog1_bark_volume);
+        XmNhelpCallback = procedure help_cb
+                        (compound_string("Rover") & help_text);
+    };
+};
+
+object dog2 : user_defined procedure DogCreate {
+    arguments {
+	SquareNmakeSquare = dog2_square;
+	XmNx = 220;
+	XmNy = 20;
+	XmNforeground = color('black', foreground);
+	XmNbackground = color('lightblue', background);
+        XmNshadowThickness = 4;
+	DogNwagTime = dog2_wag_time;
+	DogNbarkTime = dog2_bark_time;
+    };
+    callbacks {
+        MrmNcreateCallback = procedure create_cb(k_dog2_id);
+	DogNbarkCallback = procedure bark_cb(dog2_bark_volume);
+        XmNhelpCallback = procedure help_cb
+                        (compound_string("Spot") & help_text);
+    };
+};
+
+object dog3 : user_defined procedure DogCreate {
+    arguments {
+	SquareNmakeSquare = dog3_square;
+	XmNx = 420;
+	XmNy = 20;
+	XmNforeground = color('Brown', foreground);
+	XmNbackground = color('lightblue', background);
+        XmNshadowThickness = 10;
+	DogNwagTime = dog3_wag_time;
+	DogNbarkTime = dog3_bark_time;
+    };
+    callbacks {
+        MrmNcreateCallback = procedure create_cb(k_dog3_id);
+	DogNbarkCallback = procedure bark_cb(dog3_bark_volume);
+        XmNhelpCallback = procedure help_cb
+                        (compound_string("Fido") & help_text);
+    };
+};
+
+object scale1 : XmScale {
+    arguments {
+	XmNleftAttachment = XmATTACH_FORM; XmNleftOffset = 5;
+	XmNrightAttachment = XmATTACH_POSITION; XmNrightPosition = 30;
+	XmNbottomAttachment = XmATTACH_WIDGET; XmNbottomOffset = 5;
+	XmNbottomWidget = XmSeparator sep;
+	XmNminimum = 1;
+	XmNmaximum = 200;
+	XmNtitleString = 'Wag Rate';
+	XmNorientation = XmHORIZONTAL;
+	XmNprocessingDirection = XmMAX_ON_LEFT;
+	XmNvalue = dog1_wag_time;
+    };
+    callbacks {
+	XmNvalueChangedCallback = procedure scale_cb(1);
+	XmNdragCallback = procedure scale_cb(1);
+    };
+};
+
+object scale2 : XmScale {
+    arguments {
+	XmNleftAttachment = XmATTACH_POSITION; XmNleftPosition = 36;
+	XmNrightAttachment = XmATTACH_POSITION; XmNrightPosition = 63;
+	XmNbottomAttachment = XmATTACH_WIDGET; XmNbottomOffset = 5;
+	XmNbottomWidget = XmSeparator sep;
+	XmNminimum = 1;
+	XmNmaximum = 200;
+	XmNtitleString = 'Wag Rate';
+	XmNorientation = XmHORIZONTAL;
+	XmNprocessingDirection = XmMAX_ON_LEFT;
+	XmNvalue = dog2_wag_time;
+    };
+    callbacks {
+	XmNvalueChangedCallback = procedure scale_cb(2);
+	XmNdragCallback = procedure scale_cb(2);
+    };
+};
+
+object scale3 : XmScale {
+    arguments {
+	XmNleftAttachment = XmATTACH_POSITION; XmNleftPosition = 69;
+	XmNrightAttachment = XmATTACH_FORM; XmNrightOffset = 5;
+	XmNbottomAttachment = XmATTACH_WIDGET; XmNbottomOffset = 5;
+	XmNbottomWidget = XmSeparator sep;
+	XmNminimum = 1;
+	XmNmaximum = 200;
+	XmNtitleString = 'Wag Rate';
+	XmNorientation = XmHORIZONTAL;
+	XmNprocessingDirection = XmMAX_ON_LEFT;
+	XmNvalue = dog3_wag_time;
+    };
+    callbacks {
+	XmNvalueChangedCallback = procedure scale_cb(3);
+	XmNdragCallback = procedure scale_cb(3);
+    };
+};
+
+object sep : XmSeparator {
+    arguments {
+	XmNleftAttachment = XmATTACH_FORM;
+	XmNrightAttachment = XmATTACH_FORM;
+	XmNbottomAttachment = XmATTACH_WIDGET; XmNbottomOffset = 5;
+	XmNbottomWidget = XmToggleButton tb1;
+    };
+};
+
+object tb1 : XmToggleButton {
+    arguments {
+	XmNleftAttachment = XmATTACH_FORM; XmNleftOffset = 5;
+	XmNbottomAttachment = XmATTACH_FORM; XmNbottomOffset = 5;
+
+	XmNset = dog1_square;
+	XmNlabelString = 'Make Square';
+    };
+    callbacks {
+	XmNvalueChangedCallback = procedure tb_cb(1);
+    };
+};
+
+object tb2 : XmToggleButton {
+    arguments {
+	XmNleftAttachment = XmATTACH_POSITION; XmNleftPosition = 36;
+	XmNbottomAttachment = XmATTACH_FORM; XmNbottomOffset = 5;
+
+	XmNset = dog2_square;
+	XmNlabelString = 'Make Square';
+    };
+    callbacks {
+	XmNvalueChangedCallback = procedure tb_cb(2);
+    };
+};
+
+object tb3 : XmToggleButton {
+    arguments {
+	XmNleftAttachment = XmATTACH_POSITION; XmNleftPosition = 69;
+	XmNbottomAttachment = XmATTACH_FORM; XmNbottomOffset = 5;
+
+	XmNset = dog3_square;
+	XmNlabelString = 'Make Square';
+    };
+    callbacks {
+	XmNvalueChangedCallback = procedure tb_cb(3);
+    };
+};
+
+end module;
+

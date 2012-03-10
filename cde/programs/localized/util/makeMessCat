@@ -1,0 +1,71 @@
+#! /bin/ksh
+
+
+typeset USE_LANG_DIR="."
+typeset VERSION=""
+typeset REMOVE=${REMOVE:-removeVmsg}
+
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	    -v) # version string comes on command line
+		shift;
+		[ -n "$1" ] && VERSION="@(#)$1"
+		;;
+	    -d)  # use old vue2.0 method accessing vueversion.h
+		USE_LANG_DIR="../$2"
+		[ -r ../../../../X11/vueversion.h ] && {
+			VERSION=`grep static ../../../../X11/vueversion.h | \
+			sed s/static.*\=\ \"// | \
+			sed s/\".*// ` ;
+		}
+		;;
+	     -r) # prevent removal of temp ".vmsg" files
+		REMOVE=""
+		;;
+	     -m) #
+	        GENCAT_OPTIONS=-m 
+	        ;;
+	     *) # done with options
+		break;
+		;;
+	esac
+	shift
+done
+
+#
+# Added while logic below to parse multiple .msg files form the arguments, 
+# this logic assumes the first .msg file passed in will be the name of the 
+# .cat file, thus remaining compatible with the old makeMesgcat.
+#
+
+base_file=${1%.*}
+
+while [ $# -gt 1 ]; do
+ 
+	base=${1%.*} # strip any extension
+	[ -n "$VERSION" ] && VERSION="\\\n$VERSION"
+	sed "s/@(#)version_goes_here/$VERSION/"  <$USE_LANG_DIR/$base.msg >$USE_LANG_DIR/$base.vmsg
+        set -A msg_files "$msg_files $USE_LANG_DIR/$base.vmsg"
+	shift
+
+
+done
+
+
+echo "Running gencat on $msg_files with LANG set to $1 "
+rm -f $USE_LANG_DIR/$base.cat
+LANG=$1 gencat $GENCAT_OPTIONS $USE_LANG_DIR/$base_file.cat $msg_files
+
+LANG=C
+
+chmod -w $USE_LANG_DIR/$base_file.cat
+
+
+if [  "$REMOVE" = removeVmsg ]
+then
+   echo " Removing $msg_files "
+   rm -f $msg_files
+else 
+   echo " Not removing $msg_files "
+fi

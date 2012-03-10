@@ -1,0 +1,204 @@
+/*
+ * $TOG: List_base.C /main/4 1998/04/17 11:39:52 mgreess $
+ *
+ * Copyright (c) 1993 HAL Computer Systems International, Ltd.
+ * All rights reserved.  Unpublished -- rights reserved under
+ * the Copyright Laws of the United States.  USE OF A COPYRIGHT
+ * NOTICE IS PRECAUTIONARY ONLY AND DOES NOT IMPLY PUBLICATION
+ * OR DISCLOSURE.
+ * 
+ * THIS SOFTWARE CONTAINS CONFIDENTIAL INFORMATION AND TRADE
+ * SECRETS OF HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.  USE,
+ * DISCLOSURE, OR REPRODUCTION IS PROHIBITED WITHOUT THE
+ * PRIOR EXPRESS WRITTEN PERMISSION OF HAL COMPUTER SYSTEMS
+ * INTERNATIONAL, LTD.
+ * 
+ *                         RESTRICTED RIGHTS LEGEND
+ * Use, duplication, or disclosure by the Government is subject
+ * to the restrictions as set forth in subparagraph (c)(l)(ii)
+ * of the Rights in Technical Data and Computer Software clause
+ * at DFARS 252.227-7013.
+ *
+ *          HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.
+ *                  1315 Dell Avenue
+ *                  Campbell, CA  95008
+ * 
+ */
+
+#include <Exceptions.hh>
+#include "List_base.hh"
+
+// /////////////////////////////////////////////////////////////////
+// List_base::insert - insert a new link into the list
+// /////////////////////////////////////////////////////////////////
+
+void
+List_base::insert (Link_base *element)
+{
+  element->f_next = f_head;
+  f_head = element;
+  if (f_tail == NULL)
+    f_tail = element;
+  f_length++;
+}
+
+
+// /////////////////////////////////////////////////////////////////
+// List_base::insert_before - insert a new element before iterator
+// /////////////////////////////////////////////////////////////////
+
+void
+List_base::insert_before (List_Iterator_base &iterator, Link_base *element)
+{
+  if (iterator.f_previous == NULL)
+    insert (element);
+  else if (iterator.f_current == NULL)
+    append (element);
+  else
+    {
+      element->f_next = iterator.f_current;
+      iterator.f_previous->f_next = element;
+      f_length++;
+    }
+  iterator.f_previous = element;
+}
+
+// /////////////////////////////////////////////////////////////////
+// List_base::insert_after - insert a new element after iterator
+// /////////////////////////////////////////////////////////////////
+
+void
+List_base::insert_after (List_Iterator_base &iterator, Link_base *element)
+{
+  if (iterator.f_current == NULL)
+    append (element);
+  else if (iterator.f_current->f_next == NULL)
+    append (element);
+  else
+    {
+      element->f_next = iterator.f_current->f_next;
+      iterator.f_current->f_next = element;
+      f_length++;
+    }
+}
+
+
+// /////////////////////////////////////////////////////////////////
+// List_base::append - append a new link to the end of the list
+// /////////////////////////////////////////////////////////////////
+
+void
+List_base::append (Link_base *element)
+{
+  element->f_next = NULL;
+  if (f_tail == NULL)
+    f_tail = f_head = element;
+  else
+    f_tail = f_tail->f_next = element;
+  f_length++;
+}
+
+
+// /////////////////////////////////////////////////////////////////
+// List_base::remove - remove element pointed to by iterator
+// /////////////////////////////////////////////////////////////////
+
+Link_base *
+List_base::remove (List_Iterator_base &iterator)
+{
+  // Make sure the iterator points to this this.
+  if (iterator.f_list != this)
+    throw (CASTEXCEPT Exception());
+
+  // Make sure the iterator is pointing to an element. 
+  if (iterator.f_current == NULL)
+    throw (CASTEXCEPT Exception());
+
+  // NOTE: If two iterators are active in the list at the same time
+  // it is possible to blow away an element that another iterator
+  // is pointing at (either previous or current).  We could make this
+  // safer by only marking elements as deleted for now, then actually
+  // delete the items when there are no more iterators pointing at it.
+  //    19:41 22-Jul-93 DJB 
+
+  // Link around the link we're removing.
+  if (iterator.f_previous != NULL)
+    iterator.f_previous->f_next = iterator.f_current->f_next;
+  else   // must be at the head 
+    f_head = iterator.f_current->f_next;
+
+  if (iterator.f_current == f_tail)
+    f_tail = iterator.f_previous;
+
+  // Increment the iterator. 
+  Link_base *entry = iterator.f_current;
+  iterator.f_current = iterator.f_current->f_next;
+
+  f_length--;
+
+  return (entry);
+}
+
+
+// /////////////////////////////////////////////////////////////////
+// List_Iterator::List_Iterator - class constructor
+// /////////////////////////////////////////////////////////////////
+
+List_Iterator_base::List_Iterator_base (const List_base *list)
+: f_list (list)
+{
+  reset();
+}
+
+// /////////////////////////////////////////////////////////////////
+// List_Iterator::reset - reset the iterator to the list start
+// /////////////////////////////////////////////////////////////////
+
+// precondition: f_list != NULL 
+
+void
+List_Iterator_base::reset()
+{
+  // Check for an empty list first. 
+  if (f_list->f_head != NULL)
+    {
+      f_previous = NULL;
+      f_current = f_list->f_head;
+    }
+  else
+    {
+      f_current = f_previous = NULL;
+    }
+}
+
+
+// /////////////////////////////////////////////////////////////////
+// List_Iterator::reset - reset the iterator to the list start
+// /////////////////////////////////////////////////////////////////
+
+void
+List_Iterator_base::last()
+{
+  if (f_current == NULL)
+    reset();
+  if (f_current != NULL)
+    while (f_current->f_next != NULL)
+      operator++();
+}
+
+
+// /////////////////////////////////////////////////////////////////
+// List_Iterator:: operator ++ - increment the list iterator
+// /////////////////////////////////////////////////////////////////
+
+void *
+List_Iterator_base::operator++()
+{
+  if (f_current == NULL)
+    throw (CASTEXCEPT Exception());
+  
+  f_previous = f_current;
+  f_current = f_current->f_next;
+
+  return (f_current);
+}

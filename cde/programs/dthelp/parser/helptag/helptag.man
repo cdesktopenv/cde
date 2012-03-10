@@ -1,0 +1,345 @@
+.\" $XConsortium: helptag.man /main/2 1995/07/17 10:50:53 drk $
+.TH helptag 1
+.ds )H Hewlett-Packard Company
+.ds ]W A.00.00
+.SH NAME
+helptag \- Driver program to process
+.B "HP Help System"
+documents
+.SH SYNOPSIS
+.B helptag
+.RI [ \|options\| ]
+.I file
+.RI [ \|parser\-options\| ]
+.SH DESCRIPTION
+.I helptag
+is the driver program for the three phases of preparing an
+.B "HP Help System"
+document
+for use in presenting online help.
+These three phases
+are parsing, creating a volume and keyword index and compressing the
+resulting topic files.
+.P
+The
+.I helptag
+command accepts a single file name as an argument.  If the file name
+contains a period ("."), any characters after the last period are
+considered to be the extension.  The
+.I helptag
+command will remove all characters after the last period and use the
+resulting name as the base name for all intermediate files and for the
+final output files.  If the
+.IR file
+argument has no periods,
+.I helptag
+uses the argument as the base name for intermediate and output files
+and assumes and extension of
+.B .htg
+for the input file.
+.P
+Several options
+directing the
+.I helptag
+process may precede the file name.  Several arguments directing the
+parsing phase of the
+.I helptag
+process may follow the file name.
+.P
+The output files are:
+.RS
+.TP 3
+\(bu
+.IR file ##.ht
+\- where ## is replaced by 00, 01, etc., are the text of the help
+topics.
+.TP
+\(bu
+.IR file .hv
+\- is an index into the
+.B .ht
+files for finding the beginning of topics.
+.TP
+\(bu
+.IR file .hvk
+\- is a list of keywords and their associated topics.
+.TP
+\(bu
+.IR file .err
+\- contains a log of the parsing activity along with any errors generated
+during the parse.
+.TP
+\(bu
+.IR file .xrh
+\- is used in generating cross references.  This file is not used by the
+runtime
+.B "HP Help System"
+engine.  It is used between passes of the parser phase
+of the
+.I helptag
+process.  Retaining this file between invocations of
+.I helptag
+often eliminates the need for a second pass of the parser.
+.RE
+.SS Options
+.br
+.PP
+The following options are recognized by
+.I helptag
+and must be placed before the
+specified
+.IR file.
+.TP 10
+.B \-clean
+.br
+The
+.B \-clean
+option removes all
+.I helptag
+generated files corresponding to the
+.IR file
+specified.
+.TP
+.B \-files
+.br
+This option emits a list of files entered as entity declarations in the
+.IR file
+argument.
+.TP
+.B \-help
+.br
+The
+.B \-help
+option prints a list of
+.I helptag
+options and their meanings to the standard output.
+.TP
+.B \-shortnames
+.br
+The
+.B \-shortnames
+option causes all generated file names to be less than
+eight characters before the extension.  This length limitation is
+achieved by truncating the input
+.IR file
+argument to six characters so that adding, for example, "00.ht" produces
+an eight character file name and a two character extension.
+.TP
+.B \-verbose
+.br
+Setting the
+.B \-verbose
+option will cause
+.I helptag
+to be much more descriptive about the parser phase.
+.SS "Parser Options"
+.br
+Any
+.IR "parser options"
+follow the
+.IR file
+argument on the command line and take the form
+.B option=value
+for those options taking a parameter and simply
+.B option
+for those options not taking a parameter.
+Parser options may also be set in the environment variable TAGOPT, in a
+.B helptag.opt
+file or in a file named
+.IR file .opt
+in the current directory.
+The
+.B helptag.opt
+file may reside in the current directory or in the directory in which
+.I helptag
+is placed.
+.P
+The order of precedence of the option settings is:
+.RS
+.TP 3
+\(bu
+The file
+.B helptag.opt
+in the helptag installation directory.  This
+directory defaults to
+.B /usr/vhelp/bin.
+.TP
+\(bu
+The environment variable TAGOPT
+.TP
+\(bu
+The file
+.B helptag.opt
+in the current directory.
+.TP
+\(bu
+The file
+.IR file .opt
+in the current directory.
+.TP
+\(bu
+The command line.
+.RE
+.P
+Parser options set later in the list will override options set earlier.
+.P
+The parser options supported by
+.I helptag
+are:
+.TP
+.B onerror=go
+.br
+Cause errors to be non-fatal.  That is, parsing will continue and later
+phases of the
+.I helptag
+process will be run even if syntax errors were encountered in the parse.
+.TP
+.B onerror=stop
+.br
+This is the default setting of the
+.B onerror=
+option.  It causes the
+.I helptag
+process to stop upon completion of the parser phase if syntax errors were
+encountered during the parse.
+.TP
+.B charset=name
+.br
+The default character set used by the
+.B "HP Help System"
+is ISO8859-1.  A
+different character set may be specified, e.g.,
+.B name,
+using the
+.B charset=
+option.  The character set may also be set in the
+.B helplang.ent 
+file described in the
+.IR "HP Help System Developers' Guide".
+.TP
+.B search=path
+.br
+Adds
+.B path
+to the list of directories searched for file and image entities.
+.TP
+.B clearsearch
+.br
+Clears the list of directories searched for file and
+image entities.
+.TP
+.B memo
+.br
+The
+.B memo
+option causes authors' memos to be included in the output document.
+.TP
+.B nomemo
+Is the inverse of the
+.B memo
+option.  Both
+.B memo
+and
+.B nomemo
+may be specified but the last one mentioned will override
+any previous setting.
+.TP
+.B shortfiles
+.br
+Neither the
+.B shortfiles
+.IR "parser-option"
+nor any of its synonyms should be used.  Rather, the
+.B \-shortfiles
+option should be given as an
+.IR option
+to
+.I helptag.
+The
+.I helptag
+driver needs to know whether the user has requested short file names since
+.I helptag
+must know the names of the intermediate files.
+.TP
+.B shortfile
+is a synonym for
+.B shortfiles.
+.TP
+.B short
+is a synonym for
+.B shortfiles.
+.TP
+.B longfiles
+.br
+Neither this option nor any of its synonyms should be used for the same
+reason that the
+.B shortfiles
+option should not be used.
+.TP
+.B " "
+Long, untruncated, file names are the default.
+.TP
+.B longfile
+is a synonym for
+.B longfiles.
+.TP
+.B long
+is a synonym for
+.B longfiles.
+.SH EXTERNAL INFLUENCES
+.SS Environment Variables
+.SM LANG
+determines the language in which the input
+.IR file
+is interpreted.  The
+.SM LANG
+environment variable can be overridden in the
+.B helplang.ent
+file described in the
+.IR "HP Help System Developers' Guide".
+.PP
+.SM TAGOPT
+may be used to set parser options as described earlier.
+.SS International Code Set Support
+Single- and multi-byte character code sets are supported.
+.SH AUTHOR
+.I helptag
+was developed by HP.
+.SH FILES
+.PD 0
+.TP 30
+file.htg
+input file
+.TP
+file##.ht
+help topic text
+.TP
+file.hv
+index into .ht files
+.TP
+file.hvk
+keyword index file
+.TP
+file.err
+run log and error listing
+.TP
+file.xrh
+cross-reference file
+.TP
+\\.file.st
+status file and log
+.TP
+file.hmi
+intermediate
+.TP
+file.idt
+intermediate
+.TP
+file.tpc
+intermediate
+.TP
+file.idx
+intermediate
+.PD 1
+.SH SEE ALSO
+.IR "The HP Help System Developers' Guide"

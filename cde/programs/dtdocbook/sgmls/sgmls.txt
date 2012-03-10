@@ -1,0 +1,661 @@
+# $XConsortium: sgmls.txt /main/2 1996/11/11 11:24:56 drk $
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+NAME
+       sgmls - a validating SGML parser
+
+       An SGML System Conforming to
+       International Standard ISO 8879 --
+       Standard Generalized Markup Language
+
+SYNOPSIS
+       sgmls  [  -deglprsuv ] [ -cfile ] [ -iname ] [ filename...
+       ]
+
+DESCRIPTION
+       Sgmls parses and validates the  SGML  document  entity  in
+       filename...   and  prints  on the standard output a simple
+       ASCII representation of its Element Structure  Information
+       Set.   (This  is  the  information  set which a structure-
+       controlled conforming SGML application should  act  upon.)
+       Note  that  the document entity may be spread amongst sev-
+       eral files; for example, the  SGML  declaration,  document
+       type  declaration  and document instance set could each be
+       in a separate file.  If no filenames are  specified,  then
+       sgmls  will  read  the  document  entity from the standard
+       input.  A filename of - can also be used to refer  to  the
+       standard input.
+
+       The following options are available:
+
+       -cfile Write  a  report  of  capacity  usage to file.  The
+              report is in the format of a RACT result.  RACT  is
+              the  Reference  Application  for  Capacity  Testing
+              defined in the Proposed American National  Standard
+              Conformance Testing for Standard Generalized Markup
+              Language (SGL) Systems  (X3.190-199X),  Draft  July
+              1991.
+
+       -d     Warn about duplicate entity declarations.
+
+       -e     Describe  open  entities  in error messages.  Error
+              messages always include the position  of  the  most
+              recently opened external entity.
+
+       -g     Show the GIs of open elements in error messages.
+
+       -iname Pretend that
+
+                     <!ENTITY % name "INCLUDE">
+
+              occurs  at  the start of the document type declara-
+              tion subset in the  SGML  document  entity.   Since
+              repeated definitions of an entity are ignored, this
+              definition will take precedence over any other def-
+              initions of this entity in the document type decla-
+              ration.  Multiple -i options are allowed.   If  the
+              SGML declaration replaces the reserved name INCLUDE
+
+
+
+                                                                1
+
+
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+              then the new reserved name will be the  replacement
+              text  of  the  entity.  Typically the document type
+              declaration will contain
+
+                     <!ENTITY % name "IGNORE">
+
+              and will use %name; in the status keyword  specifi-
+              cation  of  a  marked section declaration.  In this
+              case the effect of the option will be to cause  the
+              marked section not to be ignored.
+
+       -l     Output  L  commands  giving the current line number
+              and filename.
+
+       -p     Parse only the prolog.  Sgmls will exit after pars-
+              ing the document type declaration.  Implies -s.
+
+       -r     Warn about defaulted references.
+
+       -s     Suppress  output.   Error  messages  will  still be
+              printed.
+
+       -u     Warn about undefined elements: elements used in the
+              DTD  but  not  defined.   Also warn about undefined
+              short reference maps.
+
+       -v     Print the version number.
+
+   Entity Manager
+       An external entity resides in  one  or  more  files.   The
+       entity manager component of sgmls maps a sequence of files
+       into an entity in three sequential stages:
+
+       1.     each carriage return character  is  turned  into  a
+              non-SGML character;
+
+       2.     each  newline character is turned into a record end
+              character, and at the  same  time  a  record  start
+              character  is  inserted  at  the  beginning of each
+              line;
+
+       3.     the files are concatenated.
+
+       A system identifier is interpreted as a list of  filenames
+       separated by colons.  A filename of - can be used to refer
+       to the standard input.  If no system  identifier  is  sup-
+       plied,  then the entity manager will attempt to generate a
+       filename using the public identifier (if there is one) and
+       other  information  available to it.  Notation identifiers
+       are not subject to this treatment.  This process  is  con-
+       trolled  by  the environment variable SGML_PATH; this con-
+       tains a colon-separated list  of  filename  templates.   A
+       filename template is a filename that may contain substitu-
+       tion  fields;  a  substitution  field  is  a  %  character
+
+
+
+                                                                2
+
+
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+       followed  by  a  single letter that indicates the value of
+       the substitution.  If SGML_PATH uses  the  %S  field  (the
+       value  of which is the system identifier), then the entity
+       manager will also use SGML_PATH  to  generate  a  filename
+       when  a system identifier that does not contain any colons
+       is supplied.  The value of a substitution can either be  a
+       string  or  it can be null.  The entity manager transforms
+       the list of filename templates into a list of filenames by
+       substituting  for  each  substitution field and discarding
+       any template that contained  a  substitution  field  whose
+       value was null.  It then uses the first resulting filename
+       that exists and  is  readable.   Substitution  values  are
+       transformed  before  being used for substitution: firstly,
+       any names that were subject to upper case substitution are
+       folded  to  lower  case;  secondly,  space  characters are
+       mapped to underscores and slashes are mapped to  percents.
+       The  value of the %S field is not transformed.  The values
+       of substitution fields are as follows:
+
+       %%     A single %.
+
+       %D     The entity's data content notation.  This substitu-
+              tion  will succeed only for external data entities.
+
+       %N     The entity, notation or document type name.
+
+       %P     The public identifier if there was a public identi-
+              fier, otherwise null.
+
+       %S     The system identifier if there was a system identi-
+              fier otherwise null.
+
+       %X     (This is provided  mainly  for  compatibility  with
+              ARCSGML.)  A three-letter string chosen as follows:
+                                         |            |
+                                         |            | With public identifier
+                                         |            +-------------+-----------
+                                         | No public  |   Device    |  Device
+                                         | identifier | independent | dependent
+              ---------------------------+------------+-------------+-----------
+              Data or subdocument entity | nsd        | pns         | vns
+              General SGML text entity   | gml        | pge         | vge
+              Parameter entity           | spe        | ppe         | vpe
+              Document type definition   | dtd        | pdt         | vdt
+              Link process definition    | lpd        | plp         | vlp
+
+              The device dependent version  is  selected  if  the
+              public text class allows a public text display ver-
+              sion but no public text display version was  speci-
+              fied.
+
+       %Y     The  type  of thing for which the filename is being
+              generated:
+
+
+
+
+                                                                3
+
+
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+              SGML subdocument entity    sgml
+              Data entity                data
+              General text entity        text
+              Parameter entity           parm
+              Document type definition   dtd
+              Link process definition    lpd
+
+       The value of the following  substitution  fields  will  be
+       null unless a valid formal public identifier was supplied.
+
+       %A     Null if the text identifier in  the  formal  public
+              identifier  contains an unavailable text indicator,
+              otherwise the empty string.
+
+       %C     The public text class, mapped to lower case.
+
+       %E     The  public  text  designating   sequence   (escape
+              sequence) if the public text class is CHARSET, oth-
+              erwise null.
+
+       %I     The empty string if the  owner  identifier  in  the
+              formal  public  identifier  is an ISO owner identi-
+              fier, otherwise null.
+
+       %L     The public text language,  mapped  to  lower  case,
+              unless  the  public text class is CHARSET, in which
+              case null.
+
+       %O     The owner identifier (with the +//  or  -//  prefix
+              stripped.)
+
+       %R     The  empty  string  if  the owner identifier in the
+              formal public  identifier  is  a  registered  owner
+              identifier, otherwise null.
+
+       %T     The public text description.
+
+       %U     The  empty  string  if  the owner identifier in the
+              formal public identifier is an  unregistered  owner
+              identifier, otherwise null.
+
+       %V     The public text display version.  This substitution
+              will be null if the  public  text  class  does  not
+              allow a display version or if no version was speci-
+              fied.  If an empty version was specified,  a  value
+              of default will be used.
+
+
+
+
+
+
+
+
+
+
+
+                                                                4
+
+
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+   System declaration
+       The system declaration for sgmls is as follows:
+
+                          SYSTEM "ISO 8879:1986"
+                                  CHARSET
+       BASESET  "ISO 646-1983//CHARSET
+                 International Reference Version (IRV)//ESC 2/5 4/0"
+       DESCSET  0 128 0
+       CAPACITY PUBLIC  "ISO 8879:1986//CAPACITY Reference//EN"
+                                 FEATURES
+       MINIMIZE DATATAG NO  OMITTAG  YES   RANK     NO  SHORTTAG YES
+       LINK     SIMPLE  NO  IMPLICIT NO    EXPLICIT NO
+       OTHER    CONCUR  NO  SUBDOC   YES 1 FORMAL   YES
+       SCOPE    DOCUMENT
+       SYNTAX   PUBLIC  "ISO 8879:1986//SYNTAX Reference//EN"
+       SYNTAX   PUBLIC  "ISO 8879:1986//SYNTAX Core//EN"
+                                 VALIDATE
+                GENERAL YES MODEL    YES   EXCLUDE  YES CAPACITY YES
+                NONSGML YES SGML     YES   FORMAL   YES
+                                   SDIF
+                PACK    NO  UNPACK   NO
+
+       The  memory usage of sgmls is not a function of the capac-
+       ity points used by a document; however, sgmls  can  handle
+       capacities significantly greater than the reference capac-
+       ity set.
+
+       In some environments, higher values may be  supported  for
+       the SUBDOC parameter.
+
+       Documents  that do not use optional features are also sup-
+       ported.  For example, if FORMAL NO  is  specified  in  the
+       SGML  declaration, public identifiers will not be required
+       to be valid formal public identifiers.
+
+       Certain parts of the concrete syntax may be changed:
+
+              The shunned character numbers can be changed.
+
+              Eight bit characters can be assigned  to  LCNMSTRT,
+              UCNMSTRT,  LCNMCHAR  and  UCNMCHAR.  Declaring this
+              requires that the syntax reference character set be
+              declared like this:
+                     BASESET   "ISO Registration Number 100//CHARSET
+                                ECMA-94 Right Part of Latin Alphabet Nr. 1//ESC 2/13 4/1"
+                     DESCSET   0 256 0
+
+              Uppercase substitution can be performed or not per-
+              formed both for entity names and for other names.
+
+              Either short reference delimiters assigned  by  the
+              reference  delimiter  set  or  no  short  reference
+              delimiters are supported.
+
+
+
+
+                                                                5
+
+
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+              The reserved names can be changed.
+
+              The quantity set can be  increased  within  certain
+              limits  subject  to  there  being sufficient memory
+              available.  The upper limit on NAMELEN is 239.  The
+              upper  limits on ATTCNT, ATTSPLEN, BSEQLEN, ENTLVL,
+              LITLEN, PILEN, TAGLEN, and  TAGLVL  are  more  than
+              thirty  times  greater  than  the reference limits.
+              The upper limit on GRPCNT, GRPGTCNT, and GRPLVL  is
+              253.   NORMSEP  cannot  be  changed.   DTAGLEN  are
+              DTEMPLEN irrelevant since sgmls  does  not  support
+              the DATATAG feature.
+
+   SGML declaration
+       The  SGML declaration may be omitted, the following decla-
+       ration will be implied:
+                             <!SGML "ISO 8879:1986"
+                                     CHARSET
+       BASESET  "ISO 646-1983//CHARSET
+                 International Reference Version (IRV)//ESC 2/5 4/0"
+       DESCSET    0  9 UNUSED
+                  9  2  9
+                 11  2 UNUSED
+                 13  1 13
+                 14 18 UNUSED
+                 32 95 32
+                127  1 UNUSED
+       CAPACITY PUBLIC  "ISO 8879:1986//CAPACITY Reference//EN"
+       SCOPE    DOCUMENT
+       SYNTAX   PUBLIC  "ISO 8879:1986//SYNTAX Reference//EN"
+                                    FEATURES
+       MINIMIZE DATATAG NO OMITTAG  YES          RANK     NO  SHORTTAG YES
+       LINK     SIMPLE  NO IMPLICIT NO           EXPLICIT NO
+       OTHER    CONCUR  NO SUBDOC   YES 99999999 FORMAL   YES
+                                  APPINFO NONE>
+       with the exception that characters 128 through 254 will be
+       assigned  to  DATACHAR.  When exporting documents that use
+       characters in this range, an accurate description  of  the
+       upper  half  of the document character set should be added
+       to this declaration.   For  ISO  Latin-1,  an  appropriate
+       description would be:
+       BASESET   "ISO Registration Number 100//CHARSET
+                  ECMA-94 Right Part of Latin Alphabet Nr. 1//ESC 2/13 4/1"
+       DESCSET   128 32 UNUSED
+                 160 95 32
+                 255  1 UNUSED
+
+   Output format
+       The output is a series of lines.  Lines can be arbitrarily
+       long.  Each line consists of an initial command  character
+       and  one  or more arguments.  Arguments are separated by a
+       single space, but when a command takes a fixed  number  of
+       arguments  the last argument can contain spaces.  There is
+       no space between  the  command  character  and  the  first
+
+
+
+                                                                6
+
+
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+       argument.   Arguments  can  contain  the  following escape
+       sequences.
+
+       \\     A \.
+
+       \n     A record end character.
+
+       \|     Internal SDATA entities are bracketed by these.
+
+       \nnn   The character whose code is nnn octal.
+
+       A record start character  will  be  represented  by  \012.
+       Most  applications  will need to ignore \012 and translate
+       \n into newline.
+
+       The possible command characters and arguments are as  fol-
+       lows:
+
+       (gi    The start of an element whose generic identifier is
+              gi.  Any attributes for this element will have been
+              specified with A commands.
+
+       )gi    The  end an element whose generic identifier is gi.
+
+       -data  Data.
+
+       &name  A reference to an external data entity  name;  name
+              will have been defined using an E command.
+
+       ?pi    A processing instruction with data pi.
+
+       Aname val
+              The  next  element  to  start has an attribute name
+              with value val which takes  one  of  the  following
+              forms:
+
+              IMPLIED
+                     The value of the attribute is implied.
+
+              CDATA data
+                     The  attribute  is  character data.  This is
+                     used for attributes whose declared value  is
+                     CDATA.
+
+              NOTATION nname
+                     The attribute is a notation name; nname will
+                     have been defined using a N  command.   This
+                     is  used for attributes whose declared value
+                     is NOTATION.
+
+              ENTITY name...
+                     The attribute is a list  of  general  entity
+                     names.   Each  entity  name  will  have been
+                     defined using an I, E or S command.  This is
+
+
+
+                                                                7
+
+
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+                     used  for attributes whose declared value is
+                     ENTITY or ENTITIES.
+
+              TOKEN token...
+                     The attribute is a list of tokens.  This  is
+                     used  for attributes whose declared value is
+                     anything else.
+
+       Dename name val
+              This is the same as the A command, except  that  it
+              specifies  a  data attribute for an external entity
+              named ename.  Any D commands will come after the  E
+              command  that  defines  the  entity  to  which they
+              apply, but before any & or A commands  that  refer-
+              ence the entity.
+
+       Nnname nname.  Define a notation This command will be pre-
+              ceded by a p command if the notation  was  declared
+              with a public identifier, and by a s command if the
+              notation was declared with a system identifier.   A
+              notation will only be defined if it is to be refer-
+              enced in an E command or in an  A  command  for  an
+              attribute with a declared value of NOTATION.
+
+       Eename typ nname
+              Define  an  external  data  entity named ename with
+              type typ (CDATA, NDATA or SDATA) and notation  not.
+              This command will be preceded by one or more f com-
+              mands giving the filenames generated by the  entity
+              manager  from the system and public identifiers, by
+              a p command if a public identifier was declared for
+              the  entity, and by a s command if a system identi-
+              fier was declared for the entity.   not  will  have
+              been  defined  using  a N command.  Data attributes
+              may be specified for the entity using  D  commands.
+              An  external data entity will only be defined if it
+              is to be referenced in a & command or in an A  com-
+              mand  for  an  attribute  whose  declared  value is
+              ENTITY or ENTITIES.
+
+       Iename typ text
+              Define an internal data  entity  named  ename  with
+              type typ (CDATA or SDATA) and entity text text.  An
+              internal data entity will only be defined if it  is
+              referenced  in  an A command for an attribute whose
+              declared value is ENTITY or ENTITIES.
+
+       Sename Define a subdocument entity named ename.  This com-
+              mand  will  be  preceded  by one or more f commands
+              giving the filenames generated by the  entity  man-
+              ager from the system and public identifiers, by a p
+              command if a public identifier was declared for the
+              entity,  and  by a s command if a system identifier
+              was declared for the entity.  A subdocument  entity
+
+
+
+                                                                8
+
+
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+              will  only  be  defined  if it is referenced in a {
+              command or in an A command for an  attribute  whose
+              declared value is ENTITY or ENTITIES.
+
+       ssysid This  command applies to the next E, S or N command
+              and specifies the associated system identifier.
+
+       ppubid This command applies to the next E, S or N  command
+              and specifies the associated public identifier.
+
+       ffilename
+              This command applies to the next E or S command and
+              specifies an associated filename.   There  will  be
+              more than one f command for a single E or S command
+              if the system identifier used a colon.
+
+       {ename The start of the  SGML  subdocument  entity  ename;
+              ename will have been defined using a S command.
+
+       }ename The end of the SGML subdocument entity ename.
+
+       Llineno file
+       Llineno
+              Set  the  current  line  number  and filename.  The
+              filename argument will be omitted if only the  line
+              number  has  changed.   This will be output only if
+              the -l option has been given.
+
+       #text  An APPINFO parameter of text was specified  in  the
+              SGML declaration.  This is not strictly part of the
+              ESIS, but  a  structure-controlled  application  is
+              permitted  to act on it.  No # command will be out-
+              put if APPINFO NONE was  specified.   A  #  command
+              will  occur  at most once, and may be preceded only
+              by a single L command.
+
+       C      This command indicates that the document was a con-
+              forming  SGML document.  If this command is output,
+              it will be the last command.  An SGML  document  is
+              not  conforming  if  it  references  a  subdocument
+              entity that is not conforming.
+
+BUGS
+       Some non-SGML characters in literals are  counted  as  two
+       characters  for the purposes of quantity and capacity cal-
+       culations.
+
+SEE ALSO
+       The SGML Handbook, Charles F. Goldfarb
+       ISO 8879 (Standard Generalized Markup Language),  Interna-
+       tional Organization for Standardization
+
+ORIGIN
+       ARCSGML was written by Charles F. Goldfarb.
+
+
+
+                                                                9
+
+
+
+
+
+SGMLS(1)                                                 SGMLS(1)
+
+
+       Sgmls   was   derived   from   ARCSGML   by   James  Clark
+       (jjc@jclark.com), to whom bugs should be reported.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               10
+
+

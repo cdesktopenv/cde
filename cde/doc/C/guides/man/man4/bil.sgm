@@ -1,0 +1,388 @@
+<!-- $XConsortium: bil.sgm /main/7 1996/09/08 20:16:53 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMX.MAN77.rsml.1">
+<RefMeta>
+<RefEntryTitle>BIL</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>BIL</Filename></RefName>
+<RefPurpose>Builder Interface Language for the CDE Application Builder
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Synopsis><Literal>:bil-version</Literal> <Emphasis>major minor</Emphasis>
+<Literal>:project</Literal> <Emphasis>project_name</Emphasis>
+<Literal>(</Literal>
+        <Emphasis>project_attributes</Emphasis>
+[<Literal>:connection</Literal>
+<Literal>(</Literal>
+        <Emphasis>connection_attributes</Emphasis>
+<Literal>)</Literal>]
+<Literal>)</Literal>
+<Literal>:module</Literal> <Symbol Role="Variable">module_name</Symbol>
+<Literal>(</Literal>
+<Literal>:element</Literal> <Emphasis>element_name</Emphasis>
+<Literal>(</Literal>
+        <Emphasis>element_attributes</Emphasis>
+        [<Emphasis>children</Emphasis>]
+<Literal>)</Literal>
+[<Literal>:connection</Literal>
+<Literal>(</Literal>
+        <Emphasis>connection_attributes</Emphasis>
+<Literal>)</Literal>]
+<Literal>)</Literal>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>BIL, the Builder Interface Language, is a specialized representation syntax
+designed to meet the intermediate storage requirements of the CDE
+Application Builder.
+It describes the overall attributes of the application (also known as a
+"project"), the modules that it contains, the elements that
+comprise modules, and the behavioral relationships between objects
+("connections").
+</Para>
+<Para>BIL is not a compiled language.
+It is read and written as data by the CDE Application Builder and its
+associated code generator.
+Even so, the format of BIL is printable ASCII characters with a
+"human readable" nature, making it possible for users to examine
+the contents of a BIL-formatted file and to process a BIL file
+using simple ASCII string-oriented tools and techniques.
+</Para>
+<Para>Two distinct types of BIL files are recognized by the CDE Application
+Builder.
+One type is known as a
+<Emphasis>project file</Emphasis>, and is used to describe overall attributes of the project (application)
+as well as identify the modules that comprise it.
+It will also contain any cross-module information, such as connections
+that bind together objects in different modules.
+</Para>
+<Para>A second type of BIL file exists for each module and is known as a
+<Emphasis>module file</Emphasis>. It contains all module-specific information, including definition of
+the elements that comprise the module and connections that exist within
+it.
+</Para>
+<Para>BIL is structured in an object-oriented fashion.
+Objects are defined and named, and sets of parenthesis are used to
+enclose declarations of all the object's attributes.
+Object types recognized by BIL include project, module, element
+and connection.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>:bil-version major minor</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Version information is useful to the CDE Application Builder and
+code generators in determining how to handle BIL files that may
+date from earlier releases.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>:project project_name</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The
+<Literal>:project</Literal> directive names the project (application).
+It encloses a declaration of <Emphasis>project_attributes</Emphasis>
+as well as a list of any cross-module <Emphasis>connections</Emphasis>
+that may exist within the project.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>:module module_name</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The
+<Literal>:module</Literal> directive names a module.
+It encloses a declaration of all <Symbol Role="Variable">elements</Symbol> that comprise the
+module as well as a list of any <Emphasis>connections</Emphasis>
+that may exist within the module.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>:element element_name</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The
+<Literal>:element</Literal> directive names an element.
+It encloses a declaration of all <Emphasis>element_attributes</Emphasis>,
+including a list of any <Emphasis>children</Emphasis> that may be part of the
+element.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>:connection</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The
+<Literal>:connection</Literal> directive names a connection and
+specifies its attributes.
+It can occur as part of a
+<Emphasis>project</Emphasis> or a
+<Symbol Role="Variable">module</Symbol>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>:children</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The
+<Literal>:children</Literal> directive appears as an attribute of any
+element which contains ("parents") other
+elements.
+It encloses a list of all child elements,
+referencing each by its element name.
+</Para>
+<Para>Project, element and connection attributes take the form:
+<Literal>:</Literal><Emphasis>attribute_name</Emphasis> <Emphasis>attribute_value</Emphasis>
+Where <Emphasis>attribute_name</Emphasis> is an attribute appropriate for the project,
+element or connection, and <Emphasis>attribute_value</Emphasis> is typed according to the
+attribute.
+Attribute types include integer, string, object name, and keyword, where
+the keyword is one of a fixed list used by BIL to identify specific
+data values (e.g. :true, :none).
+Some attribute values are ordered N-tuples, in which case the
+complete set is enclosed in parentheses.
+</Para>
+<Para>Comments may be placed in a BIL file by starting a line with two slashes (//).
+Any comments that occur in a BIL file prior to the
+<Literal>:bil-version</Literal> line will be preserved by the
+CDE Application Builder
+across successive updates to the file.
+Comments that occur after the
+<Literal>:bil-version</Literal> line will not be retained.
+<!--- --><!--- --><!--- "RETURN VALUE"--><!--- This section indicates the possible return values, if any.--><!--- If the implementation can detect errors, "Successful completion" means--><!--- that no error has been detected during execution of the function.  If --><!--- the implementation does detect an error, the error indicated.--><!--- For functions where no errors are defined, "Successful completion" --><!--- means that if the implementation checks for errors, no error has been--><!--- detected.  If the implementation can detect errors, and an error is--><!--- detected, the indicated return value is returned and errno may be set.--><!--- Use .Cn on a single line to produce a constant font.  For example:--><!--- --><!--- .SH "RETURN VALUE"--><!--- Upon successful completion,--><!--- .Fn data or file_ format_name--><!--- returns--><!--- .Cn TRUE--><!--- if such and such has been correctly initialized;--><!--- otherwise, it returns--><!--- .Cn FALSE--><!--- --><!--- When writing, use active voice.  For example:--><!--- --><!--- Do not say:  When such and such happens, minus one is returned.  --><!--- Do say:  When such and such happens, the foo function returns minus one.--><!--- --></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>None.
+<!--- --><!--- ERRORS--><!--- Errors are shown under the RETURN VALUES heading.--><!--- --><!--- --><!--- EXAMPLES--><!--- This section gives examples of usage, where appropriate.--><!--- --></Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following is an example of a project file:
+</para>
+<programlisting>
+:bil-version    1 0
+:project todotool
+(
+    :files      (main_window.bil task_dialog.bil)
+
+:connection
+(
+    :from       main_window.add_item_btn
+    :to task_dialog.task_dialog
+    :when       :activate
+    :action-type        :builtin
+    :action     :show
+    :arg-type   :void
+)
+)
+</programlisting>
+<Para>A typical module file would contain:
+</para>
+<programlisting>
+:bil-version    1 0
+:module task_dialog
+(
+
+:element        task_dialog
+(
+    :type       :dialog
+    :x  649
+    :y  499
+    :width      354
+    :height     57
+    :bg-color   "white"
+    :label      "Adding a New Task"
+    :resizable  :true
+    :has-footer :false
+    :visible    :false
+    :children   (
+        ctrl_panel
+        activate_panel)
+)
+:element        ctrl_panel
+(
+    :type       :container
+    :container-type     :relative
+    :x  0
+    :y  0
+    :width      354
+    :height     57
+    :visible    :true
+    :border-frame       :none
+    :north-attachment   (:obj task_dialog 0)
+    :south-attachment   (:obj task_dialog 0)
+    :east-attachment    (:obj task_dialog 0)
+    :west-attachment    (:point 0 0)
+    :children   (
+        task)
+)
+:element        task
+(
+    :type       :text-field
+    :text-type  :alphanumeric
+    :x  28
+    :y  6
+    :width      -1
+    :height     -1
+    :border-frame       :none
+    :label-type :string
+    :label      "Task:"
+    :label-position     :west
+    :num-columns        32
+    :max-length 80
+    :read-only  :false
+    :active     :true
+    :visible    :true
+    :north-attachment   (:point 0 6)
+    :south-attachment   (:none 0 0)
+    :east-attachment    (:none 0 0)
+    :west-attachment    (:point 0 28)
+)
+:element        activate_panel
+(
+    :type       :container
+    :container-type     :activate
+    :x  -1
+    :y  -1
+    :width      -1
+    :height     -1
+    :visible    :true
+    :border-frame       :etched-in
+    :children   (
+        ok_button
+        cancel_button
+        help_button)
+)
+:element        ok_button
+(
+    :type       :button
+    :button-type        :push-button
+    :x  -1
+    :y  -1
+    :width      -1
+    :height     -1
+    :border-frame       :none
+    :label-type :string
+    :label-alignment    :center
+    :label      "OK"
+    :active     :true
+    :visible    :true
+    :north-attachment   (:grid-line 5 0)
+    :south-attachment   (:grid-line 95 0)
+    :east-attachment    (:grid-line 30 0)
+    :west-attachment    (:grid-line 10 0)
+)
+:element        cancel_button
+(
+    :type       :button
+    :button-type        :push-button
+    :x  -1
+    :y  -1
+    :width      -1
+    :height     -1
+    :border-frame       :none
+    :label-type :string
+    :label-alignment    :center
+    :label      "Cancel"
+    :active     :true
+    :visible    :true
+    :north-attachment   (:grid-line 5 0)
+    :south-attachment   (:grid-line 95 0)
+    :east-attachment    (:grid-line 60 0)
+    :west-attachment    (:grid-line 40 0)
+)
+:element        help_button
+(
+    :type       :button
+    :button-type        :push-button
+    :x  -1
+    :y  -1
+    :width      -1
+    :height     -1
+    :border-frame       :none
+    :label-type :string
+    :label-alignment    :center
+    :label      "Help"
+    :active     :true
+    :visible    :true
+    :north-attachment   (:grid-line 5 0)
+    :south-attachment   (:grid-line 95 0)
+    :east-attachment    (:grid-line 90 0)
+    :west-attachment    (:grid-line 70 0)
+)
+:connection
+(
+    :from       ok_button
+    :to task_dialog
+    :when       :activate
+    :action-type        :builtin
+    :action     :hide
+    :arg-type   :void
+)
+:connection
+(
+    :from       cancel_button
+    :to task_dialog
+    :when       :activate
+    :action-type        :builtin
+    :action     :hide
+    :arg-type   :void
+)
+:connection
+(
+    :from       ok_button
+    :when       :create
+    :action-type        :call-function
+    :action     confirm_taskCB
+    :arg-type   :void
+)
+:connection
+(
+    :from       cancel_button
+    :when       :create
+    :action-type        :call-function
+    :action     cancel_taskCB
+    :arg-type   :void
+)
+)
+</programlisting>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>Applications and application developers typically do not work
+directly with BIL files, instead using them indirectly through
+the CDE Application Builder.
+It may, however, be useful for them to understand the layout and
+scope of BIL to satisfy particular application development needs
+(e.g. to add specialized comments to BIL files or to examine them
+to examine useful information (such as help text built-into a
+application)).
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtbuilder; &cdeman.dtcodegen;
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

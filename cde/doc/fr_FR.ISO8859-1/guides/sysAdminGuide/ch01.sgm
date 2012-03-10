@@ -1,0 +1,1165 @@
+<!-- $XConsortium: ch01.sgm /main/13 1996/12/21 18:56:02 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.LogMg.div.1">
+<title id="SAG.LogMg.mkr.1">Configuration du Gestionnaire de connexion</title>
+<para><indexterm><primary>Gestionnaire de connexion</primary></indexterm><indexterm>
+<primary>Gestionnaire de connexion</primary><secondary>d&eacute;finition</secondary>
+</indexterm>Le Gestionnaire de connexion est le serveur<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>affichage de
+l'&eacute;cran de connexion</tertiary></indexterm> qui permet l'affichage
+de l'&eacute;cran de connexion, l'identification des utilisateurs<indexterm>
+<primary>Serveur</primary><secondary>de connexion</secondary><tertiary>identification
+des utilisateurs</tertiary></indexterm> et le lancement des sessions<indexterm>
+<primary>Serveur</primary><secondary>de connexion</secondary><tertiary>lancement
+d'une session</tertiary></indexterm>. Sur les &eacute;crans graphiques, la
+fen&ecirc;tre de connexion repr&eacute;sente une variante plus conviviale
+de la connexion habituelle en mode caract&egrave;re. Les &eacute;crans g&eacute;r&eacute;s
+par le serveur de connexion peuvent &ecirc;tre connect&eacute;s soit directement
+&agrave; ce dernier,<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>connexion d'&eacute;crans</tertiary></indexterm> soit
+&agrave; un terminal X ou &agrave; une station de travail du r&eacute;seau.
+</para>
+<note>
+<para>Seul l'utilisateur root peut lancer, arr&ecirc;ter ou personnaliser
+le serveur de connexion.</para>
+</note>
+<informaltable id="SAG.LogMg.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Lancement
+du serveur de connexion2'--><xref role="JumpText" linkend="SAG.LogMg.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Gestion
+des écrans locaux et éloignés3'--><xref role="JumpText" linkend="SAG.LogMg.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Consignation
+des erreurs10'--><xref role="JumpText" linkend="SAG.LogMg.mkr.7"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Arrêt du
+serveur de connexion11'--><xref role="JumpText" linkend="SAG.LogMg.mkr.8"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Modification
+de la présentation de la fenêtre de connexion13'--><xref role="JumpText" linkend="SAG.LogMg.mkr.11"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Administration
+du Gestionnaire de connexion21'--><xref role="JumpText" linkend="SAG.LogMg.mkr.13"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Fichiers
+du Gestionnaire de connexion23'--><xref role="JumpText" linkend="SAG.LogMg.mkr.14"></para></entry>
+</row></tbody></tgroup></informaltable>
+<para id="SAG.LogMg.mkr.2"><indexterm><primary>Gestionnaire de connexion</primary>
+<secondary>personnalisation</secondary></indexterm></para>
+<para>Le serveur de connexion peut effectuer les op&eacute;rations suivantes<indexterm>
+<primary>Serveur</primary><secondary>de connexion</secondary><tertiary>g&eacute;n&eacute;ralit&eacute;s</tertiary></indexterm>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>affichage d'une fen&ecirc;tre de connexion sur les &eacute;crans
+graphiques (locaux ou &eacute;loign&eacute;s), automatiquement ou sur demande
+</para>
+</listitem>
+<listitem><para>prise en charge des terminaux &agrave; caract&egrave;res en
+connexion directe</para>
+</listitem>
+<listitem><para>affichage d'un &eacute;cran permettant aux utilisateurs de
+s&eacute;lectionner les fen&ecirc;tres de connexion provenant d'autres serveurs
+du r&eacute;seau</para>
+</listitem>
+<listitem><para>contr&ocirc;le de l'acc&egrave;s &agrave; ce serveur de connexion
+</para>
+</listitem>
+<listitem><para>affichage de l'invite traditionnelle de connexion en mode
+caract&egrave;re</para>
+</listitem>
+</itemizedlist>
+<para>Les &eacute;crans g&eacute;r&eacute;s par le Gestionnaire de connexion
+peuvent &ecirc;tre connect&eacute;s soit directement au serveur sur lequel
+il s'ex&eacute;cute, soit &agrave; un terminal X ou &agrave; une station de
+travail du r&eacute;seau. Sur les &eacute;crans locaux, le serveur de connexion
+lance automatiquement un serveur X et affiche une fen&ecirc;tre de connexion.
+Dans le cas des &eacute;crans &eacute;loign&eacute;s, tels que les terminaux
+X, il supporte le protocole XDMCP (X Display Manager Protocol),<indexterm>
+<primary>XDMCP</primary></indexterm> version 1.0, qui permet aux &eacute;crans
+de demander l'affichage de la fen&ecirc;tre de connexion.</para>
+<sect1 id="SAG.LogMg.div.2">
+<title id="SAG.LogMg.mkr.3">Lancement du serveur de connexion</title>
+<para>G&eacute;n&eacute;ralement,<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>lancement</tertiary></indexterm> le serveur
+de connexion est lanc&eacute; &agrave; l'amor&ccedil;age du syst&egrave;me.
+Vous pouvez cependant<indexterm><primary>de connexion</primary><secondary>lancement &agrave; partir de la ligne de commande</secondary></indexterm> le
+lancer &agrave; partir de la ligne de commande.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pour effectuer le lancement &agrave; l'amor&ccedil;age du
+syst&egrave;me, tapez <command>/usr/dt/bin/dtconfig -e</command></para>
+<para>Le serveur de connexion d&eacute;marrera automatiquement au prochain
+lancement du syst&egrave;me.</para>
+</listitem>
+<listitem><para>Pour lancer le serveur de connexion &agrave; partir de la
+ligne de commande, tapez <command>/usr/dt/bin/dtlogin -daemon</command></para>
+</listitem>
+</itemizedlist>
+<note>
+<para>N'utilisez le lancement &agrave; partir de la ligne de commande qu'&agrave;
+des fins de test de la configuration. En mode de fonctionnement normal, choisissez
+le lancement &agrave; l'amor&ccedil;age.</para>
+</note>
+</sect1>
+<sect1 id="SAG.LogMg.div.3">
+<title id="SAG.LogMg.mkr.4">Gestion des &eacute;crans locaux et &eacute;loign&eacute;s</title>
+<para>La <!--Original XRef content: 'Figure&numsp;1&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.LogMg.mkr.5"> montre un exemple de configuration du serveur de connexion.
+</para>
+<figure>
+<title id="SAG.LogMg.mkr.5">Configuration type du serveur de connexion<indexterm>
+<primary>Terminaux X</primary><secondary>configuration du serveur de connexion</secondary></indexterm></title>
+<graphic id="SAG.LogMg.grph.1" entityref="SAG.LogMg.fig.1"></graphic>
+</figure>
+<sect2 id="SAG.LogMg.div.4">
+<title>Recherche de l'ID processus<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>ID processus</tertiary></indexterm> du serveur
+de connexion</title>
+<para>Par d&eacute;faut, l'ID processus du serveur de connexion est m&eacute;moris&eacute;
+dans le fichier <filename>/var/dt/Xpid</filename>.<indexterm><primary>Fichiers</primary><secondary>Xpid</secondary></indexterm></para>
+<para>Pour modifier son emplacement, utilisez la ressource <filename>Dtlogin.pidFile</filename> du fichier <filename>Xconfig</filename>.<indexterm><primary>Fichiers</primary><secondary>Xconfig</secondary></indexterm> Le r&eacute;pertoire
+indiqu&eacute; doit exister au lancement du serveur de connexion.</para>
+<para>Pour &eacute;diter le fichier <filename>Xconfig</filename>, copiez-le
+de <filename>/usr/dt/config</filename> dans <filename>/etc/dt/config</filename> <literal>.</literal> Une fois la modification effectu&eacute;e (dans <filename>/etc/dt/config/Xconfig</filename>), entrez la commande suivante pour que le serveur de connexion
+relise <filename>Xconfig</filename>:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Cette op&eacute;ration lance la commande <command>kill -HUP</command> <symbol role="Variable">ID_processus_serveur_connexion.</symbol></para>
+<para>Par exemple, pour placer l'ID processus du serveur de connexion dans <filename>/var/mes_serveurs/Dtpid</filename>, d&eacute;finissez le param&egrave;tre
+suivant dans le fichier <filename>Xconfig</filename>:</para>
+<programlisting>Dtlogin.pidFile: /var/mes_serveurs/Dtpid</programlisting>
+<para>Au prochain lancement du serveur de connexion, son ID processus sera
+plac&eacute; dans <filename>/var/mes_serveurs/Dtpid</filename><indexterm>
+<primary>Fichiers</primary><secondary>Dtpid</secondary></indexterm> (le r&eacute;pertoire <filename>/var/mes_serveurs</filename> doit exister lors du red&eacute;marrage du serveur
+de connexion).</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.5">
+<title>Affichage d'une fen&ecirc;tre de connexion sur un &eacute;cran local</title>
+<para>Au lancement, le serveur de connexion v&eacute;rifie dans le fichier <filename>Xservers</filename><indexterm><primary>Fichiers</primary><secondary>Xservers</secondary></indexterm> si un serveur X doit &ecirc;tre lanc&eacute; localement.
+Il d&eacute;termine &eacute;galement le nombre et le type des fen&ecirc;tres
+de connexion &agrave; afficher sur des &eacute;crans locaux ou &eacute;loign&eacute;s.
+</para>
+<para>Pour modifier le fichier <filename>Xservers</filename>, copiez-le de <filename>/usr/dt/config</filename> dans <filename>/etc/dt/config</filename>. Une fois
+la modification effectu&eacute;e (dans <filename>/etc/dt/config/Xservers</filename>),
+entrez la commande suivante pour que le serveur de connexion relise <filename>Xservers</filename>:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Cette op&eacute;ration lance la commande <command>kill -HUP</command> <symbol role="Variable">ID_processus_serveur_connexion.</symbol></para>
+<para>Le format des lignes du fichier <filename>Xservers</filename> est le
+suivant:</para>
+<programlisting>nom_&eacute;cran classe_&eacute;cran type_&eacute;cran commande_serveur_X 
+</programlisting>
+<para>o&ugrave;</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="138*">
+<colspec colwidth="318*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">nom_&eacute;cran</symbol></para></entry>
+<entry align="left" valign="top"><para>Indique au serveur de connexion le
+nom &agrave; utiliser lors de l'acc&egrave;s au serveur X (dans l'exemple
+ci-dessous, :0). Si vous entrez un ast&eacute;risque, la valeur <symbol role="Variable">nom_h&ocirc;te</symbol>:0 est prise en compte. Le num&eacute;ro indiqu&eacute;
+doit correspondre &agrave; celui de <symbol role="Variable">commande_serveur_X</symbol>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">classe_&eacute;cran</symbol></para></entry>
+<entry align="left" valign="top"><para>Identifie les ressources sp&eacute;cifiques
+de l'&eacute;cran (<command>Local</command> dans l'exemple qui suit).</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">type_&eacute;cran</symbol></para></entry>
+<entry align="left" valign="top"><para>Indique au serveur de connexion si
+l'&eacute;cran est local ou &eacute;loign&eacute;, et d&eacute;finit le mode
+de traitement de l'option Connexion &agrave; partir de la ligne de commande
+de l'&eacute;cran de connexion (<filename>local@console</filename> dans l'exemple
+suivant).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">commande_serveur_X</symbol></para></entry>
+<entry align="left" valign="top"><para>D&eacute;finit la commande, le num&eacute;ro
+de connexion et les autres options utilis&eacute;es par le serveur de connexion
+pour lancer le serveur X (<filename>/usr/bin/X11/X:</filename> <filename>0</filename> dans l'exemple ci-dessous). Le num&eacute;ro de connexion indiqu&eacute;
+doit correspondre &agrave; celui de <symbol role="Variable">nom_&eacute;cran</symbol>. Lorsque des applications graphiques 3D doivent &ecirc;tre affich&eacute;es
+dans l'environnement CDE sur l'&eacute;cran local, il est n&eacute;cessaire
+d'ajouter ici les options ad&eacute;quates du serveur X (par exemple, <computeroutput>-xmbx -xabx -x...</computeroutput>). Pour plus de d&eacute;tails, reportez-vous
+&agrave; la description de la commande X.</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>Par d&eacute;faut, les lignes du fichiers <filename>Xservers</filename>
+ont le format suivant:</para>
+<programlisting>:0 Local local@console /usr/bin/X11/X :0</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.6">
+<title>Lancement du serveur de connexion sans &eacute;cran local<indexterm>
+<primary>Ecran graphique en mode point</primary><secondary>lancement du serveur
+de connexion</secondary></indexterm></title>
+<para>Si le syst&egrave;me sur lequel s'ex&eacute;cute le serveur de connexion
+ne dispose pas d'un<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>sans &eacute;cran graphique en mode point</tertiary>
+</indexterm> &eacute;cran graphique, lancez le serveur de connexion sans &eacute;cran
+local.<indexterm><primary>Serveur</primary><secondary>de connexion</secondary>
+<tertiary>lancement sans &eacute;cran local</tertiary></indexterm> Pour ce
+faire, mettez en commentaire la ligne du fichier <filename>Xservers</filename><indexterm>
+<primary>Fichier</primary><secondary>Xservers</secondary><tertiary>par d&eacute;faut</tertiary></indexterm> associ&eacute;e &agrave; l'&eacute;cran local, en
+la faisant pr&eacute;c&eacute;der du signe di&egrave;se (<filename>#</filename>).
+Par exemple:</para>
+<programlisting># :0 Local local@console /usr/bin/X11/X :0</programlisting>
+<para>Une fois lanc&eacute;, le serveur de connexion s'ex&eacute;cute en arri&egrave;re-plan,
+attendant les requ&ecirc;tes &eacute;mises par les &eacute;crans du r&eacute;seau.
+</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.7">
+<title>Connexion &agrave; partir de la ligne de commande sur un &eacute;cran
+local</title>
+<para>Lorsque l'utilisateur s&eacute;lectionne &ldquo;Connexion &agrave; partir
+de la ligne de commande&rdquo;<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>connexion &agrave; partir de la ligne de
+commande</tertiary></indexterm> dans le menu &ldquo;Options&rdquo; de la fen&ecirc;tre
+de connexion, le serveur de connexion arr&ecirc;te provisoirement le serveur
+X local et l'invite de connexion en mode caract&egrave;res s'affiche. Le serveur
+X est relanc&eacute; lorsque la connexion prend fin ou au terme d'un d&eacute;lai
+donn&eacute;.</para>
+<note>
+<para>L'option<indexterm><primary>Connexion &agrave; partir de la ligne de
+commande</primary></indexterm> &ldquo;Connexion &agrave; partir de la ligne
+de commande&rdquo; n'est pas disponible sur les &eacute;crans en r&eacute;seau.
+</para>
+</note>
+<para>Le param&egrave;tre <symbol role="Variable">type_&eacute;cran</symbol>
+d&eacute;finit le type de connexion. Son format est le suivant:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>local@</filename><symbol role="Variable">&eacute;cran</symbol></para>
+</listitem>
+<listitem><para><command><indexterm><primary>Type d'&eacute;cran</primary>
+<secondary>local</secondary></indexterm>local</command></para>
+</listitem>
+<listitem><para><command><indexterm><primary>Type d'&eacute;cran</primary>
+<secondary>foreign</secondary></indexterm>foreign</command></para>
+</listitem>
+</itemizedlist>
+<para>Lorsque <command>local@</command><symbol role="Variable">&eacute;cran</symbol> est indiqu&eacute;, le serveur de connexion consid&egrave;re que
+le serveur X et <filename>/dev/</filename><symbol role="Variable">&eacute;cran</symbol> r&eacute;sident sur la m&ecirc;me unit&eacute; physique, sur laquelle
+une connexion &agrave; partir de la ligne de commande (g&eacute;n&eacute;ralement, <command>getty</command>) s'ex&eacute;cute. Lorsque l'utilisateur s&eacute;lectionne
+Connexion &agrave; partir de la ligne de commande, le serveur X est arr&ecirc;t&eacute;,
+ce qui autorise l'acc&egrave;s &agrave; la proc&eacute;dure de connexion &agrave;
+partir de la ligne de commande (<command>getty</command>) en cours sur <filename>/dev/</filename><symbol role="Variable">&eacute;cran</symbol>.</para>
+<para>Pour d&eacute;sactiver l'option de connexion &agrave; partir de la ligne
+de commande sur un &eacute;cran, indiquez la valeur <command>none</command>
+pour <symbol role="Variable">&eacute;cran</symbol> (la valeur par d&eacute;faut
+est <command>console</command>). Si vous indiquez <command>local</command>,
+la valeur par d&eacute;faut devient <command>console</command>. Si vous indiquez <command>foreign</command>, l'option de connexion &agrave; partir de la ligne de commande
+est d&eacute;sactiv&eacute;e.</para>
+<note>
+<para>La d&eacute;sactivation sera effective sur l'&eacute;cran local au prochain
+lancement du serveur de connexion &agrave; partir de la ligne de commande.
+</para>
+</note>
+</sect2>
+<sect2 id="SAG.LogMg.div.8">
+<title>Prise en charge d'une console &agrave; caract&egrave;res<indexterm>
+<primary>Console &agrave; caract&egrave;res</primary></indexterm></title>
+<para>Si le syst&egrave;me sur lequel s'ex&eacute;cute le serveur de connexion
+dispose d'une console de type terminal &agrave; caract&egrave;res<indexterm>
+<primary>Serveur</primary><secondary>de connexion</secondary><tertiary>console
+&agrave; caract&egrave;res</tertiary></indexterm>, connect&eacute;e directement
+au syst&egrave;me, vous pouvez &eacute;galement attribuer la valeur <command>none</command> au param&egrave;tre <symbol role="Variable">&eacute;cran</symbol>
+pour d&eacute;sactiver la connexion &agrave; partir de la ligne de commande
+sur l'&eacute;cran graphique.</para>
+<para>Si une connexion &agrave; partir de la ligne de commande (<command><indexterm>
+<primary>getty</primary></indexterm>getty</command>) est en cours &agrave;
+la fois sur le terminal &agrave; caract&egrave;res (utilis&eacute; comme console)
+et sur l'&eacute;cran graphique, vous pouvez attribuer &agrave; <symbol role="Variable">&eacute;cran</symbol> la valeur correspondant au terminal &agrave; caract&egrave;res
+utilis&eacute; comme console, pour l'associer &agrave; l'&eacute;cran graphique
+lors de la connexion &agrave; partir de la ligne de commande.</para>
+<para>Par exemple, si la connexion &agrave; partir de la ligne de commande
+(<command>getty</command>) est en cours sur l'&eacute;cran <filename>/dev/tty01</filename>, attribuez la valeur <computeroutput>local@tty01</computeroutput>
+&agrave; <symbol role="Variable">type_&eacute;cran</symbol>.</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.9">
+<title id="SAG.LogMg.mkr.6">Affichage d'un &eacute;cran de connexion<indexterm>
+<primary>Ecran de connexion</primary><secondary>affichage sur un &eacute;cran
+&eacute;loign&eacute;</secondary></indexterm> sur un &eacute;cran du r&eacute;seau</title>
+<para>Le serveur de connexion peut afficher un &eacute;cran de connexion sur
+tout &eacute;cran du r&eacute;seau (terminal X ou station de travail) qui
+en fait la demande.</para>
+<para>Pour g&eacute;rer ce type de requ&ecirc;te, le serveur de connexion
+utilise le protocole XDMCP (X Display Manager Protocol)<indexterm><primary>XDMCP</primary><secondary>d&eacute;finition</secondary></indexterm> version
+1.0, qui lui permet d'analyser les demandes, puis de les accepter ou de les
+rejeter. Sur la plupart des terminaux X, ce protocole est install&eacute;
+par d&eacute;faut.</para>
+<sect3 id="SAG.LogMg.div.10">
+<title>Requ&ecirc;tes XDMCP directe<indexterm><primary>XDMCP</primary><secondary>requ&ecirc;tes directes</secondary></indexterm>s<indexterm><primary>Terminaux
+X</primary><secondary>requ&ecirc;tes XDMCP</secondary></indexterm></title>
+<para>Lorsque vous configurez un terminal X pour qu'il utilise XDMCP en mode
+direct<indexterm><primary>XDMCP</primary><secondary>mode requ&ecirc;te</secondary>
+</indexterm> (requ&ecirc;te), vous lui indiquez le nom h&ocirc;te du syst&egrave;me
+sur lequel le serveur de connexion est install&eacute;. A l'amor&ccedil;age,
+le terminal X se connecte au serveur, qui affiche une fen&ecirc;tre de connexion
+sur le terminal X. Pour plus de d&eacute;tails sur cette configuration, reportez-vous
+&agrave; la documentation relative au terminal X.</para>
+<para>La plupart des serveurs X prennent &eacute;galement en charge l'option <command>-query</command><indexterm><primary>Option</primary><secondary>-query</secondary>
+</indexterm>. Dans ce mode, le serveur X se comporte comme un terminal X:
+il se connecte directement au serveur de connexion et demande l'affichage
+d'une fen&ecirc;tre de connexion. Par exemple, si vous lancez le serveur X
+sur un &eacute;cran graphique sur la station de travail <command>marina</command>
+et souhaitez que le serveur de connexion <command>nelly</command> affiche
+un &eacute;cran de connexion sur le serveur X, tapez la commande suivante
+:</para>
+<programlisting>X -query nelly</programlisting>
+</sect3>
+<sect3 id="SAG.LogMg.div.11">
+<title>Requ&ecirc;tes XDMCP indirecte<indexterm><primary>XDMCP</primary><secondary>requ&ecirc;tes indirectes</secondary></indexterm>s<indexterm><primary>Terminaux
+X</primary><secondary>requ&ecirc;tes XDMCP</secondary></indexterm></title>
+<para>Lorsque vous configurez un terminal X pour qu'il utilise XDMCP en mode
+indirect, vous lui indiquez le nom h&ocirc;te du syst&egrave;me sur lequel
+le serveur de connexion est install&eacute;. A l'amor&ccedil;age, le terminal
+X se connecte au serveur de connexion, qui affiche un &eacute;cran de s&eacute;lection
+contenant une liste des autres serveurs de connexion du r&eacute;seau. L'utilisateur
+peut alors choisir un h&ocirc;te qui affiche une fen&ecirc;tre de connexion
+sur son terminal X. Pour plus de d&eacute;tails sur cette configuration, reportez-vous
+&agrave; la documentation relative au terminal X.</para>
+<para>La plupart des serveurs X prennent en charge le mode <command>-indirect</command>,<indexterm><primary>Option</primary><secondary>-indirect</secondary>
+</indexterm> qui leur permet de se connecter au serveur de connexion en mode
+XDMCP indirect.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.12">
+<title>Gestion des &eacute;crans &eacute;loign&eacute;s non XDMCP<indexterm>
+<primary>Terminaux X</primary><secondary>non XDMCP</secondary></indexterm></title>
+<para>Il est possible que XDMCP ne soit pas support&eacute; sur les mod&egrave;les
+de terminaux X les plus anciens. Pour que le serveur affiche un &eacute;cran
+de connexion sur un terminal de ce type, indiquez son nom dans le fichier <filename>Xservers</filename>.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.13">
+<title>Exemple</title>
+<para>Les lignes suivantes du fichier <filename>Xservers</filename> permettent
+au serveur de connexion d'afficher une fen&ecirc;tre de connexion sur deux
+terminaux X non XDMCP, <command>ruby</command> et <command>wolfie</command>
+:</para>
+<programlisting>ruby.blackdog.com:0 AcmeXsta foreign 
+wolfie:0 PandaCo foreign</programlisting>
+<para>Etant donn&eacute; que l'&eacute;cran est reli&eacute; au r&eacute;seau, <symbol role="Variable">nom_&eacute;cran</symbol> comprend &eacute;galement le nom
+h&ocirc;te. La valeur <symbol role="Variable">classe_&eacute;cran</symbol>
+peut &ecirc;tre utilis&eacute;e pour indiquer des ressources propres &agrave;
+une classe donn&eacute;e de terminaux X (pour plus de d&eacute;tails, reportez-
+vous &agrave; la documentation relative &agrave; votre terminal X). La valeur <computeroutput>foreign</computeroutput> pour <symbol role="Variable">type_&eacute;cran</symbol>
+indique au serveur de connexion de se connecter &agrave; un serveur X existant
+plut&ocirc;t que d'en lancer un nouveau. Dans ce cas, il est inutile d'indiquer
+une commande de type <symbol role="Variable">commande_serveur_X</symbol>.
+</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.14">
+<title>Contr&ocirc;le de l'acc&egrave;s au<indexterm><primary>Serveur</primary>
+<secondary>de connexion</secondary><tertiary>contr&ocirc;le d'acc&egrave;s</tertiary></indexterm> serveur de connexion</title>
+<para>Par d&eacute;faut, tout h&ocirc;te du r&eacute;seau ayant acc&egrave;s
+au serveur de connexion peut demander l'affichage d'un &eacute;cran de connexion.
+Pour limiter l'acc&egrave;s &agrave; votre serveur de connexion, modifiez
+le fichier <filename>Xaccess</filename><indexterm><primary>Fichiers</primary>
+<secondary>Xaccess</secondary></indexterm>.</para>
+<para>Pour ce faire, copiez-le de <filename>/usr/dt/config</filename> dans <filename>/etc/dt/config</filename>. Une
+fois la modification effectu&eacute;e (dans<filename>/etc/dt/config/Xaccess</filename>), entrez la commande suivante pour que le serveur de connexion
+relise <filename>Xaccess</filename>:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Cette op&eacute;ration lance la commande <command>kill -HUP</command> <symbol role="Variable">ID_processus_serveur_connexion</symbol>.</para>
+<sect3 id="SAG.LogMg.div.15">
+<title>Connexion directe via XDMCP<indexterm><primary>Terminaux X</primary>
+<secondary>requ&ecirc;tes XDMCP</secondary></indexterm></title>
+<para>Lorsqu'un syst&egrave;me h&ocirc;te ou un terminal X tente de se connecter
+directement au serveur de connexion<indexterm><primary>XDMCP</primary><secondary>acc&egrave;s direct</secondary></indexterm> via XDMCP, son nom est compar&eacute;
+aux<indexterm><primary>Terminaux X</primary><secondary>liste Xaccess</secondary>
+</indexterm> entr&eacute;es du fichier <filename>Xaccess</filename>, afin de
+d&eacute;terminer s'il est autoris&eacute; &agrave; effectuer cette op&eacute;ration.
+Les entr&eacute;es de ce fichier sont des noms h&ocirc;tes, dans lesquels
+les caract&egrave;res g&eacute;n&eacute;riques <filename>*</filename> (ast&eacute;risque)
+et <filename>?</filename> (point d'interrogation) sont autoris&eacute;s. L'ast&eacute;risque
+repr&eacute;sente z&eacute;ro ou plusieurs caract&egrave;res et le point d'interrogation,
+un caract&egrave;re quelconque. Un nom h&ocirc;te pr&eacute;c&eacute;d&eacute;
+d'un point d'exclamation (<filename>!</filename>) est inaccessible. Si aucun
+point d'exclamation n'est indiqu&eacute;, il est accessible.</para>
+<para>Par exemple, si le fichier <filename>Xaccess</filename> contient les
+entr&eacute;es suivantes:</para>
+<programlisting>amazone.waterloo.com
+*.serv5.waterloo.com
+!*</programlisting>
+<para>La premi&egrave;re entr&eacute;e signifie que le syst&egrave;me h&ocirc;te <filename>amazone.waterloo.com</filename> a acc&egrave;s au serveur de connexion, tout
+comme les h&ocirc;tes dont le nom de domaine se termine par <filename>serv5.waterloo.com</filename> (deuxi&egrave;me entr&eacute;e), et la troisi&egrave;me entr&eacute;e
+signifie que l'acc&egrave;s est interdit &agrave; tous les autres h&ocirc;tes.
+</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.16">
+<title>Connexion indirecte via XDMCP<indexterm><primary>Terminaux X</primary>
+<secondary>requ&ecirc;tes XDMCP</secondary></indexterm></title>
+<para>Lorsqu'un syst&egrave;me h&ocirc;te tente de se connecter indirectement
+au serveur de connexion<indexterm><primary>XDMCP</primary><secondary>acc&egrave;s
+indirect</secondary></indexterm> via XDMCP, son nom est compar&eacute; aux
+entr&eacute;es du fichier <filename>Xaccess</filename>, afin de d&eacute;terminer
+s'il est autoris&eacute; &agrave; effectuer cette op&eacute;ration. Ces entr&eacute;es
+sont semblables &agrave; celles d&eacute;crites dans la section pr&eacute;c&eacute;dente
+(les caract&egrave;res g&eacute;n&eacute;riques sont &eacute;galement autoris&eacute;s),
+si ce n'est qu'elles sont associ&eacute;es &agrave; une<indexterm><primary>Cha&icirc;ne</primary><secondary>CHOOSER</secondary><tertiary>d&eacute;finition</tertiary></indexterm> <command>cha&icirc;ne<indexterm><primary>Terminaux
+X</primary><secondary>cha&icirc;ne CHOOSER</secondary></indexterm></command>
+CHOOSER. Par exemple:</para>
+<programlisting>amazone.waterloo.com CHOOSER BROADCAST
+*.serv5.waterloo.com CHOOSER BROADCAST
+!*     CHOOSER BROADCAST</programlisting>
+<para>Comme indiqu&eacute; pr&eacute;c&eacute;demment, la premi&egrave;re
+entr&eacute;e signifie que le syst&egrave;me h&ocirc;te <filename>amazone.waterloo.com</filename> a acc&egrave;s au serveur de connexion, tout comme les h&ocirc;tes
+dont le nom de domaine se termine par <filename>serv5.waterloo.com</filename>
+(deuxi&egrave;me entr&eacute;e), et la troisi&egrave;me entr&eacute;e signifie
+que l'acc&egrave;s est interdit &agrave; tous les autres h&ocirc;tes.</para>
+<para>L'une des valeurs suivantes peut &ecirc;tre indiqu&eacute;e apr&egrave;s
+la cha&icirc;ne <command>CHOOSER</command><indexterm><primary>Cha&icirc;ne</primary><secondary>CHOOSER</secondary><tertiary>identification</tertiary>
+</indexterm>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command><indexterm><primary>XDMCP</primary><secondary>BROADCAST</secondary></indexterm>BROADCAST</command></para>
+</listitem>
+<listitem><para><symbol role="Variable">Liste de noms h&ocirc;tes</symbol></para>
+</listitem>
+</itemizedlist>
+<para><command>BROADCAST</command> indique au serveur de connexion qu'une
+liste des h&ocirc;tes serveurs de connexion disponibles sur le sous-r&eacute;seau
+doit &ecirc;tre &eacute;tablie. Cette liste doit &ecirc;tre utilis&eacute;e
+par le serveur de connexion pour d&eacute;signer les h&ocirc;tes de connexion
+disponibles. Par exemple:</para>
+<programlisting>amazone.waterloo.com CHOOSER shoal.waterloo.com alum.waterloo.com
+*.serv5.waterloo.com CHOOSER BROADCAST
+!* CHOOSER BROADCAST</programlisting>
+<para>Si <filename>amazone.waterloo.com</filename> se connecte indirectement
+via XDMCP, une liste contenant <command>shoal</command> et <command>alum</command>
+lui est propos&eacute;e. Si <filename>alice.serv5.waterloo.com</filename>
+se connecte, une liste contenant tous les h&ocirc;tes serveurs de connexion
+disponibles sur le sous-r&eacute;seau du serveur de connexion lui est pr&eacute;sent&eacute;e.
+Les autres requ&ecirc;tes indirectes XDMCP seront rejet&eacute;es.</para>
+<para>Vous avez &eacute;galement la possibilit&eacute; de d&eacute;finir une
+ou plusieurs macros contenant la liste de noms h&ocirc;tes. Par exemple:
+</para>
+<programlisting>%liste1 shoal.waterloo.com alum.waterloo.com
+amazone.waterloo.com CHOOSER %liste1</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.LogMg.div.17">
+<title id="SAG.LogMg.mkr.7">Consignation des erreurs<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>identification des
+incidents</tertiary></indexterm><indexterm><primary>Gestionnaire de connexion</primary><secondary>erreurs</secondary></indexterm></title>
+<para>Par d&eacute;faut, le serveur de connexion enregistre les erreurs dans
+le fichier<indexterm><primary>Fichiers</primary><secondary>Xerrors</secondary>
+</indexterm> <filename>/var/dt/Xerrors</filename>. Pour indiquer un autre fichier,
+modifiez la ressource <filename>Dtlogin.errorLogFile</filename> dans le fichier <filename>Xconfig</filename>. Le r&eacute;pertoire sp&eacute;cifi&eacute; doit exister
+au lancement du serveur de connexion.</para>
+<para>Par exemple, pour que les erreurs soient consign&eacute;es dans le fichier <filename>/var/mes_erreurs/Dterrors</filename>, d&eacute;finissez la ressource suivante
+dans <filename>Xconfig</filename>:</para>
+<programlisting>Dtlogin.errorLogFile: /var/mes_erreurs/Dterrors</programlisting>
+<para>Au prochain lancement du serveur de connexion, les erreurs seront enregistr&eacute;es
+dans le fichier <filename>/var/mes_erreurs/Dterrors</filename><indexterm>
+<primary>Fichiers</primary><secondary>Dterrors</secondary></indexterm> (le
+r&eacute;pertoire <filename>/var/mes_erreurs</filename> doit exister au red&eacute;marrage
+du serveur de connexion).</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.18">
+<title id="SAG.LogMg.mkr.8">Arr&ecirc;t du serveur de connexion<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>arr&ecirc;t</tertiary></indexterm></title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pour que le serveur de connexion<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>d&eacute;sactivation</tertiary></indexterm> ne soit pas lanc&eacute; lors de l'amor&ccedil;age
+du syst&egrave;me, entrez:</para>
+<para remap="CodeIndent1"><computeroutput>/usr/dt/bin/dtconfig -d</computeroutput></para>
+<para>Cette commande indique que le serveur de connexion ne devra pas &ecirc;tre
+lanc&eacute; au prochain amor&ccedil;age du syst&egrave;me.</para>
+</listitem>
+<listitem><para>Pour arr&ecirc;ter le serveur de connexion par son ID processus,
+entrez:</para>
+<para remap="CodeIndent1"><computeroutput>/usr/dt/bin/dtconfig -kill</computeroutput></para>
+<para>Cette op&eacute;ration lance la commande <command>kill</command> <symbol role="Variable">ID_processus_serveur_connexion</symbol>.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Lorsque vous supprimez<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>suppression de l'ID processus</tertiary>
+</indexterm> le processus serveur de connexion, toutes les sessions utilisateur
+g&eacute;r&eacute;es par ce serveur sont arr&ecirc;t&eacute;es.</para>
+</note>
+<para>Vous pouvez &eacute;galement lancer directement la commande kill sur
+l'ID processus (au lieu de l'ex&eacute;cuter indirectement, comme dans l'exemple
+pr&eacute;c&eacute;dent). L'ID processus du serveur de connexion est stock&eacute;
+dans <filename>/var/dt/Xpid</filename> ou dans le fichier indiqu&eacute; par
+la ressource <systemitem>Dtlogin.pidFile</systemitem> du fichier <filename>Xconfig</filename>.</para>
+<para>Si vous &ecirc;tes connect&eacute; au Bureau lorsque vous arr&ecirc;tez
+le serveur de connexion, la session prend fin imm&eacute;diatement.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.19">
+<title id="SAG.LogMg.mkr.9">Fen&ecirc;tre de connexion</title>
+<para>La fen&ecirc;tre affich&eacute;e par le serveur de connexion est une
+variante plus conviviale de l'invite de connexion en mode caract&egrave;re.
+Elle permet en outre d'effectuer un plus grand nombre d'op&eacute;rations.
+</para>
+<figure>
+<title id="SAG.LogMg.mkr.10">Fen&ecirc;tre de connexion au Bureau</title>
+<graphic id="SAG.LogMg.grph.2" entityref="SAG.LogMg.fig.2"></graphic>
+</figure>
+<para>Comme avec l'invite en mode caract&egrave;re, l'utilisateur doit taper
+son nom et son mot de passe. Si la v&eacute;rification d'identit&eacute; aboutit,
+le serveur de connexion ouvre une session de Bureau. Lorsque l'utilisateur
+met fin &agrave; cette session, une nouvelle fen&ecirc;tre de connexion s'affiche.
+</para>
+<para>Pour personnaliser la fen&ecirc;tre de connexion, vous pouvez<indexterm>
+<primary>Ecran de connexion</primary><secondary>personnalisation</secondary>
+</indexterm>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>modifier sa pr&eacute;sentation</para>
+</listitem>
+<listitem><para>configurer les droits d'acc&egrave;s au serveur X</para>
+</listitem>
+<listitem><para>modifier la langue par d&eacute;faut</para>
+</listitem>
+<listitem><para>ex&eacute;cuter des commandes avant l'affichage de l'&eacute;cran
+de connexion</para>
+</listitem>
+<listitem><para>modifier les options du menu Langue</para>
+</listitem>
+<listitem><para>indiquer la commande de lancement de la session utilisateur
+</para>
+</listitem>
+<listitem><para>ex&eacute;cuter des commandes avant l'ouverture de la session
+utilisateur</para>
+</listitem>
+<listitem><para>ex&eacute;cuter des commandes apr&egrave;s la fermeture de
+la session utilisateur</para>
+</listitem>
+</itemizedlist>
+<para>Ces op&eacute;rations peuvent &ecirc;tre effectu&eacute;es sur tous
+les &eacute;crans.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.20">
+<title id="SAG.LogMg.mkr.11">Modification de la pr&eacute;sentation de la fen&ecirc;tre
+de connexion</title>
+<para>Vous pouvez<indexterm><primary>Ecran de connexion</primary><secondary>pr&eacute;sentation</secondary></indexterm> modifier le logo ou l'image, les
+messages de bienvenue et les polices.</para>
+<para>Pour &eacute;diter le fichier <filename>Xresources</filename>, copiez-le
+de <filename>/usr/dt/config/</filename><symbol role="Variable">langue</symbol>
+dans <filename>/etc/dt/config/</filename><symbol role="Variable">langue</symbol>.
+Les modifications seront prises en compte au prochain affichage de la fen&ecirc;tre
+de connexion. Pour que les modifications soient prises en compte imm&eacute;diatement,
+s&eacute;lectionnez &ldquo;Restauration de la fen&ecirc;tre de connexion&rdquo;
+dans le menu &ldquo;Options&rdquo;.</para>
+<para>Les param&egrave;tres de la fen&ecirc;tre de connexion et les ressources
+du fichier <filename>Xresources</filename> permettant de les d&eacute;finir
+sont les suivants:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="325*">
+<colspec colwidth="203*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>Gestionnaire de
+connexion</primary><secondary>ressources</secondary></indexterm><indexterm>
+<primary>&Eacute;</primary></indexterm><indexterm><primary>cran de connexion</primary><secondary>ressources</secondary></indexterm><filename>Dtlogin*logo*bitmapFile</filename></para></entry>
+<entry align="left" valign="top"><para>Fichier bitmap ou pixmap &agrave; utiliser
+comme logo.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtlogin*greeting*labelString</filename></para></entry>
+<entry align="left" valign="top"><para>Message de bienvenue.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtlogin*greeting*persLabelString</filename></para></entry>
+<entry align="left" valign="top"><para>Message de bienvenue personnalis&eacute;.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>Dtlogin*greeting*fontList</command></para></entry>
+<entry align="left" valign="top"><para>Police des messages de bienvenue.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtlogin*labelFont</filename>
+</para></entry>
+<entry align="left" valign="top"><para>Police des boutons de fonction et des
+libell&eacute;s.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtlogin*textFont</filename>
+</para></entry>
+<entry align="left" valign="top"><para>Police de l'aide et des messages d'erreur.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtlogin*</filename><symbol role="Variable">langue</symbol><filename>*languageName</filename></para></entry>
+<entry align="left" valign="top"><para>Autre nom pour l'environnement local
+(<symbol role="Variable">langue).</symbol></para></entry></row></tbody></tgroup>
+</informaltable>
+<sect2 id="SAG.LogMg.div.21" role="Procedure">
+<title>Modification du logo</title>
+<itemizedlist>
+<listitem><para>D&eacute;finissez la ressource <systemitem>Dtlogin*logo*bitmapFile</systemitem> dans le fichier <filename>Xresources</filename>.</para>
+<para>Le logo peut &ecirc;tre un fichier pixmap en couleur ou un fichier bitmap.
+</para>
+</listitem>
+</itemizedlist>
+<para>Dans l'exemple suivant, le fichier bitmap <filename>mon_logo</filename>
+est utilis&eacute; comme logo:</para>
+<programlisting>Dtlogin*logo*bitmapFile: /usr/local/lib/X11/dt/bitmaps/mon_logo.bm
+</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.22" role="Procedure">
+<title>Modification du message de bienven<indexterm><primary>Ecran de connexion</primary><secondary>message de bienvenue</secondary></indexterm>ue<indexterm>
+<primary>Message de bienvenue</primary><secondary>personnalisation</secondary>
+</indexterm></title>
+<para><indexterm><primary>Message de bienvenue</primary><secondary>par d&eacute;faut</secondary></indexterm>Par d&eacute;faut, le serveur de connexion affiche
+dans la fen&ecirc;tre de connexion le message <computeroutput>Bienvenue sur <symbol role="Variable">nom_h&ocirc;te</symbol></computeroutput>. Pour modifier ce
+texte:</para>
+<itemizedlist>
+<listitem><para>D&eacute;finissez la ressource <systemitem>Dtlogin*greeting*labelString</systemitem> dans le fichier <filename>Xresources</filename>.</para>
+<para>Les valeurs de cette ressource peuvent &ecirc;tre %<symbol role="Variable">LocalHost</symbol>% (nom h&ocirc;te du serveur de connexion) et %<symbol role="Variable">DisplayName</symbol>% (nom d'&eacute;cran du serveur X).</para>
+</listitem>
+</itemizedlist>
+<para>L'exemple suivant permet de modifier le message de bienvenue en <computeroutput>Vous &ecirc;tes sur <symbol role="Variable">nom_h&ocirc;te</symbol>!</computeroutput>
+:</para>
+<programlisting>Dtlogin*greeting*labelString: Vous &ecirc;tes sur %LocalHost%!
+</programlisting>
+<para>Une fois que l'utilisateur a entr&eacute; son nom, le serveur de connexion
+affiche le message par d&eacute;faut <computeroutput>Bienvenue</computeroutput> <symbol role="Variable">nom_utilisateur</symbol>. Pour modifier ce message, d&eacute;finissez
+la ressource <systemitem>Dtlogin*greeting*persLabelString</systemitem> dans
+le fichier <filename>Xresources</filename>. La valeur de cette ressource peut
+&ecirc;tre %s (nom de l'utilisateur).</para>
+<para>L'exemple suivant permet de modifier le message de bienvenue en <computeroutput>Bonjour <symbol role="Variable">nom_utilisateur</symbol></computeroutput>:
+</para>
+<programlisting>Dtlogin*greeting*persLabelString: Bonjour %s</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.23" role="Procedure">
+<title>Modification des<indexterm><primary>Ecran de connexion</primary><secondary>polices</secondary></indexterm> polices</title>
+<para>Pour personnaliser les polices de la fen&ecirc;tre de connexion, d&eacute;finissez
+l'une des ressources ci-dessous dans le fichier <filename>Xresources</filename>.<indexterm>
+<primary>Fichiers</primary><secondary>Xresources</secondary></indexterm>
+</para>
+<para>Pour afficher la liste des polices disponibles, entrez:</para>
+<programlisting>xlsfonts [-<symbol role="Variable">options</symbol>] [-fn <symbol role="Variable">forme</symbol>]</programlisting>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="228*">
+<colspec colwidth="228*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>Dtlogin*greeting*fontList</command></para></entry>
+<entry align="left" valign="top"><para>Police des messages de bienvenue.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtlogin*labelFont</filename>
+</para></entry>
+<entry align="left" valign="top"><para>Police des boutons de fonction et des
+libell&eacute;s.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtlogin*textFont</filename>
+</para></entry>
+<entry align="left" valign="top"><para>Police de l'aide et des messages d'erreur.
+</para></entry></row></tbody></tgroup></informaltable>
+<para>L'exemple suivant de d&eacute;finir une police plus grande pour les
+messages de bienvenue (la valeur indiqu&eacute;e doit tenir sur une seule
+ligne):</para>
+<programlisting>Dtlogin*greeting*fontList: -dt-interface system-medium-r-normal-xxl*-*-*-*-*-*-*-*-*:
+</programlisting>
+<sect3 id="SAG.LogMg.div.24" role="Procedure">
+<title>Affichage d'un texte<indexterm><primary>Ecran de connexion</primary>
+<secondary>localisation</secondary></indexterm> &agrave; la place du nom de
+l'environnement local<indexterm><primary>Localisation</primary><secondary>&eacute;cran de connexion</secondary></indexterm></title>
+<para>Pour d&eacute;finir une cha&icirc;ne de caract&egrave;res &agrave; afficher
+dans le menu Langue de la fen&ecirc;tre de connexion, &agrave; la place du
+nom de l'environnement local (affich&eacute; par d&eacute;faut), modifiez
+la ressource <filename>Dtlogin*</filename><symbol role="Variable">langue</symbol><filename>*languageName</filename> dans le fichier <filename>Xresources</filename>:
+</para>
+<programlisting>Dtlogin*Fr_FR*languageName: Fran&ccedil;ais</programlisting>
+<para>Le nom de l'environnement local <filename>Fr_FR</filename> sera remplac&eacute;
+par la cha&icirc;ne <filename>Fran&ccedil;ais</filename>.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.25">
+<title>Modification du comportement<indexterm><primary>Ecran de connexion</primary><secondary>comportement</secondary></indexterm> de la fen&ecirc;tre
+de connexion</title>
+<para>Pour personnaliser le comportement de l'&eacute;cran de connexion, modifiez
+les ressources du fichier <command>Xconfig</command>.</para>
+<para>Pour &eacute;diter le fichier <filename>Xconfig</filename>, copiez-le
+de <filename>/usr/dt/config</filename> dans <filename>/etc/dt/config</filename> <literal>.</literal> Une fois la modification effectu&eacute;e (dans <filename>/etc/dt/config/Xconfig</filename>), entrez la commande suivante pour que le serveur de connexion
+relise <filename>Xconfig</filename>:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Cette op&eacute;ration lance la commande <command>kill -HUP</command>
+<symbol role="Variable">ID_processus_serveur_connexion</symbol>.</para>
+<para><indexterm><primary>Gestionnaire de connexion</primary><secondary>ressources</secondary></indexterm>Les ressources d&eacute;finies dans le fichier <filename>Xconfig</filename> comprennent<indexterm><primary>Fichier</primary><secondary>Xconfig</secondary><tertiary>ressources</tertiary></indexterm>:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="264*">
+<colspec colwidth="264*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*authorize</systemitem></para></entry>
+<entry align="left" valign="top"><para><command>Sp&eacute;cification du fichier</command> <command>Xaccess</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*environment</systemitem></para></entry>
+<entry align="left" valign="top"><para>Environnement du serveur X.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*language</systemitem></para></entry>
+<entry align="left" valign="top"><para>Langue par d&eacute;faut.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*languageList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Liste de langues pour le menu Langue
+de la fen&ecirc;tre de connexion.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*resources</systemitem></para></entry>
+<entry align="left" valign="top"><para>Sp&eacute;cification du fichier <command>Xresources</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*setup</systemitem></para></entry>
+<entry align="left" valign="top"><para>Sp&eacute;cification du fichier <command>Xsetup</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*startup</systemitem></para></entry>
+<entry align="left" valign="top"><para>Sp&eacute;cification du fichier <command>Xstartup</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*session</systemitem></para></entry>
+<entry align="left" valign="top"><para>Sp&eacute;cification du fichier <command>Xsession</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*failsafeClient</systemitem></para></entry>
+<entry align="left" valign="top"><para>Sp&eacute;cification du script <command>Xfailsafe</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*reset</systemitem></para></entry>
+<entry align="left" valign="top"><para>Sp&eacute;cification du script <command>Xreset</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*userPath</systemitem></para></entry>
+<entry align="left" valign="top"><para>Variable PATH pour <command>Xsession</command> et <filename>Xfailsafe.</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*systemPath</systemitem></para></entry>
+<entry align="left" valign="top"><para>Variable PATH pour <command>Xsetup</command>, <command>Xstartup</command> et <filename>Xfailsafe.</filename></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*systemShell</systemitem></para></entry>
+<entry align="left" valign="top"><para>Variable SHELL pour <command>Xsetup</command>, <command>Xstartup</command> et <filename>Xfailsafe.</filename></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin.timeZone</systemitem></para></entry>
+<entry align="left" valign="top"><para>Variable TZ pour les scripts.</para></entry>
+</row></tbody></tgroup></informaltable>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.26">
+<title>Modification du comportement de la fen&ecirc;tre de connexion pour
+certains &eacute;crans<indexterm><primary>Ecran de connexion</primary><secondary>comportement</secondary></indexterm><indexterm><primary>Ecrans multiples</primary><secondary>Gestionnaire de connexion</secondary></indexterm></title>
+<para>Dans les exemples ci-dessous, la personnalisation de la ressource <systemitem>Xconfig</systemitem> entra&icirc;ne la modification du comportement de la
+fen&ecirc;tre de connexion sur tous les &eacute;crans. Les ressources comportant
+un ast&eacute;risque peuvent &ecirc;tre d&eacute;finies pour certains &eacute;crans
+seulement. Une ressource associ&eacute;e &agrave; un &eacute;cran donn&eacute;
+doit &ecirc;tre indiqu&eacute;e sous la forme <systemitem>Dtlogin*<symbol role="Variable">nom_&eacute;cran</symbol>*<symbol role="Variable">ressource</symbol></systemitem>. Par exemple, pour d&eacute;sactiver le contr&ocirc;le
+d'acc&egrave;s utilisateur pour l'&eacute;cran <filename>expo:0</filename>
+uniquement, entrez:</para>
+<programlisting>Dtlogin*expo_0*authorize: False</programlisting>
+<note>
+<para>Les caract&egrave;res sp&eacute;ciaux indiqu&eacute;s dans le nom de
+l'&eacute;cran, tels que les deux points (:) ou le point (.) sont remplac&eacute;s
+par des caract&egrave;res de soulignement (_).</para>
+</note>
+</sect2>
+<sect2 id="SAG.LogMg.div.27">
+<title>Modification de l'acc&egrave;s<indexterm><primary>Ecran de connexion</primary><secondary>acc&egrave;s au serveur X</secondary></indexterm> au serveur<indexterm>
+<primary>Serveur X</primary><secondary>acc&egrave;s</secondary></indexterm>
+X</title>
+<para>Par d&eacute;faut, le contr&ocirc;le d'acc&egrave;s au serveur X s'effectue
+utilisateur par utilisateur, en fonction des donn&eacute;es m&eacute;moris&eacute;es
+et prot&eacute;g&eacute;es dans le fichier <symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.Xauthority</filename>. Seuls les utilisateurs autoris&eacute;s
+&agrave; lire ce fichier ont acc&egrave;s au serveur X. Il s'agit de la m&eacute;thode
+de contr&ocirc;le la plus utilis&eacute;e.</para>
+<para>Il est &eacute;galement possible de contr&ocirc;ler l'acc&egrave;s au
+serveur X h&ocirc;te par h&ocirc;te: tout utilisateur d'un syst&egrave;me
+h&ocirc;te autoris&eacute; &agrave; acc&eacute;der au serveur X peut se connecter
+&agrave; ce dernier. Les raisons susceptibles de vous amener &agrave; choisir
+cette solution sont les suivantes:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>les clients X R2 et R3 ne supportent pas la connexion au serveur
+X &agrave; l'aide de la premi&egrave;re m&eacute;thode</para>
+</listitem>
+<listitem><para>sur les r&eacute;seaux non s&eacute;curis&eacute;s, les donn&eacute;es
+&eacute;chang&eacute;es entre le client et le serveur X peuvent &ecirc;tre
+intercept&eacute;es par des personnes non autoris&eacute;e</para>
+</listitem>
+</itemizedlist>
+<para>La ressource <command>Xconfig Dtlogin*authorize</command><indexterm>
+<primary>Ressources</primary><secondary>authorize</secondary></indexterm> indique
+au serveur de connexion de contr&ocirc;ler l'acc&egrave;s au serveur X utilisateur
+par utilisateur. Pour utiliser la m&eacute;thode de contr&ocirc;le d'acc&egrave;s
+&ldquo;par h&ocirc;te&rdquo;, attribuez la valeur <command>False</command>
+&agrave; la ressource <systemitem>authorize</systemitem>:</para>
+<programlisting>Dtlogin*authorize: False</programlisting>
+<sect3 id="SAG.LogMg.div.28" role="Procedure">
+<title>Modification de l'environnement du<indexterm><primary>Serveur X</primary>
+<secondary>environnement</secondary></indexterm> serveur<indexterm><primary>Ecran de connexion</primary><secondary>environnement du serveur X</secondary>
+</indexterm> X</title>
+<para>Pour affecter au serveur X une ou plusieurs variables d'environnement,
+lors de son lancement par le serveur de connexion, vous pouvez d&eacute;finir
+la ressource <systemitem>Dtlogin*environment</systemitem> du fichier <filename>Xconfig</filename>. Par exemple:</para>
+<programlisting>Dtlogin*environment: VAR1=foo VAR2=bar</programlisting>
+<para>Cette ressource permet au serveur X local de b&eacute;n&eacute;ficier
+des variables <filename>VAR1</filename> et <filename>VAR2</filename>. Celles-ci
+seront &eacute;galement export&eacute;es vers les scripts <command>Xsession</command> et <command>Xfailsafe</command>.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.29" role="Procedure">
+<title>Modification de la<indexterm><primary>Ecran de connexion</primary>
+<secondary>langue</secondary></indexterm> langue par d&eacute;faut</title>
+<para>Lorsqu'un utilisateur ouvre une session de Bureau &agrave; partir de
+la fen&ecirc;tre de connexion, celle-ci s'ex&eacute;cute dans l'environnement
+local s&eacute;lectionn&eacute; dans le sous-menu Langue du menu Options.
+Si aucune langue n'est s&eacute;lectionn&eacute;e, la langue par d&eacute;faut
+du serveur est utilis&eacute;e. Pour modifier la langue par d&eacute;faut,
+utilisez la ressource <systemitem>Dtlogin*language<indexterm><primary>Ressources</primary><secondary>Dtlogin*language</secondary></indexterm></systemitem>
+du fichier <filename>Xconfig</filename>. Par exemple:</para>
+<programlisting>Dtlogin*language: En_US</programlisting>
+<para>Pour conna&icirc;tre les langues install&eacute;es sur votre syst&egrave;me,
+consultez la documentation correspondante.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.30" role="Procedure">
+<title>Modification du menu Langue de la fen&ecirc;tre de<indexterm><primary>Ecran de connexion</primary><secondary>modification du menu Langue</secondary>
+</indexterm> connexion<indexterm><primary>Langue</primary><secondary>personnalisation</secondary></indexterm></title>
+<para>Par d&eacute;faut, le serveur de connexion cr&eacute;e un menu Langue
+contenant la liste des environnement locaux install&eacute;s sur le syst&egrave;me.
+Lorsque l'utilisateur s&eacute;lectionne un environnement local, le serveur
+de connexion r&eacute;affiche l'&eacute;cran de connexion dans la langue correspondante.
+La prochaine session de l'utilisateur s'ex&eacute;cutera &eacute;galement
+dans cet environnement.</para>
+<para>Pour d&eacute;finir votre propre liste de langues, modifiez la ressource <systemitem>Dtlogin*languageList</systemitem> dans le fichier <filename>Xconfig</filename>
+:</para>
+<programlisting>Dtlogin*languageList: En_US De_DE</programlisting>
+<para>Une fois la modification effectu&eacute;e, le menu Langue de l'&eacute;cran
+de connexion ne contient plus que les langues indiqu&eacute;es ( <filename>En_US</filename> et <filename>De_DE</filename>).</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.31">
+<title>Ex&eacute;cution de commande avant l'affichage de la fen&ecirc;tre
+de connexion<indexterm><primary>Gestionnaire de connexion</primary><secondary>ex&eacute;cution de commandes</secondary></indexterm></title>
+<para>Une fois le serveur X lanc&eacute;, mais avant l'affichage de la fen&ecirc;tre
+de connexion, le serveur de connexion ex&eacute;cute le script <command>Xsetup</command>.<indexterm><primary>Fichiers</primary><secondary>Xsetup</secondary>
+</indexterm> Celui-ci dispose des droits d'acc&egrave;s de niveau root; il
+lance des commandes devant &ecirc;tre ex&eacute;cut&eacute;es avant l'affichage
+de l'&eacute;cran de connexion.</para>
+<para>Pour modifier <command>Xsetup</command>, copiez-le de <filename>/usr/dt/config</filename> dans <filename>/etc/dt/config</filename>. Les
+modifications seront prises en compte au prochain affichage de la fen&ecirc;tre
+de connexion.</para>
+<sect3 id="SAG.LogMg.div.32">
+<title>Ex&eacute;cution de commande avant l'ouverture de la session utilisateur</title>
+<para>Une fois que l'utilisateur a entr&eacute; son nom et son mot de passe
+et que son identit&eacute; a &eacute;t&eacute; v&eacute;rifi&eacute;e, mais
+avant qu'une session ne soit lanc&eacute;e, le serveur de connexion ex&eacute;cute
+le script <command>Xstartup</command>.<indexterm><primary>Fichiers</primary>
+<secondary>Xstartup</secondary></indexterm> Celui-ci dispose des droits d'acc&egrave;s
+de niveau root; il lance des commandes &agrave; ex&eacute;cuter avant l'ouverture
+de la session utilisateur.</para>
+<para>Pour modifier le fichier <filename>Xstartup</filename>, copiez-le de <filename>/usr/dt/config</filename> dans <filename>/etc/dt/config</filename>. Les modifications
+entreront en vigueur &agrave; la prochaine connexion de l'utilisateur.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.33">
+<title>Lancement d'une session de Bureau</title>
+<para>Par d&eacute;faut, pour ouvrir une session utilisateur, le serveur de
+connexion ex&eacute;cute le script <command>Xsession</command>.<indexterm>
+<primary>Fichier</primary><secondary>Xsession</secondary><tertiary>ex&eacute;cution
+par le serveur de connexion</tertiary></indexterm> Celui-ci dispose des droits
+d'acc&egrave;s de niveau root; il ex&eacute;cute les commandes n&eacute;cessaires
+au lancement du Bureau.</para>
+<note>
+<para>Le script <command>Xsession</command> ne doit pas &ecirc;tre modifi&eacute;
+manuellement.</para>
+</note>
+<para>Pour plus de d&eacute;tails sur la personnalisation du lancement des
+sessions utilisateur, reportez-vous au <!--Original XRef content: 'chapitre&numsp;2,
+&ldquo;Configuration du Gestionnaire de sessions'--><xref role="ChapNumAndTitle"
+linkend="SAG.SesMg.mkr.1">.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.34">
+<title>Ouverture d'une session monofen&ecirc;tre<indexterm><primary>Session</primary><secondary>monofen&ecirc;tre</secondary></indexterm></title>
+<para>Lorsque l'utilisateur s&eacute;lectionne Session monofen&ecirc;tre<indexterm>
+<primary>Session</primary><secondary>monofen&ecirc;tre</secondary></indexterm> dans
+le sous-menu Sessions du menu Options de la fen&ecirc;tre de connexion, le
+serveur de connexion lance le script <command>Xfailsafe<indexterm><primary>Fichiers</primary><secondary>Xfailsafe</secondary></indexterm></command>.
+Celui-ci dispose des droits d'acc&egrave;s root et ex&eacute;cute les commandes
+permettant de lancer un environnement &agrave; fen&ecirc;trage minimal (&agrave;
+savoir, une fen&ecirc;tre de terminal et, &eacute;ventuellement, un Gestionnaire
+de fen&ecirc;tres).</para>
+<para>Pour modifier le fichier <filename>Xfailsafe</filename>, copiez-le de <filename>/usr/dt/config</filename> dans <filename>/etc/dt/config</filename>. Les modifications
+seront prises en compte &agrave; la prochaine connexion de l'utilisateur.
+</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.35">
+<title>Fin de la session utilisateur<indexterm><primary>Session</primary>
+<secondary>script</secondary></indexterm></title>
+<para>Une fois la session de Bureau ou monofen&ecirc;tre termin&eacute;e,
+le serveur de connexion ex&eacute;cute le script <command>Xreset</command>.<indexterm>
+<primary>Fichiers</primary><secondary>Xreset</secondary></indexterm> Celui-ci
+dispose des droits d'acc&egrave;s de niveau root; il lance des commandes
+&agrave; ex&eacute;cuter &agrave; la fin de la session utilisateur.</para>
+<para>Pour modifier le fichier <filename>Xreset</filename>, copiez-le de <filename>/usr/dt/config</filename> dans <filename>/etc/dt/config</filename>. Les modifications
+seront prises en compte &agrave; la prochaine connexion de l'utilisateur.
+</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.36">
+<title>Environnement du serveur de connexion</title>
+<para>L'environnement fourni par le serveur X est export&eacute; vers les
+scripts <command>Xsetup</command>, <command>Xstartup</command>, <command>Xsession</command>, <command>Xfailsafe</command> et <command>Xreset</command>.
+Le <!--Original XRef content: 'Tableau&numsp;1&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.LogMg.mkr.12"> fournit une description de cet environnement. Des
+variables suppl&eacute;mentaires peuvent &eacute;galement &ecirc;tre export&eacute;es
+par le serveur de connexion.</para>
+<table id="SAG.LogMg.tbl.1" frame="Topbot">
+<title id="SAG.LogMg.mkr.12">Environnement du serveur de connexion<indexterm>
+<primary>Serveur</primary><secondary>de connexion</secondary><tertiary>environnement</tertiary></indexterm></title>
+<tgroup cols="6" colsep="0" rowsep="0">
+<colspec colwidth="1.52in">
+<colspec colwidth="0.31in">
+<colspec colwidth="0.27in">
+<colspec colwidth="0.24in">
+<colspec colwidth="0.27in">
+<colspec colwidth="3.35in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Variable</literal> <literal>d'environnement</literal></para></entry><entry align="left" valign="bottom"><para><literal><command>Xsetup</command></literal></para></entry><entry align="left" valign="bottom"><para><literal><command>Xstartup</command></literal></para></entry><entry align="left" valign="bottom"><para><literal>Xfailsafe</literal></para></entry><entry align="left" valign="bottom"><para><literal><command>Xreset</command></literal></para></entry><entry align="left" valign="bottom"><para><literal>Description</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar"><indexterm>
+<primary>Variable</primary><secondary>LANG</secondary><tertiary>d&eacute;</tertiary></indexterm><indexterm><primary>finition par le Gestionnair de
+connexion</primary></indexterm>LANG</systemitem></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Langue par d&eacute;faut ou langue
+s&eacute;lectionn&eacute;e</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal><indexterm><primary>Variable</primary><secondary>XAUTHORITY</secondary><tertiary>d&eacute;</tertiary>
+</indexterm><indexterm><primary>finition par le Gestionnair de connexion</primary>
+</indexterm>XAUTHORITY</literal></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Fichier d'autorisations X secondaire
+(facultatif)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar"><indexterm>
+<primary>Variable</primary><secondary>PATH</secondary><tertiary>d&eacute;</tertiary></indexterm><indexterm><primary>finition par le Gestionnair de
+connexion</primary></indexterm> PATH</systemitem></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Valeur de la ressource <filename>Dtlogin*userPath</filename> (<command>Xsession</command>, <command>Xfailsafe</command>) ou <filename>Dtlogin*systemPath</filename> (<command>Xsetup</command>, <command>Xstartup</command>, <command>Xreset</command>)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar"><indexterm>
+<primary>Variable</primary><secondary>DISPLAY</secondary><tertiary>d&eacute;</tertiary></indexterm><indexterm><primary>finition par le Gestionnaire de
+connexion</primary></indexterm> DISPLAY</systemitem></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Nombre de connexions au serveur X</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><literal><indexterm><primary>Variable</primary><secondary>SHELL</secondary><tertiary>d&eacute;</tertiary></indexterm><indexterm>
+<primary>finition par le Gestionnaire de connexion</primary></indexterm> SHELL</literal></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Shell sp&eacute;cifi&eacute; dans le
+fichier <filename>/etc/passwd</filename> (<command>Xsession</command>, <command>Xfailsafe</command>) ou par la ressource <filename>Dtlogin*systemShell</filename>
+(<command>Xsetup</command>, <command>Xstartup</command>, <command>Xreset</command> )</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar"><indexterm>
+<primary>Variables</primary><secondary>TZ</secondary></indexterm>TZ</systemitem></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Valeur de la ressource <filename>Dtlogin.timeZone</filename> ou fuseau horaire d&eacute;termin&eacute; par le syst&egrave;me
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar"><indexterm>
+<primary>Variables</primary><secondary>USER</secondary></indexterm>USER</systemitem></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Nom d'utilisateur</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar"><indexterm>
+<primary>Variables</primary><secondary>HOME</secondary></indexterm>HOME</systemitem></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>R&eacute;pertoire personnel sp&eacute;cifi&eacute;
+dans le fichier <filename>/etc/passwd</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar"><indexterm>
+<primary>Variables</primary><secondary>LOGNAME</secondary></indexterm>LOGNAME</systemitem></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Nom d'utilisateur</para></entry></row>
+</tbody></tgroup></table>
+</sect2>
+<sect2 id="SAG.LogMg.div.37">
+<title>Modification du chemin d'acc&egrave;s utilisateur ou syst&egrave;me</title>
+<para>Le serveur de connexion d&eacute;finit la variable d'environnement PATH<indexterm>
+<primary>Serveur</primary><secondary>de connexion</secondary><tertiary>chemin
+utilisateur</tertiary></indexterm> lors de l'ex&eacute;cution des scripts <command>Xsession</command><indexterm><primary>Fichier</primary><secondary>Xsession</secondary><tertiary>d&eacute;finition
+de PATH</tertiary></indexterm> et <command><indexterm><primary>Fichiers</primary>
+<secondary>Xfailsafe</secondary></indexterm>Xfailsafe</command>. Vous pouvez
+indiquer un autre chemin d'acc&egrave;s pour ces scripts.</para>
+<sect3 id="SAG.LogMg.div.38" role="Procedure">
+<title>Chemin d'acc&egrave;s utilisateur<indexterm><primary>Chemin d'acc&egrave;s</primary><secondary>utilisateur</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>D&eacute;finissez la ressource <systemitem>Dtlogin*userPath</systemitem><indexterm><primary>Ressources</primary><secondary>userPath</secondary></indexterm> dans le fichier <filename>Xconfig</filename>. Par
+exemple:<indexterm><primary>Variables</primary><secondary>d'environnement</secondary><tertiary>Gestionnaire de connexion</tertiary></indexterm></para>
+</listitem>
+</itemizedlist>
+<programlisting>Dtlogin*userPath:/usr/bin:/etc:/usr/sbin:/usr/ucb:/usr/bin/X11
+</programlisting>
+</sect3>
+<sect3 id="SAG.LogMg.div.39" role="Procedure">
+<title>Chemin d'acc&egrave;s syst&egrave;me<indexterm><primary>Chemin d'acc&egrave;s</primary><secondary>syst&egrave;me</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>D&eacute;finissez la ressource <systemitem>Dtlogin*systemPath</systemitem><indexterm><primary>Ressources</primary><secondary>systemPath</secondary></indexterm> dans le fichier <filename>Xconfig</filename>. Par
+exemple:</para>
+</listitem>
+</itemizedlist>
+<programlisting>Dtlogin*systemPath: /usr/bin/X11:/etc:/bin:/usr/bin:/usr/ucb
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.40" role="Procedure">
+<title>Modification du shell syst&egrave;me</title>
+<para>Le serveur de connexion d&eacute;finit la variable d'environnement SHELL
+lors de l'ex&eacute;cution des scripts <command>Xsetup</command>, <command>Xstartup</command> et <command>Xfailsafe</command>.<indexterm><primary>Serveur</primary><secondary>de connexion</secondary><tertiary>shell syst&egrave;me</tertiary></indexterm> Le shell par d&eacute;faut est <filename>/bin/sh</filename>.
+Pour le modifier, d&eacute;finissez la ressource <systemitem>Dtlogin*systemShell</systemitem> dans le fichier <filename>Xconfig</filename>. Par exemple:
+</para>
+<programlisting>Dtlogin*systemShell: /bin/ksh</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.41" role="Procedure">
+<title>Modification du fuseau horaire</title>
+<para>Le serveur de connexion d&eacute;finit la variable d'environnement TZ<indexterm>
+<primary>Variables</primary><secondary>TZ</secondary></indexterm> lors de l'ex&eacute;cution
+des scripts <command>Xsetup</command>, <command>Xstartup</command>, <command>Xsession</command>, <command>Xfailsafe</command>, et <command>Xreset</command>.
+La valeur par d&eacute;faut &eacute;tant d&eacute;termin&eacute;e par le syst&egrave;me,
+il n'est g&eacute;n&eacute;ralement pas<indexterm><primary>Serveur</primary>
+<secondary>de connexion</secondary><tertiary>fuseau horaire</tertiary></indexterm><indexterm>
+<primary>Fuseau horaire</primary><secondary>modification</secondary></indexterm>
+n&eacute;cessaire de la modifier. Cependant, si vous souhaitez indiquer un
+autre fuseau horaire pour ces scripts, d&eacute;finissez la ressource <systemitem>Dtlogin. timeZone</systemitem><indexterm><primary>Ressources</primary><secondary>timeZone</secondary></indexterm> dans le fichier <filename>Xconfig</filename>.
+Par exemple:</para>
+<programlisting>Dtlogin.timeZone: CST6CDT</programlisting>
+</sect2>
+</sect1>
+<sect1 id="SAG.LogMg.div.42">
+<title id="SAG.LogMg.mkr.13">Administration du Gestionnaire de connexion</title>
+<para>Lors du d&eacute;marrage du serveur de connexion, un processus <command>dtlogin</command> est lanc&eacute;. Il lit le fichier <filename>Xconfig</filename>
+pour identifier la configuration initiale du serveur de connexion et localiser
+les autres fichiers de configuration. Le serveur de connexion lit ensuite
+les fichiers <filename>Xservers</filename> (indiquant les &eacute;crans qu'il
+doit g&eacute;rer de fa&ccedil;on explicite) et <filename>Xaccess</filename>
+(permettant de contr&ocirc;ler l'acc&egrave;s au Gestionnaire de connexion).
+</para>
+<para>Si le serveur de connexion doit<indexterm><primary>Fichier</primary>
+<secondary>Xservers</secondary><tertiary>gestion des &eacute;</tertiary></indexterm><indexterm>
+<primary>crans locaux</primary></indexterm> g&eacute;rer un &eacute;cran local,
+il lance un serveur X, conform&eacute;ment aux instructions du fichier <filename>Xservers</filename>, puis affiche une fen&ecirc;tre de connexion sur l'&eacute;cran.
+</para>
+<para>Si le serveur de connexion doit g&eacute;rer un &eacute;cran &eacute;loign&eacute;,
+il consid&egrave;re qu'un serveur X associ&eacute; est d&eacute;j&agrave;
+en cours d'ex&eacute;cution et affiche une fen&ecirc;tre de connexion sur
+l'&eacute;cran.</para>
+<para>Ensuite, le serveur de connexion attend les requ&ecirc;tes XDMCP en
+provenance du r&eacute;seau.</para>
+<para>Pour chaque &eacute;cran g&eacute;r&eacute;, le serveur de connexion
+cr&eacute;e un processus <command>dtlogin</command>. Par exemple, pour un
+serveur g&eacute;rant <symbol role="Variable">n</symbol> &eacute;crans, <symbol role="Variable">n+1 processus</symbol> <command>dtlogin</command> seront lanc&eacute;s
+(car un processus dtlogin suppl&eacute;mentaire est lanc&eacute; au d&eacute;marrage
+du serveur de connexion). Tout d'abord, le serveur de connexion ex&eacute;cute
+le script <command>Xsetup</command>, puis il charge le fichier <command>Xresources</command>. Il lance ensuite <command>dtgreet</command> pour afficher l'&eacute;cran
+de connexion. Lorsque l'utilisateur a entr&eacute; son nom et son mot de passe,
+et que son identit&eacute; a &eacute;t&eacute; v&eacute;rifi&eacute;e, le
+serveur de connexion ex&eacute;cute le script <command>Xstartup</command>,
+puis le script <command>Xsession</command> ou <command>Xfailsafe<indexterm>
+<primary>Fichiers</primary><secondary>Xfailsafe</secondary></indexterm></command>.
+Une fois la session termin&eacute;e, le serveur de connexion lance le script <command>Xreset</command>.</para>
+<para>Lorsqu'une requ&ecirc;te<indexterm><primary>XDMCP</primary><secondary>requ&ecirc;tes indirectes</secondary></indexterm> XDMCP indirecte parvient
+au serveur de connexion, il ex&eacute;cute <command>dtchooser</command> pour
+afficher la liste des h&ocirc;tes serveurs de connexion disponibles sur l'&eacute;cran.
+Celui-ci sera ensuite g&eacute;r&eacute; par le serveur de connexion de l'h&ocirc;te
+s&eacute;lectionn&eacute; par l'utilisateur.</para>
+<para>Par d&eacute;faut, dans le cas des fichiers de configuration <command>Xaccess</command>, <command>Xconfig</command>, <command>Xfailsafe</command>, <command>Xreset</command>, <symbol role="Variable">langue</symbol><filename>/Xresources</filename>, <command>Xservers</command>, <command>Xsetup</command> et <command>Xstartup</command>, le serveur de connexion consulte tout d'abord <filename>/etc/dt/config</filename>, puis <filename>/usr/dt/config</filename>, et utilise
+le premier fichier d&eacute;tect&eacute;.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.43">
+<title id="SAG.LogMg.mkr.14">Fichiers du Gestionnaire de connexion<indexterm>
+<primary>Fichiers</primary><secondary>de configuration</secondary><tertiary>Gestionnaire de connexion</tertiary></indexterm></title>
+<para>Par d&eacute;faut, les fichiers du Gestionnaire de connexion<indexterm>
+<primary>Gestionnaire de connexion</primary><secondary>fichiers de configuration</secondary></indexterm> se trouvent dans les r&eacute;pertoires suivants:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="247*">
+<colspec colwidth="281*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtlogin</filename><indexterm>
+<primary>&lt;</primary></indexterm><indexterm><primary>$nopage>dtlogin, voir
+Gestionnaire de connexion</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Serveur de connexion et Gestionnaire
+d'&eacute;cran.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtgreet</filename><indexterm>
+<primary>Fichiers</primary><secondary>dtgreet</secondary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Affiche une fen&ecirc;tre de connexion
+sur un &eacute;cran.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtchooser</filename><indexterm>
+<primary>Fichiers</primary><secondary>dtchooser</secondary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Affiche une fen&ecirc;tre de s&eacute;lection
+sur un &eacute;cran.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/Xsession</filename></para></entry>
+<entry align="left" valign="top"><para>Lance une session de Bureau.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xfailsafe</filename></para></entry>
+<entry align="left" valign="top"><para>Lance une session monofen&ecirc;tre.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xconfig</filename></para></entry>
+<entry align="left" valign="top"><para>Fichier de configuration du serveur
+de connexion.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xservers</filename></para></entry>
+<entry align="left" valign="top"><para>Fichier de description de l'&eacute;cran
+du serveur de connexion.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xaccess</filename></para></entry>
+<entry align="left" valign="top"><para>Fichier de description de l'acc&egrave;s
+au serveur de connexion.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/</filename><symbol role="Variable">langue</symbol><filename>/Xresources</filename></para></entry>
+<entry align="left" valign="top">Ressources de pr&eacute;sentation de l'&eacute;cran. </entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xsetup</filename></para></entry>
+<entry align="left" valign="top"><para>Fichier de configuration de l'&eacute;cran.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xstartup</filename></para></entry>
+<entry align="left" valign="top"><para>Fichier de lancement pr&eacute;-session.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xreset</filename></para></entry>
+<entry align="left" valign="top"><para>Fichier de r&eacute;tablissement post-session.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/var/dt/Xpid</filename></para></entry>
+<entry align="left" valign="top"><para>ID processus du Gestionnaire de connexion.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/var/dt/Xerrors</filename></para></entry>
+<entry align="left" valign="top"><para>Journal des erreurs du serveur de
+connexion.</para></entry></row></tbody></tgroup></informaltable>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 15:21:25-->
+<?Pub Caret>
+<?Pub *0000083443>

@@ -1,0 +1,106 @@
+<!-- $XConsortium: ch09.sgm /main/4 1996/10/11 09:24:29 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter id="infoapg.div.9">
+<Title id="vSMTMZBRyng24aK">Understanding Architectural Forms</Title>
+<IndexTerm><Primary>architectural forms</Primary>
+<Secondary>understanding</Secondary></IndexTerm>
+<Para>
+You use the
+Information Manager to build a bookcase, a collection of
+books in an information library, from a set of SGML documents.
+For some of these documents, such as style sheets, the SGML
+document type is defined by SGML DTDs distributed with the
+Information Manager. For others, such as the content of your books, you
+may use any document type definition (DTD).
+</Para>
+<Para>
+Many SGML applications face the problem of understanding the
+semantics that should be attached to elements in any arbitrary
+DTD. To handle this, the Information Manager provides architectural forms.
+</Para>
+<Para>
+An architectural form is a name given to a class containing
+elements that are to be processed uniformly by some application.
+Architectural forms define base classes. The specific SGML
+element defined in a specific DTD is then treated as a subclass.
+To implement architectural forms, you annotate your DTD with
+standard SGML attributes corresponding to
+Information Manager architectural
+forms. In most cases, the architectural forms are defined using
+the <SystemItem>FIXED</SystemItem> keyword,
+setting a specific attribute value for all
+instances of the element in all documents.
+</Para>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<Sect1>
+<Title id="kZLOUiBgsK9X3cS">Simple Example of an Architectural Form</Title>
+<Para>
+You must modify your existing DTDs so the
+Information Manager can
+manage the information correctly. For example, the
+Information Manager
+uses &ldquo;titles&rdquo; to determine the content displayed in various fields
+of the Information Manager Reading windows. Of course, in any specific DTD, the choices
+of a Generic Identifier for a title object are limitless. It could be
+called <SystemItem>head</SystemItem>, <SystemItem>h1</SystemItem>,
+<SystemItem>title</SystemItem>,
+<SystemItem>ti</SystemItem>, and so on. To allow the application to
+identify these title objects, we apply the attribute
+<SystemItem>DTINFO.Title</SystemItem> to our
+DTD. So, for example, if our specific element is named
+<SystemItem>head</SystemItem>:
+</Para>
+<ProgramListing>
+&lt;!ELEMENT   HEAD  - - (PCDATA) >
+&lt;!ATTLIST   HEAD
+               DTINFO.Title  NAME #FIXED "#CONTENT">
+</ProgramListing>
+<Para>
+As the application is processing a document, every instance of
+the element
+<SystemItem>HEAD</SystemItem> will have associated with it an attribute named
+<SystemItem>DTINFO.Title</SystemItem>. The application can recognize this and process the
+content of the element as it would any title.
+</Para>
+<Note>
+<Para>
+Applying architectural forms does not affect
+the validity of your SGML instances. For
+more information on applying architectural
+forms to your DTD, see
+<Link Linkend="nWGeMZBc9og24aK">Modifying your
+Existing DTD</Link>.</Para>
+</Note>
+</Sect1>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<Sect1>
+<Title id="zZLOUiBgsK9X3cS">How Architectural Forms Fit in the Toolkit Model</Title>
+<Para>
+The figure
+<Link Linkend="dPkT9aB7Wng24aK">Toolkit Model</Link> illustrates how different pieces of
+information interact during the build process. The shaded area
+in the figure represents the part of the build involving
+architectural forms.
+</Para>
+<Figure>
+<Title id="dPkT9aB7Wng24aK">Toolkit Model</Title>
+<GRAPHIC id="gr53" entityref="infoapg.fig.9"></graphic>
+</Figure>
+<Para>
+For information on developing a bookcase document under the
+DTD provided by the Information Manager, see
+<Link Linkend="TcQg4bBSxI9X3cS">Creating a Bookcase
+Document</Link>. For details on creating
+a style sheet document which conforms to the
+<Filename>dtinfoStyle.dtd</Filename>, see
+<Link Linkend="btcmaab0ang24ak">Creating a Style Sheet</Link>.
+</Para>
+</Sect1>
+</Chapter>
+

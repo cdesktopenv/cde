@@ -1,0 +1,650 @@
+#! /bin/ksh 
+
+export SYSTYPE=bsd4.3
+
+# This script is aimed at producing Apollo product tree but
+# it should work as well on hp-ux systems.  There is at least
+# one special rule "-n" which should not be generated on hp-ux systems
+# where it is not necessary to run nroff on the man page sources.
+
+
+# Put "/etc" in the path
+# because this is where "chown" appears on bsd4.3 systems (i.e. apollo).
+# Put "/usr/apollo/bin" on the path to access "chacl" on apollo systems.
+
+export PATH=":/etc:$PATH:/usr/apollo/bin:"
+typeset STRIP=""
+
+
+# this alias makes for more "beautiful" output.
+alias echo=print
+
+#
+# Shell script to read a file full of destination/perm/source triples and
+# create data base entries in a format suitable for 8.0 release.  All other
+# information defaults to the default values for now -- this should be correct
+# in most cases but may require editing of the result for those cases
+# needing special handling.
+#
+# Lst file syntax:
+# [<install-flags>]  <destination_path> <perm> <src> [ <type> <owner> <group> <status> <processor> <resp_proj> ]
+#
+# <install-rule>       ==>  [optional] 2 character field encoding special actions to be invoked when
+#                           creating the product tree.  In the absence of this field the file is subject
+#                           to defaults based on its name,destination directory and permissions.
+#                            valid values: 
+#				-- 	Do nothing special
+#				c-      compress the file
+#				-n      run it through an nroff pipeline
+#				-s      strip the file (should be a binary executable)
+#
+# <destination_path>	===> full path name on target system
+# <perm> 		===> numeric permission (with leading 0)
+# <src>			===> build tree path name (relative to build tree root)
+#			     | full path name of link source
+#			     | "-" to ignore this field (source for directory not required)
+# <type>		===> "file" | "empty_dir" | "directory" | "hard_link" | NULL
+# <owner>		===> file owner name -- defaults to bin
+# <group>		===> file group ownership --- defaults to bin
+# <status>		===> "di----" default
+# <processor>		===> valid processor "3-" | "-8" | "38" -- defaults to "38"
+# <resp_proj>		===> responsible project --- defaults to "xwindows"
+#
+
+Usage="Usage: $0 [-f filesetName] -D <desttree> -S <srctree> <file> ...\n
+\tfilesetName \t==>   (optional) used to create subdirectory in desttree\n
+\tdesttree \t==>   destination directory\n
+\tsrctree \t==>   usually a build tree containing the source\n
+\tfile \t\t==>   data base file in \".lst\" format"
+
+FILE='file'
+STATUS='di----'
+PROCESSOR='378'
+DESTTREE='.'
+
+if [ -f /com/ctnode ]; then
+	# Apollo systems
+	OWNER='root'
+	GROUP='staff'
+	# set flag used to test for soft links
+	LNKTST="L"
+else
+	# hp-ux systems (and all other systems)
+	OWNER='bin'
+	GROUP='bin'
+	# set flag used to test for soft links
+	LNKTST="h"
+fi
+
+BUILD_TARGET='/'
+INSTALL_RULE='--'
+INSTALL_FLAGS=''
+ORDER='0'
+RESP_PROJ='xwindows'
+
+# Set which system we are on
+BUILDSYSTEM=$(uname)
+
+# Set system
+if [ $BUILDSYSTEM = "AIX" ];
+then
+        PLATFORM=aix
+elif [ $BUILDSYSTEM = "SunOS" ];
+then
+        PLATFORM=sun
+elif [ $BUILDSYSTEM = "UNIX_SV" ];
+then
+	PLATFORM=usl
+elif [ $BUILDSYSTEM = "UNIX_System_V" ];
+then
+	PLATFORM=uxp
+elif [ $BUILDSYSTEM = "OSF1" ];
+then
+	PLATFORM=dec
+else                                                # Build system = HP
+        PLATFORM=hp-ux
+fi
+
+if [ $PLATFORM = "aix" ];
+then
+        USER=`/bin/whoami`
+elif [ $PLATFORM = "sun" -o $PLATFORM = "usl" -o $PLATFORM = "uxp" ];
+then
+        USER=`/usr/ucb/whoami`
+else
+        USER=`/usr/bin/whoami`
+fi
+
+awkit() {
+	awk  '
+	BEGIN {
+		print "#" 
+		print "# TYPE RULE SRC DEST MODE OWNER GROUP LINKSRC"
+		print ""
+	}
+
+	/^[ 	]*#/ { next }
+	{
+		# initialize install_rule to NULL
+		install_rule=""
+
+		# skip blank lines
+		if ( NF == 0 )
+			next
+		# do a little syntax checking
+                
+		if ( $1 !~ /\// ) {
+			# check for special install_rule values
+			if ( $1 ~ /[-c][-ns]/ ) {
+				# set the special install rule
+				install_rule=$1
+
+				# shift the rest of the fields left
+				for ( i = 1; i < NF; i++) {
+					$i = $(i+1)
+				}
+				NF=NF-1
+			}
+			else {
+				print "Syntax Error (line " NR ") destination path: " $1
+				print "text: "  $0
+				next
+			}
+		}
+	
+		if ( NF > 9 ) {
+			print "Syntax Error (line " NR ") number of fields"
+			print "text: "  $0
+			exit
+		}
+		
+		if ( $2 !~ /0[0-7][0-7]*/ ) {
+			print "Syntax Error (line " NR ") perm  : " $2 
+			print "text: "  $0
+			next
+		}
+#		if ( $4 ~ /link/ && $3 !~ /^\// && $3 !~ /`node_data/) {
+# changed to allow local link (using ./file syntax) -- Should this be
+# domain only?
+#
+		if ( $4 ~ /link/ && $3 !~ /^\// && $3 !~ /`node_data/ && \
+			$3 !~ /^\.\// && $3 !~ /^\.\.\// ) {
+			print "Syntax Error (line " NR ") source: " $3
+			print "text: "  $0
+			next
+		}
+
+# Check for special install rules
+# man pages are compressed use rule "c-"
+# font files are compressed use rule "c-"
+# directories have no source i.e. src = "-"
+
+		src = $3;
+		link_src = "";
+		type = "'$FILE'";
+		owner = "'$OWNER'";
+		group = "'$GROUP'";
+		status = "'$STATUS'";
+		processor = "'$PROCESSOR'";
+		resp_proj = "'$RESP_PROJ'";
+		if ( $4 != "" )
+		{
+			type = $4;
+			if ( $4 ~ /link/ ) {
+				src = "";
+				if ( $3 ~ /^\// || $3 ~ /`node_data/ || \
+					$3 ~ /^\.\// || $3 ~ /^\.\.\// )
+					link_src = $3;
+				else {
+					print "Syntax Error (line " NR ") link_src: " $3
+					print "text: "  $0
+					next;
+				};
+			}
+			else if ( $4 == "directory" )
+				if ( $3 != "-" ) 
+				{
+					print "Syntax Error (line " NR ") directory: " $3;
+					print "text: "  $0;
+					next;
+				}
+				else
+					src="";
+			else if ( $4 == "empty_dir" )
+			{
+				resp_proj = "common";
+				status = "------";
+				if ( $3 != "-" )
+				{
+					print "Syntax Error (line " NR ") empty_dir: " $3;
+					print "text: "  $0;
+					next;
+				}
+				else
+					src="";
+			}
+			else if ( $4 == "file" && $3 == "-" )
+				if ( $7 == "---cu-")
+					src = "";
+		}
+		#
+		# If owner an/or group are specified all previous fields (including
+		# type) must be specified.
+		#
+		if ( $5 != "" )
+			owner = $5;
+
+		if ( $6 != "" )
+			group = $6;
+
+		if ( $7 != "" )
+			status = $7
+			
+		if ( $8 != "" )
+			processor = $8;
+
+		if ($9 != "" )
+			resp_proj= $9;
+
+		if ( install_rule != "" ) {
+			; # install rule has been explicitly set -- do nothing
+		}
+		else if ( $1 ~ /\/usr\/man\/man.*\.Z\// )
+		{
+			install_rule = "c-";
+		}
+		else if ( $1 ~ /\/usr\/X11\/man\/cat[1-9]\/.*[1-9]/ )
+		{
+			install_rule = "-n";
+		}
+		else if ( $1 ~ /\/bsd4.3\/usr\/man\/cat[1-9]\/.*[1-9]/ )
+		{
+			install_rule = "-n";
+		}
+		else if ( $1 ~ /\/sys5.3\/usr\/catman\/.*man[1-9]\/.*[1-9]/ )
+		{
+			install_rule = "-n";
+		}
+		else if ( $1 ~ /.*\/fonts\/.*.scf$/ && $3 ~ /.*.snf$/ )
+		{
+			install_rule = "c-";
+		}
+		else if ( $1 ~ /.*\/fonts\/.*.snf\.Z$/ && $3 ~ /.*.snf$/ )
+		{
+			install_rule = "c-";
+		}
+		else if ( $1 ~ /^\/integration\// && $3 ~ /^doc\/upinfo\// )
+		{
+			install_rule = "";
+		}
+		else if ( $2 ~ /[1357]/ && $4 == "file" )
+		{	# executable files may be stripped
+			install_rule = "-s";
+		}
+		else
+			install_rule = "'$INSTALL_RULE'";
+			
+			
+#		print "install_target		: " $1
+#		print "fileset			: " "'$FILESET'"
+#		print "type			: " type
+#		print "status			: " status
+#		print "processor		: " processor
+#		print "mode			: " $2
+#		print "owner			: " owner
+#		print "group			: " group
+#		print "link_source		: " link_src
+#		print "build_target		: " "'$BUILD_TARGET'"
+#		print "install_rule_name	: " install_rule
+#		print "install_flags		: " "'$INSTALL_FLAGS'"
+#		print "a_out_location		: " src
+#		print "order			: " "'$ORDER'"
+#		print "responsible_project	: " resp_proj
+#		print "#"
+
+		if ( type ~ /.*link/ )
+			src= link_src
+		else if ( type ~ /.*directory/ )
+			src="-"
+
+		print type, install_rule, src, $1, $2, owner ,group
+	}
+
+	'  $1
+}
+
+#
+# createPath
+#	function to create a directory path.  (mkdir -p replacement on bsd4.3)
+#
+createPath()
+{
+	if [ $# -ne 1 ]; then
+		echo "ERROR: \"$0\" invalid argument count" >&2
+		echo "   ARGS=$@"
+		return 1
+	fi
+	
+	# Since we are SYSTYPE bsd4.3 "-x" won't work.
+	if [ -r /sys5.3/bin/mkdir ]; then
+		/sys5.3/bin/mkdir -p $1
+		return
+	fi
+	if hp9000s300 > /dev/null 2>&1 || hp9000s800 > /dev/null 2>&1; then
+		mkdir -p $1
+		return
+	fi 
+	
+	#
+	# We can't use mkdir -p so do the hard way.
+	# starting at the root check/create all the directories
+	# in the given path
+	#
+
+	typeset xdirs=""
+	typeset nextdir=""
+	typeset fulldirs
+
+	# provide extra slash for apollo systems (//hp* syntax)?
+
+	if [ "$1" = "${1##/}" ]; then
+		# not a full path name so attach path to current directory
+		fulldirs=`/bin/pwd`/$1
+		xdirs="/"    # added to support apollo "//host" syntax
+	elif [ "$1" != "${1##//}" ]; then
+		# using "//host" syntax
+		fulldirs=$1
+		xdirs="/"
+	else
+		fulldirs=$1
+		xdirs=""
+	fi
+
+	echo creating path: $1 
+
+	while nextdir=`expr /$fulldirs/ : '/*\([^/]*\)/.*'`; do
+		xdirs=$xdirs/$nextdir
+		if [ ! -d $xdirs ]; then
+			mkdir $xdirs
+		fi
+
+		fulldirs=`expr $fulldirs : '/*[^/]*/\(.*\)'`
+	done
+	return 0	
+}
+
+# doit
+#	function to put the source file into the product tree.  This function 
+#	reads its stdin for file movement rules.
+#
+doit()
+{
+	if [ $# -ne 0 ]; then
+		echo "ERROR: \"$0\"  incorrect arg count" >&2
+		echo "ARGS: $@" >&2
+	fi
+	
+	typeset TYPE
+	typeset RULE
+	typeset SRC
+	typeset DEST
+	typeset MODE
+	typeset OWNER
+	typeset GROUP
+	
+	while read TYPE RULE SRC DEST MODE OWNER GROUP; do
+		# ignore blank lines
+		if [ -z "$TYPE" ]; then
+			continue;
+		fi
+		# ignore comment lines (match longest string starting with '#')
+		if [ "${TYPE###}" != "$TYPE" ]; then
+			continue
+		fi
+
+		DEST=$DESTTREE/$FILESET${DEST}
+		CMD=""
+
+		case $TYPE in
+		directory)
+			if [ ! -d "$DEST" ]; then
+				CMD="createPath $DEST"
+			fi
+			;;
+		file)	
+			SRC=$SRCTREE/$SRC
+			if [ "$CHECK_BEFORE" = "yes" ]
+			then
+			    if [ ! -f $SRC ]
+			    then
+				echo "Missing: $SRC"
+				echo "Missing: $SRC" >>/tmp/mkprod.missing
+				continue
+			    fi
+			fi
+			if [ ! -f $SRC ]; then
+				echo "ERROR: Cannot read \"$SRC\"." >&2
+				echo "  LINE=$TYPE $RULE $SRC $DEST $MODE $OWNER $GROUP " >&2
+				continue
+			fi
+			case $RULE in
+			c-) # compress rule
+				CMD="compress -c $SRC > $DEST"
+				;;
+			-n) # nroff rule (for apollo man pages)
+				if egrep -c '^\.TH[ 	]|^\.ds[ 	]' $SRC > /dev/null ; then
+					CMD="tbl $SRC|eqn|nroff -man|col -b> $DEST"
+				else
+					CMD="cp $SRC $DEST"
+				fi
+				;;
+			-s) # strip rule 
+					# Domain Only
+#				if [ "$(find $SRC -typeuid coff -print)" =  "$SRC" ]; then 
+					# hp-ux
+				if [ -z "$STRIP" ]; then
+					CMD="cp $SRC $DEST"
+				else if file $SRC | grep -q "not stripped"; then 
+					CMD="cp $SRC $DEST; strip $DEST"
+				else
+						CMD="cp $SRC $DEST"
+				fi
+				fi
+				;;
+			--) # default (no special processing)
+				CMD="cp $SRC $DEST"
+				;;
+			*)  # huh?
+				echo "ERROR: Unrecognized rule: \"$RULE\"" >&2
+				echo "  LINE=$TYPE $RULE $SRC $DEST $MODE $OWNER $GROUP " >&2
+				continue;
+				;;
+			esac
+			;;
+		sym_link)
+			if [ -z "$SRC" ]; then
+				echo "ERROR: No link source for \"$DEST\"" >&2
+				echo "  LINE=$TYPE $RULE $SRC $DEST $MODE $OWNER $GROUP "  >&2
+				continue;
+			fi
+			if [ "${SRC#\`node_data}" != "$SRC" ]; then
+				# apollo-style special link
+				echo "WARNING: encountered special link: $SRC" >&2
+				# try to make link to this SRC by adding a
+				# backslash to protect the tic mark.
+				SRC=\\$SRC
+			elif [ "${SRC#/}" = "$SRC" ]; then
+#				echo "ERROR: Relative link \"$SRC\"" >&2
+			#	echo "WARNING: Relative link \"$SRC\"" >&2
+			#	echo "  LINE=$TYPE $RULE $SRC $DEST $MODE $OWNER $GROUP "  >&2
+				# Protect the potential variant link variable
+				# (eg lnk_$(LNK))
+				SRC=\'$SRC\'
+#				continue;
+			fi
+			CMD="ln -s $SRC $DEST"
+			# Remove existing link if one already exists
+			[ -${LNKTST} "$DEST" ] && rm $DEST
+			;;
+		hard_link)
+			# Hard links are assumed to be made only to other
+			# files in the submittal -- not to existing system
+			# files.
+			SRC="$DESTTREE/$FILESET${SRC}"
+			if [ -z "$SRC" ]; then
+				echo "ERROR: No link source for \"$DEST\"" >&2
+				echo "  LINE=$TYPE $RULE $SRC $DEST $MODE $OWNER $GROUP"  >&2
+				continue;
+			fi
+			CMD="ln $SRC $DEST"
+			;;
+		*)	echo "ERROR: Unrecognized type: \"$TYPE\"" >&2
+			echo "  LINE=$TYPE $RULE $SRC $DEST $MODE $OWNER $GROUP" >&2
+			continue;
+			;;
+		esac
+
+		# createPath issues its own error messages
+		if [ ! -d ${DEST%/*} ]; then
+			createPath ${DEST%/*} || continue
+		fi
+		[ -z "$CMD" ] && continue
+		eval "$CMD" || {
+			echo "ERROR: \"$CMD\" failed" >&2
+			echo "  LINE=$TYPE $RULE $SRC $DEST $MODE $OWNER $GROUP" >&2;
+			continue;
+		}
+		# set permissions for non-links
+		if [ "${TYPE%link}" = "$TYPE" ]; then
+			if [ "$USER" = "root" ]; then
+				chmod $MODE $DEST || 
+					echo "ERROR: \"chmod $MODE $DEST\" failed" >&2
+				chgrp $GROUP $DEST || 
+					echo "ERROR: \"chgrp $GROUP $DEST\" failed" >&2
+				chown $OWNER $DEST || 
+					echo "ERROR: \"chown $OWNER $DEST\" failed" >&2
+			fi
+		fi
+
+		echo $TYPE $RULE $SRC $DEST $MODE $OWNER $GROUP
+	done
+
+}
+
+###################################################
+#	MAIN BODY
+###################################################
+
+#
+# Check Path for chmod, chown, and chgrp
+#
+whence chmod > /dev/null || {
+	echo "ERROR: \"chmod\" not in PATH." >&2
+	exit 1
+}
+whence chown > /dev/null || {
+	echo "ERROR: \"chown\" not in PATH." >&2
+	exit 1
+}
+whence chgrp > /dev/null || {
+	echo "ERROR: \"chgrp\" not in PATH." >&2
+	exit 1
+}
+
+CHECK_BEFORE="no"
+
+while [ $# -ne 0 ]  ; do
+	case $1 in
+	-f*)
+		FILESET=${1#-f}
+		if [ -z "$FILESET" ]; then
+			if [ $# -ge 1 ]; then
+				shift;
+				FILESET=$1
+			else
+				echo $Usage
+				exit 1;
+			fi
+		fi;;
+	-S*)	SRCTREE=${1#-S}
+		if [ -z "$SRCTREE" ]; then
+			if [ $# -ge 1 ]; then
+				shift;
+				SRCTREE=$1
+			else
+				echo $Usage
+				exit 1;
+			fi
+		fi
+		;;
+	-D*)	DESTTREE=${1#-D}
+		if [ -z "$DESTTREE" ]; then
+			if [ $# -ge 1 ]; then
+				shift;
+				DESTTREE=$1
+			else
+				echo $Usage
+				exit 1;
+			fi
+		fi
+		;;
+
+	-P*)	CHECK_BEFORE="yes"
+		;;
+
+	*)	files="$files $1";;
+	esac
+	if [ $# -ge 1 ]; then
+		shift;
+	fi
+done
+
+if [ -z "$files" -o -z "$SRCTREE" ]; then
+	echo $Usage >&2
+	exit 1;
+fi
+
+if [ ! -d "$SRCTREE" ]; then
+	echo "ERROR: Cannot access \"$SRCTREE\"." >&2
+	exit 1
+fi
+if [ ! -d "$DESTTREE" ]; then
+	echo "ERROR: Cannot access \"$DESTTREE\"." >&2
+	exit 1
+fi
+
+umask 022
+if [ -f /com/ctnode ]; then
+	#
+	# Make sure berkely style permissions are applied to the product tree
+	# This should cause directories to be created with permissions based
+	# on the umask (which is otherwise ignored on "open security model" 
+	# file systems).
+	#
+	chacl -RB $DESTTREE
+fi
+
+# Debug Stmts
+echo FILESET=$FILESET
+echo files=$files
+echo SRCTREE=$SRCTREE
+echo DESTTREE=$DESTTREE
+echo "#-------------- $(date) --------------"
+echo ""
+
+TOOL_DIR=$SRCTREE/admin/IntegTools/dbTools
+
+#
+# Avoid making duplicate entries
+# make sure links are referred to AFTER the files to which they point.
+#
+if [ $PLATFORM = "uxp" ]; then
+  $TOOL_DIR/uncomment $files | sort | uniq | $TOOL_DIR/linksLast - > /tmp/awk.in
+  cat /tmp/awk.in | awkit > /tmp/awk.out
+  cat /tmp/awk.out | doit
+else
+  $TOOL_DIR/uncomment $files | sort | uniq | $TOOL_DIR/linksLast - | awkit | doit
+fi
+
+echo ""
+echo "#-------------- $(date) --------------"

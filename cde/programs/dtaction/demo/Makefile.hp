@@ -1,0 +1,52 @@
+# $XConsortium: Makefile.hp /main/2 1996/05/13 11:29:32 drk $
+###########################################################################
+#
+# Makefile for dtactiondemo.c
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+#      Novell, Inc.
+###########################################################################
+
+#ifndef CDE_INSTALLATION_TOP
+  CDE_INSTALLATION_TOP = /usr/dt
+#endif
+
+PROGRAM        = dtactiondemo
+SOURCES        = dtactiondemo.c
+OBJECTS        = dtactiondemo.o
+
+CFLAGS         = +Obb2000 -Aa
+OPTIMIZEDFLAGS = -O
+
+DEFINES        = -D_HPUX_SOURCE
+
+DTINCLUDE      = -I$(CDE_INSTALLATION_TOP)/include
+XMINCLUDE      = -I$(CDE_INSTALLATION_TOP)/include
+X11INCLUDE     = -I/usr/include/X11R5
+EXTRA_INCLUDES =
+INCLUDES       = $(DTINCLUDE) $(XMINCLUDE) $(X11INCLUDE) $(EXTRA_INCLUDES)
+
+DTSVCLIB       = -L$(CDE_INSTALLATION_TOP)/lib -lDtSvc
+TTLIB          = -L$(CDE_INSTALLATION_TOP)/lib -ltt
+XMLIB          = -L$(CDE_INSTALLATION_TOP)/lib -lXm
+XTLIB          = -L$(CDE_INSTALLATION_TOP)/lib -lXt
+X11LIB         = -L/usr/lib/X11R5 -lX11
+
+LIBRARIES      = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTLIB) $(X11LIB)
+
+LDFLAGS        =
+
+.c.o:
+	cc -c $(CFLAGS) $(DEFINES) $(OPTIMIZEDFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM)
+
+$(PROGRAM)::	$(OBJECTS)
+	cc -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+clean::
+	rm -f $(PROGRAM)
+	rm -f $(OBJECTS)

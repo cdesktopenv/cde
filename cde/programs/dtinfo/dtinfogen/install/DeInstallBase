@@ -1,0 +1,80 @@
+#!/bin/sh
+
+##############################################################
+#    DeInstallBase                                           #
+#                                                            #
+#    Performs de-installation for the bookcase from an info  #
+#    library.                                                #
+#                                                            #
+##############################################################
+
+#### Parse the argument ####
+
+if [ $# -lt 2 ]; then
+   echo "Usage : $0 [ bookcase ] [ info-library ] " >&2
+   exit 1
+fi
+
+BookCase=$1
+InfoLib=$2
+
+NAMES_MMDB=$InfoLib/bookcase.map
+
+### Validate if both bookcase and info-library is valid ###
+
+if [ ! -f $NAMES_MMDB ]; then
+   echo "(ERROR) $InfoLib is not a valid info-library" >&2
+   exit 1
+fi
+
+if [ ! -w $NAMES_MMDB ]; then
+   echo "(ERROR) No write permission to de-install $BookCase "
+   exit 1
+fi
+
+##### Check to see if bookcase is already existing in the infolibrary
+
+TSTSTRING=
+TSTSTRING=`awk '{
+                  if ( NR > 1 && $1 == bookcasename ) { print bookcasename }
+                }' bookcasename=$BookCase $NAMES_MMDB`
+
+if [ -z "$TSTSTRING" ]; then
+   echo "(ERROR) $BookCase does not already exist in $InfoLib" >&2
+   exit 2
+fi
+
+### remove the entry in the names.mmdb file ###
+
+TMP_NAMES_MMDB=$NAMES_MMDB.tmp
+awk '{
+       if ( NR == 1 || $1 != bookcasename ) { print $0 }
+     }' bookcasename=$BookCase $NAMES_MMDB > $TMP_NAMES_MMDB
+
+mv $TMP_NAMES_MMDB $NAMES_MMDB
+
+### remove the physical storage of bookcase from info-lib ###
+
+if [ ! -d $InfoLib/$BookCase ]; then
+   echo "(ERROR) $BookCase is not found under $InfoLib"
+   exit 1
+fi
+
+rm -fr $InfoLib/$BookCase
+
+if [ $? -ne 0 ]; then
+   echo "(ERROR) Failed to remove $InfoLib/$BookCase" >&2
+   exit 1
+fi
+
+exit 0
+
+
+
+
+
+
+
+
+           
+

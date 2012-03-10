@@ -1,0 +1,283 @@
+<!-- $XConsortium: PrintFil.sgm /main/8 1996/08/31 14:58:50 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.XPRINT.DtPrintFillSetupData">]]>
+<![ %CDE.C.XO; [<refentry id="XCSA.XPRINT.DtPrintFillSetupData">]]>
+<refmeta><refentrytitle>
+DtPrintFillSetupData
+</refentrytitle><manvolnum>library call</manvolnum></refmeta><refnamediv>
+<refname><function>DtPrintFillSetupData</function></refname><refpurpose>
+obtains X printer connection information
+</refpurpose></refnamediv><refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Print.h></funcsynopsisinfo>
+<funcdef>XtEnum <function>DtPrintFillSetupData</function></funcdef>
+<paramdef>Widget <parameter>wid</parameter></paramdef>
+<paramdef>DtPrintSetupData* <parameter>print_data</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtPrintFillSetupData</function> function
+obtains an X printer connection in order
+to initiate an X printing job in situations other than direct
+interaction with a <function>DtPrintSetupBox</function>. Examples
+of such situations include a "quick print" button on a
+toolbar and "GUI-less" printing. This X printer connection information
+can be obtained from an existing <function>DtPrintSetupBox</function>
+widget instance, or if a
+<function>DtPrintSetupBox</function> widget instance is
+unavailable, <function>DtPrintFillSetupData</function>
+will provide a new X printer connection.
+</para>
+<para>A print job is typically initiated when the user selects the "Print"
+button from within a <function>DtPrintSetupBox</function> widget instance.
+Applications may
+wish to provide additional avenues for the user to initiate a print job,
+namely a "Quick Print" toolbar button, or a command line parameter to
+allow "GUI-less" printing, such as from within a desktop action.
+<function>DtPrintFillSetupData</function> is designed to provide
+an X printer connection in a
+manner consistent with <function>DtPrintSetupBox</function>.
+</para>
+<para>For both the "Quick Print" and "GUI-less" cases, the caller may set the
+<symbol role="Variable">printer_name</symbol> element of the passed
+<symbol role="Variable">print_data</symbol>
+in order to specify the destination X printer.
+<function>DtPrintFillSetupData</function> will treat the passed
+<symbol role="Variable">printer_name</symbol> as if the user had
+typed the printer name into the Printer
+Name text field of the <function>DtPrintSetupBox</function>.
+The <symbol role="Variable">printer_name</symbol> will be
+verified, and an X printer connection will be established. The returned
+<symbol role="Variable">printer_name</symbol> may be a fully qualified
+version of the passed <symbol role="Variable">printer_name</symbol>
+as a result of the printer verification process. For a description of
+this process, see the <systemitem class="resource">DtNverifyPrinterProc</systemitem>
+resource description in &cdeman.DtPrintSetupBox;.
+If <function>DtPrintFillSetupData</function> returns a
+new printer_name, it will free the passed
+<symbol role="Variable">printer_name</symbol> by calling
+<function>XtFree</function>.
+</para>
+<para>For the "Quick Print" button case,
+<function>DtPrintFillSetupData</function> is intended to
+be used with an existing
+<function>DtPrintSetupBox</function> instance, so that the "Quick
+Print" button behaves as if the user had brought up a
+<function>DtPrintSetupBox</function>, selected a printer as
+indicated by <symbol role="Variable">printer_name</symbol>,
+and activated the "Print" button. The following conditions
+apply to this case:
+</para>
+<itemizedlist>
+<listitem>
+<para>The <symbol role="Variable">wid</symbol>
+parameter should be set to the widget ID of the
+<function>DtPrintSetupBox</function> instance.
+<function>DtPrintFillSetupData</function> will fill the passed
+<symbol role="Variable">print_data</symbol> structure
+similarly to how
+<function>DtPrintSetupBox</function> fills out the
+<symbol role="Variable">print_data</symbol> element of the
+<StructName Role="typedef">DtPrintSetupCallbackStruct</StructName>
+passed as call data to the
+<Symbol>DtNprintCallback</Symbol> list. The only exception is that when using
+<function>DtPrintFillSetupData</function> it is the caller's
+responsibility to free the
+allocated memory locations pointed to by the
+<symbol role="Variable">print_data</symbol> structure
+by calling <function>DtPrintFreeSetupData</function>.
+</para>
+</listitem>
+<listitem>
+<para>The X printer connection returned is managed by the
+<function>DtPrintSetupBox</function>. The caller should
+not destroy the print context, nor
+close the print display connection.
+</para>
+</listitem>
+<listitem>
+<para>The <function>DtPrintSetupBox</function> widget
+instance passed via <symbol role="Variable">wid</symbol>
+does not have to have been managed prior to calling
+<function>DtPrintFillSetupData</function>.
+</para>
+</listitem>
+<listitem>
+<para>If the passed <symbol role="Variable">printer_name</symbol>
+is NULL, the current printer as indicated by
+the <systemitem class="resource">DtNprinterName</systemitem>
+resource will be used, and returned in
+<symbol role="Variable">printer_name</symbol>.
+If the passed <symbol role="Variable">printer_name</symbol>
+is a different printer than indicated by the
+current value of
+the <systemitem class="resource">DtNprinterName</systemitem>
+resource, the resource will be
+updated.
+</para>
+</listitem>
+<listitem>
+<para>The
+<symbol role="Variable">destination</symbol> and
+<symbol role="Variable">dest_info</symbol>
+elements of the passed
+<symbol role="Variable">print_data</symbol>
+will be set according to the current state of the
+passed <function>DtPrintSetupBox</function>.
+If <symbol role="Variable">dest_info</symbol>
+is set when passed to
+<function>DtPrintFillSetupData</function>,
+<function>DtPrintFillSetupData</function> will free the memory
+by calling <function>XtFree</function> if it decides to update
+If <symbol role="Variable">dest_info</symbol>.
+</para>
+</listitem>
+<listitem>
+<para>If a connection cannot be established, the
+<function>DtPrintSetupBox</function> will
+automatically be managed, displaying an error message box. After
+dismissing the message box, the user can select a new printer and
+restart the print operation, if desired.
+</para>
+</listitem>
+</itemizedlist>
+<para>For the "GUI-less" case,
+<function>DtPrintFillSetupData</function> is intended to provide an
+X printer connection, in a manner consistent with an X printer
+connection established by <function>DtPrintSetupBox</function>,
+without actually creating a <function>DtPrintSetupBox</function>.
+The following conditions apply to this case:
+</para>
+<itemizedlist>
+<listitem>
+<para>The passed <symbol role="Variable">wid</symbol> must be set to NULL.
+</para>
+</listitem>
+<listitem>
+<para>The X printer connection returned is managed by the caller,
+which means that the caller must destroy the print context
+(via <function>XpDestroyContext</function>) and close the
+print display connection (via <function>XCloseDisplay</function>).
+</para>
+</listitem>
+<listitem>
+<para>If <symbol role="Variable">printer_name</symbol> is
+set to NULL, <function>DtPrintFillSetupData</function>
+will determine a default printer, using the same procedure
+as <function>DtPrintSetupBox</function>, and set
+the <symbol role="Variable">printer_name</symbol> field
+to this default printer name upon return.
+</para>
+</listitem>
+<listitem>
+<para>The <symbol role="Variable">destination</symbol> and
+<symbol role="Variable">dest_info</symbol> elements of
+the passed <StructName Role="typedef">print_data</StructName>
+structure will be ignored by
+<function>DtPrintFillSetupData</function>.
+</para>
+</listitem>
+<listitem>
+<para>The caller can free the allocated memory locations pointed to by the
+returned <StructName Role="typedef">print_data</StructName> structure
+by calling <function>DtPrintFreeSetupData</function>.
+</para>
+</listitem>
+</itemizedlist>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">wid</symbol></term>
+<listitem>
+<para>The widget ID of a <function>DtPrintSetupBox</function>
+or NULL, if no <function>DtPrintSetupBox</function> is available.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">print_data</symbol></term>
+<listitem>
+<para>A pointer to an existing <StructName Role="typedef">DtPrintSetupData</StructName>
+structure that <function>DtPrintFillSetupData</function>
+will update with valid X printer connection
+information. See &cdeman.DtPrintSetupBox;
+for the definition of the
+<StructName Role="typedef">DtPrintSetupData</StructName> structure.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<variablelist>
+<varlistentry><term><systemitem class="constant">DtPRINT_SUCCESS</systemitem></term>
+<listitem>
+<para>The X printer connection was successfully obtained.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="constant">DtPRINT_INVALID_DISPLAY</systemitem></term>
+<listitem>
+<para>The indicated X print server could not be found.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="constant">DtPRINT_NOT_XP_DISPLAY</systemitem></term>
+<listitem>
+<para>The indicated X server does not support the X Printing Extension.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="constant">DtPRINT_NO_PRINTER</systemitem></term>
+<listitem>
+<para>The indicated printer could not be found on the X print server, or a
+default printer could not be determined.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="constant">DtPRINT_BAD_PARM</systemitem></term>
+<listitem>
+<para>The value passed for <symbol role="Variable">print_data</symbol>
+is NULL, or the value of the
+<systemitem class="resource">DtNprintSetupMode</systemitem>
+resource for <symbol role="Variable">wid</symbol> is not
+<systemitem class="constant">DtPRINT_SETUP_XP</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>ERRORS/WARNINGS</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>FILES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtPrintCopySetupData;,
+&cdeman.DtPrintSetupBox;,
+&cdeman.DtPrintFreeSetupData;</para>
+</refsect1></refentry>

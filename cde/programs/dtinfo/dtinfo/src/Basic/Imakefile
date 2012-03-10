@@ -1,0 +1,31 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/08/21 15:41:35 drk $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+MAKEFILEDEPS=Classlist.mk
+
+LIBNAME=Basic
+
+#if defined(UseWideChars) && defined(SunArchitecture) && (OSMajorVersion == 4)
+INCLUDES=$(BROWSER_INCLUDES) $(MMDB_INCLUDES) -I/VOB/olias/library/Xwchar/src -I/VOB/olias/library/binstall/include
+#else
+INCLUDES=$(BROWSER_INCLUDES) $(COMMON_CLASS_INCLUDES) -I/VOB/olias/library/binstall/include
+#endif
+
+#include "Classlist.mk"
+
+OBJS=$(SRCS:.C=.o)
+
+make_libfiles($(LIBNAME), $(CLASSES))
+
+#ifdef DoLicenseManagement
+SpecialCPlusPlusObjectRule(NodeDisplayDataTml.o NodeViewInfo.o,,$(LICENSE_L_INCLUDES) -DLICENSE_MANAGEMENT)
+#endif
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#else
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+#endif
+
+DependTarget()

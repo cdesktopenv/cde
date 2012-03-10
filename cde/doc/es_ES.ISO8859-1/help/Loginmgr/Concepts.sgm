@@ -1,0 +1,184 @@
+<!-- $XConsortium: Concepts.sgm /main/6 1996/09/08 22:22:08 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<!-- Help Volume: Loginmgr -->
+<!-- File name:   Concepts -->
+<Chapter Id="Concepts">
+<Title>Conceptos acerca del Gestor de inicio de sesiones</Title>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HLGMGR.CNCP.item.1">
+<Para><XRef Linkend="SessionsSI"></Para>
+</ListItem>
+<ListItem Id="HLGMGR.CNCP.item.2">
+<Para><XRef Linkend="StartOtherTypesSessionsSI"></Para>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="SessionsSI">
+<Title>Introducción para sesiones de Escritorio</Title>
+<IndexTerm>
+<Primary>iniciar: sesión de Escritorio</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>iniciar sesión de Escritorio</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>Escritorio: iniciar sesión</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>sesión: iniciar de Escritorio</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>utilización: sesión de inicio</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>sesión de inicio: definida</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>sesión actual definida</Primary>
+</IndexTerm>
+<Para>Una sesión es la colección de aplicaciones, valores y recursos
+que están presentes en su escritorio.
+Una sesión de escritorio tiene lugar entre el momento en que inicia la
+sesión y el momento en que la finaliza. La pantalla de inicio de
+sesión, creada por el Gestor de inicio de sesiones, es su puerta
+para el escritorio. Le proporciona un lugar para
+escribir el ID de usuario y la contraseña.</Para>
+<Para>El menú Opciones de la pantalla de inicio de sesión lista sus opciones.
+Además de ejecutar una sesión de escritorio, puede elegir ejecutar
+una sesión de seguridad contra anomalía.
+También puede seleccionar el idioma para la sesión.</Para>
+<Para>Después de que el gestor de inicio de sesiones autentifica el ID de
+usuario y la contraseña, el Gestor de sesiones entra en función.
+La gestión de sesiones es un conjunto de convenios y
+protocolos que permiten que un gestor de sesiones especial,
+por ejemplo el Gestor de Sesiones de Entorno de Escritorio Común,
+guarde y restaure su sesión. Puede iniciar la sesión en el sistema
+y tener presente el mismo conjunto de aplicaciones de ejecución,
+valores y recursos que estaban presentes cuando finalizó la
+sesión.
+El Gestor de sesiones guarda y restaura:</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HLGMGR.CNCP.item.3">
+<Para>Los valores del comportamiento y el aspecto&emdash;por ejemplo,
+valores de ratón, fonts y colores.</Para>
+</ListItem>
+<ListItem Id="HLGMGR.CNCP.item.4">
+<Para>Las aplicaciones de ventana que se estaban ejecutando&emdash;por
+ejemplo, las ventanas del Gestor de archivos y el Editor de textos.
+El Gestor de sesiones no puede guardar y restaurar ciertos
+tipos de aplicaciones. Por ejemplo, si inicia el editor
+<ComputerOutput>vi</ComputerOutput>
+desde una línea de mandatos en una ventana de Terminal, el Gestor de
+sesiones no puede restaurar la sesión de edición.</Para>
+</ListItem>
+</ItemizedList>
+<Para>Cuando se inicia la sesión en el escritorio por primera vez, se carga una
+sesión inicial predeterminada. A partir de ese momento,
+el Gestor de sesiones soporta la noción de una sesión actual y una
+sesión de inicio.</Para>
+<Procedure>
+<Title>Sesión inicial</Title>
+<Step>
+<Para>Cuando inicie la sesión en el escritorio por primera vez,
+el Gestor de sesiones generará la sesión inicial utilizando
+valores predeterminados del sistema.
+De forma predeterminada, se inician automáticamente el Gestor de
+archivos y una Introducción al Entorno de Escritorio Común.
+</Para>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Sesión actual</Title>
+<Step>
+<Para>De forma ordinaria, el escritorio guarda información de sesión
+cuando finaliza la sesión y utiliza dicha
+información para iniciar la siguiente sesión. Si inicia o detiene
+aplicaciones durante la sesión, o utiliza el Gestor de estilos para
+cambiar el aspecto y el comportamiento del sistema, las modificaciones
+que realiza se reflejan en la siguiente sesión.</Para>
+<Para>La sesión en ejecución siempre se considera la <GlossTerm>sesión
+actual</GlossTerm>, tanto si se restaura en el momento de iniciar la sesión a
+partir de una sesión de inicio guardada, una sesión actual guardada o
+la sesión inicial predeterminada del sistema. Basándose en los
+valores de Arranque del Gestor de estilos, el Gestor de sesiones
+guarda la sesión actual de manera automática cuando el usuario
+sale de la sesión. Cuando se inicia la sesión en el escritorio
+la siguiente vez, se restaura la sesión actual que se ha guardado
+con anterioridad. Esto significa que el escritorio se restaurará
+al mismo estado que tenía cuando finalizó la sesión por última vez.</Para>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Sesión de inicio</Title>
+<Step>
+<Para>El escritorio también proporciona una <GlossTerm>sesión de inicio</GlossTerm>. Una
+sesión de inicio es una sesión que se guarda de forma explícita.
+Es como tomar una instantánea de la sesión actual en un
+momento determinado. Una vez se ha guardado una sesión inicial,
+se puede especificar que el escritorio restaure dicha sesión en lugar
+de la sesión actual la siguiente vez que se inicie la sesión.</Para>
+<Para>Consulte las siguientes tareas:</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HLGMGR.CNCP.item.5">
+<Para><XRef Linkend="ToSaveHomeSessionTA"></Para>
+</ListItem>
+<ListItem Id="HLGMGR.CNCP.item.6">
+<Para><XRef Linkend="ToRestoreHomeSessionTA"></Para>
+</ListItem>
+<ListItem Id="HLGMGR.CNCP.item.7">
+<Para><XRef Linkend="ToDecideOnSessionAtLogout"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="StartOtherTypesSessionsSI">
+<Title>Otras formas de iniciar la sesión</Title>
+<IndexTerm>
+<Primary>sesión: tipos diferentes a Regular</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>iniciar: sesión de seguridad contra anomalía</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>iniciar: sesión en modalidad Inicio de sesión de línea de mandatos</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>sesión de seguridad contra anomalía: iniciar</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>modalidad Inicio de sesión de línea de mandatos: iniciar sesión</Primary>
+</IndexTerm>
+<Para>Además de la sesión de escritorio normal, existen tipos adicionales
+de sesiones:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>Seguridad contra anomalía</Term>
+<ListItem>
+<Para>Una sesión de seguridad contra anomalía
+proporciona una ventana de Terminal y un Gestor de ventanas.
+Es útil para ejecutar varios mandatos antes de iniciar la
+sesión en otra sesión de escritorio.
+(Consulte <XRef Linkend="ToLoginToFailsafeTA">.)</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Inicio de sesión de línea de mandatos</Term>
+<ListItem>
+<Para>Le permite dejar el
+escritorio de manera temporal para trabajar en la consola del
+sistema.
+(Consulte <XRef Linkend="ToEnterCommandLineLoginTA">.)</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- EOF: Concepts -->
+</Sect1>
+</Chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 18:02:58-->

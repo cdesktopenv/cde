@@ -1,0 +1,577 @@
+<!-- $XConsortium: ch06.sgm /main/6 1996/09/08 19:48:37 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="ABUG.afunc.div.1">
+<title id="ABUG.afunc.mkr.1">インタフェースへの機能的な追加</title>
+<para>インタフェースのレイアウト後は、インタフェースの要素に対してヘルプを追加し、
+オブジェクト間で、プログラムの接続を行います。そしてドラッグ＆ドロップ機能を指定
+し、アプリケーションのフレームワーク機能(国際化対応、リソース・ファイルの作成、
+セッション管理、ToolTalkメッセージの操作など)を指定します。
+</para>
+<informaltable id="ABUG.afunc.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating Help and Help Connections67'--><xref role="JumpText" linkend="ABUG.afunc.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Making Connections Between Objects72'--><xref role="JumpText" linkend="ABUG.afunc.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Connecting Menu Items to Actions74'--><xref role="JumpText" linkend="ABUG.afunc.mkr.9"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Editing Existing Connections77'--><xref role="JumpText" linkend="ABUG.afunc.mkr.13"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Establishing Drag and Drop Behavior79'--><xref role="JumpText" linkend="ABUG.afunc.mkr.14"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Establishing Application Framework Behavior83'--><xref role="JumpText" linkend="ABUG.afunc.mkr.16"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="ABUG.afunc.div.2">
+<title id="ABUG.afunc.mkr.2">ヘルプの作成およびヘルプへの接続</title>
+<para>オブジェクト・ヘルプとヘルプ・ボリュームの2種類のヘルプに、アプリケーション・ビルダ
+からアクセスできます。オブジェクト・ヘルプはアプリケーション・ビルダで作成します。
+<!--Original XRef content: '&xd2;To Create Help&xd3; on page&numsp;68'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.4">を参照してください。
+ヘルプ・ボリュームは、アプリケーション・ビルダとは別に作成され、[ヘルプ]メニュー
+から、またはヘルプ・ダイアログ・ボックスで[追加]をクリックすることによって、コン
+パイルされたアプリケーションにアクセスされます。ヘルプ・ボリュームを作成する方法
+については、デスクトップのヘルプ開発者向けキットに含まれている
+<emphasis>『 共通デスクトップ環境 ヘルプ・システム 設計者およびプログラマーズ・ガイド』</emphasis>を
+参照してください。</para>
+<sect2 id="ABUG.afunc.div.3">
+<title id="ABUG.afunc.mkr.3">アプリケーション・ビルダのヘルプについて</title>
+<para>アプリケーション・ビルダを使用して、コントロール、区画、ウィンドウなどのインタフェース
+内のオブジェクトのヘルプを作成することができます。ヘルプは、<!--Original XRef content: '&xd2;To Create Help&xd3; on page&numsp;68'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.4">に従って、ヘルプ・エディタで作成します。
+テスト・モードまたはコンパイルされたアプリケーションで、ヘルプは次のような方法で
+表示されます。<indexterm><primary>ヘルプ</primary><secondary>表示</secondary></indexterm><indexterm><primary>表示</primary><secondary>ヘルプ表示</secondary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>インタフェース・ウィンドウ上にカーソルを置き、F1キーを押します。</para>
+<para>入力フォーカスのあるオブジェクトにヘルプがある場合は、そのヘルプが表示されます。
+入力フォーカスのあるオブジェクトにヘルプがなく、その親ウィンドウにヘルプがあると
+きは、親ウィンドウのヘルプが表示されます。</para>
+</listitem>
+<listitem><para>ウィンドウまたはダイアログ・ボックスの[ヘルプ]ボタンをクリックします。</para>
+</listitem>
+<listitem><para>[ヘルプ]メニューから[アイテムヘルプ]を選択し、インタフェース内のオブジェクトを
+クリックします。</para>
+</listitem></itemizedlist>
+<para>アイテムヘルプのテストにについては、<!--Original XRef content: '&xd2;To Test On Item Help&xd3; on page&numsp;103'--><xref role="SecTitleAndPageNum" linkend="ABUG.test.mkr.4">を参照してください。
+特定の子オブジェクト(コントロールまたは区画)ではヘルプが使用できず、その子オブジェクト
+(コントロールまたが区画)の親では、ヘルプが使用できるときは、親オブジェクトのヘルプ
+が表示されます。</para>
+</sect2>
+<sect2 id="ABUG.afunc.div.4" role="Procedure">
+<title id="ABUG.afunc.mkr.4">ヘルプを作成するには<indexterm>
+<primary>アイテムヘルプ</primary><secondary>作成</secondary></indexterm><indexterm>
+<primary>作成</primary><secondary>アイテムヘルプ</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>属性エディタを表示します。</para>
+</listitem>
+<listitem><para>ヘルプを記述したいオブジェクト型を選択します。</para>
+</listitem>
+<listitem><para>ヘルプを記述したいオブジェクトを選択します。</para>
+</listitem>
+<listitem><para>[ヘルプ・テキスト]をクリックして、選択したオブジェクトのヘルプ・エディタを表示
+します。</para>
+<graphic id="ABUG.afunc.igrph.1" entityref="ABUG.afunc.fig.1"></graphic>
+</listitem>
+<listitem><para>[ヘルプ・テキスト]区画にヘルプ・テキストを入力します。<indexterm>
+<primary>エディタ</primary><secondary>ヘルプ</secondary></indexterm> <indexterm>
+<primary>ヘルプ・エディタ</primary></indexterm></para>
+<para>コンパイルされたヘルプ・ダイアログ・ボックスで改行したいときは、改行キーを押します。</para>
+</listitem>
+<listitem><para>必要に応じて、[ボリューム名]を入力します。</para>
+<para>これは、ヘルプ・ボリュームの名前です。</para>
+</listitem>
+<listitem><para>必要に応じて、[位置 ID]を入力します。</para>
+<para>これは、選択されたオブジェクトについて、より多くの情報を与えるヘルプタグの位置 IDです。</para>
+<note>
+<para>ヘルプ・ダイアログ・ボックスからヘルプ・ボリュームにアクセスするには、オブジェクトの
+ヘルプを作成する必要があります。オブジェクトのヘルプを作成し、[ボリューム名]と
+[位置 ID]を設定すると、[詳細]ボタンがヘルプ・ダイアログ・ボックスでアクティブになります。</para>
+</note>
+</listitem>
+<listitem><para>[了解]または[適用]をクリックして、変更内容を適用します。</para>
+<para>他のオブジェクトにヘルプを追加するには、メニューから適切なオブジェクト型を選択し、
+適切なオブジェクトを選択して、上記の2ステップを繰り返します。</para>
+<para>[了解]をクリックするとヘルプエディタが終了します。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.afunc.div.5" role="Procedure">
+<title id="ABUG.afunc.mkr.5">アイテムヘルプにヘルプメニューを接続するには <indexterm><primary>接続</primary><secondary>アイテムヘルプをヘルプ・メニュー項目に接続</secondary>
+</indexterm><indexterm><primary>ヘルプ・メニュー</primary><secondary>アイテムヘルプを接続</secondary>
+</indexterm><indexterm><primary>アイテムヘルプ</primary><secondary>メニュー項目</secondary></indexterm></title>
+<para>[ヘルプ]メニューの標準的な項目の1つに[アイテムヘルプ]があります。これは、インタフェース
+内の特定のオブジェクトのヘルプを表示するのに使用します。次の説明は、メイン・ウィンドウにメニュー・バーがあること、メニュー・バーの[ヘルプ]項目に[ヘルプ]メニューが
+接続されていることを想定しています。操作法法は、<!--Original XRef content: '&xd2;To Create and Attach a Help enu&xd3; on page&numsp;54'--><xref role="SecTitleAndPageNum" linkend="ABUG.crobj.mkr.18">を参照してください。</para>
+<orderedlist><listitem><para>アプリケーション・ビルダの主ウィンドウから[メニュー]を選択します。</para>
+<para>メニュー属性エディタが表示されます。</para>
+</listitem><listitem><para>[オブジェクト]リストから[ヘルプ]メニューを選択します。</para>
+</listitem><listitem><para>アイテムヘルプ項目として、[項目]リストから項目の１つを選択します。</para>
+</listitem><listitem><para>[ラベル]テキスト・フィールドに、[アイテムヘルプ]または他の適切なテキストを入力します。</para>
+</listitem><listitem><para>必要に応じて、アイテムのニーモニックを設定します。</para>
+<para>ニーモニックは、メニューを表示するとき、メニュー項目をアクティブにするためのキー
+ボード・ショートカットとして選択された項目の1文字を指定します。選択した
+メニュー項目には下線が付きます。大文字、小文字は区別されます。 </para>
+</listitem><listitem><para>必要に応じて、アクセラレータを設定します。</para>
+<para>項目のアクセラレータは、選択された項目を選択するためにキーボード・ショートカット
+を指定します。アクセラレータは接頭辞(Ctrl, Alt, Meta, or Shift)または<filename>&lt;key></filename>、文字
+(大文字または小文字)で構成されます。例えば、Control-xをアクセラレータにするには、
+<filename>Ctrl&lt;key>x</filename>と入力します。</para>
+</listitem><listitem><para>[適用]をクリックします。</para>
+<para>[ヘルプ]メニューに対する変更が適用されます。</para>
+</listitem><listitem><para>[接続]をクリックして、接続エディタを表示します。</para>
+<para>[接続]ボタンはメニュー属性エディタの一番下にあります。</para>
+</listitem><listitem><para>[ソース]メニューから[メニュー項目]を選択します。</para>
+</listitem><listitem><para>[ソース]リストから[アイテムヘルプ]を選択します。</para>
+</listitem><listitem><para>[アクション・タイプ]から[アイテムヘルプの起動]を選択します。</para>
+</listitem><listitem><para>[接続]をクリックします。</para>
+</listitem></orderedlist>
+<para>テスト・モードまたはコンパイルされたアプリケーションで、[ヘルプ]メニューから[アイ
+テムヘルプ]項目を選択すると、カーソルがクエスチョン・マークを持つ矢印になります。
+カーソルをオブジェクト上に移動して、マウス・ボタン1をクリックすると、選択した
+オブジェクト(そのオブジェクトが使用できるヘルプがないときは親オブジェクトの1つ)
+の[アイテムヘルプ]が表示されます。詳細は<!--Original XRef content: '&xd2;To Test On Item Help&xd3; on page&numsp;103'--><xref role="SecTitleAndPageNum" linkend="ABUG.test.mkr.4">を参照にしてください。</para>
+</sect2>
+<sect2 id="ABUG.afunc.div.6" role="Procedure">
+<title id="ABUG.afunc.mkr.6">ヘルプ・ボリュームにヘルプ・メニューを接続するには<indexterm><primary>ヘルプ・ボリューム</primary></indexterm><indexterm><primary>ヘルプ・メニュー</primary></indexterm><indexterm><primary>接続</primary><secondary>ヘルプ・トピックのメニュー項目</secondary></indexterm></title>
+<para><!--Original XRef content: '&xd2;To Create and Attach a Help Menu&xd3; on page&numsp;54'--><xref role="SecTitleAndPageNum" linkend="ABUG.crobj.mkr.18">で説明したように、
+ヘルプを作成し、それをメニュー・バーの[ヘルプ]項目に接続した後、ヘルプ・ボリュームの
+特定の位置に、メニュー項目を、次のようにして接続します。
+[アイテムヘルプ]機能に[ヘルプ]メニューの[アイテムヘルプ]項目を接続する方法は、<!--Original XRef content: '&xd2;To Connect a Help Menu to On Item Help&xd3; on page&numsp;70'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.5">を参照してください。<indexterm><primary>メニュー項目</primary><secondary>ヘルプ・トピックを接続</secondary></indexterm></para>
+<orderedlist><listitem><para>接続エディタを表示します。</para>
+<para>属性エディタまたはメニュー属性エディタで[接続]をクリックするか、または[エディタ]
+メニューから[接続を選択します。</para>
+</listitem><listitem><para>[ソース]オプション・メニューから[メニュー項目]を選択します。</para>
+</listitem><listitem><para>[ソース]スクロール・リストからヘルプ・メニュー項目の1つを選択します。</para>
+</listitem><listitem><para>[アクション・タイプ]オプション・メニューから[ヘルプ・ボリューム]を選択します。</para>
+</listitem><listitem><para>[ボリューム]テキスト・フィールドに、ヘルプ・ボリュームの名前を入力します。</para>
+</listitem><listitem><para>[位置]テキスト・フィールドに、適切な位置 IDを入力します。</para>
+</listitem><listitem><para>[接続]をクリックして、接続を行います。</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.7">
+<title id="ABUG.afunc.mkr.7">オブジェクト間の接続</title>
+<para>最も簡単な接続形態は、ソース・オブジェクトとターゲット・オブジェクト間のプログラ
+ム的な関係です。例えば、ボタンAをクリックしたときに、ダイアログ・ボックスBが表示されるという関係です。このタイプの接続については、<!--Original XRef content: '&xd2;To Make a Connection between Two Objects'--><xref role="SectionTitle" linkend="ABUG.afunc.mkr.8">で説明します。</para>
+<para>メニュー項目からの異なったタイプの接続については、<!--Original XRef content: '&xd2;To Connect a Menu Item to a Predefined Action&xd3; on page&numsp;74'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.10">、<!--Original XRef content: '&xd2;To Connect a Menu Item to a Call Function&xd3; on page&numsp;75'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.11">、<!--Original XRef content: '&xd2;To Connect a Menu Item to an Execute Code Action&xd3; on page&numsp;76'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.12">で説明します。</para>
+<para>その他のタイプの接続(アイテムヘルプやヘルプボリュームの接続)については、<!--Original XRef content: '&xd2;To Connect a Help Menu to On Item Help&xd3; on page&numsp;70'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.5">そして<!--Original XRef content: '&xd2;To Connect a Help Menu to a Help Volume&xd3; on page&numsp;71'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.6">で説明します。
+<!--Original XRef content: '&xd2;To Connect a Non-Modal Message to a Function&xd3; on page&numsp;60'--><xref role="SecTitleAndPageNum" linkend="ABUG.crobj.mkr.24">では、メッセージ・ダイアログ・ボックスを表示する関数に、メッセージ・ ダイアログ・ボックスを接続しています。</para>
+<sect2 id="ABUG.afunc.div.8" role="Procedure">
+<title id="ABUG.afunc.mkr.8">2つのオブジェクト間を接続するには<indexterm>
+<primary>作成</primary><secondary>2つのオブジェクト間の接続&lt;$starrange></secondary></indexterm><indexterm><primary>接続</primary><secondary>2つのオブジェクト&lt;$startrange></secondary></indexterm></title>
+<orderedlist>
+<listitem><para>ソース・オブジェクトとターゲット・オブジェクトを選択します。</para>
+<itemizedlist remap="Bullet2">
+<listitem>
+<para><emphasis role="Lead-in">ドラッグによるリンク</emphasis>: コントロール・キーを押しながら、
+マウス・カーソルを目的のソース・オブジェクト上に位置付け、マウス・ボタン1を押し、
+目的のターゲット・オブジェクトまでカーソルをドラッグします。そして、マウス・ボタンを
+離します。</para>
+<para>これは、インタフェースまたはモジュール・ブラウザ(またはインタフェースとモジュール・ブラウザ間)で行うことができます。ブラウザの詳細は、<!--Original XRef content: '&xd2;Module Browser&xd3; on page&numsp;128'--><xref role="SecTitleAndPageNum" linkend="ABUG.apWDB.mkr.8">を参照してください。</para>
+<para><literal><indexterm><primary> drag-link接続</primary></indexterm></literal>マウスが移動しているとき、末端に「プラグ」の付いた線が、
+ソース・オブジェクトから広がっていきます。ターゲット・オブジェクトは、濃いボック
+スで強調表示されます。ターゲットオブジェクト上で、マウス・ボタンを離すと、ソース
+・オブジェクトとターゲット・オブジェクトを選択した接続エディタが表示されます。<literal><indexterm>
+<primary>接続</primary><secondary>ドラッグによるリンクでオブジェクトを選択
+</secondary></indexterm></literal></para>
+</listitem>
+<listitem><para><emphasis role="Lead-in">接続エディタ</emphasis>: [エディタ]メニューから[接続]を選択して、接続エディタを表示します。
+[ソース]メニューから希望のソース・オブジェクトのオブジェクト型を選択し、
+[ソース]リストからソースとして希望のオブジェクトを選択します。そして、
+[ターゲット]メニューから希望のターゲット・オブジェクトのオブジェクト型を選択し、
+[ターゲット]リストからターゲットとして希望のオブジェクトを選択します。<indexterm>
+<primary>接続</primary><secondary>接続エディタでオブジェクトを選択</secondary></indexterm></para>
+</listitem></itemizedlist>
+<note>
+<para>属性エディタでオブジェクトを選択して、[接続]ボタンをクリックすると、接続エディタが
+表示され、[ソース]リストでは属性エディタで選択したオブジェクトが選択されます。</para>
+</note>
+<graphic id="ABUG.afunc.igrph.2" entityref="ABUG.afunc.fig.2"></graphic>
+</listitem>
+<listitem><para>[いつ]メニューからアクションを選択します。<indexterm>
+<primary>接続エディタ</primary></indexterm> <indexterm><primary>エディタ
+</primary><secondary>接続</secondary></indexterm></para>
+<para>これは、ソース・オブジェクト上のアクションで、ターゲット・オブジェクトでアクションを
+実行させるものです。選択肢はソース・オブジェクトのタイプに依存します。</para>
+</listitem>
+<listitem><para>[アクション・タイプ]メニューからターゲット上で実行したいアクションを選択します。</para>
+<para>ターゲットのアクション・タイプが異なると、ユーザによって要求されるアクションも異なります。異ります。</para>
+<itemizedlist remap="Bullet2"><listitem><para>事前定義: アクションを2番目のオプション・メニューから選択します。</para>
+</listitem><listitem><para>関数呼び出し: [関数]テキスト・フィールドに関数の名前を入力します。<!--Original XRef content: '&xd2;Adding User Code to Generated Code&xd3; on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">に従って、呼び出す関数のためのコードを記述する必要があります。</para>
+</listitem><listitem><para>実行コード: 実行コード・エディタで、実行するためのコードを入力し、[了解]をクリックします。</para>
+</listitem></itemizedlist>
+</listitem>
+<listitem><para>[接続]をクリックして、接続をします。</para>
+<para><literal><indexterm><primary>接続</primary><secondary>2つのオブジェクト&lt;$endrange></secondary></indexterm></literal>接続内容が、接続エディタの一番下にある[表示]リストに表示されます。<literal><indexterm><primary>作成</primary><secondary>2つのオブジェクト間の接続&lt;$endrange></secondary></indexterm></literal></para>
+</listitem>
+<listitem><para>[取消し]をクリックし、接続エディタを終了します。</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.9">
+<title id="ABUG.afunc.mkr.9">アクションにメニュー項目を接続する</title>
+<para><!--Original XRef content: '&xd2;To Create a Menu&xd3; on page&numsp;47'--><xref role="SecTitleAndPageNum" linkend="ABUG.crobj.mkr.13">と<!--Original XRef content: '&xd2;To Attach an Existing Menu to an Object&xd3;on page&numsp;50'--><xref role="SecTitleAndPageNum" linkend="ABUG.crobj.mkr.15">に従って、メニューを作成し、
+それをオブジェクトに接続した後、それぞれのメニューの各項目に意味のあるアクション
+を接続する必要があります。ターゲット・アクションのための選択肢は、[事前定義]、
+[関数呼び出し]、[実行コード]、[アイテムヘルプを起動]、[ヘルプボリュームへのアクセス]
+です。</para>
+<para>最初の3種類のアクションにメニュー項目を接続する方法は、次で説明します。
+ヘルプに接続する方法は、<!--Original XRef content: '&xd2;To Connect a Help Menu to On Item Help&xd3; on page&numsp;70'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.5">と <!--Original XRef content: '&xd2;To Connect a Help Menu to a Help Volume&xd3; on page&numsp;71'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.6">を参照してください。</para>
+<sect2 id="ABUG.afunc.div.10" role="Procedure">
+<title id="ABUG.afunc.mkr.10">メニュー項目を[事前定義]アクションに接続するには</title>
+<para><indexterm><primary>接続</primary><secondary>メニュー項目と[事前定義]アクションの接続
+</secondary></indexterm> <indexterm><primary>メニュー項目</primary><secondary>
+事前定義アクションに接続</secondary></indexterm>この節では、事前定義のターゲット・アクションのみを説明します。これ以外の接続については、<!--Original XRef content: '&xd2;To Menu Item to a Call Function&xd3; on page&numsp;75'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.11">と<!--Original XRef content: '&xd2;To Connect a Menu Item to an Execute Code Action&xd3; on page&numsp;76'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.12">を参照してください。</para>
+<orderedlist><listitem><para>接続エディタを表示します。</para>
+<para>接続エディタの一番下にある[接続]をクリック、またはアプリケーション・ビルダの主ウィンドウの[エディタ]メニューから[接続]を選択します。</para>
+</listitem><listitem><para>[ソース]メニューから[メニュー項目]を選択します。</para>
+<para>現在のプロジェクトのすべてのメニュー項目がリストされます。</para>
+</listitem><listitem><para>[ソース]メニューの下にあるリストから、メニュー項目を選択します。</para>
+<para>これは接続元になる項目です。</para>
+</listitem><listitem><para>[アクション・タイプ]メニューからターゲット・アクションのタイプとして[事前定義]を選択します。</para>
+<para>[ターゲット]メニューがアクティブになります。</para>
+</listitem><listitem><para>[ターゲット]メニューから適切なオブジェクトの型を選択します。</para>
+<para>これは、ソース・メニュー項目上で[いつ]アクションが実行されるときに作用するオブジェクトの型です。</para>
+</listitem><listitem><para>[ターゲット]項目のリストからオブジェクトを選択します。</para>
+<para>これは、ソース・メニュー項目上で[いつ]アクションが実行されるときに作用する特定のオブジェクトです。</para>
+</listitem><listitem><para>[ソース]メニュー項目の[いつ]アクションを選択します。</para>
+<para>選択肢は[起動した時]、[作成した時]、[破棄した時]です。</para>
+</listitem><listitem><para>[アクション・タイプ]の右にあるオプションメニューからターゲット・アクションを選択します。</para>
+<para>選択肢はターゲットの型に依存します。</para>
+</listitem><listitem><para>[接続]をクリックして、接続を行います。</para>
+<para>接続内容が、接続エディタの一番下にある[表示]リストに表示されます。 </para>
+</listitem><listitem><para>[取消し]をクリックし、接続エディタを終了します。</para>
+</listitem></orderedlist>
+<para>[いつ]アクションがメニュー項目上で実行されたとき、指定したターゲット・アクション
+がコンパイルされたアプリケーションで実行されます。</para>
+<para>テスト・モードで接続のテストを行うこともできますが、これはソースの[いつ]アクション
+とターゲット・アクションに依存します。操作方法は、<!--Original XRef content: '&xd2;To Test Menus in a Module&xd3; on page&numsp;104'--><xref role="SecTitleAndPageNum" linkend="ABUG.test.mkr.5">を参照してください。</para>
+</sect2>
+<sect2 id="ABUG.afunc.div.11" role="Procedure">
+<title id="ABUG.afunc.mkr.11">メニュー項目を[関数呼び出し]に接続するには</title>
+<para>この節では、[関数呼び出し]のターゲット・アクションのみ説明します。これ以外の接続
+については、<!--Original XRef content: '&xd2;To Connect a Menu Item to a Predefined Action&xd3; on page&numsp;74'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.10">と<!--Original XRef content: '&xd2;To Connect a Menu Item to an Execute Code Action&xd3; on page&numsp;76'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.12">を参照してください。<indexterm><primary>接続</primary><secondary>メニュー項目と[関数呼び出し]アクションの接続</secondary>
+</indexterm><indexterm><primary>メニュー項目</primary><secondary>[関数呼び出し]アクションに接続</secondary></indexterm></para>
+<orderedlist><listitem><para>接続エディタを表示します。</para>
+<para>属性エディタの一番下にある[接続]をクリック、またはアプリケーション・ビルダの主ウィンドウ
+にある[エディタ]メニューから[接続]を選択します。</para>
+</listitem><listitem><para>[ソース]メニューから[メニュー項目]を選択します。</para>
+<para>現在のプロジェクトのすべてのメニュー項目がリストされます。</para>
+</listitem><listitem><para>[ソース]メニューの下にあるリストからメニュー項目を選択します。</para>
+<para>これは接続元になる項目です。</para>
+</listitem><listitem><para>[アクション・タイプ]メニューからターゲット・アクションのタイプとして[関数呼び出し]を選択します。</para>
+<para>[関数]テキスト・フィールドがアクティブになります。</para>
+</listitem><listitem><para>[関数]テキスト・フィールドに、呼び出したい関数の名前を入力します。</para>
+<para>これは、[いつ]アクションがソース・メニュー項目上で実行されたときに呼び出される関数です。
+生成されたコードにユーザ・コードを組み込む方法は、<!--Original XRef content: '&xd2;Adding User Code to Generated Code&xd3; on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">を参照してください。</para>
+</listitem><listitem><para>[ソース]メニュー項目から[いつ]アクションを選択します。</para>
+<para>選択肢は[起動した時]、[作成した時]、[破棄した時]です。</para>
+</listitem><listitem><para>[接続]をクリックして、接続を行います。</para>
+<para>接続内容が、接続エディタの一番下にある[表示]リストに表示されます。 </para>
+</listitem><listitem><para>[取消し]をクリックし、接続エディタを終了します。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.afunc.div.12" role="Procedure">
+<title id="ABUG.afunc.mkr.12">メニュー項目を[実行コード]アクションに接続するには</title>
+<para><indexterm><primary>接続</primary><secondary>メニュー項目と[実行コード]アクションの接続</secondary></indexterm><indexterm><primary>メニュー項目</primary>
+<secondary>[実行コード]アクションに接続</secondary></indexterm>この節では、[実行コード]ターゲット・アクションについてのみ説明します。
+これ以外の接続については<!--Original XRef content: '&xd2;To Connect a Menu Item to a Predefined Action&xd3; on page&numsp;74'-->と<!--Original XRef content: '&xd2;To Connect a Menu Item to a Call Function&xd3; on page&numsp;75'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.11">を参照してください。</para>
+<orderedlist><listitem><para>接続エディタを表示します。</para>
+<para>属性エディタの一番下にある[接続]エディタをクリック、またはアプリケーション・ビルダの[エディタ]メニューから[接続]をクリックします。</para>
+</listitem><listitem><para>[ソース]メニューから、[メニュー項目]を選択します。</para>
+<para>現在のプロジェクトのすべてのメニュー項目がリストされます。</para>
+</listitem><listitem><para>[ソース]メニューの下にあるリストからメニュー項目を選択します。</para>
+<para>これは、接続元になる項目です。</para>
+</listitem><listitem><para>[ソース]メニュー項目の[いつ]アクションを選択します。</para>
+<para>選択肢は[起動した時]、[作成した時]、[破棄した時]です。</para>
+</listitem><listitem><para>[アクション・タイプ]メニューからターゲット・アクションの型として[実行コードを]選択します。</para>
+<para>実行コード・エディタが表示されます。</para>
+</listitem><listitem><para>実行コード・エディタで、実行するコードを入力します。</para>
+<para>実行コード・エディタが表示されます。エディタで、コードを入力します。
+生成されたコードにユーザ・コードを組み込む方法は、<!--Original XRef content: '&xd2;Adding User Code to Generated Code&xd3; on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">を参照してください。</para>
+</listitem><listitem><para>実行コード・エディタで[OK]ボタンをクリックして、変更内容を適用し、エディタを終了します。</para>
+</listitem><listitem><para>接続エディタで[接続]をクリックして、接続を行います。</para>
+<para>接続エディタの一番下にある[表示]リストに接続内容が表示されます。</para>
+</listitem><listitem><para>[取消し]をクリックし、接続エディタを終了します。</para>
+</listitem></orderedlist>
+<para>[いつ]アクションがメニュー項目上で実行されたとき、このコードがコンパイルされたアプリケーション上で実行されます。</para>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.13">
+<title id="ABUG.afunc.mkr.13">既存の接続の編集</title>
+<para>接続を行った後、接続を変更したり、削除したりできます。既存の接続を選択し、それを
+変更して、新しい接続として保存することによって、新しい接続を行うことができます。</para>
+<sect2 id="ABUG.afunc.div.14" role="Procedure">
+<title>既存の接続を編集するには<indexterm>
+<primary>編集</primary><secondary>接続</secondary></indexterm><indexterm>
+<primary>接続</primary><secondary>編集</secondary></indexterm></title>
+<orderedlist><listitem><para>アプリケーション・ビルダの主ウィンドウの[エディタ]メニューから[接続]を選択します。</para>
+<para>接続エディタが表示されます。</para>
+</listitem><listitem><para>接続エディタの一番下にある[表示]メニューから、表示したい接続を持つソース・オブジェクト
+型を選択します。</para>
+<para>たとえば、ソース・オブジェクトとしてボタンをもつ接続を編集するには、[表示]メニュー
+から[ボタン]を選択します。現在のプロジェクトで、ソース・オブジェクトとしてボタンをもつすべての接続が、[表示]リストに表示されます。</para>
+<para>特定のソース・オブジェクトのすべての接続を表示するには、[表示]メニューから[ソース・
+オブジェクト]を選択して、[ソース]メニューでオブジェクトを選択します。
+選択したオブジェクトの全ての接続が表示されます。</para>
+</listitem><listitem><para>[表示]リストから、編集したい接続を選択します。</para>
+<para>エディタの一番上にある[ソース]および[ターゲット]リストで、ソース・オブジェクト
+およびターゲット・オブジェクトが選択されます。[いつ]および[アクション・タイプ]の選択肢が表示されます。</para>
+</listitem><listitem><para>接続を編集します。</para>
+<itemizedlist remap="Bullet2"><listitem><para>選択した接続を<symbol role="Variable">削除する</symbol>には、[削除]をクリックします。</para>
+</listitem><listitem><para>選択した接続を<emphasis>変更する</emphasis>には、任意の選択肢(ソース・オブジェクト、
+[いつ]アクション、ターゲット・アクション、[アクション・タイプ])を変更して[変更]
+をクリックします。</para>
+</listitem><listitem><para>選択した接続と類似した接続を<emphasis>追加する</emphasis>には、 いくつかの選択肢を
+変更し[接続]をクリックします。</para>
+</listitem></itemizedlist>
+</listitem><listitem><para>[取消し]をクリックして、接続エディタを終了します。</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.15">
+<title id="ABUG.afunc.mkr.14">ドラッグ＆ドロップ動作の確立</title>
+<para>インタフェース・オブジェクトのドラッグ＆ドロップ動作を確立するには、ドラッグ＆
+ドロップ・エディタを使用します。操作方法は、<!--Original XRef content: '&xd2;To Establish Drag and Drop Behavior&xd3; on page&numsp;81'--><xref role="SecTitleAndPageNum"linkend="ABUG.afunc.mkr.15">を参照してください。 </para>
+<graphic id="ABUG.afunc.igrph.3" entityref="ABUG.afunc.fig.3"></graphic>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="356*">
+<tbody>
+<row>
+<entry><para>オブジェクト型</para></entry>
+<entry><para>ドラッグ＆ドロップ動作を確立したいオブジェクトの型(コントロール区画、カスタム・ダイアログ、
+描画領域、ラベル、メイン・ウィンドウ)を選択するためのオプション・メニューです。</para></entry></row>
+<row>
+<entry><para>オブジェクト</para></entry>
+<entry><para>ドラッグ＆ドロップ動作を確立したいオブジェクトを選択するためのスクロール・リストです。</para></entry></row>
+<row>
+<entry><para>ドラッグ操作</para></entry>
+<entry><para>選択したオブジェクトに許可する操作の型([コピー]、[移動]、[リンク])を指定するチェック
+・ボックスです。</para></entry></row>
+<row>
+<entry><para>カーソル・ファイル名</para></entry>
+<entry><para>カーソルのグラフィカルな表示を含むグラフィック・ファイルの名前を入力する
+テキスト・フィールドです。このカーソルは、選択したオブジェクトからドラッグして
+いるときに表示されます。</para></entry></row>
+<row>
+<entry><para>カーソル・マスク・ファイル名</para></entry>
+<entry><para>カーソル・マスク下に、カーソルの表示の形を決めるビットマップを含むグラフィック
+・ファイルの名前を入力するテキスト・フィールドです。カーソル・マスクは、型板の
+ようなもので、マスクのピクセルに対応するカーソルのピクセルのみを許可して、目に
+見えるようにします。</para></entry></row>
+<row>
+<entry><para>データ型</para></entry>
+<entry><para>ドラッグ操作に許可するデータ型として[テキスト]、[ファイル名]、[Buffer]を指定
+するチェック・ボックスです。</para></entry></row>
+<row>
+<entry><para>接続をドラッグ</para></entry>
+<entry><para>機能的なdragged-from操作を行う[関数呼び出し]接続を行うために接続エディタを表示するプッシュボタンです。</para></entry></row>
+<row>
+<entry><para>ドロップ操作</para></entry>
+<entry><para>選択したオブジェクトに許可する操作の型([コピー]、[移動]、[リンク])を指定するチェック
+・ボックスです。</para></entry></row>
+<row>
+<entry><para>データ型</para></entry>
+<entry><para>ドロップ操作に許可するデータ型として[テキスト]、[ファイル名]、[Buffer]を指定
+するチェック・ボックスです。</para></entry></row>
+<row>
+<entry><para>子にドロップ</para></entry>
+<entry><para>選択したオブジェクトの子がドロップ領域であるかどうかを指定するチェック・ボックス
+です。これは、子オブジェクトがドロップ領域として指定されるときにのみ、関係があります。</para></entry></row>
+<row>
+<entry><para>接続をドロップ</para></entry>
+<entry><para>機能的なドロップ操作を行う[関数呼び出し]接続を行うために接続エ
+ディタを表示するプッシュボタンです。</para></entry></row>
+</tbody></tgroup></informaltable>
+<sect2 id="ABUG.afunc.div.16" role="Procedure">
+<title id="ABUG.afunc.mkr.15">ドラッグ＆ドロップ動作を確立するには<indexterm>
+<primary>接続</primary><secondary>ドロップ</secondary></indexterm><indexterm>
+<primary>接続</primary><secondary>ドラッグ</secondary></indexterm><indexterm>
+<primary>ドロップの接続</primary></indexterm><indexterm>
+<primary>ドラッグの接続</primary></indexterm><indexterm>
+<primary>ドラッグ＆ドロップ</primary><secondary>ドラッグ＆ドロップ動作を設定&lt;$startrange></secondary></indexterm></title>
+<orderedlist><listitem><para>アプリケーションの主ウィンドウの[エディタ]メニューから[ドラッグ＆ドロップ]を選択します。</para>
+<para>ドラッグ＆ドロップ・エディタが表示されます。<indexterm><primary>エディタ</primary>
+<secondary>ドラッグ＆ドロップ</secondary></indexterm><indexterm><primary>ドラッグ＆ドロップ・エディタ</primary></indexterm></para>
+</listitem><listitem><para>[オブジェクト型]を選択します。</para>
+</listitem><listitem><para>[オブジェクト]リストからオブジェクトを選択します。</para>
+</listitem><listitem><para>選択したオブジェクトに許可したい[ドラッグ操作]を選択します。<literal><indexterm><primary>ドラッグ操作</primary></indexterm></literal></para>
+</listitem><listitem><para>選択したオブジェクトからドラッグ操作を実行したときに、特別なカーソルを表示するには、
+[カーソル・ファイル名]および[カーソル・マスク・ファイル名]フィールドにグラフィッ
+ク・ファイルの名前を入力します。</para>
+</listitem><listitem><para>ドラッグ操作に許可する[データ型]を選択します。</para>
+</listitem><listitem><para>[ドラッグ操作]をクリックします。</para>
+<para>接続エディタが表示されます。</para>
+</listitem><listitem><para>接続エディタで、[いつ]アクションとして[ドラッグした時]を選択します。</para>
+</listitem><listitem><para>接続エディタで、[アクション・タイプ]として[関数呼び出し]を選択します。</para>
+</listitem><listitem><para>接続エディタで、[関数]テキスト・フィールドに呼び出す関数の名前を入力します。</para>
+<para>これは、ドラッグ操作が実行された時に呼び出される関数の名前です。
+<filename>stubs.c</filename>ファイルを編集して、呼び出す関数を使用できるように
+しなければなりません。
+操作方法は、<!--Original XRef content: '&xd2;Adding User Code to Generated Code&xd3; on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">を参照してください。 </para>
+</listitem><listitem><para>接続エディタの[接続]ボタンをクリックします。</para>
+</listitem><listitem><para>[取消し]をクリックすると、接続エディタが終了します。</para>
+</listitem><listitem><para>許可するドロップ操作を選択します。<indexterm>
+<primary>ドロップ操作</primary></indexterm></para>
+</listitem><listitem><para>ドロップ操作に許可する[データ型]を選択します。</para>
+</listitem><listitem><para>選択したオブジェクトの子へのドロップ操作を許可するには、[子にドロップ]をチェックします。</para>
+<para>これは、子オブジェクトがドロップ領域として指定されるときにのみ、関係があり
+ます。</para>
+</listitem><listitem><para>[ドロップ操作]をクリックして、接続エディタを表示します。</para>
+</listitem><listitem><para>接続エディタで、[いつ]アクションとして[ドロップした時]を選択します。</para>
+</listitem><listitem><para>接続エディタで、[アクション・タイプ]として[関数呼び出し]を選択します。</para>
+</listitem><listitem><para>接続エディタで、[関数]テキスト・フィールドに呼び出す関数の名前を入力します。</para>
+<para>これは、ドラッグ操作が実行された時に呼び出される関数の名前です。
+<filename>stubs.c</filename>ファイルを編集して、呼び出す関数を使用できるようにしなければなりません。
+操作方法は、<!--Original XRef content: '&xd2;Adding User Code to Generated Code&xd3; on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">を参照してください。</para>
+</listitem><listitem><para>接続エディタで[接続]をクリックします。</para>
+</listitem><listitem><para>[取消し]をクリックし、接続エディタを終了します。</para>
+</listitem><listitem><para>ドラッグ＆ドロップ・エディタで、[了解]または[適用]をクリックして、変更内容を
+クリックします。<literal><indexterm><primary>ドラッグ＆ドロップ</primary><secondary>
+動作の設定&lt;$endrange></secondary></indexterm></literal></para>
+<para>[了解]をクリックすると、ドラッグ＆ドロップ・エディタが終了します。</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.17">
+<title id="ABUG.afunc.mkr.16">アプリケーション・フレームワーク動作の確立</title>
+<para>国際化対応、リソース・ファイルの属性、セッション管理、ToolTalkのメッセージ処理などの
+アプリケーションの基本的な機能を指定するには、アプリケーション・フレームワーク・
+エディタを使用します。操作方法は、<!--Original XRef content: '&xd2;To Establish Application Framework Behavior&xd3; on page&numsp;86'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.17">を参照してください。</para>
+<graphic id="ABUG.afunc.igrph.4" entityref="ABUG.afunc.fig.4"></graphic>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="127*">
+<colspec align="left" colwidth="401*">
+<tbody>
+<row>
+<entry><para>アプリケーションのベンダ名</para></entry>
+<entry><para>任意の文字列を入力するテキスト・フィールドです。この文字列は、ソース・コードに
+格納されます。ToolTalkを初期化するための呼び出しで使用します。(ToolTalkが使用
+可能である場合)</para></entry></row>
+<row>
+<entry><para>アプリケーションのバージョン</para></entry>
+<entry><para>任意の文字列を入力するテキスト・フィールドです。この文字列は、ソース・コードに
+格納されます。ToolTalkを初期化するための呼び出しで使用します。</para></entry></row>
+<row>
+<entry><para>アプリケーションの主ウィンドウ</para></entry>
+<entry><para>アプリケーションの主メイン・ウィンドウを指定するためのオプション・メニューです。
+アプリケーションは1つ以上のメイン・ウィンドウを持っていますが、主メイン・ウィン
+ドウは1つだけです。一般的に、主メイン・ウィンドウは、アプリケーションを開いた
+ときに、最初に表示されます。デフォルトでは、新規プロジェクトでワークスペース上に
+ドロップされる最初のウィンドウが、主ウィンドウです。</para></entry></row>
+<row>
+<entry><para>国際化を使用する</para></entry>
+<entry><para>国際化を使用するかどうかを指定するチェック・ボックスです。チェックすると、プロジェクトの生成コードでXPG4に準拠した国際化を行います。
+[<symbol role="Variable">module</symbol>]_<filename>ui.c</filename>ファイル内で、すべてのオブジェクトのラベルと文字列が生成され、
+<command>catgets</command>(3C)コールで囲まれます。<command>catgets</command>(3C)コールは、実行時にローカライズされた文字列のバージョンを
+取り出すのに使用されます。国際化すると、<command>dtcodegen</command>が、自動的に、<command>catgets</command>(3C)コールにマップするメッセージ・カタログ([<emphasis>project</emphasis>].<command>msg</command>)を
+生成および保存します。</para></entry></row>
+<row>
+<entry><para>生成コード</para></entry>
+<entry><para>[<symbol role="Variable">module</symbol>]_<filename>ui.c</filename>ファイルを、書き換える(これはデフォルトです。)かわりにリソース・ファイル
+に記述するオブジェクト属性のカテゴリ(Xtリソースへのマップ)を指定するチェック・ボ
+ックスです。コードで直接指定するのではなく、リソース・ファイルで指定する属性
+(リソース)は、アプリケーションの再コンパイルなしで変更できます。
+属性カテゴリは次のようなものがあります。
+<?Pub _newline>カラー: バックグラウンド、フォアグラウンド
+<?Pub _newline>ラベル文字列: ラベル文字列、タイトル
+<?Pub _newline>初期値: 初期値
+<?Pub _newline>ジオメトリ: X座標、Y座標、幅、高さ、すべてのアタッチメント属性
+<?Pub _newline>その他の文字列
+<?Pub _newline>その他</para></entry></row>
+<row>
+<entry><para>セッション管理の方法</para></entry>
+<entry><para>セッション管理の方法([なし]、[コマンド行]、[セッション・ファイル]、[両方])を指定する
+オプション・メニューと接続エディタの表示および適切な接続を行うための2つの
+プッシュ・ボタン([セッションの接続の保存]、[セッションの接続の復元])です。</para></entry></row>
+<row>
+<entry><para>ToolTalkデスクトップ・メッセージの処理</para></entry>
+<entry><para>アプリケーションが属しているToolTalkデスクトップ・メッセージのアライアンス・プロトコルの
+レベルを指定するオプション・メニューと接続エディタを表示するためのプッシュ・ボタ
+ン([拡張 ToolTalk 接続])です。ToolTalkデスクトップ・プロトコルは、実行中のアプリケーションに対してデスクトップ型のイベントまたは要求を伝える事前定義のToolTalkメッセージのセットです。アプリケーション・ビルダは、次のような[なし]、[基本]、[拡張機能]の3つのレベルをToolTalkに提供します。
+<?Pub _newline>[なし]: ToolTalkデスクトップ・プロトコルに属していません。ToolTalkのコードは
+生成されません。
+<?Pub _newline>[基本]: ToolTalkライブラリは、事前に定義されている標準的な方法で、カテゴリ1から3
+のデスクトップ・メッセージに応答します。コードは、<filename>main()</filename>で作成されます。
+<filename>main()</filename>はToolTalkで初期化し、ToolTalkがデスクトップ・メッセージを処理するように通知する関数を呼び出します。
+<?Pub _newline>[拡張機能]: ToolTalkライブラリは、カテゴリ1と2のデスクトップ・メッセージに応答します。
+カテゴリ3または4のカテゴリのメッセージのときは、アプリケーションは(コールバックによって)通知されます。
+<?Pub _newline>[拡張機能]を選択した場合は、接続エディタを使用して、アプリケーションに処理させたい
+メッセージを示す必要があります。[拡張 ToolTalk 接続]ボタンをクリックすると、
+[ソース]オブジェクト型として[アプリケーション]を持つ接続エディタが表示されます。
+[いつ]オプション・メニューは、[ToolTalk がコマンドを実行する時]、
+[ToolTalk がステータスを取得する時]、[ToolTalk を一時中止/再開する時]、
+[ToolTalk を終了する時]という4つのToolTalkの選択肢をリストします。
+ToolTalkの接続で有効なアクション・タイプは[関数呼び出し]のみです。コールバック
+関数は、ToolTalkメッセージを受け取ると呼び出されます。
+<?Pub _newline>このレベルでは、[<emphasis>project</emphasis>]<filename>.c:main()</filename>にコードが生成されます。
+[<emphasis>project</emphasis>]<filename>.c:main()</filename>は、ToolTalkを初期化し、そして接続エディタで定義したコールバックが、
+対応するメッセージを受け取ったときに呼び出されるように、デスクトップ・プロトコル
+を設定します。これらのコールバックは、[<emphasis>project</emphasis>]<filename>.c</filename>でも生成されます。</para></entry>
+</row>
+</tbody></tgroup></informaltable>
+<sect2 id="ABUG.afunc.div.18" role="Procedure">
+<title id="ABUG.afunc.mkr.17">フレームワーク動作を確立するには<indexterm>
+<primary>アプリケーション</primary><secondary>動作を設定&lt;$startrange></secondary></indexterm><indexterm><primary>アプリケーション・フレームワーク・エディタ</primary></indexterm><indexterm><primary>エディタ</primary><secondary>アプリケーション・フレームワーク</secondary></indexterm></title>
+<orderedlist><listitem><para>アプリケーション・ビルダの主ウィンドウの[エディタ]メニューから[アプリケーション・
+フレームワーク]を選択し、アプリケーション・フレームワーク・エディタを表示します。</para>
+</listitem><listitem><para>必要に応じて、[アプリケーション]セクションのテキスト・
+フィールドに[ベンダ名]と[バージョン]番号を入力します。 <literal><indexterm><primary>アプリケーションに設定したベンダ名
+</primary></indexterm> <indexterm><primary>設定</primary><secondary>アプリケーションのベンダ名
+</secondary></indexterm></literal>
+<literal><indexterm><primary>アプリケーションに設定したバージョン番号
+</primary></indexterm> <indexterm><primary>設定</primary><secondary>アプリケーションのバージョン番号</secondary></indexterm></literal></para>
+<para>ToolTalkが使用するときは、これらは、ToolTalkを初期化する呼び出しに使用されます。　
+</para>
+</listitem><listitem><para>必要に応じて、別の主メイン・ウィンドウを選択します。<indexterm><primary>主メイン・ウィンドウ</primary><secondary>アプリケーションに設定
+</secondary></indexterm> <indexterm><primary>設定</primary><secondary>
+アプリケーションの主メイン・ウィンドウ</secondary></indexterm></para>
+</listitem><listitem><para>必要に応じて、[国際化]を[使用する]に設定します。<literal><indexterm>
+<primary>設定</primary><secondary>国際化</secondary></indexterm> <indexterm>
+<primary>アプリケーションの国際化</primary></indexterm></literal></para>
+<para>国際化を選択すると、実行時にローカライズされた文字列のバージョンを取り出すコールを持つ
+オブジェクトのラベルと文字列を作成します。メッセージ・カタログの作成および保守も
+行います。</para>
+</listitem><listitem><para>[生成コード]セクションでリソース・ファイルに記述したい属性を選択します。</para>
+<para>選択したカテゴリはモジュール・ファイルに直接記述する代わりにリソース・ファイルに
+記述されます。そのために、アプリケーションを再コンパイルすることなく変更すること
+ができます。 <indexterm><primary>リソース・ファイル</primary>
+<secondary>属性の記述</secondary></indexterm></para>
+</listitem><listitem><para>必要に応じて、[セッション管理]セクションで、[方法]([なし]、[コマンド行]、
+[セッション・ファイル]または[両方])を選択します。<indexterm>
+<primary>セッション管理方法</primary></indexterm></para>
+</listitem><listitem><para>必要に応じて、[セッションの接続の保存]と[セッションの接続の復元]のどちらか、または
+両方を選択して、接続エディタで接続を行います。
+</para>
+</listitem><listitem><para>必要に応じて、[ToolTalk]セクションで、デスクトップ・メッセージの処理([なし]、
+[基本]、[拡張機能])を選択します。<indexterm>
+<primary>ToolTalkメッセージの処理</primary></indexterm></para>
+<para>ToolTalkメッセージの処理については<!--Original XRef content: '&xd2;Establishing Application Framework Behavior&xd3; on page&numsp;83'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.16">を参照してください。</para>
+</listitem><listitem><para>前のステップで、[拡張機能]を選択しなかったときは、[了解]をクリックして変更内容を
+適用し、アプリケーション・フレームワーク・エディタを終了します。</para>
+</listitem><listitem><para>前のステップで[拡張機能]を選択したときは、[拡張ToolTalk接続]をクリックします。</para>
+</listitem><listitem><para>接続エディタで[いつ]メニューから適切なToolTalk関数を選択します。</para>
+</listitem><listitem><para>[アクション・タイプ]として、[関数呼び出し]を選択します。</para>
+</listitem><listitem><para>適切な呼び出し関数の名前を入力します。</para>
+<para>これは、ToolTalk操作を実行するときに呼び出される関数の名前です。呼び出す関数を使用
+できるようにするには、<filename>stubs.c</filename>ファイルを編集する必要があります。
+操作方法は、<!--Original XRef content: '&xd2;Adding User Code to Generated Code&xd3; on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">を参照してください。</para>
+</listitem><listitem><para>[接続]をクリックして、接続します。</para>
+</listitem><listitem><para>[取消し]をクリックして、接続エディタを終了します。</para>
+</listitem><listitem><para>アプリケーション・フレームワーク・エディタで、[了解]をクリックし、変更内容を適用しエディタを終了します。<literal><indexterm><primary>アプリケーション
+</primary><secondary>動作の設定&lt;$endrange></secondary></indexterm></literal></para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:11:44-->
+<?Pub *0000053823>

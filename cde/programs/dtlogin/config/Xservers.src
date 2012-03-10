@@ -1,0 +1,116 @@
+XCOMM ##########################################################################
+XCOMM
+XCOMM   Xservers
+XCOMM
+XCOMM   Common Desktop Environment
+XCOMM
+XCOMM   Configuration file for all Xservers started or managed by the Login Manager
+XCOMM
+XCOMM   (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Novell, Inc.
+XCOMM
+XCOMM   BEST TO NOT EDIT CDE_INSTALLATION_TOP/config/Xservers directly.
+XCOMM
+XCOMM   CDE_INSTALLATION_TOP/config/Xservers is a factory-default file and will
+XCOMM   be unconditionally overwritten upon subsequent installation.
+XCOMM   Before making changes to the file, should copy it to the configuration 
+XCOMM   directory, CDE_CONFIGURATION_TOP/config. 
+XCOMM
+XCOMM   $XConsortium: Xservers.src /main/7 1996/08/25 02:01:08 cde-fuj $
+XCOMM
+XCOMM ##########################################################################
+XCOMM
+XCOMM     This file should contain an entry to start the server on the
+XCOMM     local display. If you have more than one display (not screen),
+XCOMM     add entries to the list (one per line).
+XCOMM
+XCOMM     If the local display has an associated character device, it should be
+XCOMM     specified here also.  This allows Dtlogin to correctly monitor that
+XCOMM     device when [No Windows] mode is selected from the login screen.  If
+XCOMM     no character device is available, then "none" should be specified.
+XCOMM
+XCOMM     By default, the ":0" display is associated with the "/dev/console"
+XCOMM     character device.  If the true console on the system is not the same
+XCOMM     as the ":0" graphics display, then the appropriate device or "none"
+XCOMM     should be specified for the ":0" display.
+XCOMM
+XCOMM     If you want multiple-displays running dtlogin then make sure the 
+XCOMM     connection number matches the display name, for example.
+XCOMM
+XCOMM <HostName>:1 local@none /usr/openwin/bin/X :1 <options>
+XCOMM
+XCOMM     This means the X-server is started on connection number "1" and the 
+XCOMM     display is connecting to the X-server on "1" through display name 
+XCOMM     "LocalHost:1".
+XCOMM
+XCOMM     If you have some X terminals connected which do not support XDMCP,
+XCOMM     you can add them here as well. Using XDMCP is recommended over
+XCOMM     entries in this file and should be used whenever possible.
+XCOMM
+XCOMM     Example Syntax, the items between "< >" are optional: 
+XCOMM
+XCOMM <HostName>:0 <class> local@console           /usr/openwin/bin/X :0 <options>
+XCOMM <HostName>:1 <class> local@none              /usr/openwin/bin/X :1 <options>
+XCOMM <HostName>:0 <class> local_uid@console <uid> /usr/openwin/bin/X :0 <options>
+XCOMM  XTermName:0 <class> foreign
+XCOMM
+XCOMM     A "*" in the first field of the entry for a local server 
+XCOMM     will be expanded to "<hostname>:0" by Dtlogin. This
+XCOMM     syntax is valid only within this file.
+XCOMM
+XCOMM * Local local@console /usr/openwin/bin/Xsun :0 
+XCOMM
+XCOMM     If the display type of "local_uid" is used, a user name such as "root" 
+XCOMM     must follow in next field.  In this example, by placing "root" here, 
+XCOMM     Login will start a local Xserver under the user id of "root".  On Sun 
+XCOMM     system's this will give Xserver the ability to raise interactive 
+XCOMM     scheduling priority of a client with mouse/keyboard focus to increase 
+XCOMM     performance of the application. 
+XCOMM
+XCOMM :0 Local local_uid@console root /usr/openwin/bin/Xsun :0 
+XCOMM
+XCOMM     In limited situations, the Xserver should not be run under a "root" id 
+XCOMM     for security reasons.  Examples are usually specific to Xserver extensions.
+XCOMM     On Sun Xservers one example involves the Display Postscript extension.  
+XCOMM     If the DPS extension is granted access (via Xserver option line) to read
+XCOMM     and write Unix files via the "-dpsfileops" option (see Xsun man page) it
+XCOMM     should not be run under a "root" user id.  For increaseced security, 
+XCOMM     could instead run it as the "nobody" user.
+XCOMM
+XCOMM :0 Local local_uid@console nobody /usr/openwin/bin/Xsun :0 -dpsfileops 
+XCOMM
+XCOMM     Another options of interest here for Sun's Xserver is how to start on 
+XCOMM     two or more screens.  A two screen example follows.
+XCOMM
+XCOMM :0 Local local_uid@console root /usr/openwin/bin/X -dev /dev/fb0 -dev /dev/fb1
+XCOMM
+XCOMM     See the Xsun.1 and Xserver.1 man pages for additional options of 
+XCOMM     interest.
+XCOMM
+XCOMM ##########################################################################
+
+#if defined (__apollo)
+   *    Local local /etc/Xdomain :0
+#elif defined (_AIX) && defined (AIXV4)
+   :0   Local local@console /usr/lpp/X11/defaults/xserverrc -T -force :0
+#elif defined (_AIX)
+   :0	Local local@console /usr/bin/X11/X -T -force :0
+#elif defined (sun)
+   :0	Local local_uid@console root /usr/openwin/bin/Xsun :0 -nobanner
+#elif defined (__osf__)
+#if defined (_NO_CONSOLE)
+XCOMM   *  Local local_uid@console root /usr/bin/X11/X :0 -nice -2
+#else
+   :0   Local local_uid@console root /usr/bin/X11/X :0 -nice -2
+#endif
+#elif defined (__hpux)
+   *	Local local@console /usr/bin/X11/X :0
+#elif defined (_NO_CONSOLE)
+XCOMM   *	Local local@console /usr/bin/X11/X :0
+#elif defined (__uxp__)
+   :0	Local local@console /usr/bin/X11/X :0
+#else
+   *	Local local@console /usr/bin/X11/X :0
+#endif

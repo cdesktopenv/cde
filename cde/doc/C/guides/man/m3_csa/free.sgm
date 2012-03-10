@@ -1,0 +1,112 @@
+<!-- $XConsortium: free.sgm /main/4 1996/08/30 15:34:31 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN57.rsml.1">
+<RefMeta>
+<RefEntryTitle>csa_free</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>csa_free</Function></RefName>
+<RefPurpose>free memory allocated by the calendaring service
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- (c) Copyright 1994 X.400 API Association-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;xcsa.h>
+</FuncSynopsisInfo>
+<FuncDef>CSA_return_code <Function>csa_free</Function></FuncDef>
+<ParamDef>CSA_buffer <Parameter>memory</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>csa_free</Function> function frees memory allocated by the calendaring
+service.
+After the call, the pointer memory will be
+invalid and should not be referenced again.
+When any CSA
+function allocates and returns a buffer to the application,
+the application will free that memory with this call when
+it is finished with the memory.
+When a CSA function
+returns a base pointer to a complex structure containing
+several levels of pointers, all the application will do to
+free the entire structure or array of structures is call
+this routine with the base pointer returned by the CSA
+function.
+The CSA functions that return structures of
+this form are
+&cdeman.csa.list.calendars;, &cdeman.csa.look.up;, &cdeman.csa.query.configuration;, &cdeman.csa.list.calendar.attributes;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.free.time.search;, &cdeman.csa.add.entry;, &cdeman.csa.list.entries;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.read.entry.attributes;, and
+&cdeman.csa.read.next.reminder;, &cdeman.csa.update.entry.attributes;. The behavior of
+&cdeman.csa.free; is undefined when called with a pointer to a memory block
+not allocated by the calendaring service, a pointer to a
+memory block that has already been freed, or a pointer
+contained in a structure returned by the CSA
+implementation.
+In some situations, the extensions
+specified for a function may be a combination of input and
+output extensions.
+In this case, the memory returned in
+the output extensions must be freed one at a time using
+&cdeman.csa.free;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<RefSect2>
+<Title>Memory (Buffer)</Title>
+<Para>A pointer to memory allocated by the calendaring service.
+A value of
+<SystemItem Class="Constant">NULL</SystemItem> will be ignored, but will return the return code
+<SystemItem Class="Constant">CSA_SUCCESS</SystemItem>.</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Whether the function succeeded or not, and, if not, why.
+It may be success or one of the values listed under ERRORS
+below.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The
+<Function>csa_free</Function> function returns the following error values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_E_FAILURE</Term>
+<ListItem>
+<Para>There was a general failure that does not
+fit the description of any other error code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_MEMORY</Term>
+<ListItem>
+<Para>A function parameter was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.csa.csa.h;, &cdeman.csa.add.calendar;, &cdeman.csa.add.entry;, &cdeman.csa.call.callbacks;, &cdeman.csa.delete.calendar;, &cdeman.csa.delete.entry;, &cdeman.csa.free.time.search;, &cdeman.csa.list.calendar.attributes;, &cdeman.csa.list.calendars;, &cdeman.csa.list.entries;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.logoff;, &cdeman.csa.logon;, &cdeman.csa.look.up;, &cdeman.csa.query.configuration;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.read.entry.attributes;, &cdeman.csa.read.next.reminder;, &cdeman.csa.register.callback;, <![ %CDE.C.XO; [&cdeman.csa.restore;, &cdeman.csa.save;, ]]>&cdeman.csa.unregister.callback;, &cdeman.csa.update.calendar.attributes;, &cdeman.csa.update.entry.attributes;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

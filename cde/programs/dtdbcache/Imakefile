@@ -1,0 +1,65 @@
+XCOMM $XConsortium: Imakefile /main/5 1996/09/14 15:26:52 drk $
+
+/* General case INCLUDES DEFINES LOCAL_LIBRARIES
+ * Each individual architecture may have more or less of the above.
+ * Use EXTRA_DEFINES and EXTRA_INCLUDES to add defines and includes
+ * to an individual architecture.  There is no equivalent for
+ * LOCAL_LIBRARIES.
+ * USE_libraryname in LOCAL_LIBRARIES is by default empty.
+ * It should be set when necessary to the real library macro name.
+ */
+
+        DEFINES = -DXK_MISCELLANY
+
+       INCLUDES = -I.
+
+/* DEPLIBS contains the list of library depencies for a client.
+ * LOCAL_LIBRARIES contains the list of libraries on the link line.
+ * Generally, the dependency form of a library has DEP as a prefix.
+ * e.g. put $(XLIB) in LOCAL_LIBRARIES and $(DEPXLIB) in DEPLIBS.
+ * NOTE: if DEPLIBS is not set here, it is by default null and there
+ *       are no library dependencies for clients.
+ *       You cannot put -Llibpath into DEPLIBS. You must put actual
+ *       paths to the library.
+ */
+DEPLIBS = $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXMLIB) $(DEPXPLIB) \
+	  $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XPLIB) $(XTOOLLIB) $(XLIB)
+SYS_LIBRARIES   = -lm 
+
+
+#ifdef HPArchitecture
+EXTRA_DEFINES = +e
+#endif
+
+#ifdef SCOArchitecture
+ATLIB=
+SYS_LIBRARIES   = -lm -lcrypt
+#endif
+
+#ifdef RsArchitecture
+ATLIB=
+#endif
+
+#ifdef USLArchitecture
+SYS_LIBRARIES   = -lm -lgen 
+ATLIB=
+#endif
+
+#if defined(HPOSFArchitecture)
+#endif
+
+#if defined(SunArchitecture)
+ATLIB=
+SYS_LIBRARIES = -lm -ldl -lw -lgen
+#endif /* SunArchitecture */
+
+#if defined(UXPArchitecture)
+SYS_LIBRARIES = -lm -lgen
+#endif
+
+SRCS = Main.c
+OBJS = Main.o
+
+ComplexProgramTarget(dtdbcache)
+

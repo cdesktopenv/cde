@@ -1,0 +1,101 @@
+<!-- $XConsortium: Xt_inp_h.sgm /main/6 1996/09/08 20:23:40 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN273.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN273.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tttk_Xt_input_handler</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tttk_Xt_input_handler</Function></RefName>
+<RefPurpose>Process ToolTalk events for Xt clients
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Xt_inp_h.sgm /main/6 1996/09/08 20:23:40 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>tttk_Xt_input_handler</Function></FuncDef>
+<ParamDef>XtPointer <Parameter>procid</Parameter></ParamDef>
+<ParamDef>int *<Parameter>source</Parameter></ParamDef>
+<ParamDef>XtInputId *<Parameter>id</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>If
+<Emphasis>procid</Emphasis> is not
+<SystemItem Class="Constant">NULL</SystemItem>, <Function>tttk_Xt_input_handler</Function> passes it to
+&cdeman.tt.default.procid.set;. The
+<Function>tttk_Xt_input_handler</Function> function then calls
+&cdeman.tt.message.receive;, which retrieves the next message available, if any, for the default
+procid.
+If
+&cdeman.tt.message.receive; returns
+<SystemItem Class="Constant">TT_ERR_NOMP</SystemItem>, then
+<Function>tttk_Xt_input_handler</Function> closes the default
+procid
+with
+&cdeman.ttdt.close;, and removes the input source
+<Emphasis>*id</Emphasis> with
+<Function>XtRemoveInput</Function>(3) if
+<Emphasis>id</Emphasis> is not zero.
+If a message is available and
+&cdeman.tt.message.receive; returns it (indicating it was not consumed by any message or pattern
+callback), then the ToolTalk service passes the message to
+&cdeman.tttk.message.abandon;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>The
+<Function>tttk_Xt_input_handler</Function> function returns no value.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application should use
+<Function>tttk_Xt_input_handler</Function> as its Xt input handler unless some
+messages are expected not to be consumed by callbacks.
+(The only messages that
+absolutely cannot be intercepted and consumed by callbacks are those
+that match observe signatures in a
+ptype
+or
+otype.)
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<InformalExample>
+<ProgramListing>int myTtFd;
+char *myProcID;
+myProcID = ttdt_open(&amp;myTtFd, "WhizzyCalc", "Acme", "1.0", 1);
+/* ... */
+/* Process the message that started us, if any */
+tttk_Xt_input_handler(myProcID, 0, 0);
+/* ... */
+XtAppAddInput(myContext, myTtFd, (XtPointer)XtInputReadMask,
+                tttk_Xt_input_handler, myProcID);
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttdt.close;, &cdeman.tttk.message.abandon;, &cdeman.tt.default.procid.set;, &cdeman.tt.message.receive;, <Function>XtAppAddInput</Function>(3), <![ %CDE.C.CDE; [<Function>XtRemoveInput</Function>(3). ]]><![ %CDE.C.XO; [<Function>XtRemoveInput</Function> in the &str-Zt;.
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

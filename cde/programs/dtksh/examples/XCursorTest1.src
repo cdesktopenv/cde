@@ -1,0 +1,63 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: XCursorTest1.src /main/3 1996/04/23 20:19:21 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates how the 'call' command can be used
+XCOMM  to obtain an 'X' cursor, and then how that cursor can be set for a
+XCOMM  widget hierarchy.
+XCOMM 
+
+XCOMM  Pushbutton Callback: set the cursor for the widget hierarchy
+DefineCursor()
+{
+   XDefineCursor $(XtDisplay "-" $TOPLEVEL) $(XtWindow "-" $TOPLEVEL) $CURSOR
+}
+
+XCOMM  Pushbutton Callback: unset the cursor for the widget hierarchy
+UndefineCursor()
+{
+   XUndefineCursor $(XtDisplay "-" $TOPLEVEL) $(XtWindow "-" $TOPLEVEL)
+}
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL xCursorTest XCursorTest "$0" "$@"
+XtSetValues $TOPLEVEL allowShellResize:True
+
+XtCreateManagedWidget DA da XmDrawingArea $TOPLEVEL
+XtSetValues $DA height:200 width:200
+
+XtRealizeWidget $TOPLEVEL
+
+XtCreateApplicationShell TOPLEVEL2 xCursorTesta TopLevelShell
+
+XtCreateManagedWidget RC rc XmRowColumn $TOPLEVEL2 \
+         orientation:HORIZONTAL \
+         numColumns:2 \
+         packing:PACK_COLUMN 
+
+XtCreateManagedWidget PB1 pb1 XmPushButton $RC \
+	labelString:"Define Cursor"
+XtAddCallback $PB1 activateCallback "DefineCursor"
+
+XtCreateManagedWidget PB2 pb2 XmPushButton $RC \
+	labelString:"Undefine Cursor"
+XtAddCallback $PB2 activateCallback "UndefineCursor"
+
+XCOMM  Call the X function for getting a cursor
+call XCreateFontCursor $(XtDisplay "-" $TOPLEVEL) 10
+CURSOR=$RET
+echo "Cursor = "$CURSOR
+
+XtRealizeWidget $TOPLEVEL2
+
+XtMainLoop

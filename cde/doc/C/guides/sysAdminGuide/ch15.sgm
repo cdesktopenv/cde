@@ -1,0 +1,1499 @@
+<!-- $XConsortium: ch15.sgm /main/10 1996/09/08 19:34:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.FACol.div.1">
+<Title Id="SAG.FACol.mkr.1">Administering Application Resources, Fonts, and Colors</Title>
+<Para>You can choose a wide range of colors and fonts for your display either by
+using Style Manager or by customizing additional font and color resources.
+This chapter discusses how to customize fonts and color resources.</Para>
+<Para>This chapter also describes how to specify style translations for <Command>DtEditor</Command>
+widget applications such as the desktop text editor (<Command>dtpad</Command>) and Mailer
+(<Command>dtmail</Command>), and alternates for <Command>DtEditor</Command> widget application menu accelerators
+that conflict with these translations.<IndexTerm><Primary>UNIX key bindings</Primary></IndexTerm>
+</Para>
+<InformalTable Id="SAG.FACol.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Setting Application Resources256'--><XRef Role="JumpText" Linkend="SAG.FACol.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Defining UNIX Bindings257'--><XRef Role="JumpText" Linkend="SAG.FACol.div.6"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Administering Fonts261'--><XRef Role="JumpText" Linkend="SAG.FACol.div.10"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Administering Colors265'--><XRef Role="JumpText" Linkend="SAG.FACol.div.18"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Setting Shadow Thicknesses for Application Windows273'--><XRef Role="JumpText" Linkend="SAG.FACol.div.30"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>.</Para>
+<Sect1 Id="SAG.FACol.div.2">
+<Title Id="SAG.FACol.mkr.2">Setting Application Resources<IndexTerm><Primary>application resources, See resources&lt;$nopage></Primary></IndexTerm><IndexTerm><Primary>resources</Primary><Secondary>setting</Secondary></IndexTerm></Title>
+<Para>Resources are used by applications to set certain aspects of appearance and
+behavior. For example, Style Manager (<ComputerOutput>dtstyle</ComputerOutput>) provides resources that
+enable you to specify where the system looks for files containing information
+about color palettes:</Para>
+<ProgramListing>dtstyle*paletteDirectories: /usr/dt/palettes/C \ <Emphasis>HomeDirectory</Emphasis>/.dt/palettes</ProgramListing>
+<Para>App-default files for the desktop applications are located in the
+<Filename>/usr/dt/app-defaults/</Filename><Symbol Role="Variable">language</Symbol> directory.<IndexTerm><Primary>resources</Primary><Secondary>app-defaults</Secondary></IndexTerm><IndexTerm><Primary>app-defaults</Primary><Secondary>desktop applications</Secondary></IndexTerm>
+</Para>
+<Sect2 Id="SAG.FACol.div.3" Role="Procedure">
+<Title>To Set System-Wide Resources<IndexTerm><Primary>resources</Primary><Secondary>system-wide</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Add the resources to the file <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/<IndexTerm>
+<Primary>sys.resources file</Primary>
+</IndexTerm><IndexTerm>
+<Primary>X resources, See resources&lt;$nopage></Primary>
+</IndexTerm>
+sys.resources</Filename>.
+(You may have to create the file.)</Para>
+<Para>For example, if in <Filename>/etc/dt/config/C/sys.resources</Filename> you specify:</Para>
+<programlisting>AnApplication*resource: <Symbol Role="Variable">value</Symbol></programlisting>
+<Para>then the resource <Filename>AnApplication*resource</Filename> will be set in each user's
+RESOURCE_MANAGER property at the next login.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.4" Role="Procedure">
+<Title>To Set Personal Resources<IndexTerm><Primary>resources</Primary><Secondary>personal</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Add the resources to the file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename>.<IndexTerm><Primary>.Xdefaults file[Xdefaults file]</Primary></IndexTerm>
+</Para>
+</ListItem>
+<ListItem>
+<Para>Double-click Reload Resources in the Desktop_Tools application group.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.5">
+<Title>How the Desktop Loads Resources</Title>
+<Para>Resources are loaded at session start-up by Session Manager. For information
+on how Session Manager loads the resources into the RESOURCE_MANAGER,
+see
+<!--Original XRef content: '&xd2;Loading the Session Resources&xd3; on page&numsp;29'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.SesMg.mkr.7">.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FACol.div.6">
+<Title Id="SAG.FACol.mkr.3">Defining UNIX Bindings<IndexTerm><Primary>UNIX key bindings</Primary></IndexTerm><IndexTerm><Primary>EMACS style translations</Primary></IndexTerm><IndexTerm><Primary>DtEditor, style translations for</Primary></IndexTerm></Title>
+<Para>By default UNIX bindings are not enabled.</Para>
+<Sect2 Id="SAG.FACol.div.7" Role="Procedure">
+<Title>To Specify EMACS-Style Translations<IndexTerm><Primary>EMACS translations</Primary></IndexTerm></Title>
+<Para>The following procedure specifies:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>EMACS-style translations for <Command>DtEditor</Command> widget applications such as the
+desktop Text Editor (<Command>dtpad</Command>) and Mailer (<Command>dtmail</Command>)</Para>
+</ListItem>
+<ListItem>
+<Para>Alternates for <Command>DtEditor</Command> widget application menu accelerators that conflict
+with these translations.</Para>
+</ListItem>
+</ItemizedList>
+<OrderedList>
+<ListItem>
+<Para>Add the following line to the <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> file:</Para>
+<Para><Command>#include &ldquo;/usr/dt/app-defaults/</Command><Symbol Role="Variable">language</Symbol><Filename>/UNIXbindings&rdquo;</Filename></Para>
+<Para>where <Symbol Role="Variable">language</Symbol> is the value of the LANG environment variable.</Para>
+</ListItem>
+<ListItem>
+<Para>Restart your session.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.8" Role="Procedure">
+<Title>To Modify the EMACS-Style Translations</Title>
+<OrderedList>
+<ListItem>
+<Para>Insert the contents of the file
+<Filename>/usr/dt/app-defaults/</Filename><Symbol Role="Variable">language</Symbol><Filename>/UNIXbindings</Filename> into
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>Edit the bindings in the <Filename>.Xdefaults</Filename> file.</Para>
+</ListItem>
+<ListItem>
+<Para>Restart your session when you have finished.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.9">
+<Title>UNIX Bindings Provided by the UNIXbindings File<IndexTerm><Primary>UNIXbindings file</Primary></IndexTerm></Title>
+<Para>The <Filename>/usr/dt/app-defaults/</Filename><Symbol Role="Variable">language</Symbol><Filename>/UNIXbindings</Filename> file provides the
+following bindings:</Para>
+<Note>
+<Para>The Delete key deletes the previous character when the UNIX bindings
+are enabled, and Shift-Delete deletes the next character.
+Note that not all vendors' keyboards supply these keys.
+Please see your local vendor's documentation for alternate key bindings.
+</Para>
+</Note>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Table&numsp;15&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.1"> lists
+the <Command>dtpad</Command> overrides for menu accelerators and accelerator text
+that conflict with the UNIX bindings.</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="SAG.FACol.tbl.1" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.4"><Command>dtpad</Command> Overrides for Menu Accelerators and Accelerator Text</Title>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="4.09in">
+<colspec colwidth="1.54in">
+<THead>
+<Row>
+<Entry><Para><Literal>Menu Accelerators and Accelerator Text</Literal></Para></Entry>
+<Entry><Para><Literal>Override</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>Dtpad*fileMenu.print.acceleratorText:</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*fileMenu.print.accelerator:</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.undo.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Ctrl+_</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.undo.accelerator:</Filename></Para></Entry>
+<Entry><Para>Ctrl&lt;Key>_</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.paste.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Shift+Insert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.paste.accelerator:</Filename></Para></Entry>
+<Entry><Para>Shift&lt;Key>osfInsert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.selectAll.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Ctrl+/</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.selectAll.accelerator:</Filename></Para></Entry>
+<Entry><Para>Ctrl&lt;Key>/</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Table&numsp;15&hyphen;2'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.2"> lists the <Command>dtmail</Command> Compose window overrides for menu
+accelerators and accelerator text that conflict with the UNIX bindings.</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="SAG.FACol.tbl.2" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.5"><Command>dtmail</Command> Compose Window Overrides</Title>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="6.04in">
+<colspec colwidth="1.54in">
+<THead>
+<Row>
+<Entry><Para><Literal>Menu Accelerators and Accelerator Text</Literal></Para></Entry>
+<Entry><Para><Literal>Override</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Undo.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Ctrl+_</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Undo.accelerator:</Filename></Para></Entry>
+<Entry><Para>Ctrl&lt;Key>_</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Paste.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Shift+Insert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Paste.accelerator:</Filename></Para></Entry>
+<Entry><Para>Shift&lt;Key>osfInsert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Find/Change.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Ctrl+S</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Find/Change.accelerator:</Filename></Para></Entry>
+<Entry><Para>Ctrl&lt;Key>s</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The following translations provide (GNU style) EMACS control and meta
+key bindings plus some additional bindings. When appropriate, they also
+allow the Shift key to be used in combination with the normal binding to
+reverse the direction of the operation. For example, Ctrl+Shift+F will move
+the cursor backward a character since Ctrl+F normally moves it forward a
+character.</Para>
+<Para>The additional bindings are:</Para>
+<VariableList Role="LabList">
+<VarListEntry>
+<Term>Ctrl+comma</Term>
+<ListItem>
+<Para>backward-word</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+Shift+comma</Term>
+<ListItem>
+<Para>forward-word</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+period</Term>
+<ListItem>
+<Para>forward-word</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+Shift+period</Term>
+<ListItem>
+<Para>backward-word</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+Return</Term>
+<ListItem>
+<Para>end-of-file</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+Shift+Return</Term>
+<ListItem>
+<Para>beginning-of-file</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>GNU EMACS binds delete-previous-character() rather than delete-next-
+character() to the Delete key. Meta+F is normally the mnemonic for the File
+menu, so the binding to forward-word() will be ignored. Use one of the
+other bindings for forward-word (for example, Ctrl+period).</Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: 'Table&numsp;15&hyphen;3'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.3"> lists the <Filename>DtEditor.text</Filename> Translations</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="SAG.FACol.tbl.3" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.6"><Filename>DtEditor.text</Filename> Translations</Title>
+<TGroup Cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.38in">
+<colspec colwidth="1.32in">
+<colspec colwidth="2.13in">
+<THead>
+<Row>
+<Entry><Para><Literal>Modifier Key</literal></Para></Entry>
+<Entry><Para><Literal>Key</Literal></Para></Entry>
+<Entry><Para><Literal>Action Routine</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>a:</Para></Entry>
+<Entry><Para>beginning-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>a:</Para></Entry>
+<Entry><Para>end-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>backward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>forward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>backward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m ~s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>forward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>d:</Para></Entry>
+<Entry><Para>delete-next-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>d:</Para></Entry>
+<Entry><Para>delete-previous-
+character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m ~s</Para></Entry>
+<Entry><Para>&lt;Key>d:</Para></Entry>
+<Entry><Para>kill-next-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m s</Para></Entry>
+<Entry><Para>&lt;Key>d:</Para></Entry>
+<Entry><Para>kill-previous-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>e:</Para></Entry>
+<Entry><Para>end-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>e:</Para></Entry>
+<Entry><Para>beginning-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>f:</Para></Entry>
+<Entry><Para>forward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>f:</Para></Entry>
+<Entry><Para>backward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m ~s</Para></Entry>
+<Entry><Para>&lt;Key>f:</Para></Entry>
+<Entry><Para>forward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m s</Para></Entry>
+<Entry><Para>&lt;Key>f:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>j:</Para></Entry>
+<Entry><Para>newline-and-indent()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>k:</Para></Entry>
+<Entry><Para>kill-to-end-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>k:</Para></Entry>
+<Entry><Para>kill-to-start-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>l:</Para></Entry>
+<Entry><Para>redraw-display()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>m:</Para></Entry>
+<Entry><Para>newline()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>n:</Para></Entry>
+<Entry><Para>process-up()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>n:</Para></Entry>
+<Entry><Para>process-down()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>o:</Para></Entry>
+<Entry><Para>newline-and-backup()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>p:</Para></Entry>
+<Entry><Para>process-up()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>p:</Para></Entry>
+<Entry><Para>process-down()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>u:</Para></Entry>
+<Entry><Para>kill-to-start-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>u:</Para></Entry>
+<Entry><Para>kill-to-end-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>v:</Para></Entry>
+<Entry><Para>next-page()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>v:</Para></Entry>
+<Entry><Para>previous-page()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m ~s</Para></Entry>
+<Entry><Para>&lt;Key>v:</Para></Entry>
+<Entry><Para>previous-page()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m s</Para></Entry>
+<Entry><Para>&lt;Key>v:</Para></Entry>
+<Entry><Para>next-page()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>w:</Para></Entry>
+<Entry><Para>kill-selection()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>y:</Para></Entry>
+<Entry><Para>unkill()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m</Para></Entry>
+<Entry><Para>&lt;Key>]:</Para></Entry>
+<Entry><Para>forward-paragraph()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m</Para></Entry>
+<Entry><Para>&lt;Key>[:</Para></Entry>
+<Entry><Para>backward-paragraph()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>comma:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>comma:</Para></Entry>
+<Entry><Para>forward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m</Para></Entry>
+<Entry><Para>&lt;Key>\\&lt;:</Para></Entry>
+<Entry><Para>beginning-of-file()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>period:</Para></Entry>
+<Entry><Para>forward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>period:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m</Para></Entry>
+<Entry><Para>&lt;Key>\\>:</Para></Entry>
+<Entry><Para>end-of-file()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>Return:</Para></Entry>
+<Entry><Para>end-of-file()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>Return:</Para></Entry>
+<Entry><Para>beginning-of-file()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>~c ~s ~m ~a</Para></Entry>
+<Entry><Para>&lt;Key>osfDelete:</Para></Entry>
+<Entry><Para>delete-previous-
+character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>~c s ~m ~a</Para></Entry>
+<Entry><Para>&lt;Key>osfDelete:</Para></Entry>
+<Entry><Para>delete-next-character()</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FACol.div.10">
+<Title Id="SAG.FACol.mkr.7">Administering Fonts<IndexTerm><Primary>2</Primary></IndexTerm><IndexTerm><Primary>fonts</Primary><Secondary>administering</Secondary></IndexTerm></Title>
+<Para>Using the Style Manager Font dialog box, you can select the font size you want
+for all applications. You can also specify fonts on the command line or use
+resources to:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Set font resources for individual applications</Para>
+</ListItem>
+<ListItem>
+<Para>Assign different fonts to be used by the Font dialog box</Para>
+</ListItem>
+</ItemizedList>
+<Para>A <Symbol Role="Variable">font</Symbol> is a type style in which text characters are printed or displayed. The
+desktop includes a variety of fonts in different styles and sizes.</Para>
+<Para>A <Emphasis>bitmap font</Emphasis><IndexTerm>
+<Primary>fonts</Primary>
+<Secondary>bitmapped</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>fonts</Primary>
+<Secondary>bitmapped</Secondary>
+</IndexTerm>
+is made from a matrix of dots. (By default, Style Manager
+configures bitmap fonts only.) The font is completely contained in one file.
+Many files are needed to have a complete range of sizes, slants, and weights.</Para>
+<Para>Fonts are specified as values of resources and as parameters to
+commands. The X Logical Font Description (XLFD) name is the method by
+which a desired font is requested. The system finds the font that best
+matches the description it was given.<IndexTerm><Primary>fonts</Primary><Secondary>X Logical Font Description</Secondary></IndexTerm><IndexTerm><Primary>X Logical Font Description</Primary></IndexTerm>
+</Para>
+<Sect2 Id="SAG.FACol.div.11">
+<Title>Setting Desktop Font Resources<IndexTerm><Primary>resources</Primary><Secondary>fonts</Secondary></IndexTerm><IndexTerm><Primary>fonts</Primary><Secondary>resources, setting</Secondary></IndexTerm></Title>
+<Para>The Style Manager Font dialog box enables you to set fonts (up to seven sizes)
+for things such as text entry and labels.</Para>
+<Sect3 Id="SAG.FACol.div.12">
+<Title>Resources Set by the Font Dialog Box<IndexTerm><Primary>Fonts dialog box</Primary></IndexTerm></Title>
+<Para>When a font is selected, the following resources are written to the
+RESOURCE_MANAGER property:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><ComputerOutput>SystemFont</ComputerOutput> is used for system areas, such as menu bars, menu panes,
+push buttons, toggle buttons, and labels. The following resource is set by
+<ComputerOutput>SystemFont</ComputerOutput>:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="106*">
+<colspec colwidth="422*">
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput>*FontList</ComputerOutput></Para></Entry>
+<Entry><Para>Displayed in system areas of desktop clients and other
+clients created using the Motif toolkit.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para><Command>UserFont</Command> is used for text entered into windows. The following resources
+are set by <ComputerOutput>UserFont</ComputerOutput>:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="205*">
+<colspec colwidth="323*">
+<TBody>
+<Row>
+<Entry><Para><Filename>*Font</Filename><IndexTerm><Primary>Font resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Supports earlier versions of X applications</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>*FontSet</Filename><IndexTerm><Primary>FontSet resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The primary setting</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>*XmText*FontList</ComputerOutput><IndexTerm><Primary>XmText*FontList resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Displayed in text entry boxes</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>*XmTextField*FontList</ComputerOutput><IndexTerm><Primary>XmTextField*FontList resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Displayed in text entry boxes</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.13">
+<Title>Resources Used by the Font Dialog Box</Title>
+<Para>The fonts used for each selection in the Font dialog box are specified in the
+<Filename>/usr/dt/app-defaults/Dtstyle</Filename> resource file. Up to seven sizes can be
+specified.</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="146*">
+<colspec colwidth="382*">
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput>NumFonts</ComputerOutput><IndexTerm><Primary>NumFonts resource</Primary></IndexTerm><IndexTerm><Primary>fonts</Primary><Secondary>number of in Style Manager</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Number of font sizes in the Font dialog box</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>SystemFont[1-7]</ComputerOutput><IndexTerm><Primary>fonts</Primary><Secondary>system, in Style Manager</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Up to seven resources assigning a specific font to a
+Font dialog box selection for <ComputerOutput>SystemFont</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>UserFont[1-7]</ComputerOutput><IndexTerm><Primary>fonts</Primary><Secondary>user, in Style Manager</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Up to seven resources assigning a specific font to a
+Font dialog box selection for <ComputerOutput>UserFont</ComputerOutput></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Note>
+<Para>The default fonts for these resources have been chosen for readability
+on various displays. If you want a specific font for an application, set the font
+with an application font resource rather than changing these desktop fonts.</Para>
+</Note>
+<Para>For more information about application fonts, seethe <Command>DtStdAppFontNames</Command> (<Filename>5</Filename>)
+and <Command>DtStdInterfaceFontNames</Command> (<Filename>5</Filename>) man pages.</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.14" Role="Procedure">
+<Title>To List Available Fonts<IndexTerm><Primary>fonts</Primary><Secondary>listing available</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Type the following:</Para>
+<programlisting>xlsfonts [-<Symbol Role="Variable">options</Symbol>] [-fn <Symbol Role="Variable">pattern</Symbol>]<IndexTerm>
+<Primary>xlsfonts command</Primary>
+</IndexTerm></programlisting>
+<Para>A list of XLFD names and font alias names available on your system is
+displayed. Bitmap fonts show values in all fourteen XLFD fields. Scalable
+typefaces show zeros in the <Symbol Role="Variable">PixelSize</Symbol>, <Symbol Role="Variable">PointSize</Symbol>, <Symbol Role="Variable">ResolutionX</Symbol>, and <Symbol Role="Variable">ResolutionY</Symbol>
+positions.</Para>
+</ListItem>
+<ListItem>
+<Para>To check for specific fonts, use the pattern-matching capability of
+<Command>xlsfonts</Command>. Use wildcards to replace the part of the pattern you are not
+trying to match.</Para>
+</ListItem>
+<ListItem>
+<Para>If <Command>xlsfonts</Command> does not show any font names starting with <Command>dt</Command>, your font path
+does not include the desktop fonts. Type the following command to include
+the desktop fonts into your available fonts:</Para>
+<programlisting>xset +fp <Symbol Role="Variable">directory name</Symbol></programlisting>
+<Para>where <Symbol Role="Variable">directory name</Symbol> is the directory containing the desktop fonts. The
+default location set by session startup is
+<Filename>/usr/dt/config/xfonts/</Filename><Symbol Role="Variable">language</Symbol>.</Para>
+</ListItem>
+</OrderedList>
+<Para>For additional information, see:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The <Command>xset</Command> and <Filename MoreInfo="RefEntry">xlsfonts</Filename> man pages list the available options.</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>Using the X Window System</Emphasis> explains font alias names and the <Command>xset</Command> client.</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.15" Role="Procedure">
+<Title>To Specify Fonts on the Command Line</Title>
+<OrderedList>
+<ListItem>
+<Para>Use the <Filename>-xrm</Filename> command-line option to specify a font resource for a specific
+client. For example:</Para>
+</ListItem>
+</OrderedList>
+<ProgramListing><Symbol Role="Variable">application name</Symbol> -xrm &ldquo;*bitstream-charter-medium-r-normal-8-88-75-75-p-45-iso8859-1&rdquo;</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.16">
+<Title>X Logical Font Description (XLFD)<IndexTerm><Primary>fonts</Primary><Secondary>X Logical Font Description</Secondary></IndexTerm></Title>
+<Para>A font is specified by listing fourteen different characteristics, separated by
+dashes (-). This is called the X Logical Font Description (XLFD). In some cases,
+a property in the list can be replaced by a * wildcard, and a character within a
+property can be replaced by a ? wildcard.
+<!--Original XRef content: 'Table&numsp;15&hyphen;4'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.4"> lists font property string
+specifications.</Para>
+<Para>The form of the property string specification is:<IndexTerm><Primary>fonts</Primary><Secondary>specifying property string</Secondary></IndexTerm>
+</Para>
+<Para>&ldquo;-<Symbol Role="Variable">Foundry</Symbol>-<Symbol Role="Variable">FamilyName</Symbol>-<Symbol Role="Variable">WeightName</Symbol>-
+<?Pub _newline><Symbol Role="Variable">Slant</Symbol>-<Symbol Role="Variable">SetwidthName</Symbol>-<Symbol Role="Variable">AddStyleName</Symbol>-<Symbol Role="Variable">PixelSize</Symbol>-
+<?Pub _newline><Symbol Role="Variable">PointSize</Symbol>-<Symbol Role="Variable">ResolutionX</Symbol>-<Symbol Role="Variable">ResolutionY</Symbol>-<Symbol Role="Variable">Spacing</Symbol>-
+<?Pub _newline><Symbol Role="Variable">AverageWidth</Symbol>-<Symbol Role="Variable">CharSetRegistry</Symbol>-<Symbol Role="Variable">CharSetCoding</Symbol>&rdquo;</Para>
+<Table Id="SAG.FACol.tbl.4" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.8">Font Property String Specification</Title>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.65in">
+<colspec colwidth="3.98in">
+<THead>
+<Row>
+<Entry><Para><Literal>Property String</Literal></Para></Entry>
+<Entry><Para><Literal>Definition</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">Foundry</Symbol></Para></Entry>
+<Entry><Para>A string identifying the font designer</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">FamilyName</Symbol></Para></Entry>
+<Entry><Para>A string identifying the trademarked name of the font</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">WeightName</Symbol></Para></Entry>
+<Entry><Para>A string giving the relative weight of the font, such as bold</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Slant</Para></Entry>
+<Entry><Para>A code describing the direction of slant</Para><Para>R (Roman&ndash;no slant)</Para><Para>I (Italic&ndash;slant right)</Para><Para>O (Oblique&ndash;slant right)</Para><Para>RI (Reverse Italic&ndash;slant left)</Para><Para>RO (Reverse Oblique&ndash;slant left)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">SetwidthName</Symbol></Para></Entry>
+<Entry><Para>A string describing the width, such as compressed or expanded</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">AddStyleName</Symbol></Para></Entry>
+<Entry><Para>A string providing any additional information needed to
+uniquely identify the font</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">PixelSize</Symbol></Para></Entry>
+<Entry><Para>An integer giving the size of an em-square in pixels</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">PointSize</Symbol></Para></Entry>
+<Entry><Para>An integer giving the size of an em-square in decipoints</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">ResolutionX</Symbol></Para></Entry>
+<Entry><Para>An integer giving the horizontal resolution in pixels</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">ResolutionY</Symbol></Para></Entry>
+<Entry><Para>An integer giving the vertical resolution in pixels</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">Spacing</Symbol></Para></Entry>
+<Entry><Para>A code specifying the spacing between units</Para><Para><ComputerOutput>M</ComputerOutput> (Monospace--fixed pitch)</Para><Para><ComputerOutput>P</ComputerOutput> (Proportional space--variable pitch)</Para><Para><ComputerOutput>C</ComputerOutput> (Character cell)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">AverageWidth</Symbol></Para></Entry>
+<Entry><Para>An integer giving the average width in 1/10th pixels</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">CharSetRegistry</Symbol></Para></Entry>
+<Entry><Para>A string identifying the registration authority that has
+registered the font encoding</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">CharSetEncoding</Symbol></Para></Entry>
+<Entry><Para>A string identifying the character set in the specified registry</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Sect3 Id="SAG.FACol.div.17">
+<Title>Example</Title>
+<Para>The following XLFD name describes a font named <ComputerOutput>charter</ComputerOutput> made by
+Bitstream that supports the ISO8859-1 standard encoding:</Para>
+<ProgramListing>-bitstream-charter-medium-r-normal--8-80-75-75-p-45-iso8859-1</ProgramListing>
+<Para>It is medium weight, with no special slanting, and normal width. The font is
+proportional, with an em-square box of 8 pixels or 8.0 points. The horizontal
+and vertical resolution are both 75 pixels. The average width of a character is
+45 1/10ths pixels or 4.5 pixels.</Para>
+<Para>Parts of this string can be replaced by wildcards. The system uses the first font
+it finds that matches the parts you have specified.</Para>
+<Para>If all you want is an eight-pixel <ComputerOutput>charter</ComputerOutput> font, you could use:</Para>
+<ProgramListing>*-charter-*-*-*-*-8-*</ProgramListing>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FACol.div.18">
+<Title Id="SAG.FACol.mkr.9">Administering Colors<IndexTerm><Primary>colors</Primary><Secondary>administering</Secondary></IndexTerm></Title>
+<Para>This section describes:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>How Style Manager sets display colors.</Para>
+</ListItem>
+<ListItem>
+<Para>Resources used by Style Manager to control desktop color usage.</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.FACol.div.19">
+<Title>Color Palettes<IndexTerm><Primary>palettes</Primary></IndexTerm><IndexTerm><Primary>color palettes</Primary></IndexTerm><IndexTerm><Primary>colors</Primary><Secondary>palettes</Secondary></IndexTerm></Title>
+<Para>A palette consists a group of color sets. The color sets for the current palette are
+shown in the Style Manager Color dialog box</Para>
+<Para>A file exists for each palette. The <ComputerOutput>paletteDirectories</ComputerOutput> resource specifies the
+directories containing palette files. By default, this resource contains:<IndexTerm>
+<Primary>color sets</Primary>
+</IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Built-in palettes: <Filename>/usr/dt/palettes</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide palettes: <Filename>/etc/dt/palettes</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>Personal palettes: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/palettes</Filename></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.20">
+<Title>Color Sets<IndexTerm><Primary>color sets</Primary></IndexTerm><IndexTerm><Primary>colors</Primary><Secondary>colorsets</Secondary></IndexTerm></Title>
+<Para>Each color set in the current palette is represented by a color button in the Style
+Manager Color dialog box. Each color is identified by a color set ID&mdash;a number
+from 1 to 8.</Para>
+<Figure>
+<Title>Color set ID values for HIGH_COLOR</Title>
+<Graphic Entityref="SAG.FACol.fig.1" Id="SAG.FACol.grph.1"></Graphic>
+</Figure>
+<Para><IndexTerm>
+<Primary>colors</Primary>
+<Secondary>resources</Secondary>
+</IndexTerm>Each color set is composed of up to five colors. Each color button displays the
+background color of the color set. The five colors in each color set represent the
+following display component resources:<IndexTerm>
+<Primary>color</Primary>
+<Secondary>color sets</Secondary>
+</IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm>
+<Primary>foreground resource</Primary>
+</IndexTerm>foreground</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>The foreground of an application window or
+window frame. It is always black or white. This is
+generally used for text within windows and titles.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm>
+<Primary>background resource</Primary>
+</IndexTerm>background</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>The background of the application or the window
+frame.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm>
+<Primary>topShadowColor resource</Primary>
+</IndexTerm>topShadowColor</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>The color of the top and left bevels of application
+controls (such as push buttons) and window
+frames.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm>
+<Primary>bottomShadowColor resource</Primary>
+</IndexTerm>bottomShadowColor</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>The color of the bottom and right bevels of
+application controls and window frames.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm>
+<Primary>selectColor resource</Primary>
+</IndexTerm>selectColor</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>The color that indicates the active state of certain
+controls, such as active toggles and buttons.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The number of color sets used by each palette is determined by the <ComputerOutput>colorUse</ComputerOutput>
+resource, which the user can set using the Style Manager Number of Colors To
+Use dialog box.</Para>
+<Sect3 Id="SAG.FACol.div.21">
+<Title>Specifying Color Values<IndexTerm><Primary>colors</Primary><Secondary>values</Secondary></IndexTerm></Title>
+<Para>Style Manager uses<IndexTerm>
+<Primary>RGB values</Primary>
+</IndexTerm>
+RGB values when writing color information to its palette
+files. The syntax for RGB numbers is:</Para>
+<ProgramListing>#<Symbol Role="Variable">RedGreenBlue</Symbol></ProgramListing>
+<Para><Symbol Role="Variable">Red</Symbol>, <Symbol Role="Variable">Green</Symbol>, and <Symbol Role="Variable">Blue</Symbol> are hexadecimal numbers, each 1 to 4 digits long, that
+indicate the amount of that color used. There must be the same number of
+digits for each of the colors. Thus, valid color values consist of 3, 6, 9, or 12
+hexadecimal digits.</Para>
+<Para>For example, white can be specified in any of the following ways:</Para>
+<programlisting>#fff
+#ffffff
+#fffffffff
+#fffffffffffff
+<IndexTerm><Primary>Style Manager</Primary><Secondary>using to specify colors</Secondary></IndexTerm>
+<IndexTerm><Primary>RGB color value</Primary></IndexTerm>
+</ProgramListing>
+<Para>If you set a color resource directly, you can use either the color name or RGB
+value. The file <Filename>/usr/lib/X11/<IndexTerm>
+<Primary>rgb.txt file</Primary>
+</IndexTerm>
+rgb.txt</Filename> lists all the named colors.</Para>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.22">
+<Title>How Color Sets are Mapped to Resources<IndexTerm><Primary>color sets</Primary><Secondary>mapping to display elements</Secondary></IndexTerm></Title>
+<Para>The desktop maps color sets to various display elements through resources,
+and makes the following assignments:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="195*">
+<colspec colwidth="333*">
+<THead>
+<Row>
+<Entry><Para>Resource</Para></Entry>
+<Entry><Para>Display element</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput>activeColorSetId</ComputerOutput><IndexTerm><Primary>activeColorSetId resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Active window frame color<IndexTerm><Primary>colors</Primary><Secondary>active window frame</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>inactiveColorSetId</ComputerOutput><IndexTerm><Primary>inactiveFrameColorId resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Inactive window frame color<IndexTerm><Primary>colors</Primary><Secondary>inactive window frame</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>textColorSetId</ComputerOutput><IndexTerm><Primary>textColorSetId resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Text entry areas<IndexTerm><Primary>colors</Primary><Secondary>text entry areas</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>primaryColorSetId</ComputerOutput><IndexTerm><Primary>primaryColorSetId resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Application's main background areas<IndexTerm><Primary>colors</Primary><Secondary>application windows</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>secondaryColorSetId</ComputerOutput><IndexTerm><Primary>secondaryColorSetId resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Application's menu bar, menus, and dialog
+boxes</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>These resources take a color set ID as their value. Coloring display elements
+with color set IDs allows the element to dynamically change to the new color
+scheme when a new palette is selected with Style Manager.</Para>
+<Para>You can use these resources for individual applications. For example, the
+following line shows how you would visually group all <Command>dtterm</Command> windows by
+using color set 8 for their primary color.</Para>
+<programlisting>dtterm*primaryColorSetId:  8
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.23">
+<Title>Default Color Set Assignments<IndexTerm><Primary>color sets</Primary><Secondary>default</Secondary></IndexTerm><IndexTerm><Primary>colors</Primary><Secondary>default</Secondary></IndexTerm></Title>
+<Para>The color set IDs used for display elements depends on the Number of Colors
+setting in Style Manager:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>High color (8 color sets)&mdash;Style Manager setting More Colors for Desktop:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="93*">
+<colspec colwidth="435*">
+<THead>
+<Row>
+<Entry><Para>Color set ID</Para></Entry>
+<Entry><Para>Display element</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>1</Para></Entry>
+<Entry><Para>Active window frame color</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>2</Para></Entry>
+<Entry><Para>Inactive window frame color</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>3</Para></Entry>
+<Entry><Para>Unused (by default)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>4</Para></Entry>
+<Entry><Para>Text entry areas</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>5</Para></Entry>
+<Entry><Para>Application's main background areas</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>6</Para></Entry>
+<Entry><Para>Application's menu bar, menus, and dialog boxes</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>7</Para></Entry>
+<Entry><Para>Unused by default</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>8</Para></Entry>
+<Entry><Para>Front Panel background</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>Medium color (4 color sets)&mdash;Style Manager setting More Colors for
+Applications:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="93*">
+<colspec colwidth="435*">
+<THead>
+<Row>
+<Entry><Para>Color set ID</Para></Entry>
+<Entry><Para>Display element</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput>1</ComputerOutput></Para></Entry>
+<Entry><Para>Active window frame color</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>2</ComputerOutput></Para></Entry>
+<Entry><Para>Inactive window frame color</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>3</ComputerOutput></Para></Entry>
+<Entry><Para>Application and Front Panel background color</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>4</ComputerOutput></Para></Entry>
+<Entry><Para>Text entry areas</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>Low color (2 color sets)&mdash;Style Manager setting Most Colors for
+Applications.</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="93*">
+<colspec colwidth="435*">
+<THead>
+<Row>
+<Entry><Para>Color set ID</Para></Entry>
+<Entry><Para>Display element</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>1</Para></Entry>
+<Entry><Para>Active window frame, workspace selection buttons</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>2</Para></Entry>
+<Entry><Para>All other display elements</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.24">
+<Title>Controlling Color with Style Manager<IndexTerm><Primary>color</Primary><Secondary>controlling, with Style Manager</Secondary></IndexTerm></Title>
+<Para>You can dynamically change color for desktop applications and other
+cooperating applications through Style Manager. The foreground and
+background colors set by Style Manager are available to non-cooperating
+applications.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>For a client to respond to Style Manager color changes, the client must be
+using the desktop Motif library. Clients written with other toolkits cannot
+change color dynamically in response to Style Manager changes. Color
+changes for these clients do not take effect until the client is restarted.</Para>
+</ListItem>
+<ListItem>
+<Para>There must be no other specific color resources applied for the client. This
+includes user-specified resources, appdefaults, and resources built into the
+application.</Para>
+</ListItem>
+<ListItem>
+<Para>Clients can specify <Command><IndexTerm>
+<Primary>primaryColorSetId resource</Primary>
+</IndexTerm>primaryColorSetId</Command> and <Command><IndexTerm>
+<Primary>secondaryColorSetId resource</Primary>
+</IndexTerm>secondaryColorSetId</Command>
+resources to use certain colors within a desktop palette.</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.25">
+<Title>Number of Colors Used by Style Manager<IndexTerm><Primary>colors</Primary><Secondary>number used</Secondary></IndexTerm></Title>
+<Para>The number of colors used by Style Manager depends on the values for the
+following resources:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="155*">
+<colspec colwidth="373*">
+<TBody>
+<Row>
+<Entry><Para><Command>colorUse</Command><IndexTerm><Primary>colorUse resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Configures the number of colors the desktop uses</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>shadowPixmaps</Command></Para></Entry>
+<Entry><Para>Directs the desktop to replace the two shadow colors
+with pixmaps</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>foregroundColor</Command></Para></Entry>
+<Entry><Para>Specifies if the foreground color changes dynamically.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>dynamicColor</Command><IndexTerm><Primary>dynamicColor resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Controls whether applications change color when you
+switch palettes.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!--Original XRef content: 'Table&numsp;15&hyphen;5'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.5"> lists the maximum number of colors allocated by the desktop.<IndexTerm><Primary>display colors</Primary><Secondary>maximum number allocated</Secondary></IndexTerm><IndexTerm><Primary>color</Primary><Secondary>maximum number allocated</Secondary></IndexTerm>
+</Para>
+<Table Id="SAG.FACol.tbl.5" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.10">Number of Desktop Colors</Title>
+<TGroup Cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.49in">
+<colspec colwidth="1.08in">
+<colspec colwidth="2.59in">
+<THead>
+<Row>
+<Entry><Para><Symbol Role="Message">Display</Symbol></Para></Entry>
+<Entry><Para><Literal>Maximum
+Number of Colors</Literal></Para></Entry>
+<Entry><Para><Literal>Number Derived
+From</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>B_W</Para></Entry>
+<Entry><Para>2</Para></Entry>
+<Entry><Para>Black and white</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>LOW_COLOR</Para></Entry>
+<Entry><Para>12</Para></Entry>
+<Entry><Para>Two color sets
+times five colors
+plus black and
+white</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>MEDIUM_COLOR</Para></Entry>
+<Entry><Para>22</Para></Entry>
+<Entry><Para>Four color sets
+times five colors
+plus black and
+white</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>HIGH_COLOR</Para></Entry>
+<Entry><Para>42</Para></Entry>
+<Entry><Para>Eight color sets
+times five colors
+plus black and
+white</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>To determine the maximum number of colors:</Para>
+<OrderedList>
+<ListItem>
+<Para>Multiply the number of color sets in the palette by the number of colors
+within each color set.</Para>
+</ListItem>
+<ListItem>
+<Para>Add 2 (for black and white).</Para>
+</ListItem>
+</OrderedList>
+<Para>However, with the following configuration you would only have ten colors in
+your palette: four color sets times two colors in each set (<ComputerOutput>background</ComputerOutput> and
+<ComputerOutput>selectColor</ComputerOutput>) plus black and white:</Para>
+<programlisting>*colorUse: MEDIUM_COLOR
+*shadowPixmaps:  True
+*foregroundColor: White
+</ProgramListing>
+<Note>
+<Para>Multi-color icons use fourteen additional colors.</Para>
+</Note>
+<Sect3 Id="SAG.FACol.div.26">
+<Title>colorUse Resource<IndexTerm><Primary>colorUse resource</Primary></IndexTerm><IndexTerm><Primary>resources</Primary><Secondary>colorUse</Secondary></IndexTerm><IndexTerm><Primary>colorUse resource</Primary></IndexTerm></Title>
+<Para>The default value of the <Command>colorUse</Command> resource is MEDIUM_COLOR. The value of
+this resource affects the number of color sets used in a palette. Other resources
+affect the number of colors used to make shadows. The value of the <ComputerOutput>colorUse</ComputerOutput>
+resource also affects the use of multi-color icons.<IndexTerm><Primary>HIGH_COLOR</Primary></IndexTerm><IndexTerm><Primary>MEDIUM_COLOR</Primary></IndexTerm><IndexTerm><Primary>LOW_COLOR</Primary></IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.55in">
+<colspec colwidth="3.95in">
+<THead>
+<Row>
+<Entry><Para>Value</Para></Entry>
+<Entry><Para>Description</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>B_W</Para></Entry>
+<Entry><Para>&ldquo;Black and White&rdquo; Style Manager setting
+<?Pub _newline>Displays with 1 to 3 color planes
+<?Pub _newline>Number of color sets: 2
+<?Pub _newline>Maximum number of colors: 2
+<?Pub _newline>Default number of colors: 2
+<?Pub _newline>No multicolor icons</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>LOW_COLOR</Para></Entry>
+<Entry><Para>&ldquo;Most Color for Applications&rdquo; Style Manager setting
+<?Pub _newline>Displays with 4 to 5 color planes
+<?Pub _newline>Number of color sets: 2
+<?Pub _newline>Maximum number of colors: 12
+<?Pub _newline>Default number of colors: 12
+<?Pub _newline>No multicolor icons</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>MEDIUM_COLOR</Para></Entry>
+<Entry><Para>&ldquo;More Colors for Application&rdquo; Style Manager setting
+<?Pub _newline>Displays with 6 color planes
+<?Pub _newline>Number of color sets: 4
+<?Pub _newline>Maximum number of colors: 22
+<?Pub _newline>Default number of colors: 22
+<?Pub _newline>Multicolor icons</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>HIGH_COLOR</Para></Entry>
+<Entry><Para>&ldquo;More Colors for Desktop&rdquo; Style Manager setting
+<?Pub _newline>Displays with 7 or more color planes
+<?Pub _newline>Number of color sets: 8
+<?Pub _newline>Maximum number of colors: 42
+<?Pub _newline>Default number of colors: 42
+<?Pub _newline>Multicolor icons\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>default</Para></Entry>
+<Entry><Para>The desktop chooses the correct value for that display.
+(To reduce the number of colors used by the desktop
+for high-color displays, the default <Command>colorUse</Command> resource
+is set to MEDIUM_COLOR.)</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.27">
+<Title>shadowPixmaps Resource<IndexTerm><Primary>shadowPixmaps resource</Primary></IndexTerm><IndexTerm><Primary>shadowPixmaps resource</Primary></IndexTerm><IndexTerm><Primary>resources</Primary><Secondary>shadowPixmaps</Secondary></IndexTerm></Title>
+<Para>The <ComputerOutput>shadowPixmaps</ComputerOutput> resource directs the desktop to replace the two shadow
+colors with pixmaps. These pixmaps mix the background color with black or
+white to simulate top or bottom shadow values. This reduces the number of
+needed colors by two, since color cells do not need to be allocated for the
+shadow colors.<IndexTerm>
+<Primary>color</Primary>
+<Secondary>creating shades with shadowPixmaps resources</Secondary>
+</IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="63*">
+<colspec colwidth="465*">
+<THead>
+<Row>
+<Entry><Para>Value</Para></Entry>
+<Entry><Para>Description</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>True</Para></Entry>
+<Entry><Para>The desktop creates a <ComputerOutput>topShadowPixmap</ComputerOutput> and
+<ComputerOutput>bottomShadowPixmap</ComputerOutput> to use instead of the shadow
+colors.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>False</Para></Entry>
+<Entry><Para><ComputerOutput>topShadowColor</ComputerOutput> and <ComputerOutput>bottomShadowColor</ComputerOutput> from
+the palette are used.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The default value for <ComputerOutput>shadowPixmaps</ComputerOutput> depends on the <ComputerOutput>colorUse</ComputerOutput> resource
+you have and the hardware support for the display.</Para>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.28">
+<Title>foregroundColor Resource<IndexTerm><Primary>foregroundColor resource</Primary></IndexTerm><IndexTerm><Primary>color</Primary><Secondary>specifying foreground</Secondary></IndexTerm></Title>
+<Para>The <ComputerOutput>foregroundColor</ComputerOutput> resource specifies how the foreground is configured
+in a palette.<IndexTerm>
+<Primary>foregroundColor resource</Primary>
+</IndexTerm><IndexTerm>
+<Primary>resources</Primary>
+<Secondary>foregroundColor</Secondary>
+</IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="65*">
+<colspec colwidth="463*">
+<THead>
+<Row>
+<Entry><Para>Setting</Para></Entry>
+<Entry><Para>Result</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>White</Para></Entry>
+<Entry><Para>Foreground is set to white.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Black</Para></Entry>
+<Entry><Para>Foreground is set to black.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dynamic</Para></Entry>
+<Entry><Para>(Default) Foreground is dynamically set to black or white,
+depending on the value of <ComputerOutput>background</ComputerOutput>. For instance, white
+letters on a yellow background are difficult to read, so the
+system chooses black.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>If <ComputerOutput>foregroundColor</ComputerOutput> is set to either Black or White, the number of colors in
+the color set is reduced by one, and the foreground will not change in response
+to changes in the background color.</Para>
+<Para>The default value for <ComputerOutput>foregroundColor</ComputerOutput> is Dynamic, except where the value
+of <ComputerOutput>colorUse</ComputerOutput> is B_W.</Para>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.29">
+<Title>dynamicColor Resource<IndexTerm><Primary>dynamicColor resource</Primary></IndexTerm><IndexTerm><Primary>dynamicColor resource</Primary></IndexTerm></Title>
+<Para>The <ComputerOutput>dynamicColor</ComputerOutput> resource controls whether applications change color
+dynamically; that is, whether the clients change color when you switch
+palettes.<IndexTerm>
+<Primary>color</Primary>
+<Secondary>controlling, with dynamicColor resource</Secondary>
+</IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="63*">
+<colspec colwidth="465*">
+<THead>
+<Row>
+<Entry><Para>Value</Para></Entry>
+<Entry><Para>Description</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>True</Para></Entry>
+<Entry><Para>Clients change color dynamically when a new palette
+is selected. This is the default value.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>False</Para></Entry>
+<Entry><Para>Clients do not change color dynamically. When a new
+palette is selected, clients will use the new colors when
+the session is restarted.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>When the value of the <ComputerOutput>dynamicColor</ComputerOutput> resource is True, clients that cannot
+change colors dynamically (non-Motif applications) allocate different cells in
+the color map than clients that can change colors dynamically, even if you see
+the same color.</Para>
+<Note>
+<Para>Since all clients can share the same color cells, setting <ComputerOutput>dynamicColor</ComputerOutput>
+to False reduces the number of colors your desktop consumes.</Para>
+</Note>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FACol.div.30">
+<Title Id="SAG.FACol.mkr.11">Setting Shadow Thicknesses for Application Windows<IndexTerm><Primary>resources</Primary><Secondary>shadow thickness of windows</Secondary></IndexTerm><IndexTerm><Primary>shadow thickness, windows</Primary></IndexTerm></Title>
+<Para>The desktop defines a default shadow thickness of one pixel for the
+components in application windows, such as button shadows and focus
+highlight. Motif 1.2 (or later) applications use this resource value; other applications
+may not obtain this resource value and therefore will appear different on the
+display.</Para>
+<Para>To set the shadow thickness to one pixel for non-Motif 1.2 (or later) applications:</Para>
+<OrderedList>
+<ListItem>
+<Para>Log in as root.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> file.</Para>
+</ListItem>
+<ListItem>
+<Para>Specify the application-specific resource in
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> as follows:</Para>
+<programlisting><Symbol Role="Variable">application_class_name</Symbol>*XmCascadeButton*shadowThickness: 1</programlisting>
+</ListItem>
+</OrderedList>
+<Para>For more information about overriding system default resources and
+specifying additional resources for all desktop users, see
+<!--Original XRef content: '&xd2;Loading the Session
+Resources&xd3; on page&numsp;27'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.SesMg.mkr.7"></Para>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

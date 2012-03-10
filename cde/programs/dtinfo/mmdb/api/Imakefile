@@ -1,0 +1,43 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 15:59:01 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = 
+INCLUDES = -I$(DTMMDBSRC)/api -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES) -I$(DTMMDBSRC)/misc
+
+LinkSourceFile(base.C,$(DTMMDBSRC)/api)
+LinkSourceFile(info_base.C,$(DTMMDBSRC)/api)
+LinkSourceFile(info_lib.C,$(DTMMDBSRC)/api)
+LinkSourceFile(smart_ptr.C,$(DTMMDBSRC)/api)
+LinkSourceFile(transaction.C,$(DTMMDBSRC)/api)
+LinkSourceFile(utility.C,$(DTMMDBSRC)/api)
+
+SRCS = base.C info_base.C info_lib.C smart_ptr.C transaction.C utility.C
+OBJS = $(SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

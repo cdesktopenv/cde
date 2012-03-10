@@ -1,0 +1,399 @@
+<!-- $XConsortium: dtsearch.sgm /main/8 1996/10/29 16:04:20 cdedoc $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.SEARCH.DtSearch">]]>
+<RefMeta>
+<RefEntryTitle>DtSearch</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName>DtSearch</RefName>
+<RefPurpose>
+Introduces the DtSearch text search and retrieval system
+</RefPurpose>
+</RefNameDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>DtSearch is a general purpose text search and retrieval system that
+serves as the text search engine for the DtInfo browser in the Common
+Desktop Environment (CDE). DtSearch utilizes a full text inverted index
+of natural language words and stems. Both queries and documents have
+been internationalized for CDE single- and multi-byte languages, with
+provision for the definition of custom languages. Queries are simple
+text strings that can optionally include full boolean specifications
+with a simple intuitive syntax. Results of searches can be ranked
+statistically. Document retrievals can include information for
+highlighting query words in retrieved documents.
+</Para>
+<Para>DtSearch consists of two major functional areas.
+The first is a set of offline build tools that:
+</Para>
+<itemizedlist>
+<listitem>
+<Para>Create searchable databases.
+</Para>
+</listitem>
+<listitem>
+<Para>Index the user's text files and load the resultant search
+information into the databases.
+</Para>
+</listitem>
+<listitem>
+<Para>Maintain the databases.
+</Para>
+</listitem>
+</itemizedlist>
+<Para>The second functional area is an online search API. It provides a simple
+interface to the search engine to facilitate user-written search and
+retrieval programs. The API consists of a set of functions compiled into
+the library <filename>libDtSearch</filename>, with function prototypes,
+constant definitions, and data structures defined in
+<filename>Search.h</filename>. DtSearch includes a sample browser source
+program, <filename>dtsrtest.c</filename>, to demonstrate API usage.
+</Para>
+<Para>Information and error messages in both functional areas, including those
+appended to the online API MessageList, are generated from a single
+DtSearch Message catalog, <filename>dtsearch.cat</filename>. The source
+for this catalog is <filename>dtsearch.msg</filename>.
+</Para>
+<Para>Each DtSearch database is associated with a single full text inverted
+index. In addition, each database can be partitioned into logical
+subsets of documents called "keytypes" by a naming convention of the
+database keys. The search engine can open multiple databases and users
+can specify any combination of databases and keytypes for each query,
+thus providing a two tier search capability. Users can further qualify
+searches by restricting the search return list by date ranges and
+maximum number of documents returned.
+</Para>
+<Para>DtSearch is written in ANSI Standard and POSIX compliant C. The DtSearch
+online search API is not reentrant (not "thread-safe") and must
+therefore be directly linked into the user-written search program. The
+DtSearch API will increase the size of a browser search program from
+100K to 200K bytes depending on which functions are called.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>GENERAL SPECIFICATIONS AND CONVENTIONS</Title>
+<RefSect2>
+<Title>Database Names</Title>
+<para>Databases consist of a set of binary and ASCII files whose names are the
+1- to 8-character ASCII database name specified to the
+<command>dtsrcreate</command> command, a period (.), and a 1- to
+3-character ASCII file name suffix. Executing
+<command>dtsrcreate</command> will create and initialize these files.
+After creation, databases are always identified by the 1- to 8-character
+name string used in <command>dtsrcreate</command>. The database names
+<literal>dtsearch</literal> and <literal>austext</literal> are reserved
+and may not be specified.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>DtSearch Languages</Title>
+<para>Each database is associated with a single natural language. Unlike
+conventional locales, a DtSearch language includes code set presumptions
+and, most importantly, linguistic parsing and stemming rules to identify
+indexable terms in a text stream. A DtSearch language is specified when
+a database is created. Developers can also define custom languages with
+special code sets and linguistic rules. See "Language Parsing and
+Stemming" in this man page below for details.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Database Types</Title>
+<para>The API can be used simply as a search engine, referring to documents
+only through the inverted indexes. Alternatively, a database can be
+configured to store actual document text in compressed format in a
+repository efficiently accessible to the engine. The configuration
+options that indicate these alternatives are referred to as database
+types and are specified to <command>dtsrcreate</command> at database
+creation time.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Abstracts</Title>
+<para>A field called the "abstract" is included in the fzk file for each
+document loaded into a database, and is included on the Results list for
+each document in a successful search. When documents are not stored in a
+repository, the abstract typically specifies a file name, URL, or other
+reference useful to the browser. It can also include summary information
+viewable by users to help them select documents for retrieval and
+display.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Offline Build Tools</Title>
+<para><command>dtsrcreate</command> creates and initializes new databases or
+reinitializes preexisting databases. Textual data is loaded into
+databases by the execution of two programs. <command>dtsrload</command>
+creates a database object record for each text document, and
+<command>dtsrindex</command> creates the full text inverted index of
+words and stems for each object record. Based on unique database keys
+for each object, <command>dtsrload</command> and
+<command>dtsrindex</command> can also serve as update programs for
+preexisting databases.
+</Para>
+<para>The input to the load and index programs is a canonical text file with a
+<Filename>.fzk</Filename> file name suffix. The format of fzk files is
+sufficiently simple that they can be generated manually. In addition,
+DtSearch includes a utility program, <command>dtsrhan</command>, which
+can generate a correctly formatted fzk file for some kinds of text
+documents.
+</Para>
+<para>Several other utilites provided in the distribution package are suitable
+for extracting summary database information, including
+<command>dtsrdbrec</command> and <command>dtsrkdump</command>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Argument Conventions</Title>
+<para>Optional command line arguments are specified with a dash (&minus;) and
+typically a single character argument identifier. Some required
+arguments also use the dash convention. Unless specifically indicated
+otherwise, dash arguments may be specified in any order. Where values
+are used with dash arguments, they must be directly appended to the
+argument without white space.
+</Para>
+<para>Optional arguments precede required arguments. Non-dash required
+arguments must usually be specified in the order indicated by the usage
+statement.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>LANGUAGE PARSING AND STEMMING</Title>
+<RefSect2>
+<Title>Parsing and Stemming</Title>
+<para>Word parsing is fundamental to DtSearch operations at both index time
+and query time. Linguistic parsing algorithms filter incoming text
+strings into sequences of word tokens for each natural language.
+Depending on the language, word tokens may also be processed into stem
+tokens. At index time each linguistic token, or term, in a document is
+stored in the inverted index. At search time queries are parsed for
+linguistic terms and used to access the documents that contain them.
+</Para>
+<para>Each database is assigned its own DtSearch language identified by a
+language number at database creation time. A language number determines
+the parsing and stemming algorithms to be applied to the database's text
+and queries. Internal DtSearch algorithms are supplied for supported
+languages including several European languages and Japanese. In addition
+a user exit mechanism permits developers to provide their own custom
+language algorithms for a database.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Language Files</Title>
+<para>Language algorithms often use various word lists. Typically, these lists
+are stored in language files for easy maintenance, with the type of list
+identified by the file name extension. Language files are opened and
+read into internal tables when the offline programs initialize or when
+the <function>DtSearchInit</function> online API function is called. Some
+language files are required and initialization will return fatal errors
+if they are missing. Some language files are optional and associated
+algorithms will be silently bypassed if they are missing. Files for
+supported languages may be edited to provide database specific
+enhancements. At open time, database specific files supercede generic
+language files.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>General European Parsing Rules</Title>
+<para>The currently supported European languages are
+</Para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="0.52in">
+<colspec align="left" colwidth="3.10in">
+<tbody>
+<row>
+<entry><para>0</para></entry>
+<entry><para>English, ASCII character set</para></entry>
+</row>
+<row>
+<entry><para>1</para></entry>
+<entry><para>English, ISO Latin-1 character set</para></entry>
+</row>
+<row>
+<entry><para>2</para></entry>
+<entry><para>Spanish, ISO Latin-1 character set</para></entry>
+</row>
+<row>
+<entry><para>3</para></entry>
+<entry><para>French, ISO Latin-1 character set</para></entry>
+</row>
+<row>
+<entry><para>4</para></entry>
+<entry><para>Italian, ISO Latin-1 character set</para></entry>
+</row>
+<row>
+<entry><para>5</para></entry>
+<entry><para>German, ISO Latin-1 character set</para></entry>
+</row>
+</tbody></tgroup></informaltable>
+<para>If not otherwise specified, <command>dtscreate</command> will initialize
+databases with language number 0. Note that all supported European
+languages use a single-byte encoding method, with the ASCII code set as
+a proper subset.
+</Para>
+<para>Parsed text, including both queries and indexed text in documents,
+is case insensitive in supported European languages.
+</Para>
+<para>In supported European languages parsing is accomplished with the Teskey
+algorithm, which partitions a character set into characters that are
+always parts of words (concordable), characters that are never parts of
+words (nonconcordable), and characters that may be parts of words
+depending on context (optionally concordable). Typically, alphanumeric
+characters are concordable. Whitespace and most punctuation is
+nonconcordable. Slashes are examples of characters that may or may not
+separate words depending on context. The essence of the parsing
+algorithm is "optionally concordable characters preceding concordable
+characters are concordable; otherwise, they are nonconcordable". For
+example, UNIX directory names of the form
+<filename>/usr/local/bin</filename> would be considered just one word,
+but slashes in isolation would be discarded as nonconcordable.
+</Para>
+<para>The parsing algorithm does a table lookup to determine the
+concordability of characters. The tables are arrays of the characters
+for each code page supported by the algorithm. Currently 7-bit ASCII and
+ISO Latin-1 are supported.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Words Not Indexed</Title>
+<para>Several additional parsing rules are applied to prevent indexing
+meaningless terms. These terms include common prepositions, indefinite
+articles, and nonlinguistic text strings such as formatting tags,
+sequences of hexadecimal dump characters, list identifiers, etc.
+</Para>
+<para>Tokens whose lengths are less than a minimum word size or greater than a
+maximum word size are discarded. The default minimum and maximum word
+sizes can be overridden in <command>dtsrcreate</command>.
+</Para>
+<para>Similarly words found in the "stop list" file for the database are
+discarded. Stop lists are external, editable language files. Each
+supported European language is provided with a default stop list.
+</Para>
+<para>Words found in an "include list" file are forcibly indexed even if they
+would otherwise be discarded. Include list database files are optional;
+no defaults are provided.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Stemming</Title>
+<para>When specified for a language, individual parsed words will be
+"conflated" or mapped into their "stem" form, a new word that represents
+the etymological root of the original word. A default null stemming
+algorithm is used for languages that are not otherwise provided with a
+supported stemmer. The null stemmer returns the original word as its own
+stem. Both words and stems are stored in the inverted index. API
+searches can be specified for either words or stems, but the two search
+methods are distinguished only when real stems have been stored in the
+inverted index.
+</Para>
+<para>In the supported European languages stemming can be accomplished
+heuristically or by dictionary lookup. The heuristic algorithms
+typically remove affixes in a language-dependent way. Affix lists are
+usually stored in language files. Currently stemming is supported
+for English languages 0 and 1, Spanish language 2, French language 3,
+Italian language 4, and German language 5.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Japanese</Title>
+<para>Two Japanese DtSearch languages (numbers 6 and 7) are supported. Both
+use the same packed, Extended UNIX Code (EUC) character set. The two
+languages differ only in the technique used to parse compound kanji
+words. All validly encoded text for supported Japanese languages
+incorporates ASCII encoding as a proper, single-byte subset. The
+supported Japanese languages use the null stemmer.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Kanji Compounds</Title>
+<para>Individual kanji characters are parsed as single words. In addition, for
+language number 6 all possible kanji substrings (pairs, triplets, etc.)
+found in any contiguous string of kanjis will be parsed as compound
+kanji words, up to a maximum word size of 6 kanji characters. For
+language number 7, only kanji substrings listed in the
+<filename>jpn.knj</filename> language file may be treated as compound
+kanji words. At offline index time all possible individual kanjis and
+kanji compounds for a language are stored in the inverted index. At
+online search time kanji substrings in the query are treated as single
+query terms and are not compounded further.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Japanese Code Sets</Title>
+<para>The supported packed EUC character set consists of four separate
+multibyte Code Sets. Code Set 0 can be either 7-bit ASCII or 7-bit
+JIS-Roman. The first and only byte of a character in Code Set 0 is less
+than 0x80. Substrings of Code Set 0 in supported Japanese text are
+parsed into individual words with the European language parser described
+above. Minimum and maximum word sizes, stop lists, and include lists
+will be used as in European languages if provided with a Japanese
+database.
+</Para>
+<para>Code Set 1 is JIS X 0208-1990. The two-byte characters in Code Set 1
+always begin with a byte greater than 0xA0 and less than 0xFF. Symbols
+and line drawing elements are not indexed. Hirigana strings are
+discarded as equivalent to stop list words. Contiguous substrings of
+katakana, Roman, Greek, or cyrillic are parsed as single words.
+Individual kanji characters are treated as single words with additional
+kanji compounding depending on language number, as described above.
+Characters from unassigned kuten rows are treated as user-defined kanji.
+</Para>
+<para>Code Set 2 is halfwidth katakana. The two-byte characters in Code Set 2
+always begin with the unique byte 0x8E. Contiguous strings are parsed as
+single words.
+</Para>
+<para>Code Set 3 is JIS X 0212-1990. The three-byte characters in Code Set 3
+always begin with the unique byte 0x8F. Parsing is similar to Code Set
+1: discard symbols, etc., contiguous strings of related foreign
+characters equal words, and individual kanjis and unassigned characters
+equal single words, with additional kanji compounding depending on
+language. Kuten row 5 is treated as katakana; undefined rows are treated
+as kanji.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Custom Languages</Title>
+<para>All language dependent data structures and functions are referenced by
+fields in the main internal DtSearch structure for databases (DBLK). The
+same structure is used for offline build programs as well as online API
+search functions. Language processing is initialized database by
+database by an internal language loader function which stores values in
+DBLK fields. A database whose language number is not supported is
+presumed to be associated with a custom language. A special function,
+<Function>load_custom_language</Function>, is called to initialize
+language fields for custom languages. The default
+<Function>load_custom_language</Function> merely returns an error code.
+However, developers can link in their own
+<Function>load_custom_language</Function> function, which will be called
+to initialize the DBLK fields needed to parse and stem one or more
+custom languages. Values required for the language fields of a DBLK are
+specified in &cdeman.DtSrAPI;.
+</Para>
+</refsect2>
+</refsect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtsrcreate;,
+&cdeman.dtsrdbrec;,
+&cdeman.dtsrhan;,
+&cdeman.dtsrindex;,
+&cdeman.dtsrload;,
+&cdeman.dtsrkdump;,
+&cdeman.huffcode;,
+&cdeman.DtSrAPI;,
+&cdeman.dtsrfzkfiles;,
+&cdeman.dtsrocffile;,
+&cdeman.dtsrhanfile;,
+&cdeman.dtsrlangfiles;,
+&cdeman.dtsrdbfiles;
+</Para>
+</RefSect1>
+</RefEntry>

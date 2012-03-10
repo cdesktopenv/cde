@@ -1,0 +1,497 @@
+//       $XConsortium: tooltalk.bil /main/3 1995/11/06 17:55:28 rswiston $
+//
+// @(#)tooltalk.bil	1.2 17 Feb 1994
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+//   tooltalk.bil - Module file for the ToolTalk Editor
+//
+:bil-version	1 0
+:module tooltalk
+(
+
+:element tooltalk_editor
+(
+    :type                          :dialog
+    :x                             123
+    :y                             416
+    :width                         366
+    :height                        363
+    :bg-color                      "white"
+    :label                         "Tooltalk Editor"
+    :resizable                     :true
+    :has-footer                    :false
+    :visible                       :false
+    :children                       (
+        ctrl_panel
+        ctrl_panel1
+        activate_panel
+    )
+)
+:element ctrl_panel
+(
+    :type                          :container
+    :container-type                :relative
+    :x                             0
+    :y                             0
+    :width                         366
+    :height                        70
+    :visible                       :true
+    :border-frame                  :none
+    :north-attachment              (:point 0 0)
+    :south-attachment              (:none 0 0)
+    :east-attachment               (:obj tooltalk_editor 0)
+    :west-attachment               (:point 0 0)
+    :children                       (
+        tt_enable
+    )
+)
+:element tt_enable
+(
+    :type                          :choice
+    :choice-type                   :exclusive
+    :x                             19
+    :y                             16
+    :width                         -1
+    :height                        -1
+    :border-frame                  :none
+    :label-type                    :string
+    :label                         "ToolTalk:"
+    :label-position                :west
+    :num-columns                   1
+    :orientation                   :horizontal
+    :selection-required            :false
+    :active                        :true
+    :visible                       :true
+    :north-attachment              (:point 0 16)
+    :south-attachment              (:none 0 0)
+    :east-attachment               (:none 0 0)
+    :west-attachment               (:point 0 19)
+    :children                       (
+        Enabled_item1
+        Disabled_item1
+    )
+)
+:element Enabled_item1
+(
+    :type                          :item
+    :item-type                     :item-for-choice
+    :label-type                    :string
+    :label                         "Enabled"
+    :active                        :true
+    :selected                      :false
+)
+:element Disabled_item1
+(
+    :type                          :item
+    :item-type                     :item-for-choice
+    :label-type                    :string
+    :label                         "Disabled"
+    :active                        :true
+    :selected                      :false
+)
+:element ctrl_panel1
+(
+    :type                          :container
+    :container-type                :relative
+    :x                             0
+    :y                             65
+    :width                         366
+    :height                        298
+    :visible                       :true
+    :border-frame                  :etched-in
+    :north-attachment              (:point 0 65)
+    :south-attachment              (:obj tooltalk_editor 0)
+    :east-attachment               (:obj tooltalk_editor 0)
+    :west-attachment               (:point 0 0)
+    :children                       (
+        tt_sel_label
+        tt_rcv_mode
+        tt_msg_list
+    )
+)
+:element tt_sel_label
+(
+    :type                          :label
+    :x                             60
+    :y                             11
+    :width                         -1
+    :height                        -1
+    :border-frame                  :none
+    :label-type                    :string
+    :label                         "ToolTalk Desktop Service Messages"
+    :label-alignment               :center
+    :active                        :true
+    :visible                       :true
+    :north-attachment              (:point 0 11)
+    :south-attachment              (:none 0 0)
+    :east-attachment               (:none 0 0)
+    :west-attachment               (:point 0 60)
+)
+:element tt_rcv_mode
+(
+    :type                          :choice
+    :choice-type                   :exclusive
+    :x                             26
+    :y                             36
+    :width                         -1
+    :height                        -1
+    :border-frame                  :none
+    :label-type                    :string
+    :label                         "Receive:"
+    :label-position                :west
+    :num-columns                   1
+    :orientation                   :horizontal
+    :selection-required            :false
+    :active                        :true
+    :visible                       :true
+    :north-attachment              (:point 0 36)
+    :south-attachment              (:none 0 0)
+    :east-attachment               (:none 0 0)
+    :west-attachment               (:point 0 26)
+    :children                       (
+        All_item
+        Selected_item
+    )
+)
+:element All_item
+(
+    :type                          :item
+    :item-type                     :item-for-choice
+    :label-type                    :string
+    :label                         "All"
+    :active                        :true
+    :selected                      :false
+)
+:element Selected_item
+(
+    :type                          :item
+    :item-type                     :item-for-choice
+    :label-type                    :string
+    :label                         "Selected"
+    :active                        :true
+    :selected                      :false
+)
+:element tt_msg_list
+(
+    :type                          :list
+    :x                             104
+    :y                             90
+    :width                         251
+    :height                        208
+    :border-frame                  :none
+    :label-type                    :string
+    :label-position                :west
+    :read-only                     :false
+    :multiple-selections           :true
+    :selection-required            :false
+    :num-rows                      12
+    :active                        :true
+    :visible                       :true
+    :north-attachment              (:point 0 90)
+    :south-attachment              (:none 0 0)
+    :east-attachment               (:none 0 0)
+    :west-attachment               (:point 0 104)
+    :children                       (
+        Do_Command_item
+        Get_Environment_item
+        Get_Geometry_item
+        Signal_item
+        Set_Xinfo_item
+        Set_Situation_item
+        Set_Mapped_item
+        Set_Locale_item
+        Set_Iconified_item
+        Set_Geometry_item
+        Set_Environment_item
+        Save_item
+        Revert_item
+        Raise_item
+        Quit_item
+        Lower_item
+        Get_Xinfo_item
+        Get_Sysinfo_item
+        Get_Status_item
+        Get_Situation_item
+        Get_Modified_item
+        Get_Mapped_item
+        Get_Locale_item
+        Get_Iconified_item
+    )
+)
+:element Do_Command_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Do_Command"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Environment_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Environment"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Geometry_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Geometry"
+    :active                        :true
+    :selected                      :false
+)
+:element Signal_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Signal"
+    :active                        :true
+    :selected                      :false
+)
+:element Set_Xinfo_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Set_Xinfo"
+    :active                        :true
+    :selected                      :false
+)
+:element Set_Situation_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Set_Situation"
+    :active                        :true
+    :selected                      :false
+)
+:element Set_Mapped_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Set_Mapped"
+    :active                        :true
+    :selected                      :false
+)
+:element Set_Locale_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Set_Locale"
+    :active                        :true
+    :selected                      :false
+)
+:element Set_Iconified_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Set_Iconified"
+    :active                        :true
+    :selected                      :false
+)
+:element Set_Geometry_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Set_Geometry"
+    :active                        :true
+    :selected                      :false
+)
+:element Set_Environment_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Set_Environment"
+    :active                        :true
+    :selected                      :false
+)
+:element Save_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Save"
+    :active                        :true
+    :selected                      :false
+)
+:element Revert_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Revert"
+    :active                        :true
+    :selected                      :false
+)
+:element Raise_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Raise"
+    :active                        :true
+    :selected                      :false
+)
+:element Quit_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Quit"
+    :active                        :true
+    :selected                      :false
+)
+:element Lower_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Lower"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Xinfo_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Xinfo"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Sysinfo_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Sysinfo"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Status_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Status"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Situation_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Situation"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Modified_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Modified"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Mapped_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Mapped"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Locale_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Locale"
+    :active                        :true
+    :selected                      :false
+)
+:element Get_Iconified_item
+(
+    :type                          :item
+    :item-type                     :item-for-list
+    :label                         "Get_Iconified"
+    :active                        :true
+    :selected                      :false
+)
+:element activate_panel
+(
+    :type                          :container
+    :container-type                :activate
+    :x                             0
+    :y                             409
+    :width                         -1
+    :height                        -1
+    :visible                       :true
+    :border-frame                  :etched-in
+    :children                       (
+        ok_button
+        cancel_button
+        help_button
+    )
+)
+:element ok_button
+(
+    :type                          :button
+    :button-type                   :push-button
+    :x                             -1
+    :y                             -1
+    :width                         -1
+    :height                        -1
+    :border-frame                  :none
+    :label-type                    :string
+    :label-alignment               :center
+    :label                         "OK"
+    :active                        :true
+    :visible                       :true
+    :north-attachment              (:grid-line 5 0)
+    :south-attachment              (:grid-line 95 0)
+    :east-attachment               (:grid-line 30 0)
+    :west-attachment               (:grid-line 10 0)
+)
+:element cancel_button
+(
+    :type                          :button
+    :button-type                   :push-button
+    :x                             -1
+    :y                             -1
+    :width                         -1
+    :height                        -1
+    :border-frame                  :none
+    :label-type                    :string
+    :label-alignment               :center
+    :label                         "Cancel"
+    :active                        :true
+    :visible                       :true
+    :north-attachment              (:grid-line 5 0)
+    :south-attachment              (:grid-line 95 0)
+    :east-attachment               (:grid-line 60 0)
+    :west-attachment               (:grid-line 40 0)
+)
+:element help_button
+(
+    :type                          :button
+    :button-type                   :push-button
+    :x                             -1
+    :y                             -1
+    :width                         -1
+    :height                        -1
+    :border-frame                  :none
+    :label-type                    :string
+    :label-alignment               :center
+    :label                         "Help"
+    :active                        :true
+    :visible                       :true
+    :north-attachment              (:grid-line 5 0)
+    :south-attachment              (:grid-line 95 0)
+    :east-attachment               (:grid-line 90 0)
+    :west-attachment               (:grid-line 70 0)
+)
+)

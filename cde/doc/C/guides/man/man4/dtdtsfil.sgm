@@ -1,0 +1,1091 @@
+<!-- $XConsortium: dtdtsfil.sgm /main/11 1996/09/08 20:17:47 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN94.rsml.1">
+<refmeta><refentrytitle>dtdtsfile</refentrytitle><manvolnum>special file</manvolnum>
+</refmeta>
+<refnamediv><refname><filename>dtdtsfile</filename></refname><refpurpose>
+format and location of desktop data type and action files</refpurpose></refnamediv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<refsynopsisdiv>
+<synopsis>set DtDbVersion=<emphasis>version_number</emphasis>
+set <emphasis>VariableName</emphasis>=<emphasis>variable_value</emphasis>
+<emphasis>RecordType record_name</emphasis>
+{
+        # <emphasis>Comment</emphasis>
+        <emphasis>FieldName field_value</emphasis>
+        <emphasis>FieldName field_value</emphasis>
+        ...
+}</synopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The &str-XZ; data types database provides definitions for the data types
+and actions recognized by &str-XZ; clients.</para>
+<para>The general syntax of the data types files is as described above in
+the SYNOPSIS section of this man page. The set of general constructs composing
+the database entries is as follows:</para>
+<refsect2>
+<title>Comments</title>
+<para>Any line whose first non-space character is # is treated as a comment
+line, and is ignored during the reading of the database file.</para>
+</refsect2>
+<refsect2>
+<title>Database Version</title>
+<para>The database loader supports a version number, which indicates the version
+of the database syntax used by a particular database file. If a database version
+number is not specified, then the database loader assumes that the file uses
+the version 1.0 syntax, described here. If a database file specifies a version
+number, then it must be the first non-blank, non-comment line in the database
+file; if the version is specified anywhere else in the file, then an error
+message is generated, and the remainder of that database file is ignored.
+The database version number is specified using the following syntax:</para>
+<informalexample remap="indent">
+<programlisting>set DtDbVersion=<emphasis>version_number</emphasis></programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>String Variables</title>
+<para>Database records can reference string variables that are set within
+the database file. The scope of a string variable is restricted to only those
+record definitions within the database file defining the string variable.
+A string variable is defined using the following syntax:</para>
+<informalexample remap="indent">
+<programlisting>set <emphasis>VariableName</emphasis>=<emphasis>variable_value</emphasis></programlisting>
+</informalexample>
+<para>String variables are referenced using either of the standard shell variable
+referencing syntaxes: $<emphasis>variable_name</emphasis> or ${ <emphasis>variable_name</emphasis>}. A variable name can be made up of any of the alphanumeric
+characters and the underscore.</para>
+</refsect2>
+<refsect2>
+<title>Environment Variables</title>
+<para>Database records may refer to environment variables, using either of
+the standard shell variable referencing syntaxes: $<emphasis>environment_variable</emphasis> or ${<emphasis>environment_variable</emphasis>}. If the environment
+variable name conflicts with a string variable name, the string variable takes
+precedence.</para>
+</refsect2>
+<refsect2>
+<title>Line Continuation</title>
+<para>Any field within a record can be continued onto another line by ending
+the line with a \ character. The \ and any <keysym>blank</keysym>s following
+the \ and preceding the newline are discarded; leading <keysym>blank</keysym>s
+on the following line are preserved in the continued field.</para>
+</refsect2>
+<refsect2>
+<title>Record Name</title>
+<para>The first line of a record is made up of the record type, <emphasis>RecordType</emphasis> (one of: <systemitem class="Constant">DATA_ATTRIBUTES</systemitem>, <systemitem class="Constant">DATA_CRITERIA</systemitem> or <systemitem class="Constant">ACTION</systemitem>), followed by the record name, <emphasis>record_name</emphasis>, which is henceforth used to identify this record.
+The <emphasis>record_name</emphasis> string must be coded in ASCII and must
+be uniquely named across the data attributes, data criteria and actions tables.
+</para>
+</refsect2>
+<refsect2>
+<title>Record Delimiters</title>
+<para>After the record name has been located, the set of corresponding fields
+is delimited by the { and } characters. Each of these characters must appear
+on a line by itself.</para>
+</refsect2>
+<refsect2>
+<title>Fields</title>
+<para>The fields are all of the non-comment lines found between the record
+delimiters. They are composed of keyword/value pairs. The <emphasis>FieldName</emphasis> string must be coded in ASCII. The <emphasis>field_value</emphasis>
+may be coded in additional, implementation-dependent, code sets, except that
+any literal string values shown in Data Criteria Format, below, string must
+be coded in ASCII.</para>
+</refsect2>
+<refsect2>
+<title>Record Types</title>
+<para>There are three recognized record types in database files used for data
+types (and actions):</para>
+<itemizedlist>
+<!-- merged from xo+cde-->
+<listitem><para><systemitem class="Constant">DATA_CRITERIA</systemitem></para>
+</listitem><listitem><para><systemitem class="Constant">DATA_ATTRIBUTES</systemitem>
+</para>
+</listitem><listitem><para><systemitem class="Constant">ACTION</systemitem>
+</para>
+</listitem></itemizedlist>
+<para>These three kinds of database record can appear together in the same
+file or they can be segregated into separate files. See &cdeman.dtaction; for the file format of <systemitem class="Constant">ACTION</systemitem>
+records.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>DATA_CRITERIA RECORDS</title>
+<para>The first seven subsections of this section describe the <emphasis>FieldName</emphasis> <symbol role="Variable">s</symbol> supported for data
+criteria records. The remaining subsections describe formatting and sorting
+information for data criteria records.</para>
+<refsect2>
+<title>NAME_PATTERN Field</title>
+<para>A shell pattern-matching expression describing the file names that could
+match this data. See Pattern Matching Notation. The default is an empty string,
+which means to ignore file patterns in matching.</para>
+<para>If the data to be matched is in a buffer, rather than a file, the <systemitem class="Constant">NAME_PATTERN</systemitem> expression is evaluated against
+the <emphasis>opt_name</emphasis> value given to &cdeman.DtDtsBufferToDataType; and related functions.</para>
+</refsect2>
+<refsect2>
+<title>PATH_PATTERN Field</title>
+<para>A shell pattern-matching expression describing the absolute pathnames
+that could match this data. See Pattern Matching Notation. The default is
+an empty string, which means to ignore path patterns in matching.</para>
+<para>The <systemitem class="Constant">PATH_PATTERN</systemitem> expression
+is used only for matching data in files; it does not affect matching of data
+in buffers.</para>
+</refsect2>
+<refsect2>
+<title>CONTENT Field</title>
+<para>Strings that match on the contents of a file, buffer or directory:</para>
+<informalexample remap="indent">
+<programlisting><emphasis>offset type value(s)</emphasis></programlisting>
+</informalexample>
+<para>The <symbol role="Variable">offset</symbol> string is a positive decimal
+integer number of octets from the beginning of the file or buffer, where the
+first <symbol role="Variable">value</symbol> is tested. The <symbol role="Variable">offset</symbol> value is ignored for the <literal>filename</literal> <symbol role="Variable">type</symbol>.</para>
+<para>The <symbol role="Variable">type</symbol> string is one of the following:
+</para>
+<variablelist>
+<varlistentry><term><literal>string</literal></term>
+<listitem>
+<para>The <symbol role="Variable">value</symbol> is a single string that is
+compared against the data starting at the <symbol role="Variable">offset</symbol>
+location.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>byte</literal></term>
+<listitem>
+<para></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><StructName Role="typedef">short</StructName></term>
+<listitem>
+<para></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><StructName Role="typedef">long</StructName></term>
+<listitem>
+<para>Each <keysym>blank</keysym>-separated <symbol role="Variable">value</symbol>
+is an unsigned integer: decimal, octal (leading <literal>0</literal>)
+or hexadecimal (leading <literal>0x</literal> or <literal>0X</literal>). Multiple
+values are matched against multiple byte (octet), short (two octets) or long
+(four octets) locations starting at <symbol role="Variable">offset</symbol>
+octets from the beginning of the file or data.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>filename</literal></term>
+<listitem>
+<para>The <symbol role="Variable">value</symbol> is a string that is compared
+against the filenames located anywhere in a directory. The use of <literal>filename</literal> on non-directory data produces undefined results.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The default <systemitem class="Constant">CONTENT</systemitem> is an
+empty field, which means to ignore contents in matching.</para>
+<para>The <systemitem class="Constant">CONTENT</systemitem> field applies
+to data in both files and buffers.</para>
+<para>Examples of two data criteria records with <systemitem class="Constant">CONTENT</systemitem> fields are:</para>
+<informalexample remap="indent">
+<programlisting>DATA_CRITERIA PCL1
+{
+        DATA_ATTRIBUTES_NAME    PCL
+        CONTENT         0 byte 033 0105
+        MODE            f&amp;!x
+}
+DATA_CRITERIA POSTSCRIPT3
+{
+        DATA_ATTRIBUTES_NAME    POSTSCRIPT
+        CONTENT         0 string %!
+        MODE            f&amp;!x
+}</programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>MODE Field</title>
+<para>A string of zero to four characters that match the mode field of a <emphasis>stat</emphasis> structure (see <function>stat</function>(2)). The first character
+indicates:</para>
+<variablelist>
+<varlistentry><term><literal>d</literal></term>
+<listitem>
+<para>match a directory</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>s</literal></term>
+<listitem>
+<para>match a socket</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>l</literal></term>
+<listitem>
+<para>match a symbolic link</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>f</literal></term>
+<listitem>
+<para>match a regular file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>b</literal></term>
+<listitem>
+<para>match a block file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>c</literal></term>
+<listitem>
+<para>match a character special file</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The first, or subsequent characters, can also be:</para>
+<variablelist>
+<varlistentry><term><literal>r</literal></term>
+<listitem>
+<para>match any file with any of its user, group, or other read permission
+bits set</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>w</literal></term>
+<listitem>
+<para>match any file with any of its user, group, or other write permission
+bits set</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>x</literal></term>
+<listitem>
+<para>match any file with any of its user, group, or other execute or directory-search
+permission bits set</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>For example, the <systemitem class="Constant">MODE</systemitem> field
+of <literal>frw</literal> matches any regular file that is readable or writable; <literal>x</literal> matches any file with any of its executable or search bits set.
+</para>
+<para>The default is an empty field, which means to ignore the mode in matching.
+</para>
+<para>If the data to be matched is in a buffer, rather than a file, the buffer
+is processed as if it had a mode of <literal>fr</literal>.</para>
+</refsect2>
+<refsect2>
+<title>LINK_NAME Field</title>
+<para>A shell pattern-matching expression describing the filename component
+(basename) of the filename the symbolic link points to that could match this
+data. See Pattern Matching Notation. The default is an empty expression, which
+means to ignore symbolic link names in matching. <systemitem class="Constant">LINK_NAME</systemitem> points to the file itself, not to the name of the file.
+</para>
+<para>The <systemitem class="Constant">LINK_NAME</systemitem> expression is
+used only for matching data in files; it does not affect matching of data
+in buffers.</para>
+</refsect2>
+<refsect2>
+<title>LINK_PATH Field</title>
+<para>A shell pattern-matching expression describing the absolute pathname
+of the file pointed to by the symbolic link that could match this data. See
+Pattern Matching Notation. The default is an empty expression, which means
+to ignore symbolic link name in matching.</para>
+<para>The <systemitem class="Constant">LINK_PATH</systemitem> expression is
+used only for matching data in files; it does not affect matching of data
+in buffers.</para>
+</refsect2>
+<refsect2>
+<title>DATA_ATTRIBUTES_NAME Field</title>
+<para>The name of this type of data. This value is a <emphasis>record_name</emphasis> in the data attributes table.</para>
+</refsect2>
+<refsect2>
+<title>Pattern Matching Notation</title>
+<para>The pattern-matching text field permits use of the shell pattern-matching
+characters *, ?, and [&thinsp;]. The asterisk (*) matches any set of characters,
+the question mark (?) matches a single character, and the square brackets
+([&thinsp;]) match any one of a set of characters enclosed in the square brackets.
+The full definition of shell pattern matching is in the X/Open <literal>CAE
+Specification, Commands and Utilities, Issue 4</literal>.</para>
+</refsect2>
+<refsect2>
+<title>Logical Expressions</title>
+<para>The logical operators AND (&amp;), OR (&thinsp;|&thinsp;) and NOT (!)
+can be used in any of the data criteria fields, except for <systemitem class="Constant">DATA_ATTRIBUTES_NAME</systemitem>, as shown in Data Criteria Format, below.
+The resultant expressions are evaluated from left to right.</para>
+</refsect2>
+<refsect2>
+<title>White Space</title>
+<para>White space is used to delimit tokens, as shown by the <emphasis>blanks</emphasis> and <symbol role="Variable">newline</symbol> terminals in Data
+Criteria Format, below. Within the <symbol role="Variable">pattern</symbol>
+terminal, however, leading and trailing white space not explicitly shown in
+the grammar is significant to the expression. For example,</para>
+<informalexample remap="indent">
+<programlisting>NAME_PATTERN   abc | def</programlisting>
+</informalexample>
+<para>is matched by either `` <literal>abc&numsp;</literal>'' (with a trailing <keysym>space</keysym>) or ``&numsp; <literal>def</literal>'' (with a leading <keysym>space</keysym>).</para>
+</refsect2>
+<refsect2>
+<title>Escape Character</title>
+<para>Shell pattern-matching and logical expression characters can be escaped
+and used as literal characters by preceding the character with a backslash
+(\). For example, \* is interpreted as an asterisk, \? as a question mark
+and \[\] as square brackets. Backslash itself can be escaped by preceding
+it with a backslash (\\).</para>
+</refsect2>
+<refsect2>
+<title>Data Criteria Format</title>
+<para>The following pseudo-BNF describes the data criteria variable definition:
+</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.04in">
+<colspec align="left" colwidth="179*">
+<colspec align="left" colwidth="64*">
+<colspec align="left" colwidth="255*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>DataCriteriaDefn</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`DATA_CRITERIA'</computeroutput> <computeroutput>blanks record_name</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>{</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>data_criteria_defn</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>}</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>data_criteria_defn</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>(</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>`PATH_PATTERN'</computeroutput> <computeroutput>blanks pattern_datas newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`NAME_PATTERN'</computeroutput> <computeroutput>blanks pattern_datas newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`LINK_PATH'</computeroutput> <computeroutput>blanks pattern_datas newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`LINK_NAME'</computeroutput> <computeroutput>blanks pattern_datas newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`CONTENT'</computeroutput> <computeroutput>blanks content_fields newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`MODE'</computeroutput> <computeroutput>blanks mode_specs newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`DATA_ATTRIBUTES_NAME'</computeroutput> <computeroutput>blanks name newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>pattern_datas</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>pattern_data</computeroutput> [(`&amp;' | `|') <computeroutput>pattern_datas</computeroutput> ]</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>pattern_data</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>[`!']</computeroutput> <computeroutput>pattern</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>pattern</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">a shell
+pattern matching expression, as defined in <command>sh</command>(1)</entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>mode_specs</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>mode_spec</computeroutput> [(`&amp;' | `|') <computeroutput>mode_specs</computeroutput>]</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>mode_spec</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>(</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>type_spec</computeroutput> [<computeroutput>permission_spec</computeroutput>]</entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>type_spec</computeroutput> (`&amp;' | `|') <computeroutput>permission_spec</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>type_spec</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>[`!']</computeroutput> <computeroutput>type_char</computeroutput> {<computeroutput>type_char</computeroutput>}</entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>type_char</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>(`d' | `l' | `f' | `s' |
+`b' | `c' )</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>permission_spec</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>[`!']</computeroutput> <computeroutput>permission_char</computeroutput> {<computeroutput>permission_char</computeroutput>}</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>permission_char</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>(`r' | `w' | `x')</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>content_fields</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>content_field</computeroutput> [(`&amp;' | `|') <computeroutput>content_fields</computeroutput> ]</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>content_field</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>(</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>[`!']</computeroutput> <computeroutput>offset blanks</computeroutput> `string' <computeroutput>blanks string</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>[`!']</computeroutput> <computeroutput>offset blanks</computeroutput> `byte'  <computeroutput>blanks data_values</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>[`!']</computeroutput> <computeroutput>offset blanks</computeroutput> `short' <computeroutput>blanks data_values</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>[`!']</computeroutput> <computeroutput>offset blanks</computeroutput> `long'  <computeroutput>blanks data_values</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>[`!']</computeroutput> <computeroutput>offset blanks</computeroutput> `filename' <computeroutput>blanks string</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>offset</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">an unsigned
+decimal integer</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>data_values</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>data_value</computeroutput> [<computeroutput>blanks data_values</computeroutput>]</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>data_value</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">an unsigned
+integer: decimal, octal (leading <literal>0</literal>) or hexadecimal (leading <literal>0x</literal> or <literal>0X</literal>)</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>name</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>( "A-Z" | "a-z") [</computeroutput> <computeroutput>name_char</computeroutput>]</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>name_char</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>{ "A-Z" | "a-z" | "0-9" |
+"-" }</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>string</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">a character
+string, not including <keysym>newline</keysym></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>newline</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`\n'</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>blanks</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">one or more <keysym>blank</keysym>s (spaces and/or tabs)</entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Data Criteria Sorting</title>
+<para>There may be multiple data criteria records that could match a file
+or data. This subsection describes the sorting process used by the &str-Zx;
+data typing services. The more specific criteria are sorted toward the top
+of the list and the more general criteria toward the bottom. The data criteria
+record selected is the first match found on the resulting sorted list.</para>
+<para>The following sorting rules are applied in sequence to each possible
+pair of data criteria records. If a rule determines that one data criteria
+record is more specific than another, the two records are positioned in the
+list so that the more specific comes before the less specific; otherwise,
+the next rule in sequence is applied.</para>
+<orderedlist>
+<listitem>
+<para>Records are ordered by the fields specified within them:</para>
+<orderedlist numeration="loweralpha">
+<listitem>
+<para>Records with both content and pattern fields (most specific)</para>
+</listitem>
+<listitem>
+<para>Records with only pattern fields</para>
+</listitem>
+<listitem>
+<para>Records with only content fields</para>
+</listitem>
+<listitem>
+<para>Records with neither content nor pattern fields (least specific)</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<para>Records are ordered based on the presence of any shell pattern-matching
+characters in their file name patterns (NAME_PATTERN or PATH_PATTERN):</para>
+<orderedlist numeration="loweralpha">
+<listitem>
+<para>File names with no shell pattern-matching characters (most specific)
+</para>
+</listitem>
+<listitem>
+<para>File names with no shell pattern-matching characters in the final suffix
+(such as <literal>*.c</literal>)</para>
+</listitem>
+<listitem>
+<para>Others (least specific)</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<para>Records with a path pattern are more specific than records with a name
+pattern.</para>
+</listitem>
+<listitem>
+<para>Records with a name pattern of <literal>*</literal> are treated as if
+they have no name pattern.</para>
+</listitem>
+<listitem>
+<para>Records are ordered based on the types of shell pattern-matching characters
+in their patterns:</para>
+<orderedlist numeration="loweralpha">
+<listitem>
+<para>Patterns with any <literal>?</literal> (most specific)</para>
+</listitem>
+<listitem>
+<para>Patterns with any <literal>[&thinsp;]</literal></para>
+</listitem>
+<listitem>
+<para>Patterns with any <literal>*</literal> (least specific)</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<para>Records with path patterns that share leading pathname components are
+ordered as follows:</para>
+<orderedlist numeration="loweralpha">
+<listitem>
+<para>The leading pathname components without shell pattern-matching characters
+are selected for comparison. (For example, <filename>/foo/bar/bam/baz.?</filename>
+and <filename>/foo/bar/*/baz</filename> are evaluated as <Filename>/foo/bar/bam</Filename> and <Filename>/foo/bar</Filename> for this rule.)</para>
+</listitem>
+<listitem>
+<para>The selected paths are ordered so that the longest is more specific.
+</para>
+</listitem>
+<listitem>
+<para>If the selected paths are equal, the full path patterns are ordered
+based on the number and types of shell pattern-matching characters in their
+patterns, in the following sequence:</para>
+<orderedlist numeration="lowerroman">
+<listitem>
+<para>Path patterns with fewer <literal>*</literal> characters are more specific.
+</para>
+</listitem>
+<listitem>
+<para>Path patterns with fewer <literal>[&thinsp;]</literal> characters are
+more specific.</para>
+</listitem>
+<listitem>
+<para>Path patterns with fewer <literal>?</literal> characters are more specific.
+</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<para>If the path patterns are still of equal specificity, the one with the
+larger number of literal characters (those not used as shell pattern-matching
+special characters) in its pattern after the first non-literal character is
+more specific.</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<para>Records are ordered based on a character sorting of the path patterns,
+with the lowest value in collation sequence being more specific.</para>
+</listitem>
+<listitem>
+<para>Records are ordered so that the one with more criteria is more specific.
+(For example, a record with a <systemitem class="Constant">PATH_PATTERN</systemitem>, <systemitem class="Constant">CONTENT</systemitem> and <systemitem class="Constant">MODE</systemitem> is more specific than one with only a <systemitem class="Constant">PATH_PATTERN</systemitem>.)</para>
+</listitem>
+</orderedlist>
+<para>Two records still equal after executing the preceding rules are ordered
+in an unspecified sequence.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>DATA_ATTRIBUTES RECORDS</title>
+<para>The following <emphasis>FieldName</emphasis>s are supported for data
+attribute records. Each of the <emphasis>FieldName</emphasis>s is identical
+to the corresponding <symbol role="Variable">name</symbol> member string of
+a <structname role="typedef">DtDtsAttribute</structname> structure; see <filename role="Header">Dt/Dts.h</filename>.</para>
+<refsect2>
+<title>DESCRIPTION Field</title>
+<para>A textual description of the data that is suitable for presentation
+to a user requesting information about the data. The description should contain
+no formatting information such as tab or newline characters. The application
+that presents the information to the user formats the information. If this
+field is <systemitem class="Constant">NULL</systemitem> or is not included
+in the data attribute record, the name of the data attribute should be used.
+</para>
+</refsect2>
+<refsect2>
+<title>ICON Field</title>
+<para>The name of the icon to use for this data. If this field is <systemitem class="Constant">NULL</systemitem> or is not included in the data attribute
+record, a default value ( <literal>Dtactn</literal> for an executable file
+or <literal>Dtdata</literal> for other data) should be used.</para>
+<para>Icons are found by using the standard &str-XZ; icon search path, so
+the value can be either an absolute pathname (for example, <Filename>/foo/icons/myicon.bm</Filename>), a relative pathname (for example, <literal>icons/myicon.bm</literal>)
+or a partial filename (for example, <literal>myicon</literal>). Partial filenames
+are preferred because they allow the &str-XZ; icon search path to find the
+icon with the optimum size and depth for the current environment.</para>
+</refsect2>
+<refsect2>
+<title>INSTANCE_ICON Field</title>
+<para>The name of the icon to use for this instance of data. The contents
+of this field are as described in ICON Field, above. If <systemitem class="Constant">INSTANCE_ICON</systemitem> is set, the application should use it instead of <systemitem class="Constant">ICON</systemitem>. If this field is <systemitem class="Constant">NULL</systemitem> or is not included in the data attribute record, the <systemitem class="Constant">ICON</systemitem> field should be used.</para>
+<para>An example value of <systemitem class="Constant">INSTANCE_ICON</systemitem>
+is <literal>%name%.icon</literal>, which would select an icon based on a specific
+filename, rather than on a generic data type.</para>
+</refsect2>
+<refsect2>
+<title>PROPERTIES Field</title>
+<para>Keywords to indicate properties for this data. Valid values are <literal>visible</literal> and <literal>invisible</literal>. These provide guidance
+to an application such as a file manager about whether a file should be visibly
+displayed to the user.</para>
+<para>If this field is <systemitem class="Constant">NULL</systemitem> or is
+not included in the data attribute record, the visible property should be
+assumed.</para>
+</refsect2>
+<refsect2>
+<title>ACTIONS Field</title>
+<para>A comma-separated list of actions that can be performed on this data.
+This list refers to names in the action table for actions that can be performed
+on this data. If this field is <systemitem class="Constant">NULL</systemitem>
+or is not included in the data attribute record, no action is available.</para>
+</refsect2>
+<refsect2>
+<title>NAME_TEMPLATE Field</title>
+<para>A string used to create a new file for data of this type. The string
+is intended to be passed to <function>sprintf</function>(3) with the file name
+as the single argument. For example: <literal>%s.mif</literal>. The default
+is empty. (This field is contrasted with the NAME_PATTERN field of the data
+criteria table in that the template is used to create a specific file, such
+as <literal>%s.c</literal>, whereas the pattern is used to find files, such
+as <literal>*.c</literal>).</para>
+</refsect2>
+<refsect2>
+<title>IS_EXECUTABLE Field</title>
+<para>A string-Boolean value that tells users of this data type that it can
+be executed as an application. If <systemitem class="Constant">IS_EXECUTABLE</systemitem> is a true value (as determined by the <function>DtDtsIsTrue</function> function), the data is executable; if this field is <systemitem class="Constant">NULL</systemitem>, is not included in the data attribute
+record or is not true, then the data is considered not executable.</para>
+</refsect2>
+<refsect2>
+<title>MOVE_TO_ACTION Field</title>
+<para>The name of an action to be invoked when an object is moved to the current
+object using a drag and drop operation.</para>
+<para>The <systemitem class="Constant">MOVE_TO_ACTION</systemitem>, <systemitem class="Constant">COPY_TO_ACTION</systemitem> and <systemitem class="Constant">LINK_TO_ACTION</systemitem> fields cause an action to be invoked with the
+drop target as the first of the <structname role="typedef">DtActionArg</structname>
+arguments to the <function>DtActionInvoke</function> function, and the drag
+sources as the remaining <structname role="typedef">DtActionArg</structname>
+arguments. However, if the drop target is an action itself, it is omitted
+from the <structname role="typedef">DtActionArg</structname> list. For example,
+using the syntax of the <command>dtaction</command> utility, if objects A
+and B are dropped onto non-action object C:</para>
+<informalexample remap="indent">
+<programlisting>dtaction <emphasis>action-name</emphasis> C A B</programlisting>
+</informalexample>
+<para>If C is an action:</para>
+<informalexample remap="indent">
+<programlisting>dtaction <emphasis>action-name</emphasis> A B</programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>COPY_TO_ACTION Field</title>
+<para>The name of an action to be invoked when an object is copied to the
+current object using a drag and drop operation.</para>
+</refsect2>
+<refsect2>
+<title>LINK_TO_ACTION Field</title>
+<para>The name of an action to be invoked when an object is linked to the
+current object using a drag and drop operation.</para>
+</refsect2>
+<refsect2>
+<title>IS_TEXT Field</title>
+<para>A string-Boolean value that tells users of this data type that it is
+suitable for manipulation (viewing or editing) in a text editor or text widget.
+The <systemitem class="Constant">IS_TEXT</systemitem> field should be set
+to a true value (as determined by the <function>DtDtsIsTrue</function> function)
+if the data is textual in nature and if it should be presented to the user
+in textual form. Criteria for making this determination include whether the
+data:</para>
+<itemizedlist>
+<!-- merged from xo+cde-->
+<listitem><para>consists of human language, or</para>
+</listitem><listitem><para>is generated and maintained manually, or</para>
+</listitem><listitem><para>is usefully viewable and editable in a text editor,
+or</para>
+</listitem><listitem><para>contains no (or only minimal) structuring and formatting
+information.</para>
+</listitem></itemizedlist>
+<para>If the <systemitem class="Constant">IS_TEXT</systemitem> field is a
+true value, this indicates that the data is eligible to be displayed directly
+by an application. That is, the application can load the data directly into
+a text editing widget (for example, XmText) instead of invoking an action
+on the data. An example of this occurs in the &str-XZ; mail services: if the
+first part of a multipart message has <systemitem class="Constant">IS_TEXT</systemitem> true, then it is displayed in the text area of the message view
+window. Otherwise, the text area will contain only message headers and the
+first part of the message will be displayed as an icon in the attachment pane.
+It is immaterial whether the data <emphasis>can</emphasis> be loaded into
+an XmText widget&mdash;even binary data can be&mdash;but rather whether the
+data <emphasis>should</emphasis> be loaded into an XmText widget.</para>
+<para>Note that the <systemitem class="Constant">IS_TEXT</systemitem> field
+differs from the <literal>text</literal> attribute of the <systemitem class="Constant">MIME_TYPE</systemitem> field, which is the MIME content-type, as described
+in RFC 1341. The MIME content-type determines whether the data consists of
+textual characters or byte values. If the data consists of textual characters
+and is labelled as <literal>text/*</literal>, the <systemitem class="Constant">IS_TEXT</systemitem> field determines whether it is appropriate for the data
+to be presented to users in textual form.</para>
+<para>Examples of common data types include recommendations of the appropriate
+value of <systemitem class="Constant">IS_TEXT</systemitem>:</para>
+<itemizedlist><listitem><para>Human language encoded in ASCII:</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/plain
+IS_TEXT true</programlisting>
+</informalexample>
+<para>Note, however, that not everything that is ASCII should be presented
+directly to the user.</para>
+</listitem><listitem><para>Human language encoded in EUC, JIS, Unicode, or
+an ISO Latin charset:</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/plain; charset=XXX
+IS_TEXT true</programlisting>
+</informalexample>
+</listitem><listitem><para>CalendarAppointmentAttrs:</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/plain
+IS_TEXT false</programlisting>
+</informalexample>
+<para>Calendar appointments should be treated as opaque objects (editable
+only by the appointment editor) and not shown to the user as text.</para>
+</listitem><listitem><para>HTML (HyperText Markup Language):</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/html
+IS_TEXT true</programlisting>
+</informalexample>
+</listitem><listitem><para>PostScript:</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE application/postscript
+IS_TEXT false</programlisting>
+</informalexample>
+</listitem><listitem><para>C program source (C_SRC):</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/plain
+IS_TEXT true</programlisting>
+</informalexample>
+</listitem><listitem><para>Bitmaps and pixmaps (XBM and XPM):</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/plain
+IS_TEXT false</programlisting>
+</informalexample>
+</listitem><listitem><para>Project or module files for the &str-XZ; application
+building services:</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/plain
+IS_TEXT false</programlisting>
+</informalexample>
+</listitem><listitem><para>Shell scripts:</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/plain
+IS_TEXT false</programlisting>
+</informalexample>
+</listitem><listitem><para>Encoded text produced by <command>uuencode</command>1:
+</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/plain
+IS_TEXT false</programlisting>
+</informalexample>
+</listitem><listitem><para>Manual pages:</para>
+<informalexample remap="indent">
+<programlisting>MIME_TYPE text/plain
+IS_TEXT false</programlisting>
+</informalexample>
+</listitem></itemizedlist>
+</refsect2>
+<refsect2>
+<title>MEDIA Field</title>
+<para>The names in the <systemitem class="Constant">MEDIA</systemitem> name
+space describe the form of the data itself. <systemitem class="Constant">MEDIA</systemitem> names are used as ICCCM selection targets; they are named
+in the <systemitem class="Constant">MEDIA</systemitem> field of data type
+records; and they are used in the <symbol role="Variable">type</symbol> parameter
+of ToolTalk Media Exchange messages.</para>
+<para>The <systemitem class="Constant">MEDIA</systemitem> name space is a
+subset of the name space of selection target atoms as defined by the ICCCM.
+All selection targets that specify a data format are valid <systemitem class="Constant">MEDIA</systemitem> names, and all valid <systemitem class="Constant">MEDIA</systemitem> names can be used directly as selection targets. Some selection
+targets specify an attribute of the selection (for example, LIST_LENGTH) or
+a side effect to occur (for example, DELETE), rather than a data format. These
+attribute selection targets are not part of the <systemitem class="Constant">MEDIA</systemitem> name space.</para>
+</refsect2>
+<refsect2>
+<title>MIME_TYPE Field</title>
+<para><systemitem class="Constant">MEDIA</systemitem> is the &str-XZ; internal,
+unique name for data types. However, other external naming authorities have
+also established name spaces. <systemitem class="Constant">MIME</systemitem>
+(Multipurpose Internet Message Extensions), as described in the referenced
+MIME RFCs, is one of those external registries, and is the standard type name
+space for the &str-XZ; mail system.</para>
+</refsect2>
+<refsect2>
+<title>X400_TYPE Field</title>
+<para>X.400 types are similar in structure to the <systemitem class="Constant">MEDIA</systemitem> type, but are formatted using different rules and have
+different naming authorities.</para>
+</refsect2>
+<refsect2>
+<title>DATA_HOST Attribute</title>
+<para>The <systemitem class="Constant">DATA_HOST</systemitem> attribute is
+not a field that can be added to the data attributes table when it is in a
+file, but it may be returned to an application reading attributes from the
+table. The data typing service adds this attribute automatically to indicate
+the host system from which the data type was loaded. If this field is <systemitem class="Constant">NULL</systemitem> or is not included in the data attribute
+record, the data type was loaded from the local system.</para>
+</refsect2>
+<refsect2>
+<title>Modifiers</title>
+<para>The following modifiers can be used in the values of the data attributes
+to modify the runtime values:</para>
+<variablelist>
+<varlistentry><term><literal>%file%</literal></term>
+<listitem>
+<para>The full pathname of the file.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>%dir%</literal></term>
+<listitem>
+<para>The directory component of the pathname. For example, for <Filename>/usr/src/file.c</Filename>, <systemitem class="Constant">%dir%</systemitem>
+is <Filename>/usr/src</Filename>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>%name%</literal></term>
+<listitem>
+<para>The filename of the file. For example, for <Filename>/usr/src/file.c</Filename>, <systemitem class="Constant">%name%</systemitem> is <Filename>file.c</Filename>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>%suffix%</literal></term>
+<listitem>
+<para>The suffix of the file. For example, for <Filename>/usr/src/file.c</Filename>, <systemitem class="Constant">%suffix%</systemitem> is <literal>c</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>%base%</literal></term>
+<listitem>
+<para>The basename of the file. For example, for <Filename>/usr/src/file.c</Filename>, <systemitem class="Constant">%base%</systemitem> is <literal>file</literal>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Strings enclosed in backquotes (`) are processed with the <function>popen</function> function and the output replaces the backquotes and string.
+</para>
+</refsect2>
+<refsect2>
+<title>Data Attributes Format</title>
+<para>The following pseudo-BNF describes the data attributes variable definition:
+</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.07in">
+<colspec align="left" colwidth="188*">
+<colspec align="left" colwidth="58*">
+<colspec align="left" colwidth="254*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>DataAttributesDefn</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`DATA_ATTRIBUTES'</computeroutput> <computeroutput>blanks record_name</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>{</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>data_attributes_defn</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>}</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>data_attributes_defn</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>(</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>`DESCRIPTION'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`ICON'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`INSTANCE_ICON'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`PROPERTIES'</computeroutput> <computeroutput>blanks string</computeroutput> {`,' <computeroutput>string</computeroutput>} <computeroutput>newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`ACTIONS'</computeroutput> <computeroutput>blanks name</computeroutput> {`,' <computeroutput>name</computeroutput>} <computeroutput>newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`NAME_TEMPLATE'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`IS_EXECUTABLE'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`MOVE_TO_ACTION'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`COPY_TO_ACTION'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`LINK_TO_ACTION'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`IS_TEXT'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`MEDIA'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`MIME_TYPE'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`X400_TYPE'</computeroutput> <computeroutput>blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>unique_string blanks string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`#'</computeroutput> <computeroutput>string newline</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>string</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">a character
+string, not including <keysym>newline</keysym></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>newline</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`\n'</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>unique_string</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">a uniquely
+named string for implementation extensions</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>blanks</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">one or more <keysym>blank</keysym>s (spaces and/or tabs)</entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>EXAMPLES</title>
+<para>The following are examples of data attribute and data criteria entries
+in the data typing database:</para>
+<informalexample remap="indent">
+<programlisting>DATA_ATTRIBUTES C_SRC
+{
+        ACTIONS         Open,Make,Print
+        ICON            DtdotC
+        IS_TEXT         true
+        NAME_TEMPLATE   %s.c
+        DESCRIPTION     A C_SRC file is a source file in the C \
+                        programming language.
+}</programlisting>
+</informalexample>
+<informalexample remap="indent">
+<programlisting>DATA_CRITERIA C_SRC1
+{
+        DATA_ATTRIBUTES_NAME C_SRC
+        MODE            f
+        NAME_PATTERN    *.c
+}</programlisting>
+</informalexample>
+<informalexample remap="indent">
+<programlisting>DATA_ATTRIBUTES POSTSCRIPT
+{
+        ACTIONS         Open,Print
+        ICON            Dtps
+        NAME_TEMPLATE   %s.ps
+        MEDIA           POSTSCRIPT
+        MIME_TYPE       application/postscript
+}</programlisting>
+</informalexample>
+<informalexample remap="indent">
+<programlisting>DATA_CRITERIA POSTSCRIPT1
+{
+        DATA_ATTRIBUTES_NAME POSTSCRIPT
+        MODE            fr
+<?Pub Caret>        NAME_PATTERN    *.ps
+}</programlisting>
+</informalexample>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>ERRORS</title>
+<para>Errors encountered when loading database files are written to the CDE
+errorlog file. Records containing errors are rejected.</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dttypes;, &cdeman.DtDtsIsTrue;, &cdeman.dtdtfile;, &cdeman.dtactionfile;.</para>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->
+<?Pub *0000087876>

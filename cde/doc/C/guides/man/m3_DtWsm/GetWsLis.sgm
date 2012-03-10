@@ -1,0 +1,95 @@
+<!-- $XConsortium: GetWsLis.sgm /main/6 1996/09/23 14:36:57 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN65.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN65.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtWsmGetWorkspaceList</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtWsmGetWorkspaceList</Function></RefName>
+<RefPurpose>get the names of the currently defined workspaces
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Wsm.h>
+</FuncSynopsisInfo>
+<FuncDef>int <Function>DtWsmGetWorkspaceList</Function></FuncDef>
+<ParamDef>Display *<Parameter>display</Parameter></ParamDef>
+<ParamDef>Window <Parameter>root</Parameter></ParamDef>
+<ParamDef>Atom **<Parameter>ppaWorkspaces</Parameter></ParamDef>
+<ParamDef>int *<Parameter>pNumWorkspaces</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtWsmGetWorkspaceList</Function> function
+works with the
+<![ %CDE.C.XO; [workspace manager
+]]><![ %CDE.C.CDE; [&str-XZ; workspace manager,
+&cdeman.dtwm;. ]]>and returns a list of the names (converted into X atoms)
+of the currently defined workspaces.
+</Para>
+<Para>The
+<Symbol Role="Variable">display</Symbol> argument is the X display.
+</Para>
+<Para>The
+<Symbol Role="Variable">root</Symbol> argument is the root window of the screen of interest.
+</Para>
+<Para>The
+<Emphasis>*ppaWorkspaces</Emphasis> argument is the address of a pointer to receive the
+returned pointer to the workspacelist.
+</Para>
+<Para>The
+<Emphasis>pNumWorkspaces</Emphasis> argument is the address of an integer to receive the
+number of elements in the workspacelist.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtWsmGetWorkspaceList</Function> function returns Success and the workspace manager returns in
+<Emphasis>*ppaWorkspaces</Emphasis> the list of atoms identifying workspaces, and returns in
+<Emphasis>pNumWorkspaces</Emphasis> the number of workspaces.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>If the
+<Function>DtWsmGetWorkspaceList</Function> function
+is not successful, failure may be due to a memory allocation error or failure
+to find the correct workspace information (that is, the
+<![ %CDE.C.XO; [workspace manager
+]]><![ %CDE.C.CDE; [&str-XZ; workspace manager,
+&cdeman.dtwm;, ]]>is not running).
+To get detailed information on the workspaces, the application must first call the
+<Function>DtWsmGetWorkspaceList</Function> function to get the names of all the workspaces.
+Then, for each workspace in the list, the application must call the
+&cdeman.DtWsmGetWorkspaceInfo; function.
+The application must use
+<Function>XtFree</Function>(3) to free data returned in
+<Emphasis>*ppaWorkspaces</Emphasis>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Wsm.h;, <![ %CDE.C.CDE; [&cdeman.dtwm;, <Function>XtFree</Function>(3), ]]><![ %CDE.C.XO; [<Function>XtFree</Function>(3) in the &str-Zt;;
+]]>&cdeman.DtWsmGetWorkspaceInfo;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

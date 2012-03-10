@@ -1,0 +1,37 @@
+ptype RFC_822_Message {
+    start "dtmail -t";
+	handle:
+	session Display( in RFC_822_Message contents ) => start opnum = 1 ;
+	session Display( in RFC_822_Message contents,
+					 in title   docName ) => start opnum = 3 ;
+	session Mail( in RFC_822_Message contents ) => start opnum = 301 ;
+	session Mail( out RFC_822_Message contents ) => start opnum = 321 ;
+	session Mail( out RFC_822_Message contents,
+	              in title docname ) => start opnum = 323 ;
+    session Mail( inout RFC_822_Message contents ) => start opnum = 311 ;
+	session Mail( inout RFC_822_Message contents,
+	              in title docname ) => start opnum = 313 ;
+};
+
+ptype RFC_822_MESSAGE {
+    start "dtmail -t";
+	handle:
+	session Display( in RFC_822_MESSAGE contents ) => start opnum = 1 ;
+	session Display( in RFC_822_MESSAGE contents,
+					 in title   docName ) => start opnum = 3 ;
+	session Mail( in RFC_822_MESSAGE contents ) => start opnum = 301 ;
+	session Mail( out RFC_822_MESSAGE contents ) => start opnum = 321 ;
+	session Mail( out RFC_822_MESSAGE contents,
+	              in title docname ) => start opnum = 323 ;
+    session Mail( inout RFC_822_MESSAGE contents ) => start opnum = 311 ;
+	session Mail( inout RFC_822_MESSAGE contents,
+	              in title docname ) => start opnum = 313 ;
+};
+
+ptype MAIL_TYPE {
+    start "dtmail -t";
+	handle:
+    session Mail( inout ALL contents ) => start opnum = 311 ;
+	session Mail( inout ALL contents,
+	              in title docname ) => start opnum = 313 ;
+};

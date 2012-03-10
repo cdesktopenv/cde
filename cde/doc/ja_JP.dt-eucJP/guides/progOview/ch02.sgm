@@ -1,0 +1,456 @@
+<!-- $XConsortium: ch02.sgm /main/10 1996/09/08 19:46:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="RDMAP.consi.div.1">
+<title id="RDMAP.consi.mkr.1">開発環境の要件</title>
+<para>この章では、共通デスクトップ環境のアプリケーション・プログラム・
+インタフェース(API)を使用する前に知っておくべき一般的な情報について説明します。
+</para>
+<para>アプリケーションをデスクトップに統合する前に、デスクトップの動作について
+基本的な理解をしておくことが必要です。共通デスクトップ環境プラットフォームに
+インストールし、その機能を把握してください。デスクトップの概要については、
+<emphasis>ユーザーズ・ガイド</emphasis>または
+<emphasis>デスクトップの紹介</emphasis>のオンライン・ヘルプ・ボリュームを参照
+してください。</para>
+<informaltable id="RDMAP.consi.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Common Desktop Environment Characteristics24'--><xref
+role="JumpText" linkend="RDMAP.consi.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Underlying Foundations25'--><xref
+role="JumpText" linkend="RDMAP.consi.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Running Existing Applications26'--><xref
+role="JumpText" linkend="RDMAP.consi.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Libraries and Header Files27'--><xref
+role="JumpText" linkend="RDMAP.consi.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Demo Programs27'--><xref role="JumpText"
+linkend="RDMAP.consi.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Man Pages27'--><xref role="JumpText"
+linkend="RDMAP.consi.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Development Environment Directory
+Structure28'--><xref role="JumpText" linkend="RDMAP.consi.mkr.8"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="RDMAP.consi.div.2">
+<title id="RDMAP.consi.mkr.2">共通デスクトップ環境の特性</title>
+<para>共通デスクトップ環境には、UNIXユーザに対して、生産性の高い快適なデスク
+トップ環境を提供します。アプリケーションを開発するときは、共通デスクトップ環境
+がユーザに提供する環境を常に念頭においてください。次のような特性を備えた
+アプリケーションを開発すれば、<indexterm><primary>ガイドライン</primary>
+<secondary>アプリケーションの開発</secondary></indexterm><indexterm>
+<primary>デスクトップのルック＆フィール</primary></indexterm><indexterm>
+<primary>アプリケーションの開発</primary><secondary>ガイドライン &lt;$startrange></secondary>
+</indexterm>高性能で、
+一貫性のある、予期可能な共通デスクトップ環境の一部にすることができます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>UNIXの複雑さを隠します。<indexterm>
+<primary>UNIX</primary></indexterm></para>
+<para>共通デスクトップ環境は、主な顧客としてエンド・ユーザをターゲットにしてい
+ます。ゆえに、優れた製品を作るうえで、できるだけUNIXを隠したアプリケーションを
+提供することが重要となります。</para>
+</listitem><listitem><para>共通のルック＆フィールを提供します。
+<indexterm><primary>ルック＆フィール</primary></indexterm></para>
+<para>共通デスクトップ環境の優れたアプリケーションは、デスクトップ上の他の
+アプリケーションと同じようなルック＆フィールを実現します。スタイル、その他の
+ガイドライン（共通デスクトップ環境標準フォント名など）に従うと、アプリケーション
+に共通デスクトップ環境Motifのルック＆フィールが備わります。</para>
+</listitem><listitem><para>アプリケーションを使いやすくします。
+<indexterm><primary>使いやすさ</primary></indexterm></para>
+<para>読みやすいデフォルト・フォント・サイズとマウス指向アクション用のキーボード・
+アクセラレータを提供します。デスクトップ・オンライン・ヘルプ・コンポーネントを
+使用して、完全なヘルプ・システムをアプリケーションに統合してください。基本的な
+コンピュータ対話形式は、プラットフォーム全体で可能な限り一貫させなければなりま
+せん。</para>
+</listitem><listitem><para>デスクトップ統合サービスを利用します。<indexterm>
+<primary>デスクトップ</primary><secondary>統合サービス</secondary></indexterm><indexterm>
+<primary>統合</primary><secondary>デスクトップ・サービス</secondary></indexterm><indexterm>
+<primary>デスクトップ統合サービス</primary></indexterm></para>
+<para>共通デスクトップ環境には、アプリケーションをデスクトップにうまく統合
+できるようにするための、一連のデスクトップ統合サービスがあります。
+アプリケーションがローカルなコンピュータで実行されているのかネットワークの他の
+場所で実行されているのか、（もしあれば）実行されているアプリケーションを書くのに
+どのツールキットが使用されているのかを、ユーザは知る必要がないので便利です。
+アプリケーションをデスクトップから起動し、他の共通デスクトップ環境の
+アプリケーションと通信できるようにする機能をアプリケーションに与えてください。
+オンライン・ヘルプシステムを使用して、ユーザに簡易情報を提供してください。
+ドラッグ＆ドロップを使用して、ユーザがシステムの使用方法を予期できるようにして
+ください。</para>
+</listitem><listitem><para>個別の、および文化的な相違点を設計します。
+</para>
+<para>共通デスクトップ環境の規約とポリシーに従うと、アプリケーションは次の項目
+に関して、スムーズで一貫性があり、適切なカスタマイズを自然に提供できます。
+<indexterm><primary>カスタマイズ</primary><secondary>デスクトップの</secondary>
+</indexterm><indexterm><primary>デスクトップ</primary>
+<secondary>カスタマイズ</secondary></indexterm></para>
+<itemizedlist remap="Bullet2"><listitem><para>フォント</para>
+</listitem><listitem><para>カラー</para>
+</listitem><listitem><para>キーボードとマウスの割り当て</para>
+</listitem><listitem><para>ロケール固有の構成ファイル</para>
+<para>ロケール固有の構成ファイルの詳細については、
+<emphasis>上級ユーザおよびシステム管理者ガイド</emphasis>の第16章<emphasis>
+ローカライズされたデスクトップ・セッションの構成</emphasis>を参照してください。
+<indexterm><primary>ガイドライン</primary>
+<secondary>アプリケーションの開発用</secondary></indexterm>
+<indexterm><primary>デスクトップのルック＆フィール</primary></indexterm>
+<indexterm><primary>アプリケーションの開発</primary><secondary>ガイドライン &lt;$endrange></secondary></indexterm></para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="RDMAP.consi.div.3">
+<title id="RDMAP.consi.mkr.3">根底となる基礎事項</title>
+<para>デスクトップAPIを使用するアプリケーションをコンパイルするには、次のもの
+が必要です。<indexterm>
+<primary>コンパイル</primary><secondary>アプリケーション</secondary></indexterm><indexterm>
+<primary>アプリケーションの開発に必要なソフトウェア</primary></indexterm><indexterm>
+<primary>アプリケーションの開発に必要なソフトウェア</primary></indexterm><indexterm>
+<primary>アプリケーションの開発</primary><secondary>必要なソフトウェア</secondary>
+</indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>共通デスクトップ環境のヘッダ・
+ファイルおよびライブラリ</para>
+</listitem><listitem><para>X11R6.2以降のヘッダ・ファイルおよび
+ライブラリ<indexterm>
+<primary>X11R6.2</primary></indexterm></para>
+</listitem><listitem><para>ANSI Cコンパイラ、またはC++アプリケーションを開発
+する場合は、C++コンパイラのバージョン2.0以降のもの
+<indexterm><primary>アプリケーションの開発に使用するコンパイラ</primary>
+</indexterm><indexterm><primary>ANSI C</primary></indexterm><indexterm><primary>C++</primary></indexterm></para>
+</listitem></itemizedlist>
+<para>コンパイルしたバイナリ・ファイルは、一致するライブラリをインストールした
+環境で実行してください。実行時のライブラリは<filename>/usr/dt/lib</filename>に
+あり、<!--Original XRef content: 'Table&numsp;2&hyphen;2 on page&numsp;28'--><xref role="CodeOrFigOrTabAndPNum"linkend="RDMAP.consi.mkr.9">にリストされているディレクトリ
+を格納しています。</para>
+<para>共通デスクトップ環境ベースのアプリケーションを正しく実行するには、次の
+実行時のディレクトリのファイルをインストールした環境が必要です。
+<indexterm><primary>実行時</primary><secondary>ディレクトリとアプリケーションの
+実行</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>/etc/dt/*</filename></para>
+</listitem><listitem><para><filename>/var/dt/*</filename></para>
+</listitem><listitem><para><filename>/usr/dt</filename>の下のサブディレクトリ
+</para>
+<itemizedlist remap="Bullet2"><listitem><para><filename>app-defaults</filename></para>
+</listitem><listitem><para><command>appconfig</command></para>
+</listitem><listitem><para><command>bin</command></para>
+</listitem><listitem><para><command>dthelp</command></para>
+</listitem><listitem><para><command>lib</command></para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para>アプリケーションは、X/Open XCDE標準で<emphasis>明示的</emphasis>に
+言及されている実行時のファイルだけに依存しなければなりません。
+<filename>/usr/dt/appconfig/icons/</filename>など標準で言及していないファイルに
+<symbol role="Variable">依存してはなりません</symbol>。このような依存性を
+アプリケーションに構築した場合、標準にないファイルが失われたり、変更されるような
+環境で実行できるようにアプリケーションを強化しなければなりません。</para>
+<para>共通デスクトップ環境アプリケーションを実行するのに最低限必要な実行環境の
+リストについては、<filename>dtfilsys(5)</filename>のマニュアル・ページを参照
+してください。</para>
+<para>実行環境には、Motif 1.2.3のバグを修正して機能強化した共通デスクトップ
+環境Motifが含まれます。共通デスクトップ環境の実行環境の詳細については、実行
+環境用のマニュアル。セットを参照してください。<indexterm><primary>実行時</primary>
+<secondary>環境</secondary></indexterm></para>
+</sect1>
+<sect1 id="RDMAP.consi.div.4">
+<title id="RDMAP.consi.mkr.4">既存アプリケーションの実行
+<indexterm><primary>既存アプリケーションの実行</primary></indexterm>
+<indexterm><primary>既存アプリケーションと共通デスクトップ環境</primary>
+</indexterm></title>
+<para><indexterm><primary>Xベースのアプリケーション</primary></indexterm>
+共通デスクトップ環境ライブラリでコンパイルされていない、既存のXウィンドウ・
+システムベースのアプリケーションは、デスクトップ・ウィンドウ・マネージャ
+(<command>dtwm</command>)のもとで、Motifウィンドウ・マネージャで動作するのと同様
+な方法で動作します。共通デスクトップ環境との相互運用性のレベルのガイドラインを
+説明します。</para>
+<table id="rdmap.consi.tbl.1" frame="topbot">
+<title>既存Xベースのアプリケーションと共通デスクトップ環境との相互運用性</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="3.35in">
+<colspec align="left" colwidth="2.92in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>既存Xベース
+アプリケーションの特性</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>デスクトップとの
+相互運用ステータス</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Motif 1.2 (以降)のドラッグ＆ドロップ
+(登録済みプロトコルを使用)</para></entry>
+<entry align="left" valign="top"><para>○</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Motif 1.2 (以降)のドラッグ＆ドロップ
+(動的プロトコルを使用)</para></entry>
+<entry align="left" valign="top"><para>×<footnoteref linkend="rdmap.consi.fn.10"></footnoteref> <footnote
+id="rdmap.consi.fn.10"><para>これはMotif 1.2ドラッグ＆ドロップ動的プロトコル
+相互運用における問題点で、共通デスクトップ環境に<symbol role="Variable">
+原因があるわけではありません</symbol>。</para>
+</footnote></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>カット＆ペースト
+（すべてのアプリケーション）</para></entry>
+<entry align="left" valign="top"><para>○</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>OPEN LOOKドラッグ＆ドロップ</para></entry>
+<entry align="left" valign="top"><para>○（複数の項目のドラッグ＆ドロップ以外）
+<footnoteref linkend="rdmap.consi.fn.11"></footnoteref> <footnote id="rdmap.consi.fn.11">
+<para>これはドロップ・サイト・データベース・マネージャ(<command>dsdm</command>)
+のプロトコル解釈機能によって行われます。</para>
+</footnote></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ToolTalkメディア交換プロトコルおよび
+デスクトップ・プロトコル</para></entry>
+<entry align="left" valign="top"><para>○</para></entry></row></tbody></tgroup>
+</table>
+<para>既存のMotifアプリケーションを、共通デスクトップ環境Motif共有ライブラリで
+再びコンパイルおよびリンクする場合、アプリケーションはMotif 1.2に対応していな
+ければなりません。<indexterm><primary>Motif 1.2</primary></indexterm></para>
+</sect1>
+<sect1 id="RDMAP.consi.div.5">
+<title id="RDMAP.consi.mkr.5">ライブラリおよびヘッダ・ファイル
+<indexterm><primary>開発環境ライブラリ</primary></indexterm>
+<indexterm><primary>開発環境ヘッダ・ファイル</primary></indexterm></title>
+<para>ベンダ固有の場所にあるX11R6.2ヘッダ・ファイルおよびライブラリを考慮して
+共通デスクトップ環境アプリケーションをコンパイルしてください。
+<!--Original XRef content: 'Table&numsp;2&hyphen;2 on
+page&numsp;28'--><xref role="CodeOrFigOrTabAndPNum" linkend="RDMAP.consi.mkr.9">
+は、<filename>/usr/dt</filename>のサブディレクトリとして、すべての開発環境
+ライブラリおよびヘッダ・ファイルの場所をリストしています。</para>
+</sect1>
+<sect1 id="RDMAP.consi.div.6">
+<title id="RDMAP.consi.mkr.6">デモ・プログラム
+<indexterm><primary>デモ・プログラム</primary></indexterm>
+<indexterm><primary>サンプル・プログラム</primary></indexterm>
+<indexterm><primary>プログラム例</primary></indexterm>
+<indexterm><primary>デモ・プログラム</primary></indexterm></title>
+<para><filename>/usr/dt/examples</filename>サブディレクトリには、
+<emphasis>テンプレート</emphasis>・アプリケーションだけでなく開発環境
+コンポーネント・デモのソースコードも入っています。
+<!--Original XRef content: 'Table&numsp;2&hyphen;2
+
+on page&numsp;28'--><xref role="CodeOrFigOrTabAndPNum" linkend="RDMAP.consi.mkr.9">
+ですべてのデモのサブディレクトリをリストしています。</para>
+<para>それぞれのデモのサブディレクトリには、１つ以上のデモ・プログラムが、
+プログラムのmakefileと共に入っています。デモを説明する<command>README</command>
+ファイルも含まれています。</para>
+<para>ソースが<command>template</command>サブディレクトリにあるデモは、単純な
+描画プログラムです。これは、デスクトップに統合された共通デスクトップ環境
+アプリケーションの基本構造を図示したものです。国際化されており、別々のサブ
+ディレクトリにはローカライズされたコンポーネントがすべて入っています。
+アプリケーションでは、この描画プログラムをテンプレートとして使用できます。</para>
+</sect1>
+<sect1 id="RDMAP.consi.div.7">
+<title id="RDMAP.consi.mkr.7">マニュアル・ページ</title>
+<para>共通デスクトップ環境のマニュアル・ページは<filename>/usr/dt/man</filename>
+にあります。<filename>man()</filename>コマンドまたはデスクトップのマニュアル・
+ページ・ビューアを使用してマニュアル・ページを表示させるには、環境変数
+<command>MANPATH</command>に<filename>/usr/dt/man</filename>を追加してください。
+たとえば、<filename>~/.dtprofile</filename>ファイルでは次のように設定します。
+</para>
+<programlisting>MANPATH = $MANPATH:/usr/dt/man</programlisting>
+<para><filename>/usr/dt/man</filename>サブディレクトリと内容の一覧のリストは、
+<!--Original XRef content: 'Table&numsp;2&hyphen;2'--><xref
+role="CodeOrFigureOrTable" linkend="RDMAP.consi.mkr.9">を参照してください。
+<filename>man()</filename>コマンドの詳細については、<filename>man</filename>(1)
+のマニュアル・ページを参照してください。</para>
+</sect1>
+<sect1 id="RDMAP.consi.div.8">
+<title id="RDMAP.consi.mkr.8">開発環境ディレクトリ構造
+<indexterm><primary>ディレクトリ構造 &lt;$startrange></primary></indexterm>
+</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;2'--><xref role="CodeOrFigureOrTable"
+linkend="RDMAP.consi.mkr.9">は開発環境ディレクトリ構造のトップレベル・
+ディレクトリと、そのサブディレクトリをリストしています。（トップレベル・
+ディレクトリ名にはすべて前に<filename>/usr/dt</filename>が付いてます。)</para>
+<table id="rdmap.consi.tbl.2" frame="topbot">
+<title id="rdmap.consi.mkr.9">/usr/dtの開発環境ディレクトリ</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.22in">
+<colspec colwidth="1.71in">
+<colspec colwidth="4.13in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>ディレクトリ</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>サブディレクトリ</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>内容</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>examples</command></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>開発環境コンポーネント・デモ・
+プログラムのソースコードを含むサブディレクトリ</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>READMEファイル</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtaction</para></entry>
+<entry align="left" valign="top"><para>アクション起動APIデモ</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtbuilder</para></entry>
+<entry align="left" valign="top"><para>アプリケーション・ビルダの例</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtcalendar</para></entry>
+<entry align="left" valign="top"><para>カレンダAPIデモ</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtdnd</para></entry>
+<entry align="left" valign="top"><para>ドラッグ＆ドロップAPIデモ</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtdts</para></entry>
+<entry align="left" valign="top"><para>データ型作成APIデモ</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dthelp</para></entry>
+<entry align="left" valign="top"><para>ヘルプAPIデモ</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtksh</para></entry>
+<entry align="left" valign="top"><para><command>dtksh</command>スクリプトの例
+</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtsession</para></entry>
+<entry align="left" valign="top"><para>セッション・マネージャAPIデモ</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtterm</para></entry>
+<entry align="left" valign="top"><para>端末エミュレータ・ウィジェットAPIデモ
+</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtwidget</para></entry>
+<entry align="left" valign="top"><para>共通デスクトップ環境Motifウィジェット・
+デモ</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtwsm</para></entry>
+<entry align="left" valign="top"><para>ワークスペース・マネージャAPIデモ</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>template</para></entry>
+<entry align="left" valign="top"><para>テンプレート共通デスクトップ環境
+アプリケーション</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif</para></entry>
+<entry align="left" valign="top"><para>Motif 1.2 APIデモ</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif/clipboard</para></entry>
+<entry align="left" valign="top"><para><command>XmClipboard</command> API
+デモ</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif/dogs</para></entry>
+<entry align="left" valign="top"><para>ウィジェット・バイナリ互換性機能
+デモ</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif/draganddrop</para></entry>
+<entry align="left" valign="top"><para>Motif 1.2 ドラッグ＆ドロップAPIデモ
+</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif/periodic</para></entry>
+<entry align="left" valign="top"><para>Motifウィジェット・デモ
+</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>tt</para></entry>
+<entry align="left" valign="top"><para>ToolTalkメッセージ・サービス・デモ</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>include 
+<indexterm><primary>ヘッダ・ファイル</primary></indexterm></command>
+</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>開発環境ライブラリのヘッダ・ファイル
+</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>csa</para></entry>
+<entry align="left" valign="top"><para>カレンダのヘッダ・ファイル</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>Dt</command></para></entry>
+<entry align="left" valign="top"><para><command>DtSvc</command>、<command>DtWidget</command>、 <command>DtHelp</command>、</para><para><command>DtTerm</command>
+のヘッダ・ファイル</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>Mrm</command></para></entry>
+<entry align="left" valign="top"><para>Motif 1.2リソース・マネージャのヘッダ・
+ファイル</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>Tt</command></para></entry>
+<entry align="left" valign="top"><para>ToolTalkメッセージ・サービスのヘッダ・
+ファイル</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>Xm</command></para></entry>
+<entry align="left" valign="top"><para>Motif 1.2ツールキットのヘッダ・
+ファイル</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>uil</command></para></entry>
+<entry align="left" valign="top"><para>Motif 1.2呼び出し可能UILコンパイラの
+ヘッダ・ファイル
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>lib</command>
+<indexterm><primary>開発環境ライブラリ</primary></indexterm></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>libcsa</command>(カレンダ)、</para><para><command>libDtHelp</command> (ヘルプ・システム)、</para><para><command>libDtSvc</command> (アクション、データ型作成、ドラッグ＆ドロップ、
+セッション・マネージャ、ワークスペース・マネージャ)、</para><para><command>libDtTerm</command> (端末エミュレータ)、</para><para><command>libDtWidget</command> (共通デスクトップ環境Motifコントロール
+およびエディタ・ウィジェット)、</para><para><command>libMrm</command>(Motif 1.2 リソース・マネージャ)、</para><para><command>libUil</command>(Motif 1.2呼び出し可能UILコンパイラ)、</para><para><command>libXm</command>(Motif 1.2 ツールキット)、</para><para><command>libtt</command> (ToolTalk)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>man <indexterm><primary>man
+pages</primary></indexterm></command></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>開発環境のマニュアル・ページ</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><filename>man1</filename></para></entry>
+<entry align="left" valign="top"><para>クライアントおよびユーティリティ関連の
+マニュアル・ページ</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><filename>man3</filename></para></entry>
+<entry align="left" valign="top"><para>API関連のマニュアル・ページ</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><filename>man4</filename></para></entry>
+<entry align="left" valign="top"><para>データ・フォーマット</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><filename>man5</filename></para></entry>
+<entry align="left" valign="top"><para>ヘッダ・ファイルおよびアクション関連の
+マニュアル・ページ<literal><indexterm>
+<primary>ディレクトリ構造 &lt;$endrange></primary></indexterm></literal></para></entry></row></tbody></tgroup><?Pub Caret>
+</table>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:30:53-->
+<?Pub *0000026382>

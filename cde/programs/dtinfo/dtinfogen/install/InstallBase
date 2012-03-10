@@ -1,0 +1,159 @@
+#!/bin/sh
+
+##############################################################
+#    InstallBase                                             #
+#                                                            #
+#    Performs installation for bookcase                      #
+#                                                            #
+##############################################################
+
+#### Parse the argument ####
+
+INSTALL_BOOKCASE=
+while getopts p:b:i OPTS
+do
+
+     case $OPTS in
+
+       p)  # position to install the bookcase
+           Position=$OPTARG
+           ;;
+
+       b)  # grap the bookcase
+           BookCase=$OPTARG
+
+           ## Make sure it doesn't have any trailing / ###
+           BookCase=`echo $BookCase | sed  "s/\(.*\)\/$/\1/g"`
+           ;;
+
+       i)  # Install the bookcase even if it already exists in the InfoLib
+           INSTALL_BOOKCASE="YES"
+           ;;
+
+      \?) # Unrecognized option - exit with 1
+           usage_f
+           exit 1
+           ;;
+
+     esac
+done
+
+if [ "$OPTIND" -gt "$#" -o -z "$BookCase" ]; then
+   echo "Usage : $0 [ -i ] [ -p position ]  -b bookcase info-lib " >&2
+   exit 1
+fi
+
+shift `expr $OPTIND - 1`
+if [ $? -ne 0 ]; then
+   echo "(ERROR) shift failed" >&2
+   exit 1
+fi
+
+InfoLib=$1
+BookCaseName=`basename $BookCase`
+
+NAMES_MMDB=$InfoLib/names.mmdb
+NAMES_MMDB_TMP=$InfoLib/names.mmdb.$$
+
+if [ -z "$Position" ]; then
+   Position="END"
+fi
+
+### first check if bookcase exists ###
+
+if [ ! -f $NAMES_MMDB ]; then
+   echo "(ERROR) $InfoLib is not a valid info-library" >&2
+   exit 1
+fi
+
+TSTSTRING=
+TSTSTRING=`awk '{
+                  if ( $1 == bookcasename ) { print bookcasename }
+                }' bookcasename=$BookCaseName $NAMES_MMDB`
+
+if [ -n "$TSTSTRING" ]; then
+   if [ -z "$INSTALL_BOOKCASE" ]; then
+      echo "$BookCaseName already exists in $InfoLib, no installation takes place" >&2
+      exit 2
+   fi
+
+   ### Prepare names.mmdb file for update
+
+   awk '{
+    if ( $1 != bookcasename ) { print $0 }
+
+   }' bookcasename=$BookCaseName $NAMES_MMDB > $NAMES_MMDB_TMP
+
+   ### Clean up everything there before proceeding ###
+   ( cd $InfoLib/$BookCaseName ; rm -r ./* )
+
+
+else 
+   cp $NAMES_MMDB $NAMES_MMDB_TMP
+fi
+
+### perform validation for the bookcase against the infolibrary ###
+
+# InfoValidate $BookCase $InfoLib
+
+if [ $? -ne 0 ]; then
+   exit 1
+fi
+
+### Grap the entry line for the bookcase
+
+BaseDir=`dirname $BookCase`
+if [ -z "$BaseDir" ]; then
+   echo "(ERROR) Info-library for $BookCase is not found" >&2
+   exit 1
+fi
+
+if [ ! -f $BaseDir/names.mmdb ]; then
+   echo "(ERROR) BaseDir/names.mmdb does not exist in $InfoLib" >&2
+   exit 1
+fi
+
+BookEntryLine=`awk '{
+                 if ( $1 == bookcasename ) { print $0 }
+               }' bookcasename=$BookCaseName $BaseDir/names.mmdb`
+
+if [ -z "$BookEntryLine" ]; then
+   echo "(ERROR) $BookCase does not exist in $InfoLib" >&2
+   exit 1
+fi
+
+### Update the names.mmdb file with the new entry ###
+if [ "$Position" != "END" ]; then
+
+  awk '{
+    if ( NR != position ) { print $0 }
+    if ( NR == position ) { print bookcaseEntry; print $0 }
+  }' position=$Position bookcaseEntry="$BookEntryLine" $NAMES_MMDB_TMP > \
+    $NAMES_MMDB
+
+else
+
+  echo "$BookEntryLine" >> $NAMES_MMDB_TMP
+  mv $NAMES_MMDB_TMP $NAMES_MMDB
+
+fi 
+
+rm -f $NAMES_MMDB_TMP
+
+### Copy the physical data to the infolib
+
+( cd $BaseDir ; tar cf - $BookCaseName ) | ( cd $InfoLib; tar xof -  )
+
+if [ $? -ne 0 ]; then
+   echo "(ERROR) Unable to install $BookCase to $InfoLib" >&2
+   exit 1
+fi
+
+exit 0
+
+
+
+
+
+
+

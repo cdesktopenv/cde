@@ -1,0 +1,1623 @@
+<!-- $XConsortium: HelpQDia.sgm /main/8 1996/09/08 20:04:39 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN46.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN46.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtHelpQuickDialog</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>DtHelpQuickDialog</Classname></RefName>
+<RefPurpose>DtHelpQuickDialog widget class
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<Synopsis>#include &lt;Dt/HelpQuickD.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+DtHelpQuickDialog
+widget provides users with a constrained set of functionality for viewing and
+and navigating structured online information (&str-XZ; help volumes).
+This
+functionality includes text and graphics rendering, embedded hypertext
+links and limited navigation methods to move through online help information.
+The widget supports rendering of &str-XZ; help volume, system manual pages,
+text files and character string values.
+</Para>
+<Para>When the user resizes the window, the DtHelpQuickDialog widget
+dynamically reformats its contents to fit the new window
+size if the
+<SystemItem Class="Resource">DtNhelpType</SystemItem> of the contents is
+<SystemItem Class="Constant">DtHELP_TYPE_TOPIC</SystemItem> or
+<SystemItem Class="Constant">DtHELP_TYPE_DYNAMIC_STRING</SystemItem>. If the
+<SystemItem Class="Resource">DtNhelpType</SystemItem> of the contents is
+<SystemItem Class="Constant">DtHELP_TYPE_STRING</SystemItem>, <SystemItem Class="Constant">DtHELP_TYPE_MAN_PAGE</SystemItem> or
+<SystemItem Class="Constant">DtHELP_TYPE_FILE</SystemItem>, the contents are not reformatted.
+Instead, scroll bars may appear when
+the user resizes the window smaller than the help contents.
+The exact scrollbar behavior is controlled by the
+<SystemItem Class="Resource">DtNscrollBarPolicy</SystemItem> resource.
+</Para>
+<Para>Users can re-specify certain resources for the automatically
+created widget contained within the
+DtHelpQuickDialog
+hierarchy.
+The following is the name of the widget:
+</Para>
+<InformalExample><Para>Display Area &minus; <Emphasis>DisplayArea</Emphasis>
+</Para></InformalExample>
+<Para>The
+DtHelpQuickDialog
+widget honors all default
+and user-specified resource settings, with one exception.
+In the case where an error occurs
+due to a non-valid request, the widget posts the
+proper error message in its display area, and modifies the
+<SystemItem Class="Resource">DtNhelpType</SystemItem> to reflect the current contents of the display area (that is,
+a string message).
+Applications and users should set the
+<SystemItem Class="Resource">DtNhelpType</SystemItem> to the appropriate value with each setting of the help value.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>The DtHelpQuickDialog widget
+inherits behavior and resources from the
+<Classname>Core</Classname>, <Classname>Composite</Classname>, <Classname>Constraint</Classname>, <Classname>XmManager</Classname> and
+<Classname>XmBulletinBoard</Classname> classes.
+</Para>
+<Para>The class pointer is
+<Symbol>dtHelpQuickDialogClass</Symbol>.</Para>
+<Para>The class name is
+<Classname>DtHelpQuickDialog</Classname>.</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>To reference a resource by name or by class in a
+<Filename>.Xdefaults</Filename> file, the application must remove the
+<Symbol>DtN</Symbol> or
+<Symbol>DtC</Symbol> prefix and use the remaining letters.
+To specify one of the defined
+values for a resource in a
+<Filename>.Xdefaults</Filename> file, the application must remove the
+<Literal>Dt</Literal> prefix and use
+the remaining letters (in either lower case or upper case,
+but including any underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using
+<Function>XtSetValues</Function> (S), retrieved by using
+<Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<InformalExample>
+<InformalTable Frame="All" Pgwide="1" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Colsep="1" Align="Left" Colname="1">
+<ColSpec Colsep="1" Align="Left" Colname="2">
+<ColSpec Colsep="1" Align="Left" Colname="3">
+<ColSpec Colsep="1" Align="Left" Colname="4">
+<ColSpec Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Rowsep="1" Colsep="0" Align="Center" Nameend="5" Namest="1"><Literal>DtHelpQuickDialog Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNbackLabelString</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCBackLabelString</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Back Track</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNcloseCallback</SystemItem></Entry>
+<Entry><Symbol>DtCCloseBtnCallback</Symbol></Entry>
+<Entry><StructName Role="typedef">XtCallbackList</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNcloseLabelString</SystemItem></Entry>
+<Entry><Symbol>DtCcloseLabelString</Symbol></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Close</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNcolumns</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCColumns</SystemItem></Entry>
+<Entry><StructName Role="typedef">Dimension</StructName></Entry>
+<Entry>50</Entry>
+<Entry>CSG</Entry>
+</Row>
+<![ %CDE.C.CDE; [
+<Row>
+<Entry><SystemItem Class="Resource">DtNexecutionPolicy</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCExecutionPolicy</SystemItem></Entry>
+<Entry><StructName Role="typedef">unsigned char</StructName></Entry>
+<Entry><SystemItem Class="Constant">DtHELP_EXECUTE_QUERY_UNALIASED</SystemItem></Entry>
+<Entry>CSG</Entry>
+</Row>
+]]>
+<Row>
+<Entry><SystemItem Class="Resource">DtNhelpFile</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCHelpFile</SystemItem></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNhelpLabelString</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCHelpLabelString</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Help</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNhelpOnHelpVolume</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCHelpOnHelpVolume</SystemItem></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>See Definition</Entry>
+<Entry>C</Entry>
+</Row>
+<![ %CDE.C.CDE; [
+<Row>
+<Entry><SystemItem Class="Resource">DtNhelpPrint</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCHelpPrint</SystemItem></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>See Definition</Entry>
+<Entry>CSG</Entry>
+</Row>
+]]>
+<Row>
+<Entry><SystemItem Class="Resource">DtNhelpType</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCHelpType</SystemItem></Entry>
+<Entry><StructName Role="typedef">unsigned char</StructName></Entry>
+<Entry><SystemItem Class="Constant">DtHELP_TYPE_TOPIC</SystemItem></Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNhelpVolume</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCHelpVolume</SystemItem></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNhyperLinkCallback</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCHyperLinkCallback</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtCallbackList</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNlocationId</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCLocationId</SystemItem></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>See Definition</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNmanPage</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCManPage</SystemItem></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNminimizeButtons</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCMinimizeButtons</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNmoreLabelString</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCMoreLabelString</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>More</Entry>
+<Entry>CSG</Entry>
+</Row>
+<![ %CDE.C.CDE; [
+<Row>
+<Entry><SystemItem Class="Resource">DtNpaperSize</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCPaperSize</SystemItem></Entry>
+<Entry><StructName Role="typedef">unsigned char</StructName></Entry>
+<Entry>See Definition</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNprinter</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCPrinter</SystemItem></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+]]>
+<Row>
+<Entry><SystemItem Class="Resource">DtNprintLabelString</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCPrintLabelString</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Print...</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNrows</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCRows</SystemItem></Entry>
+<Entry><StructName Role="typedef">Dimension</StructName></Entry>
+<Entry>15</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNscrollBarPolicy</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCScrollBarPolicy</SystemItem></Entry>
+<Entry><StructName Role="typedef">unsigned char</StructName></Entry>
+<Entry><SystemItem Class="Constant">DtHELP_AS_NEEDED_SCROLLBARS</SystemItem></Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNstringData</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCStringData</SystemItem></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNtopicTitle</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCTopicTitle</SystemItem></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</InformalExample>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNbackLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the Back button.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNcloseCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks called when the application activates the Close
+button.
+The callback reason is
+<SystemItem Class="Constant">DtCR_HELP_CLOSE</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNcloseLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the Close button.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNcolumns</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of columns of text to display in the
+DtHelpQuickDialog
+widget display area.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNexecutionPolicy</SystemItem></Term>
+<ListItem>
+<Para>Specifies how to handle ``Execute'' hypertext link types
+and embedded scripts.
+The default value is set to
+<SystemItem Class="Constant">DtHELP_EXECUTE_QUERY_UNALIASED</SystemItem> and supports different semantics based on the usage of a
+command alias.
+Refer to the &str-XZ; Help System Author's and
+Programmer's Guide for more information on command alias usage.
+With the default value and no command alias, a
+query dialog will be posted upon user selection of an
+execute hypertext link.
+The dialog will show the command
+that has been specified and give the user the option to
+``Execute Anyway,'' ``Don't Execute'' or request help for
+more information.
+When a command alias is present for the
+selected link, the command will execute silently, and no
+query dialog will be posted.
+</Para>
+<Para>Other values for this resource are
+<SystemItem Class="Constant">DtHELP_EXECUTE_NONE</SystemItem>, <SystemItem Class="Constant">DtHELP_EXECUTE_ALL</SystemItem> and
+<SystemItem Class="Constant">DtHELP_EXECUTE_QUERY_ALL</SystemItem>. <SystemItem Class="Constant">DtHELP_EXECUTE_NONE</SystemItem> forces all execute hypertext links to be ignored.
+<SystemItem Class="Constant">DtHELP_EXECUTE_ALL</SystemItem> allows all execute hypertext links to be executed silently upon link
+selection by the user, and
+<SystemItem Class="Constant">DtHELP_EXECUTE_QUERY_ALL</SystemItem> forces the query dialog to be posted with every link invocation.
+]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNhelpFile</SystemItem></Term>
+<ListItem>
+<Para>Specifies the absolute pathname of a text file to be read and displayed.
+This resource
+is used when the
+<SystemItem Class="Resource">DtNhelpType</SystemItem> is set to
+<SystemItem Class="Constant">DtHELP_TYPE_FILE</SystemItem>. The topic title is required in order to maintain an accurate and descriptive
+history list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNhelpLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the Help button.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNhelpOnHelpVolume</SystemItem></Term>
+<ListItem>
+<Para>Specifies the help volume that contains the help topics for the help user
+interface components in the widget.
+This is displayed in an instance
+of the
+DtHelpQuickDialog
+widget when the user requests help from within the widget.
+The default value for this resource is
+<Literal>Help4Help</Literal>, which refers to
+the default supported help volume.
+This resource supports absolute pathnames and pathless help volume names.
+When just a volume name is used, the volume must be placed or
+linked to one of the default search locations, or one of the two help
+search path environment variables must be properly set.
+See the
+<Literal>ENVIRONMENT VARIABLES</Literal> section for more information on setting and modifying these
+variables.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNhelpPrint</SystemItem></Term>
+<ListItem>
+<Para>Specifies the location of the
+<Command>dthelpprint</Command> utility used to print help
+topics, manual pages, files or help messages from the
+DtHelpQuickDialog
+widget.
+This value defaults to
+<Filename>/usr/dt/bin/dthelpprint</Filename>. ]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNhelpType</SystemItem></Term>
+<ListItem>
+<Para>Specifies the current topic type.
+When the value is
+<SystemItem Class="Constant">DtHELP_TYPE_TOPIC</SystemItem>, the
+<SystemItem Class="Resource">DtNlocationId</SystemItem> and
+<SystemItem Class="Resource">DtNhelpVolume</SystemItem> resources are used and the
+requested help topic is displayed.
+When the value is
+<SystemItem Class="Constant">DtHELP_TYPE_STRING</SystemItem> or
+<SystemItem Class="Constant">DtHELP_TYPE_DYNAMIC_STRING</SystemItem>, the
+<SystemItem Class="Resource">DtNstringData</SystemItem> resource is
+used and the requested string is displayed.
+When the value is
+<SystemItem Class="Constant">DtHELP_TYPE_FILE</SystemItem>, the
+<SystemItem Class="Resource">DtNhelpFile</SystemItem> resource is used and the
+requested text file is displayed.
+When the value is
+<SystemItem Class="Constant">DtHELP_TYPE_MAN</SystemItem>, the
+<SystemItem Class="Resource">DtNmanPage</SystemItem> resource is used and the requested system manual page is displayed.
+The initial default value is
+<SystemItem Class="Constant">DtHELP_TYPE_TOPIC</SystemItem>; however,
+each time there is a request to display a help topic, text file,
+manual page or text string, the user should reset
+<SystemItem Class="Resource">DtNhelpType</SystemItem> to the proper type.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNhelpVolume</SystemItem></Term>
+<ListItem>
+<Para>Specifies the help volume to use.
+This resource is used in conjunction with the
+<SystemItem Class="Resource">DtNlocationId</SystemItem> resource to display help topics.
+This resource supports absolute pathnames and pathless help volume names.
+When using just a volume name, the volume must be placed in or
+linked to one of the default search locations, or one of the two help
+search path environment variables must be properly set.
+See the
+<Literal>ENVIRONMENT VARIABLES</Literal> section for more information on setting and modifying these
+variables.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNhyperLinkCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the callback called when a client-specific
+hypertext link type is activated in the display area of the
+DtHelpQuickDialog
+widget.
+Links are activated when the user presses mouse
+button
+1
+over a hypertext link, or presses
+<KeySym>KActivate</KeySym> with the keyboard focus on the
+hypertext link item.
+The callback reason is
+<SystemItem Class="Constant">DtCR_HELP_LINK_ACTIVATE</SystemItem>. <SystemItem Class="Resource">DtNhyperLinkCallback</SystemItem> allows applications to
+register a callback procedure used to process one of four
+hypertext link types:
+<SystemItem Class="Constant">DtHELP_LINK_APP_DEFINE</SystemItem>, <SystemItem Class="Constant">DtHELP_LINK_TOPIC</SystemItem>, <SystemItem Class="Constant">DtHELP_LINK_MAN_PAGE</SystemItem> or
+<SystemItem Class="Constant">DtHELP_LINK_TEXT_FILE</SystemItem>. For the
+<SystemItem Class="Constant">DtHELP_LINK_TOPIC</SystemItem>, the callback is made only when the
+<Emphasis>windowHint</Emphasis> value in the callback structure is
+<SystemItem Class="Constant">DtHELP_NEW_WINDOW</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNlocationId</SystemItem></Term>
+<ListItem>
+<Para>Specifies a help topic to display.
+Applications reference topics within a help
+volume using a location ID.
+Location IDs are author-defined at help volume
+creation time.
+Applications use these location IDs to display the desired help
+topic.
+The default value for this resource is
+<SystemItem Class="Constant">_HOMETOPIC</SystemItem>, which refers to
+the help volume's top level topic.
+<SystemItem Class="Resource">DtNhelpVolume</SystemItem> must be set to the help volume in which the
+corresponding location ID resides, and
+<SystemItem Class="Resource">DtNhelpType</SystemItem> must be set to
+<SystemItem Class="Constant">DtHELP_TYPE_TOPIC</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNmanPage</SystemItem></Term>
+<ListItem>
+<Para>Specifies the system manual page to display in the current
+DtHelpQuickDialog
+widget.
+This
+resource is used when the
+<SystemItem Class="Resource">DtNhelpType</SystemItem> is set to
+<SystemItem Class="Constant">DtHELP_TYPE_MAN_PAGE</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNminimizeButtons</SystemItem></Term>
+<ListItem>
+<Para>Sets the buttons to the width of the widest button and the height of the
+tallest button if
+False.
+If
+True,
+button width and height are not modified.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNmoreLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the More button.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNpaperSize</SystemItem></Term>
+<ListItem>
+<Para>Controls the value used in the Help-Print dialog for paper size.
+The default value is set to
+<SystemItem Class="Constant">DtHELP_PAPERSIZE_LETTER</SystemItem>. Other supported values for this resource are:
+<SystemItem Class="Constant">DtHELP_PAPERSIZE_LEGAL</SystemItem>, <SystemItem Class="Constant">DtHELP_PAPERSIZE_EXECUTIVE,</SystemItem> <SystemItem Class="Constant">DtHELP_PAPERSIZE_A4</SystemItem>, <SystemItem Class="Constant">DtHELP_PAPERSIZE_B5</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNprinter</SystemItem></Term>
+<ListItem>
+<Para>Specifies the printer name used to print within the
+DtHelpQuickDialog
+widget.
+If the value is
+<SystemItem Class="Constant">NULL,</SystemItem> the default value is taken from the
+<SystemItem Class="EnvironVar">LPDEST</SystemItem> environment variable.
+]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNprintLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the Print button.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNrows</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of rows of text to display in the display area of the
+DtHelpQuickDialog
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNscrollBarPolicy</SystemItem></Term>
+<ListItem>
+<Para>Controls the automatic placement of scroll bars in the text display area.
+If it is set to
+<SystemItem Class="Constant">DtHELP_AS_NEEDED_SCROLLBARS</SystemItem>, the scroll bars are displayed only
+if the display area exceeds the clip area in one or both dimensions.
+A resource
+value of
+<SystemItem Class="Constant">DtHELP_STATIC_SCROLLBARS</SystemItem> causes the display area to display the
+scroll bars whenever the
+DtHelpQuickDialog
+widget is managed, regardless of the
+relationship between the clip window and the display area.
+A value of
+<SystemItem Class="Constant">DtHELP_NO_SCROLLBARS</SystemItem> removes scroll bars from the
+DtHelpQuickDialog
+widget.
+The default value is
+<SystemItem Class="Constant">DtHELP_AS_NEEDED_SCROLLBARS</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNstringData</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string data
+(<StructName Role="typedef">char *</StructName>) to display in the current
+DtHelpQuickDialog
+widget.
+This resource is used when the
+<SystemItem Class="Resource">DtNhelpType</SystemItem> is set to
+<SystemItem Class="Constant">DtHELP_TYPE_STRING</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNtopicTitle</SystemItem></Term>
+<ListItem>
+<Para>Specifies the topic title
+(<StructName Role="typedef">char *</StructName>) to be used in conjunction with either the
+<SystemItem Class="Resource">DtNstringData</SystemItem> or
+<SystemItem Class="Resource">DtNhelpFile</SystemItem> resource.
+The topic title is required
+in order to maintain an accurate and descriptive history list.
+The topic title is also used as the default heading for the banner page
+and page header when printing.
+When printing help topics, this resource may be ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>The DtHelpQuickDialog widget
+inherits behavior and resources from the following named superclasses.
+For a complete description of each resource, see the
+<![ %CDE.C.CDE; [man page
+]]><![ %CDE.C.XO; [entry in &str-ZM;
+]]>for that superclass.
+</Para>
+<InformalExample>
+<InformalTable Frame="All" Pgwide="1" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Colsep="1" Align="Left" Colname="1">
+<ColSpec Colsep="1" Align="Left" Colname="2">
+<ColSpec Colsep="1" Align="Left" Colname="3">
+<ColSpec Colsep="1" Align="Left" Colname="4">
+<ColSpec Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Rowsep="1" Colsep="0" Align="Center" Nameend="5" Namest="1"><Literal>XmBulletinBoard Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNallowOverlap</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCAllowOverlap</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNautoUnmanage</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCAutoUnmanage</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>True</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNbuttonFontList</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCButtonFontList</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmFontList</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNcancelButton</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCWidget</SystemItem></Entry>
+<Entry><StructName Role="typedef">Widget</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNdefaultButton</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCWidget</SystemItem></Entry>
+<Entry><StructName Role="typedef">Widget</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNdefaultPosition</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCDefaultPosition</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNdialogStyle</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCDialogStyle</SystemItem></Entry>
+<Entry><StructName Role="typedef">unsigned char</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNdialogTitle</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCDialogTitle</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNfocusCallback</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCCallback</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtCallbackList</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNlabelFontList</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCLabelFontList</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmFontList</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNmapCallback</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCCallback</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtCallbackList</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNmarginHeight</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCMarginHeight</SystemItem></Entry>
+<Entry><StructName Role="typedef">Dimension</StructName></Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNmarginWidth</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCMarginWidth</SystemItem></Entry>
+<Entry><StructName Role="typedef">Dimension</StructName></Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNnoResize</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCNoResize</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNresizePolicy</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCResizePolicy</SystemItem></Entry>
+<Entry><StructName Role="typedef">unsigned char</StructName></Entry>
+<Entry>XmRESIZE_ANY</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNshadowType</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCShadowType</SystemItem></Entry>
+<Entry><StructName Role="typedef">unsigned char</StructName></Entry>
+<Entry>XmSHADOW_OUT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNtextFontList</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCTextFontList</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmFontList</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNtextTranslations</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCTranslations</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtTranslations</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNunmapCallback</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCCallback</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtCallbackList</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</InformalExample>
+<InformalExample>
+<InformalTable Frame="All" Pgwide="1" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Colsep="1" Align="Left" Colname="1">
+<ColSpec Colsep="1" Align="Left" Colname="2">
+<ColSpec Colsep="1" Align="Left" Colname="3">
+<ColSpec Colsep="1" Align="Left" Colname="4">
+<ColSpec Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Rowsep="1" Colsep="0" Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNbottomShadowColor</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCBottomShadowColor</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixel</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNbottomShadowPixmap</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCBottomShadowPixmap</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixmap</StructName></Entry>
+<Entry><SystemItem Class="Constant">XmUNSPECIFIED_PIXMAP</SystemItem></Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNforeground</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCForeground</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixel</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNhelpCallback</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCCallback</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtCallbackList</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNhighlightColor</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCHighlightColor</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixel</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNhighlightPixmap</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCHighlightPixmap</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixmap</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNinitialFocus</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCInitialFocus</SystemItem></Entry>
+<Entry><StructName Role="typedef">Widget</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNnavigationType</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCNavigationType</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmNavigationType</StructName></Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNshadowThickness</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCShadowThickness</SystemItem></Entry>
+<Entry><StructName Role="typedef">Dimension</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNstringDirection</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCStringDirection</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmStringDirection</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNtopShadowColor</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCTopShadowColor</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixel</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNtopShadowPixmap</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCTopShadowPixmap</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixmap</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNtraversalOn</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCTraversalOn</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNunitType</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCUnitType</SystemItem></Entry>
+<Entry><StructName Role="typedef">unsigned char</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNuserData</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCUserData</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtPointer</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</InformalExample>
+<InformalExample>
+<InformalTable Frame="All" Pgwide="1" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Colsep="1" Align="Left" Colname="1">
+<ColSpec Colsep="1" Align="Left" Colname="2">
+<ColSpec Colsep="1" Align="Left" Colname="3">
+<ColSpec Colsep="1" Align="Left" Colname="4">
+<ColSpec Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Rowsep="1" Colsep="0" Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNchildren</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCReadOnly</SystemItem></Entry>
+<Entry><StructName Role="typedef">WidgetList</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNinsertPosition</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCInsertPosition</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtOrderProc</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNnumChildren</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCReadOnly</SystemItem></Entry>
+<Entry><StructName Role="typedef">Cardinal</StructName></Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</InformalExample>
+<InformalExample>
+<InformalTable Frame="All" Pgwide="1" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Colsep="1" Align="Left" Colname="1">
+<ColSpec Colsep="1" Align="Left" Colname="2">
+<ColSpec Colsep="1" Align="Left" Colname="3">
+<ColSpec Colsep="1" Align="Left" Colname="4">
+<ColSpec Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Rowsep="1" Colsep="0" Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNaccelerators</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCAccelerators</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtAccelerators</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNancestorSensitive</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCSensitive</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNbackground</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCBackground</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixel</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNbackgroundPixmap</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCPixmap</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixmap</StructName></Entry>
+<Entry><SystemItem Class="Constant">XmUNSPECIFIED_PIXMAP</SystemItem></Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNborderColor</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCBorderColor</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixel</StructName></Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNborderPixmap</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCPixmap</SystemItem></Entry>
+<Entry><StructName Role="typedef">Pixmap</StructName></Entry>
+<Entry><SystemItem Class="Constant">XmUNSPECIFIED_PIXMAP</SystemItem></Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNborderWidth</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCBorderWidth</SystemItem></Entry>
+<Entry><StructName Role="typedef">Dimension</StructName></Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNcolormap</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCColormap</SystemItem></Entry>
+<Entry><StructName Role="typedef">Colormap</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNdepth</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCDepth</SystemItem></Entry>
+<Entry><StructName Role="typedef">int</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNdestroyCallback</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCCallback</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtCallbackList</StructName></Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNheight</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCHeight</SystemItem></Entry>
+<Entry><StructName Role="typedef">Dimension</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNinitialResourcesPersistent</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCInitialResourcesPersistent</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNmappedWhenManaged</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCMappedWhenManaged</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNscreen</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCScreen</SystemItem></Entry>
+<Entry><StructName Role="typedef">Screen *</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNsensitive</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCSensitive</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNtranslations</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCTranslations</SystemItem></Entry>
+<Entry><StructName Role="typedef">XtTranslations</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNwidth</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCWidth</SystemItem></Entry>
+<Entry><StructName Role="typedef">Dimension</StructName></Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNx</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCPosition</SystemItem></Entry>
+<Entry><StructName Role="typedef">Position</StructName></Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNy</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmCPosition</SystemItem></Entry>
+<Entry><StructName Role="typedef">Position</StructName></Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</InformalExample>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to each callback:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+        int     <Symbol Role="Variable">reason</Symbol>;
+        XEvent  *<Symbol Role="Variable">event</Symbol>;
+        char    *<Emphasis>locationId</Emphasis>;
+        char    *<Emphasis>helpVolume</Emphasis>;
+        char    *<Emphasis>specification</Emphasis>;
+        int     <Emphasis>hyperType</Emphasis>;
+        int     <Emphasis>windowHint</Emphasis>;
+} DtHelpDialogCallbackStruct;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">reason</Symbol> argument
+indicates why the callback was invoked.
+</Para>
+<Para>The
+<Symbol Role="Variable">event</Symbol> argument
+points to the
+<StructName Role="typedef">XEvent</StructName> that triggered the callback.
+</Para>
+<Para>The
+<Emphasis>locationId</Emphasis> argument
+indicates the
+<SystemItem Class="Resource">DtNlocationId</SystemItem> for the current topic.
+This value is
+<SystemItem Class="Constant">NULL</SystemItem> whenever the
+<Emphasis>hyperType</Emphasis> value is not
+<SystemItem Class="Constant">DtHELP_LINK_TOPIC</SystemItem> or
+<SystemItem Class="Constant">DtHELP_LINK_APP_DEFINE</SystemItem>.</Para>
+<Para>The
+<Emphasis>helpVolume</Emphasis> argument
+indicates the current help volume.
+This value returns
+<SystemItem Class="Constant">NULL</SystemItem> whenever the
+<Emphasis>hyperType</Emphasis> value is not
+<SystemItem Class="Constant">DtHELP_LINK_TOPIC</SystemItem> or
+<SystemItem Class="Constant">DtHELP_LINK_APP_DEFINE</SystemItem>.</Para>
+<Para>The
+<Emphasis>specification</Emphasis> argument
+indicates any author-defined data contained within the
+selected hypertext link.
+This value returns
+<SystemItem Class="Constant">NULL</SystemItem> if no author-defined data was given.
+For hyperlinks of type
+<SystemItem Class="Constant">DtHELP_MAN_PAGE</SystemItem>, the
+<Emphasis>specification</Emphasis> argument contains the name of the manual page.
+For hyperlinks of type
+<SystemItem Class="Constant">DtHELP_LINK_TEXT_FILE</SystemItem>, the
+<Emphasis>specification</Emphasis> argument contains that name of the file.
+</Para>
+<Para>The
+<Emphasis>hyperType</Emphasis> argument
+indicates the hypertext link type.
+Possible values are:
+<SystemItem Class="Constant">DtHELP_LINK_TOPIC</SystemItem>, <SystemItem Class="Constant">DtHELP_LINK_MAN_PAGE</SystemItem>, <SystemItem Class="Constant">DtHELP_LINK_APP_DEFINE</SystemItem> or
+<SystemItem Class="Constant">DtHELP_LINK_TEXT_FILE</SystemItem>.</Para>
+<Para>The
+<Emphasis>windowHint</Emphasis> argument
+indicates a hint for the type of window (current window,
+DtHelpQuickDialog
+widget window or new window) to use.
+This value contains one of the following three types:
+<SystemItem Class="Constant">DtHELP_POPUP_WINDOW</SystemItem>, <SystemItem Class="Constant">DtHELP_CURRENT_WINDOW</SystemItem> or
+<SystemItem Class="Constant">DtHELP_NEW_WINDOW</SystemItem>.</Para>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>The
+DtHelpQuickDialog
+widget has the additional behavior described below:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Emphasis>&lt;MAny> &lt;KCancel></Emphasis></Term>
+<ListItem>
+<Para>Calls the active callbacks for the Close button.
+If a
+<Emphasis>&lt;BDrag></Emphasis> for
+either a selection or scrollbar movement is in process, the
+<Emphasis>KCancel</Emphasis> aborts that action.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KSpace>, &lt;KActivate></Emphasis> or <Emphasis>&lt;BSelect></Emphasis> in Display Area Text</Term>
+<ListItem>
+<Para>Invokes the hypertext link that contains the current selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;DoubleClick></Emphasis> in Display Area Text</Term>
+<ListItem>
+<Para>Ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;BDrag></Emphasis> in Display Area Text</Term>
+<ListItem>
+<Para>Selects the text from the drag start point to the drag end point.
+Moving and holding the
+<Emphasis>&lt;BDrag></Emphasis> outside
+the topic tree or display area, scrolls the window, selecting the newly
+exposed text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;Close Button Activated></Emphasis></Term>
+<ListItem>
+<Para>Closes the
+DtHelpQuickDialog
+widget, and calls the
+<SystemItem Class="Resource">DtNcloseCallback</SystemItem> callbacks with reason
+<SystemItem Class="Constant">DtCR_HELP_CLOSE</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;Backtrack Button Activated></Emphasis></Term>
+<ListItem>
+<Para>Forces the
+DtHelpQuickDialog
+widget to display the data previously
+displayed in the dialog.
+If the current item was the first item
+displayed in the
+DtHelpQuickDialog
+widget, the Backtrack button is insensitive.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;Print Button Activated></Emphasis></Term>
+<ListItem>
+<Para>Forces the
+DtHelpQuickDialog
+widget to display the Help-Print dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;Help Button Activated></Emphasis></Term>
+<ListItem>
+<Para>Forces the
+DtHelpQuickDialog
+widget to display the Help-On-Help dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;MCtrl></Emphasis> or <Emphasis>&lt;MShift> &lt;BSelect></Emphasis> in Display Area Hypertext Link Text</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;MCtrl> &lt;KSpace></Emphasis> in Display Area Hypertext Link Text</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;MCtrl> &lt;KActivate></Emphasis> in Display Area Hypertext Link Text</Term>
+<ListItem>
+<Para>Invokes the
+<SystemItem Class="Resource">DtNhyperLinkCallback</SystemItem> for the
+DtHelpQuickDialog
+widget, honoring all existing
+link settings, but forces the
+<Emphasis>windowHint</Emphasis> to
+<SystemItem Class="Constant">DtHELP_NEW_WINDOW</SystemItem>. If no
+<SystemItem Class="Resource">DtNhyperLinkCallback</SystemItem> was supplied, the hypertext link is handled
+internally.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KSelectAll></Emphasis> in Display Area</Term>
+<ListItem>
+<Para>Selects all text within the display area.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KDeSelectAll></Emphasis> in Display Area</Term>
+<ListItem>
+<Para>Deselects all text within the display area.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KUp></Emphasis> or <Emphasis>&lt;KLeft></Emphasis> in Display Area</Term>
+<ListItem>
+<Para>Moves the traversal highlight up or left to the next hypertext link item.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KDown></Emphasis> or <Emphasis>&lt;KRight></Emphasis> in Display Area</Term>
+<ListItem>
+<Para>Moves the traversal highlight down or right to the next hypertext item.
+]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KCopy></Emphasis> in the Display Area</Term>
+<ListItem>
+<Para>Copies the currently selected text to the clipboard.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KPageDown></Emphasis> or <Emphasis>&lt;MCtrl> &lt;KDown></Emphasis> in the Display Area</Term>
+<ListItem>
+<Para>Displays the next page of text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KPageLeft></Emphasis> or <Emphasis>&lt;MCtrl> &lt;KLeft></Emphasis> in Display Area</Term>
+<ListItem>
+<Para>Scrolls the information to the left.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KPageRight></Emphasis> or <Emphasis>&lt;MCtrl> &lt;KRight></Emphasis> in Display Area</Term>
+<ListItem>
+<Para>Scrolls the information to the right.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KPageUp></Emphasis> or <Emphasis>&lt;MCtrl> &lt;KUp></Emphasis> in Display Area</Term>
+<ListItem>
+<Para>Displays the previous page of information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KBeginData></Emphasis> in the Display Area</Term>
+<ListItem>
+<Para>Displays the first page of information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>&lt;KEndData></Emphasis> in the Display Area</Term>
+<ListItem>
+<Para>Displays the last page of information.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<![ %CDE.C.XO; [
+<Para>The following operations are supported, but the key
+bindings are implementation-dependent:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&lt;<Emphasis>implementation-dependent</Emphasis>></Term>
+<ListItem>
+<Para>Moves the traversal highlight up, down, left or right
+to the next hypertext link item.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+]]>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are implementation-dependent.
+<![ %CDE.C.CDE; [For information about bindings for virtual buttons and keys, see
+&cdeman.VirtualBindings;. ]]></Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLES</Title>
+<Para>The
+DtHelpQuickDialog
+widget uses two environment variables for locating
+help volumes within the desktop environment:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Emphasis>DTHELPSEARCHPATH</Emphasis></Term>
+<ListItem>
+<Para>The system
+search path environment variable for locating
+help volumes on local and remote
+<![ %CDE.C.CDE; [NFS
+]]>mounted systems.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>DTHELPUSERSEARCHPATH</Emphasis></Term>
+<ListItem>
+<Para>The search path environment variable for locating user-specific
+help volumes on local and remote
+<![ %CDE.C.CDE; [NFS
+]]>mounted systems.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The environment variables contain colon-separated lists of directory paths.
+Each directory path can contain both environment variable names as well as
+special field descriptors that are expanded at runtime.
+</Para>
+<Para>Field descriptors consist of a percent-sign character (%)
+followed by a single character.
+Field descriptors and their substitution values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>%H</Literal></Term>
+<ListItem>
+<Para>Replaced with the current volume name being searched for.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%L</Literal></Term>
+<ListItem>
+<Para>Replaced with the current value of the
+<SystemItem Class="EnvironVar">LANG</SystemItem> environment variable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%%</Literal></Term>
+<ListItem>
+<Para>Replaced with a single %.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The default value for
+<Emphasis>DTHELPUSERSEARCHPATH</Emphasis> is:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>$HOME/.dt/help/$DTUSERSESSION/%H:
+$HOME/.dt/help/$DTUSERSESSION/%H.sdl:
+<![ %CDE.C.CDE; [$HOME/.dt/help/$DTUSERSESSION/%H.hv:
+]]>$HOME/.dt/help/%H:
+$HOME/.dt/help/%H.sdl:
+<![ %CDE.C.CDE; [$HOME/.dt/help/%H.hv
+]]></ProgramListing>
+</InformalExample>
+<Para>The
+<Emphasis>DTHELPUSERSEARCHPATH</Emphasis> is first searched for the requested volume.
+If the volume is not found, the
+<Emphasis>DTHELPSEARCHPATH</Emphasis> value is searched.
+</Para>
+<Para>The default value for
+<Emphasis>DTHELPSEARCHPATH</Emphasis> path is:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>/etc/dt/appconfig/help/%L/%H:
+/etc/dt/appconfig/help/%L/%H.sdl:
+<![ %CDE.C.CDE; [/etc/dt/appconfig/help/%L/%H.hv:
+]]>/etc/dt/appconfig/help/C/%H:
+/etc/dt/appconfig/help/C/%H.sdl:
+<![ %CDE.C.CDE; [/etc/dt/appconfig/help/C/%H.hv:
+]]>/usr/dt/appconfig/help/%L/%H:
+/usr/dt/appconfig/help/%L/%H.sdl:
+<![ %CDE.C.CDE; [/usr/dt/appconfig/help/%L/%H.hv:
+]]>/usr/dt/appconfig/help/C/%H:
+/usr/dt/appconfig/help/C/%H.sdl:
+<![ %CDE.C.CDE; [/usr/dt/appconfig/help/C/%H.hv
+]]></ProgramListing>
+</InformalExample>
+</RefSect1>
+<![ %CDE.C.CDE; [
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The following messages can be generated as a result of an error or improperly
+set resource value in the
+DtHelpQuickDialog
+widget
+These messages are
+displayed in the widget's display area as well as standard error.
+</Para>
+<RefSect2>
+<Title>Error Messages</Title>
+<VariableList>
+<VarListEntry>
+<Term>String data could not be formatted.</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The error occurred when formatting help information of type
+<SystemItem Class="Constant">DtHELP_TYPE_STRING</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Dynamic string data could not be formatted.</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The error occurred when formatting help information of type
+<SystemItem Class="Constant">DtHELP_TYPE_DYNAMIC_STRING</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Man Page could not be formatted. The requested man page
+is either not present, or corrupt.</Term>
+<ListItem>
+<Para>The error occurred when formatting help information of type
+<SystemItem Class="Constant">DtHELP_TYPE_MAN_PAGE</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Text file could not be formatted. The requested text file
+is either not present, or corrupt.</Term>
+<ListItem>
+<Para>The error occurred when formatting help information of type
+<SystemItem Class="Constant">DtHELP_TYPE_FILE</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Non-supported DtNhelpType value used.</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The application used a non-supported
+<SystemItem Class="Resource">DtNhelpType</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Help topic could not be formatted.</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The application attempted to access a corrupt runtime help file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>No DtNhyperLinkCallback supplied for widget.</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>A hypertext link of type
+<SystemItem Class="Constant">DtHELP_NEW_WINDOW</SystemItem> is selected, but the
+application has not supplied a hypertext callback to handle it.
+The link is handled like a
+<SystemItem Class="Constant">DtHELP_CURRENT_WINDOW</SystemItem> jump.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Nonexistent DtNlocationId.</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The requested
+<SystemItem Class="Resource">DtNlocationId</SystemItem> is not present in the current help volume.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>No DtNhyperLinkCallback supplied for widget to handle</Term>
+<ListItem>
+<Para></Para>
+<!-- ex-TP-->
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtHELP_LINK_APP_DEFINE or DtHELP_LINK_MAN_PAGE links.</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>A hypertext link of type
+<SystemItem Class="Constant">DtHELP_LINK_APP_DEFINE</SystemItem> or
+<SystemItem Class="Constant">DtHELP_LINK_MAN_PAGE</SystemItem> is selected, but the application has not supplied a hypertext callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Could not find DtNhelpVolume.</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The Help System is unable to find the help volume requested.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Could not open DtNhelpVolume.</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The Help System found the requested help volume, but does not have the
+permission to open it.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+</RefSect1>
+]]>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.HelpDialog.h;, &cdeman.Dt.Help.h;, &cdeman.DtCreateHelpDialog;, &cdeman.DtHelpSetCatalogName;, &cdeman.DtHelpQuickDialogGetChild;; <![ %CDE.C.CDE; [&cdeman.XmManager;, &cdeman.XmBulletinBoard;, &cdeman.Core;, &cdeman.Composite;, &cdeman.Constraint;, &cdeman.VirtualBindings;, &cdeman.dthelptagdtd;. ]]><![ %CDE.C.XO; [<Classname>XmManager</Classname> and
+<Classname>XmBulletinBoard</Classname> in the &str-ZM;;
+<XRef Linkend="XCSA.HELP.anch.5" Role="2">. ]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

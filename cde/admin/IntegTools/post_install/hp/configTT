@@ -1,0 +1,441 @@
+#! /bin/ksh
+########
+#  Product: CDE
+#  Fileset: CDE-TT
+#  configure
+#  @(#) $XConsortium: configTT /main/2 1996/03/06 19:09:08 barstow $
+########
+#
+# (c) Copyright Hewlett-Packard Company, 1993
+#
+########
+
+
+
+FixInetdDotConf()
+{
+FILE=/etc/inetd.conf
+TMPFILE=/tmp/inetd.conf
+
+    TTDBSERVERD=/usr/dt/bin/rpc.ttdbserver
+    OLDTTDBSERVERD=/usr/dt/bin/rpc.ttdbserverd
+
+    awk -v ttdb=$TTDBSERVERD -v oldttdb=$OLDTTDBSERVERD '{
+	  if ($6 == ttdb || $6 == oldttdb)
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $FILE $FILE.old
+    mv $TMPFILE $FILE
+
+    echo "rpc stream tcp swait root $TTDBSERVERD 100083 1 $TTDBSERVERD -m /nfs/" >>$FILE
+}
+
+
+UnfixInetdDotConf()
+{
+FILE="/etc/inetd.conf"
+TMPFILE="/tmp/inetd.conf"
+TTDBSERVERD=/usr/dt/bin/rpc.ttdbserver
+
+    awk -v ttdb=$TTDBSERVERD \
+	'{if ($7 == "100083" && $6 == ttdb)
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+
+    awk '{if ($1 == "#cde") {
+		$1 = $2;
+		$2 = ""
+	     }
+	     print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+}
+
+
+FixEtcRpc()
+{
+FILE=/etc/rpc
+TMPFILE=/tmp/etc-rpc
+
+    if [ ! -f $FILE ]
+    then
+	echo "ttdbserver     100083" >$FILE
+    else
+	awk '{if ($1 == "ttdbserver" && $2 == "100083")
+		print $0 > "/tmp/etc-rpc-already-there"
+	     }' $FILE >/dev/null
+
+	if [ ! -f /tmp/etc-rpc-already-there ]
+	then
+	    awk '{if ($1 == "ttdbserver" || $2 == "100083")
+			print $0 > "/tmp/etc-rpc-already-there"
+		 }' $FILE >/dev/null
+
+	    if [ ! -f /tmp/etc-rpc-already-there ]
+	    then
+	        echo "ttdbserver     100083" >>$FILE
+	    else
+		awk '{if ($1 == "ttdbserver" || $2 == "100083")
+			print "#cde " $0; else print $0
+		     }'	$FILE >$TMPFILE
+
+	        echo "ttdbserver     100083" >>$TMPFILE
+
+		mv $TMPFILE $FILE
+		rm /tmp/etc-rpc-already-there
+	    fi
+	else
+	    rm /tmp/etc-rpc-already-there
+	fi
+    fi
+}
+
+UnfixEtcRpc()
+{
+FILE="/etc/rpc"
+TMPFILE="/tmp/etc-rpc"
+
+    awk '{if ($1 == "ttdbserver" && $2 == "100083")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+
+    awk '{if ($1 == "#cde") {
+		$1 = $2;
+		$2 = ""
+	     }
+	  print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+}
+
+EstablishDtMountPoint()
+{
+FILE="/etc/src.sh"
+TMPFILE="/tmp/etcsrcsh.$$"
+
+#
+#  Ensure that the DTMOUNTPOINT environment variable will be set
+#  when anybody logs in.
+#
+
+    if [[ -d /nfs && ! -d /net ]]
+    then
+	sed '/DTMOUNTPOINT=/d' $FILE >$TMPFILE
+
+        echo "DTMOUNTPOINT=/nfs/ ; export DTMOUNTPOINT" >>$TMPFILE
+
+	if [ ! -f ${FILE}.pre-cde ]
+	then
+	    mv $FILE ${FILE}.pre-cde
+	fi
+
+	mv $TMPFILE $FILE
+    fi
+}
+
+DeestablishDtMountPoint()
+{
+FILE="/etc/src.sh"
+TMPFILE="/tmp/etc-src.sh"
+
+    if [ -f ${FILE}.pre-cde ]
+    then
+	mv ${FILE}.pre-cde $FILE
+    else
+	sed '/DTMOUNTPOINT=/d' $FILE >$TMPFILE
+	mv $TMPFILE $FILE
+    fi
+}
+
+KillIt()
+{
+    ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+    if [ -s /tmp/tmppsout ]
+    then
+	awk '{print "kill " $2}' /tmp/tmppsout | /bin/ksh
+        sleep 2
+	ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+        if [ -s /tmp/tmppsout ]
+        then
+	    awk '{print "kill -TERM " $2}' /tmp/tmppsout | /bin/ksh
+            sleep 2
+	    ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+            if [ -s /tmp/tmppsout ]
+            then
+	        awk '{print "kill -9 " $2}' /tmp/tmppsout | /bin/ksh
+                sleep 2
+	    fi
+        fi
+    fi
+    rm /tmp/tmppsout
+}
+
+RemoveTTFiles()
+{
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	rm -f $SRC
+	dirname=${SRC%/*}
+	if [ -d $dirname ]
+	then
+	  cd $dirname
+	  while [ "$dirname" != "$CDE_TOP" ]
+	  do
+	    cd ..
+	    rmdir ${dirname##*/} >/dev/null 2>/dev/null
+	    dirname=${dirname%/*}
+	  done
+	fi
+      fi
+    done <<-EOF
+/usr/dt/bin/rpc.ttdbserver
+/usr/dt/bin/rpc.ttdbserverd
+/usr/dt/bin/rpc.ttdbserverd
+/usr/dt/bin/tt_type_comp
+/usr/dt/bin/ttcp
+/usr/dt/bin/ttdbck
+/usr/dt/bin/ttmv
+/usr/dt/bin/ttrm
+/usr/dt/bin/ttrmdir
+/usr/dt/bin/ttsession
+/usr/dt/bin/tttrace
+/usr/dt/bin/tttar
+/usr/dt/bin/ttsnoop
+/usr/dt/lib/libtt.a
+/usr/dt/appconfig/tttypes/types.xdr
+	EOF
+}
+
+VerifyInstalledFiles()
+{
+    echo "Status   mode    owner   group   filename"
+    echo "-----------------------------------------"
+#	  exists  correct correct correct  /usr/dt/foo1
+#	  MISSING  WRONG   WRONG   WRONG   /usr/dt/foo2
+#        exists    the link is correct    /usr/dt/link
+
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	set -A tokens $SRC
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  if [ -f ${tokens[0]} ]
+	  then
+	    echo "exists  \c"
+	  else
+	    echo "MISSING or REMOVED               \c"
+	    echo "${tokens[0]}"
+	    continue
+	  fi
+	elif [ "${tokens[3]}" = "sym_link" ]
+	then
+	  if [ -L ${tokens[0]} ]
+	  then
+	    echo "exists  \c"
+	  else
+	    echo "MISSING or REMOVED               \c"
+	    echo "${tokens[0]}"
+	    continue
+	  fi
+	fi
+
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  touch /tmp/config-test
+	  chmod ${tokens[1]} /tmp/config-test
+	  tmpperms=`ls -l /tmp/config-test | awk '{print $1}'`
+	  realperms=`ls -l ${tokens[0]} | awk '{print $1}'`
+
+	  if [ "$tmpperms" = "$realperms" ]
+	  then
+	    echo "correct \c"
+	  else
+	    echo " WRONG  \c"
+	  fi
+
+	  owner=`ls -l ${tokens[0]} | awk '{print $3}'`
+
+	  if [ "$owner" = "${tokens[4]}" ]
+	  then
+	    echo "correct \c"
+	  else
+	    echo " WRONG  \c"
+	  fi
+
+	  group=`ls -l ${tokens[0]} | awk '{print $4}'`
+
+	  if [ "$group" = "${tokens[5]}" ]
+	  then
+	    echo "correct  \c"
+	  else
+	    echo " WRONG   \c"
+	  fi
+	elif [ "${tokens[3]}" = "sym_link" ]
+	then
+	  linkto=`ls -l ${tokens[0]} | awk '{print $11}'`
+	  if [ "${tokens[2]}" = "$linkto" ]
+	  then
+	    echo "  the link is correct    \c"
+	  else
+	    echo "  the link is WRONG      \c"
+	  fi
+	fi
+	echo "${tokens[0]}"
+      fi
+    done <<-EOF
+/usr/dt/bin/rpc.ttdbserver 0555 lib/tt/bin/ttdbserverd/rpc.ttdbserver file bin bin di---- 378 cde_dt
+/usr/dt/bin/tt_type_comp 0555 lib/tt/bin/tt_type_comp/tt_type_comp file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttcp 0555 lib/tt/bin/shell/ttcp file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttdbck 0555 lib/tt/bin/dbck/ttdbck file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttmv 0555 lib/tt/bin/shell/ttmv file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttrm 0555 lib/tt/bin/shell/ttrm file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttrmdir 0444 /usr/dt/bin/ttrm sym_link bin bin di---- 378 cde_dt
+/usr/dt/bin/ttsession 0555 lib/tt/bin/ttsession/ttsession file bin bin di---- 378 cde_dt
+/usr/dt/bin/tttrace 0555 lib/tt/bin/tttrace/tttrace file bin bin di---- 378 cde_dt
+/usr/dt/bin/tttar 0555 lib/tt/bin/tttar/tttar file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttsnoop 0555 lib/tt/bin/ttsnoop/gui/ttsnoop file bin bin di---- 378 cde_dt
+/usr/dt/appconfig/tttypes/types.xdr 0444 cde1/tttypes/types.xdr file bin bin di---- 378 cde_dt
+	EOF
+}
+
+ShowSize()
+{
+    typeset -i total;
+    let total=0
+
+    echo "Size\t\tfilename"
+    echo "-----------------------------------------"
+
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	set -A tokens $SRC
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  if [ -f ${tokens[0]} ]
+	  then
+	    filesize=`ls -l ${tokens[0]} | awk '{print $5}'`
+	    echo "$filesize\t\t\c"
+	    echo "${tokens[0]}"
+	    let total=total+filesize
+	  fi
+	fi
+      fi
+    done <<-EOF
+/usr/dt/bin/rpc.ttdbserver 0555 lib/tt/bin/ttdbserverd/rpc.ttdbserver file bin bin di---- 378 cde_dt
+/usr/dt/bin/tt_type_comp 0555 lib/tt/bin/tt_type_comp/tt_type_comp file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttcp 0555 lib/tt/bin/shell/ttcp file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttdbck 0555 lib/tt/bin/dbck/ttdbck file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttmv 0555 lib/tt/bin/shell/ttmv file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttrm 0555 lib/tt/bin/shell/ttrm file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttrmdir 0444 /usr/dt/bin/ttrm sym_link bin bin di---- 378 cde_dt
+/usr/dt/bin/ttsession 0555 lib/tt/bin/ttsession/ttsession file bin bin di---- 378 cde_dt
+/usr/dt/bin/tttrace 0555 lib/tt/bin/tttrace/tttrace file bin bin di---- 378 cde_dt
+/usr/dt/bin/tttar 0555 lib/tt/bin/tttar/tttar file bin bin di---- 378 cde_dt
+/usr/dt/bin/ttsnoop 0555 lib/tt/bin/ttsnoop/gui/ttsnoop file bin bin di---- 378 cde_dt
+/usr/dt/appconfig/tttypes/types.xdr 0444 cde1/tttypes/types.xdr file bin bin di---- 378 cde_dt
+	EOF
+    echo "Total fileset size is $total"
+}
+HandleOption()
+{
+  while [ $# -ne 0 ]; do
+    case $1 in
+        -e) OPERATION="configure"
+            shift;
+            ;;
+	-d) OPERATION="deconfigure"
+	    shift;
+	    ;;
+	-v) OPERATION="verify"
+	    shift;
+	    ;;
+	-s) OPERATION="size"
+	    shift;
+	    ;;
+    esac
+  done
+}
+
+#################################################################
+#
+# Main Body
+#
+#################################################################
+PRODUCT=CDE
+FILESET=CDE-TT
+retval=0
+
+  HandleOption $*
+
+  if [ "$OPERATION" = "configure" ]
+  then
+
+    echo "Configuring for CDE-TT"
+
+    FixInetdDotConf
+
+    FixEtcRpc
+
+#	After adding ToolTalk to the inetd service list the inet
+#	daemon needs to reread its configuration.
+
+    /etc/inetd -c
+
+    EstablishDtMountPoint
+
+  elif [ "$OPERATION" = "deconfigure" ]
+  then
+
+    echo "de-Configuring CDE-TT"
+
+    /etc/inetd -k
+    KillIt "rpc.ttdbserver"
+    /etc/inetd
+
+    UnfixInetdDotConf
+
+    UnfixEtcRpc
+
+#	After adding ToolTalk to the inetd service list the inet
+#	daemon needs to reread its configuration.
+
+    /etc/inetd -c
+
+    DeestablishDtMountPoint
+
+    RemoveTTFiles
+
+    VerifyInstalledFiles
+
+  elif [ "$OPERATION" = "verify" ]
+  then
+
+    VerifyInstalledFiles
+
+  elif [ "$OPERATION" = "size" ]
+  then
+
+    ShowSize
+
+  fi
+
+  return $retval

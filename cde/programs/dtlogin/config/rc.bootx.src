@@ -1,0 +1,64 @@
+XCOMM!/bin/ksh
+XCOMM $XConsortium: rc.bootx.src /main/4 1996/04/21 19:52:52 drk $
+XCOMM
+XCOMM   COMPONENT_NAME: desktop
+XCOMM
+XCOMM   FUNCTIONS: none
+XCOMM
+XCOMM   ORIGINS: 27
+XCOMM
+XCOMM
+XCOMM   (C) COPYRIGHT International Business Machines Corp. 1994, 1995
+XCOMM   All Rights Reserved
+XCOMM   Licensed Materials - Property of IBM
+XCOMM   US Government Users Restricted Rights - Use, duplication or
+XCOMM   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+XCOMM
+
+if [ ! -f /.bootsequence ]; then
+XCOMM
+XCOMM boot sequence has already ended
+XCOMM
+  return 0
+fi
+
+echo "XAUTHORITY=$XAUTHORITY" >/.bootsequence
+
+/usr/bin/chown root.system /dev/console
+
+XCOMM
+XCOMM Start up aixconsole to display console messages and save PID
+XCOMM
+/usr/bin/X11/aixconsole -fg black -bg "light grey" &
+XCONS_PID=$!
+
+XCOMM
+XCOMM Determine if X resolution is 1024
+XCOMM This command will set the variables SCREEN_WIDTH, SCREEN_HEIGHT
+XCOMM
+eval `/usr/sbin/bootxutil -dpyinfo`
+
+XCOMM
+XCOMM If X resolution is 1280X1024 then display big graphic, else display small
+XCOMM graphic.
+XCOMM
+if [ "$SCREEN_WIDTH" -eq 1280 ] ; then
+	/usr/bin/X11/xdi -onroot -center -border black /usr/lpp/X11/lib/X11/images/logo2.gif >/dev/null
+else
+	/usr/bin/X11/xdi -onroot -center -border black /usr/lpp/X11/lib/X11/images/logo1.gif >/dev/null
+fi
+
+XCOMM
+XCOMM wait for boot sequence to end
+XCOMM
+while [ -f /.bootsequence ]; do
+  sleep 2
+done
+
+XCOMM
+XCOMM clean up...
+XCOMM remove any left over backgrounds (such as logo or install_assist backdrop)
+XCOMM
+/usr/bin/kill $XCONS_PID
+/usr/bin/X11/xsetroot -solid black
+

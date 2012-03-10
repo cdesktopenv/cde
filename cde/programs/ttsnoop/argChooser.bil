@@ -1,0 +1,339 @@
+// $XConsortium: argChooser.bil /main/2 1996/11/11 11:57:01 drk $
+:bil-version	1 0
+:module argChooser
+(
+
+:element argChooser
+(
+	:type			:dialog
+	:x			380
+	:y			435
+	:width			595
+	:height			282
+	:bg-color		"white"
+	:label			"tt_message_arg_add"
+	:resizable		:true
+	:visible		:false
+	:children		(
+		argPane
+		dialog_button_panel
+	)
+)
+:element argPane
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:width			591
+	:height			278
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj argChooser 0)
+	:east-attachment	(:obj argChooser 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		modeChoice
+		vtypeText
+		argValTypeChoice
+		argIvalBox
+		argValText
+	)
+)
+:element modeChoice
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			20
+	:y			9
+	:label-type		:string
+	:label			"Mode:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 9)
+	:west-attachment	(:point 0 20)
+	:children		(
+		modeChoice_IN_item
+		modeChoice_OUT_item
+		modeChoice_INOUT_item
+	)
+)
+:element modeChoice_IN_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"IN"
+	:active			:true
+	:selected		:true
+)
+:element modeChoice_OUT_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"OUT"
+	:active			:true
+	:selected		:false
+)
+:element modeChoice_INOUT_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"INOUT"
+	:active			:true
+	:selected		:false
+)
+:element vtypeText
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			169
+	:y			11
+	:label-type		:string
+	:label			"Vtype:"
+	:label-position		:west
+	:num-columns		25
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 11)
+	:west-attachment	(:obj modeChoice 18)
+)
+:element argValTypeChoice
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			33
+	:y			57
+	:label-type		:string
+	:label			"Val:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj modeChoice 17)
+	:west-attachment	(:point 0 33)
+	:children		(
+		argValTypeChoice_None_item
+		argValTypeChoice_char_item
+		argValTypeChoice_int_item
+	)
+)
+:element argValTypeChoice_None_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"None"
+	:active			:true
+	:selected		:true
+)
+:element argValTypeChoice_char_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"char *"
+	:active			:true
+	:selected		:false
+)
+:element argValTypeChoice_int_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"int"
+	:active			:true
+	:selected		:false
+)
+:element argIvalBox
+(
+	:type			:spinbox
+	:label-type		:string
+	:label			"int:"
+	:label-position		:west
+	:text-type		:numeric
+	:arrow-style		:arrow-end
+	:min-value		-9999999
+	:max-value		99999999
+	:initial-value		0
+	:increment		1
+	:decimal-points		0
+	:visible		:true
+	:active			:true
+	:x			188
+	:y			56
+	:width			100
+	:north-attachment	(:obj modeChoice 16)
+	:west-attachment	(:obj modeChoice 37)
+)
+:element argValText
+(
+	:type			:text-pane
+	:text-type		:alphanumeric
+	:x			0
+	:y			97
+	:border-frame		:none
+	:num-rows		12
+	:num-columns		79
+	:hscrollbar		:never
+	:vscrollbar		:always
+	:word-wrap		:true
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj argValTypeChoice 9)
+	:south-attachment	(:obj argPane 0)
+	:east-attachment	(:obj argPane 0)
+	:west-attachment	(:point 0 0)
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			595
+	:height			48
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		argChooserOkButton
+		argChooserCancelButton
+		argChooserHelpButton
+	)
+)
+:element argChooserOkButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 30 0)
+	:west-attachment	(:grid-line 10 0)
+)
+:element argChooserCancelButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 60 0)
+	:west-attachment	(:grid-line 40 0)
+)
+:element argChooserHelpButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 90 0)
+	:west-attachment	(:grid-line 70 0)
+)
+:connection
+(
+	:from			argValTypeChoice_None_item
+	:to			argIvalBox
+	:when			:activate
+	:action-type		:builtin
+	:action			:disable
+	:arg-type		:void
+)
+:connection
+(
+	:from			argValTypeChoice_char_item
+	:to			argIvalBox
+	:when			:activate
+	:action-type		:builtin
+	:action			:disable
+	:arg-type		:void
+)
+:connection
+(
+	:from			argValTypeChoice_int_item
+	:to			argIvalBox
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			argChooserOkButton
+	:to			argChooser
+	:when			:activate
+	:action-type		:builtin
+	:action			:hide
+	:arg-type		:void
+)
+:connection
+(
+	:from			argChooserCancelButton
+	:to			argChooser
+	:when			:activate
+	:action-type		:builtin
+	:action			:hide
+	:arg-type		:void
+)
+:connection
+(
+	:from			argValTypeChoice_None_item
+	:to			argValText
+	:when			:activate
+	:action-type		:builtin
+	:action			:disable
+	:arg-type		:void
+)
+:connection
+(
+	:from			argValTypeChoice_int_item
+	:to			argValText
+	:when			:activate
+	:action-type		:builtin
+	:action			:disable
+	:arg-type		:void
+)
+:connection
+(
+	:from			argValTypeChoice_char_item
+	:to			argValText
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			argChooserOkButton
+	:when			:activate
+	:action-type		:call-function
+	:action			argOkayed
+)
+:connection
+(
+	:from			argChooserHelpButton
+	:when			:activate
+	:action-type		:call-function
+	:action			argHelp
+)
+)

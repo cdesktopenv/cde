@@ -1,0 +1,93 @@
+<!-- $XConsortium: x_proces.sgm /main/5 1996/08/30 15:40:49 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN72.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN72.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>csa_x_process_updates</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>csa_x_process_updates</Function></RefName>
+<RefPurpose>invoke a calendar application's calendar event handler
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;csa/csa.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>csa_x_process_updates</Function></FuncDef>
+<ParamDef>CSA_session_handle <Parameter>cal</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>csa_x_process_updates</Function> function checks to see if there have been calendar updates
+that are of interest to the client.
+If there have been one
+or more calendar updates, and the client previously
+registered a callback handler using
+&cdeman.csa.register.callback; for updates of this type, the callback function is called by
+<Function>csa_x_process_updates</Function>.</Para>
+<Para>The
+<Emphasis>cal</Emphasis> argument specifies a calendar session handle.
+The callback
+function will be invoked only if there have been updates to
+this calendar.
+If
+<Emphasis>cal</Emphasis> is set to
+<SystemItem Class="Constant">NULL</SystemItem>, the callback function will be invoked if there have been
+updates to any logged on calendars.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>The
+<Function>csa_x_process_updates</Function> function returns no value.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+<Function>csa_x_process_updates</Function> function is useful for applications that maintain a
+dynamic representation of calendar information, such as a
+GUI calendar display.
+Because the calendar server can
+simultaneously maintain multiple read/write connections for
+the same calendar, any data retrieved by a client should be
+considered immediately out of date.
+To create the
+appearance of a dynamic display of calendar data, such an
+application should call
+<Function>csa_x_process_updates</Function> as frequently as necessary from within its main event loop.
+</Para>
+<Para>One way to do this is to have a timeout handler call
+<Function>csa_x_process_updates</Function> at regular intervals.
+The duration of the timer should be
+appropriate for the expected user environment.
+This does
+not eliminate the risk of the client holding outdated
+information;
+it merely gives the application control over
+how old the information can get.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.csa.csa.h;, <![ %CDE.C.CDE; [&cdeman.csa.register.callback;. ]]><![ %CDE.C.XO; [<Function>csa_register_callback</Function> in the &str-Za;.
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

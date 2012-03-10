@@ -1,0 +1,346 @@
+<!-- $XConsortium: ch01.sgm /main/9 1996/08/31 15:13:18 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="IPG.intro.div.1">
+<title id="IPG.intro.mkr.1">国際化入門</title>
+<para>国際化<indexterm><primary>国際化</primary><secondary>国際化の定義</secondary></indexterm> とは、世界中のユーザを対象としたコンピュータ・システムとアプリケーションを設計することです。ユーザはそれぞれ異なった言語を使用しており、自分が操作するシステムの機能やユーザ・インタフェースについて異なった要求をもっていることでしょう。その違いにもかかわらず、世界中のどこでもハードウェアを問わずに実行できるアプリケーションが実装されることが望まれています。
+このような<indexterm><primary>アプリケーション要求</primary></indexterm> アプリケーションは、国境を超えて<emphasis>相互運用</emphasis>することができ、多数のベンダから出荷されているさまざまなハードウェア構成の上で実行することができ、さらに、ローカルなユーザの必要を満たすようローカライズすることができなければなりません。このオープンな分散コンピューティング環境が、<indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の詳細</secondary></indexterm> 共通でオープンなソフトウェア環境を推進する根拠となっています。この仕様の中で明確にしている国際化のための技術は、グローバルな市場に上記のような利便性をもたらすのです。</para>
+<sect1 id="IPG.intro.div.2">
+<title id="IPG.intro.mkr.2">国際化の概要</title>
+<para>さまざまな国の言語をサポートするために、ひとつの共通オープン・システム内に複数の環境が存在することがあります。このそれぞれの国の<indexterm><primary>ロケール</primary><secondary>ロケールの定義</secondary></indexterm> 環境は、<emphasis>ロケール</emphasis>とよばれ、言語、その文字とフォント、データの入力と書式に使用される慣習を考慮します。共通デスクトップ環境は完全に国際化に対応しているので、どのようなアプリケーションでもシステムにインストールされているロケールを使用して実行することができます。</para>
+<para>ロケールは、ユーザの地理的地域の言語と文化的規約に従って、実行時のプログラムの動作を確定します。システム全体を通して、<indexterm><primary>ロケール</primary><secondary>ロケールの動作</secondary></indexterm> ロケールは次の処理に影響を及ぼします。</para>
+<itemizedlist remap="Bullet1"><listitem><para>テキスト・データのエンコードと処理</para>
+</listitem><listitem><para>言語の識別、および、リソース・ファイルとそのテキスト値のエンコード</para>
+</listitem><listitem><para>テキスト文字列の表示と配置</para>
+</listitem><listitem><para>クライアント間テキスト通信に使用されるテキストの相互変換</para>
+</listitem><listitem><para>入力メソッド（生成されるコード・セット）の選択とテキスト・データの処理</para>
+</listitem><listitem><para>クライアント間テキスト通信のエンコードとデコード</para>
+</listitem><listitem><para>ビットマップ／アイコン・ファイル</para>
+</listitem><listitem><para>アクションとファイル・タイプ</para>
+</listitem><listitem><para>ユーザ・インタフェース定義（UID）ファイル</para>
+</listitem></itemizedlist>
+<para>国際化対応アプリケーションは、ユーザのロケールや、そのロケールを表す必要のある文字や、ユーザが対話操作しようとする（日付や通貨のような）書式に依存するコードを一切含みません。デスクトップは、アプリケーションから言語や文化に依存する情報を切り離し、それをアプリケーションの外に保存することによってこれを達成しています。</para>
+<para>図&numsp;1-1は、国際化を簡単にするためにアプリケーションの外におくべき種類の情報を示しています。</para>
+<figure>
+<title id="IPG.intro.mkr.3">アプリケーションの外におくべき情報</title>
+<graphic id="IPG.intro.grph.1" entityref="IPG.intro.fig.1"></graphic>
+</figure>
+<para>言語や文化に依存する情報をアプリケーションのソース・コードから切り離しておきます。そうすることによって、異なった国の市場に出すためにアプリケーションを書き直したり、再コンパイルしたりする必要がなくなり、外においた情報をローカルの言語や文化に適応するようローカライズするだけでよくなります。</para>
+<para>国際化対応アプリケーションもまた、異なった母国語、ローカルな慣習、文字列のエンコードの要求に適合させることができます。操作を特定の母国語、ローカルな慣習、文字列のエンコードに適合させる処理は<indexterm><primary>ローカリゼーション</primary><secondary>ローカリゼーションの定義</secondary></indexterm> <emphasis>ローカリゼーション</emphasis>と呼ばれます。<indexterm><primary>国際化</primary><secondary>国際化の目的</secondary> 国際化の目的は、プログラムのソースを修正したり再コンパイルしたりすることなく、ローカリゼーションができるようにすることです。</para>
+<para>国際化の概要については、<emphasis>X/Open CAE Specification System Interface Definition</emphasis>, Issue 4, X/Open Company Ltd., 1992, ISBN: 1- 872630-46-4 を参照してください。</para>
+<sect2 id="IPG.intro.div.3">
+<title>国際化の現状</title>
+<para>独自の機能から、X/Openが発表する新しい標準機能セットまで、多くの種類の国際化が業界から提供されてきました。また、そのレベルも、単純なASCIIサポート、ラテン／ヨーロッパの言語のサポート、アジアの言語のマルチバイト・サポート、アラビア語／ヘブライ語の双方向サポートなどさまざまでした。</para>
+<para>X/Openの仕様で定義されているインタフェース<indexterm><primary>国際化</primary><secondary>国際化でサポートされているインタフェース</secondary></indexterm> では、次のような広範囲の言語と地域<indexterm><primary>言語</primary></indexterm> をサポートすることができます。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="4.29in">
+<colspec align="left" colwidth="123*">
+<colspec align="left" colwidth="285*">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>スクリプト</literal></para></entry>
+<entry align="left" valign="top">詳細</entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>ラテン語</para></entry>
+<entry align="left" valign="top"><para>アメリカ、東／西ヨーロッパ</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ギリシャ語</para></entry>
+<entry align="left" valign="top"><para>ギリシャ</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>トルコ語</para></entry>
+<entry align="left" valign="top"><para>トルコ</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>東アジア</para></entry>
+<entry align="left" valign="top"><para>日本語、韓国語、中国語</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>インド語派</para></entry>
+<entry align="left" valign="top"><para>タイ語</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>双方向</para></entry>
+<entry align="left" valign="top"><para>アラビア語とヘブライ語</para></entry></row>
+</tbody></tgroup></informaltable>
+<para>さらに、<indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の目的</secondary></indexterm> 共通デスクトップ環境の目的は、これらの技術のローカリゼーション（メッセージやマニュアルの翻訳、その他ローカルな必要性への適応）が一貫性のある方法で行なわれ、その結果として、世界中のサポートされているユーザが、どこにいても、ベンダが異なっても、同じ<emphasis>共通のローカライズされた環境</emphasis>を得ることができるようにすることです。<indexterm><primary>ローカリゼーション</primary><secondary>ローカリゼーションの結果</secondary></indexterm> エンド・ユーザと管理者には、一貫性のあるローカリゼーション機能によって、グローバルなソフトウェアをサポートする完成したアプリケーション環境が提供されます。</para>
+</sect2>
+<sect2 id="IPG.intro.div.4">
+<title id="IPG.intro.mkr.4">国際化規格</title>
+<para><indexterm><primary>規格</primary></indexterm> 多くの企業によって、追加要求や言語、特に東アジアのものが盛り込まれ、国際化対応アプリケーション・プログラム・インタフェースの機能が規格化されてきました。この作業は主として、Portable Operating System Interface for Computer Environments(POSIX)と<indexterm><primary>X/Open仕様</primary></indexterm> X/Open仕様に集約されてきました。最初のX/Open仕様は<emphasis>X/Open Portability Guide</emphasis>（XPG2）の第２版で発表され、Hewlett-PackardがリリースしたNative Language Support製品に基づいていました。最近発表されたX/Open国際化規格は、XPG4として参照されます。</para>
+<para>デスクトップ内の各レイヤが、国際化に対応するために定義された適切な<indexterm><primary>規格</primary></indexterm> 標準インタフェースのセットを使用して、一貫性のあるローカライズされたインタフェースを確実にエンド・ユーザに提供することは重要なことです。ロケール、および、共通でオープンなロケール依存の機能セットの定義は、次の<indexterm><primary>国際化</primary><secondary>国際化の仕様</secondary></indexterm> 仕様に基づいています。</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>X Window System, The
+Complete Reference to Xlib, Xprotocol, ICCCM, XLFD - X Version, Release 5</emphasis>, Digital Press, 1992, ISBN 1-55558-088-2.</para>
+</listitem><listitem><para><emphasis>ANSI/IEEE Standard Portable Operating
+System Interface for Computer Environments</emphasis>, IEEE.</para>
+</listitem><listitem><para><emphasis>OSF</emphasis>&trade; <emphasis>Motif
+1.2 Programmer' Reference, Revision 1.2</emphasis>, Open Software Foundation,
+Prentice Hall, 1992, ISBN 0-13-643115-1.</para>
+</listitem><listitem><para><emphasis>X/Open CAE Specification Commands and
+Utilities</emphasis>, Issue 4, X/Open Company Ltd., 1992, ISBN 1-872630-48-0.
+</para>
+</listitem></itemizedlist>
+<para><indexterm><primary>標準インタフェースを使用する利便性</primary></indexterm> この環境において、ソフトウェア開発者は、可搬的で、（ベンダが異なっていても）分散システム間で相互運用でき、デスクトップの標準ロケールがサポートしている国籍の異なるユーザのさまざまな言語や文化的要求に応えることができる<emphasis>世界共通のアプリケーション</emphasis>を開発することができます。</para>
+</sect2>
+<sect2 id="IPG.intro.div.5">
+<title>共通国際化システム</title>
+<para>><!--Original XRef content: 'Figure&numsp;1&hyphen;2 on page&numsp;6'--><xref
+role="CodeOrFigOrTabAndPNum" linkend="IPG.intro.mkr.5">は、<indexterm><primary>国際化</primary><secondary>国際化の共通システム</secondary></indexterm> 国際化が、特定の単一ホスト・システム内で広がる様子を示しています。この目的は、アプリケーション（<emphasis>クライアント</emphasis>）が、下層のシステムがサポートしているロケールのセットに対応するよう構築されて、世界中に出荷されることです。標準インタフェースを使用することで、グローバルな市場に出しやすくなり、アプリケーション開発者が行なう必要があるローカリゼーション作業の量を最小限にすることができます。</para>
+<figure>
+<title id="IPG.intro.mkr.5">共通国際化システム</title>
+<graphic id="IPG.intro.grph.2" entityref="IPG.intro.fig.2"></graphic>
+</figure>
+</sect2>
+</sect1>
+<sect1 id="IPG.intro.div.6">
+<title id="IPG.intro.mkr.6">ロケール<indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の各国語サポート</secondary><tertiary>共通デスクトップ環境の各国語サポートのロケール使用</tertiary></indexterm><indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の各国語サポート</secondary><tertiary>共通デスクトップ環境の各国語サポートのsetlocale関数</tertiary></indexterm><indexterm><primary>setlocale関数</primary><secondary>setlocale関数の国際化対応</secondary></indexterm></title>
+<para>大部分の単一ディスプレイ・クライアントは、環境変数、通常は<computeroutput>$LANG</computeroutput>、または、<computeroutput>xnlLanguage</computeroutput>リソースの設定によって実行時に決定される単一のロケールで動作します。<filename>LC_ALL</filename>、<computeroutput>LC_CTYPE</computeroutput>、<computeroutput>LANG</computeroutput>などのロケール環境変数を使用して環境を制御することができます。</para>
+<para>ロケールの<computeroutput>LC_CTYPE</computeroutput>カテゴリは、環境によって使用され、実行時に使用されるロケール固有の機能を識別します。ツールキットが読み込むフォントと入力メソッドは、<computeroutput>LC_CTYPE</computeroutput>カテゴリによって決定されます。</para>
+<para>国際化対応のプログラムは<computeroutput>XtSetLanguageProc()</computeroutput>関数（デフォルトで<computeroutput>setlocale()</computeroutput>を呼び出す）を呼び出してユーザが希望するロケールを設定するものとされています。ロケールを設定するために<computeroutput>setlocale()</computeroutput>関数を呼び出すライブラリがないので、アプリケーションは、特定ロケールまたは実行時に読み込まれる値で<computeroutput>XtSetLanguageProc()</computeroutput>を呼び出す必要があります。アプリケーションが国際化対応であるのに<computeroutput>XtSetLanguageProc()</computeroutput>を使用しない場合は、次の優先順位をつけたソースのうちのひとつからロケール名を取得し、それを<computeroutput>setlocale()</computeroutput>関数に渡してください。</para>
+<itemizedlist remap="Bullet1"><listitem><para>コマンド行オプション</para>
+</listitem><listitem><para>リソース</para>
+</listitem><listitem><para>空の文字列(&ldquo; &rdquo;)</para>
+</listitem></itemizedlist>
+<para>空の文字列の場合は、<computeroutput>setlocale()</computeroutput>関数は、環境変数<filename>$LC_*</filename>と<computeroutput>$LANG</computeroutput>を使用してロケール設定を決定します。特に、setlocale(<computeroutput>LC_ALL</computeroutput>, &ldquo; &rdquo;)では、表1-1に示すロケール・カテゴリの順に、ロケールが確認され環境変数から取得されます。</para>
+<table id="IPG.intro.tbl.1" frame="Topbot">
+<title>ロケール・カテゴリ</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colwidth="1.68in">
+<colspec colwidth="1.20in">
+<colspec colwidth="1.46in">
+<colspec colwidth="1.55in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>カテゴリ</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>第１環境変数</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>第２環境変数</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>第３環境変数</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>LC_CTYPE:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_TYPE</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_COLLATE:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_COLLATE</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_TIME:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_TIME</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_NUMERIC:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_NUMERIC</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_MONETARY:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_MONETARY</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_MESSAGES:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_MESSAGES</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row></tbody></tgroup>
+</table>
+<para>ツールキットはすでに標準のコマンド行オプション（<command>-lang</command>）とリソース（<systemitem>xnlLanguage</systemitem>）を定義しています。また、リソースの値はサーバ<filename>RESOURCE_MANAGER</filename>で設定することもできますが、その場合はサーバに接続しているすべてのクライアントに影響する可能性があります。</para>
+</sect1>
+<sect1 id="IPG.intro.div.7">
+<title id="IPG.intro.mkr.7">フォント、フォントセット、レンダー・テーブル<indexterm><primary>各国語サポート</primary><secondary>各国語サポートの取決め</secondary><tertiary>各国語サポートの取決めにおけるフォント</tertiary></indexterm><indexterm><primary>各国語サポート</primary><secondary>各国語サポートの取決め</secondary><tertiary>各国語サポートの取決めにおけるフォント・セット</tertiary></indexterm><indexterm><primary>各国語サポート</primary><secondary>各国語サポートのフォント・セット</secondary></indexterm><indexterm><primary>各国語サポート</primary><secondary>各国語サポートのフォント</secondary></indexterm><indexterm><primary>各国語サポート</primary><secondary>各国語サポートの取決め</secondary><tertiary>各国語サポートの取決めにおけるレンダー・テーブル</tertiary></indexterm><indexterm><primary>各国語サポート</primary><secondary>各国語サポートのレンダー・テーブル</secondary></indexterm></title>
+<para>Xクライアントはすべて、フォントを使用してテキストを描画します。テキスト描画に使用される基本的なオブジェクトは<command>XFontStruct</command>で、これは描画するイメージを含むフォントを識別します。</para>
+<para>デスクトップはXlibによって定義される<computeroutput>XFontStruct</computeroutput>データ構造体によってすでにフォントをサポートしていますが、フォント内の文字のエンコードは国際化対応アプリケーションに認識される必要があります。この情報を伝達するため、プログラムは、サーバのすべてのフォントはX Logical Font Description（XLFD）名によって識別されるものとみなします。XLFD名によって、ユーザは基本属性とcharset（フォント・グリフのエンコード）の両方を記述することができます。<symbol role="Variable">charset</symbol>という用語がフォント内のグリフのエンコードを示すのに使用されるのに対し、<emphasis>コード・セット</emphasis>という用語は、ロケール内の文字のエンコードを意味します。指定されたフォントのcharsetは、XLFD名のCharSetRegistryフィールドとCharSetEncodingフィールドで決定されます。テキストと記号はフォント内のコードによって定義された通りに描画されます。</para>
+<para><emphasis>フォント・セット</emphasis>（たとえば、Xlibによって定義されるデータ構造体<computeroutput>XFontSet</computeroutput>）は、ひとつ以上のフォントの集合で、指定されたロケール用に定義されたすべての文字の描画を可能にします。ロケールによってはコード・セットでエンコードされた文字の値がグリフ・インデックスと一致しないものもありますが、国際化対応アプリケーションは、このような場合もエンコードされたテキストを描画できなければなりません。さらに、ロケールのコード・セットとは異なるエンコードをもつフォントをひとつ以上使用しているロケールでのすべての文字を描画するために、複数のフォントが必要となる場合もあります。コード・セットもcharsetもロケールごとに異なるので、フォント・セットという概念を<computeroutput>XFontSet</computeroutput>として取り入れています。</para>
+<para>フォントがXLFD名によって識別されるのに対し、フォント・セットはXLFD名のリストによって識別されます。リストはひとつ以上のXLFD名から構成されますが、基本属性だけが意味をもちます。必要なフォントのエンコードはロケールから決定されます。XLFDベース名リストで指定されるcharsetは無視されるので、ユーザが考慮する必要があるのはポイント・サイズ、スタイル、ウェイトなどの基本属性の指定のみです。フォント・セットは<emphasis>ロケール依存</emphasis>で、ロケールのコード・セットでエンコードされているテキストを描画するのに使用されます。国際化対応アプリケーションはテキスト・データを描画するのにフォント構造体ではなくフォント・セットを使用すべきです。</para>
+<para>レンダー・テーブルは、テキストがどのように描画されるかを指定するレンディションの集合です。レンダー・テーブルについては、この節でまとめています。</para>
+<sect2 id="IPG.intro.div.8">
+<title>Font Specification</title>
+<para> <emphasis>フォント指定</emphasis>は、X Logical Font Description (XLFD)名、もしくは、XLFD名の別名のいずれかです。たとえば、14ポイント・フォントの有効なフォント指定は次のようなものです。</para>
+<programlisting>-dt-application-medium-r-normal-serif-*-*-*-*-p-*-iso8859-1
+</programlisting>
+<para>OR</para>
+<programlisting>-*-r-*-14-*iso8859-1</programlisting>
+</sect2>
+<sect2 id="IPG.intro.div.9">
+<title>フォント・セット指定<indexterm><primary>フォント・セット</primary><secondary>フォント・セットの国際化</secondary></indexterm></title>
+<para><emphasis>フォント・セット指定</emphasis>は、名前（XLFD名またはその別名）のリストで、<emphasis>ベース名リスト</emphasis>と呼ばれることもあります。名前はすべてコンマで区切られ、コンマの前後の空白部分は無視されます。パターン・マッチング（ワイルドカード）文字を使って、XLFD名を短縮して指定することができます。</para>
+<para>フォント・セット指定は、実行中のロケールによって決定されます。たとえば、ja_JP日本語ロケールは、日本語の文字すべてを表示するのに必要な３つのフォント（キャラクタ・セット）を定義します。次の例では、必要なゴシック・フォントのセットが識別されます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>完全なXFLD名リストの例:</para>
+<programlisting>-dt-mincho-medium-r-normal--14-*-*-m-*-jisx0201.1976-0,-dt-mincho-medium-r-normal--28-*-*-*-m-*-jisx0208.1983-0:</programlisting>
+</listitem><listitem><para>単一XLFDパターン名の例:</para>
+<programlisting>-dt-*-medium-*-24-*-m-*:</programlisting>
+</listitem></itemizedlist>
+<para>上記の２つの例は、ベース名リストに一致するフォントが存在する限り、日本語ロケールで使用することができます。</para>
+</sect2>
+<sect2 id="IPG.intro.div.10">
+<title id="IPG.intro.mkr.8">ベース・フォント名リストの指定<indexterm><primary>フォント・セット</primary><secondary>フォント・セットのベース名リストの指定</secondary></indexterm><indexterm><primary>各国語サポート</primary><secondary>各国語サポートにおける指定</secondary><tertiary>各国語サポートにおけるベース名リストの指定</tertiary></indexterm><indexterm><primary>国際化</primary><secondary>国際化におけるベース名リストの指定</secondary></indexterm></title>
+<para><emphasis>ベース・フォント名リスト</emphasis>は、ロケールが定義するフォント・セットに関連するベース・フォント名のリストです。ベース・フォント名は、それぞれコンマで区切られてリストを構成しており、可搬的なキャラクタ・セットからの文字と仮定されます。そうでない場合は、結果は不確定となります。区切りコンマのすぐ前後の空白部分は無視されます。<indexterm><primary>ベース・フォント名リスト</primary></indexterm><indexterm><primary>ベース・フォント名リスト</primary></indexterm></para>
+<para>XLFDフォント名を使用することによって、国際的アプリケーションは、単一のロケールに依存しないベース・フォント名からさまざまなロケールに必要なフォントを取得することができます。単一のベース・フォント名は、該当するロケールが必要とするさまざまなcharsetでメンバがエンコードされたフォントのファミリを指定します。<indexterm><primary>X Logical Font Description （XLFD）</primary><secondary>XLFDの国際的ロケール用のフォント名</secondary></indexterm></para>
+<para>XLFDベース・フォント名は、ロケールに必要なフォントのcharsetを明示的に指定することができます。このため、ユーザはロケールに必要なcharsetで使用するフォントを厳密に指定することができ、フォントの選択を完全に制御することができます。</para>
+<para>ベース・フォント名がXLFD名でない場合は、フォントのフォント属性からXLFD名を取得しようと試みられます。</para>
+<para>次のアルゴリズムは、フォント・セットでテキストを表示すのに用いるフォントを選択するために使用されます。<indexterm><primary>フォント選択アルゴリズム、フォント・セットでテキストを表示</primary></indexterm><indexterm><primary>ベース・フォント名リスト</primary></indexterm></para>
+<para>ロケールで必要な各charsetごとに、サーバに存在するフォントのセットを指定する次の場合のうちの最初にあてはまるものを求めて、ベース・フォント名リストが検索されます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>必要なcharset、または、必要なcharsetのスーパーセットをCharSetRegistryフィールドとCharSetEncodingに指定する最初のXLFD準拠ベース・フォント名。</para>
+</listitem><listitem><para>必要なcharsetをサポートするよう再マップすることができるひとつ以上のcharsetを指定する、ひとつ以上のXLFD準拠ベース・フォント名から成る最初のセット。Xlibを実装していると、必要なcharsetからひとつ以上のその他のcharsetへのさまざまなマッピングを認識して、これらのcharsetのフォントを使用することができます。たとえば、ASCIIのチルドとバックスラッシュは、JIS Romanではオーバーバーと円記号に置換えられます。XlibはJIS Romanフォントが取得できない場合、ISO8859-1フォントを読み込んでこのキャラクタ・セットをサポートすることができます。</para>
+</listitem><listitem><para>必要なcharset（XLFDフォント名のCharSetRegistryフィールドとCharSetEncodingフィールドに置き換わる）と結合された最初のXLFD準拠フォント名、または、XLFDフォント名を取得できる最初のXLFDでないフォント名。最初の手続きで、インプリメンテーションは、必要なcharsetのスーパーセットであるcharsetを使用することができます。</para>
+</listitem><listitem><para>ロケールに依存した方法で、charsetを連想させるテキストをサポートするひとつ以上のフォントにマップすることができる最初のフォント名。</para>
+</listitem></itemizedlist>
+<para>たとえば、ロケールには次のcharsetが必要であると仮定します。 </para>
+<itemizedlist remap="Bullet1"><listitem><para>ISO8859-1</para>
+</listitem><listitem><para>JISX0208.1983</para>
+</listitem><listitem><para>JISX0201.1976</para>
+</listitem><listitem><para>GB2312-1980.0</para>
+</listitem></itemizedlist>
+<para>次の例のように、charsetを明示的に指定するベース・フォント名リストを提供し、特定のフォントが存在している場合は確実にそれを使用するようにすることができます。</para>
+<programlisting>&ldquo;-dt-mincho-Medium-R-Normal-*-*-*-*-*-M-*-JISX0208.1983-0,\
+-dt-mincho-Medium-R-Normal-*-*-*-*-*-M- \
+*-JISX0201.jisx0201\.1976-1,\
+-dt-song-Medium-R-Normal-*-*-*-*-*-M-*-GB2312-1980.0,\
+-*-default-Bold-R-Normal-*-*-*-*-M-*-ISO8859-1&ldquo;</programlisting>
+<para>次の例のようにcharsetを省略したベース・フォント名リストを提供すると、必要な各コード・セット用のフォントを選択できます。</para>
+<programlisting>&ldquo;-dt-Fixed-Medium-R-Normal-*-*-*-*-*-M-*,\
+-dt-Fixed-Medium-R-Normal-*-*-*-*-*-M-*,\
+-dt-Fixed-Medium-R-Normal-*-*-*-*-*-M-*,\
+-*-Courier-Bold-R-Normal-*-*-*-*-M-*&rdquo;</programlisting>
+<para>代わりの方法として、次の例のように、単一ベース・フォント名を提供すると、ある最小限のXLFD属性要求を満たす使用可能なすべてのフォントから選択することができます。</para>
+<programlisting>&ldquo;-*-*-*-R-Normal--*-*-*-*-*-M-*&rdquo;</programlisting>
+</sect2>
+<sect2 id="IPG.intro.div.12">
+<title>レンダー・テーブル<indexterm><primary>レンダー・テーブル</primary><secondary>レンダー・テーブルの国際化</secondary></indexterm></title>
+<para><emphasis>レンダー・テーブル</emphasis>は<emphasis>レンディション</emphasis><indexterm><primary>レンディション</primary></indexterm> と呼ばれるひとつ以上のエントリから構成されています。各レンディションは、コンパウンド・ストリングを描画する際に使用される名前でタグを付けられています。国際化対応アプリケーションでは、レンディションとレンダー・テーブルはリソース・ファイルで指定し、さまざまなロケールの異なった必要性からアプリケーション・バイナリを独立させておくべきです。レンディションとレンダー・テーブルについて詳しくは、<citetitle>Motfプログラマーズ・ガイド</citetitle>を参照してください。</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.intro.div.13">
+<title id="IPG.intro.mkr.9">テキスト描画</title>
+<para>デスクトップは、シンプル・テキスト、コンパウンド・ストリング、いくつかのウィジェットなど、ローカライズされたテキストを描画するためのさまざまな関数を提供します。これらの中には、XlibやMotifライブラリの関数も含まれています。</para>
+</sect1>
+<sect1 id="IPG.intro.div.14">
+<title id="IPG.intro.mkr.10">入力メソッド<indexterm><primary>各国語サポート</primary><secondary>各国語サポートにおける入力の実行</secondary></indexterm><indexterm><primary>各国語サポート</primary><secondary>各国語サポートにおける入力メソッドの使用</secondary></indexterm><indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の各国語サポート</secondary><tertiary>共通デスクトップ環境の各国語サポートの入力領域</tertiary></indexterm><indexterm><primary>各国語サポート</primary><secondary>各国語サポートの入力領域</secondary></indexterm><indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の入力領域</secondary><tertiary>共通デスクトップ環境の入力領域の詳細</tertiary></indexterm></title>
+<para>共通デスクトップ環境は、Motif Toolkitを使用している国際化対応アプリケーションに対してローカライズされた入力を実行する機能を提供します。特に、<computeroutput>XmText[Field]</computeroutput>ウィジェットは、各ロケールが提供する入力メソッドとインタフェースをとることができるようになります。さらに、<computeroutput>dtterm</computeroutput>クライアントが、入力メソッドを使用することが可能になります。入力メソッドについて詳しくは<citetitle>Motifプログラマーズ・ガイド</citetitle>を参照してください。</para>
+<para>デフォルトでは、Motif ツールキットを使用するそれぞれの国際化対応クライアントは、ユーザが指定するロケールに関連付けられた入力メソッドを使用します。<systemitem class="Resource">XmNinputMethod</systemitem>リソースをロケール・モディファイアの入力メソッド部として提供し、ユーザが代替の入力メソッドを指定できるようにします。</para>
+<para>入力メソッドのユーザ・インタフェースは、いくつかの要素から構成されています。これらの領域の必要性は使用されている入力メソッドに依存しており、通常は、複雑な入力処理とダイアログを要求する入力メソッドによって必要とされます。これらの領域については、図&numsp;1-3を参照してください。</para>
+<figure>
+<title id="IPG.intro.mkr.11">VendorShellウィジェットと補助の例（日本語）</title>
+<graphic id="IPG.intro.grph.3" entityref="IPG.intro.fig.3"></graphic>
+</figure>
+<para><classname>VendorShell</classname>は、<systemitem class="Resource">XmNinputPolicy</systemitem>リソース<indexterm><primary>VendorShell</primary><secondary>VendorShellの入力ポリシー</secondary></indexterm> を含んでいます。これは、その子ウィジェットが入力コンテキストを共用するか否かを指定します。たとえば、ルート・ウィンドウ入力メソッド・スタイルを使用している場合、入力コンテキストはいくつかのウィジェットで共用され、off-the-spot入力メソッド・スタイルである間は、入力コンテキストはひとつ以上のウィジェットの間で共用されるはずです。しかし、over-the-spot入力メソッド・スタイルでは、入力コンテキストはほば確実に単一のウィジェットに属します。<systemitem class="Resource">XmNinputPolicy</systemitem>がとりうる値は、 各ウィジェットに新しい入力コンテキストを提供する<systemitem class="Constant">XmPER_WIDGET</systemitem>と、共通のシェルの子ウィジェットに単一の入力コンテキストを共用させる<systemitem class="Constant">XmPER_SHELL</systemitem>です。</para>
+<sect2 id="IPG.intro.div.15">
+<title id="IPG.intro.mkr.12">前編集領域<indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の入力領域</secondary><tertiary>共通デスクトップ環境の入力領域の前編集領域</tertiary></indexterm><indexterm><primary>前編集領域</primary><secondary>前編集領域の詳細</secondary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary>VendorShellウィジェット・クラスの前編集領域</secondary></indexterm><indexterm><primary>前編集領域</primary><secondary>前編集領域のVendorShellウィジェット・クラス</secondary></indexterm></title>
+<para>前編集領域は、前編集中の文字列を表示するのに使用されます。入力メソッドは前編集モードとして、OffTheSpot、OnTheSpot（デフォルト）、OverTheSpot、Root、Noneをサポートしています。</para>
+<note>
+<para>確定済みの文字列を<emphasis>再変換することはできません。</emphasis>文字列は前編集領域からユーザが文字を入力している位置に移動します。 <indexterm><primary>日本語入力メソッド</primary><secondary>日本語入力メソッドの前編集、再変換文字列</secondary></indexterm></para>
+</note>
+<sect3 id="IPG.intro.div.16">
+<title>OffTheSpot<indexterm><primary>前編集領域</primary><secondary>Off&lt;</secondary></indexterm>
+<indexterm><primary>#1e>The&lt;</primary></indexterm>
+<indexterm><primary>#1e>Spotモード</primary></indexterm>
+<indexterm><primary>Off&lt;</primary></indexterm>
+<indexterm><primary>#1e>The&lt;</primary></indexterm>
+<indexterm><primary>#1e>Spotモード、前編集領域</primary></indexterm>
+<indexterm><primary>前編集のモード</primary><secondary>前編集のモードのOffTheSpot</secondary></indexterm></title>
+<para>入力メソッドを使用してOffTheSpotモードで前編集する場合は、前編集の位置は通常、<!--Original XRef content:'Figure&numsp;1&hyphen;4'--><xref role="CodeOrFigureOrTable" linkend="IPG.intro.mkr.13">に示されるように、アプリケーション・ウィンドウ内、ステータス領域の右側にあります。日本語入力メソッドを例として示します。</para>
+<figure>
+<title id="IPG.intro.mkr.13">VendorShellウィジェットでのOffTheSpot前編集の例（日本語）</title>
+<graphic id="IPG.intro.grph.4" entityref="IPG.intro.fig.4"></graphic>
+</figure>
+<para>入力メソッドを使用して前編集している場合、前編集中の文字列は使用している入力メソッドに依存する形式で強調表示されます。</para>
+<para>OffTheSpotモードを使用するためには、<computeroutput>VendorShell</computeroutput>ウィジェットの<systemitem>XmNpreeditType</systemitem>リソースを、<computeroutput>XtSetValues()</computeroutput>関数、もしくは、リソース・ファイルのいずれかで設定してください。<systemitem>XmNpreeditType</systemitem>リソースは、<computeroutput>TopLevelShell</computeroutput>、<computeroutput>ApplicationShell</computeroutput>、または、<computeroutput>DialogShell</computeroutput>ウィジェットのリソースとして設定することもできます。この３つのウィジェットはすべて、<computeroutput>VendorShell</computeroutput>ウィジェット・クラスのサブクラスです。</para>
+</sect3>
+<sect3 id="IPG.intro.div.17">
+<title>OverTheSpot<indexterm><primary>前編集領域</primary><secondary>前編集領域のOverTheSpotモード</secondary></indexterm><indexterm><primary>前編集領域</primary><secondary>前編集領域のデフォルト・モード</secondary></indexterm><indexterm><primary>OverTheSpotモード、前編集領域</primary></indexterm><indexterm><primary>前編集のモード</primary><secondary>前編集のモードのOverTheSpot</secondary></indexterm></title>
+<para>OverTheSpotモードでは、前編集領域の位置はユーザが文字を入力しようとしている位置（たとえば、現在フォーカスがある<computeroutput>Text</computeroutput>ウィジェットの挿入カーソルの位置）に設定されます。前編集領域の文字はカーソルのある位置にオーバーレイ・ウィンドウとして表示され、使用している入力メソッドに依存した形式で強調表示されます。</para>
+<para>OverTheSpotモードでは、ひとつの前編集領域が複数行から構成されることがあります。前編集領域は常にメイン・ウィンドウ領域内にあり、どの方向にもはみだすことはできません。 </para>
+<para>前編集中の文字列は<computeroutput>Text</computeroutput>ウィジェットのテキストの一部分であるかのように表示されますが、前編集が終了するまではクライアントに渡されて下層の編集画面に表示されることはありません。<!--Original XRef content: 'Figure&numsp;1&hyphen;5 on page&numsp;17'--><xref role="CodeOrFigOrTabAndPNum" linkend="IPG.intro.mkr.14">の図を参照してください。</para>
+<para>OverTheSpotモードを明示的に使用するためには、 <computeroutput>VendorShell</computeroutput>の<systemitem>XmNpreeditType</systemitem>リソースを<computeroutput>XtSetValues()</computeroutput>関数、もしくは、リソースファイルのいずれかで設定してください。<systemitem>XmNpreeditType</systemitem> リソースは、<computeroutput>TopLevelShell</computeroutput>、 <computeroutput>ApplicationShell</computeroutput>、または、 <computeroutput>DialogShell</computeroutput>ウィジェットのリソースとして設定することができます。この３つのウィジェットは <computeroutput>VendorShell</computeroutput>ウィジェット・クラスのサブクラスです。</para>
+<figure>
+<title id="IPG.intro.mkr.14">VendorShellウィジェットでのOverTheSpot前編集の例（日本語）</title>
+<graphic id="IPG.intro.grph.5" entityref="IPG.intro.fig.5"></graphic>
+</figure>
+</sect3>
+<sect3 id="IPG.intro.div.17a">
+<title>OnTheSpot（デフォルト）</title>
+<indexterm><primary>前編集領域</primary><secondary>前編集領域のOnTheSpot</secondary></indexterm>
+<indexterm><primary>OnTheSpotモード、前編集領域 </primary></indexterm>
+<indexterm><primary>前編集のモード</primary><secondary>前編集のモードのOnTheSpot</secondary></indexterm>
+<para> OnTheSpotモードでは、前編集文字列はテキスト・ウィジェット・ウィンドウに表示されます。前編集文字列はテキスト・ウィジェット値の一部分とみなされ、その完全性はテキスト・ウィジェットのVerifyコールバック（Verifyコールバックは<systemitem class="resource">verifyPreedit</systemitem>リソースによって制御され、デフォルトは<literal>False</literal>です。）によって保証されます。テキスト・ウィジェットのVerifyコールバックが前編集バッファから何も受け入れない時、前編集文字列は確定されます。（前編集文字列を確定させるユーザ・アクションについては、<citetitle>Motifプログラマーズ・ガイド</citetitle>を参照してください。）</para>
+<para>入力メソッドを使用して前編集を行っている場合、前編集中の文字列は使用中の入力メソッドに依存する方法で強調表示されます。 </para>
+<para> OnTheSpotモードを使用するためには、 <computeroutput>VendorShell</computeroutput>ウィジェットの<systemitem>XmNpreeditType</systemitem>リソースを、<computeroutput>XtSetValues()</computeroutput>関数、もしくは、リソース・ファイルで設定してください。<systemitem>XmNpreeditType</systemitem>リソースを <computeroutput>TopLevelShell</computeroutput>、 <computeroutput>ApplicationShell</computeroutput>、または、 <computeroutput>DialogShell</computeroutput>ウィジェットのリソースとして設定することもできます。この３つのウィジェットはすべて<computeroutput>VendorShell</computeroutput>ウィジェット・クラスのサブクラスです。</para>
+</sect3>
+<sect3 id="IPG.intro.div.18">
+<title>Root<indexterm><primary>前編集領域</primary><secondary>前編集領域のRootモード</secondary></indexterm>
+<indexterm><primary>Rootモード、前編集領域</primary>
+</indexterm><indexterm><primary>前編集のモード</primary><secondary>前編集のモードのRoot</secondary></indexterm></title>
+<para>Rootモードでは、前編集領域とステータス領域はクライアントのウィンドウとは別になっています。Rootモードの動作はOffTheSpotと類似しています。<!--Original XRef content: 'Figure&numsp;1&hyphen;6'--><xref role="CodeOrFigureOrTable" linkend="IPG.intro.mkr.15">の図を参照してください。</para>
+<figure>
+<title id="IPG.intro.mkr.15">VendorShellウィジェットでのRoot前編集の例（日本語）</title>
+<graphic id="IPG.intro.grph.6" entityref="IPG.intro.fig.6"></graphic>
+</figure>
+</sect3>
+</sect2>
+<sect2 id="IPG.intro.div.19">
+<title id="IPG.intro.mkr.16">ステータス領域<indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の入力領域</secondary><tertiary>共通デスクトップ環境の入力領域のステータス領域</tertiary></indexterm>
+<indexterm><primary>ステータス領域</primary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary>VendorShellウィジェット・クラスのステータス領域</secondary></indexterm></title>
+<para>ステータス領域は、ユーザに入力メソッドの入力状態やキーボードの状態を知らせます。OverTheSpotスタイルおよびOffTheSpotスタイルでは、ステータス領域はVendorShellウィンドウの左下端に位置しています。</para>
+<itemizedlist remap="Bullet1"><listitem><para>Rootスタイルでは、ステータス領域はクライアント・ウィンドウの外に位置しています。</para>
+</listitem><listitem><para>前編集スタイルがOffTheSpotモードの場合は、前編集領域はステータス領域の右側に表示されます。</para>
+</listitem></itemizedlist>
+<para><computeroutput>VendorShell</computeroutput>ウィジェットはジオメトリ管理を提供しており、ステータス領域をVendorShellウィンドウの下隅に再配置することができます。</para>
+</sect2>
+<sect2 id="IPG.intro.div.20">
+<title id="IPG.intro.mkr.17">補助領域<indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の入力領域</secondary><tertiary>共通デスクトップ環境の入力領域の補助領域</tertiary></indexterm><indexterm><primary>補助領域</primary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary> VendorShellウィジェット・クラスの補助領域</secondary></indexterm></title>
+<para>補助領域はユーザが前編集を行う場合に役立ちます。補助領域は特定の入力メソッドに依存して作成されます。<!--Original XRef content: 'Figure&numsp;1&hyphen;3 on page&numsp;14'--><xref role="CodeOrFigOrTabAndPNum" linkend="IPG.intro.mkr.11">の日本語入力メソッドは次の型の補助領域を作成します。<indexterm><primary>補助領域</primary></indexterm><indexterm><primary>日本語入力メソッド</primary><secondary>日本語入力メソッドの補助領域</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>全候補</para>
+</listitem><listitem><para>JISコード</para>
+</listitem><listitem><para>変換方法の切り替え</para>
+<itemizedlist remap="Bullet2"><listitem><para>先読み連文節</para>
+</listitem><listitem><para>一括連文節</para>
+</listitem><listitem><para>単文節</para>
+</listitem><listitem><para>複合語</para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="IPG.intro.div.22">
+<title id="IPG.intro.mkr.19">フォーカス領域<indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の入力領域</secondary><tertiary>共通デスクトップ環境の入力領域のフォーカス領域</tertiary></indexterm><indexterm><primary>フォーカス領域</primary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary> VendorShellウィジェット・クラスのフォーカス領域</secondary></indexterm><indexterm><primary>フォーカス管理</primary><secondary>フォーカス管理のフォーカス領域</secondary></indexterm>
+<indexterm><primary>フォーカス領域</primary></indexterm></title>
+<para>フォーカス領域は、現在フォーカスがある<computeroutput>VendorShell</computeroutput>ウィジェット・サブツリーの下にある子孫ウィジェットのいずれかひとつです。既存のウィジェットを使用しているならば、Motifアプリケーション・プログラマはフォーカス領域を気にする必要はありません。重要なのは、一度にひとつのウィジェットだけしか入力メソッドを処理することができないということです。入力メソッドの処理は、現在フォーカスがあるウィンドウ（ウィジェット）に移動します。</para>
+</sect2>
+<sect2 id="IPG.intro.div.22a">
+<title>Layout Direction</title>
+<indexterm><primary>配置方向</primary></indexterm>
+<para>配置方向は、ウィジェットの子、ウィジェット・コンポーネント、テキスト（<classname>VendorShell</classname>リソース、<systemitem class="resource">XmNlayoutDirection</systemitem>によって制御される）などのビジュアル要素を表示するために使用する方向を示します。一般的にこの方向は、人々が特定の言語を読み書きする時に使用する方向と一致します。英語、フランス語、ドイツ語、スウェーデン語などの言語は左から右に読み書きされます。したがって、ユーザがこれらの言語で作業し、コンピュータのキーボードから文字を入力する場合、入力文字は先に入力した文字の右側に表示されます。このユーザは、別のビジュアル要素も左から右へ配置されることを期待するでしょう。たとえば、メニュー・バーにおいて、プルダウン・メニュー・ボタンは左から右へ配置されるので、シンプルなメニュー・バーは、「ファイル」プルダウン・メニュー・ボタンをメニュー・バーの左上端に配置し、「ヘルプ」プルダウン・メニュー・ボタンを右上端に配置します。</para>
+<para>アラビア語やヘブライ語などの言語は、右から左へ読み書きされます。これらの言語のテキストを画面上に正確に表示するためには、ユーザが入力する連続する各々の文字は先に入力した文字の左に表示されなければなりません。ビジュアル要素の配置に関して上記の例を用いると、ユーザはメニュー・バーがメニュー・プルダウン・ボタンを右から左へ配置することを期待します。その結果は通常、「ファイル」メニュー・プルダウン・ボタンを右上端に、「ヘルプ」メニュー・プルダウン・ボタンを左上端に配置することになります。配置方向について詳しくは、<citetitle>Motifプログラマーズ・ガイド</citetitle>を参照してください。</para>
+</sect2>
+<sect2 id="IPG.intro.div.22b">
+<title>縦書き</title>
+<indexterm><primary>縦書き</primary></indexterm>
+<para>いくつかのアジアの言語では、テキストは縦方向に描画されます。<classname>VendorShell</classname>リソース<systemitem class="resource">XmNlayoutDirection</systemitem>が <systemitem class="constant">XmTOP_TO_BOTTOM</systemitem>に設定されている場合に、縦書き機能が可能となります。この機能は、テキストを縦方向に描画することにくわえて、テキスト・ウィジェットをユーザに合った方法に適合させます。たとえば、ワード・ラップが「する」になっている場合、テキストはあるカラムの下から次のカラムの上へ折返します。縦書きについて詳しくは、<citetitle>Motifプログラマーズ・ガイド</citetitle>を参照してください。</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.intro.div.23">
+<title id="IPG.intro.mkr.20">クライアント間通信規約（ICCC）<indexterm><primary>各国語サポート</primary><secondary>各国語サポートの国際化ICCC</secondary></indexterm></title>
+<para>クライアント間通信規約（ICCC）は、クライアント間でテキストを渡すのに使用される仕組みを定義しています。システムは複数のコード・セットをサポートできるため、異なったコード・セットを使用している２つのアプリケーションが互いに通信を行うことが可能です。ICCCは２つのクライアント間でデータを渡す方法について、これらのクライアントがどのように同意するかを定義しています。２つのクライアントがもつキャラクタ・セットに互換性がない場合（たとえば、ラテン１と日本語（JIS）のように）、文字が転送される時にデータの一部が失われる可能性があります。<indexterm><primary>libXmライブラリ</primary></indexterm><computeroutput><indexterm><primary>dttermコマンド</primary><secondary>dttermコマンドのICCC</secondary></indexterm></computeroutput></para>
+<para>しかし、２つのクライアントが、異なったコード・セットをもっていても、それが互換性のあるキャラクタ・セットである場合は、ICCCはこの２つのクライアント間でデータを失うことなく情報を渡すことを可能とします。２つのクライアントのコード・セットが一致しない場合は、<computeroutput>COMPOUND_TEXT</computeroutput>アトムを使用して、コンパウンド・テキストのエンコードが使用されます。通信中のデータが可搬的な文字（7ビット、ASCIIなど）やISO8859-1コード・セットしか含んでいない場合は、そのデータは<computeroutput>XA_STRING</computeroutput>アトムによって、変換されずにそのまま通信されます。</para>
+<para>タイトル名とアイコン名は、可搬的でない文字が使用されている場合は、<computeroutput>COMPOUND_TEXT</computeroutput>アトムを使用してウィンドウ・マネージャに通信される必要があります。そうでない場合は、<computeroutput>XA_STRING</computeroutput>アトムを使用することができます。</para>
+<para>たとえばMotifは、テキストのデータを転送するのに、次のMotifのアトムを使用します。</para>
+<itemizedlist>
+<listitem>
+<para><literal>_MOTIF_COMPOUND_STRING</literal>は、データを <Symbol>XmString</Symbol>形式で転送します。
+</para>
+</listitem>
+<listitem>
+<para><literal>_MOTIF_RENDER_TABLE</literal>レンダー・テーブルの値を<Symbol>STRING</Symbol>型として転送します。</para>
+</listitem>
+</itemizedlist>
+<para>詳しくは、<citetitle>Motifウィジェット・ライターズ・ガイド</citetitle>を参照してください。</para>
+<para>その他のエンコードは、ウィンドウ・マネージャのロケールに変換する程度に制限されています。ウィンドウ・マネージャは単一ロケールで実行され、実行中のロケールのコード・セットに変換できるタイトル名とアイコン名しかサポートしません。<indexterm><primary>各国語サポート</primary><secondary>各国語サポートのウィンドウ・マネージャ</secondary><tertiary>各国語サポートのウィンドウ・マネージャにおけるタイトル名の通信</tertiary></indexterm><indexterm><primary>各国語サポート</primary><secondary>各国語サポートのウィンドウ・マネージャ</secondary><tertiary>各国語サポートのウィンドウ・マネージャにおけるアイコン名の通信</tertiary></indexterm><indexterm><primary>ウィンドウ・マネージャ</primary><secondary>ウィンドウ・マネージャにおけるタイトル名とアイコン名の通信</secondary></indexterm></para>
+<para>Motifライブラリとすべてのデスクトップ・クライアントはこの規約に従わなければなりません。</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->
+

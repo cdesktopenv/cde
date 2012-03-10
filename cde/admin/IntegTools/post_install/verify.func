@@ -1,0 +1,68 @@
+      if [ "$SRC" != "" ]
+      then
+	set -A tokens $SRC
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  if [ -f ${tokens[0]} ]
+	  then
+	    echo "exists  \c"
+	  else
+	    echo "MISSING or REMOVED               \c"
+	    echo "${tokens[0]}"
+	    continue
+	  fi
+	elif [ "${tokens[3]}" = "sym_link" ]
+	then
+	  if [ -L ${tokens[0]} ]
+	  then
+	    echo "exists  \c"
+	  else
+	    echo "MISSING or REMOVED               \c"
+	    echo "${tokens[0]}"
+	    continue
+	  fi
+	fi
+
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  touch /tmp/config-test
+	  chmod ${tokens[1]} /tmp/config-test
+	  tmpperms=`ls -l /tmp/config-test | awk '{print $1}'`
+	  realperms=`ls -l ${tokens[0]} | awk '{print $1}'`
+
+	  if [ "$tmpperms" = "$realperms" ]
+	  then
+	    echo "correct \c"
+	  else
+	    echo " WRONG  \c"
+	  fi
+
+	  owner=`ls -l ${tokens[0]} | awk '{print $3}'`
+
+	  if [ "$owner" = "${tokens[4]}" ]
+	  then
+	    echo "correct \c"
+	  else
+	    echo " WRONG  \c"
+	  fi
+
+	  group=`ls -l ${tokens[0]} | awk '{print $4}'`
+
+	  if [ "$group" = "${tokens[5]}" ]
+	  then
+	    echo "correct  \c"
+	  else
+	    echo " WRONG   \c"
+	  fi
+	elif [ "${tokens[3]}" = "sym_link" ]
+	then
+	  linkto=`ls -l ${tokens[0]} | awk '{print $11}'`
+	  if [ "${tokens[2]}" = "$linkto" ]
+	  then
+	    echo "  the link is correct    \c"
+	  else
+	    echo "  the link is WRONG      \c"
+	  fi
+	fi
+	echo "${tokens[0]}"
+      fi

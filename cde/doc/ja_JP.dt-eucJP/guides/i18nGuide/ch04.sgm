@@ -1,0 +1,315 @@
+<!-- $XConsortium: ch04.sgm /main/7 1996/08/25 15:12:00 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="IPG.motif.div.1">
+<title id="IPG.motif.mkr.1">Xt、Xlib、および、Motif依存性</title>
+<para> XtとXlib依存性については、<citetitle>XlibのC言語インタフェース</citetitle>の第１３章を参照してください。</para>
+<para>この章では、Motifの国際化に関連する作業について説明します。</para>
+<sect1 id="IPG.motif.div.2">
+<title id="IPG.motif.mkr.2">ロケール管理<indexterm><primary>言語環境</primary><secondary>言語環境の詳細</secondary></indexterm><indexterm><primary>言語環境</primary></indexterm></title>
+<para><emphasis>言語環境</emphasis>という用語は、アプリケーションがユーザ固有のロケールで正しく実行されるために必要な、ローカライズされたデータのセットのことです。言語環境は、特定の言語に関連付けられた規則を提供します。また、言語環境は、ローカライズされた文字列やアプリケーションが使用するテキストなどの、外部に保存されているデータから構成されています。たとえば、アプリケーションが表示するメニュー項目を、アプリケーションがサポートする言語ごとの別々のファイルに保存する場合があります。このようなデータは、リソース・ファイル、ユーザ・インタフェース定義（UID）ファイル、もしくは、（XPG3準拠システム上の）メッセージ・カタログに保存することができます。</para>
+<para>ひとつのアプリケーションが動作するときに、単一の言語環境が確立されます。アプリケーションが実行される言語環境は、アプリケーション・ユーザが、環境変数（POSIXシステムの<systemitem>LANG</systemitem>または<systemitem>LC_*</systemitem>）、または、xnlLanguageリソースのいずれかによって設定します。アプリケーションは、ユーザの指定に基づいて言語環境を設定します。アプリケーションは、<computeroutput>XtSetLanguageProc()</computeroutput>関数によって確立される言語プロシージャの<computeroutput>setlocale()</computeroutput>関数を使用して、この設定を行なうこともできます。これにより、Xtは<computeroutput>XtResolvePathname()</computeroutput>関数を使用して、リソース、ビットマップ、ユーザ・インタフェース言語（UIL）ファイルをみつけ、ディスプレイごとの言語文字列をキャッシュすることができるようになります。</para>
+<para>言語プロシージャを提供するアプリケーションは、それ自身のプロシージャを提供することもできますし、Xt<indexterm><primary>言語プロシージャ</primary></indexterm> デフォルトのプロシージャを使用することもできます。いずれの場合も、アプリケーションは、ツールキットを初期化する前、かつ、リソース・データベースを（<computeroutput>XtAppInitialize()</computeroutput>関数を呼び出すなどして）読み込む前に、<computeroutput>XtSetLanguageProc()</computeroutput>関数を呼び出すことによって言語プロシージャを確立します。言語プロシージャがインストールされると、Xtは初期リソース・データベースの構築中にその言語プロシージャを呼び出します。.Xtは、言語プロシージャが返す値を、そのディスプレイごとの言語文字列として使用します。</para>
+<para>デフォルトの言語プロシージャは次のタスクを実行します。</para>
+<itemizedlist remap="Bullet1"><listitem><para>ロケールを設定します。ロケールの設定は次のように行います。</para>
+<programlisting>setlocale(LC_ALL, <symbol role="Variable">language</symbol>);</programlisting>
+<para>上記の<symbol role="Variable">language</symbol>は<systemitem>xnlLanguage</systemitem>リソースの値です。<systemitem>xnlLanguage</systemitem>リソースが設定されていない場合は、空の文字列（&ldquo;&rdquo;）となります。<systemitem>xnlLanguage</systemitem>リソースが設定されていない場合、ロケールは通常、環境変数（POSIXシステムの<systemitem>LANG</systemitem>）から取得されます。</para>
+</listitem><listitem><para><computeroutput>XSupportsLocale()</computeroutput>関数を呼び出し、設定されたロケールがサポートされているかどうかを確認します。サポートされていない場合は、警告メッセージがだされ、ロケールはCに設定されます。</para>
+</listitem><listitem><para><computeroutput>XSetLocaleModifiers()</computeroutput>関数を呼び出し、空の文字列を指定します。</para>
+</listitem><listitem><para>現在のロケールの値を返します。ANSI Cに基づくシステムでは、これは次の呼び出しの結果です。</para>
+<programlisting>setlocale(LC_ALL, NULL);</programlisting>
+</listitem></itemizedlist>
+<para>アプリケーションは、次ように<computeroutput>XtSetLanguageProc()</computeroutput>関数を呼び出すことによって、デフォルトの言語プロシージャを使用することができます。</para>
+<programlisting>XtSetLanguageProc(NULL, NULL, NULL);
+...
+toplevel = XtAppInitialize(...);</programlisting>
+<para>デフォルトでは、Xtは言語プロシージャをインストールしません。アプリケーションが<computeroutput>XtSetLanguageProc()</computeroutput>関数を呼び出さない場合、<systemitem>xnlLanguage</systemitem>リソースが設定されていれば、Xtはディスプレイごとの言語文字列としてその値を使用します。<systemitem>xnlLanguage</systemitem>リソースが設定されていなければ、Xtは<systemitem>LANG</systemitem>環境変数から言語文字列を取得します。<literal><indexterm><primary>XtSetLanguageProc</primary><secondary>XtSetLanguageProcのデフォルト言語</secondary></indexterm></literal></para>
+<note>
+<para>このプロセスから得られるディスプレイごとの言語文字列はインプリメンテーションに依存しており、いったん言語文字列が確立されるとXtは言語文字列を調べるための公の手段を提供しません。</para>
+</note>
+<para>アプリケーションは、それ自身の言語プロシージャを提供することによって、希望するプロシージャを使用して言語文字列を設定することができるようになります。</para>
+</sect1>
+<sect1 id="IPG.motif.div.3">
+<title id="IPG.motif.mkr.3">フォント管理</title>
+<para>デスクトップはレンダー・テーブルを使用してテキストを表示します。レンダー・テーブルはレンディションのタグを付けられた集合で、その各々はコンパウンド・ストリングの描画時に使用されるデータを指定します。レンディション、および、レンダー・テーブルについては、「Motif プログラマーズ・ガイド」を参照してください。</para>
+</sect1>
+<sect1 id="IPG.motif.div.11">
+<title id="IPG.motif.mkr.5">ローカライズされたテキストの描画<indexterm><primary>コンパウンド・ストリング</primary><secondary>国際テキストを表示するためのコンパウンド・ストリング</secondary></indexterm><indexterm><primary>コンパウンド・ストリング</primary><secondary>コンパウンド・ストリングの構造、レンダー・テーブルとの対話操作</secondary></indexterm></title>
+<para>コンパウンド・ストリング（<classname>XmString</classname>型）は、プログラムを変更することなく多くの異なったフォントで表示できるように、テキストをエンコードする手段です。レンディション・タグで識別さていれるレンディションが、フォント（および、色など、その他の属性）を指定し、それによってレンディション・タグ付きのコンパウンド・ストリングが描画されます。</para>
+<para>国際化にとって特に有用なのは、レンディションの集合であるレンダー・テーブルです。テーブルのレンディションの中に、<systemitem class="constant">_MOTIF_DEFAULT_LOCALE</systemitem>タグの付いたものがひとつあり、これが現在のロケール用に使用されるレンディションとなります。国際化対応のアプリケーションでは、レンダー・テーブルはリソース・ファイルで指定しなければなりません。</para>
+<para>前述は、ローカライズされたテキストの描画に関するいくつかの項目について、簡単に概観したものです。詳しくは、「Motif プログラマーズ・ガイド」を参照してください。</para>
+</sect1>
+<sect1 id="IPG.motif.div.18">
+<title id="IPG.motif.mkr.11">ローカライズされたテキストの入力<indexterm><primary>VendorShellウィジェット・クラス</primary><secondary>入力マネージャとしてのVendorShellウィジェット・クラス</secondary></indexterm><indexterm><primary>入力メソッド</primary><secondary>入力メソッドにおけるVendorShellウィジェット・クラス</secondary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary>ジオメトリ管理におけるVendorShellウィジェット・クラス</secondary></indexterm></title>
+<para>システム環境では、<computeroutput>VendorShell</computeroutput>ウィジェット・クラスは、拡張されて入力メソッドへのインタフェースを提供します。VendorShellクラスは、そのジオメトリ管理では子ウィジェットをひとつしか制御しないのに対し、入力メソッドへのインタフェースではそこで必要なすべてのコンポーネントを管理できるように拡張されます。
+これらのコンポーネントには、ステータス領域、前編集領域、メイン・ウィンドウ領域<indexterm><primary>VendorShellウィジェット・クラス</primary><secondary>VendorShellウィジェット・クラスにおけるコンポーネント管理</secondary><tertiary> VendorShellウィジェット・クラスにおけるコンポーネント管理のステータス領域</tertiary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary>VendorShellウィジェット・クラスにおけるコンポーネント管理</secondary><tertiary> VendorShellウィジェット・クラスにおけるコンポーネント管理の前編集領域</tertiary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary>VendorShellウィジェット・クラスにおけるコンポーネント管理</secondary><tertiary> VendorShellウィジェット・クラスにおけるコンポーネント管理のメイン・ウィンドウ領域</tertiary></indexterm> があります。</para>
+<para>入力メソッドが、ステータス領域または前編集領域、もしくは、その両方を必要とする場合、<computeroutput>VendorShell</computeroutput>ウィジェットは自動的にステータス領域と前編集領域のインスタンスを生成し、そのジオメトリ・レイアウトを管理します。ステータス領域も前編集領域もすべて<computeroutput>VendorShell</computeroutput>ウィジェットにより内部的に管理され、クライアントからはアクセスすることができません。<computeroutput>VendorShell</computeroutput>ウィジェットの子としてインスタンスを生成されたウィジェットは、メイン・ウィンドウ領域と呼ばれます。<indexterm><primary>入力メソッド</primary><secondary>入力メソッドの必要条件</secondary></indexterm><indexterm><primary>国際的テキスト入力</primary><secondary>国際的テキスト入力の入力メソッド</secondary></indexterm>
+<indexterm><primary>入力メソッド</primary><secondary>入力メソッドの国際的テキスト入力</secondary></indexterm></para>
+<para><computeroutput>VendorShell</computeroutput>ウィジェットが使用する入力メソッドは、<systemitem>XmNinputMethod</systemitem>リソース（たとえば<computeroutput>@im=alt</computeroutput>）により決定されます。デフォルト値Nullは、VendorShellが生成されたときのロケールに関連付けられたデフォルトの入力メソッドを選択することを指示します。このようにユーザは、ロケールを設定すること、<systemitem>XmNinputMethod</systemitem>リソースを設定すること、もしくは、その両方を設定することにより、入力メソッドの選択に影響を与えることができます。
+ロケール名は、入力メソッド名を決定するために<systemitem>XmNinputMethod</systemitem>リソースと連結されます。ロケール名はこのリソースで指定してはなりません。<systemitem>XmNinputMethod</systemitem>リソースのモディファイア名は<computeroutput>@im=</computeroutput><symbol role="Variable">modifier</symbol>形式の中におかなければなりません。モディファイアはどの入力メソッドが選択されているかを修飾するのに使用される文字列です。<indexterm><primary>入力メソッド</primary><secondary>XmNinputMethodリソースの入力メソッドの決定</secondary></indexterm><indexterm><primary>XmNinputMethodリソースの入力メソッドの決定</primary></indexterm></para>
+<para><computeroutput>VendorShell</computeroutput>ウィジェットは入力メソッドを共用できる複数のウィジェットをサポートすることができます。しかし、いつでもキーボードのフォーカスをもつことができる（たとえば、キー・プレスのイベントを受信して、それを入力メソッドに送信する）ウィジェットはひとつだけです。複数のウィジェット（<computeroutput>Text</computeroutput>ウィジェットなど）をサポートするためには、ウィジェットは<computeroutput>VendorShell</computeroutput>ウィジェットの子孫である必要があります。</para>
+<note>
+<para><computeroutput>VendorShell</computeroutput>ウィジェット・クラスは<computeroutput>TransientShell</computeroutput>ウィジェット・クラス、および、<computeroutput>TopLevelShell</computeroutput>ウィジェット・クラスのスーパークラスです。このように、<computeroutput>TopLevelShell</computeroutput>、もしくは、<computeroutput>DialogShell</computeroutput>のインスタンスの生成は本質的に、<computeroutput>VendorShell</computeroutput>ウィジェット・クラスのインスタンスの生成です。</para>
+</note>
+<para><computeroutput>VendorShell</computeroutput>ウィジェットは、その子孫のひとつが<computeroutput>XmText[Field]</computeroutput>インスタンスである場合のみ入力マネージャとして動作します。<computeroutput>XmText[Field]</computeroutput>インスタンスが<computeroutput>VendorShell</computeroutput>ウィジェットの子孫として生成されるとすぐ、<computeroutput>VendorShell</computeroutput>は現在のロケールにより指示される特定の入力メソッドに必要な領域を生成します。<computeroutput>XmText[Field]</computeroutput>インスタンスがマップされずに単に生成された場合でも、VendorShellは前述のようなジオメトリ管理を行います。</para>
+<para><computeroutput>VendorShell</computeroutput>ウィジェットは次のことを行います。<indexterm><primary>国際的テキスト入力</primary><secondary>国際的テキスト入力のVendorShellウィジェット操作</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>システムにインストールされたロケールがサポートしているマルチバイト文字の入力と出力をアプリケーションが処理できるようにします。<indexterm><primary>VendorShellウィジェット操作</primary> <secondary>VendorShellウィジェット操作におけるマルチバイト文字I/Oの処理</secondary></indexterm></para>
+</listitem>
+<listitem><para>入力メソッドのインスタンスを<computeroutput>XmIm</computeroutput>参照関数で定義されている通りに管理します。</para>
+</listitem><listitem><para>OnTheSpot、OffTheSpot、OverTheSpot、Root、Noneのいずれかのモードで、前編集領域での前編集をサポートします。ローカライズされたテキストは、フォーカスを変更することによって、複数の<computeroutput>Text</computeroutput>子ウィジェット・ツリー内のどの<computeroutput>Text</computeroutput>子ウィジェットにも入力することができます。</para>
+</listitem><listitem><para>子孫ウィジェットのジオメトリ管理を提供します。</para>
+</listitem></itemizedlist>
+<note>
+<para>入力メソッド操作も、スタイル・マネージャのアプリケーションから呼び出されるダイアログ・ボックスによって、ユーザがカスタマイズする可能性があります。詳しくは、<emphasis>共通デスクトップ環境 ユーザーズ・ガイド</emphasis>を参照してください。</para>
+</note>
+<sect2 id="IPG.motif.div.19">
+<title>ジオメトリ管理<indexterm><primary>国際的テキスト入力</primary><secondary>国際的テキスト入力のジオメトリ管理</secondary></indexterm><indexterm><primary>ジオメトリ管理</primary><secondary>ジオメトリ管理の国際的テキスト入力</secondary></indexterm></title>
+<para><computeroutput>VendorShell</computeroutput>ウィジェットは、入力メソッドのユーザ・インタフェース・コンポーネントのジオメトリ管理とフォーカス管理を必要に応じて提供します。ロケールがそれを保証する場合（たとえば、ロケールが日本語のEUC（拡張UNIXコード）ロケールの場合）、<computeroutput>VendorShell</computeroutput>ウィジェットは、必要な前編集領域またはステータス領域、あるいは、その両方のジオメトリを自動的に割り当てて管理します。</para>
+<para>現在実行中の前編集によって、補助領域が必要となる場合があります。補助領域が必要な時は、<computeroutput>VendorShell</computeroutput>ウィジェットも補助領域のインスタンスを生成し管理します。通常、<computeroutput>VendorShell</computeroutput>ウィジェットの子は複数の<computeroutput>Text</computeroutput>ウィジェット、および、<computeroutput>TextField</computeroutput>ウィジェットを管理することができるコンテナ・ウィジェット（<computeroutput>XmBulletinBoard</computeroutput>ウィジェットや<computeroutput>XmRowColumn</computeroutput>ウィジェットのような）であり、ユーザがマルチバイト文字を入力することができます。このシナリオでは、すべての<computeroutput>Text</computeroutput>ウィジェットは同一の入力メソッドを共用します。</para>
+<note>
+<para><indexterm><primary>ジオメトリ管理</primary><secondary>ジオメトリ管理におけるXmBulletinBoardウィジェット</secondary></indexterm><indexterm><primary>ジオメトリ管理</primary><secondary>ジオメトリ管理におけるXmRowColumnウィジェット</secondary></indexterm><indexterm><primary>ジオメトリ管理</primary><secondary>ジオメトリ管理におけるTextウィジェット </secondary></indexterm><indexterm><primary>ジオメトリ管理</primary><secondary>ジオメトリ管理におけるTextFieldウィジェット</secondary></indexterm><indexterm><primary>国際的テキスト入力</primary><secondary>国際的テキスト入力のマルチバイト文字</secondary></indexterm><indexterm><primary>入力メソッド</primary><secondary>入力メソッドのTextウィジェット</secondary></indexterm><indexterm><primary>Textウィジェット、入力メソッド</primary></indexterm>ステータス領域、前編集領域、補助領域には、アプリケーション・プログラマはアクセスできません。
+たとえば、アプリケーション・プログラマがステータス領域のウィンドウIDにアクセスすることは想定されていません。これらのコンポーネントは、必要に応じて<computeroutput>VendorShell</computeroutput>ウィジェット・クラスが管理するので、ユーザはそのインスタンス化や管理について考える必要はありません。</para>
+</note>
+<para>アプリケーション・プログラマは<computeroutput>VendorShell</computeroutput>ウィジェット・クラスの<systemitem>XmNpreeditType</systemitem>リソースによって、入力メソッドのユーザ・インタフェースのコンポーネントの動作をいくらか制御できます。<indexterm><primary>ジオメトリ管理</primary><secondary>ジオメトリ管理におけるアプリケーション・プログラマ制御</secondary></indexterm>
+<indexterm><primary>アプリケーション・プログラマによる入力メソッドコンポーネントの制御</primary></indexterm> （<literal>OffTheSpot</literal>モード、<literal>OnTheSpot</literal>モード、<literal>OverTheSpot</literal>モードについてはこのマニュアルで説明しています。）</para>
+<para>ジオメトリ管理は、入力メソッドのユーザ・インタフェースのコンポーネントすべてに及びます。アプリケーション・プログラム・ウィンドウ（<computeroutput>TopLevelShell</computeroutput>ウィジェット）がサイズ変更されると、入力メソッドのユーザ・インタフェースのコンポーネントもそれに従ってサイズ変更され、その中の前編集された文字列は要求に応じて再配置されます。もちろん、これはシェル・ウィンドウのリサイズ・ポリシーが真であることを仮定しています。</para>
+<para><computeroutput>VendorShell</computeroutput>ウィジェットが生成されるとき、特定の入力メソッドが、ステータス領域または前編集領域、もしくは、その両方を必要とするならば、VendorShellのサイズにはこれらのコンポーネントが必要とする領域が考慮されます。前編集領域、および、ステータス領域が必要とする追加の領域は、<computeroutput>VendorShell</computeroutput>ウィジェット領域の一部分です。それらの領域も、サイズ変更が必要な場合は、<computeroutput>VendorShell</computeroutput>ウィジェットにより管理されます。 </para>
+<para>これらの領域（ステータス領域と前編集領域）の潜在的なインスタンス化があるので、現在使用中の入力メソッドに依存して、<computeroutput>VendorShell</computeroutput>ウィジェット領域のサイズが、その子のサイズに正確に適応するように伸縮する必要はありません。<computeroutput>VendorShell</computeroutput>ウィジェット領域のサイズは、その子のジオメトリ<emphasis>と</emphasis>これらの入力メソッドのユーザ・インタフェース領域のジオメトリの両方に適応するように伸縮します。
+<computeroutput>VendorShell</computeroutput>ウィジェットとその子ウィジェット（メイン・ウィンドウ領域）では、高さが異なるかもしれません（たとえば、20ピクセル）。幅のジオメトリは入力メソッドのユーザ・インタフェースのコンポーネントの影響を受けません。<indexterm><primary>VendorShellウィジェット・クラス</primary><secondary>VendorShellウィジェット・クラスのサイズ</secondary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary> VendorShellウィジェット・クラスの子ウィジェットのサイズ</secondary></indexterm></para>
+<para>まとめとして、子に要求されたサイズは可能ならば受け付けられます。<computeroutput>VendorShell</computeroutput>の実際のサイズはその子よりも大きい可能性があります。</para>
+<para><computeroutput>VendorShell</computeroutput>ウィジェットとその子のジオメトリを指定する要求は、互いに矛盾しない限り、また、<computeroutput>VendorShell</computeroutput>ウィジェットのサイズ変更が可能な制約内である限り、受け付けられます。矛盾する場合は、子のウィジェット・ジオメトリ要求が優先します。たとえば、子ウィジェットのサイズが100x100と指定されている場合、VendorShellのサイズもまた、100x100と指定されます。子ウィジェットのサイズが100x100となるのに対して、VendorShellのサイズは結果的に100x120となります。子ウィジェットのサイズが指定されていない場合、VendorShellは自分のサイズ指定を受け取る必要があるならば子ウィジェットを縮小します。たとえば、VendorShellのサイズが100x100と指定されておりその子にはサイズが指定されていない場合は、子ウィジェットのサイズは100x80となります。<computeroutput>VendorShell</computeroutput>ウィジェットがサイズ変更不可能ならば、その子のジオメトリ要求が何であっても、<computeroutput>VendorShell</computeroutput>ウィジェットは自分のジオメトリ指定だけを受け取ります。</para>
+</sect2>
+<sect2 id="IPG.motif.div.20">
+<title>フォーカス管理<indexterm><primary>国際的テキスト入力</primary><secondary>フォーカス管理</secondary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary> VendorShellウィジェット・クラスのフォーカス管理</secondary></indexterm><indexterm><primary>フォーカス管理</primary><secondary>フォーカス管理の国際的テキスト入力</secondary></indexterm></title>
+<para>多数の文字を使用する言語（日本語や中国語など）では、ユーザがその言語で対話的に文字を構成することができる入力メソッドが必要です。<indexterm><primary>入力メソッド</primary><secondary>入力メソッドのマルチバイト文字</secondary></indexterm> これらの言語では端末のキーボードに適正にマップできる数よりずっと多くの文字が存在するためです。</para>
+<para>そのような言語で文字を構成する対話的なプロセスは<emphasis>前編集</emphasis>と呼ばれます。前編集自体は入力メソッドにより処理されますが、前編集のユーザ・インタフェースはシステム環境によって決定されます。インタフェースは入力メソッドとシステム環境の間に存在する必要があります。これはシステム環境の<computeroutput>VendorShell</computeroutput>ウィジェットにより実行されます。<indexterm><primary>前編集</primary></indexterm><indexterm><primary>VendorShellウィジェット・クラス</primary><secondary>インタフェースとしてのVendorShellウィジェット・クラス</secondary></indexterm><indexterm><primary>インタフェース</primary><secondary>入力メソッドと共通デスクトップ環境間のインタフェース</secondary></indexterm><indexterm><primary>入力メソッド</primary><secondary>入力メソッドの共通デスクトップ環境インタフェース</secondary></indexterm><indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の入力メソッド・インタフェース</secondary></indexterm><indexterm><primary>前編集</primary></indexterm></para>
+<para><!--Original XRef content: 'Figure&numsp;4&hyphen;3'--><xref role="CodeOrFigureOrTable" linkend="IPG.motif.mkr.12">は、日本語の前編集の例を示しています。反転表示されている文字列は前編集中の文字列です。この文字列は、ウィンドウにフォーカスをもっていくことにより異なるウィンドウ間を移動させることができます。しかし、一度に行なえる前編集セッションはひとつだけです。</para>
+<figure>
+<title id="IPG.motif.mkr.12">日本語の前編集の例</title>
+<graphic id="IPG.motif.grph.3" entityref="IPG.motif.fig.3"></graphic>
+</figure>
+<para>フォーカス管理の例として、<computeroutput>TopLevelShell</computeroutput>ウィジェット（<computeroutput>VendorShell</computeroutput>ウィジェットのサブクラス）が、5個の<computeroutput>XmText</computeroutput>ウィジェットをもつ<computeroutput>XmBulletinBoard</computeroutput>ウィジェットの子（メイン・ウィンドウ領域）をもっているとします。そのロケールには前編集領域が必要で、OverTheSpotモードが指定されているとします。<computeroutput>VendorShell</computeroutput>ウィジェットは入力メソッドとしてインスタンスをひとつしか管理しないので、<computeroutput>TopLevelShell</computeroutput>ウィジェット内で一度にひとつの前編集領域しか実行できません。
+フォーカスがある<computeroutput>Text</computeroutput>ウィジェットから別の<computeroutput>Text</computeroutput>ウィジェットへ移動すると、作業中の現在の前編集領域も、現在フォーカスをもっている<computeroutput>Text</computeroutput>ウィジェットのトップに移動します。前の<computeroutput>Text</computeroutput>ウィジェットへのキー処理は一時的に中断されます。前編集完了時の文字列の送信など、それに続く入力メソッドのインタフェースは新しくフォーカスされた <computeroutput>Text</computeroutput>ウィジェットに対して行われます。<indexterm><primary>フォーカス管理</primary><secondary>フォーカス管理の詳細な例</secondary></indexterm></para>
+<para>前編集されている文字列は、たとえばマウスをクリックするなどしてフォーカスの位置に移動することができます。</para>
+<para>エンド・ユーザが前編集を終了して確定した文字列は、<emphasis>再変換できません。</emphasis>文字列はいったん構成されると、確定されます。前編集文字列を確定する操作については、「Motif プログラマーズ・ガイド」の第１１章を参照してください。</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.motif.div.21">
+<title id="IPG.motif.mkr.13">国際化対応ユーザ・インタフェース言語<indexterm><primary>各国語サポート</primary><secondary>各国語サポートにおけるユーザ・インタフェース言語（UIL）</secondary></indexterm><indexterm><primary>ユーザ・インタフェース言語（UIL）、UIL &lt;$nopage>参照</primary></indexterm></title>
+<para>マルチバイト文字列を文字列リテラルとして解析する機能がユーザ・インタフェース言語（UIL）に追加されています。<indexterm><primary>国際的使用のためのプログラミング</primary><secondary>国際的使用のためのプログラミングのUIL</secondary><tertiary>国際的使用のためのプログラミングのUILにおけるマルチバイト文字の文字列の解析</tertiary></indexterm> UILファイルは、目的の言語の特性を使用してユーザ・インタフェース定義（UID）を記述することによって作成されます。</para>
+<sect2 id="IPG.motif.div.22">
+<title>国際化対応ユーザ・インタフェース言語のプログラミング<indexterm><primary>ロケール</primary><secondary>ロケールのUILコンパイラ</secondary></indexterm></title>
+<para>UILコンパイラは標準ではないcharsetをロケール・テキストとして解析します。それには、UILコンパイラがどんなロケール・テキストとも同じロケールで実行される必要があります。<indexterm><primary>国際的使用のためのプログラミング</primary><secondary>国際的使用のためのプログラミングのUIL</secondary><tertiary>国際的使用のためのプログラミングのUILにおける標準でないcharsetの解析</tertiary></indexterm><indexterm><primary>国際的使用のためのプログラミング</primary><secondary>国際的使用のためのプログラミングのUIL</secondary><tertiary>国際的使用のためのプログラミングのUILにおけるロケール・テキスト</tertiary></indexterm></para>
+<para>ウィジェットのロケール・テキストがフォント・セット（ひとつ以上のフォント）を必要とする場合、フォントはリソース・ファイル内にレンダー・テーブルとして指定されなければなりません。</para>
+<para>UILで特定の文字を使用するために、UILファイルが目的の言語の特性に従って記述され、UIDファイルにコンパイルされます。ローカライズされたテキストを含むUILファイルは、それが実行されるロケールでコンパイルされる必要があります。</para>
+<sect3 id="IPG.motif.div.23">
+<title>文字列リテラル<indexterm><primary>国際的使用のためのプログラミング</primary><secondary>国際的使用のためのプログラミングのUIL</secondary><tertiary>国際的使用のためのプログラミングにおけるUILの文字列リテラル</tertiary></indexterm><indexterm><primary>文字列リテラル</primary><secondary>文字列リテラルの国際的UILのためのプログラミング</secondary></indexterm></title>
+<para>次にリテラル文字列の例を示します。cur_charsetの値は常にdefault_charsetの値に設定されており、それによって文字列リテラルはロケール・テキストを含むことができます。</para>
+<para>ロケール・テキストをdefault_charsetの値で文字列リテラルに設定するためには、次のように入力します。</para>
+<programlisting>XmNlabelString = '<symbol>XXXXXX</symbol>';</programlisting>
+<para>または、</para>
+<programlisting>XmNlabelString = #default_charset&ldquo;<symbol>XXXXXX</symbol>&rdquo;;
+</programlisting>
+<para>ロケール・テキストのエンコードと一致する<systemitem>LANG</systemitem>環境変数でUILファイルをコンパイルしてください。そうでないと、文字列リテラルは正しくコンパイルされません。</para>
+</sect3>
+<sect3 id="IPG.motif.div.24">
+<title>フォント<indexterm><primary>フォント・セット</primary><secondary>フォント・セットにおける国際的UILのためのプログラミング</secondary></indexterm> セット<indexterm><primary>国際的使用のためのプログラミング</primary><secondary>国際的使用のためのプログラミングのUIL</secondary></indexterm><indexterm><primary>国際的UILのためのプログラミング</primary></indexterm><indexterm><primary>フォント・セット</primary><secondary>国際的UILのためのプログラミング</secondary></indexterm></title>
+<para>フォント・セットはUILソース・プログラミングによって設定することはできません。フォント・セットが必要な場合はいつでも、リソース・ファイルにレンダー・テーブル・リソースとして設定しなければなりません。詳しくは、「Motif プログラマーズ・ガイド」を参照してください。</para>
+</sect3>
+<sect3 id="IPG.motif.div.25">
+<title>フォント・リスト<indexterm><primary>UILにおけるフォント・リスト、リソースを指定</primary></indexterm></title>
+<para>フォント・セットと同様に、フォント・リストはリソース・ファイルにレンダー・テーブルとして指定されます。詳しくは、「Motif プログラマーズ・ガイド」を参照してください。</para>
+</sect3>
+<sect3 id="IPG.motif.div.25a">
+<title>レンダー・テーブル<indexterm><primary>UILにおけるレンダー・テーブル、リソースを指定</primary></indexterm></title>
+<para>レンダー・テーブルは、レンディション、タブ・リスト、タブ・ストップと同様に、オブジェクトの特殊クラスとして実装されています。詳しくは、「Motif プログラマーズ・ガイド」を参照してください。</para>
+</sect3>
+<sect3 id="IPG.motif.div.26">
+<title>リソース・ファイル<indexterm><primary>国際的使用のためのプログラミング</primary><secondary>国際的使用のためのプログラミングのUIL</secondary></indexterm><indexterm><primary>国際的UILのためのプログラミング</primary></indexterm><indexterm><primary>リソース・ファイル、作成</primary></indexterm><indexterm><primary>リソース・ファイル</primary><secondary>リソース・ファイルにおける国際的UILの作成</secondary></indexterm> の作成<indexterm><primary>リソース・ファイル</primary><secondary>リソース・ファイルの国際的UILのための作成</secondary></indexterm> </title>
+<para>必要ならば、次の例のように入力メソッド関連のリソースをリソース・ファイルに設定してください。</para>
+<programlisting>*preeditType: OverTheSpot, OnTheSpot, OffTheSpot, Root, or None
+</programlisting>
+</sect3>
+<sect3 id="IPG.motif.div.27">
+<title>環境<indexterm><primary>国際的使用のためのプログラミング</primary><secondary>国際的使用のためのプログラミングのUIL</secondary></indexterm><indexterm><primary>国際的UILのためのプログラミング</primary></indexterm><indexterm><primary>環境の設定</primary><secondary>国際的UILのための環境の設定</secondary></indexterm> の設定<indexterm><primary>環境の設定</primary><secondary>国際的UIL用の環境の設定</secondary></indexterm></title>
+<para>ロケールに依存するアプリケーションの場合は、UIDファイルを適切なディレクトリに設定してください。<systemitem>UIDPATH</systemitem>環境変数、または、<systemitem>XAPPLRESDIR</systemitem>環境変数を適切な値に設定してください。</para>
+<para>たとえば、英語環境（<systemitem>LANG</systemitem>環境変数が<computeroutput>en_US</computeroutput>）で<computeroutput>uil_sample</computeroutput>プログラムを実行するためには、<filename>$HOME/en_US</filename>ディレクトリにラテン文字で<filename>uil_sample.uid</filename>を設定するか、または、<filename>uil_sample.uid</filename>をあるディレクトリに設定して<systemitem>UIDPATH</systemitem>環境変数に<filename>uil_sample.uid</filename>ファイルの絶対パスを設定してください。</para>
+<para>日本語環境（<systemitem>LANG</systemitem>環境変数が<systemitem>ja_JP</systemitem>）で<computeroutput>uil_sample</computeroutput>プログラムを実行するためには、<filename>$HOME/ja_JP</filename>ディレクトリに日本語（マルチバイト）文字で<filename>uil_sample.uid</filename>ファイルを作成するか、または、<filename>uil_sample.uid</filename>を一意のディレクトリに置いて<systemitem>UIDPATH</systemitem>環境変数に<filename>uil_sample.uid</filename>ファイルの絶対パスを指定してください。次のリストに、使用できる変数を指定します。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="356*">
+<tbody>
+<row>
+<entry><para><emphasis>%U</emphasis></para></entry>
+<entry><para>UIDファイル文字列を指定します。</para></entry></row>
+<row>
+<entry><para><emphasis>%N</emphasis></para></entry>
+<entry><para>アプリケーションのクラス名を指定します。</para></entry></row>
+<row>
+<entry><para><emphasis>%L</emphasis></para></entry>
+<entry><para><computeroutput>xnlLanguage</computeroutput>リソース、または、<filename>LC_CTYPE</filename>カテゴリの値を指定します。</para></entry></row>
+<row>
+<entry><para><emphasis>%l</emphasis></para></entry>
+<entry><para><computeroutput>xnlLanguage</computeroutput>リソース、または、<computeroutput>LC_CTYPE</computeroutput>カテゴリの言語コンポーネントを指定します。</para></entry></row></tbody></tgroup></informaltable>
+<para><systemitem>XAPPLRESDIR</systemitem>環境変数が設定されている場合、 <computeroutput>MrmOpenHierarchy()</computeroutput>関数は次の順番でUIDファイルを検索します。<indexterm><primary>環境の設定</primary><secondary>環境の設定におけるUIDファイルの検索</secondary></indexterm><indexterm><primary>UIDファイル検索</primary></indexterm><indexterm><primary>MrmOpenHierarchy関数、UIDファイルの検索</primary></indexterm><indexterm><primary>UIDファイルの検索</primary></indexterm></para>
+<orderedlist><listitem><para>UIDファイルのパス名</para>
+</listitem><listitem><para><computeroutput>$UIDPATH</computeroutput></para>
+</listitem><listitem><para>%U</para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/</computeroutput> <emphasis>%L</emphasis><computeroutput>/uid/</computeroutput><emphasis>%N</emphasis> <computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/</computeroutput> <emphasis>%l</emphasis><computeroutput>/uid/</computeroutput><emphasis>%N</emphasis> <computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/uid/</computeroutput> <emphasis>%N</emphasis><computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/</computeroutput> <emphasis>%L</emphasis><computeroutput>/uid/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/</computeroutput> <emphasis>%l</emphasis><computeroutput>/uid/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/uid/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$HOME/uid/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$HOME/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/</computeroutput> <emphasis>%L</emphasis><computeroutput>/uid/</computeroutput><emphasis>%N</emphasis> <computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/</computeroutput> <emphasis>%l</emphasis><computeroutput>/uid/</computeroutput><emphasis>%N</emphasis> <computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/uid/</computeroutput> <emphasis>%N</emphasis><computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/</computeroutput> <emphasis>%L</emphasis><computeroutput>/uid/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/</computeroutput> <emphasis>%l</emphasis><computeroutput>/uid/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/uid/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/include/X11/uid/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem></orderedlist>
+<para><systemitem>XAPPLRESDIR</systemitem>環境変数が設定されていない場合は、<computeroutput>MrmOpenHierarchy()</computeroutput>関数は、<systemitem>XAPPLRESDIR</systemitem>環境変数のかわりに<computeroutput>$HOME</computeroutput>を使用します。</para>
+</sect3>
+</sect2>
+<sect2 id="IPG.motif.div.28">
+<title>UILのdefault_charsetキャラクタ・セット<indexterm><primary>ユーザ・インタフェース言語（UIL）、UIL &lt;$nopage>参照</primary></indexterm><indexterm><primary>default_charset文字列リテラル</primary></indexterm><indexterm><primary>文字列リテラル</primary><secondary>文字列リテラルのUILにおけるdefault_charset</secondary></indexterm><indexterm><primary>default_charset文字列リテラル</primary></indexterm></title>
+<para>default_charset文字列リテラルを用いれば、どんな文字でも有効な文字列リテラルとして設定することができます。たとえば、<systemitem>LANG</systemitem>環境変数が<computeroutput>el_GR</computeroutput>である場合、default_charsetの文字列リテラルはどんなギリシャ文字でも含むことができます。<systemitem>LANG</systemitem>環境変数が<computeroutput>ja_JP</computeroutput>である場合、default_charset文字列リテラルは日本語EUCでエンコードされた日本語文字を含むことができます。</para>
+<para>キャラクタ・セットがひとつも文字列リテラルに設定されていない場合、文字列リテラルのキャラクタ・セットはcur_charsetとして設定されます。そして、システム環境においてはcur_charsetの値は常にdefault_charsetとして設定されます。</para>
+<sect3 id="IPG.motif.div.29">
+<title>例: uil_sample<indexterm><primary>UIL（ユーザ・インタフェース言語）</primary><secondary>日本語プログラムと英語プログラムの例</secondary></indexterm></title>
+<para><!--Original XRef content: 'Figure&numsp;4&hyphen;4'--><xref role="CodeOrFigureOrTable" linkend="IPG.motif.mkr.14">は、英語環境と日本語環境でのUILプログラム例です。</para>
+<figure>
+<title id="IPG.motif.mkr.14">英語環境と日本語環境でのUILプログラムの例</title>
+<graphic id="IPG.motif.grph.4" entityref="IPG.motif.fig.4"></graphic>
+</figure>
+<para>次のプログラム例では、<emphasis>LLL</emphasis>はロケール・テキストを指し、日本語、韓国語、中国語（繁体字）、ギリシャ語、フランス語、その他の言語が入ります。</para>
+<programlisting>uil_sample.uil
+!
+!  sample uil file - uil_sample.uil
+!
+!   C source file - uil_sample.c
+!
+!    Resource file - uil-sample.resource
+!
+module Test
+  version = 'v1.0'
+  names = case_sensitive
+  objects = {
+   XmPushButton = gadget;
+  }
+!************************************
+!  declare callback procedure
+!************************************
+procedure
+  exit_CB;
+!***************************************************************
+!  declare BulletinBoard as parent of PushButton and Text
+!***************************************************************
+object
+  bb: XmBulletinBoard {
+     arguments{
+      XmNwidth = 500;
+      XmNheight = 200;
+     };
+     controls{
+      XmPushButton    pb1;
+      XmText   text1;
+     };
+  };
+!****************************
+!  declare PushButton
+!****************************
+object
+  pb1: XmPushButton {
+     arguments{
+       XmNlabelString = #Normal &ldquo;<emphasis>LLL</emphasis>exit button <emphasis>LLL</emphasis>&rdquo;;
+       XmNx = 50;
+       XmNy = 50;
+     };
+     callbacks{
+       XmNactivateCallback = procedure exit_CB;
+     };
+  };
+!*********************
+!  declare Text
+!*********************
+  text1: XmText {
+     arguments{
+     XmNx = 50;
+     XmNy = 150;
+   };
+  };
+end module;
+*
+*   C source file - uil_sample.c
+*
+*/
+#include &lt;Mrm/MrmAppl.h>
+#include &lt;locale.h>
+void exit_CB();
+static   MrmHierarchy    hierarchy;
+static   MrmType   *class;
+
+/******************************************/
+/*  specify the UID hierarchy list         */
+/*****************************************/
+static   char   *aray_file[]=
+     {&ldquo;uil_sample.uid&rdquo;
+     };
+static   int  num_file = (sizeof aray_file / sizeof
+aray_file[0]);
+/******************************************************/
+/*  define the mapping between UIL procedure names            */
+/*  and their addresses            */
+
+/******************************************************/
+static   MRMRegisterArg    reglist[]={
+     {&ldquo;exit_CB&rdquo;,(caddr_t) exit_CB}</programlisting>
+</sect3>
+</sect2>
+<sect2 id="IPG.motif.div.30">
+<title>UILのコンパウンド・ストリング<indexterm><primary>コンパウンド・ストリング</primary><secondary>UILのコンパウンド・ストリング</secondary></indexterm></title>
+<para>UILファイルに文字列を指定する仕組みは３つあります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>ヌルで終了する文字列またはコンパウンド・ストリングとしてUIDファイルに保存される可能性のある、文字列リテラルとして指定する。</para>
+</listitem><listitem><para>コンパウンド・ストリングとして指定する。</para>
+</listitem><listitem><para>ワイド・キャラクタ文字列として指定する。</para>
+</listitem></itemizedlist>
+<para>文字列リテラルもコンパウンド・ストリングも両方とも、テキスト、キャラクタ・セット、描画方向から構成されます。方向が明示されていない文字列リテラルとコンパウンド・ストリングについては、UILはキャラクタ・セットから描画方向を推定します。UIL連結演算子（&amp;）は、文字列リテラルとコンパウンド・ストリングの両方を連結します。</para>
+<para>UILは、文字列リテラルをUIDファイルにヌルで終了する文字列として保存しても、コンパウンド<indexterm><primary>文字列リテラル</primary><secondary>UILファイルの文字列リテラル</secondary></indexterm> ストリングとして保存しても、各文字列のキャラクタ・セットと描画方向に関する情報をそのテキストと共に保存します。一般的に次のような場合に、UILは文字列リテラルまたは文字列表現をコンパウンド・ストリングとしてUIDファイルに保存します。</para>
+<itemizedlist remap="Bullet1"><listitem><para>文字列表現が、異なるキャラクタ・セットまたは描画方向の２つ以上のリテラルから成る場合</para>
+</listitem><listitem><para>リテラルまたは文字列表現が、コンパウンド・ストリングのデータ型をもつ値（データ型がコンパウンド・ストリングであるリソースの値など）として使用されている場合、</para>
+</listitem></itemizedlist>
+<para>UILはキャラクタ・セットを指定する多くのキーワードを認識します。UILは認識するキャラクタ・セットそれぞれに、解析方向と、文字列が8ビットか16ビットかなどの解析<indexterm><primary>キャラクタ・セット・キーワード</primary></indexterm>
+<indexterm><primary>キャラクタ・セット、 UIL CHARACTER_SET関数で定義</primary></indexterm><indexterm><primary>文字列リテラル</primary><secondary>文字列リテラルのシンタクス</secondary></indexterm> 規則を関連付けます。UIL <command>CHARACTER_SET</command> 関数を使用してキャラクタ・セットを定義することも可能です。</para>
+<para>文字列リテラルのシンタクスは次のいずれかです。</para>
+<itemizedlist remap="Bullet1"><listitem><para>'[<symbol role="Variable">character_string</symbol>]'</para>
+</listitem><listitem><para>[#<symbol role="Variable">char_set</symbol>]</para>
+</listitem><listitem><para>&ldquo;[<symbol role="Variable">character_string</symbol>]&rdquo;</para>
+</listitem></itemizedlist>
+<para>各シンタクスについて、文字列のキャラクタ・セットは次のように決定されます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>'<symbol>character_string</symbol>'として宣言された文字列の場合、UILコンパイル環境に<systemitem>LANG</systemitem>環境変数が設定されているならば、キャラクタ・セットは<systemitem>LANG</systemitem>環境変数のコード・セット・コンポーネントです。<systemitem>LANG</systemitem>環境変数が設定されていない、または、コード・セットがないならば、キャラクタ・セットは<computeroutput>XmFALLBACK_CHARSET</computeroutput>の値です。デフォルトでは<computeroutput>XmFALLBACK_CHARSET</computeroutput>の値はISO8859-1ですが、ベンダーによっては異なった値を供給している場合もあります。</para>
+</listitem><listitem><para> <literal>#</literal><symbol role="Variable">char_set</symbol> <literal>&ldquo;</literal> <symbol role="Variable">string</symbol><literal>&rdquo;</literal>として宣言された文字列の場合、キャラクタ・セットは、<symbol role="Variable">char_set</symbol>です。</para>
+</listitem><listitem><para> <literal>&ldquo;</literal><symbol role="Variable">character</symbol><literal>_</literal> <symbol role="Variable">string</symbol><literal>&rdquo;</literal>として宣言された文字列の場合、キャラクタ・セットはモジュールに<filename>CHARACTER_SET</filename>クローズがあるかどうか、および、UILコンパイラの<filename>use_setlocale_flag</filename>が設定されているかどうかに依存します。</para>
+<itemizedlist remap="Bullet2"><listitem><para>モジュールに<filename>CHARACTER_SET</filename>クローズがある場合、キャラクタ・セットはそのクローズで指定されているものになります。</para>
+</listitem><listitem><para>モジュールに<filename>CHARACTER_SET</filename>クローズはないが、<command>uil</command>コマンドが<computeroutput>-s</computeroutput>オプションで開始された場合、または、<filename>Uil()</filename>関数が<command>use_setlocale_flag set</command>で開始された場合は、UILは<filename>setlocale()</filename>関数を呼び出して現在のロケールの文字列を解析します。その結果の文字列のキャラクタ・セットは<computeroutput>XmFONTLIST_DEFAULT_TAG</computeroutput>です。</para>
+</listitem><listitem><para>モジュールに<filename>CHARACTER_SET</filename>クローズがなく<computeroutput>uil</computeroutput>コマンドが<computeroutput>-s</computeroutput>オプションなしで開始された場合、または、<filename>Uil()</filename>関数が<filename>use_setlocale_flag</filename>なしで開始された場合は、UILコンパイル環境に<systemitem>LANG</systemitem>環境変数が設定されていれば、キャラクタ・セットは<systemitem>LANG</systemitem>環境変数のコード・セット・コンポーネントです。<systemitem>LANG</systemitem>環境変数が設定されていない、または、コード・セットがないならば、キャラクタ・セットは<computeroutput>XmFALLBACK_CHARSET</computeroutput>の値になります。</para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para>UILは常に<computeroutput>COMPOUND_STRING</computeroutput>関数を使用して指定された文字列をコンパウンド・ストリングとして保存します。この関数は、キャラクタ・セットの文字列表現とオプション指定、方向、文字列にセパレータを追加するか否か、を引き数としてとります。キャラクタ・セットや方向が指定されない場合は、前節で説明したように、UILは文字列表現からその値を取得します。</para>
+<note>
+<para>\（バックスラッシュ）で始まる定義済みの特定のエスケープ・シーケンスは、次の例外を除いて文字列リテラルで表示することができます。 &ndash; 単一引用符で囲まれた文字列は複数の行にわたることができます。各改行文字はバックスラッシュでエスケープされます。二重引用符で囲まれた文字列は複数の行にわたることはできません。 &ndash; エスケープ・シーケンスは、現在のロケールで解析された文字列（ローカライズされた文字列）の中で逐語的に処理されます。</para>
+</note>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->

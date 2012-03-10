@@ -1,0 +1,542 @@
+<!-- $XConsortium: ch08.sgm /main/2 1996/12/17 06:27:43 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.IntAc.div.1">
+<Title Id="SAG.IntAc.mkr.1">アクションおよびデータ型の概要</Title>
+<Para>
+<Emphasis><IndexTerm><Primary>アクション</Primary><Secondary>概要</Secondary></IndexTerm><IndexTerm><Primary>データ型</Primary><Secondary>概要</Secondary></IndexTerm>アクション</Emphasis> および <Emphasis>データ型</Emphasis> は、アプリケーションをデスクトップへ統合するときに非常に役立つコンポーネントです。アプリケーションの起動およびデータ・ファイルの処理を行うユーザ・インタフェースを作成する方法を提供します。
+</Para>
+<InformalTable Id="SAG.IntAc.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Introduction To Actions128'--><XRef Role="JumpText" Linkend="SAG.IntAc.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Introduction to Data Types135'--><XRef Role="JumpText" Linkend="SAG.IntAc.div.7"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+この章では、アクションおよびデータ型の概念を説明します。以下のことについて説明します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーションのアクションおよびデータ型を作成する理由
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アクションとデータ型の関連性
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アクションおよびデータ型とデスクトップ印刷との関連性
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="SAG.IntAc.div.2">
+<Title>関連項目</Title>
+<Para>
+アクションおよびデータ型を作成するときの手順と規則については、このマニュアルの次の３つの章で説明しています。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;9'--><XRef Role="ChapterNumber" Linkend="SAG.dtCrA.div.1"> では、デスクトップ・アプリケーションのアクション作成を使用してアクションおよびデータ型を作成する方法について説明します。
+</Para>
+<Para>
+多くのアプリケーションは、その定義の構文規則がわからなくても、アクション作成を使用してアクションおよびデータ型を作成できます。
+</Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;10'--><XRef Role="ChapterNumber" Linkend="SAG.CrAct.div.1"> および
+<!--Original XRef content: 'Chapter&numsp;11'--><XRef Role="ChapterNumber" Linkend="SAG.CrDT.div.1"> では、構成ファイルを作成および編集することにより、手動でアクションおよびデータ型を作成する方法について説明します。
+</Para>
+<Para>
+アクション作成ツールでサポートしていない高度な機能を使用するときは、手動でアクションおよびデータ型を作成する必要があります。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.IntAc.div.3">
+<Title Id="SAG.IntAc.mkr.2">アクションの概要<IndexTerm><Primary>アクション</Primary><Secondary>概要</Secondary></IndexTerm></Title>
+<Para>
+アクションは、アプリケーションの実行やデータ・ファイルを開くなど、自動化されたデスクトップのタスクを書いた命令です。アクションは、アプリケーション・マクロまたはプログラミング関数とよく似た動作をします。各アクションには、アクションを実行するのに使用するための名前があります。
+</Para>
+<Para>
+一度アクションを定義すると、デスクトップ・ユーザ・インタフェースに適用されるので、タスクを実行しやすくなります。デスクトップは、アイコン、フロントパネル・コントロール、アクションに対するメニュー項目などのユーザ・インタフェース・コンポーネントに接続する機能を提供します。
+</Para>
+<Figure>
+<Title>アクションの使用</Title>
+<Graphic Entityref="SAG.IntAc.fig.1" Id="SAG.IntAc.grph.1"></Graphic>
+</Figure>
+<Para>
+たとえば、アプリケーション・マネージャの[デスクトップツール]アプリケーション・グループには、さまざまなユーティリティを起動するアイコンがあります。
+</Para>
+<Figure>
+<Title>[デスクトップツール]アプリケーション・グループのアクション・アイコン</Title>
+<Graphic Entityref="SAG.IntAc.fig.2" Id="SAG.IntAc.grph.2"></Graphic>
+</Figure>
+<Para>
+これらのアイコンはそれぞれ、ダブルクリックすると実行されます。例として[Xwd 表示]というラベルの付いたアイコンをダブルクリックしたときにアクションを実行するという定義の一部を次に示します。アクションの定義は構成ファイル <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/xclients.dt</Filename> にあります。
+</Para>
+<programlisting>ACTION Xwud
+{
+ LABEL        Xwd Display
+ TYPE         COMMAND
+ EXEC_STRING  /usr/bin/X11/xwud -noclick -in \
+              &percnt;(File)Arg_1&ldquo;Xwd File To Display:&ldquo;&percnt;
+ &hellip;
+}
+</ProgramListing>
+<Para>
+アイコンをダブルクリックすると、アクションの <Filename>EXEC_STRING</Filename> フィールドにあるコマンドが実行されます。
+</Para>
+<Para>
+<IndexTerm><Primary>アクション</Primary><Secondary>フロントパネルによって使用される</Secondary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary><Secondary>アクションの使用</Secondary></IndexTerm>
+フロントパネルもアクションを使用します。例として、[個人アプリケーション]サブパネルの[端末エミュレータ]というラベルの付いたコントロールの定義の一部を示します。コントロールの定義は、構成ファイル <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> にあります。
+</Para>
+<programlisting>CONTROL Term
+{
+ ICON         Fpterm
+ LABEL        Terminal
+ PUSH_ACTION  Dtterm
+ &hellip;
+}
+</ProgramListing>
+<Para>
+<Filename>PUSH_ACTION</Filename> フィールドは、コントロールをクリックすると実行されるアクション（ここでは Dtterm という名前のアクション）を指定します。
+</Para>
+<Para>
+<IndexTerm><Primary>アクション</Primary><Secondary>メニューで使用される</Secondary></IndexTerm><IndexTerm><Primary>メニュー</Primary><Secondary>アクションの使用</Secondary></IndexTerm>
+他のアクションの使用方法としては、メニューで使用する方法があります。通常はデータ・ファイルではファイル・マネージャの[選択]メニューにアクションがあります。たとえば XWD ファイル（<Filename>.xwd</Filename> または <Filename>.wd</Filename> で終わる名前のファイル）には、Xwud アクションを実行することによって画面イメージを表示する[開く]アクションがあります。
+</Para>
+<Figure>
+<Title>データ型 XWD のファイルの[開く]アクション</Title>
+<Graphic Entityref="SAG.IntAc.fig.3" Id="SAG.IntAc.grph.3"></Graphic>
+</Figure>
+<Para>
+<IndexTerm><Primary>[選択]メニュー</Primary></IndexTerm>
+[選択]メニューのアクションは、XWD ファイルのデータ型定義で指定されます。定義は、構成ファイル <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/xclients.dt</Filename> にあります。
+</Para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+ ACTIONS  Open,Print
+ ICON     Dtxwd
+ &hellip;
+}
+</ProgramListing>
+<Para>
+XWD データ型と、それに関連する[開く]および[印刷]アクションは、
+<!--Original XRef content: '&xd2;How Data Types Connect Data Files to Actions&xd3; on page&numsp;136'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.IntAc.div.9"> で説明します。
+</Para>
+<Sect2 Id="SAG.IntAc.div.4">
+<Title>アクションによるアプリケーション用アイコンの作成方法<IndexTerm><Primary>アクション</Primary><Secondary>アプリケーション用アイコンの作成</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション</Primary><Secondary>〜用アイコンの作成</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>アプリケーション用の〜</Secondary></IndexTerm></Title>
+<Para>
+[デスクトップツール]アプリケーション・グループには[Xwd 表示]があります。このアイコンをダブルクリックすると、Ｘクライアントの <Command>xwud</Command> が実行されます。ただし、このアイコンは実際の <Command>xwud</Command> の実行可能ファイル <Filename>/usr/bin/X11/xwud</Filename> を直接表示するわけではありません。
+</Para>
+<Para>
+同じディレクトリに <Command>Xwud</Command> というファイルがあるので、アプリケーション・グループに[Xwd 表示]というラベルが付いたアイコンが表示されます
+(<!--Original XRef content: 'Figure&numsp;8&hyphen;4'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.IntAc.mkr.1"> 参照)。このファイルは、基本となるアクションを同じ名前、つまり Xwud で示します。アクション定義では、アクション名はキーワード <Command>ACTION</Command> に続く名前です。
+</Para>
+<programlisting>ACTION Xwud
+{
+ LABEL        Xwd Display
+ TYPE         COMMAND
+ WINDOW_TYPE  NO_STDIO
+ EXEC_STRING  /usr/bin/X11/xwud -noclick -in \
+              &percnt;(File)Arg_1&ldquo;Xwd File To Display:&ldquo;&percnt;
+ DESCRIPTION  The Xwd Display (Xwud) XwdDisplay action \
+              displays an xwd file that was created using the \
+              Xwd Capture (Xwd) action. It uses \
+              the xwud command.
+}
+</ProgramListing>
+<Para>
+<IndexTerm><Primary>アクション・ファイル</Primary><Secondary>定義</Secondary></IndexTerm>
+ファイルはアクションを示すので <Emphasis>アクション・ファイル</Emphasis> と呼びます。ファイルがアクションと同じ名前の実行可能ファイルであればアクション・ファイルです。アプリケーション・マネージャ（またはファイル・マネージャ）にあるアイコン
+は、
+<IndexTerm><Primary>アクション・アイコン</Primary></IndexTerm><Emphasis>アクション・アイコン</Emphasis> または、ダブルクリックするとアプリケーションが起動されるので、
+<IndexTerm><Primary>アプリケーション・アイコン</Primary><Secondary>作成</Secondary></IndexTerm><Emphasis>アプリケーション・アイコン</Emphasis> と呼びます。
+</Para>
+<Figure>
+<Title Id="SAG.IntAc.mkr.3">アクション・ファイルを示すアプリケーション（アクション）・アイコン</Title>
+<Graphic Entityref="SAG.IntAc.fig.4" Id="SAG.IntAc.grph.4"></Graphic>
+</Figure>
+<Para>
+アプリケーション・マネージャは実行可能ファイルを検出すると、アクション・データベースを検索して、ファイル名と一致する名前のアクションがあるかどうか調べます。一致するファイルがあれば、そのファイルがアクション・ファイルであることをアプリケーション・マネージャは認識します。
+</Para>
+<Para>
+<IndexTerm><Primary>アクション・ファイル</Primary><Secondary>内容</Secondary></IndexTerm>
+アクション・ファイルの内容は関連がありません。通常はアクション・ファイルには、デスクトップ関数を説明するコメントがあります。
+</Para>
+<Note>
+<Para>
+<Emphasis>アクション・ファイル</Emphasis> は <Emphasis>アクション定義ファイル</Emphasis> とは異なります。<Emphasis>アクション・ファイル</Emphasis> はアクションと同じ名前をもつファイルです。ファイル・マネージャまたはアプリケーション・マネージャの <Emphasis>アプリケーション・アイコン</Emphasis> の作成に使用します。<Emphasis>アクション定義ファイル</Emphasis> は、アクションの定義が入った <Symbol Role="Variable">name</Symbol><Filename>.dt</Filename> という名前のファイルです。
+</Para>
+</Note>
+<Para>
+ファイルがアクション・ファイルであることをデスクトップが判別すると、基本となるアクション定義がアクション・ファイルの外観と動作の定義に使用されます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<Filename>EXEC_STRING</Filename> フィールドは、アプリケーション・アイコンの動作を指定します。[Xwd 表示]アイコンの場合、<Filename>EXEC_STRING</Filename> は、アクション・アイコンが正しいコマンド行引き数でＸクライアントの <Command>xwud</Command> を実行することを指定します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Command>LABEL</Command> フィールドは、アプリケーション・アイコンのラベルを指定します。</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Command>DESCRIPTION</Command> フィールドは、ユーザが[アイテムヘルプ]を要求したときに表示するテキストを記述します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+Xwud アプリケーション・アイコンは、アクション定義に別のイメージを指定する <Command>ICON</Command> フィールドがあるため、アクションのデフォルトのアイコン・イメージを使用します。
+</Para>
+<Para>
+反対に、[ファイルの圧縮]というラベルの付いたアイコンは、基本となるアクション定義に <Command>ICON</Command> フィールドがあるため、別のアイコン・イメージを使用します。
+</Para>
+<Para>次に例を示します。</Para>
+<programlisting>ACTION Compress
+ LABEL  Compress File
+ ICON   Dtcmprs
+ &hellip;
+}
+</Programlisting>
+</ListItem>
+</ItemizedList>
+<Figure>
+<Title>アクション定義の ICON フィールドで指定したアイコン・イメージ</Title>
+<Graphic Entityref="SAG.IntAc.fig.5" Id="SAG.IntAc.grph.5"></Graphic>
+</Figure>
+<Para>
+Xwud アクションは、実行するコマンド (<Filename>EXEC_STRING</Filename>) が定義に含まれているため、<Symbol Role="Variable">command</Symbol> アクションと呼びます。アクション定義の <Command>TYPE</Command> フィールドは、アクション型を定義します。
+</Para>
+<Para>
+最初に、[Xwd 表示]アイコンは[デスクトップツール]アプリケーション・グループに表示されます。ただし、書き込み権があれば、任意のディレクトリにアクション・アイコンのコピーを作成できます。Xwud アクション定義がデータベースの一部である間は、作成して <Command>Xwud</Command> と名付けた実行可能ファイルはアクションを示すアクション・ファイルとなり、まずファイル・マネージャまたはアプリケーション・マネージャのアイコンはアクションを実行するのに使用します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.IntAc.div.5">
+<Title Id="SAG.IntAc.mkr.4">アクションがデータ・ファイルを引き数として使用する方法<IndexTerm><Primary>アクション</Primary><Secondary>ファイル引き数</Secondary></IndexTerm><IndexTerm><Primary>引き数</Primary><Secondary>アクションの〜</Secondary></IndexTerm></Title>
+<Para>
+コマンドの
+<IndexTerm><Primary>引き数</Primary><Secondary>アクションの〜</Secondary></IndexTerm><Symbol Role="Variable">引き数</Symbol> は、コマンドを動作させるためのもので、通常は
+<IndexTerm><Primary>ファイル引き数</Primary><Secondary>アクションで使用される</Secondary></IndexTerm>
+ファイルです。アクションは、ファイル引き数を受け取るように記述できます。
+</Para>
+<Para>
+たとえば、Xwud アクションの <Filename>EXEC_STRING</Filename> は、ファイル引き数が必須であることを指定します。
+</Para>
+<programlisting>EXEC_STRING  /usr/bin/X11/xwud -noclick -in \
+             &percnt;(File)Arg_1&ldquo;Xwd File To Display:&ldquo;&percnt;
+</ProgramListing>
+<Para>
+<Command>Arg</Command> という用語は <Symbol Role="Variable">引き数</Symbol> を意味します。構文
+<IndexTerm><Primary>Arg_1 構文</Primary></IndexTerm><Filename>Arg_1</Filename> は最初の引き数であることを、<Filename>(File)</Filename> はアクションが引き数をファイルとして処理することを意味します。
+</Para>
+<Para>
+<IndexTerm><Primary>アプリケーション・アイコン</Primary><Secondary>ドロップされたファイル</Secondary></IndexTerm><IndexTerm><Primary>アクション</Primary><Secondary>ドロップされたファイルの受け付け</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・アイコン</Primary><Secondary>ダブルクリック</Secondary></IndexTerm>
+ファイル引き数を指定するのにもっとも簡単な方法は、データ・ファイルをアプリケーション・アイコンにドロップすることです。デスクトップはドロップされたファイルのパスを判別し、コマンド行の <Filename>&percnt;</Filename> 記号の間のテキストの位置 (<ComputerOutput>&percnt;(File)Arg_1&ldquo;Xwd File To Display:&ldquo;&percnt;</ComputerOutput>) にパスを置き換えます。したがって、実行されるコマンドは次のようになります。
+</Para>
+<ProgramListing>/usr/bin/X11/xwud -noclick -in <Symbol Role="Variable">file_path</Symbol></ProgramListing>
+<Para>
+アプリケーション・アイコンをダブルクリックすると、デスクトップは <Filename>EXEC_STRING</Filename> からファイル引き数が必須であることを判断し、ファイル名またはパスを入力するようダイアログ・ボックスで促します。Xwud アクションの場合、プロンプトは次のとおりです。
+</Para>
+<ProgramListing>Xwd File To Display:</ProgramListing>
+<Para>
+ユーザが指定するファイル名またはパスは、ファイル引き数として使用します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.IntAc.div.6">
+<Title>アクションのその他の使い方<IndexTerm><Primary>アクション</Primary><Secondary>使い方</Secondary></IndexTerm></Title>
+<Para>
+アプリケーションの起動の他に、アクションは次のような機能を作成するためにデスクトップで使用します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>フロントパネル</Para>
+<Para>
+フロントパネル・コントロールの定義には、コントロールをクリックしたとき、またはファイルをドロップしたときに実行するアクションを指定するフィールドがあります。詳細については、
+<!--Original XRef content: '&xd2;Defining Front Panel Controls&xd3; on page&numsp;228'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FrPC.div.34"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>メニュー</Para>
+<Para>
+ウィンドウ・メニューおよびワークスペース・メニューの定義の構文により、メニュー項目で実行するアクションを指定できます。詳細については、
+<!--Original XRef content: '&xd2;Workspace Manager Menus&xd3; on page&numsp;246'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.div.13"> および <Filename MoreInfo="RefEntry">dtwmrc(4)</Filename> のマニュアル・ページを参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>アプリケーション間通信</Para>
+<Para>
+ToolTalk メッセージと呼ばれる特殊なアクション (<Filename>TT_MSG</Filename>) を使用して情報を送受信できるよう、アプリケーションを設計できます。<Filename>TT_MSG</Filename> アクションは、デスクトップの開発者環境用マニュアルで説明します。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.IntAc.div.7">
+<Title Id="SAG.IntAc.mkr.5">データ型の概要<IndexTerm><Primary>データ型</Primary><Secondary>概要</Secondary></IndexTerm></Title>
+<Para>
+新規データ・ファイルを作成したとき、ファイル・マネージャのファイル・アイコンの外観と動作は、作成したデータ・ファイルの型によって異なります。ファイルおよびディレクトリの外観および動作をカスタマイズするこの機能は、デスクトップのデータ型作成機能によって提供されます。
+</Para>
+<Sect2 Id="SAG.IntAc.div.8">
+<Title>データ型とは何か<IndexTerm><Primary>[アクション作成]</Primary><Secondary>データ型の作成</Secondary></IndexTerm><IndexTerm><Primary>データ型</Primary><Secondary>[アクション作成]で作成された</Secondary></IndexTerm></Title>
+<Para>
+データ型は、デスクトップ・データベース内で定義される構造です。例として XWD データ型の定義を次に示します。定義は、構成ファイル <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/xclients.dt</Filename> にあります。
+</Para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+ ACTIONS        Open,Print
+ ICON           Dtxwd
+ NAME_TEMPLATE  &percnt;s.xwd
+ MIME_TYPE      application/octet-stream
+ SUNV3_TYPE     xwd-file
+ DESCRIPTION    This file contains a graphics image in the XWD \
+                format. These files are typically created by \
+                taking snapshots of windows using the XwdCapture \
+                action. Its data type is named XWD. XWD files \
+                have names ending with `.xwd' or `.wd'.
+}
+DATA_CRITERIA XWD1
+{
+ DATA_ATTRIBUTES_NAME  XWD
+ MODE                  f
+ NAME_PATTERN          *.xwd
+}
+
+DATA_CRITERIA XWD2
+{
+ DATA_ATTRIBUTES_NAME  XWD
+ MODE                  f
+ NAME_PATTERN          *.wd
+}
+</ProgramListing>
+<Para>
+それぞれのデータ型定義には次の２つの部分があります。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="161*">
+<colspec colwidth="367*">
+<TBody>
+<Row>
+<Entry><Para><Filename>DATA_ATTRIBUTES</Filename></Para></Entry>
+<Entry><Para>データ型の外観と動作を記述します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>DATA_CRITERIA</Filename>,</Para></Entry>
+<Entry><Para>そのデータ型に属するファイルをカテゴリに分類するための（命名および内容に関する）規則を指定します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+<Filename>DATA_ATTRIBUTES_NAME</Filename> フィールドは、条件を属性に接続します。
+</Para>
+<Para>
+ひとつの <Filename>DATA_ATTRIBUTE</Filename> に対して複数の <Filename>DATA_CRITERIA</Filename> が存在することも可能です。たとえば XWD データ型には、<Filename>.xwd</Filename> または <Filename>.wd</Filename> で終わる名前という２つの異なる命名条件 (<Filename>NAME_PATTERN</Filename>) を指定する２つの基準があります。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.IntAc.div.9">
+<Title Id="SAG.IntAc.mkr.6">データ型によるデータ・ファイルのアクションへの接続方法<IndexTerm><Primary>データ型</Primary><Secondary>アクションとの関係性</Secondary></IndexTerm><IndexTerm><Primary>アクション</Primary><Secondary>データ型との関係性</Secondary></IndexTerm></Title>
+<Para>
+XWD データ型を想定してください。ファイルに２つのファイル名拡張子 <Filename>.xwd</Filename> または <Filename>.wd</Filename> のいずれかを指定することにより、XWD 型のファイルを作成します。デスクトップは、その型のファイルを設計するための <Emphasis>基準</Emphasis> としてファイル名を使用します。
+</Para>
+<Para>
+XWD データ型は、次の内容を備えるデータ型の各ファイルを提供します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+データ・ファイルを認識するのに役立つ一意のアイコン・イメージ
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+データ型を通知する[アイテムヘルプ]
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[開く]および[印刷]のアクションを含むファイル・マネージャでカスタマイズされた[選択]メニュー（Xwd ファイルの[開く]アクションは Xwud アクションを実行します）
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.IntAc.div.10">
+<Title>[選択]メニューからのアクションの実行<IndexTerm><Primary>[選択]メニュー</Primary></IndexTerm></Title>
+<Para>
+ファイル・マネージャの[選択]メニューは、ファイルまたはディレクトリが選択されたときにのみアクティブです。[選択]メニューの下のコマンドは、データ型によって異なります。たとえば XWD ファイルを選択すると、[選択]メニューには[開く]と[印刷]という項目が含まれます。
+</Para>
+<Para>
+データ型定義の <Command>ACTIONS</Command> フィールドは、データ型定義の[選択]メニューの下に追加されるコマンドを指定します。
+</Para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+        ACTIONS  Open,Print
+        &hellip;
+}
+</programlisting>
+<Para>
+<IndexTerm><Primary>[選択]メニュー</Primary></IndexTerm>
+[選択]メニューの内容はデータ型に依存しますが、[開く]アクションはほとんどのデータ型にあります。つまり、ファイル・マネージャの特定のデータ型のファイルを選択して、[選択]メニューを表示すると、[開く]コマンドが表示されます。
+</Para>
+<Figure>
+<Title>XWD ファイルの[選択]メニュー</Title>
+<Graphic Entityref="SAG.IntAc.fig.6" Id="SAG.IntAc.grph.6"></Graphic>
+</Figure>
+<Para>
+<IndexTerm><Primary>[開く]アクション</Primary></IndexTerm>
+[開く]アクションは、通常データ・ファイルが関連しているアプリケーションを実行します。たとえば、XWD ファイルを開くと Xwud アクションが実行されます。このアクションは順にＸクライアント xwud を実行して画面イメージを表示します。つまり XWD データ型の場合、[開く]アクションは Xwud アクションと同じです。同様に、TEXTFILE データ型のファイルを開くとテキスト・エディタが実行され、BM (ビットマップ) ファイルまたは PM (ピックスマップ) ファイルを開くとアイコン・エディタが実行されます。
+</Para>
+<Para>
+異なる動作を行うさまざまな[開く]アクションを作成する機能は、アクション定義の次の２つの機能によって実現されます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アクション・マッピング
+<IndexTerm><Primary>アクション</Primary><Secondary>マッピング</Secondary></IndexTerm><IndexTerm><Primary>MAP アクション</Primary></IndexTerm>
+</Para>
+<Para>
+アクション・マッピングにより、直接コマンドを実行せずに、他のアクションを実行するアクションを作成できます。たとえば Xwud アクションにマップ（して実行）する[開く]アクションを作成できます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アクションを制限するデータ型
+<IndexTerm><Primary>アクション</Primary><Secondary>データ型によって登録された</Secondary></IndexTerm>
+</Para>
+<Para>
+アクション定義には、あるデータ型にのみアクションを制限する <Filename>ARG_TYPE</Filename> フィールドを指定できます。たとえば、Xwud アクションにマップする[開く]アクションを XWD データ型のファイルだけに適用するよう指定できます。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+[開く]アクションを XWD データ型の Xwud アクションマップするアクションの定義を次に示します。この定義は、データベース構成ファイル
+<Filename>/usr/dt/appconfig/types/<Symbol Role="Variable">language</Symbol>/xclients.dt</Filename> にあります。
+</Para>
+<programlisting>ACTION Open
+{
+ LABEL       Open
+ ARG_TYPE    XWD
+ TYPE        MAP
+ MAP_ACTION  Xwud
+}
+</ProgramListing>
+<Para>
+<Command>TYPE</Command> フィールドは、このアクションがマップ・アクションであることを指定します。<Filename>MAP_ACTION</Filename> フィールドは、このアクションが Xwud アクションを実行することを指定します。<Filename>ARG_TYPE</Filename> フィールドは、このアクションが XWD データ型のファイルだけに適用されることを指定します。
+</Para>
+<Para>
+上記の定義と対照的な定義を次に示します。これはデータベース・ファイル
+<Filename>/usr/dt/appconfig/types/<Symbol Role="Variable">language</Symbol>/dt.dt</Filename> にあります。
+</Para>
+<programlisting>ACTION Open
+{
+ LABEL       Open
+ ARG_TYPE    BM
+ TYPE        MAP
+ MAP_ACTION  Dticon
+}
+</ProgramListing>
+<Para>
+この定義は データ型 (<Filename>ARG_TYPE</Filename>) の BM (ビットマップ・ファイル) に適用されます。定義は[開く]アクションを、アイコン・エディタを実行する Dticon アクションにマップします。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.IntAc.div.11">
+<Title><IndexTerm><Primary>データ型</Primary><Secondary>ダブルクリック動作</Secondary></IndexTerm>データ型のダブルクリック動作の定義</Title>
+<Para>
+データ型のダブルクリック動作は、<Command>ACTIONS</Command> フィールドの最初のエントリで定義します。たとえば XWD データ型では、ダブルクリックすると、Xwud アクションを順に実行する[開く]アクションを実行します。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.IntAc.div.12">
+<Title>データ・ファイルのアクション・アイコンへのドロップ<IndexTerm><Primary>データ型</Primary><Secondary>ドロップ動作</Secondary></IndexTerm></Title>
+<Para>
+データ・ファイルをアクション・アイコンへドロップすると、データ・ファイルをアクションの引き数としてシステムはアクションを実行します
+(<!--Original XRef content: '&xd2;How Actions Use Data Files as Arguments&xd3; on page&numsp;133'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.IntAc.mkr.4"> を参照してください)。
+</Para>
+<Para>
+たとえば、XWD データ・ファイルを[Xwud 表示]アイコンへドロップすると、データ・フィルを引き数として Xwud アクションが実行されます。これにより、そのデータ・ファイルとともにＸクライアント <Command>xwud</Command> が実行されます。
+</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.IntAc.div.13">
+<Title>データ型に応じたデスクトップ印刷の作成<IndexTerm><Primary>データ型</Primary><Secondary>印刷</Secondary></IndexTerm><IndexTerm><Primary>印刷</Primary><Secondary>データ型の構成</Secondary></IndexTerm></Title>
+<Para>
+デスクトップ印刷は、データ・ファイルを印刷する次の２つの方法を提供します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+使用可能であれば、ファイル・マネージャの[選択]メニューの[印刷]コマンドを使用する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+データ・ファイルをデスクトップ・プリンタ・ドロップ領域（フロントパネル・プリンタ・コントロールまたは印刷マネージャのプリンタ・アイコン）にドロップする
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+デスクトップ印刷の他にも、たくさんのアプリケーションがアプリケーション内から印刷する方法を提供しています。
+</Para>
+<Para>
+デスクトップ印刷は、[印刷]という名前のアクションを使用します。[印刷]は[開く]のように、さまざまなデータ型に使用されるアクション名です。したがって、[印刷]アクションはアクション・マッピングと <Filename>ARG_TYPE</Filename> フィールドを使用し、各データ型の印刷をカスタマイズします。
+</Para>
+<Para>
+例として、次に XWD データ型の[印刷]アクションを示します。定義は
+<Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/xclients.dt</Filename> にあります。
+</Para>
+<programlisting>ACTION Print
+{
+ LABEL       Print
+ ARG_TYPE    XWD
+ TYPE        MAP
+ MAP_ACTION  NoPrint
+}
+</ProgramListing>
+<Para>
+この[印刷]アクションは XWD ファイルに固有で、NoPrint アクションにマップされます。NoPrint は <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dt.dt</Filename> で定義される特殊アクションです。
+<IndexTerm><Primary>NoPrint アクション</Primary></IndexTerm>
+NoPrint アクションは、このデータ型が印刷できないことをユーザに通知するダイアログ・ボックスを表示します。
+</Para>
+<Para>
+XWD の[印刷]アクションを、次の PCL ファイルの[印刷]アクションと比較してください。
+</Para>
+<programlisting>ACTION Print
+{
+ LABEL       Print
+ ARG_TYPE    PCL
+ TYPE        MAP
+ MAP_ACTION  PrintRaw
+}
+</ProgramListing>
+<Para>
+PrintRaw アクションは、PCL ファイルを印刷するコマンド行が入っている構成ファイル
+<Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/print.dt</Filename> で定義されています。
+</Para>
+<programlisting>ACTION PrintRaw
+{
+ TYPE         COMMAND
+ WINDOW_TYPE  NO_STDIO
+ EXEC_STRING  /usr/dt/bin/dtlp -w &percnt;(File)Arg_1&percnt;
+}
+</ProgramListing>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

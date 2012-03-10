@@ -1,0 +1,216 @@
+
+			UDB	FILE	FORMAT			
+
+	The udb (universal data base) format attempts to allow product delivery
+	information for several closely related products to co-exist in the 
+	same database file.  This is an HP Corvallis home-grown format which
+	was originally created to deal with the delivery of similar products
+	on hp-ux, domain and osf platforms. 
+
+	The format is meant to be more or less free form without regard to
+	intervening newlines or whitespace. Comments violate this principle
+	by being line oriented.  Any line whose first non-whitespace character
+	is a '#' is considered a comment.  A semi-colon may be placed between
+	two identifiers to break them up into separate tokens. If more than
+	one keyword/value pair is placed on a line, semi-colons can be used
+	to separate them visually. The semi-colons are ignored by the parser.
+
+	The special syntax characters ( "{",":",";","=","}") may be embedded
+	in an identifier by escaping them with a backslash.
+
+Semantic Note:
+	The tools associated with the udb databases apply semantic meaning
+	to seven kinds of information about a file.  There are seven Special
+	Tokens which may be used to identify the keywords with which the
+	semantic information should be associated.
+
+		Special Token			 description
+		------------			-----------
+		   <SRC>		The path (relative to the top of a
+					build tree) to the source of a 
+					product deliverable file.
+
+		   <DEST> 		The full destination path location of 
+					a deliverable file in the target 
+					machine's file system.
+
+		   <LNK> 		The full path name (in the target
+					machine's file system) of the source 
+					file for a symbolic link. (i.e. The file
+					pointed to).
+
+		   <TYPE>		The kind of file object being installed.
+					(i.e. file, sym_link, hard_link,
+					directory, etc. )
+
+		   <MODE>		The (numeric) permissions assigned to
+					the new object. This value should be
+				 	in the usual octal notation.
+
+		   <OWNER>		The symbolic name of the owner of the
+					new file.
+
+		   <GROUP>		The symbolic name of the group of the
+					new file. 
+
+	The hp-ux fileset databases have traditionally used the
+	following keywords for these items:
+
+		hpux keyword			Special Token
+		------------			-----------
+		a_out_location :	   	    <SRC>	
+		install_target :		    <DEST>	
+		link_source :			    <LNK>	
+		type :				    <TYPE>	
+		mode :				    <MODE>	
+		owner :				    <OWNER>
+		group :				    <GROUP>
+	
+	The default for the udb databases is to associate the <SRC> semantics
+	with the "a_out_location" keyword, the <DEST> semantics with the
+	"install_target" keyword, etc.  This behavior may be modified by
+	assigning a special token to a keyword in the Release Definition
+	Section of the database file.
+
+	
+General Format:
+	A udb file has two sections.  First, a Release Definition Section,
+	which describes the keyword pairs to be maintained for a given
+	release stream and second, the individual file records for each
+	file which is to be delivered.  
+	
+	1) Release Definition Section
+	
+		The Release Definition Section defines the keyword-value
+		pairs which are to be maintained for each release. The
+		release_id is an identifier which is used to identify the
+		set of defaults for a particular release.  The special
+		release_id of "default" is used specify the default set
+		of keyword/value pairs for an undefined release_id. The
+		values associated with keywords in this section provide
+		defaults for those keywords in later File Entries.
+
+		The name and number of these pairs need not be the same for 
+		all release streams.
+	------------------------------
+	For example:
+	The following entry in the Release Definition Section
+
+		{ hpux : defaults
+			src = <SRC>
+			dest = <DEST>
+			link_source =
+			type = file
+			perm = <MODE>
+			perm = 0555
+			owner = bin
+			group = bin
+			project = xwindows
+		}
+	
+	defines the defaults for the "hpux" release stream.  It 
+	states that we should maintain information about src, dest, link_source,	type, perm, owner, group and project in the database.  Furthermore
+	the semantics of <SRC> are to be associated with the keyword "src",
+	<DEST> with "dest", link_source is associated with <LNK> by default,
+	and type is associated with <TYPE> by default. Note that we associate
+	perm with <MODE> semantics and supply a default value (0555) different
+	from the automatic 0444 default. Owner and group have their usual
+	meaning and a field called "project" is defined with a default value
+	of "xwindows".  No semantic information is known about the "project"
+	field but it's value will be maintained.
+	-------------------------
+
+
+	2) File Entries
+		After the Release Definition Section, come the entries for
+	   the deliverable files comprising the release.  The build-tree-top
+	   relative path name of a source file is followed by one or more
+	   destination specifications which describe where in the product
+	   this file should go, as well as the ownerships/permissions etc. that
+	   should be associated with it. Any missing keyword/value pairs will
+	   be filled in by the defaults provided in the Release Definition 
+	   Section. 
+		Information may differ between release
+	   streams.  If there is no destination spec for a given release and
+	   there is no "default" destination spec then that souce file will
+	   not be delivered for that release.  The "default" destination spec
+	   (if it exists) should come last and is applied for release streams
+	   that do not have more specific destination specs.
+
+	   -------------------
+	   For example The following file entry:
+	
+	   cose/unity1/types/coe.vf 
+	   { hp-ux
+		install_target = /usr/coe/newconfig/coe.vf
+	   }
+	   { aix
+		install_target = /usr/coe/types/coe.vf
+	   }
+	   { default 
+		install_target = /var/coe/types/coe.vf
+		owner = sys
+		group = admin
+	   }
+	
+	   states that on hp-ux the file found at 
+	   $(TOP)/cose/unity1/types/coe.vf in the build tree, is to be delivered
+	   to "/usr/coe/newconfig/coe.vf" on hp-ux; "/usr/coe/types/coe.vf" on
+	   aix; and "/var/coe/types/coe.vf" on all other release platforms.  In
+	   addition, on all platforms other than hp-ux and aix the default
+	   owner and group (usually bin,bin) are replaced by sys,admin for this
+	   file.
+	   ------------------
+
+Pseudo-BNF:
+	Here follows a pseudo-BNF description of the syntax of a
+	udb file:
+	---------------------------------------------------------------------
+
+	udbFile = release_definition_section file_records
+
+	release_definition_section = release_def  release_definition_section |
+				     release_def
+
+	release_def = "{" release_id ":" "defaults" record_defs "}"
+
+	release_id = "hp-ux" | "aix" | "sun" | "usl" | "uxp" | "default"
+
+	record_defs = keyword_def "=" special_token |
+		      keyword_def "=" keyword_value
+
+	special_token  = "<SRC>" | "<DEST>" | "<LNK>" |
+		      "<TYPE>" | "<MODE>" | "<OWNER>" | "<GROUP>"
+
+	keyword_def = identifier
+	keyword_value = identifier
+
+	file_records =  file_rec file_records |
+			file_rec
+
+	file_rec = src_spec dest_specs
+
+	src_spec = a_out_loc | link_path
+
+	a_out_loc = < the build tree-top relative path to the source file >
+
+	link_path = < the full path to the link source in the product >
+
+	dest_specs = dest_spec dest_specs |
+			dest_spec
+
+	dest_spec = "{" release_id  value_specs "}"
+
+
+	value_spec = keyword "=" value
+
+	keyword = identifier
+	value   = identifier
+
+	identifier = < any sequence of non-whitespace characters which 
+		   does not contain an unescaped instance of one of
+                   the syntax_chars >
+
+	syntax_chars = "{", ":", ";", "=", "}"
+
+	

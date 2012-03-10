@@ -1,0 +1,95 @@
+<!-- $XConsortium: receive.sgm /main/5 1996/08/30 13:41:40 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN139.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN139.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_message_receive</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_message_receive</Function></RefName>
+<RefPurpose>receive a message
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: receive.sgm /main/5 1996/08/30 13:41:40 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_message <Function>tt_message_receive</Function></FuncDef>
+<void>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_message_receive</Function> function returns a handle for the next message queued to be delivered
+to the process and also runs any message or pattern callbacks
+applicable to the queued message.
+</Para>
+<Para>If the return value of
+&cdeman.tt.message.status; for this message is
+<SystemItem Class="Constant">TT_WRN_START_MESSAGE</SystemItem>, the ToolTalk service started the process to deliver the queued message;
+the process must reply to this message.
+If the return value of
+<Function>tt_message_receive</Function> is zero, no message is available.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_message_receive</Function> function returns the handle for the message object.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned handle:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>A zero value can occur if a message or pattern callback processes the message.
+It can also occur if the interval is too long between the time the file
+descriptor became active and the
+<Function>tt_message_receive</Function> call was made.
+In the latter case, the ToolTalk service will time out and offer the message to
+another process.
+</Para>
+<Para>The application should use
+&cdeman.tt.free; to free any data stored in the address returned by the
+ToolTalk API.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.ptr.error;, &cdeman.tt.free;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

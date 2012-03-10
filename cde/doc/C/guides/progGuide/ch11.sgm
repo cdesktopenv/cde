@@ -1,0 +1,744 @@
+<chapter id="PG.info.div.1">
+<title id="PG.info.mkr.1">Integrating with Information Manager</title>
+<indexterm><primary>information manager integration</primary><secondary>general information</secondary></indexterm>
+<indexterm><primary>on-line help integration</primary><secondary>general information</secondary></indexterm>
+<indexterm><primary>dtinfo</primary><secondary>general information</secondary></indexterm>
+<para>The <literal>dtinfo</literal> facility enables CDE users
+to browse and search large collections of SGML-formatted
+on-line documentation containing graphics and hypertext links.
+These collections are referred to as information libraries.
+An information library consists of a collection of book cases,
+each of which contains a collection of books.
+</para>
+<para>The information manager is available on the CDE desktop from a number of locations.
+<literal>dtinfo</literal> is started automatically by the session manager as part of the initial
+user session.
+Information libraries are available as DtInfoLib objects on the
+desktop from File Manager.
+The <literal>dtinfo</literal> application can be started directly from the front panel
+or from the <literal>Info Manager</literal> action in the
+<literal>Desktop_Apps</literal> application group in <literal>Application Manager</literal>.
+</para>
+<para>A CDE application calls a small API to integrate
+the <literal>dtinfo</literal> browser and so enable access to
+information libraries. Should <literal>dtinfo</literal> be unsuited to your application
+environment, you can extend it or replace it with your own browser,
+using the dtinfo database engine API.
+Following some general discussions of the dtinfo facility, this chapter
+summarizes both the <literal>dtinfo</literal> API and the
+<literal>dtinfo</literal> database engine API.
+</para>
+<sect1 id="PG.info.div.2">
+<title id="PG.info.mkr.2">Server Architecture</title>
+<indexterm><primary>dtinfo</primary><secondary>server architecture</secondary></indexterm>
+<para>Information management in CDE is based on a server architecture.
+This means that only one instance of the main book list window for
+<literal>dtinfo</literal> is normally displayed at any time within a CDE desktop session.
+User or application requests for new document library connections within
+the session are handled by the one instance, maximizing the user's
+ability to organize and search on-line documentation, and minimizing
+system response time.
+</para>
+<para>An exception to this behavior occurs when the user
+or application requests access to an infolib that
+is not accessible from any host on which an existing
+<literal>dtinfo</literal> instance is running. When this situation occurs,
+the desktop mechanisms automatically launch a new instance
+of <literal>dtinfo</literal> on a host that has access to the requested
+information library. A similar situation occurs when the
+user or application requests access to an infolib in a
+locale that is different from those used by any currently
+executing <literal>dtinfo</literal> process. In this case, the desktop mechanisms
+launch a new instance of <literal>dtinfo</literal> on the same host but in the new
+locale. If both conditions apply, the new <literal>dtinfo</literal> instance is
+started on a host that has access to the information library
+in the requested locale.
+</para>
+<para>It is possible to create multiple instances on a given execution host in a given
+locale by invoking <literal>dtinfo</literal> from the command line. In this case,
+<literal>dtinfo</literal> does not take advantage of the ToolTalk mechanisms
+to ensure that a single instance only is running on the desktop.
+</para>
+</sect1>
+<sect1 id="PG.info.div.3">
+<title id="PG.info.mkr.3">Search Path</title>
+<indexterm><primary>dtinfo</primary><secondary>search path</secondary></indexterm>
+<indexterm><primary>dtinfo</primary><secondary>environment variables</secondary></indexterm>
+<para>The <systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem> and
+<systemitem class="environvar">DTINFOLIBDEFAULT</systemitem> environment
+variables are defined at installation time by <command>dtsearchpath</command>.
+The infolib search path directs the desktop to search
+specified locations for information libraries that are to be
+be registered on your system.
+</para>
+<sect2 id="PG.info.div.4">
+<title id="PG.info.mkr.4">Default Infolib Search Path</title>
+<para>The default infolib search path includes system-wide and
+built-in locations:
+</para>
+<itemizedlist>
+<listitem>
+<para>System-wide location &mdash <literal>/etc/dt/infolib/%L/%I.dti</literal>
+</para>
+</listitem>
+<listitem>
+<para>Built-in location &mdash <literal>/usr/dt/infolib/%L/%I.dti</literal>
+</para>
+</listitem>
+</itemizedlist>
+<para>The default language is C. The value of
+<systemitem class="environvar">DTINFOLIBDEFAULT</systemitem> is substituted for %I. The initial default value for
+<systemitem class="environvar">DTINFOLIBDEFAULT</systemitem> is <literal>cde</literal>.
+</para>
+</sect2>
+<sect2 id="PG.info.div.5">
+<title id="PG.info.mkr.5">How the Application Search Path Affects the Infolib Search Path</title>
+<para>When a location is added to the application search path, the appropriate
+infolib subdirectory is automatically added to the infolib search path.
+For example, if the application server
+<literal>hosta:</literal> is added to the
+application search path, the directory
+<literal>hosta:/etc/dt/infolib/%L</literal> is automatically added to the infolib search path.
+</para>
+</sect2>
+<sect2 id="PG.info.div.6">
+<title id="PG.info.mkr.6">Infolib Search Path Environment Variables</title>
+<para>The infolib search path is assembled from the built-in locations and the following input variables:
+</para>
+<itemizedlist>
+<listitem>
+<para><systemitem class="environvar">DTSPSYSINFOLIB</systemitem> &mdash System-wide infolib search path input variable
+</para>
+</listitem>
+<listitem>
+<para><systemitem class="environvar">DTSPUSERINFOLIB</systemitem> &mdash Personal infolib search path input variable
+</para>
+</listitem>
+</itemizedlist>
+<para>Use these input variables to specify locations outside the application search path.
+The assembled database search path is specified by the output variable <systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>.
+</para>
+</sect2>
+<sect2 id="PG.info.div.7">
+<title id="PG.info.mkr.7">Syntax for the Infolib Search Path Input Variables</title>
+<para>The syntax for the variables <systemitem class="environvar">DTSPSYSINFOLIB</SYSTEMITEM> and <systemitem class="environvar">DTSPUSERINFOLIB</systemitem> is:
+</para>
+<para><symbol role="variable">VARIABLE</symbol> <literal>=</literal> <symbol role="variable">location [,location...]</symbol>
+</para>
+<para>where <symbol role="variable">location</symbol> can have the syntax, <Filename>/</Filename><symbol role="variable">path</symbol>,
+which specifies a directory on the local (session server) system. Use this syntax to add a local directory.
+To specify a location on another system, use its network file name &mdash for example,
+<Filename>/nfs/servera/projects/infolib</Filename>.
+</para>
+</sect2>
+<sect2 id="PG.info.div.8">
+<title id="PG.info.mkr.8">How the Infolib Search Path Is Assembled</title>
+<para>The value of the infolib search path
+(<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>) is created by assembling the following locations,
+listed in order of precedence:
+</para>
+<itemizedlist>
+<listitem>
+<para>Locations specified using the <systemitem class="environvar">DTSPUSERINFOLIB</systemitem> variable
+</para>
+</listitem>
+<listitem>
+<para>Locations derived from the <systemitem class="environvar">DTSPUSERAPPHOSTS</systemitem> variable
+</para>
+</listitem>
+<listitem>
+<para>The default location: <literal>/etc/dt/infolib/%L/%I.dti</literal>
+</para>
+</listitem>
+<listitem>
+<para>Locations specified using the <systemitem class="environvar">DTSPSYSINFOLIB</systemitem> variable
+</para>
+</listitem>
+<listitem>
+<para>Locations derived from the <systemitem class="environvar">DTSPSYSAPPHOSTS</systemitem> variable
+</para>
+</listitem>
+<listitem>
+<para><literal>/usr/dt/infolib/%L/%I.dti</literal>
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="PG.info.div.9">
+<title id="PG.info.mkr.9">Workspace Management</title>
+<indexterm><primary>dtinfo</primary><secondary>workspace management</secondary></indexterm>
+<para>The browser is workspace-aware to provide
+predictable behavior regardless of the workspace
+in which it is running at the time of a connection request.
+Windows are mapped to workspaces according to the following rules:
+</para>
+<itemizedlist>
+<listitem>
+<para>When primary windows are mapped to a new workspace,
+all associated secondary windows are also mapped to the new workspace
+</para>
+</listitem>
+<listitem>
+<para>When secondary windows are mapped to a new workspace, the
+associated primary window and all its associated secondary
+windows are also mapped to the new workspace
+</para>
+</listitem>
+<listitem>
+<para>When a primary window is mapped to a new workspace, any
+other primary windows associated with the application remain in the current workspace
+</para>
+</listitem>
+</itemizedlist>
+<para>The <function>DtInfo_LoadInfoLib</function>
+and <function>DtInfo_ShowInfoAtLoc</function> messages
+cause the browser window to be mapped to the
+current workspace. The user can also map application
+windows to a new workspaces through the <literal>dtwm</literal> menu.
+</para>
+</sect1>
+<sect1 id="PG.info.div.10">
+<title id="PG.info.mkr.10">Application Linkage</title>
+<indexterm><primary>dtinfo</primary><secondary>application linkage</secondary></indexterm>
+<para>Applications are provided with a means to
+activate <literal>dtinfo</literal> for specific
+on-line documentation display purposes. One use of
+the <literal>dtinfo</literal> External API might be an application that
+manages or automates information display or navigation.
+</para>
+<para>Connecting to <literal>dtinfo</literal>
+from an application (using an explicit locator value with the
+<function>DtShowInfoAtLoc</function> action) displays the browser if it is not already visible.
+The following situations vary this result:
+</para>
+<itemizedlist>
+<listitem>
+<para>Only an infolib path is specified for the
+browser to access (using the
+<function>DtLoadInfoLib</function> action), in which case
+only the top <literal>dtinfo</literal> (booklist) window is presented,
+including the newly loaded infolib's bookcases.
+</para>
+</listitem>
+<listitem>
+<para><literal>dtinfo</literal> is active in the workspace, but the
+Book List window and/or a browser is iconified.
+</para>
+<itemizedlist>
+<listitem>
+<para>The Book List window and any "pinned" browser window(s)
+remains iconified. If there is no unpinned browser window
+(iconified or not), a new browser window is presented for the requested topic.
+</para>
+</listitem>
+<listitem>
+<para>If an iconified Browser window is not pinned, it is mapped
+and the requested topic supplants the previous topic.
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<para>The desktop and a <literal>dtinfo</literal> instance were started on one host
+(<literal>host1</literal>) in a locale (<literal>locale1</literal>), but an application that uses <literal>dtinfo</literal>
+is started from a remote shell on a different (<literal>host2</literal>) and/or a different locale
+(<literal>locale2</literal>) during the same CDE session.
+</para>
+<itemizedlist>
+<listitem>
+<para>The request from the application is examined by all <literal>dtinfo</literal>
+processes in the current session to determine if it can be processed.
+For a <literal>dtinfo</literal> process to accept the request it must
+be running in the same locale <emphasis>and</emphasis> be able to access the specified information libraries.
+</para>
+</listitem>
+<listitem>
+<para>If no such process exists, an independent copy of the browser is started on
+<literal>host2</literal> in <literal>locale2</literal>. The original message is forwarded to the new
+instance for processing.
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="PG.info.div.11">
+<title id="PG.info.mkr.11">ToolTalk Messages</title>
+<indexterm><primary>dtinfo</primary><secondary>ToolTalk messages</secondary></indexterm>
+<para>The <literal>dtinfo</literal> command registers with ToolTalk to
+handle the following messages:
+</para>
+<itemizedlist>
+<listitem>
+<para><function>DtInfo_LoadInfoLib</function> (scope <Symbol>TT_SESSION</Symbol>)
+</para>
+</listitem>
+<listitem>
+<para><function>DtInfo_ShowInfoAtLoc</function> (scope <Symbol>TT_SESSION</Symbol>)
+</para>
+</listitem>
+</itemizedlist>
+<para>A <literal>dtinfo</literal> instance observes the following messages:
+</para>
+<itemizedlist>
+<listitem>
+<para><function>DtInfo_Quit</function> (scope <Symbol>TT_SESSION</Symbol>)
+</para>
+</listitem>
+</itemizedlist>
+<para>The Information Management system also defines a ptype "DtInfo"
+that is used to launch a <literal>dtinfo</literal> process if
+there is not a currently available <literal>dtinfo</literal>
+process that can handle a ToolTalk request.
+</para>
+</sect1>
+<sect1 id="PG.info.div.12">
+<title id="PG.info.mkr.12">Generalized Locator Format</title>
+<indexterm><primary>dtinfo</primary><secondary>information locator format</secondary></indexterm>
+<para>For the purpose of addressing infolibs as document collections
+with external navigation references, a generalized locator format
+is defined for use in applications and by the end-user. This
+mechanism is more precise than those that operate on the
+<Symbol>DtInfoLib</Symbol> level. This mechanism can be
+used by applications that want to integrate their
+on-line documentation tightly, within the action system, or for printing
+specific sections from a command line.
+</para>
+<para>The following BNF defines the syntax of a generalized locator format string:
+</para>
+<programlisting>&lt;GLF&gt; ::= &lt;MMDB&gt; | &lt;ULV&gt; | &lt;URI&gt;
+&lt;MMDB&gt; ::= mmdb:  &lt;IBL&gt; | &lt;IB&gt; | &lt;IL&gt; | &lt;INFOLIB&gt; | &lt;BL&gt; | &lt;BOOKCASE&gt; |
+           &lt;LOCATOR&gt;
+&lt;IBL&gt; ::= &lt;INFOLIB&gt; &amp; &lt;BOOKCASE&gt; &amp; &lt;LOCATOR&gt;
+&lt;IB&gt; ::= &lt;INFOLIB&gt; &amp; &lt;BOOKCASE&gt;
+&lt;IL&gt; ::= &lt;INFOLIB&gt; &amp; &lt;LOCATOR&gt;
+&lt;BL&gt; ::= &lt;BOOKCASE&gt; &amp; &lt;LOCATOR&gt;
+&lt;INFOLIB&gt; ::= INFOLIB= &lt;NAME&gt;
+&lt;BOOKCASE&gt; ::= BOOKCASE= &lt;NAME&gt;
+&lt;LOCATOR&gt; ::= LOCATOR= &lt;ULV&gt; &lt;NAME&gt;
+&lt;ULV&gt; ::= uuid_ | xsm_ | isbn_
+&lt;NAME&gt; ::= &lt;CHAR&gt; { &lt;CHAR&gt;)
+&lt;CHAR&gt; ::= a-z | A-Z | 0-9 | &lt;SPECIAL_CHAR&gt;
+&lt;SPECIAL_CHAR&gt; ::= everything but ":" and "&amp;"
+&lt;URI&gt; ::= Uniform Resource Identifier (as defined by the Web Consortium)
+</programlisting>
+<para>As shown above, there are several reserved terms that are used to
+identify locator format, including <literal>uuid</literal> (for DCE-style Universal Unique ID),
+<literal>xsm</literal> (for XSession Manager style Unique ID), and <literal>isbn</literal> (for
+International Standard Book Number). Of these, only <literal>xsm</literal> is
+supported directly in the sample implementation.
+</para>
+</sect1>
+<sect1 id="PG.info.div.13">
+<title id="PG.info.mkr.13">Summary of the DtInfo API</title>
+<indexterm><primary>dtinfo</primary><secondary>API</secondary></indexterm>
+<para>Following is a summary of the Desktop Information Manager API.
+</para>
+<variablelist>
+<varlistentry><term><function>DtInfoLib</function></term>
+<listitem>
+<para><function>DtInfoLib</function> is a desktop object that represents a collection
+of bookcases of documents that can be accessed
+through the Information Manager. DtInfoLib data
+criteria and data attributes are identified for
+use by desktop facilities. These are part of the CDE built-in
+data types.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtInfoShowTopic</function></term>
+<listitem>
+<para>This is a C API callable by an application
+to provide the user access to body of information
+at a specific location. The location may
+identify anything from the top of a bookcase
+to a specific topic or to a section within a bookcase.
+Targets within sections are also possible, where
+they have been given externally unique link IDs
+during construction of the data.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtActionInvoke</function></term>
+<listitem>
+<para>This function displays a specified topic under
+<function>dtinfo</function> using the available CDE desktop
+action API from a desktop application.
+It invokes (or connects to) <function>dtinfo</function>. The anchor point may be as
+broad as the top of a bookcase, or as fine as a specific
+topic (section). Targets within sections are also possible,
+where they have been given externally unique link IDs during
+construction of the data.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>Browse</function></term>
+<listitem>
+<para>The <function>Browse</function> for an infolib is a remap
+to the <function>DtLoadInfoLib</function> action.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>Open</function></term>
+<listitem>
+<para>The <function>Open</function> action is used to invoke <function>DtLoadInfoLib</function> for the
+associated <function>DtInfoLib</function> object.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtShowInfoAtLoc</function></term>
+<listitem>
+<para>The <function>DtShowInfoAtLoc</function> action distributes a ToolTalk message for
+the browser to display a specific point in the infolib.
+A client application requests that <function>dtinfo</function> display a particular
+section of data, or topic, by invoking this action.
+The browser is started if it is not already running.
+This corresponds to invoking the <command>dtinfo</command> command with
+the <literal>-sect</literal> option from the command line.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtLoadInfoLib</function></term>
+<listitem>
+<para>The <function>DtLoadInfoLib</function> action distributes a ToolTalk message
+for <function>dtinfo</function> to load a specific infolib.
+A client application can request that <function>dtinfo</function> load a particular
+information library by invoking this action. The browser is started if it is not
+already running. This corresponds to invoking the <command>dtinfo</command> command with the
+<literal>-l</literal> option from the command line.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtInfo_LoadInfoLib</function></term>
+<listitem>
+<para>The <function>DtInfo_LoadInfoLib</function> ToolTalk operation is used to load a specified infolib.
+A client application can request that <function>dtinfo</function> load a particular
+information library by sending this request. The browser is started if it is not
+already running. This corresponds to invoking the <command>dtinfo</command> command with the
+<literal>-l</literal> option from the command line.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtInfo_ShowInfoAtLoc</function></term>
+<listitem>
+<para>A client application requests that <function>dtinfo</function> display a particular
+section of data, or topic, by sending this process-oriented ToolTalk message.
+ToolTalk starts the browser if it is not already running. This
+corresponds to invoking the <command>dtinfo</command> command with the
+<literal>-sect</literal> option from the command line.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtInfo_Quit</function></term>
+<listitem>
+<para>This is a process-oriented ToolTalk message for observers interested only
+in the status of <function>dtinfo</function>. The browser posts this message
+when it exits normally. It is not sent for desktop
+session-wide exit.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+<sect1 id="PG.info.div.14">
+<title id="PG.info.mkr.14">Summary of the DtInfo Database Engine API</title>
+<indexterm><primary>dtinfo</primary><secondary>database engine API</secondary></indexterm>
+<para>This section summarizes the application programming interface to the DtInfo Database Engine.
+The DtInfo Database Engine stores and provides access to the on-line document data for the
+DtInfo.
+</para>
+<sect2 id="PG.info.div.15">
+<title id="PG.info.mkr.15">Functions</title>
+<variablelist>
+<varlistentry><term><function>DtMmdbInit</function></term>
+<listitem>
+<para>Prepare the database engine to provide access service.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbQuit</function></term>
+<listitem>
+<para>Free memory resource allocated by the database engine and ask the engine to stop service.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbOpenInfoLib</function></term>
+<listitem>
+<para>Obtain an infolib descriptor.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbInfoLibGetInfo</function></term>
+<listitem>
+<para>Get descriptive information about an infolib.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbInfoLibFreeInfo</function></term>
+<listitem>
+<para>Free space occupied by an infolib structure.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbCloseInfoLib</function></term>
+<listitem>
+<para>Declare that the infolib is no longer needed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGetBookCaseByName</function></term>
+<listitem>
+<para>Obtain a descriptor to a bookcase identified by name.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGetBookCaseByIndex</function></term>
+<listitem>
+<para>Obtain a descriptor to a bookcase identified by index.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGetBookCaseByLoc</function></term>
+<listitem>
+<para>Obtain a descriptor to a bookcase identified by location.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGetBookCaseByLocs</function></term>
+<listitem>
+<para>Obtain a list of bookcase descriptors.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookCaseGetInfo</function></term>
+<listitem>
+<para>Get information about a bookcase.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookCaseFreeInfo</function></term>
+<listitem>
+<para>Free space occupied by a bookcase information structure.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetLoc</function></term>
+<listitem>
+<para>Get a section's locator.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetLongTitle</function></term>
+<listitem>
+<para>Return the long title of the section, given its identifier.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetShortTitle</function></term>
+<listitem>
+<para>Get a section's short title.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetData</function></term>
+<listitem>
+<para>Get a section's data.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetDataSize</function></term>
+<listitem>
+<para>Get the number of bytes for the section's data.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetTocLoc</function></term>
+<listitem>
+<para>Given a section's identifier, get the locator of its TOC section.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetBookId</function></term>
+<listitem>
+<para>Given a section's identifier, get the DtInfo Database object identifier of the book
+in which this section appears.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetStyleSheetId</function></term>
+<listitem>
+<para>Given a section's identifier, get the DtInfo Database object Identifier of the stylesheet applicable to this section.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbTocGetParentId</function></term>
+<listitem>
+<para>Get the DtInfo Database object identifier of the section that is the parent of this section.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbTocGetChildIds</function></term>
+<listitem>
+<para>Get a list of DtInfo Database object identifiers for the child sections.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbTocGetNumOfChildren</function></term>
+<listitem>
+<para>Get the number of child sections.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbLocatorGetSectionLoc</function></term>
+<listitem>
+<para>Get the locator of a section, given the locator of a component inside the section.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbLocatorGetSectionObjectId</function></term>
+<listitem>
+<para>Get the DtInfo Database object identifier of the section, given the locator of a component inside the section.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGraphicGetData</function></term>
+<listitem>
+<para>Obtain the data of a graphic object.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGraphicGetInfo</function></term>
+<listitem>
+<para>Obtain the information of a graphic object.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbStylesheetGetName</function></term>
+<listitem>
+<para>Obtain the name of a stylesheet object.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbStylesheetGetData</function></term>
+<listitem>
+<para>Obtain the data of a stylesheet object.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetTocObjectId</function></term>
+<listitem>
+<para>Obtain the locator of a TOC section.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetShortTitle</function></term>
+<listitem>
+<para>Obtain the short title of a book.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetLongTitle</function></term>
+<listitem>
+<para>Obtain the long title of a book.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetSeqNum</function></term>
+<listitem>
+<para>Obtain the sequence number of a book.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetLicense</function></term>
+<listitem>
+<para>Obtain the license terms of a book.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetTabList</function></term>
+<listitem>
+<para>Obtain the list of tabbed sections in the book.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbDlpGetPrevSectionId</function></term>
+<listitem>
+<para>Obtain the DtInfo Database object identifier of the previous section, given the identifier of this section.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbDlpGetNextSectionId</function></term>
+<listitem>
+<para>Obtain the DtInfo Database object identifier of the next section.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbFreeHandle</function></term>
+<listitem>
+<para>Free memory resource used by a DtMmdbHandle.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbFreeHandleList</function></term>
+<listitem>
+<para>Free memory resource used by a DtMmdbHandle array, including the contained handlers.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbFreeGraphicInfo</function></term>
+<listitem>
+<para>Free memory used by a DtMmdbGraphicInfo structure.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<sect2 id="PG.info.div.16">
+<title id="PG.info.mkr.16">Data Structures</title>
+<indexterm><primary>dtinfo</primary><secondary>database engine data structures</secondary></indexterm>
+<variablelist>
+<varlistentry><term><structname role="typedef">DtMmdbInfoLib</structname></term>
+<listitem>
+<para>Contains information about an information library (infolib).
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><structname role="typedef">DtMmdbBookCase</structname></term>
+<listitem>
+<para>Contains information about a bookcase.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><structname role="typedef">DtMmdbHandle</structname></term>
+<listitem>
+<para>Contains information about the identifier of a DtInfo object.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><structname role="typedef">DtMmdbInfoRequest</structname></term>
+<listitem>
+<para>Describes a request to get information from the DtInfo Database Engine.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><structname role="typedef">DtMmdbGraphicInfo</structname></term>
+<listitem>
+<para>Describes various features of a graphic object.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+</sect1>
+</chapter>
+
+
+<!-- $XConsortium: ch11.sgm /main/5 1996/09/08 19:37:42 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->

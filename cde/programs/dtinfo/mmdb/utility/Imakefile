@@ -1,0 +1,57 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 16:00:17 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = -DPORTABLE_DB
+INCLUDES = -I$(DTMMDBSRC)/utility -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES) -I$(DTMMDBSRC)/misc
+
+LinkSourceFile(atoi_fast.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(atoi_larson.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(atoi_pearson.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(atomic_lock.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(buffer.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(filter.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(funcs.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(mmdb_exception.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(ostring.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(pm_random.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(randomize.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(rw_lock.C,$(DTMMDBSRC)/utility)
+LinkSourceFile(xtime.C,$(DTMMDBSRC)/utility)
+
+BASE_SRCS = \
+	atoi_fast.C		atoi_larson.C		atoi_pearson.C \
+	atomic_lock.C		buffer.C		filter.C \
+	funcs.C			mmdb_exception.C	ostring.C \
+	pm_random.C		randomize.C		rw_lock.C \
+	xtime.C
+
+SRCS = $(BASE_SRCS)
+OBJS = $(BASE_SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

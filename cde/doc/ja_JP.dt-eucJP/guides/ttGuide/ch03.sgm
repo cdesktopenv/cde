@@ -1,0 +1,178 @@
+<!-- $XConsortium: ch03.sgm /main/6 1996/09/08 19:35:41 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<Chapter Id="TTUG.ttsnp.div.1">
+<Title Id="TTUG.ttsnp.mkr.1">TTSnoopの使用によるメッセージ
+およびパターンのデバッグ</Title>
+<Para><Emphasis><IndexTerm>
+<Primary>TTSnoop</Primary>
+</IndexTerm></Emphasis>TTSnoopは、カスタム構築のToolTalkメッセージを作成して送信
+するためのツールです。ToolTalkメッセージの一部またはすべてを選択的に監視するツール
+としてTTSnoopを使用することもできます。</Para>
+<Sect1 Id="TTUG.ttsnp.div.2">
+<Title>TTSnoopについて</Title>
+<Para>TTSnoopは便利な対話型ツールで、これによりTookTalkの概念とAPI呼び出しをデモン
+ストレーションの実行と同様よく知ることができます。さらに、TTSnoopはアプリケーショ
+ンの開発中には貴重なデバッグ・ツールです。</Para>
+<Para>TTSnoopを使用して、１つ以上のパターンと一致するメッセージを監視できます。
+一致したメッセージが表示されると、エントリと一致したパターンの名前も表示されます。
+</Para>
+<Para>スクロール可能なリストにメッセージおよびパターンを追加、編集、または削除でき
+ます。TTSnoopにより、複数のパターンとメッセージの定義を保存したり、ファイルから読
+み込むことができます。また、アプリケーション（たとえば、DeskSet&trade;ツール）の
+カテゴリに特有のパターンとメッセージを定義、保存、および再び読み込んだり、メッセー
+ジとパターンをユーザ定義の名前に関連付けることもできます。</Para>
+</Sect1>
+<Sect1 Id="TTUG.ttsnp.div.3">
+<Title>TTSnoopはどこにあるか</Title>
+<Para>TTSnoopプログラムは、ディレクトリ
+<IndexTerm>
+<Primary>/usr/dt/bin/ttsnoop</Primary>
+</IndexTerm><Filename>/usr/dt/bin</Filename>にあります。</Para>
+</Sect1>
+<Sect1 Id="TTUG.ttsnp.div.4">
+<Title>TTSnoopの起動</Title>
+<Para>プログラムを起動するには、コマンド行に次のコマンドを入力します。</Para>
+<ProgramListing>ttsnoop [ -t ]</ProgramListing>
+<Para><IndexTerm><Primary>ttsnoopコマンドの-tオプション</Primary>
+</IndexTerm><Filename>-t</Filename>オプションは、特定のパターンまたはメッセージの
+作成に使用するToolTalk API関数を表示するようにします。
+<!--Original XRef content: 'Table&numsp;3&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.ttsnp.mkr.2">では、TTSnoopの起動時
+に表示されるメニュー・オプションについて説明します。</Para>
+<Table Id="TTUG.ttsnp.tbl.1" Frame="Topbot">
+<Title Id="TTUG.ttsnp.mkr.2">TTSnoopメニュー・オプション</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>メニュー・オプション</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Snoop</Para></Entry>
+<Entry><Para>トレースをオンにしたりオフにしたりします。また、バージョン
+情報も獲得します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Message</Para></Entry>
+<Entry><Para>メッセージの作成、オープン、受信、破棄を行います。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Pattern</Para></Entry>
+<Entry><Para>パターンの作成、オープン、破棄を行います。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>File</Para></Entry>
+<Entry><Para>多くのタスクを行います。これらのタスクにはファイルの結合
+も含まれます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Session</Para></Entry>
+<Entry><Para>特定のセッションに参加します。また、デフォルト・
+セッションを設定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Ptype</Para></Entry>
+<Entry><Para><literal>ptype</literal>の宣言および宣言解除をします。
+また、<literal>ptype</literal>の存在の有無を決定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Types</Para></Entry>
+<Entry><Para>宣言された型の一覧を生成します。また、ToolTalkに基づいた
+アクションの一覧も生成します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Procid</Para></Entry>
+<Entry><Para>procidのオープン、クローズ、保留、回復を行います。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>libc</Para></Entry>
+<Entry><Para><function>system()</function>、<function>putenv()
+</function>、<function>chdir()</function>、<function>pause()</function>
+および、<function>exit()</function>を呼び出します。<function>exit()
+</function>を使用して、<command>ttsnoop</command>を終了してください。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect1>
+<Sect1 Id="TTUG.ttsnp.div.5">
+<Title>メッセージの作成および送信</Title>
+<Para><command>Message -&gt; Create</command>を選択すると、以下のような
+表示されたダイアログの内容を実行できます。</para>
+<itemizedlist>
+<listitem>
+<para>メッセージの作成および送信
+</para>
+</listitem>
+<listitem>
+<para>ptypeのテンプレートの作成
+</para>
+</listitem>
+<listitem>
+<para>ToolTalk型アクションのテンプレートの作成
+</para>
+</listitem>
+<listitem>
+<para>メッセージ応答ハンドラのC言語テンプレートの作成
+</para>
+</listitem>
+</itemizedlist>
+<para><command>Create -&gt; Tt_message</command>オプションを選択して
+メッセージを作成してください。以下のものをメッセージに対して指定する
+ことができます。</para>
+<itemizedlist>
+<listitem> 
+<para>配信範囲（例えば、ファイル、セッション、ファイルおよび
+セッション、もしくはセッション内のファイル）
+</para>
+</listitem>
+<listitem>
+<para>セッションID
+</para>
+</listitem>
+<listitem>
+<para>クラス（例えば、通知または要求）
+</para>
+</listitem>
+<listitem>
+<para>アドレス（例えば、オブジェクト、ハンドラ、プロシジャ）
+</para>
+</listitem>
+<listitem>
+<para>処置（破棄、キュー、起動）
+</para>
+</listitem>
+<listitem>
+<para>引き数
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<Sect1 Id="TTUG.ttsnp.div.9">
+<Title>Snoopの開始</Title>
+<Para><command>Snoop -&gt; On</command>を選択して、メッセージおよび
+パターンのトラフィックの表示をオンにしてください。
+</Para>
+</Sect1>
+<Sect1 Id="TTUG.ttsnp.div.10">
+<Title>Snoopの停止</Title>
+<Para><command>Snoop -&gt; Off</command>を選択して、メッセージおよび
+パターンのトラフィックの表示をオフにしてください。
+</Para>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 05:02:32-->

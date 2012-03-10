@@ -1,0 +1,823 @@
+<!-- $XConsortium: pad.sgm /main/12 1996/09/08 19:55:19 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDEMX.XCSA.MAN7.rsml.1">]]><![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN7.rsml.1">]]><refmeta>
+<refentrytitle>dtpad</refentrytitle><manvolnum>user cmd</manvolnum></refmeta><refnamediv>
+<refname><command>dtpad</command></refname><refpurpose>edit text files</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtpad</command><arg choice="opt">&minus;<replaceable>options</replaceable></arg>
+<arg choice="opt"><replaceable>file</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>dtpad</command> utility is a basic editor that supports
+editing text files in a manner consistent with other common Graphical User
+Interface text manipulation and file access mechanisms. Cursor positioning
+and text selection as well as access to various edit operations can be done
+via the standard Motif text manipulation mechanisms using the mouse or user-definable
+key combinations. Text can be cut, copied or pasted, or dragged to and from
+the Text Editor and/or other compliant application windows via the standard
+Motif Clipboard and ICCCM Primary and Secondary selection mechanisms. Also,
+standard dialogs are presented for accessing files and printing text.</para>
+<para>The Text Editor also provides the following features:</para>
+<itemizedlist><![ %CDE.C.CDE; [<listitem>
+<para>Pull down menus for common edit and file operations.</para>
+</listitem>]]>
+<listitem>
+<para>Undo of the previous edit operation.</para>
+</listitem>
+<listitem>
+<para>Search and replace.</para></listitem><![ %CDE.C.CDE; [<listitem>
+<para>Spell checking.</para></listitem>]]>
+<listitem>
+<para>Simple formatting.</para></listitem><![ %CDE.C.CDE; [<listitem>
+<para>Wrap-to-fit and overstrike modes.</para>
+</listitem>
+<listitem>
+<para>Optional status line &minus; allowing cursor positioning by line number.
+</para>
+</listitem>
+<listitem>
+<para>Automatic file save on many abnormal termination conditions.</para>
+</listitem>
+<listitem>
+<para>Mechanism for automatic session save and restore.</para>
+</listitem>]]>
+</itemizedlist>
+<para><![ %CDE.C.CDE; [In the &str-XZ;, the Text Editor can be a drag target
+for &str-XZ; files, allowing a File Manager file icon to be dropped on a Text
+Editor window for insertion in the current text. Also, in &str-XZ;, the Text
+Editor operates in a transparent client-server mode in which all text editing
+for a display is handled by a single Text Editor server process. In this mode,
+invoking the Text Editor causes the invoked Text Editor process to be relegated
+to the role of a requestor process that simply sends an edit request to the
+server process where the actual editing is handled. The server creates and
+maintains a separate edit window for each edit request and notifies the requestor
+when its edit window is closed. The requestor normally just blocks until told
+by the server to exit; however, if the server cannot honor the edit request
+(for example, it can't access the directory containing the requestor's file),
+the requestor handles the editing by itself. If a Text Editor server for a
+display is not running when an edit request is made, &str-XZ; automatically
+starts one, normally on the &str-XZ; session server (which need not be the
+same as the requestor's host). The normal client-server behavior can be disabled
+or altered via the Client and Server Control options described under the <Symbol>OPTIONS</Symbol> heading in this manual page. ]]></para>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title><![ %CDE.C.XO; [<Para>The
+<Command>dtpad</Command> utility does not support the &str-Zu; because it uses
+the X Window System convention of full-word options.
+</Para>
+]]>
+<para>The following options are available:
+</para>
+<refsect2>
+<title>Basic Command Line Options</title>
+<variablelist>
+<varlistentry><term><literal>&minus;saveOnClose</literal></term>
+<listitem>
+<para>Automatically and silently saves the current text when there are unsaved
+changes and the Text Editor is closed. The default action for this situation
+posts a dialog asking whether or not to save the current text. This option
+inhibits the posting of the Save dialog when the Text Editor is closed. The
+Save dialog is always posted when a new file is specified and there are unsaved
+changes.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;missingFileWarning</literal></term>
+<listitem>
+<para>Posts a Warning dialog whenever a file name is specified and the file
+does not exist or cannot be accessed.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;noReadOnlyWarning</literal></term>
+<listitem>
+<para>Disables the Warning dialog posted whenever a file is specified for
+which the user does not have write permission. The default posts a Warning
+dialog whenever this situation occurs.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;noNameChange</literal></term>
+<listitem>
+<para>Indicates that the default file name associated with the current text
+is not to change when the text is saved under a name different than what it
+was read in under. The current text can still be saved under a different file
+name; however, the default file name does not change. By default, the default
+file name is automatically changed to correspond to the last name under which
+the current text was saved.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;viewOnly</literal></term>
+<listitem>
+<para>Disallows editing of text in the edit window, essentially turning the
+Text Editor into a text viewer. The default allows text editing in the edit
+window even if the text was obtained from a file for which the user does not
+have write permission.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<![ %CDE.C.CDE; [<variablelist>
+<varlistentry><term><literal>&minus;statusLine</literal></term>
+<listitem>
+<para>Displays a status line at the bottom of the edit window. The status
+line shows the line number of the line where the text cursor is currently
+positioned. The text cursor can be positioned to a specific line by selecting
+the line number window in the status line, typing the desired number and pressing
+the Return key. Normally, a status line is not displayed.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;wrapToFit</literal></term>
+<listitem>
+<para>Initially turns on wrap-to-fit mode. Wrap-to-fit mode can be toggled
+on or off via the <symbol role="Message">Edit</symbol> menu Wrap-to-fit button
+and normally is initially turned off.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;workspaceList</literal> <emphasis>workspace_list</emphasis></term>
+<listitem>
+<para>Displays the edit window for the current invocation of the Text Editor
+in the specified workspace or workspaces. The default displays the edit window
+in the workspace in which the Text Editor was invoked. The <emphasis>workspace_list</emphasis> argument specifies a blank-separated list of &str-XZ; workspaces.
+If more than one workspace is specified, the list must be enclosed in quotes.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;session</literal> <emphasis>session_file</emphasis></term>
+<listitem>
+<para>Restores the Text Editor to all text editing windows and settings that
+were in effect at a previous &str-XZ; shutdown. All other command-line options
+are ignored when this option is specified. The <emphasis>session_file</emphasis>
+argument specifies a Text Editor session file, previously saved at session
+shutdown by the Text Editor, to be used to restore the Text Editor to its
+state at shutdown.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<!-- dd: this is bad because we're in the middle of a CDE.C.CDE mark... -->
+
+<refsect2>
+<title>Client and Server Control Options</title>
+<variablelist>
+<varlistentry><term><literal>&minus;standAlone</literal></term>
+<listitem>
+<para>Forces the current invocation of the Text Editor to do its own text
+processing in its own window, independent of the Text Editor server. This
+is useful for displaying the Text Editor with an environment different from
+that of other edit windows controlled by the server as, for example, to specify
+a different locale or different color resources. The Text Editor still supports
+file drag and drop in this mode.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;noBlocking</literal></term>
+<listitem>
+<para>Terminates the Text Editor requestor process as soon as the Text Editor
+server determines that it can handle the requestor's edit request. If this
+option is not specified, the requestor blocks, terminating only when it receives
+notification from the server that its edit window has been closed.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;server</literal></term>
+<listitem>
+<para>Forces a Text Editor server to be started up (if one is not already
+running) to process all subsequent edit requests for the display. These edit
+requests are normally generated by subsequent invocations of the Text Editor
+without the <literal>&minus;standAlone</literal> command-line option and cause
+the server to create a separate edit window to handle each request. Users
+normally do not need to use this option since the initial edit request for
+the display causes the &str-XZ; to start a Text Editor server automatically.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;exitOnLastClose</literal></term>
+<listitem>
+<para>Specifies that the Text Editor server process is to terminate when the
+last edit window for the display is closed. It should only be used with the <literal>&minus;server</literal> option since it only applies to the server process.
+If this option is not specified, the Text Editor server remains active indefinitely,
+even when all active edit windows have been closed.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+]]>
+
+</refsect2></refsect1><refsect1>
+<title>OPERANDS</title>
+<para>The following operand is supported:</para>
+<variablelist>
+<varlistentry><term><symbol role="Variable">file</symbol></term>
+<listitem>
+<para>The file to be edited or viewed. If no <symbol role="Variable">file</symbol>
+is specified, the Text Editor opens a new (empty) edit window and
+the file name must be specified when the contents are saved.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RESOURCES</title><![ %CDE.C.CDE; [<para>The <command>dtpad</command>
+utility supports the specific Text Editor resources described here plus the
+standard resources related to the Text Editor widget hierarchy. The main widgets
+that make up the Text Editor hierarchy are shown under this heading to aid
+in specifying resources. The widget instance name is shown first, followed
+by the widget class name in parentheses. Indentation indicates hierarchical
+structure.</para><informalexample remap="indent">
+<programlisting>dtpad (Dtpad)
+    main (MainWindow)
+        bar (MenuBar)
+            fileMenu (PulldownMenu)
+            editMenu (PulldownMenu)
+            formatMenu (PulldownMenu)
+            optionsMenu (PulldownMenu)
+            helpMenu (PulldownMenu)
+        editor (DtEditor)</programlisting>
+</informalexample><para>The client-server architecture of <command>dtpad</command>
+restricts the scope of resources that can be specified for individual edit
+windows that the Text Editor server handles. For efficiency, only the resources
+specific to the Text Editor are passed on the Text Editor server. None of
+the standard widget resources, except for geometry, are passed on from the
+requestor Text Editor to the Text Editor server. These resources are loaded
+according to the environment on the server's host at the time the server is
+started up. If more control is required, the <literal>&minus;standAlone</literal>
+command-line option is used to create a separate, stand alone <command>dtpad</command> process where any and all of the standard resources, such as <literal>fontList</literal> or <literal>colors</literal>, can be loaded according to
+the environment on the requestor's host.</para>]]>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.33in">
+<colspec align="left" colname="col1" colwidth="181*">
+<colspec align="left" colname="col2" colwidth="180*">
+<colspec align="left" colwidth="70*">
+<colspec align="left" colwidth="91*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>Basic Resources</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>saveOnClose</literal></entry>
+<entry align="left" valign="top"><literal>SaveOnClose</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>missingFileWarning</literal></entry>
+<entry align="left" valign="top"><literal>MissingFileWarning</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>readOnlyWarning</literal></entry>
+<entry align="left" valign="top"><literal>ReadOnlyWarning</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>nameChange</literal></entry>
+<entry align="left" valign="top"><literal>NameChange</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>viewOnly</literal></entry>
+<entry align="left" valign="top"><literal>ViewOnly</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+</row><![ %CDE.C.CDE; [<row>
+<entry align="left" valign="top"><literal>statusLine</literal></entry>
+<entry align="left" valign="top"><literal>StatusLine</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+</row><row>
+<entry align="left" valign="top"><literal>wrapToFit</literal></entry>
+<entry align="left" valign="top"><literal>WrapToFit</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+</row><row>
+<entry align="left" valign="top"><literal>workspaceList</literal></entry>
+<entry align="left" valign="top"><literal>WorkspaceList</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+</row><row>
+<entry align="left" valign="top"><literal>session</literal></entry>
+<entry align="left" valign="top"><literal>Session</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+</row>]]></tbody>
+</tgroup>
+</informaltable>
+<variablelist>
+<varlistentry><term><literal>saveOnClose</literal></term>
+<listitem>
+<para>Indicates whether the Text Editor is to save automatically the current
+text when there are unsaved changes and the Text Editor is closed. Setting
+this resource to True automatically saves unsaved changes when the Text Editor
+is closed. This is equivalent to specifying the <literal>&minus;saveOnClose</literal> command-line option.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>missingFileWarning</literal></term>
+<listitem>
+<para>Indicates whether a warning dialog is to be posted when a file is specified
+that does not exist or cannot be accessed. Setting this resource to True displays
+the warning. This is equivalent to specifying the <literal>&minus;missingFileWarning</literal> command-line option.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>readOnlyWarning</literal></term>
+<listitem>
+<para>Indicates whether a warning dialog is to be posted when a file for which
+the user does not have write permission is read. Setting this resource to
+False suppresses the warning. This is equivalent to specifying the <literal>&minus;noReadOnlyWarning</literal> command-line option.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>nameChange</literal></term>
+<listitem>
+<para>Indicates whether the current file name is to be changed when the current
+text is saved under a new name. Setting this resource to False does not allow
+the name to be reset. This is equivalent to specifying the <literal>&minus;noNameChange</literal> command-line option.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>viewOnly</literal></term>
+<listitem>
+<para>Indicates whether text only be viewed or whether it can be edited in
+the edit window. Setting this resource to True disables text editing. This
+is equivalent to specifying the <literal>&minus;viewOnly</literal> command-line
+option.</para>
+</listitem>
+</varlistentry><![ %CDE.C.XO; [</VariableList>]]><![ %CDE.C.CDE; [<varlistentry>
+<term><literal>statusLine</literal></term>
+<listitem>
+<para>Indicates whether the Text Editor is to display the status line at the
+bottom of the edit window. Setting this resource to True displays the status
+line. This is equivalent to specifying the <literal>&minus;statusLine</literal>
+command-line option.</para>
+</listitem>
+</varlistentry><varlistentry><term><literal>wrapToFit</literal></term>
+<listitem>
+<para>Indicates whether the Text Editor is to enable wrap-to-fit mode when
+the editor is started. Setting this resource to True enables wrap-to-fit mode.
+This is equivalent to specifying the <literal>&minus;wrapToFit</literal> command-line
+option.</para>
+</listitem>
+</varlistentry><varlistentry><term><literal>workspaceList</literal></term>
+<listitem>
+<para>Indicates which workspace or workspaces the Text Editor is to be displayed
+in. This is equivalent to specifying the <literal>&minus;workspaceList</literal>
+command-line option.</para>
+</listitem>
+</varlistentry><varlistentry><term><literal>session</literal></term>
+<listitem>
+<para>Specifies the saved session file to use in restoring a previously saved
+Text Editor session. This is equivalent to specifying the <literal>&minus;session</literal> command-line argument.</para>
+</listitem>
+</varlistentry></variablelist>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colname="col1" colwidth="155*">
+<colspec align="left" colname="col2" colwidth="147*">
+<colspec align="left" colwidth="74*">
+<colspec align="left" colwidth="80*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>Client-Server Control
+Resources</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>standAlone</literal></entry>
+<entry align="left" valign="top"><literal>StandAlone</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>blocking</literal></entry>
+<entry align="left" valign="top"><literal>Blocking</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>server</literal></entry>
+<entry align="left" valign="top"><literal>Server</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>exitOnLastClose</literal></entry>
+<entry align="left" valign="top"><literal>ExitOnLastClose</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<refsect2>
+<title>Client And Server Control Resources</title>
+<variablelist>
+<varlistentry><term><literal>standAlone</literal></term>
+<listitem>
+<para>Specifies whether the Text Editor is to run as a separate, independent
+Text Editor process without using the Text Editor server. Setting this resource
+to True invokes a separate, independent process. This is equivalent to specifying
+the <literal>&minus;standAlone</literal> command-line option.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>blocking</literal></term>
+<listitem>
+<para>Specifies that the client Text Editor process is not to terminate until
+receiving notification from the Text Editor server that the user exited or
+closed its edit window. Setting this resource to False causes the client process
+to exit immediately when the server determines that it can handle its edit
+request. This is equivalent to specifying the <literal>&minus;noBlocking</literal>
+command-line option.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>server</literal></term>
+<listitem>
+<para>Specifies that the Text Editor is to be started in server mode to handle
+all processing for all subsequent edit requests for the display. Setting this
+resource to True is equivalent to specifying the <literal>&minus;server</literal>
+command-line option.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>exitOnLastClose</literal></term>
+<listitem>
+<para>Specifies that the Text Editor server is to terminate when the last
+edit window for the display is closed. Setting this resource to True is equivalent
+to specifying the <literal>&minus;exitOnLastClose</literal> command-line option.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>]]></refsect1><refsect1>
+<title>STDIN</title>
+<para>Not used.</para>
+</refsect1><refsect1>
+<title>INPUT FILES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>PRINTING</title>
+<para><command>dtpad</command> allows you to print either frgaments of text
+files or complete text files.</para>
+<para>You print a fragment from a text file using Drag and Drop. Select the
+portion you want to print and drag the selected text over the printer icon
+on the desktop. This Drag and Drop action displays a print setup dialog
+that allows you to configure the print job and execute it.</para>
+<para>You can print a complete text file either from the File Manager or
+from within <command>dtpad</command>.</para>
+<para>To print from the File Manager, select the file's icon and drag it
+over the printer icon on the desktop. As with printing a text file fragment,
+this Drag and Drop action displays a print setup dialog that allows you
+to configure the print job and execute it.</para>
+<para>You can print the currently open document from within <command>dtpad</command> in either of two ways:</para>
+<itemizedlist><listitem><para>By selecting <literal>Print</literal> from the <literal>File</literal> pulldown menu. With this method, <command>dtpad</command>
+prints the current file using the print setup options established by the
+last print job. No print setup dialog is displayed.<?Pub Caret></para>
+</listitem><listitem><para>By selecting <literal>Print...</literal> from the <literal>File</literal> pulldown menu. This method gives you the most control over
+the printing process and the resulting output. When you select <literal>Print...</literal>, <command>dtpad</command> displays a Print Setup window
+that allows you to set a number of generic and printer-specific printing options.
+For example, you can send the output to a file or a printer. In the case
+of printed output, you can specify how many copies you want. You can also
+access another window to set options specific to the printer/spooler you are
+using. For example, you can select paper size, orientation, a banner page
+title, one- or two-sided printing, and email notification on completion of
+the print job.</para>
+</listitem></itemizedlist>
+</refsect1><refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>The following environment variables affect the execution of <command>dtpad</command>:</para>
+<variablelist>
+<varlistentry><term><systemitem class="EnvironVar">DISPLAY</systemitem></term>
+<listitem>
+<para>Specify the default X Windows display to connect to.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">LANG</systemitem></term>
+<listitem>
+<para>Provide a default value for the internationalization variables that
+are unset or null. If <systemitem class="EnvironVar">LANG</systemitem> is
+unset or null, the corresponding value from the implementation-specific default
+locale will be used. If any of the internationalization variables contains
+an invalid setting, the utility behaves as if none of the variables had been
+defined.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>LC_ALL</emphasis></term>
+<listitem>
+<para>If set to a non-empty string value, override the values of all the other
+internationalization variables.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>LC_MESSAGES</emphasis></term>
+<listitem>
+<para>Determine the locale that is used to affect the format and contents
+of diagnostic messages written to standard error and informative messages
+written to standard output.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">NLSPATH</systemitem></term>
+<listitem>
+<para>Determine the location of message catalogues for the processing of <emphasis>LC_MESSAGES</emphasis>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>ASYNCHRONOUS EVENTS</title><![ %CDE.C.XO; [<Para>Default.
+</Para>
+]]><![ %CDE.C.CDE; [<refsect2>
+<title>ToolTalk Messages</title>
+<para>The following ToolTalk Desktop and Media requests are supported by the
+Text Editor server:</para>
+<variablelist>
+<varlistentry><term>C_STRING</term>
+<listitem>
+<para>Text in an arbitrary codeset</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>_DT_DATA</term>
+<listitem>
+<para>Data that does not match any other data type</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>In addition, the Text Editor supports the messages below for any media
+type that does not have a specific editor registered.</para>
+<para>The following messages are supported from the Media Exchange message
+set:</para>
+<variablelist>
+<varlistentry><term><emphasis>Instantiate</emphasis></term>
+<listitem>
+<para>Opens a new edit window for composing arbitrary file(s).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Message">Edit</symbol></term>
+<listitem>
+<para>Opens a new edit window for editing an existing file or buffer or for
+composing a specific new file or buffer.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Message">Display</symbol></term>
+<listitem>
+<para>Opens a new edit window for displaying an existing file or buffer.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The following messages are supported from the Desktop message set:</para>
+<variablelist>
+<varlistentry><term><symbol role="Message">Quit</symbol></term>
+<listitem>
+<para>Terminates the text editing services or closes a specific Text Editor
+edit window as specified by the <emphasis>operation2Quit</emphasis> argument.
+The <emphasis>operation2Quit</emphasis> argument must be the message ID of
+the Media Exchange request that created the edit window.</para>
+<para>The default actions for notifying the user, saving or returning text
+and closing edit windows are:</para>
+<itemizedlist>
+<listitem>
+<para>If <emphasis>operation2Quit</emphasis> is specified, the specified edit
+window is closed; otherwise, all edit window(s) are closed and the text editing
+services are terminated</para>
+</listitem>
+<listitem>
+<para>If there are unsaved changes, the user is notified and allowed to save
+the text and/or abort the <symbol role="Message">Quit</symbol>; otherwise,
+the user is not notified and the text is not saved (or returned if a buffer
+is being edited)</para>
+</listitem>
+</itemizedlist>
+<para>Both the <emphasis>silent</emphasis> and <emphasis>force</emphasis>
+arguments are supported. However, the semantics of <emphasis>silent</emphasis>
+differ from the Desktop message set in that the text editing services provides
+user notification only when there are unsaved changes, rather than user notification
+when an edit window is terminated. The following table describes variances
+in the default action for various combination of <emphasis>silent</emphasis>
+and <emphasis>force</emphasis>.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colwidth="69*">
+<colspec align="left" colwidth="80*">
+<colspec align="left" colwidth="307*">
+<tbody>
+<row>
+<entry align="left" valign="top"><emphasis>silent</emphasis></entry>
+<entry align="left" valign="top"><emphasis>force</emphasis></entry>
+<entry align="left" valign="top"><symbol role="Variable">action</symbol></entry>
+</row>
+<row>
+<entry align="left" valign="top"><systemitem class="Constant">False</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Constant">False</systemitem></entry>
+<entry align="left" valign="top"><symbol role="Variable">default</symbol></entry>
+</row>
+<row>
+<entry align="left" valign="top"><systemitem class="Constant">True</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Constant">False</systemitem></entry>
+<entry align="left" valign="top">If there are unsaved changes, the user is
+not notified, the text is not saved and the edit window is not terminated.</entry>
+</row>
+<row>
+<entry align="left" valign="top"><systemitem class="Constant">False</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Constant">True</systemitem></entry>
+<entry align="left" valign="top">If there are unsaved changes, the user is
+still notified and allowed to save the text, but cannot abort the
+<symbol role="Message">Quit</symbol>.</entry>
+</row>
+<row>
+<entry align="left" valign="top"><systemitem class="Constant">True</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Constant">True</systemitem></entry>
+<entry align="left" valign="top">If there are unsaved changes, the user is
+not notified, the text is not saved and the edit window is closed.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>Whenever the <symbol role="Message">Quit</symbol> request is not carried
+out (i.e., in the default case when the user explicitly aborts the
+<symbol role="Message">Quit</symbol> or when <emphasis>silent</emphasis> is True and <emphasis>force</emphasis> is not specified or is False), the <symbol role="Message">
+Quit</symbol> request is failed with <systemitem class="Constant">TT_DESKTOP_ECANCELED</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Message">Save</symbol></term>
+<listitem>
+<para>Saves a specific edit window opened via an <symbol role="Message">Edit</symbol>
+request. The ID argument must have the <literal>messageID</literal>
+vtype and have the value of the message ID of the <symbol role="Message">
+Edit</symbol> request that created the edit window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Message">Saved</symbol></term>
+<listitem>
+<para>Sent when a file has been saved, as the result of a <symbol role="Message">
+Save</symbol> request or a user action.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>]]></refsect1><refsect1>
+<title>STDOUT</title>
+<para>Not used.</para>
+</refsect1><refsect1>
+<title>STDERR</title>
+<para>Not used.</para>
+</refsect1><refsect1>
+<title>OUTPUT FILES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXTENDED DESCRIPTION</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXIT STATUS</title>
+<para>The following exit values are returned:</para>
+<variablelist>
+<varlistentry><term>0</term>
+<listitem>
+<para>Successful completion.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>>0</term>
+<listitem>
+<para>An error occurred.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>CONSEQUENCES OF ERRORS</title>
+<para>Default.</para>
+</refsect1><refsect1>
+<title>APPLICATION USAGE</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>None.</para><![ %CDE.C.CDE; [</refsect1>
+<refsect1>
+<title>NOTES</title>
+<refsect2>
+<title>Modes of Operation</title>
+<para>Each instance of the Text Editor operates in one of three modes:</para>
+<variablelist>
+<varlistentry><term><literal>Requestor Mode</literal></term>
+<listitem>
+<para>When the Text Editor is started without any overriding command-line
+options (that is, <literal>&minus;standAlone</literal> or <literal>&minus;server</literal>), it always attempts to run in this mode. In this mode it simply
+sends an edit request to a separate Text Editor server process and then blocks
+(does nothing) until it receives a notice from the server when its edit request
+is done, at which time it exits. If <literal>&minus;noBlocking</literal> is
+specified, it exits immediately after the server accepts its edit request
+rather than waiting until the edit request is done.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>StandAlone Mode</literal></term>
+<listitem>
+<para>If the Text Editor server cannot process the edit request from the Text
+Editor instance (for example, the server process doesn't exist or can't be
+started, or it can't access the requestor's file), or if <literal>&minus;standAlone</literal> is specified on the command line, the Text Editor instance operates
+in <literal>standAlone</literal> mode. In this mode the Text Editor creates
+its own edit window and handles all processing for this window on its own.
+In addition, it does not handle any edit requests from outside sources and
+it exits when its edit window is closed.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Server Mode</literal></term>
+<listitem>
+<para>When <literal>&minus;server</literal> is specified on the command line,
+the Text Editor instance operates as a server for all Text Editor edit requests
+for the same display. That is, it creates a separate edit window and does
+the actual editing for all Text Editor instances running to the same display
+that do not have <literal>&minus;standAlone</literal> specified on their command
+line. Only one Text Editor server for a display can exist, and in the &str-XZ;,
+this instance is normally started automatically if it's not running at the
+time an edit request is made.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Automatic File Save</title>
+<para>The Text Editor automatically saves the current text to a panic save
+file before exiting whenever it encounters a panic signal or an internal X
+error. Panic signals are signals such as SIGHUP, SIGINT, SIGQUIT, SIGILL,
+SIGABRT, SIGIOT, SIGEMT, SIGFPE, SIGBUS, SIGSEGV, SIGSYS, SIGPIPE and SIGTERM.
+Internal X errors are both non fatal X Error events (as trapped by <function>XSetErrorHandler</function>(3)), such as a failure in X server memory allocation,
+and fatal X errors (as trapped by <Symbol>XSetIOErrorHandler</Symbol>),
+such as losing the connection to the X server. The Text Editor constructs
+the name of the panic save file by bracketing the file name as supplied by
+the user (or <literal>noName</literal> if none is supplied) with enough number
+symbols ( <literal>#</literal>) to make the name unique.</para>
+</refsect2>
+<refsect2>
+<title>Wrap-to-fit Mode and Formatting</title>
+<para>Wrap-to-fit mode and text formatting are essentially independent operations.
+Wrap-to-fit mode pertains to the dynamic display of lines, as delimited by <keysym>newline</keysym> characters, which exceed the width of the Text Editor window
+and is based on the left and right window boundaries. When wrap-to-fit mode
+is off (the default), each line of text is displayed on a single line on the
+display and text entered at the right window boundary causes the window to
+scroll automatically to the right to accommodate the new text until an actual <keysym>newline</keysym> character is entered (normally, by pressing the Return key).
+When wrap-to-fit mode is on, lines longer than the window width are automatically
+wrapped at the right window margin to one or more display lines, and text
+entered at the right window boundary is automatically broken on a word boundary
+to the first column of the next display line. Wrap-to-fit mode is dynamic
+in that wrapped lines are automatically adjusted when text is inserted or
+deleted or when the window is resized. Wrap-to-fit mode only affects the display
+of lines; it does not actually insert <keysym>newline</keysym> characters
+in the text.</para>
+<para>Text formatting is a static operation that inserts actual <keysym>newline</keysym> (and/or <keysym>space</keysym>) characters directly in the text
+to match it to the left and right margins (and justification mode) specified
+in the Format Settings dialog. Format settings affect text only when explicitly
+applied and have no affect on wrap-to-fit mode or previously formatted text.
+Initially, and whenever the window is resized, the right format margin is
+automatically set to the window width to match the wrap-to-fit boundary.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<variablelist>
+<varlistentry><term><Filename>/usr/dt/app-defaults/$LANG/Dtpad</Filename></term>
+<listitem>
+<para>Text Editor Application Defaults.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Filename>/usr/dt/lib/nls/msg/$LANG/dtpad.cat</Filename></term>
+<listitem>
+<para>Text Editor Message Catalog.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Filename>/usr/dt/appconfig/help/$LANG/Textedit.sdl</Filename></term>
+<listitem>
+<para>Text Editor Help Volume.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Filename>/usr/dt/appconfig/types/$LANG/dtpad.dt</Filename></term>
+<listitem>
+<para>Contains Text Editor action definitions used by the Text Editor.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Filename>/usr/dt/appconfig/tttypes/types.xdr</Filename></term>
+<listitem>
+<para>ToolTalk process-types file containing message definitions used by the
+Text Editor.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>#&lt;file name>#</literal></term>
+<listitem>
+<para>Panic save file (see <literal>Automatic File Save</literal>).</para>
+</listitem>
+</varlistentry>
+</variablelist>]]></refsect1><refsect1>
+<title>SEE ALSO</title><![ %CDE.C.CDE; [<para>&cdeman.DtEditor;.
+</para>]]><![ %CDE.C.XO; [<Para>None.
+</Para>
+]]></refsect1></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

@@ -1,0 +1,166 @@
+<!-- $XConsortium: tttracef.sgm /main/11 1996/09/08 20:20:25 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMX.MAN99.rsml.1" Remap="">
+<RefMeta>
+<RefEntryTitle>tttracefile</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>tttracefile</Filename></RefName>
+<RefPurpose>script of settings for ToolTalk tracing
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Synopsis><Literal>tttracefile</Literal></Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>A
+<Command>tttrace</Command> script contains settings that control ToolTalk calls and messages.
+A
+<Command>tttrace</Command> script consists of commands separated by semicolons or newlines.
+The first command must be the
+<Literal>version</Literal> command.
+</Para>
+<RefSect2>
+<Title>Commands</Title>
+<Para>If conflicting values are given for a setting, the last value wins.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>version n</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The version of the
+<Literal>tttracefile</Literal> command syntax used. The current version is 1.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>follow [off | on]</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Sets whether to follow all children forked by the traced client or
+subsequently started in the traced session. Default is
+<Literal>off</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[> | >>] outfile</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>File to be used for the trace output. By default, trace output
+goes to standard error. Normal
+<Filename MoreInfo="RefEntry">sh</Filename>(1) interpretation of
+<Emphasis>></Emphasis> and
+<Emphasis>>></Emphasis> applies.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>functions [all | none | func...]</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>ToolTalk API functions to trace.
+<Emphasis>func</Emphasis> may include
+<Filename MoreInfo="RefEntry">sh</Filename>(1) wildcard characters. Default is
+<Literal>all</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>attributes [all | none]</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para><Literal>none</Literal> means use only a single line when printing a message on the trace
+output.
+<Literal>all</Literal> means print all attributes, arguments, and context slots of traced
+messages. Default is
+<Literal>none</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>states [none | edge | deliver | dispatch | Tt_state]...</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>State(s) through which to trace messages. In addition to
+the <ComputerOutput>Tt_state</ComputerOutput>s defined in <ComputerOutput>tt_c.h</ComputerOutput>, valid <Symbol Role="Variable">state</Symbol>s
+are:
+</Para>
+<ItemizedList>
+<ListItem><Para><ComputerOutput>none</ComputerOutput> - disable all message tracing
+</Para></ListItem>
+<ListItem><Para><ComputerOutput>edge</ComputerOutput> - messages entering initial (<ComputerOutput>TT_SENT</ComputerOutput>) and final
+(<ComputerOutput>TT_HANDLED</ComputerOutput>, <ComputerOutput>TT_FAILED</ComputerOutput>) states.
+</Para></ListItem>
+<ListItem><Para><ComputerOutput>deliver</ComputerOutput> - all state changes and all client deliveries.
+</Para></ListItem>
+<ListItem><Para><ComputerOutput>dispatch</ComputerOutput> - <ComputerOutput>deliver</ComputerOutput> + all patterns considered for
+matching. (default)
+</Para></ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ops</Literal> <Emphasis>toTrace</Emphasis>...</Term>
+<Term><Literal>sender_ptypes</Literal> <Emphasis>toTrace</Emphasis>...</Term>
+<Term>handler_ptypes toTrace...</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Trace messages that have
+<Emphasis>toTrace</Emphasis> as a value for the indicated message attribute.
+<Emphasis>toTrace</Emphasis> may include
+<Filename MoreInfo="RefEntry">sh</Filename>(1) wildcard characters.
+If no
+<Emphasis>toTrace</Emphasis> argument is included for a given message attribute, then
+no value of that attribute excludes a message from tracing.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Comments</Title>
+<Para>A word beginning with
+<Literal>#</Literal> causes that word and all the following characters up to a newline to
+be ignored.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>To trace all attribute-getting and -setting messages sent by ptype starting
+with "Dt",
+</Para>
+<VariableList>
+<VarListEntry>
+<Term></Term>
+<ListItem>
+<Para><Literal>version</Literal> <ComputerOutput>1</ComputerOutput> <Literal>ops</Literal> <ComputerOutput>Get* Set*</ComputerOutput> <Literal>sender_ptypes</Literal> <ComputerOutput>Dt*</ComputerOutput></Para>
+<Para>To trace only ToolTalk function calls (but not messages) in a
+process tree,
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term></Term>
+<ListItem>
+<Para><Literal>version 1; follow on; states none</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.ttsession;, &cdeman.tttrace;, the
+<Literal>Session_Trace</Literal>() ToolTalk request
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.3 08/21/95 21:30:04-->

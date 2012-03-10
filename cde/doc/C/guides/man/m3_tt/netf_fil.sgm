@@ -1,0 +1,127 @@
+<!-- $XConsortium: netf_fil.sgm /main/7 1996/09/08 20:13:01 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN162.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN162.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_netfile_file</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_netfile_file</Function></RefName>
+<RefPurpose>map between canonical and local pathnames on the local host
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: netf_fil.sgm /main/7 1996/09/08 20:13:01 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>char <Function>*tt_netfile_file</Function></FuncDef>
+<ParamDef>const char *<Parameter>netfilename</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_netfile_file</Function> function
+converts a
+<Emphasis>netfilename</Emphasis> of the format returned by
+&cdeman.tt.file.netfile; to a pathname that is valid on the local host.
+If the file
+is not currently mounted on the local host,
+<Function>tt_netfile_file</Function> constructs a pathname of the form:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>/<Emphasis>mountpoint</Emphasis>/<Symbol Role="Variable">host</Symbol>/<Emphasis>filepath</Emphasis></ProgramListing>
+</InformalExample>
+<Para>where
+<Emphasis>mountpoint</Emphasis> is the mount point pathname in
+the environment variable
+<Emphasis>DTMOUNTPOINT</Emphasis>, or
+<Filename>/net</Filename> if the variable is null or unset.
+</Para>
+<Para>The
+<Emphasis>netfilename</Emphasis> argument is a copy of a null-terminated string returned by
+&cdeman.tt.netfile.file; or
+&cdeman.tt.host.netfile.file;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_netfile_file</Function> function returns
+a null-terminated local filename;
+otherwise, it returns an error pointer.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned pointer:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_ERR_NETFILE</Term>
+<ListItem>
+<Para>The
+<Emphasis>netfilename</Emphasis> argument
+is not a valid netfilename.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.tt.file.netfile;, &cdeman.tt.netfile.file;, &cdeman.tt.host.file.netfile; and
+&cdeman.tt.host.netfile.file; functions allow an
+application to determine a path valid on remote hosts,
+perhaps for purposes of constructing a command string valid for remote
+execution on that host.
+By composing the two calls, paths for files not accessible from the
+current host can be constructed.
+For example, if path
+<Filename>/sample/file</Filename> is valid on host A, a program
+running on host B can use
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>tt_host_netfile_file("C", tt_host_file_netfile("A", "/sample/file"))
+</ProgramListing>
+</InformalExample>
+<Para>to determine a path to the same file valid on host C, if such a
+path is possible.
+</Para>
+<Para>The
+<Emphasis>netfilename</Emphasis> string input to
+<Function>tt_netfile_file</Function> should be considered opaque;
+the content and format of the strings are not a public interface.
+These strings can be safely copied (with
+<Function>strcpy</Function>3C or similar methods), written to files, or transmitted
+to other processes, perhaps on other hosts.
+</Para>
+<Para>The
+<Emphasis>mountpoint</Emphasis> value is intended to be the mount point for the automounter's host map
+on those systems supporting automounting services.
+</Para>
+<Para>Allocated strings should be freed using either
+&cdeman.tt.free; or
+&cdeman.tt.release;.</Para>
+<Para>The
+&cdeman.tt.open; function need not be called before
+<Function>tt_netfile_file</Function>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.file.netfile;, &cdeman.tt.host.file.netfile;, &cdeman.tt.host.netfile.file;, &cdeman.tt.open;, &cdeman.tt.free;, &cdeman.tt.release;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

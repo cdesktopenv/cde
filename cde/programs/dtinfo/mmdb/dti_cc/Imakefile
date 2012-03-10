@@ -1,0 +1,62 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 15:59:27 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = 
+INCLUDES = -I$(DTMMDBSRC)/dti_cc $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES)
+
+LinkSourceFile(CC_Listbase.C,$(DTMMDBSRC)/dti_cc)
+LinkSourceFile(cc_exceptions.C,$(DTMMDBSRC)/dti_cc)
+LinkSourceFile(CC_String.C,$(DTMMDBSRC)/dti_cc)
+LinkSourceFile(CC_Tokenizer.C,$(DTMMDBSRC)/dti_cc)
+LinkSourceFile(CC_Stack.C,$(DTMMDBSRC)/dti_cc)
+LinkSourceFile(CC_Slist.C,$(DTMMDBSRC)/dti_cc)
+
+SRCS =  CC_Listbase.C	cc_exceptions.C	CC_String.C \
+	CC_Tokenizer.C	CC_Stack.C	CC_Slist.C
+OBJS = $(SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()
+
+#ifdef TEST
+TEST_OBJS = $(OBJS) \
+	../utility/mmdb_exception.o \
+	../utility/funcs.o \
+	../utility/atoi_fast.o \
+	../utility/pm_random.o \
+	../dti_excs/Jump_Environment.o \
+	../dti_excs/Exceptions.o \
+	../dti_excs/Exception.o \
+	../dti_excs/Destructable.o \
+	../dti_excs/terminate.o \
+	../dti_excs/centerline.o \
+	../misc/unique_id.o -lm
+
+SpecialCPlusPlusObjectRule(CC_Template.o,,-ptf)
+SimpleCPlusPlusProgram(tt, main.o CC_Template.o,$(TEST_OBJS))
+#endif

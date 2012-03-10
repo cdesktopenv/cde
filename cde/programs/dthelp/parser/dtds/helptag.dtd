@@ -1,0 +1,461 @@
+<!SGML "ISO 8879:1986"
+  -- $XConsortium: helptag.dtd /main/2 1996/11/07 11:55:33 drk $ --
+  -- ======================================================
+                           HelpTag 1.3 DTD
+
+ (c) Copyright 1993, 1994 Hewlett-Packard Company
+ (c) Copyright 1993, 1994 International Business Machines Corp.
+ (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+ (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of Novell, Inc.
+
+     Permission to use, copy, and distribute this Document Type
+     Definition (DTD) is hereby granted, provided that the above
+     copyright notice appear in all copies and that both that
+     copyright notice and this permission notice appear in supporting
+     hardcopy and online documentation.  All other rights reserved.
+
+     The names of the companies owning the copyright or the company
+     logos may not be used in advertising or publicity pertaining to
+     distribution of this DTD without specific, written prior
+     permission.  The companies make no representations about the
+     suitability of this DTD for any purpose.  It is provided "as is"
+     without express or implied warranty.
+
+     The companies disclaim all warranties with regard to this DTD,
+     including all implied warranties of merchantability and fitness,
+     in no event shall the companies be liable for any special,
+     indirect or consequential damages or any damages whatsoever
+     resulting from loss of use, data or profits, whether in an action
+     of contract, negligence or other tortious action, arising out of
+     or in connection with the use or performance of this DTD.
+
+     ======================================================
+  --
+
+  -- SGML Declaration ________________________________________________--
+CHARSET
+BASESET "ISO 646-1983//CHARSET International Reference Version
+          (IRV)//ESC 2/5 4/0"
+DESCSET      0        9      UNUSED
+             9        2      9
+            11        2      UNUSED
+            13        1      13
+            14       18      UNUSED
+            32       95      32
+           127        1      UNUSED
+
+BASESET "ISO Registration Number 100//CHARSET ECMA-94
+          Right Part of Latin Alphabet  Nr. 1//ESC  2/13  4/1"
+DESCSET    128       32      UNUSED
+           160        5      32
+           165        1      UNUSED
+           166       88      38
+           254        1      127
+           255        1      UNUSED
+
+CAPACITY SGMLREF
+    TOTALCAP 350000
+    ENTCAP   100000
+    ENTCHCAP  50000
+    ELEMCAP   50000
+    GRPCAP   210000
+    EXGRPCAP  50000
+    EXNMCAP   50000
+    ATTCAP    50000
+    ATTCHCAP  50000
+    AVGRPCAP  50000
+    NOTCAP    50000
+    NOTCHCAP  50000
+    IDCAP     50000
+    IDREFCAP  50000
+    MAPCAP   210000
+    LKSETCAP  50000
+    LKNMCAP   50000
+
+SCOPE DOCUMENT
+SYNTAX -- The Core Reference Syntax except with ATTCNT, LITLEN, NAMELEN,
+          GRPCNT, and GRPGTCNT changed --
+
+SHUNCHAR CONTROLS   0   1   2   3   4   5   6   7   8   9
+                   10  11  12  13  14  15  16  17  18  19
+                   20  21  22  23  24  25  26  27  28  29
+                   30  31 127 255
+
+BASESET "ISO 646-1983//CHARSET International Reference Version
+          (IRV)//ESC 2/5 4/0"
+DESCSET      0      128      0
+
+FUNCTION     RE      13
+             RS      10
+             SPACE   32
+             TAB     SEPCHAR    9
+
+NAMING
+   LCNMSTRT ""
+   UCNMSTRT ""
+   LCNMCHAR "-."
+   UCNMCHAR "-."
+   NAMECASE
+      GENERAL YES
+      ENTITY  YES
+
+DELIM
+   GENERAL  SGMLREF
+   SHORTREF SGMLREF -- Removed short references --
+   NAMES    SGMLREF
+   QUANTITY SGMLREF
+       ATTCNT    140
+       LITLEN   4096
+       NAMELEN    64
+       GRPCNT    100
+       GRPGTCNT  253
+       TAGLVL     48
+
+FEATURES
+    MINIMIZE
+        DATATAG    NO
+        OMITTAG    NO
+        RANK       NO
+        SHORTTAG   YES
+    LINK
+        SIMPLE     NO
+        IMPLICIT   NO
+        EXPLICIT   NO
+    OTHER
+        CONCUR     NO
+        SUBDOC     NO
+        FORMAL     NO
+        APPINFO  NONE
+>
+
+<!DOCTYPE helpvolume [
+<!ELEMENT helpvolume   - - (metainfo?,
+                            hometopic?,
+                            (chapter* | (s1*, rsect*)),
+                            message?,
+                            glossary?)
+                           +(memo | idx) >
+
+<!ELEMENT metainfo     - - (idsection, abstract?, otherfront*)
+			   -(footnote) >
+
+<!ELEMENT idsection    - - (title, copyright?) >
+
+<!ELEMENT title        - - (partext)
+                           -(memo | location | idx) >
+
+<!ELEMENT partext      - - ((#PCDATA | acro   | emph     | computer |
+                             user    | term   | var      | circle   |
+			     quote   | keycap | graphic  | super    |
+			     sub     | book   | xref     | footnote |
+			     esc     | link   | location | newline  )*) >
+
+<!ELEMENT acro         - - ((#PCDATA | esc | super | sub)*) >
+
+<!ELEMENT emph         - - (partext) -(emph) >
+
+<!ELEMENT computer     - - ((#PCDATA | quote | var | user | esc)*) >
+
+<!ELEMENT user         - - ((#PCDATA | var | esc)*) >
+ 
+<!ELEMENT term         - - (partext)
+                           -(emph  | computer | term | var     |
+                             quote | user     | book | footnote) >
+<!ATTLIST term             base         CDATA             #IMPLIED
+                           gloss        (gloss | nogloss) gloss >
+
+<!ELEMENT var          - - ((#PCDATA | esc)*) >
+
+<!ELEMENT circle       - - CDATA >
+
+<!ELEMENT quote        - - (partext) -(quote) >
+
+<!ELEMENT keycap       - - ((#PCDATA | super | sub | esc)+) >
+
+<!ELEMENT graphic      - O EMPTY >
+<!ATTLIST graphic          id           ID                #IMPLIED
+                           entity       ENTITY            #REQUIRED >
+
+<!ELEMENT super        - - (#PCDATA) >
+
+<!ELEMENT sub          - - (#PCDATA) >
+
+<!ELEMENT book         - - (partext) -(book) >
+
+<!ELEMENT xref         - O EMPTY >
+<!ATTLIST xref             id           IDREF             #REQUIRED >
+
+<!ELEMENT footnote     - - (p+) -(footnote) >
+
+<!ELEMENT esc          - - CDATA >
+
+<!ELEMENT link         - - (partext) -(link | xref) >
+<!ATTLIST link             hyperlink    CDATA             #REQUIRED
+                           type         (jump        |
+                                         jumpnewview |
+                                         definition  |
+                                         execute     |
+                                         appdefined  |
+                                         man         )    jump
+                            description CDATA             #IMPLIED >
+
+<!ELEMENT location     - - (partext) -(location) >
+<!ATTLIST location         id           ID                #REQUIRED >
+
+<!ELEMENT copyright    - - (text)
+                            -(memo | location | idx) >
+
+<!ELEMENT text         - - ((p       | note      | caution   | warning |
+                             lablist | list      | ex        | vex     |
+                             esc     | otherhead | procedure | syntax  |
+                             figure  | image     )* ) >
+
+<!ELEMENT p            - - (head?, partext)
+                           +(newline) >
+<!ATTLIST (p | image)      indent       (indent)          #IMPLIED
+                           id           ID                #IMPLIED
+                           gentity      ENTITY            #IMPLIED
+                           gposition    (left | right)    left
+                           ghyperlink   CDATA             #IMPLIED
+                           glinktype    (jump        |
+                                         jumpnewview |
+                                         definition  |
+                                         execute     |
+                                         appdefined  |
+                                         man         )    jump
+                           gdescription CDATA             #IMPLIED >
+
+<!ELEMENT head         - - (partext)
+                           -(memo | location | idx) >
+
+<!ELEMENT newline      - O EMPTY >
+
+<!ELEMENT (note    |
+	   caution |
+	   warning )   - - (head?, text)
+                            -(note | caution | warning | footnote) >
+
+<!ELEMENT lablist      - - (head?, labheads?, lablistitem+) >
+<!ATTLIST lablist          spacing      (loose | tight)   loose
+                           longlabel    (wrap  | nowrap)  wrap >
+
+<!ELEMENT labheads     - - (labh, labhtext)
+                           -(memo | location | idx) >
+
+<!ELEMENT labh         - - (partext) >
+
+<!ELEMENT labhtext     - - (partext) >
+
+<!ELEMENT lablistitem  - - (label, text) >
+
+<!ELEMENT label        - - (partext) >
+
+<!ELEMENT list         - - (head?, item+) >
+<!ATTLIST list             type         (order   |
+                                         bullet  |
+                                         plain   |
+                                         check   )        bullet
+                           ordertype    (ualpha  |
+                                         lalpha  |
+                                         arabic  |
+                                         uroman  |
+                                         lroman  )        arabic
+                           spacing      (tight   |
+                                         loose   )        tight
+                           continue     (continue)        #IMPLIED >
+
+<!ELEMENT item         - - (text) >
+<!ATTLIST item             id           ID                #IMPLIED >
+
+<!ELEMENT ex           - - (head?, (exampleseg, annotation?)+)
+                           -(ex      |
+			     vex     |
+			     note    |
+			     caution |
+			     warning |
+			     syntax  |
+			     footnote) >
+<!ATTLIST ex               notes        (side | stack)    side
+                           lines        (number   |
+                                         nonumber )       nonumber
+                           textsize     (normal   |
+                                         smaller  |
+                                         smallest )       normal >
+
+<!ELEMENT exampleseg   - - (partext) +(lineno) >
+
+<!ELEMENT annotation   - - (partext) +(newline) >
+
+<!ELEMENT lineno       - O EMPTY >
+<!ATTLIST lineno           id           ID                #IMPLIED >
+
+<!ELEMENT vex          - - CDATA >
+<!ATTLIST vex              lines        (number   |
+                                         nonumber )       nonumber
+                           textsize     (normal   |
+                                         smaller  |
+                                         smallest )       normal >
+
+<!ELEMENT otherhead    - - (head, text?) >
+
+<!ELEMENT procedure    - - (chaphead, text?)
+                           -(procedure) >
+
+<!ELEMENT chaphead     - - (head, abbrev?)
+                           -(memo | location | idx | footnote) >
+
+<!ELEMENT abbrev       - - (partext) -(footnote) >
+
+<!ELEMENT syntax       - - (head?, synel) >
+
+<!ELEMENT synel        - - ((#PCDATA | esc | var |
+                            optblock | reqblock  )+) >
+
+<!ELEMENT (optblock |
+           reqblock )  - - (synel+) >
+
+<!ELEMENT figure       - - (caption?)
+                           -(figure | graphic) >
+<!ATTLIST figure           number       NUMBER            #IMPLIED
+                           tonumber     (number  |
+                                         nonumber)        number
+                           id           ID                #IMPLIED
+                           entity       ENTITY            #REQUIRED
+			   figpos       (left   |
+					 center |
+					 right  )         #IMPLIED
+			   cappos       (capleft   |
+					 capcenter |
+					 capright  )      #IMPLIED
+                           ghyperlink   CDATA             #IMPLIED
+                           glinktype    (jump        |
+                                         jumpnewview |
+                                         definition  |
+                                         execute     |
+                                         appdefined  |
+                                         man         )    jump
+                           gdescription CDATA             #IMPLIED >
+
+<!ELEMENT caption      - - (partext, abbrev?)
+                           -(memo | location | idx) >
+
+<!ELEMENT image        - - (head?, partext) -(footnote) >
+
+<!ELEMENT abstract     - - (head?, text?, frontsub*) >
+
+<!ELEMENT frontsub     - - (head?, text) >
+
+<!ELEMENT otherfront   - - (head?, text?, frontsub*) >
+<!ATTLIST otherfront       id           ID                #IMPLIED >
+
+<!ELEMENT hometopic    - - (chaphead, text?) >
+
+<!ELEMENT chapter      - - (chaphead, text?, (s1*, rsect*)) >
+<!ATTLIST (chapter |
+           s1      |
+           s2      |
+           s3      |
+           s4      |
+           s5      |
+           s6      |
+           s7      |
+           s8      |
+           s9      )       id           ID                #IMPLIED >
+
+<!ELEMENT s1           - - (chaphead, text?, s2*, rsect*) >
+
+<!ELEMENT s2           - - (chaphead, text?, s3*, rsect*) >
+
+<!ELEMENT s3           - - (chaphead, text?, s4*, rsect*) >
+
+<!ELEMENT s4           - - (chaphead, text?, s5*, rsect*) >
+
+<!ELEMENT s5           - - (chaphead, text?, s6*, rsect*) >
+
+<!ELEMENT s6           - - (chaphead, text?, s7*, rsect*) >
+
+<!ELEMENT s7           - - (chaphead, text?, s8*, rsect*) >
+
+<!ELEMENT s8           - - (chaphead, text?, s9*, rsect*) >
+
+<!ELEMENT s9           - - (chaphead, text?) >
+
+<!ELEMENT rsect        - - (chaphead, text?, rsub*) >
+<!ATTLIST rsect            id           ID                #IMPLIED >
+
+<!ELEMENT rsub         - - (chaphead, text?) >
+
+<!ELEMENT message      - - (chaphead?, text?, (msg+ | msgsub+)) >
+
+<!ELEMENT msg          - - (msgnum?, msgtext, explain?) +(newline) >
+
+<!ELEMENT msgnum       - - ((#PCDATA | esc)+) >
+
+<!ELEMENT msgtext      - - (partext) >
+
+<!ELEMENT explain      - - (text) >
+
+<!ELEMENT msgsub       - - (chaphead, text?, msg+) >
+
+<!ELEMENT glossary     - - (text?, glossent+) >
+
+<!ELEMENT glossent     - - (dterm, definition) >
+
+<!ELEMENT dterm        - - (partext) -(term) >
+
+<!ELEMENT definition   - - (text) >
+
+<!ELEMENT idx          - - (indexprimary, indexsub?)
+                           -(term | footnote | location | idx) >
+
+<!ELEMENT indexprimary - - (partext, sort?) >
+
+<!ELEMENT indexsub     - - (partext, sort?) >
+
+<!ELEMENT sort         - - ((#PCDATA | esc)+) >
+
+<!ELEMENT memo         - - CDATA >
+
+<!ENTITY MINUS     SDATA "-">
+<!ENTITY PM        SDATA '[plusmn]'>    <!-- ISOnum  -->
+<!ENTITY DIV       SDATA '[divide]'>    <!-- ISOnum  -->
+<!ENTITY TIMES     SDATA '[times ]'>    <!-- ISOnum  -->
+<!ENTITY LEQ       SDATA '[le    ]'>    <!-- ISOtech -->
+<!ENTITY GEQ       SDATA '[ge    ]'>    <!-- ISOtech -->
+<!ENTITY NEQ       SDATA '[ne    ]'>    <!-- ISOtech -->
+<!ENTITY COPY      SDATA '[copy  ]'>    <!-- ISOnum  -->
+<!ENTITY REG       SDATA '[reg   ]'>    <!-- ISOnum  -->
+<!ENTITY TM        SDATA '[trade ]'>    <!-- ISOnum  -->
+<!ENTITY ELLIPSIS  SDATA '[hellip]'>    <!-- ISOpub  -->
+<!ENTITY VELLIPSIS SDATA '[vellip]'>    <!-- ISOpub  -->
+<!ENTITY PELLIPSIS SDATA "....">  <!-- ellipsis followed by a period -->
+<!ENTITY A.M.      SDATA "a.m.">
+<!ENTITY P.M.      SDATA "p.m.">
+<!ENTITY MINUTES   SDATA '[prime ]'>    <!-- ISOtech -->
+<!ENTITY SECONDS   SDATA '[Prime ]'>    <!-- ISOtech -->
+<!ENTITY DEG       SDATA '[deg   ]'>    <!-- ISOnum  -->
+<!ENTITY SQUOTE    SDATA "`">
+<!ENTITY DQUOTE    SDATA '"'>
+<!ENTITY ENDASH    SDATA "-">
+<!ENTITY EMDASH    SDATA '[mdash ]'>    <!-- ISOpub  -->
+<!ENTITY VBLANK    SDATA "_">
+<!ENTITY CENTS     SDATA '[cent  ]'>    <!-- ISOnum  -->
+<!ENTITY STERLING  SDATA '[pound ]'>    <!-- ISOnum  -->
+<!ENTITY SPACE     SDATA " ">
+<!ENTITY SIGSPACE  SDATA "& ">
+<!ENTITY SIGDASH   SDATA "&-">
+<!ENTITY MICRO     SDATA '[micro ]'>    <!-- ISOnum  -->
+<!ENTITY OHM       SDATA '[ohm   ]'>    <!-- ISOnum  -->
+<!ENTITY UP        SDATA '[uarr  ]'>    <!-- ISOnum  -->
+<!ENTITY DOWN      SDATA '[darr  ]'>    <!-- ISOnum  -->
+<!ENTITY LEFT      SDATA '[larr  ]'>    <!-- ISOnum  -->
+<!ENTITY RIGHT     SDATA '[rarr  ]'>    <!-- ISOnum  -->
+<!ENTITY HOME      SDATA "home key">
+<!ENTITY BACK      SDATA "\<--">
+<!ENTITY HALFSPACE SDATA " ">
+
+<!ENTITY % user-defined-entities SYSTEM "helptag.ent">
+
+%user-defined-entities;
+
+] >

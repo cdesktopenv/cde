@@ -1,0 +1,93 @@
+XCOMM $XConsortium: header2.tmpl /main/11 1996/07/09 15:21:15 drk $
+
+/*
+ * This file is a template Imakefile for making .cat files from all of
+ * the .msg files in a directory. You need to set LANG to the proper
+ * language.
+ */
+
+#ifndef RandomMotifMessageCatalogRule
+# define RandomMotifMessageCatalogRule(target)				@@\
+LinkFile(target.msg,$(MLOCSRC)/$(SOURCE_LANG)/msg/target.msg)		@@\
+									@@\
+target.cat : target.msg							@@\
+	@echo "Running mkcatdefs for $@ with LANG set to $(LANG)"	@@\
+	( \								@@\
+	  rm -f $@ target.tmp.msg; \					@@\
+	  LANG=$(LANG); \						@@\
+	  export LANG; \						@@\
+	  $(MKCATTOOL) $(@:.cat=) $(@:.cat=.msg) -h > target.tmp.msg; \	@@\
+	  $(GENCAT) $@ target.tmp.msg; \				@@\
+	  rm -f target.tmp.msg \					@@\
+	)
+#endif
+
+
+/*
+ * This rule scans all of the .msg files in a directory at make includes
+ * time to create a list of dependencies(.cat) for the message catalog rule
+ * run at make all time.
+ * In essence it builds a .cat for every .msg present in a directory.
+ */
+#ifndef RandomMessageCatalogRule
+#define RandomMessageCatalogRule()					@@\
+TMPLOCAL_FILE = tmplocalfile						@@\
+TMPLOCAL_MAKEFILE = tmplocalMakefile					@@\
+TMPLOCAL_DEST = `ls *.msg |grep -v libAB |sed -e 's/.msg/.cat/g'`	@@\
+									@@\
+AllTarget($(TMPLOCAL_TARGET))						@@\
+									@@\
+.SUFFIXES: .msg .cat							@@\
+									@@\
+RandomMotifMessageCatalogRule(Xm)					@@\
+									@@\
+RandomMotifMessageCatalogRule(Mrm)					@@\
+									@@\
+RandomMotifMessageCatalogRule(Uil)					@@\
+									@@\
+dtprintinfo.cat: dtprintinfo.msg					@@\
+	@echo "Running sym2num for $@ with LANG set to $(LANG)"		@@\
+	( \								@@\
+		rm -f $@; \						@@\
+		LANG=$(LANG); \						@@\
+		export LANG; \						@@\
+		LC_COLLATE=C; \						@@\
+		export LC_COLLATE; \					@@\
+		$(SYM2NUM_CMD) $(@:.cat=) $(@:.cat=.msg) > tmp.msg; \	@@\
+		$(GENCAT) $@ tmp.msg; \					@@\
+		rm -f tmp.msg $(@:.cat=_msg.h) \			@@\
+	)								@@\
+									@@\
+.msg.cat:								@@\
+	$(RM) $@							@@\
+	$(MAKEMESSCAT) $(GENCATFLAGS) $@ $(LANG)			@@\
+									@@\
+dtcodegen.cat dtbuilder.cat: libAButil.msg libABobjXm.msg libABil.msg	@@\
+	$(RM) $@							@@\
+	$(MAKEMESSCAT) $(GENCATFLAGS) $(@:.cat=.msg) \			@@\
+	 libAButil.msg libABobjXm.msg libABil.msg $(LANG)		@@\
+									@@\
+includes::								@@\
+	$(RM) localtmpfile						@@\
+	$(RM) tmp.msg							@@\
+	echo TMPLOCAL_TARGET = $(TMPLOCAL_DEST) > $(TMPLOCAL_FILE) && \	@@\
+	$(CP) Makefile $(TMPLOCAL_MAKEFILE)				@@\
+	if [ -f $(TMPLOCAL_FILE) -a -f $(TMPLOCAL_MAKEFILE) ];then \	@@\
+		$(MV) Makefile Makefile.bak; \				@@\
+	cat $(TMPLOCAL_FILE) $(TMPLOCAL_MAKEFILE)  > Makefile;fi	@@\
+	$(RM) $(TMPLOCAL_FILE) $(TMPLOCAL_MAKEFILE)
+#endif /* RandomMessageCatalogRule */
+
+
+#ifndef MsgCatRule
+# define MsgCatRule()							@@\
+.SUFFIXES: .msg .cat							@@\
+									@@\
+.msg.cat:								@@\
+	$(MAKEMESSCAT) $(GENCATFLAGS) $@ $(LANG)
+#endif
+
+MAKEMESSCAT = $(CDESRC)/localized/util/makeMessCat
+SYM2NUM_CMD = $(CDESRC)/dtprintinfo/sym2num
+
+MsgCatRule()

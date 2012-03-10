@@ -1,0 +1,53 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 15:59:22 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = 
+INCLUDES = -I$(DTMMDBSRC)/dstr -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES)
+
+LinkSourceFile(set.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(bset.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(slist.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(dlist_cell.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(dlist.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(heap.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(void_ptr_array.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(void_ptr_stack.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(memory_pool.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(dstr_test.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(index_agent.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(token_stack.C,$(DTMMDBSRC)/dstr)
+LinkSourceFile(slist_char_ptr_cell.C,$(DTMMDBSRC)/dstr)
+
+SRCS =	set.C bset.C slist.C dlist_cell.C dlist.C heap.C \
+	void_ptr_array.C void_ptr_stack.C \
+	memory_pool.C dstr_test.C \
+	index_agent.C token_stack.C slist_char_ptr_cell.C
+OBJS = $(SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

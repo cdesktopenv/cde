@@ -1,0 +1,488 @@
+<!-- $XConsortium: tttrace.sgm /main/11 1996/10/30 16:33:07 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN38.rsml.1" Remap="">
+<RefMeta>
+<RefEntryTitle>tttrace</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>tttrace</Command></RefName>
+<RefPurpose>trace ToolTalk calls and messages
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: tttrace.sgm /main/11 1996/10/30 16:33:07 rws $-->
+<!-- (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!--  (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!--  (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!--  (c) Copyright 1993, 1994 Novell, Inc.-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>tttrace</Command>
+<Arg Choice="opt">-0FCa</Arg>
+<Arg Choice="opt">-o<Replaceable>outfile</Replaceable></Arg>
+<Group>
+<Arg>-S<Replaceable>session</Replaceable></Arg>
+<Arg><Replaceable>command</Replaceable></Arg>
+</Group>
+</CmdSynopsis>
+<CmdSynopsis>
+<Command>tttrace</Command>
+<Group>
+<Arg>-e<Replaceable>script</Replaceable></Arg>
+<Arg>-f<Replaceable>scriptfile</Replaceable></Arg>
+</Group>
+<Group>
+<Arg>-S<Replaceable>session</Replaceable></Arg>
+<Arg><Replaceable>command</Replaceable></Arg>
+</Group>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Command>tttrace</Command> traces message traffic through the server for the indicated ToolTalk
+<Emphasis>session</Emphasis>, or runs
+<Symbol Role="Variable">command</Symbol> with ToolTalk client tracing turned on. If neither
+<Emphasis>session</Emphasis> nor
+<Symbol Role="Variable">command</Symbol> is given, the default session is traced. By default, tracing
+terminates when
+<Command>tttrace</Command> exits.
+</Para>
+<Para>Tracing of ToolTalk functions looks like this:
+[<Emphasis>pid</Emphasis>] <Symbol Role="Variable">function_name</Symbol>(<Symbol Role="Variable">params</Symbol>) = <Emphasis>return_value</Emphasis> (<StructName Role="typedef">Tt_status</StructName>)
+</Para>
+<Para>With the
+<Literal>-a</Literal> option, message attributes are printed after a one-line summary
+of the message:
+<Emphasis>Tt_state Tt_paradigm Tt_class</Emphasis> (<StructName Role="typedef">Tt_disposition</StructName> in <StructName Role="typedef">Tt_scope</StructName>): <Symbol Role="Variable">status</Symbol> == <StructName Role="typedef">Tt_status</StructName>
+</Para>
+<Para>State changes are indicated by:
+<Emphasis>old_state</Emphasis> => <Emphasis>new_state</Emphasis>.
+</Para>
+<Para>Deliveries are indicated by:
+Tt_message => procid &lt;<Emphasis>recipient_procid</Emphasis>>
+</Para>
+<Para>When dispatching is being traced, the reason for each dispatch
+is one of:
+</Para>
+<Para><Symbol>tt_message_send</Symbol>()</Para>
+<Para><Symbol>tt_message_reject</Symbol>()</Para>
+<Para><Symbol>tt_message_fail</Symbol>()</Para>
+<Para><Symbol>tt_message_reply</Symbol>()</Para>
+<Para><Symbol>tt_session_join</Symbol>()</Para>
+<Para><Symbol>tt_file_join</Symbol>()</Para>
+<VariableList>
+<VarListEntry>
+<Term>tt_message_reply ()</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>A client called the indicated function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>tt_message_send_on_exit ()</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para><Command>ttsession</Command> is dispatching on_exit messages for a client that
+disconnected before calling
+<Symbol>tt_close</Symbol>().</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>tt_message_accept ()</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para><Command>ttsession</Command> is dispatching messages that had been blocked while
+a ptype was being started. The started client has now called
+either
+<Symbol>tt_message_accept</Symbol>() or
+<Symbol>tt_message_reply</Symbol>() to indicate that the ptype should be unblocked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PTYPE_START</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>A ptype instance was started to receive the message, but the
+start command exited before it connected to
+<Command>ttsession</Command>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para><Command>ttsession</Command> lost its connection to the client that was working on this request.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ttsession -> ttsession</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Another session wants this session to find recipients for the message.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ttsession &lt;- ttsession</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Another session wants to update (e.g. fail) a message originating in this
+session.
+</Para>
+<Para>When dispatching is being traced, matching is indicated by one of
+Tt_message &amp; Tt_pattern {
+Tt_message &amp; ptype <Emphasis>ptid</Emphasis> {
+Tt_message &amp; otype <Emphasis>otid</Emphasis> {
+</Para>
+<Para>The pattern or signature is printed, followed by
+} == <Emphasis>match_score</Emphasis>; [/* <Emphasis>mismatch_reason</Emphasis> */]
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<VariableList>
+<VarListEntry>
+<Term>-0</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Turn off message tracing in
+<Emphasis>session</Emphasis>, or run
+<Symbol Role="Variable">command</Symbol> without message tracing (i.e., with only call tracing).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>-F</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Follow all children forked by
+<Symbol Role="Variable">command</Symbol> or subsequently started in
+<Emphasis>session</Emphasis> by
+<Command>ttsession</Command>. Normally, only the indicated
+<Symbol Role="Variable">command</Symbol> or
+<Command>ttsession</Command> instance is traced. When
+<Literal>-F</Literal> is specified, the process id is included with each line of trace
+output to indicate which process generated it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>-C</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Do not trace client calls into the ToolTalk API. Default is
+to trace them.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>-a</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Print all attributes, arguments, and context slots of traced messages.
+The default is to use only a single line when printing a message on
+the trace output.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>-e script</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Take
+<Emphasis>script</Emphasis> as a
+<Command>tttrace</Command> setting. See
+&cdeman.tttracefile;.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>-f scriptfile</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>File to read
+<Command>tttrace</Command> settings from. See
+&cdeman.tttracefile;. <Literal>-f</Literal> <Literal>-</Literal> causes
+<Command>tttrace</Command> to read standard input until EOF, which may prevent
+<Symbol Role="Variable">command</Symbol> from using standard input.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>-o outfile</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>File to be used for the trace output.
+</Para>
+<Para>For session tracing, output goes to standard output of
+<Command>tttrace</Command>.</Para>
+<Para>For client tracing, output goes by default to standard error of
+<Command>tttrace</Command>. For client tracing,
+<Literal>-o</Literal> <Literal>-</Literal> causes trace output to go to standard output of
+<Command>tttrace</Command>.</Para>
+<Para>If the
+server for
+<Emphasis>session</Emphasis> is running on a remote host and either
+</Para>
+<itemizedlist>
+<listitem>
+<Para><Emphasis>outfile</Emphasis> is not mounted on that host, or
+</Para>
+</listitem>
+<listitem>
+<Para>the <Literal>-o</Literal> option is omitted,
+</Para>
+</listitem>
+</itemizedlist>
+<Para>then
+<Command>tttrace</Command> will fail.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>-S session</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Session to trace. Defaults to the
+<Symbol Role="Variable">default</Symbol> <Emphasis>session</Emphasis> -- the session that <ComputerOutput>tt_open()</ComputerOutput> would contact.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>command</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>The ToolTalk client command to invoke and trace.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>Here we trace a client that registers a pattern and sends a notice
+that matches it:
+</Para>
+<Screen>% tttrace -a <Emphasis>myclientprogram</Emphasis>
+tt_open() = 0x51708=="7.jOHHM X 129.144.153.55 0" (TT_OK)
+tt_fd() = 11 (TT_OK)
+tt_pattern_create() = 0x50318 (TT_OK)
+tt_pattern_category_set(0x50318, TT_OBSERVE) = 0 (TT_OK)
+tt_pattern_scope_add(0x50318, TT_SESSION) = 0 (TT_OK)
+tt_pattern_op_add(0x50318, 0x2f308=="Hello World") = 0 (TT_OK)
+tt_default_session() = 0x519e0=="X 129.144.153.55 0" (TT_OK)
+tt_pattern_session_add(0x50318, 0x519e0=="X 129.144.153.55 0") = 0 (TT_OK)
+tt_pattern_register(0x50318) = 0 (TT_OK)
+tt_message_create() = 0x51af0 (TT_OK)
+tt_message_class_set(0x51af0, TT_NOTICE) = 0 (TT_OK)
+tt_message_address_set(0x51af0, TT_PROCEDURE) = 0 (TT_OK)
+tt_message_scope_set(0x51af0, TT_SESSION) = 0 (TT_OK)
+tt_message_op_set(0x51af0, 0x2f308=="Hello World") = 0 (TT_OK)
+tt_message_send(0x51af0)        ...
+        TT_CREATED => TT_SENT:
+                TT_SENT TT_PROCEDURE TT_NOTICE (TT_DISCARD in TT_SESSION): 0 == TT_OK
+                id:             0 7.jOHHM X 129.144.153.55 0
+                op:             Hello World
+                session:        X 129.144.153.55 0
+                sender:         7.jOHHM X 129.144.153.55 0
+= 0 (TT_OK)
+tt_message_receive()    ...
+        Tt_message => procid &lt;7.jOHHM X 129.144.153.55 0>
+        TT_SENT TT_PROCEDURE TT_NOTICE (TT_DISCARD in TT_SESSION): 0 == TT_OK
+        id:             0 7.jOHHM X 129.144.153.55 0
+        op:             Hello World
+        session:        X 129.144.153.55 0
+        sender:         7.jOHHM X 129.144.153.55 0
+        pattern:        0:7.jOHHM X 129.144.153.55 0
+= 0x51af0 (TT_OK)
+</Screen>
+<Para><Command>ttsession</Command>'s view of this traffic can be seen as follows. Note that the first message
+traced will almost always be
+<Command>ttsession</Command>'s reply to the request sent it by
+<Command>tttrace</Command>.</Para>
+<Screen>% <Command>tttrace</Command> -a
+tt_message_reply:
+        TT_SENT => TT_HANDLED:
+                TT_HANDLED TT_PROCEDURE TT_REQUEST (TT_DISCARD in TT_SESSION): 0 == TT_OK
+                id:             0 2.jOHHM X 129.144.153.55 0
+                op:             Session_Trace
+                args:
+                        TT_IN string: "> /tmp/traceAAAa002oL; version 1; states"[...]
+                session:        X 129.144.153.55 0
+                sender:         2.jOHHM X 129.144.153.55 0
+                pattern:        0:X 129.144.153.55 0
+                handler:        0.jOHHM X 129.144.153.55 0
+                Tt_message => procid &lt;2.jOHHM X 129.144.153.55 0>
+tt_message_send:
+        TT_CREATED TT_PROCEDURE TT_NOTICE (TT_DISCARD in TT_SESSION): 0 == TT_OK
+        id:             0 7.jOHHM X 129.144.153.55 0
+        op:             Hello World
+        session:        X 129.144.153.55 0
+        sender:         7.jOHHM X 129.144.153.55 0
+        TT_CREATED => TT_SENT:
+                TT_SENT TT_PROCEDURE TT_NOTICE (TT_DISCARD in TT_SESSION): 0 == TT_OK
+                id:             0 7.jOHHM X 129.144.153.55 0
+                op:             Hello World
+                session:        X 129.144.153.55 0
+                sender:         7.jOHHM X 129.144.153.55 0
+        Tt_message &amp; Tt_pattern {
+                id:             0:7.jOHHM X 129.144.153.55 0
+                category:       TT_OBSERVE
+                scopes:         TT_SESSION
+                sessions:       X 129.144.153.55 0
+                ops:            Hello World
+        } == 3;
+        Tt_message => procid &lt;7.jOHHM X 129.144.153.55 0>
+</Screen>
+<Para>To trace message flow in a specific, non-default session,
+</Para>
+<Screen>% tttrace -S "01 15303 1342177284 1 0 13691 129.144.153.55 2"
+</Screen>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT</Title>
+<Para><Command>tttrace</Command> is implemented purely as a ToolTalk client, using the message
+interface to
+<Command>ttsession</Command> and the following environmental hook into libtt.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_TRACE_SCRIPT</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>If set, tells libtt to turn on client-side tracing as specified in
+the trace script. If the first character of of the value is '.' or '/',
+the value is taken to be the pathname of file containing the trace script
+to use. Otherwise, the value is taken to be an inline trace script.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term>$TMPDIR/tttrace.nnn</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>A
+<Emphasis>named</Emphasis> <Emphasis>pipe</Emphasis> (see
+<Filename MoreInfo="RefEntry">mkfifo</Filename>(3C)) in <Symbol>$TMPDIR</Symbol> (see
+<Filename MoreInfo="RefEntry">tempnam</Filename>(3S)) from which trace output for
+<Emphasis>session</Emphasis> is read when the
+<Literal>-o</Literal> option is omitted.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>WARNINGS</Title>
+<Para>Since (with the
+<Literal>-F</Literal> option) tracing can follow clients to remote hosts if the environment
+is properly propagated, it is possible for different processes in
+the same trace output to be labeled with the same process id.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE</Title>
+<Para>&cdeman.ttsession;, &cdeman.tttracefile;, the
+<Literal>Session_Trace</Literal>() ToolTalk request
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>DIAGNOSTICS</Title>
+<Para>If
+<Symbol Role="Variable">command</Symbol> is run, then
+<Command>tttrace</Command> will exit with the exit status of
+<Symbol Role="Variable">command</Symbol>. Otherwise, exit codes are as follows:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Normal termination. Any
+<Emphasis>session</Emphasis> tracing turned on by this invocation of
+<Command>tttrace</Command> has now been turned off.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>1</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Usage.
+<Command>tttrace</Command> was given invalid command line options.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>2</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Failure.
+<Command>tttrace</Command> encountered an error while trying to do its job. An error
+message has been emitted on standard error.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>3</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Runaway
+<Emphasis>session</Emphasis> tracing.
+<Command>tttrace</Command> could not terminate tracing in
+<Emphasis>session</Emphasis> before exiting.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>4</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Remote
+<Emphasis>session</Emphasis>. <Command>ttsession</Command> is remote, and
+<Emphasis>outfile</Emphasis> (if given) is not visible there. Choose a visible file,
+or run
+<Command>tttrace</Command> on that remote host.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>5</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Old
+<Emphasis>session</Emphasis>. The
+<Command>ttsession</Command> for
+<Emphasis>session</Emphasis> does not support the <ComputerOutput>Session_Trace()</ComputerOutput> request. Run
+<Literal>kill</Literal> <Literal>-USR1</Literal> on it to turn on old-style tracing.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>NOTES</Title>
+<Para>For security purposes, client-side tracing is disabled inside a client
+when its effective uid or gid is different from its real uid or gid
+and the real uid is not the super-user.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.3 08/21/95 21:30:04-->

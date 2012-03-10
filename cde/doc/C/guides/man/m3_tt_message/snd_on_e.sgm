@@ -1,0 +1,132 @@
+<!-- $XConsortium: snd_on_e.sgm /main/6 1996/08/30 13:44:18 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN145.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN145.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_message_send_on_exit</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_message_send_on_exit</Function></RefName>
+<RefPurpose>set up a message to send upon unexpected exit
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: snd_on_e.sgm /main/6 1996/08/30 13:44:18 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>tt_message_send_on_exit</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>m</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_message_send_on_exit</Function> function
+requests that the ToolTalk service send this message if
+the process exits unexpectedly.
+The message is sent to the ToolTalk service, which queues the message
+internally until either of two events occur:
+</Para>
+<OrderedList>
+<ListItem>
+<Para>The procid that sent the
+<Function>tt_message_send_on_exit</Function> message to the ToolTalk service calls
+&cdeman.tt.close;. In this case, the queued message is deleted.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The connection between the
+&cdeman.ttsession; server and the process that sent the
+<Function>tt_message_send_on_exit</Function> message to the ToolTalk service is broken; for
+example, if the application has crashed.
+</Para>
+</ListItem>
+</OrderedList>
+<Para>In this case, the ToolTalk service matches the queued message to its patterns
+and delivers it in the same manner as if the process had sent the message
+normally before exiting.
+</Para>
+<Para>If a process sends a normal termination message but exits without calling
+&cdeman.tt.close;, both the normal termination message and the on_exit message are
+delivered.
+</Para>
+<Para>The
+<Emphasis>m</Emphasis> argument is the opaque handle for the message involved in this operation.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_message_send_on_exit</Function> function returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_ADDRESS</Term>
+<ListItem>
+<Para>The specified
+<StructName Role="typedef">Tt_address</StructName> is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_CLASS</Term>
+<ListItem>
+<Para>The specified
+<StructName Role="typedef">Tt_class</StructName> is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_FILE</Term>
+<ListItem>
+<Para>The specified file does not exist or it is inaccessible.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_OBJID</Term>
+<ListItem>
+<Para>The
+objid
+passed to the ToolTalk service does not reference an existing object spec.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.close;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

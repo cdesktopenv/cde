@@ -1,0 +1,260 @@
+<!-- $XConsortium: appb.sgm /main/6 1996/08/25 15:09:01 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<appendix id="DKSUG.convf.div.1">
+<title>dtksh Convenience Functions<indexterm><primary>convenience functions</primary></indexterm></title>
+<para>The <command>dtksh</command> utility includes a file of convenience
+functions. This file is itself a shell script containing shell functions
+that may be useful to a shell programmer. The shell functions perform operations
+that <command>dtksh</command> programmers frequently have to do for themselves.
+These include functions for quickly creating certain kinds of dialogs (help,
+error, warning, and so on), a function for easily creating a collection of
+buttons, and functions that make it easier to configure the constraint resources
+for a child of a form widget. It is not a requirement that shell script
+writers use these convenience functions; they are supplied to make it easier
+for developers to write shorter and more readable shell scripts.</para>
+<para>Before a shell script can access these functions, it must first include
+the file containing the convenience functions. The convenience functions
+are located in the file <filename>/usr/dt/scripts/DtFuncs.sh.</filename>
+Use the following notation to include them in a shell script:</para>
+<programlisting>. /usr/dt/lib/dtksh/DtFuncs.dtsh</programlisting>
+<sect1 id="DKSUG.convf.div.2">
+<title>DtkshAddButtons<indexterm><primary>DtkshAddButtons</primary></indexterm></title>
+<para><command>DtkshAddButtons</command> adds one or more buttons of the same
+kind into a composite widget. It is most often used to add a collection
+of buttons into a menupane or menubar.</para>
+<para>Usage:</para>
+<programlisting>DtkshAddButtons parent widgetClass label1 callback1
+                [label2 callback2 ...]
+DtkshAddButtons [-w] parent widgetClass variable1 label1 callback1 \
+                [variable2 label2 callback2 ...]</programlisting>
+<para>The <filename>-w</filename> option indicates that the convenience function
+should return the widget handle for each of the buttons it creates. The
+widget handle is returned in the specified environment variable. The <command>widgetClass</command> parameter can be set to any of the following, but it
+defaults to <command>XmPushButtonGadget</command> if nothing is specified.
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><command>XmPushButton</command></para>
+</listitem><listitem><para><command>XmPushButtonGadget</command></para>
+</listitem><listitem><para><command>XmToggleButton</command></para>
+</listitem><listitem><para><command>XmToggleButtonGadget</command></para>
+</listitem><listitem><para><command>XmCascadeButton</command></para>
+</listitem><listitem><para><command>XmCascadeButtonGadget</command></para>
+</listitem></itemizedlist>
+<para>Examples:</para>
+<programlisting>DtkshAddButtons $MENU XmPushButtonGadget Open do_Open Save do_Save
+                Quit exit
+DtkshAddButtons -w $MENU XmPushButtonGadget B1 Open do_Open B2 Save
+                do_Save</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.3">
+<title>DtkshSetReturnKeyControls<indexterm><primary>DtkshSetReturnKeyControls</primary></indexterm></title>
+<para><command>DtkshSetReturnKeyControls</command> configures a text widget
+within a form widget so that the Return key does not activate the default
+button within the form, but instead moves the focus to the next text widget
+within the form. This is useful if you have a window that contains a series
+of text widgets, and the default button should not be activated until the
+user presses the Return key while the focus is in the last text widget.</para>
+<para>Usage:</para>
+<programlisting>DtkshSetReturnKeyControls textWidget nextTextWidget formWidget
+                          defaultButton</programlisting>
+<para>The <symbol role="Variable">textWidget</symbol> parameter specifies
+the widget to be configured to catch the Return key and force the focus to
+move to the next text widget (as indicated by the <symbol role="Variable">nextTextWidget</symbol> parameter). The <symbol role="Variable">formWidget</symbol> parameter specifies the form containing the default button and
+should be the parent of the two text widgets. The <symbol role="Variable">defaultButton</symbol> parameter indicates which component is to be treated
+as the default button within the form widget.</para>
+<para>Examples:</para>
+<programlisting>DtkshSetReturnKeyControls $TEXT1 $TEXT2 $FORM $OK
+DtkshSetReturnKeyControls $TEXT2 $TEXT3 $FORM $OK</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.4">
+<title>DtkshUnder, DtkshOver, DtkshRightOf, and DtkshLeftOf<indexterm><primary>DtkshUnder</primary></indexterm><indexterm><primary>DtkshOver</primary></indexterm><indexterm>
+<primary>DtkshRightOf</primary></indexterm><indexterm><primary>DtkshLeftOf</primary></indexterm></title>
+<para>These convenience functions simplify the specification of certain classes
+of form constraints. They provide a way of attaching a component to one
+edge of another component. They are used when constructing the resource
+list for a widget. This behavior is accomplished using the <filename>ATTACH_WIDGET</filename> constraint.</para>
+<para>Usage:</para>
+<programlisting>DtkshUnder widgetId [offset]
+DtkshOver widgetId [offset]
+DtkshRightOf widgetId [offset]
+DtkshLeftOf widgetId [offset]</programlisting>
+<para>The <symbol role="Variable">widgetId</symbol> parameter specifies the
+widget to which the current component is to be attached. The <symbol role="Variable">offset</symbol> value is optional and defaults to 0 if not specified.</para>
+<para>Example:</para>
+<programlisting>XtCreateManagedWidget BUTTON4 button4 XmPushButton $FORM \
+        labelString:&ldquo;Exit&ldquo; \
+        $(DtkshUnder $BUTTON2) \
+        $(DtkshRightOf $BUTTON3)</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.5">
+<title>DtkshFloatRight, DtkshFloatLeft, DtkshFloatTop, and DtkshFloatBottom<indexterm>
+<primary>DtkshFloatRight</primary></indexterm><indexterm><primary>DtkshFloatLeft</primary></indexterm><indexterm><primary>DtkshFloatTop</primary></indexterm><indexterm>
+<primary>DtkshFloatBottom</primary></indexterm></title>
+<para>These convenience functions simplify the specification of certain classes
+of form constraints. They provide a way of positioning a component, independent
+of the other components within the form. As the form grows or shrinks, the
+component maintains its relative position within the form. The component
+may still grow or shrink, depending upon the other form constraints specified
+for the component. This behavior is accomplished using the <filename>ATTACH_POSITION</filename> constraint.</para>
+<para>Usage:</para>
+<programlisting>DtkshFloatRight [position]
+DtkshFloatLeft [position]
+DtkshFloatTop [position]
+DtkshFloatBottom [position]</programlisting>
+<para>The optional <symbol role="Variable">position</symbol> parameter specifies
+the relative position to which the indicated edge of the component is positioned.
+The <symbol role="Variable">position</symbol> value is optional and defaults
+to 0 if one is not specified.</para>
+<para>Example:</para>
+<programlisting>XtCreateManagedWidget BUTTON1 button1 XmPushButton $FORM \
+        labelString:&ldquo;Ok&ldquo; \
+        $(DtkshUnder $SEPARATOR) \
+        $(DtkshFloatLeft 10) \
+        $(DtkshFloatRight 40)</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.6">
+<title>DtkshAnchorRight, DtkshAnchorLeft, DtkshAnchorTop, and DtkshAnchorBottom<indexterm>
+<primary>DtkshAnchorRight</primary></indexterm><indexterm><primary>DtkshAnchorLeft</primary></indexterm><indexterm><primary>DtkshAnchorTop</primary></indexterm><indexterm>
+<primary>DtkshAnchorBottom</primary></indexterm></title>
+<para>These convenience functions simplify the specification of certain classes
+of form constraints. They provide a way of attaching a component to one
+of the edges of a form widget in such a way that, as the form grows or shrinks,
+the component's position does not change. However, depending upon the other
+form constraints set on this component, it may still grow or shrink in size.
+This behavior is accomplished using the <filename>ATTACH_FORM</filename>
+constraint.</para>
+<para>Usage:</para>
+<programlisting>DtkshAnchorRight [offset]
+DtkshAnchorLeft [offset]
+DtkshAnchorTop [offset]
+DtkshAnchorBottom [offset]</programlisting>
+<para>The optional <symbol role="Variable">offset</symbol> parameter specifies
+how far from the edge of the form widget the component should be positioned.
+If an offset is not specified, then 0 is used.</para>
+<para>Example:</para>
+<programlisting>XtCreateManagedWidget BUTTON1 button1 XmPushButton $FORM \
+        labelString:&ldquo;Ok&ldquo; \
+        $(DtkshUnder $SEPARATOR) \
+        $(DtkshAnchorLeft 10) \
+        $(DtkshAnchorBottom 10)</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.7">
+<title>DtkshSpanWidth and DtkshSpanHeight<indexterm><primary>DtkshSpanWidth</primary></indexterm><indexterm><primary>DtkshSpanHeight</primary></indexterm></title>
+<para>These convenience functions simplify the specification of certain classes
+of form constraints. They provide a way of configuring a component so that
+it spans either the full height or width of the form widget. This behavior
+is accomplished by attaching two edges of the component (top and bottom for
+<command>DtSpanHeight</command>, and left and right for <command>DtSpanWidth</command>) to the form widget. The component typically resizes whenever
+the form widget is resized. The <filename>ATTACH_FORM</filename> constraint
+is used for all attachments.</para>
+<para>Usage:</para>
+<programlisting>DtkshSpanWidth [leftOffset rightOffset]
+DtkshSpanHeight [topOffset bottomOffset]</programlisting>
+<para>The optional <symbol role="Variable">offset</symbol> parameters specify
+how far from the edges of the form widget the component should be positioned.
+If an offset is not specified, then 0 is used.</para>
+<para>Example:</para>
+<programlisting>XtCreateManagedWidget SEP sep XmSeparator $FORM \
+                      $(DtkshSpanWidth 1 1)</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.8">
+<title>DtkshDisplayInformationDialog, DtkshDisplayQuestionDialog, DtDisplayWarningDialog,
+DtkshDisplayWorkingDialog, and DtkshDisplayErrorDialog<indexterm><primary>DtkshDisplayInformationDialog</primary></indexterm><indexterm><primary>DtkshDisplayQuestionDialog</primary></indexterm><indexterm><primary>DtDisplayWarningDialog</primary>
+</indexterm><indexterm><primary>DtkshDisplayWorkingDialog</primary></indexterm><indexterm>
+<primary>DtkshDisplayErrorDialog</primary></indexterm></title>
+<para>These convenience functions create a single instance of each of the
+Motif feedback dialogs. If an instance of the requested type of dialog already
+exists, then it is reused. The parent of the dialog is obtained from the
+environment variable <filename>$TOPLEVEL</filename>, which should be set
+by the calling shell script, and then should not be changed. The handle
+for the requested dialog is returned in one of the following environment
+variables:</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>_DTKSH_ERROR_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_QUESTION_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_WORKING_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_WARNING_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_INFORMATION_DIALOG_HANDLE</filename></para>
+</listitem></itemizedlist>
+<note>
+<para>If you are attaching your own callbacks to the dialog buttons, do not
+destroy the dialog when you are done with it. Unmanage the dialog, so that
+it can be used again at a later time. If it is necessary to destroy the
+dialog, then be sure to clear the associated environment variable so the
+convenience function does not attempt to reuse the dialog.</para>
+</note>
+<para>Usage:</para>
+<programlisting>DtkshDisplay&lt;<symbol role="Variable">name</symbol>>Dialog title message [okCallback closeCallback
+                        helpCallback dialogStyle]</programlisting>
+<para>The Ok button is always managed, and by default unmanages the dialog.
+The Cancel and Help buttons are only managed when a callback is supplied
+for them. The <symbol role="Variable">dialogStyle</symbol> parameter accepts
+any of the standard resource settings supported by the associated bulletin
+board resource.</para>
+<para>Example:</para>
+<programlisting>DtkshDisplayErrorDialog &ldquo;Read Error&ldquo; &ldquo;Unable to read the file&ldquo;
+                 &ldquo;OkCallback&ldquo; \
+                 &ldquo;CancelCallback&ldquo; &ldquo;&ldquo; DIALOG_PRIMARY_APPLICATION_MODAL
+</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.9">
+<title>DtkshDisplayQuickHelpDialog and DtkshDisplayHelpDialog<indexterm><primary>DtkshDisplayQuickHelpDialog</primary></indexterm><indexterm><primary>DtkshDisplayHelpDialog</primary></indexterm></title>
+<para>These convenience functions create a single instance of each of the
+help dialogs. If an instance of the requested type of help dialog already
+exists, then it is reused. The parent of the dialog is obtained from the
+environment variable <filename>$TOPLEVEL</filename>, which should be set
+by the calling shell script, and then should not be changed. The handle
+for the requested dialog is returned in one of the following environment
+variables:</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>_DTKSH_HELP_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_QUICK_HELP_DIALOG_HANDLE</filename></para>
+</listitem></itemizedlist>
+<note>
+<para>If it is necessary to destroy a help dialog, then be sure to clear
+the associated environment variable so that the convenience function does
+not attempt to reuse the dialog.</para>
+</note>
+<para>Usage:</para>
+<programlisting>DtkshDisplay*HelpDialog title helpType helpInformation [locationId]
+</programlisting>
+<para>The meaning of the parameters is dependent upon the value specified
+for the <symbol role="Variable">helpType</symbol> parameter. Their meanings
+are:</para>
+<itemizedlist remap="Bullet1"><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_TOPIC</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = help volume name</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> = help
+topic location ID</para>
+</listitem></itemizedlist>
+</listitem><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_STRING</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = help string</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> = &lt;not
+used></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_DYNAMIC_STRING</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = help string</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> = &lt;not
+used></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_MAN_PAGE</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = manual page name</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> = &lt;not
+used></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_FILE</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = help file name</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> =
+&lt;not used></para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para>Example:</para>
+<programlisting>DtkshDisplayHelpDialog &ldquo;Help On Dtksh&ldquo; HELP_TYPE_FILE
+                       &ldquo;helpFileName&ldquo;</programlisting>
+</sect1>
+</appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000017940>

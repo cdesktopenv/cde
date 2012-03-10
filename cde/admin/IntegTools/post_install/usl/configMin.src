@@ -1,0 +1,197 @@
+XCOMM! /bin/ksh
+XCOMM #######
+XCOMM  Product: CDE
+XCOMM  Fileset: CDE-MIN
+XCOMM  configure
+XCOMM  @(#) $XConsortium: configMin.src /main/4 1996/04/21 19:07:50 drk $
+XCOMM #######
+XCOMM
+XCOMM (c) Copyright Hewlett-Packard Company, 1993
+XCOMM
+XCOMM #######
+
+PRODUCT=CDE
+FILESET=CDE-MIN
+DO_CONFIGURATION=""
+retval=0
+
+CheckForClobberedLinks()
+{
+XCOMM
+XCOMM ensure links not clobbered
+XCOMM
+
+	for file in services inetd.conf
+	do
+		if test ! -L /etc/$file
+		then	if test -f /etc/$file
+			then
+				rm /etc/$file
+				ln -s /etc/inet/$file /etc/$file
+		    	fi
+		fi
+	done
+}
+
+FixEtcInetServices()
+{
+SERVICES=/etc/inet/services
+
+XCOMM
+XCOMM see if it already exists
+XCOMM
+
+    nawk '{if ($1 == "dtspc") print $0 > "/tmp/dtspc-already-there"}' \
+		$SERVICES >/dev/null
+    if [ ! -f /tmp/dtspc-already-there ]
+    then
+	if test ! -f ${SERVICES}.preCDE
+        then	mv $SERVICES $SERVICES.preCDE
+		cp ${SERVICES}.preCDE $SERVICES
+		chmod 444 $SERVICES
+	fi
+        echo "dtspc\t6112/tcp\t#subprocess control" >>$SERVICES
+    else
+	rm /tmp/dtspc-already-there
+    fi
+
+XCOMM
+XCOMM remove legacy entries like dtspcd
+XCOMM
+
+    nawk '{if ($1 == "dtspcd" || $1 == "#dtspcd") ; else print $0}' \
+		$SERVICES >/tmp/etc-services
+    mv /tmp/etc-services $SERVICES
+    chmod 444 $SERVICES
+}
+
+UnfixEtcInetServices()
+{
+SERVICES=/etc/inet/services
+TMPFILE=/tmp/etc-services
+
+    nawk '{if ($1 == "dtspc" && $2 == "6112/tcp")
+		;
+	  else
+		print $0
+	 }' $SERVICES >$TMPFILE
+
+    mv $TMPFILE $SERVICES
+}
+
+FixInetdDotConf()
+{
+INETD_CONF=/etc/inet/inetd.conf
+
+XCOMM
+XCOMM see if it already exists
+XCOMM
+
+    nawk '{if ($1 == "dtspc") print $0 > "/tmp/dtspc-already-there"}' \
+	$INETD_CONF >/dev/null
+
+    if [ ! -f /tmp/dtspc-already-there ]
+    then
+	if test ! -f ${INETD_CONF}.preCDE
+        then	mv $INETD_CONF $INETD_CONF.preCDE
+		cp ${INETD_CONF}.preCDE $INETD_CONF
+		chmod 444 $INETD_CONF
+	fi
+	DTSPCD=CDE_INSTALLATION_TOP/bin/dtspcd
+	echo "dtspc stream tcp nowait root $DTSPCD $DTSPCD" >>$INETD_CONF
+    else
+	rm /tmp/dtspc-already-there
+    fi
+
+XCOMM
+XCOMM remove legacy entries like dtspcd
+XCOMM
+
+    nawk '{if ($1 == "dtspcd" || $1 == "#dtspcd") ; else print $0}' \
+		$INETD_CONF >/tmp/etc-inetd-conf
+    mv /tmp/etc-inetd-conf $INETD_CONF
+    chmod 444 $INETD_CONF
+}
+
+UnfixInetdDotConf()
+{
+INETD_CONF=/etc/inet/inetd.conf
+TMPFILE=/tmp/inetd.conf
+
+    nawk '{if ($1 == "dtspc")
+		;
+	  else
+		print $0
+	 }' $INETD_CONF >$TMPFILE
+
+    mv $TMPFILE $INETD_CONF
+}
+
+PokeInetd()
+{
+XCOMM issue a SIGHUP to the inetd process
+
+    ps -ef | grep inetd | grep -v grep >/tmp/tmppsout
+    if [ -s /tmp/tmppsout ]
+    then
+	nawk '{print "kill -HUP " $2}' /tmp/tmppsout | /bin/ksh
+    else
+	/usr/sbin/inetd -s
+    fi
+    rm /tmp/tmppsout
+}
+
+VerifyInstalledFiles()
+{
+    echo "Status   mode    owner   group   filename"
+    echo "-----------------------------------------"
+XCOMM	  exists  correct correct correct  /usr/dt/foo1
+XCOMM	  MISSING  WRONG   WRONG   WRONG   /usr/dt/foo2
+XCOMM        exists    the link is correct    /usr/dt/link
+
+    while read SRC
+    do
+#include "../verify.func"
+    done <<-EOF
+#include "CDE-MIN.lst"
+	EOF
+}
+
+#include "../option.func"
+
+XCOMM ####################################################################
+XCOMM
+XCOMM Main body
+XCOMM
+XCOMM ####################################################################
+
+  CheckForClobberedLinks
+
+  HandleOption $*
+
+  if [ "$OPERATION" = "configure" ]
+  then
+
+    FixEtcInetServices
+    FixInetdDotConf
+    PokeInetd()
+
+  elif [ "$OPERATION" = "deconfigure" ]
+  then
+
+    UnfixEtcInetServices
+    UnfixInetdDotConf
+    PokeInetd()
+
+    RemoveMinFiles
+    VerifyInstalledFiles
+
+  elif [ "$OPERATION" = "verify" ]
+  then
+
+    VerifyInstalledFiles
+
+  fi
+
+  return $retval
+

@@ -1,0 +1,326 @@
+
+**********************************************************************
+NOTE: CDE/MOTIF IS LICENSED SOFTWARE.  SOURCE AND OBJECT CODE IS NOT
+TO BE DISTRIBUTED TO THIRD PARTIES EXCEPT AS PROVIDED BY THE TERMS OF
+YOUR LICENSE AGREEMENT.  PASSIVE DISTRIBUTION TO UNIDENTIFIED PARTIES,
+SUCH AS MAKING FILES AVAILABLE FOR UNRESTRICTED ELECTRONIC FILE
+TRANSFER, IS STRICTLY PROHIBITED BY THE LICENSE.
+
+THESE RESTRICTIONS APPLY TO ANY PARTY TO WHOM THE SOFTWARE HAS BEEN
+DISTRIBUTED.
+**********************************************************************
+
+THE PURPOSE OF THIS RELEASE
+
+	This is the snapshot release prior to the third and final 
+	maintenance release for CDE and Motif 2.1.  It was designed to
+	resolve as many defects as possible from the project's defect
+	database.  This maintenance release resolves 243 problem reports
+	against CDE and Motif 2.1.20.
+
+	The Open Group encourages the reporting of all bugs found in CDE
+	and Motif regardless of the platform or hardware configuration in 
+	which the bug is found.  However, The Open Group will commit to 
+	accept (and repair according to priority) only those bugs that can 
+	be replicated on the current reference configurations.  
+
+
+DOWNLOAD INSTRUCTIIONS
+
+	This section describes how to unload the release archives
+	available at this ftp site, including information about how much 
+	disk space is required.
+
+	The CDE/Motif 2.1.30 snapshot release is provided as a compressed
+	tar archives consisting of a sparce tree (i.e. only those files
+	which have been added or which have been modified since 2.1.20).
+
+
+  	README-2.1.30.snapshot - this file
+
+  	cde.tar.Z             - a compressed tar file of the 
+			        CDE 2.1.30 snapshot source code
+
+  	cde-test.tar.Z        - a compressed tar file of the 
+			        CDE 2.1.30 snapshot tests
+
+  	cde-test-misc.tar.Z   - a compressed tar file of 
+			        test results for CDE/Motif
+				2.1.30 snapshot
+
+  	motif.tar.Z           - a compressed tar file of the 
+			        MOTIF 2.1.30 snapshot source code
+
+  	motif-test-misc.tar.Z - a compressed tar file of 
+			        test results for Motif 2.1.30
+				snapshot
+
+
+	The CDE/Motif 2.1.30 snapshot release is in the form of a sparse tree;
+	that is, it contains only files that have been added or modified in
+	either CDE or Motif since the 2.1.20 release.  If you are a CDE
+	licensee you will receive files for both CDE and Motif.  If you are
+	a Motif-only licensee you will receive files just for Motif.
+
+	After ftp-ing the files to your machine, you should first uncompress
+	the compressed (*.Z) files with the command:
+	
+    		uncompress <filename>.Z
+	
+	Once the tar archives have been uncompressed, you can untar each
+	with the command:
+	
+    		tar xvf <filename>.tar
+	
+	This command will preserve the .tar file while unloading its contents
+	into your current working directory.  If you wish to list a table of
+	contents of the tar file before actually unloading it you can do so
+	with the command:
+	
+    		tar tvf <filename>.tar
+	
+
+INSTALLING THIS RELEASE
+
+	This release is made up of a "sparse tree" of files that have been
+	added or changed since release 2.1.20. The new versions of the files
+	should replace the corresponding CDE or Motif 2.1.20 versions of the
+	files in your source tree. 
+
+
+	After the release is unloaded, you can use, for example, cp -R command
+	to copy the sources from the current directory into your source tree.
+	This release creates several new files.  If you are using a symbolic
+	link tree, you will need to create new links for them.
+
+	Please see the Release Notes from 2.1 for instructions on building
+	a full release tree.
+	
+
+IMPORTANT CHANGES IN THIS RELEASE
+
+Defect Repair
+
+	This patch release resolves 243 problem reports against CDE and 
+	Motif 2.1.20.  Each of these defects were resolved in one of three
+	ways: fixed (problem was recreated and repaired), duplicate 
+	(problem was already reported and recorded in defect database), 
+	or cancelled (problem could not be recreated in current code
+	base).  The breakdown by component and resolution type is:
+
+        FIXED:		Total  174 
+
+	CDE Code:  40 	 	Motif Code:  51
+	CDE Doc:    1 	 	Motif Doc:    0
+	CDE Test:  43 	 	Motif Test:  39
+	--------------		---------------
+	Total:     84 		Total:       90 
+
+        DUPLICATE:	Total   25 
+
+	CDE Code:   2 	 	Motif Code:   4
+	CDE Doc:    0 	 	Motif Doc:    0
+	CDE Test:   0 	 	Motif Test:  19
+	--------------		---------------
+	Total:      2 		Total:       23 
+
+        CANCEL:		Total   44 
+
+	CDE Code:  13 	 	Motif Code:  19
+	CDE Doc:    0 	 	Motif Doc:    0
+	CDE Test:   2 	 	Motif Test:  10
+	--------------		---------------
+	Total:     15 		Total:       29 
+
+        TOTAL:		Total  243 
+
+	CDE Code:  55 	 	Motif Code:  74
+	CDE Doc:    1 	 	Motif Doc:    0
+	CDE Test:  45 	 	Motif Test:  68
+	--------------		---------------
+	Total:    101 		Total:      142 
+
+
+	For more information on the bugs resolved, see the file 
+	CLOSEDBUGS in this release.
+
+Test Improvements
+
+	A significant number of CDE and Motif test defects were resolved
+	for the CDE/Motif 2.1.30 snapshot release.  For the most part, these
+	represent an ongoing effort to establish a clean baseline in 
+	Motif and reduce the overhead of false negatives in CDE.
+
+BUG LISTS
+
+	In the release archive there are two files, OPENBUGS and 
+	CLOSEDBUGS, which contain, respectively, the list of all bugs 
+	from any version of CDE or Motif not yet closed, and all bugs 
+	from CDE or Motif fixed in this patch release.
+
+
+BUILDING MOTIF FOR YOUR SYSTEM
+
+	Since X11 is NOT being delivered as part of this release, there
+	are some minor changes in the build process for Motif with respect
+	to the build process described in the 2.1 Release Notes.
+
+	Replace step 2 under the Building Motif subsection of Section 3:
+
+	  2.  If you are building with imports (the default setup in site.def),
+	      construct the necessary links as follows:
+
+	      % cd $CDEBUILDDIR/motif
+	      % mkdir -p imports/x11
+	      % cd imports/x11
+	      % ln -s <X11_bin_directory> bin
+	      % ln -s <X11_includes_directory> includes
+	      % ln -s <X11_libs_directory> libs
+
+
+REFERENCE PLATFORMS
+
+	The Open Group has used a number of platforms during the
+	development of the CDE/Motif 2.1.30 snapshot release.  However,
+	the following reference platforms are the only ones where the
+	snapshot test cycle was run.  Test results appear below.
+
+
+   CDE and Motif:
+	HP9000/7xx running HP-UX 10.20
+	Sun SPARCstation running Solaris 2.4
+		using the SC 4.0 C compiler and SC 4.1 C++ compilers
+
+   
+   Changes to X11R6.4:
+
+	Both the 2.1.20 and the 2.1.30 snapshot releases of CDE and Motif
+	have been built and tested upon a base of X11R6.4 patchlevel 3. 
+	During the development of 2.1.20, a significant defect in the I18N
+	code of X was discovered.  The symptom is that when XMODIFIERS is
+	not set, there is a possibility of memory corruption.   It is
+	recommended that the following patch be applied if it has not
+	already been done:
+
+	*** imInt.c@@/main/5       Sat May 30 21:04:36 1998
+	--- xc/lib/X11/imInt.c       Mon Aug 24 16:17:25 1998
+	***************
+	*** 1,4 ****
+	! /* $TOG: README-2.1.30.snapshot /main/1 1999/06/29 12:30:31 devobj $ */
+	  /******************************************************************
+	  
+	             Copyright 1992, 1993, 1994 by FUJITSU LIMITED
+	--- 1,4 ----
+	! /* $TOG: README-2.1.30.snapshot /main/1 1999/06/29 12:30:31 devobj $ */
+	  /******************************************************************
+	  
+	             Copyright 1992, 1993, 1994 by FUJITSU LIMITED
+	***************
+	*** 166,174 ****
+	  _XimMakeImName(lcd)
+	      XLCd         lcd;
+	  {
+	!     char* begin;
+	!     char* end;
+	!     char* ret;
+	      int       i = 0;
+	      char* ximmodifier = XIMMODIFIER;
+	  
+	--- 166,174 ----
+	  _XimMakeImName(lcd)
+	      XLCd         lcd;
+	  {
+	!     char* begin = NULL;
+	!     char* end = NULL;
+	!     char* ret = NULL;
+	      int       i = 0;
+	      char* ximmodifier = XIMMODIFIER;
+	  
+	***************
+	*** 182,189 ****
+	      }
+	      ret = Xmalloc(end - begin + 2);
+	      if (ret != NULL) {
+	!       (void)strncpy(ret, begin, end - begin + 1);
+	!       ret[end - begin + 1] = '\0';
+	      }
+	      return ret;
+	  }
+	--- 182,192 ----
+	      }
+	      ret = Xmalloc(end - begin + 2);
+	      if (ret != NULL) {
+	!       if (begin != NULL && end != NULL) {
+	!           (void)strncpy(ret, begin, end - begin + 1);
+	!           ret[end - begin + 1] = '\0';
+	!         }
+	!       else *ret = '\0';
+	      }
+	      return ret;
+	  }
+
+
+TEST RESULTS SUMMARY
+
+	Since this is a snapshot release, only those components which were
+	modified have undergone quality assurance testing.  The cycle for
+	the 2.1.30 snapshot includes running the following test suites:
+
+		QATS - Motif Quality Assurance Test Suite
+
+		Automated regressions tests in the following directories:
+
+		    Toolkit/Buttons
+		    Toolkit/ComboBox
+		    Toolkit/Container
+		    Toolkit/Converters
+		    Toolkit/Form
+		    Toolkit/IconVC
+		    Toolkit/List
+		    Toolkit/Manager
+		    Toolkit/Menus
+		    Toolkit/Message
+		    Toolkit/Notebook
+		    Toolkit/PanedWin
+		    Toolkit/Primitive
+		    Toolkit/ResInd
+		    Toolkit/Scrollbar
+		    Toolkit/Select
+		    Toolkit/Shells
+		    Toolkit/SpinBox
+		    Toolkit/Text
+		    Toolkit/Traversal
+		    Toolkit/Windows
+		    XmString
+		    uil/EnumVal
+		    uil/ForRef
+		    uil/ResInd
+		    uil/Syntax
+		    uil/widgets
+
+		Manual regression tests in the following directories:
+
+		    Toolkit/Manual
+		    uil/Manual/callUil
+		    uil/Manual/dataStructs
+		    uil/Manual/validator
+		    uil/Manual/Callback
+		    uil/Manual/NL
+
+
+		CDE Regression Tests for the following components:
+
+		    DefConfig
+		    DevEnv
+		    DtHelp
+		    DtSvc
+		    dragdrop
+		    dtcm
+		    dthelp
+		    dtlogin
+		    dtmail
+		    dtsession
+		    dtwm
+
+	The results of these test runs can be found in the release
+	archive under cde-test-misc/reports/cde-2.1.30/.../2.1.30C2.

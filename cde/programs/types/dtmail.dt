@@ -1,0 +1,176 @@
+
+        ###############################################################################
+#
+#     dtmail.dt
+#
+#     Action and DataType definitions for the Common Desktop Environment
+#     (CDE) Mailer Component.
+#
+#    (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+#    (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+#    (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+#    (c) Copyright 1993, 1994, 1995 Novell, Inc.
+#
+#    $TOG: dtmail.dt /main/11 1998/11/02 10:53:40 mgreess $
+#    @(#)dtmail.dt	1.32 10 Aug 1994
+###############################################################################
+set DtDbVersion=1.0
+
+###############################################################################
+#
+%|nls-10-#\# WARNING:...#|
+#
+###############################################################################
+
+###################################################################
+#
+%|nls-11-#\# Data Attributes#|
+#
+###################################################################
+DATA_ATTRIBUTES DTMAIL_FILE
+{
+	ACTIONS		Open,Compose
+	ICON	        DtMail
+        IS_TEXT		true
+ 	MOVE_TO_ACTION	MailAppendRm
+	COPY_TO_ACTION	MailAppend
+	MEDIA		RFC_822_MESSAGE
+        MIME_TYPE	message/rfc822
+        SUNV3_TYPE      mail-message
+	DESCRIPTION	%|nls-17001-#A DTMAIL_FILE ...#|
+	TYPE_LABEL      %|nls-31104-#DTMAIL_FILE#|
+}
+DATA_CRITERIA DTMAIL_FILE1
+{
+	DATA_ATTRIBUTES_NAME	DTMAIL_FILE
+	CONTENT		64 string CDE-Mail-Application-MailBox-File
+	MODE		f&!x
+}
+DATA_CRITERIA DTMAIL_FILE2
+{
+	DATA_ATTRIBUTES_NAME	DTMAIL_FILE
+	CONTENT		0 string From 
+	MODE		f&!x
+}
+ACTION MailAppend
+{
+	TYPE		COMMAND
+        ARG_COUNT       2
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     sh -c ' \
+         if [ "%(File)Arg_2%" !=  "%(File)Arg_1%" ];\
+          then \
+             # check if the source is DTMAIL_FILE ;\
+             # we only accept DTMAIL_FILE as drag source ;\
+             IS_DTMAIL=`/usr/dt/bin/dttypes -type "%(File)Arg_2%"|grep DTMAIL_FILE`;\
+             if  [ -n "\$IS_DTMAIL" ]; then \
+               ERROR=`cat "%(File)Arg_2%" >> "%(File)Arg_1%" \
+                   2>/tmp/dtmail.\$\$ || cat /tmp/dtmail.\$\$`; \
+               [ -f /tmp/dtmail.\$\$ ] && /bin/rm -f /tmp/dtmail.\$\$; \
+               if [ -n "\$ERROR" ]; then \
+                 /usr/dt/bin/dterror.ds \
+                  "\$ERROR" "%|nls-13011-#Information#|" \
+                  "%|nls-6-#OK#|"; \
+               fi; \
+            else  \
+             /usr/dt/bin/dterror.ds \
+             "%|nls-2035-#NO Action#|" \
+             "%|nls-13011-#Information#|" \
+                 "%|nls-6-#OK#|" ; \
+           fi; \
+         else \
+             /usr/dt/bin/dterror.ds \
+             "%|nls-2035-#NO Action#|" \
+             "%|nls-13011-#Information#|" \
+                 "%|nls-6-#OK#|"; \
+       fi'
+}
+ACTION MailAppendRm
+{
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     sh -c ' \
+        TYPE=`/usr/dt/bin/dttypes -type "%(File)Arg_2%" | \
+        grep \" is of type \" | sed /".* is of type "/s///`; \
+        if [ \$TYPE = "DTMAIL_FILE" ]; then \
+        cat "%(File)Arg_2%" >> "%(File)Arg_1%"; \
+        rm "%(File)Arg_2%" ; \
+        else \
+        /usr/dt/bin/dterror.ds \
+        "%|nls-2035-#The datatype#|" \
+        "%|nls-13011-#Error#|" \
+        "%|nls-6-#OK#|" ;  \
+        fi'
+}
+
+
+#
+# The following action does not work.  When dtmail exits, an error
+# dialog is posted.
+#
+ACTION Compose
+{
+    LABEL           %|nls-17002-Compose|
+    ARG_TYPE        *
+    ARG_COUNT       0
+    TYPE            COMMAND
+    WINDOW_TYPE     NO_STDIO
+    EXEC_STRING	    /usr/dt/bin/dtmail -c
+}
+ACTION Compose
+{
+    LABEL           %|nls-17002-Compose|
+    ARG_TYPE        *
+    ARG_COUNT       >0
+    TYPE            COMMAND
+    WINDOW_TYPE     NO_STDIO
+    EXEC_STRING	    /usr/dt/bin/dtmail -a %Args%
+}
+
+ACTION ComposeOrOpen
+{
+        LABEL           %|nls-1-Open|
+        ARG_TYPE        DTMAIL_FILE
+	ARG_COUNT	>0
+        TYPE            MAP
+        MAP_ACTION      Open
+}
+ACTION ComposeOrOpen
+{
+        LABEL           %|nls-17002-Compose|
+        ARG_TYPE        *
+	ARG_COUNT	>0
+        TYPE            MAP
+        MAP_ACTION      Compose
+}
+
+ACTION Open
+{
+	LABEL			%|nls-1-Open|
+	ARG_TYPE		DTMAIL_FILE
+	ARG_COUNT		>0
+	TYPE			TT_MSG
+	TT_CLASS		TT_REQUEST
+	TT_SCOPE		TT_SESSION
+	TT_OPERATION		Display
+	TT_FILE			%Arg_1%
+	TT_ARG0_MODE		TT_IN
+	TT_ARG0_VTYPE		%Arg_1%
+	TT_ARG0_REP_TYPE	TT_REP_STRING
+}
+
+ACTION Print
+{
+	LABEL			%|nls-2-Print|
+	ARG_TYPE		DTMAIL_FILE
+	ARG_COUNT		>0
+	TYPE			TT_MSG
+	TT_CLASS		TT_REQUEST
+	TT_SCOPE		TT_SESSION
+	TT_OPERATION		Print
+	TT_FILE			%Arg_1%
+	TT_ARG0_MODE		TT_IN
+	TT_ARG0_VTYPE		%Arg_1%
+	TT_ARG0_REP_TYPE	TT_REP_STRING
+}
+########################### EOF ##############################################

@@ -1,0 +1,103 @@
+<!-- $XConsortium: Pause.sgm /main/6 1996/09/08 20:14:48 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN298.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN298.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Pause</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Pause</Symbol></RefName>
+<RefPurpose>pause a tool, operation or data performance
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Pause.sgm /main/6 1996/09/08 20:14:48 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>Pause([in messageID <Symbol Role="Variable">operation</Symbol>]);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Pause</Symbol> request
+pauses the specified tool, operation or data performance.
+</Para>
+<Para>If the optional
+<Symbol Role="Variable">operation</Symbol> argument is included, the handler should pause the operation
+that was invoked by the specified request.
+</Para>
+<Para>The
+<Symbol Role="Variable">operation</Symbol> argument
+is the request that should be paused.
+For a request to be eligible for pausing, the handler must have sent a
+<Symbol Role="Message">Status</Symbol> notice back to the requester (thus
+identifying itself to the requester).
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The ToolTalk service may return the following error
+in processing the
+<Symbol Role="Message">Pause</Symbol> request:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_DESKTOP_ENOMSG</Term>
+<ListItem>
+<Para>The
+<Symbol Role="Variable">operation</Symbol> argument does not refer to any message currently known by the handler.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttdt.session.join;, and
+&cdeman.ttdt.message.accept;, functions can be used to register for,
+and help process, the
+<Symbol Role="Message">Pause</Symbol> request.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The
+<Symbol Role="Message">Pause</Symbol> message can be sent as in the following example:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message msg = tttk_message_create(0, TT_REQUEST, TT_SESSION,
+                        the_recipient_procid, TTDT_PAUSE,
+                        my_callback);
+tt_message_send(msg);
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<![ %CDE.C.CDE; [
+<RefSect1>
+<Title>WARNINGS</Title>
+<Para><Symbol Role="Message">Pause</Symbol> can also be sent as a multicast notice, as an
+<Emphasis>edict</Emphasis> to all tools in the scope of the message.
+The consequences of doing so can be severe and unexpected.
+</Para>
+</RefSect1>
+]]>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.tt.message.send;, &cdeman.ttdt.message.accept;, &cdeman.ttdt.session.join;; <Symbol Role="Message">Resume</Symbol> request.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

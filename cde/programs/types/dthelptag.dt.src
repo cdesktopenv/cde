@@ -1,0 +1,181 @@
+XCOMM ##########################################################################
+XCOMM 
+XCOMM      dthelptag.dt
+XCOMM 
+XCOMM      Actions and DataTypes for authoring Help information.
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+XCOMM 
+XCOMM      $TOG: dthelptag.dt.src /main/6 1998/07/29 17:08:50 mgreess $
+XCOMM 
+XCOMM ##########################################################################
+#define HASH #
+set DtDbVersion=1.0
+
+XCOMM ##########################################################################
+XCOMM 
+%|nls-10-#HASH WARNING:...#|
+XCOMM 
+XCOMM ##########################################################################
+
+%|nls-16001-# The ...|
+set HELPTAG_PATH=\$PATH:CDE_INSTALLATION_TOP/bin
+
+XCOMM ##################################################################
+XCOMM 
+%|nls-11-#HASH Data Attributes#|
+XCOMM 
+XCOMM ##################################################################
+DATA_ATTRIBUTES DTHELP_HTG
+{
+        ACTIONS         Open,Compile,CleanUp
+        ICON            Dthsrc
+        NAME_TEMPLATE   %s.htg
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-16002-#This is a ...#|
+        TYPE_LABEL      %|nls-31052-#DTHELP_HTG#|
+}
+
+DATA_CRITERIA DTHELP_HTG1
+{
+	DATA_ATTRIBUTES_NAME DTHELP_HTG
+        MODE            f
+        NAME_PATTERN    *.htg
+}
+
+XCOMM ##################################################################
+
+DATA_ATTRIBUTES DTHELP_CTG
+{
+        ACTIONS         Open,CompileCanon,CleanUp
+        ICON            Dthsrc
+        NAME_TEMPLATE   %s.ctg
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-16003-#This is a ...#|
+        TYPE_LABEL      %|nls-31053-#DTHELP_CTG#|
+}
+
+DATA_CRITERIA DTHELP_CTG1
+{
+	DATA_ATTRIBUTES_NAME DTHELP_CTG
+        MODE            f
+        NAME_PATTERN    *.ctg
+}
+
+XCOMM ##################################################################
+
+DATA_ATTRIBUTES DTHELP_ERR
+{
+        ACTIONS         Open
+        ICON		Dthtop
+        NAME_TEMPLATE   %s.err
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-16004-#A DTHELP_ERR file is a ...#|
+        TYPE_LABEL      %|nls-31054-#DTHELP_ERR#|
+}
+
+DATA_CRITERIA DTHELP_ERR1
+{
+        DATA_ATTRIBUTES_NAME DTHELP_ERR
+        NAME_PATTERN    *.err
+        MODE            f
+}
+
+XCOMM ##################################################################
+XCOMM ##################################################################
+XCOMM 
+%|nls-12-#HASH Actions#|
+XCOMM 
+XCOMM ##################################################################
+ACTION Open
+{
+        LABEL           %|nls-1-Open|
+        ARG_TYPE        DTHELP_HTG,DTHELP_CTG
+	TYPE		MAP
+        MAP_ACTION      OpenHelpTag
+}
+
+XCOMM ######
+
+ACTION Compile
+{
+        LABEL           %|nls-16005-#Compile|
+        ARG_TYPE        DTHELP_HTG
+	TYPE		MAP
+        MAP_ACTION	HelpTag
+}
+
+XCOMM ######
+
+ACTION CompileCanon
+{
+        LABEL           %|nls-16006-#CompileCanon|
+        ARG_TYPE        DTHELP_CTG
+	TYPE		MAP
+        MAP_ACTION	HelpTagCanon
+}
+
+XCOMM ######
+
+ACTION CleanUp
+{
+        LABEL           %|nls-16007-#CleanUp|
+        ARG_TYPE        DTHELP_HTG,DTHELP_CTG
+	TYPE		MAP
+        MAP_ACTION	CleanHelpTag
+}
+
+XCOMM ######
+
+ACTION OpenHelpTag
+{
+        LABEL           %|nls-16008-#OpenHelpTag|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	/usr/dt/bin/dtpad "%(File)Arg_1%"
+	DESCRIPTION	%|nls-16009-#The OpenHelpTag ...#|
+}
+
+XCOMM ######
+
+ACTION HelpTag
+{
+        LABEL           %|nls-16010-#HelpTag|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	sh -c 'PATH=$HELPTAG_PATH dthelptag -clean \
+				  `basename "%(File)Arg_1"%|nls-16011-#HelpTag File:|"%"`; \
+			       PATH=$HELPTAG_PATH dthelptag \
+				  `basename "%(File)Arg_1%"`'
+	DESCRIPTION	%|nls-16012-#The HelpTag ...#|
+}
+
+XCOMM ######
+
+ACTION HelpTagCanon
+{
+        LABEL           %|nls-16013-#HelpTagCannon|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	sh -c 'PATH=$HELPTAG_PATH dthelptag -clean \
+				  `basename "%(File)Arg_1"%|nls-16011-#HelpTag File:|"%"`; \
+			       PATH=$HELPTAG_PATH dthelptag -formal \
+				  `basename "%(File)Arg_1%"`'
+	DESCRIPTION	%|nls-16014-#The HelpTagCanon ...#|
+}
+
+XCOMM ######
+
+ACTION CleanHelpTag
+{
+        LABEL           %|nls-16015-#CleanHelpTag|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	sh -c 'PATH=$HELPTAG_PATH dthelptag -clean \
+				  `basename "%(File)Arg_1"%|nls-16011-#HelpTag File:|"%"`'
+	DESCRIPTION	%|nls-16016-#The CleanHelpTag ...#|
+}
+XCOMM ######################## EOF ############################################

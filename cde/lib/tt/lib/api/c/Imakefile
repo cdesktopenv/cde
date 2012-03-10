@@ -1,0 +1,54 @@
+XCOMM $TOG: Imakefile /main/9 1999/08/30 10:50:55 mgreess $
+#define DoNormalLib	NormalLibTt
+#define DoSharedLib	SharedLibTt
+#define DoDebugLib	DebugLibTt
+#define DoProfileLib	ProfileLibTt
+#define LibName		tt
+#define SoRev		SOTTREV
+#define IncSubdir	Tt
+#define LibCreate	NO
+#ifdef TtLargePICTable
+# define LargePICTable  TtLargePICTable
+#endif
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#include <Threads.tmpl>
+
+#include "../../../tooltalk.tmpl"
+
+DEFINES = 
+INCLUDES = -I../../../lib
+
+/*** NOTE! 
+ *** Every time a .o is added below it needs to be added to
+ *** the lib/tt/lib Imakefile in OBJS and SHARED_OBJS
+ ***/
+
+HEADERS = tt_c.h
+
+SRCS =  api_api.C           api_auth.C \
+	api_default.C       api_error.C \
+        api_file.C          api_filemap.C       api_handle.C \
+        api_message.C       api_mp.C            api_mp_io.C \
+        api_mp_otype.C      api_objid_spec.C    api_pattern.C \
+        api_session_prop.C  api_spec.C          api_spec_map_ref.C \
+        api_storage.C       api_typecb.C        api_typecb_utils.C \
+        api_utils.C         api_xdr.C
+
+OBJS =  api_api.o           api_auth.o \
+	api_default.o       api_error.o \
+        api_file.o          api_filemap.o       api_handle.o \
+        api_message.o       api_mp.o            api_mp_io.o \
+        api_mp_otype.o      api_objid_spec.o    api_pattern.o \
+        api_session_prop.o  api_spec.o          api_spec_map_ref.o \
+        api_storage.o       api_typecb.o        api_typecb_utils.o \
+        api_utils.o         api_xdr.o
+
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

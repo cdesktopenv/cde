@@ -1,0 +1,114 @@
+<!-- $XConsortium: open.sgm /main/6 1996/09/08 20:13:09 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN166.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN166.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_open</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_open</Function></RefName>
+<RefPurpose>return the process identifier for the calling process
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: open.sgm /main/6 1996/09/08 20:13:09 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>char <Function>*tt_open</Function></FuncDef>
+<void>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_open</Function> function
+returns the process identifier for the calling process.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>The
+<Function>tt_open</Function> function also sets this identifier as the default
+procid
+for the process.
+The
+&cdeman.tt.open; function is typically the first ToolTalk function called by a process.
+</Para>
+<Para>The application must call
+&cdeman.tt.open; before other
+<Emphasis>tt_</Emphasis> calls are made.
+However, there are two exceptions:
+&cdeman.tt.default.session.set; and
+&cdeman.tt.X.session; can be called before
+<Function>tt_open</Function>.</Para>
+<Para>A process can call
+<Function>tt_open</Function> more than once to obtain multiple
+procids.
+To open another session, the process must
+make the following calls in the order specified:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing><Function>tt_default_session_set</Function>
+<Function>tt_open</Function></ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_open</Function> function returns the character value that uniquely identifies the process.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned pointer:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application should use
+&cdeman.tt.free; to free any data stored in the address returned by the
+ToolTalk API.
+</Para>
+<Para>Each
+procid
+has its own associated file descriptor, and can join another session.
+To switch to another
+procid,
+the application should call
+<Function>tt_default_procid_set</Function>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.fd;, &cdeman.tt.default.procid;, &cdeman.tt.default.procid.set;, &cdeman.tt.default.session;, &cdeman.tt.default.session.set;, &cdeman.tt.ptr.error;, &cdeman.tt.free;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

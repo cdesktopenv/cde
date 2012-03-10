@@ -1,0 +1,290 @@
+<!-- $XConsortium: srcreate.sgm /main/9 1996/09/08 19:56:18 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.dtsrcreate">]]>
+<refmeta><refentrytitle>dtsrcreate</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtsrcreate</command></refname><refpurpose>Create
+and initialize a DtSearch database</refpurpose></refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtsrcreate</command><arg choice="opt">&minus;q</arg><arg choice="opt">&minus;o</arg><arg choice="opt">&minus;fd</arg><arg choice="opt">&minus;fa</arg><arg choice="opt">&minus;a<replaceable>abstr</replaceable></arg><arg
+choice="opt">&minus;d<replaceable>dir</replaceable></arg><arg choice="opt">&minus;wn<replaceable>min</replaceable></arg><arg choice="opt">&minus;wx <replaceable>max</replaceable></arg><arg choice="opt">&minus;l<replaceable>lang</replaceable></arg>
+<arg choice="plain"><replaceable>dbname</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>dtsrcreate</command> command creates and initializes an
+instance of a DtSearch database. A DtSearch database consists of a set of
+related files. If the specified database already exists, after prompting for
+confirmation, <command>dtsrcreate</command> will erase and reinitialize the
+preexisting database.
+</para>
+<refsect2>
+<title>Database Name</title>
+<para>The <symbol role="Variable">dbname</symbol> argument is the database
+name. It is a 1 to 8 ascii character string used at creation time as a base
+file name, and as a general database identifier thereafter. All created database
+files are named by assembling the base name, plus a period and a 1 to 3 ASCII
+character suffix. The database names <literal>dtsearch</literal> and <literal>austext</literal> are reserved and may not be specified.</para>
+</refsect2>
+<refsect2>
+<title>Target Directory</title>
+<para>The <symbol role="Variable">dbname</symbol> argument can include an
+optional path prefix. If it does, the database files will be created and initialized
+in the specified target directory. If no path prefix is specified, the target
+directory is the current working directory.</para>
+</refsect2>
+<refsect2>
+<title>Model File</title>
+<para>One of the created database files is based on a model file,
+<filename>dtsearch.dbe</filename>, provided with DtSearch. Database creation will fail
+if the model file cannot be found. <command>dtsrcreate</command> looks for
+the model file first in the directory specified by a command line option,
+if any; secondly in the current working directory; and thirdly in the optional <symbol role="Variable">dbname</symbol> target directory.</para>
+</refsect2>
+<refsect2>
+<title>Configuration Options</title>
+<para>DtSearch databases can be customized with a number of configuration
+options that are specified only at creation time. Initialization consists
+of loading into the database a configuration and status record identifying
+the configuration options for the particular database instance. After initialization, <command>dtsrcreate</command> prints a small report of the current contents of the
+configuration record to stdout. (See also &cdeman.dtsrdbrec;,
+which prints the report without changing the database).</para>
+</refsect2>
+<refsect2>
+<title>Database Types</title>
+<para>The customizable features available at database creation time fall into
+clusters of related capabilities that constitute a set of basic database types.
+When you select a database type, you prespecify a number of features that
+are optimized for the basic type of database you want.</para>
+<para>In the <Symbol>DtSearch</Symbol> database type, documents are not
+stored in a repository and are not available from the search engine after
+a search. The abstract returned from a search typically contains a document
+reference, usually the file name, and the application is itself responsible
+for accessing the document. Hilighting of search words is possible when the
+application passes the document cleartext back to the DtSearch API.</para>
+<para>In an <literal>AusText</literal> database type, compressed documents
+are stored directly into a repository and the originals are thereafter ignored.
+The abstracts returned from searches are typically descriptive of the documents
+they represent, and are displayed directly to users. Documents can be retrieved
+from an <literal>AusText</literal> type database through the API, and the
+search words are highlighted as desired.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para>The following options are available:</para>
+<note>
+<para>If an option takes a value, the value must be directly appended to the
+option name without white space.</para>
+</note>
+<variablelist>
+<varlistentry><term><literal>&minus;q</literal></term>
+<listitem>
+<para>Suppresses printing of configuration record report.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;o</literal></term>
+<listitem>
+<para>Suppresses overwrite prompt; preauthorizes erasure and reinitialization
+of preexisting database.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;d</literal><symbol role="Variable">dir</symbol></term>
+<listitem>
+<para>Specifies where to find the model <filename>dtsearch.dbe</filename>
+file, rather than in the current working directory or target directory.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;fd</literal></term>
+<listitem>
+<para>Configure a <Symbol>DtSearch</Symbol> type database. This is the default.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;fa</literal></term>
+<listitem>
+<para>Configure an <literal>AusText</literal> type database.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;a</literal><symbol role="Variable">abstr</symbol></term>
+<listitem>
+<para>Set the maximum abstract size to <symbol role="Variable">abstr</symbol>
+bytes. This is the maximum permitted length in characters for an abstract
+string. To optimize space considerations in the database the choice for abstract
+length may be adjusted upward. Default size depends on the specified database
+type. (See &cdeman.dtsrfzkfiles; and &cdeman.DtSearch;
+for more information about abstract fields.)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;wn</literal><symbol role="Variable">min</symbol></term>
+<listitem>
+<para>Change minimum word size to <symbol role="Variable">min</symbol> characters.
+This is the minimum word size in characters to be indexed in the database.
+Document and query words shorter than the minimum are treated as stop list
+words (see &cdeman.dtsrfzkfiles;). The minimum can be overridden
+for specific individual words by adding them to the optional include list
+file (see &cdeman.dtsrfzkfiles;). For most natural languages the
+default minimum word size is usually correct; permitting very short words
+will usually cause a significant increase in the storage requirements for
+the database. This option is typically applicable to single-byte European
+languages and may be ignored by multibyte language processors. (See
+&cdeman.DtSearch; for more information about DtSearch word sizes).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;wx</literal><symbol role="Variable">max</symbol></term>
+<listitem>
+<para>Change maximum word size to <symbol role="Variable">max</symbol> characters.
+This is the maximum word size in characters. Smaller is better since extraordinarily
+long words in most documents do not represent words at all, but nonsemantic
+symbol strings. To optimize space considerations in the database, the choice
+for maximum word size will usually be adjusted upward. For most natural languages
+the default maximum word size is usually correct. This option is typically
+applicable to single-byte European languages and may be ignored by multibyte
+language processors. (See &cdeman.DtSearch; for more information
+about DtSearch word sizes).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;l</literal><symbol role="Variable">lang</symbol></term>
+<listitem>
+<para>Change the language number to <symbol role="Variable">lang</symbol>.
+The default is 0.</para>
+<para>Supported languages include:</para>
+<informaltable>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colwidth="0.51in">
+<colspec align="left" colwidth="1.36in">
+<colspec align="left" colwidth="4.35in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para><Symbol>DtSrLaENG</Symbol></para></entry>
+<entry align="left" valign="top"><para>English, ASCII character set</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>1</para></entry>
+<entry align="left" valign="top"><para><symbol>DtSrLaENG2</symbol></para></entry>
+<entry align="left" valign="top"><para>English, ISO Latin-1 character set
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para><Symbol>DtSrLaESP</Symbol></para></entry>
+<entry align="left" valign="top"><para>Spanish, ISO Latin-1 character set
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>3</para></entry>
+<entry align="left" valign="top"><para><Symbol>DtSrLaFRA</Symbol></para></entry>
+<entry align="left" valign="top"><para>French, ISO Latin-1 character set</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>4</para></entry>
+<entry align="left" valign="top"><para><Symbol>DtSrLaITA</Symbol></para></entry>
+<entry align="left" valign="top"><para>Italian, ISO Latin-1 character set
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>5</para></entry>
+<entry align="left" valign="top"><para><Symbol>DtSrLaDEU</Symbol></para></entry>
+<entry align="left" valign="top"><para>German, ISO Latin-1 character set</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>6</para></entry>
+<entry align="left" valign="top"><para><Symbol>DtSrLaJPN</Symbol></para></entry>
+<entry align="left" valign="top"><para>Japanese, packed EUC character set;
+all possible kanji substrings are indexed</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>7</para></entry>
+<entry align="left" valign="top"><para><symbol>DtSrLaJPN2</symbol></para></entry>
+<entry align="left" valign="top"><para>Japanese, packed EUC character set;
+only individual kanjis are indexed, plus compounds from a knj language file
+</para></entry></row></tbody></tgroup></informaltable>
+<para>Specifying an unsupported language number will establish a DtSearch
+custom language for the database. (See &cdeman.DtSearch; for
+information about DtSearch languages).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>OPERAND</title>
+<para>The <symbol role="Variable">dbname</symbol> operand specifies the new
+DtSearch database. It consists of an optional path prefix, a 1- to 8-character
+database name, an optional period, and an optional 1- to 3-character extension.
+This is the name that the other build tools and the the search API will use
+to reference the database.</para>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>RETURN VALUES</title>
+<para>The return values are as follows:</para>
+<variablelist>
+<varlistentry><term>0</term>
+<listitem>
+<para><command>dtsrcreate</command> completed successfully.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>non-zero</term>
+<listitem>
+<para><command>dtsrcreate</command> encountered an error.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para><command>dtsrcreate</command> reads <filename>dtsearch.dbe</filename>.
+</para>
+<para>It creates or reinitializes the following database files:</para>
+<simplelist>
+<member><symbol role="Variable">dbname</symbol>.d00</member>
+<member><symbol role="Variable">dbname</symbol>.d01</member>
+<member><symbol role="Variable">dbname</symbol>.d21</member>
+<member><symbol role="Variable">dbname</symbol>.d22</member>
+<member><symbol role="Variable">dbname</symbol>.d23</member>
+<member><symbol role="Variable">dbname</symbol>.k00</member>
+<member><symbol role="Variable">dbname</symbol>.k01</member>
+<member><symbol role="Variable">dbname</symbol>.k21</member>
+<member><symbol role="Variable">dbname</symbol>.k22</member>
+<member><symbol role="Variable">dbname</symbol>.k23</member>
+</simplelist>
+<para>It deletes the file <symbol role="Variable">dbname</symbol>.d99.</para>
+<para>Note that not all necessary database files are created by <command>dtsrcreate</command>. Some additional files are included in the DtSearch distribution,
+are created by later database build programs, or may be provided by the developer.
+</para>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>Create a standard DtSearch type database named <literal>mydb</literal>
+that will index ASCII English words of standard length for that language.
+</para>
+<programlisting>dtsrcreate mydb</programlisting>
+<para>Create an AusText type database named <literal>jpndb</literal>. It will
+index Japanese words expressed in packed EUC, with automatic compounding of
+all kanji substrings. When the text contains embedded ASCII, words that are
+between 2 and 20 characters long will be indexed. At least 150 bytes will
+be available for the abstract field.</para>
+<programlisting><?Pub Caret>dtsrcreate -fa -a150 -wn2 -wx20 -l6 jpndb</programlisting>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtsrdbrec;, &cdeman.DtSrAPI;,
+&cdeman.dtsrdbfiles;, &cdeman.DtSearch;</para>
+</refsect1>
+</refentry>

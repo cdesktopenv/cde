@@ -1,0 +1,20 @@
+#!/bin/csh
+#
+# A script that aids in debugging and testing dtmail
+#
+if ( `uname -s` != SunOS ) then
+        echo "Only support SunOS"
+        exit 1
+endif
+
+set echo
+setenv LD_LIBRARY_PATH ../libDtMail:../../../binstall/lib:$LD_LIBRARY_PATH
+ldd -r dtmail
+
+setenv ARGS	"$*"
+if ( -f core ) then
+	exec debugger dtmail core &
+else
+	exec debugger dtmail &
+endif
+exit 1

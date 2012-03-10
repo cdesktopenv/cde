@@ -1,0 +1,64 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/04/21 19:15:07 drk $
+#define DoNormalLib	NormalLibDtTerm
+#define DoSharedLib	SharedLibDtTerm
+#define DoDebugLib	DebugLibDtTerm
+#define DoProfileLib	ProfileLibDtTerm
+#define LibName		DtTerm
+#define SoRev		SODTTERMREV
+#define IncSubdir	Dt
+#define LibCreate	NO
+
+#include <Threads.tmpl>
+
+DEFINES =
+INCLUDES = -I. -I../TermPrim
+
+LINTLIBS = $(LINTXLIB) $(LINTXTOOL) $(LINTXM)
+
+UTILDIR = ../util
+
+TermLineData.c: TermLineData.data $(UTILDIR)/lineToData.c
+	RemoveFiles($@ lineToData)
+	LinkRule(lineToData,$(CFLAGS),$(UTILDIR)/lineToData.c,$(LDLIBS))
+	./lineToData -p _DtTerm -f TermLineData.data > $@
+	RemoveFile(./lineToData)
+
+includes:: TermLineData.c
+
+clean::
+	RemoveFile(TermLineData.c)
+
+
+HEADERS = Term.h TermP.h
+
+SRCS = \
+	Term.c \
+	TermAction.c \
+	TermBuffer.c \
+	TermColor.c \
+	TermEnhance.c \
+	TermFunction.c \
+	TermFunctionKey.c \
+	TermLineData.c \
+	TermParse.c \
+	TermParseTable.c \
+	TermVersion.c
+
+OBJS = \
+	Term.o \
+	TermAction.o \
+	TermBuffer.o \
+	TermColor.o \
+	TermEnhance.o \
+	TermFunction.o \
+	TermFunctionKey.o \
+	TermLineData.o \
+	TermParse.o \
+	TermParseTable.o \
+	TermVersion.o
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

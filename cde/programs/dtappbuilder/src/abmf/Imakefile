@@ -1,0 +1,161 @@
+XCOMM $XConsortium: Imakefile /main/13 1996/10/09 14:03:09 drk $
+XCOMM
+XCOMM 	RESTRICTED CONFIDENTIAL INFORMATION:
+XCOMM	
+XCOMM	The information in this document is subject to special
+XCOMM	restrictions in a confidential disclosure agreement between
+XCOMM	HP, IBM, Sun, USL, SCO, Fujitsu and Univel.  Do not distribute this
+XCOMM	document outside HP, IBM, Sun, USL, SCO, Fujitsu, or Univel without
+XCOMM	Sun's specific written approval.  This document and all copies
+XCOMM	and derivative works thereof must be returned or destroyed at
+XCOMM	Sun's request.
+XCOMM
+XCOMM (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM (c) Copyright 1996 Hewlett-Packard Company.
+XCOMM (c) Copyright 1996 International Business Machines Corp.
+XCOMM (c) Copyright 1993,1996 Sun Microsystems, Inc.
+XCOMM (c) Copyright 1996 Novell, Inc. 
+XCOMM (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM (c) Copyright 1996 Hitachi.
+
+#include "../ab.tmpl"
+#include "../ab.rules"
+
+    INCLUDES = -I. -I$(ABINCLUDES)
+     DEFINES =
+
+SOURCES.h.shipped =
+
+SOURCES.h.shared = \
+        abmf.h
+
+SOURCES.h.unshared = \
+	abmfP.h \
+	argsP.h \
+	cdefsP.h \
+	connectP.h \
+	create_declsP.h \
+	dtb_utils.h \
+	ui_header_fileP.h \
+	instancesP.h \
+	lib_func_stringsP.h \
+	make_fileP.h \
+	merge_cP.h \
+	motifdefsP.h \
+	msg_cvt.h \
+	msg_file.h \
+	msg_fileP.h \
+	obj_namesP.h \
+	parse_cP.h \
+	proj_c_fileP.h \
+	proj_header_fileP.h \
+	resource_fileP.h \
+	stubs_c_fileP.h \
+	ui_c_fileP.h \
+	ui_header_fileP.h \
+	utils_c_fileP.h \
+	utils_header_fileP.h \
+	utilsP.h \
+	write_cP.h \
+	write_codeP.h
+
+SOURCES.msg = \
+	dtcodegen.msg 	\
+	../libAButil/libAButil.msg \
+	../libABobjXm/libABobjXm.msg \
+	../libABil/libABil.msg
+
+SRCS =	abmf.c			args.c \
+	cdefs.c			connect.c \
+	create_decls.c		dtb_utils.c \
+	generate_code.c		instances.c \
+	lib_func_strings.c	make_file.c \
+	merge_c.c		motifdefs.c \
+	msg_cvt.c		msg_file.c \
+	obj_names.c		parse_c.c \
+	proj_c_file.c		proj_header_file.c \
+	resource_file.c		stubs_c_file.c \
+	ui_c_file.c		ui_header_file.c \
+	utils.c			utils_c_file.c \
+	utils_header_file.c	write_c.c \
+	write_code.c
+
+OBJS =	abmf.o			args.o \
+	cdefs.o			connect.o \
+	create_decls.o		dtb_utils.o \
+	generate_code.o		instances.o \
+	lib_func_strings.o	make_file.o \
+	merge_c.o		motifdefs.o \
+	msg_cvt.o		msg_file.o \
+	obj_names.o		parse_c.o \
+	proj_c_file.o		proj_header_file.o \
+	resource_file.o		stubs_c_file.o \
+	ui_c_file.o		ui_header_file.o \
+	utils.o			utils_c_file.o \
+	utils_header_file.o	write_c.o \
+	write_code.o
+
+SYS_LIBRARIES = -lm $(ICONVSYSLIB) $(DYNLIBSYSLIB) $(REGEXSYSLIB)
+
+#ifdef AlphaArchitecture
+CCOPTIONS = -std1
+#endif
+
+#ifdef RsArchitecture
+CCOPTIONS = -qnoro
+#endif
+
+#ifdef	SunArchitecture
+WAITTARGET = .WAIT
+#endif	/* SunArchitecture */
+
+PROGRAMS = dtcodegen
+LINTLIBS = $(XINPUTLIB) $(DTHELPLIB) $(DTSVCLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+
+/* DEPLIBS contains the list of library depencies for a client.
+ * LOCAL_LIBRARIES contains the list of libraries on the link line.
+ * Generally, the dependency form of a library has DEP as a prefix.
+ * e.g. put $(XLIB) in LOCAL_LIBRARIES and $(DEPXLIB) in DEPLIBS.
+ * NOTE: if DEPLIBS is not set here, it is by default null and there
+ *       are no library dependencies for clients.
+ *       You cannot put -Llibpath into DEPLIBS. You must put actual
+ *       paths to the library.
+ */
+DEPLIBS = ../libABil/libABil.a  ../libABobjXm/libABobjXm.a  \
+                  ../libABobj/libABobj.a ../libAButil/libAButil.a \
+		  $(DEPDTTERMLIB) $(DEPDTHELPLIB) $(DEPDTWIDGETLIB) \
+		  $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXMLIB) \
+		  $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = ../libABil/libABil.a  ../libABobjXm/libABobjXm.a  \
+                  ../libABobj/libABobj.a ../libAButil/libAButil.a \
+		  $(DTTERMLIB) $(DTHELPLIB) $(DTWIDGETLIB) \
+		  $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+
+ComplexProgramTarget(dtcodegen)
+
+AbMessageCatalogTarget(dtcodegen)
+
+LinkFileList(shared_includes,$(SOURCES.h.shared),../include/ab_private,../../abmf)
+
+includes:: shared_includes $(WAITTARGET)
+
+SRCS2 = ab_func_strings.c
+OBJS2 = ab_func_strings.o
+DEPLIBS2 = ../libAButil/libAButil.a
+ComplexProgramTarget_2(ab_func_strings,$(DEPLIBS2),$(SYS_LIBRARIES))
+
+XCOMM
+XCOMM Test harnesses and drivers
+XCOMM
+test_parse_main.o: parse_c.c
+	$(CC) $(CFLAGS) -DMAIN -c -o test_parse_main.o parse_c.c
+
+test_parse: test_parse_main.o ../libAButil/libAButil.a
+	$(CC) $(CFLAGS) -o test_parse test_parse_main.o ../libAButil/libAButil.a
+
+test_merge_main.o: merge_c.c
+	$(CC) $(CFLAGS) -DMAIN -c -o test_merge_main.o merge_c.c
+
+test_merge: test_merge_main.o parse_c.o ../libAButil/libAButil.a
+	$(LINKCC) $(CFLAGS) $(LDOPTIONS) -o test_merge test_merge_main.o parse_c.o ../libAButil/libAButil.a
+

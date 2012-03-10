@@ -1,0 +1,14 @@
+      if [ "$SRC" != "" ]
+      then
+	set -A tokens $SRC
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  if [ -f ${tokens[0]} ]
+	  then
+	    filesize=`ls -l ${tokens[0]} | awk '{print $5}'`
+	    echo "$filesize\t\t\c"
+	    echo "${tokens[0]}"
+	    let total=total+filesize
+	  fi
+	fi
+      fi

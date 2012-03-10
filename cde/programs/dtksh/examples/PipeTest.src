@@ -1,0 +1,43 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: PipeTest.src /main/3 1996/04/23 20:18:30 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates some of the more advanced features
+XCOMM  of dtksh.  It shows how a structure can be defined and accessed, and
+XCOMM  how a C library function can be called.
+XCOMM 
+
+XCOMM  Define a structure made up of 2 integer fields: pipe_in and pipe_out
+struct pipe_fds pipe_in:int pipe_out:int
+typedef 'struct pipe_fds *' pipe_fds_ptr
+
+echo "Test 1"
+XCOMM  Malloc space for the structure, and initialize the fields
+call -F nop '@pipe_fds_ptr:{0,0}'
+PIPE_FDS=$RET
+XCOMM  Call the pipe(2) kernel intrinsic
+call pipe $PIPE_FDS
+RESULT=$RET
+XCOMM  Print the values of the fields in the structure
+call strprint pipe_fds_ptr $PIPE_FDS
+echo RESULT = $RESULT
+echo
+
+XCOMM  Repeat the test, to make sure we get different file descriptors
+echo "Test 2"
+call -F nop '@pipe_fds_ptr:{0,0}'
+PIPE_FDS=$RET
+call pipe $PIPE_FDS
+RESULT=$RET
+call strprint pipe_fds_ptr $PIPE_FDS
+echo RESULT = $RESULT
+echo

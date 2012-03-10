@@ -1,0 +1,40 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/10/30 19:10:03 cde-hp $
+/*********************************************************************
+*  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+*  (c) Copyright 1993, 1994 International Business Machines Corp.
+*  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+*  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+*      Novell, Inc.
+**********************************************************************/
+DESKTOP_VERSION_STRING = DesktopVersionString
+
+XCOMM
+XCOMM Imakefile: for DT Print Dialog Manager Daemon
+XCOMM
+
+/* General case INCLUDES DEFINES LOCAL_LIBRARIES
+ * Each individual architecture may have more or less of the above.
+ * Use EXTRA_DEFINES and EXTRA_INCLUDES to add defines and includes
+ * to an individual architecture.  There is no equivalent for
+ * LOCAL_LIBRARIES.
+ * USE_libraryname in LOCAL_LIBRARIES is by default empty.
+ * It should be set when necessary to the real library macro name.
+ */
+
+        DEFINES = -DCDE_INSTALLATION_TOP='"'$(CDE_INSTALLATION_TOP)'"'
+       INCLUDES = -I.
+
+        DEPLIBS = $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXAUTHLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XTOOLLIB) $(XPLIB) $(XAUTHLIB) $(XLIB)
+  SYS_LIBRARIES = DtClientSysLibs
+
+SRCS = 	dispatch.c	dtpdmd.c	mailbox.c \
+	manager.c	records.c	setup.c \
+	util.c		nlmsg.c
+
+OBJS = 	dispatch.o	dtpdmd.o	mailbox.o \
+	manager.o	records.o	setup.o \
+	util.o		nlmsg.o
+
+ComplexProgramTarget(dtpdmd)
+

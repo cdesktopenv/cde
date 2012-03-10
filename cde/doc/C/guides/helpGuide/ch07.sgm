@@ -1,0 +1,488 @@
+<!-- $XConsortium: ch07.sgm /main/13 1996/09/08 19:40:15 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.Sgml.div.1">
+<title id="HRDC.Sgml.mkr.1">Reading the DocBook Document Type Definition</title>
+<para>This chapter explains how to read the DocBook 2.2.1 Document Type Definition
+(DTD) and how to use it to create fully compliant Standard Generalized Markup
+Language (SGML) help files.</para>
+<informaltable id="HRDC.Sgml.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'DocBook 1.3 DTD196'--><xref role="JumpText"
+linkend="HRDC.Sgml.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'DTD Components196'--><xref role="JumpText"
+linkend="HRDC.Sgml.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Element Declarations196'--><xref
+role="JumpText" linkend="HRDC.Sgml.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Element Declaration Keywords198'--><xref
+role="JumpText" linkend="HRDC.Sgml.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Attribute List Declarations199'--><xref
+role="JumpText" linkend="HRDC.Sgml.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Formal Markup199'--><xref role="JumpText"
+linkend="HRDC.Sgml.mkr.7"></para></entry></row></tbody></tgroup></informaltable>
+<sect1 id="HRDC.Sgml.div.2">
+<title>Document Type Defintion</title>
+<para>A <emphasis>Document Type Definition</emphasis> (DTD) defines a set
+of elements used to create a structured (or hierarchical) document. The DTD
+specifies the syntax for each element and governs how and where elements can
+be used in a document.</para>
+<sect2 id="HRDC.Sgml.div.3">
+<title id="HRDC.Sgml.mkr.2">DocBook 2.1 DTD</title>
+<para>The DocBook 2.2.1 DTD tag set and its associated rules are referred
+to as formal markup. The DTD conforms to the Standard Generalized Markup Language
+(SGML) ISO specification 8879:1986. This means that you can use formal markup
+to create help files that are SGML compliant.</para>
+<para>Appendix A contains the complete DTD specification. The DTD is also
+available in the Developer's Toolkit. It is located in the <filename>/usr/dt/dthelp/dtdocbook/SGML</filename> directory and is named <filename>DocBook.dtd</filename>.</para>
+<sect3 id="HRDC.Sgml.div.4">
+<title>See Also</title>
+<itemizedlist><listitem><para><filename>dtdocbookdtd(4)</filename> man page.
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Sgml.div.5">
+<title id="HRDC.Sgml.mkr.3">DTD Components</title>
+<para>The DTD defines each of the DocBook elements described in previous chapters
+in a technical notation. This section introduces some key terms and explains
+how to read the syntax of the element notations. It does not attempt to fully
+describe each section of the DTD.</para>
+<sect2 id="HRDC.Sgml.div.6">
+<title id="HRDC.Sgml.mkr.4">Element Declarations</title>
+<para>The DocBook DTD defines each DocBook element in an <emphasis>element
+declaration</emphasis>. The declaration uses a precise notation to describe
+an element, its required components, and any elements it can or cannot contain.
+Each element also has its attributes and the values they can take defined
+in an <emphasis>attribute declaration</emphasis>, which is discussed in the
+next section <xref role="SecTitleAndPageNum" linkend="HRDC.Sgml.mkr.6">.</para>
+<para>Both in its element declarations, and its attribute declarations, the
+DocBook DTD makes extensive use of entity references, which stand for entities
+that represent groupings of elements or attributes. (In the DTD, these entity
+declarations precede the element declarations and the attribute declarations.)
+</para>
+<para>For example, the DTD declares an entity with the reference "%commmonatts;"
+to stand for the group of common attributes that so many of the DocBook elements
+have: ID, Lang (language), Remap, Role, and XRefLabel. As another example,
+the DTD declares an entity with the reference "%list.gp;" that stands for
+ItemizedList, OrderedList, SegmentedList, VariableList, etc.</para>
+<para>The syntax of an element declaration is as follows:</para>
+<programlisting>&lt;!ELEMENT <symbol>element_type minimization (content model)</symbol>></programlisting>
+<para>Where:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="116*">
+<colspec align="left" colwidth="412*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol>element_type</symbol></para></entry>
+<entry align="left" valign="top"><para>Specifies the element name, which is
+also used as the tag name. For example, the tag for the element type Title
+is &lt;Title>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>minimization</symbol></para></entry>
+<entry align="left" valign="top"><para>A two-character entry that indicates
+whether a start or an end tag is required. The first character represents
+the start tag; the second character represents the end tag. A space separates
+the two characters. The letter <Literal>O</Literal> means that the tag is
+optional. A <literal>-</literal> (minus sign) indicates the tag is required.
+</para><para>For example, an entry like this, <literal>- -</literal>, indicates
+that the element requires both start and end tags. The DTD for DocBook 2.2.1
+requires both start and end tags for the great majority of its elements.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol>content model</symbol></para></entry>
+<entry align="left" valign="top"><para>Specifies a list of the required and
+optional elements that the element type can contain. It defines the sequence
+of elements and, if applicable, the number of occurrences that may occur.
+It also may specify the elements that cannot be contained within the element
+in question.</para></entry></row></tbody></tgroup></informaltable>
+<para>The content model uses these notations:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="106*">
+<colspec align="left" colwidth="422*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><literal>|</literal></para></entry>
+<entry align="left" valign="top"><para>A vertical bar represents &ldquo;or&rdquo;.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>+</literal></para></entry>
+<entry align="left" valign="top"><para>A plus sign after the name of the element
+means the element must appear at least once, and that it can be repeated.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>*</literal></para></entry>
+<entry align="left" valign="top"><para>An asterisk after the name of the element
+means the element can appear zero or more times.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>?</literal></para></entry>
+<entry align="left" valign="top"><para>A question mark after the name of the
+element means the element can appear zero or one time.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>,</para></entry>
+<entry align="left" valign="top"><para>A comma describes sequence, that is,
+the element type before the comma must be followed by the element specified
+after the comma.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>+</literal> (<symbol>element_
+type(s)</symbol>)</para></entry>
+<entry align="left" valign="top"><para>The <literal>+</literal> (plus sign)
+indicates that the listed element or elements enclosed within the parentheses
+can be used within the element type or within any of the elements it contains.
+This is called an inclusion.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>-</literal> (<symbol>element_
+type(s)</symbol>)</para></entry>
+<entry align="left" valign="top"><para>A <literal>-</literal> (minus sign)
+indicates that the listed element or elements enclosed within the parentheses
+cannot be used within this element, or within any of the elements it contains.
+This is called an exclusion.</para></entry></row></tbody></tgroup></informaltable>
+<sect3 id="HRDC.Sgml.div.7">
+<title>Examples</title>
+<para>Each of the following examples shows an element declaration and explains
+what it means.</para>
+<itemizedlist><listitem><para>This declares that the Appendix element requires
+both starting and ending tags. It further declares that Appendix may contain
+an optional DocInfo element, followed by a required Title, and an optional
+TitleAbbrev, followed by one or more of the elements referred to by the entity
+reference "%sect.gp;" (namely, Sect1 and its permitted subcomponents). It
+also declares that the elements referred to by the entity reference "%ubiq.gp;"
+(namely, IndexTerms) can be included within an Appendix or within any of its
+subcomponents.</para>
+<programlisting>&lt;:!ELEMENT Appendix - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;))  +(%ubiq.gp;) >
+</programlisting>
+</listitem><listitem><para>This declares that the OrderedList element requires
+both starting and ending tags, and that it must contain at least one ListItem
+</para>
+<programlisting>&lt;!ELEMENT OrderedList - - (ListItem+) ></programlisting>
+</listitem><listitem><para>This declares that the ListItem element requires
+both starting and ending tags, and that it must contain at least one of the
+group of elements referred to by the entity reference "%component.gp;", which
+includes among other things Paragraphs, Lists, and Tables.</para>
+<programlisting>&lt;!ELEMENT ListItem - - ((%component.gp;)+) ></programlisting>
+</listitem><listitem><para>This declares that the Sect1 element requires both
+starting and ending tags. It further declares that Sect1 has a required Title
+and an optional TitleAbbrev. It next declares that Sect1 can have zero or
+more ToCs, LoTs, Indexes, Glossaries, and Bibliographies (which are the elements
+referred to by the entity reference "%nav.gp;"). It then declares that the
+Sect1 element must contain at least one of the group of elements referred
+to by the entity reference "%component.gp;", which includes among other things
+Paragraphs, Lists,and Tables, and that these will optionally be followed by
+zero or more Sect2s or RefEntries.</para>
+<programlisting>&lt;!ELEMENT Sect1 - - (Title, TitleAbbrev?, (%nav.gp;)*, (((%component.gp;)+, (RefEntry* | Sect2*)) | RefEntry+ | Sect2+), (%nav.gp;)*)  +(%ubiq.gp;) >
+</programlisting>
+</listitem><listitem><para>This declares that the InformalTable element requires
+both starting and ending tags. It further declares that InformalTable must
+contain one or more Graphics or one or more TGroups (this is the meaning of
+the string referred to by the entity reference "%tblcontent.gp;"). It also
+declares that the InformalTable element cannot contain a Table or another
+InformalTable.</para>
+<programlisting>&lt;!ELEMENT InformalTable - - ((%tblcontent.gp;)) -(Table|InformalTable)>
+</programlisting>
+</listitem><listitem><para>This declares that the TGroup element requires
+a start tag but not an end tag, and may contain the following elements in
+the following order: zero or more ColSpecs, zero or more SpanSpecs, zero or
+one THead, zero or one TFoot, and a required TBody.</para>
+<programlisting>&lt;!ELEMENT TGroup - O (ColSpec*, SpanSpec*, THead?, TFoot?, TBody) >
+</programlisting>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.Sgml.div.8">
+<title id="HRDC.Sgml.mkr.5">Element Declaration Keywords</title>
+<para>Some elements include a keyword in the element declaration that describes
+the data content of the element. Three keywords appear in the DTD: <computeroutput>EMPTY</computeroutput>, <computeroutput>CDATA</computeroutput>, and <computeroutput>#PCDATA</computeroutput>.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="110*">
+<colspec align="left" colwidth="418*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput>EMPTY</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Specifies that the element has no data
+content.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>CDATA</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Represents &ldquo;character data.&rdquo;
+That is, the data content of the element is not recognized as markup.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>#PCDATA</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Represents &ldquo;parsed character
+data.&rdquo; That is, the data content may include both text and markup characters
+that the DocBook parser interprets accordingly.</para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="HRDC.Sgml.div.9">
+<title id="HRDC.Sgml.mkr.6">Attribute List Declarations</title>
+<para>An attribute list declares additional properties that further describe
+an element. An attribute list declaration has the syntax:</para>
+<programlisting>&lt;!ATTLIST <symbol>element_type attribute_values default_value</symbol>></programlisting>
+<sect3 id="HRDC.Sgml.div.7a">
+<title>Examples</title>
+<para>Each of the following examples shows an aatribute list declaration and
+explains what it means.</para>
+<itemizedlist><listitem><para>This attribute list declaration means that the
+element Para has the common attributes, and there are no default values for
+them.</para>
+<programlisting>&lt;!ATTLIST Para       %commonatts;    ></programlisting>
+</listitem><listitem><para>This attribute list declaration means that the
+element Sect1 has the common attributes, and also a Label attribute and a
+Renderas attribute. The Label attribute take "character data" for its values,
+and the default value is implied. The Renderas attribute (which can determine
+how the Sect1 is displayed) can take the values Sect2, Sect3, Sect4, or Sect5.
+For example, if Renderas="Sect2", the Sect1 will be displayed with the same
+formatting as a Sect2.</para>
+<programlisting>&lt;!ATTLIST Sect1
+                %commonatts;
+                Label           CDATA           #IMPLIED
+                Renderas        (Sect2 | Sect3 | Sect4 | Sect5)         #IMPLIED         ></programlisting>
+</listitem><listitem><para>This attribute list declaration means that the
+element TFoot has the common attributes, with no default values, and also
+VAlign attribute which can take the values "Top", "Middle", and "Bottom",
+with "Top" as the default value.</para>
+<programlisting>&lt;!ATTLIST TFoot
+                %commonatts;
+                VAlign          (Top | Middle | Bottom) "Top"   ></programlisting>
+</listitem><listitem><para>This attribute list declaration means that the
+element OrderedList has the common attributes, with no default values, and
+also several other attributes.</para>
+<para>The Numeration attribute determines how the ListItems in the OrderedList
+will be numbered: it takes the values "Arabic" (arabic numbers), "Upperalpha"
+(capital letters), "Loweralpha" (lower case letters), "Upperroman" (upper
+case Roman numerals) and "Lowerroman" (lower case Roman numerals).</para>
+<para>The InheritNum attribute determines whether the numeration of an OrderedList
+embedded in another OrderedList will be embedded in the numeration of the
+containing list (so that the items in a list embedded in item 2 of another
+list might be numbered 2a, 2b, 2c,etc.) InheritNum takes the values "Inherit"
+and "Ignore", with "Ignore" as the default.</para>
+<para>The Continuation attributes determines whether the numeration of an
+OrderedList will continue from the numeration of the preceding OrderedList,
+or start anew. It takes the values "Continues" and "Restarts", with "Restarts"
+as the default.</para>
+<programlisting>&lt;!ATTLIST OrderedList
+     %commonatts;
+     Numeration    (Arabic|Uperalpha|Loweralpha|Uperroman|Lowerroman)
+                                           #IMPLIED
+     InheritNum    (Inherit|Ignore)  Ignore
+     Continuation  (Continues|Restarts)   Restarts
+></programlisting>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Sgml.div.10">
+<title id="HRDC.Sgml.mkr.7">Formal Markup</title>
+<para>After you have learned the basic set of elements, using a structured
+editor is the best approach for creating formal markup. With a structured
+editor, the author creates formal markup by choosing elements from a menu.
+In response, the structured editor generates all of the tags required for
+each element. In addition, it verifies that the structural framework being
+created conforms to the Document Type Definition.</para>
+<sect2 id="HRDC.Sgml.div.11">
+<title id="HRDC.Sgml.mkr.8">Formal Markup Caveats</title>
+<para>DocBook is a formal markup language. Nearly every element requires
+a start and an end tag. If the start tag is <symbol>&lt;ElementName></symbol>,
+the end tag will take the form <symbol>&lt;/ElementName></symbol>,with the
+/(forward slash) marking it as the end tag.</para>
+<para>In formal markup, each element, its component parts, and elements it
+contains must be explicitly tagged. For example, here is a schematic formal
+markup for a Row in a Table containing two Entries. (For ease of reading in
+this and other markup examples, tags are indented. Indentation is not required
+in actual markup.)</para>
+<programlisting>&lt;row>
+        &lt;entry align="left" valign="top">
+                &lt;para><symbol>contents of first entry</symbol>&lt;/para>
+        &lt;/entry>
+        &lt;entry align="left"valign="top">
+                &lt;para><symbol>contents of second entry</symbol>&lt;/para>
+        &lt;/entry>
+&lt;row>
+</programlisting>
+<para>Notice that Entry and Para, the subcomponents of the Row, each have
+their own start and end tags.</para>
+</sect2>
+<sect2 id="HRDC.Sgml.div.13">
+<title id="HRDC.Sgml.mkr.9">Explicit Hierarchy of Elements</title>
+<para>Each element declaration in the DTD contributes to a set of rules that
+governs how and where elements can be used. Because elements contain other
+elements, which may contain other elements, a document is a hierarchy of
+elements. At the top level, the Part element is the container for every other
+element in the help volume.</para>
+<para>To decide what markup is necessary to create a help topic, you need
+to become familiar with the rules that govern the DocBook markup laguage.
+</para>
+<para>One way to learn the markup language would be to study the element declarations
+for the components you need to use. For example, suppose you want to create
+a chapter. First, look at the declaration for the Chapter element listed below.
+</para>
+<programlisting>&lt;!ELEMENT Chapter - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;), (Index |
+                Glossary | Bibliography)*) +(%ubiq.gp;) ></programlisting>
+<para>This tells you a Chapter may have a DocInfo component. So next you look
+at the declaration for DocInfo, to see how it is constructed.</para>
+<programlisting>&lt;!ELEMENT DocInfo - - (Title, TitleAbbrev?, Subtitle?, AuthorGroup+, Abstract*, RevHistory?, LegalNotice*) -(%ubiq.gp;) >
+</programlisting>
+<para>This tells you that a DocInfo requires at least a Title and one or more
+AuthorGroups, and may optionally contain various other elements. So next
+you would have check into the declarations for the Title element and the AuthorGroup
+element, to see how they are constructed.</para>
+<programlisting>&lt;!ELEMENT Title - - ((%inlinechar.gp;)+) >
+&lt;!ELEMENT AuthorGroup - - ((Author | Editor | Collab | CorpAuthor |
+                OtherCredit)+) >
+
+</programlisting>
+<para>By continuing along in this fashion until you have investigated all
+the subcomponents of a Chapter, and all the subcomponents of the subcomponents,
+down to the innermost nested element, and mastered how they work, you could
+learn how to construct a Chapter.</para>
+<para>Fortunately, however, using a structured editor minimizes what an author
+needs to know about the DTD and the syntx of the markup tags. The structured
+editor application &ldquo;reads&rdquo; the DTD and creates each element's
+required tags, many of which are intermediate structural tags.</para>
+<sect3 id="HRDC.Sgml.div.14">
+<title>Example</title>
+<para>This formal markup sample is an excerpt from the desktop Text Editor
+help volume. To view the corresponding online information, choose the Help
+Viewer in the Front Panel. Select Common Desktop Environment and then choose
+Text Editor Help from the listed volumes. In the Text Editor volume, choose
+Text Editor Tasks and then To Open an Existing Document.</para>
+<para>Indentation and extra white space is used in this example to make it
+easier to read the text and corresponding element tags. Remember that using
+indentation and extra white space is not necessary in actual markup.</para>
+<programlisting>&lt;sect2 id=&ldquo;TOOPENANEXISTINGDOCUMENT&rdquo;>
+        &lt;title>To Open an Existing Document&lt;/title>
+&lt;para>You can use Text Editor or File Manager to open an existing document.&lt;/para>
+
+&lt;IndexTerm>&lt;primary>document      &lt;secondary>opening&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;IndexTerm>&lt;primary>opening
+        &lt;secondary>existing document&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;para>To open an existing document from the Text Editor:&lt;/para>
+
+&lt;OrderedList>
+&lt;ListItem>
+        &lt;para> Choose Open from the File menu.&lt;/para>
+        &lt;para> The Open a File dialog box lists files and folders on your system. You can browse the documents listed, or change to a new folder to locate other files on your system.&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+        &lt;para> Select the document you want to open in the Files list or type the file name in the Open a File field. &lt;/para>
+        &lt;para>&lt;emphasis>Or,&lt;/emphasis> if the document is not in the current folder, first change to the folder that contains your document. Then choose a name in the Folders list or type the path name of the folder you wish to change to in the Enter path or folder name field.&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+        &lt;para> Press Return or click OK.&lt;/para>
+&lt;/ListItem>
+
+&lt;/OrderedList>
+
+&lt;graphic id="some-graphic-id"        entityref="some-graphic-entity">&lt;/graphic>
+
+&lt;para>To open an existing document from the File Manager:&lt;/para>
+
+&lt;IndexTerm>&lt;primary>opening
+        &lt;secondary>document from File Manager&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;IndexTerm>&lt;primary>document
+        &lt;secondary>opening from File Manager&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;IndexTerm>&lt;primary>File Manager
+        &lt;secondary>opening documents&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;OrderedList>
+
+&lt;ListItem>
+        &lt;para>Display the document's file icon in a File Manager Window.&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+&lt;para> Do <emphasis>one</emphasis> of the following: &lt;/para>
+&lt;InformalList>
+
+&lt;ListItem>
+&lt;para>Double-click the document's file icon.&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+&lt;para>Select the document, then choose Open from the Selected menu.&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+&lt;para>Drag the document to the Text Editor's control in the Front Panel.&lt;/para>
+&lt;/ListItem>
+
+&lt;/InformalList>
+&lt;/ListItem>
+
+&lt;/OrderedList>
+
+&lt;sect3>
+        &lt;title>See Also&lt;/title>
+
+&lt;InformalList>
+
+&lt;ListItem>
+        &lt;para>&lt;xref linkend="some-sect-id" endterm="some-sects-title-id">&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+        &lt;para>&lt;xref linkend="another-sect-id" endterm="another-sects-title-id">&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+        &lt;para>&lt;xref linkend="some-other-sect-id" endterm="some-other-sects-title-id">&lt;/para>
+&lt;/ListItem>
+
+&lt;/InformalList>
+
+&lt;sect3>
+&lt;sect2>
+
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.Sgml.div.15">
+<title id="HRDC.Sgml.mkr.10">File Entity Declarations</title>
+<para>To declare a file entity in formal markup, use this syntax:</para>
+<programlisting>&lt;!entity <symbol>entityname</symbol>  SYSTEM " <symbol>filename</symbol>"></programlisting>
+<para>Where <symbol>entityname</symbol>is the name of the entity and <symbol>filename</symbol> is the name of the file. The keyword <computeroutput>SYSTEM</computeroutput> is required.</para>
+<sect3 id="HRDC.Sgml.div.16">
+<title>Example</title>
+<para>Here are the entity declarations for a help volume that consists of
+three text files and contains a graphic image.</para>
+<programlisting>
+&lt;!entity <symbol>MetaInformation</symbol> SYSTEM "<symbol>metainfo</symbol>">
+
+&lt;!entity <symbol>BasicTasks</symbol> SYSTEM "<symbol>basics</symbol>">
+
+&lt;!entity <symbol>AdvancedFeatures</symbol> SYSTEM "<symbol>advanced</symbol>">
+
+&lt;!entity <symbol>process_diagram</symbol> SYSTEM "<symbol>process.tif</symbol>">
+
+</programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->

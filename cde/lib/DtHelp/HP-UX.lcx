@@ -1,0 +1,606 @@
+!!!!!!!!!!!!!! HP-UX Locale-Related Translations !!!!!!!!!!!!!!
+! File:			HP-UX.lcx
+! Default location:	/usr/dt/config/svc/HP-UX.lcx
+! Purpose:
+!    Define the HP-specific set of locale-related translations.
+! Description:
+!    This file contains the set of all locale-related translations
+!    that  can occur during _DtLcxXlateOpToStd() and _DtLcxStdToOp()
+!    calls on HP platforms. Note that platform-specific tables may
+!    include more than one translation to and from CDE standard
+!    strings if they can be distinguished by version, operation, or
+!    pattern matching.
+!
+!    It is important that additional CDE standard strings only
+!    be created by the CDE owner of the _DtLcx translation service
+!    and NOT be created by an individual vendor or user.  This be because
+!    the purpose of adopting a set of CDE standard strings is to 
+!    support interoperability across platforms.  If individual vendors 
+!    add their own "standard" strings and these strings are not
+!    known on other platforms, then the goal of interoperability
+!    will be defeated.
+!
+!    If you feel that a new CDE standard string is needed,
+!    contact your CDE representative/vendor with a specific
+!    proposal and justification and have them forward it to
+!    the owner of the CDE _DtLcx service.
+!
+!    Note that it is allowed for vendors and users to add new
+!    operations for which translations are specified and which
+!    utilize the standard strings.  If the operations are of
+!    general utility, please bring them to the attention of
+!    your CDE representative/vendor for forwarding to the
+!    _DtLcx owner.
+! Invoked by:
+!    This table is used by the _DtLcx translation service
+! Product:	@(#)Cde1
+! Revision:	$XConsortium: HP-UX.lcx /main/3 1995/10/26 12:23:15 rswiston $
+! Defects:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!! translation specification syntax !!!!!!!!!!!!!!!!!!!
+! Introductory fields:
+! ====================
+! The _DtLcx translation specifications have a fixed number of
+! introductory fields followed by a several standard value
+! fields and the operation-specific value.
+! The introductory fields are:
+!  <platform>.<version range>.<operation(s)>.<kind>
+!
+! Platform generally is the same string as uname(1) -s.
+! Version range utilizes normalized version numbers that 
+!   are acquired using the 'version' translations.
+! Operations are one or more comma-separated strings that
+!   uniquely identify the operation associated with the
+!   operation-specific value.  This string is specified
+!   as part of the request for a translation.
+!
+! Kinds of translations allow the mechanism to support several modes
+!   of operation, each useful for different purposes.  When
+!   reading or writing a specification, pay particular attention
+!   to the kind of specification, as this guides the usage of it.
+!
+! Specification kinds:
+!  .=. means a valid bi-directional translation requiring the op-value 
+!      in the translation specification to exactly match the op-value of 
+!      the call to _DtLcxXlateOpToStd(), e.g. foo matches only foo
+!  .~. means a valid bi-directional translation requiring the op-value 
+!      in the translation specification to match the beginning of the
+!      op-value of the call to _DtLcxXlateOpToStd(), e.g. foo matches 
+!      foo@bar.  This is often useful, e.g. for operation-specific
+!      locale strings that may also contain modifier suffixes.
+!  .>. means only from standard to op-specific (generally a 
+!      compatibility translation, meaning on op-specific value 
+!      that will work for the standard, although that is not 
+!      the straight mapping)
+!  .<. means only from op-specific to standard (generally a
+!      regex in the op-value which is used to map a class of
+!      op values to a standard value)
+!  .0. means that translation is not supported and if a translation
+!      request matches the specification, the request will fail.
+!
+! Standard values:
+! ================
+! _DtLcx defines the order of the standard values in the
+! translations it utilizes.  All translation specifications
+! must adhere to this order.
+!    <std lang_terr>.<std codeset>.<std modifier>
+! In CDE 1.0, no modifiers are standardized and that
+! portion of the table is unspecified.  This means
+! that no CDE standard modifiers are available across
+! platforms.  Operations that use only the <std codeset>
+! should specify the wildcard character ("?") for the 
+! <std lang_terr> value.
+!
+! Operation-specific value:
+! =========================
+! The operation-specific value is a string that is used
+! according to the kind of translation.  The syntax is
+!      : <op-string>
+! or   :  "<op-string>", if it contains white space
+!
+! Filling in the table of translations:
+! =====================================
+! The person preparing the translation table should know 
+! the minimum version of the target platform that is
+! be supported.  For example, assume that we must
+! complete the table for all versions 9.00 and higher.
+! 
+! The objective is then to provide two sets of translations:
+! a full set of translations from CDE standard locales to
+! valid platform locales, and a full set of translations
+! from valid platform locales to some or all CDE standard
+! locales.  
+! 
+! Translations from CDE standard locales to valid platform
+! locales must use the .~. .=. or .>. mappings.  When there 
+! is a 1:1 mapping between a CDE locale and a platform locale, 
+! use the .~. or .=. mapping.  See the comment below to 
+! decide which to use.  When there is no 1:1 mapping between 
+! CDE locale and platform locale, use the .>. mapping.  This 
+! provides a valid translation from the CDE locale to the 
+! best-suitable platform locale, but never translates from 
+! that platform locale to the CDE locale.
+! 
+! Translations from every platform locale to the appropriate 
+! CDE locale must use the .~. .=. or .<. mappings.
+! When there is a 1:1 mapping between a platform locale and
+! a CDE standard locale, use the .~. or .=. mapping.  See the
+! comment below to decide which to use.  If there is a 1:1
+! mapping, but the platform locale pattern uses a regular
+! expression, or if more than one platform locale can 
+! be translated to one CDE standard locale, the .<. mapping must 
+! be used.  
+! 
+! If no appropriate CDE standard locale can be found, you have 
+! identified the need for a new CDE standard locale.  Refer to 
+! the instructions at the head of this file for how to go about 
+! registering a new CDE standard locale.  You should not create 
+! a new "standard" locale (the left hand side of the translation 
+! specification) without registering it with CDE, because this 
+! will hinder the free exchange of information across locales 
+! and platforms.
+! 
+! The .=. and .~. mappings are similar.  The difference is
+! that the .=. mapping requires an exact string match between
+! the platform locale and the string provided to the
+! translation routine.  Generally speaking, this mapping
+! is risky unless exact matchings can be guaranteed in
+! all DtLcx clients for the particular operation in question.
+! The .~. mapping is to be preferred, but the .=. translation
+! is useful in limited situations, where similar strings may
+! occur.
+! 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+! uncomment this resource to debug/test the translation db
+!*debugDtXlate: True
+
+!!!!!!!!!!!!!!!! HP Version Identificaton !!!!!!!!!!!!!!!!!
+! These translations are used by the _DtXlateGetXlateEnv()
+! call to determine the version number to use.
+!
+! To understand the translation, realize that the
+! operation-specific regexp(5) pattern on the right
+! hand side is matched against the strings returned
+! by uname(2).  The best match determines the "normalized"
+! version number of the platform, which should range from 
+! 001 and up.  By convention, major release numbers
+! map to centuries and minor release numbers to within
+! the century.
+!
+! To determine the string that the regular expression on the
+! right hand side is matching against, use uname(1) and run
+! 'uname -r' and 'uname -v' and note the strings.  During execution,
+! the strings returned by this command are retrieved and
+! concatenated "rv"--in that order, no extra spaces.
+! This is the string that the pattern must match.
+!
+! Sometimes this string may not be intuitive.  For example,
+! note that AIX 3.2 returns 2 for 'uname -r' and 3 for 'uname -v'.
+! So the pattern string must be 23, not 32.  Do not go by
+! the order of 'uname -rv' or 'uname -vr', as that is not used.
+!!!
+HP-UX.?.version.<.1000:  "[A-Z]\\.10\\.00"       !! any HPUX 10.00 version
+HP-UX.?.version.<.1001:  "[A-Z]\\.10\\..*"       !! any HPUX 10.x version
+HP-UX.?.version.<.900:   "[A-Z]\\.09\\..*"       !! any HPUX 9.x version
+HP-UX.?.version.<.903:   "[A-Z]\\.09\\.0[3-9].*" !! any HPUX 9.03-9.09 version
+HP-UX.?.version.<.910:   "[A-Z]\\.09\\.[1-9].*"  !! any HPUX 9.1+ version
+HP-UX.?.version.<.800:   "[A-Z]\\.08\\..*"       !! any HPUX 8.x version
+
+
+!!!!!!!!!!!!!!!! HP-specific setlocale translations !!!!!!!!!!!!!!!!!!!
+! These translations are for the string returned by the
+! getlocale() or setlocale(LC_xxx,NULL) operations, but not
+! setlocale(LC_ALL,NULL) operation.
+!
+! It provides translations from HP operation-specific
+! to CDE standard strings and back again.
+!
+! Some language,territory combinations have the following comments:
+!  (1) These ISO territory names may be subject to change
+!      However, their CDE names will continue to be supported
+!  (2) No ISO "territory" name exists for the Arabic-speaking regions of the
+!      world as a whole.  Vendors have sometimes supplied their own.
+!      Those names, when conformant to the ISO model, will be adopted for CDE.
+!
+!Platform Operation Lang_Terr           Op-Value		Language,Territory           Who has
+!---     ---------   ----- 		--------		------------------           -------
+!   Version      Kind      Codeset
+!   ----           -       ---------
+
+! setlocales Compliance
+HP-UX.700+.setlocale.~.C.HP-ROMAN8:     C			 ! setlocales compliance           ,IBM, HP, Sun       , USL
+HP-UX.700+.setlocale.<.C.HP-ROMAN8:     C.roman8		 ! setlocales compliance           ,IBM, HP, Sun       , USL
+HP-UX.700+.setlocale.~.C.ISO-8859-1:     C.iso88591		 ! setlocales compliance           ,IBM, HP, Sun       , USL
+HP-UX.700+.setlocale.~.POSIX.HP-ROMAN8: POSIX			 ! setlocales compliance           ,IBM, HP, Sun       , USL
+HP-UX.700+.setlocale.<.POSIX.HP-ROMAN8: POSIX.roman8		 ! setlocales compliance           ,IBM, HP, Sun       , USL
+HP-UX.700+.setlocale.~.POSIX.ISO-8859-1: POSIX.iso88591		 ! setlocales compliance           ,IBM, HP, Sun       , USL
+
+! W European/Americas, Latin 1 codeset
+HP-UX.700+.setlocale.~.da_DK.ISO-8859-1:	danish.iso88591          ! Danish, Denmark            XoJIG,IBM, HP,           , USL ("da")
+HP-UX.700+.setlocale.>.de_AT.ISO-8859-1:	german.iso88591          ! German,Austria             XoJIG,   ,   ,           , USL        
+HP-UX.700+.setlocale.>.de_CH.ISO-8859-1:	german.iso88591          ! German,Switzerland         XoJIG,IBM,   ,           , USL        
+HP-UX.700+.setlocale.~.de_DE.ISO-8859-1:	german.iso88591          ! German, Germany            XoJIG,IBM, HP, Sun ("de"), USL ("de")
+HP-UX.700+.setlocale.>.en_AU.ISO-8859-1:	english.iso88591         ! English,Australia               ,   ,   ,           , USL
+HP-UX.700+.setlocale.>.en_CA.ISO-8859-1:	english.iso88591         ! English,Canada             XoJIG,   ,   ,           , USL        
+HP-UX.700+.setlocale.>.en_DK.ISO-8859-1:	english.iso88591         ! English, Denmark           XoJIG,   ,   ,           , USL        
+HP-UX.700+.setlocale.>.en_GB.ISO-8859-1:	english.iso88591         ! English, U.K.              XoJIG,IBM, HP,           , USL ("en")
+HP-UX.700+.setlocale.>.en_JP.ISO-8859-1:	english.iso88591         ! English, Japan             XoJIG,IBM,   ,           , 
+HP-UX.700+.setlocale.>.en_IE.ISO-8859-1:	english.iso88591         ! English, Ireland           XoJIG,   ,   ,           , USL        
+HP-UX.700+.setlocale.>.en_KR.ISO-8859-1:	english.iso88591         ! English,Korea                   ,   ,   ,           , 
+HP-UX.700+.setlocale.>.en_MY.ISO-8859-1:	english.iso88591         ! English,Malaysia                ,   ,   ,           , USL        
+HP-UX.700+.setlocale.>.en_NZ.ISO-8859-1:	english.iso88591         ! English,New Zealand             ,   ,   ,           , USL
+HP-UX.700+.setlocale.>.en_TW.ISO-8859-1:	english.iso88591         ! English,Taiwan                  ,   ,   ,           , 
+HP-UX.700+.setlocale.~.en_US.ISO-8859-1:	english.iso88591         ! English, USA               XoJIG,IBM, HP, Sun       , USL
+HP-UX.700+.setlocale.>.es_AR.ISO-8859-1:	spanish.iso88591         ! Spanish, Argentina              ,   ,   , Sun       , USL
+HP-UX.700+.setlocale.>.es_BO.ISO-8859-1:	spanish.iso88591         ! Spanish, Bolivia                ,   ,   , Sun
+HP-UX.700+.setlocale.>.es_CL.ISO-8859-1:	spanish.iso88591         ! Spanish, Chile                  ,   ,   , Sun       , USL
+HP-UX.700+.setlocale.>.es_CO.ISO-8859-1:	spanish.iso88591         ! Spanish, Columbia               ,   ,   , Sun
+HP-UX.700+.setlocale.>.es_CR.ISO-8859-1:	spanish.iso88591         ! Spanish, Costa Rica             ,   ,   , Sun
+HP-UX.700+.setlocale.>.es_EC.ISO-8859-1:	spanish.iso88591         ! Spanish, Ecuador                ,   ,   , Sun
+HP-UX.700+.setlocale.~.es_ES.ISO-8859-1:	spanish.iso88591         ! Spanish, Spain             XoJIG,IBM, HP, Sun       , USL
+HP-UX.700+.setlocale.>.es_GT.ISO-8859-1:	spanish.iso88591         ! Spanish, Guatemala              ,   ,   , Sun
+HP-UX.700+.setlocale.>.es_MX.ISO-8859-1:	spanish.iso88591         ! Spanish, Mexico                 ,   ,   , Sun       , USL
+HP-UX.700+.setlocale.>.es_PE.ISO-8859-1:	spanish.iso88591         ! Spanish, Peru                   ,   ,   , Sun
+HP-UX.700+.setlocale.>.es_UY.ISO-8859-1:	spanish.iso88591         ! Spanish, Uruguay                ,   ,   , Sun
+HP-UX.700+.setlocale.>.es_VE.ISO-8859-1:	spanish.iso88591         ! Spanish, Venezuela              ,   ,   , Sun       , USL
+! HP-UX.700+.setlocale.>.et_EE.ISO-8859-1:		 	         ! Estonian, Estonia          XoJIG, 
+HP-UX.700+.setlocale.~.fi_FI.ISO-8859-1:	finnish.iso88591         ! Finnish, Finland           XoJIG,IBM, HP,           , USL ("fi")
+! HP-UX.700+.setlocale.>.fo_FO.ISO-8859-1:		  	         ! Faroese, Faeroe Island     XoJIG,
+HP-UX.700+.setlocale.>.fr_BE.ISO-8859-1:	french.iso88591          ! French,Belgium             XoJIG,   ,   ,           , USL        
+HP-UX.700+.setlocale.~.fr_CA.ISO-8859-1:	c-french.iso88591        ! French, Canada             XoJIG,IBM, HP,           , USL
+HP-UX.700+.setlocale.>.fr_CH.ISO-8859-1:	french.iso88591          ! French, Switzerland        XoJIG,IBM,   ,           , USL
+HP-UX.700+.setlocale.~.fr_FR.ISO-8859-1:	french.iso88591          ! French, France             XoJIG,IBM, HP, Sun ("fr"), USL ("fr")
+HP-UX.700+.setlocale.~.is_IS.ISO-8859-1:	icelandic.iso88591       ! Icelandic, Iceland         XoJIG,IBM, HP,           , USL ("is")
+HP-UX.700+.setlocale.>.it_CH.ISO-8859-1:	italian.iso88591         ! Italian,Switzerland             ,   ,   ,           , USL        
+HP-UX.700+.setlocale.~.it_IT.ISO-8859-1:	italian.iso88591         ! Italian, Italy             XoJIG,IBM, HP, Sun ("it"), USL ("it")
+! HP-UX.700+.setlocale.>.kl_GL.ISO-8859-1:		   	         ! Greenlandic, Greenland     XoJIG,
+! HP-UX.700+.setlocale.>.lt_LT.ISO-8859-1:		   	         ! Lithuanian, Lithuania      XoJIG,
+! HP-UX.700+.setlocale.>.lv_LV.ISO-8859-1:		    	         ! Latvian, Latvia            XoJIG,
+HP-UX.700+.setlocale.>.nl_BE.ISO-8859-1:	dutch.iso88591           ! Dutch, Belgium             XoJIG,IBM,   ,           , USL
+HP-UX.700+.setlocale.~.nl_NL.ISO-8859-1:	dutch.iso88591           ! Dutch, The Netherlands     XoJIG,IBM, HP,           , USL ("nl")
+HP-UX.700+.setlocale.~.no_NO.ISO-8859-1:	norwegian.iso88591       ! Norwegian, Norway          XoJIG,IBM, HP,           , USL ("no")
+HP-UX.700+.setlocale.>.pt_BR.ISO-8859-1:	portuguese.iso88591      ! Portuguese,Brazil               ,   ,   ,           , USL
+HP-UX.700+.setlocale.~.pt_PT.ISO-8859-1:	portuguese.iso88591      ! Portuguese, Portugal       XoJIG,IBM, HP,           , USL
+HP-UX.700+.setlocale.>.sv_FI.ISO-8859-1:	swedish.iso88591         ! Swedish, Finland           XoJIG,
+HP-UX.700+.setlocale.~.sv_SE.ISO-8859-1:	swedish.iso88591         ! Swedish, Sweden            XoJIG,IBM, HP, Sun ("sv"), USL ("sv") 
+
+! W European/Americas, HP-ROMAN8 codeset
+HP-UX.700+.setlocale.~.da_DK.HP-ROMAN8:	danish          ! Danish, Denmark                 ,   , HP
+HP-UX.700+.setlocale.~.de_DE.HP-ROMAN8:	german          ! German, Germany                 ,   , HP
+HP-UX.700+.setlocale.>.en_GB.HP-ROMAN8:	english         ! English, U.K.                   ,   , HP
+HP-UX.700+.setlocale.~.en_US.HP-ROMAN8:	english         ! English, USA                    ,   , HP
+HP-UX.700+.setlocale.~.es_ES.HP-ROMAN8:	spanish         ! Spanish, Spain                  ,   , HP
+HP-UX.700+.setlocale.~.fi_FI.HP-ROMAN8:	finnish         ! Finnish, Finland                ,   , HP
+HP-UX.700+.setlocale.~.fr_CA.HP-ROMAN8:	c-french        ! French, Canada                  ,   , HP
+HP-UX.700+.setlocale.~.fr_FR.HP-ROMAN8:	french          ! French, France                  ,   , HP
+HP-UX.700+.setlocale.~.is_IS.HP-ROMAN8:	icelandic       ! Icelandic, Iceland              ,   , HP
+HP-UX.700+.setlocale.~.it_IT.HP-ROMAN8:	italian         ! Italian, Italy                  ,   , HP
+HP-UX.700+.setlocale.~.nl_NL.HP-ROMAN8:	dutch           ! Dutch, The Netherlands          ,   , HP
+HP-UX.700+.setlocale.~.no_NO.HP-ROMAN8:	norwegian       ! Norwegian, Norway               ,   , HP
+HP-UX.700+.setlocale.~.pt_PT.HP-ROMAN8:	portuguese      ! Portuguese, Portugal            ,   , HP
+HP-UX.700+.setlocale.~.sv_SE.HP-ROMAN8:	swedish         ! Swedish, Sweden                 ,   , HP
+
+! E European 
+HP-UX.700+.setlocale.~.cs_CS.ISO-8859-2:	czech           ! Czech(1)                        ,IBM, HP
+! HP-UX.700+.setlocale.>.hr_HR.ISO-8859-2:		        ! Croatian, Croatia               ,IBM
+HP-UX.700+.setlocale.~.hu_HU.ISO-8859-2:	hungarian       ! Hungarian, Hungry          XoJIG,IBM, HP
+HP-UX.700+.setlocale.~.pl_PL.ISO-8859-2:	polish          ! Polish, Poland             XoJIG,IBM, HP 
+HP-UX.700+.setlocale.~.ro_RO.ISO-8859-2:	rumanian        ! Rumanian, Romania          XoJIG,IBM, HP
+HP-UX.700+.setlocale.~.sh_YU.ISO-8859-2:	serbocroatian   ! Serbocroatian, Yugoslavia(1)    ,IBM, HP 
+HP-UX.700+.setlocale.~.sl_CS.ISO-8859-2:	slovene         ! Slovenian                       ,IBM, HP
+HP-UX.700+.setlocale.>.si_SI.ISO-8859-2:	slovene         ! Slovenian                       ,IBM, HP
+! HP-UX.700+.setlocale.>.sk_SK.ISO-8859-2:		        ! Slovak                          ,IBM
+
+! Cyrillic 
+HP-UX.700+.setlocale.~.bg_BG.ISO-8859-5:	bulgarian       ! Bulgarian, Bulgaria             ,IBM, HP
+! HP-UX.700+.setlocale.>.mk_MK.ISO-8859-5:		        ! Macedonian                      ,IBM
+HP-UX.700+.setlocale.~.ru_RU.ISO-8859-5:	russian         ! Russian(1)                      ,IBM, HP
+HP-UX.700+.setlocale.>.ru_SU.ISO-8859-5:	russian         ! Russian(1)                      ,IBM, HP
+! HP-UX.700+.setlocale.>.sp_YU.ISO-8859-5:	       		! Serbian,Yugoslavia(1)           ,IBM
+
+! Arabic 
+HP-UX.700+.setlocale.~.ar_DZ.ISO-8859-6:	 arabic.iso88596  ! Arabic(2)                       ,IBM, HP
+HP-UX.700+.setlocale.~.ar_DZ.HP-ARABIC8: arabic-w         ! Arabic(2)                       ,   , HP
+HP-UX.700+.setlocale.~.ar_SA.ISO-8859-6:	 arabic.iso88596  ! Arabic(2)                       ,IBM, HP
+HP-UX.700+.setlocale.~.ar_SA.HP-ARABIC8: arabic   	  ! Arabic(2)                       ,   , HP
+
+! Hebrew 
+HP-UX.700+.setlocale.~.iw_IL.ISO-8859-8:  hebrew.iso88598  ! Hebrew, Israel                  ,IBM, HP
+HP-UX.700+.setlocale.~.iw_IL.HP-HEBREW8: hebrew   	  ! Hebrew, Israel                  ,   , HP
+
+! Greek 
+HP-UX.700+.setlocale.~.el_GR.ISO-8859-7:	greek.iso88597    ! Greek, Greece                   ,IBM, HP
+HP-UX.700+.setlocale.~.el_GR.HP-GREEK8:	greek	          ! Greek, Greece                   ,   , HP
+
+! Turkish 
+HP-UX.700+.setlocale.~.tr_TR.ISO-8859-9:	  turkish.iso88599 ! Turkish, Turkey                 ,IBM, HP
+HP-UX.700+.setlocale.~.tr_TR.HP-TURKISH8: turkish          ! Turkish, Turkey                 ,   , HP
+
+! East Asia 
+HP-UX.700+.setlocale.~.ja_JP.EUC-JP:	japanese.euc       ! Japanese, Japan                 ,IBM, HP, Sun ("ja"), USL
+HP-UX.700+.setlocale.~.ja_JP.HP-SJIS:	japanese           ! Japanese, Japan aka japanese 15 ,   , HP, 
+HP-UX.700+.setlocale.>.ja_JP.IBM-932:	japanese           ! Japanese, Japan                 ,IBM, HP, Sun ("ja"), USL
+HP-UX.700+.setlocale.~.ja_JP.HP-KANA8:	katakana           ! Japanese, Japan                 ,   , HP,           , 
+HP-UX.700+.setlocale.<.ja_JP.EUC-JP:	ujis               ! Japanese, Japan                 ,   , HP, 
+HP-UX.700+.setlocale.~.ko_KR.EUC-KR:	korean             ! Korean, Korea                   ,IBM, HP, Sun ("ko"), USL
+HP-UX.700+.setlocale.>.zh_CN.EUC-CN:	chinese-s          ! Chinese, China                  ,IBM,   , Sun ("zh"), USL 
+HP-UX.700+.setlocale.~.zh_CN.HP-15CN:	chinese-s          ! Chinese, China                  ,   , HP
+HP-UX.700+.setlocale.~.zh_TW.EUC-TW:	zh_TW.eucTW        ! Chinese, Taiwan                 ,IBM, HP, Sun       , USL
+HP-UX.700+.setlocale.~.zh_TW.HP-BIG5:	chinese-t.big5     ! Chinese, Taiwan                 ,   , HP,           , 
+HP-UX.700+.setlocale.~.zh_TW.HP-CCDC:	chinese-t          ! Chinese, Taiwan                 ,   , HP,           , 
+
+! Thai 
+HP-UX.700+.setlocale.~.th_TH.TIS-620:	thai               ! Thai, Thailand                  ,IBM, HP
+
+! setlocales Compliance; default codeset on 10.01 systems
+HP-UX.1000+.setlocale.~.C.ISO-8859-1:            C		       ! setlocales compliance           ,IBM, HP, Sun       , USL
+HP-UX.1000+.setlocale.~.POSIX.ISO-8859-1:        POSIX		       ! setlocales compliance           ,IBM, HP, Sun       , USL
+
+! W European/Americas, Latin 1 codeset
+HP-UX.1000+.setlocale.>.de_AT.ISO-8859-1:	de_DE.iso88591         ! German,Austria             XoJIG,   ,   ,           , USL        
+HP-UX.1000+.setlocale.>.de_CH.ISO-8859-1:	de_DE.iso88591         ! German,Switzerland         XoJIG,IBM,   ,           , USL        
+HP-UX.1000+.setlocale.~.de_DE.ISO-8859-1:	de_DE.iso88591         ! German, Germany            XoJIG,IBM, HP, Sun ("de"), USL ("de")
+HP-UX.1000+.setlocale.>.en_AU.ISO-8859-1:	en_GB.iso88591         ! English,Australia               ,   ,   ,           , USL
+HP-UX.1000+.setlocale.>.en_CA.ISO-8859-1:	en_US.iso88591         ! English,Canada             XoJIG,   ,   ,           , USL        
+HP-UX.1000+.setlocale.>.en_DK.ISO-8859-1:	en_GB.iso88591         ! English, Denmark           XoJIG,   ,   ,           , USL        
+HP-UX.1000+.setlocale.>.en_GB.ISO-8859-1:	en_GB.iso88591         ! English, U.K.              XoJIG,IBM, HP,           , USL ("en")
+HP-UX.1000+.setlocale.>.en_JP.ISO-8859-1:	en_GB.iso88591         ! English, Japan             XoJIG,IBM,   ,           , 
+HP-UX.1000+.setlocale.>.en_IE.ISO-8859-1:	en_GB.iso88591         ! English, Ireland           XoJIG,   ,   ,           , USL        
+HP-UX.1000+.setlocale.>.en_MY.ISO-8859-1:	en_US.iso88591         ! English,Malaysia                ,   ,   ,           , USL        
+HP-UX.1000+.setlocale.>.en_NZ.ISO-8859-1:	en_GB.iso88591         ! English,New Zealand             ,   ,   ,           , USL
+HP-UX.1000+.setlocale.~.en_US.ISO-8859-1:	en_US.iso88591         ! English, USA               XoJIG,IBM, HP, Sun       , USL
+HP-UX.1000+.setlocale.>.es_AR.ISO-8859-1:	es_ES.iso88591         ! Spanish, Argentina              ,   ,   , Sun       , USL
+HP-UX.1000+.setlocale.>.es_BO.ISO-8859-1:	es_ES.iso88591         ! Spanish, Bolivia                ,   ,   , Sun
+HP-UX.1000+.setlocale.>.es_CL.ISO-8859-1:	es_ES.iso88591         ! Spanish, Chile                  ,   ,   , Sun       , USL
+HP-UX.1000+.setlocale.>.es_CO.ISO-8859-1:	es_ES.iso88591         ! Spanish, Columbia               ,   ,   , Sun
+HP-UX.1000+.setlocale.>.es_CR.ISO-8859-1:	es_ES.iso88591         ! Spanish, Costa Rica             ,   ,   , Sun
+HP-UX.1000+.setlocale.>.es_EC.ISO-8859-1:	es_ES.iso88591         ! Spanish, Ecuador                ,   ,   , Sun
+HP-UX.1000+.setlocale.~.es_ES.ISO-8859-1:	es_ES.iso88591         ! Spanish, Spain             XoJIG,IBM, HP, Sun       , USL
+HP-UX.1000+.setlocale.>.es_GT.ISO-8859-1:	es_ES.iso88591         ! Spanish, Guatemala              ,   ,   , Sun
+HP-UX.1000+.setlocale.>.es_MX.ISO-8859-1:	es_ES.iso88591         ! Spanish, Mexico                 ,   ,   , Sun       , USL
+HP-UX.1000+.setlocale.>.es_PE.ISO-8859-1:	es_ES.iso88591         ! Spanish, Peru                   ,   ,   , Sun
+HP-UX.1000+.setlocale.>.es_UY.ISO-8859-1:	es_ES.iso88591         ! Spanish, Uruguay                ,   ,   , Sun
+HP-UX.1000+.setlocale.>.es_VE.ISO-8859-1:	es_ES.iso88591         ! Spanish, Venezuela              ,   ,   , Sun       , USL
+! HP-UX.1000+.setlocale.>.et_EE.ISO-8859-1:			       ! Estonian, Estonia          XoJIG, 
+HP-UX.1000+.setlocale.~.fi_FI.ISO-8859-1:	fi_FI.iso88591	       ! Finnish, Finland           XoJIG,IBM, HP,           , USL ("fi")
+! HP-UX.1000+.setlocale.>.fo_FO.ISO-8859-1:			       ! Faroese, Faeroe Island     XoJIG,
+HP-UX.1000+.setlocale.>.fr_BE.ISO-8859-1:	fr_FR.iso88591         ! French,Belgium             XoJIG,   ,   ,           , USL        
+HP-UX.1000+.setlocale.~.fr_CA.ISO-8859-1:	fr_CA.iso88591         ! French, Canada             XoJIG,IBM, HP,           , USL
+HP-UX.1000+.setlocale.>.fr_CH.ISO-8859-1:	fr_FR.iso88591         ! French, Switzerland        XoJIG,IBM,   ,           , USL
+HP-UX.1000+.setlocale.~.fr_FR.ISO-8859-1:	fr_FR.iso88591         ! French, France             XoJIG,IBM, HP, Sun ("fr"), USL ("fr")
+HP-UX.1000+.setlocale.~.is_IS.ISO-8859-1:	is_IS.iso88591         ! Icelandic, Iceland         XoJIG,IBM, HP,           , USL ("is")
+HP-UX.1000+.setlocale.>.it_CH.ISO-8859-1:	it_IT.iso88591         ! Italian,Switzerland             ,   ,   ,           , USL        
+HP-UX.1000+.setlocale.~.it_IT.ISO-8859-1:	it_IT.iso88591         ! Italian, Italy             XoJIG,IBM, HP, Sun ("it"), USL ("it")
+! HP-UX.1000+.setlocale.>.kl_GL.ISO-8859-1:			       ! Greenlandic, Greenland     XoJIG,
+! HP-UX.1000+.setlocale.>.lt_LT.ISO-8859-1:			       ! Lithuanian, Lithuania      XoJIG,
+! HP-UX.1000+.setlocale.>.lv_LV.ISO-8859-1:			       ! Latvian, Latvia            XoJIG,
+HP-UX.1000+.setlocale.>.nl_BE.ISO-8859-1:	nl_NL.iso88591         ! Dutch, Belgium             XoJIG,IBM,   ,           , USL
+HP-UX.1000+.setlocale.~.nl_NL.ISO-8859-1:	nl_NL.iso88591         ! Dutch, The Netherlands     XoJIG,IBM, HP,           , USL ("nl")
+HP-UX.1000+.setlocale.~.no_NO.ISO-8859-1:	no_NO.iso88591         ! Norwegian, Norway          XoJIG,IBM, HP,           , USL ("no")
+HP-UX.1000+.setlocale.>.pt_BR.ISO-8859-1:	pt_PT.iso88591         ! Portuguese,Brazil               ,   ,   ,           , USL
+HP-UX.1000+.setlocale.~.pt_PT.ISO-8859-1:	pt_PT.iso88591         ! Portuguese, Portugal       XoJIG,IBM, HP,           , USL
+HP-UX.1000+.setlocale.>.sv_FI.ISO-8859-1:	sv_SE.iso88591         ! Swedish, Finland           XoJIG,
+HP-UX.1000+.setlocale.~.sv_SE.ISO-8859-1:	sv_SE.iso88591         ! Swedish, Sweden            XoJIG,IBM, HP, Sun ("sv"), USL ("sv") 
+
+! W European/Americas, HP-ROMAN8 codeset
+HP-UX.1000+.setlocale.~.da_DK.HP-ROMAN8:	da_DK.roman8         ! Danish, Denmark                 ,   , HP
+HP-UX.1000+.setlocale.~.de_DE.HP-ROMAN8:	de_DE.roman8         ! German, Germany                 ,   , HP
+HP-UX.1000+.setlocale.~.en_GB.HP-ROMAN8:	en_GB.roman8         ! English, U.K.                   ,   , HP
+HP-UX.1000+.setlocale.~.en_US.HP-ROMAN8:	en_US.roman8         ! English, USA                    ,   , HP
+HP-UX.1000+.setlocale.~.es_ES.HP-ROMAN8:	es_ES.roman8         ! Spanish, Spain                  ,   , HP
+HP-UX.1000+.setlocale.~.fi_FI.HP-ROMAN8:	fi_FI.roman8         ! Finnish, Finland                ,   , HP
+HP-UX.1000+.setlocale.~.fr_CA.HP-ROMAN8:	fr_CA.roman8         ! French, Canada                  ,   , HP
+HP-UX.1000+.setlocale.~.fr_FR.HP-ROMAN8:	fr_FR.roman8         ! French, France                  ,   , HP
+HP-UX.1000+.setlocale.~.is_IS.HP-ROMAN8:	is_IS.roman8         ! Icelandic, Iceland              ,   , HP
+HP-UX.1000+.setlocale.~.it_IT.HP-ROMAN8:	it_IT.roman8         ! Italian, Italy                  ,   , HP
+HP-UX.1000+.setlocale.~.nl_NL.HP-ROMAN8:	nl_NL.roman8         ! Dutch, The Netherlands          ,   , HP
+HP-UX.1000+.setlocale.~.no_NO.HP-ROMAN8:	no_NO.roman8         ! Norwegian, Norway               ,   , HP
+HP-UX.1000+.setlocale.~.pt_PT.HP-ROMAN8:	pt_PT.roman8         ! Portuguese, Portugal            ,   , HP
+HP-UX.1000+.setlocale.~.sv_SE.HP-ROMAN8:	sv_SE.roman8         ! Swedish, Sweden                 ,   , HP
+
+! E European 
+HP-UX.1000+.setlocale.~.cs_CS.ISO-8859-2:	cs_CS.iso88592         ! Czech(1)                        ,IBM, HP
+! HP-UX.1000+.setlocale.>.hr_HR.ISO-8859-2:			       ! Croatian, Croatia               ,IBM
+HP-UX.1000+.setlocale.~.hu_HU.ISO-8859-2:	hu_HU.iso88592         ! Hungarian, Hungry          XoJIG,IBM, HP
+HP-UX.1000+.setlocale.~.pl_PL.ISO-8859-2:	pl_PL.iso88592         ! Polish, Poland             XoJIG,IBM, HP 
+HP-UX.1000+.setlocale.~.ro_RO.ISO-8859-2:	ro_RO.iso88592         ! Rumanian, Romania          XoJIG,IBM, HP
+HP-UX.1000+.setlocale.~.sh_YU.ISO-8859-2:	sh_YU.iso88592         ! Serbocroatian, Yugoslavia(1)    ,IBM, HP 
+HP-UX.1000+.setlocale.~.sl_CS.ISO-8859-2:	sl_CS.iso88592         ! Slovenian                       ,IBM, HP
+! HP-UX.1000+.setlocale.>.si_SI.ISO-8859-2:			       ! Slovenian                       ,IBM, HP
+! HP-UX.1000+.setlocale.>.sk_SK.ISO-8859-2:			       ! Slovak                          ,IBM
+
+! Cyrillic 
+HP-UX.1000+.setlocale.~.bg_BG.ISO-8859-5:	bg_BG.iso88595		! Bulgarian, Bulgaria             ,IBM, HP
+! HP-UX.1000+.setlocale.>.mk_MK.ISO-8859-5:				! Macedonian                      ,IBM
+HP-UX.1000+.setlocale.>.ru_RU.ISO-8859-5:	ru_SU.iso88595 		! Russian(1)                      ,IBM, HP
+HP-UX.1000+.setlocale.~.ru_SU.ISO-8859-5:	ru_SU.iso88595 		! Russian(1)                      ,IBM, HP
+! HP-UX.1000+.setlocale.>.sp_YU.ISO-8859-5:				! Serbian,Yugoslavia(1)           ,IBM
+
+! Arabic 
+HP-UX.1000+.setlocale.>.ar_DZ.ISO-8859-6:	ar_SA.iso88596 		! Arabic(2)                       ,IBM, HP
+HP-UX.1000+.setlocale.~.ar_DZ.HP-ARABIC8:	ar_DZ.arabic8 		! Arabic(2)                       ,   , HP
+HP-UX.1000+.setlocale.~.ar_SA.ISO-8859-6:	ar_SA.iso88596 		! Arabic(2)                       ,IBM, HP
+HP-UX.1000+.setlocale.~.ar_SA.HP-ARABIC8:	ar_SA.arabic8 		! Arabic(2)                       ,   , HP
+
+! Hebrew 
+HP-UX.1000+.setlocale.~.iw_IL.ISO-8859-8:	iw_IL.iso88598		! Hebrew, Israel                  ,IBM, HP
+HP-UX.1000+.setlocale.~.iw_IL.HP-HEBREW8:	iw_IL.hebrew8		! Hebrew, Israel                  ,   , HP
+
+! Greek 
+HP-UX.1000+.setlocale.~.el_GR.ISO-8859-7:	el_GR.iso88597		! Greek, Greece                   ,IBM, HP
+HP-UX.1000+.setlocale.~.el_GR.HP-GREEK8:	el_GR.greek8		! Greek, Greece                   ,   , HP
+
+! Turkish 
+HP-UX.1000+.setlocale.~.tr_TR.ISO-8859-9:	tr_TR.iso88599		! Turkish, Turkey                 ,IBM, HP
+HP-UX.1000+.setlocale.~.tr_TR.HP-TURKISH8:	tr_TR.turkish8		! Turkish, Turkey                 ,   , HP
+
+! East Asia 
+HP-UX.1000+.setlocale.~.ja_JP.EUC-JP:	ja_JP.eucJP             ! Japanese, Japan                 ,IBM, HP, Sun ("ja"), USL
+HP-UX.1000+.setlocale.~.ja_JP.HP-SJIS:	ja_JP.SJIS              ! Japanese, Japan                 ,IBM, HP, Sun ("ja"), USL
+HP-UX.1000+.setlocale.>.ja_JP.IBM-932:	ja_JP.SJIS              ! Japanese, Japan                 ,IBM, HP, Sun ("ja"), USL
+HP-UX.1000+.setlocale.~.ja_JP.HP-KANA8:	ja_JP.kana8  		! Japanese, Japan                 ,   , HP,           , 
+HP-UX.1000+.setlocale.~.ko_KR.EUC-KR:	ko_KR.eucKR             ! Korean, Korea                   ,IBM, HP, Sun ("ko"), USL
+HP-UX.1000+.setlocale.>.zh_CN.EUC-CN:	zh_CN.15CN              ! Chinese, China                  ,IBM, HP, Sun ("zh"), USL 
+HP-UX.1000+.setlocale.~.zh_CN.HP-15CN:	zh_CN.15CN              ! Chinese, China                  ,IBM, HP, Sun ("zh"), USL 
+HP-UX.1000+.setlocale.~.zh_TW.EUC-TW:	zh_TW.eucTW             ! Chinese, Taiwan                 ,IBM, HP, Sun       , USL
+HP-UX.1000+.setlocale.~.zh_TW.HP-BIG5:	zh_TW.big5 		! Chinese, Taiwan                 ,   , HP,           , 
+HP-UX.1000+.setlocale.~.zh_TW.HP-CCDC:	zh_TW.ccdc		! Chinese, Taiwan                 ,   , HP,           , 
+
+! Thai 
+HP-UX.1000+.setlocale.~.th_TH.TIS-620:	th_TH.tis620		! Thai, Thailand                  ,IBM, HP
+
+
+! codesets supported for iconv(1,3) on HP-UX 7.0 and above
+HP-UX.700+.iconv1,iconv3.=.?.HP-ROMAN8:		roman8
+HP-UX.700+.iconv1,iconv3.=.?.ISO-8859-1:	iso8859_1
+HP-UX.700+.iconv1,iconv3.=.?.HP-ARABIC8:	arabic8
+HP-UX.700+.iconv1,iconv3.=.?.HP-GREEK8:		greek8
+HP-UX.700+.iconv1,iconv3.=.?.HP-HEBREW8:	hebrew8
+HP-UX.700+.iconv1,iconv3.=.?.HP-TURKISH8:	turkish8
+HP-UX.700+.iconv1,iconv3.=.?.EUC-KR:		korean15
+HP-UX.700+.iconv1,iconv3.=.?.ISO-2022-JP:	jis
+HP-UX.700+.iconv1,iconv3.<.?.HP-SJIS:	japanese15
+HP-UX.700+.iconv1,iconv3.=.?.HP-SJIS:	sjis
+HP-UX.700+.iconv1,iconv3.=.?.HP-KANA8:	kana8
+HP-UX.700+.iconv1,iconv3.=.?.EUC-JP:	ujis
+HP-UX.700+.iconv1,iconv3.=.?.HP-CCDC:	roc15
+
+! codesets supported by iconv(1,3) after HP-UX 10.0
+HP-UX.1000+.iconv1,iconv3.~.?.HP-BIG5:	big5
+HP-UX.1000+.iconv1,iconv3.~.?.EUC-TW:	eucTW
+HP-UX.1000+.iconv1,iconv3.~.?.TIS-620:	tis620
+HP-UX.1000+.iconv1,iconv3.>.?.EUC-CN:	hp15cn
+HP-UX.1000+.iconv1,iconv3.~.?.HP-15CN:	hp15cn
+HP-UX.1000+.iconv1,iconv3.~.?.EUC-KR:	eucKR
+HP-UX.1000+.iconv1,iconv3.~.?.ISO-8859-2: iso8859_2
+HP-UX.1000+.iconv1,iconv3.~.?.ISO-8859-5: iso8859_5
+HP-UX.1000+.iconv1,iconv3.~.?.ISO-8859-6: iso8859_6
+HP-UX.1000+.iconv1,iconv3.~.?.ISO-8859-7: iso8859_7
+HP-UX.1000+.iconv1,iconv3.~.?.ISO-8859-8: iso8859_8
+HP-UX.1000+.iconv1,iconv3.~.?.ISO-8859-9: iso8859_9
+HP-UX.1000+.iconv1,iconv3.~.?.IBM-437:	cp437
+HP-UX.1000+.iconv1,iconv3.~.?.IBM-850:	cp850
+
+! codesets not supported by iconv(1,3) through 10.0 HP-UX release
+!HP-UX.?.iconv1,iconv3.=.?.ISO-2022-KR:
+!HP-UX.?.iconv1,iconv3.=.?.ISO-2022-TW:
+!HP-UX.?.iconv1,iconv3.=.?.ISO-2022-CN:
+!HP-UX.?.iconv1,iconv3.~.?.IBM-856:
+!HP-UX.?.iconv1,iconv3.~.?.IBM-1046:
+!HP-UX.?.iconv1,iconv3.~.?.UCS-2:
+!HP-UX.?.iconv1,iconv3.~.?.UTF-8:
+
+! codesets supported for nl_langinfo on HP-UX 7.0 and above
+HP-UX.700-999.nl_langinfo(CODESET).=.?.HP-ROMAN8:   	ROMAN8
+HP-UX.700-999.nl_langinfo(CODESET).>.?.?:   		ROMAN8    !!! nl_langinfo is hardwired to ROMAN8 for all codesets
+HP-UX.1000+.nl_langinfo(CODESET).=.?.HP-ROMAN8:		roman8
+HP-UX.1000+.nl_langinfo(CODESET).=.?.ISO-8859-1:	iso8859_1
+HP-UX.1000+.nl_langinfo(CODESET).=.?.HP-ARABIC8:	arabic8
+HP-UX.1000+.nl_langinfo(CODESET).=.?.HP-GREEK8:		greek8
+HP-UX.1000+.nl_langinfo(CODESET).=.?.HP-HEBREW8:	hebrew8
+HP-UX.1000+.nl_langinfo(CODESET).=.?.HP-TURKISH8:	turkish8
+HP-UX.1000+.nl_langinfo(CODESET).=.?.EUC-KR:		korean15   !!! verify std matches op
+HP-UX.1000+.nl_langinfo(CODESET).<.?.HP-SJIS:	japanese15
+HP-UX.1000+.nl_langinfo(CODESET).=.?.HP-SJIS:	sjis
+HP-UX.1000+.nl_langinfo(CODESET).=.?.HP-KANA8:	kana8
+HP-UX.1000+.nl_langinfo(CODESET).=.?.EUC-JP:	ujis
+HP-UX.1000+.nl_langinfo(CODESET).=.?.HP-CCDC:	roc15	!!! verify std matches op
+
+! 10.0 and above supported iconv(1) codesets 
+!!! collect and verify this
+
+! multibyte codesets 
+! This translation provides an alternative to a call to
+! using setlocale() and MB_CUR_MAX to determine this.
+HP-UX.?.multibyte.=.?.EUC-KR:		2
+HP-UX.?.multibyte.=.?.HP-SJIS:		2
+HP-UX.700+.multibyte.=.?.EUC-JP:	2
+HP-UX.1000+.multibyte.=.?.EUC-JP:	4
+HP-UX.?.multibyte.=.?.IBM-932:		2
+HP-UX.?.multibyte.=.?.HP-CCDC:		2
+HP-UX.?.multibyte.=.?.HP-BIG5:		2
+HP-UX.?.multibyte.=.?.EUC-TW:		2
+HP-UX.?.multibyte.=.?.TIS-620:		2
+HP-UX.?.multibyte.=.?.EUC-CN:		2
+HP-UX.?.multibyte.=.?.HP-15CN:		2
+HP-UX.?.multibyte.=.?.EUC-KR:		2
+HP-UX.?.multibyte.=.?.EUC-TW:		2
+
+! Translations from predefined CCDF-locales to CDE Standard Locales
+HP-UX.700+.ccdf.=.?.HP-ROMAN8:    	hp-roman8
+HP-UX.700+.ccdf.=.?.ISO-8859-1:		iso8859-1
+HP-UX.700+.ccdf.=.ko_KR.EUC-KR:		hp-korean15
+HP-UX.700+.ccdf.=.ja_JP.HP-SJIS:	hp-japanese15
+HP-UX.700+.ccdf.=.ja_JP.EUC-JP:		hp-japaneseeuc
+HP-UX.700+.ccdf.=.?.DT-SYMBOL-1:	symbol         !!! this is the Dt symbol font
+! These CDE standard locales may have CCDF-locales, but they are defined by localizers
+! HP-UX.700+.ccdf.=.ar_SA.HP-ARABIC8:	arabic8
+! HP-UX.700+.ccdf.=.el_GR.HP-GREEK8:	greek8
+! HP-UX.700+.ccdf.=.iw_IL.HP-HEBREW8:	hebrew8
+! HP-UX.700+.ccdf.=.tr_TR.HP-TURKISH8:	turkish8
+! HP-UX.700+.ccdf.<.ja_JP.HP-SJIS:	sjis
+! HP-UX.700+.ccdf.=.ja_JP.HP-KANA8:	kana8
+! HP-UX.700+.ccdf.=.ja_JP.EUC-JP:	ujis
+! HP-UX.700+.ccdf.=.zh_CN.HP-CCDC:	roc15		
+
+
+! Codesets that require multibyte parsing to avoid confusion with shell special chars
+HP-UX.?.dtkshSpecialParse.=.ja_JP.HP-SJIS:	True
+HP-UX.?.dtkshSpecialParse.=.ja_JP.IBM-932:	True
+HP-UX.?.dtkshSpecialParse.=.zh_TW.HP-BIG5:	True
+HP-UX.?.dtkshSpecialParse.=.zh_TW.HP-CCDC:	True
+HP-UX.?.dtkshSpecialParse.=.zh_TW.EUC-TW:	True
+
+
+!! When content is exchanged with other platforms, the interchange codeset
+!! may be different that the codeset used locally.  In CDE1, these translations
+!! are used by dtmail, but other clients may use the same translations
+!! in the future.  For example, to improve interoperability of 8-bit mail,
+!! the mail messages of users working in codesets such as HP-ROMAN8 or IBM-850 
+!! are translated to the interchangeCodeset (in this case, ISO-8859-1) before 
+!! they are sent.  Similarly, the mail of Japanese users is translated to JIS
+!! before it is sent.
+HP-UX.?.interchangeCodeset.~.?.ISO-8859-1:	ISO-8859-1	! ISO Latin 1
+HP-UX.?.interchangeCodeset.>.?.HP-ROMAN8:	ISO-8859-1	! HP Roman8 
+!HP-UX.?.interchangeCodeset.>.?.IBM-850:	ISO-8859-1	! PC (Multi-lingual)
+!HP-UX.?.interchangeCodeset.>.?.IBM-437:	ISO-8859-1	! PC (US)
+HP-UX.?.interchangeCodeset.~.?.ISO-8859-2:	ISO-8859-2	! ISO Latin 2
+HP-UX.?.interchangeCodeset.~.?.ISO-8859-5:	ISO-8859-5	! ISO Latin/Cyrillic
+HP-UX.?.interchangeCodeset.~.?.ISO-8859-6:	ISO-8859-6	! ISO Latin/Arabic
+HP-UX.?.interchangeCodeset.>.?.HP-ARABIC8:	ISO-8859-6	! HP Arabic8
+!HP-UX.?.interchangeCodeset.>.?.IBM-1046:	ISO-8859-6	! PC Arabic Code Set
+HP-UX.?.interchangeCodeset.~.?.ISO-8859-8:	ISO-8859-8	! ISO Latin/Hebrew
+HP-UX.?.interchangeCodeset.>.?.HP-HEBREW8:	ISO-8859-8	! HP Hebrew8
+!HP-UX.?.interchangeCodeset.>.?.IBM-856:	ISO-8859-8	! PC Hebrew
+HP-UX.?.interchangeCodeset.~.?.ISO-8859-7:	ISO-8859-7	! ISO Latin/Greek
+HP-UX.?.interchangeCodeset.>.?.HP-GREEK8:	ISO-8859-7	! HP Greek8
+HP-UX.?.interchangeCodeset.~.?.ISO-8859-9:	ISO-8859-9	! ISO Latin 5
+HP-UX.?.interchangeCodeset.>.?.HP-TURKISH8:	ISO-8859-9	! HP Turkish8
+HP-UX.?.interchangeCodeset.~.?.EUC-JP:		ISO-2022-JP	! Japanese EUC
+HP-UX.?.interchangeCodeset.>.?.HP-SJIS:		ISO-2022-JP	! HP Japanese Shift JIS
+!HP-UX.?.interchangeCodeset.>.?.IBM-932:	ISO-2022-JP	! PC Japanese Shift JIS
+HP-UX.?.interchangeCodeset.>.?.HP-KANA8:	ISO-2022-JP	! HP Japanese Katakana8
+! comment when ISO-2022-KR iconv available
+HP-UX.?.interchangeCodeset.~.?.EUC-KR:		EUC-KR		! Korean EUC KSC 5601
+! uncomment when ISO-2022-KR iconv available
+!HP-UX.?.interchangeCodeset.~.?.EUC-KR:		ISO-2022-KR	! Korean EUC KSC 5601
+! comment when ISO-2022-CN iconv available
+HP-UX.?.interchangeCodeset.>.?.EUC-CN:		EUC-CN		! China Chinese EUC
+HP-UX.?.interchangeCodeset.~.?.HP-15CN:		EUC-CN     	! HP Chinese EUC
+! uncomment when ISO-2022-CN iconv available
+!HP-UX.?.interchangeCodeset.>.?.EUC-CN:		ISO-2022-CN	! China Chinese EUC
+!HP-UX.?.interchangeCodeset.~.?.HP-15CN:	ISO-2022-CN    	! HP Chinese EUC    
+! comment when ISO-2022-TW iconv available
+HP-UX.?.interchangeCodeset.~.?.EUC-TW:		EUC-TW		! Taiwan Chinese EUC
+HP-UX.?.interchangeCodeset.>.?.HP-BIG5:		EUC-TW		! HP Big5 Chinese
+HP-UX.?.interchangeCodeset.>.?.HP-CCDC:		EUC-TW		! HP CCDC Chinese 
+! uncomment when ISO-2022-TW iconv available
+!HP-UX.?.interchangeCodeset.~.?.EUC-TW:		ISO-2022-TW	! Taiwan Chinese EUC
+!HP-UX.?.interchangeCodeset.>.?.HP-BIG5:	ISO-2022-TW	! HP Big5 Chinese
+!HP-UX.?.interchangeCodeset.>.?.HP-CCDC:	ISO-2022-TW	! HP CCDC Chinese
+HP-UX.?.interchangeCodeset.~.?.TIS-620:		TIS-620		! Thai
+HP-UX.?.interchangeCodeset.>.?.UCS-2:		UTF-8		! multibyte encoding of Unicode
+HP-UX.?.interchangeCodeset.~.?.UTF-8:		UTF-8		! multibyte encoding of Unicode
+

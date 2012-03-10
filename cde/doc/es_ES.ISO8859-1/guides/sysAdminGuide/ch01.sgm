@@ -1,0 +1,1243 @@
+<!-- $XConsortium: ch01.sgm /main/10 1996/12/20 20:19:41 rws $ -->
+<?Pub Caret>
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.LogMg.div.1">
+<title id="SAG.LogMg.mkr.1">Configuraci&oacute;n del Gestor de Inicio de Sesi&oacute;n</title>
+<para><indexterm><primary>&lt;$nopage>Gestor de inicio de sesi&oacute;n</primary>
+<secondary>Vea tambi&eacute;n servidor de inicio de sesi&oacute;n</secondary>
+<tertiary>[Gestor de inicio de sesi&oacute;naaa]</tertiary></indexterm><indexterm>
+<primary>Gestor de inicio de sesi&oacute;n</primary><secondary>definici&oacute;n</secondary></indexterm>El Gestor de inicio de sesi&oacute;n es un servidor<indexterm>
+<primary>servidores de inicio de sesi&oacute;n</primary><secondary>que muestran
+la pantalla de inicio de sesi&oacute;n</secondary></indexterm> responsable
+de mostrar una pantalla de inicio de sesi&oacute;n, de autentificar a los
+usuarios<indexterm><primary>servidores de inicio de sesi&oacute;n</primary>
+<secondary>que autentifican a los usuarios</secondary></indexterm> y de iniciar
+una sesi&oacute;n de usuario<indexterm><primary>servidores de inicio de
+sesi&oacute;n</primary><secondary>que inician una sesi&oacute;n</secondary>
+</indexterm>. El inicio de sesi&oacute;n gr&aacute;fico es una alternativa
+interesante al inicio de sesi&oacute;n tradicional en modo de caracteres para
+pantallas de mapa de bits. Las pantallas gestionadas por el servidor de inicio
+de sesi&oacute;n pueden conectarse directamente al servidor de inicio de sesi&oacute;n<indexterm>
+<primary>servidores de inicio de sesi&oacute;n</primary><secondary>que conectan
+pantallas</secondary></indexterm> o a una terminal o estaci&oacute;n de trabajo
+de X de la red.</para>
+<note>
+<para>Para iniciar, detener o personalizar el servidor de inicio de sesi&oacute;n
+hay que ser usuario root.</para>
+</note>
+<informaltable id="SAG.LogMg.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Starting
+the Login Server2'--><xref role="JumpText" linkend="SAG.LogMg.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Managing
+Local and Network Displays3'--><xref role="JumpText" linkend="SAG.LogMg.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Checking
+for Errors10'--><xref role="JumpText" linkend="SAG.LogMg.mkr.7"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Stopping
+the Login Server10'--><xref role="JumpText" linkend="SAG.LogMg.mkr.8"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Changing
+the Login Screen Appearance12'--><xref role="JumpText" linkend="SAG.LogMg.mkr.11"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Administering
+Login Manager20'--><xref role="JumpText" linkend="SAG.LogMg.mkr.13"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Login Manager
+Files21'--><xref role="JumpText" linkend="SAG.LogMg.mkr.14"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para id="SAG.LogMg.mkr.2"><indexterm><primary>Gestor de inicio de sesi&oacute;n</primary><secondary>personalizar</secondary></indexterm></para>
+<para>El servidor de inicio de sesi&oacute;n<indexterm><primary>servidores
+de inicio de sesi&oacute;n</primary><secondary>visi&oacute;n general</secondary>
+</indexterm>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Puede mostrar una pantalla de inicio de sesi&oacute;n en pantallas
+de mapa de bits de forma incondicional o, a petici&oacute;n, en pantallas
+de mapa de bits locales y de red</para>
+</listitem>
+<listitem><para>Acomoda pantallas de consola de caracteres conectadas directamente.
+</para>
+</listitem>
+<listitem><para>Puede mostrar una pantalla de selecci&oacute;n que permite
+a los usuarios mostrar pantallas de inicio de sesi&oacute;n desde otros servidores
+de inicio de sesi&oacute;n de la red</para>
+</listitem>
+<listitem><para>Permite el acceso controlado al servidor de inicio de sesi&oacute;n
+</para>
+</listitem>
+<listitem><para>Proporciona acceso al inicio de sesi&oacute;n tradicional
+en modo de caracteres</para>
+</listitem>
+</itemizedlist>
+<para>Las pantallas gestionadas por el Gestor de inicio de sesi&oacute;n pueden
+conectarse directamente al servidor del Gestor de inicio de sesi&oacute;n
+o a una terminal o estaci&oacute;n de trabajo de X de la red. En el caso de
+las pantallas locales, el servidor de inicio de sesi&oacute;n iniciar&aacute;
+autom&aacute;ticamente un servidor de X y mostrar&aacute; una pantalla de
+inicio de sesi&oacute;n. En el caso de las pantallas de red, tales como terminales
+de X, el servidor de inicio de sesi&oacute;n soporta el X Display Manager
+Protocol (XDMCP)<indexterm><primary>XDMCP</primary></indexterm> 1.0, que permite
+a las pantallas solicitar que el servidor de inicio de sesi&oacute;n muestre
+una pantalla de inicio de sesi&oacute;n en la pantalla.</para>
+<sect1 id="SAG.LogMg.div.2">
+<title id="SAG.LogMg.mkr.3">Inicio del servidor de inicio de sesi&oacute;n</title>
+<para>El servidor de inicio de sesi&oacute;n se<indexterm><primary>servidores
+de inicio de sesi&oacute;n</primary><secondary>iniciar</secondary></indexterm> inicia
+normalmente cuando se arranca el sistema. Tambi&eacute;n se puede iniciar<indexterm><primary>servidores de inicio de sesi&oacute;n</primary><secondary>iniciar desde la l&iacute;nea de mandatos</secondary></indexterm>
+desde una
+l&iacute;nea de mandatos.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Para establecer que el servidor de inicio de sesi&oacute;n
+se inicie al arrancar el sistema, escriba <command>/usr/dt/bin/dtconfig -e</command></para>
+<para>Cuando se rearranque el sistema, el servidor de inicio de sesi&oacute;n
+se iniciar&aacute; autom&aacute;ticamente.</para>
+</listitem>
+<listitem><para>Para iniciar el servidor de inicio de sesi&oacute;n desde
+una l&iacute;nea de mandatos, escriba <command>/usr/dt/bin/dtlogin -daemon</command></para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Aunque el inicio del servidor de inicio de sesi&oacute;n desde la l&iacute;nea
+de mandatos est&eacute; disponible para realizar pruebas de configuraci&oacute;n
+temporales, normalmente se deber&aacute; iniciar dicho servidor al arrancar
+el sistema.</para>
+</note>
+</sect1>
+<sect1 id="SAG.LogMg.div.3">
+<title id="SAG.LogMg.mkr.4">Gesti&oacute;n de pantallas locales y de red</title>
+<para>La <!--Original XRef content: 'Figure&numsp;1&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.LogMg.mkr.5"> muestra una posible configuraci&oacute;n del servidor
+de inicio de sesi&oacute;n.</para>
+<figure>
+<title id="SAG.LogMg.mkr.5">Posible configuraci&oacute;n del servidor de inicio
+de sesi&oacute;n<indexterm><primary>terminales X</primary><secondary>configuraciones
+del servidor de inicio de sesi&oacute;n posibles</secondary></indexterm></title>
+<graphic id="SAG.LogMg.grph.1" entityref="SAG.LogMg.fig.1"></graphic>
+</figure>
+<sect2 id="SAG.LogMg.div.4">
+<title>B&uacute;squeda del<indexterm><primary>servidores de inicio de sesi&oacute;n</primary><secondary>ID de proceso</secondary></indexterm> ID de proceso del
+servidor de inicio de sesi&oacute;n</title>
+<para>Como valor predeterminado, el servidor de inicio de sesi&oacute;n almacena
+su ID de proceso en <filename>/var/dt/Xpid</filename>.<indexterm><primary>Xpid, archivo</primary></indexterm></para>
+<para>Para cambiar esta ubicaci&oacute;n, se puede establecer el recurso <filename>Dtlogin.pidFile</filename> en el archivo <filename>Xconfig</filename>.<indexterm>
+<primary>Xconfig, archivo</primary><secondary>modificar</secondary></indexterm>
+Si se realiza este cambio, el directorio especificado deber&aacute; existir
+al iniciar el servidor de inicio de sesi&oacute;n.</para>
+<para>Para modificar <filename>Xconfig</filename>, copie <filename>Xconfig</filename> de <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename>. Despu&eacute;s de modificar <filename>/etc/dt/config/Xconfig</filename>, indique al servidor de inicio de sesi&oacute;n que vuelva a leer <filename>Xconfig</filename>, escribiendo:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Esto emite el mandato <command>kill -HUP</command> <symbol role="Variable">ID de proceso de servidor de inicio de sesi&oacute;n.</symbol></para>
+<para>Por ejemplo, para almacenar el ID de proceso del servidor de inicio
+de sesi&oacute;n en <filename>/var/myservers/Dtpid</filename>, establezca
+lo siguiente en el archivo <command>Xconfig</command>:</para>
+<programlisting>Dtlogin.pidFile: /var/myservers/Dtpid</programlisting>
+<para>El servidor de inicio de sesi&oacute;n almacenar&aacute; su ID de proceso
+en <filename>/var/myservers/Dtpid</filename><indexterm><primary>Dtpid, archivo</primary></indexterm> cuando se reinicie. El directorio <filename>/var/myservers</filename> debe existir al iniciar el servidor de inicio de sesi&oacute;n.
+</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.5">
+<title>C&oacute;mo mostrar una pantalla de inicio de sesi&oacute;n en una
+pantalla local</title>
+<para>En el arranque, el servidor de inicio de sesi&oacute;n comprueba el
+archivo <command>Xservers<indexterm><primary>Xservers, archivo</primary>
+<secondary>iniciar un servidor</secondary></indexterm></command> para determinar
+si es necesario iniciar un servidor de X y para determinar si las pantallas
+de inicio de sesi&oacute;n deben mostrarse en pantallas locales o de red y
+c&oacute;mo deben mostrarse.</para>
+<para>Para modificar <filename>Xservers</filename>, copie <filename>Xservers</filename> de <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename>. Despu&eacute;s de modificar <filename>/etc/dt/config/Xservers</filename>, indique al servidor de inicio de sesi&oacute;n que vuelva a leer <filename>Xservers</filename>, escribiendo:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Esto emite el mandato <command>kill -HUP</command> <symbol role="Variable">ID de proceso de servidor de inicio de sesi&oacute;n</symbol></para>
+<para>El formato de una l&iacute;nea de <filename>Xservers</filename><indexterm>
+<primary>Xservers, archivo</primary><secondary>sintaxis</secondary></indexterm> es:
+</para>
+<programlisting>nombre_pantalla clase_pantalla tipo_pantalla mandato_servidor_X
+</programlisting>
+<para>donde</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="157*">
+<colspec colwidth="371*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">nombre_pantalla</symbol></para></entry>
+<entry align="left" valign="top"><para>Indica al servidor de inicio de sesi&oacute;n
+el nombre de conexi&oacute;n que debe utilizar al conectarse al servidor de
+X (:0 en el ejemplo siguiente). Un valor de * (asterisco) se expande a <symbol role="Variable">nombre de host</symbol>:0. El n&uacute;mero especificado debe
+coincidir con el n&uacute;mero especificado en el n&uacute;mero de conexi&oacute;n
+<symbol role="Variable">mandato_servidor_X</symbol>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">clase_pantalla</symbol></para></entry>
+<entry align="left" valign="top"><para>Identifica recursos espec&iacute;ficos
+para esta pantalla (<command>Local</command> en el ejemplo siguiente).</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">tipo_pantalla</symbol></para></entry>
+<entry align="left" valign="top"><para>Indica al servidor de inicio de sesi&oacute;n
+si la pantalla es una pantalla local o de red y c&oacute;mo debe gestionar
+la opci&oacute;n Inicio de sesi&oacute;n de l&iacute;nea de mandatos en la
+pantalla de inicio de sesi&oacute;n (<filename>local@console</filename> en
+el ejemplo siguiente).</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">mandato_servidor_X</symbol></para></entry>
+<entry align="left" valign="top"><para>Identifica la l&iacute;nea de mandatos,
+el n&uacute;mero de conexi&oacute;n y otras opciones que el servidor de inicio
+de sesi&oacute;n utilizar&aacute; para iniciar el servidor de X ( <filename>/usr/bin/X11/X :0</filename> en el ejemplo siguiente). El n&uacute;mero de
+conexi&oacute;n especificado debe coincidir con el n&uacute;mero especificado
+en el <symbol role="Variable">nombre_pantalla</symbol>.</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>La linea de Xservers predeterminada es similar a</para>
+<programlisting>:0 Local local@console /usr/bin/X11/X :0</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.6">
+<title>Ejecuci&oacute;n del servidor de inicio de sesi&oacute;n sin ninguna
+pantalla local<indexterm><primary>pantalla de mapa de bits, ejecutar el servidor
+de inicio de sesi&oacute;n sin</primary></indexterm></title>
+<para>Si el sistema del servidor de inicio de sesi&oacute;n no tiene<indexterm>
+<primary>servidores de inicio de sesi&oacute;n</primary><secondary>sin pantalla
+de mapa de bits</secondary></indexterm> ninguna pantalla de mapa de bits,
+ejecute el servidor de inicio de sesi&oacute;n sin ninguna pantalla local<indexterm>
+<primary>servidores de inicio de sesi&oacute;n</primary><secondary>ejecutar
+sin ninguna pantalla local</secondary></indexterm> comentando la l&iacute;nea
+<filename>Xservers</filename><indexterm><primary>Xservers, archivo</primary>
+<secondary>predeterminado</secondary></indexterm> para la pantalla local utilizando
+un <filename>#</filename> (signo de almohadilla). Por ejemplo,</para>
+<programlisting># :0 Local local@console /usr/bin/X11/X :0</programlisting>
+<para>Al iniciarse, el servidor de inicio de sesi&oacute;n se ejecuta en el
+fondo en espera de peticiones de las pantallas de la red.</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.7">
+<title><?X-setsize 11.0 pt>Acceso al inicio de sesi&oacute;n de l&iacute;nea
+de mandatos en una pantalla local</title>
+<para>Cuando el usuario selecciona Inicio de sesi&oacute;n de l&iacute;nea
+de mandatos<indexterm><primary>servidores de inicio de sesi&oacute;n</primary>
+<secondary>inicio de sesi&oacute;n de l&iacute;nea de mandatos</secondary>
+</indexterm> en la pantalla de inicio de sesi&oacute;n, el servidor de inicio
+de sesi&oacute;n termina temporalmente el servidor de X, permitiendo el acceso
+al inicio de sesi&oacute;n de l&iacute;nea de mandatos tradicional que se
+ejecuta en el dispositivo de terminal de pantalla de mapa de bits. Despu&eacute;s
+de que el usuario haya iniciado y luego finalizado la sesi&oacute;n, o despu&eacute;s
+de un tiempo de espera excedido especificado, el servidor de inicio de sesi&oacute;n
+reiniciar&aacute; el servidor de X.</para>
+<note>
+<para>La<indexterm><primary>inicio de sesi&oacute;n de l&iacute;nea de mandatos</primary></indexterm> opci&oacute;n Inicio de sesi&oacute;n de l&iacute;nea
+de mandatos no est&aacute; disponible en pantallas de red.</para>
+</note>
+<para>El <symbol role="Variable">tipo_pantalla</symbol> controla el comportamiento
+del Inicio de sesi&oacute;n de l&iacute;nea de mandatos. El formato de <symbol role="Variable">tipo_pantalla</symbol> es:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>local@</command><symbol role="Variable">dispositivo_
+terminal_pantalla</symbol></para>
+</listitem>
+<listitem><para><command><indexterm><primary>local, tipo de pantalla</primary>
+</indexterm>local</command></para>
+</listitem>
+<listitem><para><command><indexterm><primary>foreign, tipo de pantalla</primary>
+</indexterm>foreign</command></para>
+</listitem>
+</itemizedlist>
+<para>Cuando se especifica <command>local</command>@<symbol role="Variable">dispositivo_terminal_pantalla</symbol>, el servidor de inicio de sesi&oacute;n
+supone que el servidor de X y <filename>/dev/</filename><symbol role="Variable">dispositivo_terminal_pantalla</symbol> son el mismo dispositivo f&iacute;sico
+y que se est&aacute; ejecutando un inicio de sesi&oacute;n de l&iacute;nea
+de mandatos (generalmente <command>getty</command>) en el dispositivo. Cuando
+el usuario selecciona Inicio de sesi&oacute;n de l&iacute;nea de mandatos,
+el servidor de X termina, permitiendo el acceso al inicio de sesi&oacute;n
+de l&iacute;nea de mandatos (<command>getty</command>) que se est&aacute;
+ejecutando en el <filename>/dev/</filename><symbol role="Variable">dispositivo_terminal_pantalla</symbol>.</para>
+<para>Para inhabilitar la opci&oacute;n Inicio de sesi&oacute;n de l&iacute;nea
+de mandatos en una pantalla, especifique <command>none</command> como <symbol role="Variable">dispositivo_terminal_pantalla</symbol>. El <symbol role="Variable">dispositivo_terminal_pantalla</symbol> predeterminado es <command>console</command>. Cuando se especifica <command>local</command>, <symbol role="Variable">dispositivo_terminal_pantalla</symbol> toma <command>console</command> como
+valor predeterminado. Cuando se especifica <command>foreign</command>, se
+inhabilita Inicio de sesi&oacute;n de l&iacute;nea de mandatos.</para>
+<note>
+<para>La opci&oacute;n Inicio de sesi&oacute;n de l&iacute;nea de mandatos
+se inhabilita en la pantalla local cuando se inicia el servidor de inicio
+de sesi&oacute;n desde la l&iacute;nea de mandatos.</para>
+</note>
+</sect2>
+<sect2 id="SAG.LogMg.div.8">
+<title>Acomodaci&oacute;n de una consola de pantalla de caracteres<indexterm>
+<primary>consola de pantalla de caracteres</primary></indexterm></title>
+<para>Si el sistema del servidor de inicio de sesi&oacute;n tiene conectada
+una<indexterm><primary>servidores de inicio de sesi&oacute;n</primary><secondary>consola de pantalla de caracteres</secondary></indexterm> pantalla de caracteres
+directamente que sirve de consola, tambi&eacute;n es conveniente establecer <symbol role="Variable">dispositivo_terminal_pantalla</symbol> en <command>none</command>
+para inhabilitar Inicio de sesi&oacute;n de l&iacute;nea de mandatos en la
+pantalla de inicio de sesi&oacute;n de la pantalla de mapa de bits.</para>
+<para>Como alternativa, si se est&aacute; ejecutando un inicio de sesi&oacute;n
+de l&iacute;nea de mandatos (<command>getty</command>)<indexterm><primary>getty</primary></indexterm> en la consola de pantalla de caracteres y en la
+pantalla de mapa de bits, puede cambiar <symbol role="Variable">dispositivo_terminal_pantalla</symbol> por el dispositivo de inicio de sesi&oacute;n de l&iacute;nea de
+mandatos (<command>getty</command>) en la pantalla de mapa de bits.</para>
+<para>Por ejemplo, si el inicio de sesi&oacute;n de l&iacute;nea de mandatos
+de la pantalla de mapa de bits (<command>getty</command>) est&aacute; en el
+dispositivo <filename>/dev/tty01</filename>, cambie el <symbol role="Variable">tipo_pantalla</symbol> por <computeroutput>local@tty01</computeroutput>.</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.9">
+<title id="SAG.LogMg.mkr.6">C&oacute;mo mostrar una pantalla<indexterm><primary>pantalla de inicio de sesi&oacute;n</primary><secondary>mostrar en una pantalla
+de red</secondary></indexterm> de inicio de sesi&oacute;n en una pantalla
+de red</title>
+<para>El servidor de inicio de sesi&oacute;n puede aceptar peticiones de pantallas
+de red para mostrar una pantalla de inicio de sesi&oacute;n en una pantalla
+determinada. La pantalla de red es generalmente una terminal de X pero tambi&eacute;n
+puede ser una estaci&oacute;n de trabajo.</para>
+<para>Para gestionar las peticiones de las pantallas de red, el servidor de
+inicio de sesi&oacute;n soporta el X Display Manager Protocol (XDMCP)<indexterm>
+<primary>XDMCP</primary><secondary>definici&oacute;n</secondary></indexterm>
+1.0. Este protocolo permite al servidor de inicio de sesi&oacute;n negociar
+y aceptar o rechazar peticiones procedentes de las pantallas de red. La mayor&iacute;a
+de terminales de X tienen incorporado el XDMCP.</para>
+<sect3 id="SAG.LogMg.div.10">
+<title>Peticiones directas de XDMCP desde pantallas de red<indexterm><primary>XDMCP</primary><secondary>peticiones directas</secondary></indexterm><indexterm>
+<primary>terminales de X</primary><secondary>directo de XDMCP</secondary>
+</indexterm></title>
+<para>Cuando se configura la terminal de X para utilizar XDMCP directamente<indexterm><primary>XDMCP</primary><secondary>modo de consulta</secondary>
+</indexterm>
+(modo de consulta), se le indica a la terminal de X el nombre
+del host del servidor de inicio de sesi&oacute;n. Al arrancarse, la terminal
+de X se pone autom&aacute;ticamente en contacto con el servidor de inicio
+de sesi&oacute;n y &eacute;ste muestra una pantalla de inicio de sesi&oacute;n
+en la terminal de X. Consulte la documentaci&oacute;n de la terminal de X
+para obtener informaci&oacute;n que describa c&oacute;mo configurar la terminal
+de X para XDMCP en modo directo.</para>
+<para>La mayor&iacute;a de servidores de X tambi&eacute;n soportan la opci&oacute;n
+<command>-query</command><indexterm><primary>-query. opci&oacute;n</primary>
+</indexterm>. En este modo, el servidor de X se comporta como si fuera una
+terminal de X, poni&eacute;ndose en contacto directamente con el host del
+servidor de inicio de sesi&oacute;n y solicitando que muestre una pantalla
+de inicio de sesi&oacute;n en el servidor de X. Por ejemplo, si se inicia
+el servidor de X en una pantalla de mapa de bits en la estaci&oacute;n de
+trabajo <command>bridget</command>, el servidor de inicio de sesi&oacute;n
+<command>anita</command> mostrar&aacute; una pantalla de inicio de sesi&oacute;n
+en el servidor de X:</para>
+<programlisting>X -query anita</programlisting>
+</sect3>
+<sect3 id="SAG.LogMg.div.11">
+<title>Peticiones indirectas de XDMCP<indexterm><primary>XDMCP</primary>
+<secondary>peticiones indirectas</secondary></indexterm> desde una pantalla
+de red<indexterm><primary>terminales X</primary><secondary>indirecto de XDMCP</secondary></indexterm></title>
+<para>Cuando se configura la terminal de X para utilizar XDMCP de modo indirecto,
+se le indica a la terminal de X el nombre del host del servidor de inicio
+de sesi&oacute;n. Cuando se arranque la terminal de X, &eacute;sta se pondr&aacute;
+en contacto con el servidor de inicio de de sesi&oacute;n y &eacute;ste presentar&aacute;,
+mediante una pantalla de selecci&oacute;n, una lista de otros hosts de servidores
+de inicio de sesi&oacute;n de la red. El usuario puede seleccionar un host
+en esta lista y dicho host mostrar&aacute; una pantalla de inicio de sesi&oacute;n
+en la terminal de X del usuario. Consulte la documentaci&oacute;n de la terminal
+de X para obtener informaci&oacute;n que describe c&oacute;mo configurar la
+terminal de X para XDMCP en modo indirecto.</para>
+<para>Al igual que sucede con el modo directo, la mayor&iacute;a de servidores
+de X soportan la opci&oacute;n <command>-indirect</command><indexterm><primary>-indirect, opci&oacute;n</primary></indexterm>, que hace que el servidor de
+X se ponga en contacto con el servidor de inicio de sesi&oacute;n en modo
+indirecto de XDMCP.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.12">
+<title>Gesti&oacute;n de pantallas de red no XDMCP<indexterm><primary>terminales
+X</primary><secondary>pantallas no XDMCP</secondary></indexterm></title>
+<para>Es posible que las terminales de X antiguas no soporten XDMCP. Para
+que el servidor de inicio de sesi&oacute;n muestre una pantalla de inicio
+de sesi&oacute;n en este tipo de terminal de X, incluya el nombre de terminal
+de X en la lista del archivo <filename>Xservers</filename>.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.13">
+<title>Ejemplo</title>
+<para>Las l&iacute;neas siguientes del archivo <filename>Xservers</filename>
+indican al servidor de inicio de sesi&oacute;n que muestre una pantalla de
+inicio de sesi&oacute;n en dos terminales de X no XDMCP, <command>ruby</command>
+y <command>wolfie</command>:</para>
+<programlisting>ruby.blackdog.com:0 AcmeXsta foreign
+wolfie:0 PandaCo foreign</programlisting>
+<para>Dado que la pantalla est&aacute; en la red, <symbol role="Variable">nombre_pantalla</symbol> incluye el nombre de host como parte del nombre.
+Se puede utilizar la <symbol role="Variable">clase de pantalla</symbol> para
+especificar recursos espec&iacute;ficos de una clase determinada de terminales
+de X. (La documentaci&oacute;n de la pantalla de X le indicar&aacute; la clase
+de pantalla de la terminal de X). El <symbol role="Variable">tipo_pantalla</symbol> <command>foreign</command> indica al servidor de inicio de sesi&oacute;n
+que conecte con un servidor de X existente en lugar de iniciar el suyo propio.
+En este caso, no se especifica ning&uacute;n <symbol role="Variable">mandato_servidor_X</symbol>.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.14">
+<title>Control del acceso al<indexterm><primary>servidores de inicio de sesi&oacute;n</primary><secondary>controlar el acceso</secondary></indexterm> servidor
+de inicio de sesi&oacute;n</title>
+<para>Como valor predeterminado, cualquier host de la red que tenga acceso
+al host del servidor de inicio de sesi&oacute;n puede solicitar que se muestre
+una pantalla de inicio de sesi&oacute;n. Se puede limitar el acceso al servidor
+de inicio de sesi&oacute;n modificando el archivo <filename>Xaccess</filename><indexterm>
+<primary>Xaccess, archivo</primary></indexterm>.</para>
+<para>Para modificar <filename>Xaccess</filename>, copie <filename>Xaccess</filename> de <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename>. Despu&eacute;s de modificar <filename>/etc/dt/config/Xaccess</filename>, indique al servidor de inicio de sesi&oacute;n que vuelva a leer <filename>Xaccess</filename>, escribiendo:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Esto emite el mandato <command>kill -HUP</command> <symbol role="Variable">ID de proceso de servidor de inicio de sesi&oacute;n</symbol>.</para>
+<sect3 id="SAG.LogMg.div.15">
+<title>XDMCP directo<indexterm><primary>terminales X</primary><secondary>directo de XDMCP</secondary></indexterm></title>
+<para>Cuando un host intenta conectarse con el servidor de inicio de sesi&oacute;n
+por medio de<indexterm><primary>XDMCP</primary><secondary>acceso directo</secondary></indexterm> XDMCP directo, se compara el nombre del host con las<indexterm>
+<primary>terminales X</primary><secondary>Xaccess, lista</secondary></indexterm> entradas <command>Xaccess</command> para determinar si el host tiene permiso para acceder al
+servidor de inicio de sesi&oacute;n. \n Cada entrada <filename>Xaccess</filename>
+es un nombre de host que incluye los caracteres comod&iacute;n <filename>*</filename> (asterisco) y <filename>?</filename> (signo de interrogaci&oacute;n).
+Un <filename>*</filename> (asterisco) es igual a cero o m&aacute;s caracteres
+y un <filename>?</filename> (signo de interrogaci&oacute;n) es igual a cualquier
+car&aacute;cter. Un <filename>!</filename> (punto de exclamaci&oacute;n) como
+pr&oacute;logo de una entrada prohibe el acceso, mientras que, si no hay ning&uacute;n
+pr&oacute;logo, se permite el acceso.</para>
+<para>Por ejemplo, si <filename>Xaccess</filename> contiene las tres entradas
+siguientes:</para>
+<programlisting>amazon.waterloo.com
+*.dept5.waterloo.com
+!*</programlisting>
+<para>La primera entrada permite el acceso al servidor de inicio de sesi&oacute;n
+desde el host <filename>amazon.waterloo.com</filename>, la segunda entrada
+permite el acceso desde cualquier host cuyo nombre de dominio completo termine
+por <filename>dept5.waterloo.com</filename> y la &uacute;ltima entrada prohibe
+el acceso desde cualquier otro host.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.16">
+<title>XDMCP indirecto<indexterm><primary>terminales X</primary><secondary>indirecto de XDMCP</secondary></indexterm></title>
+<para>Cuando un host intenta conectarse con el servidor de inicio de sesi&oacute;n
+por medio de<indexterm><primary>XDMCP</primary><secondary>acceso indirecto</secondary></indexterm> XDMCP indirecto, se compara el nombre del host con
+las entradas <filename>Xaccess</filename> para determinar si el host tiene
+permiso para acceder al servidor de inicio de sesi&oacute;n. Cada entrada <filename>Xaccess</filename> es similar a las entradas de XDMCP directo, incluidos los
+caracteres comod&iacute;n, excepto en que cada entrada est&aacute; marcada
+con una cadena<indexterm><primary>CHOOSER, cadena</primary><secondary>definici&oacute;n</secondary></indexterm> <command>CHOOSER<indexterm><primary>terminales X</primary><secondary>cadena CHOOSER</secondary></indexterm></command>. Por
+ejemplo:</para>
+<programlisting>amazon.waterloo.com  CHOOSER BROADCAST
+*.dept5.waterloo.com CHOOSER BROADCAST
+!*    CHOOSER BROADCAST</programlisting>
+<para>De nuevo, la primera entrada permite el acceso al servidor de inicio
+de sesi&oacute;n desde el host <filename>amazon.waterloo.com</filename>,
+la segunda entrada permite el acceso desde cualquier host cuyo nombre de
+dominio completo termine por <filename>dept5.waterloo.com</filename> y la
+&uacute;ltima entrada prohibe el acceso desde cualquier otro host.</para>
+<para>Despu&eacute;s de <command>CHOOSER</command><indexterm><primary>CHOOSER,
+cadena</primary><secondary>identificar</secondary></indexterm> puede haber
+uno de los siguientes elementos:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command><indexterm><primary>BROADCAST, utilizado en XDMCP
+indirecto</primary></indexterm>BROADCAST</command></para>
+</listitem>
+<listitem><para><symbol role="Variable">lista de nombres de host</symbol></para>
+</listitem>
+</itemizedlist>
+<para><command>BROADCAST</command> indica al servidor de inicio de sesi&oacute;n
+que difunda en la subred del servidor de inicio de sesi&oacute;n que se genere
+una lista de hosts de servidores de inicio de sesi&oacute;n disponibles. Una
+lista de nombres de host indica al servidor de inicio de sesi&oacute;n que
+utilice dicha lista para los hosts de inicio de sesi&oacute;n disponibles.
+Por ejemplo:</para>
+<programlisting>amazon.waterloo.com CHOOSER shoal.waterloo.com alum.waterloo.com
+*.dept5.waterloo.com CHOOSER BROADCAST
+!* CHOOSER BROADCAST</programlisting>
+<para>Si <filename>amazon.waterloo.com</filename> se conecta por medio de
+XDMCP indirecto, se le presentar&aacute; una lista que contiene <command>shoal</command> y <command>alum</command>. Si se conecta <filename>alice.dept5.waterloo.com</filename>, se le presentar&aacute; una lista de todos los hosts de servidor
+de inicio de sesi&oacute;n disponibles de la subred del servidor de inicio
+de sesi&oacute;n. Se rechazar&aacute;n otras peticiones de XDMCP indirecto.
+</para>
+<para>En lugar de especificar una lista de nombres de host se pueden definir
+una o m&aacute;s macros que contengan la lista de nombres de host. Por ejemplo:
+</para>
+<programlisting>%list1 shoal.waterloo.com alum.waterloo.com
+amazon.waterloo.com CHOOSER %list1</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.LogMg.div.17">
+<title id="SAG.LogMg.mkr.7">Comprobaci&oacute;n de errores<indexterm><primary>servidores de inicio de sesi&oacute;n</primary><secondary>resoluci&oacute;n
+de problemas</secondary></indexterm><indexterm><primary>Gestor de inicio
+de sesi&oacute;n</primary><secondary>errores</secondary></indexterm></title>
+<para>Como valor predeterminado, el servidor de inicio de sesi&oacute;n registra
+los errores en el archivo<indexterm><primary>Xerrors, archivo</primary></indexterm> <filename>/var/dt/Xerrors</filename>. Para cambiarlo, se puede establecer el recurso <filename>Dtlogin.errorLogFile</filename> en el archivo <filename>Xconfig</filename>.
+El directorio especificado ya debe existir cuando se inicie el servidor de
+inicio de sesi&oacute;n.</para>
+<para>Por ejemplo, para que el servidor de inicio de sesi&oacute;n registre
+errores en el archivo <filename>/var/mylogs/Dterrors</filename>, establezca
+lo siguiente en el archivo <command>Xconfig</command>:</para>
+<programlisting>Dtlogin.errorLogFile: /var/mylogs/Dterrors</programlisting>
+<para>Al reiniciarse, el servidor de inicio de sesi&oacute;n registrar&aacute;
+los errores en el archivo <filename>/var/mylogs/<indexterm><primary>Dterrors,
+archivo</primary></indexterm> Dterrors</filename>. El directorio <filename>/var/mylogs</filename> debe existir cuando se inicie el servidor de inicio
+de sesi&oacute;n.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.18">
+<title id="SAG.LogMg.mkr.8">Parada del servidor de inicio de sesi&oacute;n<indexterm>
+<primary>servidores de inicio de sesi&oacute;n</primary><secondary>detener</secondary></indexterm></title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Para inhabilitar<indexterm><primary>servidores de inicio
+de sesi&oacute;n</primary><secondary>inhabilitar</secondary></indexterm> el
+arranque del servidor de inicio de sesi&oacute;n cuando se arranca el sistema,
+escriba:</para>
+<para remap="CodeIndent1"><command>/usr/dt/bin/dtconfig -d</command></para>
+<indexterm><primary>dtconfig command</primary></indexterm>
+<para>Esto indicar&aacute; al sistema que no inicie el servidor de inicio
+de sesi&oacute;n la pr&oacute;xima vez que realice el rearranque.</para>
+</listitem>
+<listitem><para>Para detener el servidor de inicio de sesi&oacute;n matando
+el ID de proceso escriba:</para>
+<para remap="CodeIndent1"><command>/usr/dt/bin/dtconfig -kill</command></para>
+<para>(Esto emite el mandato <command>kill</command> <symbol role="Variable">ID de proceso de servidor de inicio de sesi&oacute;n</symbol>.)</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Si se mata el<indexterm><primary>servidores de inicio de sesi&oacute;n</primary><secondary>matar ID de proceso</secondary></indexterm> proceso del
+servidor de inicio de sesi&oacute;n, terminan todas las sesiones de usuario
+gestionadas por el servidor de inicio de sesi&oacute;n.</para>
+</note>
+<para>Tambi&eacute;n se puede detener el servidor de inicio de sesi&oacute;n
+matando el ID de proceso. El ID de proceso del servidor de inicio de sesi&oacute;n
+se almacena en <filename>/var/dt/Xpid</filename> o en el archivo especificado
+en <filename>Xconfig</filename> por el recurso <filename>Dtlogin.pidFile</filename>.
+</para>
+<para>Si se ha iniciado la sesi&oacute;n en el escritorio en el momento en
+que se mata el servidor de inicio de sesi&oacute;n, la sesi&oacute;n de escritorio
+terminar&aacute; inmediatamente.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.19">
+<title id="SAG.LogMg.mkr.9">La pantalla de inicio de sesi&oacute;n</title>
+<para>La pantalla de inicio de sesi&oacute;n mostrada por el servidor de inicio
+de sesi&oacute;n es una interesante alternativa a la pantalla de inicio de
+sesi&oacute;n tradicional de modo de caracteres y proporciona m&aacute;s posibilidades
+de las ofrecidas por un inicio de sesi&oacute;n de modo de caracteres.</para>
+<figure>
+<title id="SAG.LogMg.mkr.10">Pantalla de inicio de sesi&oacute;n del escritorio</title>
+<graphic id="SAG.LogMg.grph.2" entityref="SAG.LogMg.fig.2"></graphic>
+</figure>
+<para>Al igual que sucede con un inicio de sesi&oacute;n en modo de caracteres,
+el usuario entra un nombre de usuario seguido de una contrase&ntilde;a. Si
+se autentifican, el servidor de inicio de sesi&oacute;n inicia una sesi&oacute;n
+de escritorio para el usuario. Cuando el usuario sale de la sesi&oacute;n
+de escritorio, el servidor de inicio de sesi&oacute;n muestra una nueva pantalla
+de inicio de sesi&oacute;n y el proceso empieza otra vez.</para>
+<para>Para personalizar la pantalla de inicio de sesi&oacute;n, puede<indexterm>
+<primary>pantalla de inicio de sesi&oacute;n</primary><secondary>personalizar</secondary></indexterm>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Cambiar el aspecto de la pantalla de inicio de sesi&oacute;n
+</para>
+</listitem>
+<listitem><para>Configurar la autorizaci&oacute;n del servidor de X</para>
+</listitem>
+<listitem><para>Cambiar el idioma predeterminado</para>
+</listitem>
+<listitem><para>Emitir mandatos antes de que se muestre la pantalla de inicio
+de sesi&oacute;n</para>
+</listitem>
+<listitem><para>Cambiar el contenido del men&uacute; Idioma de la pantalla
+de inicio de sesi&oacute;n</para>
+</listitem>
+<listitem><para>Especificar el mandato para iniciar la sesi&oacute;n del usuario
+</para>
+</listitem>
+<listitem><para>Emitir mandatos antes de que se inicie la sesi&oacute;n de
+escritorio del usuario</para>
+</listitem>
+<listitem><para>Emitir mandatos despu&eacute;s de que finalice la sesi&oacute;n
+del usuario</para>
+</listitem>
+</itemizedlist>
+<para>Cada una de estas acciones puede realizarse para todas las pantallas
+o para una pantalla a la vez.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.20">
+<title id="SAG.LogMg.mkr.11">Cambio de aspecto de la pantalla de inicio de
+sesi&oacute;n</title>
+<para>Para personalizar el<indexterm><primary>pantalla de inicio de sesi&oacute;n</primary><secondary>cambiar el aspecto</secondary></indexterm> aspecto de
+la pantalla de inicio de sesi&oacute;n, se puede cambiar el logotipo o gr&aacute;fico,
+los mensajes de bienvenida y los fonts.</para>
+<para>Para modificar <systemitem>Xresources</systemitem>, copie <systemitem>Xresources</systemitem> de <filename>/usr/dt/config/</filename><symbol role="Variable">idioma</symbol> a <filename>/etc/dt/config/</filename><symbol role="Variable">idioma</symbol>. La pantalla de inicio de sesi&oacute;n reflejar&aacute; los
+cambios la pr&oacute;xima vez que se muestre. Para forzar que se vuelva a
+mostrar una pantalla de inicio de sesi&oacute;n, seleccione Restablecer pantalla
+inicio de sesi&oacute;n en el men&uacute; Opciones de la pantalla de inicio
+de sesi&oacute;n.</para>
+<para>En los atributos de la pantalla de inicio de sesi&oacute;n que pueden
+determinarse mediante especificaciones de recurso en el archivo <filename>Xresources</filename><indexterm><primary>Xresources, archivo</primary></indexterm> se
+incluyen:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="316*">
+<colspec colwidth="212*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>Gestor de inicio
+de sesi&oacute;n</primary><secondary>recursos</secondary></indexterm><indexterm>
+<primary>pantalla de inicio de sesi&oacute;n</primary><secondary>recursos</secondary></indexterm><systemitem>Dtlogin*logo*bitmapFile</systemitem></para></entry>
+<entry align="left" valign="top"><para>Archivo de mapa de bits o de mapa de
+pixels a mostrar como imagen de logotipo</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*greeting*labelString</systemitem></para></entry>
+<entry align="left" valign="top"><para>Mensaje de bienvenida</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*greeting*persLabelString</systemitem></para></entry>
+<entry align="left" valign="top"><para>Mensaje de bienvenida personalizado
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*greeting*fontList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Font para los mensajes de bienvenida
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*labelFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Font para etiquetas y botones de acci&oacute;n
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*textFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Font para mensajes de ayuda y de error
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*<symbol role="Variable">idioma</symbol>*languageName</systemitem></para></entry>
+<entry align="left" valign="top"><para>Texto alternativo para el entorno nacional
+de nombre <symbol role="Variable">idioma</symbol></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<sect2 id="SAG.LogMg.div.21" role="Procedure">
+<title>Cambiar el logotipo</title>
+<itemizedlist>
+<listitem><para>Establezca el recurso <systemitem>Dtlogin*logo*bitmapFile</systemitem> en <systemitem>Xresources</systemitem>.</para>
+<para>El logotipo puede ser un mapa de pixels de color o un archivo de mapa
+de bits.</para>
+</listitem>
+</itemizedlist>
+<para>El siguiente ejemplo utiliza el mapa de bits <command>Mylogo</command>
+como logotipo:</para>
+<programlisting>Dtlogin*logo*bitmapFile: /usr/local/lib/X11/dt/bitmaps/Mylogo.bm
+</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.22" role="Procedure">
+<title>Cambiar el mensaje de bienvenida<indexterm><primary>pantalla de inicio
+de sesi&oacute;n</primary><secondary>cambiar el mensaje de bienvenida</secondary>
+</indexterm><indexterm><primary>pantalla de inicio de sesi&oacute;n</primary>
+<secondary>dar la bienvenida</secondary></indexterm><indexterm><primary>mensaje de bienvenida</primary><secondary>cambiar</secondary></indexterm></title>
+<para><indexterm><primary>mensaje de bienvenida</primary><secondary>predeterminado</secondary></indexterm>Como valor predeterminado, el servidor de inicio de
+sesi&oacute;n muestra el mensaje <computeroutput>Bienvenido a <symbol role="Variable">nombre de host</symbol></computeroutput> en la pantalla de inicio de sesi&oacute;n.
+Para cambiar este mensaje:</para>
+<itemizedlist>
+<listitem><para>Establezca el recurso <systemitem>Dtlogin*greeting*labelString</systemitem> en <systemitem>Xresources</systemitem>.</para>
+<para>El valor del recurso <systemitem>labelString</systemitem> puede contener
+%<symbol role="Variable">LocalHost</symbol>%, que se sustituir&aacute; por
+el nombre del host del servidor de inicio de sesi&oacute;n, y %<symbol role="Variable">DisplayName</symbol>%, que se sustituir&aacute; por el nombre de pantalla
+del servidor de X.</para>
+</listitem>
+</itemizedlist>
+<para>El siguiente ejemplo cambia el mensaje de bienvenida por <computeroutput>&iexcl;Aqu&iacute; est&aacute; <symbol role="Variable">nombre de host</symbol>!</computeroutput>:</para>
+<programlisting>Dtlogin*greeting*labelString: &iexcl;Aqu&iacute; est&aacute; %LocalHost%!
+</programlisting>
+<para>Una vez entrado el nombre de usuario, el servidor de inicio de sesi&oacute;n
+muestra el mensaje predeterminado <command>Bienvenido</command> <symbol role="Variable">nombre de usuario</symbol>. Se puede cambiar este mensaje estableciendo el
+recurso <systemitem>Dtlogin*greeting*persLabelString</systemitem> en <systemitem>Xresources</systemitem>. El valor de <systemitem>persLabelString</systemitem>
+puede contener %<command>s</command>, que se sustituir&aacute; por el <symbol role="Variable">nombre de usuario</symbol>.</para>
+<para>El ejemplo siguiente cambia el mensaje de bienvenida personalizado a <computeroutput>Hola <symbol role="Variable">nombre de usuario</symbol></computeroutput>.
+</para>
+<programlisting>Dtlogin*greeting*persLabelString: Hola %s</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.23" role="Procedure">
+<title>Cambiar los<indexterm><primary>pantalla de inicio de sesi&oacute;n</primary><secondary>fonts</secondary></indexterm> fonts</title>
+<para>Se pueden cambiar los fonts utilizados en la pantalla de inicio de sesi&oacute;n
+estableciendo uno de los siguientes recursos de font en <systemitem>Xresources</systemitem> :<indexterm><primary>Xresources, archivo</primary></indexterm></para>
+<para>Para listar los fonts disponibles, escriba:</para>
+<programlisting>xlsfonts [-opciones] [-fn patr&oacute;n]</programlisting>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="264*">
+<colspec colwidth="264*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*greeting*fontList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Font para mensajes de bienvenida</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*labelFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Font para etiquetas y botones de acci&oacute;n
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*textFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Font para mensajes de ayuda y de error
+</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>El ejemplo siguiente utiliza un font grande para el mensaje de bienvenida
+(el valor especificado debe estar contenido en una sola l&iacute;nea):</para>
+<programlisting>Dtlogin*greeting*fontList: -dt-interface system-medium-r-normal-xxl*-*-*-*-*-*-*-*-*:
+</programlisting>
+<sect3 id="SAG.LogMg.div.24" role="Procedure">
+<title>Proporcionar texto alternativo a mostrar<indexterm><primary>pantalla
+de inicio de sesi&oacute;n</primary><secondary>entorno nacional</secondary>
+</indexterm> para cada idioma<indexterm><primary>entorno nacional</primary>
+<secondary>pantalla de inicio de sesi&oacute;n</secondary></indexterm></title>
+<para>Para mostrar texto por entorno nacional en el men&uacute; Idioma de
+la pantalla de inicio de sesi&oacute;n en lugar de mostrar el nombre de entorno
+nacional predeterminado, modifique el recurso de nombre de recurso <systemitem>Dtlogin*<symbol role="Variable">idioma</symbol> *languageName</systemitem>
+en <systemitem>Xresources</systemitem>:</para>
+<programlisting>Dtlogin*Es_ES*languageName: Espa&ntilde;ol</programlisting>
+<para>Ahora se mostrar&aacute; el texto <filename>Espa&ntilde;ol</filename>
+en lugar del nombre de entorno nacional <filename>Es_ES</filename>.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.25">
+<title>Cambio de comportamiento de la pantalla de inicio de sesi&oacute;n<indexterm>
+<primary>pantalla de inicio de sesi&oacute;n</primary><secondary>cambiar el
+comportamiento</secondary></indexterm></title>
+<para>Para personalizar el comportamiento de la pantalla de inicio de sesi&oacute;n,
+se pueden modificar los recursos especificados en el archivo <filename>Xconfig</filename>.</para>
+<para>Para modificar <filename>Xconfig</filename>, copie <filename>Xconfig</filename> de <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename>. Despu&eacute;s de modificar <filename>/etc/dt/config/Xconfig</filename>, indique al servidor de inicio de sesi&oacute;n que vuelva a leer <command>Xconfig</command>, escribiendo:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Esto emite el mandato <command>kill</command> <command>-HUP</command> <symbol role="Variable">ID de proceso de servidor de inicio de sesi&oacute;n</symbol>)
+</para>
+<para><indexterm><primary>Gestor de inicio de sesi&oacute;nu</primary><secondary>recursos</secondary></indexterm>Los recursos especificados en el archivo <filename>Xconfig</filename><indexterm><primary>Xconfig, archivo</primary><secondary>establecer recursos en</secondary></indexterm> incluyen:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="249*">
+<colspec colwidth="279*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*authorize</systemitem></para></entry>
+<entry align="left" valign="top"><para>Especificaci&oacute;n de archivo <systemitem>Xaccess</systemitem></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*environment</systemitem></para></entry>
+<entry align="left" valign="top"><para>Entorno del servidor de X</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*language</systemitem></para></entry>
+<entry align="left" valign="top"><para>Idioma predeterminado</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*languageList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Lista de idiomas para el men&uacute;
+Idioma de la pantalla de inicio de sesi&oacute;n</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*resources</systemitem></para></entry>
+<entry align="left" valign="top"><para>Especificaci&oacute;n de <command>Xresources</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*setup</systemitem></para></entry>
+<entry align="left" valign="top"><para>Especificaci&oacute;n del archivo <command>Xsetup</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*startup</systemitem></para></entry>
+<entry align="left" valign="top"><para>Especificaci&oacute;n del archivo <command>Xstartup</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*session</systemitem></para></entry>
+<entry align="left" valign="top"><para>Especificaci&oacute;n del archivo <command>Xsession</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*failsafeClient</systemitem></para></entry>
+<entry align="left" valign="top"><para>Especificaci&oacute;n del script <command>Xfailsafe</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*reset</systemitem></para></entry>
+<entry align="left" valign="top"><para>Especificaci&oacute;n del script <command>Xreset</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*userPath</systemitem></para></entry>
+<entry align="left" valign="top"><para>PATH para <command>Xsession</command>
+y</para><para><command>Xfailsafe</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*systemPath</systemitem></para></entry>
+<entry align="left" valign="top"><para>PATH para <command>Xsetup</command>,
+<command>Xstartup</command> y <command>Xfailsafe</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*systemShell</systemitem></para></entry>
+<entry align="left" valign="top"><para>SHELL <command>Xsetup</command>, <command>Xstartup</command> y <command>Xfailsafe</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin.timeZone</systemitem></para></entry>
+<entry align="left" valign="top"><para>TZ para todos los scripts</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.26">
+<title>Cambio de comportamiento de la pantalla de inicio de sesi&oacute;n
+por pantalla<indexterm><primary>pantalla de inicio de sesi&oacute;n</primary>
+<secondary>comportamiento dependiente de la pantalla</secondary></indexterm><indexterm>
+<primary>m&uacute;ltiples pantallas</primary><secondary>Gestor de inicio de
+sesi&oacute;n</secondary></indexterm></title>
+<para>En los ejemplos siguientes, si se cambia un recurso de <filename>Xconfig</filename>, cambia el comportamiento de la pantalla de inicio de sesi&oacute;n
+para todas las pantallas. Los recursos listados con un * (asterisco) pueden
+especificarse para cada pantalla. Esto le permite especificar un comportamiento
+personalizado de pantalla de inicio de sesi&oacute;n para determinadas pantallas.
+Para especificar un recurso para una pantalla determinada, se especifica
+el recurso como <systemitem>Dtlogin*<symbol role="Variable">Nombrepantalla</symbol>*<symbol role="Variable">recurso</symbol></systemitem>. Por ejemplo,
+si quisiera desactivar el control de acceso basado en el usuario para la pantalla <filename>expo:0</filename> pero dejarlo activado para otras pantallas, deber&iacute;a
+especificar:</para>
+<programlisting>Dtlogin*expo_0*authorize: False</programlisting>
+<note>
+<para>Cualquier car&aacute;cter especial en el nombre de pantalla, como por
+ejemplo: (dos puntos) o . (punto), se sustituye por un _ (subrayado).</para>
+</note>
+</sect2>
+<sect2 id="SAG.LogMg.div.27">
+<title>Cambio de acceso<indexterm><primary>pantalla de inicio de sesi&oacute;n</primary><secondary>acceso al servidor de X</secondary></indexterm><indexterm>
+<primary>servidor de X</primary><secondary>cambiar el acceso</secondary>
+</indexterm> al servidor de X</title>
+<para>Como valor predeterminado, el servidor de inicio de sesi&oacute;n permite
+el control de acceso al servidor de X &ldquo;por usuario&rdquo; y se basa
+en datos de autorizaciones almacenados y protegidos en el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.Xauthority</filename>.
+S&oacute;lo se permite conectarse al servidor de X a los usuarios que pueden
+leer este archivo. Normalmente, &eacute;ste es el m&eacute;todo preferido
+de control de acceso al servidor de X.</para>
+<para>Como alternativa al control de acceso basado en el usuario, existe el
+control de acceso basado en el host. Seg&uacute;n este m&eacute;todo, si a
+un host se le otorga el acceso al servidor de X, cualquier usuario de dicho
+host tiene permiso para conectarse al servidor de X. Entre las razones para
+utilizar el control basado en el host se incluyen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Los clientes de X R2 y R3 anteriores no podr&aacute;n conectarse
+a un servidor de X utilizando el control de acceso basado en el usuario.</para>
+</listitem>
+<listitem><para>En redes no protegidas, es posible que alg&uacute;n curioso
+pueda interceptar datos de autorizaci&oacute;n entre el cliente de X y el
+servidor de X en la red.</para>
+</listitem>
+</itemizedlist>
+<para>El recurso <systemitem>Xconfig Dtlogin*authorize</systemitem><indexterm>
+<primary>authorize, recurso</primary></indexterm> indica al servidor de inicio
+de sesi&oacute;n que utilice el control de acceso al servidor de X basado
+en el usuario. Para utilizar el control de acceso basado en el host, cambie
+el valor del recurso de autorizaci&oacute;n a <command>False</command>, por
+ejemplo:</para>
+<programlisting>Dtlogin*authorize: False</programlisting>
+<sect3 id="SAG.LogMg.div.28" role="Procedure">
+<title>Cambiar el entorno del servidor de X<indexterm><primary>servidor de
+X</primary><secondary>cambiar el entorno</secondary></indexterm><indexterm>
+<primary>pantalla de inicio de sesi&oacute;n</primary><secondary>entorno
+del servidor de X</secondary></indexterm></title>
+<para>Si desea proporcionar al servidor de X uno o m&aacute;s valores y variables
+de entorno cuando lo inicie el servidor de inicio de sesi&oacute;n, puede
+especificarlos utilizando el recurso <systemitem>Dtlogin*environment</systemitem>
+en <filename>Xconfig</filename>. Por ejemplo:</para>
+<programlisting>Dtlogin*environment: VAR1=foo VAR2=bar</programlisting>
+<para>dejar&aacute; disponibles las variables <symbol>VAR1</symbol> y <symbol>VAR2</symbol> para el proceso local del servidor de X. Estas variables tambi&eacute;n
+se exportar&aacute;n a los scripts <command>Xsession</command> y <command>Xfailsafe</command>.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.29" role="Procedure">
+<title>Cambiar el idioma predeterminado<indexterm><primary>pantalla de inicio
+de sesi&oacute;n</primary><secondary>cambiar el idioma predeterminado</secondary>
+</indexterm></title>
+<para>Cuando el usuario inicia la sesi&oacute;n en el escritorio desde la
+pantalla de inicio de sesi&oacute;n, la sesi&oacute;n de usuario se ejecuta
+bajo el entorno nacional seleccionado en el submen&uacute; Idioma del men&uacute;
+Opciones. Si el usuario no selecciona ning&uacute;n idioma, se utilizar&aacute;
+el idioma predeterminado del servidor de inicio de sesi&oacute;n. Se puede
+controlar el valor del idioma predeterminado estableciendo el recurso <systemitem>Dtlogin*language<indexterm><primary>Dtlogin*language, recurso</primary></indexterm></systemitem>
+en <filename>Xconfig</filename>. Por ejemplo:</para>
+<programlisting>Dtlogin*language: Ja_JP</programlisting>
+<para>Consulte la documentaci&oacute;n del sistema para determinar los idiomas
+instalados en el sistema.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.30" role="Procedure">
+<title>Cambiar el contenido del men&uacute; Idioma de la pantalla de inicio
+de sesi&oacute;n<indexterm><primary>pantalla de inicio de sesi&oacute;n</primary>
+<secondary>cambiar el contenido del men&uacute; idioma</secondary></indexterm><indexterm><primary>Idioma, men&uacute;, personalizar</primary></indexterm></title>
+<para>Como valor predeterminado, el servidor de inicio de sesi&oacute;n crea
+el men&uacute; Idioma de la pantalla de inicio de sesi&oacute;n que contiene
+una lista de todos los entornos nacionales instalados en el sistema. Cuando
+el usuario seleccione un entorno nacional en la lista de idiomas de la pantalla
+de inicio de sesi&oacute;n, el servidor de inicio de sesi&oacute;n volver&aacute;
+a mostrar la pantalla de inicio de sesi&oacute;n en el entorno nacional seleccionado.
+Cuando el usuario inicie la sesi&oacute;n de forma consecutiva, el servidor
+de inicio de sesi&oacute;n iniciar&aacute; una sesi&oacute;n de escritorio
+para el usuario en dicho entorno nacional.</para>
+<para>Se puede especificar una lista propia de idiomas modificando el recurso
+<systemitem>Dtlogin*languageList</systemitem> en <filename>Xconfig</filename>:
+</para>
+<programlisting>Dtlogin*languageList: En_US De_DE</programlisting>
+<para>Ahora el servidor de inicio de sesi&oacute;n muestra s&oacute;lo <filename>En_US</filename> y <filename>De_DE</filename> en el men&uacute; Idioma de
+la pantalla de inicio de sesi&oacute;n.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.31">
+<title>Emisi&oacute;n de mandatos antes de que aparezca la pantalla de inicio
+de sesi&oacute;n<indexterm><primary>Gestor de inicio de sesi&oacute;n</primary>
+<secondary>emitir mandatos</secondary></indexterm></title>
+<para>Despu&eacute;s de que se haya iniciado el servidor de X pero antes de
+que aparezca la pantalla de inicio de sesi&oacute;n, el servidor de inicio
+de sesi&oacute;n ejecuta el script <command>Xsetup</command>. <command>Xsetup<indexterm>
+<primary>Xsetup, archivo</primary></indexterm></command> se ejecuta con autorizaci&oacute;n
+root y emite mandatos que es necesario ejecutar antes de que se muestre la
+pantalla de inicio de sesi&oacute;n.</para>
+<para>Para modificar <command>Xsetup</command>, copie <command>Xsetup</command>
+de <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename>.
+La pr&oacute;xima vez que se muestre la pantalla de inicio de sesi&oacute;n,
+se ejecutar&aacute; el script <command>Xsetup</command> modificado.</para>
+<sect3 id="SAG.LogMg.div.32">
+<title>Emisi&oacute;n de mandatos antes de iniciar la sesi&oacute;n de usuario</title>
+<para>Despu&eacute;s de que el usuario haya entrado el nombre de usuario y
+la contrase&ntilde;a y de que &eacute;stos se hayan autentificado, pero antes
+de que se inicie la sesi&oacute;n de usuario, el servidor de inicio de sesi&oacute;n
+ejecuta el script <command>Xstartup</command>.<indexterm><primary>Xstartup,
+archivo</primary></indexterm> <command>Xstartup</command> se ejecuta con autorizaci&oacute;n
+root y emite mandatos que es necesario ejecutar como root antes de que se
+inicie la sesi&oacute;n de usuario.</para>
+<para>Para modificar <command>Xstartup</command>, copie <command>Xstartup</command> de <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename>. La pr&oacute;xima vez que el usuario inicie la sesi&oacute;n,
+se ejecutar&aacute; el script <command>Xstartup</command> modificado.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.33">
+<title>Inicio de una sesi&oacute;n de escritorio</title>
+<para>Como valor predeterminado, el servidor de inicio de sesi&oacute;n inicia
+la sesi&oacute;n de usuario ejecutando el script <command>Xsession</command>. <command>Xsession<indexterm><primary>Xsession, archivo</primary><secondary>ejecutado
+por el servidor de inicio de sesi&oacute;n</secondary></indexterm></command>
+se ejecuta con la autorizaci&oacute;n del usuario y emite mandatos necesarios
+para iniciar el escritorio.</para>
+<note>
+<para>No actualice directamente el script <command>Xsession</command>.</para>
+</note>
+<para>Consulte el <!--Original XRef content: 'Chapter&numsp;2, &ldquo;Configuring
+Session Manager'--><xref role="ChapNumAndTitle" linkend="SAG.SesMg.mkr.1">
+para obtener informaci&oacute;n sobre c&oacute;mo personalizar el arranque
+de sesi&oacute;n de escritorio del usuario.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.34">
+<title>Inicio de una sesi&oacute;n de seguridad contra anomal&iacute;a<indexterm>
+<primary>sesi&oacute;n</primary><secondary>de seguridad contra anomal&iacute;a</secondary></indexterm></title>
+<para>Si el usuario selecciona Sesi&oacute;n de Seguridad contra anomal&iacute;a<indexterm>
+<primary>sesiones de seguridad contra anomal&iacute;a</primary></indexterm>
+en el submen&uacute; Sesiones del men&uacute; Opciones de la pantalla de inicio
+de sesi&oacute;n, el servidor de inicio de sesi&oacute;n ejecuta el script <command>Xfailsafe<indexterm><primary>Xfailsafe, archivo</primary></indexterm></command>. <command>Xfailsafe</command> se ejecuta con la autorizaci&oacute;n del usuario y emite
+mandatos necesarios para iniciar un entorno m&iacute;nimo de ventanas, generalmente
+una ventana Terminal y un gestor de ventanas opcional.</para>
+<para>Para modificar <command>Xfailsafe</command>, copie <command>Xfailsafe</command> de <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename>. La pr&oacute;xima vez que el
+usuario inicie la sesi&oacute;n, se ejecutar&aacute; el script <command>Xfailsafe</command> modificado.</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.35">
+<title>Despu&eacute;s de finalizar la sesi&oacute;n de usuario<indexterm>
+<primary>sesi&oacute;n</primary><secondary>script ejecutado al finalizar</secondary>
+</indexterm></title>
+<para>Cuando el usuario ha salido del escritorio o de la sesi&oacute;n de
+seguridad contra anomal&iacute;a, el servidor de inicio de sesi&oacute;n
+ejecuta el script <command>Xreset</command>. <command>Xreset</command><indexterm>
+<primary>Xreset, archivo</primary></indexterm> se ejecuta con autorizaci&oacute;n
+root y emite mandatos que es necesario ejecutar como root despu&eacute;s de
+que finalice la sesi&oacute;n del usuario.</para>
+<para>Si desea modificar <command>Xreset</command>, copie <command>Xreset</command> de <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename>. La pr&oacute;xima vez que el usuario inicie la sesi&oacute;n,
+se ejecutar&aacute; el script <command>Xreset</command> modificado.</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.36">
+<title>Entorno del servidor de inicio de sesi&oacute;n</title>
+<para>El servidor de inicio de sesi&oacute;n proporciona un entorno que exporta
+a los scripts <command>Xsetup</command>, <command>Xstartup</command>, <command>Xsession</command>, <command>Xfailsafe</command> y <command>Xreset</command>.
+Este entorno se describe en la <!--Original XRef content: 'Table&numsp;1&hyphen;1'--><xref
+role="CodeOrFigureOrTable" linkend="SAG.LogMg.mkr.12">. El servidor de inicio
+de sesi&oacute;n tambi&eacute;n puede exportar variables adicionales.</para>
+<table id="SAG.LogMg.tbl.1" frame="Topbot">
+<title id="SAG.LogMg.mkr.12">Entorno del Servidor de inicio de sesi&oacute;n<indexterm>
+<primary>servidores de inicio de sesi&oacute;n</primary><secondary>entornos</secondary></indexterm></title>
+<tgroup cols="6" colsep="0" rowsep="0">
+<colspec colwidth="1.48in">
+<colspec colwidth="0.27in">
+<colspec colwidth="0.27in">
+<colspec colwidth="0.24in">
+<colspec colwidth="0.27in">
+<colspec colwidth="3.48in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Entorno</literal> <literal>Variable</literal></para></entry><entry align="left" valign="bottom"><para><literal><command>Xsetup</command></literal></para></entry><entry align="left" valign="bottom"><para><literal><command>Xstartup</command></literal></para></entry><entry align="left" valign="bottom"><para><command> <command>Xsession</command></command></para></entry><entry align="left" valign="bottom"><para><literal><command>Xreset</command></literal></para></entry><entry align="left" valign="bottom"><para><literal>Descripci&oacute;n</literal></para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">LANG</systemitem></para><indexterm><primary>LANG variable</primary><secondary>establecida por el Gestor de inicio de sesi&oacute;n</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Idioma predeterminado o seleccionado
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><literal>XAUTHORITY</literal></para><indexterm>
+<primary>XAUTHORITY, variable establecida por el Gestor de inicio de sesi&oacute;n </primary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Archivo de autorizaciones X alternativo
+(opcional)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">PATH</systemitem></para><indexterm><primary>PATH, variable</primary><secondary>establecida por el Gestor de inicio de sesi&oacute;n</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Valor del recurso <command>Dtlogin*userPath</command> (<command>Xsession</command>, <command>Xfailsafe</command>) o del
+recurso <filename>Dtlogin*systemPath</filename> (<command>Xsetup</command>, <command>Xstartup</command>, <command>Xreset</command>)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">DISPLAY</systemitem></para><indexterm><primary>DISPLAY, variable establecida por
+el Gestor de inicio de sesi&oacute;n</primary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>N&uacute;mero de conexiones del servidor
+de X</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><literal>SHELL</literal></para><indexterm>
+<primary>SHELL, variable establecida por el Gestor de inicio de sesi&oacute;n </primary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Shell especificado en el recurso <filename>/etc/passwd</filename> (<command>Xsession</command>, <command>Xfailsafe</command>)
+o <filename>Dtlogin*systemShell</filename> (<command>Xsetup</command>, <command>Xstartup</command>, <command>Xreset</command>)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">TZ</systemitem></para><indexterm>
+<primary>TZ, variable</primary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Valor del recurso <filename>Dtlogin.timeZone</filename> o huso horario determinado desde el sistema</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">USER</systemitem></para><indexterm><primary>USER, variable</primary></indexterm></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Nombre de usuario</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">HOME</systemitem></para><indexterm><primary>HOME, variable</primary></indexterm></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Directorio de inicio del usuario especificado
+en <command>/etc/passwd</command></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><abbrev>LOGNAME</abbrev></para><indexterm>
+<primary>LOGNAME, variable</primary></indexterm></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Nombre de usuario</para></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</sect2>
+<sect2 id="SAG.LogMg.div.37">
+<title>Cambio de ruta del usuario o del sistema</title>
+<para>El servidor de inicio de sesi&oacute;n establece la variable de entorno <systemitem>PATH</systemitem><indexterm><primary>servidores de inicio de sesi&oacute;n</primary><secondary>ruta de usuario</secondary></indexterm> cuando ejecuta
+los scripts <command><indexterm><primary>Xsession, archivo</primary><secondary>establecer PATH</secondary></indexterm>Xsession</command> y <command><indexterm>
+<primary>Xfailsafe, archivo</primary></indexterm>Xfailsafe</command>. Se puede
+proporcionar una ruta alternativa a estos scripts.</para>
+<sect3 id="SAG.LogMg.div.38" role="Procedure">
+<title>Cambiar la ruta del usuario<indexterm><primary>ruta</primary><secondary>usuario</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Establezca el recurso <systemitem>Dtlogin*userPath</systemitem><indexterm>
+<primary>userPath, recurso</primary></indexterm> en <filename>Xconfig</filename>.
+Por ejemplo:<indexterm><primary>variables de entorno</primary><secondary>Gestor de inicio de sesi&oacute;n</secondary></indexterm></para>
+</listitem>
+</itemizedlist>
+<programlisting>Dtlogin*userPath:/usr/bin:/etc:/usr/sbin:/usr/ucb:/usr/bin/X11
+</programlisting>
+</sect3>
+<sect3 id="SAG.LogMg.div.39" role="Procedure">
+<title>Cambiar la ruta del sistema<indexterm><primary>ruta</primary><secondary>sistema</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Establezca el recurso <systemitem>Dtlogin*systemPath</systemitem><indexterm>
+<primary>systemPath, recurso</primary></indexterm> en <filename>Xconfig</filename>.
+Por ejemplo:</para>
+</listitem>
+</itemizedlist>
+<programlisting>Dtlogin*systemPath: /usr/bin/X11:/etc:/bin:/usr/bin:/usr/ucb
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.40" role="Procedure">
+<title>Cambiar el shell del sistema</title>
+<para>El servidor de inicio de sesi&oacute;n establece la variable de entorno <systemitem>SHELL</systemitem> cuando ejecuta los scripts <command>Xsetup</command>, <command>Xstartup</command> y <command>Xfailsafe</command>.<indexterm><primary>servidores
+de inicio de sesi&oacute;n</primary><secondary>shell del sistema</secondary>
+</indexterm> El valor predeterminado es <filename>/bin/sh</filename>. Si desea
+proporcionar un shell alternativo a estos scripts, puede establecer el recurso <systemitem>Dtlogin*systemShell</systemitem> en <filename>Xconfig</filename>. Por ejemplo:
+</para>
+<programlisting>Dtlogin*systemShell: /bin/ksh</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.41" role="Procedure">
+<title>Cambiar la zona horaria</title>
+<para>El servidor de inicio de sesi&oacute;n establece la variable de entorno
+<systemitem>TZ</systemitem><indexterm><primary>TZ, variable</primary></indexterm>
+cuando ejecuta los scripts <command>Xsetup</command>, <command>Xstartup</command>, <command>Xsession</command>, <command>Xfailsafe</command> y <command>Xreset</command>.
+El valor predeterminado procede del sistema, de modo que generalmente no
+ser&aacute;<indexterm><primary>servidores de inicio de sesi&oacute;n</primary>
+<secondary>cambiar la zona horaria</secondary></indexterm><indexterm><primary>zona horaria, cambiar</primary></indexterm> necesario cambiar este comportamiento.
+Para proporcionar una zona horaria alternativa a estos scripts, establezca
+el recurso <filename>Dtlogin.timeZone</filename><indexterm><primary>timeZone,
+recurso</primary></indexterm> en <systemitem>Xconfig</systemitem>. Por ejemplo:
+</para>
+<programlisting>Dtlogin.timeZone: CST6CDT</programlisting>
+</sect2>
+</sect1>
+<sect1 id="SAG.LogMg.div.42">
+<title id="SAG.LogMg.mkr.13">Administraci&oacute;n del Gestor de inicio de
+sesi&oacute;n</title>
+<para>Al iniciar el servidor de inicio de sesi&oacute;n, se inicia un proceso
+<filename>Xconfig</filename>. El proceso <filename>Xconfig</filename> lee
+el archivo <filename>Xconfig</filename> para determinar la configuraci&oacute;n
+inicial del servidor de inicio de sesi&oacute;n y para localizar otros archivos
+de configuraci&oacute;n del servidor de inicio de sesi&oacute;n. Entonces
+el servidor de inicio de sesi&oacute;n lee el archivo <filename>Xservers</filename>
+para ver si contiene pantallas que haya que gestionar de forma expl&iacute;cita
+y tambi&eacute;n lee el archivo <filename>Xaccess</filename> para controlar
+el acceso al servidor de inicio de sesi&oacute;n.</para>
+<para>Si el servidor de inicio de sesi&oacute;n descubre en el archivo <filename>Xservers</filename><indexterm><primary>Xservers, archivo</primary><secondary>gestionar pantalla local</secondary></indexterm> que es necesario que gestione
+una pantalla local, iniciar&aacute; un servidor de X que se le indica en el
+archivo <filename>Xservers</filename> y luego mostrar&aacute; una pantalla
+de inicio de sesi&oacute;n en dicha pantalla.</para>
+<para>Si el servidor de inicio de sesi&oacute;n descubre en el archivo <filename>Xservers</filename> que es necesario que gestione una pantalla de red, supondr&aacute;
+que ya se est&aacute; ejecutando un servidor de X con el nombre de pantalla
+especificado y mostrar&aacute; una pantalla de inicio de sesi&oacute;n en
+dicha pantalla.</para>
+<para>Entonces el servidor de inicio de sesi&oacute;n esperar&aacute; peticiones
+XDMCP procedentes de la red.</para>
+<para>Para cada pantalla gestionada, el servidor de inicio de sesi&oacute;n
+crea primero un nuevo proceso <systemitem>Xconfig</systemitem> para la pantalla en cuesti&oacute;n. Esto significa que,
+si el servidor de inicio de sesi&oacute;n est&aacute; gestionando <symbol role="Variable">n</symbol> pantallas, habr&aacute; <symbol role="Variable">n+1</symbol> procesos <command>dtlogin</command>. El servidor de inicio de
+sesi&oacute;n ejecutar&aacute; el script <command>Xsetup</command>, cargar&aacute;
+el archivo <filename>Xresources</filename> y luego ejecutar&aacute; <command>dtgreet</command> para mostrar la pantalla de inicio de sesi&oacute;n. Una
+vez que el usuario haya entrado un nombre de usuario y una contrase&ntilde;a
+y haya sido autentificado, el servidor de inicio de sesi&oacute;n ejecutar&aacute;
+el script <command>Xstartup</command> y luego el script <command>Xsession</command> o <command>Xfailsafe<indexterm><primary>Xfailsafe, archivo</primary>
+</indexterm></command>. Cuando el usuario haya salido de la sesi&oacute;n,
+el servidor de inicio de sesi&oacute;n ejecutar&aacute; el script <command>Xreset</command>.</para>
+<para>Si el servidor de inicio de sesi&oacute;n obtiene una<indexterm><primary>XDMCP</primary><secondary>peticiones indirectas</secondary></indexterm> petici&oacute;n
+indirecta de XDMCP, ejecutar&aacute; <command>dtchooser</command> para presentar
+una lista de hosts de servidores de inicio de sesi&oacute;n en la pantalla.
+Cuando el usuario seleccione un host de la lista, el servidor de inicio de
+sesi&oacute;n de dicho host gestionar&aacute; la pantalla.</para>
+<para>Para los archivos de configuraci&oacute;n <filename>Xaccess</filename>,
+<filename>Xconfig</filename>, <filename>Xfailsafe</filename>, <filename>Xreset</filename>, <symbol role="Variable">idioma</symbol><filename>/Xresources</filename>, <filename>Xservers</filename>, <filename>Xsetup</filename> y <filename>Xstartup</filename>, el servidor de inicio de sesi&oacute;n buscar&aacute;
+primero, como valor predeterminado, <filename>/etc/dt/config</filename> y
+luego <filename>/usr/dt/config</filename> y utilizar&aacute; el primer archivo
+que encuentre.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.43">
+<title id="SAG.LogMg.mkr.14">Archivos del Gestor de inicio de sesi&oacute;n<indexterm>
+<primary>archivos de configuraci&oacute;n</primary><secondary>Gestor de inicio
+de sesi&oacute;n</secondary></indexterm></title>
+<para>Las ubicaciones predeterminadas de los archivos del Gestor de inicio
+de sesi&oacute;n<indexterm><primary>Gestor de inicio de sesi&oacute;n</primary>
+<secondary>archivos de configuraci&oacute;n</secondary></indexterm> son:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="264*">
+<colspec colwidth="264*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtlogin</filename></para><indexterm>
+<primary>&lt;$nopage>dtlogin, Vea Gestor de inicio de sesi&oacute;n</primary>
+</indexterm></entry>
+<entry align="left" valign="top"><para>El servidor de inicio de sesi&oacute;n
+y el gestor de pantallas</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtgreet</filename></para><indexterm>
+<primary>dtgreet, archivo</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Muestra una pantalla de inicio de sesi&oacute;n
+para una pantalla</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtchooser</filename></para><para><indexterm><primary>dtchooser, archivo</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Muestra una pantalla de selecci&oacute;n
+para una pantalla</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/Xsession</filename></para></entry>
+<entry align="left" valign="top"><para>Inicia una sesi&oacute;n de escritorio
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xfailsafe</filename></para></entry>
+<entry align="left" valign="top"><para>Inicia una sesi&oacute;n de seguridad
+contra anomal&iacute;a</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xconfig</filename></para></entry>
+<entry align="left" valign="top"><para>Archivo de configuraci&oacute;n del
+servidor de inicio de sesi&oacute;n</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xservers</filename></para></entry>
+<entry align="left" valign="top"><para>Archivo de descripci&oacute;n de pantalla
+del servidor de inicio de sesi&oacute;n</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xaccess</filename></para></entry>
+<entry align="left" valign="top"><para>Archivo de descripci&oacute;n de acceso
+al servidor de inicio de sesi&oacute;n</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/</filename><symbol role="Variable">idioma</symbol><filename>/Xresources</filename></para></entry>
+<entry align="left" valign="top"><para>Recursos de disposici&oacute;n de pantalla
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xsetup</filename></para></entry>
+<entry align="left" valign="top"><para>Archivo de configuraci&oacute;n de
+pantalla</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xstartup</filename></para></entry>
+<entry align="left" valign="top"><para>Archivo de arranque anterior a la sesi&oacute;n
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xreset</filename></para></entry>
+<entry align="left" valign="top"><para>Archivo de restablecimiento posterior
+a la sesi&oacute;n</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/var/dt/Xpid</filename></para></entry>
+<entry align="left" valign="top"><para>Id de proceso del servidor de inicio
+de sesi&oacute;n</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/var/dt/Xerrors</filename></para></entry>
+<entry align="left" valign="top"><para>Archivo de registro de errores del
+servidor de inicio de sesi&oacute;n</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 14:35:19-->
+<?Pub *0000084633>

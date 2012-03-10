@@ -1,0 +1,245 @@
+<!-- $XConsortium: DtDndPro.sgm /main/10 1996/08/31 14:54:19 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN89.rsml.1">
+<refmeta><refentrytitle>DtDndProtocol</refentrytitle><manvolnum>special file
+</manvolnum></refmeta>
+<refnamediv><refname><structname role="typedef">DtDndProtocol</structname></refname>
+<refpurpose>drag and drop matching and transfer protocols</refpurpose></refnamediv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The drag and drop protocols provide policy for matching and data transfer
+between the drag initiator and the drop receiver of file names, selected text
+spans and application-defined structured data formats.</para>
+<para>The drag and drop protocols use the standard X11 selection targets,
+where available, with the addition of several new selection targets where
+required.</para>
+<para>These protocols provide for the transfer of the following types of data:
+</para>
+<itemizedlist>
+<!-- merged from xo+cde-->
+<listitem><para>Selected Text</para>
+</listitem><listitem><para>File Names</para>
+</listitem><listitem><para>Buffers</para>
+</listitem></itemizedlist>
+</refsect1>
+<refsect1>
+<title>PROTOCOL OVERVIEW</title>
+<para>Each protocol consists of the following:</para>
+<refsect2>
+<title>Drag and Drop API Protocol</title>
+<para>Each protocol described corresponds to a specific <structname role="typedef">DtDndProtocol</structname> enumeration value.</para>
+</refsect2>
+<refsect2>
+<title>Export/Import Targets</title>
+<para>The Motif drag and drop API provides support for matching of the data
+transfer protocol between the drag initiator and the various drop receivers.
+This allows the user to determine readily which drop sites will accept the
+dragged data.</para>
+<para>The drag initiator sets the <systemitem class="Resource">XmNexportTargets</systemitem> resource of the <classname>XmDragContext</classname> to the
+list of target atoms that describe the data being dragged. The drop receiver
+sets the <systemitem class="Resource">XmNimportTargets</systemitem> resource
+of the <Symbol>XmDropSite</Symbol> to the list of target atoms that describe
+the data that it will accept. The Motif drag and drop subsystem allows drops
+when the <systemitem class="Resource">XmNexportTargets</systemitem> and <systemitem class="Resource">XmNimportTargets</systemitem> have at least one target in
+common.</para>
+</refsect2>
+<refsect2>
+<title>Data Transfer Protocol</title>
+<para>Once the drag initiator has dropped on the drop receiver, the transfer
+of data is begun. The transfer is accomplished using X selections and is controlled
+by the drop receiver.</para>
+<para>The drop receiver starts all transfers by converting the selection into
+the ICCCM <systemitem class="Constant">TARGETS</systemitem> target to get
+the set of available selection targets. (See the &str-Zi; for a description
+of converting targets.) It then chooses the appropriate selections from that
+set and requests that the drag initiator convert each requested selection.
+Each protocol has a set of selection targets that are used to transfer all
+the necessary data. These target conversions are usually initiated by calling <function>XmDropTransferStart</function>.</para>
+</refsect2>
+<refsect2>
+<title>Move Completion</title>
+<para>When the operation of the drop is <systemitem class="Constant">XmDROP_MOVE</systemitem>, the drop receiver must complete the move using an appropriate
+method. For most data transfers, this is accomplished by converting the selection
+into the ICCCM <systemitem class="Constant">DELETE</systemitem> target to
+tell the drag initiator that it may delete the data. For most file name transfers,
+this is accomplished via the file system.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>TEXT TRANSFER PROTOCOL</title>
+<para>The text transfer protocol is used to exchange text selections.</para>
+<refsect2>
+<title>Drag and Drop API</title>
+<para>This is the protocol used when a <structname role="typedef">DtDndProtocol</structname> of <systemitem class="Constant">DtDND_TEXT_TRANSFER</systemitem>
+is specified.</para>
+</refsect2>
+<refsect2>
+<title>Export/Import Targets</title>
+<para>The export or import targets are any of the following; the target describing
+the character encoding of the text selection, <systemitem class="Constant">COMPOUND_TEXT</systemitem>, <systemitem class="Constant">STRING</systemitem>
+or <systemitem class="Constant">TEXT</systemitem>.</para>
+</refsect2>
+<refsect2>
+<title>Data Transfer Protocol</title>
+<para>The transfer of text selections follows the protocols described in the
+ICCCM manual. If the character encoding of the drag initiator and drop receiver
+are the same, that target should be converted to get the text selection. If
+the character encoding are different, the drop receiver should attempt to
+convert the standard text targets in the following order: <systemitem class="Constant">COMPOUND_TEXT</systemitem>, <systemitem class="Constant">STRING</systemitem>
+or <systemitem class="Constant">TEXT</systemitem>.</para>
+</refsect2>
+<refsect2>
+<title>Move Completion</title>
+<para>The move is completed by converting the selection into the ICCCM <systemitem class="Constant">DELETE</systemitem> target.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>FILE NAME TRANSFER PROTOCOL</title>
+<para>The transfer protocol is used to exchange file names.</para>
+<refsect2>
+<title>Drag and Drop API</title>
+<para>This is the protocol used when a <structname role="typedef">DtDndProtocol</structname> of <systemitem class="Constant">DtDND_FILENAME_TRANSFER</systemitem>
+is specified.</para>
+</refsect2>
+<refsect2>
+<title>Export/Import Targets</title>
+<para>The export or import targets are <systemitem class="Constant">FILE_NAME</systemitem> and, optionally, <systemitem class="Constant">_DT_NETFILE</systemitem>
+if capable of providing the file name in network canonical form using &cdeman.tt.file.netfile; and &cdeman.tt.netfile.file;.</para>
+</refsect2>
+<refsect2>
+<title>Data Transfer Protocol</title>
+<para>If the ICCCM <systemitem class="Constant">HOST_NAME</systemitem> target
+is in the list of target atoms, it is converted. If the returned host name
+is different than the host name for the drop receiver and the <systemitem class="Constant">_DT_NETFILE</systemitem> target is in the list of target
+atoms, it is converted. The drag initiator uses &cdeman.tt.file.netfile; to encode the file names and the drop receiver uses &cdeman.tt.netfile.file; to decode the file names.</para>
+<para>If the hosts are the same for both the drag initiator and the drop receiver
+or either the <systemitem class="Constant">HOST_NAME</systemitem> or the <systemitem class="Constant">_DT_NETFILE</systemitem> targets are not in the list of target
+atoms from the drag initiator, the drop receiver converts the ICCCM <systemitem class="Constant">FILE_NAME</systemitem> target. No encoding of the file names
+occurs in this case.</para>
+</refsect2>
+<refsect2>
+<title>Move Completion</title>
+<para>Moves of file names can be accomplished atomically using standard file
+system operations. Drop receivers are encouraged to use the file system. The
+drop receiver may alternatively choose to use the ICCCM <systemitem class="Constant">DELETE</systemitem> target to complete the <systemitem class="Constant">XmDROP_MOVE</systemitem> and the drag initiator must be ready to comply.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>BUFFER TRANSFER PROTOCOL</title>
+<para>The transfer protocol is used to exchange memory buffers.</para>
+<refsect2>
+<title>Drag and Drop API</title>
+<para>This is the protocol used when a <structname role="typedef">DtDndProtocol</structname> of <systemitem class="Constant">DtDND_BUFFER_TRANSFER</systemitem>
+is specified.</para>
+</refsect2>
+<refsect2>
+<title>Export/Import Targets</title>
+<para>The export and import targets are <systemitem class="Constant">_DT_BUFFER_DATA</systemitem>, <systemitem class="Constant">_DT_BUFFER_LENGTHS</systemitem>
+and, optionally, <systemitem class="Constant">_DT_BUFFER_NAMES</systemitem>.
+</para>
+</refsect2>
+<refsect2>
+<title>Data Transfer Protocol</title>
+<para>The <systemitem class="Constant">_DT_BUFFER_DATA</systemitem> and <systemitem class="Constant">_DT_BUFFER_LENGTHS</systemitem> targets are converted to
+transfer the buffer data.</para>
+<para>The data of the buffers is encoded into the <systemitem class="Constant">_DT_BUFFER_DATA</systemitem> target as an array of bytes. The lengths in bytes
+of each buffer are encoded into <systemitem class="Constant">_DT_BUFFER_LENGTHS</systemitem>. Each length is used to index into the <systemitem class="Constant">_DT_BUFFER_DATA</systemitem> array.</para>
+<para>If the <systemitem class="Constant">_DT_BUFFER_NAMES</systemitem> target
+is available, it is converted to transfer the names of the buffers.</para>
+</refsect2>
+<refsect2>
+<title>Move Completion</title>
+<para>The move is completed by converting the selection into the ICCCM <systemitem class="Constant">DELETE</systemitem> target.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>SELECTION TARGETS</title>
+<para>The following table describes the selection targets used in the drag
+and drop data matching and transfer protocols.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.08in">
+<colspec align="left" colwidth="2.27in">
+<colspec align="left" colwidth="2.02in">
+<colspec align="left" colwidth="2.87in">
+<tbody>
+<row>
+<entry align="left" valign="top"><structname role="typedef">Atom</structname></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Description</literal></entry></row>
+<row>
+<entry align="left" valign="top">TARGETS</entry>
+<entry align="left" valign="top">ATOM</entry>
+<entry align="left" valign="top">A list of valid target atoms. See ICCCM section
+2.6.2.</entry></row>
+<row>
+<entry align="left" valign="top">DELETE</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">Used to delete the dropped data. If the drop
+receiver wishes to perform a move operation on the data, after copying the
+data it should request conversion of the <systemitem class="Constant">DELETE</systemitem> target. See ICCCM section 2.6.3.1.</entry></row>
+<row>
+<entry align="left" valign="top">COMPOUND_TEXT</entry>
+<entry align="left" valign="top">COMPOUND_TEXT</entry>
+<entry align="left" valign="top">The text selection in compound text format.
+See ICCCM section 2.7.1.</entry></row>
+<row>
+<entry align="left" valign="top">STRING</entry>
+<entry align="left" valign="top">STRING</entry>
+<entry align="left" valign="top">The text selection in ISO Latin-1 format.
+See ICCCM section 2.7.1.</entry></row>
+<row>
+<entry align="left" valign="top">TEXT</entry>
+<entry align="left" valign="top">TEXT</entry>
+<entry align="left" valign="top">The text selection in the format preferred
+by the selection holder. See ICCCM section 2.7.1.</entry></row>
+<row>
+<entry align="left" valign="top">HOST_NAME</entry>
+<entry align="left" valign="top">TEXT</entry>
+<entry align="left" valign="top">The name of the machine running the client
+as seen from the machine running the server. See ICCCM section 2.6.2.</entry>
+</row>
+<row>
+<entry align="left" valign="top">FILE_NAME</entry>
+<entry align="left" valign="top">TEXT</entry>
+<entry align="left" valign="top">The full path name of the files. See ICCCM
+section 2.6.2.</entry></row>
+<row>
+<entry align="left" valign="top">_DT_NETFILE</entry>
+<entry align="left" valign="top">TEXT</entry>
+<entry align="left" valign="top">The full pathname of the files, each encoded
+using &cdeman.tt.file.netfile; and decoded using &cdeman.tt.netfile.file;.</entry></row>
+<row>
+<entry align="left" valign="top">_DT_BUFFER_DATA</entry>
+<entry align="left" valign="top">_DT_BUFFER_DATA</entry>
+<entry align="left" valign="top">The buffer data in an array of bytes.</entry>
+</row>
+<row>
+<entry align="left" valign="top">_DT_BUFFER_LENGTHS</entry>
+<entry align="left" valign="top">INTEGER</entry>
+<entry align="left" valign="top">The lengths in bytes of each buffer in the <systemitem class="Constant">_DT_BUFFER_NAMES</systemitem> array.</entry></row>
+<row>
+<entry align="left" valign="top">_DT_BUFFER_NAMES</entry>
+<entry align="left" valign="top">STRING</entry>
+<entry align="left" valign="top">The names of each buffer, suitable for use
+as a file name.</entry></row></tbody></tgroup><?Pub Caret></informaltable>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.Dt.Dnd.h;, &cdeman.DtDndDragStart;, &cdeman.DtDndDragStart;, &cdeman.DtDndDropRegister;, &cdeman.DtDndDropUnregister;, &cdeman.XmDropTransferStart;, &cdeman.XmDragContext;, &cdeman.XmDragStart;, &cdeman.XmDropSiteRegister;, &cdeman.XmDropSite;, &cdeman.tt.file.netfile;, &cdeman.tt.netfile.file;, <literal>X11/R5 Inter-Client
+Communications Conventions Manual (ICCCM)</literal></para>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->
+<?Pub *0000042458>

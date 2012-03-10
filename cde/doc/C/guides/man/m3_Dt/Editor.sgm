@@ -1,0 +1,2663 @@
+<!-- $XConsortium: Editor.sgm /main/10 1996/09/08 20:04:04 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN13.rsml.1">]]><![ %CDE.C.XO; [<refentry
+id="XCSA.MAN13.rsml.1">]]><refmeta><refentrytitle>DtEditor</refentrytitle>
+<manvolnum>library call</manvolnum></refmeta><refnamediv><refname><classname>DtEditor</classname></refname><refpurpose>the DtEditor widget class</refpurpose>
+</refnamediv><!-- CDE Common Source Format, Version 1.0.0--><!-- *************************************************************************--><!--
+**  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company--><!-- **  (c)
+Copyright 1993, 1994, 1995 International Business Machines Corp.--><!-- **
+ (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.--><!-- **  (c) Copyright
+1993, 1994, 1995 Novell, Inc.--><!-- *************************************************************************--><refsynopsisdiv>
+<synopsis>#include &lt;Dt/Editor.h></synopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The DtEditor widget supports creating and editing text files. It gives
+applications running in the desktop environment a consistent method for editing
+text data. The widget consists of:</para>
+<itemizedlist>
+<listitem>
+<para>A scrolled edit window for text</para>
+</listitem>
+<listitem>
+<para>Dialogs for finding and changing text <![ %CDE.C.CDE; [</Para>
+</ListItem>
+<ListItem>
+<Para>Optional status line
+</Para>
+</ListItem>
+<ListItem>
+<Para>Spell checking option
+]]></para>
+</listitem>
+<listitem>
+<para>Formatting options</para>
+</listitem>
+<listitem>
+<para>Convenience functions for programmatically controlling the widget</para>
+</listitem>
+</itemizedlist>
+<para>The DtEditor widget supports the following set of basic editing operations:
+</para>
+<itemizedlist>
+<listitem>
+<para>Finding and changing text</para>
+</listitem>
+<listitem>
+<para>Simple formatting <![ %CDE.C.CDE; [</Para>
+</ListItem>
+<ListItem>
+<Para>Spell checking
+]]></para>
+</listitem>
+<listitem>
+<para>Undoing the previous edit operation</para>
+</listitem>
+</itemizedlist>
+<para><![ %CDE.C.CDE; [All operations, except for spell
+checking, support locales with single- and multi-byte characters.
+</Para>
+<Para>]]><![ %CDE.C.XO; [All operations support locales with single- and multi-byte
+characters.</para><para>]]><![ %CDE.C.CDE; [The DtEditor widget also
+supports input and output of ASCII text, multi-byte text and
+buffers of data.
+Data can be passed between the application and the DtEditor widget, or
+a file and the widget.
+]]><![ %CDE.C.XO; [The DtEditor widget also supports multi-byte text and buffers
+of data. Data can be passed between the application and the DtEditor widget,
+or a file and the widget. ]]></para>
+<para>The DtEditor widget provides separate callback lists to track when text
+is selected or deselected. In addition, it extends the standard help callback
+to report help requests from any of its components.</para>
+<para>Widget subclassing is not supported for the DtEditor widget class.</para>
+<refsect2>
+<title>Edit Window</title><![ %CDE.C.CDE; [<Para>The edit window supports basic editing operations
+such as cut and paste, find and change, simple formatting and spell
+checking.
+</Para>
+]]><![ %CDE.C.XO; [<para>The edit window supports basic editing operations
+such as cut and paste, find and change, and simple formatting.</para>]]></refsect2>
+<refsect2>
+<title>Mouse and Keyboard</title>
+<para>The user can use the mouse to move the edit cursor and to select portions
+of a document for editing operations. Selection is based on the model specified
+in the <emphasis>Inter-Client Communication Conventions Manual</emphasis> <![ %CDE.C.CDE; [(ICCCM).
+]]><![ %CDE.C.XO; [(ICCCM&mdash;see the &str-Zi;). ]]>The DtEditor widget
+supports primary and secondary selection.</para>
+<para>The user can cut, copy and paste text using the clipboard, primary transfer
+or secondary transfer. The DtEditor widget accepts drops of text, text files
+or buffers of data. Text drops are inserted where the mouse button is released
+to complete the drop. Dropped files and buffers of data are placed at the
+insertion cursor. The DtEditor widget supports dragging of text within the
+edit window or to a different widget.</para>
+<para>The DtEditor widget provides a set of translations for the edit window.
+The default translations provide key bindings for moving the insertion cursor,
+and deleting, inserting and selecting text. The insertion cursor, displayed
+as an I-beam, shows where input is inserted. Input is inserted just before
+the insertion cursor. <![ %CDE.C.CDE; [</Para>
+</RefSect2>
+<RefSect2>
+<Title>Status Line</Title>
+<Para>The status line, which can be shown or hidden, displays the current line
+number, total line count and
+whether the DtEditor widget is in overstrike mode.
+The current line-number
+display shows the line number of the line containing the insertion
+cursor.
+The user can go directly to any line in the document by entering
+the number into the current line number display.
+The status line also provides a text field
+for displaying application-supplied messages.
+For information on
+localizing the status line, see the
+<Literal>Localization Resources</Literal> section.
+]]></para>
+</refsect2>
+<refsect2>
+<title>Dialogs</title>
+<para>The DtEditor widget includes dialogs to provide a graphical user interface
+to its functionality:</para>
+<itemizedlist>
+<listitem>
+<para>Find/Change dialog <![ %CDE.C.CDE; [</Para>
+</ListItem>
+<ListItem>
+<Para>Spell dialog.
+]]></para>
+</listitem>
+<listitem>
+<para>Format Settings dialog</para>
+</listitem>
+</itemizedlist>
+<para>The titles of all dialogs are controlled with the <systemitem class="Resource">DtNdialogTitle</systemitem> resource. All dialogs are posted using corresponding
+convenience functions and remain posted until dismissed by the user. Each
+dialog includes Close and Help buttons in addition to buttons described in
+the following lists. <![ %CDE.C.CDE; [For information on localizing
+these dialogs, see the
+<Literal>Localization</Literal> <Literal>Resources</Literal> section.
+]]></para>
+<para>The Find/Change dialog for the DtEditor widget enables users to search
+for, and optionally replace, a string in the edit window. The dialog includes
+fields for specifying the find string and the replacement string. <![ %CDE.C.XO; [When
+the user initiates a Find, ]]><![ %CDE.C.CDE; [Buttons initiate the
+find or change either the next occurrence or all occurrences of the find
+string to the replacement string.
+When the user selects the Find button,
+]]>the next occurrence of the specified string (regular expressions are not
+supported) is highlighted in the DtEditor widget, if found; otherwise, the
+DtEditor widget displays a message dialog stating the string was not found.
+If the string was found, the user has the option to change the highlighted
+occurrence or all occurrences.</para>
+<para>The &cdeman.DtEditorFind; and &cdeman.DtEditorChange;
+functions provide a programmatic interface to the find and change
+functionality of the DtEditor widget.</para>
+<para><![ %CDE.C.CDE; [The Spell dialog is used to check the contents of the edit window for
+spelling errors.
+It consists of a list of misspelled words, replacement string field
+and the same set of buttons as the Find dialog.
+Choosing a word from the list automatically selects it as the
+find string.
+Double-clicking on a word searches for the next occurrence of that word.
+The list of misspelled words is automatically generated
+using the filter specified by
+<SystemItem Class="Resource">DtNspellFilter</SystemItem> when the dialog is displayed.
+The actions for
+find, change to and change all are the same as the Find dialog.
+</Para>
+<Para>]]>The Format Settings dialog for the DtEditor widget enables users
+to format the contents of the edit window, format just the paragraph containing
+the insertion cursor, or specify the arguments used when formatting text.
+The arguments include margin settings and text alignment. The user has the
+choice of aligning the text flush with the left or right margin, centering
+each line of text between the margins, or aligning it flush with both margins. <![ %CDE.C.CDE; [The user enter the left and right
+margin values into text fields and choose an alignment option from a set
+of toggle buttons.
+Two push buttons allow them to format the current
+paragraph or format the complete document.
+]]></para>
+<para><![ %CDE.C.CDE; [The margin values used for formatting do not have to be the same as the
+width of the edit window.
+It is possible to format the text with margin
+values that are narrower or wider than the displayed edit window.
+By default, values for the format margins are the current size of
+the edit window.
+If text is formatted wider than the edit window and the
+<SystemItem Class="Resource">DtNwordWrap</SystemItem> resource is
+True,
+text wraps at the right edge of the edit
+window (see the description for
+<SystemItem Class="Resource">DtNwordWrap</SystemItem>), regardless of the right margin setting.
+To format text wider than the edit window,
+<SystemItem Class="Resource">DtNwordWrap</SystemItem> should be
+False.
+</Para>
+<Para>]]>The &cdeman.DtEditorFormat; function provides a programmatic
+interface to the format functionality of the DtEditor widget.</para>
+</refsect2>
+<refsect2>
+<title>Word Wrap and Formatting</title>
+<para>Word wrap and text formatting are essentially independent operations.
+Word wrap pertains to the dynamic display of lines, as delimited by <keysym>newline</keysym> characters, which exceed the width of the Text Editor window
+and is based on the left and right window boundaries. When word wrap mode
+is off (the default), each line of text is displayed on a single line on the
+display and text entered at the right window boundary causes the window to
+scroll automatically to the right to accommodate the new text until an actual <keysym>newline</keysym> character is entered (normally, by pressing the Return key).
+When word wrap mode is on, lines longer than the window width are automatically
+wrapped at the right window margin to one or more display lines, and text
+entered at the right window boundary is automatically broken on a word boundary
+to the first column of the next display line. Word wrap is dynamic in that
+word-wrapped lines are automatically adjusted when text is inserted or deleted
+or when the window is resized. Word wrap only affects the display of lines;
+it does not actually insert <keysym>newline</keysym> characters in the text.
+</para>
+<para>Text formatting is a static operation that inserts actual <keysym>newline</keysym> (and/or <keysym>space</keysym>) characters directly in the text
+to match it to the left and right margins (and justification mode) specified
+in the Format Settings dialog. Format settings affect text only when explicitly
+applied and have no affect on word wrap or previously formatted text. Initially,
+and whenever the window is resized, the right format margin is automatically
+set to the window width to match the word wrap boundary.</para>
+</refsect2>
+<refsect2>
+<title>Classes</title>
+<para>The DtEditor widget inherits behavior and resources from <classname>Core</classname>, <classname>Composite</classname>, <classname>Constraint</classname>, <classname>XmManager</classname>, <classname>XmBulletinBoard</classname> and <classname>XmForm</classname> classes.</para>
+<para>The class pointer is <Symbol>dtEditorWidgetClass</Symbol>.</para>
+<para>The class name is <structname role="typedef">DtEditorWidget</structname>.
+</para>
+</refsect2>
+<refsect2>
+<title>New Resources</title>
+<para>The following table defines a set of widget resources the application
+uses to specify data. The application can also set the resource values for
+the inherited classes to set attributes for this widget. To reference a resource
+by name or by class in a <Filename>.Xdefaults</Filename> file, the application
+must remove the <Symbol>DtN</Symbol> or <Symbol>DtC</Symbol> prefix and
+use the remaining letters. To specify one of the defined values for a resource
+in a <Filename>.Xdefaults</Filename> file, the application must remove the <literal>Dt</literal> prefix and use the remaining letters (in either lower case or
+upper case, but including any underscores between words). The codes in the
+access column indicate if the given resource can be set at creation time (C),
+set by using <function>XtSetValues</function> (S), retrieved by using <function>XtGetValues</function> (G), or is not applicable (N/A).</para>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.87in">
+<colspec align="left" colname="col1" colwidth="197*">
+<colspec align="left" colname="col2" colwidth="194*">
+<colspec align="left" colwidth="108*">
+<colspec align="left" colwidth="80*">
+<colspec align="left" colwidth="71*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>DtEditor Resource
+Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNautoShowCursorPosition</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCAutoShowCursorPosition</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNblinkRate</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCBlinkRate</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">500</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNbuttonFontList</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCFontList</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNcolumns</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCColumns</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmNcolumns</systemitem></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNcursorPosition</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCCursorPosition</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmTextPosition</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNcursorPositionVisible</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCCursorPositionVisible</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNdialogTitle</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCDialogTitle</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmString</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNeditable</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCEditable</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNlabelFontList</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCFontList</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNmaxLength</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCMaxLength</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">largest integer</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNoverstrike</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCOverstrike</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNrows</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCRows</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmNrows</systemitem></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNscrollHorizontal</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCScroll</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNscrollLeftSide</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCScrollSide</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNscrollTopSide</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCScrollSide</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNscrollVertical</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCScroll</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CG</entry></row><![ %CDE.C.CDE; [<Row>
+<Entry><SystemItem Class="Resource">DtNshowStatusLine</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCShowStatusLine</SystemItem></Entry>
+<Entry><StructName Role="typedef">Boolean</StructName></Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNspellFilter</SystemItem></Entry>
+<Entry><Symbol>DtCspellFilter</Symbol></Entry>
+<Entry><StructName Role="typedef">char *</StructName></Entry>
+<Entry>spell</Entry>
+<Entry>CSG</Entry>
+</Row>
+]]>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNtextBackground</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCBackground</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNtextDeselectCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNtextFontList</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCFontList</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNtextForeground</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCForeground</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNtextSelectCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNtextTranslations</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCTranslations</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtTranslations</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CS</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNtopCharacter</systemitem></entry>
+<entry align="left" valign="top"><Symbol>DtCTextPosition</Symbol></entry>
+<entry align="left" valign="top"><structname role="typedef">XmTextPosition</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNwordWrap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCWordWrap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup><?Pub Caret>
+</informaltable>
+<variablelist>
+<varlistentry><term><systemitem class="Resource">DtNautoShowCursorPosition</systemitem></term>
+<listitem>
+<para>Ensures that the text visible in the scrolled edit window contains the
+insert cursor when set to True. If the insert cursor changes, the contents
+of the DtEditor widget may scroll in order to bring the insertion point into
+the window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNblinkRate</systemitem></term>
+<listitem>
+<para>Specifies the blink rate of the text cursor in milliseconds. The time
+indicated in the blink rate relates to the time the cursor is visible and
+the time the cursor is invisible (that is, the time it takes to blink the
+insertion cursor on and off is twice the blink rate). The cursor does not
+blink when the blink rate is set to zero. The value cannot be negative.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNbuttonFontList</systemitem></term>
+<listitem>
+<para>Specifies the font list used for the DtEditor buttons (the buttons appearing
+in the DtEditor dialogs). If this value is <systemitem class="Constant">NULL</systemitem> at initialization, it is initialized by looking up the parent
+hierarchy of the widget for an ancestor that is a subclass of the <classname>XmBulletinBoard</classname>, <classname>VendorShell</classname> or <classname>XmMenuShell</classname> widget class. If such an ancestor is found, the font
+list is initialized to the appropriate default font list of the ancestor widget
+( <systemitem class="Resource">XmNdefaultFontList</systemitem> for <classname>VendorShell</classname> and <classname>XmMenuShell</classname>, and <systemitem class="Resource">XmNbuttonFontList</systemitem> for <classname>XmBulletinBoard</classname> ). If no such ancestor is found, the default is implementation
+dependent. <![ %CDE.C.CDE; [Refer to
+&cdeman.XmFontList; for more information on the creation and structure of a font list.
+]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNcolumns</systemitem></term>
+<listitem>
+<para>Specifies the initial width of the edit window of the DtEditor widget
+as an integral number of characters. The width equals the number of characters
+this resource specifies multiplied by the maximum character width of the associated
+font. For proportionate fonts, the actual number of characters that fit on
+a given line may be greater than the value specified. The value must be greater
+than zero. The default value depends on the value of the <Symbol>DtNwidth</Symbol> resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNcursorPosition</systemitem></term>
+<listitem>
+<para>Indicates the position in the DtEditor widget where the current insert
+cursor is located. This position is determined by the number of characters
+from the beginning of the text. The first character position is zero.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNcursorPositionVisible</systemitem></term>
+<listitem>
+<para>When set to True, this resource specifies that the insert cursor position
+is marked by a blinking text cursor.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNdialogTitle</systemitem></term>
+<listitem>
+<para>Specifies an XmString that appears as part of the titles for the dialogs
+displayed by the DtEditor widget. If this resource is non- <systemitem class="Constant">NULL</systemitem>, it is used as the prefix of the <![ %CDE.C.CDE; [titles for the Find/Change, Spell and Format Settings dialogs.
+]]><![ %CDE.C.XO; [titles for the Find/Change and the Format Settings dialogs. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNeditable</systemitem></term>
+<listitem>
+<para>When set to True, this resource indicates that the user can edit the
+text; otherwise, it prohibits the user from editing the text.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNlabelFontList</systemitem></term>
+<listitem>
+<para>Specifies the font list used for the labels for DtEditor (the labels
+appear in the <![ %CDE.C.CDE; [status line and the
+]]>DtEditor dialogs). If this value is <systemitem class="Constant">NULL</systemitem>
+at initialization, it is initialized by looking up the parent hierarchy of
+the widget for an ancestor that is a subclass of the <classname>XmBulletinBoard</classname>, <classname>VendorShell</classname> or <classname>XmMenuShell</classname> widget class. If such an ancestor is found, the font list is
+initialized to the <systemitem class="Resource">XmNlabelFontList</systemitem>
+of the ancestor widget. If no such ancestor is found, the default is implementation
+dependent. <![ %CDE.C.CDE; [Refer to
+&cdeman.XmFontList; for more information on the creation and structure of a font list.
+]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNmaxLength</systemitem></term>
+<listitem>
+<para>Specifies the maximum length of the text string that can be entered
+into the DtEditor widget from the keyboard. This value must be non-negative.
+Strings entered using the &cdeman.DtEditorSetContents; or &cdeman.DtEditorSetContentsFromFile; functions ignore this resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNoverstrike</systemitem></term>
+<listitem>
+<para>When set to False, characters typed into the DtEditor widget are inserted
+at the position of the insertion cursor. This is the default behavior. If
+set to True, characters typed into the DtEditor widget replace the characters
+that directly follow the insertion cursor. When the end of the line is reached,
+characters are appended to the end of the line. <![ %CDE.C.CDE; [If the status line is visible,
+<Symbol>DtNoverstrikeIndicatorLabel</Symbol> appears in the status line whenever
+<SystemItem Class="Resource">DtNoverstrike</SystemItem> is
+True.
+]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNrows</systemitem></term>
+<listitem>
+<para>Specifies the initial height of the edit window of the DtEditor widget
+measured in character heights. The value must be greater than zero.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNscrollHorizontal</systemitem></term>
+<listitem>
+<para>When set to True, this resource adds a ScrollBar that allows the user
+to scroll horizontally through text.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNscrollLeftSide</systemitem></term>
+<listitem>
+<para>When set to True, this resource indicates that the vertical ScrollBar
+should be placed on the left side of the scrolled edit window. This attribute
+is ignored if <systemitem class="Resource">DtNscrollVertical</systemitem>
+is False. The default value may depend on the value of the <systemitem class="Resource">XmNstringDirection</systemitem> resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNscrollTopSide</systemitem></term>
+<listitem>
+<para>When set to True, this resource indicates that the horizontal ScrollBar
+should be placed on the top side of the scrolled edit window. This attribute
+is ignored if <systemitem class="Resource">DtNscrollHorizontal</systemitem>
+is False.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNscrollVertical</systemitem></term>
+<listitem>
+<para>When set to True, this resource adds a ScrollBar that allows the user
+to scroll vertically through text. <![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNshowStatusLine</SystemItem></Term>
+<ListItem>
+<Para>When set to True,
+the DtEditor widget displays a status line below the
+edit window.
+The status line contains a field
+that displays the current line number of the insert cursor, total
+number of lines in the document, and whether
+the DtEditor widget is in overstrike mode.
+The user can enter a line number in the
+line number display to go directly to that line.
+</Para>
+<Para>The status line also includes a Motif Text Field widget
+(XmTextField)
+for displaying application supplied messages.
+This field is a convenient way for an application to display status and
+feedback about the document being edited.
+The Text Field ID is retrieved using
+&cdeman.DtEditorGetMessageTextFieldID;. A message is displayed by
+setting the
+<SystemItem Class="Resource">XmNvalue</SystemItem> or
+<SystemItem Class="Resource">XmNvalueWcs</SystemItem> resource of this widget.
+If the Text field is not needed, it can be unmanaged by calling
+<Function>XtUnmanageWidget</Function>(3) with its ID.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNspellFilter</SystemItem></Term>
+<ListItem>
+<Para>Specifies the filter used to identify spelling errors.
+The
+&cdeman.DtEditorInvokeSpellDialog; function filters the contents of a DtEditor widget
+through the filter specified by
+<SystemItem Class="Resource">DtNspellFilter</SystemItem>. The filter
+specified should accept a file name and produce a list of misspelled and
+unrecognized words in this file on standard out.
+The default filter is
+<Command>spell</Command>(1). ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNtextBackground</systemitem></term>
+<listitem>
+<para>Specifies the background of the edit window and the text fields for
+DtEditor (the text fields appear in the <![ %CDE.C.CDE; [status line and
+]]>DtEditor dialogs).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNtextDeselectCallback</systemitem></term>
+<listitem>
+<para>Specifies a function called whenever the selection becomes <systemitem class="Constant">NULL</systemitem> (that is, no text is selected within the
+edit area). The reason sent by the callback is <systemitem class="Constant">DtEDITOR_TEXT_DESELECT</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNtextFontList</systemitem></term>
+<listitem>
+<para>Specifies the font list used for the edit window and the text fields
+for DtEditor (the text fields appear in the <![ %CDE.C.CDE; [status line and
+]]>DtEditor dialogs). If this value is <systemitem class="Constant">NULL</systemitem>
+at initialization, it is initialized by looking up the parent hierarchy of
+the widget for an ancestor that is a subclass of the <classname>XmBulletinBoard</classname> or <classname>VendorShell</classname> widget class. If such an
+ancestor is found, the font list is initialized to the <systemitem class="Resource">XmNtextFontList</systemitem> of the ancestor widget. If no such ancestor is
+found, the default is implementation dependent. <![ %CDE.C.CDE; [Refer to
+&cdeman.XmFontList; for more information on the creation and structure of a font list.
+]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNtextForeground</systemitem></term>
+<listitem>
+<para>Specifies the foreground of the edit window and the text fields for
+DtEditor (the text fields appear in the <![ %CDE.C.CDE; [status line and
+]]>DtEditor dialogs).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNtextSelectCallback</systemitem></term>
+<listitem>
+<para>Specifies a function called whenever the selection becomes non-<systemitem class="Constant">NULL</systemitem> (that is, some text is selected within
+the edit area). The reason sent by the callback is <systemitem class="Constant">DtEDITOR_TEXT_SELECT</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNtextTranslations</systemitem></term>
+<listitem>
+<para>Adds translations to the edit window. Translations specified with <systemitem class="Resource">DtNtextTranslations</systemitem> override any duplicate translations
+defined for the edit window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNtopCharacter</systemitem></term>
+<listitem>
+<para>Displays the line that contains the position of text at the top of the
+scrolled edit window. The line is displayed at the top of the DtEditor widget
+without shifting the text left or right. The position is determined by the
+number of characters from the beginning of the text. The first character position
+is zero.</para>
+<para><function>XtGetValues</function>(3) for <systemitem class="Resource">DtNtopCharacter</systemitem> returns the position of the first character in
+the line that is displayed at the top of the DtEditor widget.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNwordWrap</systemitem></term>
+<listitem>
+<para>Indicates that text not go off the right edge of the window, but that
+lines are broken at word breaks with soft line feeds when they reach the right
+edge of the window.</para>
+<para>Word wrap affects only the visual appearance of the contents of a DtEditor
+widget. The line breaks (soft line feeds) are not physically inserted into
+the text. The DtEditor widget supports substituting <keysym>newline</keysym>s
+when the contents of the widget are retrieved or saved to a file (see &cdeman.DtEditorGetContents; and &cdeman.DtEditorSaveContentsToFile;).
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2><![ %CDE.C.CDE; [<RefSect2>
+<Title>Localization Resources</Title>
+<Para>The following table defines a set of widget resources designed for
+localization of the DtEditor widget and its dialogs.
+Default values for these resources depends on the locale.
+</Para>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.46in">
+<colspec align="left" colname="col1" colwidth="196*">
+<colspec align="left" colname="col2" colwidth="193*">
+<colspec align="left" colwidth="88*">
+<colspec align="left" colwidth="77*">
+<colspec align="left" colwidth="62*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>DtEditor
+Localization Resource Set</literal></entry></row>
+<Row>
+<Entry><Literal>Name</Literal></Entry>
+<Entry><Literal>Class</Literal></Entry>
+<Entry><Literal>Type</Literal></Entry>
+<Entry><Literal>Default</Literal></Entry>
+<Entry><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNcenterToggleLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCCenterToggleLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNchangeAllButtonLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCChangeAllButtonLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNchangeButtonLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCChangeButtonLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNchangeFieldLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCChangeFieldLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNcurrentLineLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCCurrentLineLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNfindButtonLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCFindButtonLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNfindChangeDialogTitle</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCFindChangeDialogTitle</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNfindFieldLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCFindFieldLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNformatAllButtonLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCFormatAllButtonLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNformatParagraphButtonLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCFormatParagraphButtonLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNformatSettingsDialogTitle</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCFormatSettingsDialogTitle</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNinformationDialogTitle</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCInformationDialogTitle</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNjustifyToggleLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCJustifyToggleLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNleftAlignToggleLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCLeftAlignToggleLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNleftMarginFieldLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCLeftMarginFieldLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNmisspelledListLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCMisspelledListLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNoverstrikeLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCOverstrikeLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNrightAlignToggleLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCRightAlignToggleLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNrightMarginFieldLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCRightMarginFieldLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNspellDialogTitle</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCSpellDialogTitle</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">DtNtotalLineCountLabel</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">DtCTotalLineCountLabel</SystemItem></Entry>
+<Entry><StructName Role="typedef">XmString</StructName></Entry>
+<Entry>Dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNcenterToggleLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the center alignment toggle button in the
+Format Settings dialog.
+The default value in the C locale is
+<Literal>Center</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNchangeAllButtonLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the button in the
+Find/Change and Spell dialogs that change all
+occurrences of the Find string in the document.
+The default value in the C locale is
+<Literal>Change All</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNchangeButtonLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the button in the
+Find/Change and Spell dialogs that change the next
+occurrence of the Find string in the document.
+The default value in the C locale is
+<Literal>Change</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNchangeFieldLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the field in the
+Find/Change dialog where the user specifies the
+replacement string.
+The default value in the C locale is
+<Literal>Change To:</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNcurrentLineLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the current line number field in the status line.
+The default value in the C locale is
+<Literal>Line:</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNfindButtonLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the button in the
+Find/Change dialog that finds the next occurrence
+of the Find string in the document.
+The default value in the C locale is
+<Literal>Find</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNfindChangeDialogTitle</SystemItem></Term>
+<ListItem>
+<Para>Specifies the title for the Find/Change dialog.
+If
+<SystemItem Class="Resource">DtNdialogTitle</SystemItem> is non-
+<SystemItem Class="Constant">NULL</SystemItem>, it is added as a prefix to this resource to form the title.
+The default value in the C locale is
+<Literal>Find/Change</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNfindFieldLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the field in the
+Find/Change dialog where the user specifies the
+search string.
+The default value in the C locale is
+<Literal>Find:</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNformatAllButtonLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the button in the
+Format Settings dialog that formats the complete document.
+The default value in the C locale is
+<Literal>All</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNformatParagraphButtonLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the button in the
+Format Settings dialog that formats the paragraph
+containing the insertion cursor.
+The default value in the C locale is
+<Literal>Paragraph</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNformatSettingsDialogTitle</SystemItem></Term>
+<ListItem>
+<Para>Specifies the title for the Format Settings dialog.
+If
+<SystemItem Class="Resource">DtNdialogTitle</SystemItem> is non-
+<SystemItem Class="Constant">NULL</SystemItem>, it is added as a prefix to this resource to form the title.
+The default value in the C locale is
+<Literal>Format Settings</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNinformationDialogTitle</SystemItem></Term>
+<ListItem>
+<Para>Specifies the title for the Information dialog used to present
+feedback and general information to the user.
+If
+<SystemItem Class="Resource">DtNdialogTitle</SystemItem> is non-
+<SystemItem Class="Constant">NULL</SystemItem>, it is added as a prefix to this resource to form the title.
+The default value in the C locale is
+<Literal>Information</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNjustifyToggleLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the justify alignment toggle button in the
+Format Settings dialog.
+The default value in the C locale is
+<Literal>Justify</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNleftAlignToggleLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the left alignment toggle button in the
+Format Settings dialog.
+The default value in the C locale is
+<Literal>Left Align</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNleftMarginFieldLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the left margin value field in the
+Format Settings dialog.
+The default value in the C locale is
+<Literal>Left Margin:</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNmisspelledListLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the list of unrecognized and misspelled
+words in the Spell dialog.
+The default value in the C locale is
+<Literal>Misspelled Words:</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNoverstrikeLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label in the status line that indicates
+that the DtEditor widget is in overstrike mode.
+The default value in the C locale is
+<Literal>Overstrike</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNrightAlignToggleLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the right alignment toggle button in the
+Format Settings dialog.
+The default value in the C locale is
+<Literal>Right Align</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNrightMarginFieldLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the right margin value field in the
+Format Settings dialog.
+The default value in the C locale is
+<Literal>Right Margin:</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNspellDialogTitle</SystemItem></Term>
+<ListItem>
+<Para>Specifies the title for the Spell dialog.
+If
+<SystemItem Class="Resource">DtNdialogTitle</SystemItem> is non-
+<SystemItem Class="Constant">NULL</SystemItem>, it is added as a prefix to this resource to form the title.
+The default value in the C locale is
+<Literal>Spell</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNtotalLineCountLabel</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label for the display showing the total number of
+lines in the document.
+The total number of lines displayed is part of the status line.
+The default value in the C locale is
+<Literal>Total:</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+]]><![ %CDE.C.XO; [<refsect2>
+<title>Localization Resources</title>
+<para>The following table defines a set of widget resources designed for localization
+of the DtEditor widget and its dialogs. Default values for these resources
+depends on the locale.</para>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.85in">
+<colspec align="left" colname="col1" colwidth="197*">
+<colspec align="left" colname="col2" colwidth="241*">
+<colspec align="left" colwidth="60*">
+<colspec align="left" colwidth="80*">
+<colspec align="left" colwidth="70*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>DtEditor Localization
+Resource Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNfindChangeDialogTitle</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCFindChangeDialogTitle</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmString</structname></entry>
+<entry align="left" valign="top">Dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNformatSettingsDialogTitle</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCFormatSettingsDialogTitle</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmString</structname></entry>
+<entry align="left" valign="top">Dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">DtNinformationDialogTitle</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">DtCInformationDialogTitle</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmString</structname></entry>
+<entry align="left" valign="top">Dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><systemitem class="Resource">DtNfindChangeDialogTitle</systemitem></term>
+<listitem>
+<para>Specifies the title for the Find/Change dialog. If <systemitem class="Resource">DtNdialogTitle</systemitem> is non-<systemitem class="Constant">NULL</systemitem>,
+it is added as a prefix to this resource to form the title. The default value
+in the C locale is <literal>Find/Change</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNformatSettingsDialogTitle</systemitem></term>
+<listitem>
+<para>Specifies the title for the Format Settings dialog. If <systemitem class="Resource">DtNdialogTitle</systemitem> is non-<systemitem class="Constant">NULL</systemitem>,
+it is added as a prefix to this resource to form the title. The default value
+in the C locale is <literal>Format Settings</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">DtNinformationDialogTitle</systemitem></term>
+<listitem>
+<para>Specifies the title for the Information dialog used to present feedback
+and general information to the user. If <systemitem class="Resource">DtNdialogTitle</systemitem> is non-<systemitem class="Constant">NULL</systemitem>, it is
+added as a prefix to this resource to form the title. The default value in
+the C locale is <literal>Information</literal>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>]]>
+<refsect2>
+<title>Inherited Resources</title>
+<para>The DtEditor widget inherits behavior and resources from the following
+named superclasses. For a complete description of each resource, see the <![ %CDE.C.CDE; [man page
+]]><![ %CDE.C.XO; [entry in &str-ZM; ]]>for that superclass.</para>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.60in">
+<colspec align="left" colname="col1" colwidth="197*">
+<colspec align="left" colname="col2" colwidth="202*">
+<colspec align="left" colwidth="74*">
+<colspec align="left" colwidth="83*">
+<colspec align="left" colwidth="71*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>XmForm Resource
+Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNfractionBase</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCMaxValue</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">100</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNhorizontalSpacing</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCSpacing</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNrubberPositioning</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCRubberPositioning</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNverticalSpacing</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCSpacing</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup></informaltable>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.73in">
+<colspec align="left" colname="col1" colwidth="191*">
+<colspec align="left" colname="col2" colwidth="183*">
+<colspec align="left" colwidth="99*">
+<colspec align="left" colwidth="86*">
+<colspec align="left" colwidth="79*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>XmBulletinBoard
+Resource Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNallowOverlap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCAllowOverlap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNautoUnmanage</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCAutoUnmanage</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNbuttonFontList</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCButtonFontList</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNcancelButton</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCWidget</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Window</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">SG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNdefaultButton</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCWidget</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Window</structname></entry>
+<entry align="left" valign="top">SG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNdefaultPosition</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCDefaultPosition</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNdialogStyle</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCDialogStyle</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">unsigned char</StructName></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNdialogTitle</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCDialogTitle</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmString</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNfocusCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNlabelFontList</systemitem></entry>
+<entry align="left" valign="top"><Symbol>XmCLabelFontListk</Symbol></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNmapCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNmarginHeight</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCMarginHeight</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">10</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNmarginWidth</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCMarginWidth</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">10</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNnoResize</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCNoResize</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNresizePolicy</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCResizePolicy</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">unsigned char</StructName></entry>
+<entry align="left" valign="top">XmRESIZE_ANY</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNshadowType</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCShadowType</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">unsigned char</StructName></entry>
+<entry align="left" valign="top">XmSHADOW_OUT</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNtextFontList</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCTextFontList</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNtextTranslations</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCTranslations</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtTranslations</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNunmapCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row></tbody></tgroup></informaltable>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.82in">
+<colspec align="left" colname="col1" colwidth="197*">
+<colspec align="left" colname="col2" colwidth="194*">
+<colspec align="left" colwidth="88*">
+<colspec align="left" colwidth="89*">
+<colspec align="left" colwidth="78*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>XmManager Resource
+Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNbottomShadowColor</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCBottomShadowColor</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNbottomShadowPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCBottomShadowPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top"><systemitem class="Constant">XmUNSPECIFIED_PIXMAP</systemitem></entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNforeground</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCForeground</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNhelpCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNhighlightColor</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCHighlightColor</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNhighlightPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCHighlightPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNinitialFocus</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCInitialFocus</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Widget</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNnavigationType</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCNavigationType</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmNavigationType</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNshadowThickness</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCShadowThickness</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNstringDirection</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCStringDirection</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmStringDynamic</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNtopShadowColor</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCTopShadowColor</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNtopShadowPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCTopShadowPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNtraversalOn</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCTraversalOn</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNunitType</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCUnitType</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">unsigned char</StructName></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNuserData</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCUserData</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtPointer</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup></informaltable>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.46in">
+<colspec align="left" colname="col1" colwidth="174*">
+<colspec align="left" colname="col2" colwidth="175*">
+<colspec align="left" colwidth="79*">
+<colspec align="left" colwidth="109*">
+<colspec align="left" colwidth="82*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>Composite Resource
+Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNchildren</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCReadOnly</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">WidgetList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNinsertPosition</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCInsertPosition</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtOrderProc</structname></entry>
+<entry align="left" valign="top">default procedure</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNnumChildren</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCReadOnly</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Cardinal</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">G</entry></row></tbody></tgroup></informaltable>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.91in">
+<colspec align="left" colname="col1" colwidth="197*">
+<colspec align="left" colname="col2" colwidth="192*">
+<colspec align="left" colwidth="90*">
+<colspec align="left" colwidth="97*">
+<colspec align="left" colwidth="77*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>Core Resource Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNaccelerators</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCAccelerators</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtAccelerators</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNancestorSensitive</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCSensitive</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNbackground</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCBackground</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNbackgroundPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top"><systemitem class="Constant">XmUNSPECIFIED_PIXMAP</systemitem></entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNborderColor</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCBorderColor</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">XtDefaultForeground</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNborderPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top"><systemitem class="Constant">XmUNSPECIFIED_PIXMAP</systemitem></entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNborderWidth</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCBorderWidth</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNcolormap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCColormap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Colormap</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNdepth</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCDepth</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNdestroyCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNheight</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCHeight</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNinitialResourcesPersistent</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCInitialResourcesPersistent</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNmappedWhenManaged</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCMappedWhenManaged</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNscreen</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCScreen</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">Screen *</StructName></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNsensitive</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCSensitive</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNtranslations</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCTranslations</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtTranslations</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNwidth</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCWidth</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNx</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCPosition</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Position</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="Resource">XmNy</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="Resource">XmCPosition</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Position</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Callback Information</title>
+<para>The DtEditor widget has three callback functions of interest:</para>
+<variablelist>
+<varlistentry><term><systemitem class="Resource">DtNtextSelectCallback</systemitem>
+and <systemitem class="Resource">DtNtextDeselectCallback</systemitem></term>
+<listitem>
+<para>The <systemitem class="Resource">DtNtextSelectCallback</systemitem>
+and <systemitem class="Resource">DtNtextDeselectCallback</systemitem> resources
+allow an application to enable and disable certain commands or menu items
+based on whether there is a selection. <systemitem class="Resource">DtNtextSelectCallback</systemitem> specifies a function called whenever the selection becomes non-<systemitem class="Constant">NULL</systemitem> (that is, some text is selected within
+the edit window), while <systemitem class="Resource">DtNtextDeselectCallback</systemitem> specifies a function called whenever the selection becomes <systemitem class="Constant">NULL</systemitem> (that is, no text is selected within the
+edit window). The reasons sent by the callbacks are <systemitem class="Constant">DtEDITOR_TEXT_SELECT</systemitem> and <systemitem class="Constant">DtEDITOR_TEXT_DESELECT</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNhelpCallback</systemitem></term>
+<listitem>
+<para>An application that wishes to present help information to the user on
+the DtEditor widget and its dialogs should set the <systemitem class="Resource">XmNhelpCallback</systemitem> resource and use the Reason field passed as part
+of <systemitem class="Constant">DtEditorHelpCallbackStruct</systemitem> to
+set the contents of its Help dialog. A pointer to the following structure
+is passed to the <Symbol>XmNHelpCallback</Symbol> callback.</para>
+<informalexample remap="indent">
+<programlisting>typedef struct {
+        int <symbol role="Variable">reason</symbol>,
+        XEvent *<symbol role="Variable">event</symbol>
+} XmAnyCallbackStruct;</programlisting>
+</informalexample>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">reason</symbol></term>
+<listitem>
+<para>Indicates why the callback was invoked. The possible reasons are:</para>
+<variablelist>
+<varlistentry><term>DtEDITOR_HELP_EDIT_WINDOW</term>
+<listitem>
+<para>The help request originated in the edit window. <![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_LINE</Term>
+<ListItem>
+<Para>The help request originated in the status line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_CURRENT_LINE</Term>
+<ListItem>
+<Para>The help request originated in the Current Line number
+display in the status line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_TOTAL_LINES</Term>
+<ListItem>
+<Para>The help request originated in the Total Lines display in
+the status line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_MESSAGE</Term>
+<ListItem>
+<Para>The help request originated in the Message field in the
+status line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_OVERSTRIKE</Term>
+<ListItem>
+<Para>The help request originated in the Overstrike Indicator in
+the status line.
+]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DtEDITOR_HELP_FORMAT_DIALOG</term>
+<listitem>
+<para>The help request originated in the Help button in the Format dialog.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DtEDITOR_HELP_FORMAT_LEFT_MARGIN</term>
+<listitem>
+<para>The help request originated in the Left Margin field in the Format dialog.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DtEDITOR_HELP_FORMAT_RIGHT_MARGIN</term>
+<listitem>
+<para>The help request originated in the Right Margin field in the Format
+dialog.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DtEDITOR_HELP_FORMAT_ALIGNMENT</term>
+<listitem>
+<para>The help request originated in the Alignment buttons in the Format dialog.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DtEDITOR_HELP_CHANGE_DIALOG</term>
+<listitem>
+<para>The help request originated in the Help button in the Find/Change dialog.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DtEDITOR_HELP_CHANGE_FIND</term>
+<listitem>
+<para>The help request originated in the Find field in the Find/Change dialog.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DtEDITOR_HELP_CHANGE_CHANGE</term>
+<listitem>
+<para>The help request originated in the Change To field in the Find/Change
+dialog. <![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_SPELL_DIALOG</Term>
+<ListItem>
+<Para>The help request originated in the help button in the Spell
+dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_SPELL_MISSPELLED_WORDS</Term>
+<ListItem>
+<Para>The help request originated in the List of Misspelled Words
+in the Spell dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_SPELL_CHANGE</Term>
+<ListItem>
+<Para>The help request originated in the Change To field in the
+Spell dialog.
+]]></para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">event</symbol></term>
+<listitem>
+<para>A pointer to the <structname role="typedef">XEvent</structname> that
+caused this callback to be invoked. It may be <systemitem class="Constant">NULL</systemitem>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Translations</title>
+<para>The DtEditor widget translations for the edit window are described in
+the following list. The <systemitem class="Resource">DtNtextTranslations</systemitem>
+resource can be used to modify these translations.</para>
+<variablelist>
+<varlistentry><term>KLeft</term>
+<listitem>
+<para><function>backward-character</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KLeft</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>key-select</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>key-select</Literal></Para>
+]]>
+<para>(<symbol role="Variable">left</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl KLeft</term>
+<listitem>
+<para><function>backward-word</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift MCtrl KLeft</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>backward-word</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>backward-word</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KRight</term>
+<listitem>
+<para><function>forward-character</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KRight</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>key-select</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>key-select</Literal></Para>
+]]>
+<para>(<symbol role="Variable">right</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl KRight</term>
+<listitem>
+<para><function>forward-word</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift MCtrl KRight</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>forward-word</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>forward-word</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KUp</term>
+<listitem>
+<para><function>process-up</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KUp</term>
+<listitem>
+<para><function>process-shift-up</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl KUp</term>
+<listitem>
+<para><function>backward-paragraph</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift MCtrl KUp</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>backward-paragraph</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>backward-paragraph</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KDown</term>
+<listitem>
+<para><function>process-down</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KDown</term>
+<listitem>
+<para><function>process-shift-down</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl KDown</term>
+<listitem>
+<para><function>forward-paragraph</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift MCtrl KDown</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>forward-paragraph</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>forward-paragraph</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KBeginLine</term>
+<listitem>
+<para><function>beginning-of-line</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KBeginLine</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>beginning-of-line</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>beginning-of-line</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KEndLine</term>
+<listitem>
+<para><function>end-of-line</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KEndLine</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>end-of-line</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>end-of-line</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KPageUp</term>
+<listitem>
+<para><function>previous-page</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KPageUp</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>previous-page</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>previous-page</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KPageLeft</term>
+<listitem>
+<para><function>page-left</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KPageDown</term>
+<listitem>
+<para><function>next-page</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KPageDown</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>next-page</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>next-page</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KPageRight</term>
+<listitem>
+<para><function>page-right</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KBeginData</term>
+<listitem>
+<para><function>beginning-of-file</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KBeginData</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>beginning-of-file</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>beginning-of-file</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KEndData</term>
+<listitem>
+<para><function>end-of-file</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KEndData</term>
+<listitem><![ %CDE.C.XO; [<para><emphasis>end-of-file</emphasis>
+</para>]]><![ %CDE.C.CDE; [<Para><Literal>end-of-file</Literal></Para>
+]]>
+<para>(<symbol role="Variable">extend</symbol>)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KDelete</term>
+<listitem>
+<para><function>delete-next-character</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl KDelete</term>
+<listitem>
+<para><function>delete-to-end-of-line</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KBackSpace</term>
+<listitem>
+<para><function>delete-previous-character</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl KBackSpace</term>
+<listitem>
+<para><function>delete-previous-word</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MShift KBackSpace</term>
+<listitem>
+<para><function>delete-to-start-of-line</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MAlt KBackSpace</term>
+<listitem>
+<para><function>undo-edit</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl Kz</term>
+<listitem>
+<para><function>undo-edit</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl K/</term>
+<listitem>
+<para><function>select-all</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl K\</term>
+<listitem>
+<para><function>deselect-all</function> <![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>MCtrl Kg</Term>
+<ListItem>
+<Para><Function>go-to-line</Function> ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl Kq</term>
+<listitem>
+<para><function>quote-next-character</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl Kx</term>
+<listitem>
+<para><function>cut-clipboard</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl Kc</term>
+<listitem>
+<para><function>copy-clipboard</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MCtrl Kv</term>
+<listitem>
+<para><function>paste-clipboard</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KHelp</term>
+<listitem>
+<para><function>Help</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KInsert</term>
+<listitem>
+<para><function>toggle-insert-mode</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>KEnter</term>
+<listitem>
+<para><function>new-line-and-indent</function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MAnyKCancel</term>
+<listitem>
+<para><function>process-cancel</function></para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Action Routines</title>
+<para>The DtEditor widget action routines are described here:</para>
+<variablelist>
+<varlistentry><term><emphasis>backward-character</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action moves the insertion cursor one character to the left. This
+action may have different behavior in a right-to-left language environment.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>backward-paragraph</emphasis>&hairsp;(<symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+to the first non-whitespace character following the first previous blank line
+or beginning of the text. If the insertion cursor is already at the beginning
+of a paragraph, the action moves the insertion cursor to the beginning of
+the previous paragraph.</para>
+<para>If this action is called with an argument of <symbol role="Variable">extend</symbol>, it moves the insertion cursor, as in the case of no argument,
+and extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>backward-word</emphasis>&hairsp;( <symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+to the first non-whitespace character after the first whitespace character
+to the left or after the beginning of the line. If the insertion cursor is
+already at the beginning of a word, this action moves the insertion cursor
+to the beginning of the previous word. This action may have different behavior
+in a locale other than the C locale.</para>
+<para>If this action is called with an argument of <symbol role="Variable">extend</symbol>, it moves the insertion cursor, as in the case of no argument,
+and extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>beginning-of-file</emphasis>&hairsp;(<symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+to the beginning of the text.</para>
+<para>If this action is called with an argument of <symbol role="Variable">extend</symbol>, it moves the insertion cursor, as in the case of no argument,
+and extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>beginning-of-line</emphasis>&hairsp;(<symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+to the beginning of the line.</para>
+<para>If this action is called with an argument of <symbol role="Variable">extend</symbol>, it moves the insertion cursor, as in the case of no argument,
+and extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>clear-selection</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action clears the current selection by replacing each character
+except <keysym>carriage-return</keysym> with a <keysym>space</keysym> character.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>copy-clipboard</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action copies the current selection to the clipboard.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>cut-clipboard</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action cuts the current selection to the clipboard.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>delete-next-character</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>If there is a non-<systemitem class="Constant">NULL</systemitem> selection,
+this action deletes the selection; otherwise, it deletes the character following
+the insertion cursor.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>delete-next-word</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>If there is a non-<systemitem class="Constant">NULL</systemitem> selection,
+this action deletes the selection; otherwise, it deletes the characters following
+the insertion cursor to the next space, tab or end of line character.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>delete-previous-character</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>If there is a non-<systemitem class="Constant">NULL</systemitem> selection,
+this action deletes the selection; otherwise, it deletes the character of
+text immediately preceding the insertion cursor.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>delete-previous-word</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>If there is a non-<systemitem class="Constant">NULL</systemitem> selection,
+this action deletes the selection; otherwise, it deletes the characters preceding
+the insertion cursor to the next space, tab or beginning of the line character.
+This action may have different behavior in a locale other than the C locale.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>delete-to-end-of-line</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>If there is a non-<systemitem class="Constant">NULL</systemitem> selection,
+this action deletes the selection; otherwise, it deletes the characters following
+the insertion cursor to the next end-of-line character.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>delete-to-start-of-line</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>If there is a non-<systemitem class="Constant">NULL</systemitem> selection,
+this action deletes the selection; otherwise, it deletes the characters preceding
+the insertion cursor to the previous beginning-of-line character.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>deselect-all</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action deselects the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>end-of-file</emphasis>&hairsp;( <symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+to the end of the text.</para>
+<para>If this action is called with an argument of <symbol role="Variable">extend</symbol>, it moves the insertion cursor, as in the case of no argument,
+and extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>end-of-line</emphasis>&hairsp;( <symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+to the end of the line.</para>
+<para>If this action is called with an argument of <symbol role="Variable">extend</symbol>, it moves the insertion cursor, as in the case of no argument,
+and extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>forward-character</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action moves the insertion cursor one character to the right. This
+action may have different behavior in a right-to-left language environment.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>forward-paragraph</emphasis>&hairsp;(<symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+to the first non-whitespace character following the next blank line. If the
+insertion cursor is already at the beginning of a paragraph, this action moves
+the insertion cursor to the beginning of the next paragraph.</para>
+<para>If this action is called with an argument of <symbol role="Variable">extend</symbol>, it moves the insertion cursor, as in the case of no argument,
+and extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>forward-word</emphasis>&hairsp;( <symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+to the first whitespace character or end-of-line following the next non-whitespace
+character. If the insertion cursor is already at the end of a word, this action
+moves the insertion cursor to the end of the next word. This action may have
+different behavior in a locale other than the C locale.</para>
+<para>If called with an argument of <symbol role="Variable">extend</symbol>,
+this action moves the insertion cursor, as in the case of no argument, and
+extends the current selection. <![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>go-to-line</Emphasis>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>This action moves the keyboard focus to the Current Line text field to allow the user to
+move the insertion cursor to a new line.
+This action is only valid if
+<SystemItem Class="Resource">DtNshowStatusLine</SystemItem> has a value of
+True.
+For a description of the status line, see the
+<Literal>Editor Status Line</Literal> heading in this manual page.
+]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>Help</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action calls the callbacks for <systemitem class="Resource">XmNhelpCallback</systemitem> if any exist. If there are no help callbacks for this widget,
+this action calls the help callbacks for the nearest ancestor that has them.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>insert-string</emphasis>&hairsp;( <symbol role="Variable">string</symbol>)</term>
+<listitem>
+<para>This action deletes the entire selection if there is a non-<systemitem class="Constant">NULL</systemitem> selection and the cursor is not disjoint
+from it. It inserts <literal>string</literal> before the insertion cursor.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>key-select</emphasis>&hairsp;( <symbol role="Variable">direction</symbol>)</term>
+<listitem>
+<para>If this action is called with an argument of <symbol role="Variable">right</symbol>, it moves the insertion cursor one character to the right and
+extends the current selection. If this action is called with an argument of
+<symbol role="Variable">left</symbol>, it moves the insertion cursor one character
+to the left and extends the current selection. If this action is called with
+no argument, it extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>newline-and-backup</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>If there is a non-<systemitem class="Constant">NULL</systemitem> selection
+and the cursor is not disjoint from it, this action deletes the entire selection,
+inserts a newline just before the insertion cursor and repositions the insertion
+cursor to the end of the line before the newline.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>newline-and-indent</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>If there is a non-<systemitem class="Constant">NULL</systemitem> selection
+and the cursor is not disjoint from it, this action deletes the entire selection,
+inserts a newline and then the same number of whitespace characters as at
+the beginning of the previous line.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>next-page</emphasis>&hairsp;( <symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+forward one page.</para>
+<para>If this action is called with an argument of <symbol role="Variable">extend</symbol>, it moves the insertion cursor, as in the case of no argument,
+and extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>page-left</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action scrolls the viewing window left one page of text.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>page-right</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action scrolls the viewing window right one page of text.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>paste-clipboard</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action pastes the contents of the clipboard before the insertion
+cursor.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>previous-page</emphasis>&hairsp;( <symbol role="Variable">extend</symbol>)</term>
+<listitem>
+<para>If this action is called with no argument, it moves the insertion cursor
+back one page.</para>
+<para>If this action is called with an argument of <symbol role="Variable">extend</symbol>, it moves the insertion cursor, as in the case of no argument,
+and extends the current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>process-cancel</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action cancels the current <function>extend-adjust</function> or <function>secondary-adjust</function> operation and leaves the selection state as it
+was before the operation; otherwise, (and if the parent is a manager) it passes
+the event to the parent.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>process-down</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action moves the insertion cursor down one line.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>process-shift-down</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action moves the insertion cursor down one line, extending the
+current selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>process-shift-up</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action moves the insertion cursor up one line, extending the current
+selection.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>process-up</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action moves the insertion cursor up one line.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>select-all</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>Selects all text.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>toggle-insert-mode</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action toggles the state of the text insertion mode. By default,
+characters typed into the DtEditor widget are inserted at the position of
+the insertion cursor. In overstrike mode, characters entered into the DtEditor
+widget replace the characters that directly follow the insertion cursor. In
+overstrike mode, characters are appended to the end of the line when the end
+of a line is reached.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>quote-next-character</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action treats the next typed character as a special character and
+inserts it into the text without interpreting it. Enables the insertion of
+special instructional characters or special language characters, such as the
+character marking a form feed or the umlaut used in German text.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>undo-edit</emphasis>&hairsp;(&thinsp;)</term>
+<listitem>
+<para>This action undoes the last change (deletion or insertion) made to the
+text. A change consists of either a set of consecutive insertions, or a set
+of consecutive deletions followed by up to one set of consecutive insertions.
+An insertion is consecutive if there have been no intervening deletions, and
+it is continuing forward from the same point. A deletion is consecutive if
+there have been no intervening insertions, and its start or end position is
+coincidental with the last deletion (that is, the deletion is continuing from
+the same point, either forward or backward). Undoing an edit once restores
+the original text. Undoing an edit twice restores the last change.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2><![ %CDE.C.CDE; [<RefSect2>
+<Title>Convenience Functions</Title>
+<Para>The Widget Library contains a number of functions that apply to the
+DtEditor widget.
+The following lists summarize these functions.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>DtEditor Life Cycle Functions</Title>
+<VariableList>
+<VarListEntry>
+<Term><Function>DtCreateEditor</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Creates a new instance of a DtEditor widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorReset</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Restores a DtEditor widget to its initial state.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>DtEditor Input/Output Functions</Title>
+<VariableList>
+<VarListEntry>
+<Term><Function>DtEditorAppend</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Appends content data to the end of a DtEditor
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorAppendFromFile</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Appends the contents of a file to the end of a DtEditor
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorGetContents</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Retrieves the entire contents of a DtEditor
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorInsert</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Inserts content data at the current insert position.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorInsertFromFile</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Inserts the contents of a file at the current insert position.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorReplace</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Replaces a portion of text with the supplied data.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorReplaceFromFile</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Replaces a portion of text with the contents of a file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorSaveContentsToFile</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Saves the entire contents to a file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorSetContents</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Loads content data into a DtEditor
+widget, replacing the entire contents of the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorSetContentsFromFile</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Loads the contents of a file into a DtEditor
+widget, replacing the entire contents of the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>DtEditor Selection Functions</Title>
+<VariableList>
+<VarListEntry>
+<Term><Function>DtEditorClearSelection</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Replaces the currently selected contents with blanks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorCopyToClipboard</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Copies the currently selected contents to the clipboard.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorCutToClipboard</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Removes the currently selected contents, placing it on the clipboard.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorDeleteSelection</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Removes the currently selected contents.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorDeselect</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Deselects any selected contents.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorPasteFromClipboard</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Pastes the contents of the clipboard into a DtEditor
+widget, replacing any currently selected contents.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorSelectAll</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Selects the entire contents of a DtEditor widget.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>DtEditor Format Functions</Title>
+<VariableList>
+<VarListEntry>
+<Term><Function>DtEditorFormat</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Formats the contents of all or part of a DtEditor
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorInvokeFormatDialog</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Displays the format dialog that enables the user
+to specify format settings for margins and
+justification style and to perform formatting
+operations.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>DtEditor Find and Change Text Functions</Title>
+<VariableList>
+<VarListEntry>
+<Term><Function>DtEditorChange</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Changes one or all occurrences of a string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorFind</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Finds the next occurrence of a string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorInvokeFindChangeDialog</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Displays the dialog that enables the user
+to search for, and optionally change, a string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorInvokeSpellDialog</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Displays a dialog with a list of misspelled
+words in the current contents.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>DtEditor Auxiliary Functions</Title>
+<VariableList>
+<![ %CDE.C.CDE; [
+<VarListEntry>
+<Term><Function>DtEditorDisableRedisplay</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Temporarily prevents visual update of a DtEditor widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorEnableRedisplay</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Forces the visual update of a DtEditor widget.
+</Para>
+</ListItem>
+</VarListEntry>
+]]>
+<VarListEntry>
+<Term><Function>DtEditorCheckForUnsavedChanges</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Reports whether the contents of a DtEditor
+widget have been altered since they were last
+retrieved or saved.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorGetInsertionPosition</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Returns the insertion cursor position of a DtEditor
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorGetLastPosition</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Returns the position of the last character
+in the edit window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorGetMessageTextFieldID</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Retrieves the widget ID of the Text Field
+widget used to display application messages.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorGetSizeHints</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Retrieves sizing information from a DtEditor
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorGoToLine</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Moves the insert cursor to the specified line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorSetInsertionPosition</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Sets the position of the insertion cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorTraverseToEditor</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Sets keyboard traversal to the edit window of a DtEditor
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>DtEditorUndoEdit</Function>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Undoes the last edit made by a user.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term><Emphasis>/usr/dt/lib/nls/msg/$LANG/DtWidget.cat</Emphasis>&hairsp;(&thinsp;)</Term>
+<ListItem>
+<Para>Message catalog for DtWidget library.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+]]></refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.Dt.Editor.h;, &cdeman.DtCreateEditor;,
+&cdeman.DtEditorAppend;, &cdeman.DtEditorAppendFromFile;,
+&cdeman.DtEditorChange;, &cdeman.DtEditorCheckForUnsavedChanges;,
+&cdeman.DtEditorClearSelection;, &cdeman.DtEditorCopyToClipboard;,
+&cdeman.DtEditorCutToClipboard;, &cdeman.DtEditorDeleteSelection;,
+&cdeman.DtEditorDeselect;, <![ %CDE.C.CDE; [&cdeman.DtEditorDisableRedisplay;, &cdeman.DtEditorEnableRedisplay;, ]]>
+&cdeman.DtEditorFind;, &cdeman.DtEditorFormat;,
+&cdeman.DtEditorGetContents;, &cdeman.DtEditorGetInsertionPosition;,
+&cdeman.DtEditorGetLastPosition;, <![ %CDE.C.CDE; [&cdeman.DtEditorGetMessageTextFieldID;, ]]>
+&cdeman.DtEditorGetSizeHints;, &cdeman.DtEditorGoToLine;,
+&cdeman.DtEditorInsert;, &cdeman.DtEditorInsertFromFile;,
+&cdeman.DtEditorInvokeFindChangeDialog;, &cdeman.DtEditorInvokeFormatDialog;,
+<![ %CDE.C.CDE; [&cdeman.DtEditorInvokeSpellDialog;, ]]>
+&cdeman.DtEditorPasteFromClipboard;, &cdeman.DtEditorReplace;,
+&cdeman.DtEditorReplaceFromFile;, <![ %CDE.C.CDE; [&cdeman.DtEditorReset;, ]]>
+&cdeman.DtEditorSaveContentsToFile;, &cdeman.DtEditorSelectAll;,
+&cdeman.DtEditorSetContents;, &cdeman.DtEditorSetContentsFromFile;,
+&cdeman.DtEditorSetInsertionPosition;, &cdeman.DtEditorTraverseToEditor;,
+&cdeman.DtEditorUndoEdit;; <![ %CDE.C.XO; [<classname>Composite</classname>, <classname>Constraint</classname>, <classname>Core</classname>,
+<classname>XmBulletinBoard</classname>, <structname role="typedef">XmFontList</structname>,
+<classname>XmForm</classname>, <classname>XmManager</classname>
+in the &str-ZM;. ]]><![ %CDE.C.CDE; [&cdeman.Composite;, &cdeman.Constraint;, &cdeman.Core;, &cdeman.XmBulletinBoard;, &cdeman.XmFontList;, &cdeman.XmForm;, &cdeman.XmManager;, &cdeman.XmTextField;. ]]></para>
+</refsect1></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->
+<?Pub *0000153992>

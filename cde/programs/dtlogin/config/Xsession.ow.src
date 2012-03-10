@@ -1,0 +1,48 @@
+XCOMM!/bin/ksh 
+XCOMM $XConsortium: Xsession.ow.src /main/3 1996/11/19 11:41:19 drk $
+XCOMM ####################################################################
+XCOMM ##  File:              Xsession.ow
+XCOMM ##
+XCOMM ##  Default Location:  /usr/dt/config/Xsession.ow
+XCOMM ##
+XCOMM ##  Purpose:           OpenWindows session start script
+XCOMM ##
+XCOMM ##  Invoked by:        Solaris Desktop Login Manager (dtlogin)
+XCOMM ##
+XCOMM ##  Revision:          @(#)Xsession.ow.src 1.4 95/08/10 
+XCOMM ##
+XCOMM ##  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM ##
+XCOMM ####################################################################
+
+
+DTDSPMSG=/usr/dt/bin/dtdspmsg
+
+if [ -z "$SESSIONTYPE" ]
+then
+	export SESSIONTYPE="altDt"
+fi
+
+if [ -z "$DTSTARTIMS" ]
+then
+	export DTSTARTIMS="False"
+fi
+
+if [ -z "$SDT_ALT_SESSION" ]
+then
+	export SDT_ALT_SESSION="/usr/dt/config/Xsession.ow2"
+fi
+
+if [ -z "$SDT_ALT_HELLO" ]
+then
+  if [ -x $DTDSPMSG ]; then 
+     export SDT_ALT_HELLO="/usr/dt/bin/dthello -string '`$DTDSPMSG -s 37 /usr/dt/lib/nls/msg/$LANG/dthello.cat 1 'Starting the OpenWindows Desktop'`' &"
+  else
+     export SDT_ALT_HELLO="/usr/dt/bin/dthello -string 'Starting the OpenWindows Desktop' &"
+  fi
+fi
+
+export SDT_NO_DSDM=""
+
+
+/usr/dt/bin/Xsession

@@ -1,0 +1,166 @@
+<!-- $XConsortium: Quit.sgm /main/6 1996/09/08 20:15:07 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN300.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN300.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Quit</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Quit</Symbol></RefName>
+<RefPurpose>terminate an operation or an entire tool
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Quit.sgm /main/6 1996/09/08 20:15:07 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>Quit(in boolean <Emphasis>silent</Emphasis>,
+        in boolean <Emphasis>force</Emphasis>
+        [in messageID <Emphasis>operation2Quit</Emphasis>]);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Quit</Symbol> request
+terminates an operation or an entire tool.
+Without the optional
+<Emphasis>operation2Quit</Emphasis> argument, this request asks the handling procid to quit.
+If the request succeeds, one or more ToolTalk procids should call
+&cdeman.tt.close;, and zero or more processes should exit.
+</Para>
+<Para>With the optional
+<Emphasis>operation2Quit</Emphasis> argument, this request asks the handler to terminate the indicated request.
+(Whether the terminated request must therefore be failed
+depends on its semantics.
+Often, termination can be considered to
+mean that the requested operation has been carried out to the
+requester's satisfaction.)
+</Para>
+<Para>The
+<Symbol Role="Message">Quit</Symbol> request should be failed (and the status code set
+appropriately) when the termination is not performed&mdash;for
+example, because the
+<Emphasis>silent</Emphasis> argument was false and the user canceled the quit.
+</Para>
+<Para>The
+<Emphasis>silent</Emphasis> argument affects user notification of termination.
+If
+<Emphasis>silent</Emphasis> is True, the handler is not allowed to
+block on user input before terminating itself (or the indicated operation).
+If it is False, however,
+the handler may seek such input.
+</Para>
+<Para>The
+<Emphasis>force</Emphasis> argument
+is a Boolean value indicating whether the handler should
+terminate itself (or the indicated operation) even if circumstances
+are such that the tool ordinarily would not perform the termination.
+</Para>
+<Para>For example, a tool might have a policy of not quitting with
+unsaved changes unless the user has been asked whether the
+changes should be saved.
+When
+<Emphasis>force</Emphasis> is true, such a tool should terminate even when doing so would lose
+changes that the user has not been asked by the tool about saving.
+</Para>
+<Para>The
+<Emphasis>operation2Quit</Emphasis> argument
+is the request that should be terminated.
+For a request to be
+terminable, the handler must have sent a
+<Symbol Role="Message">Status</Symbol> notice back to the requester (thus
+identifying itself to the requester).
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The ToolTalk service may return one of the following errors
+in processing the
+<Symbol Role="Message">Quit</Symbol> request:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_DESKTOP_ECANCELED</Term>
+<ListItem>
+<Para>The user overrode the
+<Symbol Role="Message">Quit</Symbol> request.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_ENOMSG</Term>
+<ListItem>
+<Para>The
+<Emphasis>operation2Quit</Emphasis> argument does not refer to any message currently known by the handler.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttdt.session.join;, and
+&cdeman.ttdt.message.accept;, functions can be used to register for,
+and help process, the
+<Symbol Role="Message">Quit</Symbol> request.
+</Para>
+<Para>In the successful case,
+``zero or more'' procids
+are cited because a single process can instantiate multiple independent
+procids, and a single procid can conceivably be implemented by a set
+of cooperating processes.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The
+<Symbol Role="Message">Quit</Symbol> request can be sent as in the following example:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message msg = tttk_message_create(0, TT_REQUEST, TT_SESSION,
+                        the_recipient_procid, TTDT_QUIT,
+                        my_callback);
+tt_message_iarg_add(msg, TT_IN, Tttk_boolean, 0);
+tt_message_iarg_add(msg, TT_IN, Tttk_boolean, 0);
+tt_message_send(msg);
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<![ %CDE.C.CDE; [
+<RefSect1>
+<Title>WARNINGS</Title>
+<Para><Symbol Role="Message">Quit</Symbol> can also be sent as a multicast notice, as an
+<Emphasis>edict</Emphasis> to all tools in the scope of the message.
+The consequences of doing so can be severe and unexpected.
+</Para>
+</RefSect1>
+]]>
+<![ %CDE.C.SUN; [
+<RefSect1>
+<Title>BUGS</Title>
+<Para>The
+<Emphasis>silent</Emphasis> argument should have its polarity reversed, to be like the
+<Emphasis>inquisitive</Emphasis> argument of several of the
+<Literal>Media</Literal> messages.
+</Para>
+</RefSect1>
+]]>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.tt.close;, &cdeman.tt.message.iarg.add;, &cdeman.tt.message.send;, &cdeman.ttdt.message.accept;, &cdeman.ttdt.session.join;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

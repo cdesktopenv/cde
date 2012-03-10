@@ -1,0 +1,98 @@
+XCOMM $XConsortium: Imakefile /main/11 1996/08/09 14:50:28 barstow $
+XCOMM
+XCOMM  RESTRICTED CONFIDENTIAL INFORMATION:
+XCOMM
+XCOMM  The information in this document is subject to special
+XCOMM  restrictions in a confidential disclosure agreement between
+XCOMM  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+XCOMM  document outside HP, IBM, Sun, USL, SCO, or Univel without
+XCOMM  Sun's specific written approval.  This document and all copies
+XCOMM  and derivative works thereof must be returned or destroyed at
+XCOMM  Sun's request.
+XCOMM
+XCOMM (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM (c) Copyright 1996 Hewlett-Packard Company.
+XCOMM (c) Copyright 1996 International Business Machines Corp.
+XCOMM (c) Copyright 1993,1996 Sun Microsystems, Inc.
+XCOMM (c) Copyright 1996 Novell, Inc. 
+XCOMM (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM (c) Copyright 1996 Hitachi.
+
+       PROGRAM 	= rpc.cmsd
+
+       INCLUDES = -I. -I$(CSASRC) -I$(DTHELPSRC)
+  SYS_LIBRARIES = DtClientSysLibs
+#ifdef SunArchitecture
+LOCAL_LIBRARIES = $(CSALIB) $(DTSVCLIB) $(TTLIB)
+#else
+LOCAL_LIBRARIES = $(CSALIB) $(DTWIDGETLIB) $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+#endif /* SunArchitecture */
+
+ OSMAJORVERSION = OSMajorVersion
+ OSMINORVERSION = OSMinorVersion
+        DEFINES = -DREL="$(OSMAJORVERSION)$(OSMINORVERSION)" -DSVR4 \
+                  -DRELMAJOR="$(OSMAJORVERSION)" \
+                  -DRELMINOR="$(OSMINORVERSION)"
+
+#ifdef RsArchitecture
+EXTRA_LIBRARIES	= -lrpcsvc -lPW -ldiag -lc
+#endif
+
+#ifdef HPArchitecture
+  EXTRA_DEFINES = -DHPUX -DS9000
+EXTRA_LIBRARIES	= -lrpcsvc -lV3 -lc -lPW
+#endif
+
+#ifdef SunArchitecture
+EXTRA_DEFINES = -DSunOS=$(OSMAJORVERSION)$(OSMINORVERSION)
+EXTRA_CCOPTIONS = -xstrconst -Xc -v
+EXTRA_LIBRARIES = -lsocket -lnsl -lintl
+#endif
+
+SRCS = \
+	parser.y	access.c	callback.c \
+	cmscalendar.c	cmsconvert.c	cmsentry.c \
+	cmsmatch.c	delete.c	garbage.c \
+	insert.c	lexit.c		list.c \
+	log.c		lookup.c	reclotick.c \
+	recount.c	relasttick.c	reminder.c \
+	renexttick.c	repeat.c	reprevtick.c \
+	rerule.c	reutil.c	tree.c \
+	utility.c	v4ops.c		v5ops.c \
+	cmsfunc.c	programtable.c	rtable2.c \
+	rtable3.c	rtable4.c	svcmain.c \
+	update.c
+
+OBJS = \
+	parser.o	access.o	callback.o \
+	cmscalendar.o	cmsconvert.o	cmsentry.o \
+	cmsmatch.o	delete.o	garbage.o \
+	insert.o	lexit.o		list.o \
+	log.o		lookup.o	reclotick.o \
+	recount.o	relasttick.o	reminder.o \
+	renexttick.o	repeat.o	reprevtick.o \
+	rerule.o	reutil.o	tree.o \
+	utility.o	v4ops.o		v5ops.o \
+	cmsfunc.o	programtable.o	rtable2.o \
+	rtable3.o	rtable4.o	svcmain.o \
+	update.o
+
+all:: $(PROGRAM)
+
+NormalProgramTarget($(PROGRAM),$(OBJS),,$(LOCAL_LIBRARIES),)
+
+.SUFFIXES: .y
+
+.y.c:
+	$(YACC) -d $(YFLAGS) $<
+	sed -e "s/yy/yyy/g" -e "\a# linea D" y.tab.c > $*.c
+	sed s/yy/yyy/g y.tab.h >  $*.h
+	$(RM) y.tab.c  y.tab.h
+
+parser.o:	parser.c
+
+clean::
+	$(RM) \
+        parser.h parser.c
+
+DependTarget()

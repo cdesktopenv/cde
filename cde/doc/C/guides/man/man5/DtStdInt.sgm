@@ -1,0 +1,447 @@
+<!-- $XConsortium: DtStdInt.sgm /main/12 1996/09/30 11:28:57 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<refentry id="CDEMX.MAN104.rsml.1">
+<refmeta><refentrytitle>DtStdInterfaceFontNames</refentrytitle><manvolnum>
+file formats</manvolnum></refmeta>
+<refnamediv><refname><Symbol>DtStdInterfaceFontNames</Symbol></refname>
+<refpurpose>&str-XZ; Standard Interface Font Names</refpurpose></refnamediv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The &str-XZ; Standard
+Interface Font Names are a set of generic X Window
+System font names, needed by the &str-XZ; GUI itself, that are used for user
+interface elements such as button labels, window titles and text fields.
+These names, for seven sizes of two typefaces, must exist on all &str-XZ;
+systems, and they should be provided in any
+X&ensp;server product on which &str-XZ; applications are expected to run.
+Seven sizes of a third typeface are recommended.
+They are typically mapped to existing fonts on the system
+using the font alias mechanism, although this method is not
+required.</para>
+<para>&str-XZ; 1.0 does not come with a common set of fonts on all systems,
+and it must be able to run on X&ensp;servers and X terminals from non-&str-XZ;
+vendors if those vendors so desire. Therefore, there are a standard set of
+``generic'' font names and sizes that each &str-XZ; vendor makes available
+on their &str-XZ; systems and that X&ensp;server vendors may make available
+on their X&ensp;servers and terminals. The names map to existing fonts on
+each vendor's system and may vary from vendor to vendor.</para>
+<para>The &str-XZ; Standard Interface Font Names described here allow clients
+making up the &str-XZ; desktop, such as &cdeman.dtterm; and a single
+set of default fonts in their <emphasis>app-defaults</emphasis> files, without
+concern for the system or X&ensp;server on which &str-XZ; is running. (The &str-XZ;
+Standard Application Font Names, described in &cdeman.DtStdAppFontNames;,
+provide a similar mechanism for applications running on the &str-XZ; desktop.)
+</para>
+<refsect2>
+<title>Background</title>
+<para>Interface fonts are designed by user interface experts for the narrow
+purpose of making the menus, labels and fields of a graphical user interface
+highly readable. They are usually finely hand-tuned bitmapped fonts, intended
+for use on visual displays only and not on printers, and many of the glyphs
+have been specially modified for this purpose. Interface fonts can be contrasted
+with application fonts, which are the fonts used within an application running
+on the &str-XZ; desktop. Interface fonts come in a restricted set of styles
+and are used for short strings of text, whereas application fonts usually
+come in a variety of designs, styles and weights and are used for emphasis,
+cross-references, section headers, and so forth.</para>
+</refsect2>
+<refsect2>
+<title>Rationale</title>
+<para>Common font names are required to prevent &str-XZ; clients such as &cdeman.dtterm; from needing different <emphasis>app-defaults</emphasis>
+files on each system. In addition, any X&ensp;server or X terminal vendor
+may ensure that the &str-XZ; desktop can run on their X&ensp;server by mapping
+these standard names to fonts of the corresponding style on their individual
+X systems.</para>
+<para>Interface fonts are needed because of user interface and cognitive research
+that has examined the readability of various fonts on the display screens
+in use today and found that many fine adjustments (for example, for centering,
+baseline, height and alignment) must be made to characters in a font to make
+them clear, distinguishable and consistent when used for the interface objects
+of a GUI. And by using hand-tuned interface fonts for the GUI objects, the
+desktop can achieve a very clean, crisp visual appearance.</para>
+<para>Interface fonts are broken into 2 categories: system and user. Cognitive
+research has shown that this distinction is important for the usability and
+readability of GUIs. System fonts are those used when the system is presenting
+information to the user (for example, in buttons). User fonts are those used
+for text that a user enters into the system (for example, for a text field
+or terminal emulator).</para>
+</refsect2>
+<refsect2>
+<title>XLFD Field Values for the Standard Interface Font Names</title>
+<para>These standard names are available using the X Window System XLFD font
+naming scheme. There are three aspects to the standard names:</para>
+<itemizedlist>
+<listitem><para>The <emphasis>underlying font</emphasis> on each system, or
+X&ensp;server platform, to which a standard name is mapped, typically will
+be different on each system.</para>
+</listitem><listitem><para>The <emphasis>standard name</emphasis> itself,
+a full XLFD name mapped to the underlying font, may be different on each system
+in some of the XLFD fields. However, most of the fields are the same from
+system to system, allowing the <emphasis>patterns</emphasis> (described next)
+to be the same.</para>
+</listitem><listitem><para>The font resource <symbol role="Variable">pattern</symbol>
+containing the * wildcards, used in <emphasis>app-defaults</emphasis>
+files, which will match the full XLFD name of the standard name, is the same
+across all systems, for a given use in an <emphasis>app-defaults</emphasis>
+file.</para>
+</listitem></itemizedlist>
+<para>Each &str-XZ; or X&ensp;server vendor implementing this specification
+must provide full XLFD names for the standard names, mapped to system-dependent
+underlying fonts, so that the XLFD patterns used in &str-XZ; application <emphasis>app-defaults</emphasis> files will always match one of the full XLFD names
+provided.</para>
+<para>The Standard Interface Font Names are identified by the presence of
+the following XLFD field name values:</para>
+<itemizedlist>
+<listitem><para><systemitem class="Constant">FOUNDRY</systemitem> is <literal>dt</literal></para>
+</listitem><listitem><para><systemitem class="Constant">FAMILY_NAME</systemitem>
+is either <literal>interface system</literal> or <literal>interface user</literal>
+(there is a single space between the two words in each family name)</para>
+</listitem></itemizedlist>
+<para>In addition, the other fields of the XLFD names defining the standard
+names are constrained as follows:</para>
+<itemizedlist>
+<listitem><para><systemitem class="Constant">WEIGHT_NAME</systemitem> is either <literal>medium</literal> or <literal>bold</literal></para>
+</listitem><listitem><para><systemitem class="Constant">SLANT</systemitem>
+is always <literal>r</literal></para>
+</listitem><listitem><para><systemitem class="Constant">SETWIDTH_NAME</systemitem>
+is always <literal>normal</literal></para>
+</listitem><listitem><para><systemitem class="Constant">SPACING</systemitem>
+is <literal>p</literal> or <literal>m</literal> (it must be <literal>m</literal>
+for <literal>interface user</literal> fonts, and should be <literal>p</literal>
+for <literal>interface system</literal> fonts, although <literal>m</literal>
+is acceptable)</para>
+</listitem><listitem><para><systemitem class="Constant">ADD_STYLE_NAME</systemitem>
+contains both a nominal size value in the range <literal>xxs</literal> to <literal>xxl</literal> (see below), as well as either <literal>sans</literal> for sans
+serif fonts or <literal>serif</literal> for serif, if appropriate for the
+underlying font</para>
+</listitem><listitem><para>The numeric fields ( <systemitem class="Constant">PIXEL_SIZE</systemitem>, <systemitem class="Constant">POINT_SIZE</systemitem>, <systemitem class="Constant">RESOLUTION_X</systemitem>, <systemitem class="Constant">RESOLUTION_Y</systemitem>, and <systemitem class="Constant">AVERAGE_WIDTH</systemitem>) must contain the same values as the underlying font.</para>
+</listitem><listitem><para><systemitem class="Constant">CHARSET_REGISTRY</systemitem>
+and <systemitem class="Constant">CHARSET_ENCODING</systemitem> are not specified;
+the standard names may be implemented for any &str-XZ; locale.</para>
+</listitem></itemizedlist>
+<para>Although the <literal>sans</literal> and <literal>serif</literal> values
+in the <systemitem class="Constant">ADD_STYLE_NAME</systemitem> field are
+not required by the XLFD font convention, they are always part of the &str-XZ;
+Standard Font Names when the underlying fonts are characterized as serif or
+sans serif. However, this document imposes no restriction on whether the interface
+fonts are serif or sans serif. The relevant attribute must be coded in the <systemitem class="Constant">ADD_STYLE_NAME</systemitem> field. Thus, for example, the
+standard names for Japanese fonts, which are not characterized as being serif
+or sans serif, would not include this designation in the <systemitem class="Constant">ADD_STYLE_NAME</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>Restricted Set of Styles Available</title>
+<para>Unlike the Standard Application Font Names, only a limited set of styles
+is available in the Standard Interface Font Names. The styles available represent
+the minimum set currently considered necessary for the desktop GUI needs:
+</para>
+<itemizedlist>
+<listitem><para>a medium weight of an interface system font, preferably proportionally
+spaced (but mono-spaced is acceptable if appropriate for the locale)</para>
+</listitem><listitem><para>a medium weight of an interface user font, always
+mono-spaced</para>
+</listitem><listitem><para>a bold weight of an interface user font, always
+mono-spaced (the standard font names for this generic typeface are recommended
+if available for the targeted fonts and locale, but are not required)</para>
+</listitem></itemizedlist>
+</refsect2>
+<refsect2>
+<title>Named Set of Point Sizes Available</title>
+<para>In addition, the set of seven point sizes for each of the three styles
+that are part of this document are ``named'' point sizes, using string values
+in the <systemitem class="Constant">ADD_STYLE_NAME</systemitem> field. Thus,
+XLFD patterns matching these names match a size based on the named size, not
+on a numeric size, even though the latter does exist in the XLFD name. These
+named sizes are used because the exact size of an interface font is less important
+than its nominal size, and implementation differences for the hand-tuned interface
+fonts do not allow common numeric point sizes to be assured across systems.
+The seven nominal sizes are as follows:</para>
+<variablelist>
+<varlistentry><term><literal>xxs</literal></term>
+<listitem>
+<para>extra extra small</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>xs</literal></term>
+<listitem>
+<para>extra small</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>s</literal></term>
+<listitem>
+<para>small</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>m</literal></term>
+<listitem>
+<para>medium</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>l</literal></term>
+<listitem>
+<para>large</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>xl</literal></term>
+<listitem>
+<para>extra large</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>xxl</literal></term>
+<listitem>
+<para>extra extra large</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The goal of these named sizes is to provide enough fonts so that both
+the variety of display monitor sizes and resolutions that &str-XZ; will run
+on, and the range of user preferences for comfortably reading button labels,
+window titles and so forth, can be accommodated in the GUI. Thus, both the
+smallest size, <literal>xxs</literal>, and the largest size, <literal>xxl</literal>, are meant to be reasonable sizes for displaying and viewing the &str-XZ;
+desktop on common displays and X terminals; they are not meant to imply either
+hard-to-read fine print or headline-sized display type.</para>
+<para>These named size values must occur first in the <systemitem class="Constant">ADD_STYLE_NAME</systemitem> field, before any use of the values <literal>serif</literal> or <literal>sans</literal> (one of which is always required
+when the underlying font can be so characterized) and before any other additional
+stylistic attribute that might be appropriate. This is important when specifying
+wild-carded patterns in a resource specification for these fonts, since whether
+the underlying font these names are mapped to is serif or sans serif is not
+specified by &str-XZ;, and the match must work for all XLFD names provided
+by &str-XZ; system vendors or other X&ensp;server vendors.</para>
+</refsect2>
+<refsect2>
+<title>Example XLFD Patterns for the Standard Names</title>
+<para>Using these values, the XLFD pattern</para>
+<informalexample remap="indent">
+<programlisting>-dt-interface*-*</programlisting>
+</informalexample>
+<para>logically matches the full set of &str-Zx; Standard Interface Font Names.
+(Note that no specific X server behavior is implied).</para>
+<para>The full set of 21 &str-XZ; Standard Interface Font Names can also be
+represented, in a more meaningful way, as follows:</para>
+<informalexample remap="indent">
+<programlisting>-dt-interface system-medium-r-normal-*-*-*-*-*-*-*-iso8859-1
+-dt-interface user-medium-r-normal-*-*-*-*-*-m-*-iso8859-1
+-dt-interface user-bold-r-normal-*-*-*-*-*-m-*-iso8859-1</programlisting>
+</informalexample>
+<para>The full set of patterns, usable in <emphasis>app-defaults</emphasis>
+files, for all seven sizes for the system font, for example, is:</para>
+<informalexample remap="indent">
+<programlisting>-dt-interface system-medium-r-normal-xxs*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-xs*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-s*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-m*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-l*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-xl*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-xxl*-*-*-*-*-*-*-iso8859-1</programlisting>
+</informalexample>
+<para>These patterns could be used in a resource file and will match the full &str-XZ;
+Standard Interface Names for Latin-1 locales on all &str-XZ;, or complying
+X server, systems.</para>
+<para>Note in these wild-carded XLFD names that the <systemitem class="Constant">ADD_STYLE_NAME</systemitem> field has a pattern, such as <literal>xxs*</literal>,
+and that the pattern is partly a string ( <literal>xxs</literal>) and partly
+the pattern-matching character <literal>*</literal>. The full XLFD name this
+pattern matches&mdash;the XLFD name implementing the Standard Interface name&mdash;will
+often contain <literal>sans</literal> or <literal>serif</literal> in the field,
+after the <literal>xxs</literal> and a space, and so the <literal>*</literal>
+is essential to match that <literal>sans</literal> or <literal>serif</literal>
+string (and any additional style attribute string that might be in the underlying
+name). Note also that the <systemitem class="Constant">SPACING</systemitem>
+field is wild-carded in the pattern for the system font, since either <literal>p</literal> or <literal>m</literal> may appear in the standard name being
+matched.</para>
+</refsect2>
+<refsect2>
+<title>Implementation of Font Names</title>
+<para>Each &str-XZ; system vendor and X&ensp;server vendor provides mappings
+of its own fonts to XLFD names as described by this document. The actual XLFD
+names will vary from system to system, just as the fonts they are mapped to,
+since they contain some of the same values as the XLFD name of the underlying
+font. What does not vary is the behavior: the common patterns in which only
+specified fields are used will match each system's standard names. This is
+guaranteed by the field specifications given earlier.</para>
+<para>There is no precise specification of how the named sizes <literal>xxs</literal> to <literal>xxl</literal> are mapped to sizes of underlying fonts
+in each system or X&ensp;server product, although each size must be equal
+to or larger than the previous size. Nonetheless, some guidelines are appropriate.
+</para>
+<para>Interface fonts have been developed because of human factors research
+on visual clarity of text on displays, and this has been done in the context
+of the display technology typically available today, mostly in the 100 dots
+per inch (DPI) range. That, and the use of standard point sizes (10, 12, 14,
+18) in the graphics arts, have resulted in the development in the industry
+of hand-tuned bitmapped fonts for a set of ``pixel heights'' that are likely
+to be used for these standard names. However, making the &str-XZ; desktop
+usable with a range of point sizes effectively means, in addition to legibility
+for the user, that the various &str-XZ; applications fit ``appropriately''
+on the screen using those point sizes. This means, for example, that two application
+windows can appear side by side on a typical display or that a certain number
+of buttons can appear across the screen.</para>
+<para>Thus, these guidelines are expressed not only in pixel sizes, to reflect
+current usage, but also in percentage of monitor height. This allows them
+to remain appropriate as technological evolution improves display resolution
+and monitor size (for example, wall-mounted monitors). The ideal set of sizes
+would form a linear progression from the smallest ( <literal>xxs</literal>)
+to the largest ( <literal>xxl</literal>), although this is not achievable.
+The basic guideline is that the <literal>xxs</literal> font should be, in
+pixels, no less than 0.9% of the height of the display resolution, in pixels;
+the <literal>xxl</literal> font should be no more than 2.6% of the height.
+</para>
+<para>As an approximate example that does not represent any existing mapping
+of fonts to a display, this table shows how the named sizes might map to real
+bitmapped fonts of a given pixel size, and how large those sizes are in percentage
+and point size terms:</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.15in">
+<colspec align="left" colname="col1" colwidth="84*">
+<colspec align="left" colwidth="85*">
+<colspec align="left" colwidth="136*">
+<colspec align="left" colname="col4" colwidth="119*">
+<spanspec nameend="col4" namest="col1" spanname="1to4">
+<tbody>
+<row>
+<entry align="left" spanname="1to4" valign="top"><literal>Sample Range of
+Named Sizes on a 1280&times;1024 Display</literal></entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>named size</emphasis></entry>
+<entry align="left" valign="top"><emphasis>number</emphasis> <emphasis>of
+pixels</emphasis></entry>
+<entry align="left" valign="top"><emphasis>size as %</emphasis> <emphasis>of 1024 height</emphasis></entry>
+<entry align="left" valign="top"><emphasis>point size on 100 DPI screen</emphasis></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>xxs</literal></entry>
+<entry align="left" valign="top">10</entry>
+<entry align="left" valign="top">0.98%</entry>
+<entry align="left" valign="top">7.2</entry></row>
+<row>
+<entry align="left" valign="top"><literal>xs</literal></entry>
+<entry align="left" valign="top">12</entry>
+<entry align="left" valign="top">1.12%</entry>
+<entry align="left" valign="top">8.7</entry></row>
+<row>
+<entry align="left" valign="top"><literal>s</literal></entry>
+<entry align="left" valign="top">14</entry>
+<entry align="left" valign="top">1.37%</entry>
+<entry align="left" valign="top">10.1</entry></row>
+<row>
+<entry align="left" valign="top"><literal>m</literal></entry>
+<entry align="left" valign="top">17</entry>
+<entry align="left" valign="top">1.66%</entry>
+<entry align="left" valign="top">12.3</entry></row>
+<row>
+<entry align="left" valign="top"><literal>l</literal></entry>
+<entry align="left" valign="top">20</entry>
+<entry align="left" valign="top">1.95%</entry>
+<entry align="left" valign="top">14.6</entry></row>
+<row>
+<entry align="left" valign="top"><literal>xl</literal></entry>
+<entry align="left" valign="top">23</entry>
+<entry align="left" valign="top">2.25%</entry>
+<entry align="left" valign="top">16.6</entry></row>
+<row>
+<entry align="left" valign="top"><literal>xxl</literal></entry>
+<entry align="left" valign="top">26</entry>
+<entry align="left" valign="top">2.54%</entry>
+<entry align="left" valign="top">18.8</entry></row></tbody></tgroup></informaltable>
+<para>Thus, the following requirements are placed on each implementation of
+the Standard Interface Font Names:</para>
+<itemizedlist>
+<listitem><para>The names must be fully specified XLFD names, without wild
+cards.</para>
+</listitem><listitem><para>The <systemitem class="Constant">WEIGHT_NAME</systemitem>, <systemitem class="Constant">SLANT</systemitem>, <systemitem class="Constant">SETWIDTH_NAME</systemitem>, <systemitem class="Constant">SPACING</systemitem>, <systemitem class="Constant">CHARSET_REGISTRY</systemitem> and <systemitem class="Constant">CHARSET_ENCODING</systemitem> fields must contain valid values as defined
+previously and must match those in the underlying font.</para>
+</listitem><listitem><para>The <systemitem class="Constant">ADD_STYLE_NAME</systemitem> field must contain both a named size (for example, <literal>xxs</literal>) and, if appropriate, either the <literal>serif</literal> or <literal>sans</literal> designation, whichever matches the underlying font; any additional
+words about the style of the underlying font, if defined for the underlying
+font, must also be used. The named size must be first in the field, and must
+be separated from any following word in the field with a blank.</para>
+</listitem><listitem><para>The named sizes <literal>xxs</literal> through <literal>xxl</literal> must be mapped to fonts that are progressively larger than or
+equal to the previous one in the list. Thus, several standard names with adjacent
+sizes (for example, <literal>xxs</literal> and <literal>xs</literal>) may
+be mapped to the same font (for example, if there is not enough variety in
+sizes in the underlying fonts).</para>
+</listitem><listitem><para>The implemented names should attempt to meet the
+guidelines discussed in the previous paragraph and table.</para>
+</listitem></itemizedlist>
+<para>For example, system A is assumed to be using the following sans serif
+font for the extra small system font:</para>
+<informalexample remap="indent">
+<programlisting>-bitstream-swiss-medium-r-normal--11-90-85-85-p-81-iso8859-1
+</programlisting>
+</informalexample>
+<para>System B is using the following serif font for the extra small system
+font:</para>
+<informalexample remap="indent">
+<programlisting>-vendorb-ersatz-medium-r-normal-Expert-8-80-75-75-m-72-iso8859-1
+</programlisting>
+</informalexample>
+<para>Their respective standard names would be implemented on their systems
+as:</para>
+<informalexample>
+<programlisting>
+-dt-interface&ensp;system-medium-r-normal-xs&thinsp;sans-11-90-85-85-p-81-iso8859-1
+-dt-interface&ensp;system-medium-r-normal-xs&thinsp;serif&ensp;Expert-8-80-75-75-m-72-iso8859-1
+</programlisting>
+</informalexample>
+<para>Defined this way, both names will match the single XLFD pattern used
+in a common <emphasis>app-defaults</emphasis> file:</para>
+<informalexample remap="indent">
+<programlisting>-dt-interface system-medium-r-normal-xs*-*-*-*-*-*-*-iso8859-1
+</programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>Default &str-XZ; Mapping of the Standard Interface Font Names</title>
+<para>There is no default mapping of these interface names to X11R5 fonts;
+the mapping is implementation-specific.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>USAGE</title>
+<para>A &str-XZ; desktop client developer will code a single <emphasis>app-defaults</emphasis> file to specify font resources for their client and use it across
+all &str-XZ; systems. Since the <systemitem class="Constant">FOUNDRY</systemitem>, <systemitem class="Constant">FAMILY_NAME</systemitem>, <systemitem class="Constant">WEIGHT_NAME</systemitem>, <systemitem class="Constant">SLANT</systemitem> and <systemitem class="Constant">SETWIDTH_NAME</systemitem> fields of the standard names are
+the same across different systems, these values can be used in the resource
+specification in the <emphasis>app-defaults</emphasis> file. However, other
+fields ( <systemitem class="Constant">ADD_STYLE_NAME</systemitem>, <systemitem class="Constant">PIXEL_SIZE</systemitem>, <systemitem class="Constant">POINT_SIZE</systemitem>, <systemitem class="Constant">RESOLUTION_X</systemitem>, <systemitem class="Constant">RESOLUTION_Y</systemitem>, <systemitem class="Constant">SPACING</systemitem> and <systemitem class="Constant">AVERAGE_WIDTH</systemitem>)
+will vary across systems, and so must be wild-carded in the resource specification
+( <systemitem class="Constant">ADD_STYLE_NAME</systemitem> is partially wild-carded).
+As was shown in the previous example:</para>
+<informalexample remap="indent">
+<programlisting>-dt-interface system-medium-r-normal-xs*-*-*-*-*-*-*-iso8859-1
+</programlisting>
+</informalexample>
+<para>is an XLFD pattern, used in a single resource specification, that matches
+a single standard name on different &str-XZ; or X&ensp;server platforms. (And
+if the last 2 fields, <systemitem class="Constant">CHARSET_REGISTRY</systemitem>
+and <systemitem class="Constant">CHARSET_ENCODING</systemitem>, were wild-carded,
+then the pattern could work across locales as well.) Note that the named size
+( <literal>xs</literal> in this example) is part of the pattern, but the <literal>serif</literal>/ <literal>sans serif</literal> designation is not; this is
+required to obtain the desired nominal size (whatever it may be in the mapped
+font), while still matching either <literal>serif</literal> or <literal>sans serif</literal> in the standard name.</para>
+<para>Note that if a &str-XZ; desktop application tries to open a font using
+one of these standard names, and the X&ensp;server does not know about these
+names, the application will usually fall back on using the <literal>fixed</literal> and <literal>variable</literal> font aliases that are typically
+provided in all X&ensp;servers. When this happens, the &str-XZ; desktop will
+be more difficult to use, visually, than if its expected font names were available.
+</para>
+</refsect1>
+<refsect1>
+<title>NOTES</title>
+<para>There is no requirement on a &str-XZ; system or X&ensp;server vendor
+to implement these standard names in a particular way. Several mechanisms
+are possible: duplicate font files with altered naming attributes, X11R5 font
+aliases, or vendor-specific mechanisms. The only requirement is that an XLFD
+pattern, written with attributes taken from the set that define the standard
+names, can be successfully used to open a font with the Xlib function <function>XLoadFont</function>; and, specifically, the Xlib function <function>XListFonts</function> need NOT return the same XLFD name for the pattern on different &str-XZ;
+or X&ensp;server systems.</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtstyle;, &cdeman.dtterm;, &cdeman.DtStdAppFontNames;</para>
+</refsect1>
+</refentry>
+<?Pub *0000056959>

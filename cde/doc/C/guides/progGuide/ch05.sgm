@@ -1,0 +1,1596 @@
+<!-- $XConsortium: ch05.sgm /main/7 1996/10/30 15:07:56 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="PG.dndPG.div.1">
+<Title Id="PG.dndPG.mkr.1">Integrating with Drag and Drop</Title>
+<Para>This chapter describes the drag-and-drop user model and the Common
+Desktop Environment drag-and-drop convenience application program
+interface (API), and describes how to use drag and drop.</Para>
+<InformalTable Id="PG.dndPG.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Summary33'--><XRef Role="JumpText" Linkend="PG.dndPG.mkr.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Drag-and-Drop User Model35'--><XRef Role="JumpText" Linkend="PG.dndPG.mkr.6"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Drag-and-Drop Convenience API45'--><XRef Role="JumpText" Linkend="PG.dndPG.mkr.13"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Drag-and-Drop Transaction47'--><XRef Role="JumpText" Linkend="PG.dndPG.mkr.14"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Integration Action Plan50'--><XRef Role="JumpText" Linkend="PG.dndPG.mkr.17"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'API Overview51'--><XRef Role="JumpText" Linkend="PG.dndPG.mkr.18"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How Drag Sources Are Used53'--><XRef Role="JumpText" Linkend="PG.dndPG.mkr.21"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How Drop Zones Are Used56'--><XRef Role="JumpText" Linkend="PG.dndPG.mkr.22"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="PG.dndPG.div.2">
+<Title Id="PG.dndPG.mkr.2">Summary</Title>
+<Para>The Common Desktop Environment contains an application program interface
+(API) for drag and drop that is layered on top of Motif to provide convenient,
+consistent, and interoperable drag and drop across the desktop. The Common
+Desktop Environment drag-and-drop API makes it easier for developers to
+implement drag and drop. With drag and drop, users can manipulate objects
+on the screen directly by grabbing them, dragging them around the display,
+and dropping them on other objects to perform a transfer of data.</Para>
+<Para>Text, files, and buffers are the three categories of data that are used with the
+Common Desktop Environment drag-and-drop API. <Emphasis>Text</Emphasis> is defined, in this
+context, as any user-visible text such as text in type-in fields. A <Symbol Role="Variable">file</Symbol> is a
+container of data that resides in the file system. Each file also has a format that
+describes its contents. <Emphasis>Buffers</Emphasis> are data contained in memory. Typically, each
+buffer also has a format that describes its contents.</Para>
+<Sect2 Id="PG.dndPG.div.3">
+<Title Id="PG.dndPG.mkr.3">Library and Header Files</Title>
+<Para>To use drag and drop, you need to link to the <Command>DtSvc</Command> library. The header file is
+<ComputerOutput>Dt/Dnd.h</ComputerOutput>.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.4">
+<Title Id="PG.dndPG.mkr.4">Demo Program</Title>
+<Para>A demo program containing an example of drag and drop is in
+<Filename>/usr/dt/examples/dtdnd</Filename>.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.5">
+<Title Id="PG.dndPG.mkr.5">Using Drag and Drop</Title>
+<Sect3 Id="PG.dndPG.div.6" Role="Procedure">
+<Title>To Integrate with Drag and Drop</Title>
+<Para>To integrate your application with drag and drop, follow these steps:</Para>
+<OrderedList>
+<ListItem>
+<Para>Include <ComputerOutput>Dt/Dnd.h</ComputerOutput>.<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>header file</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>header file</Primary>
+<Secondary>drag and drop</Secondary>
+</IndexTerm>
+</Para>
+</ListItem>
+<ListItem>
+<Para>Link to <ComputerOutput>libDtsvc</ComputerOutput>.<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>library</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>library</Primary>
+<Secondary>drag and drop</Secondary>
+</IndexTerm>
+</Para>
+</ListItem>
+<ListItem>
+<Para>As recipient:</Para>
+</ListItem>
+<ListItem>
+<Para>Register as a drop zone using <Command>DtDndDropRegister</Command>.</Para>
+</ListItem>
+<ListItem>
+<Para>Optionally, write a drop animate callback.</Para>
+</ListItem>
+<ListItem>
+<Para>Write a transfer callback.</Para>
+</ListItem>
+<ListItem>
+<Para>As source:</Para>
+</ListItem>
+<ListItem>
+<Para>Recognize user action (possibly requiring a modification of translation
+tables) and call <Command>DtDndDragStart</Command>.</Para>
+</ListItem>
+<ListItem>
+<Para>Write a convert callback.</Para>
+</ListItem>
+<ListItem>
+<Para>Write a drag finish callback.</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.7">
+<Title Id="PG.dndPG.mkr.6">Drag-and-<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>user model</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>user model</Primary>
+<Secondary>drag and drop</Secondary>
+</IndexTerm>
+Drop User Model</Title>
+<Para>This section describes the user model behind drag and drop to help you design
+an application that is consistent with the rest of the desktop and users'
+expectations.</Para>
+<Para>See the <Emphasis>Common Desktop Environment: Style Guide</Emphasis> for more information about
+the drag-and-drop user model and for guidelines for the visual appearance of
+drag-and-drop elements.</Para>
+<Para>When drag and drop is available for all applications on the desktop, the system
+is more predictable to the user and is, therefore, easier to use and to learn.
+Users leverage their learning across more applications by using skills that they
+already know. In addition, many users prefer drag and drop to using menus.</Para>
+<Para>In this chapter, the term <Emphasis>drop zone</Emphasis> is used to describe places where users can
+drop something. Drop zones are usually represented by a control or icon
+graphic; for example, a trash icon or a type-in field graphic. The term <Emphasis>drop
+target</Emphasis> is used to describe the rectangular area that represents the drop zone.</Para>
+<Sect2 Id="PG.dndPG.div.8">
+<Title>Drag and Drop Capability</Title>
+<Para>With the Drag and Drop capability, users can select and manipulate objects
+represented as icons.</Para>
+<Note>
+<Para>Drag and drop is an accelerator to functionality that is accessible
+through other user interface controls supported within your application.
+However, not all users are able to take advantage of drag and drop. Do not
+support any basic operations solely through drag and drop. Any basic function
+that your application supports through drag and drop should also be
+supported by menus, buttons, or dialog boxes.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.9">
+<Title>Drag Icons<IndexTerm>
+<Primary>drag icons</Primary>
+</IndexTerm><IndexTerm>
+<Primary>icons</Primary>
+<Secondary>drag</Secondary>
+</IndexTerm></Title>
+<Para>When users select and manipulate icons using drag and drop, they expect the
+graphic icon that represents the item being dragged to remain consistent from
+the selection through the drag and drop. If the user selects a message icon in
+the File Manager and starts to drag it, the source portion of the drag icon is
+represented by that message icon. Providing this kind of consistency makes
+drag and drop more predictable to the user. Where the destination application
+uses icons, the icon shown should, in most cases, be the same one that was
+selected and then dragged and dropped. This behavior is not, however, always
+appropriate for all applications. Dragging text is an exception. A text drag icon
+is used instead of dragging the selected text.</Para>
+<Para>Both the source and destination applications specify the visual appearance of
+drag icons. You are responsible for ensuring that an application has a
+consistent and appropriate icon to drag. Although the drag-and-drop library
+provides default icons, it is a good idea for you to specify your own for each
+application. Most often, you should use the data-typing database to obtain the
+icon associated with the type data represented by the icon. See
+<!--Original XRef content: 'Chapter&numsp;9,
+&xd2;Accessing the Data-Typing Database'--><XRef Role="ChapNumAndTitle" Linkend="PG.datat.mkr.1">.</Para>
+<Para>When users start a drag without selecting an icon, it is appropriate for you to
+provide a relevant drag icon. For example, in an appointment editor, the user
+can select an appointment out of a scrolling list&mdash;which may or may not show
+icons. You should use an appointment icon as the source indicator. The
+destination application (for example, a File Manager) should display the same
+appointment icon.</Para>
+<Sect3 Id="PG.dndPG.div.10">
+<Title>Parts of the Drag Icon<IndexTerm>
+<Primary>drag icons</Primary>
+</IndexTerm><IndexTerm>
+<Primary>icons</Primary>
+<Secondary>drag</Secondary>
+</IndexTerm></Title>
+<Para>The drag icon changes appearance to provide <Emphasis>drag-over</Emphasis> feedback when the user
+moves it over potential drop zones.</Para>
+<Para>The drag icon has three parts that combine to provide the drag-over feedback:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>A state indicator</Para>
+</ListItem>
+<ListItem>
+<Para>An operation indicator</Para>
+</ListItem>
+<ListItem>
+<Para>A source indicator</Para>
+</ListItem>
+</ItemizedList>
+<Para><IndexTerm>
+<Primary>drag icons</Primary>
+<Secondary>state indicator</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>state indicator, drag icon</Primary>
+</IndexTerm>The <Emphasis>state indicator</Emphasis> is a pointer used for positioning combined with a valid or
+invalid drop zone indicator. The valid state indicator is an arrow pointer. The
+pointer has a hot spot so users can position it in a predictable manner. The
+invalid state indicator&mdash;a circle with a diagonal line&mdash;is displayed when users
+have positioned the cursor over an invalid drop zone.</Para>
+<Para>The <Emphasis><IndexTerm>
+<Primary>operation indicator, drag icons</Primary>
+</IndexTerm><IndexTerm>
+<Primary>drag icon</Primary>
+<Secondary>operation indicator</Secondary>
+</IndexTerm>operation indicator</Emphasis> gives users feedback on what operation is occurring
+during the drag; either move, copy, or link. Because most drags are moves,
+users are given additional feedback when they perform the less-frequent copy
+or link operations.</Para>
+<Note>
+<Para>The operation feedback is drawn on top of the state and source
+feedback. This behavior is consistent with Motif drag-and-drop behavior.</Para>
+</Note>
+<Para>The user can choose the drag operation move, copy, or link by pressing and
+holding certain keys during a drag, as shown in
+<!--Original XRef content: 'Table&numsp;5&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.7">.</Para>
+<Table Id="PG.dndPG.tbl.1" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.7">Keys Used to Modify a Drag Operation</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75398 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Modifier Key</Literal></Para></Entry>
+<Entry><Para><Literal>Operation</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Shift</Para></Entry>
+<Entry><Para>Move</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Control</Para></Entry>
+<Entry><Para>Copy</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Control and Shift</Para></Entry>
+<Entry><Para>Link</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>The source application can force a copy, as in the case of the read-only File
+Manager window. When the user chooses an operation, the drop zone must
+match that operation for the drop to succeed; otherwise, the drop zone is
+invalid. In other words, if the user chooses a copy by holding down the
+Control key, and then drags the drag icon over the trash icon, the drag icon
+should show the trash icon as an invalid drop zone and any drop should fail,
+because copying to the trash is not allowed.</Para>
+<Para>The <Emphasis><IndexTerm>
+<Primary>source indicator, drag icons</Primary>
+</IndexTerm><IndexTerm>
+<Primary>drag icon</Primary>
+<Secondary>source indicator</Secondary>
+</IndexTerm>source indicator</Emphasis> represents the selection (or the item being dragged). The
+source indicator varies depending on whether the selection represents single or
+multiple items and what kind of item the selection represents.
+<!--Original XRef content: 'Table&numsp;5&hyphen;2'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.8"> shows
+the default source indicators in the Common Desktop Environment. These
+source indicators are generated automatically when you use the Common
+Desktop Environment drag-and-drop convenience API. The icons are
+approximations, not exact screen representations.</Para>
+<Table Id="PG.dndPG.tbl.2" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.8">Types of Drag Icons<IndexTerm>
+<Primary>drag icon</Primary>
+<Secondary>table of</Secondary>
+</IndexTerm></Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="2.03125 in">
+<ColSpec Colname="2" Colwidth="1.0 in">
+<ColSpec Colname="3" Colwidth="1.0 in">
+<ColSpec Colname="4" Colwidth="1.0 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Drag Icons</Literal></Para></Entry>
+<Entry><Para><Literal>Text
+Selection</Literal></Para></Entry>
+<Entry><Para><Literal>Single
+Selection</Literal></Para></Entry>
+<Entry><Para><Literal>Multiple
+Selection</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Valid Move</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.1" Id="PG.dndPG.igrph.1"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.2" Id="PG.dndPG.igrph.2"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.3" Id="PG.dndPG.igrph.3"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>Valid Copy</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.4" Id="PG.dndPG.igrph.4"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.5" Id="PG.dndPG.igrph.5"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.6" Id="PG.dndPG.igrph.6"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>Valid Link</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.7" Id="PG.dndPG.igrph.7"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.8" Id="PG.dndPG.igrph.8"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.9" Id="PG.dndPG.igrph.9"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>Invalid Move</Para><Para>None</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.10" Id="PG.dndPG.igrph.10"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.11" Id="PG.dndPG.igrph.11"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.12" Id="PG.dndPG.igrph.12"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>Invalid Copy</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.13" Id="PG.dndPG.igrph.13"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.14" Id="PG.dndPG.igrph.14"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.15" Id="PG.dndPG.igrph.15"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>Invalid Link</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.16" Id="PG.dndPG.igrph.16"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.17" Id="PG.dndPG.igrph.17"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.18" Id="PG.dndPG.igrph.18"></Graphic></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect3>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.11">
+<Title>Drags from Inside Windows<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>inside windows</Secondary>
+</IndexTerm></Title>
+<Para>Sometimes an application needs to enable a drag from within a dialog box or
+window. The Appointment Editor in Calendar has a scrolling list of
+appointments and an entry area for editing an appointment. Users can drag
+from the scrolling list to get an appointment, but users also need to be able to
+drag from the appointment entry area. Enabling users to drag from the entry
+area covers those times when the appointment is not yet inserted in the
+calendar (for example, when a proposed meeting time is entered but not
+inserted into the calendar).</Para>
+<Para>The item that can be dragged needs to have an icon graphic associated with it.
+Place the icon graphic in the dialog box in an appropriate area adjacent to the
+information to be dragged. The upper-right corner of the dialog box or
+window is the recommended default position. The icon lets the user know that
+something can be dragged and the graphic used is the <Emphasis>same</Emphasis> graphic used in the
+drag icon to provide consistency. The icon should be 32x32 pixels and have a
+label so that it resembles a File Manager icon. See the <Emphasis>Common Desktop
+Environment: Style Guide</Emphasis> chapter on drag and drop for more information.</Para>
+<Note>
+<Para>Drags are only enabled from human interface elements that have
+components or items that can be selected. Drags cannot be enabled from static
+labels such as those on buttons or menus.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.12">
+<Title>Visual Feedback<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>visual feedback</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>visual feedback for drag and drop</Primary>
+</IndexTerm></Title>
+<Para>The following sections describe the drop zone feedback and transition effects
+of drag and drop.</Para>
+<Sect3 Id="PG.dndPG.div.13">
+<Title>Drop Zone Feedback<IndexTerm>
+<Primary>drop zone feedback</Primary>
+</IndexTerm><IndexTerm>
+<Primary>feedback</Primary>
+<Secondary>drop zone</Secondary>
+</IndexTerm></Title>
+<Para>The default drop zone feedback, called <Emphasis>drag under</Emphasis>, can be a solid line drawn
+around the site, a raised or lowered surface with a beveled edge around the
+drop zone, or a pixmap drawing over the drop zone.</Para>
+</Sect3>
+<Sect3 Id="PG.dndPG.div.14">
+<Title>Transition Effects<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>transition effects of</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>transition effects for drag and drop</Primary>
+</IndexTerm></Title>
+<Para>Transition effects show the user that the drop has either succeeded or failed.
+The two transition effects are <Emphasis>melt</Emphasis> and <Emphasis>snap back</Emphasis>.</Para>
+<Para>Melting occurs when the user drops a drag icon on a valid drop zone. When
+the user drops a drag icon on a valid drop zone, the drag icon melts into the
+drop zone. The drag icon is replaced by the icon appropriate to the destination
+application. A printer on the Front Panel may show nothing other than the
+melting effect. An open File Manager window may display an appropriate
+icon.</Para>
+<Para>When an icon is dropped, sometimes the melting effect does not take place
+immediately. The icon is displayed where it is placed until the transfer is done.
+It is a good idea for the destination to set its cursor to a busy state while the
+transfer is occurring. The user cannot move or select the icon until the transfer
+is complete; the busy cursor lets the user know the transfer is in process.</Para>
+<Para>Snap back occurs when a drop fails. Drops can fail in two ways. If the user
+drops a drag icon over an invalid drop zone, then the drag icon snaps back to
+the source application. Once a drop occurs, the source and destination
+applications have to transfer the data. If the data transfer fails, the drag icon
+snaps back and the destination application is responsible for indicating failure
+to the user and providing information on why the drop failed.</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.15">
+<Title>Drag-and-Drop Sources<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>sources and destinations</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>sources for drag and drop</Primary>
+</IndexTerm><IndexTerm>
+<Primary>destinations for drag and drop</Primary>
+</IndexTerm></Title>
+<Para>To help you understand the behavior of drag-and-drop sources,
+<!--Original XRef content: 'Table&numsp;5&hyphen;3'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.9">
+describes the key desktop components that can be a source of drags of text
+selections, files, and buffers.</Para>
+<Table Id="PG.dndPG.tbl.3" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.9">Desktop Components That Can Be Drag Sources</Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="2.00397 in">
+<ColSpec Colname="2" Colwidth="1.25 in">
+<ColSpec Colname="3" Colwidth="0.49603 in">
+<ColSpec Colname="4" Colwidth="1.25 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Drag Source</Literal></Para></Entry>
+<Entry><Para><Literal>Text Selections</Literal></Para></Entry>
+<Entry><Para><Literal>Files</Literal></Para></Entry>
+<Entry><Para><Literal>Buffers</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Text fields (Motif)*</Para></Entry>
+<Entry><Para>Selected text</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Text Editor: Main Window</Para></Entry>
+<Entry><Para>Selected Text</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Terminal: Main Window</Para></Entry>
+<Entry><Para>Selected Text</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>File Manager: Folder Window</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Files</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>File Manager: Trash Window</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Files</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Mail: Message List</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Message in mail-
+message format</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Mail: Attachment List</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Attachment in
+format of the
+attachment</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Calendar: Appointment Editor</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Appointment in
+appointment
+format</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>*Any application that has Motif text field sources selected drags text.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.16">
+<Title>Drag-and-Drop Destinations</Title>
+<Para>The following components on the desktop provide drop destinations:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Editors</Para>
+</ListItem>
+<ListItem>
+<Para>File Manager</Para>
+</ListItem>
+<ListItem>
+<Para>Front Panel</Para>
+</ListItem>
+</ItemizedList>
+<Para>Each component accepts drops of text selections, files, and buffers. Most of the
+text drop destinations are provided automatically by the Motif library. File or
+buffer data drop destinations require additional code.</Para>
+<Para>When a user drops data from a file, and that file is modified in some way, the
+modifications can be written back to the original holder of the file. This
+behavior is described as <Emphasis>saveback</Emphasis>. However, when data is dropped from a
+buffer, the data does not have information about an originating file. As a result,
+changes to data from buffers cannot be written back, because there is no
+original holder of the data. This behavior is described as <Emphasis>no saveback</Emphasis>.</Para>
+<Para>For example, the Mailer can export mail attachments to editors using drag and
+drop. If the attachment is exported as a buffer (that has no saveback), the
+editor has no way to change the original attachment in the mailer. So, the
+editor can only save its modified version of the attachment to a new file.</Para>
+<Para>Because mail attachments are not already separate files (they are embedded
+into a mail folder file), they are only exported as buffers and cannot be saved
+back by other editors.</Para>
+<Para>If the attachment is exported as a file (that has saveback) the editor saves its
+modified version to that same file.</Para>
+<Para><!--Original XRef content: 'Table&numsp;5&hyphen;4'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.12"> describes the drops of text selections, files, and buffers on editor-type
+components such as Text Editor, Icon Editor, Calendar, Mailer, and Application
+Builder.</Para>
+<Table Id="PG.dndPG.tbl.4" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.10">Editor Drop Destinations</Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="1.41865 in">
+<ColSpec Colname="2" Colwidth="0.76389 in">
+<ColSpec Colname="3" Colwidth="1.40873 in">
+<ColSpec Colname="4" Colwidth="1.40873 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Drop Destination</Literal></Para></Entry>
+<Entry><Para><Literal>Text
+Selections</Literal></Para></Entry>
+<Entry><Para><Literal>Files</Literal></Para></Entry>
+<Entry><Para><Literal>Buffers</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Text Editor: Main
+Window</Para></Entry>
+<Entry><Para>Insert</Para></Entry>
+<Entry><Para>Insert</Para></Entry>
+<Entry><Para>Insert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Terminal: Main
+Window</Para></Entry>
+<Entry><Para>Insert</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Icon Editor: Main
+Window</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Load (if file in icon
+format) saveback</Para></Entry>
+<Entry><Para>Load into read-only
+(if data in icon
+format) no saveback</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Mailer: Message List</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Append (if file in mail
+format)</Para></Entry>
+<Entry><Para>Append (if data in
+mail format)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Mailer: Compose</Para></Entry>
+<Entry><Para>Insert</Para></Entry>
+<Entry><Para>Insert</Para></Entry>
+<Entry><Para>Insert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Mailer: Attachment
+List</Para></Entry>
+<Entry><Para>Attach</Para></Entry>
+<Entry><Para>Attach</Para></Entry>
+<Entry><Para>Attach</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Calendar: Main
+Window</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Schedule
+Appointment (if file
+in appointment
+format)</Para></Entry>
+<Entry><Para>Schedule
+appointment (if data
+in appointment
+format)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Calendar:
+Appointment Editor</Para></Entry>
+<Entry><Para>Insert into
+text field</Para></Entry>
+<Entry><Para>Fill in appointment
+fields (if file in
+appointment format)</Para></Entry>
+<Entry><Para>Fill in appointment
+fields (if data in
+appointment format)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>AppBuilder</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Load (if file in BIX or
+BIL format) saveback</Para></Entry>
+<Entry><Para>Load into read-only
+(if data in BIP format)
+no saveback</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para><!--Original XRef content: 'Table&numsp;5&hyphen;4'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.10"> describes the drops of text selections, files, and buffers on file and
+folder icons in the File Manager.</Para>
+<Table Id="PG.dndPG.tbl.5" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.11">File Manager Drop Destinations</Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="0.99206 in">
+<ColSpec Colname="2" Colwidth="1.34921 in">
+<ColSpec Colname="3" Colwidth="1.2996 in">
+<ColSpec Colname="4" Colwidth="1.35913 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Drop
+Destination</Literal></Para></Entry>
+<Entry><Para><Literal>Text Selections</Literal></Para></Entry>
+<Entry><Para><Literal>Files</Literal></Para></Entry>
+<Entry><Para><Literal>Buffers</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>File Icon</Para></Entry>
+<Entry><Para>Invoke drop action
+on target file and
+dropped text (if file
+accepts text drops
+and dropped text in
+appropriate format)
+no saveback/copy</Para></Entry>
+<Entry><Para>Invoke drop action
+on target file and
+dropped file (if file
+accepts file drop
+and dropped file in
+appropriate format)
+saveback</Para></Entry>
+<Entry><Para>Invoke drop action
+on target file and
+dropped data (if file
+accepts data drop
+and dropped data in
+appropriate format)
+no saveback/copy</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Folder Icon</Para></Entry>
+<Entry><Para>Insert text into new
+file using &ldquo;Untitled&rdquo;
+name in folder</Para></Entry>
+<Entry><Para>Copy/move file to
+folder</Para></Entry>
+<Entry><Para>Insert data into new
+file using supplied
+name (if available) in
+folder else using
+&ldquo;Untitled&rdquo;</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Action Icon</Para></Entry>
+<Entry><Para>Invoke action on text
+(if appropriate
+format and accepts
+text drop) no
+saveback</Para></Entry>
+<Entry><Para>Invoke action on
+files (if appropriate
+format and accepts
+file drop) saveback</Para></Entry>
+<Entry><Para>Invoke action on
+data (if appropriate
+format and accepts
+data drop) no
+saveback</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Mail
+Container Icon</Para></Entry>
+<Entry><Para>Append to mailbox
+(if text in mail
+format)</Para></Entry>
+<Entry><Para>Append to mailbox
+(if file in mail
+format)</Para></Entry>
+<Entry><Para>Append to mailbox
+(if data in mail
+format)</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para><!--Original XRef content: 'Table&numsp;5&hyphen;4'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.11"> describes the drops of text selections, files, and buffers on action icons
+in the Front Panel.</Para>
+<Table Id="PG.dndPG.tbl.6" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.12">Front Panel Drop Destinations</Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="0.99206 in">
+<ColSpec Colname="2" Colwidth="1.34921 in">
+<ColSpec Colname="3" Colwidth="1.2996 in">
+<ColSpec Colname="4" Colwidth="1.35913 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Drop
+Destination</Literal></Para></Entry>
+<Entry><Para><Literal>Text Selections</Literal></Para></Entry>
+<Entry><Para><Literal>Files</Literal></Para></Entry>
+<Entry><Para><Literal>Buffers</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Text Editor</Para></Entry>
+<Entry><Para>Load into read-only
+no saveback</Para></Entry>
+<Entry><Para>Load saveback</Para></Entry>
+<Entry><Para>Load into read-only
+no saveback</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Calendar</Para></Entry>
+<Entry><Para>Schedule
+appointment (if text
+in appointment
+format)</Para></Entry>
+<Entry><Para>Schedule
+appointment (if file
+in appointment
+format)</Para></Entry>
+<Entry><Para>Schedule
+appointment (if data
+in appointment
+format)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Mail</Para></Entry>
+<Entry><Para>Compose message
+attach text</Para></Entry>
+<Entry><Para>Compose message
+attach file</Para></Entry>
+<Entry><Para>Compose message
+attach data</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Printer</Para></Entry>
+<Entry><Para>Print text (if print
+method available for
+text)</Para></Entry>
+<Entry><Para>Print file contents (if
+print method
+available for file
+format)</Para></Entry>
+<Entry><Para>Print data (if print
+method available for
+data format)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Trash Can</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Move file to Trash
+Can</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Subpanel:
+Install Icon</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>Install icon</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Subpanel:
+Action</Para></Entry>
+<Entry><Para>Same as File
+Manager</Para></Entry>
+<Entry><Para>Same as File
+Manager</Para></Entry>
+<Entry><Para>Same as File
+Manager</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Subpanel:
+Executable</Para></Entry>
+<Entry><Para>Same as File
+Manager</Para></Entry>
+<Entry><Para>Same as File
+Manager</Para></Entry>
+<Entry><Para>Same as File
+Manager</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>See the <Emphasis>Common Desktop Environment: Style Guide</Emphasis> for more information and
+guidelines on how the drag and drop should appear to the user.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.17">
+<Title Id="PG.dndPG.mkr.13">Drag-and-Drop Convenience API<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>API&lt;$startrange></Secondary>
+</IndexTerm><IndexTerm>
+<Primary>API</Primary>
+<Secondary>drag and drop&lt;$startrange></Secondary>
+</IndexTerm></Title>
+<Para>The Common Desktop Environment provides a drag-and-drop convenience
+API to promote consistency and interoperability across the desktop, and to
+make it easier for developers to implement drag and drop.</Para>
+<Para>The existing Motif API for drag and drop provides reasonable functionality to
+achieve a rendezvous between the source and destination applications in the
+transaction. It provides a framework for data transfer but leaves the actual data
+transfer details up to the application. For true consistency and interoperability
+between applications across the desktop, all applications must use the same
+data transfer protocols. The Common Desktop Environment drag-and-drop
+convenience API provides common data transfer routines.</Para>
+<Sect2 Id="PG.dndPG.div.18">
+<Title>Simplify Use for Developers</Title>
+<Para>The existing Motif API for drag and drop is very flexible and, therefore, is
+somewhat difficult for nonexpert developers to use. The Common Desktop
+Environment drag-and-drop convenience API provides some convenience
+functions, described in the following paragraphs, that result in an API that is
+simpler and easier to use by providing the following services:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Manages configuration and appearance of drag icons. Graphics are
+provided for the default source, state, and operation icons that make up the
+drag icon in Motif. The compositing of these icons checks the type of data
+being dragged.</Para>
+</ListItem>
+<ListItem>
+<Para>Enables animation for a drop. You can define an animation procedure that is
+called when the drop has completed.</Para>
+</ListItem>
+<ListItem>
+<Para>Provides data transfer using standard X selection targets for text, file, and
+buffer transfers. This data transfer allows interoperability with other
+applications that use the standard targets directly.</Para>
+</ListItem>
+<ListItem>
+<Para>Provides dual registration. You can register a text widget as a drop zone for
+data other than text and preserve the ability to accept text drops.</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.19">
+<Title>Establish Policy</Title>
+<Para>The drag-and-drop API establishes policy in three areas:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Common targets. Where available, existing selection targets defined by the
+<Emphasis>Inter-Client Communication Conventions Manual</Emphasis> (ICCCM) are used.</Para>
+</ListItem>
+<ListItem>
+<Para>Data transfer protocols. The API hides some of the details of data transfer
+and presents the data to the application in the form of some simple data
+structures.</Para>
+</ListItem>
+<ListItem>
+<Para>Default drag icons. Default drag icons are provided for applications that can
+accept them.</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.20">
+<Title>Provide Common Functionality</Title>
+<Para>The drag-and-drop API provides common functionality in these areas:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Supports the transfer of data as text, file names, and buffers</Para>
+</ListItem>
+<ListItem>
+<Para>Supports, through the data transfer framework, the addition of new, built-in
+protocols</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.21">
+<Title>Leverage Existing Motif API</Title>
+<Para>The API for drag and drop does not invent a new drag-and-drop subsystem;
+rather, it uses the existing Motif API. In addition, since common data transfer
+protocols were chosen, where available, applications can interoperate at the
+selection protocol level without requiring global use of the new API.<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>API&lt;$endrange></Secondary>
+</IndexTerm><IndexTerm>
+<Primary>API</Primary>
+<Secondary>drag and drop&lt;$endrange></Secondary>
+</IndexTerm>
+</Para>
+<Para>The transfer of text and files use existing protocols. Buffer transfer uses new
+protocols.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.22">
+<Title Id="PG.dndPG.mkr.14">Drag-and-Drop Transaction<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>transactions</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>transactions, drag and drop</Primary>
+</IndexTerm></Title>
+<Para><!--Original XRef content: 'Figure&numsp;5&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.15"> illustrates how the basic drag-and-drop transaction is performed.
+The dotted-line boxes show the basic transaction. The solid boxes show the
+optional transitions and operations.</Para>
+<Figure>
+<Title Id="PG.dndPG.mkr.15">The basic drag-and-drop transaction</Title>
+<Graphic Entityref="PG.dndPG.fig.19" Id="PG.dndPG.grph.1"></Graphic>
+</Figure>
+<Figure>
+<Title Id="PG.dndPG.mkr.16">Optional transitions and operations for drag and drop</Title>
+<Graphic Entityref="PG.dndPG.fig.20" Id="PG.dndPG.grph.2"></Graphic>
+</Figure>
+<Para><!--Original XRef content: 'Figure&numsp;5&hyphen;2'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.16"> illustrates the optional transitions and operations for the drag-and-
+drop transaction.</Para>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.23">
+<Title Id="PG.dndPG.mkr.17">Integration Action Plan<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>implementation plan</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>implementation plan for drag and drop</Primary>
+</IndexTerm></Title>
+<Para>This section suggests a plan of action for integrating your application with
+drag and drop in Common Desktop Environment 1.0.</Para>
+<Sect2 Id="PG.dndPG.div.24">
+<Title>Review Drag-and-Drop API and Sample Code</Title>
+<Para>Use the information provided in this chapter and in the relevant sections in the
+<Emphasis>Common Desktop Environment: Programmer's Reference</Emphasis> to familiarize yourself with
+the drag-and-drop API. Once you have a basic understanding of the API,
+review the source code for the drag-and-drop demo program,
+<Filename>/usr/dt/examples/dtdnd</Filename>. This code provides examples of how to use the
+API in various ways. The examples should give you an understanding of the
+character and amount of code you need to write to support drag and drop in
+your application. Understanding the actions and the data-typing API is useful
+as well.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.25">
+<Title>Review Your Application for Possible Drop Zones</Title>
+<Para>Identify the types of data your application might accept through a drag-and-
+drop transaction. If, for example, you are writing a bitmap editor, you want to
+support the drop of files. Once you have identified the data types you will
+allow to be dropped on your application, determine the widget or widgets that
+should be drop zones. For the bitmap editor example, you may decide the only
+place a file should be dropped on the application is the bitmap editing area. In
+this case, register the widget representing this area using
+<Filename>DtDndDropRegister()</Filename> and provide the appropriate callbacks.</Para>
+<Para>Because it is easiest to handle the drop of file names, start by implementing
+them. Once you have mastered this technique, you will find it easier to move
+on to implementing the drop of text and buffers.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.26">
+<Title>Review Your Application for Possible Drag Sources</Title>
+<Para>Identify the types of data your application might permit as sources for a drag-
+and-drop transaction. In the example of the bitmap editor, you may want
+bitmap data containing the current bitmap selection to be a drag source as an
+accelerator for cut and paste. Once you have identified the data types you will
+allow to be dragged from your application, determine the widget or widgets
+that should be drag sources. In the bitmap editor example, you may decide the
+bitmap editing area containing the highlighted bitmap selection should serve
+as the drag source. In this case, enable the widget representing this area for
+sourcing drags.</Para>
+<Para>Start by implementing the drag of buffers that are most appropriate or specific
+to your application. You will also want to add the ability to drop buffers on
+your application to enable easy data transfer between multiple invocations of
+your application.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.27">
+<Title Id="PG.dndPG.mkr.18">API Overview<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>API overview</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>API</Primary>
+<Secondary>drag and drop overview</Secondary>
+</IndexTerm></Title>
+<Para>This section provides an overview of the drag-and-drop application program
+interface (API).</Para>
+<Sect2 Id="PG.dndPG.div.28">
+<Title>DtSvc Library and Header File<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>header file</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>header file</Primary>
+<Secondary>drag and drop</Secondary>
+</IndexTerm></Title>
+<Para>The drag-and-drop functionality is implemented in the Desktop Services
+library, <Command>DtSvc</Command>. To access the drag-and-drop API, include the header file
+<Filename>&lt;Dt/Dnd.h></Filename> and link with <Filename>-lDtSvc</Filename>.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.29">
+<Title>Functions<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>functions</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>functions</Primary>
+<Secondary>drag and drop</Secondary>
+</IndexTerm></Title>
+<Para>The API includes four function calls, which are declared in the header file
+<Filename>Dnd.h</Filename> and outlined in the following paragraphs. These functions are described
+in greater detail in later sections.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>DtDndDragStart()</Filename> starts a drag in response to a user action.</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtDndCreateSourceIcon()</Filename> creates a source icon to use with
+<Filename>DtDndDragStart()</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtDndDropRegister()</Filename> registers a widget as a drop zone. Drop zone
+registration usually occurs immediately after the widget is created, but may
+be performed at any time.</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtDndDropUnregister()</Filename> unregisters a previously registered widget. A
+drop zone is usually unregistered immediately before being destroyed, but
+may be unregistered any time after being registered.</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.30">
+<Title>The DtDndContext Structure<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>structures</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>structures, drag and drop</Primary>
+</IndexTerm></Title>
+<Para>You handle transfers of data using the <Command>DtDndContext</Command> data structure. This
+structure contains fields for the transfer protocol, the number of items being
+transferred, and an array of the data items being transferred. See the
+<Filename>DtDndDragStart</Filename>(3) and <Filename>DtDndDropRegister</Filename>(3) man pages for details
+about the syntax of this structure.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.31">
+<Title>Protocols<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>protocols</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>protocols</Primary>
+<Secondary>drag and drop</Secondary>
+</IndexTerm></Title>
+<Para>Protocols are used to tell the API the type of data being transferred. The
+predefined protocols are shown in
+<!--Original XRef content: 'Table&numsp;5&hyphen;7'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.19">.</Para>
+<Table Id="PG.dndPG.tbl.7" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.19">Predefined Protocols</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="2.07063 in">
+<ColSpec Colname="2" Colwidth="2.94013 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Protocol</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>DtDND_TEXT_TRANSFER</Filename></Para></Entry>
+<Entry><Para>Text transfer. Compound text. (Motif uses a
+compound text target for text transfers.)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>DtDND_FILENAME_TRANSFER</Filename></Para></Entry>
+<Entry><Para>File name transfer.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>DtDND_BUFFER_TRANSFER</Filename></Para></Entry>
+<Entry><Para>Memory buffer.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.32">
+<Title>Operations<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>operations</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>operations</Primary>
+<Secondary>drag and drop</Secondary>
+</IndexTerm></Title>
+<Para>The drag source and the drop zone can transfer the data in one of three ways,
+as described in
+<!--Original XRef content: 'Table&numsp;5&hyphen;8'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.20">.</Para>
+<Table Id="PG.dndPG.tbl.8" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.20">Data Transfer Operations</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Operation</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>XmDROP_MOVE</Filename></Para></Entry>
+<Entry><Para>Moves the data (Copy followed by Delete).</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>XmDROP_COPY</Filename></Para></Entry>
+<Entry><Para>Copies the data.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>XmDROP_LINK</Filename></Para></Entry>
+<Entry><Para>Contains a link to the data.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.33">
+<Title Id="PG.dndPG.mkr.21">How Drag Sources Are Used</Title>
+<Para>This section describes how drag sources are used.</Para>
+<Sect2 Id="PG.dndPG.div.34">
+<Title>Starting a Drag<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>starting a drag</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>starting a drag and drop operation</Primary>
+</IndexTerm></Title>
+<Para>A drag is started in one of two ways. First, the user may start a drag by
+pressing down <Command>Btransfer</Command>, the middle mouse button. As soon as the button is
+pressed down, the drag begins. Second, the user may start a drag by pressing
+and holding down <Command>Bselect</Command>, the left mouse button, and moving the cursor
+across the screen. The drag begins when the user moves the mouse a certain
+distance. This distance is called the drag threshold and it is measured in pixels.
+The default drag threshold is 10 pixels for <Command>Bselect</Command>. For <Command>Btransfer</Command>, the drag
+threshold is 0; because there is no drag threshold, the drag begins as soon as
+the pointer is moved. Motif scrolled text lists and text widgets are
+automatically registered as drag sources for text drags using <Command>Btransfer</Command> and
+<Command>Bselect</Command>.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.35">
+<Title>Dragging from Lists or Icons<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>using Btransfer</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Btransfer and drag and drop</Primary>
+</IndexTerm></Title>
+<Para>There are two common interface objects that can be used to source a drag: lists
+and icons. The Motif List widget automatically sources text drags. If other
+types of drags are desired, this is accomplished by overriding the default
+widget translations with new <Command>Bntl</Command> and <Filename>Btn2</Filename> translations. There is no icon
+widget in Motif but often a drawing area is used as container of icons. In this
+case, an event handler for <Filename>Btn1Motion</Filename> would be used to start the drag. Refer
+to the sample code in <Filename>/usr/dt/examples/dtdnd</Filename> for more detailed code
+examples.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.36">
+<Title>Drag Threshold</Title>
+<Para>When starting a drag using <Command>Bselect</Command> the widget event handler or translation
+procedures must apply the drag threshold of 10 pixels before starting the drag.
+For <Command>Btransfer</Command>, there is no threshold and the drag starts immediately.</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.37">
+<Title>Btransfer or Badjust</Title>
+<Para>Style Manager has a setting in the Mouse category that controls whether <Filename>Btn2</Filename>,
+the middle mouse button, acts as <Command>Btransfer</Command> or <Command>Badjust</Command>. This setting is
+stored as a resource name: <Filename>enableBtn1Transfer</Filename>. A setting of 1 indicates that
+<Filename>Btn2</Filename> is <Command>Badjust</Command> and should adjust the selection while a setting of any other
+value means that <Filename>Btn2</Filename> is <Command>Btransfer</Command> and should start a drag. <Filename>Btn1</Filename>, the left
+mouse button, always starts a drag.</Para>
+<Para>The following example shows how to determine whether <Filename>Btn2</Filename> should be
+<Command>Btransfer</Command> or <Command>Badjust</Command>.</Para>
+<ProgramListing>Display* display;
+int adjust;
+
+XtVaGetValues ((Widget)XmGetXmDisplay(display,
+ &ldquo;enableBtn1Transfer&rdquo;, &amp;adjust,
+ NULL);
+
+if (adjust == 1)
+    /* Btn2 is adjust */
+else
+      /* Btn2 is transfer */
+</ProgramListing>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.38">
+<Title>Initiating a Drag<IndexTerm>
+<Primary>starting a drag</Primary>
+</IndexTerm><IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>starting a drag</Secondary>
+</IndexTerm></Title>
+<Para>Common Desktop Environment 1.0 applications start a drag by calling
+<Filename>DtDndDragStart()</Filename>. This function performs some desktop-specific setup and
+calls <Filename>XmDragStart()</Filename> to initiate a drag. The <Filename>DtDndDragStart()</Filename> function
+synopsis and parameter usage are described as follows:</Para>
+<ProgramListing>Widget
+DtDndDragStart(
+ Widget    dragSource,
+ XEvent     *event,
+ DtDndProtocol    protocol,
+ Cardinal    numItems,
+ unsigned char    operations,
+ XtCallbackList  convertCallback,
+ XtCallbackList  dragFinishCallback
+ ArgList    argList,
+ Cardinal    argCount)</ProgramListing>
+<MsgSet>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>Widget dragSource</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>The widget that received the event that triggered the drag.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>XEvent *event</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>The button press or button motion event that triggered the drag.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>DtDndProtocol protocol</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>The protocol used for the data transfer. The protocol may be one of the
+following:</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para><Filename>DtDND_TEXT_TRANSFER
+DtDND_FILENAME_TRANSFER
+DtDND_BUFFER_TRANSFER</Filename></Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>Cardinal numItems</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>Specifies the number of items being dragged.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>unsigned char operations</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>Specifies options supported by <Command>dragSource</Command>. The options are
+<Filename>XmDROP_MOVE</Filename>, <Filename>XmDROP_COPY,</Filename> and <Filename>XmDROP_LINK</Filename>. A drag source may
+support any combination of these operations. You specify a combination of
+operations by using or. For example, to support the move and copy
+operations, specify <Command>XmDROP_MOVE | XmDROP_COPY</Command>.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>XtCallbackList convertCallback</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>This callback is invoked when a drop has started and the drop zone has
+requested data from the drag source. The <Command>convertCallback</Command> is explained
+in more detail in the next section.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>XtCallbackList dragFinishCallback</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>This callback is invoked when the drag-and-drop transaction is complete.
+The <Command>dragFinishCallback</Command> should reset the <Filename>dragMotionHandler()</Filename> and
+free any memory allocated by the drag source during the drag-and-drop
+transaction.</Para>
+</MsgExplan>
+</MsgEntry>
+</MsgSet>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.39">
+<Title>Using Convert Callbacks<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>convert callbacks</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>convert callbacks, drag and drop</Primary>
+</IndexTerm></Title>
+<Para>The convert callback provides data to the drop zone when a drop occurs. The
+first action in the convert callback is a verification of the reason field in the
+<Command>callData</Command>. If the reason is not <Filename>DtCR_CONVERT_DATA</Filename> or
+<Filename>DtCR_CONVERT_DELETE</Filename>, you should return immediately; otherwise, proceed
+to convert the data. For example, if you are handling the conversion of a file
+name, retrieve the appropriate file name from your internal data structures and
+copy it into the file data object. If your drag source supports the move
+operation, you need to support conversion of the <Command>DELETE</Command> target. That is, when
+<Command>convertCallback</Command> is called with a reason of <Filename>DtCR_CONVERT_DELETE</Filename>,
+perform the appropriate deletion action for the data that was moved. In the
+case of the file transfer, delete the file. Here is a simple <Command>convertCallback</Command> that
+handles the conversion and deletion of file names.</Para>
+<ProgramListing>void
+convertFileCallback(
+ Widget dragContext,
+ XtPointer clientData,
+ XtPointer callData)
+{
+ DtDndConvertCallbackStruct *convertInfo =
+
+ (DtDndConvertCallbackStruct*) callData;
+ char  *fileName = (char *) clientData;
+
+ if (convertInfo->reason == DtCR_DND_CONVERT_DATA) {
+  convertInfo->dragData->data.files[0]=
+    XtNewString(fileName);
+ } else if (convertInfo->reason == DtCR_DND_CONVERT_DELETE) {
+  deleteFile(fileName);
+ } else {
+  convertInfo->status = DtDND_FAILURE;
+ }
+}</ProgramListing>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.40">
+<Title Id="PG.dndPG.mkr.22">How Drop Zones Are Used<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>drop zones</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>drop zones</Primary>
+</IndexTerm></Title>
+<Para>This section describes how drop zones are used.</Para>
+<Sect2 Id="PG.dndPG.div.41">
+<Title>Registering a Drop Zone<IndexTerm>
+<Primary>drop zones</Primary>
+<Secondary>registering</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>registering drop zones</Primary>
+</IndexTerm><IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>registering drop zones</Secondary>
+</IndexTerm></Title>
+<Para>You generally register drop zones just after the widget that is going to be the
+drop zone is created. If you want a <Symbol Role="Variable">modal</Symbol> drop zone, you may register the
+widget as a drop zone when you want users to be able to drop on it and
+unregister it when you do not want users to drop on it.</Para>
+<Para>Motif text widgets are automatically registered as drop zones for text when
+they are created. Dual registration is allowed. If you want a text widget to
+accept drops of other data, such as file names, in addition to text, you may
+register the text widget as a drop zone for file names as well. The text drop
+functionality provided by Motif is preserved. The functionality for file-name
+(or other data-type) drops is layered on top.</Para>
+<Para>Use the function <Filename>DtDndDropRegister()</Filename> to register a widget as a drop zone.
+This function handles dual registration, if necessary, performs desktop-specific
+setup, and calls <Filename>XmDropSiteRegister()</Filename>. The <Filename>DtDndDropRegister()</Filename>
+function synopsis and parameter use are as follows.</Para>
+<ProgramListing>void DtDndDropRegister(
+ Widget dropSite,
+ DtDndProtocol protocols;
+ unsigned char operations;
+ XtCallbackList transferCallback;
+ ArgList argList;
+ Cardinal argCount)</ProgramListing>
+<MsgSet>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>Widget dropSite</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>The widget that is being registered as a drop zone.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>DtDndProtocol protocols</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>Specifies the list of data transfer protocols that the drop zone can use. To
+specify the use of more than one protocol, use OR with the protocol values.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>unsigned char operations</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>The operations supported by the drop zone. The drop zone may support
+any combination of <Filename>XmDROP_MOVE</Filename>, <Filename>XmDROP_COPY</Filename>, and <Filename>XmDROP_LINK</Filename> by
+using OR for the desired combination of operations.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>XtCallbackList transferCallback</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>This function accepts the data that is dropped on the drop zone. The transfer
+callback is explained in greater detail in the next section.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>ArgList argList</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>Specifies an optional argument list.</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>Cardinal argCount</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>Specifies the number of arguments in <Emphasis>argList</Emphasis>.</Para>
+</MsgExplan>
+</MsgEntry>
+</MsgSet>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.42">
+<Title>Using the Transfer Callback<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>transfer callback</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>transfer callback, drag and drop</Primary>
+</IndexTerm></Title>
+<Para>The transfer callback accepts data from the drag source when a drop occurs.
+The first action in the transfer callback is a verification of the reason field in the
+<Command>callData</Command>. If the reason is not <Filename>DtCR_DND_TRANSFER_DATA</Filename>, you should return
+immediately; otherwise, proceed with data transfer based on its type and the
+operation specified in the reason. For example, if you are handling the copy of
+a file, retrieve the file name from the data structure, open the file, and copy its
+contents. If your drop zone supports more than one data type, you need to
+support the transfer of each data type appropriately.</Para>
+<Para>Here is a simple transfer callback for a drawing area drop zone that supports
+the copying of text and file-name data types.</Para>
+<ProgramListing>void
+ TransferCallback(
+ Widget widget,
+ XtPointer clientData,
+ XtPointer callData)
+{
+    DtDndTransferCallbackStruct *transferInfo =
+  (DtDndTransferCallbackStruct*) callData;
+    int ii;
+    DtDndcontext * dropData = transferInfo->dropData;
+  return;
+    switch dropData->protocol {
+ case DtDND_FILENAME_TRANSFER:
+  for (ii=0; ii &lt; dropData->numItems; ii++) {
+   drawTheString(dropData->data, strings[ii]);
+  }
+  break;
+ case DtDND_TEXT_TRANSFER:
+  for (ii=0; ii&lt;dropData->numItems; ii++){
+  drawTheFile(dropData->data.files[ii]);
+  }
+        break;
+ default:
+  transferInfo->status = DtDND_FAILURE;
+    }
+}</ProgramListing>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.43">
+<Title>Using Data Typing<IndexTerm>
+<Primary>drag and drop</Primary>
+<Secondary>data typing</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>data typing</Primary>
+<Secondary>drag and drop</Secondary>
+</IndexTerm></Title>
+<Para>In an application that accepts drops of buffers, you may want to handle the
+dropped data in a different way depending on its type. To accomplish data
+typing, use the data-typing API. Data-typing function calls of interest are
+<Filename>DtDtsBufferToDataType()</Filename> and <Filename>DtDtsBufferToAttributeValue()</Filename>. The
+former returns the data attribute name for the data, the latter returns the value
+of a specified attribute of the data. Attributes you may find useful for drag and
+drop are shown in
+<!--Original XRef content: 'Table&numsp;5&hyphen;9'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.23">.</Para>
+<Table Id="PG.dndPG.tbl.9" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.23">Data-Typing Attributes</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Attributes</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>ICON</Command></Para></Entry>
+<Entry><Para>Path of icon to use for this data.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MEDIA</Command></Para></Entry>
+<Entry><Para>The Message Alliance media name for this data.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>See
+<!--Original XRef content: 'Chapter&numsp;9, &xd2;Accessing the Data-Typing Database'--><XRef Role="ChapNumAndTitle" Linkend="PG.datat.mkr.1"> for more information.</Para>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->

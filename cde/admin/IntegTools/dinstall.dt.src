@@ -1,0 +1,783 @@
+XCOMM!/bin/ksh
+XCOMM $XConsortium: dinstall.dt.src /main/6 1996/04/23 11:18:22 drk $
+
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+XCOMM deinstall.dt
+XCOMM
+XCOMM   Script to deinstall the April 1994 Snapshot Desktop on
+XCOMM   HP, IBM, Sun, Fujitsu,  or Novell Unix systems from a CDROM
+XCOMM
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiClearScreen - clears the screen
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+#define HASH #
+#define STAR *
+
+DtiClearScreen() {
+  clear 1>&2
+  HASH DtiPrint "clear"
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM Log - echo to log
+XCOMM
+XCOMM Input
+XCOMM   $1 - data to echo to log
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+Log()
+{
+  printf "$1" $2 $3 $4 $5  >> $LOG_FILE
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiPrint - echo to stderr and log
+XCOMM
+XCOMM Input
+XCOMM   $1 - data to echo to stdout
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+DtiPrint()
+{
+  printf "$1" $2 $3 $4 $5 $6 $7 $8 $9 >&2
+  Log "$1" $2 $3 $4 $5 $6 $7 $8 $9
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiShow - echo to stdout
+XCOMM
+XCOMM Input
+XCOMM   $1 - data to echo to stdout
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+DtiShow()
+{
+  printf "$1" $2 $3 $4 $5 $6 $7 $8 $9 >&2
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiReturn - return a string to stdout
+XCOMM
+XCOMM Input
+XCOMM   $1 - data to return
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+DtiReturn()
+{
+  echo "$1"
+}
+
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiWhoami
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return
+XCOMM   result of system 'whoami' command
+XCOMM
+XCOMM ==========================================================================
+
+DtiWhoami()
+{
+  $WHOAMI_PATH/whoami
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM Exit - log and exit
+XCOMM
+XCOMM Input
+XCOMM   $1 - data to echo to log
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+Exit()
+{
+  Log "\n==================================================================\n"
+  Log "* $(date) $($WHOAMI_PATH/whoami)@$(hostname)*"
+  Log "* $1*"
+  Log "\n*exit_code = $2*"
+  Log "\n==================================================================\n"
+  exit $2
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM GetPlatform
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return
+XCOMM   "hpux"
+XCOMM   "aix"
+XCOMM   "sun"
+XCOMM   "uxp"
+XCOMM   "usl"
+XCOMM   "dec"
+XCOMM ==========================================================================
+
+GetPlatform()
+{
+  if [ -z "$getPlatform" ]; then
+    os=`uname -s`
+    case $os in
+        *HP-UX*)    getPlatform=hp;;
+        *AIX*)      getPlatform=ibm;;
+        *SunOS*)    getPlatform=sun;;
+        *UNIX_System_V*)  getPlatform=uxp;;
+        *UNIX_SV*)  getPlatform=usl;;
+	*OSF1*)     getPlatform=dec;;
+    esac
+  fi
+  DtiReturn $getPlatform
+}
+
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM ValidOS - Verify OS is valid to deinstall on
+XCOMM
+XCOMM Input - none
+XCOMM Output - Error message if invalid platform, will exit.
+XCOMM Return
+XCOMM   "hpux"
+XCOMM   "aix"
+XCOMM   "sun"
+XCOMM   "uxp"
+XCOMM   "usl"
+XCOMM   "dec"
+XCOMM ==========================================================================
+
+ValidOS()
+{
+    platform=$(GetPlatform)
+    case "$platform"  in
+         hp|ibm|sun|uxp|usl|dec)
+                         DtiReturn $platform
+                         ;;
+                      *) Exit $INVALID_OS_MSG 1
+                         ;;
+    esac
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM ResolvePathName
+XCOMM
+XCOMM Input  - File Name to be resolved to actual file
+XCOMM Output - none
+XCOMM Return
+XCOMM       Actual File Name resolved down to through all links
+XCOMM
+XCOMM ==========================================================================
+ResolvePathName() {
+        if [ "/" = "$1" ]; then
+                echo $1$2
+        elif [ -L $1 ]; then
+                ResolvePathName `/bin/ls -l $1 | awk '{print $NF}'` $2
+        else
+                ResolvePathName `dirname $1` `basename $1`${2+/}$2
+        fi
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM FileIsLink
+XCOMM
+XCOMM Input  - File Name
+XCOMM Output - none
+XCOMM Return
+XCOMM       TRUE, if file is a link
+XCOMM       FALSE, if file is not a link
+XCOMM ==========================================================================
+FileIsLink() {
+  if [[ -L $1 ]] && [[ -a $1 ]]
+  then
+      DtiReturn "TRUE"
+  else
+      DtiReturn "FALSE"
+  fi
+
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM StateObjective  - States the objective of the Script to the user
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM
+XCOMM ==========================================================================
+
+
+StateObjective() {
+
+XCOMM Display information to the user, ask if user wishes to continue
+
+while :
+do
+       DtiClearScreen
+       DtiShow "$HERALD_MSG"
+       DtiPrint "$OBJECTIVE_MSG"
+       DtiPrint "$YESNO_MSG"
+
+       read response
+       Log "$RESPONSE_MSG"
+       Log "$response"
+       Log "\n"
+
+       case $response in
+           [yY]*) return 0
+                  ;;
+           [nN]*) exit 0
+                  ;;
+               *) continue
+       esac
+
+done
+
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DoFilesetScript  - Runs a unconfiguration script in the post_install dirs
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM
+XCOMM ==========================================================================
+
+DoFilesetScript()
+{
+  FilesetName=$1
+
+  HASH
+  HASH Check for the lowercase PLATFORM dir. If doesn't exist then
+  HASH the tree is in uppercase.
+  HASH
+  if [ ! -f $TAR_TREE/dt.pkg ];
+  then
+        typeset -u ScriptName
+  fi
+
+
+  if [ "$BUILD_TREE" = "" ]
+  then
+    ScriptName=$3
+  else
+    ScriptName=$2
+  fi
+
+  test_string=${DATABASE_FILES#*$FilesetName}
+  if (( ${#DATABASE_FILES} > ${#test_string} ))
+  then
+    if [ -x $POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName ]
+    then
+        DtiPrint "\n\nExecuting $PLATFORM specific $FilesetName unconfigure script...\n"
+        $POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName -d 2>&1 | \
+                                tee -a $LOG_FILE
+    elif [ -x $POST_INSTALL_DIR/$ScriptName ]
+    then
+        DtiPrint "\n\nExecuting $FilesetName unconfigure script...\n"
+        $POST_INSTALL_DIR/$ScriptName -d 2>&1 | tee -a $LOG_FILE
+    fi
+  fi
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM RunUnconfigScripts  - Runs relevant unconfiguration scripts, based on
+XCOMM                       fileset installed, calls DoFilesetScript
+XCOMM Input - none
+XCOMM Output - none
+XCOMM
+XCOMM ==========================================================================
+RunUnconfigScripts()
+{
+  DtiPrint "\n\nRunning unconfigure scripts...\n"
+
+  DoFilesetScript CDE-TT       configTT      tt.cfg
+  DoFilesetScript CDE-MIN      configMin     min.cfg
+  DoFilesetScript CDE-RUN      configRun     run.cfg
+  DoFilesetScript CDE-HELP     configHelp    help.cfg
+  DoFilesetScript CDE-HELP-PRG configHelpPrg helpprg.cfg
+  DoFilesetScript CDE-HELP-RUN configHelpRun helprun.cfg
+  DoFilesetScript CDE-SHLIBS   configShlibs  shlibs.cfg
+  DoFilesetScript CDE-AB       configAb      ab.cfg
+  DoFilesetScript CDE-DEMOS    configDemos   demos.cfg
+  DoFilesetScript CDE-ICONS    configIcons   icons.cfg
+  DoFilesetScript CDE-INC      configInc     inc.cfg
+  DoFilesetScript CDE-MAN      configMan     man.cfg
+  DoFilesetScript CDE-MAN-DEV  configManDev  mandev.cvg
+  DoFilesetScript CDE-MSG-CAT  configMsgCat  msgcat.cfg
+  DoFilesetScript CDE-PRG      configPrg     prg.cfg
+
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM ValidConfiguration  - Checks to see if the desktop was installed or
+XCOMM                       partially installed on your system
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return - TRUE, if valid configuration
+XCOMM          FALSE, for no desktop was found on the system
+XCOMM
+XCOMM ==========================================================================
+ValidConfiguration() {
+ if (( [[ -a $ABSOLUTE_USR_LOCATION ]] ||  [[ -a $DEFAULT_USR_LOCATION ]] ) &&
+     ( [[ -a $ABSOLUTE_ETC_LOCATION ]] ||  [[ -a $DEFAULT_ETC_LOCATION ]] ) &&
+     ( [[ -a $ABSOLUTE_VAR_LOCATION ]] ||  [[ -a $DEFAULT_VAR_LOCATION ]] ))
+ then
+    DtiReturn "TRUE"
+ else
+     STATUS="FALSE"
+
+     for i in $ABSOLUTE_USR_LOCATION $ABSOLUTE_ETC_LOCATION \
+              $ABSLOUTE_VAR_LOCATION $DEFAULT_USR_LOCATION \
+              $DEFAULT_ETC_LOCATION $DEFAULT_VAR_LOCATION
+     do
+        if [ -a $i ]
+        then
+            STATUS="TRUE"
+            break
+        fi
+     done
+
+     DtiReturn "$STATUS"
+ fi
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DisplayDirs  - Determines if directories should be presented
+XCOMM                to the user to determin if they will be deleted or not.
+XCOMM
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return - TRUE, if some directories will be deleted
+XCOMM          FALSE, if NO directories will be deleted
+XCOMM
+XCOMM ==========================================================================
+DisplayDirs() {
+  if [[ -d $ABSOLUTE_USR_LOCATION ]] && [[ -a $ABSOLUTE_USR_LOCATION ]]
+  then
+     DtiReturn "TRUE"
+  elif [[ -d $ABSOLUTE_ETC_LOCATION ]] && [[ -a $ABSOLUTE_ETC_LOCATION ]]
+  then
+     DtiReturn "TRUE"
+  elif
+      [[ -d $ABSOLUTE_VAR_LOCATION ]] && [[ -a $ABSOLUTE_VAR_LOCATION ]]
+  then
+      DtiReturn "TRUE"
+  else
+      DtiReturn "FALSE"
+  fi
+
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DisplayDirs  - Determines if links should be presented
+XCOMM                to the user to determine if they will be deleted or not.
+XCOMM
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return - TRUE, if some links will be deleted
+XCOMM          FALSE, if NO links will be deleted
+XCOMM
+XCOMM ==========================================================================
+DisplayLinks() {
+  if [[ -L $DEFAULT_USR_LOCATION ]] && [[ -a $DEFAULT_USR_LOCATION ]]
+  then
+     DtiReturn "TRUE"
+  elif [[ -L $DEFAULT_ETC_LOCATION ]] && [[ -a $DEFAULT_ETC_LOCATION ]]
+  then
+     DtiReturn "TRUE"
+  elif
+      [[ -L $DEFAULT_VAR_LOCATION ]] && [[ -a $DEFAULT_VAR_LOCATION ]]
+  then
+      DtiReturn "TRUE"
+  else
+      DtiReturn "FALSE"
+  fi
+
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM ShowDirsToBeDeleted - Shows what dirs and links will be deleted to the user
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM
+XCOMM ==========================================================================
+
+
+ShowDirsToBeDeleted() {
+
+XCOMM Display information to the user, ask if user wishes to continue
+
+while :
+do
+       DtiClearScreen
+       DtiShow "$HERALD_MSG"
+
+       if [ $(DisplayDirs) = "TRUE" ]
+       then
+          DtiPrint "$DELETE_DIRS_MSG"
+          if [ -a $ABSOLUTE_USR_LOCATION ]
+          then
+             DtiPrint "$DIR_MSG" "$ABSOLUTE_USR_LOCATION"
+          fi
+
+          if [ -a $ABSOLUTE_ETC_LOCATION ]
+          then
+             DtiPrint "$DIR_MSG" "$ABSOLUTE_ETC_LOCATION"
+          fi
+
+          if [ -a $ABSOLUTE_VAR_LOCATION ]
+          then
+             DtiPrint "$DIR_MSG" "$ABSOLUTE_VAR_LOCATION"
+          fi
+       fi
+
+       if [ $(DisplayLinks) = "TRUE" ]
+       then
+          DtiPrint "\n\n$DELETE_LINKS_MSG"
+          if [ $(FileIsLink $DEFAULT_USR_LOCATION) = "TRUE" ]
+          then
+              DtiPrint "$LINK_DIR_MSG" "$DEFAULT_USR_LOCATION"
+          fi
+
+          if [ $(FileIsLink $DEFAULT_ETC_LOCATION) = "TRUE" ]
+          then
+              DtiPrint "$LINK_DIR_MSG" "$DEFAULT_ETC_LOCATION"
+          fi
+
+          if [ $(FileIsLink $DEFAULT_VAR_LOCATION) = "TRUE" ]
+          then
+              DtiPrint "$LINK_DIR_MSG" "$DEFAULT_VAR_LOCATION"
+          fi
+        fi
+
+       DtiPrint "\n\n$WARNING_MSG"
+       DtiPrint "\n\n\n$YESNO_MSG"
+
+       read response
+       Log "$RESPONSE_MSG"
+       Log "$response"
+       Log "\n"
+
+       case $response in
+           [yY]*) return 0
+                  ;;
+           [nN]*) exit 0
+                  ;;
+               *) continue
+       esac
+
+done
+
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM StopDesktop  - Stops the desktop if it was running
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM
+XCOMM ==========================================================================
+StopDesktop() {
+
+    if [ -f $ABSOLUTE_VAR_LOCATION/Xpid ]
+    then
+        DtiPrint "\n\nStopping Desktop... \n"
+        kill -TERM `cat $ABSOLUTE_VAR_LOCATION/Xpid` 2> /dev/null
+    fi
+
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM RemoveDesktop  - Deletes Desktop files from the system
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM
+XCOMM ==========================================================================
+
+RemoveDesktop () {
+
+  DtiPrint "Removing files from Desktop Directories...\n"
+  rm -rf $ABSOLUTE_USR_LOCATION
+  rm -rf $ABSOLUTE_ETC_LOCATION
+  rm -rf $ABSOLUTE_VAR_LOCATION
+
+  rm -rf $DEFAULT_USR_LOCATION
+  rm -rf $DEFAULT_ETC_LOCATION
+  rm -rf $DEFAULT_VAR_LOCATION
+  DtiPrint "The Desktop was successfully removed from your system.\n"
+
+}
+
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM
+XCOMM               This is the MAIN of the script
+XCOMM
+XCOMM
+XCOMM ==========================================================================
+
+XCOMM Set up Messages
+USAGE_MSG="\
+Usage: deinstall.dt [-noprompt]\n"
+
+PERMISSION_MSG="\
+You must be ROOT to run this command\n"
+
+RESPONSE_MSG="\n
+response is: "
+
+HERALD_MSG="\
+The Common Open Systems Environment Desktop\n\
+April 1994 Snapshot Deinstallation Procedure\n\n"
+
+OBJECTIVE_MSG="\
+This procedure will REMOVE the Desktop from your system.\n\n\n"
+
+YESNO_MSG="\
+Do you wish to continue?  [y/n] "
+
+DELETE_DIRS_MSG="\
+The deinstallation will remove files from the following\n\
+directories listed below:\n\n"
+
+DIR_MSG="\
+'%s'\n"
+
+DELETE_LINKS_MSG="\
+The deinstallation will remove the following symbolic \n\
+link(s) listed below:\n\n"
+
+LINK_DIR_MSG="\
+'%s'\n"
+
+WARNING_MSG="\
+Any customizations made will be LOST!\n"
+
+
+
+
+
+
+INVALID_OS_MSG="\
+The Desktop does not support this system configuration.\n\
+The deinstallation procedure will terminate.\n"
+
+INVALID_CONFIGURATION_MSG="\
+The deinstallation procedure could not locate any Desktop files\n\
+on your system. The deinstallation will terminate. Please check\n\
+that you are running the deinstallation script on a system that\n\
+has the Desktop already installed.\n"
+
+
+
+
+
+
+XCOMM Set up variables
+NO_PROMPT="FALSE"
+
+DEFAULT_USR_LOCATION="/usr/dt"
+DEFAULT_ETC_LOCATION="/etc/dt"
+DEFAULT_VAR_LOCATION="/var/dt"
+
+ABSOLUTE_USR_LOCATION=$(ResolvePathName $DEFAULT_USR_LOCATION)
+ABSOLUTE_ETC_LOCATION=$(ResolvePathName $DEFAULT_ETC_LOCATION)
+ABSOLUTE_VAR_LOCATION=$(ResolvePathName $DEFAULT_VAR_LOCATION)
+
+
+XCOMM Set up the log file
+LOG_FILE="/tmp/dinstall.dt.log"
+if [ -f $LOG_FILE ]
+then
+   rm -rf $LOG_FILE 2>/dev/null
+fi
+touch $LOG_FILE 2>/dev/null
+chmod 777 $LOG_FILE 2>/dev/null
+
+
+
+
+XCOMM change directories to deinstall.dt location as all
+XCOMM installation packages are relative to this
+XCOMM
+if [ ${0%/STAR} != "dinstall.dt" ]; then
+  cd ${0%/STAR}
+fi
+
+
+XCOMM set up the TOP directory of where the CD is mounted
+TOP=`pwd`
+
+
+XCOMM set up the path for whoami command
+ WHOAMI_PATH=/bin
+ platform=$(GetPlatform)
+ case "$platform"  in
+      hp)  WHOAMI_PATH=/usr/bin
+          ;;
+      ibm) WHOAMI_PATH=/bin
+          ;;
+      sun) WHOAMI_PATH=/usr/ucb
+          ;;
+      uxp) WHOAMI_PATH=/usr/ucb
+          ;;
+      usl) WHOAMI_PATH=/usr/ucb
+          ;;
+      dec) WHOAMI_PATH=/usr/bin
+          ;;
+ esac
+
+DTIDINSTALLDT=dinstall.dt
+DTICONFIGDIR=config
+dtiPlatform=$(GetPlatform)
+DTIPLATFORMDIR=$dtiPlatform
+DTIREADME=config/config.$dtiPlatform
+
+if [ ${0##STAR/} != $DTIDINSTALLDT ]; then
+  HASH
+  HASH CDROM driver folds filenames to uppercase
+  HASH
+  typeset -u DTIDINSTALLDT
+  typeset -u DTICONFIGDIR
+  typeset -u DTIPLATFORMDIR
+  typeset -u DTIREADME
+fi
+
+
+XCOMM Parse the command line
+while [ $# -ne 0 ];
+  do
+    case $1 in
+         -noprompt) NO_PROMPT=TRUE
+                    print "NO_PROMPT is set"
+                    shift
+                    ;;
+                 *)  print "$USAGE_MSG"
+                     DtiPrint $USAGE
+                     exit 1;;
+    esac
+done
+
+
+XCOMM Verify that we have the Root User
+if [ $(DtiWhoami) != "root" ]
+then 
+   DtiShow "$PERMISSION_MSG"
+   Exit "$PERMISSION_MSG" 1
+fi
+
+XCOMM Check to see if the Desktop is actually installed on the system
+if [ $(ValidConfiguration ) != "TRUE" ]
+then
+    DtiPrint "$INVALID_CONFIGURATION_MSG"
+    exit 1
+fi
+
+XCOMM Determine if the OS is supported
+PLATFORM=$(ValidOS)
+
+XCOMM
+XCOMM Initially PLATFORM is in lower case.
+XCOMM Check if the $PLATFORM directory exists.
+XCOMM if doesn't exist translate all to upper case.
+XCOMM
+
+if [ -d $PLATFORM ]
+then
+        TAR_TREE=$TOP/$PLATFORM
+        POST_INSTALL_DIR=$TAR_TREE/config
+        DATABASE_FILES=$(awk 'BEGIN {FS=":"} /FILESETS: /{print $2}' $TAR_TREE/dt.pkg 2>/dev/null)
+else
+        PLATFORM=`echo "$PLATFORM" | /usr/bin/tr "[a-z]" "[A-Z]"`
+        TAR_TREE=$TOP/$PLATFORM
+        POST_INSTALL_DIR=$TAR_TREE/CONFIG
+        DATABASE_FILES=$(awk 'BEGIN {FS=":"} /FILESETS: /{print $2}' $TAR_TREE/DT.PKG 2>/dev/null)
+fi
+
+
+XCOMM Tell the user what is going to happen
+if [ $NO_PROMPT = FALSE ]
+then
+   StateObjective
+fi
+
+XCOMM Show the user what directories are going to be deleted
+if [ $NO_PROMPT = FALSE ]
+then
+  ShowDirsToBeDeleted
+fi
+
+
+XCOMM Stop the Desktop
+StopDesktop
+
+XCOMM Run the Unconfigure Scripts
+RunUnconfigScripts
+
+XCOMM Remove the Desktop Files
+RemoveDesktop
+
+
+
+
+
+

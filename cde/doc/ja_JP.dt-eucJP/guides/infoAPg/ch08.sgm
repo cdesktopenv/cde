@@ -1,0 +1,1595 @@
+<!-- $XConsortium: ch08.sgm /main/4 1996/10/11 09:24:19 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="infoapg.div.8">
+<title id="btcmaab0ang24ak">スタイル・シートの作成</title>
+<IndexTerm><Primary>スタイル・シート</Primary>
+<Secondary>作成</Secondary></IndexTerm>
+<para>
+スタイル・シートは、オプションのシステム生成数値トークンの定義、それに続く要素パスのステートメントのセット、およびそのフォーマット指定から成ります。インフォメーション・マネージャで使用するスタイル・シートを作成するには、次に示す手順にしたがいます。
+</para>
+<orderedlist>
+<listitem>
+<para>
+<literal>vi</literal> や <literal>emacs</literal>、または SGML エディタのようなエディタを使用して、新規のファイルを開きます。
+</para>
+</listitem>
+<listitem>
+<para>
+ファイルにおいて、StyleSheet 要素の Name 属性に値を与えることによって、スタイル・シートを識別します。次に例を示します。
+</para>
+<literallayout>
+&lt;StyleSheet name=<replaceable>sty1</replaceable>>
+</literallayout>
+<para>
+この名前は、ブックケースのスタイル・シート全体で一意でなければなりません。
+</para>
+</listitem>
+<listitem>
+<para>
+<systemitem>AutoNumber</systemitem> 機能の使用を計画しているならば、各トークン・ストリームの autonumber を作成します。システム生成数値トークンは、Prefix と Suffix 機能でのみ使用することができます。次に例を示します。
+</para>
+<literallayout>
+&lt;AutoNumber id=num0  reset=enumeratedlist  counter=numitem  type=ucroman  initial="1">
+&lt;AutoNumber id=num1  reset=enumeratedlist  counter=numitem  type=lcroman  initial="1">
+&lt;AutoNumber id=num2  reset=enumeratedlist  counter=numitem  type=arabic  initial="1">
+</literallayout>
+<para>
+autonumber 機能使用に関する詳細については、<filename>dtinfoStyle.dtd(5)</filename> マニュアル・ページの AutoNumbers を参照してください。
+</para>
+</listitem>
+<listitem>
+<para>
+要素 <systemitem>Path</systemitem> ステートメントを使用して、スタイルを定義しようとしている要素へのパスを指定します。<systemitem>Path</systemitem> ステートメントは、左から右、親の要素から子の要素、へと読み込まれます。与えられた要素に対して、最少限、一意のパスを指定することだけが必要です。次の例は、LITERALLAYOUT 要素へのパスを指定しています。
+</para>
+<literallayout>
+&lt;Path>LITERALLAYOUT&lt;/Path>
+</literallayout>
+</listitem>
+<listitem>
+<para>
+各 <systemitem>Path</systemitem> について、<systemitem>Online</systemitem> 機能のセット、または <systemitem>Print</systemitem> 機能のセット、あるいはその両方を指定しなければなりません。両方を指定するには、まずオンライン機能を指定しなければなりません。次に例を示します。
+</para>
+<literallayout>
+&lt;Path>
+LITERALLAYOUT&lt;/Path>
+&lt;Online>
+   &lt;Font fallback=mono>
+   &lt;Family name=courier weight=medium size=12 charset=iso8859-1>
+   &lt;Layout flow=verbatim lindent=12 aspace=6 bspace=6>
+   &lt;LineBreak both>
+&lt;/Online>
+&lt;Print>
+   &lt;Font fallback=mono>
+   &lt;Family name=courier weight=medium size=12 charset=iso8859-1>
+   &lt;Layout flow=verbatim lindent=12 aspace=6 bspace=6>
+   &lt;LineBreak both>
+&lt;/Print>
+</literallayout>
+<note>
+<para>
+<systemitem>Print</systemitem> と <systemitem>Online</systemitem> 機能のセットは、関数、説明、および指定において一致します。ただし、２つの印刷固有の例外があります。<link linkend="n4kpipbbc3h9x3cs">Medium</link> と <link linkend="r74dmncp70hp2ol">PageBreak</link> です。
+</para>
+</note>
+</listitem>
+<listitem>
+<para>
+特定のスタイルを指定する各要素 <systemitem>Path</systemitem> について、手順４と５を繰り返します。
+</para>
+</listitem>
+</orderedlist>
+<!--(((((((((((((((((((((((((((((((((((((-->
+<sect1><title id="suwh3wbmhwy94ak">スタイル機能の使用</title>
+<para>
+この章で説明するスタイル機能は、以下のとおりです。
+</para>
+<para>
+Font 機能
+</para>
+<itemizedlist>
+
+<listitem>
+<para>
+<link linkend="n6jpipbbc3h9x3cs">Font</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="ujpipbbc3h9x3cs">HighLight</link>
+</para>
+</listitem>
+</itemizedlist>
+<para>
+Layout 機能
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="jjpipbbc3h9x3cs">Layout</link>
+</para>
+</listitem>
+<listitem>
+<para><link linkend="n0jpipbbc3h9x3cs">LineBreak</link></para>
+</listitem>
+<listitem>
+<para><link linkend="xjpipbbc3h9x3cs">Margin</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n4llcmnc770hp2ol">Position</link></para>
+</listitem>
+</itemizedlist>
+<para>印刷固有の機能
+</para>
+<itemizedlist>
+
+<listitem>
+<para><link linkend="n4kpipbbc3h9x3cs">Medium</link></para>
+</listitem>
+<listitem>
+<para><link linkend="r74dmncp70hp2ol">PageBreak</link></para>
+</listitem>
+</itemizedlist>
+<para>Table 機能
+</para>
+<itemizedlist>
+<listitem>
+<para><link linkend="n0sodmncn70hp2ol">Table</link></para>
+</listitem>
+<listitem>
+<para><link linkend="qjpipbbc3h9x3cs">ColFormat</link></para>
+</listitem>
+<listitem>
+<para><link linkend="w9jdmnch70hp2ol">Row</link></para>
+</listitem>
+<listitem>
+<para><link linkend="yrddmncb70hp2ol">Cell</link></para>
+</listitem>
+<listitem>
+<para>TGroup</para>
+</listitem>
+
+</itemizedlist>
+<para>その他の機能
+</para>
+<itemizedlist>
+<listitem>
+<para><link linkend="dq2emncz70hp2ol">Border</link></para>
+</listitem>
+
+<listitem>
+<para><link linkend="djpipbbc3h9x3cs">Ignore</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n9kpipbbc3h9x3cs">Prefix と Suffix</link></para>
+</listitem>
+</itemizedlist>
+</sect1>
+<!--(((((((((((((((((((((((((((((((((((((((((((((-->
+<sect1>
+<title id="r6x9mncr60hp2ol">Font 機能</title>
+<para>
+この節で説明するスタイル・シートの機能、<link linkend="n6jpipbbc3h9x3cs">Font</link> および <link linkend="ujpipbbc3h9x3cs">HighLight</link> は、インフォメーション・マネージャのブラウザにおけるテキストの表示形式と関係します。
+</para>
+<!--)))))))))))))))))))))))))-->
+<sect2>
+<title id="n6jpipbbc3h9x3cs">Font</title>
+<para>
+<systemitem>Font</systemitem> 機能は、フォント・ファミリと文字セット、およびフォント属性を指定します。<systemitem>Font</systemitem> 機能の構文には、フォント属性の指定、それに続く任意の個数の <systemitem>Family</systemitem> 副機能が含まれ、ここでフォント・ファミリと文字セットを指定します。
+</para>
+<para>
+<systemitem>Font</systemitem> 機能は、文字セットの曖昧さを排除します。次に構文を示します。
+</para>
+<programlisting>
+&lt;Font
+ Fallback = {sans | serif | mono | symbol | mincho | gothic}
+ Position = {subscript | sub | superscript | super | baseline}
+ Size = [0-9]+
+ Slant = {italic| roman}
+ Spacing = {char | prop | mono}
+ Style = "string"
+ Weight = {bold| medium}
+ Width = {normal | narrow}>
+&lt;Family
+ Name = "string"
+ Charset = "string"
+ Foundry = "string" >
+&lt;/Font>
+</programlisting>
+<!--)))))))))))))))))))))))))))))))-->
+<sect3>
+<title id="rrn5xmc0gwwa0yk">Font 属性</title>
+<para>
+<systemitem>Font</systemitem> 属性は、指定された要素のタイポグラフィーを定義します。次に示すフォント属性は、インフォメーション・マネージャのブラウザにおけるすべてのフォント・ファミリによって使用されます。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Fallback</systemitem></term>
+<listitem>
+<para>
+<systemitem>Fallback</systemitem> 属性は、指定された <systemitem>Family</systemitem> がフォント・サーバで見つからない場合に使用されます。使用可能なオプションは、次に示すインフォメーション・マネージャのＸリソースにマップされます。これには、グローバルなＸリソースにおいて提供されるデフォルト値が示されています。<systemitem>Fallback</systemitem> 属性が指定されない場合、デフォルトは <systemitem>sans</systemitem> になります。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>sans</systemitem></term>
+<listitem>
+<para>
+sans serif (サンセリフ) フォントを指定します。<systemitem>Dtinfo*FontSans</systemitem> のデフォルト値は、<literal>-dt-application-medium-r-normal-sans-*-*-*-*-p-*-iso8859-1</literal> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>serif</systemitem></term>
+<listitem>
+<para>
+serif (セリフ) フォントを指定します。<systemitem>Dtinfo*FontSerif</systemitem> のデフォルト値は、<literal>-dt-application-medium-r-normal-serif-*-*-*-*-p-*-iso8859-1</literal> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>mono</systemitem></term>
+<listitem>
+<para>
+mono-spaced (等幅) フォントを指定します。<systemitem>Dtinfo*FontMono</systemitem> のデフォルト値は、<literal>-dt-application-medium-r-normal-serif-*-*-*-*-m-*-iso8859-1</literal> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>symbol</systemitem></term>
+<listitem>
+<para>
+symbol (シンボル) フォントを指定します。<systemitem>Dtinfo*FontSymbol</systemitem> のデフォルト値は、<literal>-dt-application-medium-r-normal-*-*-*-*-*-p-*-dtsymbol-1</literal> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>mincho</systemitem></term>
+<listitem>
+<para>
+デフォルト値は、<systemitem>Dtinfo*FontMincho</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>gothic</systemitem></term>
+<listitem>
+<para>
+デフォルト値は、<systemitem>Dtinfo*FontGothic</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Position</systemitem></term>
+<listitem>
+<para>
+テキストのベースラインに対する相対的な位置を指定します。オプションは、<systemitem>superscript</systemitem> (ベースラインの上) および <systemitem>subscript</systemitem> (ベースラインの下) です。<systemitem>superscript</systemitem> と <systemitem>subscript</systemitem> については、語句 <systemitem>super</systemitem> と <systemitem>sub</systemitem> をショートハンドとして使用することができます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Size</systemitem></term>
+<listitem>
+<para>
+フォント・サイズをポイントで指定します。デフォルト値は、14ポイントです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Slant</systemitem></term>
+<listitem>
+<para>
+<systemitem>Slant</systemitem> 属性の値は、<systemitem>roman</systemitem> または <systemitem>italic</systemitem> です。デフォルト値は、<systemitem>roman</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Spacing</systemitem></term>
+<listitem>
+<para>
+文字の間隔を指定します。<systemitem>prop</systemitem> (プロポーショナル)、<systemitem>char</systemitem> (文字セル)、あるいは <systemitem>mono</systemitem> (等幅) のいずれかです。デフォルト値は、<systemitem>char</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Style</systemitem></term>
+<listitem>
+<!--per Rivers, still need more info-->
+<para>
+追加のスタイル情報を指定します。デフォルトでは、追加のスタイル情報はありません。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Weight</systemitem></term>
+<listitem>
+<para>
+フォントの重みを指定します。<systemitem>medium</systemitem> (regular) または <systemitem>bold</systemitem> (thick) のいずれかです。デフォルト値は、<systemitem>medium</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Width</systemitem></term>
+<listitem>
+<para>
+フォントの幅を指定します。<systemitem>normal</systemitem> または <systemitem>narrow</systemitem> のいずれかです。デフォルト値は、<systemitem>normal</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect3>
+<!--(((((((((((((((((((((((((((((((((((((-->
+<sect3>
+<title id="zotxgncmddznuzs">フォント・ファミリ副機能</title>
+<para>
+<systemitem>Family</systemitem> 副機能は、ひとつまたは複数のフォント・ファミリおよび文字セットを指定します。次に示すリストは、<systemitem>Family</systemitem> 副機能のための属性を定義しています。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Family</systemitem></term>
+<listitem>
+<para>
+<systemitem>Family</systemitem> 属性は、インフォメーション・マネージャのブラウザで使用されるフォント・ファミリと文字セットを指定します。<systemitem>Family</systemitem> として指定可能な文字列を以下に示します。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Foundry</systemitem></term>
+<listitem>
+<para>
+フォント提供会社の会社名です。<systemitem>Foundry</systemitem> は、オプションのパラメータです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Name</systemitem></term>
+<listitem>
+<para>
+フォント名です。<systemitem>Name</systemitem> は、必須のパラメータです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Charset</systemitem></term>
+<listitem>
+<para>
+フォントが準拠する標準のエンコーディング名です。<systemitem>Charset</systemitem> は、必須のパラメータです。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>
+指定されたフォント名と文字セットは、インフォメーション・マネージャのドキュメントを表示するシステムのフォント・サーバで使用可能なものでなければなりません。<systemitem>Family</systemitem> の指定がない場合、要素は、<systemitem>Font</systemitem> 機能の <systemitem>Fallback</systemitem> 属性で指定されたフォントを使用します。
+</para>
+</note>
+<para>
+次に示す例は、<systemitem>Font</systemitem> と <systemitem>Family</systemitem> 属性を使用するオンライン・パスのステートメントを示しています。
+</para>
+<literallayout>
+&lt;Path>
+PARA&lt;/Path>
+&lt;Online>
+   &lt;Font  Fallback=sans  Weight=medium  Slant=roman  Size=12  Spacing=prop  Slant=italic  Width=normal>
+   &lt;Family  Name=helvetica  Charset=iso8859-1>
+&lt;/Online>
+</literallayout>
+<!--(((((((((((((((((((((((((((((((-->
+<sect4>
+<title id="pt3bmncx60hp2ol">フォントの継承</title>
+<para>
+<systemitem>Font</systemitem> 機能は、<link linkend="pgqaykbbgsg24ak">Inerited</link> です。継承は、継承する要素に適用されるフォントのセットとフォント属性を決定します。フォント・フェースをマスクするには、<systemitem>Family</systemitem> 属性と <systemitem>Charset</systemitem> 属性の両方を設定しなければなりません。<systemitem>Charset</systemitem> 属性により、マスクが行われます。
+</para>
+<para>
+要素の継承されたフォント属性を変更するには、完全な <systemitem>Font/Family</systemitem> 指定ではなく、適切な <systemitem>Font</systemitem> 機能の変更だけが必要です。次に例を示します。
+</para>
+<literallayout>
+&lt;Font Weight=bold>
+</literallayout>
+<para>
+与えられた要素の継承された属性の変更するには、これで十分です。
+</para>
+</sect4>
+</sect3>
+</sect2>
+<!--(((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="ujpipbbc3h9x3cs">強調表示 (HighLight)</title>
+<!--per Rivers, more info needed on this-->
+<para>
+<systemitem>HighLight</systemitem> 機能は、フォントに独立した強調表示を指定します。<systemitem>HighLight</systemitem> 機能は、<link linkend="pgqaykbbgsg24ak">Inherited</link> です。次にその構文を示します。
+</para>
+<programlisting>
+&lt;Highlight
+BGColor = "<replaceable>colors</replaceable>"
+FGColor = "<replaceable>colors</replaceable>"
+Overline = {true | false}
+StrikeThrough = {true | false}
+Underline = {true | false}>
+</programlisting>
+<para>
+反転、およびバックグラウンドとフォアグラウンドの色は、<systemitem>Online</systemitem> 機能セットにおいてのみサポートされます。ボックス、オーバーライン、ストライク、およびアンダーラインは、<systemitem>Print</systemitem> と <systemitem>Online</systemitem> 機能セットの両方で使用することができます。デフォルトのバックグラウンドとフォアグラウンドの色は、Ｘリソース・ファイルで定義されます。
+</para>
+<para>
+<systemitem>HighLight</systemitem> 機能には、次に示す属性があります。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>BGColor</systemitem></term>
+<listitem>
+<para>
+スクリーンのバックグラウンドの色を指定します。Ｘウィンドウ・システムの色名から選択することができます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<systemitem>FGColor</systemitem></term>
+<listitem>
+<para>
+スクリーンのフォアグラウンドの色を指定します。Ｘウィンドウ・システムの色名から選択することができます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Overline</systemitem></term>
+<listitem>
+<para>
+要素の上に線を引きます。属性値は、<systemitem>true</systemitem> または <systemitem>false</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>StrikeThrough</systemitem></term>
+<listitem>
+<para>
+要素全体に線を引きます。属性値は、<systemitem>true</systemitem> または <systemitem>false</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Underline</systemitem></term>
+<listitem>
+<para>
+要素の下に線を引きます。有効な値は、<systemitem>true</systemitem> または <systemitem>false</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+次の例は、TERM 要素にアンダーラインを引くための <systemitem>Path</systemitem> ステートメントを示しています。
+</para>
+<literallayout>
+&lt;Path>
+VARLISTENTRY TERM&lt;/Path>
+&lt;Online>
+   &lt;Highlight  underline=true>
+&lt;/Online>
+&lt;Print>
+   &lt;Highlight  underline=true>
+&lt;/Print>
+</literallayout>
+</sect2>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="p2wbmnc170hp2ol">レイアウト (Layout) 機能</title>
+<para>
+次の節で説明しているスタイル・シート機能は、インフォメーション・マネージャのブラウザにおけるスクリーンとページのレイアウトに関係するものです。
+<link linkend="jjpipbbc3h9x3cs">Layout</link>,
+<link linkend="n0jpipbbc3h9x3cs">LineBreak</link>,
+<link linkend="xjpipbbc3h9x3cs">Margin</link>, and
+<link linkend="n4llcmnc770hp2ol">Position</link>
+</para>
+<!--)))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="jjpipbbc3h9x3cs">Layout</title>
+<para>
+<systemitem>Layout</systemitem> 機能は、要素の間隔、インデント、およびテキスト描画のフォーマットを指定します。<systemitem>Layout</systemitem> の構文を、次に示します。
+</para>
+<programlisting>
+&lt;Layout
+ASpace = [0-9]+
+BSpace = [0-9]+
+Leading = [0-9]+
+FIndent = [0-9]+
+LIndent = [0-9]+
+RIndent = [0-9]+
+Flow = {verbatim | filled}
+Justify = {left | right | center}
+Wrap = {block | join | none}>
+</programlisting>
+<para>
+指定可能なフォーマット属性は、以下のとおりです。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>ASpace</systemitem>, <systemitem>BSpace</systemitem></term>
+<listitem>
+<para>
+これらの属性は、現在の要素の上と下の間隔をポイント数で指定します。デフォルト値は、10ポイントです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Leading</systemitem></term>
+<listitem>
+<para>
+<systemitem>Leading</systemitem> 属性は、ある行のテキストのベースラインと次の行のもっとも高いアセンドの頂点との間である行間隔をポイント数で指定します。デフォルト値は、２ポイントです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>FIndent</systemitem>, <systemitem>LIndent</systemitem>, <systemitem>RIndent</systemitem></term>
+<listitem>
+<para>
+これらの属性は、それぞれテキスト要素の、最初、左、および右のインデントを指定します。各値は、ポイント数で表現され、周囲の要素あるいは <systemitem>Margin</systemitem> 機能で設定される値に対して相対的です。デフォルト値は、０（ゼロ）です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Flow</systemitem></term>
+<listitem>
+<para>
+<systemitem>Flow</systemitem> 属性は、現在の要素における空白とラインフィード文字の処理方法を指定します。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>verbatim</systemitem></term>
+<listitem>
+<para>
+値 <systemitem>verbatim</systemitem> が選択された場合、空白とラインフィード文字がそのまま効果をもちます。すなわち、テキスト行は自動的に折り返されず、ラインフィード文字がみつかるまで、テキストのマージンとウィンドウの境界を超えて広がることが許可されます。また、値 <systemitem>verbatim</systemitem> により、水平方向のスクロール・バーが、テキスト行の長さにしたがって、必要に応じて表示されます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>filled</systemitem></term>
+<listitem>
+<para>
+値 <systemitem>filled</systemitem> が選択された場合、空白とラインフィード文字はそのままの効果をもたず、テキスト行はウィンドウの境界を超えようとしたときに折り返されます。デフォルト値は、<systemitem>filled</systemitem> です。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Justify</systemitem></term>
+<listitem>
+<para>
+<systemitem>Justify</systemitem> 属性は、現在の要素内のテキスト行の行端調整方法を指定します。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>left</systemitem></term>
+<listitem>
+<para>
+値 <systemitem>left</systemitem> により、テキスト行は左マージンに沿って並べられ、右マージンはそのままです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>right</systemitem></term>
+<listitem>
+<para>
+値 <systemitem>right</systemitem> により、テキスト行は右マージンに沿って並べられ、左マージンはそのままです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>center</systemitem></term>
+<listitem>
+<para>
+値 <systemitem>center</systemitem> により、テキスト行は中央に並べられ、左右のマージンはそのままです。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Wrap</systemitem></term>
+<listitem>
+<para>
+<systemitem>Wrap</systemitem> 属性は、<link linkend="n4llcmnc770hp2ol">Position</link> 機能とともに用いられ、現在の要素内のテキストの描画方法を指定します。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>
+<systemitem>Wrap</systemitem> 属性と <systemitem>Position</systemitem> 機能が使用されると、<link linkend="n0jpipbbc3h9x3cs">LineBreak</link> 機能は無視されます。
+</para>
+</note>
+<para>
+<systemitem>Layout</systemitem> は、<link linkend="pgqaykbbgsg24ak">inherited</link> 機能のひとつです。
+</para>
+<para>
+次の例は、<systemitem>Layout</systemitem> 機能を使用しています。
+</para>
+<literallayout>
+&lt;Path>
+LITERALLAYOUT&lt;/Path>
+&lt;Online>
+   &lt;layout  Flow=verbatim  LIndent=12  ASpace=6  BSpace=6  Leading=4>
+&lt;/Online>
+</literallayout>
+</sect2>
+<!--)))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n0jpipbbc3h9x3cs">LineBreak</title>
+<para>
+<systemitem>LineBreak</systemitem> 機能は、現在の行の前、後、または前後に、改行を挿入します。構文を次に示します。
+</para>
+<programlisting>
+&lt;LineBreak {before | after | both}>
+</programlisting>
+<para>
+<systemitem>LineBreak</systemitem> には、次に示す３つの値が指定可能です。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>before</systemitem></term>
+<listitem>
+<para>
+現在の要素の前に改行を挿入します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>after</systemitem></term>
+<listitem>
+<para>
+現在の要素の後に改行を挿入します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>both</systemitem></term>
+<listitem>
+<para>
+現在の要素の前後に改行を挿入します。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<systemitem>LineBreak</systemitem> は継承されません。
+</para>
+<para>
+次に示す例では、<systemitem>LineBreak</systemitem> を値 <systemitem>both</systemitem> で使用しています。
+</para>
+<literallayout>
+&lt;Path>
+PREFACE TITLE&lt;/Path>
+&lt;Online>
+   &lt;LineBreak  both>
+   &lt;Fontsize=20 weight=medium>
+   &lt;/Online>
+&lt;Print>
+   &lt;LineBreak&  both>
+   &lt;Font  size=24 weight=bold>
+&lt;/Print>
+</literallayout>
+</sect2>
+<!--)))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="xjpipbbc3h9x3cs">Margin</title>
+<para>
+<systemitem>Margin</systemitem> 機能は、ドキュメントの描画領域のバウンダリをポイント数で指定します。
+</para>
+<programlisting>
+&lt;Margin
+Bottom = [0-9]+
+Top = [0-9]+
+Left = [0-9]+
+Right = [0-9]+>
+</programlisting>
+<para>
+<systemitem>Margin</systemitem> 属性の指定可能な値は、以下のとおりです。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Bottom</systemitem></term>
+<listitem>
+<para>
+スクリーンまたはページの最終行に続く垂直方向の空白を指定します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Top</systemitem></term>
+<listitem>
+<para>
+スクリーンまたはページの先頭行に先行する垂直方向の空白を指定します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Left</systemitem></term>
+<listitem>
+<para>
+要素の左端とスクリーンまたはページの左端との間の距離を指定します。
+</para>
+<note>
+<para>
+オンラインのマージンでは、システムは、ブックマーク・アイコンのようなアイテムの左マージンとして18ポイントの空白を使用します。したがって、<systemitem>Left</systemitem> に指定された値は（オンラインの描画の場合）、システム定義の設定値、18ポイントへの追加になります。
+</para>
+</note>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Right</systemitem></term>
+<listitem>
+<para>
+要素の右端とスクリーンまたはページの右端との間の距離を指定します。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<systemitem>Margin</systemitem> 機能は、<link linkend="pgqaykbbgsg24ak">inherited</link> であり、要素の階層構造の頂点の要素においてのみ使用すべきです。次に、<systemitem>Font</systemitem>、<systemitem>Family</systemitem>、および <systemitem>Margin</systemitem> 属性を含む <systemitem>Path</systemitem> ステートメントの例を示します。
+</para>
+<literallayout>
+&lt;Path>
+CHAPTER&lt;/Path>
+&lt;Online>
+   &lt;Font  Fallback=sans  Weight=medium  Slant=roman Size=18>
+   &lt;Family  Name=helvetica  Charset=iso8859-1>
+   &lt;Margin  Left=6  Right=12  Top=18  Bottom=18>
+&lt;/Online>
+&lt;Print>
+   &lt;Font  Fallback=sans  Weight=medium  Slant=roman  Size=24>
+   &lt;Family  Name=helvetica  Charset=iso8859-1>
+   &lt;Margin  Left=18  Right=18  Top=18  Bottom=18>
+&lt;/Print>
+</literallayout>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n4llcmnc770hp2ol">Position</title>
+<!--per Rivers, needs more info-->
+<para>
+<systemitem>Position</systemitem> 機能は、<link linkend="jjpipbbc3h9x3cs">Layout</link> 機能の <systemitem>Wrap</systemitem> 属性とともに使用され、現在の要素の定義されたマージンとの相対的な開始位置、および現在の要素と引き続く要素におけるテキストの描画方法を指定します。
+</para>
+<programlisting>
+&lt;Position
+Horiz = {lcorner | left | lmargin | center | rcorner | Right | rmargin}
+Vert = {bottom | middle | top}>
+</programlisting>
+<para>
+<systemitem>Position</systemitem> 機能は、継承されません。
+</para>
+</sect2>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="cwccmncd70hp2ol">印刷固有の機能</title>
+<para>
+この節で説明するスタイル・シートの機能、<link linkend="n4kpipbbc3h9x3cs"><systemitem>
+Medium</systemitem></link>および<link linkend="r74dmncp70hp2ol"><systemitem>
+PageBreak</systemitem></link>は、インフォメーション・マネージャの印刷機能に固有
+な機能です。
+</para>
+
+<!--))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n4kpipbbc3h9x3cs">Medium</title>
+<!-- per Rivers, values need to be checked)-->
+<para>
+<systemitem>Medium</systemitem> 機能は、印刷媒体の用途とサイズを指定します。<systemitem>Medium</systemitem> 機能は、<link linkend="pgqaykbbgsg24ak">inherited</link> であり、要素の階層構造の頂点のレベルで指定しなければなりません。
+</para>
+<programlisting>
+&lt;Medium
+Orientation = {landscape | portrait}
+</programlisting>
+<para>
+<systemitem>Medium</systemitem> 機能には、<systemitem>Orientation</systemitem> 属性があり、印刷される頁上のテキストの用途を指定します。<systemitem>Orientation</systemitem> 属性の値は、<systemitem>landscape</systemitem> または <systemitem>portrait</systemitem> です。
+</para>
+<para>
+次に示すのは、<systemitem>Medium</systemitem> 機能を使用する <systemitem>&lt;Path></systemitem> ステートメントの例です。
+</para>
+<literallayout>
+&lt;path>CHAPTER
+&lt;/path>
+&lt;print>
+   &lt;Medium Orientation="portrait">
+&lt;/print>
+</literallayout>
+</sect2>
+<!--((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="r74dmncp70hp2ol">PageBreak</title>
+<para>
+PageBreak 機能は、現在の要素の前、後、または前後に改頁を挿入します。次に、構文を示します。
+</para>
+<programlisting>
+&lt;PageBreak {before | after | both}>
+</programlisting>
+<para>
+<systemitem>PageBreak</systemitem> には、３つの値が指定可能です。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>before</systemitem></term>
+<listitem>
+<para>
+現在の要素の前に改頁を挿入します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>after</systemitem></term>
+<listitem>
+<para>
+現在の要素の後に改頁を挿入します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>both</systemitem></term>
+<listitem>
+<para>
+現在の要素の前と後の両方に改頁を挿入します。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<systemitem>PageBreak</systemitem> 機能は、継承されません。
+</para>
+<para>
+次に示す例は、値 <systemitem>before</systemitem> の <systemitem>PageBreak</systemitem> を使用しています。
+</para>
+<literallayout>
+&lt;Path>SECT1 TITLE
+&lt;/Path>
+&lt;Print>
+   &lt;PageBreak  before>
+   &lt;Font  size=30 weight=bold>
+&lt;/Print>
+</literallayout>
+</sect2>
+</sect1>
+<!--))))))))))))))))))))))))))))))))))))))#####-->
+<sect1>
+<title id="y.9dmncv70hp2ol">表 (Table) 機能</title>
+<para>
+次の節で説明しているスタイル・シートの機能は、インフォメーション・マネージャの表のフォーマット指定と関係するものです。
+<link linkend="n0sodmncn70hp2ol">Table</link>
+<link linkend="qjpipbbc3h9x3cs">ColFormat</link>
+<link linkend="w9jdmnch70hp2ol">Row</link>
+<link linkend="yrddmncb70hp2ol">Cell</link>
+ColSep、Frame、および Rowsep
+<systemitem>Table</systemitem> 機能のセットの使用を示す <systemitem>Path</systemitem> ステートメントのセットが、節の終わりにあります。
+(<link linkend="gwugepcem0hp2ol">Table の例</link> を参照してください。)
+</para>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n0sodmncn70hp2ol">Table</title>
+<para>
+<systemitem>Table</systemitem> 機能は、２次元格子のフォーマットで使用されます。スタイル・シートの解析処理は、<systemitem>Table</systemitem> が使用された要素の子の要素における <systemitem>Cell</systemitem>、<systemitem>ColFormat</systemitem>、および <systemitem>Row</systemitem> の使用をチェックすることができません。ユーザは、これらの機能を手動で検証しなければなりません。<systemitem>Table</systemitem> の構文を次に示します。
+</para>
+<programlisting>
+&lt;Table
+ColSep = "integer"
+Frame ={ Top | Bottom | TopBot | Sides | All | None }
+RowSep = "integer"
+>
+</programlisting>
+<para>
+<systemitem>Table</systemitem> 機能には、次に示す属性があります。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>ColSep</systemitem></term>
+<listitem>
+<para>
+<systemitem>ColSep</systemitem> 属性は、垂直線を表の右端に引くかどうかを指定します。値０は false を意味し、０以外の整数値は true を意味します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Frame</systemitem></term>
+<listitem>
+<para>
+<systemitem>Frame</systemitem> 属性は、表の本体を形成する TGroup の外側の端の周囲に引かれる線の配置を制御します。３つの基本的な値 (<literal>Top</literal>、<literal>Bottom</literal>、<literal>None</literal>) および３つの複合的な値 (<literal>TopBot</literal>、<literal>Sides</literal>、<literal>All</literal>) があります。デフォルト値は、<literal>None</literal> です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Rowsep</systemitem></term>
+<listitem>
+<para>
+<systemitem>Rowsep</systemitem> 属性は、水平線を表のセルの下端に引くかどうかを指定します。値０は false を意味し、０以外の整数値は true を意味します。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<literallayout>
+&lt;Path>
+TABLE&lt;/Path>
+&lt;Online>
+   &lt;Table Cols=3>
+&lt;/Online>
+&lt;Print>
+   &lt;Table Cols=3>
+&lt;/Print>
+</literallayout>
+<para>
+<systemitem>Table</systemitem> 機能は、継承されません。
+</para>
+</sect2>
+
+<!--))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="tgrxxx">TGroup</title>
+<para>
+<systemitem>TGroup</systemitem> 機能は、表の一部分のフォーマットを指定します。スタイル・シートの解析処理は、<systemitem>Table</systemitem> が使用された要素の子の要素における <systemitem>Cell</systemitem>、<systemitem>ColFormat</systemitem>、および <systemitem>Row</systemitem> の使用をチェックすることができないことに注意してください。したがって、ユーザは手動で検証しなければなりません。
+</para>
+<para>
+TGroup 機能には、次に示す属性があります。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>CharAlign</systemitem></term>
+<listitem>
+<para>
+<systemitem>CharAlign</systemitem> 属性は、TGroup の <systemitem>Justify</systemitem> 属性が <literal>Char</literal> に設定された場合に、セル内の調整点として使用する文字を指定します。デフォルト値は、ピリオド文字です。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>ColSep</systemitem></term>
+<listitem>
+<para>
+<systemitem>ColSep</systemitem> 属性は、表のセルの右端に、垂直線を引くかどうかを指定します。値０は false を意味し、０以外の整数値は true を意味します。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>Justify</systemitem></term>
+<listitem>
+<para>
+<systemitem>Justify</systemitem> 属性は、表のセル内にあるテキストの水平方向の調整を指定します。<literal>Left</literal> ならば、テキスト行は左マージンに沿って並べられ、右側はそのままです。<literal>Right</literal> ならば、テキスト行は右マージンに沿って並べられ、左側はそのままです。<literal>Center</literal> ならば、テキスト行の両マージンはそのままであり、要素の中央に沿って並べられます。オプションの <literal>Char</literal> を指定すると、各行の２つの文字があるテキスト（通常は数字です）は、CharAlign 属性によって指定された文字の右に並べられ、行の残りは左に並べられます。<systemitem>Justify</systemitem> 属性のデフォルト値は、Left です。CALS の表が値 "justify"（テキストの左右の並び替えを意味します）を指定することに注意してください。これはサポートしていません。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>RowSep</systemitem></term>
+<listitem>
+<para>
+<systemitem>RowSep</systemitem> 属性は、表のセルの下端に水平方向の線を引くかどうかを指定します。値０は false を意味し、０以外の整数値は true を意味します。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>VJustify</systemitem></term>
+<listitem>
+<para>
+<systemitem>VJustify</systemitem> 属性は、表のセルの内容の垂直方向の配置を指定します。３種類の設定値の違いは、その内容が先頭から末尾まで占めないセルについてのみ影響があります。<literal>Top</literal> ならば、内容は、セルの先頭から始まり、セルの末尾に達する前に終わります。<literal>Bottom</literal> ならば、内容は、セルの末尾で終わり、内容の上部に未使用の空白があります。<literal>Middle</literal> ならば、内容は、セルの中央に垂直に配置されます。<systemitem>VJstify</systemitem> 属性のデフォルト値は、<literal>Top</literal> です。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<programlisting>
+&lt;TGroup
+ CharAlign = "char"
+ ColSep = "integer"
+ Justify = { Left | Right | Center | Char }
+ RowSep = "integer"
+ VJustify = { Top | Middle | Bottom }
+>
+</programlisting>
+<para>
+<systemitem>TGroup</systemitem> 機能は、継承されません。
+</para>
+
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="qjpipbbc3h9x3cs">ColFormat</title>
+<para>
+<systemitem>ColFormat</systemitem> 機能は、表の個別の列のフォーマットを指定します。表の各列に対して、左から右への順序で、ひとつの <systemitem>ColFormat</systemitem> 機能を使用します。表のインスタンスに10の列があり、含む <systemitem>Table</systemitem> 要素（<systemitem>Table</systemitem> を使用します）に列のうち８列のみ <systemitem>ColFormat</systemitem> がある場合、最後の２つの列には、最後に指定された <systemitem>ColFormat</systemitem> 機能のデフォルト値が適用されます。
+</para>
+<programlisting>
+&lt;ColFormat
+ Charalign = "<replaceable>char</replaceable>"
+ ColSep = "integer"
+ Justify = {left | right | center | char}
+ Name = "<replaceable>string</replaceable>"
+ RowSep = "integer"
+ Width = [0-9]+
+>
+</programlisting>
+<para>
+<systemitem>ColFormat</systemitem> 機能には、次に示す属性があります。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Charalign</systemitem></term>
+<listitem>
+<para>
+<systemitem>Justify</systemitem> 属性が <systemitem>Char</systemitem> に設定される列で使用する文字を指定します。デフォルト値は、ピリオド (.) 文字です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColSep</systemitem></term>
+<listitem>
+<para>
+<systemitem>ColSep</systemitem> 属性は、このフォーマットを使用する列のセルの右端に、垂直線を引くかどうかを指定します。値０は false を意味し、０以外の整数値は true を意味します。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>Justify</systemitem></term>
+<listitem>
+<para>
+列内のテキスト行の処理方法を指定します。指定可能な値は、以下のとおりです。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>left</systemitem></term>
+<listitem>
+<para>
+テキストを左マージンに沿って並べます。右マージンはそのままです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>right</systemitem></term>
+<listitem>
+<para>
+テキストを右マージンに沿って並べます。左マージンはそのままです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>center</systemitem></term>
+<listitem>
+<para>
+テキストを要素の中央に沿って並べます。左右のマージンはそのままです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>char</systemitem></term>
+<listitem>
+<para>
+テキスト（通常は数字）を２つの文字で並べます。<systemitem>CharAlign</systemitem> 属性で指定された文字の右側に各行が配置されます。残りの文字は、左側に並べられます。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>
+インフォメーション・マネージャにおいて、<systemitem>Justify</systemitem> 属性のデフォルト値は <systemitem>left</systemitem> です。これと異なり、CALS の表では <systemitem>justify</systemitem> 属性値は、left と right の整列を指定します。
+</para>
+</note>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Name</systemitem></term>
+<listitem>
+<para>
+<systemitem>Name</systemitem> 属性は、<systemitem>Cell</systemitem> 機能によって使用される文字列であり、使用する特定の列フォーマット (<systemitem>ColFormat</systemitem>) を参照します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>RowSep</systemitem></term>
+<listitem>
+<para>
+<systemitem>RowSep</systemitem> 属性は、このフォーマットを使用する列内のセルの下端に、水平線を引くかどうかを指定します。値０は false を意味し、０以外の整数値は true を意味します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Width</systemitem></term>
+<listitem>
+<para>
+<systemitem>Width</systemitem> 属性は、列の幅を他の列に対する相対値で指定します。
+</para>
+<para>
+たとえば、ある行から３つの列フォーマットが参照されている場合、全体の幅で割ったその幅が使用される間隔の総体を決定します。すなわち、列 A の幅が90であり、列 B と列 C の幅がそれぞれ180ならば、列 A は、20% (90/450) を使用するようにフォーマットが行われます。
+</para>
+<para>
+<systemitem>Width</systemitem> 属性が指定されない場合、列のインスタンスの行が検査され、そこでみつかったもっとも幅の広いセグメントがその列のデフォルトの幅として使用されます。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<systemitem>ColFormat</systemitem> 機能は、継承されません。
+</para>
+<para>
+次に示すのは、<systemitem>ColFormat</systemitem> 機能を使用するパスのステートメントの例です。
+</para>
+<literallayout>
+&lt;Path>
+TABLE&lt;/Path>
+&lt;Online>
+   &lt;ColFormat Cols=3  Justify=left  Name="column1"  Width=90>
+&lt;/Online>
+&lt;Print>
+   &lt;ColFormat Cols=3  Justify=left  Name="column1"  Width=90>
+&lt;/Print>
+</literallayout>
+</sect2>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="w9jdmnch70hp2ol">Row</title>
+<para>
+<systemitem>Row</systemitem> 機能は（通常は表における）行の開始を識別します。<systemitem>Cell</systemitem> および <systemitem>Table</systemitem> とともに使用することができます。
+</para>
+<programlisting>
+&lt;Row>
+</programlisting>
+
+<programlisting>
+&lt;Row
+ RowSep = "integer"
+ VJustify = { Top | Middle | Bottom }
+>
+</programlisting>
+<para>
+<systemitem>Row</systemitem> 機能には、次に示す属性があります。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Rowsep</systemitem></term>
+<listitem>
+<para>
+RowSep は行内のセルの下端に、水平線を引くかどうかを指定します。値０は false を意味し、０以外の整数値は true を意味します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>VJustify</systemitem></term>
+<listitem>
+<para>
+<systemitem>VJustify</systemitem> 属性は、行内のセルの垂直方向の配置を指定します。３種類の設定値の違いは、その内容が先頭から末尾まで占めないセルにのみ影響があります。<literal>Top</literal> ならば、内容はセルの先頭から始まり、セルの末尾に達する前に終わります。<literal>Bottom</literal> ならば、内容はセルの末尾で終わり、内容の上部に未使用の空白があります。<literal>Middle</literal> ならば、内容はセルの中央に垂直に配置されます。<systemitem>VJustify</systemitem> 属性のデフォルト値は、<literal>Top</literal> です。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<systemitem>Row</systemitem> 機能は継承されません。
+</para>
+<literallayout>
+&lt;Path>ROW
+&lt;/Path>
+&lt;Online>
+   &lt;Row>
+&lt;/Online>
+&lt;Print>
+   &lt;Row>
+&lt;/Print>
+</literallayout>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="yrddmncb70hp2ol">Cell</title>
+<para>
+<systemitem>Cell</systemitem> 機能は、セルで使用するフォーマットを指定します。また、セルの開始を識別し、その水平方向および垂直方向の範囲を定義します。
+</para>
+<programlisting>
+&lt;Cell
+ CharAlign = "char"
+ ColRef = "string"
+ ColSep = "integer"
+ ColStart = "string"
+ ColEnd = "string"
+ Justify = { Left | Right | Center | Char }
+ SpanRows = [0-9]+
+ VJustify = { Top | Middle | Bottom }
+</programlisting>
+<para>
+<systemitem>Cell</systemitem> 機能には、次に示す属性があります。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>CharAlign</systemitem></term>
+<listitem>
+<para>
+<systemitem>CharAlign</systemitem> 属性は、<systemitem>Justify</systemitem> 属性が <systemitem>Char</systemitem> に設定されているセルの調整点として使用する文字を指定します。デフォルト値は、ピリオド (.) 文字です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColRef</systemitem></term>
+<listitem>
+<para>
+<systemitem>ColRef</systemitem> 属性は、セルのフォーマットで使用する列フォーマット (<link linkend="qjpipbbc3h9x3cs">ColFormat</link>) の名前を参照する文字列です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColSep</systemitem></term>
+<listitem>
+<para>
+<systemitem>ColSep</systemitem> 属性は、セルの右端に、垂直線を引くかどうかを指定します。値０は false を意味し、０以外の整数値は true を意味します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColStart</systemitem></term>
+<listitem>
+<para>
+<systemitem>ColStart</systemitem> 属性は、列（名付けられた <systemitem>ColFormat</systemitem> によって定義されます）を参照し、水平方向に広がるセルの開始（もっとも左にある）列として使用します。<systemitem>ColEnd</systemitem> を指定しない場合、<systemitem>ColStart</systemitem> を <systemitem>ColRef</systemitem> と同じ目的で使用します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColEnd</systemitem></term>
+<listitem>
+<para>
+<systemitem>ColEnd</systemitem> 属性は、列（名付けられた <systemitem>ColFormat</systemitem> によって定義されます）を参照し、水平方向に広がるセルのもっとも右にある列として使用します。<systemitem>ColStart</systemitem> が指定されない場合、無視されます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Justify</systemitem></term>
+<listitem>
+<para>
+<systemitem>Justify</systemitem> 属性は、セル内のテキストの水平方向の整列方法を指定します。<literal>Left</literal> ならば、テキスト行は左マージンに沿って並べられ、右側はそのままになります。<literal>Right</literal> ならば、テキスト行は右マージンに沿って並べられ、左側はそのままになります。<literal>Center</literal> ならば、テキスト行は両マージンについてはそのままになり、要素の中央に沿って配置されます。オプションの <literal>Char</literal> は、２つの文字のテキスト（通常は数字です）を <systemitem>CharAlign</systemitem> 属性によって指定された文字の右側に各行を、残りの行を左側に配置します。<systemitem>Justify</systemitem> 属性のデフォルト値は、<literal>Left</literal> です。CALS の表が（テキストの左と右の両方の整列の意味で）値 "justify" を指定することに注意してください。これは、サポートしていません。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>SpanRows</systemitem></term>
+<listitem>
+<para>
+<systemitem>SpanRows</systemitem> 属性は、セルの垂直方向の範囲を指定します。<systemitem>SpanRows</systemitem> の値は、正の数値でなければなりません。デフォルト値は１です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>RowSep</systemitem></term>
+<listitem>
+<para>
+<systemitem>RowSep</systemitem> 属性は、セルの下端に水平線を引くかどうかを指定し
+ます。値０は false を意味し、０以外の整数値は true を意味します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>VJustify</systemitem></term>
+<listitem>
+<para>
+<systemitem>VJustify</systemitem> 属性は、セル内容の垂直方向の配置を指定します。３種類の設定値の違いは、その内容が先頭から末尾まで占めないセルにのみ影響があります。<literal>Top</literal> ならば、内容はセルの先頭から始まり、セルの末尾に達する前に終わります。<literal>Bottom</literal> ならば、内容はセルの末尾で終わり、内容の上部に未使用の空白があります。<literal>Middle</literal> ならば、内容はセルの中央に垂直に配置されます。<systemitem>VJustify</systemitem> 属性のデフォルト値は、<literal>Top</literal> です。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<systemitem>Cell</systemitem> 機能は、<link linkend="w9jdmnch70hp2ol">Row</link>
+および <link linkend="n0sodmncn70hp2ol">Table</link> 機能とともに使用することができます。単一の要素が、表、行、およびセルの開始を含む場合、３つすべての機能を使用することができます。
+</para>
+<para>
+<systemitem>Cell</systemitem> 機能は、継承されません。
+</para>
+<literallayout>
+&lt;Path>TABLE
+&lt;/Path>
+&lt;Online>
+   &lt;Cell  ColRef="column1"  SpanCols=1  SpanRows=1>
+&lt;/Online>
+&lt;Print>
+   &lt;Cell  ColRef="column1"  SpanCols=1  SpanRows=1>
+&lt;/Print>
+</literallayout>
+<para>
+次に示す <systemitem>Path</systemitem> ステートメントのセットは、スタイル・シートにおける表の指定方法を示しています。この例では、属性参照を使用して、値を表と関係する機能に割り当てています。これらの値は、ドキュメントの別の要素で指定されていると仮定しています。
+</para>
+<example>
+<title id="gwugepcem0hp2ol">Table の例</title>
+<literallayout>
+&lt;Path>TABLE
+&lt;/Path>
+&lt;Online>
+   &lt;Border display="@frame">
+&lt;/Online>
+
+&lt;Path>TGROUP
+&lt;/Path>
+&lt;Online>
+   &lt;Table Cols="@cols">
+&lt;/Online>
+
+&lt;Path>COLSPEC
+&lt;/Path>
+&lt;Online>
+   &lt;ColFormat Justify="@align" Name="@colname" Width="@colwidth">
+&lt;/Online>
+
+&lt;Path>TBODY
+&lt;/Path>
+&lt;Online>
+   &lt;Border
+   display=all>
+&lt;/Online>
+
+&lt;Path>ROW
+&lt;/Path>
+&lt;Online>
+   &lt;Row>
+&lt;/Online>
+
+&lt;Path>ENTRY
+&lt;/Path>
+&lt;Online>
+   &lt;Cell  ColRef="@colname"  SpanCols="@nameend -  @namest + 1" SpanRows="@morerows + 1>
+   &lt;border display=all>
+&lt;/Online>
+</literallayout>
+</example>
+</sect2>
+</sect1>
+<!--))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="n38xdmnct70hp2ol">その他の機能</title>
+<para>
+この節で説明するスタイル・シートの機能は、以下のとおりです。
+<link linkend="dq2emncz70hp2ol">Border</link>
+<link linkend="djpipbbc3h9x3cs">Ignore</link>
+<link linkend="n9kpipbbc3h9x3cs">Prefix および Suffix</link>
+</para>
+<!--)))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="dq2emncz70hp2ol">Border</title>
+<para>
+<systemitem>Border</systemitem> 機能は、要素の外側に線を引くときに使用します。その構文は以下のとおりです。
+</para>
+<programlisting>
+&lt;Border
+ Display = {bottom | left | right | top | all | horiz | vert }
+ Thickness = [0-9]+>
+</programlisting>
+<para>
+<systemitem>Border</systemitem> 機能には、次に示す属性があります。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Display</systemitem></term>
+<listitem>
+<para>
+<systemitem>Display</systemitem> 属性は、次に示す値を受け付けます。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>bottom</systemitem></term>
+<listitem>
+<para>
+要素の下側の線を指定します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>left</systemitem></term>
+<listitem>
+<para>
+要素の左側の線を指定します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>right</systemitem></term>
+<listitem>
+<para>
+要素の右側の線を指定します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>top</systemitem></term>
+<listitem>
+<para>
+要素の上側の線を指定します。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>all</systemitem></term>
+<listitem>
+<para>
+このコマンド値は、要素の上側、下側、右側、左側の線を指定します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>horiz</systemitem></term>
+<listitem>
+<para>
+このコマンド値は、要素の上側と下側の線を指定します。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>vert</systemitem></term>
+<listitem>
+<para>
+このコマンド値は、要素の左側と右側の線を指定します。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Thickness</systemitem></term>
+<listitem>
+<para>
+境界の線の重みをポイント数で指定します。<systemitem>Thickness</systemitem> の値は、正の数でなければなりません。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<systemitem>Border</systemitem> 機能は、継承されません。
+</para>
+<para>
+次に示す <systemitem>Path</systemitem> ステートメントは、LINK 要素の周囲に２ポイントの境界線を表示します。
+</para>
+<literallayout>
+&lt;Path>
+LINK&lt;/Path>
+&lt;Online>
+   &lt;Border  Display=all  Thickness=2>
+&lt;/Online>
+&lt;Print>
+   &lt;Border  Display=al  Thickness=2>
+&lt;/Print>
+</literallayout>
+</sect2>
+
+<!--)))))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="djpipbbc3h9x3cs">Ignore</title>
+<para>
+<systemitem>Ignore</systemitem> は、要素の内容を表示または印刷するかどうかを指定します。その構文は、以下のとおりです。
+</para>
+<programlisting>
+&lt;Ignore
+>
+</programlisting>
+<para>
+次に示す <systemitem>Path</systemitem> ステートメントの例は、VERSION 要素で区切られたテキストを、表示または印刷しないことを指定しています。
+</para>
+<literallayout>
+&lt;Path>VERSION
+&lt;/Path>
+&lt;Online>
+   &lt;Ignore>
+&lt;/Online>
+&lt;Print>
+   &lt;Ignore>
+&lt;/Print>
+</literallayout>
+<note>
+<para>
+<systemitem>DTINFO.Ignore</systemitem> 設計様式は、要素およびその内容が、索引とドキュメント・データベースいっぱいになることを回避しています。Ignore 機能も、内容がいっぱいに描画されることを回避します。詳細については、<link linkend="infoapg.div.9">「設計様式の理解」</link> を参照してください。
+</para>
+</note>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n9kpipbbc3h9x3cs">Prefix および Suffix</title>
+<para>
+<systemitem>Prefix</systemitem> および <systemitem>Suffix</systemitem> 機能は、要素の内容の前および後に一定のテキストを追加します。<systemitem>Prefix</systemitem> および <systemitem>Suffix</systemitem> 機能の各インスタンスは、ひとつの <systemitem>Content</systemitem> 副機能および任意の個数で追加する <systemitem>allowed</systemitem> を取り込まなければなりません。
+</para>
+<programlisting>
+&lt;Prefix>
+ &lt;Content>
+ {#PCDATA | Auto}+ &lt;/content>
+ <replaceable>allowed features</replaceable>
+&lt;/Prefix>
+&lt;Suffix>
+ &lt;Content>
+ {#PCDATA | Auto}+ &lt;/content>
+ <replaceable>allowed features</replaceable>
+&lt;/Suffix>
+</programlisting>
+<para>
+<systemitem>Prefix</systemitem> および <systemitem>Suffix</systemitem> 機能は、継承されません。
+</para>
+<!--(((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect3>
+<title id="s75skocwg0hp2ol">Prefix および Suffix のための Content 副機能と Allowed 機能</title>
+<para>
+<systemitem>Content</systemitem> 副機能は、いかなるテキストまたはシステム生成数値トークンの組み合わせでも含むことができます。
+</para>
+<para>
+システム生成数値トークンを指定するには、<systemitem>Auto</systemitem> 副機能を使用します。これは、必須の属性、<replaceable>ID</replaceable> をもちます。この場合の <replaceable>ID</replaceable> は、<systemitem>AutoNumber</systemitem> で指定された数値トークンの名前です。<systemitem>Content</systemitem> 副機能を使用するときには、開始タグと終了タグの両方を使用してください。
+</para>
+<para>
+<systemitem>Prefix</systemitem> および <systemitem>Suffix</systemitem> 機能では、次に示す機能を指定することができます。
+</para>
+<itemizedlist>
+
+<listitem>
+<para><link linkend="n6jpipbbc3h9x3cs">Font</link></para>
+</listitem>
+<listitem>
+<para><link linkend="ujpipbbc3h9x3cs">HighLight</link></para>
+</listitem>
+<listitem>
+<para><link linkend="jjpipbbc3h9x3cs">Layout</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n0jpipbbc3h9x3cs">LineBreak</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n4llcmnc770hp2ol">Position</link></para>
+</listitem>
+</itemizedlist>
+<para>
+次に示す例は、CAUTION 要素のための <systemitem>Prefix</systemitem> と <systemitem>Suffix</systemitem> です。
+</para>
+<literallayout>
+&lt;Path>CAUTION
+&lt;Path/>
+&lt;Online>
+   &lt;Prefix>
+   &lt;Content>CAUTION:
+   &lt;/Content>
+   &lt;Font Weight=bold size=14>
+   &lt;Layout LIndent=6 ASpace=6>
+   &lt;Linebreak both>
+   &lt;Highlight Underline=true>
+   &lt;/Prefix>
+&lt;/Online>
+&lt;Print>
+   &lt;Prefix>
+   &lt;Content>CAUTION:
+   &lt;/Content>
+   &lt;Font Weight=bold size=14>
+   &lt;Layout LIndent=6 ASpace=6>
+   &lt;Linebreak both>
+   &lt;Highlight Underline=true>
+   &lt;/Prefix>
+&lt;/Print>
+
+&lt;Path>CAUTION&lt;Path/>
+&lt;Online>
+   &lt;Suffix>&lt;Content>CAUTION:
+   &lt;/Content>
+   &lt;Font Weight=bold size=14>
+   &lt;Layout LIndent=6 ASpace=6>
+   &lt;Linebreak both>
+   &lt;Highlight Underline=true>
+   &lt;/Suffix>
+&lt;/Online>
+&lt;Print>
+   &lt;Suffix>
+   &lt;Content>WARRANTY ALERT
+   &lt;/Content>
+   &lt;Font Weight=bold Size=14>
+   &lt;Layout LIndent=6 ASpace=6>
+   &lt;Linebreak both>
+   &lt;Highlight Underline=true>
+   &lt;/SUFFIX>
+&lt;/Print>
+</literallayout>
+</sect3>
+</sect2>
+</sect1>
+</chapter>

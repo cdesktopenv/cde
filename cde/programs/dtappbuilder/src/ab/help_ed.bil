@@ -1,0 +1,395 @@
+//       $XConsortium: help_ed.bil /main/3 1995/11/06 17:31:01 rswiston $
+//
+// @(#)help_ed.bil	1.2 16 Feb 1994
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+//   help_ed.bil - Module file for the Help Editor
+//
+:bil-version	1 0
+:module help_ed
+(
+
+:element help_editor
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Help Editor"
+	:resizable		:true
+	:visible		:false
+	:default-button		dialog_apply_button
+	:help-button		dialog_help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABHelpEditor"
+	:help-text		"The Help Editor is used to enter and edit object-specific help information.  Brief context-oriented help may be provided, as well as a reference to more detailed help in an on-line help volume."
+	:children		(
+		list_panel
+		text_panel
+		dialog_button_panel
+	)
+)
+:element list_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj help_editor 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		list_label1
+		obj_list
+		obj_type_menu
+	)
+)
+:element list_label1
+(
+	:type			:label
+	:x			44
+	:y			50
+	:label-type		:string
+	:label			"Objects:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj obj_type_menu 10)
+	:east-attachment	(:grid-line 18 0)
+)
+:element obj_list
+(
+	:type			:list
+	:x			116
+	:y			46
+	:selection-mode		:single
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj obj_type_menu 10)
+	:south-attachment	(:point 0 10)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:obj list_label1 10)
+	:help-text		"This is a list of objects for which you may create or edit help text."
+)
+:element obj_type_menu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			9
+	:y			5
+	:width			262
+	:height			39
+	:label-type		:string
+	:label			"Object Type:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:point 0 9)
+	:children		(
+		obj_type_menu_object_type_item
+	)
+)
+:element obj_type_menu_object_type_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"** object type **"
+	:active			:true
+	:selected		:false
+)
+:element text_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			135
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:obj list_panel 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		hlptxt_label
+		help_text
+		help_more_label
+		vol_change_bar
+		loc_change_bar
+		txt_change_bar
+		group
+	)
+)
+:element hlptxt_label
+(
+	:type			:label
+	:x			26
+	:y			8
+	:label-type		:string
+	:label			"Help Text:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 8)
+	:east-attachment	(:grid-line 18 0)
+)
+:element help_text
+(
+	:type			:text-pane
+	:text-type		:alphanumeric
+	:x			113
+	:y			8
+	:border-frame		:none
+	:num-rows		6
+	:num-columns		48
+	:hscrollbar		:never
+	:vscrollbar		:always
+	:word-wrap		:true
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 8)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:obj hlptxt_label 10)
+	:help-text		"Use this area to enter the text you'd like to appear as the context-sensitive help for the selected object."
+)
+:element help_more_label
+(
+	:type			:label
+	:x			45
+	:y			113
+	:label-type		:string
+	:label			"More... :"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj help_text 15)
+	:east-attachment	(:grid-line 18 0)
+)
+:element vol_change_bar
+(
+	:type			:separator
+	:line-style		:single-line
+	:orientation		:vertical
+	:x			4
+	:y			149
+	:width			3
+	:height			25
+	:fg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 144)
+	:west-attachment	(:point 0 4)
+)
+:element loc_change_bar
+(
+	:type			:separator
+	:line-style		:single-line
+	:orientation		:vertical
+	:x			4
+	:y			179
+	:width			3
+	:height			25
+	:fg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 174)
+	:west-attachment	(:point 0 4)
+)
+:element txt_change_bar
+(
+	:type			:separator
+	:line-style		:single-line
+	:orientation		:vertical
+	:x			4
+	:y			9
+	:width			3
+	:height			91
+	:fg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 9)
+	:west-attachment	(:point 0 4)
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			89
+	:y			146
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		5
+	:vattach_type		:grid-line
+	:border-frame		:none
+	:north-attachment	(:obj help_more_label 10)
+	:south-attachment	(:point 0 10)
+	:west-attachment	(:grid-line 12 0)
+	:children		(
+		help_volume
+		help_location
+	)
+)
+:element help_volume
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Volume Name:"
+	:label-position		:west
+	:num-columns		32
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element help_location
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Location ID:"
+	:label-position		:west
+	:num-columns		32
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		dialog_ok_button
+		dialog_apply_button
+		dialog_reset_button
+		dialog_cancel_button
+		dialog_help_button
+	)
+)
+:element dialog_ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 19 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element dialog_apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element dialog_reset_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			214
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element dialog_cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element dialog_help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:element wrn_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"Apply Changes"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+)
+:connection
+(
+	:from			dialog_ok_button
+	:when			:activate
+	:action-type		:call-function
+	:action			help_okCB
+)
+:connection
+(
+	:from			dialog_cancel_button
+	:when			:activate
+	:action-type		:call-function
+	:action			help_cancelCB
+)
+:connection
+(
+	:from			dialog_apply_button
+	:when			:activate
+	:action-type		:call-function
+	:action			help_applyCB
+)
+:connection
+(
+	:from			dialog_reset_button
+	:when			:activate
+	:action-type		:call-function
+	:action			help_resetCB
+)
+)

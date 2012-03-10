@@ -1,0 +1,252 @@
+<!-- $XConsortium: ch10.sgm /main/11 1996/09/08 19:40:44 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.DiaEv.div.1">
+<title id="HRDC.DiaEv.mkr.1">ヘルプ・ダイアログのイベント処理</title>
+<para>この章では、アプリケーションが処理するヘルプ・ダイアログのイベントについて説明します。
+</para>
+<informaltable id="HRDC.DiaEv.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Supporting Help Dialog Events229'--><xref
+role="JumpText" linkend="HRDC.DiaEv.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Responding to Hyperlink Events230'--><xref
+role="JumpText" linkend="HRDC.DiaEv.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Detecting When Help Dialogs Are Dismissed232'--><xref
+role="JumpText" linkend="HRDC.DiaEv.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Using the Application-Configured
+Button233'--><xref role="JumpText" linkend="HRDC.DiaEv.mkr.6"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="HRDC.DiaEv.div.2">
+<title id="HRDC.DiaEv.mkr.2">ヘルプ・ダイアログ・イベントのサポート</title>
+<indexterm><primary>ヘルプ・ダイアログ</primary><secondary>〜のイベント処理</secondary></indexterm><indexterm><primary>イベント</primary><secondary>ヘルプ・ダイアログの、処理</secondary></indexterm><indexterm><primary>ダイアログ</primary><secondary>〜のイベントの処理</secondary></indexterm>
+<para>アプリケーション内の他のウィジェットと同様に、ヘルプ・ウィンドウには、アプリケーションがサポートしなければならない動作がいくつかあります。
+</para>
+<sect2 id="HRDC.DiaEv.div.3">
+<title>ハイパーリンク・イベント</title>
+<para>標準ハイパーリンク・イベントのほとんどは、ヘルプ・システムによって内部的に処理されます。しかし、次に示す４種類のアプリケーションが処理しなければならないハイパーリンクがあります。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>新規ウィンドウ表示ハイパーリンク</emphasis> 新規ヘルプ・ウィンドウにトピックを表示するという設計者の要求に応じて、アプリケーションは新規のヘルプ・ダイアログを作成しなければなりません。
+</para>
+</listitem><listitem><para><emphasis>マニュアル・ページ・リンク</emphasis> アプリケーションは、新規の簡易ヘルプ・ダイアログを作成し（またはキャッシュから取り出し）、マニュアル・ページを表示しなければなりません。通常、マニュアル・ページ・ウィンドウのサイズは、他のすべてのヘルプ・ウィンドウと異なります。
+</para>
+</listitem><listitem><para><emphasis>アプリケーション定義リンク</emphasis> アプリケーションは、これらのリンクに関連付けられているデータを解釈しなければなりません。アプリケーション定義リンクは、アプリケーションの開発者とヘルプの設計者が、このリンクの作成のために共同で作業をした場合にだけ存在します。
+</para>
+</listitem><listitem><para><emphasis>テキスト・ファイル・リンク</emphasis> アプリケーションは簡易ヘルプ・ダイアログを作成し（またはキャッシュから取り出し）、テキスト・ファイルを表示しなければなりません。
+</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.DiaEv.div.4">
+<title>ダイアログを終了する場合</title>
+<para>ユーザがヘルプ・ダイアログを閉じる場合、そのキャッシュ内にダイアログを格納するか、または破棄するかを認識している必要があります。一般ヘルプ・ダイアログでは、ヘルプ・クローズ・コールバックをサポートしています。簡易ダイアログの終了を検知するには、[閉じる]ボタンにコールバックを追加してください。
+</para>
+</sect2>
+<sect2 id="HRDC.DiaEv.div.5">
+<title>簡易ヘルプ・ボタン</title>
+<para>簡易ヘルプ・ダイアログにあるいくつかのボタンの動作は、アプリケーションによって処理されなければなりません。これらのボタンは、必要に応じて管理することも管理しないことも可能です。起動コールバックを使用して、他のプッシュボタンのように動作を追加することができます。
+</para>
+<sect3 id="HRDC.DiaEv.div.6">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para><link linkend="HRDC.WrTop.div.33" endterm="HRDC.WrTop.mkr.14"></link>は、ヘルプ・システムがサポートしているリンクの種類を記述し、リンクの作成方法について説明しています。
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.DiaEv.div.7">
+<title id="HRDC.DiaEv.mkr.3">ハイパーリンク・イベントへの応答</title>
+<indexterm><primary>〜への応答</primary><secondary>ハイパーリンク・イベント</secondary></indexterm><indexterm><primary>ハイパーリンク</primary><secondary>イベント、〜への応答</secondary></indexterm><indexterm><primary>イベント</primary><secondary>ハイパーリンク、〜への応答</secondary></indexterm>
+<para>アプリケーションは、表示されるヘルプ・ボリューム内で使用されるハイパーリンクの種類だけは、少なくともサポートする必要があります。一般的には、すべてのリンクの種類をサポートするようにしてください。
+</para>
+<para>ハイパーリンクが選択されたときに、アプリケーションに通知する場合、<emphasis>ハイパーリンク・コールバック</emphasis>をヘルプ・ダイアログに追加します。適切にハイパーリンクを処理するコールバック関数を指定しなければなりません。
+</para>
+<sect2 id="HRDC.DiaEv.div.8" role="Procedure">
+<title id="HRDC.DiaEv.mkr.4">ハイパーリンク・コールバックを指定するには
+<indexterm><primary>ハイパーリンク</primary><secondary>コールバック、〜の指定</secondary></indexterm><indexterm><primary>コールバック</primary><secondary>ハイパーリンク、〜の指定</secondary></indexterm><indexterm>
+<primary>&lt;Filename | Command>XtAddCallback &lt;Default Para Font></primary></indexterm><indexterm>
+<primary>関数</primary><secondary>&lt;Filename | Command>XtAddCallback() &lt;Default Para Font></secondary></indexterm></title>
+<orderedlist><listitem><para>次のようにしてハイパーリンク・コールバックを各ヘルプ・ダイアログに追加します。
+</para>
+<programlisting>XtAddCallback ( <symbol role="Variable">helpDialog</symbol>, DtNhyperlLinkCallback,
+<symbol role="Variable">HyperlinkCB</symbol>, (XtPointer)NULL);</programlisting>
+<para><symbol role="Variable">helpDialog</symbol> は、ヘルプ・ダイアログのウィジェットIDで、<symbol role="Variable">HyperlinkCB</symbol> は、ハイパーリンクを処理するコールバック関数の名前です。
+</para>
+</listitem><listitem><para>ダイアログ内で発生する可能性があるハイパーリンク・イベントを処理するための <symbol role="Variable">HyperlinkCB</symbol> 関数を指定します。
+</para>
+</listitem></orderedlist>
+<para>ハイパーリンク・コールバック内で、次のコールバック構造体（<filename>&lt;Dt/Help.h></filename> で宣言されます）にアクセスしなければなりません。
+<indexterm>
+<primary>&lt;Filename | Command>DtHelpDialogCallbackStruct &lt;Default Para Font></primary>
+</indexterm><indexterm><primary>構造体</primary><secondary>&lt;Filename | Command>DtHelpDialogCallbackStruct &lt;Default Para Font></secondary></indexterm></para>
+<programlisting>typedef struct
+ {
+int      reason;
+XEvent  *event;
+char    *locationId;
+char    *helpVolume;
+char    *specification;
+int      hyperType;
+int      windowHint;
+} DtHelpDialogCallbackStruct;</programlisting>
+<para><command>hyperType</command> 要素は、実行されたリンクの種類を示します。指定可能な値は、<filename>DtHELP_LINK_TOPIC</filename> <command>、</command> <filename>DtHELP_LINK_MAN_PAGE</filename><command>、</command> <filename>DtHELP_LINK_APP_DEFINE</filename><command>、および</command> <filename>DtHELP_LINK_TEXT_FILE</filename><command>です。別の種類に対して、どの構造体要素が有効かということについては、</command> <filename moreinfo="RefEntry">DtHelpDialog</filename>(3) のマニュアル・ページを参照してください。
+</para>
+<para><computeroutput>windowHint</computeroutput> 要素は、ウィンドウの種類を示します。その指定可能な値は、<systemitem>DtHELP_CURRENT_WINDOW</systemitem>、<systemitem>DtHELP_POPUP_WINDOW</systemitem>、および<systemitem>DtHELP_NEW_WINDOW</systemitem> です。</para>
+<sect3 id="HRDC.DiaEv.div.9">
+<title>例</title>
+<para>次の関数 <filename>HyperlinkCB()</filename> は、ハイパーリンク・コールバックを処理するために必要な一般構造体を示しています。
+</para>
+<programlisting>XtCallbackProc
+HyperlinkCB (widget, clientData, callData)
+     Widget     widget;
+     XtPointer  clientData;
+     XtPointer  callData;
+  {
+     DtHelpDialogCallbackStruct *hyperData =
+        (DtHelpDialogCallbackStruct *) callData;
+     switch ((int)hyperData-> hyperType)
+        {
+           case DtHELP_LINK_TOPIC:
+             /* <symbol role="Variable">Handles  &ldquo;jump new view&rdquo;hyperlinks.</symbol> */
+             break;
+           case DtHELP_LINK_MAN_PAGE:
+             /* <symbol role="Variable">Handles  &ldquo;man page&rdquo; hyperlinks.</symbol> */
+             break;
+           case DtHELP_LINK_APP_DEFINE:
+             /* <symbol role="Variable">Handles &ldquo;application-defined&rdquo; hyperlinks.</symbol> */
+             break;
+           case DtHELP_LINK_TEXT_FILE:
+             /* <symbol role="Variable">Handles &ldquo;text file&rdquo; hyperlinks.</symbol> */
+             break;
+           default:
+             break;
+   }</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.DiaEv.div.10">
+<title id="HRDC.DiaEv.mkr.5">ヘルプ・ダイアログの終了の検出
+<indexterm><primary>ヘルプ・ダイアログ</primary><secondary>終了の検出</secondary></indexterm><indexterm><primary>ダイアログ</primary><secondary>終了の検出</secondary></indexterm></title>
+<para>一般ヘルプ・ダイアログのクローズを検出するには、次のコールバックをダイアログに追加します。
+</para>
+<programlisting>XtAddCallback (<symbol role="Variable">helpDialog</symbol>, DtNcloseCallback,
+               <symbol role="Variable">HelpCloseCB</symbol>, (XtPointer)NULL);
+</programlisting>
+<para><indexterm><primary>コールバック</primary><secondary>クローズ・コールバックの例</secondary></indexterm>
+<symbol role="Variable">helpDialog</symbol> はヘルプ・ダイアログのウィジェットIDで、<symbol role="Variable">HelpCloseCB</symbol> はダイアログのクローズを処理するために指定したコールバック手続きの名前です。
+</para>
+<para>簡易ヘルプ・ダイアログのクローズを検出するには、次のコールバックをダイアログの[了解]ボタンに追加します。
+</para>
+<programlisting>XtAddCallback (DtHelpQuickDialogGetChild ( <symbol role="Variable">helpDialog</symbol>,
+DtHELP_QUICK_OK_BUTTON), XmNactivateCallback, <symbol role="Variable">HelpCloseCB</symbol>,
+(XtPointer)NULL);</programlisting>
+<para><symbol role="Variable">helpDialog</symbol> はヘルプ・ダイアログのウィジェットIDで、<symbol role="Variable">HelpCloseCB</symbol> はダイアログのクローズを処理するために指定したコールバック手続きの名前です。
+</para>
+</sect1>
+<sect1 id="HRDC.DiaEv.div.11">
+<title id="HRDC.DiaEv.mkr.6">アプリケーション構成ボタンの使い方
+<indexterm><primary>ボタン、アプリケーション構成</primary></indexterm></title>
+<para>簡易ヘルプ・ダイアログのアプリケーション構成ボタンにより、カスタム動作を簡易ヘルプ・ダイアログに追加します。このボタンは、希望に合わせて使用できますが、その目的としては２つの方法のいずれかでヘルプへのパスを提供することです。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>段階を追って情報を検索することができます。これは、しばしば段階的な表示と呼ばれます。この場合、デフォルトのボタン・ラベル（[詳細 &hellip;]）が適切です。
+</para>
+</listitem><listitem><para>アプリケーションのヘルプ・ボリュームを通常どおりブラウズするために、一般ヘルプ・ダイアログを<emphasis>開くことができるようにします</emphasis>。この場合、[ブラウズ &hellip;]がもっとも適切なボタン・ラベルになります。
+</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.DiaEv.div.12" role="Procedure">
+<title id="HRDC.DiaEv.mkr.7">アプリケーション構成ボタンを使用可能にするには
+<indexterm>
+<primary>アプリケーション構成、ボタンを使用可能にする</primary></indexterm></title>
+<orderedlist><listitem><para>ボタンのIDを取得します。</para>
+</listitem><listitem><para>起動コールバックをボタンに追加します。</para>
+</listitem><listitem><para>ボタンを管理します。</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.DiaEv.div.13">
+<title>例</title>
+<para>次のコード・セグメントは、ボタンのIDを取得し、コールバックを割り当て、ボタンを管理します。<command>quickHelpDialog</command> が作成されたばかりであることを想定しています。
+</para>
+<programlisting>Widget  moreButton;
+moreButton = DtHelpQuickDialogGetChild (quickHelpDialog,
+                                     DtHELP_QUICK_MORE_BUTTON);
+XtAddCallback (moreButton, XmNactivateCallback,
+               MoreHelpCB, NULL);
+XtManageChild (moreButton);</programlisting>
+</sect3>
+<sect3 id="HRDC.DiaEv.div.14">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para><!--Original XRef content: '&ldquo;To
+Create a Quick Help Dialog&rdquo; on page&numsp;211'--><xref role="SecTitleAndPageNum"
+linkend="HRDC.CrDia.mkr.7"></para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtHelpDialog</filename>(3) マニュアル・ページ</para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtHelpQuickDialog</filename>(3) マニュアル・ページ</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+
+<sect2 id="HRDC.DiaEv.div.12a" role="Procedure"><title id="HRDC.DiaEv.mkr.7a">[詳細 &hellip;]ボタンを使用して DtInfo にアクセスするには</title>
+<para>デスクトップ DtHelp 機能の拡張機能として、アプリケーションは簡易ヘルプ・ダイアログの[詳細 &hellip;]ボタンにローカルなコールバックを追加することができます。これは、簡易ヘルプの表示内容と関連する追加情報のために dtinfo を引き続いて起動したり、詳細なヘルプ（「アプリケーションについて」や「ウィンドウについて」のような）のために DtInfo を直接起動します。
+</para>
+<para>有用性に関する特定の見地から、ローカルな情報本体へのアクセスをユーザに提供する場合は、組み込みの関数 <command>DtActionInvoke()</command> を使用することができます。アンカー・ポイントは、ブックケースのトップと同じように広範囲か、あるいは、特定のセクションと同じように詳細か、どちらでも可能です。また、データの構築において、外部的に一意のリンクIDが与えられれば、セクション内のターゲットも可能です。
+</para>
+<sect3><title>例</title>
+<para>次のセクションは、DtInfo を起動（または接続）する CDE デスクトップ・アクションの API の使用方法を説明しています。
+</para>
+<para><command>DtActionInvoke</command> を呼び出す前に、アプリケーションは、まずデスクトップ・サービス・ライブラリを初期化するために <command>DtInitialize</command> を、アクションとデータ型を読み込むために <command>DtDbLoad</command> を呼び出さなければなりません。DtInfo アクションおよびデータ型のエントリは CDE デスクトップの一部であるため、これらそれぞれについて <command>DtDbReloadNotify</command> 関数を使用する必要はありません。
+</para>
+<programlisting>#include &lt;Dt/Action.h>
+#include &lt;limits.h>
+#include &lt;locale.h>
+   ...
+int info_bridge( char * infolib, char* uulocator)
+{
+  char info_uuid[ MAXFQLOCATORBUFSIZE ];
+  char exec_host[ MAXHOSTNAMESIZE ];
+  DtActionArg* args = NULL;
+  Xegetshorthostname(localhost, MAXHOSTNAMESIZE);
+  args = (DtActionArg*) XtCalloc( 2, sizeof(DtActionArg) );
+   ...
+  args[0].argclass = DtACTION_BUFFER;
+  args[0].u.buffer.bp = (void*) infolib;
+  args[0].u.buffer.size = strlen( infolib) + 1;
+  args[0].u.buffer.writable = False;
+     ...
+  sprintf( info_uuid, "%s%s", "mmdb:LOCATOR=", uulocator );
+    args[1].argclass = DtACTION_BUFFER;
+  args[1].u.buffer.bp = (void*) info_uuid;
+  args[1].u.buffer.size = strlen( info_uuid) + 1;
+  args[1].u.buffer.writable = False;
+
+  actionId = DtActionInvoke(
+    w,
+    "DtShowInfoAtLOC",
+    args,
+    2,
+    NULL,
+    exec_host,
+    NULL,
+    True,
+    NULL,
+    NULL
+  );
+     ...
+  XtFree( args );
+}
+
+</programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub Caret>
+<?Pub *0000018925>
+

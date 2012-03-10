@@ -1,0 +1,44 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 15:59:42 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = -DPORTABLE_DB
+INCLUDES = -I$(DTMMDBSRC)/hmphf -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES)
+
+LinkSourceFile(buckets.C,$(DTMMDBSRC)/hmphf)
+LinkSourceFile(mphf_funcs.C,$(DTMMDBSRC)/hmphf)
+LinkSourceFile(mphf_hash_table.C,$(DTMMDBSRC)/hmphf)
+LinkSourceFile(params.C,$(DTMMDBSRC)/hmphf)
+LinkSourceFile(pattern.C,$(DTMMDBSRC)/hmphf)
+LinkSourceFile(sorter.C,$(DTMMDBSRC)/hmphf)
+
+SRCS =	buckets.C	mphf_funcs.C	mphf_hash_table.C \
+	params.C	pattern.C	sorter.C
+OBJS = $(SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

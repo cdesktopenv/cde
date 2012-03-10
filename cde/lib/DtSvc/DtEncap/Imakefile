@@ -1,0 +1,57 @@
+XCOMM $XConsortium: Imakefile /main/7 1996/08/22 09:10:00 rswiston $
+XCOMM (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM (c) Copyright 1993-1994,1996 Hewlett-Packard Company.
+XCOMM (c) Copyright 1993-1994,1996 International Business Machines Corp.
+XCOMM (c) Copyright 1993-1994,1996 Sun Microsystems, Inc.
+XCOMM (c) Copyright 1993-1994,1996 Novell, Inc. 
+XCOMM (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM (c) Copyright 1996 Hitachi.
+
+#define DoNormalLib	NormalLibDtSvc
+#define DoSharedLib	SharedLibDtSvc
+#define DoDebugLib	DebugLibDtSvc
+#define DoProfileLib	ProfileLibDtSvc
+#define LibName		DtSvc
+#define SoRev		SODTSVCREV
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#include <Threads.tmpl>
+
+#ifndef DtSvcDefines
+# define DtSvcDefines	-DXK_MISCELLANY -DMULTIBYTE
+#endif
+DEFINES = DtSvcDefines \
+          -DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\" \
+          -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
+          -DCDE_LOGFILES_TOP=\"$(CDE_LOGFILES_TOP)/tmp\"
+
+INCLUDES = -I. -I../include -I../DtUtil2
+
+
+SRCS =  MemoryMgr.c     SbEvent.c       Symbolic.c      bmsglob.c \
+        connect.c       local.c         nls.c           noio.c \
+        pathwexp.c      pipe.c          pty.c           remote.c \
+        sbstdinc.c      scoop.c         spc-env.c       spc-error.c \
+        spc-exec.c      spc-net.c       spc-obj.c       spc-proto.c \
+        spc-sm.c        spc-termio.c    spc-util.c      spc-xt.c \
+        spc.c           stringbuf.c     usersig.c
+
+/* WARNING!!!!
+ * Any .o's added to this list need to be added to DTENCAP_OBJS4
+ * and SHARED_DTENCAP_OBJS4 in the DtSvc Imakefile.
+ */
+OBJS =  MemoryMgr.o     SbEvent.o       Symbolic.o      bmsglob.o \
+        connect.o       local.o         nls.o           noio.o \
+        pathwexp.o      pipe.o          pty.o           remote.o \
+        sbstdinc.o      scoop.o         spc-env.o       spc-error.o \
+        spc-exec.o      spc-net.o       spc-obj.o       spc-proto.o \
+        spc-sm.o        spc-termio.o    spc-util.o      spc-xt.o \
+        spc.o           stringbuf.o     usersig.o
+				   
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

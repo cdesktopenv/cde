@@ -1,0 +1,87 @@
+XCOMM! /bin/ksh
+XCOMM #######
+XCOMM   Product: CDE
+XCOMM   Fileset: CDE-MIN
+XCOMM   configure
+XCOMM   @(#) $XConsortium: configMin.src /main/4 1996/04/23 19:33:27 drk $
+XCOMM #######
+XCOMM 
+XCOMM  (c) Copyright Hewlett-Packard Company, 1993
+XCOMM 
+XCOMM #######
+
+PRODUCT=CDE
+FILESET=CDE-MIN
+retval=0
+
+XCOMM 
+XCOMM  check for existence of /etc/services
+XCOMM 
+
+    if [ ! -f /etc/services ]	# highly unlikely
+    then
+	echo "" >/etc/services
+    fi
+
+XCOMM 
+XCOMM  see if it already exists
+XCOMM 
+
+    awk '{if ($1 == "dtspc") print $0 > "/tmp/dtspc-already-there"}' \
+		/etc/services >/dev/null
+    if [ ! -f /tmp/dtspc-already-there ]
+    then
+        echo "dtspc\t6112/tcp\t#subprocess control" >>/etc/services
+    else
+	rm /tmp/dtspc-already-there
+    fi
+
+XCOMM 
+XCOMM  remove legacy entries like dtspcd
+XCOMM 
+
+    awk '{if ($1 == "dtspcd" || $1 == "#dtspcd") ; else print $0}' \
+		/etc/services >/tmp/etc-services
+    mv /tmp/etc-services /etc/services
+
+XCOMM 
+XCOMM  check for existence of /etc/inetd.conf
+XCOMM 
+
+    if [ ! -f /etc/inetd.conf ]	# highly unlikely
+    then
+	echo "" >/etc/inetd.conf
+    fi
+
+XCOMM 
+XCOMM  see if it already exists
+XCOMM 
+
+    awk '{if ($1 == "dtspc") print $0 > "/tmp/dtspc-already-there"}' \
+	/etc/inetd.conf >/dev/null
+
+    if [ ! -f /tmp/dtspc-already-there ]
+    then
+        echo dtspc stream tcp nowait root CDE_INSTALLATION_TOP/bin/dtspcd CDE_INSTALLATION_TOP/bin/dtspcd >>/etc/inetd.conf
+    else
+	rm /tmp/dtspc-already-there
+    fi
+
+XCOMM 
+XCOMM  remove legacy entries like dtspcd
+XCOMM 
+
+    awk '{if ($1 == "dtspcd" || $1 == "#dtspcd") ; else print $0}' \
+		/etc/inetd.conf >/tmp/etc-inetd-conf
+    mv /tmp/etc-inetd-conf /etc/inetd.conf
+
+XCOMM 
+XCOMM   create the /var/dt/tmp directory for the dtspcd
+XCOMM 
+
+    if [ ! -d CDE_LOGFILES_TOP/tmp ]
+    then
+	mkdir -p CDE_LOGFILES_TOP/tmp
+    fi
+
+    return $retval

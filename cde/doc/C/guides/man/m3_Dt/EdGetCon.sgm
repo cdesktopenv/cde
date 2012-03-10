@@ -1,0 +1,134 @@
+<!-- $XConsortium: EdGetCon.sgm /main/7 1996/09/08 20:03:12 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN25.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN25.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtEditorGetContents</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtEditorGetContents</Function></RefName>
+<RefPurpose>retrieve the contents of a DtEditor widget
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- ************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Editor.h>
+</FuncSynopsisInfo>
+<FuncDef>DtEditorErrorCode <Function>DtEditorGetContents</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>DtEditorContentRec *<Parameter>data</Parameter></ParamDef>
+<ParamDef>Boolean <Parameter>hardCarriageReturns</Parameter></ParamDef>
+<ParamDef>Boolean <Parameter>markContentsAsSaved</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtEditorGetContents</Function> function retrieves the entire contents of a DtEditor widget as
+a string, wide character string or sized buffer of data.
+The data is transferred from the
+DtEditor widget using a
+<StructName Role="typedef">DtEditorContentRec</StructName>, which indicates the
+type of data being transferred along with the actual data.
+If desired, any soft
+line feeds (word wraps) can be replaced with
+<KeySym>newline</KeySym>s.</Para>
+<Para>The DtEditor widget tracks whether its contents have changed since they
+were last saved or retrieved.
+Setting the
+<Emphasis>markContentsAsSaved</Emphasis> argument to True
+retrieves a copy of the data without
+affecting whether
+&cdeman.DtEditorCheckForUnsavedChanges; reports that there are unsaved changes.
+This is useful if the application needs a temporary copy of the
+contents.
+</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument specifies the DtEditor widget ID.
+</Para>
+<Para>The
+<Symbol Role="Variable">data</Symbol> argument is a pointer to a data structure to receive
+the contents of
+<Symbol Role="Variable">widget</Symbol>.</Para>
+<Para>The
+<Emphasis>hardCarriageReturns</Emphasis> argument, if set to
+True,
+indicates that the DtEditor widget should replace
+any soft line feeds (word wraps) with
+<KeySym>newline</KeySym>s when saving
+the data.
+When
+<Emphasis>hardCarriageReturns</Emphasis> is set to
+False,
+any line wrapped because it reaches the
+right edge of the window is saved as one complete line.
+</Para>
+<Para>The
+<Emphasis>markContentsAsSaved</Emphasis> argument, if set to
+True,
+causes the DtEditor widget to mark that all changes made to date have been saved.
+When
+<Emphasis>markContentsAsSaved</Emphasis> is set to
+False,
+the DtEditor widget does not change its status regarding unsaved changes.
+<![ %CDE.C.CDE; [</Para>
+<Para>For a complete definition of the DtEditor widget
+and its associated resources, see
+&cdeman.DtEditor;. ]]></Para>
+<Para>For a complete definition of
+<StructName Role="typedef">DtEditorContentRec</StructName>, see
+&cdeman.Dt.Editor.h;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtEditorGetContents</Function> function returns
+<SystemItem Class="Constant">DtEDITOR_NO_ERRORS</SystemItem>; otherwise, it returns
+<SystemItem Class="Constant">DtEDITOR_INVALID_TYPE</SystemItem> if the Type field is not recognized.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following code segment retrieves the contents of a DtEditor widget,
+marking that all changes to date have been saved.
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Widget                  editor;
+DtEditorContentRec      cr;
+DtEditorErrorCode       status;
+Boolean                 markContentsAsSaved = True;
+cr.type = DtEDITOR_TEXT;
+status = DtEditorGetContents(editor, &amp;cr, False, markContentsAsSaved);
+if (status == DtEDITOR_NO_ERRORS)
+        printf("The contents are:&bsol;n%s&bsol;n", cr.value.string);
+else
+        printf("Unable to retrieve contents of the widget&bsol;n");
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>To write the data directly to a file, the application should use
+&cdeman.DtEditorSaveContentsToFile;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Editor.h;, &cdeman.DtEditor;, &cdeman.DtEditorAppend;, &cdeman.DtEditorAppendFromFile;, &cdeman.DtEditorCheckForUnsavedChanges;, &cdeman.DtEditorInsert;, &cdeman.DtEditorInsertFromFile;, &cdeman.DtEditorReplace;, &cdeman.DtEditorReplaceFromFile;, &cdeman.DtEditorSaveContentsToFile;, &cdeman.DtEditorSetContents;, &cdeman.DtEditorSetContentsFromFile;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

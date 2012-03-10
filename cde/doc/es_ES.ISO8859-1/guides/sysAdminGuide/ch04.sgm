@@ -1,0 +1,1721 @@
+<!-- $XConsortium: ch04.sgm /main/11 1996/12/21 18:37:18 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.regap.div.1">
+<title id="sag.regap.mkr.1">Registro de una aplicaci&oacute;n</title>
+<para><indexterm><primary>registro de aplicaciones, Vea registro</primary>
+</indexterm>Este cap&iacute;tulo describe c&oacute;mo crear un paquete de
+registro para una aplicaci&oacute;n y c&oacute;mo registrar la aplicaci&oacute;n
+en el escritorio.</para>
+<informaltable id="sag.regap.itbl.1" frame="all">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.13in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Overview
+of Application Registration54'--><xref role="JumpText" linkend="sag.regap.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'General
+Steps for Registering an Application57--><!--'--><xref role="JumpText" linkend="sag.regap.mkr.5"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Step 1:
+Modifying Font and Color Resources58'--><xref role="JumpText" linkend="sag.regap.mkr.14"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Step 2:
+Creating the Desktop Application Root6--><!--0'--><xref role="JumpText" linkend="sag.regap.mkr.15"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Step 3:
+Creating the Registration Package Dire--><!--ctories60'--><xref role="JumpText"
+linkend="sag.regap.mkr.16"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Step 4:
+Creating the Actions and Data Types fo--><!--r the Application62'--><xref
+role="JumpText" linkend="sag.regap.mkr.19"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Step 5:
+Putting the Help Files in the Registra--><!--tion Package66'--><xref role="JumpText"
+linkend="sag.regap.mkr.21"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Step 6: Putting Information Libraries
+in the Registration Package'--><xref role="JumpText" linkend="SAG.regap.div.19a"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Step 7:
+Creating Icons for the Application67'--><xref role="JumpText" linkend="sag.regap.mkr.22"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Step 8:
+Creating the Application Group68'--><xref role="JumpText" linkend="sag.regap.mkr.23"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Step 9:
+Registering the Application Using dtap--><!--pintegrate75'--><xref role="JumpText"
+linkend="sag.regap.mkr.28"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Example
+of Creating a Registration Package77'--><xref role="JumpText" linkend="sag.regap.mkr.30"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para id="sag.regap.mkr.2">Cuando una aplicaci&oacute;n est&aacute; registrada
+por completo en el escritorio, tiene:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Un grupo de aplicaciones propio en el nivel superior del Gestor
+de aplicaciones</para>
+</listitem>
+<listitem><para>Una acci&oacute;n que inicia la aplicaci&oacute;n. La acci&oacute;n
+se representa mediante un icono en el grupo de aplicaciones</para>
+</listitem>
+<listitem><para>Opcionalmente, tipos de datos para los archivos de datos</para>
+</listitem>
+</itemizedlist>
+<para>El registro de aplicaciones es una operaci&oacute;n que no invade a
+la aplicaci&oacute;n:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>No supone la modificaci&oacute;n del ejecutable de la aplicaci&oacute;n
+propiamente dicho. Por consiguiente, en un sistema se pueden registrar aplicaciones
+existentes.</para>
+</listitem>
+<listitem><para>No requiere que ninguno de los archivos que se entregan con
+la aplicaci&oacute;n (como por ejemplo el ejecutable y el <filename>app-defaults</filename>) se muevan a otras ubicaciones de archivo.</para>
+</listitem>
+<listitem><para>Puede deshacerse con facilidad. La herramienta <command>dtappintegrate</command>, que se utiliza para registrar aplicaciones, proporciona una opci&oacute;n
+de l&iacute;nea de mandatos para invertir el proceso.</para>
+</listitem>
+</itemizedlist>
+<para>Ser&aacute; conveniente que cree un paquete de registro si el usuario
+es:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Administrador del sistema y desea registrar en el escritorio
+una aplicaci&oacute;n existente</para>
+</listitem>
+<listitem><para>Programador de software y desea crear un paquete de instalaci&oacute;n
+para una aplicaci&oacute;n preparada para el escritorio</para>
+</listitem>
+</itemizedlist>
+<sect1 id="sag.regap.div.2">
+<title id="sag.regap.mkr.3">Visi&oacute;n general del registro de aplicaciones<indexterm>
+<primary>aplicaciones</primary><secondary>registrar, Vea registro</secondary>
+</indexterm><indexterm><primary>registro</primary><secondary>visi&oacute;n
+general</secondary></indexterm></title>
+<para>Esta secci&oacute;n explica:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>La finalidad del registro de aplicaciones</para>
+</listitem>
+<listitem><para>Las caracter&iacute;sticas que proporciona el registro de
+aplicaciones a la aplicaci&oacute;n</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Para ver un ejemplo detallado que muestra c&oacute;mo registrar una
+aplicaci&oacute;n existente, consulte la secci&oacute;n <!--Original XRef
+content: '&rdquo;Example of Creating a Registration Pac--><!--kage&rdquo;
+on page&numsp;77'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.30">.
+</para>
+</note>
+<sect2 id="sag.regap.div.3">
+<title>Caracter&iacute;sticas proporcionadas por<indexterm><primary>aplicaciones</primary><secondary>caracter&iacute;sticas de registro</secondary></indexterm><indexterm>
+<primary>caracter&iacute;sticas de registro</primary></indexterm><indexterm>
+<primary>paquete de registro</primary><secondary>finalidad del</secondary>
+</indexterm> el registro de aplicaciones<indexterm><primary>registro</primary>
+<secondary>caracter&iacute;sticas proporcionadas por</secondary></indexterm><indexterm>
+<primary>caracter&iacute;sticas proporcionadas por</primary></indexterm></title>
+<para><indexterm><primary>Gestor de aplicaciones</primary><secondary>integrar
+aplicaciones con</secondary></indexterm>El registro de aplicaciones proporciona
+un procedimiento gr&aacute;fico para que los usuarios:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Localicen la aplicaci&oacute;n.</para>
+<para>En la instalaci&oacute;n, la aplicaci&oacute;n se &ldquo;registra&rdquo;
+en el Gestor de aplicaciones y tiene un grupo de aplicaciones propio.</para>
+</listitem>
+</itemizedlist>
+<figure>
+<title id="sag.regap.mkr.4">Grupos de aplicaciones en el nivel superior del
+Gestor de aplicaciones</title>
+<graphic id="sag.regap.grph.1" entityref="SAG.RegAp.fig.1"></graphic>
+</figure>
+<itemizedlist remap="Bullet1">
+<listitem><para>Inicien la aplicaci&oacute;n.</para>
+<para>El grupo de aplicaciones para la aplicaci&oacute;n contiene un icono
+sobre el que el usuario puede efectuar una doble pulsaci&oacute;n para iniciar
+la aplicaci&oacute;n.</para>
+</listitem>
+</itemizedlist>
+<figure>
+<title>Grupo de aplicaciones que contiene un icono para iniciar la aplicaci&oacute;n</title>
+<graphic id="sag.regap.grph.2" entityref="SAG.RegAp.fig.2"></graphic>
+</figure>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>aplicaciones</primary><secondary>finalidad
+para tipos de datos</secondary></indexterm><indexterm><primary>tipos de datos</primary><secondary>finalidad para crear</secondary></indexterm>Identifiquen
+y manipulen los archivos de datos. Los archivos de datos de la aplicaci&oacute;n
+tendr&aacute;n un icono exclusivo en el Gestor de archivos.</para>
+<para>El usuario puede utilizar los iconos del archivo de datos para:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Iniciar (Abrir) la aplicaci&oacute;n</para>
+</listitem>
+<listitem><para>Imprimir los archivos de datos</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<figure>
+<title>Men&uacute; emergente de un archivo de datos que contiene ''Abrir''
+e ''Imprimir''</title>
+<graphic id="sag.regap.grph.3" entityref="SAG.RegAp.fig.3"></graphic>
+</figure>
+<itemizedlist remap="Bullet1">
+<listitem><para>Realice otras operaciones, como por ejemplo operaciones de
+correo, compresi&oacute;n, vista o reproducci&oacute;n (audio) de datos</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.regap.div.4">
+<title>Finalidad del registro de aplicaciones<indexterm><primary>registro</primary><secondary>finalidad de</secondary></indexterm></title>
+<para><indexterm><primary>archivos de configuraci&oacute;n</primary><secondary>en paquete de registro</secondary></indexterm>Una aplicaci&oacute;n de escritorio
+registrada tiene determinados archivos de configuraci&oacute;n utilizados
+por el escritorio para proporcionar la interfaz de usuario de la aplicaci&oacute;n:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Archivos de definiciones de tipos de datos y de acciones</para>
+</listitem>
+<listitem><para>Archivos (mapa de pixels o mapa de bis) de im&aacute;genes
+de iconos</para>
+</listitem>
+<listitem><para>Un directorio y archivos que crean el grupo de aplicaciones
+</para>
+</listitem>
+<listitem><para>Opcionalmente, archivos de ayuda de escritorio y archivos
+de definiciones del Panel Frontal</para>
+</listitem>
+</itemizedlist>
+<para>Para que el escritorio reconozca y utilice estos archivos, &eacute;stos
+deben estar en determinados directorios especificados por las rutas de b&uacute;squeda
+del escritorio.</para>
+<para>Puede ser dif&iacute;cil administrar una aplicaci&oacute;n cuando los
+archivos de configuraci&oacute;n de la misma est&aacute;n dispersos en muchos
+directorios. Por consiguiente, el escritorio permite a una aplicaci&oacute;n
+conservar todos los archivos de configuraci&oacute;n de escritorio juntos
+bajo un solo directorio. Esta agrupaci&oacute;n de archivos se denomina<indexterm>
+<primary>paquete de registro</primary><secondary>definici&oacute;n</secondary>
+</indexterm> <symbol role="Variable">paquete de registro</symbol>.</para>
+<para>Si la aplicaci&oacute;n est&aacute; preparada para el escritorio, proporciona
+un paquete de registro como parte de su paquete de instalaci&oacute;n. Si
+es usted administrador del sistema y est&aacute; creando los archivos de configuraci&oacute;n,
+puede crear el paquete de registro.</para>
+<para>Los archivos de configuraci&oacute;n del paquete de registro no est&aacute;n
+disponibles en el escritorio porque no est&aacute;n ubicados en los directorios
+de rutas de b&uacute;squeda adecuados. El proceso de poner estos archivos
+en las ubicaciones correctas se denomina<indexterm><primary>registro</primary>
+<secondary>definici&oacute;n</secondary></indexterm> <symbol role="Variable">registrar</symbol> o <symbol role="Variable">integrar</symbol> la aplicaci&oacute;n.
+</para>
+<para>El escritorio proporciona una herramienta, <command>dtappintegrate</command>,
+que realiza el registro creando, en los directorios de rutas de b&uacute;squeda
+adecuados, representaciones de archivos enlazadas simb&oacute;licamente.</para>
+<para>Muchas aplicaciones preparadas para el escritorio ejecutar&aacute;n
+autom&aacute;ticamente <command>dtappintegrate</command> durante el proceso
+de instalaci&oacute;n. Si es usted administrador del sistema y est&aacute;
+integrando una aplicaci&oacute;n existente, puede ejecutarla usted mismo despu&eacute;s
+de haber creado el paquete de registro.</para>
+<para>Una vez registrada la aplicaci&oacute;n en el escritorio de un sistema,
+la aplicaci&oacute;n est&aacute; disponible para todos los usuarios del sistema.
+Si el sistema est&aacute; configurado como un servidor<indexterm><primary>servidores de aplicaciones</primary><secondary>disponibilidad de aplicaciones</secondary></indexterm> de aplicaciones de escritorio, la aplicaci&oacute;n
+tambi&eacute;n estar&aacute; disponible en otros sistemas de toda la red.
+</para>
+<para>La herramienta <command>dtappintegrate</command> tiene una opci&oacute;n
+de l&iacute;nea de mandatos que invierte el proceso rompiendo los enlaces.
+Esto facilita la eliminaci&oacute;n de la aplicaci&oacute;n del Gestor de
+aplicaciones para poderla mover a una servidor de aplicaciones diferente o
+poderla actualizar.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.5">
+<title id="sag.regap.mkr.5">Pasos generales para registrar una aplicaci&oacute;n<indexterm>
+<primary>registro</primary><secondary>pasos generales</secondary></indexterm></title>
+<note>
+<para>Consulte un ejemplo detallado que utiliza estos pasos para crear un
+paquete de aplicaciones en la secci&oacute;n <!--Original XRef content:
+'&rdquo;Example of Creating a Registration Pac--><!--kage&rdquo; on page&numsp;77'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.30">.</para>
+</note>
+<orderedlist>
+<listitem><para id="sag.regap.mkr.6">Modifique los recursos de aplicaciones
+que establecen los fonts y los colores. De lo contrario los fonts y los colores
+din&aacute;micos del escritorio no funcionar&aacute;n correctamente.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Step 1:
+Modifying Font and Color Resou--><!--rces&rdquo; on page&numsp;58'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.14">.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.7">Cree una ubicaci&oacute;n de la ra&iacute;z
+de la aplicaci&oacute;n.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Step 2:
+Creating the Desktop Applicati--><!--on Root&rdquo; on page&numsp;60'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.15">.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.8">Cree la estructura de directorios debajo
+de la ra&iacute;z de la aplicaci&oacute;n.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Step 3:
+Creating the Registration Pack--><!--age Directories&rdquo; on page&numsp;60'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.16"></para>
+</listitem>
+<listitem><para id="sag.regap.mkr.9">Cree las acciones y los tipos de datos
+para la aplicaci&oacute;n.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Step 4:
+Creating the Actions and Data --><!--Types for the Application&rdquo; on page&numsp;62'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.19">.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.10">Ponga los archivos de ayuda en un directorio
+apropiado.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Step 5:
+Putting the Help Files in the --><!--Registration Package&rdquo; on page&numsp;66'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.21">.</para>
+</listitem>
+<listitem><para id="SAG.regap.mkr.10a">Coloque los archivos de la documentaci&oacute;n
+en l&iacute;nea (biblioteca de informaci&oacute;n) en el directorio correspondiente.
+</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&xd2;Paso 6:
+C&oacute;mo colocar las archivos de la biblioteca de informaci&oacute;n en
+el paquete de registro&xd3; en la p&aacute;gina &numsp;66'--><xref role="SecTitleAndPageNum"
+linkend="SAG.regap.div.19a">.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.11">Cree los iconos para la aplicaci&oacute;n
+</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Step 6:
+Creating Icons for the Applica--><!--tion&rdquo; on page&numsp;67'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.22">.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.12">Cree el grupo de aplicaciones para la
+aplicaci&oacute;n.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Step 7:
+Creating the Application Group--><!--&rdquo; on page&numsp;68'--><xref role="SecTitleAndPageNum"
+linkend="sag.regap.mkr.23">.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.13">Registre la aplicaci&oacute;n utilizando <command>dtappintegrate</command>.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Step 8:
+Registering the Application Us--><!--ing dtappintegrate&rdquo; on page&numsp;75'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.28">.</para>
+</listitem>
+</orderedlist>
+</sect1>
+<sect1 id="sag.regap.div.6">
+<title id="sag.regap.mkr.14">Paso 1: Modificar los recursos de font y de color<indexterm>
+<primary>registro</primary><secondary>modificaci&oacute;n de recursos</secondary>
+</indexterm><indexterm><primary>modificaci&oacute;n de recursos</primary>
+</indexterm><indexterm><primary>registro</primary><secondary>modificar recursos</secondary></indexterm></title>
+<note>
+<para>Consulte un ejemplo de modificaci&oacute;n de recursos para una aplicaci&oacute;n
+en el <!--Original XRef content: 'Step&numsp;1'--><xref role="Step" linkend="sag.regap.mkr.6">
+de la secci&oacute;n <!--Original XRef content: '&rdquo;Example of Creating
+a Registration Pac--><!--kage'--><xref role="SectionTitle" linkend="sag.regap.mkr.30">
+de la <!--Original XRef content: 'page&numsp;78'--><xref role="PageNum" linkend="sag.regap.mkr.31">.
+</para>
+</note>
+<para>El escritorio proporciona mecanismos para establecer y manipular los
+fonts de interfaz y los colores de ventana. Para que una aplicaci&oacute;n
+utilice estos mecanismos correctamente, es posible que se tenga que modificar
+el archivo <filename>app-defaults</filename> de la aplicaci&oacute;n.</para>
+<sect2 id="sag.regap.div.7">
+<title>Modificaci&oacute;n de los recursos de font<indexterm><primary>Gestor
+de estilos</primary><secondary>integraci&oacute;n de fonts con</secondary>
+</indexterm><indexterm><primary>integraci&oacute;n de fonts con</primary>
+</indexterm><indexterm><primary>registro</primary><secondary>modificaciones
+de font</secondary></indexterm><indexterm><primary>fonts</primary><secondary>recursos, modificar para registro</secondary></indexterm></title>
+<note>
+<para>Esta secci&oacute;n es aplicable a las aplicaciones creadas utilizando
+Motif 1.2 (o versiones posteriores). El Gestor de estilos no puede establecer
+los fonts de interfaz para aplicaciones escritas utilizando versiones de Motif
+anteriores.</para>
+</note>
+<para>El Gestor de estilos del escritorio establecer&aacute; los fonts de
+interfaz para las aplicaciones creadas utilizando Motif 1.2 (o versiones
+posteriores) si la aplicaci&oacute;n no especifica fonts de interfaz espec&iacute;ficos
+de la aplicaci&oacute;n.</para>
+<para>El Gestor de estilos proporciona dos fonts:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="158*">
+<colspec colwidth="370*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>font del sistema</para></entry>
+<entry align="left" valign="top"><para>Utilizado por &aacute;reas del sistema,
+tales como etiquetas, men&uacute;s y botones</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>font de usuario</para></entry>
+<entry align="left" valign="top"><para>Utilizado para &aacute;reas editables,
+tales como campos de texto</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>Cada font se proporciona en siete tama&ntilde;os, etiquetados de 1 a
+7 en el cuadro de di&aacute;logo Fonts. Los fonts del Gestor de estilos est&aacute;n
+conectados a fonts reales del sistema por medio de recursos del Gestor de
+estilos establecidos en <filename>/usr/dt/app-defaults/</filename><symbol role="Variable">idioma</symbol><filename>/Dtstyle</filename>.</para>
+<para>Si desea que la aplicaci&oacute;n utilice los fonts del Gestor de estilos,
+deber&aacute; eliminar los recursos de la aplicaci&oacute;n que traspasan
+informaci&oacute;n de fonts espec&iacute;ficos. El escritorio establecer&aacute;
+autom&aacute;ticamente los recursos de la aplicaci&oacute;n de forma apropiada:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="235*">
+<colspec colwidth="293*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>FontList</command></para></entry>
+<entry align="left" valign="top"><para>Establecer en el font del sistema</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>XmText*FontList</filename></para></entry>
+<entry align="left" valign="top"><para>Establecer en el font del usuario</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>XmTextField*FontList</filename></para></entry>
+<entry align="left" valign="top"><para>Establecer en el font del usuario</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</sect2>
+<sect2 id="sag.regap.div.8">
+<title>Modificaci&oacute;n de los recursos de color<indexterm><primary>registro</primary><secondary>modificaci&oacute;n de colores</secondary></indexterm><indexterm>
+<primary>modificaci&oacute;n de colores</primary></indexterm><indexterm><primary>recursos de color,modificar para registro</primary></indexterm></title>
+<para><indexterm><primary>Gestor de estilos</primary><secondary>integraci&oacute;n
+de colores con</secondary></indexterm><indexterm><primary>integraci&oacute;n
+de colores con</primary></indexterm>El Gestor de estilos proporciona la posibilidad
+de cambiar din&aacute;micamente los colores de la aplicaci&oacute;n. La aplicaci&oacute;n
+debe ser un cliente de Motif 1.1 &oacute; 1.2. Los clientes escritos con
+otros kits de utilidades no pueden cambiar el color din&aacute;micamente;
+los cambios de color entran en vigor cuando se reinicia el cliente.</para>
+<para>El modo m&aacute;s f&aacute;cil de utilizar los colores din&aacute;micos
+proporcionados por el escritorio consiste en eliminar los recursos de colores
+de la aplicaci&oacute;n para el color de fondo y el de primer plano.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.9">
+<title id="sag.regap.mkr.15">Paso 2: Crear la ra&iacute;z de la aplicaci&oacute;n
+de escritorio<indexterm><primary>aplicaciones</primary><secondary>directorio
+ra&iacute;z</secondary></indexterm><indexterm><primary>aplicaciones</primary>
+<secondary>directorio apl_ra&iacute;z</secondary></indexterm><indexterm><primary>registro</primary><secondary>directorio ra&iacute;z de la aplicaci&oacute;n</secondary></indexterm><indexterm><primary>directorio ra&iacute;z de la aplicaci&oacute;n</primary></indexterm></title>
+<note>
+<para>Consulte un ejemplo de c&oacute;mo crear el directorio ra&iacute;z de
+aplicaci&oacute;n de escritorio para una aplicaci&oacute;n en el <!--Original
+XRef content: 'Step&numsp;2'--><xref role="Step" linkend="sag.regap.mkr.7">
+de la secci&oacute;n <!--Original XRef content: '&rdquo;Example of Creating
+a Registration Pac--><!--kage'--><xref role="SectionTitle" linkend="sag.regap.mkr.30">
+de la <!--Original XRef content: 'page&numsp;78'--><xref role="PageNum" linkend="sag.regap.mkr.32">.
+</para>
+</note>
+<para>Los archivos del paquete de registro para la aplicaci&oacute;n est&aacute;n
+agrupados en un directorio llamado ra&iacute;z de la aplicaci&oacute;n o <symbol role="Variable"><indexterm><primary>apl_ra&iacute;z, Vea directorio ra&iacute;z
+de la aplicaci&oacute;n</primary></indexterm>apl_ra&iacute;z</symbol>. El
+directorio <symbol role="Variable">apl_ra&iacute;z</symbol> utilizado para
+los archivos de configuraci&oacute;n del escritorio puede ser el mismo directorio
+que el <symbol role="Variable">apl_ra&iacute;z</symbol> de instalaci&oacute;n
+de la aplicaci&oacute;n o bien puede ser otra ubicaci&oacute;n.</para>
+<para>Por ejemplo, supongamos que una aplicaci&oacute;n se instala bajo un
+directorio <filename>/usr/BTE</filename>. Este mismo directorio se podr&iacute;a
+utilizar como directorio <symbol role="Variable">apl_ra&iacute;z</symbol>
+para los archivos de configuraci&oacute;n del escritorio. Sin embargo, si
+se est&aacute; integrando una aplicaci&oacute;n existente no preparada para
+el escritorio, se recomienda crear un directorio <symbol role="Variable">apl_ra&iacute;z</symbol> de escritorio diferente. Esto evitar&aacute; que,
+al actualizar la aplicaci&oacute;n, se sobreescriban los archivos de configuraci&oacute;n
+creados.</para>
+<para>Por ejemplo, puede que un administrador de sistema desee crear un directorio <filename>/etc/desktop_approots/BTE</filename> como directorio <symbol role="Variable">apl_ra&iacute;z</symbol> del escritorio.</para>
+</sect1>
+<sect1 id="sag.regap.div.10">
+<title id="sag.regap.mkr.16">Paso 3: Crear los directorios de paquetes de
+registro<indexterm><primary>paquete de registro</primary><secondary>directorios</secondary></indexterm></title>
+<note>
+<para>Consulte un ejemplo de c&oacute;mo crear los directorios de paquetes
+de registro para una aplicaci&oacute;n en el <!--Original XRef content: 'Step&numsp;3'--><xref
+role="Step" linkend="sag.regap.mkr.8"> de la secci&oacute;n <!--Original
+XRef content: '&rdquo;Example of Creating a Registration Pac--><!--kage'--><xref
+role="SectionTitle" linkend="sag.regap.mkr.30"> de la <!--Original
+XRef content: 'page&numsp;79'--><xref role="PageNum" linkend="sag.regap.mkr.33">.
+</para>
+</note>
+<para>El paquete de registro es el grupo de archivos de configuraci&oacute;n
+de escritorio utilizado por el escritorio para proporcionar una interfaz gr&aacute;fica
+para la aplicaci&oacute;n.</para>
+<sect2 id="sag.regap.div.11">
+<title>Contenido del paquete de registro</title>
+<para>Los archivos de configuraci&oacute;n del escritorio incluyen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Archivos de definiciones de tipos de datos y de acciones</para>
+</listitem>
+<listitem><para>Archivos de im&aacute;genes de iconos</para>
+</listitem>
+<listitem><para>Un directorio de grupos de aplicaciones y su contenido</para>
+</listitem>
+<listitem><para>Opcionalmente: archivos de datos de ayuda y un archivo de
+configuraci&oacute;n del Panel Frontal</para>
+</listitem>
+</itemizedlist>
+<para>El paquete de registro se re&uacute;ne bajo un directorio de nivel superior
+denominado ra&iacute;z de la aplicaci&oacute;n o <symbol role="Variable">apl_ra&iacute;z</symbol>.</para>
+<figure>
+<title id="sag.regap.mkr.17">Paquete de registro bajo un directorio ra&iacute;z
+de la aplicaci&oacute;n</title>
+<graphic id="sag.regap.grph.4" entityref="SAG.RegAp.fig.4"></graphic>
+</figure>
+<para>Las categor&iacute;as principales de los campos de configuraci&oacute;n
+que se encuentran bajo el directorio <symbol role="Variable">apl_ra&iacute;z</symbol> son:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="158*">
+<colspec colwidth="370*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Subdirectorio</para></entry>
+<entry align="left" valign="bottom"><para>Contenido</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>types</filename></para></entry>
+<entry align="left" valign="top"><para>Archivos de definiciones de tipos de
+datos y de acciones</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>help</filename></para></entry>
+<entry align="left" valign="top"><para>Archivos de ayuda del escritorio</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>icons</filename></para></entry>
+<entry align="left" valign="top"><para>Archivos de im&aacute;genes de mapas
+de bits y de mapas de pixels utilizados por las acciones y los tipos de datos
+de la aplicaci&oacute;n</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>appmanager</filename></para></entry>
+<entry align="left" valign="top"><para>El directorio y el contenido que crean
+el grupo de aplicaciones</para></entry>
+</row>
+<row>
+<entry><para><filename>infolib</filename></para></entry>
+<entry><para>Archivos de documentaci&oacute;n en l&iacute;nea organizados
+como bibliotecas de informaci&oacute;n, estantes para libros y libros</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>Cada una de las categor&iacute;as principales tiene subdirectorios para
+los archivos dependientes del idioma. Los archivos de idiomas predeterminados
+se encuentran en el directorio <filename>C</filename>.</para>
+<sect3 id="sag.regap.div.12">
+<title>Crear el paquete de registro</title>
+<itemizedlist>
+<listitem><para>Cree estos directorios. Si est&aacute; proporcionando archivos
+de configuraci&oacute;n dependientes del idioma, cree un directorio separado
+para cada idioma. Si s&oacute;lo est&aacute; proporcionando un idioma, ponga
+los archivos en el directorio <filename>C</filename>.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para><symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para><symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/help/</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para><symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/icons/</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para><symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/appmanager/</filename><symbol role="Variable">idioma</symbol><symbol role="Variable">/</symbol><symbol role="Variable">nombre_grupoapl</symbol>,
+donde <symbol role="Variable">nombre_grupoapl</symbol> es el nombre del grupo
+de aplicaciones.</para>
+<para>Por ejemplo, la <!--Original XRef content: 'Figure&numsp;4&hyphen;5'--><xref
+role="CodeOrFigureOrTable" linkend="sag.regap.mkr.18"> muestra un Gestor de
+aplicaciones que contiene un grupo cuyo <symbol role="Variable">nombre_grupoapl</symbol> es &rdquo;Herramientas_Soporte.&rdquo;</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<figure>
+<title id="sag.regap.mkr.18">Grupo de aplicaciones en el nivel superior del
+Gestor de aplicaciones</title>
+<graphic id="sag.regap.grph.5" entityref="SAG.RegAp.fig.5"></graphic>
+</figure>
+<para>La herramienta <command>dtappintegrate</command> opera s&oacute;lo en
+los archivos de configuraci&oacute;n de escritorio en los directorios <filename>types</filename>,<filename>help</filename>,<filename>icons</filename> y <filename>appmanager</filename>. El ejecutable binario de la aplicaci&oacute;n, <filename>app-defaults</filename>, y los archivos de cat&aacute;logos de mensajes se
+administran por separado.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.13">
+<title id="sag.regap.mkr.19">Paso 4: Crear las acciones y los tipos de datos
+para la aplicaci&oacute;n<indexterm><primary>acciones</primary><secondary>necesarias para el registro</secondary></indexterm><indexterm><primary>tipos
+de datos</primary><secondary>necesarios para el registro</secondary></indexterm><indexterm>
+<primary>registro</primary><secondary>acciones necesarias</secondary></indexterm><indexterm>
+<primary>registro</primary><secondary>tipos de datos necesarios</secondary>
+</indexterm></title>
+<note>
+<para>Consulte un ejemplo de c&oacute;mo crear las acciones y los tipos de
+datos para una aplicaci&oacute;n en el <!--Original XRef content: 'Step&numsp;4'--><xref
+role="Step" linkend="sag.regap.mkr.9"> de la secci&oacute;n <!--Original
+XRef content: '&rdquo;Example of Creating a Registration Pac--><!--kage'--><xref
+role="SectionTitle" linkend="sag.regap.mkr.30"> de la <!--Original
+XRef content: 'page&numsp;79'--><xref role="PageNum" linkend="sag.regap.mkr.34">.
+</para>
+</note>
+<para>Las acciones y los tipos de datos proporcionan una interfaz de usuario
+para la aplicaci&oacute;n.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Las acciones proporcionan una interfaz de usuario para que
+el mandato ejecute la aplicaci&oacute;n.</para>
+</listitem>
+<listitem><para>Los tipos de datos proporcionan el aspecto y el comportamiento
+personalizados para los archivos de datos de la aplicaci&oacute;n.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.regap.div.14">
+<title>Acciones y tipos de datos necesarios para una aplicaci&oacute;n<indexterm>
+<primary>aplicaciones</primary><secondary>acciones necesarias</secondary>
+</indexterm><indexterm><primary>aplicaciones</primary><secondary>tipos de
+datos necesarios</secondary></indexterm></title>
+<para>Las aplicaciones caracter&iacute;sticas requieren las siguientes definiciones
+de acci&oacute;n y de tipo de datos:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Una acci&oacute;n que abra la aplicaci&oacute;n.</para>
+</listitem>
+<listitem><para>Un tipo de datos para los archivos de datos de la aplicaci&oacute;n.
+Si crea un tipo de datos, tambi&eacute;n deber&aacute; crear:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Una acci&oacute;n Abrir para los archivos de datos de la aplicaci&oacute;n
+</para>
+</listitem>
+<listitem><para>Una acci&oacute;n Imprimir para los archivos de datos de la
+aplicaci&oacute;n</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Un tipo de datos para el grupo de aplicaciones (consulte la
+secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+the Application
+Group To --><!--Use a Unique Icon&rdquo; on page&numsp;70'--><xref role="SecTitleAndPageNum"
+linkend="sag.regap.mkr.25">).</para>
+</listitem>
+</itemizedlist>
+<para>En la secci&oacute;n <!--Original XRef content: 'Chapter&numsp;8, &rdquo;Introduction
+to Actio--><!--ns and Data Types'--><xref role="ChapNumAndTitle" linkend="sag.intac.mkr.1">,
+puede consultar una introducci&oacute;n a la utilizaci&oacute;n de las acciones
+y los tipos de datos en el escritorio.</para>
+</sect2>
+<sect2 id="sag.regap.div.15">
+<title>Ubicaci&oacute;n de los archivos de configuraci&oacute;n de definiciones
+de acciones y de tipos de datos</title>
+<para>Las acciones y los tipos de datos se definen en archivos de configuraci&oacute;n.
+El &uacute;nico requisito de denominaci&oacute;n para los archivos que contienen
+definiciones de acciones y de tipos de datos es que deben tener un sufijo <filename>.dt</filename>. Por convenio, es aconsejable denominar el archivo <symbol role="Variable">nombre_acci&oacute;n</symbol><filename>.dt</filename> o <symbol role="Variable">nombre_aplicaci&oacute;n</symbol><filename>.dt</filename>.
+</para>
+<para>Ponga los archivos que contienen acciones y tipos de datos bajo la ra&iacute;z
+de la aplicaci&oacute;n en el directorio <symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">idioma.</symbol> El <symbol role="Variable">idioma</symbol> predeterminado
+es <command>C</command>.</para>
+<figure>
+<title>Archivos de definiciones de tipos de datos y de acciones</title>
+<graphic id="sag.regap.grph.6" entityref="SAG.RegAp.fig.6"></graphic>
+</figure>
+</sect2>
+<sect2 id="sag.regap.div.16">
+<title>Procedimientos para crear acciones y tipos de datos</title>
+<para>Se pueden crear definiciones de acciones y de tipos de datos para una
+aplicaci&oacute;n de una de estas dos formas:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Utilice la herramienta Crear Acci&oacute;n.</para>
+<para>Crear Acci&oacute;n proporciona una interfaz f&aacute;cil de usar con
+campos de texto que deber&aacute; rellenar. Sin embargo, la herramienta tiene
+algunas limitaciones.</para>
+</listitem>
+<listitem><para>Cree las definiciones manualmente.</para>
+<para>Ello requiere que el usuario aprenda la sintaxis de creaci&oacute;n
+de las definiciones, pero proporciona acceso a todas las funciones.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.regap.div.17" role="Procedure">
+<title>Crear acciones y tipos de datos utilizando Crear Acci&oacute;n</title>
+<para>Este procedimiento utiliza la utilidad Crear Acci&oacute;n para crear
+una acci&oacute;n y tipos de datos para la aplicaci&oacute;n.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre Crear Acci&oacute;n,
+utilice la ayuda en l&iacute;nea o consulte el <!--Original XRef content:
+'Chapter&numsp;9,
+&rdquo;Creating Actions and--><!-- Data Types Using Create Action'--><xref
+role="ChapNumAndTitle" linkend="sag.dtcra.mkr.1">.</para>
+<orderedlist>
+<listitem><para id="sag.regap.mkr.20">Abra el grupo de aplicaciones Apls_Escritorio
+y efect&uacute;e una doble pulsaci&oacute;n sobre Crear Acci&oacute;n.</para>
+</listitem>
+<listitem><para>Utilice Crear Acci&oacute;n para crear las definiciones de
+acciones y de tipos de datos para la aplicaci&oacute;n y sus tipos de datos.
+</para>
+<para>El archivo de configuraci&oacute;n creado por Crear Acci&oacute;n se
+grabar&aacute; en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/type/</filename><symbol role="Variable">nombre_acci&oacute;n</symbol><filename>.dt.</filename> El archivo de acci&oacute;n (el archivo ejecutable con el
+mismo nombre que la acci&oacute;n) se coloca en el directorio de inicio del
+usuario.</para>
+</listitem>
+<listitem><para>Pruebe la acci&oacute;n utilizando el archivo de acci&oacute;n
+creado en el directorio de inicio del usuario.</para>
+</listitem>
+<listitem><para>Copie el archivo de definiciones de acci&oacute;n <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/type/</filename><symbol role="Variable">nombre_acci&oacute;n</symbol><filename>.dt</filename> en el
+directorio <symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol>.</para>
+</listitem>
+<listitem><para>Despu&eacute;s de haber creado el directorio del grupo de
+aplicaciones (Consulte la <!--Original XRef content: 'Section&numsp;,
+&rdquo;Step 7:
+Creating the --><!--Application Group,&rdquo; on page&numsp;68'--><xref role="SecNumTitleAnsPage"
+linkend="sag.regap.mkr.23">), copie el archivo de acci&oacute;n <symbol role="Variable">DirectorioInicio</symbol><filename>/</filename><symbol role="Variable">nombre_acci&oacute;n</symbol> en el directorio <filename><symbol role="Variable">apl_ra&iacute;z</symbol>/dt/appconfig/appmanager/<symbol role="Variable">idioma</symbol>/<symbol role="Variable">nombre_grupoapl</symbol></filename>.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.regap.div.18" role="Procedure">
+<title>Crear acciones y tipos de datos manualmente</title>
+<itemizedlist>
+<listitem><para>Cree un archivo de configuraci&oacute;n que contenga las definiciones
+de acciones y de tipos de datos para la aplicaci&oacute;n.</para>
+</listitem>
+</itemizedlist>
+<para>Los archivos de definiciones de acciones y de tipos de datos deben seguir
+el convenio de denominaci&oacute;n <symbol role="Variable">nombre</symbol><filename>.dt</filename>.</para>
+<para>Puede poner todas las definiciones de acciones y de tipos de datos en
+un archivo o distribuirlas entre varios archivos. Para cada archivo utilice
+un nombre de archivo que los administradores de sistema puedan relacionar
+f&aacute;cilmente con la aplicaci&oacute;n.</para>
+<para>Los nombres de acciones y de tipos de datos deben constar de una sola
+palabra (sin espacios intercalados). Se puede utilizar un car&aacute;cter
+de subrayado. Por convenio, la primera letra del nombre de acci&oacute;n o
+de tipo de datos debe ser una may&uacute;scula. No utilice un nombre de acci&oacute;n
+o un nombre de archivo existente. Utilice un nombre que los usuarios avanzados
+y los administradores del sistema puedan relacionar f&aacute;cilmente con
+la aplicaci&oacute;n.</para>
+<para>Si desea que el icono de la aplicaci&oacute;n se etiquete con un nombre
+diferente del nombre de acci&oacute;n, incluya un campo <command>LABEL</command>
+en la definici&oacute;n de acci&oacute;n.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre c&oacute;mo crear acciones
+y tipos de datos, consulte el:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><!--Original XRef content: 'Chapter&numsp;8,
+&rdquo;Introduction to Actio--><!--ns and Data Types'--><xref role="ChapNumAndTitle"
+linkend="sag.intac.mkr.1"></para>
+</listitem>
+<listitem><para><!--Original XRef content: 'Chapter&numsp;9, &rdquo;Creating
+Actions and --><!--Data Types Using Create Action'--><xref role="ChapNumAndTitle"
+linkend="sag.dtcra.mkr.1"></para>
+</listitem>
+<listitem><para><!--Original XRef content: 'Chapter&numsp;10, &rdquo;Creating
+Actions Man--><!--ually'--><xref role="ChapNumAndTitle" linkend="sag.cract.mkr.1"></para>
+</listitem>
+<listitem><para><!--Original XRef content: 'Chapter&numsp;11, &rdquo;Creating
+Data Types --><!--Manually'--><xref role="ChapNumAndTitle" linkend="sag.crdt.mkr.1"></para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.19">
+<title id="sag.regap.mkr.21">Paso 5: Poner los archivos de ayuda en el paquete
+de registro<indexterm><primary>registro</primary><secondary>archivos de ayuda</secondary></indexterm><indexterm><primary>archivos de ayuda</primary><secondary>en paquete de registro</secondary></indexterm></title>
+<note>
+<para>Consulte un ejemplo de c&oacute;mo a&ntilde;adir archivos de ayuda al
+paquete de registro en el <!--Original XRef content: 'Step&numsp;5'--><xref
+role="Step" linkend="sag.regap.mkr.10"> de <!--Original XRef content: '&rdquo;Example
+of Creating a Registration Pac--><!--kage'--><xref role="SectionTitle" linkend="sag.regap.mkr.30">de
+la <!--Original XRef content: 'page&numsp;81'--><xref role="PageNum" linkend="sag.regap.mkr.35">.
+</para>
+</note>
+<para>Si la aplicaci&oacute;n incluye un volumen de ayudas de escritorio<indexterm>
+<primary>volumen de ayudas</primary><secondary>ubicaci&oacute;n en el paquete
+de registro</secondary></indexterm> (un volumen de ayudas creado con el Help
+Developer's Kit), el archivo maestro de vol&uacute;menes de ayuda ( <filename>*.sdl</filename>) deber&aacute; ponerse en el directorio <symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/help/</filename><symbol role="Variable">idioma</symbol>.</para>
+<para><indexterm><primary>ayuda</primary><secondary>Vea tambi&eacute;n volumen
+de ayudas, archivos de ayuda</secondary></indexterm>Los gr&aacute;ficos utilizados
+por los archivos de ayuda se ponen generalmente en un subdirectorio <filename>graphics</filename>. Los gr&aacute;ficos deben estar ubicados en el mismo
+directorio en relaci&oacute;n al archivo del volumen de ayudas maestro ( <filename>*.sdl</filename>) que cuando se cre&oacute; el volumen de ayudas.</para>
+<para>Si la aplicaci&oacute;n no proporciona ning&uacute;n volumen de ayudas,
+puede crear uno si tiene el<indexterm><primary>Help Developer's Kit</primary>
+</indexterm> Help Developer's Kit.</para>
+<para>Existen dos niveles de integraci&oacute;n de un<indexterm><primary>volumen de ayudas</primary><secondary>niveles de integraci&oacute;n</secondary>
+</indexterm> volumen de ayudas:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>ayuda</primary><secondary>integraci&oacute;n
+completa</secondary></indexterm>Integraci&oacute;n completa.</para>
+<para>Cuando la ayuda de escritorio est&aacute; integrada por completo, se
+puede acceder al volumen de ayudas desde la aplicaci&oacute;n (por ejemplo,
+mediante la ayuda sobre el elemento y el men&uacute; Ayuda). La integraci&oacute;n
+completa incluye la modificaci&oacute;n de los ejecutables de la aplicaci&oacute;n.
+</para>
+</listitem>
+<listitem><para><indexterm><primary>ayuda</primary><secondary>integraci&oacute;n
+parcial</secondary></indexterm>Integraci&oacute;n parcial.</para>
+<para>Cuando la ayuda de escritorio est&aacute; integrada parcialmente, &eacute;sta
+est&aacute; disponible desde el nivel superior del Gestor de ayudas. Sin embargo,
+no puede acceder al volumen de ayudas desde las ventanas de la aplicaci&oacute;n.
+Tambi&eacute;n puede proporcionar una acci&oacute;n para acceder a la ayuda
+desde el grupo de aplicaciones. El siguiente ejemplo de acci&oacute;n muestra
+el volumen de ayudas ubicado en el<indexterm><primary>volumen de ayudas</primary>
+<secondary>archivo de ayuda maestro</secondary></indexterm> archivo maestro
+de ayuda <filename>MiApl<indexterm><primary>.sdl, archivos[archivos sdl]</primary>
+</indexterm>.sdl</filename>:</para>
+<programlisting remap="CodeIndent1">ACTION OpenMyAppHelp
+{
+   LABEL        AyudaMiApl
+   ARG_COUNT    0
+   TYPE         COMMAND
+   WINDOW_TYPE  NO_STDIO
+   EXEC_STRING  /usr/dt/bin/dthelpview -helpVolume MyApp
+   DESCRIPTION  Muestra ayuda para la aplicaci&oacute;n MiApl.
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.regap.div.19a">
+<title id="SAG.regap.mkr.21a">Paso 6: C&oacute;mo colocar bibliotecas de informaci&oacute;n
+en el paquete de registro<indexterm><primary>registro</primary><secondary>bibliotecas de informaci&oacute;n</secondary></indexterm><indexterm><primary>bibliotecas de informaci&oacute;n</primary><secondary>en el paquete de registro</secondary></indexterm></title>
+<para>Si la aplicaci&oacute;n contiene documentaci&oacute;n en l&iacute;nea
+(creada mediante el Juego para el programador del sistema de informaci&oacute;n
+de escritorio), se deber&aacute; colocar la biblioteca de informaci&oacute;n
+(<filename>*.dti</filename>) que contiene la documentaci&oacute;n en el directorio:<indexterm>
+<primary>biblioteca de informaci&oacute;n</primary><secondary>ubicaci&oacute;n
+en el paquete de registro</secondary></indexterm></para>
+<programlisting><symbol role="Variable">ra&iacute;z_aplicaci&oacute;n</symbol><filename>/dt/infolib/</filename><symbol role="Variable">idioma</symbol></programlisting>
+<para>Los gr&aacute;ficos utilizados por archivos DocBook (<filename>*.sgm</filename>) generalmente se colocan en un subdirectorio de <command>graphics</command>. Los gr&aacute;ficos se deben encontrar en el mismo directorio
+relativo al archivo de la biblioteca de informaci&oacute;n (<filename>*.dti</filename>) que cuando se cre&oacute; dicha biblioteca.</para>
+<para>Si la aplicaci&oacute;n no cuenta con documentaci&oacute;n en l&iacute;nea,
+podr&aacute; crearla si cuenta con el Juego para el programador del sistema
+de informaci&oacute;n.<indexterm><primary>Juego para el programador del sistema
+de informaci&oacute;n</primary></indexterm></para>
+<para>Existen dos niveles de integraci&oacute;n para bibliotecas de informaci&oacute;n:<indexterm>
+<primary>biblioteca de informaci&oacute;n</primary><secondary>niveles de integraci&oacute;n</secondary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Integraci&oacute;n.<indexterm><primary>biblioteca de informaci&oacute;n</primary><secondary>integraci&oacute;n total</secondary></indexterm></para>
+<para>Si la biblioteca de informaci&oacute;n est&aacute; totalmente integrada,
+se puede obtener acceso a la misma desde la aplicaci&oacute;n mediante <literal>DtActionInvoke</literal> para poner en pantalla un tema espec&iacute;fico
+bajo el Gestor de Informaci&oacute;n. Es necesario modificar los archivos
+ejecutables de la aplicaci&oacute;n para efectuar la integraci&oacute;n total.
+</para>
+</listitem>
+<listitem><para>Integraci&oacute;n parcial.<indexterm><primary>biblioteca
+de informaci&oacute;n</primary><secondary>integraci&oacute;n parcial</secondary>
+</indexterm></para>
+<para>Cuando una biblioteca de informaci&oacute;n est&aacute; integrada de
+forma parcial, est&aacute; disponible desde el nivel m&aacute;s alto del Gestor
+de Informaci&oacute;n. Sin embargo, no se podr&aacute; obtener acceso a la
+biblioteca de informaci&oacute;n desde las ventanas de la aplicaci&oacute;n.
+Tambi&eacute;n podr&aacute; suministrar una funci&oacute;n para obtener acceso
+a la biblioteca de informaci&oacute;n desde el grupo de la aplicaci&oacute;n.
+El ejemplo de funci&oacute;n que se encuentra a continuaci&oacute;n pone en
+pantalla la biblioteca de informaci&oacute;n que se encuentra en <filename>MyApp.dti</filename>:</para>
+<programlisting>ACTION OpenMyAppInfolib
+{
+  LABEL           MyAppInfolib
+  ARG_TYPE        InfoLib
+  TYPE            MAP
+  MAP_ACTION      DtLoadInfoLib /usr/dt/infolib/C/MyAppInfolib.dti
+  DESCRIPTION     Invoca el Gestor de Informaci&oacute;n
+                  para mostrar la documentaci&oacute;n en
+                  l&iacute;nea de la aplicaci&oacute;n MyApp.
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="sag.regap.div.20">
+<title id="sag.regap.mkr.22">Paso 7: Crear iconos para la aplicaci&oacute;n<indexterm>
+<primary>registro</primary><secondary>requisitos de icono</secondary></indexterm><indexterm>
+<primary>iconos</primary><secondary>necesarios para el registro</secondary>
+</indexterm></title>
+<note>
+<para>Consulte un ejemplo de c&oacute;mo crear los archivos de iconos para
+una aplicaci&oacute;n en el <!--Original XRef content: 'Step&numsp;6'--><xref
+role="Step" linkend="sag.regap.mkr.11"> de la secci&oacute;n <!--Original
+XRef content: '&rdquo;Example of Creating a Registration Pac--><!--kage'--><xref
+role="SectionTitle" linkend="sag.regap.mkr.30"> de la <!--Original
+XRef content: 'page&numsp;82'--><xref role="PageNum" linkend="sag.regap.mkr.36">.
+</para>
+</note>
+<para>El escritorio proporciona iconos predeterminados para las acciones,
+tipos de datos y grupos de aplicaciones. Sin embargo, probablemente le interese
+crear iconos exclusivos para la aplicaci&oacute;n.</para>
+<para>Los iconos se colocan en el directorio <symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/icons/</filename><symbol role="Variable">idioma</symbol>.</para>
+<sect2 id="sag.regap.div.21">
+<title>Iconos necesarios para el escritorio</title>
+<para>La aplicaci&oacute;n utiliza estas im&aacute;genes de icono en el escritorio:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><emphasis role="Lead-in"><indexterm><primary>iconos</primary>
+<secondary>iniciar aplicaci&oacute;n</secondary></indexterm><indexterm><primary>icono de aplicaci&oacute;n</primary><secondary>necesario para el escritorio</secondary></indexterm><indexterm><primary>icono de acci&oacute;n</primary>
+<secondary>necesario para el escritorio</secondary></indexterm>Icono de acci&oacute;n</emphasis>. &Eacute;ste es el icono sobre el que el usuario efect&uacute;a
+una doble pulsaci&oacute;n para iniciar la aplicaci&oacute;n (acciones). Se
+hace referencia a &eacute;l en el campo <command>ICON</command> de la acci&oacute;n
+que ejecuta la aplicaci&oacute;n.</para>
+<para>Puede proporcionar tres tama&ntilde;os: diminuto, mediano y grande.
+</para>
+</listitem>
+<listitem><para><emphasis role="Lead-in"><indexterm><primary>iconos</primary>
+<secondary>tipo de datos</secondary></indexterm><indexterm><primary>tipos
+de datos</primary><secondary>iconos para</secondary></indexterm>Icono de tipo
+de datos</emphasis>. Este icono se utiliza para representar los archivos de
+datos de la aplicaci&oacute;n en el Gestor de archivos. Se hace referencia
+a &eacute;l en el campo<command>ICON</command> de la definici&oacute;n de
+tipo de datos.</para>
+<para>Si la aplicaci&oacute;n soporta varios tipos de datos, deber&aacute;
+proporcionar un icono diferente para cada tipo de datos.</para>
+<para>Puede proporcionar dos tama&ntilde;os: diminuto y mediano.</para>
+</listitem>
+<listitem><para><emphasis role="Lead-in"><indexterm><primary>iconos</primary>
+<secondary>grupos de aplicaciones</secondary></indexterm><indexterm><primary>grupos de aplicaciones</primary><secondary>iconos para</secondary></indexterm>Icono
+de grupo de aplicaciones</emphasis>. &Eacute;ste es el
+icono que representa el directorio en el nivel superior del Gestor de aplicaciones.
+Se hace referencia a &eacute;l en el campo <command>ICON</command> de la definici&oacute;n
+de tipo de datos para el grupo de aplicaciones. (Consulte la secci&oacute;n <!--Original
+XRef content: '&rdquo;Step
+7: Creating the
+Application Grou--><!--p&rdquo; on page&numsp;68'--><xref role="SecTitleAndPageNum"
+linkend="sag.regap.mkr.23">.)</para>
+<para>Puede proporcionar dos tama&ntilde;os: diminuto y mediano.</para>
+</listitem>
+</itemizedlist>
+<para>Es posible que tenga que proporcionar las versiones de mapa de pixels
+y de mapa de bits de cada icono para soportar pantallas de color (ocho bits
+y mayores) y monocromas (menos de ocho bits).</para>
+<table id="sag.regap.tbl.1" frame="topbot">
+<title>Convenios de denominaci&oacute;n para los archivos de iconos</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colwidth="0.92in">
+<colspec colwidth="1.43in">
+<colspec colwidth="2.04in">
+<colspec colwidth="1.60in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Tama&ntilde;o</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Dimensiones de pixel</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Nombre de mapa de bits</literal></para></entry><entry align="left" valign="bottom"><para><literal>Nombre de mapa de pixels</literal></para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>diminuto</para></entry>
+<entry align="left" valign="top"><para>16 por 16</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nombrebase</symbol><filename>.t.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nombrebase</symbol><filename>.t.pm</filename></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>mediano</para></entry>
+<entry align="left" valign="top"><para>32 por 32</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nombrebase</symbol><filename>.m.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nombrebase</symbol><filename>.m.pm</filename></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>grande</para></entry>
+<entry align="left" valign="top"><para>48 por 48</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nombrebase</symbol><filename>.l.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nombrebase</symbol><filename>.l.pm</filename></para></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>Si no proporciona archivos de mapas de bits, el escritorio establece
+una correspondencia en blanco y negro de las especificaciones de color de
+los archivos de mapas de pixels. Sin embargo, esta correspondencia puede no
+producir el aspecto deseado.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre iconos, consulte la
+secci&oacute;n <!--Original XRef content: '&rdquo;Icon Image Files&rdquo;
+on page&numsp--><!--;201'--><xref role="SecTitleAndPageNum" linkend="sag.cricn.mkr.3">.
+</para>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.22">
+<title id="sag.regap.mkr.23">Paso 8: Crear el grupo de aplicaciones<indexterm>
+<primary>registro</primary><secondary>grupo de aplicaciones</secondary></indexterm><indexterm>
+<primary>grupos de aplicaciones</primary><secondary>crear en paquete de registro</secondary></indexterm></title>
+<note>
+<para>Consulte un ejemplo de c&oacute;mo crear el grupo de aplicaciones en
+el <!--Original XRef content: 'Step&numsp;7'--><xref role="Step" linkend="sag.regap.mkr.12">
+de la secci&oacute;n <!--Original XRef content: '&rdquo;Example of Creating
+a Registration Pac--><!--kage'--><xref role="SectionTitle" linkend="sag.regap.mkr.30">
+de la <!--Original XRef content: 'page&numsp;82'--><xref role="PageNum" linkend="sag.regap.mkr.37">.
+</para>
+</note>
+<para>Una vez creadas las definiciones de acciones y de tipos de datos para
+la aplicaci&oacute;n, deber&aacute; crear los archivos de configuraci&oacute;n
+responsables de crear lo que realmente ve el usuario: el grupo de aplicaciones
+y su contenido.</para>
+<para><indexterm><primary>grupos de aplicaciones</primary><secondary>directorios
+para</secondary></indexterm>El grupo de aplicaciones es un directorio en el
+nivel superior del Gestor de aplicaciones (vea la <!--Original XRef
+content: 'Figure&numsp;4&hyphen;1 on page&numsp;55'--><xref role="CodeOrFigOrTabAndPNum"
+linkend="sag.regap.mkr.4">).</para>
+<para>La creaci&oacute;n del grupo de aplicaciones consta de tres pasos:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Crear el directorio del grupo de aplicaciones en el paquete
+de registro.</para>
+</listitem>
+<listitem><para>Opcional: configurar el grupo de aplicaciones para utilizar
+un icono exclusivo. Esto incluye la creaci&oacute;n de la definici&oacute;n
+de tipos de datos para el directorio del grupo de aplicaciones.</para>
+</listitem>
+<listitem><para>Crear el contenido del grupo de aplicaciones.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.regap.div.23">
+<title>Creaci&oacute;n del directorio del grupo de aplicaciones</title>
+<para>Para crear un grupo de aplicaciones, cree los directorios en el paquete
+de registro bajo <command>appmanager</command>, tal como se muestra en la
+<!--Original XRef content: 'Figure&numsp;4&hyphen;7'--><xref role="CodeOrFigureOrTable"
+linkend="sag.regap.mkr.24">.</para>
+<figure>
+<title id="sag.regap.mkr.24">El directorio <command>appmanager</command></title>
+<graphic id="sag.regap.grph.7" entityref="SAG.RegAp.fig.7"></graphic>
+</figure>
+</sect2>
+<sect2 id="sag.regap.div.24">
+<title>Nombre del grupo de aplicaciones<indexterm><primary>grupos de aplicaciones</primary><secondary>nombres</secondary></indexterm></title>
+<para>El &lt;nombre_grupoapl> de la <!--Original XRef content: 'Figure&numsp;4&hyphen;7'--><xref
+role="CodeOrFigureOrTable" linkend="sag.regap.mkr.24"> es el nombre del grupo
+de aplicaciones.</para>
+<figure>
+<title>El nombre del grupo de aplicaciones (&lt;nombre_grupoapl>)</title>
+<graphic id="sag.regap.grph.8" entityref="SAG.RegAp.fig.8"></graphic>
+</figure>
+<para>El nombre puede ser cualquier nombre de archivo (directorio) permitido.
+Utilice un nombre que describa la aplicaci&oacute;n.</para>
+</sect2>
+<sect2 id="sag.regap.div.25">
+<title id="sag.regap.mkr.25">Configuraci&oacute;n del grupo de aplicaciones
+para utilizar un icono exclusivo<indexterm><primary>iconos</primary><secondary>grupos de aplicaciones</secondary></indexterm><indexterm><primary>grupos de
+aplicaciones</primary><secondary>iconos para</secondary></indexterm></title>
+<para>El escritorio proporciona un icono predeterminado de grupo de aplicaciones.
+Sin embargo, tal vez le convenga proporcionar un icono personalizado.</para>
+<para>Si desea proporcionar un icono exclusivo para el grupo de aplicaciones,
+deber&aacute; crear:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Un tipo de datos para el directorio que aparece en el nivel
+superior del Gestor de aplicaciones.</para>
+</listitem>
+<listitem><para>Las acciones Abrir e Imprimir para el tipo de datos.</para>
+</listitem>
+</itemizedlist>
+<para>Por ejemplo, supongamos que desea crear un grupo de aplicaciones denominado
+Herramientas_Soporte. La siguiente definici&oacute;n de tipo de datos, colocada
+en un archivo <symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol><filename>/</filename><symbol role="Variable">nombre</symbol><filename>.dt</filename>, asigna un icono exclusivo
+al icono del grupo de aplicaciones.</para>
+<programlisting>DATA_ATTRIBUTES GrupoaplHerramientas_Soporte
+{
+   ACTIONS      OpenInPlace,OpenNewView
+   ICON         MediaTools
+   DESCRIPTION  Efectuar una doble pulsaci&oacute;n para abrir el grupo \
+                de aplicaciones Herramientas_Soporte
+}
+DATA_CRITERIA Herramientas_SoporteGrupoAplCriterio1
+{
+   DATA_ATTRIBUTES_NAME  Media_ToolsAppgroup
+   MODE                  d
+   PATH_PATTERN          */appmanager/*/Herramientas_Soporte
+}</programlisting>
+<para>La secci&oacute;n de atributos de la definici&oacute;n especifica el
+icono que se debe utilizar. La secci&oacute;n de criterios de la definici&oacute;n
+especifica que el tipo de datos se debe definir en cualquier directorio llamado
+<filename>Herramientas_Soporte</filename> que sea un subdirectorio de un
+directorio llamado <filename>appmanager</filename>.</para>
+<para>La <!--Original XRef content: 'Figure&numsp;4&hyphen;9'--><xref role="CodeOrFigureOrTable"
+linkend="sag.regap.mkr.26"> muestra la relaci&oacute;n entre el nombre del
+grupo de aplicaciones y la definici&oacute;n del tipo de datos. El campo <command>PATH_PATTERN</command> de la definici&oacute;n de tipo de datos asocia un
+icono exclusivo con el grupo de aplicaciones.</para>
+<figure>
+<title id="sag.regap.mkr.26">C&oacute;mo obtiene un icono exclusivo un grupo
+de aplicaciones</title>
+<graphic id="sag.regap.grph.9" entityref="SAG.RegAp.fig.9"></graphic>
+</figure>
+<para>Tambi&eacute;n deber&aacute; crear una acci&oacute;n Abrir e Imprimir
+para el<indexterm><primary>grupos de aplicaciones</primary><secondary>acci&oacute;n
+para</secondary></indexterm><indexterm><primary>grupos de aplicaciones</primary>
+<secondary>tipos de datos para</secondary></indexterm> tipo de datos del grupo
+de aplicaciones:</para>
+<programlisting>ACTION Open
+{
+   ARG_TYPE   Media_ToolsAppGroup
+   TYPE       MAP
+   MAP_ACTION OpenAppGroup
+}
+
+ACTION Print
+{
+   ARG_TYPE   Media_ToolsAppGroup
+   TYPE       MAP
+   MAP_ACTION PrintAppGroup
+}</programlisting>
+<para>Las acciones AbrirGrupoApl e ImprimirGrupoApl son acciones incorporadas
+definidas en <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol><filename>/dtappman.dt</filename>.</para>
+</sect2>
+<sect2 id="sag.regap.div.26">
+<title>Creaci&oacute;n del contenido del grupo de aplicaciones<indexterm>
+<primary>grupos de aplicaciones</primary><secondary>contenido</secondary>
+</indexterm><indexterm><primary>paquete de registro</primary><secondary>contenido
+del grupo de aplicaciones</secondary></indexterm></title>
+<para>El elemento m&aacute;s importante del grupo de aplicaciones es un icono
+para iniciar la aplicaci&oacute;n (un icono de acci&oacute;n). Si el grupo
+de aplicaciones contiene una serie de aplicaciones, existe normalmente un
+icono para cada aplicaci&oacute;n.</para>
+<para>Adem&aacute;s de uno o m&aacute;s iconos de acci&oacute;n, el grupo
+de aplicaciones puede contener:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Uno o m&aacute;s archivos README</para>
+</listitem>
+<listitem><para>Uno o m&aacute;s archivos de datos de ejemplo</para>
+</listitem>
+<listitem><para>Plantillas</para>
+</listitem>
+<listitem><para>Un icono sobre el que el usuario puede efectuar una doble
+pulsaci&oacute;n para ver informaci&oacute;n de ayuda</para>
+</listitem>
+<listitem><para>Una p&aacute;gina de manual</para>
+</listitem>
+<listitem><para>Un control de Panel Frontal especializado</para>
+</listitem>
+</itemizedlist>
+<para>El grupo de aplicaciones puede contener subdirectorios.</para>
+<sect3 id="sag.regap.div.27">
+<title>Creaci&oacute;n del archivo de acci&oacute;n (Icono de aplicaci&oacute;n)<indexterm>
+<primary>iconos</primary><secondary>que representan aplicaciones</secondary>
+</indexterm><indexterm><primary>paquete de registro</primary><secondary>icono
+de aplicaci&oacute;n</secondary></indexterm><indexterm><primary>registro</primary>
+<secondary>Vea tambi&eacute;n paquete de registro</secondary></indexterm><indexterm>
+<primary>paquete de registro</primary><secondary>Vea tambi&eacute;n registro</secondary></indexterm></title>
+<para>El grupo de aplicaciones debe contener un icono que ejecuta la aplicaci&oacute;n.
+Si el grupo proporciona una serie de aplicaciones, debe existir un icono
+para cada una. Estos iconos se denominan <symbol role="Variable">iconos de
+aplicaci&oacute;n</symbol>, o <symbol role="Variable">iconos de acci&oacute;n</symbol>, puesto que representan una acci&oacute;n subyacente.</para>
+<para>Un icono de acci&oacute;n se forma creando un archivo ejecutable con
+el mismo nombre que la acci&oacute;n que ejecutar&aacute;:</para>
+<programlisting>apl_ra&iacute;z/dt/appconfig/appmanager/nombre_grupoapl/nombre_acci&oacute;n
+</programlisting>
+<para>El archivo se denomina<indexterm><primary>archivo de acci&oacute;n</primary>
+<secondary>crear</secondary></indexterm><symbol role="Variable">archivo de
+acci&oacute;n</symbol>, porque su finalidad es crear una representaci&oacute;n
+visual de la acci&oacute;n subyacente.</para>
+<para>Por ejemplo, si ha creado una acci&oacute;n llamada MejorEditorTextos
+que ejecuta la aplicaci&oacute;n MejorEditorTextos, deber&aacute; crear un
+archivo ejecutable llamado MejorEditorTextos. En el Gestor de archivos y el
+Gestor de aplicaciones, el archivo de acci&oacute;n utilizar&aacute; la imagen
+de icono especificada en la definici&oacute;n de acci&oacute;n.</para>
+<para>La <!--Original XRef content: 'Figure&numsp;4&hyphen;10'--><xref role="CodeOrFigureOrTable"
+linkend="sag.regap.mkr.27"> ilustra la relaci&oacute;n entre la definici&oacute;n
+de acci&oacute;n, el archivo de acci&oacute;n y la entrada real en la ventana
+del Gestor de aplicaciones.</para>
+<figure>
+<title id="sag.regap.mkr.27">El icono de aplicaci&oacute;n es un archivo del
+grupo de aplicaciones</title>
+<graphic id="sag.regap.grph.10" entityref="SAG.RegAp.fig.10"></graphic>
+</figure>
+</sect3>
+<sect3 id="sag.regap.div.28">
+<title>Archivos Read Me<indexterm><primary>&lt;</primary></indexterm><indexterm>
+<primary>paquete de aplicaciones, Vea paquete de registro</primary></indexterm><indexterm>
+<primary>readme, archivos</primary></indexterm><indexterm><primary>paquete
+de registro</primary><secondary>archivos readme</secondary></indexterm><indexterm>
+<primary>grupos de aplicaciones</primary><secondary>archivos readme</secondary>
+</indexterm></title>
+<para>El escritorio proporciona un tipo de datos README que se puede utilizar
+para los archivos README de la aplicaci&oacute;n. Utilice uno de estos convenios
+de denominaci&oacute;n:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>README</filename></para>
+</listitem>
+<listitem><para><filename>readme</filename></para>
+</listitem>
+<listitem><para><filename>README.*</filename></para>
+</listitem>
+<listitem><para><filename>Read.*.Me</filename></para>
+</listitem>
+<listitem><para><filename>read.*.me</filename></para>
+</listitem>
+<listitem><para><filename>READ.*.ME</filename></para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="sag.regap.div.29">
+<title>Creaci&oacute;n de un control de Panel Frontal especializado<indexterm>
+<primary>Panel Frontal</primary><secondary>control en paquete de registro</secondary></indexterm><indexterm><primary>paquete de registro</primary>
+<secondary>control de Panel Frontal</secondary></indexterm></title>
+<para>En la mayor&iacute;a de los casos no es necesario proporcionar una definici&oacute;n
+de control de Panel Frontal; el usuario puede a&ntilde;adir la aplicaci&oacute;n
+al Panel Frontal soltando el icono de acci&oacute;n en el control Instalar
+icono de un subpanel.</para>
+<para>Es aconsejable que cree un archivo de configuraci&oacute;n del Panel
+Frontal que contenga una definici&oacute;n de control para la aplicaci&oacute;n
+si quiere que los usuarios puedan instalar un control que se comporte de forma
+diferente del icono de acci&oacute;n (por ejemplo, si el control supervisa
+un archivo y cambia de aspecto cuando cambia el archivo supervisado).</para>
+<para>Los archivos de configuraci&oacute;n del Panel Frontal se colocan en
+el directorio <symbol role="Variable">apl_ra&iacute;z</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol>. El convenio de denominaci&oacute;n
+es <symbol role="Variable">nombre</symbol><filename>.fp</filename>.</para>
+<para>Si se proporciona un archivo de configuraci&oacute;n que contiene un
+control, el usuario puede a&ntilde;adir el control a un subpanel soltando
+el archivo <filename>*.fp</filename> en el control Instalar icono del subpanel.
+</para>
+<para>Por ejemplo, la siguiente definici&oacute;n puede ponerse en un archivo
+de configuraci&oacute;n del Panel Frontal del grupo de aplicaciones. Si el
+usuario suelta este archivo en un control Instalar Icono de un subpanel, se
+crea un control en el subpanel que ejecuta un caso de la aplicaci&oacute;n
+MejorEditorTextos. Si MejorEditorTextos ya se est&aacute; ejecutando, la ventana
+se mueve hasta la parte superior de la pila de ventanas del espacio de trabajo
+actual.</para>
+<programlisting>CONTROL ControlMejorEditorTextos
+{
+   TYPE        icon
+   ICON        BTEFPanel
+   PUSH_RECALL True
+   CLIENT_NAME BTEd
+   PUSH_ACTION BTEditor
+   DROP_ACTION BTEditor
+   HELP_STRING Inicia la aplicaci&oacute;n MejorEditorTextos.
+}</programlisting>
+<para>Para obtener informaci&oacute;n adicional sobre c&oacute;mo crear archivos
+de configuraci&oacute;n del Panel Frontal, consulte:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>El <!--Original XRef content:
+'Chapter&numsp;13, &rdquo;Advanced Front Panel--><!-- Customization'--><xref
+role="ChapNumAndTitle" linkend="sag.frpc.mkr.1"></para>
+</listitem>
+<listitem><para>La p&aacute;gina de manual <filename moreinfo="refentry">dtfpfile(4)</filename></para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.30">
+<title id="sag.regap.mkr.28">Paso 9: Registrar la aplicaci&oacute;n utilizando
+d<indexterm><primary>dtappintegrate</primary></indexterm><indexterm><primary>registro</primary><secondary>dtappintegrate</secondary></indexterm>tappintegrate</title>
+<note>
+<para>Consulte un ejemplo de registro de aplicaci&oacute;n en el <!--Original
+XRef content: 'Step&numsp;8'--><xref role="Step" linkend="sag.regap.mkr.13">
+de la secci&oacute;n <!--Original XRef content: '&rdquo;Example of Creating
+a Registration Pa--><!--ckage'--><xref role="SectionTitle" linkend="sag.regap.mkr.30">
+de la <!--Original XRef content: 'page&numsp;83'--><xref role="PageNum" linkend="sag.regap.mkr.38">.
+</para>
+</note>
+<para>Una vez que haya creado un paquete de registro bajo una aplicaci&oacute;n
+ra&iacute;z, estar&aacute; listo para realizar el registro real de la aplicaci&oacute;n.
+</para>
+<para>El registro de aplicaciones crea enlaces entre el paquete de registro
+y los directorios ubicados en las rutas de b&uacute;squeda del escritorio
+(consulte la secci&oacute;n <!--Original XRef content: '&rdquo;How dtappintegrate
+
+Integrates Applica--><!--tions&rdquo; on page&numsp;76'--><xref role="SecTitleAndPageNum"
+linkend="sag.regap.mkr.29">).</para>
+<sect2 id="sag.regap.div.31" role="Procedure">
+<title>Registrar una aplicaci&oacute;n con dtappintegrate</title>
+<para>Si la aplicaci&oacute;n est&aacute; preparada para el escritorio, normalmente <command>dtappintegrate</command> se ejecuta autom&aacute;ticamente como paso final
+del proceso de instalaci&oacute;n. Si no se ejecuta autom&aacute;ticamente,
+o si los archivos de configuraci&oacute;n se han creado para integrar una
+aplicaci&oacute;n no preparada para el escritorio, se puede ejecutar <command>dtappintegrate</command> manualmente.</para>
+<orderedlist>
+<listitem><para>Inicie la sesi&oacute;n como root.</para>
+</listitem>
+<listitem><para>Ejecute el mandato:</para>
+<para remap="CodeIndent1"><command>/usr/dt/bin/dtappintegrate -s <symbol role="Variable">apl_ra&iacute;z</symbol></command></para>
+<para>donde <symbol role="Variable">apl_ra&iacute;z</symbol> es el directorio
+ra&iacute;z de la aplicaci&oacute;n de escritorio. Para obtener m&aacute;s
+informaci&oacute;n, consulte la p&aacute;gina de manual <filename moreinfo="refentry">dtappintegrate(1)</filename>.</para>
+</listitem>
+<listitem><para>Abra el grupo de aplicaciones Herramientas_Escritorio y efect&uacute;e
+una doble pulsaci&oacute;n sobre Recargar aplicaciones.</para>
+</listitem>
+<listitem><para>Verifique si la aplicaci&oacute;n se ha registrado correctamente:
+</para>
+<orderedlist>
+<listitem><para>Muestre el nivel superior del Gestor de aplicaciones. El
+nuevo grupo de aplicaciones deber&aacute; aparecer en el Gestor de aplicaciones.
+</para>
+</listitem>
+<listitem><para>Abra el grupo de aplicaciones y efect&uacute;e una doble pulsaci&oacute;n
+sobre el icono de acci&oacute;n.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</orderedlist>
+<sect3 id="sag.regap.div.32">
+<title>Sintaxis y opciones para<indexterm><primary>dtappintegrate</primary>
+<secondary>sintaxis</secondary></indexterm> dtappintegrate</title>
+<para><command>dtappintegrate -s <symbol role="Variable">apl_ra&iacute;z</symbol>[-t <symbol role="Variable">ruta_destino</symbol> ] [-l <symbol role="Variable">idioma</symbol> ] [-u]</command></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="160*">
+<colspec colwidth="368*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>-s</command> <symbol role="Variable">apl_ra&iacute;z</symbol></para></entry>
+<entry align="left" valign="top"><para>Par&aacute;metro necesario. Especifica
+la ra&iacute;z de aplicaci&oacute;n bajo la que se ha instalado la aplicaci&oacute;n.
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>-t</command> <symbol role="Variable">ruta_destino</symbol></para></entry>
+<entry align="left" valign="top"><para>Par&aacute;metro opcional, toma como
+valor predeterminado la ubicaci&oacute;n del sistema <command>/etc/dt/appconfig</command>. Especifica la ubicaci&oacute;n a la que se enlazan los archivos
+de configuraci&oacute;n de escritorio. Se deber&aacute; utilizar una ubicaci&oacute;n
+de la ruta de b&uacute;squeda de la aplicaci&oacute;n.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>-l</command> <symbol role="Variable">idioma</symbol></para></entry>
+<entry align="left" valign="top"><para>Par&aacute;metro opcional, toma como
+valor predeterminado todos los idiomas. Especifica qu&eacute; archivos de
+configuraci&oacute;n de escritorio dependientes del idioma se deben integrar.
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>-u</command></para></entry>
+<entry align="left" valign="top"><para>Par&aacute;metro opcional. Deshace
+la integraci&oacute;n de la aplicaci&oacute;n, eliminando todos los enlaces
+definidos durante la integraci&oacute;n.</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</sect3>
+</sect2>
+<sect2 id="sag.regap.div.33">
+<title id="sag.regap.mkr.29">C&oacute;mo integrar aplicaciones dtappintegrate<indexterm>
+<primary>enlaces simb&oacute;lico</primary><secondary>creados durante el registro</secondary></indexterm><indexterm><primary>dtappintegrate</primary><secondary>funci&oacute;n</secondary></indexterm></title>
+<para>La funci&oacute;n de <command>dtappintegrate</command> es definir enlaces
+entre los archivos instalados y las ubicaciones en las que el escritorio busca
+archivos de configuraci&oacute;n.</para>
+<sect3 id="sag.regap.div.34">
+<title>Acciones y tipos de datos<indexterm><primary>acciones</primary><secondary>integradas con dtappintegrate</secondary></indexterm><indexterm><primary>tipos de datos</primary><secondary>integrados con dtappintegrate</secondary>
+</indexterm></title>
+<para><command>dtappintegrate</command> crea enlaces simb&oacute;licos desde
+los archivos de definiciones de acciones y de tipos de datos del paquete de
+registro al directorio accesible en el sistema a lo largo de la ruta de b&uacute;squeda
+de ayuda de la base de datos de acciones. Esto se realiza creando enlaces
+desde</para>
+<para><filename><symbol role="Variable">apl_ra&iacute;z</symbol>/dt/appconfig/types/<symbol role="Variable">idioma</symbol>/*.dt</filename></para>
+<para>a</para>
+<para><filename>/etc/dt/appconfig/types/<symbol role="Variable">idioma</symbol><filename>/*</filename>.dt</filename></para>
+</sect3>
+<sect3 id="SAG.regap.div.34a">
+<title>Bibliotecas de informaci&oacute;n<indexterm><primary>bibliotecas de
+informaci&oacute;n</primary><secondary>integradas mediante dtappintegrate</secondary></indexterm></title>
+<para><command>dtappintegrate</command> crea enlaces simb&oacute;licos mediante
+bibliotecas de informaci&oacute;n del paquete de registro hacia el directorio
+de todo el sistema a lo largo de la ruta de b&uacute;squeda. Esta operaci&oacute;n
+se realiza creando enlaces de</para>
+<programlisting><symbol role="Variable">ra&iacute;z_aplicaci&oacute;n</symbol>/dt/infolib/<symbol role="Variable">idioma</symbol>/*.dti</programlisting>
+<para>a</para>
+<programlisting>/etc/dt/infolib/<symbol role="Variable">idioma</symbol>/*.dti
+</programlisting>
+</sect3>
+<sect3 id="sag.regap.div.35">
+<title>Archivos de informaci&oacute;n de ayuda<indexterm><primary>archivos
+de ayuda</primary><secondary>integrados con dtappintegrate<?Pub Caret></secondary>
+</indexterm></title>
+<para><command>dtappintegrate</command> crea enlaces simb&oacute;licos desde
+los archivos de ayuda del paquete de registro al directorio accesible en el
+sistema a lo largo de la ruta de b&uacute;squeda de ayuda. Esto se realiza
+creando enlaces desde</para>
+<para><filename><symbol role="Variable">apl_ra&iacute;z</symbol>/dt/appconfig/help/<symbol role="Variable">idioma</symbol>/<symbol role="Variable">archivo_ayuda.</symbol>sdl</filename></para>
+<para>a</para>
+<para><filename>/etc/dt/appconfig/help/<symbol role="Variable">idioma</symbol>/<symbol role="Variable">archivo_ayuda.</symbol>sdl</filename></para>
+</sect3>
+<sect3 id="sag.regap.div.36">
+<title>Archivos de iconos<indexterm><primary>iconos</primary><secondary>integrados
+con dtappintegrate</secondary></indexterm></title>
+<para><command>dtappintegrate</command> crea enlaces simb&oacute;licos desde
+los archivos de iconos del paquete de registro al directorio accesible en
+el sistema a lo largo de la ruta de b&uacute;squeda de iconos. Esto se realiza
+creando enlaces desde</para>
+<para><filename><symbol role="Variable">apl_ra&iacute;z</symbol>/dt/appconfig/icons/<symbol role="Variable">idioma</symbol>/<symbol role="Variable">archivos_iconos</symbol></filename></para>
+<para>a</para>
+<para><filename>/etc/dt/appconfig/icons/<symbol role="Variable">idioma</symbol>/<symbol role="Variable">archivos_iconos</symbol></filename></para>
+</sect3>
+<sect3 id="sag.regap.div.37">
+<title>Grupo de aplicaciones<indexterm><primary>grupos de aplicaciones</primary>
+<secondary>integrados con dtappintegrate</secondary></indexterm></title>
+<para>Para poner el grupo de aplicaciones para la aplicaci&oacute;n en el
+nivel superior del Gestor de aplicaciones, <command>dtappintegrate</command>
+crea un enlace entre el directorio del grupo de aplicaciones del paquete de
+registro y la ubicaci&oacute;n accesible en el sistema a lo largo de la ruta
+de b&uacute;squeda de aplicaciones. Esto se realiza creando enlaces desde
+el directorio</para>
+<para><filename><symbol role="Variable">apl_ra&iacute;z</symbol>/dt/appconfig/appmanager/<symbol role="Variable">idioma</symbol>/<symbol role="Variable">nombre_grupoapl</symbol></filename></para>
+<para>a</para>
+<para><filename>/etc/dt/appconfig/appmanager/<symbol role="Variable">idioma</symbol>/<symbol role="Variable">nombre_grupoapl</symbol></filename></para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.38">
+<title id="sag.regap.mkr.30">Ejemplo de creaci&oacute;n de un paquete de registro<indexterm>
+<primary>registro</primary><secondary>ejemplo</secondary></indexterm><indexterm>
+<primary>registro</primary><secondary>ejemplo de creaci&oacute;n</secondary>
+</indexterm></title>
+<para>Los siguientes pasos crean un paquete de registro para una aplicaci&oacute;n
+existente no preparada para el escritorio denominada MejorEditorTextos.</para>
+<sect2 id="sag.regap.div.39">
+<title>Informaci&oacute;n sobre ''MejorEditorTextos'' que necesita conocer</title>
+<para>En el ejemplo se dan por supuestos los siguientes hechos sobre la aplicaci&oacute;n
+MejorEditorTextos:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Se ha instalado en el directorio <filename>/usr/BTE</filename>.
+</para>
+</listitem>
+<listitem><para>El idioma de sesi&oacute;n del usuario es el valor predeterminado,
+C.</para>
+</listitem>
+<listitem><para>La l&iacute;nea de mandatos para iniciar MejorEditorTextos
+es:</para>
+<para remap="CodeIndent1"><command>BTEd [<symbol role="Variable">nombre de
+archivo</symbol>]</command></para>
+<para>donde <symbol role="Variable">nombre de archivo</symbol> es el nombre
+del archivo de datos que se debe abrir en la nueva ventana. MejorEditorTextos
+crea su propia ventana (es decir, no se ejecuta en una ventana de emulador
+de terminal).</para>
+</listitem>
+<listitem><para>MejorEditorTextos crea y utiliza dos tipos de archivos de
+datos:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Archivos de documentaci&oacute;n. &Eacute;stos utilizan el
+convenio de denominaci&oacute;n <filename>*.bte</filename>. MejorEditorTextos
+proporciona una l&iacute;nea de mandatos para imprimir los archivos de datos <filename>.bte</filename>. La sintaxis de este mandato es:</para>
+<para remap="CodeIndent2"><command>BTEPrint [-d <symbol role="Variable">destino</symbol>] [-s] <symbol role="Variable">nombre de archivo</symbol></command></para>
+<para>donde:</para>
+</listitem>
+<listitem>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="159*">
+<colspec colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><command>-d</command> <symbol>destino</symbol></entry>
+<entry align="left" valign="top">Especifica la impresora de destino.</entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>-s</command></para></entry>
+<entry align="left" valign="top"><para>Especifica impresi&oacute;n silenciosa.
+No se muestra el cuadro de di&aacute;logo de impresi&oacute;n de la aplicaci&oacute;n.
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">nombre de archivo</symbol></para></entry>
+<entry align="left" valign="top"><para>Especifica el archivo que se debe imprimir.
+</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</listitem>
+</itemizedlist>
+<itemizedlist remap="Bullet2">
+<listitem><para>Archivos de plantillas. &Eacute;stos utilizan el convenio
+de denominaci&oacute;n <filename>*.tpl</filename>. Los archivos de plantillas
+no se pueden imprimir.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Los archivos de app-defaults que no son de escritorio para
+MejorEditorTextos contienen recursos para fonts de interfaz y colores de fondo
+y primer plano.</para>
+</listitem>
+<listitem><para>Se ha creado un volumen de ayudas en l&iacute;nea para MejorEditorTextos
+utilizando el Help Developer's Kit del escritorio. Al crear el volumen de
+ayudas en l&iacute;nea, se han utilizado los siguientes archivos fuente:</para>
+<programlisting remap="CodeIndent1">&hellip;/BTEHelp.htg
+ &hellip;/graphics/BTE1.xwd
+ &hellip;/graphics/BTE2.xwd</programlisting>
+<para>y se ha generado el archivo <filename>&hellip;/BTEHelp.sdl</filename>.
+</para>
+</listitem>
+</itemizedlist>
+<sect3 id="sag.regap.div.40">
+<title>Pasos para registrar ''MejorEditorTextos''</title>
+<para>El siguiente procedimiento escalonado registra MejorEditorTextos.</para>
+<orderedlist>
+<listitem><para><emphasis id="sag.regap.mkr.31" role="Lead-in">Modificar los
+recursos de font y de colores.</emphasis></para>
+<para>En el archivo app-defaults de MejorEditorTextos, elimine los recursos
+que establecen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Fonts para texto.</para>
+</listitem>
+<listitem><para>Colores para primer plano y fondo.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.32" role="Lead-in">Crear la ra&iacute;z
+de la aplicaci&oacute;n.</emphasis></para>
+<para>Cree el directorio:</para>
+<para remap="CodeIndent1"><filename>/desktop_approots/BTE</filename></para>
+<para>Si est&aacute; integrando una aplicaci&oacute;n existente, deber&aacute;
+crear el directorio ra&iacute;z de la aplicaci&oacute;n en alg&uacute;n otro
+lugar que no sea la ubicaci&oacute;n de instalaci&oacute;n de la aplicaci&oacute;n;
+de lo contrario es posible que al actualizar la aplicaci&oacute;n se eliminen
+los archivos de configuraci&oacute;n creados.</para>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.33" role="Lead-in">Cree los directorios
+del paquete de registro</emphasis>.</para>
+<para>Cree estos directorios:</para>
+<programlisting remap="CodeIndent1">/desktop_approots/BTE/dt/appconfig/types/C
+/desktop_approots/BTE/dt/appconfig/help/C
+/desktop_approots/BTE/dt/appconfig/icons/C
+/desktop_approots/BTE/dt/appconfig/appmanager/C/MejorEditorTextos</programlisting>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.34" role="Lead-in">Cree las acciones
+y los tipos de datos para la aplicaci&oacute;n.</emphasis></para>
+<orderedlist>
+<listitem><para>Cree el archivo de configuraci&oacute;n para las definiciones
+de acciones y de tipos de datos:</para>
+<para remap="CodeIndent2"><filename>/desktop_approots/BTE/dt/appconfig/types/C/BTE.dt</filename></para>
+</listitem>
+<listitem><para>Cree la definici&oacute;n de acci&oacute;n para ejecutar MejorEditorTextos:
+</para>
+<programlisting remap="CodeIndent2">ACTION BTEditor
+{
+   WINDOW_TYPE NO_STDIO
+   ICON        BTERun
+   DESCRIPTION Efect&uacute;e una doble pulsaci&oacute;n sobre este icono \
+               o suelte un archivo de datos BTE \sobre &eacute;l para \
+               ejecutar MejorEditorTextos.
+   EXEC_STRING /usr/BTE/BTEd %Arg_1%
+}</programlisting>
+</listitem>
+<listitem><para>Cree el tipo de datos para los archivos <filename>*.bte</filename>:
+</para>
+<programlisting remap="CodeIndent2">DATA_ATTRIBUTES ArchivoDatosBTE
+{
+   DESCRIPTION Archivo de datos de MejorEditorTextos.
+   ICON        BTEDatos
+   ACTIONS     Open,Print
+}
+
+DATA_CRITERIA BTEDataFileCriteria1
+{
+   DATA_ATTRIBUTES_NAME  BTEDataFile
+   NAME_PATTERN          *.bte
+   MODE                  f
+}</programlisting>
+</listitem>
+<listitem><para>Cree el tipo de datos para los archivos <filename>*.tpl</filename>:
+</para>
+<programlisting>DATA_ATTRIBUTES ArchivoPlantillasBTE
+{
+   DESCRIPTION Archivo de plantillas de MejorEditorTextos.
+   ICON        BTETempl
+   ACTIONS     Open
+}
+DATA_CRITERIAL BTETemplateFileCriteria1
+{
+   DATA_ATTRIBUTES_NAME BTETemplateFile
+   NAME_PATTERN         *.tpl
+   MODE                 f
+}</programlisting>
+</listitem>
+<listitem><para>Cree la acci&oacute;n Abrir para los archivos <filename>*.bte</filename>.</para>
+<programlisting remap="CodeIndent2">ACTION Open
+{
+   RG_TYPE    BTEDataFile
+   TYPE       MAP
+   MAP_ACTION BTEditor
+}</programlisting>
+</listitem>
+<listitem><para>Cree la acci&oacute;n Imprimir para los archivos <filename>*.bte</filename>.</para>
+<para>He aqu&iacute; unas acciones Imprimir sencillas que imprimir&aacute;n
+los archivos de datos. Estas acciones necesitan un valor para la variable
+de entorno <systemitem>LPDEST</systemitem> e ignoran la opci&oacute;n de impresi&oacute;n <command>-s</command>. (Si no se establece <systemitem>LPDEST</systemitem>, es posible
+que la acci&oacute;n falle).</para>
+<programlisting remap="CodeIndent2">ACTION Print
+{
+   ARG_TYPE   BTEDataFile
+   TYPE       MAP
+   MAP_ACTION BTEPrintData
+}
+ACTION BTEPrintData
+{
+   WINDOW_TYPE  NO_STDIO
+   EXEC_STRING  BTEPrint -d $LPDEST %Arg_1%
+}</programlisting>
+<para>He aqu&iacute; otra versi&oacute;n de la acci&oacute;n BTEPrintData
+y un script que la acompa&ntilde;a. Juntos manejan situaciones en las que
+no se ha establecido<systemitem>LPDEST</systemitem> o si se ha solicitado
+impresi&oacute;n silenciosa.</para>
+<programlisting remap="CodeIndent2">ACTION BTEPrintData
+{
+   WINDOW_TYPE  NO_STDIO
+   EXEC_STRING  /usr/BTE/bin/BTEenvprint %(File)Arg_1%
+}</programlisting>
+<para>El contenido del script <filename>/usr/BTE/bin/BTEenvprint</filename>
+es:</para>
+<programlisting remap="CodeIndent2"># BTEenvprint
+#!/bin/sh
+DEST=""
+SILENT=""
+if [ $LPDEST ]; then
+  DEST="-d $LPDEST"
+fi
+BTEPrint $DEST $SILENT $1</programlisting>
+</listitem>
+<listitem><para>Cree la acci&oacute;n Abrir para los archivos <filename>*.tpl</filename>:</para>
+<programlisting>ACTION Open
+{
+   ARG_TYPE   BTETemplateFile
+   TYPE       MAP 
+   MAP_ACTION BTEditor
+}</programlisting>
+</listitem>
+<listitem><para>Cree la acci&oacute;n Imprimir para los archivos <filename>*.tpl</filename>:</para>
+<programlisting remap="CodeIndent2">ACTION Print
+{
+   ARG_TYPES  BTETemplateFile
+   TYPE       MAP
+   MAP_ACTION NoPrint
+}</programlisting>
+<para>NoPrint es una acci&oacute;n incorporada que muestra un cuadro de di&aacute;logo
+que indica al usuario que no se puede imprimir el archivo.</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.35" role="Lead-in">Poner los archivos
+de ayuda en el paquete de registro</emphasis>.</para>
+<orderedlist>
+<listitem><para>Ponga los archivos de ayuda en las siguientes ubicaciones:
+</para>
+<programlisting remap="CodeIndent2">/desktop_approots/BTE/dt/appconfig/help/C/BTEHelp.sdl
+/desktop_approots/BTE/dt/appconfig/help/C/graphics/BTE1.xwd
+/desktop_approots/BTE/dt/appconfig/help/C/graphics/BTE2.xwd</programlisting>
+</listitem>
+<listitem><para>Cree el archivo:</para>
+<para remap="CodeIndent2"><filename>/desktop_approots/BTE/dt/appconfig/types/C/BTEhelp.dt</filename>.</para>
+<para>Ponga la siguiente definici&oacute;n de acci&oacute;n en el archivo:
+</para>
+<programlisting remap="CodeIndent2">ACTION BTEHelp
+{
+   WINDOW_TYPE  NO_STDIO
+   EXEC_STRING  /usr/dt/bin/dthelpview -helpVolume\BTEHelp.sdl
+   DESCRIPTION  Abre el volumen de ayudas de MejorEditorTextos.
+}</programlisting>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.36" role="Lead-in">Crear iconos
+para la aplicaci&oacute;n.</emphasis></para>
+<para>Para crear los iconos utilice el Editor de iconos. Utilice estas directrices
+de tama&ntilde;o:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="210*">
+<colspec colwidth="318*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Nombre</para></entry><entry
+align="left" valign="bottom"><para>Tama&ntilde;o</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">nombrebase</symbol><filename>.t.pm</filename></para></entry>
+<entry align="left" valign="top"><para>16 por 16</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">nombrebase</symbol><filename>.m.pm</filename></para></entry>
+<entry align="left" valign="top"><para>32 por 32</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">nombrebase</symbol><filename>.l.pm</filename></para></entry>
+<entry align="left" valign="top"><para>64 por 64</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>Cree estos archivos de iconos en el directorio <filename>/desktop_approots/BTE/dt/appconfig/icons/C</filename>:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Iconos que deben representar la acci&oacute;n que ejecuta
+la aplicaci&oacute;n: <filename>BTERun.t.pm</filename>, <filename>BTERun.m.pm</filename>, <filename>BTERun.l.pm</filename></para>
+</listitem>
+<listitem><para>Iconos que deben representar los archivos <filename>*.bte</filename>: <filename>BTEData.t.pm</filename>, <filename>BTEData.m.pm</filename>,
+</para>
+</listitem>
+<listitem><para>Iconos que deben representar los archivos <filename>*.tpl</filename>: <filename>BTETempl.t.pm</filename>, <filename>BTETempl.m.pm</filename></para>
+</listitem>
+<listitem><para>Iconos que deben representar el grupo de aplicaciones (utilizado
+en el paso 7): <filename>BTEApp.t.pm</filename>, <filename>BTEApp.m.pm</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.37" role="Lead-in">Crear el grupo
+de aplicaciones</emphasis>.<indexterm><primary>grupo de aplicaciones</primary>
+<secondary>ejemplo de creaci&oacute;n</secondary></indexterm></para>
+<orderedlist>
+<listitem><para>Cree el directorio, si todav&iacute;a no lo ha hecho.</para>
+<para remap="CodeIndent2"><filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/MejorEditorTextos</filename></para>
+</listitem>
+<listitem><para>Este paso es opcional. Proporciona un icono exclusivo para
+el icono del grupo de aplicaciones creando un tipo de datos y acciones asociadas
+para el grupo de aplicaciones. Si omite este paso, el grupo de aplicaciones
+utilizar&aacute; el icono predeterminado.</para>
+<para>A&ntilde;ada las siguientes definiciones de tipo de datos y de acciones
+al archivo <filename>/desktop_approots/BTE/dt/appconfig/types/C/BTE.dt</filename>.
+El tipo de datos especifica el icono que el grupo de aplicaciones MejorEditorTextos
+debe utilizar. Las acciones proporcionan el mismo comportamiento Abrir e Imprimir
+que los grupos de aplicaciones incorporados.</para>
+<programlisting>DATA_ATTRIBUTES GrupoAplMejorEditorTextos
+{
+   ACTIONS  OpenInPlace,OpenNewView
+   ICON     BTEApp
+}
+DATA_CRITERIA BestTextEditorAppGroupCriterial
+{
+   DATA_ATTRIBUTES_NAME  BestTextEditorAppGroup
+   MODE                  d
+   PATH_PATTERN          */appmanager/*/MejorEditorTextos
+}
+ACTION Open
+{
+   ARG_TYPE    BestTextEditorAppGroup
+   TYPE        MAP
+   MAP_ACTION  OpenAppGroup
+}
+ACTION Print
+{
+   ARG_TYPE    BestTextEditorAppGroup
+   TYPE        MAP
+   MAP_ACTION  PrintAppGroup
+}</programlisting>
+</listitem>
+<listitem><para>Cree un icono en el grupo de aplicaciones que iniciar&aacute;
+la aplicaci&oacute;n. Para ello, cree el archivo:</para>
+<para><filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/MejorEditorTextos/BTEditor</filename></para>
+<para>y haga que el archivo sea ejecutable.</para>
+</listitem>
+<listitem><para>Cree el archivo de acci&oacute;n en el grupo de aplicaciones
+que abrir&aacute; el volumen de ayudas. Para ello, cree el archivo:</para>
+<para><filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/MejorEditorTextos/BTEHelp</filename></para>
+<para>y haga que el archivo sea ejecutable.</para>
+</listitem>
+<listitem><para>Ponga otros archivos en el grupo de aplicaciones; por ejemplo
+archivos &rdquo;read me&rdquo;, archivos de plantillas y de datos de ejemplo.
+</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.38" role="Lead-in">Registrar la
+aplicaci&oacute;n.</emphasis></para>
+<para>En una ventana de emulador de terminal:</para>
+<orderedlist>
+<listitem><para>Inicie la sesi&oacute;n como root.</para>
+</listitem>
+<listitem><para>Ejecute el mandato:</para>
+<para remap="CodeIndent2"><command>/usr/dt/bin/dtappintegrate -s /desktop_approots/BTE</command></para>
+</listitem>
+<listitem><para>Abra el grupo de aplicaciones Herramientas_Escritorio y efect&uacute;e
+una doble pulsaci&oacute;n sobre Recargar aplicaciones.<indexterm><primary>registro</primary><secondary>ejemplo</secondary></indexterm></para>
+</listitem>
+</orderedlist>
+</listitem>
+</orderedlist>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 14:35:19-->
+<?Pub *0000098222>

@@ -1,0 +1,390 @@
+<!-- $XConsortium: pty_decl.sgm /main/6 1996/09/08 20:23:05 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN272.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN272.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttmedia_ptype_declare</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttmedia_ptype_declare</Function></RefName>
+<RefPurpose>declare the ptype of a Media Exchange media editor
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: pty_decl.sgm /main/6 1996/09/08 20:23:05 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>ttmedia_ptype_declare</Function></FuncDef>
+<ParamDef>const char *<Parameter>ptype</Parameter></ParamDef>
+<ParamDef>int <Parameter>base_opnum</Parameter></ParamDef>
+<ParamDef>Ttmedia_load_pat_cb <Parameter>cb</Parameter></ParamDef>
+<ParamDef>void *<Parameter>clientdata</Parameter></ParamDef>
+<ParamDef>int <Parameter>declare</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttmedia_ptype_declare</Function> function
+is used to initialize an editor that implements the Media Exchange
+message interface for a particular media type.
+The
+<Function>ttmedia_ptype_declare</Function> function
+notifies
+the ToolTalk service
+that the
+<Emphasis>cb</Emphasis> callback is to be called when the editor is asked to edit a document
+of the kind supported by
+ptype.
+The
+<Function>ttmedia_ptype_declare</Function> function
+installs an implementation-specific
+<Emphasis>opnum</Emphasis> callback on a series of signatures that
+ptype
+is assumed to contain.
+These signatures are listed below, with
+their corresponding opnum offsets.
+Opnums in
+ptype
+for these signatures start at
+<Emphasis>base_opnum</Emphasis>, which must be zero or a multiple of 1000.
+The implementation-specific
+opnum callback will pass
+<Emphasis>clientdata</Emphasis> to
+<Emphasis>cb</Emphasis> when a request is received that matches one of these signatures.
+</Para>
+<Para>If
+<Emphasis>declare</Emphasis> is True,
+<Function>ttmedia_ptype_declare</Function> calls
+<Function>tt_ptype_declare</Function> with the
+ptype
+argument.
+If
+ptype
+implements Media Exchange for several different media types,
+then
+<Function>ttmedia_ptype_declare</Function> can be called multiple times, with a different
+<Emphasis>base_opnum</Emphasis> each time, and with
+<Emphasis>declare</Emphasis> being True only once.
+</Para>
+<Para>The
+<StructName Role="typedef">Ttmedia_load_pat_cb</StructName> argument is a callback defined as:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message (*Ttmedia_load_pat_cb)(Tt_message <Emphasis>msg</Emphasis>,
+        void *<Emphasis>clientdata</Emphasis>,
+        Tttk_op <Symbol Role="Variable">op</Symbol>,
+        Tt_status <Emphasis>diagnosis</Emphasis>,
+        unsigned char *<Emphasis>contents</Emphasis>,
+        int <Emphasis>len</Emphasis>,
+        char *<Symbol Role="Variable">file</Symbol>,
+        char *<Emphasis>docname</Emphasis>);
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Emphasis>msg</Emphasis> argument is a
+<SystemItem Class="Constant">TT_REQUEST</SystemItem> in
+<StructName Role="typedef">Tt_state</StructName> <SystemItem Class="Constant">TT_SENT</SystemItem>. The client
+program becomes responsible for either failing, rejecting or replying
+to it.
+This can either be done inside the callback, or the message
+can be saved and dismissed later (that is, after the callback returns).
+Usually, the callback will either immediately reject/fail the request,
+or it will start processing the request, perhaps by associating it
+with a new window.
+When the request is finally dismissed, it should
+be destroyed, for example, using
+<Function>tt_message_destroy</Function>.</Para>
+<Para>If the callback knows it will handle the request (either fail or reply
+to it, but not reject it), then it should call
+&cdeman.ttdt.message.accept;. But if the return value of
+&cdeman.tt.message.status; of
+<Emphasis>msg</Emphasis> is
+<SystemItem Class="Constant">TT_WRN_START_MESSAGE</SystemItem>, then the callback should probably do
+<Function>ttdt_session_join</Function>, and perhaps a
+<Function>ttdt_file_join</Function>, before accepting the message.
+The
+<Symbol Role="Variable">op</Symbol> argument is the
+op of the incoming request,
+one of
+<SystemItem Class="Constant">TTME_COMPOSE</SystemItem>, <SystemItem Class="Constant">TTME_EDIT</SystemItem> or
+<SystemItem Class="Constant">TTME_DISPLAY</SystemItem>. The
+<Emphasis>diagnosis</Emphasis> argument is the
+recommended error code;
+if the ToolTalk service
+detects a problem with the request (for example,
+<SystemItem Class="Constant">TT_DESKTOP_ENODATA</SystemItem>), then it passes in the error code
+that it recommends the request should be failed with.
+If
+<Emphasis>diagnosis</Emphasis> was not
+<SystemItem Class="Constant">TT_OK</SystemItem> and the
+<StructName Role="typedef">Ttmedia_load_pat_cb</StructName> returns
+<Emphasis>msg</Emphasis>, then the ToolTalk service
+will fail and destroy
+<Emphasis>msg</Emphasis>.</Para>
+<Para>The ToolTalk service
+does not simply fail the request transparently, because
+the request may be the reason that the client process was started
+by ToolTalk in the first place.
+So if
+<Emphasis>diagnosis</Emphasis> is not
+<SystemItem Class="Constant">TT_OK</SystemItem> and the
+<Function>tt_message_status</Function> of
+<Emphasis>msg</Emphasis> is
+<SystemItem Class="Constant">TT_WRN_START_MESSAGE</SystemItem>, then many applications will
+decide that they have no reason to continue running.
+If such an application chooses to exit in the callback, then
+it should first dismiss the request.
+Otherwise, it can set
+some global flag, return
+<Emphasis>msg</Emphasis> (thus allowing the ToolTalk service
+to dismiss the message), and then
+have
+<Function>main</Function> check the flag and exit before even entering the
+event loop.
+(Exiting without dismissing the request would fail
+it with status
+<SystemItem Class="Constant">TT_ERR_PROCID</SystemItem>, instead of with
+<Emphasis>diagnostic</Emphasis>.)</Para>
+<Para>The
+<Emphasis>contents</Emphasis>, <Emphasis>len</Emphasis>, and
+<Symbol Role="Variable">file</Symbol> arguments represent the
+contents of the arriving document.
+If
+<Emphasis>len</Emphasis> is zero, then the document is contained in
+<Symbol Role="Variable">file</Symbol>. If
+<Emphasis>contents</Emphasis> or
+<Symbol Role="Variable">file</Symbol> are non-
+<SystemItem Class="Constant">NULL</SystemItem>, they can be freed using
+<Function>tt_free</Function>.</Para>
+<Para>The
+<Emphasis>docname</Emphasis> argument is the
+name of the document, if any.
+The
+<Emphasis>clientdata</Emphasis> argument is the
+<Emphasis>clientdata</Emphasis> passed to
+<Function>ttmedia_ptype_declare</Function>.</Para>
+<Para>A
+<StructName Role="typedef">Ttmedia_load_pat_cb</StructName> should return zero if it processes
+<Emphasis>msg</Emphasis> successfully, or a
+<Function>tt_error_pointer</Function> cast to
+<StructName Role="typedef">Tt_message</StructName> if processing results in an error.
+It should return the
+<Emphasis>msg</Emphasis> if it does not consume it.
+If
+<Emphasis>diagnosis</Emphasis> is not
+<SystemItem Class="Constant">TT_OK</SystemItem> and
+<Emphasis>msg</Emphasis> is returned, then the ToolTalk service
+will consume (namely, fail and destroy) it.
+If
+<Emphasis>diagnosis</Emphasis> is
+<SystemItem Class="Constant">TT_OK</SystemItem> and
+<Emphasis>msg</Emphasis> is returned, then the ToolTalk service will pass
+<SystemItem Class="Constant">TT_CALLBACK_CONTINUE</SystemItem> down the call stack, so that
+<Emphasis>msg</Emphasis> will be offered to other callbacks or (more likely) be returned from
+&cdeman.tt.message.receive;. Applications will rarely want
+<Emphasis>msg</Emphasis> to get processed by other callbacks or in the main event loop.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttmedia_ptype_declare</Function> function returns the status of the operation.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned handle:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The pointer passed does not point to an object
+of the correct type for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The specified process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PTYPE</Term>
+<ListItem>
+<Para>The specified process type is not the name of an installed process type.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>This is the typical algorithm of a
+<StructName Role="typedef">Ttmedia_load_pat_cb</StructName>:</Para>
+<InformalExample>
+<ProgramListing>Tt_message
+myAcmeSheetLoadCB(
+        Tt_message      msg,
+        void           *client_data,
+        Tttk_op         op,
+        Tt_status       diagnosis,
+        unsigned char  *contents,
+        int             len,
+        char           *file,
+        char           *docname
+)
+{
+        Tt_status status = TT_OK;
+        if (diagnosis != TT_OK) {
+                /* toolkit detected an error */
+                if (tt_message_status(msg) == TT_WRN_START_MESSAGE) {
+                        /*
+                         * Error is in start message!  We now have no
+                         * reason to live, so tell main() to exit().
+                         */
+                        myAbortCode = 2;
+                }
+                /* let toolkit handle the error */
+                return msg;
+        }
+        if ((op == TTME_COMPOSE)&amp;&amp;(file == 0)) {
+                /* open empty new buffer */
+        } else if (len > 0) {
+                /* load contents into new buffer */
+        } else if (file != 0) {
+                if (ttdt_Get_Modified(msg, file, TT_BOTH, myCntxt, 5000)) {
+                        switch(myUserChoice("Save, Revert, Ignore?")) {
+                            case 0:
+                                ttdt_Save(msg, file, TT_BOTH, myCntxt, 5000);
+                                break;
+                            case 1:
+                                ttdt_Revert(msg, file, TT_BOTH, myCntxt, 5000);
+                                break;
+                        }
+                }
+                /* load file into new buffer */
+        } else {
+                tttk_message_fail(msg, TT_DESKTOP_ENODATA, 0, 1);
+                tt_free(contents); tt_free(file); tt_free(docname);
+                return 0;
+        }
+        int w, h, x, y = INT_MAX;
+        ttdt_sender_imprint_on(0, msg, 0, &amp;w, &amp;h, &amp;x, &amp;y, myCntxt, 5000);
+        positionMyWindowRelativeTo(w, h, x, y);
+        if (maxBuffersAreNowOpen) {
+                /* Un-volunteer to handle future requests until less busy */
+                tt_ptype_undeclare("Acme_Calc");
+        }
+        if (tt_message_status(msg) == TT_WRN_START_MESSAGE) {
+                /*
+                 * Join session before accepting start message,
+                 * to prevent unnecessary starts of our ptype
+                 */
+                ttdt_session_join(0, myContractCB, myShell, 0, 1);
+        }
+        ttdt_message_accept(msg, myContractCB, myShell, 0, 1, 1);
+        tt_free(contents); tt_free(file); tt_free(docname);
+        return 0;
+}
+</ProgramListing>
+</InformalExample>
+<Para>This is the signature layout to which
+ptype should conform:
+</Para>
+<InformalExample>
+<ProgramListing>ptype Acme_Calc {
+    start "acalc";
+    handle:
+<![ %CDE.C.CDE; [        /*
+         * Instantiate Acme_Sheet
+         * Include in tool's ptype if tool can be a document factory.
+         */
+        session Instantiate(in Acme_Sheet  template) => start opnum = 401;
+]]>        /*
+         * Display Acme_Sheet
+         * Include in tool's ptype if tool can display a document.
+         */
+        session Display( in    Acme_Sheet  contents) => start opnum = 1;
+        session Display( in    Acme_Sheet  contents,
+                         in    messageID   counterfoil) => start opnum = 2;
+        session Display( in    Acme_Sheet  contents,
+                         in    title       docName) => start opnum = 3;
+        session Display( in    Acme_Sheet  contents,
+                         in    messageID   counterfoil,
+                         in    title       docName) => start opnum = 4;
+        /*
+         * Edit Acme_Sheet
+         * Include in tool's ptype if tool can edit a document.
+         */
+        session Edit(    inout Acme_Sheet  contents) => start opnum = 101;
+        session Edit(    inout Acme_Sheet  contents,
+                         in    messageID   counterfoil) => start opnum = 102;
+        session Edit(    inout Acme_Sheet  contents,
+                         in    title       docName) => start opnum = 103;
+        session Edit(    inout Acme_Sheet  contents,
+                         in    messageID   counterfoil,
+                         in    title       docName) => start opnum = 104;
+        /*
+         * Compose Acme_Sheet
+         * Include in tool's ptype if tool can compose a document from scratch.
+         */
+        session Edit(    out   Acme_Sheet  contents) => start opnum = 201;
+        session Edit(    out   Acme_Sheet  contents,
+                         in    messageID   counterfoil) => start opnum = 202;
+        session Edit(    out   Acme_Sheet  contents,
+                         in    title       docName) => start opnum = 203;
+        session Edit(    out   Acme_Sheet  contents,
+                         in    messageID   counterfoil,
+                         in    title       docName) => start opnum = 204;
+        /*
+         * Mail Acme_Sheet
+         * Include in tool's ptype if tool can mail a document.
+         */
+        session Mail(    in    Acme_Sheet  contents) => start opnum = 301;
+        session Mail(    inout Acme_Sheet  contents) => start opnum = 311;
+        session Mail(    inout Acme_Sheet  contents,
+                         in    title       docName) => start opnum = 313;
+        session Mail(    out   Acme_Sheet  contents) => start opnum = 321;
+        session Mail(    out   Acme_Sheet  contents,
+                         in    messageID   counterfoil) => start opnum = 323;
+};
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.tt.ptype.declare;, &cdeman.tt.ptype.undeclare;, &cdeman.ttdt.message.accept;, &cdeman.ttdt.session.join;, &cdeman.ttdt.file.join;, &cdeman.tt.free;, &cdeman.tt.message.receive;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

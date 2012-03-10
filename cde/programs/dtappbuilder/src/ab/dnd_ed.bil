@@ -1,0 +1,744 @@
+
+//       $XConsortium: dnd_ed.bil /main/3 1995/11/06 17:27:28 rswiston $
+//
+// @(#)dnd_ed.bil	1.12 15 Aug 1995
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module dnd_ed
+(
+
+:element dialog
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Drag and Drop Editor"
+	:resizable		:true
+	:visible		:false
+	:default-button		apply_button
+	:help-button		help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABDragDropEditor"
+	:help-text		"The Drag and Drop Editor provides a way to specify drag-and-drop behavior of objects in an application interface"
+	:children		(
+		objlist_panel
+		attrs_ctrlpanel
+		activate_panel
+	)
+)
+:element objlist_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		objlist
+		objlist_label2
+		objtype_opmenu
+		objtype_label
+	)
+)
+:element objlist
+(
+	:type			:list
+	:x			164
+	:y			38
+	:selection-mode		:single
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj objtype_opmenu 4)
+	:south-attachment	(:point 0 4)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:grid-line 32 4)
+)
+:element objlist_label2
+(
+	:type			:label
+	:x			92
+	:y			39
+	:label-type		:string
+	:label			"Objects:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 39)
+	:east-attachment	(:grid-line 32 0)
+)
+:element objtype_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			163
+	:y			2
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:west-attachment	(:grid-line 32 0)
+	:children		(
+		objtype_opmenu_object_type_item
+	)
+)
+:element objtype_opmenu_object_type_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"** object type **"
+	:active			:true
+	:selected		:true
+)
+:element objtype_label
+(
+	:type			:label
+	:x			76
+	:y			6
+	:label-type		:string
+	:label			"Object Type:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 6)
+	:east-attachment	(:grid-line 32 0)
+)
+:element attrs_ctrlpanel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			115
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:obj objlist_panel 0)
+	:south-attachment	(:obj dialog 0)
+	:east-attachment	(:obj dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		drag_conn_button
+		drop_conn_button
+		separator
+		group2
+		drag_icon_cb
+		drag_op_cb
+		drag_data_cb
+		drop_data_cb
+		drop_op_cb
+		drop_child_cb
+		group
+		drag_icon_mask_cb
+	)
+)
+:element drag_conn_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			143
+	:y			179
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Drag Connection..."
+	:active			:false
+	:visible		:true
+	:north-attachment	(:obj group 6)
+	:west-attachment	(:point 0 143)
+)
+:element drop_conn_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			144
+	:y			394
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Drop Connection..."
+	:active			:false
+	:visible		:true
+	:north-attachment	(:obj group2 6)
+	:south-attachment	(:point 0 15)
+	:west-attachment	(:point 0 144)
+)
+:element separator
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			6
+	:y			202
+	:width			409
+	:height			8
+	:visible		:true
+	:north-attachment	(:obj drag_conn_button 5)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:point 0 4)
+)
+:element group2
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			22
+	:y			215
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		0
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj separator 4)
+	:west-attachment	(:point 0 40)
+	:children		(
+		drop_op_checkbox
+		drop_data_checkbox
+		drop_child_checkbox
+	)
+)
+:element drop_op_checkbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:width			315
+	:height			37
+	:label-type		:string
+	:label			"Drop Operations:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:false
+	:visible		:true
+	:children		(
+		drop_op_checkbox_Copy_item
+		drop_op_checkbox_Move_item
+		drop_op_checkbox_Link_item
+	)
+)
+:element drop_op_checkbox_Copy_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Copy"
+	:active			:true
+	:selected		:false
+)
+:element drop_op_checkbox_Move_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Move"
+	:active			:true
+	:selected		:false
+)
+:element drop_op_checkbox_Link_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Link"
+	:active			:true
+	:selected		:false
+)
+:element drop_data_checkbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Data Types:"
+	:label-position		:west
+	:num-columns		4
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:false
+	:visible		:true
+	:children		(
+		drop_data_checkbox_Text_item
+		drop_data_checkbox_Filename_item
+		drop_data_checkbox_Buffer_item
+	)
+)
+:element drop_data_checkbox_Text_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Text"
+	:active			:true
+	:selected		:true
+)
+:element drop_data_checkbox_Filename_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Filename"
+	:active			:true
+	:selected		:false
+)
+:element drop_data_checkbox_Buffer_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Buffer"
+	:active			:true
+	:selected		:false
+)
+:element drop_child_checkbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:width			173
+	:height			39
+	:label-type		:string
+	:label			"Drop on Children:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:false
+	:visible		:true
+	:children		(
+		drop_child_checkbox_nolabel_item
+	)
+)
+:element drop_child_checkbox_nolabel_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"  "
+	:active			:true
+	:selected		:true
+)
+:element drag_icon_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			1
+	:y			38
+	:width			3
+	:height			25
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 38)
+	:west-attachment	(:point 0 1)
+)
+:element drag_op_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			1
+	:y			8
+	:width			3
+	:height			25
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 8)
+	:west-attachment	(:point 0 1)
+)
+:element drag_data_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			1
+	:y			103
+	:width			3
+	:height			66
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 103)
+	:west-attachment	(:point 0 1)
+)
+:element drop_data_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			256
+	:width			3
+	:height			88
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 256)
+	:west-attachment	(:point 0 2)
+)
+:element drop_op_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			221
+	:width			3
+	:height			25
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 221)
+	:west-attachment	(:point 0 2)
+)
+:element drop_child_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			357
+	:width			3
+	:height			25
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 357)
+	:west-attachment	(:point 0 2)
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			5
+	:y			6
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		0
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:point 0 4)
+	:west-attachment	(:point 0 5)
+	:children		(
+		drag_op_checkbox
+		drag_icon_field
+		drag_icon_mask_field
+		drag_data_checkbox
+	)
+)
+:element drag_op_checkbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:width			315
+	:height			39
+	:label-type		:string
+	:label			"Drag Operations:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:false
+	:visible		:true
+	:children		(
+		drag_op_checkbox_Copy_item
+		drag_op_checkbox_Move_item
+		drag_op_checkbox_Link_item
+	)
+)
+:element drag_op_checkbox_Copy_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Copy"
+	:active			:true
+	:selected		:false
+)
+:element drag_op_checkbox_Move_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Move"
+	:active			:true
+	:selected		:false
+)
+:element drag_op_checkbox_Link_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Link"
+	:active			:true
+	:selected		:false
+)
+:element drag_icon_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Cursor Filename:"
+	:label-position		:west
+	:num-columns		24
+	:max-length		80
+	:read-only		:false
+	:active			:false
+	:visible		:true
+)
+:element drag_icon_mask_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Cursor Mask Filename:"
+	:label-position		:west
+	:num-columns		24
+	:max-length		80
+	:read-only		:false
+	:active			:false
+	:visible		:true
+)
+:element drag_data_checkbox
+(
+	:type			:choice
+	:choice-type		:exclusive
+	:label-type		:string
+	:label			"Data Type:"
+	:label-position		:west
+	:num-columns		3
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:false
+	:visible		:true
+	:children		(
+		drag_data_checkbox_Text_item
+		drag_data_checkbox_Filename_item
+		drag_data_checkbox_Buffer_item
+	)
+)
+:element drag_data_checkbox_Text_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Text"
+	:active			:true
+	:selected		:true
+)
+:element drag_data_checkbox_Filename_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Filename"
+	:active			:true
+	:selected		:false
+)
+:element drag_data_checkbox_Buffer_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Buffer"
+	:active			:true
+	:selected		:false
+)
+:element drag_icon_mask_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			1
+	:y			66
+	:width			3
+	:height			25
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 66)
+	:west-attachment	(:point 0 1)
+)
+:element activate_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		ok_button
+		apply_button
+		reset_button
+		cancel_button
+		help_button
+	)
+)
+:element ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 19 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element reset_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:connection
+(
+	:from			ok_button
+	:when			:activate
+	:action-type		:call-function
+	:action			dnd_okCB
+)
+:connection
+(
+	:from			apply_button
+	:when			:activate
+	:action-type		:call-function
+	:action			dnd_applyCB
+)
+:connection
+(
+	:from			reset_button
+	:when			:activate
+	:action-type		:call-function
+	:action			dnd_resetCB
+)
+:connection
+(
+	:from			cancel_button
+	:when			:activate
+	:action-type		:call-function
+	:action			dnd_cancelCB
+)
+:connection
+(
+	:from			drag_conn_button
+	:when			:activate
+	:action-type		:call-function
+	:action			dnd_drag_connCB
+)
+:connection
+(
+	:from			drop_conn_button
+	:when			:activate
+	:action-type		:call-function
+	:action			dnd_drop_connCB
+)
+:connection
+(
+	:from			drag_op_checkbox_Copy_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			drag_op_CB
+)
+:connection
+(
+	:from			drag_op_checkbox_Move_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			drag_op_CB
+)
+:connection
+(
+	:from			drag_op_checkbox_Link_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			drag_op_CB
+)
+:connection
+(
+	:from			drop_op_checkbox_Copy_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			drop_op_CB
+)
+:connection
+(
+	:from			drop_op_checkbox_Move_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			drop_op_CB
+)
+:connection
+(
+	:from			drop_op_checkbox_Link_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			drop_op_CB
+)
+)

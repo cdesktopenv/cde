@@ -1,0 +1,465 @@
+<!-- $XConsortium: Concepts.sgm /main/7 1996/09/08 22:00:17 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<!--	Help volume: App Builder 
+	File name:   concepts  -->
+<Chapter Id="ABConcepts">
+<Title>App Builder Concepts</Title>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="H.CNCP.item.1">
+<Para><XRef Linkend="ABProcess">
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.2">
+<Para><XRef Linkend="ABProjectsModules">
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.3">
+<Para><XRef Linkend="ABMessageExample">
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.4">
+<Para><XRef Linkend="ABAboutAttachments">
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="ABProcess">
+<Title>Summary of the App Builder Process</Title>
+<IndexTerm>
+<Primary>app builder process</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>process, creating an interface</Primary>
+</IndexTerm>
+<Para>The process of creating an App Builder user interface can be summarized as follows.
+</Para>
+<OrderedList>
+<ListItem Id="H.CNCP.item.5">
+<Para>Design the interface; draw a picture of it.
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.6">
+<Para>Perform an App Builder "spec" of the interface (determine what
+App Builder objects will be used for each of the parts of the
+interface design).
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.7">
+<Para>Start App Builder.
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.8">
+<Para>Drag and drop a main window onto the desktop; this will be the
+starting point for all functions in the finished application.
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.9">
+<Para>Drag and drop a control pane onto the main window; controls
+will be dropped onto the control pane.
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.10">
+<Para>Drag and drop the appropriate controls onto the control pane;
+use the group, alignment, and attachment tools of App Builder to
+position the controls properly.
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.11">
+<Para>Drag and drop other main windows and custom dialogs
+onto the desktop to create the other parts of the interface.
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.12">
+<Para>Make programmatic connections between objects in the
+interface; test the connections in test mode.
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.13">
+<Para>Refine the interface and continue testing until it is right.
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.14">
+<Para>Generate code by running the App Builder code generator; add
+user code to complete the functionality of the application.
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.15">
+<Para>Compile, run, test, iteratively until the application is
+complete.
+</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="ABProjectsModules">
+<Title>App Builder Projects and Modules</Title>
+<IndexTerm>
+<Primary>projects</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>modules</Primary>
+</IndexTerm>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="H.CNCP.item.16">
+<Para><XRef Linkend="ABProjectDef">
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.17">
+<Para><XRef Linkend="ABModuleDef">
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="ABProjectDef">
+<Title>What Is a Project?</Title>
+<Para>When you use App Builder to create a graphical user interface, you are
+working on a <Emphasis>project,</Emphasis> which is comprised of one or more
+modules. App Builder, which was built with itself, was a single project,
+comprised of over 30 modules.</Para>
+<Para>A project file is started when you select New Project in the File menu
+or when you drag and drop a window onto the desktop in a new session
+of App Builder.</Para>
+<Para>A project file is saved when you select Save Project in the File menu
+or when you select Save in the Project menu in the Project Organizer.
+A project file has a <ComputerOutput>.bip</ComputerOutput> (builder interface
+project) suffix.</Para>
+<Procedure>
+<Title>See Also</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="H.CNCP.item.18">
+<Para><XRef Linkend="ABModuleDef"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+</Sect2>
+<Sect2 Id="ABModuleDef">
+<Title>What Is a Module?</Title>
+<Para>A module is a logical unit of a project. Each window and dialog in
+App Builder is a module of the App Builder project, for instance.</Para>
+<Para>All module files in a project are saved when the project is saved. You
+can explicitly save a particular module by selecting Save in the
+Module menu in the Project Organizer.</Para>
+<Para>A saved module file has a <ComputerOutput>.bil</ComputerOutput> (builder interface
+language) suffix.</Para>
+<Procedure>
+<Title>See Also</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="H.CNCP.item.19">
+<Para><XRef Linkend="ABProjectDef"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+</Sect2>
+</Sect1>
+<Sect1 Id="ABMessageExample">
+<Title>Example: Writing Code for Messages</Title>
+<Para>Once you have created a message as described in <XRef Linkend="ABCreateMessage">, you must determine when and how it should be
+displayed. Usually messages are displayed after a certain piece of
+logic has been executed. For example, if a user types digits in a
+text field that is designed to accept a name, you will want to post an
+error message informing the user that digits are not valid.</Para>
+<Para>Message boxes in Motif can be displayed in one of two ways: modally or
+non-modally (equivalently, blocking or non-blocking). The App Builder
+code generator (<ComputerOutput>dtcodegen</ComputerOutput>) supplies two routines,
+corresponding to the two modes of display. They are found in
+<ComputerOutput>dtb_utils.c</ComputerOutput> and are named:</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="H.CNCP.item.20">
+<Para><ComputerOutput>dtb_show_modal_message()</ComputerOutput>
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.21">
+<Para><ComputerOutput>dtb_show_message()</ComputerOutput>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>If you want to display a particular message modally, use
+<ComputerOutput>dtb_show_ modal_message()</ComputerOutput>.
+If you want to display a particular message non-modally,
+use <ComputerOutput>dtb_show_message()</ComputerOutput>.
+</Para>
+<Procedure>
+<Title>See Also</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="H.CNCP.item.22">
+<Para><XRef Linkend="ABCodingModal">
+</Para>
+</ListItem>
+<ListItem Id="H.CNCP.item.23">
+<Para><XRef Linkend="ABCodingNonModal">
+</Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Sect2 Id="ABCodingModal">
+<Title>Coding for Modal Messages</Title>
+<Para>As explained above, if a message is to be displayed modally, use
+<ComputerOutput>dtb_show_modal_message()</ComputerOutput>. This routine returns
+a value which indicates which message box button the user has pressed.
+The value is an <ComputerOutput>enum</ComputerOutput> that is defined in
+<ComputerOutput>dtb_utils.h</ComputerOutput>:</Para>
+<LiteralLayout>/*
+	 * Returns answer value for modal MessageBox
+	 */
+	typedef enum {
+	    DTB_ANSWER_NONE,
+	    DTB_ANSWER_ACTION1,
+	    DTB_ANSWER_ACTION2,
+	    DTB_ANSWER_ACTION3,
+	    DTB_ANSWER_CANCEL,
+	    DTB_ANSWER_HELP
+	} DTB_MODAL_ANSWER;
+</LiteralLayout>
+<Para>You can then examine the return value (for example via a switch
+statement) and execute the appropriate piece of code.</Para>
+<Para>Here's an example of displaying a message modally. Say that you have
+created a simple application, named <ComputerOutput>foo</ComputerOutput>. The
+project is named <ComputerOutput>foo.bip</ComputerOutput> and consists of one
+module, <ComputerOutput>foo.bil</ComputerOutput>. The module
+<ComputerOutput>foo.bil</ComputerOutput> consists of a main window, control pane,
+and two text fields, one for the user to enter a person's first name
+and the other to enter the last name. If the user types digits, an
+error message should be posted, informing the user that digits are not
+allowed, and giving the user a couple of options. The user can start
+over, which means the text entered will be erased, or the user can
+continue, which means that the text entered will be left intact,
+giving the user discretion as to how to modify the text.</Para>
+<Para>A call-function connection is made for both text fields, which will
+be called each time the user types something. The function for the
+first text field will check if the character typed is a digit. If so,
+it will post the error message modally:</Para>
+<LiteralLayout>void 
+verify_first_nameCB(
+    Widget widget,
+    XtPointer clientData,
+    XtPointer callData
+)
+{
+    /*** DTB_USER_CODE_START vvv Add C variables and code below vvv ***/ 
+    char                *text = (char *)NULL;
+    int                 textlen = 0;
+    DTB_MODAL_ANSWER    answer = DTB_ANSWER_NONE;
+    DtbFooMainwindowInfo instance = (DtbFooMainwindowInfo) clientData;
+ 
+    /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
+
+    /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
+  
+    text = XmTextFieldGetString(widget); 
+    if ((text != NULL) && (*text != NULL))
+    {
+        textlen = strlen(text);
+        if (isdigit(text[textlen-1]))
+        {
+            dtb_foo_message_initialize(&amp;dtb_foo_message);
+            answer = dtb_show_modal_message(instance->textfield,
+                        &amp;dtb_foo_message, NULL, NULL, NULL);
+            switch (answer)
+            {
+                case DTB_ANSWER_ACTION1:        /* Start Over */
+                    XmTextFieldSetString(widget, "");
+                    break;
+ 
+                case DTB_ANSWER_ACTION2:	/* Continue */
+                    break;
+            }
+        }
+    }
+ 
+    /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
+}
+</LiteralLayout>
+<Procedure>
+<Title>See Also</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="H.CNCP.item.24">
+<Para><XRef Linkend="ABCodingNonModal">
+</Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+</Sect2>
+<Sect2 Id="ABCodingNonModal">
+<Title>Coding for Non-Modal Messages</Title>
+<Para>If you want to post a non-modal message, you should use
+<ComputerOutput>dtb_show_message()</ComputerOutput>. The callbacks for the
+message box buttons should be specified via the Connections Editor, as
+described in <XRef Linkend="ABConnectMessage">. The buttons that are specified
+for the message box are displayed as When items for the message
+object in the Connections Editor.</Para>
+<Para>Using the same example as above, make the last name text field display
+the error message non-modally if the user types a digit. As
+previously mentioned, first you'll need to make a couple of
+call-function connections for the two buttons in the message box,
+labelled "Start Over" and "Continue." When code is generated,
+add code to those routines to do the right thing. The start
+over routine will clear out the text field and the continue routine
+will do nothing, in this case.</Para>
+<LiteralLayout>void 
+verify_last_nameCB(
+    Widget widget,
+    XtPointer clientData,
+    XtPointer callData
+)
+{
+    /*** DTB_USER_CODE_START vvv Add C variables and code below vvv ***/ 
+    char                *text = (char *)NULL;
+    int                 textlen = 0;
+    DtbFooMainwindowInfo instance = (DtbFooMainwindowInfo) clientData;
+ 
+    /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
+
+    /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
+                          
+    text = XmTextFieldGetString(widget); 
+    if ((text != NULL) && (*text != NULL))
+    {
+        textlen = strlen(text);
+        if (isdigit(text[textlen-1]))
+        {
+            dtb_foo_message_initialize(&amp;dtb_foo_message);
+            dtb_show_message(instance->textfield,
+                        &amp;dtb_foo_message, NULL, NULL);
+        }
+    }
+ 
+    /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
+}
+
+
+void
+start_overCB(
+    Widget widget,
+    XtPointer clientData,
+    XtPointer callData
+)
+{
+    /*** DTB_USER_CODE_START vvv Add C variables and code below vvv ***/
+ 
+    DtbFooMainwindowInfo instance = (DtbFooMainwindowInfo) clientData;
+ 
+    /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
+
+    /*** DTB_USER_CODE_START vvv Add C code below vvv ***/               
+ 
+    XmTextFieldSetString(dtb_foo_mainwindow.textfield2, "");
+
+    /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
+}
+ 
+
+void
+continueCB(
+    Widget widget,
+    XtPointer clientData,
+    XtPointer callData
+)
+{
+    /*** DTB_USER_CODE_START vvv Add C variables and code below vvv ***/
+    /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
+
+    /*** DTB_USER_CODE_START vvv Add C code below vvv ***/               
+    /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
+}
+</LiteralLayout>
+<Para>The two routines above, <ComputerOutput>start_overCB()</ComputerOutput> and
+<ComputerOutput>continueCB()</ComputerOutput>, are added as callbacks for the two
+buttons via the call to <ComputerOutput>dtb_show_message()</ComputerOutput>. Here
+is the code fragment that adds the callback (from
+<ComputerOutput>dtb_utils.c</ComputerOutput>):</Para>
+<LiteralLayout>/* Add Callbacks if necessary */
+    if (mbr->action1_callback != (XtCallbackProc) NULL)
+        XtAddCallback(msg_dlg, XmNokCallback, mbr->action1_callback, NULL);
+    if (mbr->cancel_callback != (XtCallbackProc) NULL)
+        XtAddCallback(msg_dlg, XmNcancelCallback, mbr->cancel_callback,
+NULL);
+    if (mbr->action2_callback != (XtCallbackProc) NULL)
+    { 
+        action_btn = dtb_MessageBoxGetActionButton(msg_dlg, DTB_ACTION2_BUTTON);
+        if (action_btn != NULL)
+            XtAddCallback(action_btn, XmNactivateCallback,
+                          mbr->action2_callback, NULL);
+    }  
+    if (mbr->action3_callback != (XtCallbackProc) NULL)
+    {
+        action_btn = dtb_MessageBoxGetActionButton(msg_dlg, DTB_ACTION3_BUTTON);        if (action_btn != NULL)
+            XtAddCallback(action_btn, XmNactivateCallback,
+                          mbr->action3_callback, NULL);
+    }
+</LiteralLayout>
+<Para>The structure <ComputerOutput>mbr</ComputerOutput> contains all the necessary
+information for the message. The structure is filled in with the
+values specified in the Message Editor when the message object was
+created via the
+<ComputerOutput>dtb_&lt;modulename>_&lt;messagename>_initialize()</ComputerOutput>
+routine -- in this example,
+<ComputerOutput>dtb_foo_message_initialize()</ComputerOutput>.</Para>
+<Procedure>
+<Title>See Also</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="H.CNCP.item.25">
+<Para><XRef Linkend="ABCodingModal">
+</Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+</Sect2>
+</Sect1>
+<Sect1 Id="ABAboutAttachments">
+<Title>About Attachments</Title>
+<Para>Attachments (and groups, which are based on attachments) establish
+dynamic layout behavior for objects in the interface. Dynamic layout
+behavior ensures that objects will maintain consistent relationships
+during resize activities. Attachments enable an internationalized
+application to work well in a number of locales.
+All child objects are attached by their top and left edges to the top
+and left edge of their parent object, by default. Thus a control pane
+dropped on a main window is attached by its left and top edges to the
+left and top edges of the main window. Similarly, a button dropped on
+the control pane is attached to the control pane.</Para>
+<Para>If the parent object is resized in an upward or leftward direction,
+the child object moves with the parent, maintaining the distance from
+the top and left edge of the parent.</Para>
+<Para>If a pane object is dropped on the top or left edge of its parent it
+will be attached to that edge with an offset of 0. If it is dropped
+some distance to the right and below the left and top edges of its
+parent, it will have positive offsets.</Para>
+<Para>If a pane object is resized from its right and bottom edges so that it
+spans its parent object, it will be attached to the right and bottom
+edges of its parent.</Para>
+<Procedure>
+<Title>Attachment Example: Custom Dialog</Title>
+<Step>
+<Para>See an App Builder custom dialog object for an example of attachments.
+Each of the buttons at the bottom of the custom dialog are attached to
+the top and sides of their enclosing dialog panel. They are attached
+five pixels from the top of the panel and varying percentages from the
+left edge of the panel (Button1 left edge 10%, right edge 30%; Button2
+40% and 60%; Button3 70% and 90%).</Para>
+<Para>The left edge of Button1 will always be 10% from the edge of the panel
+and the right edge of Button1 will always be 30% from the edge of the
+panel. Button1 will, therefore, always be as wide as 20% of the total
+width of the panel. Button2's edges are 40% and 60% from the left edge
+of the panel; Button3's edges are 70% and 90% from the left edge of
+the panel. The three buttons will grow and shrink as the panel grows
+and shrinks, and the distance between them will always be 10% of the
+total width of the panel.</Para>
+<!-- EOF: Concepts  -->
+</Step>
+</Procedure>
+</Sect1>
+</Chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 17:37:35-->

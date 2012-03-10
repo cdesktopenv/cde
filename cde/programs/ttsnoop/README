@@ -1,0 +1,205 @@
+/* $XConsortium: README /main/2 1996/07/15 14:32:01 drk $ */
+This is the new ttsnoop.  It currently gets built but not installed.
+See "Code Changes" for hints as to what more would have to be done
+to make it replace the current ttsnoop.
+
+* CRT Request: new ttsnoop
+
+   * Requestor: Brian Holtz holtz@eng.sun.com
+
+   * Component: tooltalk
+
+   * CMVC
+
+     name compName sev prio abstract
+     ---- -------- --- ---- --------------------------------------------
+     5501 tooltalk 3   3    tttrace ^Z can hang session
+     6153 tooltalk 3   4    I18N: Bad layout of ttsnoop
+
+   * Synopsis
+
+      Replace TeleUse ttsnoop with CDE-integrated dtbuilder ttsnoop
+
+   * Justification
+
+      There are five major reasons to replace the TeleUse ttsnoop with
+      the dtbuilder ttsnoop:
+      - Integrated with CDE
+      - Smaller
+      - No need for localization
+      - Fixes ttsnoop bugs
+      - More features
+
+      * Unlike the current ttsnoop, the new one is integrated with CDE:
+         * Exposes TT CDE features: netfiles, CFI, tttk, tracing
+         * Uses CDE Help
+         * Generates TT_MSG action from any message
+         * Prints all installed TT_MSG actions
+         * Handles changes in font preference
+         * Uses Actions to open man pages and generated buffers
+         * Uses Motif file chooser for choosing files
+         * Uses CDE standard colors in icon
+         * Provides icons in all 3 standard CDE icon sizes
+
+      * The new ttsnoop is smaller:
+         * source:	17Kloc			36Kloc
+         * object:	205K+32K+16K = 250K	370K+26K+33K = 430K
+         * msg dialog:	325Kpixel^2		520Kpixel^2
+         * pat dialog:	230Kpixel^2		455Kpixel^2
+
+      * No need for localization
+         The TeleUse ttsnoop has over 900 messages in it, mostly
+         consisting of editorial commentary about ToolTalk.  (Some of
+         the commentary is wrong or not in sync with the CDE changes
+         to ToolTalk.)  The justification for not translating these
+         messages is that ttsnoop is a programmer's tool, not an end
+         user's tool.
+
+         Except for its usage message, every string in the new ttsnoop
+         is composed solely of keywords from public CDE APIs.  The
+         editorial commentary is replaced by automatically bringing up
+         the relevant ToolTalk man pages (which are more likely to get
+         localized than the old ttsnoop's 900+ messages).
+
+      * Fixes ttsnoop bugs
+         If a user runs the command-line message tracing tool
+         (tttrace) and suspends it or pages its output, the result is
+         that within minutes the entire desktop locks up (defect
+         5501).  The existing ttsnoop is hard enough to use that
+         customers are more likely to run tttrace directly and risk
+         desktop freeze.  The new ttsnoop makes running tttrace by
+         hand unnecessary.
+
+         The new ttsnoop uses relative layout and so behaves correctly
+         for changes in geometry and font preference.
+
+         The new ttsnoop has a proper and complete man page, and
+         correctly places it in man1 (instead of man6).
+
+      * More features
+         The existing ttsnoop is missing all of these features of the
+         new ttsnoop:
+         * Messages
+            * Separate properties window per message
+            * Send on exit, Accept, Reject, Reply, Fail, Destroy
+            * Add message callbacks
+            * Messages printed in standard format via tt_message_print()
+            * Generate
+               * new message dialog containing cloned message
+               * C code (including callback for requests and offers)
+               * TT_MSG action
+               * ptype containing matching static pattern
+               * new pattern dialog containing matching dynamic pattern
+               * new message dialog containing Status notice
+         * Patterns
+            * Handler patterns (as well as observer patterns)
+            * Separate properties window per pattern
+            * Unregister, (re)register, destroy
+            * Add pattern callbacks
+         * Files
+            * Join, quit, get/set/unset default
+            * Call ttdt_file_*() APIs
+            * Call netfile APIs
+         * Session: join, quit, set default
+         * Ptype: declare, undeclare, set default, exists
+         * Types: load, reload, enumerate, decompile, dump TT_MSG actions
+         * Procids: open, close, suspend, resume
+         * libc menu: system(), chdir(), pause(), exit()
+         * Help
+            * Menu items open man1/tt* man pages
+            * On-item help opens man3/tt* man pages
+         * Dialogs for choosing sessions, procids, standard ops
+         * Comprehensive command line options
+            * to specify initial pattern
+            * to log snoop output
+
+   * Interface Changes
+
+      The ttsnoop GUI, CLI, and man page are completely new.  Note
+      that, except as noted under Documentation, there are no
+      programmatic or documentation dependencies on these interfaces
+      in the rest of CDE.
+      
+   * Code Changes
+
+      update: cdesrc/databases/CDE-TT.udb
+      update: cdesrc/databases/CDE-RUN.udb
+      update: cdesrc/databases/CDE-MAN.udb
+      update: cdesrc/databases/CDE-ICONS.udb
+      create: cdesrc/cde1/icons/DtTtsnp.t_m.bm
+      create: cdesrc/cde1/icons/DtTtsnp.t.pm
+      create: cdesrc/cde1/icons/DtTtsnp.t.bm
+      create: cdesrc/cde1/icons/DtTtsnp.m_m.bm
+      create: cdesrc/cde1/icons/DtTtsnp.m.pm
+      create: cdesrc/cde1/icons/DtTtsnp.m.bm
+      create: cdesrc/cde1/icons/DtTtsnp.l_m.bm
+      create: cdesrc/cde1/icons/DtTtsnp.l.bm
+      create: cdesrc/cde1/icons/DtTtsnp.l.pm
+      update: cdesrc/lib/tt/man/man6/Imakefile
+      update: cdesrc/lib/tt/man/man1/Imakefile
+      rename from: cdesrc/lib/tt/man/man6/ttsnoop.6xo
+	       to: cdesrc/lib/tt/man/man1/ttsnoop.1xo
+      update: cdesrc/lib/tt/man/man6/ttsnoop.6xo
+      update: cdesrc/lib/tt/bin/Imakefile
+      create: cdesrc/lib/tt/bin/ttsnoop2/DtTt.h
+      create: cdesrc/lib/tt/bin/ttsnoop2/apiTracer.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/argChooser.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/callbackChooser.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/patternProps.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/sessionChooser.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/stringChooser.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/ttChooser.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/ttsnoop.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/tt_c++.h
+      create: cdesrc/lib/tt/bin/ttsnoop2/ttsnoop.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/ttsnoop.bip
+      create: cdesrc/lib/tt/bin/ttsnoop2/fileChooser.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/messageProps.bil
+      create: cdesrc/lib/tt/bin/ttsnoop2/callbackChooser_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/ttChooser_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/externC.h
+      create: cdesrc/lib/tt/bin/ttsnoop2/DtTt.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/Makefile.AIX
+      create: cdesrc/lib/tt/bin/ttsnoop2/patternProps_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/tt_c++.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/messageProps_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/stringChooser_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/ttsnoop_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/fileChooser_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/sessionChooser_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/apiTracer_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/closeBrace.h
+      create: cdesrc/lib/tt/bin/ttsnoop2/Makefile.SunOS
+      create: cdesrc/lib/tt/bin/ttsnoop2/argChooser_stubs.C
+      create: cdesrc/lib/tt/bin/ttsnoop2/Makefile.HP-UX
+      create: cdesrc/lib/tt/bin/ttsnoop2/Ttsnoop
+          
+   * Risk
+
+      No part of CDE depends on ttsnoop, so there is vanishingly small
+      runtime risk.
+
+      The overall CDE build depends on ttsnoop being able to build.
+      ttsnoop builds on SunOS, HP-UX, and AIX with no problems.  The
+      risk of breaking the build is thought to be small.
+
+   * Testing
+
+      ttsnoop has been built and manually exercised on AIX, HP-UX, and
+      SunOS.
+
+   * Performance
+
+      The new ttsnoop is much smaller than the old one, but that is
+      not very relevent since its primary purpose is for debugging.
+      
+   * Documentation
+
+      The man page has been completely rewritten, as has
+      LearningProducts/APIdesktop/TooltalkUser/ttsnoop.mif.
+
+   * Translation
+
+      I would be surprised if either ttsnoop.6 or ttsnoop.mif have
+      already been translated by anybody to any language (especially
+      English ;-).

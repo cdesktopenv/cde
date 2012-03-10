@@ -1,0 +1,137 @@
+.\" $XConsortium: pam_set_item.3 /main/5 1996/10/29 15:19:14 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.\" Don't forget to enter .IX index entries for each function.
+.nr X
+.TH pam_set_item 3 "9 Jan 1996"
+.SH NAME
+pam_set_item, pam_get_item
+\- authentication information routines for PAM
+.SH SYNOPSIS
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+.ft
+.fi
+.LP
+.BI "int pam_set_item(pam_handle_t " "*pamh" ,
+.BI "int " "item_type" ,
+.BI "const void *" "item" );
+.LP
+.BI "int pam_get_item(const pam_handle_t " "*pamh" ,
+.BI "int " "item_type" ,
+.BI "void **" "item" );
+.SH DESCRIPTION
+.IX "pam_set_item" "" "\fLpam_set_item\fP \(em set authentication info"
+.B pam_get_item(\|)
+and
+.B pam_set_item(\|)
+allow applications and PAM service modules to access and update
+.SM PAM
+information as needed.  The information is specified by
+.IR item_type,
+and can be one of the following:
+.RS
+.IP "PAM_SERVICE" 25
+The service name
+.IP "PAM_USER" 25
+The user name
+.IP "PAM_AUTHTOK" 25
+The user authentication token
+.IP "PAM_OLDAUTHTOK" 25
+The old user authentication token
+.IP "PAM_TTY" 25
+The tty name
+.IP "PAM_RHOST" 25
+The remote host name
+.IP "PAM_RUSER" 25
+The remote user name
+.IP "PAM_CONV" 25
+The pam_conv structure
+.IP "PAM_USER_PROMPT" 25
+The default prompt used by 
+.BR pam_get_user(\|)
+.RE
+.LP
+The
+.IR item_type
+.SM PAM_AUTHTOK
+and
+.SM PAM_OLDAUTHTOK
+are available only to the module providers for security reasons.
+The authentication module, account module, and session management module
+should treat
+.SM PAM_AUTHTOK
+as the current authentication token,
+and should ignore
+.SM PAM_OLDAUTHTOK.
+The password management module should treat
+.SM PAM_OLDAUTHTOK
+as the current authentication token and
+.SM PAM_AUTHTOK
+as the new authentication token.
+.LP
+.B pam_set_item(\|)
+is passed the authentication handle,
+.IR pamh,
+returned by
+.BR pam_start(\|) ,
+a pointer to the object,
+.IR item,
+and its type,
+.IR item_type.
+If successful,
+.B pam_set_item(\|)
+copies the item to an internal storage area allocated by the 
+authentication module and returns PAM_SUCCESS.  An item that had
+been previously set will be overwritten by the new value.
+.LP
+.B pam_get_item(\|)
+is passed the authentication handle,
+.IR pamh,
+returned by
+.BR pam_start(\|) ,
+an
+.IR item_type ,
+and the address of the pointer,
+.IR item ,
+which is assigned the address of the requested object.
+The object data is valid until modified by a subsequent call to
+.B pam_set_item(\|)
+for the same
+.IR item_type ,
+or unless it is modified by any of the underlying service modules.
+If the item has not been previously set,
+.B pam_get_item(\|)
+returns a NULL pointer.
+An
+.IR item
+retrieved by
+.B pam_get_item(\|)
+should not be modified or freed.  The item will be released by
+.BR pam_end(\|) .
+.SH "RETURN VALUES"
+.PP
+Upon success
+.B pam_get_item(\|)
+returns PAM_SUCCESS; otherwise it returns an error code.
+Refer to
+.BR pam (3)
+for information on error related return values.
+.SH "SEE ALSO"
+.BR pam_start (3),
+.BR pam_authenticate (3),
+.BR pam_acct_mgmt (3),
+.BR pam_open_session (3),
+.BR pam_setcred (3),
+.BR pam_chauthtok (3),
+.BR pam_get_user (3),
+.BR pam (3)

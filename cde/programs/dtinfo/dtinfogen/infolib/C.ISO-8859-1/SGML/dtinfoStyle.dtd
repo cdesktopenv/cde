@@ -1,0 +1,345 @@
+<!-- $XConsortium: dtinfoStyle.dtd /main/20 1996/11/07 11:56:27 drk $ -->
+<!--
+	The known set of features for rendering online and printed
+	material.
+  -->
+
+<!-- signed values -->
+<!ENTITY % integer  "CDATA" >
+
+<!-- true or false -->
+<!ENTITY % torf "NAME" >
+
+<!ENTITY % online-only "" >
+
+<!ENTITY % print-only	"Footer | Header | Medium | PageBreak" >
+
+<!ENTITY % feature "
+	Border |
+	Cell |
+	ColFormat |
+	Font |
+	Highlight |
+	Ignore |
+	Layout |
+	LineBreak |
+	Margin |
+	Position |
+	Prefix |
+	Row |
+	Suffix |
+	TGroup |
+	Table |
+	%print-only;
+	%online-only;
+	">
+
+<!ENTITY % content-features "
+	Font |
+	Highlight |
+	Layout |
+	LineBreak |
+	Position |
+	Prefix |
+	Suffix
+	">
+
+<!-- Parameter entities for CALS table col/row separators -->
+
+<!ENTITY % cals.colsep "
+	Colsep		%integer;	#IMPLIED
+	">
+<!ENTITY % cals.rowsep "
+	Rowsep		%integer;	#IMPLIED
+	">
+<!ENTITY % cals.colrowsep "
+	%cals.colsep;
+	%cals.rowsep;
+	">
+
+<!--     Document structure       -->
+
+<!ELEMENT StyleSheet - O ( AutoNumber*, (Path, ((Online, Print?)|(Print, Online?)) )+ ) >
+<!ATTLIST StyleSheet
+		Name		ID			#REQUIRED
+		Version		NAME			#FIXED "CDE-1.1"
+
+		%DTINFO.StyleSheet;
+		%DTINFO.ID;				"attr( Name )"
+>
+
+<!ELEMENT Path - O ( (#PCDATA | Select)+ ) >
+<!ATTLIST Path
+		%DTINFO.Style.Path;
+>
+
+<!ELEMENT Select - - ( #PCDATA )>
+<!ATTLIST Select
+		%DTINFO.Style.Select;
+>
+
+<!ELEMENT Online - O ( (%feature;)* ) -(%print-only;) >
+<!ATTLIST Online
+		%DTINFO.Style.Online;
+>
+
+
+<!ELEMENT Print  - O ( (%feature;)* ) >
+<!ATTLIST Print
+		%DTINFO.Style.Print;
+>
+
+
+<!--
+	FEATURES
+  -->
+
+<!ELEMENT AutoNumber - O EMPTY>
+<!ATTLIST AutoNumber
+		%DTINFO.Style.AutoNum;
+		ID              ID                      #REQUIRED
+		Type            (Arabic | UCalpha | LCalpha
+                                | UCroman | LCroman)	Arabic
+		Initial		CDATA			"1"
+		Delta		%integer;		1
+		Reset		NAMES			#REQUIRED
+		Counter		NAMES			#REQUIRED
+>
+
+<!--
+	FONTS
+  -->
+
+<!--
+	deprecated per new override rules of Family:
+		any font family specification overrides the inheritance
+		of a previously specified font family
+<!ELEMENT ActiveCharset - O EMPTY >
+<!ATTLIST ActiveCharset
+		Charset		CDATA			#REQUIRED
+
+		%DTINFO.Style.Feature;
+>
+-->
+
+<!ELEMENT Font - O ( Family* ) >
+<!ATTLIST Font
+		Fallback	(sans|serif|mono|symbol|mincho|gothic)
+							#IMPLIED
+
+		Position	(sub|super|baseline|subscript|superscript)
+							#IMPLIED
+		Size		%integer;		#IMPLIED
+		Slant		(roman|italic)		#IMPLIED
+		Spacing		(char|monospace|prop)	#IMPLIED
+		Style		CDATA			#IMPLIED
+		Weight		(medium|bold)		#IMPLIED
+		Width		(normal|narrow)		#IMPLIED
+
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT Family - O EMPTY>
+<!ATTLIST Family
+		Name		CDATA			#REQUIRED
+		Charset		CDATA			#REQUIRED
+		Foundry		CDATA			#IMPLIED
+
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT Highlight - O EMPTY >
+<!ATTLIST Highlight
+		BGColor		CDATA			#IMPLIED
+		FGColor		CDATA			#IMPLIED
+		Overline	%torf;			#IMPLIED
+		StrikeThrough	%torf;			#IMPLIED
+		Underline	%torf;			#IMPLIED
+
+		%DTINFO.Style.Feature;
+>
+
+
+<!--
+	LAYOUT
+  -->
+
+<!ELEMENT Layout - O EMPTY>
+<!ATTLIST Layout
+
+	-- Spacing: above, below, between --
+		ASpace		%integer;		#IMPLIED
+		BSpace		%integer;		#IMPLIED
+		Leading		%integer;		#IMPLIED
+
+	-- Indentation: first line, left, right --
+		FIndent		%integer;		#IMPLIED
+		LIndent		%integer;		#IMPLIED
+		RIndent		%integer;		#IMPLIED
+
+	-- Text flow --
+		Flow		(verbatim|filled)	#IMPLIED
+		Justify		(left|right|center)	#IMPLIED
+		Wrap		(block|join|none)	#IMPLIED
+
+		%DTINFO.Style.Feature;
+>
+
+
+<!ELEMENT LineBreak - O EMPTY >
+<!ATTLIST LineBreak
+		%DTINFO.Style.Choice;	(after|before|both)	#IMPLIED
+
+		%DTINFO.Style.Feature;
+>
+
+
+<!ELEMENT Margin - O EMPTY >
+<!ATTLIST Margin
+		Bottom		%integer;		#IMPLIED
+		Left		%integer;		#IMPLIED
+		Right		%integer;		#IMPLIED
+		Top		%integer;		#IMPLIED
+
+		%DTINFO.Style.Feature;
+>
+
+
+<!ELEMENT Position - O EMPTY >
+<!ATTLIST Position
+		Horiz
+			(lcorner|left|lmargin|rcorner|right|rmargin|center)
+							#IMPLIED
+		Vert		(top|bottom|middle)	#IMPLIED
+
+		%DTINFO.Style.Feature;
+>
+
+
+<!--
+	MISCELLANEOUS
+  -->
+
+<!ELEMENT Border - O EMPTY >
+<!ATTLIST Border
+		Display		CDATA			#REQUIRED
+		Thickness	NUMBER			#IMPLIED
+
+		%DTINFO.Style.Feature;
+>
+
+<!--
+<!ELEMENT Graphic - O EMPTY >
+<!ATTLIST Graphic
+		Detachable	(true|false)		#IMPLIED
+		Height		NUMBER			#IMPLIED
+		Width		NUMBER			#IMPLIED
+
+		%DTINFO.Style.Feature;
+>
+-->
+
+<!ELEMENT Ignore - O EMPTY>
+<!ATTLIST Ignore
+		%DTINFO.Style.Choice;    (true)		true
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT (Prefix|Suffix) - - (Content, (%content-features;)* ) >
+<!ATTLIST (Prefix|Suffix)
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT Content O O (#PCDATA|Auto)+ >
+<!ATTLIST Content
+		%DTINFO.Style.Content;
+>
+
+<!ELEMENT Auto - O EMPTY>
+<!ATTLIST Auto
+		%DTINFO.Style.AutoRef;
+		ID		IDREF			#REQUIRED
+>
+
+<!--
+	PRINT
+  -->
+
+<!ELEMENT (Footer|Header) - - (Content, (%content-features;)* ) >
+<!ATTLIST (Footer|Header)
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT Medium - O EMPTY >
+<!ATTLIST Medium
+		Orientation	(Landscape|Portrait)	#IMPLIED
+		Size		(Letter|Legal|Tabloid|Ledger
+				|Statement|Executive
+				|A3|A4|A5|B4|B5|folio|quarto)
+							#IMPLIED
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT PageBreak - O EMPTY>
+<!ATTLIST PageBreak
+		%DTINFO.Style.Choice;    (before|after|both)	#REQUIRED
+
+		%DTINFO.Style.Feature;
+>
+
+<!--
+	TABLES
+  -->
+
+<!ELEMENT Table - O EMPTY>
+<!ATTLIST Table
+		%cals.colrowsep;
+		Frame		CDATA			#REQUIRED
+
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT TGroup - O EMPTY>
+<!ATTLIST TGroup
+		CharAlign	CDATA			"."
+		Cols		CDATA			#IMPLIED
+		Justify		CDATA			"left"
+		VJustify	CDATA			"top"
+		%cals.colrowsep;
+
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT ColFormat - O EMPTY>
+<!ATTLIST ColFormat
+		CharAlign	CDATA			#IMPLIED
+		Justify		CDATA			#IMPLIED
+		Name		CDATA			#IMPLIED
+		Width		CDATA			#IMPLIED
+		%cals.colrowsep;
+
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT Row - O EMPTY>
+<!ATTLIST Row
+		VJustify	CDATA			#IMPLIED
+		%cals.rowsep;
+
+		%DTINFO.Style.Feature;
+>
+
+<!ELEMENT Cell - O EMPTY>
+<!ATTLIST Cell
+		CharAlign	CDATA			#IMPLIED
+		ColRef		CDATA			#IMPLIED
+		ColStart	CDATA			#IMPLIED
+		ColEnd		CDATA			#IMPLIED
+		MoreRows	CDATA			1
+		Justify		CDATA			#IMPLIED
+		VJustify	CDATA			#IMPLIED
+		%cals.colrowsep;
+
+		%DTINFO.Style.Feature;
+>
+

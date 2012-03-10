@@ -1,0 +1,45 @@
+# $XConsortium: Makefile.novell /main/2 1996/05/13 11:58:35 drk $
+##########################################################################
+#
+#  Makefile for motif drag and drop examples (Novell)
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Novell, Inc.
+#
+##########################################################################
+
+CC		= cc
+RM		= rm -f
+
+PROGRAM		= DNDDemo
+SOURCES		= DNDDemo.c DNDDraw.c
+OBJECTS		= DNDDemo.o DNDDraw.o
+
+DEFINES		= 
+CDEBUGFLAGS	= -O
+CFLAGS		= -Xc $(DEFINES) $(CDEBUGFLAGS)
+
+DTINCLUDE	= -I/usr/dt/include
+X11INCLUDE	= -I/usr/X/include
+
+INCLUDES	= $(DTINCLUDE) $(X11INCLUDE)
+
+DTLIBS		= -L/usr/dt/lib -lDtWidget -lXm
+X11LIBS		= -L/usr/X/lib -lXt -lX11
+SYSLIBS		= -lw -lgen -lnsl -lresolv -lsocket -lXIM
+
+LIBRARIES	= $(DTLIBS) $(X11LIBS) $(SYSLIBS)
+LDFLAGS		= 
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM)
+
+$(PROGRAM)::	$(OBJECTS)
+	$(CC) -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+clean::
+	$(RM) $(PROGRAM) $(OBJECTS)

@@ -1,0 +1,130 @@
+.\" $XConsortium: pam_sm_authenticate.3 /main/5 1996/10/29 15:19:54 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.\" Don't forget to enter .IX index entries for each function.
+.nr X
+.TH pam_sm_authenticate 3 "9 Jan 1996"
+.SH NAME
+pam_sm_authenticate
+\- Service provider implementation for pam_authenticate
+.SH SYNOPSIS
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+#include <security/pam_modules.h>
+.ft
+.fi
+.LP
+.BI "int pam_sm_authenticate(pam_handle_t *" "pamh" ,
+.BI "int " "flags" ,
+.BI "int " "argc",
+.BI "const char **" "argv");
+.SH DESCRIPTION
+.IX "pam_auth" "" "\fLpam_auth\fP \(em request authentication"
+In response to a call to
+.BR pam_authenticate (3),
+the PAM framework calls
+.B pam_sm_authenticate(\|)
+from the modules listed in the
+.BR pam.conf (4)
+file.
+The authentication provider supplies the back-end functionality for
+this interface function.
+.LP
+The function,
+.BR pam_sm_authenticate(\|) ,
+is called to verify the identity of the current user.
+The user is usually required to enter
+a password or similar authentication token depending upon
+the authentication scheme configured within the system.
+The user in question is specified by a prior call to
+.BR pam_start(\|) ,
+and is referenced by the authentication handle,
+.IR pamh.
+.LP
+If the user is unknown to the authentication service,
+the service module should mask this error
+and continue to prompt the user for a password.
+It should then return the error,
+PAM_USER_UNKNOWN.
+.LP
+The following flag may be passed in to
+.B pam_sm_authenticate(\|):
+.RS
+.IP PAM_SILENT 35
+The authentication service should not generate any messages
+.IP PAM_DISALLOW_NULL_AUTHTOK 35
+The authentication service should return PAM_AUTH_ERROR
+if the user has a null authentication token
+.RE
+.PP
+The
+.I argc
+argument
+represents the number of module options passed in from the configuration file
+.BR pam.conf (4).
+.I argv
+specifies the module options, which are interpreted and processed
+by the authentication service.
+Please refer to the specific module man pages
+for the various available
+.I options.
+If any unknown option is passed in, the module should log the error and
+ignore the option.
+.LP
+Before returning,
+.B pam_sm_authenticate(\|)
+should call
+.B pam_get_item(\|)
+and retrieve PAM_AUTHTOK.
+If it has not been set before (ie. the value is NULL),
+.B pam_sm_authenticate(\|)
+should set it to the password entered by the user
+using
+.BR pam_set_item(\|) .
+.PP
+An authentication module may save the authentication status
+(success or reason for failure)
+as state in the authentication handle using
+.BR pam_set_data (3).
+This information is intended for use by
+.BR pam_setcred(\|) .
+.SH NOTES
+Modules should not retry the authentication in the event of a failure.
+Applications handle authentication retries and maintain the retry count.
+To limit the number of retries, the module can return a
+PAM_MAXTRIES error.
+.SH "RETURN VALUES"
+.PP
+Upon successful completion, PAM_SUCCESS must be returned.
+In addition, the following values may be returned:
+.RS
+.IP PAM_MAXTRIES 29
+Maximum number of authentication attempts exceeded
+.IP PAM_AUTH_ERR 29
+Authentication failure
+.IP PAM_CRED_INSUFFICIENT 29
+Can not access authentication data due to insufficient credentials
+.IP PAM_AUTHINFO_UNAVAIL 29
+Underlying authentication service can not retrieve authentication information
+.IP PAM_USER_UNKNOWN 29
+User not known to underlying authentication module
+.IP PAM_IGNORE 29
+Ignore underlying authentication module regardless of whether the control
+flag is
+.I required, optional
+or
+.I sufficient
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR pam_authenticate (3),
+.BR pam.conf (4)

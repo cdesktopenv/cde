@@ -1,0 +1,1655 @@
+<!-- $XConsortium: ch13.sgm /main/10 1996/12/20 20:48:17 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.frpc.div.1">
+<title id="sag.frpc.mkr.1">Personalizzazione avanzata del Pannello principale<indexterm>
+<primary>Pannello principale</primary><secondary>personalizzazione</secondary>
+</indexterm></title>
+<para>&Egrave; possibile personalizzare il Pannello principale usando i menu
+a scomparsa e i controlli &ldquo;Installazione icona&rdquo; dei pannelli secondari.
+</para>
+<para>Questo capitolo descrive la personalizzazione del Pannello principale
+mediante la creazione e la modifica dei file di configurazione.</para>
+<informaltable id="sag.frpc.itbl.1" frame="all">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'File di configurazione del Pannello
+principale--><!--214'--><xref role="JumpText" linkend="sag.frpc.mkr.3"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Amministrazione delle personalizzazioni
+dell'i--><!--nterfaccia utente216'--><xref role="JumpText" linkend="sag.frpc.mkr.5"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Organizzazione della definizione
+del Pannello --><!--principale217'--><xref role="JumpText" linkend="sag.frpc.mkr.6"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Modifica del Pannello primario221'--><xref
+role="JumpText" linkend="sag.frpc.mkr.9"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creazione e modifica dei pannelli
+secondari226--><!--'--><xref role="JumpText" linkend="sag.frpc.mkr.13"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Definizione dei controlli del Pannello
+princip--><!--ale231'--><xref role="JumpText" linkend="sag.frpc.mkr.15"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Personalizzazione dei commutatori
+degli spazi --><!--di lavoro239'--><xref role="JumpText" linkend="sag.frpc.mkr.23"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Configurazione generale del Pannello
+principal--><!--e241'--><xref role="JumpText" linkend="sag.frpc.mkr.26"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="sag.frpc.div.2">
+<title>Vedere anche</title>
+<itemizedlist remap="Bullet1">
+<listitem><para id="sag.frpc.mkr.2">Per informazioni di riferimento sui controlli
+e la configurazione del Pannello principale, vedere la pagina di spiegazioni <filename moreinfo="refentry">dtfpfile(4X)</filename>.</para>
+</listitem>
+<listitem><para>Per informazioni di riferimento sulla Gestione dello spazio
+di lavoro, vedere le pagine di spiegazioni <filename>dtwm(1)</filename> e <filename>dtwmrc(4)</filename>.</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="sag.frpc.div.3">
+<title id="sag.frpc.mkr.3">File di configurazione del Pannello principale<indexterm>
+<primary>file di configurazione</primary><secondary>Pannello principale</secondary>
+</indexterm><indexterm><primary>Pannello principale</primary><secondary>file
+di configurazione</secondary></indexterm></title>
+<para>Il Pannello principale &egrave; definito in un database di file di configurazione.
+</para>
+<para>Modificando i file di configurazione &egrave; possibile personalizzare
+il Pannello principale. Alcune modifiche possono essere effettuate solo intervenendo
+sui file di configurazione; tra queste:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>L'aggiunta di un nuovo controllo al Pannello principale.</para>
+</listitem>
+<listitem><para>L'aggiunta di controlli speciali, come le finestre dei client.
+</para>
+</listitem>
+<listitem><para>Il cambiamento di alcuni comportamenti predefiniti &mdash;
+ad esempio, la risposta al clic singolo o doppio dei controlli del Pannello
+principale.</para>
+</listitem>
+</itemizedlist>
+<para>Per fornire la massima flessibilit&agrave; nella configurazione del
+pannello, questi file possono essere personali, di sistema o residenti su
+altri sistemi.</para>
+<para>Il Pannello principale viene creato e gestito attraverso la Gestione
+dello spazio di lavoro.</para>
+<sect2 id="sag.frpc.div.4">
+<title>File di configurazione predefinito del Pannello principale</title>
+<para>Le impostazioni del Pannello principale predefinito si trovano nel file
+di configurazione <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp</filename>.<indexterm><primary>dtwm.fp,
+file</primary></indexterm></para>
+<para>Questo file non dovrebbe essere modificato.</para>
+</sect2>
+<sect2 id="sag.frpc.div.5">
+<title>Percorso di ricerca per i file di configurazione del Pannello principale<indexterm>
+<primary>percorsi di ricerca</primary><secondary>Pannello principale</secondary>
+</indexterm><indexterm><primary>Pannello principale</primary><secondary>percorso
+di ricerca</secondary></indexterm></title>
+<para>La definizione del Pannello principale pu&ograve; essere distribuita
+in qualsiasi numero di file residenti localmente o su sistemi remoti.</para>
+<para><indexterm><primary>Pannello principale</primary><secondary>convenzioni
+per i nomi dei file</secondary></indexterm>I file usati per definire il Pannello
+principale devono rispondere ai seguenti requisiti:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome del file deve terminare con il suffisso <filename>.fp</filename>; ad esempio, <filename>posta.fp</filename>.</para>
+</listitem>
+<listitem><para>Il file deve trovarsi nel percorso di ricerca del database
+delle azioni.</para>
+</listitem>
+</itemizedlist>
+<para>Il percorso di ricerca predefinito per il database delle azioni include,
+nell'ordine, le seguenti directory:</para>
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row>
+<entry><para><symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename></para></entry>
+<entry><para>Impostazioni personali</para></entry></row>
+<row>
+<entry><para><filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para></entry>
+<entry><para>Impostazioni di sistema</para></entry></row>
+<row>
+<entry><para><filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para></entry>
+<entry><para>Pannello e controlli predefiniti</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Un'altra directory, <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/fp_dynamic</filename>,<indexterm><primary>fp_dynamic, directory</primary></indexterm><indexterm><primary>Pannello principale</primary><secondary>personalizzazione</secondary><tertiary>dinamica</tertiary></indexterm> viene
+usata per le impostazioni personali effettuate con l'interfaccia utente. Non
+usare questa directory per modificare le impostazioni manualmente.</para>
+<para>Il percorso di ricerca del database delle azioni pu&ograve; essere integrato
+con altre directory usate per configurare il sistema in un ambiente di rete.
+In particolare, &egrave; possibile aggiungere directory remote quando il sistema
+viene configurato per accedere ad un server di applicazioni. Per maggiori
+informazioni, vedere <!--Original XRef content: '&ldquo;Percorso di ricerca
+dei database (azio--><!--ni/tipi di dati)&rdquo; a pagina&numsp;122'--><xref
+role="SecTitleAndPageNum" linkend="sag.datab.mkr.12">.</para>
+</sect2>
+<sect2 id="sag.frpc.div.6">
+<title id="sag.frpc.mkr.4">Regole di precedenza per la configurazione del
+Pannello principale<indexterm><primary>Pannello principale</primary><secondary>regole di precedenza nella composizione</secondary></indexterm><indexterm>
+<primary>precedenza</primary><secondary>nella composizione del Pannello principale</secondary></indexterm></title>
+<para>L'aspetto e il comportamento del Pannello principale sono il risultato
+di tutti i file di configurazione inclusi nel percorso di ricerca del database
+delle azioni.</para>
+<para>Quando esiste un conflitto tra due o pi&ugrave; componenti della definizione,
+il valore da applicare viene scelto in base a determinate regole di precedenza.
+Due componenti entrano in conflitto nei seguenti casi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Quando il nome del controllo, il valore di <filename>CONTAINER_NAME</filename> e il valore di <filename>CONTAINER_TYPE</filename> sono uguali.
+</para>
+</listitem>
+<listitem><para>Oppure, quando sono in concorrenza per la stessa posizione
+(avendo nomi diversi ma gli stessi valori per i campi <filename>CONTAINER_NAME</filename>, <filename>CONTAINER_TYPE</filename> e <filename>POSITION_HINTS</filename> ).</para>
+</listitem>
+</itemizedlist>
+<para>Il Pannello principale utilizza le seguenti regole di precedenza:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Se i componenti sono due controlli con lo stesso nome, e si
+trovano in contenitori con lo stesso nome e dello stesso tipo, verr&agrave;
+usato il componente letto per primo.</para>
+<para>Ad esempio, se un controllo di sistema e un controllo predefinito presentano
+valori uguali per questi campi ma valori diversi per il resto della definizione:
+</para>
+<programlisting remap="CodeIndent1">CONTROL TextEditor
+{
+   CONTAINER_TYPE   BOX
+   CONTAINER_NAME   Top
+   ...
+}</programlisting>
+<para>avr&agrave; la precedenza il controllo di sistema.</para>
+</listitem>
+<listitem><para>Se due componenti sono in competizione per la stessa posizione,
+essi verranno collocati nell'ordine in cui verranno letti.</para>
+<para>Ad esempio, se si crea un nuovo controllo personale per il Pannello
+principale (<filename>CONTAINER_TYPE</filename> BOX e <filename>CONTAINER_NAME</filename> Top) e lo si assegna alla posizione <filename>POSITION_HINTS</filename>
+5, questo nuovo controllo far&agrave; scalare verso destra il controllo predefinito
+e tutti gli altri controlli con numeri di posizione pi&ugrave; alti.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Quando si modifica un controllo creandone una nuova versione a livello
+di sistema o personale, la nuova definizione deve contenere lo stesso nome
+per il controllo e gli stessi valori per i campi <command>CONTAINER_NAME</command>
+e <command>CONTAINER_TYPE</command>. Diversamente, il nuovo controllo apparir&agrave;
+in aggiunta a quello esistente.</para>
+</note>
+</sect2>
+<sect2 id="sag.frpc.div.7">
+<title><indexterm><primary>Pannello principale</primary><secondary>personalizzazione</secondary><tertiary>dinamica</tertiary></indexterm>File del Pannello principale
+creati dinamicamente</title>
+<para>Quando un utente personalizza il Pannello principale usando il controllo
+&ldquo;Installazione icona&rdquo; e i menu a scomparsa, le modifiche vengono
+scritte nella directory <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/fp_dynamic.</filename></para>
+<para>Viene creato un altro file, <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/sessions/dtwmfp.session</filename>,<indexterm><primary>dtwmfp.session, file</primary></indexterm> che verr&agrave; usato per salvare
+e ripristinare lo stato del Pannello principale personalizzato ad ogni avvio
+di una sessione.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.frpc.div.8">
+<title id="sag.frpc.mkr.5">Amministrazione delle personalizzazioni dell'interfaccia
+utente</title>
+<para>Ogni utente ha la possibilit&agrave; di personalizzare il Pannello principale
+usando i menu a scomparsa e i controlli &ldquo;Installazione icona&rdquo;.
+</para>
+<para>Questa sezione descrive le procedure per:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Impedire alcune modifiche personali. Ad esempio, si pu&ograve;
+rendere impossibile la cancellazione di un controllo da parte degli utenti.
+</para>
+</listitem>
+<listitem><para>Annullare le modifiche personali. Ad esempio, sar&agrave;
+possibile ripristinare un controllo cancellato accidentalmente da un utente.
+</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.frpc.div.9" role="Procedure">
+<title>Come impedire le modifiche personali<indexterm><primary>Pannello principale</primary><secondary>controllo delle personalizzazioni</secondary></indexterm><indexterm>
+<primary>Pannello principale</primary><secondary>controlli, Vedere controlli&lt;</secondary></indexterm><indexterm><primary>$nopage></primary></indexterm></title>
+<orderedlist>
+<listitem><para>Se il controllo &egrave; predefinito, copiarne la definizione
+da <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp</filename> in <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/</filename><symbol role="Variable">nome</symbol><filename>.fp</filename>.</para>
+</listitem>
+<listitem><para>Aggiungere la riga seguente alla definizione del controllo:
+</para>
+<para remap="CodeIndent1"><computeroutput>LOCKED True</computeroutput></para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.frpc.div.10" role="Procedure">
+<!--TRANSLATORS: When translating the following paragraphs refer to Chapter
+13 of the Italian CDE 1.0 Sysadmin Guide (hard copy). You can probably reuse
+some of the translation that is already there.-->
+<title>Come ripristinare un Pannello principale modificato, un controllo cancellato
+o un pannello secondario cancellato<indexterm><primary>pannelli secondari</primary><secondary>ripristino dei pannelli cancellati</secondary></indexterm><indexterm>
+<primary>controlli</primary><secondary>ripristino dei controlli cancellati</secondary></indexterm> cancellato</title>
+<para>L'azione Ripristinare pannello principale del gruppo Strumenti_desktop
+elimina tutte le<indexterm><primary>Ripristinare Pannello principale, azione</primary></indexterm> modifiche apportate al Pannello principale. Gli utenti
+potranno usare questa azione per eliminare le modifiche personali eseguite
+coni menu a scomparsa del Pannello principale.<indexterm><primary>controlli</primary><secondary>blocco</secondary></indexterm><indexterm><primary>LOCKED<?Pub Caret>,
+campo</primary></indexterm></para>
+<para>Per ripristinare un singolo controllo, usare la procedure seguente:
+</para>
+<itemizedlist>
+<listitem><para>In <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/fp_dynamic</filename>, cancellare il file che &egrave; stato creato
+al momento della cancellazione del controllo. Il controllo avr&agrave; lo
+stesso nome di quello originale precedentemente cancellato.</para>
+<para>Ad esempio, se &egrave; stato cancellato il controllo dell'Editor delle
+icone, la directory <filename>fp_dynamic</filename> conterr&agrave; un file
+con i seguenti valori:</para>
+<programlisting remap="CodeIndent1">CONTROL IconEditor 
+(
+   ...
+   DELETE True
+}</programlisting>
+</listitem>
+</itemizedlist>
+<para>Quando si cancella un pannello secondario, viene creato un file dinamico
+separato per il pannello secondario e per ognuno dei controlli contenuti
+in quel pannello.</para>
+<para>For related information, see
+<!--XRef content: 'Modifying the Main Panel'--><xref role="JumpText" linkend="SAG.FrPC.div.11">.
+</para>
+</sect2>
+</sect1>
+<sect1 id="sag.frpc.div.11">
+<title id="sag.frpc.mkr.6">Organizzazione della definizione del Pannello principale<indexterm>
+<primary>Pannello principale</primary><secondary>organizzazione delle definizioni</secondary></indexterm></title>
+<para>La configurazione del Pannello principale risulta dalle definizioni
+dei suoi componenti. Ognuno di questi componenti ha una sintassi che ne definisce
+l'aspetto, il comportamento e la posizione nel Pannello principale.</para>
+<sect2 id="sag.frpc.div.12">
+<title id="sag.frpc.mkr.7">Componenti del Pannello principale<indexterm><primary>Pannello principale</primary><secondary>componenti</secondary></indexterm></title>
+<figure>
+<title>Componenti del Pannello principale</title>
+<graphic id="sag.frpc.grph.1" entityref="SAG.FrPC.fig.1"></graphic>
+</figure>
+<para>Il Pannello principale viene creato dall'esterno verso l'interno:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il pannello primario (<command>PANEL</command>)<indexterm>
+<primary>PANEL</primary><secondary>definizione</secondary></indexterm><indexterm>
+<primary>pannello primario</primary><secondary>definizione</secondary></indexterm>
+&egrave; il contenitore di primo livello per l'intero Pannello principale.
+</para>
+</listitem>
+<listitem><para>Il pannello primario funge da contenitore per uno o pi&ugrave;
+riquadri (<command>BOX</command>).</para>
+</listitem>
+<listitem><para>Ogni riquadro <command><indexterm><primary>BOX</primary><secondary>definizione</secondary></indexterm><indexterm><primary>riquadro</primary>
+<secondary>definizione</secondary></indexterm></command>&egrave; un contenitore
+per uno o pi&ugrave; controlli (<command>CONTROL</command>).</para>
+</listitem>
+</itemizedlist>
+<para>Esistono due tipi di contenitori speciali:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il pannello secondario (<command><indexterm><primary>SUBPANEL,
+definizione</primary></indexterm><indexterm><primary>pannello secondario</primary>
+<secondary>definizione</secondary></indexterm>SUBPANEL</command>) &egrave;
+un contenitore associato a un controllo specifico (il controllo funge da contenitore
+per il pannello secondario). I pannelli secondari &ldquo;scorrono in alto&rdquo;
+a partire dal controllo a cui sono associati.</para>
+</listitem>
+<listitem><para>L'area dei commutatori (<indexterm><primary>commutatori degli
+spazi di lavoro</primary><secondary>definizione</secondary></indexterm><indexterm>
+<primary>area dei commutatori</primary><secondary>definizione</secondary>
+</indexterm><command>SWITCH</command>) contiene i pulsanti per la scelta dello
+spazio di lavoro ed alcuni altri controlli.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.frpc.div.13">
+<title id="sag.frpc.mkr.8">Sintassi generale per la definizione del Pannello
+principale<indexterm><primary>Pannello principale</primary><secondary>sintassi
+della definizione</secondary></indexterm></title>
+<para>Ogni componente del Pannello principale viene definito separatamente
+usando la sintassi:</para>
+<programlisting>COMPONENTE nome
+{
+   PAROLA_CHIAVE valore
+   PAROLA_CHIAVE valore
+   &hellip;
+}</programlisting>
+<para>Alcune parole chiave sono richieste obbligatoriamente, altre sono opzionali.
+Per maggiori informazioni, vedere la pagina di spiegazioni <filename moreinfo="refentry">dtfpfile(4X</filename>).</para>
+<sect3 id="sag.frpc.div.14">
+<title><indexterm><primary>PANEL</primary><secondary>sintassi della definizione</secondary></indexterm><indexterm><primary>pannello primario</primary><secondary>sintassi della definizione</secondary></indexterm>Definizione del pannello
+primario (PANEL)</title>
+<para>Il pannello primario &egrave; il componente di primo livello. La sua
+definizione include:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome del pannello</para>
+</listitem>
+<listitem><para>Una serie di campi che descrivono l'aspetto generale e il
+comportamento dell'intero pannello</para>
+</listitem>
+</itemizedlist>
+<programlisting>PANEL nome_pannello_primario
+{
+   PAROLA_CHIAVE valore
+   PAROLA_CHIAVE valore
+   &hellip;
+}</programlisting>
+<para>Il valore <symbol>nome_pannello_primario</symbol> indica il nome unico
+usato per il Pannello principale. Il nome predefinito &egrave; &ldquo;FrontPanel&rdquo;.
+</para>
+</sect3>
+<sect3 id="sag.frpc.div.15">
+<title><indexterm><primary>BOX</primary><secondary>sintassi della definizione</secondary></indexterm><indexterm><primary>riquadro</primary><secondary>sintassi della definizione</secondary></indexterm>Definizioni dei riquadri
+(BOX)</title>
+<para>La definizione di un riquadro comprende:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome del riquadro</para>
+</listitem>
+<listitem><para>Il pannello primario in cui si trova il riquadro (<filename><indexterm>
+<primary>CONTAINER_NAME, campo</primary></indexterm>CONTAINER_NAME</filename>)
+</para>
+</listitem>
+<listitem><para>La posizione del riquadro nel pannello (<filename>POSITION_HINTS</filename> )</para>
+</listitem>
+<listitem><para>I campi che descrivono l'aspetto e il comportamento e che
+si applicano all'intero riquadro</para>
+</listitem>
+</itemizedlist>
+<programlisting>BOX nome_riquadro
+{
+   CONTAINER_NAME nome_pannello_primario
+   POSITION_HINTS posizione
+   PAROLA_CHIAVE  valore
+   PAROLA_CHIAVE  valore
+   &hellip;
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.16">
+<title><indexterm><primary>CONTROL, sintassi della definizione</primary></indexterm><indexterm>
+<primary>controllo, sintassi della definizione</primary></indexterm>Definizioni
+dei controlli (CONTROL)</title>
+<para>La definizione di un controllo specifica:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome del controllo</para>
+</listitem>
+<listitem><para>Se il controllo si trova all'interno di un riquadro, di un
+pannello secondario o dell'area dei commutatori (<filename><indexterm><primary>CONTAINER_TYPE, campo</primary></indexterm>CONTAINER_TYPE</filename>)</para>
+</listitem>
+<listitem><para>Il riquadro, il pannello secondario o l'area dei commutatori
+in cui si trova il controllo (<filename><indexterm><primary>CONTAINER_NAME,
+campo</primary></indexterm>CONTAINER_NAME</filename>)</para>
+</listitem>
+<listitem><para>La posizione del controllo nel riquadro (<filename>POSITION_HINTS</filename> ).</para>
+</listitem>
+<listitem><para>L'aspetto e il comportamento del controllo</para>
+</listitem>
+</itemizedlist>
+<programlisting>CONTROL nome_controllo
+{
+   CONTAINER_TYPE  BOX o SUBPANEL o SWITCH
+   CONTAINER_NAME  nome_riquadro o nome_pannello o    nome_commutatore
+   TYPE            tipo_di_controllo
+   POSITION_HINTS  posizione
+   PAROLA_CHIAVE   valore
+   PAROLA_CHIAVE   valore
+   &hellip;
+}</programlisting>
+<indexterm><primary>pannello secondario</primary><secondary>definizione</secondary>
+</indexterm><indexterm><primary>pannello secondario</primary><secondary>sintassi
+della definizione</secondary></indexterm></sect3>
+<sect3 id="sag.frpc.div.17">
+<title>Definizioni dei pannelli secondari (SUBPANEL)</title>
+<para>La definizione di un pannello secondario specifica:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome del pannello secondario</para>
+</listitem>
+<listitem><para>Il nome del controllo a cui il pannello secondario &egrave;
+associato<indexterm><primary>pannello secondario</primary><secondary>contenitore</secondary></indexterm> (<filename><indexterm><primary>CONTAINER_NAME, campo</primary></indexterm>CONTAINER_NAME</filename>)</para>
+</listitem>
+<listitem><para>L'aspetto e il comportamento specifici del pannello secondario
+</para>
+</listitem>
+</itemizedlist>
+<programlisting>SUBPANEL nome_pannello_secondario
+{
+   CONTAINER_NAME nome_controllo 
+   PAROLA_CHIAVE  valore
+   PAROLA_CHIAVE  valore
+   &hellip;
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.18">
+<title><indexterm><primary>SWITCH, definizione</primary></indexterm><indexterm>
+<primary>area dei commutatori</primary><secondary>definizione</secondary>
+</indexterm><indexterm><primary>commutatori degli spazi di lavoro</primary>
+<secondary>sintassi della definizione</secondary></indexterm>Definizione dei
+commutatori (SWITCH)</title>
+<para>La definizione di un commutatore specifica:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome del commutatore</para>
+</listitem>
+<listitem><para>Il riquadro in cui si trova il commutatore (<filename><indexterm>
+<primary>CONTAINER_NAME, campo</primary></indexterm>CONTAINER_NAME</filename>)
+</para>
+</listitem>
+<listitem><para>La posizione del commutatore all'interno del riquadro ( <filename>POSITION_HINTS</filename>)</para>
+</listitem>
+<listitem><para>L'aspetto e il comportamento del commutatore</para>
+</listitem>
+</itemizedlist>
+<programlisting>SWITCH nome_commutatore
+{
+   CONTAINER_NAME nome_riquadro
+   POSITION_HINTS posizione
+   PAROLA_CHIAVE  valore
+   PAROLA_CHIAVE  valore
+   &hellip;
+}</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.frpc.div.19">
+<title id="sag.frpc.mkr.9">Modifica del Pannello primario<indexterm><primary>Pannello principale</primary><secondary>modifica</secondary></indexterm></title>
+<para>Il Pannello primario &egrave; la parte del Pannello principale che include
+tutti i controlli e gli elementi descritti nelle sezioni precedenti, esclusi
+i pannelli secondari.</para>
+<figure>
+<title>Contenitori del Pannello principale</title>
+<graphic id="sag.frpc.grph.2" entityref="SAG.FrPC.fig.2"></graphic>
+</figure>
+<para>Il Pannello principale pu&ograve; essere modificato come segue:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Aggiungendo o eliminando un controllo</para>
+</listitem>
+<listitem><para>Scambiando le posizioni dei controlli</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.frpc.div.20" role="Procedure">
+<title id="sag.frpc.mkr.10">Come aggiungere un controllo al Pannello principale<indexterm>
+<primary>controlli</primary><secondary>aggiunta al Pannello principale</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Creare un file di configurazione per il Pannello principale:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>A livello di sistema: <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/*.fp</filename></para>
+</listitem>
+<listitem><para>A livello personale: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/*.fp</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Definire il controllo all'interno del file.</para>
+<para>Usare i campi <filename>CONTAINER_NAME</filename> e</para>
+<para><filename>CONTAINER_TYPE</filename> per specificare il contenitore da
+usare per il controllo:</para>
+<programlisting remap="CodeIndent1">CONTAINER_NAME Top
+CONTAINER_TYPE  BOX</programlisting>
+<para>Usare il campo <filename>POSITION_HINTS</filename> per specificare la
+posizione del controllo, da sinistra verso destra. Poich&eacute; le impostazioni
+personali hanno la precedenza rispetto a quelle predefinite, il nuovo controllo
+&ldquo;far&agrave; scalare&rdquo; verso destra il controllo che occupava in
+precedenza la posizione specificata.</para>
+</listitem>
+<listitem><para>Salvare il file di configurazione.</para>
+</listitem>
+<listitem><para>Creare un'icona per il controllo del Pannello principale.
+</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Come specificare l'icona
+da usare per --><!--un controllo&rdquo; a pagina&numsp;225'--><xref role="SecTitleAndPageNum"
+linkend="sag.frpc.mkr.12">.</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+<para>La definizione dell'esempio seguente, inclusa nel file <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/audio.fp</filename>, inserisce il controllo
+di un'applicazione audio tra il controllo dell'Orologio e quello dell'Agenda.
+</para>
+<programlisting>CONTROL ApplicazioneAudio
+{
+   TYPE           icon
+   CONTAINER_NAME Top
+   CONTAINER_TYPE BOX
+   ICON           AppAudio
+   POSITION_HINTS 2
+   PUSH_ACTION    AvviaApplicazioneAudio
+   PUSH_RECALL    true
+}</programlisting>
+</sect2>
+<sect2 id="sag.frpc.div.21" role="Procedure">
+<title id="sag.frpc.mkr.11">Come eliminare un controllo<indexterm><primary>controlli</primary><secondary>eliminazione dal Pannello principale</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Creare un file di configurazione per il Pannello principale:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>A livello di sistema: <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/<symbol role="Variable">nome</symbol>.fp</filename></para>
+</listitem>
+<listitem><para>A livello personale: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/</filename><symbol role="Variable">nome</symbol><filename>.fp</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Copiare la definizione del controllo da eliminare nel nuovo
+file.</para>
+<para>Se il controllo &egrave; predefinito, la sua definizione si trover&agrave;
+in <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp.</filename></para>
+<para>Non &egrave; necessario copiare l'intera definizione. Tuttavia, la porzione
+da copiare deve includere i campi <filename>CONTAINER_NAME</filename> e <filename>CONTAINER_TYPE</filename>.</para>
+</listitem>
+<listitem><para>Aggiungere il campo <command>DELETE</command> alla definizione:
+</para>
+<para remap="CodeIndent1"><computeroutput>DELETE True</computeroutput></para>
+</listitem>
+<listitem><para>Salvare il file di configurazione</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+<para>La definizione dell'esempio seguente, inclusa nel file <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/TrashCan.fp</filename>,
+elimina il controllo del Cestino dal Pannello principale.</para>
+<programlisting>CONTROL Trash
+{
+   CONTAINER_NAME Top
+   CONTAINER_TYPE BOX
+   DELETE         True
+}</programlisting>
+</sect2>
+<sect2 id="sag.frpc.div.22" role="Procedure">
+<title>Come modificare un controllo<indexterm><primary>controlli</primary>
+<secondary>modifica</secondary></indexterm></title>
+<para>Per modificare la definizione di un controllo &mdash; ad esempio per
+cambiare l'immagine dell'icona &mdash; usare la procedura seguente:</para>
+<orderedlist>
+<listitem><para>Copiare l'intera definizione del controllo da <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp</filename>
+in:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>A livello di sistema: <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/<symbol role="Variable">nome</symbol>.fp</filename></para>
+</listitem>
+<listitem><para>A livello personale: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/</filename><symbol role="Variable">nome</symbol><filename>.fp</filename>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Editare il campo che si desidera modificare. &Egrave; anche
+possibile aggiungere nuovi campi.</para>
+</listitem>
+<listitem><para>Salvare il file.</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.frpc.div.23" role="Procedure">
+<title>Come scambiare la posizione dei controlli<indexterm><primary>controlli</primary><secondary>interscambio</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Copiare le definizioni dei controlli che si desidera spostare
+da <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp</filename> in:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>A livello di sistema: <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/<symbol role="Variable">nome</symbol>.fp</filename></para>
+</listitem>
+<listitem><para>A livello personale: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/</filename><symbol role="Variable">nome</symbol><filename>.fp</filename>.</para>
+<para>&Egrave; necessario copiare l'intera definizione di tutti i controlli
+da spostare.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Scambiare i valori dei campi <filename><indexterm><primary>POSITION_HINTS, campo</primary></indexterm>POSITION_HINTS</filename> tra le
+definizioni dei controlli.</para>
+</listitem>
+<listitem><para>Salvare il file.</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+<para>Le definizioni seguenti, incluse nel file <filename>/etc/dt/appconfig/types/C/MailHelp.fp</filename>, invertono le posizioni dei controlli della Gestione posta e della
+Gestione dell'aiuto e bloccano questi controlli per impedire modifiche personali
+da parte degli utenti.</para>
+<programlisting>CONTROL Mail
+{
+   POSITION_HINTS 12
+   LOCKED         True
+   &hellip;seguito della definizione del controllo
+}
+
+CONTROL Help
+{
+   POSITION_HINTS 5
+   LOCKED         True
+   &hellip;seguito della definizione del controllo
+}</programlisting>
+</sect2>
+<sect2 id="sag.frpc.div.24" role="Procedure">
+<title>Come sostituire un controllo del Pannello principale<indexterm><primary>controlli</primary><secondary>sostituzione</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Creare una nuova definizione che contenga gli stessi valori
+per:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para><symbol role="Variable">nome_controllo</symbol></para>
+</listitem>
+<listitem><para><filename><indexterm><primary>CONTAINER_NAME, campo</primary>
+</indexterm>CONTAINER_NAME</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+<para>L'esempio seguente mostra le definizioni di due controlli in due diversi
+file di configurazione. Poich&eacute; entrambe presentano lo stesso nome per
+il controllo e per il contenitore, esse vengono associate allo stesso controllo.
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Definizione in <filename>/etc/dt/appconfig/types/C/ControlliSys.fp</filename>:</para>
+<programlisting remap="CodeIndent1">Control ApplicazioneImportante
+{
+   CONTAINER_NAME   Top
+   CONTAINER_TYPE   BOX
+   POSITION_HINTS   2
+&hellip;</programlisting>
+</listitem>
+<listitem><para>Definizione in <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/MioControllo.fp</filename>:</para>
+<programlisting remap="CodeIndent1">Control ApplicazioneImportante
+{
+   CONTAINER_NAME   Top
+   CONTAINER_TYPE   BOX
+   POSITION_HINTS   6
+   &hellip;</programlisting>
+</listitem>
+</itemizedlist>
+<para>Poich&eacute; la definizione personale ha la precedenza, il controllo
+verr&agrave; collocato in posizione 6.</para>
+</sect2>
+<sect2 id="sag.frpc.div.25">
+<title id="sag.frpc.mkr.12">Come specificare l'icona da usare per un controllo<indexterm>
+<primary>controlli</primary><secondary>aspetto</secondary></indexterm><indexterm>
+<primary>controlli</primary><secondary>icone</secondary></indexterm><indexterm>
+<primary>icone</primary><secondary>Pannello principale</secondary></indexterm></title>
+<para>L'icona usata da un controllo viene definita nel campo <command><indexterm>
+<primary>ICON, campo</primary><secondary>nel Pannello principale</secondary>
+</indexterm>ICON</command> della sua definizione.</para>
+<para>Il valore del campo <command>ICON</command> pu&ograve; essere:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome base di un file.</para>
+<para>Per nome base si intende il nome del file grafico contenente l'icona
+meno i suffissi relativi alla dimensione (<filename>m</filename> e <filename>t</filename>) e al tipo di immagine (<filename>bm</filename> e <filename>pm</filename>). Ad esempio, nel caso di due file i cui nomi completi sono <filename>Gioco.l.pm</filename> e <filename>Gioco.m.pm</filename>, il nome base sar&agrave; <filename>Gioco</filename>.</para>
+<para>Per poter utilizzare il nome base, &egrave; necessario che i file delle
+icone si trovino in una directory inclusa nel percorso di ricerca delle icone:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Per le icone personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>Per le icone di sistema: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Il nome completo del file dell'icona preceduto dal percorso
+assoluto.</para>
+<para>Usare il percorso assoluto solo se il file non si trova nel percorso
+di ricerca delle icone.</para>
+</listitem>
+</itemizedlist>
+<para>La dimensione richiesta per l'icona dipende dalla posizione del controllo:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="158*">
+<colspec colwidth="370*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Posizione</para></entry><entry
+align="left" valign="bottom"><para>Dimensione</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Pannello principale</para></entry>
+<entry align="left" valign="top"><para>48 x 48 pixel (<symbol role="Variable">nome</symbol><filename>.l.pm</filename> o <symbol role="Variable">nome</symbol><filename>.l.bm)</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Pannello secondario</para></entry>
+<entry align="left" valign="top"><para>32 x 32 pixel (<symbol role="Variable">nome</symbol><filename>.m.pm</filename> o <symbol role="Variable">nome</symbol><filename>.m.bm)</filename></para></entry></row></tbody></tgroup></informaltable>
+<para>Collocare il file dell'icona in una delle seguenti directory:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Icone personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>Icone di sistema: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="sag.frpc.div.26">
+<title id="sag.frpc.mkr.13">Creazione e modifica dei pannelli secondari<indexterm>
+<primary>pannelli secondari</primary><secondary>creazione</secondary></indexterm><indexterm>
+<primary>pannelli secondari</primary><secondary>modifica</secondary></indexterm></title>
+<para>Per creare e modificare i pannelli secondari si possono usare i menu
+a scomparsa del Pannello principale.</para>
+<para>Questa sezione descrive come effettuare le modifiche a livello di sistema
+intervenendo sui file di configurazione del Pannello principale.</para>
+<para>Ogni pannello secondario &egrave; associato a un controllo del Pannello
+principale.</para>
+<figure>
+<title>Il contenitore di un pannello secondario &egrave; il controllo a cui
+&egrave; associato</title>
+<graphic id="sag.frpc.grph.3" entityref="SAG.FrPC.fig.3"></graphic>
+</figure>
+<para><indexterm><primary>pannelli secondari</primary><secondary>associazione
+con il Pannello principale</secondary></indexterm>L'associazione viene specificata
+nella definizione del pannello secondario. Il campo <filename>CONTAINER_NAME</filename> specifica il controllo a cui &egrave; associato il pannello secondario:
+</para>
+<programlisting>CONTROL nome_controllo
+{
+   &hellip;
+}
+
+SUBPANEL nome_pannello_secondario
+{
+  CONTAINER_NAME nome_controllo
+  &hellip;
+}</programlisting>
+<sect2 id="sag.frpc.div.27" role="Procedure">
+<title>Come creare un nuovo pannello secondario di sistema<indexterm><primary>pannelli secondari</primary><secondary>personalizzazione a livello di sistema</secondary></indexterm><indexterm><primary>pannelli secondari</primary><secondary>creazione</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Individuare il nome del controllo del Pannello principale
+a cui si desidera associare il nuovo pannello secondario.</para>
+<para>Se il controllo &egrave; predefinito, la sua definizione si trover&agrave;
+in <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp</filename>.</para>
+</listitem>
+<listitem><para>Creare un nuovo file <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/*.fp</filename>.</para>
+</listitem>
+<listitem><para>Definire il pannello secondario:</para>
+<programlisting remap="CodeIndent1">SUBPANEL nome_pannello_secondario
+{
+   CONTAINER_NAME   nome_controllo
+   TITLE            valore
+   PAROLA_CHIAVE    valore
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Salvare il nuovo file di configurazione.</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.frpc.div.28">
+<title>Personalizzazione dei pannelli secondari predefiniti<indexterm><primary>pannelli secondari</primary><secondary>personalizzazione di pannelli predefiniti</secondary></indexterm></title>
+<para>&Egrave; possibile modificare sia le caratteristiche generali (come
+il titolo) che il contenuto dei pannelli secondari predefiniti.</para>
+<sect3 id="sag.frpc.div.29" role="Procedure">
+<title>Come modificare le caratteristiche generali di un pannello secondario
+predefinito</title>
+<orderedlist>
+<listitem><para>Creare un nuovo file di configurazione per il Pannello principale:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>A livello di sistema: <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/<symbol role="Variable">nome</symbol>.fp</filename></para>
+</listitem>
+<listitem><para>A livello personale: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/</filename><symbol role="Variable">nome</symbol><filename>.fp</filename>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Copiare l'intera definizione del pannello secondario predefinito
+da <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol>/<filename>dtwm.fp</filename> nel nuovo file:</para>
+<programlisting remap="CodeIndent1">SUBPANEL nome_pannello_secondario
+{
+    &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Modificare la definizione del pannello secondario.</para>
+</listitem>
+<listitem><para>Salvare il nuovo file di configurazione.</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+<para>La definizione dell'esempio seguente, inclusa nel file <filename>/users/anna/.dt/types/AppPers.fp</filename>, cambia il nome del pannello secondario Applicazioni personali:
+</para>
+<programlisting>SUBPANEL PersAppsSubpanel
+{
+   CONTAINER_NAME TextEditor
+   TITLE          Applicazioni di anna
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.30" role="Procedure">
+<title>Come aggiungere un controllo di sistema a un pannello secondario predefinito</title>
+<orderedlist>
+<listitem><para>Creare un file di configurazione del Pannello principale di
+nome <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/<symbol role="Variable">nome</symbol>.fp</filename>.</para>
+</listitem>
+<listitem><para>Definire nel file il controllo di sistema da aggiungere.</para>
+<para>Usare i campi <filename>CONTAINER_NAME</filename> e <filename>CONTAINER_TYPE</filename> per specificare il contenitore per il controllo:</para>
+<programlisting remap="CodeIndent1">CONTROL nome_controllo
+{
+   CONTAINER_NAME nome_pannello_secondario
+   CONTAINER_TYPE SUBPANEL
+   &hellip;
+}</programlisting>
+<para>Vedere <!--Original XRef content: '&ldquo;Definizione dei controlli
+del Pannello--><!-- principale&rdquo; a pagina&numsp;231'--><xref role="SecTitleAndPageNum"
+linkend="sag.frpc.mkr.15">.</para>
+</listitem>
+<listitem><para>Salvare il file di configurazione.</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+<para>L'esempio seguente riporta una definizione, inclusa in un file nuovo
+di nome <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/OrologioDigitale.fp</filename>, che aggiunge un orologio digitale (DigitalClock nel gruppo Strumenti_desktop)
+al pannello secondario Applicazioni personali di tutti gli utenti.</para>
+<programlisting>CONTROL ControlloOrologioDigitale
+{
+   TYPE           icon
+   CONTAINER_NAME PerAppsSubpanel
+   CONTAINER_TYPE SUBPANEL
+   ICON           Dtdgclk
+   PUSH_ACTION    DigitalClock
+   PUSH_RECALL    True
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.31" role="Procedure">
+<title>Come eliminare un controllo da un pannello secondario predefinito</title>
+<itemizedlist>
+<listitem><para>Usare la stessa procedura descritta per l'eliminazione di
+un controllo dal Pannello primario. Vedere <!--Original XRef content:
+'&ldquo;Come eliminare un controllo&rdquo; a --><!--pagina&numsp;223'--><xref
+role="SecTitleAndPageNum" linkend="sag.frpc.mkr.11">.</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="sag.frpc.div.32" role="Procedure">
+<title id="sag.frpc.mkr.14">Come eliminare il controllo<indexterm><primary>Installazione icona, controllo, cancellazione</primary></indexterm> Installazione
+icona</title>
+<itemizedlist>
+<listitem><para>Aggiungere il campo seguente alla definizione del pannello
+secondario:</para>
+<para remap="CodeIndent1"><computeroutput>CONTROL_INSTALL False</computeroutput></para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="sag.frpc.div.33" role="Procedure">
+<title>Come cambiare il comportamento di chiusura automatica dei pannelli
+secondari<indexterm><primary>pannelli secondari</primary><secondary>chiusura
+automatica</secondary></indexterm></title>
+<para>Nell'impostazione predefinita, i pannelli secondari si chiudono quando
+si sceglie un controllo, a meno che il pannello non sia stato spostato dalla
+sua posizione originaria.</para>
+<para>Il Pannello principale pu&ograve; essere configurato in modo da tenere
+i pannelli secondari aperti fino a un comando di chiusura esplicito.</para>
+<orderedlist>
+<listitem><para>Creare un nuovo file di configurazione per il Pannello principale
+in:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>A livello di sistema: <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/*.fp</filename></para>
+</listitem>
+<listitem><para>A livello personale: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/*.fp</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Copiare la definizione predefinita per il pannello da <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol>/<filename>dtwm.fp</filename> nel nuovo file:</para>
+<programlisting remap="CodeIndent1">PANEL FrontPanel
+{
+   &hellip; 
+}</programlisting>
+</listitem>
+<listitem><para>Aggiungere alla definizione il campo seguente:</para>
+<para remap="CodeIndent1"><computeroutput>SUBPANEL_UNPOST False</computeroutput></para>
+</listitem>
+<listitem><para>Salvare il nuovo file di configurazione.</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="sag.frpc.div.34">
+<title id="sag.frpc.mkr.15">Definizione dei controlli del Pannello principale<indexterm>
+<primary>controlli</primary><secondary>definizione</secondary></indexterm></title>
+<para>Ogni utente pu&ograve; creare una serie di controlli personali rilasciando
+le relative icone sui controlli &ldquo;Installazione icona&rdquo;.</para>
+<para>Questa procedura permette di personalizzare facilmente il Pannello principale,
+ma offre solo un sottoinsieme delle funzionalit&agrave; disponibili per i
+controlli. Ad esempio, un controllo creato con &ldquo;Installazione icona&rdquo;
+non pu&ograve;:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Avere un'animazione</para>
+</listitem>
+<listitem><para>Visualizzare una finestra client</para>
+</listitem>
+<listitem><para>Cambiare aspetto quando si verifica un determinato evento
+(ad esempio, al ricevimento di un messaggio di posta elettronica)</para>
+</listitem>
+</itemizedlist>
+<para>Questa sezione descrive come creare manualmente i controlli del Pannello
+principale.</para>
+<para>Per informazioni sulla sintassi dei controlli del Pannello principale,
+vedere la pagina di spiegazioni <filename moreinfo="refentry">dtfpfile(4X)</filename>.</para>
+<sect2 id="sag.frpc.div.35">
+<title>Definizioni dei controlli del Pannello principale</title>
+<para>La definizione di un controllo del Pannello principale ha la seguente
+struttura:</para>
+<programlisting>CONTROL nome_controllo
+{
+   TYPE             tipo_di_controllo
+   CONTAINER_NAME   valore
+   CONTAINER_TYPE   valore
+   altri campi che definiscono l'aspetto e il comportamento del controllo
+}</programlisting>
+</sect2>
+<sect2 id="sag.frpc.div.36">
+<title><indexterm><primary>controlli</primary><secondary>tipi</secondary>
+</indexterm>Tipi di controllo</title>
+<para>Il campo <command><indexterm><primary>TYPE, campo</primary></indexterm>TYPE</command> della definizione specifica il comportamento base del controllo.
+</para>
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row><entry><para>Tipo di controllo</para></entry><entry><para>Comportamento
+del controllo</para></entry></row></thead>
+<tbody>
+<row>
+<entry><para><command><indexterm><primary>icone</primary><secondary>controlli
+del Pannello principale</secondary></indexterm>icon</command></para></entry>
+<entry><para>(Valore predefinito). Facendo clic sul controllo o rilasciandovi
+un file viene eseguita l'azione specificata.</para></entry></row>
+<row>
+<entry><para><command><indexterm><primary>controlli</primary><secondary>campo
+vuoto</secondary></indexterm>blank</command></para></entry>
+<entry><para>Marcatore usato per regolare la spaziatura dei controlli.</para></entry>
+</row>
+<row>
+<entry><para><command><indexterm><primary>controlli</primary><secondary>spia
+di occupato</secondary></indexterm>busy</command></para></entry>
+<entry><para>Spia di occupato. Il controllo lampeggia quando si richiama un'azione.
+</para></entry></row>
+<row>
+<entry><para><command><indexterm><primary>controlli</primary><secondary>client</secondary></indexterm>client</command></para></entry>
+<entry><para>Finestra client nel Pannello principale.</para></entry></row>
+<row>
+<entry><para><command><indexterm><primary>controlli</primary><secondary>orologio</secondary></indexterm>clock</command></para></entry>
+<entry><para>Orologio.</para></entry></row>
+<row>
+<entry><para><command><indexterm><primary>controlli</primary><secondary>indicatore
+della data</secondary></indexterm>date</command></para></entry>
+<entry><para>Visualizza la data corrente.</para></entry></row>
+<row>
+<entry><para><command><indexterm><primary>controlli</primary><secondary>file</secondary></indexterm>file</command></para></entry>
+<entry><para>Rappresenta un file. Scegliendo il controllo viene eseguita l'azione
+predefinita per il file.</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="sag.frpc.div.37" role="Procedure">
+<title id="sag.frpc.mkr.16">Come creare un nuovo controllo<indexterm><primary>controlli</primary><secondary>creazione</secondary></indexterm></title>
+<para>Questa sezione descrive la procedura generale da usare per definire
+un controllo e spiega come creare diversi tipi di controlli.</para>
+<orderedlist>
+<listitem><para>Se il controllo deve essere associato a un'azione di tipo <filename>PUSH_ACTION</filename> e/o <filename>DROP_ACTION</filename>, creare le definizioni
+per queste azioni. Queste azioni saranno eseguite facendo clic sul controllo
+o rilasciandovi un file.</para>
+</listitem>
+<listitem><para>Creare le icone da usare per il controllo.</para>
+<para>Per informazioni sulle dimensioni, sui nomi e sulle posizioni delle
+icone, vedere <!--Original XRef content: '&ldquo;File grafici delle icone&rdquo;
+a pag--><!--ina&numsp;205'--><xref role="SecTitleAndPageNum" linkend="sag.cricn.mkr.3">.
+</para>
+</listitem>
+<listitem><para>Creare un nuovo file di configurazione per il Pannello principale
+in:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>A livello di sistema: <filename>/etc/dt/appconfig/types/<symbol role="Variable">lingua</symbol>/*.fp</filename></para>
+</listitem>
+<listitem><para>A livello personale: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/*.fp</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Aggiungere al file la definizione del controllo.</para>
+</listitem>
+<listitem><para>Salvare il file.</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+<sect3 id="sag.frpc.div.38">
+<title id="sag.frpc.mkr.17">Creazione di un controllo che esegua un'azione
+al clic</title>
+<para>Per definire il comportamento del controllo, usare i campi seguenti:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>TYPE</command>: Impostare su <command>icon</command></para>
+</listitem>
+<listitem><para><filename><indexterm><primary>PUSH_ACTION, campo</primary>
+</indexterm>PUSH_ACTION:</filename> Specificare il nome dell'azione da eseguire
+</para>
+</listitem>
+</itemizedlist>
+<para>Il controllo definito nell'esempio seguente, che verr&agrave; aggiunto
+al pannello secondario Applicazioni personali, esegue un gioco acquistato
+dall'utente:</para>
+<programlisting>CONTROL Rimbalzo
+{
+   TYPE           icon
+   CONTAINER_NAME PersAppsSubpanel
+   CONTAINER_TYPE SUBPANEL
+   ICON           rimbalzo
+   PUSH_ACTION    AvviaRimbalzo
+   HELP_STRING    &ldquo;Fare clic per giocare a Rimbalzo.&ldquo;
+}</programlisting>
+<para>Il controllo seguente avvia un'azione di nome CutDisp, e verr&agrave;
+collocato nell'angolo superiore sinistro dell'area dei commutatori.</para>
+<programlisting>CONTROL AvviaCutDisp
+{
+   TYPE           icon
+   CONTAINER_NAME Switch
+   CONTAINER_TYPE SWITCH
+   POSITION_HINTS first
+   ICON           cutdisp
+   HELP_STRING    &ldquo;Fare clic per eseguire cutdisp.&ldquo;
+   PUSH_ACTION    CutDisp
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.39">
+<title><indexterm><primary>controlli</primary><secondary>uso per l'</secondary>
+</indexterm><indexterm><primary>apertura dei file</primary></indexterm>Creazione
+di un controllo che apra un file</title>
+<para>Per definire il comportamento del controllo, usare i campi seguenti:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>TYPE</command>: Impostare su <command>file</command></para>
+</listitem>
+<listitem><para><filename><indexterm><primary>FILE_NAME, campo</primary></indexterm>FILE_NAME:</filename> Specificare il percorso del file da aprire</para>
+</listitem>
+<listitem><para><filename>PUSH_ACTION:</filename> Impostare su <command>Open</command></para>
+</listitem>
+</itemizedlist>
+<para>&Egrave; necessario che sia definita un'azione Open (Aprire) per il
+tipo di dati associato al file.</para>
+<para>Il controllo definito nell'esempio seguente verr&agrave; collocato all'estrema
+destra del Pannello principale. Esso avvia l'Editor di testo con il file di
+dati <filename>/utenti/elena/rubrica.txt</filename>. L'azione Aprire per i
+file <filename>*.txt</filename> &egrave; gi&agrave; inclusa nel database delle
+azioni predefinito.</para>
+<programlisting>CONTROL EditPhoneList
+{
+   TYPE           file
+   FILE_NAME      /utenti/elena/rubrica.txt
+   CONTAINER_NAME Top
+   CONTAINER_TYPE BOX
+   POSITION_HINTS last
+   ICON           PhoneBook
+   HELP_STRING    "Questo controllo visualizza la rubrica di Elena."
+   PUSH_ACTION    Open
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.40">
+<title id="sag.frpc.mkr.18">Creazione di un controllo che funga da area di
+rilascio<indexterm><primary>area di rilascio</primary><secondary>controlli
+del Pannello principale</secondary></indexterm><indexterm><primary>Pannello
+principale</primary><secondary>uso dei controlli come aree di rilascio</secondary>
+</indexterm><indexterm><primary>controlli</primary><secondary>uso come area
+di rilascio</secondary></indexterm></title>
+<para>Usare il campo <filename><indexterm><primary>DROP_ACTION, campo</primary>
+</indexterm>DROP_ACTION</filename> per specificare l'azione da eseguire al
+rilascio di un file sul controllo. L'azione specificata deve poter accettare
+un file come argomento.</para>
+<para>Spesso le definizioni dei controlli includono sia un campo <filename>PUSH_ACTION</filename> che un campo <filename>DROP_ACTION</filename>. &Egrave;
+possibile usare la stessa azione per entrambi i campi.</para>
+<para>Ad esempio il controllo seguente, situato nel pannello secondario Applicazioni
+personali, esegue il client X <command>xwud</command>, che pu&ograve; accettare
+un file come argomento.</para>
+<programlisting>CONTROL Avvia_xwud
+{
+   CONTAINER_NAME PerAppsSubpanel
+   CONTAINER_TYPE SUBPANEL
+   POSITION_HINTS 2
+   ICON           XwudImage
+   PUSH_ACTION    RunXwud
+   DROP_ACTION    RunXwud
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.41">
+<title id="sag.frpc.mkr.19">Creazione di un controllo che esegua il monitoraggio
+di un file<indexterm><primary>controlli</primary><secondary>uso per funzioni
+di monitoraggio</secondary></indexterm></title>
+<para>Per definire il comportamento del controllo, usare i campi seguenti:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>TYPE</command>: Specificare uno dei seguenti valori:
+</para>
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row>
+<entry><para><command><indexterm><primary>controlli</primary><secondary>icone</secondary></indexterm>icon</command></para></entry>
+<entry><para>Usare questo tipo per specificare un'azione di tipo <filename>PUSH_ACTION</filename> e/o <filename>DROP_ACTION</filename> per il controllo <filename>.</filename></para></entry></row>
+<row>
+<entry><para><command><indexterm><primary>controlli</primary><secondary>file</secondary></indexterm>file</command></para></entry>
+<entry><para>Usare questo tipo se si desidera che la scelta del controllo
+equivalga a un doppio clic sul file nella Gestione di file.</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para><command>ICON</command> e <filename><indexterm><primary>ALTERNATE_ICON,
+campo</primary></indexterm>ALTERNATE_ICON:</filename>Specificare le immagini
+da usare per indicare il cambiamento o il non-cambiamento di stato del file
+sottoposto al monitoraggio.</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>MONITOR_TYPE, campo</primary>
+</indexterm>MONITOR_TYPE</filename>: Descrivere le condizioni per il cambiamento
+dell'immagine. Usare uno dei seguenti valori:</para>
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row>
+<entry><para><command><indexterm><primary>controlli</primary><secondary>uso
+per funzioni di monitoraggio</secondary></indexterm><indexterm><primary>controlli</primary><secondary>posta elettronica</secondary></indexterm>mail</command></para></entry>
+<entry><para>Il controllo cambia aspetto quando vengono aggiunte nuove informazioni
+al file.</para></entry></row>
+<row>
+<entry><para><command>file</command></para></entry>
+<entry><para>Il controllo cambia aspetto quando il file specificato non &egrave;
+pi&ugrave; vuoto.</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para><filename>FILE_NAME<indexterm><primary>FILE_NAME, campo</primary>
+</indexterm></filename>: Specificare il file da sottoporre a monitoraggio.
+</para>
+</listitem>
+</itemizedlist>
+<para>Ad esempio, il controllo seguente verifica la presenza o meno di un
+file di nome <filename>meeting</filename> che deve essere ricevuto attraverso
+un ftp anonimo. Il controllo verr&agrave; collocato alla sommit&agrave; del
+pannello secondario Applicazioni personali.</para>
+<programlisting>CONTROL ControlloFile
+{
+   TYPE             file
+   CONTAINER_NAME   PersonalApps
+   CONTAINER_TYPE   SUBPANEL
+   POSITION_HINTS   first
+   FILE_NAME        /utenti/ftp/meeting
+   MONITOR_TYPE     file
+   ICON             meeting_no
+   ALTERNATE_ICON   meeting_si
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.42">
+<title id="sag.frpc.mkr.20">Creazione di un controllo di esecuzione unica<indexterm>
+<primary>controlli</primary><secondary>a due stati</secondary></indexterm><indexterm>
+<primary>controlli</primary><secondary>a esecuzione unica</secondary></indexterm></title>
+<para>Un controllo di esecuzione unica verifica se il processo avviato con
+l'azione specificata in <filename>PUSH_ACTION</filename> &egrave; gi&agrave;
+in esecuzione. Se il processo non &egrave; in esecuzione, l'azione viene eseguita.
+In caso contrario, la finestra associata all'azione viene portata in primo
+piano nello spazio di lavoro corrente.</para>
+<para>Per definire il comportamento del controllo, usare i campi seguenti:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>PUSH_RECALL</filename>: Impostare su <command>True</command>.</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>CLIENT_NAME, campo</primary>
+</indexterm>CLIENT_NAME</filename>: Specificare il nome del client associato
+al controllo.</para>
+<para>Il valore di <filename>CLIENT_NAME</filename> deve corrispondere alla
+prima stringa (<symbol role="Variable">res_name</symbol>) della caratteristica
+WM_CLASS della finestra principale dell'applicazione. Per maggiori informazioni,
+vedere la pagina di spiegazioni <filename>xprop(1)</filename>.</para>
+</listitem>
+<listitem><para><filename>PUSH_ACTION</filename>: Descrivere l'azione da eseguire
+al clic sul controllo.</para>
+</listitem>
+</itemizedlist>
+<para>Ad esempio, il controllo seguente avvia un'unica copia dell'applicazione
+associata all'azione EditorPersonale.</para>
+<programlisting>CONTROL EditorPersonale
+{
+   TYPE           icon
+   CONTAINER_NAME Top
+   CONTAINER_TYPE BOX
+   POSITION_HINTS 15
+   PUSH_RECALL    True
+   CLIENT_NAME    EditorMigliore
+   PUSH_ACTION    AvviaEditorPersonale
+   ICON           EdPers
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.43" role="Procedure">
+<title>Come creare un controllo per una finestra client<indexterm><primary>Pannello principale</primary><secondary>uso dei client</secondary></indexterm><indexterm>
+<primary>client</primary><secondary>uso nel Pannello principale</secondary>
+</indexterm><indexterm><primary>controlli</primary><secondary>client</secondary>
+</indexterm></title>
+<para>Il controllo di una finestra client &egrave; una finestra di un'applicazione
+incorporata nel Pannello principale. Ad esempio, &egrave; possibile inserire
+nel Pannello principale un misuratore del carico del sistema creando un controllo
+per la finestra client <command>xload</command>.</para>
+<orderedlist>
+<listitem><para>Definire il controllo.</para>
+<para>Per definire il comportamento del controllo, usare i campi seguenti:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para><command>TYPE</command>: Impostare su <command>client</command>.
+</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>CLIENT_NAME, campo</primary>
+</indexterm>CLIENT_NAME</filename>: Specificare il client da avviare.</para>
+<para>Il valore di <filename>CLIENT_NAME</filename> deve corrispondere alla
+prima stringa (<symbol role="Variable">res_name</symbol>) della caratteristica
+WM_CLASS della finestra principale dell'applicazione. Per maggiori informazioni,
+vedere la pagina di spiegazioni <filename>xprop(1)</filename>.</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>CLIENT_GEOMETRY, campo</primary>
+</indexterm>CLIENT_GEOMETRY</filename>: Specificare la dimensione, in pixel,
+con cui visualizzare la finestra del client nel Pannello principale.</para>
+<para>Per informazioni su come determinare la dimensione in pixel di una finestra,
+vedere la pagina di spiegazioni <filename>xwininfo(1)</filename>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+<listitem><para>Avviare il client da una riga comandi di un emulatore di terminale.
+</para>
+</listitem>
+</orderedlist>
+<para>Ad esempio, il controllo seguente visualizza un misuratore di carico
+di 30 x 20 pixel.</para>
+<programlisting>CONTROL MisuraCarico
+{
+   TYPE            client
+   CONTAINER_NAME  Top
+   CONTAINER_TYPE  BOX
+   CLIENT_NAME     xload
+   CLIENT_GEOMETRY 30x20
+}</programlisting>
+<para>Se il client non pu&ograve; essere salvato e ripristinato automaticamente
+nelle sessioni successive, pu&ograve; essere utile configurare il controllo
+in modo che il client venga avviato al clic sull'icona. Ad esempio, &egrave;
+possibile configurare il controllo MisuraCarico in modo che avvii <command>xload</command> aggiungendo alla definizione la riga seguente:</para>
+<programlisting>PUSH_ACTION AvviaXload</programlisting>
+<para>e creando l'azione:</para>
+<programlisting>ACTION AvviaXload
+{
+   WINDOW_TYPE  NO_STDIO
+   EXEC_STRING  /usr/contrib/bin/X11/xload
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.44" role="Procedure">
+<title id="sag.frpc.mkr.21">Come animare un controllo<indexterm><primary>controlli</primary><secondary>animazione</secondary></indexterm><indexterm>
+<primary>animazione</primary><secondary>uso nel Pannello principale</secondary>
+</indexterm><indexterm><primary>Pannello principale</primary><secondary>animazione</secondary></indexterm></title>
+<para>&Egrave; anche possibile associare a un controllo una sequenza di animazione,
+da eseguire al clic sul controllo o al rilascio di un file.</para>
+<para>Per poter utilizzare una sequenza di animazione, &egrave; necessario
+che il controllo:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Sia di tipo <command>icon</command></para>
+</listitem>
+<listitem><para>Sia associato a un'azione di tipo <filename>PUSH_ACTION</filename>
+o <filename>DROP_ACTION</filename></para>
+<orderedlist>
+<listitem><para>Specificare la sequenza di animazione usando il componente <command><indexterm>
+<primary>ANIMATION, definizione</primary></indexterm><indexterm><primary>animazione</primary><secondary>definizione</secondary></indexterm>ANIMATION</command>:</para>
+<programlisting remap="CodeIndent1">ANIMATION nome_animazione
+{
+   immagine_icona [ritardo]
+   immagine_icona [ritardo]
+   &hellip;
+}</programlisting>
+<para>dove <symbol role="Variable">ritardo</symbol> &egrave; il tempo che
+deve trascorrere tra le icone dell'animazione, in millisecondi.</para>
+</listitem>
+<listitem><para>Aggiungere i campi <filename><indexterm><primary>PUSH_ANIMATION,
+campo</primary></indexterm>PUSH_ANIMATION</filename> e/o <filename><indexterm>
+<primary>DROP_ANIMATION, campo</primary></indexterm>DROP_ANIMATION</filename>
+alla definizione del controllo. Il loro valore sar&agrave; il nome della sequenza
+di animazione.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</itemizedlist>
+<para>Ad esempio, le righe seguenti producono l'animazione del controllo che
+avvia l'applicazione EditorMigliore. Il ritardo tra le icone &egrave; di 300
+millisecondi. Nell'esempio si presume che siano state create le icone <filename>frame1</filename>, <filename>frame2</filename>, ecc.</para>
+<programlisting>CONTROL EditorMigliore
+{
+   &hellip;
+   PUSH_ANIMATION AnimazioneEditorMigliore
+   &hellip;
+}
+
+ANIMATION AnimazioneEditorMigliore
+{
+   frame1 300
+   frame2
+   &hellip;
+}</programlisting>
+</sect3>
+<sect3 id="sag.frpc.div.45">
+<title id="sag.frpc.mkr.22">Creazione di un testo di aiuto per i controlli
+del Pannello principale<indexterm><primary>aiuto</primary><secondary>sul Pannello
+principale</secondary></indexterm><indexterm><primary>Pannello principale</primary><secondary>aiuto</secondary></indexterm><indexterm><primary>controlli</primary><secondary>aiuto sull'</secondary></indexterm><indexterm><primary>elemento</primary></indexterm></title>
+<para>Esistono due modi per creare un testo di aiuto per un controllo:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Inserire una stringa di aiuto nella definizione del controllo.
+</para>
+<para>La stringa cos&igrave; definita verr&agrave; visualizzata richiamando
+l'aiuto sull'elemento e puntando sul controllo. La stringa non pu&ograve;
+includere caratteri di formattazione (come titoli) n&eacute; collegamenti.
+</para>
+<para>La stringa di aiuto deve essere specificata nella definizione del controllo
+come segue:</para>
+<para remap="CodeIndent1"><computeroutput><indexterm><primary>HELP_STRING,
+campo</primary></indexterm>HELP_STRING <symbol role="Variable">stringa_di_aiuto</symbol> </computeroutput></para>
+</listitem>
+<listitem><para>Specificare un nuovo argomento in un volume di aiuto gi&agrave;
+registrato.</para>
+<para>Gli argomenti dell'aiuto sono informazioni scritte in modo da sfruttare
+tutte le funzionalit&agrave; del sistema di aiuto. Per creare un argomento
+dell'aiuto &egrave; necessario l'Help Developer's Kit del desktop.</para>
+<para>Per creare un argomento dell'aiuto occorre specificare il volume e l'ID
+dell'argomento nella definizione del controllo:</para>
+<para remap="CodeIndent1"><computeroutput><indexterm><primary>HELP_VOLUME,
+campo</primary></indexterm></computeroutput></para>
+<para><computeroutput>HELP_VOLUME<symbol role="Variable">volume_di_aiuto</symbol><indexterm>
+<primary>HELP_TOPIC,campo</primary></indexterm>HELP_TOPIC <symbol role="Variable">id_argomento</symbol></computeroutput></para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.frpc.div.46">
+<title id="sag.frpc.mkr.23">Personalizzazione dei commutatori degli spazi
+di lavoro<indexterm><primary>area dei commutatori</primary><secondary>personalizzazione</secondary></indexterm><indexterm><primary>commutatori degli spazi di lavoro</primary><secondary>Vedere anche area dei commutatori&lt;</secondary></indexterm><indexterm>
+<primary>$nopage></primary></indexterm></title>
+<para>I commutatori degli spazi di lavoro possono essere personalizzati in
+diversi modi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Cambiando il numero degli spazi di lavoro</para>
+</listitem>
+<listitem><para>Cambiando la disposizione dei commutatori</para>
+</listitem>
+<listitem><para>Cambiando i controlli dei commutatori</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.frpc.div.47" role="Procedure">
+<title id="sag.frpc.mkr.24">Come cambiare il numero predefinito di spazi di
+lavoro<indexterm><primary>spazi di lavoro</primary><secondary>cambiamento
+del numero predefinito</secondary></indexterm><indexterm><primary>area dei
+commutatori</primary><secondary>numero degli spazi di lavoro</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Modificare la seguente risorsa della Gestione dello spazio
+di lavoro:</para>
+<para remap="CodeIndent1"><computeroutput>Dtwm*workspaceCount: <symbol role="Variable">n</symbol></computeroutput></para>
+</listitem>
+</itemizedlist>
+<para>Per maggiori informazioni, vedere <!--Original XRef content: '&ldquo;Come
+cambiare il numero degli spazi di--><!--
+lavoro a livello di sistema&rdquo; a pagina&numsp;249'--><xref role="SecTitleAndPageNum"
+linkend="sag.wmcnf.mkr.6">.</para>
+</sect2>
+<sect2 id="sag.frpc.div.48" role="Procedure">
+<title id="sag.frpc.mkr.25">Come cambiare il numero di righe per i commutatori<indexterm>
+<primary>area dei commutatori</primary><secondary>numero di righe</secondary>
+</indexterm></title>
+<itemizedlist>
+<listitem><para>Modificare il campo <filename><indexterm><primary>NUMBER_OF_ROWS,
+campo</primary></indexterm>NUMBER_OF_ROWS</filename> nella definizione dell'area
+dei commutatori (<command>SWITCH</command>).</para>
+</listitem>
+</itemizedlist>
+<para>Ad esempio, la definizione seguente imposta un'area dei commutatori
+contenente tre righe.</para>
+<programlisting>SWITCH Switch
+{
+   CONTAINER_NAME nome_riquadro
+   NUMBER_OF_ROWS 3
+   &hellip;
+}</programlisting>
+</sect2>
+<sect2 id="sag.frpc.div.49" role="Procedure">
+<title>Come cambiare o aggiungere un controllo nell'area dei commutatori degli
+spazi di lavoro<indexterm><primary>area dei commutatori</primary><secondary>aggiunta di controlli</secondary></indexterm><indexterm><primary>controlli</primary><secondary>nell'</secondary></indexterm><indexterm><primary>area
+dei commutatori</primary></indexterm></title>
+<orderedlist>
+<listitem><para>Creare un file di configurazione del Pannello principale con
+la definizione del controllo.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Specificare che il controllo deve essere inserito nell'area
+dei commutatori:</para>
+<programlisting remap="CodeIndent2">CONTAINER_NAME   Switch
+CONTAINER_TYPE   SWITCH</programlisting>
+</listitem>
+<listitem><para>Specificare la posizione del controllo all'interno dell'area
+dei commutatori:</para>
+<para remap="CodeIndent2"><computeroutput>POSITION_HINTS <symbol role="Variable">n</symbol></computeroutput></para>
+<para>dove <symbol role="Variable">n</symbol> &egrave; un numero intero. Le
+posizioni sono numerate in sequenza da sinistra a destra e dall'alto in basso.
+(Per l'area dei commutatori a due righe predefinita, le posizioni sono numerate
+da 1 a 4.)</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Creare l'icona per il controllo. La dimensione consigliata
+&egrave; di 16 x 16 pixel.</para>
+</listitem>
+</orderedlist>
+<para>Ad esempio, la definizione seguente inserisce un controllo del Terminale
+nell'area dei commutatori.</para>
+<programlisting>CONTROL CommTerminale
+{
+   TYPE           icon
+   CONTAINER_NAME Switch
+   CONTAINER_TYPE SWITCH
+   POSITION_HINTS 3
+   ICON           Fpterm
+   LABEL          Terminale
+   PUSH_ACTION    Dtterm
+   HELP_TOPIC     FPOnItemTerm
+   HELP_VOLUME    FPanel
+}</programlisting>
+<para>Il controllo utilizza un'icona predefinita ed &egrave; associato allo
+stesso argomento di aiuto usato dal controllo del Terminale del pannello secondario
+Applicazioni personali.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.frpc.div.50">
+<title id="sag.frpc.mkr.26">Configurazione generale del Pannello principale</title>
+<para>La sintassi di definizione del Pannello principale (<command>PANEL</command>)
+permette di:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Cambiare la posizione del Pannello principale</para>
+</listitem>
+<listitem><para>Cambiare la decorazione della finestra</para>
+</listitem>
+<listitem><para>Impostare l'aspetto e il comportamento generale dei controlli
+</para>
+</listitem>
+</itemizedlist>
+<para>La descrizione predefinita per il Pannello principale si trova in <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp</filename>.</para>
+<para>Per maggiori informazioni, vedere la pagina di spiegazioni <filename moreinfo="refentry">dtfpfile(4X)</filename>.</para>
+<sect2 id="sag.frpc.div.51">
+<title>Procedura generale</title>
+<orderedlist>
+<listitem><para>Creare un nuovo file di configurazione per il Pannello principale
+in <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol> o in <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename>.</para>
+</listitem>
+<listitem><para>Copiare la descrizione predefinita del pannello ( <command>PANEL</command>) da <filename>/usr/dt/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp</filename> nel nuovo file.</para>
+</listitem>
+<listitem><para>Editare la descrizione del pannello.</para>
+</listitem>
+</orderedlist>
+<para>La nuova definizione del pannello avr&agrave; la precedenza su quella
+predefinita.</para>
+</sect2>
+<sect2 id="sag.frpc.div.52" role="Procedure">
+<title id="sag.frpc.mkr.27">Come cambiare la posizione predefinita del Pannello
+principale<indexterm><primary>Pannello principale</primary><secondary>posizione
+sullo schermo</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Per specificare la posizione del Pannello principale, usare
+il campo <filename><indexterm><primary>PANEL_GEOMETRY, campo</primary></indexterm>PANEL_GEOMETRY</filename> nella definizione del pannello.</para>
+<para>Ad esempio, il pannello seguente viene visualizzato nell'angolo superiore
+destro dello schermo.</para>
+<programlisting remap="CodeIndent1">PANEL PannelloAlto
+{
+   PANEL_GEOMETRY -1+1
+   &hellip;
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.frpc.div.53" role="Procedure">
+<title id="sag.frpc.mkr.28">Come assegnare un nome ai controlli del Pannello
+principale<indexterm><primary>etichette</primary><secondary>controlli del
+Pannello principale</secondary></indexterm><indexterm><primary>Pannello principale</primary><secondary>nomi dei controlli</secondary></indexterm><indexterm>
+<primary>controlli</primary><secondary>assegnazione delle etichette</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Aggiungere la riga seguente alla definizione del pannello:
+</para>
+<para remap="CodeIndent1"><computeroutput>DISPLAY_CONTROL_LABELS True</computeroutput></para>
+</listitem>
+<listitem><para>Aggiungere un campo <command>LABEL</command> per ogni controllo.
+</para>
+</listitem>
+</orderedlist>
+<para>Se non viene specificato un campo <command>LABEL</command>, verr&agrave;
+usato il valore <symbol role="Variable">nome_controllo</symbol>.</para>
+</sect2>
+<sect2 id="sag.frpc.div.54" role="Procedure">
+<title id="sag.frpc.mkr.29">Come cambiare l'azione di clic sui controlli<indexterm>
+<primary>controlli</primary><secondary>clic e doppio clic</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Per specificare il modo in cui eseguire l'azione specificata
+in <filename>PUSH_ACTION</filename>, usare il campo <filename><indexterm>
+<primary>CONTROL_BEHAVIOR, campo</primary></indexterm>CONTROL_BEHAVIOR</filename>
+nella definizione del pannello. I valori possibili per questo campo sono:
+</para>
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row>
+<entry><para><filename>single_click</filename></para></entry>
+<entry><para>L'azione specificata in <filename>PUSH_ACTION</filename> viene
+eseguita facendo clic sul controllo</para></entry></row>
+<row>
+<entry><para><filename>double_click</filename></para></entry>
+<entry><para>L'azione specificata in <filename>PUSH_ACTION</filename> viene
+eseguita facendo doppio clic sul controllo</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.frpc.div.55" role="Procedure">
+<title id="sag.frpc.mkr.30">Come creare un Pannello principale interamente
+nuovo<indexterm><primary>Pannello principale</primary><secondary>creazione</secondary></indexterm></title>
+<para>Quando si desidera eseguire numerose modifiche, pu&ograve; essere preferibile
+creare un nuovo Pannello principale.</para>
+<para>Per evitare conflitti con i componenti del Pannello principale predefinito,
+occorrer&agrave; usare nomi nuovi per il pannello (PANEL) e per gli altri
+contenitori.</para>
+<orderedlist>
+<listitem><para>Creare il componente <command>PANEL</command> per il nuovo
+Pannello principale. Assegnare al pannello un nome unico:</para>
+<programlisting remap="CodeIndent1">PANEL nome_pannello_principale
+{
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Creare i riquadri e i controlli usando nomi nuovi per i contenitori.
+</para>
+<para>Per utilizzare i componenti esistenti, copiare le definizioni e cambiare
+il valore di <filename>CONTAINER_NAME</filename>.</para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.frpc.div.56">
+<title>Esempio di creazione di un Pannello principale su tre righe<indexterm>
+<primary>Pannello principale</primary><secondary>aggiunta di righe</secondary>
+</indexterm></title>
+<para>L'esempio seguente modifica il Pannello principale predefinito in modo
+che i controlli appaiano disposti su tre righe.</para>
+<orderedlist>
+<listitem><para>Copiare <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtwm.fp</filename> in <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/PannelloPersonale.fp</filename>.
+Assegnare al file l'autorizzazione di scrittura.</para>
+<para>Questo &egrave; il file che occorrer&agrave; editare per creare il nuovo
+Pannello principale.</para>
+</listitem>
+<listitem><para>Cambiare il nome del Pannello principale:</para>
+<para remap="CodeIndent1"><computeroutput>PANEL NuovoPannelloPrinc</computeroutput></para>
+</listitem>
+<listitem><para>Cambiare il nome del riquadro Top ed editare il nome del relativo
+contenitore:</para>
+<programlisting remap="CodeIndent1">BOX NuovoPannelloPrincAlto
+{
+   CONTAINER_NAME NuovoPannelloPrinc
+   POSITION_HINTS first
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Aggiungere le definizioni dei riquadri per le righe centrale
+e inferiore:</para>
+<programlisting remap="CodeIndent1">BOX NuovoPannelloPrincMedio
+{
+   CONTAINER_NAME   NuovoPannelloPrinc
+   POSITION_HINTS   second
+}
+
+BOX NuovoPannelloPrincBasso
+{
+   CONTAINER_NAME   NuovoPannelloPrinc
+   POSITION_HINTS   second
+}</programlisting>
+</listitem>
+<listitem><para>Impostare il campo <filename>CONTAINER_NAME</filename> dei
+seguenti controlli su <command>NuovoPannelloPrincAlto</command>:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Orologio</para>
+</listitem>
+<listitem><para>Data</para>
+</listitem>
+<listitem><para>Cartella iniziale</para>
+</listitem>
+<listitem><para>Editor di testo</para>
+</listitem>
+<listitem><para>Gestione posta</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Impostare il campo <filename>CONTAINER_NAME</filename> dei
+seguenti controlli su <command>NuovoPannelloPrincBasso</command>:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Stampante</para>
+</listitem>
+<listitem><para>Stili</para>
+</listitem>
+<listitem><para>Applicazioni</para>
+</listitem>
+<listitem><para>Aiuto</para>
+</listitem>
+<listitem><para>Cestino</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Impostare il campo <filename>CONTAINER_NAME</filename> dell'area
+dei commutatori su <command>NuovoPannelloPrincMedio</command>.</para>
+</listitem>
+<listitem><para>Impostare la risorsa:</para>
+<para remap="CodeIndent1"><computeroutput>Dtwm*frontPanel*name: NuovoPannelloPrinc</computeroutput></para>
+</listitem>
+<listitem><para>Scegliere &ldquo;Riavviare la Gestione dello spazio di lavoro&rdquo;
+dal menu di controllo dello spazio di lavoro.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:05:15-->
+<?Pub *0000085861>

@@ -1,0 +1,558 @@
+<!-- $XConsortium: imsstart.sgm /main/8 1996/09/08 19:53:40 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="cde.IMS.dtimsstart">]]>
+<refmeta><refentrytitle>dtimsstart</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtimsstart</command></refname><refpurpose>launches
+an input method server</refpurpose></refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtimsstart</command><arg choice="opt">&minus;env</arg><arg choice="opt">&minus;ims <replaceable>name</replaceable></arg><arg choice="opt">&minus;shell <replaceable>name</replaceable></arg><arg choice="opt">&minus;host <replaceable>hostname</replaceable></arg><arg choice="opt">&minus;imsopt <replaceable>options</replaceable></arg>
+<arg choice="opt">&minus;list</arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>dtimsstart</command> command launches an IMS (Input Method
+Server). <command>dtimsstart</command> is normally invoked automatically
+at Xsession startup (user login) by the script <filename>/usr/dt/config/Xsession.d/0020.dtims</filename>.</para>
+<para>Depending on the currently selected locale, environment variables,
+configuration files, and command-line options, <command>dtimsstart</command>
+displays a selection window from which you can select the IMS you want to
+use. Once you select the IMS, <command>dtimsstart</command> starts it and
+waits until the IMS completes its startup. This is to ensure that applications
+wishing to connect to the IMS can do so. <command>dtimsstart</command> then
+sets the <Symbol>XMODIFIERS</Symbol> environment variable to ensure that
+clients can connect to the selected IMS. Finally, <command>dtimsstart</command>
+exits.</para>
+<para>Once you select an IMS from the selection window, <command>dtimsstart</command> saves the selection in the IMS Selection File. To have <command>dtimsstart</command> automatically start the previously selected IMS, set
+the IMS Selection Mode to <literal>resume-current-input-method</literal>.
+You access the IMS Selection Mode by executing the <Symbol>DtImsMode</Symbol>
+action located in <literal>Desktop_Tools</literal> in the Application Manager.
+</para>
+<para>For IMS Selection Mode, you can choose:</para>
+<variablelist>
+<varlistentry><term><literal>ask-at-login</literal></term>
+<listitem>
+<para>Instructs <command>dtimsstart</command> to display the selection window
+and prompt you for an IMS each time it is invoked.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>resume-current-input-method</literal></term>
+<listitem>
+<para>Instructs <command>dtimsstart</command> to automatically start the last
+selected IMS by using the saved IMS Selection File and without displaying
+the selection window.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<refsect2>
+<title>Remote Execution of IMS</title>
+<para>If you use the <literal>&minus;host</literal> option to have <command>dtimsstart</command> start an IMS on a remote host, <command>dtimsstart</command>
+does the following:</para>
+<itemizedlist><listitem><para>Executes the <Symbol>DtImsGetRemoteConf</Symbol>
+action to retrieve IMS configuration data from the specified remote system
+</para>
+</listitem><listitem><para>Lists the IMSs registered on the remote system
+in the selection window</para>
+</listitem><listitem><para>Executes the <Symbol>DtImsRunRemoteIms</Symbol>
+action to start the selected IMS on the remote system.</para>
+</listitem></itemizedlist>
+<para>For more information on configuring remote execution, refer to
+the <emphasis>Common
+Desktop Environment: Advanced User's and System Administrator's Guide</emphasis>.
+</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para>The following options are available:</para>
+<variablelist>
+<varlistentry><term><literal>&minus;env</literal></term>
+<listitem>
+<para>Outputs the contents of the <Symbol>XMODIFIERS</Symbol> environment
+variable to stdout. <command>dtimsstart</command> automatically updates this
+variable to reflect the currently selected IMS. Use this option to verify
+that the intended IMS is the one that is being started. If you omit this
+option, no output occurs.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;ims</literal> <emphasis>name</emphasis></term>
+<listitem>
+<para>The name of the IMS to be started. If you specify this option, <command>dtimsstart</command> starts the IMS without displaying the selection window.
+If you omit this option, <command>dtimsstart</command> displays the selection
+window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;shell</literal> <emphasis>name</emphasis></term>
+<listitem>
+<para>The output format to use, of output, if <literal>&minus;env</literal>
+is specified. If you omit this option, <command>dtimsstart</command> uses
+the value of $SHELL as the default.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;host</literal> <emphasis>hostname</emphasis></term>
+<listitem>
+<para>The name of the host on which the IMS is to run. If you omit this option, <command>dtimsstart</command> uses the local host as the default.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;imsopt</literal> <emphasis>options</emphasis></term>
+<listitem>
+<para>The command line options for the selected IMS.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;list</literal></term>
+<listitem>
+<para>Instructs <command>dtimsstart</command> to output the names of input
+methods registered on the system and then exit immediately.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>EXIT STATUS</title>
+<variablelist remap="tight">
+<varlistentry><term>0</term>
+<listitem>
+<para>The IMS was started successfully.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>1</term>
+<listitem>
+<para>Execution failed for one of the following reasons:</para>
+<itemizedlist><listitem><para>The started IMS did not complete its initialization
+within the timeout period.</para>
+</listitem><listitem><para>The started IMS process aborted.</para>
+</listitem><listitem><para>The IMS specified by the <literal>&minus;ims</literal>
+option is not registered.</para>
+</listitem></itemizedlist>
+</listitem>
+</varlistentry>
+<varlistentry><term>2</term>
+<listitem>
+<para>A syntax error was found.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para><command>dtimsstart</command> references the following environment
+variables:</para>
+<variablelist>
+<varlistentry><term><systemitem class="environvar">HOME</systemitem></term>
+<listitem>
+<para>The home directory.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">LANG</systemitem></term>
+<listitem>
+<para>The locale.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">DISPLAY</systemitem></term>
+<listitem>
+<para>The type of display on which IMS is to be run.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>It sets the <systemitem class="environvar">XMODIFIERS</systemitem> variable
+to the name of the selected IMS to support application and client connections.
+</para>
+</refsect1>
+<refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>The following actions relevant to <command>dtimsstart</command> are
+defined in the <filename>dtims.dt</filename> file.</para>
+<variablelist>
+<varlistentry><term><systemitem class="environvar">DtImsMode</systemitem></term>
+<listitem>
+<para>Change the IM Selection Mode. This action is located at <literal>Desktop_Tools</literal> in the Application Manager.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">DtImsGetRemoteConf</systemitem></term>
+<listitem>
+<para>Retrieve IMS configuration data on a remote system (used internally
+by <command>dtimsstart</command>).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">DtImsRunRemoteIms</systemitem></term>
+<listitem>
+<para>Run an IMS on a remote system (used internally by <command>dtimsstart</command> ).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ERRORS/WARNINGS</title>
+<para><command>dtimsstart</command> can output the following error messages
+to stderr:</para>
+<variablelist>
+<varlistentry><term>invalid option `<emphasis>string</emphasis>'</term>
+<listitem>
+<para>Correct the indicated option string.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>environment variable `HOME' not defined</term>
+<listitem>
+<para>Make sure that HOME is set properly.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>environment variable `LANG' not defined</term>
+<listitem>
+<para>Make sure that LANG is set properly.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>environment variable `DISPLAY' not defined</term>
+<listitem>
+<para>Make sure that DISPLAY is set properly.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>cannot open display &lsquo;<emphasis>display_name</emphasis>&rsquo;&rdquo;</term>
+<listitem>
+<para>Make sure that DISPLAY is set to the correct value.</para>
+</listitem></varlistentry>
+</variablelist>
+<para><command>dtimsstart</command> can display the following error messages
+in an error dialog box:</para>
+<variablelist>
+<varlistentry><term>cannot open file [<emphasis>/usr/dt/config/ims/start.conf</emphasis> ]</term>
+<listitem>
+<para>This is an installation error. Re-install the package.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>cannot create file [<emphasis>file_path</emphasis>]</term>
+<listitem>
+<para>Make sure the file and its parent directory have write permission.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>cannot create directory [<emphasis>$HOME/.dt/ims</emphasis>]</term>
+<listitem>
+<para>Make sure the parent directory has write permission.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>missing `<emphasis>entry_name</emphasis>' entry in configuration
+file [file_path]</term>
+<listitem>
+<para>Correct the indicated entry in the indicated file.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>another `dtimsstart' is already running</term>
+<listitem>
+<para>Terminate the already running <command>dtimsstart</command> and then
+restart.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>cannot create selection file [<emphasis>file_path</emphasis>]</term>
+<listitem>
+<para>Make sure the indicated file has write permission.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>no ims configuration file for `<emphasis>ims_name</emphasis>'</term>
+<listitem>
+<para>The indicated IMS is registered in the locale configuration file, but
+its IMS configuration file does not exist.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>ims `<emphasis>ims_name</emphasis>' not registered</term>
+<listitem>
+<para>The indicated IMS name is not registered in the locale configuration
+file.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>no executable file for `<emphasis>ims_name</emphasis>'
+[file_path]</term>
+<listitem>
+<para>The indicated IMS executable does not exist.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>ims `<emphasis>ims_name</emphasis>' is already running</term>
+<listitem>
+<para>The indicated IMS is already running on the display.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>cannot execute ims `<emphasis>ims_name</emphasis>'</term>
+<listitem>
+<para>The <function>fork</function> call failed. The errno is shown in the
+log file, <filename>$HOME/.dt/ims/imslog</filename>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>ims `<emphasis>ims_name</emphasis>' aborted</term>
+<listitem>
+<para>The IMS process aborted. Refer to the log file, <filename>$HOME/.dt/ims/imslog</filename>, for details.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>ims `<emphasis>ims_name</emphasis>' is not available yet</term>
+<listitem>
+<para>The indicated IMS was not available within the 3-minute timeout period.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>unknown host `<emphasis>host_name</emphasis>'</term>
+<listitem>
+<para>The network address of the indicated host cannot be found.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>no ims registered on `<emphasis>host_name</emphasis>'</term>
+<listitem>
+<para>No IMS is registered on the indicated host for the current locale.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>ims `<emphasis>ims_name</emphasis>' not registered on
+`<emphasis>host_name</emphasis>'</term>
+<listitem>
+<para>The indicated IMS is not registered on the indicated host.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Note that other error messages can be generated by <function>DtActionInvoke</function> or various Xt functions. These messages are self-explanatory.
+</para>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<variablelist>
+<varlistentry><term><filename>/usr/dt/bin/dtimsstart</filename></term>
+<listitem>
+<para><command>dtimsstart</command> executable</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>/usr/dt/app-defaults/&lt;locale_name>/Dtimsstart</filename></term>
+<listitem>
+<para><command>dtimsstart</command> resource file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>/usr/dt/appconfig/types/&lt;locale_name>/dtims.dt</filename></term>
+<listitem>
+<para>action definition file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>/usr/dt/appconfig/appmanager/&lt;locale_name>/Desktop_Tools/DtImsMode</filename></term>
+<listitem>
+<para>action files for <function>DtImsMode<function></function></function></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>/usr/dt/lib/nls/msg/&lt;locale_name>/dtimsstart.cat</filename></term>
+<listitem>
+<para>message catalog file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>/usr/dt/config/Xsession.d/:0020.dtims</filename></term>
+<listitem>
+<para>Xsession.d script file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>/usr/dt/config/ims/start.conf</filename></term>
+<listitem>
+<para><command>dtimsstart</command> configuration file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>/usr/dt/config/ims/&lt;locale_name></filename></term>
+<listitem>
+<para>locale entry files</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>/usr/dt/config/ims/&lt;ims_name></filename></term>
+<listitem>
+<para>IMS entry files</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>$HOME/.dt/ims/&lt;locale_name></filename></term>
+<listitem>
+<para>IMS selection file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>$HOME/.dt/ims/&lt;display_name>/&lt;locale_name></filename></term>
+<listitem>
+<para>display-specific IMS selection file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>$HOME/.dt/ims/imslog</filename></term>
+<listitem>
+<para><command>dtimsstart</command> log file</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<refsect2>
+<title>Resource Files</title>
+<para><command>dtimsstart</command> searches a proper resource file in the
+following order and loads the first file successfully opened.</para>
+<orderedlist><listitem><para><filename>$HOME/.dt/&lt;display-name>/current/dt.resources</filename></para>
+</listitem><listitem><para><filename>$HOME/.dt/&lt;display-name>/home/dt.resources</filename></para>
+</listitem><listitem><para><filename>$HOME/.dt/sessions/current/dt.resources</filename></para>
+</listitem><listitem><para><filename>$HOME/.dt/sessions/home/dt.resources</filename></para>
+</listitem><listitem><para><filename>/usr/dt/config/&lt;locale-name>/sys.resources</filename></para>
+</listitem><listitem><para><filename>/usr/dt/config/C/sys.resources</filename></para>
+</listitem></orderedlist>
+</refsect2>
+<refsect2>
+<title>Configuration Files</title>
+<para><command>dtimsstart</command> refers to the following configuration
+files:</para>
+<itemizedlist><listitem><para>Locale Entry file</para>
+</listitem><listitem><para>IMS configuration file</para>
+</listitem><listitem><para>IMS Selection file</para>
+</listitem></itemizedlist>
+<para>The location and format for each configuration file is listed below.
+</para>
+<refsect3>
+<title>Locale Entry File</title>
+<para>This file lists the IMSs that support the locale. Its location is <filename>/usr/dt/config/ims/&lt;locale_name></filename>. The format
+is:</para>
+<para>@Default: <emphasis>ims_name</emphasis></para>
+<para><emphasis>ims_name</emphasis>: <emphasis>label_string</emphasis></para>
+<para>For example:</para>
+<programlisting><filename>/usr/dt/config/ims/ja_JP.SJIS</filename>
+
+@Default:  xjim
+xjim:      HP XJIM
+atok8:     ATOK8
+vje:       VJE-gamma
+egbridge:  EGBridge
+none:      No Input Method</programlisting>
+</refsect3>
+<refsect3>
+<title>IMS Entry File</title>
+<para>This file describes the attributes of an IMS. Its location is
+<filename>/usr/dt/config/ims/&lt;ims_name></filename>. The format is:
+</para>
+<para><emphasis>attribute_name</emphasis>: <emphasis>attribute_value</emphasis></para>
+<para>The IMS attributes are:</para>
+<variablelist>
+<varlistentry><term><literal>protocols</literal></term>
+<listitem>
+<para>A required String that lists the supported protocols. The supported
+XIM protocols are XIM, Ximp, and Xsi.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>server_name</literal></term>
+<listitem>
+<para>A required String that identifies the IMS name (used to update the <Symbol>XMODIFIERS</Symbol> environment variable).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>cmd_path</literal></term>
+<listitem>
+<para>A required Path type that specifies the absolute path of the executable
+file for the identified IMS server. A built-in keyword is used for the local
+IM built-in Xlib, which does not need a separate process.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>cmd_param</literal></term>
+<listitem>
+<para>A String that specifies the command line option(s) for the IMS server.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_set</literal></term>
+<listitem>
+<para>A String that identifies the environment variables to be set, excluding <Symbol>XMODIFIERS</Symbol>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_unset</literal></term>
+<listitem>
+<para>A String that identifies environment variables to be unset, excluding <Symbol>XMODIFIERS</Symbol>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_pass</literal></term>
+<listitem>
+<para>A String that identifies the environment variables to be passed to
+a remotely executing IMS, excluding <Symbol>LANG</Symbol>, <Symbol>DISPLAY</Symbol>, and <Symbol>XMODIFIERS</Symbol>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>has_window</literal></term>
+<listitem>
+<para>A Bool indicating whether the IMS has its own main window appearance
+or not. The default is False.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_server</literal></term>
+<listitem>
+<para>A Bool indicating whether <command>dtimsstart</command> should start
+the IMS or not. It should be True for the local IM, since it doesn't require
+any server process started by <command>dtimsstart</command>. The default
+is False.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_remote</literal></term>
+<listitem>
+<para>A Bool indicating whether the IMS allows remote execution or not. The
+default is False.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_option</literal></term>
+<listitem>
+<para>A Bool indicating whether the IMS allows the command-line option or
+not. If True, any options specfied by <literal>&minus;imsopt</literal> are
+ignored, though the value of the <literal>cmd_param</literal> entry is always
+applied regardless of this value. It should be True for the local IMS. The
+default is False.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>For entries that accept multiple values, the values are separated by
+white space(s). If multiple entries of the same name appear in the file,
+only the last entry is used.</para>
+</note>
+<para>For example:</para>
+<programlisting><filename>/usr/dt/config/ims/xjim</filename>
+
+protocols:    XIM Ximp
+server_name:  xjim
+cmd_path:     /usr/bin/X11/xjim
+cmd_param:    -iconic
+env_set:
+env_unset:
+env_pass:
+has_window:   true</programlisting>
+</refsect3>
+<refsect3>
+<title>IMS Selection File</title>
+<para>This file saves the most recently selected IMS for each locale. Its
+location is <filename>$HOME/.dt/ims/[&lt;display_name>/]&lt;locale_name></filename>. The format is:</para>
+<para><emphasis>entry_name</emphasis>: <emphasis>entry_value</emphasis></para>
+<para>The selection file entries are:<?Pub Caret></para>
+<variablelist>
+<varlistentry><term><literal>@SelectMode</literal></term>
+<listitem>
+<para>The most recently set IMS Selection Mode. Valid values are 0 (zero)
+(for <literal>ask-at-login</literal>) and 1 (for <literal>resume-current-input-method</literal> ).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>@ImsName</literal></term>
+<listitem>
+<para>The name of the most recently selected IMS.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>@HostName</literal></term>
+<listitem>
+<para>The name of the host on which the IMS runs.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>For example:</para>
+<programlisting><filename>$HOME/.dt/ims/ja_JP.SJIS</filename>
+
+@SelectMode:  1
+@ImsName:     atok8
+@HostName:    host-A</programlisting>
+</refsect3>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>EXAMPLE</title>
+<para>The command to execute <command>dtimsstart</command> in the
+<filename>/usr/dt/config/Xsession.d/0020.dtims</filename> script is as follows:</para>
+<programlisting>eval  ` /usr/dt/bin/dtimsstart  -env -shell ksh `</programlisting>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>TO BE SUPPLIED</para>
+</refsect1>
+</refentry>

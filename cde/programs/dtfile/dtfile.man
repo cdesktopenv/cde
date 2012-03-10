@@ -1,0 +1,476 @@
+.\" $XConsortium: dtfile.man /main/2 1995/07/17 10:50:44 drk $
+.TH DTFILE 1X "" "" "" ""
+.ds ]W HP DT 3.0 (7/92)
+.na
+.SH NAME
+\fBdtfile \(em The HP DT File Manager.\fP
+.sp 1
+.SH SYNOPSIS
+\fBdtfile\fP
+[options]
+.sp 1
+.SH DESCRIPTION
+The HP DT File Manager (\fIdtfile\fP) is  HP DT's  primary interface to
+the file system.   It provides application execution and file manipulation.
+.P
+The File Manager can display many main windows called file view windows, 
+each which contain the files of a single directory.  Each file is presented
+as a labeled icon.  The menu bar and popup menus provide file operations.
+.P
+The File Manager also controls the file/directory icons which can be placed 
+on the Desktop.  The Desktop is defined as the users work area.  
+The File Manager treats each workspace backdrop as a Desktop.  
+The number of workspaces a user has defined equals the number of 
+Desktops a user has.
+.P
+A direct manipulation paradigm is used to perform operations on 
+files/directories displayed in a file manager view and files/directories 
+placed on the Desktop.  Double-click performs a specified action on a 
+file or directory.  Selection and multiple selection activate a file or 
+a set of files.  This is primarily used to indicate the active object 
+for menu operations.  Multiple selection is also used by drag for 
+defining the set of files to be dragged.  Drag is used to copy, move, 
+or link a file or files between directories.  Drag is also used to 
+transfer data to other cooperating clients.
+.P
+The File Manager also supports popup menus.  By positioning the cursor over
+a file/directory in a File Manager view or on a Desktop and pressing 
+mouse button 3, a popup menu will post.  This popup menu will provide a 
+list of actions the user can perform on that particular file/directory or
+the group of selected files.
+.sp 1
+.SH OPTIONS
+\fIDtfile\fP defines a number of command-line options which allow the user
+to configure a file view window for the user. Command-line options have a
+higher precedence then resources.  By using command-line options
+a user can override anything specified in a resource file. 
+.IP "\fB-noview\fP"
+.br
+This runs \fIdtfile\fP in "server mode", which means that no directory 
+views are initially displayed.  \fIDtfile\fP waits for a cooperating 
+client to tell it to display a view (i.e. the window manager via the 
+front panel).
+.IP "\fB-session \fP\fI<session_file>\fP"
+.br
+This option takes the name of a session file as an additional parameter.
+\fIDtfile\fP is run with the specified session file name.  This session 
+file is a file that was previously saved by \fIdtfile\fP during a session
+shutdown.
+.IP "\fB-dir \fP\fI<directory>\fP"
+.sp 1
+.br
+\fBOR\fP
+.IP "\fB-directory \fP\fI<directory>\fP"
+.br
+This option takes a one or more directory specifications as an 
+additional parameter.  This specification is of the form 
+hostname:path, hostname:path,... or path,path,... or any combination of 
+the two (no spaces are allowed in the additional parameter string).  
+This option runs \fIdtfile\fP and causes it to display a directory view 
+for each directory specified.  If this command-line option is not used, 
+the user's current directory is displayed.  The current directory is the
+directory \fIdtfile\fP was started in.
+.IP "\fB-view \fP\fI<view_type>\fP"
+.br
+This option takes an additional parameter which graphically determines how
+the files will be displayed in the File Manager's directory view.  
+If this option is not specified the default view is large_icon.  Possible
+values for the additional parameter are:
+.br
+.sp 1
+\fBno_icon:\fP display the files with no graphical representation of the files type.
+.br
+.sp 1
+\fBlarge_icon:\fP display the files with the large icon as its representation 
+of the files type.
+.br
+.sp 1
+\fBsmall_icon:\fP display the files with the small icon as its representation 
+of the files type.
+.br
+.sp 1
+\fBattributes:\fP display the files in their long listing form similar to what 
+you would get if you did an ls -l on that directory.  It also uses the 
+small icon as its graphical representation of the files type.
+.sp 1
+.IP "\fB-order \fP\fI<order_type>\fP"
+.br
+This option takes an additional parameter which determines the order in 
+which the files will be laid out in the File Manager's directory view.  
+If this option is not specified the default order is alphabetical.
+Possible values for the additional parameter are:
+.br
+.sp 1
+\fBalphabetical:\fP display the files in alphabetical order.
+.br
+.sp 1
+\fBfile_type:\fP display the files according to their filetypes.  Within the 
+File Manager's directory view the files will be grouped according to their 
+filetypes.
+.br
+.sp 1
+\fBdate:\fP display the files according to the date they were last modified.
+.br
+.sp 1
+\fBsize:\fP display the files according to the size of the files.
+.sp 1
+.IP "\fB-direction \fP\fI<direction>\fP"
+.br
+This option takes an additional parameter which determines the direction in 
+which the files will be laid out in the File Manager's directory view.  
+This option can be real useful when used in conjunction with 
+the \fB-order\fP option. If this option is not specified the default direction 
+is ascending.  Possible values for the additional parameter are:
+.br
+.sp 1
+\fBascending:\fP lay out icons in ascending order according to the 
+order resource.
+.br
+.sp 1
+\fBdescending:\fP lay out icons in descending order according to the 
+order resource.
+.sp 1
+.IP "\fB-grid \fP\fI<on/off>\fP"
+.br
+This option along with its additional parameter determines whether the 
+files will always be laid out in a grid or they can be randomly placed 
+anywhere within the File Manager's directory view.   If the additional 
+parameter is on, the files will be always laid out in a grid.  If the 
+additional parameter is off, the files will be kept where they are 
+put (i.e. randomly placed).
+.IP "\fB-restricted\fP
+.br
+This option forces the File Manager view to be in restricted mode.  
+This means that the user can't navigate above the specified directory.  
+It uses the directory specified by the \fB-dir\fP option.  If no 
+\fB-dir\fP option is specified \fIdtfile\fP uses the user's current 
+directory (i.e. the directory \fIdtfile\fP is started in) as its 
+restricted directory.
+.IP "\fB-title \fP\fI<title_name>\fP"
+.br
+This option allows the user to specify a title for the File Manager view.  
+All views and dialogs propagated from this view will use this title.  If 
+this option is not specified the title of each File Manager view is 
+the directory name the view is showing.
+.IP "\fB-help_volume \fP\fI<help_volume_name>\fP"
+.br
+This option allows the user to specify a help volume to use with this 
+File Manager view.  It is useful if the user is using the File Manager to 
+display a specific directory and wants to have specific help for that 
+directory.  \fBNote:\fP All new File Manager views that are created 
+from this directory will also use this help volume.
+.P
+Both the \fB-noview\fP and the \fB-session\fP options are normally used by the 
+session manager to start \fIdtfile\fP.  The \fB-view\fP, \fB-order\fP, 
+\fB-direction\fP, and \fB-grid\fP
+all can also be set by 1) using the View menu pulldown and selecting 
+\fBSet Preferences\fP or 2) resources (See RESOURCES section below).  
+The \fB-title\fP and \fB-help_volume\fP can also be set via resources. 
+(See RESOURCES section below).
+.P
+.sp 1
+.SH FILETYPES\ and\ ACTIONS
+.P
+Each File Manager view  displays a set of icons, each representing 
+a single file/directory.  Each file/directory has an associated filetype 
+which is determined by the a set of filetypes defined in filetype files. 
+The default filetypes are: data, executable, or directory. The set of 
+filetypes defined for the File Manager are contained in the user's and 
+system's filetype files.
+.P
+Each filetype has a set of actions defined for it.  An action is an 
+executable or application that can be run with a file of that type.  
+To make the action readily available, each of the actions defined for a 
+filetype are displayed in an \fBActions\fP menu pane in the File Manager's 
+main window.  The set of actions defined for the File Manager are 
+contained in the user's and system's action files.
+.P
+Refer to the \fBHP Visual User Environment System Administration Manual\fP 
+for a description of filetypes and actions files.
+.sp 1
+.SH RESOURCES
+.P
+The File Manager supports a number of resources which make it much more 
+configurable. Following is the list of supported resources and their default 
+values. 
+.sp 2
+.TS
+center;
+CB sss
+lB lB lB lB
+l l l l .
+Client Resource Set
+Name	Class	Type	Default
+_
+dirWidth	DirWidth	XmRDimension	555
+dirHeight	DirHeight	XmRDimension	305
+toolWidth	ToolWidth	XmRDimension	365
+toolHeight	ToolHeight	XmRDimension	365
+rereadTime	RereadTime	XmRInt	2(seconds)
+checkBrokenLink	CheckBrokenLink	XmRInt	120(seconds)
+showFilesystem	ShowFilesystem	XmRBoolean	True
+openDir	OpenDir	string	current
+restrictMode	restrictMode	XmRBoolean	False
+rootTitle	RootTitle	string	ROOT
+moveThreshold	MoveThreshold	XmRInt	4(pixels)
+view	View	string	large_icon
+order	Order	string	alphabetical
+direction	Direction	string	ascending
+desktopIcon	DesktopIcon	string	Large
+objectPlacement	ObjectPlacement	string	top right
+title	Title	string	NULL
+help_volume	Help_volume	string	NULL
+.TE
+.ps
+.sp 1
+.IP "\fBDtfile*dirWidth:\fP"
+Specifies the width of a File Manager view.
+.IP "\fBDtfile*dirHeight:\fP"
+Specifies the height of a File Manager view.
+.IP "\fBDtfile*toolWidth:\fP"
+Specifies the width of a File Manager view of a tool box.
+.IP "\fBDtfile*toolHeight:\fP"
+Specifies the height of a File Manager view of a tool box.
+.IP "\fBDtfile*rereadTime:\fP"
+Sets how often the File Manager rereads the open directories and monitors 
+the Desktop objects.  This resource is specified in seconds.  If this 
+resource is set to 0, the reread of the directories is 
+turned off, and the user needs to manually reread the directories. This 
+can help keep dtfile from using too many processor cycles but can cause
+views to become stale.
+.IP "\fBDtfile*checkBrokenLink:\fP"
+Sets how often the File Manager checks open directories for broken links. 
+This resource is specified in seconds. If this resource is
+set to 0, the check for broken links is turned off. 
+.IP "\fBDtfile*showFilesystem:\fP"
+This resource determines whether the user sees the path name of the 
+current directory the user is in or not. The default is to have the 
+user see which directory they are in. If False, no current directory 
+line in a file manager view will be shown.  This resource can be used to
+hide the file system from the user.  \fBNote:\fP when this resource 
+is False the \fBFast Change To\fP capability is lost.
+.IP "\fBDtfile*openDir:\fP"
+This resource determines how a directory is opened when a user double 
+clicks on a folder. The default is \fBcurrent\fP which uses the current 
+File Manager view to open the directory.  This is the same as using the 
+action \fBOpenInPlace\fP.  If the resource is \fBnew\fP a new File Manager view
+will be opened for each directory opened and only one view of a 
+directory can be opened at once.  Another feature provided when this resource
+is set to \fBnew\fP is the icon for a directory can change state 
+to indicate that it has an open directory somewhere in the user's environment. 
+To take advantage of this feature, the user must define a filetype with the 
+same name as the normal filetype for the directory but precede the name 
+with \fBOPEN_\fP.  In this \fBOPEN_\fP definition, put the icon name 
+for the "open" icon the user wishes to show when this directory is "open". 
+Possible values:
+.br
+.sp 1
+\fBcurrent:\fP open the directory in the current view.
+.br
+.sp 1
+\fBnew:\fP open the directory in a new view or move an existing open view 
+of this directory to this workspace and raise it.
+.IP "\fBDtfile*restrictMode:\fP"
+The resource, if set to True, restricts the user to their $HOME directory 
+and below.  All capabilities to change directory become relative to their 
+$HOME directory. The complete filesystem except for the users $HOME and 
+below is hidden from the user.
+.IP "\fBDtfile*rootTitle:\fP"
+Sets the title of the root (i.e. "/") directory. This title will appear 
+in the title bar of a File Manager view which is showing the root directory. 
+It also will be the name shown in the icon representing the root 
+directory on the Desktop.
+.IP "\fBDtfile*moveThreshold:\fP"
+This is the number of pixels the cursor can move while a button is down 
+before the drag controller recognizes the button down as a drag.
+.IP "\fBDtfile*view:\fP"
+This resource allows the user to change the default for the way the icons 
+are represented within a view. The default is "large_icon". Possible 
+values are:
+.br
+.sp 1
+\fBno_icon:\fP display the files with no graphical representation of the files
+type.
+.br
+.sp 1
+\fBlarge_icon:\fP display the files with the large icon as its representation
+of the files type.
+.br
+.sp 1
+\fBsmall_icon:\fP display the files with the small icon as its representation
+of the files type.
+.br
+.sp 1
+\fBattributes:\fP display the files in their long listing form similar to what 
+you would get if you did an ls -l on that directory.  It also uses the 
+small icon as its graphical representation of the files type.
+.IP "\fBDtfile*order:\fP"
+This resource allows the user to change the default order in which the 
+files are laid out within a File Manager view. The default is by 
+alphabetical. Possible values are:
+.br
+.sp 1
+\fBalphabetical:\fP lay out icon order by alphabetical order.
+.br
+.sp 1
+\fBfile_type:\fP lay out icon order by filetype
+.br
+.sp 1
+\fBdate:\fP lay out icon order according to the date the files where 
+last touched.
+.br
+.sp 1
+\fBsize:\fP lay out icon order according to the size of the files.
+.IP "\fBDtfile*direction:\fP"
+This resource allows the user to change the default direction in which 
+the file icons are laid out within a File Managers view. The default is 
+for ascending. Possible values are:
+.br
+.sp 1
+\fBascending:\fP lay out icons in ascending order according to the 
+order resource.
+.br
+.sp 1
+\fBdescending:\fP lay out icons in descending order according to the 
+order resource.
+.IP "\fBDtfile*grid:\fP"
+This resources allows the users to change whether the grid placement is 
+on or off by default. The default is for the grid to be on. The possible 
+values are either "on" or "off".
+.IP "\fBDtfile*desktopIcon:\fP"
+Determines whether the icons on the Desktop will appear with large or small icons. Possible values: 
+.br
+.sp 1
+\fBlarge:\fP use the large icons.
+.br
+.sp 1
+\fBsmall:\fP use the small icons.
+.IP "\fBDtfile*objectPlacement:\fP"
+This resource specifies the object placement scheme to be used by the 
+Desktop to place objects on the Desktop (i.e. root window). The resource 
+value has the following syntax:
+.EX
+ \fIprimary_layout  secondary_layout\fP
+.br
+The layout values are one of the following:
+.sp 1
+.TS
+tab(~), center;
+ll.
+\fBtop\fP~Lay the objects out top to bottom.
+\fBbottom\fP~Lay the objects out bottom to top.
+\fBleft\fP~Lay the objects out left to right.
+\fBright\fP~Lay the objects out right to left.
+.TE
+.IP
+A horizontal (vertical) layout value should not be used for both 
+the \fIprimary_layout\fP and the \fIsecondary_layout\fP. The 
+\fIprimary_layout\fP indicates whether, when an object placement is done, 
+the object is placed into a row or a column and the directory of the 
+placement.  The \fIsecondary_layout\fP indicates where to place new rows 
+or columns. This resource has the same format as the icon placement 
+resource used by the window manager. The default is top right.
+.IP "\fBDtfile*title:\fP"
+This resource allows the user to set the title for all File Manager views.
+If NULL (the default), the title of each File Manager view is the 
+directory name the view is showing.
+.IP "\fBDtfile*help_volume:\fP"
+This resource allow the user to set a help volume to use when invoking help
+from a File Manager view.  The default is NULL meaning it will use the 
+standard File Manager help.
+.sp 2
+.SH FEATURES
+.P
+.IP "\fBDesktop\fP"
+The File Manager supports \fBDesktops\fP.  A \fBDesktop\fP is a place where 
+users can store commonly used files or directories for easy access.  Within 
+the HP DT environment, each workspace is considered a different \fBDesktop\fP.
+The user may place any file or directory directly on the background of a 
+workspace and the file or directory will "stick" there.  The user then 
+can access actions for that file or directory via a popup menu activated 
+by mouse button 3.
+.IP "\fBOpening a File\fP"
+Double-clicking a file causes the default action defined 
+for the filetype of the file to be run.  By default, opening an application 
+will execute it, opening a directory will cause the contents of the 
+directory to be displayed, and opening a data file will cause a text editor 
+to be run with the data file being edited.
+.IP "\fBDragging a File\fP"
+A file or set of files can be dragged to another File Manager view or to 
+any other cooperating client.  This provides for file copy, move, link, 
+and execution. The File Manager supports both mouse button 1 and mouse 
+button 2 drag-drop.
+.IP "\fBPopup Menu Support\fP"
+The File Manager supports popup menus for files and directories within a 
+File Manager's view or on the Desktop.  To access the popup menu for 
+a particular file/directory, position the cursor over the file/directory 
+and press mouse button 3 and hold it.   A popup menu will appear with a 
+list of actions which can be performed on that particular file.  
+If multiple files/directories are selected, the cursor is positioned 
+over one of the selected files/directories, and the user presses mouse 
+button 3, a popup will post which reflects actions which can be done on 
+all of the selected files/directories at once. 
+.IP "\fBFile Filtering\fP"
+Directories can contain files of many different types.  The File Manager's 
+filtering mechanism provides the means by which the user can selectively 
+display sets of files. 
+.IP "\fBDirectory Traversal\fP"
+Simple directory traversal is available by double-clicking a directory icon.  
+This displays the contents of the directory.  The File Manager provides a 
+display mode that displays the directory hierarchy as a graph that can 
+be easily traversed.  A \fBFind\fP dialog  is also available that can search 
+the file system for a directory or directories matching user-supplied 
+search criteria.   The \fBChange To\fP dialog can be used to list directories 
+frequently used; a double-click on a directory in that list changes to 
+that directory.
+.IP "\fBSetting Display Preferences\fP"
+Both iconic and non-iconic visual representations for file display are 
+provided.  The non-iconic form can be used to display directories with 
+large numbers of files or where display space is at a premium.  A 
+directory of files can be made to be laid out in a grid or as placed.  
+This allows the user to organize their directory views any way they like.
+If the user has write permission in a directory they have randomly 
+placed files, the positioning information will be saved when the user leaves 
+that directory so that each time the user reenters that directory the files 
+will be positioned as they were placed. 
+.IP "\fBFind Files\fP"
+Directories can be searched for a file or set of files which match 
+search criteria.  When files are located, a File Manager window can be 
+opened to display the directory which contains the file.  The file can 
+also be put directly onto the Desktop.
+.IP "\fBFind Files with certain Contents\fP"
+The \fBFind\fP dialog also provides the capability of find files which 
+contain certain character strings.  When files are found which contain
+certain strings, a File Manager window can be opened to display the 
+directory which contains the file.  The file can also be put directory onto 
+the Desktop.  The contents search is always case insensitive.
+.IP "\fBSmart Trash Can\fP"
+The File Manager provides access to DT's smart trash can.  The user can 
+place files into the trash can, but they are not permanently removed 
+until the user asks that the trash can be emptied or the HP DT session 
+is terminated at logout.  Files dragged to the trash can also be restored, 
+but only during the current session (before logout) and before being 
+permanently removed.
+.IP "\fBClick and Type File Renaming\fP"
+The user can click mouse button 1 on the text portion of a file and an 
+edit box will appear allowing the user to rename that file.
+.IP "\fBQuick Help\fP" 
+The File Manager provides quick help via F1 through out the application.  
+This includes quick help on file and directory icons.  To access quick 
+help, position the cursor over the item you wish to get quick help on 
+and press the F1 key on the keyboard.
+.IP "\fBSupport For Audio and Textual Annotations\fP"
+The File Manager provides full support for files which contain audio 
+and/or textual annotations.  It will support audio as long as your 
+workstation supports it.  It provides support for moving or copying 
+files which contain annotations.
+.IP "\fBFilename Completion\fP"
+The File Manager supports file name completion in text edit areas which 
+make sense.  Just press the space bar and the filename will complete as 
+far as it can.
+.sp 1
+.SH COPYRIGHT
+Copyright 1992 Hewlett-Packard Company.
+.sp 1
+.SH ORIGIN
+Hewlett-Packard Company, UTD-CV.

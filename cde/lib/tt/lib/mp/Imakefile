@@ -1,0 +1,71 @@
+XCOMM $TOG: Imakefile /main/8 1999/08/30 10:52:07 mgreess $
+#define DoNormalLib	NormalLibTt
+#define DoSharedLib	SharedLibTt
+#define DoDebugLib	DebugLibTt
+#define DoProfileLib	ProfileLibTt
+#define LibName		tt
+#define SoRev		SOTTREV
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(ISAM_INCLUDES)
+
+#include <Threads.tmpl>
+
+#include "../../tooltalk.tmpl"
+
+DEFINES =
+INCLUDES = -I../../lib
+ISAM_INCLUDES = -I../../mini_isam 
+
+/* Use BSD-compatible accept() call */
+#ifdef RsArchitecture
+CXXEXTRA_DEFINES = -DCOMPAT_43
+#endif
+
+
+/*** NOTE!
+ *** Every time a .o is added below it needs to be added to
+ *** the lib/tt/lib Imakefile in MP_OBJS and SHARED_MP_OBJS
+ ***/
+
+SRCS =  mp_arg.C            mp_arg_utils.C          mp_auth.C \
+	mp_auth_functions.C mp_c_file.C \
+        mp_c_file_utils.C   mp_c_message.C          mp_c_message_utils.C \
+        mp_c_mp.C           mp_c_msg_context.C      mp_c_msg_context_utils.C \
+        mp_c_pattern.C      mp_c_procid.C           mp_c_procid_utils.C \
+        mp_c_session.C      mp_c_session_prop.C     mp_c_session_utils.C \
+        mp_context.C        mp_context_utils.C      mp_desktop.C \
+        mp_desktop_utils.C  mp_file.C               mp_file_utils.C \
+        mp_message.C        mp_message_utils.C      mp_mp.C \
+        mp_mp_utils.C       mp_msg_context.C        mp_msg_context_utils.C \
+        mp_pat_context.C    mp_pat_context_utils.C  mp_pattern.C \
+        mp_pattern_utils.C  mp_procid.C             mp_procid_utils.C \
+        mp_rpc_client.C     mp_rpc_client_utils.C   mp_rpc_fns.C \
+        mp_session.C        mp_session_prop.C       mp_session_prop_utils.C \
+        mp_session_utils.C  mp_stream_socket.C      mp_stream_socket_utils.C \
+        mp_trace.C          mp_xdr_functions.C
+
+OBJS =  mp_arg.o            mp_arg_utils.o          mp_auth.o \
+	mp_auth_functions.o mp_c_file.o \
+        mp_c_file_utils.o   mp_c_message.o          mp_c_message_utils.o \
+        mp_c_mp.o           mp_c_msg_context.o      mp_c_msg_context_utils.o \
+        mp_c_pattern.o      mp_c_procid.o           mp_c_procid_utils.o \
+        mp_c_session.o      mp_c_session_prop.o     mp_c_session_utils.o \
+        mp_context.o        mp_context_utils.o      mp_desktop.o \
+        mp_desktop_utils.o  mp_file.o               mp_file_utils.o \
+        mp_message.o        mp_message_utils.o      mp_mp.o \
+        mp_mp_utils.o       mp_msg_context.o        mp_msg_context_utils.o \
+        mp_pat_context.o    mp_pat_context_utils.o  mp_pattern.o \
+        mp_pattern_utils.o  mp_procid.o             mp_procid_utils.o \
+        mp_rpc_client.o     mp_rpc_client_utils.o   mp_rpc_fns.o \
+        mp_session.o        mp_session_prop.o       mp_session_prop_utils.o \
+        mp_session_utils.o  mp_stream_socket.o      mp_stream_socket_utils.o \
+        mp_trace.o          mp_xdr_functions.o
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

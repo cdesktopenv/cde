@@ -1,0 +1,236 @@
+#################################################################
+#
+#    File:		box.rc
+#
+#    Directory:		/usr/lib/X11/dt/examples/Dtwm
+#
+#    Description:       Sample configuration file (RC file) for the
+#                       HP DT Window Manager 
+#
+#    Hewlett-Packard Visual User Environment, Version 2.1
+#
+#    Copyright (c) 1990 Hewlett-Packard Company
+#
+#    $XConsortium: box.rc /main/2 1996/07/18 15:27:59 drk $
+#
+######################################################################
+
+#####
+#                                  
+#  Front Panel Specification
+#                                  
+####
+FrontPanel BoxedFrontPanel    # Tuned for displays of 1280 pixels by
+				 # 1024 pixels.
+{
+Row Top
+  {
+    Logo	[P C Q] @logo.l.bm 120x28 f.next_workspace
+    Help	[P] @help.l.bm 96 f.action BROWSE_HELP
+    dtstyle	[T] @style.l.bm 96 f.action STYLE
+    Lock	[T] @lock.l.bm 96 f.action LOCK_DISPLAY
+    dtwmbusy	[P C] @exit.l.bm @exit02.l.bm =97 =12x8+42+10 f.action EXIT_SESSION
+    }
+
+##########
+#
+# This row of toggle buttons create logins to remote hosts.  If a window with
+# the same name already exists, it is brought into the current workspace
+# and raised to the top of the window stack.  (Copy the file
+# /usr/lib/X11/bitmaps/Dtwm/term.l.bm and create a bitmap file for each
+# machine.  We simply put the first letter of the machine name in the
+# terminal screen portion of the image.)  Replace these machine names with
+# the actual names of computers that you use regularly.
+#
+#  Note that the "f.exec" dtwm function will NOT cause the busy
+#  light to blink; only the "f.action" dtwm function causes the
+#  blinking.
+#
+##########
+
+Row Terminals
+{
+    Host1	[T] @term.l.bm  65x28 f.exec "hpterm  -name Host1  -e rlogin hostname1"
+    Host2	[T] @term.l.bm   65   f.exec "hpterm  -name Host2  -e rlogin hostname2"
+    Host3	[T] @term.l.bm   65   f.exec "hpterm  -name Host3 -e rlogin hostname3"
+    Host4	[T] @term.l.bm   65   f.exec "hpterm  -name Host4 -e rlogin hostname4"
+    Host5	[T] @term.l.bm   65   f.exec "hpterm  -name Host5 -e rlogin hostname5"
+    Host6	[T] @term.l.bm   65   f.exec "hpterm  -name Host6   -e rlogin hostname6"
+    Console    [T] @term.l.bm   107   f.exec "hpterm  -name Console -C"
+}
+
+Row Middle
+  {
+    dtwmswtch	364x65
+    dtwmclock	67x65+4+4
+    dtwmdate	82x65+5+5
+  }
+
+Row Bottom
+  {
+    Home        [P C] @home.m.bm =72x65+0+5 f.action BROWSE_HOME
+    Applications [P C] @tools.m.bm =72 f.action BROWSE_TOOLS 
+    Mail	[T C I Z] @mail.m.bm @mail02.m.bm 64 f.exec "hpterm -name Mail -e elm" f.action MAIL_A_FILE
+    Print	[P C Z] @print.m.bm 70 f.action PRINTER_INFO f.action PRINT
+    Trash	[P C Z] @trash.l.bm 70 f.action SHOW_TRASH f.action THROW_AWAY
+    dtload	[T C] 153+5+5 
+  }
+
+}
+
+
+##############################
+#  Drop Effects (Animation)  #
+##############################
+
+DropEffects Mail
+{
+	mail.m.bm      80
+	mail02.m.bm    80
+	mail.m.bm      80
+	mail02.m.bm    80
+}
+
+DropEffects Print
+{
+	print02.m.bm     30
+	print03.m.bm
+	print04.m.bm
+	print05.m.bm
+	print06.m.bm
+	print07.m.bm
+	print08.m.bm
+	print09.m.bm
+	print10.m.bm
+	print11.m.bm
+	print12.m.bm
+	print13.m.bm
+	print14.m.bm
+	print.m.bm      
+	print02.m.bm     30
+	print03.m.bm
+	print04.m.bm
+	print05.m.bm
+	print06.m.bm
+	print07.m.bm
+	print08.m.bm
+	print09.m.bm
+	print10.m.bm
+	print11.m.bm
+	print12.m.bm
+	print13.m.bm
+	print14.m.bm
+	print.m.bm      
+}
+
+DropEffects Trash
+{
+	trash11.l.bm  10
+	trash10.l.bm
+	trash09.l.bm
+	trash08.l.bm
+	trash07.l.bm
+	trash06.l.bm
+	trash05.l.bm
+	trash04.l.bm
+	trash03.l.bm
+	trash02.l.bm   
+	trash03.l.bm   
+	trash04.l.bm
+	trash05.l.bm  
+	trash06.l.bm 
+	trash07.l.bm
+	trash08.l.bm  
+	trash09.l.bm 
+	trash10.l.bm
+	trash11.l.bm
+	trash.l.bm 
+}
+
+
+#############################
+#  Root Menu Specification  #
+#############################
+
+Menu DtRootMenu
+{
+    "Workspace Menu"            f.title
+    "Shuffle Up"	        f.circle_up
+    "Shuffle Down"	        f.circle_down
+    "Refresh Screen"	        f.refresh
+     no-label		        f.separator
+    "Toggle Front Panel" 	f.toggle_frontpanel
+    "Rename Workspace"		f.workspace_rename
+    "Pack Icons"		f.pack_icons
+    "Restart Dtwm ..."	        f.restart
+     no-label		        f.separator
+    "Log out..."                f.action EXIT_SESSION
+}
+
+###############################
+#  Window Menu Specification  #
+###############################
+Menu DtWindowMenu
+{
+    "Restore"          _R        Alt<Key>F5         f.normalize
+    "Move"             _M        Alt<Key>F7         f.move
+    "Size"             _S        Alt<Key>F8         f.resize
+    "Minimize"         _n        Alt<Key>F9         f.minimize
+    "Maximize"         _x        Alt<Key>F10        f.maximize
+    "Lower"            _L        Alt<Key>F3         f.lower
+     no-label                                       f.separator
+    "Occupy..."        _O        Alt<Key>O          f.workspace_presence
+    "Occupy all"       _a        Alt Shift<Key>O    f.occupy_all
+     no-label                                       f.separator
+    "Remove from WS"   _e        Alt Shift <Key>F4  f.remove
+    "Close"            _C        Alt<Key>F4         f.kill
+}
+
+##############################
+#  Key Binding Descriptions  #
+##############################
+
+Keys DtKeyBindings
+{
+    <Key>Menu                   root                    f.toggle_frontpanel
+    Meta<Key>Menu               root|icon|window        f.toggle_frontpanel
+    Shift<Key>Escape            icon|window             f.post_wmenu
+    Meta<Key>space              icon|window             f.post_wmenu
+    Meta<Key>Tab                root|icon|window        f.next_key
+    Meta Shift<Key>Tab		root|icon|window        f.prev_key
+    Meta<Key>Escape             root|icon|window        f.next_key
+    Meta Shift<Key>Escape       root|icon|window        f.prev_key
+    Meta Ctrl Shift<Key>exclam	root|icon|window        f.set_behavior
+}
+
+#################################
+#  Button Binding Descriptions  #
+#################################
+
+Buttons DtButtonBindings
+{
+    ### Button 1 ###
+    <Btn1Click>         root            f.circle_up
+    <Btn1Click>         frame|icon      f.raise_lower
+    <Btn1Click2>	title		f.maximize
+#    Meta<Btn1Down>	icon|window     f.move
+
+    ### Button 2 ###
+    <Btn2Down>		frame|icon	f.move
+    <Btn2Click>		root		f.next_workspace
+    Shift<Btn2Click>	root		f.prev_workspace
+    Meta<Btn2Down>	root            f.toggle_frontpanel
+    Meta<Btn2Down>	icon|window     f.move
+
+    ### Button 3 ###
+    <Btn3Down>          root            f.menu  DtRootMenu
+    <Btn3Down>          frame|icon      f.post_wmenu
+    Meta<Btn3Down>	frame|window    f.minimize
+}
+
+
+#
+#  End of dtwm Resource Description File
+#
+#####################      eof       #########################
+

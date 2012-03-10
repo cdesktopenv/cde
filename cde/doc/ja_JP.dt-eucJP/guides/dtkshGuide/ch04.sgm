@@ -1,0 +1,333 @@
+<!-- $XConsortium: ch04.sgm /main/7 1996/09/08 19:46:13 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="DKSUG.scr2.div.1">
+<title>複雑なスクリプト<indexterm><primary>複雑なスクリプト</primary></indexterm></title>
+<para>この章は、2章で説明したスクリプトよりも、さらに複雑なスクリプトについて説明します。
+このスクリプトは非常に長いため、スクリプト全体は、付録Cにリストします。
+このマニュアルは、KornShellプログラミングのチュートリアルではありません。
+KornShellプログラミングをあまり理解していない場合は、KornShellプログラミング用の
+マニュアルを入手し、参照してください。</para>
+<sect1 id="DKSUG.scr2.div.2">
+<title>script_findの使用方法</title>
+<para>スクリプト<indexterm><primary>script_find</primary></indexterm><filename>script_find</filename>は、<command>dtksh</command>を使用して、<command>find</command>コマンドのグラフィカル・インタフェースを
+提供する方法を示しています。<filename>script_find</filename>は、<command>find</command>コマンドのパラメータを
+指定できるウィンドウを生成します。スクリプトを完全に理解するには、<command>find</command>を理解し、
+マニュアル・ページを使用可能にしておく必要があります。<filename>script_find</filename>によって
+生成されるウィンドウ内の多くのトグル・ボタン・メニュー選択肢は、<command>find</command>コマンドの
+知識が多少必要です。</para>
+<para>スクリプトのウィンドウで、検索するディレクトリとファイル名を指定します。
+他のオプションで、検索用のファイル・システムの型と一致するファイルの型を
+制限できます。図4-1にscript_findのウィンドウを示します。</para>
+<figure>
+<title>script_findのウィンドウ</title>
+<graphic id="DKSUG.scr2.grph.1" entityref="DKSUG.scr2.fig.1"></graphic>
+</figure>
+<para>ウィンドウの上部にあるテキスト・フィールドに、捜したい検索ディレクトリとファイル名
+を入力します。そして、5つのトグル・ボタンから適用可能な選択（または選択肢）を
+選択します。オプション・メニューで、検索をさらに制限できます。必要な選択をすべて
+行ってから[OK]ボタンをクリックします。処理が正常に終ると、その後すぐに
+ウィンドウが現れ、<command>find</command>操作の結果が表示されます。検索ディレクトリ
+またはファイル名を指定しないと、または無効なディレクトリを指定すると、エラー・
+ダイアログが表示されます。たとえば、<filename>/users/dlm</filename>ディレクトリ
+下のどこに<filename>two_letter_calls</filename>というファイルがあるか捜しますとします。
+検索ディレクトリのテキスト・フィールドに、そのディレクトリを入力するときに、
+<filename>/users/dlm</filename>の代わりに<filename>/users/dln</filename>と誤って入力したと
+します。その状態で、[OK]または[Apply]をクリックすると、<filename>script_find</filename>は、<filename>/users/dln</filename>ディレクトリを見つけることができません。
+そのため、エラー・ダイアログを生成して、これをユーザに通知します。
+</para>
+<figure>
+<title>script_findエラー・ダイアログ</title>
+<graphic id="DKSUG.scr2.grph.2" entityref="DKSUG.scr2.fig.2"></graphic>
+</figure>
+<para>誤りを訂正すると、<filename>script_find</filename>は適切に実行し、要求したファイルの
+絶対パスを表示した<command>dtterm</command>ウィンドウを生成し、ファイルが見つかった
+ことを示します。</para>
+<figure>
+<title>絶対パスが示されているウィンドウ</title>
+<graphic id="DKSUG.scr2.grph.3" entityref="DKSUG.scr2.fig.3"></graphic>
+</figure>
+<para><filename>script_find</filename>が指定したディレクトリに見つからなかった時は、<command>dtterm</command>ウィンドウには何も表示されません。</para>
+</sect1>
+<sect1 id="DKSUG.scr2.div.3">
+<title>script_findの解析</title>
+<para><filename>script_find</filename>の構造は、Cプログラムと似ています。初めにいくつかの関数とコールバック、
+次にメイン・スクリプトが示されるという構造です。</para>
+<para>スクリプトの初めの2行は重要で、すべての<command>dtksh</command>スクリプトに含める
+必要があります。</para>
+<programlisting>#! /usr/dt/bin/dtksh
+. /usr/dt/lib/dtksh/DtFunc.dtsh</programlisting>
+<para>1行めは<command>dtksh</command>システムを実行します。2行めは<command>dtksh</command>簡易関数をロードします。
+2行めは、第2章で説明したスクリプトには使用されていません。それは、これらの
+スクリプトが<command>dtksh</command>簡易関数を使用しないためです。</para>
+<sect2 id="DKSUG.scr2.div.4">
+<title>関数とコールバック<indexterm><primary>コールバック</primary><secondary>script_find</secondary></indexterm></title>
+<para><filename>script_find</filename>には、次の関数とコールバックがあります。</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>PostErrorDialog()</filename></para>
+</listitem><listitem><para><filename>OkCallback()</filename></para>
+</listitem><listitem><para>LoadStickyValues()</para>
+</listitem><listitem><para><filename>EvalCmd()</filename></para>
+</listitem><listitem><para><filename>RetrieveAndSaveCurrentValues()</filename></para>
+</listitem></itemizedlist>
+<sect3 id="DKSUG.scr2.div.5">
+<title>PostErrorDialog()</title>
+<para>この関数は、ユーザが無効なディレクトリを入力したときなど、エラーの発見時に呼び
+出されます。この関数は、ダイアログ・ボックスを表示
+し、簡易関数<filename><indexterm><primary>DtkshDisplayErrorDialog</primary></indexterm>DtkshDisplayErrorDialog()</filename>を呼び出されます。
+この関数は、「Find Error」というタイトルで、呼び出した位置から渡される変数$1にメッセージが格納されているダイアログ・ボックスを表示します。</para>
+<programlisting>dialogPostErrorDialog()
+{
+     DtDisplayErrorDialog &ldquo;Find Error&rdquo; &ldquo;$1&rdquo; \
+     DIALOG_PRIMARY_APPLICATION_MODAL
+}</programlisting>
+<para>最後のパラメータ、<computeroutput>DIALOG_PRIMARY_APPLICATION_MODAL</computeroutput>は、他の相互動作が発生する前に
+応答しなければならないダイアログを生成するように<command>dtksh</command>に伝えます。</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.6">
+<title>OkCallback()</title>
+<para><filename>OkCallback()</filename>は、メインの<filename>script_find</filename>ウィンドウ上の[OK]または[Apply]ボタンの
+どちらかを押されると呼び出されます。 [OK]をボタンを押すと、script_findウィンドウ
+は管理されなくなります。[OK]または[Apply]ボタンで、入力した検索ディレクトリを
+確認します。それが無効な場合、<filename>OkCallback()</filename>は、<filename>PostErrorDialog()</filename>を
+呼び出します。それが有効な場合は、<filename>script_find</filename>のトグル・ボタンの状態がチェックされ、
+その状態と一致するように、変数<filename>$CMD</filename>を調整します。
+この変数には、最後に実行されるコマンドのすべてが含まれます。</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.7">
+<title>LoadStickyValues()</title>
+<para>この関数は、ウィンドウが生成および管理された後、メイン・プリグラムから呼び出され
+ます。スクリプトの最新の実行結果から、すべての値をロードします。
+それらの値は<filename>RetrieveandSaveCurrentValues()</filename>関数によって、<filename>Find.sticky</filename>ファイルに保存されます。
+</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.8">
+<title>EvalCmd()</title>
+<para><filename>EvalCmd()</filename>は<filename>LoadStickyValues()</filename>で使用され、<command>dtksh</command>コマンドとして<filename>Find.sticky</filename>の各行を評価します。
+<filename>Find.sticky</filename>ファイル内のリストが次のとおりです。</para>
+<programlisting>XmTextSetString $SD &ldquo;/users/dlm&rdquo;<indexterm>
+<primary>XmTextSetString</primary></indexterm>
+XmTextFieldSetInsertionPosition $SD 10<indexterm><primary>XmTextFieldSetInsertionPosition</primary></indexterm>
+XmTextSetString $FNP &ldquo;two_letter_calls&rdquo;<indexterm><primary>XmTextSetString</primary></indexterm>
+XmTextFieldSetInsertionPosition $FNP 16<indexterm><primary>XmTextFieldSetInsertionPosition</primary></indexterm>
+XtSetValues $FSTYPE menuHistory:$NODIR<indexterm><primary>XtSetValues</primary>
+</indexterm>
+XtSetValues $FILETYPE menuHistory:$NOTYPE<indexterm><primary>XtSetValues</primary>
+</indexterm>
+XmToggleButtonSetState $T2 true false<indexterm><primary>XmToggleButtonSetState</primary></indexterm>
+XmToggleButtonSetState $T4 true false<indexterm><primary>XmToggleButtonSetState</primary></indexterm></programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.9">
+<title>RetrievAndSaveCurrentValues()</title>
+<para><filename>RetrieveAndSaveCurrentValues()</filename>は、<filename>script_find</filename>ウィンドウにあるウィジェットの現在の設定と値を
+検索し、それらを<filename>Find.sticky</filename>ファイルに保存します。
+<filename>Find.sticky</filename>ファイルは、次にスクリプトが実行される時に、
+<filename>LoadStickyValues()</filename>によって使用されます。</para>
+</sect3>
+</sect2>
+<sect2 id="DKSUG.scr2.div.10">
+<title>メイン・スクリプト</title>
+<para>スクリプトの残りは、Cプログラムの<filename>Main()</filename>に相当するものです。Xtイントリンシクス
+を初期化し、<filename>script_find</filename>ウィンドウで使用するすべてのウィジェットを生成します。
+1行めの<command>set -f</command>は、<command>dtksh</command>に対し、パス名にあるワイルドカードの文字列の
+拡張を禁止するよう指示しています。これは、<command>find</command>コマンドがこの拡張を実行できる
+ようにするために必要です。</para>
+<para><filename>script_find</filename>ウィンドウ(図4-4参照)は、4つの領域をもつフォーム・ウィジェットから
+構成されます。領域は、セパレータ・ウィジェットによって明確にされています。
+それぞれの領域にはいくつかのウィジェットがあり、そのすべてがフォーム・ウィジェット
+の子になります。
+</para>
+<figure>
+<title> script_findウィンドウにあるウィジェット</title>
+<graphic id="DKSUG.scr2.grph.4" entityref="DKSUG.scr2.fig.4"></graphic>
+</figure>
+<para>ウィジェットは、領域ごとに順番に、上から下へ作成されます。</para>
+<sect3 id="DKSUG.scr2.div.11">
+<title>初期化</title>
+<para>初期化は、次のようなXtイントリンシクス関数<command>XtInitialize</command>で行います。</para>
+<programlisting>XtInitialize TOPLEVEL find Dtksh $0 &ldquo;${@:-}&rdquo;<indexterm>
+<primary>XtInitialize</primary></indexterm></programlisting>
+<para>これは、次に生成されるフォーム・ウィジェットの親であるトップレベル・
+シェルを生成します。</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.12">
+<title>フォーム・ウィジェットの生成<indexterm><primary>ウィジェット</primary><secondary>フォーム</secondary></indexterm><indexterm><primary>フォーム・ウィジェットの生成</primary>
+</indexterm></title>
+<para>メインの親ウィジェットとしてフォーム・ウィジェットを使用します。
+フォーム・ウィジェットは、ユーザが子ウィジェットを抑制できるマネージャ・
+ウィジェットです。メインの<filename>script_find</filename>ウィンドウにあるほとんどのウィジェットが
+フォーム・ウィジェットの子です。残りのウィジェットの作成の説明は、ウィンドウの
+4つの領域(図4-4参照)ごとに説明します。</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.13">
+<title>1つめの領域</title>
+<para>1つめの領域は、2つのラベル・ウィジェットと2つのテキストフィールド・ウィジェット、
+および1つめと2つめの領域を区切るセパレータから構成されています。</para>
+<figure>
+<title><filename>script_find</filename>ウィンドウの1つめの領域</title>
+<graphic id="DKSUG.scr2.grph.5" entityref="DKSUG.scr2.fig.5"></graphic>
+</figure>
+<para>次のコードの部分は、1つめのラベル・ウィジェットを生成および配置し、<command>DtkshAnchorTop</command>
+および<command>DtkshAnchorLeft</command>簡易関数を使用して、フォーム・ウィジェットにそれを
+配置します。</para>
+<programlisting>XtCreateManagedWidget SDLABEL sdlabel XmLabel $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+  labelString:&rdquo;Search Directory:&rdquo; \
+  $(DtkshAnchorTop 12) \
+  $(DtkshAnchorLeft 10)</programlisting>
+<para>次のコードの部分は、1つめのテキストフィールド・ウィジェットを生成および配置
+しています。このウィジェットは、フォーム・ウィジェットとラベル・ウィジェットの
+両方に関連して配置されます。</para>
+<programlisting>XtCreateManagedWidget SD sd XmText $FORM \<indexterm><primary>XtCreateManagedWidget</primary></indexterm>
+  columns:30 \
+  value:&rdquo;.&rdquo; \
+  $(DtkshAnchorTop 6) \
+  $(DtkshRightOf $SDLABEL 10) \
+  $(DtkshAnchorRight 10) \
+  navigationType:EXCLUSIVE_TAB_GROUP
+XmTextFieldSetInsertionPosition $SD 1<indexterm><primary>XmTextFieldSetInsertionPosition</primary></indexterm></programlisting>
+<para>残りのラベル・ウィジェットとテキストフィールト・ウィジェットは、同じ方法で生成
+されます。</para>
+<para>セパレータ・ウィジェットはフォーム・ウィジェットの子として生成され、2つめのテキストフィールドの下に配置されます。<indexterm><primary>ウィジェット</primary><secondary>セパレータ・ウィジェット</secondary></indexterm><indexterm><primary>セパレータ・ウィジェットはの生成</primary></indexterm></para>
+<programlisting>XtCreateManagedWidget SEP sep XmSeparator $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+  separatorType:SINGLE_DASHED_LINE \
+  $(DtkshUnder $FNP 10) \
+  $(DtkshSpanWidth)</programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.14">
+<title>2つめの領域</title>
+<para>2つめの領域は、1つのローカラム・ウィジェット、5つのトグルボタン・ガジェット、
+およびセパレータ・ウィジェットから構成されます。</para>
+<figure>
+<title><filename>script_find</filename>ウィンドウの2つめの領域</title>
+<graphic id="DKSUG.scr2.grph.6" entityref="DKSUG.scr2.fig.6"></graphic>
+</figure>
+<para>ガジェットは、多くの属性を、その親に依存するウィジェットで、メモリ・リソースを節約できます。</para>
+<para>ローカラム・ウィジェットは、フォーム・ウィジェットの子として生成され、1つめの
+領域に生成されたセパレータ・ウィジェットの直下に配置されます。
+</para>
+<programlisting>XtCreateManagedWidget RC rc XmRowColumn $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+       orientation:HORIZONTAL \
+       numColumns:3 \
+       packing:PACK_COLUMN \
+  $(DtkshUnder $SEP 10) \
+  $(DtkshSpanWidth 10 10) \
+  navigationType:EXCLUSIVE_TAB_GROUP</programlisting>
+<para>5つのトグルボタン・ガジェットは、<command>DtkshAddButtons</command>簡易関数を使用して、
+ローカラム・ウィジェットの子として生成されます。</para>
+<programlisting>DtkshAddButtons -w $RC XmToggleButtonGadget \<indexterm><primary>DtkshAddButtons</primary></indexterm>
+  T1 &ldquo;Cross Mount Points&rdquo;           &ldquo;&ldquo;\
+  T2 &ldquo;Print Matching Filenames&rdquo;     &ldquo;&ldquo;\
+  T3 &ldquo;Search Hidden Subdirectories&rdquo; &ldquo;&ldquo;\
+  T4 &ldquo;Follow Symbolic Links&rdquo;        &ldquo;&ldquo;\
+  T5 &ldquo;Descend Subdirectories First&rdquo; &ldquo;&ldquo;</programlisting>
+<para>次にセパレータ・ウィジェットが生成され、2つめと3つめの領域を区切ります。
+このセパレータ・ウィジェットIDは、<filename>SEP2</filename>と呼ばれています。
+</para>
+<programlisting>XtCreateManagedWidget SEP2 sep XmSeparator $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+ separatorType:SINGLE_DASHED_LINE \
+ $(DtkshUnder $RC 10) \
+ $(DtkshSpanWidth)</programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.15">
+<title>3つめの領域</title>
+<para>3つめの領域は、2つのオプション・メニューとセパレータ・ウィジェットから生成されます。
+</para>
+<figure>
+<title><filename>script_find</filename>ウィンドウの3つめの領域</title>
+<graphic id="DKSUG.scr2.grph.7" entityref="DKSUG.scr2.fig.7"></graphic>
+</figure>
+<para>オプション・メニューは、プルダウン・メニューです。ユーザがオプション・メニュー・
+ボタンをクリックすると、多数の選択肢をもつメニュー区画が現れます。ユーザは、適切
+な選択肢にポインタをドラッグし、マウス・ボタンを離します。メニュー区画は消え、
+オプション・メニュー・ボタンのラベルに新しい選択肢が表示されます。<indexterm>
+<primary>メニューの作成</primary></indexterm><indexterm><primary>メニューの作成</primary></indexterm></para>
+<para>1つめのオプション・メニューのメニュー区画は、多数のプッシュ・ボタン・ガジェット
+から構成され、<command>find</command>コマンドに強いることができる様々な制約を表示しています。</para>
+<programlisting>XmCreatePulldownMenu PANE $FORM pane <indexterm><primary>XmCreatePulldownMenu</primary></indexterm>
+DtkshAddButtons -w $PANE XmPushButtonGadget \<indexterm><primary>DtkshAddButtons</primary></indexterm>
+  NODIR &ldquo;no restrictions&rdquo; &ldquo;&ldquo;\
+  NFS   &ldquo;nfs&rdquo;             &ldquo;&ldquo;\
+  CDFS  &ldquo;cdfs&rdquo;            &ldquo;&ldquo;\
+  HFS   &ldquo;hfs&rdquo;             &ldquo;&ldquo;
+Next, the Option Menu button itself is created and managed, with the
+menu pane just created (<filename>$PANE</filename>) identified as a <command>subMenuId</command>:
+XmCreateOptionMenu FSTYPE $FORM fstype \<indexterm><primary>XmCreateOptionMenu</primary></indexterm>
+       labelString:&rdquo;Restrict Search To File System Type:&rdquo; \
+       menuHistory:$NODIR \
+       subMenuId:$PANE \
+  $(DtkshUnder $SEP2 20) \
+  $(DtkshSpanWidth 10 10) \
+  navigationType:EXCLUSIVE_TAB_GROUP
+XtManageChild $FSTYPE<indexterm><primary>XtManageChild</primary></indexterm></programlisting>
+<para>2つめのオプション・メニュー・ボタンも、同じ方法で生成されます。このボタンは、
+<command>find</command>コマンドに、さらに制約を与えます。</para>
+<para>3つめのセパレータは、他のセパレータと同じ方法で生成されます。
+</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.16">
+<title>4つめの領域</title>
+<para>4つめの領域は、フォーム・ウィジェットの子である4つのプッシュ・ボタンから構成され
+ています。</para>
+<graphic id="DKSUG.scr2.igrph.1" entityref="DKSUG.scr2.fig.8"></graphic>
+<para>4つのプッシュ・ボタンは次のように使用されます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>[OK]は、<filename>script_find</filename>ウィンドウに入力されたパラメータで<command>find</command>コマンドを
+実行し、<filename>script_find</filename>ウィンドウを閉じます。</para>
+</listitem><listitem><para>[Apply]は、<filename>script_find</filename>ウィンドウに入力されたパラメータで<command>find</command>コマンドを実行します。
+<filename>script_find</filename>ウィンドウは閉じません。</para>
+</listitem><listitem><para>[Close]は、<command>find</command>コマンドを実行せずに<filename>script_find</filename>を終了します。</para>
+</listitem><listitem><para>[Help]は、<filename>script_find</filename>の使用に関する情報を示すダイアログ・ボックスを生成します。</para>
+</listitem></itemizedlist>
+<para>プッシュ・ボタンは、それぞれ異なったラベルが付きますが、他のウィジェットとほとんど
+同じ方法で生成および配置されます。
+次のコードの部分は、[OK]ボタンを生成する方法を示しています。</para>
+<programlisting>XtCreateManagedWidget OK ok XmPushButton $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+       labelString:&rdquo;Ok&rdquo; \
+  $(DtkshUnder $SEP3 10) \
+  $(DtkshFloatLeft 4) \
+  $(DtkshFloatRight 24) \
+  $(DtkshAnchorBottom 10)
+XtAddCallback $OK activateCallback &ldquo;OkCallback&rdquo;<indexterm><primary>XtAddCallback</primary></indexterm></programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.17">
+<title>オペレーティング・パラメータの設定</title>
+<para><command>XtSetValues</command>は、最初のオペレーティング・パラメータを設定するのに使用します。</para>
+<programlisting>XtSetValues $FORM \<indexterm><primary>XtSetValues</primary>
+</indexterm>
+  initialFocus:$SD \
+  defaultButton:$OK \
+  cancelButton:$CLOSE \
+  navigationType:EXCLUSIVE_TAB_GROUP</programlisting>
+<itemizedlist remap="Bullet1"><listitem><para>最初のフォーカスは、1つめの領域の最初のテキストフィールド・ウィジェットに設定
+されます。</para>
+</listitem><listitem><para>デフォルト・ボタンは4つめの領域の[OK]ボタンに設定されます。</para>
+</listitem><listitem><para>取消しボタンは4つめの領域の[Close]ボタンに設定されます。</para>
+</listitem><listitem><para>ナビゲーション型は<computeroutput>EXCLUSIVE_TAB_GROUP.</computeroutput>に設定されます。</para>
+</listitem></itemizedlist>
+<para>次の行は、改行キーがフォーム・ウィジェット内でデフォルト・ボタンをアクティブに
+しないテキストフィールド・ウィジェットを構成します。使用方法の詳細は、付録Bの
+<computeroutput>EXCLUSIVE_TAB_GROUP</computeroutput>の説明を参照してください。</para>
+<programlisting>DtkshSetReturnKeyControls $SD $FNP $FORM $OK</programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.18">
+<title>認識とループ</title>
+<para>スクリプトの最後の3行は、<filename>script_find</filename>ウィンドウの前の値をロードし、
+トップレベル・ウィジェットを実現します。そして、ユーザの入力を待つループに入り
+ます。</para>
+<programlisting>LoadStickyValues
+XtRealizeWidget $TOPLEVEL<indexterm><primary>XtRealizeWidget</primary></indexterm>
+XtMainLoop<indexterm><primary>XtMainLoop</primary></indexterm><?Pub Caret></programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub *0000021832>

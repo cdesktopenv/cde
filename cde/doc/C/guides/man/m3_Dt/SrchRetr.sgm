@@ -1,0 +1,101 @@
+<!-- $XConsortium: dtsrrtrv.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchRetrieve">]]>
+<refmeta><refentrytitle>DtSearchRetrieve</refentrytitle>
+<manvolnum>library call</manvolnum></refmeta>
+<refnamediv>
+<refname><function>DtSearchRetrieve</function></refname>
+<refpurpose>Return clear text of documents from DtSearch databases
+</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/Search.h></funcsynopsisinfo>
+<funcdef>int <function>DtSearchRetrieve</function></funcdef>
+<paramdef>char <parameter>*dbname</parameter></paramdef>
+<paramdef>DB_ADDR <parameter>dba</parameter></paramdef>
+<paramdef>char <parameter>**cleartext</parameter></paramdef>
+<paramdef>long <parameter>*clearlen</parameter></paramdef>
+<paramdef>int <parameter>*fzkeyi</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para><function>DtSearchRetrieve</function> retrieves the uncompressed
+document text of a specified DtSearch document listed in the
+<structname>DtSrResult</structname> list from a previous call to
+<function>DtSearchQuery</function>. It will be successful only in an
+AusText type database where the documents are stored directly in a
+database repository.
+</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">dbname</symbol></term>
+<listitem>
+<para>Specifies which database the document is stored in. It can be any one of
+the database name strings returned from
+<function>DtSearchInit</function> or
+<function>DtSearchReinit</function>. If
+<symbol role="Variable">dbname</symbol> is NULL, the first database name string is used.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">dba</symbol></term>
+<listitem>
+<para>The database address of the desired record from the <structname>DtSrResult.dba</structname> field in a search results list.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">cleartext</symbol></term>
+<listitem>
+<para>Specifies a pointer where a zero terminated C string containing the
+document text will be stored. The string is allocated storage that will
+be freed by the next call to this function.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">clearlen</symbol></term>
+<listitem>
+<para>Specifies a pointer where the length of the
+<symbol role="Variable">cleartext</symbol> string will be stored.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">fzkeyi</symbol></term>
+<listitem>
+<para>This is a reserved argument. It should always be NULL.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para><function>DtSearchRetrieve</function> returns <systemitem class="constant">DtSrOK</systemitem> as well as the
+<symbol role="Variable">cleartext</symbol> string, when document retrieval is
+completely successful.
+</para>
+<para>It returns <systemitem class="constant">DtSrNOTAVAIL</systemitem> if the
+document text is not available from the database for whatever reason.
+</para>
+<para>Any other return code signifies failure and user messages on the MessageList
+explain why.
+</para>
+<para>Any API function can also return <systemitem class="constant">DtSrREINIT</systemitem> and the return codes for fatal engine errors at any time.
+</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtsrcreate;,
+&cdeman.DtSrAPI;,
+&cdeman.DtSearchQuery;,
+&cdeman.DtSearch;
+</para>
+</refsect1></refentry>
+

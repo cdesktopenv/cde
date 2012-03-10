@@ -1,0 +1,248 @@
+<!-- $XConsortium: appgathe.sgm /main/6 1996/08/31 14:48:52 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN1.rsml.1">
+<RefMeta>
+<RefEntryTitle>dtappgather</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dtappgather</Command></RefName>
+<RefPurpose>gather application files for presentation by the
+Application Manager
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!--- -->
+<!-- (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994 Novell, Inc.-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dtappgather</Command>
+<Arg Choice="opt">-r</Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+Application Manager
+presents personal, system, and factory applications in
+an easy-to-access window.
+The
+Application Manager
+is implemented as a special File Manager view of a
+subdirectory that is built on a per-user, per-session basis.
+The
+<Command>dtappgather</Command> utility is responsible for creating and refreshing
+the user's
+Application Manager
+subdirectory.
+</Para>
+<Para>The
+<Command>dtappgather</Command> utility
+is run at login and whenever the user invokes the
+<Literal>ReloadApps</Literal> action.
+The user's individual subdirectory for the
+Application Manager,
+<Filename>/var/dt/appconfig/appmanager/$DTUSERSESSION</Filename>, is opened when the user presses the Application Manager control
+on the Front Panel.
+</Para>
+<Para>The sequence of events is as follows:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>When the user logs in, the <Command>Xsession</Command> script sources in the
+<Literal>Xsession.d</Literal> script that sets the <SystemItem Class="EnvironVar">DTUSERSESSION</SystemItem> environment
+variable.
+</Para>
+</ListItem>
+<ListItem>
+<Para><Command>Xsession</Command> then invokes the
+<Command>dtsearchpath</Command>
+utility to set the <SystemItem Class="EnvironVar">DTAPPSEARCHPATH</SystemItem> environment variable.
+</Para>
+</ListItem>
+<ListItem>
+<Para>After
+<Command>dtsearchpath</Command>
+returns with the <SystemItem Class="EnvironVar">DTAPPSEARCHPATH</SystemItem> assembled,
+the <Command>Xsession</Command> script calls
+<Command>dtappgather</Command>.</Para>
+</ListItem>
+<ListItem>
+<Para>As its main function,
+<Command>dtappgather</Command> traverses the <SystemItem Class="EnvironVar">DTAPPSEARCHPATH</SystemItem>,
+examining each possible source of applications and, where
+there are existing source subdirectories, creates symbolic links between
+the source and the user's <SystemItem Class="EnvironVar">DTUSERSESSION</SystemItem> subdirectory.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Finally,
+<Command>dtappgather</Command> turns off write permissions on the resulting subdirectory to ensure its
+integrity.
+</Para>
+<Para>A similar sequence occurs when the user double-clicks the <Literal>ReloadApps</Literal>
+action after logging in.
+</Para>
+<Para>Although the value of the <SystemItem Class="EnvironVar">DTAPPSEARCHPATH</SystemItem> can be modified in a
+local shell, the
+Application Manager
+view based on its value is not functional until you log out and
+log back in.
+Since this can be a tedious venture, you can verify the
+Application Manager
+view by executing
+&cdeman.dtsearchpath; and
+<Command>dtappgather</Command> in the local shell.
+For
+example, to add host
+<Literal>trout</Literal> as a system-wide
+application server, set the
+&cdeman.dtsearchpath; input environment variable,
+<Emphasis>DTSPSYSAPPHOSTS</Emphasis>: <Literal>DTSPSYSAPPHOSTS=trout</Literal>: Then, execute
+&cdeman.dtsearchpath; to update the
+<SystemItem Class="EnvironVar">DTAPPSEARCHPATH</SystemItem> environment
+variable.
+<Literal>eval</Literal> <Literal>`dtsearchpath`</Literal> Finally, gather the new applications by executing
+<Command>dtappgather</Command>. The
+Application Manager
+will show the new application groups but will not be functional.
+</Para>
+</ListItem>
+</ItemizedList>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<Para>The
+<Literal>-r</Literal>
+option causes
+<Command>dtappgather</Command> to retain the previous contents of the Application Manager, although
+discarding broken links.
+At login,
+<Command>dtappgather</Command> destroys the user's previous <SystemItem Class="EnvironVar">DTUSERSESSION</SystemItem> subdirectory before
+creating a new one.
+At <Literal>ReloadApps</Literal> time, the <Literal>-r</Literal> option
+is used to minimize visual disruption of any opened
+Application Manager
+views.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>The command always returns 0 (zero) for successful completion.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT</Title>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">DTAPPSEARCHPATH</SystemItem></Term>
+<ListItem>
+<Para>Set by the
+&cdeman.dtsearchpath; utility.
+<SystemItem Class="EnvironVar">DTAPPSEARCHPATH</SystemItem> controls the places
+where
+<Command>dtappgather</Command> will gather applications.
+The default locations consist of
+<Filename>$HOME/.dt/appmanager</Filename> (for end users),
+<Filename>/etc/dt/appconfig/appmanager/$LANG</Filename> (for system administrators), and
+<Filename>/usr/dt/appconfig/appmanager/$LANG</Filename> (for factory applications).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">DTUSERSESSION</SystemItem></Term>
+<ListItem>
+<Para>Controls the location of the end user's subdirectory where the
+Application Manager will be rooted.
+The subdirectory name includes
+both the user's <Emphasis>$LOGNAME</Emphasis> and <Emphasis>$DISPLAY</Emphasis> in order to
+ensure the user's view of the Application Manager remains consistent
+across sessions.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>LOCALES</Title>
+<Para>When searching for system administrator and factory default
+Application Manager
+files,
+<Command>dtappgather</Command> always uses a value of <Emphasis>$LANG</Emphasis> equal to <Literal>C</Literal>.
+When the
+user picks a language at login, the corresponding <Emphasis>$LANG</Emphasis>
+subdirectories are searched.
+If multiple <Emphasis>$LANG</Emphasis> subdirectories exist
+in <Filename>/etc/dt/appconfig/appmanager</Filename>, all <Emphasis>$LANG</Emphasis> subdirectories will
+appear in the Application Manager; however, if multiple <Emphasis>$LANG</Emphasis>
+subdirectories exist in
+<Filename>/usr/dt/appconfig/appmanager</Filename> then the
+language-specific subdirectory based on the current value of <Emphasis>$LANG</Emphasis> is
+chosen instead of the <Literal>C</Literal> subdirectory.
+Regardless of locale, all the action files that exist under the user's
+<Filename>$HOME/.dt/appmanager</Filename> subdirectory will be symbolically linked
+to the user's
+Application Manager
+subdirectory.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term><Filename>/usr/dt/bin/Xsession</Filename></Term>
+<ListItem>
+<Para>Among its tasks at login,
+the <Command>Xsession</Command> script invokes
+&cdeman.dtsearchpath;, and then
+<Command>dtappgather</Command>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/var/dt/appconfig/appmanager/$DTUSERSESSION</Filename></Term>
+<ListItem>
+<Para>This subdirectory is where
+<Command>dtappgather</Command> assembles the
+Application Manager
+view for the particular user and CDE session.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>NOTES</Title>
+<Para>In the case of multiple search locations having the same name,
+<Command>dtappgather</Command> picks only the first and discards the rest.
+For example, if the
+system administrator sets
+<Literal>DTSPSYSAPPHOSTS=tuna:,trout:</Literal>
+and if both hosts, <Literal>tuna</Literal> and <Literal>trout</Literal>, have an
+<Filename>/etc/dt/appconfig/appmanager/C/Editors</Filename> folder, then only the
+<Literal>Editors</Literal> folder from <Literal>tuna</Literal> (the first host) will appear
+in the user's Application Manager.
+After building the user's <SystemItem Class="EnvironVar">DTUSERSESSION</SystemItem>,
+<Command>dtappgather</Command> turns off write permissions on that subdirectory to disallow alteration
+by the end user.
+Although the end user can resize the
+window and rearrange the icons within the window, the Application
+Manager is intended to be a read-only source of local
+and networked applications.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtappintegrate;, &cdeman.dtsearchpath;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

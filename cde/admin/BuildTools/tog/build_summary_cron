@@ -1,0 +1,124 @@
+#!/bin/ksh
+#
+# build_summary_cron
+#
+########################################################################
+#set -x
+
+##########################################################################
+#
+# Script setup:  THIS NEEDS TO BE FIRST
+#
+SCRIPTS_DIR="`dirname $0`"
+PROG_NAME="`basename $0`"
+if [ "" = "$SCRIPTS_DIR" ]; then
+	SCRIPTS_DIR=/project/dt/scripts
+fi
+if [ ! -f $SCRIPTS_DIR/script_setup.ksh ]; then
+    print -u2 "$PRG:  File '$SCRIPTS_DIR/script_setup.ksh' NOT found!"
+    print -u2 "$PRG:  Exiting ..."
+    exit 1
+fi
+. $SCRIPTS_DIR/script_setup.ksh
+
+##########################################################################
+##########################################################################
+#
+# Script specific global variables
+#
+##########################################################################
+##########################################################################
+
+BUILD_SUMMARY_ARGS=""
+DEBUG="False"
+MAIL_LIST=""
+let RETRIES=4
+let SLEEP_SECONDS=3600
+let REPORT_NUM=1
+
+usage ()
+{ 
+    cat <<eof
+USAGE: $PROG_NAME
+	[-retries <#_retries>]
+	[-sleep   <#_seconds>]
+	[-h | -? | -help] 	
+		# Print usage and exit
+	#
+	# '$PROG_NAME' calls 'build_summary' to construct the report.
+	#
+	# If 'build_summary' returns an error code indicating
+	# that some of the specified builds have not completed,
+	# '$PROG_NAME' will put itself to sleep for 3600 seconds
+	# before trying again up to a maximum of 4 times.
+	# The number of retries and the sleep time can be altered
+	# using the '-retries' and '-sleep' options.
+	#
+	# Any command-line options not recognized by '$PROG_NAME' are
+	# passed to 'build_summary'.
+	#
+	# Any output from 'build_summary' is passed to the users
+	# specified in the '-mail' option.
+eof
+}
+
+#
+# Do command-line processing
+#
+while [ $# -gt 0 ]; do
+
+    case $1 in
+
+	-debug)
+	    DEBUG="True"
+	    shift ;;
+
+	-h | -help | '-?')
+	    usage $PROG_NAME
+	    do_exit 1 ;;
+
+	-retries)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    let RETRIES=$2
+	    shift 2 ;;
+
+	-sleep)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    let SLEEP_SECONDS=$2
+	    shift 2 ;;
+
+	*)
+	    BUILD_SUMMARY_ARGS="$BUILD_SUMMARY_ARGS $1"
+	    shift 1 ;;
+    esac
+done
+
+while [[ $RETRIES -ge 0 ]]
+do
+    $BUILD_SUMMARY $BUILD_SUMMARY_ARGS
+    STATUS=$?
+
+    if [ $STATUS -eq 0 ]; then
+        #
+        # Clean up temporary files and exit
+        #
+	do_exit 0
+    fi
+	
+    let REPORT_NUM=REPORT_NUM+1
+    let RETRIES=RETRIES-1
+    if [[ $RETRIES -ge 0 ]]; then
+        sleep $SLEEP_SECONDS
+    fi
+done
+
+#
+# Clean up temporary files and exit
+#
+do_exit 1

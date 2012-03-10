@@ -1,0 +1,45 @@
+XCOMM $XConsortium: Imakefile /main/5 1996/08/21 15:45:24 drk $
+#ifdef UseDtSearch
+SEARCHENG=DtSearch
+#else
+SEARCHENG=Fulcrum
+#endif
+
+#ifdef UseDtSearch
+
+DTSEARCH_LIBS=-L/VOB/olias/library/dtsearch/solaris -lDtSr -lDtvis
+DTSEARCH_INCLUDES=-I/VOB/olias/library/dtsearch/src
+
+SEARCHENG_LIBS=../$(SEARCHENG)/lib$(SEARCHENG).a $(DTSEARCH_LIBS)
+SEARCHENG_INCLUDES=-I../$(SEARCHENG) $(DTSEARCH_INCLUDES)
+
+Libs = libPrefs.a ../MMDB/libMMDB.a ../MMDB/libMMDBT.a \
+../Base/libBase.a ../Base/libBaseT.a \
+$(LIBRARY)/Common_Class/ol/libcommon_class.a $(EXCLIB) $(MMDB_LIBS) \
+$(MISC_LIB) -lm
+
+INCLUDES=-I. -I.. -I../.. -I../Base -I../MMDB -I../$(SEARCHENG) $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES) $(DTSEARCH_INCLUDES)
+
+#else
+Libs = ../Fulcrum/libFulcrum.a libPrefs.a ../MMDB/libMMDB.a ../Base/libBase.a $(EXCLIB) $(FULCRUMLIBS) $(MMDB_LIBS) $(MISC_LIB) -lm
+
+INCLUDES=-I. -I.. -I../.. -I../Base -I../MMDB -I../DtSearch -I../Fulcrum $(EXCEPTIONS_INCLUDES) $(FULCRUM_INCLUDES) $(FULCRUM_DEFINES) $(MMDB_INCLUDES)
+#endif
+
+PREF_LIB_NAME = Prefs
+PREF_LIB_SRCS = StringPref.C UserPreference.C
+PREF_LIB_OBJS = $(PREF_LIB_SRCS:.C=.o)
+
+make_libfiles($(LIBNAME),)
+
+SimpleLibrary($(PREF_LIB_NAME), $(PREF_LIB_OBJS), $(LIBDIR))
+
+SimpleLibraryT(uasdrv, uasdrv.o,)
+
+SimpleCPlusPlusProgram(sdrv, sdrv.o dlstub.o UAS_Templates.o, $(Libs))
+SimpleCPlusPlusProgram(uasdrv, uasdrv.o dlstub.o libuasdrvT.a, $(Libs))
+SpecialCPlusPlusObjectRule(UAS_Templates.o,,-ptf)
+
+SRCS = $(PREF_LIB_SRCS) sdrv.C uasdrv.C dlstub.C UAS_Templates.C
+
+DependTarget()

@@ -1,0 +1,49 @@
+XCOMM!/bin/ksh
+XCOMM $XConsortium: dtlslocale.src /main/6 1996/11/19 11:42:40 drk $
+XCOMM
+XCOMM  Common Desktop Environment
+XCOMM
+XCOMM  (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM  (c) Copyright 1993,1994,1996 Hewlett-Packard Company.
+XCOMM  (c) Copyright 1993,1994,1996 International Business Machines Corp.
+XCOMM  (c) Copyright 1993,1994,1996 Sun Microsystems, Inc.
+XCOMM  (c) Copyright 1996 Novell, Inc. 
+XCOMM  (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM  (c) Copyright 1996 Hitachi.
+XCOMM  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM      Novell, Inc.
+XCOMM
+XCOMM Generate list of installed locales and locale desciptive names
+XCOMM
+(
+  echo "LOCALELIST"             # indicate start of locale list
+  /usr/bin/locale -a            # generate locale list
+  echo "LSMLELIST"              # indicate start of locale information list
+  /usr/lib/nls/lsmle -c         # generate locale information list
+) |
+/usr/bin/awk '
+/LOCALELIST/ {state=0; next}    # start of installed locale list
+/LSMLELIST/ {state=1; next}     # start of locale information list
+state==0 {                      # processing locale list item
+  split($0, a, "\.");           # split item on blank
+  lang[a[1]]=" " a[1];          # first element is language name
+}
+state==1 {                      # item format is: codeset desc desc [locale]
+  split($0, a, " ");            # split item on blank
+  name=a[NF];                   # get locale name
+  sub(/\[/, "", name);          # strip [
+  sub(/\]/, "", name);          # strip ]
+  if (name in lang) {           # was locale returned by locale -a?
+    a[NF]=a[1];                 # move codeset from front to end of array
+    delete a[1];                # delete old codeset element in array
+    lang[name]="";              # blank description
+    for (i in a) {              # use resulting array as desciption
+      lang[name]=lang[name] " " a[i];
+    }
+  }
+}
+END {
+  for (i in lang) {             # if locale returned by locale -a
+    print i lang[i];            # print "locale description"
+  }
+}'

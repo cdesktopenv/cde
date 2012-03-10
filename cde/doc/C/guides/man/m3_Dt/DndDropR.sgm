@@ -1,0 +1,519 @@
+<!-- $XConsortium: DndDropR.sgm /main/10 1996/11/15 15:20:54 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN26.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN26.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtDndDropRegister</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtDndDropRegister</Function>,
+<Function>DtDndVaDropRegister</Function>
+</RefName>
+<RefPurpose>specify a drop site
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Dnd.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>DtDndDropRegister</Function></FuncDef>
+<ParamDef>Widget <Parameter>dropSite</Parameter></ParamDef>
+<ParamDef>DtDndProtocol <Parameter>protocols</Parameter></ParamDef>
+<ParamDef>unsigned char <Parameter>operations</Parameter></ParamDef>
+<ParamDef>XtCallbackList <Parameter>transferCallback</Parameter></ParamDef>
+<ParamDef>ArgList <Parameter>argList</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>argCount</Parameter></ParamDef>
+</FuncSynopsis>
+<FuncSynopsis Remap="ANSI">
+<FuncDef>void <Function>DtDndVaDropRegister</Function></FuncDef>
+<ParamDef>Widget <Parameter>dropSite</Parameter></ParamDef>
+<ParamDef>DtDndProtocol <Parameter>protocols</Parameter></ParamDef>
+<ParamDef>unsigned char <Parameter>operations</Parameter></ParamDef>
+<ParamDef>XtCallbackList <Parameter>transferCallback</Parameter></ParamDef>
+<ParamDef>...</ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtDndDropRegister</Function> and
+<Function>DtDndVaDropRegister</Function> functions register a Motif drop site with import targets based on the
+specified data transfer protocols.
+<Function>DtDndDropRegister</Function> may be called to register a widget as a drop site at any time, typically
+soon after the widget is created.
+</Para>
+<Para>The only difference between
+<Function>DtDndDropRegister</Function> and
+<Function>DtDndVaDropRegister</Function> is how the argument list is passed.
+The argument list is passed as an
+<StructName Role="typedef">ArgList</StructName> to
+<Function>DtDndDropRegister</Function> and using
+<symbol role="variable">VarArgs</symbol> for
+<Function>DtDndVaDropRegister</Function>.</Para>
+<Para>The
+<symbol role="variable">dropSite</symbol> argument specifies the widget to register as the drop site.
+</Para>
+<Para>The
+<Symbol Role="Variable">protocol</Symbol> argument specifies the set of data transfer protocols
+in which the drop site is able to participate.
+Valid values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtDND_TEXT_TRANSFER</Term>
+<ListItem>
+<Para>The drop site can transfer a list of text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtDND_FILENAME_TRANSFER</Term>
+<ListItem>
+<Para>The drop site can transfer a list of file names.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtDND_BUFFER_TRANSFER</Term>
+<ListItem>
+<Para>The drop site can transfer a list of memory buffers.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A drop site can support any combination of these protocols.
+A combination of protocols is specified by the
+bitwise inclusive OR of several protocol values.
+</Para>
+<Para>The
+<Symbol Role="Variable">operations</Symbol> argument
+specifies the set of valid operations associated with a drop site.
+The operations are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>XmDROP_COPY</Term>
+<ListItem>
+<Para>Copy operations are valid.
+The data will be copied from the drag source.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>XmDROP_LINK</Term>
+<ListItem>
+<Para>Link operations are valid.
+The data will be linked using an alternative method.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>XmDROP_MOVE</Term>
+<ListItem>
+<Para>Move operations are valid.
+The data will be copied, and optionally deleted, from the drag source.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A drop site can support any combination of these operations.
+A combination of operations is specified by the
+bitwise inclusive OR of several operation values.
+</Para>
+<Para>The
+<symbol role="variable">transferCallback</symbol> argument
+specifies the callback to be called when the dropped data object has been
+received by the drop site.
+The
+<symbol role="variable">transferCallback</symbol> is responsible for transferring the data from the
+<symbol role="variable">dropData</symbol> to the appropriate internal data structures at the drop site.
+<![ %CDE.C.CDE; [
+<!-- this is omitted from X/Open because it is info not--><!-- typically stated there about Motif callbacks-->The arguments for the
+<symbol role="variable">convertCallback</symbol> are the Motif Drag Context, an
+<StructName Role="typedef">XtPointer</StructName> to application-supplied client data,
+and an
+<StructName Role="typedef">XtPointer</StructName> to a
+<StructName Role="typedef">DtDndConvertCallbackStruct</StructName> structure.
+]]></Para>
+<Para>The
+<symbol role="variable">argList</symbol> argument specifies the optional argument list.
+</Para>
+<Para>The
+<symbol role="variable">argCount</symbol> argument specifies the number of arguments in
+<symbol role="variable">argList</symbol>.</Para>
+<RefSect2>
+<Title>Argument Value Pairs</Title>
+<Para>The
+<Function>DtDndDragStart</Function> and
+<Function>DtDndVaDragStart</Function> functions support the following optional argument-value pairs.
+Motif resources can be set via the argument list as well,
+provided they are not resources that are used by the drag and drop subsystem;
+see
+<Literal>Motif Resources</Literal>.</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNregisterChildren</SystemItem> (<StructName Role="typedef">Boolean</StructName>)</Term>
+<ListItem>
+<Para>Specifies whether children of a composite drop site
+widget should be registered.
+If <symbol role="define">True</symbol>, then the composite
+<symbol role="variable">dropSite</symbol> widget and its children are registered as a single drop site.
+If <symbol role="define">False</symbol>, then only the
+<symbol role="variable">dropSite</symbol> widget itself is registered as the drop site.
+The default is <symbol role="define">False</symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNtextIsBuffer</SystemItem> (<StructName Role="typedef">Boolean</StructName>)</Term>
+<ListItem>
+<Para>Specifies whether the drops of text selections
+should be treated as buffer drops.
+This attribute is only valid if
+<Symbol Role="Variable">protocols</Symbol> includes
+<SystemItem Class="Constant">DtDND_BUFFER_TRANSFER</SystemItem>. If
+<SystemItem Class="Resource">DtNtextIsBuffer</SystemItem> is <symbol role="define">True</symbol>, text drops are accepted as unnamed buffers;
+if it is <symbol role="define">False</symbol>, only drops of the specified
+<Symbol Role="Variable">protocols</Symbol> are accepted.
+The default is <symbol role="define">False</symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNpreserveRegistration</SystemItem> (<StructName Role="typedef">Boolean</StructName>)</Term>
+<ListItem>
+<Para>Specifies whether to preserve any existing drop site
+registration for the
+<symbol role="variable">dropSite</symbol> widget.
+The application can disable preserving the
+drop site registration if the
+<symbol role="variable">dropSite</symbol> widget is known not to be registered as a drop site
+or that registration is not desired.
+This may improve drop site registration performance.
+If
+<SystemItem Class="Resource">DtNpreserveRegistration</SystemItem> is <symbol role="define">True</symbol>, existing drop site registration is preserved;
+if it is <symbol role="define">False</symbol>, the existing drop site registration is replaced.
+The default is <symbol role="define">True</symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNdropAnimateCallback</SystemItem> (<StructName Role="typedef">XtCallbackList</StructName>)</Term>
+<ListItem>
+<Para>Specifies the callback to be called when the drop is complete.
+This enables graphical animation upon successful completion of a drop.
+This callback is called after the
+<symbol role="variable">transferCallback</symbol> is called and after Motif performs the "melt" effect.
+<![ %CDE.C.CDE; [The arguments for the
+<symbol role="variable">DtNDropAnimateCallback</Symbol> are the Motif Drag Context, an
+<StructName Role="typedef">XtPointer</StructName> to application-supplied client data,
+and an
+<StructName Role="typedef">XtPointer</StructName> to a
+<StructName Role="typedef">DtDndDropAnimateCallbackStruct</StructName> structure.
+]]>The Motif Drag Context is in the process of being destroyed at this
+point so the application must not use it or any of its values in the
+<symbol role="variable">dropAnimateCallback</symbol>. The default is
+<SystemItem Class="Constant">NULL</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Callbacks</Title>
+<Para>Once the rendezvous with the drag source has been accomplished,
+the application-provided callback functions are called
+to perform the data transfer.
+</Para>
+<Para>First, the
+<symbol role="variable">transferCallback</symbol> is called with a
+<Symbol Role="Variable">reason</Symbol> of
+<SystemItem Class="Constant">DtCR_DND_TRANSFER_DATA</SystemItem>. The application should access the
+<StructName Role="typedef">DtDndContext</StructName> fields appropriate for the transfer protocol.
+The application should parse or type the dropped data
+to determine whether it is acceptable.
+If the dropped data is not acceptable,
+the status field of the
+<StructName Role="typedef">DtDndTransferCallbackStruct</StructName> should be set to
+<SystemItem Class="Constant">DtDND_FAILURE</SystemItem>.</Para>
+<Para>If the
+<SystemItem Class="Resource">DtNdropAnimateCallback</SystemItem> attribute has been specified, the
+<symbol role="variable">dropAnimateCallback</symbol> is then called with a
+<Symbol Role="Variable">reason</Symbol> of
+<SystemItem Class="Constant">DtCR_DND_DROP_ANIMATE</SystemItem>. The application should perform any
+application-provided animations for the drop.
+</Para>
+<Para>When the
+<symbol role="variable">transferCallback</symbol> (or the
+<symbol role="variable">dropAnimateCallback</symbol>, if specified)
+returns, all memory associated with the
+drop transfer is freed.
+Any data in the callback structures that will be
+used after the drop transfer is complete must be copied
+by the application.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>Each of the callbacks for
+<Function>DtDndDropRegister</Function> and
+<Function>DtDndVaDropRegister</Function> has an associated callback structure.
+These callbacks cannot be used with the
+<Function>XtAddCallback</Function>(3) interface.
+</Para>
+<Para>A pointer to the following structure is passed to the
+<symbol role="variable">transferCallback</symbol>:</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+			int 		<Symbol Role="Variable">reason</Symbol>;
+			XEvent 		*<Symbol Role="Variable">event</Symbol>;
+			Position	     <Symbol Role="Variable">x</Symbol>, <Symbol Role="Variable">y</Symbol>;
+			unsigned char 	<Symbol Role="Variable">operation</Symbol>;
+			DtDndContext 	*<Symbol Role="Variable">dropData</Symbol>;
+			Widget		<Symbol Role="Variable">dragContext</Symbol>;
+			Boolean 	<Symbol Role="Variable">completeMove</Symbol>;
+			DtDndStatus 	<Symbol Role="Variable">status</Symbol>;
+} DtDndTransferCallbackStruct, *DtDndTransferCallback;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">reason</Symbol> argument
+indicates why the callback was invoked:
+<SystemItem Class="Constant">DtCR_DND_TRANSFER_DATA</SystemItem>.</Para>
+<Para>The
+<Symbol Role="Variable">event</Symbol> argument is always set to
+<SystemItem Class="Constant">NULL</SystemItem> by Motif drag and drop.
+</Para>
+<Para>The
+<Symbol Role="Variable">x</Symbol> and
+<Symbol Role="Variable">y</Symbol> arguments
+indicate the coordinates of the dropped item in relation to the origin of
+the drop site widget.
+</Para>
+<Para>The
+<Symbol Role="Variable">operation</Symbol> argument indicates the type of drop:
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, <SystemItem Class="Constant">XmDROP_MOVE</SystemItem> or
+<SystemItem Class="Constant">XmDROP_LINK</SystemItem>.</Para>
+<Para>The
+<symbol role="variable">dropData</symbol> argument
+contains the data that has been dropped.
+</Para>
+<Para>The
+<Symbol Role="Variable">dragContext</Symbol> argument
+specifies the ID of the Motif Drag Context widget associated with this
+drag and drop transaction.
+</Para>
+<Para>The
+<symbol role="variable">completeMove</symbol> argument
+indicates whether a move operation needs to be completed.
+If the
+<Symbol Role="Variable">operation</Symbol> is
+<SystemItem Class="Constant">XmDROP_MOVE</SystemItem> and
+<symbol role="variable">completeMove</symbol> is set to <symbol role="define">False</symbol> in the
+<symbol role="variable">transferCallback</symbol>, a delete does not occur.
+By default,
+<symbol role="variable">completeMove</symbol> is <symbol role="define">True</symbol> and a delete occurs to complete the move operation.
+The
+<symbol role="variable">completeMove</symbol> field should be set to <symbol role="define">False</symbol> if an
+alternative method will be used to complete the move.
+</Para>
+<Para>The
+<Symbol Role="Variable">status</Symbol> argument
+indicates the success or failure of the data transfer.
+If the data could not
+be appropriately moved, copied or linked, the
+<Symbol Role="Variable">status</Symbol> field must be set to
+<SystemItem Class="Constant">DtDND_FAILURE</SystemItem>. By default, the
+<Symbol Role="Variable">status</Symbol> field is set to
+<SystemItem Class="Constant">DtDND_SUCCESS</SystemItem>.</Para>
+<Para>A pointer to the following structure is passed to the
+<symbol role="variable">dropAnimateCallback</symbol>:</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Position <Symbol Role="Variable">x</Symbol>, <Symbol Role="Variable">y</Symbol>;
+        unsigned char <Symbol Role="Variable">operation</Symbol>;
+        DtDndContext *<symbol role="variable">dropData</symbol>;
+} DtDndDropAnimateCallbackStruct, *DtDndDropAnimateCallback;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">reason</Symbol> argument
+indicates why the callback was invoked.
+The valid reason is
+<SystemItem Class="Constant">DtCR_DND_DROP_ANIMATE</SystemItem>.</Para>
+<Para>The
+<Symbol Role="Variable">event</Symbol> argument
+is always set to
+<SystemItem Class="Constant">NULL</SystemItem> by Motif drag and drop.
+</Para>
+<Para>The
+<Symbol Role="Variable">x</Symbol> and
+<Symbol Role="Variable">y</Symbol> arguments
+indicate the coordinates of the dropped item in relation to the origin of
+the drop site widget.
+</Para>
+<Para>The
+<Symbol Role="Variable">operation</Symbol> argument indicates the type of drop:
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, <SystemItem Class="Constant">XmDROP_MOVE</SystemItem> or
+<SystemItem Class="Constant">XmDROP_LINK</SystemItem>.</Para>
+<Para>The
+<symbol role="variable">dropData</symbol> argument
+contains the data that has been dropped.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Structures</Title>
+<Para>The following structures are used by the drop site in the
+<symbol role="variable">transferCallback</symbol> to get the transferred data from the drag and drop subsystem.
+The
+<StructName Role="typedef">DtDndContext</StructName> structure is passed as
+<symbol role="variable">dropData</symbol> in the
+<StructName Role="typedef">DtDndTransferCallbackStruct</StructName> structure.
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+        DtDndProtocol <Symbol Role="Variable">protocol</Symbol>;
+        int <symbol role="variable">numItems</symbol>;
+        union {
+                XmString *<Symbol Role="Variable">strings</Symbol>;
+                String *<symbol role="variable">files</symbol>;
+                DtDndBuffer *<symbol role="variable">buffers</symbol>;
+        } <Symbol Role="Variable">data</Symbol>;
+} DtDndContext;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">protocol</Symbol> argument
+indicates the data transfer protocol under which the data in the
+<StructName Role="typedef">DtDndContext</StructName> is being transferred.
+Valid values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtDND_TEXT_TRANSFER</Term>
+<ListItem>
+<Para>A list of text is being transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtDND_FILENAME_TRANSFER</Term>
+<ListItem>
+<Para>A list of file names is being transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtDND_BUFFER_TRANSFER</Term>
+<ListItem>
+<Para>A list of memory buffers is being transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<symbol role="variable">numItems</symbol> argument indicates the number of items being transferred.
+</Para>
+<Para>The
+<Symbol Role="Variable">data</Symbol> argument
+is a union containing data that the drop site should access in the format
+corresponding to the specified
+<Symbol Role="Variable">protocol</Symbol>. The data structures corresponding to the transfer protocols are as follows.
+</Para>
+<Para>The
+<Symbol Role="Variable">strings</Symbol> argument is valid if the
+<Symbol Role="Variable">protocol</Symbol> is
+<SystemItem Class="Constant">DtDND_TEXT_TRANSFER</SystemItem>. The
+<Symbol Role="Variable">strings</Symbol> argument is an array of pointers to Motif strings
+containing the text being transferred.
+</Para>
+<Para>The
+<symbol role="variable">files</symbol> argument is valid if the
+<Symbol Role="Variable">protocol</Symbol> is
+<SystemItem Class="Constant">DtDND_FILENAME_TRANSFER</SystemItem>. It is an array of pointers to the names of the files being transferred.
+The file names have been converted to local host file names
+where possible.
+</Para>
+<Para>The
+<symbol role="variable">buffers</symbol> argument is valid if the
+<Symbol Role="Variable">protocol</Symbol> is
+<SystemItem Class="Constant">DtDND_BUFFER_TRANSFER</SystemItem>. It is an array of pointers to
+<StructName Role="typedef">DtDndBuffer</StructName> structures containing the meory buffers being transferred.
+</Para>
+<Para>The following structure is used with
+<SystemItem Class="Constant">DtDND_FILENAME_TRANSFER</SystemItem>:</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct _DtDndBuffer {
+        void *<symbol role="variable">bp</symbol>;
+        int <Symbol Role="Variable">size</Symbol>;
+        string <Symbol Role="Variable">name</Symbol>;
+} DtDndBuffer;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<symbol role="variable">bp</symbol> argument points to the buffer data being transferred.
+</Para>
+<Para>The
+<Symbol Role="Variable">size</Symbol> argument indicates the number of bytes in the buffer.
+</Para>
+<Para>The
+<Symbol Role="Variable">name</Symbol> argument points to the name of the buffer.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Motif Resources</Title>
+<Para>When it calls
+&cdeman.XmDropSiteRegister;, the
+<Function>DtDndDropRegister</Function> and
+<Function>DtDndVaDropRegister</Function> functions set Motif resources;
+the application must not modify the values of any of these resources.
+Resources other than those listed here
+can be used and are passed through to the underlying
+<Function>XmDropRegister</Function>. call.
+</Para>
+<Para>The following resources are modified by
+<Function>DtDndDropRegister</Function> and
+<Function>DtDndVaDropRegister</Function> in the Motif Drag Context.
+</Para>
+<ItemizedList>
+<ListItem><Para><SystemItem Class="Resource">XmNdestroyCallback</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNdropTransfers</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNnumDropTransfers</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNtransferProc</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNtransferStatus</SystemItem></Para></ListItem>
+</ItemizedList>
+<Para>The following resources are modified by
+<Function>DtDndDropRegister</Function> and
+<Function>DtDndVaDropRegister</Function> in the Motif Drop Site.
+</Para>
+<ItemizedList>
+<ListItem><Para><SystemItem Class="Resource">XmNdropProc</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNdropSiteOperations</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNdropSiteType</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNimportTargets</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNnumImportTargets</SystemItem></Para></ListItem>
+</ItemizedList>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>The
+<Function>DtDndDropRegister</Function> and
+<Function>DtDndVaDropRegister</Function> functions return no value.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Dnd.h;, &cdeman.DtDtsDataTypeToAttributeValue;, &cdeman.DtDndDragStart;, &cdeman.DtDndDragStart;, <![ %CDE.C.CDE; [&cdeman.DtDndDropUnregister;, &cdeman.XmDragContext;, &cdeman.XmDropSite;, &cdeman.XmDropSiteRegister;, &cdeman.XmDropSiteUpdate;, &cdeman.XmDropTransfer;, &cdeman.XmDropTransferStart;. ]]><![ %CDE.C.XO; [&cdeman.DtDndDropUnregister;; <Function>XmDragContext</Function>, <Function>XmDropSite</Function>, <Function>XmDropSiteRegister</Function>, <Function>XmDropSiteUpdate</Function>, <Function>XmDropTransfer</Function>, <Function>XmDropTransferStart</Function> in the &str-ZM;.
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

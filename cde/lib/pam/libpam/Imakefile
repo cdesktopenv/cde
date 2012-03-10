@@ -1,0 +1,36 @@
+/* $XConsortium: Imakefile /main/4 1996/04/21 19:12:58 drk $
+ *
+ * (c) Copyright 1996 Digital Equipment Corporation.
+ * (c) Copyright 1996 Hewlett-Packard Company.
+ * (c) Copyright 1996 International Business Machines Corp.
+ * (c) Copyright 1995,1996 Sun Microsystems, Inc.
+ * (c) Copyright 1996 Novell, Inc. 
+ * (c) Copyright 1996 FUJITSU LIMITED.
+ * (c) Copyright 1996 Hitachi.
+ */
+
+#define DoNormalLib	NormalLibPam
+#define DoSharedLib	SharedLibPam
+#define DoDebugLib	DebugLibPam
+#define DoProfileLib	ProfileLibPam
+#define LibName		pam
+#define SoRev		SOPAMREV
+#define IncSubdir	security
+
+#include <Threads.tmpl>
+
+HEADERS = pam_appl.h pam_modules.h
+
+SRCS = pam_framework.c pam_framework_utils.c
+
+OBJS = pam_framework.o pam_framework_utils.o
+
+#ifdef SharedPamReqs
+REQUIREDLIBS = SharedPamReqs
+#endif
+
+DEFINES = -DOPT_INCLUDE_XTHREADS_H
+
+#include <Library.tmpl>
+
+DependTarget()

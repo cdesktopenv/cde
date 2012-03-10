@@ -1,0 +1,115 @@
+XCOMM!/bin/ksh
+XCOMM ####################################################################
+XCOMM ##  File:              0050.dtxmodmap
+XCOMM ##
+XCOMM ##  Default Location:  CDE_INSTALLATION_TOP/config/Xsession.d/
+XCOMM ##
+XCOMM ##  Purpose:           Perform keyboard mapping
+XCOMM ##                     
+XCOMM ##  Description:
+XCOMM ##                     This script is invoked by means of the Xsession file
+XCOMM ##                     at user login. It invokes xmodmap to setup the
+XCOMM ##                     keyboard mapping required for selected locales.
+XCOMM ##
+XCOMM ##  Invoked by:        CDE_INSTALLATION_TOP/bin/Xsession
+XCOMM ##
+XCOMM ##  Product:           @(#)Common Desktop Environment 1.0          
+XCOMM ##
+XCOMM ##  Note:              
+XCOMM ##
+XCOMM ##    The CDE_INSTALLATION_TOP/config/Xsession.d/0050.dtxmodmap file is a
+XCOMM ##    factory-default file and will be unconditionally overwritten upon
+XCOMM ##    subsequent installation. To customize keyboard mapping
+XCOMM ##    behavior, copy this file to the configuration directory,
+XCOMM ##    CDE_CONFIGURATION_TOP/config/Xsession.d and customize that version
+XCOMM ##    of the file.
+XCOMM ##    
+XCOMM ##  Revision:          $XConsortium: 0050.dtxmodmap.src /main/5 1996/07/18 15:26:04 drk $
+XCOMM ##
+XCOMM ##  (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM ##  (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM ##  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM ##  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM ##      Novell, Inc.
+XCOMM ##
+XCOMM ####################################################################
+
+XCOMM
+XCOMM  Determine the xmodmap keyboard to be used.
+XCOMM
+
+sys_version=`uname -v`
+if [ "$sys_version" = "3" ]
+then
+	Cname=C.hft
+else
+	Cname=C
+fi
+
+if [ ${DISPLAY%.*} = ":0" ]
+then
+
+    KBD=""
+    XDIR=/usr/lpp/X11/defaults/xmodmap
+
+    KBD_LANG=`/usr/lpp/X11/bin/querykbd`
+
+    if [ "$KBD_LANG" = "NULL" ]
+    then
+        dspmsg $XINITRCMSG/xinit.cat 2 'xinit: Odm keyboard id is NULL.\n'
+    else
+        if [ "$KBD_LANG" != "$Cname" ]
+        then
+            if [ -r $IMKEYMAPPATH/$KBD_LANG/keyboard ]
+            then
+                KBD=$IMKEYMAPPATH/$KBD_LANG/keyboard
+            else
+                if [ "$IMKEYMAPPATH" = "/usr/lib/nls/im.alt" ]
+                then
+                    if [ "$sys_version" = "3"  /
+                             -a -r $XDIR/$KBD_LANG/keyboard.alt ]
+                    then
+                        KBD=$XDIR/$KBD_LANG/keyboard.alt 
+                    else 
+                        if [ -r $XDIR/${KBD_LANG}@alt/keyboard ]
+                        then
+                            KBD=$XDIR/${KBD_LANG}@alt/keyboard
+                        fi
+                    fi
+                fi
+                if [ "$KBD" = "" ]
+                then
+                    if [ -r $XDIR/$KBD_LANG/keyboard ]
+                    then
+                        KBD=$XDIR/$KBD_LANG/keyboard
+                    fi
+                fi
+            fi
+        fi
+    fi
+    if [ "$KBD" != "" ]
+    then
+        xmodmap $KBD
+    else
+	if [ "$IMKEYMAPPATH" = "/usr/lib/nls/im.alt" ]
+	then
+	    if [ "$sys_version" = "3"  /
+		     -a -r $XDIR/$KBD_LANG/keyboard.alt ]
+	    then
+		xmodmap $XDIR/$KBD_LANG/keyboard.alt 
+		exit
+	    fi
+  	    if [ -r $XDIR/${KBD_LANG}@alt/keyboard ]
+	    then
+	        xmodmap $XDIR/${KBD_LANG}@alt/keyboard
+		exit
+	    fi
+        fi
+        if [ -r $XDIR/$LANG/keyboard ]
+        then
+            xmodmap $XDIR/$LANG/keyboard
+        fi
+    fi
+fi
+
+XCOMM #########################         eof       #####################

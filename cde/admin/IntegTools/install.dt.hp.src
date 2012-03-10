@@ -1,0 +1,126 @@
+XCOMM $XConsortium: install.dt.hp.src /main/3 1996/04/21 19:06:53 drk $
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+XCOMM install.dt.hp
+XCOMM
+XCOMM   Platform specific function overrides for the April 1994 Snapshot
+XCOMM   install script, install.dt. 
+XCOMM
+XCOMM   This file is sourced by the install.dt script to allow platform
+XCOMM   specific behavior for certain functionality. These functions are:
+XCOMM
+XCOMM   DtiClearScreen() - clear the screen
+XCOMM   DtiFreeSpace() - return available bytes in a directory
+XCOMM   DtiVerifyConfiguration() - verify system configuration
+XCOMM   DtiWhoami() - return user name
+XCOMM
+XCOMM ==========================================================================
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiClearScreen() - clears the screen
+XCOMM
+XCOMM The default DtiClearScreen() uses the 'clear' command to clear the
+XCOMM screen. If this platform does not have the 'clear' command, 
+XCOMM declare DtiClearScreen() here with the appropriate functionality.
+XCOMM
+XCOMM Note: The default DtiClearScreen() writes to stderr, rather than stdout,
+XCOMM so be sure to do the same here. DtiPrint() does this automatically, so
+XCOMM use it if possible.
+XCOMM 
+XCOMM Example:
+XCOMM
+XCOMM DtiClearScreen()
+XCOMM {
+XCOMM   DtiPrint "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+XCOMM   DtiPrint "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+XCOMM }
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return -none
+XCOMM ==========================================================================
+
+XCOMM DtiClearScreen() {
+XCOMM   clear 1>&2
+XCOMM }
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiFreeSpace
+XCOMM
+XCOMM The default DtiFreeSpace() does not check for free space, rather it
+XCOMM simply returns a BigNumber that install.dt will assume is large 
+XCOMM enough in which to install the desktop. 
+XCOMM
+XCOMM Declare DtiFreeSpace() here to return the actual available space for
+XCOMM a particular directory.
+XCOMM
+XCOMM The $1 parameter will contain the directory name to test. The directory 
+XCOMM specified will exist. DtiFreeSpace() should return the number of bytes
+XCOMM available via the DtiReturn() function. 
+XCOMM
+XCOMM Input
+XCOMM   $1 - directory name
+XCOMM Output - none
+XCOMM Return
+XCOMM   number of bytes available
+XCOMM
+XCOMM ==========================================================================
+
+DtiFreeSpace()
+{
+    BDFOUT=`bdf $1 | awk '{print $4}'`
+    for i in $BDFOUT
+    do
+	if [ "$i" != "avail" ]
+	then
+	    DtiReturn "$i"
+	fi
+    done
+}
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiVerifyConfiguration
+XCOMM
+XCOMM The default DtiVerifyConfiguration() does no system configuration 
+XCOMM testing. For a particular platform, one might want to test for
+XCOMM the presence of X11R5 or the OS version, for example, before allowing
+XCOMM the desktop to be installed.
+XCOMM
+XCOMM Declare this function to make such platform specific tests. Return
+XCOMM "yes" if the system passed, or "<message text>" if the system failed
+XCOMM in which case install.dt will display the <message text> as the reason.
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return 
+XCOMM   "yes" - system configuration verified
+XCOMM   "<message text>" - verification failed, display message text
+XCOMM
+XCOMM ==========================================================================
+
+XCOMM DtiVerifyConfiguration()
+XCOMM {
+XCOMM   DtiReturn "yes"
+XCOMM }
+
+XCOMM ==========================================================================
+XCOMM
+XCOMM DtiWhoami
+XCOMM
+XCOMM The default DtiWhoami() uses the 'whoami' command to determine
+XCOMM the user name. If this platform does not have the 'whoami' command,
+XCOMM declare DtiWhoami() here with the appropriate functionality.
+XCOMM
+XCOMM Input - none
+XCOMM Output - none
+XCOMM Return
+XCOMM   result of system 'whoami' command
+XCOMM
+XCOMM ==========================================================================
+
+XCOMM DtiWhoami()
+XCOMM {
+XCOMM   whoami
+XCOMM }

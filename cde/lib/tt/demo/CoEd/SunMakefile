@@ -1,0 +1,64 @@
+# %%  (c) Copyright 1993, 1994 Hewlett-Packard Company			
+# %%  (c) Copyright 1993, 1994 International Business Machines Corp.	
+# %%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			
+# %%  (c) Copyright 1993, 1994 Novell, Inc. 				
+# %%  $XConsortium: SunMakefile /main/3 1995/10/20 17:03:53 rswiston $ 			 				
+#
+#
+# @(#)SunMakefile	1.16 93/08/20
+#
+# The ToolTalk demo makefile
+#
+# Copyright (c) 1992,1993 by Sun Microsystems, Inc.
+#
+
+TT_DIR = ../..
+THIS_DIR = CoEd
+
+DEMO_SOURCES = \
+	CoEd.types \
+	README
+
+include $(TT_DIR)/SunMakefile-head.mk
+
+# The default target, all, doesn't make anything.  install copies
+# the source to the install directory, renaming Makefile.shipped
+# to Makefile.
+
+# To actually make the demos using the ToolTalk in OPENWINHOME,
+# make shipped
+
+# To make the demos using the ToolTalk in $(TT_DIR)/proto, run
+# make test
+
+SUBDIRS = CoEd libCoEd
+DEMO_DIR = share/src/tooltalk/demo/CoEd
+INSTALL_DEMOS = $(DEMO_SOURCES:%=$(INSTALL_DIR)/$(DEMO_DIR)/%)
+INSTALL_MAKEFILE = $(INSTALL_DIR)/$(DEMO_DIR)/Makefile
+
+all::
+ 
+$(INSTALL_TARGETS)::     $$(INSTALL_DEMOS) $$(INSTALL_MAKEFILE)
+
+$(INSTALL_MAKEFILE): Makefile.shipped
+	$(TTINSTALL) $(@D) Makefile.shipped;\
+	rm -f $@;\
+	mv $(@D)/Makefile.shipped $@
+
+$(INSTALL_DEMOS): $$(@F)
+	$(TTINSTALL) $(INSTALL_DIR)/$(DEMO_DIR) $(@F)
+
+shipped test:
+	MAKE="$(MAKE) -f Makefile.$@" $(MAKE) -f Makefile.$@
+
+shippedclean:
+	MAKE="$(MAKE) -f Makefile.shipped" $(MAKE) -f Makefile.shipped clean
+
+clean:  FRC
+	cd CoEd;         ${MAKE} -i -f Makefile.shipped clean; cd ..; \
+	cd libCoEd;      ${MAKE} -i -f Makefile.shipped clean; cd ..
+
+include $(TT_DIR)/SunMakefile-tail.mk
+
+FRC:
+	

@@ -1,0 +1,496 @@
+<!-- $XConsortium: ch03.sgm /main/8 1996/09/08 19:46:03 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="DKSUG.adv.div.1">
+<title id="DKSUG.adv.mkr.1">上級トピック</title>
+<para>これまでに、<command>dtksh</command>の基本的な知識について説明しました。この章は、より上級の
+トピックを説明します。</para>
+<sect1 id="DKSUG.adv.div.2">
+<title>コンテキスト変数の使用方法</title>
+<para><command>dtksh</command>は、アプリケーションの外見に対するコンテキストを提供する多くの変数が
+あります。</para>
+<sect2 id="DKSUG.adv.div.3">
+<title>イベント・ハンドラ・コンテキスト変数<indexterm><primary>コンテキスト変数</primary><secondary>イベント・ハンドラ</secondary></indexterm><indexterm><primary>イベント・ハンドラ</primary></indexterm></title>
+<para>アプリケーションは、指定したイベントの1つが発生したときに生じるアクションに対する
+ウィジェットのイベント・ハンドラを登録しています。アクションは、任意の<command>dtksh</command>
+コマンド行で指定できます。例えば、次のとおりです。</para>
+<programlisting>XtAddEventHandler $W &ldquo;Button2MotionMask&ldquo; false &ldquo;ActivateProc&ldquo;
+XtAddEventHandler $W &ldquo;ButtonPressMask|ButtonReleaseMask&ldquo; \
+      false &ldquo;echo action&ldquo;</programlisting>
+<para>イベント・ハンドラに対するコンテキストを提供するために、2つの環境変数が定義され
+ています。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.64in">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="365*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>EH_WIDGET</para></entry>
+<entry align="left" valign="top"><para>イベント・ハンドラを登録する
+ウィジェットのIDを設定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>EH_EVENT</para></entry>
+<entry align="left" valign="top"><para>イベント・ハンドラを起動する<command>XEvent</command>の
+アドレスを設定します。</para></entry></row>
+</tbody></tgroup></informaltable>
+<para><command>XEvent</command>構造体のフィールドへのアクセスを次の例で示します。</para>
+<programlisting>if [ ${EH_EVENT.TYPE} = &ldquo;ButtonPress&ldquo; ]; then
+   echo &ldquo;X = &ldquo;${EH_EVENT.XBUTTON.X}
+   echo &ldquo;Y = &ldquo;${EH_EVENT.XBUTTON.Y}
+elif [ ${EH_EVENT.TYPE} = &ldquo;KeyPress&ldquo; ]; then
+   echo &ldquo;X = &ldquo;${EH_EVENT.XKEY.X}
+   echo &ldquo;Y = &ldquo;${EH_EVENT.XKEY.Y}
+fi</programlisting>
+</sect2>
+<sect2 id="dksug.adv.div.4">
+<title>トランスレーション・コンテキスト変数<indexterm><primary>コンテキスト変数</primary>
+<secondary>トランスレーション</secondary></indexterm><indexterm><primary>トランスレーション</primary></indexterm></title>
+<para>Xtイントリンシクスは、ウィジェットに登録するイベントのトランスレーションを提供
+します。イベントのトランスレーションのコンテキストは、イベント・ハンドラに
+コンテキストを提供するのと同じ方法で提供されます。トランスレーション・コマンドで定義されている2
+つの変数は、次のとおりです。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.04in">
+<colspec align="left" colwidth="196*">
+<colspec align="left" colwidth="302*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>TRANSLATION_WIDGET</para></entry>
+<entry align="left" valign="top"><para>トランスレーションが登録されているウィジェットの
+ウィジェット操作を設定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>TRANSLATION_EVENT</para></entry>
+<entry align="left" valign="top"><para>トランスレーションを起動する<command>XEvent</command>のアドレスを
+設定します。</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>次のようなドット表記で、イベントのフィールドにアクセスできます。</para>
+<programlisting>echo &ldquo;Event type = &ldquo;${TRANSLATION_EVENT.TYPE}
+echo &ldquo;Display = &ldquo;${TRANSLATION_EVENT.XANY.DISPLAY}</programlisting>
+</sect2>
+<sect2 id="DKSUG.adv.div.5">
+<title>ワークスペース・コールバック・コンテキスト変数<indexterm><primary>コンテキスト変数</primary><secondary>ワークスペース・コールバック</secondary></indexterm><indexterm>
+<primary>ワークスペース・コールバック</primary></indexterm><indexterm><primary>コールバック</primary><secondary>ワークスペース</secondary></indexterm></title>
+<para>アプリケーションは、ユーザが新規ワークスペースに変更したとき、常に呼び出される
+コールバック関数を登録することができます。コールバックが呼び出されたとき、2つの
+特別な環境変数を設定します。この環境変数は、シェル・コールバックのコードでアクセス
+できます。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.00in">
+<colspec align="left" colwidth="144*">
+<colspec align="left" colwidth="351*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>CB_WIDGET</para></entry>
+<entry align="left" valign="top"><para>コールバックを呼び出すウィジェットのIDを設定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>CB_CALL_DATA</para></entry>
+<entry align="left" valign="top"><para>新規ワークスペースを一意に識別するXアトムを設定します。
+これは、<command>XmGetAtomName</command>コマンドを使用して
+文字表現に変換できます。</para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="DKSUG.adv.div.6">
+<title>入力コンテキスト変数<indexterm><primary>コンテキスト変数</primary>
+<secondary>入力</secondary></indexterm><indexterm><primary>入力コンテキスト変数</primary></indexterm></title>
+<para>Xtイントリンシクスは、<command>XtAddInput</command>機能を提供おり、
+アプリケーションは、特定のファイル記述子から使用可能な任意なデータのアクセス手段を
+登録できます。C言語でプログラミングしたとき、アプリケーションはハンドラ関数を
+提供します。これは入力が可能なときに呼び出される関数です。
+入力ソースからのデータの読み込み、エスケープ文字や継続行の操作は、ハンドラが行います。</para>
+<para><command><indexterm><primary>XtAddInput</primary></indexterm>dtksh</command>も、<command>XtAddInput</command>機能をサポートしていますが、それ以上の処理を行い、
+シェル・プログラマから容易に使用できます。デフォルトでは、シェル・スクリプトが
+ファイル記述子のアクセス手段を登録したとき、<command>dtksh</command>は、テキストの完全行を受け取った場合にのみ、<command>dtksh</command>はシェル・スクリプトの
+入力ハンドラを呼び出します。テキストの完全行は、エスケープされていない改行文字
+またはファイルの終りのどちらかで終了した行と定義されます。入力ハンドラは、使用
+可能なデータがなく、ファイルの終りに達した場合にも呼び出されます。ハンドラは、
+入力ソースを削除し、ファイル記述子を閉じるのに、<command><indexterm><primary>XtRemoveInput</primary></indexterm>XtRemoveInput</command>を使用でき
+ます。このデフォルト動作の利点は、入力ハンドラがエスケープ処理または継続行の操作
+を考慮する必要がないことです。欠点は、すべての入力が行単位で、バイナリ情報を
+含んでいないことを想定している点です。</para>
+<para><command>dtksh</command>は、入力ソースがバイナリ情報を含んでいる場合、または入力ハンドラが入力
+ソースから直接データを読み込みたい場合、&ldquor;raw&rdquor;<indexterm>
+<primary>入力モード</primary></indexterm>入力モードをしています。
+rawモードでは、<command>dtksh</command>は入力ソースからデータを読み込めません。
+<command>dtksh</command>は、 入力ソースに入力が可能なことを知らせるときに、シェル・スクリプトの
+入力ハンドラを呼び出します。入力データを読み込んだり、バッファの要求とエスケープ
+処理を行ったり、ファイルの終りになったかを検出したりするのは、ハンドラが行います。
+(これにより、入力ソースを削除、ファイル拡張子を閉じることが
+できます)。このモードは、まれにしか<command>dtksh</command>スクリプトで必要となる
+ことはありません。</para>
+<para>入力ハンドラが、デフォルト・モードまたはrawモードのどちらで動くように構成されているで、
+<command>dtksh</command>はシェル・スクリプトの入力ハンドラを呼び出す前に、いくつかの
+環境変数を設定します。これらの環境変数は、入力ハンドラに、入力データの操作に必要な
+もののすべてを提供します。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.09in">
+<colspec align="left" colwidth="140*">
+<colspec align="left" colwidth="362*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_LINE</filename></para></entry>
+<entry align="left" valign="top"><para>デフォルト・モードのとき、この変数は入力ソースから使用可能な次の入力の完全行
+になります。<filename>INPUT_EOF</filename>がtrueのときは、このバッファにデータがありません。rawモードのときはこの変数は常に空文字になります。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_EOF</filename></para></entry>
+<entry align="left" valign="top"><para>デフォルト・モードのとき、この変数は、<filename>INPUT_LINE</filename>にデータが含まれて
+いるときはfalseが設定され、ファイルの終りに達したときにtrueが設定されます。
+ファイルの終りに達したときに、シェル・スクリプトの入力ハンドラは入力ソースを
+登録解除し、ファイル記述子を閉じます。rawモードで作動すると、この変数は常に
+falseが設定されます。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_SOURCE</filename></para></entry>
+<entry align="left" valign="top"><para>これは、入力が可能なファイル記述子を示します。rawモードで作動すると、
+このファイル記述子は、保留になっている入力を得るのに使用されます。
+ファイル記述子は、必要がなくなったときに、入力ソースを閉じるのにも使用
+されます。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_ID</filename></para></entry>
+<entry align="left" valign="top"><para>これは、入力ソースが登録されているときに、<command>XtAddInput</command>が
+返すIDを示します。この情報は、<command>XtRemoveInput</command>で入力ソースを削除する
+のに必要です。</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="DKSUG.adv.div.7">
+<title>イベント・サブフィールドへのアクセス<indexterm><primary>イベント・サブフィールド</primary>
+</indexterm></title>
+<para><command>XEvent</command>構造体は、イベントの型に基づいて、異なる構成が多数あります。<command>dtksh</command>は、もっとも頻繁に
+使用される<command>XEvents</command>へのアクセスのみ提供しています。他の標準的
+な<command>XEvents</command>には、イベント型<command>XANY</command>を使用してアクセスします。
+イベント型<command>XANY</command>は、<command>XANY</command>イベント構造体で定義されている次のサブフィールドを含んでいます。</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>${TRANSLATION_EVENT.XANY.TYPE}</filename></para>
+</listitem><listitem><para><filename>${TRANSLATION_EVENT.XANY.SERIAL}</filename></para>
+</listitem><listitem><para><filename>${TRANSLATION_EVENT.XANY.SEND_EVENT}</filename></para>
+</listitem><listitem><para><command>${TRANSLATION_EVENT.XANY.DISPLAY}</command></para>
+</listitem><listitem><para><filename>${TRANSLATION_EVENT.XANY.WINDOW}</filename></para>
+</listitem></itemizedlist>
+<para><command>dtksh</command>は、次のイベント型のすべてのイベント・フィールドに対するクセスを、すべて
+サポートしています。 </para>
+<itemizedlist remap="Bullet1"><listitem><para><command>XANY</command></para>
+</listitem><listitem><para><command>XBUTTON</command></para>
+</listitem><listitem><para><command>XEXPOSE</command></para>
+</listitem><listitem><para><command>XNOEXPOSE</command></para>
+</listitem><listitem><para><command>XGRAPHICSEXPOSE</command></para>
+</listitem><listitem><para><command>XKEY</command></para>
+</listitem><listitem><para><command>XMOTION</command></para>
+</listitem></itemizedlist>
+<para>次の例は、前述のイベント型のサブフィールドにどのようにしてアクセスするかを示しています。</para>
+<programlisting>${TRANSLATION_EVENT.XBUTTON.X}
+$(CB_CALL_DATA.EVENT.XKEY.STATE}
+${EH_EVENT.XGRAPHICSEXPOSE.WIDTH}</programlisting>
+</sect1>
+<sect1 id="DKSUG.adv.div.8">
+<title>ウィンドウ・マネージャのクローズ通知の応答</title>
+<para>ユーザがアプリケーションに対して、ウィンドウ・マネージャ・メニューから<indexterm><primary>ウィンドウ・マネージャのクローズ通知</primary></indexterm>[閉じる]を
+選択したとき、アプリケーションは、クローズ通知を&ldquo;受け取る&rdquo;準備ができて
+いないと終了します。アプリケーションが通知を受け取らないと、アプリケーションによって
+管理している複数のウィンドウがすべて消え、アプリケーションのデータは望ましく
+ない状態のまま、残るかもしれません。これを避けるために、<command>dtksh</command>は、
+クローズ通知の受け取りおよび操作に備えています。アプリケーションは次のことを
+行う必要があります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>クローズ通知を操作するプロシージャを定義します。</para>
+</listitem><listitem><para>[閉じる]が選択されたときに通知を要求します。</para>
+</listitem><listitem><para>アプリケーションがシャット・ダウンされないように応答を無効にします</para>
+</listitem></itemizedlist>
+<para>次のコードは、この処理について説明しています。</para>
+<programlisting># This is the `callback' invoked when the user selects
+# the `Close' menu item
+WMCallback()
+{
+echo &ldquo;User has selected the Close menu item&ldquo;
+}
+# Create the toplevel application shell
+XtInitialize TOPLEVEL test Dtksh $0 &ldquo;$@&ldquo;
+XtDisplay DISPLAY $TOPLEVEL
+
+# Request notification when the user selects the `Close'
+# menu item
+XmInternAtom DELETE_ATOM $DISPLAY &ldquo;WM_DELETE_WINDOW&ldquo; false
+XmAddWMProtocolCallback $TOPLEVEL $DELETE_ATOM &ldquo;WMCallback&ldquo;
+
+# Ask Motif to not automatically close down your
+# application window
+XtSetValues $TOPLEVEL deleteResponse:DO_NOTHING</programlisting>
+</sect1>
+<sect1 id="DKSUG.adv.div.9">
+<title>セッション・マネージャの保存状態通知の応答<indexterm><primary>セッション・マネージャの保存状態通知の応答</primary></indexterm></title>
+<para>セッション・マネージャは、アプリケーションに、ユーザが現在のセッションを終了する
+ときの状態を保存させます。これにより、ユーザが再起動したときに、アプリケーションは、
+前に終了したときと同じ状態に戻ることができます。<command>dtksh</command>では、
+クローズ通知を操作するのと同様の方法でハンドラを設定します。ハンドラを設定しない
+と、新規セッションで、アプリケーションを手動で再起動しなくてはなりません。
+また、ハンドラを設定しないと、アプリケーションは状態を保持しません。</para>
+<para>ハンドラを設定して、現在の状態を保存するには、アプリケーションは、次のことを行います。</para>
+<itemizedlist remap="Bullet1"><listitem><para>セッションの終りで状態を保存し、起動時にそれを復元する関数を定義します。</para>
+</listitem><listitem><para>セッション・マネージャの通知の配信対象を登録します。</para>
+</listitem><listitem><para>状態を保存する関数を登録します。</para>
+</listitem><listitem><para>起動時に、保存した状態を復元するかどうかを決定します。</para>
+</listitem></itemizedlist>
+<para>次のコードはこの処理について説明しています。</para>
+<programlisting>#! /usr/dt/bin/dtksh
+# Function invoked when the session is being ended by the user
+SessionCallback()
+{
+   # Get the name of the file into which we should save our
+   # session information
+   if DtSessionSavePath $TOPLEVEL PATH SAVEFILE; then
+      exec 9>$PATH
+
+      # Save off whether we are currently in an iconified state
+      if DtShellIsIconified $TOPLEVEL; then
+         print -u9 `Iconified'
+      else
+         print -u9 `Deiconified'
+      fi
+
+      # Save off the list of workspaces we currently reside in
+      if DtWsmGetWorkspacesOccupied $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+            $(XtWindow &ldquo;-&ldquo; $TOPLEVEL) \
+            CURRENT_WS_LIST;
+      then
+         # Map the comma-separated list of atoms into
+         # their string representation
+         oldIFS=$IFS
+         IFS=&ldquo;,&ldquo;
+         for item in $CURRENT_WS_LIST;
+         do
+            XmGetAtomName NAME $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+               $item
+            print -u9 $NAME
+         done
+         IFS=$oldIFS
+      fi
+
+      exec 9&lt;&amp;-
+
+      # Let the session manager know how to invoke us when
+      # the session is restored
+      DtSetStartupCommand $TOPLEVEL \
+         &ldquo;/usr/dt/contrib/dtksh/SessionTest $SAVEFILE&ldquo;
+   else
+      echo &ldquo;DtSessionSavePath FAILED!!&ldquo;
+      exit -3
+   fi
+}
+
+# Function invoked during a restore session; restores the
+# application to its previous state
+RestoreSession()
+{
+   # Retrieve the path where our session file resides
+   if DtSessionRestorePath $TOPLEVEL PATH $1; then
+      exec 9&lt;$PATH
+      read -u9 ICONIFY
+
+      # Extract and restore our iconified state
+      case $ICONIFY in
+         Iconified) DtSetIconifyHint $TOPLEVEL True;;
+         *) DtSetIconifyHint $TOPLEVEL False;
+       esac
+
+      # Extract the list of workspaces we belong in, convert
+      # them to atoms, and ask the Workspace Manager to relocate
+      # us to those workspaces
+      WS_LIST=&ldquo;&ldquo;
+      while read -u9 NAME
+      do
+         XmInternAtom ATOM $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+               $NAME False
+         if [ ${#WS_LIST} -gt 0 ]; then
+            WS_LIST=$WS_LIST,$ATOM
+         else
+            WS_LIST=$ATOM
+         fi
+      done
+
+      DtWsmSetWorkspacesOccupied $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+            $(XtWindow &ldquo;-&ldquo; $TOPLEVEL) $WS_LIST
+
+      exec 9&lt;&amp;-
+    else
+      echo &ldquo;DtSessionRestorePath FAILED!!&ldquo;
+      exit -3
+   fi
+}
+################## Create the Main UI #######################
+XtInitialize TOPLEVEL wmProtTest Dtksh $0 &ldquo;$@&ldquo;
+XtCreateManagedWidget DA da XmDrawingArea $TOPLEVEL \
+                      height:200 width:200
+XmInternAtom SAVE_SESSION_ATOM $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+      &ldquo;WM_SAVE_YOURSELF&ldquo; False
+
+# If a command-line argument was supplied, then treat it as the
+# name of the session file
+if (( $# > 0))
+then
+   # Restore to the state specified in the passed-in session file
+   XtSetValues $TOPLEVEL mappedWhenManaged:False
+   XtRealizeWidget $TOPLEVEL
+   XSync $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) False
+   RestoreSession $1
+   XtSetValues $TOPLEVEL mappedWhenManaged:True
+   XtPopup $TOPLEVEL GrabNone
+else
+   # This is not a session restore, so come up in the default state
+   XtRealizeWidget $TOPLEVEL
+   XSync $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) False
+fi
+
+# Register the fact that we are interested in participating in
+# session management
+XmAddWMProtocols $TOPLEVEL $SAVE_SESSION_ATOM
+XmAddWMProtocolCallback $TOPLEVEL $SAVE_SESSION_ATOM \
+         SessionCallback
+
+XtMainLoop</programlisting>
+</sect1>
+<sect1 id="DKSUG.adv.div.10">
+<title>ワークスペース・マネージャとの協調<indexterm><primary>ワークスペースの管理</primary></indexterm></title>
+<para><command>dtksh</command>は、Dtライブラリの主なワークスペース・マネージャ関数(アプリケーションに
+関連のあるワークスペースのセットの問い合わせおよび設定を行う関数、すべての
+ワークスペースのリストの問い合わせを行う関数、現在のワークスペースの問い合わせ
+および設定を行う関数、およびユーザが別のワークスペースに変更するときにアプリ
+ケーションに通知を要求する関数など)のすべてにアクセスできます。</para>
+<para>ユーザから見て、ワークスペースは名前のセットで識別されます。しかし、ワーク
+スペース・マネージャから見ると、ワークスペースはXアトムで識別されます。
+シェル・スクリプトが、ワークスペース識別子のリストを要求すると、Xアトムの文字列
+が返されます。複数のXアトムが存在するときは、リストはカンマで区切られます。
+ワークスペース・マネージャは、シェル・ スクリプトにワークスペース識別子を戻した
+ときと同じ形式を、シェル・スクリプトが使用することを期待しています。指定した
+セッションの間、Xアトムは変わらないため、シェル・スクリプトによるXアトムの処理
+は安全です。
+しかし、前節で示したセッション・マネージャのシェル・スクリプト例のように、
+シェル・スクリプトがワークスペース識別子の保存および復元を行う場合、識別子は、
+保存する前に、Xアトム表現から文字列に変換する必要があります。そして、セッション
+を復元するとき、ワークスペースマネージャに情報を渡す前にXアトムに、その名前を
+マップしなおす必要があります。Xアトムと文字列間のマッピング、および文字列と
+Xアトム間のマッピングには、次の2つのコマンドを使用します。</para>
+<itemizedlist remap="Bullet1"><listitem><para><command>XmInternAtom ATOM $DISPLAY
+$WORKSPACE_NAME false</command></para>
+</listitem><listitem><para><command>XmGetAtomName NAME $DISPLAY $ATOM</command></para>
+</listitem></itemizedlist>
+<para>ワークスペース管理を行う特定の<command>dtksh</command>コマンドについては、付録Aの
+「組み込みlibDtセッション管理コマンド」で説明しています。</para>
+</sect1>
+<sect1 id="DKSUG.adv.div.11">
+<title>ローカライズされたシェル・スクリプトの作成<indexterm><primary>ローカライズされたスクリプト</primary></indexterm><indexterm><primary>スクリプト</primary><secondary>ローカライズされたスクリプト</secondary></indexterm></title>
+<para><command>dtksh</command>スクリプトは、 Cアプリケーションと同様の処理で、国際化対応および
+ローカライズを行います。ユーザに表示されるすべての文字列は、スクリプトで識別
+されます。ポストプロセッサはスクリプトから文字列を取り出し、カタログを作成し
+ます。カタログは、希望のローカルに翻訳されます。スクリプトが実行されるとき、
+現在のローカルは、表示される文字列を探すためのメッセージ・カタログを決定します。
+文字列が表示されるとき、文字列は、セット内のメッセージ・セットIDとメッセージ
+番号によって識別されます。これらの値はユーザに示されるテキストを決定します。
+次のコードは、その処理についてを説明しています。</para>
+<programlisting># Attempt to open our message catalog
+catopen MSG_CAT_ID &ldquo;myCatalog.cat&ldquo;
+
+# The localized button label is in set 1, and is message # 2
+XtCreatePushButton OK $PARENT ok \
+  labelString:$(catgets $MSG_CAT_ID 1 2 &ldquo;OK&ldquo;)
+
+# The localized button label is in set 1, and is message #3
+XtCreatePushButton CANCEL $PARENT cancel \
+  labelString:$(catgets $MSG_CAT_ID 1 3 &ldquo;Cancel&ldquo;)
+
+# Close the message catalog, when no longer needed
+catclose $MSG_CAT_ID</programlisting>
+<para><command>catopen</command>によって返されるファイル記述子は、kshellの<command>exec</command>コマンドではなく
+<command>catclose</command>を使用して閉じなければなりません。</para>
+</sect1>
+<sect1 id="DKSUG.adv.div.12">
+<title>dtkshを使用したX描画関数へのアクセス<indexterm><primary>drawing
+functions</primary></indexterm></title>
+<para><command>dtksh</command>コマンドには、線、点、セグメント、区画、弧、および多角形を描く標準的な
+Xlib描画関数が含まれています。標準的なCプログラミングの環境において、これらの
+関数は、描画データとしてだけではなく、引き数としてグラフィック・コンテキスト
+(GC)を見なしています。<command>dtksh</command>の描画関数では、GCオプションの
+集合は、コマンドに対するパラメータ・リストで指定されます。</para>
+<para>デフォルトでは、描画コマンドは特定のコマンドに使用された後に廃棄されるGCを
+作成します。スクリプトが、<filename>-gc</filename>オプションを指定すると、
+グラフィック・コンテキスト・オブジェクトの名前をコマンドに渡すことができます。
+このGCはコマンドの解釈に使用され、変数は、コマンドが行うGCの変更によって更新
+されます。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.54in">
+<colspec align="left" colwidth="201*">
+<colspec align="left" colwidth="338*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>-gc</filename> &lt;<symbol role="Variable">GC</symbol>></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">&lt;GC></symbol>は、まだ初期化されていない環境変数、または前の描画コマンドの
+グラフィック・コンテキストを保持したままの環境変数の名前です。
+このオプションが指定されたとき、初めにGCオプションを指定し
+なければなりません。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>-foreground</filename> &lt;<symbol role="Variable">color</symbol>></para></entry>
+<entry align="left" valign="top"><para>フォアグランドのカラーを指定します。
+カラー名またはピクセル番号のどちらかで指定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>-background</filename> &lt;<symbol role="Variable">color</symbol>></para></entry>
+<entry align="left" valign="top"><para>バックグラウンドのカラーを指定します。
+カラー名またはピクセル番号のどちらかで指定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>-font</filename> &lt;<symbol role="Variable">font name</symbol>></para></entry>
+<entry align="left" valign="top"><para>使用するフォントの名前を指定します。</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>-line_width</filename> &lt;<symbol role="Variable">number</symbol>></para></entry>
+<entry align="left" valign="top"><para>描画中に使用する線の幅を指定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>-function</filename> &lt;<symbol role="Variable">drawing function</symbol></para></entry>
+<entry align="left" valign="top"><para>描画関数を指定します。
+<command>xor, or, clear, and, copy, noop, nor, nand, set, invert, equiv,
+andReverse, orReverse,</command>または<command>copyInverted</command>
+を指定できます。</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>-line_style</filename> &lt;<symbol role="Variable">style</symbol>></para></entry>
+<entry align="left" valign="top"><para>線の形状を指定します。
+次の中から指定できます。
+<command>LineSolid</command>, <command>LineDoubleDash</command>,
+または<command>LineOnOffDash</command></para></entry></row></tbody></tgroup>
+</informaltable>
+</sect1>
+<sect1 id="DKSUG.adv.div.13">
+<title>ウィジェットのトランスレーションの設定<indexterm><primary>トランスレーション</primary>
+</indexterm><indexterm><primary>ウィジェット</primary><secondary>トランスレーション</secondary>
+</indexterm></title>
+<para><command>dtksh</command>は、Cプログラミング環境と同じように、ウィジェットのトランスレーションを増加、無効、
+削除する機能を提供しています。Cでは、アプリケーションは、トランスレーションの
+アクションのプロシージャのセットをインストールします。このセットは、特定の
+イベント・シーケンスに接続できます(トランスレーションはイベント・シーケンスと
+関連のあるアクション・プロシージャで構成されます)。<command>dtksh</command>の
+トランスレーションは、単一のアクション・プロシージャだけが使用可能なときを除いて、
+同様の方法で操作されます。このアクション・プロシージャは<filename>ksh_eval</filename>と呼ばれ、
+受け取ったいくつかのパラメータを<command>dtksh</command>コマンドとして解釈し、トランスレーションは
+起動時にそのパラメータを評価します。次のシェル・スクリプトのセグメントは、
+トランスレーションの使用する方法の例です。</para>
+<programlisting>BtnDownProcedure()
+{
+   echo &ldquo;Button Down event occurred in button &ldquo;$1
+}
+XtCreateManagedWidget BUTTON1 button1 XmPushButton $PARENT \
+      labelString:&ldquo;Button 1&ldquo; \
+      translations:'#augment
+            &lt;EnterNotify>:ksh_eval(&ldquo;echo Button1 entered&ldquo;)
+            &lt;Btn1Down>:ksh_eval(&ldquo;BtnDownProcedure 1&ldquo;)'
+XtCreateManagedWidget BUTTON2 button2 XmPushButton $PARENT \
+      labelString:&ldquo;Button 2&ldquo;
+XtOverrideTranslations $BUTTON2 \
+            '#override
+            &lt;Btn1Down>:ksh_eval(&ldquo;BtnDownProcedure 2&ldquo;)'</programlisting>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000029103>

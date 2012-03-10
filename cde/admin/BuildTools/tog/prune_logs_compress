@@ -1,0 +1,96 @@
+#!/bin/ksh
+#
+# prune_logs
+#
+########################################################################
+#set -x
+
+##########################################################################
+#
+# Script setup:  THIS NEEDS TO BE FIRST
+#
+SCRIPTS_DIR="`dirname $0`"
+if [ "" = "$SCRIPTS_DIR" ]; then
+	SCRIPTS_DIR=/project/dt/scripts
+fi
+if [ ! -f $SCRIPTS_DIR/script_setup.ksh ]; then
+    print -u2 "$PRG:  File '$SCRIPTS_DIR/script_setup.ksh' NOT found!"
+    print -u2 "$PRG:  Exiting ..."
+    exit 1
+fi
+. $SCRIPTS_DIR/script_setup.ksh
+
+##########################################################################
+##########################################################################
+#
+# Script specific global variables
+#
+##########################################################################
+##########################################################################
+DEBUG=""
+FIND_OPTIONS=""
+OUTFILE="/dev/null"
+PATHNAME_LIST=""
+PROG_NAME="`basename $0`"
+
+usage ()
+{
+	cat <<eof
+USAGE: $PROG_NAME [options] pathname_list
+
+	[-debug]
+		# Debugging output
+	[-atime +ndays]
+	[-ctime +ndays]
+	[-mtime +ndays]
+		# These flags are passed directly to find to identify
+		# which files and directories should pass the test for
+		# deletion.
+	[-h | -? | -help]
+		# Print usage and exit
+
+	pathname_list
+		# List of directories to be searched for out-of-date
+		# log files
+
+	$PROG_NAME uses find to search all the directories listed in
+	pathname_list for files and subdirectories which are out-of-date
+	as specified by the -atime, -ctime, and -mtime flags deleting
+	any so identified.
+eof
+}
+
+#
+# Do command-line processing
+#
+while [ $# -gt 0 ]; do
+    case $1 in
+
+	-debug)
+	    DEBUG="echo"
+	    shift 1 ;;
+
+	-atime | -ctime | -mtime)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    FIND_OPTIONS="$FIND_OPTIONS $1 $2 "
+	    shift 2 ;;
+
+	-h | "-?" | -help)
+	    usage $PROG_NAME;
+	    do_exit 1 ;;
+
+	*)
+	    PATHNAME_LIST="$PATHNAME_LIST $1"
+	    shift 1;;
+    esac
+done
+
+#
+# Clean up temporary files and exit
+#
+$DEBUG find $PATHNAME_LIST -depth -name '*' $FIND_OPTIONS -exec gzip -f {} ";" > $OUTFILE 2>&1
+
+do_exit 0

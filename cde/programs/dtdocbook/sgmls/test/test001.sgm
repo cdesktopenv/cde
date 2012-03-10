@@ -1,0 +1,38 @@
+<!--TEST1.GML: Content parse test: reports 15 errors.-->
+<!doctype gdoc [
+  <!element gdoc     -  - (body)>
+  <!element body     -  - (h1, p*, t1*, tagisbig?)>
+  <!element tagisbig -  - (many, tag)>
+  <!element t2       -  - EMPTY>
+  <!element (h1|p)   -  - (q|#PCDATA)*>
+  <!element t1       -  - (#PCDATA|t1|t2|tagisbig)*>
+  <!element q        -  - (#PCDATA)>
+]>
+<gdoc>
+<body>
+<h1>A heading with a <q>quotation</q> in it.</h1>
+<p>A paragraph with an invalid &entity; reference in it
+after the heading.</p>
+<p>Another paragraph with a<!bad markup declaration>
+and a <?processing instruction> in it.</p>
+<p>Content that "looks" like a
+<1start-tag> and an </2end-tag> but isn't.</>
+<!--PI parsing test.-->
+<?pi1
+pi2 =
+=pi3-- -
+>
+<p/Here is a syntactically valid (but undefined)
+&en.#tity reference to "en.".
+(Note that this paragraph ends with
+a slash.)/
+<!--Test null and implicit tag endings.-->
+<t1></>
+<t1/</t1>
+<t1/<t2>t1data/
+<!>
+<tagisbigABCDE>
+<many worded tag>
+<tag#with@junk></many></tagisbig></t1>
+</body>
+</gdoc>

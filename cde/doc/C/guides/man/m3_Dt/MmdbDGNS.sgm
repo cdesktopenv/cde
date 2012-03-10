@@ -1,0 +1,84 @@
+<!-- $XConsortium: MmdbDGNS.sgm /main/6 1996/09/08 20:05:42 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.INFO.DtMmdbDlpGetNextSection">]]>
+<refmeta>
+<refentrytitle>
+DtMmdbDlpGetNextSectionId
+</refentrytitle>
+<manvolnum>library call</manvolnum>
+</refmeta>
+<refnamediv>
+<refname><function>DtMmdbDlpGetNextSectionId</function></refname>
+<refpurpose>obtains
+the object identifier of the next section</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;DtMmdb.h></funcsynopsisinfo>
+<funcdef>DtMmdbHandle* <function>DtMmdbDlpGetNextSectionId</function></funcdef>
+<paramdef>DtMmdbInfoRequest* <parameter>request</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtMmdbDlpGetNextSectionId</function> function
+returns the object identifier of the next section. You can use
+this function to traverse the TOC hierarchy in a depth-first fashion.
+</para>
+<para>Use the <function>DtMmdbFreeHandleList</function>
+function to release the memory when the object identifier is no
+longer needed. Table lookup is involved.
+</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">request</symbol></term>
+<listitem>
+<para>Specifies the bookcase in the bookcase descriptor field, as well
+as the id of the current section in the
+<symbol role="Variable">primary_oid</symbol> field.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>If <function>DtMmdbDlpGetNextSectionId</function> completes
+successfully, it returns a pointer to the object identifier
+for the next section or
+<SystemItem Class="Constant">DtMmdbGroundId</SystemItem>,
+if there is no next section.
+If it fails, it returns a NULL pointer.
+</para>
+</refsect1><refsect1>
+<title>EXAMPLE</title>
+<para>The following shows how a <function>DtMmdbDlpGetNextSectionId</function> call
+might be coded.</para>
+<informalexample>
+<programlisting>DtMmdbHandle* my_oid;
+DtMmdbInfoRequest request;
+request.bookcase_descriptor = DtMmdbGetBookCase(myInfoLibPtr, "myBase");
+request.primary_oid = my_oid;
+DtMmdbHandle* x = DtMmdbDlpGetNextSectionId(&amp;request);
+if ( x == DtMMdbGroundId) {
+   /* no next section */
+} else
+  {
+   if (x == 0) {
+     /* bad request */
+  }
+  else
+  { /* make use of x */
+  }
+</programlisting>
+</informalexample>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtMmdbDlpGetPrevSectionId;
+</para>
+</refsect1></refentry>

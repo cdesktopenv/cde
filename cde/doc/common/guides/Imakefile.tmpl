@@ -1,0 +1,959 @@
+XCOMM $XConsortium: Imakefile.tmpl /main/30 1996/12/21 20:20:16 rws $
+/*
+ * Master Imakefile to be included in the Imakefile of the guides subdir of
+ * each locale.
+ * The list of guides to be built for each locale is triggered by the related
+ * macros to be defined in the local Imakefile. 
+ */
+
+INFOLIB = ../cde.dti
+BOOKCASE = CDEDOC
+
+INFOLIBNAME = -n cde
+INFOLIBDESC = -d InfoLibDesc
+SSENTS = -m common/catalog
+#if UseNSGMLS
+DGENV = LANG=$(LANG) SGML_SEARCH_PATH=".:.."
+#else
+DGENV = LANG=$(LANG)
+#endif
+DTINFOGENOPTIONS = $(INFOLIBNAME) $(INFOLIBDESC)
+
+#ifdef HasusersGuide
+USERSGUIDE_SRCS = \
+    usersGuide/BEntity.sgm   usersGuide/ch07.sgm \
+    usersGuide/appa.sgm      usersGuide/ch08.sgm \
+    usersGuide/appb.sgm      usersGuide/ch09.sgm \
+    usersGuide/book.sgm      usersGuide/ch10.sgm \
+    usersGuide/ch01.sgm      usersGuide/ch11.sgm \
+    usersGuide/ch02.sgm      usersGuide/ch12.sgm \
+    usersGuide/ch03.sgm      usersGuide/ch13.sgm \
+    usersGuide/ch04.sgm      usersGuide/credits.sgm \
+    usersGuide/ch05.sgm      usersGuide/glossary.sgm \
+    usersGuide/ch06.sgm      usersGuide/preface.sgm    
+
+USERSGUIDE_GRS1 = \
+    usersGuide/graphics/3clck.tif     usersGuide/graphics/SMKey.tif \
+    usersGuide/graphics/3drg.tif      usersGuide/graphics/SMMainPa.tif \
+    usersGuide/graphics/AMaddapp.tif  usersGuide/graphics/SMMouse.tif \
+    usersGuide/graphics/BSAMIcon.tif  usersGuide/graphics/SMScreen.tif \
+    usersGuide/graphics/BSAppMgr.tif  usersGuide/graphics/SMStartu.tif \
+    usersGuide/graphics/BSFMIcon.tif  usersGuide/graphics/SMWindow.tif \
+    usersGuide/graphics/BSFilMgr.tif  usersGuide/graphics/Screen1.tif \
+    usersGuide/graphics/BSHlpmnu.tif  usersGuide/graphics/Screen2.tif \
+    usersGuide/graphics/BSMinBut.tif  usersGuide/graphics/TECopyTo.tif \
+    usersGuide/graphics/BSObjpop.tif  usersGuide/graphics/TEbutton.tif \
+    usersGuide/graphics/BSPullmn.tif  usersGuide/graphics/TEdataf.tif \
+    usersGuide/graphics/BSSMIcon.tif  usersGuide/graphics/TEfindch.tif \
+    usersGuide/graphics/BSWSObjs.tif  usersGuide/graphics/TEformat.tif \
+    usersGuide/graphics/BSWSmenu.tif  usersGuide/graphics/TEinclud.tif \
+    usersGuide/graphics/BSWinmnu.tif  usersGuide/graphics/TEopenfi.tif \
+    usersGuide/graphics/BSchkbx.tif   usersGuide/graphics/TEprint.tif \
+    usersGuide/graphics/BSlsts.tif    usersGuide/graphics/TEsaveas.tif \
+    usersGuide/graphics/BSpushb.tif   usersGuide/graphics/TEspell.tif \
+    usersGuide/graphics/BSresize.tif  usersGuide/graphics/TEstatus.tif \
+    usersGuide/graphics/BSscroll.tif  usersGuide/graphics/TEsubpan.tif \
+    usersGuide/graphics/BStxtfld.tif  usersGuide/graphics/TEwindow.tif \
+    usersGuide/graphics/CRaeicon.tif  usersGuide/graphics/TEwrapto.tif \
+    usersGuide/graphics/CRapptls.tif  usersGuide/graphics/WinFrmCs.tif \
+    usersGuide/graphics/CRdayico.tif  usersGuide/graphics/WndwIcns.tif \
+    usersGuide/graphics/CRdayvw.tif   usersGuide/graphics/admpasad.tif \
+    usersGuide/graphics/CRfpnl.tif    usersGuide/graphics/apmappic.tif \
+    usersGuide/graphics/CRmonthi.tif  usersGuide/graphics/apmcreat.tif \
+    usersGuide/graphics/CRmonthv.tif  usersGuide/graphics/apmfp.tif \
+    usersGuide/graphics/CRnextic.tif  usersGuide/graphics/apmicons.tif \
+    usersGuide/graphics/CRopalp.tif   usersGuide/graphics/apmlabel.tif
+
+USERSGUIDE_GRS2 = \
+    usersGuide/graphics/CRprevic.tif  usersGuide/graphics/apmpasub.tif \
+    usersGuide/graphics/CRtdicon.tif  usersGuide/graphics/apmwin.tif \
+    usersGuide/graphics/CRtodayi.tif  usersGuide/graphics/appgroup.tif \
+    usersGuide/graphics/CRtodols.tif  usersGuide/graphics/fpanel.tif \
+    usersGuide/graphics/CRv5alp.tif   usersGuide/graphics/fpappmag.tif \
+    usersGuide/graphics/CRweekic.tif  usersGuide/graphics/fpbusy.tif \
+    usersGuide/graphics/CRweekvw.tif  usersGuide/graphics/fpcal.tif \
+    usersGuide/graphics/CRyearic.tif  usersGuide/graphics/fpclock.tif \
+    usersGuide/graphics/CRyearvw.tif  usersGuide/graphics/fpconwsu.tif \
+    usersGuide/graphics/CompWind.tif  usersGuide/graphics/fpcopyma.tif \
+    usersGuide/graphics/FMFPctrl.tif  usersGuide/graphics/fpexit.tif \
+    usersGuide/graphics/FMFPtrsh.tif  usersGuide/graphics/fpfile.tif \
+    usersGuide/graphics/FMaction.tif  usersGuide/graphics/fphelp.tif \
+    usersGuide/graphics/FMdirlk.tif   usersGuide/graphics/fphelpfp.tif \
+    usersGuide/graphics/FMdirnw.tif   usersGuide/graphics/fphelpin.tif \
+    usersGuide/graphics/FMdragic.tif  usersGuide/graphics/fphelpoi.tif \
+    usersGuide/graphics/FMfind.tif    usersGuide/graphics/fphelpsu.tif \
+    usersGuide/graphics/FMiconbr.tif  usersGuide/graphics/fpicon.tif \
+    usersGuide/graphics/FMmain.tif    usersGuide/graphics/fpiconed.tif \
+    usersGuide/graphics/FMpopupm.tif  usersGuide/graphics/fpinstal.tif \
+    usersGuide/graphics/FMtreevw.tif  usersGuide/graphics/fploadsw.tif \
+    usersGuide/graphics/FSBOpen.tif   usersGuide/graphics/fplock.tif \
+    usersGuide/graphics/H4Hdapps.tif  usersGuide/graphics/fpmail1.tif \
+    usersGuide/graphics/H4Hfhelp.tif  usersGuide/graphics/fpmail2.tif \
+    usersGuide/graphics/fpmin.tif \
+    usersGuide/graphics/H4Hgsash.tif  usersGuide/graphics/fpmove.tif \
+    usersGuide/graphics/H4Hhctrl.tif  usersGuide/graphics/fpnlext.tif \
+    usersGuide/graphics/H4Hhist.tif   usersGuide/graphics/fpnllck.tif \
+    usersGuide/graphics/H4Hhmenu.tif  usersGuide/graphics/fpperapp.tif \
+    usersGuide/graphics/H4Hhmngr.tif  usersGuide/graphics/fpperpri.tif
+
+USERSGUIDE_GRS3 = \
+    usersGuide/graphics/H4Hhorg.tif   usersGuide/graphics/fppopcon.tif \
+    usersGuide/graphics/H4Hhyper.tif  usersGuide/graphics/fppopsub.tif \
+    usersGuide/graphics/H4Hindex.tif  usersGuide/graphics/fppopwk1.tif \
+    usersGuide/graphics/H4Hmanac.tif  usersGuide/graphics/fppopwk2.tif \
+    usersGuide/graphics/H4Hmandi.tif  usersGuide/graphics/fpprint.tif \
+    usersGuide/graphics/H4Hpopup.tif  usersGuide/graphics/fpstyle.tif \
+    usersGuide/graphics/H4Hprint.tif  usersGuide/graphics/fpsubclo.tif \
+    usersGuide/graphics/fpswitch.tif \
+    usersGuide/graphics/fpswiton.tif \
+    usersGuide/graphics/H4Htopic.tif  usersGuide/graphics/fpterm.tif \
+    usersGuide/graphics/IEmain.tif    usersGuide/graphics/fptexed.tif \
+    usersGuide/graphics/MailAttI.tif  usersGuide/graphics/fptext.tif \
+    usersGuide/graphics/MailFind.tif  usersGuide/graphics/fptrash.tif \
+    usersGuide/graphics/MailFndC.tif  usersGuide/graphics/fpwkbut.tif \
+    usersGuide/graphics/MailIcon.tif  usersGuide/graphics/icontool.tif \
+    usersGuide/graphics/MailOptD.tif  usersGuide/graphics/prtmgric.tif \
+    usersGuide/graphics/MailRcpt.tif  usersGuide/graphics/prtsetup.tif \
+    usersGuide/graphics/Mailbox.tif   usersGuide/graphics/subarrow.tif \
+    usersGuide/graphics/PMMainW.tif   usersGuide/graphics/ugamgrfp.tif \
+    usersGuide/graphics/PMprops.tif   usersGuide/graphics/ugappmgr.tif \
+    usersGuide/graphics/PMscreen.tif  usersGuide/graphics/ugdtterm.tif \
+    usersGuide/graphics/SMBack.tif    usersGuide/graphics/ugfilemg.tif \
+    usersGuide/graphics/SMBeep.tif    usersGuide/graphics/ugfmicon.tif \
+    usersGuide/graphics/SMColBox.tif  usersGuide/graphics/ugglobop.tif \
+    usersGuide/graphics/SMColor.tif   usersGuide/graphics/ugpamenu.tif \
+    usersGuide/graphics/SMFont.tif    usersGuide/graphics/ugtermop.tif \
+    usersGuide/graphics/SMFront.tif   usersGuide/graphics/ugtermpo.tif
+
+InfolibDep3($(INFOLIB),$(BOOKCASE),$(USERSGUIDE_GRS1),$(USERSGUIDE_GRS2),$(USERSGUIDE_GRS3))
+
+USERSGUIDE_ID = cde.usersGuide.toc
+#define title USERSGUIDE_TITLE
+#include <usersGuide/Title.tmpl>
+#undef title
+
+USERSGUIDE_TOC = usersGuide/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(USERSGUIDE_TOC))
+
+MakeTocFile(usersGuide,$(DGENV),$(DGOPTS),$(USERSGUIDE_TITLE),$(USERSGUIDE_ID),$(USERSGUIDE_SRCS))
+#endif
+
+#ifdef HasinfoUGuide
+INFOUGUIDE_SRCS = \
+    infoUGd/BEntity.sgm   infoUGd/ch03.sgm      infoUGd/ch07.sgm \
+    infoUGd/book.sgm      infoUGd/ch04.sgm      infoUGd/ch08.sgm \
+    infoUGd/ch01.sgm      infoUGd/ch05.sgm      infoUGd/glossary.sgm \
+    infoUGd/ch02.sgm      infoUGd/ch06.sgm      infoUGd/preface.sgm
+
+INFOUGUIDE_GRS = \
+    infoUGd/graphics/bklist.tif    infoUGd/graphics/infolib1.cgm \
+    infoUGd/graphics/bklist1.tif   infoUGd/graphics/infosub.tif \
+    infoUGd/graphics/bkmark.tif    infoUGd/graphics/mappref.tif \
+    infoUGd/graphics/bkmarks.tif   infoUGd/graphics/openloca.tif \
+    infoUGd/graphics/bkmkedit.tif  infoUGd/graphics/prefwin.tif \
+    infoUGd/graphics/bknote.tif    infoUGd/graphics/printwin.tif \
+    infoUGd/graphics/brwsbuts.tif  infoUGd/graphics/pushpin.tif \
+    infoUGd/graphics/dgrafico.tif  infoUGd/graphics/qeditwin.tif \
+    infoUGd/graphics/fpico.tif     infoUGd/graphics/readwin.tif \
+    infoUGd/graphics/gmap.tif      infoUGd/graphics/readwin1.tif \
+    infoUGd/graphics/graphmap.tif  infoUGd/graphics/savescop.tif \
+    infoUGd/graphics/scopedit.tif \
+    infoUGd/graphics/graphpan.tif  infoUGd/graphics/scoplist.tif \
+    infoUGd/graphics/graphwin.tif  infoUGd/graphics/searchin.tif \
+    infoUGd/graphics/helpmenu.tif  infoUGd/graphics/sectitle.tif \
+    infoUGd/graphics/histlist.tif  infoUGd/graphics/serchbut.tif \
+    infoUGd/graphics/histpref.tif  infoUGd/graphics/serchprf.tif \
+    infoUGd/graphics/hsarrows.tif  infoUGd/graphics/serchres.tif \
+    infoUGd/graphics/ilibico.tif   infoUGd/graphics/shistwin.tif
+
+InfolibDep($(INFOLIB),$(BOOKCASE),$(INFOUGUIDE_GRS))
+
+INFOUGUIDE_ID = cde.infoUGuide.toc
+#define title INFOUGUIDE_TITLE
+#include <infoUGd/Title.tmpl>
+#undef title
+
+INFOUGUIDE_TOC = infoUGd/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(INFOUGUIDE_TOC))
+
+MakeTocFile(infoUGd,$(DGENV),$(DGOPTS),$(INFOUGUIDE_TITLE),$(INFOUGUIDE_ID),$(INFOUGUIDE_SRCS))
+#endif
+
+#ifdef HassysAdminGuide
+SYSADMINGUIDE_SRCS = \
+    sysAdminGuide/BEntity.sgm    sysAdminGuide/ch09.sgm \
+    sysAdminGuide/book.sgm       sysAdminGuide/ch10.sgm \
+    sysAdminGuide/ch01.sgm       sysAdminGuide/ch11.sgm \
+    sysAdminGuide/ch02.sgm       sysAdminGuide/ch12.sgm \
+    sysAdminGuide/ch03.sgm       sysAdminGuide/ch13.sgm \
+    sysAdminGuide/ch04.sgm       sysAdminGuide/ch14.sgm \
+    sysAdminGuide/ch05.sgm       sysAdminGuide/ch15.sgm \
+    sysAdminGuide/ch06.sgm       sysAdminGuide/ch16.sgm \
+    sysAdminGuide/ch07.sgm \
+    sysAdminGuide/ch08.sgm       sysAdminGuide/preface.sgm    
+
+SYSADMINGUIDE_GRS = \
+    sysAdminGuide/graphics/ActIcon.tif \
+    sysAdminGuide/graphics/ActIconI.tif \
+    sysAdminGuide/graphics/CreActIc.tif \
+    sysAdminGuide/graphics/DtApps.tif \
+    sysAdminGuide/graphics/Open4Xwd.tif \
+    sysAdminGuide/graphics/TextPad.tif \
+    sysAdminGuide/graphics/XwdDispl.tif \
+    sysAdminGuide/graphics/actionfs.tif \
+    sysAdminGuide/graphics/actionic.tif \
+    sysAdminGuide/graphics/actionna.tif \
+    sysAdminGuide/graphics/actions1.tif \
+    sysAdminGuide/graphics/adddtype.tif \
+    sysAdminGuide/graphics/advcract.tif \
+    sysAdminGuide/graphics/appgath.tif \
+    sysAdminGuide/graphics/appgroup.tif \
+    sysAdminGuide/graphics/appmgrwc.tif \
+    sysAdminGuide/graphics/appmgrwi.tif \
+    sysAdminGuide/graphics/appserv.tif \
+    sysAdminGuide/graphics/appserv1.tif \
+    sysAdminGuide/graphics/colorset.tif \
+    sysAdminGuide/graphics/complexa.tif \
+    sysAdminGuide/graphics/connect.tif \
+    sysAdminGuide/graphics/connecti.tif \
+    sysAdminGuide/graphics/content.tif \
+    sysAdminGuide/graphics/creatact.tif \
+    sysAdminGuide/graphics/datatype.tif \
+    sysAdminGuide/graphics/fileserv.tif \
+    sysAdminGuide/graphics/findset.tif \
+    sysAdminGuide/graphics/fpboxes.tif \
+    sysAdminGuide/graphics/fpmainbo.tif \
+    sysAdminGuide/graphics/fpsubbox.tif \
+    sysAdminGuide/graphics/idchar.tif \
+    sysAdminGuide/graphics/idname.tif \
+    sysAdminGuide/graphics/inclfile.tif \
+    sysAdminGuide/graphics/login.tif \
+    sysAdminGuide/graphics/nfsbased.tif \
+    sysAdminGuide/graphics/permpat.tif \
+    sysAdminGuide/graphics/sesserve.tif
+
+InfolibDep($(INFOLIB),$(BOOKCASE),$(SYSADMINGUIDE_GRS))
+
+SYSADMINGUIDE_ID = cde.sysAdminGuide.toc
+#define title SYSADMINGUIDE_TITLE
+#include <sysAdminGuide/Title.tmpl>
+#undef title
+
+SYSADMINGUIDE_TOC = sysAdminGuide/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(SYSADMINGUIDE_TOC))
+
+MakeTocFile(sysAdminGuide,$(DGENV),$(DGOPTS),$(SYSADMINGUIDE_TITLE),$(SYSADMINGUIDE_ID),$(SYSADMINGUIDE_SRCS))
+#endif
+
+#ifdef HasinfoAPGuide
+INFOAPGUIDE_SRCS = \
+    infoAPg/BEntity.sgm   infoAPg/ch04.sgm      infoAPg/ch09.sgm \
+    infoAPg/book.sgm      infoAPg/ch05.sgm      infoAPg/ch10.sgm \
+    infoAPg/ch01.sgm      infoAPg/ch06.sgm      infoAPg/ch11.sgm \
+    infoAPg/ch02.sgm      infoAPg/ch07.sgm      infoAPg/glossary.sgm \
+    infoAPg/ch03.sgm      infoAPg/ch08.sgm      infoAPg/preface.sgm
+
+INFOAPGUIDE_GRS = \
+    infoAPg/graphics/addbkcas.cgm  infoAPg/graphics/infostr.cgm \
+    infoAPg/graphics/bkcase.cgm    infoAPg/graphics/multss.cgm \
+    infoAPg/graphics/blddir.cgm    infoAPg/graphics/newlib.cgm \
+    infoAPg/graphics/docsrc.cgm    infoAPg/graphics/repbkcas.cgm \
+    infoAPg/graphics/docuhier.cgm  infoAPg/graphics/tlkitmod.cgm
+
+InfolibDep($(INFOLIB),$(BOOKCASE),$(INFOAPGUIDE_GRS))
+
+INFOAPGUIDE_ID = cde.infoAPGuide.toc
+#define title INFOAPGUIDE_TITLE
+#include <infoAPg/Title.tmpl>
+#undef title
+
+INFOAPGUIDE_TOC = infoAPg/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(INFOAPGUIDE_TOC))
+
+MakeTocFile(infoAPg,$(DGENV),$(DGOPTS),$(INFOAPGUIDE_TITLE),$(INFOAPGUIDE_ID),$(INFOAPGUIDE_SRCS))
+#endif
+
+#ifdef HasprogGuide
+PROGGUIDE_SRCS = \
+    progGuide/BEntity.sgm    progGuide/ch08.sgm \
+    progGuide/book.sgm       progGuide/ch09.sgm \
+    progGuide/ch01.sgm       progGuide/ch10.sgm \
+    progGuide/ch02.sgm       progGuide/ch11.sgm \
+    progGuide/ch12.sgm \
+    progGuide/ch03.sgm       progGuide/glossary.sgm \
+    progGuide/ch04.sgm       progGuide/part1.sgm \
+    progGuide/ch05.sgm       progGuide/part2.sgm \
+    progGuide/ch06.sgm       progGuide/part3.sgm \
+    progGuide/ch07.sgm       progGuide/preface.sgm    
+
+PROGGUIDE_GRS = \
+    progGuide/graphics/ComboBo3.tif  progGuide/graphics/NoPrint.tif \
+    progGuide/graphics/ComboBox.tif  progGuide/graphics/approot.tif \
+    progGuide/graphics/MenuBut2.tif  progGuide/graphics/package.tif
+
+InfolibDep($(INFOLIB),$(BOOKCASE),$(PROGGUIDE_GRS))
+
+PROGGUIDE_ID = cde.progGuide.toc
+#define title PROGGUIDE_TITLE
+#include <progGuide/Title.tmpl>
+#undef title
+
+PROGGUIDE_TOC = progGuide/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(PROGGUIDE_TOC))
+
+MakeTocFile(progGuide,$(DGENV),$(DGOPTS),$(PROGGUIDE_TITLE),$(PROGGUIDE_ID),$(PROGGUIDE_SRCS))
+#endif
+
+#ifdef Hasman
+
+MAN_SRCS1 = \
+    man/SEntity.sgm   man/book.sgm \
+    man/ref1.sgm      man/ref5.sgm      man/refDtWid.sgm \
+    man/ref1m.sgm     man/ref6.sgm      man/refcsa.sgm \
+    man/ref4.sgm      man/refDtFcn.sgm  man/reftt.sgm \
+    common/ManLinks.sgm \
+    ../../../../motif/doc/C/guides/common/ManLinks.sgm
+
+MAN_SRCS2 = \
+    man/m3_Dt/ActionCa.sgm  man/m3_Dt/MmdbBGST.sgm \
+    man/m3_Dt/ActionDe.sgm  man/m3_Dt/MmdbBGTL.sgm \
+    man/m3_Dt/ActionEx.sgm  man/m3_Dt/MmdbBGTO.sgm \
+    man/m3_Dt/ActionIc.sgm  man/m3_Dt/MmdbBkGL.sgm \
+    man/m3_Dt/ActionIn.sgm  man/m3_Dt/MmdbClIL.sgm \
+    man/m3_Dt/ActionLa.sgm  man/m3_Dt/MmdbDGNS.sgm \
+    man/m3_Dt/ComboAdd.sgm  man/m3_Dt/MmdbDGPS.sgm \
+    man/m3_Dt/ComboBox.sgm  man/m3_Dt/MmdbFrGI.sgm \
+    man/m3_Dt/ComboDel.sgm  man/m3_Dt/MmdbFrHL.sgm \
+    man/m3_Dt/ComboSel.sgm  man/m3_Dt/MmdbFrHn.sgm \
+    man/m3_Dt/ComboSet.sgm  man/m3_Dt/MmdbGBBI.sgm \
+    man/m3_Dt/CreCombo.sgm  man/m3_Dt/MmdbGBBL.sgm \
+    man/m3_Dt/CreEdito.sgm  man/m3_Dt/MmdbGBBN.sgm \
+    man/m3_Dt/CreHelpD.sgm  man/m3_Dt/MmdbGBLs.sgm \
+    man/m3_Dt/CreHelpQ.sgm  man/m3_Dt/MmdbGrGD.sgm \
+    man/m3_Dt/CreMenuB.sgm  man/m3_Dt/MmdbGrGI.sgm \
+    man/m3_Dt/CreSpinB.sgm  man/m3_Dt/MmdbILFI.sgm \
+    man/m3_Dt/CreTerm.sgm   man/m3_Dt/MmdbILGI.sgm \
+    man/m3_Dt/CreatePr.sgm  man/m3_Dt/MmdbInit.sgm \
+    man/m3_Dt/DbLoad.sgm    man/m3_Dt/MmdbLGSL.sgm \
+    man/m3_Dt/DbReload.sgm  man/m3_Dt/MmdbLGSO.sgm \
+    man/m3_Dt/DndCreSI.sgm  man/m3_Dt/MmdbOpIL.sgm \
+    man/m3_Dt/DndDragS.sgm  man/m3_Dt/MmdbQuit.sgm \
+    man/m3_Dt/DndDropR.sgm  man/m3_Dt/MmdbSGBI.sgm
+
+MAN_SRCS3 = \
+    man/m3_Dt/DndDropU.sgm  man/m3_Dt/MmdbSGDS.sgm \
+    man/m3_Dt/EdAppFF.sgm   man/m3_Dt/MmdbSGLT.sgm \
+    man/m3_Dt/EdAppend.sgm  man/m3_Dt/MmdbSGSS.sgm \
+    man/m3_Dt/EdChange.sgm  man/m3_Dt/MmdbSGST.sgm \
+    man/m3_Dt/EdCheckF.sgm  man/m3_Dt/MmdbSGTL.sgm \
+    man/m3_Dt/EdClearS.sgm  man/m3_Dt/MmdbSeGD.sgm \
+    man/m3_Dt/EdCopyTo.sgm  man/m3_Dt/MmdbSeGL.sgm \
+    man/m3_Dt/EdCutToC.sgm  man/m3_Dt/MmdbSsGD.sgm \
+    man/m3_Dt/EdDelete.sgm  man/m3_Dt/MmdbSsGN.sgm \
+    man/m3_Dt/EdDesele.sgm  man/m3_Dt/MmdbTGCI.sgm \
+    man/m3_Dt/EdDisabl.sgm  man/m3_Dt/MmdbTGNC.sgm \
+    man/m3_Dt/EdEnable.sgm  man/m3_Dt/MmdbTGPI.sgm \
+    man/m3_Dt/EdFind.sgm    man/m3_Dt/MrmInit.sgm \
+    man/m3_Dt/EdFormat.sgm  man/m3_Dt/MsgLogM.sgm \
+    man/m3_Dt/EdGetCon.sgm  man/m3_Dt/MsgLogO.sgm \
+    man/m3_Dt/EdGetIns.sgm  man/m3_Dt/MsgLogS.sgm \
+    man/m3_Dt/EdGetLas.sgm  man/m3_Dt/PrSetupP.sgm \
+    man/m3_Dt/EdGetMes.sgm  man/m3_Dt/PrintCop.sgm \
+    man/m3_Dt/EdGetSiz.sgm  man/m3_Dt/PrintFil.sgm \
+    man/m3_Dt/EdGoToLi.sgm  man/m3_Dt/PrintFre.sgm \
+    man/m3_Dt/EdInsFF.sgm   man/m3_Dt/PrintRes.sgm \
+    man/m3_Dt/EdInsert.sgm  man/m3_Dt/PrintSet.sgm \
+    man/m3_Dt/EdInvFin.sgm  man/m3_Dt/SaverGet.sgm \
+    man/m3_Dt/EdInvFor.sgm  man/m3_Dt/SessionR.sgm \
+    man/m3_Dt/EdInvSpe.sgm  man/m3_Dt/SessionS.sgm
+
+MAN_SRCS4 = \
+    man/m3_Dt/EdPasteF.sgm  man/m3_Dt/SpinBox.sgm \
+    man/m3_Dt/EdReplFF.sgm  man/m3_Dt/SpinBoxA.sgm \
+    man/m3_Dt/EdReplac.sgm  man/m3_Dt/SpinBoxD.sgm \
+    man/m3_Dt/EdReset.sgm   man/m3_Dt/SpinBoxS.sgm \
+    man/m3_Dt/EdSaveCo.sgm  man/m3_Dt/SrAPI.sgm \
+    man/m3_Dt/EdSelect.sgm  man/m3_Dt/SrchExit.sgm \
+    man/m3_Dt/EdSetCFF.sgm  man/m3_Dt/SrchFree.sgm \
+    man/m3_Dt/EdSetCon.sgm  man/m3_Dt/SrchGetK.sgm \
+    man/m3_Dt/EdSetIns.sgm  man/m3_Dt/SrchGetM.sgm \
+    man/m3_Dt/EdTraver.sgm  man/m3_Dt/SrchHigh.sgm \
+    man/m3_Dt/EdUndoEd.sgm  man/m3_Dt/SrchInit.sgm \
+    man/m3_Dt/Editor.sgm    man/m3_Dt/SrchMrge.sgm \
+    man/m3_Dt/HelpDial.sgm  man/m3_Dt/SrchMsgs.sgm \
+    man/m3_Dt/HelpQDGC.sgm  man/m3_Dt/SrchQery.sgm \
+    man/m3_Dt/HelpQDia.sgm  man/m3_Dt/SrchRein.sgm \
+    man/m3_Dt/HelpRetu.sgm  man/m3_Dt/SrchRetr.sgm \
+    man/m3_Dt/HelpSetC.sgm  man/m3_Dt/SrchSetM.sgm \
+    man/m3_Dt/InfoShow.sgm  man/m3_Dt/SrchSort.sgm \
+    man/m3_Dt/Initiali.sgm  man/m3_Dt/SrchVali.sgm \
+    man/m3_Dt/MenuButt.sgm  man/m3_Dt/Term.sgm \
+    man/m3_Dt/MmdbBCFI.sgm  man/m3_Dt/TermDisp.sgm \
+    man/m3_Dt/MmdbBCGI.sgm  man/m3_Dt/TermInit.sgm \
+    man/m3_Dt/MmdbBGLT.sgm  man/m3_Dt/TermSubR.sgm \
+    man/m3_Dt/MmdbBGSN.sgm  man/m3_Dt/TermSubS.sgm
+
+MAN_SRCS5 = \
+    man/m3_DtDts/BufToAtL.sgm  man/m3_DtDts/FilToDaT.sgm \
+    man/m3_DtDts/BufToAtV.sgm  man/m3_DtDts/FindAttr.sgm \
+    man/m3_DtDts/BufToDaT.sgm  man/m3_DtDts/FreeAtL.sgm \
+    man/m3_DtDts/DaTIsAct.sgm  man/m3_DtDts/FreeAtV.sgm \
+    man/m3_DtDts/DaTNames.sgm  man/m3_DtDts/FreeDaT.sgm \
+    man/m3_DtDts/DaTToAtL.sgm  man/m3_DtDts/FreeDaTN.sgm \
+    man/m3_DtDts/DaTToAtV.sgm  man/m3_DtDts/IsTrue.sgm \
+    man/m3_DtDts/DatToDaT.sgm  man/m3_DtDts/LoadDaTs.sgm \
+    man/m3_DtDts/FilToAtL.sgm  man/m3_DtDts/Release.sgm \
+    man/m3_DtDts/FilToAtV.sgm  man/m3_DtDts/SetDaT.sgm \
+    man/m3_DtWsm/AddCWsCb.sgm  man/m3_DtWsm/GetWsInf.sgm \
+    man/m3_DtWsm/AddWs.sgm     man/m3_DtWsm/GetWsLis.sgm \
+    man/m3_DtWsm/AddWsFun.sgm  man/m3_DtWsm/GetWsOcc.sgm \
+    man/m3_DtWsm/AddWsMCb.sgm  man/m3_DtWsm/OccAllWs.sgm \
+    man/m3_DtWsm/ChBackDr.sgm  man/m3_DtWsm/RemWsCb.sgm \
+    man/m3_DtWsm/DelWs.sgm     man/m3_DtWsm/RemWsFun.sgm \
+    man/m3_DtWsm/FreeWsIn.sgm  man/m3_DtWsm/SetCurWs.sgm \
+    man/m3_DtWsm/GetCurBW.sgm  man/m3_DtWsm/SetWsOcc.sgm \
+    man/m3_DtWsm/GetCurWs.sgm  man/m3_DtWsm/SetWsTi.sgm
+
+MAN_SRCS6 = \
+    man/m3_csa/add_cale.sgm  man/m3_csa/logon.sgm \
+    man/m3_csa/add_entr.sgm  man/m3_csa/look_up.sgm \
+    man/m3_csa/call_cal.sgm  man/m3_csa/query_co.sgm \
+    man/m3_csa/del_cale.sgm  man/m3_csa/read_cal.sgm \
+    man/m3_csa/del_entr.sgm  man/m3_csa/read_ent.sgm \
+    man/m3_csa/free.sgm      man/m3_csa/read_nex.sgm \
+    man/m3_csa/free_tim.sgm  man/m3_csa/register.sgm \
+    man/m3_csa/list_caa.sgm  man/m3_csa/restore.sgm \
+    man/m3_csa/list_cal.sgm  man/m3_csa/save.sgm \
+    man/m3_csa/list_ena.sgm  man/m3_csa/unregist.sgm \
+    man/m3_csa/list_ens.sgm  man/m3_csa/update_c.sgm \
+    man/m3_csa/list_ent.sgm  man/m3_csa/update_e.sgm \
+    man/m3_csa/logoff.sgm    man/m3_csa/x_proces.sgm
+
+MAN_SRCS7 = \
+    man/m3_tt/X_sessio.sgm  man/m3_tt/ico_join.sgm \
+    man/m3_tt/bco_join.sgm  man/m3_tt/ico_quit.sgm \
+    man/m3_tt/bco_quit.sgm  man/m3_tt/init_ses.sgm \
+    man/m3_tt/close.sgm     man/m3_tt/int_err.sgm \
+    man/m3_tt/con_join.sgm  man/m3_tt/is_err.sgm \
+    man/m3_tt/con_quit.sgm  man/m3_tt/malloc.sgm \
+    man/m3_tt/def_fi_s.sgm  man/m3_tt/mark.sgm \
+    man/m3_tt/def_file.sgm  man/m3_tt/netf_fil.sgm \
+    man/m3_tt/def_pr_s.sgm  man/m3_tt/objid_eq.sgm \
+    man/m3_tt/def_proc.sgm  man/m3_tt/objid_ob.sgm \
+    man/m3_tt/def_pt_s.sgm  man/m3_tt/onot_cre.sgm \
+    man/m3_tt/def_ptyp.sgm  man/m3_tt/open.sgm \
+    man/m3_tt/def_se_s.sgm  man/m3_tt/oreq_cre.sgm \
+    man/m3_tt/def_sess.sgm  man/m3_tt/pnot_cre.sgm \
+    man/m3_tt/err_int.sgm   man/m3_tt/poin_err.sgm \
+    man/m3_tt/err_poin.sgm  man/m3_tt/pr_sess.sgm \
+    man/m3_tt/error.sgm     man/m3_tt/preq_cre.sgm \
+    man/m3_tt/fd.sgm        man/m3_tt/pt_o_c_a.sgm \
+    man/m3_tt/feat_ena.sgm  man/m3_tt/ptr_err.sgm \
+    man/m3_tt/feat_req.sgm  man/m3_tt/pty_decl.sgm \
+    man/m3_tt/fil_copy.sgm  man/m3_tt/pty_exis.sgm \
+    man/m3_tt/fil_dest.sgm  man/m3_tt/pty_unde.sgm \
+    man/m3_tt/fil_join.sgm  man/m3_tt/release.sgm \
+    man/m3_tt/fil_move.sgm  man/m3_tt/status_m.sgm \
+    man/m3_tt/fil_netf.sgm  man/m3_tt/thr_pr_s.sgm \
+    man/m3_tt/fil_ob_q.sgm  man/m3_tt/thr_proc.sgm \
+    man/m3_tt/fil_quit.sgm  man/m3_tt/thr_se_s.sgm \
+    man/m3_tt/free.sgm      man/m3_tt/thr_sess.sgm \
+    man/m3_tt/h_f_netf.sgm  man/m3_tt/trace_co.sgm \
+    man/m3_tt/h_netf_f.sgm  man/m3_tt/xco_join.sgm \
+    man/m3_tt/xco_quit.sgm
+
+MAN_SRCS8 = \
+    man/m3_tt_message/abstai_c.sgm    man/m3_tt_message/abstain.sgm \
+    man/m3_tt_message/accepter.sgm    man/m3_tt_message/accept_c.sgm \
+    man/m3_tt_message/accept.sgm    man/m3_tt_message/han_set.sgm \
+    man/m3_tt_message/addr_set.sgm  man/m3_tt_message/handler.sgm \
+    man/m3_tt_message/address.sgm   man/m3_tt_message/iarg_add.sgm \
+    man/m3_tt_message/arg_add.sgm   man/m3_tt_message/ico_set.sgm \
+    man/m3_tt_message/arg_bv_s.sgm  man/m3_tt_message/id.sgm \
+    man/m3_tt_message/arg_bval.sgm  man/m3_tt_message/object.sgm \
+    man/m3_tt_message/arg_iv_s.sgm  man/m3_tt_message/object_s.sgm \
+    man/m3_tt_message/arg_ival.sgm  man/m3_tt_message/op.sgm \
+    man/m3_tt_message/arg_mode.sgm  man/m3_tt_message/op_set.sgm \
+    man/m3_tt_message/arg_type.sgm  man/m3_tt_message/opnum.sgm \
+    man/m3_tt_message/arg_va_s.sgm  man/m3_tt_message/otype.sgm \
+    man/m3_tt_message/arg_val.sgm   man/m3_tt_message/otype_s.sgm \
+    man/m3_tt_message/arg_xv_s.sgm  man/m3_tt_message/pattern.sgm \
+    man/m3_tt_message/arg_xval.sgm  man/m3_tt_message/print.sgm \
+    man/m3_tt_message/args_cnt.sgm  man/m3_tt_message/receive.sgm \
+    man/m3_tt_message/rejecter.sgm  man/m3_tt_message/reject_c.sgm \
+    man/m3_tt_message/barg_add.sgm  man/m3_tt_message/reject.sgm \
+    man/m3_tt_message/bcon_set.sgm  man/m3_tt_message/reply.sgm \
+    man/m3_tt_message/call_add.sgm  man/m3_tt_message/scope.sgm \
+    man/m3_tt_message/class.sgm     man/m3_tt_message/scope_s.sgm \
+    man/m3_tt_message/class_s.sgm   man/m3_tt_message/send.sgm \
+    man/m3_tt_message/con_bval.sgm  man/m3_tt_message/sender.sgm \
+    man/m3_tt_message/con_ival.sgm  man/m3_tt_message/sessio_s.sgm \
+    man/m3_tt_message/con_set.sgm   man/m3_tt_message/session.sgm \
+    man/m3_tt_message/con_slot.sgm  man/m3_tt_message/snd_on_e.sgm \
+    man/m3_tt_message/con_val.sgm   man/m3_tt_message/snd_pt_s.sgm
+
+MAN_SRCS9 = \
+    man/m3_tt_message/con_xval.sgm  man/m3_tt_message/snd_pty.sgm \
+    man/m3_tt_message/cons_cnt.sgm  man/m3_tt_message/st_str.sgm \
+    man/m3_tt_message/cr_super.sgm  man/m3_tt_message/st_str_s.sgm \
+    man/m3_tt_message/create.sgm    man/m3_tt_message/state.sgm \
+    man/m3_tt_message/destroy.sgm   man/m3_tt_message/status.sgm \
+    man/m3_tt_message/disp_set.sgm  man/m3_tt_message/status_s.sgm \
+    man/m3_tt_message/disposit.sgm  man/m3_tt_message/uid.sgm \
+    man/m3_tt_message/fail.sgm      man/m3_tt_message/user.sgm \
+    man/m3_tt_message/file.sgm      man/m3_tt_message/user_set.sgm \
+    man/m3_tt_message/file_set.sgm  man/m3_tt_message/xarg_add.sgm \
+    man/m3_tt_message/gid.sgm \
+    man/m3_tt_message/han_pt_s.sgm  man/m3_tt_message/xco_set.sgm \
+    man/m3_tt_message/han_pty.sgm \
+    man/m3_tt_otype/base.sgm      man/m3_tt_otype/is_deriv.sgm \
+    man/m3_tt_otype/deri_cnt.sgm  man/m3_tt_otype/o_arg_mo.sgm \
+    man/m3_tt_otype/derived.sgm   man/m3_tt_otype/o_arg_ty.sgm \
+    man/m3_tt_otype/h_arg_mo.sgm  man/m3_tt_otype/o_args_c.sgm \
+    man/m3_tt_otype/h_arg_ty.sgm  man/m3_tt_otype/o_cb_add.sgm \
+    man/m3_tt_otype/h_args_c.sgm  man/m3_tt_otype/o_count.sgm \
+    man/m3_tt_otype/h_count.sgm   man/m3_tt_otype/osig_op.sgm \
+    man/m3_tt_otype/hsig_op.sgm
+
+MAN_SRCS10 = \
+    man/m3_tt_pattern/addr_add.sgm  man/m3_tt_pattern/op_add.sgm \
+    man/m3_tt_pattern/arg_add.sgm   man/m3_tt_pattern/opnu_add.sgm \
+    man/m3_tt_pattern/barg_add.sgm  man/m3_tt_pattern/otyp_add.sgm \
+    man/m3_tt_pattern/bcon_add.sgm  man/m3_tt_pattern/print.sgm \
+    man/m3_tt_pattern/call_add.sgm  man/m3_tt_pattern/register.sgm \
+    man/m3_tt_pattern/cat_set.sgm   man/m3_tt_pattern/s_pt_add.sgm \
+    man/m3_tt_pattern/category.sgm  man/m3_tt_pattern/scop_add.sgm \
+    man/m3_tt_pattern/clas_add.sgm  man/m3_tt_pattern/send_add.sgm \
+    man/m3_tt_pattern/cont_add.sgm  man/m3_tt_pattern/sess_add.sgm \
+    man/m3_tt_pattern/create.sgm    man/m3_tt_pattern/stat_add.sgm \
+    man/m3_tt_pattern/destroy.sgm   man/m3_tt_pattern/unregist.sgm \
+    man/m3_tt_pattern/disp_add.sgm  man/m3_tt_pattern/user.sgm \
+    man/m3_tt_pattern/file_add.sgm  man/m3_tt_pattern/user_set.sgm \
+    man/m3_tt_pattern/iarg_add.sgm  man/m3_tt_pattern/xarg_add.sgm \
+    man/m3_tt_pattern/icon_add.sgm  man/m3_tt_pattern/xcon_add.sgm \
+    man/m3_tt_pattern/obj_add.sgm \
+    man/m3_tt_session/bpro_add.sgm  man/m3_tt_session/prop_cnt.sgm \
+    man/m3_tt_session/bpro_set.sgm  man/m3_tt_session/prop_set.sgm \
+    man/m3_tt_session/bprop.sgm     man/m3_tt_session/propna_c.sgm \
+    man/m3_tt_session/join.sgm      man/m3_tt_session/propname.sgm \
+    man/m3_tt_session/prop.sgm      man/m3_tt_session/quit.sgm \
+    man/m3_tt_session/prop_add.sgm  man/m3_tt_session/types_ld.sgm \
+    man/m3_tt_spec/bpro_add.sgm  man/m3_tt_spec/prop_add.sgm \
+    man/m3_tt_spec/bpro_set.sgm  man/m3_tt_spec/prop_cnt.sgm \
+    man/m3_tt_spec/bprop.sgm     man/m3_tt_spec/prop_set.sgm \
+    man/m3_tt_spec/create.sgm    man/m3_tt_spec/propna_c.sgm \
+    man/m3_tt_spec/destroy.sgm   man/m3_tt_spec/propname.sgm \
+    man/m3_tt_spec/file.sgm      man/m3_tt_spec/type.sgm \
+    man/m3_tt_spec/move.sgm      man/m3_tt_spec/type_set.sgm \
+    man/m3_tt_spec/prop.sgm      man/m3_tt_spec/write.sgm
+
+MAN_SRCS11 = \
+    man/m3_ttdt/Get_Modi.sgm  man/m3_ttdt/f_reques.sgm \
+    man/m3_ttdt/Revert.sgm    man/m3_ttdt/m_accept.sgm \
+    man/m3_ttdt/Save.sgm      man/m3_ttdt/open.sgm \
+    man/m3_ttdt/close.sgm     man/m3_ttdt/s_imp_on.sgm \
+    man/m3_ttdt/f_event.sgm   man/m3_ttdt/ses_join.sgm \
+    man/m3_ttdt/f_join.sgm    man/m3_ttdt/ses_quit.sgm \
+    man/m3_ttdt/f_notice.sgm  man/m3_ttdt/subc_man.sgm \
+    man/m3_ttdt/f_quit.sgm \
+    man/m3_ttmedia/Deposit.sgm   man/m3_ttmedia/load_rep.sgm \
+    man/m3_ttmedia/load.sgm      man/m3_ttmedia/pty_decl.sgm \
+    man/m3_tttk/Xt_inp_h.sgm  man/m3_tttk/m_fail.sgm \
+    man/m3_tttk/block_wh.sgm  man/m3_tttk/m_reject.sgm \
+    man/m3_tttk/m_abando.sgm  man/m3_tttk/op_str.sgm \
+    man/m3_tttk/m_create.sgm  man/m3_tttk/str_op.sgm \
+    man/m3_tttk/m_destro.sgm \
+    man/man1/dsdm.sgm      man/man1/ttmv.sgm      man/man1/tttar.sgm \
+    man/man1/ksh93.sgm     man/man1/ttrm.sgm      man/man1/tttrace.sgm \
+    man/man1/tt_typ_c.sgm  man/man1/ttrmdir.sgm \
+    man/man1/ttcp.sgm      man/man1/ttsessio.sgm
+
+MAN_SRCS12 = \
+    man/man1_dt/action.sgm    man/man1_dt/helptag.sgm \
+    man/man1_dt/appgathe.sgm  man/man1_dt/helpview.sgm \
+    man/man1_dt/appinteg.sgm  man/man1_dt/huffcode.sgm \
+    man/man1_dt/builder.sgm   man/man1_dt/icon.sgm \
+    man/man1_dt/calc.sgm      man/man1_dt/imsstart.sgm \
+    man/man1_dt/chooser.sgm   man/man1_dt/info.sgm \
+    man/man1_dt/cm.sgm        man/man1_dt/infogen.sgm \
+    man/man1_dt/cm_delet.sgm  man/man1_dt/ksh.sgm \
+    man/man1_dt/cm_edito.sgm  man/man1_dt/login.sgm \
+    man/man1_dt/cm_inser.sgm  man/man1_dt/lp.sgm \
+    man/man1_dt/cm_looku.sgm  man/man1_dt/mail.sgm \
+    man/man1_dt/codegen.sgm   man/man1_dt/mailpr.sgm \
+    man/man1_dt/config.sgm    man/man1_dt/pad.sgm \
+    man/man1_dt/convertv.sgm  man/man1_dt/printinf.sgm \
+    man/man1_dt/create.sgm    man/man1_dt/screen.sgm \
+    man/man1_dt/docbook.sgm   man/man1_dt/searchpa.sgm \
+    man/man1_dt/exec.sgm      man/man1_dt/sess_res.sgm \
+    man/man1_dt/file.sgm      man/man1_dt/session.sgm \
+    man/man1_dt/file_cop.sgm  man/man1_dt/srcreate.sgm \
+    man/man1_dt/file_err.sgm  man/man1_dt/srdbrec.sgm \
+    man/man1_dt/udcfonte.sgm  man/man1_dt/srhan.sgm \
+    man/man1_dt/fplist.sgm    man/man1_dt/srindex.sgm \
+    man/man1_dt/greet.sgm     man/man1_dt/srkdump.sgm \
+    man/man1_dt/he_ctag1.sgm  man/man1_dt/srload.sgm \
+    man/man1_dt/he_htag1.sgm  man/man1_dt/style.sgm \
+    man/man1_dt/he_htag2.sgm  man/man1_dt/term.sgm \
+    man/man1_dt/hello.sgm     man/man1_dt/types.sgm \
+    man/man1_dt/helpgen.sgm   man/man1_dt/udcexch.sgm \
+    man/man1_dt/helpprin.sgm  man/man1_dt/wm.sgm \
+    man/man1_dt/pdm.sgm       man/man1_dt/pdmd.sgm
+
+MAN_SRCS13 = \
+    man/man1m/dtspcd.sgm \
+    man/man1m/rpccmsd.sgm   man/man1m/ttdbck.sgm \
+    man/man1m/rpcttdbs.sgm  man/man1m/ttdbserv.sgm \
+    man/man4/Deposit.sgm   man/man4/Save.sgm      man/man4/dticonfi.sgm \
+    man/man4/Display.sgm   man/man4/Saved.sgm     man/man4/dtpmfile.sgm \
+    man/man4/DtDndPro.sgm  man/man4/Set_Env.sgm   man/man4/dtresour.sgm \
+    man/man4/Edit.sgm      man/man4/Set_Geom.sgm  man/man4/dtsdldtd.sgm \
+    man/man4/Get_Env.sgm   man/man4/Set_Icon.sgm  man/man4/dtsdlfil.sgm \
+    man/man4/Get_Geom.sgm  man/man4/Set_Loca.sgm  man/man4/dtsessdb.sgm \
+    man/man4/Get_Icon.sgm  man/man4/Set_Map.sgm   man/man4/dtsessio.sgm \
+    man/man4/Get_Loca.sgm  man/man4/Set_Situ.sgm  man/man4/dtspcden.sgm \
+    man/man4/Get_Map.sgm   man/man4/Signal.sgm    man/man4/dtsrdbfl.sgm \
+    man/man4/Get_Modi.sgm  man/man4/Started.sgm   man/man4/dtsrfzkf.sgm \
+    man/man4/Get_Situ.sgm  man/man4/Status.sgm    man/man4/dtsrhanf.sgm \
+    man/man4/Get_Stat.sgm  man/man4/Stopped.sgm   man/man4/dtsrlngf.sgm \
+    man/man4/Get_Sysi.sgm  man/man4/Translat.sgm  man/man4/dtsrocfl.sgm \
+    man/man4/Get_XInf.sgm  man/man4/bil.sgm       man/man4/dtwmrc.sgm \
+    man/man4/Instanti.sgm  man/man4/dtaction.sgm  man/man4/genloc.sgm \
+    man/man4/Lower.sgm     man/man4/dtbmfile.sgm \
+    man/man4/Mail.sgm      man/man4/dtcm_arc.sgm  man/man4/ifloadil.sgm \
+    man/man4/Modified.sgm  man/man4/dtcm_ent.sgm  man/man4/ifprnial.sgm \
+    man/man4/Pause.sgm     man/man4/dtdpfile.sgm  man/man4/ifquit.sgm \
+    man/man4/Print.sgm     man/man4/dtdtfile.sgm  man/man4/ifshwial.sgm \
+    man/man4/Quit.sgm      man/man4/dtdtsfil.sgm  man/man4/mt-libtt.sgm \
+    man/man4/Raise.sgm     man/man4/dtfile_c.sgm  man/man4/startlog.sgm \
+    man/man4/Resume.sgm    man/man4/dtfpfile.sgm  man/man4/tttracef.sgm \
+    man/man4/Revert.sgm    man/man4/dthelpta.sgm \
+    man/man4/Reverted.sgm  man/man4/dthffile.sgm
+
+MAN_SRCS14 = \
+    man/man5/Dt.sgm         man/man5/DtTerm.sgm     man/man5/dtinfobk.sgm \
+    man/man5/DtAction.sgm   man/man5/DtWsm.sgm      man/man5/dtinfost.sgm \
+    man/man5/DtComboB.sgm   man/man5/Tttt_c.sgm     man/man5/dtinfotc.sgm \
+    man/man5/DtDnd.sgm      man/man5/Tttttk.sgm     man/man5/dtmaiact.sgm \
+    man/man5/DtDts.sgm      man/man5/csacsa.sgm     man/man5/dtmanact.sgm \
+    man/man5/DtEditor.sgm   man/man5/dtactact.sgm   man/man5/dtpriact.sgm \
+    man/man5/DtHelp.sgm     man/man5/dtappact.sgm   man/man5/dtsearch.sgm \
+    man/man5/DtHelpDi.sgm   man/man5/dtbuiact.sgm   man/man5/dtsesact.sgm \
+    man/man5/DtHelpQD.sgm   man/man5/dtcalact.sgm   man/man5/dtstyact.sgm \
+    man/man5/DtInfoLib.sgm  man/man5/dtclcact.sgm   man/man5/dtteract.sgm \
+    man/man5/DtMenuBu.sgm   man/man5/dtenvvar.sgm   man/man5/dttermes.sgm \
+    man/man5/DtMrm.sgm      man/man5/dtfilact.sgm   man/man5/dttexact.sgm \
+    man/man5/DtMsgLog.sgm   man/man5/dtfilsys.sgm   man/man5/dttraact.sgm \
+    man/man5/DtPrint.sgm    man/man5/dthelact.sgm   man/man5/imssact.sgm \
+    man/man5/DtSaver.sgm    man/man5/dticoact.sgm   man/man5/mmdbgifo.sgm \
+    man/man5/DtSessio.sgm   man/man5/dtinfact.sgm   man/man5/mmdbhndl.sgm \
+    man/man5/DtSpinBo.sgm   man/man5/dtinfdlb.sgm   man/man5/mmdbireq.sgm \
+    man/man5/DtStdApp.sgm   man/man5/dtinfoaf.sgm \
+    man/man5/DtStdInt.sgm   man/man5/dtinfobc.sgm
+
+MAN_ID = cde.man.toc
+#define title MAN_TITLE
+#include <man/Title.tmpl>
+#undef title
+
+MAN_TOC = man/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(MAN_TOC))
+
+XCOMM split dependencies
+XCOMM Note: some make commands (HP) want these before "MakeTocFile" to work
+TocFileDep(man,$(MAN_SRCS1))
+TocFileDep(man,$(MAN_SRCS2))
+TocFileDep(man,$(MAN_SRCS3))
+TocFileDep(man,$(MAN_SRCS4))
+TocFileDep(man,$(MAN_SRCS5))
+TocFileDep(man,$(MAN_SRCS6))
+TocFileDep(man,$(MAN_SRCS7))
+TocFileDep(man,$(MAN_SRCS8))
+TocFileDep(man,$(MAN_SRCS9))
+TocFileDep(man,$(MAN_SRCS10))
+TocFileDep(man,$(MAN_SRCS11))
+TocFileDep(man,$(MAN_SRCS12))
+TocFileDep(man,$(MAN_SRCS13))
+TocFileDep(man,$(MAN_SRCS14))
+
+MakeTocFile(man,$(DGENV),$(DGOPTS),$(MAN_TITLE),$(MAN_ID),$(MAN_SRCS))
+#endif
+
+#ifdef HasbuilderGuide
+BUILDERGUIDE_SRCS = \
+    builderGuide/BEntity.sgm    builderGuide/ch05.sgm \
+    builderGuide/appa.sgm       builderGuide/ch06.sgm \
+    builderGuide/appb.sgm       builderGuide/ch07.sgm \
+    builderGuide/book.sgm       builderGuide/ch08.sgm \
+    builderGuide/ch01.sgm       builderGuide/ch09.sgm \
+    builderGuide/ch02.sgm \
+    builderGuide/ch03.sgm       builderGuide/preface.sgm \
+    builderGuide/ch04.sgm    
+
+BUILDERGUIDE_GRS = \
+    builderGuide/graphics/AlignMen.tif \
+    builderGuide/graphics/AppFrmEd.tif \
+    builderGuide/graphics/AttIcS5.tif \
+    builderGuide/graphics/AttIcSi1.tif \
+    builderGuide/graphics/AttIcSi2.tif \
+    builderGuide/graphics/AttIcSi3.tif \
+    builderGuide/graphics/AttIcSi4.tif \
+    builderGuide/graphics/AttIcSi6.tif \
+    builderGuide/graphics/AttIcTp1.tif \
+    builderGuide/graphics/AttIcTp2.tif \
+    builderGuide/graphics/AttIcTp3.tif \
+    builderGuide/graphics/AttIcTp4.tif \
+    builderGuide/graphics/AttIcTp5.tif \
+    builderGuide/graphics/AttIcTp6.tif \
+    builderGuide/graphics/AttIcTp7.tif \
+    builderGuide/graphics/AttachEd.tif \
+    builderGuide/graphics/BrowsMW.tif \
+    builderGuide/graphics/CGEnvOpt.tif \
+    builderGuide/graphics/CGOption.tif \
+    builderGuide/graphics/CodeGen.tif \
+    builderGuide/graphics/ColChoos.tif \
+    builderGuide/graphics/ConnEd.tif \
+    builderGuide/graphics/CtrlPIcO.tif \
+    builderGuide/graphics/CustDIcO.tif \
+    builderGuide/graphics/DistMenu.tif \
+    builderGuide/graphics/DnDEdit.tif \
+    builderGuide/graphics/DrawAIcO.tif \
+    builderGuide/graphics/DtIcon.tif \
+    builderGuide/graphics/FSDIcO.tif \
+    builderGuide/graphics/HelpEdit.tif \
+    builderGuide/graphics/ItemsSub.tif \
+    builderGuide/graphics/MWwCP.tif \
+    builderGuide/graphics/MWwSpanP.tif \
+    builderGuide/graphics/MainWIcO.tif \
+    builderGuide/graphics/MainWin.tif \
+    builderGuide/graphics/MenuChoi.tif \
+    builderGuide/graphics/MsgEdit.tif \
+    builderGuide/graphics/NameMod.tif \
+    builderGuide/graphics/NameProj.tif \
+    builderGuide/graphics/PanedWin.tif \
+    builderGuide/graphics/PrjOModA.tif \
+    builderGuide/graphics/ProjOrg.tif \
+    builderGuide/graphics/PrpEdSep.tif \
+    builderGuide/graphics/TermPIcO.tif \
+    builderGuide/graphics/TextPIcO.tif    
+
+InfolibDep($(INFOLIB),$(BOOKCASE),$(BUILDERGUIDE_GRS))
+
+BUILDERGUIDE_ID = cde.builderGuide.toc
+#define title BUILDERGUIDE_TITLE
+#include <builderGuide/Title.tmpl>
+#undef title
+
+BUILDERGUIDE_TOC = builderGuide/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(BUILDERGUIDE_TOC))
+
+MakeTocFile(builderGuide,$(DGENV),$(DGOPTS),$(BUILDERGUIDE_TITLE),$(BUILDERGUIDE_ID),$(BUILDERGUIDE_SRCS))
+#endif
+
+#ifdef HasdtkshGuide
+DTKSHGUIDE_SRCS = \
+    dtkshGuide/BEntity.sgm    dtkshGuide/ch02.sgm \
+    dtkshGuide/appa.sgm       dtkshGuide/ch03.sgm \
+    dtkshGuide/appb.sgm       dtkshGuide/ch04.sgm \
+    dtkshGuide/appc.sgm \
+    dtkshGuide/book.sgm       dtkshGuide/preface.sgm \
+    dtkshGuide/ch01.sgm    
+
+DTKSHGUIDE_GRS = \
+    dtkshGuide/graphics/area1.tif     dtkshGuide/graphics/finderr.tif \
+    dtkshGuide/graphics/area2.tif     dtkshGuide/graphics/findterm.tif \
+    dtkshGuide/graphics/area3.tif     dtkshGuide/graphics/findwin.tif \
+    dtkshGuide/graphics/area4.tif     dtkshGuide/graphics/labfindw.tif \
+    dtkshGuide/graphics/dttest1.tif    
+
+InfolibDep($(INFOLIB),$(BOOKCASE),$(DTKSHGUIDE_GRS))
+
+DTKSHGUIDE_ID = cde.dtkshGuide.toc
+#define title DTKSHGUIDE_TITLE
+#include <dtkshGuide/Title.tmpl>
+#undef title
+
+DTKSHGUIDE_TOC = dtkshGuide/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(DTKSHGUIDE_TOC))
+
+MakeTocFile(dtkshGuide,$(DGENV),$(DGOPTS),$(DTKSHGUIDE_TITLE),$(DTKSHGUIDE_ID),$(DTKSHGUIDE_SRCS))
+#endif
+
+#ifdef Hasglossary
+GLOSSARY_SRCS = \
+    glossary/book.sgm       glossary/glossary.sgm
+
+GLOSSARY_ID = cde.glossary.toc
+#define title GLOSSARY_TITLE
+#include <glossary/Title.tmpl>
+#undef title
+
+GLOSSARY_TOC = glossary/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(GLOSSARY_TOC))
+
+MakeTocFile(glossary,$(DGENV),$(DGOPTS),$(GLOSSARY_TITLE),$(GLOSSARY_ID),$(GLOSSARY_SRCS))
+#endif
+
+#ifdef Hasi18nGuide
+I18NGUIDE_SRCS = \
+    i18nGuide/BEntity.sgm    i18nGuide/ch03.sgm \
+    i18nGuide/appa.sgm       i18nGuide/ch04.sgm \
+    i18nGuide/book.sgm \
+    i18nGuide/ch01.sgm       i18nGuide/preface.sgm \
+    i18nGuide/ch02.sgm    
+
+I18NGUIDE_GRS = \
+    i18nGuide/graphics/ind1.cgm    i18nGuide/graphics/inint5.tif \
+    i18nGuide/graphics/inint1.cgm  i18nGuide/graphics/inint6.tif \
+    i18nGuide/graphics/inint2.cgm  i18nGuide/graphics/inmot3.tif \
+    i18nGuide/graphics/inint3.tif  i18nGuide/graphics/inmot4.tif \
+    i18nGuide/graphics/inint4.tif
+
+InfolibDep($(INFOLIB),$(BOOKCASE),$(I18NGUIDE_GRS))
+
+I18NGUIDE_ID = cde.i18nGuide.toc
+#define title I18NGUIDE_TITLE
+#include <i18nGuide/Title.tmpl>
+#undef title
+
+I18NGUIDE_TOC = i18nGuide/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(I18NGUIDE_TOC))
+
+MakeTocFile(i18nGuide,$(DGENV),$(DGOPTS),$(I18NGUIDE_TITLE),$(I18NGUIDE_ID),$(I18NGUIDE_SRCS))
+#endif
+
+#ifdef HasprogOview
+PROGOVIEW_SRCS = \
+    progOview/BEntity.sgm  progOview/ch02.sgm     progOview/ch07.sgm \
+    progOview/appa.sgm     progOview/ch03.sgm     progOview/credits.sgm \
+    progOview/ch04.sgm     progOview/part1.sgm \
+    progOview/book.sgm     progOview/ch05.sgm     progOview/part2.sgm \
+    progOview/ch01.sgm     progOview/ch06.sgm     progOview/preface.sgm    
+
+PROGOVIEW_GRS = \
+    progOview/graphics/ComboBo3.tif  progOview/graphics/SpinBox.tif \
+    progOview/graphics/ComboBox.tif  progOview/graphics/fpanel.tif \
+    progOview/graphics/MenuBut2.tif
+
+InfolibDep($(INFOLIB),$(BOOKCASE),$(PROGOVIEW_GRS))
+
+PROGOVIEW_ID = cde.progOview.toc
+#define title PROGOVIEW_TITLE
+#include <progOview/Title.tmpl>
+#undef title
+
+PROGOVIEW_TOC = progOview/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(PROGOVIEW_TOC))
+
+MakeTocFile(progOview,$(DGENV),$(DGOPTS),$(PROGOVIEW_TITLE),$(PROGOVIEW_ID),$(PROGOVIEW_SRCS))
+#endif
+
+#ifdef HasttGuide
+TTGUIDE_SRCS = \
+    ttGuide/BEntity.sgm  ttGuide/appd.sgm     ttGuide/ch03.sgm \
+    ttGuide/appa.sgm     ttGuide/book.sgm     ttGuide/ch04.sgm \
+    ttGuide/appb.sgm     ttGuide/ch01.sgm     ttGuide/credits.sgm \
+    ttGuide/appc.sgm     ttGuide/ch02.sgm     ttGuide/preface.sgm    
+
+TTGUIDE_ID = cde.ttGuide.toc
+#define title TTGUIDE_TITLE
+#include <ttGuide/Title.tmpl>
+#undef title
+
+TTGUIDE_TOC = ttGuide/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(TTGUIDE_TOC))
+
+MakeTocFile(ttGuide,$(DGENV),$(DGOPTS),$(TTGUIDE_TITLE),$(TTGUIDE_ID),$(TTGUIDE_SRCS))
+#endif
+
+#ifdef HashelpGuide
+HELPGUIDE_SRCS = \
+    helpGuide/BEntity.sgm   helpGuide/ch10.sgm \
+    helpGuide/book.sgm      helpGuide/ch11.sgm \
+    helpGuide/ch01.sgm      helpGuide/ch12.sgm \
+    helpGuide/ch02.sgm      helpGuide/ch13.sgm \
+    helpGuide/ch03.sgm      helpGuide/glossary.sgm \
+    helpGuide/ch04.sgm      helpGuide/part1.sgm \
+    helpGuide/ch05.sgm      helpGuide/part2.sgm \
+    helpGuide/ch06.sgm      helpGuide/part3.sgm \
+    helpGuide/ch07.sgm      helpGuide/part4.sgm \
+    helpGuide/ch08.sgm      helpGuide/preface.sgm \
+    helpGuide/ch09.sgm
+
+HELPGUIDE_GRS = \
+    helpGuide/graphics/Approot.tif   helpGuide/graphics/ExTHyper.tif \
+    helpGuide/graphics/BldInst.tif   helpGuide/graphics/ExVex.tif \
+    helpGuide/graphics/BuildDir.tif  helpGuide/graphics/ExWrapGr.tif \
+    helpGuide/graphics/CharEntU.tif  helpGuide/graphics/ExXref.tif \
+    helpGuide/graphics/CharEntV.tif  helpGuide/graphics/FMCompil.tif \
+    helpGuide/graphics/ExAnnot.tif   helpGuide/graphics/FMhelpfs.tif \
+    helpGuide/graphics/ExBuList.tif  helpGuide/graphics/FPanel.tif \
+    helpGuide/graphics/ExCautio.tif  helpGuide/graphics/FmtTable.tif \
+    helpGuide/graphics/ExComput.tif  helpGuide/graphics/GHelpLB.tif \
+    helpGuide/graphics/ExEx.tif      helpGuide/graphics/GenHelp.tif \
+    helpGuide/graphics/ExHTopic.tif  helpGuide/graphics/GrEntity.tif \
+    helpGuide/graphics/ExInliGr.tif  helpGuide/graphics/HelpMenu.tif \
+    helpGuide/graphics/ExKeycap.tif  helpGuide/graphics/HelpMgr.tif \
+    helpGuide/graphics/ExLaLstH.tif  helpGuide/graphics/HelpOrg.tif \
+    helpGuide/graphics/ExLaNowr.tif  helpGuide/graphics/HelpVol.tif \
+    helpGuide/graphics/ExLalst1.tif  helpGuide/graphics/HyperFmt.tif \
+    helpGuide/graphics/ExLalstW.tif  helpGuide/graphics/Icons.tif \
+    helpGuide/graphics/ExListHd.tif  helpGuide/graphics/IndexNum.tif \
+    helpGuide/graphics/ExLists.tif   helpGuide/graphics/IndxSrch.tif \
+    helpGuide/graphics/ExNoteHd.tif  helpGuide/graphics/PrintDlg.tif \
+    helpGuide/graphics/ExNuList.tif  helpGuide/graphics/Process.tif \
+    helpGuide/graphics/ExOthrHd.tif  helpGuide/graphics/QuickHlp.tif \
+    helpGuide/graphics/ExPHead.tif   helpGuide/graphics/Topics.tif \
+    helpGuide/graphics/ExProc2.tif   helpGuide/graphics/ViewVol.tif \
+    helpGuide/graphics/ExProced.tif    
+
+InfolibDep($(INFOLIB),$(BOOKCASE),$(HELPGUIDE_GRS))
+
+HELPGUIDE_ID = cde.helpGuide.toc
+#define title HELPGUIDE_TITLE
+#include <helpGuide/Title.tmpl>
+#undef title
+
+HELPGUIDE_TOC = helpGuide/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(HELPGUIDE_TOC))
+
+MakeTocFile(helpGuide,$(DGENV),$(DGOPTS),$(HELPGUIDE_TITLE),$(HELPGUIDE_ID),$(HELPGUIDE_SRCS))
+#endif
+
+#ifdef HasdocbookGuide
+DOCBOOKGUIDE_SRCS = \
+    docbookGuide/book.sgm    
+
+DOCBOOKGUIDE_ID = cde.docbookGuide.toc
+#define title DOCBOOKGUIDE_TITLE
+#include <docbookGuide/Title.tmpl>
+#undef title
+
+DOCBOOKGUIDE_TOC = docbookGuide/TOC.sgm
+InfolibDep($(INFOLIB),$(BOOKCASE),$(DOCBOOKGUIDE_TOC))
+
+MakeTocFile(docbookGuide,$(DGENV),$(DGOPTS),$(DOCBOOKGUIDE_TITLE),$(DOCBOOKGUIDE_ID),$(DOCBOOKGUIDE_SRCS))
+#endif
+
+
+SGMLDIR  = $(CDESRC)/dtinfo/dtinfogen/infolib/C/SGML
+SGMLDEPS = $(SGMLDIR)/docbook.dtd $(SGMLDIR)/iso-box.gml \
+    $(SGMLDIR)/iso-dia.gml $(SGMLDIR)/iso-grk3.gml $(SGMLDIR)/iso-lat1.gml \
+    $(SGMLDIR)/iso-lat2.gml $(SGMLDIR)/iso-num.gml $(SGMLDIR)/iso-pub.gml \
+    $(SGMLDIR)/iso-tech.gml
+
+INFOLIBDEPS = $(SGMLDEPS) $(TOP)/doc/common/docbook/docbook.stl
+
+MakeInfolib($(INFOLIB),$(BOOKCASE),$(DGENV),$(DGOPTS) $(SSENTS),$(INFOLIBDEPS))
+
+ssupdate:
+	$(DGENV) $(DTINFOGEN) update $(DTINFOGENOPTIONS) $(DGOPTS) $(SSENTS) -l $(INFOLIB) -b $(BOOKCASE) $(TOP)/doc/common/docbook/docbook.stl
+
+#if !UseNSGMLS
+includes::
+	$(RM) "common/-%%Common_Desktop_Environment%%ENTITIES_Dtinfo_SS_Localization%%EN"
+	$(LN) SSEntity.sgm "common/-%%Common_Desktop_Environment%%ENTITIES_Dtinfo_SS_Localization%%EN"
+
+clean::
+	$(RM) "common/-%%Common_Desktop_Environment%%ENTITIES_ISO_Catalog%%EN"
+#endif /* !UseNSGMLS */

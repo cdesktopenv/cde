@@ -1,0 +1,177 @@
+###############################################################################
+#
+#
+#     @(#)dtbuilder.dt	1.3 23 Mar 1994
+#
+#     DataType Definitions for the Application Builder
+#
+#     Common Desktop Environment 1.0 
+#
+#    (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+#    (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+#    (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+#    (c) Copyright 1993, 1994, 1995 Novell, Inc.
+#
+#     $TOG: dtbuilder.dt /main/5 1999/02/23 13:26:42 mgreess $
+#
+###############################################################################
+set DtDbVersion=1.0
+
+###############################################################################
+#
+%|nls-10-#\# WARNING:...#|
+#
+###############################################################################
+
+###################################################################
+#
+%|nls-11-#\# Data Attributes#|
+#
+###################################################################
+DATA_ATTRIBUTES BIP
+{
+	ACTIONS		Open
+	ICON		DtABbip
+	NAME_TEMPLATE	%s.bip
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-24001-#This file ...#|
+}
+DATA_CRITERIA BIP1
+{
+	DATA_ATTRIBUTES_NAME BIP
+	MODE		f
+	NAME_PATTERN	*.bip
+}
+ACTION Open
+{
+        LABEL           %|nls-1-#Open#|
+	ARG_TYPE	BIP
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	dtbuilder "%(File)Arg_1%"
+        DESCRIPTION     %|nls-24002-#This action ...#|
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        BIP
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+
+###################################################################
+
+DATA_ATTRIBUTES BIL
+{
+	ACTIONS		Open
+	ICON		DtABbil
+	NAME_TEMPLATE	%s.bil
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-24003-#This file ...#|
+}
+DATA_CRITERIA BIL1
+{
+	DATA_ATTRIBUTES_NAME BIL
+	MODE		f
+	NAME_PATTERN	*.bil
+}
+ACTION Open
+{
+        LABEL           %|nls-1-#Open#|
+	ARG_TYPE	BIL
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	dtbuilder "%(File)Arg_1%"
+        DESCRIPTION     %|nls-24004-#This action ...#|
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        BIL
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+
+###################################################################
+
+DATA_ATTRIBUTES BIX
+{
+	ACTIONS	        Open
+	ICON	        DtABbix
+	NAME_TEMPLATE	%s.bix
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-24005-#This file ...#|
+}
+DATA_CRITERIA BIX1
+{
+	DATA_ATTRIBUTES_NAME BIX
+	MODE		f
+	NAME_PATTERN	*.bix
+}
+ACTION Open
+{
+        LABEL           %|nls-1-#Open#|
+	ARG_TYPE	BIX
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	dtbuilder "%(File)Arg_1%"
+        DESCRIPTION     %|nls-24006-#This action ...#|
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        BIX
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+
+###################################################################
+###################################################################
+#
+%|nls-12-#\# Actions#|
+#
+###################################################################
+ACTION Dtappbuild
+{
+        LABEL           %|nls-24007-#Application Builder#|
+        TYPE            COMMAND
+        EXEC_STRING     dtbuilder
+        ICON            DtBldr
+        WINDOW_TYPE     NO_STDIO
+        DESCRIPTION     %|nls-24008-#The Application Builder#|
+}
+
+######
+
+ACTION CodeGen
+{
+        LABEL           %|nls-24009-#Code Generator#|
+        TYPE            COMMAND
+        ARG_COUNT       0
+        EXEC_STRING     /bin/sh -c 'dtaction CodeGen \
+	   %(File)Arg_1"%|nls-24010-#Project File#|"%'
+        ICON            DtBldr
+        WINDOW_TYPE     NO_STDIO
+        DESCRIPTION     %|nls-24012-#The Code Generator#|
+}
+
+ACTION CodeGen
+{
+        LABEL           %|nls-24009-#Code Generator#|
+        TYPE            COMMAND
+        ARG_TYPE        BIP
+        ARG_COUNT       >0
+        EXEC_STRING     /bin/sh -c ' \
+           DIR_NAME=`dirname %(File)Arg_1"%|nls-24010-#Project File#|"%` ; \
+	   if [ ! -d "\$DIR_NAME" ] ; then \
+	       echo "%|nls-24011-#ERROR:#|"; \
+	   else \
+	       BIP_FILE=`basename "%(File)Arg_1%"` ; \
+	       ( cd \$DIR_NAME; dtcodegen -p \$BIP_FILE 2>&1; ) | \${PAGER:-more}; \
+	       echo "%|nls-7-#\\\\n*** Select#|"; \
+	   fi '
+        ICON            DtBldr
+        WINDOW_TYPE     PERM_TERMINAL
+        DESCRIPTION     %|nls-24012-#The Code Generator#|
+}
+########################### EOF ##############################################

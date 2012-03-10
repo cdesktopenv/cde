@@ -1,0 +1,1054 @@
+<!-- $XConsortium: appa.sgm /main/7 1996/08/27 15:26:40 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<appendix id="DKSUG.cmds.div.1">
+<title>dtkshコマンド<indexterm><primary>コマンド</primary></indexterm></title>
+<para>この付録は、<command>dtksh</command>によってサポートされているコマンドのリストを含んで
+います。これらのコマンドの多くが、対応するMotif、Xtイントリンシクス、Xlibの
+コマンドとほとんど同等です。値を返すコマンドは、コマンドを呼び出す際の最初の
+パラメータである環境変数として、戻り変数を持っていなければなりません。
+より多くの相違点を持つコマンドもあります。</para>
+<para>次のサブセクションは、各<command>dtksh</command>コマンドの概観を示しています。
+一般的に、パラメータの順序と型は対応するCプロシージャと同じです。例外は注記します。
+コマンドの機能およびパラメータの詳細は、Xlib、Xtイントリンシクス、Motifプロシージャの
+標準的なドキュメントを参照してください。</para>
+<para>コマンドの定義において、<emphasis>var</emphasis>, <emphasis>var2</emphasis>, <emphasis>var3</emphasis>などの名前がついているパラメータは、
+値が返される環境変数の名前をシェル・スクリプトで指定することを示します。
+<symbol role="Variable">variable</symbol>は、戻り値を受け取る環境変数を示します。</para>
+<para>ブール値を返すコマンド(<emphasis>if</emphasis>文の一部として、直接、使用できます)は、注記します。</para>
+<para><filename>[]</filename>で囲まれたパラメータはオプションです。</para>
+<sect1 id="DKSUG.cmds.div.2">
+<title>組み込みXlibコマンド</title>
+<para><command>XBell</command> <symbol role="Variable">display volume</symbol></para>
+<para><command>XClearArea</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height</symbol></para>
+<para><symbol role="Variable">exposures</symbol></para>
+<para><command>XClearWindow</command> <symbol role="Variable">display drawable</symbol></para>
+<para><command>XCopyArea</command> <symbol role="Variable">display src dest
+srcX srcY width height destX destY</symbol> [optional GC</para>
+<para>arguments]</para>
+<para><command>XDefineCursor</command> <symbol role="Variable"></symbol><symbol role="Variable">display window cursor</symbol></para>
+<para><command>XDrawArc</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height
+angle1</symbol></para>
+<para><symbol role="Variable">angle2</symbol></para>
+<para><command>XDrawLine</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x1 y1 x2 y2</symbol></para>
+<para><command>XDrawLines</command> <symbol role="Variable">display drawable</symbol> [-<emphasis>coordinateMode</emphasis>] [optional GC arguments] <symbol role="Variable">x1 y1</symbol></para>
+<para><symbol role="Variable">x2 y2 [x3 y3 ...</symbol>]</para>
+<para><emphasis>coordinateMode</emphasis>は、<command>CoordModeOrigin</command>または<command>CoordModePrevious</command>のいずれかです。</para>
+<para><command>XDrawPoint</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y</symbol></para>
+<para><command>XDrawPoints</command> <symbol role="Variable">display drawable</symbol> [-<symbol role="Variable">coordinateMode</symbol>] [optional GC
+arguments] <symbol role="Variable">x1 y1</symbol></para>
+<para>[<symbol role="Variable">x2 y2 x3 y3 ...</symbol>]
+</para>
+<para><emphasis>coordinateMode</emphasis>は、<command>CoordModeOrigin</command>または<command>CoordModePrevious</command>のどちらかです。</para>
+<para><command>XDrawRectangle</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height</symbol></para>
+<para><command>XDrawSegments</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x1 y1 x2 y2</symbol> [<symbol role="Variable">x3 y3 x4</symbol></para>
+<para><symbol role="Variable">y4 ...</symbol>]</para>
+<para><command>XDrawString</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y string</symbol></para>
+<para><command>XDrawImageString</command> <symbol role="Variable">display
+drawable</symbol> [optional GC arguments] <symbol role="Variable">x y string</symbol></para>
+<para><command>XFillArc</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height
+angle1</symbol></para>
+<para><symbol role="Variable">angle2</symbol></para>
+<para><command>XFillPolygon</command> d<symbol role="Variable">isplay drawable</symbol> [-<emphasis>shape</emphasis>] [-<emphasis>coordinateMode</emphasis>]
+[optional GC</para>
+<para>arguments] <symbol role="Variable">x1 y1 x2 y2</symbol> ...</para>
+<para><emphasis>shape</emphasis>は、<command>Complex</command>、
+<filename>Convex</filename>、または<filename>Nonconvex</filename>のいずれかであり、 <emphasis>coordinateMode</emphasis>は、<command>CoordModeOrigin</command>または<filename>CoordModePrevious.</filename>のどちらかです。</para>
+<para><command>XFillRectangle</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height</symbol></para>
+<para><command>XFlush</command> <symbol role="Variable">display</symbol></para>
+<para><command>XHeightOfScreen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">screen</symbol></para>
+<para><command>XRaiseWindow</command> <symbol role="Variable">display window</symbol></para>
+<para><command>XRootWindowOfScreen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">screen</symbol></para>
+<para><command>XSync</command> <symbol role="Variable">display</symbol> <emphasis>discard</emphasis></para>
+<para><emphasis>discard</emphasis>は、<command>true</command>
+または<filename>false</filename>のどちらかです。</para>
+<para><command>XTextWidth</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">fontName</symbol> <symbol role="Variable">string</symbol></para>
+<note>
+<para><command>XTextWidth</command>コマンドは対応するXlibプロシージャとは異なっています。これは、
+コマンドがフォント構造体のポインタではなく、フォントの名前をとるためです。 </para>
+</note>
+<para><command>XUndefineCursor</command> <symbol role="Variable">display window</symbol></para>
+<para><command>XWidthOfScreen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">screen</symbol></para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.3">
+<title>組み込みXtイントリンシクス・コマンド<indexterm><primary>コマンド</primary>
+<secondary>Xtイントリンシクス</secondary></indexterm><indexterm><primary>Xtイントリンシクス・コマンド
+</primary></indexterm></title>
+<para>新規ウィジェットを生成するのに使用するすべてのXtイントリンシクス・コマンドは、
+ユーザに新規ウィジェットのウィジェット・クラスを指定することを要求します。
+ウィジェット(またはガジェット)・クラス名はMotifが提供する標準のクラス名です。
+例えば、Motifのプッシュ・ボタン・ウィジェットの名前は<command>XmPushButton</command>、Motifの
+ラベル・ガジェットの名前は<command>XmLabelGadget</command>です。
+</para>
+<para><command>XtAddCallback</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">callbackName</symbol> <emphasis>ksh-command</emphasis> <command><indexterm><primary>XtAddCallback</primary></indexterm></command></para>
+<para><emphasis>callbackName</emphasis>標準MotifまたはXtコールバック名前の1つで、<command>Xt</command>または<command>Xm</command>接頭辞を
+取ったものです。例えば、<command>activateCallback</command>などです。</para>
+<para><command>XtAddEventHandler</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">eventMask</symbol> <emphasis>nonMaskableFlag</emphasis> <emphasis>ksh-command</emphasis><command><indexterm><primary>XtAddEventHandler</primary></indexterm></command></para>
+<para><emphasis>eventMask</emphasis>は、<emphasis>mask|mask|mask</emphasis>という形式をとり、構成要素の<symbol role="Variable">mask</symbol>は、 Xイベント・
+マスクの標準セットのいずれかです。<emphasis>nonMaskableFlag</emphasis>は<command>true</command>または
+<command>false</command>のいずれかです。</para>
+<para><command>XtAddInput</command> <symbol role="Variable">variable</symbol>
+[-r] <emphasis>fileDescriptor</emphasis> <emphasis>ksh-command</emphasis><command><indexterm>
+<primary>XtAddInput</primary></indexterm></command></para>
+<para>Xツールキットを用いて、示されるファイル記述子を、交互の入力ソースとして登録
+します。入力リソースが不要になり、ファイル記述子を閉じる場合、シェル・スクリプト
+の入力ハンドラが、入力ソースを登録解除します。</para>
+<para><filename>-r</filename>オプション(<emphasis>raw</emphasis>モード)を指定すると、<command>dtksh</command>は、入力ソースから使用可能な
+データを自動的に読み込みません。指定したkshellコマンドですべてのデータを読み込み
+ます。<filename>-r</filename>が指定されていない場合は、<emphasis>ksh-command</emphasis>で
+指定したコマンドが、完全行(行がエスケープされていない改行文字またはファイルの
+終りで終了している行)を読み込んだ時、またはファイルの終りに達した時のみ起動され
+ます。rawモードは、テキストではないデータを処理するハンドラ、または <command>dtksh</command>を
+データ行で自動的に読み込みたくないハンドラでは有効です。ファイルの終りが検出され
+ると、シェル・スクリプトの入力ハンドラが、<command>XtRemoveInput</command>を使用して、必要に応じて
+入力ソースを削除し、ファイル記述子を閉じます。</para>
+<para>すべての場合も、ハンドラが使用できるいくつかの環境変数が設定されます。これら環境変数には次のようなものがあります。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.90in">
+<colspec align="left" colwidth="134*">
+<colspec align="left" colwidth="352*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_LINE</filename></para></entry>
+<entry align="left" valign="top"><para>rawモードのときは空です。それ以外の
+場合は、次に処理される行を含んでいます。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_EOF</filename></para></entry>
+<entry align="left" valign="top"><para>ファイルの終りに達したとき、trueが設定
+されます。それ以外の場合は<symbol role="Variable">false</symbol>が設定されます。</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_SOURCE</filename></para></entry>
+<entry align="left" valign="top"><para>入力ソースに関連するファイル記述子です。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>INPUT_ID</computeroutput></para></entry>
+<entry align="left" valign="top"><para>入力ハンドラに関連するIDです。
+<command>XtAddInput</command>()によって返されます。</para></entry></row>
+</tbody></tgroup></informaltable>
+<para><command>XtAddTimeout</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">interval ksh-command</symbol></para>
+<para><command>XtAddWorkProc</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">ksh-command</symbol></para>
+<para><command>dtksh</command>において、kshellコマンドは通常のkshell関数名です。
+この関数には、ワーク・プロシージャを再度呼び出すかを示す値、またはその作業が完了
+し、自動的に登録解除できるかを示す値が返されます。<command>dtksh</command>が0を
+返した場合、そのワーク・プロシージャは登録されたままの状態です。他の値を返した
+場合は、自動的に、ワーク・プロシージャが登録解除されます。</para>
+<para><command>XtAugmentTranslations</command> <symbol role="Variable">widgetHandle
+translations</symbol></para>
+<para><command>XtCreateApplicationShell</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">applicationName widgetClass</symbol></para>
+<para>[ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XtCallCallbacks</command> <symbol role="Variable">widgetHandle
+callbackName</symbol></para>
+<para><symbol role="Variable">callbackName</symbol>は、標準のMotifまたはXtコールバックの名前の1つで、<command>Xt</command>または
+<command>Xm</command>接頭辞を取ったものです。例えば、<filename>activateCallback.</filename>などです。</para>
+<para><command>XtClass</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para>ウィジェットの操作に関連したウィジェット・クラスの名前を返します。</para>
+<para><command>XtCreateManagedWidget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetName widgetClass</symbol><command><indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm></command></para>
+<para><symbol role="Variable">parentWidgetHandle</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XtCreatePopupShell</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetName widgetClass</symbol></para>
+<para><symbol role="Variable">parentWidgetHandle</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XtCreateWidget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetName widgetClass</symbol></para>
+<para><symbol role="Variable">parentWidgetHandle</symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XtDestroyWidget</command> <symbol role="Variable">widgetHandle</symbol> [<symbol role="Variable">widgetHandle</symbol> ...]</para>
+<para><command>XtDisplay</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol><command><indexterm><primary>XtDisplay</primary></indexterm></command></para>
+<para><command>XtDisplayOfObject</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtGetValues</command> <symbol role="Variable">widgetHandle
+resource:</symbol><emphasis>var1</emphasis> [<symbol role="Variable">resource:</symbol><emphasis>var2</emphasis> ...]</para>
+<para><command>XtHasCallbacks</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <emphasis>callbackName</emphasis></para>
+<para><emphasis>callbackName</emphasis>は、標準のMotifまたはXtコールバックの名前の1つで、<command>Xt</command>または<command>Xm</command>を
+取ったものです。例えば、<filename>activateCallback</filename>などです。</para>
+<para><symbol role="Variable">variable</symbol>は、<command>CallbackNoList</command>、<command>CallbackHasNone</command>または<command>CallbackHasSome</command>のいずれかの文字列を設定します。</para>
+<para><command>XtInitialize</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">shellName applicationClassName applicationName</symbol></para>
+<para><symbol></symbol> [arguments]</para>
+<para><symbol role="Variable">applicationClassName</symbol>として<command>Dtksh</command>を使用すると、アプリケーションは、デフォルトの
+<command>dtksh</command>の<filename>app-defaults</filename>ファイルを使用します。<symbol role="Variable">arguments</symbol>パラメータは、
+シェル・スクリプトのユーザが指定するコマンド行の引き数を参照するのに使用され
+ます。これらは、通常、&ldquo;$@&ldquo;のシェルの構文を使用して参照します。</para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XtIsManaged</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XtIsSubclass</command> <symbol role="Variable">widgetHandle</symbol><symbol role="Globalvar">widgetClass</symbol></para>
+<para><symbol role="Globalvar">widgetClass</symbol>はウィジェット・クラスの名前です。条件文で使用する値を返します。</para>
+<para><command>XtNameToWidget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">referenceWidget name</symbol></para>
+<para><command>XtIsRealized</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XtIsSensitive</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XtIsShell</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XtLastTimestampProcessed</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">display</symbol></para>
+<para><command>XtMainLoop</command></para>
+<para><command>XtManageChild</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtManageChildren</command> <symbol role="Variable">widgetHandle</symbol>[<symbol role="Variable">widgetHandle</symbol> ...]</para>
+<para><command>XtMapWidget</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtOverrideTranslations</command> <symbol role="Variable">widgetHandle
+translations</symbol></para>
+<para><command>XtParent</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtPopdown</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtPopup</command> <symbol role="Variable">widgetHandle</symbol> <emphasis>grabType</emphasis></para>
+<para><emphasis>grabType</emphasis>は、<command>GrabNone</command>、<command>GrabNonexclusive</command>、 または<command>GrabExclusive</command>
+のいずれかの文字列です。</para>
+<para><command>XtRealizeWidget</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtRemoveAllCallbacks</command> <symbol role="Variable">widgetHandle</symbol><emphasis>callbackName</emphasis></para>
+<para><emphasis>callbackName</emphasis>は、標準のMotifまたはXtコールバックの名前の1つで、<command>Xt</command>または<command>Xm</command>を
+取ったものです。例えば、<filename>activateCallback</filename>などです。</para>
+<para><command>XtRemoveCallback</command> <symbol role="Variable">widgetHandle</symbol><emphasis>callbackName</emphasis> <symbol role="Variable">ksh-command</symbol></para>
+<para><emphasis>callbackName</emphasis>は、標準のMotifまたはXtコールバックの名前の1つで、<command>Xt</command>または<command>Xm</command>を
+取ったものです。例えば、<filename>activateCallback</filename>などです。
+従来のXtコールバックを指定する場合、コールバックを最初に登録したときに指定した
+のと同じkshellコマンド文字列を、コールバックを削除したときに指定する必要が
+あります。 </para>
+<para><command>XtRemoveEventHandler</command> <symbol role="Variable">widgetHandle</symbol><emphasis>eventMask</emphasis> <emphasis>nonMaskableFlag</emphasis> <symbol role="Variable">ksh-command</symbol></para>
+<para><emphasis>eventMask</emphasis>は、<symbol role="Variable">mask|mask|mask</symbol>という形式をとり、  構成要素の<symbol role="Variable">mask</symbol>は、 
+Xイベント・マスクの標準セットのいずれかです。
+<emphasis>nonMaskableFlag</emphasis>に設定される<symbol role="Variable">ButtonPressMask</symbol>は<symbol role="Variable">true</symbol>または
+<symbol role="Variable">false</symbol>のどちらかです。
+従来のXtイベント・ハンドラを指定した場合、イベント・ハンドラを最初に登録したとき
+に指定したのと同じ<emphasis>eventMask</emphasis>と<emphasis>nonMaskableFlag</emphasis>の設定、および
+kshellコマンド文字列を、イベント・ハンドラを削除したときに指定する必要がありま
+す。 </para>
+<para><command>XtRemoveInput</command> <emphasis>inputId</emphasis></para>
+<para><emphasis>inputId</emphasis>は、<command>XtAddInput</command>コマンドを使用して代わりの入力ソースを
+登録したときに指定した環境変数に返されるハンドルです。</para>
+<para><command>XtRemoveTimeOut</command> <emphasis>timeoutId</emphasis></para>
+<para><emphasis>timeoutId</emphasis>は、<command>XtAddTimeOut</command>コマンドを使用してタイムアウトを
+登録したときに、指定した環境変数に返されるハンドルです。</para>
+<para><command>XtRemoveWorkProc</command> <emphasis>workprocID</emphasis></para>
+<para><emphasis>workprocID</emphasis>は、<command>XtAddWorkProc</command>コマンドを使用してワーク・プロシージャを
+登録したときに、指定した環境変数に返されるハンドルです。</para>
+<para><command>XtScreen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtSetSensitive</command> <symbol role="Variable">widgetHandle</symbol><symbol role="Variable">state</symbol></para>
+<para><symbol role="Variable">state</symbol>は、 <symbol role="Variable">true</symbol>または<symbol role="Variable">false</symbol>のどちらかです。</para>
+<para><command>XtSetValues</command> <symbol role="Variable">widgetHandle
+resource:value</symbol> [<symbol role="Variable">resource:</symbol><symbol role="Variable">value</symbol> ...]</para>
+<para><command>XtUninstallTranslations</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtUnmanageChild</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtUnmanageChildren</command> <symbol role="Variable">widgetHandle</symbol>[<symbol role="Variable">widgetHandle</symbol> ...]</para>
+<para><command>XtUnmapWidget</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtUnrealizeWidget</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtWindow</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.4">
+<title>組み込みMotifコマンド<indexterm><primary>コマンド</primary><secondary>Motif</secondary></indexterm><indexterm><primary>Motifコマンド</primary>
+</indexterm></title>
+<para><command>XmAddWMProtocolCallback</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">protocolAtom
+ksh-command</symbol></para>
+<para><symbol role="Variable">protocolAtom</symbol>は、通常、<command>XmInternAtom</command>コマンドを使用して取得します。</para>
+<para><command>XmAddWMProtocols</command> <symbol role="Variable">widgetHandle</symbol> <emphasis>protocolAtom</emphasis> [<emphasis>protocolAtom</emphasis>
+...]</para>
+<para><symbol role="Variable">protocolAtom</symbol>は、通常、<function>XmInternAtom</function>コマンドを使用して取得します。</para>
+<para><command>XmCommandAppendValue</command> <symbol role="Variable">widgetHandle
+string</symbol></para>
+<para><command>XmCommandError</command> <symbol role="Variable">widgetHandle
+errorString</symbol></para>
+<para><command>XmCommandGetChild</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">childType</symbol></para>
+<para><command>childType</command>は、<filename>DIALOG_COMMAND_TEXT</filename>、<filename>DIALOG_PROMPT_LABEL</filename>、
+<filename>DIALOG_HISTORY_LIST</filename>または<filename>DIALOG_WORK_AREA</filename>のいずれかの文字列です。 </para>
+<para><command>XmCommandSetValue</command> <symbol role="Variable">widgetHandle
+commandString</symbol></para>
+<para><command>XmCreateArrowButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateArrowButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateBulletinBoard</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateBulletinBoardDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateCascadeButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol>
+...]</para>
+<para><command>XmCreateCascadeButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateCommand</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateDialogShell</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateDrawingArea</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateDrawnButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol>...]</para>
+<para><command>XmCreateErrorDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateFileSelectionBox</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateFileSelectionDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateForm</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateFormDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateFrame</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateInformationDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateLabel</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateLabelGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateList</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMainWindow</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMenuBar</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMenuShell</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMessageBox</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMessageDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateOptionMenu</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePanedWindow</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePopupMenu</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePromptDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePulldownMenu</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePushButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePushButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateQuestionDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateRadioBox</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateRowColumn</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScale</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScrollBar</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScrolledList</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScrolledText</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScrolledWindow</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[<symbol role="Variable">resource:value</symbol>...]</para>
+<para><command>XmCreateSelectionBox</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateSelectionDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateSeparator</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateSeparatorGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateText</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateTextField</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateToggleButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateToggleButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol>[resource:value</symbol> ...]</para>
+<para><command>XmCreateWarningDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateWorkArea</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateWorkingDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmFileSelectionDoSearch</command> <symbol role="Variable">widgetHandle
+directoryMask</symbol></para>
+<para><command>XmFileSelectionBoxGetChild</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <emphasis>childType</emphasis></para>
+<para><emphasis>childType</emphasis>は、<command>DIALOG_APPLY_BUTTON、 DIALOG_CANCEL_BUTTON、DIALOG_DEFAULT_BUTTON、
+DIALOG_DIR_LIST、DIALOG_DIR_LIST_LABEL、DIALOG_FILTER_LABEL、DIALOG_FILTER_TEXT、
+DIALOG_HELP_BUTTON、DIALOG_LIST、DIALOG_LIST_LABEL、DIALOG_OK_BUTTON、DIALOG_SEPARATOR、
+DIALOG_SELECTION_LABEL、DIALOG_TEXT</command>、または<filename>DIALOG_WORK_AREA</filename><symbol role="Variable">の
+いずれかの文字列です。</symbol></para>
+<para><command>XmGetAtomName</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">display atom</symbol></para>
+<para><command>XmGetColors</command> <symbol role="Variable">widgetHandle
+background</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2 var3 var4</emphasis></para>
+<para><command>XmGetColors</command>コマンドは、Cプロシージャとは異なり、画面のポインタとカラーマップの代わりに<emphasis>widgetHandle</emphasis>をとります。</para>
+<para><command>XmGetPostedFromWidget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmGetTabGroup</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmGetTearOffControl</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmGetVisibility</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmInternAtom</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">display atomString</symbol> <emphasis>onlyIfExistsFlag</emphasis></para>
+<para><emphasis>onlyIfExistsFlag</emphasis>には、<emphasis>true</emphasis>または<emphasis>false</emphasis>のどちらかを設定できます。</para>
+<para><command>XmIsTraversable</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmListAddItem</command> <symbol role="Variable">widgetHandle
+position itemString</symbol></para>
+<para><command>XmListAddItem</command>コマンドのパラメータの順序は、対応するCプログラミングの
+パラメータの順序と異なります。</para>
+<para><command>XmListAddItems</command> <symbol role="Variable">widgetHandle
+position itemString</symbol> [<symbol role="Variable">itemString ...</symbol>]
+</para>
+<para><command>XmListAddItems</command>コマンドのパラメータの順序は、対応するCプログラミングの
+パラメータの順序と異なります。</para>
+<para><command>XmListAddItemsUnselected</command> <symbol role="Variable">widgetHandle position itemString [itemString ...]</symbol></para>
+<para><command>XmListAddItemsUnselected</command>コマンドのパラメータの順序は、対応するCプログラミングの
+パラメータの順序と異なります。</para>
+<para><command>XmListAddItemUnselected</command> <symbol role="Variable">widgetHandle position itemString</symbol></para>
+<para><command>XmListAddItemUnselected</command>コマンドのパラメータの順序は、対応するCプログラミングの
+パラメータの順序と異なります。</para>
+<para><command>XmListDeleteAllItems</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmListDeleteItem</command> <symbol role="Variable">widgetHandle
+itemString</symbol></para>
+<para><command>XmListDeleteItems</command> <symbol role="Variable">widgetHandle
+itemString [itemString ...]</symbol></para>
+<para><command>XmListDeleteItemsPos</command> <symbol role="Variable">widgetHandle
+itemCount position</symbol></para>
+<para><command>XmListDeletePos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListDeletePositions</command> <symbol role="Variable">widgetHandle
+position [position ...]</symbol></para>
+<para><command>XmListDeselectAllItems</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmListDeselectItem</command> <symbol role="Variable">widgetHandle
+itemString</symbol></para>
+<para><command>XmListDeselectPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListGetSelectedPos</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para>カンマで区切られた<symbol role="Variable">variable</symbol>の索引のリストを返します。
+条件文で使用する値を返します。</para>
+<para><command>XmListGetKbdItemPos</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmListGetMatchPos</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle itemString</symbol></para>
+<para>カンマで区切られた<symbol role="Variable">variable</symbol>の索引のリストを返します。
+条件文で使用する値を返します。</para>
+<para><command>XmListItemExists</command> <symbol role="Variable">widgetHandle
+itemString</symbol></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmListItemPos</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle itemString</symbol></para>
+<para><command>XmListPosSelected</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmListPosToBounds</command> <symbol role="Variable">widgetHandle
+position</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2 var3 vari4</emphasis></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmListReplaceItemsPos</command> <symbol role="Variable">widgetHandle
+position itemString</symbol> [<symbol role="Variable">itemString</symbol> ...]
+</para>
+<para><command>XmListReplaceItemsPos</command>コマンドのパラメータの順序は、対応するCプログラミングの
+パラメータの順序と異なります。</para>
+<para><command>XmListReplaceItemsPosUnselected</command> <symbol role="Variable">widgetHandle position itemString</symbol></para>
+<para><symbol>[itemString ...]</symbol></para>
+<para><command>XmListReplaceItemsPosUnselected</command>コマンドのパラメータの順序は、対応するCプログラミングの
+パラメータの順序と異なります。</para>
+<para><command>XmListSelectItem</command> <symbol role="Variable">widgetHandle
+itemString notifyFlag</symbol></para>
+<para><symbol role="Variable">notifyFlag</symbol>には、<symbol role="Variable">true</symbol>または<symbol role="Variable">false</symbol>のいずれかを設定できます。</para>
+<para><command>XmListSelectPos</command> <symbol role="Variable">widgetHandle
+position notifyFlag</symbol></para>
+<para><symbol role="Variable">notifyFlag</symbol>には、<symbol role="Variable">true</symbol>または<symbol role="Variable">false</symbol>のいずれかを設定できます。</para>
+<para><command>XmListSetAddMode</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">state</symbol></para>
+<para><symbol role="Variable">state</symbol>には、<symbol role="Variable">true</symbol>または<symbol role="Variable">false</symbol>のいずれかを設定できます。</para>
+<para><command>XmListSetBottomItem</command> <emphasis>widgetHandle itemString</emphasis></para>
+<para><command>XmListSetBottomPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListSetHorizPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListSetItem</command> <symbol role="Variable">widgetHandle
+itemString</symbol></para>
+<para><command>XmListSetKbdItemPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmListSetPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListUpdateSelectedList</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><filename>XmMainWindowSep1</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><filename>XmMainWindowSep2</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><filename>XmMainWindowSep3</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmMainWindowSetAreas</command> <symbol role="Variable">widgetHandle
+menuWidgetHandle</symbol></para>
+<para><symbol>commandWidgetHandle</symbol></para>
+<para><symbol>horizontalScrollbarWidgetHandle</symbol></para>
+<para><symbol>verticalScrollbarWidgetHandle</symbol></para>
+<para><symbol>workRegionWidgetHandle</symbol></para>
+<para><command>XmMenuPosition</command> <symbol role="Variable">widgetHandle</symbol><emphasis>eventHandle</emphasis></para>
+<para><emphasis>eventHandle</emphasis>は、Xイベントを参照します。Xイベントは、通常、<command>CB_CALL_DATA.EVENT、EH_EVENT
+</command>または<filename>TRANSLATION_EVENT</filename>環境変数にアクセスすることで取得できます。
+</para>
+<para><command>XmMessageBoxGetChild</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <emphasis>childType</emphasis></para>
+<para><emphasis>childType</emphasis>は、<command>DIALOG_CANCEL_BUTTON、DIALOG_DEFAULT_BUTTON、DIALOG_HELP_BUTTON、
+DIALOG_MESSAGE_LABEL、DIALOG_OK_BUTTON、 DIALOG_SEPARATOR</command>または<filename>DIALOG_SYMBOL_LABEL</filename>のいずれかの文字列です。</para>
+<para><command>XmOptionButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmOptionLabelGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmProcessTraversal</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">direction</symbol></para>
+<para><symbol role="Variable">direction</symbol>は、<command>TRAVERSE_CURRENT、TRAVERSE_DOWN、TRAVERSE_HOME、
+TRAVERSE_LEFT、TRAVERSE_NEXT、TRAVERSE_NEXT_TAB_GROUP、TRAVERSE_PREV、
+TRAVERSE_PREV_TAB_GROUP、 TRAVERSE_RIGHT</command>または<filename>TRAVERSE_UP</filename>のいずれかの
+文字列です。</para>
+<para><command>XmRemoveWMProtocolCallback</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">protocolAtom</symbol> <symbol role="Variable">ksh-command</symbol></para>
+<para><emphasis>protocolAtom</emphasis>は、通常、<command>XmInternAtom</command>コマンドを使用して取得します。</para>
+<para>従来のウィンドウ・マネージャ・コールバックを指定した場合、コールバックを最初に登録したときに指定したのと同じkshellコマンド文字列を、コールバックを削除するときに指定する必要があります。</para>
+<para><command>XmRemoveWMProtocols</command> <symbol role="Variable">widgetHandle</symbol> <emphasis>protocolAtom</emphasis> [ <emphasis>protocolAtom</emphasis> ...]</para>
+<para><emphasis>protocolAtom</emphasis>は、通常、<command>XmInternAtom</command>コマンドを使用して取得します。</para>
+<para><command>XmScaleGetValue</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">variable</symbol></para>
+<para><command>XmScaleSetValue</command> <symbol role="Variable">widgetHandle</symbol><symbol role="Variable">value</symbol></para>
+<para><command>XmScrollBarGetValues</command> <symbol role="Variable">widgetHandle</symbol><symbol role="Variable">variable</symbol> <emphasis>var2 var3 var4</emphasis></para>
+<para><command>XmScrollBarSetValues</command> <symbol role="Variable">widgetHandle
+value sliderSize increment pageIncrement</symbol> <emphasis>notifyFlag</emphasis></para>
+<para><emphasis>notifyFlag</emphasis>には、<emphasis>true</emphasis>または<emphasis>false</emphasis>を指定します。</para>
+<para><command>XmScrollVisible</command> <symbol role="Variable">widgetHandle
+widgetHandle leftRightMargin topBottomMargin</symbol></para>
+<para><command>XmSelectionBoxGetChild</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <emphasis>childType</emphasis></para>
+<para><emphasis>childType</emphasis>は、<command>DIALOG_CANCEL_BUTTON、DIALOG_DEFAULT_BUTTON、
+DIALOG_HELP_BUTTON、DIALOG_APPLY_BUTTON、DIALOG_LIST、DIALOG_LIST_LABEL、
+DIALOG_OK_BUTTON、DIALOG_SELECTION_LABEL、DIALOG_SEPARATOR、IALOG_TEXT</command>
+または<filename>DIALOG_WORK_AREA</filename>のいずれかの文字列です。</para>
+<para><command>XmTextClearSelection</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">time</symbol></para>
+<para><symbol role="Variable">time</symbol>は、通常、Xイベント内から取得されるか、または<command>XtLastTimestampProcessed</command>コマンドの呼び出しに
+よって照会されます。</para>
+<para><command>XmTextCopy</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">time</symbol></para>
+<para><symbol role="Variable">time</symbol>は、通常、Xイベント内から取得されるか、または<command>XtLastTimestampProcessed</command>コマンドの呼び出しに
+よって照会されます。</para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmTextCut</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">time</symbol></para>
+<para><symbol role="Variable">time</symbol>は、通常、Xイベント内から取得されるか、または<command>XtLastTimestampProcessed</command>コマンドの呼び出しに
+よって照会されます。</para>
+<para>条件文に使用する値を返します。</para>
+<para><command>XmTextDisableRedisplay</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextEnableDisplay</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextFindString</command> <symbol role="Variable">widgetHandle
+startPosition string</symbol> <symbol role="Variable">direction</symbol> <symbol role="Variable">variable</symbol></para>
+<para><symbol role="Variable">direction</symbol>は<filename>TEXT_FORWARD</filename>または<filename>TEXT_BACKWARD</filename>のいずれかの文字列です。</para>
+<para>条件文に使用する値を返します。</para>
+<para><command>XmTextGetBaseline</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextGetEditable</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>条件文に使用する値を返します。</para>
+<para><command>XmTextGetInsertionPosition</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextGetLastPosition</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextGetMaxLength</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextGetSelection</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextGetSelectionPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>条件文に使用する値を返します。</para>
+<para><command>XmTextGetString</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextGetTopCharacter</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextInsert</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextPaste</command> <emphasis>widgetHandle</emphasis></para>
+<para>条件文に使用する値を返します。</para>
+<para><command>XmTextPosToXY</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>条件文に使用する値を返します。</para>
+<para><command>XmTextRemove</command> <emphasis>widgetHandle</emphasis></para>
+<para>条件文に使用する値を返します。</para>
+<para><command>XmTextReplace</command> <emphasis>widgetHandle</emphasis> <emphasis>fromPosition</emphasis> <emphasis>toPosition</emphasis> string</para>
+<para><command>XmTextScroll</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">lines</symbol></para>
+<para><command>XmTextSetAddMode</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">state</symbol></para>
+<para><symbol role="Variable">state</symbol>には、<emphasis>true</emphasis>または<emphasis>false</emphasis>のいずれかを設定します。</para>
+<para><command>XmTextSetEditable</command> <emphasis>widgetHandle</emphasis> <emphasis>editableFlag</emphasis></para>
+<para><emphasis>editableFlag</emphasis>には、<emphasis>true</emphasis>または<emphasis>false</emphasis>のいずれかを設定します。</para>
+<para><command>XmTextSetHighlight</command> <emphasis>widgetHandle</emphasis> <emphasis>leftPosition</emphasis> <emphasis>rightPosition</emphasis> mode</para>
+<para><symbol role="Variable">mode</symbol>には、<filename>HIGHLIGHT_NORMAL</filename>、<filename>HIGHLIGHT_SELECTED</filename>または
+<filename>HIGHLIGHT_SECONDARY_SELECTED</filename>のいずれかの文字列です。</para>
+<para><command>XmTextSetInsertionPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol></para>
+<para><command>XmTextSetMaxLength</command> <emphasis>widgetHandle</emphasis> <emphasis>maxLength</emphasis></para>
+<para><command>XmTextSetSelection</command> <emphasis>widgetHandle firstPosition
+lastPosition</emphasis> <symbol role="Variable">time</symbol></para>
+<para><symbol role="Variable">time</symbol>は、通常、Xイベント内から取得されるか、または<command>XtLastTimestampProcessed</command>コマンドの呼び出しに
+よって照会されます。</para>
+<para><command>XmTextSetString</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextSetTopCharacter</command> <emphasis>widgetHandle</emphasis> <emphasis>topCharacterPosition</emphasis></para>
+<para><command>XmTextShowPosition</command> <emphasis>widgetHandle position</emphasis></para>
+<para><command>XmTextXYToPos</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle x y</emphasis></para>
+<para><command>XmTextFieldClearSelection</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">time</symbol></para>
+<para><symbol role="Variable">time</symbol>は、通常、Xイベント内から取得されるか、または<command>XtLastTimestampProcessed</command>コマンドの呼び出しに
+よって照会されます。</para>
+<para><command>XmTextFieldGetBaseline</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetEditable</command> <emphasis>widgetHandle</emphasis></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmTextFieldGetInsertionPosition</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetLastPosition</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetMaxLength</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetSelection</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetSelectionPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmTextFieldGetString</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldInsert</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextFieldPosToXY</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmTextFieldRemove</command> <emphasis>widgetHandle</emphasis></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmTextFieldReplace</command> <emphasis>widgetHandle</emphasis> <emphasis>fromPosition</emphasis> <emphasis>toPosition</emphasis> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextFieldSetEditable</command> <emphasis>widgetHandle</emphasis> <emphasis>editableFlag</emphasis></para>
+<para><emphasis>editableFlag</emphasis>には、<emphasis>true</emphasis>または<emphasis>false</emphasis>を設定します。</para>
+<para><command>XmTextFieldSetHighlight</command> <emphasis>widgetHandle</emphasis> <emphasis>leftPosition</emphasis> <emphasis>rightPosition</emphasis> <symbol role="Variable">mode</symbol></para>
+<para><symbol role="Variable">mode</symbol>は、<filename>HIGHLIGHT_NORMAL</filename>、<filename>HIGHLIGHT_SELECTED</filename>、
+または<filename>HIGHLIGHT_SECONDARY_SELECTED</filename>のいずれかの文字列です。</para>
+<para><command>XmTextFieldSetInsertionPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol></para>
+<para><command>XmTextFieldSetMaxLength</command> <emphasis>widgetHandle maxLength</emphasis></para>
+<para><command>XmTextFieldSetSelection</command> <emphasis>widgetHandle</emphasis> <emphasis>firstPosition</emphasis> <emphasis>lastPosition</emphasis> <symbol role="Variable">time</symbol></para>
+<para><symbol role="Variable">time</symbol>は、通常、Xイベント内から取得されるか、または<command>XtLastTimestampProcessed</command>コマンドの呼び出しに
+よって照会されます。</para>
+<para><command>XmTextFieldSetString</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextFieldShowPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol></para>
+<para><command>XmTextFieldXYToPos</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis> <emphasis>x y</emphasis></para>
+<para><command>XmTextFieldCopy</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">time</symbol></para>
+<para><symbol role="Variable">time</symbol>は、通常、Xイベント内から取得されるか、または<command>XtLastTimestampProcessed</command>コマンドの呼び出しに
+よって照会されます。</para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmTextFieldCut</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">time</symbol></para>
+<para><symbol role="Variable">time</symbol>は、通常、Xイベント内から取得されるか、または<command>XtLastTimestampProcessed</command>コマンドの呼び出しに
+よって照会されます。</para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmTextFieldPaste</command> <emphasis>widgetHandle</emphasis></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmTextFieldSetAddMode</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">state</symbol></para>
+<para><symbol role="Variable">state</symbol>には、<emphasis>true</emphasis>または<emphasis>false</emphasis>のいずれかを設定します。</para>
+<para><command>XmToggleButtonGadgetGetState</command> <emphasis>widgetHandle</emphasis></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmToggleButtonGadgetSetState</command> <emphasis>widgetHandle</emphasis> <emphasis>state notifyFlag</emphasis></para>
+<para><symbol role="Variable">state</symbol>には、<emphasis>true</emphasis>または<emphasis>false</emphasis>のいずかを設定し、
+<emphasis>notifyFlag</emphasis>には<emphasis>true</emphasis>または<emphasis>false</emphasis>のいずれかを設定します、</para>
+<para><command>XmToggleButtonGetState</command> <emphasis>widgetHandle</emphasis></para>
+<para>条件文で使用する値を返します。</para>
+<para><command>XmToggleButtonSetState</command> <emphasis>widgetHandle</emphasis> <emphasis>state notifyFlag</emphasis></para>
+<para><symbol role="Variable">state</symbol>には、<emphasis>true</emphasis>または<emphasis>false</emphasis>のいずれかを設定し、<emphasis>notifyFlag</emphasis>には<emphasis>true</emphasis>または<emphasis>false</emphasis>のいずれかを設定します。</para>
+<para><command>XmUpdateDisplay</command> <emphasis>widgetHandle</emphasis></para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.5">
+<title>組み込み共通デスクトップ環境アプリケーション・ヘルプ・コマンド<indexterm>
+<primary>コマンド</primary><secondary>CDEアプリケーション・ヘルプ</secondary></indexterm><indexterm>
+<primary>アプリケーション・ヘルプ・コマンド</primary></indexterm></title>
+<para><command>DtCreateQuickHelpDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource</symbol>:<symbol role="Variable">value</symbol> ...]
+</para>
+<para><command>DtCreateHelpDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource</symbol>:<symbol role="Variable">value</symbol> ...]
+</para>
+<para><command>DtHelpQuickDialogGetChild</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis> <emphasis>childType</emphasis></para>
+<para><emphasis>childType</emphasis>は、<command>HELP_QUICK_OK_BUTTON、HELP_QUICK_PRINT_BUTTON、HELP_QUICK_HELP_BUTTON、HELP_QUICK_SEPARATOR、
+HELP_QUICK_MORE_BUTTON</command>または<filename>HELP_QUICK_BACK_BUTTON</filename>のいずれかの文字列です。</para>
+<para><command>DtHelpReturnSelectedWidgetId</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis> <emphasis>var2</emphasis></para>
+<para><symbol role="Variable">variable</symbol>には、<command>HELP_SELECT_VALID、HELP_SELECT_INVALID、HELP_SELECT_ABORT</command>
+または<filename>HELP_SELECT_ERROR</filename>のいずれかの文字列を設定します。
+<emphasis>var2</emphasis>には、選択したウィジェットの<emphasis>widgetHandle</emphasis>を設定します。</para>
+<para><command>DtHelpSetCatalogName</command> <emphasis>catalogName</emphasis></para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.5a">
+<title>組み込み共通デスクトップ環境印刷設定コマンド</title>
+<indexterm><primary>コマンド</primary><secondary>印刷ダイアログ</secondary></indexterm>
+<indexterm><primary>印刷ダイアログ・コマンド</primary></indexterm>
+<para><command>DtCreatePrintSetupBox</command> <symbol role="variable">variable parent name [resource:value...]</symbol>
+</para>
+<para>印刷の設定ボックスを作成します。
+</para>
+<para><command>DtCreatePrintSetupDialog</command> <symbol role="variable">variable parent name [resource:value...]</symbol>
+</para>
+<para>印刷の設定ダイアログを作成します。
+</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.6">
+<title>組み込みローカリゼーション・コマンド<indexterm><primary>コマンド</primary>
+<secondary>ローカリゼーション</secondary></indexterm><indexterm><primary>ローカリゼーション・コマンド
+</primary></indexterm></title>
+<para><command>catopen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">catalogName</symbol></para>
+<para>指定したメッセージ・カタログを開き、<symbol role="Variable">variable</symbol>で指定した環境変数に
+カタログIDを返します。シェル・スクリプトが、メッセージ・カタログに関連したファイル記述子を閉じる必要がある場合は、<symbol role="Variable">catclose</symbol>を使用して閉じます。</para>
+<para><command>catgets</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">catalogId</symbol> <symbol role="Variable">setNumber</symbol> <symbol role="Variable">messageNumber</symbol> <symbol role="Variable">defaultMessageString</symbol></para>
+<para><emphasis>catalogId</emphasis>パラメータに関連したメッセージ・カタログから、要求したメッセージ文字列を
+取り出します。メッセージ文字列を見つけることができなかった場合は、デフォルトの
+メッセージ文字列を返します。いずれの場合も、<symbol role="Variable">variable</symbol>で指定した
+環境変数に入れられます。</para>
+<para><command>catclose</command> <symbol role="Variable">catalogId</symbol></para>
+<para><emphasis>catalog</emphasis>で指定したメッセージ・カタログを閉じます。</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.7">
+<title>組み込みlibDtセッション管理コマンド<indexterm><primary>コマンド</primary><secondary>libDtセッション管理</secondary></indexterm><indexterm>
+<primary>libDtセッション管理コマンド</primary></indexterm></title>
+<para><command>DtSessionRestorePath</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">variable</symbol> <symbol role="Variable">sessionFile</symbol></para>
+<para>セッション・ファイル(パス情報は含みません。)のファイル名を指定します。
+このコマンドは、<symbol role="Variable">variable</symbol>で指定する環境変数に、
+セッション・ファイルの絶対パスを返します。</para>
+<para>正常終了した場合は0を返し、異常終了した場合は1を返します。</para>
+<para><command>DtSessionSavePath</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>セッション・ファイルの絶対パス名を環境変数<symbol role="Variable">variable</symbol>に返します。
+セッション・ファイル(パス情報は含みません。)の絶対ファイル名部分は、<emphasis>var2</emphasis>で
+指定される環境変数に返されます。</para>
+<para>正常終了した場合は0を返し、異常終了した場合は1を返します。</para>
+<para><command>DtShellIsIconified</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>シェル・スクリプトがシェル・ウィンドウのアイコン化状態を照会するようにします。
+正常終了した場合は0を返し、異常終了した場合は1を返します。</para>
+<para><command>DtSetStartupCommand</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">commandString</symbol></para>
+<para>セッション管理プロセスが、セッションを次に再開するときにアプリケーションを再起動
+する方法を、セッション・マネージャに通知します。
+このコマンドは、セッション・マネージャに指定したコマンド文字列を渡します。
+ウィジェット・ハンドルは、アプリケーション・シェルです。
+</para>
+<para><command>DtSetIconifyHint</command> <symbol role="Variable">widgetHandle</symbol> <emphasis>iconifyHint</emphasis></para>
+<para><emphasis>iconifyHint</emphasis>は、trueまたはfalseのいずれかを設定します。</para>
+<para>シェル・ウィンドウが、初期のアイコン化状態を設定できるようにします。このコマンドは、
+ウィジェットをもつウィンドウが、認識はされているがまだ表示されていない場合のみ実行できます。</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.8">
+<title>組み込みlibDtワークスペース管理コマンド<indexterm><primary>コマンド</primary><secondary>ワークスペース管理</secondary></indexterm><indexterm>
+<primary>ワークスペース管理コマンド</primary></indexterm></title>
+<para><command>DtWsmAddCurrentWorkspaceCallback</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">ksh-command</symbol></para>
+<para>ワークスペースを変更するたびに、指定したkshellを評価します。このコールバックを
+もつハンドルは、<symbol role="Variable">variable</symbol>によって指定される環境変数に返されます。
+<emphasis>widgetHandle</emphasis>によって指定されているウィジェットは、シェル・ウィジェットです。</para>
+<para><command>DtWsmRemoveWorkspaceCallback</command> <symbol role="Variable">callbackHandle</symbol></para>
+<para>ワークスペースの通知コールバックを削除します。ワークスペースのコールバックを削除
+するとき、<function>DtWsmAddCurrentWorkspaceCallback</function>でコールバックを格納したときに返されたコールバックハンドルを渡す必要があります。
+</para>
+<para><command>DtWsmGetCurrentWorkspace</command> <symbol role="Variable">display</symbol> <symbol role="Variable">rootWindow</symbol> <symbol role="Variable">variable</symbol></para>
+<para><symbol role="Variable">variable</symbol>によって指定された環境変数に、ユーザの現在のワークスペースを示す
+Xアトムを返します。</para>
+<para><command>DtWsmSetCurrentWorkspace</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">workspaceNameAtom</symbol></para>
+<para><emphasis>workspaceNameAtom</emphasis>によって指定されたワークスペースに、ユーザの現在のワークスペースを変更します。</para>
+<para>正常終了した場合は0を返し、異常終了した場合は1を返します。</para>
+<para><command>DtWsmGetWorkspaceList</command> <symbol role="Variable">display</symbol> <symbol role="Variable">rootWindow</symbol> <symbol role="Variable">variable</symbol></para>
+<para>カンマで区切られたXアトムの文字列を返します。これは、ユーザのために定義された
+ワークスペースの現在のセットを示しており、<symbol role="Variable">variable</symbol>によって指定された
+環境変数に返されます。</para>
+<para>正常終了した場合は0を返し、異常終了した場合は1を返します。</para>
+<para><command>DtWsmGetWorkspacesOccupied</command> <symbol role="Variable">display</symbol> <symbol role="Variable">window</symbol> <symbol role="Variable">variable</symbol></para>
+<para>カンマで区切られたXアトムの文字列を返します。これは、指定したシェル・ウィンドウに
+よって使用されている現在のワークスペースのセットを示しており、<symbol role="Variable">variable</symbol>によって
+指定された環境変数に返されます。</para>
+<para>正常終了した場合は0を返し、異常終了した場合は1を返します。</para>
+<para><command>DtWsmSetWorkspacesOccupied</command> <symbol role="Variable">display window workspaceList</symbol></para>
+<para>指定したシェル・ウィンドウを、<emphasis>workspaceList</emphasis>文字列によって指定した
+ワークスペースのセットに移動します。<emphasis>workspaceList</emphasis>は、カンマで区切られたXアトムの
+リストです。</para>
+<para><command>DtWsmAddWorkspaceFunctions</command> <symbol role="Variable">display window</symbol></para>
+<para>ウィンドウ・マネージャ・メニューに、ウィンドウを他のワークスペースに移動するときに
+使用する関数を取り込みます。このコマンドは、ウィンドウが描画状態の場合のみ動作
+します。</para>
+<para><command>DtWsmRemoveWorkspaceFunctions</command> <symbol role="Variable">display</symbol> <symbol role="Variable">window</symbol></para>
+<para>ウィンドウ・マネージャ・メニューに、ウィンドウを他のワークスペースに移動するときに
+使用する関数を表示しないようにします。このコマンドは、ウィンドウが描画状態の場合のみ動作します。</para>
+<para><command>DtWsmOccupyAllWorkspaces</command> <symbol role="Variable">display window</symbol></para>
+<para>ウィンドウが、新規ワークスペースも含めて、作成したすべてのワークスペースを占有するように要求します。</para>
+<para><command>DtWsmGetCurrentBackdropWindows</command> <symbol role="Variable">display</symbol> <symbol role="Variable">rootWindow</symbol> <symbol role="Variable">variable</symbol></para>
+<para>カンマで区切られたウィンドウIDの文字列を返します。このIDはルート・バックドロップ・ウィンドウを示します。</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.9">
+<title>組み込みlibDtアクションコマンド<indexterm><primary>コマンド</primary>
+<secondary>アクション</secondary></indexterm><indexterm><primary>アクション・コマンド</primary></indexterm></title>
+<para>この節で説明するコマンドは、アクション・データベースを読み込むツール、データ
+ベースに定義したアクションの情報を参照するツール、およびアクションの起動を要求
+するツールを提供します。</para>
+<para><command>DtDbLoad</command></para>
+<para>アクションとデータ型のデータベースを読み込みます。複数回呼び出しを行うと、古い
+データベースは、新しいデータベースを読み込む前に解放されます。このコマンドは、
+他の<command>libDt</command>アクション・コマンドまたは<command>libDt</command>データ入力コマンドの前に呼び出します。
+シェル・スクリプトも、<function>DtDbReloadNotify</function>コマンドを使用します。
+そのため、新しいデータベースが読み込まれるとシェル・スクリプトに通知されます。</para>
+<para><command>DtDbReloadNotify</command> <symbol role="Variable">ksh-command</symbol></para>
+<para>アクションまたはデータ型データベースの再読み込みが必要なときに、通知を要求します。
+通知を受け取ると、特別なkshellコマンドが実行されます。通常、kshellコマンドは、
+<command>DtDbLoad</command>コマンドの呼び出しを含んでいます。</para>
+<para><command>DtActionExists</command> <symbol role="Variable">actionName</symbol></para>
+<para><emphasis>actionName</emphasis>パラメータによって指定した名前のデータベースに、アクションが存在するか
+どうかテストします。条件文に使用する値を返します。</para>
+<para><command>DtActionLabel</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">actionName</symbol></para>
+<para>指定したアクションに関連したローカルなLABEL属性を返します。アクションが存在しない
+場合は、空の文字列を返します。</para>
+<para><command>DtActionDescription</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">actionName</symbol></para>
+<para>指定したアクションに関連したDESCRIPTION属性の値を返します。アクションが定義
+されていない場合、またはDESCRIPTION属性が存在していない場合、空の文字列が返され
+ます。</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.10">
+<title>組み込みlibDtデータ・タイピング・コマンド<indexterm><primary>コマンド</primary>
+<secondary>データ・タイピング</secondary></indexterm><indexterm><primary>データ・タイピング・コマンド
+</primary></indexterm><indexterm><primary>コマンド</primary><secondary>libdt</secondary></indexterm><indexterm><primary>libDtコマンド</primary>
+</indexterm></title>
+<para><command>DtLoadDataTypes</command></para>
+<para>データ・タイピング・データベースを読み込みます。他のデータ・タイピング・コマンドの前に起動します。</para>
+<para><command>DtDtsFileToDataType</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">filePath</symbol></para>
+<para><symbol role="Variable">variable</symbol>引き数によって指定されたファイルに関連したデータ・タイプの名前を返します。ファイルがタイプされることができない場合は、<symbol role="Variable">variable</symbol>引き数には空の文字列が設定されます。</para>
+<para><command>DtDtsFileToAttributeValue</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">filePath</symbol> <symbol role="Variable">attrName</symbol></para>
+<para>指定したファイルに関連したデータ・タイプの指定した属性の値を示す文字列を返します。
+属性が定義されていない場合、またはファイルがタイプされることができない場合は、
+<symbol role="Variable">variable</symbol>引き数には空の文字列が設定されます。</para>
+<para><command>DtDtsFileToAttributeList</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">filePath</symbol></para>
+<para>指定したファイルに関連したデータ・タイプに定義された属性の名前を、空白で区切られた
+リストで返します。シェル・スクリプトは、<command>DtDtsFileToAttributeValue</command>コマンドを
+使用して、属性の個々の値を照会できます。ファイルがタイプされることができない場合、
+<symbol role="Variable">variable</symbol>変数には空の文字列が設定されます。このコマンドは、定義された属性の
+名前だけを返して値は返さないという点で、対応するCプログラミングのコマンドとは
+異なります。</para>
+<para><command>DtDtsDataTypeToAttributeValue</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">dataType</symbol> <symbol role="Variable">attrName</symbol> <symbol role="Variable">optName</symbol></para>
+<para>指定したデータ・タイプの指定した属性の値を示す文字列を返します。属性が定義されて
+いない場合、または指定したデータ・タイプが存在しない場合は、<symbol role="Variable">variable</symbol>引き数には、
+空の文字列が設定されます。</para>
+<para><command>DtDtsDataTypeToAttributeList</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">dataType</symbol> <symbol role="Variable">optName</symbol></para>
+<para>指定したデータ・タイプに定義された属性の名前を、空白で区切られたリストで返します。
+シェル・スクリプトは、<command>DtDtsDataTypeToAttributeValue</command>コマンドを使用して、属性の
+個々の値を照会できます。データ・タイプが定義されていない場合、<symbol role="Variable">variable</symbol>に
+空の文字列が設定されます。このコマンドは、定義された属性の名前のみを返し値は
+返さない点が、対応するCプログラミングのコマンドと異なります。</para>
+<para><command>DtDtsFindAttribute</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">name</symbol> <symbol role="Variable">value</symbol></para>
+<para><symbol role="Variable">name</symbol>引き数によって指定された属性で、<symbol role="Variable">value</symbol>引き数によって
+指定された値を持つデータ・タイプ名を、空白で区切られたリストで返します。
+エラーが生じた場合、<symbol role="Variable">variable</symbol>引き数には空の文字列が設定されます。</para>
+<para><command>DtDtsDataTypeNames</command> <symbol role="Variable">variable</symbol></para>
+<para>データ・タイプのデータベースに現在定義されているすべてのデータ・タイプを、空白で
+区切られたリストで返します。エラーが生じた場合、<symbol role="Variable">variable</symbol>引き数には空の
+文字列が設定されます。</para>
+<para><command>DtDtsSetDataType</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">filePath</symbol> <symbol role="Variable">dataType</symbol> <symbol role="Variable">override</symbol></para>
+<para>指定したディレクトリのデータ・タイプを設定します。<symbol role="Variable">variable</symbol>引き数には、
+ディレクトリに、結果として保存されたデータ・タイプが設定されます。</para>
+<para><command>DtDtsDataTypeIsAction</command> <symbol role="Variable">dataType</symbol></para>
+<para>特定のデータ・タイプがアクション・エントリを表すかどうかを決定します。
+条件文で使用する値を返します。</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.11">
+<title>その他の組み込みlibDtコマンド<indexterm><primary>commands</primary>
+<secondary>libDt</secondary></indexterm><indexterm><primary>libDtコマンド</primary></indexterm></title>
+<para><command>DtGetHourGlassCursor</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">display</symbol></para>
+<para>標準の<command>Dt</command>時計表示カーソルに関連したXカーソルIDを返します。</para>
+<para><command>DtTurnOnHourGlass</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>指定したウィジェットの標準の<command>Dt</command>時計表示カーソルを有効にします。</para>
+<para><command>DtTurnOffHourGlass</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>指定したウィジェットの標準の<command>Dt</command>時計表示カーソルを無効にします。</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.12">
+<title>組み込みデスクトップ・サービス・メッセージ・セット・コマンド<indexterm><primary>コマンド</primary><secondary>メッセージ・セット</secondary></indexterm><indexterm>
+<primary>メッセージ・セット・コマンド</primary></indexterm></title>
+<para>次のコマンドは、シェル・スクリプトがデスクトップ・サービス・プロトコルを利用可能にする
+デスクトップ・サービス・メッセージ・セットの最小のサブセットを実行しています。
+多くのToolTalkコマンドは、Cプログラミングの呼び出しに関連したコマンドとわずかに
+異なっています。通常はポインタを返すToolTalkコマンドでは、Cアプリケーションが、
+<filename>tt_ptr_error</filename>()関数を呼び出すことによってポインタを有効にします。
+<filename>tt_ptr_error</filename>()関数呼び出しは、ポインタが有効であるかどうかを示す<filename>Tt_status</filename>値を
+返します。有効ではない場合、その理由を示します。kshellコードの設計上の理由で、
+シェル・スクリプトが見る文字列ポインタはCコードが返す文字列ポインタと同じでは
+ありません。シェルのプログラミング中は、重要な情報が文字列ポインタではなく文字列
+の値で示されるため、通常、これは問題になりません。</para>
+<para>シェル・スクリプトがポインタの状態を取得できるようにするために、通常はポインタを
+返すコマンドは、自動的にポインタに関連する<filename>Tt_status</filename>値も返します。
+シェル・スクリプトは元のポインタの有効性をチェックするために呼び出しを追加する
+必要はありません。ポインタのエラーが生じた場合、<command>dtksh</command>はポインタの値に空の文字列を返し、<filename>Tt_status</filename>コードを設定します。</para>
+<para><filename>Tt_status</filename>値が、<symbol role="Variable">status</symbol>引き数に返されます。
+<filename>Tt_status</filename>値はエラーを表す文字列で、次の値のいずれかです。</para>
+<para><filename>TT_OK</filename></para>
+<para><filename>TT_WRN_NOTFOUND</filename></para>
+<para><filename>TT_WRN_STALE_OBJID</filename></para>
+<para><filename>TT_WRN_STOPPED</filename></para>
+<para><filename>TT_WRN_SAME_OBJID</filename></para>
+<para><filename>TT_WRN_START_MESSAGE</filename></para>
+<para><filename>TT_ERR_CLASS</filename></para>
+<para><filename>TT_ERR_DBAVAIL</filename></para>
+<para><filename>TT_ERR_DBEXIST</filename></para>
+<para><filename>TT_ERR_FILE</filename></para>
+<para><filename>TT_ERR_INVALID</filename></para>
+<para><filename>TT_ERR_MODE</filename></para>
+<para><filename>TT_ERR_ACCESS</filename></para>
+<para><filename>TT_ERR_NOMP</filename></para>
+<para><filename>TT_ERR_NOTHANDLER</filename></para>
+<para><filename>TT_ERR_NUM</filename></para>
+<para><filename>TT_ERR_OBJID</filename></para>
+<para><filename>TT_ERR_OP</filename></para>
+<para><filename>TT_ERR_OTYPE</filename></para>
+<para><filename>TT_ERR_ADDRESS</filename></para>
+<para><filename>TT_ERR_PATH</filename></para>
+<para><filename>TT_ERR_POINTER</filename></para>
+<para><filename>TT_ERR_PROCID</filename></para>
+<para><filename>TT_ERR_PROPLEN</filename></para>
+<para><filename>TT_ERR_PROPNAME</filename></para>
+<para><filename>TT_ERR_PTYPE</filename></para>
+<para><filename>TT_ERR_DISPOSITION</filename></para>
+<para><filename>TT_ERR_SCOPE</filename></para>
+<para><filename>TT_ERR_SESSION</filename></para>
+<para><filename>TT_ERR_VTYPE</filename></para>
+<para><filename>TT_ERR_NO_VALUE</filename></para>
+<para><filename>TT_ERR_INTERNAL</filename></para>
+<para><filename>TT_ERR_READONLY</filename></para>
+<para><filename>TT_ERR_NO_MATCH</filename></para>
+<para><filename>TT_ERR_UNIMP</filename></para>
+<para><filename>TT_ERR_OVERFLOW</filename></para>
+<para><filename>TT_ERR_PTPE_START</filename></para>
+<para><filename>TT_ERR_CATEGORY</filename></para>
+<para><filename>TT_ERR_DBUPDATE</filename></para>
+<para><filename>TT_ERR_DBFULL</filename></para>
+<para><filename>TT_ERR_DBCONSIST</filename></para>
+<para><filename>TT_ERR_STATE</filename></para>
+<para><filename>TT_ERR_NOMEM</filename></para>
+<para><filename>TT_ERR_SLOTNAME</filename></para>
+<para><filename>TT_ERR_XDR</filename></para>
+<para><filename>TT_DESKTOP_EPERM</filename></para>
+<para><filename>TT_DESKTOP_ENOENT</filename></para>
+<para><filename>TT_DESKTOP_EINTR</filename></para>
+<para><filename>TT_DESKTOP_EIO</filename></para>
+<para><filename>TT_DESKTOP_EAGAIN</filename></para>
+<para><filename>TT_DESKTOP_ENOMEM</filename></para>
+<para><filename>TT_DESKTOP_EACCES</filename></para>
+<para><filename>TT_DESKTOP_EFAULT</filename></para>
+<para><filename>TT_DESKTOP_EEXIST</filename></para>
+<para><filename>TT_DESKTOP_ENODEV</filename></para>
+<para><filename>TT_DESKTOP_ENOTDIR</filename></para>
+<para><filename>TT_DESKTOP_EISDIR</filename></para>
+<para><filename>TT_DESKTOP_EINVAL</filename></para>
+<para><filename>TT_DESKTOP_ENFILE</filename></para>
+<para><filename>TT_DESKTOP_EMFILE</filename></para>
+<para><filename>TT_DESKTOP_ETXBSY</filename></para>
+<para><filename>TT_DESKTOP_EFBIG</filename></para>
+<para><filename>TT_DESKTOP_ENOSPC</filename></para>
+<para><filename>TT_DESKTOP_EROFS</filename></para>
+<para><filename>TT_DESKTOP_EMLINK</filename></para>
+<para><filename>TT_DESKTOP_EPIPE</filename></para>
+<para><filename>TT_DESKTOP_ENOMSG</filename></para>
+<para><filename>TT_DESKTOP_EDEADLK</filename></para>
+<para><filename>TT_DESKTOP_ECANCELED</filename></para>
+<para><filename>TT_DESKTOP_ENOTSUP</filename></para>
+<para><filename>TT_DESKTOP_ENODATA</filename></para>
+<para><filename>TT_DESKTOP_EPROTO</filename></para>
+<para><filename>TT_DESKTOP_ENOTEMPTY</filename></para>
+<para><filename>TT_DESKTOP_ETIMEDOUT</filename></para>
+<para><filename>TT_DESKTOP_EALREADY</filename></para>
+<para><filename>TT_DESKTOP_UNMODIFIED</filename></para>
+<para><filename>TT_MEDIA_ERR_SIZE</filename></para>
+<para><filename>TT_MEDIA_ERR_FORMAT</filename></para>
+<para>一部のコマンドは、パラメータとしてメッセージ・スコープを取ります。スコープは、
+発信メッセージを受け取る可能性のあるクライアントを示します。これらのコマンドは、
+<emphasis>scope</emphasis>パラメータが、次のいずれかの値に設定されます。</para>
+<para><filename>TT_SCOPE_NONE</filename></para>
+<para><filename>TT_SESSION</filename></para>
+<para><filename>TT_FILE</filename></para>
+<para><filename>TT_BOTH</filename></para>
+<para><filename>TT_FILE_IN_SESSION</filename></para>
+<para><filename>tt_file_netfile</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">filename</symbol></para>
+<para>指定した<symbol role="Variable">filename</symbol>(ローカル・ホスト上で有効と見なしたファイル名)を、
+それに対応する<emphasis>netfilename</emphasis>形式に変換します。<emphasis>netfilename</emphasis>は
+ネットワーク上の他のホストに渡され、他のホストに関連したパスになるように、
+<filename>tt_netfile_file</filename>コマンドを使用して変換できます。</para>
+<para><filename>tt_netfile_file</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">netfilename</symbol></para>
+<para>指定した<emphasis>netfilename</emphasis>をローカル・ホスト上で有効なパス名に変換します。</para>
+<para><filename>tt_host_file_netfile</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">host</symbol> <symbol role="Variable">filename</symbol></para>
+<para>指定したファイル(指定したホスト上にあると見なしたファイル)を、それに対応する<emphasis>netfilename</emphasis>
+形式に変換します。</para>
+<para><filename>tt_host_netfile_file</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">host</symbol> <symbol role="Variable">netfilename</symbol></para>
+<para>指定した<emphasis>netfilename</emphasis>を、指定したホスト上で有効なパスに変換します。</para>
+<para><filename>ttdt_open</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <emphasis>var2</emphasis> <symbol role="Variable">toolname</symbol> <symbol role="Variable">vendor</symbol> <symbol role="Variable">version</symbol> <symbol role="Variable">sendStarted</symbol></para>
+<para>ToolTalk通信エンドポイントを開きます。この接続に関連したprocIDを<symbol role="Variable">variable</symbol>
+引き数に返します。この接続に関連したファイル記述子を<emphasis>var2</emphasis>に返します。
+このファイル記述子は、代用のXt入力ハンドラを登録するのに使用できます。
+<symbol role="Variable">sendStarted</symbol>は、<emphasis>true</emphasis>が設定されると、自動的に<command>Started</command>メッセージが
+送信されます。</para>
+<para><filename>ttdt_open</filename>によって返されるprocIDsは、局所にスペースを含みます。 
+kshellが(局所にスペースを含む１つのパラメータではなく)複数のパラメータとしてprocIDを解釈しないように、procIDを含む環境変数は、次に示すように、常に二重引用付で囲む必要があります。</para>
+<programlisting>ttdt_close STATUS &ldquo;$PROC_ID&rdquo; &ldquo;&ldquo; True
+</programlisting>
+<para><filename>tttk_Xt_input_handler</filename> <symbol role="Variable">procID</symbol> <symbol role="Variable">source</symbol> <symbol role="Variable">id</symbol></para>
+<para>ToolTalkメッセージの受信および処理を行うには、シェル・スクリプトは<filename>ttdt_open</filename>の
+コールによって返されるファイル記述子のためのXt入力ハンドラを登録しなければなり
+ません。Xt入力ハンドラは、<command>XtAddInput</command>コマンドを使用して登録
+します。そのハンドラは、<emphasis>raw</emphasis>入力ハンドラとして登録しな
+ければなりません。シェル・スクリプトが登録した入力ハンドラは、<filename>tttk_Xt_input_handler</filename>を
+呼び出して、メッセージの受信および処理を行います。次のコードは、実行方法を
+示しています。</para>
+<programlisting>ttdt_open PROC_ID STATUS FID &ldquo;Tool&rdquo; &ldquo;HP&rdquo; &ldquo;1.0&rdquo; True XtAddInput
+INPUT_ID -r $FID &ldquo;ProcessTTInput \&rdquo;$PROC_ID\&rdquo;&rdquo;
+
+ProcessTTInput()
+{
+  tttk_Xt_input_handler $1 $INPUT_SOURCE $INPUT_ID
+}</programlisting>
+<para>代用のXt入力ハンドラの詳細については、<command>XtAddInput</command>コマンドの説明を参照してください。</para>
+<para>procID環境変数を含む値が局所にスペースを含んでおり、誤って解釈される場合が
+あるため、procID環境変数の前後には<filename>\&rdquo;</filename>(バックスラッシュと二重引用付)が
+必要です。</para>
+<para><filename>ttdt_close</filename> <symbol role="Variable">status</symbol> <symbol role="Variable">procID newProcId sendStopped</symbol></para>
+<para>指定した通信接続を閉じ、<emphasis>sendStopped</emphasis>引き数が<symbol role="Variable">true</symbol>に設定されていると、
+オプションで<symbol role="Variable">Stopped</symbol>通知を送信します。</para>
+<para><filename>ttdt_open</filename>の呼び出しによって返されるprocIDが局所にスペースを含んでいるため、procID環境変数は二重引用付で囲む必要があります。</para>
+<programlisting>ttdt_close STATUS &ldquo;$PROC_ID&rdquo; &ldquo;$NEW_PROC_ID&rdquo; False
+</programlisting>
+<para><filename>ttdt_session_join</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> s <symbol role="Variable">essId shellWidgetHandle join</symbol></para>
+<para>多くの標準のデスクトップ・メッセージ・インタフェースのパターンとデフォルトの
+コールバックを登録することによって、適切なデスクトップとして<emphasis>sessId</emphasis>引き数で
+指定したセッションを結合します。<emphasis>sessId</emphasis>引き数に値が指定されていない(空の
+文字列である)と、デフォルトのセッションが結合されます。<emphasis>shellWidgetHandle</emphasis>
+引き数にウィジェット・ハンドルを指定する(空の文字列でない)と、<command>mappedWhenManaged</command> 
+<command>applicationShellWidget</command>を参照します。<emphasis>join</emphasis>引き数はブール値で、
+trueまたはfalseのいずれかが設定されます。このコマンドは、<symbol role="Variable">variable</symbol>引き数に
+隠された <symbol role="Variable">pattern</symbol>ハンドルを返します。このハンドルが必要なくなったときは、
+<filename>ttdt_session_quit</filename>コマンドを使用して破棄できます。</para>
+<para><filename>ttdt_session_quit</filename> <symbol role="Variable">status</symbol> <symbol role="Variable">sessId sessPatterns quit</symbol></para>
+<para><emphasis>sessPatterns</emphasis>引き数によって指定したメッセージ・パターンを破棄します。 <symbol role="Variable">quit</symbol>
+引き数に<emphasis>true</emphasis>が設定されているときは、<emphasis>sessId</emphasis>引数によって指定された
+セッションが終了します。<emphasis>sessId</emphasis>が空のときは、デフォルト・セッションを終了します。</para>
+<para><filename>ttdt_file_join</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">pathName scope join ksh-command</symbol></para>
+<para>指定したスコープの指定したファイルに、削除、変更、復帰、移動、保存されたメッセージの
+配信対象を登録します。隠されたパターン・ハンドルが<symbol role="Variable">variable</symbol>引き数に返されます。
+指定したファイルのメッセージを監視する必要がなくなったときは、<filename>ttdt_file_quit</filename>を
+呼び出すことによって破棄します。</para>
+<para>要求した<emphasis>ksh-command</emphasis>は、指定したファイルに対するメッセージを受け取ると、常に
+評価されます。このkshellコマンドを評価するとき、次の環境変数が定義され、受け
+取ったメッセージに関する追加情報が提供されます。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.64in">
+<colspec align="left" colwidth="202*">
+<colspec align="left" colwidth="346*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_MSG</filename></para></entry>
+<entry align="left" valign="top"><para>着信メッセージに隠された
+ハンドルを含んでいます。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_OP</filename></para></entry>
+<entry align="left" valign="top"><para>実行されるオペレーションを表す
+文字列を含んでいます。
+<command>TTTDT_DELETED、TTDT_MODIFIED、
+TTDT_REVERTED、TTDT_MOVED</command>または
+<filename>TTDT_SAVED</filename>のいずれかです。</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_PATHNAME</filename></para></entry>
+<entry align="left" valign="top"><para>メッセージが属しているファイルの
+パス名を含んでいます。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_SAME_EUID_EGID</filename></para></entry>
+<entry align="left" valign="top"><para>このプロセスと同じ有効なユーザID(euid)と
+有効なグループID(egid)で動作する
+アプリケーションがメッセージを送信すると、
+Trueを設定します。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_SAME_PROCID</filename>
+</para></entry>
+<entry align="left" valign="top"><para><filename>ttdt_open</filename>が返したのと同じprocIDを持つアプリケーションがメッセージを送信すると、Trueを設定します。</para></entry></row></tbody></tgroup></informaltable>
+<para>コールバックが完了すると、渡された先のメッセージが「処理」(応答、破棄、または
+拒否)されたかを示さなければなりません。コールバックがメッセージ(<filename>DT_TT_MSG</filename>
+環境変数に渡されます。)を返すと、そのメッセージは処理されていないものと見なされ
+ます。メッセージが処理されると、コールバックは0を返すか、または<filename>tt_error_pointer</filename>
+コマンドによって返される値の1つを返します。コールバックは、次の形態で値を返します。</para>
+<programlisting>return $DT_TT_MSG (or) return 0</programlisting>
+<para><filename>ttdt_file_quit</filename> <symbol role="Variable">status</symbol> <emphasis>patterns quit</emphasis></para>
+<para><emphasis>patterns</emphasis>引き数によって指定されたメッセージ・パターンを破棄し、<symbol role="Variable">quit</symbol>が
+<emphasis>true</emphasis>に設定されているときは、<emphasis>ttdt_file_join</emphasis>コマンドに渡されたパス名の
+配信対象を登録解除します。<emphasis>patterns</emphasis>引き数は、<filename>ttdt_file_join</filename>コマンドの
+呼び出しによって返される値です。</para>
+<para><filename>ttdt_file_event</filename> <emphasis>status op patterns send</emphasis></para>
+<para>ファイルに関するイベントを知らせるToolTalk通知を作成し、オプションで送信します。
+ファイルは、<emphasis>patterns</emphasis>の作成時に、<filename>ttdt_file_join</filename>コマンドで渡されたパス名によって
+指定されます。<symbol role="Variable">op</symbol>引き数は、指定したファイルに知らせる内容を示し、<filename>TTDT_MODIFIED</filename>、<filename>TTDT_SAVED</filename>、または<filename>TTDT_REVERTED</filename>
+のいずれかです。<symbol role="Variable">op</symbol>に<filename>TTDT_MODIFIED</filename>が設定されていると、このコマンドは、
+<emphasis>patterns</emphasis>の作成時に指定したスコープに、<symbol role="Message">Get_Modified</symbol>、<symbol role="Message">Save</symbol>および<symbol role="Message">Revert</symbol>
+メッセージの処理を登録します。<symbol role="Variable">op</symbol>に<filename>TTDT_SAVED</filename>または<filename>TTDT_REVERTED</filename>が
+設定されていると、このコマンドは、このファイル<symbol role="Message">Get_Modified</symbol>、<symbol role="Message">Save</symbol>および
+<symbol role="Message">Revert</symbol>メッセージの処理を登録解除します。
+<emphasis>send</emphasis>引き数が<emphasis>true</emphasis>に設定されていると、指定したメッセージが
+送信されます。</para>
+<para><filename>ttdt_Get_Modified</filename> <emphasis>pathName</emphasis> <emphasis>scope</emphasis> <emphasis>timeout</emphasis></para>
+<para><symbol role="Message">Get_Modified</symbol>要求を、指定したスコープに送信し、応答または指定したタイムアウト
+(ミリ秒単位)が経過するのを待ちます。<symbol role="Message">Get_Modified</symbol>要求は、他のToolTalk
+クライアントに、固定表示しようとしている<symbol role="Variable">pathname</symbol>上で保留している変更
+を行ったかどうかをたずねます。条件文に使用される値を返します。
+指定したタイムアウト内に肯定の応答を受信すると、<emphasis>true</emphasis>が返されます。
+それ以外の場合は、falseが返されます。</para>
+<para><filename>ttdt_Save</filename> <symbol role="Variable">status</symbol> <emphasis>pathName</emphasis> <emphasis>scope</emphasis> <emphasis>timeout</emphasis></para>
+<para><symbol role="Message">Save</symbol>要求を、指定した<emphasis>スコープ</emphasis>に送信し、応答または指定した<emphasis>タイムアウト</emphasis>
+(ミリ秒単位)が経過するのを待ちます。<symbol role="Message">Save</symbol>要求は、処理中のToolTalクライアントに、
+<symbol role="Variable">pathname</symbol>引き数で指定したファイルで保留している変更を保存するかどうかをたずねます。
+指定したタイムアウト内に肯定の応答を受信すると、<filename>TT_OK</filename>というステータスが返されます。
+それ以外の場合は、標準の<filename>Tt_status</filename>エラー値の１つが返されます。</para>
+<para><filename>ttdt_Revert</filename> <symbol role="Variable">status</symbol> <emphasis>pathName</emphasis> <emphasis>scope</emphasis> <emphasis>timeout</emphasis></para>
+<para><symbol role="Message">Revert</symbol>要求を、指定した<emphasis>スコープ</emphasis>に送信し、応答または指定した<emphasis>タイムアウト</emphasis>
+(ミリ秒単位)が経過するのを待ちます。<emphasis>Revert</emphasis>要求は、処理中のToolTalクライアントに、<symbol role="Variable">pathname</symbol>引き数で指定したファイルで保留している変更を破棄するかどうかをたずねます。
+指定したタイムアウト内に肯定の応答を受信すると、<filename>TT_OK</filename>というステータスが返されます。
+それ以外の場合は、標準の<filename>Tt_status</filename>エラー値の１つが返されます。</para>
+<para>次のコマンドは、通常、<filename>ttdt_file_join</filename>コマンドで登録されたコールバックによって
+使用されます。メッセージを処理および破棄する機能を提供しています。メッセージは、
+拒否、破棄、または応答のいずれかの処理が行われます。<emphasis>tt_error_pointer</emphasis>は、
+コールバックを使用して、エラー条件を示す戻りポインタを得ることはできます。</para>
+<para><filename>tt_error_pointer</filename> <symbol role="Variable">variable</symbol> <emphasis>ttStatus</emphasis></para>
+<para>無効なポインタを表すためにToolTalkで使用する「マジック値」を返します。返される
+マジック値は、<emphasis>ttStatus</emphasis>値が渡される先に依存します。任意の有効な<filename>Tt_status</filename>値を
+指定できます。</para>
+<para><filename>tttk_message_destroy</filename> <emphasis>status msg</emphasis></para>
+<para><emphasis>msg</emphasis>引き数が示すメッセージに格納されているパターンを破棄し、メッセージを破棄します。</para>
+<para><filename>tttk_message_reject</filename> <symbol role="Variable">status</symbol> <emphasis>msg msgStatus msgStatusString destroy</emphasis></para>
+<para>指定した要求メッセージのステータスおよびステータス文字列を設定し、メッセージを
+拒否します。<symbol role="Variable">destroy</symbol>引き数に<command>True</command>が設定されていると、渡される先の
+メッセージが破棄されます。このコマンドは、<filename>ttdt_file_join</filename>コマンドで指定された
+コールバックがメッセージを処理するための1つの方法です。通常、安全にメッセージを
+破棄するには、メッセージを拒否した後で<filename>tttk_message_destroy</filename>コマンドを使用します。</para>
+<para><filename>tttk_message_fail</filename> <symbol role="Variable">status</symbol> <emphasis>msg msgStatus msgStatusString destroy</emphasis></para>
+<para>ステータスおよびステータス文字列を指定した要求メッセージに設定し、メッセージを
+拒否します。<symbol role="Variable">destroy</symbol>に <command>True</command>が設定されていると、渡された先のメッセージが
+破棄されます。このコマンドは、<filename>ttdt_file_join</filename>コマンドでメッセージを処理する
+ための1つの方法です。通常、安全にメッセージを破棄するには、メッセージを拒否した
+後で<filename>tttk_message_destroy</filename>を使用します。</para>
+<para><filename>tt_message_reply</filename> <symbol role="Variable">status</symbol> <emphasis>msg</emphasis></para>
+<para>シェル・スクリプトがメッセージを処理し、すべての戻り値を満たしていることを、
+ToolTalkサービスに知らせます。ToolTalkサービスは、状態を<filename>TT_HANDLED</filename>にして、
+送信プロセスに応答を送信します。メッセージを応答後、通常、安全にメッセージを破棄
+するには、メッセージを拒否した後で<filename>tttk_message_destroy</filename>コマンドを使用します。</para>
+</sect1>
+</appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000105833>

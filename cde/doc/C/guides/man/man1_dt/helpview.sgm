@@ -1,0 +1,245 @@
+<!-- $XConsortium: helpview.sgm /main/8 1996/09/08 19:53:13 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN23.rsml.1">
+<RefMeta>
+<RefEntryTitle>dthelpview</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dthelpview</Command></RefName>
+<RefPurpose>view a CDE help volume
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dthelpview</Command>
+<Arg Choice="opt"><Replaceable>options</Replaceable></Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Command>dthelpview</Command> utility supports the viewing of CDE online Help volumes, ASCII files
+or manual pages.
+The
+<Command>dthelpview</Command> utility is an integral part of the CDE application Help
+environment.
+The
+<Command>dthelpview</Command> utility's functionality and user interface is almost completely that
+of the standard CDE general Help and quick Help dialog widgets.
+(See
+&cdeman.DtCreateHelpDialog; and
+&cdeman.DtCreateHelpQuickDialog;.)</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<Para>The following options are available:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>&minus;helpVolume</Literal> <Emphasis>volume</Emphasis></Term>
+<ListItem>
+<Para>Specifies the name of the <Literal>&lt;filename>.sdl</Literal> file you want to
+view.
+If <Literal>locationId</Literal> is not set, the default <Symbol>_HOMETOPIC</Symbol> ID is used.
+If the requested volume is in the current working directory, or the Help volume
+has been properly registered, no path is required.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;locationId</Literal> <Emphasis>location_id</Emphasis></Term>
+<ListItem>
+<Para>Specifies the location ID representing the desired Help topic to be viewed.
+By default, Helpview uses <Symbol>_HOMETOPIC</Symbol> if an ID is not specified.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;file</Literal> <Symbol Role="Variable">file</Symbol></Term>
+<ListItem>
+<Para>Specifies a particular ASCII text file to be displayed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;manPage</Literal> <Emphasis>man_page</Emphasis></Term>
+<ListItem>
+<Para>Specifies a particular man page to be displayed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;man</Literal></Term>
+<ListItem>
+<Para>Displays a dialog that prompts for a man page to view,
+then displays the requested man page.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLES</Title>
+<Para>The CDE Help system uses two environment variables for locating
+Help volumes and Family files within the desktop environment:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Emphasis>DTHELPSEARCHPATH</Emphasis></Term>
+<ListItem>
+<Para><Emphasis>System</Emphasis> search path environment variable for locating
+Help volumes on local and remote nfs mounted systems.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>DTHELPUSERSEARCHPATH</Emphasis></Term>
+<ListItem>
+<Para><Emphasis>Users</Emphasis> search path environment variable for locating user
+specific Help volumes on local and remote nfs mounted systems.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The environment variables contain colon-separated lists of directory paths.
+Each directory path can contain both environment variable names as well as
+special field descriptors that are expanded at runtime via each Help component
+that uses these environment variables.
+</Para>
+<Para>Field descriptors consist of a <Literal>%</Literal>
+followed by a single character.
+Field descriptors and their substitution values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>%H</Literal></Term>
+<ListItem>
+<Para>This value is replaced with the current volume name being searched
+for.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%L</Literal></Term>
+<ListItem>
+<Para>Replaced with the current value of the
+<SystemItem Class="EnvironVar">LANG</SystemItem> environment variable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%%</Literal></Term>
+<ListItem>
+<Para>Replaced with a single <Literal>%</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The default value for
+<Emphasis>DTHELPUSERSEARCHPATH</Emphasis> is:
+</Para>
+<Para><Literal>$HOME/.dt/help/$DTUSERSESSION/%H:
+$HOME/.dt/help/$DTUSERSESSION/%H.sdl:
+$HOME/.dt/help/$DTUSERSESSION/%H.hv:
+$HOME/.dt/help/%H:
+$HOME/.dt/help/%H.sdl:
+$HOME/.dt/help/%H.hv</Literal></Para>
+<Para>The
+<Emphasis>DTHELPUSERSEARCH</Emphasis> is first searched for the requested volume.
+If
+the volume is not found, the
+<Emphasis>DTHELPSEARCHPATH</Emphasis> value is searched.
+</Para>
+<Para>The default value for <Emphasis>DTHELPSEARCHPATH</Emphasis> path is:
+<Literal>/etc/dt/appconfig/help/%L/%H:
+/etc/dt/appconfig/help/%L/%H.sdl:
+/etc/dt/appconfig/help/%L/%H.hv:
+/etc/dt/appconfig/help/C/%H:
+/etc/dt/appconfig/help/C/%H.sdl:
+/etc/dt/appconfig/help/C/%H.hv:
+/usr/dt/appconfig/help/%L/%H:
+/usr/dt/appconfig/help/%L/%H.sdl:
+/usr/dt/appconfig/help/%L/%H.hv:
+/usr/dt/appconfig/help/C/%H:
+/usr/dt/appconfig/help/C/%H.sdl:
+/usr/dt/appconfig/help/C/%H.hv</Literal></Para>
+</RefSect1>
+<RefSect1>
+<Title>RESOURCES</Title>
+<Para>For information on Help dialog widget resources, refer to
+&cdeman.DtCreateHelpDialog; or
+&cdeman.DtCreateHelpQuickDialog;.</Para>
+<Para>The
+<Command>dthelpview</Command> utility's specific resources set in the Dthelpview app-defaults file are:
+</Para>
+<ProgramListing>Dthelpview*manBox*rows: 32
+Dthelpview*manBox*columns: 80
+Dthelpview*fileBox*rows: 32
+Dthelpview*fileBox*columns: 80
+Dthelpview*man_text.columns: 20
+</ProgramListing>
+</RefSect1>
+<RefSect1>
+<Title>FILE</Title>
+<Para>Following files are used in conjunction with the
+<Command>dthelpview</Command> application:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>Dthelpview</Literal></Term>
+<ListItem>
+<Para>App-defaults file used by
+<Command>dthelpview</Command>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<VariableList>
+<VarListEntry>
+<Term>dthelpview &minus;helpVolume dtintro.sdl &minus;locationId _hometopic</Term>
+<ListItem>
+<Para>Displays the topic associated with _hometopic in the Help
+volume dtintor.sdl.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>dthelpview &minus;file /etc/checklist</Term>
+<ListItem>
+<Para>Displays the file /etc/checklist in a general Help dialog
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>dthelpview &minus;man grep</Term>
+<ListItem>
+<Para>Displays the grep man page in a quick Help dialog
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtsearchpath;, <Emphasis>CDE Help System Author's and Programmer's Guide</Emphasis>.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

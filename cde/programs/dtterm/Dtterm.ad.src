@@ -1,0 +1,359 @@
+XCOMM include "Dt"
+
+!######################################################################
+!#
+!# Dtterm
+!#
+!# Common Desktop Enviornment (CDE)
+!#
+!# Application Defaults for the CDE DT Terminal
+!#
+!# (c) Copyright 1993, 1994 Hewlett-Packard Company	
+!# (c) Copyright 1993, 1994 International Business Machines Corp.
+!# (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+!# (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+!#     Novell, Inc.
+!#
+!######################################################################
+! When using the following as an xrdb resource, preceed the string
+! with "Dtterm", i.e., "Dtterm*saveLines: 10s".
+
+! To make ONLY the terminal text area background a different color:
+! Dtterm*term.background: dimGray
+
+! To turn on/off the scroll bar:
+! *scrollBar: true
+! *scrollBar: false
+
+! To turn on/off the visual bell:
+! *visualBell: true
+! *visualBell: false
+
+! To turn on/off initial display of the menu bar:
+! *menuBar: true
+! *menuBar: false
+
+! Since we are bypassing the normal OSF Motif key bindings for terminal
+! windows, we need to explicitly specify the menu accelerators.  These
+! will disable the menu accelerators which is necessary to allow F10
+! to be used as a function key:
+*menu_pulldown.menuAccelerator: <Key>None
+*menu_popup.menuAccelerator: <Key>None
+! These will enable the menu accelerators which will allow F10 to act
+! as the menu pulldown and popup accelerator:
+!*menu_pulldown.menuAccelerator: <Key>osfMenuBar
+!*menu_popup.menuAccelerator: <Key>osfMenu
+
+! The following resources define dtterm's appearance.  They follow the
+! current dtterm widget heirarchy which may change in future releases
+! of dtterm without notice.
+!
+!	Widget Class			Instance Name
+!	------------------------------	----------------
+!	applicationShellWidgetClass	"Dtterm"
+!	dtTermViewWidgetClass		"dtTermView"
+!	xmFrameWidgetClass		"dtTermScrolledWindowFrame"
+!	xmScrolledWindowWidgetClass	"dtTermScrolledWindow"
+!	dtTermWidgetClass		"dtTerm"
+!
+*dtTermView.marginWidth:				3
+*dtTermView.marginHeight:				3
+*dtTermScrolledWindowFrame.shadowThickness:		0
+*dtTermScrolledWindowFrame.shadowType:			shadow_etched_in
+*dtTermScrolledWindowFrame.marginWidth:			0
+*dtTermScrolledWindowFrame.marginHeight:		0
+*dtTermScrolledWindow.shadowThickness:			0
+*dtTermScrolledWindow.scrolledWindowMarginWidth:	0
+*dtTermScrolledWindow.scrolledWindowMarginHeight:	0
+*dtTermScrolledWindow.spacing:				2
+
+#ifndef	FALLBACK_RESOURCES
+#ifdef	HPVUE
+! The following resource specifies the fonts that can be chosen from the
+! font size pulldown/popup menu:
+*userFontList: \
+-adobe-courier-medium-r-normal--10-*:\n\
+-adobe-courier-medium-r-normal--12-*:\n\
+-bitstream-prestige-medium-r-normal--16-*:\n\
+-bitstream-prestige-medium-r-normal--17-*:\n\
+-bitstream-prestige-medium-r-normal--19-*:\n\
+-bitstream-prestige-medium-r-normal--23-*:\n\
+-bitstream-prestige-medium-r-normal--26-*:
+#else	/* HPVUE */
+! The following resource specifies the fonts that can be chosen from the
+! font size pulldown/popup menu:
+*userFontList: \
+%|nls-1-#list_of_alternate_fonts#|
+#endif	/* HPVUE */
+#endif	/* FALLBACK_RESOURCES */
+
+#ifdef	HPVUE
+! The following is for helpview...
+
+!######################################################################
+!#
+!#	Vue
+!#
+!#	Global Defaults for the HP Visual User Environment
+!#
+!#	Hewlett-Packard Visual User Environment, Version 2.0
+!#
+!#	Copyright (c) 1990 Hewlett-Packard Company
+!#
+!#	$XConsortium: Dtterm.ad.src /main/4 1996/04/23 20:21:48 drk $
+!#
+!######################################################################
+
+!###
+!#
+!#   Help system specific resources
+!#
+!###
+
+!########
+!#
+!#  Default Window Size
+!#
+!#     The "rows" and "columns" resources determine the default size of the
+!#     help windows, where row and column size is determined by the base
+!#     font being used in the dialog.  (If the font is proportional, width
+!#     is based on average character width for the font.)
+!#
+!#     The "leading" resource determines additional spacing between lines
+!#     of text (measured in pixels).
+!#
+!########
+
+*XvhHelpDialogWidget.rows:		25
+*XvhHelpDialogWidget.columns:		50
+*XvhHelpDialogWidget*leading:		2
+
+!########
+!#
+!#  Display Area Colors
+!#
+!#     These resources set the colors for the display area (where
+!#     actual help text is displayed).  The resources are complex
+!#     because they have to override the standard color resources
+!#     in all cases.  
+!#
+!#####
+*XmDialogShell.XvhHelpDialogWidget*DisplayArea.background:		 White
+*XmDialogShell*XmDialogShell.XvhHelpDialogWidget*DisplayArea.background: White
+*XmDialogShell.XvhHelpDialogWidget*DisplayArea.foreground: 		 Black
+*XmDialogShell*XmDialogShell.XvhHelpDialogWidget*DisplayArea.foreground: Black
+
+!########
+!#
+!#  Default Help Volume and Topic
+!#
+!#     The "helpVolume" resource specifies the help volume to be
+!#     displayed by default if no other help volume is specified.
+!#
+!#     The "locationId" resource specifies the location ID of the topic
+!#     to be displayed by default if no other topic is specified.  The ID
+!#     _HOMETOPIC specifies the "home," or top, topic in the volume's
+!#     topic hierarchy.
+!#
+!########
+*XvhHelpDialogWidget*helpVolume: browser
+*XvhHelpDialogWidget*locationId: _HOMETOPIC
+
+!########
+!#
+!#  Help On Help
+!#
+!#     The "helpOnHelpVolume" resource specifies the help volume to be used 
+!#     to display the "help on help" topics (when a help request is made
+!#     while using a help window).
+!#
+!########
+
+*XvhHelpDialogWidget*helpOnHelpVolume: 		Help4Help
+*XvhHelpDialogWidget*onHelpDialog*rows:  	14
+*XvhHelpDialogWidget*onHelpDialog*columns:	40
+
+
+!########
+!#
+!#  Definition Box
+!#
+!#     The "definitionBox*rows" resource specifies the height to be used
+!#     when displaying the definition box window
+!#
+!#     The "definitionBox*columns" resource specifies the width to be used
+!#     when displaying the definition box window
+!#
+!########
+
+*XvhHelpDialogWidget*definitionBox*rows:  	12
+*XvhHelpDialogWidget*definitionBox*columns:	40
+
+!########
+!# 
+!#  Menu Accelerators
+!#
+!#     The following resources establish keyboard accelerators
+!#     for the most frequently accessed menu commands.
+!#
+!########
+
+*XvhHelpDialogWidget*fileMenu.close.acceleratorText:                Alt+F4
+*XvhHelpDialogWidget*fileMenu.close.accelerator:                    Alt<Key>f4
+*XvhHelpDialogWidget*searchMenu.keyword.acceleratorText:            Ctrl+K
+*XvhHelpDialogWidget*searchMenu.keyword.accelerator:                Ctrl<Key>k
+*XvhHelpDialogWidget*navigateMenu.backTrack.acceleratorText:        Ctrl+B
+*XvhHelpDialogWidget*navigateMenu.backTrack.accelerator:            Ctrl<Key>b
+*XvhHelpDialogWidget*navigateMenu.up.acceleratorText:               Ctrl+U
+*XvhHelpDialogWidget*navigateMenu.up.accelerator:                   Ctrl<Key>u
+*XvhHelpDialogWidget*navigateMenu.homeTopic.acceleratorText:        Ctrl+H
+*XvhHelpDialogWidget*navigateMenu.homeTopic.accelerator:            Ctrl<Key>h
+
+
+!########
+!#
+!#  Font Scheme
+!#
+!#     The remainder of the resources control the font scheme used to display
+!#     help text.  To use a different font scheme, replace these resources
+!#     with those listed in one of the font schemes in:
+!#
+!#                      /usr/vhelp/examples/fontschemes/
+!#
+!########
+
+!  Help Font File for X Displays
+! based on 10 pt = 14 pixels
+! spacing.size.angle.weight.type.charset
+
+! The serif proportional family
+! medium upright
+*p.8.roman.medium.serif.iso8859-1:    -adobe-*schoolbook*-medium-r-normal--12-*-*-*-p-*-iso8859-1
+*p.10.roman.medium.serif.iso8859-1:   -adobe-*schoolbook*-medium-r-normal--14-*-*-*-p-*-iso8859-1
+*p.12.roman.medium.serif.iso8859-1:   -adobe-*schoolbook*-medium-r-normal--17-*-*-*-p-*-iso8859-1
+*p.14.roman.medium.serif.iso8859-1:   -adobe-*schoolbook*-medium-r-normal--20-*-*-*-p-*-iso8859-1
+! bold upright
+*p.8.roman.bold.serif.iso8859-1:      -adobe-*schoolbook*-bold-r-normal--12-*-*-*-p-*-iso8859-1
+*p.10.roman.bold.serif.iso8859-1:     -adobe-*schoolbook*-bold-r-normal--14-*-*-*-p-*-iso8859-1
+*p.12.roman.bold.serif.iso8859-1:     -adobe-*schoolbook*-bold-r-normal--17-*-*-*-p-*-iso8859-1
+*p.14.roman.bold.serif.iso8859-1:     -adobe-*schoolbook*-bold-r-normal--20-*-*-*-p-*-iso8859-1
+! medium italic
+*p.8.italic.medium.serif.iso8859-1:   -adobe-*schoolbook*-medium-i-normal--12-*-*-*-p-*-iso8859-1
+*p.10.italic.medium.serif.iso8859-1:  -adobe-*schoolbook*-medium-i-normal--14-*-*-*-p-*-iso8859-1
+*p.12.italic.medium.serif.iso8859-1:  -adobe-*schoolbook*-medium-i-normal--17-*-*-*-p-*-iso8859-1
+*p.14.italic.medium.serif.iso8859-1:  -adobe-*schoolbook*-medium-i-normal--20-*-*-*-p-*-iso8859-1
+! bold italic
+*p.8.italic.bold.serif.iso8859-1:     -adobe-*schoolbook*-bold-i-normal--12-*-*-*-p-*-iso8859-1
+*p.10.italic.bold.serif.iso8859-1:    -adobe-*schoolbook*-bold-i-normal--14-*-*-*-p-*-iso8859-1
+*p.12.italic.bold.serif.iso8859-1:    -adobe-*schoolbook*-bold-i-normal--17-*-*-*-p-*-iso8859-1
+*p.14.italic.bold.serif.iso8859-1:    -adobe-*schoolbook*-bold-i-normal--20-*-*-*-p-*-iso8859-1
+
+! The sans serif proportional family
+! medium upright
+*p.8.roman.medium.sans_serif.iso8859-1:    -adobe-helvetica-medium-r-normal--12-*-*-*-p-*-iso8859-1
+*p.10.roman.medium.sans_serif.iso8859-1:   -adobe-helvetica-medium-r-normal--14-*-*-*-p-*-iso8859-1
+*p.12.roman.medium.sans_serif.iso8859-1:   -adobe-helvetica-medium-r-normal--17-*-*-*-p-*-iso8859-1
+*p.14.roman.medium.sans_serif.iso8859-1:   -adobe-helvetica-medium-r-normal--20-*-*-*-p-*-iso8859-1
+!bold upright
+*p.8.roman.bold.sans_serif.iso8859-1:      -adobe-helvetica-bold-r-normal--12-*-*-*-p-*-iso8859-1
+*p.10.roman.bold.sans_serif.iso8859-1:     -adobe-helvetica-bold-r-normal--14-*-*-*-p-*-iso8859-1
+*p.12.roman.bold.sans_serif.iso8859-1:     -adobe-helvetica-bold-r-normal--17-*-*-*-p-*-iso8859-1
+*p.14.roman.bold.sans_serif.iso8859-1:     -adobe-helvetica-bold-r-normal--20-*-*-*-p-*-iso8859-1
+! medium italic
+*p.8.italic.medium.sans_serif.iso8859-1:   -adobe-helvetica-medium-o-normal--12-*-*-*-p-*-iso8859-1
+*p.10.italic.medium.sans_serif.iso8859-1:  -adobe-helvetica-medium-o-normal--14-*-*-*-p-*-iso8859-1
+*p.12.italic.medium.sans_serif.iso8859-1:  -adobe-helvetica-medium-o-normal--17-*-*-*-p-*-iso8859-1
+*p.14.italic.medium.sans_serif.iso8859-1:  -adobe-helvetica-medium-o-normal--20-*-*-*-p-*-iso8859-1
+! bold italic
+*p.8.italic.bold.sans_serif.iso8859-1:     -adobe-helvetica-bold-o-normal--12-*-*-*-p-*-iso8859-1
+*p.10.italic.bold.sans_serif.iso8859-1:    -adobe-helvetica-bold-o-normal--14-*-*-*-p-*-iso8859-1
+*p.12.italic.bold.sans_serif.iso8859-1:    -adobe-helvetica-bold-o-normal--17-*-*-*-p-*-iso8859-1
+*p.14.italic.bold.sans_serif.iso8859-1:    -adobe-helvetica-bold-o-normal--20-*-*-*-p-*-iso8859-1
+
+! The serif monospace family
+! medium upright
+*m.8.roman.medium.serif.iso8859-1:    -adobe-courier-medium-r-normal--12-*-*-*-m-*-iso8859-1
+*m.10.roman.medium.serif.iso8859-1:    -adobe-courier-medium-r-normal--14-*-*-*-m-*-iso8859-1
+*m.12.roman.medium.serif.iso8859-1:    -adobe-courier-medium-r-normal--17-*-*-*-m-*-iso8859-1
+*m.14.roman.medium.serif.iso8859-1:    -adobe-courier-medium-r-normal--20-*-*-*-m-*-iso8859-1
+! bold upright
+*m.8.roman.bold.serif.iso8859-1:      -adobe-courier-bold-r-normal--12-*-*-*-m-*-iso8859-1
+*m.10.roman.bold.serif.iso8859-1:      -adobe-courier-bold-r-normal--14-*-*-*-m-iso8859-1
+*m.12.roman.bold.serif.iso8859-1:      -adobe-courier-bold-r-normal--17-*-*-*-m-*-iso8859-1
+*m.14.roman.bold.serif.iso8859-1:      -adobe-courier-bold-r-normal--20-*-*-*-m-*-iso8859-1
+! medium italic
+*m.8.italic.medium.serif.iso8859-1:   -adobe-courier-medium-o-normal--12-*-*-*-m-*-iso8859-1
+*m.10.italic.medium.serif.iso8859-1:   -adobe-courier-medium-o-normal--14-*-*-*-m-*-iso8859-1
+*m.12.italic.medium.serif.iso8859-1:   -adobe-courier-medium-o-normal--17-*-*-*-m-*-iso8859-1
+*m.14.italic.medium.serif.iso8859-1:   -adobe-courier-medium-o-normal--20-*-*-*-m-*-iso8859-1
+
+! SYMBOL
+*8.*.*.*.symbol:      -adobe-symbol-medium-r-normal--12-*-*-*-p-*-adobe-fontspecific
+*10.*.*.*.symbol:      -adobe-symbol-medium-r-normal--14-*-*-*-p-*-adobe-fontspecific
+*12.*.*.*.symbol:      -adobe-symbol-medium-r-normal--17-*-*-*-p-*-adobe-fontspecific
+*14.*.*.*.symbol:      -adobe-symbol-medium-r-normal--20-*-*-*-p-*-adobe-fontspecific
+
+
+! The fonts below are in the HP Roman 8 character set.
+
+! The serif proportional family
+! medium upright
+*p.8.roman.medium.serif.hp-roman8:    -adobe-*schoolbook*-medium-r-normal--12-*-*-*-p-*-hp-roman8
+*p.10.roman.medium.serif.hp-roman8:   -adobe-*schoolbook*-medium-r-normal--14-*-*-*-p-*-hp-roman8
+*p.12.roman.medium.serif.hp-roman8:   -adobe-*schoolbook*-medium-r-normal--18-*-*-*-p-*-hp-roman8
+*p.14.roman.medium.serif.hp-roman8:   -adobe-*schoolbook*-medium-r-normal--24-*-*-*-p-*-hp-roman8
+! bold upright
+*p.8.roman.bold.serif.hp-roman8:      -adobe-*schoolbook*-bold-r-normal--12-*-*-*-p-*-hp-roman8
+*p.10.roman.bold.serif.hp-roman8:     -adobe-*schoolbook*-bold-r-normal--14-*-*-*-p-*-hp-roman8
+*p.12.roman.bold.serif.hp-roman8:     -adobe-*schoolbook*-bold-r-normal--18-*-*-*-p-*-hp-roman8
+*p.14.roman.bold.serif.hp-roman8:     -adobe-*schoolbook*-bold-r-normal--24-*-*-*-p-*-hp-roman8
+! medium italic
+*p.8.italic.medium.serif.hp-roman8:   -adobe-*schoolbook*-medium-i-normal--12-*-*-*-p-*-hp-roman8
+*p.10.italic.medium.serif.hp-roman8:  -adobe-*schoolbook*-medium-i-normal--14-*-*-*-p-*-hp-roman8
+*p.12.italic.medium.serif.hp-roman8:  -adobe-*schoolbook*-medium-i-normal--18-*-*-*-p-*-hp-roman8
+*p.14.italic.medium.serif.hp-roman8:  -adobe-*schoolbook*-medium-i-normal--24-*-*-*-p-*-hp-roman8
+! bold italic
+*p.8.italic.bold.serif.hp-roman8:     -adobe-*schoolbook*-bold-i-normal--12-*-*-*-p-*-hp-roman8
+*p.10.italic.bold.serif.hp-roman8:    -adobe-*schoolbook*-bold-i-normal--14-*-*-*-p-*-hp-roman8
+*p.12.italic.bold.serif.hp-roman8:    -adobe-*schoolbook*-bold-i-normal--18-*-*-*-p-*-hp-roman8
+*p.14.italic.bold.serif.hp-roman8:    -adobe-*schoolbook*-bold-i-normal--24-*-*-*-p-*-hp-roman8
+
+! The sans serif proportional family
+! medium upright
+*p.8.roman.medium.sans_serif.hp-roman8:    -adobe-helvetica-medium-r-normal--12-*-*-*-p-*-hp-roman8
+*p.10.roman.medium.sans_serif.hp-roman8:   -adobe-helvetica-medium-r-normal--14-*-*-*-p-*-hp-roman8
+*p.12.roman.medium.sans_serif.hp-roman8:   -adobe-helvetica-medium-r-normal--18-*-*-*-p-*-hp-roman8
+*p.14.roman.medium.sans_serif.hp-roman8:   -adobe-helvetica-medium-r-normal--24-*-*-*-p-*-hp-roman8
+!bold upright
+*p.8.roman.bold.sans_serif.hp-roman8:      -adobe-helvetica-bold-r-normal--12-*-*-*-p-*-hp-roman8
+*p.10.roman.bold.sans_serif.hp-roman8:     -adobe-helvetica-bold-r-normal--14-*-*-*-p-*-hp-roman8
+*p.12.roman.bold.sans_serif.hp-roman8:     -adobe-helvetica-bold-r-normal--18-*-*-*-p-*-hp-roman8
+*p.14.roman.bold.sans_serif.hp-roman8:     -adobe-helvetica-bold-r-normal--24-*-*-*-p-*-hp-roman8
+! medium italic
+*p.8.italic.medium.sans_serif.hp-roman8:   -adobe-helvetica-medium-o-normal--12-*-*-*-p-*-hp-roman8
+*p.10.italic.medium.sans_serif.hp-roman8:  -adobe-helvetica-medium-o-normal--14-*-*-*-p-*-hp-roman8
+*p.12.italic.medium.sans_serif.hp-roman8:  -adobe-helvetica-medium-o-normal--18-*-*-*-p-*-hp-roman8
+*p.14.italic.medium.sans_serif.hp-roman8:  -adobe-helvetica-medium-o-normal--24-*-*-*-p-*-hp-roman8
+! bold italic
+*p.8.italic.bold.sans_serif.hp-roman8:     -adobe-helvetica-bold-o-normal--12-*-*-*-p-*-hp-roman8
+*p.10.italic.bold.sans_serif.hp-roman8:    -adobe-helvetica-bold-o-normal--14-*-*-*-p-*-hp-roman8
+*p.12.italic.bold.sans_serif.hp-roman8:    -adobe-helvetica-bold-o-normal--18-*-*-*-p-*-hp-roman8
+*p.14.italic.bold.sans_serif.hp-roman8:    -adobe-helvetica-bold-o-normal--24-*-*-*-p-*-hp-roman8
+
+! The serif monospace family
+! medium upright
+*m.8.roman.medium.serif.hp-roman8:    -adobe-courier-medium-r-normal--12-*-*-*-m-*-hp-roman8
+*m.10.roman.medium.serif.hp-roman8:    -adobe-courier-medium-r-normal--14-*-*-*-m-*-hp-roman8
+*m.12.roman.medium.serif.hp-roman8:    -adobe-courier-medium-r-normal--18-*-*-*-m-*-hp-roman8
+*m.14.roman.medium.serif.hp-roman8:    -adobe-courier-medium-r-normal--24-*-*-*-m-*-hp-roman8
+! bold upright
+*m.8.roman.bold.serif.hp-roman8:      -adobe-courier-bold-r-normal--12-*-*-*-m-*-hp-roman8
+*m.10.roman.bold.serif.hp-roman8:      -adobe-courier-bold-r-normal--14-*-*-*-m-hp-roman8
+*m.12.roman.bold.serif.hp-roman8:      -adobe-courier-bold-r-normal--18-*-*-*-m-*-hp-roman8
+*m.14.roman.bold.serif.hp-roman8:      -adobe-courier-bold-r-normal--24-*-*-*-m-*-hp-roman8
+! medium italic
+*m.8.italic.medium.serif.hp-roman8:   -adobe-courier-medium-o-normal--12-*-*-*-m-*-hp-roman8
+*m.10.italic.medium.serif.hp-roman8:   -adobe-courier-medium-o-normal--14-*-*-*-m-*-hp-roman8
+*m.12.italic.medium.serif.hp-roman8:   -adobe-courier-medium-o-normal--18-*-*-*-m-*-hp-roman8
+*m.14.italic.medium.serif.hp-roman8:   -adobe-courier-medium-o-normal--24-*-*-*-m-*-hp-roman8
+#endif	/* HPVUE */

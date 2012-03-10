@@ -1,0 +1,307 @@
+XCOMM $XConsortium: README.src /main/3 1996/04/23 20:03:43 drk $
+
+ Executable:    abmf
+
+Description:    Motif/CDE code-generator
+Revision: dunn: 7 June, 1994
+
+-------------------------------------------------------
+-------------------------------------------------------
+
+Module          Prefix          Description
+------          ------          -----------------------
+Motif-codegen	abmf_          
+
+
+			  INTRODUCTION
+
+This document has been written primarily to give an overview of how the
+code generator (dtcodegen) for the application builder is implemented. 
+Its primary thrust is to provide information on how to add support for 
+new widgets and object types in the code generator.
+
+
+			    SYNOPSIS
+
+
+A few basic principle drive the code generator, and understanding them
+should make working on dtcodegen much easier. These principles are explained
+in more detail later on, but I'll give a brief synopsis here.
+
+All code generation is driven by the GenCodeInfo data type. A parameter
+of this type gets passed in to many functions in the code generator and
+is used to modify the way code is generated. This structure holds data that
+has a rather wide affect, such as what resources to put in the code file, what
+resources to put in the resource file, what form of internationalization is
+being used, and whether or not a function is currently being written. If
+a function is being written, this data type determines what type of function
+is being generated, what the parameters to the function are, what object
+is being created by the function, and the like. Be sure to keep this 
+data up-to-date at all times, especially if you are generating functions
+other than library functions.
+
+abmfP_write_create_widgets_for_comp_obj() is guaranteed to be called
+for every composite object being written. This is the first place to
+look when implementing a new object type. Modifications to handle the
+new object type should be put in this function or in
+abmfP_write_create_widgets_for_one_obj().
+
+Always use abmfP_parent() to get the parent of a widget. Some objects are
+ignored because they are only used by the front end, and abmfP_parent()
+will skip past them.
+
+Use abmfP_get_c_name() to get the C identifier for an object. This takes
+a GenCodeInfo, and will automatically give back instance pointers or
+global references, as needed.
+
+A struct obj is an object that defines a C struct. In other words, a
+C struct is written for each window in the project, so each window is
+a struct obj. Substruct objs define substructures (e.g., menus).
+
+instances.c should contain ALL widget-creation code. Do not put code
+to write widget creation anywhere else, because it becomes very difficult
+to track down problems.
+
+args.c should contain ALL resource-handling code. This model supports
+"classes" of resources that allow some resources to be written out in
+one way, and others at a different time. If all else fails, args.c functions
+exist to write out individual resource values.
+
+"dump" vs. "write" vs. "spew": The identifiers in dtcodegen that deal
+with output files, and resource files in particular, use these three
+terms. Data is "dumped" to a resource file, "written" to the C code file,
+and "spewed" data can go to either place, depending upon context. For
+instance a spewed resource will go to either the resource or code file,
+depending on the user's options. The "spew" functions should be used
+most often, because they handle a lot of details.
+
+abio_printf(), abio_puts(), abio_indent(), abio_outdent() and related
+functions should be used to write out C code. STRINGS PASSED TO THESE
+FUNCTIONS SHOULD *NOT* CONTAIN NEWLINES, EXCEPT AT THE BEGINNING OR
+END OF THE STRING TO BE PRINTED.
+
+
+
+			GenCodeInfo STRUCT
+
+Here's the structure:
+
+typedef struct
+{
+    /* write arg = write to C file
+     * dump arg = dump to resource file
+     */
+    File		code_file;		/* C code */
+    File		resource_file;		/* dumped resources */
+    BOOL		prototype_funcs;	/* write prototypes? */
+    BOOL		dump_resources_i18n;	/* dump i18n res's */
+    BOOL		dump_resources_all;	/* dump all res's */
+    ABMF_I18N_METHOD	i18n_method;		/* intl'zation method */
+    BOOL		writing_func;	/* currently writing a func? */
+    GenFuncInfoRec	cur_func;	/* func currently being generated */
+} GenCodeInfoRec, *GenCodeInfo;
+
+
+The GenFuncInfoRec is too large to be included here, but this data type
+determines nearly all aspects of how the code is to be written. It is
+passed in to many functions in dtcodegen, which modify their operations
+based on the data stored therein.
+
+The data that is used most frequently are the fields code_file and
+resource_file, which hold the open streams for the current code and resource
+files, respectively.
+
+
+
+			    WIDGET CREATION
+
+All widget creation should occur in the file instances.c. It's most useful
+public functions are:
+
+	abmfP_write_create_widgets_for_comp_obj()
+	abmfP_write_create_widgets_for_one_obj()
+	abmfP_write_add_callback()
+
+abmfP_write_create_widgets_for_comp_obj() writes all widgets necessary 
+for a composite object, and may or may not call 
+abmfP_write_create_widgets_for_one_obj().  It is guaranteed that 
+abmfP_write_widgets_for_comp_obj() will be called for the root node of 
+every salient ui object in the project. This is the best place to add
+a new "type" of object. 
+
+instances.c has a number of private functions to help with widget creation.
+The most easily used are write_create_widget_by_xt_va_create(), and
+write_create_widget_by_non_va_conv_func(). These handle creating the
+widgets and setting their resources. You can also call 
+write_comp_create_all_subobjs, which handles the general-purpose case.
+
+The functions that handle composite objects should start with write_comp_,
+and those that handle only one object should have names that start with
+write_obj_.
+
+
+
+	     LOCAL VARIABLES FOR OBJECT-CREATION FUNCTIONS
+
+All local variables for object-creation functions are written by the 
+function abmfP_write_create_proc_decls() in create_decls.c. Defined
+local variables are carefully kept track of in the GenCodeInfo struct,
+so it can be easily determined whether a particular variable exists
+in the current function, and whether or not it has a valid value. This
+also removes the possibility of defining the same variable twice.
+
+
+
+			    Xt RESOURCES
+
+All Xt resources are handled in the file args.c. The functions in this
+file will return the number of resources of a particular "class" an object
+has, and will write them to the appropriate file, as well as providing
+other information about the resources.
+
+The argument "classes" are defined as follows:
+
+	ABMF_ARGCLASS_UNDEF
+	ABMF_ARGCLASS_NONE
+	ABMF_ARGCLASS_TYPED
+	ABMF_ARGCLASS_WIDGET_REF
+	ABMF_ARGCLASS_OTHER
+	ABMF_ARGCLASS_ALL                /* composite class */
+	ABMF_ARGCLASS_ALL_BUT_WIDGET_REF /* composite class */
+
+	abmfP_get_num_code_file_args_of_classes()
+	abmfP_get_num_res_file_args_of_classes()
+	abmfP_get_args_of_classes()
+
+The functions that write arguments and argument lists also take
+an argument class parameter. They also take a parameter that determines
+the style of argument output. They format type and functions are:
+
+        ABMF_ARGFMT_ARRAY
+	ABMF_ARGFMT_VA_LIST
+
+ 	abmfP_obj_spew_args()
+	abmfP_write_arg_val()
+
+
+A few utility functions exist to help with writing argument lists:
+	
+	abmfP_xt_va_list_open()		  /* indent() */
+	abmfP_xt_va_list_open_setvalues() /*writes XtVaSetValues(widget,\n"*/
+	abmfP_xt_va_list_close()	  /* NULL);\n, outdent() */
+
+
+Here are more resource (argument) utility functions:
+
+	abmfP_arg_is_dumped()		/* dupmed to resource file */
+	abfmP_arg_is_written()		/* written to code file */
+	abmfP_arg_is_i18n()		/* i18n-related */
+	abmfP_get_res_type(arg, res);	/* gets AB_ARG_TYPE for resource */
+
+
+
+			"LIBRARY" FUNCTIONS
+
+"Library" functions are those general-purpose functions that are put
+in the user's application. An example is the dtb_create_greyed_pixmap()
+function.
+
+LibFuncRec is the data type that is used to define a library function,
+and contains the function's declaration (prototype) and definition.
+
+More needs to be written on this, but I don't have time, right now...
+
+
+
+			GENERATED STRUCTURES
+
+Generated data types consist primarily of structures that define
+the user-interface elements of the project. A "struct obj" is an object
+that has a structure defined to represent it that is used for a global
+variable. A "substruct obj" has a structure defined for it that exists
+only inside another structure. For instance, a window is a struct obj and
+has a global structure and variable created to define it. A menu  is
+a substruct obj because the structure defined for it is only used inside
+of other structures.
+
+	abmfP_obj_has_field()		/* a field exists for obj */
+	abmfP_obj_has_struct_field()	/* a struct field exists for obj */
+	abmfP_obj_has_substruct_field()	/* a substructe field exists for obj */
+	abmfP_obj_is_struct_obj()	/* obj is root of struct */
+	abmfP_obj_is_substruct_obj()	/* obj is root of substructure */
+
+
+
+			OBJECT/IDENTIFIER NAMES
+
+There are several types of "names" for an object. One is the "C" identifier,
+which is a reference to a C variable. This variable can be accessed via
+a local instance pointer, or through the global variable. It is also
+necessary to be able to get the name of the structure type an object is
+in and also the name of the widget that the object causes to be generated.
+
+The functions that don't specify a scope (e.g., abmfP_get_c_name(), vs.
+abmfP_get_c_global_name()) determine the best scope from the GenCodeInfo
+data and should be used whenever possible.
+
+
+- These get the name of the variable for this object
+    abmfP_get_c_name()		- "appropriate" name, given genCodeInfO
+    abmfP_get_c_name_global()	- global variable name
+    abmfp_get_c_name_in_inst()	- relative to instance->
+    abmfP_get_c_name_in_subinst() - relative to instance->substruct.
+
+- These get the name of the widget for this object
+    abmfP_get_widget_name()
+    abmfP_get_widgt_global_name()
+
+- These get the name of the structure variable this obj belongs to,
+- or the type name of the structure.
+    abmfP_get_c_struct_ptr_type_name()
+    abmfP_get_c_struct_global_name()
+    abmfP_get_c_struct_name()
+
+
+
+			OUTPUTTING C CODE
+
+abio_printf() and related functions should be used to actually write
+out anything to the C (code) file. Strings to these functions should
+never contain a newline, except at the beginning or end of the string
+to be printed. These functions look for newlines in order to automatically
+indent their output.
+
+abio_indent() and abio_outdent() should be used to change the indent
+level in the output C file. By doing this, called functions can automatically
+indent properly, regardless of context.
+
+Several functions can be used to declare and write C functions. The _decl()
+functions write the function prototypes, and the _begin() functions write
+the beginning of the function, including the name, parameters and opening
+curly brace. Some of them take variable argument lists, which allow 
+arbitrary parameters to be written into the declarations or functions.
+These also handle keeping the GenCodeInfo data up-to-date. Some of these
+functions are:
+
+    abmfP_write_c_block_begin()
+    abmfP_write_c_block_end()
+    abmfP_write_c_comment()
+    abmfP_write_c_include()
+    abmfP_write_c_func_decl()
+    abmfP_write_c_func_begin()
+    abmfP_write_c_func_end()
+    abmfP_write_xm_callback_decl()
+    abmfP_write_xm_callback_begin()
+    abmfP_write_xm_callback_end()
+
+
+
+			GENERAL UTILITIES
+
+abmfP_parent() gets the parent of an object, and should always be used
+to get object parents. This is because some objects are ignored completely
+when generating code, and this function will skip those objects.
+
+ObjWClassIs(), ObjWClassIsLabel(), ObjWClassIsShell(), ... These functions
+return BOOL and check the class_name of the object directly.
+

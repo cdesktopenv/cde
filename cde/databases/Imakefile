@@ -1,0 +1,250 @@
+XCOMM $TOG: Imakefile /main/17 1998/03/19 09:46:16 mgreess $
+/*
+ * Construct the installation database files for CDE
+ */
+
+/*
+ * Trigger different installation behavior for HPUX 10.0 and later.
+ */
+#if defined (HPArchitecture) && (OSMajorVersion > 9)
+UDB_RELEASE_OPT = -ReleaseStream hp-ux
+#endif
+#ifdef SunArchitecture
+UDB_RELEASE_OPT = -ReleaseStream sun
+#endif
+#ifdef RsArchitecture
+UDB_RELEASE_OPT = -ReleaseStream aix
+#endif
+#ifdef AlphaArchitecture
+UDB_RELEASE_OPT = -ReleaseStream dec
+#endif
+#ifdef USLArchitecture
+UDB_RELEASE_OPT = -ReleaseStream usl
+#endif
+#ifdef UXPArchitecture
+UDB_RELEASE_OPT = -ReleaseStream uxp
+#endif
+#ifdef LinuxArchitecture
+UDB_RELEASE_OPT = -ReleaseStream linux
+#endif
+
+/*
+ * Insure that symbols used in the .udb files are undefined for
+ * pre-processing by cpp.
+ */
+#ifdef RsArchitecture
+/* AIX cpp rejects "hp-ux" as an invalid sub-option. */
+UDB_CPP_UNDEF_LIST = -UhpV4 -Uhpux         -Uaix -Usun -Uusl -Udec -Uuxp -Uunix
+#else
+UDB_CPP_UNDEF_LIST = -UhpV4 -Uhpux -Uhp-ux -Uaix -Usun -Uusl -Udec -Uuxp -Uunix
+#endif
+
+
+#define CreateLocalizedFilesets(Locale,Lang,readablename,runfs,helpfs,msgfs,AltLang,HelpLang,ResDB,HelpDB,MsgDB,InfoDB)	@@\
+clean::									@@\
+	$(RM) Concat3(CDE-,Locale,.udb)					@@\
+									@@\
+Concat3(CDE-,Locale,.udb):: ResDB					@@\
+	@echo Building readablename Resources database file.		@@\
+	@rm -f $@ 							@@\
+	@echo sed -e 's/%_LANG_%/Lang/g' -e 's/%_ALT_LANG_%/AltLang/g' \@@\
+		-e 's/%_FILENAME_%/runfs/g' ResDB 			@@\
+	@sed -e 's/%_LANG_%/Lang/g' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
+		-e 's/%_FILENAME_%/runfs/g' ResDB > $@			@@\
+									@@\
+clean::									@@\
+	$(RM) Concat3(CDE-HELP-,Locale,.udb)				@@\
+									@@\
+CDE-HELP-Locale.udb:: HelpDB						@@\
+	@echo Building readablename Help database file.			@@\
+	@rm -f $@							@@\
+	@echo sed -e 's/%_LANG_%/HelpLang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
+		-e 's/%_FILENAME_%/helpfs/g' HelpDB 			@@\
+	@sed -e 's/%_LANG_%/HelpLang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
+		-e 's/%_FILENAME_%/helpfs/g' HelpDB > $@		@@\
+									@@\
+clean::									@@\
+	$(RM) Concat3(CDE-MSG-,Locale,.udb)				@@\
+									@@\
+CDE-MSG-Locale.udb:: MsgDB						@@\
+	@echo Building readablename Message catalog database file.	@@\
+	@rm -f $@							@@\
+	@echo sed -e 's/%_LANG_%/Lang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
+		-e 's/%_FILENAME_%/msgfs/g' MsgDB  			@@\
+	@sed -e 's/%_LANG_%/Lang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
+		-e 's/%_FILENAME_%/msgfs/g' MsgDB > $@			@@\
+									@@\
+clean::									@@\
+	$(RM) Concat3(CDE-INFOLIB-,Locale,.udb)				@@\
+									@@\
+CDE-INFOLIB-Locale.udb:: InfoDB						@@\
+	@echo Building readablename Infolib catalog database file.	@@\
+	@rm -f $@							@@\
+	@echo sed -e 's/%_LANG_%/Lang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
+		-e 's/%_FILENAME_%/msgfs/g' InfoDB  			@@\
+	@sed -e 's/%_LANG_%/Lang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
+		-e 's/%_FILENAME_%/msgfs/g' InfoDB > $@
+
+.SUFFIXES: .db .udb
+
+TOOLSRC=../
+DBTOOLS=admin/IntegTools/dbTools
+CONVERSION= -toDB
+
+.udb.db:
+	@echo "making $*.db"
+	@$(RM) $*.db
+	$(TOOLSRC)/$(DBTOOLS)/udbToAny.ksh $(CONVERSION) $(UDB_RELEASE_OPT) $< > $*.db
+
+all::
+
+CppSourceFile(CDE-SHLIBS.udb,CDE-SHLIBS.src,$(UDB_CPP_UNDEF_LIST),)
+
+UDBS = \
+	CDE-DEMOS.udb \
+	CDE-FONTS.udb \
+	CDE-HELP-PRG.udb \
+	CDE-HELP-RUN.udb \
+	CDE-ICONS.udb \
+	CDE-INC.udb \
+	CDE-INFO.udb \
+	CDE-MAN.udb \
+	CDE-MAN-DEV.udb \
+	CDE-MIN.udb \
+	CDE-PRG.udb \
+	CDE-RUN.udb \
+	CDE-SHLIBS.udb \
+	CDE-TT.udb \
+	CDE-C.udb \
+	CDE-DE.udb \
+	CDE-ES.udb \
+	CDE-FR.udb \
+	CDE-IT.udb \
+	CDE-JP.udb \
+	CDE-HELP-C.udb \
+	CDE-HELP-DE.udb \
+	CDE-HELP-ES.udb \
+	CDE-HELP-FR.udb \
+	CDE-HELP-IT.udb \
+	CDE-HELP-JP.udb \
+	CDE-INFOLIB-C.udb \
+	CDE-INFOLIB-DE.udb \
+	CDE-INFOLIB-ES.udb \
+	CDE-INFOLIB-FR.udb \
+	CDE-INFOLIB-IT.udb \
+	CDE-INFOLIB-JP.udb \
+	CDE-MSG-C.udb \
+	CDE-MSG-DE.udb \
+	CDE-MSG-ES.udb \
+	CDE-MSG-FR.udb \
+	CDE-MSG-IT.udb \
+	CDE-MSG-JP.udb
+
+DBS = \
+	CDE-DEMOS.db \
+	CDE-FONTS.db \
+	CDE-HELP-PRG.db \
+	CDE-HELP-RUN.db \
+	CDE-ICONS.db \
+	CDE-INC.db \
+	CDE-INFO.db \
+	CDE-MAN.db \
+	CDE-MAN-DEV.db \
+	CDE-MIN.db \
+	CDE-PRG.db \
+	CDE-RUN.db \
+	CDE-SHLIBS.db \
+	CDE-TT.db \
+	CDE-C.db \
+	CDE-DE.db \
+	CDE-ES.db \
+	CDE-FR.db \
+	CDE-IT.db \
+	CDE-JP.db \
+	CDE-HELP-C.db \
+	CDE-HELP-DE.db \
+	CDE-HELP-ES.db \
+	CDE-HELP-FR.db \
+	CDE-HELP-IT.db \
+	CDE-HELP-JP.db \
+	CDE-INFOLIB-C.db \
+	CDE-INFOLIB-DE.db \
+	CDE-INFOLIB-ES.db \
+	CDE-INFOLIB-FR.db \
+	CDE-INFOLIB-IT.db \
+	CDE-INFOLIB-JP.db \
+	CDE-MSG-C.db \
+	CDE-MSG-DE.db \
+	CDE-MSG-ES.db \
+	CDE-MSG-FR.db \
+	CDE-MSG-IT.db \
+	CDE-MSG-JP.db
+
+clean::
+	$(RM) *.db
+
+/*
+ * Default locale (C)
+ */
+LOC_CPP_LIST = $(UDB_CPP_UNDEF_LIST) -D_ENGLISH_
+CppSourceFile(CDE-LOC-C.tmp,CDE-LOC.src,$(LOC_CPP_LIST),)
+CppSourceFile(CDE-HELP-LOC-C.tmp,CDE-HELP-LOC.src,$(LOC_CPP_LIST),)
+CppSourceFile(CDE-MSG-LOC-C.tmp,CDE-MSG-LOC.src,$(LOC_CPP_LIST),)
+CppSourceFile(CDE-INFOLIB-LOC-C.tmp,CDE-INFOLIB-LOC.src,$(LOC_CPP_LIST),)
+CreateLocalizedFilesets(C,C,C,CDE-RUN,CDE-ENG-A-HELP,CDE-ENG-A-MSG,C,C,CDE-LOC-C.tmp,CDE-HELP-LOC-C.tmp,CDE-MSG-LOC-C.tmp,CDE-INFOLIB-LOC-C.tmp)
+
+/*
+ * German
+ */
+DE_LOC_CPP_LIST = $(UDB_CPP_UNDEF_LIST) -D_GERMAN_
+CppSourceFile(CDE-LOC-DE.tmp,CDE-LOC.src,$(DE_LOC_CPP_LIST),)
+CppSourceFile(CDE-HELP-LOC-DE.tmp,CDE-HELP-LOC.src,$(DE_LOC_CPP_LIST),)
+CppSourceFile(CDE-MSG-LOC-DE.tmp,CDE-MSG-LOC.src,$(DE_LOC_CPP_LIST),)
+CppSourceFile(CDE-INFOLIB-LOC-DE.tmp,CDE-INFOLIB-LOC.src,$(DE_LOC_CPP_LIST),)
+CreateLocalizedFilesets(DE,de_DE.ISO8859-1,German,CDE-LANGS,CDE-GER-I-HELP,CDE-GER-I-MSG,de_DE.ISO8859-1,de_DE.ISO8859-1,CDE-LOC-DE.tmp,CDE-HELP-LOC-DE.tmp,CDE-MSG-LOC-DE.tmp,CDE-INFOLIB-LOC-DE.tmp)
+
+/*
+ * Spanish
+ */
+ES_LOC_CPP_LIST = $(UDB_CPP_UNDEF_LIST) -D_SPANISH_
+CppSourceFile(CDE-LOC-ES.tmp,CDE-LOC.src,$(ES_LOC_CPP_LIST),)
+CppSourceFile(CDE-HELP-LOC-ES.tmp,CDE-HELP-LOC.src,$(ES_LOC_CPP_LIST),)
+CppSourceFile(CDE-MSG-LOC-ES.tmp,CDE-MSG-LOC.src,$(ES_LOC_CPP_LIST),)
+CppSourceFile(CDE-INFOLIB-LOC-ES.tmp,CDE-INFOLIB-LOC.src,$(ES_LOC_CPP_LIST),)
+CreateLocalizedFilesets(ES,es_ES.ISO8859-1,Spanish,CDE-LANGS,CDE-SPA-I-HELP,CDE-SPA-I-MSG,es_ES.ISO8859-1,es_ES.ISO8859-1,CDE-LOC-ES.tmp,CDE-HELP-LOC-ES.tmp,CDE-MSG-LOC-ES.tmp,CDE-INFOLIB-LOC-ES.tmp)
+
+/*
+ * French
+ */
+FR_LOC_CPP_LIST = $(UDB_CPP_UNDEF_LIST) -D_FRENCH_
+CppSourceFile(CDE-LOC-FR.tmp,CDE-LOC.src,$(FR_LOC_CPP_LIST),)
+CppSourceFile(CDE-HELP-LOC-FR.tmp,CDE-HELP-LOC.src,$(FR_LOC_CPP_LIST),)
+CppSourceFile(CDE-MSG-LOC-FR.tmp,CDE-MSG-LOC.src,$(FR_LOC_CPP_LIST),)
+CppSourceFile(CDE-INFOLIB-LOC-FR.tmp,CDE-INFOLIB-LOC.src,$(FR_LOC_CPP_LIST),)
+CreateLocalizedFilesets(FR,fr_FR.ISO8859-1,French,CDE-LANGS,CDE-FRE-I-HELP,CDE-FRE-I-MSG,fr_FR.ISO8859-1,fr_FR.ISO8859-1,CDE-LOC-FR.tmp,CDE-HELP-LOC-FR.tmp,CDE-MSG-LOC-FR.tmp,CDE-INFOLIB-LOC-FR.tmp)
+
+/*
+ * Italian
+ */
+IT_LOC_CPP_LIST = $(UDB_CPP_UNDEF_LIST) -D_ITALIAN_
+CppSourceFile(CDE-LOC-IT.tmp,CDE-LOC.src,$(IT_LOC_CPP_LIST),)
+CppSourceFile(CDE-HELP-LOC-IT.tmp,CDE-HELP-LOC.src,$(IT_LOC_CPP_LIST),)
+CppSourceFile(CDE-MSG-LOC-IT.tmp,CDE-MSG-LOC.src,$(IT_LOC_CPP_LIST),)
+CppSourceFile(CDE-INFOLIB-LOC-IT.tmp,CDE-INFOLIB-LOC.src,$(IT_LOC_CPP_LIST),)
+CreateLocalizedFilesets(IT,it_IT.ISO8859-1,Italian,CDE-LANGS,CDE-ITA-I-HELP,CDE-ITA-I-MSG,it_IT.ISO8859-1,it_IT.ISO8859-1,CDE-LOC-IT.tmp,CDE-HELP-LOC-IT.tmp,CDE-MSG-LOC-IT.tmp,CDE-INFOLIB-LOC-IT.tmp)
+
+/*
+ * Japanese
+ */
+JP_LOC_CPP_LIST = $(UDB_CPP_UNDEF_LIST) -D_JAPANESE_
+CppSourceFile(CDE-LOC-JP.tmp,CDE-LOC.src,$(JP_LOC_CPP_LIST),)
+CppSourceFile(CDE-HELP-LOC-JP.tmp,CDE-HELP-LOC.src,$(JP_LOC_CPP_LIST),)
+CppSourceFile(CDE-MSG-LOC-JP.tmp,CDE-MSG-LOC.src,$(JP_LOC_CPP_LIST),)
+CppSourceFile(CDE-INFOLIB-LOC-JP.tmp,CDE-INFOLIB-LOC.src,$(JP_LOC_CPP_LIST),)
+CreateLocalizedFilesets(JP,ja_JP.dt-eucJP,Japanese EUC,CDE-LANGS,CDE-JPN-E-HELP,CDE-JPN-E-MSG,ja_JP.dt-eucJP,ja_JP.dt-eucJP,CDE-LOC-JP.tmp,CDE-HELP-LOC-JP.tmp,CDE-MSG-LOC-JP.tmp,CDE-INFOLIB-LOC-JP.tmp)
+
+$(DBS):: $(UDBS)
+
+includes:: $(DBS)
+
+all:: $(DBS)

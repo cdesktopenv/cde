@@ -1,0 +1,95 @@
+XCOMM $XConsortium: Imakefile /main/10 1996/10/09 14:03:49 drk $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		AButil
+#define LibHeaders	NO
+#define LibInstall	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#include "../ab.tmpl"
+#include "../ab.rules"
+
+    INCLUDES = -I. -I$(ABINCLUDES)
+
+    LINTLIBS = $(LINTXLIB) $(LINTXTOOL)
+
+SOURCES.h.shipped = \
+	util_types.h
+
+SOURCES.h.shared = \
+	AB.h \
+	abio.h \
+	istr.h \
+	strlist.h \
+	util.h \
+	util_ds.h \
+	util_err.h \
+	XmAll.h \
+	MwmUtil.h \
+	UilDef.h
+
+SOURCES.h.unshared = \
+	utilP.h
+
+SRCS = \
+	abio.c		\
+	abio_path.c	\
+	istr.c		\
+	strlist.c	\
+	util.c		\
+	util_convert.c	\
+	util_ds.c	\
+	util_err.c	\
+	util_file.c	\
+	util_string.c
+
+OBJS = \
+	abio.o		\
+	abio_path.o	\
+	istr.o		\
+	strlist.o	\
+	util.o		\
+	util_convert.o	\
+	util_ds.o	\
+	util_err.o	\
+	util_file.o	\
+	util_string.o
+
+SYS_LIBRARIES = -lm $(ICONVSYSLIB) $(DYNLIBSYSLIB) $(REGEXSYSLIB)
+
+#ifdef	SunArchitecture
+WAITTARGET = .WAIT
+#endif	/* SunArchitecture */
+
+       LINTLIBS = $(XINPUTLIB) $(DTHELPLIB) $(DTSVCLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+LOCAL_LIBRARIES = $(XINPUTLIB) $(DTHELPLIB) $(DTSVCLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+
+#include <Library.tmpl>
+
+PROGRAMS = util_test istr_test
+
+SRCS2 = util_test.c
+OBJS2 = util_test.o
+DEPLIBS2 = libAButil.a
+ComplexProgramTarget_2(util_test,$(DEPLIBS2),$(SYS_LIBRARIES))
+
+SRCS3 = istr_test.c
+OBJS3 = istr_test.o
+DEPLIBS2 = libAButil.a
+ComplexProgramTarget_3(istr_test,$(DEPLIBS3),$(SYS_LIBRARIES))
+
+DependTarget3($(SRCS),$(SRCS2),$(SRCS3))
+
+clean::
+	RemoveFiles($(PROGRAMS))
+
+LinkFileList(shipped_includes,$(SOURCES.h.shipped),../include/ab,../../libAButil)
+LinkFileList(shared_includes,$(SOURCES.h.shared),../include/ab_private,../../libAButil)
+
+includes:: shipped_includes shared_includes $(WAITTARGET)
+sdtgilcvt: libAButil.a
+dtcodegen: libAButil.a

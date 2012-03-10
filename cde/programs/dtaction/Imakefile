@@ -1,0 +1,42 @@
+XCOMM $TOG: Imakefile /main/9 1998/04/06 13:11:38 mgreess $
+
+        DEFINES = -DXK_MISCELLANY
+       INCLUDES = -I.
+
+DEPLIBS = $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+SYS_LIBRARIES   = -lm 
+
+
+#ifdef HPArchitecture
+EXTRA_DEFINES = +e
+#endif
+
+#ifdef LinuxArchitecture
+SYS_LIBRARIES   = -lm -lcrypt
+#endif
+
+#ifdef SCOArchitecture
+SYS_LIBRARIES   = -lm -lcrypt
+#endif
+
+#ifdef RsArchitecture
+SYS_LIBRARIES   = -liconv
+#endif
+
+#ifdef USLArchitecture
+SYS_LIBRARIES   = -lm -lgen 
+#endif
+
+#ifdef UXPArchitecture
+SYS_LIBRARIES   = -lm -lgen 
+#endif
+
+#if defined(SunArchitecture)
+SYS_LIBRARIES = -lm -ldl
+#endif
+
+SRCS = Main.c
+OBJS = Main.o
+
+ComplexProgramTarget(dtaction)

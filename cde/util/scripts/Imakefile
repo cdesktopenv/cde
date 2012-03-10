@@ -1,0 +1,36 @@
+XCOMM $XConsortium: Imakefile,v 1.21 91/07/29 19:59:55 gildea Exp $
+#if UseCCMakeDepend
+MDEP_DIR = makedepend
+#endif
+         PROGRAMS = xmkmf $(MDEP_DIR) mergelib
+
+all:: $(PROGRAMS)
+
+CppScriptTarget(xmkmf,xmkmf.cpp,-DCONFIGDIRSPEC=-I$(CONFIGDIR),$(ICONFIGFILES))
+#if UseCCMakeDepend
+CppScriptTarget(makedepend,mdepend.cpp,-DPREPROC='"'"$(PREPROCESSCMD)"'"',$(ICONFIGFILES))
+#endif
+CppScriptTarget(mergelib,mergelib.cpp,"-DARCMD=$(AR)" "-DRANLIB=$(RANLIB)",$(ICONFIGFILES))
+
+InstallNamedProg(xmkmf,xmkmf,$(BINDIR))
+InstallManPage(xmkmf,$(MANDIR))
+InstallNamedProg(mkdirhier.sh,mkdirhier,$(BINDIR))
+InstallManPage(mkdirhier,$(MANDIR))
+#if UseCCMakeDepend
+InstallNamedProg(makedepend,makedepend,$(BINDIR))
+#endif
+InstallNamedProg(lndir.sh,lndir,$(BINDIR))
+InstallManPage(lndir,$(MANDIR))
+InstallNamedProg(xon.sh,xon,$(BINDIR))
+InstallManPage(xon,$(MANDIR))
+#if SystemV || SystemV4
+InstallNamedProg(bsdinst.sh,bsdinst,$(BINDIR))
+#endif
+
+clean::
+	$(RM) $(PROGRAMS)
+
+depend::
+
+install.man::
+

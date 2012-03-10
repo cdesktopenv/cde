@@ -1,0 +1,123 @@
+/* $XConsortium: README /main/2 1996/07/15 14:15:33 drk $ */
+Directories:
+
+   libUI              - Contains base class for UI
+   libUI/MotifUI      - Contains Motif UI classes
+   UI                 - Subclasses of objects in libUI/MotifUI.  These objects
+			define the UI for dtprintinfo.
+   objects            - Contains base class for objects
+   objects/PrintObj   - Contains print queue objects
+   util               - Contains utility classes
+   service            - No longer used
+
+Actions
+
+ The following actions are defined in /usr/dt/appconfig/types/C/print.dt.
+
+   DtPrintManager - runs 'dtprintinfo -all'
+
+   DtPrint (no args) - runs the DtPrintinfo action
+
+   DtPrint (with args) - runs the Print action
+
+   DtPrintinfo (no args) - runs 'dtprintinfo' to show the LPDEST or
+			   default printer
+
+   DtPrintinfo (with args) - runs 'dtprintinfo -p <printer>' to show the
+			     specific printer
+
+ The default printer actions are defined in /etc/dt/appconfig/types/C by
+ running 'dtprintinfo -populate'.  There's a datatype (action definition)
+ file for each queue on the system name <printer>.dt.
+
+   <printer>_Print (no args) - runs the 'DtPrintinfo <printer>' action.
+
+   <printer>_Print (with args) - runs the 'Print' action.
+
+ Printer action files are created in $HOME/.dt/.Printers. These are empty
+ files named <printer>_Print and have the execute bit set.  They are the
+ action files that are supplied when a printer is dragged from Print Manager
+ to the File Manager or Front Panel.
+
+ The CreateActionFile function in UI/DtPrinterIcon.C creates the system action
+ definition files in /etc/dt/appconfig/types/$LANG and customized action 
+ definition in $HOME/.dt/types.  The Apply function in UI/DtPrtProps.C modifies
+ action definition in $HOME/.dt/types.
+
+Drag-n-Drop
+
+   The guts of drag-n-drop (DND) is coded in the libUI/MotifUI/DtDND.C file.
+   Currently, only the DtFILENAME_TRANSFER protocol is used.  The printer
+   icons, DtPrinterIcon objects defined in UI/DtPrinterIcon.C, use the DtDND
+   class to handle files dropped on the printer icon and print job list box and
+   to handle dragging printers to other objects.  When a file is dropped on a
+   printer or print job list box, dtprintinfo receives a filename and when
+   a printer is dragged to an object, dtprintinfo supplies the filename of
+   the action file (Example: $HOME/.dt/.Printers/<printer>_Print).
+
+Widgets
+
+   libUI/MotifUI/Icon.c - Custom icon widget used by the IconObj class defined
+			  in libUI/MotifUI/IconObj.C.
+
+   libUI/MotifUI/WorkArea.c - Custom container widget used by the Container
+			      class defined in libUI/MotifUI/Container.C.
+
+Classes
+
+   There are 2 class hierarchies: an UI class hierarchy and a object class
+   hierarchy.  The Motif User Interface classes are defined in the
+   libUI/MotifUI directory.  The printer objects are defined in the
+   objects/PrintObj directory.  These classes are designed to be used as
+   libraries.
+
+Action API's
+  
+   The DtPrinterIcon class uses the DtDbLoad, DtActionInvoke, DtDbReloadNotify,
+   DtActionExists, DtActionIcon, DtActionDescription, and DtActionLabel
+   functions.  The DtPrtProps class uses the DtActionInvoke function.  The 
+   Application class uses the DtDbLoad function.
+
+Drag-n-Drop API's
+  
+   The DtDND class uses the XmDropSiteUpdate, XmDropSiteConfigureStackingOrder, 
+   DtDndDropRegister, and DtDndDragStart functions.
+
+Remote Printer related API's
+
+   The ConnectToPrintServer function in objects/PrintObj/ParseJobs.C uses the
+   gethostbyname, gethostbyaddr, getservbyname, rresvport, and connect
+   functions to return a socket to a remote print server.
+   
+   The SendPrintJobStatusReguest function writes to the socket a request for
+   long format printer status.
+   
+   These two high level functions are called by the OpenClose function in
+   UI/DtApp.C and by the ProcessJobs function in objects/PrintObj/Queue.C
+   via the call to the RemotePrintJobs function in ParseJobs.C.
+
+   The RemotePrintJobs is a high level function that reads the socket for
+   the print status that's returned by the server.  This functions waits for
+   the output, thus it blocks the dtprintinfo process.  It is used during the
+   'Find Print Jobs' operation in the Print Manager version of dtprintinfo.
+
+   The OpenClose function in UI/DtApp.C uses the BaseUI->Thread function
+   function to gather the status returned by the print server so that the
+   dtprintinfo process does not block.  This is accomplished by using the
+   the fcntl function to set the O_NDELAY bit on the socket and then using the
+   socket as the file descriptor in the XtAppAddInput function.  Refer to the
+   CreateThread function in libUI/MotifUI/MotifThread.C.
+
+Message Catalog
+
+   The message catalog uses symbolic tags and a MESSAGE macro that makes the
+   source code easier to read and modify.  When building dtprintinfo the
+   dtprintinfo_cat.h and dtprintinfo_msg.h header are automatically generated
+   by the sym2num script, gencat, and awk msg.awk script.  Here's a sample
+   output of creating the message header files.
+
+	rm -f dtprintinfo.cat dtprintinfo_msg.h dtprintinfo_cat.h
+        ./sym2num dtprintinfo dtprintinfo.msg > msg.tmp
+        gencat dtprintinfo.cat msg.tmp
+        awk -f msg.awk dtprintinfo.msg > dtprintinfo_cat.h
+        rm -f msg.tmp

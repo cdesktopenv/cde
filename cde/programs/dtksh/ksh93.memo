@@ -1,0 +1,2838 @@
+
+
+
+					      Bell Laboratories
+
+
+
+       subject: Introduction to ksh-93	      date: January 14, 1993
+		Charge Case 311531-0101
+		File Case 49059-6	      from: David G. Korn
+						    MH 11267
+						    3C-526B x7975
+						    (ulysses!dgk)
+
+						    TM 11267-930???-93
+
+
+
+				 ABSTRACT
+
+
+
+       ksh-93 is a major rewrite of ksh, a program that serves as a
+       command language (shell) for the  UNIX*	 operating  system.
+       As  with  ksh,  ksh-93  is  essentially	compatible with the
+       System V version of the Bourne  shell[1]  ,  and  compatible
+       with previous versions of ksh.  ksh-93 is intended to comply
+       with the IEEE POSIX 1003.2 shell standard and the ISO  9945-
+       2[2] shell standard.  In addition to changes in the language
+       required  by these standards, the primary focus of ksh-93 is
+       related	to  shell   programming.    ksh-93   provides	the
+       programming  power  of  several other interpretive languages
+       such as awk[3], FIT[4], perl[5], and tcl[6].
+
+       This memo assumes that the reader is already  familiar  with
+       the  Bourne  shell.   It  introduces most of the features of
+       ksh-93 relative to the  Bourne  shell;  both  as  a  command
+       language  and  as  a  programming  language.   The  Appendix
+       contains a sample script written in ksh-93.
+
+
+
+
+
+
+
+
+
+
+       __________
+
+	 * UNIX is a registered trademark of USL
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+					      Bell Laboratories
+
+
+
+       subject: Introduction to ksh-93	      date: January 14, 1993
+		Charge Case 311531-0101
+		File Case 49059-6	      from: David G. Korn
+						    MH 11267
+						    3C-526B x7975
+						    (ulysses!dgk)
+
+						    TM 11267-930???-93
+
+
+
+			   MEMORANDUM_FOR_FILE
+
+
+
+       1.  INTRODUCTION
+
+       The term "shell" is used to describe a program that provides
+       a command language interface.   Because	the  UNIX*   system
+       shell is a user level program, and not part of the operating
+       system itself, anyone can write a new  shell  or  modify  an
+       existing  one.	This has caused an evolutionary progress in
+       the design and implementation of  shells,  with	the  better
+       ones  surviving.   The  most  widely  available	UNIX system
+       shells are the Bourne shell[7], written by Steve  Bourne  at
+       AT&T Bell Laboratories, the C shell[8], written by Bill	Joy
+       at the University of California, Berkeley, and the KornShell
+       language  [9],  written	by  David   Korn   at	AT&T   Bell
+       Laboratories.   The  Bourne shell is available on almost all
+       versions of the UNIX system.  The C Shell is available  with
+       all Berkeley Software Distribution, BSD, UNIX systems and on
+       many other systems.  The KornShell, is available on System V
+       Release	4  systems.  In  addition,  it is available on many
+       other systems.  The source for  the  KornShell  language  is
+       available  from	the  AT&T Toolchest, an electronic software
+       distribution system.  It runs on all known versions  of	the
+       UNIX system and on many UNIX system look-alikes.
+
+       There have been several articles comparing the  UNIX  system
+       shells.	 Jason	Levitt[10]  highlights	some  of  the	new
+
+
+       __________
+
+	 * UNIX is a registered trademark of USL
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 2 -
+
+
+
+       features  introduced  by  the  KornShell   language.    Rich
+       Bilancia[11] explains some of the advantages  of  using	the
+       KornShell language.  John Sebes[12] provides a more detailed
+       comparison  of  the three shells, both as a command language
+       and as a programming language.
+
+       The KornShell language is a superset of	the  Bourne  shell.
+       The  KornShell  language  has  many  of	the popular C shell
+       features, plus additional features of its own.  Its  initial
+       popularity  stems  primarily  from  its	improvements  as  a
+       command language.  The primary interactive  benefit  of	the
+       KornShell  command  language is a visual command line editor
+       that allows you to make corrections to your current  command
+       line  or  to earlier command lines, without having to retype
+       them.
+
+       However, in  the  long  run,  the  power  of  the  KornShell
+       language  as a high-level programming language, as described
+       by Dolotta and  Mashey[13],  may  prove	to  be	of  greater
+       significance.   ksh-93  provides  the  programming  power of
+       several other interpretive languages such as awk, FIT, perl,
+       and  tcl.  An application that was originally written in the
+       C  programming  language  was  rewritten  in  the  KornShell
+       language.   More  than  20,000 lines of C code were replaced
+       with KornShell scripts totaling fewer than  700	lines.	 In
+       most  instances	there  was  no	perceptible  difference  in
+       performance between the two versions of the code.
+
+       The KornShell language  has  been  embedded  into  windowing
+       systems	allowing  graphical user interfaces to be developed
+       in shell rather than having to build applications that  need
+       to be compiled.	The wksh program[14], provides a method  of
+       developing OpenLook or Motif applications as ksh scripts.
+
+       This memo is an introduction  to  ksh-93  the  program  that
+       implements  an  enhanced  version of the KornShell language.
+       It is referred to as ksh in the rest of this memo.  The memo
+       describes  the  KornShell  language based on the features of
+       the 02/25/93 release of ksh.  This memo is not  a  tutorial,
+       only  an  introduction.	The second edition of reference [9]
+       gives a more complete treatment of the KornShell language.
+
+       A concerted effort has been made to achieve  both  System  V
+       Bourne  shell  compatibility and IEEE POSIX compatibility so
+       that scripts written for either	of  these  shells  can	run
+       without modification with ksh.  In addition, ksh-93 attempts
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 3 -
+
+
+
+       to be compatible with older versions of ksh.  When conflicts
+       between	these  versions  of  the  shell, ksh-93 selects the
+       behavior  dictated  by  the  IEEE   POSIX   standard.	The
+       description of features in this memo assumes that the reader
+       is already familiar with the Bourne shell.
+
+
+       2.  COMMAND LANGUAGE
+
+       There is no separate command language.  All features of	the
+       language,  except  job  control,  can  be used both within a
+       script and interactively from a terminal.  However, features
+       that  are  more	likely	to  be	used while running commands
+       interactively from a terminal are presented here.
+
+       2.1  Setting Options
+
+       By convention, UNIX  commands  consist  of  a  command  name
+       followed by options and other arguments.  Options are either
+       of the form -letter, or -letter value.  In the former  case,
+       several	options  may  be  grouped  after  a  single -.	The
+       argument -- signifies an end to the option list and is  only
+       required when the first non-option argument begins with a -.
+       Most commands print  an	error  message	which  shows  which
+       options	 are  permitted  when  given  incorrect  arguments.
+       Ordinarily, ksh executes a command by using the command name
+       to  locate  a program to run and by running the program as a
+       separate process.  Some commands, referred to as  built-ins,
+       are  carried  out by ksh itself, without creating a separate
+       process.  The reasons that some commands  are  built-in	are
+       presented  later.   In  nearly  all  cases  the	distinction
+       between a command that is built-in and one that	is  not  is
+       invisible  to  the  user.  However, nearly all commands that
+       are built-in follow command line conventions.  In  addition,
+       the  option  sequence -? causes the command to print a usage
+       message which lists the valid options.
+
+       ksh has several options that can  be  set  by  the  user  as
+       command	line  arguments  and as option arguments to the set
+       command.  Most options can  be  set  with  a  single  letter
+       option  or  as a name that follows the -o option. Use set -o
+       to display the  current	option	settings.   Some  of  these
+       options,  such  as  interactive and monitor (See Job Control
+       below) are enabled automatically by ksh when  the  shell  is
+       connected  to  a  terminal  device.   Other options, such as
+       noclobber and ignoreeof are normally  placed  in  a  startup
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 4 -
+
+
+
+       file.   The  noclobber  option  causes ksh to print an error
+       message when you use > to redirect to a	file  that  already
+       exists,	If  you  want to redirect to an existing file, then
+       you have to use >| to override the  noclobber  option.	The
+       ignoreeof   option   is	used  to  prevent  the	end-of-file
+       character, normally ^D(Control-d), from	exiting  the  shell
+       and  possibly  logging  you  out.  You must type exit to log
+       out.  Most of the options are  described  in  this  memo  as
+       appropriate.
+
+       2.2  Command Aliases
+
+       Command aliases provide a mechanism of associating a command
+       name  and  options with a shorter name.	Aliases are defined
+       with the alias built-in.   The  form  of  an  alias  command
+       definition is:
+			     alias name=value
+       As with other shell assignments, no space is allowed  before
+       or  after  the =.  The characters of an alias name cannot be
+       characters that are special to the  shell.  The	replacement
+       string, value, can contain any valid shell script, including
+       meta-characters such as	pipe  symbols  and  i/o-redirection
+       provided  that  they are quoted.  Unlike csh, aliases in ksh
+       cannot take  arguments.	 The  equivalent  functionality  of
+       aliases	with  arguments  can  only  be	achieved with shell
+       fucntions described later.
+
+       As a command is being read,  the  command  name	is  checked
+       against	a list of alias names.	If it is found, the name is
+       replaced by the alias value associated with  the  alias	and
+       then  rescanned.   When	rescanning  the value for an alias,
+       alias substitutions are performed except for an	alias  that
+       is  currently being processed.  This prevents infinite loops
+       in alias  substitutions.   For  example	with  the  aliases,
+       alias l=ls 'ls=ls -C',  the command name l becomes ls, which
+       becomes ls -C.  Ordinarily, only the command  name  word  is
+       processed  for alias substitution.  However, if the value of
+       an alias ends in a space, then the word following the  alias
+       is  also  checked  for  alias  substitution.   This makes it
+       possible to define an alias whose first argument is the name
+       of  a  command and have alias substitution performed on this
+       argument, for example nohup='nohup '.
+
+       Aliases can be used to redefine built-in  commands  so  that
+       the alias,
+			    alias test=./test
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 5 -
+
+
+
+       can be used  to	look  for  test  in  your  current  working
+       directory  rather  than	using  the  built-in  test command.
+       Reserved words such as for and while cannot  be	changed  by
+       aliasing.  The command alias, without arguments, generates a
+       list of aliases and corresponding alias values.	The unalias
+       command removes the name and text of an alias.
+
+       Aliases are used to save typing and to  improve	readability
+       of  scripts.   Several  aliases	are predefined by ksh.	For
+       example, the predefined alias
+			alias integer='typeset -i'
+       allows the integer variables i and  j  to  be  declared	and
+       initialized with the command
+			     integer i=0 j=1
+
+       While  aliases  can  be	defined  in  scripts,  it  is	not
+       recommended.   The  location  of  an  alias  command  can be
+       important since aliases are only processed when a command is
+       read.   A  .   procedure (the shell equivalent to an include
+       file) is read all at once (unlike start up files  which	are
+       read  a command at a time) so that any aliases defined there
+       will not effect any commands within this script.  Predefined
+       aliases do not have this problem.
+
+       2.3  Command Re-entry
+
+       When run interactively, ksh saves the commands you type at a
+       terminal  in a file.  If the variable HISTFILE is set to the
+       name of a file to which the user has write access, then	the
+       commands  are  stored  in  this history file.  Otherwise the
+       file $HOME/.sh_history is checked for write  access  and  if
+       this  fails  an	unnamed  file  is  used to hold the history
+       lines.	Commands  are  always  appended   to   this   file.
+       Instances  of  ksh  that  run  concurrently and use the same
+       history file name, share access to the history file so  that
+       a command entered in one shell will be available for editing
+       in another shell.   The	file  may  be  truncated  when	ksh
+       determines  that  no  other shell is using the history file.
+       The number of commands accessible to the user is  determined
+       by  the value of the HISTSIZE variable at the time the shell
+       is invoked.  The default value is  128.	 Each  command	may
+       consist	of  one  or  more lines since a compound command is
+       considered one command.	 If  the  character  !	 is  placed
+       within  the  primary prompt string, PS1, then it is replaced
+       by the command number each time the prompt is given.
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 6 -
+
+
+
+       A built-in command named hist is used to  list  and/or  edit
+       any  of	these  saved  commands.   The  option -l is used to
+       specify listing	of  previous  commands.   The  command	can
+       always  be  specified  with a range of one or more commands.
+       The range can be specified by  giving  the  command  number,
+       relative  or  absolute,	or by giving the first character or
+       characters of the command.  When  given	without  specifying
+       the range, the last 16 commands are listed, each preceded by
+       the command number.
+
+       If the listing option is not selected,  then  the  range  of
+       commands  specified,  or  the  last  command  if no range is
+       given, is passed to  an	editor	program  before  being	re-
+       executed  by  ksh.   The  editor to be used may be specified
+       with the option -e and following it with  the  editor  name.
+       If  this  option  is  not  specified, the value of the shell
+       variable HISTEDIT  is  used  as	the  name  of  the  editor,
+       providing  that	this  variable has non-null value.  If this
+       variable is not set, or is null, and the -e option  has	not
+       been  selected, then /bin/ed is used.  When editing has been
+       complete, the edited text automatically	becomes  the  input
+       for ksh.  As this text is read by ksh, it is echoed onto the
+       terminal.
+
+       The -s option causes the editing to  be	bypassed  and  just
+       re-executes the command.  In this case only a single command
+       can be specified as the range and an  optional  argument  of
+       the form old=new may be added which requests a simple string
+       substitution prior to evaluation.  A convenient alias,
+			    alias r='hist -s'
+       has been pre-defined so that the single key-stroke r can  be
+       used  to  re-execute the previous command and the key-stroke
+       sequence, r abc=def c can be used  to  re-execute  the  last
+       command	that  starts  with  the  letter  c  with  the first
+       occurrence of the string abc replaced with the  string  def.
+       Typing	r c > file  re-executes  the  most  recent  command
+       starting with the letter c, with standard output  redirected
+       to file.
+
+       2.4  In-line editing
+
+       Lines typed from a terminal  frequently	need  changes  made
+       before entering them.  With the Bourne shell the only method
+       to fix up commands is by backspacing or	killing  the  whole
+       line.   ksh offers options that allow the user to edit parts
+       of the current command line before submitting  the  command.
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 7 -
+
+
+
+       The in-line edit options make the command line into a single
+       line screen edit window.  When the command  is  longer  than
+       the  width of the terminal, only a portion of the command is
+       visible.  Moving within the line  automatically	makes  that
+       portion	visible.   Editing  can be performed on this window
+       until the return key is pressed.   The  editing	modes  have
+       editing	directives  that  access  the history file in which
+       previous commands are saved.  A user can  copy  any  of	the
+       most  recent HISTSIZE commands from this file into the input
+       edit window.  You can locate commands  by  searching  or  by
+       position.
+
+       The in-line editing  options  do  not  use  the	termcap  or
+       terminfo  databases.   They work on most standard terminals.
+       They only require that the  backspace  character  moves	the
+       cursor  left  and the space character overwrites the current
+       character on the screen and moves the cursor to	the  right.
+       Very  few  terminals  or terminal emulators do not have this
+       behavior.
+
+       There is a choice of editor options.  The emacs,  gmacs,  or
+       vi option is selected by turning on the corresponding option
+       of the set command.  If the value of the  EDITOR  or  VISUAL
+       variables  ends with any of these suffixes the corresponding
+       option is turned on.   A  large	subset	of  each  of  these
+       editors'   features   are   available   within	the  shell.
+       Additional functions, such as  file  name  completion,  have
+       also been added.
+
+       In the emacs or gmacs mode the user positions the cursor  to
+       the  point  needing  correction	and  inserts,  deletes,  or
+       replaces characters as needed.  The only difference  between
+       these two modes is the meaning of the directive ^T.  Control
+       keys and escape sequences are used  for	cursor	positioning
+       and  control functions.	The available editing functions are
+       listed in the manual page.
+
+       The vi editing mode starts in insert mode and enters control
+       mode when the user types ESC ( 033 ).  The return key, which
+       submits the current command for processing, can	be  entered
+       from  either  mode.  The cursor can be anywhere on the line.
+       A  subset  of  commonly	used  vi  editing  directives	are
+       available.  The k and j directives that normally move up and
+       down by one line, move  up  and	down  one  command  in	the
+       history	file,  copying	the  command  into  the  input edit
+       window.	For reasons of efficiency, the terminal is kept  in
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 8 -
+
+
+
+       canonical  mode	until  an ESC is typed.  On some terminals,
+       and on earlier versions of the UNIX operating  system,  this
+       doesn't work correctly.	The viraw option, which always uses
+       raw or cbreak mode, must be used in this case.
+
+       Most of the code for the editing options does  not  rely  on
+       the ksh code and can be used in a stand-alone mode with most
+       any command to add in-line edit	capability.   However,	all
+       versions  of the in-line editors have some features that use
+       some shell specific code.  For example, with all edit modes,
+       the ESC-= directive applied to command words (the first word
+       on the line, or the first word after a ;, |, (, or &)  lists
+       all  aliases,  functions, or commands that match the portion
+       of the given current word.  When  applied  to  other  words,
+       this  directive	prints	the  names  of files that match the
+       current word.  The ESC-* directive adds the expanded list of
+       matching  files	to the command line.  A trailing * is added
+       to the word if it doesn't contain any file pattern  matching
+       characters  before  the expansion.  In emacs and gmacs mode,
+       ESC-ESC indicates command completion when applied to command
+       names,  otherwise  it  indicates  pathname completion.  With
+       command or pathname completion, the list  generated  by	the
+       ESC-=  directive  is  examined  to  find  the longest common
+       prefix.	With command completion, only the last component of
+       the  pathname is used to compute the longest command prefix.
+       If the longest common prefix is a complete match, then  word
+       is replaced by the pathname, and a / is appended if pathname
+       is a directory, otherwise a space is added.  In vi  mode,  \
+       from control mode gives the same behavior.
+
+       2.5  Key Binding
+
+       It is possible to intercept keys as  they  are  entered	and
+       apply  new  meanings  or  bindings.   A	trap named KEYBD is
+       evaluated each time the user enters a key from the keyboard,
+       except  while  entering a search string or an argument to an
+       edit directive such as r in vi-mode.  The action  associated
+       with  this  trap  can change the value of the entered key to
+       cause the key to perform a different operation.
+
+       When the KEYBD trap  is	entered,  the  .sh.edtext  variable
+       contains  the  contents	of  the  current input line and the
+       .sh.edcol variable gives the current cursor position  within
+       this   line.   The  .sh.edmode  variable  contains  the	ESC
+       character when the trap is entered from insert  mode  of  vi
+       mode.   Otherwise,  this  value	is  null.   The  .sh.edchar
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 9 -
+
+
+
+       variable contains the  character  or  escape  sequence  that
+       caused  the trap.  The value of .sh.edchar at the end of the
+       trap will be used as the input sequence.
+
+       Using the associative array facility of ksh described later,
+       and  the  function  facility  of  ksh, it is easy to write a
+       single trap so that keys  can  be  bound  dynamically.	For
+       example,
+
+	    typeset -A Keybind
+	    trap 'eval "${Keybind[${.sh.edchar}]}"' KEYBD
+	    function keybind # key seq
+	    {
+		   Keybind[$1]=".sh.edchar=${.sh.edmode}$2"
+	    }
+
+
+       2.6  Job Control
+
+       The job control mechanism is almost identical to the version
+       found  in csh of the Berkeley UNIX operating system, version
+       4.1 and later.  The job control feature allows the  user  to
+       stop  and restart programs, and to move programs to and from
+       the foreground and the background.  It  will  only  work  on
+       systems	that  provide support for these features.  However,
+       even systems without job control have a monitor option which
+       when  enabled,  will  report the progress of background jobs
+       and enable the user to kill jobs by job number or job name.
+
+       An interactive shell associates a  job  with  each  pipeline
+       typed  in from the terminal and assigns them a small integer
+       number  called  the  job  number.   If  the   job   is	run
+       asynchronously,	the  job number is printed at the terminal.
+       At any given time, only one job	owns  the  terminal,  i.e.,
+       keyboard  signals are only sent to the processes in one job.
+       When ksh creates a foreground job, it gives it ownership  of
+       the  terminal.  If you are running a job and wish to stop it
+       you hit the key ^Z (control-Z) which sends a STOP signal  to
+       all  processes  in  the	current  job.	The  shell receives
+       notification that the processes have stopped and takes  back
+       control of the terminal.
+
+       There are commands to continue programs	in  the  foreground
+       and  background.   There  are several ways to refer to jobs.
+       The character % introduces a job name.	You  can  refer  to
+       jobs by name or number as described in the manual page.	The
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 10 -
+
+
+
+       built-in command bg allows you to  continue  a  job  in	the
+       background,  while  the	built-in  command  fg allows you to
+       continue a job in the foreground even though  you  may  have
+       started it in the background.
+
+       A job being run in the background will stop if it  tries  to
+       read  from  the	terminal.   It	is  also  possible  to stop
+       background jobs that try to write on the terminal by setting
+       the terminal options appropriately.
+
+       There is a built-in command jobs that lists  the  status  of
+       all running and stopped jobs.  In addition, you are informed
+       of  the	change	of  state  (running  or  stopped)  of	any
+       background  jobs just before each prompt.  If you want to be
+       notified about background job completions as  soon  as  they
+       occur  without  waiting	for  a	prompt, then use the notify
+       option.	When you try to  exit  the  shell  while  jobs	are
+       stopped or running, you will receive a message from ksh.  If
+       you ignore this message and try to exit again,  all  stopped
+       processes  will	be  terminated.   In  addition,  for  login
+       shells, the HUP signal will be sent to all  background  jobs
+       unless the job has been disowned with the disown command.
+
+       A built-in version of kill makes  it  possible  to  use	job
+       numbers	as targets for signals.  Signals can be selected by
+       number or name.	The name of the signal is the name found in
+       the  include  file /usr/include/sys/signal.h with the prefix
+       SIG removed.  The -l option of kill provides a means to	map
+       individual  signal  names  to  and  from  signal number.  In
+       addition, if no signal name  or	number	is  given,  kill -l
+       generates a list of valid signal names.
+
+       2.7  Changing Directories
+
+       By default, ksh maintains a logical view of the file  system
+       hierarchy  which  makes	symbolic  links  transparent.	For
+       systems that have symbolic links, this means that if /bin is
+       a  symbolic  link  to  /usr/bin	and you change directory to
+       /bin, pwd will indicate that you are in /bin, not  /usr/bin.
+       pwd -P  generates  the  physical  pathname  of  the  present
+       working directory by resolving all the symbolic	links.	 By
+       default, the cd command will take you where you expect to go
+       even if you cross symbolic links.  A subsequent cd .. in the
+       example	above  will  place  you in /, not /usr.  On systems
+       with  symbolic  links,  cd -P  causes  ..   to  be   treated
+       physically.
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 11 -
+
+
+
+       ksh remembers your last directory in  the  variable  OLDPWD.
+       The  cd	built-in  can be given with argument - to return to
+       the previous directory and prints the name of the directory.
+       Note  that  cd -  done  twice  returns  you  to the starting
+       directory, not the second previous directory.   A  directory
+       stack  manager  has  been written as shell functions to push
+       and pop directories from the stack.
+
+       2.8  Prompts
+
+       When ksh reads commands from a terminal, it issues a  prompt
+       whenever it is ready to accept more input and then waits for
+       the user to respond.  The TMOUT variable can be	set  to  be
+       the  number  of	seconds  that the shell will wait for input
+       before terminating.  A 60 second warning message is  printed
+       before terminating.
+
+       The shell uses two prompts.  The primary prompt, defined  by
+       the  value  of  the  PS1 variable, is issued at the start of
+       each command.  The secondary prompt defined by the value  of
+       the  PS2  variable,  is	issued when more input is needed to
+       complete a command.
+
+       ksh  allows  that  user	to  specify  a	list  of  files  or
+       directories  to	check  before  issuing the PS1 prompt.	The
+       variable MAILPATH is a colon ( : ) separated  list  of  file
+       names  to  be  checked for changes periodically. The user is
+       notified before the next prompt.  Each of the names in  this
+       list can be followed by a ?  and a prompt to be given when a
+       change has been detected in the file.  The  prompt  will  be
+       evaluated  for  parameter  substitution.   The  parameter $_
+       within a mail message will evaluate to the name of the  file
+       that  has  changed.   The  parameter  MAILCHECK	is  used to
+       specify the minimal interval in seconds before new  mail  is
+       checked for.
+
+       In addition to replacing each !	 in  the  prompt  with	the
+       command	version,  ksh expands the value of the PS1 variable
+       for  parameters	expansions,  arithmetic   expansions,	and
+       command	substitutions  as  described  below to generate the
+       prompt.	The expansion characters that  are  to	be  applied
+       when  the  prompt  is  issued  must be quoted to prevent the
+       expansions from occurring when assigning the value  to  PS1.
+       For example, PS1="$PWD" causes PS1 to be set to the value of
+       PWD at the time of the assignment whereas PS1='$PWD'  causes
+       PWD to be expanded at the time the prompt is issued.
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 12 -
+
+
+
+       Command substitution  may  require  a  separate	process  to
+       execute	and  cause  the prompt display to be somewhat slow,
+       especially when the return key is pressed several times in a
+       row.   Therefore,  its  use within PS1 is discouraged.  Some
+       variables are maintained by ksh so that their values can  be
+       used  with PS1.	The PWD variable stores the pathname of the
+       current working directory.  The value of SECONDS variable is
+       the  value  of  the  most recent assignment plus the elapsed
+       time.  By default, the time is  measured  in  milli-seconds,
+       but  since  SECONDS is a floating point variable, the number
+       of places after the decimal point in the expanded value	can
+       be specified with typeset -Fplaces SECONDS.  In a roundabout
+       way, this variable can be used to generate a time stamp into
+       the  PS1  prompt  without creating a process at each prompt.
+       The following code explains how you can do this on System V.
+       On  BSD,  you need another command to initialize the SECONDS
+       variable.
+
+
+	    # . this script and use $TIME as part of your PS1 string to
+	    # get the time of day in your prompt
+	    typeset -RZ2  _x1 _x2 _x3
+	    (( SECONDS=$(date  '+3600*%H+60*%M+%S') ))
+	    _s='_x1=(SECONDS/3600)%24,_x2=(SECONDS/60)%60,_x3=SECONDS%60,0'
+	    TIME='"${_d[_s]}$_x1:$_x2:$_x3"'
+	    # PS1=${TIME}whatever
+
+
+
+       2.9  Tilde substitution
+
+       The character ~ at the  beginning  of  a  word  has  special
+       meaning	to  ksh.   If  the characters after the ~ up to a /
+       match a user login name in the password database, then the ~
+       and  the  name  are replaced by that user's login directory.
+       If no match is found, the original word is unchanged.   A  ~
+       by  itself,  or in front of a /, is replaced by the value of
+       the HOME parameter.  A ~ followed by a + or - is replaced by
+       the value of $PWD and $OLDPWD respectively.
+
+       2.10  Output formats
+
+       The output of  built-in	commands  and  traces  have  values
+       quoted  so  that  they  can  be re-input to the shell.  This
+       makes it easy to use cut and paste shell output	on  systems
+       which  use  a pointing device such as a mouse.  In addition,
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 13 -
+
+
+
+       output can be saved in a file for reuse.
+
+       2.11  The ENV file
+
+       When an	interactive  ksh  starts,  it  evaluates  the  $ENV
+       variable  to  arrive  at  a file name.  If this value is not
+       null, ksh attempts to read and process commands in a file by
+       this  name.   Earlier  versions of ksh read the ENV file for
+       all invocations of the shell  primarily	to  allow  function
+       definitions  to be available for all shell invocations.	The
+       function search path, FPATH, described later, eliminated the
+       primary	need for this capability and it was removed because
+       the high performance cost was no longer deemed acceptable.
+
+
+       3.  PROGRAMMING LANGUAGE
+
+       The KornShell vastly extends the set  of  applications  that
+       can  be implemented efficiently at the shell level.  It does
+       this by providing simple yet powerful mechanisms to  perform
+       arithmetic,  pattern  matching,	substring  generation,	and
+       arrays.	Users can write applications as separate  functions
+       that  can  be  defined  in  the same file or in a library of
+       functions stored in a directory and loaded on demand.
+
+       3.1  String Processing
+
+       The shell is primarily a  string  processing  language.	 By
+       default,  variables hold variable length strings.  There are
+       no limits to the length of strings.  Storage  management  is
+       handled	by  the  shell automatically.  Declarations are not
+       required.  With most programming languages, string constants
+       are  designated	by enclosing characters in single quotes or
+       double quotes.  Since most of the words in the language	are
+       strings,  the  shell  requires  quotes  only  when  a string
+       contains characters that are normally processed specially by
+       the  shell, but their literal meaning is intended.  However,
+       since the shell is a string processing  language,  and  some
+       characters   can   occur   as   literals   and  as  language
+       metacharacters,	quoting  is  an  important  part   of	the
+       language.
+
+       There are four quoting mechanisms in ksh.  The  simplest  is
+       to  enclose  a  sequence of characters inside single quotes.
+       All characters between a pair of single	quotes	have  their
+       literal meaning; the single quote itself cannot appear.	A $
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 14 -
+
+
+
+       immediately preceding a single quoted string causes all	the
+       characters until the matching single quote to be interpreted
+       as  an  ANSI-C  language  string.   Thus,  '\n'	 represents
+       characters  \  and n, whereas, $'\n' represents the new-line
+       character.  Double quoted strings remove the special meaning
+       of  all	characters  except  $,	and  `,  so  that parameter
+       expansion  and  command	substitution  (defined	below)	are
+       performed.   The  final mechanism for quoting a character is
+       by preceding it with the escape character \.  This mechanism
+       works outside of quoted strings and for the characters $, `,
+       ", and \ in double quoted strings.
+
+       Variables  are  designated  by  one  or	more   strings	 of
+       alphanumeric   characters   beginning   with  an  alphabetic
+       character separated by a ..  Upper and lowercase  characters
+       are  distinct,  so  that  the  variable A and a are names of
+       different variables.  There is no limit to the length of the
+       name  of  a variable.  You do not have to declare variables.
+       You can assign a value to a variable by writing the name  of
+       the  variable,  followed  by  an  equal	sign, followed by a
+       character string that represents its  value.   To  create  a
+       variable  whose	name  contains a ., the variable whose name
+       consists of the characters before the last .   must  already
+       exist.	You reference a variable by putting the name inside
+       curly braces and preceding the braces with  a  dollar  sign.
+       The braces may be omitted when the name is alphanumeric.  If
+       x and y are two	shell  variables,  then  to  define  a	new
+       variable,  z, whose value is the concatenation of the values
+       of x and y, you just say z=$x$y.  It is that easy.
+
+       The $ can be thought of as meaning "value of." You can  also
+       capture	 the  output  of  any  command	with  the  notation
+       $(command).  This is referred to  as  command  substitution.
+       For  example,  x=$(date)  assigns  the  output from the date
+       command to the variable	x.   Command  substitution  in	the
+       Bourne  shell  is  denoted  by enclosing the command between
+       backquotes,  (``).   This   notation   suffers	from   some
+       complicated  quoting  rules.   Thus, it is hard to write sed
+       patterns  which	contains  back	 slashes   within   command
+       substitution.   Putting	the  pattern in single quotes is of
+       little  help.   ksh  accepts  the   Bourne   shell   command
+       substitution   syntax   for   backward  compatibility.	The
+       $(command) notation allows the  command	itself	to  contain
+       quoted strings even if the substitution occurs within double
+       quotes. Nesting is legal.
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 15 -
+
+
+
+       The special command substitution of the form $(cat file) can
+       be  replaced  by  $(< file), which is faster because the cat
+       command doesn't have to run.
+
+       3.2  Shell Parameters and Variables
+
+       There are three types of parameters  used  by  ksh,  special
+       parameters,  positional	parameters,  and  named  parameters
+       which are called variables.  ksh defines  the  same  special
+       characters,  0, *, @, #, ?, $, !, and -, as they are defined
+       in the Bourne shell.
+
+       Positional parameters are set when the shell is invoked,  as
+       arguments  to  the  set	built-in, and by calls to functions
+       (see below) and .  procedures.  They are named by  a  number
+       starting at 1.
+
+       The third type of parameter is  a  variable.   As  mentioned
+       earlier,  ksh  uses  variables whose names consist of one or
+       more alpha-numeric strings separated by a ..   There  is  no
+       need to specify the type of a variable in the shell because,
+       by default, variables store strings of arbitrary length	and
+       values  will automatically be converted to numbers when used
+       in an arithmetic context.  However, ksh variables  can  have
+       one   or   more	 attributes   that   control  the  internal
+       representation of the variable,	the  way  the  variable  is
+       printed,  and  its access or scope.  In addition, ksh allows
+       variables to represent arrays of values	and  references  to
+       other  variables.   The	typeset  built-in  command  of	ksh
+       assigns attributes to variables.   Two  of  the	attributes,
+       readonly  and  export,  are  available  in the Bourne shell.
+       Most of the remaining attributes are  discussed	here.	The
+       complete  list  of  attributes  appears	in the manual.	The
+       unset built-in of  ksh  removes	values	and  attributes  of
+       variables.   When  a  variable  is  exported, certain of its
+       attributes are also exported.
+
+       Whenever a value is assigned to a  variable,  the  value  is
+       transformed  according  to  the	attributes of the variable.
+       Changing the attribute of a variable can change	its  value.
+       The  attributes	-L  and  -R  are  for  left and right field
+       justification respectively.  They are  useful  for  aligning
+       columns	in a report.  For each of these attributes, a width
+       can be defined explicitly or else it is	defined  the  first
+       time an assignment is made to the variable.  Each assignment
+       causes justification of the field, truncating if  necessary.
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 16 -
+
+
+
+       Assignment  to  fixed  sized  variables	provides one way to
+       generate  a  substring  consisting  of  a  fixed  number  of
+       characters  from  the  beginning  or end of a string.  Other
+       methods are discussed later.
+
+       The attributes -u and -l, are used for upper case and  lower
+       case  formatting  respectively.	 Since it makes no sense to
+       have both attributes on simultaneously, turning on either of
+       these attributes turns the other off.  The following script,
+       using read and print which are described later, provides  an
+       example of the use of shell variables with attributes.  This
+       script reads a file of lines each consisting of five  fields
+       separated  by  :  and prints fields 4 and 2 in upper case in
+       columns 1-15,  left  justified,	and  columns  20-25  right-
+       justified respectively.
+
+	    typeset -uL15 f4		    # 15 character left justified
+	    typeset -uR6 f2		    # 6 character right justified
+	    IFS=:			    # set field separator to :
+	    while   read -r f1 f2 f3 f4 f5  # read line, split into fields
+	    do	    print -r -- "$f4  $f2"  # print fields 4 and 2
+	    done
+
+
+       The -i,	-E,  and  -F,  attributes  are	used  to  represent
+       numbers.   Each can be followed by a decimal number.  The -i
+       attribute causes the value to be represented as	an  integer
+       and  it can be followed by a number representing the numeric
+       base when expanding its value.  Whenever a value is assigned
+       to  an  integer	variable,  it is evaluated as an arithmetic
+       expression and then truncated to an integer.
+
+       The -E attribute causes	the  value  to	be  represented  in
+       scientific  notation  whenever  its  value is expanded.	The
+       number following the -E determines the number of significant
+       figures,  and  defaults	to  6.	The -F attribute causes the
+       value to be represented with a fixed number of places  after
+       the  decimal point. Assignments to variables of the -E or -F
+       cause  the  evaluation  of  the	right  hand  side  of	the
+       assignment.
+
+       ksh allows one-dimensional  arrays  in  addition  to  simple
+       variables.   There  are	two  types  of	arrays; associative
+       arrays and indexed arrays.  The subscript for an associative
+       array  is  an arbitrary string, whereas the subscript for an
+       indexed array is an arithmetic expression that is  evaluated
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 17 -
+
+
+
+       to  yield  an  integer  index.	Any  variable can become an
+       indexed array by referring to  it  with	a  subscript.	All
+       elements  of an array need not exist.  Subscripts for arrays
+       must evaluate to an  integer  between  0  and  some  maximum
+       value,  otherwise  an  error results.  The maximum value may
+       vary from one machine to  another  but  is  at  least  4095.
+       Evaluation  of  subscripts is described in the next section.
+       Attributes apply to the whole array.
+
+       Assignments to array variables can  be  made  to  individual
+       elements  via  parameter  assignment commands or the typeset
+       built-in.  Additionally, values can be assigned sequentially
+       using the -A name option of the set command.  Referencing of
+       subscripted variables requires the  character  $,  but  also
+       requires  braces  around the array element name.  The braces
+       are needed to avoid conflicts with the file name  generation
+       mechanism.  The form of any array element reference is:
+			   ${name[subscript]}.
+       A subscript value of * or @ can	be  used  to  generate	all
+       elements  of  an  array,  as  they are used for expansion of
+       positional  parameters.	 The  list  of	currently   defined
+       subscripts  for	a  given  variable  can  be  generated with
+       ${!name[@]}, or ${!name[*]}.
+
+       The nameref attribute causes the variable to be treated as a
+       reference  to  the variable defined by its value.  Once this
+       attribute is set, all references  to  this  variable  become
+       references  to  the  variable  named  by  the  value of this
+       variable.   For	example,  if  foo=bar,	then  setting	the
+       reference   attribute   on  foo	will  call  all  subsequent
+       references to foo to behave as references to bar.  Unsetting
+       this  attribute breaks the association.	Reference variables
+       are usually used inside functions whose	arguments  are	the
+       name  of a shell variable. The names for reference variables
+       cannot  contain	a  ..	Whenever  a   shell   variable	 is
+       referenced,  the  portion  of the variable up to the first .
+       is checked to see whether it matches the name of a reference
+       variable.   If  it  does,  then	the  name  of  the variable
+       actually used consists of the concatenation of the  name  of
+       the  variable  defined  by  the reference plus the remaining
+       portion of the original variable name.  For  example,  using
+       the predefined alias, alias nameref='typeset -n',
+
+	    .bar.home.bam="hello world"
+	    nameref foo=.bar.home
+	    print ${foo.bam}
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 18 -
+
+
+
+	    hello world
+
+
+       3.3  Substring Generation
+
+       The expansion of a variable or parameter can be modified  so
+       that  only  a  portion  of  the	value  results. It is often
+       necessary to extract a portion of  a  shell  variable  or  a
+       portion	of an array.  There are several parameter expansion
+       operators that can  do  this.   One  method  to	generate  a
+       substring    is	  with	  an	expansion   of	 the   form
+       ${name:offset:length}  where   offset   is   an	 arithmetic
+       expression  that  defines  the offset of the first character
+       starting from 0, and length is an arithmetic expression that
+       defines the length of the substring.  If :length is omitted,
+       the length of the value of name starting at offset is  used.
+       The  :offset:length  operators  can also be applied to array
+       expansions and to parameters * and @ to generate portions of
+       an      array.	    For     example,	 the	 expansion,
+       ${name[@]:offset:length}, yields up to  length  elements  of
+       the array name starting at the element offset.
+
+       The other parameter expansion modifiers use  shell  patterns
+       to  describe portions of the string to modify and delete.  A
+       description of shell  patterns  is  contained  below.   When
+       these modifiers are applied to special parameters @ and * or
+       to  array  parameters  given  as  name[@]  or  name[*],	the
+       operation  is  performed  on  each  element.  There are four
+       parameter substitution modifiers that strip off leading	and
+       trailing   substrings   during	parameter  substitution  by
+       removing  the  characters  matching  a  given  pattern.	 An
+       expansion  of  the  form ${name#pattern} causes the smallest
+       matching prefix of the value of name  to  be  removed.	The
+       largest	prefix	matching  pattern  is  removed	by using ##
+       instead	of  #.	 Similarly,  an  expansion  of	 the   form
+       ${name%pattern}	causes	the  smallest matching substring at
+       the end of name to be removed.  Again, using %%	instead  of
+       %,  causes  the	largest  matching  trailing substring to be
+       deleted.  For example, if the shell variable file has  value
+       foo.c, then the expression ${file%.c}.o has value foo.o.
+
+       The value of an expansion can be  changed  by  specifying  a
+       pattern that matches the part that needs to be changed after
+       the the parameter expansion modifier /.	An expansion of the
+       form  ${name/pattern/string}  replaces  the  first  match of
+       pattern with the value of  variable  name  to  string.	The
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 19 -
+
+
+
+       second  /  is  not  necessary  when  string  is	null.	The
+       expansion ${name//pattern/string} changes all occurrences of
+       the  pattern into string.  The parameter expansion modifiers
+       /# and /% cause the matching pattern to be anchored  to	the
+       beginning and end respectively.
+
+       Finally, there are parameter expansion modifiers that yield,
+       the  name of the variable, the string length of the value or
+       the number of elements of an  array.   ${!name}	yields	the
+       name  of  the variable which will be name itself except when
+       name is a reference variable.  In this case  it	will  yield
+       the name of the variable it refers to.  ${#name} will be the
+       length in bytes of $name.  For an array variable ${#name[*]}
+       gives the number of elements in the array.
+
+       3.4  Arithmetic Evaluation
+
+       For  the  most  part,  the  shell  is  a  string  processing
+       language.   However,  the  need for arithmetic has long been
+       obvious.  Many of the characters that  are  special  to	the
+       Bourne  shell,  are needed as arithmetic operators.  To make
+       arithmetic easy to use, and to maintain	compatibility  with
+       the  Bourne  shell, ksh uses matching (( and )) to delineate
+       arithmetic expressions.	While single parentheses might have
+       been  more  desirable,  these  already mean subshell so that
+       another notation was required.	The  arithmetic  expression
+       inside  the  double  parentheses  follows  that same syntax,
+       associativity and precedence as the  ANSI-C[15]	programming
+       language.    The  characters  between  the  matching  double
+       parentheses are processed  with	the  same  rules  used	for
+       double  quotes so that spaces can be used to aid readability
+       without additional quoting.
+
+       All  arithmetic	evaluations  are  performed  using   double
+       precision   floating   point   arithmetic.   Floating  point
+       constants follow the same rules as  the	ANSI-C	programming
+       language.  Integer arithmetic constants are written as
+			       base#number,
+       where base is a decimal integer between two  and  sixty-four
+       and  number  is	any  non-negative number.  Base ten is used
+       when no base is specified.  The digits  are  represented  by
+       the characters 0-9a-zA-Z_@.  For bases less than or equal to
+       36,  upper  and	lower	case   characters   can   be   used
+       interchangibly to represent the digits from 10 thru 35.
+
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 20 -
+
+
+
+       Arithmetic expressions are made from  constants,  variables,
+       operators.   Parentheses  may  be  used	for  grouping.	The
+       contents inside the double parentheses  are  processed  with
+       the  same expansions as occurs in a double quoted string, so
+       that all $ expansions are performed  before  the  expression
+       are  performed.	 However,  there is no need to use the $ to
+       get the value of a variable because the arithmetic evaluator
+       replaces  the  name  of	the variable by its value within an
+       arithmetic expression.	The  $	cannot	be  used  when	the
+       variable  is  the  subject  of  assignment  or  an increment
+       operation.  As a rule it is better not to use $ in front  of
+       variables in an arithmetic expression.
+
+       An arithmetic command of the form (( ...  ))  is  a  command
+       that  evaluates	the  enclosed  arithmetic  expression.	For
+       example, the command
+				(( x++ ))
+       can be used to increment the variable  x,  assuming  that  x
+       contains  some  numerical  value.  The arithmetic command is
+       true (return value 0),  when  the  resulting  expression  is
+       non-zero,  and  false  (return  value 1) when the expression
+       evaluates to zero.  This makes the command easy to use  with
+       the if and while compound command.
+
+       The for compound  command  has  been  extended  for  use  in
+       arithmetic contexts. The syntax,
+		      for (( expr1; expr2 ; expr3 ))
+       can be used as the first line of a for loop  with  the  same
+       semantics  as  the  for	statement in the ANSI-C programming
+       language.
+
+       Arithmetic evaluations can also be performed as part of	the
+       evaluation of a command line.  The syntax $(( ... )) expands
+       to the value of the enclosed  arithmetic  expression.   This
+       expansion   can	 occur	 wherever  parameter  expansion  is
+       performed.   For  example  using  the  ksh   command   print
+       (described later)
+			      print $((2+2))
+       prints the number 4.
+
+       The following  script  prints  the  first  n  lines  of	its
+       standard  input	onto  its  standard  output, where n can be
+       supplied as an optional argument whose default value is 20.
+
+	    integer n=${1-20}			    # set n
+	    while   (( n-- >=0 )) && read -r line   # at most n lines
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 21 -
+
+
+
+	    do	    print -r -- "$line"
+	    done
+
+
+       3.5  Shell Expansions
+
+       The commands you enter from the terminal or  from  a  script
+       are  divided  into  words  and  each  word undergoes several
+       expansions to generate the command name and  its  arguments.
+       This  is  done  in  two	phases.  The first phase recognizes
+       reserved words, spaces and operators to decide where command
+       boundaries  lie.  Alias substitutions take place during this
+       phase.	The  second  phase  performs  expansions   in	the
+       following order:
+
+	  + Tilde  substitution,  parameter  expansion,  arithmetic
+	    expansion,	and command substitution are performed from
+	    left to right.
+
+	  + The characters that result from parameter expansion and
+	    command   substitution   above  are  checked  with	the
+	    characters in  the	IFS  variable  for  possible  field
+	    splitting.	(See a description of read below to see how
+	    IFS is used.) Setting IFS to a null value causes  field
+	    splitting to be skipped.
+
+	  + Pathname generation (as described below)  is  performed
+	    on	each of the fields.  Any field that doesn't match a
+	    pathname is left alone.  The option, -f or	noglob,  is
+	    used to disable pathname generation.
+
+       3.6  Pattern Matching
+
+       The shell is primarily a string processing language and uses
+       patterns  for  matching	file  names as well as for matching
+       strings.  The characters ?, *, and [ are processed specially
+       by  the shell when not quoted.  These characters are used to
+       form patterns that match strings.  Patterns are used by	the
+       shell  to  match  pathnames,  to specify substrings, and for
+       case commands.  The character ?	matches any one  character.
+       The  character  *  matches  zero  or  more  characters.	The
+       character sequence [...]  defines  a  character	class  that
+       matches	any  character	contained  within  [].	 A range of
+       characters can be specified by putting a - between the first
+       and  last  character  of the range.  An exclamation mark, !,
+       immediately after the [, means match all  characters  except
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 22 -
+
+
+
+       the   characters   specified.	For  example,  the  pattern
+       a?c*.[!a-z] matches any string beginning with  an  a,  whose
+       third  character  is a c, and that ends in .  (dot) followed
+       by any character except the  lowercase  letters,  a-z.	The
+       sequence [:alpha:] inside a character class, matches any set
+       of  characters  in  the	ANSI-C	alpha  class.	 Similarly,
+       [:class:]  matches each of the characters in the given class
+       for all the ANSI-C character classes.
+
+       ksh treats  strings  of	the  form  (pattern-list)  ,  where
+       pattern-list  is a list of one or more patterns separated by
+       a |, specially when preceded by *, ?,  +,  @,  or  !.   A  ?
+       preceding   (pattern-list)   means  that  the  pattern  list
+       enclosed in () is optional.  An @(pattern-list) matches	any
+       pattern	 in  the  list	of  patterns  enclosed	in  ().   A
+       *(pattern-list) matches any string  that  contains  zero  or
+       more  of  each  of the enclosed patterns, whereas +(pattern-
+       list) requires a match of one or more of any  of  the  given
+       patterns.   For	instance,  the pattern +([0-9])?(.) matches
+       one or more digits  optionally  followed  by  a	.(dot).   A
+       !(pattern-list)	matches  anything  except  any of the given
+       patterns.  For example, print !(*.o) will display  any  file
+       name that does not end in .o.
+
+       When patterns are used to generate pathnames when  expanding
+       commands  several  other  rules	apply.	A separate match is
+       made for each matching on each file name  component  of	the
+       pathname. Read permission is required for any portion of the
+       pathname that contains any special pattern character. Search
+       permission  is  required for every component except possibly
+       the last.
+
+       By default, file names in each directory that begin  with  .
+       are  skipped  when performing a match.  If the pattern to be
+       matched starts with a leading ., then only  files  beginning
+       with  a	.,  are considered when finding matching files.  If
+       the FIGNORE variable is set, then only  files  that  do	not
+       match  this  pattern  are  considered.	This  overrides the
+       special meaning of .  in a pattern and in a file name.
+
+       If the markdirs option is set, each matching  pathname  that
+       is  the name of a directory has a trailing / appended to the
+       name.
+
+
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 23 -
+
+
+
+       3.7  Conditional Expressions
+
+       The Bourne shell uses the test command, or the equivalent  [
+       command,  to  test  the	attributes for files and to compare
+       strings or numbers.  The problem with test is that the shell
+       has  expanded  the  words of the test command and split them
+       into arguments before test begins  execution.   test  cannot
+       distinguish  between  operators and operands.  In most cases
+       test "$1"  will	test  whether  argument  1   is   non-null.
+       However,  if argument 1 is -f, then test will treat -f as an
+       operator and yield a syntax error.  One of the most frequent
+       errors  with  test  occurs  when its operands are not within
+       double quotes.  In this case, the  argument  may  expand  to
+       more  than  a  single argument or to no argument at all.  In
+       either case this will likely cause  a  syntax  error.   What
+       makes   this   most  insidious  is  that  these	errors	are
+       frequently data dependent.  A script  that  appears  to	run
+       correctly may abort if given unexpected data.
+
+       To get around these problems, ksh has a compound command for
+       condition  expression  testing as part of the language.	The
+       reserved words [[ and ]] delimit the range of  the  command.
+       Because	they  are  reserved words, not operator characters,
+       they require spaces to separate them  from  arguments.	The
+       words  between  [[  and	]]  are  not  processed  for  field
+       splitting or for pathname generation.   In  addition,  since
+       ksh  determines	the  operators	before parameter expansion,
+       expansions that yield no argument  cause  no  problem.	The
+       operators  within  [[...]]  are almost the same as those for
+       the test command.  All  unary  operators  are  of  the  form
+       -letter and are followed by a single operand.  Instead of -a
+       and -o, [[...]] uses && and || to indicate "and"  and  "or".
+       Parentheses are used without quoting for grouping.
+
+       The right hand side of the string  comparison  operators  ==
+       and  !=	take  a  pattern  and  tests  whether the left hand
+       operand matches this pattern.  Quoting the  pattern  results
+       is  a  string  comparison rather than the pattern match. The
+       operators < and > within [[...]]  designate  lexicographical
+       comparison.
+
+       In  addition  there  are  several   other   new	 comparison
+       primitives.   The  binary  operators -ot and -nt compare the
+       modification times of two files to see which file  is  older
+       than or newer than the other.  The binary operator -ef tests
+       whether two files have the same device  and  i-node  number,
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 24 -
+
+
+
+       i. e., a link to the same file.
+
+       The unary operator -L returns  true  if	its  operand  is  a
+       symbolic link.  The unary operator -O ( -G ) returns true if
+       the owner (or group) of the file operand matches that of the
+       caller.	The unary operator -o returns true when its operand
+       is the name of an option that is currently on.
+
+       The  following  script  illustrates  some  of  the  uses  of
+       [[...]].  The reference manual contains the complete list of
+       operators.
+
+	    for i in "${@}"
+	    do	    # execute foo for numeric directory
+		    if	    [[ -d $i && $i == +([0-9]) ]]
+		    then    foo
+		    # otherwise if writable or executable file and not mine
+		    elif    [[ (-w $i||-x $i) && ! -O $i ]]
+		    then    bar
+		    fi
+	    done
+
+
+       3.8  Input and Output
+
+       ksh has extended I/O capabilities to enhance the use of	the
+       shell  as a programming language.  As with the Bourne shell,
+       you use the I/O redirection operator, <,  to  control  where
+       input  comes  from,  and the I/O redirection operator, >, to
+       control where output goes to. Each of these operators can be
+       preceded  with  a  single  digit  that specifies a file unit
+       number to associate with the file  stream.   Ordinarily	you
+       specify	these  I/O  redirection  operators  with a specific
+       command to which it applies.  However, if  you  specify	I/O
+       redirections  with  the	exec  command,	and  don't  specify
+       arguments to exec, then the I/O redirection applies  to	the
+       current	program.   For	example,  the command exec < foobar
+       opens file foobar for reading.  The  exec  command  is  also
+       used  to  close files.  A file descriptor unit can be opened
+       as a copy of an	existing  file	descriptor  unit  by  using
+       either  of  the	<&  or	>&  operators  and putting the file
+       descriptor unit of the original file  after  the  &.   Thus,
+       2>&1 means open standard error (file descriptor 2) as a copy
+       of standard output (file descriptor 1).	A  file  descriptor
+       value  of  -  after  the & indicates that the file should be
+       closed.	To close file unit 5, specify exec 5<&-.  There are
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 25 -
+
+
+
+       two  additional redirection operators with ksh and the POSIX
+       shell that are  not  part  of  the  Bourne  shell.   The  >|
+       operator  overrides  the  effect  of  the  noclobber  option
+       described earlier.  The <> operator  causes  a  file  to  be
+       opened for both reading and writing.
+
+       ksh recognizes certain pathnames and treats them  specially.
+       Pathnames of the form /dev/fd/n are treated as equivalent to
+       the file defined by file descriptor n.  These  name  can  be
+       used  as  the  script  argument	to  ksh  and in conditional
+       testing as described  above.   On  underlying  systems  that
+       support	/dev/fd  in  the  file	system,  these names can be
+       passed  to  other   commands.	Pathnames   of	 the   form
+       /dev/tcp/hostid/port and /dev/udp/hostid/port can be used to
+       create tcp and udp connections  to  services  given  by	the
+       hostid  number  and  port  number.   The  hostid  cannot use
+       symbolic values. In practice these are  typically  generated
+       by	command       substitution.	  For	   example,
+       exec 5> /dev/tcp/$(service name) would open file  descriptor
+       5  for sending messages to hostid and port number defined by
+       the output of service name.
+
+       The Bourne shell has a built-in	command  read  for  reading
+       lines  from standard input (file descriptor 0) and splitting
+       it into fields based on the value of the IFS variable, and a
+       command echo to write strings to standard output.  ( On some
+       systems,  echo  is  not	a  built-in  command   and   incurs
+       considerable  overhead  to  use.)  Unfortunately, neither of
+       these commands is able to perform  some	very  basic  tasks.
+       For  example.   with  the  Bourne  shell,  the read built-in
+       cannot read a single line that end in \.  With ksh the  read
+       built-in has a -r option to remove the special meaning for \
+       which allows it to be treated as a regular character  rather
+       than  the  line	continuation  character.   With  the Bourne
+       shell, there is no simple way to have  more  than  one  file
+       open  at  any time for reading.	ksh has options on the read
+       command to specify the file descriptor for the  input.	The
+       fields  that  are  read	from  a  line can be stored into an
+       indexed array with the -A option to  read.   This  allows  a
+       line to be split into an arbitrary number of fields.
+
+       The way the Bourne shell uses  the  IFS	variable  to  split
+       lines  into  fields  greatly limits its utility.  Often data
+       files consist of lines that use a character  such  as  :  to
+       delimit	fields	with  two adjacent delimiters that denote a
+       null field.  The Bourne shell treats adjacent delimiters  as
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 26 -
+
+
+
+       a  single  field  delimiter.   With ksh, delimiters that are
+       considered white space characters have the behavior  of	the
+       Bourne  shell,  but  other adjacent delimiters separate null
+       fields.
+
+       The read command is often used in scripts that interact with
+       the  user  by  prompting  the  user and then requesting some
+       input.  With the Bourne shell two commands are  needed;	one
+       to prompt the user, the other to read the reply.  ksh allows
+       these two commands to be combined.  The	first  argument  of
+       the read command can be followed by a ?	and a prompt string
+       which is used whenever  the  input  device  is  a  terminal.
+       Because the prompt is associated with the read built-in, the
+       built-in command line editors will be able to re-output	the
+       prompt  whenever the line needs to be refreshed when reading
+       from a terminal device.
+
+       With the Bourne shell, there is no way to set a	time  limit
+       for waiting for the user response to read.  The -t option to
+       read takes a floating point argument that gives the time  in
+       seconds,  or fractions of seconds that the shell should wait
+       for a reply.
+
+       The version of the echo command in System V  treats  certain
+       sequences beginning with \ as control sequences.  This makes
+       it hard to output strings without interpretation.  Most	BSD
+       derived	systems  do  not  interpret  \	control  sequences.
+       Unfortunately, the BSD versions of echo accepts a -n  option
+       to  prevent a trailing new-line, but has no way to cause the
+       string -n to be	printed.   Neither  of	these  versions  is
+       adequate.  Also,  because  they are incompatible, it is very
+       hard to write portable shell scripts using  echo.   The	ksh
+       built-in,  print, outputs characters to the terminal or to a
+       file and subsumes the functions of  all	versions  of  echo.
+       Ordinarily,  escape  sequences in arguments beginning with \
+       are processed the same as for the  System  V  echo  command.
+       However	print  follows the standard conventions for options
+       and has options that make  print  very  versatile.   The  -r
+       option  can  be	used  to  output  the arguments without any
+       special meaning.  The -n option can be used here to suppress
+       the  trailing new-line that is ordinarily appended.  As with
+       read, it is possible to specify the file  descriptor  number
+       as  an  option  to  the	command  to  avoid  having  to	use
+       redirection operators with each occurrence of the command.
+
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 27 -
+
+
+
+       The IEEE POSIX shell and utilities  standard  committee	was
+       unable to reconcile the differences between the System V and
+       BSD versions of echo.  They introduced a new  command  named
+       printf  which  takes  an  ANSI-C format string and a list of
+       options and outputs the strings using the ANSI-C  formatting
+       rules.	Since  ksh  is POSIX conforming, it accepts printf.
+       However, there is a -f options to print that can be used  to
+       specify	a  format  string which processes the arguments the
+       same way that printf does.
+
+       The format processing for print and printf has been extended
+       slightly.  There are three additional formatting directives.
+       The %b format causes the \ escape sequences to  be  expanded
+       as  they  are with the System V echo command.  The %q format
+       causes quotes to be placed on the output as required so that
+       it  can	be  used as shell input.  Special characters in the
+       output of most ksh built-in commands and in the output  from
+       an  execution trace are quoted in an equivalent fashion. The
+       %P format causes an extended regular expression string to be
+       converted  into a shell pattern.  This is useful for writing
+       shell applications that have to accept regular expression as
+       input.  Finally, the escape sequence \E which expands to the
+       terminal escape character (octal 033) has been added.
+
+       The shell is frequently used as a programming  language	for
+       interactive  dialogues.	The select statement has been added
+       to the language to make it easier to present menu  selection
+       alternatives  to  the user and evaluate the reply.  The list
+       of alternatives is numbered and	put  in  columns.   A  user
+       settable  prompt,  PS3,	is  issued  and  if the answer is a
+       number corresponding to one of the alternatives, the  select
+       loop  variable is set to this value.  In any case, the REPLY
+       variable is used to store the user entered reply.  The shell
+       variables  LINES  and COLUMNS are used to control the layout
+       of select lists.
+
+       3.9  Co-process
+
+       ksh can spawn a co-process by adding a |& after	a  command.
+       This  process  will  be	run with its standard input and its
+       standard  output  connected  to	the  shell.   The  built-in
+       command	print  with  the  -p  option  will  write  into the
+       standard input of this process and the built-in command read
+       with  the  -p  option  will  read  from	the  output of this
+       process.
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 28 -
+
+
+
+       In addition, the I/O redirection operators <& and >& can  be
+       used to move the input or output pipe of the co-process to a
+       numbered file descriptor.  Use exec 3>& p to move the  input
+       of  the	co-process  to	file  descriptor 3.  After you have
+       connected to file descriptor 3, you can direct the output of
+       any command to the co-process by running command >&3.  Also,
+       by  moving  the	input  of  the	co-process  to	a  numbered
+       descriptor,  it is possible to run a second co-process.	The
+       output of both co-processes  will  be  the  file  descriptor
+       associated with read -p.  You can use exec 4< p to cause the
+       output of these co-processes to go to file descriptor  4  of
+       the shell.  Once you have moved the pipe to descriptor 4, it
+       is possible to connect a server to the co-process by running
+       command 4<& p   or   to	 close	the  co-process  pipe  with
+       exec 4<& -.
+
+       3.10  Functions
+
+       Function definitions are of the form
+
+	    function name
+	    {
+	    any shell script
+	    }
+
+       A function whose name contains a .  is called  a  discipline
+       function.   The	portion of the name before the last .  must
+       refer to the name of an existing variable.  Thus, if p is  a
+       reference to PATH, then the function name p.get and PATH.get
+       refer to the same function.
+
+       The function is invoked either by  specifying  name  as	the
+       command	name  and optionally following it with arguments or
+       by using it  as	an  option  to	the  .	 built-in  command.
+       Positional  parameters  are  saved before each function call
+       and restored when completed.  The arguments that follow	the
+       function   name	 on  the  calling  line  become  positional
+       parameters inside the function.	The return built-in can  be
+       used  to  cause	the  function  to  return  to the statement
+       following the point of invocation.
+
+       Functions can also be defined with the System V notation,
+
+	    name ()
+	    {
+	    any shell script
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 29 -
+
+
+
+	    }
+
+       Functions defined with this syntax cannot  be  used  as	the
+       first  argument to a . procedure.  ksh accepts this notation
+       for compatibility only.	 There	is  no	need  to  use  this
+       notation when writing ksh scripts.
+
+       Functions defined with the function name syntax and  invoked
+       by  name  are  executed in the current shell environment and
+       can  share  named  variables  with  the	 calling   program.
+       Options,  other	than execution trace -x, set by the calling
+       program are passed down to a function.  The options are	not
+       shared  with  the  function so that any options set within a
+       function  are  restored	when  the  function  exits.   Traps
+       ignored	by  the  caller are ignored within the function and
+       cannot be enabled.  Traps caught by the calling program	are
+       reset  to  their  default action with the function.  In most
+       instances, the default action is to cause  the  function  to
+       terminate.   A  trap  on  EXIT,	defined  within  a function
+       executes after the function completes but before the  caller
+       resumes.    Therefore,  any  variable  assignments  and	any
+       options set as part of a trap action will be effective after
+       the caller resumes.
+
+       By default, variables are  inherited  by  the  function	and
+       shared  by  the	calling  program.   However,  for functions
+       defined with the function name syntax that  are	invoked  by
+       name,  environment substitutions preceding the function call
+       apply only  to  the  scope  of  the  function  call.   Also,
+       variables  whose  names do not contain a .  that are defined
+       with the typeset built-in command are local to the  function
+       that they are declared in.  Thus, for the function defined
+
+	    function  name
+	    {
+		 typeset -i x=10
+		 let z=x+y
+		 print $z
+	    }
+
+       invoked as y=13 name, x	and  y	are  local  variables  with
+       respect to the function name while z is global.
+
+       Functions defined with  the  name()  syntax,  and  functions
+       invoked	as  an argument to the .  command, share everything
+       other  than   positional   parameters   with   the   caller.
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 30 -
+
+
+
+       Assignments that precede the call remain in effect after the
+       function completes.
+
+       Alias and function  names  are  not  passed  down  to  shell
+       scripts	or carried across separate invocations of ksh.	The
+       $FPATH variable gives a colon separated list of	directories
+       that  is  searched  for	function definitions when trying to
+       resolve the command name.  Whenever a file name contained in
+       $FPATH is found, the complete file is read and all functions
+       contained within become defined.
+
+       Calls that reference functions can be recursive.  Except for
+       special	built-ins,  function  names  take  precedence  over
+       built-in names and names of programs when  used	as  command
+       names.  To write a function to replace a built-in command or
+       to replace a program, you  must	use  the  command  built-in
+       command.    The	arguments  to  command	are  the  name	and
+       arguments of the program you want to execute.   For  example
+       to  write  a  cd  function  which  changes the directory and
+       prints out the directory name, you can write,
+
+	    function  cd
+	    {
+		 if	 command cd  "$@"
+		 then	 print	-r -- $PWD
+		 fi
+	    }
+
+
+       The FPATH variable is a colon separated list that  ksh  uses
+       to  search for function definitions.  When ksh encounters an
+       autoload function, it runs the  .   command  on	the  script
+       containing the function, and then executes the function.
+
+       Function definitions may also be placed	in  the  ENV  file.
+       However,  this  causes  the  shell  to  take longer to begin
+       executing.
+
+       3.11  Process Substitution
+
+       This feature is only  available	on  versions  of  the  UNIX
+       operating  system  which  support  the /dev/fd directory for
+       naming open  files.   Each  command  argument  of  the  form
+       <(list)	or  >(list)  will  run	process list asynchronously
+       connected to some file in the /dev/fd directory.   The  name
+       of  this  file  will become the argument to the command.  If
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 31 -
+
+
+
+       the form with > is selected then writing on this  file  will
+       provide	input for list.  If < is used, then the file passed
+       as an argument will contain the output of the list  process.
+       For example,
+
+	    paste  <(cut -f1 file1)  <(cut -fB file2) | tee >(process1)  >(process2)
+
+       extracts fields 1 and 3	from  the  files  file1  and  file2
+       respectively,  places the results side by side, and sends it
+       to the processes process1 and process2, as well	as  putting
+       it  onto  the  standard output.	Note that the file which is
+       passed as an argument  to  the  command	is  a  UNIX  system
+       pipe(2)	so that the programs that expect to lseek(2) on the
+       file will not work.
+
+       3.12  Finding Commands
+
+       The addition of aliases, functions, and more  built-ins	has
+       made  it  substantially	more difficult to know what a given
+       command word really means.
+
+       There are several reasons that commands are built  into	the
+       shell  rather  than  being separate programs.  Commands that
+       begin with reserved words are an integral part of the  shell
+       language itself and typically define the control flow of the
+       language.  Some control flow commands are not reserved words
+       in  the	language but are special built-ins.  Special built-
+       ins are built-ins that are considered a part of the language
+       rather  than  user definable commands.  The best examples of
+       commands that fit this description are break  and  continue.
+       Because	they are not reserved words, they can be the result
+       of shell expansions and are not effected by  quoting.  These
+       commands have the following special properties:
+
+	  + Assignments that precede  them  apply  to  the  current
+	    shell process, not just to the given command.
+
+	  + An error in the format of these commands cause a  shell
+	    script or function that contains them to abort.
+
+	  + They cannot be overridden by shell functions.
+
+       Other  commands	are  built-in  because	they  perform  side
+       effects	on  the  current  environment  that would be nearly
+       impossible to implement otherwise.  Built-ins such as cd and
+       read  are  examples  of such built-ins.	These built-ins are
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 32 -
+
+
+
+       semantically equivalent to commands that  are  not  built-in
+       except that they don't take a path search to locate.
+
+       A third reason to have a command built-in is so that it will
+       be  unaffected  by  the	setting  of the PATH variable.	The
+       print  command fits this category.  Scripts that  use  print
+       will be portable to all sites that run ksh.
+
+       The final reason for having a command be a built-in  is	for
+       performance.   On  most	systems it is more than an order of
+       magnitude faster to initiate a command that is built-in than
+       to  create  a  separate process to run the command.  Example
+       that fit this category are test and basename.
+
+       Given a command name ksh decides what  it  means  using	the
+       following order:
+
+	  + Reserved words define commands that form  part  of	the
+	    shell grammar.  They cannot be quoted.
+
+	  + Alias substitutions occur first as part of the  reading
+	    of	commands.   Using  quotes  in the command name will
+	    prevent alias substitutions.
+
+	  + Special built-ins come next.
+
+	  + Functions.
+
+	  + Commands that are built-in that are not associated with
+	    a pathname.
+
+	  + If the command name contains a /, the program or script
+	    corresponding to the given name is executed.
+
+	  + A path search locates the pathname corresponding to the
+	    command.  If the pathname where it is found matches the
+	    pathname  associated  with	a  built-in  command,	the
+	    built-in  command  is executed.  If the directory where
+	    the command is found is listed in the  FPATH  variable,
+	    the  file is read into the shell like a dot script, and
+	    a function by that name is invoked.  Once a pathname is
+	    found,  ksh  remembers  its  location  and	only checks
+	    relative directories in PATH the next time the  command
+	    name  is used.  Assigning a value to PATH causes ksh to
+	    forget the location of all command names.
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 33 -
+
+
+
+	  + The FPATH variable is  searched  and  files  found	are
+	    treated as described above.
+
+       The  first  argument  of  the  command  built-in,  described
+       earlier,  skips	the  checks  for  reserved  words  and	for
+       function definitions.  In all other  ways,  command  behaves
+       like  a built-in that is not associated with a pathname.  As
+       a result, if the first argument	of  command  is  a  special
+       built-in,  the  special	properties  of this built-in do not
+       apply. For example, whereas, exec 3< foo will cause a script
+       containing    it    to	 abort	  if	the   open   fails,
+       command exec 3< foo results in a non-zero  exit	status	but
+       does not abort the script.
+
+       You can get a complete list of the special built-in commands
+       with builtin -s. In addition builtin without arguments gives
+       a list of the current built-ins and the pathname  that  they
+       are  associated	with.	A  built-in can be bound to another
+       pathname by giving  the	pathname  for  the  built-in.	The
+       basename  of  this  path  must  be  the	name of an existing
+       built-in for this to succeed.  Specifying the  name  of	the
+       built-in without a pathname causes this built-in to be found
+       before a path search.  On systems with run time	loading  of
+       libraries,  built-in  commands can be added with the builtin
+       command.  Each command  that  is  to  be  built-in  must  be
+       written	as  a  C function whose name is of the form b_name,
+       where name is the name of the built-in that is to be  added.
+       The  function  has  the	same argument calling convention as
+       main.  The lower eight bits of the return value	become	the
+       exit  status  for  this	built-in.   Builtins  are  added by
+       specifying the pathname of the library as an argument to the
+       -f option of builtin.
+
+       A built-in command, whence, when used with the -v option has
+       been  provided  to  answer this question.  A line is printed
+       for each argument to whence telling  what  would  happen  if
+       this  argument  were  used as a command name.  It reports on
+       reserved words, aliases, built-ins, and functions.   If	the
+       command	is  none  of  the above, it follows the path search
+       rules and prints the full path-name, if	any,  otherwise  it
+       prints an error message.
+
+
+
+
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 34 -
+
+
+
+       3.13  Symbolic Names
+
+       To  avoid  implementation  dependencies,  ksh  accepts	and
+       generates  symbolic  names  for built-ins that use numerical
+       values in the Bourne shell.  The  -S  option  of  the  umask
+       built-in  command accepts and displays default file creation
+       permissions  symbolically.   It	uses  the   same   symbolic
+       notation as the chmod command.
+
+       The trap and kill built-in commands allows the signal  names
+       to  be  given  symbolically.  The names of signals and traps
+       corresponding to signals are the same  as  the  signal  name
+       with the SIG prefix removed.  The trap 0 is named EXIT.
+
+       3.14  Added Traps
+
+       A new trap named ERR has been added.  This trap	is  invoked
+       whenever  the  shell  would  exit if the -e option were set.
+       This trap is used by Fourth Generation Make[16]	which  runs
+       ksh as a co-process.
+
+       A trap named DEBUG gets executed after each  command.   This
+       trap can be used for debugging purposes.  The KEYBD trap was
+       described earlier.
+
+       3.15  Debugging
+
+       The primary method for debugging Bourne shell scripts is  to
+       use  the -x option to enable the execution trace.  After all
+       the expansions have been performed, but before each  command
+       is executed, the trace writes to standard error the name and
+       arguments of each command preceded by a +.  With ksh the PS4
+       variable  is  evaluated	for  parameter	substitution and is
+       displayed before each command, instead of the +.
+
+       The LINENO variable  is	set  to  the  current  line  number
+       relative to the beginning of the current script or function.
+       It is most useful as part of the PS4 prompt.
+
+       The variable  RANDOM produces a random number in the range 0
+       to  32767  each	time  it is referenced.  Assignment to this
+       variable sets the seed for the random number generator.
+
+       The parameter  PPID is used to generate the  process  id  of
+       the process which invoked this shell.
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 35 -
+
+
+
+       3.16  Timing Commands
+
+       A reserved word time has been  added  to  replace  the  time
+       command.   Any function, command or pipeline can be preceded
+       by this	reserved  word	to  obtain  information  about	the
+       elapsed,  user,	and  system  times.  Since I/O redirections
+       bind to the command, not to time, parentheses should be used
+       to redirect the timing information which is normally printed
+       on file descriptor 2.
+
+
+       4.  SECURITY
+
+       There are several documented problems  associated  with	the
+       security of  shell  procedures[17].   These  security  holes
+       occur   primarily   because   a	 user  can  manipulate	the
+       environment  to	subvert  the  intent  of  a  setuid   shell
+       procedure.   Frequently, shell procedures are initiated from
+       binary programs, without the author's awareness, by  library
+       routines which invoke shells to carry out their tasks.  When
+       the binary program is run setuid then  the  shell  procedure
+       runs  with  the	permissions  afforded  to  the owner of the
+       binary file.
+
+       In the Bourne shell, the IFS parameter is used to split each
+       word  into separate command arguments.  If a user knows that
+       some setuid program will run sh -c /bin/pwd  (or  any  other
+       command	in  /bin)  then  the  user  sets and exports IFS=/.
+       Instead of running /bin/pwd the shell will run bin with	pwd
+       as  an  argument.   The user puts his or her own bin program
+       into the current directory.  This program can create a  copy
+       of  the	shell,	make  this  shell  setuid, and then run the
+       /bin/pwd program so that the original program  continues  to
+       run  successfully.  This kind of penetration is not possible
+       with ksh since the IFS parameter only splits arguments  that
+       result from command or parameter substitution.
+
+       Some setuid programs run  programs  using  system()  without
+       giving  the  full  pathname.   If  the  user  sets  the PATH
+       variable so that the desired command will be found in his or
+       her  local  bin, then the same technique described above can
+       be employed to compromise the security of  the  system.	 To
+       close  up  this	and  other  security  holes, ksh resets the
+       effective user id to the real  user  id	and  the  effective
+       group  id  to the real group id unless the privileged option
+       (-p)  is  specified  at	invocation.   In  this	mode,	the
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 36 -
+
+
+
+       privileged   mode,  the	.profile  and  ENV  files  are	not
+       processed.  Instead, the file /etc/suid_profile is read	and
+       executed.   This  gives	an  administrator  control over the
+       environment to set the PATH variable or to log setuid  shell
+       invocations.   Clearly security of the system is compromised
+       if /etc or this file is publicly writable.
+
+       In the Berkeley UNIX version the operating system looks	for
+       the  characters	#!   as  the  first  two  characters  of an
+       executable file.  If these characters are  found,  then	the
+       next word on this line is taken as the interpreter to invoke
+       for this command and the interpreter is execed with the name
+       of  the	script	as  argument zero and argument one.  If the
+       setuid or setgid  bits  are  on	for  this  file,  then	the
+       interpreter  is	run  with  the effective uid and/or gid set
+       accordingly.  This scheme has two major drawbacks.  First of
+       all,   using   the  #!	notation  forces  an  exec  of	the
+       interpreter  even  when	the  call  is  invoked	 from	the
+       interpreter  which  it must exec.  This is inefficient since
+       the interpreter can handle a failed exec  much  faster  than
+       starting  up  again.   More  importantly,  setuid and setgid
+       procedures provide an easy target for intrusion.  By linking
+       a  setuid  or  setgid procedure to a name beginning with a -
+       the interpreter is fooled into thinking	that  it  is  being
+       invoked with a command line option rather than the name of a
+       file.  When the interpreter is the shell, the  user  gets  a
+       privileged interactive shell.  There is code in ksh to guard
+       against this simple form of intrusion.
+
+       A more reliable way to handle setuid and  setgid  procedures
+       is  provided  with  ksh.  The technique does not require any
+       changes	to  the  operating  system  and   provides   better
+       security.   Another advantage to this method is that it also
+       allows scripts which have execute  permission  but  no  read
+       permission  to  run.   Taking  away  read  permission  makes
+       scripts more secure.
+
+       The method relies on a setuid root program  to  authenticate
+       the request and exec the shell with the correct mode bits to
+       carry  out  the	task.	This  shell  is  invoked  with	the
+       requested  file	already  open  for reading.  A script which
+       cannot be opened for reading or which has its setuid  and/or
+       setgid bits turned on causes this setuid root program to get
+       execed.	For security reasons, this  program  is  given	the
+       full   pathname	 /etc/suid_exec.    A  description  of	the
+       implementation of the /etc/suid_exec program can be found in
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 37 -
+
+
+
+       a separate paper[18].
+
+
+       5.  CODE CHANGES
+
+       ksh is written in ANSI-C as a reusable  library.   The  code
+       can  be compiled with C++ and older K&R C as well.  The code
+       uses the IEEE  POSIX  1003.1  and  ISO  9945-1  standard[19]
+       wherever  possible  so that ksh should be able to run on any
+       POSIX compliant system.	In  addition,  it  is  possible  to
+       compile ksh for older systems.
+
+       Unlike earlier version of the Bourne shell, ksh treats eight
+       bit  characters	transparently  without	stripping  off	the
+       leading bit.  There is also a compile time switch to  enable
+       handling multi-byte and multi-width characters sets.
+
+       On systems with dynamic libraries, it  is  possible  to	add
+       built-in  commands  at  run  time  with the built-in command
+       builtin described earlier.  It is also possible to embed ksh
+       in applications in a manner analogous to tcl.
+
+
+       6.  EXAMPLE
+
+       An example of a ksh script  is  included  in  the  Appendix.
+       This  one  page	program  is  a	variant  of the UNIX system
+       grep(1) program.  Pattern matching for this version of  grep
+       means shell patterns.
+
+       The first half uses the getopts command to find	the  option
+       flags.	Nearly	all  options  have  been  implemented.	The
+       second half goes through each line of each file to look	for
+       a pattern match.
+
+       This program is not intended to serve as a  replacement	for
+       grep  which  has been highly tuned for performance.  It does
+       illustrate the programming  power  of  ksh.   Note  that  no
+       auxiliary  processes  are  spawned  by  this script.  It was
+       written and debugged in under two hours.  While	performance
+       is acceptable for small files, this program runs at only one
+       tenth the speed of grep for large files.
+
+
+
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 38 -
+
+
+
+       7.  PERFORMANCE
+
+       ksh executes many scripts faster than the  System  V  Bourne
+       shell;  in  some  cases	more  than  10	times as fast.	The
+       primary reason for this is that ksh creates fewer processes.
+       The  time to execute a built-in command or a function is one
+       or two orders of magnitude faster than performing  a  fork()
+       and   exec()   to   create   a  separate  process.   Command
+       substitution and commands inside parentheses  are  performed
+       without	 creating  another  process,  unless  necessary  to
+       preserve correct behavior.
+
+       Another reason for improved performance is the  use  of	the
+       sfio[20], library for I/O.  The sfio library buffers all I/O
+       and  output and buffers are flushed only when required.	The
+       algorithms used in  sfio  perform  better  than	traditional
+       versions of standard I/O so that programs that spend most of
+       their time formatting output  may  actually  perform  better
+       than versions written in C.
+
+       Several of the internal algorithms have been changed so that
+       the  number  of	subroutine  calls  has	been  substantially
+       reduced.  ksh uses variable sized hash tables for variables.
+       Scripts	that  rely heavily on referencing variables execute
+       faster.	More processing  is  performed	while  reading	the
+       script  so that execution time is saved while running loops.
+       These changes are not noticeable for scripts that fork() and
+       run  processes,	but  they  reduce the time that it takes to
+       interpret commands by more than a factor of two.
+
+       Most  importantly,   ksh   provide   mechanisms	 to   write
+       applications  that  do  not  require as many processes.	The
+       arithmetic provided by the shell eliminates the need for the
+       expr   command.	  The	pattern   matching   and  substring
+       capabilities eliminate the need to use sed or awk to process
+       strings.
+
+       The architecture of ksh	makes  it  easy  to  make  commands
+       built-ins  without  changing  the semantics at all.  Systems
+       that have run-time binding of libraries	allow  applications
+       to  be  sped  up by supplying the critical programs as shell
+       built-in commands.  Implementations on other systems can add
+       built-in commands at compile time.
+
+
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 39 -
+
+
+
+       8.  CONCLUSION
+
+       The 1988 version of ksh has tens  of  thousands	of  regular
+       users  and  is  a suitable replacement for the Bourne shell.
+       The 1993 version of ksh	is  essentially  upward  compatible
+       with  both  the 1988 version of ksh and with the recent IEEE
+       POSIX and ISO shell standard.  The 1993 version offers  many
+       advantages  for	programming  applications,  and it has been
+       rewritten so that it can be used in  embedded  applications.
+       It also offers improved performance.
+
+
+
+       MH-11267-DGK-dgk 	     David G. Korn
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 40 -
+
+
+
+				 APPENDIX
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 41 -
+
+
+
+
+				References
+
+
+
+	1. S. R. Bourne, An Introduction to the UNIX Shell," BSTJ -
+	   Vol. 57, No. 6 part 2, pages 1947-1972.
+
+	2. POSIX  -  Part  2: Shell and Utilities, IEEE Std 1003.2-
+	   1992, ISO/IEC 9945-2:1992.
+
+	3. Al Aho, Brian Kernighan, and Peter Weinberger,  The	AWK
+	   Programming Language, Addison Wesley, 1988.
+
+	4. LLoyd H. Nakatani and Laurence W.  Ruedisueli,  The	FIT
+	   Programming Language Primer, TN 1126-920301-03, 1992.
+
+	5. Larry Wall, The PERL Programming Language,
+
+	6. John K. Ousterhout, Tcl: An Embeddable Command Language,
+	   Proceedings of the USENIX meeting, pp. ?-?, 1990.
+
+	7. S. R. Bourne, An Introduction to the  UNIX  Shell,  Bell
+	   System  Technical  Journal,	Vol. 57, No. 6, Part 2, pp.
+	   1947-1972, July 1978.
+
+	8.   W.   Joy,	 An  Introduction  to  the  C  Shell,  Unix
+	   Programmer's  Manual,  Berkeley  Software  Distribution,
+	   University of California, Berkeley, 1980.
+
+	9. Morris Bolsky and David Korn, The KornShell Command	and
+	   Programming Language, Prentice Hall, 1989.
+
+       10.  Jason  Levitt,  The  Korn  Shell: An Emerging Standard,
+	   UNIX/World, pp. 74-81, September 1986.
+
+       11.  Rich Bilancia, Proficiency and Power are Yours With the
+	   Korn Shell, UNIX/World, pp. 103-107, September 1987.
+
+       12.  John  Sebes, Comparing UNIX Shells, UNIX Papers, Edited
+	   by the Waite Group, Howard W. Sams & Co., 1987.
+
+       13. T. A. Dolotta and J. R. Mashey, Using  the  shell  as  a
+	   Primary  Programming  Tool,	Proc.  2nd.  Int.  Conf. on
+	   Software Engineering, 1976, pages 169-176.
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+
+
+
+
+				  - 42 -
+
+
+
+       14.  J.	S.  Pendergrast,  WKSH	- Korn Shell with X-Windows
+	   Support, USL.
+
+       15. American National Standard  for  Information  Systems  -
+	   Programming Language - C, ANSI X3.159-1989.
+
+       16. G. S. Fowler, "The Fourth Generation Make,"	Proceedings
+	   of the Portland USENIX meeting, pp. 159-174, 1985.
+
+       17.  F.	T.  Grampp  and R. H. Morris, UNIX Operating System
+	   Security, AT&T Bell Labs Tech. Journal, Vol. 63, No.  8,
+	   Part 2, pp.1649-1671, 1984.
+
+       18. D. G Korn Parlez-vous Kanji?  TM-59554-860602-03, 1986.
+
+       19. POSIX - Part 1: System  Application	Program  Interface,
+	   IEEE Std 1003.1-1990, ISO/IEC 9945-1:1990.
+
+       20.  David  Korn  and  Kiem-Phong  Vo,  SFIO  -	A Safe/Fast
+	   Input/Output library, Proceedings of the Summer  Usenix,
+	   pp. , 1991.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		      BELL LABORATORIES PROPRIETARY
+       Not for use or disclosure outside Bell Laboratories except by
+    written approval of the director of the distributing organization.
+
+
+
+
+
+
+
+

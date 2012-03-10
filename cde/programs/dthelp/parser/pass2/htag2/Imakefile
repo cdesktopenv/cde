@@ -1,0 +1,80 @@
+XCOMM $XConsortium: Imakefile /main/9 1996/10/09 14:05:16 drk $
+/* htag2 Imakefile */
+
+.SUFFIXES : .e .c .h
+
+HTAG2        = ..
+HTAG2SRC     = $(HTAG2)/htag2
+SDLPARSERSRC = $(HTAG2)/parser
+SDLELTDEFSRC = $(HTAG2)/eltdef
+SDLDTDFILE   = $(HTAG2SRC)/sdl.dtd
+SDLUTILSRC   = $(HTAG2)/util
+SDLBUILDSRC  = $(HTAG2)/build
+SDLUTILLIB   = $(HTAG2)/util/libutil.a
+SDLIFFILE    = $(HTAG2SRC)/sdl.if
+
+XLATESRC  = $(DTHELPSRC)
+XLATEHDRS = $(XLATESRC)/XlationSvc.h $(XLATESRC)/LocaleXlate.h
+XLATESRCS = LocaleXlate.c XlationSvc.c
+XLATEOBJS = LocaleXlate.o XlationSvc.o
+
+INCLUDES =  -I. -I$(SDLUTILSRC) -I$(SDLPARSERSRC) \
+	    -I$(SDLELTDEFSRC) -I$(XLATESRC)
+DEFINES =   -DOSMAJORVERSION=OSMajorVersion \
+	    -DOSMINORVERSION=OSMinorVersion
+
+ELTHDRS = $(SDLUTILSRC)/entdef.h $(SDLUTILSRC)/entext.h
+
+XCOMM PARSEHDRS are header files used by many parser routines
+PARSEHDRS = $(SDLUTILSRC)/basic.h $(SDLUTILSRC)/trie.h \
+        $(SDLUTILSRC)/common.h $(SDLUTILSRC)/dtddef.h \
+        $(SDLUTILSRC)/dtdext.h $(SDLUTILSRC)/sparse.h \
+        parser.h proto.h
+
+APPLHDRS = $(PARSEHDRS) $(ELTHDRS) \
+        $(SDLUTILSRC)/version.h \
+        $(HTAG2SRC)/global.h \
+	$(HTAG2SRC)/fproto.h \
+        ../parser/pval.h ../parser/globdec.h ../parser/signonx.h \
+        ../parser/userinc.h
+
+SRCS =  custom.c sdl.c option.c out.c $(XLATESRCS)
+
+OBJS =  custom.o sdl.o option.o out.o $(XLATEOBJS)
+
+LOCAL_LIBRARIES = $(SDLUTILLIB)
+
+/* Don't use shared libs for hp */
+#ifdef HPArchitecture
+#if OSMajorVersion > 7
+EXTRA_LOAD_FLAGS = -Wl,-a archive
+#endif
+#endif
+
+#if defined (SunArchitecture)
+SYS_LIBRARIES = -lm -ldl -lgen -lC
+#endif /* SunArchitecture */
+
+all:: $(OBJS)
+
+LinkSourceFile(LocaleXlate.c,$(DTSVCSRC)/DtUtil2)
+LinkSourceFile(XlationSvc.c,$(DTSVCSRC)/DtUtil2)
+
+NormalLibraryObjectRule()
+
+dthelp_htag2:  $(SDLPARSERSRC)/parser
+	$(RM) dthelp_htag2
+	$(CP) (SDLPARSERSRC)/parser dthelp_htag2
+
+clean::
+	$(RM) dthelp_htag2
+	$(RM) $(XLATESRCS)
+
+
+DependTarget()
+
+tags ::
+	etags -t *.c *.h *.if
+
+etags ::
+	etags -t *.c *.h *.if

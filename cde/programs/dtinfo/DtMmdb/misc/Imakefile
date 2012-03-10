@@ -1,0 +1,34 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/08/21 15:56:22 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	NormalLibDtMmdb
+#define DoSharedLib	SharedLibDtMmdb
+#define DoDebugLib	DebugLibDtMmdb
+#define DoProfileLib	ProfileLibDtMmdb
+#define LibName		DtMmdb
+#define SoRev		SODTMMDBREV
+#define LibHeaders	NO
+#define LibCreate	NO
+#define LargePICTable	YES
+
+DEFINES = -DPORTABLE_DB
+
+SRCS = unique_id.c
+OBJS = $(SRCS:.c=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

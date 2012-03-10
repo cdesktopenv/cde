@@ -1,0 +1,98 @@
+ACTION TemplateEdit
+{
+	LABEL		Edit
+	ICON		template
+	ARG_TYPE	TemplateData
+	TYPE		TT_MSG
+	TT_CLASS	TT_REQUEST
+	TT_SCOPE	TT_SESSION
+	TT_OPERATION	Edit
+	TT_ARG0_MODE	TT_INOUT
+	TT_ARG0_VTYPE	%Arg_1%
+	TT_FILE		%Arg_1%
+	DESCRIPTION	Edit Template 
+}
+
+ACTION TemplateNew
+{
+	TYPE		COMMAND
+	EXEC_STRING	templatebin
+	ICON		template
+	WINDOW_TYPE	NO_STDIO
+	DESCRIPTION	Run template application
+	LABEL		New
+}
+
+ACTION TemplateOpen
+{
+	TYPE		COMMAND
+	EXEC_STRING	templatebin %(File)Arg_1"Open file"%
+	ICON		template
+	WINDOW_TYPE	NO_STDIO
+	ARG_TYPE	TemplateData
+	DESCRIPTION	Run template application
+	LABEL		Open
+}
+
+ACTION TemplatePrint
+{
+	TYPE		COMMAND
+	EXEC_STRING	templatebin -print %(File)Arg_1"Print file"%
+	ICON		template
+	WINDOW_TYPE	NO_STDIO
+	ARG_TYPE	TemplateData
+	DESCRIPTION	Run template application
+	LABEL		Print
+}
+
+ACTION Open
+{
+	ARG_TYPE	TemplateData
+	TYPE		MAP
+	MAP_ACTION	TemplateOpen
+	LABEL		Open
+}
+
+ACTION Print
+{
+	ARG_TYPE	TemplateData
+	TYPE		MAP
+	MAP_ACTION	TemplatePrint
+	LABEL		Print
+}
+
+DATA_ATTRIBUTES TemplateData
+{
+	ACTIONS		Open,Print,TemplateEdit
+	ICON		template
+	MEDIA		DT_EXAMPLE_TEMPLATE
+}
+
+DATA_CRITERIA TemplateFileCriteria
+{
+	DATA_ATTRIBUTES_NAME TemplateData
+	PATH_PATTERN	*.template
+	MODE		!d
+}
+
+DATA_CRITERIA TemplateContentCriteria
+{
+	DATA_ATTRIBUTES_NAME TemplateData
+	CONTENT		0 string @template@
+}
+
+DATA_ATTRIBUTES TemplateAppGroup
+{
+	ACTIONS		OpenInPlace,OpenNewView
+	ICON		template
+	DESCRIPTION	template application group
+}
+
+DATA_CRITERIA TemplateAppGroupCriteria
+{
+	DATA_ATTRIBUTES_NAME TemplateAppGroup
+	PATH_PATTERN	*/appmanager/*/template
+	MODE		d
+}
+
+

@@ -1,0 +1,211 @@
+<!-- $XConsortium: ch03.sgm /main/8 1996/09/08 19:36:25 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="PG.msgs.div.1">
+<title id="PG.msgs.mkr.1">Displaying and Logging Messages from Your Application</title>
+<para>Users running your application expect messages to be displayed in message
+footers, error dialogs, or warning dialogs, with further explanations available
+in online help when appropriate. In some circumstances, messages may be logged
+that aren't necessarily displayed to users. Applications in the Common Desktop Environment
+follow common models for presenting and logging error messages and warnings.</para>
+<informaltable id="PG.msgs.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'How to Present Error Messages23'--><xref
+role="JumpText" linkend="PG.msgs.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Information to Present in Error Dialogs24'--><xref
+role="JumpText" linkend="PG.msgs.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Linking Message Dialogs to Online
+Help24'--><xref role="JumpText" linkend="PG.msgs.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Recovery Routines25'--><xref role="JumpText"
+linkend="PG.msgs.mkr.5"></para></entry></row>
+</tbody></tgroup></informaltable>
+<sect1 id="PG.msgs.div.2">
+<title id="pg.msgs.mkr.2">How to Present Error Messages<indexterm><primary>error messages</primary><secondary>displaying</secondary></indexterm></title>
+<para>Because of the way message text is handled, users may not see messages
+from your application unless you display them in a dialog, footer, or elsewhere
+in the user interface.</para>
+<para>In CDE, such messages are directed to log files that a casual user may
+not routinely examine. Use the following rules when deciding where to tell
+users about warnings, messages, and error conditions:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>If the message is
+informational,</emphasis> display the text in the message footer of the application;
+for example, &ldquo;MyDoc file copied.&rdquo;</para>
+</listitem><listitem><para><emphasis>If the message is about an error or serious
+warning</emphasis>&mdash;a problem where an operation important to the user
+has failed&mdash;display an error dialog or warning dialog.</para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="PG.msgs.div.3">
+<title id="PG.msgs.mkr.3">Information to Present in Error Dialogs</title>
+<para>A good error dialog or warning dialog gives the user the following
+information:</para>
+<itemizedlist remap="Bullet1"><listitem><para>What happened (from the user's
+point of view)</para>
+</listitem><listitem><para>Why it happened, in simple language that the user
+can relate to the current task and environment</para>
+</listitem><listitem><para>How to fix the problem</para>
+</listitem></itemizedlist>
+<para>If the information cannot be presented in four or five lines of the
+error dialog, consider adding a help button to the dialog and link it to
+a topic in the help volume for your application.</para>
+<para>For more information on writing messages, see the <emphasis>Common Desktop
+Environment: Internationalization Programmer's Guide</emphasis>.</para>
+</sect1>
+<sect1 id="pg.msgs.div.4">
+<title id="pg.msgs.mkr.4">Linking Message Dialogs to Online Help</title>
+<para>In cases where additional background information is required, or where
+it takes more than four or five lines of a dialog to explain an error fully,
+you should add a button that links the user to online help.</para>
+<para>Adding online help for a dialog is a straightforward task. Once you
+have decided that a particular dialog is a candidate for online help, do
+the following:</para>
+<orderedlist><listitem><para>Choose a unique ID for the error help.</para>
+<para>This ID provides the link to the online help text. IDs should be 64
+characters or less; for example, <filename>DiskSpaceError</filename>.</para>
+</listitem><listitem><para>Create the dialog and add a help callback.</para>
+<para>Use the <command>XmCreateErrorDialog</command> convenience function
+for error messages and <command>XmCreateWarningDialog</command> for warnings,
+adding the help callback as follows:</para>
+<programlisting>XtAddCallback(dialog, XmNhelpCallback, <replaceable remap="Emphasis">helpfn</replaceable>, &ldquo;<replaceable remap="Emphasis">ID</replaceable>&rdquo;);</programlisting>
+<para>In this example, <emphasis>helpfn</emphasis> is a help function you
+have created to manage the help dialog, and the string &ldquo; <emphasis>ID</emphasis>&rdquo; is the ID you chose for the error message (for example, <filename>DiskSpaceError</filename>). In your help function, set the <command>XmNlocationId</command> resource to the value of <emphasis>ID</emphasis>. The
+<filename>/usr/dt/examples/dthelp</filename> directory contains examples of how to set
+up such a help function.</para>
+<para>For detailed information about creating and managing help dialog widgets,
+see the <emphasis>Common Desktop Environment: Help System Author's and Programmer's
+Guide</emphasis>.</para>
+</listitem><listitem><para>Write a corresponding help section for the error
+message.</para>
+<para>Document the message in the &ldquo;messages&rdquo; chapter of your
+help volume. In the help source document, you should have a separate section
+for each message, and the ID= attribute at the beginning of the section should
+match the ID you chose in your code for the error.</para>
+<para>For example, in the <command>s1</command> section heading, the ID is <computeroutput>DiskSpaceError</computeroutput>.</para>
+<para>When the user's system has insufficient disk space, the error message
+the user sees from the following heading is &ldquo;Could Not Save File.&rdquo;
+</para>
+<programlisting>&lt;s1 ID=DiskSpaceError>Could Not Save File &lt;\s1></programlisting>
+<para>Note that by convention, the text of the section heading should correspond
+closely to the text in the error dialog.</para>
+</listitem><listitem><para>Rebuild the help file.</para>
+<para>The new help section for the error message becomes active as soon as
+you rebuild the help file (using the <command>dthelptag</command> program)
+and recompile your application.</para>
+</listitem></orderedlist>
+<para>For information about writing and building online help, see the <emphasis>Common Desktop Environment: Help System Author's and Programmer's Guide</emphasis>.
+</para>
+</sect1>
+<sect1 id="PG.msgs.div.5">
+<title id="PG.msgs.mkr.5">Recovery Routines</title>
+<para>If a recovery routine exists for an error condition, consider adding
+a Retry button to the dialog. For example, if a file could not be copied
+because the system had insufficient disk space, you might offer a Recopy
+option in the dialog that users could choose once they have corrected a disk
+space or permissions problem.</para>
+</sect1>
+<sect1 id="PG.msgs.div.6">
+<title id="PG.msgs.mkr.6">Using Message Logging</title>
+<indexterm><primary>error messages</primary><secondary>logging</secondary></indexterm>
+<indexterm><primary>message logging</primary><secondary>general information</secondary></indexterm>
+<para>The message logging service logs messages for CDE applications. This service provides
+a central location for messages that a user or system administrator
+can use to diagnose problems. In the desktop environment
+applications are started via the <literal>File Manager</literal> or <literal>Front Panel</literal>
+(as opposed to direct invocation from a shell). If an application
+writes important information to <literal>stderr</literal>, the information may be lost.
+For this reason, the application should use the CDE message logging service to
+log the information so that users can find it in the log.
+Libraries and applications that have no
+user interface also use this service to log messages.
+Such applications should use the message logging service
+instead of writing to the system console or to <literal>stderr</literal>.
+</para>
+<para>The message logging service supports the following types of messages:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Information &mdash; informational messages to which users need
+not be alerted (for example, status information). It may be acceptable
+for the user never to see messages of this type.
+</para></listitem>
+<listitem><para>Stderr &mdash; if an application needs to log the <literal>stderr</literal>
+from a child process, the captured <literal>stderr</literal> should be
+logged as a Stderr message type. For example, the
+<literal>dtexec</literal> program uses this message type to identify
+the messages it logs (the <literal>stderr</literal> from command-type actions).
+</para></listitem>
+<listitem><para>Debug &mdash; an application's debugging messages
+(for example, those seen when a <literal>-debug</literal>
+command line option is used) should be logged as Debug type messages.
+</para></listitem>
+<listitem><para>Warning &mdash; this type is for errors that are
+not severe enough to cause application program termination.
+</para></listitem>
+<listitem><para>Error &mdash; this type is for fatal errors that
+require program termination.
+</para></listitem>
+</itemizedlist>
+<para>For daemon-type applications that have no user interface
+(for example, low-level services started by the <literal>inetd</literal>),
+it is appropriate to use the system's "syslog" service
+rather than the CDE message logging service.
+</para>
+<sect2 id="PG.msgs.div.7">
+<Title>Format of Log Entries</title>
+<indexterm><primary>message logging</primary><secondary>log entry format</secondary></indexterm>
+<para>Entries in the message log are formatted as follows:
+</para>
+<para><literal>***</literal> <symbol role="Variable">msgtype_string</symbol> <literal>(</literal><symbol role="Variable">msg_type</symbol><literal>):</literal> <symbol role="Variable">program_name</symbol><literal>: PID</literal> <symbol role="Variable">proc_id</symbol><literal>:</literal> <symbol role="Variable">date</symbol>
+</para>
+<para><symbol role="Variable">message_text</symbol>
+</para>
+<para><literal>*** [</literal><symbol role="Variable">bytes_output</symbol><literal>]</literal>
+</para>
+<para>For example,
+</para>
+<programlisting>*** WARNING(3): fontview: PID 12312: Thu Jun 13 16:51:51 1995
+The specified font 'fixed' could not be loaded.
+*** [109]
+
+</programlisting>
+<Para>One newline is output after the date, one
+newline after the message text, and
+two after the number of bytes (a blank line separates log entries). The message type
+string and date specification should be
+retrieved from the current locale's message catalog;
+it is the application's responsibility to localize the message to be logged.
+</para>
+</sect2>
+<sect2 id="PG.msgs.div.8">
+<title>The Message Logging API</title>
+<para>The message logging API comprises the following functions:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><function>DtMsgLogMessage</function> &mdash; logs a message to the message log.<indexterm><primary>DtMsgLogMessage</primary></indexterm>
+</para></listitem>
+<listitem><para><function>DtMsgLogSetHandler</function> &mdash; installs an alternate message
+logging handler that is invoked when the application calls
+<function>DtMsgLogMessage</function>. This function is optional
+and should be used only to override the default message
+logging handler.<indexterm><primary>DtMsgLogSetHandler</primary></indexterm>
+</para>
+</listitem>
+<listitem><para><function>DtMsgLogOpenFile</function> &mdash; opens a message log file.<indexterm><primary>DtMsgLogOpenFile</primary></indexterm>
+</para></listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->
+

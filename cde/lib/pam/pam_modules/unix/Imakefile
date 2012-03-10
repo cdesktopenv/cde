@@ -1,0 +1,66 @@
+/* $XConsortium: Imakefile /main/4 1996/04/21 19:13:04 drk $
+ *
+ * (c) Copyright 1996 Digital Equipment Corporation.
+ * (c) Copyright 1996 Hewlett-Packard Company.
+ * (c) Copyright 1996 International Business Machines Corp.
+ * (c) Copyright 1995,1996 Sun Microsystems, Inc.
+ * (c) Copyright 1996 Novell, Inc. 
+ * (c) Copyright 1996 FUJITSU LIMITED.
+ * (c) Copyright 1996 Hitachi.
+ */
+
+#define DoNormalLib	NormalLibPam
+#define DoSharedLib	SharedLibPam
+#define DoDebugLib	DebugLibPam
+#define DoProfileLib	ProfileLibPam
+#define LibName		pam_unix
+#define SoRev		SOPAMREV
+#define LibHeaders	NO
+
+#include <Threads.tmpl>
+
+SRCS = unix_acct_mgmt.c \
+       unix_authenticate.c \
+       unix_chauthtok.c \
+       unix_close_session.c \
+       unix_get_authtokattr.c \
+       unix_open_session.c \
+       unix_set_authtokattr.c \
+       npd_clnt.c \
+       unix_setcred.c \
+       unix_update_authtok.c \
+       unix_update_authtok_file.c \
+       unix_update_authtok_nis.c \
+       unix_update_authtok_nisplus.c \
+       switch_utils.c \
+       unix_utils.c \
+       yppasswdxdr.c
+
+OBJS = unix_acct_mgmt.o \
+       unix_authenticate.o \
+       unix_chauthtok.o \
+       unix_close_session.o \
+       unix_get_authtokattr.o \
+       unix_open_session.o \
+       unix_set_authtokattr.o \
+       npd_clnt.o \
+       unix_setcred.o \
+       unix_update_authtok.o \
+       unix_update_authtok_file.o \
+       unix_update_authtok_nis.o \
+       unix_update_authtok_nisplus.o \
+       switch_utils.o \
+       unix_utils.o \
+       yppasswdxdr.o
+
+#ifdef SharedPamUnixReqs
+REQUIREDLIBS = SharedPamUnixReqs
+#endif
+
+#ifdef PamUnixDefines
+DEFINES = PamUnixDefines
+#endif
+
+#include <Library.tmpl>
+
+DependTarget()

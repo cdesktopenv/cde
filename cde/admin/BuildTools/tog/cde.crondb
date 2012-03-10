@@ -1,0 +1,237 @@
+##########################################################################
+#
+# File:  cron_database
+#
+##########################################################################
+
+#
+#
+# This is a build database file used by the cron_scripts script to start
+# the various build and report scripts from crontab.  cron_scripts is intended
+# to provide a level of indirection which allows the nightly builds to be
+# controlled without having to edit crontab entries.
+#
+# To set up an automated build on a particular machine you will need to
+# do the following:
+#
+#	1.  Checkout /proj/cde/admin/BuildTools/tog/cron_database.
+#	    Edit it as specified in the section explaining the database format.
+#	    Check it back in when satisfied with the entries.
+#	    Copy it to /project/dt/admin/cron
+#
+#	2.  Log onto the desired machine as 'devobj' and add the following line
+#	    to the crontab entries:
+#
+#		15 * * * *	/project/dt/scripts/cron_scripts
+#
+# The crontab entry will cause cron_scripts to run every hour at 15 minutes
+# past the hour.  The script checks the database to see if there is a valid
+# entry for the MachineName, FullWeekdayName, and 24HourClockHour.  If
+# such an entry does NOT exists, cron_scripts simply exits.  Otherwise,
+# if the view is not set to 'none' it sets the view and exectutes the 
+# specified command line.  If the view is set to 'none' it just executes
+# the specified command line.
+#
+
+#
+# Format:
+#
+# FullWeekdayName (aka `date +%A`)
+#	    	24HourClockHour (aka `date +%H`)
+#			MachineName
+#					View
+#							CommandLine
+#
+# NOTE:
+#	Comment Character = '#'
+#	Line Continuation Character = '\'
+#
+
+##########################################################################
+#
+# CDE Cron Jobs
+#
+##########################################################################
+
+#
+# Monday
+#
+Monday		02	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-dev -log_path /project/dt/ID/cdeID
+Monday		03	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-cdetest -log_path /project/dt/ID/cde-testID
+
+Monday		05	hans	none \
+    /project/dt/scripts/make_report_dir
+		-log_path /project/dt/logs/build/reports/LATEST
+Monday		06	hans	cde-sun \
+    /project/dt/scripts/cc_checkedout \
+		-log_path /project/dt/logs/build/reports/LATEST/checkedout
+Monday		06	hans	cde-sun \
+    /project/dt/scripts/cc_submissions \
+		-log_path /project/dt/logs/build/reports/LATEST/submitted
+Monday		07	hans	none \
+	/project/dt/scripts/build_summary_cron \
+		-retries 3 \
+		-c /project/dt/scripts/x11.components \
+		-c /project/dt/scripts/motif.components \
+		-c /project/dt/scripts/cde.components \
+		-c /project/dt/scripts/cdedoc.components \
+		-c /project/dt/scripts/cdetest.components \
+		-s /project/dt/logs/build/cde-hp/LATEST/build.summary \
+		-s /project/dt/logs/build/cde-sun/LATEST/build.summary \
+		-log_path /project/dt/logs/build/reports/LATEST/build.summary
+
+Monday		19	build-hp	cde-hp \
+    /project/dt/scripts/build_world -dev -cdetest
+Monday		19	hans	cde-sun \
+    /project/dt/scripts/build_world -dev -cdetest
+
+#
+# Tuesday
+#
+Tuesday		02	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-dev -log_path /project/dt/ID/cdeID
+Tuesday		03	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-cdetest -log_path /project/dt/ID/cde-testID
+
+Tuesday		05	hans	none \
+    /project/dt/scripts/make_report_dir
+		-log_path /project/dt/logs/build/reports/LATEST
+Tuesday		06	hans	cde-sun \
+    /project/dt/scripts/cc_checkedout \
+		-log_path /project/dt/logs/build/reports/LATEST/checkedout
+Tuesday		06	hans	cde-sun \
+    /project/dt/scripts/cc_submissions \
+		-log_path /project/dt/logs/build/reports/LATEST/submitted
+Tuesday		07	hans	none \
+	/project/dt/scripts/build_summary_cron \
+		-retries 3 \
+		-c /project/dt/scripts/x11.components \
+		-c /project/dt/scripts/motif.components \
+		-c /project/dt/scripts/cde.components \
+		-c /project/dt/scripts/cdedoc.components \
+		-c /project/dt/scripts/cdetest.components \
+		-s /project/dt/logs/build/cde-hp/LATEST/build.summary \
+		-s /project/dt/logs/build/cde-sun/LATEST/build.summary \
+		-log_path /project/dt/logs/build/reports/LATEST/build.summary
+
+Tuesday		19	build-hp	cde-hp \
+    /project/dt/scripts/build_world -dev -cdetest
+Tuesday		19	hans	cde-sun \
+    /project/dt/scripts/build_world -dev -cdetest
+
+#
+# Wednesday
+#
+Wednesday	02	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-dev -log_path /project/dt/ID/cdeID
+Wednesday	03	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-cdetest -log_path /project/dt/ID/cde-testID
+
+Wednesday	05	hans	none \
+    /project/dt/scripts/make_report_dir
+		-log_path /project/dt/logs/build/reports/LATEST
+Wednesday	06	hans	cde-sun \
+    /project/dt/scripts/cc_checkedout \
+		-log_path /project/dt/logs/build/reports/LATEST/checkedout
+Wednesday	06	hans	cde-sun \
+    /project/dt/scripts/cc_submissions \
+		-log_path /project/dt/logs/build/reports/LATEST/submitted
+Wednesday	07	hans	none \
+	/project/dt/scripts/build_summary_cron \
+		-retries 3 \
+		-c /project/dt/scripts/x11.components \
+		-c /project/dt/scripts/motif.components \
+		-c /project/dt/scripts/cde.components \
+		-c /project/dt/scripts/cdedoc.components \
+		-c /project/dt/scripts/cdetest.components \
+		-s /project/dt/logs/build/cde-hp/LATEST/build.summary \
+		-s /project/dt/logs/build/cde-sun/LATEST/build.summary \
+		-log_path /project/dt/logs/build/reports/LATEST/build.summary
+
+Wednesday	19	build-hp	cde-hp \
+    /project/dt/scripts/build_world -dev -cdetest
+Wednesday	19	hans	cde-sun \
+    /project/dt/scripts/build_world -dev -cdetest
+
+
+#
+# Thursday
+#
+Thursday	02	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-dev -log_path /project/dt/ID/cdeID
+Thursday	03	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-cdetest -log_path /project/dt/ID/cde-testID
+
+Thursday	05	hans	none \
+    /project/dt/scripts/make_report_dir
+		-log_path /project/dt/logs/build/reports/LATEST
+Thursday	06	hans	cde-sun \
+    /project/dt/scripts/cc_checkedout \
+		-log_path /project/dt/logs/build/reports/LATEST/checkedout
+Thursday	06	hans	cde-sun \
+    /project/dt/scripts/cc_submissions \
+		-log_path /project/dt/logs/build/reports/LATEST/submitted
+Thursday	07	hans	none \
+	/project/dt/scripts/build_summary_cron \
+		-retries 3 \
+		-c /project/dt/scripts/x11.components \
+		-c /project/dt/scripts/motif.components \
+		-c /project/dt/scripts/cde.components \
+		-c /project/dt/scripts/cdedoc.components \
+		-c /project/dt/scripts/cdetest.components \
+		-s /project/dt/logs/build/cde-hp/LATEST/build.summary \
+		-s /project/dt/logs/build/cde-sun/LATEST/build.summary \
+		-log_path /project/dt/logs/build/reports/LATEST/build.summary
+
+Thursday	19	build-hp	cde-hp \
+    /project/dt/scripts/build_world -dev -cdetest
+Thursday	19	hans	cde-sun \
+    /project/dt/scripts/build_world -dev -cdetest
+
+
+
+#
+# Friday
+#
+Friday		02	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-dev -log_path /project/dt/ID/cdeID
+Friday		03	build-hp	cde-hp \
+    /project/dt/scripts/build_id \
+		-cdetest -log_path /project/dt/ID/cde-testID
+
+Friday		05	hans	none \
+    /project/dt/scripts/make_report_dir
+		-log_path /project/dt/logs/build/reports/LATEST
+Friday		06	hans	cde-sun \
+    /project/dt/scripts/cc_checkedout \
+		-log_path /project/dt/logs/build/reports/LATEST/checkedout
+Friday		06	hans	cde-sun \
+    /project/dt/scripts/cc_submissions \
+		-log_path /project/dt/logs/build/reports/LATEST/submitted
+Friday		07	hans	none \
+	/project/dt/scripts/build_summary_cron \
+		-retries 3 \
+		-c /project/dt/scripts/x11.components \
+		-c /project/dt/scripts/motif.components \
+		-c /project/dt/scripts/cde.components \
+		-c /project/dt/scripts/cdedoc.components \
+		-c /project/dt/scripts/cdetest.components \
+		-s /project/dt/logs/build/cde-hp/LATEST/build.summary \
+		-s /project/dt/logs/build/cde-sun/LATEST/build.summary \
+		-log_path /project/dt/logs/build/reports/LATEST/build.summary
+
+Friday		16	build-hp	cde-hp \
+    /project/dt/scripts/build_world -clean -all
+Friday		16	hans	cde-sun \
+    /project/dt/scripts/build_world -clean -all

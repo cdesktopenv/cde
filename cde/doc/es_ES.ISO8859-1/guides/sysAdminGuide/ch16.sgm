@@ -1,0 +1,956 @@
+<!-- $XConsortium: ch16.sgm /main/12 1996/12/21 18:37:52 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.I18N.div.1">
+<title id="SAG.I18N.mkr.1">Configuraci&oacute;n de sesiones de escritorio
+de entorno nacional<indexterm><primary>Soporte de Idioma Nacional</primary>
+<secondary>internacionalizar</secondary></indexterm></title>
+<para>Para configurar sesiones de escritorio de entorno nacional, necesitar&aacute;:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Establecer la variable de entorno <systemitem class="environvar">LANG</systemitem> y otras variables de entorno de Soporte de Idioma Nacional
+(NLS)</para>
+</listitem>
+<listitem><para>Acceder a los archivos de recursos y los cat&aacute;logos
+de mensajes dependientes del idioma</para>
+</listitem>
+<listitem><para>Ejecutar aplicaciones de forma remota en sistemas internacionales
+</para>
+<informaltable id="SAG.I18N.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Managing
+the <systemitem class="environvar">LANG</systemitem> Environment Variable276'--><xref
+role="JumpText" linkend="SAG.I18N.mkr.2"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Finding
+Fonts278'--><xref role="JumpText" linkend="SAG.I18N.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Localizing
+app-defaults Resource Files279'--><xref role="JumpText" linkend="SAG.I18N.mkr.5"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Localizing
+Actions and Data Types279'--><xref role="JumpText" linkend="SAG.I18N.mkr.6"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Localizing
+Icons and Bitmaps280'--><xref role="JumpText" linkend="SAG.I18N.mkr.7"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Localizing
+Help Volumes281'--><xref role="JumpText" linkend="SAG.I18N.mkr.10"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Localizing
+Message Catalogs282'--><xref role="JumpText" linkend="SAG.I18N.mkr.11"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Executing
+Localized Desktop Applications Remotely282'--><xref role="JumpText" linkend="SAG.I18N.mkr.12"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Resetting
+Your Keyboard Map282'--><xref role="JumpText" linkend="SAG.I18N.mkr.13"></para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+<sect1 id="SAG.I18N.div.2">
+<title id="SAG.I18N.mkr.2">Gesti&oacute;n de la variable de entorno <systemitem class="environvar">LANG</systemitem><indexterm><primary>internacionalizaci&oacute;n</primary><secondary>variable <systemitem class="environvar">LANG</systemitem></secondary>
+</indexterm><indexterm><primary><systemitem class="environvar">LANG</systemitem>,
+variable</primary></indexterm></title>
+<para>Debe establecerse la variable de entorno <systemitem class="environvar">LANG</systemitem> para que el escritorio utilice las rutinas sensibles al
+idioma del sistema operativo. El escritorio soporta:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Los idiomas latinos del oeste de Europa</para>
+</listitem>
+<listitem><para>Japon&eacute;s</para>
+</listitem>
+<listitem><para>Chino tradicional</para>
+</listitem>
+<listitem><para>Chino simplificado</para>
+</listitem>
+<listitem><para>Coreano</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Es posible que el proveedor del escritorio haya a&ntilde;adido otros
+idiomas.</para>
+</note>
+<para>Puede establecer <systemitem class="environvar">LANG</systemitem> en
+cualquier valor soportado por el sistema operativo. El men&uacute; Opciones
+de la pantalla de inicio de sesi&oacute;n muestra la lista de idiomas y territorios
+soportados.</para>
+<para>Existen cuatro procedimientos para establecer <systemitem class="environvar">LANG</systemitem> para el escritorio:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Editar un recurso en el archivo <filename>Xconfig</filename></para>
+</listitem>
+<listitem><para>Utilizar el men&uacute; Opciones de la pantalla de inicio
+de sesi&oacute;n</para>
+</listitem>
+<listitem><para>Crear un script ejecutable <command>sh</command> o <command>ksh</command> <filename>Xsession.d</filename>. (Consulte <!--Original XRef
+content: '&ldquo;Sourcing Xsession.d Scripts&ldquo; on page&numsp;26'--><xref
+role="SecTitleAndPageNum" linkend="SAG.SesMg.mkr.5"> para disponer de m&aacute;s
+informaci&oacute;n sobre c&oacute;mo utilizar un script Xsession.d.)</para>
+</listitem>
+<listitem><para>Editar el archivo <filename>.dtprofile</filename> del usuario
+</para>
+</listitem>
+</itemizedlist>
+<para>Cuando <systemitem class="environvar">LANG</systemitem> est&aacute;
+establecido, el escritorio utiliza los siguientes archivos dependientes del
+idioma para determinar la interfaz de idioma nacional.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="170*">
+<colspec colwidth="286*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><literal>Colores</literal></para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/palettes/desc</filename><symbol role="Variable">.idioma</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>Fondos</literal></para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/backdrops/desc</filename><symbol role="Variable">.idioma</symbol></para></entry></row></tbody></tgroup></informaltable>
+<sect2 id="SAG.I18N.div.3">
+<title><indexterm><primary>internacionalizaci&oacute;n</primary><secondary>establecer idioma</secondary></indexterm>Establecimiento del idioma para m&uacute;ltiples
+usuarios<indexterm><primary>idioma, establecer utilizando el archivo Xconfig</primary></indexterm><indexterm><primary>Xconfig, archivo</primary><secondary>establecer idioma con</secondary></indexterm></title>
+<para>Si establece el idioma mediante un archivo <filename>Xconfig</filename>,
+la pantalla de inicio de sesi&oacute;n se establece para entorno nacional
+y <systemitem class="environvar">LANG</systemitem> se establece para todos
+los usuarios. &Eacute;ste es el &uacute;nico procedimiento para cambiar <systemitem class="environvar">LANG</systemitem> para todas las pantallas en sistemas
+de m&uacute;ltiples pantallas. (Para modificar <filename>Xconfig</filename>,
+copie <filename>/usr/dt/config/Xconfig</filename> en <filename>/etc/dt/config/Xconfig</filename>.)</para>
+<para>El idioma se establece poniendo la siguiente l&iacute;nea en <filename>/etc/dt/config/Xconfig</filename>:</para>
+<programlisting>dtlogin.host_display.idioma: idioma</programlisting>
+<para>Por ejemplo, la l&iacute;nea siguiente establece <systemitem class="environvar">LANG</systemitem> en <filename>Swedish_locale</filename> en la pantalla <filename>my_host:0</filename>.</para>
+<programlisting>dtlogin.my_host_0.Language: Swedish_locale</programlisting>
+<para>El cliente <command>dtlogin</command> lee el cat&aacute;logo de mensajes
+apropiado para dicho idioma y hace aparecer la pantalla de inicio de sesi&oacute;n
+del entorno nacional. Entonces el cliente <command>dtlogin</command> determina
+la lista de entornos nacionales utilizando los recursos siguientes del archivo
+de recursos <filename>/etc/dt/config/Xresources</filename>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><systemitem class="environvar">dtlogin*language</systemitem></para>
+</listitem>
+<listitem><para><systemitem class="environvar">dtlogin*languageList</systemitem></para>
+</listitem>
+<listitem><para><systemitem class="environvar">dtlogin*languageName</systemitem></para>
+</listitem>
+</itemizedlist>
+<para>Es posible que el archivo <filename>Xconfig</filename> necesite establecer
+adecuadamente la variable de entorno NLSPATH para el idioma elegido. Si &eacute;ste
+no fuera su caso, o si desea establecer usted mismo NLSPATH, consulte la secci&oacute;n <!--Original
+XRef content: '&ldquo;NLSPATH Environment Variable&ldquo; on page&numsp;278'--><xref
+role="HeadingAndPage" linkend="SAG.I18N.mkr.3">.</para>
+</sect2>
+<sect2 id="SAG.I18N.div.4">
+<title>Establecimiento del idioma para una sesi&oacute;n</title>
+<para>Para establecer el idioma para una sesi&oacute;n, utilice el men&uacute;
+Opciones de la pantalla de inicio de sesi&oacute;n. La pantalla de inicio
+de sesi&oacute;n se establece para entorno nacional y <systemitem class="environvar">LANG</systemitem> se establece para el usuario. <systemitem class="environvar">LANG</systemitem> vuelve al valor predeterminado (establecido en <command>dtlogin</command>) al concluir la sesi&oacute;n.</para>
+</sect2>
+<sect2 id="SAG.I18N.div.5">
+<title>Establecimiento del idioma para un usuario<indexterm><primary><systemitem class="environvar">LANG</systemitem>, variable</primary><secondary>en .dtprofile</secondary></indexterm><indexterm><primary>.dtprofile, archivo</primary>
+<secondary>establecer <systemitem class="environvar">LANG</systemitem>[dtprofile,
+archivo</secondary><tertiary>establecer <systemitem class="environvar">LANG</systemitem> ]</tertiary></indexterm></title>
+<para>Un usuario puede alterar temporalmente el valor <systemitem class="environvar">LANG</systemitem> de inicio de sesi&oacute;n en el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>. La pantalla de
+inicio de sesi&oacute;n no se establece para entorno nacional y <systemitem class="environvar">LANG</systemitem> se establece para el usuario.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Si utiliza <command>sh</command> o <command>ksh</command>:
+</para>
+<programlisting remap="CodeIndent1">LANG=idioma
+export LANG</programlisting>
+</listitem>
+<listitem><para>Si utiliza <command>csh</command>:</para>
+<programlisting remap="CodeIndent1">setenv LANG idioma</programlisting>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.I18N.div.6">
+<title>Variable de entorno <systemitem class="environvar">LANG</systemitem>
+y configuraci&oacute;n de la sesi&oacute;n</title>
+<para>La variable de entorno <systemitem class="environvar">LANG</systemitem>
+cambia el nombre del directorio en el que se realiza la b&uacute;squeda de
+los archivos de configuraci&oacute;n de sesi&oacute;n.</para>
+<para>Los archivos de configuraci&oacute;n de sesi&oacute;n de entorno nacional
+son:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>/usr/dt/config/</filename><symbol>idioma</symbol><filename>/Xresources</filename> (archivo de recursos del Gestor de inicio de sesi&oacute;n)
+</para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/</filename><symbol>idioma</symbol><filename>/sys.font</filename> (archivo de recursos del Gestor de sesiones)</para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/</filename><symbol>idioma</symbol><filename>/sys.resources</filename> (archivo de recursos del Gestor de sesiones)</para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/</filename><symbol>idioma</symbol><symbol>idioma</symbol><filename>/sys.session</filename> (shell ejecutable del Gestor
+de sesiones)</para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/</filename><symbol>idioma</symbol><filename>/sys.dtwmrc</filename> (archivo de recursos del Gestor de ventanas)</para>
+</listitem>
+<listitem><para><filename>/usr/dt/appconfig/types/</filename><symbol>idioma</symbol><filename>/dtwm.fp</filename> (Panel Frontal del Gestor de ventanas)
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.I18N.div.7">
+<title>Establecimiento de otras variables de entorno del NLS<indexterm><primary>internacionalizaci&oacute;n</primary><secondary>variables de entorno del NLS</secondary></indexterm><indexterm><primary>NLS,variables de entorno</primary>
+</indexterm></title>
+<para>Adem&aacute;s de <systemitem class="environvar">LANG</systemitem>, existen
+otras variables de entorno del NLS, tales como <systemitem>LC_CTYPE</systemitem>
+y <systemitem>LC_ALL</systemitem>. Estas variables no se ven afectadas por
+el recurso de idioma <systemitem>dtlogin</systemitem> ni por el men&uacute;
+Opciones de la pantalla de inicio de sesi&oacute;n. Deben establecerse en
+los siguientes archivos:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Variables accesibles en el sistema: <filename>/etc/dt/config/Xsession.d</filename></para>
+</listitem>
+<listitem><para>Variables personales: <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename></para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.I18N.div.8">
+<title id="SAG.I18N.mkr.3">Variable de entorno NLSPATH<indexterm><primary>cat&aacute;logos de mensajes</primary></indexterm></title>
+<para>La variable de entorno <systemitem class="environvar">NLSPATH</systemitem>
+determina las rutas de directorio en las que las aplicaciones buscan cat&aacute;logos
+de mensajes. Para utilizar estos cat&aacute;logos de mensajes se deben establecer <systemitem class="environvar">LANG</systemitem> y <systemitem class="environvar">NLSPATH</systemitem>. Consulte la secci&oacute;n <!--Original XRef content: '&ldquo;Localizing
+Message Catalogs&ldquo; on page&numsp;282'--><xref role="HeadingAndPage"
+linkend="SAG.I18N.mkr.11"> para conocer la ubicaci&oacute;n de los mensajes
+de entorno nacional. La mayor&iacute;a de clientes del escritorio prefijar&aacute;n
+la ruta a <systemitem class="environvar">NLSPATH</systemitem> en el arranque.
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.I18N.div.9">
+<title id="SAG.I18N.mkr.4">B&uacute;squeda de fonts<indexterm><primary>internacionalizaci&oacute;n</primary><secondary>fonts</secondary></indexterm></title>
+<para>Los fonts incluidos con el escritorio est&aacute;n en el directorio
+<filename>/usr/lib/X11/fonts</filename>.<indexterm><primary>fonts</primary>
+<secondary>directorio primario</secondary></indexterm> Cada directorio contiene
+un archivo de directorios, <filename>fonts.dir</filename>, y un archivo de
+alias, <filename>fonts.alias</filename>. Consulte la p&aacute;gina de manual <filename>mkfontdir</filename> para obtener informaci&oacute;n sobre c&oacute;mo crear
+los archivos <filename>fonts.dir</filename> y <filename>fonts.alias</filename>.<indexterm>
+<primary>fonts</primary><secondary>buscar con archivo de directorios</secondary>
+</indexterm><indexterm><primary>fonts</primary><secondary>buscar con archivo
+de alias</secondary></indexterm><indexterm><primary>fonts</primary><secondary>buscar con mandato mkfontdir</secondary></indexterm><indexterm><primary>mkfontdir, mandato, compilar archivos</primary></indexterm></para>
+<para>Para listar todos los fonts disponibles en un servidor, utilice el mandato <command>xlsfonts</command>.<indexterm><primary>xlsfonts, mandato</primary><secondary>listar fonts del servidor</secondary></indexterm><indexterm><primary>fonts</primary><secondary>xlsfonts, mandato</secondary></indexterm><indexterm>
+<primary>xlsfonts, mandato</primary><secondary>instalaci&oacute;n</secondary>
+</indexterm><indexterm><primary>xlsfonts, mandato</primary><secondary>listar
+fonts del servidor</secondary></indexterm><indexterm><primary>xlsfonts, mandato</primary><secondary>instalaci&oacute;n</secondary></indexterm> Para a&ntilde;adir
+o suprimir fonts en el servidor, utilice el mandato <command>xset</command>.
+</para>
+</sect1>
+<sect1 id="SAG.I18N.div.9a">
+<title id="SAG.I18N.mkr.4a">Gesti&oacute;n de caracteres definidos por el
+usuario<indexterm><primary>caracteres definidos por el usuario</primary>
+<secondary>gesti&oacute;n</secondary></indexterm><indexterm><primary>localizaci&oacute;n</primary><secondary>caracteres definidos por el usuario</secondary></indexterm></title>
+<sect2>
+<title>Descripci&oacute;n general</title>
+<para>En paises del lejano oriente como China, Corea y Jap&oacute;n, se utilizan
+caracteres chinos (llamados Hanzi en China, Hanja en Corea y Kanji en Jap&oacute;n).
+Debido a que la cantidad de caracteres chinos es muy grande (m&aacute;s de
+50.000 en el diccionario m&aacute;s grande de Kanji japon&eacute;s), los juegos
+est&aacute;ndar de c&oacute;digos de caracteres chinos (como por ejemplo JIS
+X 0208, KS C 5601 y GB 2312) contienen definiciones de los caracteres utilizados
+m&aacute;s frecuentemente.</para>
+<para>El juego de caracteres est&aacute;ndar generalmente es suficiente para
+escribir. En algunos casos, sin embargo, es necesario utilizar caracteres
+no est&aacute;ndares. Por ejemplo, en el registro de residencia en Jap&oacute;n,
+el nombre de la persona debe escribirse exactamente con los mimos caracteres
+utilizados en formularios de registro anteriores escritos a mano. Otro ejemplo
+es la publicaci&oacute;n de documentos antiguos, como los cl&aacute;sicos
+tao&iacute;stas o confusionistas. Dichos documentos contienen muchos caracteres
+obsoletos que no est&aacute;n definidos en juegos de caracteres est&aacute;ndares.
+Dichos caracteres se llaman "caracteres definidos por el usuario".</para>
+<sect3>
+<title>Clasificaci&oacute;n de caracteres definidos por el usuario</title>
+<para>Los caracteres definidos por el usuario utilizan puntos de c&oacute;digo
+"vac&iacute;os", es decir, puntos del juego de c&oacute;digos a los que no
+se han asignado caracteres, o un &aacute;rea de uso privado, si est&aacute;
+definida por el juego de c&oacute;digos. En la mayor&iacute;a de los casos,
+el proveedor del sistema suministrar&aacute; un &aacute;rea para c&oacute;digos
+definidos por el usuario que consta de uno o varios bloques contiguos de puntos
+de c&oacute;digo que pueden ser utilizados para c&oacute;digos definidos por
+el usuario.</para>
+<para>Proceso b&aacute;sico para la creaci&oacute;n de un c&oacute;digo definido
+por el usuario:</para>
+<orderedlist>
+<listitem><para>Asigne un punto de c&oacute;digo en un &aacute;rea para c&oacute;digos
+definidos por el usuario al car&aacute;cter a definir.</para>
+</listitem>
+<listitem><para>Cree una imagen del s&iacute;mbolo (o un conjunto de im&aacute;genes
+para definir varios tama&ntilde;os de fonts) para el car&aacute;cter mediante
+Editor de fonts UDC, <command>dtudcfonted</command>.</para>
+</listitem>
+</orderedlist>
+<para>Una vez que se ha creado un car&aacute;cter definido por el usuario,
+se puede transferir a otros sistemas mediante el programa utilitario Intercambio
+de datos UDC. Para que el intercambio de datos sea consistente, las definiciones
+de caracteres definidos por el usuario deben ser iguales en toda la organizaci&oacute;n.
+</para>
+<para>Antes de intentar crear caracteres definidos por el usuario, deber&aacute;
+determinar lo siguiente:</para>
+<itemizedlist>
+<listitem><para>El c&oacute;digo que est&aacute; siendo utilizado y los puntos
+de c&oacute;digo disponibles para los caracteres definidos por el usuario.
+Para crear caracteres definidos por el usuario, los usuarios deben saber cu&aacute;les
+puntos deben utilizar.</para>
+<para>Para intercambiar datos de texto bajo el protocolo X, se utiliza texto
+compuesto en el que se pueden usar segmentos extendidos para transferir caracteres
+definidos por el usuario. Si utiliza segmentos extendidos para transferir
+caracteres definidos por el usuario, deber&aacute; definir el nombre de codificaci&oacute;n
+de caracteres definidos por el usuario y el m&eacute;todo de transferencia
+de puntos de c&oacute;digo o &iacute;ndice de s&iacute;mbolos en segmentos.
+</para>
+</listitem>
+<listitem><para>La organizaci&oacute;n de archivos de fonts y los &iacute;ndices
+de s&iacute;mbolos utilizados para caracteres definidos por el usuario. Los
+caracteres definidos por el usuario pueden almacenarse en archivos est&aacute;ndar
+de fonts con &iacute;ndices de s&iacute;mbolos vac&iacute;os o en archivos
+de fonts individuales espec&iacute;ficos para caracteres definidos por el
+usuario. Si se utilizan archivos individuales, el sistema puede enviarse con
+archivos de fonts para caracteres definidos por el usuario vac&iacute;os.
+Cuando se modifica un car&aacute;cter definido por el usuario existente, el
+usuario deber&aacute; especificar el nombre del font y los &iacute;ndices
+del car&aacute;cter definido por el usuario. Esto significa que el usuario
+debe contar con informaci&oacute;n acerca de c&oacute;mo est&aacute;n relacionados
+los puntos de c&oacute;digo e &iacute;ndices de s&iacute;mbolos.</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3>
+<title>Archivos de fonts</title>
+<para>Para poner en pantalla e imprimir c&oacute;digos de caracteres definidos
+por el usuario, deben estar almacenados en bases de datos como archivos de
+fonts. Los s&iacute;mbolos de caracteres definidos por el usuario, como los
+dem&aacute;s s&iacute;mbolos, est&aacute;n almacenados en archivos de fonts
+utilizados en el sistema X Window. Los servidores X pueden obtener acceso
+a los formatos de archivos de fonts PCF (Portable Compiled Format, es decir,
+formato compilado port&aacute;til) y SNF (Server Natural Format, es decir,
+formato natural de servidor). El editor de fonts UDC tambi&eacute;n puede
+obtener acceso a archivos de fonts en dichos formatos.</para>
+<para>Cuando un servidor X pone en pantalla un car&aacute;cter definido por
+el usuario, se refiere al car&aacute;cter definido por el usuario en el archivo
+de fonts correspondiente. Asimismo, cuando se imprime un car&aacute;cter definido
+por el usuario, el dispositivo de devanaci&oacute;n de impresi&oacute;n se
+refiere al car&aacute;cter definido por el usuario definido en el archivo
+de font.</para>
+<para>Los archivos de fonts deben configurarse para que el sistema X Windows
+pueda utilizarlos, es decir, deben colocarse en directorios definidos en la
+ruta de fonts del servidor X y los archivos de gesti&oacute;n (como por ejemplo <symbol role="Variable">fonts.dir</symbol>) deben colocarse en dichos directorios.
+El editor de fonts UDC no instala archivos de fonts ni modifica recursos como
+por ejemplo <symbol role="Variable">fonts.dir</symbol> del sistema.</para>
+<para>El editor de fonts UDC s&oacute;lo puede utilizar archivos de fonts
+UDC disponibles en la ubicaci&oacute;n local y definidos en la base de datos
+X NLS. La base de datos X NLS define los juegos de c&oacute;digos y fonts
+que utilizar&aacute; cada ubicaci&oacute;n. El editor de fonts UDC construye
+fonts de varios tama&ntilde;os y estilos. Para agregar un nuevo font modificable,
+deber&aacute; especificar el nombre del juego de c&oacute;digos y el &aacute;rea
+de caracteres definidos por el usuario que se encuentra en la base de datos
+X NLS.</para>
+<para>Cuando el editor de fonts UDC y el programa utilitario Intercambio de
+datos UDC buscan archivos de fonts, primero buscan la variable de entorno <systemitem class="environvar">DTUDCFONTPATH</systemitem> (que es una lista separada mediante
+dos puntos de directorios que contienen archivos de fonts de caracteres definidos
+por el usuario) y despu&eacute;s los directorios especificados en el archivo <filename>/usr/dt/config/$LANG/fonts.list</filename>. Para configurar directorios de
+b&uacute;squeda para cada ubicaci&oacute;n, especif&iacute;quelos en el archivo <filename>fonts.list</filename>. (No olvide incluir los dos puntos al final.) Por ejemplo:
+</para>
+<programlisting>#
+# ejemplo de archivo fonts.list
+#
+  /usr/lib/X11/fonts/misc:
+  /usr/dt/config/xfonts/ja:</programlisting>
+</sect3>
+</sect2>
+<sect2>
+<title>El editor de fonts UDC</title>
+<para>El editor de fonts UDC (<command>dtudcfonted</command>) permite crear,
+modificar y eliminar caracteres definidos por el usuario.</para>
+<para>Para obtener informaci&oacute;n detallada acerca de la utilizaci&oacute;n
+del Editor de fonts UDC, refi&eacute;rase a la p&aacute;gina del manual <command>dtudcfonted</command>.</para>
+<para>La ventana <literal>Selecci&oacute;n de fonts</literal> aparecer&aacute;
+cuando active el Editor de fonts UDC.</para>
+<para>Los archivos de fonts de caracteres definidos por el usuario se especifican
+mediante el nombre XLFD (X Logical Font Description, es decir, descripci&oacute;n
+l&oacute;gica de font X). Los XLFD son nombres de font &uacute;nicos y descriptivos
+que utilizan clientes y aplicaciones. Los diversos atributos de font, como
+estilo y nombre del juego de caracteres, est&aacute;n incluidos en XLFD. Para
+su conveniencia, podr&aacute; seleccionar el estilo, tama&ntilde;o y &aacute;rea
+de c&oacute;digo de caracteres definidos por el usuario del archivo de fonts.
+El &aacute;rea de c&oacute;digo de caracteres definidos por el usuario incluye
+el n&uacute;mero de conjunto de c&oacute;digos especificados en la base de
+datos X NLS y en el conjunto de &iacute;ndices de s&iacute;mbolos de caracteres
+definidos por el usuario que puede utilizarse en el conjunto de c&oacute;digos.
+</para>
+<para>Para listar los archivos de fonts de caracteres definidos por el usuario
+disponibles, seleccione el conjunto de c&oacute;digos, estilo y tama&ntilde;o
+de car&aacute;cter de definici&oacute;n del font deseado en el campo de selecci&oacute;n.
+Al especificar un font y seleccionar el bot&oacute;n <literal>Abrir</literal>,
+aparecer&aacute; la ventana <literal>Editar car&aacute;cter</literal>.</para>
+<sect3>
+<title>Creaci&oacute;n y modificaci&oacute;n de caracteres</title>
+<para>Los caracteres se crean y modifican en la ventana <literal>Editar car&aacute;cter</literal>.</para>
+<para>Seleccione el c&oacute;digo del car&aacute;cter a modificar en la lista
+de caracteres. Al seleccionarlo, aparecer&aacute; el car&aacute;cter correspondiente
+en el panel de modificaci&oacute;n. No aparecer&aacute; nada si el c&oacute;digo
+del car&aacute;cter no se ha registrado en el &aacute;rea de caracteres definidos
+por el usuario.</para>
+<para>Si no se ha registrado el c&oacute;digo del car&aacute;cter, agr&eacute;guelo
+en la ventana <literal>Control de car&aacute;cter</literal> o copie el dise&ntilde;o
+del car&aacute;cter en la ventana <literal>Copiar car&aacute;cter</literal>.
+Para obtener informaci&oacute;n detallada sobre c&oacute;mo agregar c&oacute;digos
+de car&aacute;cter, refi&eacute;rase a la secci&oacute;n "C&oacute;mo agregar
+y eliminar c&oacute;digos de car&aacute;cter". Para obtener informaci&oacute;n
+detallada sobre la copia de dise&ntilde;o de caracteres, refi&eacute;rase
+a la secci&oacute;n "Copia de dise&ntilde;o de caracteres".</para>
+<para>El conjunto de herramientas de dibujo y opciones de men&uacute; <literal>Editar</literal>, forman un conjunto de operaciones completo para crear y
+modificar dise&ntilde;os de caracteres.</para>
+</sect3>
+<sect3>
+<title>C&oacute;mo agregar y eliminar c&oacute;digos de car&aacute;cter</title>
+<para>Los c&oacute;digos de car&aacute;cter se agregan y eliminan en la ventana <literal>Control de car&aacute;cter</literal> que aparece al seleccionar la opci&oacute;n <literal>Agregar/suprimir</literal> del men&uacute; <literal>Car&aacute;cter</literal>.
+</para>
+<para>Para agregar un c&oacute;digo de car&aacute;cter, especifique los cuatro
+d&iacute;gitos hexadecimales en el &aacute;rea para caracteres definidos por
+el usuario y haga clic en el bot&oacute;n <literal>Agregar</literal>. Tambi&eacute;n
+podr&aacute; especificar los c&oacute;digos del primero y &uacute;ltimo car&aacute;cter
+de un intervalo para especificar un intervalo de caracteres. Todos los nuevos
+caracteres se agregan a la lista de caracteres modificada en la ventana <literal>Editar car&aacute;cter</literal>. El car&aacute;cter a modificar es el primero
+del c&oacute;digo de car&aacute;cter agregado (o campo de car&aacute;cter
+agregado). Si ya est&aacute; registrado, no se cambiar&aacute; el dise&ntilde;o
+del car&aacute;cter especificado.</para>
+<para>Para eliminar el c&oacute;digo de car&aacute;cter, especifique los cuatro
+d&iacute;gitos hexadecimales correspondientes en el &aacute;rea para caracteres
+definidos por el usuario y haga clic en el bot&oacute;n <literal>Suprimir</literal>. Tambi&eacute;n podr&aacute; especificar los c&oacute;digos del
+primer y &uacute;ltimo car&aacute;cter de un conjunto de caracteres para eliminarlos.
+El programa utilitario solicitar&aacute; que confirme la eliminaci&oacute;n
+de cada car&aacute;cter.</para>
+<para>Al eliminar un c&oacute;digo de car&aacute;cter, se lo quita de la lista
+de caracteres modificados en la ventana <literal>Editar car&aacute;cter</literal>.
+El c&oacute;digo de car&aacute;cter que sigue al car&aacute;cter eliminado
+se convertir&aacute; en el c&oacute;digo de car&aacute;cter actual modificable.
+</para>
+</sect3>
+<sect3>
+<title>Introducci&oacute;n de c&oacute;digos de car&aacute;cter de forma gr&aacute;fica</title>
+<para>Para introducir un c&oacute;digo de car&aacute;cter de forma gr&aacute;fica,
+haga clic en el bot&oacute;n <literal>C&oacute;digo</literal> de la ventana <literal>Control de car&aacute;cter</literal>. Aparecer&aacute; la ventana <literal>Entrada de c&oacute;digo de car&aacute;cter</literal>. En dicha ventana, haga
+clic en el car&aacute;cter deseado y despu&eacute;s en <literal>Aplicar</literal>
+para insertar el c&oacute;digo del car&aacute;cter seleccionado en el campo
+de entrada de caracteres de la ventana <literal>Control de car&aacute;cter</literal>.</para>
+</sect3>
+<sect3>
+<title>Copia de dise&ntilde;os de caracteres</title>
+<para>Para copiar dise&ntilde;os de caracteres ya registrados o creados, seleccione
+la opci&oacute;n<literal>Copiar</literal> del men&uacute; <literal>Car&aacute;cter</literal>. Aparecer&aacute; la ventana <literal>Copiar car&aacute;cter</literal>.
+La operaci&oacute;n de copia agrega el c&oacute;digo de car&aacute;cter especificado
+para el destino de copia a la lista de caracteres de la ventana Editar.</para>
+<para>Para copiar un dise&ntilde;o de car&aacute;cter, seleccione el tama&ntilde;o
+del car&aacute;cter y especifique el c&oacute;digo de cuatro d&iacute;gitos
+hexadecimales correspondiente. (Tambi&eacute;n podr&aacute; suministrar los
+c&oacute;digos del primer y &uacute;ltimo car&aacute;cter de un conjunto de
+dise&ntilde;os de car&aacute;cter para copiarlos.) A continuaci&oacute;n especifique
+los c&oacute;digos de cuatro d&iacute;gitos hexadecimales de los caracteres
+de destino y haga clic en el bot&oacute;n <literal>Copiar</literal>.</para>
+<para>Tambi&eacute;n podr&aacute; crear copias compuestas en las que los puntos
+del dise&ntilde;o del car&aacute;cter de origen est&aacute;n en relaci&oacute;n
+l&oacute;gica OR (o) con el dise&ntilde;o de caracteres de destino.</para>
+</sect3>
+</sect2>
+<sect2>
+<title>Programa utilitario Intercambio de datos UDC</title>
+<para>El programa utilitario Intercambio de datos UDC (<command>dtudcexch</command>) es una herramienta utilizada para intercambiar im&aacute;genes
+de s&iacute;mbolos de caracteres definidos por el usuario entre sistemas.
+</para>
+<para><command>dtudcexch</command> sirve como m&eacute;todo para distribuir
+im&aacute;genes de s&iacute;mbolos de caracteres definidos por el usuario
+a varios sistemas. Espec&iacute;ficamente permite crear im&aacute;genes de
+s&iacute;mbolos de caracteres definidos por el usuario en un sistema mediante
+El editor de fonts UDC (<command>dtudcfonted</command>) para despu&eacute;s
+distribuirlos en otros sistemas. <command>dtudcexch</command> almacena im&aacute;genes
+en un archivo BDF (Bitmap Distribution Format, es decir, en formato de mapa
+de bits de distribuci&oacute;n), para transportarlo al sistema de destino.
+En el sistema de destino, se ejecuta <command>dtudcexch</command> nuevamente
+para extraer las im&aacute;genes del archivo BDF y agregarlas al archivo de
+fonts correspondiente.</para>
+<para><command>dtudcexch</command> cumple con funciones importaci&oacute;n
+y exportaci&oacute;n. La funci&oacute;n de exportaci&oacute;n lee las im&aacute;genes
+de s&iacute;mbolos de caracteres definidos por el usuario en un archivo de
+fonts y las almacena en un archivo BDF para transferirlas a otros sistemas.
+La funci&oacute;n de importaci&oacute;n lee todas las im&aacute;genes de s&iacute;mbolos
+de caracteres definidos por el usuario de un archivo BDF y las agrega a un
+archivo de fonts especificado.</para>
+<para>Para exportar, <command>dtudcexch</command> utiliza &iacute;ndices de
+s&iacute;mbolos del &aacute;rea del archivo de fonts PCF/SNF para seleccionar
+im&aacute;genes de caracteres definidos por el usuario. Almacena las im&aacute;genes
+convertidas en un archivo en formato BDF los mismos &iacute;ndices de s&iacute;mbolos.
+Al importar, <command>dtudcexch</command> agrega las im&aacute;genes de s&iacute;mbolos
+de caracteres definidos por el usuario al archivo de fonts PCF/SNF en los
+mismos &iacute;ndices de s&iacute;mbolos que se encuentran en el archivo BDF.
+La informaci&oacute;n de c&oacute;digo de &aacute;rea est&aacute; definida
+en la base de datos X NLS.</para>
+<para>Para crear otros &iacute;ndices de s&iacute;mbolos de im&aacute;genes
+en el sistema de destino, podr&aacute; modificar el archivo BDF antes de invocar
+la funci&oacute;n de importaci&oacute;n.</para>
+<para>Para obtener informaci&oacute;n detallada acerca de la utilizaci&oacute;n
+del programa utilitario UDC Exchange, refi&eacute;rase a la p&aacute;gina
+del manual <command>dtudcexch</command>.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.I18N.div.10">
+<title id="SAG.I18N.mkr.5">Establecimiento del entorno nacional para los archivos
+de recursos app-defaults<indexterm><primary>internacionalizaci&oacute;n</primary>
+<secondary>app-defaults</secondary></indexterm><indexterm><primary>XUSERFILESEARCHPATH,
+variable</primary></indexterm><indexterm><primary>recursos</primary><secondary>dependientes del idioma</secondary></indexterm><indexterm><primary>app-defaults</primary><secondary>dependiente del idioma</secondary></indexterm></title>
+<para>La ubicaci&oacute;n predeterminada para el archivo <filename>app-defaults</filename> para los clientes de escritorio es <filename>/usr/dt/app-defaults/</filename><symbol role="Variable">idioma</symbol>. Por ejemplo, si se establece <systemitem class="environvar">LANG</systemitem> en <filename>Swedish_locale</filename>,
+las aplicaciones buscar&aacute;n el archivo <filename>app-defaults</filename>
+en <filename>/usr/dt/app-defaults/Swedish_locale</filename>. Si no se establece <systemitem class="environvar">LANG</systemitem>, <symbol role="Variable">idioma</symbol>
+se ignora y las aplicaciones buscan el archivo <filename>app-defaults</filename>
+en <filename>/usr/app-defaults/C</filename>.</para>
+<para>Para cambiar la ubicaci&oacute;n de <filename>app-defaults</filename>,
+utilice la variable de entorno <systemitem>XFILESEARCHPATH.</systemitem>
+Por ejemplo, para mover <filename>app-defaults</filename> a <filename>/users</filename>, establezca <systemitem>XFILESEARCHPATH.</systemitem> en <filename>/usr/app-defaults/</filename><symbol role="Variable">idioma</symbol><filename>/</filename><symbol role="Variable">nombreclase</symbol>.</para>
+<para>Si establece <systemitem>XFILESEARCHPATH</systemitem> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>, el valor se aplica
+a todos los clientes de escritorio y de X que se ejecuten. Los no clientes
+no buscar&aacute;n los archivos de recursos a no ser que los enlace o los
+copie en el directorio especificado por <systemitem>XFILESEARCHPATH</systemitem>.
+</para>
+</sect1>
+<sect1 id="SAG.I18N.div.11">
+<title id="SAG.I18N.mkr.6">Establecimiento del entorno nacional para las acciones
+y los tipos de datos</title>
+<note>
+<para>Para personalizar un archivo del directorio <filename>/usr/dt/appconfig</filename>, c&oacute;pielo en el directorio <filename>/etc/dt/appconfig</filename>
+antes de personalizarlo.</para>
+</note>
+<para>La ruta de b&uacute;squeda de archivos de definiciones de acciones y
+de tipos de datos incluye directorios dependientes del idioma en:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Personal: <symbol role="Variable">DirectorioInicio</symbol><filename>/dt/types</filename></para>
+</listitem>
+<listitem><para>Accesible en el sistema: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para>Incorporado:<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+</itemizedlist>
+<para>La ruta de b&uacute;squeda para los archivos de configuraci&oacute;n
+del Gestor de aplicaciones es:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Personal: <symbol>DirectorioInicio</symbol><filename>/dt/appmanager</filename></para>
+</listitem>
+<listitem><para>Accesible en el sistema: <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para>Incorporado: <filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">idioma</symbol></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colwidth="453*">
+<colspec colwidth="3*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Los nombres de archivo y de directorio
+de este directorio son para el entorno nacional.</para></entry></row></tbody>
+</tgroup></informaltable>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.I18N.div.12">
+<title id="SAG.I18N.mkr.7">Establecimiento del entorno nacional para los iconos
+y mapas de bits<indexterm><primary>entorno nacional</primary><secondary>iconos</secondary></indexterm><indexterm><primary>iconos</primary><secondary>de entorno nacional</secondary></indexterm><indexterm><primary>iconos</primary>
+<secondary>no ingleses</secondary></indexterm></title>
+<para>Para establecer el entorno nacional para un icono, edite el icono con
+el Editor de iconos y gu&aacute;rdelo en:</para>
+<para><filename>/etc/dt/appconfig/icons/<symbol>idioma</symbol></filename></para>
+<para>Si lo guarda en un directorio diferente, establezca la variable de entorno <systemitem>XMICONSEARCHPATH</systemitem> para incluir el directorio en el que ha guardado
+el icono. La variable de entorno <systemitem>XMICONSEARCHPATH</systemitem>
+controla la ruta utilizada para buscar los iconos.</para>
+</sect1>
+<sect1 id="SAG.I18N.div.13">
+<title id="SAG.I18N.mkr.8">Establecimiento del entorno nacional para los nombres
+de fondos<indexterm><primary>iconos</primary><secondary>de entorno nacional</secondary></indexterm></title>
+<para>El establecimiento del entorno nacional para los fondos se realiza utilizando
+archivos de descripci&oacute;n (<systemitem>desc</systemitem>.<symbol role="Variable">idioma</symbol> y <filename>desc.backdrops</filename> ). Para los archivos de fondos no existe ning&uacute;n directorio
+de entorno nacional espec&iacute;fico (como por ejemplo <systemitem>/usr/dt/backdrops/</systemitem><symbol role="Variable">idioma</symbol>). Todos los entornos
+nacionales utilizan el mismo conjunto de archivos de fondos pero tienen un
+archivo <filename>desc.</filename><symbol role="Variable">idioma</symbol>
+propio que contiene los nombres traducidos de los fondos.</para>
+<para>El archivo de descripci&oacute;n contiene especificaciones de recurso
+para los nombres de fondos traducidos. Por ejemplo:</para>
+<programlisting>Backdrops*Corduroy.desc:   Pana
+Backdrops*DarkPaper.desc:  PapelEstraza
+Backdrops*Foreground.desc: PrimerPlano</programlisting>
+<para>El archivo <filename>desc.<symbol role="Variable">idioma</symbol></filename>
+se utiliza para recuperar la descripci&oacute;n de los fondos para el <symbol role="Variable">idioma</symbol> del entorno nacional con el fin de mostrar
+el fondo en el Gestor de estilos. Si existe una especificaci&oacute;n de descripci&oacute;n,
+&eacute;sta se mostrar&aacute; en la lista de fondos del Gestor de estilos.
+De lo contrario, se utilizar&aacute; el nombre del archivo de fondos.</para>
+<para>Los usuarios pueden a&ntilde;adir descripciones de fondos propias en
+el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/backdrops/desc.backdrops</filename>. Este archivo se utiliza para recuperar las descripciones de fondo
+para todos los fondos a&ntilde;adidos por el usuario independientemente del
+entorno nacional.</para>
+<para>La ruta de b&uacute;squeda para los archivos de <filename>descripci&oacute;n</filename> es:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Personal: <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/backdrops/desc.backdrops</filename></para>
+</listitem>
+<listitem><para>Accesible en el sistema: <filename>/etc/dt/backdrops/desc.</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para>Incorporado: <filename>/usr/dt/backdrops/desc.</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.I18N.div.14">
+<title id="SAG.I18N.mkr.9">Establecimiento<indexterm><primary>&lt;$nopage>entornos
+nacionales</primary><secondary>Vea tambi&eacute;n internacionalizaci&oacute;n[entorno
+nacionalaaa]</secondary></indexterm> del entorno nacional para los nombres
+de paletas<indexterm><primary>paletas</primary><secondary>entorno nacional
+para nombres</secondary></indexterm><indexterm><primary>entorno nacional</primary><secondary>nombres de paletas</secondary></indexterm><indexterm>
+<primary>entorno nacional</primary><secondary>iconos</secondary></indexterm><indexterm>
+<primary>iconos</primary><secondary>de entorno nacional</secondary></indexterm><indexterm>
+<primary>iconos</primary><secondary>no ingleses</secondary></indexterm></title>
+<para>El establecimiento del entorno nacional de las paletas se realiza mediante
+el uso de los archivos de descripci&oacute;n (<filename>desc.<symbol role="Variable">idioma</symbol></filename> y <filename>desc.palettes</filename>). No existe
+ning&uacute;n directorio de entorno nacional espec&iacute;fico (como por ejemplo <filename>/usr/dt/palettes/<symbol role="Variable">idioma</symbol></filename>). Todos
+los entornos nacionales utilizan el mismo conjunto de archivos de paletas
+pero tienen un archivo <filename>desc.palettes</filename> propio que contiene
+los nombres traducidos de las paletas.</para>
+<para>El archivo de descripci&oacute;n contiene especificaciones de recurso
+para los nombres de paleta traducidos. Por ejemplo:</para>
+<programlisting>Palettes*Cardamon.desc: Cardamomo
+Palettes*Cinnamon.desc: Canela
+Palettes*Clove.desc:    Clavo</programlisting>
+<para>El archivo <filename>desc.<symbol role="Variable">idioma</symbol></filename>
+se utiliza para recuperar la descripci&oacute;n de las paletas para el idioma <symbol role="Variable">idioma</symbol> del entorno nacional con el fin de mostrar
+la paleta en la lista del Gestor de estilos. Si existe una especificaci&oacute;n
+de descripci&oacute;n, &eacute;sta se mostrar&aacute; en la lista de paletas
+del Gestor de estilos. De lo contrario, se utilizar&aacute; el nombre del
+archivo de paletas.</para>
+<para>Los usuarios pueden a&ntilde;adir descripciones de paletas propias en
+el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/palettes/desc.palettes</filename>. Este archivo se utiliza para recuperar las descripciones de todas
+las paletas a&ntilde;adidas por el usuario independientemente del entorno
+nacional.</para>
+<para>La ruta de b&uacute;squeda para los archivos de descripci&oacute;n
+es:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Personal: <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/palettes/desc.palettes</filename></para>
+</listitem>
+<listitem><para>Accesible en el sistema: <filename>/etc/dt/palettes/desc.</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para>Incorporado: <filename>/usr/dt/palettes/desc.</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.I18N.div.14a">
+<title id="SAG.I18N.mkr.9a">Establecimiento del entorno nacional de bibliotecas
+de informaci&oacute;n<indexterm><primary>bibliotecas de informaci&oacute;n</primary><secondary>establecimiento del entorno nacional</secondary></indexterm><indexterm>
+<primary>establecimiento del entorno nacional</primary><secondary>bibliotecas
+de informaci&oacute;n</secondary></indexterm></title>
+<para>Una biblioteca de informaci&oacute;n contiene uno o varios estantes
+de libros, cada uno de los cuales contiene uno o varios libros que es posible
+examinar mediante el Gestor de informaci&oacute;n. En esta jerarqu&iacute;a,
+s&oacute;lo las bibliotecas de informaci&oacute;n cuentan con operaciones
+asociadas con el escritorio. Gracias a que son entidades de escritorio, las
+bibliotecas de informaci&oacute;n pueden abrirse arrastr&aacute;ndolas y solt&aacute;ndolas
+en el control de Gestor de informaci&oacute;n. Al abrirse una biblioteca de
+informaci&oacute;n, el Gestor de informaci&oacute;n pone en pantalla la ventana
+Lista de libros que muestra todos los estantes de libros que contiene la biblioteca
+de informaci&oacute;n.</para>
+<para>La ruta predeterminada de bibliotecas de informaci&oacute;n se configura
+mediante la variable de entorno <systemitem class="environvar">DTINFOLIBPATH</systemitem>. (La ruta de escritorio CDE est&aacute;ndar es <filename>/usr/dt/dtinfo/cde.dti</filename>.) El archivo <symbol role="Variable">nombre</symbol><filename>.oli</filename> que se encuentra en el primer nivel de directorio de una biblioteca
+de informaci&oacute;n, contiene el nombre abreviado de dicha biblioteca. El
+establecimiento de entornos nacionales de bibliotecas de informaci&oacute;n
+contiene el nombre abreviado de las mismas. El establecimiento de entornos
+nacionales de bibliotecas de informaci&oacute;n se encuentra en subdirectorios
+que se encuentran en niveles debajo del primer nivel de directorio y se le
+asignan nombres de acuerdo con la m&aacute;scara NLS %<symbol role="Variable">L</symbol> (o %<symbol role="Variable">l</symbol>_%<symbol role="Variable">t</symbol>.%<symbol role="Variable">c</symbol>.) En la ventana Lista de libros
+de Gestor de informaci&oacute;n, aparecer&aacute; cada estante de libros de
+una biblioteca de informaci&oacute;n con la cadena localizada o t&iacute;tulo
+almacenado en el archivo <filename>bookcase.map</filename> que se encuentra
+en el subdirectorio de dicho estante de libros.</para>
+</sect1>
+<sect1 id="SAG.I18N.div.15">
+<title id="SAG.I18N.mkr.10">Establecimiento del entorno nacional para los
+vol&uacute;menes de ayudas<indexterm><primary>vol&uacute;menes de ayudas</primary><secondary>entorno nacional</secondary></indexterm></title>
+<para>Si tiene un volumen de ayudas de entorno nacional, deber&aacute; almacenarlo
+en uno de los siguientes directorios. El primer volumen de ayudas encontrado
+es el que se utiliza. La b&uacute;squeda en los directorios se realiza en
+el orden siguiente:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Personal: <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/help</filename></para>
+</listitem>
+<listitem><para>Accesible en el sistema: <filename>/etc/dt/appconfig/help/</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para>Incorporado: <filename>/usr/dt/appconfig/help/<symbol role="Variable">idioma</symbol></filename></para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.I18N.div.16">
+<title id="SAG.I18N.mkr.11">Establecimiento del entorno nacional para los
+cat&aacute;logos de mensajes<indexterm><primary>entorno nacional</primary>
+<secondary>cat&aacute;logos de mensajes</secondary></indexterm></title>
+<para>Si tiene un cat&aacute;logo de mensajes de entorno nacional, almac&eacute;nelo
+en el siguiente directorio:</para>
+<para><filename>/usr/dt/lib/nls/msg/</filename><symbol role="Variable">idioma</symbol>.</para>
+<para>Estos directorios contiene los archivos <filename>*.cat</filename>.
+</para>
+</sect1>
+<sect1 id="SAG.I18N.div.17">
+<title id="SAG.I18N.mkr.12">Ejecuci&oacute;n remota de aplicaciones de escritorio
+de entorno nacional<indexterm><primary>ejecuci&oacute;n remota</primary>
+<secondary>soporte de idioma nativo</secondary></indexterm><indexterm><primary>NLS, ejecuci&oacute;n remota</primary></indexterm></title>
+<para>Se pueden invocar aplicaciones de escritorio de entorno nacional en
+cualquier host de ejecuci&oacute;n remota que tenga una instalaci&oacute;n
+de escritorio para un entorno nacional similar. Los valores de las variables
+de entorno relacionadas con el NLS del host que est&aacute; invocando la aplicaci&oacute;n
+se pasan al host remoto cuando se inicia la aplicaci&oacute;n. Sin embargo,
+las variables de entorno no contienen ninguna informaci&oacute;n del host.
+</para>
+</sect1>
+<sect1 id="SAG.I18N.div.18">
+<title id="SAG.I18N.mkr.13">Restablecimiento del mapa del teclado<indexterm>
+<primary>mapa de teclado, restablecer</primary></indexterm><indexterm><primary>internacionalizaci&oacute;n</primary><secondary>resoluci&oacute;n de problemas</secondary></indexterm></title>
+<para>Si se ven caracteres o comportamientos inesperados o si no se pueden
+mostrar o escribir caracteres, es posible que sea necesario restablecer o
+instalar el mapa de teclado o cambiar el m&eacute;todo de entrada.</para>
+<para id="SAG.I18N.mkr.14">El m&eacute;todo de entrada se determina mediante
+las variables de entorno LC_CTYPE, <systemitem class="environvar">LANG</systemitem>
+o <systemitem>LC_ALL</systemitem> o mediante el idioma especificado por la
+opci&oacute;n <command>-lang</command>.<indexterm><primary>m&eacute;todo
+de entrada, internacionalizaci&oacute;n</primary></indexterm></para>
+<para>Por ejemplo, si el usuario desea abrir una terminal con el entorno nacional
+C dentro de un shell POSIX, tal como:</para>
+<programlisting>LANG=C dtterm</programlisting>
+<para>Esta nueva terminal utiliza el entorno nacional C que incluye el m&eacute;todo
+de entrada y los fonts de C. Si se est&aacute; utilizando un teclado espec&iacute;fico
+del idioma, es posible que el m&eacute;todo de entrada no acepte ning&uacute;n
+car&aacute;cter ampliado para la entrada. Cuando se utiliza el entorno nacional
+C con un teclado espec&iacute;fico del idioma, es necesario que los usuarios
+establezcan la variable de entorno <systemitem>LC_CTYPE</systemitem> (o <systemitem class="environvar">LANG</systemitem> o <systemitem>LC_ALL</systemitem>)</para>
+<para>a un valor apropiado antes de invocar la terminal.</para>
+<para>Por ejemplo, para utilizar el entorno nacional C con el teclado alem&aacute;n,
+escriba:</para>
+<programlisting>LANG=C LC_CTYPE=DeDE dtterm</programlisting>
+<para>Si se ha restablecido el servidor de X y se han inicializado los mapas
+de teclas, se puede restablecer el mapa de tecla correcto en el servidor utilizando
+el mandato <systemitem>xmodmap</systemitem>.</para>
+</sect1>
+<sect1 id="SAG.I18N.div.19">
+<title id="SAG.I18N.mkr.14a">Selecci&oacute;n del servidor de m&eacute;todo
+de entrada<indexterm><primary>servidor de m&eacute;todo de entrada</primary>
+<secondary>selecci&oacute;n</secondary></indexterm></title>
+<para>Los usuarios de Asia podr&aacute;n seleccionar el servidor de m&eacute;todo
+de entrada (Input Method Server o IMS) a utilizar para activar una sesi&oacute;n
+o en cualquier momento durante una sesi&oacute;n (mediante el control Internacional
+del Gestor de estilos). La selecci&oacute;n de IMS se puede efectuar solamente
+si se ha configurado un idioma asi&aacute;tico como japon&eacute;s, coreano,
+chino tradicional o chino simplificado en la variable <systemitem class="environvar">LANG</systemitem>.</para>
+<para>Una vez que se ha seleccionado un IMS, los usuarios podr&aacute;n configurar
+el modo de selecci&oacute;n de IMS que determinar&aacute; si el sistema solicitar&aacute;
+que introduzcan un IMS la pr&oacute;xima vez que se conecten o si utilizar&aacute;n
+autom&aacute;ticamente el IMS seleccionado actualmente.</para>
+<para>La selecci&oacute;n de IMS y el modo de selecci&oacute;n de IMS est&aacute;n
+almacenados en el archivo:<indexterm><primary>servidor de m&eacute;todo de
+entrada</primary><secondary>archivo de selecci&oacute;n</secondary></indexterm> <programlisting><symbol role="Variable">$HOME</symbol>/.dt/ims/[<symbol role="Variable">display_name</symbol>/]<symbol role="Variable">CDE_locale_name</symbol></programlisting></para>
+<para>Formato del archivo de selecci&oacute;n del IMS:</para>
+<programlisting><literal>@SelectMode:</literal>    <literal>0</literal> (Solicitar al conectar), o
+                <literal>1</literal> (Reanudar el m&eacute;todo de entrada actual)
+<literal>@ImsName:</literal>       <symbol role="Variable">ims_name</symbol>
+<literal>@HostName:</literal>      <symbol role="Variable">host_name</symbol></programlisting>
+<sect2 id="SAG.I18N.div.20">
+<title id="SAG.I18N.mkr.15">Al iniciar la sesi&oacute;n<indexterm><primary>servidor de m&eacute;todo de entrada</primary><secondary>selecci&oacute;n
+al iniciar la sesi&oacute;n</secondary></indexterm></title>
+<para>Para permitir a los usuarios seleccionar un IMS antes de iniciar la
+sesi&oacute;n, configure la variable de entorno <systemitem class="environvar">DTSTARTIMS</systemitem> con el valor <systemitem class="constant">TRUE</systemitem>.
+Al configurar <systemitem class="environvar">DTSTARTIMS</systemitem> con
+el valor <systemitem class="constant">TRUE</systemitem>, el Gestor de sesiones
+ejecuta el script <filename>/usr/dt/config/Xsession.d/0020.dtims</filename>
+que verifica el valor de la variable <systemitem class="environvar">LANG</systemitem>.
+Si la variable <systemitem class="environvar">LANG</systemitem> est&aacute;
+configurada con un idioma asi&aacute;tico, el script invoca el programa <command>dtimsstart</command>. <command>dtimsstart</command> pondr&aacute; el cuadro
+de di&aacute;logo Selecci&oacute;n del m&eacute;todo de entrada mediante el
+cual el usuario podr&aacute; seleccionar el IMS a utilizar. El usuario podr&aacute;
+seleccionar un IMS que se ejecuta en un anfitri&oacute;n local o remoto.</para>
+<para>Para configurar el modo de selecci&oacute;n, el usuario podr&aacute;
+utilizar el control sai18 del Gestor de estilos (descrito a continuaci&oacute;n)
+o <command>DtActionInvoke</command> para ejecutar la operaci&oacute;n <literal>DtImsMode</literal> en <literal>Desktop_Tools</literal> del Gestor de aplicaciones.
+La operaci&oacute;n <literal>DtImsMode</literal> pondr&aacute; en pantalla
+un cuadro de di&aacute;logo que permitir&aacute; al usuario seleccionar <literal>Solicitar al conectar</literal> o <literal>Reanudar el m&eacute;todo de entrada
+actual</literal>.</para>
+<para>El nombre del IMS seleccionado y su anfitri&oacute;n y el modo de selecci&oacute;n
+se registrar&aacute;n en el archivo de selecci&oacute;n de IMS.</para>
+</sect2>
+<sect2 id="SAG.I18N.div.21">
+<title id="SAG.I18N.mkr.16">Sesi&oacute;n<indexterm><primary>servidor de
+m&eacute;todo de entrada</primary><secondary>selecci&oacute;n en una sesi&oacute;n</secondary></indexterm></title>
+<para>En cualquier momento de la sesi&oacute;n, un usuario podr&aacute; seleccionar
+el IMS a utilizar haciendo clic en el control sai18 de Gestor de estilos.
+(Este control aparecer&aacute; solamente si la variable <systemitem class="environvar">LANG</systemitem> est&aacute; configurada con un idioma asi&aacute;tico.)
+Aparecer&aacute; el cuadro de di&aacute;logo Selecci&oacute;n del m&eacute;todo
+de entrada. Si existe un IMS seleccionado actualmente, el cuadro de di&aacute;logo
+mostrar&aacute; su nombre adem&aacute;s del anfitri&oacute;n servidor en el
+que se est&aacute; ejecutando. El usuario podr&aacute; seleccionar un IMS
+que se ejecuta en un anfitri&oacute;n local o remoto.</para>
+<para>Para definir los anfitriones en los que se encuentra el IMS, podr&aacute;
+configurar el recurso de aplicaci&oacute;n <literal>imServerHosts</literal>.
+El Gestor de estilos utiliza este recurso para identificar los anfitriones
+disponibles para seleccionar IMS y contiene una lista de nombres de anfitriones
+separados mediante comas.</para>
+<para>Adem&aacute;s de seleccionar el IMS, el usuario podr&aacute; configurar
+<literal>Solicitar al conectar</literal> o <literal>Reanudar el m&eacute;todo
+de entrada actual</literal> como modo de selecci&oacute;n.</para>
+<para>El nombre del IMS seleccionado y su anfitri&oacute;n, y su modo de selecci&oacute;n
+est&aacute;n registrados en el archivo de selecci&oacute;n de IMS.</para>
+</sect2>
+<sect2 id="SAG.I18N.div.22">
+<title id="SAG.I18N.mkr.17">Establecimiento de archivos de configuraci&oacute;n
+de IMS<indexterm><primary>servidor de m&eacute;todo de entrada</primary>
+<secondary>archivos de configuraci&oacute;n</secondary></indexterm></title>
+<para>Adem&aacute;s del archivo de selecci&oacute;n de IMS (descrito anteriormente),
+los siguientes elementos definen la configuraci&oacute;n de IMS:</para>
+<itemizedlist>
+<listitem><para>El archivo de entrada de ubicaci&oacute;n</para>
+</listitem>
+<listitem><para>El archivo de entrada de IMS</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.I18N.div.23">
+<title id="SAG.I18N.mkr.18">Archivo de entrada de ubicaci&oacute;n<indexterm>
+<primary>servidor de m&eacute;todo de entrada</primary><secondary>archivo
+de entrada de ubicaci&oacute;n</secondary></indexterm><indexterm><primary>archivo de entrada de ubicaci&oacute;n</primary></indexterm></title>
+<para>El archivo de entrada de ubicaci&oacute;n lista los IMS que soportan
+una ubicaci&oacute;n espec&iacute;fica. Est&aacute; ubicado en <filename>/usr/dt/config/ims/</filename><symbol role="Variable">nombre_de_la_ubicaci&oacute;n</symbol> en el siguiente formato:</para>
+<programlisting>@Default: <symbol role="Variable">nombre_del_ims</symbol>
+<symbol role="Variable">nombre_del_ims</symbol>: <symbol role="Variable">cadena_de_la_etiqueta</symbol>
+&hellip;</programlisting>
+<para>El ejemplo a continuaci&oacute;n muestra una lista de IMS de la ubicaci&oacute;n <literal>ja_JP.SJIS</literal>:</para>
+<programlisting>@Default: xjim
+xjim:     HP XJIM
+atok8:    ATOK8
+vje:      VJE-gamma
+egbridge: EGBridge
+none:     No Input Method</programlisting>
+</sect3>
+<sect3 id="SAG.I18N.div.24">
+<title id="SAG.I18N.mkr.19">Archivo de entrada de IMS<indexterm><primary>servidor de m&eacute;todo de entrada</primary><secondary>archivo de entrada
+de IMS</secondary></indexterm><indexterm><primary>archivo de entrada de IMS</primary></indexterm></title>
+<para>El archivo de entrada de IMS describe los atributos de un IMS. Est&aacute;
+ubicado en <filename>/usr/dt/config/ims/</filename><symbol role="Variable">nombre_del_ims</symbol> en el formato:</para>
+<programlisting><symbol role="variable">nombre_del_atributo</symbol>: <symbol role="variable">valor_del_atributo</symbol></programlisting>
+<para>donde <symbol role="variable">nombre_del_atributo</symbol> es:</para>
+<variablelist>
+<varlistentry><term><literal>protocols</literal></term>
+<listitem>
+<para>Atributo de cadena utilizado para identificar los protocolos XIM soportados.
+Protocolos v&aacute;lidos: XIM, Ximp y Xsi. Este atributo es obligatorio.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>server_name</literal></term>
+<listitem>
+<para>Atributo de cadena utilizado para identificar el servidor en el que
+se ejecuta el IMS. Este atributo se utiliza para XMODIFIERS y no es obligatorio.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>cmd_path</literal></term>
+<listitem>
+<para>Atributo de ruta utilizado para especificar la ruta absoluta del archivo
+ejecutable de IMS. Se trata de una palabra clave incorporada utilizada para
+la Xlib incorporada en el IM local y para la cual no es necesario contar con
+un proceso individual. Este atributo es obligatorio.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>cmd_param</literal></term>
+<listitem>
+<para>Atributo de cadena utilizada para suministrar una opci&oacute;n de l&iacute;nea
+de comando para el servidor IMS. NULL (nulo) es el valor predeterminado.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_set</literal></term>
+<listitem>
+<para>Atributo de cadena utilizado para especificar las variables de entorno
+a configurar, excepto XMODIFIERS. NULL (nulo) es el valor predeterminado.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_unset</literal></term>
+<listitem>
+<para>Atributo de cadena utilizado para especificar las variables de entorno
+a desconfigurar, excepto XMODIFIERS. NULL (nulo) es el valor predeterminado.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_pass</literal></term>
+<listitem>
+<para>Atributo de cadena utilizado para especificar las variables de entorno
+a enviar a un IMS ejecutado de forma remota, excepto LANG, DISPLAY y XMODIFIERS.
+NULL (nulo) es el valor predeterminado.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>has_window</literal></term>
+<listitem>
+<para>Atributo boleano utilizado para indicar si el IMS cuenta con ventana
+principal propia. False (falso) es el valor predeterminado.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>encorvar</literal></term>
+<listitem>
+<para>Atributo boleano utilizado para indicar si <command>dtimsstart</command>
+debe activar el IMS. Se deber&aacute; suministrar el valor True (verdadero)
+para el IMS local ya que no requiere ning&uacute;n proceso activado por <command>dtimsstart</command>. False (falso) es el valor predeterminado.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_remote</literal></term>
+<listitem>
+<para>Atributo boleano utilizado para indicar si el IMS permite ejecutar de
+forma remota. False (falso) es el valor predeterminado.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_option</literal></term>
+<listitem>
+<para>Atributo boleano utilizado para indicar si el IMS permite usar la opci&oacute;n
+de l&iacute;nea de comando. Si el valor de esta variable es True (verdadero),
+se ignorar&aacute;n todas las opciones especificadas mediante <literal>-imsopt</literal>, a pesar de que el valor del atributo <literal>cmd_param</literal>
+siempre se aplica independientemente de cu&aacute;l sea este valor. El valor
+True (verdadero) s&oacute;lo se debe suministrar para el IM local. False (falso)
+es el valor predeterminado.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Note que en los casos en los que es posible utilizar valores m&uacute;ltiples,
+se deber&aacute;n especificar como lista separada mediante espacios. Si aparecen
+varias anotaciones con el mismo nombre de atributo en el archivo, s&oacute;lo
+se utilizar&aacute; la &uacute;ltima.</para>
+<para>El ejemplo a continuaci&oacute;n muestra el contenido del archivo de
+entrada de IMS <filename>/usr/dt/config/ims/</filename><symbol role="Variable">xjim</symbol>.</para>
+<programlisting>protocols:   XIM Ximp
+server_name: xjim
+cmd_path:    /usr/bin/X11/xjim
+cmd_param:   -iconic
+env_set:
+env_unset:
+env_pass:
+has_window:  true</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.I18N.div.20a">
+<title id="SAG.I18N.mkr.15a">Configuraci&oacute;n del estilo de m&eacute;todo
+de entrada<indexterm><primary>estilo del m&eacute;todo de entrada</primary>
+<secondary>configuraci&oacute;n</secondary></indexterm></title>
+<para>El control sai18 del Gestor de estilos permite al usuario configurar
+el estilo de m&eacute;todo de entrada que determina c&oacute;mo se realizar&aacute;
+la premodificaci&oacute;n. El orden en el que utilizar&aacute;n los estilos
+de premodificaci&oacute;n, est&aacute;n almacenados en el recurso <literal>XmNpreeditType</literal> de <command>VendorShell</command>. <literal>XmNpreeditType</literal> registra el orden deseado de estilos de premodificaci&oacute;n
+como lista separada mediante comas. Por ejemplo:</para>
+<programlisting>OnTheSpot,OverTheSpot,OffTheSpot,Root</programlisting>
+<para>Mediante los botones <literal>Move-Up</literal> y <literal>Move-Down</literal> del cuadro de di&aacute;logo puesto en pantalla mediante el control
+sai18, el usuario podr&aacute; reclasificar los estilos de premodificaci&oacute;n
+de la lista.</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 14:35:19-->
+<?Pub *0000067976>

@@ -1,0 +1,134 @@
+<!-- $XConsortium: prop.sgm /main/5 1996/08/30 15:22:40 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN242.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN242.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_spec_prop</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_spec_prop</Function></RefName>
+<RefPurpose>retrieve the ith value of the property associated with an object spec
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: prop.sgm /main/5 1996/08/30 15:22:40 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>char <Function>*tt_spec_prop</Function></FuncDef>
+<ParamDef>const char *<Parameter>objid</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>propname</Parameter></ParamDef>
+<ParamDef>int <Parameter>i</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_spec_prop</Function> function
+retrieves the
+<Symbol Role="Variable">i</Symbol>th value of the property associated with this object spec.
+</Para>
+<Para>The
+<Emphasis>objid</Emphasis> argument is the identifier of the object involved in this operation.
+The
+<Emphasis>propname</Emphasis> argument is the name of the property associated with the object spec.
+The
+<Symbol Role="Variable">i</Symbol> argument is the item of the list whose value is to be retrieved.
+The list numbering begins with zero.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_spec_prop</Function> function returns the contents of the property value.
+If there are
+<Symbol Role="Variable">i</Symbol> values or less,
+<Function>tt_spec_prop</Function> returns
+<SystemItem Class="Constant">NULL</SystemItem>. The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned pointer:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBAVAIL</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the
+ToolTalk database needed for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBEXIST</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the
+specified ToolTalk database in the expected place.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NUM</Term>
+<ListItem>
+<Para>The integer value passed was invalid (out of range).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_OBJID</Term>
+<ListItem>
+<Para>The
+<Emphasis>objid</Emphasis> passed to the ToolTalk service does not reference an existing object spec.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROPNAME</Term>
+<ListItem>
+<Para>The specified property name is syntactically invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application should use
+&cdeman.tt.free; to free any data stored in the address returned by the
+ToolTalk API.
+</Para>
+<Para>If the returned value has embedded nulls, its length cannot be determined.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.ptr.error;, &cdeman.tt.free;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

@@ -1,0 +1,1012 @@
+<!-- $XConsortium: ch16.sgm /main/2 1996/12/17 06:29:00 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.I18N.div.1">
+<Title Id="SAG.I18N.mkr.1">ローカライズされたデスクトップ・セッションの構成<IndexTerm><Primary>National Language Support</Primary><Secondary>国際化対応</Secondary></IndexTerm></Title>
+<Para>
+ローカライズされたデスクトップ・セッションを構成するには、次の作業が必要です。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+LANG 環境変数とその他の NLS (National Language Support) 環境変数を設定する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+言語に依存するメッセージ・カタログおよびリソース・ファイルにアクセスする
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+国際化対応システムを介してアプリケーションをリモートで実行する
+</Para>
+<InformalTable Id="SAG.I18N.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Managing the LANG Environment Variable276'--><XRef Role="JumpText" Linkend="SAG.I18N.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Finding Fonts278'--><XRef Role="JumpText" Linkend="SAG.I18N.div.9"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Localizing app-defaults Resource Files279'--><XRef Role="JumpText" Linkend="SAG.I18N.div.10"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Localizing Actions and Data Types279'--><XRef Role="JumpText" Linkend="SAG.I18N.div.11"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Localizing Icons and Bitmaps280'--><XRef Role="JumpText" Linkend="SAG.I18N.div.12"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Localizing Help Volumes281'--><XRef Role="JumpText" Linkend="SAG.I18N.div.15"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Localizing Message Catalogs282'--><XRef Role="JumpText" Linkend="SAG.I18N.div.16"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Executing Localized Desktop Applications Remotely282'--><XRef Role="JumpText" Linkend="SAG.I18N.div.17"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Resetting Your Keyboard Map282'--><XRef Role="JumpText" Linkend="SAG.I18N.div.18"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="SAG.I18N.div.2">
+<Title Id="SAG.I18N.mkr.2">LANG 環境変数の管理<IndexTerm><Primary>国際化対応</Primary><Secondary>LANG 変数</Secondary></IndexTerm><IndexTerm><Primary>LANG 変数</Primary></IndexTerm></Title>
+<Para>
+オペレーティング・システムの言語依存ルーチンを使用するには LANG 環境変数がデスクトップに設定されなければなりません。デスクトップは次の言語をサポートします。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>西欧、ラテン系言語</Para>
+</ListItem>
+<ListItem>
+<Para>日本語</Para>
+</ListItem>
+<ListItem>
+<Para>繁体字（中国語）</Para>
+</ListItem>
+<ListItem>
+<Para>繁体字（中国語）</Para>
+</ListItem>
+<ListItem>
+<Para>韓国語</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>
+デスクトップ・ベンダによっては、その他の言語のサポートが追加されている場合もあります。
+</Para>
+</Note>
+<Para>
+LANG は、オペレーティング・システムでサポートされているどの値にも設定できます。ログイン画面の[オプション]メニューに、サポートされている言語と地域のリストが表示されます。
+</Para>
+<Para>
+デスクトップに LANG を設定するには、次の４つの方法があります。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<Command>Xconfig</Command> ファイルのリソースを編集する</Para>
+</ListItem>
+<ListItem>
+<Para>ログイン画面の[オプション]メニューを使用する</Para>
+</ListItem>
+<ListItem>
+<Para>実行可能な <Command>sh</Command> または <Command>ksh</Command> <Filename>Xsession.d</Filename> スクリプトを作成する（Xsession.d スクリプトの使用方法については、
+<!--Original XRef content: '&xd2;Sourcing Xsession.d Scripts&xd3; on page&numsp;26'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.SesMg.mkr.5"> を参照してください）。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>.dtprofile</Filename> ファイルを編集する</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+LANG が設定されていると、デスクトップはローカライズされたインタフェースを決定するために、次の言語依存ファイルを使用します。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="107*">
+<colspec colwidth="421*">
+<TBody>
+<Row>
+<Entry><Para><StructName Role="typedef">カラー</StructName></Para></Entry>
+<Entry><Para><Filename>/usr/dt/palettes/desc</Filename><Symbol Role="Variable">.language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Literal>背景</Literal></Para></Entry>
+<Entry><Para><Filename>/usr/dt/backdrops/desc</Filename><Symbol Role="Variable">.language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect2 Id="SAG.I18N.div.3">
+<Title>複数のユーザの言語を設定する<IndexTerm><Primary>国際化対応</Primary><Secondary>言語の設定</Secondary></IndexTerm><IndexTerm><Primary>言語、Xconfig ファイルを使用する設定</Primary></IndexTerm><IndexTerm><Primary>Xconfig ファイル</Primary><Secondary>〜による言語の設定</Secondary></IndexTerm></Title>
+<Para>
+<Command>Xconfig</Command> ファイルを使用して言語を設定する場合、ログイン画面がローカライズされ、すべてのユーザに対して LANG が設定されます。これは、マルチディスプレイ・システムですべてのディスプレイの LANG を変更する唯一の方法です。（<Command>Xconfig</Command> を変更するには、<Filename>/usr/dt/config/Xconfig</Filename> を <Command>/etc/dt/config/Xconfig</Command> にコピーします。） 
+</Para>
+<Para>
+言語は、次の行を <Filename>/etc/dt/config/Xconfig</Filename> に配置することで設定されます。
+</Para>
+<ProgramListing>dtlogin.<Symbol Role="Variable">host_display</Symbol>.language: <Symbol Role="Variable">language</Symbol></ProgramListing>
+<Para>
+たとえば、次の行はディスプレイ <ComputerOutput>my_host:0</ComputerOutput> の LANG を <Filename>Swedish_locale</Filename> に設定します。
+</Para>
+<ProgramListing>dtlogin.my_host_0.language: Swedish_locale</ProgramListing>
+<Para>
+<Command>dtlogin</Command> クライアントは、その言語の適切なメッセージ・カタログを読み込み、ローカライズされたログイン画面に表示します。次に <Command>dtlogin</Command> クライアントは、<Filename>/etc/dt/config/Xresources</Filename> リソース・ファイルの次のリソースを使用して、ロケールのリストを判定します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>dtlogin*language</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>dtlogin*languageList</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>dtlogin*languageName</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>
+<Command>Xconfig</Command> ファイルは、選択した言語のために NLSPATH 環境変数を適切に設定する必要がある場合があります。その必要がない場合、または NLSPATH 環境変数を自分で設定したい場合は、
+<!--Original XRef content: '&xd2;NLSPATH Environment Variable&xd3; on page&numsp;278'--><XRef Role="HeadingAndPage" Linkend="SAG.I18N.div.8"> を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.I18N.div.4">
+<Title>ひとつのセッションに言語を設定する</Title>
+<Para>
+ひとつのセッションに言語を設定するには、ログイン画面の[オプション]メニューを使用します。ログイン画面はローカライズされ、LANG はユーザ用に設定されます。LANG はセッションの完了時に（<Command>dtlogin</Command>) に設定されている）デフォルト値に戻ります。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.I18N.div.5">
+<Title>一人のユーザの言語を設定する<IndexTerm><Primary>LANG 変数</Primary><Secondary>.dtprofile の</Secondary></IndexTerm><IndexTerm><Primary>.dtprofile ファイル</Primary><Secondary>LANG の設定</Secondary></IndexTerm></Title>
+<Para>
+ログインの LANG 設定を <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> ファイルの中で無効にすることができます。ログイン画面はローカライズされず、LANG はユーザ用に設定されます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>sh</Command> または <Command>ksh</Command> を使用する場合</Para>
+<programlisting>LANG=<Symbol Role="Variable">language</Symbol>
+export LANG</programlisting>
+</ListItem>
+<ListItem>
+<Para><Command>csh</Command> を使用する場合</Para>
+<programlisting>setenv LANG <Symbol Role="Variable">language</Symbol></programlisting>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.I18N.div.6">
+<Title>LANG 環境変数とセッション構成</Title>
+<Para>
+LANG 環境変数は、セッション構成ファイルを検索する際に使用するディレクトリ名を変更します。
+</Para>
+<Para>
+ローカライズされたセッション構成ファイルは次のとおりです。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/Xresources</Filename> (ログイン・マネージャのリソース・ファイル)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.font</Filename> (セッション・マネージャのリソース・ファイル)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> (セッション・マネージャのリソース・ファイル)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename> (セッション・マネージャのリソース・ファイル)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename> (ウィンドウ・マネージャのリソース・ファイル)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> (ウィンドウ・マネージャ・フロントパネル)</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.I18N.div.7">
+<Title>その他の NLS 環境変数の設定<IndexTerm><Primary>国際化対応</Primary><Secondary>NLS 環境変数</Secondary></IndexTerm><IndexTerm><Primary>NLS 環境変数</Primary></IndexTerm></Title>
+<Para>
+LANG の他に、LC_CTYPE や LC_ALL などの NLS 環境変数があります。これらの変数は、 <Command>dtlogin</Command> 言語リソースやログイン画面の[オプション]メニューの影響を受けません。これらの変数は、次のファイルに設定しなければなりません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>システム共通変数: <Filename>/etc/dt/config/Xsession.d</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>個人用変数: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.I18N.div.8">
+<Title Id="SAG.I18N.mkr.3">NLSPATH 環境変数<IndexTerm><Primary>メッセージ・カタログ</Primary></IndexTerm></Title>
+<Para>
+NLSPATH 環境変数は、アプリケーションがメッセージ・カタログの検索に使用するディレクトリ・パスを決定します。LANG と NLSPATH の両方でこれらのメッセージ・カタログを使用するように設定しなければなりません。ローカライズされたメッセージの位置については、
+<!--Original XRef content: '&xd2;Localizing Message Catalogs&xd3; on page&numsp;282'--><XRef Role="HeadingAndPage" Linkend="SAG.I18N.div.16"> を参照してください。
+ほとんどのデスクトップ・クライアントは、起動時にパスを NLSPATH の先頭に付けます。
+</Para>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.9">
+<Title Id="SAG.I18N.mkr.4">フォントの検索<IndexTerm><Primary>国際化対応</Primary><Secondary>フォント</Secondary></IndexTerm></Title>
+<Para>
+デスクトップに含まれるフォントは <Filename>/usr/lib/X11/fonts</Filename> ディレクトリにあります。
+<IndexTerm><Primary>フォント</Primary><Secondary>一次ディレクトリ</Secondary></IndexTerm>
+各ディレクトリには、ディレクトリ・ファイル <ComputerOutput>fonts.dir</ComputerOutput> と別名ファイル <ComputerOutput>fonts.alias</ComputerOutput> があります。<ComputerOutput>fonts.dir</ComputerOutput> ファイルと <ComputerOutput>fonts.alias</ComputerOutput> ファイルの作成については、<ComputerOutput>mkfontdir</ComputerOutput> のマニュアル・ページを参照してください。
+<IndexTerm><Primary>フォント</Primary><Secondary>ディレクトリ・ファイルによる検索</Secondary></IndexTerm><IndexTerm><Primary>フォント</Primary><Secondary>別名ファイルによる検索</Secondary></IndexTerm><IndexTerm><Primary>フォント</Primary><Secondary>mkfontdir コマンドによる検索</Secondary></IndexTerm><IndexTerm><Primary>mkfontdir コマンド、ファイルのコンパイル</Primary></IndexTerm>
+</Para>
+<Para>
+サーバで使用できるすべてのフォントをリストするには、<ComputerOutput>xlsfonts</ComputerOutput> コマンドを使用します。
+<IndexTerm><Primary>xlsfonts コマンド</Primary><Secondary>サーバのフォントのリスト</Secondary></IndexTerm><IndexTerm><Primary>フォント</Primary><Secondary>xlsfonts コマンド</Secondary></IndexTerm><IndexTerm><Primary>xlsfonts コマンド</Primary><Secondary>インストール</Secondary></IndexTerm><IndexTerm><Primary>xlsfonts コマンド</Primary><Secondary>サーバのフォントのリスト</Secondary></IndexTerm><IndexTerm><Primary>xlsfonts コマンド</Primary><Secondary>インストール</Secondary></IndexTerm>
+サーバにフォントを追加または削除するには、<ComputerOutput>xset</ComputerOutput> コマンドを使用します。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.9a">
+<Title Id="SAG.I18N.mkr.4a">ユーザ定義文字の管理
+<IndexTerm><Primary>ユーザ定義文字</Primary><Secondary>管理</Secondary></IndexTerm>
+<IndexTerm><Primary>ローカライズ</Primary><Secondary>ユーザ定義文字</Secondary></IndexTerm>
+</Title>
+<sect2>
+<Title>概要
+</title>
+<para>
+中国、韓国、および日本のような東アジア地域では、中国語の文字(中国ではHanzi(漢字)
+、 韓国ではHanja(漢字)、および日本ではKanji(漢字)と呼ばれます)が、広く使われてい
+ます。中国語の文字の数は、たいへん多い(最も多い日本語の漢字辞書では、50,000字以
+上)ため、中国語の文字用にコード化された標準の文字セット(JIS X 0208、KS C 5601、
+および GB 2312など)では、使用頻度の高い文字のみ定義されています。
+</para>
+<para>
+通常の文書作成では、標準の文字セットで十分です。しかし、ときとして、非標準文字の
+使用を必要とする場合があります。たとえば、日本の住民登録では、氏名と地名は、以前の手書き登録で使っていた文字と正確に同じ文字で書かなければなりません。別の例では
+、道教や儒教などの古代の文書の出版があります。これらの文書では、現在使われていな
+い標準文字セットに定義されていない多くの文字を含んでいます。そのような非標準の文字を「ユーザ定義文字」と呼びます。
+</para>
+<sect3>
+<Title>UDCの定義方法
+</title>
+<para>
+ユーザ定義文字(UDCs)は「空」コードの位置(コードセットの中で割当られる文字のない
+位置)かプライベート・ユーザ領域(コードセットで定義されている場合)のどちらかを使
+用します。ほとんどの場合には、システムのベンダは、UDCsで使用可能なひとつ以上の連
+続したコードの位置のかたまりからなるUDC領域を提供します。
+</para>
+<para>
+UDCを生成するための基本的な手順は、次のとおりです。
+</para>
+<orderedlist>
+<listitem>
+<para>
+定義する文字に、UDC領域のコード位置を割当てます。
+</para>
+</listitem>
+<listitem>
+<para>
+UDCフォント・エディタ<command>dtudcfonted</command>を使用して文字のグリフ・イメ
+ージ(または複数フォント・サイズを定義するためにグリフ・イメージのセット)を生成
+します。
+</para>
+</listitem>
+</orderedlist>
+<para>
+いったんUDCが生成されると、UDCデータ交換ユーティリティを使用することによって他の
+システムに、広めることができます。
+データ交換の一元性のため、UDCの定義は、ひとつの構成の中では、統一してください。
+</para>
+<para>
+UDCsを生成する前に、次のことを決定しなければなりません。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+UDCsで使用するコードセットおよびそのセットの中の使用可能なコードの位置を決めます。UDCsを生成するためには、ユーザは、使用するコードの位置を知っていなければなりません。
+</para>
+<para>
+Ｘプロトコルのもとでテキスト・データを交換する場合は、コンパウンド・テキストを使
+用します。コンパウンド・テキストでは、UDCsを転送するために拡張セグメントを使用で
+きます。UDCの転送用に拡張セグメントを使用する場合は、UDCsのエンコード名とセグメ
+ント内でのコードの位置またはグリフ・インデックスの転送方法を定義しなければなりま
+せん。
+</para>
+</listitem>
+<listitem>
+<para>
+フォント・ファイルの構成方法と、UDCs用のグリフ・インデックスを決めます。
+UDCsは、空のグリフ・インデックスのある標準のフォント・ファイル、またはUDCs固有の
+独立したフォント・ファイルに格納することができます。独立したファイルを使用する場
+合は、システムは、UDC用の空のフォント・ファイルで使用しなければなりません。現在
+のUDCを編集する場合は、UDC用のフォント名とグリフ・インデックスを指定しなければな
+りません。つまり、コード位置とグリフ・インデックスの関係をユーザが知っていなけれ
+ばなりません。
+</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3>
+<title>フォント・ファイル
+</title>
+<para>
+UDCsの表示および印刷のためには、フォント・ファイルとしてデータベースに格納されな
+ければなりません。UDCのグリフは、他の文字のグリフ同様 Xウィンドウ・システムに使
+用されているフォント・ファイルに格納されます。フォント・ファイルのフォーマットは
+、PCF(Portable Compiled Format)とSNF (Server Natural Format)があり、Ｘサーバでア
+クセスできます。UDCフォント・エディタもそれらのフォーマットでフォント・ファイルにアクセスできます。
+</para>
+<para>
+Ｘサーバは、UDCを表示する場合、関連するフォント・ファイルのUDCを参照します。同様に、UDCを印刷する場合、プリンタ・スプーラは、フォント・ファイルのUDCを参照します。
+</para>
+<para>
+フォント・ファイルは、Ｘウィンドウ・システムで使用できるように設定されなければな
+りません。言い替えれば、フォント・ファイルは、Ｘサーバのフォント・パスで定義され
+ているディレクトリに配置され、管理ファイル(<Symbol Role="Variable">fonts.dir</Symbol>など)も、それらのディレクトリに配置されなければなりません。UDCフォント・エ
+ディタは、フォント・ファイルをインストールしません。また、システムの<Symbol Role="Variable">fonts.dir</Symbol>などのリソースの変更もしません。
+</para>
+<para>
+UDCフォント・エディタは、当該ロケールで使用可能でかつ X NLSデータベースで定義されているUDCフォント・ファイルのみ使うことができます。X NLSデータベースは、ロケール毎に、使用されるコードセットとフォントセットを定義するデータベースです。UDCフ
+ォント・エディタは、さまざまのポイント・サイズとスタイルでUDCフォントを作成します。新しい編集可能なフォントを追加するためには、コードセット名とX NLSデータベー
+スのUDC領域を指定しなければなりません。
+</para>
+<para>
+UDCフォント・エディタとUDCデータ交換ユーティリティがフォント・ファイルを検索する
+場合には、最初に、<systemitem class="environvar">DTUDCFONTPATH</systemitem>環境
+変数(コロンで区切られたUDCフォント・ファイルを含むディレクトリのリストです。)を
+検索し、次に<filename>/usr/dt/config/$LANG/fonts.list</filename>ファイルに指定さ
+れたディレクトリを検索します。ロケール毎のフォントの検索ディレクトリを設定するた
+めに、<filename>fonts.list</filename> fileに指定します。(最後のコロンを忘れてはいけません。)
+例:
+</para>
+<programlisting>
+#
+# fonts.list file example
+#
+  /usr/lib/X11/fonts/misc:
+  /usr/dt/config/xfonts/ja:
+</programlisting>
+</sect3>
+</sect2>
+<sect2>
+<Title>UDCフォント・エディタ
+</title>
+<para>
+ユーザは、UDCフォント・エディタ(<command>dtudcfonted</command>)を使用してUDCsを生成、編集および削除することができます。
+</para>
+<para>
+UDCフォント・エディタの使い方の詳細については、マニュアルの<command>dtudcfonted</command>のページを参照してください。
+</para>
+<para>
+UDCフォント・エディタを起動すると、<literal>フォント選択</literal>ウィンドウが現
+われます。
+</para>
+<para>
+UDCフォント・ファイルは、 XLFD(X Logical Font Description)名で指定します。XLFDは
+、クライアントとアプリケーションで使用されるユニークでわかりやすいフォント名です
+。スタイルとキャラクタセット名のようなさまざまのフォント属性は、XLFDに含まれます
+。便宜上、フォント・ファイルのスタイル、サイズ、およびUDCコード領域を選択するこ
+とができます。UDCコード領域には、X NLSデータベースの指定と同じコードセットの数およびコードセットで使用可能なUDCのグリフ・インデックスの範囲があります。
+</para>
+<para>
+使用可能なUDCフォント・ファイルを一覧表示するには、選択項目フィールドで必要なフ
+ォントのコードセット、スタイル、および文字サイズの定義を選択します。
+フォントを指定して、次に、<literal>[開く]</literal>ボタンを選択して、<literal>文
+字編集</literal>ウィンドウを表示します。
+</para>
+<sect3>
+<title>文字の生成および編集</title>
+<para>
+文字パターンは、<literal>文字編集</literal>ウィンドウで、生成または編集されます。
+</para>
+<para>
+文字リストから、編集される文字のコードを選択してください。関連する文字パターンを
+編集区画に、表示します。文字コードが、UDC領域に登録されていない場合は、何も表
+示されません。
+</para>
+<para>
+文字コードが登録されていない場合は、<literal>文字コントロール</literal>ウィンド
+ウ上でコードを追加し、<literal>文字コピー</literal>ウィンドウ上でパターンをコピ
+ーします。文字コードへの追加方法の詳細については、「文字コードの追加および削除」
+を参照してください。文字パターンへのコピー方法の詳細については、「文字パターンの
+コピー」を参照してください。
+</para>
+<para>
+描画ツールと<literal>[編集]</literal>メニュー・オプションのセットが、文字パター
+ンの生成および編集のオペレーションの完全なセットとして提供されています。
+</para>
+</sect3>
+<sect3>
+<title>文字コードの追加および削除</title>
+<para>
+文字コードは、<literal>[文字]</literal>メニューから<literal>[追加/削除]</literal
+>を選択して表示する<literal>文字コントロール</literal>ウィンドウ上で追加および削
+除されます。
+</para>
+<para>
+文字コードを追加するには、ユーザ定義文字領域内の4つの16進数字を指定して<literal>
+[追加]</literal>ボタンをクリックしてください。範囲内の最初と最後の文字のコードを
+指定することにより、範囲指定で文字を追加することができます。新しい文字コードは、
+<literal>文字編集</literal>ウィンドウで編集中の文字のリストに追加されます。編集
+される文字は、追加される文字コード(または、追加される文字コード・フィールド)の最
+初の文字です。登録済みの場合は、指定された文字コードの文字パターンは、変更されま
+せん。
+</para>
+<para>
+文字コードを削除するには、ユーザ定義文字領域内の4つの16進数字を指定して<literal>
+[削除]</literal>ボタンをクリックしてください。範囲内の最初と最後の文字のコードを
+指定することにより範囲指定で文字を削除することができます。ユーティリティは、削除
+文字毎に、ユーザに確認をもとめます。
+</para>
+<para>
+文字コードを削除すると、<literal>文字編集</literal>ウィンドウで編集中の文字のリ
+ストから削除します。削除される文字コードに続く文字コードが、当該編集可能な文字コ
+ードになります。
+</para>
+</sect3>
+<sect3>
+<title>グラフで文字コードを入力するには</title>
+<para>
+グラフで文字コードを入力するには、<literal>文字コントロール</literal>ウィンドウ
+で<literal>[コード]</literal>ボタンをクリックしてください。<literal>文字コード入
+力</literal>ウィンドウが現われます。このウィンドウで、必要な文字をクリックし、次
+に、<literal>文字コントロール</literal>ウィンドウのコード入力フィールドに選択し
+た文字のコードを挿入するために、<literal>[適用]</literal>をクリックしてください
+。
+</para>
+</sect3>
+<sect3>
+<title>文字パターンをコピーするには</title>
+<para>
+既に登録または生成済みの文字パターンをコピーするには、<literal>[文字]</literal>
+メニューから、<literal>[コピー]</literal>を選択してください。<literal>文字コピー
+</literal>ウィンドウが現われます。コピーすると、編集ウィンドウの文字リストに、コ
+ピー先に対して指定された文字コードを追加します。
+</para>
+<para>
+文字のパターンをコピーするには、文字のサイズを選択し、4つの16進数字コードを指定
+してください。(ユーザは、範囲の最初と最後のコードを指定することによって範囲をコ
+ピーすることもできます。)それから、宛先の文字用に4つの16進数字コードを指定して、
+<literal>[コピー]</literal>ボタンをクリックしてください。
+</para>
+<para>
+ユーザは、ソースの文字パターンのドットと宛先の文字パターンのドットとOR(論理和)を
+とって組み合わせコピーを実行することもできます。 
+</para>
+</sect3>
+</sect2>
+<sect2>
+<Title>UDCデータ交換ユーティリティ
+</title>
+<para>
+UDCデータ交換ユーティリティ(<command>dtudcexch</command>)は、システム間でUDCのグ
+リフ・イメージを交換するツールです。
+</para>
+<para>
+<command>dtudcexch</command>は、異ったシステム間でUDCのグリフ・イメージを配布す
+るための機構を提供します。特に、UDCフォント・エディタ(<command>dtudcfonted</command>)を使用中のシステムで、UDCのグリフ・イメージを生成し、他のシステムに配布する
+ことを可能にします。<command>dtudcexch</command> は、BDF(Bitmap DistributionForm
+at)ファイルにUDCのグリフ・イメージを格納し、ターゲット・システムへ移します。ター
+ゲット・システムで、<command>dtudcexch</command>が再度実行され、BDFファイルから
+イメージを引き出して適切なフォント・ファイルに追加します。
+</para>
+<para>
+<command>dtudcexch</command>は、エクスポートとインポートの両方の機能を提供します。エクスポート機能は、フォント・ファイルから選択されたUDCのグリフ・イメージを読み出し、他のシステムに移すためにBDFファイルに格納します。インポート機能は、BDFファイルのすべてのUDCのグリフ・イメージを読み出し、指定されたフォント・ファイルに追加します。
+</para>
+<para>
+エクスポートでは、<command>dtudcexch</command>は、UDCのグリフ・イメージを選択す
+るために、PCF/SNFフォント・ファイルにあるUDCコード領域のグリフ・インデックスを使
+用します。変換されたイメージを同じグリフ・インデックスにしたがって、BDFフォーマ
+ット・ファイルに格納します。インポートでは、<command>dtudcexch</command>は、BDF
+ファイルで見つけられる同じグリフ・インデックスにしたがって、PCF/SNFフォント・フ
+ァイルにUDCのグリフ・イメージを追加します。UDCコード領域の情報は、X NLSデータベ
+ースで定義されます。
+</para>
+<para>
+ターゲット・システム上でイメージ用のさまざまのグリフ・インデックスを生成するため、インポート機能を呼び出す前に、BDFファイルを編集することができます。
+</para>
+<para>
+UDC交換ユーティリティの詳細については、マニュアルの<command>dtudcexch</command>
+のページを参照してください。
+</para>
+</sect2>
+</sect1>
+<Sect1 Id="SAG.I18N.div.10">
+<Title Id="SAG.I18N.mkr.5">ローカライズされた app-defaults リソース・ファイル<IndexTerm><Primary>国際化対応</Primary><Secondary>app-defaults</Secondary></IndexTerm><IndexTerm><Primary>XUSERFILESEARCHPATH 変数</Primary></IndexTerm><IndexTerm><Primary>リソース</Primary><Secondary>言語依存</Secondary></IndexTerm><IndexTerm><Primary>app-defaults</Primary><Secondary>言語依存</Secondary></IndexTerm></Title>
+<Para>
+デスクトップ・クライアント用の <Filename>app-defaults</Filename> ファイルのデフォルト位置は <Filename>/usr/dt/app-defaults/</Filename><Symbol Role="Variable">language</Symbol> です。たとえば、LANG が <Filename>Swedish_locale</Filename> に設定されている場合、アプリケーションは <Filename>app-defaults</Filename> ファイルを <Filename>/usr/dt/app-defaults/Swedish_locale</Filename> で検索します。LANG が設定されていない場合、<Symbol Role="Variable">language</Symbol> は無視され、アプリケーションは <Filename>app-defaults</Filename> ファイルを <Filename>/usr/app-defaults/C</Filename> で検索します。
+</Para>
+<Para>
+<Filename>app-defaults</Filename> の位置を変更するには、XFILESEARCHPATH 環境変数を使用します。たとえば、<Filename>app-defaults</Filename> を <Filename>/users</Filename> に移動するには、XFILESEARCHPATH を <Filename>/usr/app-defaults/</Filename><Symbol Role="Variable">language</Symbol><Filename>/</Filename><Symbol Role="Variable">classname</Symbol> に設定します。
+</Para>
+<Para>
+XFILESEARCHPATH を <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> に設定した場合、その値は実行するすべてのデスクトップおよびＸクライアントに適用されます。非クライアントは、XFILESEARCHPATH によって指定されるディレクトリにリンクするかコピーしない限り、リソース・ファイルを見つけることはできません。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.11">
+<Title Id="SAG.I18N.mkr.6">アクションおよびデータ型のローカライズ</Title>
+<Note>
+<Para>
+<Filename>/usr/dt/appconfig</Filename> ディレクトリ内のファイルをカスタマイズする場合は、カスタマイズする前にファイルを <Filename>/etc/dt/appconfig</Filename> ディレクトリにコピーしてください。
+</Para>
+</Note>
+<Para>
+アクションおよびデータ型定義ファイルの検索パスには、言語に依存するディレクトリが含まれます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/dt/types</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>システム共通: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>組み込み: <Command>/usr/dt/appconfig/types/</Command><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+<Para>
+アプリケーション・マネージャの構成ファイルの検索パスは次のとおりです。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>個人用: <Emphasis>Ho</Emphasis><Symbol Role="Variable">meDirectory</Symbol><Filename>/dt/appmanager</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>システム共通: <Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>組み込み: <Filename>/usr/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+<Para>
+このディレクトリのファイル名およびディレクトリ名はローカライズされています。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.12">
+<Title Id="SAG.I18N.mkr.7">アイコンおよびビットマップのローカライズ<IndexTerm><Primary>ローカリゼーション</Primary><Secondary>アイコン</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>ローカライズされた</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>英語でない</Secondary></IndexTerm></Title>
+<Para>
+アイコンをローカライズするには、アイコン・エディタでアイコンを編集し、次のディレクトリに保存します。
+</Para>
+<ProgramListing>/etc/dt/appconfig/icons/<Symbol Role="Variable">language</Symbol></ProgramListing>
+<Para>
+アイコンを別のディレクトリに保存する場合は、アイコンを保存したディレクトリを XMICONSEARCHPATH 環境変数に指定します。XMICONBMSEARCHPATH 環境変数は、アイコンの検索に使用するパスを制御します。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.13">
+<Title Id="SAG.I18N.mkr.8">背景名のローカライズ<IndexTerm><Primary>アイコン</Primary><Secondary>ローカライズされた</Secondary></IndexTerm></Title>
+<Para>
+背景のローカライズは、記述ファイル (<ComputerOutput>desc</ComputerOutput>.<Symbol Role="Variable">language</Symbol> と <Filename>desc.backdrops</Filename>) を使用して行われます。背景ファイルには、特定のローカライズされたディレクトリ (<ComputerOutput>/usr/dt/backdrops/</ComputerOutput><Symbol Role="Variable">language</Symbol> など) は存在しません。すべてのロケールは同じ背景ファイルのセットを使用しますが、翻訳された背景名を格納しているロケール独自の <Filename>desc.</Filename><Symbol Role="Variable">language</Symbol> ファイルをもっています。
+</Para>
+<Para>
+記述ファイルには、翻訳された背景名のリソース指定されています。次に例を示します。
+</Para>
+<programlisting>Backdrops*Corduroy.desc:    Velours
+Backdrops*DarkPaper.desc:   PapierKraft
+Backdrops*Foreground.desc:  AvantPlan
+</ProgramListing>
+<Para>
+<ComputerOutput>desc.</ComputerOutput><Symbol Role="Variable">language</Symbol> ファイルは、スタイル・マネージャに背景を表示するために、ロケール <Symbol Role="Variable">language</Symbol> の背景の記述を取り出すのに使用します。記述の指定がある場合は、スタイル・マネージャの背景リストに表示されます。指定がない場合は、背景ファイル名を使用します。
+</Para>
+<Para>
+独自の背景記述を <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/backdrops/desc.backdrops</Filename> ファイルに追加できます。このファイルは、ロケールに関係なくユーザによって追加されたすべての背景の背景記述を取り出すのに使用します。
+</Para>
+<Para>
+<Command>description</Command> ファイルの検索パスは次のとおりです。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/backdrops/desc.backdrops</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>システム共通: <Filename>/etc/dt/backdrops/desc.</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>組み込み: <Filename>/usr/dt/backdrops/desc.</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.14">
+<Title Id="SAG.I18N.mkr.9">パレット名のローカライズ<IndexTerm><Primary>ローカリゼーション</Primary><Secondary>「国際化対応」も参照してください</Secondary></IndexTerm><IndexTerm><Primary>パレット</Primary><Secondary>名前のローカライズ</Secondary></IndexTerm><IndexTerm><Primary>ローカリゼーション</Primary><Secondary>パレット名</Secondary></IndexTerm><IndexTerm><Primary>ローカリゼーション</Primary><Secondary>アイコン</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>ローカライズされた</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>英語でない</Secondary></IndexTerm></Title>
+<Para>
+パレットのローカライズは、記述ファイル (<ComputerOutput>desc</ComputerOutput>.<Symbol Role="Variable">language</Symbol> と <Filename>desc.palettes</Filename>) を使用して行われます。特定のローカライズされたディレクトリ (<ComputerOutput>/usr/dt/palettes/</ComputerOutput><Symbol Role="Variable">language</Symbol> など) は存在しません。すべてのロケールは同じパレット・ファイルのセットを使用しますが、翻訳されたパレット名を格納している独自の <Filename>desc.palettes</Filename> ファイルをもっています。
+</Para>
+<Para>
+記述ファイルには、翻訳されたパレット名のリソースが指定されています。次に例を示します。
+</Para>
+<programlisting>Palettes*Cardamon.desc:    Cardamone
+Palettes*Cinnamon.desc:    Cannelle
+Palettes*Clove.desc:       Brun
+</ProgramListing>
+<Para>
+<ComputerOutput>desc.</ComputerOutput><Symbol Role="Variable">language</Symbol> ファイルは、スタイル・マネージャ・リストにパレットを表示するために、ロケール <Symbol Role="Variable">language</Symbol> のパレットの記述を取り出すのに使用します。記述の指定がある場合は、スタイル・マネージャのパレット・リストに表示します。指定がない場合は、パレット・ファイル名を使用します。
+</Para>
+<Para>
+独自のパレット記述を <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/palettes/desc.palettes</Filename> ファイルに追加できます。このファイルは、ロケールに関係なくユーザによって追加されたすべてのパレットのパレット記述を取り出すのに使用します。
+</Para>
+<Para>
+記述ファイルの検索パスは次のとおりです。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/palettes/desc.palettes</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>システム共通: <Filename>/etc/dt/palettes/desc.</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>組み込み: <Filename>/usr/dt/palettes/desc.</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.14a">
+<Title Id="SAG.I18N.mkr.9a">インフォメーション・ライブラリのローカライズ
+<IndexTerm><Primary>インフォメーション・ライブラリ</Primary><Secondary>ローカラ
+イズする</Secondary></IndexTerm>
+<IndexTerm><Primary>ローカライズ</Primary><Secondary>インフォメーション・ライブ
+ラリ</Secondary></IndexTerm>
+</Title>
+<Para>インフォメーション・ライブラリには、ひとつ以上のブックケースがあります。各
+ブックケースには、インフォメーション・マネージャでブラウズ、および検索可能なひと
+つ以上のブックがあります。この階層では、インフォメーション・ライブラリにのみ、関
+連しているデスクトップ・アクションがあります。デスクトップ・エンティティと同じよ
+うに、インフォメーション・マネージャ・コントロール上でドラッグ＆ドロップすること
+によって、インフォメーション・ライブラリを開くことができます。インフォメーション
+・ライブラリを開く場合、インフォメーション・マネージャは、ブックリストウィンドウ
+を表示し、インフォメーション・ライブラリにあるすべてのブックケースを表示します。
+</para>
+<para>
+インフォメーション・ライブラリへのデフォルト・パスは、<systemitem class="environvar">DTINFOLIBPATH</systemitem>環境変数によって設定されます。(標準のCDEデスクト
+ップ・パスは、<filename>/usr/dt/dtinfo/cde.dti</filename>です。) インフォメーシ
+ョン・ライブラリの最初のディレクトリのレベルで見つけられる<Symbol Role="Variable
+">name</Symbol><filename>.oli</filename>ファイルには、インフォメーション・ライブ
+ラリ用の省略形の名前があります。インフォメーション・ライブラリのローカライズは、
+最初のディレクトリレベルの下のサブディレクトリで見つけることができ、NLSのマスク
+ %<Symbol Role="Variable">L</Symbol>(または、%<Symbol Role="Variable">l</Symbol>
+_%<Symbol Role="Variable">t</Symbol>.%<Symbol Role="Variable">c</Symbol>)に応じ
+て命名されます。インフォメーション・マネージャのブックリストウィンドウでは、イン
+フォメーション・ライブラリの各ブックケースは、ブックケースのサブディレクトリで見
+つけられる<filename>bookcase.map</filename>ファイルに格納されているローカライズ
+された文字列またはタイトルで表されます。 </para>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.15">
+<Title Id="SAG.I18N.mkr.10">ヘルプ・ボリュームのローカライズ<IndexTerm><Primary>ヘルプ・ボリューム</Primary><Secondary>ローカライズ</Secondary></IndexTerm></Title>
+<Para>
+ローカライズされたヘルプ・ボリュームがある場合は、それを次のいずれかのディレクトリに格納しなければなりません。最初に見つけたヘルプ・ボリュームを使用します。ディレクトリは次の順に検索されます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/help</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>システム共通: <Filename>/etc/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>組み込み: <Symbol Role="Variable">/usr/dt/appconfig/help/</Symbol><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.16">
+<Title Id="SAG.I18N.mkr.11">メッセージ・カタログのローカライズ<IndexTerm><Primary>ローカリゼーション</Primary><Secondary>メッセージ・カタログ</Secondary></IndexTerm></Title>
+<Para>
+メッセージ・カタログをローカライズした場合は、次のディレクトリに格納します。
+</Para>
+<Para><Filename>/usr/dt/lib/nls/msg/</Filename><Symbol Role="Variable">language</Symbol>.</Para>
+<Para>
+このディレクトリに <Filename>*.cat</Filename> ファイルを格納します。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.17">
+<Title Id="SAG.I18N.mkr.12">ローカライズされたデスクトップ・アプリケーションのリモート実行<IndexTerm><Primary>リモート実行</Primary><Secondary> NLS (Native Language Support)</Secondary></IndexTerm><IndexTerm><Primary>NLS リモート実行</Primary></IndexTerm></Title>
+<Para>
+ローカライズされたデスクトップ・アプリケーションは、同じようにローカライズされたデスクトップ・インストールがあれば、どのリモート実行ホストでも起動できます。アプリケーションを起動しているホストの NLS 関連の環境変数の値は、アプリケーションの起動時にリモート・ホストに渡されます。しかし、環境変数にはホスト情報は含まれません。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.18">
+<Title Id="SAG.I18N.mkr.13">キーボード・マップのリセット<IndexTerm><Primary>キーボード・マップ、リセット</Primary></IndexTerm><IndexTerm><Primary>国際化対応</Primary><Secondary>トラブルシュート</Secondary></IndexTerm></Title>
+<Para>
+予期しない文字および動作に遭遇した場合、または文字の表示や入力ができない場合は、キーボード・マップをリセットしてインストールするか、または入力メソッドを変更する必要がある場合があります。
+</Para>
+<Para Id="SAG.I18N.mkr.14">
+入力メソッドは LC_CTYPE、LANG、または LC_ALL 環境変数か、<ComputerOutput>-lang</ComputerOutput> オプションで指定された言語によって決定されます。
+<IndexTerm><Primary>入力メソッド、国際化対応</Primary></IndexTerm>
+</Para>
+<Para>
+たとえば、POSIX シェル内で C ロケールで端末を開きたい場合、次のように指定します。
+</Para>
+<programlisting>LANG=C dtterm
+</ProgramListing>
+<Para>
+この新しい端末は、C の入力メソッドおよびフォントを含む C ロケールを使用します。言語固有のキーボードを使用している場合は、入力メソッドは拡張文字の入力を受け付けないことがあります。言語固有のキーボードで C ロケールを使用する場合、端末を起動する前に、LC_CTYPE、LANG、LC_ALL のうちいずれかの環境変数を適切な値に設定する必要があります。
+</Para>
+<Para>
+たとえば、ドイツ語のキーボードで C ロケールを使用するには、次のように入力します。
+</Para>
+<programlisting>LANG=C LC_CTYPE=DeDE dtterm
+</ProgramListing>
+<Para>
+Ｘサーバがリセットされてキーマップが初期化されている場合は、<ComputerOutput>xmodmap</ComputerOutput> コマンドを使用してサーバで適切なキーボード・マップをリセットできます。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.I18N.div.19">
+<Title Id="SAG.I18N.mkr.14a">入力メソッド・サーバの選択
+<IndexTerm><Primary>入力メソッド・サーバ</Primary><Secondary>選択する</Secondary></IndexTerm>
+</Title>
+<Para>
+アジアのユーザは、セッション起動時か、またはセッション内の任意時に(スタイルマネ
+ージャの国際化コントロールを使って)、使用する入力メソッド・サーバ(IMS)を選択する
+ことができます。<systemitem class="environvar">LANG</systemitem>がアジアの言語(
+日本語、韓国語、中国語(繁体字)、または中国語(簡体字))に設定されている場合のみIMSを選択することができます。
+</para>
+<para>
+IMSを一度選択すると、ユーザはIMS選択モードの設定ができます。IMS選択モードでは、
+次回のログイン時にIMS用にプロンプトするか、自動的に現在選択されているIMSを使用するかどちらかを決定します。
+</para>
+<para>
+IMS選択およびIMS選択モードは、次のファイルに格納されます。
+<IndexTerm><Primary>入力メソッド・サーバ</Primary><Secondary>選択ファイル</Secondary></IndexTerm>
+<programlisting>
+<Symbol Role="Variable">$HOME</Symbol>/.dt/ims/[<Symbol Role="Variable">display_name</Symbol>/]<Symbol Role="Variable">CDE_locale_name</Symbol>
+</programlisting>
+</para>
+<para>
+IMS選択ファイルのフォーマットは、次のとおりです。
+</para>
+<programlisting>
+<literal>@SelectMode:</literal>    <literal>0</literal> (Ask at login), or
+                <literal>1</literal> (Resume current input method)
+<literal>@ImsName:</literal>       <Symbol Role="Variable">ims_name</Symbol>
+<literal>@HostName:</literal>      <Symbol Role="Variable">host_name</Symbol>
+</programlisting>
+<sect2 Id="SAG.I18N.div.20">
+<Title Id="SAG.I18N.mkr.15">セッション起動時に選択
+<IndexTerm><Primary>入力メソッド・サーバ</Primary><Secondary>セッション起動時に選択する</Secondary></IndexTerm>
+</title>
+<para>
+セッションを起動する前にIMSを選択可能にするには、
+<systemitem class="environvar">DTSTARTIMS</systemitem>環境変数に<systemitem class="constant">TRUE</systemitem>を設定してください。
+<systemitem class="environvar">DTSTARTIMS</systemitem>に、<systemitem class="constant">TRUE</systemitem>を設定すると、セッション・マネージャは<filename>/usr/dt/
+config/Xsession.d/0020.dtims</filename>スクリプトを実行します。
+このスクリプトは、<systemitem class="environvar">LANG</systemitem>をチェックしま
+す。<systemitem class="environvar">LANG</systemitem>がアジアの言語に設定されてい
+る場合、スクリプトが<command>dtimsstart</command>プログラムを呼び出します。<command>dtimsstart</command>は、使用するIMSを選択可能とする入力メソッド選択ダイアロ
+グを表示します。ユーザは、ローカル・ホストかリモートホストのどちらかで実行中のIM
+Sを選択することができます。
+</para>
+<para>
+選択モードを設定するには、ユーザは、スタイル・マネージャのI18Nコントロール(以下
+に説明あり)を使用するかまたはアプリケーション・マネージャの<literal>デスクトップ
+・ツール(Desktop_Tools)</literal>の<literal>DtImsMode</literal>アクションを実行
+する<command>DtActionInvoke</command>を使用することができます。<literal>DtImsMode</literal>アクションは、<literal>[ログイン時に決定]</literal>かまたは<literal>[現在の入力メソッド回復]</literal>のどちらかを選択するためのダイアログを表示します。
+</para>
+<para>
+選択されたIMSとホストの名前および選択モードは、IMS選択ファイルに記録されます。
+</para>
+</sect2>
+<sect2 Id="SAG.I18N.div.21">
+<Title Id="SAG.I18N.mkr.16">セッション内で選択
+<IndexTerm><Primary>入力メソッド・サーバ</Primary><Secondary>セッション内で選択する</Secondary></IndexTerm>
+</title>
+<para>
+セッション内の任意の時点で、ユーザはスタイル・マネージャのI18Nコントロールをクリ
+ックしてどのIMSを使用するかを選択することができます。(このコントロールは、<systemitem class="environvar">LANG</systemitem>がアジアの言語に設定されている場合のみ
+表示されます。)入力メソッドの選択ダイアログが表示されます。当該IMSがある場合は、
+実行中のサーバ・ホストと同様、名前がダイアログに表示されます。ユーザは、ローカル
+・ホストかまたはリモート・ホストのどちらかで実行中のIMSを選択することができます
+。 
+</para>
+<para>
+IMSを見つけられるホストを定義するために、<literal>imServerHosts</literal>アプリ
+ケーション・リソースを構成することができます。スタイル・マネージャは、このリソー
+スをIMSの選択のために表示するホストを表すリソースとして使用します。コンマで区切
+られたホスト名のリストが入っています。 
+</para>
+<para>
+IMSの選択に加えて、ユーザは<literal>[ログイン時に決定]</literal>か<literal>[現在
+の入力メソッド回復]</literal>かどちらかの選択モードを設定することができます。
+</para>
+<para>
+選択されたIMSおよびホストの名前と選択モードは、IMS選択ファイルに記録されます。
+</para>
+</sect2>
+<sect2 Id="SAG.I18N.div.22">
+<Title Id="SAG.I18N.mkr.17">IMS構成ファイルを設定する
+<IndexTerm><Primary>入力メソッド・サーバ</Primary><Secondary>構成ファイル</Secondary></IndexTerm>
+</title>
+<para>
+IMS選択ファイル(上記に説明あり)に加えて、IMS構成は、次のように定義されます。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+ローカル・エントリ・ファイル
+</para>
+</listitem>
+<listitem>
+<para>
+IMSのエントリ・ファイル
+</para>
+</listitem>
+</itemizedlist>
+<sect3 Id="SAG.I18N.div.23">
+<Title Id="SAG.I18N.mkr.18">ローカル・エントリ・ファイル
+<IndexTerm><Primary>入力メソッド・サーバ</Primary><Secondary>ローカル・エントリ・ファイル</Secondary></IndexTerm>
+<IndexTerm><Primary>ローカル・エントリ・ファイル</Primary></IndexTerm>
+</title>
+<para>
+ローカル・エントリ・ファイルは、指定のロケールをサポートしているIMSをリストしま
+す。それは、<filename>/usr/dt/config/ims/</filename><Symbol Role="Variable">loca
+le_name</Symbol>の位置にあり、フォーマットは、次のとおりです。
+</para>
+<programlisting>
+@Default: <Symbol Role="Variable">ims_name</Symbol>
+<Symbol Role="Variable">ims_name</Symbol>: <Symbol Role="Variable">label_string</Symbol>
+&hellip;
+</programlisting>
+<para>
+<literal>ja_JP.SJIS</literal>ロケールのIMSのリストの例を次に示します。
+</para>
+<programlisting>
+@Default: xjim
+xjim:     HP XJIM
+atok8:    ATOK8
+vje:      VJE-gamma
+egbridge: EGBridge
+none:     No Input Method
+</programlisting>
+</sect3>
+<sect3 Id="SAG.I18N.div.24">
+<Title Id="SAG.I18N.mkr.19">IMSのエントリ・ファイル
+<IndexTerm><Primary>入力メソッド・サーバ</Primary><Secondary>IMSのエントリ・ファイル</Secondary></IndexTerm>
+<IndexTerm><Primary>IMSのエントリ・ファイル</Primary></IndexTerm>
+</title>
+<para>
+IMSのエントリ・ファイルは、IMSの属性を記述します。
+それは、<filename>/usr/dt/config/ims/</filename><Symbol Role="Variable">ims_
+name</Symbol>の位置にあり、フォーマトは、次のとおりです。
+</para>
+<programlisting>
+<symbol role="variable">attribute_name</symbol>: <symbol role="variable">attribute_value</symbol>
+</programlisting>
+<para>
+<symbol role="variable">attribute_name</symbol>には、次のものがあります。
+
+where <symbol role="variable">attribute_name</symbol> is:
+</para>
+<variablelist>
+<varlistentry><term><literal>プロトコル</literal></term>
+<listitem>
+<para>
+サポートしているXIMプロトコルを示す文字列属性です。有効なプロトコルは、XIM、Ximp
+、および Xsiです。 この属性は、必須です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>server_name</literal></term>
+<listitem>
+<para>
+IMSが実行するサーバを示す文字列属性です。XMODIFIERSで使用されます。この属性は必須です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>cmd_path</literal></term>
+<listitem>
+<para>
+IMSの実行ファイルの絶対パスを指定するパスの属性です。別のプロセスを必要としないX
+libに組み込まれているローカルなIM用に使用される組み込みのキーワードです。この属
+性は必須です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>cmd_param</literal></term>
+<listitem>
+<para>
+IMSサーバに対するコマンド行のオプションを提供する文字列属性です。デフォルトは、
+NULLです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_set</literal></term>
+<listitem>
+<para>
+XMODIFIERSを以外の環境変数を指定する文字列属性です。デフォルトは、NULLです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_unset</literal></term>
+<listitem>
+<para>
+XMODIFIERS以外の環境変数の設定を解除する文字列属性です。デフォルトは、NULLです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_pass</literal></term>
+<listitem>
+<para>
+リモートで実行するIMSに渡されるLANG、DISPLAY、およびXMODIFIERS以外の環境変数を指
+定する文字列属性です。デフォルトは、NULLです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>has_window</literal></term>
+<listitem>
+<para>
+IMSのメイン・ウィンドウ表示をするか否かを示すブール属性です。デフォルトは、False
+です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_server</literal></term>
+<listitem>
+<para>
+<command>dtimsstart</command>のIMSを起動する必要性の有無を示すブール属性です。ロ
+ーカルなIMには、Trueを設定する必要があります。ローカルなIMは、<command>dtimsstar
+t</command>でサーバ・プロセスを起動する必要がありません。デフォルトは、Falseです
+。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_remote</literal></term>
+<listitem>
+<para>
+IMSがリモートで実行できるか否かを示すブール属性です。デフォルトは、Falseです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_option</literal></term>
+<listitem>
+<para>
+IMSがコマンド行オプションを認めるか否かを示すブール属性です。Trueの場合は、<literal>-imsopt</literal>で指定される任意のオプションは無視されます。しかし、この値
+に関わらず<literal>cmd_param</literal>属性の値は、常に適用されます。ローカルなIM
+には、Trueを設定する必要があります。デフォルトは、Falseです。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+複数の値が指定可能な場合は、空白で区切って指定するように注意してください。ファイル内に同じ属性名のエントリが、複数現われる場合には、最後の属性が使用されます。
+</para>
+<para>
+IMSのエントリ・ファイル<filename>/usr/dt/config/ims/</filename><Symbol Role="Var
+iable">xjim</Symbol>の例を次に示します。
+</para>
+<programlisting>
+protocols:   XIM Ximp
+server_name: xjim
+cmd_path:    /usr/bin/X11/xjim
+cmd_param:   -iconic
+env_set:
+env_unset:
+env_pass:
+has_window:  true
+</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<Sect1 Id="SAG.I18N.div.20a">
+<Title Id="SAG.I18N.mkr.15a">入力メソッドのスタイルを設定する
+<IndexTerm><Primary>入力メソッドのスタイル</Primary><Secondary>設定する</Secondary></IndexTerm>
+</Title>
+<para>
+ユーザは、スタイル・マネージャのI18Nコントロールにより、前編集を行なう入力メソッ
+ドのスタイルを設定することができます。使用する前編集のスタイルの順番が、<command
+>VendorShell</command>の<literal>XmNpreeditType</literal>リソースに格納されます
+。<literal>XmNpreeditType</literal>は、コンマで区切って、前編集のスタイルの優先
+順位を記録します。
+例:
+</para>
+<programlisting>
+OnTheSpot,OverTheSpot,OffTheSpot,Root
+</programlisting>
+<para>
+I18Nコントロールで表示されるダイアログの<literal>[上に移動]</literal>ボタンと、<literal>[下に移動]</literal>ボタンを使用することにより、リスト内の前編集のスタイ
+ルの順番を変更することができます。
+</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

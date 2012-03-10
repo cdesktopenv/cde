@@ -1,0 +1,139 @@
+#! /usr/dt/bin/dtksh
+#####################################################################
+###  File:              dthelpgen.dtsh
+###
+###  Default Location:  /usr/dt/bin/dthelpgen.dtsh
+###
+###  Purpose:           Display a 'working' dialog for dthelpgen.
+###
+###  Description:       This shell script provides a graphical interface
+###                     to notify the user that the help browser is
+###                     being (re)generated.
+###
+###  Invoked by:        The the dthelpgen application.
+###
+###  Product:           @(#)Common Desktop Environment 1.0          
+###
+###  Note:              Please do not modify this file.
+###                     Later product updates will overwrite this file.
+###
+###  Revision:          $XConsortium: dthelpgen.dtsh /main/3 1995/11/07 13:13:18 rswiston $
+###
+###  Defect(s):         
+###
+#####################################################################
+set -u
+
+##################################################################
+###  Internal Globals
+###
+###  Actually, most variables in this script are global.
+###
+###  Most are defined in the Initialize() routine.
+###
+##################################################################
+COMMAND_NAME=dthelpgen
+#
+# Exit/Return codes
+#
+SUCCESS=0
+USAGE_EXIT=2
+NO_INIT_FILE_ERR=5
+
+failure_flag=$SUCCESS
+
+##################################################################
+###  Initialize()
+###
+###         Initialize the tile, msg and cat id.
+###
+##################################################################
+Initialize()
+{
+    CAT_MESG_TITLE=""
+    CAT_MESG_MSG=""
+
+    catopen CAT_ID $COMMAND_NAME
+
+}
+
+##################################################################
+###  Exit()
+###
+###	All exits should go through this routine.
+###
+##################################################################
+Exit() {
+        exit $1
+}
+
+##################   GUI Callbacks  ####################
+
+#
+# This is the callback for the 'OK' button.  It will exit the program
+#
+OkButton()
+{
+  XtUnmanageChild $_DT_WORKING_DIALOG_HANDLE
+  
+  XSync $DISPLAY True
+
+  Exit 0
+}
+
+#
+# This is the callback if the timer goes off
+#
+# TimerCB()
+# {
+# 
+# CAT_MESG_MSG=${CAT_MESG_MSG}"."
+# XtSetValues $_DT_WORKING_DIALOG_HANDLE \
+# 	messageString:"${CAT_MESG_MSG}"
+# 
+# XtAppAddTimeOut TIMER_ID $TIMER_CONTEXT $TIMER_TIME "TimerCB" ""
+# 
+# }
+
+##################################################################
+###  Main()
+###
+###  Display a 'working' dialog for dthelpgen.
+###
+##################################################################
+
+Initialize
+
+if [[ -r /usr/dt/lib/dtksh/DtFuncs.dtsh ]]
+then
+	. /usr/dt/lib/dtksh/DtFuncs.dtsh
+else
+    echo Sorry--cannot find initialization file.
+    Exit $NO_INIT_FILE_ERR
+fi
+
+XtInitialize TOPLEVEL dthelpgenDialog Dthelpgen ""
+
+XtDisplay DISPLAY $TOPLEVEL
+
+catgets CAT_MESG_TITLE $CAT_ID 2 6 "${COMMAND_NAME}"
+catgets CAT_MESG_MSG   $CAT_ID 2 7 \
+			"Generating browser information. Please wait."
+
+DtkshDisplayWorkingDialog "${CAT_MESG_TITLE}" \
+				"${CAT_MESG_MSG}"  \
+				"OkButton" "" ""   \
+				DIALOG_PRIMARY_APPLICATION_MODAL
+
+XtManageChild $_DT_WORKING_DIALOG_HANDLE
+
+# XtWidgetToApplicationContext TIMER_CONTEXT $_DT_WORKING_DIALOG_HANDLE
+# XtGetMultiClickTime TIMER_TIME $DISPLAY
+# XtAppAddTimeOut TIMER_ID $TIMER_CONTEXT $TIMER_TIME "TimerCB" ""
+
+XtMainLoop
+
+#
+#  Never reached.
+#
+#####################         eof       ##############################

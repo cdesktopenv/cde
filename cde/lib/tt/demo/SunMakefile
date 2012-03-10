@@ -1,0 +1,62 @@
+# %%  (c) Copyright 1993, 1994 Hewlett-Packard Company			
+# %%  (c) Copyright 1993, 1994 International Business Machines Corp.	
+# %%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			
+# %%  (c) Copyright 1993, 1994 Novell, Inc. 				
+# %%  $XConsortium: SunMakefile /main/3 1995/10/20 17:03:17 rswiston $ 			 				
+#
+#
+# @(#)SunMakefile	1.15 26 Oct 1993
+#
+# The ToolTalk demo makefile
+#
+# Copyright (c) 1992 by Sun Microsystems, Inc.
+#
+
+TT_DIR = ..
+THIS_DIR = demo
+
+include $(TT_DIR)/SunMakefile-head.mk
+
+# The default target, all, doesn't make anything.  install copies
+# the source to the install directory, renaming Makefile.shipped
+# to Makefile.
+
+# To actually make the demos using the ToolTalk in OPENWINHOME,
+# make shipped
+
+# To make the demos using the ToolTalk in $(TT_DIR)/proto, run
+# make test
+
+SUBDIRS =
+# We only need to descend into the subdirectories when installing or doing
+# "make shipped" or "make test".
+install-% shipped test 	:=	SUBDIRS = CoEd
+
+DEMO_DIR = share/src/tooltalk/demo
+
+INSTALL_MAKEFILE = $(INSTALL_DIR)/$(DEMO_DIR)/Makefile
+
+all::
+ 
+$(INSTALL_TARGETS)::     $$(INSTALL_MAKEFILE)
+ 
+$(INSTALL_MAKEFILE): Makefile.shipped
+	$(TTINSTALL) $(@D) Makefile.shipped;\
+	rm -f $@;\
+	mv $(@D)/Makefile.shipped $@
+
+shipped test:
+	if [ ! -w CoEd/CoEd_main/CoEd_stubs.c ]; then \
+		echo golit needs CoEd/CoEd_main/CoEd_stubs.c to be writable.; \
+		echo Check it out, build, and then uncheck it out.; \
+		exit 1; \
+	fi
+	MAKE="$(MAKE) -f Makefile.$@" $(MAKE) -f Makefile.$@
+
+shippedclean:
+	MAKE="$(MAKE) -f Makefile.shipped" $(MAKE) -f Makefile.shipped clean
+
+include $(TT_DIR)/SunMakefile-tail.mk
+
+FRC:
+	

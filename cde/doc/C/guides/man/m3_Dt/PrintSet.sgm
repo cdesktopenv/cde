@@ -1,0 +1,828 @@
+<!-- $XConsortium: PrintSet.sgm /main/10 1996/09/08 20:10:10 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.XPRINT.DtPrintSetupBox">]]>
+<![ %CDE.C.XO; [<refentry id="XCSA.XPRINT.DtPrintSetupBox">]]>
+<refmeta><refentrytitle>
+DtPrintSetupBox</refentrytitle><manvolnum>library call</manvolnum></refmeta><refnamediv>
+<refname><function>DtPrintSetupBox</function></refname><refpurpose>application
+print setup widget</refpurpose></refnamediv><refsynopsisdiv>
+<synopsis><?Pub Caret>#include &lt;Dt/Print.h></synopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para><function>DtPrintSetupBox</function> is a widget that is typically the
+initial window used to set various options prior to printing from an application.
+This widget is designed primarily for use by applications that utilize the
+X Print Service. However, it can also be used by applications employing other
+printing methods.</para>
+<para><function>DtPrintSetupBox</function> is organized based on generic print
+options and application specific print options. The sections are clearly
+demarcated with separators to set off the generic section from the application
+specific section(s). By utilizing the <Symbol>DtNworkAreaLocation</Symbol>
+resource, the application developer can choose to utilize an area above the
+generic section, below the generic section, or both above and below the generic
+section.</para>
+<para>The four default buttons (<literal>Print</literal>, <literal>Setup</literal>, <literal>Cancel</literal>, and <literal>Help</literal>) are considered generic buttons.
+Applications can create additional pushbuttons as children of <function>DtPrintSetupBox</function>. These buttons will be laid out following the <literal>Print</literal>
+button.</para>
+<para>The <literal>Printer Name</literal> combo box contains the X printer
+specifier of the printer to be used for the print job. The X printer specifier
+is an identifier that uniquely identifies an X printer. The format of this
+specifier is <emphasis>printerName</emphasis>@<emphasis>host</emphasis>: <emphasis>display</emphasis>.</para>
+<refsect2>
+<title>Descendants</title>
+<para><function>DtPrintSetupBox</function> creates the descendants shown in
+the following table. An application can use <Symbol>XtNameToWidget</Symbol>
+to gain access to the named descendent. In addition, a user or an application
+can use the descendant name when specifying resource values.</para>
+<informaltable>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colwidth="2.16in">
+<colspec align="left" colwidth="1.95in">
+<colspec align="left" colwidth="2.53in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Named Descendant</para></entry>
+<entry align="left" valign="bottom"><para>Class</para></entry><entry align="left"
+valign="bottom"><para>Identity</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>BottomWorkAreaSeparator</para></entry>
+<entry align="left" valign="top"><para>XmSeparatorGadget</para></entry>
+<entry align="left" valign="top"><para>Separator above the bottom work area
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ButtonSeparator</para></entry>
+<entry align="left" valign="top"><para>XmSeparatorGadget</para></entry>
+<entry align="left" valign="top"><para>Separator above the pushbuttons</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Cancel</para></entry>
+<entry align="left" valign="top"><para>XmPushButtonGadget</para></entry>
+<entry align="left" valign="top"><para>Cancel button</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Copies</para></entry>
+<entry align="left" valign="top"><para>XmSimpleSpinBox</para></entry>
+<entry align="left" valign="top"><para>SpinBox containing the number of copies
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>CopiesLabel</para></entry>
+<entry align="left" valign="top"><para>XmLabelGadget</para></entry>
+<entry align="left" valign="top"><para>Label for the Copies SpinBox</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>DescriptionLabel</para></entry>
+<entry align="left" valign="top"><para>XmLabelGadget</para></entry>
+<entry align="left" valign="top"><para>Label for the printer description</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>FileName</para></entry>
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>File name field</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>FileNameCheckBox</para></entry>
+<entry align="left" valign="top"><para>XmRowColumn</para></entry>
+<entry align="left" valign="top"><para>Check box (includes label) for file
+name field</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Help</para></entry>
+<entry align="left" valign="top"><para>XmPushButtonGadget</para></entry>
+<entry align="left" valign="top"><para>Help button</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Info</para></entry>
+<entry align="left" valign="top"><para>XmPushButtonGadget</para></entry>
+<entry align="left" valign="top"><para>Printer information button</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Name</para></entry>
+<entry align="left" valign="top"><para>XmComboBox</para></entry>
+<entry align="left" valign="top"><para>Printer name</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>NameLabel</para></entry>
+<entry align="left" valign="top"><para>XmLabelGadget</para></entry>
+<entry align="left" valign="top"><para>Label for the printer name field</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Print</para></entry>
+<entry align="left" valign="top"><para>XmPushButtonGadget</para></entry>
+<entry align="left" valign="top"><para>Print button</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SelectFile</para></entry>
+<entry align="left" valign="top"><para>XmPushButtonGadget</para></entry>
+<entry align="left" valign="top"><para>Select File button</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SelectPrinter</para></entry>
+<entry align="left" valign="top"><para>XmPushButtonGadget</para></entry>
+<entry align="left" valign="top"><para>Select Printer button</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Setup</para></entry>
+<entry align="left" valign="top"><para>XmPushButtonGadget</para></entry>
+<entry align="left" valign="top"><para>Setup button</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>TopWorkAreaSeparator</para></entry>
+<entry align="left" valign="top"><para>XmSeparatorGadget</para></entry>
+<entry align="left" valign="top"><para>Separator below the top work area</para></entry>
+</row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Classes</title>
+<para><function>DtPrintSetupBox</function> inherits behavior and resources
+from the Core, Composite, Constraint, XmManager, and XmBulletinBoard superclasses.
+</para>
+<para>The class pointer is <Symbol>dtPrintSetupBoxWidgetClass</Symbol>.
+</para>
+<para>The class name is <Symbol>DtPrintSetupBox</Symbol>.</para>
+</refsect2>
+<refsect2>
+<title>Resources</title>
+<para>The following table lists the <function>DtPrintSetupBox</function> resources.
+</para>
+<informaltable>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colwidth="2.27in">
+<colspec align="left" colwidth="2.92in">
+<colspec align="left" colwidth="0.86in">
+<colspec align="left" colwidth="1.24in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Name</para></entry><entry align="left"
+valign="bottom"><para>Class/Type</para></entry><entry align="left" valign="bottom"><para>Access</para></entry><entry align="left" valign="bottom"><para>Default Value
+</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>DtNcancelCallback</para></entry>
+<entry align="left" valign="top"><para>DtCCancelCallback/XtCallbackList</para></entry>
+<entry align="left" valign="top"><para>C</para></entry>
+<entry align="left" valign="top"><para>NULL</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNclosePrintDisplayCallback</para></entry>
+<entry align="left" valign="top"><para>DtCCloseDisplayCallback/XtCallbackList
+</para></entry>
+<entry align="left" valign="top"><para>C</para></entry>
+<entry align="left" valign="top"><para>NULL</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNcopies</para></entry>
+<entry align="left" valign="top"><para>DtCCopies/int</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>1</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNdescription</para></entry>
+<entry align="left" valign="top"><para>DtCDescription/XmString</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>dynamic</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNfileName</para></entry>
+<entry align="left" valign="top"><para>DtCPrintToFileName/String</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>NULL</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNgetAttributesCallback</para></entry>
+<entry align="left" valign="top"><para>DtCGetAttributesCallback/XtCallbackList
+</para></entry>
+<entry align="left" valign="top"><para>C</para></entry>
+<entry align="left" valign="top"><para>NULL</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNminimizeButtons</para></entry>
+<entry align="left" valign="top"><para>DtCminimizeButtons/Boolean</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>False</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNprintCallback</para></entry>
+<entry align="left" valign="top"><para>DtCPrintCallback/XtCallbackList</para></entry>
+<entry align="left" valign="top"><para>C</para></entry>
+<entry align="left" valign="top"><para>NULL</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNprintDestination</para></entry>
+<entry align="left" valign="top"><para>DtCPrintDestination/XtEnum</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>DtPRINT_TO_PRINTER</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNprinterInfoProc</para></entry>
+<entry align="left" valign="top"><para>DtCPrinterInfoProc/DtPrintSetupProc
+</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>dynamic</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNprinterName</para></entry>
+<entry align="left" valign="top"><para>DtCPrinter/String</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>dynamic</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNprintSetupMode</para></entry>
+<entry align="left" valign="top"><para>DtCPrintSetupMode/XtEnum</para></entry>
+<entry align="left" valign="top"><para>CG</para></entry>
+<entry align="left" valign="top"><para>DtPRINT_SETUP_XP</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNselectFileProc</para></entry>
+<entry align="left" valign="top"><para>DtCSelectFileProc/DtPrintSetupProc
+</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>default procedure</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNselectPrinterProc</para></entry>
+<entry align="left" valign="top"><para>DtCSelectPrinterProc/DtPrintSetupProc
+</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>dynamic</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNsetAttributesCallback</para></entry>
+<entry align="left" valign="top"><para>DtCSetAttributesCallback/XtCallbackList
+</para></entry>
+<entry align="left" valign="top"><para>C</para></entry>
+<entry align="left" valign="top"><para>NULL</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNsetupProc</para></entry>
+<entry align="left" valign="top"><para>DtCSetupProc/DtPrintSetupProc</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>dynamic</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNsetupProc</para></entry>
+<entry align="left" valign="top"><para>DtCSetupProc/DtPrintSetupProc</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>dynamic</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNverifyPrinterProc</para></entry>
+<entry align="left" valign="top"><para>DtCVerifyPrinterProc/DtPrintSetupProc
+</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>dynamic</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNworkAreaLocation</para></entry>
+<entry align="left" valign="top"><para>DtCworkAreaLocation/XtEnum</para></entry>
+<entry align="left" valign="top"><para>CSG</para></entry>
+<entry align="left" valign="top"><para>DtWORK_AREA_BOTTOM</para></entry></row>
+</tbody></tgroup></informaltable>
+<para>The <function>DtPrintSetupBox</function> resources are defined as follows:
+</para>
+<variablelist>
+<varlistentry><term><Symbol>DtNcancelCallback</Symbol></term>
+<listitem>
+<para>Specifies the list of callbacks that is called when the Cancel button
+is activated. The callback reason is <Symbol>DtPRINT_CR_CANCEL</Symbol>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNclosePrintDisplayCallback</Symbol></term>
+<listitem>
+<para>When the value of the <Symbol>DtNprintSetupMode</Symbol> resource
+is <Symbol>DtPRINT_SETUP_XP</Symbol>, <function>DtPrintSetupBox</function>
+will manage the X printing display connection and print context. As such, <Symbol>DtNclosePrintDisplayCallback</Symbol> is provided to allow an application
+to perform any desired processing (such as destroying windows created on the
+print display) before <function>DtPrintSetupBox</function> destroys the current
+print context and closes the current print display connection.</para>
+<para>This callback list will not be called if the value of the <Symbol>DtNprintSetupMode</Symbol> resource is anything other than <Symbol>DtPRINT_SETUP_XP</Symbol>.</para>
+<para>The callback reason is <Symbol>DtPRINT_CR_CLOSE_PRINT_DISPLAY</Symbol>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNcopies</Symbol></term>
+<listitem>
+<para>The number of copies of the document to print. This is a spin box into
+which the user may enter a positive integer.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNdescription</Symbol></term>
+<listitem>
+<para>A description of the printer as provided by the system administrator.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNfileName</Symbol></term>
+<listitem>
+<para>Specifies the name of the destination file. Setting this resource will
+update the value of the File Name text field.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNgetAttributesCallback</Symbol></term>
+<listitem>
+<para>Specifies the list of callbacks that is called whenever <function>DtPrintSetupBox</function> receives an <Symbol>XPAttributeNotify</Symbol> event, or immediately
+after a new X printer connection is established. This callback list will only
+be called if the value of the <Symbol>DtNprintSetupMode</Symbol> resource
+is <Symbol>DtPRINT_SETUP_XP</Symbol>.</para>
+<para>This callback is intended to be used by applications that utilize X
+Print Service attributes directly. These applications will be interested in
+changes made to the printing attributes by <function>DtPrintSetupBox</function>
+or by other processes, such as the Print Dialog Manager (PDM).</para>
+<para>One of two callback reason codes will be set for this callback. The
+two reasons are of particular interest to applications that elect to present
+information in their GUI based on X Print Service attributes. The following
+indicates how such applications should respond to each code:</para>
+<variablelist>
+<varlistentry><term><Symbol>DtPRINT_CR_GET_STATIC_ATTRIBUTES</Symbol></term>
+<listitem>
+<para>The application should update only those controls that cannot be modified
+by the user. This reason is set in response to encountering a new set of attributes
+as the result of <function>DtPrintSetupBox</function>'s establishing a new
+X printer connection. Additionally, subsequent immediate action to be taken
+by <function>DtPrintSetupBox</function>'s will result in the <Symbol>DtNsetAttributesCallback</Symbol> list being called followed by either the <Symbol>DtNprintCallback</Symbol> list or the <Symbol>DtNsetupProc</Symbol>. If the application
+were to update dynamic GUI controls within this <Symbol>DtNgetAttributesCallback</Symbol>, any input the user provided would be overridden by the printer
+defaults in the resulting print job or setup dialog.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtPRINT_CR_GET_ATTRIBUTES</Symbol></term>
+<listitem>
+<para>The application should update all static and dynamic controls. This
+reason is set in response to <function>DtPrintSetupBox</function>'s receiving
+an <Symbol>XpAttributeNotify</Symbol> event, or if a new X printer connection
+was established as the result of the user activating the Printer Info button.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNminimizeButtons</Symbol></term>
+<listitem>
+<para>If false, sets the dimensions of all of the buttons at the bottom of
+the widget to the width of the widest button and the height of the tallest
+button. If true, the dimensions of the buttons are not altered.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNprintCallback</Symbol></term>
+<listitem>
+<para>Specifies the list of callbacks that is called when the Print button
+is activated. The callback reason is <Symbol>DtPRINT_CR_PRINT</Symbol>.
+This callback is used to initiate the print job.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNprintDestination</Symbol></term>
+<listitem>
+<para>Indicates where the print output should be directed. Valid values for
+this resource are:</para>
+<variablelist>
+<varlistentry><term><Symbol>DtPRINT_TO_FILE</Symbol></term>
+<listitem>
+<para>Direct print output to a file. The destination file name is indicated
+by the <Symbol>DtNfileName</Symbol> resource. Setting this value will cause
+the Print To File checkbox to be selected, enable the File Name text field,
+and enable the Select File button.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtPRINT_TO_PRINTER</Symbol></term>
+<listitem>
+<para>Direct print output to a printer. The destination printer is indicated
+by the <Symbol>DtNprinterName</Symbol> resource. Setting this value will
+cause the Print To File checkbox to be deselected, disable the File Name text
+field, and disable the Select File button.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNprinterInfoProc</Symbol></term>
+<listitem>
+<para>This resource specifies the procedure that will be used to present printer
+information in response to activation of the Printer Information button. The
+printer selection dialog presented by the default <Symbol>DtNselectPrinterProc</Symbol> will also call this procedure in response to activation of its
+Printer Information button.</para>
+<para>If the value of the <Symbol>DtNprintSetupMode</Symbol> resource is <Symbol>DtPRINT_SETUP_XP</Symbol>, a default procedure that presents a printer information
+dialog is used. For other values of <Symbol>DtNprintSetupMode</Symbol>,
+the default value of <Symbol>DtNprinterInfoProc</Symbol> is NULL.</para>
+<para>Typically, this procedure does not update <Symbol>DtPrintSetupBox</Symbol>
+resources nor X Print Service attributes. The return value of this procedure
+is ignored by <function>DtPrintSetupBox</function>. However, it is recommended
+that the procedure follow the conventions presented in the "DtPrintSetupProc"
+section to ensure future compatibility.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNprinterName</Symbol></term>
+<listitem>
+<para>The name of the printer to send the print job to.</para>
+<para>If the value of the <Symbol>DtNprintSetupMode</Symbol> resource is <Symbol>DtPRINT_SETUP_XP</Symbol>, setting this resource will update the Printer
+Name field based on the value of the <Symbol>XpPrinterNameMode</Symbol>
+XRM resource. See the "EXTERNAL INFLUENCES" section in this man page for more
+information. If the value of the <Symbol>DtNprintSetupMode</Symbol> resource
+is <Symbol>DtPRINT_SETUP_PLAIN</Symbol>, setting this resource will update
+the value of the Printer Name text field with the value of this resource.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNprintSetupMode</Symbol></term>
+<listitem>
+<para>Instructs the widget as to whether or not it is being used in an application
+that utilizes the X Print Service. If so, then the widget will manage the
+X printing display connection and print context, and provide defaults for
+a number of X printing operations, such as printer selection and information
+dialogs, and printer verification. Refer to individual resource descriptions
+to determine if and how they are affected by the value of this resource. Valid
+values for this resource are:</para>
+<variablelist>
+<varlistentry><term><Symbol>DtPRINT_SETUP_PLAIN</Symbol></term>
+<listitem>
+<para>This widget will be used by an application that performs its own print
+document format generation and print job submission.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtPRINT_SETUP_XP</Symbol></term>
+<listitem>
+<para>This widget will be used by an application that utilizes the X Print
+Service to perform print document format generation and print job submission.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNselectFileProc</Symbol></term>
+<listitem>
+<para>This resource specifies the procedure that will be used in response
+to activation of the Select File button. The default value for this resource
+is a pointer to a procedure which will invoke an <Symbol>XmFileSelectionBox</Symbol> dialog to select a file name.</para>
+<para>If the user cancels the file selection dialog, no <function>DtPrintSetupBox</function> components will be updated. If the user selects a file name, the
+file name will be set as the value for the <Symbol>DtNfileName</Symbol>
+resource. This procedure communicates the newly selected file name to <function>DtPrintSetupBox</function> by setting the <Symbol>DtNfileName</Symbol> resource.
+</para>
+<para>Since the default procedure presents a File Selection Dialog, the resource
+is actually set after the procedure returns, due to the asynchronous nature
+of widgets and callbacks. The return value of this procedure is ignored by <function>DtPrintSetupBox</function>. However, it is recommended that the procedure
+follow the conventions presented in the "DtPrintSetupProc" section to ensure
+future compatibility.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNselectPrinterProc</Symbol></term>
+<listitem>
+<para>This resource specifies the procedure that will be used in response
+to activation of the Select Printer button. If the value of the <Symbol>DtNprintSetupMode</Symbol> resource is <Symbol>DtPRINT_SETUP_XP</Symbol>,
+a default procedure that invokes a <Symbol>DtPrinterSelectionDialog</Symbol>
+is used. If the user cancels the printer selection dialog no <function>DtPrintSetupBox</function> components will be updated. If the user selects a printer, the
+printer will be set as the value for the <Symbol>DtNprinterName</Symbol>
+resource.</para>
+<para>This procedure communicates the newly selected printer name to <function>DtPrintSetupBox</function> by setting the <Symbol>DtNprinterName</Symbol>
+resource. Since the default procedure presents a Printer Selection Dialog,
+the resource is actually set after the procedure returns, due to the asynchronous
+nature of widgets and callbacks.</para>
+<para>If the value of the <Symbol>DtNprintSetupMode</Symbol> resource is
+anything other than <Symbol>DtPRINT_SETUP_XP</Symbol>, the default value
+of <Symbol>DtNselectPrinterProc</Symbol> is NULL.</para>
+<para>The return value of this procedure is ignored by <function>DtPrintSetupBox</function>. However, it is recommended that the procedure follow the conventions
+presented in the "DtPrintSetupProc" section to ensure future compatibility.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNsetAttributesCallback</Symbol></term>
+<listitem>
+<para>Specifies the list of callbacks that is called whenever <function>DtPrintSetupBox</function> is about to perform an operation that will utilize X Print Service
+attributes. This callback list will only be called if the value of the <Symbol>DtNprintSetupMode</Symbol> resource is <Symbol>DtPRINT_SETUP_XP</Symbol>.
+</para>
+<para>This callback is intended to be used by applications that utilize X
+Print Service attributes directly. This callback provides these applications
+with a chance to set attributes whenever a subsequent <function>DtPrintSetupBox</function> operation will utilize the current set of attributes (for example,
+prior to calling the <Symbol>DtNprintCallback</Symbol> list).</para>
+<para>The callback reason is <Symbol>DtPRINT_CR_SET_ATTRIBUTES</Symbol>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNsetupProc</Symbol></term>
+<listitem>
+<para>This resource specifies the procedure that will be used in response
+to activation of the Setup button. If the value of the <Symbol>DtNprintSetupMode</Symbol> resource is <Symbol>DtPRINT_SETUP_XP</Symbol>, a default procedure
+is provided that will call <Symbol>XpNotifyPDM</Symbol> in order to present
+the setup dialog provided by the Print Dialog Manager.</para>
+<para>If the value of the <Symbol>DtNprintSetupMode</Symbol> resource is
+anything other than <Symbol>DtPRINT_SETUP_XP</Symbol>, the default value
+of <Symbol>DtNsetupProc</Symbol> is NULL.</para>
+<para>This procedure typically updates X Print Service attributes, and does
+not set any <function>DtPrintSetupBox</function> resources.</para>
+<para>The return value of this procedure is ignored by <function>DtPrintSetupBox</function>. However, it is recommended that the procedure follow the conventions
+presented in the "DtPrintSetupProc" section to ensure future compatibility.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNverifyPrinterProc</Symbol></term>
+<listitem>
+<para>This resource specifies the procedure that will be used to verify the
+current value of the <Symbol>DtNprinterName</Symbol> resource before any
+operation requiring a valid printer is performed. If the current value of
+the <Symbol>DtNprinterName</Symbol> resource is NULL, this procedure will
+set a default printer as the value of the <Symbol>DtNprinterName</Symbol>
+resource.</para>
+<para>If this procedure provides a default printer name, or a fully qualified
+X printer name, it should communicate the new name to <function>DtPrintSetupBox</function> by setting the <Symbol>DtNprinterName</Symbol> resource before
+returning.</para>
+<para>If the value of the <Symbol>DtNprintSetupMode</Symbol> resource is <Symbol>DtPRINT_SETUP_XP</Symbol>, a default procedure will be set as the value of
+the <Symbol>DtNverifyPrinterProc</Symbol> resource. This default procedure
+will verify the X printer, and establish a print display connection and print
+context for the printer. The procedure communicates the new print display
+and context to <function>DtPrintSetupBox</function> by updating the <literal>print_data->print_display</literal> and <literal>print_data->print_context</literal> elements of the callback structure prior to returning.</para>
+<para>If the value of the <Symbol>DtNprintSetupMode</Symbol> resource is
+anything other than <Symbol>DtPRINT_SETUP_XP</Symbol>, the default value
+of <Symbol>DtNverifyPrinterProc</Symbol> is NULL.</para>
+<para>If the value of the <Symbol>DtNverifyPrinterProc</Symbol> resource
+is NULL, the printer name is always considered valid.</para>
+<para>If this procedure determines the printer name is valid or sets a valid
+printer name (and X printer connection information), it should return <Symbol>DtPRINT_SUCCESS</Symbol>. If the printer name is invalid or no valid default
+can be determined, this procedure should return <Symbol>DtPRINT_FAILURE</Symbol>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNworkAreaLocation</Symbol></term>
+<listitem>
+<para>Indicates how to position work area children within the <function>DtPrintSetupBox</function>. Possible values are:</para>
+<variablelist>
+<varlistentry><term><Symbol>DtWORK_AREA_BOTTOM</Symbol></term>
+<listitem>
+<para>A single work area child may be added, and will be placed below the
+generic controls and above the pushbuttons at the bottom of the window. A
+managed separator will be placed between the work area and the generic controls.
+This is the default.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtWORK_AREA_TOP</Symbol></term>
+<listitem>
+<para>A single work area child may be added, and will be placed above the
+generic controls and below the top of the window. A managed separator will
+be placed between the work area and the generic controls.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtWORK_AREA_TOP_AND_BOTTOM</Symbol></term>
+<listitem>
+<para>Two work area children may be added. The first work area created will
+become the top work area, positioned with a separator as for <Symbol>DtWORK_AREA_TOP</Symbol>, and the second will become the bottom work area, positioned with
+a separator as for <Symbol>DtWORK_AREA_BOTTOM</Symbol>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The effect of adding more work area children than indicated by the value
+of <Symbol>DtNworkAreaLocation</Symbol> is undefined.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Inherited Resources</title>
+<para><function>DtPrintSetupBox</function> inherits resources from the <Symbol>XmBulletinBoard</Symbol>, <Symbol>XmManager</Symbol>, <Symbol>Constraint</Symbol>, <Symbol>Composite</Symbol>, and <Symbol>Core</Symbol> superclasses.
+Refer to the reference pages for these superclasses for inherited resources
+and their descriptions.</para>
+</refsect2>
+<refsect2>
+<title>Callback And Procedure Resource Information</title>
+<para><function>DtPrintSetupBox</function> defines a new structure, <structname role="typedef">DtPrintSetupData</structname>, that is passed to callbacks
+and procedure resource values. For callbacks only, <function>DtPrintSetupBox</function> defines a new callback structure, <structname role="typedef">DtPrintSetupCallbackStruct</structname>. Not all fields in these structures
+are valid for all callbacks and procedures. For callbacks, the application
+must first look at the <symbol role="Variable">reason</symbol> field, and
+use only the structure members that are valid for that particular reason.
+For each procedure, the application should only reference structure members
+that are defined as valid for that particular procedure. The <structname role="typedef">DtPrintSetupData</structname> and <structname role="typedef">DtPrintSetupCallbackStruct</structname> structures are defined as follows:</para>
+<programlisting>typedef struct
+{
+    String              <symbol role="Variable">printer_name</symbol>;
+    Display             *<symbol role="Variable">print_display</symbol>;
+    XPContext           <symbol role="Variable">print_context</symbol>;
+    XtEnum              <symbol role="Variable">destination</symbol>;
+    String              <symbol role="Variable">dest_info</symbol>;
+} DtPrintSetupData;</programlisting>
+<variablelist>
+<varlistentry><term><symbol role="Variable">printer_name</symbol></term>
+<listitem>
+<para>Contains the current value of the <Symbol>DtNprinterName</Symbol>
+resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">print_display</symbol></term>
+<listitem>
+<para>If <Symbol>DtNprintSetupMode</Symbol> is <Symbol>DtPRINT_SETUP_XP</Symbol>, <symbol role="Variable">print_display</symbol> contains a pointer
+to the Display structure for the current X Printer. For other values of <Symbol>DtNprintSetupMode</Symbol>, this field is NULL.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">print_context</symbol></term>
+<listitem>
+<para>If <Symbol>DtNprintSetupMode</Symbol> is <Symbol>DtPRINT_SETUP_XP</Symbol>, <symbol role="Variable">print_context</symbol> contains the print
+context handle for the current X Printer. For other values of <Symbol>DtNprintSetupMode</Symbol>, this field is NULL.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">destination</symbol></term>
+<listitem>
+<para>Contains the current value of the <Symbol>DtNprintDestination</Symbol>
+resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">dest_info</symbol></term>
+<listitem>
+<para>Additional information about the print destination as indicated by the
+destination field.</para>
+<para>If destination is <Symbol>DtPRINT_TO_FILE</Symbol>, this field contains
+the name of the file to print to.</para>
+<para>If destination is <Symbol>DtPRINT_TO_PRINTER</Symbol>, this field
+contains the name of the currently selected printer as determined by the current
+value of the <Symbol>XpPrinterNameMode</Symbol> resource. This is useful
+for display within dialogs displaying print status, etc. because it is the
+printer name as presented to the user in <function>DtPrintSetupBox</function>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<programlisting>typedef struct
+{
+    int                 <symbol role="Variable">reason</symbol>;
+    XEvent              *<symbol role="Variable">event</symbol>;
+    DtPrintSetupData    *<symbol role="Variable">print_data</symbol>;
+} DtPrintSetupCallbackStruct;</programlisting>
+<variablelist>
+<varlistentry><term><symbol role="Variable">reason</symbol></term>
+<listitem>
+<para>Indicates why the callback was invoked.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">event</symbol></term>
+<listitem>
+<para>Points to the XEvent that triggered the callback. It can be NULL.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">print_data</symbol></term>
+<listitem>
+<para>Points to a <structname role="typedef">DtPrintSetupData</structname>
+structure containing additional callback information.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The following table indicates for each callback reason which <structname role="typedef">DtPrintSetupCallbackStruct</structname> and <structname role="typedef">DtPrintSetupData</structname> members are valid.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="3.66in">
+<colspec align="left" colwidth="2.88in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Reason</para></entry><entry
+align="left" valign="bottom"><para>Valid Fields</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>DtPRINT_CR_CANCEL</para></entry>
+<entry align="left" valign="top"><para>reason, event</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtPRINT_CR_CLOSE_PRINT_DISPLAY</para></entry>
+<entry align="left" valign="top"><para>reason, printer_name, print_display,
+print_context</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtPRINT_CR_GET_ATTRIBUTES</para></entry>
+<entry align="left" valign="top"><para>reason, event, printer_name, print_display,
+print_context</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtPRINT_CR_GET_STATIC_ATTRIBUTES</para></entry>
+<entry align="left" valign="top"><para>reason, event, printer_name, print_display,
+print_context</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtPRINT_CR_PRINT</para></entry>
+<entry align="left" valign="top"><para>reason, event, printer_name, print_display,
+print_context, destination, dest_info</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtPRINT_CR_SET_ATTRIBUTES</para></entry>
+<entry align="left" valign="top"><para>reason, event, printer_name, print_display,
+print_context</para></entry></row></tbody></tgroup></informaltable>
+<para>The following table indicates for each procedure resource which <structname role="typedef">DtPrintSetupData</structname> members are valid:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="158*">
+<colspec align="left" colwidth="298*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Procedure</para></entry><entry
+align="left" valign="bottom"><para>Valid Fields</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>DtNprinterInfoProc</para></entry>
+<entry align="left" valign="top"><para>printer_name, print_display, print_context
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNselectFileProc</para></entry>
+<entry align="left" valign="top"><para>destination, dest_info</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>DtNsetupProc</para></entry>
+<entry align="left" valign="top"><para>printer_name, print_display, print_context
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DtNverifyPrinterProc</para></entry>
+<entry align="left" valign="top"><para>printer_name, print_display, print_context
+</para></entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Translations</title>
+<para><function>DtPrintSetupBox</function> inherits translations from <Symbol>XmBulletinBoard</Symbol>.</para>
+</refsect2>
+<refsect2>
+<title>Virtual Bindings</title>
+<para>The bindings for virtual keys are implementation-dependent. For information
+about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.</para>
+</refsect2>
+</refsect1><refsect1>
+<title>EXTERNAL INFLUENCES</title>
+<para>This section specifies application resources and environment variables
+that will influence the behavior of <function>DtPrintSetupBox</function>.
+If a given resource is defined, it will have precedence over the corresponding
+environment variable. There is no corresponding environment variable for the <systemitem class="resource">XpPrinterNameMode</systemitem> resource.</para>
+<refsect2>
+<title>XRM Application Resources</title>
+<variablelist>
+<varlistentry><term><systemitem class="resource">XpPrinter</systemitem></term>
+<listitem>
+<para>This variable defines the default destination X Printer Specifier for <function>DtPrintSetupBox</function>. If the specifier is just a <emphasis>printerName</emphasis>, the <emphasis>host:display</emphasis> portion of the specifier
+is obtained by checking if the X Server to which the client application is
+connected is an X Print Server managing <emphasis>printerName</emphasis>.
+Otherwise, the first server in the <systemitem class="resource">XpServerList</systemitem> or <systemitem class="environvar">XPSERVERLIST</systemitem>
+that manages the printer will be used. If the <emphasis>:display</emphasis>
+number is omitted, <literal>:0</literal> is assumed.</para>
+<para>Example:</para>
+<programlisting>Dtmail*XpPrinter: laser_1@callisto:6</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">XpPrinterNameMode</systemitem></term>
+<listitem>
+<para>This resource indicates how an X Printer Specifier shall be shown in
+the Printer Name combo box text. Valid values for this resource are:</para>
+<variablelist>
+<varlistentry><term><Symbol>DtSHORT_NAME</Symbol></term>
+<listitem>
+<para>Display only the <emphasis>printerName</emphasis> portion of the X Printer
+Specifier.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtMEDIUM_NAME</Symbol></term>
+<listitem>
+<para>Display the printer name as a combination of the <emphasis>printerName</emphasis> and the host portions of the X Printer Specifier with an intervening
+"at" (@) symbol. For example:</para>
+<programlisting>printer@host</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtLONG_NAME</Symbol></term>
+<listitem>
+<para>Display the fully qualified X Printer Specifier. For example:</para>
+<programlisting>printer@host:6</programlisting>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>If this resource is not specified, <function>DtPrintSetupBox</function>
+will assume a default of <Symbol>DtSHORT_NAME</Symbol>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">XpPrinterList</systemitem></term>
+<listitem>
+<para>This resource defines the initial set of X Printer Specifiers shown
+in the Printer Name combo box list.</para>
+<para>The resource value is a whitespace-delimited list of partially or fully
+specified X Printer Specifiers. When the user selects a specifier from this
+list, if the specifier is just a <emphasis>printerName</emphasis>, the <emphasis>host:display</emphasis> portion of the specifier is obtained by checking if
+the X Server to which the client application is connected is an X Print Server
+managing <emphasis>printerName</emphasis>. Otherwise the first server in the <systemitem class="resource">XpServerList</systemitem> or <systemitem class="environvar">XPSERVERLIST</systemitem> that manages the printer will be used. If the: <emphasis>display</emphasis> number is omitted, <literal>:0</literal> is assumed.</para>
+<para>Example:</para>
+<programlisting>*xpPrinterList: laser laser2@argon:3 laser7@xenon</programlisting>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">XpServerList</systemitem></term>
+<listitem>
+<para>This resource contains a list of X Print Server specifiers. Each entry
+in the list is of the form <emphasis>host:display</emphasis>, and is separated
+from other entries by whitespace. <function>DtPrintSetupBox</function> uses
+this list to fully qualify partial X Printer Specifiers consisting of just
+the <emphasis>printerName</emphasis>.</para>
+<para>Example:</para>
+<programlisting>*.XpServerList: hanz:6 franz:6 ahnold:6</programlisting>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Environment Variables</title>
+<variablelist>
+<varlistentry><term><systemitem class="environvar">PDPRINTER</systemitem>, <systemitem class="environvar">LPDEST</systemitem>, <systemitem class="environvar">PRINTER</systemitem></term>
+<listitem>
+<para>If the <systemitem class="environvar">XPRINTER</systemitem>, environment
+variable and the <systemitem class="resource">XpPrinter</systemitem> resource
+are not specified, <function>DtPrintSetupBox</function> will check the environment
+variables (in order) <systemitem class="environvar">PDPRINTER</systemitem>, <systemitem class="environvar">LPDEST</systemitem>, and <systemitem class="environvar">PRINTER</systemitem> to obtain' a <emphasis>printerName</emphasis> that can
+be used to generate an X Printer Specifier to use for the default X Printer
+shown in the Printer Name combo box text field. The <emphasis>host:display</emphasis> portion of the specifier is obtained by checking if the X Server
+to which the client application is connected is an X Print Server managing <emphasis>printerName</emphasis>. If not, the list of X Print Servers specified in
+the <systemitem class="resource">XpServerList</systemitem> or <systemitem class="environvar">XPSERVERLIST</systemitem> is queried, until the first X
+Printer with a matching <emphasis>printerName</emphasis> is found.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">XPRINTER</systemitem></term>
+<listitem>
+<para>The specification of the <systemitem class="environvar">XPRINTER</systemitem>
+environment variable is the same as the <systemitem class="resource">XpPrinter</systemitem> resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">XPRINTERLIST</systemitem></term>
+<listitem>
+<para>The specification of the <systemitem class="environvar">XPRINTERLIST</systemitem> environment variable is the same as the the <systemitem class="resource">XpPrinterList</systemitem> resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">XPSERVERLIST</systemitem></term>
+<listitem>
+<para>The specification of the <systemitem class="environvar">XPSERVERLIST</systemitem> environment variable is the same as the the <systemitem class="resource">XpServerList</systemitem> resource.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>Sample code can be found in the
+<filename>/proj/cde/examples/dtprint</filename> directory.</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtPrintSetupProc;, &cdeman.DtCreatePrintSetupDialog;, &cdeman.DtPrintSetupProc;, <function>DtPrinterSelectionDialog</function>(3)</para>
+</refsect1></refentry>
+<?Pub *0000046688>

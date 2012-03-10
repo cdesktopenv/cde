@@ -1,0 +1,600 @@
+<!-- $XConsortium: ch02.sgm /main/8 1996/08/31 15:12:59 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<Chapter Id="TTUG.HTU.div.1">
+<Title Id="TTUG.HTU.mkr.1">ToolTalkメッセージの使用方法</Title>
+<indexterm><primary>メッセージ</primary><secondary>一般情報</secondary></indexterm>
+<note>
+<para>この章のコーディング例は、<literal>broadcast</literal>とういう名前の
+ToolTalkデモ・プログラムの一部です。このプログラムのソース・コード、<filename>
+Makefile</filename>、や<filename>README</filename>ファイルについては、 <filename>/usr/dt/examples/tt</filename>ディレクトリを参照してください。
+</para>
+</note>
+<Sect1 Id="TTUG.HTU.div.2">
+<title>ToolTalk機能のアプリケーションへの通知</title>
+<para>アプリケーションは、ToolTalkサービスとメッセージ・ツールキットが提供する相互
+運用機能を利用する前に、ToolTalkライブラリとツールキットがある場所を認識しておく
+必要があります。
+</para>
+<Sect2 Id="TTUG.HTU.div.3">
+<title>メッセージ・ツールキットの使用とToolTalkコマンドの組み込み</title>
+<para>ToolTalkサービスを使用するために、アプリケーションはToolTalkアプリケーション
+・プログラミング・インタフェース(API)からToolTalk関数を呼び出します。メッセージ・
+ツールキットは、ToolTalkサービスへの登録、メッセージ・パターンの作成、メッセージの
+送信、メッセージの受信、およびメッセージ情報のチェックを行うための関数を提供
+します。これらは、ToolTalk APIよりもハイレベルな関数です。ToolTalkサービスとツール
+キットを使用できるようにアプリケーションを変更するには、以下のヘッダ・ファイルを
+組み込まなければなりません。
+</para>
+<indexterm><primary>ヘッダ・ファイル</primary></indexterm>
+<programlisting>#include &lt;Tt/tt_c.h&gt;    /* ToolTalk Header File */
+#include &lt;Tt/tttk.h&gt;    /* Messaging Toolkit Header File */
+</programlisting>
+</sect2>
+<Sect2 Id="TTUG.HTU.div.4">
+<title>ToolTalkライブラリの使用</title>
+<indexterm><primary>ToolTalkライブラリ</primary></indexterm>
+<para>ToolTalkライブラリは、以下のディレクトリにあります。
+</para>
+<programlisting>/usr/dt/lib
+</programlisting>
+<para>ライブラリ名は、プラットフォームに依存しています（たとえば、Solarisでは
+<filename>libtt.so</filename>そしてHP-UXでは
+<filename>libtt.sl</filename>です)。
+</para>
+</sect2>
+</sect1>
+<Sect1 Id="TTUG.HTU.div.5">
+<title>コーディングを開始する前に</title>
+<para>メッセージ・ツールキット機能をアプリケーションに組み込む前に、アプリケーショ
+ンのツールが他のツールと一緒に動作する方法を決定する必要があります。考慮すべき基本
+的な内容は以下のとおりです。
+</para>
+<itemizedlist>
+<listitem>
+<para>これらのツールはどのように同時に動作するか
+</para>
+</listitem>
+<listitem>
+<para>これらのツールはどのようなオペレーションを実行できるか
+</para>
+</listitem>
+<listitem>
+<para>他のツールにどのようなオペレーションを実行するように要求できるか
+</para>
+</listitem>
+<listitem>
+<para>他のツールを配信対象にできるこれらのツールはどのようなイベントを生成するか
+（これらのツールはどの型のメッセージを送信したいか）
+</para>
+</listitem>
+<listitem>
+<para>他のツールによって生成されたイベントの中でこれらのツールの配信対象となるイベ
+ントはどれか（これらのツールはどの型のメッセージを受信したいか）
+</para>
+</listitem>
+</itemizedlist>
+<para>これらの質問に的確に答えるには、イベントとオペレーションの間の違いと、
+ToolTalkサービスがお互いに関連のあるメッセージを処理する方法を理解する必要がありま
+す。</para>
+<Sect2 Id="TTUG.HTU.div.6">
+<title>イベントとオペレーションの違い</title>
+<indexterm><primary>イベントの定義</primary></indexterm>
+<indexterm><primary>オペレーションの定義</primary></indexterm>
+<para><emphasis>イベント</emphasis>は、何か起きたことを通知するものです。イベン
+は、簡単に言えばニュース速報です。送信側のプロセスは、他のプロセスがイベントが起き
+たことを聞くかどうかと、アクションがイベントの結果として起こるかどうかについての
+正式な予想を持っていません。プロセスがToolTalkサービスを使用して、配信対象のプロ
+セスにイベントが発生したことを知らせる場合、<emphasis>通知</emphasis>を送信します
+。送信側プロセスは応答を期待しないため、イベントは失敗できません。
+</para>
+<para><emphasis>オペレーション</emphasis>は、問い合わせまたはアクションです。要求
+側プロセスは、オペレーションが実行されるように問い合わせまたは要求を行います。要求
+側プロセスは結果が返されることを予想し、問い合わせまたはアクションのステータスを
+通知するように要求します。プロセスがToolTalkサービスを使用して、他のツールにオペ
+レーションを実行するように依頼する場合、<emphasis>要求</emphasis>を送信します。
+ToolTalkサービスは配信対象のプロセスに要求を配信し、送信側プロセスに要求のステー
+タスを通知します。
+</para>
+<Sect3 Id="TTUG.HTU.div.7">
+<title>通知の送信</title>
+<para>アプリケーションがToolTalkの通知を送信する場合、応答は受信せず、ツールがその
+通知に注意を払うかどうかについて通知を受けることもありません。通知をイベントの発生
+に応じて正確なレポートにすることが重要です。たとえば、ツールがデスクトップ・サービ
+スのメッセージの<literal>Modified</literal>を送信する場合、聞き手側のツールを指定
+の方法で反応させることができます。しかしツールは、他のツールがそのメッセージに反応
+するかどうか気にしたり、通知を受ける必要はありません。次のイベントをレポートしたい
+だけです。
+<Symbol>THE_USER_HAS_MADE_CHANGES_TO_THIS</Symbol>
+</para>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.8">
+<title>要求の送信</title>
+<para>アプリケーションがToolTalkの要求を送信する場合、１つのツールが指示されたオ
+ペレーションを実行する、または問い合わせに答え、応答メッセージを返すことを期待しま
+す。たとえば、ツールがデスクトップ・サービス・メッセージの
+<literal>Get_Modified</literal>を送信する場合、メッセージが配信され、アクションが
+実行されたという通知が期待できます。ToolTalkサービスでは必ず、プロセスの受信によっ
+て応答が返されるか、送信側に要求の失敗が通知されます。
+</para>
+<para>次の３つの方法で要求を識別できます。
+</para>
+<itemizedlist>
+<listitem>
+<para>異常終了できるツールによって要求されるオペレーションを識別する
+</para>
+</listitem>
+<listitem>
+<para>他のツール用に実行できるオペレーションを識別する
+</para>
+</listitem>
+<listitem>
+<para>他のツールに実行させたいオペレーションを識別する
+</para>
+</listitem>
+</itemizedlist>
+<para>これらのオペレーションを識別するための良い方法は、ツールが実行するまたは
+実行を完了したイベントおよびオペレーションの順序について概説するシナリオを開発する
+ことです。
+</para>
+</sect3>
+</sect2>
+<Sect2 Id="TTUG.HTU.div.9">
+<title>シナリオの開発</title>
+<para>シナリオは、ツールが実行するおよび実行を完了したイベントおよびオペレーション
+の順序を概説しています。たとえば、次のシナリオは、一般的なエディタが実行するおよび
+実行を完了したイベントについて概説しています。
+</para>
+<orderedlist>
+<listitem>
+<para>ファイル・マネージャのドキュメント・アイコンをダブルクリックします。
+ファイルはエディタで開きます。エディタを実行中でない場合はシステムによって起動され
+ます。ドキュメントに対して別のツールが保留中のテキストに変更を行うと、その別のツー
+ルが変更したテキストを保存するか、それとも最後に保存されたバージョンのドキュメント
+に戻るか尋ねられます。
+</para>
+</listitem>
+<listitem>
+<para>テキストを挿入します。
+</para>
+</listitem>
+<listitem>
+<para>ドキュメントを保存します。
+別のツールがそのドキュメントに保留中の変更点を持っている場合、ドキュメントを変更
+するか尋ねられます。
+</para>
+</listitem>
+<listitem>
+<para>エディタを終了します。
+テキストに保存されていない変更がある場合、ファイルを終了する前にその変更を保存する
+かそれとも破棄するか尋ねられます。
+</para>
+</listitem>
+</orderedlist>
+<para>シナリオがいったん実行されると、基本的な質問に答えることができます。
+</para>
+<Sect3 Id="TTUG.HTU.div.10">
+<title>ツールを同時に動作させる方法</title>
+<itemizedlist>
+<listitem>
+<para>ファイル・マネージャは、編集用のドキュメントを開くように要求します。
+</para>
+</listitem>
+<listitem>
+<para>各インスタンスは、その他の配信対象のインスタンスにドキュメントの状態に対して
+行われる変更を通知します。
+</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.11">
+<title>これらのツールはどのようなオペレーションを実行できるか</title>
+<itemizedlist>
+<listitem>
+<para>各インスタンスは、それ自身とその状態に関する質問
+（「ステータスは？」など）に答えることができます。
+</para>
+</listitem>
+<listitem>
+<para>各インスタンスには、次のようなオペレーションを実行する機能があります。
+</para>
+<itemizedlist>
+<listitem>
+<para>アイコン化とアイコン化解除
+</para>
+</listitem>
+<listitem>
+<para>重なり順の変更
+</para>
+</listitem>
+<listitem>
+<para>ドキュメントの編集
+</para>
+</listitem>
+<listitem>
+<para>ドキュメントの表示（読み取り専用）
+</para>
+</listitem>
+<listitem>
+<para>終了
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.12">
+<title>他のツールにどのようなオペレーションを実行するように要求できるか</title>
+<itemizedlist>
+<listitem>
+<para>ファイル・マネージャは、エディタが編集用のドキュメントを開くように要求する
+必要があります。
+</para>
+</listitem>
+<listitem>
+<para>エディタのインスタンスは、別のインスタンスに対し、開いているドキュメントの
+変更を保存するように要求できます。
+</para>
+</listitem>
+<listitem>
+<para>エディタのインスタンスは、別のインスタンスに対し、開いているドキュメントの
+最後のに保存されたバージョンに戻るように要求できます。
+</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.13">
+<title>他のツールを配信対象にできるこれらのツールはどのようなイベントを生成
+するか</title>
+<itemizedlist>
+<listitem>
+<para>ドキュメントを開いています。
+</para>
+</listitem>
+<listitem>
+<para>ドキュメントを変更しています。
+</para>
+</listitem>
+<listitem>
+<para>ドキュメントは最後に保存されたバージョンの内容に戻っています。
+</para>
+</listitem>
+<listitem>
+<para>ドキュメントを保存しています。
+</para>
+</listitem>
+<listitem>
+<para>エディタのインスタンスは終了しています。
+</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.14">
+<title>他のツールによって生成されたイベントの中でこれらのツールの配信対象となる
+イベントはどれか</title>
+<itemizedlist>
+<listitem>
+<para>ドキュメントを開いています。
+</para>
+</listitem>
+<listitem>
+<para>ドキュメントを変更しています。
+</para>
+</listitem>
+<listitem>
+<para>ドキュメントは最後に保存されたバージョンの内容に戻っています。
+</para>
+</listitem>
+<listitem>
+<para>ドキュメントを保存しています。
+</para>
+</listitem>
+<listitem>
+<para>エディタのインスタンスは終了しています。
+</para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<Sect1 Id="TTUG.HTU.div.15">
+<title>通信用アプリケーションの準備</title>
+<para>ToolTalkサービスは、アプリケーション統合用の完全な関数セットを提供します。
+ToolTalkメッセージ・ツールキットが提供する機能を使用して、アプリケーションは
+ToolTalk準拠のほかのアプリケーションと「通信」を行うことができます。この
+節では、同じプロトコルに基づく他のToolTalk対応アプリケーションと通信できるように、
+アプリケーションに組み込む必要があるToolTalk関数の追加方法について説明します。
+</para>
+<Sect2 Id="TTUG.HTU.div.16">
+<title>ptypeファイルの作成</title>
+<indexterm><primary>ptypeファイルの作成</primary></indexterm>
+<para>ToolTalk型機構は、ToolTalkサービス・ルート・メッセージに役立つように設計され
+ています。ツールがptype（プロセス型）を宣言すると、そこにリストされているメッセー
+ジ・パターンが自動的に登録されます。ToolTalkサービスは、受信するメッセージとこれら
+の登録されたパターンを一致させます。これらの静的メッセージ・パターンは、ツールが
+ToolTalkサービスとの通信を終了するまで有効です。
+</para>
+<para>ToolTalk型データベースは、本リリースに付いているツール用のptypeをすでにイン
+ストールしてあります。次のようにして、ToolTalk型データベースからインストールされた
+ptypeのリストを取り出すことができます。
+</para>
+<screen>% tt_type_comp -d <symbol role="variable">user | system | network</symbol> -P
+</screen>
+<para>ptypeの名前は、ソース形式で出力されます。
+</para>
+<para>次のようにして、シグニチャを含むインストールされたptypeのリストを生成します。
+</para>
+<screen>% tt_type_comp -d <symbol role="variable">user | system | network</symbol> -p
+</screen>
+<para>他のツールすべて（つまり、本リリースには含まれていないツール）に対して、最初
+にptypeファイルを作成してアプリケーションのptypeを定義し、ToolTalk型コンパイラ
+<filename>tt_type_comp</filename>で、ptypeをコンパイルする必要があります。ptypeを
+定義するには、次の情報をファイルに入れる必要があります。
+</para>
+<itemizedlist>
+<listitem>
+<para>プロセス型識別子(<literal>ptid</literal>)
+</para>
+</listitem>
+<listitem>
+<para>オプションの開始文字列
+ToolTalkサービスは、必要に応じてこのコマンドを実行し、プログラムを実行する
+プロセスを開始します。
+</para>
+</listitem>
+<listitem>
+<para>シグニチャ
+プログラムが受信したい<Symbol>TT_PROCEDURE</Symbol>アドレス指定メッセージを記述
+しています。監視されるメッセージは、処理されるメッセージと別々に記述します。
+</para>
+</listitem>
+</itemizedlist>
+<para>ptypeファイルを作成するには、どのテキスト・エディタ
+(<command>vi</command>、 <command>emacs</command>、<command>dtpad</command>
+など)でも使用できます。
+</para>
+<para>ptypeファイルを作成したら、ptypeをインストールします。このためには、ToolTalk
+型コンパイラを実行します。コマンド行に次のように入力してください。 
+</para>
+<screen>% tt_type_comp <symbol role="variable">file_name.ptype</symbol>
+</screen>
+<para><symbol role="variable">file_name.ptype</symbol>
+は、ptypeファイルの名前です。
+</para>
+<Sect3 Id="TTUG.HTU.div.17">
+<title>現在のセッションにおける既存のptypeに対するテスト</title>
+<indexterm><primary>既存のptypeに対するテスト</primary></indexterm>
+<para>ToolTalkサービスは、指定のptypeがすでに現在のセッションに登録されているかど
+うかテストする、次のような関数を提供します。
+</para>
+<programlisting>tt_ptype_exists(const char *ptype_id)
+</programlisting>
+<para><symbol role="variable">ptype_id</symbol>は、登録用にテストするセッションの
+識別子です。
+</para>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.18">
+<title>コンパイルされたptypeファイルと現在実行中のttsessionのマージ</title>
+<para>ToolTalkサービスは、コンパイルされたToolTalk型ファイルを現在実行中
+の<literal>ttsession</literal>にマージする、次のような関数を提供します。
+</para>
+<programlisting>tt_session_types_load (
+            const char  *session,
+            const char  *compile_types_file)
+</programlisting>
+<para><symbol role="variable">session</symbol>は現在のデフォルトのToolTalkセッショ
+ンで、<symbol role="variable">compiled_types_file</symbol>はコンパイルされた
+ToolTalk型ファイルの名前です。この関数は、新しい型を追加し、同じ名前の既存の型と
+置換します。その他の既存の型は変更されません。
+</para>
+</sect3>
+</sect2>
+<Sect2 Id="TTUG.HTU.div.19">
+<title>各ToolTalk対応アプリケーションが実行する必要があるタスク</title>
+<para>各ToolTalk対応アプリケーションが実行する必要があるタスクは、多数あります。
+たとえば次のとおりです。
+</para>
+<itemizedlist>
+<listitem>
+<para>ツールキットの初期化
+</para>
+</listitem>
+<listitem>
+<para>ToolTalkセッションへの参加とパターンの登録
+</para>
+</listitem>
+<listitem>
+<para>ToolTalkサービスをそのイベント・ループへ追加
+</para>
+</listitem>
+</itemizedlist>
+<para>この節では、これらのタスクを実行できるようにアプリケーションに組み込む必要
+があるToolTalkのコーディング例を取り上げます。
+</para>
+<Sect3 Id="TTUG.HTU.div.20">
+<title>ツールキットの初期化</title>
+<indexterm><primary>ツールキットの初期化</primary></indexterm>
+<para>アプリケーションはツールキットを初期化し、ToolTalkの初期セッションに登録する
+必要があります。そのためには、最初にプロセス識別子(procid)を取得します。次のコー
+ディングの一部分は、procidの取得方法とツールキットの初期化方法を示します。
+</para>
+<programlisting>char *procid = ttdt_open(
+            int        *tt_fd,
+            const char *ptype_name,
+            const char *vendor_name,
+            const char *version,
+            int        send_started)
+</programlisting>
+<note>
+<para>アプリケーションは、他のToolTalkの呼び出しが行われる前に必ず
+<function>ttdt_open</function>を呼び出さなければなりません。そうしない場合、エラー
+が発生します。
+</para>
+</note>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.21">
+<title>ToolTalkセッションへの参加とメッセージ・パターンの登録</title>
+<indexterm><primary>メッセージ・パターンの登録</primary></indexterm>
+<para>アプリケーションはメッセージを受信する前に、ToolTalkセッションに参加し、一致
+するメッセージ・パターンを登録する必要があります。ttdt_session_join関数は
+メッセージ・パターンと多くの標準デスクトップ・メッセージ・インタフェース用の
+デフォルト・コールバックを登録します。
+</para>
+<programlisting>Tt_pattern *sess_patt = ttdt_session_join(
+            const char        *session_id,
+            Ttdt_contract_cb  cb,
+            Widget            shell,
+            void              *client_data,
+            int               join)
+</programlisting>
+<para>ptypeがアプリケーションにインストールされていた場合、
+<function>ttdt_session_join</function>が呼ばれる前に、通常<function>ttmedia_ptype_
+declare</function>が呼ばれるので、注意してください。
+</para>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.22">
+<title>イベント・ループへのToolTalkサービスの追加</title>
+<para>アプリケーションは、ToolTalkサービスをそのイベント・ループに追加することも
+行わなければなりません。アプリケーションがXtクライアントの場合、
+<function>XtAppAddInput</function>を以下のように使用します。
+</para>
+<programlisting>XtAppAddInput (app_context,
+            tt_fd(),
+            (XtPointer) XtInputReadMask,
+            tttk_Xt_input_handler,
+            client_data)
+</programlisting>
+</sect3>
+</sect2>
+<Sect2 Id="TTUG.HTU.div.23">
+<title>ToolTalk対応エディタ・アプリケーションが実行する必要があるタスク</title>
+<para>前述の「各ToolTalk対応アプリケーションが実行する必要があるタスク」
+で説明しているタスクの他に、ToolTalk対応エディタ・アプリケーションは次のタスクも
+実行する必要があります。
+</para>
+<itemizedlist>
+<listitem>
+<para>ptypeの宣言
+</para>
+</listitem>
+<listitem>
+<para>メディア・ロード・コールバックの記述
+</para>
+</listitem>
+<listitem>
+<para>メッセージ処理の受け入れ
+</para>
+</listitem>
+<listitem>
+<para>要求完了時の応答
+</para>
+</listitem>
+</itemizedlist>
+<para>この節では、これらの追加タスクを実行できるようにエディタ・アプリケーションに
+組み込む必要があるToolTalkのコーディング例を取り上げます。
+</para>
+<Sect3 Id="TTUG.HTU.div.24">
+<title>ptypeの宣言</title>
+<indexterm><primary>ptypeの宣言</primary></indexterm>
+<para>ptypeファイルがすでにアプリケーションにインストールされている場合、ptype
+をアプリケーションに関連付ける必要があります。この関連付けの宣言には、関数
+ttmedia_ptype_declareが便利です。
+</para>
+<programlisting>Tt_status status = ttmedia_ptype_declare(
+            char                 *ptype_name,
+            int                  base_opnum,
+            Ttmedia_load_pat_cb  cb,
+            void                 *client_data,
+            int                  declare)
+</programlisting>
+<para>アプリケーションにptype <symbol role="variable">ptype_name</symbol>が
+サポートする要求を出すように依頼がいくと、コールバック<function>cb</function>が
+起動します。
+</para>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.25">
+<title>メディア・ロード・パターン・コールバックの記述</title>
+<para>ToolTalk関数を組み込むためのエディタ・アプリケーションをコーディングする前
+に、メディア・ロード・コールバック・ルーチンを記述する必要があります。このコール
+バックは、<function>ttmedia_load</function>を呼び出すアプリケーションに別の
+アプリケーションが応答した時に起動します。
+</para>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.26">
+<title>メッセージ処理の受け入れ</title>
+<para>アプリケーションが<function>ttmedia_ptype_declare</function>ハンドラでメッ
+セージを受信した場合、要求の処理を受け入れるため次の関数を呼ぶ必要がある。
+</para>
+<programlisting>Tt_pattern *desktop_patts = ttdt_message_accept (
+            Tt_message        contract,
+            Ttdt_contract_cb  cb,
+            Widget            shell,
+            void              *client_data,
+            int               accept,
+            int               send_status)
+</programlisting>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.27">
+<title>要求完了時の応答</title>
+<para>アプリケーションはオペレーションの要求を完了した後（たとえば、ドキュメント
+の編集）、送信側アプリケーションに応答しなければなりません。次の関数を使用して
+応答およびテキストの編集された内容を送信側に返します。
+</para>
+<programlisting>Tt_message msg = ttmedia_load_reply (
+            Tt_message           contract,
+            const unsigned char  *new_contents,
+            int                  new_length,
+            int                  reply_and_destroy)
+</programlisting>
+</sect3>
+</sect2>
+<Sect2 Id="TTUG.HTU.div.28">
+<title>ToolTalk対応エディタ・アプリケーションが実行できるオプションのタスク</title>
+<para>前述の「ToolTalk対応エディタ・アプリケーションが実行する必要のある
+タスク」で説明しているタスクの他に、エディタ・アプリケーションはその他の
+オプションのタスクも実行できます。オプションのタスクには、他のエディタとの調整を
+取るためにデスクトップ・ファイル・インタフェースを使用するものなどがあります。この
+節では、これらのオプションのタスクを実行できるようにエディタ・アプリケーションに
+組み込む必要があるToolTalk関数をいくつか取り上げています。 
+</para>
+<Sect3 Id="TTUG.HTU.div.29">
+<title>オペレーションの変更、復元、または保存の要求</title>
+<para>オペレーションの変更、復元、または保存を要求する時に次の関数を使用します。
+</para>
+<itemizedlist>
+<listitem>
+<para><function>ttdt_Get_Modified</function>
+</para>
+</listitem>
+<listitem>
+<para><function>ttdt_Revert</function>
+</para>
+</listitem>
+<listitem>
+<para><function>ttdt_Save</function>
+</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.30">
+<title>ファイルの変更、復元、または保存時の通知</title>
+<para>アプリケーションのファイルの変更、復元、または保存を他のToolTalk
+アプリケーションに通知する時に<function>ttdt_file_event</function>関数を使用しま
+す。
+</para>
+</sect3>
+<Sect3 Id="TTUG.HTU.div.31">
+<title>ファイルの終了</title>
+<para><function>ttdt_file_quit</function>関数は、ファイルに関するToolTalkイベント
+の配信対象を登録解除し、関連パターンを破棄します。
+</para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>

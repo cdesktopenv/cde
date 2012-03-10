@@ -1,0 +1,408 @@
+<!-- $XConsortium: cm_inser.sgm /main/10 1996/09/08 19:50:40 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN3.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN3.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>dtcm_insert</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dtcm_insert</Command></RefName>
+<RefPurpose>insert appointments into the calendar database
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dtcm_insert</Command>
+<Arg Choice="opt">&minus;c&numsp;<Replaceable>calendar</Replaceable></Arg>
+<Arg Choice="opt">&minus;d&numsp;<Replaceable>date</Replaceable></Arg>
+<Arg Choice="opt">&minus;s&numsp;<Replaceable>start</Replaceable></Arg>
+<Arg Choice="opt">&minus;e&numsp;<Replaceable>end</Replaceable></Arg>
+<Arg Choice="opt">&minus;v&numsp;<Replaceable>view</Replaceable></Arg>
+<Arg Choice="opt">&minus;w&numsp;<Replaceable>what</Replaceable></Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Command>dtcm_insert</Command> utility is non-GUI interface to the &str-XZ; calendar and appointment services,
+used to add new appointments to the calendar
+<![ %CDE.C.CDE; [database via the RPC daemon
+&cdeman.rpc.cmsd;. ]]><![ %CDE.C.XO; [database.
+]]>Appointments are added one at a time.
+Each of the components of an
+appointment is specified using one of the command-line options.
+Once an appointment
+is added, the list of appointments for the specified date
+(see the
+<Literal>&minus;d</Literal> and
+<Literal>&minus;v</Literal> options) is displayed.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<![ %CDE.C.XO; [
+<Para>The
+<Command>dtcm_insert</Command> utility supports the &str-Zu;.
+</Para>
+]]>
+<Para>The following options are available:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>&minus;c&numsp;</Literal><Emphasis>calendar</Emphasis></Term>
+<ListItem>
+<Para>Specify the name of the target calendar.
+Calendar names
+<![ %CDE.C.XO; [are implementation-dependent, but
+]]>typically take the form
+<Emphasis>user</Emphasis>@ <Emphasis>hostname</Emphasis>, where
+<Emphasis>user</Emphasis> is a user's login name and
+<Emphasis>hostname</Emphasis> is the host machine name.
+<![ %CDE.C.CDE; [An example is
+<Literal>felix@cat</Literal>. ]]>If no target calendar is specified,
+the calendar defaults to
+the current user at the current host machine.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;d&numsp;</Literal><Emphasis>date</Emphasis></Term>
+<ListItem>
+<Para>Specify the date for the appointment(s) to be inserted.
+The
+<Emphasis>date</Emphasis> is specified using the form
+<Symbol Role="Variable">mm</Symbol>/ <Emphasis>dd</Emphasis>/ <Emphasis>yy</Emphasis>, where
+<Symbol Role="Variable">mm</Symbol>, <Emphasis>dd</Emphasis> and
+<Emphasis>yy</Emphasis> are the two-digit month, day and year modulo 100, respectively.
+<![ %CDE.C.CDE; [Certain other references such as
+``today,'' ``Tuesday,'' ``tomorrow,'' etc.
+are correctly calculated.
+]]>If no date is specified,
+<Emphasis>date</Emphasis> defaults to today's date.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;s&numsp;</Literal><Symbol Role="Variable">start</Symbol></Term>
+<ListItem>
+<Para>Specify the starting time for the appointment.
+The time is specified using the form
+<Emphasis>hh</Emphasis>: <Symbol Role="Variable">mm</Symbol>. If
+<Emphasis>hh</Emphasis> is greater than 12, 24-hour convention (for example,
+<Literal>15:30</Literal> instead of
+<Literal>3:30 pm</Literal> <Literal>)</Literal> is assumed.
+If
+<Emphasis>hh</Emphasis> is 0 to 12,
+an optional
+<Literal>am</Literal> or
+<Literal>pm</Literal> suffix can be used, with or without
+white space separating the suffix from the
+<Symbol Role="Variable">mm</Symbol>. If no suffix is used,
+<Literal>am</Literal> is assumed.
+If no starting time is specified,
+no time is associated with the inserted appointment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;e&numsp;</Literal><Emphasis>end</Emphasis></Term>
+<ListItem>
+<Para>The ending time for the appointment,
+in the same format as
+<Literal>&minus;s</Literal>. Specifying an ending time without a starting time is an error.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;v&numsp;</Literal><Emphasis>view</Emphasis></Term>
+<ListItem>
+<Para>Specify the view span of appointments to display.
+The
+<Emphasis>view</Emphasis> option-argument can be:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>day</Literal></Term>
+<ListItem>
+<Para>Display all appointments for the given date (see
+<Literal>&minus;d</Literal> option).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>week</Literal></Term>
+<ListItem>
+<Para>Display the full week that contains the given date,
+starting with Sunday.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>month</Literal></Term>
+<ListItem>
+<Para>Display the entire month that contains the given date.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;w&numsp;</Literal><Emphasis>what</Emphasis></Term>
+<ListItem>
+<Para>Specify the appointment description text.
+Up to 5 lines of text can be specified by placing &bsol;n
+(the literal characters &bsol; and n, not
+<KeySym>newline</KeySym>) between lines.
+If not specified,
+<Emphasis>what</Emphasis> defaults to
+<Literal>Appointment</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>OPERANDS</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>STDIN</Title>
+<Para>Not used.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>INPUT FILES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLES</Title>
+<Para>The following environment variables affect the execution of
+<Command>dtcm_insert</Command>:</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">LANG</SystemItem></Term>
+<ListItem>
+<Para>Provide a default value for the internationalization variables
+that are unset or null.
+If
+<SystemItem Class="EnvironVar">LANG</SystemItem> is unset or null, the corresponding value from the
+implementation-specific default locale will be used.
+If any of the internationalization variables contains an invalid setting, the
+utility behaves as if none of the variables had been defined.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>LC_ALL</Emphasis></Term>
+<ListItem>
+<Para>If set to a non-empty string value,
+override the values of all the other internationalization variables.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>LC_MESSAGES</Emphasis></Term>
+<ListItem>
+<Para>Determine the locale that is used to affect
+the format and contents of diagnostic
+messages written to standard error
+and informative messages written to standard output.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">NLSPATH</SystemItem></Term>
+<ListItem>
+<Para>Determine the location of message catalogues
+for the processing of
+<Emphasis>LC_MESSAGES</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RESOURCES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ASYNCHRONOUS EVENTS</Title>
+<![ %CDE.C.XO; [
+<Para>Default.
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>The
+<Command>dtcm_insert</Command> utility takes the standard action for all signals.
+</Para>
+]]>
+</RefSect1>
+<RefSect1>
+<Title>STDOUT</Title>
+<Para>The standard output contains the list of appointments
+for the specified view span, including the appointment just
+<![ %CDE.C.CDE; [inserted.
+]]><![ %CDE.C.XO; [inserted, in an unspecified format.
+]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>STDERR</Title>
+<Para>Used only for diagnostic messages.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OUTPUT FILES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXTENDED DESCRIPTION</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXIT STATUS</Title>
+<Para>The following exit values are returned:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<Para>Successful completion.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>>0</Term>
+<ListItem>
+<Para>An error occurred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>CONSEQUENCES OF ERRORS</Title>
+<Para>Default.
+</Para></RefSect1>
+<![ %CDE.C.CDE; [<RefSect1>
+<Title>FILES</Title>
+<Para><Filename>/usr/spool/calendar/callog.username</Filename>,
+<Filename>/usr/dt/bin/rpc.cmsd</Filename></Para>
+</RefSect1>]]>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<![ %CDE.C.XO; [
+<Para>None.
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>In the
+<Literal>&minus;w</Literal> option, it may be necessary to
+escape the &bsol; character (``&bsol;&bsol;n'') or enclose
+the string in quotes
+to avoid interpretation by the shell.
+</Para>
+]]>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<![ %CDE.C.XO; [
+<Para>None.
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>The simplest form of
+<Command>dtcm_insert</Command> has no arguments, where the user is prompted
+to enter the appointment, line-by-line:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_insert
+Please enter the information for the appointment you wish to add.
+Defaults will be shown in parentheses.
+Calendar (hlj@poobah):
+Date (2/27/1995):
+Start (0822): 1200
+End (1300):
+Repeat (One Time):
+What (you may enter up to 5 lines, use &caret;D to finish):
+lunch with the calendar team
+at Sparcy's
+&caret;D
+
+Appointments for Monday February 27, 1995:
+          1) 1200-   1300 lunch with the calendar team
+                             at Sparcy's
+</ProgramListing>
+</InformalExample>
+<Para>To insert at a specific time:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_insert &minus;s "11:00 am"
+Appointments for Tuesday September 25, 1990:
+        1) Appointment
+        2) 11:00am-12:00pm Appointment
+</ProgramListing>
+</InformalExample>
+<Para>To insert at a specific start and end time:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_insert &minus;s "11:00 am" &minus;e 11:28am
+Appointments for Tuesday September 25, 1990:
+        1) Appointment
+        2) 11:00am-11:28am Appointment
+</ProgramListing>
+</InformalExample>
+<Para>To insert at a specific time and date:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_insert &minus;s 11:00am &minus;d 09/26/90
+Appointments for Wednesday September 26, 1990:
+        1) 11:00am-12:00pm Appointment
+</ProgramListing>
+</InformalExample>
+<Para>To insert at a specific time, date, and message:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_insert &minus;s "11:00 am" &minus;d 09/26/90 &minus;w "call home"
+Appointments for Wednesday September 26, 1990:
+        1) 11:00am-12:00pm Appointment
+        2) 11:00am-12:00pm call home
+</ProgramListing>
+</InformalExample>
+<Para>To insert a multiple-line appointment:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_insert &minus;s 12:00 &minus;w "call dentist&bsol;n
+                 no thanks&bsol;ncancel appointment"
+Appointments for Tuesday September 25, 1990:
+        1) Appointment
+        2) 11:00am-12:00pm Appointment
+        3) 12:00pm-1:00pm call dentist
+                 no thanks
+                 cancel appointment
+</ProgramListing>
+</InformalExample>
+]]>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para><![ %CDE.C.CDE; [&cdeman.rpc.cmsd;, &cdeman.dtcm;, ]]>&cdeman.dtcm.delete;, &cdeman.dtcm.lookup;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

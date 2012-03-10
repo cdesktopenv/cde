@@ -1,0 +1,293 @@
+.\" $XConsortium: dtsession.man /main/2 1995/07/17 10:51:34 drk $
+.\" *                                                                      *
+.\" * (c) Copyright 1993, 1994 Hewlett-Packard Company                     *
+.\" * (c) Copyright 1993, 1994 International Business Machines Corp.       *
+.\" * (c) Copyright 1993, 1994 Sun Microsystems, Inc.                      *
+.\" * (c) Copyright 1993, 1994 Novell, Inc.                                *
+.\" *
+.TH DTSESSION 1X
+.ds ]W HP DT 3.0
+.SH NAME
+\fBdtsession \(em The HP DT Session Manager.\fP
+.sp 1
+.SH SYNOPSIS
+.B dtsession
+[options]
+.sp 1
+.SH DESCRIPTION
+\fIDtsession\fP provides session management functionality during an HP DT
+session, the time from login to logout.  It allows for saving a session, 
+restoring a session, locking a session, and allocating colors for HP DT 
+compatible clients.
+.P
+When a session is saved, client information, server settings, and
+resources are retained.  Client information consists of
+all clients currently active in the session.  Server settings consist of
+settings (such as the beeper or keyboard) that are modified by a call to
+the server.  Resources consist of all resources currently stored on the
+\fBRESOURCE_MANAGER\fP property on the root window of the default screen.
+.P
+The session is locked by pressing the "lock" button on the workspace manager
+(front panel).
+When the display is locked, no further input is accepted until a correct
+password is entered.  Correct passwords include the user who locked the
+display, the root password for the system, and any users specified in
+the \fBkeys\fP resource.
+.P
+Color allocation provides each client with a set of colors which are used
+in creating visual components.  These colors can then be dynamically
+changed by using the HP DT Style Manager (\fIdtstyle(1X)\fP).
+.P
+\fIDtsession\fP is automatically invoked by the HP DT Login Manager
+(\fIdtlogin(1X)\fP).  If the
+HP DT Login Manager is not currently being used, \fIdtsession\fP can
+be invoked by putting the following command in an .xsession or .x11start
+file:
+.P
+/usr/dt/bin/dtsession -norestore
+.P
+WARNING:  This command must be the first X11 client in the file (other
+than xrdb).  It must be run in the foreground.  When using this command,
+no save and restore functionality is available.  Any calls that start
+up window managers must be removed from the startup file.  The default
+window manager can only be changed by setting the \fBwmStartupCommand\fP 
+resource.
+.sp 1
+.SH OPTIONS
+.TP 8
+.BI \-norestore
+This option allows users to use \fIdtsession\fP in a limited way.  The
+advantage of using this option is that \fIdtsession\fP can be started
+directly from an .x11start or .xsession script.  See use and warning above.
+.SH CUSTOMIZATION
+\fIDtsession's\fP behavior can be customized through the use of the HP DT 
+Style Manager's startup dialog.  The following is the behavior that can be
+customized.
+.sp 1
+.TS
+center;
+cB s
+lB lB
+l l.
+HP DT Session Manager Customization Options
+Name	Default
+Display Logout Confirmation	On
+Set Home Session	N/A
+Startup Behavior	Resume Current Session
+.TE
+.sp 1
+.TP 8
+.BR "Display Logout Confirmation"
+"Display Logout Confirmation" allows you to toggle the appearance of the logout
+confirmation box that appears after you click on the logout button
+located in the workspace manager, or choose the "Log out..." option available in
+the \fIdtwm\fP root menu.  Setting the button displays the logout dialog.
+Clearing the button causes immediate exit with no
+confirmation.  The default behavior is that the logout confirmation
+dialog will be displayed.
+.TP 8
+.BR "Set Home Session"
+The "Set Home Session" button allows you to save a home session for use
+later.  The home session is a "snapshot" session that you can return to
+by changing logout options.
+.TP 8
+.BR "Startup Behavior"
+The startup behavior allows you to specify which state the HP DT Session
+Manager will restore upon startup (login).  The default is that it
+automatically restarts the state you were in at logout (Resume Current
+Session).  The other
+states available are "Return to Home Session" and "Ask Me at Logout."  "Return
+to Home Session" returns you to the last saved home session at next
+startup.  "Ask Me at Logout" allows you to choose which behavior you would
+prefer at logout time.  If "Return to Home Session" is chosen, a home
+session has to have been previously saved.  Otherwise the default system
+session will appear at next login.  Note that "Ask Me at Logout" cannot be
+active while "Display Logout Confirmation" is turned off.
+.SH RESOURCES
+\fIDtsession\fP uses the following resources.
+.sp 1
+.TS
+center;
+cB sss
+lB lB lB lB
+l l l l.
+HP DT Session Manager Resource Set
+Name	Class	Type	Default
+_
+alarmTime	AlarmTime	unsigned int	10
+colorUse	ColorUse	int	dynamic*
+coverScreen	CoverScreen	Boolean	False
+dynamicColor	DynamicColor	Boolean	True
+foregroundColor	ForegroundColor	int	dynamic*
+lockOnTimeout	LockOnTimeout	Boolean	False
+keys	Keys	unsigned char	NULL
+queryServerSettings	QueryServerSettings	Boolean	False
+shadowPixmaps	ShadowPixmaps	int	dynamic*
+wmStartupCommand	WmStartupCommand	executable path	NULL
+writeXrdbColors	writeXrdbColors	Boolean	True
+.TE
+.ps 7
+\h'30p'*The display type determines default.
+.ps
+.sp 1
+.IP "\fBalarmTime\fP"
+This resource specifies (in seconds) the amount of time before the lock
+dialog is removed from the screen.  When the display is locked, the
+pointer shows a lock cursor, and a dialog appears which asks for the
+user password.  If no activity from the pointer or keyboard is detected
+for \fBalarmTime\fP seconds, the dialog is removed from the screen.  The lock
+dialog is redisplayed as soon as a pointer or keyboard event is
+detected.  An
+\fBalarmTime\fP of 0 leaves the lock dialog in place for the entire time the
+display is locked.  The default value is 10 seconds.
+.IP "\fBcolorUse\fP"
+This resource specifies the number of colors to use for the user interface.
+Valid types are:
+.RS
+.IP \(bu 3
+\fBB_W\fP \(em  Specifies a black and white system.  
+The color palettes will use two color cells for the user interface.
+In this configuration only two color palettes are available:
+BlackWhite and WhiteBlack.
+These palettes cannot dynamically change.  To change a palette,
+all applications using that color palette must be restarted.
+This resource value forces \fBShadowPixmaps\fP to True, and 
+\fBForegroundColor\fP to either black or white depending on the palette chosen.
+.IP \(bu 3
+\fBLOW_COLOR\fP \(em Specifies a low color system.  
+The color palettes will have two color sets and use a maximum of 12 color 
+cells for the user interface, including black and white (color cells 0 and 1).
+The number of color cells can be reduced by using the resources 
+\fBShadowPixmaps\fP and \fBForegroundColor\fP.
+.IP \(bu 3
+\fBMEDIUM_COLOR\fP \(em Specifies a medium color system.  
+The color palettes will have 4 color sets and use a maximum of 22 color cells
+for the user interface, including black and white (color cells 0 and 1).
+The number of color cells can be reduced by using the resources 
+\fBShadowPixmaps\fP and \fBForegroundColor\fP.
+.IP \(bu 3
+\fBHIGH_COLOR\fP \(em Specifies a high color system.  
+The color palettes will have 8 color sets and use a maximum of 42 color cells
+for the user interface, including black and white (color cells 0 and 1).
+The number of color cells can be reduced by using the resources 
+\fBShadowPixmaps\fP
+and \fBForegroundColor\fP.
+The default value for this resource will be determined by querying
+the X server for the number of color cells on the system.
+.RE
+.sp 1
+.TS
+center;
+cb  cb
+l | l.
+planes	ColorUse
+_
+2-3	B_W
+4	LOW_COLOR
+6	MEDIUM_COLOR
+8+	HIGH_COLOR
+.TE
+.sp 1
+.IP "\fBcoverScreen\fP"
+This resource specifies whether or not the screens of the display will
+be covered when the display is locked.  The default value is True,
+which means that the screens will be covered.
+
+.IP "\fBdynamicColor\fP"
+This resource can have values of True or False.  \fBdynamicColor\fP is
+used to reduce the number of color cells being used.  Once a palette has 
+been selected and it is not likely to be changed,  \fBdynamicColor\fP can 
+be set to False. 
+If set to False colors cannot be dynamically changed using the DT
+style manager. A selected
+palette will take effect the next session.
+The next time the session comes up, the color server uses Read Only
+color cells that can be shared by all clients, thus reducing
+the number of color cells used.
+
+.IP "\fBforegroundColor\fP" 
+This resource can have values of White, Black or Dynamic.
+\fBForegroundColor\fP causes all text (foreground) to use either pixel 0 
+or 1 (Black
+or White) or to have a color cell dedicated to foreground and changes in
+response to the background color (Dynamic) for each ColorSet.
+If set to White or Black, the number of color cells used per ColorSet is
+reduced by 1.
+.IP "\fBkeys\ \ \ \ \      \fP"
+This resource is a list of "keyholders" who have the ability to unlock
+the screen any time it is locked by the user.  The list is a list of user
+id's separated by commas.  For example if user kim has the following
+resource active during a session:
+.sp 1
+\fBDtsession*keys: fred,keith\fP
+.sp 1
+Users fred and keith have the ability to unlock the display when kim
+locks it.
+.IP "\fBlockOnTimeout\fP"
+This resource specifies whether or not dtsession will lock the screen
+when there has been a period of time without pointer or keyboard activity.
+The default value is False,
+which means that the screen will not be locked automatically.  This 
+resource only applies when using a server that has the ability to 
+notify dtsession when the period of inactivity has occurred.
+.IP "\fBqueryServerSettings\fP"
+This resource specifies whether \fIdtsession\fP queries the server at
+logout for all its settings or saves only those settings set by using
+the HP DT Style Manager.  Querying the server ensures that all settings are
+saved; however, there is a degradation in performance when a full query
+is done.  The default value is False, which means that the server
+will not be queried.
+.IP "\fBshadowPixmaps\fP"
+For color systems, this resource can have a value of True or False.
+If True, \fBtopShadowColor\fP and \fBbottomShadowColor\fP use the same
+pixel as background and \fBtopShadowPixmap\fP and 
+\fBbottomShadowPixmap\fP are specified
+instead of solid color to create the 3D look.
+This reduces the number of color cells per ColorSet by 2.
+\fBShadowPixmaps\fP defaults to True for systems with 4 or less color planes
+(16 or less color cells),
+and False for systems with more than 4 color planes.
+.IP "\fBwmStartupCommand\fP"
+This resource allows for an alternate window manager to be started at
+login.  If this resource is NULL, dtsession starts /usr/dt/bin/dtwm.  An 
+alternate startup might look like:
+.sp 1
+\fBDtsession*wmStartupCommand: /usr/bin/X11/mwm\fP
+.sp 1
+Note that the command should not have any commands to a shell in it, and
+that it should not be surrounded by quotes.  Also, if any
+other window manager other than \fIdtwm\fP is used, clients will be restored,
+but may not be restored to the correct position.  By default, this resource
+contains a NULL value.
+.IP "\fBwriteXrdbColors\fP"
+This resource should only be used if you are running non HP Motif 1.1 clients
+that have color schemes that conflict with HP DT colors.  This has no
+impact on clients linked with the Motif 1.1 library.  This resource
+specifies whether color resource information should be written out.
+If set to False, \fBbackground\fP and \fBforeground\fP resources will not
+be written out with the values of the current palette.  This means that
+non HP Motif 1.1 clients will not get HP DT colors when they are started.
+The default value is True.
+.sp 1
+.SH COPYRIGHT
+Copyright 1990, 1991, 1992 Hewlett-Packard Company.
+.br
+(c) Copyright 1993, 1994 Hewlett-Packard Company
+.br
+(c) Copyright 1993, 1994 International Business Machines Corp.
+.br
+(c) Copyright 1993, 1994 Sun Microsystems, Inc.
+.br
+(c) Copyright 1993, 1994 Novell, Inc.
+.sp 1 
+.SH ORIGIN
+Hewlett-Packard Comany UTD-CV.
+.br
+International Business Machines Corp.
+.br
+Sun Microsystems, Inc.
+.br
+Novell, Inc.
+.sp 1
+.SH SEE ALSO
+\fBX(1)\fP, \fBdtstyle(1X)\fP, \fBdtwm(1X)\fP, \fBdtlogin(1X)\fP.

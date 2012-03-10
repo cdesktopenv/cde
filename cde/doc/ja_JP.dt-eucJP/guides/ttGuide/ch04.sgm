@@ -1,0 +1,668 @@
+<!-- $XConsortium: ch04.sgm /main/6 1996/09/08 19:35:49 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="TTUG.tttrc.div.1">
+<Title Id="TTUG.tttrc.mkr.1">ToolTalkトレースの使い方</Title>
+<Para>ToolTalk
+<IndexTerm>
+<Primary>ttsessionトレース</Primary>
+</IndexTerm>ttsessionトレースは、ToolTalkパターンをttsessionにある各メッセージと
+一致させ配信する方法を示します。本リリースのToolTalkトレースは次のことを行い
+ます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>単一クライアントのToolTalkとの対話を表示します。この機能により、実行者は１つ
+のクライアントだけをトレースできます。</Para>
+</ListItem>
+<ListItem>
+<Para>ttsessionトレースを、たとえばメッセージ型、送信者、または受信者ごとといった
+フィルタに通します。</Para>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="TTUG.tttrc.div.2">
+<Title>ToolTalkトレースへのアクセス</Title>
+<Para>本リリースの新規コマンドである
+<IndexTerm>
+<Primary>tttrace</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalkコマンド</Primary>
+<Secondary>tttrace</Secondary>
+</IndexTerm><Command>tttrace</Command>は、おもにToolTalkトレースへのアクセスに
+使用します。このコマンドは、用途やコマンド行インタフェースの点で、
+<IndexTerm>
+<Primary>trussコマンド</Primary>
+</IndexTerm><Command>truss</Command>コマンドに似ています。このコマンドにより、３
+種類のToolTalkトレースをコントロールできます。
+<IndexTerm>
+<Primary>tttraceコマンド</Primary>
+</IndexTerm><Command>tttrace</Command>コマンドには、
+<IndexTerm>
+<Primary>サーバ・モード</Primary>
+</IndexTerm><Symbol Role="Variable">サーバ</Symbol>
+・モードと
+<IndexTerm>
+<Primary>クライアント・モード</Primary>
+</IndexTerm><Symbol Role="Variable">クライアント</Symbol>・モードの２つの基本
+モードがあります。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>サーバ・モードでは、Session_Trace要求を送信することによって、
+<Command>tttrace</Command>が指定されたセッションのトレースを指示します。</Para>
+</ListItem>
+<ListItem>
+<Para>クライアント・モードでは、<Command>tttrace</Command>は環境変数を設定し、コマ
+ンド行に指定されたToolTalkクライアント・コマンドを実行します。実行されたクライアン
+トの環境変数は、クライアント・メッセージとクライアントAPI呼び出しをトレースするか
+どうかとその方法を
+<IndexTerm>
+<Primary>libtt</Primary>
+</IndexTerm><Command>libtt</Command>に指示します。</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para><Command>tttrace</Command>は、旧バージョンのサーバや、
+<Command>libtt</Command>の旧バージョンを使用するクライアントとの下位互換性はありま
+せん。<Command>tttrace</Command>は旧バージョンのサーバを検出して診断する一方で、
+<Command>libtt</Command>の旧バージョンを使用するクライアント上で何も通知せずに
+異常終了します。.</Para>
+</Note>
+</Sect1>
+<Sect1 Id="TTUG.tttrc.div.3">
+<Title>トレースのコントロール</Title>
+<Sect2 Id="TTUG.tttrc.div.4">
+<Title>libttトレースのコントロール</Title>
+<Para><Command>libtt</Command>トレースの動作をコントロールする方法の１つは、
+<IndexTerm>
+<Primary>環境変数</Primary>
+<Secondary>$DT_TT_TRACE_SCRIPT</Secondary>
+</IndexTerm>環境変数
+<ComputerOutput>$
+<IndexTerm>
+<Primary>$DT_TT_TRACE_SCRIPT</Primary>
+</IndexTerm>TT_TRACE_SCRIPT</ComputerOutput>を設定することです。</Para>
+<Note>
+<Para><Command>libtt</Command>のトレースは、変数の値が正確でなかったり、一貫性が
+ない場合は異常終了します。</Para>
+</Note>
+</Sect2>
+<Sect2 Id="TTUG.tttrc.div.5">
+<Title>クライアント側トレースのコントロール</Title>
+<Para>The
+<IndexTerm>
+<Primary>tt_trace_control呼び出し</Primary>
+</IndexTerm><Filename>tt_trace_control</Filename>呼び出しは、内部フラグを設定また
+はクリアして、すべてのクライアント側トレースをコントロールします。この呼び出しを
+使用して、コード内の問題の領域をトレースします。この呼び出しの形式は次のとおりで
+す。</Para>
+<ProgramListing>int tt_trace_control(int <Symbol Role="Variable">option</Symbol>)</ProgramListing>
+<Para><Symbol Role="Variable">option</Symbol>の値として0を指定するとトレースをオフ
+にし、1を指定するとトレースをオンにします。-1を指定すると、トレースのオンとオフを
+切り替えます。トレースがオンの場合は、トレースの範囲を
+<IndexTerm>
+<Primary>tttraceコマンド</Primary>
+</IndexTerm><Filename>TT_TRACE_SCRIPT</Filename>変数かトレースファイルでコントロー
+ルします。この呼び出しは、トレース・フラグの以前の設定を返します。</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="TTUG.tttrc.div.6">
+<Title>ToolTalkセッション内のメッセージ・トラフィックのトレース</Title>
+<Para>
+<IndexTerm>
+<Primary>Session_Trace要求</Primary>
+</IndexTerm>Session_Trace要求は、ttsessionがそれ自身を処理するために登録する
+ToolTalk要求です。つまり、ttsessionはSession_Trace要求のハンドラです。この要求は、
+どのToolTalkクライアントでも送信できます。お勧めできる方法ではありませんが、この
+要求を処理するために他のToolTalkクライアントを登録できます。（注：この方法では
+トレースは<Symbol Role="Variable">行われません</Symbol>。）この要求の構文は次の
+とおりです。</Para>
+<ProgramListing>[<Symbol Role="Variable">file</Symbol>] Session_Trace( in boolean <Symbol Role="Variable">on</Symbol>,
+                      in boolean <Symbol Role="Variable">follow</Symbol>
+                      [in attribute <Symbol Role="Variable">toPrint</Symbol>
+                      |in state <Symbol Role="Variable">toTrace</Symbol>
+                      |in op <Symbol Role="Variable">toTrace</Symbol>
+                      |in handler_ptype <Symbol Role="Variable">toTrace</Symbol>
+                      |in sender_ptype <Symbol Role="Variable">toTrace</Symbol>][...] );</ProgramListing>
+<Para>Session_Trace要求は、配信範囲指定されたセッションでのメッセージ・トレースを
+オンまたはオフにします。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>トレースがオンで、要求のファイル属性が設定されている場合、後続のトレース出力
+は属性が名前を付けたファイルに付け加えられます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>トレースがオンで、ファイル属性が<Symbol Role="Variable">設定されていない
+</Symbol>場合、トレースは現在のトレースを続行します。</Para>
+</ListItem>
+</ItemizedList>
+<Para>デフォルトの場合、<Emphasis>デーモン</Emphasis>・モードではttsessionを実行中
+のホストのコンソールが出力先になります。ジョブ・コントロール・モードでは、
+ttsessionの標準エラーが出力先になります。
+<!--Original XRef content: 'Table&numsp;4&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.tttrc.mkr.2">は、この要求の必須
+およびオプションの引き数を示しています。</Para>
+<Table Id="TTUG.tttrc.tbl.1" Frame="Topbot">
+<Title Id="TTUG.tttrc.mkr.2">Session_Trace引き数</Title>
+<TGroup Cols="3">
+<ColSpec Colname="1" Colwidth="1.56191 in">
+<ColSpec Colname="2" Colwidth="0.65667 in">
+<ColSpec Colname="3" Colwidth="2.79167 in">
+<THead>
+<Row>
+<Entry><Para><Literal>引き数</Literal></Para></Entry>
+<Entry></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>boolean</Command> <Emphasis>on</Emphasis></Para></Entry>
+<Entry><Para>必須</Para></Entry>
+<Entry><Para>トレースをオンまたはオフにします。<Emphasis>toTrace</Emphasis>引き数
+がなく<Emphasis>on</Emphasis>がtrueの場合は、前のトレース設定が復元されます。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>boolean</Command> <Emphasis>follow</Emphasis></Para></Entry>
+<Entry><Para>必須</Para></Entry>
+<Entry><Para>起動したクライアントのクライアント側トレースをオンにします。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>attribute</Command> <Emphasis>toPrint</Emphasis></Para></Entry>
+<Entry><Para>オプション</Para></Entry>
+<Entry><Para>トレースされた各メッセージの属性を出力します。
+有効な属性は次のとおりです。</Para><Para>&bull; <Symbol Role="Variable">none</Symbol>&ndash;トレースされた各メッセージの記述を１行だけ
+出力（デフォルト）</Para><Para>&bull; <Symbol Role="Variable">all</Symbol>&ndash;トレースされたメッセージの属性全部を出力</Para></Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>state</Command> <Emphasis>toTrace</Emphasis></Para></Entry>
+<Entry><Para>オプション</Para></Entry>
+<Entry><Para>メッセージをトレースするための状態。
+<Filename>tt_c.h</Filename>に定義されているTt_statesの他に有効な
+<Symbol Role="Variable">状態</Symbol>は次のとおりです。</Para><Para>&bull; <Emphasis>edge</Emphasis>&ndash;初期の状態(<Filename>TT_SENT</Filename>)
+と最後の状態(<Filename>TT_HANDLED</Filename>, <Command>TT_FAILED</Command>)
+を入力しているメッセージ</Para><Para>&bull; <Emphasis>deliver</Emphasis>&ndash;すべての状態の変更と、すべてのクライアントの
+配信</Para><Para>&bull; <Emphasis>dispatch</Emphasis>&ndash;deliver状態および一致
+するように考慮されたすべてのパターン（デフォルト）</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>op</Command> <Emphasis>toTrace</Emphasis></Para><Para><Filename>sender_ptype</Filename> <Emphasis>toTrace</Emphasis></Para><Para><Filename>handler_ptype</Filename> <Emphasis>toTrace</Emphasis></Para></Entry>
+<Entry><Para>オプション</Para><Para>オプション</Para><Para>オプション</Para></Entry>
+<Entry><Para>表示されたメッセージの属性の値として<Emphasis>toTrace</Emphasis>を
+持っているトレース・メッセージ</Para><Para>&bull;要求には、<Emphasis>toTrace</Emphasis>引き数を任意の数だけ
+含めることができます。</Para><Para><Emphasis>&bull; toTrace</Emphasis>には<Command>sh</Command>(シェル）のワイルドカード文字も指定できます。</Para><Para>&bull; 指定のメッセージ属性に対してtoTrace引き数がない場合、トレースから
+メッセージを除外する属性の値もありません。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>現在のセッション・トレースの動作には、この要求が失敗しない場合にのみ変更され
+ます。失敗した場合には、応答の<ComputerOutput>tt_message_status</ComputerOutput>
+は、
+<!--Original XRef content: 'Table&numsp;4&hyphen;2'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.tttrc.mkr.3">で説明されている
+エラーの１つに設定されます。</Para>
+<Table Id="TTUG.tttrc.tbl.2" Frame="Topbot">
+<Title Id="TTUG.tttrc.mkr.3">Session_Trace要求が返すエラー・メッセージ</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="2.0 in">
+<ColSpec Colname="2" Colwidth="3.0 in">
+<THead>
+<Row>
+<Entry><Para><Literal>エラー</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NO_MATCH</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー</Primary>
+<Secondary>TT_ERR_NO_MATCH</Secondary>
+</IndexTerm>TT_ERR_NO_MATCH</Filename></Para></Entry>
+<Entry><Para>要求に対するハンドラを見つけることができません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_APPFIRST + EACCES</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー</Primary>
+<Secondary>TT_ERR_APPFIRST + EACCES</Secondary>
+</IndexTerm>TT_ERR_APPFIRST + EACCES</Command></Para></Entry>
+<Entry><Para>ttsessionがトレース・ファイルを開くまたは作成するためのアクセス権を
+持っていません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_APPFIRST + EISDIR</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー</Primary>
+<Secondary>TT_ERR_APPFIRST + EISDIR</Secondary>
+</IndexTerm>TT_ERR_APPFIRST + EISDIR</Command></Para></Entry>
+<Entry><Para>トレース・ファイルがディレクトリです。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_APPFIRST + ENOSPC</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー</Primary>
+<Secondary>TT_ERR_APPFIRST + ENOSPC</Secondary>
+</IndexTerm>TT_ERR_APPFIRST + ENOSPC</Command></Para></Entry>
+<Entry><Para>ターゲット・ファイル・システムにトレース・ファイル作成の
+十分なスペースがありません。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_APPFIRST + EEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>エラー</Primary>
+<Secondary>TT_ERR_APPFIRST + EEXIST</Secondary>
+</IndexTerm>TT_ERR_APPFIRST + EEXIST</Command></Para></Entry>
+<Entry><Para>トレースがすでに別のファイルで行われています。
+ttsessionは、応答のファイル属性を再設定して既存のトレース・ファイルの名前を付け
+ます。別のファイルへのトレースを行うには、最初に現在のトレース・ファイルへの
+トレースをオフにします。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect1>
+<Sect1 Id="TTUG.tttrc.div.7">
+<Title>サーバによるToolTalk呼び出しとメッセージのトレース</Title>
+<Para>
+<IndexTerm>
+<Primary>tttrace関数</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk関数</Primary>
+<Secondary>tttrace</Secondary>
+</IndexTerm><Command>tttrace</Command>関数は、指定のToolTalkセッションのために
+サーバによりメッセージ・トラフィックをトレースするか、ToolTalkクライアント・トレー
+スをオンにしてコマンドを実行します。セッションとコマンドの両方とも指定されない場合
+は、デフォルトのセッションがトレースされます。デフォルトでは、<Command>tttrace
+</Command>が終了するとトレースも終了します。この関数の構文は次のとおりです。
+</Para>
+<ProgramListing>tttrace [-0FCa] [-o <Symbol Role="Variable">outfile</Symbol> ] [-S <Symbol Role="Variable">session</Symbol> | <Symbol Role="Variable">command</Symbol>]
+tttrace [-e <Symbol Role="Variable">script</Symbol> | -f <Symbol Role="Variable">scriptfile</Symbol> ] [-S <Symbol Role="Variable">session</Symbol> | <Symbol Role="Variable">command</Symbol>]</ProgramListing>
+<Para><!--Original XRef content: 'Table&numsp;4&hyphen;3'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.tttrc.mkr.4">では、
+<Command>tttrace</Command>オプションにつて説明します。</Para>
+<Table Id="TTUG.tttrc.tbl.3" Frame="Topbot">
+<Title Id="TTUG.tttrc.mkr.4">tttraceオプション</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="0.84259 in">
+<ColSpec Colname="2" Colwidth="4.14583 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Option</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>-0</Command></Para></Entry>
+<Entry><Para>セッション内のメッセージ・トレースをオフにするか、メッセージ・トレー
+スを行わないで（つまり呼び出しのトレースだけを行って）指定コマンドを実行します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>-F</Filename></Para></Entry>
+<Entry><Para>指定のコマンドによってフォークされた、またはttsessionによりセッション
+内で続けて起動されたすべての子を追跡します。通常、指定のコマンドだけかttsession
+インスタンスがトレースされます。<Filename>-F</Filename>オプションが指定されている
+場合、プロセスIDがトレース出力の各行に表示され、どのプロセスが生成したかを示しま
+す。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>-C</Filename></Para></Entry>
+<Entry><Para>ToolTalk APIへのクライアント呼び出しをトレースしないようにします。
+デフォルトでは呼び出しをトレースします。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>-a</Command></Para></Entry>
+<Entry><Para>トレースされたメッセージのすべての属性、引き数、およびコンテキスト・
+スロットを出力します。デフォルトでは、トレース出力へメッセージを出力するには単一
+行だけを使用します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>-o</Filename> <Symbol Role="Variable">outfile</Symbol></Para></Entry>
+<Entry><Para>トレース出力に使用されるファイル。セッション・トレースの場合、出力先
+はtttraceの標準出力です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>-S</Filename> <Symbol Role="Variable">session</Symbol></Para></Entry>
+<Entry><Para>トレースするセッション。デフォルトではデフォルト・セッション、つまり
+<IndexTerm>
+<Primary>tt_open</Primary>
+</IndexTerm><Filename>tt_open</Filename>が通知するセッションです。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">command</Symbol></Para></Entry>
+<Entry><Para>起動し、トレースを行うToolTalkクライアント・コマンド。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>-e <Symbol Role="Variable">script</Symbol></Para></Entry>
+<Entry><Para><Command>ttrace</Command>設定として使用されるスクリプト。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>-f <Symbol Role="Variable">scriptfile</Symbol></Para></Entry>
+<Entry><Para><Command>tttrace</Command>設定を読み取るファイル。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para><Command>tttrace</Command>は、ttsessionへのメッセージ・インタフェースと
+<IndexTerm>
+<Primary>TT_TRACE_SCRIPT環境変数</Primary>
+</IndexTerm><Filename>TT_TRACE_SCRIPT</Filename>環境変数を使用するToolTalk
+クライアントとして実行できるようになっています。この変数が設定されると、トレース・
+スクリプトに指定されているようにクライアント側トレースをオンにすることを
+<Command>libtt</Command>に通知します。値の最初の文字が「.」か「/」の場合、その値
+は使用するトレース・スクリプトが入っているファイルのパス名として認識されます。その
+他の文字の場合は、インライン・トレース・スクリプトとして認識されます。</Para>
+<Sect2 Id="TTUG.tttrc.div.8">
+<Title>トレースされた関数の形式</Title>
+<Para>次は、トレースされたToolTalk関数の例です。</Para>
+<ProgramListing>[<Symbol Role="Variable">pid</Symbol>] <Symbol Role="Variable">function_name</Symbol>(<Symbol Role="Variable">params</Symbol>) = <Symbol Role="Variable">return_value</Symbol> (<Symbol Role="Variable">Tt_status</Symbol>)</ProgramListing>
+<Sect3 Id="TTUG.tttrc.div.9">
+<Title>メッセージ要約形式</Title>
+<Para><Filename>-a</Filename>オプションは、次のように１行のメッセージ要約の後に、
+メッセージ属性を出力します。</Para>
+<ProgramListing><Symbol Role="Variable">Tt_state Tt_paradigm Tt_class</Symbol> (<Symbol Role="Variable">Tt_disposition in Tt_scope</Symbol>): <Symbol Role="Variable">status</Symbol> == <Symbol Role="Variable">Tt_status</Symbol></ProgramListing>
+</Sect3>
+<Sect3 Id="TTUG.tttrc.div.10">
+<Title>状態変更形式</Title>
+<Para>状態の変更は次の形式で示されます。</Para>
+<ProgramListing><Symbol Role="Variable">old_state</Symbol> => <Symbol Role="Variable">new_state</Symbol>.</ProgramListing>
+</Sect3>
+<Sect3 Id="TTUG.tttrc.div.11">
+<Title>メッセージ配信形式</Title>
+<Para>配信は次のように示されます。</Para>
+<ProgramListing>Tt_message => procid <Symbol Role="Variable">recipient_procid</Symbol></ProgramListing>
+<Para><!--Original XRef content: 'Table&numsp;4&hyphen;4'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.tttrc.mkr.5">は、ディスパッチ・
+トレース中に受信するメッセージについて説明しています。</Para>
+<Table Id="TTUG.tttrc.tbl.4" Frame="Topbot">
+<Title Id="TTUG.tttrc.mkr.5">ディスパッチ・トレース用の理由</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.86148 in">
+<ColSpec Colname="2" Colwidth="3.16667 in">
+<THead>
+<Row>
+<Entry><Para><Literal>メッセージ</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>tt_message_send</Filename></Para></Entry>
+<Entry><Para>送信するメッセージ。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tt_message_reject</Filename></Para></Entry>
+<Entry><Para>メッセージが拒否されました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tt_message_fail</Filename></Para></Entry>
+<Entry><Para>メッセージが無視されました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tt_message_reply</Filename></Para></Entry>
+<Entry><Para>メッセージへの応答。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tt_session_join</Filename></Para></Entry>
+<Entry><Para>参加するセッション。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tt_file_join</Filename></Para></Entry>
+<Entry><Para>参加するファイル。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tt_message_reply</Filename></Para></Entry>
+<Entry><Para>クライアントが指定の関数を呼び出しました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tt_message_send_on_exit</Filename></Para></Entry>
+<Entry><Para>ttsessionは、<Filename>tt_close</Filename>を呼び出す前に切り離された
+クライアントに対してon_exitメッセージをディスパッチしています。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tt_message_accept</Filename></Para></Entry>
+<Entry><Para>ttsessionは、ptypeが起動されている間にブロックされたメッセージを
+ディスパッチしています。起動されたクライアントは、ptypeがブロック解除されることを
+示す<Filename>tt_message_accept</Filename>か<Filename>tt_message_reply</Filename>
+のどちらかを呼び出します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>TT_ERR_PTYPE_START</Filename></Para></Entry>
+<Entry><Para>ptypeインスタンスがメッセージの受信のために起動されましたが、起動コマ
+ンドはttsessionに接続される前に終了しました。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>ttsessionはこの要求に応じて動作中であったクライアントの接続を切りまし
+た。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttsession -> ttsession</Command></Para></Entry>
+<Entry><Para>別のセッションがこのセッションに対してメッセージの受信者を見つけるよ
+うに求めています。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttsession &lt;- ttsession</Command></Para></Entry>
+<Entry><Para>別のセッションがこのセッションで発信したメッセージの更新（たとえば
+失敗すること）を求めています。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect3>
+<Sect3 Id="TTUG.tttrc.div.12">
+<Title>形式の照合</Title>
+<Para>ディスパッチがトレースされているとき、照合は次の形式のうちの１つで示されま
+す。</Para>
+<ProgramListing>Tt_message &amp; Tt_pattern {
+Tt_message &amp; ptype <Symbol Role="Variable">ptid</Symbol> {
+Tt_message &amp; otype <Symbol Role="Variable">otid</Symbol> {</ProgramListing>
+<Para>パターンまたはシグニチャが次の形式で出力されます。</Para>
+<ProgramListing>} == <Symbol Role="Variable">match_score</Symbol>; [/* <Symbol Role="Variable">mismatch_reason</Symbol> */]</ProgramListing>
+</Sect3>
+</Sect2>
+<Sect2 Id="TTUG.tttrc.div.13">
+<Title>例</Title>
+<Para>この節では、tttrace関数の使用例を取り上げます。</Para>
+<Sect3 Id="TTUG.tttrc.div.14">
+<Title>パターンの登録とパターンの一致通知の送信</Title>
+<Para>パターンを登録し、そのパターンに一致するという通知を送信するには、次のように
+入力します。</Para>
+<ProgramListing>&percnt; tttrace -a <Symbol Role="Variable">myclientprogram</Symbol></ProgramListing>
+<Para><!--Original XRef content: 'Code&numsp;Example&numsp;4&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.tttrc.mkr.6">は、その結果を示し
+ます。</Para>
+<Example Id="TTUG.tttrc.tbl.5">
+<Title Id="TTUG.tttrc.mkr.6">パターンの登録と通知の送信</Title>
+<ProgramListing>tt_open() = 0x51708==&ldquo;7.jOHHM X 129.144.153.55 0&ldquo; (TT_OK)
+tt_fd() = 11 (TT_OK)
+tt_pattern_create() = 0x50318 (TT_OK)
+tt_pattern_category_set(0x50318, TT_OBSERVE) = 0 (TT_OK)
+tt_pattern_scope_add(0x50318, TT_SESSION) = 0 (TT_OK)
+tt_pattern_op_add(0x50318, 0x2f308==&ldquo;Hello World&ldquo;) = 0 (TT_OK)
+tt_default_session() = 0x519e0==&ldquo;X 129.144.153.55 0&ldquo; (TT_OK)
+tt_pattern_session_add(0x50318, 0x519e0==&ldquo;X 129.144.153.55 0&ldquo;) = 0 (TT_OK)
+tt_pattern_register(0x50318) = 0 (TT_OK)
+tt_message_create() = 0x51af0 (TT_OK)
+tt_message_class_set(0x51af0, TT_NOTICE) = 0 (TT_OK)
+tt_message_address_set(0x51af0, TT_PROCEDURE) = 0 (TT_OK)
+tt_message_scope_set(0x51af0, TT_SESSION) = 0 (TT_OK)
+tt_message_op_set(0x51af0, 0x2f308==&ldquo;Hello World&ldquo;) = 0 (TT_OK)
+tt_message_send(0x51af0)  ...
+  TT_CREATED => TT_SENT:
+  TT_SENT TT_PROCEDURE TT_NOTICE (TT_DISCARD in TT_SESSION): 0 == TT_OK
+  id:  0 7.jOHHM X 129.144.153.55 0
+  op:  Hello World
+  session: X 129.144.153.55 0
+  sender:  7.jOHHM X 129.144.153.55 0
+= 0 (TT_OK)
+tt_message_receive()  ...
+ Tt_message => procid &lt;7.jOHHM X 129.144.153.55 0>
+ TT_SENT TT_PROCEDURE TT_NOTICE (TT_DISCARD in TT_SESSION): 0 == TT_OK
+ id:  0 7.jOHHM X 129.144.153.55 0
+ op:  Hello World
+ session: X 129.144.153.55 0
+ sender:  7.jOHHM X 129.144.153.55 0
+ pattern: 0:7.jOHHM X 129.144.153.55 0
+= 0x51af0 (TT_OK)
+</ProgramListing></Example>
+<Para>ttsessionによるメッセージ・フローの表示を見るには、次のように入力します。
+</Para>
+<ProgramListing>&percnt; tttrace -a</ProgramListing>
+<Para>ttsession's view</Para>
+<Example Id="TTUG.tttrc.tbl.6">
+<Title Id="TTUG.tttrc.mkr.7">ttsessionによるトレースの表示</Title>
+<ProgramListing>tt_message_reply:
+  TT_SENT => TT_HANDLED:
+  TT_HANDLED TT_PROCEDURE TT_REQUEST (TT_DISCARD in TT_SESSION): 0 == TT_OK
+  id:  0 2.jOHHM X 129.144.153.55 0
+  op:  Session_Trace
+  args:  TT_IN string: &ldquo;> /tmp/traceAAAa002oL; version 1; states&ldquo;[...]
+  session: X 129.144.153.55 0
+  sender:  2.jOHHM X 129.144.153.55 0
+  pattern: 0:X 129.144.153.55 0
+  handler: 0.jOHHM X 129.144.153.55 0
+  Tt_message => procid &lt;2.jOHHM X 129.144.153.55 0>
+tt_message_send:
+  TT_CREATED TT_PROCEDURE TT_NOTICE (TT_DISCARD in TT_SESSION): 0 == TT_OK
+  id:  0 7.jOHHM X 129.144.153.55 0
+  op:  Hello World
+  session: X 129.144.153.55 0
+  sender:  7.jOHHM X 129.144.153.55 0
+  TT_CREATED => TT_SENT:
+  TT_SENT TT_PROCEDURE TT_NOTICE (TT_DISCARD in TT_SESSION): 0 == TT_OK
+  id:  0 7.jOHHM X 129.144.153.55 0
+  op:  Hello World
+  session: X 129.144.153.55 0
+  sender:  7.jOHHM X 129.144.153.55 0
+  Tt_message &amp; Tt_pattern {
+  id:  0:7.jOHHM X 129.144.153.55 0
+  category: TT_OBSERVE
+  scopes:  TT_SESSION
+  sessions: X 129.144.153.55 0
+  ops:  Hello World
+ } == 3;
+ Tt_message => procid &lt;7.jOHHM X 129.144.153.55 0></ProgramListing>
+</Example>
+<Para><Emphasis>mylientprogram</Emphasis>のメッセージ・フローの表示は、
+<!--Original XRef content: 'Code&numsp;Example&numsp;4&hyphen;2'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.tttrc.mkr.7">のとおりです。</Para>
+<Note>
+<Para>トレースされた最初のメッセージは、ほとんどの場合<Command>tttrace</Command>
+が送信した要求へのttsessionによる応答になります。</Para>
+</Note>
+</Sect3>
+<Sect3 Id="TTUG.tttrc.div.15">
+<Title>メッセージ・フローのトレース</Title>
+<Para>特定の、デフォルトではないセッション内のメッセージ・フローをトレースするに
+は、次のように入力します。</Para>
+<ProgramListing>&percnt; tttrace -S &ldquo;01 15303 1342177284 1 0 13691 129.144.153.55 2&ldquo;</ProgramListing>
+<Para><Emphasis>&ldquo;01 15303 1342177284 1 0 13691 129.144.153.55 2&ldquo;</Emphasis>は、デフォルトではない
+特定のトレースされるセッションです。</Para>
+<Para><Emphasis>&ldquo;01 15303 1342177284 1 0 13691 129.144.153.55 2&ldquo; is the</Emphasis></Para>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="TTUG.tttrc.div.16">
+<Title>ToolTalkトレースのための設定</Title>
+<Para><Command>tttrace</Command>スクリプトには、ToolTalk呼び出しとメッセージをコン
+トロールする設定があります。<Command>tttrace</Command>スクリプトは、セミコロンか
+復帰改行で区切られたコマンドから成ります。重複している値が設定に指定されると、最後
+の値が使用されます。
+<!--Original XRef content: 'Table&numsp;4&hyphen;5'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.tttrc.mkr.8">では、これらのコマンド
+について説明します。</Para>
+<Table Id="TTUG.tttrc.tbl.7" Frame="Topbot">
+<Title Id="TTUG.tttrc.mkr.8">tttraceスクリプト・コマンド</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.88658 in">
+<ColSpec Colname="2" Colwidth="4.53704 in">
+<THead>
+<Row>
+<Entry><Para><Literal>コマンド</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>version</Command> n</Para></Entry>
+<Entry><Para>使用されている<Filename>tttracefile</Filename>コマンド構文のバーショ
+ン。現在のバージョンは1です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>follow [off | on]</Command></Para></Entry>
+<Entry><Para>トレースされたクライアントによってフォークされた、またはトレースされ
+たセッションで続けて起動されたすべての子についても追跡するかどうか設定します。
+デフォルトは<Command>off</Command>です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>[> | >>]</Command> <Emphasis>outfile</Emphasis></Para></Entry>
+<Entry><Para>トレース出力に使用されるファイル。デフォルトでは、トレースの出力先は
+標準エラーです。<Emphasis>></Emphasis>と<Emphasis>>></Emphasis>の通常のシェル解釈
+が適用されます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>functions</Command> [all | none |
+<Emphasis>func...</Emphasis>]</Para></Entry>
+<Entry><Para>トレースするToolTalk API関数。<Emphasis>func</Emphasis>には、シェル・
+ワイルドカード文字が入ります。デフォルトは<Command>all</Command>です。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>attributes [all | none]</Command></Para></Entry>
+<Entry><Para><Command>none</Command>（デフォルト）は、トレース出力にメッセージを
+出力するとき、単一行だけを使用することを意味します。<Command>all</Command>は、
+トレースされたメッセージの属性、引き数、コンテキスト・スロットすべてを出力すること
+を意味します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>states [none | edge |
+deliver | dispatch |</Filename>
+<StructName Role="typedef">Tt_state</StructName><Filename>]...</Filename></Para></Entry>
+<Entry><Para>メッセージをトレースするための状態。<Filename>tt_c.h</Filename>に定議
+されているTt_statesの他に有効な<Symbol Role="Variable">状態</Symbol>は次のとおりで
+す。</Para><Para>&bull; <Command>none</Command> &ndash; メッセージのトレースをすべ
+て使用不可能にする</Para><Para>&bull; <Command>edge</Command> &ndash; 最初の状態
+(<Filename>TT_SENT</Filename>)と最後の状態(<Filename>TT_HANDLED</Filename>と
+<Filename>TT_FAILED</Filename>)を入力しているメッセージ</Para><Para>&bull; <Command>deliver</Command> &ndash; すべての状態の変更と、すべての
+クライアントの配信</Para><Para>&bull; <Command>dispatch</Command> &ndash; 配信およ
+び一致するように考慮されたすべてのパターン（デフォルト）</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ops</Command> <Emphasis>toTrace</Emphasis>...</Para><Para><Filename>sender_ptypes</Filename> <Emphasis>toTrace</Emphasis>...</Para><Para><Filename>handler_ptypes</Filename> <Emphasis>toTrace</Emphasis>...</Para></Entry>
+<Entry><Para>表示されたメッセージの属性として<Emphasis>toTrace</Emphasis>を持って
+いるトレース・メッセージ。<Emphasis>toTrace</Emphasis>にはシェル・ワイルドカード
+文字が入ります。指定のメッセージ属性に対して<Emphasis>toTrace</Emphasis>
+引き数がない場合、その属性がどんな値を持っていてもメッセージをトレースから除外する
+ことはありません。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 05:02:32-->

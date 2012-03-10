@@ -1,0 +1,673 @@
+<!-- $XConsortium: ch03.sgm /main/11 1996/09/08 19:39:54 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.WrTop.div.1">
+<title id="HRDC.WrTop.mkr.1">ヘルプ・トピックの記述</title>
+<para>この章では、テキストを構造化するためにに使用する要素を説明します。また、グラフィックの取り込み方法と、他のヘルプ・トピックへのハイパーリンクの作成方法も説明します。
+</para>
+<informaltable id="HRDC.WrTop.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating Structure within a Topic52'--><xref
+role="JumpText" linkend="HRDC.WrTop.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Entering Inline Elements62'--><xref
+role="JumpText" linkend="HRDC.WrTop.mkr.9"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating Hyperlinks64'--><xref role="JumpText"
+linkend="HRDC.WrTop.mkr.14"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Displaying Graphics76'--><xref role="JumpText"
+linkend="HRDC.WrTop.mkr.23"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Including Special Characters80'--><xref
+role="JumpText" linkend="HRDC.WrTop.mkr.27"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Including Comments and Writer's Memos81'--><xref
+role="JumpText" linkend="HRDC.WrTop.mkr.29"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating an Index82'--><xref role="JumpText"
+linkend="HRDC.WrTop.mkr.32"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating a Glossary83'--><xref role="JumpText"
+linkend="HRDC.WrTop.mkr.34"></para></entry></row></tbody></tgroup></informaltable>
+<sect1 id="HRDC.WrTop.div.2">
+<title>ヘルプ・トピックの作成</title>
+<para>ヘルプ・トピックは、固有のIDで識別できる情報の単位です。ヘルプ・トピックは、オンライン・ヘルプを記述しているプロダクトを最適に表現する論理的な枠組にグループ化されます。
+</para>
+<para>DocBook によって提供される要素の階層構造は、ユーザが記述するヘルプ・トピックを構成する枠組となります。要素の階層構造は、Chapter、Sect1、Sect2、Sect3、Sect4、および Sect5 のようになっています。</para>
+<para>階層構造内のトピックの位置は、それを含む要素、およびその要素がより高位の要素にどのように埋め込まれるか、によって決定されます。たとえば、Sect2 というタグが付けられたトピックが、Sect1 というタグが付けられたトピックに続く場合、Sect1 トピックの下位トピックになります。
+</para>
+<para>アプリケーション（アプリケーション・ヘルプを記述している場合）か、ハイパーリンクのどちらかからアクセスするトピックにはIDが必要です。通常、トピックを含む要素、およびそのタイトルの両方にIDが付与されます。IDは、Chapter、Sect1、Sect2、Sect3、Sect4、Sect5、および Title という要素の属性のひとつです。</para>
+<sect2 id="HRDC.WrTop.div.3">
+<title>例</title>
+<para>次の行は &lt;Sect1> タグを使用してトピックの開始をマークします。
+</para>
+<programlisting>&lt;sect1 id="HRDC.WrTop.div.2"></programlisting>
+<para>タイトルは、要素 Chapter、Sect1、Sect2、Sect3、Sect4、Sect5 に必須であり、要素の開始タグにすぐ続けます。マークアップは、次のようになります。
+</para>
+<programlisting>&lt;sect1 id="HRDC.WrTop.div.2">
+&lt;title>Help Topics&lt;/title></programlisting>
+<sect3 id="HRDC.WrTop.div.4">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para><!--Original XRef content: 'Chapter&numsp;2,
+&ldquo;Organizing and Writing a Help Volume'--><xref role="ChapNumAndTitle"
+linkend="HRDC.OrgH.mkr.1">では、トピック階層の作成方法を含めたヘルプ・ボリュームの一般的な構造を説明しています。
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.5">
+<title id="HRDC.WrTop.mkr.2">トピック内に構造を作成する</title>
+<para>ヘルプ・トピックの本文には、情報を構成して提示するために選択する次のような要素があります。
+</para>
+<itemizedlist><listitem><para><emphasis>パラグラフ</emphasis>は、テキストの本文に使用します。
+</para>
+</listitem><listitem><para><emphasis>リスト</emphasis>は、箇条書きにして示す情報に使用します。リストの種類には、ItemizedList（行頭文字が付いたもの）、OrderedList（番号の付いたもの）、VariableList（用語のリストの定義）、および SegmentedList（情報に比較のラベルが付いたセット）があります。
+</para>
+</listitem><listitem><para><emphasis>表</emphasis>は、情報の構造化された配列に使用します。InformalTable（タイトルなし）および Table（タイトル必須）があります。
+</para>
+</listitem><listitem><para><emphasis>グラフィック</emphasis>は<emphasis>インライン要素</emphasis>としてテキスト内に入れたり、独立した<emphasis>ブロック指向の要素</emphasis>として段落の間に表示できます。Graphic は、グラフィック・データを含む外部ファイルを指します。
+</para>
+</listitem><listitem><para><emphasis>ハイパーリンク</emphasis>で、関連トピックを参照できます。ハイパーリンクは、その階層内のより深層のサブトピックに続いたり、まったく異なる部分のトピックに分岐したり、他のヘルプ・ボリュームに続いたりします。
+</para>
+</listitem><listitem><para><emphasis>コンピュータ・リテラル</emphasis>は、ファイル名や変数名などの、コンピュータが認識するテキストです。コンピュータ・リテラルは、それだけを分けて表示することも、インライン要素として表示することもできます。
+</para>
+</listitem><listitem><para><emphasis>注、注意、警告</emphasis>は、重要な情報へ読者の注意を促します。
+</para>
+</listitem><listitem><para><emphasis>強調表示</emphasis>は、パラグラフのテキスト内の重要な語句を強調表示するのに使用します。
+</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.WrTop.div.6" role="Procedure">
+<title id="HRDC.WrTop.mkr.3">パラグラフを開始するには</title>
+<para>一般に、&lt;Para> タグを使用して、新規パラグラフの開始をマークします。DocBook DTD は、３種類のパラグラフを提供します。Para は（List や Figure のような）ブロック指向の要素を含むことができます。SimPara は、通常のテキストとインライン要素のみを含むことができます。FormalPara には、タイトルが必須です。
+</para>
+<para>パラグラフで、ソース・ファイルに入力した改行を保持したい場合は、&lt;LiteralLayout> タグを使用します。</para>
+<sect3 id="HRDC.WrTop.div.7">
+<title>例</title>
+<para>これは、通常のパラグラフの例です。</para>
+<programlisting>&lt;para>The Application Builder provides an interactive, graphical environment that facilitates the development of desktop applications. &lt;/para>
+</programlisting>
+<para>次の LiteralLayout は、ヘルプ・ウィンドウ内の自動的なワード・ラップを上書きし、ソース・ファイルに入力された改行を正確に保持します。LiteralLayout 要素は、アドレスの作成に、特に有用です。
+</para>
+<programlisting>&lt;LiteralLayout>
+Brown and Reed Financial Investors
+100 Baltic Place  Suite 40
+New York, New York
+&lt;/LiteralLayout></programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.8" role="Procedure">
+<title id="HRDC.WrTop.mkr.4">ItemizedList を入力するには</title>
+<para>ItemizedList は、その項目が、弾丸型、ダッシュ、または他の段落記号でマークされた、あるいは、まったくマークされないリストです。ItemizedList は、ひとつまたは複数の ListItem を含みます。
+</para>
+<para>ItemizedList 中の ListItem は、パラグラフおよび他へのリンクを含む他のブロック指向の要素を指定することができます。
+</para>
+<para>ItemizedList 中で使用したいマークを指定するために、Mark 属性を使用することができます。Mark 属性のための値の固定的なリストはありませんが、使用したい段落記号を指定する ISO のテキスト・エンティティを使用することができます。ItemizedList のために使用されるマークを、アプリケーションが提供することもあるかもしれません。
+</para>
+<para>これは、ItemizedList 要素のために使用するシンタクスです。
+</para>
+<programlisting>&lt;ItemizedList Mark="Bullet">
+        &lt;ListItem>
+                &lt;para> ... &lt;/para>
+        &lt;/ListItem>
+        &lt;ListItem>
+                &lt;para> ... &lt;/para>
+        &lt;/ListItem>
+        ...
+&lt;/ItemizedList></programlisting>
+<sect3 id="HRDC.WrTop.div.9">
+<title>例</title>
+<para>これは、単純な ItemizedList のマークアップです。</para>
+<programlisting>&lt;itemizedlist>
+&lt;listitem>&lt;para>Creating a Mail Message&lt;/para>&lt;/listitem>
+&lt;listitem>&lt;para>Sending a Message&lt;/para>&lt;/listitem>
+&lt;listitem>&lt;para>Reading Your Mail&lt;/para>&lt;/listitem>
+&lt;/itemizedlist></programlisting>
+<para>このマークアップでは、ItemizedList が次のように出力されます。
+</para>
+<itemizedlist><listitem><para>Creating a Mail Message</para>
+</listitem><listitem><para>Sending a Message</para>
+</listitem><listitem><para>Reading Your Mail</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.8a" role="Procedure">
+<title id="HRDC.WrTop.mkr.4a">OrderdList を入力するには</title>
+<para>OrderedList は、数字または文字でマークされた ListItem を含みます。OrderedList 中の ListItem は、パラグラフおよび ItemizedList と OrderedList を含む他のブロック指向要素を指定することができます。
+</para>
+<para>OrderedList は Common 属性、および Numeration、InheritNum、Continuation の各属性ももちます。
+</para>
+<para>Numeration 属性は、OrderedList 中の ListItem が、どのように数字付けまたは文字付けされるかを指定します。これは、値として、Arabic、Upperalpha、Loweralpha、Upperroman、または Lowerroman をとります。値を指定しないと、Arabic の数字付けが使用されます。
+</para>
+<para>InheritNum 属性は、値 Inherit または Ignore をとります。値が Inherit の場合、ネストされたリスト中の ListItem の数字付けが、それがネストされている ListItem の数字を含むという指定になります。すなわち、別の OrderedList が、２番目の ListItem 中にネストされていると、ネストされたリストの ListItem は、単純な a、b、c、ではなく、2a、2b、2c、というように数字付けされます。
+</para>
+<para>Continuation 属性は、値 Continues または Restarts をとります。値が Continues の場合、OrderedList の数字付けは、直接続く OrderedList の数字付けを続けるという指定になります。値が Restarts（デフォルト）の場合、OrderedList の数字付けを最初から開始するという指定になります。Continuation 属性の指定は、OrderedList が直前の数字付けを続行する場合のみ必要です。
+</para>
+<sect3 id="HRDC.Ref.div.8b">
+<title>シンタクスの例</title>
+<para>次にマークアップの例を示します。</para>
+<programlisting>&lt;OrderedList>
+        &lt;ListItem>
+                &lt;para>Creating a Mail Message&lt;/para>
+        &lt;/ListItem>
+        &lt;ListItem>
+                &lt;para>Sending a Message&lt;/para>
+        &lt;/ListItem>
+        &lt;ListItem>
+                &lt;para>Reading Your Mail&lt;/para>
+                        &lt;/ListItem>
+&lt;/OrderedList></programlisting>
+<para>このマークアップは、次のリストを出力します。</para>
+<orderedlist><listitem><para>Creating a Mail Message</para>
+</listitem><listitem><para>Sending a Message</para>
+</listitem><listitem><para>Reading Your Mail</para>
+</listitem></orderedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.8c" role="Procedure">
+<title id="HRDC.WrTop.mkr.4c">SegmentedListを入力するには</title>
+<para>SegmentedList は、ラベル付けされた情報の列挙をマークするときに使用します。
+</para>
+<para>SegmentedList には、オプションで Title および TitleAbbrev を指定できます。その後に複数（いくつあってもかまいません）の SegTitle、および、ひとつまたは複数の SegListItems が続きます。各 SegListItem は、それが属す SegmentedList 中に SegTitle があるように、同じ Seg を持ちます。
+</para>
+<sect3 id="HRDC.Ref.div.8d">
+<title>シンタクスの例</title>
+<para>次に示すのは、SegmentedList のマークアップの例です。</para>
+<programlisting>&lt;SegmentedList>
+        &lt;SegTitle>Nation&lt;/SegTitle>
+        &lt;SegTitle>Ethnic Groups&lt;/SegTitle>
+        &lt;SegTitle>Languages&lt;/SegTitle>
+        &lt;SegListItem>
+                &lt;Seg>Japan&lt;/Seg>
+                &lt;Seg>Japanese, Koreans, Ainu&lt;/Seg>
+                &lt;Seg>Japanese&lt;/Seg>
+        &lt;/SegListItem>
+        &lt;SegListItem>
+                &lt;Seg>Spain&lt;/Seg>
+                &lt;Seg>Spanish, Basques&lt;/Seg>
+                &lt;Seg>Castillian, Catalan, Basque&lt;/Seg>
+        &lt;/SegListItem>
+        &lt;SegListItem>
+                &lt;Seg>Belgium&lt;/Seg>
+                &lt;Seg>Flemish, Walloons&lt;&lt;/Seg>
+                &lt;Seg>Dutch, French&lt;/Seg>
+        &lt;/SegListItem>
+&lt;/SegmentedList></programlisting>
+<para>この例は、次のように表示されるリストを出力します。</para>
+<segmentedlist>
+<segtitle>Nation</segtitle>
+<segtitle>Ethnic Groups</segtitle>
+<segtitle>Languages</segtitle>
+<seglistitem>
+<seg>Japan</seg>
+<seg>Japanese, Koreans, Ainu</seg>
+<seg>Japanese</seg></seglistitem>
+<seglistitem>
+<seg>Spain</seg>
+<seg>Spanish, Basques</seg>
+<seg>Castillian, Catalan, Basque</seg></seglistitem>
+<seglistitem>
+<seg>Belgium</seg>
+<seg>Flemish, Walloons</seg>
+<seg>Dutch, French</seg></seglistitem>
+</segmentedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.8e" role="Procedure">
+<title id="HRDC.WrTop.mkr.4e">VariableList を入力するには</title>
+<para>VariableList 要素は、用語とその定義のリストを作成するときに使用します。
+</para>
+<para>VariableList には、オプションの Title および TitleAbbrev を指定することができます。この後に必須である VarListEntry がひとつまたは複数個続きます。
+</para>
+<para>VarListEntry は、VariableList の必須のコンポーネントです。VarListEntry は、定義される用語をマークする Term 要素、用語の定義を記述する ListTerm 要素を含みます。
+</para>
+<sect3 id="HRDC.WrTop.div.8f">
+<title>例</title>
+<para>次に示すのは、VariableList のマークアップのシンタクスです。</para>
+<programlisting>&lt;VariableList>
+        &lt;varlistentry>
+                &lt;term>first term&lt;/term>
+                &lt;listitem>&lt;para>definition of first term &lt;/para>&lt;listitem>
+        &lt;/varlistentry>
+        &lt;varlistentry>
+                &lt;term>second term&lt;/term>
+                &lt;listitem>&lt;para>definition of second term &lt;/para>&lt;listitem>
+        &lt;/varlistentry>
+        ...
+&lt;/VariableList></programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.17" role="Procedure">
+<title id="HRDC.WrTop.mkr.6">コンピュータ・リストを表示するには</title>
+<para>挿入された空白や改行を変更せずに、プログラムのソース・コードの１部分を表示するには、ProgramListing 要素を使用します。ProgramListing の内部では、改行や先頭の空白が、そのまま残されます。
+</para>
+<para>ProgramListing には、LineAnnotation を含むインライン要素を指定することができます。LineAnnotation は、ドキュメント設計者によるコード上のコメントであり、コードの作成者によるコードそれ自身に記述されたコメントではありません。
+</para>
+<para>ProgramListing は、Example 要素内部に埋め込むことが可能です。Example は、通常必須の Title と ProgramListing を含みます。
+</para>
+<para>ProgramListing には、内容に最大幅を示す数値をとる Width 属性を指定することができます。
+</para>
+<para>改行は、ソース・ファイル中で入力された位置に現われます。ヘルプ・ウィンドウに対して、プログラム例の幅が大き過ぎる場合は、すべてのプログラム例のテキストをみることができるように、水平方向のスクロール・バーが現われます。
+</para>
+<warning>
+<para>ProgramListing の内部に、DocBook のマークアップ・タグとして解釈される文字シーケンスを含めてはいけません。この問題を回避するには、マークアップ・タグの名前を開始するときに、"&lt;" ではなく、"&amp;lt;" を使用します。
+</para>
+</warning>
+<sect3 id="HRDC.WrTop.div.18">
+<title>例</title>
+<para>次に示す例では、ProgramListing 要素のマークアップが、端末ウィンドウのディレクトリ・リストを表示するために使用されています。
+</para>
+<programlisting>&lt;programlisting>In this tutorial, you will edit these graphics files:
+H_ActionIcons.xwd     H_HelpWindows.xwd
+H_AppHelp.xwd         H_Hyperlinks.xwd
+H_Canonical.xwd       H_Icons.xwd
+H_FrontPanel.xwd      H_InlineGraphic.xwd
+&lt;/programlisting></programlisting>
+<para>このマークアップは、次の内容を出力します。</para>
+<programlisting>In this tutorial, you will edit these graphics files:
+H_ActionIcons.xwd     H_HelpWindows.xwd
+H_AppHelp.xwd         H_Hyperlinks.xwd
+H_Canonical.xwd       H_Icons.xwd
+H_FrontPanel.xwd      H_InlineGraphic.xwd</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.20" role="Procedure">
+<title id="HRDC.WrTop.mkr.7">注、注意、警告を追加するには</title>
+<para>Note、Caution、および Warning 要素は次のように指定します。</para>
+<programlisting>&lt;note>
+<symbol>Body of note here.</symbol>
+&lt;/note>
+
+&lt;caution>
+<symbol role="Variable">Body of caution here</symbol>
+&lt;/caution>
+
+&lt;warning>
+<symbol role="Variable">Body of warning here.</symbol>
+&lt;/warning></programlisting>
+<para>Note、Caution、および Warning 要素に関連するアイコンは、ユーザの <filename>.sdl</filename> に相対的な次に示すグラフィック・ファイルが参照されます。
+</para>
+<para><filename>graphics/noteicon.pm</filename></para>
+<para><filename>graphics/cauticon.pm</filename></para>
+<para><filename>graphics/warnicon.pm</filename></para>
+<para>デフォルトのアイコンは、<filename>/usr/dt/appconfig/help/C/graphics</filename> にあります。ユーザ独自のアイコンを作成するには、配置される領域に収まるように、それらを小さいものにするようにしてください。
+</para>
+<sect3 id="HRDC.WrTop.div.21">
+<title>例</title>
+<para>次に示す注、注意、および警告のマークアップは、<!--Original XRef content: 'Figure&numsp;3&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="HRDC.WrTop.mkr.8">に示される内容を出力します。</para>
+<programlisting>&lt;note>
+Before installing your application, complete the options checklist to determine the amount of disk space required.
+&lt;/note>
+
+&lt;warning>
+This product is highly acidic and can cause skin irritation. Wearing protective gloves is mandatory when applying this product.
+&lt;/warning>
+
+&lt;caution>
+Do not place your fingers near the parrot cage!
+&lt;/caution>
+
+</programlisting>
+<figure>
+<title id="HRDC.WrTop.mkr.8">注、警告、および注意のヘルプ・アイコン</title>
+<graphic id="HRDC.WrTop.grph.1" entityref="HRDC.WrTop.fig.7"></graphic>
+</figure>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.23">
+<title id="HRDC.WrTop.mkr.9">インライン要素の入力</title>
+<para>インライン要素は、テキストのパラグラフ中の単語や語句をマークするときに使用します。これらの要素は、特定の用語の表示に使用されるフォントに影響します。
+</para>
+<sect2 id="HRDC.WrTop.div.24" role="Procedure">
+<title id="HRDC.WrTop.mkr.10">単語や語句を強調表示するには</title>
+<para>次のように Emphasis 要素を使用します。</para>
+<programlisting>&lt;emphasis><symbol role="Variable">text</symbol> &lt;/emphasis>
+</programlisting>
+<sect3 id="HRDC.WrTop.div.25">
+<title>例</title>
+<para>重要な語を強調表示するには、次のようにします。</para>
+<programlisting>A thousand times &lt;emphasis>no&lt;/emphasis></programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.26" role="Procedure">
+<title id="HRDC.WrTop.mkr.11">本のタイトルを入力するには</title>
+<para>CiteTitle 要素を次のように使用します。</para>
+<programlisting>&lt;CiteTitle> <symbol>title of a Book</symbol>&lt;/CiteTitle>
+</programlisting>
+<sect3 id="HRDC.WrTop.div.27">
+<title>例</title>
+<para>このガイドのタイトルを入力するには、次のようにします。</para>
+<programlisting>&lt;CiteTitle>共通デスクトップ環境 ヘルプ・システム設計者およびプログラマのためのガイド&lt;CiteTitle>
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.26a" role="Procedure">
+<title id="HRDC.WrTop.mkr.11a">本のタイトル、章、および節をマークするには</title>
+<para>次のように Title 要素を使用します。</para>
+<programlisting>&lt;Title> <symbol>title of the Book, Chapter, or Section</symbol>&lt;/Title></programlisting>
+<sect3 id="HRDC.WrTop.div.27a">
+<title>例</title>
+<para>この節のタイトルを入力するには、次のようにします。</para>
+<programlisting>&lt;Title>本のタイトル、章、および節をマークするには&lt;/Title>
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.29" role="Procedure">
+<title id="HRDC.WrTop.mkr.12">コンピュータ・リテラルを表示するには</title>
+<para>コンピュータによってユーザに示されるデータを表示するには、次のように ComputerOutput 要素を使用します。
+</para>
+<programlisting>&lt;computeroutput> <symbol>text</symbol>&lt;/computeroutput>
+</programlisting>
+</sect2>
+<sect2 id="HRDC.WrTop.div.29a" role="Procedure">
+<title id="HRDC.WrTop.mkr.12a">ファイル名を表示するには</title>
+<para>コンピュータ・ファイルの名前を表示するには、次に示すように、Filename 要素を使用します。
+</para>
+<programlisting>&lt;filename><symbol>some filename</symbol>&lt;/filename>
+</programlisting>
+<sect3 id="HRDC.WrTop.div.30a">
+<title>例</title>
+<para>マークアップの例を示します。</para>
+<programlisting>Add the entity to your &lt;filename>Volume.sgm&lt;/filename> file.
+</programlisting>
+<para>この例は、次にような表示になります。</para>
+<para>Add the entityto your <filename>Volume.sgm</filename> file.</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.31" role="Procedure">
+<title id="HRDC.WrTop.mkr.13">変数を表示するには</title>
+<para>変数を表示するには、次に示すように、Symbol 要素を使用します。</para>
+<programlisting>&lt;symbol Role="Variable"> <symbol>text</symbol>&lt;/symbol>
+</programlisting>
+<sect3 id="HRDC.WrTop.div.32">
+<title>例</title>
+<para>このコマンド行のシンタクスは、ユーザがファイル名を入力することを示すために変数を使用しています。
+</para>
+<programlisting>dtpad &lt;symbol Role="Variable">filename&lt;/symbol></programlisting>
+<para>これは、次のような表示になります。</para>
+<programlisting>dtpad <symbol>filename</symbol></programlisting>
+<para>Symbolは、ComputerOutputやProgramListing中で使用することができます。</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.33">
+<title id="HRDC.WrTop.mkr.14">ハイパーリンクの作成</title>
+<para>ハイパーリンクは、ヘルプ・ボリュームの特定のトピックまたは位置を参照します。このためには、参照したい要素に固有のIDが指定されていなければなりません。
+</para>
+<para>共通の属性をもつすべての DocBook 要素は、IDを割り当てることができます。これらの要素には、Chapter、Sect、Title、List、Graphic、および Table があります。
+</para>
+<para>ハイパーリンクを作成するには、４つの DocBook 要素を使用します。Link、Anchor、OLink、および XRef です。</para>
+<itemizedlist><listitem><para>Link は、ハイパーテキスト・リンクをマークします。Link には、インライン要素を含めることができ、Linkend および Type 属性をもつことができます。
+</para>
+<para>Linkend 属性は、必須です。これに、Link がリンクされる要素のIDを与えることによってリンク先を指定します。
+</para>
+<para>Link は、そのIDによって要素を指すことで、SGML のメカニズム IDREF を使用します。Linkend 属性に指定されたIDが処理中のドキュメント・セット中にみつからない場合は、SGML のアプリケーションが、IDREF エラーを出力します。
+</para>
+<para>Link は、Type 属性の値として、Jump、JumpNewView、AppDefined、および Man をとります。
+</para>
+<para>Jump リンクは、もっとも共通のタイプのハイパーリンクです。ユーザが Jump リンクを選択すると、置き換えられたトピックが表示されます。
+</para>
+<para>JumpNewView リンクはボリューム相互の参照のときに使用します。ユーザが JumpNewView リンクを選択すると、情報を含む新規のダイアログが表示されます。
+</para>
+<para>AppDefined リンクは、アプリケーションの機能を起動するときに使用します。この機能を起動するには、ヘルプが、アプリケーションによって作成されたダイアログ中に表示されていなければなりません。
+</para>
+<para>Man リンクは、選択されると、システムのコマンドの簡潔なオンラインによる説明である「マニュアル・ページ」を表示します。「マニュアル・ページ」の情報は、DocBook のシステムを通じては提供されません。
+</para>
+</listitem><listitem><para>Anchor は、リンク先をマークします。Anchor は、ほとんどすべての場所に現われるインライン要素です。Anchor は、内容のない空の要素です。（もちろん、IDをもつすべての要素が、リンク先となることができます。）
+</para>
+<para>Anchor には、必須のID属性があります。最低限、Anchor の開始タグは、IDをともなわなければなりません。
+</para>
+</listitem><listitem><para>Olink は、そのターゲットを検索するために、ある操作を実行します。
+</para>
+<para>OLink は、すでにユーザによって指定されたテキスト・エンティティまたはデータ・エンティティの名前を値とする TargetDocEnt 属性をもちます。
+</para>
+<para>OLink は、IDによって（便宜的に BookInfo または DocInfo に位置付けられる）ModeSpec を指す LinkMode 属性をもちます。これは、TargetDocEnt 属性によって名付けられたエンティティを操作するための命令を含みます。たとえば、TargetDocEnt は、別のブックであることができ、LinkMode 属性は、特定の語句を検索するすべての第２レベルのヘッディングを呼び出す ModeSpec を指定します。
+</para>
+</listitem><listitem><para>XRef は、ドキュメントの別の部分 (Part) への相互参照をマークします。
+</para>
+<para>Link のように、XRefはLinkend 属性をもちますが、Anchor のように内容をもたないことができます。
+</para>
+<para>Linkend 属性によって指定される要素の Title は、相互参照のテキストとして使用されます。
+</para>
+</listitem></itemizedlist>
+<sect2>
+<title>例</title>
+<para>次に示す Link の例は、ホットスポットのラベルを明示的に示します。</para>
+<programlisting>To go there,&lt;Link Linkend="H1-122-ch10-1> click here.&lt;/Link>
+</programlisting>
+<para>このリンクは、セクションを指し、ホットスポットとしてそのタイトルを表示します。
+</para>
+<programlisting>Click to go to &lt;Link Linkend="S1-123-ch12-1"         Endterm="T1-123-ch12-1">&lt;/Link>
+</programlisting>
+<para>次の例は、ID "ch05-s1" をもつドキュメントのセクションを参照し、そのタイトルを表示します。
+</para>
+<programlisting>See &lt;Xref Linkend="ch05-s1"> for more information.</programlisting>
+<para>これは、"See <citetitle>Terminal Emulation and Terminal Type</citetitle> for more information."のように表示されます。</para>
+<para>この文章には、Anchor <symbol>&lt;anchor id=&ldquo;077-ch02-AN-7&rdquo;></symbol> があります。</para>
+</sect2>
+<sect2 id="HRDC.WrTop.div.44" role="Procedure">
+<title id="HRDC.WrTop.mkr.16">定義リンクを作成するには</title>
+<para>用語集にある用語へリンクする場合は、GlossTerm 要素を、次のように使用します。
+</para>
+<programlisting>&lt;GlossTerm><symbol>text</symbol>&lt;/GlossTerm></programlisting>
+<para>テキスト中で GlossTerm 要素を使用するときは、必ず、その用語の定義を与える GlossEntry を取り込むようにしてください。
+</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.64">
+<title id="HRDC.WrTop.mkr.23">グラフィックの表示</title>
+<para>ヘルプは４つのグラフィック・フォーマットをサポートします。
+</para>
+<itemizedlist><listitem><para><emphasis>Tagged Image File Format (TIFF)</emphasis>多くの標準的な描画およびスキャン・アプリケーションによって作成される色、グレースケール、および白黒のイメージです。
+(<symbol role="Variable">filename</symbol><filename>.tif</filename>)
+</para>
+</listitem><listitem><para><emphasis>Ｘウィンドウ・ダンプ</emphasis><command>xwd</command> ユーティリティによって作成される X Window System&trade; のスクリーン・ダンプです。
+(<symbol role="Variable">filename</symbol><filename>.xwd</filename>)
+</para>
+</listitem><listitem><para><emphasis>Ｘピックスマップ</emphasis>カラーのアイコン・イメージです。
+(<symbol role="Variable">filename</symbol><filename>.pm</filename>)
+</para>
+</listitem><listitem><para><emphasis>Ｘビットマップ</emphasis>２色のアイコン・イメージです。
+(<symbol role="Variable">filename</symbol><filename>.bm</filename>)
+</para>
+</listitem></itemizedlist>
+<para>各グラフィックは、分離されたファイルとして保守されます。ファイル形式は、上記のファイル名拡張子によって決定されます。
+</para>
+<para>Graphic 要素は、その属性を通じて、グラフィック・データを含む外部ファイルを指します。
+</para>
+<para>Graphic は、Figure 内部に含めることができます。Figure には、Title がなければならず、Link を含むことができます。
+</para>
+<para>Graphic は、線ではなく、オブジェクトとして描画されるべきです。インライン・オブジェクトについては、InlineGraphic 要素を使用します。
+</para>
+<para>Graphic は、Fileref、Entityref、およびID属性をもちます。</para>
+<para>Fileref 属性の値は、必要ならばパス名を付加したファイル名でなければなりません。
+</para>
+<para>Entityref 属性の値は、外部データ・エンティティでなければなりません。
+</para>
+<sect2 id="HRDC.Ref.div.">
+<title>シンタクス</title>
+<para>次に示すのは、Graphic のシンタックスの例です。</para>
+<programlisting>&lt;graphic id="ABUG.edprp.igrph.1"     entityref="ABUG.edprp.fig.1">&lt;/graphic>
+&lt;graphic id="ABUG.crobj.igrph.2"     entityref="ABUG.crobj.fig.2">&lt;/graphic>
+&lt;graphic id="ABUG.crobj.igrph.1"     entityref="ABUG.crobj.fig.1">&lt;/graphic>
+</programlisting>
+</sect2>
+<sect2 id="HRDC.WrTop.div.65" role="Procedure">
+<title id="HRDC.WrTop.mkr.24">図を作成するには</title>
+<orderedlist><listitem><para>Figure に含まれる Graphic 中に取り込むイメージ・ファイルを識別するために、ファイル・エンティティを宣言します。
+</para>
+<programlisting>&lt;!entity <symbol role="Variable">graphic-entity</symbol> SYSTEM &ldquo;<symbol role="Variable">filename.ext</symbol>&rdquo;></programlisting>
+</listitem><listitem><para>Use the Graphic element as shown:</para>
+<programlisting>&lt;Graphic id="<symbol>id</symbol>"> entityref=" <symbol>graphic-entity</symbol>"&lt;Graphic></programlisting>
+<para><symbol role="Variable">graphic-entity</symbol> は、表示するグラフィック・ファイルのエンティティ名です。
+</para>
+</listitem></orderedlist>
+<para>Figure をハイパーリンクにする場合には、Graphic の代わりに InlineGraphic を使用し、Link 要素内にそれを指定します。
+</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.73">
+<title id="HRDC.WrTop.mkr.27">特殊文字の表示</title>
+<para>DocBook では、多くの特殊文字と記号を使用できます。適切なエンティティの参照を入力することで、特定の文字を表示できます。
+</para>
+<para>使用できる文字の完全なリストについては、<!--Original XRef content: 'Chapter&numsp;6, &ldquo;Summary of Special Character Entities'--><xref role="ChapNumAndTitle" linkend="HRDC.ChEnt.mkr.1">を参照してください。
+</para>
+<sect2 id="HRDC.WrTop.div.74" role="Procedure">
+<title id="HRDC.WrTop.mkr.28">特殊文字を取り込むには</title>
+<orderedlist><listitem><para>表示する文字のエンティティ名を決定するには、<!--Original XRef content: 'Chapter&numsp;6, &ldquo;Summary of Special Character Entities'--><xref role="ChapNumAndTitle" linkend="HRDC.ChEnt.mkr.1">を参照してくださいい。
+</para>
+</listitem><listitem><para>どの ISO エンティティ・ファイルが特殊文字を含むかを決定し、ユーザの他のエンティティ宣言中に、次の２行を追加します。(ここで <symbol>entity-name</symbol> はユーザにとって意味がある名前です。):</para>
+<programlisting>&lt;!entity &amp; <symbol role="Variable">ISOset</symbol> PUBLIC "<symbol role="Variable">ISOsetpublicID</symbol>">
+% ISOset;
+
+</programlisting>
+</listitem><listitem><para>特殊文字を表示する場合は、必ずそのエンティティ参照を入力するようにしてください。
+</para>
+<programlisting>&amp;<symbol role="Variable">entity-name</symbol>;</programlisting>
+</listitem></orderedlist>
+<sect3 id="HRDC.WrTop.div.75">
+<title>例</title>
+<para>著作権の記号 (&copy;) のエンティティは、ISO numeric set に含まれるので、まず ISO numeric set を（他のエンティティ宣言とともにヘルプ・ボリュームのトップに）、次に示すように取り込まなければなりません。
+</para>
+<programlisting>&lt;!ENTITY % ISOnumeric PUBLIC "ISO 8879-1986//ENTITIES Numeric and Special Graphic//EN">
+%ISOnumeric;</programlisting>
+<para>このようにすれば、著作権の記号が現われる場所で、次に示すエンティティ参照を指定することができます。
+</para>
+<programlisting>&amp;copy;</programlisting>
+<para>大文字のギリシャ文字のシグマ (&sum;) を表示するには、まず ISO Greek エンティティを（他のエンティティ宣言とともにヘルプ・ボリュームのトップに）、次に示すように取り込まなければなりません。
+</para>
+<programlisting>&lt;!ENTITY % ISOgreek PUBLIC "ISO 8879-1986//ENTITIES Greek Symbols//EN">
+%ISOgreek;</programlisting>
+<para>このようにすれば、シグマ文字が現われる場所で、次に示すエンティティ参照を指定することができます。
+</para>
+<programlisting>&amp;Sigma;</programlisting>
+<para>すべてのエンティティと同じように、特殊文字のエンティティ名についても、大文字と小文字の区別はありません。
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.77">
+<title id="HRDC.WrTop.mkr.29">作成者のコメントの取り込み</title>
+<para>ソース・ファイルの中に、ヘルプ・テキストの一部にはならないコメントを入れておくと、とても便利です。コメント要素でマークされたテキストは、DocBook ソフトウェアには、常に無視されます。コメントは、自分自身や他の設計者への注意書きを付けたり、あるマークアップをファイルから取り出さずに除外するのに使用できます。
+</para>
+<para>Comment は、ドキュメント中のほとんどあらゆる場所に現われ、パラグラフや他のブロック指向の要素を含むことができますが、Comment を別の Comment の内部にネストすることはできません。
+</para>
+<sect2 id="HRDC.Ref.div.3">
+<title>シンタクス</title>
+<programlisting>&lt;comment>
+        <symbol role="Variable">comment text here</symbol>
+&lt;/comment></programlisting>
+</sect2>
+<sect2 id="HRDC.WrTop.div.78" role="Procedure">
+<title id="HRDC.WrTop.mkr.30">コメントを挿入するには</title>
+<para>コメントの開始マーカ &lt;Comment> と終了マーカ &lt;/Comment> を、次のように使用します。
+</para>
+<programlisting>&lt;comment>
+        <symbol role="Variable">comment text here</symbol>
+&lt;/comment></programlisting>
+<sect3 id="HRDC.WrTop.div.79">
+<title>例</title>
+<para>次の例には、２つのコメントがあります。ひとつは段落の前の行で、もうひとつはパラグラフ中の語です。
+</para>
+<programlisting>&lt;Comment>Here is my rough draft of the introduction: &lt;/Comment>
+
+Welcome to my application. This software
+is &lt;Comment>perhaps&lt;/Comment>the fastest and most
+efficient software you'll ever own.
+
+</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.82">
+<title id="HRDC.WrTop.mkr.32">索引の作成</title>
+<para>ヘルプ・ボリュームの索引は、書籍の索引と類似しています。設計者にとって、トピッックの索引エントリを作成することは大切です。それによって、ユーザがキーワードや概念で検索することができます。詳細な索引が作成されていると、ユーザはすばやく正確にトピックをみつけることができます。
+</para>
+<para>DocBook マークアップでは、IndexTerm が、索引に含めたいヘルプ・ボリューム中の単語や語句のためのタグです。IndexEntry は、IndexTerm への参照をもつ索引中の要素です。したがって、IndexEntry は、IndexTerm の抽出と処理によって構築されます。
+</para>
+<para>IndexTerm は、索引に追加する単語や語句です。IndexTerm は、テキストのほとんどあらゆる場所に現われますが、テキストそれ自身の一部ではありません。すなわち、IndexTerm の内容は、テキストそれ自身の中には表示されません。
+</para>
+<para>IndexTerm は、Primary を含まなければなりません。これは、Secondary の他に、See および、ひとつまたは複数の SeeAlso を含むことができます。さらに、Secondary は、Tertiary の他に、See および、ひとつまたは複数の SeeAlso を含むことができます。
+</para>
+<para>IndexTerm は、Common 属性をもち、SpanEnd および Significance 属性ももちます。
+</para>
+<para>SpanEnd 属性をともなう空の IndexEntry は、それよりも前にある内容をもつ IndexTerm の場所で開始されたテキストの範囲の終了をマークするために使用されます。SpanEnd 属性の値は、それよりも前にある IndexTerm のIDと同一でなければなりません。
+</para>
+<para>Significance 属性は、IndexTerm が一連の語句のもっとも重要な語句であることを示す値 Preferred または Normal（デフォルト）をとります。
+</para>
+<sect2 id="HRDC.WrTop.div.83" role="Procedure">
+<title id="HRDC.WrTop.mkr.33">索引エントリをマークするには</title>
+<para>索引に入れたいトピックにの中で、IndexTerm 要素を次のように使用します。
+</para>
+<programlisting>&lt;para>This text deals with two subjects that should be listed in the index: how to rotate your terminal and how to adjust its height.&lt;/para>
+&lt;IndexTerm>
+        &lt;Primary>rotating your terminal&lt;/Primary>
+&lt;/IndexTerm>
+&lt;IndexTerm>
+        &lt;Primary>terminal
+                &lt;Secondary>rotation of&lt;/Secondary>
+        &lt;/Primary>
+&lt;/IndexTerm>
+&lt;IndexTerm>
+        &lt;Primary>terminal
+                &lt;Secondary>adjustment of&lt;/Secondary>
+                &lt;SeeAlso>troubleshooting&lt;/SeeAlso>
+        &lt;/Primary>
+&lt;/IndexTerm></programlisting>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.85">
+<title id="HRDC.WrTop.mkr.34">用語集の作成</title>
+<para>書籍の用語集のように、重要な用語を定義する用語集を、ヘルプ・ボリュームに入れることができます。用語集は、Glossary 要素でマークされ、ヘルプ・ボリュームの最後のトピックになります。用語集は、&lt;GlossTerm> タグでマークされたすべての用語のための定義を含みます。
+</para>
+<para>Glossary は、次に示すコンポーネントを、次に示す順序で含みます。
+</para>
+<itemizedlist><listitem><para>Title (任意)</para>
+</listitem><listitem><para>TitleAbbrev (任意)</para>
+</listitem><listitem><para>ひとつまたは複数の GlossEntries</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.WrTop.div.87" role="Procedure">
+<title id="HRDC.WrTop.mkr.35">用語集の用語をマークするには</title>
+<para>GlossTerm タグは、用語集に登録されるドキュメントのテキスト中の用語をマークするために使用します。また、GlossTerm 要素は、用語集内の GlossEntry に用語が現われるように、それらの用語を含むためにも使用されます。
+</para>
+<para>GlossTerm 要素とともに入力する各キーワードや語句は、自動的に、用語集の用語の定義へのリンクになります。
+</para>
+</sect2>
+<sect2 id="HRDC.WrTop.div.89" role="Procedure">
+<title id="HRDC.WrTop.mkr.36">用語集の用語を定義するには</title>
+<para>用語は、用語集で、GlossEntry 要素を使用することによって定義します。GlossEntry は、必須の GlossTerm、任意の Acronym、および任意の Abbrev をこの順に含みます。この後、順序には関係なく、GlossSee と GlossDef を、いくつでも続けることができます。
+</para>
+<para>GlossDef は、GlossEntry 中の GlossTerm の定義です。これは、順序に関係なく、Comments、GlossSeeAlso、パラグラフおよび他のブロック指向の要素を含みます。
+</para>
+<para>GlossDef は、Common 属性をもち、Subject 属性ももちます。Subject 属性には、空白のみで区切られたキーワードとして、サブジェクト領域のリストがあります。
+</para>
+<sect3 id="HRDC.WrTop.div.90">
+<title>シンタクス</title>
+<programlisting>&lt;Glossary>
+        ...
+        &lt;GlossEntry>
+                &lt;GlossTerm>
+                        <symbol>term</symbol>
+                &lt;/GlossTerm>
+                &lt;GlossDef>
+                        <symbol>text of definition</symbol>
+                &lt;/GlossDef>
+        &lt;/GlossEntry>
+        ...
+&lt;/Glossary></programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub *0000043237>

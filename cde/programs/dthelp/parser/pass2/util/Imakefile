@@ -1,0 +1,47 @@
+XCOMM $XConsortium: Imakefile /main/3 1995/11/08 11:01:32 rswiston $
+/* Util Imakefile */
+
+INCLUDES = -I.
+
+LIBSRCS =   \
+	allwhite.c inctest.c letter.c triedump.c triepdmp.c \
+	trieplk.c trierset.c upcmp8.c upstrcmp.c wchar.c
+CTXSRCS =   \
+	conutil.c error.c exit.c itoa.c lower.c malloc.c openchk.c \
+	trie.c triecnt.c upper.c whitesp.c
+OTHERSRCS = \
+	context.c emptyfil.c fclndir.c
+SRCS = $(LIBSRCS) $(CTXSRCS) $(OTHERSRCS)
+
+
+LIBOBJS =   \
+	allwhite.o inctest.o letter.o triedump.o triepdmp.o \
+	trieplk.o trierset.o upcmp8.o upstrcmp.o wchar.o
+CTXOBJS =   \
+	conutil.o error.o exit.o itoa.o lower.o malloc.o openchk.o \
+	trie.o triecnt.o upper.o whitesp.o
+OTHEROBJS = \
+	context.o fclndir.o emptyfil.o
+
+LOCAL_LIBRARIES = libutil.a
+
+/* Don't use shared libs for hp */
+#ifdef HPArchitecture
+#if OSMajorVersion > 7
+EXTRA_LOAD_FLAGS = -Wl,-a archive
+#endif
+#endif
+
+all::
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(util,$(LIBOBJS) $(CTXOBJS))
+
+all:: context fclndir
+
+NormalProgramTarget(context,context.o,$(LOCAL_LIBRARIES),$(LOCAL_LIBRARIES),)
+NormalProgramTarget(fclndir,fclndir.o,$(LOCAL_LIBRARIES),$(LOCAL_LIBRARIES),)
+
+DependTarget()
+
+depend:: $(SRCS)

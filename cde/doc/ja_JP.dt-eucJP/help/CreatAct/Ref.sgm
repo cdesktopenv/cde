@@ -1,0 +1,588 @@
+<!-- $XConsortium: Ref.sgm /main/5 1996/12/18 01:35:39 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="Reference">
+<Title>[アクション作成] のリファレンス</Title>
+<Procedure>
+<Title>[アクション作成] の一般情報</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.1">
+<Para> <XRef Linkend="WhatCreateActionDoes"></Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.2">
+<Para> <XRef Linkend="CreateActionFunctionality"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Procedure>
+<Title>[アクション作成] ウィンドウ</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.3">
+<Para> <XRef Linkend="CreateActionMainWindow"></Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.4">
+<Para> <XRef Linkend="AddDatatypeWindow"></Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.5">
+<Para> <XRef Linkend="DatatypeCriteriaWindow"></Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.6">
+<Para> <XRef Linkend="FindIconSetDialog"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Sect1 Id="WhatCreateActionDoes">
+<Title>[アクション作成] によって作成されたファイル</Title>
+<IndexTerm>
+<Primary>アクション作成:作成されたファイル</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>アクション名</Primary>
+</IndexTerm>
+<Para>[アクション作成] の出力は、以下のとおりです。
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.REF.item.7">
+<Para> コマンドを実行するアクションの定義。定義を格納するファイル
+  <ComputerOutput><Symbol Role="Variable">HomeFolder</Symbol>/.dt/types/<Symbol Role="Variable">action_name</Symbol>.dt</ComputerOutput> が作成されます。</Para>
+<Para><IndexTerm>
+<Primary>アクション・アイコン</Primary>
+</IndexTerm>
+</Para></ListItem>
+<ListItem Id="HCRA.REF.item.8">
+<Para> アクションの <GlossTerm>アクション・アイコン</GlossTerm> 。アクション・アイコンは、ユーザのホーム・ディレクトリに置かれます。アイコンをダブルクリックすると、アクション・コマンドが実行されます。
+ オプションで、ドロップ可能なデータ型を指定して、ドロップ領域にアクション・アイコンを作成できます。</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.9">
+<Para> [アクション作成] の拡張機能を使用する場合は、以下も作成します。</Para>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.10">
+<Para> アプリケーションのデータ・ファイルに対する 1 つ以上のデータ型。
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.11">
+<Para> データ型に対する [開く] アクションと [印刷] アクション。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>データ型、および [開く] アクションと [印刷] アクションもファイル
+<ComputerOutput><Symbol Role="Variable">HomeFolder</Symbol>/.dt/types/<Symbol Role="Variable">action_name</Symbol>.dt</ComputerOutput> に書き込まれます。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="CreateActionFunctionality">
+<Title>アクション作成に関する制限事項</Title>
+<Procedure>
+<Title>アクション作成に関する制限事項</Title>
+<IndexTerm>
+<Primary>アクション作成:アクションに関する制限事項</Primary>
+</IndexTerm>
+<Step>
+<Para>以下の場合には、[アクション作成] を使用して、アプリケーションのアクションを作成できません。
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.REF.item.12">
+<Para> コマンド行が、ファイルではないパラメータを要求する場合。
+たとえば、コマンドに対するアクションを書くのに、[アクション作成] は使用できません。</Para>
+<ProgramListing>lp -d<Symbol Role="Variable">device</Symbol> <Symbol Role="Variable">filename</Symbol></ProgramListing>
+<Para>ここで、ユーザはコマンドを実行するたびに、デバイスを入力しなければなりません。
+(これを実行するアクションを手動で作成することができます。)</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.13">
+<Para> アクション名と異なるアクション・アイコン上のラベルをユーザに表示する場合。
+  たとえば、既存のアクションのローカル言語バージョンを提供するのに、[アクション作成] は使用できません。</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.14">
+<Para> アクションに、以下のアクションのようなアクション・データベースの拡張機能が必要な場合。
+</Para>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.15">
+<Para> アクション定義から離れたシステム上にコマンドを発行する場合。
+	</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.16">
+<Para> 他のアクションを起動する場合。
+	</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.17">
+<Para> 別のユーザとして実行する場合(たとえば、スーパーユーザとして)。
+	</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.18">
+<Para> "マップ" 機能の拡張使用を行う場合。
+	</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.19">
+<Para> アクションに指定するファイル引き数の数によって、非常に異なる動作をする場合。
+	</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Procedure>
+<Title>データ型に関する制限事項</Title>
+<IndexTerm>
+<Primary>アクション作成:データ型に関する制限事項</Primary>
+</IndexTerm>
+<Step>
+<Para>以下の場合には、[アクション作成] を使用して、アプリケーションのデータ型を作成できません。
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.REF.item.20">
+<Para> データ型に、[開く] と [印刷] 以外の関連する追加アクションが必要な場合。
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.21">
+<Para> データ型に対する [開く] アクションが、アクションのコマンドではない場合。
+  たとえば、アプリケーションのアプリケーション・グループを表すディレクトリの一意のアイコンを生成するデータ型を作成するのに、[アクション作成] は使用できません。
+</Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="CreateActionMainWindow">
+<Title>[アクション作成] のメイン・ウィンドウ</Title>
+<IndexTerm>
+<Primary>アクション作成:メイン・ウィンドウ</Primary>
+</IndexTerm>
+<Para>使い方については、<XRef Linkend="ToCreateAction"> を参照してください。</Para>
+<Graphic Entityref="CAMainWindow" Id="HCRA.REF.fig.1"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>アクション名</Term>
+<ListItem>
+<Para> アクションの名前を入力してください。名前は大文字と小文字を区別して、スペースを含むことはできません。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アクション・アイコン</Term>
+<ListItem>
+<Para> アクション・アイコンが使用するアイコン・イメージを表示します。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アイコンセット検索</Term>
+<ListItem>
+<Para> [アイコンセット検索] ダイアログ・ボックスを表示します。
+[アイコンセット検索] ダイアログ・ボックスを使用して、別の既存のビットマップまたはピックスマップ・ファイルを選択してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アイコン編集</Term>
+<ListItem>
+<Para> アイコン・エディタを開きます。アイコン・エディタを使用して、新規アイコンを作成するか、既存のアイコンを編集してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アクションが開かれた時のコマンド</Term>
+<ListItem>
+<Para> コマンドを入力してください。ファイル引き数には、書式 <ComputerOutput>$</ComputerOutput><Symbol Role="Variable">n</Symbol> を使用してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アクション・アイコンのヘルプ・テキスト</Term>
+<ListItem>
+<Para> アクション・アイコンのアイテムヘルプのテキストを入力してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ウィンドウタイプ</Term>
+<ListItem>
+<Para> アクションが作成するウィンドウのタイプを選択してください。</Para>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.22">
+<Para> グラフィック: アプリケーションは、独自のウィンドウを表示します。
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.23">
+<Para> 端末エミュレータ (自動的に閉じる): アクションは、アクションの完了時に閉じる端末エミュレータ・ウィンドウを表示します。
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.24">
+<Para> 端末エミュレータ (手動で閉じる): アクションは、ユーザが手動で閉じなければならない
+端末エミュレータ・ウィンドウを表示します。
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.25">
+<Para> 出力なし: アプリケーションには、ウィンドウは必要ありません。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Procedure>
+<Title>拡張機能</Title>
+<Step>
+<Para>拡張機能は、"アクション・アイコンがダブルクリックされた時のコマンド" フィールドにファイル引き数がある場合にのみ使用してください。
+</Para>
+<Graphic Entityref="CAAdvancedMainWIndow" Id="HCRA.REF.fig.2"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>アクションを開く時点でユーザに確認</Term>
+<ListItem>
+<Para> アクション・アイコンがダブルクリックされた時に表示されるファイル・プロンプトを入力してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>このアクションで使用するデータ型</Term>
+<ListItem>
+<Para> このアクションに作成するデータ型のリストです。
+このリストは、読み込み専用です。
+[データ型の追加] ダイアログ・ボックスを使用してデータ型を作成すると、エントリが追加されます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>追加</Term>
+<ListItem>
+<Para> 新規データ型を追加する [データ型の追加] ダイアログ・ボックスを開きます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>削除</Term>
+<ListItem>
+<Para> 選択したデータ型を "このアクションで使用するデータ型" リストから削除します。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>編集</Term>
+<ListItem>
+<Para> "このアクションで使用するデータ型" リスト内の選択したデータ型を編集する場合に選択してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ドロップ可能なデータ型</Term>
+<ListItem>
+<Para> アクション・アイコンが任意の型のデータ・ファイルを受け入れるか、それとも "このアクションで使用するデータ型" リストにあるデータ型のファイルのみを受け入れるかを選択してください。</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="AddDatatypeWindow">
+<Title>[データ型の追加] ダイアログ・ボックス</Title>
+<IndexTerm>
+<Primary>[データ型の追加] ダイアログ・ボックス</Primary>
+</IndexTerm>
+<Para>使い方については、<XRef Linkend="ToCreateDatatype"> を参照してください。</Para>
+<VariableList>
+<VarListEntry>
+<Term>データ型ファミリの名前</Term>
+<ListItem>
+<Para> データ型の名前で、自動的に付けられます。
+テキスト・フィールドを編集できます。
+名前は大文字小文字を区別し、スペースを含むことはできません。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>特性の識別</Term>
+<ListItem>
+<Para> ファイルの入力規準のリストです。
+特性を設定およに変更するには、[編集] を使用してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>編集</Term>
+<ListItem>
+<Para> [特性の識別] ダイアログ・ボックスを表示します。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>データ型アイコンのヘルプ・テキスト</Term>
+<ListItem>
+<Para> このデータ型のファイルのアイテムヘルプのテキストを入力してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>データ型アイコン</Term>
+<ListItem>
+<Para> データ型が使用するアイコン・イメージを表示します。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アイコンセット検索</Term>
+<ListItem>
+<Para> [アイコンセット検索] ダイアログ・ボックスを表示します。
+[アイコンセット検索] ダイアログ・ボックスを使用して、別の既存のビットマップまたはピックスマップ・ファイルを選択してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アイコン編集</Term>
+<ListItem>
+<Para> アイコン・エディタを開きます。アイコン・エディタを使用して、新規アイコンを作成するか、既存のアイコンを編集してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>データ型を開くコマンド</Term>
+<ListItem>
+<Para> ユーザがデータ型をダブルクリックした時に実行されるコマンドを表示します。
+このコマンドは、[アクション・アイコンがダブルクリックされた時のコマンド] フィールドに表示されるコマンドと同じです。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>データ型を印刷するコマンド</Term>
+<ListItem>
+<Para> データ型を印刷するのにアプリケーションが使用するコマンド行を入力してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>了解</Term>
+<ListItem>
+<Para> データ型情報を作成し、データ型を [このアクションで使用するデータ型] リストに追加して、ダイアログ・ボックスを閉じます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>適用</Term>
+<ListItem>
+<Para> データ型情報を作成し、データ型を [このアクションで使用するデータ型] リストに追加します。
+ダイアログ・ボックスは開いたままです。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>取消し</Term>
+<ListItem>
+<Para> データ型を作成しないで、[データ型の追加] ダイアログ・ボックスを閉じます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ヘルプ</Term>
+<ListItem>
+<Para> オンライン・ヘルプを表示します。</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Sect1>
+<Sect1 Id="DatatypeCriteriaWindow">
+<Title>[特性の識別] ダイアログ・ボックス</Title>
+<IndexTerm>
+<Primary>[特性の識別] ダイアログ・ボックス</Primary>
+</IndexTerm>
+<Para>使い方については、<XRef Linkend="ToCreateDatatype"> を参照してください。</Para>
+<Graphic Entityref="CAIdentifyingCharWindow" Id="HCRA.REF.fig.3"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>すべての取込み</Term>
+<ListItem>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.26">
+<Para> ファイル: データ型をファイルにのみ適用する場合に選択してください。
+	</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.27">
+<Para> フォルダ: データ型をフォルダにのみ適用する場合に選択してください。
+	</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ファイル名のパターン</Term>
+<ListItem>
+<Para> チェック・ボックスを選択して、ファイル名のパターンを入力してください。
+以下の特殊文字を使用できます。
+	</Para>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.28">
+<Para> <ComputerOutput>*</ComputerOutput>: 任意の文字列と一致します。
+	</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.29">
+<Para> <ComputerOutput>?</ComputerOutput>: 任意の一文字と一致します。
+	</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アクセス権のパターン</Term>
+<ListItem>
+<Para> チェック・ボックスを選択して、適用するラジオ・ボタンを選択してください。
+アクセス権が問題ではない場合には、[どちらでも可] を選択してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>内容</Term>
+<ListItem>
+<Para> チェック・ボックスを選択して、ファイルが格納するデータを入力してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>型</Term>
+<ListItem>
+<Para> データの型を選択してください。テキスト(ASCII)データには、[ストリング] を使用してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>開始バイト</Term>
+<ListItem>
+<Para> データの検索を開始するファイル内の場所を入力してください。
+ファイルの先頭から開始する場合は、<ComputerOutput>1</ComputerOutput> を使用してください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>了解</Term>
+<ListItem>
+<Para> 特性を [データ型の追加] ダイアログ・ボックスの [特性の識別] に適用し、[特性の識別] ダイアログ・ボックスを閉じます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>取消し</Term>
+<ListItem>
+<Para> 変更内容を保存しないで、ダイアログ・ボックスを閉じます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>消去</Term>
+<ListItem>
+<Para> 設定を消去し、デフォルトに戻します。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ヘルプ</Term>
+<ListItem>
+<Para> オンライン・ヘルプを表示します。</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Sect1>
+<Sect1 Id="FindIconSetDialog">
+<Title>[アイコンセット検索] ダイアログ・ボックス</Title>
+<IndexTerm>
+<Primary>[アイコンセット検索] ダイアログ・ボックス</Primary>
+</IndexTerm>
+<Para>[アイコンセット検索] ダイアログ・ボックスは、アクションまたはデータ型に使用されるアイコン・イメージを指定できます。
+使い方については、<XRef Linkend="ToSpecifyIcon"> を参照してください。</Para>
+<Graphic Entityref="CAFindSetWindow" Id="HCRA.REF.fig.4"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>アイコン・フォルダ</Term>
+<ListItem>
+<Para> アイコン検索パス上のフォルダを表示します。フォルダが格納しているアイコンを参照するには、フォルダをダブルクリックしてください。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アイコン・ファイル</Term>
+<ListItem>
+<Para> そのディレクトリにあるアイコンを表示します。
+アイコン・ファイルをクリックして選択してください。
+アイコン・ファイルの名前は、[アイコン・ファイル名の入力] テキスト・フィールドに表示されています。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>アイコン・ファイル名の入力</Term>
+<ListItem>
+<Para> アイコン・ファイルの <GlossTerm>ベース名</GlossTerm> を入力するテキスト・フィールドです。
+[アイコン・ファイル] リストの項目をクリックすると、フィールドの内容が変わります。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>了解</Term>
+<ListItem>
+<Para> [アイコン・ファイル名の入力] テキスト・フィールドに入力されたアイコンを指定のアイコンにして、[アイコンセット検索] ダイアログ・ボックスを閉じます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>取消し</Term>
+<ListItem>
+<Para> アイコンを変更しないで、ダイアログ・ボックスを閉じます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ヘルプ</Term>
+<ListItem>
+<Para> オンライン・ヘルプを表示します。</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Sect1>
+<Sect1 Id="openDialog">
+<Title>アクション作成の [開く] ダイアログ・ボックス</Title>
+<IndexTerm>
+<Primary>アクション作成:アクション・ファイルを開く</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>アクション:開く</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>アクション:編集</Primary>
+</IndexTerm>
+<VariableList>
+<VarListEntry>
+<Term>パス名またはフォルダ名の入力&sigspace;</Term>
+<ListItem>
+<Para> 現在のフォルダのパス名を識別します。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>フィルタ</Term>
+<ListItem>
+<Para>    アスタリスク (*) は、すべてのファイルを表示します。
+	      ワイルドカード文字を使用して、拡張子と一致するファイルのみを表示できます。
+	      たとえば、*.doc は、.doc という拡張子を持つファイルのみを表示します。
+                 </Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ファイル</Term>
+<ListItem>
+<Para>    現在のフォルダにあるファイルを表示します。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>フォルダ</Term>
+<ListItem>
+<Para>    現在のフォルダにあるフォルダを表示します。</Para>
+<Para>現在のフォルダ、サブフォルダ、または別のフォルダのファイルを開くことができます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ファイル名を入力してください</Term>
+<ListItem>
+<Para>   [ファイル] リストに選択されたファイル名を表示します。
+		 ファイルを開くには、[Return] キーを押すか、[了解] をクリックしてください。
+		 または、開きたいファイルの名前を入力できます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>了解</Term>
+<ListItem>
+<Para>		 [ファイル名を入力してください] フィールドに指定されたファイルを開きます。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>更新</Term>
+<ListItem>
+<Para>		 フィルタ・キーの変更後、または新規フォルダへの変更後に、ファイルの新規リストを表示します。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>取消し</Term>
+<ListItem>
+<Para>	 [開く] 操作を取り消します。</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ヘルプ</Term>
+<ListItem>
+<Para>	 ダイアログ・ボックスのテキスト入力フィールド、選択肢リスト、およびボタンについて説明します。
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Sect1>
+</Chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 16:30:32-->

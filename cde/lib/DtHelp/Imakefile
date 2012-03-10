@@ -1,0 +1,188 @@
+XCOMM $XConsortium: Imakefile /main/25 1996/11/22 11:17:34 drk $
+#define DoNormalLib	NormalLibDtHelp
+#define DoSharedLib	SharedLibDtHelp
+#define DoDebugLib	DebugLibDtHelp
+#define DoProfileLib	ProfileLibDtHelp
+#define LibName		DtHelp
+#define SoRev		SODTHELPREV
+#define IncSubdir	Dt
+#define LargePICTable	YES
+
+#include <Threads.tmpl>
+
+#define IHaveSubdirs
+#define PassCDebugFlags	/**/
+
+SUBDIRS = il jpeg
+DONES = il/DONE jpeg/DONE
+EXTRALIBRARYDEPS = $(DONES)
+
+MakeSubdirs($(SUBDIRS))
+ForceSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+XLATESRC = $(DTSVCSRC)/DtUtil2
+
+#if defined(LSBBitOrder) && LSBBitOrder
+BIT_ORDER_DEFINES = -DLSB_BIT_ORDER
+#endif
+
+INCLUDES = -I. -I./il -I./jpeg
+DEFINES = -DDTLIB -DXK_MISCELLANY $(LOCAL_DEFINES) \
+	  -DCDE_INSTALLATION_TOP='"$(CDE_INSTALLATION_TOP)"' \
+	  -DCDE_CONFIGURATION_TOP='"$(CDE_CONFIGURATION_TOP)"' \
+	  -DCDE_USER_TOP='"$(CDE_USER_TOP)"' \
+	  -DOSMAJORVERSION=OSMajorVersion \
+	  -DOSMINORVERSION=OSMinorVersion \
+	  $(ICONV_INBUF_DEFINE) $(BIT_ORDER_DEFINES)
+
+#ifdef SharedDtHelpReqs
+REQUIREDLIBS = SharedDtHelpReqs
+#endif
+
+HEADERS = \
+        CanvasP.h       CanvasSegP.h    Help.h \
+        HelpDialog.h    HelpDialogP.h   HelpP.h \
+        HelpQuickD.h    HelpQuickDP.h
+
+/* These internal headers will go to the DtI directory */
+I_HEADERS = \
+        Access.h        AccessI.h       AccessP.h \
+        ActionsI.h      CallbacksI.h    CanvasI.h \
+        DisplayAreaI.h  DisplayAreaP.h  FileUtilsI.h \
+        FontAttrI.h     FontI.h         GifUtilsI.h \
+        GraphicsP.h     HelpP.h         HelpTermP.h \
+        HelposI.h       HourGlassI.h    JpegUtilsI.h \
+        LinkMgrP.h      RegionI.h       SetListI.h \
+        XUICreateI.h    XbmUtilsI.h     bufioI.h
+
+LCX_HEADERS = \
+        LocaleXlate.h   XlationSvc.h
+
+SRCS1 = \
+        Actions.c       AsciiSpc.c      Callbacks.c \
+        Destroy.c       Environ_c.c     FileListUtils.c \
+        FileUtils.c     Font.c          Format.c \
+        FormatMan.c     FormatTerm.c    GifUtils.c \
+        GlobSearch.c    Graphics.c      HelpAccess.c \
+        HelpDialog.c    HelpQuickD.c    HelpUtil.c \
+        Helpos.c        History.c       HourGlass.c \
+        HyperText.c     JpegUtils.c     Messages.c \
+        PathArea.c      Print.c         Resize.c \
+        SetList.c       VolSelect.c     XInterface.c \
+        XUICreate.c     XbmUtils.c      version.c
+
+OBJS1 = \
+        Actions.o       AsciiSpc.o      Callbacks.o \
+        Destroy.o       Environ_c.o     FileListUtils.o \
+        FileUtils.o     Font.o          Format.o \
+        FormatMan.o     FormatTerm.o    GifUtils.o \
+        GlobSearch.o    Graphics.o      HelpAccess.o \
+        HelpDialog.o    HelpQuickD.o    HelpUtil.o \
+        Helpos.o        History.o       HourGlass.o \
+        HyperText.o     JpegUtils.o     Messages.o \
+        PathArea.o      Print.o         Resize.o \
+        SetList.o       VolSelect.o     XInterface.o \
+        XUICreate.o     XbmUtils.o      version.o
+
+SRCS2 = \
+        Access.c        AccessCCDF.c    AccessSDL.c \
+        CCDFUtil.c      CleanUp.c       FontAttr.c \
+        FormatCCDF.c    FormatSDL.c     FormatUtil.c \
+        GenUtils.c      Obsolete.c      StringFuncs.c \
+        UtilSDL.c       bufio.c         decompress.c
+
+OBJS2 = \
+        Access.o        AccessCCDF.o    AccessSDL.o \
+        CCDFUtil.o      CleanUp.o       FontAttr.o \
+        FormatCCDF.o    FormatSDL.o     FormatUtil.o \
+        GenUtils.o      Obsolete.o      StringFuncs.o \
+        UtilSDL.o       bufio.o         decompress.o
+
+CVSRCS = \
+        Canvas.c        CanvasOs.c      CvString.c \
+        Layout.c        LayoutUtil.c    LinkMgr.c \
+        Selection.c     VirtFuncs.c
+
+CVOBJS = \
+        Canvas.o        CanvasOs.o      CvString.o \
+        Layout.o        LayoutUtil.o    LinkMgr.o \
+        Selection.o     VirtFuncs.o
+
+LCXSRCS = \
+        HelpXlate.c
+  
+LCXOBJS = \
+        HelpXlate.o
+  
+/* NOTE!!!
+ * All IO_OBJS and JPEG_OBJS .o's are built in the subdirectories.  
+ * Each .o there must have a listing in *OBJS macros below.
+ */
+
+IL_OBJS = \
+        il/ilX.o            il/ilbigray.o       il/ilcodec.o \
+        il/ilcontext.o      il/ilconvert.o      il/ilcrop.o \
+        il/ildata.o         il/ildecompg3.o     il/ildecompg4.o \
+        il/ildecompjpeg.o   il/ildecomplzw.o    il/ildecomppackbits.o \
+        il/ildecompress.o   il/ildither.o       il/ilformat.o \
+        il/ilgraybi.o       il/ilimage.o        il/ilinvert.o \
+        il/iljpgdecode.o    il/iljpgdecodejif.o il/iljpgdedct.o \
+        il/iljpgdehuff.o    il/iljpgutil.o      il/ilmap.o \
+        il/ilobject.o       il/ilpalette.o      il/ilpipe.o \
+        il/ilrwimage.o      il/ilscale.o        il/ilscalesample.o \
+        il/iltiff.o         il/iltiffread.o     il/iltruegray.o \
+        il/ilupsample.o     il/ilutiljpeg.o     il/ilycbcr.o
+
+JPEG_OBJS = \
+        jpeg/jcomapi.o      jpeg/jdmainct.o     jpeg/jidctflt.o \
+        jpeg/jdapimin.o     jpeg/jdmarker.o     jpeg/jidctfst.o \
+        jpeg/jdapistd.o     jpeg/jdmaster.o     jpeg/jidctint.o \
+        jpeg/jdatasrc.o     jpeg/jdmerge.o      jpeg/jidctred.o \
+        jpeg/jdcoefct.o     jpeg/jdphuff.o      jpeg/jmemmgr.o \
+        jpeg/jdcolor.o      jpeg/jdpostct.o     jpeg/jmemnobs.o \
+        jpeg/jddctmgr.o     jpeg/jdsample.o     jpeg/jquant1.o \
+        jpeg/jdhuff.o       jpeg/jdtrans.o      jpeg/jquant2.o \
+        jpeg/jdinput.o      jpeg/jerror.o       jpeg/jutils.o
+
+SRCS = $(SRCS1) $(SRCS2) $(CVSRCS) $(LCXSRCS)
+OBJS = $(OBJS1) $(OBJS2) $(CVOBJS) $(LCXOBJS) $(IL_OBJS) $(JPEG_OBJS)
+
+#include <Library.tmpl>
+
+#ifdef HPArchitecture
+# ifdef __hp9000s300
+/* Build +O1 due to 300 optimizer bug on all architectures */
+SpecialSharedObjectRule(Search.o,/**/,+O1)
+# endif
+# if OSMajorVersion == 10
+/* Workaround compiler bug in hp 10.0 WC.  Should be removed eventually. */
+SpecialLibObjectRule(Canvas.o,,+O1)
+# endif
+#endif
+
+
+LCX_FILES = AIX.lcx CDE.lcx HP-UX.lcx SunOS.lcx
+LCX_DEST = misc/dtlcx
+InstallMultiple($(LCX_FILES),$(LCX_DEST))
+
+BuildIncludes($(I_HEADERS),DtI,..)
+InstallMultipleFlags($(I_HEADERS),$(INCDIR)/DtI,$(INSTINCFLAGS))
+
+/* link LocaleXlate XlationSvc headers. */
+LinkSourceFile(LocaleXlate.h,$(XLATESRC))
+LinkSourceFile(XlationSvc.h,$(XLATESRC))
+
+DependTarget()
+
+clean1: 
+	rm -f $(OBJS1)
+
+clean2: 
+	rm -f $(OBJS2)
+
+cleanlcx: 
+	rm -f $(LCXOBJS)
+
+cleancv: 
+	rm -f $(CVOBJS)

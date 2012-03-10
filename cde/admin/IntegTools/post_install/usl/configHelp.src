@@ -1,0 +1,67 @@
+XCOMM! /bin/ksh
+XCOMM #######
+XCOMM   Product: CDE
+XCOMM   Fileset: CDE-HELP
+XCOMM   customize
+XCOMM   @(#) $XConsortium: configHelp.src /main/5 1996/04/23 19:56:20 drk $
+XCOMM #######
+XCOMM 
+XCOMM  (c) Copyright Hewlett-Packard Company, 1993
+XCOMM 
+XCOMM #######
+#define STAR *
+XCOMM ############################################
+XCOMM #
+XCOMM # HELP_symlinks
+XCOMM #
+XCOMM # create various symlinks 
+XCOMM # 
+XCOMM ############################################
+HELP_symlinks()
+{
+    HELP_LOC="appconfig/help"
+    theLANG="C"
+    DESTDIR=$CDE_CONF_TOP/$HELP_LOC/$theLANG
+    SRCDIR=$CDE_TOP/$HELP_LOC/$theLANG
+    EXT=".sdl"
+
+    [ -d $DESTDIR ] || mkdir -p $DESTDIR
+
+	for j in $CDE_TOP/$HELP_LOC/$theLANG/STAR
+	do
+	    thedir=`basename $j`
+	    if [[ -d $j && -f $j/${thedir}$EXT ]]
+	    then
+		rm -f $DESTDIR/${thedir}$EXT
+		ln -s $j/${thedir}$EXT $DESTDIR/${thedir}$EXT
+	    fi
+	done
+
+	for j in $CDE_TOP/$HELP_LOC/$theLANG/STAR.hf
+	do
+	    thefile=`basename $j`
+	    rm -f $DESTDIR/$thefile
+	    ln -s $CDE_TOP/$HELP_LOC/$theLANG/$thefile $DESTDIR/$thefile
+	done
+}
+
+XCOMM ##########################################################################
+XCOMM 
+XCOMM 				Main Body
+XCOMM 
+XCOMM ##########################################################################
+
+PRODUCT=CDE
+FILESET=CDE-HELP
+retval=0
+CDE_TOP=CDE_INSTALLATION_TOP
+CDE_CONF_TOP=CDE_CONFIGURATION_TOP
+
+XCOMM 
+XCOMM  set up symlinks that point into the $CDE_TOP tree
+XCOMM 
+
+HELP_symlinks
+
+return $retval
+

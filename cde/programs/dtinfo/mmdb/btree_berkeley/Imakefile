@@ -1,0 +1,85 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 15:59:10 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+DEFINES  = -DMEMMOVE
+INCLUDES = -I$(DTMMDBSRC)/btree_berkeley -I$(DTMMDBSRC)
+
+XCOMM Integretion Berkeley ndbm packege (sun.4.1.3 version) to mmdb:  
+XCOMM 9/15/93.  qfc
+XCOMM
+XCOMM cp -r berkeley.db/PORT/sun.4.1.3/{clib,include,sys}/?* .
+XCOMM
+XCOMM change a few "include" lines in db.h, snprintf.h and mmmove.h. 
+XCOMM
+XCOMM Merge Notes:                            9/15/93.  qfc
+XCOMM SRCS1: btree code. from berkeley.db/btree
+XCOMM SRCS2: clib code. from berkeley.db/PORT/sun.4.1.3/clib
+XCOMM SRCS3: mpool code. from berkeley.db/mpool
+XCOMM SRCS4: db code. from berkeley.db/db
+
+LinkSourceFile(bt_close.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_conv.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_debug.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_delete.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_get.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_open.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_overflow.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_page.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_put.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_search.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_seq.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_split.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_stack.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(bt_utils.c,$(DTMMDBSRC)/btree_berkeley)
+
+SRCS1 =	bt_close.c bt_conv.c bt_debug.c bt_delete.c bt_get.c \
+	bt_open.c bt_overflow.c bt_page.c bt_put.c bt_search.c \
+	bt_seq.c bt_split.c bt_stack.c bt_utils.c
+
+#ifndef AIXArchitecture
+LinkSourceFile(memmove.c,$(DTMMDBSRC)/btree_berkeley)
+
+EXTRA_SRCS2 = memmove.c
+#endif
+
+LinkSourceFile(mktemp.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(realloc.c,$(DTMMDBSRC)/btree_berkeley)
+LinkSourceFile(snprintf.c,$(DTMMDBSRC)/btree_berkeley)
+
+SRCS2 = mktemp.c realloc.c snprintf.c
+
+LinkSourceFile(mpool.c,$(DTMMDBSRC)/btree_berkeley)
+
+SRCS3 = mpool.c
+
+LinkSourceFile(db.c,$(DTMMDBSRC)/btree_berkeley)
+
+SRCS4 = db.c
+
+SRCS = $(SRCS1)       $(SRCS2)       $(EXTRA_SRCS2)       $(SRCS3)       $(SRCS4)
+OBJS = $(SRCS1:.c=.o) $(SRCS2:.c=.o) $(EXTRA_SRCS2:.c=.o) $(SRCS3:.c=.o) $(SRCS4:.c=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

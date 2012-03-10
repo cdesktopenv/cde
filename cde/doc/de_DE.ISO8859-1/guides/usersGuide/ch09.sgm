@@ -1,0 +1,758 @@
+<!-- $XConsortium: ch09.sgm /main/9 1996/12/20 20:14:29 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="UG.Print.div.1">
+<title id="UG.Print.mkr.1">Drucken</title>
+<para>Der Benutzer kann auf einfache Weise Dateien drucken, Druckjobs suchen
+oder abbrechen und &uuml;ber das Desktop Informationen zu Druckern und Druckjobs
+erhalten.</para>
+<informaltable id="UG.Print.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Der Standarddrucker201'--><xref
+role="JumpText" linkend="UG.Print.mkr.2"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Drucken
+von Dateien203'--><xref role="JumpText" linkend="UG.Print.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Druckeranwendungen207'--><xref
+role="JumpText" linkend="UG.Print.mkr.8"></para></entry></row></tbody></tgroup>
+</informaltable>
+<sect1 id="UG.Print.div.2">
+<title id="UG.Print.mkr.2">Der Standarddrucker</title>
+<para><indexterm><primary>Standarddrucker</primary><secondary>Definition</secondary>
+</indexterm><indexterm><primary>Drucker</primary><secondary>Definition des
+Standarddruckers</secondary></indexterm>Ein System verf&uuml;gt m&ouml;glicherweise
+&uuml;ber mehr als einen Drucker, der zum Drucken verwendet werden kann. Einer
+der Drucker wird als <emphasis>Standarddrucker</emphasis> festgelegt. Der
+Standarddrucker ist der Drucker, den das Desktop automatisch verwendet, wenn
+ein Dokument zum Drucken &uuml;bergegeben wird, ohne einen bestimmten Drucker
+festzulegen. Wenn das Desktop zum ersten Mal ge&ouml;ffnet wird, wird der
+Standarddrucker im Bedienfeld angezeigt.</para>
+<para>Weitere Informationen zur Anzeige eines anderen Druckers als dem Standarddrucker
+im Bedienfeld sind dem Abschnitt <!--Original XRef content: ''&Auml;ndern
+des Drucker im Bedienfeldes' auf Seite&numsp;214'--><xref role="SecTitleAndPageNum"
+linkend="UG.Print.mkr.9"> zu entnehmen.</para>
+<sect2 id="UG.Print.div.3" role="Procedure">
+<title>Festlegen des Standarddruckers</title>
+<itemizedlist>
+<listitem><para>Um den Namen des Standarddruckers herauszufinden, das Standarddruckerbedienelement
+in der Bedientafel 'Pers&ouml;nliche Drucker' in der Hauptanzeige doppelklicken.
+</para>
+<para>Dadurch wird die Anwendung 'Druckerjobs' gestartet. Der Name, der sich
+unter dem Druckersymbol befindet, ist der Name des Standarddruckers.<indexterm>
+<primary>Standarddrucker</primary><secondary>festlegen</secondary></indexterm><indexterm>
+<primary>Drucker</primary><secondary>Standardeinstellung festlegen</secondary>
+</indexterm></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="UG.Print.div.4" role="Procedure">
+<title id="UG.Print.mkr.3">&Auml;ndern des Standarddruckers</title>
+<para><indexterm><primary>Standarddrucker</primary><secondary>&auml;ndern</secondary></indexterm><indexterm><primary>Drucker</primary><secondary>Standardeinstellung &auml;ndern</secondary></indexterm>Um einen anderen Drucker
+als Standarddrucker festzulegen, mu&szlig; folgenderma&szlig;en vorgegangen
+werden:</para>
+<orderedlist>
+<listitem><para>In das Standa<?Pub Caret>rdverzeichnis wechseln und die Datei <filename>.dtprofile</filename> &ouml;ffnen.</para>
+</listitem>
+<listitem><para>Eine Zeile, die den Wert f&uuml;r die <systemitem>LPDEST</systemitem>-Umgebungsvariable
+festlegt, hinzuf&uuml;gen oder bearbeiten:</para>
+<programlisting remap="CodeIndent1">LPDEST=printer_device; export LPDEST</programlisting>
+<para>Wird <command>csh</command> verwendet, ist die Syntax folgenderma&szlig;en:
+</para>
+<programlisting>setenv LPDEST printer_device</programlisting>
+</listitem>
+</orderedlist>
+<note>
+<para>Diese &Auml;nderung wird nach der n&auml;chsten Abmeldung und der erneuten
+Anmeldung wirksam.</para>
+</note>
+<para>Durch die folgende Zeile w&uuml;rde zum Beispiel der Drucker, dessen
+Ger&auml;tename <filename>laser3d</filename> ist, als Standarddrucker festgelegt
+werden.</para>
+<programlisting>LPDEST=laser3d; export LPDEST</programlisting>
+<para>Wird <command>csh</command> verwendet, ist die Syntax folgenderma&szlig;en:
+</para>
+<programlisting>setenv LPDEST laser3d</programlisting>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.5">
+<title id="UG.Print.mkr.4">Drucken von Dateien</title>
+<para id="UG.Print.mkr.5">Das Desktop kann die unterschiedlichen Dateitypen
+drucken, die in <!--Original XRef content: 'Tabelle&numsp;9&hyphen;1'--><xref
+role="CodeOrFigureOrTable" linkend="UG.Print.mkr.6"> aufgef&uuml;hrt sind.
+</para>
+<table id="UG.Print.tbl.1" frame="Topbot">
+<title id="UG.Print.mkr.6">Datentypen, die gedruckt werden k&ouml;nnen (Ausgangskonfiguration)</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="0.85in">
+<colspec colwidth="2.21in">
+<colspec colwidth="3.04in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Datentyp</para></entry><entry
+align="left" valign="bottom"><para>Datentypanforderung</para></entry><entry
+align="left" valign="bottom"><para>Beschreibung</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Textdatei</para></entry>
+<entry align="left" valign="top"><para>Dateiname endet auf <filename>.txt</filename>.</para></entry>
+<entry align="left" valign="top"><para>Textdateien, die normale (ASCII) Textdaten
+enthalten</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>PostScript</para></entry>
+<entry align="left" valign="top"><para>Dateiname endet entweder auf <filename>.ps</filename>, oder die Inhalte werden als PostScript-Daten erkannt.</para></entry>
+<entry align="left" valign="top"><para>PostScript-Dateien (ben&ouml;tigen
+einen PostScript-Drucker)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>PCL</para></entry>
+<entry align="left" valign="top"><para>Dateiname endet entweder auf <filename>.pcl,</filename>oder die Inhalte werden als PCL-Daten erkannt.</para></entry>
+<entry align="left" valign="top"><para>Printer Control Language-Dateien
+(ben&ouml;tigen einen PCL-Drucker)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Daten</para></entry>
+<entry align="left" valign="top"><para>Enth&auml;lt Textdaten.</para></entry>
+<entry align="left" valign="top"><para>Der Standarddatentyp, der allen Dateien
+zugewiesen wird, die ASCII-Daten enthalten und nicht auf andere Datentypen
+passen</para></entry></row></tbody></tgroup></table>
+<para>Sind auf dem System des Benutzers Anwendungen eingerichtet, die andere
+Dateitypen erstellen, kann der Systemadministrator die entsprechenden Druckertreiber
+hinzuf&uuml;gen.<indexterm><primary>Dateien</primary><secondary>Drucken verschiedener
+Dateitypen</secondary></indexterm><indexterm><primary>Drucken</primary><secondary>verschiedener Dateitypen</secondary></indexterm></para>
+<note>
+<para>Bevor der Versuch unternommen wird, PostScript<superscript>TM</superscript>-
+oder PCL-Dateien zu drucken, sollte sichergestellt werden, da&szlig; der
+Zieldrucker dazu auch in der Lage ist.</para>
+</note>
+<sect2 id="UG.Print.div.6">
+<title>&Uuml;bergeben einer Datei an den Drucker</title>
+<para>Es gibt viele M&ouml;glichkeiten, eine Datei einem Drucker zu &uuml;bergeben:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>&uuml;ber das Bedienfeld</para>
+</listitem>
+<listitem><para>&uuml;ber den Dateimanager</para>
+</listitem>
+<listitem><para>&uuml;ber den Druckmanager</para>
+</listitem>
+<listitem><para>&uuml;ber Anwendungen</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="UG.Print.div.7" role="Procedure">
+<title>Drucken mit Hilfe des Bedienfeldes</title>
+<orderedlist>
+<listitem><para>Eine einzige Datei oder mehrere Dateien aus dem
+Dateimanager auf das Bedienelement 'Drucker' im Bedienfeld oder auf ein Druckersymbol
+in der Bedientafel 'Pers&ouml;nliche Drucker' ziehen.</para>
+<para><indexterm><primary>Drucken</primary><secondary>mit Hilfe des Bedienfeldes</secondary></indexterm>Das System zeigt nun ein Dialogfenster 'Drucken' an,
+in dem die Druckoptionen festgelegt werden k&ouml;nnen. F&uuml;r jede Datei,
+die auf das Druckerbedienelement gezogen wird, wird ein Dialogfenster 'Drucken'
+angezeigt.<indexterm><primary>Bedienfeld</primary><secondary>Drucken mit
+Hilfe des</secondary></indexterm></para>
+<graphic id="ug.print.igrph.1" entityref="UG.Print.fig.1"></graphic>
+<note>
+<para>pscolor wird auf dem System des Benutzers nicht angezeigt. Es wird nur
+als Beispiel eines Druckers angef&uuml;hrt, der dem System hinzugef&uuml;gt
+wurde.</para>
+</note>
+</listitem>
+<listitem><para><emphasis>Wahlweise:</emphasis> Um zus&auml;tzliche
+Druckoptionen festzulegen, k&ouml;nnen die Textfelder im Dialogfenster 'Drucken'
+verwendet werden. (Weitere Informationen sind dem Abschnitt <!--Original XRef
+content: ''Einstellen von Druckoptionen mit Hilfe--><!-- des Dialogfensters
+'Drucken'' auf Seite&numsp;206'--><xref role="SecTitleAndPageNum" linkend="ug.print.mkr.7">
+zu entnehmen.)</para>
+</listitem>
+<listitem><para>'OK' im Dialogfenster 'Drucken' anklicken, um den
+Auftrag zum Drucker zu senden.<indexterm><primary>Bedienfeld</primary><secondary>Drucken mit Hilfe des</secondary></indexterm><indexterm><primary>Drucken</primary><secondary>mit Hilfe des Bedienfeldes</secondary></indexterm></para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.8" role="Procedure">
+<title>Drucken mit Hilfe des Dateimanagers</title>
+<orderedlist>
+<listitem><para>Die Datei im Dateimanager ausw&auml;hlen.<indexterm><primary>Dateimanager</primary><secondary>Drucken mit Hilfe des</secondary></indexterm></para>
+</listitem>
+<listitem><para>'Drucken' aus dem Men&uuml; 'Ausgew&auml;hlt' oder
+dem tempor&auml;r angezeigten Men&uuml; der Datei ausw&auml;hlen.</para>
+<para>Das System zeigt ein Dialogfenster 'Drucken' zur Festlegung verschiedener
+Druckoptionen an.</para>
+</listitem>
+<listitem><para><emphasis>Wahlweise:</emphasis> Die Textfelder
+im Dialogfenster 'Drucken' verwenden, um zus&auml;tzliche Druckoptionen festzulegen.
+(Weitere Informationen sind dem Abschnitt <!--Original XRef content: ''Einstellen
+von Druckoptionen mit Hilfe des Dialogfensters 'Drucken'' auf Seite&numsp;206'--><xref
+role="SecTitleAndPageNum" linkend="UG.Print.mkr.7"> zu entnehmen.)</para>
+</listitem>
+<listitem><para>'OK' im Dialogfenster 'Drucken' anklicken, um den
+Auftrag an den Drucker zu senden.<indexterm><primary>Drucken</primary><secondary>mit Hilfe des Dateimanagers</secondary></indexterm></para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.9" role="Procedure">
+<title>Drucken mit Hilfe des Druckmanagers</title>
+<orderedlist>
+<listitem><para>Den Druckmanager aus der Bedientafel 'Pers&ouml;nliche
+Drucker' heraus starten.<indexterm><primary>Drucken</primary><secondary>mit Hilfe des Druckmanagers</secondary></indexterm></para>
+</listitem>
+<listitem><para>Eine Datei aus dem Dateimanager auf ein Druckersymbol
+im Druckmanager ziehen.<indexterm><primary>Druckmanager</primary><secondary>Drucken mit Hilfe des</secondary></indexterm></para>
+<para>Im Druckmanager kann ein Dokument &uuml;bergeben werden, indem es auf
+ein DruckersymboI oder in den Bereich der Jobliste, rechts von einem Drucker,
+&uuml;bergeben wird.</para>
+<note>
+<para>Wird ein Job an einen inaktiven Drucker &uuml;bergeben (wird durch Markierung
+angezeigt), wird er m&ouml;glicherweise nie gedruckt, obwohl er in der Jobliste
+erscheint.</para>
+</note>
+<para>Das System zeigt ein Dialogfenster 'Drucken' zur Festlegung verschiedener
+Druckoptionen an.</para>
+</listitem>
+<listitem><para><emphasis>Wahlweise</emphasis>: Textfelder im Dialogfenster
+'Drucken' verwenden, um zus&auml;tzliche Druckoptionen festzulegen. (Weitere
+Informationen sind dem Abschnitt <!--Original XRef content: ''Einstellen
+von Druckoptionen mit Hilfe--><!-- des Dialogfensters 'Drucken'' auf
+Seite&numsp;206'--><xref role="SecTitleAndPageNum" linkend="ug.print.mkr.7">
+zu entnehmen.)</para>
+</listitem>
+<listitem><para>'OK' im Dialogfenster 'Drucken' anklicken, um den
+Job zum Drucker zu senden.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.10">
+<title id="UG.Print.mkr.7">Einstellen von Druckoptionen mit Hilfe des Dialogfensters
+'Drucken'</title>
+<para><indexterm><primary>Drucken, Dialogfenster</primary></indexterm>Das
+Desktop zeigt das Dialogfenster 'Drucken' an, wenn Text, PCL-, PostScript-
+oder andere Datendateien gedruckt werden. (Weitere Informationen sind der <!--Original
+XRef content: 'Tabelle&numsp;9&hyphen;1 auf Seite&numsp;203'--><xref role="CodeOrFigOrTabAndPNum"
+linkend="UG.Print.mkr.6"> zu entnehmen.)</para>
+<graphic id="UG.Print.igrph.2" entityref="UG.Print.fig.2"></graphic>
+<para>Werden Anwendungsdatendateien, beispielsweise Dokumente eines Textverarbeitungsprogramms,
+zum Drucken &uuml;bergeben, zeigen sie eventuell ihre eigenen Druckdialogfenster
+an.</para>
+<para><indexterm><primary>Druckoptionen, einstellen</primary></indexterm><indexterm>
+<primary>Drucken</primary><secondary>Optionen einstellen</secondary></indexterm>Das
+Dialogfenster 'Drucken' kann zur Einstellung der folgenden Druckoptionen verwendet
+werden:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.76in">
+<colspec colwidth="4.23in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Drucker</para></entry>
+<entry align="left" valign="top">Das Ziel des Druckjobs. Das Textfeld zeigt
+zu Beginn den Drucker an, an den die Datendatei &uuml;bergeben wurde. Im obigen
+Beispiel wurde das Dokument an den Drucker namens <filename>lj4_n5</filename>
+&uuml;bergeben.</entry></row>
+<row>
+<entry align="left" valign="top"><para>Exemplare</para></entry>
+<entry align="left" valign="top">Die Anzahl der zu druckenden Kopien. Der
+Standardwert ist 1.</entry></row>
+<row>
+<entry align="left" valign="top"><para>Titel des Deckblatts</para></entry>
+<entry align="left" valign="top">Ein Titel, der auf dem Deckblatt erscheint.
+Das Deckblatt ist das Blatt Papier, das der Drucker druckt, bevor er die erste
+Seite des Dokuments druckt.</entry></row>
+<row>
+<entry align="left" valign="top"><para>Seitenzahlen drucken</para></entry>
+<entry align="left" valign="top">Druckt die Seitenzahl auf jeder Seite. Ist
+die Seitennumerierung ausgew&auml;hlt, so ist der Druckmanager nicht in der
+Lage, den richtigen Namen des Dokuments anzuzeigen. Stattdessen wird der Name
+in der Jobliste STDIN:XXXXX erscheinen, wobei XXXXX eine f&uuml;nfstellige
+Zahl ist.</entry></row>
+<row>
+<entry align="left" valign="top"><para>Druckbefehlsoptionen</para></entry>
+<entry align="left" valign="top">Andere Optionen, die die Art des Druckens
+ver&auml;ndern. Mehr Informationen hierzu sind im n&auml;chsten Abschnitt
+zu finden.</entry></row></tbody></tgroup></informaltable>
+<sect3 id="UG.Print.div.11">
+<title>Druckbefehlsoptionen</title>
+<para><indexterm><primary>Drucken</primary><secondary>Druckbefehle eingeben</secondary></indexterm><indexterm><primary>Druckbefehle, eingeben</primary>
+</indexterm><indexterm><primary>Befehle</primary><secondary>zum Drucken eingeben</secondary></indexterm>Das Textfeld 'Druckbefehlsoptionen' im Dialogfenster
+'Drucken' kann dazu verwendet werden, andere Druckoptionen festzulegen. Der
+Benutzer mu&szlig; die richtige <command>lp</command> Befehlsmarkierung f&uuml;r
+die gew&uuml;nschte Druckoption in das Textfeld eingeben. Um eine Liste der <command>lp</command> Befehlsmarkierungen zu sehen, in einem Terminal-Fenster <command>man lp</command> eingeben.</para>
+<para>Beispielsweise ist eine <command>lp</command>-Markierung <command>-m</command>. Durch diese Markierung meldet der Druck-Server, wenn das Dokument
+gedruckt wird. Um diese Markierung zu verwenden, mu&szlig; in das Feld 'Druckbefehlsoptionen'
+des Dialogfensters 'Drucken' <command>-m</command> eingegeben werden. Sobald
+das Dokument gedruckt ist, erscheint eine Meldung des Druckers im elektronischen
+Briefkasten.<indexterm><primary>Drucken, Dialogfenster</primary></indexterm></para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.12">
+<title id="UG.Print.mkr.8">Druckeranwendungen</title>
+<para>Nachdem ein Dokument (Druckjob) zum Drucken &uuml;bergeben wurde, kann
+der Benutzer die Anwendungen 'Druckmanager' oder 'Druckerjobs' dazu verwenden,
+sich &uuml;ber den Fortschritt des Druckens in Kenntnis zu setzen. Druckerjobs
+bietet dem Benutzer Informationen zu Jobs auf einem einzelnen Drucker. Der
+Druckmanager zeigt alle Drucker des Systems an.</para>
+<sect2 id="UG.Print.div.13">
+<title>Druckmanager</title>
+<para><indexterm><primary>Druckmanager</primary><secondary>Fenster</secondary>
+</indexterm>Das Fenster des Druckmanagers ist weiter unten abgebildet. Wie
+es ver&auml;ndert werden kann, ist dem Abschnitt <!--Original XRef content:
+''&Auml;ndern der Druckmanageranzeige' auf Seite&numsp;215'--><xref role="SecTitleAndPageNum"
+linkend="UG.Print.mkr.11"> zu entnehmen.</para>
+<graphic id="UG.Print.igrph.3" entityref="UG.Print.fig.3"></graphic>
+<sect3 id="UG.Print.div.14" role="Procedure">
+<title>Starten des Druckmanagers</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Das Bedienelement 'Druckmanager'
+in der Bedientafel 'Pers&ouml;nliche Drucker' des Bedienfeldes anklicken.<indexterm>
+<primary>Druckmanager</primary><secondary>starten</secondary></indexterm><indexterm>
+<primary>Starten</primary><secondary>des Druckmanagers</secondary></indexterm></para>
+</listitem>
+</itemizedlist>
+<graphic id="UG.Print.igrph.4" entityref="UG.Print.fig.4"></graphic>
+<itemizedlist remap="Bullet1">
+<listitem><para><emphasis>Oder:</emphasis> Das
+Symbol des Druckmanagers in der Gruppe 'Desktop-Anwendungen' im Anwendungsmanager
+doppelt anklicken.<indexterm><primary>Druckmanager</primary><secondary>starten</secondary></indexterm><indexterm><primary>Starten</primary><secondary>des Druckmanagers</secondary></indexterm></para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="UG.Print.div.15">
+<title>Die Anwendung 'Druckerjobs'</title>
+<para>'<indexterm><primary>Druckerjobs</primary></indexterm>Druckerjobs' ist
+die Anwendung, die sichtbar wird, wenn ein einzelner Drucker aus dem Bedienfeld
+heraus ge&ouml;ffnet wird. 'Druckerjobs' ist die vereinfachte Version des
+Druckmanagers und zeigt nur einen einzigen Drucker anstatt aller zum System
+geh&ouml;renden Drucker an. Die Funktionen, die innerhalb von Druckerjobs
+verf&uuml;gbar sind, arbeiten auf die gleiche Weise wie im Druckmanager.</para>
+<graphic id="UG.Print.igrph.5" entityref="UG.Print.fig.5"></graphic>
+<sect3 id="UG.Print.div.16" role="Procedure">
+<title>Starten der Anwendung 'Druckerjobs'</title>
+<itemizedlist>
+<listitem><para>Das Druckerbedienelement im Bedienfeld anklicken.<indexterm>
+<primary>Druckerjobs</primary><secondary>starten</secondary></indexterm><indexterm>
+<primary>Starten</primary><secondary>Druckerjobs</secondary></indexterm></para>
+</listitem>
+</itemizedlist>
+<graphic id="UG.Print.igrph.6" entityref="UG.Print.fig.6"></graphic>
+<para>Der pscolor-Drucker in der Abbildung ist nur das Beispiel eines Druckers,
+der dem System hinzugef&uuml;gt wurde. Er wird nicht in Ihrer Bedientafel
+erscheinen.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.17">
+<title>Anzeigen von Druckjobinformationen</title>
+<para><indexterm><primary>Druckjobs</primary><secondary>Definition</secondary>
+</indexterm>Wird das Druckersymbol ge&ouml;ffnet, werden Informationen &uuml;ber
+die Jobs angezeigt, die noch auf einem Drucker gedruckt werden m&uuml;ssen.
+Ein Anzeigebereich rechts vom Druckersymbol zeigt f&uuml;r jeden Job, der
+noch gedruckt werden mu&szlig;, ein Symbol an sowie die Position des Jobs
+in der Warteschlange, den Jobnamen und Besitzer.</para>
+<sect2 id="UG.Print.div.18" role="Procedure">
+<title>&Ouml;ffnen eines Druckersymbols</title>
+<para>Es gibt drei<indexterm><primary>Druckjobs</primary><secondary>anzeigen</secondary></indexterm><indexterm><primary>Anzeigen</primary><secondary>von Druckjobs</secondary></indexterm> M&ouml;glichkeiten, einen Drucker zu
+&ouml;ffnen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die Taste '&Ouml;ffnen' [+]
+links vom Druckersymbol anklicken.</para>
+</listitem>
+<listitem><para>Einen Drucker ausw&auml;hlen. Dann '&Ouml;ffnen'
+aus dem Men&uuml; 'Ausgew&auml;hlt' oder dem tempor&auml;r eingeblendeten
+Men&uuml; des Druckers (wird durch Dr&uuml;cken der Tastenkombination Umschalttaste+F10
+oder Maustaste 3 angezeigt) ausw&auml;hlen.</para>
+</listitem>
+<listitem><para>Das Druckersymbol doppelt anklicken.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Wenn keine anderen zu druckenden Jobs vorhanden sind, w&auml;hrend der
+Job zum Drucker gesendet wird, erscheint der Job nicht im Fenster des Druckmanagers
+oder des Druckerjobs.</para>
+</note>
+</sect2>
+<sect2 id="UG.Print.div.19" role="Procedure">
+<title>Schlie&szlig;en eines Druckersymbols</title>
+<para><indexterm><primary>Druckjobs</primary><secondary>verdecken</secondary>
+</indexterm><indexterm><primary>Verdecken</primary><secondary>von Druckjobs
+in der Warteschlange</secondary></indexterm>Der Benutzer kann den Drucker
+schlie&szlig;en, falls kein Interesse an der Anzeige der noch zu druckenden
+Jobs besteht.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die Taste 'Schlie&szlig;en'
+[-] links vom Druckersymbol anklicken.</para>
+</listitem>
+<listitem><para>Einen Drucker ausw&auml;hlen, dann 'Schlie&szlig;en'
+aus dem Men&uuml; 'Ausgew&auml;hlt' oder dem tempor&auml;r angezeigten Men&uuml;
+des Druckers (wird durch Dr&uuml;cken der Tastenkombination Umschalttaste+F10
+oder Maustaste 3 angezeigt) ausw&auml;hlen.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="UG.Print.div.20" role="Procedure">
+<title>Suchen eines Druckjobs</title>
+<orderedlist>
+<listitem><para>'Suchen' aus dem Men&uuml; 'Drucker' ausw&auml;hlen.<indexterm>
+<primary>Druckjobs</primary><secondary>suchen</secondary></indexterm><indexterm>
+<primary>Suchen</primary><secondary>Druckjobs</secondary></indexterm></para>
+<para>Die Funktion 'Suchen' ist nur im Druckmanager, nicht jedoch in der Anwendung
+Druckerjobs verf&uuml;gbar.</para>
+</listitem>
+<listitem><para>Den Namen des gedruckten Jobs im Feld 'Jobname'
+eingeben.</para>
+<para>Wird beispielsweise <command>Kat</command> eingegeben, so werden alle
+Jobs, die die Zeichenfolge 'Kat' enthalten, angezeigt, beispielsweise 'Katalysator'
+oder 'Kater', unabh&auml;ngig von Gro&szlig;- und Kleinschreibung.</para>
+<para>Um Jobs zu suchen, die nur den Namen 'Kat' enthalten, 'Exakte &Uuml;bereinstimmung'
+ausw&auml;hlen.</para>
+<para>Um nur Jobs zu suchen, die der 'Gro&szlig;- und Kleinschreibweise' genau
+entsprechen, 'Gro&szlig;-/Kleinschreibung ignorieren' ausw&auml;hlen.</para>
+<note>
+<para>Die Funktion 'Suchen' sucht nur nach Druckjobs, die den Benutzer als
+Eigent&uuml;mer ausweisen. Dabei werden alle Drucker durchsucht, auch diejenigen,
+die nicht gegenw&auml;rtig angezeigt werden.</para>
+</note>
+</listitem>
+<listitem><para>'Suche starten' anklicken.</para>
+</listitem>
+<listitem><para>Wurde ein Job gefunden, so kann auf ihn im Druckmanager
+direkt zugegriffen werden, oder er kann abgebrochen werden. Um auf einen gefundenen
+Job zuzugreifen, den Job ausw&auml;hlen und 'Gehe zu' anklicken. Um einen
+gefundenen Job abzubrechen, diesen Job ausw&auml;hlen und 'Druckjobs abbrechen'
+anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.21" role="Procedure">
+<title>Abbrechen eines Druckjobs</title>
+<orderedlist>
+<listitem><para>Einen Druckjob im Fenster 'Druckmanager' oder
+'Druckjobs' ausw&auml;hlen.<indexterm><primary>Druckjobs</primary><secondary>abbrechen</secondary></indexterm><indexterm><primary>Abbrechen</primary>
+<secondary>von Druckjobs</secondary></indexterm></para>
+</listitem>
+<listitem><para>'Abbrechen' aus dem Men&uuml; 'Ausgew&auml;hlt'
+oder dem tempor&auml;r eingeblendeten Men&uuml; des Druckjobs (wird durch
+Dr&uuml;cken der Tastenkombination Umschalttaste+F10 oder Maustaste 3 angezeigt)
+ausw&auml;hlen.</para>
+</listitem>
+<listitem><para>Im Dialogfenster zur Best&auml;tigung 'Ja' anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.22">
+<title>Druckjobeigenschaften</title>
+<para>Die folgenden Eigenschaften von Druckjobs k&ouml;nnen angezeigt werden:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Jobname</para>
+</listitem>
+<listitem><para>Eigent&uuml;mer des Jobs</para>
+</listitem>
+<listitem><para>Jobnummer</para>
+</listitem>
+<listitem><para>Jobgr&ouml;&szlig;e</para>
+</listitem>
+<listitem><para>Zeitpunkt, an dem der Job &uuml;bergeben wurde</para>
+</listitem>
+<listitem><para>Datum, an dem der Job &uuml;bergeben wurde</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Der Ausdruck 'nicht verf&uuml;gbar' wird in einigen Feldern m&ouml;glicherweise
+angezeigt, um anzudeuten, da&szlig; das Drucksystem diese Informationen nicht
+liefert.</para>
+</note>
+<graphic id="UG.Print.igrph.7" entityref="UG.Print.fig.7"></graphic>
+<sect3 id="UG.Print.div.23" role="Procedure">
+<title>Anzeigen der Druckjobeigenschaften</title>
+<orderedlist>
+<listitem><para>Einen Druckjob ausw&auml;hlen.<indexterm><primary>Druckjobs</primary><secondary>Eigenschaften anzeigen von</secondary></indexterm><indexterm>
+<primary>Anzeigen</primary><secondary>von Druckjobeigenschaften</secondary>
+</indexterm><indexterm><primary>Eigenschaften</primary><secondary>von Druckjobs</secondary></indexterm></para>
+</listitem>
+<listitem><para>'Eigenschaften' aus dem Men&uuml; 'Ausgew&auml;hlt'
+oder dem tempor&auml;r eingeblendeten Men&uuml; des Druckjobs (wird durch
+Dr&uuml;cken der Tastenkombination Umschalttaste+F10 oder Maustaste 3 angezeigt)
+ausw&auml;hlen.</para>
+<para>Die Eigenschaften werden angezeigt.</para>
+</listitem>
+</orderedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.24">
+<title>Drucker und das Bedienfeld</title>
+<para>Der Drucker, der im Bedienfeld angezeigt wird, ist normalerweise der
+Standarddrucker. Es ist jedoch m&ouml;glich, auf einen anderen Drucker zu
+wechseln oder der Bedientafel 'Pers&ouml;nliche Drucker' einen Drucker hinzuzuf&uuml;gen.
+</para>
+<sect2 id="UG.Print.div.25" role="Procedure">
+<title id="UG.Print.mkr.9">&Auml;ndern des Druckers im Bedienfeld</title>
+<note>
+<para>Die Zuordnung des Standarddruckers wird dadurch nicht ver&auml;ndert.
+Informationen zur &Auml;nderung des Standarddruckers sind dem Abschnitt <!--Original
+XRef content: ''&Auml;ndern des Standarddruckers' auf Seite&numsp;202'--><xref
+role="SecTitleAndPageNum" linkend="UG.Print.mkr.3"> zu entnehmen.</para>
+</note>
+<orderedlist>
+<listitem><para>Die Bedientafel 'Pers&ouml;nliche Drucker' &ouml;ffnen
+(indem die Pfeiltaste &uuml;ber dem Druckerbedienelement im Bedienfeld angeklickt
+wird) und &uuml;berpr&uuml;fen, ob das Symbol des Druckers, der ins Bedienfeld
+verschoben werden soll, erscheint.<indexterm><primary>Drucker</primary><secondary>im Bedienfeld &auml;ndern</secondary></indexterm><indexterm><primary>Bedienfeld</primary><secondary>&Auml;ndern des Druckers im</secondary></indexterm></para>
+<para>Befindet sich der Drucker nicht in der Bedientafel 'Pers&ouml;nliche
+Anwendungen', wird er durch die Schritte, die im Abschnitt <!--Original XRef
+content: ''Hinzuf&uuml;gen eines Druckers in die Bedientafel 'Pers&ouml;nliche
+Drucker''--><xref role="SectionTitle" linkend="UG.Print.mkr.10"> beschrieben
+sind, hinzugef&uuml;gt.</para>
+</listitem>
+<listitem><para>In der Bedientafel auf das Druckersymbol zeigen,
+das dem Bedienfeld hinzugef&uuml;gt werden soll, und aus dem tempor&auml;r
+eingeblendeten Men&uuml; des Symbols (wird durch Dr&uuml;cken der Tastenkombination
+Umschalttaste+F10 oder Maustaste 3 angezeigt) 'In Hauptanzeige kopieren' ausw&auml;hlen.
+</para>
+<para>Um zu &uuml;berpr&uuml;fen, ob sich der Drucker ge&auml;ndert hat, das
+Druckerbedienelement im Bedienfeld doppelklicken und den Namen des Symbols,
+das im Fenster Druckerjobs erscheint, &uuml;berpr&uuml;fen.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.26" role="Procedure">
+<title id="UG.Print.mkr.10">Hinzuf&uuml;gen eines Druckers in die Bedientafel
+'Pers&ouml;nliche Drucker'</title>
+<orderedlist>
+<listitem><para>Die Bedientafel 'Pers&ouml;nliche Drucker' &ouml;ffnen
+(indem die Pfeiltaste &uuml;ber dem Druckerbedienelement im Bedienfeld angeklickt
+wird).</para>
+</listitem>
+<listitem><para>Druckmanager starten.</para>
+</listitem>
+<listitem><para>Ein Druckersymbol aus dem Druckmanagerfenster auf
+das Bedienelement 'Symbol installieren' in der offenen Bedientafel ziehen.
+</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.27">
+<title id="UG.Print.mkr.11">&Auml;ndern der Druckmanageranzeige</title>
+<para>Dieser Abschnitt erkl&auml;rt, wie die Anzeigeparameter im Druckmanager
+ge&auml;ndert werden k&ouml;nnen.</para>
+<sect2 id="UG.Print.div.28" role="Procedure">
+<title>&Auml;ndern der Anzeige von Drucker und Druckjobs</title>
+<orderedlist>
+<listitem><para>'Optionen festlegen' aus dem Men&uuml; 'Ansicht'
+ausw&auml;hlen.<indexterm><primary>Drucker</primary><secondary>im Druckmanager
+anzeigen</secondary></indexterm><indexterm><primary>Druckmanager</primary>
+<secondary>Drucker anzeigen im</secondary></indexterm></para>
+</listitem>
+<listitem><para>Die Darstellung der Druckjobs ausw&auml;hlen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>'Gro&szlig;es Symbol' &ndash;
+Zeigt Drucker und Druckjobs als gro&szlig;e Symbole an.</para>
+</listitem>
+<listitem><para>'Kleines Symbol' &ndash; Zeigt Drucker und Druckjobs
+als kleine Symbole an.</para>
+</listitem>
+<listitem><para>'Nur Name' &ndash; Zeigt Drucker und Druckjobs
+nur als Text an.</para>
+</listitem>
+<listitem><para>'Details' &ndash; Zeigt den Eigent&uuml;mer des
+Jobs, Gr&ouml;&szlig;e, Jobnummer und Datum und Zeit der Job&uuml;bergabe
+an.</para>
+</listitem>
+<listitem><para>'Kennungen anzeigen' &ndash; Zeigt eine Beschreibung
+jeder Detailreihe links vom Joblistenbereich an.<indexterm><primary>Druckjobs</primary><secondary>im Druckmanager anzeigen</secondary></indexterm><indexterm>
+<primary>Druckmanager</primary><secondary>Anzeigen von Druckjobs im</secondary>
+</indexterm></para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Der Ausdruck 'nicht verf&uuml;gbar' wird in einigen Feldern m&ouml;glicherweise
+angezeigt, um anzudeuten, da&szlig; das Drucksystem diese Information nicht
+liefert.</para>
+</note>
+</listitem>
+<listitem><para>'OK' anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.29" role="Procedure">
+<title>Ver&auml;ndern der Aktualisierungsfrequenz</title>
+<orderedlist>
+<listitem><para>'Optionen festlegen' aus dem Men&uuml; 'Ansicht'
+ausw&auml;hlen.</para>
+</listitem>
+<listitem><para>Den Intervallsanzeiger einstellen, um festzulegen,
+wie regelm&auml;&szlig;ig Drucker nach Informationen &uuml;ber ihre Druckjobs
+abgefragt werden sollen. Der Standardwert ist alle 30 Sekunden.</para>
+</listitem>
+<listitem><para>'OK' anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.30" role="Procedure">
+<title>Festlegen, welche Jobs angezeigt werden</title>
+<orderedlist>
+<listitem><para>'Optionen festlegen' aus dem Men&uuml; 'Ansicht'
+ausw&auml;hlen.<indexterm><primary>Druckjobs</primary><secondary>Typ in Druckmanageranzeige
+festlegen</secondary></indexterm><indexterm><primary>Druckmanager</primary>
+<secondary>Typ der anzuzeigenden Druckjobs festlegen</secondary></indexterm></para>
+</listitem>
+<listitem><para>Die anzuzeigenden Jobs ausw&auml;hlen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>'Nur meine' &ndash; Zeigt nur
+die eigenen Druckjobs an.</para>
+</listitem>
+<listitem><para>'Von allen' &ndash; Zeigt alle Druckjobs an.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>'OK' anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.31" role="Procedure">
+<title>Anzeigen der Meldungszeile des Druckmanagers</title>
+<orderedlist>
+<listitem><para>'Optionen festlegen' aus dem Men&uuml; 'Ansicht'
+ausw&auml;hlen.</para>
+</listitem>
+<listitem><para>'Meldungszeile' ausw&auml;hlen, um eine Meldungszeile
+unten im Fenster des Druckmanagers anzuzeigen.<indexterm><primary>Druckmanager</primary><secondary>Meldungszeile anzeigen</secondary></indexterm><indexterm>
+<primary>anzeigen</primary><secondary>Meldungszeile im Druckmanager</secondary>
+</indexterm></para>
+<para>Die Meldungszeile zeigt die Anzahl der Drucker des Systems sowie die
+Anzahl der gegenw&auml;rtig verdeckten Drucker an. Sie zeigt ebenfalls an,
+wenn Druckeraktualisierungen vorgenommen werden.</para>
+</listitem>
+<listitem><para>'OK' anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.32" role="Procedure">
+<title>Anzeigen der Problem-Flagge des Druckmanagers</title>
+<orderedlist>
+<listitem><para>'Optionen festlegen' aus dem Men&uuml; 'Ansicht'
+ausw&auml;hlen.<indexterm><primary>Druckmanager</primary><secondary>Problem-Flagge</secondary></indexterm><indexterm><primary>anzeigen</primary><secondary>Problem-Flagge des Druckmanagers</secondary></indexterm></para>
+</listitem>
+<listitem><para>'Problem-Flagge' ausw&auml;hlen, um das n&auml;chste
+Mal, wenn bei einem der Drucker ein Problem auftritt, ein Markierungssymbol
+anzuzeigen.</para>
+<para>Der Benutzer kann dieses Markierungssymbol doppelt anklicken, um mehr
+Informationen &uuml;ber das Problem zu erhalten.</para>
+</listitem>
+<listitem><para>'OK' anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.33" role="Procedure">
+<title>Festlegen, welche Drucker angezeigt werden</title>
+<orderedlist>
+<listitem><para>'Anzeigeliste &auml;ndern' aus dem Men&uuml;
+'Ansicht' ausw&auml;hlen.</para>
+<para>Die Drucker, die im Druckmanagerfenster sichtbar sind, werden mit hervorgehobenen
+Namen angezeigt.</para>
+</listitem>
+<listitem><para>Einen nicht hervorgehobenen Drucker anklicken,
+um ihn im Fenster des Druckmanagers anzuzeigen.</para>
+<para>Einen hervorgehobenen Drucker anklicken, um ihn aus dem Hauptfenster
+zu entfernen. &Uuml;ber die Taste 'Alles ausw&auml;hlen' lassen sich alle
+Drucker anzeigen, &uuml;ber 'Alles abw&auml;hlen' werden alle Drucker verdeckt.
+</para>
+</listitem>
+<listitem><para>'OK' anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.34">
+<title>Druckereigenschaften</title>
+<para>Folgende Eigenschaften k&ouml;nnen angezeigt werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Symbolbezeichnung</para>
+</listitem>
+<listitem><para>Symbole</para>
+</listitem>
+<listitem><para>Beschreibung</para>
+</listitem>
+<listitem><para>Druckwarteschlange</para>
+</listitem>
+<listitem><para>Status der Druckwarteschlange</para>
+</listitem>
+<listitem><para>Ger&auml;tename</para>
+</listitem>
+<listitem><para>Ger&auml;testatus</para>
+</listitem>
+</itemizedlist>
+<sect2 id="UG.Print.div.35" role="Procedure">
+<title>Anzeigen der Druckereigenschaften</title>
+<orderedlist>
+<listitem><para>Einen Drucker im Fenster 'Druckmanager' oder
+den Drucker im Fenster 'Druckjobs' ausw&auml;hlen.<indexterm><primary>Drucker</primary><secondary>Anzeigen der Eigenschaften eines</secondary></indexterm><indexterm>
+<primary>Anzeigen</primary><secondary>von Druckereigenschaften</secondary>
+</indexterm></para>
+</listitem>
+<listitem><para>'Eigenschaften' aus dem Men&uuml; 'Ausgew&auml;hlt'
+oder dem tempor&auml;r eingeblendeten Men&uuml; des Druckers (wird durch Dr&uuml;cken
+der Tastenkombination Umschalttaste+F10 oder Maustaste 3 angezeigt) ausw&auml;hlen.
+</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.36" role="Procedure">
+<title>&Auml;ndern des Druckersymbols</title>
+<orderedlist>
+<listitem><para>Einen Drucker ausw&auml;hlen.<indexterm><primary>Drucker</primary><secondary>&Auml;ndern des Symbols des</secondary></indexterm><indexterm>
+<primary>Symbole</primary><secondary>f&uuml;r Drucker &auml;ndern</secondary>
+</indexterm><indexterm><primary>&Auml;ndern</primary><secondary>Druckersymbol</secondary></indexterm></para>
+</listitem>
+<listitem><para>'Eigenschaften' aus dem Men&uuml; 'Ausgew&auml;hlt' oder dem
+tempor&auml;r eingeblendeten Men&uuml; des Druckers (wird durch Dr&uuml;cken
+der Tastenkombination Umschalttaste+F10 oder Maustaste 3 angezeigt) ausw&auml;hlen.
+</para>
+</listitem>
+<listitem><para>'Einstellung suchen' anklicken.</para>
+</listitem>
+<listitem><para>Ein neues Symbol ausw&auml;hlen.</para>
+<para>Soll das Symbol nicht sichtbar sein, einen anderen Ordner aus dem Men&uuml;
+'Symbolordner' ausw&auml;hlen. Dieses Dialogfenster zeigt nur Symbole an,
+die &uuml;ber einen vollst&auml;ndigen Satz aller drei Gr&ouml;&szlig;en verf&uuml;gen.
+</para>
+</listitem>
+<listitem><para>Nachdem ein Symbol ausgew&auml;hlt wurde, 'OK' anklicken.
+</para>
+</listitem>
+<listitem><para>Im Dialogfenster 'Eigenschaften' 'OK' anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.37" role="Procedure">
+<title>&Auml;ndern der Symbolbezeichnung eines Druckers</title>
+<orderedlist>
+<listitem><para>Einen Drucker ausw&auml;hlen.<indexterm><primary>Drucker</primary><secondary>&Auml;ndern der Bezeichnung der</secondary></indexterm><indexterm>
+<primary>Bezeichnungen</primary><secondary>f&uuml;r Drucker &auml;ndern</secondary>
+</indexterm><indexterm><primary>&Auml;ndern</primary><secondary>von Druckerbezeichnungen</secondary></indexterm></para>
+</listitem>
+<listitem><para>'Eigenschaften' aus dem Men&uuml; 'Ausgew&auml;hlt' oder dem
+tempor&auml;r eingeblendeten Men&uuml; des Druckers (wird durch Dr&uuml;cken
+der Tastenkombination Umschalttaste+F10 oder Maustaste 3 angezeigt) ausw&auml;hlen.
+</para>
+</listitem>
+<listitem><para>Eine neue Symbolbezeichnung im Feld 'Symbolbezeichnung' eingeben.
+</para>
+</listitem>
+<listitem><para>'OK' anklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 14:12:09-->
+<?Pub *0000065597>

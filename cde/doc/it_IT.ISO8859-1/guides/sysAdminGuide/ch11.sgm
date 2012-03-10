@@ -1,0 +1,942 @@
+<!-- $XConsortium: ch11.sgm /main/11 1996/12/21 19:19:37 rws $ -->
+<?Pub Caret>
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.crdt.div.1">
+<title id="sag.crdt.mkr.1">Creazione dei tipi di dati con la procedura manuale</title>
+<para><indexterm><primary>tipi di file, Vedere tipi di dati&lt;</primary>
+</indexterm><indexterm><primary>$nopage></primary></indexterm><indexterm>
+<primary>tipi di dati</primary><secondary>creazione manuale</secondary></indexterm>Per
+creare la definizione di un tipo di dati si pu&ograve; procedere in due modi:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Usare lo strumento Creare azione. Per informazioni a riguardo
+vedere il <!--Original XRef content: 'Capitolo&numsp;9, &ldquo;Creazione di
+azioni --><!--e tipi di dati con Creare azione'--><xref role="ChapNumAndTitle"
+linkend="sag.dtcra.mkr.1">.</para>
+</listitem>
+<listitem><para>Creare manualmente la definizione del tipo di dati.</para>
+</listitem>
+</itemizedlist>
+<para>La procedura manuale richiede la modifica di un file del database.</para>
+<para>Questo capitolo descrive la procedura da seguire per creare manualmente
+le definizioni dei tipi di dati.</para>
+<informaltable id="sag.crdt.itbl.1" frame="all">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Casi in cui occorre creare i tipi
+di dati manu--><!--almente190'--><xref role="JumpText" linkend="sag.crdt.mkr.2"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Definizioni dei tipi di dati: criteri
+e attrib--><!--uti190'--><xref role="JumpText" linkend="sag.crdt.mkr.3"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creazione manuale di un tipo di dati:
+procedur--><!--a generale191'--><xref role="JumpText" linkend="sag.crdt.mkr.4"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Esempio di creazione di un'azione
+e di un tipo--><!-- di dati personale193'--><xref role="JumpText" linkend="sag.crdt.mkr.7"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Definizione dei criteri per un tipo
+di dati197--><!--'--><xref role="JumpText" linkend="sag.crdt.mkr.11"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="sag.crdt.div.2">
+<title>Vedere anche</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Per informazioni introduttive sui tipi di dati, vedere il <!--Original
+XRef content: 'Capitolo&numsp;8,
+&ldquo;Introduzione alle a--><!--zioni e ai tipi di dati'--><xref role="ChapNumAndTitle"
+linkend="sag.intac.mkr.1">.</para>
+</listitem>
+<listitem><para>Per informazioni di riferimento sulle definizioni dei tipi
+di dati, vedere la pagina di spiegazioni <filename>dtdtsfile(4)</filename>.
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="sag.crdt.div.3">
+<title id="sag.crdt.mkr.2">Casi in cui occorre creare i tipi di dati manualmente</title>
+<para>Creando manualmente un tipo di dati &egrave; possibile usare tutte le
+funzionalit&agrave; offerte dalla sintassi delle definizioni.</para>
+<para><indexterm><primary>tipi di dati</primary><secondary>requisiti per la
+creazione manuale</secondary></indexterm>In particolare, un tipo di dati deve
+essere creato manualmente se si desidera utilizzare le seguenti caratteristiche:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>L'identificazione del tipo di dati in base alla posizione
+(percorso)</para>
+</listitem>
+<listitem><para>La possibilit&agrave; di associare al tipo di dati un'azione
+diversa da Aprire e Stampare</para>
+</listitem>
+<listitem><para>L'uso di nomi, schemi o contenuti diversi per lo stesso tipo
+di dati &mdash; ad esempio, uno stesso tipo di dati pu&ograve; essere associato
+ai nomi <filename>*.abc</filename> o <filename>*.def</filename></para>
+</listitem>
+<listitem><para>L'identificazione del tipo di dati in base al collegamento
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="sag.crdt.div.4">
+<title id="sag.crdt.mkr.3">Definizioni dei tipi di dati: criteri e attributi</title>
+<para>La definizione di un tipo di dati consiste di due sezioni separate del
+database:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>La<indexterm><primary>DATA_ATTRIBUTES</primary><secondary>definizione</secondary></indexterm> definizione degli attributi ( <filename>DATA_ATTRIBUTES</filename>).</para>
+<para>La sezione <filename>DATA_ATTRIBUTES</filename> definisce il nome, l'aspetto
+e il comportamento dei file associati al tipo di dati.</para>
+</listitem>
+<listitem><para>La definizione dei criteri (<filename><indexterm><primary>DATA_CRITERIA</primary><secondary>definizione</secondary></indexterm>DATA_CRITERIA</filename> ).</para>
+<para>La sezione <filename>DATA_CRITERIA</filename> definisce i criteri per
+l'identificazione del tipo di dati. Ogni criterio specifica i <filename>DATA_ATTRIBUTES</filename> a cui si riferisce.</para>
+</listitem>
+</itemizedlist>
+<para>Per ogni attributo specificato in <filename>DATA_ATTRIBUTES</filename>
+deve essere definito almeno un criterio nella sezione <filename><indexterm>
+<primary>DATA_CRITERIA</primary><secondary>uso con DATA_ATTRIBUTES</secondary>
+</indexterm>DATA_CRITERIA</filename>; possono essere definiti anche pi&ugrave;
+criteri per uno stesso attributo.</para>
+<para>Ad esempio, supponendo di avere definito degli attributi per i file
+PostScript che descrivono l'aspetto e il comportamento di questi file nella
+Gestione di file, si potranno creare due criteri separati per il tipo di dati
+PostScript &mdash; uno basato sul nome del file e l'altro sul contenuto.</para>
+<para>Per maggiori informazioni, vedere <!--Original XRef content: '&ldquo;Definizione
+dei criteri per un tipo di--><!-- dati&rdquo;
+a pagina&numsp;197'--><xref role="SecTitleAndPageNum" linkend="sag.crdt.mkr.11">.
+</para>
+</sect1>
+<sect1 id="sag.crdt.div.5">
+<title id="sag.crdt.mkr.4">Creazione manuale di un tipo di dati: procedura
+generale</title>
+<para>Questa sezione descrive come creare un file di configurazione per un
+tipo di dati.</para>
+<sect2 id="sag.crdt.div.6">
+<title id="sag.crdt.mkr.5">File di configurazione per i tipi di dati<indexterm>
+<primary>tipi di dati</primary><secondary>file di configurazione</secondary>
+</indexterm><indexterm><primary>file di configurazione</primary><secondary>tipi di dati</secondary></indexterm></title>
+<para>I file di configurazione che contengono le definizioni per i tipi di
+dati devono rispondere alle seguenti caratteristiche:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome del file deve avere la forma <symbol role="Variable">nome</symbol><filename>.dt</filename></para>
+</listitem>
+<listitem><para>I file devono trovarsi nel percorso di ricerca del database.
+Il percorso di ricerca predefinito comprende le seguenti directory:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="158*">
+<colspec colwidth="370*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Tipi di dati personali</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Tipi di dati di sistema</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Tipi di dati predefiniti</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol>.</para><para>Questa directory non dovrebbe essere modificata.</para></entry></row></tbody>
+</tgroup></informaltable>
+</listitem>
+</itemizedlist>
+<para>Per informazioni su come modificare il percorso di ricerca del database,
+vedere <!--Original XRef content: '&ldquo;Impostazione del valore di un
+percorso--><!-- di ricerca&rdquo; a pagina&numsp;117'--><xref role="SecTitleAndPageNum"
+linkend="sag.datab.mkr.6">.</para>
+</sect2>
+<sect2 id="sag.crdt.div.7" role="Procedure">
+<title id="sag.crdt.mkr.6">Come creare la definizione di un tipo di dati<indexterm>
+<primary>tipi di dati</primary><secondary>definizione</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Aprire un file del database o crearne uno nuovo.</para>
+<para>Per maggiori informazioni, vedere la sezione precedente, <!--Original
+XRef content: '&ldquo;File
+di
+configurazione per i tipi di --><!--dati'--><xref role="SectionTitle" linkend="sag.crdt.mkr.5">
+.</para>
+</listitem>
+<listitem><para>Definire gli attributi per il tipo di dati usando la sintassi:<indexterm>
+<primary>DATA_ATTRIBUTES</primary><secondary>sintassi</secondary></indexterm></para>
+<programlisting>DATA_ATTRIBUTES <symbol role="Variable">nome_tipo_di_dati</symbol> 
+{
+   ICON <symbol role="Variable">nome_immagine</symbol> 
+   DESCRIPTION <symbol role="Variable">stringa</symbol>
+   <symbol role="Variable">campo_attributo</symbol>
+   <symbol role="Variable">campo_attributo</symbol>
+   &hellip;
+}</programlisting>
+<para>dove:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="139*">
+<colspec colwidth="389*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol>nome_tipo_di_dati</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; un nome unico assegnato a
+questo tipo di dati.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>nome_immagine</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; il percorso o il nome di un
+file contenente un'icona. Usare il nome base del file. Ad esempio, nel caso
+di due file di nome <filename>immagine.m.pm</filename> e <filename>immagine.t.pm</filename>, usare il nome <command>immagine</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>campo_attributo</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; un campo che definisce l'aspetto
+o il comportamento del tipo di dati.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>stringa</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; una stringa di caratteri da
+usare come testo di aiuto per il tipo di dati.</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Vedere <!--Original XRef content: '&ldquo;Esempio
+di creazione di un'azione e di--><!-- un tipo di dati
+personale&rdquo; a
+pagina&numsp;193'--><xref role="SecTitleAndPageNum" linkend="sag.crdt.mkr.7">.
+</para>
+</listitem>
+<listitem><para>Definire i criteri per il tipo di dati usando la sintassi:
+</para>
+<programlisting>
+
+DATA_CRITERIA <symbol role="Variable">nome_criterio</symbol>
+{
+   DATA_ATTRIBUTES_NAME <symbol role="Variable">nome_tipo_di_dati</symbol>
+   <symbol role="Variable">campo_criterio</symbol>
+   <symbol role="Variable">campo_criterio</symbol>
+   &hellip;
+}</programlisting>
+<para>dove:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="116*">
+<colspec colwidth="412*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol>nome_criterio</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; un nome unico usato per la
+definizione di questo criterio</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>nome_tipo_di_dati</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; il nome usato nella sezione <filename>DATA_ATTRIBUTES</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>campo_criterio</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; il campo che definisce i criteri
+per associare un file a questo tipo di dati</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>Vedere <!--Original XRef content: '&ldquo;Definizione
+dei criteri per un tipo di--><!-- dati&rdquo; a pagina&numsp;197'--><xref
+role="SecTitleAndPageNum" linkend="sag.crdt.mkr.11">.</para>
+</listitem>
+<listitem><para>Salvare il file del database.</para>
+</listitem>
+<listitem><para>Creare le icone per il tipo di dati.</para>
+<para>Per maggiori informazioni, vedere <!--Original
+XRef content: '&ldquo;Scelta dell'icona da utilizzare
+per un--><!--
+tipo di dati&rdquo; a pagina&numsp;194'--><xref role="SecTitleAndPageNum"
+linkend="sag.crdt.mkr.8">.</para>
+</listitem>
+<listitem><para>Se necessario, creare le azioni specificate nel campo <command>ACTIONS</command> della definizione degli attributi.</para>
+</listitem>
+<listitem><para>Fare doppio clic su &ldquo;Ricaricare azioni&rdquo; nel gruppo
+Strumenti_desktop per rileggere il database.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.crdt.div.8">
+<title id="sag.crdt.mkr.7"><?X-setsize 13.0 pt>Esempio di creazione di un'azione
+e di un tipo di dati personale<indexterm><primary>tipi di dati</primary><secondary>esempio</secondary></indexterm><indexterm><primary>tipi di dati e azioni personali,
+creazione</primary></indexterm></title>
+<para>Si supponga che il sistema contenga un'applicazione di nome <command>xgif</command> per la visualizzazione delle immagini GIF. Normalmente, il
+programma viene avviato con il comando:</para>
+<para><command>xgif</command> <symbol role="Variable">nomefile</symbol></para>
+<para>Si desidera avere la possibilit&agrave; di visualizzare le immagini
+GIF in questi modi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Facendo doppio clic su un file di dati GIF</para>
+</listitem>
+<listitem><para>Selezionando il file di dati e scegliendo l'applicazione dal
+menu Selezioni</para>
+<orderedlist>
+<listitem><para>Creare con un editor il file <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/VisualizzaGif.dt</filename>.</para>
+</listitem>
+<listitem><para>Inserire le seguenti definizioni per il tipo di dati:</para>
+<programlisting>DATA_ATTRIBUTES  Gif
+{
+   DESCRIPTION                     File grafico Gif.
+   ICON                            IconaGif
+   ACTIONS                         Visualizza
+}
+DATA_CRITERIA  Criteri_Gif
+{
+   DATA_ATTRIBUTES_NAME  Gif
+   NAME_PATTERN          *.gif
+}</programlisting>
+</listitem>
+<listitem><para>Inserire la definizione per l'azione VisualizzaGif:</para>
+<programlisting>ACTION VisualizzaGif
+{
+   EXEC_STRING    xgif %(File)Arg_1"File Gif da visualizzare:"
+         WINDOW_TYPE    NO_STDIO
+         DESCRIPTION    Fare doppio clic o rilasciare un file per\
+                        avviare il visualizzatore Gif.
+}</programlisting>
+<para>Poich&eacute; la definizione non include un campo <command>ICON</command>,
+l'azione user&agrave; l'icona predefinita del sistema.</para>
+</listitem>
+<listitem><para>Inserire l'azione di mappatura seguente per collegare l'azione
+VisualizzaGif all'azione Visualizza specificata nella definizione del tipo
+di dati. Usare il campo <filename>ARG_TYPE</filename> per restringere l'azione
+di visualizzazione ai file di tipo Gif.</para>
+<programlisting>ACTION Visualizza
+{
+   ARG_TYPE     Gif
+   TYPE         MAP
+   MAP_ACTION   VisualizzaGif
+}</programlisting>
+</listitem>
+<listitem><para>Salvare il file.</para>
+</listitem>
+<listitem><para>Fare doppio clic su &ldquo;Ricaricare azioni&rdquo; nel gruppo
+Strumenti_desktop per rileggere il database.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="sag.crdt.div.9">
+<title>Definizione degli attributi di un tipo di dati<indexterm><primary>DATA_ATTRIBUTES</primary><secondary>definizione</secondary></indexterm><indexterm>
+<primary>tipi di dati</primary><secondary>attributi</secondary></indexterm></title>
+<para>I campi della sezione <filename>DATA_ATTRIBUTES</filename> definiscono
+l'aspetto e il comportamento del tipo di dati. Oltre a specificare il nome
+del tipo di dati, essi permettono di definire:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>L'icona da usare nella Gestione di file (campo <command>ICON</command> )</para>
+</listitem>
+<listitem><para>Il comportamento al doppio clic sull'icona e il contenuto
+del menu Selezioni (campo <command>ACTIONS</command>)</para>
+</listitem>
+<listitem><para>Il testo dell'aiuto online per il tipo di dati (campo <command>DESCRIPTION<indexterm><primary>DESCRIPTION, campo</primary></indexterm><indexterm>
+<primary>tipi di dati</primary><secondary>informazioni di aiuto</secondary>
+</indexterm><indexterm><primary>aiuto</primary><secondary>sui tipi di dati</secondary></indexterm></command>)</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.crdt.div.10">
+<title id="sag.crdt.mkr.8">Scelta dell'icona da utilizzare per un tipo di
+dati<indexterm><primary>icone</primary><secondary>di tipi di dati</secondary>
+</indexterm><indexterm><primary>tipi di dati</primary><secondary>icone</secondary>
+</indexterm></title>
+<para>Usare il campo <command><indexterm><primary>ICON, campo</primary><secondary>uso per i tipi di dati</secondary></indexterm>ICON</command> per specificare
+l'icona da usare nella Gestione di file per rappresentare il tipo di dati.
+Se non viene specificata alcuna icona, la Gestione di file user&agrave; solo
+un'etichetta.</para>
+<para>Il valore del campo <command><indexterm><primary>ICON, campo</primary>
+<secondary>valori possibili</secondary></indexterm>ICON</command> pu&ograve;
+essere:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>nome base dei file</primary></indexterm><indexterm>
+<primary>file</primary><secondary>nome base</secondary></indexterm><indexterm>
+<primary>icone</primary><secondary>nome base</secondary></indexterm>Il nome
+base di un file.</para>
+<para>Con il termine <emphasis>nome base</emphasis> si intende il nome del
+file contenente l'immagine dell'icona esclusi i suffissi per la dimensione
+(<literal>l</literal>, <literal>m</literal> e <literal>t</literal>) e per
+il tipo di immagine (<literal>bm</literal> e <literal>pm</literal>). Ad esempio,
+per i file <filename>IconaGiochi.m.pm</filename> e <filename>IconaGiochi.t.pm</filename> il nome base sar&agrave; <filename>IconaGiochi</filename>.</para>
+<para>Se si utilizza il nome base, i file delle icone devono trovarsi in directory
+incluse nel percorso di ricerca delle icone:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Per le icone personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>Per le icone di sistema: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Il percorso assoluto del file dell'icona, incluso il nome
+completo del file.</para>
+<para>L'uso del percorso assoluto &egrave; necessario solo se il file dell'icona
+non si trova in una directory del percorso di ricerca. Ad esempio, se il file <filename>IconaGiochi.m.pm</filename> si trova nella directory <filename>/doc/progetti</filename>, che non &egrave; inclusa nel percorso di ricerca delle icone,
+il valore del campo <command>ICON</command> dovr&agrave; essere <filename>/doc/progetti/IconaGiochi.m.pm</filename>.</para>
+</listitem>
+</itemizedlist>
+<para>La <!--Original XRef content: 'Tabella&numsp;11&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="sag.crdt.mkr.9"> indica le dimensioni in cui creare le icone e i
+nomi da utilizzare per i rispettivi file.</para>
+<table id="sag.crdt.tbl.1" frame="topbot">
+<title id="sag.crdt.mkr.9">Nomi e dimensioni per le icone dei tipi di dati</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.50in">
+<colspec colwidth="1.99in">
+<colspec colwidth="1.93in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Dimensioni in pixel</literal></para></entry><entry align="left" valign="bottom"><para><literal>Nome del file a mappa di bit</literal></para></entry><entry align="left" valign="bottom"><para><literal>Nome del file a mappa di pixel</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>48 x 48</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.l.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.l.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>32 x 32</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.m.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.m.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>16 x 16</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.t.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.t.pm</filename></para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="sag.crdt.div.11">
+<title id="sag.crdt.mkr.10">Associazione dei tipi di dati<indexterm><primary>tipi di dati</primary><secondary>associazione con le azioni</secondary></indexterm> alle
+azioni<indexterm><primary>azioni</primary><secondary>associazioni con i tipi
+di dati</secondary></indexterm><indexterm><primary>tipi di dati</primary>
+<secondary>associazione con le azioni</secondary></indexterm></title>
+<para>Per associare i tipi di dati alle azioni sono disponibili due metodi:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Specificare nel campo <command><indexterm><primary>ACTIONS,
+campo</primary></indexterm>ACTIONS</command> della sezione <filename>DATA_ATTRIBUTES</filename> le azioni che dovranno comparire nel menu Selezioni della Gestione
+di file. La prima azione specificata sar&agrave; quella predefinita (quella
+eseguita al doppio clic).</para>
+</listitem>
+<listitem><para>Restringere le azioni a determinati tipi di dati usando il
+campo <filename><indexterm><primary>ARG_TYPE, campo</primary></indexterm>ARG_TYPE</filename>.</para>
+</listitem>
+</itemizedlist>
+<para>Ad esempio, la definizione seguente crea un tipo di dati per i file
+&ldquo;readme&rdquo; creati dall'amministratore di sistema che abbiano un
+nome nella forma <filename>*.rm</filename>.</para>
+<programlisting>DATA_ATTRIBUTES LeggimiAmm
+{
+   ICON                   LeggimiA
+   ACTIONS                Aprire,Rispondere
+}
+
+DATA_CRITERIA LeggimiAmmCriteri
+{
+   NAME_PATTERN           *.rm
+   DATA_ATTRIBUTES_NAME   LeggimiAmm
+}</programlisting>
+<para>Qui di seguito &egrave; definita un'azione Rispondere che apre una copia
+del file nell'Editor di testo. Salvando il file ed uscendo dall'Editor di
+testo, il file viene inviato via posta elettronica all'amministratore di sistema
+(all'indirizzo <filename>sysadmin@utd</filename>).</para>
+<programlisting>ACTION Rispondere
+{
+   ARG_TYPE        LeggimiAmm
+   EXEC_STRING     /bin/sh -c 'cp %Arg_1% $HOME/readme.temp;\
+                   chmod +w $HOME/readme.temp;  \
+                   dtpad $HOME/readme.temp;   \
+                   cat $HOME/readme.temp |   \
+                   /usr/bin/mailx sysadmin@utd;  \
+                   rm $HOME/readme.temp'
+   WINDOW_TYPE     NO_STDIO
+}</programlisting>
+</sect2>
+<sect2 id="sag.crdt.div.12">
+<title>Come nascondere i file in base al tipo di dati<indexterm><primary>file</primary><secondary>visibilit&agrave;</secondary></indexterm><indexterm>
+<primary>o meno in base al tipo di dati</primary></indexterm><indexterm>
+<primary>tipi di dati</primary><secondary>nascosti</secondary></indexterm><indexterm>
+<primary>tipi di dati</primary><secondary>uso per la visualizzazione o meno
+dei file</secondary></indexterm></title>
+<para>I file associati ai tipi di dati invisibili non vengono visualizzati
+nella Gestione di file.</para>
+<para>Per specificare la caratteristica di invisibilit&agrave; per il tipo
+di dati definito, usare come segue il campo <command>PROPERTIES</command>
+della sezione <filename>DATA_ATTRIBUTES</filename>:</para>
+<programlisting>PROPERTIES invisible</programlisting>
+</sect2>
+<sect2 id="sag.crdt.div.13">
+<title>Definizione della risposta di un file alle operazioni degli utenti</title>
+<para>I campi seguenti della sezione <filename>DATA_ATTRIBUTES</filename>
+vengono usati principalmente dai programmatori di applicazioni. Essi specificano
+il comportamento dei file in risposta a diverse attivit&agrave; degli utenti
+del desktop.</para>
+<para>Per maggiori informazioni, vedere il manuale <emphasis>Common Desktop
+Environment Programmer's Guide</emphasis>, incluso nella documentazione per
+gli sviluppatori.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="210*">
+<colspec colwidth="318*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Campo</para></entry><entry
+align="left" valign="bottom"><para>Descrizione</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>MOVE_TO_ACTION,
+campo</primary></indexterm>MOVE_TO_ACTION</filename></para></entry>
+<entry align="left" valign="top"><para>Per le directory ed altri tipi di raccoglitori.
+Specifica l'azione da eseguire quando si sposta un file in un raccoglitore
+di questo tipo.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>C<indexterm><primary>COPY_TO_ACTION,
+campo</primary></indexterm>OPY_TO_ACTION</filename></para></entry>
+<entry align="left" valign="top"><para>Per le directory ed altri tipi di raccoglitori.
+Specifica l'azione da eseguire quando si copia un file in un raccoglitore
+di questo tipo.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>LINK_TO_ACTION,
+campo</primary></indexterm>LINK_TO_ACTION</filename></para></entry>
+<entry align="left" valign="top"><para>Specifica l'azione da eseguire quando
+si collega un file ad un file di questo tipo.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>IS_TEXT,
+campo</primary></indexterm>IS_TEXT</filename></para></entry>
+<entry align="left" valign="top"><para>Specifica che i file di questo tipo
+contengono un testo che pu&ograve; essere visualizzato in un riquadro di testo.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>MEDIA,
+campo</primary></indexterm>MEDIA</command></para></entry>
+<entry align="left" valign="top"><para>Specifica il tipo di media ToolTalk
+corrispondente.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>MIME_TYPE_MEDIA,
+campo</primary></indexterm>MIME_TYPE</filename></para></entry>
+<entry align="left" valign="top"><para>Specifica il tipo MIME corrispondente.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>X400_TYPE,
+campo</primary></indexterm>X400_TYPE</filename></para></entry>
+<entry align="left" valign="top"><para>Specifica il tipo X400 corrispondente.
+</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="sag.crdt.div.14">
+<title id="sag.crdt.mkr.11">Definizione dei criteri per un tipo di dati<indexterm>
+<primary>tipi di dati</primary><secondary>criteri di identificazione</secondary>
+</indexterm><indexterm><primary>tipi di dati</primary><secondary>differenziazione</secondary></indexterm><indexterm><primary>tipi di dati</primary><secondary>criteri di identificazione</secondary></indexterm></title>
+<para>I campi della sezione <filename><indexterm><primary>DATA_CRITERIA</primary>
+<secondary>definizione</secondary></indexterm>DATA_CRITERIA</filename> definiscono
+i criteri da utilizzare per assegnare un determinato tipo di oggetto ad un
+file o a una directory.</para>
+<para>Per l'identificazione dei tipi di oggetti si possono usare i seguenti
+criteri:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="145*">
+<colspec colwidth="383*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Criterio</para></entry><entry
+align="left" valign="bottom"><para>Descrizione</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Nome del file</para></entry>
+<entry align="left" valign="top"><para>Il nome del file deve corrispondere
+a uno schema specificato. Usare il campo <filename><indexterm><primary>NAME_PATTERN,
+campo</primary></indexterm>NAME_PATTERN</filename>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Posizione del file</para></entry>
+<entry align="left" valign="top"><para>Il percorso deve corrispondere a uno
+schema specificato. Usare il campo <filename><indexterm><primary>PATH_PATTERN,
+campo</primary></indexterm>PATH_PATTERN</filename>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Contenuto del file</para></entry>
+<entry align="left" valign="top"><para>Una parte specifica del contenuto del
+file deve corrispondere ai dati specificati. Usare il campo <command><indexterm>
+<primary>CONTENT, campo</primary></indexterm>CONTENT</command>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Modalit&agrave; del file</para></entry>
+<entry align="left" valign="top"><para>Il file deve possedere le autorizzazioni
+specificate (lettura, scrittura, esecuzione, directory). Usare il campo <command><indexterm>
+<primary>MODE, campo</primary></indexterm>MODE</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>collegamenti simbolici</primary><secondary>uso per l'</secondary></indexterm><indexterm><primary>identificazione dei tipi di dati</primary></indexterm>Collegamenti simbolici
+</para></entry>
+<entry align="left" valign="top"><para>L'identificazione del tipo di dati
+&egrave; basata sul file a cui l'oggetto &egrave; collegato.</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>Si possono usare pi&ugrave; criteri per uno stesso tipo di dati. Tuttavia,
+non si dovrebbero usare insieme i criteri <filename>NAME_PATTERN</filename>
+e <filename>PATH_PATTERN</filename>.</para>
+<sect2 id="sag.crdt.div.15">
+<title>Tipi di dati basati sul nome<indexterm><primary>tipi di dati</primary>
+<secondary>identificazione</secondary><tertiary>in base al nome</tertiary>
+</indexterm></title>
+<para>Usare il campo <filename>NAME_PATTERN</filename> per specificare il
+tipo di nome richiesto. Il valore del campo pu&ograve; includere i seguenti
+caratteri speciali:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="75*">
+<colspec colwidth="453*">
+<tbody>
+<row>
+<entry align="left" valign="top">?</entry>
+<entry align="left" valign="top"><para>Corrisponde a qualsiasi carattere singolo
+</para></entry></row>
+<row>
+<entry align="left" valign="top">*</entry>
+<entry align="left" valign="top"><para>Corrisponde a qualsiasi sequenza di
+caratteri (incluse le stringhe vuote)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>[</filename><symbol role="Variable">cc</symbol>&hellip;<filename>]</filename></para></entry>
+<entry align="left" valign="top"><para>Corrisponde a uno qualsiasi dei caratteri
+(<symbol role="Variable">c</symbol>) racchiusi tra parentesi</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>[</filename><symbol role="Variable">c</symbol>&minus;<symbol role="Variable">c</symbol><filename>]</filename></para></entry>
+<entry align="left" valign="top"><para>Corrisponde a uno qualsiasi dei caratteri
+inclusi nell'ambito tra <symbol role="Variable">c</symbol> e <symbol role="Variable">c</symbol></para></entry></row></tbody></tgroup></informaltable>
+<sect3 id="sag.crdt.div.16">
+<title>Esempi</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>La definizione seguente crea un tipo di dati basato sul nome
+del file. Il nome deve iniziare con <command>QS</command> e terminare in <filename>.doc</filename>.</para>
+<programlisting>DATA_ATTRIBUTES  QS_Doc
+{
+   DESCRIPTION Questo file &egrave; un documento del progetto QS.
+   ICON        Doc_Word
+   ACTIONS     Aprire
+}
+DATA_CRITERIA QS_Doc_Criteria
+{
+   NAME_PATTERN          QS*.doc
+   DATA_ATTRIBUTES_NAME  QS_Doc
+}</programlisting>
+</listitem>
+<listitem><para>La definizione seguente crea un tipo di dati applicabile alle
+directory di nome <filename>Demo_</filename><symbol role="Variable">n</symbol>,
+dove <symbol role="Variable">n</symbol> &egrave; un valore da 0 a 9.</para>
+<programlisting>DATA_ATTRIBUTES  Demo_directory
+{
+   DESCRIPTION   Questa &egrave; una directory. Fare doppio clic \
+                 per aprirla.
+   ICON          Demo
+   ACTIONS       OpenInPlace,OpenNewView
+}
+DATA_CRITERIA Demo_directory_criteri
+{
+   NAME_PATTERN          Demo_[0-9]
+   MODE                  d
+   DATA_ATTRIBUTES_NAME  Demo_directory
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="sag.crdt.div.17">
+<title>Tipi di dati basati sulla posizione<indexterm><primary>tipi di dati</primary><secondary>identificazione</secondary><tertiary>in base al percorso</tertiary></indexterm><indexterm><primary>tipi di dati</primary><secondary>identificazione</secondary><tertiary>in base alla posizione</tertiary></indexterm></title>
+<para>Usare il campo <filename><indexterm><primary>PATH_PATTERN, campo</primary>
+<secondary>sintassi</secondary></indexterm>PATH_PATTERN</filename> per specificare
+il percorso. Si possono usare gli stessi caratteri speciali descritti per <filename>NAME_PATTERN</filename>.</para>
+<para>Ad esempio, il tipo di dati seguente utilizza un criterio basato sul
+percorso.</para>
+<programlisting>DATA_ATTRIBUTES Illustrazioni_progetto
+{
+    DESCRIPTION   File grafico per il progetto QS. Fare doppio clic \
+                  sull'icona per visualizzarlo.
+    ICON          IllustQS
+}
+
+DATA_CRITERIA Criteri_Illustrazioni_progetto
+{
+   DATA_ATTRIBUTES_NAME   Illustrazioni_progetto
+   PATH_PATTERN           */projects/QS/graphics/*
+}</programlisting>
+</sect2>
+<sect2 id="sag.crdt.div.18">
+<title>Tipi di dati basati sul nome e sulla posizione</title>
+<para>Per creare un tipo di dati basato sia sul nome del file che sulla posizione,
+includere il nome nel valore <filename>PATH_PATTERN</filename>. Non &egrave;
+possibile usare sia <filename>NAME_PATTERN</filename> che <filename>PATH_PATTERN</filename> nella stessa definizione dei criteri.</para>
+<sect3 id="sag.crdt.div.19">
+<title>Esempi</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>La seguente definizione del tipo di dati Sorgenti_QS si applica
+a tutti i file di nome <filename>app<symbol role="Variable">n</symbol>.c</filename>,
+dove <symbol role="Variable">n</symbol> &egrave; un valore da 1 a 9, situati
+nelle directory secondarie di <filename>*/progetti/QS</filename>.</para>
+<programlisting>DATA_ATTRIBUTES  Sorgenti_QS
+{
+   &hellip;
+}
+DATA_CRITERIA    Criteri_Sorgenti_QS
+{
+   PATH_PATTERN            */progetti/QS/*/app[1-9].c
+   DATA_ATTRIBUTES_NAME    Sorgenti_QS
+}</programlisting>
+</listitem>
+<listitem><para>Il tipo di dati seguente si applica a tutti i file della directory <filename>/doc/progetto1</filename> di nome <command>ch</command><symbol role="Variable">nn</symbol>.<symbol role="Variable">xxx</symbol>, dove <symbol role="Variable">n</symbol> &egrave; un valore da 0 a 9, e <symbol role="Variable">xxx</symbol>
+&egrave; un qualsiasi suffisso di tre caratteri.</para>
+<programlisting>DATA_ATTRIBUTES  Capitoli
+{
+   DESCRIPTION  Capitolo della relazione sul progetto.
+   ICON         capitolo
+   ACTIONS      Editare,Stampare
+}
+
+DATA_CRITERIA  CriteriCapitoli
+{
+   PATH_PATTERN          /doc/progetto1/ch[0-9][0-9].??
+   DATA_ATTRIBUTES_NAME  Capitoli
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="sag.crdt.div.20">
+<title id="sag.crdt.mkr.12">Uso delle modalit&agrave; come criterio di identificazione
+del tipo di dati<indexterm><primary>tipi di dati</primary><secondary>identificazione</secondary><tertiary>in base alla modalit&agrave;</tertiary></indexterm></title>
+<para>Usare il campo <command><indexterm><primary>MODE, campo</primary><secondary>sintassi</secondary></indexterm>MODE</command> per specificare le autorizzazioni
+richieste.</para>
+<para>I criteri di modalit&agrave; vengono in genere utilizzati in combinazione
+con i tipi di dati basati sul nome, sulla posizione o sul contenuto. Permettono
+di limitare l'applicazione del tipo di dati ad un file o a una directory,
+o di specificare i tipi di autorizzazioni richieste.</para>
+<para>Il campo <command>MODE</command> pu&ograve; includere gli operatori
+logici e i caratteri seguenti:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="82*">
+<colspec colwidth="446*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Operatore</para></entry><entry
+align="left" valign="bottom"><para>Descrizione</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>!</filename></para></entry>
+<entry align="left" valign="top"><para>Operatore logico<indexterm><primary></primary>
+</indexterm> NOT</para><indexterm><primary>NOT, operatore nel campo MODE</primary>
+</indexterm></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>&amp;</filename></para></entry>
+<entry align="left" valign="top"><para>Operatore logico<indexterm><primary></primary>
+</indexterm> AND</para><indexterm><primary>AND, operatore nel campo MODE</primary>
+</indexterm></entry></row>
+<row>
+<entry align="left" valign="top"><para>|</para></entry>
+<entry align="left" valign="top"><para>Operatore logico<indexterm><primary></primary>
+</indexterm> OR</para><indexterm><primary>OR, operatore nel campo MODE</primary>
+</indexterm></entry></row></tbody></tgroup></informaltable>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="89*">
+<colspec colwidth="439*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Carattere</para></entry><entry
+align="left" valign="bottom"><para>Descrizione</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>file</primary><secondary>uso come criterio per i tipi di dati</secondary></indexterm></command></para><para>f</para></entry>
+<entry align="left" valign="top"><para>Il tipo di dati &egrave; applicabile
+solo ai file</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>directory,
+uso come criterio per i tipi di dati</primary></indexterm>d</command></para></entry>
+<entry align="left" valign="top"><para>Il tipo di dati &egrave; applicabile
+solo alle directory</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>r</command></para></entry>
+<entry align="left" valign="top"><para>Il file &egrave; leggibile per tutti
+gli utenti</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>sola lettura,
+criterio per i tipi di dati</primary></indexterm><indexterm><primary>tipi
+di dati</primary><secondary>di sola lettura</secondary></indexterm>w</command></para></entry>
+<entry align="left" valign="top"><para>Il file &egrave; scrivibile per tutti
+gli utenti</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>tipi di
+dati</primary><secondary>eseguibili</secondary></indexterm><indexterm><primary>file eseguibili, uso come criterio per i tipi di dati</primary></indexterm>x</command></para></entry>
+<entry align="left" valign="top"><para>Il file &egrave; eseguibile per tutti
+gli utenti</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>collegamento,
+uso come criterio per i tipi di dati</primary></indexterm>l</command></para></entry>
+<entry align="left" valign="top"><para>Il file &egrave; un collegamento</para></entry>
+</row>
+<row>
+<entry><para><command>u</command></para></entry>
+<entry><para>Il file &egrave; set-uid</para></entry></row>
+<row>
+<entry><para><command>g</command></para></entry>
+<entry><para>Il file &egrave; set-gid</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>Nell'impostazione predefinita, il criterio &egrave; irrilevante.</para>
+<sect3 id="sag.crdt.div.21">
+<title>Esempi</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>I campi seguenti restringono il tipo di dati nel modo descritto:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="84*">
+<colspec colwidth="444*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>f&amp;!w</filename></para></entry>
+<entry align="left" valign="top"><para>File di sola lettura</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>!w</filename></para></entry>
+<entry align="left" valign="top"><para>File e directory di sola lettura</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>f&amp;x</computeroutput></para></entry>
+<entry align="left" valign="top"><para>File eseguibili</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>f&amp;w&amp;x</filename></para></entry>
+<entry align="left" valign="top"><para>File accessibili sia in lettura che
+in esecuzione</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>x|!w</para></entry>
+<entry align="left" valign="top"><para>File eseguibili o di sola lettura</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>La definizione seguente crea un tipo di dati applicabile a
+file di sola lettura e non eseguibili il cui nome risponde allo schema <filename>*.doc</filename>. Si presume che per questo tipo di dati sia stata definita
+un'azione Visualizzare.</para>
+<programlisting>DATA_ATTRIBUTES  Doc_solalettura
+{
+   ICON        sola_lettura
+   DESCRIPTION Questo documento non &egrave; accessibile in scrittura.\
+               Facendo doppio clic verr&agrave; avviato l'editor con \
+               una copia di sola lettura del file.
+   ACTIONS     Visualizzare
+}
+DATA_CRITERIA Criteri_Doc_solalettura
+{
+   NAME_PATTERN          *.doc
+   MODE                  !d&amp;!x&amp;!w
+   DATA_ATTRIBUTES_NAME  Doc_solalettura
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="sag.crdt.div.22">
+<title>Identificazione del tipo di dati in base al contenuto<indexterm><primary>tipi di dati</primary><secondary>identificazione</secondary><tertiary>in base
+al contenuto</tertiary></indexterm></title>
+<para>Usare il campo <command><indexterm><primary>CONTENT, campo</primary>
+</indexterm>CONTENT</command> per specificare l'identificazione del tipo di
+dati in base al contenuto del file. Questo criterio pu&ograve; essere usato
+insieme a quelli basati sul nome e sulla posizione.</para>
+<para>Questo metodo di identificazione pu&ograve; essere basato sia su una
+stringa che su un numero contenuto nel file. Il primo byte del file corrisponde
+al numero 0.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Per identificare il tipo di dati in base a una stringa contenuta
+nel file, usare la sintassi:</para>
+<para remap="CodeIndent1"><computeroutput>CONTENT <symbol role="Variable">byte_iniziale</symbol> string <symbol role="Variable">stringa</symbol></computeroutput></para>
+</listitem>
+<listitem><para>Per identificare il tipo di dati in base a un numero, usare
+la sintassi:</para>
+<para remap="CodeIndent1"><command>CONTENT <symbol role="Variable">byte_iniziale</symbol> byte <symbol role="Variable">numero</symbol></command></para>
+<para><command>CONTENT <symbol role="Variable">byte_iniziale</symbol> short <symbol role="Variable">numero</symbol></command></para>
+<para><command>CONTENT <symbol role="Variable">byte_iniziale</symbol> long <symbol role="Variable">numero</symbol></command></para>
+</listitem>
+<listitem><para>Per basare l'identificazione sul contenuto di una directory,
+usare la sintassi:</para>
+<para remap="CodeIndent1"><command>CONTENT 0 filename &ldquo;<symbol role="Variable">nome_file</symbol>&rdquo;</command></para>
+<para>Usare la notazione C standard per i numeri ottali (che iniziano per <command>0</command>) ed esadecimali (che iniziano per <command>0X</command>).</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>L'uso del metodo di identificazione basato sul contenuto rallenter&agrave;
+le prestazioni del sistema. Se possibile, usare i criteri basati sul nome
+e sulla posizione.</para>
+</note>
+<para>Il tipo di dati seguente, Wingz_scrivibili, si applica a tutti i file
+con autorizzazione di scrittura contenenti la stringa <command>WNGZ</command>
+all'inizio del file.</para>
+<programlisting>DATA_ATTRIBUTES Wingz_scrivibili
+{
+   &hellip;
+}
+
+DATA_CRITERIA Criteri_Wingz_scrivibili
+{
+   CONTENT              0 string WNGZ
+   MODE                 w&amp;!d
+   DATA_ATTRIBUTES_NAME Wingz_scrivibili
+}</programlisting>
+</sect2>
+<sect2 id="sag.crdt.div.23" role="Procedure">
+<title id="sag.crdt.mkr.13">Come creare un tipo di dati con diversi criteri
+indipendenti<indexterm><primary>tipi di dati</primary><secondary>criteri di
+identificazione multipli</secondary></indexterm></title>
+<para>&Egrave; possibile creare un tipo di dati con diversi criteri indipendenti
+&mdash; in questo caso, un file pu&ograve; essere assegnato al tipo di dati
+se risponde ad <emphasis>uno</emphasis> o ad entrambi i criteri.</para>
+<orderedlist>
+<listitem><para>Definire la sezione <filename>DATA_ATTRIBUTES</filename> per
+il tipo di dati.</para>
+</listitem>
+<listitem><para>Definire un campo nella sezione <filename><indexterm><primary>DATA_CRITERIA</primary><secondary>valori multipli</secondary></indexterm>DATA_CRITERIA</filename> per ogni attributo.</para>
+<para>Usare il campo <filename>DATA_ATTRIBUTES_NAME</filename> per collegare
+ognuno dei criteri alla stessa definizione di <filename>DATA_ATTRIBUTES</filename>.
+</para>
+</listitem>
+</orderedlist>
+<para>Le definizioni seguenti creano il tipo di dati Mif. L'identificazione
+del tipo di dati sar&agrave; basata sul nome o sul contenuto.</para>
+<programlisting>DATA_ATTRIBUTES Mif
+{
+    ICON         Frame
+    ACTION_LIST  Aprire,Stampare
+}
+
+DATA_CRITERIA Criteri_Mif_Nome
+{
+    DATA_ATTRIBUTES_NAME  Mif
+    NAME_PATTERN          *.mif
+}
+
+DATA_CRITERIA Criteri_Mif_Contenuto
+{
+   DATA_ATTRIBUTES_NAME   Mif
+   CONTENT                1 string MIFFile
+}</programlisting>
+</sect2>
+</sect1>
+<sect1 id="sag.crdt.div.24">
+<title>Creazione di tipi di dati in altre lingue</title>
+<para>Il percorso di ricerca per i tipi di dati include le directory dipendenti
+dalla lingua. Il desktop utilizza il valore della variabile<indexterm><primary>LANG, variabile</primary><secondary>effetto sui tipi di dati</secondary></indexterm> LANG
+per determinare le directory in cui cercare le definizioni dei tipi di dati.
+</para>
+<sect2 id="sag.crdt.div.25">
+<title>Directory per i tipi di dati in altre lingue</title>
+<para>Le definizioni dei tipi di dati tradotti devono trovarsi nelle directory
+appropriate all'interno dei percorsi di ricerca delle azioni.</para>
+<para>Il percorso di ricerca predefinito include le seguenti directory:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Azioni personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename></para>
+</listitem>
+<listitem><para>Azioni di sistema: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+<listitem><para>Azioni predefinite: <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.crdt.div.26" role="Procedure">
+<title>Come adattare un tipo di dati per un'altra lingua</title>
+<orderedlist>
+<listitem><para>Creare un file nella directory dipendente dalla lingua appropriata
+(ad esempio, in <filename>/etc/dt/appconfig/types/it</filename>).</para>
+</listitem>
+<listitem><para>Copiare la definizione del tipo di dati nel file di configurazione
+dipendente dalla lingua.</para>
+</listitem>
+<listitem><para>Tradurre uno o pi&ugrave; campi nella definizione del tipo
+di dati.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:05:15-->
+<?Pub *0000051765>

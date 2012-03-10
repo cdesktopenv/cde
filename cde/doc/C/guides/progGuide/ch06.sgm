@@ -1,0 +1,373 @@
+<!-- $XConsortium: ch06.sgm /main/7 1996/10/30 15:04:48 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="PG.wsmgr.div.1">
+<Title Id="PG.wsmgr.mkr.1">Integrating with the
+Workspace Manager</Title>
+<Para>The<IndexTerm>
+<Primary>Workspace Manager</Primary>
+<Secondary>integrating with</Secondary>
+</IndexTerm>
+Workspace Manager provides the means for an application to manage its
+windows within the desktop's multiple workspace environment. An
+application can perform four major tasks by communicating with the
+Workspace Manager:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Place the application's windows in one or more workspaces</Para>
+</ListItem>
+<ListItem>
+<Para>Identify the workspaces in which the application's windows are located</Para>
+</ListItem>
+<ListItem>
+<Para>Prevent the application's windows from moving to another workspace</Para>
+</ListItem>
+<ListItem>
+<Para>Monitor changes to the workspaces, such as when a user switches from one
+workspace to another</Para>
+</ListItem>
+</ItemizedList>
+<Para>Normally, Session Manager will get your application main window into the
+right workspace without your intervention. However, if your application has
+multiple top-level windows, you should use the Workspace Manager API to
+figure out where your windows are and save this data as part of your session
+state.</Para>
+<Para>See
+<!--Original XRef content: 'Chapter&numsp;4, &xd2;Integrating with Session Manager'--><XRef Role="ChapNumAndTitle" Linkend="PG.smgr.mkr.1"> for details on saving
+application-related information between sessions.</Para>
+<InformalTable Id="PG.wsmgr.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Communicating with the Workspace Manager64'--><XRef Role="JumpText" Linkend="PG.wsmgr.mkr.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Placing an Application Window in Workspaces64'--><XRef Role="JumpText" Linkend="PG.wsmgr.mkr.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Identifying Workspaces Containing the Application Windows65'--><XRef Role="JumpText" Linkend="PG.wsmgr.mkr.4"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Preventing Application Movement Among Workspaces66'--><XRef Role="JumpText" Linkend="PG.wsmgr.mkr.5"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Monitoring Workspace Changes67'--><XRef Role="JumpText" Linkend="PG.wsmgr.mkr.6"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="PG.wsmgr.div.2">
+<Title Id="PG.wsmgr.mkr.2">Communicating with the<IndexTerm>
+<Primary>Workspace Manager</Primary>
+<Secondary>communicating with</Secondary>
+</IndexTerm>
+Workspace Manager</Title>
+<Para>An application communicates with the Workspace Manager by using functions
+provided by the desktop. These functions allow you to quickly and easily
+perform a variety of tasks associated with workspace management. The
+following is a list of these functions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>DtWsmAddCurrentWorkspaceCallback</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmAddWorkspaceFunctions</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmAddWorkspaceModifiedCallback</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmFreeWorkspaceInfo</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetCurrentBackdropWindows</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetCurrentWorkspace</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetWorkspaceInfo</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetWorkspaceList</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetWorkspacesOccupied</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmOccupyAllWorkspaces</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmRemoveWorkspaceCallback</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmRemoveWorkspaceFunctions</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmSetCurrentWorkspace</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmSetWorkspacesOccupied</Command></Para>
+</ListItem>
+</ItemizedList>
+<Para>Segments of code from two demo programs (<Filename>occupy.c</Filename> and <Filename>wsinfo.c</Filename>)
+illustrate the use of these functions. Listings for <Command>occupy.c, wsinfo.c</Command>, and
+makefiles for several brands of workstations are in the directory
+<Filename>/usr/dt/examples/dtwsm</Filename>. See the applicable man page for more
+information on each function.</Para>
+</Sect1>
+<Sect1 Id="PG.wsmgr.div.3">
+<Title Id="PG.wsmgr.mkr.3">Placing an Application Window in<IndexTerm>
+<Primary>workspace</Primary>
+<Secondary>placing application window in</Secondary>
+</IndexTerm>
+Workspaces</Title>
+<Para>An application can place its windows in any or all of the existing workspaces.
+<Command>DtWsmOccupyAllWorkspaces</Command> places the windows in all currently defined
+workspaces, while <Command>DtWsmSetWorkspacesOccupied</Command> places the windows in
+all workspaces named in a list that is passed to the function.</Para>
+<Sect2 Id="PG.wsmgr.div.4" Role="Procedure">
+<Title>To Place an Application Window in All Workspaces</Title>
+<OrderedList>
+<ListItem>
+<Para>Use <Command><IndexTerm>
+<Primary>DtWsmOccupyAllWorkspaces</Primary>
+</IndexTerm>DtWsmOccupyAllWorkspaces</Command>.</Para>
+<Para>In <Filename>occupy.c</Filename>, the callback <Command>allWsCB</Command> for the Occupy All Workspaces push
+button calls this function.</Para>
+<ProgramListing>DtWsmOccupyAllWorkspaces (XtDisplay(toplevel),
+                          XtWindow(toplevel));</ProgramListing>
+<Para>where:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>XtDisplay(toplevel)</Filename> is the X display.</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>XtWindow(toplevel)</Filename> is the window to be placed in all workspaces.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Para>See the <Command>DtWsmOccupyAllWorkspaces</Command> man page for more information on this
+function.</Para>
+</Sect2>
+<Sect2 Id="PG.wsmgr.div.5" Role="Procedure">
+<Title>To Place an Application Window in Specified Workspaces</Title>
+<OrderedList>
+<ListItem>
+<Para>Use <Command><IndexTerm>
+<Primary>DtWsmSetWorkspacesOccupied</Primary>
+</IndexTerm>DtWsmSetWorkspacesOccupied</Command>.</Para>
+<Para>In <Filename>occupy.c</Filename>, the callback <Command>setCB</Command> for the Set Occupancy push button calls
+this function.</Para>
+<ProgramListing>DtWsmSetWorkSpacesOccupied (XtDisplay(toplevel),
+                            XtWindow(toplevel), paWsSet, numSet);</ProgramListing>
+<Para>where:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>XtDisplay(toplevel)</Filename> is the X display.</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>XtWindow(toplevel)</Filename> is the window to be placed in the workspaces.</Para>
+</ListItem>
+<ListItem>
+<Para><Command>paWsSet</Command> is a pointer to a list of workspace names that have been
+converted to X atoms.</Para>
+</ListItem>
+<ListItem>
+<Para><Command>numSet</Command> is the number of workspaces in the list.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Para>See the <Command>DtWsmSetWorkspacesOccupied</Command> man page for more information on
+this function.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.wsmgr.div.6">
+<Title Id="PG.wsmgr.mkr.4">Identifying<IndexTerm>
+<Primary>workspace</Primary>
+<Secondary>identifying</Secondary>
+</IndexTerm>
+Workspaces Containing the Application Windows</Title>
+<Para>The function <Command>DtWsmGetWorkspacesOccupied</Command> returns a list of the
+workspaces in which a specified application window resides. In <Filename>occupy.c</Filename>, the
+procedure <Command>ShowWorkspaceOccupancy</Command> calls this function. Based on the results
+of this call, <Command>ShowWorkspaceOccupancy</Command> changes the appearance of the toggle
+buttons that represent the workspaces. A check mark appears on every toggle
+button in whose workspace the application window resides.</Para>
+<Sect2 Id="PG.wsmgr.div.7" Role="Procedure">
+<Title>To Identify Workspaces That Contain the Application Window</Title>
+<OrderedList>
+<ListItem>
+<Para>Use <Command><IndexTerm>
+<Primary>DtWsmGetWorkspacesOccupied</Primary>
+</IndexTerm>DtWsmGetWorkspacesOccupied</Command>.</Para>
+</ListItem>
+</OrderedList>
+<ProgramListing>rval = DtWsmGetWorkspacesOccupied(XtDisplay(toplevel)
+             XtWindow(toplevel), &amp;paWsIn, &amp;numWsIn);</ProgramListing>
+<Para>where:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>XtDisplay(toplevel)</Filename> is the X display.</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>XtWindow(toplevel)</Filename> is the window to be searched for in the
+workspaces.</Para>
+</ListItem>
+<ListItem>
+<Para><Command>paWsIn</Command> is the address of a pointer to a list of workspace names that have
+been converted to X atoms.</Para>
+</ListItem>
+<ListItem>
+<Para><Command>numWsIn</Command> is the address of an integer into which the number of
+workspaces in the list is placed.</Para>
+</ListItem>
+</ItemizedList>
+<Para>After this call, loops are set up to compare the list of workspaces (found in the
+procedure <Command>SetUpWorkspaceButtons</Command> by <Command>DtWsmGetWorkspaceList</Command>) with
+the list of workspaces in which the application window was found to reside.
+The toggle button resource <Command>XmNset</Command> is set to True for each toggle button that
+represents a workspace in which the application window resides.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.wsmgr.div.8">
+<Title Id="PG.wsmgr.mkr.5">Preventing<IndexTerm>
+<Primary>workspace</Primary>
+<Secondary>preventing application movement</Secondary>
+</IndexTerm>
+Application Movement Among Workspaces</Title>
+<Para>The function <Command><IndexTerm>
+<Primary>DtWsmRemoveWorkspaceFunctions</Primary>
+</IndexTerm>DtWsmRemoveWorkspaceFunctions</Command> prevents an application
+from:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Switching from one workspace to another</Para>
+</ListItem>
+<ListItem>
+<Para>Occupying all workspaces</Para>
+</ListItem>
+<ListItem>
+<Para>Being removed from the current workspace</Para>
+</ListItem>
+</ItemizedList>
+<Para><Command>DtWsmRemoveWorkspaceFunctions</Command> does this by making that portion of the
+desktop Workspace Manager (<Command>dtwm</Command>) window menu inactive. The application
+should call <Command>DtWsmRemoveWorkspaceFunctions</Command> before its top-level window
+is mapped because <Command>dtwm</Command> only checks workspace information at the time it
+manages the application's top-level window. If you need to call
+<Command>DtWsmRemoveWorkspaceFunctions</Command> after the application's top-level window
+is managed, then you must first call the Xlib function <Command>XWithdrawWindow</Command>, call
+<Filename>DtWsmRemoveWorkspaceFunctions,</Filename> and then call <Command>XMapWindow</Command> to remap
+the top-level window.</Para>
+<Sect2 Id="PG.wsmgr.div.9" Role="Procedure">
+<Title>To Prevent Movement to Another Workspace</Title>
+<OrderedList>
+<ListItem>
+<Para>Use <Command><IndexTerm>
+<Primary>DtWsmRemoveWorkspaceFunctions</Primary>
+</IndexTerm>DtWsmRemoveWorkspaceFunctions</Command>.</Para>
+<ProgramListing>DtWsmRemoveWorkspaceFunctions(XtDisplay(toplevel),
+                              XtWindow(toplevel));</ProgramListing>
+<Para>where:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>XtDisplay(toplevel)</Filename> is the X display.</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>XtWindow(toplevel)</Filename> is the window for which workspace movement is
+to be prevented.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.wsmgr.div.10">
+<Title Id="PG.wsmgr.mkr.6">Monitoring<IndexTerm>
+<Primary>workspace</Primary>
+<Secondary>monitoring changes</Secondary>
+</IndexTerm>
+Workspace Changes</Title>
+<Para>You can monitor workspace changes by using either or both of the following
+functions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmAddCurrentWorkspceCallback</Primary>
+</IndexTerm>DtWsmAddCurrentWorkspaceCallback</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmWorkspaceModifiedCallback</Primary>
+</IndexTerm>DtWsmWorkspaceModifiedCallback</Command></Para>
+</ListItem>
+</ItemizedList>
+<Para><Command>DtWsmAddCurrentWorkspaceCallback</Command> registers an application callback to
+be called whenever the Workspace Manager is switched to a new workspace.
+See the <Filename>DtWsmAddCurrentWorkspaceCallback</Filename>(3) man page for more
+information.</Para>
+<Para><Command>DtWsmWorkspaceModifiedCallback</Command> registers an application callback to be
+called whenever a workspace is added, deleted, or changed. See the
+<Filename>DtWsmWorkspaceModifiedCallback</Filename>(3) man page for more information.</Para>
+<Sect2 Id="PG.wsmgr.div.11" Role="Procedure">
+<Title>To Monitor Workspace Switching</Title>
+<OrderedList>
+<ListItem>
+<Para>Use <Command><IndexTerm>
+<Primary>DtWsmAddCurrentWorkspaceCallback</Primary>
+</IndexTerm>DtWsmAddCurrentWorkspaceCallback</Command>.</Para>
+</ListItem>
+</OrderedList>
+<Para>In the demo program <Filename>wsinfo.c</Filename>, this function is called after the top-level
+widget is realized.</Para>
+<ProgramListing>DtWsmAddCurrentWorkspaceCallback (toplevel, wschangecb, NULL);</ProgramListing>
+<Para>where</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Command>toplevel</Command> is the application's top level widget.</Para>
+</ListItem>
+<ListItem>
+<Para><Command>wschangecb</Command> is the name of the function to be called.</Para>
+</ListItem>
+<ListItem>
+<Para><Command>NULL</Command> is the parameter for client data to be passed to the callback. In this
+case, no data is passed.</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.wsmgr.div.12" Role="Procedure">
+<Title>To Monitor Other Workspace Changes</Title>
+<OrderedList>
+<ListItem>
+<Para>Use <Command><IndexTerm>
+<Primary>DtWsmWorkspaceModifiedCallback</Primary>
+</IndexTerm>DtWsmWorkspaceModifiedCallback</Command>.</Para>
+<ProgramListing>DtWsmWorkspaceModifiedCallback (toplevel, wschangecb, NULL);</ProgramListing>
+<Para>where:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Command>toplevel</Command> is the application's top-level widget.</Para>
+</ListItem>
+<ListItem>
+<Para><Command>wschangecb</Command> is the name of the function to be called.</Para>
+</ListItem>
+<ListItem>
+<Para><Command>NULL</Command> is the parameter for client data to be passed to the callback. In this
+case, no data is passed.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->

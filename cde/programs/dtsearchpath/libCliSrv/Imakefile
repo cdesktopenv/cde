@@ -1,0 +1,33 @@
+XCOMM $TOG: Imakefile /main/5 1998/08/05 13:22:12 mgreess $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		CliSrv
+#define LibHeaders	NO
+#define LibInstall	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+INCLUDES = -I.
+
+#ifdef SunArchitecture
+SYS_LIBRARIES = -ldl -lintl
+LAST_LOAD_FLAGS = -Bstatic -lC -Bdynamic -lm -lc -ladm -Bstatic
+EXTRA_DEFINES = -DIOSTREAMSWORKS
+#endif
+
+#ifdef RsArchitecture
+EXTRA_DEFINES = -DIOSTREAMSWORKS
+#endif
+
+SRCS =	DirIterator.C 	Environ.C 	TTFile.C \
+	UnixEnv.C	cstring.C
+
+OBJS = 	DirIterator.o 	Environ.o 	TTFile.o \
+	UnixEnv.o 	cstring.o
+
+#include <Library.tmpl>
+
+DependTarget()

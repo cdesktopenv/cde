@@ -1,0 +1,229 @@
+<!-- $XConsortium: dtspcden.sgm /main/6 1996/09/08 20:19:30 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN87.rsml.1">
+<RefMeta>
+<RefEntryTitle>dtspcdenv</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>dtspcdenv</Filename></RefName>
+<RefPurpose>environment Variable File for the CDE Subprocess Control Service
+</RefPurpose>
+</RefNameDiv>
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1994 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1994 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1994 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1994 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The CDE Subprocess Control service provides the
+ability for a process running on one system to
+invoke another process on a different system.
+By default, the environment variables of the
+parent process are passed unmodified to the
+child process (on the remote host);
+however, there are some environment
+variables that are given special handling.
+In
+addition, the user or system administrator can
+specify environment variables that should be
+modified when they are passed to the child process.
+</Para>
+<Para>The system-wide environment files are:
+<Filename>/etc/dt/config/dtspcdenv</Filename> and
+<Filename>/usr/dt/config/dtspcdenv</Filename>
+and the user-specific environment file is:
+<Filename>$HOME/.dt/dtspcdenv</Filename>.
+The file
+<Filename>/usr/dt/config/dtspcdenv</Filename> is created
+when CDE is installed.
+This file may be overwritten
+by subsequent CDE installations.
+Consequently, local
+variable definitions should be placed in the file
+<Filename>/etc/dt/config/dtspcdenv</Filename> because this file is not
+overwritten during installation.
+</Para>
+<Para>The environment variable files are evaluated in the following order:
+</Para>
+<ProgramListing>local host: <Filename>/usr/dt/config/dtspcdenv</Filename>
+local host: <Filename>/etc/dt/config/dtspcdenv</Filename>
+local host: <Filename>$HOME/.dt/dtspcdenv</Filename>
+remote host: <Filename>/usr/dt/config/dtspcdenv</Filename>
+remote host: <Filename>/etc/dt/config/dtspcdenv</Filename>
+remote host: <Filename>$HOME/.dt/dtspcdenv</Filename>
+</ProgramListing>
+<Para>The precedence occurs in the reverse order of
+evaluation.
+Thus, variables in the remote
+host's
+<Filename>$HOME/.dt/dtspcdenv</Filename> file have the highest
+precedence and variables in the local host's
+<Filename>/etc/dt/config/dtspcdenv</Filename> file have the lowest
+precedence.
+In this context, the local host is the
+host where a CDE client is running and
+the remote host is the host where a remote
+process will be started (on behalf of
+the local client).
+</Para>
+<Para>Lines beginning with a numer symbol (#) are considered
+comments and are not processed.
+</Para>
+<Para>The syntax for a non-commented line is:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>VAR_NAME=some_value
+</ProgramListing>
+</InformalExample>
+<Para>where
+<Emphasis>VAR_NAME</Emphasis> is the name of an
+environment variable and
+<Emphasis>some_value</Emphasis> is the value assigned to the variable.
+</Para>
+<Para>If
+<Emphasis>some_value</Emphasis> contains a variable reference,
+the reference will be replaced by the variable's
+value.
+For example, if a CDE client has the
+following definition in its environment:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>PATH=/bin:/sbin:/usr/local/bin
+</ProgramListing>
+</InformalExample>
+<Para>and the following definition occurs in one of the
+environment files:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>PATH=/opt/foo/bin:$PATH
+</ProgramListing>
+</InformalExample>
+<Para>then before the remote process is executed,
+<SystemItem Class="EnvironVar">PATH</SystemItem>
+will be expanded to:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>PATH=/opt/foo/bin:/bin:/sbin:/usr/local/bin
+</ProgramListing>
+</InformalExample>
+<Para>The environment variable names may consist of
+letters, digits or underscores and may be
+enclosed in curly braces.
+The environment variable files may contain
+"unset &lt;variable_name>" commands to prevent
+an environment variable from being propagated
+to the remote process.
+For example, the following line would
+prevent the variable
+<Emphasis>LIB_PATH</Emphasis> from being
+propagated to the remote process:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>unset LIB_PATH
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLES</Title>
+<Para>The
+<Command>dtspcd</Command> daemon treats the following variables specially:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">DISPLAY</SystemItem></Term>
+<ListItem>
+<Para>If
+<SystemItem Class="EnvironVar">DISPLAY</SystemItem> is set to "unix:&lt;n>", "local:&lt;n>" or ":&lt;n>"
+(where &lt;n> is the screen number), then before the
+remote process is executed,
+<SystemItem Class="EnvironVar">DISPLAY</SystemItem> is changed to the name of the local host and
+the screen number is preserved.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">HOME</SystemItem></Term>
+<ListItem>
+<Para>Before the remote process is executed,
+<SystemItem Class="EnvironVar">HOME</SystemItem> is set
+to the value of the user's home directory in
+the password file on the remote host.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">SHELL</SystemItem></Term>
+<ListItem>
+<Para>If
+<SystemItem Class="EnvironVar">SHELL</SystemItem> is not in the parent processes environment,
+<SystemItem Class="EnvironVar">SHELL</SystemItem> is set to the value of the user's shell in
+the password file on the remote host.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">PWD</SystemItem></Term>
+<ListItem>
+<Para>The variable
+<SystemItem Class="EnvironVar">PWD</SystemItem> is not propagated to
+the remote host.
+Note that the above variables will be
+overridden by their corresponding definitions
+in an environment file.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following definition sets the variable
+<Emphasis>FOO_BIN_PATH</Emphasis> to the value
+<Filename>/var/foo/bin</Filename>: <Literal>FOO_BIN_PATH=/var/foo/bin</Literal></Para>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term><Filename>/usr/dt/config/dtspcdenv</Filename></Term>
+<ListItem>
+<Para>System-wide, installed environment variable definitions
+used when a process is executed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/etc/dt/config/dtspcdenv</Filename></Term>
+<ListItem>
+<Para>System-wide, locally defined environment variable definitions
+used when a process is executed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>$HOME/.dt/dtspcdenv</Filename></Term>
+<ListItem>
+<Para>User-specific environment variable definitions used
+when a process is executed
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtspcd;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

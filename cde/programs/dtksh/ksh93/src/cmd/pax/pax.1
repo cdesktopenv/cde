@@ -1,0 +1,685 @@
+.\" $XConsortium: pax.1 /main/3 1995/11/01 17:01:42 rswiston $
+.\"
+.\" Glenn Fowler
+.\" AT&T Bell Laboratories
+.\"
+.\" @(#)pax.1 (gsf@research.att.com) 01/11/95
+.\"
+.TH PAX 1
+.SH NAME
+pax \- portable archive interchange
+.SH SYNOPSIS
+.B pax
+[
+.B \-r
+] [
+.B \-v
+] [
+.B \-f
+.I archive
+] [
+.B \-s
+.RI / old / new /[glpsu]
+] [
+.B \-z
+.I base
+] [
+.I "pattern ..."
+]
+.LP
+.B pax
+.B \-w
+[
+.B \-a
+] [
+.B \-v
+] [
+.B \-f
+.I archive
+] [
+.B \-s
+.RI / old / new /[glpsu]
+] [
+.B \-x
+.I format
+] [
+.B \-z
+.I base
+] [
+.I "pathname ..."
+]
+.LP
+.B pax
+.B \-rw
+[
+.B \-v
+] [
+.B \-s
+.RI / old / new /[glpsu]
+] [
+.I "pathname ..."
+]
+.I directory
+.SH DESCRIPTION
+.I pax
+reads and writes archive files in various formats.
+There are four operation modes controlled by combinations of the
+.B \-r
+and
+.B \-w
+options.
+.PP
+.B "pax \-w"
+writes the files and directories named by the
+.I pathname
+arguments to the standard output together with
+pathname and status information.
+A directory
+.I pathname
+argument refers to the files and (recursively) subdirectories
+of that directory.
+If no
+.I pathname
+arguments are given then the standard input is read to get
+a list of pathnames to copy, one pathname per line.
+In this case only those pathnames appearing on the standard input are copied.
+.PP
+.B "pax \-r"
+reads files from the standard input that is assumed
+to be the result of a previous
+.B "pax \-w"
+command.
+Only files with names that match any of the
+.I pattern
+arguments are selected.
+A
+.I pattern
+is given in the name-generating notation of
+.IR sh (1),
+except that the
+.B /
+character is also matched.
+The default if no
+.I pattern
+is given is
+.BR * ,
+which selects all files.
+The selected files are conditionally created and copied relative
+to the current directory tree, subject to the options described below.
+By default the owner and group of selected files will be that of the
+current user, and the permissions and modify times will be the same
+as those in the archive.
+If the
+.B \-r
+option is omitted then a table of contents of the selected files is
+listed on the standard output.
+.PP
+.B "pax \-rw"
+reads the files and directories named in the
+.I pathname
+arguments and copies them to the destination
+.IR directory .
+A directory
+.I pathname
+argument refers to the files and (recursively) subdirectories
+of that directory.
+If no
+.I pathname
+arguments are given then the standard input is read to get
+a list of pathnames to copy, one pathname per line.
+In this case only those pathnames appearing on the standard input are copied.
+.I directory
+must exist before the copy.
+.PP
+The standard archive formats are automatically detected on input.
+The default output archive format is implementation defined,
+but may be overridden by the
+.B \-x
+option described below.
+.I pax
+archives may be concatenated to combine multiple volumes on a single
+tape or file.
+This is accomplished by forcing any format prescribed pad data to be null bytes.
+Hard links are not maintained between volumes, and
+delta and base archives cannot be multi-volume.
+.PP
+A single archive may span many files/devices.
+The second and subsequent file names are prompted for on the terminal input.
+The response may be:
+.TP
+.BI ! command
+Execute
+.I command
+via
+.IR system (3)
+and prompt again for file name.
+.TP
+.B EOF
+Exit without further processing.
+.TP
+.B CR
+An empty input line retains the previous file name.
+.TP
+.I pathname
+The file name for the next archive part.
+.SS "Basic Options"
+.TP
+.B a
+For
+.BR \-w ,
+append files to the end of the archive.
+.TP
+.BI f " archive"
+.I archive
+is the pathname of the input or output archive, overriding the default
+standard input for
+.B \-r
+and
+.B \-rw
+or standard output for
+.BR \-w .
+.TP
+\fBs\fP /\fIold\fP/\fInew\fP/[\fBglpu\fP]
+File names and symbolic link text are mapped according
+to the
+.IR ed (1)
+style substitution expression.
+Any non-null character may be used as a delimiter
+.RB ( /
+shown here).
+Multiple
+.B \-s
+expressions may be specified; the expressions are applied from left to right.
+A trailing
+.B l
+converts the matched string to lower case.
+A trailing
+.B p
+causes successful mappings to be listed on the standard error.
+A trailing
+.B s
+stops the substitutions on the current name if the substitution
+changes the name.
+A trailing
+.B u
+converts the matched string to upper case.
+File names that substitute to the null string are ignored on
+both input and output.
+The
+.B "\-o physical"
+option inhibits symbolic link text substitution.
+.TP
+.B v
+Produces a verbose table of contents listing on the standard output when both
+.B \-r
+and
+.B \-w
+are omitted.
+Otherwise the file names are listed on the standard error
+as they are encountered.
+.TP
+.BI x " format"
+Specifies the output archive
+.IR format .
+If specified with
+.B \-rw
+then the standard input is treated as an archive that is converted to a
+.I format
+archive on the standard output.
+The input format, which must be one of the following,
+is automatically determined.
+The default output format, named by
+.BR \- ,
+is currently
+.BR cpio .
+The formats are:
+.RS
+.PD 0
+.TP
+.B ansi
+ANSI standard label tape format.
+Only regular files with simple pathnames are archived.
+Valid only for blocked devices.
+.TP
+.B asc
+The
+.B s5r4
+extended
+.IR cpio (5)
+character format.
+.TP
+.B aschk
+The
+.B s5r4
+extended
+.IR cpio (5)
+character format with header checksum.
+This format is misnamed
+.B crc
+in the
+.B s5r4
+documentation.
+.TP
+.B binary
+The
+.IR cpio (5)
+binary format with symbolic links.
+This format is obsolete and should not be used on output.
+.TP
+.B cpio
+The
+.IR cpio (5)
+character format with symbolic links.
+This is the default output format.
+.TP
+.B ibmar
+EBCDIC standard label tape format.
+Only regular files with simple pathnames are archived.
+Valid only for tape devices.
+.TP
+.B posix
+The IEEE 1003.1b-1990 interchange format, partially compatible with
+the X3.27 standard labeled tape format.
+.TP
+.B portarch
+The s5r2 portable object library format.
+Valid only on input.
+.TP
+.B randarch
+The BSD ranlib object library format.
+Valid only on input.
+.TP
+.B tar
+The
+.IR tar (5)
+format with symbolic links.
+.TP
+.B ustar
+The POSIX IEEE Std 1003.1-1988 tar format.
+.TP
+.B vdb
+The
+.I "virtual database"
+format used by
+.IR cia (1)
+and
+.IR cql (1).
+.TP
+.B vmsbackup
+ANSI standard label VMS backup savset tape format.
+Valid only for input tape devices.
+.TP
+.I format
+Formats can be defined as extensions to the builtin formats.
+For any non-builtin format
+.IR format ,
+can be 
+.PD
+.RE
+.SS "Extended Options"
+All options have long string names specified using
+.B \-o
+.RI [no] name [= value ];
+.TP
+.B append
+.RB ( \-a )
+For
+.BR \-w ,
+append files to the end of the archive.
+.TP
+.B atime
+Preserve the access time of all files.
+.TP
+.BI base =path
+.RB ( \-z )
+.BI b " blocking"
+Set the output blocking size.
+If no suffix (or a
+.B c
+suffix) is specified then
+.I blocking
+is in 1 character units.
+A
+.B b
+suffix multiplies
+.I blocking
+by 512 (1 block), a
+.B k
+suffix multiplies
+.I blocking
+by 1024 (1 kilobyte) and an
+.B m
+suffix multiplies
+.I blocking
+by 1048576 (1 megabyte).
+.I blocking
+is automatically determined on input and is ignored for
+.BR \-rw .
+The default
+.I blocking
+is
+.B 10k
+for block and character special archive files and
+implementation defined otherwise.
+The minimum
+.I blocking
+is
+.BR 1c .
+.TP
+.B exact
+.RB ( \-n )
+For
+.B \-r
+the pattern arguments are treated as ordinary file names.
+Only the first occurrence of each of these files in the
+input archive is read.
+.I pax
+exits with zero exit status after all files in the list have been read.
+If one or more files in the list is not found,
+.I pax
+writes a message to standard error for each of these files
+and exits with a non-zero exit status.
+The file names are compared before any pathname transformations are applied.
+.TP
+.B m
+File modification times are not retained.
+.TP
+.B o
+Restore file ownership as specified in the archive.
+The current user must have appropriate privileges.
+.SS "Compatibility Options"
+These options provide functional compatibility with the old
+.IR cpio (1)
+and
+.IR tar (1)
+commands.
+.TP
+.B c
+Complement the match sense of the
+.I pattern
+arguments.
+.TP
+.B d
+Intermediate directories not explicitly listed in the archive
+are not created.
+.TP
+.B i
+Interactively
+.I rename
+files.
+A file is skipped if a null line is entered and
+.I pax
+exits if
+.B EOF
+is encountered.
+.TP
+.B l
+For
+.BR \-rw ,
+files are linked rather than copied when possible.
+.TP
+.B p
+Preserve the access times of input files after they have been copied.
+.TP
+.BI t " device"
+.I device
+is an identifier that names the input or output archive device,
+overriding the default standard input for
+.B \-r
+or standard output for
+.BR \-w .
+Tape devices may be specified as
+.IR drive [ density\|rewind ]
+where
+.I drive
+is a drive number in the range [0\-7],
+.I density
+is one of
+.BR l ,
+.B m
+and
+.B h
+for
+.B low
+(800 bpi),
+.B medium
+(1600 bpi \- default)
+and
+.B high
+(6250 bpi)
+tape densities and
+.I rewind
+is
+.B n
+to inhibit rewinding of the tape device when it is closed.
+Other forms for
+.I device
+are implementation defined.
+.TP
+.B u
+Copy each file only if it is newer than a pre-existing file with the same name.
+This option implies
+.BR \-a .
+.TP
+.B y
+Interactively prompt for the disposition of each file.
+.B EOF
+or an input line starting with
+.B q
+causes
+.I pax
+to exit.
+Otherwise an input line starting with anything other than
+.B y
+causes the file to be ignored.
+.SS "Extended Options"
+These options provide fine archive control, including delta archive operations.
+.TP
+.BI e " filter"
+Run the
+.I filter
+command on each file to be output.
+The current name of the file to be output is appended to the filter command
+string before the command is executed by the shell.
+.TP
+.B h
+Inhibit archive heading and summmary information messages to stderr.
+.TP
+.B k
+For
+.B \-r
+continue processing the archive after encountering an error by attempting
+to locate the next valid entry.
+This is useful for archives stored on unreliable media.
+.TP
+.BI z " base"
+Specifies the delta base archive
+.I base
+that is assumed to be the result of a previous
+.B "pax \-w"
+command.
+For
+.B \-w
+the input files are compared with the files in
+.I base
+and file delta information is placed in the output archive
+using the delta algorithm.
+For
+.B \-r
+the delta information in the input archive is used to update the
+output files with respect to the files in
+.IR base .
+For
+.B \-rw
+the delta information in the archive on the standard input is used
+to generate an archive on the standard output whose entries are updated
+with respect to the files in
+.IR base .
+If
+.I base
+is
+.B \-
+or an empty file then the input files are simply compressed.
+.B "\-z -"
+must also be specified to produce a compressed archive for
+.BR \-rw .
+.TP
+.BI B " count"
+Sets the maximum archive part output character count.
+.I pax
+prompts for the next archive part file name.
+Valid only with
+.BR \-w .
+.TP
+.B C
+Archive entries smaller than
+.BI \-B " maxblocks"
+must be contained within a single part.
+Valid only with
+.BR \-B .
+.TP
+.B L
+Copy a logical view of the input files.
+Symbolic links are followed, causing the pointed to files to be copied
+rather than the symbolic link information.
+This is the default.
+.TP
+.BI M " message"
+Set the
+.I "end of medium"
+prompt to
+.IR message .
+This message is used to prompt interactively for the next tape
+reel or cartridge in cases where the tape runs out before
+all files have been copied.
+.I message
+may contain one
+.IR printf (3)
+style integer format specification that is replaced with the
+next part number.
+.TP
+.B P
+Copy a physical view of the input files.
+Causes symbolic link information to be copied as opposed to the
+default (logical view) action of following symbolic links
+and copying the pointed to files.
+.TP
+\fBR\fP \fIoption\fP[\fIvalue\fP][,\fIoption\fP[\fIvalue\fP]...]
+Set record oriented format options.
+Multiple options may be concatenated using
+.BR , .
+Some options may be fixed for some formats.
+The options are:
+.RS
+.PD 0
+.TP
+.B c
+Record data is subject to character set conversions.
+.TP
+.BI f format
+Set the output record format to
+.IR format .
+The supported record formats are:
+.RS
+.TP
+.B D
+Variable length with 4 byte record header.
+The record size default is 512.
+.TP
+.B F
+Fixed length with no record header.
+The record size default is 128.
+.TP
+.B S
+Spanned variable length with 4 byte record header.
+The record size default is 0 (no limit).
+.TP
+.B U
+Variable length with no record header.
+The output block size matches the size of each output record.
+The record size default is 512.
+.TP
+.B V
+Spanned variable length with binary 4 byte record header.
+The record size default is 0 (no limit).
+The
+.B D
+format is preferred.
+.PD
+.RE
+.TP
+.BI m pattern
+Only those files with input record format matching
+.I pattern
+are processed.
+.TP
+.B p
+Partial output blocks are padded to the full blocksize.
+.TP
+.BI s size
+Set the output record size to
+.IR size .
+.I size
+should divide the output blocking.
+.TP
+.BI v label
+Set the output volume label to
+.IR label .
+Some formats may truncate and/or case-convert
+.IR label .
+.PD
+.RE
+.TP
+.B S
+Similar to
+.B \-l
+except that symbolic links are created.
+.TP
+.BI U " id"
+Set file ownership to the default of the user named
+.IR id .
+Valid only for the super-user.
+.TP
+.B V
+Output a `.' as each file is encountered.
+This overrides the
+.B \-v
+option.
+.TP
+.B X
+Do not cross mount points when searching for files to output.
+.SH DIAGNOSTICS
+The number of files, blocks, and optionally the number of volumes and
+media parts are listed on the standard error.
+For
+.B \-v
+the input archive formats are also listed on the standard error.
+.SH EXAMPLES
+.TP
+.B "pax \-w \-t 1m ."
+Copies the contents of the current directory to tape drive 1, medium density.
+.TP
+.PD 0
+.BI mkdir "  newdir"
+.TP
+.BI cd "  olddir"
+.TP
+.BI "pax  \-rw  ." "  newdir"
+.PD
+Copies the
+.I olddir
+directory hierarchy to
+.IR newdir .
+.SH "SEE ALSO"
+ar(1), cpio(1), find(1), ksh(1), tar(1), tw(1), libdelta(3), cpio(5), tar(5)
+.SH BUGS
+Special privileges may be required to copy special files.
+.br
+Each archive format has a hard upper limit on member pathname sizes.
+.br
+Device, user-id and group-id numbers larger than 65535 cause additional
+header records to be output.
+These records are ignored by old versions of
+.IR cpio (1)
+and
+.IR tar (1).

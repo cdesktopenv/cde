@@ -1,0 +1,82 @@
+
+		UDB TOOLS
+		---------
+
+The udb tools are located in the shared source tree in:
+	/x/cdesrc/admin/IntegTools/dbTools
+
+The basic tools for manipulating "udb" databases are:
+
+	udbParseLib.awk 	-- the awk parser for "udb" files.
+		   This awk file contains functions which read the udb
+		   databases into memory and set up awk-style
+		   associative arrays of keyword value pairs
+		   for all the file entries.  This "library"
+		   also contains the default set of print
+		   routines that allow the database information
+		   to be printed in a number of different
+		   formats.  
+			Custom print routines can easily
+		   be written by following the conventions used
+		   in the default print routines.
+			This parser is used by "udbToAny.ksh" and other
+		   scripts which manipulate the ".udb" databases.
+
+	udbToAny.ksh	--  A ksh front end which allows the contents of the
+		   "udb" file to be transformed into a number of different
+		   formats.  It also accepts the name of "custom" awk print
+		   routine which can do new and mysterious things.  The
+		   most useful output at present is the "-toLst" option which
+		   produces output suitable for the "mkProd" script.
+			NOTE: This script accepts more than one "udb" file
+		   as input but only the Release Definitions from the first
+		   udb file will be applied.
+
+	mkProd	-- a ksh script which will create a product tree from the
+		  files in a build tree based on the contents of its input.
+		  This script takes a one-line format (.lst format) as input.
+		  This one-line format can be generated from a "udb" file by
+		  using the "-toLst" option in "udbToAny.ksh".
+			This script calls two other ksh scripts "uncomment"
+		  and "linksLast".  They do very simple tasks and should 
+		  probably be rewritten as simple ksh functions in mkProd.
+		NOTE:	There is shell code to do automatic stripping of
+			executables and compression of man pages etc. but
+			most of that is turned off.
+
+
+	There are other more complicated tools that act on "udb" databases,
+	but they are hp-ux specific.  
+
+	Example 1
+	---------
+	Suppose /x/cde_hpux is a build tree containing a successful hpux build.
+	Suppose COE-RUN.udb and COE-RUN-ADMIN.udb are databases defining the
+	COE-RUN product.
+	To create a product tree at: "/prod/hpux/COE-RUN"
+	run the following two commands (as root):
+
+1)	udbToAny.ksh -ReleaseStream hp-ux -toLst COE-RUN.udb COE-RUN-ADMIN.udb > COE-RUN.lst
+2)	mkProd -D /prod/hpux/COE-RUN -S /x/cde_hpux COE-RUN.lst
+
+	NOTE: mkProd -f COE-RUN -D /prod/hpux -S /x/cde_hpux COE-RUN.lst
+	      would produce essentially the same results as 2) above.
+
+	Example 2
+	---------
+	Suppose we wanted to install the above bits on a test system.  Then
+	as root:
+
+	1) udbToAny.ksh -ReleaseStream hp-ux -toLst COE-RUN.udb COE-RUN-ADMIN.udb 
+		| mkProd -D / -S /x/cde_hpux
+	
+	will install the bits on your root file system.
+
+		
+
+
+		  
+
+	
+
+	

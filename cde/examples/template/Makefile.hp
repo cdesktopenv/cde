@@ -1,0 +1,107 @@
+# $XConsortium: Makefile.hp /main/3 1996/05/13 12:00:59 drk $
+##########################################################################
+#
+#  Makefile for template example (HP)
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Novell, Inc.
+#
+##########################################################################
+
+CC		= cc
+RM		= rm -f
+DTHELPTAG	= dthelptag
+GENCAT		= gencat
+MKDIR		= mkdir -p
+CP		= cp
+CHMODEXE	= chmod a+x
+
+LOCALE		= C
+ 
+PACKAGE		= template
+APPGROUPNAME	= template
+PROGRAM		= templatebin
+SOURCES		= template.c
+OBJECTS		= template.o
+HELPSOURCE	= $(LOCALE)/template.htg
+HELPFILE	= $(LOCALE)/template.sdl
+MSGSOURCE	= $(LOCALE)/template.msg
+MSGFILE		= $(LOCALE)/template.cat
+TYPEFILE	= $(LOCALE)/template.dt
+ICONFILES	= \
+		$(LOCALE)/template.t.pm $(LOCALE)/template.t.bm \
+		$(LOCALE)/template.s.pm $(LOCALE)/template.s.bm \
+		$(LOCALE)/template.m.pm $(LOCALE)/template.m.bm \
+		$(LOCALE)/template.l.pm $(LOCALE)/template.l.bm \
+		$(LOCALE)/template_icon.pm $(LOCALE)/template_icon_m.bm \
+		$(LOCALE)/template-brush.bm
+APPDEFAULTSSRC	= $(LOCALE)/Template.ad
+APPDEFAULTS	= $(LOCALE)/Template
+README		= $(LOCALE)/README
+EXAMPLES	= $(LOCALE)/example.template
+ACTIONS		= TemplateNew TemplateOpen TemplatePrint
+
+DEFINES		= -D_INCLUDE_XOPEN_SOURCE
+CDEBUGFLAGS	= -O
+CFLAGS		= -Aa -z $(DEFINES) $(CDEBUGFLAGS)
+
+DTINCLUDE	= -I/usr/dt/include
+X11INCLUDE	= -I/usr/include/X11R5
+
+INCLUDES	= $(DTINCLUDE) $(X11INCLUDE)
+
+DTLIBS		= -L/usr/dt/lib -lDtHelp -lDtSvc -lXm -ltt
+X11LIBS		= -L/usr/lib/X11R5 -lXt -lX11
+SYSLIBS		=
+
+LIBRARIES	= $(DTLIBS) $(X11LIBS) $(SYSLIBS)
+LDFLAGS		=
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<
+
+#all::	$(PACKAGE)
+
+$(PACKAGE):: $(PROGRAM) $(HELPFILE) $(MSGFILE) $(APPDEFAULTS) \
+		$(ICONFILES) $(TYPEFILE) $(README) $(EXAMPLES) $(ACTIONS)
+	
+	$(RM) -r $(PACKAGE)
+
+	$(MKDIR) $(PACKAGE)/bin
+	$(MKDIR) $(PACKAGE)/app-defaults/C
+	$(MKDIR) $(PACKAGE)/msg/C
+
+	$(CP) $(PROGRAM) $(PACKAGE)/bin
+	$(CP) $(MSGFILE) $(PACKAGE)/msg/C
+	$(CP) $(APPDEFAULTS) $(PACKAGE)/app-defaults/C
+
+	$(MKDIR) $(PACKAGE)/dt/appconfig/icons/C
+	$(MKDIR) $(PACKAGE)/dt/appconfig/help/C
+	$(MKDIR) $(PACKAGE)/dt/appconfig/types/C
+	$(MKDIR) $(PACKAGE)/dt/appconfig/appmanager/$(LOCALE)/$(APPGROUPNAME)
+	
+	$(CP) $(ICONFILES) $(PACKAGE)/dt/appconfig/icons/C
+	$(CP) $(HELPFILE) $(PACKAGE)/dt/appconfig/help/C
+	$(CP) $(TYPEFILE)  $(PACKAGE)/dt/appconfig/types/C
+	$(CHMODEXE) $(ACTIONS) 
+	$(CP) $(README) $(EXAMPLES) $(ACTIONS) \
+		$(PACKAGE)/dt/appconfig/appmanager/$(LOCALE)/$(APPGROUPNAME)
+
+$(PROGRAM)::	$(OBJECTS)
+	$(CC) -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+$(APPDEFAULTS):: $(APPDEFAULTSSRC)
+	$(CP) $(APPDEFAULTSSRC) $(APPDEFAULTS)
+
+$(HELPFILE)::	$(HELPSOURCE)
+	$(DTHELPTAG) $(HELPSOURCE)
+
+$(MSGFILE)::	$(MSGSOURCE)
+	$(GENCAT) $(MSGFILE) $(MSGSOURCE)
+
+clean::
+	$(RM) $(PROGRAM) $(OBJECTS) $(MSGFILE) $(APPDEFAULTS)
+	$(DTHELPTAG) -clean $(HELPSOURCE)
+	$(RM) -r template

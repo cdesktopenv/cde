@@ -1,0 +1,115 @@
+XCOMM $XConsortium: Imakefile /main/9 1996/10/09 14:04:06 drk $
+DESKTOP_VERSION_STRING = DesktopVersionString
+
+XCOMM
+XCOMM Imakefile: for DT CreateAction
+XCOMM
+
+/* General case INCLUDES DEFINES LOCAL_LIBRARIES
+ * Each individual architecture may have more or less of the above.
+ * Use EXTRA_DEFINES and EXTRA_INCLUDES to add defines and includes
+ * to an individual architecture.  There is no equivalent for
+ * LOCAL_LIBRARIES.
+ * USE_libraryname in LOCAL_LIBRARIES is by default empty.
+ * It should be set when necessary to the real library macro name.
+ */
+
+       INCLUDES = -I.
+#if defined (SunArchitecture)
+DEPLIBS = $(DEPDTWIDGETLIB) $(DEPDTSVCLIB) \
+                  $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTWIDGETLIB) $(DTSVCLIB) \
+                  $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+#else
+DEPLIBS = $(DEPDTHELPLIB) $(DEPDTWIDGETLIB) $(DEPDTSVCLIB) \
+                  $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTWIDGETLIB) $(DTSVCLIB) \
+                  $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+#endif /* SunArchitecture */
+SYS_LIBRARIES = -lm
+
+#ifdef AlphaArchitecture
+EXTRA_DEFINES = -D_NO_PROTO
+#endif
+
+#ifdef HPArchitecture
+EXTRA_DEFINES = -Aa +e -DANSICPP -D_POSIX_SOURCE=1 -D_HPUX_SOURCE
+#endif
+
+#ifdef RsArchitecture
+EXTRA_DEFINES =
+SYS_LIBRARIES = -lm -liconv
+#endif
+
+#if defined (SunArchitecture)
+SYS_LIBRARIES = -lm -ldl -L/opt/SUNWspro/SC2.0.1 -lC
+#endif /* SunArchitecture */
+
+#if defined (USLArchitecture)
+EXTRA_DEFINES = -D_NO_PROTO
+SYS_LIBRARIES = -lm -ldl -lgen
+#endif /* SunArchitecture */
+
+#if defined (UXPArchitecture)
+EXTRA_DEFINES = -Xt -D_NO_PROTO
+SYS_LIBRARIES = -lm -ldl -lgen
+#endif /* UXPArchitecture */
+
+
+SRCS = \
+        main.c          \
+        AddFiletype.c   \
+        Confirmed.c     \
+        CreateActionAppShell.c  \
+        FileCharacteristics.c   \
+        OpenFile.c      \
+        UxXt.c          \
+        ca_aux.c        \
+        cmncbs.c        \
+        cmnutils.c      \
+        cmnrtns.c       \
+        ErrorDialog.c   \
+        fileio.c        \
+        af_aux.c        \
+        icon_selection_dialog.c \
+        parser.c        \
+        version.c
+
+OBJS = \
+        main.o          \
+        AddFiletype.o   \
+        Confirmed.o     \
+        CreateActionAppShell.o  \
+        FileCharacteristics.o   \
+        OpenFile.o      \
+        UxXt.o          \
+        ca_aux.o        \
+        cmncbs.o        \
+        cmnutils.o      \
+        cmnrtns.o       \
+        ErrorDialog.o   \
+        fileio.o        \
+        af_aux.o        \
+        icon_selection_dialog.o \
+        parser.o        \
+        version.o
+
+NormalLibraryObjectRule()
+
+ComplexProgramTarget(dtcreate)
+
+/***** For dtge make a client_OBJS.o using client_main.o ******/
+/***** This implies the existence of client_main.c       ******/
+/***** dtge hidden symbols *******/
+#ifdef BuildHugeObject
+#ifdef HPArchitecture
+#ifdef __hp9000s300
+HIDDEN_SYMBOLS = -h _main -h _HelpOnItemCB -h _CreateHelpDialog \
+       -h _DisplayHelpDialog -h _ChangeTitle
+#else
+HIDDEN_SYMBOLS = -h main  -h HelpOnItemCB -h CreateHelpDialog \
+       -h DisplayHelpDialog -h ChangeTitle
+#endif
+#endif
+SpecialRelocatableTarget(dtcreate,$(HIDDEN_SYMBOLS),$(OBJS))
+#endif

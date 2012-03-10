@@ -1,0 +1,57 @@
+XCOMM $XConsortium: Imakefile /main/8 1996/04/21 19:11:16 drk $
+#define DoNormalLib	NormalLibDtWidget
+#define DoSharedLib	SharedLibDtWidget
+#define DoDebugLib	DebugLibDtWidget
+#define DoProfileLib	ProfileLibDtWidget
+#define LibName		DtWidget
+#define SoRev		SODTWIDGETREV
+#define IncSubdir	Dt
+
+#include <Threads.tmpl>
+
+#ifndef DtWidgetDefines
+# define DtWidgetDefines	-DI18N_MSG -DXK_MISCELLANY -DMULTIBYTE
+#endif
+DEFINES = DtWidgetDefines
+INCLUDES = -I.
+
+#ifdef SharedDtWidgetReqs
+REQUIREDLIBS = SharedDtWidgetReqs
+#endif
+
+HEADERS = \
+        Icon.h          IconP.h         DtStrDefs.h \
+        SpinBox.h       SpinBoxP.h      ComboBox.h \
+        ComboBoxP.h     MenuButtonP.h   MenuButton.h \
+	DialogBox.h	DialogBoxP.h	DtMsgsP.h \
+	MacrosP.h	Control.h	ControlP.h \
+	View.h		ViewP.h		TitleBox.h \
+	TitleBoxP.h	EditorP.h	Editor.h
+
+SRCS = \
+        ComboBox.c      Control.c       DialogBox.c \
+        DtMsgs.c        DtStrDefs.c     EditAreaData.c \
+        EditCalls.c     Editor.c        Icon.c \
+        MenuButton.c    NewCvt.c        SearchCalls.c \
+        SearchDlg.c     SpinBox.c       TitleBox.c \
+        View.c
+
+OBJS = \
+        ComboBox.o      Control.o       DialogBox.o \
+        DtMsgs.o        DtStrDefs.o     EditAreaData.o \
+        EditCalls.o     Editor.o        Icon.o \
+        MenuButton.o    NewCvt.o        SearchCalls.o \
+        SearchDlg.o     SpinBox.o       TitleBox.o \
+        View.o
+
+#include <Library.tmpl>
+
+/* MS Compiler bug, remove when we go to USL compiler */
+#ifdef SCOArchitecture
+SpecialFlagsObjectRule(Clock, -Olegtc)
+#endif
+
+DependTarget()
+
+LOCAL_CPP_DEFINES = -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP)
+CppSourceFile(UNIXbindings,UNIXbindings.cpp,$(LOCAL_CPP_DEFINES),)

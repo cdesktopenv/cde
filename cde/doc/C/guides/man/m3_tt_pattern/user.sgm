@@ -1,0 +1,113 @@
+<!-- $XConsortium: user.sgm /main/5 1996/08/30 14:22:27 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN210.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN210.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_pattern_user</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_pattern_user</Function></RefName>
+<RefPurpose>return the value in a user data cell for a pattern object
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: user.sgm /main/5 1996/08/30 14:22:27 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>*tt_pattern_user</Function></FuncDef>
+<ParamDef>Tt_pattern <Parameter>p</Parameter></ParamDef>
+<ParamDef>int <Parameter>key</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_pattern_user</Function> function
+returns the value in the indicated user data cell for the specified pattern
+object.
+</Para>
+<Para>Every pattern object allows an arbitrary number of user
+data cells that are each one word in size.
+The user data cells are identified by integer keys.
+The tool can use these keys in any manner to associate arbitrary data
+with a pattern object.
+</Para>
+<Para>The user data is part of the pattern object (that is, the storage buffer in
+the application); it is not part of the actual pattern.
+The content of user cells has no effect on pattern matching.
+</Para>
+<Para>The
+<Emphasis>p</Emphasis> argument is a unique handle for a message pattern.
+This handle is returned after
+<Function>tt_pattern_create</Function> is called.
+The
+<Symbol Role="Variable">key</Symbol> argument is the specified user data cell.
+The application can use
+&cdeman.tt.pattern.user.set; to assign the keys to the user data cells that
+are part of the pattern object.
+The value of each data cell must be unique for this pattern.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_pattern_user</Function> function returns the data cell,
+a piece of arbitrary user data that can hold a
+<Literal>void&ensp;*</Literal>. The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned data:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The pointer passed does not point to an object of
+the correct type for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The user data cell is intended to hold an address.
+If the address selected is equal to one of the
+<StructName Role="typedef">Tt_status</StructName> enumerated values, the result of the
+&cdeman.tt.ptr.error; function will not be reliable.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.pattern.user.set;, &cdeman.tt.pattern.create;, &cdeman.tt.ptr.error;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

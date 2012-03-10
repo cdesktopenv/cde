@@ -1,0 +1,628 @@
+XCOMM ##########################################################################
+XCOMM 
+XCOMM      dt.dt
+XCOMM 
+XCOMM      Action and DataType definitions for the Common Desktop Environment
+XCOMM      (CDE) DT components.
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+XCOMM 
+XCOMM     $TOG: dt.dt.src /main/13 1998/12/18 18:16:14 mgreess $
+XCOMM 
+XCOMM ##########################################################################
+#define HASH #
+set DtDbVersion=1.0
+
+XCOMM ##########################################################################
+XCOMM 
+%|nls-10-#HASH WARNING:...#|
+XCOMM 
+XCOMM ##########################################################################
+
+XCOMM ##################################################################
+XCOMM 
+%|nls-11-#HASH Data Attributes#|
+XCOMM 
+XCOMM ##################################################################
+DATA_ATTRIBUTES DT
+{
+        ACTIONS         Open,ReloadActions,Print
+        ICON		Dtdt
+        IS_TEXT		true
+        NAME_TEMPLATE	%s.dt
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-2001-#A#|
+        TYPE_LABEL      %|nls-31023-#DT#|
+}
+DATA_CRITERIA DT1
+{
+	DATA_ATTRIBUTES_NAME DT
+        MODE            f
+        NAME_PATTERN    *.dt
+}
+ACTION ReloadActionsNotice
+{
+        LABEL           Reload Notification
+        TYPE            TT_MSG
+        TT_CLASS	TT_NOTICE
+        TT_SCOPE	TT_SESSION
+        TT_OPERATION	DtTypes_Reloaded
+        DESCRIPTION     The ReloadActionsNotice action notifies \
+			applications of a rebuilt cache file database.
+}
+
+ACTION BuildDataBaseRequest
+{
+        LABEL           Rebuild Request
+        TYPE            TT_MSG
+        TT_CLASS	TT_REQUEST
+        TT_SCOPE	TT_SESSION
+        TT_OPERATION	DtDtsCache
+        DESCRIPTION     The BuildDataBaseRequest action rebuilds the \
+			cache file database \
+                        of action, data type and front panel definitions.
+}
+ACTION ReloadActions
+{
+        LABEL           %|nls-2002-#Reload Actions#|
+        TYPE            COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	sh -c 'dtaction BuildDataBaseRequest ;\
+			dtaction ReloadActionsNotice'
+        DESCRIPTION     %|nls-2003-#The#|
+}
+
+XCOMM ######################################################
+
+DATA_ATTRIBUTES FP
+{
+        ACTIONS         Open,Print
+        ICON		Dtfpcfg
+        IS_TEXT		true
+        NAME_TEMPLATE	%s.fp
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-2004-#A#|
+        TYPE_LABEL      %|nls-31024-#FP#|
+}
+DATA_CRITERIA FP1
+{
+	DATA_ATTRIBUTES_NAME FP
+        MODE            f
+        NAME_PATTERN    *.fp
+}
+
+XCOMM ######################################################
+
+DATA_ATTRIBUTES DTFILE_FILE
+{
+        PROPERTIES      invisible
+        ACTIONS         Open,Print
+        IS_TEXT         true
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-2005-#A DTFILE_FILE#|
+        TYPE_LABEL      %|nls-31025-#DTFILE_FILE#|
+}
+DATA_CRITERIA DTFILE_FILE1
+{
+        DATA_ATTRIBUTES_NAME DTFILE_FILE
+        MODE            f
+        NAME_PATTERN    .\!*
+}
+
+XCOMM ######################################################
+
+DATA_ATTRIBUTES DTKSH_SCRIPT
+{
+        ACTIONS         Run,Open,Print
+        ICON            Dtdtksh
+        IS_EXECUTABLE	true
+        COPY_TO_ACTION  Execute
+        NAME_TEMPLATE	%s.ds
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-2006-#A DTKSH_SCRIPT#|
+        TYPE_LABEL      %|nls-31026-#DTKSH_SCRIPT#|
+}
+DATA_CRITERIA DTKSH_SCRIPT1
+{
+        DATA_ATTRIBUTES_NAME DTKSH_SCRIPT
+	MODE		f&x
+        NAME_PATTERN    *.ds
+}
+DATA_CRITERIA DTKSH_SCRIPT2
+{
+        DATA_ATTRIBUTES_NAME DTKSH_SCRIPT
+	MODE		f&x
+        CONTENT		0 string #!/usr/dt/bin/dtksh
+}
+DATA_CRITERIA DTKSH_SCRIPT3
+{
+        DATA_ATTRIBUTES_NAME DTKSH_SCRIPT
+	MODE		f&x
+        CONTENT		0 string #! /usr/dt/bin/dtksh
+}
+ACTION Run
+{
+        LABEL           %|nls-3-Run|
+        ARG_TYPE        DTKSH_SCRIPT
+        TYPE            MAP
+        MAP_ACTION      Execute
+}
+
+XCOMM ######################################################
+
+DATA_ATTRIBUTES DTKSH_CONV
+{
+        ACTIONS         Open,Print
+        ICON            Dtdtksh
+        NAME_TEMPLATE	%s.dtsh
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-2007-#A DTKSH_CONV#|
+        TYPE_LABEL      %|nls-31027-#DTKSH_CONV#|
+}
+DATA_CRITERIA DTKSH_CONV1
+{
+        DATA_ATTRIBUTES_NAME DTKSH_CONV
+        MODE            f
+        NAME_PATTERN    *.dtsh
+}
+
+XCOMM ##################################################################
+XCOMM ##################################################################
+XCOMM 
+%|nls-12-#HASH Actions#|
+XCOMM 
+XCOMM ##################################################################
+ACTION Dtstyle
+{
+	LABEL		%|nls-2008-#Style Manager#|
+        ARG_COUNT       0
+        ICON		Fpstyle
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dtstyle
+        DESCRIPTION     %|nls-2009-#The#|
+}
+
+XCOMM ######
+
+ACTION OpenDtIntro
+{
+	LABEL		%|nls-2012-#OpenDtIntro#|
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dthelpview -helpVolume Intromgr
+        DESCRIPTION     %|nls-2013-#The#|
+}
+
+XCOMM ######
+
+ACTION FPHelp
+{
+	LABEL		%|nls-2014-#FPHelp#|
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dthelpview -helpVolume FPanel
+        DESCRIPTION     %|nls-2015-#The#|
+}
+
+XCOMM ######
+
+ACTION LockDisplay
+{
+	LABEL		%|nls-2016-#LockDisplay#|
+        TYPE            TT_MSG
+        TT_CLASS	TT_REQUEST
+        TT_SCOPE	TT_SESSION
+        TT_OPERATION	Display_Lock
+        DESCRIPTION     %|nls-2017-#The#|
+}
+
+XCOMM ######
+
+ACTION ExitSession
+{
+	LABEL		%|nls-2018-#ExitSession#|
+        ARG_COUNT      	0
+        TYPE            TT_MSG
+        TT_CLASS	TT_REQUEST
+        TT_SCOPE	TT_SESSION
+        TT_OPERATION	XSession_Exit
+        DESCRIPTION     %|nls-2019-#The#|
+}
+
+XCOMM ######
+
+XCOMM ######
+
+ACTION SaveSession
+{
+	LABEL			%|nls-2051-#Save Session#|
+	TYPE			TT_MSG
+	TT_CLASS		TT_REQUEST
+	TT_SCOPE		TT_SESSION
+	TT_OPERATION		Save_Session
+
+	HASH
+	HASH The legal values for save_type are: Local, Global and Both
+	HASH
+	TT_ARG0_MODE		TT_IN
+	TT_ARG0_VTYPE		save_type
+	TT_ARG0_REP_TYPE	TT_REP_STRING	
+	TT_ARG0_VALUE		Local
+
+	HASH
+	HASH The legal values for shutdown are: True and False
+	HASH
+	TT_ARG1_MODE		TT_IN
+	TT_ARG1_VTYPE		shutdown
+	TT_ARG1_REP_TYPE	TT_REP_STRING	
+	TT_ARG1_VALUE		False
+
+	HASH
+	HASH The legal values for interact_style are: None, Errors and Any
+	HASH
+	TT_ARG2_MODE		TT_IN
+	TT_ARG2_VTYPE		interact_style
+	TT_ARG2_REP_TYPE	TT_REP_STRING	
+	TT_ARG2_VALUE		None
+
+	HASH
+	HASH The legal values for fast are: True and False
+	HASH
+	TT_ARG3_MODE		TT_IN
+	TT_ARG3_VTYPE		fast
+	TT_ARG3_REP_TYPE	TT_REP_STRING	
+	TT_ARG3_VALUE		True
+
+	HASH
+	HASH The legal values for global are: True and False
+	HASH
+	TT_ARG4_MODE		TT_IN
+	TT_ARG4_VTYPE		global
+	TT_ARG4_REP_TYPE	TT_REP_STRING	
+	TT_ARG4_VALUE		True
+
+	HASH
+	HASH The num_sessions_backedup field can be any positive
+	HASH   number.  If it is 0, the default number of sessions
+	HASH   will be backedup.
+	HASH
+	TT_ARG5_MODE		TT_IN
+	TT_ARG5_VTYPE		num_sessions_backedup
+	TT_ARG5_REP_TYPE	TT_REP_STRING	
+	TT_ARG5_VALUE		0
+
+	DESCRIPTION		%|nls-2052-#The#|
+} 
+
+XCOMM ######
+
+ACTION ReloadResources
+{
+        LABEL           %|nls-12028-#Reload Resources#|
+        ARG_COUNT       0
+        TYPE            TT_MSG
+        TT_CLASS	TT_REQUEST
+        TT_SCOPE	TT_SESSION
+        TT_OPERATION	Resources_Reload
+        DESCRIPTION     %|nls-12029-#The#|
+}
+
+XCOMM ######
+
+ACTION ReloadApps
+{
+	LABEL		%|nls-2020-#Reload Applications#|
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     /bin/sh -c '/usr/dt/bin/dtaction ReloadActions; \
+                           /usr/dt/bin/dtappgather -r; \
+			   /usr/dt/bin/dthelpgen -dir $HOME/.dt/help '
+        DESCRIPTION     %|nls-2021-#The#|
+}
+
+XCOMM ######
+
+ACTION Dtcreate
+{
+	LABEL		%|nls-2022-#Create Action#|
+        ICON		Dtrunpn
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dtcreate "%Arg_1%"
+        DESCRIPTION     %|nls-2023-#The#|
+}
+
+XCOMM ######
+
+ACTION DtwmrcEdit
+{
+	LABEL		%|nls-2024-#Edit Dtwmrc#|
+        ICON            Fppenpd
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     sh -c 'if [ ! -f $HOME/.dt/dtwmrc ] ; then \
+                                  if [ ! -f /etc/dt/config/sys.dtwmrc ] ; then \
+                                    cp /usr/dt/config/$LANG/sys.dtwmrc \
+                                                            $HOME/.dt/dtwmrc; \
+                                  else \
+                                    cp /etc/dt/config/sys.dtwmrc \
+                                                            $HOME/.dt/dtwmrc; \
+                                  fi; \
+                                  chmod u+w $HOME/.dt/dtwmrc; \
+                               fi; \
+                               /usr/dt/bin/dtaction Open $HOME/.dt/dtwmrc'
+        DESCRIPTION     %|nls-2025-#The#|
+}
+
+XCOMM ######
+
+ACTION RestorePanel
+{
+	LABEL		%|nls-2049-#Restore Front Panel#|
+        TYPE            TT_MSG
+        TT_CLASS	TT_REQUEST
+        TT_SCOPE	TT_SESSION
+        TT_OPERATION	DtPanel_Restore
+        DESCRIPTION     %|nls-2050-#The#|
+}
+
+XCOMM ######
+
+ACTION Dtmail
+{
+	LABEL		%|nls-2026-#Mailer#|
+        ICON		DtMail
+	TYPE		TT_MSG
+	TT_CLASS	TT_REQUEST
+	TT_SCOPE	TT_SESSION
+	TT_OPERATION	Display
+	TT_ARG0_MODE	TT_IN
+	TT_ARG0_VTYPE	RFC_822_MESSAGE
+	TT_ARG0_VALUE	DTMAIL_INBOX
+        DESCRIPTION     %|nls-2027-#The#|
+}
+
+XCOMM ######
+
+ACTION Dtcalc
+{
+	LABEL		%|nls-2028-#Calculator#|
+        ICON            Dtcalc
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dtcalc
+        DESCRIPTION     %|nls-2029-#The#|
+}
+
+XCOMM ######
+
+ACTION Dtterm
+{
+	LABEL		%|nls-2030-#Terminal#|
+        ARG_COUNT       0
+        ICON            Dtterm
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dtterm
+        DESCRIPTION     %|nls-2031-#The#|
+}
+
+XCOMM 
+XCOMM  The following action is used to start a terminal emulator
+XCOMM  via the desktop's messaging system.  If a terminal emumaltor
+XCOMM  server is not running when this action is invoked, a server
+XCOMM  will be started.  Once the server is started, subsequent
+XCOMM  invocations of this action will not start a new process but
+XCOMM  instead, a message will be sent to the server and a new
+XCOMM  terminal emulator window will be mapped.
+XCOMM 
+XCOMM  Note that all shells started via the server will run on the
+XCOMM  server's host, regardless of the host where the action is
+XCOMM  invoked.
+ACTION DttermServer
+{
+	LABEL			%|nls-2030-#Terminal#|
+	ARG_COUNT		0
+	ICON			Dtterm
+	TYPE			TT_MSG
+	TT_CLASS		TT_REQUEST
+	TT_SCOPE		TT_SESSION
+	TT_OPERATION		DtTerminal_New
+	TT_ARG0_MODE		TT_IN
+	TT_ARG0_VTYPE		-display
+	TT_ARG0_REP_TYPE	TT_REP_STRING
+	TT_ARG0_VALUE		$DISPLAY
+	TT_ARG1_MODE		TT_IN
+	TT_ARG1_VTYPE		-display
+	TT_ARG1_REP_TYPE	TT_REP_STRING
+	TT_ARG1_VALUE		$DISPLAY
+	DESCRIPTION		%|nls-2031-#The#|
+}
+
+XCOMM ######
+
+ACTION Dticon
+{
+	LABEL		%|nls-2032-#Icon Editor#|
+        ICON		Dtpaint
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dticon
+        DESCRIPTION     %|nls-2034-#The#|
+}
+ACTION Dticon
+{
+	LABEL		%|nls-2032-#Icon Editor#|
+        ICON		Dtpaint
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dticon -file \
+                          "%(File)Arg_1"%|nls-2033-#"Icon#|"%"
+        DESCRIPTION     %|nls-2034-#The#|
+}
+
+XCOMM ######
+
+ACTION (None)
+{
+	LABEL		%|nls-4-#(None)#|
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dterror.ds \
+                       "%|nls-2035-#There#|" \
+                       "%|nls-2036-#(None)#|" \
+                       "%|nls-6-#OK#|"
+        DESCRIPTION     %|nls-2037-#The#|
+}
+
+XCOMM ######
+
+ACTION DttermErrorlog
+{
+	LABEL		%|nls-2039-#Watch Errors#|
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     /bin/sh -c 'if [ ! -f $HOME/.dt/errorlog ] ; then \
+                                      /bin/touch $HOME/.dt/errorlog; \
+                                     fi; \
+                        /usr/dt/bin/dtterm -map -title \
+			     "%|nls-2039-#Watch#|" \
+                             -e tail -f $HOME/.dt/errorlog'
+        DESCRIPTION     %|nls-2040-#The#|
+}
+
+XCOMM ######
+
+ACTION Dttypes
+{
+        LABEL           %|nls-2041-#Types and Actions List#|
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+                        /usr/dt/bin/dttypes | \${PAGER:-more}; \
+            echo "%|nls-7-#Select#|"'
+        DESCRIPTION     %|nls-2042-#The#|
+}
+ACTION Dttypes
+{
+        LABEL           %|nls-2041-#Types and Actions List#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c '/usr/dt/bin/dttypes -type "%(File)Arg_1%"; \
+                 echo "%|nls-7-#Select#|"'
+        DESCRIPTION     %|nls-2042-#The#|
+}
+
+XCOMM #########################################################################
+XCOMM 
+%|nls-2043-#HASH This is ...#|
+XCOMM 
+XCOMM #########################################################################
+ACTION NoPrint
+{
+	LABEL		%|nls-2044-#NoPrint#|
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dterror.ds \
+                       "%|nls-2045-#There#|" \
+                       "%|nls-2046-#(None)#|" \
+                       "%|nls-6-#OK#|"
+        DESCRIPTION    %|nls-2047-#The#|     
+}
+
+XCOMM #########################################################################
+XCOMM 
+%|nls-2048-#HASH This is ...#|
+XCOMM 
+XCOMM #########################################################################
+ACTION Open
+{
+        LABEL           %|nls-1-Open|
+        TYPE            MAP
+        MAP_ACTION      TextEditor
+}
+
+XCOMM #########################################################################
+XCOMM 
+XCOMM 
+XCOMM #########################################################################
+ACTION DtTTMediaOpen
+{
+	ARG_COUNT	0
+
+	ICON		Fppenpd
+	TYPE		TT_MSG
+	TT_CLASS	TT_REQUEST
+	TT_SCOPE	TT_SESSION
+	TT_OPERATION	Instantiate
+
+	TT_ARG0_MODE	TT_IN
+	TT_ARG0_VTYPE	C_STRING
+	TT_ARG0_REP_TYPE TT_REP_STRING
+}
+
+ACTION DtTTMediaOpen
+{
+	ARG_CLASS	BUFFER
+	ARG_MODE	w
+	ARG_COUNT	>0
+
+	ICON		Fppenpd
+	TYPE		TT_MSG
+	TT_CLASS	TT_REQUEST
+	TT_SCOPE	TT_SESSION
+	TT_OPERATION	Edit
+
+	TT_ARG0_MODE	TT_INOUT
+	TT_ARG0_VTYPE	%Arg_1%
+	TT_ARG0_VALUE	%Arg_1%
+	TT_ARG0_REP_TYPE TT_REP_BUFFER
+}
+
+ACTION DtTTMediaOpen
+{
+	ARG_CLASS	BUFFER
+	ARG_MODE	!w
+	ARG_COUNT	>0
+
+	ICON		Fppenpd
+	TYPE		TT_MSG
+	TT_CLASS	TT_REQUEST
+	TT_SCOPE	TT_SESSION
+	TT_OPERATION	Display
+
+	TT_ARG0_MODE	TT_IN
+	TT_ARG0_VTYPE	%Arg_1%
+	TT_ARG0_VALUE	%Arg_1%
+	TT_ARG0_REP_TYPE TT_REP_BUFFER
+}
+
+ACTION DtTTMediaOpen
+{
+	ARG_CLASS	FILE
+	ARG_COUNT	>0
+
+	ICON		Fppenpd
+	TYPE		TT_MSG
+	TT_CLASS	TT_REQUEST
+	TT_SCOPE	TT_SESSION
+	TT_OPERATION	Edit
+	TT_FILE		%Arg_1%
+
+	TT_ARG0_MODE	TT_INOUT
+	TT_ARG0_VTYPE	%Arg_1%
+	TT_ARG0_REP_TYPE TT_REP_STRING
+}
+
+XCOMM ######################## EOF ############################################

@@ -1,0 +1,295 @@
+.\" $XConsortium: pam_sm.3 /main/4 1996/10/29 15:19:34 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam_sm 3 "9 Jan 1996"
+.SH NAME
+PAM \- PAM Service Module APIs
+.SH SYNOPSIS
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+#include <security/pam_modules.h>
+.ft
+.fi
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.SH DESCRIPTION
+.IX "PAM" "" "\fLPAM\fP \(em Pluggable Authentication Module"
+.PP
+.SM PAM
+gives system administrators the flexibility of choosing any authentication
+service available on the system to perform authentication.  The framework
+also allows new authentication service modules to be plugged in and made
+available without modifying the applications.
+.LP
+The
+.SM PAM
+framework,
+.B libpam,
+consists of an interface library and multiple authentication 
+service modules.  The
+.SM PAM
+interface library is the layer implementing the 
+Application Programming Interface (API).  The authentication service modules
+are a set of dynamically loadable objects invoked by the
+.SM PAM
+API to provide a particular type of user authentication.
+.PP
+This manual page gives an overview of the PAM APIs for the service modules.
+.SS Interface Overview
+The
+.SM PAM
+service module interface
+consists of functions which can be grouped into four categories.  The
+names for all the authentication library functions start with
+.B pam_sm.
+The only difference between the
+.B pam_*(\|)
+interfaces and their corresponding
+.B pam_sm_*(\|)
+interfaces is that all the
+.B pam_sm_*(\|)
+interfaces require extra parameters to pass service specific options
+to the shared modules.
+They are otherwise identical.
+.PP
+The first category contains functions to authenticate an individual user
+(\f3pam_sm_authenticate\f1(3))
+and to set the credentials of the user
+.B (\f3pam_sm_setcred\f1(3)).
+These back-end functions implement the functionality of
+.BR pam_authenticate (3)
+and
+.BR pam_setcred (3)
+respectively.
+.PP
+The second category contains functions to do account management
+(\f3pam_sm_acct_mgmt\f1(3)).
+This includes checking for password aging and access-hour restrictions.
+This back-end function implements the functionality of
+.BR pam_acct_mgmt (3).
+.PP
+The third category contains functions to perform session management
+(\f3pam_sm_open_session\f1(3)
+and
+.BR pam_sm_close_session (3))
+after access to the system has been granted.
+These back-end functions implement the functionality of
+.BR pam_open_session (3)
+and
+.BR pam_close_session (3),
+respectively.
+.PP
+The fourth category consists a function to change authentication tokens
+(\f3pam_sm_chauthtok\f1(3)).
+This back-end function implements the functionality of
+.BR pam_chauthtok (3).
+.SS Stateful Interface
+A sequence of calls sharing a common set of state information
+is referred to as an authentication transaction.  An authentication 
+transaction begins with a call to
+.BR pam_start(\|) .
+.B pam_start(\|)
+allocates space, performs various initialization activities,
+and assigns an authentication handle to be used for subsequent calls
+to the library.  
+Note that the service modules do not get called or 
+initialized when 
+.B pam_start(\|)
+is called.
+The modules are loaded and the symbols resolved upon first use 
+of that function.
+.LP
+The PAM handle keeps certain information about the transaction
+that can be accessed through the
+.B pam_get_item(\|)
+API.
+Though the modules can also use
+.B pam_set_item(\|)
+to change any of the item information, it
+is recommended that nothing be changed except PAM_AUTHTOK and
+PAM_OLDAUTHTOK.
+.LP
+If the modules want to store any module specific state information
+then they can use the
+.BR pam_set_data (3)
+function to store that
+information with the PAM handle.  The data should be stored with a
+name which is unique across all modules and module types.  For
+example, 
+.SM SUNW_PAM_UNIX_AUTH_userid
+can be used as a name by the UNIX
+module to store information about the state of user's
+authentication.  Some modules use this technique to share data
+across two different module types.
+.LP
+Also, during the call to
+.BR pam_authenticate(\|) ,
+the UNIX module may store the authentication status
+(success or reason for failure)
+in the handle, using a unique name such as
+.SM SUNW_SECURE_RPC_DATA.
+This information is intended for use by
+.BR pam_setcred(\|) .
+.LP
+During the call to 
+.BR pam_acct_mgmt(\|) ,
+the account modules may store data in the handle to indicate
+which passwords have aged.
+This information is intended for use by
+.BR pam_chauthtok(\|) .
+.LP
+The module can also store a cleanup function associated with the
+data.  The PAM framework calls this cleanup function, when the
+application calls
+.BR pam_end(\|)
+to close the transaction.
+.SS Interaction with the User
+.PP
+The PAM service modules do not communicate directly with the user;
+instead they rely on the application to perform all
+such interactions.  The application passes a pointer to the
+function,
+.BR conv(\|),
+along with any associated application data
+pointers, through the
+.B pam_conv
+structure when it initiates an
+authentication transaction (via a call to
+.BR pam_start(\|) ).
+The service module will then use the function,
+.BR conv(\|) ,
+to prompt the user for data, output error messages,
+and display text information.
+Refer to 
+.BR pam_start (3)
+for more information.
+The modules are responsible for the localization of all
+messages to the user.
+.SH CONVENTIONS
+.PP
+
+By convention, applications that need to prompt for a user name should 
+call
+.BR pam_set_item(\|)
+and set the value of PAM_USER_PROMPT before calling
+.BR pam_authenticate(\|) .
+The service module's
+.BR pam_sm_authenticate(\|)
+function will then call
+.BR pam_get_user(\|)
+to prompt for the user name. Note that
+certain PAM service modules (such as a smart card module) may override
+the value of PAM_USER_PROMPT and pass in their own prompt.
+
+.PP
+Though the PAM framework enforces no rules about the module's names,
+location, options and such, there are certain conventions that all
+module providers are expected to follow.
+.LP
+By convention, the modules should be located in the
+.B /usr/lib/security
+directory. Additional modules may
+be located in
+.B /opt/<pkg>/lib.
+.LP
+By convention, the modules are named
+.B pam_<service_name>_<module_type>.so.1.
+If the given module implements
+more than one module type (for example, 
+.B pam_unix.so.1
+module), then
+the module_type suffix should be dropped.
+.LP
+For every such module, there should be a corresponding manual page
+in section 5 which should describe the
+.I module_type
+it supports,
+the functionality of the module, along with the options it
+supports.  The dependencies should be clearly identified to the
+system administrator.  For example, it should be made clear
+whether this module is a stand-alone module or depends upon the
+presence of some other module.   One should also specify whether
+this module should come before or after some other module in the
+stack.
+.LP
+By convention, the modules should support
+the following options:
+.RS
+.IP debug 15
+Syslog debugging information at LOG_DEBUG
+level.  Be careful as to not log any sensitive
+information such as passwords.
+.IP nowarn 15
+Turn off warning messages such as "password is
+about to expire"
+.RE
+.PP
+In addition, it is recommended that the auth and the
+password module support the following options:
+.RS
+.IP use_first_pass 15
+Instead of prompting the user for the password,
+use the user's initial password (entered when
+the user was authenticated to the first authentication module
+in the stack) for authentication.
+If the passwords do not match, or if no
+password has been entered, return failure and do not
+prompt the user for a password.  Support for
+this scheme allows the user to type only one
+password for multiple schemes.
+.IP try_first_pass 15
+Instead of prompting the user for the password,
+use the user's initial password (entered when
+the user was authenticated to the first authentication
+module in the stack) for authentication.
+If the passwords do not match, or if no password
+has been entered, prompt the user for a password
+after identifying which type of password (ie. UNIX,
+etc.) is being requested.
+Support for this scheme allows the user to try to
+use only one password for multiple schemes, and type
+multiple passwords only if necessary.
+.RE
+.PP
+If an unsupported option is passed to the modules, it should
+syslog the error at LOG_ERR level.
+.PP
+The permission bits on the service module should be set
+such that it is not writable by either "group" or "other".
+The PAM framework will not
+load the module if the above permission rules are not followed.
+.SH ERROR LOGGING
+If there are any errors, the modules should log them using 
+.BR syslog (3)
+at the LOG_ERR level.
+.SH RETURN VALUES
+The PAM service module functions may return any of the PAM
+error numbers specified in the specific man pages.  It can also
+return a PAM_IGNORE error number to mean that the PAM framework
+should ignore this module regardless of whether it is required, optional
+or sufficient.  This error number is normally returned when the
+module does not want to deal with the given user at all.
+.SH SEE ALSO
+.BR pam (3),
+.BR pam_start (3),
+.BR pam_set_item (3),
+.BR pam_get_user (3),
+.BR pam_authenticate (3),
+.BR pam_open_session (3),
+.BR pam_setcred (3),
+.BR pam_chauthtok (3),
+.BR pam_strerror (3),
+.BR pam_sm_authenticate (3),
+.BR pam_sm_open_session (3),
+.BR pam_sm_setcred (3),
+.BR pam_sm_chauthtok (3),
+.BR pam.conf (4)

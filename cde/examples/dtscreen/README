@@ -1,0 +1,98 @@
+/* $XConsortium: README /main/3 1996/07/15 14:01:10 drk $ */
+
+This directory contains demonstrations of the Dt Screen Saver API
+
+screensaver -	Example of a simple screen saver that uses the DT Screen
+		Saver API and techniques to make that screen saver
+                available to all desktop users or your own session.
+
+                The desktop provides a set of screen savers for use
+                in desktop sessions. This set of screen savers can
+                be previewed and selected from the Style Manager Screen
+                dialog. 
+
+                Each screen saver is known to the desktop by the screen
+                saver's action definition. The screen saver's action 
+                definition provides the desktop with a short localizable
+                title for the screen saver, as well as the command line
+                and options required to start the screen saver. When the
+                desktop starts a screen saver, it is started by invoking a
+                screen saver action. 
+
+                The set of screen saver actions available to a user's 
+                desktop session is defined by the DTSCREENSAVERLIST
+                environment variable. The default DTSCREENSAVERLIST
+                set is defined when you start a desktop session. A
+                system administrator can change this set by creating
+                a script in directory /etc/dt/config/$LANG/Xsession.d 
+                that modifies DTSCREENSAVERLIST. A user can do the
+                same in their $HOME/.dtprofile.
+
+                A desktop screen saver is a simple application that
+                uses the DtSaverGetWindows() API to obtain a list of
+                windows, and draws on those windows. The desktop handles
+                the starting and stopping of the screen saver application.
+              
+                The 'screensaver' application is an example that shows 
+                how the DtSaverGetWindows() API may be used, how the 
+                screen saver action may be defined for 'screensaver' and
+                how the screen saver can be integrated into the desktop for
+                all desktop users or an individual desktop user. The screen
+                saver action is named SampleScreenSaver and is defined in
+                /usr/dt/examples/dtscreen/dt/appconfig/types/C/screensaver.dt.
+
+                Making the screen saver available to all users
+                ----------------------------------------------
+                You must be root to make the screen saver available
+                to all users. This example assumes you are building
+                'screensaver' directly in /usr/dt/examples/dtscreen.
+
+                1) Build the 'screensaver' application
+      
+                   make -f Makefile.<platform>
+
+                2) Register the screen saver action with the desktop
+
+                   dtappintegrate -s /usr/dt/examples/dtscreen
+
+                3) Add the screen saver action to the list of available savers
+
+                   #create file /etc/dt/config/Xsession.d/myvars containing:
+                   DTSCREENSAVERLIST="SampleScreenSaver $DTSCREENSAVERLIST"
+
+                4) Make the /etc/dt/config/Xsession.d/myvars file executable:
+
+                   chmod 755 /etc/dt/config/Xsession.d/myvars
+
+                The next time a user starts the desktop, the example screen
+                saver will be available for use.
+                     
+                Making the screen saver to your own desktop session
+                ---------------------------------------------------
+                1) Copy the screen saver example to $HOME/dtscreen
+
+                   cp -r /usr/dt/examples/dtscreen $HOME/dtscreen
+                   cd $HOME/dtscreen
+
+                2) Build the 'screensaver' application
+
+                   make -f Makefile.<platform>
+
+                3) Register the screen saver action with the desktop
+ 
+                   cp $HOME/dtscreen/dt/appconfig/types/C/screensaver.dt \
+                     $HOME/.dt/types
+
+                4) Change the action EXEC_STRING path
+
+                   vi $HOME/.dt/types/screensaver.dt
+                   #change the EXEC_STRING to '<home>/dtscreen/screensaver',
+                   #replacing <home> with the value of $HOME
+
+                5) Add the screen saver action to the list of available savers
+
+                   #edit $HOME/.dtprofile and add:
+                   DTSCREENSAVERLIST="SampleScreenSaver $DTSCREENSAVERLIST"
+
+                The next time a user starts the desktop, the example screen
+                saver will be available for use.

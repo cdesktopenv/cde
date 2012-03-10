@@ -1,0 +1,195 @@
+<!-- $XConsortium: dtdtfile.sgm /main/7 1996/09/08 20:17:38 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN93.rsml.1">
+<RefMeta>
+<RefEntryTitle>dtdtfile</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>dtdtfile</Filename></RefName>
+<RefPurpose>define the format and location of actions and data type database files
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<Synopsis>See
+&cdeman.dtactionfile; and
+&cdeman.dtdtsfile;.</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The actions and data types database provides definitions for the actions
+and data types &str-XZ; clients recognize.
+Files containing actions and data type definitions must end
+with the
+<Filename>.dt</Filename> suffix.
+The database is constructed by reading
+all files ending in the
+<Filename>.dt</Filename> suffix that are found in the search path
+specified by the
+<SystemItem Class="EnvironVar">DTDATABASESEARCHPATH</SystemItem> environment variable.
+</Para>
+<Para>The
+&cdeman.dttypes; utility is the tool that allows users to examine and debug their database.
+</Para>
+<Para>The
+<SystemItem Class="EnvironVar">DTDATABASESEARCHPATH</SystemItem> environment variable contains a comma-separated
+list of directories specified in <Literal>[</Literal><Symbol Role="Variable">host</Symbol><Literal>:]/</Literal><Emphasis>path</Emphasis> format.
+The
+<Symbol Role="Variable">host</Symbol>: portion is optional, but if specified,
+<Emphasis>/path</Emphasis> is interpreted relative to
+<Symbol Role="Variable">host</Symbol>. In addition,
+<Symbol Role="Variable">host</Symbol> defines the
+<Emphasis>DatabaseHost</Emphasis> for records defined by files in the
+<Emphasis>/path</Emphasis> directory.
+Otherwise, the
+<Emphasis>DatabaseHost</Emphasis> is the same as the
+<Emphasis>LocalHost</Emphasis>. To allow for localized action definitions, the data base
+search path supports the string
+<Literal>%L</Literal> within the pathname string.
+The logic that parses
+<SystemItem Class="EnvironVar">DTDATABASESEARCHPATH</SystemItem> substitutes the
+value of the current locale as stored in the
+<SystemItem Class="EnvironVar">LANG</SystemItem> environment variable for the string
+<Literal>%L</Literal> (or no characters if
+<SystemItem Class="EnvironVar">LANG</SystemItem> is not set).
+Other uses of % within the
+<SystemItem Class="EnvironVar">DTDATABASESEARCHPATH</SystemItem> pathnames produce unspecified results.
+Directories can be set up for various locales.
+Each directory contains localized action definitions for a
+single locale.
+For examples, see the default search path shown below.
+The local system administrator or the user
+(in
+<Filename>$HOME/.dtprofile</Filename>) can modify the actual value of the search path.
+The default search path includes the following directories,
+searched in the following sequence:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Filename>$HOME/.dt/types/</Filename></Term>
+<ListItem>
+<Para>personal user-defined database files
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>/etc/dt/appconfig/types/%L</Literal></Term>
+<ListItem>
+<Para>locally defined language-specific database files
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/etc/dt/appconfig/types/C</Filename></Term>
+<ListItem>
+<Para>locally defined default database files
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>/usr/dt/appconfig/types/%L</Literal></Term>
+<ListItem>
+<Para>language-specific database files
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/usr/dt/appconfig/types/C</Filename></Term>
+<ListItem>
+<Para>implementation-default database files
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<RefSect2>
+<Title>File Format</Title>
+<Para>In addition to the version information, comments and variable references
+described under other headings in this document, these files may contain action
+and data type records, as described in
+&cdeman.dtactionfile; and
+&cdeman.dtdtsfile;.</Para>
+</RefSect2>
+<RefSect2>
+<Title>Comments</Title>
+<Para>Any line whose first non-space character is # is treated as a
+comment line, and is ignored during the reading of the database file.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Database Version</Title>
+<Para>The database loader supports a version number, which indicates
+the version of the database syntax used by a particular database file.
+If a database version number is not specified, then the database
+loader assumes that the file uses the version 1.0 syntax, described here.
+If a database file specifies a version number, then it
+must be the first non-blank, non-comment line in the database file;
+if the version is specified anywhere else in the file, then an error
+message is generated, and the remainder of that database file is ignored.
+The database version number is specified using the following syntax:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>set DtDbVersion=<Emphasis>version_number</Emphasis>
+</ProgramListing>
+</InformalExample>
+</RefSect2>
+<RefSect2>
+<Title>String Variables</Title>
+<Para>Database entries can reference string variables that can be set
+within the database file.
+The scope of a string variable is restricted
+to only those record definitions within the database file defining the
+string variable.
+A string variable is defined using the following syntax:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>set <Emphasis>VariableName</Emphasis>=<Emphasis>variable_value</Emphasis>
+</ProgramListing>
+</InformalExample>
+<Para>String variables are referenced using either of the standard shell
+variable referencing syntaxes:
+$<Emphasis>variable_name</Emphasis> or ${<Emphasis>variable_name</Emphasis>}.
+A variable name can be made up of any of the alphanumeric characters
+and the underscore.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Environment Variables</Title>
+<Para>Database records may refer to environment variables, using either
+of the standard shell variable referencing syntaxes:
+$<Emphasis>environment_variable</Emphasis>
+or ${<Emphasis>environment_variable</Emphasis>}.
+If the environment variable name conflicts
+with a string variable name, the string variable takes precedence.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Line Continuation</Title>
+<Para>Any field within a record can be continued onto another line by
+ending the line with a &bsol; character.
+The &bsol; and any
+<KeySym>blank</KeySym>s following the &bsol; and preceding the newline are discarded;
+leading
+<KeySym>blank</KeySym>s on the following line are preserved in the continued field.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtactionfile;, &cdeman.dtdtsfile;, &cdeman.dttypes;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

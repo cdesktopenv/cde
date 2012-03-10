@@ -1,0 +1,826 @@
+<!-- $XConsortium: Tttt_c.sgm /main/12 1996/09/08 20:00:33 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![%CDE.C.CDE;[<RefEntry Id="CDEMX.XCDI.MAN80a.rsml.1">]]>
+<![%CDE.C.XO;[<RefEntry Id="XCSA.MAN80a.rsml.1">]]>
+
+<RefMeta>
+<RefEntryTitle>Tt/tt_c.h</RefEntryTitle>
+<ManVolNum>file formats</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>Tt/tt_c.h</Filename></RefName>
+<RefPurpose>ToolTalk definitions
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Synopsis>#include &lt;Tt/tt_c.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Filename Role="Header">Tt/tt_c.h</Filename> header includes
+<Literal>typedef</Literal>s for the following callback functions:
+</Para>
+<Synopsis>typedef Tt_filter_action (*Tt_filter_function)(const char *<Emphasis>nodeid</Emphasis>,
+        void *<Symbol Role="Variable">context</Symbol>,
+        void *<Emphasis>accumulator</Emphasis>);
+</Synopsis>
+<Synopsis>typedef Tt_callback_action (*Tt_message_callback)(Tt_message <Emphasis>m</Emphasis>,
+        Tt_pattern <Emphasis>p</Emphasis>);
+</Synopsis>
+<para>To enable developers to write multithreaded applications, the header defines
+</para>
+<programlisting>
+    typedef enum tt_feature {
+        _TT_FEATURE_MULTITHREADED = 1,  // Thread-safety
+        _TT_FEATURE_LAST                // Enum end marker
+    } Tt_feature;
+</programlisting>
+<para>Note that the <systemitem class="constant">TT_FEATURE_MULTITHREADED</systemitem>
+value will be part of the <literal>libtt</literal> binary interface.
+</para>
+<para>These would be accessed by calling code with corresponding <literal>#define</literal> constants:
+</para>
+<programlisting>
+#define TT_FEATURE_MULTITHREADED _TT_FEATURE_MULTITHREADED
+</programlisting>
+<para>in order that that calling code can then use <literal>cpp</literal>
+directives to control their use of features:
+</para>
+<programlisting>
+#if defined(TT_FEATURE_MULTITHREADED)
+
+....
+
+#endif
+</programlisting>
+<Para>The header defines the
+<SystemItem Class="Constant">TT_VERSION</SystemItem> constant with the value 10200,
+indicating the version of the ToolTalk API.
+</Para>
+<Para>The header defines the
+<StructName Role="typedef">Tt_status</StructName> enumeration data type,
+with the following members and specific values:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef enum tt_status {
+        TT_OK                   = 0,
+        TT_WRN_NOTFOUND         = 1,
+        TT_WRN_STALE_OBJID      = 2,
+        TT_WRN_STOPPED          = 3,
+        TT_WRN_SAME_OBJID       = 4,
+        TT_WRN_START_MESSAGE    = 5,
+        TT_WRN_APPFIRST         = 512,
+        TT_WRN_LAST             = 1024,
+        TT_ERR_CLASS            = 1025,
+        TT_ERR_DBAVAIL          = 1026,
+        TT_ERR_DBEXIST          = 1027,
+        TT_ERR_FILE             = 1028,
+        TT_ERR_INVALID          = 1029,
+        TT_ERR_MODE             = 1031,
+        TT_ERR_ACCESS           = 1032,
+        TT_ERR_NOMP             = 1033,
+        TT_ERR_NOTHANDLER       = 1034,
+        TT_ERR_NUM              = 1035,
+        TT_ERR_OBJID            = 1036,
+        TT_ERR_OP               = 1037,
+        TT_ERR_OTYPE            = 1038,
+        TT_ERR_ADDRESS          = 1039,
+        TT_ERR_PATH             = 1040,
+        TT_ERR_POINTER          = 1041,
+        TT_ERR_PROCID           = 1042,//The specified process identifier is out of date or invalid
+        TT_ERR_PROPLEN          = 1043,
+        TT_ERR_PROPNAME         = 1044,
+        TT_ERR_PTYPE            = 1045,
+        TT_ERR_DISPOSITION      = 1046,
+        TT_ERR_SCOPE            = 1047,
+        TT_ERR_SESSION          = 1048,
+        TT_ERR_VTYPE            = 1049,
+        TT_ERR_NO_VALUE         = 1050,
+        TT_ERR_INTERNAL         = 1051,
+        TT_ERR_READONLY         = 1052,
+        TT_ERR_NO_MATCH         = 1053,
+        TT_ERR_UNIMP            = 1054,
+        TT_ERR_OVERFLOW         = 1055,
+        TT_ERR_PTYPE_START      = 1056,
+        TT_ERR_CATEGORY         = 1057,
+        TT_ERR_DBUPDATE         = 1058,
+        TT_ERR_DBFULL           = 1059,
+        TT_ERR_DBCONSIST        = 1060,
+        TT_ERR_STATE            = 1061,
+        TT_ERR_NOMEM            = 1062,
+        TT_ERR_SLOTNAME         = 1063,
+        TT_ERR_XDR              = 1064,
+        TT_ERR_NETFILE          = 1065,
+        TT_DESKTOP_             = 1100,
+        TT_DESKTOP_EPERM        = 1101,
+        TT_DESKTOP_ENOENT       = 1102,
+        TT_DESKTOP_EINTR        = 1104,
+        TT_DESKTOP_EIO          = 1105,
+        TT_DESKTOP_EAGAIN       = 1111,
+        TT_DESKTOP_ENOMEM       = 1112,
+        TT_DESKTOP_EACCES       = 1113,
+        TT_DESKTOP_EFAULT       = 1114,
+        TT_DESKTOP_EEXIST       = 1117,
+        TT_DESKTOP_ENODEV       = 1119,
+        TT_DESKTOP_ENOTDIR      = 1120,
+        TT_DESKTOP_EISDIR       = 1121,
+        TT_DESKTOP_EINVAL       = 1122,
+        TT_DESKTOP_ENFILE       = 1123,
+        TT_DESKTOP_EMFILE       = 1124,
+        TT_DESKTOP_ETXTBSY      = 1126,
+        TT_DESKTOP_EFBIG        = 1127,
+        TT_DESKTOP_ENOSPC       = 1128,
+        TT_DESKTOP_EROFS        = 1130,
+        TT_DESKTOP_EMLINK       = 1131,
+        TT_DESKTOP_EPIPE        = 1132,
+        TT_DESKTOP_ENOMSG       = 1135,
+        TT_DESKTOP_EDEADLK      = 1145,
+        TT_DESKTOP_ECANCELED    = 1147,
+        TT_DESKTOP_ENOTSUP      = 1148,
+        TT_DESKTOP_ENODATA      = 1161,
+        TT_DESKTOP_EPROTO       = 1171,
+        TT_DESKTOP_ENOTEMPTY    = 1193,
+        TT_DESKTOP_ETIMEDOUT    = 1245,
+        TT_DESKTOP_EALREADY     = 1249,
+        TT_DESKTOP_UNMODIFIED   = 1299,
+        TT_MEDIA_ERR_SIZE       = 1300,
+        TT_MEDIA_ERR_FORMAT     = 1301,
+        TT_ERR_APPFIRST         = 1536,
+        TT_ERR_LAST             = 2047,
+        TT_STATUS_LAST          = 2048
+} Tt_status;
+</ProgramListing>
+</InformalExample>
+<Para>Specific values are required because they can be communicated between ToolTalk
+clients on different platforms, usually via
+&cdeman.tt.message.status.set; and
+&cdeman.tt.message.status;.</Para>
+<Para>The header defines the following enumeration data types,
+with at least the following members:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><StructName Role="typedef">Tt_filter_action</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">TT_FILTER_CONTINUE</SystemItem>, <SystemItem Class="Constant">TT_FILTER_LAST</SystemItem>, <SystemItem Class="Constant">TT_FILTER_STOP</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">Tt_callback_action</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">TT_CALLBACK_CONTINUE</SystemItem>, <SystemItem Class="Constant">TT_CALLBACK_LAST</SystemItem>, <SystemItem Class="Constant">TT_CALLBACK_PROCESSED</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">Tt_mode</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">TT_IN</SystemItem>, <SystemItem Class="Constant">TT_INOUT</SystemItem>, <SystemItem Class="Constant">TT_MODE_LAST</SystemItem>, <SystemItem Class="Constant">TT_MODE_UNDEFINED</SystemItem>, <SystemItem Class="Constant">TT_OUT</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">Tt_scope</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">TT_BOTH</SystemItem>, <SystemItem Class="Constant">TT_FILE</SystemItem>, <SystemItem Class="Constant">TT_FILE_IN_SESSION</SystemItem>, <SystemItem Class="Constant">TT_SCOPE_NONE</SystemItem>, <SystemItem Class="Constant">TT_SESSION</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">Tt_class</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">TT_CLASS_LAST</SystemItem>, <SystemItem Class="Constant">TT_CLASS_UNDEFINED</SystemItem>, <SystemItem Class="Constant">TT_NOTICE</SystemItem>, <SystemItem Class="Constant">TT_REQUEST</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">Tt_category</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">TT_CATEGORY_LAST</SystemItem>, <SystemItem Class="Constant">TT_CATEGORY_UNDEFINED</SystemItem>, <SystemItem Class="Constant">TT_HANDLE</SystemItem>, <SystemItem Class="Constant">TT_OBSERVE</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">Tt_address</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">TT_ADDRESS_LAST</SystemItem>, <SystemItem Class="Constant">TT_HANDLER</SystemItem>, <SystemItem Class="Constant">TT_OBJECT</SystemItem>, <SystemItem Class="Constant">TT_OTYPE</SystemItem>, <SystemItem Class="Constant">TT_PROCEDURE</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">Tt_disposition</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">TT_DISCARD</SystemItem>, <SystemItem Class="Constant">TT_QUEUE</SystemItem>, <SystemItem Class="Constant">TT_START</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">Tt_state</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">TT_CREATED</SystemItem>, <SystemItem Class="Constant">TT_FAILED</SystemItem>, <SystemItem Class="Constant">TT_HANDLED</SystemItem>, <SystemItem Class="Constant">TT_QUEUED</SystemItem>, <SystemItem Class="Constant">TT_REJECTED</SystemItem>, <SystemItem Class="Constant">TT_SENT</SystemItem>, <SystemItem Class="Constant">TT_STARTED</SystemItem>, <SystemItem Class="Constant">TT_STATE_LAST</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The header defines the following as opaque data types:
+<StructName Role="typedef">Tt_message</StructName>, <StructName Role="typedef">Tt_pattern</StructName>.</Para>
+<Para>The header declares the following as functions:
+</Para>
+<Synopsis>char *tt_X_session(const char *<Emphasis>xdisplaystring</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_bcontext_join(const char *<Emphasis>slotname</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_bcontext_quit(const char *<Emphasis>slotname</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_close(void);
+</Synopsis>
+<Synopsis>Tt_status tt_context_join(const char *<Emphasis>slotname</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_context_quit(const char *<Emphasis>slotname</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_default_file(void);
+</Synopsis>
+<Synopsis>Tt_status tt_default_file_set(const char *<Emphasis>docid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_default_procid(void);
+</Synopsis>
+<Synopsis>Tt_status tt_default_procid_set(const char *<Emphasis>procid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_default_ptype(void);
+</Synopsis>
+<Synopsis>Tt_status tt_default_ptype_set(const char *<Emphasis>ptid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_default_session(void);
+</Synopsis>
+<Synopsis>Tt_status tt_default_session_set(const char *<Emphasis>sessid</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_error_int(Tt_status <Emphasis>ttrc</Emphasis>);
+</Synopsis>
+<Synopsis>void *tt_error_pointer(Tt_status <Emphasis>ttrc</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_fd(void);
+</Synopsis>
+<Synopsis>Tt_status tt_file_copy(const char *<Emphasis>oldfilepath</Emphasis>,
+        const char *<Emphasis>newfilepath</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_file_destroy(const char *<Emphasis>filepath</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_file_join(const char *<Emphasis>filepath</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_file_move(const char *<Emphasis>oldfilepath</Emphasis>,
+        const char *<Emphasis>newfilepath</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_file_netfile(const char *<Symbol Role="Variable">filename</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_file_objects_query(const char *<Emphasis>filepath</Emphasis>,
+        Tt_filter_function <Emphasis>filter</Emphasis>,
+        void *<Symbol Role="Variable">context</Symbol>,
+        void *<Emphasis>accumulator</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_file_quit(const char *<Emphasis>filepath</Emphasis>);
+</Synopsis>
+<Synopsis>void tt_free(caddr_t <Emphasis>p</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_host_file_netfile(const char *<Symbol Role="Variable">host</Symbol>,
+        const char *<Symbol Role="Variable">filename</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_host_netfile_file(const char *<Symbol Role="Variable">host</Symbol>,
+        const char *<Emphasis>netfilename</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_icontext_join(const char *<Emphasis>slotname</Emphasis>, int <Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_icontext_quit(const char *<Emphasis>slotname</Emphasis>, int <Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_initial_session(void);
+</Synopsis>
+<Synopsis>Tt_status tt_int_error(int <Emphasis>return_val</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_is_err(Tt_status <Symbol Role="Variable">s</Symbol>);
+</Synopsis>
+<Synopsis>caddr_t tt_malloc(size_t <Symbol Role="Variable">s</Symbol>);
+</Synopsis>
+<Synopsis>int tt_mark(void);
+</Synopsis>
+<Synopsis>Tt_status tt_message_accept(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_address tt_message_address(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_address_set(Tt_message <Emphasis>m</Emphasis>, Tt_address <Symbol Role="Variable">a</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_arg_add(Tt_message <Emphasis>m</Emphasis>,
+        Tt_mode <Symbol Role="Variable">n</Symbol>,
+        const char *<Emphasis>vtype</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_arg_bval(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>,
+        unsigned char **<Symbol Role="Variable">value</Symbol>,
+        int *<Emphasis>len</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_arg_bval_set(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Emphasis>len</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_arg_ival(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>,
+        int *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_arg_ival_set(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>,
+        int <Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_mode tt_message_arg_mode(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_message_arg_type(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_message_arg_val(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_arg_val_set(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_arg_xval(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>,
+        xdrproc_t <Emphasis>xdr_proc</Emphasis>,
+        void **<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_arg_xval_set(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>,
+        xdrproc_t <Emphasis>xdr_proc</Emphasis>,
+        void *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>int tt_message_args_count(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_barg_add(Tt_message <Emphasis>m</Emphasis>,
+        Tt_mode <Symbol Role="Variable">n</Symbol>,
+        const char *<Emphasis>vtype</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Emphasis>len</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_bcontext_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_callback_add(Tt_message <Emphasis>m</Emphasis>,
+        Tt_message_callback <Emphasis>f</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_class tt_message_class(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_class_set(Tt_message <Emphasis>m</Emphasis>,
+        Tt_class <Emphasis>c</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_context_bval(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        unsigned char **<Symbol Role="Variable">value</Symbol>,
+        int *<Emphasis>len</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_context_ival(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        int *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_context_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_message_context_slotname(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_message_context_val(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_context_xval(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        xdrproc_t <Emphasis>xdr_proc</Emphasis>,
+        void **<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>int tt_message_contexts_count(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_message tt_message_create(void);
+</Synopsis>
+<Synopsis>Tt_message tt_message_create_super(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_destroy(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_disposition tt_message_disposition(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_disposition_set(Tt_message <Emphasis>m</Emphasis>,
+        Tt_disposition <Emphasis>r</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_fail(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_file(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_file_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Symbol Role="Variable">file</Symbol>);
+</Synopsis>
+<Synopsis>gid_t tt_message_gid(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_handler(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_handler_ptype(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_handler_ptype_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>ptid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_handler_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>procid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_iarg_add(Tt_message <Emphasis>m</Emphasis>,
+        Tt_mode <Symbol Role="Variable">n</Symbol>,
+        const char *<Emphasis>vtype</Emphasis>,
+        int <Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_icontext_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        int <Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_message_id(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_object(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_object_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>objid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_op(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_op_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>opname</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_message_opnum(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_otype(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_otype_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>otype</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_pattern tt_message_pattern(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_print(Tt_message *<Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_message tt_message_receive(void);
+</Synopsis>
+<Synopsis>Tt_status tt_message_reject(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_reply(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_scope tt_message_scope(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_scope_set(Tt_message <Emphasis>m</Emphasis>,
+        Tt_scope <Symbol Role="Variable">s</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_send(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_send_on_exit(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_sender(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_sender_ptype(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_sender_ptype_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>ptid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_message_session(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_session_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>sessid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_state tt_message_state(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_message_status(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_status_set(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">status</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_message_status_string(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_status_string_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>status_str</Emphasis>);
+</Synopsis>
+<Synopsis>uid_t tt_message_uid(Tt_message <Emphasis>m</Emphasis>);
+</Synopsis>
+<Synopsis>void *tt_message_user(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">key</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_user_set(Tt_message <Emphasis>m</Emphasis>,
+        int <Symbol Role="Variable">key</Symbol>,
+        void *<Emphasis>v</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_xarg_add(Tt_message <Emphasis>m</Emphasis>,
+        Tt_mode <Symbol Role="Variable">n</Symbol>,
+        const char *<Emphasis>vtype</Emphasis>,
+        xdrproc_t <Emphasis>xdr_proc</Emphasis>,
+        void *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_xcontext_join(const char *<Emphasis>slotname</Emphasis>,
+        xdrproc_t <Emphasis>xdr_proc</Emphasis>,
+        void *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_message_xcontext_set(Tt_message <Emphasis>m</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        xdrproc_t <Emphasis>xdr_proc</Emphasis>,
+        void *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_netfile_file(const char *<Emphasis>netfilename</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_objid_equal(const char *<Emphasis>objid1</Emphasis>,
+        const char *<Emphasis>objid2</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_objid_objkey(const char *<Emphasis>objid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_message tt_onotice_create(const char *<Emphasis>objid</Emphasis>,
+        const char *<Symbol Role="Variable">op</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_open(void);
+</Synopsis>
+<Synopsis>Tt_message tt_orequest_create(const char *<Emphasis>objid</Emphasis>,
+        const char *<Symbol Role="Variable">op</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_otype_base(const char *<Emphasis>otype</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_otype_derived(const char *<Emphasis>otype</Emphasis>,
+        int <Symbol Role="Variable">i</Symbol>);
+</Synopsis>
+<Synopsis>int tt_otype_deriveds_count(const char *<Emphasis>otype</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_mode tt_otype_hsig_arg_mode(const char *<Emphasis>otype</Emphasis>,
+        int <Emphasis>sig</Emphasis>,
+        int <Emphasis>arg</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_otype_hsig_arg_type(const char *<Emphasis>otype</Emphasis>,
+        int <Emphasis>sig</Emphasis>,
+        int <Emphasis>arg</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_otype_hsig_args_count(const char *<Emphasis>otype</Emphasis>,
+        int <Emphasis>sig</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_otype_hsig_count(const char *<Emphasis>otype</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_otype_hsig_op(const char *<Emphasis>otype</Emphasis>,
+        int <Emphasis>sig</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_otype_is_derived(const char *<Emphasis>derivedotype</Emphasis>,
+        const char *<Emphasis>baseotype</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_otype_opnum_callback_add(const char *<Emphasis>otid</Emphasis>,
+        int <Emphasis>opnum</Emphasis>,
+        Tt_message_callback <Emphasis>f</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_mode tt_otype_osig_arg_mode(const char *<Emphasis>otype</Emphasis>,
+        int <Emphasis>sig</Emphasis>,
+        int <Emphasis>arg</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_otype_osig_arg_type(const char *<Emphasis>otype</Emphasis>,
+        int <Emphasis>sig</Emphasis>,
+        int <Emphasis>arg</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_otype_osig_args_count(const char *<Emphasis>otype</Emphasis>,
+        int <Emphasis>sig</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_otype_osig_count(const char*<Emphasis>otype</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_otype_osig_op(const char *<Emphasis>otype</Emphasis>,
+        int <Emphasis>sig</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_address_add(Tt_pattern <Emphasis>p</Emphasis>,
+        Tt_address <Symbol Role="Variable">d</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_arg_add(Tt_pattern <Emphasis>p</Emphasis>,
+        Tt_mode <Symbol Role="Variable">n</Symbol>,
+        const char *<Emphasis>vtype</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_barg_add(Tt_pattern <Emphasis>m</Emphasis>,
+        Tt_mode <Symbol Role="Variable">n</Symbol>,
+        const char *<Emphasis>vtype</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Emphasis>len</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_bcontext_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_callback_add(Tt_pattern <Emphasis>m</Emphasis>,
+        Tt_message_callback <Emphasis>f</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_category tt_pattern_category(Tt_pattern <Emphasis>p</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_category_set(Tt_pattern <Emphasis>p</Emphasis>,
+        Tt_category <Emphasis>c</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_class_add(Tt_pattern <Emphasis>p</Emphasis>,
+        Tt_class <Emphasis>c</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_context_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_pattern tt_pattern_create(void);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_destroy(Tt_pattern <Emphasis>p</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_disposition_add(Tt_pattern <Emphasis>p</Emphasis>,
+        Tt_disposition <Emphasis>r</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_file_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Symbol Role="Variable">file</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_iarg_add(Tt_pattern <Emphasis>m</Emphasis>,
+        Tt_mode <Symbol Role="Variable">n</Symbol>,
+        const char *<Emphasis>vtype</Emphasis>,
+        int <Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_icontext_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        int <Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_object_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>objid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_op_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>opname</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_opnum_add(Tt_pattern <Emphasis>p</Emphasis>,
+        int <Emphasis>opnum</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_otype_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>otype</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_pattern_print(Tt_pattern *<Emphasis>p</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_register(Tt_pattern <Emphasis>p</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_scope_add(Tt_pattern <Emphasis>p</Emphasis>,
+        Tt_scope <Symbol Role="Variable">s</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_sender_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>procid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_sender_ptype_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>ptid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_session_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>sessid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_state_add(Tt_pattern <Emphasis>p</Emphasis>,
+        Tt_state <Symbol Role="Variable">s</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_unregister(Tt_pattern <Emphasis>p</Emphasis>);
+</Synopsis>
+<Synopsis>void *tt_pattern_user(Tt_pattern <Emphasis>p</Emphasis>,
+        int <Symbol Role="Variable">key</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_user_set(Tt_pattern <Emphasis>p</Emphasis>,
+        int <Symbol Role="Variable">key</Symbol>,
+        void *<Emphasis>v</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_xarg_add(Tt_pattern <Emphasis>m</Emphasis>,
+        Tt_mode <Symbol Role="Variable">n</Symbol>,
+        const char *<Emphasis>vtype</Emphasis>,
+        xdrproc_t <Emphasis>xdr_proc</Emphasis>,
+        void *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pattern_xcontext_add(Tt_pattern <Emphasis>p</Emphasis>,
+        const char *<Emphasis>slotname</Emphasis>,
+        xdrproc_t <Emphasis>xdr_proc</Emphasis>,
+        void *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>Tt_message tt_pnotice_create(Tt_scope <Emphasis>scope</Emphasis>,
+        const char *<Symbol Role="Variable">op</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_pointer_error(void *<Symbol Role="Variable">pointer</Symbol>);
+</Synopsis>
+<Synopsis>Tt_message tt_prequest_create(Tt_scope <Emphasis>scope</Emphasis>,
+        const char *<Symbol Role="Variable">op</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_ptr_error(<Symbol Role="Variable">pointer</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_ptype_declare(const char *<Emphasis>ptid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_ptype_exists(const char *<Emphasis>ptid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_ptype_opnum_callback_add(const char *<Emphasis>ptid</Emphasis>,
+        int <Emphasis>opnum</Emphasis>,
+        Tt_message_callback <Emphasis>f</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_ptype_undeclare(const char *<Emphasis>ptid</Emphasis>);
+</Synopsis>
+<Synopsis>void tt_release(int <Emphasis>mark</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_session_bprop(const char *<Emphasis>sessid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        int <Symbol Role="Variable">i</Symbol>,
+        unsigned char **<Symbol Role="Variable">value</Symbol>,
+        int *<Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_session_bprop_add(const char *<Emphasis>sessid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_session_bprop_set(const char *<Emphasis>sessid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_session_join(const char *<Emphasis>sessid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_session_prop(const char *<Emphasis>sessid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        int <Symbol Role="Variable">i</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_session_prop_add(const char *<Emphasis>sessid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>int tt_session_prop_count(const char *<Emphasis>sessid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_session_prop_set(const char *<Emphasis>sessid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_session_propname(const char *<Emphasis>sessid</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>);
+</Synopsis>
+<Synopsis>int tt_session_propnames_count(const char *<Emphasis>sessid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_session_quit(const char *<Emphasis>sessid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_session_types_load(const char *<Emphasis>session</Emphasis>,
+        const char *<Symbol Role="Variable">filename</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_spec_bprop(const char *<Emphasis>objid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        int <Symbol Role="Variable">i</Symbol>,
+        unsigned char **<Symbol Role="Variable">value</Symbol>,
+        int *<Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_spec_bprop_add(const char *<Emphasis>objid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_spec_bprop_set(const char *<Emphasis>objid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        const unsigned char *<Symbol Role="Variable">value</Symbol>,
+        int <Symbol Role="Variable">length</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_spec_create(const char *<Emphasis>filepath</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_spec_destroy(const char *<Emphasis>objid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_spec_file(const char *<Emphasis>objid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_spec_move(const char *<Emphasis>objid</Emphasis>,
+        const char *<Emphasis>newfilepath</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_spec_prop(const char *<Emphasis>objid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        int <Symbol Role="Variable">i</Symbol>);
+</Synopsis>
+<Synopsis>Tt_status tt_spec_prop_add(const char *<Emphasis>objid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>int tt_spec_prop_count(const char *<Emphasis>objid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_spec_prop_set(const char *<Emphasis>objid</Emphasis>,
+        const char *<Emphasis>propname</Emphasis>,
+        const char *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+<Synopsis>char *tt_spec_propname(const char *<Emphasis>objid</Emphasis>,
+        int <Symbol Role="Variable">n</Symbol>);
+</Synopsis>
+<Synopsis>int tt_spec_propnames_count(const char *<Emphasis>objid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_spec_type(const char *<Emphasis>objid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_spec_type_set(const char *<Emphasis>objid</Emphasis>,
+        const char *<Emphasis>otid</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_spec_write(const char *<Emphasis>objid</Emphasis>);
+</Synopsis>
+<Synopsis>char *tt_status_message(Tt_status <Emphasis>ttrc</Emphasis>);
+</Synopsis>
+<Synopsis>int tt_trace_control(int <Emphasis>onoff</Emphasis>);
+</Synopsis>
+<Synopsis>Tt_status tt_xcontext_quit(const char *<Emphasis>slotname</Emphasis>,
+        xdrproc_t <Emphasis>xdr_proc</Emphasis>,
+        void *<Symbol Role="Variable">value</Symbol>);
+</Synopsis>
+</RefSect1>
+</refentry>

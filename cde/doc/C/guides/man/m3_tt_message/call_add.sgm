@@ -1,0 +1,117 @@
+<!-- $XConsortium: call_add.sgm /main/5 1996/08/30 13:35:25 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN104.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN104.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_message_callback_add</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_message_callback_add</Function></RefName>
+<RefPurpose>register a callback function
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: call_add.sgm /main/5 1996/08/30 13:35:25 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>tt_message_callback_add</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>m</Parameter></ParamDef>
+<ParamDef>Tt_message_callback <Parameter>f</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_message_callback_add</Function> function
+registers a callback function to be automatically invoked by
+&cdeman.tt.message.receive; whenever a reply or other state-change to this message is returned.
+</Para>
+<Para>The callback is defined in
+&cdeman.Tt.tt.c.h;. If the callback returns
+<SystemItem Class="Constant">TT_CALLBACK_CONTINUE</SystemItem>, other callbacks will be
+run; if no callback returns
+<SystemItem Class="Constant">TT_CALLBACK_PROCESSED</SystemItem>, <Function>tt_message_receive</Function> returns the message.
+If the callback returns
+<SystemItem Class="Constant">TT_CALLBACK_PROCESSED</SystemItem>, no further callbacks are
+invoked for this event;
+<Function>tt_message_receive</Function> does not return the message.
+</Para>
+<Para>The
+<Emphasis>m</Emphasis> argument is the opaque handle for the message involved in this operation.
+The
+<Emphasis>f</Emphasis> argument is the message callback to be run.
+</Para>
+<Para>The pattern handle will be
+<SystemItem Class="Constant">NULL</SystemItem> if the message did not match a dynamic pattern.
+This is usually the case for message callbacks.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_message_callback_add</Function> function returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The pointer passed does not point to an object of
+the correct type for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>These callbacks are invoked from
+<Function>tt_message_receive</Function>; the program must, therefore, call
+<Function>tt_message_receive</Function> when the file descriptor returned by
+<Function>tt_fd</Function> becomes active.
+</Para>
+<Para>The application can use
+<Function>tt_message_callback_add</Function> to create wrappers for ToolTalk messages.
+For example, a library routine can construct a request,
+attach a callback to the message, send
+the message, and process the reply in the callback.
+When the callback returns
+<SystemItem Class="Constant">TT_CALLBACK_PROCESSED</SystemItem>, the message reply is not returned to the main
+program; the message and reply are, therefore, completely hidden.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.message.receive;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

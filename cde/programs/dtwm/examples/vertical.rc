@@ -1,0 +1,219 @@
+#################################################################
+#
+#    File:		vertical.rc
+#
+#    Directory:		/usr/lib/X11/dt/examples/Dtwm
+#
+#    Description:       Sample configuration file (RC file) for the
+#                       HP DT Window Manager 
+#
+#    Hewlett-Packard Visual User Environment, Version 2.1
+#
+#    Copyright (c) 1990 Hewlett-Packard Company
+#
+#    $XConsortium: vertical.rc /main/2 1996/07/18 15:28:40 drk $
+#
+######################################################################
+
+#####
+#                                  
+#  Front Panel Specification
+#                                  
+####
+FrontPanel VerticalFrontPanel    # Tuned for displays of 1024 pixels by
+				 # 768 pixels.
+{
+    Row Top
+    {
+	dtwmclock        =72x55+2+2
+    }
+    Row A
+    {
+        dtwmdate	 =+6+6
+    }
+    Row B
+    {
+	Mail    	[T I] @mail.m.bm @mail02.m.bm f.action MAILER
+    }
+    Row C
+    {
+	dtload         =+6+6
+    }
+    Row D
+    {
+        dtwmswtch      =72x160
+    }
+    Row E
+    {
+	print_medium	[Z P] @print.m.bm =72x55 f.action PRINTER_INFO f.action PRINT
+    }
+    Row F
+    {
+	home   	        [P] @home.m.bm f.action BROWSE_HOME
+    }
+    Row G
+    {
+	applications	[P] @tools.m.bm  f.action BROWSE_TOOLS
+    }
+    Row H
+    {
+	trash_medium	[P Z] @trash.m.bm f.action SHOW_TRASH f.action THROW_AWAY
+    }
+}
+
+
+DropEffects print_medium
+{
+	print02.m.bm     40
+	print03.m.bm
+	print04.m.bm
+	print05.m.bm
+	print06.m.bm
+	print07.m.bm
+	print08.m.bm
+	print09.m.bm
+	print10.m.bm
+	print11.m.bm
+	print12.m.bm
+	print13.m.bm
+	print14.m.bm
+	print.m.bm      
+}
+
+DropEffects trash_medium
+{
+	trash09.m.bm  40
+	trash08.m.bm 
+	trash07.m.bm 
+	trash06.m.bm 
+	trash05.m.bm 
+	trash04.m.bm 
+	trash03.m.bm 
+	trash02.m.bm 
+	trash03.m.bm
+	trash04.m.bm
+	trash05.m.bm
+	trash06.m.bm
+	trash07.m.bm
+	trash08.m.bm
+	trash09.m.bm  
+	trash.m.bm 
+}
+
+###
+#
+# Root Menu Description
+#
+###
+
+Menu DtRootMenu
+{
+    "Workspace Menu"            f.title
+    "Shuffle Up"	        f.circle_up
+    "Shuffle Down"	        f.circle_down
+    "Refresh"		        f.refresh
+    "Toggle Workspace Manager " f.toggle_frontpanel
+     no-label		        f.separator
+    "Restart Dtwm..."	        f.restart
+     no-label		        f.separator
+    "Log out..."                f.action EXIT_SESSION
+}
+
+###
+#
+# Window Menu Description
+#
+###
+
+Menu DtWindowMenu
+{
+    "Restore"          _R        Alt<Key>F5         f.normalize
+    "Move"             _M        Alt<Key>F7         f.move
+    "Size"             _S        Alt<Key>F8         f.resize
+    "Minimize"         _n        Alt<Key>F9         f.minimize
+    "Maximize"         _x        Alt<Key>F10        f.maximize
+    "Lower"            _L        Alt<Key>F3         f.lower
+     no-label                                       f.separator
+    "Occupy..."        _O        Alt<Key>O          f.workspace_presence
+    "Occupy all"       _a        Alt Shift<Key>O    f.occupy_all
+     no-label                                       f.separator
+    "Remove from WS"   _e        Alt Shift <Key>F4  f.remove
+    "Close"            _C        Alt<Key>F4         f.kill
+}
+
+###
+#
+# Key Bindings Description
+#
+###
+
+Keys DtKeyBindings
+{
+    Meta<Key>Menu               root|icon|window        f.toggle_frontpanel
+    Shift<Key>Escape            icon|window             f.post_wmenu
+    Meta<Key>space              icon|window             f.post_wmenu
+    Meta<Key>Tab                root|icon|window        f.next_key
+    Meta Shift<Key>Tab		root|icon|window        f.prev_key
+    Meta<Key>Escape             root|icon|window        f.next_key
+    Meta Shift<Key>Escape       root|icon|window        f.prev_key
+    Meta<Key>Down               root|icon|window        f.circle_down
+    Meta<Key>Up                 root|icon|window        f.circle_up
+    Meta Ctrl Shift<Key>exclam	root|icon|window        f.set_behavior
+    Meta<Key>F6			window			f.next_key transient
+}
+
+###
+#
+# Button Bindings Description
+#
+###
+
+Buttons DtButtonBindings
+{
+    <Btn1Down>          root                    f.menu  DtRootMenu
+    <Btn3Down>          root                    f.menu  DtRootMenu
+    <Btn1Down>          frame|icon              f.raise
+    <Btn3Down>          frame|icon              f.post_wmenu
+    Meta<Btn1Down>	icon|window             f.move
+    Meta<Btn3Down>	window                  f.minimize
+}
+
+###
+#
+# Default Descriptions
+#
+#  Note:  There is no default root window menu defined.
+#
+###
+
+Menu DefaultWindowMenu
+{
+    "Restore"	_R	Alt<Key>F5	f.normalize
+    "Move"	_M	Alt<Key>F7	f.move
+    "Size"	_S	Alt<Key>F8	f.resize
+    "Minimize"	_n	Alt<Key>F9	f.minimize
+    "Maximize"	_x	Alt<Key>F10	f.maximize
+    "Lower"	_L	Alt<Key>F3	f.lower
+    no-label				f.separator
+    "Close"	_C	Alt<Key>F4	f.kill
+}
+
+Keys DefaultKeyBindings
+{
+    Shift<Key>Escape            icon|window             f.post_wmenu
+    Meta<Key>space              icon|window             f.post_wmenu
+    Meta<Key>Tab                root|icon|window        f.next_key
+    Meta Shift<Key>Tab		root|icon|window        f.prev_key
+    Meta<Key>Escape             root|icon|window        f.next_key
+    Meta Shift<Key>Escape       root|icon|window        f.prev_key
+    Meta Ctrl Shift<Key>exclam	root|icon|window        f.set_behavior
+#   Meta<Key>F6			window			f.next_key transient
+}
+
+Buttons DefaultButtonBindings
+{
+    <Btn1Down>          frame|icon      f.raise
+    <Btn3Down>          icon            f.post_wmenu
+}
+
+########################    End of the RC File   #####################

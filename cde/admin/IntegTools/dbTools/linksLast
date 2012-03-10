@@ -1,0 +1,23 @@
+#! /bin/ksh
+
+#
+# Script to move all link refereces in a ".lst" file
+# to the end of the file.
+#
+
+USAGE="Usage: $0 file.lst"
+
+case $# in
+	0) echo $USAGE;;
+	1);;
+	*) echo $USAGE;;
+esac
+
+awk '
+/hard_link|sym_link/ { links[i++] = $0 ; next; }
+{ print $0 }
+END {
+	if ( i > 0 )
+		for ( i in links) print links[i];
+}
+'  $@

@@ -1,0 +1,214 @@
+XCOMM $TOG: Imakefile /main/14 1999/08/30 10:49:21 mgreess $
+#define DoNormalLib	NormalLibTt
+#define DoSharedLib	SharedLibTt
+#define DoDebugLib	DebugLibTt
+#define DoProfileLib	ProfileLibTt
+#define LibName		tt
+#define SoRev		SOTTREV
+#define LibHeaders	NO
+
+XCOMM Currently libtt is just barely too large to compile with small
+XCOMM PIC tables on Solaris.  Other platforms (e.g. HP/UX) seem to do
+XCOMM fine.  Rather than enable LargePICTable everywhere it is only
+XCOMM set in tttk/Imakefile and api/c/Imakefile.  If we need to compile 
+XCOMM more modules with large PIC tables it should be set in other 
+XCOMM subdirectories too.
+
+#define CplusplusSource	YES
+
+#include <Threads.tmpl>
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+SUBDIRS = api db mp util tttk
+EXTRALIBRARYDEPS = api/DONE db/DONE mp/DONE util/DONE tttk/DONE
+
+MakeSubdirs($(SUBDIRS))
+ForceSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+#include "../tooltalk.tmpl"
+
+DEFINES = 
+INCLUDES = -I.
+
+#ifdef RsArchitecture
+      REALPATHC = realpath.c
+      REALPATHO = realpath.o
+#endif
+
+#ifdef AlphaArchitecture
+      REALPATHC = realpath.c
+      REALPATHO = realpath.o
+#endif
+
+#ifdef SharedTtReqs
+#ifdef SunArchitecture
+REQUIREDLIBS = SharedTtReqs -L/opt/SUNWspro/SC4.0/lib -Bstatic -lC
+SHLIBLDFLAGS = -G
+#else
+REQUIREDLIBS = SharedTtReqs
+#endif
+#endif
+
+/* You do not need to list sources except where .o's are actually made */
+SRCS = $(REALPATHC)
+
+OBJS_1 = \
+api/c/api_api.o \
+api/c/api_auth.o \
+api/c/api_default.o \
+api/c/api_error.o \
+api/c/api_file.o \
+api/c/api_filemap.o \
+api/c/api_handle.o \
+api/c/api_message.o \
+api/c/api_mp.o \
+api/c/api_mp_io.o \
+api/c/api_mp_otype.o \
+api/c/api_objid_spec.o \
+api/c/api_pattern.o \
+api/c/api_session_prop.o \
+api/c/api_spec.o \
+api/c/api_spec_map_ref.o \
+api/c/api_storage.o \
+api/c/api_typecb.o \
+api/c/api_typecb_utils.o \
+api/c/api_utils.o \
+api/c/api_xdr.o \
+api/dnd/ttdnd.o \
+db/db_server_clnt.o \
+db/db_server_xdr.o \
+db/old_db_server_functions.o \
+db/tt_client_isam_file.o \
+db/tt_client_isam_file_utils.o \
+db/tt_client_isam_key_descriptor.o \
+db/tt_client_isam_key_descriptor_utils.o \
+db/tt_client_isam_record.o \
+db/tt_client_isam_record_utils.o \
+db/tt_db_access_utils.o \
+db/tt_db_client.o \
+db/tt_db_client_utils.o \
+db/tt_db_create_objid.o \
+db/tt_db_file.o \
+db/tt_db_file_utils.o \
+db/tt_db_hostname_global_map_ref.o \
+db/tt_db_hostname_redirection_map.o \
+db/tt_db_key.o \
+db/tt_db_key_utils.o \
+db/tt_db_network_path.o \
+db/tt_db_object.o \
+db/tt_db_object_utils.o \
+db/tt_db_objid_to_key.o \
+db/tt_db_property.o \
+db/tt_db_property_utils.o \
+db/tt_db_rpc_message_routines.o \
+db/tt_db_rpc_routines.o \
+db/tt_old_db.o \
+db/tt_old_db_message_info.o \
+db/tt_old_db_message_info_utils.o \
+db/tt_old_db_partition_map_ref.o \
+db/tt_old_db_utils.o
+
+OBJS_2 = \
+mp/mp_arg.o \
+mp/mp_arg_utils.o \
+mp/mp_auth.o \
+mp/mp_auth_functions.o \
+mp/mp_c_file.o \
+mp/mp_c_file_utils.o \
+mp/mp_c_message.o \
+mp/mp_c_message_utils.o \
+mp/mp_c_mp.o \
+mp/mp_c_msg_context.o \
+mp/mp_c_msg_context_utils.o \
+mp/mp_c_pattern.o \
+mp/mp_c_procid.o \
+mp/mp_c_procid_utils.o \
+mp/mp_c_session.o \
+mp/mp_c_session_prop.o \
+mp/mp_c_session_utils.o \
+mp/mp_context.o \
+mp/mp_context_utils.o \
+mp/mp_desktop.o \
+mp/mp_desktop_utils.o \
+mp/mp_file.o \
+mp/mp_file_utils.o \
+mp/mp_message.o \
+mp/mp_message_utils.o \
+mp/mp_mp.o \
+mp/mp_mp_utils.o \
+mp/mp_msg_context.o \
+mp/mp_msg_context_utils.o \
+mp/mp_pat_context.o \
+mp/mp_pat_context_utils.o \
+mp/mp_pattern.o \
+mp/mp_pattern_utils.o \
+mp/mp_procid.o \
+mp/mp_procid_utils.o \
+mp/mp_rpc_client.o \
+mp/mp_rpc_client_utils.o \
+mp/mp_rpc_fns.o \
+mp/mp_session.o \
+mp/mp_session_prop.o \
+mp/mp_session_prop_utils.o \
+mp/mp_session_utils.o \
+mp/mp_stream_socket.o \
+mp/mp_stream_socket_utils.o \
+mp/mp_trace.o \
+mp/mp_xdr_functions.o \
+tttk/ttdesktop.o \
+tttk/ttdtfile.o \
+tttk/ttdtprocid.o \
+tttk/ttmedia.o \
+tttk/tttk.o \
+tttk/tttk2free.o \
+tttk/tttkmessage.o \
+tttk/tttkpattern.o \
+tttk/tttkutils.o
+
+OBJS_3 = \
+util/copyright.o \
+util/tt_Xlib.o \
+util/tt_audit.o \
+util/tt_base64.o \
+util/tt_enumname.o \
+util/tt_entry_pt.o \
+util/tt_file_system.o \
+util/tt_file_system_entry_utils.o \
+util/tt_gettext.o \
+util/tt_global_env.o \
+util/tt_host.o \
+util/tt_host_equiv.o \
+util/tt_host_equiv_utils.o \
+util/tt_host_utils.o \
+util/tt_int_rec.o \
+util/tt_iostream.o \
+util/tt_ldpath.o \
+util/tt_log.o \
+util/tt_map_entry.o \
+util/tt_map_entry_utils.o \
+util/tt_new.o \
+util/tt_new_ptr.o \
+util/tt_object.o \
+util/tt_object_list.o \
+util/tt_object_table.o \
+util/tt_path.o \
+util/tt_port.o \
+util/tt_string.o \
+util/tt_string_map.o \
+util/tt_string_map_utils.o \
+util/tt_string_match.o \
+util/tt_threadspecific.o \
+util/tt_trace.o \
+util/tt_trace_parser.o \
+util/tt_tracefile_parse.o \
+util/tt_trace_stream.o \
+util/tt_xdr_utils.o $(REALPATHO)
+
+OBJS = $(OBJS_1) $(OBJS_2) $(OBJS_3)
+
+#include <Library.tmpl>
+
+DependTarget()

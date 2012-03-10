@@ -1,0 +1,87 @@
+<!-- $XConsortium: error.sgm /main/8 1996/09/08 20:12:09 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.TT.tterror">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.TT.tterror">]]>
+<RefMeta>
+<RefEntryTitle>tt_error</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_error</Function></RefName>
+<RefPurpose>capture ToolTalk function errors
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>tt_error</Function></FuncDef>
+<ParamDef>const char *<Parameter>funcname</Parameter></ParamDef>
+<ParamDef>Tt_status <Parameter>status</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_error</function>
+function is a publicly-known null function. It is called by
+the ToolTalk library just before it returns from any ToolTalk API call
+that has a status other than
+<SystemItem Class="Constant">TT_OK</SystemItem>.
+The caller passes the name of the function that
+is about to return and the function's status code.
+</Para>
+<para>You can use this function to set a
+<command>dbx</command> breakpoint to
+quickly catch and trace back any ToolTalk errors.
+You can also interpose this function, for example,
+to log ToolTalk errors to <function>stderr</function>.
+</para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<VariableList>
+<VarListEntry>
+<Term><symbol role="Variable">funcname</symbol></Term>
+<ListItem>
+<Para>Specifies the name of the function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><symbol role="Variable">status</symbol></Term>
+<ListItem>
+<Para>Specifies the function's return status value.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>None.</para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The following code example shows how an application might interpose this
+function to log ToolTalk errors to <function>stderr</function>:
+</para>
+<programlisting>
+void tt_error(const char *funcname, Tt_status status) {
+        fprintf(stderr, "ToolTalk function %s returned %s.\n",
+                funcname, tt_status_message(status));
+}
+</programlisting>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;
+</para>
+</RefSect1>
+</RefEntry>

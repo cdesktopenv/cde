@@ -1,0 +1,37 @@
+XCOMM $TOG: Imakefile /main/14 1998/08/25 12:59:12 mgreess $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+SUBDIRS = MotifUI
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+INCLUDES = -I. -I./MotifUI
+
+DEPLIBS = ./MotifUI/libMotifUI.a DepDtClientLibs
+LOCAL_LIBRARIES = ./MotifUI/libMotifUI.a DtClientLibs
+SYS_LIBRARIES = DtClientSysLibs DtClientExtraLibs
+
+#ifdef RsArchitecture
+DEFINES = -DHAS_EXCEPTIONS
+#endif
+
+#ifdef AlphaArchitecture
+DEFINES = -UNO_REGCOMP
+#endif
+
+SRCS = 	BaseUI.C Test.C
+OBJS = 	BaseUI.o Test.o
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(Test)
+
+clean::
+	$(RM) *.map

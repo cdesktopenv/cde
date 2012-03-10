@@ -1,0 +1,143 @@
+<!-- $XConsortium: thr_se_s.sgm /main/8 1996/08/30 12:51:58 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+
+
+<![%CDE.C.CDE;[<Refentry Id="CDEMX.XCDI.MAN251b.rsml.1">]]>
+<![%CDE.C.XO;[<Refentry Id="XCDI.MAN251b.rsml.1">]]>
+
+<RefMeta>
+<RefEntryTitle>tt_thread_session_set</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_thread_session_set</Function></RefName>
+<RefPurpose>set the default session identifier for the current thread
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>tt_thread_session_set</Function></FuncDef>
+<ParamDef>const char *<Parameter>sessid</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_thread_session_set</Function> function
+sets the default session identifier
+for the currently active thread. The ToolTalk service uses the initial
+user session as the default session and supports one session per
+procid. The application can make this call before it calls
+<function>tt_open</function> to specify which session
+it wants to connect to in the active thread.
+</para>
+<para>To change to another opened session, the application must use either
+<function>tt_thread_procid_set</function> or
+<function>tt_default_procid_set</function>.
+</para>
+<para>To join other sessions, the procid must first set the new session as
+the default session, and then initialize and register with the
+ToolTalk service. The calls required must be in the following order:
+<function>tt_thread_session_set</function> or
+<function>tt_default_session_set</function> and
+then <function>tt_open</function>.
+</para>
+<para>The <function>tt_open</function> call may create another
+ToolTalk procid, the connection to which is identified by a procid.
+Only one ToolTalk session per procid is allowed. (However, multiple procids
+are allowed in a client.)
+</para>
+<para>There are no API calls to determine the session to which a procid
+is connected. If it is important for the application to know the
+session to which it is connected, it must make the following calls
+in the indicated order: <function>tt_open</function> and then
+<function>tt_thread_session</function>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<VariableList>
+<VarListEntry>
+<Term><symbol role="Variable">sessid</symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the unique identifier string
+for the session that is to be the default session for the current thread.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_thread_session_set</Function> function
+returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry><Term><SystemItem Class="Constant">TT_OK</SystemItem></Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><Term><SystemItem Class="Constant">TT_ERR_NOMP</SystemItem></Term>
+<ListItem>
+<Para>The <command>ttsession</command> process is not running and
+the ToolTalk service cannot start it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><Term><SystemItem Class="Constant">TT_ERR_PROCID</SystemItem></Term>
+<ListItem>
+<Para>The current default process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><Term><SystemItem Class="Constant">TT_ERR_SESSION</SystemItem></Term>
+<ListItem>
+<Para>The specified ToolTalk session is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><Term><SystemItem Class="Constant">TT_ERR_UNIMP</SystemItem></Term>
+<ListItem>
+<Para>The ToolTalk implementation does not support multithreading.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><Term><SystemItem Class="Constant">TT_ERR_TOOLATE</SystemItem></Term>
+<ListItem>
+<Para>The multithreading feature has not been enabled.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>Some ToolTalk API calls implicitly depend on the current default
+session. Setting the default session for the specific thread prevents
+race conditions caused by other threads changing the global default
+session.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;,
+&cdeman.tt.default.procid;,
+&cdeman.tt.default.session;,
+&cdeman.tt.feature.required;,
+&cdeman.tt.thread.procid;,
+&cdeman.tt.thread.session;
+</Para>
+</RefSect1>
+</refentry>

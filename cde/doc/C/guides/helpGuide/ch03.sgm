@@ -1,0 +1,766 @@
+<!-- $XConsortium: ch03.sgm /main/11 1996/09/08 19:39:54 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.WrTop.div.1">
+<title id="HRDC.WrTop.mkr.1">Writing a Help Topic</title>
+<para>This chapter describes elements that you can use to structure your text.
+It also explains how to include graphics and how to create hyperlinks to other
+help topics.</para>
+<informaltable id="HRDC.WrTop.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating Structure within a Topic52'--><xref
+role="JumpText" linkend="HRDC.WrTop.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Entering Inline Elements62'--><xref
+role="JumpText" linkend="HRDC.WrTop.mkr.9"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating Hyperlinks64'--><xref role="JumpText"
+linkend="HRDC.WrTop.mkr.14"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Displaying Graphics76'--><xref role="JumpText"
+linkend="HRDC.WrTop.mkr.23"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Including Special Characters80'--><xref
+role="JumpText" linkend="HRDC.WrTop.mkr.27"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Including Comments and Writer's Memos81'--><xref
+role="JumpText" linkend="HRDC.WrTop.mkr.29"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating an Index82'--><xref role="JumpText"
+linkend="HRDC.WrTop.mkr.32"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating a Glossary83'--><xref role="JumpText"
+linkend="HRDC.WrTop.mkr.34"></para></entry></row></tbody></tgroup></informaltable>
+<sect1 id="HRDC.WrTop.div.2">
+<title>Creating Help Topics</title>
+<para>A help topic is a unit of information identified with a unique ID. Help
+topics are grouped into a logical framework that best describes the product
+for which you are writing online help.</para>
+<para>The hierarchy of elements provided by DocBook gives you the framework
+for organizing the help topics you write. The hierarchy of elements is as
+follows: Chapter, Sect1, Sect2, Sect3, Sect4, and Sect5.</para>
+<para>A topic's position within the hierarchy is determined by the element
+which contains it, and how that element is embedded in higher level elements.
+For example, if a topic that is tagged as Sect2 follows a topic tagged as
+Sect1, that makes it a subtopic of the Sect1 topic.</para>
+<para>An ID is required if the topic is to be accessed either from the application
+(if you are writing application help) or from a hyperlink. Typically both
+the element that contains the topic and its title will be marked with IDs.
+ID is one of the attributes of the elements Chapter, Sect1, Sect2, Sect3,
+Sect4, Sect5, and Title.</para>
+<sect2 id="HRDC.WrTop.div.3">
+<title>Example</title>
+<para>The following line marks the start of a topic using the &lt;Sect1> tag:
+</para>
+<programlisting>&lt;sect1 id="HRDC.WrTop.div.2"></programlisting>
+<para>A Title is required for the elements Chapter, Sect1, Sect2, Sect3, Sect4,
+Sect5, and immediately follows the start tag of the element. The markup would
+look like this:</para>
+<programlisting>&lt;sect1 id="HRDC.WrTop.div.2">
+&lt;title>Help Topics&lt;/title></programlisting>
+<sect3 id="HRDC.WrTop.div.4">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><!--Original XRef content: 'Chapter&numsp;2,
+&ldquo;Organizing and Writing a Help Volume'--><xref role="ChapNumAndTitle"
+linkend="HRDC.OrgH.mkr.1">, describes the general structure of a help volume,
+including how to create a topic hierarchy.</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.5">
+<title id="HRDC.WrTop.mkr.2">Creating Structure within a Topic</title>
+<para>Within the body of a help topic, you have the following elements to
+choose from to organize and present your information:</para>
+<itemizedlist><listitem><para><emphasis>Paragraphs</emphasis> are used for
+bodies of text.</para>
+</listitem><listitem><para><emphasis>Lists</emphasis> are used for listed
+information. There are several types of lists: ItemizedLists (bulleted), OrderedLists
+(numbered), VariableLists (for defining lists of terms), and SegmentedLists
+(for comparably labelled sets of information).</para>
+</listitem><listitem><para><emphasis>Tables</emphasis> are for structured
+arrays of information. There are InformalTables (untitled) and Tables (which
+require a Title).</para>
+</listitem><listitem><para><emphasis>Graphics</emphasis> can be included within
+your text as <emphasis>inline elements</emphasis> or displayed between paragraphs
+as standalone <emphasis>block-oriented elements</emphasis>. A Graphic points
+to exterior files that contain the graphical data</para>
+</listitem><listitem><para><emphasis>Hyperlinks</emphasis> provide references
+to related topics. A hyperlink may lead to a subtopic, deeper in the hierarchy,
+or branch to a topic in a completely different part of the hierarchy, or even
+in another help volume.</para>
+</listitem><listitem><para><emphasis>Computer literals</emphasis> are computer-recognized
+text, such as file names and variable names, that can be displayed as either
+separate example listings or inline elements.</para>
+</listitem><listitem><para><emphasis>Notes, cautions, and warnings</emphasis>
+call the reader's attention to important information.</para>
+</listitem><listitem><para><emphasis>Emphasis</emphasis> is used to highlight
+important words and phrases within paragraph text.</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.WrTop.div.6" role="Procedure">
+<title id="HRDC.WrTop.mkr.3">To Start a Paragraph</title>
+<para>Generally you use the &lt;Para> tag to mark the start of a new paragraph.
+The DocBook DTD offers three kinds of paragraphs. Para may contain block-oriented
+elements (such as Lists and Figures). SimPara may contain only plain text
+and in-line elements. FormalPara requires a Title.</para>
+<para>If you want the paragraph to maintain the line breaks that you enter
+in your source file, use the &lt;LiteralLayout> tag.</para>
+<sect3 id="HRDC.WrTop.div.7">
+<title>Examples</title>
+<para>Here is an example of a plain vanilla paragraph:</para>
+<programlisting>&lt;para>The Application Builder provides an interactive, graphical environment that facilitates the development of desktop applications. &lt;/para>
+</programlisting>
+<para>The following LiteralLayout overrides the automatic word wrap in help
+windows and maintains the line breaks exactly as entered in the source file.
+The LiteralLayout element is especially useful for entering addresses.</para>
+<programlisting>&lt;LiteralLayout>
+Brown and Reed Financial Investors
+100 Baltic Place  Suite 40
+New York, New York
+&lt;/LiteralLayout></programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.8" role="Procedure">
+<title id="HRDC.WrTop.mkr.4">To Enter an ItemizedList</title>
+<para>An ItemizedList is a list in which every item is marked with a bullet,
+dash, or other dingbat, or no mark at all. An ItemizedList contains one or
+more ListItems.</para>
+<para>A ListItem in an ItemizedList can contain paragraphs and other block-oriented
+elements, including other lists.</para>
+<para>You can use the Mark attribute to specify the mark you want used in
+the ItemizedList. There is no fixed list of values for the Mark attribute,
+but you can used the ISO text entity that designates the dingbat you want
+used. Your application might supply the mark that will be used for an ItemizedList.
+</para>
+<para>Here is the syntax you use for the ItemizedList element:</para>
+<programlisting>&lt;ItemizedList Mark="Bullet">
+        &lt;ListItem>
+                &lt;para> ... &lt;/para>
+        &lt;/ListItem>
+        &lt;ListItem>
+                &lt;para> ... &lt;/para>
+        &lt;/ListItem>
+        ...
+&lt;/ItemizedList></programlisting>
+<sect3 id="HRDC.WrTop.div.9">
+<title>Examples</title>
+<para>Here is the markup for a simple ItemizedList:</para>
+<programlisting>&lt;itemizedlist>
+&lt;listitem>&lt;para>Creating a Mail Message&lt;/para>&lt;/listitem>
+&lt;listitem>&lt;para>Sending a Message&lt;/para>&lt;/listitem>
+&lt;listitem>&lt;para>Reading Your Mail&lt;/para>&lt;/listitem>
+&lt;/itemizedlist></programlisting>
+<para>The preceding markup would produce an ItemizedList that might appear
+as follows:</para>
+<itemizedlist><listitem><para>Creating a Mail Message</para>
+</listitem><listitem><para>Sending a Message</para>
+</listitem><listitem><para>Reading Your Mail</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.8a" role="Procedure">
+<title id="HRDC.WrTop.mkr.4a">To Enter an OrderedList</title>
+<para>An OrderedList contains ListItems marked with numbers or letters. A
+ListItem within an OrderedList can contain paragraphs and other block-oriented
+elements, including ItemizedLists and OrderedLists.</para>
+<para>OrderedList has the Common attributes, and also Numeration, InheritNum,
+and Continuation attributes.</para>
+<para>The Numeration attribute specifies how the ListItems in the OrderedList
+will be numbered or lettered. It may take the values Arabic, Upperalpha, Loweralpha,
+Upperromman, or Lowerroman. If no value is specified, the expectation should
+be that Arabic numbering is to be used.</para>
+<para>The InheritNum attribute takes on the values Inherit or Ignore. If the
+value is Inherit, it specifies that the numbering of ListItems in a nested
+list should include the number of the ListItem within which it is nested.
+That is, if another Orderedlist is nested in the second ListItem, the ListItems
+of the nested list will be numbered 2a, 2b, 2c, etc., rather than simply a,
+b, c, etc.</para>
+<para>The Continuation attribute takes on the values Continues or Restarts.
+If the value is Continues, the numbering of the OrderedList continues that
+of the immediately preceding OrderedList. If the value is Restarts (the default),
+the numbering of the OrderedList begins afresh. You need to supply the Continuation
+attribute only if this OrderedList continues the numbering of the preceding
+one.</para>
+<sect3 id="HRDC.Ref.div.8b">
+<title>Syntax Example</title>
+<para>The following markup:</para>
+<programlisting>&lt;OrderedList>
+        &lt;ListItem>
+                &lt;para>Creating a Mail Message&lt;/para>
+        &lt;/ListItem>
+        &lt;ListItem>
+                &lt;para>Sending a Message&lt;/para>
+        &lt;/ListItem>
+        &lt;ListItem>
+                &lt;para>Reading Your Mail&lt;/para>
+                        &lt;/ListItem>
+&lt;/OrderedList></programlisting>
+<para>Produces the following list:</para>
+<orderedlist><listitem><para>Creating a Mail Message</para>
+</listitem><listitem><para>Sending a Message</para>
+</listitem><listitem><para>Reading Your Mail</para>
+</listitem></orderedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.8c" role="Procedure">
+<title id="HRDC.WrTop.mkr.4c">To Enter a SegmentedList</title>
+<para>SegmentedList marks a list segmented into labelled parallel sets of
+information.</para>
+<para>A SegmentedList may have an optional Title and TitleAbbrev, followed
+by any number of SegTitles, and one or more SegListItems. Each SegListItem
+has the same number of Segs as there are SegTitles in the SegmentedList to
+which it belongs.</para>
+<sect3 id="HRDC.Ref.div.8d">
+<title>Syntax Example</title>
+<para>The following is a markup for a SegmentedList:</para>
+<programlisting>&lt;SegmentedList>
+        &lt;SegTitle>Nation&lt;/SegTitle>
+        &lt;SegTitle>Ethnic Groups&lt;/SegTitle>
+        &lt;SegTitle>Languages&lt;/SegTitle>
+        &lt;SegListItem>
+                &lt;Seg>Japan&lt;/Seg>
+                &lt;Seg>Japanese, Koreans, Ainu&lt;/Seg>
+                &lt;Seg>Japanese&lt;/Seg>
+        &lt;/SegListItem>
+        &lt;SegListItem>
+                &lt;Seg>Spain&lt;/Seg>
+                &lt;Seg>Spanish, Basques&lt;/Seg>
+                &lt;Seg>Castillian, Catalan, Basque&lt;/Seg>
+        &lt;/SegListItem>
+        &lt;SegListItem>
+                &lt;Seg>Belgium&lt;/Seg>
+                &lt;Seg>Flemish, Walloons&lt;&lt;/Seg>
+                &lt;Seg>Dutch, French&lt;/Seg>
+        &lt;/SegListItem>
+&lt;/SegmentedList></programlisting>
+<para>Would produce a list which might appear like this:</para>
+<segmentedlist>
+<segtitle>Nation</segtitle>
+<segtitle>Ethnic Groups</segtitle>
+<segtitle>Languages</segtitle>
+<seglistitem>
+<seg>Japan</seg>
+<seg>Japanese, Koreans, Ainu</seg>
+<seg>Japanese</seg></seglistitem>
+<seglistitem>
+<seg>Spain</seg>
+<seg>Spanish, Basques</seg>
+<seg>Castillian, Catalan, Basque</seg></seglistitem>
+<seglistitem>
+<seg>Belgium</seg>
+<seg>Flemish, Walloons</seg>
+<seg>Dutch, French</seg></seglistitem>
+</segmentedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.8e" role="Procedure">
+<title id="HRDC.WrTop.mkr.4e">To Enter a VariableList</title>
+<para>The VariableList element is used to create a list of terms and their
+definitions.</para>
+<para>VariableList may have an optional Title and TitleAbbrev, followed by
+one or more required VarListEntries.</para>
+<para>VarListEntry is a required component of a VariableList. VarListEntry
+contains a Term element, which marks the term being defined, and a ListItem
+element, which holds the definition of the term.</para>
+<sect3 id="HRDC.WrTop.div.8f">
+<title>Example</title>
+<para>Here is the syntx of the markup for a VariableList:</para>
+<programlisting>&lt;VariableList>
+        &lt;varlistentry>
+                &lt;term>first term&lt;/term>
+                &lt;listitem>&lt;para>definition of first term &lt;/para>&lt;listitem>
+        &lt;/varlistentry>
+        &lt;varlistentry>
+                &lt;term>second term&lt;/term>
+                &lt;listitem>&lt;para>definition of second term &lt;/para>&lt;listitem>
+        &lt;/varlistentry>
+        ...
+&lt;/VariableList></programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.17" role="Procedure">
+<title id="HRDC.WrTop.mkr.6">To Show a Computer Listing</title>
+<para>To show sections of program source code without changing the spacing
+or line breaks, use the ProgramListing element. Line breaks and leading white
+space are considered significant in a ProgramListing and preserved as-is.
+</para>
+<para>ProgramListing may contain inline elements, including LineAnnotations.
+(LineAnnotations are comments on the code by the document author, not the
+comments written into the code itself by the author of the code.</para>
+<para>A ProgramListing may be embedded within the Example element. Example
+typically contains a required Title and a ProgramListing.</para>
+<para>ProgramListing has a Width attribute, which takes on numerical values
+representing the maximum width of the contents.</para>
+<para>Line breaks appear where you enter them in your source file. If the
+example is too wide for the help window, a horizontal scroll bar appears so
+the user can scroll to see all the example text.</para>
+<warning>
+<para>Do not include character sequences within a ProgramListing
+that could be interpreted as DocBook markup tags. To avoid this problem, use
+"&amp;lt;" (the entity reference for the opening angle bracket) rather than
+"&lt;" to begin the names of markup tags.</para>
+</warning>
+<sect3 id="HRDC.WrTop.div.18">
+<title>Example</title>
+<para>In the following markup the ProgramListing element is used to represent
+a directory listing in a terminal window.</para>
+<programlisting>&lt;programlisting>In this tutorial, you will edit these graphics files:
+H_ActionIcons.xwd     H_HelpWindows.xwd
+H_AppHelp.xwd         H_Hyperlinks.xwd
+H_Canonical.xwd       H_Icons.xwd
+H_FrontPanel.xwd      H_InlineGraphic.xwd
+&lt;/programlisting></programlisting>
+<para>The markup produces this output:</para>
+<programlisting>In this tutorial, you will edit these graphics files:
+H_ActionIcons.xwd     H_HelpWindows.xwd
+H_AppHelp.xwd         H_Hyperlinks.xwd
+H_Canonical.xwd       H_Icons.xwd
+H_FrontPanel.xwd      H_InlineGraphic.xwd</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.20" role="Procedure">
+<title id="HRDC.WrTop.mkr.7">To Add a Note, Caution, or Warning</title>
+<para>Use the Note, Caution, and Warning elements as follows:</para>
+<programlisting>&lt;note>
+<symbol>Body of note here.</symbol>
+&lt;/note>
+
+&lt;caution>
+<symbol role="Variable">Body of caution here</symbol>
+&lt;/caution>
+
+&lt;warning>
+<symbol role="Variable">Body of warning here.</symbol>
+&lt;/warning></programlisting>
+<para>The icons associated with the Note, Caution, and Warning elements are
+obtained from the following graphics files, relative to your <filename>.sdl</filename> file:</para>
+<para><filename>graphics/noteicon.pm</filename></para>
+<para><filename>graphics/cauticon.pm</filename></para>
+<para><filename>graphics/warnicon.pm</filename></para>
+<para>The default icons are in<filename>/usr/dt/appconfig/help/C/graphics</filename>. If you create your own icons, be sure to keep them small, so
+they will fit into the area allotted.</para>
+<sect3 id="HRDC.WrTop.div.21">
+<title>Example</title>
+<para>The following markup for a note, warning, and caution produces the output
+shown in <!--Original XRef content: 'Figure&numsp;3&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="HRDC.WrTop.mkr.8">.</para>
+<programlisting>&lt;note>
+Before installing your application, complete the options checklist to determine the amount of disk space required.
+&lt;/note>
+
+&lt;warning>
+This product is highly acidic and can cause skin irritation. Wearing protective gloves is mandatory when applying this product.
+&lt;/warning>
+
+&lt;caution>
+Do not place your fingers near the parrot cage!
+&lt;/caution>
+
+</programlisting>
+<figure>
+<title id="HRDC.WrTop.mkr.8">Note, warning, and caution help icons</title>
+<graphic id="HRDC.WrTop.grph.1" entityref="HRDC.WrTop.fig.7"></graphic>
+</figure>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.23">
+<title id="HRDC.WrTop.mkr.9">Entering Inline Elements</title>
+<para>Inline elements are used to mark words or phrases within a paragraph
+of text. These elements affect the font used to format particular items.</para>
+<sect2 id="HRDC.WrTop.div.24" role="Procedure">
+<title id="HRDC.WrTop.mkr.10">To Emphasize a Word or Phrase</title>
+<para>Use the Emphasis element as shown:</para>
+<programlisting>&lt;emphasis><symbol role="Variable">text</symbol> &lt;/emphasis>
+</programlisting>
+<sect3 id="HRDC.WrTop.div.25">
+<title>Example</title>
+<para>Here's how you might emphasize an important word:</para>
+<programlisting>A thousand times &lt;emphasis>no&lt;/emphasis></programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.26" role="Procedure">
+<title id="HRDC.WrTop.mkr.11">To Cite a Title</title>
+<para>Use the CiteTitle element as shown:</para>
+<programlisting>&lt;CiteTitle> <symbol>title of a Book</symbol>&lt;/CiteTitle>
+</programlisting>
+<sect3 id="HRDC.WrTop.div.27">
+<title>Example</title>
+<para>Here's how you would cite the title of this guide:</para>
+<programlisting>&lt;CiteTitle>The Help System Author's and Programmer's Guide&lt;CiteTitle>
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.26a" role="Procedure">
+<title id="HRDC.WrTop.mkr.11a">To Mark the Title of a Book, Chapter, or Section</title>
+<para>Use the Title element as shown:</para>
+<programlisting>&lt;Title> <symbol>title of the Book, Chapter, or Section</symbol>&lt;/Title></programlisting>
+<sect3 id="HRDC.WrTop.div.27a">
+<title>Example</title>
+<para>Here's how you would cite the title of this section:</para>
+<programlisting>&lt;Title>To Mark the Title of a Book, Chapter, or Section&lt;/Title>
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.29" role="Procedure">
+<title id="HRDC.WrTop.mkr.12">To Display a Computer Literal</title>
+<para>To display data presented to the user by a computer use the ComputerOutput
+element as follows:</para>
+<programlisting>&lt;computeroutput> <symbol>text</symbol>&lt;/computeroutput>
+</programlisting>
+</sect2>
+<sect2 id="HRDC.WrTop.div.29a" role="Procedure">
+<title id="HRDC.WrTop.mkr.12a">To Display a Filename</title>
+<para>To display the name of a computer file, use the Filename element as
+follows:</para>
+<programlisting>&lt;filename><symbol>some filename</symbol>&lt;/filename>
+</programlisting>
+<sect3 id="HRDC.WrTop.div.30a">
+<title>Example</title>
+<para>This markup:</para>
+<programlisting>Add the entity to your &lt;filename>Volume.sgm&lt;/filename> file.
+</programlisting>
+<para>produces this output:</para>
+<para>Add the entityto your <filename>Volume.sgm</filename> file.</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.WrTop.div.31" role="Procedure">
+<title id="HRDC.WrTop.mkr.13">To Display a Variable</title>
+<para>To dispaly a variable, use the Symbol element as shown:</para>
+<programlisting>&lt;symbol Role="Variable"> <symbol>text</symbol>&lt;/symbol>
+</programlisting>
+<sect3 id="HRDC.WrTop.div.32">
+<title>Example</title>
+<para>This command-line syntax uses a variable to show that the user supplies
+a file name.</para>
+<programlisting>dtpad &lt;symbol Role="Variable">filename&lt;/symbol></programlisting>
+<para>It produces this output:</para>
+<programlisting>dtpad <symbol>filename</symbol></programlisting>
+<para>Symbol can appear within ComputerOutputs or ProgramListings.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.33">
+<title id="HRDC.WrTop.mkr.14">Creating Hyperlinks</title>
+<para>A hyperlink references a specific topic or location in a help volume.
+This requires that the element you want to reference is given a unique ID.
+</para>
+<para>All the DocBook elements with the common attributes can be assigned
+IDs, including Chapters, Sects, Titles, Lists, Graphics, and Tables.</para>
+<para>Four DocBook elements are used in creating hyperlinks: Link, Anchor,
+OLink, and XRef.</para>
+<itemizedlist><listitem><para>Link marks a hypertext link. Link may contain
+in-line elements, and it has Linkend and Type attributes.</para>
+<para>The Linkend attribute is required. It specifies the target of the link
+by giving the ID of the element the Link is linked to.</para>
+<para>Link uses the SGML mechanism of IDREF in pointing to an element by its
+ID. An SGML application may report an IDREF error when the ID specified in
+a Linkend attribute does not occur in the document set being processed.</para>
+<para>Link has a Type attribute which may take the following values: Jump,
+JumpNewView, AppDefined, and Man.</para>
+<para>A Jump link is the most common type of hyperlink. When the user chooses
+a Jump link, the related topic is displayed.</para>
+<para>JumpNewView links are intended for cross-volume links. When the user
+chooses a JumpNewView link, a new dialog box containing information is displayed.
+</para>
+<para>An AppDefined link is for invoking some application behavior. To invoke
+this behavior, the help must be displayed in dialogs created by the application.
+</para>
+<para>A Man link, when activated, displays a &ldquo;man page&rdquo; which
+gives a brief online explanation of a system command. The information on man
+pages is not supplied through the DocBook system.</para>
+</listitem><listitem><para>Anchor marks a target for a Link. Anchor is an
+inline element that may appear almost anywhere. Anchor is an empty element,
+with no content. (Of course any element with an ID can serve as the target
+of a Link.)</para>
+<para>Anchor has a required ID attribute. At the minimum, only the Anchor
+start tag is present, with an ID.</para>
+</listitem><listitem><para>OLink marks a link that may perform some operation
+to find its target.</para>
+<para>OLink has a TargetDocEnt attribute, the value of which is the name of
+a text or data entity already specified by the user.</para>
+<para>OLink has a LinkMode attribute which points by an ID to a ModeSpec (located
+for convenience in the BookInfo or DocInfo), which contains instructions for
+operating on the entity named by the TargetDocEnt attribute. For example,
+the TargetDocEnt may be another book, and the LinkMode attribute may specifiy
+a ModeSpec that calls for all second-level headings to be searched for a particular
+phrase.</para>
+</listitem><listitem><para>XRef marks a cross reference link to another part
+of the document.</para>
+<para>Like Link, XRef has Linkend attribute, but like Anchor, it may have
+no content.</para>
+<para>The Title of the element specified by the Linkend attribute is used
+as they text of the cross reference.</para>
+</listitem></itemizedlist>
+<sect2>
+<title>Examples</title>
+<para>This Link gives the label of a hot spot explicitly:</para>
+<programlisting>To go there,&lt;Link Linkend="H1-122-ch10-1> click here.&lt;/Link>
+</programlisting>
+<para>This Link points to a section and displays its title as the hot spot:
+</para>
+<programlisting>Click to go to &lt;Link Linkend="S1-123-ch12-1"         Endterm="T1-123-ch12-1">&lt;/Link>
+</programlisting>
+<para>The following example references the section of the document that has
+the ID "ch05-s1" and supplies the text of its Title.</para>
+<programlisting>See &lt;Xref Linkend="ch05-s1"> for more information.</programlisting>
+<para>It might be displayed like this: "See <citetitle>Terminal Emulation
+and Terminal Type</citetitle> for more information."</para>
+<para>There is an Anchor <symbol>&lt;anchor id=&ldquo;077-ch02-AN-7&rdquo;></symbol> in this sentence.</para>
+</sect2>
+<sect2 id="HRDC.WrTop.div.44" role="Procedure">
+<title id="HRDC.WrTop.mkr.16">To Create a Definition Link</title>
+<para>If you are linking to a term in the Glossary, use the GlossTerm element
+as shown:</para>
+<programlisting>&lt;GlossTerm><symbol>text</symbol>&lt;/GlossTerm></programlisting>
+<para>Whenever you use the GlossTerm element in the text, be sure you include
+a corresponding GlossEntry in the Glossary that gives the definition of the
+term.</para>
+</sect2>
+</sect1><?Pub Caret>
+<sect1 id="HRDC.WrTop.div.64">
+<title id="HRDC.WrTop.mkr.23">Displaying Graphics</title>
+<para>Help supports four graphics formats:</para>
+<itemizedlist><listitem><para><emphasis>Tagged Image File Format (TIFF)</emphasis>&mdash;Color,
+grayscale, and black-and-white images created by many standard drawing and
+scanning applications (<symbol role="Variable">filename</symbol><filename>.tif</filename>).</para>
+</listitem><listitem><para><emphasis>X Window dump</emphasis>&mdash;Screen
+dumps from the X Window System&trade; created with the <command>xwd</command>
+utility ( <symbol role="Variable">filename</symbol><filename>.xwd</filename>)
+</para>
+</listitem><listitem><para><emphasis>X pixmap</emphasis>&mdash;Color icon
+images (<symbol role="Variable">filename</symbol><filename>.pm</filename>).
+</para>
+</listitem><listitem><para><emphasis>X bitmap</emphasis>&mdash;Two-color icon
+images (<symbol role="Variable">filename</symbol><filename>.bm</filename>).
+</para>
+</listitem></itemizedlist>
+<para>Each graphic is maintained as a separate file. The file format is determined
+using the file name extensions listed.</para>
+<para>The Graphic element points via its attributes to an external file containing
+graphical data.</para>
+<para>A Graphic may be contained within a Figure. Figure must have a Title,
+and may also contain a Link.</para>
+<para>A Graphic is to be rendered as an object, not in-line. For in-line objects,
+use the InlineGraphic element.</para>
+<para>Graphic has the following attributes: Fileref, Entityref, and ID.</para>
+<para>The value of the Fileref attribute should be a filename, qualified by
+a pathname if desired.</para>
+<para>The value of the Entityref attribute should be that of an external data
+entity.</para>
+<sect2 id="HRDC.Ref.div.">
+<title>Syntax</title>
+<para>Here are some examples of the syntax of Graphic:</para>
+<programlisting>&lt;graphic id="ABUG.edprp.igrph.1"     entityref="ABUG.edprp.fig.1">&lt;/graphic>
+&lt;graphic id="ABUG.crobj.igrph.2"     entityref="ABUG.crobj.fig.2">&lt;/graphic>
+&lt;graphic id="ABUG.crobj.igrph.1"     entityref="ABUG.crobj.fig.1">&lt;/graphic>
+</programlisting>
+</sect2>
+<sect2 id="HRDC.WrTop.div.65" role="Procedure">
+<title id="HRDC.WrTop.mkr.24">To Create a Figure</title>
+<orderedlist><listitem><para>Declare a file entity to identify the image
+file to be included in the Graphic that will be contained inside the Figure.
+</para>
+<programlisting>&lt;!entity <symbol role="Variable">graphic-entity</symbol> SYSTEM &ldquo;<symbol role="Variable">filename.ext</symbol>&rdquo;></programlisting>
+</listitem><listitem><para>Use the Graphic element as shown:</para>
+<programlisting>&lt;Graphic id="<symbol>id</symbol>"> entityref=" <symbol>graphic-entity</symbol>"&lt;Graphic></programlisting>
+<para>Where <symbol role="Variable">graphic-entity</symbol> is the entity
+name for the graphic file you want to display.</para>
+</listitem></orderedlist>
+<para>If you want the Figure to be a hyperlink, use InlineGraphic instead
+of Graphic, and put it inside a Link element.</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.73">
+<title id="HRDC.WrTop.mkr.27">Including Special Characters</title>
+<para>Many special characters and symbols are available within DocBook. You
+display a particular character by entering the appropriate entity reference.
+</para>
+<para>Refer to <!--Original XRef content: 'Chapter&numsp;6, &ldquo;Summary
+of Special Character
+Entities'--><xref role="ChapNumAndTitle" linkend="HRDC.ChEnt.mkr.1">, for
+a complete list of the available characters.</para>
+<sect2 id="HRDC.WrTop.div.74" role="Procedure">
+<title id="HRDC.WrTop.mkr.28">To Include a Special Character</title>
+<orderedlist><listitem><para>Refer to <!--Original XRef content: 'Chapter&numsp;6,
+&ldquo;Summary of Special Character
+Entities'--><xref role="ChapNumAndTitle" linkend="HRDC.ChEnt.mkr.1">, to determine
+the entity name for the character you want to display.</para>
+</listitem><listitem><para>Determine which ISO entity file contains the special
+character, and add the following two lines among your other entity declarations
+(where <symbol>entity-name</symbol> is a meaningful name to you):</para>
+<programlisting>&lt;!entity &amp; <symbol role="Variable">ISOset</symbol> PUBLIC "<symbol role="Variable">ISOsetpublicID</symbol>">
+% ISOset;
+
+</programlisting>
+</listitem><listitem><para>Wherever you want to display the special character,
+enter its entity reference:</para>
+<programlisting>&amp;<symbol role="Variable">entity-name</symbol>;</programlisting>
+</listitem></orderedlist>
+<sect3 id="HRDC.WrTop.div.75">
+<title>Examples</title>
+<para>To entity for the copyright symbol (&copy;) is included in the ISO numeric
+set, so you must first include the ISO numeric entities (at the top of your
+help volume with your other entity declarations) as shown here:</para>
+<programlisting>&lt;!ENTITY % ISOnumeric PUBLIC "ISO 8879-1986//ENTITIES Numeric and Special Graphic//EN">
+%ISOnumeric;</programlisting>
+<para>Then you can place the following entity reference where the copyright
+symbol is to appear:</para>
+<programlisting>&amp;copy;</programlisting>
+<para>To display the uppercase Greek letter sigma (&sum;), you must first
+include the ISO Greek entities (at the top of your help volume with your other
+entity declarations) as shown here:</para>
+<programlisting>&lt;!ENTITY % ISOgreek PUBLIC "ISO 8879-1986//ENTITIES Greek Symbols//EN">
+%ISOgreek;</programlisting>
+<para>Then you can place the following entity reference where the sigma character
+is to appear:</para>
+<programlisting>&amp;Sigma;</programlisting>
+<para>As with any entity, case is not significant in the entity names for
+special characters.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.77">
+<title id="HRDC.WrTop.mkr.29">Including Writer's Comments</title>
+<para>Frequently it is useful to include within your source files comments
+that are not intended to be part of the help text. Text marked with the Comment
+element is always ignored by the DocBook software. Comments can be used to
+make notes to yourself or to another author, or to exclude some markup without
+taking it out of the file.</para>
+<para>A Comment may appear almost anywhere in the document, and may contain
+paragraphs and other block-oriented elements, but a Comment cannot be nested
+within another Comment.</para>
+<sect2 id="HRDC.Ref.div.3">
+<title>Syntax</title>
+<programlisting>&lt;comment>
+        <symbol role="Variable">comment text here</symbol>
+&lt;/comment></programlisting>
+</sect2>
+<sect2 id="HRDC.WrTop.div.78" role="Procedure">
+<title id="HRDC.WrTop.mkr.30">To Insert a Comment</title>
+<para>Use the comment begin marker &lt;Comment> and end marker &lt;/Comment>
+as shown:</para>
+<programlisting>&lt;comment>
+        <symbol role="Variable">comment text here</symbol>
+&lt;/comment></programlisting>
+<sect3 id="HRDC.WrTop.div.79">
+<title>Example</title>
+<para>Here's an example that has two comments, a line before the paragraph,
+and a single word within the paragraph.</para>
+<programlisting>&lt;Comment>Here is my rough draft of the introduction: &lt;/Comment>
+
+Welcome to my application. This software
+is &lt;Comment>perhaps&lt;/Comment>the fastest and most
+efficient software you'll ever own.
+
+</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.82">
+<title id="HRDC.WrTop.mkr.32">Creating an Index</title>
+<para>The index for a help volume is similar to the index for a book. As an
+author, it is important to create index entries for your topics that will
+allow users to search for keywords or concepts. Creating a thorough index
+ensures that users will be able to find topics quickly and accurately.</para>
+<para>In the DocBook markup, an IndexTerm is the tag for a word or phrase
+in the help volume text that you want to be included in the index. An IndexEntry
+is the element in the Index that holds the references to the IndexTerm. Thus
+IndexEntries might be constructed by extracting and processing the IndexTerms.
+</para>
+<para>IndexTerms are words or phrases to be indexed. IndexTerms may occur
+almost anywhere in the text flow, but are not part of the text itself. That
+is, the contents of IndexTerm do not appear in the text itself.</para>
+<para>An IndexTerm must contain a Primary, and may contain a See and one or
+more SeeAlsos, as well as a Secondary. Secondary, in turn, may contain a See
+and one or more SeeAlsos, as well as a Tertiary.</para>
+<para>IndexTerm has the Common attributes, and also SpanEnd and Significance
+attributes.</para>
+<para>An empty IndexEntry with the SpanEnd attribute is used to mark the end
+of a span of text that begins earlier at an IndexTerm that does have content.
+The value of the SpanEnd attribute must be the ID of that earlier IndexTerm.
+</para>
+<para>The Significance attribute may have the value Preferred, indicating
+that the IndexTerm is the most pertinent of the series, or the value Normal
+(the default).</para>
+<sect2 id="HRDC.WrTop.div.83" role="Procedure">
+<title id="HRDC.WrTop.mkr.33">To Mark an Index Entry</title>
+<para>Within the topic you want to index, use the IndexTerm element as shown:
+</para>
+<programlisting>&lt;para>This text deals with two subjects that should be listed in the index: how to rotate your terminal and how to adjust its height.&lt;/para>
+&lt;IndexTerm>
+        &lt;Primary>rotating your terminal&lt;/Primary>
+&lt;/IndexTerm>
+&lt;IndexTerm>
+        &lt;Primary>terminal
+                &lt;Secondary>rotation of&lt;/Secondary>
+        &lt;/Primary>
+&lt;/IndexTerm>
+&lt;IndexTerm>
+        &lt;Primary>terminal
+                &lt;Secondary>adjustment of&lt;/Secondary>
+                &lt;SeeAlso>troubleshooting&lt;/SeeAlso>
+        &lt;/Primary>
+&lt;/IndexTerm></programlisting>
+</sect2>
+</sect1>
+<sect1 id="HRDC.WrTop.div.85">
+<title id="HRDC.WrTop.mkr.34">Creating a Glossary</title>
+<para>Like a glossary in a book, your help volume can contain a glossary that
+defines important terms. The glossary, which is marked using the Glossary
+element, is the last topic in your help volume. The glossary contains the
+definitions for all the terms that are marked with the &lt;GlossTerm> tag.
+</para>
+<para>Glossary contains the following components in the following order:</para>
+<itemizedlist><listitem><para>Title (optional)</para>
+</listitem><listitem><para>TitleAbbrev (optional)</para>
+</listitem><listitem><para>one or more GlossEntries</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.WrTop.div.87" role="Procedure">
+<title id="HRDC.WrTop.mkr.35">To Mark a Glossary Term</title>
+<para>The GlossTerm tag is used to mark a term in the document text that is
+glossed in the Glossary. Note that the GlossTerm element is also used to contain
+those terms as they occur in GlossEntries in the Glossary.</para>
+<para>Each key word or phrase that you enter with the GlossTerm element automatically
+becomes a link to the term's definition in the Glossary.</para>
+</sect2>
+<sect2 id="HRDC.WrTop.div.89" role="Procedure">
+<title id="HRDC.WrTop.mkr.36">To Define a Term in the Glossary</title>
+<para>Terms are defined in the Glossay by using the GlossEntry element. A
+GlossEntry contains, in order, a required GlossTerm, an optional Acronym,
+and an optional Abbrev, followed by any number of GlossSees and GlossDefs,
+in any order.</para>
+<para>GlossDef is the definition of a GlossTerm in a GlossEntry. It may contain,
+in any order, Comments, GlossSeeAlsos, paragraphs, and other block-oriented
+elements.</para>
+<para>GlossDef has the Common attributes and also the Subject attribute. The
+Subject attribute may hold a list of subject areas as keywords, separated
+only by spaces.</para>
+<sect3 id="HRDC.WrTop.div.90">
+<title>Syntax</title>
+<programlisting>&lt;Glossary>
+        ...
+        &lt;GlossEntry>
+                &lt;GlossTerm>
+                        <symbol>term</symbol>
+                &lt;/GlossTerm>
+                &lt;GlossDef>
+                        <symbol>text of definition</symbol>
+                &lt;/GlossDef>
+        &lt;/GlossEntry>
+        ...
+&lt;/Glossary></programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub *0000043237>

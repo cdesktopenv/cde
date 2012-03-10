@@ -1,0 +1,228 @@
+// $XConsortium: sessionChooser.bil /main/2 1996/11/11 11:58:45 drk $
+:bil-version	1 0
+:module sessionChooser
+(
+
+:element sessionChooser
+(
+	:type			:dialog
+	:x			67
+	:y			487
+	:width			451
+	:height			120
+	:bg-color		"white"
+	:label			"tt_message_session_set"
+	:resizable		:true
+	:visible		:false
+	:default-button		sessionOkButton
+	:children		(
+		sessionPane
+		dialog_button_panel
+		sessionChooser_footer
+	)
+)
+:element sessionPane
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj sessionChooser 0)
+	:east-attachment	(:obj sessionChooser 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		sessionText
+		defaultSessionButton
+		xSessionButton
+		initialSessionButton
+	)
+)
+:element sessionText
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			17
+	:y			7
+	:label-type		:string
+	:label			"Session"
+	:label-position		:north
+	:num-columns		57
+	:max-length		256
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 7)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element defaultSessionButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			52
+	:y			66
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Default Session"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj sessionText 10)
+	:east-attachment	(:grid-line 35 0)
+	:west-attachment	(:grid-line 5 0)
+)
+:element xSessionButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			178
+	:y			66
+	:label-type		:string
+	:label-alignment	:center
+	:label			"X Session"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj sessionText 10)
+	:east-attachment	(:grid-line 60 0)
+	:west-attachment	(:grid-line 40 0)
+)
+:element initialSessionButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			262
+	:y			66
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Initial Session"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj sessionText 10)
+	:east-attachment	(:grid-line 95 0)
+	:west-attachment	(:grid-line 65 0)
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			451
+	:height			48
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		sessionOkButton
+		sessionCancelButton
+		sessionHelpButton
+	)
+)
+:element sessionOkButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Set"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 30 0)
+	:west-attachment	(:grid-line 10 0)
+)
+:element sessionCancelButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 60 0)
+	:west-attachment	(:grid-line 40 0)
+)
+:element sessionHelpButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 90 0)
+	:west-attachment	(:grid-line 70 0)
+)
+:element sessionChooser_footer
+(
+	:type			:container
+	:container-type		:footer
+	:width			451
+	:height			28
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		sessionChooser_label
+	)
+)
+:element sessionChooser_label
+(
+	:type			:label
+	:x			1
+	:y			1
+	:label-type		:string
+	:label			" "
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:point 0 1)
+)
+:connection
+(
+	:from			sessionCancelButton
+	:to			sessionChooser
+	:when			:activate
+	:action-type		:builtin
+	:action			:hide
+	:arg-type		:void
+)
+:connection
+(
+	:from			defaultSessionButton
+	:when			:activate
+	:action-type		:call-function
+	:action			defaultSession
+)
+:connection
+(
+	:from			sessionOkButton
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionOK
+)
+:connection
+(
+	:from			sessionHelpButton
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionHelp
+)
+:connection
+(
+	:from			xSessionButton
+	:when			:activate
+	:action-type		:call-function
+	:action			xSession
+)
+:connection
+(
+	:from			initialSessionButton
+	:when			:activate
+	:action-type		:call-function
+	:action			initialSession
+)
+)

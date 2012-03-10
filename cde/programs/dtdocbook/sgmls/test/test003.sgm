@@ -1,0 +1,87 @@
+<!--Test attribute scanning and tag tracking: reports 14 errors.-->
+<!doctype tag1 [
+  <!notation dcn2 public "-////NOTATION some known notation//EN">
+  <!notation dcn21 system "some private notation">
+  <!notation dcn2 system "erroneous duplicate">
+  <!element (tag1|tag4|tag8) - - any>
+  <!element (t1|t2|t3|t4|t5|t6|t7|t8|t9|t10) - - any>
+  <!element (tag2|tag3) - - any>
+  <!attlist (tag2|tag3) att1 id "d1" att2 id "d2">
+  <!element (tag5|tag6) - - any>
+  <!attlist (tag5|tag6) att1 CDATA "d1" att2 (min2|min21) min21>
+  <!element tag7        - - any>
+  <!attlist tag7        att1 (min1|min11) #required
+                        att2 notation (dcn2|dcn21|dcn22) dcn2
+                        att3 name        "d3"
+                        att4 nutokens     "4d1 4d2"
+                        att5 (min5|min51) #required
+                        att6 CDATA        "d6"
+  >
+  <!element tag9 - - CDATA>
+  <!attlist tag9
+  att1  CDATA      "def1"
+  att2  ENTITY     #CONREF
+  att3  ID         #REQUIRED
+  att4  IDREF      #CURRENT
+  att5  IDREFS     #REQUIRED
+  att6  NAME       "name"
+  att7  NAMES      "bad&name"
+  att8  NMTOKEN    #implied
+  att9  NMTOKENS   #implied
+  att10 NUMBER     #implied
+  att11 NUMBERS    #implied
+  att12 NUTOKEN    #implied
+  att13 NUTOKENS   #implied
+  >
+  <!entity   pe1 '"'>
+  <!element dtag1 o o any>
+  <!attlist dtag1 att1 number 1
+                  att2 CDATA ""
+                  att3 CDATA '&pe1;&#48;
+  %junk;'
+  >
+  <!element dtag2 o o any>
+  <!attlist dtag2 att1 number 1>
+  <!>
+  <!element dtag3 o o any>
+  <!attlist dtag3         att1 (1|2) 1
+                          att2 notation (dcn2|dcn21) dcn21
+                          att3 (1|x) 1
+                          att2 (3|4) 3
+  >
+  <!-- Test CURRENT attributes -->
+  <!element cure o o any><!attlist cure nums numbers #current >
+]>
+<tag1>
+<dtag1 att1=""att2=val2 att1=3 att3=x/
+<dtag2 att1=44/
+<dtag1 att2=""att2=val2 att1=3 att3=x/
+<dtag3/text////
+<tag2 att1 = val1 att2=val2 /
+</tag2>
+<tag3 att1="value 1" att2 = "value
+2">
+<tag4 min1/
+<tag5 att1 = value1 min2>
+</tag5></tag4>
+<tag6 att1 = "value 1" min2/
+</tag6>
+<tag7 min1
+dcn2
+att3       =
+value3 att4
+   =
+"value          4   here" min5  att6
+= value6
+
+
+>
+<tag8 min1 min2 >
+<cure nums = 1/spec/
+<cure/def/
+<cure nums = "3 2 1"/spec/
+<cure nums = "3 2 1"/repeat spec/
+<cure/def/
+<cure nums = "  4   5  "/smaller spec/
+<cure/def/
+</tag8></tag7></tag3></tag1>

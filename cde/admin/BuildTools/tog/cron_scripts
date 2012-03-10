@@ -1,0 +1,162 @@
+#!/bin/ksh
+#
+# $TOG: cron_scripts /main/11 1999/04/26 11:42:51 mgreess $
+#
+# This script is run on all of the systems where an automated
+# X build will occur.  
+#
+# The main benefit of using this script is that if the type of build
+# that needs to be done changes, (e.g. a clean build is needed 
+# instead of an incremental build), then only this file needs to be 
+# changed and none of the crontabs need to be changed.  
+#
+############################################################################# 
+
+#
+# The following trap is needed because of a bug in the UXP (Fujitsu)
+# version of ksh.
+#
+trap 'echo "Trapped signal USR1"' USR1
+
+##########################################################################
+##########################################################################
+#
+# Script specific global variables
+#
+##########################################################################
+##########################################################################
+
+SCRIPTS_DIR="`dirname $0`"
+if [ "" = "$SCRIPTS_DIR" ]; then
+	SCRIPTS_DIR=/project/dt/scripts
+fi
+if [ "" = "$ADMIN_CRON" ]; then
+    ADMIN_CRON=/project/dt/admin/cron
+fi
+if [ "" = "$CRON_DATABASE" ]; then
+    CRON_DATABASE=$ADMIN_CRON/crondb
+fi
+
+DEBUG=""
+MAIL_TO=""
+PROG_NAME="`basename $0`"
+
+##########################################################################
+usage ()
+{
+	cat <<eof
+USAGE: $PROG_NAME
+
+	[-debug]
+		# Debugging output
+	[{-db | -database} <cron_database_file>]
+		# Specify the cron database
+		# Default:  $CRON_DATABASE
+	[{-m | -mail} <email>]
+		# Specify an alternate email recipient for unexpected output.
+		# Default: $CDE_MAIL_ALIAS or $X_MAIL_ALIAS
+	[{-sd | -script_dir} <directory>]
+		# Specify an alternate directory for required files.
+		# Default: $SCRIPTS_DIR/
+	[-h | -? | -help]
+		# Print usage and exit
+eof
+}
+
+
+##########################################################################
+
+while [ $# -gt 0 ]; do
+	case $1 in
+		-debug)			DO_DEBUG="True"
+					DEBUG="echo"
+					shift 1 ;;
+		
+		-db | -database)	CRON_DATABASE=$2;
+					shift 2 ;;
+
+		-m | -mail)		MAIL_TO=$2;
+					shift 2 ;;
+
+		-sd | -script_dir)	SCRIPTS_DIR=$2;	
+					export SCRIPTS_DIR;
+					shift 2 ;;
+
+		-h | "-?" | -help | *) 	usage $PROG_NAME;
+					exit 1;
+	esac
+done
+
+#
+# Capture all of the spurious output to stdout and stderr 
+#
+LOGFILE=/tmp/$$.log
+exec  > $LOGFILE 2>&1
+
+#
+# TRACE should be passed into the script as an environment variable
+#    i.e., TRACE=true cron_scripts ...
+#
+if [ "" != "$TRACE" ]; then
+    echo Debugging:       $DO_DEBUG
+    echo Cron Database:   $CRON_DATABASE
+    echo Mail Recipient:  $MAIL_TO
+    echo Scripts Dir:     $SCRIPTS_DIR
+    set -x
+fi
+
+
+##########################################################################
+#
+# Script setup:  Do this after the command line parsing to pick up
+#   an alternate setting of SCRIPTS_DIR
+#
+if [ ! -f $SCRIPTS_DIR/script_setup.ksh ]; then
+    print -u2 "$PRG:  File '$SCRIPTS_DIR/script_setup.ksh' NOT found!"
+    print -u2 "$PRG:  Exiting ..."
+    exit 1
+fi
+. $SCRIPTS_DIR/script_setup.ksh
+
+do_check_file $CRON_DATABASE -f "NOT found"
+
+
+COMM="#"
+DAY="`date +%a`"
+HOST="`uname -n  | sed '/\./s/\..*//'`"
+HOUR="`date +%H`"
+
+cat $CRON_DATABASE | while read LINE; do
+
+    ENTRY="`echo $LINE | grep -v $COMM | grep $HOST | grep $DAY | grep $HOUR`"
+    EDAY="`echo $ENTRY | awk '{ print $1 }'`"
+    EHOUR="`echo $ENTRY | awk '{ print $2 }'`"
+    EHOST="`echo $ENTRY | awk '{ print $3 }'`"
+    EVIEW="`echo $ENTRY | awk '{ print $4 }'`"
+    ECOMMAND="`echo $ENTRY | awk '{ for (i=5; i<=NF; i++) printf(\"%s \",$i) }'`"
+
+    if [ -n "$ENTRY" -a "$HOUR" = "$EHOUR" ]; then
+        if [ "none" = "$EVIEW" ]; then
+            $DEBUG $ECOMMAND
+        else
+            $DEBUG $CLEAR_CASE_TOOL setview -exec "$ECOMMAND" $EVIEW
+        fi
+    fi
+
+done
+
+if [ -s $LOGFILE ]; then
+    if [ "" = "$MAIL_TO" ]; then
+	if [ "`basename $CRON_DATABASE`" = "trw.crondb" ]; then
+	    MAIL_TO=$TRW_MAIL_ALIAS
+	elif [ "`basename $CRON_DATABASE`" = "cde.crondb" ]; then
+	    MAIL_TO=$CDE_MAIL_ALIAS
+	elif [ "`basename $CRON_DATABASE`" = "x.crondb" ]; then
+	    MAIL_TO=$X_MAIL_ALIAS
+	else
+	    MAIL_TO=$CDE_MAIL_ALIAS
+	fi
+    fi
+    mailx -s "Warning: unexpected cron output" $MAIL_TO < $LOGFILE
+fi
+rm -f $LOGFILE

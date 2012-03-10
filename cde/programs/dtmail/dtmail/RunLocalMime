@@ -1,0 +1,14 @@
+#!/bin/csh -f
+#
+# A script that aids in debugging and testing dtmail
+#
+if ( `uname -s` != SunOS ) then
+        echo "Only support SunOS"
+        exit 1
+endif
+
+set echo
+#setenv DEFAULT_BACKEND RFC-MIME
+setenv LD_LIBRARY_PATH ../libDtMail:../../../binstall/lib:$LD_LIBRARY_PATH
+ldd -r ./dtmail
+exec ./dtmail $* &

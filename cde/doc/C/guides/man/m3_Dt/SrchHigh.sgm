@@ -1,0 +1,111 @@
+<!-- $XConsortium: dtsrhili.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchHighlight">]]>
+<refmeta><refentrytitle>DtSearchHighlight</refentrytitle>
+<manvolnum>library call</manvolnum></refmeta>
+<refnamediv>
+<refname><function>DtSearchHighlight</function></refname>
+<refpurpose>Generate DtSrHitwords table for highlighting DtSearch document</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/Search.h></funcsynopsisinfo>
+<funcdef>int<function>DtSearchHighlight</function></funcdef>
+<paramdef>char <parameter>*dbname</parameter></paramdef>
+<paramdef>char <parameter>*cleartext</parameter></paramdef>
+<paramdef>DtSrHitword <parameter>**hitwptr</parameter></paramdef>
+<paramdef>long <parameter>*hitwcount</parameter></paramdef>
+<paramdef>int <parameter>search_type</parameter></paramdef>
+<paramdef>char <parameter>*stems</parameter></paramdef>
+<paramdef>int <parameter>stemcount</parameter></paramdef>
+</funcsynopsis></refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtSearchHighlight</function> function generates an array
+of offsets and lengths (DtSrHitword) of parsed linguistic terms (stems) in
+the passed document cleartext to enable a browser to highlight the words in
+the text as appropriate for its user interface.
+</para>
+</refsect1>
+<refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">dbname</symbol></term>
+<listitem>
+<para>Specifies which database is to be searched. It is any one of the database
+name strings returned from <function>DtSearchInit</function> or <function>DtSearchReinit</function>. If <symbol role="Variable">dbname</symbol> is NULL,
+the first database name string is used.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">cleartext</symbol></term>
+<listitem>
+<para>Pointer to a zero terminated C string containing the document text to be
+highlighted. Usually, but not necessarily, this value is returned from
+<function>DtSearchRetrieve</function>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">hitwptr</symbol> and <symbol role="Variable">hitwcount</symbol></term>
+<listitem>
+<para>The hitwords array will be stored in <symbol role="Variable">hitwptr</symbol>,
+the address of a DtSrHitword pointer. The array is dynamically
+allocated by this function and remains valid until the next call to this function.
+The size of the hitwords array will be stored in <symbol role="Variable">hitwcount</symbol>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">search_type</symbol></term>
+<listitem>
+<para>Specifies the <symbol role="Variable">search_type</symbol> of the
+<function>DtSearchQuery</function> that generated the
+<symbol role="Variable">stems</symbol> array. It must be zero, 'P', 'W', or 'S'.
+If zero is passed, the <symbol role="Variable">search_type</symbol> of
+the last call to <function>DtSearchQuery</function> is assumed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">stems</symbol> and <symbol role="Variable">stemcount</symbol></term>
+<listitem>
+<para><symbol role="Variable">stems</symbol> and <symbol role="Variable">stemcount</symbol>
+are optional; they can be NULL and
+zero respectively. However, if either is specified, both must be
+specified. If specified, they refer to the <symbol role="Variable">stems</symbol>
+array that was returned from the previous
+call to <function>DtSearchQuery</function> that ultimately resulted in
+the <symbol role="Variable">cleartext</symbol> argument.
+</para>
+<para>If these arguments are not passed, the <symbol role="Variable">stems</symbol>
+array from the most recent call to
+<function>DtSearchQuery</function> is assumed.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<para>This function returns <systemitem class="Constant">DtSrOK</systemitem>,
+as well as a DtSrHitword table, when the table generation is completely
+successful.
+</para>
+<para>Any other return code signifies failure and user messages on the MessageList
+explain why.</para>
+<para>Any API function can also return
+<systemitem class="Constant">DtSrREINIT</systemitem> and
+the return codes for fatal engine errors at any time.
+</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtSrAPI;,
+&cdeman.DtSearchQuery;,
+&cdeman.DtSearchRetrieve;</para>
+</refsect1></refentry>
+
+

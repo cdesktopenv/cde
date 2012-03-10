@@ -1,0 +1,48 @@
+XCOMM $TOG: Imakefile /main/15 1998/08/05 13:24:40 mgreess $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+INCLUDES = -I. -I../include -I../../dtcompat -I../../../. -I$(CDELIBSRC)
+
+#ifndef DtMailDefines
+# define DtMailDefines
+#endif
+DEFINES = DtMailDefines
+
+DEPLIBS = ../libDtMail/libDtMail.a DepDtClientLibs
+LOCAL_LIBRARIES = ../libDtMail/libDtMail.a DtClientLibs
+SYS_LIBRARIES =	$(DYNLIBSYSLIB) $(ICONVSYSLIB) $(REGEXSYSLIB) -lm
+
+#ifdef SunArchitecture
+# ifndef SUNPRODIR
+SUNPRO_DIR	=	/opt/SUNWspro
+# else
+SUNPRO_DIR	=	SUNPRODIR
+# endif
+
+C++LIBPATH	=	-L$(SUNPRO_DIR)/lib
+
+EXTRA_CCOPTIONS =	-xstrconst -Xc -v
+# ifdef USE_SPRO_V3
+SPRO_V3_OPTIONS =      -noex -USPRO_V2
+#  ifdef DEBUGTREE
+SPRO_V3_OPTIONS +=	-xsb
+#  endif /* DEBUGTREE */
+# else
+EXTRA_CCOPTIONS	+=	-DSPRO_V2
+# endif  /* USE_SPRO_V3 */
+
+EXTRA_C++OPTIONS =	+p +w $(SPRO_V3_OPTIONS)
+MT_LIBS		=	-i $(C++_LIB)  -lm -lw -lc
+
+SYS_LIBRARIES	=	-lintl -lnsl $(MT_LIBS) -lC
+#endif /* SunArchitecture */
+ 
+SRCS = main.C message.C mailbox.C utils.C
+OBJS = main.o message.o mailbox.o utils.o
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(dtmailpr)

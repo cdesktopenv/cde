@@ -1,0 +1,1030 @@
+<!-- $XConsortium: ch11.sgm /main/7 1996/09/08 19:33:53 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.CrDT.div.1">
+<Title Id="SAG.CrDT.mkr.1">Creating Data Types Manually</Title>
+<Para>There are two ways to create a data type definition:<IndexTerm><Primary>file types, See data types&lt;$nopage></Primary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>creating manually</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Using the Create Action tool. Using Create Action is covered in
+<!--Original XRef content: 'Chapter&numsp;9,
+&xd2;Creating Actions and Data Types Using Create Action'--><XRef Role="ChapNumAndTitle" Linkend="SAG.dtCrA.mkr.1">.</Para>
+</ListItem>
+<ListItem>
+<Para>By manually creating the data type definition.</Para>
+</ListItem>
+</ItemizedList>
+<Para>Creating a data type manually requires you to edit a database file.</Para>
+<Para>This chapter describes how to manually create data type definitions.</Para>
+<InformalTable Id="SAG.CrDT.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Reasons You Must Create a Data Type Manually186'--><XRef Role="JumpText" Linkend="SAG.CrDT.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Components of a Data Type Definition: Criteria and Attributes186'--><XRef Role="JumpText" Linkend="SAG.CrDT.div.4"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Creating a Data Type Manually: General Steps187'--><XRef Role="JumpText" Linkend="SAG.CrDT.div.5"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Example of Creating a Personal Action and Data Type189'--><XRef Role="JumpText" Linkend="SAG.CrDT.div.8"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Defining the Data Criteria for a Data Type193'--><XRef Role="JumpText" Linkend="SAG.CrDT.div.14"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="SAG.CrDT.div.2">
+<Title>See Also</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>For an introduction to data types, see
+<!--Original XRef content: 'Chapter&numsp;8, &xd2;Introduction to Actions
+and Data Types'--><XRef Role="ChapNumAndTitle" Linkend="SAG.IntAc.mkr.1">.</Para>
+</ListItem>
+<ListItem>
+<Para>For reference information about data type definitions, see the
+<Filename>dtdtsfile(4)</Filename> man page.</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.CrDT.div.3">
+<Title Id="SAG.CrDT.mkr.2">Reasons You Must Create a Data Type Manually</Title>
+<Para>Manually creating a data type lets you use all the capabilities built into the
+syntax of data type definitions.</Para>
+<Para><IndexTerm>
+<Primary>data types</Primary>
+<Secondary>requirements for manual creation</Secondary>
+</IndexTerm>You must create a data type manually if you want to use these features of
+data types:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Location (path)-based data typing</Para>
+</ListItem>
+<ListItem>
+<Para>The ability to specify actions associated with the data type other than Open
+and Print</Para>
+</ListItem>
+<ListItem>
+<Para>Multiple name, pattern, or content criteria for the same data type&mdash;for
+example, a data type based on files named <Filename>*.abc</Filename> or <Filename>*.def</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>Link-based data typing</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.CrDT.div.4">
+<Title Id="SAG.CrDT.mkr.3">Components of a Data Type Definition: Criteria and Attributes</Title>
+<Para>A data type definition consists of two separate database definitions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The<IndexTerm>
+<Primary>DATA_ATTRIBUTES</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+<Filename>DATA_ATTRIBUTES</Filename> definition.</Para>
+<Para>The <Filename>DATA_ATTRIBUTES</Filename> definition describes the data type's name and the
+appearance and behavior of files of this type.</Para>
+</ListItem>
+<ListItem>
+<Para>The <Filename><IndexTerm>
+<Primary>DATA_CRITERIA</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>DATA_CRITERIA</Filename> definition.</Para>
+<Para>The <Filename>DATA_CRITERIA</Filename> definition describes the typing criteria. Each criteria
+definition specifies the <Filename>DATA_ATTRIBUTES</Filename> definition to which the criteria
+apply.</Para>
+</ListItem>
+</ItemizedList>
+<Para>There must be at least one <Filename><IndexTerm>
+<Primary>DATA_CRITERIA</Primary>
+<Secondary>paired with DATA_ATTRIBUTES</Secondary>
+</IndexTerm>DATA_CRITERIA</Filename> definition for each
+<Filename>DATA_ATTRIBUTES</Filename> definition; a <Filename>DATA_ATTRIBUTES</Filename> definition can have
+multiple <Filename>DATA_CRITERIA</Filename> associated with it.</Para>
+<Para>For example, you could create an attributes definition for PostScript files that
+described how PostScript files look and behave in File Manager. Then, you
+could create two separate criteria for the PostScript data type&mdash; one based on
+file name and the other based on file content.</Para>
+<Para>For more information, see
+<!--Original XRef content: '&xd2;Defining the Data Criteria for a Data Type&xd3; on
+page&numsp;193'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrDT.div.14">.</Para>
+</Sect1>
+<Sect1 Id="SAG.CrDT.div.5">
+<Title Id="SAG.CrDT.mkr.4">Creating a Data Type Manually: General Steps</Title>
+<Para>This section describes how to create a data type configuration file.</Para>
+<Sect2 Id="SAG.CrDT.div.6">
+<Title Id="SAG.CrDT.mkr.5">Configuration Files for Data Types<IndexTerm><Primary>data types</Primary><Secondary>configuration files</Secondary></IndexTerm><IndexTerm><Primary>configuration files</Primary><Secondary>data types</Secondary></IndexTerm></Title>
+<Para>The requirements for configuration files containing data type definitions are:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The files must use the naming convention <Symbol Role="Variable">name</Symbol><Filename>.dt</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>The files must be located on the database search path. The default search
+path is:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.63in">
+<colspec colwidth="3.84in">
+<TBody>
+<Row>
+<Entry><Para>Personal data types</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>System-wide data types</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Built-in data types</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>. You
+should not use this directory.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+<Para>For information on modifying the database search path, see
+<!--Original XRef content: '&xd2;Setting the Value
+of a Search Path&xd3; on page&numsp;115'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.6">.</Para>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.7" Role="Procedure">
+<Title Id="SAG.CrDT.mkr.6">To Create a Data Type Definition<IndexTerm><Primary>data types</Primary><Secondary>defining</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Open an existing database file or create a new one.</Para>
+<Para>For more information, see the previous section,
+<!--Original XRef content: '&xd2;Configuration Files for
+Data Types'--><XRef Role="SectionTitle" Linkend="SAG.CrDT.mkr.5">.</Para>
+</ListItem>
+<ListItem>
+<Para>Define the data attributes for the data type using the syntax:</Para>
+<programlisting>DATA_ATTRIBUTES <Symbol Role="Variable">data_type_name</Symbol>
+{
+ ICON         <Symbol Role="Variable">image_name</Symbol>
+ DESCRIPTION  <Symbol Role="Variable">string</Symbol>
+              <Symbol Role="Variable">attribute_field</Symbol>
+              <Symbol Role="Variable">attribute_field</Symbol>
+  &hellip;
+}
+<IndexTerm><Primary>DATA_ATTRIBUTES</Primary><Secondary>syntax</Secondary></IndexTerm>
+</ProgramListing>
+<Para>where:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="131*">
+<colspec colwidth="397*">
+<TBody>
+<Row>
+<Entry><Para><Emphasis>data_type_name</Emphasis></Para></Entry>
+<Entry><Para>A unique name given to this data type.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">image_name</Symbol></Para></Entry>
+<Entry><Para>File name or path of an icon file. Use the base name for
+the file. For example, for icon files <Command>myimage.m.pm</Command> and
+<Filename>myimage.t.pm</Filename>, use <Command>myimage</Command>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Emphasis>attribute_field</Emphasis></Para></Entry>
+<Entry><Para>Field that defines the appearance or behavior of the data
+type.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">string</Symbol></Para></Entry>
+<Entry><Para>Character string. The contents will be the on-item help
+for the data type.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>See
+<!--Original XRef content: '&xd2;Example of Creating a Personal Action and Data Type&xd3; on page&numsp;189'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrDT.div.8">.</Para>
+</ListItem>
+<ListItem>
+<Para>Define the data criteria for the data type using the syntax:</Para>
+<programlisting>DATA_CRITERIA <Symbol Role="Variable">criteria_name</Symbol>
+{
+ DATA_ATTRIBUTES_NAME  <Symbol Role="Variable">data_type_name</Symbol>
+                       <Symbol Role="Variable">criteria_field</Symbol>
+                       <Symbol Role="Variable">criteria_field</Symbol>
+     &hellip;
+}
+<IndexTerm><Primary>DATA_CRITERIA</Primary><Secondary>syntax</Secondary></IndexTerm>
+</Programlisting>
+<Para>where:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<TBody>
+<Row>
+<Entry><Para><Emphasis>criteria_name</Emphasis></Para></Entry>
+<Entry><Para>Unique name for this criteria definition</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Emphasis>data_type_name</Emphasis></Para></Entry>
+<Entry><Para>Name used in the <Filename>DATA_ATTRIBUTES</Filename> definition</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Emphasis>criteria_field</Emphasis></Para></Entry>
+<Entry><Para>Field used to define the criteria for assigning a file to this
+data type</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>See
+<!--Original XRef content: '&xd2;Defining the Data Criteria for a Data Type&xd3; on page&numsp;193'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrDT.div.14">.</Para>
+</ListItem>
+<ListItem>
+<Para>Save the database file.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the icons for the data type.</Para>
+<Para>For more information, see
+<!--Original XRef content: '&xd2;Specifying the Icon Image Used for a Data Type&xd3;
+on page&numsp;190'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrDT.div.10">.</Para>
+</ListItem>
+<ListItem>
+<Para>If necessary, create the actions listed in the <Command>ACTIONS</Command> field of the attributes
+definition.</Para>
+</ListItem>
+<ListItem>
+<Para>Double-click Reload Actions in the Desktop_Tools application group to
+reload the database.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.8">
+<Title Id="SAG.CrDT.mkr.7"><?X-setsize 13.0 pt>Example of Creating a Personal Action and Data Type<IndexTerm><Primary>data types</Primary><Secondary>example</Secondary></IndexTerm><IndexTerm><Primary>personal data type and action, creating</Primary></IndexTerm></Title>
+<Para>Suppose your system contains an application named <Command>xgif</Command>, which displays GIF
+pictures. Ordinarily, you run the program by executing:</Para>
+<ProgramListing>xgif <Symbol Role="Variable">filename</Symbol></ProgramListing>
+<Para>You want to be able to display GIF pictures several ways:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>By double-clicking a GIF data file</Para>
+</ListItem>
+<ListItem>
+<Para>By selecting the data file and choosing the application from the Selected
+menu</Para>
+<OrderedList>
+<ListItem>
+<Para>Open a new file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/GifViewer.dt</Filename> for editing.</Para>
+</ListItem>
+<ListItem>
+<Para>Type the data type definitions:</Para>
+<programlisting>DATA_ATTRIBUTES Gif
+{
+ DESCRIPTION  Gif image file.
+ ICON         GifIcon
+ ACTIONS      View
+}
+DATA_CRITERIA Gif_Criteria
+{
+ DATA_ATTRIBUTES_NAME  Gif
+ NAME_PATTERN          *.gif
+}
+</Programlisting>
+</ListItem>
+<ListItem>
+<Para>Type the action definition for the GifViewer action:</Para>
+<programlisting>ACTION GifViewer
+{
+ EXEC_STRING     xgif &percnt;(File)Arg_1&ldquo;Gif file to view:&rdquo;
+ WINDOW_TYPE     NO_STDIO
+ DESCRIPTION     Double-click or drop a file to \
+                 start the Gif viewer.
+}
+</Programlisting>
+<Para>Since the definition does not include an <Command>ICON</Command> field, the action will use the
+system's default icon.</Para>
+</ListItem>
+<ListItem>
+<Para>Type the following map action to connect the GifViewer action to the View
+action listed in the data type definition. Use the <Filename>ARG_TYPE</Filename> field to restrict
+this view action to Gif-type files.</Para>
+<programlisting>ACTION View
+{
+ ARG_TYPE    Gif
+ TYPE        MAP
+ MAP_ACTION  GifViewer
+}
+</Programlisting>
+</ListItem>
+<ListItem>
+<Para>Save the file.</Para>
+</ListItem>
+<ListItem>
+<Para>Double-click Reload Actions in the Desktop_Tools application group to
+reread the database.</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrDT.div.9">
+<Title>Defining the Data Attributes of a Data Type<IndexTerm><Primary>DATA_ATTRIBUTES</Primary><Secondary>defining</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>attributes</Secondary></IndexTerm></Title>
+<Para>The <Filename>DATA_ATTRIBUTES</Filename> definition defines the appearance and behavior of the
+data type. It specifies the name of the data type, and provides the ability to
+specify:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The File Manager icon (<Command>ICON</Command> field)</Para>
+</ListItem>
+<ListItem>
+<Para>The double-click behavior and contents of the Selected menu (<Command>ACTIONS</Command>
+field)</Para>
+</ListItem>
+<ListItem>
+<Para>The data type's on-item help (<Command>DESCRIPTION<IndexTerm>
+<Primary>DESCRIPTION field</Primary>
+</IndexTerm><IndexTerm>
+<Primary>data types</Primary>
+<Secondary>help on</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>help</Primary>
+<Secondary>on data type</Secondary>
+</IndexTerm></Command> field)</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.CrDT.div.10">
+<Title Id="SAG.CrDT.mkr.8">Specifying the Icon Image Used for a Data Type<IndexTerm><Primary>icons</Primary><Secondary>data types</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>icons for</Secondary></IndexTerm></Title>
+<Para>Use the <Command><IndexTerm>
+<Primary>ICON field</Primary>
+<Secondary>for data type</Secondary>
+</IndexTerm>ICON</Command> field to specify the icon used in File Manager. If you do not
+specify an icon image, File Manager displays only a label.</Para>
+<Para>The value of the <Command><IndexTerm>
+<Primary>ICON field</Primary>
+<Secondary>valid values</Secondary>
+</IndexTerm>ICON</Command> field can be:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>A<IndexTerm>
+<Primary>base file name</Primary>
+</IndexTerm><IndexTerm>
+<Primary>icons</Primary>
+<Secondary>base file name</Secondary>
+</IndexTerm>
+base file name.</Para>
+<Para>The base file name is the name of the file containing the icon image, minus
+the file-name suffixes for size (<Command>l</Command>,<Command>m</Command>, and <Command>t</Command>) and image type (<Command>bm</Command> and <Command>pm</Command>). For
+example, if files are named <Filename>GameIcon.m.pm</Filename> and <Filename>GameIcon.t.pm</Filename>, use
+<Command>GameIcon</Command>.</Para>
+<Para>If you use the base file name, the icon files must be placed in a directory on
+the icon search path:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal icons: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide icons: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>An absolute path to the icon file, including the full file name.</Para>
+<Para>You should use the absolute path only if the icon file is not located on the
+icon search path. For example, if icon file <Filename>GameIcon.m.pm</Filename> is placed in the
+directory <Filename>/doc/projects</Filename>, which is not on the icon search path, the value
+of the <Command>ICON</Command> field would be <Filename>/doc/projects/GameIcon.m.pm</Filename>.</Para>
+</ListItem>
+</ItemizedList>
+<Para><!--Original XRef content: 'Table&numsp;11&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CrDT.tbl.1"> lists icon sizes you should create and the corresponding file names.</Para>
+<Table Id="SAG.CrDT.tbl.1" Frame="Topbot">
+<Title Id="SAG.CrDT.mkr.9">Icon Names and Sizes for Data Type Icons</Title>
+<TGroup Cols="3">
+<ColSpec Colname="1" Colwidth="1.0 in">
+<ColSpec Colname="2" Colwidth="1.25 in">
+<ColSpec Colname="3" Colwidth="1.25 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Size in Pixels</Literal></Para></Entry>
+<Entry><Para><Literal>Bitmap Name</Literal></Para></Entry>
+<Entry><Para><Literal>Pixmap Name</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>48 by 48</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>32 by 32</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>16 by 16</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.pm</Filename></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.11">
+<Title Id="SAG.CrDT.mkr.10">Associating Data Types with Actions<IndexTerm><Primary>data types</Primary><Secondary>associating with actions</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>associating with data types</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>associating with actions</Secondary></IndexTerm></Title>
+<Para>There are two ways that data types are associated with actions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The <Command><IndexTerm>
+<Primary>ACTIONS field</Primary>
+</IndexTerm>ACTIONS</Command> field in the <Filename>DATA_ATTRIBUTES</Filename> definition lists the actions that
+will appear in File Manager's Selected menu. The first action in the list is the
+default (double-click) action.</Para>
+</ListItem>
+<ListItem>
+<Para>Actions can be restricted to specified data types using the action definition's
+<Filename><IndexTerm>
+<Primary>ARG_TYPE field</Primary>
+</IndexTerm>ARG_TYPE</Filename> field.</Para>
+</ListItem>
+</ItemizedList>
+<Para>For example, the following data type definition creates a data type for special
+&ldquo;readme&rdquo; files created by your system administrator that use the naming
+convention <Filename>*.rm</Filename>.</Para>
+<programlisting>DATA_ATTRIBUTES SysReadmeFile
+{
+ ICON     SysReadMe
+ ACTIONS  Open,Respond
+}
+DATA_CRITERIA SysReadmeFileCriteria
+{
+ NAME_PATTERN           *.rm
+ DATA_ATTRIBUTES_NAME   SysReadmeFile
+}
+</ProgramListing>
+<Para>A special Respond action is defined below for the file. It opens a writable copy
+of the file in Text Editor. When the file is saved and Text Editor is exited, the
+file is mailed to the system administrator (mail address <Filename>sysadmin@utd</Filename>).</Para>
+<programlisting>ACTION Respond
+{
+ ARG_TYPE     SysReadmeFile
+ EXEC_STRING  /bin/sh -c 'cp &percnt;Arg_1&percnt; $HOME/readme.temp;\
+              chmod +w $HOME/readme.temp;              \
+              dtpad $HOME/readme.temp;                 \
+              cat $HOME/readme.temp |                  \
+              /usr/bin/mailx sysadmin@utd;             \
+              rm $HOME/readme.temp'
+ WINDOW_TYPE  NO_STDIO
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.12">
+<Title>Hiding Files Based on Data Type<IndexTerm><Primary>files</Primary><Secondary>hiding based on data type</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>hidden</Secondary></IndexTerm><IndexTerm><Primary>hiding files with data type</Primary></IndexTerm></Title>
+<Para>If a file is an invisible data type, it never appears in File Manager.</Para>
+<Para>Use the <Command>PROPERTIES</Command> field in the <Filename>DATA_ATTRIBUTES</Filename> definition to specify that
+objects of this type be hidden:</Para>
+<ProgramListing>PROPERTIES  invisible</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.13">
+<Title>Specifying Behaviors When the File Is Manipulated</Title>
+<Para>The following <Filename>DATA_ATTRIBUTES</Filename> fields are used primarily by application
+programmers. They specify how files behave when the user performs various
+desktop activities.</Para>
+<Para>For more information, see the <Emphasis>Common Desktop Environment Programmer's Guide</Emphasis>,
+which is part of the developer environment documentation.</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.65in">
+<colspec colwidth="4.08in">
+<THead>
+<Row>
+<Entry><Para>Field</Para></Entry>
+<Entry><Para>Description</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>MOVE_TO_ACTION</Filename><IndexTerm><Primary>MOVE_TO_ACTION field</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>For containers such as directories. Specifies an action to
+be run when a file is moved to a container of this data
+type.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>COPY_TO_ACTION</Filename><IndexTerm><Primary>COPY_TO_ACTION field</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>For containers such as directories. Specifies an action to
+be run when a file is copied to a container of this data
+type.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>LINK_TO_ACTION</Filename><IndexTerm><Primary>LINK_TO_ACTION field</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Specifies an action to be run when a file is linked to a
+file of this data type.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>IS_TEXT</Filename><IndexTerm><Primary>IS_TEXT field</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Specifies that files of this data type contain text that can
+be displayed in a text box.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MEDIA</Command><IndexTerm><Primary>MEDIA field</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Specifies the corresponding ToolTalk media type.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>MIME_TYPE</Filename><IndexTerm><Primary>MIME_TYPE_MEDIA field</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Specifies the corresponding MIME type.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>X400_TYPE</Filename><IndexTerm><Primary>X400_TYPE field</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Specifies the corresponding X400 type.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrDT.div.14">
+<Title Id="SAG.CrDT.mkr.11">Defining the Data Criteria for a Data Type<IndexTerm><Primary>data types</Primary><Secondary>criteria</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>differentiating</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>categorization criteria</Secondary></IndexTerm><IndexTerm><Primary>2</Primary></IndexTerm></Title>
+<Para>The <Filename><IndexTerm>
+<Primary>DATA_CRITERIA</Primary>
+<Secondary>defining</Secondary>
+</IndexTerm>DATA_CRITERIA</Filename> definition defines the criteria used to assign an object
+type to a file or directory.</Para>
+<Para>You can use the following criteria for object typing:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="99*">
+<colspec colwidth="429*">
+<THead>
+<Row>
+<Entry><Para>Criteria</Para></Entry>
+<Entry><Para>Description</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>File name</Para></Entry>
+<Entry><Para>The file name must match a specified pattern. Use the
+<Filename>NAME_PATTERN</Filename> field.<IndexTerm><Primary>NAME_PATTERN field</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>File location</Para></Entry>
+<Entry><Para>The path must match a specified pattern. Use the
+<Filename>PATH_PATTERN</Filename> field.<IndexTerm><Primary>PATH_PATTERN field</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>File contents</Para></Entry>
+<Entry><Para>A specified portion of the file's contents must match
+specified data. Use the <Command>CONTENT</Command> field.<IndexTerm><Primary>CONTENT field</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>File mode</Para></Entry>
+<Entry><Para>The file must possess the specified permissions (read,
+write, execute, directory). Use the <Command>MODE</Command> field.<IndexTerm><Primary>MODE field</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Symbolic links<IndexTerm><Primary>symbolic links</Primary><Secondary>data type criteria</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The typing is based on the file to which the object is
+linked.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>You can use more than one criteria for a data type. However, you should not
+use the <Filename>NAME_PATTERN</Filename> and <Filename>PATH_PATTERN</Filename> criteria in the same data type.</Para>
+<Sect2 Id="SAG.CrDT.div.15">
+<Title>Name-Based Data Types<IndexTerm><Primary>data types</Primary><Secondary>name-based</Secondary></IndexTerm><IndexTerm><Primary>name-based data types</Primary></IndexTerm></Title>
+<Para>Use the <Filename>NAME_PATTERN</Filename> field to specify the naming requirement. The field
+value can include the following wildcards:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="64*">
+<colspec colwidth="464*">
+<TBody>
+<Row>
+<Entry><Para><Filename>?</Filename><IndexTerm><Primary>? wildcard character</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Matches any single character</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>*</Filename><IndexTerm><Primary>* wildcard character</Primary></IndexTerm><IndexTerm><Primary>wildcard characters in data types</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Matches any sequence of characters (including a null string)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>[</Filename><Symbol Role="Variable">cc</Symbol>&hellip;<Filename>]</Filename></Para></Entry>
+<Entry><Para>Matches any of the characters (<Symbol Role="Variable">c</Symbol>) enclosed in brackets</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>[</Filename><Symbol Role="Variable">c</Symbol>&minus;<Symbol Role="Variable">c</Symbol><Filename>]</Filename></Para></Entry>
+<Entry><Para>Matches any of the characters in the range <Symbol Role="Variable">c</Symbol> through <Symbol Role="Variable">c</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect3 Id="SAG.CrDT.div.16">
+<Title>Examples</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The following data type definition creates a data type based on the file
+name. The file name must begin with <Command>QS</Command> and end with <Filename>.doc</Filename>.</Para>
+<programlisting>DATA_ATTRIBUTES QS_Doc
+{
+ DESCRIPTION  This file contains a document for the QS project.
+ ICON         Word_Doc
+ ACTIONS      Open
+}
+
+DATA_CRITERIA QS_Doc_Criteria
+{
+ NAME_PATTERN          QS*.doc
+ DATA_ATTRIBUTES_NAME  QS_Doc
+}
+</Programlisting>
+</ListItem>
+<ListItem>
+<Para>The following definition creates a data type for directories named <Filename>Demo_</Filename><Symbol Role="Variable">n</Symbol>
+where <Symbol Role="Variable">n</Symbol> is 0 through 9.</Para>
+<programlisting>DATA_ATTRIBUTES Demo_directory
+{
+ DESCRIPTION  This is a directory. Double-click to open it.
+ ICON         Demo
+ ACTIONS      OpenInPlace,OpenNewView
+}
+
+DATA_CRITERIA Demo_directory_criteria
+{
+ NAME_PATTERN          Demo_[0-9]
+ MODE                  d
+ DATA_ATTRIBUTES_NAME  Demo_directory
+}
+</Programlisting>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.17">
+<Title>Location-Based Data Types<IndexTerm><Primary>data types</Primary><Secondary>path-based</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>location-based</Secondary></IndexTerm><IndexTerm><Primary>location-based data type</Primary></IndexTerm><IndexTerm><Primary>path-based data type</Primary></IndexTerm></Title>
+<Para>Use the <Filename><IndexTerm>
+<Primary>PATH_PATTERN field</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>PATH_PATTERN</Filename> field to specify the path. You can use the same
+wildcard characters as with <Filename>NAME_PATTERN</Filename>.</Para>
+<Para>For example, the following data type uses a criteria based on path.</Para>
+<programlisting>DATA_ATTRIBUTES Project_Graphics
+{
+ DESCRIPTION   Graphics file for the QS project. Double-click the \
+               icon to see the graphic.
+ ICON          QSgraphics
+}
+DATA_CRITERIA Project_Graphics_Criteria
+{
+ DATA_ATTRIBUTES_NAME  Project_Graphics
+ PATH_PATTERN          */projects/QS/graphics/*
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.18">
+<Title>Data Types Based on Name and Location</Title>
+<Para>To create a data type based on both file name and location, include the name in
+the <Filename>PATH_PATTERN</Filename> value. You cannot use both <Filename>NAME_PATTERN</Filename> and
+<Filename>PATH_PATTERN</Filename> in the same criteria definition.</Para>
+<Sect3 Id="SAG.CrDT.div.19">
+<Title>Examples</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The QS_Source_Files data type defined below applies to all files named
+<Command>app</Command><Symbol Role="Variable">n</Symbol><Filename>.c</Filename>, where <Symbol Role="Variable">n</Symbol>= 1 through 9, located in subdirectories of
+<Filename>*/projects/QS</Filename>.</Para>
+<programlisting>DATA_ATTRIBUTES QS_Source_Files
+{
+   &hellip;
+}
+DATA_CRITERIA QS_Source_Files_Criteria
+{
+ PATH_PATTERN      */projects/QS/*/app[1-9].c
+ DATA_ATTRIBUTES_NAME      QS_Source_Files
+}
+</Programlisting>
+</ListItem>
+<ListItem>
+<Para>The following data type applies to all files in the directory <Filename>/doc/project1</Filename>
+named <Command>ch</Command><Symbol Role="Variable">nn</Symbol><Filename>.</Filename><Symbol Role="Variable">xxx</Symbol> where <Symbol Role="Variable">n</Symbol> is 0 through 9, and <Symbol Role="Variable">xxx</Symbol> is any three-character file-
+name suffix.</Para>
+<programlisting>DATA_ATTRIBUTES ChapterFiles
+{
+ DESCRIPTION  Chapter file for the project document.
+ ICON         chapter
+ ACTIONS      Edit,Print
+}
+
+DATA_CRITERIA Chapter_Criteria
+{
+ PATH_PATTERN          /doc/project1/ch[0-9][0-9].???
+ DATA_ATTRIBUTES_NAME  ChapterFiles
+}
+</Programlisting>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.20">
+<Title Id="SAG.CrDT.mkr.12">Using File Modes as a Typing Criteria<IndexTerm><Primary>data types</Primary><Secondary>mode criteria</Secondary></IndexTerm></Title>
+<Para>Use the <Command><IndexTerm>
+<Primary>MODE field</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>MODE</Command> field to specify the required permissions.</Para>
+<Para>Mode criteria are usually used in combination with name-based, location-
+based, or content-based data typing. They allow you to limit a data type to a
+file or directory, or to specify the required read, write, and execute permissions.</Para>
+<Para>The <Command>MODE</Command> field can include the following logical operators and characters:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="80*">
+<colspec colwidth="448*">
+<THead>
+<Row>
+<Entry><Para>Operator</Para></Entry>
+<Entry><Para>Description</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>!</Filename></Para></Entry>
+<Entry><Para>Logical operator NOT<IndexTerm><Primary>NOT operator in MODE field</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>&amp;</Filename></Para></Entry>
+<Entry><Para>Logical operator AND<IndexTerm><Primary>AND operator in MODE field</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>|</Para></Entry>
+<Entry><Para>Logical OR<IndexTerm><Primary>OR operator in MODE field</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="84*">
+<colspec colwidth="444*">
+<THead>
+<Row>
+<Entry><Para>Character</Para></Entry>
+<Entry><Para>Description</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>f</Command><IndexTerm><Primary>file, data type criteria</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The data type applies only to files</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>d</Command><IndexTerm><Primary>directory</Primary><Secondary>datatype criteria</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The data type applies only to directories</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>r</Command></Para></Entry>
+<Entry><Para>The file is readable by any user</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>w</Command><IndexTerm><Primary>read-only data type criteria</Primary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>read-only</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The file is writable by any user</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>x</Command><IndexTerm><Primary>data types</Primary><Secondary>executable</Secondary></IndexTerm><IndexTerm><Primary>executable file, data type criteria</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The file is executable by any user</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>l</Command><IndexTerm><Primary>link, data type criteria</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The file is a link</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>u</Command>
+</Para></Entry>
+<Entry><Para>The file is set-uid</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>g</Command>
+</Para></Entry>
+<Entry><Para>The file is set-gid</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The default for a particular criterion is that the mode does not matter.</Para>
+<Sect3 Id="SAG.CrDT.div.21">
+<Title>Examples</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The following mode fields restrict the data type as described:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="63*">
+<colspec colwidth="465*">
+<TBody>
+<Row>
+<Entry><Para><Filename>f&amp;!w</Filename></Para></Entry>
+<Entry><Para>Read-only files</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>!w</Filename></Para></Entry>
+<Entry><Para>Read-only files and directories</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>f&amp;x</ComputerOutput></Para></Entry>
+<Entry><Para>Executable files</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>f&amp;w&amp;x</Filename></Para></Entry>
+<Entry><Para>Files that are both writable and executable</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>x|!w</Para></Entry>
+<Entry><Para>Files that are executable or read-only</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>The following data type definition creates a data type for read-only, non-
+executable files whose file names follow the naming convention <Filename>*.doc</Filename>. It
+assumes that a View action has been defined for the data type.</Para>
+<programlisting>DATA_ATTRIBUTES ReadOnlyDocument
+{
+ ICON         read_only
+ DESCRIPTION  This document is not writable. Double-clicking  \
+              runs your editor with a read-only copy of the   \
+              file.
+ ACTIONS      View
+}
+
+DATA_CRITERIA ReadOnlyDocument_Criteria
+{
+ NAME_PATTERN          *.doc
+ MODE                  !d&amp;!x&amp;!w
+ DATA_ATTRIBUTES_NAME  ReadOnlyDocument
+}
+</Programlisting>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.22">
+<Title>Content-Based Data Typing<IndexTerm><Primary>data types</Primary><Secondary>content-based</Secondary></IndexTerm><IndexTerm><Primary>content-based data type</Primary></IndexTerm></Title>
+<Para>Use the <Command><IndexTerm>
+<Primary>CONTENT field</Primary>
+</IndexTerm>CONTENT</Command> field to specify data typing based on the content of the file.
+Content-based data typing can be used in combination with name- or location-
+based data typing.</Para>
+<Para>The typing can be based on either string or numeric content for files. The first
+byte in the file is numbered 0.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>For string content of a file, use the syntax:</Para>
+<programlisting>CONTENT  <Symbol Role="Variable">starting_byte</Symbol> string <Symbol Role="Variable">string</Symbol></programlisting>
+</ListItem>
+<ListItem>
+<Para>For number content of a file, use the syntax:</Para>
+<programlisting>CONTENT <Symbol Role="Variable">starting_byte</Symbol> byte <Symbol Role="Variable">number</Symbol>
+CONTENT <Symbol Role="Variable">starting_byte</Symbol> short <Symbol Role="Variable">number</Symbol>
+CONTENT <Symbol Role="Variable">starting_byte</Symbol> long <Symbol Role="Variable">number</Symbol>
+</Programlisting>
+</ListItem>
+<ListItem>
+<Para>For the contents of a directory, use the syntax:</Para>
+<programlisting>CONTENT 0 filename &ldquo;<Symbol Role="Variable">file_name</Symbol>&rdquo;</programlisting>
+<Para>Use standard C notation for octal (leading <literal>0</literal>) and hexidecimal (leading <literal>0X</literal>)
+numbers.</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>Use of content-based data typing will result in slower system
+performance. Wherever possible, use name- and location-based typing instead.</Para>
+</Note>
+<Para>For example, the following data type, Writable_Wingz, applies to all files with
+write permission containing the string <Command>WNGZ</Command> at the beginning of the file.</Para>
+<programlisting>DATA_ATTRIBUTES Writable_Wingz
+{
+ &hellip;
+}
+
+DATA_CRITERIA Writable_Wingz_Criteria
+{
+ CONTENT               0 string WNGZ
+ MODE                  w&amp;!d
+ DATA_ATTRIBUTES_NAME  Writable_Wingz
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.23" Role="Procedure">
+<Title Id="SAG.CrDT.mkr.13">To Create a Data Type with Several Independent Criteria<IndexTerm><Primary>data types</Primary><Secondary>multiple criteria</Secondary></IndexTerm></Title>
+<Para>You can create a data type with several independent criteria&mdash;that is, the file is
+assigned to the data type if it meets <Emphasis>either</Emphasis> (or both) of the criteria.</Para>
+<OrderedList>
+<ListItem>
+<Para>Create the <Filename>DATA_ATTRIBUTES</Filename> definition for the data type.</Para>
+</ListItem>
+<ListItem>
+<Para>Create a <Filename><IndexTerm>
+<Primary>DATA_CRITERIA</Primary>
+<Secondary>multiple</Secondary>
+</IndexTerm>DATA_CRITERIA</Filename> definition for each criteria.</Para>
+<Para>Use the <Filename>DATA_ATTRIBUTES_NAME</Filename> field to connect each criteria to the same
+<Filename>DATA_ATTRIBUTES</Filename> definition.</Para>
+</ListItem>
+</OrderedList>
+<Para>For example, the following definitions create the Mif data type. Typing is based
+on name or content.</Para>
+<programlisting>DATA_ATTRIBUTES Mif
+{
+ ICON         Frame
+ ACTION_LIST  Open,Print
+}
+
+DATA_CRITERIA Mif_Name_Criteria
+{
+ DATA_ATTRIBUTES_NAME  Mif
+ NAME_PATTERN          *.mif
+}
+
+DATA_CRITERIA Mif_Content_Criteria
+{
+ DATA_ATTRIBUTES_NAME  Mif
+ CONTENT               1 string MIFFile
+}
+</ProgramListing>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrDT.div.24">
+<Title>Creating Localized Data Types<IndexTerm><Primary>data types</Primary><Secondary>localized</Secondary></IndexTerm><IndexTerm><Primary>localization</Primary><Secondary>data type</Secondary></IndexTerm></Title>
+<Para>The search path for data types includes language-dependent locations. The
+desktop uses the value of<IndexTerm>
+<Primary>LANG variable</Primary>
+<Secondary>effect on data types</Secondary>
+</IndexTerm>
+LANG to determine the locations searched for data
+type definitions.</Para>
+<Sect2 Id="SAG.CrDT.div.25">
+<Title>Locations for Localized Data Types</Title>
+<Para>Localized data type definitions must be placed in the proper language-
+dependent directories along the actions search path.</Para>
+<Para>The default search path is:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Personal actions: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide actions: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>Built-in actions: <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.CrDT.div.26" Role="Procedure">
+<Title>To Localize a Data Type</Title>
+<OrderedList>
+<ListItem>
+<Para>Create a file in the appropriate language-dependent directory (for example,
+in <Filename>/etc/dt/appconfig/types/japanese</Filename>).</Para>
+</ListItem>
+<ListItem>
+<Para>Copy the data type definition to the language-dependent configuration file.</Para>
+</ListItem>
+<ListItem>
+<Para>Localize one or more fields in the data type definition.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

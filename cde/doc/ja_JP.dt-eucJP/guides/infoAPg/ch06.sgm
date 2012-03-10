@@ -1,0 +1,446 @@
+<!-- $XConsortium: ch06.sgm /main/4 1996/10/11 09:24:03 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<Chapter id="infoapg.div.6">
+<Title id="n0W3SgFBd02698oL">トラブルシューティング</Title>
+<IndexTerm><Primary>トラブルシューティング</Primary></IndexTerm>
+<Para>
+本節では、以下に示すものの結果として、インフォメーション・マネージャのツールで発生する問題について説明します。
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>
+構築エラー: このエラーは、次の過程で発生します。
+<Command>dtinfogen build</Command>
+<Command>dtinfogen tocgen</Command>
+<Command>dtinfogen update</Command>
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+スタイル・シート・エラー: このエラーは、次の過程で発生します。
+<Command>dtinfogen build</Command>
+<Command>dtinfogen update</Command>
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ライブラリ管理エラー: このエラーは、次の過程で発生します。
+<Command>dtinfogen admin</Command>
+</Para>
+</ListItem>
+</ItemizedList>
+
+<Para>
+詳細については、<filename>dtinfogen(1)</filename> マニュアル・ページを参照してください。
+</Para>
+
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect1>
+<Title id="DW3SgFBd02698oL">構築エラー</Title>
+<Para>
+次に示すエラー・メッセージは、一般に構築過程に関連するものであり、次のプログラムのいずれかによって生成されます。
+<Command>dtinfogen build</Command>
+<Command>dtinfogen tocgen</Command>
+<Command>dtinfogen update</Command>
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 宣言されていないスタイル・シート名 NAME が、ブックケース規定でみつかりました。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、スタイル・シート <Replaceable>NAME</Replaceable> が、ブックケース
+で指定されているが、どこにも宣言されていないことを意味します。
+</Para>
+<Para>
+スタイル・シートを明示的に取り込まなければなりません。スタイル・シートを取り込むひとつの方法は、エンティティ参照の使用です。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 無効な目次 (ToC) がみつかりました。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、インフォメーション・マネージャが、同一のブック内で複数の目次 (TOC) をみつけたことを意味します。
+</Para>
+<Para>
+各ブックには、ただひとつの目次 (TOC) が許されます。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) メモリー不足です。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、構築を続行するためのメモリーが不十分であることを意味しています。
+</Para>
+<Para>
+構築過程のためのメモリーを増やさなければなりません。構築過程のためのメモリー確保の詳細については、
+<Link Linkend="jI.RgFBe.1698oL">「構築において考慮すること」</Link>を参照してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 目次 (ToC) の検証に失敗しました。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、目次 (TOC) の検証が失敗したことを意味しています。
+</Para>
+<Para>
+エラーが発生した箇所の詳細については、構築ログをチェックしてください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 目次 (Toc) ファイル = <Replaceable>FILE</Replaceable>
+  "       の行 = <Replaceable>LINE</Replaceable>
+   "      にある IDREF = <Replaceable>LINK</Replaceable>
+   "      は、無効なセクションを指しています。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、目次 (TOC) ファイル <Replaceable>FILE</Replaceable> の 行 <Replaceable>LINE</Replaceable> にあるハイパーテキスト・リンク <Replaceable>LINK</Replaceable> には、リンク先のセクションがないことを意味しています。
+</Para>
+<Para>
+リンク先セクションとして、一意のIDを指定してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) ファイル = <Replaceable>FILE</Replaceable>
+   "       の行 = <Replaceable>LINE</Replaceable>
+   "       にあるセクションID = <Replaceable>ID</Replaceable>
+   "       には、目次 (TOC) ファイル = <Replaceable>TOCFILE</Replaceable>.
+   "       の値 = <Replaceable>ID</Replaceable>
+   "       に対応するリンクがありません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、目次 (TOC) ファイル <Replaceable>TOCFILE</Replaceable> から、ファイル <Replaceable>FILE</Replaceable> のセクション <Replaceable>ID</Replaceable> へのリンクが存在しないことを示しています。
+</Para>
+<Para>
+目次 (TOC) ファイル <Replaceable>TOCFILE</Replaceable> をチェックし、目次に値 <Replaceable>ID</Replaceable> のリンクを追加してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) ファイル = <Replaceable>FILENAME1</Replaceable>
+   "       の行 = <Replaceable>LINE1</Replaceable>
+           でみつかった重複ID = <Replaceable>ID</Replaceable>
+   "       は、ファイル = <Replaceable>FILE2</Replaceable>
+   "       の行 = <Replaceable>LINE2</Replaceable>.
+   "       でみつかったID = <Replaceable>ID</Replaceable>
+   "       と衝突しています。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、インフォメーション・マネージャが、ファイル <Replaceable>FILE1</Replaceable> と <Replaceable>FILE2</Replaceable> の両方で、重複したIDの値 <Replaceable>ID</Replaceable> をみつけたことを意味しています。
+</Para>
+<Para>
+各IDの値は、一意でなければなりません。一意にするために、適切なIDの値に変更してください。新規の値で、目次 (TOC) ファイルを更新することを忘れないでください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) ファイル = <Replaceable>FILE1</Replaceable>
+   "       の行 = <Replaceable>LINE1</Replaceable>
+           でみつかった重複したセクションID = <Replaceable>ID</Replaceable>
+   "       は、ファイル = <Replaceable>FILE2</Replaceable>
+   "       の行 = <Replaceable>LINE2</Replaceable>.
+   "       でみつかったID = <Replaceable>ID</Replaceable>
+   "       と衝突しています。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、インフォメーション・マネージャが、ファイル <Replaceable>FILE1</Replaceable> と <Replaceable>FILE2</Replaceable> の両方で、重複したセクションIDの値 <Replaceable>ID</Replaceable> をみつけたことを意味しています。
+</Para>
+<Para>
+各セクションIDの値は、一意でなければなりません。一意にするために、適切なIDの値に変更してください。新規の値で、目次 (TOC) ファイルを更新することを忘れないでください。
+</Para>
+
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) ファイル = <Replaceable>FILE1</Replaceable>
+   "       の行 = <Replaceable>LINE</Replaceable>
+   "       で指定されたブック = <Replaceable>bookName</Replaceable>
+   "       のタブID = <Replaceable>TabId</Replaceable>
+   "       は、ブックでみつかったどのセクションIDも指していません。
+</computeroutput>
+</literallayout>
+<para>
+これは、 <Replaceable>bookName</Replaceable> にある タブIDの値 <Replaceable>TabId</Replaceable> が、<Replaceable>bookName</Replaceable> と一致するファイルでみつからなかったことを意味しています。
+</Para>
+<Para>
+すべてのタブは、ブックの有効なセクションを指していなければなりません。タブIDが、有効なセクションを指していることを確認してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) スタイル・シートの検証に失敗しました。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、スタイル・シートで構文エラーがみつかったことを意味しています。
+</Para>
+<Para>
+スタイル・シートの構文エラーを修正してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) グラフィカル・オブジェクトのIDがみつかりません。
+object.
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、グラフィカル・オブジェクトにIDがなかったことを意味しています。グラフィカル・オブジェクトに、空でないIDを指定してください。
+</Para>
+
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 用語ファイルがありません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、検索可能な用語情報のための一時的ファイルを作成するディスク・スペースが不十分なことを意味しています。
+</Para>
+<Para>
+構築を実行するための十分なディスク・スペースを確保していることを検証してください。
+</Para>
+</sect1>
+
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect1>
+<Title id="n7eNaekBIaXwA0YK">スタイル・シートのエラー</Title>
+<Para>
+次に示すエラー・メッセージは、スタイル・シート関連のものです。スタイル・シートの作成と使用については、
+<Link Linkend="tgmdnkb6vm9x3cs">「インフォメーション・マネージャのスタイル・シートの理解」</link>
+および<Link Linkend="btcmaab0ang24ak">「スタイル・シートの作成」</link>
+を参照してください。
+</para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 自動数字割り付け: ID属性がありません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、自動数字割り付けのためのID属性がみつからなかったことを意味しています。自動数字割り付けのためのID属性を指定してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 自動数字割り付け: Type属性がありません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、自動数字割り付けのためのType属性がみつからなかったことを意味しています。自動数字割り付けのためのType属性を指定してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 自動数字割り付け: Initial属性がありません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、自動数字割り付けのためのInitial属性がみつからなかったことを意味しています。自動数字割り付けのためのInitial属性を指定してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 自動数字割り付け: Delta属性がありません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、自動数字割り付けのためのDelta属性がみつからなかったことを意味しています。自動数字割り付けのためのDelta属性を指定してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 自動数字割り付け: Reset属性がありません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、自動数字割り付けのためのReset属性がみつからなかったことを意味しています。自動数字割り付けのためのReset属性を指定してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 自動数字割り付け: Counter属性がありません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、自動数字割り付けのためのCounter属性がみつからなかったことを意味しています。自動数字割り付けのためのCounter属性を指定してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) スタイル・シートの名前が指定されていません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、スタイル・シート名がないことを意味しています。スタイル・シート名を指定ください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) <Replaceable>EXPR</Replaceable> の構文エラーです。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、インフォメーション・マネージャ設計様式のために指定された式 <Replaceable>EXPR</Replaceable> で構文エラーがみつかったことを意味しています。
+</Para>
+<Para>
+文書型定義で式 <Replaceable>EXPR</Replaceable> を検索し、インフォメーション・マネージャ設計様式のための構文を修正してください。
+</Para>
+</sect1>
+
+<!--))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect1>
+<Title id="L4E7gLBYimg24aK">ライブラリ管理メッセージ</Title>
+
+<Para>
+次に示すエラー・メッセージは、<Command>dtinfogen admin</Command> コマンドに関連するものです。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) <Replaceable>InfoLibPath</Replaceable> は有効なインフォメーション・ライブラリではありません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、指定された <Replaceable>InfoLibPath</Replaceable> が無効なパスになっているか、インフォメーション・ライブラリそのものが無効であることを意味しています。正しいパス名を入力するか、選択した <Replaceable>InfoLibPath</Replaceable> の下に <Filename>*.oli</Filename> という名前のファイルがあるかどうかチェックしてください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 検証でエラーは発生したため、コピーは実行されませんでした。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、<Command>dtinfogen admin</Command> の検証処理の段階で問題がみつかり、ブックケースがコピー先のライブラリにコピーされなかったことを意味しています。問題は、バージョンの不一致または重複したIDによるものである可能性があります。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) データのバージョンの不一致です。
+   "    <Replaceable>checkBase</Replaceable> バージョン = #
+   "    <Replaceable>installBase</Replaceable> バージョン = #
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、コピーしようとしているブックケース (<Replaceable>checkbase</Replaceable>) とインフォメーション・ライブラリ（インストールされたベース）に存在するブックケースに、<Command>dtinfogen admin</command> によって、バージョンの不一致がみつかったことを意味しています。同じバージョンの構築ツールで、ブックケースを再構築してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) <Replaceable>BookCaseName</Replaceable> で重複したIDの値 [<Replaceable>ID</Replaceable>] がみつかりました。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、コピーしようとしているブックケースとコピー先のブックケース <Replaceable>BookCaseName</Replaceable> のID <Replaceable>ID</Replaceable> の重複が、<Command>dtinfogen admin</Command> によってみつかったことを意味しています。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 選択された位置は無効です。ブックケースの有効な位置を指定してください。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、特定のブックケースのために指定された位置が範囲外であることを意味しています。ブックケースの有効な位置を指定してください。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) <Replaceable>InfoLibPath</Replaceable> から <Replaceable>BookCaseName</Replaceable> を削除できません。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、<Command>dtinfogen admin</Command> が、インフォメーション・ライブラリ <Replaceable>InfoLibPath</Replaceable> からブックケース <Replaceable>BookCaseName</Replaceable> を削除できなかったことを意味しています。当該ブックケース変更のための正当なアクセス権があることを確認してください。また、当該ブックケースがインフォメーション・ライブラリに存在しないか、ブックケースへのパスが無効である可能性もあります。
+</Para>
+<para>
+次にエラー・メッセージとその意味を示します。
+</para>
+<literallayout>
+<computeroutput>
+(エラー) 選択された番号は無効です。1から6の番号を指定してください。
+</computeroutput>
+</literallayout>
+<para>
+このエラーは、選択された番号が範囲外であることを意味しています。
+</Para>
+</sect1>
+</Chapter>
+
+
+
+
+

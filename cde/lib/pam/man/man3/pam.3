@@ -1,0 +1,260 @@
+.\" $XConsortium: pam.3 /main/5 1996/10/29 15:17:56 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam 3 "9 Jan 1996"
+.SH NAME
+PAM \- Pluggable Authentication Module
+.SH SYNOPSIS
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+.ft
+.fi
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.SH DESCRIPTION
+.IX "PAM" "" "\fLPAM\fP \(em Pluggable Authentication Module"
+.PP
+.SM PAM
+gives system administrators the flexibility of choosing any authentication
+service available on the system to perform authentication.  The framework
+also allows new authentication service modules to be plugged in and made
+available without modifying the applications.
+.LP
+The
+.SM PAM
+framework,
+.B libpam,
+consists of an interface library and multiple authentication 
+service modules.  The
+.SM PAM
+interface library is the layer implementing the 
+Application Programming Interface (API).  The authentication service modules
+are a set of dynamically loadable objects invoked by the
+.SM PAM
+API to provide a particular type of user authentication.
+.SS Interface Overview
+The
+.SM PAM
+library interface
+consists of functions which can be grouped into five categories.  The
+names for all the authentication library functions start with
+.B pam_.
+.PP
+The first category contains functions for establishing and terminating an 
+authentication activity
+(\f3pam_start\f1(3)
+and
+(\f3pam_end\f1(3)), 
+functions to maintain module specific data
+(\f3pam_[sg]et_data\f1(3)),
+functions to maintain state information
+(\f3pam_[sg]et_item\f1(3)),
+and a function to return error status information
+(\f3pam_strerror\f1(3)).
+.PP
+The second category contains functions to authenticate an individual user
+(\f3pam_authenticate\f1(3))
+and to set the credentials of the user
+(\f3pam_setcred\f1(3)).
+.PP
+The third category contains functions to do account management
+(\f3pam_acct_mgmt\f1(3)).
+This includes checking for password aging and access-hour restrictions.
+.PP
+The fourth category contains functions to perform session management
+(\f3(pam_open_session\f1(3)
+and
+(\f3pam_close_session\f1(3))
+after access to the system has been granted.
+.PP
+The fifth category consists of functions to change authentication tokens
+.BR pam_chauthtok (3)).
+An authentication token is the object used to verify the
+identity of the user.
+In
+.SM UNIX,
+an authentication
+token is a user's password.
+.PP
+All the
+.B pam_*(\|)
+interfaces are implemented through the library
+.B libpam.
+For each of the categories listed above, excluding the first category
+.BR pam_start(\|) ,
+.BR pam_end(\|) , 
+.BR pam_[sg]et_data(\|) ,
+.BR pam_[sg]et_item(\|) ,
+and
+.BR pam_strerror(\|) )
+there exists a dynamically loadable shared module
+that provides the appropriate 
+service layer functionality upon demand.
+The functional entry points in the 
+service layer start with the 
+.B pam_sm_
+prefix.  The only difference between the
+.B pam_sm_*(\|)
+interfaces and their corresponding
+.B pam_
+interfaces is that all the
+.BR pam_sm_*(\|)
+interfaces require extra parameters to pass service specific options
+to the shared modules.  
+Please refer to
+.BR pam_sm (3)
+for an overview of the
+.SM PAM
+service module APIs.
+.SS Stateful Interface
+A sequence of calls sharing a common set of state information
+is referred to as an authentication transaction.  An authentication 
+transaction begins with a call to
+.BR pam_start(\|).
+.B pam_start(\|)
+allocates space, performs various initialization activities,
+and assigns a
+.SM PAM
+authentication handle to be used for subsequent calls
+to the library.  
+.LP
+After initiating an authentication transaction, applications can invoke
+.B pam_authenticate(\|) 
+to authenticate a particular user, and
+.B pam_acct_mgmt(\|)
+to perform system entry management (the
+application may want to determine if the user's 
+password has expired).
+.LP
+If the user has been successfully authenticated, applications call 
+.B pam_setcred(\|)
+to set any user credentials associated with the authentication service.
+Within one authentication transaction (between
+.B pam_start(\|)
+and
+.BR pam_end(\|) ),
+all calls to the 
+.SM PAM
+interface should be made with the same authentication handle
+returned by
+.BR pam_start(\|) .
+This is necessary because certain service modules
+may store module-specific data in the handle
+that is intended for use by other modules.
+For example, during the call to
+.BR pam_authenticate(\|) ,
+service modules may store data in the handle
+that is intended for use by
+.BR pam_setcred(\|) .
+.LP
+To perform session management, applications call
+.BR pam_open_session(\|) .
+For example, the system may want to store 
+the total time for the session.
+The function
+.B pam_close_session(\|)
+closes the current session.
+.LP
+When necessary, applications can call
+.B pam_get_item(\|)
+and
+.B pam_set_item(\|)
+to access and update specific authentication information.
+Such information may include the current username.
+.LP
+To terminate an authentication transaction, the application simply calls
+.BR pam_end(\|) ,
+which frees previously allocated space used to store authentication information.
+.PP
+.SS Application - Authentication Service Interactive Interface
+The authentication service in
+.SM PAM
+does not communicate directly with the user; instead it
+relies on the application to perform all such interactions.
+The application passes a pointer to the function,
+.BR conv(\|) ,
+along with any associated application data pointers, through a
+.I pam_conv
+structure to the authentication service when it initiates
+an authentication transaction (via a call to
+.BR pam_start(\|) ).
+The service will then use the function,
+.BR conv(\|) ,
+to prompt the user for data, 
+output error messages, and display text information.
+Refer to
+.BR pam_start (3)
+for more information.
+.SS Stacking Multiple Schemes
+The
+.SM PAM
+architecture enables authentication by multiple authentication services through
+.I stacking.
+System entry applications, such as
+.BR login (1),
+stack multiple service modules to authenticate users with multiple
+authentication services.
+The order in which authentication service 
+modules are stacked is specified in the configuration file,
+.BR pam.conf (4).
+A system administrator determines this ordering, and also determines 
+whether the same password can be used for all authentication services.  
+.SS Administrative Interface	
+The authentication library,
+.BR /usr/lib/libpam.so.1 ,
+implements the framework interface.
+Various authentication services are 
+implemented by their own loadable modules
+whose paths are specified through the
+.BR pam.conf (4)
+file.
+.PP
+.SH "RETURN VALUES"
+.PP
+The
+.SM PAM
+functions may return one of the following generic values, 
+or one of the values defined in the specific man pages:
+.RS
+.IP "PAM_SUCCESS" 22
+Successful function return
+.IP "PAM_OPEN_ERR" 22
+.B dlopen(\|)
+failure when dynamically loading a service module
+.IP "PAM_SYMBOL_ERR" 22
+Symbol not found
+.IP "PAM_SERVICE_ERR" 22 
+Error in service module
+.IP "PAM_SYSTEM_ERR" 22
+System error
+.IP "PAM_BUF_ERR" 22
+Memory buffer error
+.IP "PAM_CONV_ERR" 22
+Conversation failure
+.IP "PAM_PERM_DENIED
+Permission denied
+.RE
+.SH "SEE ALSO"
+.BR pam_authenticate (3),
+.BR pam_open_session (3),
+.BR pam_chauthtok (3),
+.BR pam_set_item (3),
+.BR pam_setcred (3),
+.BR pam_sm (3),
+.BR pam_start (3),
+.BR pam_strerror (3),
+.BR pam.conf (4)
+.SH WARNING
+Please note that all the
+.SM PAM
+APIs and the data structures are subject to
+change without notice.

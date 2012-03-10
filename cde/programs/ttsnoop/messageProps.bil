@@ -1,0 +1,1658 @@
+// $XConsortium: messageProps.bil /main/2 1996/11/11 11:57:59 drk $
+:bil-version	1 0
+:module messageProps
+(
+
+:element messageProps
+(
+	:type			:dialog
+	:width			580
+	:height			485
+	:bg-color		"white"
+	:label			"Tt_message"
+	:resizable		:true
+	:visible		:false
+	:children		(
+		messagePane
+		messageMenuPane
+		messageActionPane
+		messageProps_footer
+	)
+)
+:element messagePane
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			44
+	:width			576
+	:height			436
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:obj messageMenuPane 0)
+	:south-attachment	(:obj messageProps 0)
+	:east-attachment	(:obj messageProps 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		classChoice
+		opText
+		addressChoice
+		handlerText
+		scopeChoice
+		sessionText
+		fileText
+		fileButton
+		statusBox
+		separator
+		addArgButton
+		setArgButton
+		setContextButton
+		statusLabel
+		sessionButton
+		messageText
+		handlerButton
+		msgPatternButton
+		msgCallbackAddButton
+		dispositionChoice
+		msgSetAttributeButton
+		opButton
+	)
+)
+:element classChoice
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			44
+	:y			11
+	:label-type		:string
+	:label			"Class:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 11)
+	:west-attachment	(:point 0 29)
+	:help-text		"tt_message_class(3)\ntt_message_class_set(3)\n"
+	:children		(
+		classChoice_UNDEFINED_item
+		classChoice_NOTICE_item
+		classChoice_REQUEST_item
+		classChoice_OFFER_item
+	)
+)
+:element classChoice_UNDEFINED_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"UNDEFINED"
+	:active			:true
+	:selected		:true
+)
+:element classChoice_NOTICE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"NOTICE"
+	:active			:true
+	:selected		:false
+)
+:element classChoice_REQUEST_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"REQUEST"
+	:active			:true
+	:selected		:false
+)
+:element classChoice_OFFER_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"OFFER"
+	:active			:true
+	:selected		:false
+)
+:element opText
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			339
+	:y			11
+	:num-columns		25
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 11)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:grid-line 54 0)
+	:help-text		"tt_message_op(3)\ntt_message_op_set(3)\n"
+)
+:element addressChoice
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			27
+	:y			46
+	:label-type		:string
+	:label			"Address:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj classChoice 4)
+	:west-attachment	(:point 0 12)
+	:help-text		"tt_message_address(3)\ntt_message_address_set(3)\n"
+	:children		(
+		addressChoice_PROCEDURE_item
+		addressChoice_OBJECT_item
+		addressChoice_HANDLER_item
+		addressChoice_OTYPE_item
+		addressChoice_ADDRESS_LAST_item
+	)
+)
+:element addressChoice_PROCEDURE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"PROCEDURE"
+	:active			:true
+	:selected		:true
+)
+:element addressChoice_OBJECT_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"OBJECT"
+	:active			:true
+	:selected		:false
+)
+:element addressChoice_HANDLER_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"HANDLER"
+	:active			:true
+	:selected		:false
+)
+:element addressChoice_OTYPE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"OTYPE"
+	:active			:true
+	:selected		:false
+)
+:element addressChoice_ADDRESS_LAST_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"ADDRESS_LAST"
+	:active			:true
+	:selected		:false
+)
+:element handlerText
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			339
+	:y			46
+	:num-columns		25
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj opText 10)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:grid-line 54 0)
+	:help-text		"tt_message_handler(3)\ntt_message_handler_set(3)\n"
+)
+:element scopeChoice
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			39
+	:y			82
+	:label-type		:string
+	:label			"Scope:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj addressChoice 5)
+	:west-attachment	(:point 0 24)
+	:help-text		"tt_message_scope(3)\ntt_message_scope_set(3)\n"
+	:children		(
+		scopeChoice_SCOPE_NONE_item
+		scopeChoice_SESSION_item
+		scopeChoice_FILE_item
+		scopeChoice_BOTH_item
+		scopeChoice_FILE_IN_SESSION_item
+	)
+)
+:element scopeChoice_SCOPE_NONE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"SCOPE_NONE"
+	:active			:true
+	:selected		:true
+)
+:element scopeChoice_SESSION_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"SESSION"
+	:active			:true
+	:selected		:false
+)
+:element scopeChoice_FILE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"FILE"
+	:active			:true
+	:selected		:false
+)
+:element scopeChoice_BOTH_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"BOTH"
+	:active			:true
+	:selected		:false
+)
+:element scopeChoice_FILE_IN_SESSION_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"FILE_IN_SESSION"
+	:active			:true
+	:selected		:false
+)
+:element sessionText
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			339
+	:y			83
+	:num-columns		25
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj handlerText 10)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:grid-line 54 0)
+	:help-text		"tt_message_session(3)\ntt_message_session_set(3)\n"
+)
+:element fileText
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			93
+	:y			117
+	:num-columns		60
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj sessionText 10)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:obj fileButton 9)
+	:help-text		"tt_message_file(3)\ntt_message_file_set(3)N"
+)
+:element fileButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			47
+	:y			117
+	:label-type		:string
+	:label-alignment	:center
+	:label			"File:"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj sessionText 11)
+	:west-attachment	(:point 0 32)
+	:help-text		"tt_message_file(3)\ntt_message_file_set(3)\n"
+)
+:element statusBox
+(
+	:type			:spinbox
+	:label-type		:string
+	:label			"Status:"
+	:label-position		:west
+	:text-type		:numeric
+	:arrow-style		:arrow-end
+	:min-value		-9999999
+	:max-value		99999999
+	:initial-value		0
+	:increment		1
+	:decimal-points		0
+	:visible		:true
+	:active			:true
+	:x			176
+	:y			175
+	:width			100
+	:north-attachment	(:obj separator 10)
+	:west-attachment	(:grid-line 30 0)
+	:help-text		"tt_message_status(3)\ntt_message_status_set(3)\n"
+)
+:element separator
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			11
+	:y			158
+	:width			554
+	:height			8
+	:visible		:true
+	:north-attachment	(:obj fileText 14)
+	:east-attachment	(:point 0 11)
+	:west-attachment	(:point 0 11)
+)
+:element addArgButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			22
+	:y			181
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Arg..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj separator 15)
+	:west-attachment	(:point 0 22)
+	:help-text		"tt_message_arg_add(3)\ntt_message_barg_add(3)\ntt_message_iarg_add(3)\ntt_message_xarg_add(3)\n"
+)
+:element setArgButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			180
+	:y			242
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Set Arg Val"
+	:menu			setArgButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj msgPatternButton 7)
+	:west-attachment	(:grid-line 30 0)
+	:help-text		"tt_message_arg_val_set(3)\ntt_message_arg_bval_set(3)\ntt_message_arg_ival_set(3)\ntt_message_arg_xval_set(3)\n"
+)
+:element setContextButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			21
+	:y			246
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Set Context..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj msgCallbackAddButton 10)
+	:west-attachment	(:point 0 22)
+	:help-text		"tt_message_context_set(3)\ntt_message_bcontext_set(3)\ntt_message_icontext_set(3)\ntt_message_xcontext_set(3)\n"
+)
+:element statusLabel
+(
+	:type			:label
+	:x			347
+	:y			181
+	:label-type		:string
+	:label			"TT_DESKTOP_ECANCELLED"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj separator 15)
+	:west-attachment	(:obj statusBox 3)
+	:help-text		"tt_message_status(3)\ntt_message_status_set(3)\n"
+)
+:element sessionButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			275
+	:y			85
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Session:"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj handlerButton 14)
+	:east-attachment	(:obj sessionText 6)
+	:help-text		"tt_message_session(3)\ntt_message_session_set(3)\n"
+)
+:element messageText
+(
+	:type			:text-pane
+	:text-type		:alphanumeric
+	:x			2
+	:y			283
+	:border-frame		:none
+	:num-rows		20
+	:num-columns		81
+	:hscrollbar		:never
+	:vscrollbar		:always
+	:word-wrap		:true
+	:read-only		:true
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj setContextButton 13)
+	:south-attachment	(:obj messagePane 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:help-text		"tt_message_print(3)\n"
+)
+:element handlerButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			268
+	:y			48
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Handler:"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj opButton 14)
+	:east-attachment	(:obj handlerText 6)
+	:help-text		"tt_message_handler(3)\ntt_message_handler_set(3)\n"
+)
+:element msgPatternButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			179
+	:y			218
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Pattern..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj statusBox 5)
+	:west-attachment	(:grid-line 30 0)
+	:help-text		"tt_message_pattern(3)\n"
+)
+:element msgCallbackAddButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			21
+	:y			215
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Callback..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj addArgButton 10)
+	:west-attachment	(:point 0 22)
+	:help-text		"tt_message_callback_add(3)\nTttt_c(5)\n"
+)
+:element dispositionChoice
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			368
+	:y			210
+	:label-type		:string
+	:label			"Disposition:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj statusLabel 8)
+	:east-attachment	(:point 0 22)
+	:help-text		"tt_message_disposition(3)\ntt_message_disposition_set(3)\n"
+	:children		(
+		dispositionChoice_DISCARD_item
+		dispositionChoice_QUEUE_item
+		dispositionChoice_START_item
+		dispositionChoice_QUEUE_START_item
+	)
+)
+:element dispositionChoice_DISCARD_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"DISCARD"
+	:active			:true
+	:selected		:true
+)
+:element dispositionChoice_QUEUE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"QUEUE"
+	:active			:true
+	:selected		:false
+)
+:element dispositionChoice_START_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"START"
+	:active			:true
+	:selected		:false
+)
+:element dispositionChoice_QUEUE_START_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"QUEUE+START"
+	:active			:true
+	:selected		:false
+)
+:element msgSetAttributeButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			500
+	:y			244
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Set"
+	:menu			msgSetAttributeButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj dispositionChoice 5)
+	:east-attachment	(:point 0 22)
+	:help-text		"tt_message_otype(3)\ntt_message_otype_set(3)\ntt_message_object(3)\ntt_message_object_set(3)\ntt_message_handler_ptype(3)\ntt_message_handler_ptype_set(3)\ntt_message_sender_ptype(3)\ntt_message_sender_ptype_set(3)\n"
+)
+:element opButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			304
+	:y			12
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Op:"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 13)
+	:east-attachment	(:obj opText 6)
+	:help-text		"tt_message_op(3)\ntt_message_op_set(3)\n"
+)
+:element messageMenuPane
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:width			580
+	:height			45
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj messageProps 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		tt_cButton
+		generateButton
+	)
+)
+:element tt_cButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			16
+	:y			7
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Message"
+	:menu			tt_cButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 7)
+	:west-attachment	(:point 0 16)
+	:help-text		"tt_message_print(3)\ntt_message_send(3)\ntt_message_send_on_exit(3)\ntt_message_accept(3)\nttdt_message_accept(3)\ntt_message_reject(3)\nttdt_subcontract_manage(3)\ntt_message_reply(3)\ntt_message_fail(3)\ntt_message_destroy(3)\n"
+)
+:element generateButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			126
+	:y			7
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Create"
+	:menu			generateButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 7)
+	:west-attachment	(:obj tt_cButton 11)
+	:help-text		"Tt_message...		tttk_message_create(3)\nTt_pattern...		tt_pattern_create(3)\nC...			Tttt_c(5)\nSignature...		tt_type_comp(1)\nAction...		dtactionfile(4)\nStatus notice...	ttdt_message_accept(3),Status(4)\n"
+)
+:element messageActionPane
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			580
+	:height			48
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		msgCloseButton
+		msgHelpButton
+	)
+)
+:element msgCloseButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Close"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 10)
+	:east-attachment	(:grid-line 45 0)
+	:west-attachment	(:grid-line 30 0)
+)
+:element msgHelpButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 10)
+	:east-attachment	(:grid-line 70 0)
+	:west-attachment	(:grid-line 55 0)
+)
+:element messageProps_footer
+(
+	:type			:container
+	:container-type		:footer
+	:width			580
+	:height			28
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		messageFooterLabel
+	)
+)
+:element messageFooterLabel
+(
+	:type			:label
+	:x			1
+	:y			1
+	:label-type		:string
+	:label			"Tt_message"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:point 0 1)
+)
+:element setArgButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		setArgButton_menu_Arg_0_item
+		setArgButton_menu_Arg_1_item
+		setArgButton_menu_Arg_2_item
+		setArgButton_menu_Arg_3_item
+		setArgButton_menu_Arg_4_item
+		setArgButton_menu_Arg_5_item
+		setArgButton_menu_Arg_6_item
+		setArgButton_menu_Arg_7_item
+		setArgButton_menu_Arg_8_item
+		setArgButton_menu_Arg_9_item
+		setArgButton_menu_Arg_10_item
+		setArgButton_menu_Arg_11_item
+		setArgButton_menu_Arg_12_item
+		setArgButton_menu_Arg_13_item
+		setArgButton_menu_Arg_14_item
+		setArgButton_menu_Arg_15_item
+		setArgButton_menu_Arg_15_item2
+	)
+)
+:element setArgButton_menu_Arg_0_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 0..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 1..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 2..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_3_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 3..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_4_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 4..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_5_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 5..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_6_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 6..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_7_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 7..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_8_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 8..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_9_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 9..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_10_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 10..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_11_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 11..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_12_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 12..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_13_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 13..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_14_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 14..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_15_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg 15..."
+	:active			:true
+)
+:element setArgButton_menu_Arg_15_item2
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Arg >15..."
+	:active			:true
+)
+:element msgSetAttributeButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		msgSetAttributeButton_menu_Otype_item
+		msgSetAttributeButton_menu_Object_item
+		msgSetAttributeButton_menu_Status_String_item
+		msgSetAttributeButton_menu_Handler_Ptype_item
+		msgSetAttributeButton_menu_Sender_Ptype_item
+	)
+)
+:element msgSetAttributeButton_menu_Otype_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Otype..."
+	:active			:true
+)
+:element msgSetAttributeButton_menu_Object_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Object..."
+	:active			:true
+)
+:element msgSetAttributeButton_menu_Status_String_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Status String..."
+	:active			:true
+)
+:element msgSetAttributeButton_menu_Handler_Ptype_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Handler Ptype..."
+	:active			:true
+)
+:element msgSetAttributeButton_menu_Sender_Ptype_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Sender Ptype..."
+	:active			:true
+)
+:element tt_cButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		tt_cButton_menu_Print_item
+		tt_cButton_menu_Send_item
+		tt_cButton_menu_Send_On_Exit_item
+		tt_cButton_menu_Accept_item
+		tt_cButton_menu_Desktop_Accept_item
+		tt_cButton_menu_Reject_item
+		tt_cButton_menu_Subcontract_Manage_item
+		tt_cButton_menu_Reply_item
+		tt_cButton_menu_Fail_item
+		tt_cButton_menu_Destroy_item
+	)
+)
+:element tt_cButton_menu_Print_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Print"
+	:active			:true
+)
+:element tt_cButton_menu_Send_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Send"
+	:active			:true
+)
+:element tt_cButton_menu_Send_On_Exit_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Send On Exit"
+	:active			:true
+)
+:element tt_cButton_menu_Accept_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Accept"
+	:active			:true
+)
+:element tt_cButton_menu_Desktop_Accept_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Desktop Accept"
+	:active			:true
+)
+:element tt_cButton_menu_Reject_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Reject"
+	:active			:true
+)
+:element tt_cButton_menu_Subcontract_Manage_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Subcontract Manage"
+	:active			:true
+)
+:element tt_cButton_menu_Reply_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Reply"
+	:active			:true
+)
+:element tt_cButton_menu_Fail_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Fail"
+	:active			:true
+)
+:element tt_cButton_menu_Destroy_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Destroy"
+	:active			:true
+)
+:element generateButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		generateButton_menu_Tt_message_item
+		generateButton_menu_Tt_pattern_item
+		generateButton_menu_C_item
+		generateButton_menu_Signature_item
+		generateButton_menu_Action_item
+		generateButton_menu_Status_notice_item
+	)
+)
+:element generateButton_menu_Tt_message_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Tt_message..."
+	:active			:true
+)
+:element generateButton_menu_Tt_pattern_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Tt_pattern..."
+	:active			:true
+)
+:element generateButton_menu_C_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"C..."
+	:active			:true
+)
+:element generateButton_menu_Signature_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Signature..."
+	:active			:true
+)
+:element generateButton_menu_Action_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Action..."
+	:active			:true
+)
+:element generateButton_menu_Status_notice_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Status notice..."
+	:active			:true
+)
+:element tttkButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		tttkButton_menu_ttdt_message_accept_item
+		tttkButton_menu_ttdt_subcontract_manage_item
+	)
+)
+:element tttkButton_menu_ttdt_message_accept_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"ttdt_message_accept"
+	:active			:true
+)
+:element tttkButton_menu_ttdt_subcontract_manage_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"ttdt_subcontract_manage"
+	:active			:true
+)
+:connection
+(
+	:from			classChoice_UNDEFINED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setClassUndefined
+)
+:connection
+(
+	:from			classChoice_NOTICE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setClassNotice
+)
+:connection
+(
+	:from			classChoice_REQUEST_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setClassRequest
+)
+:connection
+(
+	:from			classChoice_OFFER_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setClassOffer
+)
+:connection
+(
+	:from			addressChoice_ADDRESS_LAST_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setAddressLast
+)
+:connection
+(
+	:from			addressChoice_PROCEDURE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setAddressProcedure
+)
+:connection
+(
+	:from			addressChoice_OBJECT_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setAddressObject
+)
+:connection
+(
+	:from			addressChoice_HANDLER_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setAddressHandler
+)
+:connection
+(
+	:from			addressChoice_OTYPE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setAddressOtype
+)
+:connection
+(
+	:from			scopeChoice_SCOPE_NONE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setScopeNone
+)
+:connection
+(
+	:from			scopeChoice_SESSION_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setScopeSession
+)
+:connection
+(
+	:from			scopeChoice_FILE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setScopeFile
+)
+:connection
+(
+	:from			scopeChoice_BOTH_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setScopeBoth
+)
+:connection
+(
+	:from			scopeChoice_FILE_IN_SESSION_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setScopeFileInSession
+)
+:connection
+(
+	:from			opText
+	:when			:text-changed
+	:action-type		:call-function
+	:action			setOp
+)
+:connection
+(
+	:from			tt_cButton_menu_Send_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSend
+)
+:connection
+(
+	:from			tt_cButton_menu_Send_On_Exit_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSendOnExit
+)
+:connection
+(
+	:from			tt_cButton_menu_Accept_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgAccept
+)
+:connection
+(
+	:from			tt_cButton_menu_Reject_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgReject
+)
+:connection
+(
+	:from			tt_cButton_menu_Reply_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgReply
+)
+:connection
+(
+	:from			tt_cButton_menu_Fail_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgFail
+)
+:connection
+(
+	:from			tt_cButton_menu_Destroy_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgDestroy
+)
+:connection
+(
+	:from			tttkButton_menu_ttdt_message_accept_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgDtAccept
+)
+:connection
+(
+	:from			tttkButton_menu_ttdt_subcontract_manage_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSubcontractManage
+)
+:connection
+(
+	:from			generateButton_menu_Tt_message_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgClone
+)
+:connection
+(
+	:from			generateButton_menu_Status_notice_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgStatusNotice
+)
+:connection
+(
+	:from			generateButton_menu_Action_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgGenAction
+)
+:connection
+(
+	:from			generateButton_menu_C_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgGenC
+)
+:connection
+(
+	:from			handlerText
+	:when			:text-changed
+	:action-type		:call-function
+	:action			setHandler
+)
+:connection
+(
+	:from			sessionText
+	:when			:text-changed
+	:action-type		:call-function
+	:action			setSession
+)
+:connection
+(
+	:from			fileText
+	:when			:text-changed
+	:action-type		:call-function
+	:action			setFile
+)
+:connection
+(
+	:from			statusBox
+	:when			:value-changed
+	:action-type		:call-function
+	:action			setStatus
+)
+:connection
+(
+	:from			msgCloseButton
+	:to			messageProps
+	:when			:activate
+	:action-type		:builtin
+	:action			:hide
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgHelpButton
+	:when			:activate
+	:action-type		:call-function
+	:action			msgHelp
+)
+:connection
+(
+	:from			msgPatternButton
+	:when			:activate
+	:action-type		:call-function
+	:action			msgPattern
+)
+:connection
+(
+	:from			tt_cButton_menu_Print_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgPrint
+)
+:connection
+(
+	:from			generateButton_menu_Tt_pattern_item
+	:when			:activate
+	:action-type		:call-function
+	:action			genPattern
+)
+:connection
+(
+	:from			generateButton_menu_Signature_item
+	:when			:activate
+	:action-type		:call-function
+	:action			genObserver
+)
+:connection
+(
+	:from			sessionButton
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionSet
+)
+:connection
+(
+	:from			fileButton
+	:when			:activate
+	:action-type		:call-function
+	:action			msgFileSet
+)
+:connection
+(
+	:from			tt_cButton_menu_Subcontract_Manage_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSubcontractManage
+)
+:connection
+(
+	:from			tt_cButton_menu_Desktop_Accept_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgDtAccept
+)
+:connection
+(
+	:from			addArgButton
+	:when			:activate
+	:action-type		:call-function
+	:action			msgArgAdd
+)
+:connection
+(
+	:from			setContextButton
+	:when			:activate
+	:action-type		:call-function
+	:action			msgContextSet
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_0_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_1_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_2_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_3_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_4_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_5_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_6_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_7_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_8_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_9_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_10_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_11_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_12_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_13_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_14_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_15_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			setArgButton_menu_Arg_15_item2
+	:when			:activate
+	:action-type		:call-function
+	:action			setArg
+)
+:connection
+(
+	:from			dispositionChoice_DISCARD_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setDISCARD
+)
+:connection
+(
+	:from			dispositionChoice_QUEUE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setQUEUE
+)
+:connection
+(
+	:from			dispositionChoice_START_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setSTART
+)
+:connection
+(
+	:from			dispositionChoice_QUEUE_START_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setQUEUESTART
+)
+:connection
+(
+	:from			msgAttributeSetButton_menu_message_object_set_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSetObject
+)
+:connection
+(
+	:from			msgAttributeSetButton_menu_message_otype_set_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSetOtype
+)
+:connection
+(
+	:from			msgAttributeSetButton_menu_message_handler_ptype_set_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSetHandlerPtype
+)
+:connection
+(
+	:from			msgAttributeSetButton_menu_message_sender_ptype_set_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSetSenderPtype
+)
+:connection
+(
+	:from			msgSetAttributeButton_menu_Otype_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSetOtype
+)
+:connection
+(
+	:from			msgSetAttributeButton_menu_Object_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSetObject
+)
+:connection
+(
+	:from			msgSetAttributeButton_menu_Handler_Ptype_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSetHandlerPtype
+)
+:connection
+(
+	:from			msgSetAttributeButton_menu_Sender_Ptype_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSetSenderPtype
+)
+:connection
+(
+	:from			opButton
+	:when			:activate
+	:action-type		:call-function
+	:action			chooseOp
+)
+:connection
+(
+	:from			msgCallbackAddButton
+	:when			:activate
+	:action-type		:call-function
+	:action			addCallback
+)
+:connection
+(
+	:from			handlerButton
+	:when			:activate
+	:action-type		:call-function
+	:action			chooseHandler
+)
+:connection
+(
+	:from			msgSetAttributeButton_menu_Status_String_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgSetStatusString
+)
+)

@@ -1,0 +1,42 @@
+/* $XConsortium: README.building /main/2 1996/07/15 14:12:43 drk $ */
+Since dtksh does not use anything like a normal build environment,
+here are some hints.
+
+- Make a Makefile in cdesrc/cde1/dtksh as if it were a normal
+  component
+
+- make includes; make all
+
+  dtksh will build initially fine.
+
+Now, if you change anything, you'll find that just typing "make"
+doesn't do anything.  What you have to do is go to
+cdesrc/cde1/dtksh/ksh93/ship.  Under there you'll find a distorted
+version of the directory structure under ksh93.  Find the directory
+that corresponds to the directory that contains your change and
+remove the file "BUILT".  Now cd back up to dtksh and make, and
+dtksh should remake itself.  Of course, it will recompile many
+more files than you actually built, since dtksh does not use
+make in any recognizable way.
+
+In fact, it appears the best thing to do is go to cde1/dtksh
+and run "ksh MakeClean" which will blow away many files and force
+a clean make.
+
+Be extremely careful: Just because you get a dtksh built at
+the end does *not* mean the build was successful.  There
+are several auxiliary binaries in ksh93/bin that must be built.
+Make sure that ksh93/bin looks like this at the end:
+
+urth 1331$ pwd
+/scde/SunOS_sparc/opt/stable/build/cde1/dtksh/ksh93/bin
+urth 1332$ ls
+feature*    ksh*        proto*      silent*
+ignore*     pax*        shcomp*     suid_exec*
+
+If any of these are missing, search carefully back through
+the make log looking for errors.
+
+
+
+

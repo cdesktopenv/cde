@@ -1,0 +1,452 @@
+<!-- $XConsortium: codegen.sgm /main/10 1996/09/08 19:50:57 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDEMX.XCSA.MAN5.rsml.1">]]><![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN5.rsml.1">]]><refmeta>
+<refentrytitle>dtcodegen</refentrytitle><manvolnum>user cmd</manvolnum></refmeta><refnamediv>
+<refname><command>dtcodegen</command></refname><refpurpose>generate code from
+a &str-XZ; application building services project or module file</refpurpose>
+</refnamediv><!-- CDE Common Source Format, Version 1.0.0--><!-- (c) Copyright
+1993, 1994, 1995 Hewlett-Packard Company--><!-- (c) Copyright 1993, 1994,
+1995 International Business Machines Corp.--><!-- (c) Copyright 1993, 1994,
+1995 Sun Microsystems, Inc.--><!-- (c) Copyright 1993, 1994, 1995 Novell,
+Inc.--><refsynopsisdiv><![ %CDE.C.CDE; [<cmdsynopsis>
+<command>dtcodegen</command><arg choice="opt">&minus;changed</arg><arg choice="opt">&minus;main</arg><arg choice="opt">&minus;merge</arg><arg choice="opt">&minus;nomerge</arg><arg choice="opt">&minus;module&numsp;<replaceable>mymod</replaceable></arg>
+<arg choice="opt">&minus;useWC&numsp;<replaceable>class</replaceable></arg>
+<group><arg>&minus;p</arg><arg>&minus;project&numsp;<replaceable>myproj</replaceable></arg>
+</group><group><arg>&minus;np</arg><arg>&minus;noproject</arg></group><arg
+choice="opt">&minus;showall</arg><arg choice="opt">&minus;noshowall</arg>
+<group><arg>&minus;s</arg><arg>&minus;silent</arg></group><group><arg>&minus;v</arg><arg>&minus;verbose</arg></group><group><arg><replaceable>file</replaceable></arg>
+<arg>&numsp;.&thinsp;.&thinsp;.</arg></group>
+</cmdsynopsis>]]><![ %CDE.C.XO; [<CmdSynopsis>
+<Command>dtcodegen</Command>
+<Arg Choice="opt">&minus;changed</Arg>
+<Arg Choice="opt">&minus;main</Arg>
+<Arg Choice="opt">&minus;merge</Arg>
+<Arg Choice="opt">&minus;nomerge</Arg>
+<Arg Choice="opt">&minus;showall</Arg>
+<Arg Choice="opt">&minus;noshowall</Arg>
+<Group>
+<Arg>&minus;s</Arg>
+<Arg>&minus;silent</Arg>
+</Group>
+<Group>
+<Arg>&minus;v</Arg>
+<Arg>&minus;verbose</Arg>
+</Group>
+<Arg><Replaceable>file</Replaceable></Arg>
+<Arg>&numsp;.&thinsp;.&thinsp;.</Arg>
+</CmdSynopsis>
+]]>
+<cmdsynopsis>
+<command>dtcodegen</command><arg>&minus;help</arg>
+</cmdsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>dtcodegen</command> utility reads <![ %CDE.C.CDE; [Builder
+Interface Language (BIL) ]]>files created by the &str-XZ; application building
+services graphical user interface and produces C, Motif and &str-XZ; source
+code for the user interface and application elements defined. The <![ %CDE.C.CDE; [BIL ]]>files
+supplied can be individual module files <![ %CDE.C.CDE; [(files with a <Filename>.bil</Filename> suffix) ]]>or a project file <![ %CDE.C.CDE; [(files with a <Filename>.bip</Filename> suffix) ]]>that contains references to zero or more module
+files.</para>
+</refsect1><refsect1>
+<title>OPTIONS</title><![ %CDE.C.XO; [<Para>The
+<Command>dtcodegen</Command> utility does not support the &str-Zu; because it uses
+the X Window System convention of full-word options.
+</Para>
+]]>
+<para>The following options are available:</para>
+<variablelist>
+<varlistentry><term><literal>&minus;cha<?Pub Caret>nged</literal></term>
+<listitem>
+<para>Generate only source code for those modules that have changed since
+the last time <command>dtcodegen</command> was run.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;help</literal></term>
+<listitem>
+<para>Write a help message to standard output explaining all <command>dtcodegen</command> options and then terminate.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;main</literal></term>
+<listitem>
+<para>Produce the project files associated with the application's <function>main</function> routine.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;merge</literal></term>
+<listitem>
+<para>Merge generated stubs files with previous versions, perpetuating changes
+made or custom edits done to the previous stubs file. This is the default
+behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;nomerge</literal></term>
+<listitem>
+<para>Do not merge existing and new <Filename>_stubs.c</Filename> files. This
+option overrides the default merging behavior. If both <literal>&minus;merge</literal> and <literal>&minus;nomerge</literal> are used, the one given last
+on the command line takes precedence. <![ %CDE.C.CDE; [</para></listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;module&numsp;</literal><emphasis>mymod</emphasis></term>
+<listitem>
+<para>Generate code for the module <emphasis>mymod</emphasis>, (which is expected
+to be defined in the file <emphasis>mymod</emphasis> <Filename>.bil</Filename>). Using multiple <literal>&minus;module</literal> options includes
+multiple modules in the generated code.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;useWC&numsp;</literal><emphasis>class</emphasis></term>
+<listitem>
+<para>Use the specified widget class whenever possible. Valid values are:
+</para>
+<variablelist>
+<varlistentry><term><literal>dt</literal></term>
+<listitem>
+<para>Generate <Symbol>DtComboBox</Symbol> and <Symbol>DtSpinBox</Symbol>
+widgets. This value retains the CDE 1.0 behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>xm</literal></term>
+<listitem>
+<para>Generate <Symbol>XmComboBox</Symbol> and <Symbol>XmSimpleSpinBox</Symbol> widgets. This value selects the Motif/Xm behavior.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;p&thinsp;|&thinsp;&minus;project&numsp;</literal> <emphasis>myproj</emphasis></term>
+<listitem>
+<para>Generate code for the project <emphasis>myproj</emphasis>, (which is
+expected to be defined in the file <emphasis>myproj</emphasis> <Filename>.bip</Filename>).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;noproject</literal></term>
+<listitem>
+<para>Ignore the <emphasis>project</emphasis><Filename>.bip</Filename> project
+file and use default project settings instead. This is useful in producing
+an application from one or a few module files (for example, for testing) as
+an alternative to generating the entire project. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;showall</literal></term>
+<listitem>
+<para>Cause the generated application to show (map) all application windows
+(main windows and dialogs) at startup, ignoring whether they are set to be
+initially visible or not. If no project is specified on the command line, <![ %CDE.C.CDE; [either
+by using <literal>&minus;project</literal> or by specifying a <emphasis>project</emphasis> <Filename>.bip</Filename> file as an
+operand, ]]><command>dtcodegen</command> performs as if <literal>&minus;showall</literal> had been specified. (The <literal>&minus;noshowall</literal> option
+suppresses this behavior).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;noshowall</literal></term>
+<listitem>
+<para>Cause the generated application to show at startup (map) only those
+windows (main windows and dialogs) whose initially visible attribute is true.
+If a project is specified on the command line, <![ %CDE.C.CDE; [either by
+using <literal>&minus;project</literal> or by specifying a <emphasis>project</emphasis> <Filename>.bip</Filename> file as an operand, ]]> <command>dtcodegen</command> performs as if <literal>&minus;noshowall</literal> had
+been specified. (The <literal>&minus;showall</literal> option suppresses this
+behavior).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;s&thinsp;|&thinsp;&minus;silent</literal></term>
+<listitem>
+<para>Work silently, producing no output except error messages while generating
+source code.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;v&thinsp;|&thinsp;&minus;verbose</literal></term>
+<listitem>
+<para>Be more verbose in providing progress and status messages during the
+generation of source code.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>OPERANDS</title>
+<para>The following operand is supported:</para>
+<variablelist>
+<varlistentry><term><symbol role="Variable">file</symbol></term>
+<listitem>
+<para>A pathname of a project or module file. <![ %CDE.C.CDE; [It is not necessary
+to specify the <Filename>.bip</Filename> or <Filename>.bil</Filename> extension
+for any file because <command>dtcodegen</command> uses a sequence of search
+algorithms in the current directory to determine what files should be read
+in order to satisfy the specified command line.</para><para>If no
+<symbol role="Variable">file</symbol> operands are given, <command>dtcodegen</command>
+searches the current directory for a project file (a file with a <Filename>.bip</Filename> suffix). If one is found, it is used as if it had been specified
+on the command line. If more than one is found, the first one encountered
+is used.</para><para>If one or more <symbol role="Variable">file</symbol>
+operands are specified, <command>dtcodegen</command> checks to see if any
+of them is a project file in the current working directory, and uses the
+first one found. If none of the <symbol role="Variable">file</symbol> operands
+are project files, then the directory is searched for a project file. This
+search is similar to the no-operand case, but is modified to look for a project
+file that contain modules corresponding to other <symbol role="Variable">file</symbol> operands.</para><para>Operands other than the project file are
+taken to be module names.</para></listitem>
+</varlistentry>
+</variablelist>
+<para>See the EXAMPLES section for more on the interpretation of filename
+operands and how the search features of <command>dtcodegen</command> may be
+used.</para>]]><![ %CDE.C.XO; [</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>]]></refsect1><refsect1>
+<title>RESOURCES</title>
+<para>If the <literal>&minus;useWC</literal> option is not specified, <command>dtcodegen</command> uses the <literal>useWidgetClass</literal> resource in
+the Xt resources table to determine which class to use for generated widgets.
+The class/type is <Symbol>XmCUseWidgetClass</Symbol>/<Symbol>XtEnum</Symbol> and the valid
+values are:</para>
+<variablelist>
+<varlistentry><term><literal>xm</literal> (the default)</term>
+<listitem>
+<para>Generate <Symbol>XmComboBox</Symbol> and <Symbol>XmSimpleSpinBox</Symbol> widgets. This value selects the Motif/Xm behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>dt</literal></term>
+<listitem>
+<para>Generate <Symbol>DtComboBox</Symbol> and <Symbol>DtSpinBox</Symbol>
+widgets. This value retains the CDE 1.0 behavior.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>STDIN</title>
+<para>Not used.</para>
+</refsect1><refsect1>
+<title>INPUT FILES</title>
+<para>All input files are text files <![ %CDE.C.XO; [in the format used by the &str-XZ; application building services
+graphical user interface.
+See
+<XRef Linkend="XCSA.APPB.anch.2" Role="3">. ]]><![ %CDE.C.CDE; [in the BIL
+format. See &cdeman.BIL;. ]]></para>
+</refsect1><refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>The following environment variables affect the execution of <command>dtcodegen</command>:</para>
+<variablelist>
+<varlistentry><term><systemitem class="EnvironVar">LANG</systemitem></term>
+<listitem>
+<para>Provide a default value for the internationalization variables that
+are unset or null. If <systemitem class="EnvironVar">LANG</systemitem> is
+unset or null, the corresponding value from the implementation-specific default
+locale will be used. If any of the internationalization variables contains
+an invalid setting, the utility behaves as if none of the variables had been
+defined.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>LC_ALL</emphasis></term>
+<listitem>
+<para>If set to a non-empty string value, override the values of all the other
+internationalization variables.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>LC_MESSAGES</emphasis></term>
+<listitem>
+<para>Determine the locale that is used to affect the format and contents
+of diagnostic messages written to standard error and informative messages
+written to standard output.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">NLSPATH</systemitem></term>
+<listitem>
+<para>Determine the location of message catalogues for the processing of <emphasis>LC_MESSAGES</emphasis>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>ASYNCHRONOUS EVENTS</title><![ %CDE.C.XO; [<Para>Default.
+</Para>
+]]><![ %CDE.C.CDE; [<para>The <command>dtcodegen</command> utility takes the
+standard action for all signals.</para>]]></refsect1><refsect1>
+<title>STDOUT</title>
+<para>When <literal>&minus;help</literal> is specified, <command>dtcodegen</command> writes to standard output a usage message in an unspecified format.
+Otherwise, standard output is not used.</para>
+</refsect1><refsect1>
+<title>STDERR</title>
+<para>When <literal>&minus;verbose</literal> is specified, <command>dtcodegen</command> writes to standard error informational progress messages
+and diagnostic messages in an unspecified format.
+Otherwise, standard error is used only for diagnostic messages.</para>
+</refsect1><refsect1>
+<title>OUTPUT FILES</title>
+<para>The
+<command>dtcodegen</command> utility produces the following files:</para>
+<variablelist>
+<varlistentry><term><emphasis>modname</emphasis><Filename>_ui.c</Filename></term>
+<listitem>
+<para>The primary source code file for module
+<emphasis>modname</emphasis>, containing C code to create the objects in the
+module and
+establish connections for those objects.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>modname</emphasis><Filename>_ui.h</Filename></term>
+<listitem>
+<para>Declarations and C externs for module
+<emphasis>modname</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>modname</emphasis><Filename>_stubs.c</Filename></term>
+<listitem>
+<para>Callback functions for the element handlers specific to module
+<emphasis>modname</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>project</emphasis><Filename>.c</Filename></term>
+<listitem>
+<para>If
+<command>dtcodegen</command> is generating code for a project, this file contains
+<function>main</function> plus any callback functions that are common across
+modules.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>project</emphasis><Filename>.h</Filename></term>
+<listitem>
+<para>If
+<command>dtcodegen</command> is generating code for a project, this file contains
+declarations for any callback functions and C externs
+that are common across interfaces.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>.dtcodegen.log</filename></term>
+<listitem>
+<para>A record of per-module code generation and the date and time of
+each module as it was processed.
+This data is required to provide support for the
+<literal>&minus;changed</literal> option as part of determining which files
+need to be regenerated and
+which ones do not.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Additional application code should be added to the
+<emphasis>modname</emphasis> <Filename>_stubs.c</Filename>, <emphasis>project</emphasis> <Filename>.c</Filename> and
+<emphasis>project</emphasis> <Filename>.c</Filename> files, as appropriate,
+because their contents are merged across runs of
+<command>dtcodegen</command>.</para>
+</refsect1><refsect1>
+<title>EXTENDED DESCRIPTION</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXIT STATUS</title>
+<para>The following exit values are returned:</para>
+<variablelist>
+<varlistentry><term>0</term>
+<listitem>
+<para>successful completion</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>>0</term>
+<listitem>
+<para>an error occurred</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>CONSEQUENCES OF ERRORS</title>
+<para>Because code generation involves the sequential production of a set
+of application files, errors that cause the
+<command>dtcodegen</command> utility to exit prematurely also may result in
+some module or
+project source files having been generated while others were not.
+Attempts to build the application from this mix of new and old
+generated code produce undefined results.</para>
+</refsect1><refsect1>
+<title>APPLICATION USAGE</title>
+<para>Typically the
+<command>dtcodegen</command> utility is used indirectly through the
+<![ %CDE.C.XO; [&str-XZ; application building services graphical user interface.
+]]><![ %CDE.C.CDE; [&str-XZ; Application Builder's Code Generator dialog.
+]]>This allows application code to be generated while the user is working
+with the Application Builder rather than through a separate interface or
+shell command line.
+<![ %CDE.C.CDE; [The Code Generator dialog provides a graphical user interface
+for
+<command>dtcodegen</command> that makes it easy to generate code, build the
+resulting application
+and then execute it.
+]]></para>
+<para>In some cases, however, it may be desirable to use the
+<command>dtcodegen</command> utility directly.
+A common example of this usage is to employ the
+code generator from within an application Makefile to produce
+a portion of the application code from pre-existing project or module files.
+</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>Run the code generator on the application defined by the
+project file
+<literal>myproject.bip</literal>:</para>
+<informalexample remap="indent">
+<programlisting><![ %CDE.C.XO; [dtcodegen myproject.bip
+]]><![ %CDE.C.CDE; [dtcodegen &minus;p myproject
+]]></programlisting>
+</informalexample>
+<para>Run the code generator for the project
+<![ %CDE.C.XO; [in file
+]]><literal>myproject.bip</literal>, but only generate code for the module
+<![ %CDE.C.XO; [in file
+]]><literal>modulename.bil</literal>:</para>
+<informalexample remap="indent">
+<programlisting><![ %CDE.C.XO; [dtcodegen myproject.bip modulename.bil
+]]><![ %CDE.C.CDE; [dtcodegen myproject.bip modulename
+]]></programlisting>
+</informalexample><![ %CDE.C.CDE; [<para>Search the current working directory
+for a project file that
+references the module
+<literal>mymodule</literal> and then silently generate code for just that
+module:</para><informalexample remap="indent">
+<programlisting>dtcodegen &minus;silent mymodule</programlisting>
+</informalexample><para>In the following example:</para><informalexample remap="indent">
+<programlisting>dtcodegen name1 name2</programlisting>
+</informalexample><para>if the project file
+<literal>name1.bip</literal> exists, it is used and code is generated for
+module
+<literal>name2.bil</literal>. Otherwise, both
+<literal>name1</literal> and
+<literal>name2</literal> are taken as the name of modules, the current working
+directory is
+searched for a project file that references both modules, and code
+for those two modules is generated.</para><para>Run the code generator, which
+searches the current working
+directory for a project file to be processed, and generates all code
+associated with that project:</para><informalexample remap="indent">
+<programlisting>dtcodegen</programlisting>
+</informalexample>]]>
+<para>Generate just the files associated with the main routine
+for the project
+<![ %CDE.C.XO; [in file
+<Literal>myproject-file</Literal>, ]]><![ %CDE.C.CDE; [<literal>myproject</literal>, ]]>namely
+<Filename>myproject.c</Filename> and
+<Filename>myproject.h</Filename>:</para>
+<informalexample remap="indent">
+<programlisting><![ %CDE.C.XO; [dtcodegen &minus;main myproject-file
+]]><![ %CDE.C.CDE; [dtcodegen &minus;main &minus;p myproject
+]]></programlisting>
+</informalexample>
+<para>Search the current working directory for a project file and,
+if one is found, generate code for only those modules that have changed
+since the code generator was last run:</para>
+<informalexample remap="indent">
+<programlisting>dtcodegen &minus;changed</programlisting>
+</informalexample>
+<para>Generate, for the project
+<![ %CDE.C.XO; [in file
+]]><literal>myproject.bip</literal>, code only for those modules among the
+set
+<![ %CDE.C.XO; [of files named
+]]><literal>module1</literal>, <literal>module2</literal> and
+<literal>module3</literal> that have changed since the last time the code
+generator was run:</para>
+<informalexample remap="indent">
+<programlisting><![ %CDE.C.XO; [dtcodegen &minus;changed myproject.bip module1 module2 module3
+]]><![ %CDE.C.CDE; [dtcodegen &minus;changed &minus;p myproject module1 module2 module3
+]]></programlisting>
+</informalexample>
+</refsect1><refsect1>
+<title>SEE ALSO</title><![ %CDE.C.XO; [<Para>None.
+</Para>
+]]><![ %CDE.C.CDE; [<para>&cdeman.dtbuilder;, &cdeman.BIL;.
+</para>]]></refsect1></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->
+<?Pub *0000022239>

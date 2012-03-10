@@ -1,0 +1,78 @@
+<!-- $XConsortium: Started.sgm /main/9 1996/09/08 20:16:26 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN314.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN314.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Started</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Started</Symbol></RefName>
+<RefPurpose>a tool has started
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Synopsis>Started(in string <Emphasis>vendor</Emphasis>,
+        in string <Emphasis>toolName</Emphasis>,
+        in string <Emphasis>toolVersion</Emphasis>);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Started</Symbol> notice announces that
+a tool has started.
+</Para>
+<Para>The
+<Emphasis>vendor</Emphasis> argument
+is the vendor of the started tool.
+</Para>
+<Para>The
+<Emphasis>toolName</Emphasis> argument
+is the name of the started tool.
+</Para>
+<Para>The
+<Emphasis>toolVersion</Emphasis> argument
+is the version of the started tool.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>None.</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>A pattern observing the
+<Symbol Role="Message">Started</Symbol> request can be registered as
+in the following example:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_pattern pat = tt_pattern_create();
+tt_pattern_category_set(pat, TT_OBSERVE);
+tt_pattern_scope_add(pat, TT_SESSION);
+char *ses = tt_default_session();
+tt_pattern_session_add(pat, ses);
+tt_free(ses);
+tt_pattern_op_add(pat, Tttk_Started);
+tt_pattern_op_add(pat, Tttk_Stopped);
+tt_pattern_callback_add(pat, my_callback);
+tt_pattern_register(pat);
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Message">Started</Symbol> request can be sent with
+&cdeman.ttdt.open;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.tt.free;, &cdeman.tt.pattern.callback.add;, &cdeman.tt.pattern.category.set;, &cdeman.tt.pattern.op.add;, &cdeman.tt.pattern.register;, &cdeman.tt.pattern.scope.add;, &cdeman.tt.pattern.session.add;, &cdeman.ttdt.open;; <Symbol Role="Message">Stopped</Symbol> notice.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

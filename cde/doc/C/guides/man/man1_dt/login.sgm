@@ -1,0 +1,2076 @@
+<!-- $XConsortium: login.sgm /main/19 1996/11/15 15:28:54 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN25.rsml.1" remap="">
+<refmeta><refentrytitle>dtlogin</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtlogin</command></refname><refpurpose>CDE login
+service </refpurpose></refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtlogin</command><arg choice="opt">&minus;config<replaceable>configuration_file</replaceable></arg><arg choice="opt">&minus;daemon</arg><arg choice="opt">&minus;debug<replaceable>debug_level</replaceable></arg><arg choice="opt">&minus;error<replaceable>error_log_file</replaceable></arg><arg choice="opt">&minus;nodaemon</arg><arg choice="opt">&minus;resources<replaceable>resource_file</replaceable></arg>
+<arg choice="opt">&minus;server<replaceable>server_entry</replaceable></arg>
+<arg choice="opt">&minus;udpPort<replaceable>port_number</replaceable></arg>
+<arg choice="opt">&minus;session<replaceable>session_program</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<refsect2>
+<title>Key Supported Tasks</title>
+<para>The <command>dtlogin</command> client supports the following key tasks:
+</para>
+<itemizedlist><listitem><para>Launch of dtgreet login screen for explicitly
+managed local and remote displays and XDMCP managed remote displays.</para>
+</listitem><listitem><para>Access to traditional terminal (character) login
+from GUI login screen.</para>
+</listitem><listitem><para>System dependent user authentication and login.
+</para>
+</listitem><listitem><para>Launching the selected session.</para>
+</listitem></itemizedlist>
+<para>The <command>dtlogin</command> client provides services similar to those
+provided by <filename moreinfo="RefEntry">init</Filename>(1m), <filename moreinfo="RefEntry">getty</filename>(1m) and <filename moreinfo="RefEntry">login</filename>(1) on character terminals: prompting
+for login and password, authenticating the user, and running a "session."
+</para>
+<para>A "session" is defined by the lifetime of a particular process; in
+the traditional character-based terminal world, it is the user's login shell
+process. In the DT context, it is the DT Session Manager.</para>
+<para>If the DT Session Manager is not used, the typical substitute is either
+a window manager with an exit option, or a terminal emulator running a shell,
+where the lifetime of the terminal emulator is the lifetime of the shell process
+that it is running; thus reducing the X session to an emulation of the character-based
+terminal session.</para>
+<para>When the session is terminated, <command>dtlogin</command> resets the
+X server and (optionally) restarts the whole process.</para>
+<para>The <command>dtlogin</command> client supports management of remote
+displays using the X Display Manager Control Protocol (XDMCP), Version 1.0.
+</para>
+<para>When <command>dtlogin</command> receives an Indirect query via XDMCP,
+it can run a chooser process to perform an XDMCP BroadcastQuery (or an XDMCP
+Query to specified hosts) on behalf of the display and offer a menu of possible
+hosts that offer XDMCP display management. This feature is useful with X
+terminals that do not offer a host menu themselves.</para>
+<para>Because <command>dtlogin</command> provides the first interface that
+users see, it is designed to be simple to use and easy to customize to the
+needs of a particular site.</para>
+</refsect2>
+<refsect2>
+<title>Login Window</title>
+<para>The Login window allows the user to enter a user name and password, specify
+a locale, and select a startup session. A user may also reset the login screen
+or suspend the X server to access the character login prompt.
+</para>
+<para>Contents of Login window:</para>
+<variablelist>
+<varlistentry><term>login field</term>
+<listitem>
+<para>Entry field to enter user name.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>password field</term>
+<listitem>
+<para>Entry field to enter user password (no-echo).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>OK</term>
+<listitem>
+<para>Authenticate user and start a session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Clear</term>
+<listitem>
+<para>Clear login and password field.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Options</term>
+<listitem>
+<para>Display menu for language (locale), session, command line login
+(suspend the X server), and login screen reset.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Help</term>
+<listitem>
+<para>Display help message.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Login Window &mdash; Options Menu</title>
+<para>The Options menu allows the user to specify a locale for the startup session,
+select a startup session, suspend the X server to access the character login
+prompt, or reset the login screen.
+</para>
+<para>Contents of Options Menu:</para>
+<variablelist>
+<varlistentry><term>Languages</term>
+<listitem>
+<para>Show Language menu.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Sessions</term>
+<listitem>
+<para>Show Sessions menu.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Command Line Login</term>
+<listitem>
+<para>Display character login prompt (local displays only). Enabled when
+<command>dtlogin</command> is started by the system at boot time (see
+<command>dtconfig</command> man page). Disabled if
+<command>dtlogin</command> is started manually from a command line
+"root" login session. This type of manual login is performed for
+security reasons since it places the user in a running "root" session.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Reset Login Screen</term>
+<listitem>
+<para>Restart X Server and return to login screen.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Login Window &mdash; Language Menu</title>
+<para>The Language menu displays the languages (locales)
+available in the CDE environment. Selecting a language
+sets the <systemitem class="environvar">LANG</systemitem> environment variable to the selected language and
+restarts the login screen in that language.
+Login screen
+localization and <systemitem class="environvar">LANG</systemitem> return to the default value upon conclusion of the session.
+</para>
+<para>The contents of this menu can vary depending upon the locales installed
+on the system and can be overridden by using the
+<literal>languageList</literal> resource. The default locale of C can be
+overridden using the <literal>language</literal> resource.
+</para>
+<para>The system or <literal>languageList</literal> locales specified are
+displayed as menu items in the Languages menu. Alternate text to be displayed
+may be specified for a given locale name by using the <literal>languageName</literal> resource.</para>
+</refsect2>
+<refsect2>
+<title>Login Window &mdash; Sessions Menu</title>
+<para>The Sessions menu allows the user to select which
+of the following sessions to start:</para>
+<variablelist>
+<varlistentry><term>Current</term>
+<listitem>
+<para>Start the user's most recent session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Home</term>
+<listitem>
+<para>Start the user's home session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>display-name</emphasis> - Current</term>
+<listitem>
+<para>Create a new display-specific session and start the first of the following
+sessions that exists: <orderedlist><listitem><para>display-specific Home
+</para>
+</listitem><listitem><para>generic Home</para>
+</listitem><listitem><para>new user (initial) session</para>
+</listitem></orderedlist></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>display-name</emphasis> - Home</term>
+<listitem>
+<para>Create a new display-specific session and start the user's generic home
+session if it exists. Otherwise, start a new user session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Fail-safe Session</term>
+<listitem>
+<para>Start a fail-safe session (Xfailsafe)</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Although a user's list of sessions is not known until after the user
+logs in, the dialog presents all of the session choices. If a user selects
+a session that does not exist, the Session Manager (<command>dtsession</command>)
+takes the following
+actions. If the user selects:</para>
+<variablelist>
+<varlistentry><term>Home</term>
+<listitem>
+<para>The Session Manager
+starts a new user session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Current</term>
+<listitem>
+<para>The Session Manager
+starts the user's home session if it exists.
+If it does not, it starts a new user session.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>If the user selects a display-specific session and one does not exist,
+the Session Manager posts a warning dialog stating that a new session will
+be created. The warning dialog contains three buttons:</para>
+<variablelist>
+<varlistentry><term><literal>Cancel Login</literal></term>
+<listitem>
+<para>Cancels the login and returns the user to the login screen.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Literal>OK</Literal></term>
+<listitem>
+<para>If a display-specific Home session was selected,
+the Session Manager
+creates a new display-specific session and starts the user's generic
+home session if it exists. If it does not exist, it starts a new user session.
+</para>
+<para>If a display-specific Current session was selected,
+the Session Manager
+creates a new display-specific <?Pub Caret>session and starts
+a display-specific home, generic home, or new user session, depending on which
+it finds first.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Help</literal></term>
+<listitem>
+<para>Displays help text about the warning dialog.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Controlling The Server</title>
+<para>The <command>dtlogin</command> client controls local servers using
+POSIX signals. <Symbol>SIGHUP</Symbol> is expected to reset the server,
+closing all client connections and performing other clean up duties. <Symbol>SIGTERM</Symbol> is expected to terminate the server. If these signals do
+not perform the expected actions, the resources <systemitem class="resource">resetSignal</systemitem> and <systemitem class="resource">termSignal</systemitem>
+can specify alternate signals.</para>
+<para>To control remote servers not using XDMCP, <command>dtlogin</command>
+searches the window hierarchy on the display and uses the KillClient X protocol
+request in an attempt to clean up the terminal for the next session. This
+may not actually kill all of the clients, since only those that have created
+windows are noticed. XDMCP provides a more sure mechanism; when <command>dtlogin</command> closes its initial connection, the session is over and the
+terminal is required to close all other connections.</para>
+</refsect2>
+<refsect2>
+<title>Controlling Dtlogin</title>
+<para>The <command>dtlogin</command> client responds to two signals: <Symbol>SIGHUP</Symbol> and <Symbol>SIGTERM</Symbol>. When sent a <Symbol>SIGHUP</Symbol>,
+<command>dtlogin</command> rereads the configuration file and the file specified
+by the servers resource and determines whether entries have been added or
+removed. If a new entry has been added, <command>dtlogin</command> starts a session on the associated
+display. Entries that have been removed are disabled immediately, meaning
+that any session in progress is terminated without notice, and no new session
+is started.</para>
+<para>When sent a <Symbol>SIGTERM</Symbol>, <command>dtlogin</command> terminates all sessions
+in progress and exits. This can be used when shutting down the system.</para>
+</refsect2>
+<refsect2>
+<title>Internationalization</title>
+<para>All labels and messages are localizable. The message catalog <filename>dtlogin.cat</filename>
+contains the localized representations of the default labels and messages.
+The <command>dtlogin</command> client reads the appropriate message catalog
+indicated by the <systemitem class="EnvironVar">LANG</systemitem> environment
+variable and displays the localized strings. An option on the authentication
+screen allows the user to override the default language for the subsequent
+session. If the authentication screen has been localized for the selected
+language, it is redisplayed in that language; otherwise, it is displayed
+in the default language. In either case, the <systemitem class="environvar">LANG</systemitem> environment variable is
+set appropriately for the resulting session.</para>
+<para>The resource <literal>language</literal> is available in the <command>dtlogin</command> configuration file to change the default language for a
+display. The resource <literal>languageList</literal> is available in the <command>dtlogin</command> configuration file to override the default set of languages
+displayed on the authentication screen. The resource <literal>languageName</literal> is available to provide a mapping from locale names to the text
+displayed on the Language menu.</para>
+</refsect2>
+<refsect2>
+<title>Authentication And Auditing</title>
+<para>The <command>dtlogin</command> client performs traditional local UNIX
+login and auditing. Additional authentication or auditing function such as
+Kerberos or B1 may be added by individual vendors.</para>
+</refsect2>
+<refsect2>
+<title>X Server Security</title>
+<para>The X server provides both user-based and host-based access control.
+</para>
+<para>By default, <command>dtlogin</command> uses user-based access control
+to the X server (MIT-MAGIC-COOKIE-1). This level of security allows access
+control on a per-user basis. It is based on a scheme where if a client passes
+authorization data which is the same as the server has, it is allowed access.
+When a user logs in, this authorization data is by default stored and protected
+in the <Filename>$HOME/.Xauthority</Filename> file.</para>
+<para>However, using host-based access control mechanisms may be preferable
+in environments with unsecure networks as user-based access control allows
+any host to connect, given that it has discovered the private key. Another
+drawback to user-based access control is that R2 or R3 clients will be unable
+to connect to the server.</para>
+<para>The <literal>authorize</literal> resource controls whether user-based
+or host-based access control is used by <command>dtlogin</command>. See also
+the <literal>Xserver</literal>, <literal>Xsecurity</literal>, <literal>xhost</literal>, and <literal>xauth</literal> man pages for more information.
+</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para>All options, except <literal>&minus;config</literal>, specify values
+that can also be specified in the configuration file as resources. Typically,
+customization is done via the configuration file rather than command line
+options. The options are most useful for debugging and one-shot tests.</para>
+<variablelist>
+<varlistentry><term>&minus;config configuration_file</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies a resource file that specifies the remaining configuration
+parameters. This replaces the <command>dtlogin</command> default Xconfig file. See the Xconfig
+section for more information.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&minus;daemon</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies True as the value for the <literal>daemonMode</literal>
+resource. This makes <command>dtlogin</command> close all file descriptors,
+disassociate the controlling terminal and put itself in the background when
+it first starts up (just like the host of other daemons).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&minus;debug debug_level</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the numeric value for the <literal>debugLevel</literal> resource.
+A non-zero value causes <command>dtlogin</command> to print debugging statements to the terminal;
+it also disables the <literal>daemonMode</literal> resource, forcing <command>dtlogin</command> to run synchronously.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&minus;error error_log_file</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the value for the <literal>errorLogFile</literal> resource.
+See the Xerrors section for more information.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&minus;nodaemon</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies False as the value for the <literal>daemonMode</literal>
+resource.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&minus;resources resource_file</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the value for the <literal>resources</literal> resource.
+See the Xresources section for more information.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&minus;server server_entry</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the value for the <literal>servers</literal> resource. See
+the Xservers section for more information.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&minus;udpPort port_number</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the value for the <literal>requestPort</literal> resource.
+This sets the port-number that <command>dtlogin</command> monitors for XDMCP requests. Since
+XDMCP uses the registered well-known udp port 177, this resource should probably
+not be changed except for debugging.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&minus;session session_program</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the value for the <literal>session</literal> resource. See
+the Xsession section for more information.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN</title>
+<para>Exit values are:</para>
+<variablelist>
+<varlistentry><term>0</term>
+<listitem>
+<para>Successful completion.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>>0</term>
+<listitem>
+<para>Error condition occurred.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<para>The <command>dtlogin</command> client is controlled via the contents
+of the <command>dtlogin</command> configuration file, the default being <Filename>/usr/dt/config/Xconfig</Filename>. Some resources control the behavior of <command>dtlogin</command> in general, some can be specified for a particular display.
+</para>
+<refsect2>
+<title>GENERAL RESOURCES</title>
+<para>The <command>dtlogin</command> general resources are not display-specific
+and apply to all displays where appropriate.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.96in">
+<colspec align="left" colwidth="140*">
+<colspec align="left" colwidth="148*">
+<colspec align="left" colwidth="67*">
+<colspec align="left" colwidth="136*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">accessFile</systemitem></entry>
+<entry align="left" valign="top"><classname>AccessFile</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">authDir</systemitem></entry>
+<entry align="left" valign="top"><classname>AuthDir</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">/var/dt</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">autoRescan</systemitem></entry>
+<entry align="left" valign="top"><classname>AutoRescan</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">daemonMode</systemitem></entry>
+<entry align="left" valign="top"><classname>DaemonMode</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">debugLevel</systemitem></entry>
+<entry align="left" valign="top"><classname>DebugLevel</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">0</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">errorLogFile</systemitem></entry>
+<entry align="left" valign="top"><classname>ErrorLogFile</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">errorLogSize</systemitem></entry>
+<entry align="left" valign="top"><classname>ErrorLogSize</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">50</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">exportList</systemitem></entry>
+<entry align="left" valign="top"><classname>ExportList</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">fontPathHead</systemitem></entry>
+<entry align="left" valign="top"><classname>FontPathHead</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">fontPathTail</systemitem></entry>
+<entry align="left" valign="top"><classname>FontPathTail</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">keyFile</systemitem></entry>
+<entry align="left" valign="top"><classname>KeyFile</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">/usr/dt/config/Xkeys</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">lockPidFile</systemitem></entry>
+<entry align="left" valign="top"><classname>LockPidFile</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">networkDevice</systemitem></entry>
+<entry align="left" valign="top"><classname>NetworkDevice</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">/dev/dtremote</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">pidFile</systemitem></entry>
+<entry align="left" valign="top"><classname>PidFile</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">removeDomainname</systemitem></entry>
+<entry align="left" valign="top"><classname>RemoveDomainname</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">requestPort</systemitem></entry>
+<entry align="left" valign="top"><classname>RequestPort</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">177</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">servers</systemitem></entry>
+<entry align="left" valign="top"><classname>Servers</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">:0 Local local /system_dependent_path/X :0</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">sysParmsFile</systemitem></entry>
+<entry align="left" valign="top"><classname>SysParmsFile</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top"><filename>/system_dependent_path</filename></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">timeZone</systemitem></entry>
+<entry align="left" valign="top"><classname>TimeZone</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">wakeupInterval</systemitem></entry>
+<entry align="left" valign="top"><classname>WakeupInterval</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">10</entry></row>
+</tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>accessFile</title>
+<para>To prevent unauthorized XDMCP service and to allow forwarding of XDMCP
+IndirectQuery requests, this file contains a database of hostnames which are
+either allowed direct access to this machine, or have a list of hosts to which
+queries should be forwarded. The format of this file is described in the
+Xaccess section. If not set, all hosts will be allowed XDMCP service.</para>
+</refsect2>
+<refsect2>
+<title>authDir</title>
+<para>This is a directory name that <command>dtlogin</command> uses to temporarily
+store authorization files for displays using XDMCP.</para>
+</refsect2>
+<refsect2>
+<title>autoRescan</title>
+<para>This boolean controls whether <command>dtlogin</command> rescans the
+configuration file and server file after a session terminates and the files
+have changed. You can force <command>dtlogin</command> to reread these files
+by sending a <Symbol>SIGHUP</Symbol> to the main process.</para>
+</refsect2>
+<refsect2>
+<title>daemonMode</title>
+<para>The <command>dtlogin</command> client can make itself into an unassociated
+daemon process. This is accomplished by forking and leaving the parent process
+to exit, then closing file descriptors and releasing the controlling terminal.
+This is inconvenient when attempting to debug <command>dtlogin</command>.
+Setting this resource to "false" disables daemonMode.</para>
+<para>If <command>dtlogin</command> is started from <Filename>/etc/inittab</Filename>, it should not be run in daemon mode. Otherwise the init process
+will think it has terminated and will attempt to restart it.</para>
+</refsect2>
+<refsect2>
+<title>debugLevel</title>
+<para>A non-zero value specified for this integer resource enables debugging
+information to be printed. It also disables daemon mode, which redirects the
+information into the bit-bucket.</para>
+</refsect2>
+<refsect2>
+<title>errorLogFile</title>
+<para>Error output is normally directed at the system console. To redirect
+it, set this resource to any file name. This file contains any output directed
+to stderr by Xsetup, Xstartup and Xreset.</para>
+</refsect2>
+<refsect2>
+<title>errorLogSize</title>
+<para>This resource specifies the maximum size of the error log file in kilobytes.
+When the limit is reached <command>dtlogin</command> will delete the oldest
+entries in the file until the file size is reduced to 75% of the maximum.
+</para>
+<para>Note that the <systemitem class="resource">errorLogFile</systemitem> is
+shared by <command>dtlogin</command>
+and the X server process. The <systemitem class="resource">errorLogSize</systemitem>
+limit may be exceeded if large numbers
+if large numbers of errors are logged by the X server before
+<command>dtlogin</command> detects the size change.
+</para>
+</refsect2>
+<refsect2>
+<title>exportList</title>
+<para>This resource can contain a set of variable names separated by a space
+or tab. Each variable named is obtained from the <command>dtlogin</command>
+environment and loaded into the environment of the server and session. See
+the Environment section for details.</para>
+</refsect2>
+<refsect2>
+<title>fontPathHead</title>
+<para>This resource value is prepended to the default X server font path.
+</para>
+</refsect2>
+<refsect2>
+<title>keyFile</title>
+<para>XDM-AUTHENTICATION-1 style XDMCP authentication requires that a private
+key be shared between <command>dtlogin</command> and the terminal. This resource
+specifies the file containing those values. Each entry in the file consists
+of a display name and the shared key. By default, <command>dtlogin</command>
+does not include support for XDM-AUTHENTICATION-1 because it requires DES,
+which is not generally distributable.</para>
+</refsect2>
+<refsect2>
+<title>lockPidFile</title>
+<para>This resource controls whether <command>dtlogin</command> uses file
+locking to prevent multiple instances of <command>dtlogin</command> from executing
+concurrently.</para>
+</refsect2>
+<refsect2>
+<title>networkDevice</title>
+<para>For remote connections, the value for 'line' in <Filename>/etc/utmp</Filename>
+must also exist as a device in the <Filename>/dev</Filename> directory for commands
+such as <literal>finger</literal> to operate properly. This resource specifies
+the pathname of the <Filename>/dev</Filename> file <command>dtlogin</command>
+will create when a remote display connects. For most platforms, the file will
+be created as a symbolic link to <Filename>/dev/null</Filename>. The specified
+value must start with "/dev/", otherwise the value is discarded and no file
+is created.</para>
+</refsect2>
+<refsect2>
+<title>pidFile</title>
+<para>The filename specified is created to contain an ASCII representation
+of the process-ID of the main <command>dtlogin</command> process. This can
+be used when sending signals to <command>dtlogin</command>. The <command>dtlogin</command> client also uses file locking to attempt to prevent more than one <command>dtlogin</command> from running on the same machine. See the <literal>lockPidFile</literal> resource for more information.</para>
+</refsect2>
+<refsect2>
+<title>removeDomainname</title>
+<para>When computing the display name for XDMCP clients, <command>dtlogin</command> typically creates a fully qualified host name for the terminal.
+As this is sometimes confusing, <command>dtlogin</command> removes the domain
+name portion of the host name if it is the same as the domain name for the
+local host when this variable is set.</para>
+</refsect2>
+<refsect2>
+<title>requestPort</title>
+<para>This indicates the UDP port number that <command>dtlogin</command> uses
+to listen for incoming XDMCP requests. Unless you need to debug the system,
+leave this with its default value.</para>
+</refsect2>
+<refsect2>
+<title>servers</title>
+<para>This resource either specifies a file name full of server entries, one
+per line (if the value starts with a slash), or a single server entry. Each
+entry indicates a display that should constantly be managed and that is not
+using XDMCP.</para>
+<para>The general syntax for each entry is:</para>
+<!--Start of RS / RE range-->
+<para>DisplayName DisplayClass DisplayType[@ite] [Command [options]]</para>
+<!--End of RS / RE range-->
+<para>A typical entry for local display number 0 is:</para>
+<!--Start of RS / RE range-->
+<para>:0 Local local@console /usr/bin/X11/X :0</para>
+<!--End of RS / RE range-->
+<variablelist>
+<varlistentry><term>DisplayName</term>
+<listitem>
+<!-- ex-TP-->
+<para>The display name must be something that can be passed in the
+<literal>&minus;display</literal> option to any X program. This string is used in the
+display-specific resources to specify the particular display, so be careful
+to match the names (e.g., use <literal>":0 local /usr/bin/X11/X :0"</literal>
+instead of <literal>"localhost:0 local /usr/bin/X11/X :0"</literal> if your
+other resources are specified as <literal>"Dtlogin._0.session"</literal>).
+A '*' in this field will be expanded to <literal>"&lt;hostname>:0"</literal>
+by <command>dtlogin</command>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DisplayClass</term>
+<listitem>
+<!-- ex-TP-->
+<para>The display class portion is also used in the display-specific resources
+as the class portion of the resource. This is useful if you have a large collection
+of similar displays (a group of X terminals, for example) and want to set
+resources for groups of them. When using XDMCP, the display is required to
+specify the display class, so perhaps your X terminal documentation describes
+a reasonably standard display class string for your device.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DisplayType</term>
+<listitem>
+<para>A DisplayType of "local" indicates that an X server should be started
+for this entry. A value of "remote" indicates to attach to an existing X server.
+</para>
+<para>A value of "local_uid" indicates that an Xserver should be started
+for this entry under a specific user id. A user name such as "root"
+must follow in next field. In the following example, by placing "root" here,
+Xserver starts under the user id of "root".
+</para>
+<para><computeroutput>:0 Local local_uid@console root /usr/openwin/bin/Xsun :0</computeroutput>
+</para>
+<para>In some situations, the Xserver should not be run under a "root" id
+for security reasons. Examples are usually specific to Xserver extensions.
+On some Xservers one example involves the Display Postscript extension.
+If the DPS extension is granted access (via the Xserver option line) to read
+and write Unix files via the "-dpsfileops" option, it
+should not be run under a "root" user id. For increased security,
+it could instead be run as the "nobody" user.
+</para>
+<para><computeroutput>:0 Local local_uid@console nobody /usr/openwin/bin/Xsun :0 -dpsfileops</computeroutput>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>@ite</term>
+<listitem>
+<!-- ex-TP-->
+<para>On local bitmaps, the user may choose a "Command Line Login" option
+via the login screen, which temporarily suspends the X-server and presents
+the traditional character "login:" prompt. The user can then log in and perform
+non-X related tasks. When the user finishes and logs out, the X-server is
+restarted, and the login screen is redisplayed.</para>
+<para>In order to support "Command Line Login" mode, the display must have
+an associated Internal Terminal Emulator (ITE) device. By default, <command>dtlogin</command>
+associates the ITE device "console" ( <Filename>/dev/console</Filename>) with
+display ":0". If your configuration does not match this default, specify "@&lt;device>"
+for the display(s) with an associated ITE and "@none" for
+all other displays listed in the servers file.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Command [options]</term>
+<listitem>
+<!-- ex-TP-->
+<para>This is the string used to start the X server. The <command>dtlogin</command> client will always connect to the X server using the DisplayName
+specified, so you might need to specify an explicit connection number as an
+option to your X server (:0 in the above example).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>sysParmsFile</title>
+<para>This resource specifies a file containing shell commands, one of which
+sets the timezone environment variable (TZ) for the system. If the timezone
+is set via the shell syntax, "TZ=", <command>dtlogin</command> can use this
+information to set the timezone for the user session.</para>
+</refsect2>
+<refsect2>
+<title>timeZone</title>
+<para>This resource specifies the local time zone for <command>dtlogin</command>.
+It is loaded into the environment of <command>dtlogin</command> as the value
+of the variable TZ and inherited by all subsequent sessions.</para>
+<para>Some systems maintain a configuration file that contains the timezone
+setting (ex. <Filename>/etc/src.sh</Filename>). See the <literal>sysParmsFile</literal> resource.</para>
+</refsect2>
+<refsect2>
+<title>wakeupInterval</title>
+<para>If the user selects "Command Line Login" mode from the login screen,
+<command>dtlogin</command> terminates the X-server and allows the traditional character-based
+login prompt, "login:" to become visible. If the user does not log in within
+2 * wakeupInterval seconds, the X-server is restarted. Once the user has logged
+in, <command>dtlogin</command> checks every wakeupInterval seconds to see
+if the user has logged out. If so, the X-server is restarted and the login
+screen is redisplayed.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>DISPLAY RESOURCES</title>
+<para>The <command>dtlogin</command> client display resources can be specified
+for all displays or for a particular display. To specify a particular display,
+the display name is inserted into the resource name between "Dtlogin" and
+the final resource name segment. For example, <literal>Dtlogin.expo_0.startup</literal>
+is the name of the resource defining the startup shell file on
+the "expo:0" display. The resource manager separates the name of the resource
+from its value with colons, and separates resource name parts with dots, so
+<command>dtlogin</command> uses underscores for the dots and colons when generating the resource
+name.</para>
+<para>Resources can also be specified for a class of displays by inserting
+the class name instead of a display name. A display that is not managed by
+XDMCP can have its class affiliation specified in the file referenced by the
+servers resource. A display using XDMCP supplies its class affiliation as
+part of the XDMCP packet.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.05in">
+<colspec align="left" colwidth="116*">
+<colspec align="left" colwidth="123*">
+<colspec align="left" colwidth="77*">
+<colspec align="left" colwidth="183*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">authorize</systemitem></entry>
+<entry align="left" valign="top"><classname>Authorize</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">authName</systemitem></entry>
+<entry align="left" valign="top"><classname>AuthName</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">MIT-MAGIC-COOKIE-1</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">authFile</systemitem></entry>
+<entry align="left" valign="top"><classname>AuthFile</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">chooser</systemitem></entry>
+<entry align="left" valign="top"><classname>Chooser</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">/usr/dt/bin/dtchooser</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">cpp</systemitem></entry>
+<entry align="left" valign="top"><classname>Cpp</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">system dep.</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">environment</systemitem></entry>
+<entry align="left" valign="top"><classname>Environment</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">system dep.</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">failsafeClient</systemitem></entry>
+<entry align="left" valign="top"><classname>FailsafeClient</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">/system_dep./xterm</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">grabServer</systemitem></entry>
+<entry align="left" valign="top"><classname>GrabServer</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">grabTimeout</systemitem></entry>
+<entry align="left" valign="top"><classname>GrabTimeout</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">3 seconds</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">language</systemitem></entry>
+<entry align="left" valign="top"><classname>Language</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">system dep.</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">languageList</systemitem></entry>
+<entry align="left" valign="top"><classname>LanguageList</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">languageName</systemitem></entry>
+<entry align="left" valign="top"><classname>LanguageName</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">openDelay</systemitem></entry>
+<entry align="left" valign="top"><classname>OpenDelay</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">5 seconds</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">openRepeat</systemitem></entry>
+<entry align="left" valign="top"><classname>OpenRepeat</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">5 seconds</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">openTimeout</systemitem></entry>
+<entry align="left" valign="top"><classname>OpenTimeout</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">30 seconds</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">pingInterval</systemitem></entry>
+<entry align="left" valign="top"><classname>PingInterval</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">5 minutes</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">pingTimeout</systemitem></entry>
+<entry align="left" valign="top"><classname>PingTimeout</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">5 minutes</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">reset</systemitem></entry>
+<entry align="left" valign="top"><classname>Reset</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">resetForAuth</systemitem></entry>
+<entry align="left" valign="top"><classname>ResetForAuth</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">resetSignal</systemitem></entry>
+<entry align="left" valign="top"><classname>Signal</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">1 SIGHUP</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">resources</systemitem></entry>
+<entry align="left" valign="top"><classname>Resource</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">session</systemitem></entry>
+<entry align="left" valign="top"><classname>Session</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">/usr/dt/bin/Xsession</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">setup</systemitem></entry>
+<entry align="left" valign="top"><classname>Setup</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">startAttempts</systemitem></entry>
+<entry align="left" valign="top"><classname>StartAttempts</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">4</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">startup</systemitem></entry>
+<entry align="left" valign="top"><classname>Startup</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">systemPath</systemitem></entry>
+<entry align="left" valign="top"><classname>SystemPath</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">system_dep._path</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">systemShell</systemitem></entry>
+<entry align="left" valign="top"><classname>SystemShell</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">/bin/sh</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">terminateServer</systemitem></entry>
+<entry align="left" valign="top"><classname>TerminateServer</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">termSignal</systemitem></entry>
+<entry align="left" valign="top"><classname>Signal</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">15 (SIGTERM)</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">userAuthDir</systemitem></entry>
+<entry align="left" valign="top"><classname>UserAuthDir</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">/var/dt</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">userPath</systemitem></entry>
+<entry align="left" valign="top"><classname>UserPath</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">system_dep._path</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">xdmMode</systemitem></entry>
+<entry align="left" valign="top"><classname>XdmMode</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">xrdb</systemitem></entry>
+<entry align="left" valign="top"><classname>Xrdb</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">/system_dep./xrdb</entry></row></tbody></tgroup>
+</informaltable>
+<refsect2>
+<title>authorize</title>
+<para>Authorize is a Boolean resource that controls whether <command>dtlogin</command> generates and uses authorization for the server connections. (See
+authName.)</para>
+</refsect2>
+<refsect2>
+<title>authName</title>
+<para>If authorize is used, <systemitem class="resource">authName</systemitem> specifies the type of authorization to
+be used. Currently, <command>dtlogin</command> supports only MIT-MAGIC-COOKIE-1
+authorization, XDM-AUTHORIZATION-1 could be supported, but DES is not generally
+distributable. XDMCP connections state which authorization types are supported
+dynamically, so authName is ignored in this case. (See authorize.)</para>
+</refsect2>
+<refsect2>
+<title>authFile</title>
+<para>This file is used to communicate the authorization data from <command>dtlogin</command> to the server, using the &minus;auth server command line
+option. It should be kept in a write- protected directory to prevent its erasure,
+which would disable the authorization mechanism in the server. If NULL, <command>dtlogin</command>
+will generate a file name.</para>
+</refsect2>
+<refsect2>
+<title>chooser</title>
+<para>Specifies the program run to offer a host menu for indirect queries
+redirected to the special host name <literal>CHOOSER</literal>. <filename>/usr/dt/bin/dtchooser</filename> is the
+default. See the Xaccess section.</para>
+</refsect2>
+<refsect2>
+<title>cpp</title>
+<para>This specifies the path of the C preprocessor that is used by xrdb.
+</para>
+</refsect2>
+<refsect2>
+<title>environment</title>
+<para>This resource can contain a set of <literal>&lt;name>=&lt;value></literal>
+pairs separated by a space or tab. Each item is loaded into the environment
+of the server and session. See the Environment section for details.</para>
+</refsect2>
+<refsect2>
+<title>failsafeClient</title>
+<para>If the default session fails to execute, <command>dtlogin</command>
+falls back to this program. This program is executed with no arguments, but
+executes using the same environment variables as the session would have had.
+(See The Xfailsafe File.)</para>
+</refsect2>
+<refsect2>
+<title>grabServer</title>
+<para>See <systemitem class="resource">grabTimeout</systemitem>.</para>
+</refsect2>
+<refsect2>
+<title>grabTimeout</title>
+<para>To improve security, <command>dtlogin</command> grabs the server and
+keyboard while reading the name and password. The grabServer resource specifies
+if the server should be held while the name and password is read. When False,
+the server is ungrabbed after the keyboard grab succeeds; otherwise, the server
+is grabbed until just before the session begins. The grabTimeout resource
+specifies the maximum time <command>dtlogin</command> will wait for the grab
+to succeed. The grab may fail if some other client has the server grabbed,
+or possibly if the network latencies are very high. The grabTimeout resource
+has a default of 3 seconds; be cautious when using this resource, since a
+user can be deceived by a look-alike window on the display. If the grab fails, <command>dtlogin</command> kills and restarts the server (if possible) and session.
+</para>
+<para>Some X-terminals cannot display their login screens while the server
+is grabbed. Setting <systemitem class="EnvironVar">grabServer</systemitem> to false will allow the screen to be displayed,
+but opens the possibility that a user's login name can be stolen by copying
+the contents of the login screen. Since the keyboard is still grabbed and
+the password is not echoed, the password cannot be stolen.</para>
+</refsect2>
+<refsect2>
+<title>language</title>
+<para>This resource specifies the default setting for the <systemitem class="EnvironVar">LANG</systemitem>
+environment variable. If the <command>dtlogin</command>
+screen is localized for that language, it is displayed appropriately; otherwise,
+it is displayed in the language "C". The user may temporarily override this
+setting via an option on the login screen. When the subsequent session terminates,
+the <systemitem class="EnvironVar">LANG</systemitem> variable reverts to this
+setting.</para>
+</refsect2>
+<refsect2>
+<title>languageList</title>
+<para>This resource allows the user to override the default set of languages
+displayed in the "Language" menu of the login screen. It is useful if the
+set of languages actually used on a particular display is smaller than the
+set installed on the system. The resource value is a list of valid values
+for the <systemitem class="environvar">LANG</systemitem> environment variable. Language values should be separated by
+one or more spaces or tabs.</para>
+</refsect2>
+<refsect2>
+<title>languageName</title>
+<para>This resource allows the user to override the default locale name displayed
+in the "Language" menu of the login screen with alternate text. This way,
+instead of users seeing an "En_US" item, they could see an "English (United
+States)" item instead. This resource is specified as <literal>"Dtlogin *&lt;locale
+name>. languageName: text"</literal> as follows:</para>
+<programlisting>
+Dtlogin*En_US.languageName: English (United States)
+Dtlogin*Fr_CA.languageName: French (Canadian)
+</programlisting>
+</refsect2>
+<refsect2>
+<title>openDelay</title>
+<para>See <systemitem class="resource">startAttempts</systemitem></para>
+</refsect2>
+<refsect2>
+<title>openRepeat</title>
+<para>See <systemitem class="resource">startAttempts</systemitem></para>
+</refsect2>
+<refsect2>
+<title>openTimeout</title>
+<para>See <systemitem class="resource">startAttempts</systemitem></para>
+</refsect2>
+<refsect2>
+<title>pingInterval</title>
+<para>See <literal>pingTimeout</literal></para>
+</refsect2>
+<refsect2>
+<title>pingTimeout</title>
+<para>To discover when remote displays disappear, <command>dtlogin</command>
+occasionally "pings" them, using an X connection and sending XSync requests.
+The <systemitem class="resource">pingInterval</systemitem> resource specifies the time (in minutes)
+between successive ping attempts, and <systemitem class="resource">pingTimeout</systemitem> specifies
+the maximum wait time (in minutes) for the terminal to respond to the request.
+If the terminal does not respond, the session is terminated. The <command>dtlogin</command> client does not ping local displays. Although it may seem
+harmless, it is undesirable when a local session is terminated as a result
+of the server waiting (for remote filesystem service, for example) and not
+responding to the ping.</para>
+</refsect2>
+<refsect2>
+<title>reset</title>
+<para>This specifies a program that is run (as root) after the session terminates.
+If not set, no program is run. The conventional name is Xreset. See The Xreset
+File.</para>
+</refsect2>
+<refsect2>
+<title>resetForAuth</title>
+<para>The original implementation of authorization in the sample server reread
+the authorization file at server reset time, instead of when checking the
+initial connection. Since <command>dtlogin</command> generates the authorization
+information just before connecting to the display, an old server does not
+get current authorization information. This resource causes <command>dtlogin</command> to send
+<Symbol>SIGHUP</Symbol> to the server after setting up
+the file, causing an additional server reset to occur, during which time the
+new authorization information is read.</para>
+</refsect2>
+<refsect2>
+<title>resetSignal</title>
+<para>This resource specifies the signal <command>dtlogin</command> sends
+to reset the server. See the section Controlling The Server</para>
+</refsect2>
+<refsect2>
+<title>resources</title>
+<para>This resource specifies the name of the file to be loaded by <command>xrdb</command>(1)
+as the resource data-base onto the root
+window of screen 0 of the display. This resource data base is loaded just
+before the authentication procedure is started, so it can control the appearance
+of the "login" window. See the section on the authentication screen, which
+describes the various resources that are appropriate to place in this file.
+There is no default value for this resource, but the conventional name is
+Xresources. See the Resource section.</para>
+</refsect2>
+<refsect2>
+<title>session</title>
+<para>This specifies the session to be executed for the authenticated user.
+By default, the <Filename>/usr/dt/bin/Xsession</Filename> file is run. The conventional
+name is Xsession. See The Xsession File.</para>
+</refsect2>
+<refsect2>
+<title>setup</title>
+<para>This specifies a program that is run (as root) prior to the display
+of the authentication screen. By default, no program is run. The conventional
+name for a file used here is Xsetup. See the Xsetup section.</para>
+</refsect2>
+<refsect2>
+<title>startAttempts</title>
+<para>Four numeric resources control the behavior of <command>dtlogin</command>
+when attempting to open reluctant servers: openDelay, openRepeat, openTimeout,
+and startAttempts. openDelay is the duration (in seconds) between successive
+attempts; openRepeat is the number of attempts to make; openTimeout is the
+amount of time to wait while actually attempting the opening (i.e., the maximum
+time spent in the connect (2) syscall); and <systemitem class="resource">startAttempts</systemitem> is the number of
+times the entire process occurs before giving up on the server. After openRepeat
+attempts have been made, or if openTimeout seconds elapse in any particular
+attempt, <command>dtlogin</command> terminates and restarts the server, attempting to connect
+again. This process is repeated <systemitem class="resource">startAttempts</systemitem> time, at which point the display
+is declared dead and disabled. (See <systemitem class="resource">openDelay</systemitem>, <systemitem class="resource">openRepeat</systemitem>, and
+<systemitem class="resource">openTimeout</systemitem>.)
+</para>
+</refsect2>
+<refsect2>
+<title>startup</title>
+<para>This specifies a program that is run (as root) after the authentication
+process succeeds. By default, no program is run. The conventional name for
+a file used here is Xstartup. See the Xstartup section.</para>
+</refsect2>
+<refsect2>
+<title>systemPath</title>
+<para>The <command>dtlogin</command> client sets the <systemitem class="EnvironVar">PATH</systemitem> environment variable for the startup and reset scripts to
+the value of this resource. Note the conspicuous absence of "." from this
+entry. This is a good practice to follow for root; it avoids many system penetration
+schemes.</para>
+</refsect2>
+<refsect2>
+<title>systemShell</title>
+<para>The <command>dtlogin</command> client sets the <systemitem class="EnvironVar">SHELL</systemitem> environment variable for the startup and reset scripts
+to the value of this resource.</para>
+</refsect2>
+<refsect2>
+<title>terminateServer</title>
+<para>This boolean resource specifies whether the X server should be terminated
+when a session terminates (instead of resetting it). This option can be used
+if the server tends to grow without bound over time in order to limit the
+amount of time the server is run continuously.</para>
+</refsect2>
+<refsect2>
+<title>termSignal</title>
+<para>This resource specifies the signal <command>dtlogin</command> sends
+to terminate the server. See the section Controlling The Server</para>
+</refsect2>
+<refsect2>
+<title>userAuthDir</title>
+<para>When <command>dtlogin</command> cannot write to the usual user authorization
+file ( <Filename>$HOME/.Xauthority</Filename>), it creates a unique file name
+in this directory and points the environment variable <systemitem class="environvar">XAUTHORITY</systemitem> at the created file.</para>
+</refsect2>
+<refsect2>
+<title>userPath</title>
+<para>The <command>dtlogin</command> client sets the <systemitem class="EnvironVar">PATH</systemitem> environment variable for the session to this value. It
+should be a colon-separated list of directories; see <Filename MoreInfo="RefEntry">sh</Filename>(1)
+for a full description.</para>
+</refsect2>
+<refsect2>
+<title>xdmMode</title>
+<para>If True, the <Filename>$HOME/.xsession</Filename> file will be executed
+from Xsession upon user authentication, rather than the Session Manager
+(<command>dtsession</command>).</para>
+</refsect2>
+<refsect2>
+<title>xrdb</title>
+<para>Specifies the program used to load the resources. The authentication
+screen reads a name-password pair from the keyboard. As this is a Motif toolkit
+client, colors, fonts and some layout options can be controlled with resources.
+General resources for this screen should be put into the file named by the
+<command>dtlogin</command> <systemitem class="resource">resources</systemitem> resource,
+the default being
+<literal>Xresources</literal>. Language specific values such as text or fonts
+should be specified in the <command>Dtlogin</command> app-defaults file.
+</para>
+</refsect2>
+<refsect2>
+<title>Logo Resources</title>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colwidth="126*">
+<colspec align="left" colwidth="135*">
+<colspec align="left" colwidth="69*">
+<colspec align="left" colwidth="126*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">bitmapFile</systemitem></entry>
+<entry align="left" valign="top"><classname>BitmapFile</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">background</systemitem></entry>
+<entry align="left" valign="top"><classname>Background</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">#a8a8a8</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">topShadowPixmap</systemitem></entry>
+<entry align="left" valign="top"><classname>TopShadowPixmap</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">25_foreground</entry></row></tbody></tgroup>
+</informaltable>
+<para>The default logo on the authentication screen may be replaced with a
+bitmap or pixmap of the user's choice. The resources should be prefaced with
+the string <literal>Dtlogin*logo*</literal> when specified.</para>
+<variablelist>
+<varlistentry><term>bitmapFile</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the absolute path name to the bitmap or pixmap file to be
+used for the logo.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>background</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the background color for the logo.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>topShadowPixmap</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the pixmap to use for the logo border shadow.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Alternative Desktop Session Resources</title>
+<para>These resources allow adding additional desktops to the
+<command>dtlogin</command> option sessions menu. Resource names used to
+enable an alternative desktop follow.
+</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colwidth="116*">
+<colspec align="left" colwidth="129*">
+<colspec align="left" colwidth="81*">
+<colspec align="left" colwidth="202*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Example Value</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">altDtsIncrement</systemitem></entry>
+<entry align="left" valign="top"><classname>AltDtsIncrement</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">altDtName</systemitem></entry>
+<entry align="left" valign="top"><classname>altDtName</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">MyWindows Desktop</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">altDtKey</systemitem></entry>
+<entry align="left" valign="top"><classname>altDtKey</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top"><filename>/usr/mywin/bin/mywm</filename></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">altDtStart</systemitem></entry>
+<entry align="left" valign="top"><classname>altDtStart</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top"><filename>/usr/dt/config/Xsession.mw</filename></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">altDtLogo</systemitem></entry>
+<entry align="left" valign="top"><classname>altDtLogo</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">MWlogo</entry></row>
+</tbody></tgroup>
+</informaltable>
+<para>The file containing the above sample values will be found in
+<filename>/usr/dt/config/C/Xresources.d/Xresources.mw</filename>.
+They cause the MyWindow desktop to be added to the option sessions menu.
+</para>
+<para>Additional files may be added in this <filename>Xresources.d</filename>
+directory to allow additional X-based desktops to appear on the
+<command>dtlogin</command> sessions menu. Or, a file may be placed in
+<filename>/etc/dt/config/C/Xresources.d</filename> for a
+workstation-specific addition.
+</para>
+<para>The same resource names would be used. The presence of the altDtsIncrement
+resource in these files causes an incremented count number to be appended
+to the resources. So actual values of the above resource example after they
+are read into the system might actually be <literal>... altDtName2, altDtKey2, altDtStart2,
+altDtLog2</literal>. The next desktop added would then be <literal>... altDtName3, altDtKey3,
+altDtStart3, altDtlog3</literal>.
+</para>
+<para>The syntax for setting the following resources is
+<literal>Dtlogin*altDt...</literal><symbol>n</symbol> where
+<symbol>n</symbol> is an integer, as in altDtName1, altDtName2,
+etc. The numbers are added to resources either implicitly (such as in
+the above <filename>Xresources.d</filename> example, which is useful for "package added"
+desktops) or explicitly if used directly in the Xresources file to
+facilitate ordering of the desktops on the sessions menu.
+</para>
+<variablelist>
+<varlistentry><term>altDtName<emphasis>n</emphasis></term>
+<listitem>
+<para>Specifies the name of the alternative desktop. This name will appear both
+on the sessions menu and also on the Login's greet window when the associated
+desktop is selected as the login destination.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>altDtKey<symbol>n</symbol></term>
+<listitem>
+<para>Specifies a key file, which, if present, causes the alternative
+desktop to be added to the <command>dtlogin</command> option session menu. By
+convention, this file is often the desktop's window manager. But it can
+actualy be any file uniquely associated with the alternative desktop.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>altDtStart<symbol>n</symbol></term>
+<listitem>
+<para>Specifies the script that starts the alternative desktop.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>altDtLogo<symbol>n</symbol></term>
+<listitem>
+<para>Specifies the base name of the alternative desktop's icon logo, either
+in XPM (color) or XBM (monochrome) format. This logo will display on the
+Login greet window when the associated desktop is selected as the login
+destination.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Greeting Resources</title>
+<para>The following resources describe the greeting string used on the login
+screen. The resources should be prefaced with the string <literal>Dtlogin*greeting*</literal> when specified.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.63in">
+<colspec align="left" colwidth="109*">
+<colspec align="left" colwidth="118*">
+<colspec align="left" colwidth="70*">
+<colspec align="left" colwidth="167*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">foreground</systemitem></entry>
+<entry align="left" valign="top"><classname>Foreground</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">black</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">background</systemitem></entry>
+<entry align="left" valign="top"><classname>Background</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">fontList</systemitem></entry>
+<entry align="left" valign="top"><classname>FontList</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">FontList</structname></entry>
+<entry align="left" valign="top">-*-*schoolbook-medium-i-normal--18-*</entry>
+</row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">labelString</systemitem></entry>
+<entry align="left" valign="top"><classname>LabelString</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">Welcome to %LocalHost%</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">persLabelString</systemitem></entry>
+<entry align="left" valign="top"><classname>LabelString</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">Welcome %s</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">alignment</systemitem></entry>
+<entry align="left" valign="top"><classname>Alignment</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">ALIGNMENT_CENTER</entry></row></tbody></tgroup>
+</informaltable>
+<variablelist>
+<varlistentry><term>foreground</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the foreground color for the welcome message.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>background</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the background color for the welcome message. The default
+is light-gray for color systems or white for monochrome systems.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>fontList</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the font to use for the welcome message.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>labelString</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the string to use for the welcome message. Multiple lines
+can be specified by including newline characters (&bsol;n) in the text. If the token
+%LocalHost" is included in the text, it will be replaced with the name of
+the host providing login service. If the token %DisplayName% is included in
+the text, it will be replaced with the display name.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>persLabelString</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the string to use for the personalized welcome message. This
+is the message displayed after the user name has been entered. The %s will
+be replaced with the user name entered.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>alignment</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the string to use for the alignment of the Welcome message.
+Valid values are ALIGNMENT_BEGINNING, ALIGNMENT_CENTER and ALIGNMENT_END.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Matte Resources</title>
+<para>The following resources describe the matte layout used on the login
+screen. The resources should be prefaced with the string <literal>Dtlogin*matte.</literal> when specified.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colwidth="64*">
+<colspec align="left" colwidth="110*">
+<colspec align="left" colwidth="65*">
+<colspec align="left" colwidth="217*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">width</systemitem></entry>
+<entry align="left" valign="top"><classname>Width</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">806 for Highres displays</entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top">755 for Mediumres displays</entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top">585 for lowres displays</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">height</systemitem></entry>
+<entry align="left" valign="top"><classname>Height</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Int</structname></entry>
+<entry align="left" valign="top">412 for Highres displays</entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top">385 for Mediumres displays</entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top">300 for Lowres displays</entry></row></tbody>
+</tgroup></informaltable>
+<variablelist>
+<varlistentry><term>width</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the width to use for the login_matte.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>height</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the height to use for the login_matte.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Label Resources</title>
+<para>The following resources
+describe the fonts layout used on the login screen. The resources should be
+prefaced with the string <literal>Dtlogin*.</literal> when specified.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.03in">
+<colspec align="left" colwidth="74*">
+<colspec align="left" colwidth="112*">
+<colspec align="left" colwidth="69*">
+<colspec align="left" colwidth="242*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">labelFont</systemitem></entry>
+<entry align="left" valign="top"><classname>LabelFont</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">-*-swiss 742-bold-r-normal-*-140-*-p-100-*
+for lowres displays</entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top">-*-swiss 742-medium-r-normal-*-140-*-p-110-*
+for high res displays.</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">textFont</systemitem></entry>
+<entry align="left" valign="top"><classname>TextFont</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">-*-prestige-medium-r-normal-*-128-72-* for
+highres diqsplays.</entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top">-*-helvetica-bold-r-normal-*-100-* for lowres
+displays</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term>labelFont</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the <systemitem class="resource">labelFont</systemitem> to use for the pushButtons and labels.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>textFont</term>
+<listitem>
+<!-- ex-TP-->
+<para>Specifies the <systemitem class="resource">textFont</systemitem> to use for the pushButtons and labels.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT</title>
+<para>The <command>dtlogin</command> client invokes the user's session with
+the following default environment:</para>
+<refsect2>
+<title>DISPLAY</title>
+<para>is set to the associated display name</para>
+</refsect2>
+<refsect2>
+<title>EDITOR</title>
+<para>is set to <Filename>/usr/dt/bin/dtpad</Filename></para>
+</refsect2>
+<refsect2>
+<title>HOME</title>
+<para>is set to the home directory of the user</para>
+</refsect2>
+<refsect2>
+<title>KBD_LANG</title>
+<para>is set to the value of <systemitem class="environvar">LANG</systemitem> for applicable languages</para>
+</refsect2>
+<refsect2>
+<title>LANG</title>
+<para>is set to the current NLS language (if any)</para>
+</refsect2>
+<refsect2>
+<title>LC_ALL</title>
+<para>is set to the current NLS language (if any)</para>
+</refsect2>
+<refsect2>
+<title>LC_MESSAGES</title>
+<para>is set to the current NLS language (if any)</para>
+</refsect2>
+<refsect2>
+<title>LOGNAME</title>
+<para>is set to the user name</para>
+</refsect2>
+<refsect2>
+<title>MAIL</title>
+<para>is set to <Filename>/usr/mail/$USER</Filename> (system dependent)</para>
+</refsect2>
+<refsect2>
+<title>PATH</title>
+<para>is set to the value of the userPath resource</para>
+</refsect2>
+<refsect2>
+<title>USER</title>
+<para>is set to the user name</para>
+</refsect2>
+<refsect2>
+<title>SHELL</title>
+<para>is set to the user's default shell (from <Filename>/etc/passwd</Filename>)
+</para>
+</refsect2>
+<refsect2>
+<title>TERM</title>
+<para>is set to <command>dtterm</command></para>
+</refsect2>
+<refsect2>
+<title>TZ</title>
+<para>is set to the value of the <literal>timeZone</literal> resource or
+system default</para>
+</refsect2>
+<refsect2>
+<title>XAUTHORITY</title>
+<para>may be set to an authority file</para>
+</refsect2>
+<refsect2>
+<title>Adding to the Environment List</title>
+<para>Four methods are available to modify or add to this list depending on
+the desired scope of the resulting environment variable.</para>
+<para>The <systemitem class="resource">exportList</systemitem> resource is available to allow the
+export of variables provided to the <command>dtlogin</command> process by
+its parent. Variables specified by this method are available to both the display's
+X server process and the user's session and override any default settings.
+The resource accepts a string of &lt;name> separated by at least one space
+or tab.</para>
+<para>The <systemitem class="resource">environment</systemitem> resource is available
+in the <command>dtlogin</command> configuration file to allow setting of environment variables
+on a global or per-display basis. Variables specified by this method are available
+to both the display's X server process and the user's session and override
+any default settings. The resource accepts a string of &lt;name>=&lt;value>
+pairs separated by at least one space or tab. The values specified must be
+constants because no shell is used to parse the string. See the Resources
+section for details on setting this resource.</para>
+<para>For example:</para>
+<programlisting>
+MAIL=/usr/mail/$USER
+</programlisting>
+<para>Finally, personal environment variables can be set on a per-user basis
+in the script file <Filename>$HOME/.dtprofile</Filename>.</para>
+<para>The <command>dtlogin</command> client accepts either sh, ksh, or csh
+syntax for the commands in this file. The commands should only be those that
+set environment variables, not any that perform terminal I/O, excepting <Filename MoreInfo="RefEntry">tset</Filename>(1) or <Filename MoreInfo="RefEntry">stty</Filename>(1). If the first line of <Filename>.dtprofile</Filename> is <literal>#!/bin/sh</literal>, <literal>#!/bin/ksh</literal>, or <literal>#!/bin/csh</literal>, <command>dtlogin</command> uses
+the appropriate shell to parse <Filename>.dtprofile</Filename>. Otherwise, the
+user's default shell ( <Symbol>$SHELL</Symbol>) is used.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para>The <command>dtlogin</command> client is designed to operate in a wide
+variety of environments and provides a suite of configuration files that can
+be changed to suit a particular system. The default <command>dtlogin</command>
+configuration files can be found in <Filename>/usr/dt/config</Filename> with
+the exception of Xsession which is stored in <Filename>/usr/dt/bin</Filename>.
+They are listed below:</para>
+<variablelist>
+<varlistentry><term>Xconfig</term>
+<listitem>
+<para>specifies other <command>dtlogin</command> configuration files and <command>dtlogin</command> behavior</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Xaccess</term>
+<listitem>
+<para>used by <command>dtlogin</command> to control access from displays requesting
+XDMCP service</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Xservers</term>
+<listitem>
+<para>contains the list of displays for <command>dtlogin</command> to explicitly
+manage</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Xresources</term>
+<listitem>
+<para>contains resource definitions specifying the appearance of the login
+screen</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Xsetup</term>
+<listitem>
+<para>a script executed as 'root' prior to display of the login screen</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Xstartup</term>
+<listitem>
+<para>a script executed as 'root' after user has successfully authenticated
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Xsession</term>
+<listitem>
+<para>a script executed as the authenticated 'user' that starts the user's
+session</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Xfailsafe</term>
+<listitem>
+<para>a script executed as the authenticated 'user' that starts a failsafe
+session</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Xreset</term>
+<listitem>
+<para>a script executed as 'root' after the user's session has exited</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<refsect2>
+<title>The Xconfig File</title>
+<para>The Xconfig file contains the general resources for <command>dtlogin</command> and is the top of the <command>dtlogin</command> configuration
+file tree. Xconfig specifies the location of other <command>dtlogin</command>
+configuration and log files and specifies dtlogin behavior. The locations of
+other <command>dtlogin</command> configuration and log files are specified
+by resource definitions. The defaults are listed below:</para>
+<variablelist>
+<varlistentry><term>Dtlogin.errorLogFile</term>
+<listitem>
+<para>/var/dt/Xerrors</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Dtlogin.pidFile</term>
+<listitem>
+<para>/var/dt/Xpid</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Dtlogin.accessFile</term>
+<listitem>
+<para>Xaccess</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Dtlogin.servers</term>
+<listitem>
+<para>Xservers</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Dtlogin*resources</term>
+<listitem>
+<para>%L/Xresources</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Dtlogin*setup</term>
+<listitem>
+<para>Xsetup</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Dtlogin*startup</term>
+<listitem>
+<para>Xstartup</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Dtlogin*reset</term>
+<listitem>
+<para>Xreset</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Dtlogin*failsafeClient</term>
+<listitem>
+<para>Xfailsafe</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Dtlogin*session</term>
+<listitem>
+<para>/usr/dt/bin/Xsession</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>If the path specified for <literal>accessFile</literal>, <literal>servers</literal>, <literal>resources</literal>, <literal>setup</literal>, <literal>startup</literal>, <literal>reset</literal>, <literal>failsafeClient</literal>,
+or <literal>session</literal> is relative, dtlogin will first look for the
+file in directory <Filename>/etc/dt/config</Filename>, then <Filename>/usr/dt/config</Filename>.</para>
+<para>Note that some of the resources are specified with "*" separating
+the components. These resources can be made unique for each different display,
+by replacing the "*" with the display-name. See the DISPLAY RESOURCES section
+for a complete discussion.</para>
+<para>The default Xconfig file is <Filename>/usr/dt/config/Xconfig</Filename>.
+A system administrator can customize Xconfig by copying
+<Filename>/usr/dt/config/Xconfig</Filename> to
+<Filename>/etc/dt/config/Xconfig</Filename> and modifying <Filename>/etc/dt/config/Xconfig</Filename>.
+</para>
+<para>The default Xconfig file contains the configuration and log file entries
+shown above as well as a few vendor specific resource definitions and examples.
+See the GENERAL RESOURCES and DISPLAY RESOURCES sections for the complete
+list of resources that can be defined in Xconfig.</para>
+</refsect2>
+<refsect2>
+<title>The Xaccess File</title>
+<para>The database file specified by the <literal>accessFile</literal> resource
+provides information which <command>dtlogin</command> uses to control access
+from displays requesting XDMCP service. This file contains three types of
+entries: entries which control the response to Direct and Broadcast queries,
+entries which control the response to Indirect queries, and macro definitions.
+</para>
+<para>The format of a Direct entry is either a host name or a pattern. A pattern
+is distinguished from a host name by the inclusion of one or more meta characters
+('*' matches any sequence of 0 or more characters, and '?' matches any single
+character) which are compared against the host name of the display device.
+If the entry is a host name, all comparisons are done using network addresses,
+so any name which converts to the correct network address may be used. For
+patterns, only canonical host names are used in the comparison, so ensure
+that you do not attempt to match aliases. Preceding either a host name or
+a pattern with a '!' character causes hosts which match that entry to be excluded.
+</para>
+<para>An Indirect entry also contains a host name or pattern, but follows
+it with a list of host names or macros to which indirect queries should be
+sent. Indirect entries may also specify to have <command>dtlogin</command>
+run <command>dtchooser</command> to offer a menu of hosts to which a login
+screen can be displayed.</para>
+<para>A macro definition contains a macro name and a list of host names and
+other macros that the macro expands to. To distinguish macros from hostnames,
+macro names start with a '%' character. Macros may be nested.</para>
+<para>When checking access for a particular display host, each entry is scanned
+in turn and the first matching entry determines the response. Direct and Broadcast
+entries are ignored when scanning for an Indirect entry and vice-versa.</para>
+<para>Blank lines are ignored, '#' is treated as a comment delimiter causing
+the rest of that line to be ignored, and '\newline' causes the newline to
+be ignored, allowing indirect host lists to span multiple lines.</para>
+<para>Here is an example Xaccess file: DJB</para>
+<programlisting>
+  #
+  # Xaccess - XDMCP access control file
+  #
+
+  #
+  # Direct/Broadcast query entries
+  #
+  !xtra.lcs.mit.edu # disallow direct/broadcast service for xtra
+  bambi.ogi.edu    # allow access from this particular display
+  *.lcs.mit.edu    # allow access from any display in LCS
+
+  #
+  # Indirect query entries
+  #
+
+  #define %HOSTS macro
+  %HOSTS         expo.lcs.mit.edu xenon.lcs.mit.edu \
+                 excess.lcs.mit.edu kanga.lcs.mit.edu
+
+  #force extract to contact xenon
+  extract.lcs.mit.edu xenon.lcs.mit.edu
+
+  #disallow indirect access by xtra
+  !xtra.lcs.mit.edu  dummy
+
+  #all others get to choose among %HOSTS
+  *.lcs.mit.edu      %HOSTS
+</programlisting>
+<para>If XDMCP access is granted, a temporary file may be created in the directory
+specified by <literal>authDir</literal> which contains authorization information
+for the X-terminal. It is deleted when the session starts.</para>
+<para>For X terminals that do not offer a host menu for use with Broadcast
+or Indirect queries, the chooser program can do this for them. In the <literal>Xaccess</literal> file,
+specify "CHOOSER" as the first entry in the Indirect
+host list. Chooser will send a Query request to each of the remaining host
+names in the list and offer a menu of all the hosts that respond.</para>
+<para>The list may consist of the word "BROADCAST," in which case chooser
+will send a Broadcast instead, again offering a menu of all hosts that respond.
+Note that on some operating systems, UDP packets cannot be broadcast, so
+this feature will not work.</para>
+<para>Example <literal>Xaccess</literal> file using chooser:</para>
+<programlisting>#offer a menu of these hosts to extract
+extract.lcs.mit.edu CHOOSER %HOSTS
+
+#offer a menu of all hosts to xtra
+xtra.lcs.mit.edu  CHOOSER BROADCAST</programlisting>
+<para>The program to use for chooser is specified by the <literal>chooser</literal> resource. Resources for this program can be put into the file
+named by <literal>resources.</literal></para>
+<para>The default Xaccess file is <Filename>/usr/dt/config/Xaccess</Filename>.
+A system administrator can customize Xaccess by copying <Filename>/usr/dt/config/Xaccess</Filename> to <Filename>/etc/dt/config/Xaccess</Filename> and modifying <Filename>/etc/dt/config/Xaccess</Filename>.</para>
+<para>The default Xaccess file contains no entries.</para>
+</refsect2>
+<refsect2>
+<title>The Xservers File</title>
+<para>Contains the list of displays to manage. See the <literal>servers</literal>
+resource description under GENERAL RESOURCES for more information.</para>
+<para>The default Xservers file is <Filename>/usr/dt/config/Xservers</Filename>.
+A system administrator can customize Xservers by copying <Filename>/usr/dt/config/Xservers</Filename> to <Filename>/etc/dt/config/Xservers</Filename> and modifying <Filename>/etc/dt/config/Xservers</Filename>.</para>
+<para>The default Xservers file contains an entry for one local display.
+</para>
+</refsect2>
+<refsect2>
+<title>The Xresources File</title>
+<para>Contains the resource definitions specifying the appearance of the login
+screen. See the <command>dtgreet(1)</command> man page for more information.</para>
+<para>The default Xresources file is <Filename>/usr/dt/config/Xresources</Filename>.
+A system administrator can customize Xresources by copying <Filename>/usr/dt/config/Xresources</Filename> to <Filename>/etc/dt/config/Xresources</Filename> and modifying <Filename>/etc/dt/config/Xresources</Filename>.</para>
+</refsect2>
+<refsect2>
+<title>The Xsetup File</title>
+<para>This file is typically a shell script. It is run as "root" and should
+be very careful about security. This script is run before the login screen
+is displayed. No arguments of any kind are passed to the script. Dtlogin
+waits until this script exits before displaying the login screen.</para>
+<para>The default Xsetup file is <Filename>/usr/dt/config/Xsetup</Filename>.
+A system administrator can customize Xsetup by copying <Filename>/usr/dt/config/Xsetup</Filename> to <Filename>/etc/dt/config/Xsetup</Filename> and modifying <Filename>/etc/dt/config/Xsetup</Filename>.</para>
+<para>The default Xsetup file contains vendor specific code but typically
+contains code that sets up the X server prior to the display of the login
+screen, such as setting up keyboard maps.</para>
+</refsect2>
+<refsect2>
+<title>The Xstartup File</title>
+<para>This file is typically a shell script. It is run as "root" and should
+be very careful about security. This is the place to put commands that display
+the message of the day or do other system-level functions on behalf of the
+user. Various environment variables are set for the use of this script:</para>
+<variablelist>
+<varlistentry><term>DISPLAY</term>
+<listitem>
+<para>set to the associated display name</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>HOME</term>
+<listitem>
+<para>set to the home directory of the user</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>PATH</term>
+<listitem>
+<para>set to the value of the systemPath resource</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>USER</term>
+<listitem>
+<para>set to the user name</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>SHELL</term>
+<listitem>
+<para>set to the value of the systemShell resource</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>No arguments of any kind are passed to the script. Dtlogin waits until
+this script exits before starting the user session. If the exit value of this
+script is non-zero, <command>dtlogin</command> discontinues the session immediately
+and starts another authentication cycle.</para>
+<para>The default Xstartup file is <Filename>/usr/dt/config/Xstartup</Filename>.
+A system administrator can customize Xstartup by copying <Filename>/usr/dt/config/Xstartup</Filename> to <Filename>/etc/dt/config/Xstartup</Filename> and modifying <Filename>/etc/dt/config/Xstartup</Filename>.</para>
+<para>The default Xstartup file contains code to change ownership of <Filename>/dev/console</Filename> to the user whose session is running on the console.
+</para>
+</refsect2>
+<refsect2>
+<title>The Xsession File</title>
+<para>This script initializes a user's session and invokes the desktop session
+manager. It is run with the permissions of the authorized user, and has several
+environment variables pre-set. See the Environment section for a list of the
+pre-set variables.</para>
+<para>The default Xsession file is <Filename>/usr/dt/bin/Xsession</Filename>.
+A system administrator can customize Xsession by copying <Filename>/usr/dt/bin/Xsession</Filename> to <Filename>/etc/dt/config/Xsession</Filename> and modifying <Filename>/etc/dt/config/Xsession</Filename>. The <literal>session</literal> resource
+defined in Xconfig must also be changed to reference the customized Xsession
+file. See the Xconfig section for information on how to update the Xconfig
+file.</para>
+<para>The default Xsession file contains session initialization code. It does
+contain some vendor specific code but its general function is as follows:
+</para>
+<itemizedlist><listitem><para>Sources the user's <Filename>$HOME/.dtprofile</Filename></para>
+</listitem><listitem><para>Sources any <literal>/etc/dt/config/Xsession.d/*</literal> scripts</para>
+</listitem><listitem><para>Sources any <literal>/usr/dt/config/Xsession.d/*</literal> scripts</para>
+</listitem><listitem><para>Launches in the background the desktop welcome
+client, dthello</para>
+</listitem><listitem><para>Sources the application search path setup script,
+dtsearchpath</para>
+</listitem><listitem><para>Launches in the background the help setup client,
+dthelpgen</para>
+</listitem><listitem><para>Launches in the background the application manager
+directory setup client, dtappgather</para>
+</listitem><listitem><para>Execs the desktop session manager, dtsession</para>
+</listitem></itemizedlist>
+<para>System administrators are discouraged from customizing the Xsession
+file.</para>
+</refsect2>
+<refsect2>
+<title>The Xreset File</title>
+<para>Symmetrical with Xstartup, this script is run after the user session
+has terminated. Run as root, it should probably contain commands that undo
+the effects of commands in Xstartup, such as unmounting directories from file
+servers. The collection of environment variables that were passed to Xstartup
+are also given to Xreset.</para>
+<para>The default Xreset file is <Filename>/usr/dt/config/Xreset</Filename>.
+A system administrator can customize Xreset by copying <Filename>/usr/dt/config/Xreset</Filename> to <Filename>/etc/dt/config/Xreset</Filename> and modifying <Filename>/etc/dt/config/Xreset</Filename>.</para>
+<para>The default Xreset file contains code to change ownership of <Filename>/dev/console</Filename> back to root.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>STATUS</title>
+<refsect2>
+<title>The Xerrors File</title>
+<para>Contains error messages from <command>dtlogin</command> and anything
+output to stderr by Xsetup, Xstartup or Xreset. The system administrator
+can use the contents of this file for <command>dtlogin</command> troubleshooting.
+The <literal>errorLogSize</literal> resource limits the size of the Xerrors
+file and can prevent it from growing without bound.</para>
+<para>A system administrator can change the pathname of the Xerrors file by
+setting the <literal>errorLogFile</literal> resource in the Xconfig file.
+See the Xconfig section for information on how to update the Xconfig file.
+</para>
+</refsect2>
+<refsect2>
+<title>The Xpid File</title>
+<para>Contains the process ID of the master <command>dtlogin</command> process
+which can be used when sending signals to <command>dtlogin</command>. A system
+administrator can change the pathname of the Xpid file by setting the <literal>pidFile</literal> resource in the Xconfig file. See the Xconfig section for
+information on how to update the Xconfig file.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>ERROR MESSAGES</title>
+<itemizedlist><listitem><para>Login incorrect; please try again.</para>
+</listitem><listitem><para>Unable to change to home directory.</para>
+</listitem><listitem><para>Sorry. Maximum number of users already logged in.
+</para>
+</listitem><listitem><para>Login error, invalid user ID.</para>
+</listitem><listitem><para>Login error, invalid group ID.</para>
+</listitem><listitem><para>Login error, invalid audit ID.</para>
+</listitem><listitem><para>Login error, invalid audit flag.</para>
+</listitem><listitem><para>Logins are currently disabled.</para>
+</listitem><listitem><para>Your current password has expired.</para>
+</listitem></itemizedlist>
+</refsect1>
+<refsect1>
+<title>RESTRICTION</title>
+<para>
+There is a resource in <filename>/usr/dt/config/Xconfig</filename> that controls
+the maximum error log file size of <filename>/var/dt/Xerrors</filename>, the error log
+for the <command>dtlogin</command> processes and the X server. This resource is called
+<systemitem class="resource">Dtlogin.errorLogSize</systemitem>, and it specifies
+the maximum file size in kilobytes. The <command>dtlogin</command> application will
+truncate the file if it grows larger than the size specified in the resource parameter.
+</para>
+<para>
+Because both <command>dtlogin</command> and the X server can write to this file, the X
+server may write more data than the limit before the <command>dtlogin</command> process
+can trim it. Sending a signal to the primary <command>dtlogin</command> process on
+the system will also force the file to be truncated.
+</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<command>dtgreet(1)</command>
+</para>
+</refsect1>
+
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.3 08/21/95 21:30:04-->
+<?Pub *0000086790>

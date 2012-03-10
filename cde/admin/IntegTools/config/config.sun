@@ -1,0 +1,207 @@
+####################################################	04/08/94
+### Instructions for the Sun Solaris Environment ###
+####################################################
+
+
+Removing the October '93 Developer's Conference CDE Desktop
+===========================================================
+
+It is imperative that CDE Snapshot 1 and Snapshot 2 desktops do not
+co-mingle. Installers and users should ensure that old clients and
+configuration files are exited or removed.  Use the instructions
+in this section if the October '93 Snapshot 1 version of CDE is
+installed on your system.
+
+
+   Upgrading systems in a networked environment
+   --------------------------------------------
+
+   If CDE is installed in a network environment, it is imperative that
+   all systems be upgraded at the same time.
+
+
+   Removing the Snapshot 1 desktop
+   -------------------------------
+
+   Installers are advised to remove the Snapshot 1 Desktop files from
+   their systems. Those clients and files are obsolete.  The dinstall.dt
+   script which was provided on the Snapshot 1 CD may be used for this
+   purpose.
+
+
+   Stopping Desktop clients before installing Snapshot 2
+   -----------------------------------------------------
+
+   If the Snapshot 1 desktop is not removed, ensure that all desktop
+   clients are inactive before installing the Snapshot 2 desktop.
+
+
+   Removing the users's .dtprofile and .dt directory
+   -------------------------------------------------
+
+   It is strongly advised that all CDE users on the system remove or
+   rename their .dt directory and their .dtprofile.  The Snapshot 2
+   Desktop is not compatible with the Snapshot 1 Desktop versions of
+   these files.
+
+   If users have customized their .dt/dtwmrc file and want to keep it,
+   they will need to cut and paste the appropriate pieces into the new
+   dtwmrc provided.
+
+
+Before You Start the Desktop
+============================
+
+You can start the CDE Desktop by:
+
+   * Configuring the system to auto-start the CDE Desktop when
+     the system is booted.
+
+   * Or, manually starting the desktop Login Manager.
+
+
+Special Configurations
+----------------------
+
+If your system has one of these special configurations, you may need to
+edit certain Login Manager files before starting the desktop. See the 
+Advanced User's and System Administrator's Guide:
+
+	* If the system console is a non-bitmap device.
+
+	* If the system is an X terminal or a host for X terminals.
+
+	* If the system has more than one display.
+
+
+To Enable and Disable Desktop Auto-Start
+========================================
+
+When auto-start is enabled, the CDE Login Manager runs automatically
+each time the system is booted.  You then log in using the 
+CDE Login Screen.
+
+To Enable Desktop Auto-Start
+----------------------------
+
+1. Log in as root.
+
+2. From the command line, enter:
+
+	/usr/dt/bin/dtconfig -e
+
+A CDE Login screen will appear the next time the system is booted.
+
+
+To Disable Desktop Auto-Start
+-----------------------------
+
+1. Log in as root.
+
+2. From a command line, enter:
+
+	/usr/dt/bin/dtconfig -d
+
+A conventional ascii login will appear the next time the system
+is booted.
+
+
+To Start and Stop the Desktop Manually
+======================================
+
+There are two ways to start the desktop manually:
+
+    * You can manually start the CDE Login Manager, which will display the
+      desktop Login screen.  To use this method, you must have permission
+      to log in as root.
+
+      This method is the preferable manual method, since Login Manager sets 
+      certain environment variables that are needed during desktop sessions.
+
+    * You can log in using conventional methods, and then manually run the CDE
+      Session Manager, which starts a desktop session.
+
+
+Manually Starting and Stopping Login Manager
+--------------------------------------------
+
+When you use this method, you log in using the desktop Login screen.
+When you log in, a desktop session starts.
+
+To manually start Login Manager:
+
+1. Log in as root.
+
+2. With no window system running, from the command line enter:
+
+	/usr/dt/bin/dtlogin
+
+
+To manually stop Login Manager:
+
+1. If you are in a desktop session, exit (via front panel button).
+
+2. On the Login screen, choose Options->Command Line
+   to return to a command line.
+
+3. On the command line, enter [Ctrl]c (hold down [Ctrl] as
+   you press [c]).
+
+You are now back to your root login with a command line prompt. 
+
+
+Manually Starting and Stopping Session Manager
+----------------------------------------------
+
+If you use this method, you are responsible for setting certain environment
+variables to values required by the desktop if suitable values are
+not already set in your environment.  See the Advanced User's and System
+Administrator's Guide.
+
+1. Log in.  (You do not need to log in as root).
+
+   If you set LD_LIBRARY_PATH (its not required for CDE), make sure the 
+   /usr/dt/lib directory is at head of list.  In addition, you should 
+   set the environment variable OPENWINHOME to /usr/openwin.
+
+2. With no window system running, from the command line enter:
+
+	/usr/openwin/bin/xinit /usr/dt/bin/Xsession
+
+This starts your CDE desktop session.  Exit button is on front panel.
+
+
+
+To Configure Subprocess Control Daemon remote access
+====================================================
+
+If you are working in an environment where a CDE Desktop action needs to
+start an application on another workstation running CDE, the Subprocess
+Control Daemon must have access to the /tmp directory of the remote 
+workstation.
+
+The following procedure will provide this.
+
+1. Log in as root.
+
+2. Provide NFS-access by the local (client) system to the remote (application
+   server) system's /tmp directory. The mount point must be
+   /nfs/<remote_host>/tmp.
+
+   On systems running automount, the following procedure provides this mount:
+
+	a. Enter:
+
+	     mkdir /nfs
+
+        b.  Add the following lines to /etc/auto_master:
+
+	     /nfs -hosts -nosuid
+
+	c. To allow export of the /tmp directory, add the following line
+           to /etc/dfs/dfstab:
+
+	    shared -F nfs -o rw /tmp
+
+3. The subprocess control daemon will have correct access the next time 
+   the workstation is booted. 

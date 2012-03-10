@@ -1,0 +1,22 @@
+XCOMM $TOG: Imakefile /main/1 1999/08/30 10:44:56 mgreess $
+
+#include <Threads.tmpl>
+#include "../../tooltalk.tmpl"
+
+DEFINES 	= 
+CONN_DEFINES    = ConnectionFlags
+INCLUDES 	= -I. -I../../slib -I../../lib
+
+DEPLIBS         = TtClientDepLibs
+LOCAL_LIBRARIES = TtClientLibs
+SYS_LIBRARIES   = 
+#ifdef TtClientExtraLibs
+EXTRA_LIBRARIES = TtClientExtraLibs
+#endif
+
+SRCS		= ttauth.c process.c
+OBJS		= ttauth.o process.o
+
+ComplexProgramTarget(ttauth)
+
+SpecialCObjectRule(process,$(ICONFIGFILES),$(SIGNAL_DEFINES))

@@ -1,0 +1,44 @@
+XCOMM $XConsortium: Imakefile /main/5 1996/04/21 19:06:35 drk $
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+SUBDIRS = post_install dbTools updateTools
+
+#ifdef RsArchitecture
+OVERRIDE=install.dt.ibm
+#endif
+
+#ifdef HPArchitecture
+OVERRIDE=install.dt.hp
+#endif
+
+#ifdef SunArchitecture
+LOCAL_CPP_DEFINES=-Usun
+OVERRIDE=install.dt.sun
+#endif
+
+#ifdef UXPArchitecture
+LOCAL_CPP_DEFINES=-Uuxp
+OVERRIDE=install.dt.uxp
+#endif
+
+#ifdef USLArchitecture
+LOCAL_CPP_DEFINES=-Uusl
+OVERRIDE=install.dt.usl
+#endif
+
+#ifdef AlphaArchitecture
+OVERRIDE=install.dt.dec
+#endif
+
+
+MakeSubdirs($(SUBDIRS))
+
+AllTarget(install.dt $(OVERRIDE) dinstall.dt)
+
+CppScriptTarget(install.dt,install.dt.src,$(LOCAL_CPP_DEFINES),)
+CppScriptTarget($(OVERRIDE),$(OVERRIDE).src,$(LOCAL_CPP_DEFINES),)
+CppScriptTarget(dinstall.dt,dinstall.dt.src,$(LOCAL_CPP_DEFINES),)
+
+depend::
+

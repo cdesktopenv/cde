@@ -1,0 +1,1395 @@
+<!-- $XConsortium: ch05.sgm /main/2 1996/12/17 06:27:15 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.ClSrv.div.1">
+<Title Id="SAG.ClSrv.mkr.1">ネットワークにおけるデスクトップの構成</Title>
+<Para>
+デスクトップは、高度にネットワーク化された環境で十分動作するように設計されています。デスクトップのアーキテクチャにより、システム管理者はネットワーク全体にコンピューティング・リソースを分散させることができます。その中には次のものが含まれています。
+<IndexTerm><Primary>ネットワーキング</Primary><Secondary>「サーバ」も参照してください</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>アプリケーション
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションのデータ・ファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+デスクトップ・セッション・サービス（ログイン・マネージャやファイル・マネージャなどのデスクトップ・アプリケーション）
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ヘルプ・サービス。ヘルプのデータ・ファイルは中央のヘルプ・サーバに置くことができます。
+</Para>
+<InformalTable Id="SAG.ClSrv.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Overview of Desktop Networking86'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'General Steps for Configuring Desktop Networking90'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.7"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Configuring Base Operating System Networking for the Desktop90'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.8"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Configuring Desktop Clients and Servers93'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.18"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Administering Application Services99'--><XRef Role="JumpText" Linkend="SAG.ClSrv.div.32"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="SAG.ClSrv.div.2">
+<Title Id="SAG.ClSrv.mkr.2">デスクトップ・ネットワーキングの概要<IndexTerm><Primary>ネットワーキング</Primary><Secondary>概要</Secondary></IndexTerm><IndexTerm><Primary>クライアント・サーバ構成、「ネットワーキング」を参照してください</Primary></IndexTerm></Title>
+<Para>
+オペレーティング・システムはさまざまなネットワーキング・サービスを提供します。その中には、分散ファイル・システムとリモート実行も含まれます。Ｘサーバは追加のネットワーキング機能を提供します。その中には、リモート・ディスプレイへのアクセスやセキュリティ・サービスも含まれます。
+</Para>
+<Para>
+デスクトップは、これらのネットワーキング機能の最上部にユーザ・インタフェースを重ねます。このインタフェースとその基となるアーキテクチャの目的は、次のようなネットワーク・システムを構築することです。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+簡単に使用できること。ネットワーク内でアプリケーションとデータの位置を気にすることなくアプリケーションを実行し、データ・ファイルにアクセスすることができます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+簡単に管理できること。デスクトップは、システムがリモート・データとアプリケーションを簡単に検索できるようアプリケーション統合ツールとネットワーク検索パスを提供します。さらに、デスクトップのファイル名のマッピング・プロセスは、サーバが多数含まれる複雑なネットワークの管理を簡単にします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+柔軟性があること。デスクトップの管理機能が共通ネットワーク環境に合うように設計されていると、デスクトップは他のカスタマイズされたネットワーク構成を多く取り入れることができます。
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.ClSrv.div.3">
+<Title>ネットワーク・デスクトップ・サービスの種類<IndexTerm><Primary>ネットワーキング</Primary><Secondary>サービスの種類</Secondary></IndexTerm></Title>
+<Para>
+ネットワーキングにより特定のディスプレイにいるユーザは、他のシステムに分散されたさまざまなコンピューティング・サービスにアクセスできるようになります。たとえば、次のようなサービスにアクセスできます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+デスクトップ・セッションとそのアプリケーション（たとえば、ワークスペース・マネージャとファイル・マネージャ）
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+他のアプリケーション
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+データ・ファイル
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+ネットワーキングでは、他のひとつ以上のシステムにコンピューティング・サービスを提供するシステムを説明する用語として
+<IndexTerm><Primary>サーバ</Primary><Secondary>定義</Secondary></IndexTerm>
+<Symbol Role="Variable">サーバ</Symbol> を使用します。システムがサーバからサービスを受ける場合、それはそのサーバの
+<IndexTerm><Primary>クライアント</Primary><Secondary>定義</Secondary></IndexTerm>
+<Symbol Role="Variable">クライアント</Symbol> と呼びます。
+</Para>
+<Para>
+複雑なネットワークでは、システムはネットワーク全体の多数のシステム上にあるサービスを使用することもあります。さらに、システムは特殊なタイプのサーバ（たとえばセッション・サーバ）として動作したり、クライアント（たとえばアプリケーション・サーバのクライアント）になることもあります。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.4">
+<Title>一般的なネットワーク環境</Title>
+<Para>
+デスクトップ環境では、一般的なネットワーク構成に次の主要コンポーネントのうちのいくつかの組み合わせを含んでいます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="148*">
+<colspec colwidth="380*">
+<TBody>
+<Row>
+<Entry><Para>ディスプレイ</Para></Entry>
+<Entry><Para>
+ここでＸサーバを実行します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ログイン/セッション・サーバ
+<IndexTerm><Primary>セッション</Primary><Secondary>サーバ</Secondary><Tertiary>ログイン</Tertiary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+ここでデスクトップ・アプリケーション（ログイン・マネージャやワークスペース・マネージャなど）を実行します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アプリケーション・サーバ
+<IndexTerm><Primary>サーバ</Primary><Secondary>アプリケーション</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・サーバ</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+ここで他のアプリケーションを実行します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ファイル・サーバ
+<IndexTerm><Primary>サーバ</Primary><Secondary>ファイル</Secondary></IndexTerm><IndexTerm><Primary>ファイル・サーバ</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+ここにアプリケーションが使用するデータが格納されています。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+もっとも一般的なネットワーク構成のひとつには、アプリケーション・サーバにアクセスするシステムがあります。
+<!--Original XRef content: 'Figure&numsp;5&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.ClSrv.mkr.3"> は、アプリケーション・サーバを使用しているワークステーションを示します。Ｘサーバとデスクトップ・セッションは、ワークステーション上で実行中です。
+</Para>
+<Figure>
+<Title Id="SAG.ClSrv.mkr.3">アプリケーションがデスクトップ・セッションにサービスを提供する</Title>
+<Graphic Entityref="SAG.ClSrv.fig.1" Id="SAG.ClSrv.grph.1"></Graphic>
+</Figure>
+<Para>
+ネットワークはまた、
+<IndexTerm><Primary>ファイル・サーバ</Primary></IndexTerm>
+ファイル・サーバを使用して大量のデータを保存します。このデータは、アプリケーション・サーバ上で実行中のアプリケーションや、デスクトップ・アプリケーションによって使用されることがあります（たとえば、ファイル・マネージャは[ファイル・マネージャ]ウィンドウでデータ・ファイルを表示するために、データ・ファイルにアクセスする必要があります）。
+</Para>
+<Figure>
+<Title>ファイル・サーバがアプリケーション・サーバとセッション・サーバにデータを提供する</Title>
+<Graphic Entityref="SAG.ClSrv.fig.2" Id="SAG.ClSrv.grph.2"></Graphic>
+</Figure>
+<Para>
+<IndexTerm><Primary>Ｘ端末</Primary><Secondary>セッション・サービスの取得</Secondary></IndexTerm>
+Ｘ端末はＸサーバを実行し、別のシステムからデスクトップ・セッション・サービスを取得します。
+</Para>
+<Figure>
+<Title>Ｘ端末がセッション・サーバからセッション・サービスを取得する</Title>
+<Graphic Entityref="SAG.ClSrv.fig.3" Id="SAG.ClSrv.grph.3"></Graphic>
+</Figure>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.5">
+<Title>他のネットワーキング環境</Title>
+<Para>
+デスクトップには柔軟性があるので、もっと複雑なネットワーク構成をサポートできます。ファイル・サーバに加えてアプリケーション・サーバで使用可能なさまざまなサービスの提供もします。
+</Para>
+<Figure>
+<Title>デスクトップ・アプリケーション・サーバが必要とするサービスを分散できる</Title>
+<Graphic Entityref="SAG.ClSrv.fig.4" Id="SAG.ClSrv.grph.4"></Graphic>
+</Figure>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.6">
+<Title Id="SAG.ClSrv.mkr.4">まとめ&mdash;サーバの種類<IndexTerm><Primary>サーバ</Primary><Secondary>種類</Secondary></IndexTerm></Title>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.74in">
+<colspec colwidth="4.19in">
+<TBody>
+<Row>
+<Entry><Para>ディスプレイ</Para></Entry>
+<Entry><Para>
+Ｘサーバを実行中のシステム。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ログイン・サーバとセッション・サーバ</Para></Entry>
+<Entry><Para>デスクトップ・セッション（ログイン・マネージャ、セッション・マネージャ、ウィンドウ・マネージャ、ファイル・マネージャなど）を実行中のシステム。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アプリケーション・サーバ</Para></Entry>
+<Entry><Para>アプリケーションが実行されているシステム。<Emphasis>実行ホスト</Emphasis> とも呼ばれます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ファイル・サーバ</Para></Entry>
+<Entry><Para>アプリケーションのデータ・ファイルが格納されているシステム。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ヘルプ・サーバ
+<IndexTerm><Primary>サーバ</Primary><Secondary>ヘルプ</Secondary></IndexTerm><IndexTerm><Primary>ヘルプ・サーバ</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>ヘルプ・データ・ファイルが格納されているシステム</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>(アクション) データベース・サーバ<IndexTerm><Primary>アクション・サーバ、「データベース・サーバ」も参照してください</Primary></IndexTerm><IndexTerm><Primary>データベース・サーバ</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>アクションとデータ型定義が入っているファイルが格納されているシステム</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アイコン・サーバ<IndexTerm><Primary>サーバ</Primary><Secondary>アイコン</Secondary></IndexTerm><IndexTerm><Primary>アイコン・サーバ</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>アイコン・ファイルが格納されているシステム</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+ネットワークには、パスワード・サーバ、メール・サーバ、ビデオ・サーバなどの追加のサーバが含まれている場合があります。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.ClSrv.div.7">
+<Title Id="SAG.ClSrv.mkr.5">デスクトップ・ネットワーキングを構成するための一般的な手順<IndexTerm><Primary>ネットワーキング</Primary><Secondary>一般的な構成手順</Secondary></IndexTerm></Title>
+<Para>
+デスクトップ・ネットワーキングを構成するための一般的な手順としては、次の３つがあります。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+基本オペレーティング・システムのネットワーク・サービスを構成します。
+</Para>
+<Para>
+デスクトップが依存しているオペレーティング・システムによって提供されるネットワーク・サービスがあります。
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.8"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+デスクトップ・ネットワーキングのソフトウェアとサービスをインストールし、設定します。
+</Para>
+<Para>
+設定中のクライアントやサーバのシステムの種類に関係なく、デスクトップが必要とするサービスがあります。
+<!--Original XRef content: '&xd2;Configuring Desktop Clients and Servers&xd3; on page&numsp;93'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.18"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+サーバまたはクライアントの特定の型を設定します。
+</Para>
+<Para>
+たとえば、アプリケーション・サーバを構成するには、ファイル・サーバを構成する場合とは異なる手順が必要です。
+<!--Original XRef content: '&xd2;Administering Application Services&xd3; on page&numsp;99'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.32"> を参照してください。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="SAG.ClSrv.div.8">
+<Title Id="SAG.ClSrv.mkr.6">デスクトップ用の基本オペレーティング・システムのネットワーキング機能<IndexTerm><Primary>ネットワーキング</Primary><Secondary>基本構成</Secondary></IndexTerm></Title>
+<Para>
+デスクトップには、次の基本ネットワーキング構成が必要です。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ユーザは、セッション・サーバ上と、デスクトップ・サービスをセッション・サーバに提供する各システム上にログイン・アカウントを持っていなければなりません。ユーザは、すべてのクライアントとサーバのシステムで同じユーザIDとグループIDを持っていなければなりません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+システムは、セッションおよび他のアプリケーションによって使用されるデータが入っているリモート・ファイル・システムにアクセスできなければなりません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Command>lp</Command> プリント・スプーラは、リモート・プリンタにアクセスできるように構成されていなければなりません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Command>sendmail</Command> は、電子メール・サービス用に構成されていなければなりません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+Ｘ認証が設定されていなければなりません。
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.ClSrv.div.9">
+<Title>ユーザへのログイン・アカウントの提供<IndexTerm><Primary>ログイン・アカウント</Primary></IndexTerm></Title>
+<Para>
+この節では、デスクトップ・ネットワーキングに必要なログイン・アカウントについて説明します。
+</Para>
+<Sect3 Id="SAG.ClSrv.div.10">
+<Title>ログイン・アカウントの提供</Title>
+<Para>
+ユーザは、次のコンポーネントにログイン・アカウントを持っていなければなりません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+デスクトップにサービスを提供しているすべてのシステム。この中には、アプリケーション・サーバ、ファイル・サーバ、およびネットワーク・プリンタを提供するシステムも含まれます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ユーザがアクセスできるすべてのセッション・サーバ。通常、セッション・サーバはＸ端末で使用されます。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.11">
+<Title>ユーザIDとグループIDの一貫性</Title>
+<Para>
+UNIX ユーザは、ログイン名と
+<IndexTerm><Primary>UID</Primary></IndexTerm><IndexTerm><Primary>ユーザID</Primary></IndexTerm>
+数値ユーザID (UID) により識別されます。デスクトップ・ネットワークでは、ユーザはすべてのクライアントとサーバのシステム上に同じログイン名と UID を持っていなければなりません。
+</Para>
+<Para>
+UNIX ユーザは、ひとつ以上のログイン・グループにも割り当てられます。各グループはグループ名と
+<IndexTerm><Primary>GID</Primary></IndexTerm><IndexTerm><Primary>グループID</Primary></IndexTerm>
+数値グループID (GID) を持っています。デスクトップ・ネットワークでは、すべてのシステムは一貫したグループ名とグループIDを使用しなければなりません。
+</Para>
+<Para>
+詳細については、
+<Filename MoreInfo="RefEntry">id</Filename>(1) または <Filename MoreInfo="RefEntry">id</Filename>(1m) のマニュアル・ページを参照してください。
+</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.12">
+<Title Id="SAG.ClSrv.mkr.7">分散ファイル・システム・アクセスの構成<IndexTerm><Primary>ファイル</Primary><Secondary>分散〜へのアクセス</Secondary></IndexTerm></Title>
+<Para>
+デスクトップは、システム間でファイルを共有するために NFS を使用します。共有ファイルが入っているネットワークのすべてのファイル・システムを識別し、確実に適切なシステムに正しくマウントしなければなりません。
+<IndexTerm><Primary>ファイル共有</Primary></IndexTerm><IndexTerm><Primary>NFS</Primary></IndexTerm><IndexTerm><Primary>ファイル</Primary><Secondary>リモート・アクセス</Secondary></IndexTerm><IndexTerm><Primary>ファイル</Primary><Secondary>マウント</Secondary></IndexTerm>
+</Para>
+<Para>
+一般的に、次のリモート・ファイル・アクセスを提供しなければなりません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<IndexTerm><Primary>ホーム・ディレクトリ</Primary><Secondary>共有</Secondary></IndexTerm>
+ユーザのホーム・ディレクトリは、すべてのデスクトップのクライアントとサーバのシステムによって共有されなければなりません。これは、次の理由により必要です。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+ホーム・ディレクトリには、リモート・システム上のアプリケーションによってアクセスされなければならないデータ・ファイルがあります。たとえば、データ・ファイルを使用するアプリケーションは、デフォルトのデータ・ファイルの位置としてよくホーム・ディレクトリを使用します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>認証ディレクトリ</Primary></IndexTerm><IndexTerm><Primary>dtspcd</Primary><Secondary>認証ディレクトリ</Secondary></IndexTerm>
+ホーム・ディレクトリは、デフォルトの <Command>dtspcd</Command> 認証ディレクトリです。<Command>dtspcd</Command> の詳細については、
+<!--Original XRef content: '&xd2;Configuring the Subprocess Control Daemon&xd3; on page&numsp;97'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.25"> を参照してください。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+ホーム・ディレクトリにはないデータ・ファイルにアクセスする必要がある場合、これらのデータ・ファイルはデータ・ファイルで動作するデスクトップのクライアントとサーバのシステムによって共有されなければなりません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+デスクトップのインストールディレクトリと構成ディレクトリ（<Filename>/usr/dt</Filename> と <Filename>/etc/dt</Filename>）は、アプリケーションのすべてが同じデスクトップ構成ファイルにアクセスするように、すべてのデスクトップのクライアントとサーバのシステムによって共有されなければなりません。
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.ClSrv.div.13">
+<Title>ネットワーク・ホーム・ディレクトリの提供<IndexTerm><Primary>ホーム・ディレクトリ</Primary><Secondary>ネットワーク化された</Secondary></IndexTerm></Title>
+<Para>
+デスクトップ・ネットワークは、ネットワーク上のすべてのクライアントとサーバのシステム間で共有されている単一のホーム・ディレクトリを持っている場合に、もっとも効率的に動作します。
+</Para>
+<Para>
+ネットワーク・ホーム・ディレクトリにより、ユーザは個人用のカスタマイズと構成を失うことなく、ネットワークで別のシステムを使用することができます。これは、個人用のカスタマイズと、前のセッションを復元するのに必要な情報を、ホーム・ディレクトリのサブディレクトリに保存するからです。
+</Para>
+<Para>
+次のものにも共通ホーム・ディレクトリが必要です。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+デフォルトのＸ認証機構。
+<!--Original XRef content: '&xd2;Configuring X Authorization&xd3; on page&numsp;93'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.17"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+デスクトップのサブプロセス・コントロール・デーモン。このデーモンはリモート・アプリケーションの起動に含まれますが、ユーザのホーム・ディレクトリに書き込むことができなければなりません。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.14">
+<Title>ファイル名の一貫性<IndexTerm><Primary>ファイル</Primary><Secondary>名前の一貫性</Secondary></IndexTerm><IndexTerm><Primary>ファイル名の一貫性</Primary></IndexTerm></Title>
+<Para>
+同じ名前を使用して、すべてのシステムからデータ・ファイルにアクセスできるようにネトワークを構成しなければなりません。これは、<Emphasis>ファイル名の一貫性</Emphasis> を提供するものとして知られ、適切な
+<IndexTerm><Primary>シンボリック・リンク</Primary><Secondary>ファイル名の一貫性</Secondary></IndexTerm>
+シンボリック・リンクを作成することにより通常は達成されます。たとえば、ディレクトリの実際のマウント位置へのシンボリック・リンクを作成することにより、各ユーザのホーム・ディレクトリが <Filename>/users/</Filename><Symbol Role="Variable">login_name</Symbol> として使用可能になるように各システムを構成できます。
+</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.15">
+<Title>リモート・プリンタへのアクセス構成<IndexTerm><Primary>プリンタ</Primary><Secondary>リモート・アクセス</Secondary></IndexTerm></Title>
+<Para>
+デスクトップは、ローカル・プリンタまたはリモート・プリンタにアクセスするために
+<IndexTerm><Primary>lp プリント・スプーラ</Primary></IndexTerm><Command>lp</Command> プリント・スプーラを使用します。<Command>lp</Command> スプーラの構成については <Filename MoreInfo="RefEntry">lpadmin</Filename>(1m) のマニュアル・ページを参照してください。
+</Para>
+<Para>
+<IndexTerm><Primary>プリンタ</Primary><Secondary>テスト</Secondary></IndexTerm>
+デスクトップのグラフィカル・インタフェースを使用して印刷を試みようとする前に、<IndexTerm><Primary>lp コマンド</Primary></IndexTerm><Command>lp</Command> コマンドを使用してすべてのプリンタに正しく印刷できることをテストしてください。
+</Para>
+<Para>
+<IndexTerm><Primary>プリンタ</Primary><Secondary>デバイス名</Secondary></IndexTerm>
+一貫したプリンタ・デバイス名を使用することを強く推奨します。たとえば、直接接続されているシステム上で特定のプリンタが <Filename>Postscript1</Filename> とされている場合、そのプリンタにリモート・アクセスしている他のすべてのシステムも <Filename>Postscript1</Filename> という名前を使用してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.16">
+<Title>電子メールの構成<IndexTerm><Primary>電子メール、構成</Primary></IndexTerm><IndexTerm><Primary>ネットワーキング</Primary><Secondary>電子メール</Secondary></IndexTerm></Title>
+<Para>
+デスクトップのメール・プログラムは、システム間でメールを配信するために <Command>sendmail</Command> を使用します。電子メールの接続性の構成方法の詳細については、
+<IndexTerm><Primary>sendmail</Primary></IndexTerm><Filename MoreInfo="RefEntry">sendmail</Filename>(1m) のマニュアル・ページを参照してください。
+</Para>
+<Para>
+デスクトップからメールを送信または受信しようとする前に、<IndexTerm><Primary>mailx</Primary></IndexTerm><Command>mailx</Command> コマンドを使用してメールを正しく送信および受信できることをテストしてください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.17">
+<Title Id="SAG.ClSrv.mkr.8">Ｘ認証の構成<IndexTerm><Primary>Ｘ認証</Primary></IndexTerm><IndexTerm><Primary>認証、Ｘ</Primary></IndexTerm><IndexTerm><Primary>ネットワーキング</Primary><Secondary>Ｘ認証</Secondary></IndexTerm></Title>
+<Para>
+デスクトップは、ローカル・ディスプレイにアクセスするためのリモート・アプリケーション（Ｘクライアント）に認証を与えるのにデフォルトのＸ機構を使用します。Ｘ機構を構成するのにもっとも簡単な方法は、各ユーザに対してネットワーク・ホーム・ディレクトリを提供することです。これにより、次の要件が確実に満たされます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ユーザは、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xauthority</Filename> ファイルへの書き込み権と読み取り権を持っていなければなりません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーション・サーバの <Filename>.Xauthority</Filename> ファイルには、アプリケーションが実行されるディスプレイの「マジック・クッキー (magic cookie)」が入っていなければなりません。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+詳細については、
+<Filename MoreInfo="RefEntry">X</Filename>(1) または <Filename MoreInfo="RefEntry">xauth</Filename>(1) のマニュアル・ページを参照してください。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.ClSrv.div.18">
+<Title Id="SAG.ClSrv.mkr.9">デスクトップのクライアントとサーバの構成<IndexTerm><Primary>クライアント</Primary><Secondary>サーバの、構成</Secondary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>構成</Secondary></IndexTerm><IndexTerm><Primary>ネットワーキング</Primary><Secondary>クライアントとサーバの構成</Secondary></IndexTerm></Title>
+<Para>
+この節では、デスクトップに固有のネットワーク構成要件について説明します。これらの機能は基本オペレーティング・システムではなくデスクトップによって提供されます。
+</Para>
+<Para>
+この節は、次の２つの部分に分かれます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ログイン・サービスとセッション・サービス
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションとそのデータベースが必要とするサービスの構成。これには、アプリケーション、データベース、アイコン、ヘルプ・サーバとそのクライアントを含みます。
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.ClSrv.div.19">
+<Title>ログイン・サービスとセッション・サービスの構成<IndexTerm><Primary>セッション・サーバ、「ログインサーバ」を参照してください</Primary></IndexTerm><IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>構成</Secondary></IndexTerm></Title>
+<Para>
+ログイン/セッション・サーバは、ディスプレイとＸサーバにデスクトップ・サービス（ログイン・マネージャ、セッション・マネージャ、ファイル・マネージャ、ウィンドウ・マネージャなど）を提供するシステムです。
+</Para>
+<Para>
+一般的に、セッション・サーバはサービスをＸ端末に提供します。しかし、ネットワーク構成は、Ｘ端末とワークステーションの両方によってアクセスされるひとつ以上のサーバにセッション・サービスを集中するように設定できます。
+</Para>
+<Para>
+ログイン・マネージャは、ログイン・サービスを他のディスプレイに提供するデスクトップ・コンポーネントです。ユーザがログインすると、セッション・マネージャはユーザに対して起動されます。
+<IndexTerm><Primary>サーバ</Primary><Secondary>セッション</Secondary></IndexTerm><IndexTerm><Primary>Ｘ端末</Primary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>ログイン</Secondary></IndexTerm>
+</Para>
+<Para>
+ログイン/セッション・サーバとＸ端末の構成の詳細については、
+<!--Original XRef content: '&xd2;Displaying a Login Screen on a Network Display&xd3; on page&numsp;6'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.LogMg.mkr.6"> を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.19a">
+<Title>入力メソッド・サーバの構成<IndexTerm><Primary>入力メソッド・サーバ</Primary><Secondary>構成</Secondary></IndexTerm></Title>
+<Para>
+入力メソッド・サーバ (IMS) は <command>dtimsstart</command> コマンドによって起動されます。<command>dtimsstart</command> は、通常、スクリプト <filename>/usr/dt/config/Xsession.d/0020.dtims</filename> によって Xsession 起動時（ユーザ・ログイン時）に自動的に起動されます。
+</para>
+<para>
+現在選択されているロケール、環境変数、構成ファイル、およびコマンド行オプションに依存して、<command>dtimsstart</command> は、ユーザが使用する入力メソッド・サーバの選択を可能にする選択ウィンドウを表示します。選択ウィンドウでは、リモート・システムでの入力メソッド・サーバの起動を要求することもできます。この場合、<command>dtimsstart</command> は、次のことを行います。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<Symbol>DtImsGetRemoteConf</Symbol> アクションを実行して、指定されたリモート・システムに登録された入力メソッド・サーバに関する情報を収集します。
+</para>
+</listitem>
+<listitem>
+<para>
+選択ウィンドウに、登録されている入力メソッド・サーバの一覧を表示します。
+</para>
+</listitem>
+<listitem>
+<para>
+<Symbol>DtImsRunRemoteIms</Symbol> アクションを実行して、ユーザが選択した入力メソッド・サーバを、リモート・システムで起動します。
+</para>
+</listitem>
+</itemizedlist>
+<para>
+リモート・システムで入力メソッド・サーバを検索するとき、<command>dtimsstart</command> は、登録された入力メソッド・サーバのみを収集します。システムに（ローカルまたはリモートで）入力サーバを登録するには、次に示すことが要件となります。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+現在のロケールのエントリ・ファイルで定義されていること。各ロケールには、そのロケールをサポートする入力メソッド・サーバの一覧である固有のエントリ・ファイルがあります。ロケールのエントリ・ファイルの位置は、<filename>/usr/dt/config/ims/&lt;locale_name></filename> です。
+</para>
+</listitem>
+<listitem>
+<para>
+システムにそれ自身のエントリ・ファイルがあること。入力メソッド・サーバのエントリ・ファイルには、入力メソッド・サーバの属性が記述されています。属性には、サポートされているプロトコル、入力メソッド・サーバが実行されるサーバ名、入力メソッド・サーバのコマンド行オプション、および入力メソッド・サーバがリモート実行を許可するかどうかの指示があります。入力メソッド・サーバのエントリ・ファイルの位置は、<filename>/usr/dt/config/ims/&lt;ims_name></filename> です。
+</para>
+</listitem>
+</itemizedlist>
+<para>
+ファイル書式に関する説明と例については、<command>dtimsstart</command> のマニュアル・ページを参照してください。
+</para>
+<para>
+入力メソッド・サーバが見つけられるホストを定義するために、<literal>imServerHosts</literal> アプリケーション・リソースを構成することができます。このリソース（ユーザ選択のための入力メソッド・サーバを識別するときスタイル・マネージャによって使用されます）には、コンマで区切られたホスト名の一覧があります。次に例を示します。
+</para>
+<programlisting>*imServerHosts: xylo,expo
+</programlisting>
+</sect2>
+<Sect2 Id="SAG.ClSrv.div.20">
+<Title>他のアプリケーション関連サービスの構成</Title>
+<Para>
+この節では、デスクトップに共通のネットワーキングに必要な条件について説明します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<IndexTerm><Primary>アプリケーション・サーバ</Primary><Secondary>構成</Secondary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>アプリケーション</Secondary></IndexTerm>アプリケーション・サーバ
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>データベース・サーバ</Primary><Secondary>構成</Secondary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>データベース</Secondary></IndexTerm>データベース・サーバ
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>アイコン・サーバ</Primary><Secondary>構成</Secondary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>アイコン</Secondary></IndexTerm>アイコン・サーバ
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>ヘルプ・サーバ</Primary><Secondary>構成</Secondary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>ヘルプ</Secondary></IndexTerm>ヘルプ・サーバ
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.ClSrv.div.21" Role="Procedure">
+<Title Id="SAG.ClSrv.mkr.10">デスクトップのクライアントとサーバを構成するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+デスクトップが必要とするオペレーティング・システム・ネットワーク構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>ファイル</Primary><Secondary>ネットワーキングで必要な</Secondary></IndexTerm><IndexTerm><Primary>ネットワーキング</Primary><Secondary>〜で必要なファイル</Secondary></IndexTerm>
+デスクトップまたはファイルの最小のセットをインストールします。
+</Para>
+<Para>
+次のものをインストールしなければなりません。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+共通デスクトップ環境の実行時のファイル・セット全体
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis>または</Emphasis>、
+<IndexTerm><Primary>CDE-MIN ファイル</Primary></IndexTerm><IndexTerm><Primary>CDE-TT ファイル</Primary></IndexTerm>
+CDE-MIN および CDE-TT のファイル・セット
+</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>
+インストールとファイル・セットは、ベンダにより異なる可能性があります。
+</Para>
+</Note>
+</ListItem>
+<ListItem>
+<Para>
+ToolTalk ファイル名データベース・サーバ・デーモン <Command>rpc.ttdbserver</Command> 用にシステムを構成します。
+<IndexTerm><Primary>ファイル名データベース・サーバ</Primary></IndexTerm><IndexTerm><Primary>rpc.ttdbserver</Primary></IndexTerm>
+</Para>
+<Para>
+これは、デスクトップをインストールすると自動的に行われます。詳細については、
+<!--Original XRef content: '&xd2;Configuring the ToolTalk Database Server&xd3; on page&numsp;98'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.29"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+サブプロセス・コントロール・デーモン（<Command><IndexTerm><Primary>dtspcd</Primary></IndexTerm>dtspcd</Command>）をインストールし、構成します。
+</Para>
+<Para>
+これは、デスクトップをインストールすると自動的に行われます。詳細については、
+<!--Original XRef content: '&xd2;Configuring the Subprocess Control Daemon&xd3; on page&numsp;97'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.25"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>ファイル</Primary><Secondary>リモート・データ</Secondary></IndexTerm>
+必要なリモート・データをすべてマウントします。
+</Para>
+<Para>
+データを使用しているアプリケーションが実行中であるシステム以外のシステムにデータがある場合、データは「リモート」だとみなされます。
+</Para>
+<Para>たとえば、次のような場合があります。</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+アプリケーションがファイル・サーバにあるデータを使用する場合、それらのファイルをマウントしなればなりません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ファイル・マネージャのアイコンがアイコン・サーバにある場合、セッション・サーバはそれらのファイルをマウントしなければなりません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ネットワークがデスクトップ・ヘルプ・ファイルのためにヘルプ・サーバを使用する場合、セッション・サーバとすべてのアプリケーション・サーバはヘルプ・データをマウントしなければなりません。
+</Para>
+<Para>
+マウント・ポイントの詳細については、次の節の
+<!--Original XRef content: '&xd2;Configuring the Mount Point for Remote File Systems'--><XRef Role="SectionTitle" Linkend="SAG.ClSrv.div.22"> を参照してください。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.22">
+<Title Id="SAG.ClSrv.mkr.11">リモート・ファイル・システムのマウント・ポイントの構成<IndexTerm><Primary>ファイル</Primary><Secondary>マウント・ポイント</Secondary></IndexTerm><IndexTerm><Primary>リモート・ファイルのマウント・ポイント</Primary></IndexTerm></Title>
+<Para>
+<IndexTerm><Primary>ファイル名のマッピング</Primary></IndexTerm>
+デスクトップはひとつのシステムから別のシステムにファイル名を渡す場合、そのファイル名を宛先システムにとって意味のある名前に変換、または「マップ」しなければなりません。このマッピングが必要なのは、ファイルが別のシステムの別の位置にマウントされ、そのため別の名前を使用してアクセスしなければならない場合があるためです。たとえば、<Command>sysA</Command> の <Filename>/projects/big</Filename> ファイルは、<Command>sysB</Command> の <Filename>/net/sysA/projects/big</Filename> としてアクセスされる可能性があります。
+</Para>
+<Sect4 Id="SAG.ClSrv.div.23">
+<Title>ファイル名マッピングのための要件</Title>
+<Para>
+このファイル名マッピングを正しく実行するためには、次の条件のうちのいずれかひとつが真でなければなりません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<Command>mount</Command> コマンドをファイル・システムを静的にマウントするために使用する。これらの静的マウントは、<Filename>/etc/checklist</Filename>、<Filename>/etc/mnttab</Filename>、または <Filename>/etc/filesystems</Filename> などのファイルで通常は構成されます。
+</Para>
+<Para>
+システム間で正しく動作するファイル名マッピングの場合、ファイル・システムのマウントは一貫したホスト名を使用しなければなりません。ホストがいくつかの名前で認識される場合（たとえば別名、または異なる名前で認識される２つ以上の LAN アドレスを持っている場合）、すべてのマウントに対して同じ名前と名前形式を使用しなければなりません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis>または</Emphasis>、オートマウンタを、デフォルトの <Filename>/net</Filename> マウント・ポイントとしてファイル・システムをマウントするのに使用する。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis>または</Emphasis>、
+<IndexTerm><Primary>オートマウンタ</Primary></IndexTerm>
+オートマウンタを、<Filename>/net</Filename> 以外の位置にファイル・システムをマウントするのに使用し、DTMOUNTPOINT 環境変数をマウント・ポイントを示すために設定する。次の節の
+<!--Original XRef content: '&xd2;Setting a Value for DTMOUNTPOINT'--><XRef Role="SectionTitle" Linkend="SAG.ClSrv.div.24"> を参照してください。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+オートマウンタの詳細については、<Filename MoreInfo="RefEntry">automount</Filename>(1m) のマニュアル・ページを参照してください。
+</Para>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.24">
+<Title Id="SAG.ClSrv.mkr.12"><IndexTerm><Primary>DTMOUNTPOINT 変数</Primary><Secondary>設定</Secondary></IndexTerm>DTMOUNTPOINT の値の設定</Title>
+<Para>
+<IndexTerm><Primary>DTMOUNTPOINT 変数</Primary><Secondary>使用するプロセス</Secondary></IndexTerm>
+次の条件が真の場合、DTMOUNTPOINT 環境変数を設定しなければなりません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+オートマウンタを、ファイル・システムをマウントするのに使用する。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Emphasis>かつ</Emphasis>、リモート・ファイル・システムを <Filename>/net</Filename> 以外の位置にマウントする。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+<IndexTerm><Primary>DTMOUNTPOINT 変数</Primary><Secondary>プロセスが必要とする</Secondary></IndexTerm>
+DTMOUNTPOINT は次のようなプロセスに対して設定する必要があります。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ワークスペース・マネージャ (<Command>dtwm</Command>) とファイル・マネージャ (<Command>dtfile</Command>) などのログインするときに自動的に起動されるユーザのデスクトップ・プロセス
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Command>inetd</Command> などの機構によって起動される <Filename><IndexTerm><Primary>rpc.ttdbserver</Primary></IndexTerm>rpc.ttdbserver</Filename> と <Command>dtspcd</Command> などのシステム・プロセス
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ローカル・システムまたはリモート・システム上のデスクトップによって起動されるアプリケーション
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+シェル・コマンド行からユーザによって起動されるアプリケーション
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+これらのプロセスのすべてに対して DTMOUNTPOINT を設定するには、次のようにします。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+ファイル <Filename>/etc/inetd.conf</Filename> を次のように編集します。
+<IndexTerm><Primary>inetd.conf</Primary></IndexTerm>
+</Para>
+<orderedlist>
+<ListItem>
+<Para>
+<Command><IndexTerm><Primary>dtspcd</Primary></IndexTerm>dtspcd</Command> エントリをみつけ、次の行を追加します。
+</Para>
+<programlisting>-mount_point <Symbol Role="Variable">mount_point</Symbol></programlisting>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>rpc.ttdbserver</Filename> エントリをみつけ、次の行を追加します。
+</Para>
+<programlisting>-m <Symbol Role="Variable">mount_point</Symbol></programlisting>
+<Para>
+たとえば、オートマウンタが <Command>/nfs</Command> のようなマウント・ポイントで使用中の場合、<Filename>/etc/inetd.conf</Filename> のエントリは次のようになります。
+</Para>
+<ProgramListing>dtspc stream tcp nowait root /usr/dt/bin/dtspcd /usr/dt/bin/dtspcd -mount_point /nfs
+rpc stream tcp wait root /usr/dt/bin/rpc.ttdbserver 100083 1 rpc.ttdbserver -m /nfs</ProgramListing>
+</ListItem>
+</OrderedList>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>/etc/inetd.conf</Filename> を再読み込みするシステム上の手続きを実行します。詳細については、<Filename MoreInfo="RefEntry">inetd</Filename>(1m) のマニュアル・ページを参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>DTMOUNTPOINT 変数</Primary><Secondary>ユーザによって継承された</Secondary></IndexTerm>
+DTMOUNTPOINT の値がユーザのログインによって継承されるように設定します。
+</Para>
+<Para>
+これは、<Filename>/etc/dt/config/Xsession.d</Filename> に変数を設定することによって実行できます。環境変数設定の詳細については、
+<!--Original XRef content: '&xd2;To Set Environment Variables&xd3; on page&numsp;32'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.SesMg.mkr.9"> を参照してください。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.25">
+<Title Id="SAG.ClSrv.mkr.13">サブプロセス・コントロール・デーモンの構成</Title>
+<Para>
+デスクトップ
+<IndexTerm><Primary>サブプロセス・コントロール・サービス、「SPC」を参照してください&lt;$nopage></Primary></IndexTerm> 
+サブプロセス・コントロール (<IndexTerm><Primary>SPC</Primary></IndexTerm>SPC) サービスは、クライアント/サーバのコマンド実行を提供します。 
+</Para>
+<Para>
+デスクトップ
+<IndexTerm><Primary>サブプロセス・コントロール・デーモン、「dtspcd」を参照してください&lt;$nopage></Primary></IndexTerm>
+サブプロセス・コントロール・デーモン (<Command><IndexTerm><Primary>dtspcd</Primary></IndexTerm>dtspcd</Command>) は、リモート・アプリケーションを起動するためにデスクトップによって使用されます。このデーモンは、コマンドを実行するためにリモート・クライアントから要求を受けとる <Command>inet</Command> デーモンです。<Command>inet</Command> デーモンの構成方法の詳細については、<Filename MoreInfo="RefEntry">inetd.conf</Filename>(1m) のマニュアル・ページを参照してください。
+</Para>
+<Para>
+デスクトップ・アクション呼び出しライブラリは、リモート・アクションを呼び出すために SPC サービスを使用します。
+</Para>
+<Sect4 Id="SAG.ClSrv.div.26">
+<Title><IndexTerm><Primary>dtspcd</Primary><Secondary>configuring</Secondary></IndexTerm> dtspcd を構成するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Command>dtspc</Command> が <Filename>/etc/services</Filename> と <Filename>/etc/inetd.conf</Filename> の両方に適切に登録されていることを確認します。
+<Filename MoreInfo="RefEntry">dtspcd</Filename>(1m) のマニュアル・ページを参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+HP-UX のみ。<Filename>/usr/adm/inetd.sec</Filename> を適切な方法で確実に構成します。
+<Filename MoreInfo="RefEntry"><IndexTerm><Primary>inetd.sec</Primary></IndexTerm>inetd.sec(4)</Filename> のマニュアル・ページを参照してください。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.27">
+<Title><IndexTerm><Primary>SPC</Primary><Secondary>セキュリティ</Secondary></IndexTerm>SPC セキュリティ</Title>
+<Para>
+サブプロセス・コントロール・サービスに対する認証は、ファイル・システム認証に基づきます。<Command>dtspcd</Command> は、すべての SPC クライアント・システムによってもマウントされる <Emphasis>認証ディレクトリ</Emphasis> にアクセスできなければなりません。
+</Para>
+<Para>
+デフォルトでは、
+<Command><IndexTerm><Primary>dtspcd</Primary><Secondary>認証ディレクトリ</Secondary></IndexTerm><IndexTerm><Primary>認証ディレクトリ</Primary></IndexTerm>dtspcd</Command> 認証ディレクトリがユーザのホーム・ディレクトリです。しかし、<Filename>/etc/inetd.conf</Filename> ディレクトリに <Filename>-auth_dir</Filename> オプションを設定することにより、別の位置を使用するように <Command>dtspcd</Command> を構成することができます。詳細については、<Filename>dtspcd</Filename>(1m) のマニュアル・ページを参照してください。
+</Para>
+<Para>
+SPC 認証はファイル・システム認証に基づいているので、SPC サービスは分散ファイル・システムと同じ程度に安全なだけです。分散ファイル・システムを信頼していないネットワーク上のデスクトップを使用している場合、<Command>dtspcd</Command> を使用できないようにしたい場合があります。<Command>dtspcd</Command> を使用できないようにするには、<Filename>/etc/services</Filename> の <Command>dtspc</Command> エントリ
+をコメントアウトしてください。
+</Para>
+</Sect4>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.28">
+<Title><IndexTerm><Primary>環境変数</Primary><Secondary>リモート実行</Secondary></IndexTerm>リモート実行に対する環境変数の構成</Title>
+<Para>
+リモート・システムでアプリケーションを起動するためにデスクトップがアクションを使用する場合、ユーザの環境変数はリモート・システムにコピーされ、アプリケーションの環境に配置されます。
+</Para>
+<Para>
+デフォルトでは、環境変数のいくつかはリモート・システムにコピーされる前に変更されます。変数をアプリケーションの環境に位置付ける前に、追加のアプリケーション環境変数の処理を実行するように、アクション呼び出しコンポーネントとデスクトップのサブプロセス・コントロール・サービスの両方を構成できます。
+</Para>
+<Para>
+デフォルトの構成とその変更方法の詳細については、<Filename>dtactionfile(4)</Filename> と <Filename>dtspcdenv(4)</Filename> のマニュアル・ページを参照してください。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.29">
+<Title Id="SAG.ClSrv.mkr.14">ToolTalk データベース・サーバの構成<IndexTerm><Primary>ToolTalk</Primary><Secondary>データベース・サーバ、「rpc.ttdbserver」を参照してください</Secondary></IndexTerm></Title>
+<Para>
+ToolTalk のひとつのコンポーネントは、ToolTalk データベース・サーバ <Filename>/usr/dt/bin/rpc.ttdbserver</Filename> です。
+</Para>
+<Para>
+ToolTalk データベース・サーバは、ToolTalk メッセージ・サービスによってファイル名マッピングのために使用されます。このサーバは、デスクトップがインストールされ、追加構成が不要な場合、通常は <Filename>/etc/inetd.conf</Filename> に登録されます。
+</Para>
+<Para>
+ToolTalk データベース・サーバとその構成オプションの詳細については、<Filename>rpc.ttdbserver</Filename>(1m) のマニュアル・ページを参照してください。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.30">
+<Title>ToolTalk メッセージ・サーバの構成<IndexTerm><Primary>ToolTalk メッセージ・サーバ、「ttsession」を参照してください</Primary></IndexTerm></Title>
+<Para>
+ToolTalk メッセージ・サーバは <Command>ttsession</Command> です。デフォルトでは、このサーバには構成は必要はありません。ログイン中このサーバは <Command>Xession</Command> スクリプトによって起動されます。
+</Para>
+<Para>
+ToolTalk メッセージ・サーバとその構成オプションの詳細については、<Command>ttsession</Command> のマニュアル・ページを参照してください。
+<IndexTerm><Primary>ttsession</Primary></IndexTerm>
+</Para>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.31">
+<Title><IndexTerm><Primary>カレンダ・デーモン</Primary></IndexTerm>カレンダ・デーモンの構成</Title>
+<Para>
+カレンダ・アプリケーションのひとつのコンポーネントは、カレンダ・デーモン <Filename><IndexTerm><Primary>rpc.cmsd</Primary></IndexTerm>rpc.cmsd</Filename> です。デスクトップがインストールされ、追加の構成が不要な場合、通常は <Filename>/etc/inetd.conf</Filename> に登録されます。
+</Para>
+<Para>
+カレンダ・デーモンとその構成オプションの詳細については、<Filename>rpc.cmsd</Filename><Filename MoreInfo="RefEntry"></Filename>(1) のマニュアル・ページを参照してください。
+</Para>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.ClSrv.div.32">
+<Title Id="SAG.ClSrv.mkr.15">アプリケーション・サービスの管理<IndexTerm><Primary>アプリケーション・サーバ</Primary><Secondary>管理</Secondary></IndexTerm></Title>
+<Para>
+この節では、次のコンポーネントの特定の構成要件について説明します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーション・サーバとそのクライアント
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+特定のサービスを提供するデスクトップ・サーバ &mdash; データベース・サーバ、アイコン・サーバ、ヘルプ・サーバ
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+また、ネットワーク・アプリケーションの次の２つの特殊構成に対するネットワーキング要件についても説明します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+リモート実行ホスト
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+フィイル・システムをマウントして実行中のアプリケーション
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.ClSrv.div.33">
+<Title>検索パスの環境変数</Title>
+<Para>
+アクション、データ型データベース、ヘルプ・ファイル、アイコン・ファイルなどのアプリケーション・デスクトップ構成ファイルを見つけるのに使用する検索パスを指定するために、デスクトップは環境変数セットを使用します。
+</Para>
+<Para>
+検索パスの環境変数の使用方法の詳細については、
+<!--Original XRef content: 'Chapter&numsp;7, &xd2;Desktop Search Paths'--><XRef Role="ChapNumAndTitle" Linkend="SAG.Datab.div.1"> または <Filename MoreInfo="RefEntry">dtenvvar(5)</Filename> のマニュアル・ページを参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.34">
+<Title>アプリケーション・サーバとそのクライアントの構成<IndexTerm><Primary>リモート実行</Primary><Secondary>アプリケーション・サーバの構成</Secondary></IndexTerm></Title>
+<Para>
+標準アプリケーション・サーバ構成において、アプリケーション・サーバにはアプリケーションに関連付けられた次のようなバイナリ・ファイルと構成ファイルが入っています。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アプリケーション実行可能ファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+app-defaults、メッセージ・カタログ、そのアプリケーションの共有ライブラリなどの標準アプリケーション構成ファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+デスクトップ構成ファイル
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+アクションとデータ型定義ファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アイコン・イメージ・ファイル
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+デスクトップ・ヘルプ・データ・ファイル
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</ItemizedList>
+<Figure>
+<Title>標準アプリケーション・サーバ構成<IndexTerm><Primary>アプリケーション・サーバ</Primary><Secondary>標準構成</Secondary></IndexTerm></Title>
+<Graphic Entityref="SAG.ClSrv.fig.5" Id="SAG.ClSrv.grph.5"></Graphic>
+</Figure>
+<Sect3 Id="SAG.ClSrv.div.35" Role="Procedure">
+<Title>アプリケーション・サーバを構成するには<IndexTerm><Primary>アプリケーション・サーバ</Primary><Secondary>構成</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+デスクトップが必要とするオペレーティング・システムのネットワーク構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+サーバに対して必要な一般デスクトップ構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションをインストールします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションが自動的にそれ自身を登録しない場合は、登録手続きを実行しなければなりません。
+</Para>
+<Para>
+<!--Original XRef content: 'Chapter&numsp;4, &xd2;Registering an Application'--><XRef Role="ChapNumAndTitle" Linkend="SAG.RegAp.mkr.1"> を参照してください。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.36" Role="Procedure">
+<Title>アプリケーション・サーバを構成するには<IndexTerm><Primary>アプリケーション・サーバ</Primary><Secondary>〜のクライアント</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション・サーバ</Primary><Secondary>〜のクライアントの構成</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+デスクトップが必要とするオペレーティング・システムのネットワーク構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+クライアントに対して必要な一般デスクトップ構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+システム共通か個人用かによって、アプリケーション・サーバをアプリケーション検索パスに追加します。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.01in">
+<colspec colwidth="3.88in">
+<TBody>
+<Row>
+<Entry><Para>システム共通</Para></Entry>
+<Entry><Para>
+DTSPSYSAPPHOSTS 変数を <Filename>/etc/dt/config/Xsession.d/0010.dtpaths</Filename><IndexTerm><Primary>DTSPSYSAPPHOSTS 変数</Primary></IndexTerm> に設定します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>個人用</Para></Entry>
+<Entry><Para>
+DTSPUSERAPPHOSTS 変数を <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename><IndexTerm><Primary>DTSPUSERAPPHOSTS 変数</Primary></IndexTerm> に設定します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、<Filename>/etc/dt/config/Xsession.d/0010.dtpaths</Filename> にある次の行は、<Command>SysAAA</Command> と <Command>SysBBB</Command> というホスト名が付いているシステムをアプリケーション検索パスに追加します。
+</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=SysAAA:,SysBBB:</ProgramListing>
+<Para>
+アプリケーション検索パスの設定の詳細については、次を参照してください。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Application Search Path&xd3; on page&numsp;116'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.7"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Setting the Value of a Search Path&xd3; on page&numsp;115'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.3"></Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.37">
+<Title Id="SAG.ClSrv.mkr.16">データベース、アイコン、およびヘルプ・サービスの構成<IndexTerm><Primary>アイコン・サーバ</Primary><Secondary>構成</Secondary></IndexTerm><IndexTerm><Primary>ヘルプ・サーバ</Primary><Secondary>構成</Secondary></IndexTerm><IndexTerm><Primary>データベース・サーバ</Primary><Secondary>構成</Secondary></IndexTerm><IndexTerm><Primary>データベース・サーバ</Primary><Secondary>構成</Secondary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>アクション</Secondary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>データ型</Secondary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>アクション</Secondary></IndexTerm><IndexTerm><Primary>サーバ</Primary><Secondary>データ型</Secondary></IndexTerm><IndexTerm><Primary>データ型</Primary><Secondary>〜のサーバ</Secondary></IndexTerm><IndexTerm><Primary>アクション</Primary><Secondary>〜のサーバ</Secondary></IndexTerm></Title>
+<Para>
+通常は、アクションと、アプリケーションに関連付けられたデータ型定義、アイコン、ヘルプ・ファイルは、アプリケーションとして同じシステムにインストールされます。
+</Para>
+<Para>
+たとえば、ヘルプのデータ・ファイルの一般的な構成について考えてみます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ファイル・マネージャのヘルプ・ファイルは通常、セッション・サーバにあります。ヘルプ検索パスはセッション・サーバで適切な位置を自動的に検索するため、デスクトップはそれらのファイルを見つけます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+他のアプリケーションのヘルプ・ファイルは通常、アプリケーションとして同じアプリケーション・サーバにあります。アプリケーション検索パスを変更するとヘルプ検索パスを自動的に変更するので、セッション・サーバはそれらのファイルを見つけます。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+ネットワークのどこかにデータベース（アクションとデータ型）、ヘルプ、またはアイコン・データを置きたい場合があるかもしれません。たとえば、ネットワークが複数のセッション・サーバを使用する場合、デスクトップ・アプリケーション（ファイル・マネージャ、スタイル・マネージャなど）のすべてのヘルプ・データ・ファイルが格納されているヘルプ・サーバを作成することを推奨します。こうすると、ヘルプ・ファイルを各セッション・サーバで複製する必要がなくなるため、ディスク・スペースを節約することができます。
+</Para>
+<Sect3 Id="SAG.ClSrv.div.38" Role="Procedure">
+<Title Id="SAG.ClSrv.mkr.17">データベース・サーバ、ヘルプ・サーバ、またはアイコン・サーバを作成するには<IndexTerm><Primary>データベース・サーバ</Primary><Secondary>作成</Secondary></IndexTerm><IndexTerm><Primary>アイコン・サーバ</Primary><Secondary>作成</Secondary></IndexTerm><IndexTerm><Primary>ヘルプ・サーバ</Primary><Secondary>作成</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+デスクトップが必要とするオペレティーング・システム・ネットワーク構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+クライアントに対して必要な一般デスクトップ構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.ClSrv.mkr.18">
+データベース・ファイル、ヘルプ・ファイル、またはアイコン・ファイルをインストールします。
+</Para>
+<Para>
+ファイルはシステム上のどこにでも置くことができます。しかし、システムがアプリケーション・サーバを指定すると自動的に検索されるディレクトリがあるので、次の位置を使用するとより簡単になります。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>データベース・ファイル: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>ヘルプ・ファイル: <Filename>/etc/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para>アイコン・ファイル: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+データベース・サーバを設定する場合、コマンド (<Filename>EXEC_STRING</Filename>) を実行する位置を指定するためにアクションに書き込む必要があります。
+<!--Original XRef content: '&xd2;Specifying a Remote Execution Host&xd3; on page&numsp;104'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.41"> を参照してください。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.39" Role="Procedure">
+<Title>データベース・サーバ、アイコン・サーバ、またはヘルプ・サーバを見つけるためにセッション・サーバを構成するには<IndexTerm><Primary>ヘルプ・サーバ</Primary><Secondary>〜のクライアント</Secondary></IndexTerm><IndexTerm><Primary>アイコン・サーバ</Primary><Secondary>〜のクライアント</Secondary></IndexTerm><IndexTerm><Primary>データベース・サーバ</Primary><Secondary>〜のクライアント</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+デスクトップが必要とするオペレーティング・サーバ・ネットワーク構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+クライアントに対して必要な一般デスクトップ構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+データベース・サーバ、アイコン・サーバ、またはヘルプ・サーバを適切な検索パスに追加します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+<!--Original XRef content: '&xd2;To Create a Database, Help, or Icon Server'--><XRef Role="SectionTitle" Linkend="SAG.ClSrv.mkr.17"> の
+<!--Original XRef content: 'Step&numsp;3'--><XRef Role="Step" Linkend="SAG.ClSrv.mkr.18"> で指定された位置にデータ・ファイルを格納した場合、アプリケーション検索パスを変更できます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+他の位置にデータ・ファイルを格納した場合、特定の検索パスを変更しなければなりません。
+</Para>
+<Para>
+たとえば、ヘルプ・ファイルをシステム <Command>SysCCC</Command> にあるディレクトリ <Filename>/etc/dt/help</Filename> に格納した場合、次の行を <Filename>/etc/dt/config/Xsession.d/0010.dtpaths</Filename> に追加します。
+</Para>
+<programlisting>DTSPSYSHELP=/net/SysCCC/etc/dt/help</programlisting>
+</ListItem>
+</itemizedlist>
+<Para>
+検索パスの設定の詳細については、次を参照してください。
+</Para>
+<itemizedlist>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Database (Action/Data Types) Search Path&xd3; on page&numsp;120'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.14"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Icon Search Path&xd3; on page&numsp;122'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.20"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Help Search Path&xd3; on page&numsp;123'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.26"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Setting the Value of a Search Path&xd3; on page&numsp;115'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.3"></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.ClSrv.div.40">
+<Title>特殊ネットワーク・アプリケーション構成</Title>
+<Para>
+この節では、次のようなアプリケーションを実行するためにシステムを構成する方法について説明します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+アクションが入っているシステム、つまりリモート実行ホスト以外の場所にあるアプリケーション
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ファイル・システム・マウントに対してローカルにあるアプリケーション
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.ClSrv.div.41">
+<Title Id="SAG.ClSrv.mkr.19">リモート実行ホストの指定<IndexTerm><Primary>リモート実行</Primary><Secondary>アプリケーションからのリモートによるアクションで</Secondary></IndexTerm></Title>
+<Para>
+典型的なアプリケーション・サーバ構成では、アクション定義はアプリケーション実行可能ファイルと同じシステムにあります。しかし、
+<IndexTerm><Primary>アクション</Primary><Secondary>リモート・アプリケーションの実行</Secondary></IndexTerm>
+アクションは他のシステムにあるコマンドを実行するために書き込むことができます。この構成では、アプリケーションが入っているシステムは
+<Emphasis><IndexTerm><Primary>実行ホスト</Primary><Secondary>指定</Secondary></IndexTerm> 実行ホスト </Emphasis> 
+<IndexTerm><Primary>EXEC_HOST、「ホスト&lt;$nopage」を参照してください></Primary></IndexTerm>
+と呼びます。
+</Para>
+<Para>
+アクション定義は、セッション・サーバまたはセッション・サーバにアクションとデータ型のサービスを提供するシステムに置くことができます。このシステムを
+<Emphasis><IndexTerm><Primary>データベース・サーバ</Primary></IndexTerm><IndexTerm><Primary>データベース・ホスト</Primary></IndexTerm>データベース・サーバ</Emphasis> または <Emphasis>データベース・ホスト</Emphasis> と呼びます。
+</Para>
+<Para>
+アクション定義は、コマンド (<Filename>EXEC_STRING</Filename>) を実行する位置を指定するために <Filename>EXEC_HOST</Filename> フィールドを使用します。たとえば、次のアクション定義は、ホスト名が <Command>SysDDD</Command> であるシステムで <Command>xload</Command> クライアントが実行されるように指定します。
+</Para>
+<programlisting>ACTION XloadSysDDD
+{ TYPE        COMMAND
+ EXEC_HOST    SysDDD
+ EXEC_STRING  /usr/bin/X11/xload -label SysDDD
+}
+</ProgramListing>
+<Para>
+<Filename><IndexTerm><Primary>EXEC_HOST フィールド</Primary><Secondary>複数の値</Secondary></IndexTerm>EXEC_HOST</Filename> が２つ以上のホスト名を指定する場合、デスクトップはアクションを実行できるホストを見つけるまで順番に各ホストで <Filename>EXEC_STRING</Filename> を実行しようとします。たとえば、次の <Filename>EXEC_HOST</Filename> フィールドはアクションが最初に <Command>SysDDD</Command>、失敗した場合は <Command>SysEEE</Command> で <Filename>EXEC_STRING</Filename> を実行するように指定しています。
+</Para>
+<ProgramListing>EXEC_HOST  SysDDD,SysEEE</ProgramListing>
+<Para>
+<Filename><IndexTerm><Primary>EXEC_HOST フィールド</Primary><Secondary>デフォルト値</Secondary></IndexTerm>EXEC_HOST</Filename> フィールドがアクション用に設定されていない場合、デフォルト値は <Filename>&percnt;DatabaseHost&percnt;</Filename> になります。<Filename>&percnt;DatabaseHost&percnt;</Filename> の値はデータ検索パスから取得されます。
+</Para>
+<Para>
+たとえば、データベース検索パスは、<Filename>/etc/dt/config/Xsession.d/0010.dtpaths</Filename> に次の行を追加することによって変更されたとします。
+<IndexTerm><Primary>データベース検索パス</Primary><Secondary>EXEC_HOST への影響</Secondary></IndexTerm><IndexTerm><Primary>DTSPSYSDATABASEHOSTS 変数</Primary><Secondary>EXEC_HOST への影響</Secondary></IndexTerm><IndexTerm><Primary>EXEC_HOST フィールド</Primary><Secondary>データベース検索パスによる影響</Secondary></IndexTerm>
+</Para>
+<programlisting>DTSPSYSDATABASEHOSTS=SysAAA:,/net/SysBBB/etc/dt/appconfig/types/C
+</ProgramListing>
+<Para>
+<Command>SysAAA</Command> はホスト修飾子構文を使用して指定されます。つまり <Filename>SysAAA:</Filename> になります。検索パスのこの要素を使用して見つけられるアクション定義は、データベース・ホストを <Command>SysAAA</Command> に設定します。しかし、検索パスの <Filename>/net/SysBBB</Filename>&hellip; 部分を使用して見つけられるアクションは、構文にはホスト修飾子が含まれていないのでデータベース・ホストにローカル・システムを設定します。
+</Para>
+<Sect4 Id="SAG.ClSrv.div.42">
+<Title>リモート実行ホストを構成するには<IndexTerm><Primary>実行ホスト</Primary><Secondary>構成</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+デスクトップが必要とするオペレーティング・システムのネットワーク構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+サーバに対して必要な一般デスクトップ構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アプリケーションをローカル実行のために適切な方法で確実にインストールします。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.43">
+<Title>アクション定義が入っているシステムを構成するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+デスクトップが必要とするオペレーティング・システム・ネットワーク構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+サーバに対して必要な一般デスクトップ構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+アクション定義とアプリケーション・グループを作成しインストールします。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Creating Actions that Run Applications on Remote Systems&xd3; on page&numsp;177'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrAct.div.49"> および
+<!--Original XRef content: '&xd2;Creating and Administering General Application Groups&xd3; on page&numsp;45'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CnfAM.mkr.10"> を参照してください。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.44">
+<Title>セッション・サーバを構成するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+デスクトップが必要とするオペレーティング・システム・ネットワーク構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Configuring Base Operating System Networking for the Desktop&xd3; on page&numsp;90'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.6"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+クライアントに対して必要な一般デスクトップ構成を提供します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;To Configure Desktop Clients and Servers&xd3; on page&numsp;94'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.10"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+データベース・ホストを組み込むためにアクション検索パスを変更します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Database (Action/Data Types) Search Path&xd3; on page&numsp;120'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.14"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+実行ホストを組み込むためにアプリケーション検索パスを変更します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Application Search Path&xd3; on page&numsp;116'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.7"> を参照してください。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+</Sect3>
+<Sect3 Id="SAG.ClSrv.div.45">
+<Title>アプリケーションのローカルな実行<IndexTerm><Primary>マウント、〜にわたるアプリケーションの実行</Primary></IndexTerm><IndexTerm><Primary>アプリケーション</Primary><Secondary>マウントにわたるローカルな実行</Secondary></IndexTerm><IndexTerm><Primary>ネットワーキング</Primary><Secondary>マウントにわたるアプリケーションの実行</Secondary></IndexTerm></Title>
+<Para>
+標準アプリケーション・サーバ構成は、アプリケーション・サーバでアプリケーションを実行します。リモート・システムにアプリケーションをインストールし、セッション・サーバでローカルに実行するほうが望ましい場合もあります。
+</Para>
+<Figure>
+<Title>マウント・ポイントでの実行</Title>
+<Graphic Entityref="SAG.ClSrv.fig.6" Id="SAG.ClSrv.grph.6"></Graphic>
+</Figure>
+<Sect4 Id="SAG.ClSrv.div.46">
+<Title>アプリケーション・サーバを構成するには</Title>
+<Para>
+特別な構成は必要ありません。
+</Para>
+</Sect4>
+<Sect4 Id="SAG.ClSrv.div.47">
+<Title>セッション・サーバを構成するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+アプリケーション検索パスを変更します。アプリケーションへのローカル絶対パスを使用します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、<Command>sysAAA</Command> に登録されたアプリケーションを見つけるには、次の変数定義を使用します。
+</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=/net/SysAAA/etc/dt/appconfig/appmanager/C</ProgramListing>
+<Para>
+セッション・サーバは、app-defaults、メッセージ・カタログ、共有ライブラリなどのアプリケーションの構成ファイルにアクセスできなければなりません。
+</Para>
+</Sect4>
+</Sect3>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

@@ -1,0 +1,1655 @@
+<!-- $XConsortium: ch04.sgm /main/11 1996/09/08 19:32:44 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.RegAp.div.1">
+<Title Id="SAG.RegAp.mkr.1">Registering an Application</Title>
+<Para><IndexTerm>
+<Primary>&lt;$nopage>application registration, See registration</Primary>
+</IndexTerm>This chapter describes how to create a registration package for an application
+and how to register the application onto the desktop.</Para>
+<InformalTable Id="SAG.RegAp.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.125 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Overview of Application Registration54'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'General Steps for Registering an Application57'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.5"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 1: Modifying Font and Color Resources58'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.6"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 2: Creating the Desktop Application Root60'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.9"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 3: Creating the Registration Package Directories60'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.10"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 4: Creating the Actions and Data Types for the Application62'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.13"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 5: Putting the Help Files in the Registration Package66'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.19"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 6: Putting Information Libraries in the Registration Package'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.19a"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 7: Creating Icons for the Application67'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.20"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 8: Creating the Application Group68'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.22"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Step 9: Registering the Application Using dtappintegrate75'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.30"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Example of Creating a Registration Package77'--><XRef Role="JumpText" Linkend="SAG.RegAp.div.38"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para Id="SAG.RegAp.mkr.2">When an application is fully registered onto the desktop, it has:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Its own application group at the top level of the Application Manager</Para>
+</ListItem>
+<ListItem>
+<Para>An action that starts the application. The action is represented by an icon in
+the application group</Para>
+</ListItem>
+<ListItem>
+<Para>Optionally, data types for its data files</Para>
+</ListItem>
+</ItemizedList>
+<Para>Application registration is a non-invasive operation to the application:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>It does not involve modification of the application executable itself.
+Therefore, you can register existing applications on a system.</Para>
+</ListItem>
+<ListItem>
+<Para>It does not require that any of the application's delivered files (such as the
+executable and <Filename>app-defaults</Filename>) be moved to other file locations.</Para>
+</ListItem>
+<ListItem>
+<Para>It can be undone easily. The <Command>dtappintegrate</Command> tool, which is used to
+register applications, provides a command-line option for reversing the
+process.</Para>
+</ListItem>
+</ItemizedList>
+<Para>You will want to create a registration package if you are:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>A system administrator who wants to register an existing application onto
+the desktop</Para>
+</ListItem>
+<ListItem>
+<Para>A software programmer who wants to create an installation package for a
+desktop-smart application</Para>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="SAG.RegAp.div.2">
+<Title Id="SAG.RegAp.mkr.3">Overview of Application Registration<IndexTerm><Primary>applications</Primary><Secondary>registering, See registration</Secondary></IndexTerm><IndexTerm><Primary>registration</Primary><Secondary>overview</Secondary></IndexTerm></Title>
+<Para>This section explains:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The purpose of application registration</Para>
+</ListItem>
+<ListItem>
+<Para>Features provided to your application by application registration</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>For a detailed example that shows how to register an existing
+application, see
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package&xd3; on page&numsp;77'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.38">.</Para>
+</Note>
+<Sect2 Id="SAG.RegAp.div.3">
+<Title>Features Provided by Application Registration<IndexTerm><Primary>applications</Primary><Secondary>features of registration</Secondary></IndexTerm><IndexTerm><Primary>registration package</Primary><Secondary>purpose of</Secondary></IndexTerm><IndexTerm><Primary>registration</Primary><Secondary>features provided by</Secondary></IndexTerm></Title>
+<Para><IndexTerm>
+<Primary>Application Manager</Primary>
+<Secondary>integrating applications with</Secondary>
+</IndexTerm>Application registration provides a graphical way for users to:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Locate your application.</Para>
+<Para>Upon installation, your application is &ldquo;registered&rdquo; into the Application
+Manager and has its own application group.</Para>
+</ListItem>
+</ItemizedList>
+<Figure>
+<Title Id="SAG.RegAp.mkr.4">Application groups at the top level of Application Manager</Title>
+<Graphic Entityref="SAG.RegAp.fig.1" Id="SAG.RegAp.grph.1"></Graphic>
+</Figure>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Start your application.</Para>
+<Para>The application group for your application contains an icon the user can
+double-click to start your application.</Para>
+</ListItem>
+</ItemizedList>
+<Figure>
+<Title>An application group containing an icon to start the application</Title>
+<Graphic Entityref="SAG.RegAp.fig.2" Id="SAG.RegAp.grph.2"></Graphic>
+</Figure>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><IndexTerm>
+<Primary>applications</Primary>
+<Secondary>purpose for data types</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>data types</Primary>
+<Secondary>purpose for creating</Secondary>
+</IndexTerm>Identify and manipulate data files. The application's data files will have a
+unique icon in File Manager.</Para>
+<Para>The user can use data file icons to:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Start (Open) the application</Para>
+</ListItem>
+<ListItem>
+<Para>Print data files</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</ItemizedList>
+<Figure>
+<Title>A data file's pop-up menu containing ``Open'' and ``Print''</Title>
+<Graphic Entityref="SAG.RegAp.fig.3" Id="SAG.RegAp.grph.3"></Graphic>
+</Figure>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Perform other operations, such as mailing, compressing, viewing, or playing
+(audio) data</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.4">
+<Title>The Purpose of Application Registration<IndexTerm><Primary>registration</Primary><Secondary>purpose of</Secondary></IndexTerm></Title>
+<Para><IndexTerm>
+<Primary>configuration files</Primary>
+<Secondary>in registration package</Secondary>
+</IndexTerm>A registered desktop application has certain configuration files used by the
+desktop to provide the application's user interface:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Action and data type definition files</Para>
+</ListItem>
+<ListItem>
+<Para>Icon image (pixmap or bitmap) files</Para>
+</ListItem>
+<ListItem>
+<Para>A directory and files that create the application group</Para>
+</ListItem>
+<ListItem>
+<Para>Optionally, online documentation files, desktop help files,
+and Front Panel definition files</Para>
+</ListItem>
+</ItemizedList>
+<Para>In order for these files to be recognized and used by the desktop, they must be
+in certain directories specified by the desktop's search paths.</Para>
+<Para>It can be difficult to administer an application when its configuration files are
+scattered among numerous directories. Therefore, the desktop allows an
+application to keep all its desktop configuration files gathered under a single
+directory. This grouping of files is called a<IndexTerm>
+<Primary>registration package</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+<Symbol Role="Variable">registration package</Symbol>.</Para>
+<Para>If the application is desktop smart, it supplies a registration package as part of
+its installation package. If you are a system administrator creating the
+configuration files yourself, you can create the registration package yourself.</Para>
+<Para>The configuration files in the registration package are not available to the
+desktop because they are not located in the proper search path directories. The
+process of placing these files in the proper locations is called<IndexTerm>
+<Primary>registration</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+<Symbol Role="Variable">registering</Symbol>, or
+<Symbol Role="Variable">integrating</Symbol>, the application.</Para>
+<Para>The desktop provides a tool, <Command>dtappintegrate</Command>, that performs the registration
+by creating symbolically linked representations of the files in the proper search
+path directories.</Para>
+<Para>Many desktop-smart applications will automatically run <Command>dtappintegrate</Command>
+during the installation process. If you are a system administrator integrating an
+existing application, you can run it yourself after you've created the
+registration package.</Para>
+<Para>Once an application is registered on a system's desktop, the application is
+available to all users on the system. If the system is configured as a desktop<IndexTerm>
+<Primary>application servers</Primary>
+<Secondary>availability of applications</Secondary>
+</IndexTerm>
+application server, the application will also be available to other systems
+throughout the network.</Para>
+<Para>The <Command>dtappintegrate</Command> tool has a command-line option that reverses the
+process by breaking the links. This makes it easy to remove the application
+from the Application Manager so that it can be moved to a different
+application server or updated.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.5">
+<Title Id="SAG.RegAp.mkr.5">General Steps for Registering an Application<IndexTerm><Primary>registration</Primary><Secondary>general steps</Secondary></IndexTerm></Title>
+<Note>
+<Para>For a detailed example that uses these steps to create an application
+package, see
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package&xd3; on page&numsp;77'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.38">.</Para>
+</Note>
+<OrderedList>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.6">Modify any application resources that set fonts and colors. Otherwise, the
+desktop's dynamic fonts and colors will not work properly.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Step 1: Modifying Font and Color Resources&xd3; on page&numsp;58'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.6">.</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.7">Create an application root location.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Step 2: Creating the Desktop Application Root&xd3; on page&numsp;60'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.9">.</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.8">Create the directory structure underneath the application root.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Step 3: Creating the Registration Package Directories&xd3; on page&numsp;60'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.10"></Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.9">Create the actions and data types for the application.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Step 4: Creating the Actions and Data Types for the Application&xd3; on
+page&numsp;62'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.13">.</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.10">Put the help files in an appropriate directory.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Step 5: Putting the Help Files in the Registration Package&xd3; on page&numsp;66'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.19">.</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.10a">Put the online documentation (infolib)
+files in the appropriate directory.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Step 6: Putting the Infolib Files in the
+Registration Package&xd3; on page&numsp;66'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.19a">.</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.11">Create the icons for the application</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Step 7: Creating Icons for the Application&xd3; on page&numsp;67'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.20">.</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.12">Create the application group for the application.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Step 8: Creating the Application Group&xd3; on page&numsp;68'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.22">.</Para>
+</ListItem>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.13">Register the application using <Command>dtappintegrate</Command>.</Para>
+<Para>See
+<!--Original XRef content: '&xd2;Step 9: Registering the Application Using dtappintegrate&xd3; on page&numsp;75'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.30">.</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.6">
+<Title Id="SAG.RegAp.mkr.14">Step 1: Modifying Font and Color Resources<IndexTerm><Primary>registration</Primary><Secondary>resource modification</Secondary></IndexTerm><IndexTerm><Primary>registration</Primary><Secondary>modifying resources</Secondary></IndexTerm></Title>
+<Note>
+<Para>For an example of modifying resources for an application, see
+<!--Original XRef content: 'Step&numsp;1'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.6"> of
+the
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> on
+<!--Original XRef content: 'page&numsp;78'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.16">.</Para>
+</Note>
+<Para>The desktop provides mechanisms for setting and manipulating interface fonts
+and window colors. In order for an application to use these mechanisms
+properly, you may have to modify the application's <Filename>app-defaults</Filename> file.</Para>
+<Sect2 Id="SAG.RegAp.div.7">
+<Title>Modifying Font Resources<IndexTerm><Primary>Style Manager</Primary><Secondary>font integration with</Secondary></IndexTerm><IndexTerm><Primary>registration</Primary><Secondary>font modifications</Secondary></IndexTerm><IndexTerm><Primary>fonts</Primary><Secondary>resources, modifying for registration</Secondary></IndexTerm></Title>
+<Note>
+<Para>This section applies to applications created using Motif 1.2&trade; (or
+later versions). Style Manager cannot set interface fonts for applications
+written using earlier versions of Motif.</Para>
+</Note>
+<Para>The desktop Style Manager will set interface fonts for applications created
+using Motif 1.2 (or later versions) if the application does not specify
+application-specific interface fonts.</Para>
+<Para>Style Manager provides two fonts:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="95*">
+<colspec colwidth="433*">
+<TBody>
+<Row>
+<Entry><Para>system font</Para></Entry>
+<Entry><Para>Used by system areas such as labels, menus, and buttons</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>user font</Para></Entry>
+<Entry><Para>Used for editable areas such as text fields</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Each font is provided in seven sizes, labeled 1 through 7 in the Fonts dialog
+box. The Style Manager fonts are connected to actual fonts on the system
+through Style Manager resources set in
+<Filename>/usr/dt/app-defaults/</Filename><Symbol Role="Variable">language</Symbol><Filename>/Dtstyle</Filename>.</Para>
+<Para>If you want the application to use the Style Manager fonts, you should remove
+any application resources that specify fonts. The desktop will
+automatically set the application's resources appropriately:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="207*">
+<colspec colwidth="321*">
+<TBody>
+<Row>
+<Entry><Para><Command>FontList</Command></Para></Entry>
+<Entry><Para>Set to system font</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>XmText*FontList</Filename></Para></Entry>
+<Entry><Para>Set to user font</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>XmTextField*FontList</Filename></Para></Entry>
+<Entry><Para>Set to user font</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.8">
+<Title>Modifying Color Resources<IndexTerm><Primary>registration</Primary><Secondary>color modifications</Secondary></IndexTerm><IndexTerm><Primary>color resources,modifying for registration</Primary></IndexTerm></Title>
+<Para><IndexTerm>
+<Primary>Style Manager</Primary>
+<Secondary>color integration with</Secondary>
+</IndexTerm>Style Manager provides the ability to change application colors dynamically.
+The application must be a Motif 1.1 or later client. Clients written with
+other toolkits cannot change color dynamically; color changes take effect when
+the client is restarted.</Para>
+<Para>The easiest way to use the dynamic colors provided by the desktop is to
+remove any application color resources for background and foreground color.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.9">
+<Title Id="SAG.RegAp.mkr.15">Step 2: Creating the Desktop Application Root<IndexTerm><Primary>applications</Primary><Secondary>root directory</Secondary></IndexTerm><IndexTerm><Primary>applications</Primary><Secondary>app_root directory</Secondary></IndexTerm><IndexTerm><Primary>registration</Primary><Secondary>application root directory</Secondary></IndexTerm><IndexTerm><Primary>application root directory</Primary></IndexTerm></Title>
+<Note>
+<Para>For an example of creating the desktop application root directory for an
+application, see
+<!--Original XRef content: 'Step&numsp;2'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.7"> of
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> on
+<!--Original XRef content: 'page&numsp;78'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.17">.</Para>
+</Note>
+<Para>The registration package files for the application are grouped beneath a
+directory called the application root, or <Symbol Role="Variable"><IndexTerm>
+<Primary>&lt;$nopage>app_root, See application root directory</Primary>
+</IndexTerm>app_root</Symbol>. The <Symbol Role="Variable">app_root</Symbol> directory used
+for the desktop configuration files can be the same directory as the
+application's installation <Symbol Role="Variable">app_root</Symbol> or some other location.</Para>
+<Para>For example, suppose an application is installed under a directory <Filename>/usr/BTE</Filename>.
+This same directory could be used as the <Symbol Role="Variable">app_root</Symbol> for the desktop configuration
+files. However, if you are integrating an existing non-desktop smart
+application, it is recommended that you create a different desktop <Symbol Role="Variable">app_root</Symbol>
+directory. This will prevent the configuration files you create from being
+overwritten when you update the application.</Para>
+<Para>For example, a system administrator might want to create a directory
+<Filename>/etc/desktop_approots/BTE</Filename> as the desktop <Symbol Role="Variable">app_root</Symbol> directory.</Para>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.10">
+<Title Id="SAG.RegAp.mkr.16">Step 3: Creating the Registration Package Directories<IndexTerm><Primary>registration package</Primary><Secondary>directories</Secondary></IndexTerm></Title>
+<Note>
+<Para>For an example of creating the registration package directories for an
+application, see
+<!--Original XRef content: 'Step&numsp;3'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.8"> of
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> on
+<!--Original XRef content: 'page&numsp;79'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.18">.</Para>
+</Note>
+<Para>The registration package is the group of desktop configuration files used by the
+desktop to provide a graphical interface for the application.</Para>
+<Sect2 Id="SAG.RegAp.div.11">
+<Title>Registration Package Contents</Title>
+<Para>The desktop configuration files include:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Action and data type definition files</Para>
+</ListItem>
+<ListItem>
+<Para>Icon image files</Para>
+</ListItem>
+<ListItem>
+<Para>An application group directory and its contents</Para>
+</ListItem>
+<ListItem>
+<Para>Optionally: online documentation (infolib) files,
+help data files and a Front Panel configuration file</Para>
+</ListItem>
+</ItemizedList>
+<Para>The registration package is gathered under a top-level directory called the
+application root, or <Symbol Role="Variable">app_root</Symbol>.</Para>
+<Figure>
+<Title Id="SAG.RegAp.mkr.17">A registration package beneath an application root directory</Title>
+<Graphic Entityref="SAG.RegAp.fig.4" Id="SAG.RegAp.grph.4"></Graphic>
+</Figure>
+<Para>The major categories of configuration files under the
+<Symbol Role="Variable">app_root</Symbol> directory are:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.21in">
+<colspec colwidth="4.55in">
+<THead>
+<Row>
+<Entry><Para>Subdirectory</Para></Entry>
+<Entry><Para>Contents</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><filename>types</filename></Para></Entry>
+<Entry><Para>Action and data type definition files</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><filename>help</filename></Para></Entry>
+<Entry><Para>Desktop help files</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><filename>icons</filename></Para></Entry>
+<Entry><Para>Bitmap and pixmap image files used by the application's
+actions and data types</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><filename>appmanager</filename></Para></Entry>
+<Entry><Para>The directory and contents that create the application group</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><filename>infolib</filename></Para></Entry>
+<Entry><Para>Online documentation files organized as infolibs, bookcases, and books</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Each of the major categories has subdirectories for language-dependent files.
+Default-language files are placed in the <Command>C</Command> directory.</Para>
+<Sect3 Id="SAG.RegAp.div.12">
+<Title>To Create the Registration Package</Title>
+<OrderedList>
+<ListItem>
+<Para>Create these directories. If you are providing language-dependent
+configuration files, create a separate directory for each language. If you are
+supplying only one language, put the files in the <Command>C</Command> directory.</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/infolib/</Filename><Symbol Role="Variable">language</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol><Symbol Role="Variable">/</Symbol><Symbol Role="Variable">appgroup_name,</Symbol> where
+<Symbol Role="Variable">appgroup_name</Symbol> is the name of the application group
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>For example,
+<!--Original XRef content: 'Figure&numsp;4&hyphen;5'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.11"> shows Application Manager containing an group
+whose <Symbol Role="Variable">appgroup_name</Symbol> is &ldquo;Media_Tools.&rdquo;</Para>
+</ListItem>
+</OrderedList>
+<Figure>
+<Title Id="SAG.RegAp.mkr.18">Application group at the top level of the Application Manager</Title>
+<Graphic Entityref="SAG.RegAp.fig.5" Id="SAG.RegAp.grph.5"></Graphic>
+</Figure>
+<Para>The <Command>dtappintegrate</Command> tool operates only on the desktop configuration files in
+the <Filename>types</Filename>, <Filename>help</Filename>, <Filename>icons</Filename>,
+<Filename>infolib</Filename>, and <Filename>appmanager</Filename> directories. The application's
+binary executable, <Filename>app-defaults</Filename>, and message catalog files are administered
+separately.</Para>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.13">
+<Title Id="SAG.RegAp.mkr.19">Step 4: Creating the Actions and Data Types for the Application<IndexTerm><Primary>actions</Primary><Secondary>required for registration</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>required for registration</Secondary></IndexTerm><IndexTerm><Primary>registration</Primary><Secondary>actions needed</Secondary></IndexTerm><IndexTerm><Primary>registration</Primary><Secondary>data types needed</Secondary></IndexTerm></Title>
+<Note>
+<Para>For an example of creating the actions and data types for an
+application, see
+<!--Original XRef content: 'Step&numsp;4'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.9"> of
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> on
+<!--Original XRef content: 'page&numsp;79'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.19">.</Para>
+</Note>
+<Para>Actions and data types provide a user interface for the application.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Actions provide a user interface for the command to launch the application.</Para>
+</ListItem>
+<ListItem>
+<Para>Data types provide customized appearance and behavior for the
+application's data files.</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.RegAp.div.14">
+<Title>Actions and Data Types Required by an Application<IndexTerm><Primary>applications</Primary><Secondary>actions required</Secondary></IndexTerm><IndexTerm><Primary>applications</Primary><Secondary>data types required</Secondary></IndexTerm></Title>
+<Para>Typical applications require the following action and data type definitions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>An action that opens the application.</Para>
+</ListItem>
+<ListItem>
+<Para>A data type for the data files of your application. If you create a data type,
+you will also want to create:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>An Open action for the data files of your application</Para>
+</ListItem>
+<ListItem>
+<Para>A Print action for the data files of your application</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>A data type for the application group (see
+<!--Original XRef content: '&xd2;Configuring the Application
+Group To Use a Unique Icon&xd3; on page&numsp;70'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.25">).</Para>
+</ListItem>
+</ItemizedList>
+<Para>For an introduction to how actions and data types are used in the desktop, see
+<!--Original XRef content: 'Chapter&numsp;8, &xd2;Introduction to Actions and Data Types'--><XRef Role="ChapNumAndTitle" Linkend="SAG.IntAc.div.1">.</Para>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.15">
+<Title>Location for Action and Data Type Definition Configuration Files</Title>
+<Para>Actions and data types are defined in configuration files. The only naming
+requirement for files containing action and data type definitions is that they
+must have a <Filename>.dt</Filename> suffix. By convention, you may want to name the file
+<Symbol Role="Variable">action_name</Symbol><Filename>.dt</Filename> or <Symbol Role="Variable">application_name</Symbol><Filename>.dt</Filename>.</Para>
+<Para>Place files containing actions and data types under the application root in the
+directory:
+</para>
+<programlisting><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>
+</programlisting>
+<Para>The default <Symbol Role="Variable">language</Symbol> is <Command>C</Command>.
+</Para>
+<Figure>
+<Title>Action and data type definition files</Title>
+<Graphic Entityref="SAG.RegAp.fig.6" Id="SAG.RegAp.grph.6"></Graphic>
+</Figure>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.16">
+<Title>Ways to Create Actions and Data Types</Title>
+<Para>You can create action and data type definitions for an application in either of
+two ways:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Use the Create Action tool.</Para>
+<Para>Create Action provides an easy-to-use interface with text fields that you fill
+in. However, the tool has certain limitations.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the definitions manually.</Para>
+<Para>This requires you to learn the syntax for creating the definitions, but
+provides access to the full range of functionality.</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.17" Role="Procedure">
+<Title>To Create Actions and Data Types Using Create Action</Title>
+<Para>This procedure uses the Create Action utility to create an action and data types
+for the application.</Para>
+<Para>For more information about Create Action, use its online help or see
+<!--Original XRef content: 'Chapter&numsp;9,
+&xd2;Creating Actions and Data Types Using Create Action'--><XRef Role="ChapNumAndTitle" Linkend="SAG.dtCrA.div.1">.</Para>
+<OrderedList>
+<ListItem>
+<Para Id="SAG.RegAp.mkr.20">Open the Desktop_Apps application group and double-click Create Action.</Para>
+</ListItem>
+<ListItem>
+<Para>Use Create Action to create the action and data type definitions for the
+application and its data type.</Para>
+<Para>The configuration file created by Create Action will be written to
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/type/</Filename><Symbol Role="Variable">action_name</Symbol><Filename>.dt.</Filename> The action file (the executable
+file with the same name as the action) is placed in your home directory.</Para>
+</ListItem>
+<ListItem>
+<Para>Test the action using the action file created in your home directory.</Para>
+</ListItem>
+<ListItem>
+<Para>Copy the action definition file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/type/</Filename><Symbol Role="Variable">action_name</Symbol><Filename>.dt</Filename> to
+the directory:
+</para>
+<programlisting><Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>After the application group directory has been created (see
+<!--Original XRef content: 'Section&numsp;, &xd2;Step 7:
+Creating the Application Group,&xd3; on page&numsp;68'--><XRef Role="SecNumTitleAnsPage" Linkend="SAG.RegAp.div.22">), copy the action file
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/</Filename><Symbol Role="Variable">action_name</Symbol> to the
+<Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol><Symbol Role="Variable">/</Symbol><Symbol Role="Variable">appgroup_name</Symbol> directory.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.18" Role="Procedure">
+<Title>To Create Actions and Data Types Manually</Title>
+<OrderedList>
+<ListItem>
+<Para>Create a configuration file containing the action and data type definitions
+for the application.</Para>
+</ListItem>
+</OrderedList>
+<Para>Action and data type definition files must follow the naming convention
+<Symbol Role="Variable">name</Symbol><Filename>.dt</Filename>.</Para>
+<Para>You can place all your action and data type definitions in one file or distribute
+them among multiple files. For each file, use a file name that system
+administrators will easily connect with your application.</Para>
+<Para>Action and data type names must be one word (no embedded spaces). You can
+use an underscore character. By convention, the first letter of the action or data
+type name is capitalized. Do not use an existing action name or file name. Use
+a name that advanced users and system administrators will easily connect with
+your application.</Para>
+<Para>If you want the application's icon labeled with a different name than the action
+name, include a <Command>LABEL</Command> field in the action definition.</Para>
+<Para>For more information about creating actions and data types, see:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;8, &xd2;Introduction to Actions and Data Types'--><XRef Role="ChapNumAndTitle" Linkend="SAG.IntAc.div.1"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;9, &xd2;Creating Actions and Data Types Using Create Action'--><XRef Role="ChapNumAndTitle" Linkend="SAG.dtCrA.div.1"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;10, &xd2;Creating Actions Manually'--><XRef Role="ChapNumAndTitle" Linkend="SAG.CrAct.div.1"></Para>
+</ListItem>
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;11, &xd2;Creating Data Types Manually'--><XRef Role="ChapNumAndTitle" Linkend="SAG.CrDT.div.1"></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.19">
+<Title Id="SAG.RegAp.mkr.21">Step 5: Putting the Help Files in the Registration Package<IndexTerm><Primary>registration</Primary><Secondary>help files</Secondary></IndexTerm><IndexTerm><Primary>help files</Primary><Secondary>in regisration package</Secondary></IndexTerm></Title>
+<Note>
+<Para>For an example of adding help files to a registration package, see
+<!--Original XRef content: 'Step&numsp;5'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.10">
+of
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> on
+<!--Original XRef content: 'page&numsp;81'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.20">.</Para>
+</Note>
+<Para>If the application includes a desktop<IndexTerm>
+<Primary>help volume</Primary>
+<Secondary>location in regisration package</Secondary>
+</IndexTerm>
+help volume (a help volume created with
+the desktop Help Developer's Kit), the help volume master file (<Filename>*.sdl</Filename>) should
+be placed in the directory <Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol>.</Para>
+<Para><IndexTerm>
+<Primary>&lt;$nopage>help</Primary>
+<Secondary>See also help volume, help files</Secondary>
+</IndexTerm>Graphics used by the help files are usually placed in a <Command>graphics</Command> subdirectory.
+The graphics must be located in the same directory relative to the master help
+volume (<Filename>*.sdl</Filename>) file as when the help volume was created.</Para>
+<Para>If the application does not provide a help volume, you can create one if you
+have the<IndexTerm>
+<Primary>Help Developer'</Primary>
+</IndexTerm><IndexTerm>
+<Primary>s Kit</Primary>
+</IndexTerm>
+Help Developer's Kit.</Para>
+<Para>There are two levels of integration of a<IndexTerm>
+<Primary>help volume</Primary>
+<Secondary>levels of integrtion</Secondary>
+</IndexTerm>
+help volume:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><IndexTerm>
+<Primary>help</Primary>
+<Secondary>full integration</Secondary>
+</IndexTerm>Full integration.</Para>
+<Para>When desktop help is fully integrated, the help volume can be accessed
+from the application&mdash;for example, by on-item help and the Help menu. Full
+integration involves modification to the application's executables.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>help</Primary>
+<Secondary>partial integration</Secondary>
+</IndexTerm>Partial integration.</Para>
+<Para>When desktop help is partially integrated, it is available from the top level
+of the Help Manager. However, you cannot access the help volume from the
+application's windows. You can also provide an action to access the help
+from the application group. The following example action displays the help
+volume located in the
+help master file <Filename>MyApp.sdl</Filename>:<IndexTerm><Primary>help volume</Primary><Secondary>master help file</Secondary></IndexTerm><IndexTerm><Primary>.sdl files</Primary></IndexTerm>
+</Para>
+<programlisting>ACTION OpenMyAppHelp
+{
+  LABEL           MyAppHelp
+  ARG_COUNT       0
+  TYPE            COMMAND
+  WINDOW_TYPE     NO_STDIO
+  EXEC_STRING     /usr/dt/bin/dthelpview -helpVolume MyApp
+  DESCRIPTION     Displays help for the MyApp application.
+}
+</programlisting>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.19a">
+<Title Id="SAG.RegAp.mkr.21a">Step 6: Putting Information Libraries in the Registration Package<IndexTerm><Primary>registration</Primary><Secondary>infolibs</Secondary></IndexTerm><IndexTerm><Primary>infolibs</Primary><Secondary>in regisration package</Secondary></IndexTerm></Title>
+<Para>If the application includes online documentation (created with
+the desktop Information System Developer's Kit), the information
+library (<Filename>*.dti</Filename>) containing the documentation should
+be placed in the directory:<IndexTerm><Primary>infolib</Primary><Secondary>location in regisration package</Secondary></IndexTerm>
+</para>
+<programlisting><Symbol Role="Variable">app_root</Symbol><Filename>/dt/infolib/</Filename><Symbol Role="Variable">language</Symbol>
+</programlisting>
+<Para>Graphics used by the DocBook book files
+(<Filename>*.sgm</Filename>) are usually placed in a
+<Command>graphics</Command> subdirectory.
+The graphics must be located in the same directory relative to the infolib
+(<Filename>*.dti</Filename>) file as when the infolib was created.</Para>
+<Para>If the application does not provide online documentation, you can create it
+if you have the Information System Developer's Kit.<IndexTerm><Primary>Information System Developer's Kit</Primary></IndexTerm>
+</Para>
+<Para>There are two levels of integration of an infolib:<IndexTerm><Primary>infolib</Primary><Secondary>levels of integrtion</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Full integration.<IndexTerm><Primary>infolib</Primary><Secondary>full integration</Secondary></IndexTerm>
+</Para>
+<Para>When an infolib is fully integrated, it can be accessed
+from the application&mdash;by using <Symbol>DtActionInvoke</Symbol>
+to display a specific topic under the Information Manager.
+Full integration involves modification to the application's executables.</Para>
+</ListItem>
+<ListItem>
+<Para>Partial integration.<IndexTerm><Primary>infolib</Primary><Secondary>partial integration</Secondary></IndexTerm>
+</Para>
+<Para>When an infolib is partially integrated, it is available from the top level
+of the Information Manager. However, you cannot access the infolib from the
+application's windows. You can also provide an action to access the infolib
+from the application group. The following example action displays the infolib
+located in the infolib <Filename>MyApp.dti</Filename>:</Para>
+<programlisting>ACTION OpenMyAppInfolib
+{
+  LABEL           MyAppInfolib
+  ARG_TYPE        InfoLib
+  TYPE            MAP
+  MAP_ACTION      DtLoadInfoLib /usr/dt/infolib/C/MyAppInfolib.dti
+  DESCRIPTION     Invokes the Information Manager to display the online
+                  documentation for MyApp application.
+}
+</programlisting>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.20">
+<Title Id="SAG.RegAp.mkr.22">Step 7: Creating Icons for the Application<IndexTerm><Primary>registration</Primary><Secondary>icon requirements</Secondary></IndexTerm><IndexTerm><Primary>icons</Primary><Secondary>required for registration</Secondary></IndexTerm></Title>
+<Note>
+<Para>For an example of creating the icon files for an application, see
+<!--Original XRef content: 'Step&numsp;6'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.11"> of
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> on
+<!--Original XRef content: 'page&numsp;82'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.21">.</Para>
+</Note>
+<Para>The desktop provides default icons for actions, data types, and application
+groups. However, you will probably want to create unique icons for the
+application.</Para>
+<Para>Icons are placed in the directory <Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol>.</Para>
+<Sect2 Id="SAG.RegAp.div.21">
+<Title>Icons Required for the Desktop</Title>
+<Para>The application uses these icon images on the desktop:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Emphasis Role="Lead-in">Action icon</Emphasis>.
+This is the icon the user double-clicks to start your application
+(actions). It is referenced in the <Command>ICON</Command> field of the action that launches the
+application.<IndexTerm><Primary>icons</Primary><Secondary>starting application</Secondary></IndexTerm><IndexTerm><Primary>application icon</Primary><Secondary>required by desktop</Secondary></IndexTerm><IndexTerm><Primary>action icon</Primary><Secondary>required by desktop</Secondary></IndexTerm>
+</Para>
+<Para>Supply three sizes: tiny, medium, and large.</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in">Data type icon</Emphasis>.
+This icon is used to represent the application's data files in
+File Manager. It is referenced in the <Command>ICON</Command> field of the data type definition.</Para>
+<Para>If your application supports multiple data types, you should provide a
+different icon for each data type.<IndexTerm><Primary>icons</Primary><Secondary>data type</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>icons for</Secondary></IndexTerm>
+</Para>
+<Para>Supply two sizes: tiny and medium.</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in"><IndexTerm>
+<Primary>icons</Primary>
+<Secondary>application groups</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>application groups</Primary>
+<Secondary>icons for</Secondary>
+</IndexTerm>Application group icon</Emphasis>. This is the icon representing the directory at the
+top level of the Application Manager. It is referenced in the <Command>ICON</Command> field of the
+data type definition for the application group. (See
+<!--Original XRef content: '&xd2;Step 7: Creating the
+Application Group&xd3; on page&numsp;68'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.22">.)</Para>
+<Para>Supply two sizes: tiny and medium.</Para>
+</ListItem>
+</ItemizedList>
+<Para>You may need to supply both pixmap and bitmap versions of each icon to
+support color (eight-bit and larger) and monochrome (fewer than eight bits)
+displays.</Para>
+<Table Id="SAG.RegAp.tbl.1" Frame="Topbot">
+<Title>Naming Conventions for Icon Files</Title>
+<TGroup Cols="4" colsep="0" rowsep="0">
+<ColSpec Colname="1" Colwidth="0.65 in">
+<ColSpec Colname="2" Colwidth="1.70 in">
+<ColSpec Colname="3" Colwidth="1.30 in">
+<ColSpec Colname="4" Colwidth="1.35 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Size</Literal></Para></Entry>
+<Entry><Para><Literal>Pixel Dimensions</Literal></Para></Entry>
+<Entry><Para><Literal>Bitmap Name</Literal></Para></Entry>
+<Entry><Para><Literal>Pixmap Name</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>tiny</Para></Entry>
+<Entry><Para>16 by 16</Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.t.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.t.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>medium</Para></Entry>
+<Entry><Para>32 by 32</Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.m.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.m.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>large</Para></Entry>
+<Entry><Para>48 by 48</Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.l.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.l.pm</Filename></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>If you do not provide bitmap files, the desktop maps the color specifications of
+the pixmap files into black and white. However, this mapping may not
+produce the appearance you want.</Para>
+<Para>For more information about icons, see
+<!--Original XRef content: '&xd2;Icon Image Files&xd3; on page&numsp;201'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrIcn.div.2">.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.22">
+<Title Id="SAG.RegAp.mkr.23">Step 8: Creating the Application Group<IndexTerm><Primary>registration</Primary><Secondary>application group</Secondary></IndexTerm><IndexTerm><Primary>application groups</Primary><Secondary>creating in regisration package</Secondary></IndexTerm></Title>
+<Note>
+<Para>For an example of creating the application group, see
+<!--Original XRef content: 'Step&numsp;7'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.12"> of
+<!--Original XRef content: '&xd2;Example of Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> on
+<!--Original XRef content: 'page&numsp;82'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.22">.</Para>
+</Note>
+<Para>Once you have created the action and data type definitions for the application,
+you must create the configuration files responsible for creating what the user
+actually sees&mdash;the application group and its contents.</Para>
+<Para><IndexTerm>
+<Primary>application groups</Primary>
+<Secondary>directories for</Secondary>
+</IndexTerm>The application group is a directory at the top level of the Application
+Manager (see
+<!--Original XRef content: 'Figure&numsp;4&hyphen;1 on page&numsp;55'--><XRef Role="CodeOrFigOrTabAndPNum" Linkend="SAG.RegAp.mkr.4">).</Para>
+<Para>There are three steps to creating the application group:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Create the application group directory in the registration package.</Para>
+</ListItem>
+<ListItem>
+<Para>Optional: configure the application group to use a unique icon. This
+involves creating the data type definition for the application group
+directory.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the contents of the application group.</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.RegAp.div.23">
+<Title>Creating the Application Group Directory</Title>
+<Para>To create an application group, create the directories in the registration
+package under <Command>appmanager</Command>, as shown in
+<!--Original XRef content: 'Figure&numsp;4&hyphen;7'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.13">.</Para>
+<Figure>
+<Title Id="SAG.RegAp.mkr.24">The appmanager directory</Title>
+<Graphic Entityref="SAG.RegAp.fig.7" Id="SAG.RegAp.grph.7"></Graphic>
+</Figure>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.24">
+<Title>Application Group Name<IndexTerm><Primary>application groups</Primary><Secondary>names</Secondary></IndexTerm></Title>
+<Para>The &lt;appgroup_name> in
+<!--Original XRef content: 'Figure&numsp;4&hyphen;7'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.24"> is the name for the application group.</Para>
+<Figure>
+<Title>The application group name (&lt;appgroup_name>)</Title>
+<Graphic Entityref="SAG.RegAp.fig.8" Id="SAG.RegAp.grph.8"></Graphic>
+</Figure>
+<Para>The name can be any allowable file (directory) name. Use a name that
+describes the application.</Para>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.25">
+<Title Id="SAG.RegAp.mkr.25">Configuring the Application Group To Use a Unique Icon<IndexTerm><Primary>icons</Primary><Secondary>application groups</Secondary></IndexTerm><IndexTerm><Primary>application groups</Primary><Secondary>icons for</Secondary></IndexTerm></Title>
+<Para>The desktop provides a default application-group icon. However, you will
+probably want to provide a custom icon.</Para>
+<Para>If you want to provide a unique icon for the application group, you must
+create:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>A data type for the directory that appears at the top level of Application
+Manager.</Para>
+</ListItem>
+<ListItem>
+<Para>Open and Print actions for the data type.</Para>
+</ListItem>
+</ItemizedList>
+<Para>For example, suppose you want to create an application group named
+Media_Tools. The following data type definition, placed in a file
+<Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/</Filename><Symbol Role="Variable">name</Symbol><Filename>.dt</Filename>,
+assigns a unique icon to the application group icon.</Para>
+<programlisting>DATA_ATTRIBUTES  Media_ToolsAppgroup
+{
+   ACTIONS       OpenInPlace,OpenNewView
+   ICON          MediaTools
+   DESCRIPTION   Double-click to open the Media_Tools \
+                 application group
+}
+DATA_CRITERIA           Media_ToolsAppgroupCriteria1
+{
+   DATA_ATTRIBUTES_NAME Media_ToolsAppgroup
+   MODE                 d
+   PATH_PATTERN         */appmanager/*/Media_Tools
+}
+</ProgramListing>
+<Para>The attributes section of the definition specifies the icon to be used. The criteria
+section of the definition specifies that the data type be defined to any directory
+named <Filename>Media_Tools</Filename> that is a subdirectory of a directory named <Command>appmanager</Command>.</Para>
+<Para><!--Original XRef content: 'Figure&numsp;4&hyphen;9'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.14"> shows the relationship between the application group name and the
+data type definition. The <Filename>PATH_PATTERN</Filename> field in the data type definition
+connects a unique icon to the application group.</Para>
+<Figure>
+<Title Id="SAG.RegAp.mkr.26">How an application group gets a unique icon</Title>
+<Graphic Entityref="SAG.RegAp.fig.9" Id="SAG.RegAp.grph.9"></Graphic>
+</Figure>
+<Para>You should also create an Open and Print action for the<IndexTerm>
+<Primary>application groups</Primary>
+<Secondary>action for</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>application groups</Primary>
+<Secondary>data types for</Secondary>
+</IndexTerm>
+application group data
+type:</Para>
+<ProgramListing>ACTION Open
+{
+ ARG_TYPE   Media_ToolsAppGroup
+ TYPE   MAP
+ MAP_ACTION   OpenAppGroup
+}
+ACTION Print
+{
+ ARG_TYPE   Media_ToolsAppGroup
+ TYPE   MAP
+ MAP_ACTION   PrintAppGroup
+}
+</ProgramListing>
+<Para>OpenAppGroup and PrintAppGroup actions are built-in actions defined in
+<Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtappman.dt</Filename>.</Para>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.26">
+<Title>Creating the Contents of the Application Group<IndexTerm><Primary>application groups</Primary><Secondary>contents</Secondary></IndexTerm><IndexTerm><Primary>registration package</Primary><Secondary>application group contents</Secondary></IndexTerm></Title>
+<Para>The most important item in the application group is an icon to start the
+application (an action icon). If the application group contains a suite of
+applications, there is usually an icon for each application.</Para>
+<Para>In addition to one or more action icons, the application group may contain:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>One or more README files</Para>
+</ListItem>
+<ListItem>
+<Para>One or more sample data files</Para>
+</ListItem>
+<ListItem>
+<Para>Templates</Para>
+</ListItem>
+<ListItem>
+<Para>An icon the user can double-click to view help information</Para>
+</ListItem>
+<ListItem>
+<Para>A man page</Para>
+</ListItem>
+<ListItem>
+<Para>A specialized Front Panel control</Para>
+</ListItem>
+</ItemizedList>
+<Para>The application group can contain subdirectories.</Para>
+<Sect3 Id="SAG.RegAp.div.27">
+<Title>Creating the Action File (Application Icon)<IndexTerm><Primary>icons</Primary><Secondary>representing applications</Secondary></IndexTerm><IndexTerm><Primary>registration package</Primary><Secondary>application icon</Secondary></IndexTerm><IndexTerm><Primary>registration</Primary><Secondary>See also registration package</Secondary></IndexTerm><IndexTerm><Primary>registration package</Primary><Secondary>See also registration</Secondary></IndexTerm></Title>
+<Para>The application group should contain an icon that launches the application. If
+the group supplies a suite of applications, there should be an icon for each one.
+These icons are called <Symbol Role="Variable">application icons,</Symbol> or <Symbol Role="Variable">action icons,</Symbol> since they represent an
+underlying action.</Para>
+<Para>An action icon is created by creating an executable file with the same name as
+the action it will run:</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/appmanager/<Symbol Role="Variable">appgroup_name</Symbol>/<Symbol Role="Variable">action_name</Symbol></ProgramListing>
+<Para>The file is called an<IndexTerm>
+<Primary>action file</Primary>
+<Secondary>creating</Secondary>
+</IndexTerm>
+<Symbol Role="Variable">action file</Symbol>, because its purpose is to create a visual
+representation of the underlying action.</Para>
+<Para>For example, if you've created an action named BestTextEditor that runs the
+BestTextEditor application, you would create an executable file named
+BestTextEditor. In File Manager and the Application Manager, the action file
+will use the icon image specified in the action definition.</Para>
+<Para><!--Original XRef content: 'Figure&numsp;4&hyphen;10'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.RegAp.mkr.15"> illustrates the relationship between the action definition, action file,
+and actual entry in the Application Manager window.</Para>
+<Figure>
+<Title Id="SAG.RegAp.mkr.27">The application icon is a file in the application group</Title>
+<Graphic Entityref="SAG.RegAp.fig.10" Id="SAG.RegAp.grph.10"></Graphic>
+</Figure>
+</Sect3>
+<Sect3 Id="SAG.RegAp.div.28">
+<Title>Read Me Files<IndexTerm><Primary>application package, See registration package</Primary></IndexTerm><IndexTerm><Primary>readme files</Primary></IndexTerm><IndexTerm><Primary>registration package</Primary><Secondary>readme files</Secondary></IndexTerm><IndexTerm><Primary>application groups</Primary><Secondary>readme files</Secondary></IndexTerm></Title>
+<Para>The desktop provides a README data type that you can use for your
+application's README files. Use one of these naming conventions:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>README</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>readme</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>README.*</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>Read.*.Me</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>read.*.me</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>READ.*.ME</Filename></Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.RegAp.div.29">
+<Title>Creating a Specialized Front Panel Control<IndexTerm><Primary>Front Panel</Primary><Secondary>control in registration package</Secondary></IndexTerm><IndexTerm><Primary>registration package</Primary><Secondary>Front Panel control</Secondary></IndexTerm></Title>
+<Para>In most cases, you do not need to provide a Front Panel control definition; the
+user can add the application to the Front Panel by dropping the action icon on
+the Install Icon control in a subpanel.</Para>
+<Para>You might want to create a Front Panel configuration file containing a control
+definition for your application if you want users to be able to install a control
+that behaves differently than the action icon&mdash;for example, if the control
+monitors a file and changes appearance when the monitored file changes.</Para>
+<Para>Front Panel configuration files are placed in the
+<Symbol Role="Variable">app_root</Symbol><Filename>/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol> directory. The naming convention is
+<Symbol Role="Variable">name</Symbol><Filename>.fp</Filename>.</Para>
+<Para>If you supply a configuration file containing a control, the user can add the
+control to a subpanel by dropping the <Filename>*.fp</Filename> file on the Install Icon control in
+the subpanel.</Para>
+<Para>For example, the following definition can be placed in a Front Panel
+configuration file in the application group. If the user drops this file on an
+Install Icon control in a subpanel, a control is created in the subpanel that runs
+a single instance of the BestTextEditor application. If BestTextEditor is already
+running, the window is moved to the top of the window stack in the current
+workspace.</Para>
+<programlisting>CONTROL BestTextEditorControl
+{
+ TYPE    icon
+ ICON    BTEFPanel
+ PUSH_RECALL    True
+ CLIENT_NAME    BTEd
+ PUSH_ACTION    BTEditor
+ DROP_ACTION    BTEditor
+ HELP_STRING    Starts the BestTextEditor application.
+}
+</ProgramListing>
+<Para>For additional information about creating Front Panel configuration files, see:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Chapter&numsp;13, &xd2;Advanced Front Panel Customization'--><XRef Role="ChapNumAndTitle" Linkend="SAG.FrPC.div.1"></Para>
+</ListItem>
+<ListItem>
+<Para>The <Filename MoreInfo="RefEntry">dtfpfile(4)</Filename> man page</Para>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.30">
+<Title Id="SAG.RegAp.mkr.28">Step 9: Registering the Application Using dtappintegrate<IndexTerm><Primary>dtappintegrate</Primary></IndexTerm><IndexTerm><Primary>registration</Primary><Secondary>dtappintegrate</Secondary></IndexTerm></Title>
+<Note>
+<Para>For an example of registering an application, see
+<!--Original XRef content: 'Step&numsp;8'--><XRef Role="Step" Linkend="SAG.RegAp.mkr.13"> of
+<!--Original XRef content: '&xd2;Example of
+Creating a Registration Package'--><XRef Role="SectionTitle" Linkend="SAG.RegAp.div.38"> on
+<!--Original XRef content: 'page&numsp;83'--><XRef Role="PageNum" Linkend="SAG.RegAp.mkr.23">.</Para>
+</Note>
+<Para>Once you've created a registration package under an application root, you are
+ready to perform the actual application registration.</Para>
+<Para>Application registration creates links between the registration package and the
+directories located along the desktop search paths (see
+<!--Original XRef content: '&xd2;How dtappintegrate
+Integrates Applications&xd3; on page&numsp;76'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.RegAp.div.33">).</Para>
+<Sect2 Id="SAG.RegAp.div.31" Role="Procedure">
+<Title>To Register an Application with dtappintegrate</Title>
+<Para>If the application is desktop-smart, <Command>dtappintegrate</Command> is usually run
+automatically as the final step in the installation process. If it is not run
+automatically, or if you have created the configuration files to integrate a non-
+desktop smart application, then you can run <Command>dtappintegrate</Command> manually.</Para>
+<OrderedList>
+<ListItem>
+<Para>Log in as root.</Para>
+</ListItem>
+<ListItem>
+<Para>Run the command:</Para>
+<ProgramListing>/usr/dt/bin/dtappintegrate -s <Symbol Role="Variable">app_root</Symbol></ProgramListing>
+<Para>where <Symbol Role="Variable">app_root</Symbol> is the desktop application root directory. For more
+information, see the <Filename MoreInfo="RefEntry">dtappintegrate</Filename>(1) man page.</Para>
+</ListItem>
+<ListItem>
+<Para>Open the Desktop_Tools application group and double-click Reload
+Applications.</Para>
+</ListItem>
+<ListItem>
+<Para>Verify that the application is properly registered:</Para>
+<OrderedList>
+<ListItem>
+<Para>Display the top level of the Application Manager. The new application
+group should appear in the Application Manager.</Para>
+</ListItem>
+<ListItem>
+<Para>Open the application group and double-click the action icon.</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</OrderedList>
+<Sect3 Id="SAG.RegAp.div.32">
+<Title>Syntax and Options for dtappintegrate<IndexTerm><Primary>dtappintegrate</Primary><Secondary>syntax</Secondary></IndexTerm></Title>
+<ProgramListing>dtappintegrate -s <Symbol Role="Variable">app_root</Symbol> [-t <Symbol Role="Variable">target_path</Symbol> ] [-l <Symbol Role="Variable">language</Symbol> ] [-u]</ProgramListing>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="106*">
+<colspec colwidth="422*">
+<TBody>
+<Row>
+<Entry><Para><literal>-s</literal> <Symbol Role="Variable">app_root</Symbol></Para></Entry>
+<Entry><Para>Required parameter. Specifies the application root
+under which the appication has been installed.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><literal>-t</literal> <Symbol Role="Variable">target_path</Symbol></Para></Entry>
+<Entry><Para>Optional parameter, defaults to the system location
+<Command>/etc/dt/appconfig.</Command> Specifies the location to which
+the desktop configuration files are linked. You must
+use a location on the application search path.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><literal>-l</literal> <Symbol Role="Variable">language</Symbol></Para></Entry>
+<Entry><Para>Optional parameter, defaults to all languages. Specifies
+which language-dependent desktop configuration files
+to integrate.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>-u</Filename></Para></Entry>
+<Entry><Para>Optional parameter. Un-integrates the application,
+removing all the links set up during integration.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.RegAp.div.33">
+<Title Id="SAG.RegAp.mkr.29">How dtappintegrate Integrates Applications<IndexTerm><Primary>symbolic links</Primary><Secondary>created during registration</Secondary></IndexTerm><IndexTerm><Primary>dtappintegrate</Primary><Secondary>functionality</Secondary></IndexTerm></Title>
+<Para>The function of <Command>dtappintegrate</Command> is to set up links between the installed files
+and the locations where the desktop looks for configuration files.</Para>
+<Sect3 Id="SAG.RegAp.div.34">
+<Title>Actions and Data Types<IndexTerm><Primary>actions</Primary><Secondary>integrated with dtappintegrate</Secondary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>integrated with dtappintegrate</Secondary></IndexTerm></Title>
+<Para><Command>dtappintegrate</Command> creates symbolic links from the action and data type
+definition files in the registration package to the system-wide directory along
+the action database search path. This is done by creating links from</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/types/<Symbol Role="Variable">language</Symbol>/*.dt</ProgramListing>
+<Para>to</Para>
+<ProgramListing>/etc/dt/appconfig/types/<Symbol Role="Variable">language</Symbol><Filename>/*</Filename>.dt</ProgramListing>
+</sect3>
+<Sect3 Id="SAG.RegAp.div.34a">
+<Title>Information Libraries<IndexTerm><Primary>infolibs</Primary><Secondary>integrated with dtappintegrate</Secondary></IndexTerm></Title>
+<Para><Command>dtappintegrate</Command> creates symbolic links from the information
+libraries (infolibs) in the registration package to the system-wide directory along
+the infolib search path. This is done by creating links from
+</Para>
+<programlisting><Symbol Role="Variable">app_root</Symbol>/dt/infolib/<Symbol Role="Variable">language</Symbol>/*.dti
+</ProgramListing>
+<Para>to</Para>
+<programlisting>/etc/dt/infolib/<Symbol Role="Variable">language</Symbol>/*.dti
+</ProgramListing>
+</sect3>
+<Sect3 Id="SAG.RegAp.div.35">
+<Title>Help Files<IndexTerm><Primary>help files</Primary><Secondary>integrated with dtappintegrate</Secondary></IndexTerm></Title>
+<Para><Command>dtappintegrate</Command> creates symbolic links from the help files in the registration
+package to the system-wide directory along the help search path. This is done
+by creating links from</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/help/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">help_file.</Symbol>sdl</ProgramListing>
+<Para>to</Para>
+<ProgramListing>/etc/dt/appconfig/help/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">help_file.</Symbol>sdl</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.RegAp.div.36">
+<Title>Icon Files<IndexTerm><Primary>icons</Primary><Secondary>integrated with dtappintegrate</Secondary></IndexTerm></Title>
+<Para><Command>dtappintegrate</Command> creates symbolic links from the icon files in the registration
+package to the system-wide directory along the icon search path. This is done
+by creating links from</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/icons/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">icon_files</Symbol></ProgramListing>
+<Para>to</Para>
+<ProgramListing>/etc/dt/appconfig/icons/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">icon_files</Symbol></ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.RegAp.div.37">
+<Title>Application Group<IndexTerm><Primary>application groups</Primary><Secondary>integrated with dtappintegrate</Secondary></IndexTerm></Title>
+<Para>To place the application group for the application into the top level of
+Application Manager, <Command>dtappintegrate</Command> creates a link between the application
+group directory in the registration package and the system-wide location along
+the application search path. This is done by creating links from the directory</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/appmanager/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">appgroup_name</Symbol></ProgramListing>
+<Para>to</Para>
+<ProgramListing>/etc/dt/appconfig/appmanager/<Symbol Role="Variable">language</Symbol>/<Symbol Role="Variable">appgroup_name</Symbol></ProgramListing>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.RegAp.div.38">
+<Title Id="SAG.RegAp.mkr.30">Example of Creating a Registration Package<IndexTerm><Primary>registration</Primary><Secondary>example</Secondary></IndexTerm><IndexTerm><Primary>registration package</Primary><Secondary>example of creating</Secondary></IndexTerm></Title>
+<Para>The following steps create a registration package for an existing, non-desktop
+smart application named BestTextEditor.</Para>
+<Sect2 Id="SAG.RegAp.div.39">
+<Title>Information You Need to Know About ``BestTextEditor''</Title>
+<Para>The example assumes the following facts about the BestTextEditor application:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>It was installed into the directory <Filename>/usr/BTE</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>The user's session language is the default value, <Command>C</Command>.</Para>
+</ListItem>
+<ListItem>
+<Para>The command line to start BestTextEditor is:</Para>
+<ProgramListing>BTEd [<Symbol Role="Variable">filename</Symbol>]</ProgramListing>
+<Para>where <Symbol Role="Variable">filename</Symbol> is the name of the data file to open in the new window.
+BestTextEditor creates its own window&mdash;that is, it does not run inside a
+terminal emulator window.</Para>
+</ListItem>
+<ListItem>
+<Para>BestTextEditor creates and uses two types of data files:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Documentation files. They use the naming convention <Filename>*.bte</Filename>.
+BestTextEditor provides a command line for printing its <Filename>.bte</Filename> data files.
+The syntax of this command is:</Para>
+<ProgramListing>BTEPrint [-d <Symbol Role="Variable">destination</Symbol>] [-s] <Symbol Role="Variable">filename</Symbol></ProgramListing>
+<Para>where:</Para>
+<variablelist>
+<varlistentry><term><literal>-d</literal> <Symbol Role="Variable">destination</Symbol></term>
+<listitem>
+<para>Specifies destination printer.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>-s</literal></term>
+<listitem>
+<para>Specifies silent printing. The application's print dialog
+box is not displayed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">filename</Symbol></term>
+<listitem>
+<para>Specifies the file to be printed.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</ListItem>
+<ListItem>
+<Para>Template files. They use the naming convention <Filename>*.tpl</Filename>. Template files
+cannot be printed.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>The existing, non-desktop app-defaults files for BestTextEditor contain
+resources for interface fonts and foreground and background colors.</Para>
+</ListItem>
+<ListItem>
+<Para>An online help volume for BestTextEditor was created using the desktop
+Help Developer's Kit. When the online help volume was built, it used the
+following source files:</Para>
+<programlisting>&hellip;/BTEHelp.htg
+&hellip;/graphics/BTE1.xwd
+&hellip;/graphics/BTE2.xwd
+</Programlisting>
+<Para>and generated the file &hellip;<Filename>/</Filename><Filename>BTEHelp.sdl</Filename>.</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.RegAp.div.40">
+<Title>Steps to Registering ``BestTextEditor''</Title>
+<Para>The following step-wise procedure registers BestTextEditor.</Para>
+<OrderedList>
+<ListItem>
+<Para><Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.31">Modify font and color resources.</Emphasis></Para>
+<Para>In BestTextEditor's app-defaults file, remove resources that set:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Fonts for text.</Para>
+</ListItem>
+<ListItem>
+<Para>Colors for foreground and background.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.32">Create the application root.</Emphasis></Para>
+<Para>Create the directory:</Para>
+<ProgramListing>/desktop_approots/BTE</ProgramListing>
+<Para>If you are integrating an existing application, you should create the
+application root directory elsewhere than in the installation location for the
+application; otherwise, the configuration files you create may be removed
+when you update the application.</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.33">Create the registration package directories</Emphasis>.</Para>
+<Para>Create these directories:</Para>
+<ProgramListing><Filename>/desktop_approots/BTE/dt/appconfig/types/C</Filename>
+<Filename>/desktop_approots/BTE/dt/appconfig/help/C</Filename>
+<Filename>/desktop_approots/BTE/dt/appconfig/icons/C</Filename>
+<Filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/BestTextEditor</Filename></ProgramListing>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.34">Create the actions and data types for the application.</Emphasis></Para>
+<orderedlist>
+<ListItem>
+<Para>Create the configuration file for the action and data type definitions:</Para>
+<ProgramListing>/desktop_approots/BTE/dt/appconfig/types/C/BTE.dt</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>Create the action definition for running BestTextEditor:</Para>
+<programlisting>ACTION BTEditor
+{
+  WINDOW_TYPE    NO_STDIO
+  ICON    BTERun
+  DESCRIPTION    Double-click this icon or drop a BTE data \
+      file on it to run BestTextEditor.
+  EXEC_STRING    /usr/BTE/BTEd &percnt;Arg_1&percnt;
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>Create the data type for <Command>*.bte</Command> files:</Para>
+<programlisting>DATA_ATTRIBUTES BTEDataFile
+{
+  DESCRIPTION    BestTextEditor data file.
+  ICON    BTEData
+  ACTIONS    Open,Print
+}
+
+DATA_CRITERIA BTEDataFileCriteria1
+{
+  DATA_ATTRIBUTES_NAME      BTEDataFile
+  NAME_PATTERN      *.bte
+  MODE      f
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>Create the data type for <Filename>*.tpl</Filename> files:</Para>
+<programlisting>DATA_ATTRIBUTES BTETemplateFile
+{
+  DESCRIPTION    BestTextEditor template file.
+  ICON    BTETempl
+  ACTIONS    Open
+}
+
+DATA_CRITERIAL BTETemplateFileCriteria1
+{
+  DATA_ATTRIBUTES_NAME      BTETemplateFile
+  NAME_PATTERN      *.tpl
+  MODE      f
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>Create the Open action for <Filename>*.bte</Filename> files.</Para>
+<programlisting>ACTION Open
+{
+  ARG_TYPE   BTEDataFile
+  TYPE   MAP
+  MAP_ACTION   BTEditor
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>Create the Print action for <Filename>*.bte</Filename> files.</Para>
+<Para>Here are simple Print actions that will print the data files. These actions
+require a value for the LPDEST environment variable and ignore the <Command>-s</Command> print option. (If LPDEST isn't set, the action may fail.)</Para>
+<programlisting>ACTION Print
+{
+  ARG_TYPE    BTEDataFile
+  TYPE    MAP
+  MAP_ACTION    BTEPrintData
+}
+ACTION BTEPrintData
+}
+  WINDOW_TYPE     NO_STDIO
+  EXEC_STRING     BTEPrint -d $LPDEST &percnt;Arg_1&percnt;
+}
+</programlisting>
+<Para>Here is another version of the BTEPrintData action and an accompanying
+script. Together, they handle situations where LPDEST is not set or if
+silent printing is requested.</Para>
+<programlisting>ACTION BTEPrintData
+{
+  WINDOW_TYPE    NO_STDIO
+  EXEC_STRING    /usr/BTE/bin/BTEenvprint &percnt;(File)Arg_1&percnt;
+}
+</programlisting>
+<Para>The contents of the <Filename>/usr/BTE/bin/BTEenvprint</Filename> script is:</Para>
+<programlisting># BTEenvprint
+#!/bin/sh
+DEST=&rdquo;&rdquo;
+SILENT=&rdquo;&rdquo;
+if [ $LPDEST ]; then
+  DEST=&rdquo;-d $LPDEST&rdquo;
+fi
+<Command>BTEPrint $DEST $SILENT $1</Command>
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>Create the Open action for <Command>*.tpl</Command> files:</Para>
+<programlisting>ACTION Open
+{
+  ARG_TYPE   BTETemplateFile
+  TYPE   MAP
+  MAP_ACTION   BTEditor
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>Create the Print action for <Filename>*.tpl</Filename> files:</Para>
+<programlisting>ACTION Print
+{
+  ARG_TYPES    BTETemplateFile
+  TYPE    MAP
+  MAP_ACTION    NoPrint
+}
+</programlisting>
+<Para>NoPrint is a built-in action that displays a dialog box telling the user the
+file cannot be printed.</Para>
+</ListItem>
+</orderedlist>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.35">Put the help files into the registration package</Emphasis>.</Para>
+<orderedlist>
+<ListItem>
+<Para>Place the help files in the following locations:</Para>
+<programlisting>/desktop_approots/BTE/dt/appconfig/help/C/BTEHelp.sdl
+/desktop_approots/BTE/dt/appconfig/help/C/graphics/BTE1.xwd
+/desktop_approots/BTE/dt/appconfig/help/C/graphics/BTE2.xwd
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>Create the file:</Para>
+<programlisting>/desktop_approots/BTE/dt/appconfig/types/C/BTEhelp.dt
+</programlisting>
+<Para>Put the following action definition in the file:</Para>
+<programlisting>ACTION BTEHelp
+{
+  WINDOW_TYPE    NO_STDIO
+  EXEC_STRING    /usr/dt/bin/dthelpview -helpVolume \
+      BTEHelp.sdl
+  DESCRIPTION    Opens the BestTextEditor help volume.
+}
+</programlisting>
+</ListItem>
+</orderedlist>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.36">Create icons for the application.</Emphasis></Para>
+<Para>Use Icon Editor to create the icons. Use these size guidelines:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="117*">
+<colspec colwidth="411*">
+<THead>
+<Row>
+<Entry><Para>Name</Para></Entry>
+<Entry><Para>Size</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.t.pm</Filename></Para></Entry>
+<Entry><Para>16 by 16</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.m.pm</Filename></Para></Entry>
+<Entry><Para>32 by 32</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">basename</Symbol><Filename>.l.pm</Filename></Para></Entry>
+<Entry><Para>64 by 64</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Create these icon files in the directory
+<Filename>/desktop_approots/BTE/dt/appconfig/icons/C</Filename>:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Icons to represent the action that runs the application: <Filename>BTERun.t.pm</Filename>,
+<Filename>BTERun.m.pm</Filename>, <Filename>BTERun.l.pm</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>Icons to represent <Filename>*.bte</Filename> files: <Filename>BTEData.t.pm</Filename>, <Filename>BTEData.m.pm</Filename>,</Para>
+</ListItem>
+<ListItem>
+<Para>Icons to represent <Filename>*.tpl</Filename> files: <Filename>BTETempl.t.pm</Filename>, <Filename>BTETempl.m.pm</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>Icons to represent the application group (used in step 7): <Filename>BTEApp.t.pm</Filename>,
+<Filename>BTEApp.m.pm</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para><Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.37">Create the application group</Emphasis>.<IndexTerm><Primary>application groups</Primary><Secondary>example of creating</Secondary></IndexTerm>
+</Para>
+<orderedlist>
+<ListItem>
+<Para>If you haven't already done so, create the directory.</Para>
+<ProgramListing>/desktop_approots/BTE/dt/appconfig/appmanager/C/BestTextEditor</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>This step is optional. It provides a unique icon for the application group
+icon by creating a data type and associated actions for the application
+group. If you omit this step, the application group will use the default
+icon.</Para>
+<Para>Add the following data type and action definitions to the file
+<Filename>/desktop_approots/BTE/dt/appconfig/types/C/BTE.dt</Filename>.The
+data type specifies the icon to be used by the BestTextEditor application
+group. The actions provide the same Open and Print behavior as the
+built-in application groups.</Para>
+<programlisting>DATA_ATTRIBUTES BestTextEditorAppGroup
+{
+  ACTIONS   OpenInPlace,OpenNewView
+  ICON   BTEApp
+}
+DATA_CRITERIA BestTextEditorAppGroupCriterial
+{
+  DATA_ATTRIBUTES_NAME      BestTextEditorAppGroup
+  MODE      d
+  PATH_PATTERN      */appmanager/*/BestTextEditor
+}
+ACTION Open
+{
+  ARG_TYPE   BestTextEditorAppGroup
+  TYPE   MAP
+  MAP_ACTION   OpenAppGroup
+}
+ACTION Print
+{
+  ARG_TYPE   BestTextEditorAppGroup
+  TYPE   MAP
+  MAP_ACTION   PrintAppGroup
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>Create an icon in the application group that will start the application. To
+do this, create the file:</Para>
+<ProgramListing><Filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/BestTextEditor/BTEditor</Filename></ProgramListing>
+<Para>and make the file executable.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the action file in the application group that will open the help
+volume. To do this, create the file:</Para>
+<ProgramListing><Filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/BestTextEditor/BTEHelp</Filename></ProgramListing>
+<Para>and make the file executable.</Para>
+</ListItem>
+<ListItem>
+<Para>Put other files into the application group; for example, &ldquo;read me&rdquo; files,
+sample data and template files.</Para>
+</ListItem>
+</orderedlist>
+</listitem>
+<ListItem>
+<Para><Emphasis Role="Lead-in" Id="SAG.RegAp.mkr.38">Register the application.</Emphasis></Para>
+<Para>In a terminal emulator window:</Para>
+<orderedlist>
+<ListItem>
+<Para>Log in as root.</Para>
+</ListItem>
+<ListItem>
+<Para>Run the command:</Para>
+<ProgramListing>/usr/dt/bin/dtappintegrate -s /desktop_approots/BTE</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>Open the Desktop_Tools application group and double-click Reload
+Applications.
+</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</OrderedList>
+</Sect3>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

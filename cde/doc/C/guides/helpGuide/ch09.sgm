@@ -1,0 +1,579 @@
+<!-- $XConsortium: ch09.sgm /main/10 1996/09/08 19:40:34 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.HReq.div.1">
+<title id="HRDC.HReq.mkr.1">Responding to Help Requests</title>
+<para>This chapter explains how to display different types of help information
+by setting Help Dialog widget resources.</para>
+<informaltable id="HRDC.HReq.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Requesting Help215'--><xref role="JumpText"
+linkend="HRDC.HReq.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Displaying Help Topics216'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a Help Topic217'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a String of Text218'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a Text File219'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a Man Page220'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.8"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Enabling the Help Key (F1)220'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.9"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Providing a Help Menu224'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.11"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Supporting Item Help Mode225'--><xref
+role="JumpText" linkend="HRDC.HReq.mkr.12"></para></entry></row></tbody></tgroup>
+</informaltable>
+<sect1 id="HRDC.HReq.div.2">
+<title id="HRDC.HReq.mkr.2">Requesting Help</title>
+<indexterm><primary>responding to</primary><secondary>help requests</secondary>
+</indexterm><indexterm><primary>requests, responding to help</primary></indexterm>
+<para>When a user requests help while using your application, it is the application's
+responsibility to determine what help topic should be displayed.</para>
+<sect2 id="HRDC.HReq.div.3">
+<title>Context Sensitivity</title>
+<para>Some help requests amount to an explicit request for specific information,
+such as help on &ldquo;version&rdquo; (which usually displays the copyright
+topic). Other help requests, however, may require some degree of context sensitivity.
+That is, some processing might be needed to determine the appropriate help
+topic based on the user's current context within the application.</para>
+<para>For instance, your application might test the status of certain modes
+or settings to determine the appropriate help topic. Or, it might test the
+value of an input field and provide detailed help if the value is not valid,
+and general help if the value is valid.</para>
+</sect2>
+<sect2 id="HRDC.HReq.div.4">
+<title>Entry Points</title>
+<para>An <emphasis>entry point</emphasis> is a specific location within a
+help volume&mdash;usually the beginning of a topic&mdash;that can be directly
+accessed by requesting help within the application.</para>
+<para>From the author's point of view, entry points are established by assigning
+IDs at the appropriate places within the help volume. From the programmer's
+point of view, entry points are created by enabling the user to request help
+and using the appropriate ID when a particular request is made.</para>
+<para>There are four general ways for users to request help:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Pressing the <emphasis>help
+key</emphasis> (which is F1 on most keyboards)</para>
+</listitem><listitem><para>Clicking the Help button in a dialog box</para>
+</listitem><listitem><para>Choosing a command from the application's Help
+menu</para>
+</listitem><listitem><para>Choosing On Item help</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="HRDC.HReq.div.5">
+<title id="HRDC.HReq.mkr.3">Displaying Help Topics</title>
+<para>When a help request is made, the application determines what help topic
+to display. It then creates (if necessary) and manages a help dialog, and
+sets the appropriate resources to display a help topic.</para>
+<para>Most requests display help topics that are part of the application's
+help volume, but the Help System's help dialogs are also capable of displaying
+man pages, text files, and simple text strings.</para>
+<para id="HRDC.HReq.mkr.4">The Help System's help dialogs are based exclusively
+on Xt Intrinsics and Motif programming, so you change the values within
+a help dialog just like any other widget: by setting resources.</para>
+<para>The <systemitem class="resource">DtNhelpType</systemitem> resource determines
+what type of information is displayed. It can be set to any of these values:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><systemitem class="constant">DtHELP_TYPE_TOPIC</systemitem> for displaying normal help topics that are
+part of a help volume. The volume is specified by setting the <systemitem class="resource">DtNhelpVolume</systemitem> resource; the topic is specified
+by setting <systemitem class="resource">DtNLocationId</systemitem> resource.
+</para>
+</listitem><listitem><para><systemitem class="constant">DtHELP_TYPE_STRING</systemitem> for displaying a string supplied by the application. Automatic
+word wrap is disabled, so line breaks are observed as specified in the string.
+The string is specified by setting the <systemitem class="resource">DtNstringData</systemitem> resource.</para>
+</listitem><listitem><para><systemitem class="constant">DtHELP_TYPE_DYNAMIC_STRING</systemitem> for displaying a string supplied by the application, using word
+wrap to format the text. Line breaks within the string are used to separate
+paragraphs. The string is specified by setting the <systemitem class="resource">DtNstringData</systemitem> resource.</para>
+</listitem><listitem><para><systemitem class="constant">DtHELP_TYPE_FILE</systemitem>
+for displaying a text file. The name of the file to be displayed is specified
+by setting the <systemitem class="resource">DtNhelpFile</systemitem> resource.
+</para>
+</listitem><listitem><para><systemitem class="constant">DtHELP_TYPE_MAN_PAGE</systemitem> for displaying a manual reference page (man page) in a help
+dialog. The man page to be displayed is specified by setting the <systemitem class="resource">DtNmanPage</systemitem> resource.</para>
+</listitem></itemizedlist>
+<para>These values are defined in the <filename>Help.h</filename> file.</para>
+<sect2 id="HRDC.HReq.div.6">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="SecTitleAndPageNum"
+linkend="HRDC.CrDia.mkr.1"></para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.HReq.div.7" role="Procedure">
+<title id="HRDC.HReq.mkr.5">To Display a Help Topic</title>
+<orderedlist><listitem><para>Create a help dialog.</para>
+</listitem><listitem><para>Set the following resources for the help dialog:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="164*">
+<colspec align="left" colwidth="364*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNhelpType</systemitem></para></entry>
+<entry align="left" valign="top"><para>Set to <systemitem class="constant">DtHELP_TYPE_TOPIC</systemitem>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNhelpVolume</systemitem></para></entry>
+<entry align="left" valign="top"><para>Set to the volume name for your application.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNlocationId</systemitem></para></entry>
+<entry align="left" valign="top"><para>Set to the topic ID that you want to
+display.</para></entry></row></tbody></tgroup></informaltable>
+<para>You can also set other values for the dialog, such as its size and title.
+</para>
+</listitem><listitem><para>Manage the dialog using <function>XtManageChild()</function>.</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.HReq.div.8">
+<title>Example</title>
+<para>This program segment displays a topic with the ID <symbol>getting-started</symbol> in the volume <filename>MyVolume</filename>.</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], DtNhelpType,   DtHELP_TYPE_TOPIC);  ac++;
+XtSetArg (al[ac], DtNhelpVolume,  &ldquo;MyVolume&rdquo;);         ac++;
+XtSetArg (al[ac], DtNlocationId,  &ldquo;getting-started&rdquo;);  ac++;
+XtSetArg (al[ac], DtNcolumns,    40);                  ac++;
+XtSetArg (al[ac], DtNrows,       12);                  ac++;
+XtSetValues (helpDialog, al, ac);
+XtManageChild (helpDialog);</programlisting>
+<para>If the help volume <filename>MyVolume</filename> is not registered,
+then a complete path to the <filename>MyVolume.sdl</filename> file is required
+for the value of <systemitem class="resource">DtNhelpVolume</systemitem>.
+</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.HReq.div.9" role="Procedure">
+<title id="HRDC.HReq.mkr.6">To Display a String of Text</title>
+<orderedlist><listitem><para>Create a quick help dialog.</para>
+<para>You can use a general help dialog to display string data, but this isn't
+recommended because most of its features do not apply to string data.</para>
+</listitem><listitem><para>Set the following resources for the help dialog:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="177*">
+<colspec align="left" colwidth="351*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNhelpType</systemitem></para></entry>
+<entry align="left" valign="top"><para>Set to <systemitem class="constant">DtHELP_TYPE_DYNAMIC_STRING</systemitem> (if you want word wrap enabled) or <systemitem class="constant">DtHELP_TYPE_STRING</systemitem> (if you want the line breaks
+within the string to be maintained)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNstringData</systemitem></para></entry>
+<entry align="left" valign="top"><para>Set to the string you want to display.
+A copy of the string is kept internally, so you need not maintain your copy
+of it.</para></entry></row></tbody></tgroup></informaltable>
+<para>You can also set other values for the dialog, such as its size and title.
+</para>
+</listitem><listitem><para>Manage the dialog using <function>XtManageChild()</function>.</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.HReq.div.10">
+<title>Example</title>
+<para>This program segment displays a string stored in the variable <symbol role="Variable">descriptionString</symbol>.</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], DtNhelpType,   DtHELP_TYPE_DYNAMIC_STRING); ac++;
+XtSetArg (al[ac], DtNstringData, (char *)descriptionString);   ac++;
+XtSetValues (quickHelpDialog, al, ac);
+XtManageChild (quickHelpDialog);</programlisting>
+<para>If the string is no longer needed within the application, the memory
+can be freed, because the help dialog makes its own copy of the data.</para>
+<programlisting>XtFree (descriptionString);</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.HReq.div.11" role="Procedure">
+<title id="HRDC.HReq.mkr.7">To Display a Text File</title>
+<orderedlist><listitem><para>Create a quick help dialog or retrieve one from
+your dialog cache.</para>
+<para>You can use a general help dialog to display a text file, but this isn't
+recommended because most of its features are useful only for standard help
+topics.</para>
+</listitem><listitem><para>Set the following resources for the help dialog:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="159*">
+<colspec align="left" colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="prompt">DtNhelpType</systemitem></para></entry>
+<entry align="left" valign="top"><para>Set to <systemitem class="constant">DtHELP_TYPE_FILE</systemitem>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="prompt">DtNhelpFile</systemitem></para></entry>
+<entry align="left" valign="top"><para>Set to the file name you want to display.
+If the file is not in the application's current directory, provide a path
+to the file.</para></entry></row></tbody></tgroup></informaltable>
+<para>You can also set other values for the dialog, such as its size and title.
+In particular, you might want to set the width to 80 columns, which is the
+standard width for text files.</para>
+</listitem><listitem><para>Manage the dialog using <function>XtManageChild()</function>.</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.HReq.div.12">
+<title>Example</title>
+<para>The following program segment displays a file named <filename>/tmp/printer.list</filename>. It also sets the size of the dialog to better suit a text file.
+</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], DtNhelpType, DtHELP_TYPE_FILE);      ac++;
+XtSetArg (al[ac], DtNhelpFile,  &ldquo;/tmp/printer.list&rdquo;);  ac++;
+XtSetArg (al[ac], DtNcolumns,  80);                    ac++;
+XtSetArg (al[ac], DtNrows,     20);                    ac++;
+XtSetValues (quickHelpDialog, al, ac);
+XtManageChild (quickHelpDialog);</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.HReq.div.13" role="Procedure">
+<title id="HRDC.HReq.mkr.8">To Display a Man Page</title>
+<indexterm><primary>displaying</primary><secondary>man page</secondary></indexterm>
+<indexterm><primary>man page</primary><secondary>displaying</secondary></indexterm>
+<indexterm><primary>&lt;Filename | Command>DtHELP_TYPE_MAN_PAGE &lt;Default Para Font></primary></indexterm>
+<orderedlist><listitem><para>Create a quick help dialog.</para>
+<para>You can use a general help dialog to display a man page, but this isn't
+recommended because most of its features are useful only with standard help
+topics.</para>
+</listitem><listitem><para>Set the following resources for the help dialog:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="159*">
+<colspec align="left" colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNhelpType</systemitem></para></entry>
+<entry align="left" valign="top"><para>Set to <systemitem class="constant">DtHELP_TYPE_MAN_PAGE</systemitem>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">DtNmanPage</systemitem></para></entry>
+<entry align="left" valign="top"><para>Set to the name of the man page. The
+value of this resource is passed directly to the system <command>man</command>
+command. So, to specify a particular section of a man page, precede the man
+page name by a section number, just as you would if you were typing the <command>man</command> command conventionally.</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>You can also set other values for the dialog, such as its size and title.
+</para>
+</listitem><listitem><para>Manage the dialog using <function>XtManageChild()</function>.</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.HReq.div.14">
+<title>Example</title>
+<para>The following program segment displays the man page for the <command>grep</command> command. It also sets the size of the dialog to better suit
+a man page.</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], DtNhelpType, DtHELP_TYPE_MAN_PAGE);  ac++;
+XtSetArg (al[ac], DtNmanPage,   &ldquo;grep&rdquo;);   ac++;
+XtSetArg (al[ac], DtNcolumns,  80);                          ac++;
+XtSetArg (al[ac], DtNrows,     20);                          ac++;
+XtSetValues (quickHelpDialog, al, ac);
+XtManageChild (quickHelpDialog);</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.HReq.div.15">
+<title id="HRDC.HReq.mkr.9">Enabling the Help Key (F1)</title>
+<indexterm><primary>F1 (help key)</primary></indexterm><indexterm><primary>key, enabling help (F1)</primary></indexterm><indexterm><primary>help key</primary></indexterm>
+<para>The <emphasis>help key</emphasis> mechanism is a feature built into
+all Motif manager widgets and primitive widgets. The help key is enabled
+by adding a <emphasis>help callback</emphasis> to the widget where you want
+the help key active.</para>
+<para>Within your application, you should add a help callback to each widget
+where you want a unique entry point into help. The help callback mechanism
+automatically &ldquo;walks&rdquo; up the widget hierarchy (up to the shell
+widget) until it finds a widget with a help callback, then invokes that callback.
+</para>
+<para>If you add a help callback to a manager widget, when the help key is
+pressed for any of its children, the manager's help callback is invoked (unless
+the child widget has a help callback of its own).</para>
+<sect2 id="HRDC.HReq.div.16" role="Procedure">
+<title id="HRDC.HReq.mkr.10">To Add a Help Callback</title>
+<para>Use the <function>XtAddCallback()</function> function as follows:</para>
+<programlisting>XtAddCallback (
+      Widget            widget,
+      String            DtNhelpCallback,
+      XtCallbackProc    HelpRequestCB,
+      XtPointer         clientData );
+
+</programlisting>
+<para>Where:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="170*">
+<colspec align="left" colwidth="358*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">widget</symbol></para></entry>
+<entry align="left" valign="top"><para>The widget where you want to activate
+the help key.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><function role="Variable">HelpRequestCB()</function></para></entry>
+<entry align="left" valign="top"><para>The function in your application that
+handles the help request when the user presses the help key.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">clientData</symbol></para></entry>
+<entry align="left" valign="top"><para>The data you want passed to the <function>HelpRequestCB()</function>function. Typically, this data identifies the topic
+to be displayed.</para></entry></row></tbody></tgroup></informaltable>
+<para>When the user presses the help key, the help callback is invoked for
+the widget with the current keyboard focus. If that widget does not have a
+help callback, the help callback for its nearest ancestor that does have a
+help callback is invoked.</para>
+<para>If no help callbacks are found, nothing happens. Therefore, it is recommended
+that you add a help callback to each shell in your application. This ensures
+that no user requests for help are lost.</para>
+<para>Adding a help callback to a dialog shell automatically enables the Help
+button on the dialog to invoke the help callback.</para>
+</sect2>
+<sect2 id="HRDC.HReq.div.17">
+<title>Importance of Client Data</title>
+<para>Specifying a unique value for <symbol role="Variable">clientData</symbol>
+in each help callback you add saves you the trouble of writing a separate
+function to process each help callback. Your application can have a single
+callback procedure to process all help requests (see <xref role="SecTitleAndPageNum"
+linkend="HRDC.HReq.mkr.10">). Within the callback procedure, use the <symbol role="Variable">clientData</symbol> to identify where the user requested help.
+That is, each time you add a help callback, you should provide a unique value
+for <symbol role="Variable">clientData</symbol>.</para>
+<sect3 id="HRDC.HReq.div.18">
+<title>Example</title>
+<para>The following example demonstrates one way to associate IDs with entry
+points. A <filename>HelpEntryIds.h</filename> file is used to define a unique
+integer for each <symbol role="Variable">clientData</symbol> value for each
+help callback. Also defined are two ID strings for each widget: one for normal
+F1 help, the other for item help mode (where the user picks a widget to get
+a description).</para>
+<para>For this example, assume that the application's user interface is just
+a main window with three input fields: Name, Address, and Telephone Number.
+Here's what the <filename>HelpEntryIds.h</filename> file would contain:</para>
+<programlisting>#define HELP_volumeName            "MyVolume"
+#define HELP_MainWindow            100
+#define HELP_MainWindow_ID         "basic-tasks"
+#define HELP_MainWindow_ITEM_ID    "main-window-desc"
+
+#define HELP_NameField             101
+#define HELP_NameField_ID          "specifying-a-name"
+#define HELP_NameField_ITEM_ID     "name-field-desc"
+
+#define HELP_AddressField          102
+#define HELP_AddressField_ID       "specifying-an-address"
+#define HELP_AddressField_ITEM_ID  "address-field-desc"
+
+#define HELP_PhoneField            103
+#define HELP_PhoneField_ID         "specifying-a-phone-no"
+#define HELP_PhoneField_ITEM_ID    "phone-field-desc"</programlisting>
+<para>Within the part of the application that initially creates the widgets,
+a help callback is added to each widget as follows:</para>
+<programlisting>XtAddCallback (mainWindow, DtNhelpCallback,
+               HelpRequestCB, HELP_MainWindow);
+XtAddCallback (nameField, DtNhelpCallback,
+               HelpRequestCB, HELP_NameField);
+XtAddCallback (addressField, DtNhelpCallback,
+               HelpRequestCB, HELP_AddressField);
+XtAddCallback (phoneField, DtNhelpCallback,
+               HelpRequestCB, HELP_PhoneField);</programlisting>
+<para>Within the <function>HelpRequestCB()</function> function, the <symbol role="Variable">clientData</symbol> parameter is used to dispatch the help
+requests (through a <command>switch()</command> statement). Within each case,
+the value of a global flag <systemitem class="environvar">itemHelp</systemitem>
+is tested to see if the help callback was invoked by the F1 key (the flag
+is &ldquo;false&rdquo;) or by the user picking the widget in item help mode
+(the flag is &ldquo;true&rdquo;).</para>
+<programlisting>XtCallbackProc HelpRequestCB (
+      Widget     w,
+      XtPointer  clientData,
+      XtPointer  callData)
+{
+   char    *topicToDisplay;
+   Boolean  useQuickHelpDialog;
+   /* <emphasis>Determine the topic ID for the given `clientData.'</emphasis> */
+   switch ((int)clientData)
+     {
+       case HELP_MainWindow:
+         useQuickHelpDialog = False;
+         if (itemHelpFlag)
+           topicToDisplay = HELP_MainWindow_ITEM_ID;
+         else
+           topicToDisplay = HELP_MainWindow_ID;
+         break;       case HELP_NameField:
+         useQuickHelpDialog = True;
+         if (itemHelpFlag)
+           topicToDisplay = HELP_NameField_ITEM_ID;
+         else
+           topicToDisplay = HELP_NameField_ID;
+         break;       case HELP_AddressField:
+         useQuickHelpDialog = True;
+         if (itemHelpFlag)
+           topicToDisplay = HELP_AddressField_ITEM_ID;
+         else
+           topicToDisplay = HELP_AddressField_ID;
+         break;       case HELP_PhoneField:
+         useQuickHelpDialog = True;
+         if (itemHelpFlag)
+           topicToDisplay = HELP_PhoneField_ITEM_ID;
+         else
+           topicToDisplay = HELP_PhoneField_ID;
+         break;       default:
+         /* <emphasis>An unknown clientData was received.</emphasis> */
+         /* <emphasis>Put your error handling code here.</emphasis> */
+         return;
+         break;
+     }
+   /* <emphasis>Display the topic.</emphasis> */
+   ac = 0;
+   XtSetArg (al[ac], DtNhelpType,   DtHELP_TYPE_TOPIC); ac++;
+   XtSetArg (al[ac], DtNhelpVolume, HELP_volumeName);    ac++;
+   XtSetArg (al[ac], DtNhelpType,   topicToDisplay);     ac++;
+   if (useQuickHelpDialog)
+     {
+        XtSetValues (mainQuickHelpDialog, al, ac);
+        XtManageChild (mainQuickHelpDialog);
+     }
+   else
+     {
+        XtSetValues (mainHelpDialog, al, ac);
+        XtManageChild (mainHelpDialog);
+     }
+   /* <emphasis>Clear the `item help' flag.</emphasis> */
+   itemHelpFlag = False;
+ }
+
+</programlisting>
+<para>The preceding function assumes that the application uses two help dialogs
+for all help requests (<command>mainHelpDialog</command> and <command>mainQuickHelpDialog</command>), and that those dialogs have already been created. It also assumes
+that <command>al</command> and <command>ac</command> (used in assembling
+Xt argument lists) are declared elsewhere.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.HReq.div.19">
+<title id="HRDC.HReq.mkr.11">Providing a Help Menu<indexterm><primary>help
+menu, providing</primary></indexterm><indexterm><primary>menu</primary><secondary>providing help menu</secondary></indexterm></title>
+<para>The <citetitle>Style Guide and Certification Checklist</citetitle> recommends
+that each menu bar include a Help menu. The Help menu may contain a variety
+of commands that lets the user access different types of online help for your
+application.</para>
+<para>The most important commands include:</para>
+<itemizedlist><listitem><para><command>Introduction</command> displays the
+home topic of your application's help, allowing the user to use hyperlinks
+to navigate to any desired information.</para>
+</listitem><listitem><para><command>Using Help</command> displays &ldquo;help&rdquo;
+on help. This is information that tells the user how to use the Help System.
+</para>
+</listitem><listitem><para><command>Version</command> displays your application's
+version and copyright information.</para>
+</listitem></itemizedlist>
+<para>Additional commands may display help on special keyboard usage, application
+tasks, reference, or tutorials. You should design your Help menu to best suit
+your application, while staying within the guidelines and recommendations
+of the <citetitle>Style Guide and Certification Checklist.</citetitle></para>
+<sect2 id="HRDC.HReq.div.20">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="SecTitleAndPageNum"
+linkend="HRDC.OrgH.mkr.13"> describes how authors create the<?Pub Caret> home
+topic for a help volume.</para>
+</listitem><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.OrgH.mkr.16">
+describes how authors create a copyright topic.</para>
+</listitem><listitem><para><xref role="ChapNumAndTitle" linkend="HRDC.H4Hlp.mkr.1">describes
+how help on help is found and how to add it to your application.</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="HRDC.HReq.div.21">
+<title id="HRDC.HReq.mkr.12">Supporting Item Help Mode</title>
+<para>Some applications provide an On Item or Help Mode command in their Help
+menu. This command temporarily redefines the mouse pointer as a <literal>?</literal> (question mark) to prompt the user to select an item on the screen.
+When an item is selected, the application is expected to display a description
+of the item.</para>
+<para>The convenience function, <function>DtHelpReturnSelectedWidgetId()</function>,
+changes the pointer to a question mark and waits for the user to pick a widget.
+The ID of the selected widget is returned. This function is similar to the <function>XmTrackingLocate()</function> function except that <function>DtHelpReturnSelectedWidgetId()</function> returns NULL if the user presses Escape to cancel the operation.
+</para>
+<para>To display help on the selected item, your application can simply invoke
+the help callback for the returned widget. This is equivalent to the user
+pressing <KeyCap>F1</KeyCap> while using that widget.</para>
+<para>If you want the application to differentiate between item help and F1
+help, you can set a flag before calling the widget's help callback. The help
+callback procedure can then use that flag to determine that the callback was
+invoked as a result of item help and alter its response accordingly.</para>
+<sect2 id="HRDC.HReq.div.22" role="Procedure">
+<title id="HRDC.HReq.mkr.13">To Add Support for Item Help</title>
+<orderedlist><listitem><para>Write a function that uses the <function>DtHelpReturnSelectedWidgetId()</function> function. Within this function, invoke the help callback for the
+selected widget. In the following steps, this function is called
+<function>ProcessOnItemHelp()</function>, but you can name it whatever you want.</para>
+</listitem><listitem><para>Add to your Help menu a command button labeled
+<command>On Item</command>. Add an activate callback that invokes your
+<function>ProcessOnItemHelp()</function> function.</para>
+</listitem><listitem><para>Add a help callback to each widget in your application
+where you want item help to be available.</para>
+</listitem></orderedlist>
+<para>If the selected widget does not have a help callback, the application
+should try its parent widget. Similarly, if the parent does not have a help
+callback, the application should continue to walk up the widget hierarchy
+until it finds a help callback.</para>
+<sect3 id="HRDC.HReq.div.23">
+<title>Example</title>
+<para>The following procedure is a sample <function>ProcessOnItemHelp()</function>
+function that would be invoked by choosing <command>On Item</command> from
+the Help menu.</para>
+<programlisting>void ProcessOnItemHelp(
+   Widget widget)
+{
+ /* <emphasis>Declare a variable for the selected widget.</emphasis> */
+  Widget selWidget=NULL;
+  int status=DtHELP_SELECT_ERROR;
+  /* <emphasis>Get an application shell widget from our widget hierarchy to
+* pass into DtHelpReturnSelectedWidgetId().</emphasis>   */
+
+  while (!XtIsSubclass(widget, applicationShellWidgetClass))
+                   widget = XtParent(widget);
+  status = DtHelpReturnSelectedWidgetId(widget, NULL, &amp;selWidget);
+  switch ((int)status)
+    {
+      case DtHELP_SELECT_ERROR:
+        printf(&ldquo;Selection Error, cannot continue\n&rdquo;);
+      break;
+      case DtHELP_SELECT_VALID:
+         /* <emphasis>We have a valid widget selection, now let's look
+        for a registered help callback to invoke.</emphasis>     */
+
+         while (selWidget != NULL)
+          {
+            if ((XtHasCallbacks(selWidget, XmNhelpCallback)
+                                     == XtCallbackHasSome))
+              {
+                /* <emphasis>Found a help callback, so just call it</emphasis> */
+                XtCallCallbacks((Widget)selWidget,
+                                XmNhelpCallback,NULL);
+                break;
+              }
+            else
+              /* <emphasis>No help callback on current widget, so try
+              the widget's parent</emphasis>   */
+                 selWidget = XtParent(selWidget);
+          }
+      break;
+      case DtHELP_SELECT_ABORT:
+        printf("Selection Aborted by user.\n");
+      break;
+      case DtHELP_SELECT_INVALID:
+        printf("You must select a component within your app.\n");
+      break;
+    }
+}
+
+</programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub *0000036813>

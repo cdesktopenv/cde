@@ -1,0 +1,164 @@
+XCOMM $TOG: Imakefile /main/13 1998/03/11 16:20:10 mgreess $
+#ifndef HPArchitecture
+# define IHaveSubdirs
+#endif
+#define PassCDebugFlags
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+TOOL_DIR = ../dbTools
+DATABASE_DIR = ../../../databases
+BUILD_UDB_TOOL = ./build_udb_list
+
+#ifdef HPArchitecture
+PLATFORM = hp-ux
+#endif
+#ifdef LinuxArchitecture
+PLATFORM = linux
+SUBDIRS = linux
+#endif
+#ifdef RsArchitecture
+PLATFORM = aix
+SUBDIRS = ibm
+#endif
+#ifdef SunArchitecture
+PLATFORM = sun
+SUBDIRS = sun
+#endif
+#ifdef UXPArchitecture
+PLATFORM = uxp
+SUBDIRS = uxp
+#endif
+#ifdef USLArchitecture
+PLATFORM = usl
+SUBDIRS = usl
+#endif
+#ifdef AlphaArchitecture
+PLATFORM = dec
+SUBDIRS = dec
+#endif
+
+#ifndef HPArchitecture
+MakeSubdirs($(SUBDIRS))
+#endif
+
+all::
+
+configHelp:: $(DATABASE_DIR)/CDE-HELP-C.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-HELP-C.udb > CDE-HELP-C.lst
+	$(BUILD_UDB_TOOL) CDE-HELP-C ../../..
+
+configHelpPrg:: $(DATABASE_DIR)/CDE-HELP-PRG.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-HELP-PRG.udb > CDE-HELP-PRG.lst
+	$(BUILD_UDB_TOOL) CDE-HELP-PRG ../../..
+
+configDemos:: $(DATABASE_DIR)/CDE-DEMOS.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-DEMOS.udb > CDE-DEMOS.lst
+	$(BUILD_UDB_TOOL) CDE-DEMOS ../../..
+
+configFonts:: $(DATABASE_DIR)/CDE-FONTS.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-FONTS.udb > CDE-FONTS.lst
+	$(BUILD_UDB_TOOL) CDE-FONTS ../../..
+
+configHelpRun:: $(DATABASE_DIR)/CDE-HELP-RUN.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-HELP-RUN.udb > CDE-HELP-RUN.lst
+	$(BUILD_UDB_TOOL) CDE-HELP-RUN ../../..
+
+configIcons:: $(DATABASE_DIR)/CDE-ICONS.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-ICONS.udb > CDE-ICONS.lst
+	$(BUILD_UDB_TOOL) CDE-ICONS ../../..
+
+configInc:: $(DATABASE_DIR)/CDE-INC.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-INC.udb > CDE-INC.lst
+	$(BUILD_UDB_TOOL) CDE-INC ../../..
+
+configManDev:: $(DATABASE_DIR)/CDE-MAN-DEV.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-MAN-DEV.udb > CDE-MAN-DEV.lst
+	$(BUILD_UDB_TOOL) CDE-MAN-DEV ../../..
+
+configMan:: $(DATABASE_DIR)/CDE-MAN.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-MAN.udb > CDE-MAN.lst
+	$(BUILD_UDB_TOOL) CDE-MAN ../../..
+
+configMsgCat:: $(DATABASE_DIR)/CDE-MSG-C.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-MSG-C.udb > CDE-MSG-C.lst
+	$(BUILD_UDB_TOOL) CDE-MSG-C ../../..
+
+configPrg:: $(DATABASE_DIR)/CDE-PRG.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-PRG.udb > CDE-PRG.lst
+	$(BUILD_UDB_TOOL) CDE-PRG ../../..
+
+configShlibs:: $(DATABASE_DIR)/CDE-SHLIBS.udb
+	$(TOOL_DIR)/udbToAny.ksh  -toLst -ReleaseStream $(PLATFORM) \
+            $(DATABASE_DIR)/CDE-SHLIBS.udb > CDE-SHLIBS.lst
+	$(BUILD_UDB_TOOL) CDE-SHLIBS ../../..
+
+LOCAL_CPP_DEFINES = -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
+                    -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP) \
+                    -DCDE_LOGFILES_TOP=$(CDE_LOGFILES_TOP)
+
+CppSourceFile(configHelp,configHelp.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configHelpPrg,configHelpPrg.src,$(LOCAL_CPP_DEFINES),)
+
+CppSourceFile(configDemos,configDemos.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configFonts,configFonts.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configHelpRun,configHelpRun.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configIcons,configIcons.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configInc,configInc.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configMan,configMan.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configManDev,configManDev.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configMsgCat,configMsgCat.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configPrg,configPrg.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(configShlibs,configShlibs.src,$(LOCAL_CPP_DEFINES),)
+
+configHelp:: configHelp.src
+	chmod +x configHelp
+
+configHelpPrg:: configHelpPrg.src
+	chmod +x configHelpPrg
+
+configDemos:: configDemos.src
+	chmod +x configDemos
+
+configFonts:: configFonts.src
+	chmod +x configFonts
+
+configHelpRun:: configHelpRun.src
+	chmod +x configHelpRun
+
+configIcons:: configIcons.src
+	chmod +x configIcons
+
+configInc:: configInc.src
+	chmod +x configInc
+
+configMan:: configMan.src
+	chmod +x configMan
+
+configManDev:: configManDev.src
+	chmod +x configManDev
+
+configMsgCat:: configMsgCat.src
+	chmod +x configMsgCat
+
+configPrg:: configPrg.src
+	chmod +x configPrg
+
+configShlibs:: configShlibs.src
+	chmod +x configShlibs
+
+clean::
+	$(RM) *.lst *.list

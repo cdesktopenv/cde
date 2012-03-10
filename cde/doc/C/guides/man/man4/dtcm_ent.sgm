@@ -1,0 +1,202 @@
+<!-- $XConsortium: dtcm_ent.sgm /main/6 1996/09/08 20:17:21 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN92.rsml.1">
+<refmeta><refentrytitle>dtcm_entry</refentrytitle><manvolnum>special file
+</manvolnum></refmeta>
+<refnamediv><refname><filename>dtcm_entry</filename></refname><refpurpose>
+format of calendar/appointment entry</refpurpose></refnamediv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The calendar entry file format defines how one entry is saved to a file
+or used in a drag-and-drop transaction with another client. A grammar for
+the entry format is:</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.02in">
+<colspec align="left" colwidth="170*">
+<colspec align="left" colwidth="78*">
+<colspec align="left" colwidth="248*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>appt_file</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>header_string</computeroutput> <computeroutput>entry_definition</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`\n\n\t**Calendar Appointment
+**\n'</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>entry_definition</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>appt_def</computeroutput>
+`\n' <computeroutput>old_appt</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>old_appt;</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>old_appt</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>date_mark start_mark end_mark
+repeat_mark</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>duration_mark text_mark</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>date_mark</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`\tDate: '</computeroutput> <computeroutput>date_value</computeroutput> `\n'</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>date_value</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">Date as <symbol role="Variable">mm</symbol>/ <emphasis>dd</emphasis>/ <emphasis>yyyy</emphasis></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>start_mark</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`\tStart: '</computeroutput> <computeroutput>start_value</computeroutput> `\n'</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>start_value</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">Entry begin time as <emphasis>hh</emphasis>:<symbol role="Variable">mm</symbol><literal>[</literal><emphasis>ampm</emphasis> <literal>]</literal>, where <emphasis>hh</emphasis> and <symbol role="Variable">mm</symbol>
+represent two-digit hours and minutes and the optional <emphasis>ampm</emphasis> suffix is the string <literal>am</literal> or <literal>pm</literal></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>end_mark</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`\tEnd: '</computeroutput> <computeroutput>end_value</computeroutput> `\n'</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>end_value</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">Entry begin time as <emphasis>hh</emphasis>:<symbol role="Variable">mm</symbol><literal>[</literal><emphasis>ampm</emphasis> <literal>]</literal></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>repeat_mark</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`\tRepeat: '</computeroutput> <computeroutput>repeat_value</computeroutput> `\n'</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>repeat_value</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`One Time' | `Daily' | `Weekly'
+| `Every Two Weeks'</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`Monthly By Date' | `Yearly'
+| `Monthly By Weekday'</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`Monday Thru Friday' | `Mon,
+Wed, Fri' | `Tuesday, Thursday'</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>duration_mark</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`\tFor: '</computeroutput> <computeroutput>duration_value</computeroutput> `\n'</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>duration_value</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">Integer that describes the number of repetitions.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>text_mark</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`\tWhat: '</computeroutput> <computeroutput>text_value</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>text_value</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">Up to 5 lines of text. Each line after the
+first must have a leading <keysym>tab</keysym> character.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>appt_def</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>appt_start_marker</computeroutput> <computeroutput>attr_list</computeroutput> <computeroutput>appt_end_marker</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>attr_list</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>attr_def</computeroutput> <computeroutput>att_list</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>attr_def</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>appt_start_marker</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>appt_marker</computeroutput>
+`:string:begin\n'</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>appt_end_marker</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>appt_marker</computeroutput>
+`:string:end\n'</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>appt_marker</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`-//CDE_XAPIA_PRIVATE/CS/API/ENTRYATTR//NONSGML
+ApptDelimiter//EN'</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>attr_def</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>attr_name</computeroutput>
+`:' <computeroutput>attr_type</computeroutput> `:' <computeroutput>attr_value</computeroutput> `\n'</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>attr_type</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`string' | `integer' | `reminder'</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><computeroutput>|</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>`accesslist' | `repeatdefinition'
+| `custom'</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>attr_name</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>::=</computeroutput></entry>
+<entry align="left" valign="top">XAPIA string. The span of characters that
+can be used in the definition of an attribute name is specified in the &str-Za;.</entry></row></tbody></tgroup><?Pub Caret></informaltable>
+<para>An example entry:</para>
+<informalexample>
+<programlisting>        ** Calendar Appointment **
+-//CDE_XAPIA_PRIVATE/CS/API/ENTRYATTR//NONSGML ApptDelimiter//EN:string:begin
+-//XAPIA/CS/API/ENTRYATTR//NONSGML Start Date//EN:integer:775148400
+-//XAPIA/CS/API/ENTRYATTR//NONSGML End Date//EN:integer:775148900
+-//XAPIA/CS/API/ENTRYATTR//NONSGML Type//EN:string:CSA_TYPE_EVENT
+-//CDE_XAPIA_PRIVATE/CS/API/ENTRYATTR//NONSGML Showtime//EN:integer:1
+-//XAPIA/CS/API/ENTRYATTR//NONSGML Summary//EN:string:Foundation planning meeting
+        in Hari's office
+-//XAPIA/CS/API/ENTRYATTR//NONSGML Status//EN:integer:0
+-//XAPIA/CS/API/ENTRYATTR//NONSGML Recurrence Rule//EN:string:M60 #12
+-//XAPIA/CS/API/ENTRYATTR//NONSGML Audio Reminder//EN:reminder:-60:
+-//XAPIA/CS/API/ENTRYATTR//NONSGML Flashing Reminder//EN:reminder:-60:
+-//XAPIA/CS/API/ENTRYATTR//NONSGML Mail Reminder//EN:reminder:-1800:hseldon@trantor
+-//XAPIA/CS/API/ENTRYATTR//NONSGML Popup Reminder//EN:reminder:300:
+-//CDE_XAPIA_PRIVATE/CS/API/ENTRYATTR//NONSGML ApptDelimiter//EN:string:end
+
+        Date: 7/25/1994
+        Start:  8:00am
+        End:  9:00am
+        Repeat: Every Two Weeks, last
+        For:26
+        What: Foundation planning meeting
+                in Hari's office</programlisting>
+</informalexample>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.csa.csa.h;, &cdeman.csa.add.entry;, &cdeman.csa.call.callbacks;, &cdeman.csa.delete.calendar;, &cdeman.csa.delete.entry;, &cdeman.csa.free;, &cdeman.csa.free.time.search;, &cdeman.csa.list.calendar.attributes;, &cdeman.csa.list.calendars;, &cdeman.csa.list.entries;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.logoff;, &cdeman.csa.logon;, &cdeman.csa.look.up;, &cdeman.csa.query.configuration;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.read.entry.attributes;, &cdeman.csa.read.next.reminder;, &cdeman.csa.register.callback;, &cdeman.csa.unregister.callback;, &cdeman.csa.update.calendar.attributes;, &cdeman.csa.update.entry.attributes;.</para>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->
+<?Pub *0000041703>

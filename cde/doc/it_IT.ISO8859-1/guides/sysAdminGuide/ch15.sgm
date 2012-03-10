@@ -1,0 +1,1315 @@
+<!-- $XConsortium: ch15.sgm /main/11 1996/12/21 19:19:43 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.facol.div.1">
+<title id="sag.facol.mkr.1">Amministrazione di risorse, font e colori delle
+applicazioni</title>
+<para>Ogni utente ha la possibilit&agrave; di scegliere tra una vasta gamma
+di colori e di font per la visualizzazione delle applicazioni, usando la Gestione
+degli stili o personalizzando le risorse appropriate. In questo capitolo vengono
+descritte le procedure da seguire per personalizzare le risorse dei font e
+dei colori.</para>
+<para>Viene inoltre spiegato come specificare le traduzioni degli stili per
+le applicazioni del widget <command>DtEdito</command>r<indexterm><primary>UNIX, associazioni dei tasti</primary></indexterm>, come l'Editor di testo
+(<command>dtpad</command>) e la Gestione posta (<command>dtmail</command>),
+e come specificare alternative per le combinazioni di accesso rapido delle
+applicazioni del widget <command>DtEditor</command> che entrano in conflitto
+con queste traduzioni</para>
+<informaltable id="sag.facol.itbl.1" frame="all">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.90in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Impostazione
+delle risorse delle applicazioni2--><!--62'--><xref role="JumpText" linkend="sag.facol.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Definizione
+di associazioni UNIX263'--><xref role="JumpText" linkend="sag.facol.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Amministrazione
+dei font267'--><xref role="JumpText" linkend="sag.facol.mkr.7"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Amministrazione
+dei colori272'--><xref role="JumpText" linkend="sag.facol.mkr.9"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Impostazione
+dello spessore delle ombreggiatur--><!--e nelle finestre delle applicazioni280'--><xref
+role="JumpText" linkend="sag.facol.mkr.11"></para></entry></row></tbody></tgroup>
+</informaltable>
+<sect1 id="sag.facol.div.2">
+<title id="sag.facol.mkr.2">Impostazione delle risorse delle applicazioni<indexterm>
+<primary>applicazioni</primary><secondary>risorse, Vedere risorse&lt;</secondary>
+</indexterm><indexterm><primary>$nopage></primary></indexterm><indexterm>
+<primary>risorse</primary><secondary>impostazione</secondary></indexterm></title>
+<para>Le risorse vengono usate per impostare determinati aspetti e comportamenti
+dalle applicazioni. Ad esempio, alcune risorse della Gestione degli stili
+(<computeroutput>dtstyle</computeroutput>) permettono di specificare le directory
+in cui il sistema deve cercare i file contenenti le informazioni sulle tavolozze
+di colori:</para>
+<programlisting>dtstyle*paletteDirectories: /usr/dt/palettes/C \ DirectoryIniziale/.dt/palettes
+</programlisting>
+<para><indexterm><primary>risorse</primary><secondary>app-defaults</secondary>
+</indexterm><indexterm><primary>app-defaults</primary><secondary>uso per le
+applicazioni del desktop</secondary></indexterm>I file che contengono le impostazioni
+predefinite per le applicazioni del desktop si trovano nella directory <filename>/usr/dt/app-defaults/</filename><symbol role="Variable">lingua</symbol>.</para>
+<sect2 id="sag.facol.div.3" role="Procedure">
+<title>Come impostare le risorse a livello di sistema<indexterm><primary>risorse</primary><secondary>di sistema</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Aggiungere le risorse desiderate al file <filename>/etc/dt/config/</filename><symbol role="Variable">lingua</symbol><filename>/<indexterm><primary>sys.resources, file</primary></indexterm>sys.resources</filename>. (Se necessario,
+creare il file.)</para>
+<para>Ad esempio, se in <filename>/etc/dt/config/C/sys.resources</filename>
+si specifica:</para>
+<para remap="CodeIndent1"><systemitem>Applicazione*risorsa</systemitem>: <symbol role="Variable">valore</symbol></para>
+<para>l'impostazione <systemitem>Applicazione*risorsa</systemitem> verr&agrave;
+applicata alla caratteristica RESOURCE_MANAGER di tutti gli utenti al login
+successivo.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.facol.div.4" role="Procedure">
+<title>Come impostare risorse personali<indexterm><primary>risorse</primary>
+<secondary>personali</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Aggiungere le risorse desiderate al file <symbol role="Variable">DirectoryIniziale</symbol><filename>/.Xdefaults</filename>.<indexterm><primary>.Xdefaults, file[Xdefaults, file]</primary></indexterm></para>
+</listitem>
+<listitem><para>Fare doppio clic su &ldquo;Ricaricare risorse&rdquo; nel gruppo
+Strumenti_desktop.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.facol.div.5">
+<title>Caricamento delle risorse</title>
+<para>Le risorse vengono caricate all'avvio di ogni sessione dalla Gestione
+delle sessioni. Per informazioni sul modo in cui avviene il caricamento delle
+risorse in RESOURCE_MANAGER, vedere <!--Original XRef content: '&ldquo;Caricamento
+delle risorse delle sessio--><!--ni&rdquo; a pagina&numsp;30'--><xref role="SecTitleAndPageNum"
+linkend="sag.sesmg.mkr.7">.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.facol.div.6">
+<title id="sag.facol.mkr.3">Definizione di associazioni UNIX<indexterm><primary>UNIX, associazioni dei tasti</primary></indexterm><indexterm><primary>DtEditor,
+traduzioni degli stili</primary></indexterm></title>
+<para>Nell'impostazione predefinita, le associazioni UNIX non sono abilitate.
+</para>
+<sect2 id="sag.facol.div.7" role="Procedure">
+<title>Come specificare traduzioni in stile<indexterm><primary>EMACS, traduzioni</primary></indexterm> EMACS</title>
+<para>La procedura descritta qui di seguito permette di specificare:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Traduzioni in stile EMACS per le applicazioni del widget <command>DtEditor</command>, come l'Editor di testo (<command>dtpad</command>) e la
+Gestione posta</para>
+<para>(<command>dtmail</command>) del desktop.</para>
+</listitem>
+<listitem><para>Alternative per le combinazioni di accesso rapido delle applicazioni
+del widget <command>DtEditor</command> che entrano in conflitto con queste
+traduzioni.</para>
+<orderedlist>
+<listitem><para>Aggiungere la riga seguente al file <symbol role="Variable">DirectoryIniziale</symbol><filename>/.Xdefaults</filename>:</para>
+<programlisting>#include "/usr/dt/app-defaults/<symbol>lingua</symbol><filename>/UNIXbindings"</filename></programlisting>
+<para>dove <symbol>lingua</symbol> &egrave; il valore della variabile d'ambiente <systemitem>LANG</systemitem>.</para>
+</listitem>
+<listitem><para>Riavviare la sessione.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.facol.div.8" role="Procedure">
+<title>Come modificare le traduzioni in stile EMACS</title>
+<orderedlist>
+<listitem><para>Inserire il contenuto del file <filename>/usr/dt/app-defaults/</filename><symbol>lingua</symbol><filename>/UNIXbindings</filename> in <symbol role="Variable">DirectoryIniziale</symbol><filename>/.Xdefaults</filename>.
+</para>
+</listitem>
+<listitem><para>Editare le associazioni nel file <filename>.Xdefaults</filename>.
+</para>
+</listitem>
+<listitem><para>Al termine, riavviare la sessione.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.facol.div.9">
+<title>Associazioni UNIX incluse nel file<indexterm><primary>UNIXbindings,
+file</primary></indexterm> UNIXbindings</title>
+<para>Il file <filename>/usr/dt/app-defaults/</filename><symbol>lingua</symbol><filename>/UNIXbindings</filename> contiene le seguenti associazioni:</para>
+<note>
+<para>Quando sono abilitate le associazioni UNIX, il tasto Delete cancella
+il carattere precedente, mentre Shift-Delete cancella il carattere successivo.
+</para>
+</note>
+<itemizedlist remap="Bullet1">
+<listitem><para>La <!--Original XRef content:
+'Tabella&numsp;15&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="sag.facol.mkr.4">
+elenca le impostazioni prioritarie di <command>dtpad</command> per le combinazioni
+di accesso rapido che entrano in conflitto con le associazioni UNIX.</para>
+</listitem>
+</itemizedlist>
+<table id="sag.facol.tbl.1" frame="topbot">
+<title id="sag.facol.mkr.4">Impostazioni prioritarie di <command>dtpad</command></title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="4.25in">
+<colspec colname="col2" colwidth="5.84in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Combinazione di accesso</literal></para><para><literal>rapido e relativo
+testo</literal></para></entry><entry align="left" valign="bottom"><para><literal>Impostazione prioritaria</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>Dtpad*fileMenu.print.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtpad*fileMenu.print.accelerator:</filename></para></entry>
+<entry align="left" valign="top"></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtpad*editMenu.undo.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl+_</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtpad*editMenu.undo.accelerator:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl&lt;Key>_</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtpad*editMenu.paste.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"><para>Shift+Insert</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtpad*editMenu.paste.accelerator:</filename></para></entry>
+<entry align="left" valign="top"><para>Shift&lt;Key>osfInsert</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtpad*editMenu.selectAll.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl+/</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtpad*editMenu.selectAll.accelerator:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl&lt;Key>/</para></entry></row>
+</tbody></tgroup></table>
+<itemizedlist remap="Bullet1">
+<listitem><para>La <!--Original XRef content:
+'Tabella&numsp;15&hyphen;2'--><xref role="CodeOrFigureOrTable" linkend="sag.facol.mkr.5">
+elenca le impostazioni prioritarie della finestra di composizione di <command>dtmail</command> per le combinazioni di accesso rapido che entrano in conflitto
+con le associazioni UNIX.</para>
+</listitem>
+</itemizedlist>
+<table id="sag.facol.tbl.2" frame="topbot">
+<title id="sag.facol.mkr.5">Impostazioni prioritarie della finestra di composizione
+di <command>dtmail</command></title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="5.99in">
+<colspec colname="col2" colwidth="1.79in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Combinazione di accesso
+rapido e relativo testo</literal></para></entry><entry align="left" valign="bottom"><para><literal>Impostazione prioritaria</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Undo.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl+_</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Undo.accelerator:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl&lt;Key>_</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Paste.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"><para>Shift+Insert</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Paste.accelerator:</filename></para></entry>
+<entry align="left" valign="top"><para>Shift&lt;Key>osfInsert</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Find/Change.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl+S</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Find/Change.accelerator:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl&lt;Key>s</para></entry></row>
+</tbody></tgroup></table>
+<itemizedlist remap="Bullet1">
+<listitem><para>Le traduzioni sotto elencate forniscono associazioni per il
+tasto Meta e i controlli EMACS (stile GNU) ed alcune altre associazioni. Ove
+appropriato, &egrave; possibile usare il tasto Shift insieme alla normale
+combinazione per invertire la direzione dell'operazione. Ad esempio, poich&eacute;
+Ctrl+F sposta il cursore di un carattere in avanti, Ctrl+Shift+F lo sposter&agrave;
+di un carattere all'indietro.</para>
+<para>Le associazioni aggiuntive sono:</para>
+<informaltable>
+<tgroup align="left" cols="2" colsep="0" rowsep="0">
+<colspec colwidth="183*">
+<colspec colwidth="345*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Ctrl+virgola</para></entry>
+<entry align="left" valign="top"><para>backward-word</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+Shift+virgola</para></entry>
+<entry align="left" valign="top"><para>forward-word</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+punto</para></entry>
+<entry align="left" valign="top"><para>forward-word</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+Shift+punto</para></entry>
+<entry align="left" valign="top"><para>backward-word</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+Return</para></entry>
+<entry align="left" valign="top"><para>end-of-file</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+Shift+Return</para></entry>
+<entry align="left" valign="top"><para>beginning-of-file</para></entry></row>
+</tbody></tgroup></informaltable>
+<para>GNU EMACS associa al tasto Delete la funzione delete-previous-character()
+anzich&eacute; delete-next-character(). Meta+F &egrave; normalmente la combinazione
+di accesso al menu File, perci&ograve; l'associazione con forward-word() verr&agrave;
+ignorata. Per forward-word, usare una delle altre combinazioni associate (ad
+esempio, Ctrl+punto).</para>
+</listitem>
+<listitem><para>La <!--Original XRef content: 'Tabella&numsp;15&hyphen;3'--><xref
+role="CodeOrFigureOrTable" linkend="sag.facol.mkr.6"> elenca le traduzioni
+per <filename>DtEditor.text</filename></para>
+</listitem>
+</itemizedlist>
+<table id="sag.facol.tbl.3" frame="topbot">
+<title id="sag.facol.mkr.6">Traduzioni per <filename>DtEditor.text</filename></title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.47in">
+<colspec colwidth="1.52in">
+<colspec colwidth="2.98in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Modificatore</literal></para></entry>
+<entry align="left" valign="bottom">Tasto</entry><entry align="left" valign="bottom">Routine dell'azione</entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>a:</para></entry>
+<entry align="left" valign="top"><para>beginning-of-line()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>a:</para></entry>
+<entry align="left" valign="top"><para>end-of-line()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>b:</para></entry>
+<entry align="left" valign="top"><para>backward-character()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>b:</para></entry>
+<entry align="left" valign="top"><para>forward-character()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>b:</para></entry>
+<entry align="left" valign="top"><para>backward-character()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>b:</para></entry>
+<entry align="left" valign="top"><para>backward-word()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>b:</para></entry>
+<entry align="left" valign="top"><para>backward-word()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>b:</para></entry>
+<entry align="left" valign="top"><para>forward-word()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>d:</para></entry>
+<entry align="left" valign="top"><para>delete-next-character()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>d:</para></entry>
+<entry align="left" valign="top"><para>delete-previous- character()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>d:</para></entry>
+<entry align="left" valign="top"><para>kill-next-word()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>d:</para></entry>
+<entry align="left" valign="top"><para>kill-previous-word()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>e:</para></entry>
+<entry align="left" valign="top"><para>end-of-line()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>e:</para></entry>
+<entry align="left" valign="top"><para>beginning-of-line()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>f:</para></entry>
+<entry align="left" valign="top"><para>forward-character()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>f:</para></entry>
+<entry align="left" valign="top"><para>backward-character()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>f:</para></entry>
+<entry align="left" valign="top"><para>forward-word()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>f:</para></entry>
+<entry align="left" valign="top"><para>backward-word()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>j:</para></entry>
+<entry align="left" valign="top"><para>newline-and-indent()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>k:</para></entry>
+<entry align="left" valign="top"><para>kill-to-end-of-line()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>k:</para></entry>
+<entry align="left" valign="top"><para>kill-to-start-of-line()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>l:</para></entry>
+<entry align="left" valign="top"><para>redraw-display()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>m:</para></entry>
+<entry align="left" valign="top"><para>newline()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>n:</para></entry>
+<entry align="left" valign="top"><para>process-up()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>n:</para></entry>
+<entry align="left" valign="top"><para>process-down()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>o:</para></entry>
+<entry align="left" valign="top"><para>newline-and-backup()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>p:</para></entry>
+<entry align="left" valign="top"><para>process-up()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>p:</para></entry>
+<entry align="left" valign="top"><para>process-down()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>u:</para></entry>
+<entry align="left" valign="top"><para>kill-to-start-of-line()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>u:</para></entry>
+<entry align="left" valign="top"><para>kill-to-end-of-line()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>v:</para></entry>
+<entry align="left" valign="top"><para>next-page()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>v:</para></entry>
+<entry align="left" valign="top"><para>previous-page()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>v:</para></entry>
+<entry align="left" valign="top"><para>previous-page()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>v:</para></entry>
+<entry align="left" valign="top"><para>next-page()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>w:</para></entry>
+<entry align="left" valign="top"><para>kill-selection()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>y:</para></entry>
+<entry align="left" valign="top"><para>unkill()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>]:</para></entry>
+<entry align="left" valign="top"><para>forward-paragraph()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>[:</para></entry>
+<entry align="left" valign="top"><para>backward-paragraph()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>comma:</para></entry>
+<entry align="left" valign="top"><para>backward-word()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>comma:</para></entry>
+<entry align="left" valign="top"><para>forward-word()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>\\&lt;:</para></entry>
+<entry align="left" valign="top"><para>beginning-of-file()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>period:</para></entry>
+<entry align="left" valign="top"><para>forward-word()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>period:</para></entry>
+<entry align="left" valign="top"><para>backward-word()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>\\>:</para></entry>
+<entry align="left" valign="top"><para>end-of-file()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>Return:</para></entry>
+<entry align="left" valign="top"><para>end-of-file()\n\</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>Return:</para></entry>
+<entry align="left" valign="top"><para>beginning-of-file()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>~c ~s ~m ~a</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>osfDelete:</para></entry>
+<entry align="left" valign="top"><para>delete-previous- character()\n\</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>~c s ~m ~a</para></entry>
+<entry align="left" valign="top"><para>&lt;Key>osfDelete:</para></entry>
+<entry align="left" valign="top"><para>delete-next-character()</para></entry>
+</row></tbody></tgroup></table>
+</sect2>
+</sect1>
+<sect1 id="sag.facol.div.10">
+<title id="sag.facol.mkr.7">Amministrazione dei font<literal><indexterm><primary>font</primary><secondary>amministrazione</secondary></indexterm></literal></title>
+<para>Usando il riquadro di dialogo Font della Gestione degli stili &egrave;
+possibile selezionare la dimensione del font desiderata per tutte le applicazioni.
+&Egrave; anche possibile specificare i font dalla riga comandi, oppure usare
+le risorse disponibili per:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Impostare le risorse dei font per le singole applicazioni
+</para>
+</listitem>
+<listitem><para>Specificare l'uso di font diversi nel riquadro di dialogo
+Font</para>
+</listitem>
+</itemizedlist>
+<para>Il <symbol role="Variable">font</symbol> &egrave; lo stile con cui i
+caratteri di testo vengono stampati o visualizzati. Il desktop comprende una
+serie di font in diversi stili e dimensioni.</para>
+<para>Un <emphasis>font a mappa di bit</emphasis><indexterm><primary>font</primary><secondary>a mappa di bit</secondary></indexterm><indexterm><primary>font</primary><secondary>a mappa di bit</secondary></indexterm> &egrave; formato
+da una matrice di punti. (Nella configurazione predefinita, la Gestione degli
+stili utilizza solo font a mappa di bit.) Ogni font &egrave; contenuto interamente
+in un file. Tuttavia, sono necessari molti file per avere una gamma completa
+di dimensioni, stili e corpi.</para>
+<para>I font possono essere specificati come valori delle risorse e come parametri
+dei comandi. Per richiedere il font desiderato si utilizza normalmente il
+nome XLFD (X Logical Font Description<indexterm><primary>font</primary><secondary>X Logical Font Description</secondary></indexterm><indexterm><primary>X Logical
+Font Description</primary></indexterm>). In seguito alla richiesta, il sistema
+ricerca il font che pi&ugrave; si avvicina alla descrizione fornita.</para>
+<sect2 id="sag.facol.div.11">
+<title>Impostazione delle risorse per i font nel desktop<indexterm><primary>risorse</primary><secondary>font</secondary></indexterm><indexterm><primary>font</primary><secondary>impostazione delle risorse</secondary></indexterm></title>
+<para>Il riquadro di dialogo Font della Gestione degli stili permette di impostare
+i font (fino a sette dimensioni) per il testo inserito nelle finestre, le
+etichette dei pulsanti ed altri elementi.</para>
+<sect3 id="sag.facol.div.12">
+<title>Risorse impostate dal riquadro di dialogo Font<indexterm><primary>Font, riquadro di dialogo</primary></indexterm></title>
+<para>Quando si seleziona un font, il sistema scrive le seguenti risorse nella
+caratteristica RESOURCE_MANAGER:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><computeroutput>SystemFont</computeroutput>: questa risorsa
+viene usata per le barre dei menu, le finestre dei menu, i pulsanti di azione
+e di selezione e le etichette. Essa imposta a sua volta la seguente risorsa:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colwidth="158*">
+<colspec colwidth="370*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput>*FontList</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Font visualizzato nelle aree di sistema
+dei client del desktop e di altri client creati con il toolkit Motif.
+</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para><command>UserFont</command>: questa risorsa viene usata per
+il testo inserito nelle finestre. Essa imposta a sua volta le seguenti risorse:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="158*">
+<colspec colwidth="370*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>*<indexterm><primary>Font,
+risorsa</primary></indexterm>Font</filename></para></entry>
+<entry align="left" valign="top"><para>Supporta le versioni precedenti delle
+applicazioni X</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>*<indexterm><primary>FontSet,
+risorsa</primary></indexterm>FontSet</filename></para></entry>
+<entry align="left" valign="top"><para>Impostazione primaria</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>*<indexterm><primary>XmText*FontList, risorsa</primary></indexterm>XmText*FontList</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Font visualizzato nei riquadri di
+inserimento del testo</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>*<indexterm><primary>XmTextField*FontList, risorsa</primary></indexterm>XmTextField*FontList</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Font visualizzato nei riquadri di
+inserimento del testo</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="sag.facol.div.13">
+<title>Risorse usate dal riquadro di dialogo Font</title>
+<para>I font utilizzati per ogni elemento selezionato nel riquadro di dialogo
+Font sono specificati nel file di risorse <filename>/usr/dt/app-defaults/Dtstyle</filename>. &Egrave; possibile specificare fino a sette dimensioni.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="159*">
+<colspec colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>NumFonts, risorsa</primary></indexterm><indexterm><primary>font</primary>
+<secondary>numero, Gestione degli stili</secondary></indexterm>NumFonts</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Numero delle dimensioni del font nel
+riquadro di dialogo Font</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>SystemFont[1-7]<indexterm>
+<primary>font</primary><secondary>di sistema, Gestione degli stili</secondary>
+</indexterm></computeroutput></para></entry>
+<entry align="left" valign="top"><para>Risorse che assegnano un font specifico
+a un elemento del riquadro di dialogo Font selezionato per <computeroutput>SystemFont</computeroutput></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>UserFont[1-7]<indexterm>
+<primary>font</primary><secondary>utente, Gestione degli stili</secondary>
+</indexterm></computeroutput></para></entry>
+<entry align="left" valign="top"><para>Risorse che assegnano un font specifico
+a un elemento del riquadro di dialogo Font selezionato per <computeroutput>UserFont</computeroutput></para></entry></row></tbody></tgroup></informaltable>
+<note>
+<para>I font predefiniti per queste risorse sono stati scelti per la loro
+leggibilit&agrave; su diversi tipi di schermo. Se si desidera utilizzare
+un font specifico per un'applicazione, impostare il font usando una risorsa
+dell'applicazione anzich&eacute; modificare i font predefiniti del desktop.
+</para>
+</note>
+<para>Per maggiori informazioni sui font delle applicazioni, vedere le pagine
+di spiegazioni <command>DtStdAppFontNames(5)</command>e <command>DtStdInterfaceFontNames(5)</command>.</para>
+</sect3>
+</sect2>
+<sect2 id="sag.facol.div.14" role="Procedure">
+<title>Come visualizzare l'elenco dei font disponibili<indexterm><primary>font</primary><secondary>elenco dei font disponibili</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Digitare il comando seguente:</para>
+<para><command>xlsfonts [-</command><symbol role="Variable">opzioni</symbol> <command>] [-fn</command> <symbol role="Variable">schema</symbol>]</para>
+<para>Verranno visualizzati tutti i font disponibili sul sistema, elencati
+con i nomi XLFD e i relativi alias. I font a mappa di bit conterranno un valore
+in tutti i quattordici campi XLFD. I font scalabili presenteranno un valore
+zero in corrispondenza di <symbol role="Variable">PixelSize</symbol>, <symbol role="Variable">PointSize</symbol>, <symbol role="Variable">ResolutionX</symbol>
+e <symbol role="Variable">ResolutionY</symbol>.</para>
+</listitem>
+<listitem><para>Per verificare la presenza di un font specifico, usare la
+funzione di ricerca per schemi di <command>xlsfonts</command>. Usare caratteri
+speciali per le parti dei nomi di cui non si ricerca una corrispondenza esatta.
+</para>
+</listitem>
+<listitem><para>Se <command>xlsfonts</command> non restituisce alcun font
+che inizi per <command>dt</command>, significa che il percorso di ricerca
+dei font non include i font del desktop. Per includere nella ricerca anche
+i font del desktop, digitare il comando seguente:</para>
+<para remap="CodeIndent1"><command>xset +fp <symbol role="Variable">nome_directory</symbol> </command></para>
+<para>dove <symbol role="Variable">nome_directory</symbol> &egrave; la directory
+che contiene i font del desktop. La directory predefinita che viene impostata
+all'avvio delle sessioni &egrave; <filename>/usr/dt/config/xfonts/</filename> <symbol>lingua</symbol>.</para>
+</listitem>
+</orderedlist>
+<para>Per maggiori informazioni, vedere:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Le pagine di spiegazioni <command>xset</command> e <filename moreinfo="refentry">xlsfonts</filename> elencano le opzioni disponibili.</para>
+</listitem>
+<listitem><para>Il manuale <citetitle>Using the X Window System</citetitle>
+contiene gli alias dei font e descrive il client <command>xset</command>.
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.facol.div.15" role="Procedure">
+<title>Come specificare i font dalla riga comandi</title>
+<itemizedlist>
+<listitem><para>Per specificare un font per un client specifico, usare l'opzione <filename>-xrm</filename> dalla riga comandi. Ad esempio:</para>
+</listitem>
+</itemizedlist>
+<programlisting><symbol role="Variable">nome_applicazione</symbol> -xrm "*bitstream-charter-medium-r-normal-8-88-75-75-p-45-iso8859-1"
+</programlisting>
+</sect2>
+<sect2 id="sag.facol.div.16">
+<title>Definizioni XLFD (X Logical Font Description)<indexterm><primary>font</primary><secondary>X Logical Font Description</secondary></indexterm></title>
+<para>Ogni font viene specificato con quattordici caratteristiche diverse,
+separate da trattini (-). Questo tipo di definizione viene detta XLFD (X Logical
+Font Description). In alcuni casi, una delle caratteristiche pu&ograve; essere
+sostituita con un simbolo *, e un carattere all'interno di una caratteristica
+pu&ograve; essere sostituito con il simbolo ?. La <!--Original XRef content:
+'Tabella&numsp;15&hyphen;4'--><xref role="CodeOrFigureOrTable" linkend="sag.facol.mkr.8">
+elenca le specifiche della stringa di definizione dei font.</para>
+<para>La sequenza delle stringhe che definiscono le caratteristiche di un
+font &egrave; la seguente:<indexterm><primary>font</primary><secondary>stringhe
+delle caratteristiche</secondary></indexterm></para>
+<programlisting>"-Produttore-NomeFamiglia-Spessore-
+Inclinazione-Larghezza-Stile-DimensionePixel-
+DimensionePunti-RisoluzioneX-RisoluzioneY-Spaziatura-
+LarghezzaMedia-RegistrazioneSetCaratteri-CodificaSetCaratteri"</programlisting>
+<table id="sag.facol.tbl.4" frame="topbot">
+<title id="sag.facol.mkr.8">Stringhe di definizione delle caratteristiche
+di un font</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.49in">
+<colspec colwidth="4.47in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Stringa</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Definizione</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Produttore</symbol></para></entry>
+<entry align="left" valign="top"><para>Stringa che identifica l'autore del
+font</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">NomeFamiglia</symbol></para></entry>
+<entry align="left" valign="top"><para>Stringa che identifica il marchio registrato
+del font</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Spessore</symbol></para></entry>
+<entry align="left" valign="top"><para>Stringa che specifica lo spessore relativo
+del font, ad esempio &ldquo;bold&rdquo;</para></entry></row>
+<row>
+<entry align="left" valign="top"><symbol>Inclinazione</symbol></entry>
+<entry align="left" valign="top"><para>Codice che descrive la direzione di
+inclinazione</para><para>R (Roman &ndash; nessuna inclinazione)</para><para>I (Italic &ndash; inclinazione verso destra)</para><para>O (Oblique &ndash;
+inclinazione verso destra)</para><para>RI (Reverse Italic &ndash; inclinazione
+verso sinistra)</para><para>RO (Reverse Oblique &ndash; inclinazione verso
+sinistra)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Larghezza</symbol></para></entry>
+<entry align="left" valign="top"><para>Stringa che descrive la larghezza del
+font, ad esempio &ldquo;compressed&rdquo; o &ldquo;expanded&rdquo;</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Stile</symbol></para></entry>
+<entry align="left" valign="top"><para>Stringa che fornisce altre informazioni
+necessarie per identificare il font in modo univoco</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">DimensionePixel</symbol></para></entry>
+<entry align="left" valign="top"><para>Numero intero indicante la dimensione
+di un quadratone in pixel</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">DimensionePunti</symbol></para></entry>
+<entry align="left" valign="top"><para>Numero intero indicante la dimensione
+di un quadratone in punti decimali</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">RisoluzioneX</symbol></para></entry>
+<entry align="left" valign="top"><para>Numero intero indicante la risoluzione
+orizzontale in pixel</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">RisoluzioneY</symbol></para></entry>
+<entry align="left" valign="top"><para>Numero intero indicante la risoluzione
+verticale in pixel</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Spaziatura</symbol></para></entry>
+<entry align="left" valign="top"><para>Codice che specifica la spaziatura
+tra le unit&agrave;</para><para>M (Monospazio -- pass fisso)</para><para>P (Spazio proporzionale -- passo variabile)</para><para>C (Cella del carattere)
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">LarghezzaMedia</symbol></para></entry>
+<entry align="left" valign="top"><para>Numero intero indicante la larghezza
+media in 1/10 pixel</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">RegistrazioneSetCaratteri</symbol></para></entry>
+<entry align="left" valign="top"><para>Stringa che identifica l'ente che ha
+registrato la codifica del font</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">CodificaSetCaratteri</symbol></para></entry>
+<entry align="left" valign="top"><para>Stringa che identifica il set di caratteri
+nel registro specificato</para></entry></row></tbody></tgroup></table>
+<sect3 id="sag.facol.div.17">
+<title>Esempio</title>
+<para>Il seguente nome XLFD descrive un font di nome <computeroutput>charter</computeroutput>, prodotto da Bitstream, che supporta la codifica standard
+ISO8859-1:</para>
+<programlisting>-bitstream-charter-medium-r-normal--8-80-75-75-p-45-iso8859-1
+</programlisting>
+<para>Il font ha uno spessore medio, non ha inclinazione ed ha una larghezza
+normale. &Egrave; proporzionale, con un quadratone di 8 pixel o 8.0 punti.
+Sia la risoluzione orizzontale che quella verticale sono di 75 pixel. La larghezza
+media dei caratteri &egrave; di 45 decimi di pixel o 4,5 pixel.</para>
+<para>Alcune parti di questa stringa possono essere sostituite con caratteri
+speciali. Il sistema utilizzer&agrave; il primo font che trover&agrave; corrispondente
+alle parti specificate.</para>
+<para>Se ci&ograve; che si desidera &egrave; semplicemente un font <computeroutput>charter</computeroutput> di otto pixel, si pu&ograve; usare la stringa seguente:
+</para>
+<programlisting>*-charter-*-*-*-*-8-*</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.facol.div.18">
+<title id="sag.facol.mkr.9">Amministrazione dei colori<indexterm><primary>colori</primary><secondary>amministrazione</secondary></indexterm></title>
+<para>Questa sezione descrive:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il modo in cui la Gestione degli stili imposta i colori per
+la visualizzazione.</para>
+</listitem>
+<listitem><para>Le risorse utilizzate dalla Gestione degli stili per controllare
+l'uso dei colori nel desktop.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.facol.div.19">
+<title><indexterm><primary>tavolozze</primary></indexterm><indexterm><primary>colori</primary><secondary>tavolozze</secondary></indexterm>Tavolozze di colori</title>
+<para>Una tavolozza &egrave; formata da diversi set di colori. I set di colori
+della tavolozza corrente sono mostrati nel riquadro di dialogo Colori della
+Gestione degli stili.</para>
+<para>Ogni tavolozza &egrave; definita in un file. La risorsa <computeroutput>paletteDirectories</computeroutput> specifica le directory che contengono
+i file delle tavolozze. Nella configurazione predefinita, questa risorsa contiene
+le seguenti directory:<indexterm><primary>colori</primary><secondary>set di
+colori</secondary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Tavolozze predefinite: <filename>/usr/dt/palettes</filename></para>
+</listitem>
+<listitem><para>Tavolozze di sistema: <filename>/etc/dt/palettes</filename></para>
+</listitem>
+<listitem><para>Tavolozze personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/palettes</filename></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.facol.div.20">
+<title><indexterm><primary>set di colori</primary></indexterm>Set di colori</title>
+<para>Ogni set di colori della tavolozza corrente &egrave; rappresentato da
+un pulsante nel riquadro di dialogo Colori della Gestione degli stili. Ogni
+colore &egrave; identificato da un ID &mdash; un numero da 1 a 8 &mdash; all'interno
+del set.</para>
+<figure>
+<title>ID dei colori per HIGH_COLOR</title>
+<graphic id="sag.facol.grph.1" entityref="SAG.FACol.fig.1"></graphic>
+</figure>
+<para><indexterm><primary>colori</primary><secondary>risorse</secondary></indexterm>Ogni
+set di colori pu&ograve; contenere fino a cinque colori diversi. Ogni pulsante
+colorato mostra il colore di sfondo del set. I cinque colori di ogni set
+rappresentano le risorse per i seguenti componenti:<indexterm><primary>colori</primary><secondary>set di colori</secondary></indexterm></para>
+<informaltable>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="213*">
+<colspec colwidth="311*">
+<colspec colwidth="4*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>foreground, risorsa</primary></indexterm>foreground</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Colore di primo piano della finestra
+o della cornice di un'applicazione. &Egrave; sempre bianco o nero. Viene
+usato generalmente per il testo all'interno delle finestre e per i titoli.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>background, risorsa</primary></indexterm>background</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Colore di sfondo della finestra o della
+cornice dell'applicazione.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>topShadowColor, risorsa</primary></indexterm>topShadowColor</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Colore utilizzato per i bordi superiore
+e sinistro dei controlli delle applicazioni (pulsanti, ecc.) e delle cornici
+delle finestre.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>bottomShadowColor, risorsa</primary></indexterm>bottomShadowColor</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Colore utilizzato per i bordi inferiore
+e destro dei controlli delle applicazioni e delle cornici delle finestre.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>selectColor, risorsa</primary></indexterm>selectColor</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Colore che indica lo stato attivo di
+determinati controlli, come pulsanti di azione o di selezione.</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>Il numero dei set di colori usato in ogni tavolozza &egrave; determinato
+dalla risorsa <systemitem>colorUse</systemitem>, che pu&ograve; essere impostata
+usando il riquadro di dialogo &ldquo;Numero di colori da utilizzare&rdquo;
+della Gestione degli stili.</para>
+<sect3 id="sag.facol.div.21">
+<title>Come specificare i valori dei colori<indexterm><primary>colori</primary>
+<secondary>valori</secondary></indexterm></title>
+<para>La Gestione degli stili utilizza valori<indexterm><primary>RGB, valori</primary></indexterm> RGB per scrivere le informazioni sui colori nei file
+delle tavolozze. La sintassi per i valori RGB &egrave; la seguente:</para>
+<programlisting>#RedGreenBlue</programlisting>
+<para><symbol role="Variable">Red</symbol>, <symbol role="Variable">Green</symbol> e <symbol role="Variable">Blue</symbol> sono numeri esadecimali,
+ognuno contenente da 1 a 4 cifre, che indicano la quantit&agrave; utilizzata
+di quel colore. Ognuno dei colori deve avere lo stesso numero di cifre. Perci&ograve;,
+i valori accettati per i colori possono essere formati da 3, 6, 9 o 12 cifre
+esadecimali.</para>
+<para>Ad esempio, il bianco pu&ograve; essere specificato in uno dei modi
+seguenti:</para>
+<programlisting>#fff
+#ffffff
+#fffffffff
+#fffffffffffff</programlisting>
+<indexterm><primary>Gestione degli stili</primary><secondary>uso per l'</secondary>
+</indexterm><indexterm><primary>impostazione dei colori</primary></indexterm>
+<indexterm><primary>colori</primary><secondary>valore RGB</secondary></indexterm>
+<para>Per impostare direttamente le risorse dei colori, &egrave; possibile
+usare sia il nome del colore che il suo valore RGB. Il file <filename>/usr/lib/X11/rgb.txt</filename><indexterm><primary>rgb.txt, file</primary></indexterm> contiene
+un elenco di tutti i colori che possiedono un nome.</para>
+</sect3>
+<sect3 id="sag.facol.div.22">
+<title><indexterm><primary>set di colori</primary><secondary>mappatura per
+gli elementi dello schermo</secondary></indexterm>Mappatura dei set di colori
+in risorse</title>
+<para>Il desktop mappa i set di colori nei diversi elementi dello schermo
+sulla base delle risorse, effettuando le seguenti associazioni:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="213*">
+<colspec colwidth="315*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Risorsa</para></entry><entry
+align="left" valign="bottom"><para>Elemento dello schermo</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>activeColorSetId, risorsa</primary></indexterm>activeColorSetId</computeroutput></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>colori</primary>
+<secondary>cornice della finestra attiva</secondary></indexterm>Colore della
+cornice della finestra attiva</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>inactiveFrameColorId, risorsa</primary></indexterm>inactiveColorSetId</computeroutput></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>colori</primary>
+<secondary>cornice delle finestre inattive</secondary></indexterm>Colore della
+cornice delle finestre inattive</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>textColorSetId, risorsa</primary></indexterm>textColorSetId</computeroutput></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>colori</primary>
+<secondary>aree di inserimento testo</secondary></indexterm>Aree di inserimento
+testo</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>primaryColorSetId, risorsa</primary></indexterm>primaryColorSetId</computeroutput></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>colori</primary>
+<secondary>finestre delle applicazioni</secondary></indexterm>Aree di sfondo
+principali dell'applicazione</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>secondaryColorSetId, risorsa</primary></indexterm>secondaryColorSetId</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Barra dei menu, menu e riquadri di
+dialogo dell'applicazione</para></entry></row></tbody></tgroup></informaltable>
+<para>Queste risorse assumono come valore un ID del set di colori. La colorazione
+degli elementi dello schermo in base agli ID del set di colori permette di
+passare dinamicamente a un nuovo schema di colori quando si seleziona una
+nuova tavolozza nella Gestione degli stili.</para>
+<para>&Egrave; possibile usare queste risorse per le singole applicazioni.
+Ad esempio, la riga seguente mostra come raggruppare visivamente tutte le
+finestre di <command>dtterm</command> usando il set di colori 8 come colore
+primario.</para>
+<programlisting>dtterm*primaryColorSetId: 8</programlisting>
+</sect3>
+<sect3 id="sag.facol.div.23">
+<title><indexterm><primary>set di colori</primary><secondary>impostazioni
+predefinite</secondary></indexterm><indexterm><primary>colori</primary><secondary>impostazioni predefinite</secondary></indexterm>Assegnazioni predefinite dei
+set di colori</title>
+<para>Gli ID dei set di colori usati per gli elementi dello schermo dipendono
+dall'impostazione del numero di colori nella Gestione degli stili:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pi&ugrave; colori per il desktop (8 set di colori):</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="151*">
+<colspec colwidth="377*">
+<thead>
+<row><entry align="left" valign="bottom"><para>ID del set di colori</para></entry>
+<entry align="left" valign="bottom"><para>Elemento dello schermo</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>1</para></entry>
+<entry align="left" valign="top"><para>Colore della cornice della finestra
+attiva</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para>Colore della cornice delle finestre
+inattive</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>3</para></entry>
+<entry align="left" valign="top"><para>Non utilizzato (configurazione predefinita)
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>4</para></entry>
+<entry align="left" valign="top"><para>Aree di inserimento testo</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>5</para></entry>
+<entry align="left" valign="top"><para>Aree di sfondo principali dell'applicazione
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>6</para></entry>
+<entry align="left" valign="top"><para>Barre dei menu, menu e riquadri di
+dialogo dell'applicazione</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>7</para></entry>
+<entry align="left" valign="top"><para>Non utilizzato (configurazione predefinita)
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>8</para></entry>
+<entry align="left" valign="top"><para>Sfondo del Pannello principale</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>Pi&ugrave; colori per le applicazioni (4 set di colori):</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="139*">
+<colspec colwidth="389*">
+<thead>
+<row><entry align="left" valign="bottom"><para>ID del set di colori</para></entry>
+<entry align="left" valign="bottom"><para>Elemento dello schermo</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput>1</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Colore della cornice della finestra
+attiva</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>2</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Colore della cornice delle finestre
+inattive</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>3</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Sfondo delle applicazioni e del Pannello
+principale</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>4</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Aree di inserimento testo</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>Massimo di colori per le applicazioni (2 set di colori):</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="137*">
+<colspec colwidth="391*">
+<thead>
+<row><entry align="left" valign="bottom"><para>ID del set di colori</para></entry>
+<entry align="left" valign="bottom"><para>Elemento dello schermo</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>1</para></entry>
+<entry align="left" valign="top"><para>Cornice della finestra attiva, pulsanti
+di selezione dello spazio di lavoro</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para>Tutti gli altri elementi dello schermo
+</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="sag.facol.div.24">
+<title>Controllo dei colori con la Gestione degli stili<indexterm><primary>colori</primary><secondary>controllo con la Gestione degli stili</secondary>
+</indexterm></title>
+<para>La Gestione degli stili permette di cambiare dinamicamente i colori
+per le applicazioni del desktop ed altre applicazioni integrate. I colori
+di primo piano e di sfondo impostati dalla Gestione degli stili sono disponibili
+per le applicazioni non-integrate.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Perch&eacute; un client risponda ai cambiamenti di colore
+impostati con la Gestione degli stili, esso deve utilizzare la libreria Motif
+del desktop. I client scritti con altri toolkit non possono cambiare colore
+in modo dinamico in risposta alle modifiche effettuate nella Gestione degli
+stili. I nuovi colori impostati per questi client verranno applicati solo
+riavviando l'applicazione.</para>
+</listitem>
+<listitem><para>Non devono esistere altre risorse di colore applicate al client
+in modo specifico. Questa regola include le risorse specificate dall'utente,
+quelle definite nei file appdefaults e quelle predefinite dell'applicazione.
+</para>
+</listitem>
+<listitem><para>&Egrave; possibile definire le risorse <systemitem>secondaryColorSetId</systemitem> <command><indexterm><primary>primaryColorSetId, risorsa</primary>
+</indexterm>primaryColorSetId</command> e <command><indexterm><primary>secondaryColorSetId,
+risorsa</primary></indexterm></command>dei client in modo che utilizzino determinati
+colori in una tavolozza del desktop.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.facol.div.25">
+<title><indexterm><primary>colori</primary><secondary>numero dei colori utilizzati</secondary></indexterm>Numero dei colori usati dalla Gestione degli stili</title>
+<para>Il numero dei colori usati dalla Gestione degli stili dipende dai valori
+delle seguenti risorse:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="228*">
+<colspec colwidth="228*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>colorUse,
+risorsa</primary></indexterm>colorUse</command></para></entry>
+<entry align="left" valign="top"><para>Configura il numero dei colori usati
+dal desktop.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>shadowPixmaps</command></para></entry>
+<entry align="left" valign="top"><para>Indica al desktop di sostituire i due
+colori di ombreggiatura con mappe di pixel.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>foregroundColor</command></para></entry>
+<entry align="left" valign="top"><para>Specifica se il colore di primo piano
+cambia dinamicamente.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>dynamicColor,
+risorsa</primary></indexterm>dynamicColor</command></para></entry>
+<entry align="left" valign="top"><para>Controlla se le applicazioni cambiano
+colore quando si specifica una nuova tavolozza.</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>La <!--Original XRef content: 'Tabella&numsp;15&hyphen;5'--><xref role="CodeOrFigureOrTable"
+linkend="sag.facol.mkr.10"> elenca il numero massimo dei colori allocati dal
+desktop<indexterm><primary>desktop, numero massimo di colori</primary></indexterm><indexterm>
+<primary>colori</primary><secondary>numero massimo per il desktop</secondary>
+</indexterm>.</para>
+<table id="sag.facol.tbl.5" frame="topbot">
+<title id="sag.facol.mkr.10">Numero dei colori del desktop</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.50in">
+<colspec colwidth="1.00in">
+<colspec colwidth="4.31in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Schermo</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Numero massimo di colori</literal></para></entry><entry align="left" valign="bottom"><para><literal>Numero ricavato da</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>B_W</para></entry>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para>Bianco e nero</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LOW_COLOR</para></entry>
+<entry align="left" valign="top"><para>12</para></entry>
+<entry align="left" valign="top"><para>Due set di colori moltiplicati per
+cinque colori, pi&ugrave; bianco e nero</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>MEDIUM_COLOR</para></entry>
+<entry align="left" valign="top"><para>22</para></entry>
+<entry align="left" valign="top"><para>Quattro set di colori moltiplicati
+per cinque colori, pi&ugrave; bianco e nero</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>HIGH_COLOR</para></entry>
+<entry align="left" valign="top"><para>42</para></entry>
+<entry align="left" valign="top"><para>Otto set di colori moltiplicati per
+cinque colori, pi&ugrave; bianco e nero</para></entry></row></tbody></tgroup>
+</table>
+<para>Per determinare il numero massimo di colori:</para>
+<orderedlist>
+<listitem><para>Moltiplicare il numero dei set di colori della tavolozza per
+il numero di colori di ogni set.</para>
+</listitem>
+<listitem><para>Aggiungere 2 (per bianco e nero).</para>
+</listitem>
+</orderedlist>
+<para>Tuttavia, con la seguente configurazione si possono ottenere solo dieci
+colori nella tavolozza: quattro set di colori per due colori di ogni set ( <systemitem>background</systemitem> e <systemitem>selectColor</systemitem>), pi&ugrave;
+bianco e nero:</para>
+<programlisting>*colorUse: MEDIUM_COLOR
+*shadowPixmaps: True
+*foregroundColor: White</programlisting>
+<note>
+<para>Le icone a pi&ugrave; colori utilizzano quattordici colori aggiuntivi.
+</para>
+</note>
+<sect3 id="sag.facol.div.26">
+<title><indexterm><primary>colorUse, risorsa</primary></indexterm>Risorsa
+colorUse<indexterm><primary>risorse</primary><secondary>colorUse</secondary>
+</indexterm><indexterm><primary>colorUse, risorsa</primary></indexterm></title>
+<para>Il valore predefinito della risorsa <systemitem>colorUse</systemitem>
+&egrave; MEDIUM_COLOR. Il valore di questa risorsa influisce sul numero dei
+set di colori usati in una tavolozza. Il numero dei colori utilizzati per
+le ombreggiature dipende da altre risorse. Il valore di <systemitem>colorUse</systemitem> influisce anche sull'uso delle icone a pi&ugrave; colori<indexterm>
+<primary>HIGH_COLOR</primary></indexterm><indexterm><primary>MEDIUM_COLOR</primary></indexterm>.<indexterm><primary>LOW_COLOR</primary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="146*">
+<colspec colwidth="382*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Valore</para></entry><entry
+align="left" valign="bottom"><para>Descrizione</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>B_W</para></entry>
+<entry align="left" valign="top"><para>Impostazione &ldquo;Bianco e nero&rdquo;
+della Gestione degli stili Visualizzazione in 1-3 piani di colore Numero dei
+set di colori: 2 Numero massimo di colori: 2 Numero di colori predefinito:
+2 Nessuna icona a pi&ugrave; colori</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LOW_COLOR</para></entry>
+<entry align="left" valign="top"><para>Impostazione &ldquo;Massimo di colori
+per le applicazioni&rdquo; della Gestione degli stili Visualizzazione in 4-5
+piani di colore Numero dei set di colori: 2 Numero massimo di colori: 12 Numero
+di colori predefinito: 12 Nessuna icona a pi&ugrave; colori</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>MEDIUM_COLOR</para></entry>
+<entry align="left" valign="top"><para>Impostazione &ldquo;Pi&ugrave; colori
+per le applicazioni&rdquo; della Gestione degli stili Visualizzazione in 6
+piani di colore Numero dei set di colori: 4 Numero massimo di colori: 22 Numero
+di colori predefinito: 22 Icone a pi&ugrave; colori</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>HIGH_COLOR</para></entry>
+<entry align="left" valign="top"><para>Impostazione &ldquo;Pi&ugrave; colori
+per il desktop&rdquo; della Gestione degli stili Visualizzazione in 7 o pi&ugrave;
+piani di colore Numero dei set di colori: 8 Numero massimo di colori: 42 Numero
+di colori predefinito: 42 Icone a pi&ugrave; colori</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Valore predefinito</para></entry>
+<entry align="left" valign="top"><para>Il desktop sceglie il valore corretto
+per lo schermo in uso. (Per ridurre il numero dei colori usati dal desktop
+per gli schermi &ldquo;High-color&rdquo;, la risorsa <command>colorUse</command>
+viene impostata automaticamente su MEDIUM_COLOR.)</para></entry></row></tbody>
+</tgroup></informaltable>
+</sect3>
+<sect3 id="sag.facol.div.27">
+<title><indexterm><primary>shadowPixmaps, risorsa</primary></indexterm>Risorsa
+shadowPixmaps<indexterm><primary>shadowPixmaps, risorsa</primary></indexterm><indexterm>
+<primary>risorse</primary><secondary>shadowPixmaps</secondary></indexterm></title>
+<para>La risorsa <systemitem>shadowPixmaps</systemitem> indica al desktop
+di sostituire i due colori di ombreggiatura con mappe di pixel. Queste mappe
+di pixel miscelano il colore di sfondo con il bianco o con il nero per simulare
+i valori di ombreggiatura superiore e inferiore. Questo riduce di due il numero
+dei colori necessari, poich&eacute; non occorre allocare le celle per i colori
+di ombreggiatura.<indexterm><primary>colori</primary><secondary>creazione
+di ombreggiature con le risorse shadowPixmaps</secondary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="104*">
+<colspec colwidth="424*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Valore</para></entry><entry
+align="left" valign="bottom"><para>Descrizione</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>True</para></entry>
+<entry align="left" valign="top"><para>Il desktop crea le mappe di pixel <computeroutput>topShadowPixmap</computeroutput> e <computeroutput>bottomShadowPixmap</computeroutput>
+da usare al posto dei colori di ombreggiatura.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>False</para></entry>
+<entry align="left" valign="top"><para>Il desktop utilizza i valori di <computeroutput>topShadowColor</computeroutput> e <computeroutput>bottomShadowColor</computeroutput>
+della tavolozza.</para></entry></row></tbody></tgroup></informaltable>
+<para>Il valore predefinito per <systemitem>shadowPixmaps</systemitem> dipende
+dall'impostazione della risorsa <systemitem>colorUse</systemitem> e dal supporto
+hardware per lo schermo.</para>
+</sect3>
+<sect3 id="sag.facol.div.28">
+<title><indexterm><primary>foregroundColor, risorsa</primary></indexterm>Risorsa
+foregroundColor<indexterm><primary>colori</primary><secondary>impostazione
+del colore di primo piano</secondary></indexterm></title>
+<para>La risorsa <computeroutput>foregroundColor</computeroutput> specifica
+il modo in cui il colore di primo piano viene configurato in una tavolozza.<indexterm>
+<primary>foregroundColor, risorsa</primary></indexterm><indexterm><primary>risorse</primary><secondary>foregroundColor</secondary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="106*">
+<colspec colwidth="422*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Impostazione</para></entry>
+<entry align="left" valign="bottom"><para>Risultato</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>White</para></entry>
+<entry align="left" valign="top"><para>Il colore di primo piano &egrave; impostato
+sul bianco.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Black</para></entry>
+<entry align="left" valign="top"><para>Il colore di primo piano &egrave; impostato
+sul nero.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Dynamic</para></entry>
+<entry align="left" valign="top"><para>(Valore predefinito). Il colore di
+primo piano viene impostato dinamicamente sul bianco o sul nero in base al
+valore di <computeroutput>background</computeroutput>. Ad esempio, se lo sfondo
+&egrave; impostato sul giallo o su un altro colore chiaro, il sistema sceglier&agrave;
+per il primo piano il colore nero.</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>Se <systemitem>foregroundColor</systemitem> &egrave; impostato su Black
+o White, il numero dei colori del set viene ridotto di uno, e il colore di
+primo piano non cambier&agrave; in risposta alle modifiche nel colore di sfondo.
+</para>
+<para>Il valore predefinito per <systemitem>foregroundColor</systemitem> &egrave;
+Dynamic, salvo i casi in cui il valore di <systemitem>colorUse</systemitem>
+&egrave; B_W.</para>
+</sect3>
+<sect3 id="sag.facol.div.29">
+<title><indexterm><primary>dynamicColor, risorsa</primary></indexterm>Risorsa
+dynamicColor<indexterm><primary>dynamicColor, risorsa</primary></indexterm></title>
+<para>La risorsa <systemitem>dynamicColor</systemitem> determina se i colori
+delle applicazioni cambiano dinamicamente o meno; determina cio&egrave; se
+i client cambieranno colore con la scelta di una nuova tavolozza.<indexterm>
+<primary>colori</primary><secondary>controllo con la risorsa dynamicColor</secondary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="104*">
+<colspec colwidth="424*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Valore</para></entry><entry
+align="left" valign="bottom"><para>Descrizione</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>True</para></entry>
+<entry align="left" valign="top"><para>I client cambiano colore dinamicamente
+quando si seleziona una nuova tavolozza. &Egrave; il valore predefinito.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>False</para></entry>
+<entry align="left" valign="top"><para>I client non cambiano colore dinamicamente.
+Quando si seleziona una nuova tavolozza, i suoi colori verranno applicati
+solo all'avvio della sessione successiva.</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>Se il valore della risorsa <systemitem>dynamicColor</systemitem> &egrave;
+True, i client che non possono cambiare colore in modo dinamico (applicazioni
+non-Motif) allocheranno nella mappa dei colori celle diverse rispetto a quelle
+allocate dai client che cambiano colore dinamicamente, anche se il colore
+visualizzato sar&agrave; lo stesso.</para>
+<note>
+<para>Poich&eacute; impostando <systemitem>dynamicColor</systemitem> su False
+tutti i client condividono le stesse celle di colori, con questa impostazione
+si ridurr&agrave; il numero dei colori utilizzati dal desktop.</para>
+</note>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.facol.div.30">
+<title id="sag.facol.mkr.11">Impostazione dello spessore delle ombreggiature
+nelle finestre delle applicazioni<indexterm><primary>risorse</primary><secondary>spessore delle ombreggiature delle finestre</secondary></indexterm><indexterm>
+<primary>ombreggiature, spessore</primary></indexterm></title>
+<para>Le ombreggiature predefinite del desktop usate per i componenti delle
+finestre delle applicazioni, come i pulsanti o gli elementi attivi, hanno
+uno spessore di un pixel. Le applicazioni Motif 1.2 utilizzano la stessa risorsa,
+e quindi lo stesso valore. &Egrave; possibile tuttavia che altre applicazioni
+non leggano il valore della risorsa e quindi compaiano in modo diverso sullo
+schermo.</para>
+<para>Per impostare lo spessore dell'ombreggiatura al valore di un pixel per
+le applicazioni non-Motif 1.2:</para>
+<orderedlist>
+<listitem><para>Effettuare il login come superutente.</para>
+</listitem>
+<listitem><para>Creare il file <filename>/etc/dt/config/</filename><symbol role="Variable">lingua</symbol><filename>/sys.resources</filename> file.</para>
+</listitem>
+<listitem><para>Specificare la risorsa specifica per l'applicazione in <filename>/etc/dt/config/</filename><symbol role="Variable">lingua</symbol><filename>/sys.resources</filename> come segue:</para>
+<para remap="CodeIndent1"><systemitem><symbol role="Variable">classe_applicazione</symbol>*XmCascadeButton*shadowThickness</systemitem>: 1</para>
+</listitem>
+</orderedlist>
+<para>Per maggiori informazioni su come modificare le risorse predefinite
+del sistema e specificare nuove risorse per tutti gli utenti del desktop,
+vedere <!--Original XRef content: '&ldquo;Caricamento delle risorse delle
+sessio--><!--ni&rdquo; a pagina&numsp;30'--><xref role="SecTitleAndPageNum"
+linkend="sag.sesmg.mkr.7">.</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:05:15-->
+<?Pub Caret>
+<?Pub *0000076127>

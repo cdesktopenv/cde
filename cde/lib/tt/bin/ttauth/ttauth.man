@@ -1,0 +1,216 @@
+.\" $TOG: ttauth.man /main/3 1999/10/12 13:33:52 mgreess $
+.\" Copyright 1993, 1998  The Open Group
+.\" 
+.\" All Rights Reserved.
+.\" 
+.\" The above copyright notice and this permission notice shall be included
+.\" in all copies or substantial portions of the Software.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+.\" OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+.\" MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+.\" IN NO EVENT SHALL THE OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR
+.\" OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+.\" ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+.\" OTHER DEALINGS IN THE SOFTWARE.
+.\" 
+.\" Except as contained in this notice, the name of The Open Group shall
+.\" not be used in advertising or otherwise to promote the sale, use or
+.\" other dealings in this Software without prior written authorization
+.\" from The Open Group.
+.TH TTAUTH 1 "Release 2.1.30" "CDE"
+.SH NAME
+ttauth \- ToolTalk authority file utility
+.SH SYNOPSIS
+.B ttauth
+[ \fB\-f\fP \fIauthfile\fP ] [ \fB\-vqib\fP ] [ \fIcommand arg ...\fP ]
+.SH DESCRIPTION
+.PP
+The \fIttauth\fP program is used to edit and display the authorization 
+information used in connecting to ToolTalk.  This program is usually
+used to extract authorization records from one machine and merge them in on 
+another (as is the case when using remote logins or granting access to
+other users).  Commands (described below) may be entered interactively,
+on the \fIttauth\fP command line, or in scripts.  Note that this program
+does \fBnot\fP contact the ToolTalk server, \fIttsession\fP.
+Normally \fIttauth\fP is not used to create the authority file entry in
+the first place; \fIttsession\fP does that.
+.SH OPTIONS
+The following options may be used with \fIttauth\fP.  They may be given 
+individually (e.g., \fI\-q \-i\|\fP) or may combined (e.g., \fI\-qi\|\fP).
+.TP 8
+.B "\-f \fIauthfile\fP"
+This option specifies the name of the authority file to use.  By default,
+\fIttauth\fP will use the file specified by the TTAUTHORITY environment variable
+or \fI\.TTauthority\fP in the user's home directory.
+.TP 8
+.B \-q
+This option indicates that \fIttauth\fP should operate quietly and not print
+unsolicited status messages.  This is the default if an \fIttauth\fP command is
+is given on the command line or if the standard output is not directed to a
+terminal.
+.TP 8
+.B \-v
+This option indicates that \fIttauth\fP should operate verbosely and print
+status messages indicating the results of various operations (e.g., how many
+records have been read in or written out).  This is the default if \fIttauth\fP
+is reading commands from its standard input and its standard output is
+directed to a terminal.
+.TP 8
+.B \-i
+This option indicates that \fIttauth\fP should ignore any authority file
+locks.  Normally, \fIttauth\fP will refuse to read or edit any authority files
+that have been locked by other programs (usually \fIttsession\fP or another 
+\fIttauth\fP).
+.TP 8
+.B \-b
+This option indicates that \fIttauth\fP should attempt to break any authority
+file locks before proceeding.  Use this option only to clean up stale locks.
+.SH COMMANDS
+The following commands may be used to manipulate authority files:
+.TP 8
+.B "add \fIprotoname protodata netid authname authdata"
+An authorization entry for the indicated ToolTalk session using the given
+protocol name (\fIprotoname\fP), protocol data (\fIprotodata\fP), ToolTalk
+session id (\fInetid\fP), authentication name (\fIauthname\fP), and
+authentication data (\fIauthdata\fP) is added to the authorization file.
+The protocol name should always be the string \fITT\fP.  The protocol data
+should always be the empty string \fI""\fP.  The ToolTalk session id is
+formatted string consisting of the ttsession program number, the ttsession
+authorization level, the IP address of the host running ttsession, and the
+RPC version number of the ttsession.  See the section
+\fITTSESSION IDENTIFIERS\fP below for information on constructing ToolTalk
+session id's for the authority file. 
+The authentication name should always be the string
+\fIMIT-MAGIC-COOKIE-1\fP.  The authentication data is specified as
+an even-lengthed string of hexadecimal digits, each pair representing 
+one octet.  The first digit of each pair gives the most significant 4 bits
+of the octet, and the second digit of the pair gives the least significant 4
+bits.  For example, a 32 character hexkey would represent a 128-bit value.
+
+.TP 8
+.B "[n]extract \fIfilename <protoname=$> <protodata=$> <netid=$> <authname=$>\fP"
+Authorization entries which match the specified fields are written to the 
+indicated file.  If the \fInextract\fP command is used, the entries are written
+in a numeric format suitable for non-binary transmission (such as secure
+electronic mail).  The extracted entries can be read back in using the 
+\fImerge\fP and \fInmerge\fP commands.  If the filename consists of 
+just a single dash, the entries will be written to the standard output.
+.TP 8
+.B "[n]list \fR\fI<protoname=$> <protodata=$> <netid=$> <authname=$>\fP"
+Authorization entries which match the specified fields (or all if nothing
+is specified) are printed on the standard output.  If the \fInlist\fP
+command is used, entries will be shown in the numeric format used by 
+the \fInextract\fP command; otherwise, they are shown in a textual format.
+Key data is always displayed in the hexadecimal format given in the
+description of the \fIadd\fP command.
+.TP 8
+.B "[n]merge \fR[\fIfilename1 <filename2> <filename3>\fP...]"
+Authorization entries are read from the specified files and are merged into
+the authorization database, superceding any matching existing entries. If
+the \fInmerge\fP command is used, the numeric format given in the description
+of the \fIextract\fP command is used.  If a filename consists of just a single
+dash, the standard input will be read if it hasn't been read before.
+.TP 8
+.B "remove \fI<protoname=$> <protodata=$> <netid=$> <authname=$>\fR"
+Authorization entries which match the specified fields are removed from the
+authority file.
+.TP 8
+.B "source \fIfilename"
+The specified file is treated as a script containing \fIttauth\fP commands
+to execute.  Blank lines and lines beginning with a sharp sign (#) are 
+ignored.  A single dash may be used to indicate the standard input, if it
+hasn't already been read.
+.TP 8
+.B "info"
+Information describing the authorization file, whether or not any changes
+have been made, and from where \fIttauth\fP commands are being read
+is printed on the standard output. 
+.TP 8
+.B "exit"
+If any modifications have been made, the authority file is written out (if
+allowed), and the program exits.  An end of file is treated as an implicit
+\fIexit\fP command.
+.TP 8
+.B "quit"
+The program exits, ignoring any modifications.  This may also be accomplished
+by pressing the interrupt character.
+.TP 8
+.B "help [\fIstring\fP]"
+A description of all commands that begin with the given string (or all
+commands if no string is given) is printed on the standard output.
+.TP 8
+.B "?"
+A short list of the valid commands is printed on the standard output.
+.SH "TTSESSION IDENTIFIERS"
+The ToolTalk session identifiers (\fInetid\fP) in the authority file and
+used by the \fIadd\fP, \fI[n]extract\fP, \fI[n]list\fP, and \fIremove\fP
+commands are derived from the TT_SESSION identifier constructed by
+ttsession at startup.  Ttsession rendezvous with clients by writing the
+TT_SESSION identifier as a property on the root window or as an environment
+variable in the client's environment (see ttsession -c).  In addition, 
+ttsession creates an entry in the user's authority file.  The authority
+file entry has a \fInetid\fP component which is derived from the TT_SESSION
+identifier.
+.PP
+The TT_SESSION identifier is composed of the following elements:
+.sp
+.nf
+    e.g.:  TT_SESSION(STRING) = "01 1433 1342177279 1 1 2002 130.105.9.22 4"
+           <Dummy Number>                    = 01
+           <ttsession Process Id>            = 1433
+           <ttsession Program Number>        = 1342177279
+           <DummyNumber>                     = 1
+           <ttsession Authorization Level>   = 1
+           <ttsession UID>                   = 2002
+           <Host IP Address>                 = 130.105.9.22
+           <RPC Version Number>              = 4
+.fi
+.PP
+The ToolTalk session identifiers (\fInetid\fP) in the authority file are
+composed of the <\fIttsession Program Number\fP>,
+<\fIttsession Authorization Level\fP>,
+<\fIHost IP Address\fP>, and
+<\fIRPC Version Number\fP> fields of the TT_SESSION identifier as follows:
+.sp
+.nf
+    e.g:  1342177279/1/130.105.9.22/4
+.fi
+.SH EXAMPLE
+.PP
+The most common use for \fIttauth\fP is to extract the entry for the 
+current ttsession, copy it to another machine, and merge it into the 
+user's authority file on the remote machine:
+.sp
+.nf
+    %  xprop -root | grep TT_SESSION
+    TT_SESSION(STRING) = "01 1433 1342177279 1 1 2002 130.105.9.22 4"
+    _SUN_TT_SESSION(STRING) = "01 1433 1342177279 1 1 2002 130.105.9.22 4"
+    %  ttauth extract \- netid=1342177279/1/130.105.9.22/4 | rsh otherhost ttauth merge \-
+.fi
+.SH ENVIRONMENT
+This \fIttauth\fP program uses the following environment variables:
+.TP 8
+.B TTAUTHORITY
+to get the name of the authority file to use if the \fI\-f\fP option isn't
+used.
+.TP 8
+.B HOME
+to get the user's home directory if TTAUTHORITY isn't defined.
+.SH FILES
+.TP 8
+.I $HOME/.TTauthority
+default authority file if TTAUTHORITY isn't defined.
+.SH BUGS
+.PP
+Users that have unsecure networks should take care to use encrypted 
+file transfer mechanisms to copy authorization entries between machines.  
+Similarly, the \fIMIT-MAGIC-COOKIE-1\fP protocol is not very useful in
+unsecure environments.  Sites that are interested in additional security
+may need to use encrypted authorization mechanisms such as Kerberos.
+.PP
+Spaces are currently not allowed in the protocol name.  Quoting could be
+added for the truly perverse.
+.SH AUTHORS
+Jim Fulton, MIT X Consortium, and
+Mitchell Greess, Solutions Atlantic

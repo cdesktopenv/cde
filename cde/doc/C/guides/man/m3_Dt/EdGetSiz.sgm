@@ -1,0 +1,99 @@
+<!-- $XConsortium: EdGetSiz.sgm /main/6 1996/09/08 20:03:21 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN28.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN28.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtEditorGetSizeHints</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtEditorGetSizeHints</Function></RefName>
+<RefPurpose>retrieve sizing information from a DtEditor widget
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- ************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Editor.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>DtEditorGetSizeHints</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>XSizeHints *<Parameter>pHints</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtEditorGetSizeHints</Function> function retrieves the current sizing information from
+a DtEditor widget, allowing the application to compute appropriate size hints
+for the window manager.
+</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument specifies the DtEditor widget ID.
+</Para>
+<Para>The
+<Emphasis>pHints</Emphasis> argument is a pointer to an
+<StructName Role="typedef">XSizeHints</StructName> structure into which the current sizing information is placed.
+The fields in this structure do not have to contain any
+values when it is passed in.
+</Para>
+<Para>Upon successful completion, the
+<Function>DtEditorGetSizeHints</Function> function fills in the following fields of the
+<StructName Role="typedef">XSizeHints</StructName> structure: minimum width (
+<Emphasis>min_width</Emphasis>) and height (
+<Emphasis>min_height</Emphasis>); width (
+<Emphasis>width_inc</Emphasis>) and height (
+<Emphasis>height_inc</Emphasis>) increment; and base width (
+<Emphasis>base_width</Emphasis>) and height (
+<Emphasis>base_height</Emphasis>); otherwise, the structure is unchanged.
+The Flags field is set to:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>PMinSize | PResizeInc | PBaseSize
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>The
+<Function>DtEditorGetSizeHints</Function> function returns no value.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following code segment sets the resize increment and minimum window
+size properties for the application.
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Widget          editor,
+                application_shell;
+Display         display;
+XSizeHints      size_hints;
+long            supplied_return;
+XGetWMSizeHints(display, XtWindow(application_shell),
+                 &amp;size_hints, &amp;supplied_return, XA_WM_NORMAL_HINTS);
+DtEditorGetSizeHints(editor, &amp;size_hints);
+XSetWMSizeHints(display, XtWindow(application_shell),
+                 &amp;size_hints, XA_WM_NORMAL_HINTS);
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Editor.h;, &cdeman.DtEditor;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

@@ -1,0 +1,17 @@
+set prototyped
+cat{
+	#if defined(__STDPP__directive) && defined(__STDPP__hide)
+	__STDPP__directive pragma pp:hide ioctl
+	#else
+	#define ioctl		______ioctl
+	#endif
+}end
+one termio.h termios.h sys/termios.h sgtty.h sys/ttyio.h sys/ioctl.h
+cat{
+	#if defined(__STDPP__directive) && defined(__STDPP__hide)
+	__STDPP__directive pragma pp:nohide ioctl
+	#else
+	#undef	ioctl
+	#endif
+	extern int		ioctl(int, int, ...);
+}end

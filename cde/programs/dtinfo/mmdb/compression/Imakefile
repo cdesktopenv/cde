@@ -1,0 +1,50 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 15:59:14 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = 
+INCLUDES = -I$(DTMMDBSRC)/compression -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES) 
+
+LinkSourceFile(abs_agent.C,$(DTMMDBSRC)/compression)
+LinkSourceFile(zip.C,$(DTMMDBSRC)/compression)
+LinkSourceFile(huffman.C,$(DTMMDBSRC)/compression)
+LinkSourceFile(trie.C,$(DTMMDBSRC)/compression)
+LinkSourceFile(code.C,$(DTMMDBSRC)/compression)
+LinkSourceFile(lzss.C,$(DTMMDBSRC)/compression)
+
+NORMAL_SRCS = abs_agent.C zip.C huffman.C trie.C code.C lzss.C
+
+LinkSourceFile(sgml.C,$(DTMMDBSRC)/compression)
+LinkSourceFile(ps.C,$(DTMMDBSRC)/compression)
+
+PARSER_SRCS = sgml.C ps.C
+
+SRCS = $(NORMAL_SRCS)       $(PARSER_SRCS)
+OBJS = $(NORMAL_SRCS:.C=.o) $(PARSER_SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

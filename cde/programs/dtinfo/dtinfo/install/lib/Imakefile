@@ -1,0 +1,18 @@
+XCOMM $TOG: Imakefile /main/8 1998/08/10 15:53:13 mgreess $
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+#ifndef CdeDesktop
+SUBDIRS=bitmaps fonts nls
+#else
+SUBDIRS=bitmaps fonts
+#endif
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+InstallNonExecFile(mmdb.mark.spec,$(INSTALL_ETC_DIR))
+#ifndef CdeDesktop
+InstallLibFile(XKeysymDB)
+#endif

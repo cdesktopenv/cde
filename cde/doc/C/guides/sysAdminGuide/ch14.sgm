@@ -1,0 +1,859 @@
+<!-- $XConsortium: ch14.sgm /main/9 1996/09/08 19:34:23 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.WMCnf.div.1">
+<Title Id="SAG.WMCnf.mkr.1">Customizing the Workspace Manager</Title>
+<Para><IndexTerm>
+<Primary>dtwm, See Workspace Manager&lt;$nopage></Primary>
+</IndexTerm><IndexTerm>
+<Primary>&lt;$nopage>Window Manager</Primary>
+<Secondary>See also Workspace Manager</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Motif Window Manager, See Workspace Manager&lt;$nopage></Primary>
+</IndexTerm>This chapter describes how to customize the desktop Workspace Manager.</Para>
+<InformalTable Id="SAG.WMCnf.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Workspace Manager Configuration Files242'--><XRef Role="JumpText" Linkend="SAG.WMCnf.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Customizing Workspaces244'--><XRef Role="JumpText" Linkend="SAG.WMCnf.div.8"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Workspace Manager Menus246'--><XRef Role="JumpText" Linkend="SAG.WMCnf.div.13"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Customizing Button Bindings249'--><XRef Role="JumpText" Linkend="SAG.WMCnf.div.18"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Customizing Key Bindings252'--><XRef Role="JumpText" Linkend="SAG.WMCnf.div.22"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Switching Between Default and Custom Behavior254'--><XRef Role="JumpText" Linkend="SAG.WMCnf.div.26"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><IndexTerm>
+<Primary>Workspace Manager</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>The Workspace Manager is the window manager provided by the desktop.
+Like other window managers, it controls:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The appearance of window frame components</Para>
+</ListItem>
+<ListItem>
+<Para>The behavior of windows, including their stacking order and focus behavior</Para>
+</ListItem>
+<ListItem>
+<Para>Key bindings and button bindings</Para>
+</ListItem>
+<ListItem>
+<Para>The appearance of minimized windows</Para>
+</ListItem>
+<ListItem>
+<Para>Workspace and Window menus</Para>
+</ListItem>
+</ItemizedList>
+<Para>In addition, the Workspace Manager controls these desktop components:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Emphasis>Workspaces</Emphasis>. The Workspace Manager controls the number of workspaces,
+and keeps track of which windows are open in each workspace.</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>Workspace backdrops</Emphasis>. The user changes backdrops using Style Manager.
+However, backdrop management is a function of the Workspace Manager.<IndexTerm><Primary>backdrops</Primary></IndexTerm><IndexTerm><Primary>workspaces</Primary><Secondary>backdrops, See backdrops</Secondary></IndexTerm>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis><IndexTerm>
+<Primary>Front Panel</Primary>
+<Secondary>managed by Workspace Manager</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Workspace Manager</Primary>
+<Secondary>managing Front Panel</Secondary>
+</IndexTerm>The Front Panel</Emphasis>. Although the Front Panel uses its own configuration files, it
+is created and managed by the Workspace Manager.</Para>
+</ListItem>
+</ItemizedList>
+<Para>Many of these can be changed with Style Manager. Style Manager is able to
+make often-used changes quickly, with little effort on your part. Other
+resources must be set manually.</Para>
+<Para>The Workspace Manager is <Command>dtwm</Command>. It is based on the Motif Window
+Manager.</Para>
+<Sect1 Id="SAG.WMCnf.div.2">
+<Title>See Also</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>For reference information about the Workspace Manager, see the <Filename>dtwm</Filename>(1)
+and <Filename>dtwmrc(4)</Filename> man pages.</Para>
+</ListItem>
+<ListItem>
+<Para>For information about setting Workspace Manager resources, see
+<!--Original XRef content: '&xd2;Setting
+Application Resources&xd3; on page&numsp;256'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.2">.</Para>
+</ListItem>
+<ListItem>
+<Para>For information on Front Panel configuration files, see
+<!--Original XRef content: 'Chapter&numsp;13,
+&xd2;Advanced Front Panel Customization'--><XRef Role="ChapNumAndTitle" Linkend="SAG.FrPC.mkr.1">.</Para>
+</ListItem>
+</ItemizedList>
+<Para>For additional information about setting resources, see
+<!--Original XRef content: '&xd2;Setting Application
+Resources&xd3; on page&numsp;256'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.2">.</Para>
+</Sect1>
+<Sect1 Id="SAG.WMCnf.div.3">
+<Title Id="SAG.WMCnf.mkr.2">Workspace Manager Configuration Files<IndexTerm><Primary>Workspace Manager</Primary><Secondary>configuration files</Secondary></IndexTerm><IndexTerm><Primary>configuration files</Primary><Secondary>Workspace Manager</Secondary></IndexTerm><IndexTerm><Primary>configuration files</Primary><Secondary>Window Manager</Secondary></IndexTerm></Title>
+<Para>The Workspace Manager gets information about the window menus,
+workspace menus, button bindings, and key bindings from a configuration file.</Para>
+<Para>It uses one of the following files:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Personal file: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/<IndexTerm><Primary>dtwmrc file</Primary></IndexTerm>
+dtwmrc</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para>System custom file: <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/<IndexTerm>
+<Primary>sys.dtwmrc file</Primary>
+</IndexTerm>
+sys.dtwmrc</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>Built-in file: <Command>/usr/dt/config/</Command><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>The Workspace Manager searches for a configuration file in the order shown
+above, and uses the first one it finds.</Para>
+<Para>For users who use more than one session language, a personal, language-
+dependent configuration file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt</Filename>/<Symbol Role="Variable">language</Symbol>/<Command>dtwrmc</Command> can be
+created that takes precedence over <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename>.</Para>
+<Sect2 Id="SAG.WMCnf.div.4" Role="Procedure">
+<Title Id="SAG.WMCnf.mkr.3">To Create or Modify a Personal Configuration File<IndexTerm><Primary>Workspace Manager</Primary><Secondary>personal customization</Secondary></IndexTerm></Title>
+<Para>The personal Workspace Manager configuration file is
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename>. If this file exists, it is the file used.</Para>
+<OrderedList>
+<ListItem>
+<Para>Double-click<IndexTerm>
+<Primary>Edit Dtwmrc action</Primary>
+</IndexTerm><IndexTerm>
+<Primary>dtwmrc file</Primary>
+<Secondary>editing</Secondary>
+</IndexTerm>
+Edit Dtwmrc in the Desktop_Tools application group.</Para>
+<Para>If you already have a personal <Command>dtwmrc</Command> file, it is loaded into the editor. If
+not, <Filename>sys.dtwmrc</Filename> is copied to <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename>, which is then
+loaded into the editor.</Para>
+</ListItem>
+<ListItem>
+<Para>Edit the file.</Para>
+</ListItem>
+<ListItem>
+<Para>Exit the editor.</Para>
+<Para>The file is saved as your personal <Command>dtwmrc</Command>, regardless of its original source.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.5" Role="Procedure">
+<Title>To Create a System-Wide Configuration File<IndexTerm><Primary>Workspace Manager</Primary><Secondary>system-wide customization</Secondary></IndexTerm></Title>
+<Para>The system-wide Workspace Manager configuration file is
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename>.</Para>
+<OrderedList>
+<ListItem>
+<Para>Copy <Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/<IndexTerm>
+<Primary>sys.dtwmrc file</Primary>
+</IndexTerm>
+sys.dtwmrc</Filename> to
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename>.</Para>
+</ListItem>
+</OrderedList>
+<Note>
+<Para>This file is not used if <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename> exists.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.6" Role="Procedure">
+<Title Id="SAG.WMCnf.mkr.4">To Include (Source In) Other Files<IndexTerm><Primary>Workspace Manager</Primary><Secondary>including other files</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Use the syntax:</Para>
+<programlisting>include
+{
+    <Symbol Role="Variable">path
+    path</Symbol>
+  &hellip;
+}
+<IndexTerm><Primary>include statement, in Workspace Manager files</Primary></IndexTerm>
+</Programlisting>
+</ListItem>
+</OrderedList>
+<Para>For example, the following lines source in the file /<Filename>users/ellen/mymenu</Filename>:</Para>
+<programlisting>include
+{
+   /users/ellen/mymenu
+}
+</ProgramListing>
+<Para>Include statements are useful for providing additional functionality without
+copying the entire configuration file. For example, a user might want to create
+a new key binding without having to administer the entire configuration file.
+The user can create a file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename> with this content:</Para>
+<programlisting>include
+{
+ /etc/dt/config/C/sys.dtwmrc
+}
+Keys DtKeyBindings
+{
+  Alt&lt;Key>F5 root  f.menu  Applications
+}
+Menu Applications
+{
+  &ldquo;GraphicsApp&rdquo; f.exec &ldquo;/usr/bin/GraphicsApp/GApp&rdquo;
+  &hellip;
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.7" Role="Procedure">
+<Title>To Restart the Workspace Manager<IndexTerm><Primary>Workspace Manager</Primary><Secondary>restarting</Secondary></IndexTerm></Title>
+<Para>The Workspace Manager must be restarted in order for changes made to the
+configuration file to take effect.</Para>
+<OrderedList>
+<ListItem>
+<Para>Choose Restart Workspace Manager from the Workspace menu (press
+mouse button 3 when the pointer is on the backdrop).</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.WMCnf.div.8">
+<Title Id="SAG.WMCnf.mkr.5">Customizing Workspaces<IndexTerm><Primary>workspaces</Primary><Secondary>customizing</Secondary></IndexTerm></Title>
+<Para>Most workspace customization, such as changing workspace names and the
+number of workspaces, can be done by the user using the desktop's interface.
+However, the Workspace Manager provides resources for setting system-wide
+defaults.</Para>
+<Sect2 Id="SAG.WMCnf.div.9" Role="Procedure">
+<Title Id="SAG.WMCnf.mkr.6">To Change the Number of Workspaces on a System-Wide Basis<IndexTerm><Primary>workspaces</Primary><Secondary>number of</Secondary></IndexTerm></Title>
+<Para>The default desktop configuration provides four workspaces. The user can add
+and delete workspaces using the pop-up menu associated with the Workspace
+switch.</Para>
+<Para>The Workspace Manager provides a resource for changing the default number
+of workspaces.</Para>
+<OrderedList>
+<ListItem>
+<Para>Use the <Command>workspaceCount</Command> resource to set the number of workspaces:</Para>
+<Para Remap="CodeIndent1"><ComputerOutput>Dtwm*workspaceCount: <Symbol Role="Variable">number</Symbol></ComputerOutput><IndexTerm><Primary>workspaceCount resource</Primary></IndexTerm>
+</Para>
+</ListItem>
+</OrderedList>
+<Para>For information about setting Workspace Manager resources, see
+<!--Original XRef content: '&xd2;Setting
+Application Resources&xd3; on page&numsp;256'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.2">.</Para>
+<Para>For example, the following resource sets the number of workspaces to six:</Para>
+<ProgramListing>Dtwm*workspaceCount: 6</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.10" Role="Procedure">
+<Title>To Provide System-Wide Workspace Names<IndexTerm><Primary>workspaces</Primary><Secondary>names</Secondary></IndexTerm></Title>
+<Para>Internally, the workspaces are numbered by the numbering convention <Command>ws</Command><Symbol Role="Variable">n</Symbol>,
+where <Symbol Role="Variable">n</Symbol> is 0, 1, 2, and so on. For example, the default four workspaces are
+numbered internally <Filename>ws0</Filename> through <Filename>ws3</Filename>.</Para>
+<OrderedList>
+<ListItem>
+<Para>Use the <Command>title</Command> resource to change the name of a specified workspace:<IndexTerm><Primary>title resource</Primary></IndexTerm>
+</Para>
+<programlisting>Dtwm*ws<Symbol Role="Variable">n</Symbol>: <Symbol Role="Variable">name</Symbol></programlisting>
+<programlisting>Dtwm*ws<Symbol Role="Variable">n</Symbol>.title: <Symbol Role="Variable">name</Symbol></programlisting>
+</ListItem>
+</OrderedList>
+<Para>For information about setting Workspace Manager resources, see
+<!--Original XRef content: '&xd2;Setting
+Application Resources&xd3; on page&numsp;256'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.2">.</Para>
+<Para>For example, the following resources set the default four workspaces to the
+specified names:</Para>
+<programlisting>Dtwm*ws0*title:  Anna
+Dtwm*ws1*title:  Don
+Dtwm*ws2*title   Julia
+Dtwm*ws3*title   Patti
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.11" Role="Procedure">
+<Title>To Create Additional Backdrops<IndexTerm><Primary>backdrops</Primary><Secondary>adding</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Create the backdrop images. They can be bitmap or pixmap files.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>backdrops</Primary>
+<Secondary>file locations</Secondary>
+</IndexTerm>Place the backdrops in one of the following directories. (You may have to
+create the directory.)</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>System-wide backdrops: <Filename>/etc/dt/backdrops</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>Personal backdrops: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/backdrops</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Choose Restart Workspace Manager from the Workspace menu.</Para>
+</ListItem>
+</OrderedList>
+<Para>The system-wide and personal backdrops are added to the built-in backdrops
+in <Filename>/usr/dt/backdrops</Filename>.</Para>
+<Para>You can replace an existing built-in backdrop by creating a personal or system-
+wide backdrop with the same name.</Para>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.12" Role="Procedure">
+<Title Id="SAG.WMCnf.mkr.7">To Replace the Backdrop With a Graphics Image<IndexTerm><Primary>backdrops</Primary><Secondary>using graphics image</Secondary></IndexTerm></Title>
+<Para>The backdrops are layered over the display's<IndexTerm>
+<Primary>root window</Primary>
+</IndexTerm>
+root window. The Style Manager
+Backdrop dialog box provides a<IndexTerm>
+<Primary>NoBackdrop setting</Primary>
+</IndexTerm>
+NoBackdrop setting in which the backdrop is
+transparent.</Para>
+<Para>There is only one root window behind all the workspace backdrops. Thus, a
+graphics image placed on the root window persists across all workspaces. You
+can specify which workspaces cover up the root window with a backdrop.
+However, the image visible when NoBackdrop is in effect will be the same for
+every workspace.</Para>
+<OrderedList>
+<ListItem>
+<Para>Create the graphics image. It must be in a format for which a tool exists to
+display the image on the root window. For example, if you intend to use
+<Command>xsetroot</Command>, you must create a bitmap file.</Para>
+</ListItem>
+<ListItem>
+<Para>If it doesn't already exist, create an executable file
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/sessionetc.</Filename> The <Command>sessionetc</Command> file is run
+each time the user logs in.</Para>
+</ListItem>
+<ListItem>
+<Para>Place the command to display the image in the <Command>sessionetc</Command> file.</Para>
+<Para>For example, the following command tiles the root window with the
+specified bitmap:</Para>
+<programlisting>xsetroot&numsp;-bitmap&numsp;/users/ellen/.dt/icons/root.bm</programlisting>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.WMCnf.div.13">
+<Title Id="SAG.WMCnf.mkr.8">Workspace Manager Menus<IndexTerm><Primary>menus</Primary><Secondary>Workspace Manager</Secondary></IndexTerm><IndexTerm><Primary>Workspace Manager</Primary><Secondary>menus</Secondary></IndexTerm></Title>
+<Para>Workspace Manager has three default menus:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="121*">
+<colspec colwidth="407*">
+<TBody>
+<Row>
+<Entry><Para>Workspace menu<IndexTerm><Primary>Workspace menu</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Also called the root menu. Displayed when the user
+presses mouse button 3 when the pointer is on the
+backdrop. The menu is associated with the mouse
+button through a button binding.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Window menu<IndexTerm><Primary>Window menu</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The menu displayed when the user presses mouse
+buttons 1 or 3 when the pointer is on the Window
+menu button (upper left corner of the window frame).
+The menu is associated with the button by the
+<Command>windowMenu</Command> resource.<IndexTerm><Primary>windowMenu resource</Primary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Front Panel menu<IndexTerm><Primary>Front Panel</Primary><Secondary>menu</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The menu displayed when the user presses mouse
+buttons 1 or 3 when the pointer is over the Front
+Panel's Window menu button.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect2 Id="SAG.WMCnf.div.14">
+<Title Id="SAG.WMCnf.mkr.9">Workspace Manager Menu Syntax<IndexTerm><Primary>Window menu</Primary><Secondary>syntax</Secondary></IndexTerm><IndexTerm><Primary>Workspace menu</Primary><Secondary>syntax</Secondary></IndexTerm></Title>
+<Para>Workspace Manager menus have the syntax:</Para>
+<programlisting>Menu <Symbol Role="Variable">MenuName</Symbol>
+{
+    <Symbol Role="Variable">selection1</Symbol> <Command>[</Command><Symbol Role="Variable">mnemonic</Symbol><Command>] [</Command><Symbol Role="Variable">accelerator</Symbol><Filename>]</Filename> <Symbol Role="Variable">function</Symbol> <Filename>[</Filename><Symbol Role="Variable">argument</Symbol><Filename>]</Filename>
+    <Symbol Role="Variable">selection2</Symbol> <Command>[</Command><Symbol Role="Variable">mnemonic</Symbol><Command>] [</Command><Symbol Role="Variable">accelerator</Symbol><Filename>]</Filename> <Symbol Role="Variable">function</Symbol> <Filename>[</Filename><Symbol Role="Variable">argument</Symbol><Filename>]</Filename>
+    &hellip;
+}
+</ProgramListing>
+<Para>where:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="67*">
+<colspec colwidth="461*">
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">selection</Symbol></Para></Entry>
+<Entry><Para>The text or bitmap that appears on the menu. If the text
+includes spaces, enclose the text in quotation marks. For
+bitmaps, use the syntax @/<Symbol Role="Variable">path</Symbol>.
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">mnemonic</Symbol></Para></Entry>
+<Entry><Para>A single character that acts as a keyboard shortcut when the
+menu is displayed. It is specified in the form <Filename>_</Filename><Symbol Role="Variable">character</Symbol>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">accelerator</Symbol></Para></Entry>
+<Entry><Para>A keyboard shortcut that is active whether or not the menu is
+displayed. Accelerators have the syntax
+<Symbol Role="Variable">modifier</Symbol><ComputerOutput>&lt;Key></ComputerOutput> <Symbol Role="Variable">Keyname</Symbol> where modifier is
+<Command>Ctrl</Command>, <Command>Shift</Command>, <Command>Alt</Command>
+(Extend char), or <Command>Lock</Command>. For a list of all possible key names,
+refer to the <Command>keysymdef.h</Command> file in your &ldquo;X11 include&rdquo; directory.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">function</Symbol><IndexTerm><Primary>Workspace Manager</Primary><Secondary>functions</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The function to be performed when this selection is made.
+Refer to the <Filename MoreInfo="RefEntry">dtwmrc(4)</Filename> man page for a list of functions.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">argument</Symbol></Para></Entry>
+<Entry><Para>Function arguments. Refer to the <Filename>dtwmrc(4)</Filename> man page for
+more details.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>For example, the following menu item labeled Restore normalizes the window.
+When the menu is displayed, typing &ldquo;R&rdquo; will also restore the window. Pressing
+Extend char F5 will also restore the window.</Para>
+<programlisting>Restore    _R    Alt&lt;Key> F5    f.normalize
+</ProgramListing>
+<Note>
+<Para>For complete information on Workspace Manager menu syntax, see the
+<Filename MoreInfo="RefEntry">dtwmrc(4)</Filename> man page.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.15" Role="Procedure">
+<Title>To Modify the Existing Workspace (Root) Menu<IndexTerm><Primary>Workspace menu</Primary><Secondary>modifiying</Secondary></IndexTerm><IndexTerm><Primary>$nopage>root menu, See Workspace menu</Primary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Open the appropriate file for editing:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide: <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>For information on creating these files, see
+<!--Original XRef content: '&xd2;Workspace Manager
+Configuration Files&xd3; on page&numsp;242'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.mkr.2">.</Para>
+</ListItem>
+<ListItem>
+<Para>Edit the description of the Workspace menu.</Para>
+<Para>The default Workspace menu is named<IndexTerm>
+<Primary>DtRootMenu</Primary>
+</IndexTerm>
+DtRootMenu.</Para>
+<programlisting>Menu DtRootMenu
+{
+    &ldquo;Workspace Menu&rdquo;   f.title
+    &ldquo;Shuffle Up&rdquo;       f.circle_up
+    &ldquo;Shuffle Down&rdquo;     f.circle_down
+    &hellip;
+}
+</programlisting>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.16" Role="Procedure">
+<Title Id="SAG.WMCnf.mkr.10">To Create a New Workspace (Root) Menu<IndexTerm><Primary>Workspace menu</Primary><Secondary>creating</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Open the appropriate file for editing:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide: <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>For information on creating these files, see
+<!--Original XRef content: '&xd2;Workspace Manager
+Configuration Files&xd3; on page&numsp;242'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.mkr.2">.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the new menu:</Para>
+<programlisting>Menu <Symbol Role="Variable">menu_name</Symbol>
+{
+        &hellip;
+}
+</programlisting>
+<Para>See
+<!--Original XRef content: '&xd2;Workspace Manager Menu Syntax&xd3; on page&numsp;247'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.mkr.9">.</Para>
+</ListItem>
+<ListItem>
+<Para>Create or edit the button binding to display the new menu.</Para>
+<Para>If the menu replaces the existing menu, edit the button binding that displays
+the Workspace menu.</Para>
+<programlisting>&lt;Btn3Down> root f.menu  <Symbol Role="Variable">menu_name</Symbol>
+</ProgramListing>
+<Para>If the menu is an additional menu, create a new mouse button binding. For
+example, the following button binding displays the menu when Shift-mouse
+button 3 is pressed over the backdrop:</Para>
+<programlisting>Shift&lt;Btn3Down> root f.menu  <Symbol Role="Variable">menu_name</Symbol>
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>Choose Restart Workspace Manager from the Workspace menu.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.17" Role="Procedure">
+<Title Id="SAG.WMCnf.mkr.11">To Create a New Window Menu<IndexTerm><Primary>Window menu</Primary><Secondary>new</Secondary></IndexTerm></Title>
+<Note>
+<Para>The Window menu is built into the Workspace Manager, and ordinarily
+is not customized. To keep window behavior consistent between applications,
+you should avoid extensive modification to the Window menu.</Para>
+</Note>
+<OrderedList>
+<ListItem>
+<Para>Open the appropriate file for editing:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide: <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>For information on creating these files, see
+<!--Original XRef content: '&xd2;Workspace Manager
+Configuration Files&xd3; on page&numsp;242'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.mkr.2">.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the new menu:</Para>
+<programlisting>Menu <Symbol Role="Variable">menu_name</Symbol>
+{
+        &hellip;
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>Use the <Command>windowMenu</Command> resource to specify the new menu:</Para>
+<programlisting>Dtwm*windowMenu: <Symbol Role="Variable">menu_name</Symbol></programlisting>
+</ListItem>
+<ListItem>
+<Para>Choose Restart Workspace Manager from the Workspace menu.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.WMCnf.div.18">
+<Title Id="SAG.WMCnf.mkr.12">Customizing Button Bindings<IndexTerm><Primary>Workspace Manager</Primary><Secondary>button bindings</Secondary></IndexTerm><IndexTerm><Primary>button binding</Primary></IndexTerm><IndexTerm><Primary>mouse binding, See button binding</Primary></IndexTerm></Title>
+<Para>A <Emphasis>button binding</Emphasis> associates a mouse button operation and possible keyboard
+modifier key with a window manager function. Button bindings apply to all
+workspaces.</Para>
+<Para>The desktop default button bindings are defined in the Workspace Manager
+configuration file in a button binding set named <Command><IndexTerm>
+<Primary>DtButtonBindings</Primary>
+</IndexTerm>DtButtonBindings</Command>:</Para>
+<programlisting>Buttons DtButtonBindings
+{
+  &hellip;
+}
+</ProgramListing>
+<Sect2 Id="SAG.WMCnf.div.19">
+<Title Id="SAG.WMCnf.mkr.13">Button Binding Syntax<IndexTerm><Primary>button binding</Primary><Secondary>syntax</Secondary></IndexTerm></Title>
+<Para>The syntax for button bindings is:</Para>
+<programlisting>Buttons <Symbol Role="Variable">ButtonBindingSetName</Symbol>
+{
+    <Filename>[</Filename><Symbol Role="Variable">modifier</Symbol><Filename>]&lt;</Filename><Symbol Role="Variable">button_nameMouse_action</Symbol><Filename>></Filename> <Symbol Role="Variable">context  function</Symbol> <Symbol Role="Variable">[argument</Symbol><Filename>]</Filename>
+    <Filename>[</Filename><Symbol Role="Variable">modifier</Symbol><Filename>]&lt;</Filename><Symbol Role="Variable">button_nameMouse_action</Symbol><Filename>></Filename> <Symbol Role="Variable">context  function</Symbol> <Symbol Role="Variable">[argument</Symbol><Filename>]</Filename>
+</ProgramListing>
+<Para>where:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="110*">
+<colspec colwidth="418*">
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">button_name</Symbol></Para></Entry>
+<Entry><Para><Filename>Btn1&mdash;</Filename>Left mouse button
+<?Pub _newline><Filename>Btn2&mdash;</Filename>Middle button (3-button mouse) or both buttons (2-button
+mouse)
+<?Pub _newline><Filename>Btn3&mdash;</Filename>Right button
+<?Pub _newline><Filename>Btn4&mdash;</Filename>Buttons 1 and 2 together on a 3-button mouse
+<?Pub _newline><Filename>Btn5&mdash;</Filename>Buttons 2 and 3 together on a 3-button mouse</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">modifier</Symbol></Para></Entry>
+<Entry><Para><Filename>Ctrl,</Filename> <Filename>Shift,</Filename> <Filename>Alt,</Filename> <Command>Lock</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">mouse_action</Symbol></Para></Entry>
+<Entry><Para><Command>Down</Command>&mdash;Holding down a mouse button
+<?Pub _newline><Command>Up</Command>&mdash;Releasing a mouse button
+<?Pub _newline><Command>Click</Command>&mdash;Pressing and releasing a mouse button
+<?Pub _newline><Filename>Click2</Filename>&mdash;Double-clicking a mouse button
+<?Pub _newline><Command>Drag</Command>&mdash;Dragging the mouse while holding down the mouse button</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">context</Symbol></Para></Entry>
+<Entry><Para>Indicates where the pointer must be for the binding to be effective.
+If necessary, separate multiple contents with the &ldquo;<Filename>|</Filename>&rdquo; character.
+<?Pub _newline><Command>root</Command>&mdash;The workspace window
+<?Pub _newline><Command>window</Command>&mdash;Client window or window frame
+<?Pub _newline><Filename>frame&mdash;</Filename>Window frame, excluding the contents
+<?Pub _newline><Filename>icon&mdash;</Filename>Icon
+<?Pub _newline><Filename>title&mdash;</Filename>Title bar
+<?Pub _newline><Filename>app&mdash;</Filename>Client window (excluding the frame)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">function</Symbol></Para></Entry>
+<Entry><Para>One of the window manager functions. Refer to the <Filename MoreInfo="RefEntry">dtwmrc(4)</Filename>
+man page for a list of valid functions.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">argument</Symbol></Para></Entry>
+<Entry><Para>Any window manager function arguments that are required. Refer
+to the <Filename MoreInfo="RefEntry">dtwmrc(4)</Filename> man page for details.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>For example, the following line causes the menu described in <Command>DtRootMenu</Command> to
+be displayed when mouse button 3 is pressed while the pointer is in the
+workspace window (but not within client windows).</Para>
+<programlisting>&lt;Btn3Down>     root    f.menu    DtRootMenu
+</ProgramListing>
+<Note>
+<Para>For complete information on button binding syntax, see the <Filename MoreInfo="RefEntry">dtwmrc(4)</Filename>
+man page.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.20" Role="Procedure">
+<Title>To Add a Button Binding<IndexTerm><Primary>button binding</Primary><Secondary>adding</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Open the appropriate file for editing:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide: <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>For information on creating these files, see
+<!--Original XRef content: '&xd2;Workspace Manager
+Configuration Files&xd3; on page&numsp;242'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.mkr.2">.</Para>
+</ListItem>
+<ListItem>
+<Para>Add the button binding to the <Command>DtButtonBindings</Command> definition.</Para>
+<Para>Do not bind the same button to different functions for the click and press
+operations, and do not bind more than one function to the same button and
+context.</Para>
+</ListItem>
+<ListItem>
+<Para>Choose Restart Workspace Manager from the Workspace menu.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.21" Role="Procedure">
+<Title Id="SAG.WMCnf.mkr.14">To Create a New Button Binding Set<IndexTerm><Primary>button binding</Primary><Secondary>creating new set</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Open the appropriate file for editing:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide: <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>For information on creating these files, see
+<!--Original XRef content: '&xd2;Workspace Manager
+Configuration Files&xd3; on page&numsp;242'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.mkr.2">.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the new button binding set. See
+<!--Original XRef content: '&xd2;Button Binding Syntax&xd3; on
+page&numsp;250'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.mkr.13">.</Para>
+</ListItem>
+<ListItem>
+<Para>Set the <Command><IndexTerm>
+<Primary>buttonBindings resource</Primary>
+</IndexTerm>buttonBindings</Command> resource to the new name:</Para>
+<programlisting>Dtwm*buttonBindings: <Symbol Role="Variable">ButtonBindingsSetName</Symbol></programlisting>
+</ListItem>
+<ListItem>
+<Para>Choose Restart Workspace Manager from the Workspace menu.</Para>
+</ListItem>
+</OrderedList>
+<Note>
+<Para>The new button bindings replace your existing button bindings. Copy
+any button bindings you want to keep from <Command>DtButtonBindings</Command>.</Para>
+</Note>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.WMCnf.div.22">
+<Title Id="SAG.WMCnf.mkr.15">Customizing Key Bindings</Title>
+<Para>A <Emphasis>keyboard binding</Emphasis>, also known as a <Emphasis>key binding</Emphasis>, associates combination of keys
+with Workspace Manager functions. Key bindings apply to all workspaces.</Para>
+<Note>
+<Para>Be careful about using a common key combination as a keyboard
+binding. For example, Shift-A normally puts the letter &ldquo;A&rdquo; into your current
+window. If you bind Shift-A to a function, you lose its normal usage.</Para>
+</Note>
+<Sect2 Id="SAG.WMCnf.div.23">
+<Title>Default Desktop Key Bindings<IndexTerm><Primary>key binding</Primary><Secondary>default</Secondary></IndexTerm></Title>
+<Para>The desktop default key bindings are defined in the Workspace Manager
+configuration file in a key binding set named <Command>DtKeyBindings</Command>:</Para>
+<programlisting>Keys DtKeyBindings
+{
+ &hellip;
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.24">
+<Title Id="SAG.WMCnf.mkr.16">Key Binding Syntax<IndexTerm><Primary>key binding</Primary><Secondary>syntax</Secondary></IndexTerm></Title>
+<Para>The syntax for key bindings is:</Para>
+<programlisting>Keys <Symbol Role="Variable">KeyBindingSetName</Symbol>
+{
+    [<Symbol Role="Variable">Modifiers</Symbol>]<Filename>&lt;Key></Filename><Symbol Role="Variable">key_name   context   function</Symbol> <Command>[</Command><Symbol Role="Variable">argument</Symbol><Filename>]</Filename>
+    [<Symbol Role="Variable">Modifiers</Symbol>]<Filename>&lt;Key></Filename><Symbol Role="Variable">key_name   context   function</Symbol> <Command>[</Command><Symbol Role="Variable">argument</Symbol><Filename>]</Filename>
+   &hellip;
+}
+</ProgramListing>
+<Para>where:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="81*">
+<colspec colwidth="447*">
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">Modifiers</Symbol></Para></Entry>
+<Entry><Para><Command>Ctrl</Command>, <Command>Shift</Command>. <Command>Alt</Command>, and <Command>Lock</Command>. Multiple modifiers are allowed;
+separate them with spaces.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">key_name</Symbol></Para></Entry>
+<Entry><Para>The key to which the function is mapped. For keys with letters
+or numbers, the <Symbol Role="Variable">key_name</Symbol> name is usually printed on the key.
+For instance the name of the &ldquo;a&rdquo; key is &ldquo;a&rdquo;, and the &ldquo;2&rdquo; key is
+named &ldquo;2&rdquo;. The &ldquo;Tab&rdquo; key is named &ldquo;Tab&rdquo;. The &ldquo;F3&rdquo; key is
+named &ldquo;F3&rdquo;.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>For other keys, the name is spelled out&mdash;for example, <Command>plus</Command> for the &ldquo;+&rdquo; key.
+The file <Filename>keysymdef.h</Filename>, located in a system-dependent directory, contains
+additional information about key names.</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="74*">
+<colspec colwidth="454*">
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">context</Symbol></Para></Entry>
+<Entry><Para>The element that must have the keyboard focus for this action
+to be effective. These can be concatenated together if the
+binding applies to more than one context. Multiple contexts are
+separated by the &ldquo;<Filename>|</Filename>&rdquo; character.
+<?Pub _newline><Filename>root&mdash;</Filename>Workspace backdrop
+<?Pub _newline><Filename>window&mdash;</Filename>Client window
+<?Pub _newline><Filename>icon&mdash;</Filename>Icon</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">function</Symbol></Para></Entry>
+<Entry><Para>A window manager function. Refer to the <Filename MoreInfo="RefEntry">dtwmrc(4)</Filename> man
+page for a list of valid functions.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">argument</Symbol></Para></Entry>
+<Entry><Para>Any window manager function arguments that are required.
+Refer to the <Filename MoreInfo="RefEntry">dtwmrc(4)</Filename> man page for details.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>For example, the following key binding lets the user to switch the keyboard
+focus to the next transient window in an application by pressing Alt+F6.</Para>
+<programlisting>Alt&lt;Key>F6    window    f.next_key    transient
+</ProgramListing>
+<Note>
+<Para>For complete information on key binding syntax, see the <Filename MoreInfo="RefEntry">dtwmrc(4)</Filename>
+man page.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.WMCnf.div.25" Role="Procedure">
+<Title Id="SAG.WMCnf.mkr.17">To Create a Custom Key Binding Set<IndexTerm><Primary>key binding</Primary><Secondary>creating new set</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Open the appropriate file for editing:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Personal: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/dtwmrc</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide: <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.dtwmrc</Filename></Para>
+<Para>For information on creating these files, see
+<!--Original XRef content: '&xd2;Workspace Manager
+Configuration Files&xd3; on page&numsp;242'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.mkr.2">.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Create a new key binding set with a unique <Symbol Role="Variable">KeyBindingSetName</Symbol>. Use the
+desktop default key binding set, <Command>DtKeyBindings</Command>, as a guide.</Para>
+</ListItem>
+<ListItem>
+<Para>Set the <Command><IndexTerm>
+<Primary>keyBindings resource</Primary>
+</IndexTerm>keyBindings</Command> resource to the new set name:</Para>
+<programlisting>Dtwm*keyBindings: <Symbol Role="Variable">KeyBindingSetName</Symbol></programlisting>
+</ListItem>
+<ListItem>
+<Para>Choose Restart Workspace Manager from the Workspace menu.</Para>
+</ListItem>
+</OrderedList>
+<Note>
+<Para>The new key bindings replace your existing key bindings. Copy any
+key bindings you want to keep from <Command>DtKeyBindings</Command> into your new set.</Para>
+</Note>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.WMCnf.div.26">
+<Title Id="SAG.WMCnf.mkr.18">Switching Between Default and Custom Behavior<IndexTerm><Primary>Workspace Manager</Primary><Secondary>changing to Motif</Secondary></IndexTerm></Title>
+<Para>To toggle between Motif default and CDE desktop window behavior:</Para>
+<OrderedList>
+<ListItem>
+<Para>Press Alt+Shift+Ctrl+!</Para>
+</ListItem>
+<ListItem>
+<Para>Click OK in the dialog box.</Para>
+</ListItem>
+</OrderedList>
+<Para>Switching to default behavior removes the Front Panel and any custom key
+and button bindings.</Para>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

@@ -1,0 +1,45 @@
+# $XConsortium: Makefile.hp /main/2 1996/05/13 11:45:18 drk $
+##########################################################################
+#
+#  Makefile for dtdnddemo
+#
+#	HP Platform
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+#      Novell, Inc.
+##########################################################################
+
+PROGRAM		= dtdnddemo
+SOURCES		= demo.c icon.c text.c file.c buff.c
+OBJECTS		= demo.o icon.o text.o file.o buff.o
+APPDEFAULTS	= Dtdnddemo
+
+DEFINES		= -D_HPUX_SOURCE
+CDEBUGFLAGS	= -O
+CFLAGS		= -Aa -z $(DEFINES) $(CDEBUGFLAGS)
+
+DTINCLUDE	= -I/usr/dt/include
+X11INCLUDE	= -I/usr/include/X11R5
+
+INCLUDES	= $(DTINCLUDE) $(X11INCLUDE)
+
+DTLIBS		= -L/usr/dt/lib -lDtSvc -ltt -lXm
+X11LIBS		= -L/usr/lib/X11R5 -lXt -lX11
+SYSLIBS		=
+
+LIBRARIES	= $(DTLIBS) $(X11LIBS) $(SYSLIBS)
+LDFLAGS		=
+
+.c.o:
+	${CC} -c $(CFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM)
+
+$(PROGRAM)::	$(OBJECTS) $(APPDEFAULTS)
+	${CC} -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+clean::
+	rm -f $(PROGRAM) $(OBJECTS)

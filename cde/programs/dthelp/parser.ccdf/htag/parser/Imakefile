@@ -1,0 +1,125 @@
+XCOMM $XConsortium: Imakefile /main/4 1996/05/09 17:32:15 drk $
+/* parser Imakefile */
+
+ARCCMD = arc u
+UNARCCMD = arc x
+ARCDELCMD = arc d
+
+HELPTAG       = ..
+HELPTAGSRC    = $(HELPTAG)/helptag
+HELPPARSERSRC = $(HELPTAG)/parser
+HELPELTDEFSRC = $(HELPTAG)/eltdef
+HELPDTDFILE   = $(HELPTAGSRC)/hptag.dtd
+HELPUTILSRC   = $(HELPTAG)/util
+HELPBUILDSRC  = $(HELPTAG)/build
+HELPUTILLIB   = $(HELPTAG)/util/libutil.a
+
+INCLUDES = -I. -I$(HELPUTILSRC) -I$(HELPTAGSRC) -I$(HELPBUILDSRC) \
+	   -I$(HELPELTDEFSRC)
+
+SRCS =  parser.c actutil.c \
+        closent.c code.c cyclent.c dcurelt.c \
+        end.c entity.c \
+        error.c getsign.c \
+        input.c level.c lookent.c \
+        minim.c optstrg.c param.c parent.c \
+        parutil.c pi.c \
+        scan.c setpar.c start.c string.c struct.c \
+        text.c
+XCOMM       parvalok.c parname.c ifdata.c findpar.c
+
+OBJS =  parser.o actutil.o \
+        closent.o code.o cyclent.o dcurelt.o \
+        end.o entity.o \
+        error.o getsign.o \
+        input.o level.o lookent.o \
+        minim.o optstrg.o param.o parent.o \
+        parutil.o pi.o \
+        scan.o setpar.o start.o string.o struct.o \
+        text.o
+XCOMM       parvalok.o parname.o ifdata.o findpar.o
+
+APPLOBJECTS = \
+	$(HELPTAGSRC)/custom.o \
+	$(HELPTAGSRC)/default.o \
+	$(HELPTAGSRC)/help.o \
+	$(HELPTAGSRC)/make.o \
+	$(HELPTAGSRC)/option.o \
+	$(HELPTAGSRC)/out.o \
+	$(HELPTAGSRC)/xref.o
+
+ELT_H = \
+	$(HELPELTDEFSRC)/entity2.h \
+	$(HELPELTDEFSRC)/globdec.h \
+	$(HELPELTDEFSRC)/globdef.h \
+	$(HELPELTDEFSRC)/if.h \
+	$(HELPELTDEFSRC)/pval.h \
+	$(HELPELTDEFSRC)/signon.h \
+	$(HELPELTDEFSRC)/signonx.h
+
+ELT_C = \
+	$(HELPELTDEFSRC)/efile.c \
+	$(HELPELTDEFSRC)/entfile.c \
+	$(HELPELTDEFSRC)/pfile.c \
+	$(HELPELTDEFSRC)/sfile.c \
+	$(HELPELTDEFSRC)/stfile.c \
+	$(HELPELTDEFSRC)/tfile.c
+
+ELT_DEFS = $(ELT_H) $(ELT_C)
+
+/* Don't use shared libs for hp */
+#ifdef HPArchitecture
+#if OSMajorVersion > 7
+EXTRA_LOAD_FLAGS = -Wl,-a archive
+#endif
+#endif
+
+LOCAL_LIBRARIES = $(HELPUTILLIB)
+SYS_LIBRARIES = -lm
+
+all:: $(HELPTAGSRC)/htag
+
+other_dirs:
+	cd $(HELPELTDEFSRC); make
+	cd $(HELPTAGSRC); make
+
+NormalLibraryObjectRule()
+NormalProgramTarget(parser,$(OBJS) $(APPLOBJECTS),delim.h $(LOCAL_LIBRARIES) other_dirs,$(LOCAL_LIBRARIES),)
+
+CPRODS = case.c context.h delim.h
+CTRASH = error delim.dat
+
+$(HELPTAGSRC)/htag: parser
+	$(RM) $(HELPTAGSRC)/htag
+	$(CP) parser $(HELPTAGSRC)/htag
+
+$(CPRODS):  $(HELPUTILSRC)/context $(HELPTAGSRC)/delim.par context.dat
+	$(RM) $(CPRODS) $(CTRASH)
+	/* get application-specific delim.dat */
+	$(CP) $(HELPTAGSRC)/delim.par delim.dat
+	$(HELPUTILSRC)/context
+
+$(HELPUTILSRC)/context:
+	cd $(HELPUTILSRC); make context
+
+$(APPLOBJECTS):
+	cd $(HELPTAGSRC); make $(APPLOBJECTS)
+
+$(ELT_DEFS):
+	cd $(HELPELTDEFSRC); make $(ELT_DEFS)
+
+arc package :
+	if exist util.arc $(CP) build.arc old.arc
+	$(ARCCMD) util.arc *.c *.h makefile
+
+unarc dearc :
+	$(UNARCCMD) util.arc
+
+clean::
+	$(RM) $(CPRODS) $(CTRASH) parser *.o
+
+depend:: $(SRCS)
+
+includes:: $(CPRODS)
+
+DependTarget()

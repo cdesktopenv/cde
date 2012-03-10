@@ -1,0 +1,121 @@
+#! /usr/local/bin/perl
+
+eval "exec /usr/local/bin/perl -S $0 $*"
+    if $running_under_some_shell;
+
+################################################################################
+#
+# File:         cleanLinks <source tree>
+# RCS:          $XConsortium: cleanLinks /main/3 1995/10/30 13:43:35 rswiston $
+# Author:       Marc Ayotte Hewlett-Packard, OSSD-CV
+# Created:      Sun Jul  4 17:57:13 PDT 1993
+# Language:     perl
+# Package:      N/A
+# Status:       CDE distributed
+#
+# (c) Copyright 1993, Hewlett-Packard Company, all rights reserved.
+#
+# Usage:        cleanLinks <directory>
+#
+# Description:  This script removes symbolic links to nowhere in
+#               <directory>. It does not remove anything with RCS
+#               in its path.
+#
+################################################################################
+if ($ARGV[0]) {
+	$TREE = $ARGV[0];
+}
+else {
+	die "	USAGE CleanLinks <source directory>\n";
+}
+
+if (! chdir("$TREE")) {
+	die "	ERROR -> Couldn't change directory to $TREE.\n";
+}
+
+#######################################################
+# define local subroutines
+#######################################################
+sub dokill {
+	die "\n	left on INTR \n";
+	exit 1;
+}
+########################################################
+# Catch signals
+########################################################
+$SIG{'INT'} = 'dokill';
+
+
+##############################
+# get the symlinks in the tree
+##############################
+if (! open(FIND,"find . -type d ! -type l -print|")) {
+	print STDERR "	ERROR failure in open used for find.\n";
+	die "You may have to contact your build administrator\n";
+}
+#
+# don't buffer find output
+#
+$| = 1;
+
+print "************ List of symlinks to nowhere removed **********\n";
+
+
+##################################################################
+# go through the directories and examine each symlink.
+# resolve  the symlink and, if the file at the end doesn't exist,
+# remove the original symlink. Don't do anything that ends in RCS.
+##################################################################
+FILE:
+while ($new = <FIND>) {
+	chop $new;
+	if (! opendir(THISDIR,"$new")) {
+		print STDERR "	WARNING -> could not process directory $new\n";
+		next FILE;
+	}
+	else {
+		if (! chdir("$new")) {
+			print STDERR "	WARNING -> could not change directory to $new\n";
+			next FILE;
+		}
+	}
+	# remove . from $new path for cuteness of output
+	$new =~ s%^\.%%;
+
+	@allfiles = grep(!/^\.\.?$/, readdir(THISDIR));
+	foreach $file (@allfiles) {
+		if (( -l $file) && ($file !~ m%RCS$%) && (! -d $file)) {
+			#
+			# resolve the link
+			#
+			$tmp1file = $file;
+			$counter = 0;
+			while (defined($tmp2file = readlink($tmp1file))) {
+				$tmp1file = $tmp2file;
+				# 
+				# watch for cyclic symlinks
+				#
+				if ($counter++ == 10) {
+					last;
+				}
+			}
+			#
+			# if last piece in resolved chain is not a file
+			# it is a symlink to nowhere -> remove
+			#
+			if ( ! -e $tmp1file) { # remove link to nowhere
+				if (unlink("$file")) {
+					print "removing ${TREE}${new}/${file}\n";
+				}
+				else {
+					print STDERR "	WARNING -> ${TREE}${new}/${file} -> could not remove\n";
+					print "$!\n";
+				}
+			}
+		}
+	}
+	closedir(THISDIR);
+	if (! chdir("$TREE")) {
+		die "	ERROR -> Couldn't change directory to $TREE.\n";
+	}
+}

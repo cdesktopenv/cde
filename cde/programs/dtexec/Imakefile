@@ -1,0 +1,15 @@
+XCOMM $XConsortium: Imakefile /main/7 1996/09/14 15:17:32 drk $
+
+DEPLIBS = $(DEPTTLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(TTLIB) $(XTOOLLIB) $(XLIB)
+DEFINES = -DMSGLOG_CLIENT_ONLY
+INCLUDES = -I. 
+
+SRCS = DtGetMessage.c Main.c MsgLog.c Version.c
+OBJS = DtGetMessage.o Main.o MsgLog.o Version.o
+
+ComplexProgramTarget(dtexec)
+
+LinkSourceFile(DtSvcLock.h,$(DTSVCSRC)/include)
+LinkSourceFile(MsgLog.c,$(DTSVCSRC)/DtUtil2)
+LinkSourceFile(DtGetMessage.c,$(DTSVCSRC)/DtUtil2)

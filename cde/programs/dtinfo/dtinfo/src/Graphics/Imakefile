@@ -1,0 +1,28 @@
+XCOMM $XConsortium: Imakefile /main/5 1996/08/21 15:41:55 drk $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+MAKEFILEDEPS=Classlist.mk
+
+LIBNAME=Graphics
+
+INCLUDES=$(BROWSER_INCLUDES) $(MMDB_INCLUDES)
+
+#ifdef DoLicenseManagement
+EXTRA_DEFINES=-DLICENSE_MANAGEMENT
+EXTRA_INCLUDES=$(LICENSE_L_INCLUDES)
+#endif
+
+#include "Classlist.mk"
+
+OBJS=$(SRCS:.C=.o)
+
+make_libfiles($(LIBNAME), $(CLASSES))
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#else
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+#endif
+
+DependTarget()

@@ -1,0 +1,88 @@
+XCOMM!/bin/ksh
+XCOMM ####################################################################
+XCOMM ##  File:              0030.dttmpdir
+XCOMM ##
+XCOMM ##  Default Location:  CDE_INSTALLATION_TOP/config/Xsession.d/
+XCOMM ##
+XCOMM ##  Purpose:           Create the temporary directory on a per-user,
+XCOMM ##                     per-session basis, keying on the $DTUSERSESSION
+XCOMM ##                     value, which can also be set by the dtsearchpath 
+XCOMM ##                     utility.
+XCOMM ##
+XCOMM ##  Description:
+XCOMM ##                     This script is invoked by means of the Xsession file
+XCOMM ##                     at user login.  It creates a temporary directory
+XCOMM ##                     for files on behalf of the user.
+XCOMM ##
+XCOMM ##  Invoked by:        CDE_INSTALLATION_TOP/bin/Xsession
+XCOMM ##
+XCOMM ##  Product:           @(#)Common Desktop Environment 1.0          
+XCOMM ##
+XCOMM ##  Note:              Creates the /var/dt directory if one doesn't exist.
+XCOMM ##                     However, root privilege may be required.  If /var/dt
+XCOMM ##                     disappears, then logging in as root should restore it.
+XCOMM ##
+XCOMM ##  $TOG: 0030.dttmpdir.src /main/7 1997/04/21 12:08:15 samborn $
+XCOMM ##
+XCOMM ##  (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM ##  (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM ##  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM ##  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM ##      Novell, Inc.
+XCOMM ####################################################################
+#define HASH #
+
+if (( ${#DTUSERSESSION} == 0 ))
+then
+    HASH
+    HASH  Set the DTAPPMANDIR directory component, which will control
+    HASH  the location of the user's Application Manager directory,
+    HASH  as well as the location of his or her temporary directory.
+    HASH
+      DTAPPDIR_HOST_COMPONENT=${DISPLAY%:*}
+      DTAPPDIR_DISP_COMPONENT=${DISPLAY#*:}
+
+      if [[ ${DTAPPDIR_HOST_COMPONENT} = "" ]]
+      then
+	   DTAPPDIR_HOST_COMPONENT=`uname -n`
+      fi
+    
+    HASH
+    HASH  If the screen number is "0" (e.g., "host:3.0"), then
+    HASH  strip off the screen number.
+    HASH
+      if [[ ${DTAPPDIR_DISP_COMPONENT#*.} = "0" ]]
+      then
+          DTAPPDIR_DISP_COMPONENT=${DTAPPDIR_DISP_COMPONENT%.0}
+      fi
+    
+      DTUSERSESSION=${LOGNAME}-${DTAPPDIR_HOST_COMPONENT}-${DTAPPDIR_DISP_COMPONENT}
+      export DTUSERSESSION
+fi
+
+XCOMM 
+XCOMM 	Create the /var/dt subdirectory, if one doesn't exist
+XCOMM 
+if [[ ! -d /var/dt ]]
+then
+        HASH
+	HASH  This step requires root privilege
+	HASH
+	mkdir -p /var/dt >/dev/null 2>/dev/null
+	chmod 755 /var/dt >/dev/null 2>/dev/null
+	chgrp bin /var/dt >/dev/null 2>/dev/null
+	chown bin /var/dt >/dev/null 2>/dev/null
+fi
+
+if [ ! -d /var/dt/tmp ]
+then
+	HASH
+	HASH  This step requires root privilege
+	HASH
+	mkdir -p /var/dt/tmp >/dev/null 2>/dev/null
+	chmod 755 /var/dt/tmp >/dev/null 2>/dev/null
+	chgrp bin /var/dt/tmp >/dev/null 2>/dev/null
+	chown bin /var/dt/tmp >/dev/null 2>/dev/null
+fi
+
+XCOMM #########################         eof       ########################

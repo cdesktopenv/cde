@@ -1,0 +1,1783 @@
+<!ENTITY TOSSFILE FILE "">
+
+<SIGN-ON>CDE SDL Optimizer - Version A.00.00 (DTD Version A.00.00)
+<GLOBAL-DEFINE>
+#define DEFINE
+#include "global.h"
+
+<GLOBAL-DECLARE>
+#include "global.h"
+
+<START-CODE>
+  OpenDocument();
+
+<END-CODE>
+  CloseDocument();
+
+<TEXT-CODE>
+  PutWChar(m_textchar);
+
+<PI-CODE>
+  PutWString(m_pi);
+
+<ELEMENT ALTTEXT>
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev;
+    PopCurrentElement(); /* restore <snref> */
+    pPrev = pCurrentElement;
+    MakeNewElement(e_alttext);
+    pPrev->u.u_snref.pAlttext = pCurrentElement;
+
+    pPrev = pCurrentElement;
+    MakeNewElement(e_cdata);
+    pPrev->u.u_script.pCDATA = pCurrentElement;
+  <START-CODE>
+    OpenTag(FALSE, FALSE);
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+  <END-CODE>
+    CloseTag(TRUE);
+
+<ELEMENT ANCHOR>
+  <PARAM>
+    id = ID  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_anchor);
+    pCurrentElement->u.u_anchor.id = CopyWString(id);
+    pPrev->pNext = pCurrentElement;
+  <END-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_cdata);
+    pPrev->pNext = pCurrentElement;
+
+<ELEMENT ANIMATE>
+  <PARAM>
+    id = ID  ;
+    format = FORMAT  ;
+    method = METHOD  ;
+    xid = XID  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    ImpliedAttribute("FORMAT", format);
+    ImpliedAttribute("METHOD", method);
+    RequiredAttribute("XID", xid);
+    PutString(">\n");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_animate);
+    pCurrentElement->u.u_animate.id     = CopyWString(id);
+    pCurrentElement->u.u_animate.format = CopyWString(format);
+    pCurrentElement->u.u_animate.method = CopyWString(method);
+    pCurrentElement->u.u_animate.xid    = CopyWString(xid);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT AUDIO>
+  <PARAM>
+    id = ID  ;
+    format = FORMAT  ;
+    method = METHOD  ;
+    xid = XID  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    ImpliedAttribute("FORMAT", format);
+    ImpliedAttribute("METHOD", method);
+    RequiredAttribute("XID", xid);
+    PutString(">\n");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_audio);
+    pCurrentElement->u.u_audio.id     = CopyWString(id);
+    pCurrentElement->u.u_audio.format = CopyWString(format);
+    pCurrentElement->u.u_audio.method = CopyWString(method);
+    pCurrentElement->u.u_audio.xid    = CopyWString(xid);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT BLOCK>
+  <PARAM>
+    id = ID  ;
+    level = LEVEL  ;
+    version = VERSION  ;
+    class = CLASS (TABLE = TABLE,
+                   CELL = CELL,
+                   LIST = LIST,
+                   ITEM = ITEM,
+                   TEXT = TEXT,
+                   UDEFFRMT = UDEFFRMT) ;
+    language = LANGUAGE  ;
+    charset = CHARSET  ;
+    length = LENGTH  ;
+    app = APP (ALL = ALL,
+               HELP = HELP,
+               TUTORIAL = TUTORIAL,
+               REF = REF,
+               SYS = SYS) ;
+    timing = TIMING (SYNC = SYNC,
+                     ASYNC = ASYNC) ;
+    ssi = SSI  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    if (pCurrentElement->type == e_virpage)
+	PushCurrentElement();
+    MakeNewElement(e_block);
+    pCurrentElement->u.u_block.id       = CopyWString(id);
+    pCurrentElement->u.u_block.level    = CopyWString(level);
+    pCurrentElement->u.u_block.version  = CopyWString(version);
+    pCurrentElement->u.u_block.class    = CopyWString(class);
+    pCurrentElement->u.u_block.language = CopyWString(language);
+    pCurrentElement->u.u_block.charset  = CopyWString(charset);
+    pCurrentElement->u.u_block.length   = CopyWString(length);
+    pCurrentElement->u.u_block.app      = CopyWString(app);
+    pCurrentElement->u.u_block.timing   = CopyWString(timing);
+    pCurrentElement->u.u_block.ssi      = CopyWString(ssi);
+    if (pPrev->type == e_virpage)
+	pPrev->u.u_virpage.pBlockOrForm = pCurrentElement;
+    else if (pPrev->type == e_fdata)
+	pPrev->u.u_fdata.pBlockOrForm = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+    PushCurrentElement();
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT CALLBACK>
+  <PARAM>
+    id = ID  ;
+    data = DATA  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    ImpliedAttribute("DATA", data);
+    PutString(">\n");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_callback);
+    pCurrentElement->u.u_callback.id   = CopyWString(id);
+    pCurrentElement->u.u_callback.data = CopyWString(data);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT COND>
+  <PARAM>
+    interp = INTERP  ;
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cond);
+    pCurrentElement->u.u_cond.interp = CopyWString(interp);
+    pPrev->u.u_if.pCond = pCurrentElement;
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_cond.pCDATA = pCurrentElement;
+  <START-CODE>
+    OpenTag(TRUE, FALSE);
+    ImpliedAttribute("INTERP", interp);
+    PutString(">");
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+    PopCurrentElement(); /* restore <cond> */
+    PopCurrentElement(); /* restore <if>   */
+  <END-CODE>
+    CloseTag(TRUE);
+
+<ELEMENT CP>
+  <PARAM>
+    id = ID  ;
+    version = VERSION  ;
+    type = TYPE (LITERAL = LITERAL,
+                 LINED = LINED,
+                 DYNAMIC = DYNAMIC) ;
+    ssi = SSI  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_cp);
+    pCurrentElement->u.u_cp.id      = CopyWString(id);
+    pCurrentElement->u.u_cp.version = CopyWString(version);
+    pCurrentElement->u.u_cp.type    = CopyWString(type);
+    pCurrentElement->u.u_cp.ssi     = CopyWString(ssi);
+    if ((pPrev->type == e_p) || (pPrev->type == e_cp))
+	pPrev->pNext = pCurrentElement;
+    else if (pPrev->type == e_block)
+	pPrev->u.u_block.pCpOrP = pCurrentElement;
+    else
+	pPrev->u.u_text.pCpOrP = pCurrentElement;
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_p.pAtomicOrPCDATA = pCurrentElement;
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT CROSSDOC>
+  <PARAM>
+    id = ID  ;
+    xid = XID  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    RequiredAttribute("XID", xid);
+    PutString(">\n");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_crossdoc);
+    pCurrentElement->u.u_crossdoc.id  = CopyWString(id);
+    pCurrentElement->u.u_crossdoc.xid = CopyWString(xid);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT ELSE>
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_else);
+    pPrev->u.u_if.pElse = pCurrentElement;
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_else.pAtomicOrPCDATA = pCurrentElement;
+  <START-CODE>
+    OpenTag(FALSE, FALSE);
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+    PopCurrentElement(); /* restore <else> */
+    PopCurrentElement(); /* restore <if>   */
+  <END-CODE>
+    CloseTag(TRUE);
+
+<ELEMENT ENTRY>
+  <PARAM>
+    id = ID  ;
+    main = MAIN  ;
+    locs = LOCS  ;
+    syns = SYNS  ;
+    sort = SORT  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    ElementPtr pThis;
+    MakeNewElement(e_entry);
+    pCurrentElement->u.u_entry.id   = CopyWString(id);
+    pCurrentElement->u.u_entry.main = CopyWString(main);
+    pCurrentElement->u.u_entry.locs = CopyWString(locs);
+    pCurrentElement->u.u_entry.syns = CopyWString(syns);
+    pCurrentElement->u.u_entry.sort = CopyWString(sort);
+    if (!pPrev)
+	pElementChain = pCurrentElement;
+    else
+	{
+	if (pPrev->type == e_cdata)
+	    {
+	    pThis = pCurrentElement;
+	    PopCurrentElement(); /* restore <entry> */
+	    PushCurrentElement();
+	    pCurrentElement->u.u_entry.pEntry = pThis;
+	    pCurrentElement = pThis;
+	    }
+	else
+	    pPrev->pNext = pCurrentElement;
+	}
+    nElements++;
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_entry.pSimpleOrPCDATA = pCurrentElement;
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT FDATA>
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_fdata);
+    pPrev->u.u_form.pFdata = pCurrentElement;
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT FORM>
+  <PARAM>
+    id = ID  ;
+    level = LEVEL  ;
+    version = VERSION  ;
+    class = CLASS (TABLE = TABLE,
+                   CELL = CELL,
+                   LIST = LIST,
+                   ITEM = ITEM,
+                   TEXT = TEXT,
+                   UDEFFRMT = UDEFFRMT) ;
+    language = LANGUAGE  ;
+    charset = CHARSET  ;
+    length = LENGTH  ;
+    app = APP (ALL = ALL,
+               HELP = HELP,
+               TUTORIAL = TUTORIAL,
+               REF = REF,
+               SYS = SYS) ;
+    ssi = SSI  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    if (pCurrentElement->type == e_virpage)
+	PushCurrentElement();
+    MakeNewElement(e_form);
+    pCurrentElement->u.u_form.id       = CopyWString(id);
+    pCurrentElement->u.u_form.level    = CopyWString(level);
+    pCurrentElement->u.u_form.version  = CopyWString(version);
+    pCurrentElement->u.u_form.class    = CopyWString(class);
+    pCurrentElement->u.u_form.language = CopyWString(language);
+    pCurrentElement->u.u_form.charset  = CopyWString(charset);
+    pCurrentElement->u.u_form.length   = CopyWString(length);
+    pCurrentElement->u.u_form.app      = CopyWString(app);
+    pCurrentElement->u.u_form.ssi      = CopyWString(ssi);
+    if (pPrev->type == e_virpage)
+	pPrev->u.u_virpage.pBlockOrForm = pCurrentElement;
+    else if (pPrev->type == e_fdata)
+	pPrev->u.u_fdata.pBlockOrForm = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+    PushCurrentElement();
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT FORMSTYLE>
+  <PARAM>
+    class = CLASS (TABLE = TABLE,
+                   CELL = CELL,
+                   LIST = LIST,
+                   ITEM = ITEM,
+                   TEXT = TEXT,
+                   UDEFFRMT = UDEFFRMT) ;
+    ssi = SSI  ;
+    rlevel = RLEVEL  ;
+    phrase = PHRASE  ;
+    srch_wt = SRCH-WT  ;
+    colw = COLW  ;
+    colj = COLJ  ;
+    pointsz = POINTSZ  ;
+    set_width = SET-WIDTH  ;
+    color = COLOR  ;
+    xlfd = XLFD  ;
+    xlfdi = XLFDI  ;
+    xlfdb = XLFDB  ;
+    xlfdib = XLFDIB  ;
+    typenam = TYPENAM  ;
+    typenami = TYPENAMI  ;
+    typenamb = TYPENAMB  ;
+    typenamib = TYPENAMIB  ;
+    style = STYLE (SERIF = SERIF,
+                   SANS_SERIF = SANS-SERIF,
+                   SYMBOL = SYMBOL) ;
+    spacing = SPACING (MONOSPACE = MONOSPACE,
+                       PROPSPACE = PROPSPACE) ;
+    weight = WEIGHT (MEDIUM = MEDIUM,
+                     BOLD = BOLD) ;
+    slant = SLANT (ROMAN = ROMAN,
+                   ITALIC = ITALIC,
+                   REV_ITALIC = REV-ITALIC) ;
+    special = SPECIAL (UNDERLINE = UNDERLINE,
+                       STRIKEOUT = STRIKEOUT,
+                       NONE = NONE) ;
+    l_margin = L-MARGIN  ;
+    r_margin = R-MARGIN  ;
+    t_margin = T-MARGIN  ;
+    b_margin = B-MARGIN  ;
+    border = BORDER (NO_BORDER = NO-BORDER,
+                     FULL_BORDER = FULL-BORDER,
+                     HORIZONTAL_BORDER = HORIZONTAL-BORDER,
+                     VERTICAL_BORDER = VERTICAL-BORDER,
+                     TOP_BORDER = TOP-BORDER,
+                     BOTTOM_BORDER = BOTTOM-BORDER,
+                     LEFT_BORDER = LEFT-BORDER,
+                     RIGHT_BORDER = RIGHT-BORDER) ;
+    vjust = VJUST (TOP_VJUST = TOP-VJUST,
+                   BOTTOM_VJUST = BOTTOM-VJUST,
+                   CENTER_VJUST = CENTER-VJUST) ;
+  <START-CODE>
+    if (m_sysecnt > saveSysECnt)
+	{
+	ElementPtr pThis, pThat;
+	MakeNewElement(e_formstyle);
+	pCurrentElement->u.u_formstyle.class     = CopyWString(class);
+	pCurrentElement->u.u_formstyle.ssi       = CopyWString(ssi);
+	pCurrentElement->u.u_formstyle.rlevel    = CopyWString(rlevel);
+	pCurrentElement->u.u_formstyle.phrase    = CopyWString(phrase);
+	pCurrentElement->u.u_formstyle.srch_wt   = CopyWString(srch_wt);
+	pCurrentElement->u.u_formstyle.colw      = CopyWString(colw);
+	pCurrentElement->u.u_formstyle.colj      = CopyWString(colj);
+	pCurrentElement->u.u_formstyle.pointsz   = CopyWString(pointsz);
+	pCurrentElement->u.u_formstyle.set_width = CopyWString(set_width);
+	pCurrentElement->u.u_formstyle.color     = CopyWString(color);
+	pCurrentElement->u.u_formstyle.xlfd      = CopyWString(xlfd);
+	pCurrentElement->u.u_formstyle.xlfdi     = CopyWString(xlfdi);
+	pCurrentElement->u.u_formstyle.xlfdb     = CopyWString(xlfdb);
+	pCurrentElement->u.u_formstyle.xlfdib    = CopyWString(xlfdib);
+	pCurrentElement->u.u_formstyle.typenam   = CopyWString(typenam);
+	pCurrentElement->u.u_formstyle.typenami  = CopyWString(typenami);
+	pCurrentElement->u.u_formstyle.typenamb  = CopyWString(typenamb);
+	pCurrentElement->u.u_formstyle.typenamib = CopyWString(typenamib);
+	pCurrentElement->u.u_formstyle.style     = CopyWString(style);
+	pCurrentElement->u.u_formstyle.spacing   = CopyWString(spacing);
+	pCurrentElement->u.u_formstyle.weight    = CopyWString(weight);
+	pCurrentElement->u.u_formstyle.slant     = CopyWString(slant);
+	pCurrentElement->u.u_formstyle.special   = CopyWString(special);
+	pCurrentElement->u.u_formstyle.l_margin  = CopyWString(l_margin);
+	pCurrentElement->u.u_formstyle.r_margin  = CopyWString(r_margin);
+	pCurrentElement->u.u_formstyle.t_margin  = CopyWString(t_margin);
+	pCurrentElement->u.u_formstyle.b_margin  = CopyWString(b_margin);
+	pCurrentElement->u.u_formstyle.border    = CopyWString(border);
+	pCurrentElement->u.u_formstyle.vjust     = CopyWString(vjust);
+	pThis = pElementChain;
+	pThat = NULL;
+	while (pThis && (pThis->type == e_keystyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	while (pThis && (pThis->type == e_headstyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	while (pThis && (pThis->type == e_formstyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	if (pThat)
+	    pThat->pNext = pCurrentElement;
+	else
+	    pElementChain = pCurrentElement;
+	pCurrentElement->pNext = pThis;
+	nElements++;
+	}
+
+<ELEMENT FRMTSTYLE>
+  <PARAM>
+    class = CLASS (TABLE = TABLE,
+                   CELL = CELL,
+                   LIST = LIST,
+                   ITEM = ITEM,
+                   TEXT = TEXT,
+                   UDEFFRMT = UDEFFRMT) ;
+    ssi = SSI  ;
+    rlevel = RLEVEL  ;
+    phrase = PHRASE  ;
+    f_margin = F-MARGIN ;
+    srch_wt = SRCH-WT  ;
+    pointsz = POINTSZ  ;
+    set_width = SET-WIDTH  ;
+    color = COLOR  ;
+    xlfd = XLFD  ;
+    xlfdi = XLFDI  ;
+    xlfdb = XLFDB  ;
+    xlfdib = XLFDIB  ;
+    typenam = TYPENAM  ;
+    typenami = TYPENAMI  ;
+    typenamb = TYPENAMB  ;
+    typenamib = TYPENAMIB  ;
+    style = STYLE (SERIF = SERIF,
+                   SANS_SERIF = SANS-SERIF,
+                   SYMBOL = SYMBOL) ;
+    spacing = SPACING (MONOSPACE = MONOSPACE,
+                       PROPSPACE = PROPSPACE) ;
+    weight = WEIGHT (MEDIUM = MEDIUM,
+                     BOLD = BOLD) ;
+    slant = SLANT (ROMAN = ROMAN,
+                   ITALIC = ITALIC,
+                   REV_ITALIC = REV-ITALIC) ;
+    special = SPECIAL (UNDERLINE = UNDERLINE,
+                       STRIKEOUT = STRIKEOUT,
+                       NONE = NONE) ;
+    l_margin = L-MARGIN  ;
+    r_margin = R-MARGIN  ;
+    t_margin = T-MARGIN  ;
+    b_margin = B-MARGIN  ;
+    border = BORDER (NO_BORDER = NO-BORDER,
+                     FULL_BORDER = FULL-BORDER,
+                     HORIZONTAL_BORDER = HORIZONTAL-BORDER,
+                     VERTICAL_BORDER = VERTICAL-BORDER,
+                     TOP_BORDER = TOP-BORDER,
+                     BOTTOM_BORDER = BOTTOM-BORDER,
+                     LEFT_BORDER = LEFT-BORDER,
+                     RIGHT_BORDER = RIGHT-BORDER) ;
+    vjust = VJUST (TOP_VJUST = TOP-VJUST,
+                   BOTTOM_VJUST = BOTTOM-VJUST,
+                   CENTER_VJUST = CENTER-VJUST) ;
+    justify = JUSTIFY (LEFT_JUSTIFY = LEFT-JUSTIFY,
+                       RIGHT_JUSTIFY = RIGHT-JUSTIFY,
+                       CENTER_JUSTIFY = CENTER-JUSTIFY,
+                       NUMERIC_JUSTIFY = NUMERIC-JUSTIFY) ;
+  <START-CODE>
+    if (m_sysecnt > saveSysECnt)
+	{
+	ElementPtr pThis, pThat;
+	MakeNewElement(e_frmtstyle);
+	pCurrentElement->u.u_frmtstyle.class     = CopyWString(class);
+	pCurrentElement->u.u_frmtstyle.ssi       = CopyWString(ssi);
+	pCurrentElement->u.u_frmtstyle.rlevel    = CopyWString(rlevel);
+	pCurrentElement->u.u_frmtstyle.phrase    = CopyWString(phrase);
+	pCurrentElement->u.u_frmtstyle.f_margin  = CopyWString(f_margin);
+	pCurrentElement->u.u_frmtstyle.srch_wt   = CopyWString(srch_wt);
+	pCurrentElement->u.u_frmtstyle.pointsz   = CopyWString(pointsz);
+	pCurrentElement->u.u_frmtstyle.set_width = CopyWString(set_width);
+	pCurrentElement->u.u_frmtstyle.color     = CopyWString(color);
+	pCurrentElement->u.u_frmtstyle.xlfd      = CopyWString(xlfd);
+	pCurrentElement->u.u_frmtstyle.xlfdi     = CopyWString(xlfdi);
+	pCurrentElement->u.u_frmtstyle.xlfdb     = CopyWString(xlfdb);
+	pCurrentElement->u.u_frmtstyle.xlfdib    = CopyWString(xlfdib);
+	pCurrentElement->u.u_frmtstyle.typenam   = CopyWString(typenam);
+	pCurrentElement->u.u_frmtstyle.typenami  = CopyWString(typenami);
+	pCurrentElement->u.u_frmtstyle.typenamb  = CopyWString(typenamb);
+	pCurrentElement->u.u_frmtstyle.typenamib = CopyWString(typenamib);
+	pCurrentElement->u.u_frmtstyle.style     = CopyWString(style);
+	pCurrentElement->u.u_frmtstyle.spacing   = CopyWString(spacing);
+	pCurrentElement->u.u_frmtstyle.weight    = CopyWString(weight);
+	pCurrentElement->u.u_frmtstyle.slant     = CopyWString(slant);
+	pCurrentElement->u.u_frmtstyle.special   = CopyWString(special);
+	pCurrentElement->u.u_frmtstyle.l_margin  = CopyWString(l_margin);
+	pCurrentElement->u.u_frmtstyle.r_margin  = CopyWString(r_margin);
+	pCurrentElement->u.u_frmtstyle.t_margin  = CopyWString(t_margin);
+	pCurrentElement->u.u_frmtstyle.b_margin  = CopyWString(b_margin);
+	pCurrentElement->u.u_frmtstyle.border    = CopyWString(border);
+	pCurrentElement->u.u_frmtstyle.vjust     = CopyWString(vjust);
+	pCurrentElement->u.u_frmtstyle.justify   = CopyWString(justify);
+	pThis = pElementChain;
+	pThat = NULL;
+	while (pThis && (pThis->type == e_keystyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	while (pThis && (pThis->type == e_headstyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	while (pThis && (pThis->type == e_formstyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	while (pThis && (pThis->type == e_frmtstyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	if (pThat)
+	    pThat->pNext = pCurrentElement;
+	else
+	    pElementChain = pCurrentElement;
+	pCurrentElement->pNext = pThis;
+	nElements++;
+	}
+
+<ELEMENT FROWVEC>
+  <PARAM>
+    hdr = HDR (YES = YES,
+               NO = NO) ;
+    cells = CELLS  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_frowvec);
+    pCurrentElement->u.u_frowvec.hdr   = CopyWString(hdr);
+    pCurrentElement->u.u_frowvec.cells = CopyWString(cells);
+    if (pPrev->type == e_fstyle)
+	pPrev->u.u_fstyle.pFrowvec = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT FSTYLE>
+  <PARAM>
+    ncols = NCOLS  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_fstyle);
+    pCurrentElement->u.u_fstyle.ncols = CopyWString(ncols);
+    pPrev->u.u_form.pFstyle = pCurrentElement;
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT GRAPHIC>
+  <PARAM>
+    id = ID  ;
+    format = FORMAT  ;
+    method = METHOD  ;
+    xid = XID  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    ImpliedAttribute("FORMAT", format);
+    ImpliedAttribute("METHOD", method);
+    RequiredAttribute("XID", xid);
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_graphic);
+    pCurrentElement->u.u_graphic.id     = CopyWString(id);
+    pCurrentElement->u.u_graphic.format = CopyWString(format);
+    pCurrentElement->u.u_graphic.method = CopyWString(method);
+    pCurrentElement->u.u_graphic.xid    = CopyWString(xid);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT GRPHSTYLE>
+  <PARAM>
+    class = CLASS (FIGURE = FIGURE,
+                   IN_LINE = IN-LINE,
+                   BUTTON = BUTTON,
+                   ICON = ICON,
+                   UDEFGRAPH = UDEFGRAPH) ;
+    ssi = SSI  ;
+    rlevel = RLEVEL  ;
+    phrase = PHRASE  ;
+    l_margin = L-MARGIN  ;
+    r_margin = R-MARGIN  ;
+    t_margin = T-MARGIN  ;
+    b_margin = B-MARGIN  ;
+    border = BORDER (NO_BORDER = NO-BORDER,
+                     FULL_BORDER = FULL-BORDER,
+                     HORIZONTAL_BORDER = HORIZONTAL-BORDER,
+                     VERTICAL_BORDER = VERTICAL-BORDER,
+                     TOP_BORDER = TOP-BORDER,
+                     BOTTOM_BORDER = BOTTOM-BORDER,
+                     LEFT_BORDER = LEFT-BORDER,
+                     RIGHT_BORDER = RIGHT-BORDER) ;
+    vjust = VJUST (TOP_VJUST = TOP-VJUST,
+                   BOTTOM_VJUST = BOTTOM-VJUST,
+                   CENTER_VJUST = CENTER-VJUST) ;
+    justify = JUSTIFY (LEFT_JUSTIFY = LEFT-JUSTIFY,
+                       RIGHT_JUSTIFY = RIGHT-JUSTIFY,
+                       CENTER_JUSTIFY = CENTER-JUSTIFY,
+                       NUMERIC_JUSTIFY = NUMERIC-JUSTIFY) ;
+  <START-CODE>
+    if (m_sysecnt > saveSysECnt)
+	{
+	ElementPtr pThis, pThat;
+	MakeNewElement(e_grphstyle);
+	pCurrentElement->u.u_grphstyle.class    = CopyWString(class);
+	pCurrentElement->u.u_grphstyle.ssi      = CopyWString(ssi);
+	pCurrentElement->u.u_grphstyle.rlevel   = CopyWString(rlevel);
+	pCurrentElement->u.u_grphstyle.phrase   = CopyWString(phrase);
+	pCurrentElement->u.u_grphstyle.l_margin = CopyWString(l_margin);
+	pCurrentElement->u.u_grphstyle.r_margin = CopyWString(r_margin);
+	pCurrentElement->u.u_grphstyle.t_margin = CopyWString(t_margin);
+	pCurrentElement->u.u_grphstyle.b_margin = CopyWString(b_margin);
+	pCurrentElement->u.u_grphstyle.border   = CopyWString(border);
+	pCurrentElement->u.u_grphstyle.vjust    = CopyWString(vjust);
+	pCurrentElement->u.u_grphstyle.justify  = CopyWString(justify);
+	pThis = pElementChain;
+	pThat = NULL;
+	while (pThis) /* <grphstyle> is last, just go to the end */
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	if (pThat)
+	    pThat->pNext = pCurrentElement;
+	else
+	    pElementChain = pCurrentElement;
+	pCurrentElement->pNext = pThis;
+	nElements++;
+	}
+
+<ELEMENT HEAD>
+  <PARAM>
+    id = ID  ;
+    version = VERSION  ;
+    class = CLASS (LABEL = LABEL,
+                   HEAD = HEAD,
+                   CAPTION = CAPTION,
+                   ANNOTATION = ANNOTATION,
+                   PHEAD = PHEAD,
+                   UDEFHEAD = UDEFHEAD) ;
+    language = LANGUAGE  ;
+    charset = CHARSET  ;
+    type = TYPE (LITERAL = LITERAL,
+                 LINED = LINED,
+                 DYNAMIC = DYNAMIC) ;
+    abbrev = ABBREV  ;
+    ssi = SSI  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    if (!pPrev)
+	{
+	MakeNewElement(e_sdldoc);
+	pPrev = pCurrentElement;
+	}
+    if (pPrev->type == e_cdata)
+	{
+	PopCurrentElement(); /* restore the <p> */
+	pPrev = pCurrentElement;
+	}
+    PushCurrentElement();
+    MakeNewElement(e_head);
+    pCurrentElement->u.u_head.id       = CopyWString(id);
+    pCurrentElement->u.u_head.version  = CopyWString(version);
+    pCurrentElement->u.u_head.class    = CopyWString(class);
+    pCurrentElement->u.u_head.language = CopyWString(language);
+    pCurrentElement->u.u_head.charset  = CopyWString(charset);
+    pCurrentElement->u.u_head.type     = CopyWString(type);
+    pCurrentElement->u.u_head.abbrev   = CopyWString(abbrev);
+    pCurrentElement->u.u_head.ssi      = CopyWString(ssi);
+    switch (pPrev->type)
+	{
+	case e_sdldoc:
+	    if (pPrev->u.u_sdldoc.pHead)
+		{
+		pPrev = pPrev->u.u_sdldoc.pHead;
+		while (pPrev->pNext)
+		    pPrev = pPrev->pNext;
+		pPrev->pNext = pCurrentElement;
+		}
+	    else
+		pPrev->u.u_sdldoc.pHead = pCurrentElement;
+	    break;
+	case e_virpage:
+	    if (pPrev->u.u_virpage.pHead)
+		{
+		pPrev = pPrev->u.u_virpage.pHead;
+		while (pPrev->pNext)
+		    pPrev = pPrev->pNext;
+		pPrev->pNext = pCurrentElement;
+		}
+	    else
+		pPrev->u.u_virpage.pHead = pCurrentElement;
+	    break;
+	case e_snb:
+	    if (pPrev->u.u_snb.pHead)
+		{
+		pPrev = pPrev->u.u_snb.pHead;
+		while (pPrev->pNext)
+		    pPrev = pPrev->pNext;
+		pPrev->pNext = pCurrentElement;
+		}
+	    else
+		pPrev->u.u_snb.pHead = pCurrentElement;
+	    break;
+	case e_block:
+	    if (pPrev->u.u_block.pHead)
+		{
+		pPrev = pPrev->u.u_block.pHead;
+		while (pPrev->pNext)
+		    pPrev = pPrev->pNext;
+		pPrev->pNext = pCurrentElement;
+		}
+	    else
+		pPrev->u.u_block.pHead = pCurrentElement;
+	    break;
+	case e_form:
+	    if (pPrev->u.u_form.pHead)
+		{
+		pPrev = pPrev->u.u_form.pHead;
+		while (pPrev->pNext)
+		    pPrev = pPrev->pNext;
+		pPrev->pNext = pCurrentElement;
+		}
+	    else
+		pPrev->u.u_form.pHead = pCurrentElement;
+	    break;
+	case e_p:
+	    if (pPrev->u.u_p.pHead)
+		{
+		pPrev = pPrev->u.u_p.pHead;
+		while (pPrev->pNext)
+		    pPrev = pPrev->pNext;
+		pPrev->pNext = pCurrentElement;
+		}
+	    else
+		pPrev->u.u_p.pHead = pCurrentElement;
+	    break;
+	case e_refitem:
+	    if (pPrev->u.u_refitem.pHead)
+		{
+		pPrev = pPrev->u.u_refitem.pHead;
+		while (pPrev->pNext)
+		    pPrev = pPrev->pNext;
+		pPrev->pNext = pCurrentElement;
+		}
+	    else
+		pPrev->u.u_refitem.pHead = pCurrentElement;
+	    break;
+	}
+    
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_head.pAtomicOrPCDATA = pCurrentElement;
+  <END-CODE>
+    if (pCurrentElement->type != e_subhead)
+	PopCurrentElement(); /* restore <head> if needed */
+    PopCurrentElement();     /* restore parent of <head> */
+    if (pCurrentElement->type == e_p)
+	{
+	PushCurrentElement();
+	pCurrentElement = pCurrentElement->u.u_p.pAtomicOrPCDATA;
+	}
+  <TEXT-CODE>
+    SaveWChar(m_textchar);
+
+<ELEMENT HEADSTYLE>
+  <PARAM>
+    class = CLASS (LABEL = LABEL,
+                   HEAD = HEAD,
+                   CAPTION = CAPTION,
+                   ANNOTATION = ANNOTATION,
+                   PHEAD = PHEAD,
+                   UDEFHEAD = UDEFHEAD) ;
+    ssi = SSI  ;
+    rlevel = RLEVEL  ;
+    phrase = PHRASE  ;
+    srch_wt = SRCH-WT  ;
+    orient = ORIENT (LEFT_ORIENT = LEFT-ORIENT,
+                     CENTER_ORIENT = CENTER-ORIENT,
+                     RIGHT_ORIENT = RIGHT-ORIENT,
+                     LEFT_MARGIN_ORIENT = LEFT-MARGIN-ORIENT,
+                     RIGHT_MARGIN_ORIENT = RIGHT-MARGIN-ORIENT,
+                     LEFT_CORNER_ORIENT = LEFT-CORNER-ORIENT,
+                     RIGHT_CORNER_ORIENT = RIGHT-CORNER-ORIENT) ;
+    vorient = VORIENT (TOP_VORIENT = TOP-VORIENT,
+                       BOTTOM_VORIENT = BOTTOM-VORIENT,
+                       CENTER_VORIENT = CENTER-VORIENT) ;
+    placement = PLACEMENT (OBJECT = OBJECT,
+                           PARENT = PARENT) ;
+    headw = HEADW  ;
+    stack = STACK (HORIZ = HORIZ,
+                   VERT = VERT) ;
+    flow = FLOW (WRAP = WRAP,
+                 NOWRAP = NOWRAP,
+                 JOIN = JOIN) ;
+    pointsz = POINTSZ  ;
+    set_width = SET-WIDTH  ;
+    color = COLOR  ;
+    xlfd = XLFD  ;
+    xlfdi = XLFDI  ;
+    xlfdb = XLFDB  ;
+    xlfdib = XLFDIB  ;
+    typenam = TYPENAM  ;
+    typenami = TYPENAMI  ;
+    typenamb = TYPENAMB  ;
+    typenamib = TYPENAMIB  ;
+    style = STYLE (SERIF = SERIF,
+                   SANS_SERIF = SANS-SERIF,
+                   SYMBOL = SYMBOL) ;
+    spacing = SPACING (MONOSPACE = MONOSPACE,
+                       PROPSPACE = PROPSPACE) ;
+    weight = WEIGHT (MEDIUM = MEDIUM,
+                     BOLD = BOLD) ;
+    slant = SLANT (ROMAN = ROMAN,
+                   ITALIC = ITALIC,
+                   REV_ITALIC = REV-ITALIC) ;
+    special = SPECIAL (UNDERLINE = UNDERLINE,
+                       STRIKEOUT = STRIKEOUT,
+                       NONE = NONE) ;
+    l_margin = L-MARGIN  ;
+    r_margin = R-MARGIN  ;
+    t_margin = T-MARGIN  ;
+    b_margin = B-MARGIN  ;
+    border = BORDER (NO_BORDER = NO-BORDER,
+                     FULL_BORDER = FULL-BORDER,
+                     HORIZONTAL_BORDER = HORIZONTAL-BORDER,
+                     VERTICAL_BORDER = VERTICAL-BORDER,
+                     TOP_BORDER = TOP-BORDER,
+                     BOTTOM_BORDER = BOTTOM-BORDER,
+                     LEFT_BORDER = LEFT-BORDER,
+                     RIGHT_BORDER = RIGHT-BORDER) ;
+    vjust = VJUST (TOP_VJUST = TOP-VJUST,
+                   BOTTOM_VJUST = BOTTOM-VJUST,
+                   CENTER_VJUST = CENTER-VJUST) ;
+    justify = JUSTIFY (LEFT_JUSTIFY = LEFT-JUSTIFY,
+                       RIGHT_JUSTIFY = RIGHT-JUSTIFY,
+                       CENTER_JUSTIFY = CENTER-JUSTIFY,
+                       NUMERIC_JUSTIFY = NUMERIC-JUSTIFY) ;
+  <START-CODE>
+    if (m_sysecnt > saveSysECnt)
+	{
+	ElementPtr pThis, pThat;
+	MakeNewElement(e_headstyle);
+	pCurrentElement->u.u_headstyle.class     = CopyWString(class);
+	pCurrentElement->u.u_headstyle.ssi       = CopyWString(ssi);
+	pCurrentElement->u.u_headstyle.rlevel    = CopyWString(rlevel);
+	pCurrentElement->u.u_headstyle.phrase    = CopyWString(phrase);
+	pCurrentElement->u.u_headstyle.srch_wt   = CopyWString(srch_wt);
+	pCurrentElement->u.u_headstyle.orient    = CopyWString(orient);
+	pCurrentElement->u.u_headstyle.vorient   = CopyWString(vorient);
+	pCurrentElement->u.u_headstyle.placement = CopyWString(placement);
+	pCurrentElement->u.u_headstyle.headw     = CopyWString(headw);
+	pCurrentElement->u.u_headstyle.stack     = CopyWString(stack);
+	pCurrentElement->u.u_headstyle.flow      = CopyWString(flow);
+	pCurrentElement->u.u_headstyle.pointsz   = CopyWString(pointsz);
+	pCurrentElement->u.u_headstyle.set_width = CopyWString(set_width);
+	pCurrentElement->u.u_headstyle.color     = CopyWString(color);
+	pCurrentElement->u.u_headstyle.xlfd      = CopyWString(xlfd);
+	pCurrentElement->u.u_headstyle.xlfdi     = CopyWString(xlfdi);
+	pCurrentElement->u.u_headstyle.xlfdb     = CopyWString(xlfdb);
+	pCurrentElement->u.u_headstyle.xlfdib    = CopyWString(xlfdib);
+	pCurrentElement->u.u_headstyle.typenam   = CopyWString(typenam);
+	pCurrentElement->u.u_headstyle.typenami  = CopyWString(typenami);
+	pCurrentElement->u.u_headstyle.typenamb  = CopyWString(typenamb);
+	pCurrentElement->u.u_headstyle.typenamib = CopyWString(typenamib);
+	pCurrentElement->u.u_headstyle.style     = CopyWString(style);
+	pCurrentElement->u.u_headstyle.spacing   = CopyWString(spacing);
+	pCurrentElement->u.u_headstyle.weight    = CopyWString(weight);
+	pCurrentElement->u.u_headstyle.slant     = CopyWString(slant);
+	pCurrentElement->u.u_headstyle.special   = CopyWString(special);
+	pCurrentElement->u.u_headstyle.l_margin  = CopyWString(l_margin);
+	pCurrentElement->u.u_headstyle.r_margin  = CopyWString(r_margin);
+	pCurrentElement->u.u_headstyle.t_margin  = CopyWString(t_margin);
+	pCurrentElement->u.u_headstyle.b_margin  = CopyWString(b_margin);
+	pCurrentElement->u.u_headstyle.border    = CopyWString(border);
+	pCurrentElement->u.u_headstyle.vjust     = CopyWString(vjust);
+	pCurrentElement->u.u_headstyle.justify   = CopyWString(justify);
+	pThis = pElementChain;
+	pThat = NULL;
+	while (pThis && (pThis->type == e_keystyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	while (pThis && (pThis->type == e_headstyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	if (pThat)
+	    pThat->pNext = pCurrentElement;
+	else
+	    pElementChain = pCurrentElement;
+	pCurrentElement->pNext = pThis;
+	nElements++;
+	}
+
+<ELEMENT ID>
+  <PARAM>
+    type = TYPE (VIRPAGE = VIRPAGE,
+                 BLOCK = BLOCK,
+                 FORM = FORM,
+                 P = P,
+                 CP = CP,
+                 HEAD = HEAD,
+                 SUBHEAD = SUBHEAD,
+                 ANCHOR = ANCHOR,
+                 SWITCH = SWITCH,
+                 SNREF = SNREF,
+                 GRAPHIC = GRAPHIC,
+                 TEXT = TEXT,
+                 AUDIO = AUDIO,
+                 VIDEO = VIDEO,
+                 ANIMATE = ANIMATE,
+                 CROSSDOC = CROSSDOC,
+                 MAN_PAGE = MAN-PAGE,
+                 TEXTFILE = TEXTFILE,
+                 SYS_CMD = SYS-CMD,
+                 SCRIPT = SCRIPT,
+                 CALLBACK = CALLBACK) ;
+    rid = RID  ;
+    rssi = RSSI  ;
+    rlevel = RLEVEL  ;
+    offset = OFFSET  ;
+    /* the list of ids will be completely recalculated, chuck this one */
+
+<ELEMENT IF>
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_if);
+    pPrev->pNext = pCurrentElement;
+    PushCurrentElement();
+  <START-CODE>
+    OpenTag(FALSE, FALSE);
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev;
+    PopCurrentElement();
+    pPrev = pCurrentElement;
+    MakeNewElement(e_cdata);
+    pPrev->pNext = pCurrentElement;
+  <END-CODE>
+    CloseTag(FALSE);
+
+<ELEMENT INDEX>
+  <PARAM>
+    count = COUNT ;
+  <START-CODE>
+    startOfIndex = ftell(outFile);
+    OpenTag(TRUE, TRUE);
+    pCurrentElement = NULL; /* just for safety's sake, see <entry> */
+  <END-CODE>
+    EmitSDL(NULL);
+    CloseTag(TRUE);
+    endOfIndex = ftell(outFile);
+  <TEXT-CODE>
+    SaveWChar(m_textchar);
+
+<ELEMENT KEY>
+  <PARAM>
+    charset = CHARSET  ;
+    class = CLASS (ACRO = ACRO,
+                   BOOK = BOOK,
+                   EMPH = EMPH,
+                   JARGON = JARGON,
+                   L10N = L10N,
+                   NAME = NAME,
+                   QUOTE = QUOTE,
+                   PRODUCT = PRODUCT,
+                   TERMDEF = TERMDEF,
+                   TERM = TERM,
+                   MACH_IN = MACH-IN,
+                   MACH_OUT = MACH-OUT,
+                   MACH_CONT = MACH-CONT,
+                   PUB_LIT = PUB-LIT,
+                   UDEFKEY = UDEFKEY) ;
+    ssi = SSI  ;
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_key);
+    pPrev->pNext = pCurrentElement;
+    pCurrentElement->u.u_key.charset = CopyWString(charset);
+    pCurrentElement->u.u_key.class   = CopyWString(class);
+    pCurrentElement->u.u_key.ssi     = CopyWString(ssi);
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_key.pAtomicOrPCDATA = pCurrentElement;
+  <START-CODE>
+    OpenTag(TRUE, FALSE);
+    ImpliedAttribute("CHARSET", charset);
+    RequiredAttribute("CLASS", class);
+    ImpliedAttribute("SSI", ssi);
+    PutString(">");
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev;
+    PopCurrentElement();
+    pPrev = pCurrentElement;
+    MakeNewElement(e_cdata);
+    pPrev->pNext = pCurrentElement;
+  <END-CODE>
+    CloseTag(FALSE);
+
+<ELEMENT KEYSTYLE>
+  <PARAM>
+    class = CLASS (ACRO = ACRO,
+                   BOOK = BOOK,
+                   EMPH = EMPH,
+                   JARGON = JARGON,
+                   L10N = L10N,
+                   NAME = NAME,
+                   QUOTE = QUOTE,
+                   PRODUCT = PRODUCT,
+                   TERMDEF = TERMDEF,
+                   TERM = TERM,
+                   MACH_IN = MACH-IN,
+                   MACH_OUT = MACH-OUT,
+                   MACH_CONT = MACH-CONT,
+                   PUB_LIT = PUB-LIT,
+                   UDEFKEY = UDEFKEY) ;
+    ssi = SSI  ;
+    rlevel = RLEVEL  ;
+    phrase = PHRASE  ;
+    srch_wt = SRCH-WT  ;
+    enter = ENTER  ;
+    exit = EXIT  ;
+    pointsz = POINTSZ  ;
+    set_width = SET-WIDTH  ;
+    color = COLOR  ;
+    xlfd = XLFD  ;
+    xlfdi = XLFDI  ;
+    xlfdb = XLFDB  ;
+    xlfdib = XLFDIB  ;
+    typenam = TYPENAM  ;
+    typenami = TYPENAMI  ;
+    typenamb = TYPENAMB  ;
+    typenamib = TYPENAMIB  ;
+    style = STYLE (SERIF = SERIF,
+                   SANS_SERIF = SANS-SERIF,
+                   SYMBOL = SYMBOL) ;
+    spacing = SPACING (MONOSPACE = MONOSPACE,
+                       PROPSPACE = PROPSPACE) ;
+    weight = WEIGHT (MEDIUM = MEDIUM,
+                     BOLD = BOLD) ;
+    slant = SLANT (ROMAN = ROMAN,
+                   ITALIC = ITALIC,
+                   REV_ITALIC = REV-ITALIC) ;
+    special = SPECIAL (UNDERLINE = UNDERLINE,
+                       STRIKEOUT = STRIKEOUT,
+                       NONE = NONE) ;
+  <START-CODE>
+    if (m_sysecnt > saveSysECnt)
+	{
+	ElementPtr pThis, pThat;
+	MakeNewElement(e_keystyle);
+	pCurrentElement->u.u_keystyle.class     = CopyWString(class);
+	pCurrentElement->u.u_keystyle.ssi       = CopyWString(ssi);
+	pCurrentElement->u.u_keystyle.rlevel    = CopyWString(rlevel);
+	pCurrentElement->u.u_keystyle.phrase    = CopyWString(phrase);
+	pCurrentElement->u.u_keystyle.srch_wt   = CopyWString(srch_wt);
+	pCurrentElement->u.u_keystyle.enter     = CopyWString(enter);
+	pCurrentElement->u.u_keystyle.exit      = CopyWString(exit);
+	pCurrentElement->u.u_keystyle.pointsz   = CopyWString(pointsz);
+	pCurrentElement->u.u_keystyle.set_width = CopyWString(set_width);
+	pCurrentElement->u.u_keystyle.color     = CopyWString(color);
+	pCurrentElement->u.u_keystyle.xlfd      = CopyWString(xlfd);
+	pCurrentElement->u.u_keystyle.xlfdi     = CopyWString(xlfdi);
+	pCurrentElement->u.u_keystyle.xlfdb     = CopyWString(xlfdb);
+	pCurrentElement->u.u_keystyle.xlfdib    = CopyWString(xlfdib);
+	pCurrentElement->u.u_keystyle.typenam   = CopyWString(typenam);
+	pCurrentElement->u.u_keystyle.typenami  = CopyWString(typenami);
+	pCurrentElement->u.u_keystyle.typenamb  = CopyWString(typenamb);
+	pCurrentElement->u.u_keystyle.typenamib = CopyWString(typenamib);
+	pCurrentElement->u.u_keystyle.style     = CopyWString(style);
+	pCurrentElement->u.u_keystyle.spacing   = CopyWString(spacing);
+	pCurrentElement->u.u_keystyle.weight    = CopyWString(weight);
+	pCurrentElement->u.u_keystyle.slant     = CopyWString(slant);
+	pCurrentElement->u.u_keystyle.special   = CopyWString(special);
+	pThis = pElementChain;
+	pThat = NULL;
+	while (pThis && (pThis->type == e_keystyle))
+	    {
+	    pThat = pThis;
+	    pThis = pThis->pNext;
+	    }
+	if (pThat)
+	    pThat->pNext = pCurrentElement;
+	else
+	    pElementChain = pCurrentElement;
+	pCurrentElement->pNext = pThis;
+	nElements++;
+	}
+
+<ELEMENT LINK>
+  <PARAM>
+    rid = RID  ;
+    button = BUTTON  ;
+    linkinfo = LINKINFO  ;
+    descript = DESCRIPT  ;
+    window = WINDOW (CURRENT = CURRENT,
+                     NEW = NEW,
+                     POPUP = POPUP) ;
+    traversal = TRAVERSAL (RETURN = RETURN,
+                           NORETURN = NORETURN) ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_link);
+    pPrev->pNext = pCurrentElement;
+    pCurrentElement->u.u_link.rid       = CopyWString(rid);
+    pCurrentElement->u.u_link.button    = CopyWString(button);
+    pCurrentElement->u.u_link.linkinfo  = CopyWString(linkinfo);
+    pCurrentElement->u.u_link.descript  = CopyWString(descript);
+    pCurrentElement->u.u_link.window    = CopyWString(window);
+    pCurrentElement->u.u_link.traversal = CopyWString(traversal);
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_link.pAtomicOrPCDATA = pCurrentElement;
+  <END-CODE>
+    ElementPtr pPrev;
+    PopCurrentElement();
+    pPrev = pCurrentElement;
+    MakeNewElement(e_cdata);
+    pPrev->pNext = pCurrentElement;
+
+<ELEMENT LOIDS>
+  <PARAM>
+    count = COUNT ;
+  <START-CODE>
+    startOfLOIDS = ftell(outFile);
+    OpenTag(FALSE, TRUE);
+  <END-CODE>
+    CloseTag(TRUE);
+    endOfLOIDS = ftell(outFile);
+
+<ELEMENT LOPHRASES>
+  <PARAM>
+    count = COUNT ;
+  <START-CODE>
+    startOfLOPhrases = ftell(outFile);
+    OpenTag(TRUE, TRUE);
+  <END-CODE>
+    EmitSDL(NULL);
+    CloseTag(TRUE);
+    endOfLOPhrases = ftell(outFile);
+
+<ELEMENT MAN-PAGE>
+  <PARAM>
+    id = ID  ;
+    xid = XID  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    RequiredAttribute("XID", xid);
+    PutString(">\n");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_man_page);
+    pCurrentElement->u.u_man_page.id  = CopyWString(id);
+    pCurrentElement->u.u_man_page.xid = CopyWString(xid);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT NEWLINE>
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    M_WCHAR wchar;
+    mbtowc(&wchar, "\n", 1);
+    SaveWChar(wchar);
+  <START-CODE>
+    PutString("\n");
+
+<ELEMENT NOTES>
+  <START-CODE>
+    OpenTag(FALSE, TRUE);
+
+<ELEMENT P>
+  <PARAM>
+    id = ID  ;
+    version = VERSION  ;
+    type = TYPE (LITERAL = LITERAL,
+                 LINED = LINED,
+                 DYNAMIC = DYNAMIC) ;
+    ssi = SSI  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_p);
+    pCurrentElement->u.u_p.id      = CopyWString(id);
+    pCurrentElement->u.u_p.version = CopyWString(version);
+    pCurrentElement->u.u_p.type    = CopyWString(type);
+    pCurrentElement->u.u_p.ssi     = CopyWString(ssi);
+    if ((pPrev->type == e_p) || (pPrev->type == e_cp))
+	pPrev->pNext = pCurrentElement;
+    else if (pPrev->type == e_block)
+	pPrev->u.u_block.pCpOrP = pCurrentElement;
+    else
+	pPrev->u.u_text.pCpOrP = pCurrentElement;
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_p.pAtomicOrPCDATA = pCurrentElement;
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT PHRASE>
+  <PARAM>
+    text = TEXT  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_phrase);
+    pCurrentElement->u.u_phrase.text = CopyWString(text);
+    if (pElementChain == NULL)
+	pElementChain = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+    nElements++;
+
+<ELEMENT REFITEM>
+  <PARAM>
+    rid = RID  ;
+    class = CLASS (FIGURE = FIGURE,
+                   IN_LINE = IN-LINE,
+                   BUTTON = BUTTON,
+                   ICON = ICON,
+                   UDEFGRAPH = UDEFGRAPH,
+                   TABLE = TABLE,
+                   CELL = CELL,
+                   LIST = LIST,
+                   ITEM = ITEM,
+                   TEXT = TEXT,
+                   UDEFFRMT = UDEFFRMT) ;
+    button = BUTTON  ;
+    ssi = SSI  ;
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_refitem);
+    pCurrentElement->u.u_refitem.rid    = CopyWString(rid);
+    pCurrentElement->u.u_refitem.class  = CopyWString(class);
+    pCurrentElement->u.u_refitem.button = CopyWString(button);
+    pCurrentElement->u.u_refitem.ssi    = CopyWString(ssi);
+    if (pPrev->type == e_snref)
+	pPrev->u.u_snref.pRefitem = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+  <START-CODE>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("RID", rid);
+    RequiredAttribute("CLASS", class);
+    ImpliedAttribute("BUTTON", button);
+    ImpliedAttribute("SSI", ssi);
+    PutString(">\n");
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+  <END-CODE>
+    CloseTag(TRUE);
+
+<ELEMENT REL-DOCS>
+  <START-CODE>
+    OpenTag(FALSE, TRUE);
+
+<ELEMENT REL-FILE>
+  <START-CODE>
+    OpenTag(FALSE, TRUE);
+
+<ELEMENT REV>
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_rev);
+    pPrev->pNext = pCurrentElement;
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_rev.pAtomicOrPCDATA = pCurrentElement;
+  <START-CODE>
+    OpenTag(FALSE, TRUE);
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev;
+    PopCurrentElement();
+    pPrev = pCurrentElement;
+    MakeNewElement(e_cdata);
+    pPrev->pNext = pCurrentElement;
+  <END-CODE>
+    CloseTag(TRUE);
+
+<ELEMENT SCRIPT>
+  <PARAM>
+    id = ID  ;
+    interp = INTERP  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    ImpliedAttribute("INTERP", interp);
+    PutString(">\n");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_script);
+    pCurrentElement->u.u_script.id     = CopyWString(id);
+    pCurrentElement->u.u_script.interp = CopyWString(interp);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_script.pCDATA = pCurrentElement;
+  <END-CODE SNB SDLDOC>
+    CloseTag(TRUE);
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT SDLDOC>
+  <PARAM>
+    pub_id = PUB-ID  ;
+    doc_id = DOC-ID  ;
+    timestmp = TIMESTMP  ;
+    first_page = FIRST-PAGE;
+    product = PRODUCT  ;
+    prodpn = PRODPN  ;
+    prodver = PRODVER  ;
+    license = LICENSE  ;
+    language = LANGUAGE  ;
+    charset = CHARSET  ;
+    author = AUTHOR  ;
+    version = VERSION  ;
+    sdldtd = SDLDTD  ;
+    srcdtd = SRCDTD  ;
+  <START-CODE>
+    SetLocale(language, charset);
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("PUB-ID", pub_id);
+    RequiredAttribute("DOC-ID", doc_id);
+    RequiredAttribute("TIMESTMP", timestmp);
+    ImpliedAttribute("FIRST-PAGE", first_page);
+    ImpliedAttribute("PRODUCT", product);
+    ImpliedAttribute("PRODPN", prodpn);
+    ImpliedAttribute("PRODVER", prodver);
+    ImpliedAttribute("LICENSE", license);
+    ImpliedAttribute("LANGUAGE", language);
+    ImpliedAttribute("CHARSET", charset);
+    ImpliedAttribute("AUTHOR", author);
+    ImpliedAttribute("VERSION", version);
+    RequiredAttribute("SDLDTD", sdldtd);
+    ImpliedAttribute("SRCDTD", srcdtd);
+    PutString(">\n");
+  <END-CODE>
+    CloseTag(TRUE);
+
+<ELEMENT SNB>
+  <PARAM>
+    version = VERSION  ;
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    if (!pPrev)
+	{
+	MakeNewElement(e_sdldoc);
+	pPrev = pCurrentElement;
+	}
+    PushCurrentElement();
+    MakeNewElement(e_snb);
+    if (pPrev->type == e_sdldoc)
+	pPrev->u.u_sdldoc.pSnb = pCurrentElement;
+    else
+	pPrev->u.u_virpage.pSnb = pCurrentElement;
+    PushCurrentElement();
+  <END-CODE>
+    PopCurrentElement(); /* restore pSnb     */
+    PopCurrentElement(); /* restore pVirpage or pSdldoc */
+
+<ELEMENT SNREF>
+  <PARAM>
+    id = ID  ;
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_snref);
+    pPrev->pNext = pCurrentElement;
+    pCurrentElement->u.u_snref.id = CopyWString(id);
+    PushCurrentElement();
+    PushCurrentElement(); /* push an extra for use by <alttext> */
+  <START-CODE>
+    OpenTag(TRUE, FALSE);
+    ImpliedAttribute("ID", id);
+    PutString(">");
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev;
+    if (pCurrentElement->type == e_refitem)
+	PopCurrentElement(); /* no <alttext> */
+    PopCurrentElement();
+    pPrev = pCurrentElement;
+    MakeNewElement(e_cdata);
+    pPrev->pNext = pCurrentElement;
+  <END-CODE>
+    CloseTag(FALSE);
+
+<ELEMENT SPC>
+  <PARAM>
+    name = NAME  ;
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_spc);
+    pPrev->pNext = pCurrentElement;
+    pCurrentElement->u.u_spc.name = CopyWString(name);
+  <START-CODE>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("NAME", name);
+    PutString(">");
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_cdata);
+    pPrev->pNext = pCurrentElement;
+
+<ELEMENT SPHRASE>
+  <PARAM>
+    class = CLASS (SUPER = SUPER,
+                   SUB = SUB) ;
+    ssi = SSI  ;
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_sphrase);
+    pPrev->pNext = pCurrentElement;
+    pCurrentElement->u.u_sphrase.class = CopyWString(class);
+    pCurrentElement->u.u_sphrase.ssi   = CopyWString(ssi);
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_sphrase.pSpcOrPCDATA = pCurrentElement; 
+
+  <START-CODE>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("CLASS", class);
+    ImpliedAttribute("SSI", ssi);
+    PutString(">");
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev;
+    PopCurrentElement();
+    pPrev = pCurrentElement;
+    MakeNewElement(e_cdata);
+    pPrev->pNext = pCurrentElement;
+  <END-CODE>
+    CloseTag(FALSE);
+
+<ELEMENT SUBHEAD>
+  <PARAM>
+    id = ID  ;
+    version = VERSION  ;
+    class = CLASS (LABEL = LABEL,
+                   HEAD = HEAD,
+                   CAPTION = CAPTION,
+                   ANNOTATION = ANNOTATION,
+                   PHEAD = PHEAD,
+                   UDEFHEAD = UDEFHEAD) ;
+    language = LANGUAGE  ;
+    charset = CHARSET  ;
+    type = TYPE (LITERAL = LITERAL,
+                 LINED = LINED,
+                 DYNAMIC = DYNAMIC) ;
+    abbrev = ABBREV  ;
+    ssi = SSI  ;
+  <START-CODE>
+    ElementPtr pPrev;
+    if (pCurrentElement->type != e_subhead)
+	PopCurrentElement();
+    pPrev = pCurrentElement;
+    MakeNewElement(e_subhead);
+    if (pPrev->type == e_head)
+	pPrev->u.u_head.pSubhead = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+    pCurrentElement->u.u_subhead.id       = CopyWString(id);
+    pCurrentElement->u.u_subhead.version  = CopyWString(version);
+    pCurrentElement->u.u_subhead.class    = CopyWString(class);
+    pCurrentElement->u.u_subhead.language = CopyWString(language);
+    pCurrentElement->u.u_subhead.charset  = CopyWString(charset);
+    pCurrentElement->u.u_subhead.type     = CopyWString(type);
+    pCurrentElement->u.u_subhead.abbrev   = CopyWString(abbrev);
+    pCurrentElement->u.u_subhead.ssi      = CopyWString(ssi);
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_subhead.pAtomicOrPCDATA = pCurrentElement;
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT SWITCH>
+  <PARAM>
+    id = ID  ;
+    interp = INTERP  ;
+    branches = BRANCHES  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    ImpliedAttribute("INTERP", interp);
+    RequiredAttribute("BRANCHES", branches);
+    PutString(">");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_switch);
+    pCurrentElement->u.u_switch.id       = CopyWString(id);
+    pCurrentElement->u.u_switch.interp   = CopyWString(interp);
+    pCurrentElement->u.u_switch.branches = CopyWString(branches);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_script.pCDATA = pCurrentElement;
+  <END-CODE SNB SDLDOC>
+    CloseTag(TRUE);
+  <END-CODE>
+    PopCurrentElement();
+
+<ELEMENT SYS-CMD>
+  <PARAM>
+    id = ID  ;
+    command = COMMAND  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    RequiredAttribute("COMMAND", command);
+    PutString(">\n");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_sys_cmd);
+    pCurrentElement->u.u_sys_cmd.id      = CopyWString(id);
+    pCurrentElement->u.u_sys_cmd.command = CopyWString(command);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT TEXT>
+  <PARAM>
+    id = ID  ;
+    language = LANGUAGE  ;
+    charset = CHARSET  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    ImpliedAttribute("LANGUAGE", language);
+    ImpliedAttribute("CHARSET", charset);
+    PutString(">\n");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_text);
+    pCurrentElement->u.u_text.id       = CopyWString(id);
+    pCurrentElement->u.u_text.language = CopyWString(language);
+    pCurrentElement->u.u_text.charset  = CopyWString(charset);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+  <END-CODE SNB SDLDOC>
+    CloseTag(TRUE);
+
+<ELEMENT TEXTFILE>
+  <PARAM>
+    id = ID  ;
+    xid = XID  ;
+    offset = OFFSET  ;
+    format = FORMAT  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    RequiredAttribute("XID", xid);
+    ImpliedAttribute("OFFSET", offset);
+    ImpliedAttribute("FORMAT", format);
+    PutString(">\n");
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_textfile);
+    pCurrentElement->u.u_textfile.id     = CopyWString(id);
+    pCurrentElement->u.u_textfile.xid    = CopyWString(xid);
+    pCurrentElement->u.u_textfile.offset = CopyWString(offset);
+    pCurrentElement->u.u_textfile.format = CopyWString(format);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT THEN>
+  <START-CODE * INDEX, * VIRPAGE, * HEAD>
+    ElementPtr pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_then);
+    pPrev->u.u_if.pThen = pCurrentElement;
+
+    pPrev = pCurrentElement;
+    PushCurrentElement();
+    MakeNewElement(e_cdata);
+    pPrev->u.u_then.pAtomicOrPCDATA = pCurrentElement;
+  <START-CODE>
+    OpenTag(FALSE, FALSE);
+  <END-CODE * INDEX, * VIRPAGE, * HEAD>
+    PopCurrentElement(); /* restore <then> */
+    PopCurrentElement(); /* restore <if>   */
+  <END-CODE>
+    CloseTag(TRUE);
+
+<ELEMENT TOSS>
+  <PARAM>
+    count = COUNT ;
+  <START-CODE>
+    M_ENTITY *tossEnt;
+    M_WCHAR  *wc_name;
+    FILE     *tossFile;
+
+    UpdateTossFileName();
+    wc_name = MakeWideCharString("TOSSFILE");
+    tossEnt = (M_ENTITY *) m_lookfortrie(wc_name, m_enttrie);
+    if (tossEnt)
+	{
+	if (tossFile = m_openent(tossEnt->content))
+	    {
+	    fclose(tossFile);
+	    saveSysECnt = m_sysecnt;
+	    m_entexpand(tossEnt);
+	    }
+	}
+    m_free(wc_name, "wide character toss file name");
+    startOfTOSS = ftell(outFile);
+    OpenTag(TRUE, TRUE);
+  <END-CODE>
+    pTossChain = pElementChain;
+    nStyles    = 0;
+    if (!minimalTossFlag)
+	EmitSDL(NULL);
+    else
+	{
+	pElementChain = NULL;
+	nElements     = 0;
+	}
+    CloseTag(TRUE);
+    endOfTOSS = ftell(outFile);
+
+<ELEMENT VIDEO>
+  <PARAM>
+    id = ID  ;
+    format = FORMAT  ;
+    method = METHOD  ;
+    xid = XID  ;
+  <START-CODE SNB SDLDOC>
+    OpenTag(TRUE, FALSE);
+    RequiredAttribute("ID", id);
+    ImpliedAttribute("FORMAT", format);
+    ImpliedAttribute("METHOD", method);
+    RequiredAttribute("XID", xid);
+  <START-CODE>
+    ElementPtr pPrev = pCurrentElement;
+    MakeNewElement(e_video);
+    pCurrentElement->u.u_video.id     = CopyWString(id);
+    pCurrentElement->u.u_video.format = CopyWString(format);
+    pCurrentElement->u.u_video.method = CopyWString(method);
+    pCurrentElement->u.u_video.xid    = CopyWString(xid);
+    if (pPrev->type == e_snb)
+	pPrev->u.u_snb.pSystemNotations = pCurrentElement;
+    else
+	pPrev->pNext = pCurrentElement;
+
+<ELEMENT VIRPAGE>
+  <PARAM>
+    id = ID  ;
+    level = LEVEL  ;
+    version = VERSION  ;
+    language = LANGUAGE  ;
+    charset = CHARSET  ;
+    doc_id = DOC-ID  ;
+    ssi = SSI  ;
+  <START-CODE>
+    if (firstVirpage)
+	{
+#ifdef __osf__
+#include <sys/fcntl.h>
+#endif /* __osf__ */
+	if (pCurrentElement)
+	    EmitSDL(pCurrentElement);
+	FcloseFile(outFile, vstructFileName, xxx);
+	vstructSize  = FileSize(vstructFileName, xxx);
+	outFile      = FopenFile(tempFileName, O_WRONLY, xxx);
+	firstVirpage = FALSE;
+	}
+    MakeNewElement(e_virpage);
+    pCurrentElement->u.u_virpage.id       = CopyWString(id);
+    pCurrentElement->u.u_virpage.level    = CopyWString(level);
+    pCurrentElement->u.u_virpage.version  = CopyWString(version);
+    pCurrentElement->u.u_virpage.language = CopyWString(language);
+    pCurrentElement->u.u_virpage.charset  = CopyWString(charset);
+    pCurrentElement->u.u_virpage.doc_id   = CopyWString(doc_id);
+    pCurrentElement->u.u_virpage.ssi      = CopyWString(ssi);
+    PushCurrentElement();
+  <END-CODE>
+    PopCurrentElement();
+    OptimizeAndEmit(pCurrentElement);
+  <TEXT-CODE>
+    SaveWChar(m_textchar);
+
+<ELEMENT VSTRUCT>
+  <PARAM>
+    version = VERSION  ;
+    doc_id = DOC-ID  ;
+  <START-CODE>
+    OpenTag(TRUE, FALSE);
+    ImpliedAttribute("VERSION", version);
+    RequiredAttribute("DOC-ID", doc_id);
+    PutString(">\n");
+  <END-CODE>
+    CloseTag(TRUE);
+    pCurrentElement = NULL; /* leave a clean slate for <sdldoc><head>
+			       and/or <sdldoc><snb> */

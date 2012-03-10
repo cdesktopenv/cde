@@ -1,0 +1,682 @@
+<!-- $XConsortium: ch01.sgm /main/8 1996/09/08 19:35:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="TTUG.Intro.div.1">
+<Title Id="TTUG.Intro.mkr.1">ToolTalkサービスの紹介</Title>
+<Para>独自に開発されたアプリケーションが同時に動作することを要求するコンピュータ・
+ユーザが増えてきているため、相互運用はソフトウェア開発者にとって重要なテーマに
+なってきています。お互いの機能を共同で使用することにより、相互運用アプリケーション
+は、単一のアプリケーションが提供するには難しい機能をユーザに提供します。ToolTalk
+サービスは、個人やワーク・グループで利用される相互運用アプリケーションの開発を簡単
+に行えるように設計されています。</Para>
+<Para>
+<IndexTerm>
+<Primary>ToolTalkサービス</Primary>
+</IndexTerm>ToolTalkサービスを使用すると、独立したアプリケーションが互いに直接認識
+していなくても通信することができます。アプリケーションはToolTalkメッセージを作成
+し、送信することで相互に通信します。ToolTalkサービスは、これらのメッセージを受信
+し、受信先を決定してから、そのメッセージを適切なアプリケーションに配信します。
+この通信の様子を
+<!--Original XRef content: 'Figure&numsp;1&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="TTUG.Intro.mkr.2">に示します。</Para>
+<Figure>
+<Title Id="TTUG.Intro.mkr.2">ToolTalkサービスを使ったアプリケーション</Title>
+<Graphic Entityref="TTUG.Intro.fig.1" Id="TTUG.Intro.grph.1"></Graphic>
+</Figure>
+<Sect1 Id="TTUG.Intro.div.2">
+<Title>ToolTalkサービスが解決できる業務上の問題</Title>
+<Para>この節では、
+<IndexTerm>
+<Primary>ToolTalkサービスが解決する相互運用の問題</Primary>
+</IndexTerm>ToolTalkサービスが解決するようになっている相互運用に関する問題について
+説明します。ToolTalkサービスは、アプリケーションが次のようなことを必要とする場合
+に使用するのに適切な技術です。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>ツール互換性</Para>
+</ListItem>
+<ListItem>
+<Para>制御統合</Para>
+</ListItem>
+<ListItem>
+<Para>ごく一般的なサーバ（たとえばXサーバ）では所有しておらず、予想可能なリスナの
+集合がないネットワーク透過イベント</Para>
+</ListItem>
+<ListItem>
+<Para>自動ツール起動機能</Para>
+</ListItem>
+<ListItem>
+<Para>広範囲で使用可能な分散オブジェクトシステム</Para>
+</ListItem>
+<ListItem>
+<Para>固定表示オブジェクト</Para>
+</ListItem>
+</ItemizedList>
+<Para>もちろん、相互運用の問題に対してToolTalkサービスを使用するのは適切でない場合
+もあります。しかし、アプリケーションが両方の問題（つまり、ToolTalkサービスが解決
+するようになっている相互運用に関する問題とToolTalkが解決するのではない問題）の解決
+を必要としている場合は、ToolTalkサービスを他の技術と組み合わせて使用することができ
+ます。</Para>
+<Sect2 Id="TTUG.Intro.div.3">
+<Title>ツール互換性</Title>
+<Para>
+<IndexTerm>
+<Primary>プラグ・アンド・プレイ</Primary>
+</IndexTerm>プラグ・アンド・プレイ機能を必要とする場合は、ToolTalkサービスを使用してください。
+<Emphasis>プラグ・アンド・プレイ</Emphasis>とは、同じプロトコルを使用しているかぎ
+り、どんなツールでも交換が可能であるということを意味します。つまり、ToolTalkによ
+って与えられるプロトコルに従うツールであれば、それをコンピューティング環境に配置
+（プラグ）し、プロトコルが示す関数を実行（プレイ）することができます。ツールを変更
+することなく、またお互いの特定の組み込み知識を持っていなくてもツールを併用すること
+ができます。</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.4">
+<Title>制御統合</Title>
+<Para>アプリケーションが
+<IndexTerm>
+<Primary>制御統合</Primary>
+</IndexTerm>制御統合を要求する場合、ToolTalkサービスを使用してください。
+<Emphasis>制御統合</Emphasis>という語は、ユーザの直接介入がなくても共通の目的に
+向かって一緒に動作するツールのグループを示します。ToolTalkサービスを使うと、簡単
+で柔軟性のある機能により特定のツール・インスタンスか不特定のサービス・プロバイダ 
+に対して任意の要求を発行する制御統合が可能になります。</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.5">
+<Title>ネットワーク透過イベント</Title>
+<Para>アプリケーションが
+<IndexTerm>
+<Primary>ネットワーク透過イベント</Primary>
+</IndexTerm>ネットワーク透過イベントの生成や受信を必要とする場合は、ToolTalk
+サービスを使用してください。従来のイベント機構（シグナルやウィンドウ・システム・
+イベントなど）を使用するには、特別な環境を必要とします。たとえば、プロセスや
+ウィンドウIDを認識していることなどです。ToolTalkサービスにより、イベントが参照する
+ファイルやイベントを適用できるネットワーク上のプロセスのグループに関して、イベント
+が自然に記述されます。ToolTalkサービスは、ネットワーク上のいたる所にある配信対象
+プロセスにイベント(<Emphasis>通知</Emphasis>と呼ぶ)を配信します。ToolTalkの通知は
+柔軟性があり、システムの拡張を簡単にします。</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.6">
+<Title>自動ツール起動機能</Title>
+<Para>アプリケーションがネットワーク透過な
+<IndexTerm>
+<Primary>自動ツール起動機能</Primary>
+</IndexTerm>自動ツール起動機能を必要とする場合は、ToolTalkサービスを使用してくだ
+さい。ToolTalkサービスは、メッセージがネットワークから送信されると、ツールを起動
+させるメッセージを記述させます。ToolTalk自動起動機能の使用は簡単で、従来の
+<Filename MoreInfo="RefEntry">inetd</Filename>(1) 機能ほどホストに固有のものでは
+ありません。</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.7">
+<Title>分散オブジェクト・システム</Title>
+<Para>さまざまなプラットフォームにまたがって使用可能である
+<IndexTerm>
+<Primary>分散オブジェクト・システム</Primary>
+</IndexTerm>分散オブジェクト・システムでアプリケーションを作成する必要がある場合
+は、ToolTalkを使用してください。
+ToolTalkのオブジェクト・システムは、一般的なUNIXプラットフォームすべてにある
+アプリケーションで使用できます。次のようなアプリケーションでも使用できます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>シングル・スレッドまたはマルチ・スレッドである</Para>
+</ListItem>
+<ListItem>
+<Para>コマンド行またはグラフィカル・ユーザ・インタフェースを持っている</Para>
+</ListItem>
+<ListItem>
+<Para>独自のイベント・ループ、またはウィンドウ・システムのツールキットの
+イベント・ループを使用している。</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>ToolTalkのオブジェクト指向メッセージ・インタフェース用にコーディングされたプログラムは、
+<IndexTerm>
+<Primary>OMG準拠システム</Primary>
+</IndexTerm>ソースコードを変更しなければCORBA準拠システムに
+<Symbol Role="Variable">移植できません</Symbol>。</Para>
+</Note>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.8">
+<Title>固定表示オブジェクト</Title>
+<Para>アプリケーションがUNIXファイル・システムで
+<IndexTerm>
+<Primary>固定表示オブジェクト</Primary>
+</IndexTerm>オブジェクトを目立たないように配置する必要がある場合は、
+ToolTalkサービスを使用してください。</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.9">
+<Title>ToolTalkサービスが業務上の問題を解決する方法を示すシナリオ</Title>
+<Para>この節にある
+<IndexTerm>
+<Primary>使用中のToolTalkサービスを示すシナリオ</Primary>
+</IndexTerm>シナリオは、ToolTalkサービスを利用することによって、業務上の問題をどの
+ように解決できるかを示しています。これらのシナリオで使用するメッセージ・プロトコル
+は、架空のものです。</Para>
+<Sect3 Id="TTUG.Intro.div.10">
+<Title>ToolTalkデスクトップ・サービス・メッセージ・セットの使用</Title>
+<Para>
+<IndexTerm>
+<Primary>ToolTalkメッセージ・セット</Primary>
+<Secondary>デスクトップ</Secondary>
+</IndexTerm>ToolTalk
+<IndexTerm>
+<Primary>デスクトップ・サービス・セット</Primary>
+</IndexTerm>デスクトップ・サービス・セットを使用することにより、アプリケーション
+は、ユーザの介入がなくても他のアプリケーションを統合およびコントロールすることが
+できます。この節では、デスクトップ・サービス・メッセージ・セットの実行方法を示す
+２つのシナリオ(下記の
+<!--Original XRef content: '&xd2;The Smart Desktop'-->
+<XRef Role="SectionTitle" Linkend="TTUG.Intro.mkr.3">と 
+<!--Original XRef content: '&xd2;Integrated Toolsets&xd3; on page&numsp;6'-->
+<XRef Role="SecTitleAndPageNum" Linkend="TTUG.Intro.mkr.4">)について 
+説明します。</Para>
+<Sect4 Id="TTUG.Intro.div.11">
+<Title Id="TTUG.Intro.mkr.3">スマート・デスクトップ</Title>
+<Note>
+<Para>この節のシナリオは、ユーザの要求を翻訳するアプリケーション・レベルのプログラ
+ムで、ToolTalkサービスを使用する方法を示すためのものです。共通デスクトップ環境
+プロダクトによりToolTalkサービスにユーザの要求を翻訳させる方法を
+<Symbol Role="Variable">示すためのものではありません</Symbol>。</Para>
+</Note>
+<Para>グラフィカル・ユーザ・インタフェース(GUI)のフロント・エンドに対するユーザの
+共通した要求は、データ・ファイルがアプリケーションに気づく
+(または 「知っている」)ようにできることにあります。これを行うには、
+アプリケーション・レベルのプログラムがユーザの要求を翻訳する必要があります。
+このアプリケーション・レベルのプログラム(<Emphasis>スマート・デスクトップ</Emphasis>という)には、
+アップル社の Macintosh&reg; ファインダ、 マイクロソフト社の Windows&trade; 
+ファイル・マネージャ、共通デスクトップ環境のファイル・マネージャなどがありま
+す。スマート・デスクトップの主な共通要件は、次のとおりです。</Para>
+<OrderedList Remap="List1">
+<ListItem>
+<Para>ファイルを取得する</Para>
+</ListItem>
+<ListItem>
+<Para>アプリケーションを決定する</Para>
+</ListItem>
+<ListItem>
+<Para>アプリケーションを起動する</Para>
+</ListItem>
+</OrderedList>
+<Para>ToolTalkサービスは、ツールのクラスが特定のデータ型を編集できるようにすること
+によって柔軟性が増します。次のシナリオでは、デスクトップ・サービス・メッセージ・
+セットをエンドユーザに対して透過的なスマート・デスクトップとして実行する方法を説明
+します。</Para>
+<OrderedList>
+<ListItem>
+<Para>ダイアンが[ファイルマネージャ]アイコンをダブルクリックします。</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>ファイル・マネージャが開き、ダイアンの現在のディレクトリ内のファイルを表示します。</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>ダイアンは、データ・ファイルのアイコンをダブルクリックします。</Para>
+<OrderedList Remap="List2">
+<ListItem>
+<Para>ファイル・マネージャは、アイコンで表現されているファイルの表示を要求します。
+また、<Symbol Role="Variable">表示</Symbol> メッセージ内のファイル・タイプを
+符号化します。</Para>
+</ListItem>
+<ListItem>
+<Para>ToolTalkセッション・マネージャは、登録されたアプリケーション(この場合は
+アイコン・エディタ)に<Symbol Role="Variable">表示</Symbol> メッセージ内のパターン
+を照合して、ダイアンのデスクトップ上で実行中のアプリケーションのインスタンスを見
+つけます。</Para>
+<Note>
+<Para>ToolTalkセッション・マネージャがアプリケーションの実行中のインスタンスを
+見つけられない場合は、静的に定義した
+<IndexTerm>
+<Primary>プロセス型 (ptype)</Primary>
+</IndexTerm>プロセス型 (ptypes)をチェックし、メッセージ内のパターンに最も一致 
+するアプリケーションを起動します。一致するptyepがないと、ファイル・マネージャ 
+に異常終了を返します。</Para>
+</Note>
+</ListItem>
+<ListItem>
+<Para>アイコン・エディタは<Symbol Role="Variable">表示</Symbol>メッセージを受け取り、自分のアイコン化を解除し、
+自分を一番上に表示します。</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+<ListItem>
+<Para>ダイアンは、ファイルを手動で編集します。</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="TTUG.Intro.div.12">
+<Title Id="TTUG.Intro.mkr.4">統合ツールセット</Title>
+<Para>デスクトップ・サービス・メッセージ・セットを実行できるもう１つの重要な
+アプリケーションは、<Emphasis>統合ツールセット</Emphasis>です。これらの環境は、
+垂直のアプリケーション（CASEソフトウェア開発者用ツールセットなど）または水平の環境
+（複合ドキュメントなど）に適用することができます。その両方のアプリケーションの
+共通点は、総合的な解決法が、１つの特定のタスクをうまく実行するように設計されている
+専門のアプリケーションから構築された、という前提があることです。統合ツールセット
+アプリケーションには、テキスト・エディタ、描画パッケージ、ビデオ・ディスプレイ・
+ツール、オーディオ・ディスプレイ・ツール、コンパイラのフロント・エンド、デバッガ
+などがあります。統合ツールセット環境には、相互に呼び出して対話し、ユーザからの
+要求を処理するアプリケーションが必要です。たとえば、ビデオを表示するには、エディタ
+がビデオ・ディスプレイ・プログラムを呼び出します。または、完成したコードの
+ブロックを確認するには、エディタがコンパイラを呼び出します。</Para>
+<Para>次のシナリオでは、デスクトップ・サービス・メッセージ・セットを統合ツール
+セットとして実行する方法を説明します。</Para>
+<OrderedList>
+<ListItem>
+<Para>ブルースは、好みのエディタを使用して複合ドキュメントを扱う作業をしています。
+</Para>
+<Para>ソースコード・テキストの一部を変更することにします。</Para>
+</ListItem>
+<ListItem>
+<Para>ブルースは、ソースコード・テキストをダブルクリックします。</Para>
+<OrderedList Remap="List2">
+<ListItem>
+<Para>ドキュメント・エディタは、まずソースコードを表すテキストを判別し、その後
+そのソースコードがどのファイルに入っているかを判別します。</Para>
+</ListItem>
+<ListItem>
+<Para>ドキュメント・エディタは、ファイル名をメッセージのパラメータとして使用し、
+<Emphasis>編集</Emphasis>メッセージ要求を送信します。</Para>
+</ListItem>
+<ListItem>
+<Para>ToolTalkセッション・マネージャは、登録されたアプリケーション（この場合は、
+ソースコード・エディタ）に<Emphasis>編集</Emphasis>メッセージ内のパターンを照合
+して、ブルースのデスクトップ上で実行中のアプリケーションのインスタンスを見つけ
+ます。</Para>
+<Note>
+<Para>ToolTalkセッション・マネージャがアプリケーションの実行中のインスタンスを
+見つけられない場合は、静的に定義したptypeをチェックし、メッセージ内のパターンに
+最も一致するアプリケーションを起動します。一致するptypeがないと、ドキュメント・
+エディタ・アプリケーションに異常終了を返します。</Para>
+</Note>
+</ListItem>
+<ListItem>
+<Para>ソースコード・エディタが<Emphasis>編集</Emphasis>メッセージ要求を受け取ります。</Para>
+</ListItem>
+<ListItem>
+<Para>ソースコード・エディタは、ソースコード・ファイルが構成コントロールを受けて
+いると判別し、ファイルをチェックするためのメッセージを送信します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>そのメッセージをソースコード制御アプリケーションが受け取り、要求されたファイ
+ルの読み取り書き込み用コピーを作成します。その後、ファイル名をソースコード・
+エディタに戻します。</Para>
+</ListItem>
+<ListItem>
+<Para>ソースコード・エディタは、ソース・ファイルが入っているウィンドウを開きます。</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+<ListItem>
+<Para>ブルースは、ソースコード・テキストを編集します。</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+</Sect3>
+<Sect3 Id="TTUG.Intro.div.13">
+<Title>ToolTalkドキュメント・メディア交換メッセージ・セットの使用</Title>
+<Para>
+<IndexTerm>
+<Primary>ToolTalkメッセージ・セット</Primary>
+<Secondary>ドキュメント・メディア交換</Secondary>
+</IndexTerm>ToolTalk
+<IndexTerm>
+<Primary>ドキュメント・メディア交換メッセージ・セット</Primary>
+</IndexTerm>ToolTalkドキュメント・メディア交換メッセージ・セットは、非常に柔軟性
+があり、強力です。この節では、次のようなToolTalkドキュメント・メディア交換
+メッセージ・セットの３つの使用方法について説明します。 </Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>マルチメディアのオーサリング・アプリケーションへの統合</Para>
+</ListItem>
+<ListItem>
+<Para>既存のアプリケーションへのマルチメディア拡張機能の追加</Para>
+</ListItem>
+<ListItem>
+<Para>メディア交換機能の追加によるXの<Emphasis>カット＆ペースト</Emphasis>機能の拡張</Para>
+</ListItem>
+</ItemizedList>
+<Sect4 Id="TTUG.Intro.div.14">
+<Title>マルチメディア機能の統合</Title>
+<Para>マルチメディア機能をアプリケーションに統合することによって、アプリケーション
+のエンド・ユーザは、さまざまなメディアの型をドキュメントに埋め込むことができます。
+</Para>
+<Para>通常、メディア・オブジェクトを表すアイコンは、ドキュメントに埋め込まれます。
+埋め込まれたオブジェクトを選択すると、ToolTalkサービスは自動的に適切な外部メディア
+・アプリケーションを起動し、オブジェクトは次のシナリオで説明するように処理されま
+す。</Para>
+<OrderedList Remap="List1">
+<ListItem>
+<Para>ダニエルがマルチメディア・オブジェクトが入っているドキュメントを開きます。</Para>
+</ListItem>
+<ListItem>
+<Para>ウィンドウがさまざまなメディアの種類（音声、画像、グラフィックスなど）を
+表すアイコンで、ドキュメントを表示します。</Para>
+</ListItem>
+<ListItem>
+<Para>ダニエルは、[音声]アイコンをダブルクリックします。</Para>
+<Para>音声アプリケーション(<Emphasis>プレイヤ</Emphasis>と呼ぶ)が起動され、録音済
+みの音声が再生されます。</Para>
+</ListItem>
+<ListItem>
+<Para>録音状態を編集するために、ダニエルはアイコンを１回クリックして選択し、３番
+目のマウス・ボタンを使用して[編集]メニューを表示します。</Para>
+<Para>編集アプリケーションが起動され、ダニエルはメディア・オブジェクトを編集
+します。</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="TTUG.Intro.div.15">
+<Title>既存のアプリケーションへのマルチメディア拡張機能の追加</Title>
+<Para>ToolTalkドキュメント・メディア交換メッセージ・セットによって、アプリケーシ
+ョンは他のマルチメディア・アプリケーションを使用してその機能または性能を拡張する
+こともできます。たとえば、次のシナリオで示すように、カレンダ・マネージャを拡張
+し、オーディオ・ツールを使って音声ファイルをアポイントメントの覚え書きとして再生
+することもできます。</Para>
+<OrderedList Remap="List1">
+<ListItem>
+<Para>シェルビーは、自分のカレンダ・マネージャを開き、アポイトメントを設定します。</Para>
+</ListItem>
+<ListItem>
+<Para>シェルビーが[音声応答]ボタンをクリックすると、オーディオ・ツールが起動
+します。</Para>
+</ListItem>
+<ListItem>
+<Para>シェルビーは、たとえば「レポートを持ってくる」といったようなメッセージを記録します。</Para>
+</ListItem>
+</OrderedList>
+<Para>シェルビーがアポイントの覚え書きを実行すると、カレンダ・マネージャは
+オーディオ・ツールを起動し、シェルビーが録音した覚え書きを再生します。</Para>
+</Sect4>
+<Sect4 Id="TTUG.Intro.div.16">
+<Title>Xのカット＆ペースト機能の拡張</Title>
+<Para>ToolTalkドキュメント・メディア交換メッセージ・セットは、拡張可能なオープン・
+エンドの交換機能をサポートできます。次のシナリオは、拡張可能なマルチメディアの
+<Emphasis>カット＆ペースト</Emphasis>機能の動作を示します。</Para>
+<OrderedList Remap="List1">
+<ListItem>
+<Para>マリアがメディア型が異なる２つのドキュメントを開きます。</Para>
+</ListItem>
+<ListItem>
+<Para>マリアがドキュメントAの一部分を選択し、標準の<Emphasis>X</Emphasis>
+ウィンドウの<Emphasis>カット</Emphasis>機能を使用して、その部分をカットします。</Para>
+</ListItem>
+<ListItem>
+<Para>さらにマリアは、そのカットした部分をドキュメントBにペーストします。</Para>
+<OrderedList Remap="List2">
+<ListItem>
+<Para>ドキュメントBは、カットしたデータの転送についてドキュメントAと交渉します。</Para>
+</ListItem>
+<ListItem>
+<Para>ドキュメント&numsp;Aが提供するデータのどの型についてもドキュメントBが認識
+しない場合、ドキュメントBは<Emphasis>タグ付メディア型</Emphasis>を送信してくれる
+ようドキュメント&numsp;Aに要求します。ドキュメントBは、タグ付メディア型を使用
+して、そのメディア型を理解可能なメディア型へ変換するように要求するToolTalk
+メッセージをブロードキャストします。</Para>
+</ListItem>
+<ListItem>
+<Para>登録されている変換ユーティリティはその要求を受けて、変換後のバージョンの
+メディア型をドキュメントBへ返します。</Para>
+</ListItem>
+<ListItem>
+<Para>変換されたデータのドキュメントBへのペーストが実行されます。</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</OrderedList>
+</Sect4>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="TTUG.Intro.div.17">
+<Title><IndexTerm>
+<Primary>アプリケーションのToolTalkメッセージの使用方法</Primary>
+</IndexTerm>アプリケーションのToolTalkメッセージの使用方法</Title>
+<Para>アプリケーションは、ToolTalkメッセージを作成、送信、および受信することに
+よって、他のアプリケーションと通信を行います<Interface Class="Button">。
+<IndexTerm>
+<Primary>送信側</Primary>
+</IndexTerm>送信側は、</Interface>メッセージを作成、書き込み、および送信します。
+ToolTalkサービスは受信側を判別し、そのメッセージを
+<IndexTerm>
+<Primary>受信側</Primary>
+</IndexTerm>受信側に配信します。
+受信側はメッセージを検出してメッセージ内の情報をチェックし、メッセージを破棄する
+か、オペレーションを実行してその結果を返答します。</Para>
+<Sect2 Id="TTUG.Intro.div.18">
+<Title><IndexTerm>
+<Primary>ToolTalkメッセージの送信</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ</Primary>
+<Secondary>送信</Secondary>
+</IndexTerm>ToolTalkメッセージの送信</Title>
+<Para><IndexTerm>
+<Primary>ToolTalkメッセージ</Primary>
+</IndexTerm>ToolTalkメッセージの構造は簡単で、アドレス、サブジェクト、および配信
+情報のフィールドを含みます。ToolTalkメッセージを送信するため、アプリケーションは
+空のメッセージを取得し、メッセージ属性を書き込んだ後、メッセージを送信します。
+送信を行うアプリケーションは、次の情報を提供する必要があります。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>通知用メッセージか要求用メッセージか（つまり、受信側がメッセージに応答する
+必要があるかどうか）</Para>
+</ListItem>
+<ListItem>
+<Para>受信側と送信側は、どのような処理対象を共有しているか（たとえば、受信側は特
+定のユーザ・セッションで実行されているものか、または特定のファイルを処理対象とし
+ているものか）</Para>
+</ListItem>
+</ItemizedList>
+<Para>メッセージの配信の範囲を限定するために、送信側アプリケーションはメッセージ
+内にさらに情報を指定できます。</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.19">
+<Title>メッセージ・パターン</Title>
+<Para>ToolTalkの重要な
+<IndexTerm>
+<Primary>ToolTalkの特徴</Primary>
+</IndexTerm>特徴は、送信側が受信側について何も認識していなくてもかまわないという
+ことです。これは、メッセージを受信したいアプリケーション側が、受け取りたい
+メッセージの種類を明示的に示すからです。この情報は、<Emphasis>メッセージ・パターン</Emphasis>としてToolTalkサービスに登録されます。</Para>
+<Para>アプリケーションは、そのインストール時または実行時にメッセージ・パターンを
+ToolTalkサービスに指定できます。メッセージ・パターンは、メッセージと同じ方法で
+作成します。つまり、どちらの場合も同じ型の情報を使用します。アプリケーションは受
+信したいそれぞれの型のメッセージについて、空のメッセージ・パターンを取得し、属性
+を書き込み、そのパターンをToolTalkサービスに登録します。
+<IndexTerm>
+<Primary>メッセージ・パターン</Primary>
+</IndexTerm>これらのメッセージ・パターンは通常、アプリケーションが相互に使用する
+ことにしたメッセージ・プロトコルと一致します。アプリケーションは、個々の使用に応
+じてさらにパターンを追加できます</Para>
+<Para>ToolTalkサービスは、送信側アプリケーションからメッセージを受信すると、
+メッセージ内の情報と登録されているパターンとを比較します。一致するものが見つかる
+と、ToolTalkサービスは、
+<IndexTerm>
+<Primary>メッセージ</Primary>
+<Secondary>受信側の判別</Secondary>
+</IndexTerm>受信側アプリケーションすべてにメッセージのコピーを
+配信します。</Para>
+<Para>アプリケーションは、受信を希望するメッセージを記述したパターンごとに、
+メッセージを<Emphasis><IndexTerm>
+<Primary>メッセージ</Primary>
+<Secondary>処理する</Secondary>
+</IndexTerm>処理</Emphasis>または<Emphasis><IndexTerm>
+<Primary>メッセージ</Primary>
+<Secondary>監視する</Secondary>
+</IndexTerm>監視</Emphasis>できるかどうかを宣言しています。多数のアプリケーション
+がメッセージを監視できますが、メッセージを処理できるアプリケーションは１つだけで
+す。これは、要求されたオペレーションが確実に１回だけ実行されるようにするためです。
+ToolTalkサービスが要求に対するハンドラを見つけだせなかった場合は、そのメッセージ
+を送信側アプリケーションに返し、配信が失敗したことを示します。</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.20">
+<Title><IndexTerm>
+<Primary>ToolTalkメッセージの受信</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ</Primary>
+<Secondary>受信</Secondary>
+</IndexTerm>ToolTalkメッセージの受信</Title>
+<Para>ToolTalkサービスは、メッセージを特定のプロセスに配信する必要があると判断する
+と、メッセージのコピーを作成し、受信待ちメッセージがあることをそのプロセスに通知
+します。受信側アプリケーションが実行中でない場合、ToolTalkサービスは、アプリケーシ
+ョンの起動方法に関する指示（インストール時にアプリケーションが指示したもの）を
+検索します。</Para>
+<Para>プロセスは、メッセージを検索し、その内容をチェックします。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>オペレーションが実行されたという情報がメッセージに含まれている場合、プロセス
+はその情報を読み取ってから、メッセージを破棄します。</Para>
+</ListItem>
+<ListItem>
+<Para>オペレーションの実行要求がメッセージに含まれている場合、プロセスはそのオペ
+レーションを実行し、元のメッセージへの応答という形でオペレーションの結果を返しま
+す。応答が送信されると、プロセスは元のメッセージを破棄します。</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="TTUG.Intro.div.21">
+<Title>ToolTalkメッセージの配信</Title>
+<Para>ToolTalkサービスは、
+<IndexTerm>
+<Primary>メッセージを配布する方式</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ</Primary>
+<Secondary>配布する方式</Secondary>
+</IndexTerm>メッセージを配布する２つの方式を提供します。
+<Emphasis>プロセス指向</Emphasis>メッセージ方式と<Emphasis>オブジェクト指向</Emphasis>メッセージ方式です。</Para>
+<Sect2 Id="TTUG.Intro.div.22">
+<Title>プロセス指向メッセージ方式</Title>
+<Para><IndexTerm>
+<Primary>プロセス指向メッセージ方式</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ</Primary>
+<Secondary>プロセス指向</Secondary>
+</IndexTerm>プロセス指向メッセージとは、プロセスにアドレス指定されたメッセージです。
+プロセス指向メッセージを作成するアプリケーションは、指定されたプロセスか特定の型の
+プロセスのどちらかにそのメッセージをアドレス指定します。プロセス指向メッセージ方式
+は、既存のアプリケーションが他のアプリケーションと通信するのに便利な方法です。プロ
+セス指向メッセージ方式をサポートするための修正は簡単で、通常は実行するのもそんなに
+時間はかかりません。</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.23">
+<Title>オブジェクト指向メッセージ方式</Title>
+<Para><IndexTerm>
+<Primary>オブジェクト指向メッセージ方式</Primary>
+</IndexTerm><IndexTerm>
+<Primary>メッセージ</Primary>
+<Secondary>オブジェクト指向</Secondary>
+</IndexTerm>オブジェクト指向メッセージは、アプリケーションが管理するオブジェクトに
+アドレス指定されます。オブジェクト指向メッセージを作成するアプリケーションは、指定
+されたオブジェクトか特定の型のオブジェクトのどちらかにそのメッセージをアドレス指定
+します。オブジェクト指向メッセージ方式は、現在オブジェクトを使用しているアプリケー
+ション、またはオブジェクトを対象として設計されたアプリケーションに対して特に便利
+です。既存のアプリケーションがオブジェクト指向でない場合は、ToolTalkサービスを
+使うと、アプリケーションがアプリケーションのデータの一部をオブジェクトとして識別す
+るので、これらのオブジェクトに関する通信ができるようになります。</Para>
+<Note>
+<Para>ToolTalkオブジェクト指向メッセージ・インタフェース用にコーディングされた
+プログラムは、ソースコードを変更しなければCORBA準拠のシステムに
+<Symbol Role="Variable">移植できません</Symbol>
+<IndexTerm>
+<Primary>OMG準拠システム</Primary>
+</IndexTerm>。</Para>
+</Note>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.24">
+<Title>メッセージ配信の判別</Title>
+<Para>
+<IndexTerm>
+<Primary>メッセージの受信者の判別</Primary>
+</IndexTerm>メッセージを受信するグループを判別するために、メッセージの
+<Emphasis>配信範囲</Emphasis>を指定します。配信範囲指定を行うことにより、メッセー
+ジの配信を特定のセッションまたはファイルに限定します。</Para>
+<Sect3 Id="TTUG.Intro.div.25">
+<Title>セッション</Title>
+<Para>
+<IndexTerm>
+<Primary>ToolTalkのセッションの概念</Primary>
+</IndexTerm><Emphasis>セッション</Emphasis>とは、同じToolTalkメッセージ・サーバの
+インスタンスを持つプロセスのグループのことです（スレッド・セイフ・セッション管理
+の情報については、付録Ｃを参照してください）。プロセスがToolTalkサービスとの通信
+を開始すると、デフォルトのセッションが配置され（または、セッションが存在していない
+場合は作成され）、プロセスには、<Emphasis>プロセス識別子</Emphasis> (<Emphasis>procid</Emphasis>)が割り当てられます。
+デフォルト・セッションは、環境変数 (「プロセス・ツリー・セッション」と呼ぶ)、
+またはXディスプレイ(「Xセッション」と呼ぶ)によって配置されます。</Para>
+<Para>セッションの概念は、メッセージの配信において重要です。送信側は、あるセッショ
+ンをメッセージの配信範囲とすることができます。ToolTalkサービスは、現在のセッション
+を参照するメッセージ・パターンを持つすべてのプロセスにメッセージを配信します。現在の
+<IndexTerm>
+<Primary>セッション識別子(sessid)</Primary>
+</IndexTerm><Emphasis>セッション識別子</Emphasis> (sessid)でメッセージ・パターンを
+更新するときは、アプリケーションはそのセッションを結合します。</Para>
+</Sect3>
+<Sect3 Id="TTUG.Intro.div.26">
+<Title>ファイル</Title>
+<Para>このマニュアルでは、アプリケーションの処理対象であるデータを入れるコンテナの
+<IndexTerm>
+<Primary>ファイル</Primary>
+<Secondary>ToolTalkファイルの概念</Secondary>
+</IndexTerm>ことを<Symbol Role="Variable">ファイル</Symbol>と呼びます。</Para>
+<Para>ファイルの概念は、メッセージの配信において重要です。送信側は、あるファイルを
+メッセージの配信範囲とすることができます。また、ToolTalkサービスは、プロセスの
+デフォルト・セッションに関係なく、そのファイルを参照するメッセージ・パターンを持つ
+すべてのプロセスにメッセージを配信します。現在のファイルのパス名でメッセージ・パター
+ンを更新するときは、アプリケーションはそのファイルを結合します。</Para>
+<Para>また、１つのセッション内にあるファイルをメッセージの配信範囲とすることもでき
+ます。ToolTalkサービスは、そのメッセージ・パターン内にあるファイルとセッションの
+両方を参照するすべてのプロセスにメッセージを配信します。</Para>
+<Note>
+<Para>
+<IndexTerm>
+<Primary>ファイルの配信範囲指定機能の制限</Primary>
+</IndexTerm>ファイルの配信範囲指定機能が使用できるのは、NFS&reg;ファイル・システム
+とUFSファイル・システムだけです。</Para>
+</Note>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="TTUG.Intro.div.27">
+<Title><IndexTerm>
+<Primary>ToolTalkサービスを使用するためのアプリケーションの変更</Primary>
+</IndexTerm>ToolTalkサービスを使用するためのアプリケーションの変更</Title>
+<Para>ToolTalkサービスを使用できるようにアプリケーションを変更する前に、ToolTalk
+<IndexTerm>
+<Primary>メッセージ・プロトコル</Primary>
+</IndexTerm><Emphasis>メッセージ・プロトコル</Emphasis>を定義（または配置）する
+必要があります。メッセージ・プロトコルとは、アプリケーションが実行を認めたオペレー
+ションについて記述したToolTalkメッセージの集合です。メッセージ・プロトコル仕様の内
+容は、メッセージの設定およびアプリケーションがメッセージを受信したときの動作です。
+</Para>
+<Para>ToolTalkサービスを使用するために、アプリケーションは、ToolTalk
+<IndexTerm>
+<Primary>アプリケーション・プログラミング・インタフェース(API)</Primary>
+</IndexTerm>アプリケーション・プログラミング・インタフェース(API)からToolTalk関数
+を呼び出します。ToolTalk APIには、ToolTalkサービスに登録する機能、メッセージ・パタ
+ーンを作成する機能、メッセージを送信する機能、メッセージを受信する機能、メッセージ
+情報をチェックする機能などがあります。ToolTalkサービスを使用できるようにアプリケー
+ションを変更するには、まずプログラムにToolTalk APIのヘッダ・ファイルを組み込まなけ
+ればなりません。また、次のことを実現するためにアプリケーションを変更する必要があり
+ます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>ToolTalkサービスを初期化し、セッションに参加する</Para>
+</ListItem>
+<ListItem>
+<Para>メッセージ・パターンをToolTalkサービスに登録する</Para>
+</ListItem>
+<ListItem>
+<Para>メッセージを送信および受信する</Para>
+</ListItem>
+<ListItem>
+<Para>メッセージ・パターンを登録解除し、ToolTalkを終了する</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 05:02:32-->

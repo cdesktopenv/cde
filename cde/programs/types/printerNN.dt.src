@@ -1,0 +1,65 @@
+XCOMM ######################################################################
+XCOMM 
+XCOMM      printerNN.dt
+XCOMM 
+XCOMM      Template file for configuring printers in the printer sub-panel.
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary
+XCOMM         of Novell, Inc.
+XCOMM 
+XCOMM      $XConsortium: printerNN.dt.src /main/4 1996/04/23 17:36:17 drk $
+XCOMM 
+XCOMM #####################################################################
+
+XCOMM ##############################
+XCOMM 
+XCOMM  To configure a printer in the DT printer slide-up:
+XCOMM 
+XCOMM 	1. Identify which printer icon in the slide-up panel should be
+XCOMM 	   associated with the printer.  Icons are numbered from the
+XCOMM 	   top beginning with 01.  (E.g 01 is the top icon, 02 is the
+XCOMM 	   next, etc.)
+XCOMM 
+XCOMM 	2. Copy this file to CDE_INSTALLATION_TOP/examples/types/printer<NN>.dt
+XCOMM 	   where <NN> is replaced by the number of the icon.  For
+XCOMM 	   example, copy it to CDE_INSTALLATION_TOP/examples/types/printer01.dt to
+XCOMM 	   configure the top printer.
+XCOMM 
+XCOMM 	3. Edit the "set PRINTER_NUMBER=nn" line below and replace
+XCOMM 	   "nn" with the number of the printer icon.  For example,
+XCOMM 	   change it to "set PRINTER_NUMBER=01" for the top printer
+XCOMM 	   icon. 
+XCOMM 
+XCOMM 	4. Edit the "set PRINTER_NAME=name" line below and replace
+XCOMM 	   "name" with the device name assigned to the printer in step
+XCOMM 	   1.
+XCOMM 
+XCOMM 	5. Invoke the ReloadApps action from the System_Admin
+XCOMM 	   container of the General toolbox.
+XCOMM 
+XCOMM ###############################
+
+set PRINTER_NUMBER=nn
+set PRINTER_NAME=name
+
+ACTION Print${PRINTER_NUMBER}
+{
+	ARG_TYPE 	*
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	lp -d${PRINTER_NAME} %(File)Args%
+}
+
+ACTION PrinterInfo${PRINTER_NUMBER}
+{
+        TYPE		COMMAND
+	WINDOW_TYPE	OUTPUT_ONLY
+	EXEC_STRING	\
+	  sh -c ' \
+	    (echo %|nls-8001-#"Printer#|; \
+	   lpstat -r -p${PRINTER_NAME}) | \${PAGER:-more}; \
+	    echo %|nls-8002-#Select#|'
+}

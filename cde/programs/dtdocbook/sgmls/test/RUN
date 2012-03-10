@@ -1,0 +1,50 @@
+#! /bin/sh
+
+unset SGML_PATH
+sgmls="../sgmls -gerdu"
+rast="../rast"
+
+for d in badout difout baderr diferr badcap difcap badrast difrast
+do
+	rm -fr $d/*
+	test -d $d || mkdir $d
+done
+
+if diff -c /dev/null /dev/null >/dev/null 2>&1
+then
+	c=-c
+else
+	c=
+fi
+
+for file in *.sgm
+do
+	echo $file
+	$sgmls -c badcap/$file $file >badout/$file 2>baderr/$file
+	$rast <badout/$file >badrast/$file
+	if diff $c out/$file badout/$file >difout/$file
+	then
+		rm badout/$file difout/$file
+	else
+		echo outputs for $file differ
+	fi
+	if diff $c err/$file baderr/$file >diferr/$file
+	then
+		rm baderr/$file diferr/$file
+	else
+		echo errors for $file differ
+	fi
+	test -f badcap/$file || touch badcap/$file
+	if diff $c cap/$file badcap/$file >difcap/$file
+	then
+		rm badcap/$file difcap/$file
+	else
+		echo capacities for $file differ
+	fi
+	if diff $c rast/$file badrast/$file >difrast/$file
+	then
+		rm badrast/$file difrast/$file
+	else
+		echo RAST result for $file differs
+	fi
+done

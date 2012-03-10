@@ -1,0 +1,291 @@
+<!-- $XConsortium: action.sgm /main/9 1996/09/09 19:38:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN0.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN0.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>dtaction</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dtaction</Command></RefName>
+<RefPurpose>invoke a &str-XZ; action with specified arguments
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- ** (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- ** (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- ** (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- ** (c) Copyright 1993, 1994, 1995 Novell, Inc-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dtaction</Command>
+<Arg Choice="opt">&minus;contextDir&numsp;<Replaceable>context_dir</Replaceable></Arg>
+<Arg Choice="opt">&minus;execHost&numsp;<Replaceable>host_name</Replaceable></Arg>
+<Arg Choice="opt">&minus;termOpts&numsp;<Replaceable>terminal_arguments</Replaceable></Arg>
+<Arg Choice="opt">&minus;user&numsp;<Replaceable>user_name</Replaceable></Arg>
+<Arg><Replaceable>action_name</Replaceable></Arg>
+<Arg Choice="opt"><Replaceable>action_arg</Replaceable></Arg>
+<Arg>...</Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Command>dtaction</Command> utility allows applications or shell scripts, which are otherwise not
+connected into the &str-XZ; development environment, to invoke action requests.
+</Para>
+<Para>The action called
+<Emphasis>action_name</Emphasis> is invoked with the
+<Emphasis>action_arg</Emphasis> provided on the command line.
+A single
+<Emphasis>action_name</Emphasis> is required;
+the user may provide any number of
+<Emphasis>action_arg</Emphasis>s. Interpretation of the
+<Emphasis>action_name</Emphasis> and
+<Emphasis>action_arg</Emphasis>s depends on the
+definition of the action in the action database (see
+<![ %CDE.C.CDE; [&cdeman.dtactionfile;). ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">). ]]>The action may be defined in one of the system action database files,
+or in one of the user's private action database files.
+</Para>
+<Para>The
+<Emphasis>action_arg</Emphasis>s are absolute or relative pathnames of files.
+The utility passes this list of files on to the specified action.
+</Para>
+<Para>Error dialogs are posted when the following conditions are detected:
+</Para>
+<ItemizedList>
+<!-- merged from xo+cde-->
+<ListItem>
+<Para>could not initialize desktop environment
+</Para>
+</ListItem>
+<ListItem>
+<Para>invalid user or password
+</Para>
+</ListItem>
+<ListItem>
+<Para>unable to change ID to the desired user
+</Para>
+</ListItem>
+<ListItem>
+<Para>no action name specified
+</Para>
+</ListItem>
+</ItemizedList>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<![ %CDE.C.XO; [
+<Para>The
+<Command>dtaction</Command> utility does not support the &str-Zu; because it uses
+the X Window System convention of full-word options.
+</Para>
+]]>
+<Para>The following options are available:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>&minus;contextDir</Literal> <Emphasis>context_dir</Emphasis></Term>
+<ListItem>
+<Para>If the definition of
+<Emphasis>action_name</Emphasis> does not define
+a current working directory (see
+<SystemItem Class="Constant">CWD</SystemItem> in
+<![ %CDE.C.CDE; [&cdeman.dtactionfile;) ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">) ]]>for command actions,
+the user can use this option to specify a default directory context.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;execHost</Literal> <Emphasis>host_name</Emphasis></Term>
+<ListItem>
+<Para>The user can use this option to specify an alternative execution host,
+<Emphasis>host_name</Emphasis>, for a command action.
+If the action is not a command
+action, the
+<Command>dtaction</Command> utility ignores this option.
+The action is attempted on
+<Emphasis>host_name</Emphasis> instead of the hosts specified in the action's
+<SystemItem Class="Constant">EXEC_HOST</SystemItem> (see
+<![ %CDE.C.CDE; [&cdeman.dtactionfile;) ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">) ]]>specification.
+An error dialog is posted if it is not possible to invoke the
+specified action on any eligible host.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;termOpts</Literal> <Emphasis>terminal_arguments</Emphasis></Term>
+<ListItem>
+<Para>This option allows the user to specify arguments intended for the terminal
+emulator that is provided for command actions that are not of type
+<SystemItem Class="Constant">NO_STDIO</SystemItem>. If there are white-space characters in the
+<Emphasis>terminal_arguments</Emphasis> string,
+that string must be quoted to protect it from the shell.
+These arguments are passed unchanged to the terminal emulator.
+The user must ensure that they are reasonable; in particular,
+<Emphasis>terminal_arguments</Emphasis> does not allow the argument that specifies the command
+to be run in a terminal emulator window (that is,
+<Literal>&minus;e</Literal> for
+&cdeman.dtterm;).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;user</Literal> <Emphasis>user_name</Emphasis></Term>
+<ListItem>
+<Para>The
+<Literal>&minus;user</Literal> option allows a user to specify a user name.
+If
+<Command>dtaction</Command> is not currently running as that user, a prompt dialog
+collects the indicated user password, or the root user
+password.
+Once a valid password is entered, the
+<Command>dtaction</Command> utility changes so
+that it is running as the requested user and then
+initiates the requested action.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>OPERANDS</Title>
+<Para>The following operands are supported:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Emphasis>action_name</Emphasis></Term>
+<ListItem>
+<Para>The name of the action to be invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>action_arg</Emphasis></Term>
+<ListItem>
+<Para>The absolute or relative file names of files.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>STDIN</Title>
+<Para>Not used.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>INPUT FILES</Title>
+<Para>The input files named as
+<Emphasis>action_arg</Emphasis> arguments are
+absolute or relative names of files.
+</Para>
+<Para>The action database files found on
+<SystemItem Class="EnvironVar">DTDATABASESEARCHPATH</SystemItem> conform to the format specified in
+<![ %CDE.C.CDE; [&cdeman.dtactionfile;. ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">. ]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLES</Title>
+<Para>The following environment variable affects the execution of
+<Command>dtaction</Command>:</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">DTDATABASESEARCHPATH</SystemItem></Term>
+<ListItem>
+<Para>A comma-separated list of directories (with optional host: prefix)
+that tells the action service where to find the action databases.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RESOURCES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ASYNCHRONOUS EVENTS</Title>
+<![ %CDE.C.XO; [
+<Para>Default.
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>The
+<Command>dtaction</Command> utility takes the standard action for all signals.
+</Para>
+]]>
+</RefSect1>
+<RefSect1>
+<Title>STDOUT</Title>
+<Para>Not used.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>STDERR</Title>
+<Para>The
+<Command>dtaction</Command> utility writes diagnostic error messages to standard error,
+which is redirected to
+<Filename>$HOME/.dt/errorlog</Filename>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>OUTPUT FILES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXTENDED DESCRIPTION</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXIT STATUS</Title>
+<Para>The following exit values are returned:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<Para>Successful completion.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>>0</Term>
+<ListItem>
+<Para>An invocation error was detected.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>CONSEQUENCES OF ERRORS</Title>
+<Para>Default.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para><![ %CDE.C.CDE; [&cdeman.dtactionfile;]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">]]>,
+&cdeman.dtterm;, &cdeman.dtaction;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

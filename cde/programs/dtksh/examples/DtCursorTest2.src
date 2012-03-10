@@ -1,0 +1,59 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: DtCursorTest2.src /main/3 1996/04/23 20:18:02 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates how a cursor can be defined or
+XCOMM  undefined for an X window.
+XCOMM 
+
+XCOMM  Pushbutton Callback: set the busy cursor for the toplevel window
+DefineCursor()
+{
+   XDefineCursor $(XtDisplay "-" $TOPLEVEL) $(XtWindow "-" $TOPLEVEL) $CURSOR
+}
+
+XCOMM  Pushbutton Callback: remove the busy cursor from the toplevel window
+UndefineCursor()
+{
+   XUndefineCursor $(XtDisplay "-" $TOPLEVEL) $(XtWindow "-" $TOPLEVEL)
+}
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL dtCursorTest2 DtCursorTest2 "$0" "$@"
+XtSetValues $TOPLEVEL allowShellResize:True
+
+XtCreateManagedWidget DA da XmDrawingArea $TOPLEVEL
+XtSetValues $DA height:200 width:200
+
+XtRealizeWidget $TOPLEVEL
+
+XtCreateApplicationShell TOPLEVEL2 dtCursorTest2a TopLevelShell
+
+XtCreateManagedWidget RC rc XmRowColumn $TOPLEVEL2 \
+         orientation:HORIZONTAL \
+         numColumns:2 \
+         packing:PACK_COLUMN 
+
+XtCreateManagedWidget PB1 pb1 XmPushButton $RC \
+	labelString:"Define Cursor"
+XtAddCallback $PB1 activateCallback "DefineCursor"
+
+XtCreateManagedWidget PB2 pb2 XmPushButton $RC \
+	labelString:"Undefine Cursor"
+XtAddCallback $PB2 activateCallback "UndefineCursor"
+
+_DtGetHourGlassCursor CURSOR $(XtDisplay "-" $TOPLEVEL)
+
+XtRealizeWidget $TOPLEVEL2
+
+XtMainLoop

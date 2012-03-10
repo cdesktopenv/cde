@@ -1,0 +1,1148 @@
+<!-- $XConsortium: appa.sgm /main/7 1996/08/27 15:26:40 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<appendix id="DKSUG.cmds.div.1">
+<title>dtksh Commands<indexterm><primary>commands</primary></indexterm></title>
+<para>This appendix contains a list of the commands supported by <command>dtksh</command>. Many of these commands are almost identical to their Motif,
+Xt Intrinsics, or Xlib counterparts. Commands that return a value must have
+the return variable as an environment variable that is the first parameter
+in the call. Some commands have more differences.</para>
+<para>The following subsections give a synopsis of each of the <command>dtksh</command> commands. In general, parameter ordering and types are the same
+as for corresponding C procedures; exceptions are noted. For more detail
+on the functionality and parameters of a command, see the standard documentation
+for the corresponding Xlib, Xt Intrinsics, or Motif procedure.</para>
+<para>In the command definitions, parameters named <emphasis>var</emphasis>, <emphasis>var2</emphasis>, <emphasis>var3</emphasis>, and so on, indicate that the
+shell script should supply the name of an environment variable into which
+some value will be returned. The word <symbol role="Variable">variable</symbol>
+indicates an environment variable that accepts a return value.</para>
+<para>Commands that return a Boolean value (which can be used directly as
+part of an <emphasis>if</emphasis> statement), are noted as such.</para>
+<para>Parameters enclosed within <filename>[]</filename> are optional.</para>
+<sect1 id="DKSUG.cmds.div.2">
+<title>Built-in Xlib Commands</title>
+<para><command>XBell</command> <symbol role="Variable">display volume</symbol></para>
+<para><command>XClearArea</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height</symbol></para>
+<para><symbol role="Variable">exposures</symbol></para>
+<para><command>XClearWindow</command> <symbol role="Variable">display drawable</symbol></para>
+<para><command>XCopyArea</command> d<symbol role="Variable">isplay src dest
+srcX srcY width height destX destY</symbol> [optional GC</para>
+<para>arguments]</para>
+<para><command>XDefineCursor</command> <symbol role="Variable">d</symbol><symbol role="Variable">isplay window cursor</symbol></para>
+<para><command>XDrawArc</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height
+angle1</symbol></para>
+<para><symbol role="Variable">angle2</symbol></para>
+<para><command>XDrawLine</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x1 y1 x2 y2</symbol></para>
+<para><command>XDrawLines</command> <symbol role="Variable">display drawable</symbol> [-<emphasis>coordinateMode</emphasis>] [optional GC arguments] <symbol role="Variable">x1 y1</symbol></para>
+<para><symbol role="Variable">x2 y2 [x3 y3 ...</symbol>]</para>
+<para>where <emphasis>coordinateMode</emphasis> is either <command>CoordModeOrigin</command> or <command>CoordModePrevious</command>.</para>
+<para><command>XDrawPoint</command> d<symbol role="Variable">isplay drawable</symbol> [optional GC arguments] <symbol role="Variable">x y</symbol></para>
+<para><command>XDrawPoints</command> <symbol role="Variable">display drawable</symbol> [-<symbol role="Variable">coordinateMode</symbol>] [optional GC
+arguments] <symbol role="Variable">x1 y1</symbol></para>
+<para>[<symbol role="Variable">x2 y2 x3 y3 ...</symbol>]
+</para>
+<para>where <emphasis>coordinateMode</emphasis> is either <command>CoordModeOrigin</command> or <command>CoordModePrevious</command>.</para>
+<para><command>XDrawRectangle</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height</symbol></para>
+<para><command>XDrawSegments</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x1 y1 x2 y2</symbol> [<symbol role="Variable">x3 y3 x4</symbol></para>
+<para><symbol role="Variable">y4 ...</symbol>]</para>
+<para><command>XDrawString</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y string</symbol></para>
+<para><command>XDrawImageString</command> <symbol role="Variable">display
+drawable</symbol> [optional GC arguments] <symbol role="Variable">x y string</symbol></para>
+<para><command>XFillArc</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height
+angle1</symbol></para>
+<para><symbol role="Variable">angle2</symbol></para>
+<para><command>XFillPolygon</command> d<symbol role="Variable">isplay drawable</symbol> [-<emphasis>shape</emphasis>] [-<emphasis>coordinateMode</emphasis>]
+[optional GC</para>
+<para>arguments] <symbol role="Variable">x1 y1 x2 y2</symbol> ...</para>
+<para>where <emphasis>shape</emphasis> is either <command>Complex</command>,
+<filename>Convex,</filename> or <filename>Nonconvex,</filename> and <emphasis>coordinateMode</emphasis> is either <command>CoordModeOrigin</command> or <filename>CoordModePrevious.</filename></para>
+<para><command>XFillRectangle</command> <symbol role="Variable">display drawable</symbol> [optional GC arguments] <symbol role="Variable">x y width height</symbol></para>
+<para><command>XFlush</command> <symbol role="Variable">display</symbol></para>
+<para><command>XHeightOfScreen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">screen</symbol></para>
+<para><command>XRaiseWindow</command> <symbol role="Variable">display window</symbol></para>
+<para><command>XRootWindowOfScreen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">screen</symbol></para>
+<para><command>XSync</command> <symbol role="Variable">display</symbol> <emphasis>discard</emphasis></para>
+<para>where <emphasis>discard</emphasis> is either <command>true</command>
+or <filename>false.</filename></para>
+<para><command>XTextWidth</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">fontName</symbol> <symbol role="Variable">string</symbol></para>
+<note>
+<para>The <command>XTextWidth</command> command is different from the corresponding
+Xlib procedure because it takes the name of a font instead of a pointer to
+a font structure.</para>
+</note>
+<para><command>XUndefineCursor</command> <symbol role="Variable">display window</symbol></para>
+<para><command>XWidthOfScreen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">screen</symbol></para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.3">
+<title>Built-in Xt Intrinsic Commands<indexterm><primary>commands</primary>
+<secondary>Xt Intrinsics</secondary></indexterm><indexterm><primary>Xt Intrinsics
+commands</primary></indexterm></title>
+<para>All the Xt Intrinsics commands used to create a new widget require that
+you specify a widget class for the new widget. The widget (or gadget) class
+name is the standard class name provided by Motif. For example, the class
+name for a Motif push button widget is <command>XmPushButton</command>, while
+the class name for the Motif label gadget is <command>XmLabelGadget</command>.
+</para>
+<para><command>XtAddCallback</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">callbackName</symbol> <emphasis>ksh-command</emphasis> <command><indexterm><primary>XtAddCallback</primary></indexterm></command></para>
+<para>where <emphasis>callbackName</emphasis> is one of the standard Motif
+or Xt callback names, with the <command>Xt</command> or <command>Xm</command>
+prefix dropped. For example, <command>activateCallback</command>.</para>
+<para><command>XtAddEventHandler</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">eventMask</symbol> <emphasis>nonMaskableFlag</emphasis> <emphasis>ksh-command</emphasis><command><indexterm><primary>XtAddEventHandler</primary></indexterm></command></para>
+<para>where <emphasis>eventMask</emphasis> is of the form <emphasis>mask|mask|mask</emphasis> and the <symbol role="Variable">mask</symbol> components are
+any of the standard set of X event masks, and <emphasis>nonMaskableFlag</emphasis>
+is either <command>true</command> or <command>false</command>.</para>
+<para><command>XtAddInput</command> <symbol role="Variable">variable</symbol>
+[-r] <emphasis>fileDescriptor</emphasis> <emphasis>ksh-command</emphasis><command><indexterm>
+<primary>XtAddInput</primary></indexterm></command></para>
+<para>Registers the indicated file descriptor with the X Toolkit as an alternate
+input source. It is the responsibility of the shell script's input handler
+to unregister the input source when it is no longer needed and to close the
+file descriptor.</para>
+<para>If the <filename>-r</filename> option is specified (<emphasis>raw</emphasis>
+mode), then <command>dtksh</command> does not automatically read any of the
+data available from the input source; it will be up to the specified kshell
+command to read all data. If the <filename>-r</filename> option is not specified,
+then the command specified in <emphasis>ksh-command</emphasis> is invoked
+only when a full line is read (that is, a line terminated by either an unescaped
+newline character or the end of the file) or when the end of the file is
+reached. The raw mode is useful for handlers that expect to process nontextual
+data, or for handlers that do not want <command>dtksh</command> automatically
+reading in a line of data. When the end of file is detected, it is the shell
+script's input handler's responsibility to use <command>XtRemoveInput</command> to remove the input source and to close the file descriptor,
+if necessary.</para>
+<para>In all cases, several environment variables are set up, which can be
+used by the handler. These include:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.90in">
+<colspec align="left" colwidth="134*">
+<colspec align="left" colwidth="352*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_LINE</filename></para></entry>
+<entry align="left" valign="top"><para>Empty if in raw mode; otherwise, it
+contains the next line to be processed.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_EOF</filename></para></entry>
+<entry align="left" valign="top"><para>Set to true if end-of-file is reached;
+otherwise, set to <symbol role="Variable">false</symbol>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_SOURCE</filename></para></entry>
+<entry align="left" valign="top"><para>File descriptor associated with this
+input source.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>I<computeroutput>NPUT_ID</computeroutput></para></entry>
+<entry align="left" valign="top"><para>The ID associated with this input
+handler; returned by <command>XtAddInput</command>().</para></entry></row>
+</tbody></tgroup></informaltable>
+<para><command>XtAddTimeout</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">interval ksh-command</symbol></para>
+<para><command>XtAddWorkProc</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">ksh-command</symbol></para>
+<para>In <command>dtksh</command>, the kshell command is typically a kshell
+function name. Like regular work procedures, this function is expected to
+return a value that indicates whether the work procedure wants to be called
+again, or whether it has completed its work and can be automatically unregistered.
+If the <command>dtksh</command> function returns 0, then the work procedure
+remains registered; any other value causes the work procedure to be automatically
+unregistered.</para>
+<para><command>XtAugmentTranslations</command> <symbol role="Variable">widgetHandle
+translations</symbol></para>
+<para><command>XtCreateApplicationShell</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">applicationName widgetClass</symbol></para>
+<para>[ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XtCallCallbacks</command> <symbol role="Variable">widgetHandle
+callbackName</symbol></para>
+<para>where <symbol role="Variable">callbackName</symbol> is one of the standard
+Motif or Xt callback names, with the <command>Xt</command> or <command>Xm</command> prefix dropped; for example, <filename>activateCallback.</filename></para>
+<para><command>XtClass</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Returns the name of the widget class associated with the passed-in widget
+handle.</para>
+<para><command>XtCreateManagedWidget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetName widgetClass</symbol><command><indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm></command></para>
+<para><symbol role="Variable">parentWidgetHandle</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XtCreatePopupShell</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetName widgetClass</symbol></para>
+<para><symbol role="Variable">parentWidgetHandle</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XtCreateWidget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetName widgetClass</symbol></para>
+<para><symbol role="Variable">parentWidgetHandle</symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XtDestroyWidget</command> <symbol role="Variable">widgetHandle</symbol> [<symbol role="Variable">widgetHandle</symbol> ...]</para>
+<para><command>XtDisplay</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol><command><indexterm><primary>XtDisplay</primary></indexterm></command></para>
+<para><command>XtDisplayOfObject</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtGetValues</command> <symbol role="Variable">widgetHandle
+resource:</symbol><emphasis>var1</emphasis> [<symbol role="Variable">resource:</symbol><emphasis>var2</emphasis> ...]</para>
+<para><command>XtHasCallbacks</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <emphasis>callbackName</emphasis></para>
+<para>where <emphasis>callbackName</emphasis> is one
+of the standard Motif or Xt callback names, with the <command>Xt</command>
+or <command>Xm</command> prefix dropped; for example, <filename>activateCallback.</filename></para>
+<para><symbol role="Variable">variable</symbol> is set to one of the strings <command>CallbackNoList</command>, <command>CallbackHasNone</command>, or <command>CallbackHasSome</command>.</para>
+<para><command>XtInitialize</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">shellName applicationClassName applicationName</symbol></para>
+<para><symbol></symbol> [arguments]</para>
+<para>Using <command>Dtksh</command> as the <symbol role="Variable">applicationClassName</symbol> causes the application to use the default <command>dtksh</command>
+<filename>app-defaults</filename> file. The <symbol role="Variable">arguments</symbol>
+parameter is used to reference any command-line arguments that might have
+been specified by the user of the shell script; these are typically referred
+to using the shell syntax of &ldquo;$@&ldquo;.</para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XtIsManaged</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XtIsSubclass</command> <symbol role="Variable">widgetHandle</symbol><symbol role="Globalvar">widgetClass</symbol></para>
+<para>where <symbol role="Globalvar">widgetClass</symbol> is the name of a
+widget class. Returns a value which can be used in a conditional statement.
+</para>
+<para><command>XtNameToWidget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">referenceWidget name</symbol></para>
+<para><command>XtIsRealized</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XtIsSensitive</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XtIsShell</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XtLastTimestampProcessed</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">display</symbol></para>
+<para><command>XtMainLoop</command></para>
+<para><command>XtManageChild</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtManageChildren</command> <symbol role="Variable">widgetHandle</symbol>[<symbol role="Variable">widgetHandle</symbol> ...]</para>
+<para><command>XtMapWidget</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtOverrideTranslations</command> <symbol role="Variable">widgetHandle
+translations</symbol></para>
+<para><command>XtParent</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtPopdown</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtPopup</command> <symbol role="Variable">widgetHandle</symbol> <emphasis>grabType</emphasis></para>
+<para>where <emphasis>grabType</emphasis> is one of the strings <command>GrabNone</command>, <command>GrabNonexclusive</command> or <command>GrabExclusive</command>.</para>
+<para><command>XtRealizeWidget</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtRemoveAllCallbacks</command> <symbol role="Variable">widgetHandle</symbol><emphasis>callbackName</emphasis></para>
+<para>where <emphasis>callbackName</emphasis> is one of the standard Motif
+or Xt callback names, with the <command>Xt</command> or <command>Xm</command>
+prefix dropped; for example, <command>activateCallback</command></para>
+<para><command>XtRemoveCallback</command> <symbol role="Variable">widgetHandle</symbol><emphasis>callbackName</emphasis> <symbol role="Variable">ksh-command</symbol></para>
+<para>where <emphasis>callbackName</emphasis> is one of the standard Motif
+or Xt callback names, with the Xt or Xm prefix dropped; for example, <command>activateCallback</command>. As is true with traditional Xt callbacks, when
+a callback is removed, the same kshell command string must be specified as
+was specified when the callback was originally registered.</para>
+<para><command>XtRemoveEventHandler</command> <symbol role="Variable">widgetHandle</symbol><emphasis>eventMask</emphasis> <emphasis>nonMaskableFlag</emphasis> <symbol role="Variable">ksh-command</symbol></para>
+<para>where <emphasis>eventMask</emphasis> is of the form <symbol role="Variable">mask|mask|mask</symbol> and the mask components are any of the standard set
+of X event masks; that is. <symbol role="Variable">ButtonPressMask</symbol> where
+<emphasis>nonMaskableFlag</emphasis> is either <symbol role="Variable">true</symbol> or <symbol role="Variable">false.</symbol></para>
+<para>As is true with traditional Xt event handlers, when an event handler
+is removed, the same <emphasis>eventMask</emphasis>, <emphasis>nonMaskableFlag</emphasis> setting, and kshell command string must be specified as was specified
+when the event handler was originally registered.</para>
+<para><command>XtRemoveInput</command> <emphasis>inputId</emphasis></para>
+<para>where <emphasis>inputId</emphasis> is the handle that was returned in
+the specified environment variable when the alternate input source was registered
+using the <command>XtAddInput</command> command.</para>
+<para><command>XtRemoveTimeOut</command> <emphasis>timeoutId</emphasis></para>
+<para>where <emphasis>timeoutId</emphasis> is the handle that was returned
+in the specified environment variable when the timeout was registered using
+the <command>XtAddTimeOut</command> command.</para>
+<para><command>XtRemoveWorkProc</command> <emphasis>workprocID</emphasis></para>
+<para>where <emphasis>workprocID</emphasis> is the handle that was returned
+in the specified environment variable when the work procedure was registered
+using the <command>XtAddWorkProc</command> command.</para>
+<para><command>XtScreen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtSetSensitive</command> <symbol role="Variable">widgetHandle</symbol><symbol role="Variable">state</symbol></para>
+<para>where <symbol role="Variable">state</symbol> is either <symbol role="Variable">true</symbol> or <symbol role="Variable">false.</symbol></para>
+<para><command>XtSetValues</command> <symbol role="Variable">widgetHandle
+resource:value</symbol> [<symbol role="Variable">resource:</symbol><symbol role="Variable">value</symbol> ...]</para>
+<para><command>XtUninstallTranslations</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtUnmanageChild</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtUnmanageChildren</command> <symbol role="Variable">widgetHandle</symbol>[<symbol role="Variable">widgetHandle</symbol> ...]</para>
+<para><command>XtUnmapWidget</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtUnrealizeWidget</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XtWindow</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.4">
+<title>Built-in Motif Commands<indexterm><primary>commands</primary><secondary>Motif</secondary></indexterm><indexterm><primary>Motif commands</primary>
+</indexterm></title>
+<para><command>XmAddWMProtocolCallback</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">protocolAtom
+ksh-command</symbol></para>
+<para>where <symbol role="Variable">protocolAtom</symbol> is typically obtained
+using the <command>XmInternAtom</command> command.</para>
+<para><command>XmAddWMProtocols</command> <symbol role="Variable">widgetHandle</symbol> <emphasis>protocolAtom</emphasis> [<emphasis>protocolAtom</emphasis>
+...]</para>
+<para>where <symbol role="Variable">protocolAtom</symbol>
+is typically obtained using the <function>XmInternAtom</function> command.
+</para>
+<para><command>XmCommandAppendValue</command> <symbol role="Variable">widgetHandle
+string</symbol></para>
+<para><command>XmCommandError</command> <symbol role="Variable">widgetHandle
+errorString</symbol></para>
+<para><command>XmCommandGetChild</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">childType</symbol></para>
+<para>where <command>childType</command> is one of the strings
+<filename>DIALOG_COMMAND_TEXT</filename>, <filename>DIALOG_PROMPT_LABEL</filename>,
+<filename>DIALOG_HISTORY_LIST</filename>, or <filename>DIALOG_WORK_AREA</filename>.
+</para>
+<para><command>XmCommandSetValue</command> <symbol role="Variable">widgetHandle
+commandString</symbol></para>
+<para><command>XmCreateArrowButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateArrowButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateBulletinBoard</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateBulletinBoardDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateCascadeButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol>
+...]</para>
+<para><command>XmCreateCascadeButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateCommand</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateDialogShell</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateDrawingArea</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateDrawnButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol>...]</para>
+<para><command>XmCreateErrorDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateFileSelectionBox</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateFileSelectionDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateForm</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateFormDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateFrame</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateInformationDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateLabel</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateLabelGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle
+name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateList</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMainWindow</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMenuBar</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMenuShell</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMessageBox</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateMessageDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateOptionMenu</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePanedWindow</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePopupMenu</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePromptDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePulldownMenu</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePushButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreatePushButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateQuestionDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateRadioBox</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateRowColumn</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScale</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScrollBar</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScrolledList</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScrolledText</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateScrolledWindow</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[<symbol role="Variable">resource:value</symbol>...]</para>
+<para><command>XmCreateSelectionBox</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateSelectionDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateSeparator</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateSeparatorGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateText</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [ <symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateTextField</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateToggleButton</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateToggleButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol>[resource:value</symbol> ...]</para>
+<para><command>XmCreateWarningDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateWorkArea</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmCreateWorkingDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para>[<symbol role="Variable">resource:value</symbol> ...]</para>
+<para><command>XmFileSelectionDoSearch</command> <symbol role="Variable">widgetHandle
+directoryMask</symbol></para>
+<para><command>XmFileSelectionBoxGetChild</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <emphasis>childType</emphasis></para>
+<para>where <emphasis>childType</emphasis> is one of
+the strings <command>DIALOG_APPLY_BUTTON, DIALOG_CANCEL_BUTTON, DIALOG_DEFAULT_BUTTON,
+DIALOG_DIR_LIST, DIALOG_DIR_LIST_LABEL, DIALOG_FILTER_LABEL, DIALOG_FILTER_TEXT,
+DIALOG_HELP_BUTTON, DIALOG_LIST, DIALOG_LIST_LABEL, DIALOG_OK_BUTTON, DIALOG_SEPARATOR,
+DIALOG_SELECTION_LABEL, DIALOG_TEXT</command>, or <filename>DIALOG_WORK_AREA</filename><symbol role="Variable">.</symbol></para>
+<para><command>XmGetAtomName</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">display atom</symbol></para>
+<para><command>XmGetColors</command> <symbol role="Variable">widgetHandle
+background</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2 var3 var4</emphasis></para>
+<para>The <command>XmGetColors</command> command differs from the C procedure in that it takes a <emphasis>widgetHandle</emphasis> instead of a screen pointer and a colormap.</para>
+<para><command>XmGetFocusWidget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmGetPostedFromWidget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmGetTabGroup</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmGetTearOffControl</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmGetVisibility</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmInternAtom</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">display atomString</symbol> <emphasis>onlyIfExistsFlag</emphasis></para>
+<para>where <emphasis>onlyIfExistsFlag</emphasis> can
+be set to either <emphasis>true</emphasis> or <emphasis>false</emphasis><symbol role="Variable">.</symbol></para>
+<para><command>XmIsTraversable</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmListAddItem</command> <symbol role="Variable">widgetHandle
+position itemString</symbol></para>
+<para>The order of the parameters for the <command>XmListAddItem</command> command is not identical to its corresponding C programming counterpart.
+</para>
+<para><command>XmListAddItems</command> <symbol role="Variable">widgetHandle
+position itemString</symbol> [<symbol role="Variable">itemString ...</symbol>]
+</para>
+<para>The order of the parameters for the <command>XmListAddItems</command> command is not identical to its corresponding C programming counterpart.
+</para>
+<para><command>XmListAddItemsUnselected</command> <symbol role="Variable">widgetHandle position itemString [itemString ...]</symbol></para>
+<para>The order of the parameters for the <command>XmListAddItemsUnselected</command> <emphasis>c</emphasis>ommand is not identical to its corresponding
+C programming counterpart.</para>
+<para><command>XmListAddItemUnselected</command> <symbol role="Variable">widgetHandle position itemString</symbol></para>
+<para>The ordering of the parameters to the <command>XmListAddItemUnselected</command> command are not identical
+to its corresponding C programming counterpart.</para>
+<para><command>XmListDeleteAllItems</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmListDeleteItem</command> <symbol role="Variable">widgetHandle
+itemString</symbol></para>
+<para><command>XmListDeleteItems</command> <symbol role="Variable">widgetHandle
+itemString [itemString ...]</symbol></para>
+<para><command>XmListDeleteItemsPos</command> <symbol role="Variable">widgetHandle
+itemCount position</symbol></para>
+<para><command>XmListDeletePos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListDeletePositions</command> <symbol role="Variable">widgetHandle
+position [position ...]</symbol></para>
+<para><command>XmListDeselectAllItems</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmListDeselectItem</command> <symbol role="Variable">widgetHandle
+itemString</symbol></para>
+<para><command>XmListDeselectPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListGetSelectedPos</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Returns a comma-separated list of indices in <symbol role="Variable">variable</symbol>. Returns a value which can be used in a conditional statement.
+</para>
+<para><command>XmListGetKbdItemPos</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmListGetMatchPos</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle itemString</symbol></para>
+<para>Returns a comma-separated list of indices in <symbol role="Variable">variable</symbol>. Returns a value which can be used in a conditional statement.
+</para>
+<para><command>XmListItemExists</command> <symbol role="Variable">widgetHandle
+itemString</symbol></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmListItemPos</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle itemString</symbol></para>
+<para><command>XmListPosSelected</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmListPosToBounds</command> <symbol role="Variable">widgetHandle
+position</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2 var3 vari4</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmListReplaceItemsPos</command> <symbol role="Variable">widgetHandle
+position itemString</symbol> [<symbol role="Variable">itemString</symbol> ...]
+</para>
+<para>The order of the parameters for the <command>XmListReplaceItemsPos</command>
+command is not identical to its corresponding C programming counterpart.
+</para>
+<para><command>XmListReplaceItemsPosUnselected</command> <symbol role="Variable">widgetHandle position itemString</symbol></para>
+<para><symbol>[itemString ...]</symbol></para>
+<para>The order of the parameters for the <command>XmListReplaceItemsPosUnselected</command> command is not identical to its corresponding
+C programming counterpart.</para>
+<para><command>XmListSelectItem</command> <symbol role="Variable">widgetHandle
+itemString notifyFlag</symbol></para>
+<para>where <symbol role="Variable">notifyFlag</symbol> can be set to either <symbol role="Variable">true</symbol> or <symbol role="Variable">false</symbol>.</para>
+<para><command>XmListSelectPos</command> <symbol role="Variable">widgetHandle
+position notifyFlag</symbol></para>
+<para>where <symbol role="Variable">notifyFlag</symbol> can be set to either <symbol role="Variable">true</symbol> or <symbol role="Variable">false</symbol>.</para>
+<para><command>XmListSetAddMode</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">state</symbol></para>
+<para>where <symbol role="Variable">state</symbol> can
+be set to either <symbol role="Variable">true</symbol> or <symbol role="Variable">false</symbol>.</para>
+<para><command>XmListSetBottomItem</command> <emphasis>widgetHandle itemString</emphasis></para>
+<para><command>XmListSetBottomPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListSetHorizPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListSetItem</command> <symbol role="Variable">widgetHandle
+itemString</symbol></para>
+<para><command>XmListSetKbdItemPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmListSetPos</command> <symbol role="Variable">widgetHandle
+position</symbol></para>
+<para><command>XmListUpdateSelectedList</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><filename>XmMainWindowSep1</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><filename>XmMainWindowSep2</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><filename>XmMainWindowSep3</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmMainWindowSetAreas</command> <symbol role="Variable">widgetHandle
+menuWidgetHandle</symbol></para>
+<para><symbol>commandWidgetHandle</symbol></para>
+<para><symbol>horizontalScrollbarWidgetHandle</symbol></para>
+<para><symbol>verticalScrollbarWidgetHandle</symbol></para>
+<para><symbol>workRegionWidgetHandle</symbol></para>
+<para><command>XmMenuPosition</command> <symbol role="Variable">widgetHandle</symbol><emphasis>eventHandle</emphasis></para>
+<para>where <emphasis>eventHandle</emphasis> refers to an X event, which has
+typically been obtained by accessing the <command>CB_CALL_DATA.EVENT, EH_EVENT</command> or <filename>TRANSLATION_EVENT</filename> environment variables.
+</para>
+<para><command>XmMessageBoxGetChild</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <emphasis>childType</emphasis></para>
+<para>where <emphasis>childType</emphasis> is one of the strings <command>DIALOG_CANCEL_BUTTON, DIALOG_DEFAULT_BUTTON,
+DIALOG_HELP_BUTTON, DIALOG_MESSAGE_LABEL, DIALOG_OK_BUTTON, DIALOG_SEPARATOR,</command> or <filename>DIALOG_SYMBOL_LABEL</filename>.</para>
+<para><command>XmOptionButtonGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmOptionLabelGadget</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmProcessTraversal</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">direction</symbol></para>
+<para>where <symbol role="Variable">direction</symbol> is one of the strings <command>TRAVERSE_CURRENT, TRAVERSE_DOWN, TRAVERSE_HOME, TRAVERSE_LEFT, TRAVERSE_NEXT,
+TRAVERSE_NEXT_TAB_GROUP, TRAVERSE_PREV, TRAVERSE_PREV_TAB_GROUP, TRAVERSE_RIGHT</command>, or <filename>TRAVERSE_UP</filename>.</para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmRemoveWMProtocolCallback</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">protocolAtom</symbol> <symbol role="Variable">ksh-command</symbol></para>
+<para>where <emphasis>protocolAtom</emphasis> is typically obtained using
+the <command>XmInternAtom</command> command.</para>
+<para>As is true with traditional Window Manager callbacks, when a callback
+is removed, the same kshell command string must be specified, as was specified
+when the callback was originally registered.</para>
+<para><command>XmRemoveWMProtocols</command> <symbol role="Variable">widgetHandle</symbol> <emphasis>protocolAtom</emphasis> [ <emphasis>protocolAtom</emphasis> ...]</para>
+<para>where <emphasis>protocolAtom</emphasis> is typically
+obtained using the <command>XmInternAtom</command> command.</para>
+<para><command>XmScaleGetValue</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">variable</symbol></para>
+<para><command>XmScaleSetValue</command> <symbol role="Variable">widgetHandle</symbol><symbol role="Variable">value</symbol></para>
+<para><command>XmScrollBarGetValues</command> <symbol role="Variable">widgetHandle</symbol><symbol role="Variable">variable</symbol> <emphasis>var2 var3 var4</emphasis></para>
+<para><command>XmScrollBarSetValues</command> <symbol role="Variable">widgetHandle
+value sliderSize increment pageIncrement</symbol> <emphasis>notifyFlag</emphasis></para>
+<para>where <emphasis>notifyFlag</emphasis> can be set to either <emphasis>true</emphasis> or <emphasis>false</emphasis>.</para>
+<para><command>XmScrollVisible</command> <symbol role="Variable">widgetHandle
+widgetHandle leftRightMargin topBottomMargin</symbol></para>
+<para><command>XmSelectionBoxGetChild</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <emphasis>childType</emphasis></para>
+<para>where <emphasis>childType</emphasis> is one of the strings <command>DIALOG_CANCEL_BUTTON, DIALOG_DEFAULT_BUTTON, DIALOG_HELP_BUTTON, DIALOG_APPLY_BUTTON,
+DIALOG_LIST, DIALOG_LIST_LABEL, DIALOG_OK_BUTTON, DIALOG_SELECTION_LABEL,
+DIALOG_SEPARATOR, DIALOG_TEXT</command>, or <filename>DIALOG_WORK_AREA</filename>.
+</para>
+<para><command>XmTextClearSelection</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">time</symbol></para>
+<para>where <symbol role="Variable">time</symbol> is
+typically either obtained from within an X Event or is queried by a call
+to the <command>XtLastTimestampProcessed</command> command.</para>
+<para><command>XmTextCopy</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">time</symbol></para>
+<para>where <symbol role="Variable">time</symbol> is
+typically either obtained from within an X Event or is queried by a call
+to the <command>XtLastTimestampProcessed</command> command.</para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextCut</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">time</symbol></para>
+<para>where <symbol role="Variable">time</symbol> is
+typically either obtained from within an X Event or is queried by a call
+to the <command>XtLastTimestampProcessed</command> command.</para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextDisableRedisplay</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextEnableDisplay</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextFindString</command> <symbol role="Variable">widgetHandle
+startPosition string</symbol> <symbol role="Variable">direction</symbol> <symbol role="Variable">variable</symbol></para>
+<para>where <symbol role="Variable">direction</symbol> is one of the strings
+<filename>TEXT_FORWARD</filename> or <filename>TEXT_BACKWARD</filename>.</para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextGetBaseline</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextGetEditable</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextGetInsertionPosition</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextGetLastPosition</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol></para>
+<para><command>XmTextGetMaxLength</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextGetSelection</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextGetSelectionPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextGetString</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextGetTopCharacter</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextInsert</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextPaste</command> <emphasis>widgetHandle</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextPosToXY</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextRemove</command> <emphasis>widgetHandle</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextReplace</command> <emphasis>widgetHandle</emphasis> <emphasis>fromPosition</emphasis> <emphasis>toPosition</emphasis> string</para>
+<para><command>XmTextScroll</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">lines</symbol></para>
+<para><command>XmTextSetAddMode</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">state</symbol></para>
+<para>where <symbol role="Variable">state</symbol> can
+be set to either <emphasis>true</emphasis> or <emphasis>false</emphasis>.
+</para>
+<para><command>XmTextSetEditable</command> <emphasis>widgetHandle</emphasis> <emphasis>editableFlag</emphasis></para>
+<para>where <emphasis>editableFlag</emphasis> can be set to either <emphasis>true</emphasis> or <emphasis>false</emphasis>.</para>
+<para><command>XmTextSetHighlight</command> <emphasis>widgetHandle</emphasis> <emphasis>leftPosition</emphasis> <emphasis>rightPosition</emphasis> mode</para>
+<para>where <symbol role="Variable">mode</symbol> is one of the strings
+<filename>HIGHLIGHT_NORMAL</filename>, <filename>HIGHLIGHT_SELECTED</filename> or
+<filename>HIGHLIGHT_SECONDARY_SELECTED</filename>.</para>
+<para><command>XmTextSetInsertionPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol></para>
+<para><command>XmTextSetMaxLength</command> <emphasis>widgetHandle</emphasis> <emphasis>maxLength</emphasis></para>
+<para><command>XmTextSetSelection</command> <emphasis>widgetHandle firstPosition
+lastPosition</emphasis> <symbol role="Variable">time</symbol></para>
+<para>where <symbol role="Variable">time</symbol> is
+typically either obtained from within an X Event or is queried by a call
+to the <command>XtLastTimestampProcessed</command> command.</para>
+<para><command>XmTextSetString</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextSetTopCharacter</command> <emphasis>widgetHandle</emphasis> <emphasis>topCharacterPosition</emphasis></para>
+<para><command>XmTextShowPosition</command> <emphasis>widgetHandle position</emphasis></para>
+<para><command>XmTextXYToPos</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle x y</emphasis></para>
+<para><command>XmTextFieldClearSelection</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">time</symbol></para>
+<para>where <symbol role="Variable">time</symbol> is
+typically either obtained from within an X Event or is queried by a call
+to the <command>XtLastTimestampProcessed</command> command.</para>
+<para><command>XmTextFieldGetBaseline</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetEditable</command> <emphasis>widgetHandle</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextFieldGetInsertionPosition</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetLastPosition</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetMaxLength</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetSelection</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldGetSelectionPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextFieldGetString</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis></para>
+<para><command>XmTextFieldInsert</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextFieldPosToXY</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextFieldRemove</command> <emphasis>widgetHandle</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextFieldReplace</command> <emphasis>widgetHandle</emphasis> <emphasis>fromPosition</emphasis> <emphasis>toPosition</emphasis> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextFieldSetEditable</command> <emphasis>widgetHandle</emphasis> <emphasis>editableFlag</emphasis></para>
+<para>where <emphasis>editableFlag</emphasis> can be set to either <emphasis>true</emphasis> or <emphasis>false</emphasis>.</para>
+<para><command>XmTextFieldSetHighlight</command> <emphasis>widgetHandle</emphasis> <emphasis>leftPosition</emphasis> <emphasis>rightPosition</emphasis> <symbol role="Variable">mode</symbol></para>
+<para>where <symbol role="Variable">mode</symbol> is one of the strings
+<filename>HIGHLIGHT_NORMAL</filename>, <filename>HIGHLIGHT_SELECTED</filename>, or
+<filename>HIGHLIGHT_SECONDARY_SELECTED</filename>.</para>
+<para><command>XmTextFieldSetInsertionPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol></para>
+<para><command>XmTextFieldSetMaxLength</command> <emphasis>widgetHandle maxLength</emphasis></para>
+<para><command>XmTextFieldSetSelection</command> <emphasis>widgetHandle</emphasis> <emphasis>firstPosition</emphasis> <emphasis>lastPosition</emphasis> <symbol role="Variable">time</symbol></para>
+<para>where <symbol role="Variable">time</symbol> is
+typically either obtained from within an X Event or is queried by a call
+to the <command>XtLastTimestampProcessed</command> command.</para>
+<para><command>XmTextFieldSetString</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">string</symbol></para>
+<para><command>XmTextFieldShowPosition</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">position</symbol></para>
+<para><command>XmTextFieldXYToPos</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis> <emphasis>x y</emphasis></para>
+<para><command>XmTextFieldCopy</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">time</symbol></para>
+<para>where <symbol role="Variable">time</symbol> is
+typically either obtained from within an X Event or is queried by a call
+to the <command>XtLastTimestampProcessed</command> command.</para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextFieldCut</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">time</symbol></para>
+<para>where <symbol role="Variable">time</symbol> is
+typically either obtained from within an X Event or is queried by a call
+to the <command>XtLastTimestampProcessed</command> command.</para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextFieldPaste</command> <emphasis>widgetHandle</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmTextFieldSetAddMode</command> <emphasis>widgetHandle</emphasis> <symbol role="Variable">state</symbol></para>
+<para>where <symbol role="Variable">state</symbol> can be set to either <emphasis>true</emphasis> or <emphasis>false</emphasis>.</para>
+<para><command>XmToggleButtonGadgetGetState</command> <emphasis>widgetHandle</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmToggleButtonGadgetSetState</command> <emphasis>widgetHandle</emphasis> <emphasis>state notifyFlag</emphasis></para>
+<para>where <symbol role="Variable">state</symbol> can be set to either <emphasis>true</emphasis> or <emphasis>false,</emphasis> and where <emphasis>notifyFlag</emphasis> can be set to either <emphasis>true</emphasis> or <emphasis>false</emphasis>.</para>
+<para><command>XmToggleButtonGetState</command> <emphasis>widgetHandle</emphasis></para>
+<para>Returns a value which can be used in a conditional statement.</para>
+<para><command>XmToggleButtonSetState</command> <emphasis>widgetHandle</emphasis> <emphasis>state notifyFlag</emphasis></para>
+<para>where <symbol role="Variable">state</symbol> can be set to either <emphasis>true</emphasis> or <emphasis>false</emphasis>, and where <emphasis>notifyFlag</emphasis> can be set to either <emphasis>true</emphasis> or <emphasis>false</emphasis>.</para>
+<para><command>XmUpdateDisplay</command> <emphasis>widgetHandle</emphasis></para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.5">
+<title>Built-in Common Desktop Environment Application Help Commands<indexterm>
+<primary>command</primary><secondary>CDE application help</secondary></indexterm><indexterm>
+<primary>application help commands</primary></indexterm></title>
+<para><command>DtCreateQuickHelpDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol></para>
+<para><symbol></symbol>[<symbol role="Variable">resource</symbol>:<symbol role="Variable">value</symbol> ...]
+</para>
+<para><command>DtCreateHelpDialog</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">parentWidgetHandle name</symbol> [<symbol role="Variable">resource</symbol>:<symbol role="Variable">value</symbol> ...]
+</para>
+<para><command>DtHelpQuickDialogGetChild</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis> <emphasis>childType</emphasis></para>
+<para>where <emphasis>childType</emphasis> is one of the strings <command>HELP_QUICK_OK_BUTTON, HELP_QUICK_PRINT_BUTTON, HELP_QUICK_HELP_BUTTON, HELP_QUICK_SEPARATOR,
+HELP_QUICK_MORE_BUTTON</command>, or <filename>HELP_QUICK_BACK_BUTTON</filename>.
+</para>
+<para><command>DtHelpReturnSelectedWidgetId</command> <symbol role="Variable">variable</symbol> <emphasis>widgetHandle</emphasis> <emphasis>var2</emphasis></para>
+<para><symbol role="Variable">variable</symbol> is set to one of the strings <command>HELP_SELECT_VALID, HELP_SELECT_INVALID, HELP_SELECT_ABORT</command>, or
+<filename>HELP_SELECT_ERROR</filename>. <emphasis>var2</emphasis> is set to the <emphasis>widgetHandle</emphasis> for the selected widget.</para>
+<para><command>DtHelpSetCatalogName</command> <emphasis>catalogName</emphasis></para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.5a">
+<title>Built-in Common Desktop Environment Print Setup Commands</title>
+<indexterm><primary>commands</primary><secondary>print dialog</secondary></indexterm>
+<indexterm><primary>print dialog commands</primary></indexterm>
+<para><command>DtCreatePrintSetupBox</command> <symbol role="variable">variable parent name [resource:value...]</symbol>
+</para>
+<para>Create a print setup box.
+</para>
+<para><command>DtCreatePrintSetupDialog</command> <symbol role="variable">variable parent name [resource:value...]</symbol>
+</para>
+<para>Create a print setup dialog.
+</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.6">
+<title>Built-in Localization Commands<indexterm><primary>commands</primary>
+<secondary>localization</secondary></indexterm><indexterm><primary>localization
+commands</primary></indexterm></title>
+<para><command>catopen</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">catalogName</symbol></para>
+<para>Opens the indicated message catalog and returns the catalog ID in the
+environment variable specified by <symbol role="Variable">variable</symbol>.
+If a shell script needs to close the file descriptor associated with a message
+catalog, then the catalog ID <symbol role="Variable">must</symbol> be closed
+using the <symbol role="Variable">catclose</symbol> command.</para>
+<para><command>catgets</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">catalogId</symbol> <symbol role="Variable">setNumber</symbol> <symbol role="Variable">messageNumber</symbol> <symbol role="Variable">defaultMessageString</symbol></para>
+<para>Attempts to extract the requested message string from the message catalog
+associated with the <emphasis>catalogId</emphasis> parameter. If the message
+string cannot be located, then the default message string is returned. In
+either case, the returned message string is placed into the environment variable
+indicated by <symbol role="Variable">variable</symbol>.</para>
+<para><command>catclose</command> <symbol role="Variable">catalogId</symbol></para>
+<para>Closes the message catalog associated with the indicated <emphasis>catalogId</emphasis>.</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.7">
+<title>Built-in libDt Session Management Commands<indexterm><primary>commands</primary><secondary>libDt session management</secondary></indexterm><indexterm>
+<primary>libDt session management commands</primary></indexterm></title>
+<para><command>DtSessionRestorePath</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">variable</symbol> <symbol role="Variable">sessionFile</symbol></para>
+<para>Given the file name for the session file (excluding any path information),
+this command returns the full path for the session file in the environment
+variable <symbol role="Variable">variable</symbol>.</para>
+<para>Returns 0 if successful, 1 if unsuccessful.</para>
+<para><command>DtSessionSavePath</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">variable</symbol> <emphasis>var2</emphasis></para>
+<para>The full path name for the session file is returned in the environment
+variable <symbol role="Variable">variable</symbol>.
+The file name portion of the session file (excluding any path information)
+is returned in the environment variable indicated by <emphasis>var2</emphasis>.
+</para>
+<para>Returns 0 if successful, 1 if unsuccessful.</para>
+<para><command>DtShellIsIconified</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Allows a shell script to query the iconified state of a shell window.
+Returns 0 if successful, 1 if unsuccessful.</para>
+<para><command>DtSetStartupCommand</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">commandString</symbol></para>
+<para>Part of the session management process is telling the Session Manager
+how to restart your application the next time the user reopens the session.
+This command passes the specified command string to the Session Manager.
+The widget handle should refer to an application shell.</para>
+<para><command>DtSetIconifyHint</command> <symbol role="Variable">widgetHandle</symbol> <emphasis>iconifyHint</emphasis></para>
+<para>where <emphasis>iconifyHint</emphasis> can be set to either true or
+false.</para>
+<para>Allows the initial iconified state for a shell window to be set. This
+command only works if the window associated with the widget has been realized
+but not yet displayed.</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.8">
+<title>Built-in libDt Workspace Management Commands<indexterm><primary>commands</primary><secondary>workspace management</secondary></indexterm><indexterm>
+<primary>workspace management commands</primary></indexterm></title>
+<para><command>DtWsmAddCurrentWorkspaceCallback</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">ksh-command</symbol></para>
+<para>Evaluates the specified kshell command whenever the user changes workspaces.
+The handle associated with this callback is returned in the environment variable
+indicated by <symbol role="Variable">variable</symbol>. The widget indicated
+by <emphasis>widgetHandle</emphasis> should be a shell widget.</para>
+<para><command>DtWsmRemoveWorkspaceCallback</command> <symbol role="Variable">callbackHandle</symbol></para>
+<para>Removes a workspace notification callback. When removing a workspace
+callback, you must pass in the callback handle that was returned when you
+registered the callback with <function>DtWsmAddCurrentWorkspaceCallback</function>.
+</para>
+<para><command>DtWsmGetCurrentWorkspace</command> <symbol role="Variable">display</symbol> <symbol role="Variable">rootWindow</symbol> <symbol role="Variable">variable</symbol></para>
+<para>Returns the X atom that represents the user's current workspace in the
+environment variable indicated by <symbol role="Variable">variable</symbol>.
+Use the <command>XmGetAtomName</command> command to map the X atom into its
+string representation.</para>
+<para><command>DtWsmSetCurrentWorkspace</command> <symbol role="Variable">widgetHandle</symbol> <symbol role="Variable">workspaceNameAtom</symbol></para>
+<para>Changes the user's current workspace to the workspace indicated by <emphasis>workspaceNameAtom</emphasis>.</para>
+<para>Returns 0 if successful, 1 if unsuccessful.</para>
+<para><command>DtWsmGetWorkspaceList</command> <symbol role="Variable">display</symbol> <symbol role="Variable">rootWindow</symbol> <symbol role="Variable">variable</symbol></para>
+<para>Returns a string of comma-separated X atoms, representing the current
+set of workspaces defined for the user, in the environment variable indicated
+by <symbol role="Variable">variable</symbol>.</para>
+<para>Returns 0 if successful, 1 if unsuccessful.</para>
+<para><command>DtWsmGetWorkspacesOccupied</command> <symbol role="Variable">display</symbol> <symbol role="Variable">window</symbol> <symbol role="Variable">variable</symbol></para>
+<para>Returns a string of comma-separated X atoms, representing the current
+set of workspaces occupied by the indicated shell window in the environment
+variable indicated by <symbol role="Variable">variable</symbol>.</para>
+<para>Returns 0 if successful, 1 if unsuccessful.</para>
+<para><command>DtWsmSetWorkspacesOccupied</command> <symbol role="Variable">display window workspaceList</symbol></para>
+<para>Moves the indicated shell window to the set of workspaces indicated
+by the string <emphasis>workspaceList</emphasis>, which must be a comma-separated
+list of X atoms.</para>
+<para><command>DtWsmAddWorkspaceFunctions</command> <symbol role="Variable">display window</symbol></para>
+<para>Forces the Window Manager menu to include the functions used to move
+the window to other workspaces. This command only works if the window is
+in the withdrawn state.</para>
+<para><command>DtWsmRemoveWorkspaceFunctions</command> <symbol role="Variable">display</symbol> <symbol role="Variable">window</symbol></para>
+<para>Forces the Window Manager menu to not display the functions used to
+move the window to other workspaces; this prevents the window from being
+moved to any other workspaces. This command only works if the window is in
+the withdrawn state.</para>
+<para><command>DtWsmOccupyAllWorkspaces</command> <symbol role="Variable">display window</symbol></para>
+<para>Requests that a window occupy all workspaces, including new workspaces,
+as they are created.</para>
+<para><command>DtWsmGetCurrentBackdropWindows</command> <symbol role="Variable">display</symbol> <symbol role="Variable">rootWindow</symbol> <symbol role="Variable">variable</symbol></para>
+<para>Returns a string of comma-separated window IDs, representing the set
+of root backdrop windows.</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.9">
+<title>Built-in libDt Action Commands<indexterm><primary>commands</primary>
+<secondary>action</secondary></indexterm><indexterm><primary>action commands</primary></indexterm></title>
+<para>The set of commands in this section provide you with the tools for loading
+the action databases, querying information about actions defined in the databases,
+and requesting that an action be initiated.</para>
+<para><command>DtDbLoad</command></para>
+<para>Reads in the action and data-types databases. If called multiple times,
+then the old databases are freed before the new ones are read. This command
+must be called before any of the other <command>libDt</command> action commands,
+or any of the <command>libDt</command> data typing commands. The shell script
+should also use the <function>DtDbReloadNotify</function> command, so that
+the shell script can be notified if new databases must be loaded.</para>
+<para><command>DtDbReloadNotify</command> <symbol role="Variable">ksh-command</symbol></para>
+<para>Requests notification whenever the action or data-types databases need
+to be reloaded. The specified kshell command is executed when the notification
+is received. Typically, the kshell command includes a call to the <command>DtDbLoad</command> command.</para>
+<para><command>DtActionExists</command> <symbol role="Variable">actionName</symbol></para>
+<para>Tests to see if an action exists in the database with the name specified
+by the <emphasis>actionName</emphasis> parameter. Returns a value which
+can be used in a conditional statement.</para>
+<para><command>DtActionLabel</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">actionName</symbol></para>
+<para>Returns the localizable LABEL attribute associated with the indicated
+action. If the action does not exist, then an empty string is returned.
+</para>
+<para><command>DtActionDescription</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">actionName</symbol></para>
+<para>Returns the value of the DESCRIPTION attribute associated with the
+indicated action. An empty string is returned if the action is not defined,
+or if the DESCRIPTION attribute was not specified.</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.10">
+<title>Built-in libDt Data-Typing Commands<indexterm><primary>commands</primary>
+<secondary>data-typing</secondary></indexterm><indexterm><primary>data-typing
+commands</primary></indexterm><indexterm><primary>commands</primary><secondary>libdt</secondary></indexterm><indexterm><primary>libDt commands</primary>
+</indexterm></title>
+<para><command>DtLoadDataTypes</command></para>
+<para>Loads the data-typing databases and should be invoked before any of
+the other data-typing commands.</para>
+<para><command>DtDtsFileToDataType</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">filePath</symbol></para>
+<para>Returns the name of the data type associated with the file indicated
+by the <emphasis>filePath</emphasis> argument in the <symbol role="Variable">variable</symbol> argument. The <symbol role="Variable">variable</symbol> argument is set to an empty string if the file cannot be typed.
+</para>
+<para><command>DtDtsFileToAttributeValue</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">filePath</symbol> <symbol role="Variable">attrName</symbol></para>
+<para>Returns the string representing the value of the specified attribute
+for the data type associated with the indicated file. If the attribute is
+not defined, or if the file could not be typed, then the <symbol role="Variable">variable</symbol> argument is set to an empty string.</para>
+<para><command>DtDtsFileToAttributeList</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">filePath</symbol></para>
+<para>Returns the space-separated list of attribute names defined for the
+data type associated with the indicated file. A shell script can then query
+the individual values for the attributes, using the <command>DtDtsFileToAttributeValue</command> command. The <symbol role="Variable">variable</symbol> argument
+is set to an empty string if the file cannot be typed. This command differs
+from its corresponding C programming counterpart, in that it only returns
+the names of the defined attributes and not their values.</para>
+<para><command>DtDtsDataTypeToAttributeValue</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">dataType</symbol> <symbol role="Variable">attrName</symbol> <symbol role="Variable">optName</symbol></para>
+<para>Returns the string representing the value of the specified attribute
+for the indicated data type. If the attribute is not defined, or if the indicated
+data type does not exist, then the <symbol role="Variable">variable</symbol>
+argument is set to an empty string.</para>
+<para><command>DtDtsDataTypeToAttributeList</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">dataType</symbol> <symbol role="Variable">optName</symbol></para>
+<para>Returns the space-separated list of attribute names defined for the
+indicated data type. A shell script can then query the individual values
+for the attributes, using the <command>DtDtsDataTypeToAttributeValue</command>
+command. The <symbol role="Variable">variable</symbol> argument is set to
+an empty string if the data type is not defined. This command differs from
+its corresponding C programming counterpart, in that it only returns the
+names of the defined attributes and not their values.</para>
+<para><command>DtDtsFindAttribute</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">name</symbol> <symbol role="Variable">value</symbol></para>
+<para>Returns a space-separated list of datatype names whose attribute indicated
+by the <symbol role="Variable">name</symbol> argument has the value indicated
+by the <symbol role="Variable">value</symbol> argument. If an error occurs,
+the <symbol role="Variable">variable</symbol> argument is set to an empty
+string.</para>
+<para><command>DtDtsDataTypeNames</command> <symbol role="Variable">variable</symbol></para>
+<para>Returns a space-separated list representing all the data types currently
+defined in the data-types database. If an error occurs, then the <symbol role="Variable">variable</symbol> argument is set to an empty string.</para>
+<para><command>DtDtsSetDataType</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">filePath</symbol> <symbol role="Variable">dataType</symbol> <symbol role="Variable">override</symbol></para>
+<para>Sets a data type for the specified directory. The <symbol role="Variable">variable</symbol> argument is set to the resultant saved data type for the
+directory.</para>
+<para><command>DtDtsDataTypeIsAction</command> <symbol role="Variable">dataType</symbol></para>
+<para>Determines whether a particular data type represents an action entry.
+Returns a value which can be used in a conditional statement.</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.11">
+<title>Miscellaneous Built-in libDt Commands<indexterm><primary>commands</primary>
+<secondary>libDt</secondary></indexterm><indexterm><primary>libDt commands</primary></indexterm></title>
+<para><command>DtGetHourGlassCursor</command> <symbol role="Variable">variable</symbol> <symbol role="Variable">display</symbol></para>
+<para>Returns the X cursor ID associated with the standard <command>Dt</command>
+hourglass cursor.</para>
+<para><command>DtTurnOnHourGlass</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Turns on the standard <command>Dt</command> hourglass cursor for the
+indicated widget.</para>
+<para><command>DtTurnOffHourGlass</command> <symbol role="Variable">widgetHandle</symbol></para>
+<para>Turns off the standard <command>Dt</command> hourglass cursor for the
+indicated widget.</para>
+</sect1>
+<sect1 id="DKSUG.cmds.div.12">
+<title>Built-in Desktop Services Message Set Commands<indexterm><primary>commands</primary><secondary>message set</secondary></indexterm><indexterm>
+<primary>message set commands</primary></indexterm></title>
+<para>The following set of commands implements the minimum subset of the
+Desktop Services Message Set required to allow a shell script to participate
+in the Desktop Services protocol. Many of the ToolTalk commands differ slightly
+from their associated C programming call. For ToolTalk commands that typically
+return a pointer, a C application validates that pointer by calling the
+<filename>tt_ptr_error</filename>() function; this function call returns a
+<filename>Tt_status</filename> value, which indicates whether the pointer was valid,
+and if not, why it was not valid. Because of the kshell code's design, the
+string pointer that the shell script sees is not typically the same as the
+string pointer returned by the underlying C code. Typically, during shell
+programming, this is not a problem because the important information is the
+string value, not the string pointer.</para>
+<para>To allow shell scripts to get the status of a pointer, any of the commands
+that normally return a pointer also return the associated <filename>Tt_status</filename> value for the pointer automatically. This saves the shell script
+from needing to make an additional call to check the validity of the original
+pointer. In the case of a pointer error occurring, <command>dtksh</command>
+returns an empty string for the pointer value and sets the <filename>Tt_status</filename> code accordingly.</para>
+<para>The <filename>Tt_status</filename> value is returned in the <symbol role="Variable">status</symbol> argument. The <filename>Tt_status</filename>
+value is a string representing the error and can assume any of the following
+values:</para>
+<para><filename>TT_OK</filename></para>
+<para><filename>TT_WRN_NOTFOUND</filename></para>
+<para><filename>TT_WRN_STALE_OBJID</filename></para>
+<para><filename>TT_WRN_STOPPED</filename></para>
+<para><filename>TT_WRN_SAME_OBJID</filename></para>
+<para><filename>TT_WRN_START_MESSAGE</filename></para>
+<para><filename>TT_ERR_CLASS</filename></para>
+<para><filename>TT_ERR_DBAVAIL</filename></para>
+<para><filename>TT_ERR_DBEXIST</filename></para>
+<para><filename>TT_ERR_FILE</filename></para>
+<para><filename>TT_ERR_INVALID</filename></para>
+<para><filename>TT_ERR_MODE</filename></para>
+<para><filename>TT_ERR_ACCESS</filename></para>
+<para><filename>TT_ERR_NOMP</filename></para>
+<para><filename>TT_ERR_NOTHANDLER</filename></para>
+<para><filename>TT_ERR_NUM</filename></para>
+<para><filename>TT_ERR_OBJID</filename></para>
+<para><filename>TT_ERR_OP</filename></para>
+<para><filename>TT_ERR_OTYPE</filename></para>
+<para><filename>TT_ERR_ADDRESS</filename></para>
+<para><filename>TT_ERR_PATH</filename></para>
+<para><filename>TT_ERR_POINTER</filename></para>
+<para><filename>TT_ERR_PROCID</filename></para>
+<para><filename>TT_ERR_PROPLEN</filename></para>
+<para><filename>TT_ERR_PROPNAME</filename></para>
+<para><filename>TT_ERR_PTYPE</filename></para>
+<para><filename>TT_ERR_DISPOSITION</filename></para>
+<para><filename>TT_ERR_SCOPE</filename></para>
+<para><filename>TT_ERR_SESSION</filename></para>
+<para><filename>TT_ERR_VTYPE</filename></para>
+<para><filename>TT_ERR_NO_VALUE</filename></para>
+<para><filename>TT_ERR_INTERNAL</filename></para>
+<para><filename>TT_ERR_READONLY</filename></para>
+<para><filename>TT_ERR_NO_MATCH</filename></para>
+<para><filename>TT_ERR_UNIMP</filename></para>
+<para><filename>TT_ERR_OVERFLOW</filename></para>
+<para><filename>TT_ERR_PTPE_START</filename></para>
+<para><filename>TT_ERR_CATEGORY</filename></para>
+<para><filename>TT_ERR_DBUPDATE</filename></para>
+<para><filename>TT_ERR_DBFULL</filename></para>
+<para><filename>TT_ERR_DBCONSIST</filename></para>
+<para><filename>TT_ERR_STATE</filename></para>
+<para><filename>TT_ERR_NOMEM</filename></para>
+<para><filename>TT_ERR_SLOTNAME</filename></para>
+<para><filename>TT_ERR_XDR</filename></para>
+<para><filename>TT_DESKTOP_EPERM</filename></para>
+<para><filename>TT_DESKTOP_ENOENT</filename></para>
+<para><filename>TT_DESKTOP_EINTR</filename></para>
+<para><filename>TT_DESKTOP_EIO</filename></para>
+<para><filename>TT_DESKTOP_EAGAIN</filename></para>
+<para><filename>TT_DESKTOP_ENOMEM</filename></para>
+<para><filename>TT_DESKTOP_EACCES</filename></para>
+<para><filename>TT_DESKTOP_EFAULT</filename></para>
+<para><filename>TT_DESKTOP_EEXIST</filename></para>
+<para><filename>TT_DESKTOP_ENODEV</filename></para>
+<para><filename>TT_DESKTOP_ENOTDIR</filename></para>
+<para><filename>TT_DESKTOP_EISDIR</filename></para>
+<para><filename>TT_DESKTOP_EINVAL</filename></para>
+<para><filename>TT_DESKTOP_ENFILE</filename></para>
+<para><filename>TT_DESKTOP_EMFILE</filename></para>
+<para><filename>TT_DESKTOP_ETXBSY</filename></para>
+<para><filename>TT_DESKTOP_EFBIG</filename></para>
+<para><filename>TT_DESKTOP_ENOSPC</filename></para>
+<para><filename>TT_DESKTOP_EROFS</filename></para>
+<para><filename>TT_DESKTOP_EMLINK</filename></para>
+<para><filename>TT_DESKTOP_EPIPE</filename></para>
+<para><filename>TT_DESKTOP_ENOMSG</filename></para>
+<para><filename>TT_DESKTOP_EDEADLK</filename></para>
+<para><filename>TT_DESKTOP_ECANCELED</filename></para>
+<para><filename>TT_DESKTOP_ENOTSUP</filename></para>
+<para><filename>TT_DESKTOP_ENODATA</filename></para>
+<para><filename>TT_DESKTOP_EPROTO</filename></para>
+<para><filename>TT_DESKTOP_ENOTEMPTY</filename></para>
+<para><filename>TT_DESKTOP_ETIMEDOUT</filename></para>
+<para><filename>TT_DESKTOP_EALREADY</filename></para>
+<para><filename>TT_DESKTOP_UNMODIFIED</filename></para>
+<para><filename>TT_MEDIA_ERR_SIZE</filename></para>
+<para><filename>TT_MEDIA_ERR_FORMAT</filename></para>
+<para>Some of the commands take a message scope as a parameter. The scope
+indicates which clients have the potential of receiving the outgoing message.
+For these commands, the <emphasis>scope</emphasis> parameter can be set
+to any of the following values:</para>
+<para><filename>TT_SCOPE_NONE</filename></para>
+<para><filename>TT_SESSION</filename></para>
+<para><filename>TT_FILE</filename></para>
+<para><filename>TT_BOTH</filename></para>
+<para><filename>TT_FILE_IN_SESSION</filename></para>
+<para><filename>tt_file_netfile</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">filename</symbol></para>
+<para>Converts the indicated <symbol role="Variable">filename</symbol>, assumed
+to be a valid file name on the local host, to its corresponding <emphasis>netfilename</emphasis> format. A <emphasis>netfilename</emphasis> can be
+passed to other hosts on a network and then converted back to a path relative
+to the other host, using the <filename>tt_netfile_file</filename> command.
+</para>
+<para><filename>tt_netfile_file</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">netfilename</symbol></para>
+<para>Converts the indicated <emphasis>netfilename</emphasis> to a path name
+that is valid on the local host.</para>
+<para><filename>tt_host_file_netfile</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">host</symbol> <symbol role="Variable">filename</symbol></para>
+<para>Converts the indicated file, assumed to be resident on the specified
+host, into its corresponding <emphasis>netfilename</emphasis> format.</para>
+<para><filename>tt_host_netfile_file</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">host</symbol> <symbol role="Variable">netfilename</symbol></para>
+<para>Converts the indicated <emphasis>netfilename</emphasis> into a valid
+path on the indicated host.</para>
+<para><filename>ttdt_open</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <emphasis>var2</emphasis> <symbol role="Variable">toolname</symbol> <symbol role="Variable">vendor</symbol> <symbol role="Variable">version</symbol> <symbol role="Variable">sendStarted</symbol></para>
+<para>Opens a ToolTalk communications endpoint. It returns in the <symbol role="Variable">variable</symbol> argument the procID associated with this
+connection. It returns the file descriptor associated with this connection
+in <emphasis>var2</emphasis>; this file descriptor can be used to register
+an alternate Xt input handler. The <symbol role="Variable">sendStarted</symbol>
+argument is a value and if set to <emphasis>true</emphasis>, causes a <command>Started</command> message to be automatically sent.</para>
+<para>Any procIDs returned by <filename>ttdt_open</filename> contain embedded
+spaces. To prevent kshell from interpreting the procID as a multiple parameter
+(versus a single parameter with embedded spaces), you should always enclose
+any references to the environment variable containing the procID within double
+quotes, as shown:</para>
+<programlisting>ttdt_close STATUS &ldquo;$PROC_ID&rdquo; &ldquo;&ldquo; True
+</programlisting>
+<para><filename>tttk_Xt_input_handler</filename> <symbol role="Variable">procID</symbol> <symbol role="Variable">source</symbol> <symbol role="Variable">id</symbol></para>
+<para>For the ToolTalk messages to be received and processed, the shell script
+must register an Xt input handler for the file descriptor returned by the
+call to <filename>ttdt_open</filename>. The Xt input handler is registered
+using the <command>XtAddInput</command> command, and
+the handler <emphasis>must</emphasis> be registered as a <emphasis>raw</emphasis>
+input handler. The input handler that the shell script registers should
+invoke <filename>tttk_Xt_input_handler</filename> to get the message received
+and processed. The following code block demonstrates how this is done:</para>
+<programlisting>ttdt_open PROC_ID STATUS FID &ldquo;Tool&rdquo; &ldquo;HP&rdquo; &ldquo;1.0&rdquo; True XtAddInput
+INPUT_ID -r $FID &ldquo;ProcessTTInput \&rdquo;$PROC_ID\&rdquo;&rdquo;
+
+ProcessTTInput()
+{
+  tttk_Xt_input_handler $1 $INPUT_SOURCE $INPUT_ID
+}</programlisting>
+<para>Refer to the description of the <command>XtAddInput</command> command
+for more details about alternate Xt input handlers.</para>
+<para>Note that the <filename>\&rdquo;</filename> (backslash and double quotation
+mark) characters before and after the reference to the procID environment
+variable are necessary, because the value contained in the procID environment
+variable contains embedded spaces and could be misinterpreted unless escaped
+as shown.</para>
+<para><filename>ttdt_close</filename> <symbol role="Variable">status</symbol> <symbol role="Variable">procID newProcId sendStopped</symbol></para>
+<para>Closes the indicated communications connection and optionally sends
+a <symbol role="Variable">Stopped</symbol> notice, if the <emphasis>sendStopped</emphasis> argument is set to <symbol role="Variable">true</symbol>.</para>
+<para>Because the procID returned by the call to <filename>ttdt_open</filename>
+contains embedded spaces, it is necessary to enclose any references to the
+procID environment variable within double quotation marks:</para>
+<programlisting>ttdt_close STATUS &ldquo;$PROC_ID&rdquo; &ldquo;$NEW_PROC_ID&rdquo; False
+</programlisting>
+<para><filename>ttdt_session_join</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> s <symbol role="Variable">essId shellWidgetHandle join</symbol></para>
+<para>Joins the session indicated by the <emphasis>sessId</emphasis> argument
+as a good desktop citizen, by registering patterns and default callbacks
+for many standard desktop message interfaces. If the <emphasis>sessId</emphasis>
+argument does not specify a value (that is, it is an empty string), then
+the default session is joined. If the <emphasis>shellWidgetHandle</emphasis>
+argument specifies a widget handle (that is, it is not an empty string),
+then it should refer to a <command>mappedWhenManaged</command> <command>applicationShellWidget</command>. The <emphasis>join</emphasis> argument
+is a Boolean and should be set to true or false. This command returns an
+opaque <symbol role="Variable">pattern</symbol> handle in the <symbol role="Variable">variable</symbol> argument; when no longer needed, this handle can be destroyed
+using the <filename>ttdt_session_quit</filename> command.</para>
+<para><filename>ttdt_session_quit</filename> <symbol role="Variable">status</symbol> <symbol role="Variable">sessId sessPatterns quit</symbol></para>
+<para>Destroys the message patterns specified by the <emphasis>sessPatterns</emphasis> argument and, if the <symbol role="Variable">quit</symbol> argument
+is set to <emphasis>true</emphasis>, quits the session indicated by the <emphasis>sessId</emphasis> argument or quits the default session if <emphasis>sessId</emphasis> is empty.</para>
+<para><filename>ttdt_file_join</filename> <symbol role="Variable">variable</symbol> <symbol role="Variable">status</symbol> <symbol role="Variable">pathName scope join ksh-command</symbol></para>
+<para>Registers interest in the deleted, modified, reverted, moved, and saved
+messages for the indicated file in the indicated scope. An opaque pattern
+handle is returned in the <symbol role="Variable">variable</symbol> argument.
+When no longer interested in monitoring messages for the indicated file,
+this should be destroyed by calling <filename>ttdt_file_quit</filename>.
+</para>
+<para>The requested <emphasis>ksh-command</emphasis> is evaluated anytime
+one of the messages is received for the indicated file. When this kshell
+command is evaluated, the following environment variables are defined and
+provide additional information about the received message:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.64in">
+<colspec align="left" colwidth="202*">
+<colspec align="left" colwidth="346*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_MSG</filename></para></entry>
+<entry align="left" valign="top"><para>Contains the opaque handle for the
+incoming message</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_OP</filename></para></entry>
+<entry align="left" valign="top"><para>Contains the string representing the
+operation to be performed; that is, <command>TTDT_DELETED, TTDT_MODIFIED,
+TTDT_REVERTED, TTDT_MOVED</command> or <filename>TTDT_SAVED</filename>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_PATHNAME</filename></para></entry>
+<entry align="left" valign="top"><para>Contains the pathname for the file
+to which this message pertains.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_SAME_EUID_EGID</filename></para></entry>
+<entry align="left" valign="top"><para>Set to True if the message was sent
+by an application operating with the same effective user ID (euid) and effective
+group ID (egid) as this process.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>DT_TT_SAME_PROCID</filename>
+</para></entry>
+<entry align="left" valign="top"><para>Set to True if the message was sent
+by an application with the same procID (as returned by <filename>ttdt_open</filename>).</para></entry></row></tbody></tgroup></informaltable>
+<para>When the callback completes, it <emphasis>must</emphasis> indicate whether
+the passed-in message was &ldquo;consumed&rdquo; (replied-to, failed, or
+rejected). If the callback returns the message (as passed-in in the
+<filename>DT_TT_MSG</filename> environment variable), then it is assumed that the message
+was not consumed. If the message was consumed, then the callback should return
+0, or one of the values returned by the <filename>tt_error_pointer</filename>
+command. The callback can return its value in the following fashion:</para>
+<programlisting>return $DT_TT_MSG (or) return 0</programlisting>
+<para><filename>ttdt_file_quit</filename> <symbol role="Variable">status</symbol> <emphasis>patterns quit</emphasis></para>
+<para>Destroys the message patterns specified by the <emphasis>patterns</emphasis> argument and unregisters interest in the path name that was passed
+to the <emphasis>ttdt_file_join</emphasis> command, if <symbol role="Variable">quit</symbol> is set to <emphasis>true</emphasis>. The <emphasis>patterns</emphasis> argument should be the value that was returned by the call to
+the <filename>ttdt_file_join</filename> command.</para>
+<para><filename>ttdt_file_event</filename> <emphasis>status op patterns send</emphasis></para>
+<para>Creates, and optionally sends, a ToolTalk notice announcing an event
+pertaining to a file. The file is indicated by the path name that was passed
+to the <filename>ttdt_file_join</filename> command when <emphasis>patterns</emphasis> was created. The <symbol role="Variable">op</symbol> argument
+indicates what should be announced for the indicated file, and it can be
+set to <filename>TTDT_MODIFIED</filename>, <filename>TTDT_SAVED</filename>,
+or <filename>TTDT_REVERTED</filename>. If <symbol role="Variable">op</symbol>
+is set to <filename>TTDT_MODIFIED</filename>, then this command registers
+to handle <symbol role="Message">Get_Modified</symbol>, <symbol role="Message">
+Save</symbol> and <symbol role="Message">Revert</symbol> messages in the scope
+specified when the <emphasis>patterns</emphasis> were created. If <symbol role="Variable">op</symbol> is set to <filename>TTDT_SAVED</filename> or
+<filename>TTDT_REVERTED</filename>, this command unregisters from handling <symbol role="Message">Get_Modified</symbol>, <emphasis>Save,</emphasis> and <symbol role="Message">Revert</symbol> messages for this file. If the <emphasis>send</emphasis> argument is set to <emphasis>true</emphasis>, then the indicated
+message is sent.</para>
+<para><filename>ttdt_Get_Modified</filename> <emphasis>pathName</emphasis> <emphasis>scope</emphasis> <emphasis>timeout</emphasis></para>
+<para>Sends a <symbol role="Message">Get_Modified</symbol> request in the
+indicated scope and waits for a reply or for the specified timeout (in milliseconds)
+to elapse. A <symbol role="Message">Get_Modified</symbol> request asks other
+ToolTalk clients if they have any changes pending on <symbol role="Variable">pathname</symbol> that they intend to make persistent. Returns a value which
+can be used in a conditional statement. A value of <emphasis>true</emphasis>
+is returned if an affirmative reply is received within the specified timeout;
+otherwise, false is returned.</para>
+<para><filename>ttdt_Save</filename> <symbol role="Variable">status</symbol> <emphasis>pathName</emphasis> <emphasis>scope</emphasis> <emphasis>timeout</emphasis></para>
+<para>Sends a <symbol role="Message">Save</symbol> request in the indicated <emphasis>scope</emphasis> and waits for a reply or for the indicated <emphasis>timeout</emphasis> (in milliseconds) to elapse. A <symbol role="Message">Save</symbol>
+request asks the handling ToolTalk client to save any changes pending for
+the file specified in the <emphasis>pathName</emphasis> argument. A status
+of <filename>TT_OK</filename> is returned if an affirmative reply is received
+before the timeout elapses. Otherwise, one of the standard <filename>Tt_status</filename> error values is returned.</para>
+<para><filename>ttdt_Revert</filename> <symbol role="Variable">status</symbol> <emphasis>pathName</emphasis> <emphasis>scope</emphasis> <emphasis>timeout</emphasis></para>
+<para>Sends a <symbol role="Message">Revert</symbol> request in the indicated <emphasis>scope</emphasis> and waits for a reply or for the indicated <emphasis>timeout</emphasis> (in milliseconds) to elapse. A <emphasis>Revert</emphasis> request
+asks the handling ToolTalk client to discard any changes pending for the
+file specified in the <emphasis>pathName</emphasis> argument. A status of
+<filename>TT_OK</filename> is returned if an affirmative reply is received before the
+timeout elapses. Otherwise, one of the standard <structname role="typedef">Tt_status</structname> error values is returned.</para>
+<para>The following commands are typically used by the callback registered
+with the <filename>ttdt_file_join</filename> command. They serve as the
+mechanism for consuming and destroying a message. A message is <emphasis>consumed</emphasis> by either rejecting, failing, or replying to it. <emphasis>tt_error_pointer</emphasis> can be used by the callback to obtain a return
+pointer for indicating an error condition.</para>
+<para><filename>tt_error_pointer</filename> <symbol role="Variable">variable</symbol> <emphasis>ttStatus</emphasis></para>
+<para>Returns a &ldquo;magic value,&rdquo; which is used by ToolTalk to
+represent an invalid pointer. The magic value returned depends upon the <emphasis>ttStatus</emphasis> value passed- in. Any of the valid <filename>Tt_status</filename> values may be specified.</para>
+<para><filename>tttk_message_destroy</filename> <emphasis>status msg</emphasis></para>
+<para>Destroys any patterns that may have been stored on the message indicated
+by the <emphasis>msg</emphasis> argument, and then destroys the message.
+</para>
+<para><filename>tttk_message_reject</filename> <symbol role="Variable">status</symbol> <emphasis>msg msgStatus msgStatusString destroy</emphasis></para>
+<para>Sets the status and the status string for the indicated request message,
+and then rejects the message. It then destroys the passed-in message, if
+the <symbol role="Variable">destroy</symbol> argument is set to <command>True</command>. This command is one way in which the callback specified with
+the <filename>ttdt_file_join</filename> command can consume a message. It
+is typically safe to destroy the message, using <filename>tttk_message_destroy</filename>, after rejecting the message.</para>
+<para><filename>tttk_message_fail</filename> <symbol role="Variable">status</symbol> <emphasis>msg msgStatus msgStatusString destroy</emphasis></para>
+<para>Sets the status and the status string for the indicated request message,
+and then fails the message. It then destroys the passed-in message, if the <symbol role="Variable">destroy</symbol> argument is set to <command>True</command>.
+This command is one way in which the callback specified with the
+<filename>ttdt_file_join</filename> command can consume a message. It is typically
+safe to destroy the message, using <filename>tttk_message_destroy</filename>,
+after failing the message.</para>
+<para><filename>tt_message_reply</filename> <symbol role="Variable">status</symbol> <emphasis>msg</emphasis></para>
+<para>Informs the ToolTalk service that the shell script has handled the message
+and filled in all return values. The ToolTalk service then sends the reply
+back to the sending process, filling in the state as <filename>TT_HANDLED</filename>. After replying to a message, it is typically safe to destroy
+the message, using the <filename>tttk_message_destroy</filename> command.
+</para>
+</sect1>
+</appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000105833>

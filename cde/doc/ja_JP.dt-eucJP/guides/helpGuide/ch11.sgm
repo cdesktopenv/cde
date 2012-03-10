@@ -1,0 +1,295 @@
+<!-- $XConsortium: ch11.sgm /main/10 1996/09/08 19:40:53 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.H4Hlp.div.1">
+<title id="HRDC.H4Hlp.mkr.1">「ヘルプの使い方」の作成</title>
+<para>この章では、ヘルプ・システムの機能とその使用方法を記述するヘルプ・ボリュームをアプリケーションに組み込む方法について説明します。このヘルプ・ボリュームは、ヘルプ・ダイアログ・ボックスの使い方に関するヘルプを提供します。
+</para>
+<informaltable id="HRDC.H4Hlp.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Accessing Help on Help in an Application236'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.2"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Set the helpOnHelpVolume Resource237'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.3"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Provide a Using Help Command237'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.4"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display Help on Help238'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.5"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Writing Your Own Help on Help Volume239'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.6"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Copy the Help4Help Source Files241'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.7"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<sect1 id="HRDC.H4Hlp.div.2">
+<title>「ヘルプの使い方」の作成</title>
+<para>「ヘルプの使い方」はヘルプ・システムの使用方法を通知します。特に、ハイパーリンクの使用、トピックのナビゲート、索引の使用、およびヘルプ・トピックの印刷などの作業について説明します。通常は、「ヘルプの使い方」は Help4Help という名前の個別のヘルプ・ボリュームとして提供されます。
+</para>
+<para>Help4Help ボリュームとそのソース・ファイルは開発者用ツールキットに組み込まれています。デフォルト・ボリュームを「そのまま」使用するか、アプリケーションの設計に合わせてそれを変更することができます。
+</para>
+<sect2 id="HRDC.H4Hlp.div.3">
+<title>アプリケーション・ヘルプの場合</title>
+<para>アプリケーション特定のヘルプを記述する場合、アプリケーションのヘルプ・ダイアログに [ヘルプの使い方] を追加する方法には、次の２種類があります。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>デスクトップ上の「ヘルプの使い方」ボリュームを使用する。</emphasis>
+たとえば、デスクトップを実行しているワークステーションには、標準の Help4Help ボリュームがインストールされます。
+</para>
+</listitem><listitem><para><emphasis>独自の「ヘルプの使い方」ボリュームを作成する。</emphasis>
+Help4Help ボリュームの DocBook ソース・ファイルは、Ｃロケールの場合、<filename>/usr/dt/dthelp/help4help/C</filename> ディレクトリに作成されます。このディレクトリ内で Help4Help を実行して実行時のヘルプ・ファイルを作成してください。「ヘルプの使い方」ボリュームで使用されているグラフィック・ファイルは、<filename>graphics</filename> サブディレクトリに格納されます。
+</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.4">
+<title>スタンドアロン・ヘルプの場合</title>
+<para>スタンドアロン・ヘルプを記述する場合、すでにインストールされ使用準備ができているヘルプビュー・プログラムを使用します。この場合、ヘルプビューは、デフォルトとして標準の Help4Help ボリュームにアクセスするので、「ヘルプの使い方」について心配する必要はありません。
+</para>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.5">
+<title>「ヘルプの使い方」の検索方法</title>
+<para>ヘルプ・システム（ヘルプビューを含む）を使用する各アプリケーションは、「ヘルプの使い方」トピックのためにアクセスされるヘルプ・ボリュームを識別する <systemitem class="resource">helpOnHelpVolume</systemitem> リソースをもっています。ヘルプビューの場合、このリソースは次のように設定されます。
+</para>
+<programlisting>DtHelpview*helpOnHelpVolume:  Help4Help</programlisting>
+<para>独自の「ヘルプの使い方」ボリュームを作成する場合、システムにインストールされる可能性のある別の「ヘルプの使い方」ボリュームと競合しないように固有の名前を付けるようにしてください。
+</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.H4Hlp.div.6">
+<title id="HRDC.H4Hlp.mkr.2">アプリケーションの「ヘルプの使い方」へのアクセス</title>
+<para>アプリケーションは「ヘルプの使い方」をサポートするために次のことを行います。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><systemitem class="resource">helpOnHelpVolume</systemitem> リソースを設定し、アクセスしたいヘルプ・ボリュームを識別します。</para>
+</listitem><listitem><para><command>Using Help</command> コマンドを、アプリケーションの[ヘルプ]メニューに追加します。
+</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.H4Hlp.div.7" role="Procedure">
+<title id="HRDC.H4Hlp.mkr.3">helpOnHelpVolume リソースを設定するには</title>
+<orderedlist><listitem><para>次のように、アプリケーションのデフォルトのリソース・ファイルに１行追加します。
+</para>
+<para><symbol role="Variable">App-class</symbol>* <systemitem class="resource">helpOnHelpVolume</systemitem>: <symbol role="Variable">volume</symbol></para>
+<para><symbol role="Variable">App-class</symbol> はアプリケーションのクラス名で、<symbol role="Variable">volume</symbol> はアクセスしたい「ヘルプの使い方」ボリュームの名前です。
+</para>
+<para><emphasis>または</emphasis>アプリケーション内で、作成した各ヘルプ・ダイアログ <systemitem class="resource">helpOnHelpVolume</systemitem> リソースを設定します。
+</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.H4Hlp.div.8">
+<title>例</title>
+<itemizedlist remap="Bullet1"><listitem><para><filename>dthelpview</filename> のデフォルトのリソース・ファイル (<command>DtHelpview</command>) にある次の行は、「ヘルプの使い方」ボリュームを指定します。
+</para>
+<programlisting>DtHelpview*helpOnHelpVolume:  Help4Help</programlisting>
+</listitem><listitem><para>ヘルプ・ダイアログの作成中に「ヘルプの使い方」ボリュームを作成するには、次のように作成関数に渡された引き数のリストに追加します。
+</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], XmNtitle, "My Application - Help"); ac++;
+XtSetArg (al[ac], DtNhelpOnHelpVolume, "Help4Help"); ac++;
+helpDialog = DtCreateHelpDialog (parent, "helpDialog", al, ac);</programlisting>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.9" role="Procedure">
+<title id="HRDC.H4Hlp.mkr.4">[ヘルプの使い方] コマンドを指定するには</title>
+<orderedlist><listitem><para>[ヘルプ]メニューに<literal>[ヘルプの使い方]</literal>というラベルのボタンを追加します。また、必要な起動コールバックを起動して、<function>HelpRequestCB()</function> 関数を呼び出します。
+</para>
+</listitem><listitem><para><function>HelpRequestCB()</function> 関数にサポートを追加し、「ヘルプの使い方」を表示します。特に、次のことを実行します。
+</para>
+<itemizedlist><listitem><para>簡易ヘルプ・ダイアログを作成する。
+</para>
+</listitem><listitem><para>ダイアログのタイトルを「ヘルプの使い方」に設定する。
+</para>
+</listitem><listitem><para>「ヘルプの使い方」ボリュームのホーム・トピックを表示する。
+</para>
+</listitem><listitem><para>簡易ヘルプ・ダイアログを管理する。
+</para>
+</listitem></itemizedlist>
+</listitem></orderedlist>
+<sect3 id="HRDC.H4Hlp.div.10">
+<title>例</title>
+<para>次の行は、<function>HelpRequestCB()</function> 関数を呼び出す <literal>[ヘルプの使い方 &hellip;]</literal> というラベルのメニュー・ボタンを作成します。
+</para>
+<programlisting>/* <emphasis>Create the "ヘルプの使い方 ..." button.</emphasis> */
+labelStr = XmStringCreateLtoR ("使い方 ...",
+XmSTRING_DEFAULT_CHARSET);
+ac = 0;
+XtSetArg (al[ac], XmNlabelString, labelStr);     ac++;
+button = XmCreatePushButtonGadget (parent, "usingHelpButton", al,
+ac);
+   XtManageChild (button);
+   XmStringFree (labelStr);
+   /* <emphasis>Add a callback to the button.</emphasis> */
+   XtAddCallback (button,XmNactivateCallback,HelpRequestCB,
+   USING_HELP);</programlisting>
+<para><systemitem class="constant">USING_HELP</systemitem> は、ユーザがメニュー・ボタンを選択したときに <function>HelpRequestCB()</function> 関数に渡されるクライアント・データです。アプリケーションの別の場所（たとえば <filename>Help.h</filename> ファイル）で固有の整数として定義します。
+integer:</para>
+<programlisting>#define USING_HELP  47</programlisting>
+<para><function>HelpRequestCB()</function> 関数が <systemitem class="constant">USING_HELP</systemitem> を処理する方法を確認するには、次の「ヘルプの使い方」を表示するには」にある例を参照してください。
+</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.11" role="Procedure">
+<title id="HRDC.H4Hlp.mkr.5">「ヘルプの使い方」を表示するには</title>
+<orderedlist><listitem><para>簡易ヘルプ・ダイアログを作成します（またはキャッシュから取り出します）。
+</para>
+</listitem><listitem><para>ダイアログに「ヘルプの使い方」ボリュームのホーム・トピックを表示します。
+</para>
+</listitem></orderedlist>
+<para>「ヘルプの使い方」は、一般ヘルプ・ウィンドウに表示できます。しかし、簡易ヘルプ・ダイアログのユーザ・インタフェースはもっと単純なので簡易ヘルプ・ダイアログを使用するようにしてください。このダイアログは、通常「ヘルプの使い方」を必要とする新しいユーザでも容易に使えるものです。
+</para>
+<sect3 id="HRDC.H4Hlp.div.12">
+<title>例</title>
+<para>次のプログラム・セグメントは、<function>HelpRequestCB()</function> 関数の一部です。仮定として、ユーザは、アプリケーションの[ヘルプ]メニューから[ヘルプの使い方]を選択するか、簡易ヘルプ・ダイアログの[ヘルプ]ボタンを選択するため、<systemitem class="constant">USING_HELP</systemitem> 定数は、その関数に渡されます。
+</para>
+<para>次の例は、アプリケーションが[ヘルプの使い方]ダイアログをひとつしか作成せず、そのウィジェットIDを <symbol role="Variable">onHelpDialog</symbol> と呼ばれる変数に保持するものと仮定しています。</para>
+<programlisting>case USING_HELP:
+   if (onHelpDialog == (Widget)NULL)
+     {
+        /* <emphasis>Get a quick help dialog for use as the "help on help" dialog.</emphasis> */
+        onHelpDialog = FetchHelpDialog (True);
+        if (onHelpDialog == (Widget)NULL)
+          /* <emphasis>We didn't get a dialog! Add your error handling code here.</emphasis> */
+     }
+   /* <emphasis>Set the proper volume and ID to display the home topic of the help on help volume. Also, set the dialog's title.</emphasis> */
+   ac = 0;   XtSetArg (al[ac], XmNtitle,  "Help On Help");     ac++;
+   XtSetArg (al[ac], XmNhelpType,   DT_HELP_TYPE_TOPIC); ac++;
+   XtSetArg (al[ac], XmNhelpVolume, "Help4Help");        ac++;
+   XtSetArg (al[ac], XmNlocationId, "_hometopic");       ac++;
+   XtSetValues (onHelpDialog, al, ac);
+   /* <emphasis>If the "help on help" dialog is already managed, it might be in another workspace, so unmanage it.</emphasis> */
+   if (XtIsManaged (onHelpDialog))
+     XtUnmanageChild (onHelpDialog);
+
+   /* <emphasis>Manage the "help on help" dialog.</emphasis> */
+   XtManageChild (onHelpDialog);
+
+   break;
+
+</programlisting>
+<para><function>HelpRequestCB()</function> 関数の残りの構成方法を確認するには、 <xref role="SecTitleAndPageNum" linkend="HRDC.HReq.mkr.10"> を参照してください。
+</para>
+</sect3>
+<sect3 id="HRDC.H4Hlp.div.13">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1">
+<listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.CrDia.mkr.7">
+</para>
+</listitem><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.HReq.mkr.5">
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.H4Hlp.div.14">
+<title id="HRDC.H4Hlp.mkr.6">独自の「ヘルプの使い方」ボリュームを記述する
+</title>
+<para>独自の「ヘルプの使い方」ボリュームを作成する必要がある場合、既存の Help4Help ボリュームで開始し、必要な変更を行ってください。Help4Help ボリュームを記述するのに使用されるソース・ファイルは、すべて <filename>/usr/dt/dthelp/help4help/C</filename> ディレクトリに用意されています。
+</para>
+<para>インストールの重複を避けるには、「ヘルプの使い方」ボリュームに Help4Help 以外の名前を付けます。ユーザのプロダクトに固有の名前を選ぶようにしてください。たとえば、アプリケーションのヘルプ・ボリュームが Newapp の場合は、「ヘルプの使い方」ボリュームは NetwappH4H という名前にします。
+</para>
+<sect2 id="HRDC.H4Hlp.div.15">
+<title>必須のエントリ・ポイント</title>
+<para>ヘルプ・ダイアログのコンテキスト・ヘルプを正しく動作させるには、「ヘルプの使い方」ボリュームに、次のエントリ・ポイント（ID）を作成しなければなりません。（これらは、すでに Help4Help ソース・ファイルにあります。）
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="158*">
+<colspec align="left" colwidth="370*">
+<tbody>
+<row>
+<entry align="center" valign="top"><para>ID</para></entry>
+<entry align="center" valign="top"><para>トピック記述</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>_hometopic</command></para></entry>
+<entry align="left" valign="top"><para>ヘルプ・システムの使い方に関するイントロダクションを表示します。このトピックは、一般ヘルプ・ダイアログの[ヘルプ]メニューから[ヘルプの使い方]を選択したり、簡易ヘルプ・ダイアログ・の[F1]キーを押すと、表示されます。このIDは、PartIntro のために自動的に生成されるので、明示的に指定しないようにしてください。
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>_copyright</command></para></entry>
+<entry align="left" valign="top"><para>「ヘルプの使い方」ボリュームに関する商標とバージョン情報を表示します。このトピックは、一般ヘルプ・ダイアログの[ヘルプ]メニューから[バージョン]を選択すると表示されます。このIDは、LegalNotice のために自動的に生成されるので、明示的に指定しないようにしてください。
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>history</command></para></entry>
+<entry align="left" valign="top"><para>[ヒストリ]ダイアログの使用方法を記述しているトピックを表示します。このトピックは、[ヘルプ]を選択するか、[ヒストリ]ダイアログの[F1]キーを押すと表示されます。
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>printing</command></para></entry>
+<entry align="left" valign="top"><para>[印刷]ダイアログの使用方法を記述しているトピックを表示します。このトピックは、[ヘルプ]を選択するか、[印刷]ダイアログの[F1]キーを押すと表示されます。
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>index-search</command></para></entry>
+<entry align="left" valign="top"><para>[索引検索]ダイアログの使用方法を記述しているトピックを表示します。このトピックは、[ヘルプ]を選択するか、[索引検索]ダイアログの[F1]キーを押すと表示されます。
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>volume-select</command></para></entry>
+<entry align="left" valign="top"><para>[検索ボリューム選択]ダイアログの使用方法を記述しているトピックを表示します。このトピックは、[ヘルプ]を選択するか、[検索ボリューム選択]ダイアログの[F1]キーを押すと表示されます。
+</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.16" role="Procedure">
+<title id="HRDC.H4Hlp.mkr.7">Help4Help ソース・ファイルをコピーするには</title>
+<orderedlist><listitem><para>次のようにコマンドを使用して、<filename>/usr/dt/dthelp/help4help/C</filename> ディレクトリ全体を新しい作業ディレクトリ ( <symbol role="Variable">new-dir</symbol>) にコピーします。</para>
+<para><command>cp -r /usr/dt/dthelp/help4help/C <symbol role="Variable">new-dir</symbol></command></para>
+<para>これは <symbol role="Variable">new-dir</symbol> を作成し、すべてのファイルとディレクトリをその中にコピーします。
+</para>
+</listitem><listitem><para>ファイル（読み取り専用としてコピーされる）の編集を可能にするには、次のようにコマンドを使用してアクセス権を変更します。
+</para>
+<programlisting>chmod -R u+w <symbol role="Variable">new-dir</symbol></programlisting>
+</listitem></orderedlist>
+<para>Help4Help ボリュームは、これらの DocBook ソース・ファイルを使用します。
+</para>
+<itemizedlist><listitem><para><filename>MetaInfo.sgm</filename></para>
+</listitem><listitem><para><filename>Toc.sgm</filename></para>
+</listitem><listitem><para><filename>Tasks.sgm</filename></para>
+</listitem><listitem><para><filename>Home.sgm</filename></para>
+</listitem><listitem><para><filename>Concepts.sgm</filename></para>
+</listitem><listitem><para><filename>Ref.sgm</filename></para>
+</listitem><listitem><para><filename>Appendix.sgm</filename></para>
+</listitem></itemizedlist>
+<para>グラフィック・ファイルは、<filename>graphics</filename> サブディレクトリに保存されます。
+</para>
+<para>DocBook を実行する前に <filename>Help4Help.sgm</filename> ファイルの名前が変更されていることを確認してください。「ヘルプの使い方」ボリュームの名前は、他の「ヘルプの使い方」ボリュームと重複しないように、固有の名前でなければなりません。
+</para>
+<sect3 id="HRDC.H4Hlp.div.17">
+<title>例</title>
+<para>次のコマンドは「ヘルプの使い方」ボリュームのコピーを作成し、そのファイルを書き込み可能にします。（<filename>projects</filename> サブディレクトリがすでに存在していると仮定しています。）
+</para>
+<programlisting>cp -r /usr/dt/dthelp/help4help/C /users/dex/projects/NewHelp4Help
+chmod -R u+w /users/dex/projects/NewHelp4Help</programlisting>
+<para>実行時のヘルプ・ファイルの新しいバージョンを作成するには、最初にディレクトリ <filename>/usr/dt/bin</filename> が検索パス内にあることを確認します。次に、新規ディレクトリに移動し、<filename>Help4Help.sgm</filename> ファイルの名前を変更し、DocBook を実行します。
+</para>
+<programlisting>cd /users/dex/projects/NewHelp4Help
+mv Help4Help.sgm NewH4H.sgm
+dtDocBook NewH4H</programlisting>
+<para>DocBook ソフトウェアを実行すると、次のコマンドを使用して新しい「ヘルプの使い方」ボリュームを表示できます。
+</para>
+<para><command>dthelpview -helpVolume NewH4H</command></para><?Pub Caret>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->

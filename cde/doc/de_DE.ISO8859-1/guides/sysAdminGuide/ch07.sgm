@@ -1,0 +1,950 @@
+<!-- $XConsortium: ch07.sgm /main/10 1996/12/20 20:02:16 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.Datab.div.1">
+<title id="SAG.Datab.mkr.1">Desktop-Suchpfade</title>
+<para><indexterm><primary>Hilfesuchpfad</primary><secondary>siehe auch Suchpfad</secondary></indexterm>Das Desktop verwendet Suchpfade, um die Position von
+Anwendungen und deren zugeh&ouml;rigen Desktop-Dateien festzustellen.</para>
+<informaltable id="SAG.Datab.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Desktop-Suchpfade
+und ihre Umgebungsvariablen128'--><xref role="JumpText" linkend="SAG.Datab.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Wert eines
+Suchpfads setzen129'--><xref role="JumpText" linkend="SAG.Datab.mkr.6"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Anwendungssuchpfad131'--><xref
+role="JumpText" linkend="SAG.Datab.mkr.8"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Datenbanksuchpfad
+(Aktionen/Datentypen)134'--><xref role="JumpText" linkend="SAG.Datab.mkr.12"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Symbolsuchpfad136'--><xref
+role="JumpText" linkend="SAG.Datab.mkr.13"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Hilfesuchpfad138'--><xref
+role="JumpText" linkend="SAG.Datab.mkr.14"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Positionen
+der Suchpfade140'--><xref role="JumpText" linkend="SAG.Datab.mkr.15"></para></entry>
+</row></tbody></tgroup></informaltable>
+<para><indexterm><primary>Suchpfade</primary><secondary>Desktop</secondary>
+</indexterm>Das Desktop stellt vier Suchpfade zur Verf&uuml;gung, die in Tabelle
+7-1 beschrieben sind.</para>
+<table id="SAG.Datab.tbl.1" frame="Topbot">
+<title id="SAG.Datab.mkr.2">Desktop-Suchpfade</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.03in">
+<colspec colwidth="1.25in">
+<colspec colwidth="4.74in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Suchpfad</para></entry><entry
+align="left" valign="bottom"><para>Beschreibung</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Anwendungen</para></entry>
+<entry align="left" valign="top"><para>Wird verwendet, um die Position von
+Anwendungen festzustellen. Der Anwendungsmanager verwendet den Anwendungssuchpfad,
+um bei der Anmeldung eines Benutzers die oberste Ebene dynamisch zu erstellen.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Datenbank</para></entry>
+<entry align="left" valign="top"><para>Wird verwendet, um zus&auml;tzliche
+Positionen f&uuml;r Definitionsdateien f&uuml;r Aktionen und Datentypen (<filename>*.dt</filename>- Dateien) und Bedienfelddateien (<filename>*.fp</filename>-Dateien)
+anzugeben.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Symbole</para></entry>
+<entry align="left" valign="top"><para>Wird verwendet, um zus&auml;tzliche
+Positionen f&uuml;r Symbole anzugeben.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Infobiblio</para></entry>
+<entry align="left" valign="top"><para>Wird zur Angabe zus&auml;tzlicher Speicherstellen
+von Informationsbibliotheken benutzt.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Hilfedaten</para></entry>
+<entry align="left" valign="top"><para>Wird verwendet, um zus&auml;tzliche
+Positionen f&uuml;r Desktop-Hilfedaten anzugeben.</para></entry></row></tbody>
+</tgroup></table>
+<para>Die Suchpfade k&ouml;nnen sowohl lokale als auch ferne Verzeichnisse
+enthalten. Auf diese Weise spielen Suchpfade eine wichtige Rolle in der Netzwerkarchitektur
+des Desktops. Beispielsweise findet ein System Anwendungen auf einem Anwendungs-Server,
+weil dieser Anwendungs- Server im Anwendungssuchpfad aufgelistet ist.</para>
+<para>Enth&auml;lt ein Suchpfad eine ferne Position, mu&szlig; der ferne Zugriff
+auf diese Position konfiguriert werden. Weitere Informationen hierzu k&ouml;nnen
+<!--Original XRef content: '&ldquo;Zugriff auf verteilte Dateisysteme konfigurieren&rdquo;
+auf Seite&numsp;102'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.7">
+entnommen werden.</para>
+<sect1 id="SAG.Datab.div.2">
+<title id="SAG.Datab.mkr.3">Desktop-Suchpfade und ihre Umgebungsvariablen</title>
+<para>Die Desktop-Suchpfade werden bei der Anmeldung durch das Desktop- Dienstprogramm <command>dtsearchpath</command> erstellt. Dieses Dienstprogramm verwendet eine Kombination
+aus Umgebungsvariablen und integrierten Positionen, um die Suchpfade zu erstellen.
+</para>
+<para><indexterm><primary>Suchpfade</primary><secondary>Eingabevariable</secondary>
+</indexterm><indexterm><primary>Eingabevariable</primary></indexterm>Die
+Umgebungsvariablen, die <command>dtsearchpath</command> liest, werden als
+<emphasis>Eingabevariablen</emphasis> bezeichnet. Diese Variablen werden
+vom Systemverwalter oder vom Endbenutzer gesetzt. Die Eingabevariablen verwenden
+die Benennungskonvention <filename>DTSP*</filename>.</para>
+<para><indexterm><primary>Suchpfade</primary><secondary>Ausgabevariable</secondary>
+</indexterm><indexterm><primary>Ausgabevariable</primary></indexterm>Wird <command>dtsearchpath</command> zum Zeitpunkt der Anmeldung ausgef&uuml;hrt, assembliert
+es die diesen Variablen zugeordneten Werte, f&uuml;gt integrierte Positionen
+hinzu und erstellt Werte f&uuml;r <emphasis>Ausgabevariablen</emphasis>. F&uuml;r
+jeden Suchpfad gibt es eine Ausgabevariable.</para>
+<table id="SAG.Datab.tbl.2" frame="Topbot">
+<title><indexterm><primary>Suchpfade</primary><secondary>Umgebungsvariable</secondary></indexterm><indexterm><primary>Umgebungsvariable</primary><secondary>Suchpfad</secondary></indexterm>Umgebungsvariablen des Desktop-Suchpfades</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colwidth="1.25in">
+<colspec colwidth="1.88in">
+<colspec colwidth="1.98in">
+<colspec colwidth="1.88in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Suchpfad f&uuml;r:</para></entry>
+<entry align="left" valign="bottom"><para>Ausgabeumgebungsvariable</para></entry>
+<entry align="left" valign="bottom"><para>Systemweite Eingabevariable</para></entry>
+<entry align="left" valign="bottom"><para>Pers&ouml;nliche Eingabevariable
+</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Anwendungen</para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTAPPSEARCHPATH
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTAPPSEARCHPATH</systemitem></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPSYSAPPHOSTS
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPSYSAPPHOSTS</systemitem></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPUSERAPPHOSTS
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPUSERAPPHOSTS</systemitem></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><footnote id="SAG.Datab.fn.9"><para>Aktionen, Datentypen und Bedienfelddefinitionen</para>
+</footnote></para><para id="SAG.Datab.mkr.4"><footnoteref linkend="SAG.Datab.fn.9"></footnoteref>Datenbank
+</para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTDATABASESEARCHPATH
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTDATABASESEARCHPATH</systemitem></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPSYSDATABASEHOSTS
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPSYSDATABASEHOSTS</systemitem></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPUSERDATABASEHOSTS
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPUSERDATABASEHOSTS</systemitem></para></entry></row>
+<row>
+<entry align="left" valign="top"><para id="SAG.Datab.mkr.5">Symbole</para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>XMICONSEARCHPATH
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>XMICONSEARCHPATH</systemitem>,<indexterm><primary>XMICONBMSEARCHPATH Variable</primary><secondary>Definition</secondary></indexterm> <systemitem>XMICONBMSEARCHPATH</systemitem></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPSYSICON Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPSYSICON</systemitem></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPUSERICON Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPUSERICON</systemitem></para></entry></row>
+<row>
+<entry><para id="SAG.Datab.mkr.5a">Infobibls</para></entry>
+<entry><para>DTINFOLIBSEARCHPATH<indexterm><primary>DTINFOLIBSEARCHPATH Variable</primary><secondary>Definition</secondary></indexterm></para></entry>
+<entry><para>DTSPSYSINFOLIB<indexterm><primary>DTSPSYSINFOLIB Variable</primary>
+<secondary>Definition</secondary></indexterm></para></entry>
+<entry><para>DTSPUSERINFOLIB<indexterm><primary>DTSPUSERINFOLIB Variable</primary><secondary>Definition</secondary></indexterm></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Hilfedaten</para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTHELPSEARCHPATH
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTHELPSEARCHPATH</systemitem></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPSYSHELP Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPSYSHELP</systemitem></para></entry>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPUSERHELP Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPUSERHELP</systemitem></para></entry></row></tbody></tgroup></table>
+<para>Komponenten verwenden die Werte der Ausgabevariablen. Zum Beispiel verwendet
+der Anwendungsmanager den Wert des AnwendungsSuchpfades (<systemitem>DTAPPSEARCHPATH</systemitem>), um die Position von Gruppen von Anwendungen festzustellen.
+</para>
+</sect1>
+<sect1 id="SAG.Datab.div.3">
+<title id="SAG.Datab.mkr.6">Wert eines Suchpfades setzen<indexterm><primary>Suchpfade</primary><secondary>Wert setzen</secondary></indexterm></title>
+<para>Suchpfade k&ouml;nnen entweder f&uuml;r das gesamte System oder f&uuml;r
+einzelne Benutzer ge&auml;ndert werden. &Auml;nderungen werden durchgef&uuml;hrt,
+indem Werte f&uuml;r die f&uuml;r das System definierten oder pers&ouml;nlichen
+Eingabevariablen gesetzt werden. S&auml;mtliche &Auml;nderungen werden den
+integrierten Suchpfaden hinzugef&uuml;gt.</para>
+<sect2 id="SAG.Datab.div.4" role="Procedure">
+<title id="SAG.Datab.mkr.7">Aktuellen Wert f&uuml;r einen Suchpfad anzeigen
+(Ausgabevariable)<indexterm><primary>Suchpfade</primary><secondary>aktueller
+Wert</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Mit dem Befehl <command>dtsearchpath</command> die aktuellen
+Werte f&uuml;r die Suchpfade anzeigen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Um den Wert f&uuml;r den aktuellen Benutzer (der sich gerade
+anmeldet) zu erhalten, folgenden Befehl eingeben:</para>
+<para remap="CodeIndent2"><command>dtsearchpath -v</command><indexterm><primary>dtsearchpath Variable</primary></indexterm></para>
+</listitem>
+<listitem><para>Um den Wert f&uuml;r einen anderen Benutzer zu erhalten, folgenden
+Befehl eingeben:</para>
+<para remap="CodeIndent2"><command>dtsearchpath -u <symbol role="Variable">benutzer</symbol></command></para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<para>Zu den Suchpfadwerten geh&ouml;ren diese Variablen:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.51in">
+<colspec colwidth="4.49in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><literal>%I</literal><indexterm><primary>%I</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Wird in DTINFOLIBSEARCHPATH verwendet.
+Es handelt sich um den Namen der Standard-Informationsbibliothek.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><literal>%H</literal></para><indexterm>
+<primary>%</primary></indexterm><indexterm><primary>&EEgr;</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Wird in <systemitem>DTHELPSEARCHPATH</systemitem> verwendet. Es handelt sich um den Namen des Hilfebands.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><literal>%B</literal></para><indexterm>
+<primary>%</primary></indexterm><indexterm><primary>&Bgr;</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Wird in <systemitem>XMICONSEARCHPATH</systemitem> verwendet. Es handelt sich um den Dateinamen ohne Pfad einer
+Symboldatei.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>%M</para><indexterm><primary>%</primary>
+</indexterm><indexterm><primary>&Mgr;</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Wird in <systemitem>XMICONSEARCHPATH</systemitem> verwendet. Es handelt sich um die Gr&ouml;&szlig;e der Symboldatei
+(<filename>.l</filename>, <filename>.m</filename>, <filename>.s</filename>, <filename>.t</filename>).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>%L</para><indexterm><primary>%</primary>
+</indexterm><indexterm><primary>L</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Wert der Umgebungsvariable <systemitem>LANG</systemitem>.</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.Datab.div.5" role="Procedure">
+<title>Pers&ouml;nliche &Auml;nderungen an einem Suchpfad vornehmen</title>
+<orderedlist>
+<listitem><para>Das Verzeichnis <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> zum Bearbeiten &ouml;ffnen.</para>
+</listitem>
+<listitem><para>Eine Zeile hinzuf&uuml;gen oder bearbeiten, in der ein Wert
+f&uuml;r die pers&ouml;nliche Eingabevariable definiert wird.</para>
+<para>Beispielsweise f&uuml;gt die folgende Zeile eine Position zum pers&ouml;nlichen
+Anwendungssuchpfad des Benutzers hinzu:</para>
+<para remap="CodeIndent1"><command>export DTSPUSERAPPHOSTS=/projects1/editors</command></para>
+</listitem>
+<listitem><para>Damit die &Auml;nderungen angezeigt werden, mu&szlig; der
+Benutzer sich ab- und wieder anmelden.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.Datab.div.6" role="Procedure">
+<title>Systemweite &Auml;nderungen an einem Suchpfad vornehmen</title>
+<orderedlist>
+<listitem><para>Als Erstbenutzer anmelden.</para>
+</listitem>
+<listitem><para>Ist die Datei <filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename> nicht vorhanden, mu&szlig; sie durch Kopieren von <filename>/usr/dt/config/Xsession.d/0010.dtpaths</filename> erstellt werden.</para>
+</listitem>
+<listitem><para><filename>/etc/dt/Xsession.d/0010.paths</filename> zum Bearbeiten
+&ouml;ffnen. Eine Zeile, in der ein Wert f&uuml;r die systemweite Eingabevariable
+definiert ist, hinzuf&uuml;gen oder bearbeiten.</para>
+<para>Beispielsweise f&uuml;gt die folgende Zeile eine Position zum systemweiten
+Hilfesuchpfad hinzu:</para>
+<para remap="CodeIndent1"><command>export DTSPSYSHELP=/applications/helpdata</command></para>
+</listitem>
+<listitem><para>Alle Benutzer im System dar&uuml;ber informieren, da&szlig;
+sie sich ab- und wieder anmelden m&uuml;ssen, damit die &Auml;nderungen angezeigt
+werden.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.Datab.div.7">
+<title id="SAG.Datab.mkr.8">Anwendungssuchpfad<indexterm><primary>Anwendungssuchpfad</primary><secondary>Definition</secondary></indexterm><indexterm><primary>Suchpfade</primary><secondary>Anwendungen</secondary></indexterm></title>
+<para>Bei dem Anwendungssuchpfad handelt es sich um den prim&auml;ren Suchpfad,
+den das Desktop verwendet, um die Position von Anwendungen im lokalen System
+und auf Anwendungs-Servern im gesamten Netzwerk festzustellen.</para>
+<para>Werden Positionen zum Anwendungssuchpfad hinzugef&uuml;gt, werden die
+&uuml;brigen Suchpfade (Datenbank-, Symbol- und Hilfesuchpfad) automatisch
+aktualisiert, um die entsprechenden Positionen f&uuml;r diese Daten anzugeben.
+Auf diese Weise stellt der Anwendungssuchpfad eine einfache Verwaltung f&uuml;r
+Anwendungen und deren Desktop-Konfigurationsdateien zur Verf&uuml;gung. Weitere
+Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original XRef
+content: '&ldquo;Wie der
+Anwendungssuchpfad sich auf die Datenbank-, Symbol- und Hilfesuchpfade
+auswirkt&rdquo; auf Seite&numsp;133'--><xref role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.11">
+entnommen werden.</para>
+<sect2 id="SAG.Datab.div.8">
+<title id="SAG.Datab.mkr.9">Standardanwendungssuchpfad<indexterm><primary>Anwendungssuchpfad</primary><secondary>Standard</secondary></indexterm></title>
+<para>Der Standardanwendungssuchpfad enth&auml;lt pers&ouml;nliche, systemweite
+und integrierte Positionen. Der Standardwert f&uuml;r <symbol role="Variable">sprache</symbol> ist C.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.73in">
+<colspec colwidth="4.27in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Pers&ouml;nliche Position</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/appmanager</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Systemweite Position</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Integrierte Position</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.Datab.div.9">
+<title>Umgebungsvariablen des Anwendungssuchpfades<indexterm><primary>Umgebungsvariable</primary><secondary>Anwendungssuchpfad</secondary></indexterm><indexterm>
+<primary>Anwendungssuchpfad</primary><secondary>Umgebungsvariable</secondary>
+</indexterm></title>
+<para>Der Anwendungssuchpfad wird aus integrierten Positionen und den folgenden
+Eingabevariablen assembliert:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.03in">
+<colspec colwidth="4.08in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>DTSPSYSAPPHOSTS</systemitem></para></entry>
+<entry align="left" valign="top"><para>Eingabevariable f&uuml;r den systemweiten
+Anwendungssuchpfad</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>DTSPUSERAPPHOSTS</systemitem></para></entry>
+<entry align="left" valign="top"><para>Eingabevariable f&uuml;r den pers&ouml;nlichen
+Anwendungssuchpfad</para></entry></row></tbody></tgroup></informaltable>
+<para>Der assemblierte Suchpfad wird durch die Ausgabevariable<indexterm>
+<primary>DTAPPSEARCHPATH Variable</primary><secondary>assemblieren</secondary>
+</indexterm> <systemitem>DTAPPSEARCHPATH</systemitem> angegeben.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.10">
+<title>Syntax f&uuml;r die Eingabevariablen des Anwendungssuchpfades<indexterm>
+<primary>Anwendungssuchpfad</primary><secondary>Syntax</secondary></indexterm></title>
+<para>Die Syntax f&uuml;r die Variablen<indexterm><primary>DTSPSYSAPPHOSTS
+Variable</primary><secondary>Syntax</secondary></indexterm> <systemitem>DTSPSYSAPPHOSTS</systemitem> und<indexterm><primary>DTSPUSERAPPHOSTS Variable</primary>
+<secondary>Syntax</secondary></indexterm> <systemitem>DTSPUSERAPPHOSTS</systemitem>
+lautet:</para>
+<programlisting>VARIABLE=position [,position...]</programlisting>
+<para>wobei <symbol role="Variable">position</symbol> folgende Syntax haben
+kann:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.51in">
+<colspec colwidth="4.52in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>/</filename><symbol role="Variable">pfad</symbol></para></entry>
+<entry align="left" valign="top"><para>Gibt ein Verzeichnis im lokalen System
+(Session-Server) an. Diese Syntax wird verwendet, um ein lokales Verzeichnis
+hinzuzuf&uuml;gen.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">hostname</symbol> <filename>:</filename></para></entry>
+<entry align="left" valign="top"><para>Gibt das systemweite Verzeichnis <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol>
+auf dem System <symbol role="Variable">hostname</symbol> an. Diese Syntax
+wird verwendet, um einen Anwendungs-Server hinzuzuf&uuml;gen.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">hostname</symbol>:/<symbol role="Variable">pfad</symbol></para></entry>
+<entry align="left" valign="top"><para>Gibt ein Verzeichnis auf einem fernen
+System <symbol role="Variable">hostname</symbol> an.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>localhost:</filename></para></entry>
+<entry align="left" valign="top"><para>Gibt die lokale systemweite Position
+an. Dieses Schl&uuml;sselwort wird verwendet, um den Rang der lokalen systemweiten
+Position zu &auml;ndern. Weitere Informationen hierzu k&ouml;nnen dem Abschnitt <xref
+role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.10"> entnommen werden.</para></entry>
+</row></tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.Datab.div.11">
+<title>Wie der Wert des Anwendungssuchpfades assembliert wird<indexterm>
+<primary>Anwendungssuchpfad</primary><secondary>assemblieren</secondary></indexterm></title>
+<para>Der Wert des Anwendungssuchpfades (<indexterm><primary>DTAPPSEARCHPATH
+Variable</primary><secondary>assemblieren</secondary></indexterm> <systemitem>DTAPPSEARCHPATH</systemitem>) wird erstellt, indem folgende Positionen, die
+ihrem Rang nach aufgelistet sind, assembliert werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Positionen, die &uuml;ber die Variable <systemitem>DTSPUSERAPPHOSTS</systemitem> angegeben sind</para>
+</listitem>
+<listitem><para>Die standardm&auml;&szlig;ige pers&ouml;nliche Position: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/appmanager</filename></para>
+</listitem>
+<listitem><para>Die Standardposition: <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>Positionen, die &uuml;ber die Variable <systemitem>DTSPSYSAPPHOSTS</systemitem> angegeben sind</para>
+</listitem>
+<listitem><para><filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+<para>Die Syntax:</para>
+<para><symbol role="Variable">hostname</symbol>:</para>
+<para>wird erweitert, um das Verzeichnis <filename>/etc/dt/appconfig/appmanager</filename> auf dem System <symbol role="Variable">hostname</symbol> anzugeben.
+</para>
+</sect2>
+<sect2 id="SAG.Datab.div.12">
+<title id="SAG.Datab.mkr.10">Rangfolge der systemweiten lokalen Positionen
+&auml;ndern<indexterm><primary>Anwendungssuchpfad</primary><secondary>Rangfolge
+&auml;ndern</secondary></indexterm></title>
+<para>Standardm&auml;&szlig;ig hat die lokale systemweite Position (<filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol>)
+Vorrang vor fernen Positionen. Auf diese Weise haben lokale Gruppen von Anwendungen
+Vorrang vor fernen Gruppen von Anwendungen mit demselben Namen. Verf&uuml;gen
+beispielsweise sowohl lokale als auch ferne Systeme &uuml;ber Gruppen von
+Anwendungen mit dem Namen Drucker (<filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol><filename>/Printers</filename>),
+wird die lokale Gruppe verwendet.</para>
+<para>Die Eingabevariablen des Anwendungssuchpfades stellen eine Syntax, die
+den Vorrang der lokalen systemweiten Gruppen von Anwendungen angibt, zur Verf&uuml;gung:
+</para>
+<para><command>localhost:</command></para>
+<para>Angenommen, ein System soll auf die Anwendungs-Server <command>SysA</command>, <command>SysB</command> und <command>SysC</command> zugreifen
+und die systemweiten Gruppen von Anwendungen auf <command>SysB</command> sollen
+Vorrang vor jeder lokalen Gruppe mit demselben Namen haben.</para>
+<para>Dies wird erreicht, indem der folgende Wert f&uuml;r <systemitem>DTSPSYSAPPHOSTS</systemitem> gesetzt wird:</para>
+<programlisting>DTSPSYSAPPHOSTS=SysB:,localhost:,SysA:,SysC:</programlisting>
+</sect2>
+<sect2 id="SAG.Datab.div.13">
+<title id="SAG.Datab.mkr.11">Wie der Anwendungssuchpfad sich auf die Datenbank-,
+Symbol- und Hilfesuchpfade auswirkt<indexterm><primary>Symbolsuchpfad</primary>
+<secondary>Auswirkung des Anwendungssuchpfades</secondary></indexterm><indexterm>
+<primary>Datenbanksuchpfad</primary><secondary>Auswirkung des Anwendungssuchpfades</secondary></indexterm><indexterm><primary>Hilfesuchpfad</primary><secondary>Auswirkung des Anwendungssuchpfades</secondary></indexterm></title>
+<para>Bei Hinzuf&uuml;gungen zum Anwendungssuchpfad werden die entsprechenden
+Positionen automatisch auch zu den Datenbank-, Symbol- und Hilfesuchpfaden
+hinzugef&uuml;gt. Auf diese Weise kann ein Anwendungs-Server einem Suchpfad
+hinzugef&uuml;gt werden, indem lediglich die Eingabevariable f&uuml;r den
+Anwendungssuchpfad definiert wird.</para>
+<para>Wird beispielsweise <systemitem>DTSPSYSAPPHOSTS</systemitem> wie folgt
+definiert:</para>
+<programlisting>DTSPSYSAPPHOSTS=servera:</programlisting>
+<para>sind davon folgende Suchpfade betroffen:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.27in">
+<colspec colwidth="4.75in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Suchpfad</para></entry><entry
+align="left" valign="bottom"><para>Dem Suchpfad hinzugef&uuml;gtes Verzeichnis
+</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Anwendungen</para></entry>
+<entry align="left" valign="top"><para><filename>servera:/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Datenbank</para></entry>
+<entry align="left" valign="top"><para><filename>servera:/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Symbol</para></entry>
+<entry align="left" valign="top"><para><filename>servera:/etc/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Infobiblio</para></entry>
+<entry align="left" valign="top"><para><filename>servera:/etc/dt/infolib/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Hilfe</para></entry>
+<entry align="left" valign="top"><para><filename>servera:/etc/dt/appconfig/help/</filename><symbol role="Variable">sprache</symbol></para></entry></row></tbody>
+</tgroup></informaltable>
+<para>In &auml;hnlicher Weise, wenn <systemitem>DTSPSYSAPPHOSTS</systemitem>
+wie folgt definiert wird:</para>
+<programlisting>DTSPSYSAPPHOSTS=/projects1/apps</programlisting>
+<para>folgende Suchpfade betroffen:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.23in">
+<colspec colwidth="4.78in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Suchpfad</para></entry><entry
+align="left" valign="bottom"><para>Dem Suchpfad hinzugef&uuml;gtes Verzeichnis
+</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Anwendungen</para></entry>
+<entry align="left" valign="top"><filename>/projects1/apps/appmanager/</filename><symbol role="Variable">sprache</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><para>Datenbank</para></entry>
+<entry align="left" valign="top"><para><filename>/projects1/apps/types/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Symbol</para></entry>
+<entry align="left" valign="top"><filename>/projects1/apps/icons/</filename><symbol role="Variable">sprache</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><para>Infobiblio</para></entry>
+<entry align="left" valign="top"><para>/<filename>projects1/apps/infolib/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Hilfe</para></entry>
+<entry align="left" valign="top"><para>/<filename>projects1/apps/help/</filename><symbol role="Variable">sprache</symbol></para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="SAG.Datab.div.14">
+<title id="SAG.Datab.mkr.12">Datenbanksuchpfad (Aktionen/Datentypen)<indexterm>
+<primary>Aktionssuchpfad, siehe Datenbanksuchpfad</primary></indexterm><indexterm>
+<primary>Datentypen</primary><secondary>Suchpfad, siehe Datenbanksuchpfad</secondary></indexterm><indexterm><primary>Datenbanksuchpfad</primary></indexterm></title>
+<para>Der Datenbanksuchpfad weist das Desktop an, angegebene Positionen nach
+Dateien zu durchsuchen, die folgendes enthalten:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Definitionen f&uuml;r Aktionen und Datentypen (<filename>*.dt</filename>-Dateien)</para>
+</listitem>
+<listitem><para>Bedienfelddefinitionen (<filename>*.fp</filename>-Dateien).
+</para>
+</listitem>
+</itemizedlist>
+<para>M&ouml;glicherweise mu&szlig; der Benutzer den Datenbanksuchpfad &auml;ndern,
+wenn er einen Datenbank-Server erstellt oder eine lokale Position f&uuml;r
+Datenbankdateien hinzuf&uuml;gt.</para>
+<sect2 id="SAG.Datab.div.15">
+<title>Standarddatenbanksuchpfad<indexterm><primary>Datenbanksuchpfad</primary>
+<secondary>Standard</secondary></indexterm></title>
+<para>Der Standarddatenbanksuchpfad enth&auml;lt pers&ouml;nliche, systemweite
+und integrierte Positionen. Der Standardwert f&uuml;r <symbol role="Variable">sprache</symbol> ist C.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.00in">
+<colspec colwidth="5.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Pers&ouml;nliche Position</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Systemweite Position</para></entry>
+<entry align="left" valign="top"><filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol></filename></entry></row>
+<row>
+<entry align="left" valign="top"><para>Integrierte Position</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.Datab.div.16">
+<title>Wie der Anwendungssuchpfad sich auf den Datenbanksuchpfad auswirkt<indexterm>
+<primary>Datenbanksuchpfad</primary><secondary>bezogen auf Anwendungssuchpfad</secondary></indexterm></title>
+<para>Wird eine Position zum Anwendungssuchpfad hinzugef&uuml;gt, wird das
+entsprechende Datenbankunterverzeichnis automatisch dem Datenbanksuchpfad
+hinzugef&uuml;gt. (Weitere Informationen hierzu k&ouml;nnen dem Abschnitt
+<!--Original XRef content: '&ldquo;Wie der Anwendungssuchpfad sich auf die
+Datenbank-, Symbol-
+und Hilfesuchpfade auswirkt&rdquo; auf Seite&numsp;133'--><xref role="SecTitleAndPageNum"
+linkend="SAG.Datab.mkr.11"> entnommen werden.)</para>
+<para>Wird beispielsweise der Anwendungs-Server <command>hosta:</command>
+dem Anwendungssuchpfad hinzugef&uuml;gt, wird das Verzeichnis <filename>hosta:/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol> automatisch dem Datenbanksuchpfad
+hinzugef&uuml;gt.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.17">
+<title>Umgebungsvariablen des Datenbanksuchpfades<indexterm><primary>Umgebungsvariable</primary><secondary>Datenbanksuchpfad</secondary></indexterm><indexterm>
+<primary>Datenbanksuchpfad</primary><secondary>Umgebungsvariable</secondary>
+</indexterm></title>
+<para>Der Datenbanksuchpfad wird aus den integrierten Positionen und folgenden
+Eingabevariablen assembliert:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.34in">
+<colspec colwidth="3.84in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPSYSDATABASEHOSTS
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPSYSDATABASEHOSTS</systemitem></para></entry>
+<entry align="left" valign="top"><para>Eingabevariable f&uuml;r den systemweiten
+Datenbanksuchpfad</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPUSERDATABASEHOSTS
+Variable</primary><secondary>Definition</secondary></indexterm><systemitem>DTSPUSERDATABASEHOSTS</systemitem></para></entry>
+<entry align="left" valign="top"><para>Eingabevariable f&uuml;r den pers&ouml;nlichen
+Datenbanksuchpfad</para></entry></row></tbody></tgroup></informaltable>
+<para>Diese Eingabevariablen verwenden, um Positionen au&szlig;erhalb des
+Anwendungssuchpfades anzugeben.</para>
+<para>Der assemblierte Datenbanksuchpfad wird durch die Ausgabevariable<indexterm>
+<primary>DTDATABASESEARCHPATH Variable</primary><secondary>assemblieren</secondary>
+</indexterm> <systemitem>DTDATABASESEARCHPATH</systemitem> angegeben.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.18">
+<title>Syntax f&uuml;r die Eingabevariablen des Datenbanksuchpfades<indexterm>
+<primary>Datenbanksuchpfad</primary><secondary>Syntax</secondary></indexterm></title>
+<para>Die Syntax f&uuml;r die Variablen<indexterm><primary>DTSPSYSDATABASEHOSTS
+Variable</primary><secondary>Syntax</secondary></indexterm> <systemitem>DTSPSYSDATABASEHOSTS</systemitem> und<indexterm><primary>DTSPUSERDATABASEHOSTS Variable</primary>
+<secondary>Syntax</secondary></indexterm> <systemitem>DTSPUSERDATABASEHOSTS</systemitem> lautet:</para>
+<programlisting>VARIABLE=position [,position...]</programlisting>
+<para>wobei <symbol role="Variable">position</symbol> folgende Syntax haben
+kann:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.49in">
+<colspec colwidth="4.53in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>/<symbol role="Variable">pfad</symbol></para></entry>
+<entry align="left" valign="top">Gibt ein Verzeichnis im lokalen System (Session-Server)
+an. Diese Syntax wird verwendet, um ein lokales Verzeichnis hinzuzuf&uuml;gen. </entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">hostname</symbol> <filename>:</filename></para></entry>
+<entry align="left" valign="top"><para>Gibt das systemweite Verzeichnis <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol>
+auf dem System <symbol role="Variable">hostname</symbol> an.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">hostname</symbol>:/<symbol role="Variable">pfad</symbol></para></entry>
+<entry align="left" valign="top"><para>Gibt ein Verzeichnis auf dem fernen
+System <symbol role="Variable">hostname</symbol> an.</para></entry></row>
+</tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.Datab.div.19">
+<title>Wie der Datenbanksuchpfad assembliert wird<indexterm><primary>Datenbanksuchpfad</primary><secondary>assemblieren</secondary></indexterm></title>
+<para>Der Wert des Datenbanksuchpfades (<indexterm><primary>DTDATABASESEARCHPATH
+Variable</primary><secondary>assemblieren</secondary></indexterm> <systemitem>DTDATABASESEARCHPATH</systemitem>) wird erstellt, indem folgende Positionen,
+die ihrem Rang nach aufgelistet sind, assembliert werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Positionen, die &uuml;ber die Variable <systemitem>DTSPUSERDATABASEHOSTS</systemitem> angegeben werden</para>
+</listitem>
+<listitem><para>Positionen, die von der Variablen <systemitem>DTSPUSERAPPHOSTS</systemitem> abgeleitet werden</para>
+</listitem>
+<listitem><para>Die standardm&auml;&szlig;ige pers&ouml;nliche Position: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para>
+</listitem>
+<listitem><para>Die Standardposition: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>Positionen, die &uuml;ber die Variable <systemitem>DTSPSYSDATABASEHOSTS</systemitem> angegeben werden</para>
+</listitem>
+<listitem><para>Positionen, die von der Variablen <systemitem>DTSPSYSAPPHOSTS</systemitem> abgeleitet werden</para>
+</listitem>
+<listitem><para><filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+<para>Die Syntax:</para>
+<programlisting>hostname:</programlisting>
+<para>wird erweitert, um das Verzeichnis <filename>/etc/dt/appconfig/types</filename> auf dem System <symbol role="Variable">hostname</symbol> anzugeben.
+</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.Datab.div.20">
+<title id="SAG.Datab.mkr.13">Symbolsuchpfad<indexterm><primary>Symbolsuchpfad</primary></indexterm></title>
+<para>Der Symbolsuchpfad weist das Desktop an, angegebene Positionen nach
+Dateien zu durchsuchen, die Bitmap- und Pixmap-Abbilddateien f&uuml;r das
+Desktop enthalten.</para>
+<sect2 id="SAG.Datab.div.21">
+<title>Standardsymbolsuchpfad<indexterm><primary>Symbolsuchpfad</primary>
+<secondary>Standard</secondary></indexterm></title>
+<para>Der Standardsymbolsuchpfad enth&auml;lt pers&ouml;nliche, systemweite
+und integrierte Positionen. Der Standardwert f&uuml;r <symbol role="Variable">sprache</symbol> ist C.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.75in">
+<colspec colwidth="4.23in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Pers&ouml;nliche Position</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/icons</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Systemweite Position</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Integrierte Position</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.Datab.div.22">
+<title>Wie der Anwendungssuchpfad sich auf den Symbolsuchpfad auswirkt<indexterm>
+<primary>Symbolsuchpfad</primary><secondary>bezogen auf Anwendungssuchpfad</secondary></indexterm></title>
+<para>Wird eine Position zum Anwendungssuchpfad hinzugef&uuml;gt, wird das
+entsprechende Symbolunterverzeichnis automatisch dem Symbolsuchpfad hinzugef&uuml;gt.
+(Weitere Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original XRef
+content: ' Wie der
+Anwendungssuchpfad sich auf die Datenbank-, Symbol- und Hilfesuchpfade
+auswirkt  auf Seite&numsp;133'--><xref role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.11">
+entnommen werden.)</para>
+<para>Wird beispielsweise der Anwendungs-Server <command>hosta:</command>
+dem Anwendungssuchpfad hinzugef&uuml;gt, wird das Verzeichnis <filename>hosta:/etc/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol> automatisch dem Symbolsuchpfad
+hinzugef&uuml;gt.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.23">
+<title>Umgebungsvariablen des Symbolsuchpfades<indexterm><primary>Umgebungsvariable</primary><secondary>Bitmapsuchpfad</secondary></indexterm><indexterm><primary>Umgebungsvariable</primary><secondary>Pixmapsuchpfad</secondary></indexterm><indexterm>
+<primary>Umgebungsvariable</primary><secondary>Symbolsuchpfad</secondary>
+</indexterm><indexterm><primary>Symbolsuchpfad</primary><secondary>Umgebungsvariable</secondary></indexterm></title>
+<para>Der Symbolsuchpfad wird aus den integrierten Positionen und folgenden
+Eingabevariablen assembliert:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.74in">
+<colspec colwidth="4.26in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>DTSPSYSICON</systemitem></para></entry>
+<entry align="left" valign="top"><para>Eingabevariable f&uuml;r den systemweiten
+Symbolsuchpfad</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>DTSPUSERICON</systemitem></para></entry>
+<entry align="left" valign="top"><para>Eingabevariable f&uuml;r den pers&ouml;nlichen
+Symbolsuchpfad</para></entry></row></tbody></tgroup></informaltable>
+<para>Diese Eingabevariablen verwenden, um Positionen au&szlig;erhalb des
+Anwendungssuchpfades anzugeben.</para>
+<para>Der assemblierte Symbolsuchpfad wird durch zwei Ausgabevariablen angegeben:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.51in">
+<colspec colwidth="3.49in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>XMICONSEARCHPATH
+Variable</primary><secondary>Verwendung</secondary></indexterm><systemitem>XMICONSEARCHPATH</systemitem></para></entry>
+<entry align="left" valign="top"><para>Wird von Farbbildschirmen verwendet.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>XMICONBMSEARCHPATH
+Variable</primary><secondary>Verwendung</secondary></indexterm><systemitem>XMICONBMSEARCHPATH</systemitem></para></entry>
+<entry align="left" valign="top"><para>Wird von Monochrombildschirmen verwendet.
+</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.Datab.div.24">
+<title>Syntax f&uuml;r die Eingabevariablen des Symbolsuchpfades<indexterm>
+<primary>Symbolsuchpfad</primary><secondary>Syntax</secondary></indexterm></title>
+<para>Die Syntax f&uuml;r die Variablen<indexterm><primary>DTSPSYSICON Variable</primary><secondary>Syntax</secondary></indexterm> <systemitem>DTSPSYSICON</systemitem> und<indexterm><primary>DTSPUSERICON Variable</primary><secondary>Syntax</secondary></indexterm> <systemitem>DTSPUSERICON</systemitem> lautet:
+</para>
+<programlisting>VARIABLE=position [,position...]</programlisting>
+<para>wobei <symbol role="Variable">position</symbol> folgende Syntax haben
+kann:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colwidth="1.00in">
+<colspec colwidth="4.99in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>/</filename><symbol role="Variable">pfad</symbol></para></entry>
+<entry align="left" valign="top">Gibt ein Verzeichnis im lokalen System (Session-Server)
+an. Diese Syntax wird verwendet, um ein lokales Verzeichnis hinzuf&uuml;gen. </entry></row></tbody></tgroup></informaltable>
+<para>Soll eine Position in einem anderen System angegeben werden, mu&szlig;
+der Netzwerkdateiname, z. B. <filename>/nfs/servera/projects/icons</filename>
+verwendet werden.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.25">
+<title>Wie der Symbolsuchpfad assembliert wird<indexterm><primary>Symbolsuchpfad</primary><secondary>assemblieren</secondary></indexterm></title>
+<para>Der Wert des Symbolsuchpfades (<indexterm><primary>XMICONSEARCHPATH
+Variable</primary><secondary>assemblieren</secondary></indexterm> <systemitem>XMICONSEARCHPATH</systemitem> und<indexterm><primary>XMICONBMSEARCHPATH Variable</primary><secondary>assemblieren</secondary></indexterm> <systemitem>XMICONBMSEARCHPATH</systemitem>) wird erstellt, indem folgende Positionen, die ihrem Rang nach
+aufgelistet sind, assembliert werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Positionen, die &uuml;ber die Variable <systemitem>DTSPUSERICON</systemitem> angegeben sind</para>
+</listitem>
+<listitem><para>Positionen, die von der Variablen <systemitem>DTSPUSERAPPHOSTS</systemitem> abgeleitet werden</para>
+</listitem>
+<listitem><para>Die standardm&auml;&szlig;ige pers&ouml;nliche Position: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>Die Standardposition: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>Positionen, die &uuml;ber die Variable <systemitem>DTSPSYSICON</systemitem> angegeben sind</para>
+</listitem>
+<listitem><para>Positionen, die von der Variablen <systemitem>DTSPSYSAPPHOSTS</systemitem> abgeleitet werden</para>
+</listitem>
+<listitem><para><filename>/usr/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+<para>Farb- und Monochromsuchpfade unterscheiden sich lediglich in der Rangfolge,
+die Pixmap- und Bitmap-Dateien zugeordnet wird. Die Variable <systemitem>XMICONSEARCHPATH</systemitem> listet Pixmap-Dateien vor Bitmap-Dateien, die
+Variable <systemitem>XMICONBMSEARCPATH</systemitem> listet Bitmap-Dateien
+vor Pixmap-Dateien.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.Datab.div.20a">
+<title id="SAG.Datab.mkr.13a">Infobiblio-Suchpfad<indexterm><primary>Infobiblio-Suchpfad</primary></indexterm></title>
+<para>Der Infobiblio-Suchpfad steuert das Desktop bei der Suche nach angegebenen
+Speicherstellen f&uuml;r Informationsbibliotheken, die in Ihrem System registriert
+sein werden.</para>
+<para>Die Umgebungsvariablen <systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem> und <systemitem class="environvar">DTINFOLIBDEFAULT</systemitem>
+werden w&auml;hrend der Installation durch das Dienstprogramm <command>dtsearchpath</command> definiert.</para>
+<sect2 id="SAG.Datab.div.21a">
+<title>Standard-Infobiblio-Suchpfad<indexterm><primary>Infobiblio-Suchpfad</primary><secondary>Standard</secondary></indexterm></title>
+<para>Der Standard-Infobiblio-Suchpfad enth&auml;lt systemweite und eingebaute
+Speicherstellen. Die Standard-<symbol role="Variable">Sprache</symbol> ist <filename>C.</filename></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="157*">
+<colspec colwidth="371*">
+<tbody>
+<row>
+<entry><para>Systemweite Speicherstelle</para></entry>
+<entry><para><filename>/etc/dt/infolib/</filename><symbol role="Variable">%L/%I</symbol>.dti</para></entry></row>
+<row>
+<entry><para>Eingebaute Speicherstelle</para></entry>
+<entry><para><filename>/usr/dt/infolib/</filename><symbol role="Variable">%L/%I</symbol>.dti</para></entry></row></tbody></tgroup></informaltable>
+<para>Der Wert von <systemitem class="environvar">DTINFOLIBDEFAULT</systemitem>
+wird durch <symbol role="Variable">%I</symbol> ersetzt. Der Standardwert von <systemitem class="environvar">DTINFOLIBDEFAULT</systemitem> ist <literal>cde</literal>.
+</para>
+</sect2>
+<sect2 id="SAG.Datab.div.22a">
+<title>Wie der Anwendungssuchpfad sich auf den Infobiblio-Suchpfad auswirkt<indexterm>
+<primary>Infobiblio-Suchpfad</primary><secondary>bezogen auf den Anwendungssuchpfad</secondary></indexterm></title>
+<para>Wenn dem Anwendungssuchpfad eine Speicherstelle hinzugef&uuml;gt wird,
+wird das geeignete Infobiblio-Unterverzeichnis dem Infobiblio-Suchpfad automatisch
+hinzugef&uuml;gt (siehe <!--Original XRef content: '&xd2;How the
+Application Search Path Affects the Database, Icon, Infolib, and Help Search
+Paths&xd3; on
+page&numsp;119'--><xref role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.11">).
+</para>
+<para>Wenn zum Beispiel der Anwendungs-Server <filename>hosta:</filename>
+dem Anwendungssuchpfad hinzugef&uuml;gt wird, wird das Verzeichnis <filename>hosta:/etc/dt/infolib/</filename><symbol role="Variable">%L</symbol> automatisch
+dem Infobiblio-Suchpfad hinzugef&uuml;gt.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.23a">
+<title>Umgebungsvariablen des Infobiblio-Suchpfades<indexterm><primary>Umgebungsvariablen</primary><secondary>Infobiblio-Suchpfad</secondary></indexterm><indexterm>
+<primary>Infobiblio-Suchpfad</primary><secondary>Umgebungsvariablen</secondary>
+</indexterm></title>
+<para>Der Infobiblio-Suchpfad ist assembliert aus den eingebauten Speicherstellen
+und den folgenden Eingabevariablen:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="142*">
+<colspec colwidth="386*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>DTSPSYSINFOLIB</para></entry>
+<entry align="left" valign="top"><para>Eingabevariable des systemweiten Infobiblio-Suchpfades
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>DTSPUSERINFOLIB</para></entry>
+<entry align="left" valign="top"><para>Eingabevariable des pers&ouml;nlichen
+Infobiblio-Suchpfades</para></entry></row></tbody></tgroup></informaltable>
+<para>Diese Eingabevariablen verwenden, um Speicherstellen au&szlig;erhalb
+des Anwendungssuchpfades anzugeben.</para>
+<para>Der assemblierte Infobiblio-Suchpfad wird durch die Ausgabevariable <systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem> angegeben.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.24a">
+<title>Syntax f&uuml;r die Eingabevariablen des Infobiblio-Suchpfades<indexterm>
+<primary>Infobiblio-Suchpfad</primary><secondary>Syntax des</secondary></indexterm></title>
+<para>Die Syntax f&uuml;r die Variablen <systemitem class="environvar">DTSPSYSINFOLIB</systemitem> und <systemitem class="environvar">DTSPUSERINFOLIB</systemitem>
+lautet:<indexterm><primary>DTSPSYSINFOLIB Variable</primary><secondary>Syntax</secondary></indexterm><indexterm><primary>DTSPUSERINFOLIB Variable</primary>
+<secondary>Syntax</secondary></indexterm></para>
+<programlisting><symbol role="Variable">VARIABLE</symbol>=<symbol role="Variable">speicherstelle</symbol> [,<symbol role="Variable">speicherstelle</symbol>...]
+</programlisting>
+<para>wobei <symbol role="Variable">speicherstelle</symbol> die Syntax haben
+kann:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colwidth="68*">
+<colspec colwidth="460*">
+<tbody>
+<row>
+<entry><para><filename>/</filename><symbol role="Variable">Pfad</symbol></para></entry>
+<entry><para>Gibt ein Verzeichnis auf dem lokalen (Session-Server) System
+an. Diese Syntax verwenden, um ein lokales Verzeichnis hinzuzuf&uuml;gen.
+</para></entry></row></tbody></tgroup></informaltable>
+<para>Zur Angabe einer Speicherstelle in einem anderen System dessen Netzwerkdateinamen
+verwenden&mdash;zum Beispiel <filename>/nfs/servera/projects/infolib</filename>.
+</para>
+</sect2>
+<sect2 id="SAG.Datab.div.25a">
+<title>Wie der Infobiblio-Suchpfad assembliert ist<indexterm><primary>Infobiblio-Suchpfad</primary><secondary>assemblieren</secondary></indexterm></title>
+<para>Der Wert des Infobiblio-Suchpfades (<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>) wird durch Assemblieren der folgenden Speicherstellen
+erstellt, die hier nach Rangfolge aufgelistet sind:<indexterm><primary>XMinfolibSEARCHPATH
+Variable</primary><secondary>assemblieren</secondary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Speicherstellen, die unter Verwendung der Variablen <systemitem class="environvar">DTSPUSERINFOLIB</systemitem> angegeben werden</para>
+</listitem>
+<listitem><para>Speicherstellen, die von der Variablen <systemitem class="environvar">DTSPUSERAPPHOSTS</systemitem> abgeleitet werden</para>
+</listitem>
+<listitem><para>Die Standard-Speicherstelle: <filename>/etc/dt/infolib/</filename><symbol role="Variable">%L/%I</symbol><filename>.dti</filename></para>
+</listitem>
+<listitem><para>Speicherstellen, die unter Verwendung der Variablen <systemitem class="environvar">DTSPSYSINFOLIB</systemitem> angegeben werden</para>
+</listitem>
+<listitem><para>Speicherstellen, die von der Variablen <systemitem class="environvar">DTSPSYSAPPHOSTS</systemitem> abgeleitet werden</para>
+</listitem>
+<listitem><para><filename>/usr/dt/infolib/</filename><symbol role="Variable">%L/%I</symbol><filename>.dti</filename></para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.Datab.div.26">
+<title id="SAG.Datab.mkr.14">Hilfesuchpfad<indexterm><primary>Hilfesuchpfad</primary></indexterm><indexterm><primary>Suchpfade</primary><secondary>Hilfe</secondary></indexterm></title>
+<para>Der Hilfesuchpfad weist das Desktop an, angegebene Positionen nach Dateien
+mit Hilfeinformationen zu durchsuchen, die auf dem System registriert werden.
+</para>
+<sect2 id="SAG.Datab.div.27">
+<title>Standardhilfesuchpfad<indexterm><primary>Hilfesuchpfad</primary><secondary>Standard</secondary></indexterm></title>
+<para>Der Standardhilfesuchpfad enth&auml;lt pers&ouml;nliche, systemweite
+und integrierte Positionen. Der Standardwert f&uuml;r <symbol role="Variable">sprache</symbol> ist C.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.00in">
+<colspec colwidth="5.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Pers&ouml;nliche Position</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/help</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Systemweite Position</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/.dt/help/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Integrierte Position</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/help/</filename><symbol role="Variable">sprache</symbol></para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.Datab.div.28">
+<title>Wie der Anwendungssuchpfad sich auf den Hilfesuchpfad auswirkt<indexterm>
+<primary>Hilfesuchpfad</primary><secondary>bezogen auf Anwendungssuchpfad</secondary></indexterm></title>
+<para>Wird eine Position zum Anwendungssuchpfad hinzugef&uuml;gt, wird das
+entsprechende Hilfeunterverzeichnis automatisch dem Hilfesuchpfad hinzugef&uuml;gt.
+(Weitere Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original XRef
+content: ' Wie der
+Anwendungssuchpfad sich auf die Datenbank-, Symbol- und Hilfesuchpfade
+auswirkt  auf Seite&numsp;133'--><xref role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.11">
+entnommen werden.)</para>
+<para>Wird beispielsweise der Anwendungs-Server <command>hosta:</command>
+dem Anwendungssuchpfad hinzugef&uuml;gt, wird das Verzeichnis <filename>hosta:/etc/dt/appconfig/help/</filename><symbol role="Variable">sprache</symbol> automatisch dem Hilfesuchpfad
+hinzugef&uuml;gt.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.29">
+<title>Umgebungsvariablen des Hilfesuchpfades<indexterm><primary>Umgebungsvariable</primary><secondary>Hilfesuchpfad</secondary></indexterm><indexterm><primary>Hilfesuchpfad</primary><secondary>Umgebungsvariable</secondary></indexterm></title>
+<para>Der Hilfesuchpfad wird aus den integrierten Positionen und folgenden
+Eingabevariablen assembliert:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.00in">
+<colspec colwidth="3.99in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>DTSPSYSHELP Variable</primary></indexterm><systemitem>DTSPSYSHELP</systemitem></para></entry>
+<entry align="left" valign="top"><para>Eingabevariable f&uuml;r den systemweiten
+Hilfesuchpfad</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>DTSPUSERHELP</systemitem></para></entry>
+<entry align="left" valign="top"><para>Eingabevariable f&uuml;r den pers&ouml;nlichen
+Hilfesuchpfad</para></entry></row></tbody></tgroup></informaltable>
+<para>Diese Eingabevariablen verwenden, um Positionen au&szlig;erhalb des
+Anwendungssuchpfades anzugeben.</para>
+<para>Der assemblierte Datenbanksuchpfad wird durch die Ausgabevariable <systemitem>DTHELPSEARCHPATH</systemitem> angegeben.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.30">
+<title>Syntax f&uuml;r die Eingabevariablen des Hilfesuchpfades<indexterm>
+<primary>Hilfesuchpfad</primary><secondary>Syntax</secondary></indexterm></title>
+<para>Die Syntax f&uuml;r die Variablen<indexterm><primary>DTSPSYSHELP Variable</primary><secondary>Syntax</secondary></indexterm> <systemitem>DTSPSYSHELP</systemitem> und<indexterm><primary>DTSPUSERHELP Variable</primary><secondary>Syntax</secondary></indexterm> <systemitem>DTSPUSERHELP</systemitem> lautet:
+</para>
+<programlisting>VARIABLE=position [,position...]</programlisting>
+<para>wobei <symbol role="Variable">position</symbol> folgende Syntax haben
+kann:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colwidth="0.99in">
+<colspec colwidth="5.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>/</filename><symbol role="Variable">pfad</symbol></para></entry>
+<entry align="left" valign="top"><para>Gibt ein Verzeichnis im lokalen System
+(Session-Server) an. Diese Syntax wird verwendet, um ein lokales Verzeichnis
+hinzuzuf&uuml;gen.</para></entry></row></tbody></tgroup></informaltable>
+<para>Soll eine Position in einem anderen System angegeben werden, mu&szlig;
+der Netzwerkdateiname, z. B. <filename>/nfs/servera/projects/help</filename>
+verwendet werden.</para>
+</sect2>
+<sect2 id="SAG.Datab.div.31">
+<title>Wie der Hilfesuchpfad assembliert wird<indexterm><primary>Hilfesuchpfad</primary><secondary>assemblieren</secondary></indexterm></title>
+<para>Der Wert des Hilfesuchpfades (<indexterm><primary>DTHELPSEARCHPATH
+Variable</primary><secondary>assemblieren</secondary></indexterm> <systemitem>DTHELPSEARCHPATH</systemitem>) wird erstellt, indem folgende Positionen, die
+ihrem Rang nach aufgelistet sind, assembliert werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Positionen, die &uuml;ber die Variable <systemitem>DTSPUSERHELP</systemitem> angegeben werden</para>
+</listitem>
+<listitem><para>Positionen, die von der Variablen <systemitem>DTSPUSERAPPHOSTS</systemitem> abgeleitet werden</para>
+</listitem>
+<listitem><para>Die standardm&auml;&szlig;ige pers&ouml;nliche Position: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/help</filename></para>
+</listitem>
+<listitem><para>Die Standardposition: <filename>/etc/dt/appconfig/help/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>Positionen, die &uuml;ber die Variable <systemitem>DTSPSYSHELP</systemitem> angegeben werden</para>
+</listitem>
+<listitem><para>Positionen, die von der Variablen <systemitem>DTSPSYSAPPHOSTS</systemitem> abgeleitet werden</para>
+</listitem>
+<listitem><para><filename>/usr/dt/appconfig/help/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.Datab.div.32">
+<title id="SAG.Datab.mkr.15">Ortsabh&auml;ngige Suchpfade<indexterm><primary>Suchpfade</primary><secondary>Position</secondary></indexterm><indexterm>
+<primary>Anwendungssuchpfad</primary><secondary>Position</secondary></indexterm></title>
+<para>Die Ausgabevariablen enthalten sowohl Eintr&auml;ge f&uuml;r ortsabh&auml;ngige
+Positionen als auch f&uuml;r Standardpositionen (C).</para>
+<para>Beispielsweise lautet der Standardanwendungssuchpfad:</para>
+<programlisting>Standardverzeichnis/.dt/appmanager
+/etc/dt/appconfig/appmanager/sprache
+/etc/dt/appconfig/appmanager/C
+/usr/dt/appconfig/appmanager/sprache
+/usr/dt/appconfig/appmanager/C</programlisting>
+<para>wobei <symbol role="Variable">sprache</symbol> den Wert der Umgebungsvariablen <systemitem>LANG</systemitem> darstellt.</para>
+<para>F&uuml;r jeden Bereich (systemweit oder integriert) hat die ortsabh&auml;ngige
+Position Vorrang vor der Standardposition.</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+<?Pub *0000067432>

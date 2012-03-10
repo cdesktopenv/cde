@@ -1,0 +1,631 @@
+<!-- $XConsortium: Ref.sgm /main/6 1996/09/08 22:12:46 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="Reference">
+<Title>Créer une action - Référence</Title>
+<Procedure>
+<Title>Créer une action - Généralités</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.1">
+<Para><XRef Linkend="WhatCreateActionDoes"></Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.2">
+<Para><XRef Linkend="CreateActionFunctionality"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Créer une action - Fenêtres</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.3">
+<Para><XRef Linkend="CreateActionMainWindow"></Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.4">
+<Para><XRef Linkend="AddDatatypeWindow"></Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.5">
+<Para><XRef Linkend="DatatypeCriteriaWindow"></Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.6">
+<Para><XRef Linkend="FindIconSetDialog"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Sect1 Id="WhatCreateActionDoes">
+<Title>Fichiers créés</Title>
+<IndexTerm>
+<Primary>Créer une action:fichiers créés</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>Nom d'action</Primary>
+</IndexTerm>
+<Para>Créer une action génère les éléments suivants:
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.REF.item.7">
+<Para>Un fichier de définition permettant de lancer l'action:
+<ComputerOutput><Symbol Role="Variable">Dossier_personnel</Symbol>/.dt/types/<Symbol Role="Variable">nom_action</Symbol>.dt</ComputerOutput>.</Para>
+<Para><IndexTerm>
+<Primary>Icône d'action</Primary>
+</IndexTerm></Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.8">
+<Para>Une icône d'action, installée dans le répertoire personnel
+de l'utilisateur; lorsque vous cliquez deux fois dessus, l'action est
+lancée. Pour configurer l'icône en tant que zone de pose, définissez
+des types de données posables.</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.9">
+<Para>Les fonctions avancées de l'utilitaire permettent également de créer
+les éléments suivants:</Para>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.10">
+<Para>un ou plusieurs types de données associés aux fichiers de données
+de l'application;
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.11">
+<Para>des actions Ouvrir et Imprimer pour le type de données.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Ces éléments sont également écrits dans le fichier
+<ComputerOutput><Symbol Role="Variable">Dossier _personnel</Symbol>/.dt/types/<Symbol Role="Variable">nom_action</Symbol>.dt</ComputerOutput>.
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="CreateActionFunctionality">
+<Title>Restrictions d'utilisation</Title>
+<Procedure>
+<Title>Actions</Title>
+<IndexTerm>
+<Primary>Créer une action:restrictions d'utilisation</Primary>
+</IndexTerm>
+<Step>
+<Para>La création d'actions est impossible dans les cas suivants:</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.REF.item.12">
+<Para>La ligne de commande requiert un argument qui n'est pas un fichier.
+La commande suivante, par exemple, ne peut pas faire l'objet d'une
+création d'action:</Para>
+<ProgramListing>lp -d<Symbol Role="Variable">unité</Symbol> <Symbol Role="Variable">nom_fichier</Symbol></ProgramListing>
+<Para>En effet, un nom d'unité doit être indiqué pour l'exécution de la
+commande; l'action correspondante doit être créée manuellement.</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.13">
+<Para>Le libellé de l'icône doit être différent du nom de l'action.
+Par exemple, Créer une action ne permet pas de modifier le nom
+d'une action existante.</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.14">
+<Para>L'action requiert certaines fonctions étendues de la base de données
+des actions, telles que:
+</Para>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.15">
+<Para>lancement de commandes sur des systèmes éloignés,
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.16">
+<Para>appel d'autres actions,
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.17">
+<Para>exécution sous un ID utilisateur différent (root, par exemple),
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.18">
+<Para>utilisation étendue de la fonction "map",
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.19">
+<Para>comportements variés, en fonction du nombre d'arguments
+indiqués pour l'action.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Types de données</Title>
+<IndexTerm>
+<Primary>Créer une action:restrictions d'utilisation</Primary>
+</IndexTerm>
+<Step>
+<Para>La création de types de données est impossible dans les cas suivants:
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.REF.item.20">
+<Para>Le type de données doit être associé à des actions autres qu'Ouvrir
+et Imprimer.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.21">
+<Para>L'action Ouvrir du type de données ne correspond pas à la commande de
+lancement de l'action. Par exemple, vous ne pouvez pas créer un type
+de données qui associe une icône unique au répertoire représentant
+le groupe d'applications de l'application.
+</Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="CreateActionMainWindow">
+<Title>Fenêtre principale</Title>
+<IndexTerm>
+<Primary>Créer une action:fenêtre principale</Primary>
+</IndexTerm>
+<Para>Pour plus de détails sur les tâches pouvant être effectuées à
+partir de cette fenêtre, reportez-vous à la section <XRef Linkend="ToCreateAction">.</Para>
+<Graphic Entityref="CAMainWindow" Id="HCRA.REF.fig.1"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>Nom (libellé de l'icône)</Term>
+<ListItem>
+<Para>Tapez le nom de l'action. La distinction
+majuscules/ minuscules est respectée et les espaces ne sont pas autorisés.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Icônes d'action</Term>
+<ListItem>
+<Para>Affiche l'image qui sera utilisée pour l'icône de l'action.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Rech. ensemble</Term>
+<ListItem>
+<Para>Affiche une boîte de dialogue qui permet de sélectionner
+un autre bitmap ou pixmap existant.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Editer une icône</Term>
+<ListItem>
+<Para>Ouvre l'Editeur d'icônes, qui permet de créer une
+nouvelle icône ou de modifier une icône existante.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Commande exécutée à l'ouverture de l'action</Term>
+<ListItem>
+<Para>Tapez la commande. Utilisez
+la syntaxe <ComputerOutput>$</ComputerOutput><Symbol Role="Variable">n</Symbol> pour indiquer qu'un fichier doit être spécifié
+comme argument.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Aide sur l'icône</Term>
+<ListItem>
+<Para>Tapez le texte de l'aide associée à l'icône.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Type de fenêtre</Term>
+<ListItem>
+<Para>Sélectionnez le type de fenêtre créé par l'action:</Para>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.22">
+<Para>Graphique: L'application affiche sa propre fenêtre.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.23">
+<Para>Terminal (fermeture auto.): L'action affiche une fenêtre de terminal
+qui se ferme automatiquement lorsque l'exécution de l'action prend fin.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.24">
+<Para>Terminal (fermeture manuelle): L'action affiche une fenêtre de terminal
+dont l'utilisateur doit demander explicitement la fermeture.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.25">
+<Para>Pas de sortie: L'application ne requiert aucune fenêtre.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Procedure>
+<Title>Fonctions étendues</Title>
+<Step>
+<Para>Ces fonctions ne sont disponibles que si la commande exécutée lors du
+double-clic requiert un fichier.
+</Para>
+<Graphic Entityref="CAAdvancedMainWIndow" Id="HCRA.REF.fig.2"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>A l'ouverture de l'action, demander aux utilisateurs</Term>
+<ListItem>
+<Para>Tapez le message qui
+s'affichera lorsque vous cliquerez deux fois sur l'action.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Types de données utilisant l'action</Term>
+<ListItem>
+<Para>Liste des types de données associés
+à l'action, accessible en lecture seulement. Les entrées sont ajoutées à
+mesure que vous créez des types de données à l'aide de la boîte de
+dialogue Ajouter un type de données.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ajouter</Term>
+<ListItem>
+<Para>Ouvre la fenêtre Ajouter un type de données, qui permet de créer
+un type de données.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Supprimer</Term>
+<ListItem>
+<Para>Supprime les types de données sélectionnés dans la liste des
+types de données utilisant l'action.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Editer</Term>
+<ListItem>
+<Para>Permet d'éditer les types de données sélectionnés dans la liste
+des types de données utilisant l'action.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Types de données pouvant être posés</Term>
+<ListItem>
+<Para>Indiquez les types de données pris
+en charge par l'action (tous ou seulement ceux de la liste des types de
+données utilisant l'action).</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="AddDatatypeWindow">
+<Title>Boîte de dialogue Ajouter un type de données</Title>
+<IndexTerm>
+<Primary>Boîte de dialogue Ajouter un type de données</Primary>
+</IndexTerm>
+<Para>Pour plus de détails, reportez-vous à la section <XRef Linkend="ToCreateDatatype">.</Para>
+<VariableList>
+<VarListEntry>
+<Term>Nom de la famille du type de données</Term>
+<ListItem>
+<Para>Un nom est attribué par défaut;
+vous pouvez le modifier en respectant la distinction majuscules/minuscules
+et en n'indiquant pas d'espaces.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Caractéristiques</Term>
+<ListItem>
+<Para>Liste des critères définissant le type de fichier;
+pour les modifier, utilisez l'option Editer.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Editer</Term>
+<ListItem>
+<Para>Affiche la boîte de dialogue Caractéristiques.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Aide sur l'icône de type de données</Term>
+<ListItem>
+<Para>Tapez l'aide associée aux fichiers
+appartenant à ce type de données.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Icônes du type de données</Term>
+<ListItem>
+<Para>Affiche l'image associée au type de données.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Rech. ensemble</Term>
+<ListItem>
+<Para>Affiche la boîte de dialogue correspondante, qui permet de
+sélectionner un autre bitmap ou pixmap existant.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Editer une icône</Term>
+<ListItem>
+<Para>Ouvre l'Editeur d'icônes, qui permet de créer une
+nouvelle icône ou de modifier une icône existante.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Commande d'ouverture du type de données</Term>
+<ListItem>
+<Para>Affiche la commande exécutée
+lorsque l'utilisateur clique deux fois sur le type de données (identique
+à la commande exécutée lors du double-clic).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Commande d'impression du type de données</Term>
+<ListItem>
+<Para>Tapez la commande permettant
+d'imprimer le type de données.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>OK</Term>
+<ListItem>
+<Para>Enregistre les informations associées au type de données, ajoute
+ce dernier à la liste des types de données utilisant l'action et ferme
+la boîte de dialogue.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Appliquer</Term>
+<ListItem>
+<Para>Enregistre les informations associées au type de données, ajoute
+ce dernier à la liste des types de données utilisant l'action (la boîte
+de dialogue n'est pas fermée).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Annuler</Term>
+<ListItem>
+<Para>Ferme la boîte de dialogue sans créer le type de données.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Aide</Term>
+<ListItem>
+<Para>Affiche l'aide en ligne.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Sect1>
+<Sect1 Id="DatatypeCriteriaWindow">
+<Title>Boîte de dialogue Caractéristiques</Title>
+<IndexTerm>
+<Primary>Boîte de dialogue Caractéristiques</Primary>
+</IndexTerm>
+<Para>Pour plus de détails sur les tâches pouvant être effectuées à partir
+de cette fenêtre, reportez-vous à la section <XRef Linkend="ToCreateDatatype">.</Para>
+<Graphic Entityref="CAIdentifyingCharWindow" Id="HCRA.REF.fig.3"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>Tout inclure</Term>
+<ListItem>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.26">
+<Para>Fichiers (types de données s'appliquant aux fichiers uniquement).
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.27">
+<Para>Dossiers (types de données s'appliquant aux répertoires uniquement).
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Modèle de nom</Term>
+<ListItem>
+<Para>Cochez la case et tapez le modèle voulu. Les caractères
+spéciaux suivants sont autorisés:
+</Para>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.REF.item.28">
+<Para><ComputerOutput>*</ComputerOutput>: correspond à une chaîne de caractères.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.REF.item.29">
+<Para><ComputerOutput>?</ComputerOutput>: correspond à un caractère.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Modèle d'autorisations</Term>
+<ListItem>
+<Para>Cochez la case et sélectionnez les boutons radio
+appropriés (si les autorisations n'ont pas d'importance, sélectionnez
+Indifféremment).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Contenu</Term>
+<ListItem>
+<Para>Cochez la case et tapez les données contenues dans le fichier.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Type</Term>
+<ListItem>
+<Para>Sélectionnez le type de données (Chaîne pour le texte ASCII).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Octet de départ</Term>
+<ListItem>
+<Para>Tapez l'emplacement du fichier à partir duquel la recherche
+doit commencer (<ComputerOutput>1</ComputerOutput> indique le début).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>OK</Term>
+<ListItem>
+<Para>Applique les caractéristiques à la zone Caractéristiques de la boîte
+de dialogue Ajouter un type de données et ferme la fenêtre.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Annuler</Term>
+<ListItem>
+<Para>Ferme la fenêtre sans sauvegarder les modifications.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Effacer</Term>
+<ListItem>
+<Para>Rétablit les valeurs par défaut.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Aide</Term>
+<ListItem>
+<Para>Affiche l'aide en ligne.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Sect1>
+<Sect1 Id="FindIconSetDialog">
+<Title>Boîte de dialogue Rech. ensemble</Title>
+<IndexTerm>
+<Primary>Boîte de dialogue Rech. ensemble</Primary>
+</IndexTerm>
+<Para>Cette boîte de dialogue permet d'indiquer l'image à utiliser pour
+une action ou un type de données. Pour plus de détails, reportez-vous
+à la section <XRef Linkend="ToSpecifyIcon">.</Para>
+<Graphic Entityref="CAFindSetWindow" Id="HCRA.REF.fig.4"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>Dossiers d'icônes</Term>
+<ListItem>
+<Para>Affiche la liste des dossiers faisant partie du chemin
+de recherche des icônes. Cliquez deux fois sur un répertoire pour afficher
+les icônes qu'il contient.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Fichiers d'icônes</Term>
+<ListItem>
+<Para>Affiche les icônes du répertoire. Pour sélectionner un
+fichier d'icône, cliquez dessus; son chemin d'accès apparaît dans la zone
+Entrez un nom de fichier d'icône.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Entrez un nom de fichier d'icône</Term>
+<ListItem>
+<Para>Indiquez le nom de base
+du fichier d'icône. Pour modifier le contenu de cette zone, cliquez sur
+un élément de la liste Fichiers d'icônes.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>OK</Term>
+<ListItem>
+<Para>Applique les modifications et ferme la boîte de dialogue.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Annuler</Term>
+<ListItem>
+<Para>Ferme la boîte de dialogue sans appliquer les modifications.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Aide</Term>
+<ListItem>
+<Para>Affiche l'aide en ligne.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Sect1>
+<Sect1 Id="openDialog">
+<Title>Boîte de dialogue Ouvrir</Title>
+<IndexTerm>
+<Primary>Créer une action:ouverture d'un fichier d'action</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>Action:ouverture</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>Action:édition</Primary>
+</IndexTerm>
+<VariableList>
+<VarListEntry>
+<Term>Entrez le chemin d'accès ou le nom du dossier</Term>
+<ListItem>
+<Para>Indique le chemin d'accès du dossier en cours.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Filtre</Term>
+<ListItem>
+<Para>L'astérisque (*) correspond à tous les fichiers. Vous pouvez
+utiliser des caractères génériques, pour n'afficher que les
+fichiers portant un suffixe donné; par exemple, si vous
+indiquez *.doc, seuls les fichiers dont le suffixe est .doc
+s'affichent.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Fichiers</Term>
+<ListItem>
+<Para>Affiche les fichiers du dossier en cours.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Dossiers</Term>
+<ListItem>
+<Para>Affiche les sous-dossiers du dossier en cours.</Para>
+<Para>Vous pouvez ouvrir un fichier situé dans le dossier en cours, un
+sous-dossier ou un dossier différent.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Entrez le nom du fichier</Term>
+<ListItem>
+<Para>Affiche le nom du fichier sélectionné dans la liste
+(vous pouvez également l'entrer directement au clavier).
+Pour l'ouvrir, appuyez sur Entrée ou cliquez sur OK.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>OK</Term>
+<ListItem>
+<Para>Ouvre le fichier indiqué dans la zone Entrez le nom du
+fichier.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Mettre à jour</Term>
+<ListItem>
+<Para>Régénère la liste de fichiers, après modification du
+critère de filtrage ou ouverture d'un autre dossier.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Annuler</Term>
+<ListItem>
+<Para>Annule l'ouverture.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Aide</Term>
+<ListItem>
+<Para>Affiche l'aide sur les zones d'entrée, les listes de
+sélection et les boutons de la boîte de dialogue.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Sect1>
+</Chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 18:22:29-->

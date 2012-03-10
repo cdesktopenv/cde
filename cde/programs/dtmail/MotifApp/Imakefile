@@ -1,0 +1,83 @@
+XCOMM $TOG: Imakefile /main/8 1998/08/05 13:24:05 mgreess $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MotifApp
+#define LibHeaders	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#include <Threads.tmpl>
+
+INCLUDES = -I../include/MotifApp -I../include -I../include/utils
+
+#ifndef DtMailDefines
+# define DtMailDefines
+#endif
+DEFINES = DtMailDefines
+
+#ifdef HPArchitecture
+EXTRA_C++OPTIONS =	+p
+#endif
+
+#ifdef SunArchitecture
+# ifdef USE_SPRO_V3
+SPRO_V3_OPTIONS =      -noex -xO0 -USPRO_V2
+#  ifdef DEBUGTREE
+SPRO_V3_OPTIONS +=      -xsb
+#  endif
+# endif
+
+EXTRA_C++OPTIONS =     -xF +p +w $(SPRO_V3_OPTIONS)
+
+#endif /* SunArchitecture */
+
+HEADERS = 
+
+SRCS = \
+	Application.C		AskFirstCmd.C \
+	BasicComponent.C	BusyPixmap.C \
+	ButtonInterface.C	Cmd.C \
+	CmdInterface.C		CmdList.C \
+	DialogManager.C		Help.C \
+	IconifyCmd.C		InfoDialogManager.C \
+	InterruptibleCmd.C	Main.C \
+	MainWindow.C		ManageCmd.C \
+	MenuBar.C		MenuWindow.C \
+	MotifCmds.C		NoUndoCmd.C \
+	PixmapCycler.C		PromptDialogManager.C \
+	QuestionDialogManager.C	QuitCmd.C \
+	ScrollingList.C		SelectFileCmd.C \
+	ToggleButtonInterface.C UIComponent.C \
+	UndoCmd.C		WarnNoUndoCmd.C \
+	WorkingDialogManager.C
+
+OBJS = \
+	Application.o		AskFirstCmd.o \
+	BasicComponent.o	BusyPixmap.o \
+	ButtonInterface.o	Cmd.o \
+	CmdInterface.o		CmdList.o \
+	DialogManager.o		Help.o \
+	IconifyCmd.o		InfoDialogManager.o \
+	InterruptibleCmd.o	Main.o \
+	MainWindow.o		ManageCmd.o \
+	MenuBar.o		MenuWindow.o \
+	MotifCmds.o		NoUndoCmd.o \
+	PixmapCycler.o		PromptDialogManager.o \
+	QuestionDialogManager.o QuitCmd.o \
+	ScrollingList.o		SelectFileCmd.o \
+	ToggleButtonInterface.o UIComponent.o \
+	UndoCmd.o		WarnNoUndoCmd.o \
+	WorkingDialogManager.o
+
+#include <Library.tmpl>
+
+DependTarget()
+
+#ifdef SunArchitecture
+clean::
+	$(RM) -r .sb
+	$(RM) .make.state*
+#endif

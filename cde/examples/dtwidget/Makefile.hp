@@ -1,0 +1,53 @@
+# $XConsortium: Makefile.hp /main/2 1996/05/13 11:52:14 drk $
+##########################################################################
+#
+#  Makefile for dtwidget examples (HP)
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Novell, Inc.
+#
+##########################################################################
+
+CC		= cc
+RM		= rm -f
+
+PROGRAM1	= controls
+SOURCES1	= controls.c
+OBJECTS1	= controls.o
+
+PROGRAM2	= editor
+SOURCES2	= editor.c
+OBJECTS2	= editor.o
+
+DEFINES		= 
+CDEBUGFLAGS	= -O
+CFLAGS		= -Aa -z $(DEFINES) $(CDEBUGFLAGS)
+
+DTINCLUDE	= -I/usr/dt/include
+X11INCLUDE	= -I/usr/include/X11R5
+
+INCLUDES	= $(DTINCLUDE) $(X11INCLUDE)
+
+DTLIBS		= -L/usr/dt/lib -lDtWidget -lDtSvc -ltt -lXm
+X11LIBS		= -L/usr/lib/X11R5 -lXt -lX11
+SYSLIBS		=
+
+LIBRARIES	= $(DTLIBS) $(X11LIBS) $(SYSLIBS)
+LDFLAGS		=
+
+.c.o:
+	${CC} -c $(CFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM1) $(PROGRAM2)	
+
+$(PROGRAM1)::	$(OBJECTS1)
+	$(CC) -o $(PROGRAM1) $(LDFLAGS) $(OBJECTS1) $(LIBRARIES)
+
+$(PROGRAM2)::	$(OBJECTS2)
+	$(CC) -o $(PROGRAM2) $(LDFLAGS) $(OBJECTS2) $(LIBRARIES)
+
+clean::
+	$(RM) $(PROGRAM1) $(OBJECTS1)
+	$(RM) $(PROGRAM2) $(OBJECTS2)

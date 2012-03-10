@@ -1,0 +1,46 @@
+/* $XConsortium: Imakefile /main/2 1996/04/21 19:14:34 drk $
+ *
+ * (c) Copyright 1996 Digital Equipment Corporation.
+ * (c) Copyright 1996 Hewlett-Packard Company.
+ * (c) Copyright 1996 International Business Machines Corp.
+ * (c) Copyright 1995,1996 Sun Microsystems, Inc.
+ * (c) Copyright 1996 Novell, Inc. 
+ * (c) Copyright 1996 FUJITSU LIMITED.
+ * (c) Copyright 1996 Hitachi.
+ */
+
+#define DoNormalLib	NormalLibPam
+#define DoSharedLib	SharedLibPam
+#define DoDebugLib	DebugLibPam
+#define DoProfileLib	ProfileLibPam
+#define LibName		pam_sample
+#define SoRev		SOPAMREV
+#define LibHeaders	NO
+
+#include <Threads.tmpl>
+
+SRCS = \
+	sample_acct_mgmt.c \
+	sample_authenticate.c \
+	sample_close_session.c \
+	sample_open_session.c \
+	sample_password.c \
+	sample_setcred.c \
+	sample_utils.c
+
+OBJS = \
+	sample_acct_mgmt.o \
+	sample_authenticate.o \
+	sample_close_session.o \
+	sample_open_session.o \
+	sample_password.o \
+	sample_setcred.o \
+	sample_utils.o
+
+#ifdef SharedPamSampleReqs
+REQUIREDLIBS = SharedPamSampleReqs
+#endif
+
+#include <Library.tmpl>
+
+DependTarget()

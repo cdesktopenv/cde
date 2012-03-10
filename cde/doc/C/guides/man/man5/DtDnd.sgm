@@ -1,0 +1,169 @@
+<!-- $XConsortium: DtDnd.sgm /main/6 1996/09/08 19:58:46 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN321.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN321.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Dt/Dnd.h</RefEntryTitle>
+<ManVolNum>file formats</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>Dt/Dnd.h</Filename></RefName>
+<RefPurpose>Drag and drop definitions
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>#include &lt;Dt/Dnd.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Filename Role="Header">Dt/Dnd.h</Filename> header defines the following enumeration types:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>DtCR_DND_CONVERT_DATA
+DtCR_DND_CONVERT_DELETE
+DtCR_DND_DRAG_FINISH
+DtCR_DND_TRANSFER_DATA
+DtCR_DND_DROP_ANIMATE
+</ProgramListing>
+</InformalExample>
+<Para>The header defines the following enumeration data types,
+with at least the following members:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><StructName Role="typedef">DtDndStatus</StructName></Term>
+<ListItem>
+<Para><SystemItem Class="Constant">DtDND_SUCCESS</SystemItem>, <SystemItem Class="Constant">DtDND_FAILURE</SystemItem></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">DtDndProtocol</StructName></Term>
+<ListItem>
+<InformalExample Remap="indent">
+<ProgramListing>DtDND_TEXT_TRANSFER     = (1L &lt;&lt; 0)
+DtDND_FILENAME_TRANSFER = (1L &lt;&lt; 1)
+DtDND_BUFFER_TRANSFER   = (1L &lt;&lt; 2)
+</ProgramListing>
+</InformalExample>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The header declares the following structures:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct _DtDndBuffer {
+        void *<Emphasis>bp</Emphasis>;
+        int <Symbol Role="Variable">size</Symbol>;
+        string <Symbol Role="Variable">name</Symbol>;
+} DtDndBuffer;
+</ProgramListing>
+</InformalExample>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct _DtDndContext {
+        DtDndProtocol <Symbol Role="Variable">protocol</Symbol>;
+        int <Emphasis>numItems</Emphasis>;
+        union {
+                XmString *<Symbol Role="Variable">strings</Symbol>;
+                String *<Emphasis>files</Emphasis>;
+                DtDndBuffer *<Emphasis>buffers</Emphasis>;
+        } <Symbol Role="Variable">data</Symbol>;
+} DtDndContext;
+</ProgramListing>
+</InformalExample>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct _DtDndConvertCallbackStruct {
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        DtDndContext *<Emphasis>dragData</Emphasis>;
+        DtDndStatus <Symbol Role="Variable">status</Symbol>;
+} DtDndConvertCallbackStruct, *DtDndConvertCallback;
+</ProgramListing>
+</InformalExample>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct _DtDndDragFinishCallbackStruct {
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        DtDndContext *<Emphasis>dragData</Emphasis>;
+        Widget <Emphasis>sourceIcon</Emphasis>;
+} DtDndDragFinishCallbackStruct, *DtDndDragFinishCallback;
+</ProgramListing>
+</InformalExample>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct _DtDndTransferCallbackStruct {
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Position <Symbol Role="Variable">x</Symbol>, <Symbol Role="Variable">y</Symbol>;
+        unsigned char <Symbol Role="Variable">operation</Symbol>;
+        DtDndContext *<Emphasis>dropData</Emphasis>;
+        Boolean <Emphasis>completeMove</Emphasis>;
+        DtDndStatus <Symbol Role="Variable">status</Symbol>;
+} DtDndTransferCallbackStruct, *DtDndTransferCallback;
+</ProgramListing>
+</InformalExample>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct _DtDndDropAnimateCallbackStruct {
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Position <Symbol Role="Variable">x</Symbol>, <Symbol Role="Variable">y</Symbol>;
+        unsigned char <Symbol Role="Variable">operation</Symbol>;
+        DtDndContext *<Emphasis>dropData</Emphasis>;
+} DtDndDropAnimateCallbackStruct, *DtDndDropAnimateCallback;
+</ProgramListing>
+</InformalExample>
+<Para>The header declares the following as functions:
+</Para>
+<Synopsis>Widget DtDndCreateSourceIcon(Widget <Symbol Role="Variable">parent</Symbol>,
+        Pixmap <Symbol Role="Variable">pixmap</Symbol>,
+        Pixmap <Symbol Role="Variable">mask</Symbol>);
+</Synopsis>
+<Synopsis>Widget DtDndDragStart(Widget <Emphasis>dragSource</Emphasis>,
+        XEvent *<Symbol Role="Variable">event</Symbol>,
+        DtDndProtocol <Symbol Role="Variable">protocol</Symbol>,
+        Cardinal <Emphasis>numItems</Emphasis>,
+        unsigned char <Symbol Role="Variable">operations</Symbol>,
+        XtCallbackList <Emphasis>convertCallback</Emphasis>,
+        XtCallbackList <Emphasis>dragFinishCallback</Emphasis>,
+        ArgList <Emphasis>argList</Emphasis>,
+        Cardinal <Emphasis>argCount</Emphasis>);
+</Synopsis>
+<Synopsis>Widget DtDndVaDragStart(Widget <Emphasis>dragSource</Emphasis>,
+        XEvent *<Symbol Role="Variable">event</Symbol>,
+        DtDndProtocol <Symbol Role="Variable">protocol</Symbol>,
+        Cardinal <Emphasis>numItems</Emphasis>,
+        unsigned char <Symbol Role="Variable">operations</Symbol>,
+        XtCallbackList <Emphasis>convertCallback</Emphasis>,
+        XtCallbackList <Emphasis>dragFinishCallback</Emphasis>,
+        ...);
+</Synopsis>
+<Synopsis>void DtDndDropRegister(Widget <Emphasis>dropSite</Emphasis>,
+        DtDndProtocol <Symbol Role="Variable">protocols</Symbol>,
+        unsigned char <Symbol Role="Variable">operations</Symbol>,
+        XtCallbackList <Emphasis>transferCallback</Emphasis>,
+        ArgList <Emphasis>argList</Emphasis>,
+        Cardinal <Emphasis>argCount</Emphasis>);
+</Synopsis>
+<Synopsis>void DtDndVaDropRegister(Widget <Emphasis>dropSite</Emphasis>,
+        DtDndProtocol <Symbol Role="Variable">protocols</Symbol>,
+        unsigned char <Symbol Role="Variable">operations</Symbol>,
+        XtCallbackList <Emphasis>transferCallback</Emphasis>,
+        ...);
+</Synopsis>
+<Synopsis>void DtDndDropUnregister(Widget <Emphasis>dropSite</Emphasis>);
+</Synopsis>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

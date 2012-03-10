@@ -1,0 +1,62 @@
+XCOMM $XConsortium: Imakefile /main/9 1996/10/09 14:11:04 drk $
+
+       INCLUDES = -I. -I$(DTINCLUDESRC) 
+LOCAL_INCLUDES  = -I../shared -I$(TOP)/lib/
+  SYS_LIBRARIES = -lm
+
+
+EXTRA_DEFINES = -DLOG -DSYNLIB
+
+#ifdef HPArchitecture
+EXTRA_DEFINES = -DLOG -DSYNLIB
+#endif
+#if defined(HPOSFArchitecture)
+#endif
+
+#if defined(ApolloArchitecture)
+EXTRA_DEFINES = -Dapollo -D_CMDINV
+#if defined(SHLIB)
+   LOCAL_LIBRARIES = -A inlib,$(XLIB)
+#endif
+#endif
+
+#if defined(SunArchitecture)
+SYS_LIBRARIES = -lm -ldl -lgen -lC
+SYNLIB=$(TOP)/lib/synlib/libsynlibTst.a
+XTST=/usr/openwin/lib/libXtst.a
+#endif
+
+#if defined(USLArchitecture)
+SYS_LIBRARIES = -lm -ldl -lgen
+#endif
+
+#if defined(UXPArchitecture)
+SYS_LIBRARIES = -lm -ldl -lgen
+#endif
+
+LOCAL_LIBRARIES = $(XTST) $(XEXT) $(XLIB)
+
+PROGRAMS = $(PROG1) $(PROG2) $(PROG3)
+
+PROG1 = printlines
+SRCS1 = printlines.c 
+OBJS1 = printlines.o 
+
+PROG2 = termget
+SRCS2 = termget.c 
+OBJS2 = termget.o 
+
+PROG3 = wait5write
+SRCS3 = wait5write.c
+OBJS3 = wait5write.o
+
+ComplexProgramTarget_1($(PROG1),$(LOCAL_LIBRARIES),)
+ComplexProgramTarget_2($(PROG2),$(LOCAL_LIBRARIES),)
+ComplexProgramTarget_3($(PROG3),$(LOCAL_LIBRARIES),)
+
+saber_src: $(SRCS) 
+	XCOMM setopt load_flags $(CFLAGS)
+	XCOMM load $(SRCS) $(LOCAL_LIBRARIES)
+
+unsaber_src:
+	XCOMM unload $(SRCS) 

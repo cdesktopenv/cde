@@ -1,0 +1,48 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 15:59:47 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = -DPORTABLE_DB
+INCLUDES = -I$(DTMMDBSRC)/index -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES)
+
+LinkSourceFile(btree_index.C,$(DTMMDBSRC)/index)
+LinkSourceFile(dyn_disk_index.C,$(DTMMDBSRC)/index)
+LinkSourceFile(dyn_index.C,$(DTMMDBSRC)/index)
+LinkSourceFile(dyn_memory_index.C,$(DTMMDBSRC)/index)
+LinkSourceFile(fast_mphf.C,$(DTMMDBSRC)/index)
+LinkSourceFile(hash.C,$(DTMMDBSRC)/index)
+LinkSourceFile(index.C,$(DTMMDBSRC)/index)
+LinkSourceFile(inv_lists.C,$(DTMMDBSRC)/index)
+LinkSourceFile(mphf_index.C,$(DTMMDBSRC)/index)
+
+SRCS = 	btree_index.C		dyn_disk_index.C	dyn_index.C \
+	dyn_memory_index.C	fast_mphf.C		hash.C \
+	index.C			inv_lists.C		mphf_index.C
+OBJS = $(SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

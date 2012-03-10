@@ -1,0 +1,68 @@
+#! /bin/ksh
+#
+# file: sym2num
+#
+# purpose: 1. to create a header file containing the identifiers
+#             and replacement list consisting of the symbols used
+#             in a message set as well as the messages themselves.
+#
+#          2. to provide output to standard out which can be used
+#             by gencat.
+#
+
+typeset -u CAP_SYMBOL_NAME
+
+(( $# != 2 )) && { print "usage: sym2num <symbol name> <source file>" ;\
+                 exit 1 ; }
+
+SYMBOL_NAME=$1
+CAP_SYMBOL_NAME=$1   # capitalized symbol name
+SOURCE_FILE=$2
+inc_file=${SYMBOL_NAME}_msg.h     # include file
+
+#### Step 1: Create a header file ####
+# write first five lines to "<symbolname>_msg.h"
+cat <<! > ${inc_file}
+#ifndef _H_${CAP_SYMBOL_NAME}_MSG
+#define _H_${CAP_SYMBOL_NAME}_MSG
+#include <limits.h>
+#include <nl_types.h>
+#define MF_${CAP_SYMBOL_NAME} "${SYMBOL_NAME}.cat"
+
+
+
+/* The following was generated from ${SOURCE_FILE}. */
+!
+
+# locate all lines which start with "$set", and then increment 
+# the set counter and reset the message counter to zero.
+awk '/^\$set/ { SET_NAME=$2; SET_COUNT++; MES_COUNT=0;  
+       printf( "\n/* definitions for set %s */\n", SET_NAME ); 
+       printf( "#define %s %s\n\n", SET_NAME, SET_COUNT) }   #to be continued
+
+# find all lines which begin with a combination of letters, numbers
+# and underscores followed by spaces and then a quotation mark,
+# and increment the message counter. 
+/^[0-9A-Za-z_]+[ |\t]*\"/ { MES_NAME=$1; MES_COUNT++; 
+      printf( "#define %s %s\n", MES_NAME, MES_COUNT) }
+      END {print "#define LAST_MSG_NO "MES_COUNT"\n\n#endif"}' \
+       ${SOURCE_FILE}  >> ${inc_file}
+
+#### Step 2: Create input to gencat ####       
+# cat the definition statements of the include file and cat them to
+# the source message file.  The awk file only creates define statements
+# and blank lines.  The output should be sent to the preprocessor.
+# There are two differences between sym2num and mkcatdefs: sym2num
+# does not create a $delset line, and sym2num converts all symbols
+# to numbers, even those in comment statements. 
+if [[ -f /usr/ccs/lib/cpp ]]   #IBM & SUN
+then
+   cpp_path=/usr/ccs/lib       
+elif [[ -f /lib/cpp ]]         #HP
+then
+   cpp_path=/lib
+fi
+   ( cat ${inc_file} | sed -n /define/p ; cat ${SOURCE_FILE} ) | \
+   ${cpp_path}/cpp -P | sed '/^$/d' | sed 's/^\([1-9][0-9]*\)[ ]*\(.*\)/\1 \2/'
+
+   

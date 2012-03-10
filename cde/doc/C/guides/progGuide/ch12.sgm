@@ -1,0 +1,350 @@
+<!-- $XConsortium: ch12.sgm /main/6 1996/09/08 19:37:51 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+
+<chapter id="PG.print.div.1">
+<title id="PG.print.mkr.1">CDE Printing Widgets and APIs</title>
+<para><indexterm><primary>printing</primary><secondary>general information</secondary></indexterm>CDE users typically print files through a series of dialogs,
+the first one being initiated by selecting (for example) the
+pulldown menu for printing a file. This chapter documents a set
+of dialogs provided by CDEnext for use primarily by applications
+that perform X printing:
+</para>
+<itemizedlist>
+<listitem>
+<para>The initial print dialog is provided as
+the <function>DtPrintSetupBox</function> widget. This consists of the set of generic
+print options, a possible application-specific set of print
+options, and a set of command buttons at the bottom to start or
+cancel the print operation, bring up the Print Dialog Manager (PDM), or bring up a help
+dialog.
+</para>
+</listitem>
+<listitem>
+<para>The <function>DtPrinterSelectionDialog</function> is for selecting
+X Printers and is accessible through the <function>DtPrintSetupBox</function> widget.
+</para>
+</listitem>
+<listitem>
+<para>A dialog for obtaining additional printer information, the
+<function>DtPrinterInfoDialog</function>, is accessible through either the
+<function>DtPrintSetupBox</function> or the
+<function>DtPrinterSelectionDialog</function>.
+</para>
+</listitem>
+</itemizedlist>
+<para>There is also a file selection dialog (accessible through <function>DtPrintSetupBox</function>)
+that enables users to select files to be printed. All of these sub-dialogs
+are considered part of the <function>DtPrintSetupBox</function> widget, and
+as such, there is no external API for them.
+</para>
+<para>Although <function>DtPrintSetupBox</function> is designed primarily for X printing,
+it is also designed for use as a general application
+print dialog for use in any CDEnext application that provides printing.
+<function>DtPrintSetupBox</function> is also designed to allow simple
+integration with the Print Dialog Manager, which
+provides additional printer and spooler specific
+X printing setup dialogs.
+</para>
+<para>The remaining sections of this chapter document the
+DtPrint convenience functions, the DtPrint Dialog Manager, and how to integrate help
+with the printing widgets.
+</para>
+<sect1 id="PG.print.div.2">
+<title id="PG.print.mkr.2">DtPrint Functions</title>
+<indexterm><primary>printing</primary><secondary>dtprint functions</secondary></indexterm>
+<indexterm><primary>dtprint functions</primary></indexterm>
+<para>This section summarizes DtPrint functions. Sample code
+illustrating their use can be found in the <Filename>/proj/cde/examples/dtprint</Filename> directory.
+<variablelist>
+<varlistentry><term><function>DtPrintSetupBox</function></term>
+<listitem>
+<para><function>DtPrintSetupBox</function> is a widget that is typically the initial window used to set various options prior to printing from an application. This widget is primarily designed for use by applications that utilize the X Print Service. However, the widget interface is also designed to be flexible enough for use by applications employing other printing methods.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtCreatePrintSetupBox</function></term>
+<listitem>
+<para><function>DtCreatePrintSetupBox</function> is a convenience function that creates an unmanaged instance of a <function>DtPrintSetupBox</function> widget, and returns its widget ID.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtCreatePrintSetupDialog</function></term>
+<listitem>
+<para><function>DtCreatePrintSetupDialog</function> is a convenience function that creates an instance of a dialog containing a <function>DtPrintSetupBox</function> widget, and returns the <function>DtPrintSetupBox</function> widget ID.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintFillSetupData</function></term>
+<listitem>
+<para><function>DtPrintFillSetupData</function> is used to obtain an X printer connection in order to
+initiate an X printing job in situations other than direct interaction with a
+<function>DtPrintSetupBox</function> (for example, a "quick print" button on a toolbar). This printer
+connection information can be obtained from an existing <function>DtPrintSetupBox</function>
+widget instance, or if a <function>DtPrintSetupBox</function> widget instance is unavailable,
+<function>DtPrintFillSetupData</function> will provide a new X printer connection.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintCopySetupData</function></term>
+<listitem>
+<para><function>DtPrintCopySetupData</function> is used to copy a <function>DtPrintSetupData</function> structure. An element in the target is updated only if different from the corresponding element in the source. For elements that point to allocated memory, <function>DtPrintCopySetupData</function> allocates new memory for those elements updated in target. Existing elements in target are freed.
+All elements in a <function>DtPrintSetupData</function> structure can be freed by calling <function>DtPrintFreeSetupData</function>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintFreeSetupData</function></term>
+<listitem>
+<para>Free the memory pointed to by <function>DtPrintSetupData</function> structure elements.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintResetConnection</function></term>
+<listitem>
+<para><function>DtPrintResetConnection</function> is a convenience function provided by the
+<function>DtPrintSetupBox</function> widget that allows applications to direct the
+widget to stop managing the X print server connection. A mode
+parameter is included in order to direct the widget to close the
+print connection or simply to relinquish
+control of the connection without closing it.
+</para>
+<para><function>DtPrintResetConnection</function> is intended to be used by
+applications that fork a child process to perform
+the print rendering operation. Immediately after the
+fork is performed, the parent process closes its
+X print server connection and retains its connection to
+the video X server. The forked child, on the other hand,
+closes its video X server connection and performs the
+rendering operation on the X print server connection.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintSetupProc</function></term>
+<listitem>
+<para><function>DtPrintSetupProc</function> is a type definition for
+procedure resources of the <function>DtPrintSetupBox</function> widget.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrinterSelectionDialog</function></term>
+<listitem>
+<para>The <function>DtPrinterSelectionDialog</function> enables the user to select an
+X printer from a complete list of printers for the client server (provided
+the server supports the Xp extension), plus each server indicated by either the
+<systemitem class="resource">XpServerList</systemitem> resource or the
+<systemitem class="environvar">XPSERVERLIST</systemitem> environment variable. The user
+typically selects one of the printers and chooses the "OK" button to return the selected printer to the caller.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect1>
+<sect1 id="PG.print.div.3">
+<title id="PG.print.mkr.3">Print Dialog Manager</title>
+<indexterm><primary>printing</primary><secondary>print dialog manager</secondary></indexterm>
+<indexterm><primary>Print Dialog Manager</primary></indexterm>
+<para>A Print Dialog Manager (PDM) is a process separate from the
+X Print Server and X Printing Application that provides
+printer-specific and spooler-specific setup GUIs.
+An application could choose to understand and display
+such GUIs itself, but is advised to offload the task
+to a PDM so that new printers and spoolers can be
+supported by providing new PDMs, rather than requiring
+changes to all applications.
+</para>
+<para>This section describes the CDEnext
+implementation of a PDM that uses the PDM
+Selection Protocol. The CDEnext implementation involves
+a Print Dialog Manager Daemon (PDMD) executable
+(<command>dtpdmd</command>) that is initially engaged by the protocol.
+It then determines which PDM is needed and starts
+it on behalf of the application. Within CDEnext, the
+executable <command>dtpdm</command> is the general purpose PDM that the <command>dtpdmd</command> can start.
+</para>
+<para>Printer vendors can choose to introduce new GUIs by
+one of the following techniques:
+</para>
+<itemizedlist>
+<listitem>
+<para>Developing their own PDM implementation that conforms to
+the PDM Selection Protocol.
+</para>
+</listitem>
+<listitem>
+<para>Develop a PDM that can be started by the <command>dtpdmd</command>; this is the recommended technique.
+</para>
+</listitem>
+<listitem>
+<para>Possibly integrate new shared or dynamic libraries into the <command>dtpdmd</command>. This technique is vendor-dependent.
+</para>
+</listitem>
+</itemizedlist>
+<para>The <command>dtpdm</command> executable implements a reasonably
+general-purpose print dialog manager capable of providing
+dialogs suitable for a number of different printers, but is
+specifically tuned to the needs of the two reference
+printers, the PCL based HP DeskJet 1600C, and the
+Postscript based Sun SPARCprinter 2. The <command>dtpdm</command> uses the
+attributes of the particular printer
+to provide a limited amount of automatic configuration of the options
+displayed in its printer setup dialog. The <command>dtpdm</command>'s job setup dialog
+is designed for use with the lp spooler.
+</para>
+<para>The <command>dtpdmd</command> executable implements a PDM startup mechanism.
+This two-layer mechanism means that the PDM Selection Protocol,
+PDM selection and startup, and security concerns can be dealt with
+by the <command>dtpdmd</command>, and that resulting PDMs called by the <command>dtpdmd</command> are
+left with the minimal and simple task of displaying GUIs.
+</para>
+<sect2 id="PG.print.div.4">
+<title id="PG.print.mkr.4">Dt Print Dialog Manager Daemon &mdash; dtpdmd</title>
+<indexterm><primary>printing</primary><secondary>dtprint dialog manager daemon</secondary></indexterm>
+<indexterm><primary>dtpdmd</primary></indexterm>
+<para>The <command>dtpdmd</command> is a long-lived daemon process that receives
+client requests for a PDM, uses some lookup rules, and then
+starts an appropriate PDM to service the request. When the
+PDM finishes, control is returned to the <command>dtpdmd</command>, and the
+<command>dtpdmd</command> in turn responds to the client with final status.
+</para>
+<para>The <command>dtpdmd</command> uses the
+PDMD/PDM Protocol to communicate with the
+PDM. Communication "to" the PDM is done via a
+standardized command line. Communication "from"
+the PDM is done via standardized exit codes.
+</para>
+</sect2>
+<sect2 id="PG.print.div.5">
+<title id="PG.print.mkr.5">Dt Print Dialog Manager</title>
+<indexterm><primary>printing</primary><secondary>dtprint dialog manager</secondary></indexterm>
+<indexterm><primary>dtpdm</primary></indexterm>
+<para>The dialog manager is a process separate from the
+print server. It provides the printer-specific GUIs
+on behalf of a printing application
+At an application's request, <command>dtpdm</command> posts to the
+user's display a set of printer-specific dialogs enabling
+the user to set printer specific and
+job specific options. Though the setup dialog appears to be
+part of the application, it is actually managed by the
+<command>dtpdm</command> program on behalf of the application. It is capable of
+providing dialogs in all locales for which there are applicable
+message catalogs.
+</para>
+<para><command>dtpdm</command> presents a dialog containing an <function>XmNotebook</function>
+widget. This notebook widget contains two tabs: one for the
+Printer Setup Box and one for the Job Setup Box. Each of these
+boxes provide controls that allow for configuration of various
+printing options. The <command>dtpdm</command> dialog also contains three pushbuttons
+labelled: "OK", "Cancel", and "Help". When the "OK" button is
+activated, the dialog is dismissed and the newly configured
+printing options are set in the current print context (via <function>XpSetAttributes</function>).
+When the "Cancel" button is activated, the dialog is dismissed and no
+changes are made to the print context.
+</para>
+</sect2>
+</sect1>
+<sect1 id="PG.print.div.6">
+<title>Help for CDE Printing Widgets</title>
+<indexterm><primary>printing</primary><secondary>integrating help</secondary></indexterm>
+<para>The <function>DtPrintSetupBox</function> widget provides built-in support for its
+sub-dialogs. That is, when the user clicks on the Help button in
+one of these sub-dialogs, a help dialog is displayed containing the
+relevant help text. The help volume and location IDs used for this purpose are
+as follows:
+</para>
+<itemizedlist>
+<listitem>
+<para>Printer Info &mdash; HelpVolume = <literal>LibDtPrint</literal>, LocationId = <literal>PrinterInfo</literal>
+</para>
+</listitem>
+<listitem>
+<para>Printer Selection &mdash; HelpVolume = <literal>LibDtPrint</literal>, LocationId = <literal>SelectPrinter</literal>
+</para>
+</listitem>
+<listitem>
+<para>File Selection &mdash; HelpVolume = <literal>LibDtPrint</literal>, LocationId = <literal>SelectFile</literal>
+</para>
+</listitem>
+</itemizedlist>
+<para>For the main dialog, however, no help dialog is automatically displayed
+when the user presses the Help button. However, the <function>DtPrintSetupBox</function>
+does provides the hooks that enable the application writer to easily
+supply help for both the generic and the application-specific portions.
+These hooks include:
+</para>
+<itemizedlist>
+<listitem>
+<para>A "public" <function>DtPrintSetupBox</function> help volume with one or more location IDs
+for the generic printing options.
+</para>
+</listitem>
+<listitem>
+<para>An activation callback installed on the <function>DtPrintSetupBox</function> Help
+button that ensures that any <function>XmNhelpCallback</function>s installed on
+the <function>DtPrintSetupBox</function> by the application are called.
+</para>
+</listitem>
+</itemizedlist>
+<para>In order to integrate help for the <function>DtPrintSetupBox</function> into an application,
+you must:
+</para>
+<itemizedlist>
+<listitem>
+<para>Supply a help volume containing help for the relevant topics.
+Note that if there are no application-specific printing options,
+the public help volume supplied with the <function>DtPrintSetupBox</function> will
+suffice. Otherwise, the authors of the application's help volume
+will need to supply internal links to the <function>DtPrintSetupBox</function> volume.
+For example, the help volume for a calendar manager might look
+something like this:
+</para>
+<programlisting>
+
+       Calendar Print Setup Dialog Box
+       -------------------------------
+
+               <symbol role="variable">some graphic</symbol>
+
+       Report Type     Choose to print Day View, Week View, Month View, or
+                       Year View, plus Appointment List or To Do List.
+
+       From/To         The dates for which you want to print
+                       calendar data. With the From and To SpinBox,
+                       you can select ...
+       See Also:
+
+           * Generic Print options <symbol role="variable">link1</symbol>
+           * To Print Your Appointment List <symbol role="variable">link2</symbol>
+           * To Print Your To Do List <symbol role="variable">link3</symbol>
+
+
+</programlisting>
+<para>where <symbol role="variable">link1</symbol> is a link to the "public" <function>DtPrintSetupBox</function> help volume.
+</para>
+</listitem>
+<listitem>
+<para>Define a set of location IDs to mark the locations in the
+application's help volume pertaining to printing. It is up
+the application to determine how "fine grained" to make the IDs
+(for example, one for the entire print setup dialog, or one for every print
+option in the print setup dialog, or some other organization).
+The more "fine grained" the location IDs, the more specific
+the help that is displayed when supporting a help system that
+allows users to select the item for which they want help.
+</para>
+</listitem>
+<listitem>
+<para>Define a callback that is added to the <systemitem class="resource">XmNhelpCallback</systemitem> resource
+of the <function>DtPrintSetupBox</function>. This callback would display a
+<function>DtHelpDialogWidget</function> or <function>DtHelpQuickDialogWidget</function> setting the
+<systemitem class="resource">DtNhelpVolume</systemitem> and <systemitem class="resource">DtNlocationId</systemitem> resources appropriately.
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+</chapter>

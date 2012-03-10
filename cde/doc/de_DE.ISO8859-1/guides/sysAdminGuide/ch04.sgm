@@ -1,0 +1,1633 @@
+<!-- $XConsortium: ch04.sgm /main/10 1996/12/20 20:01:54 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.regap.div.1">
+<title id="sag.regap.mkr.1">Anwendungen registrieren</title>
+<para><indexterm><primary>Anwendungsregistrierung, siehe Registrierung</primary>
+</indexterm>In diesem Kapitel wird beschrieben, wie ein Registrierungspaket
+f&uuml;r eine Anwendung erstellt wird, und wie die Anwendung am Desktop registriert
+wird.</para>
+<informaltable id="sag.regap.itbl.1" frame="all">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.13in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: '&Uuml;bersicht
+&uuml;ber die Anwendungsregistrierung60'--><xref role="JumpText" linkend="sag.regap.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Allgemeine
+Schritte bei der Registrierung einer Anwendung64'--><xref role="JumpText"
+linkend="sag.regap.mkr.5"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Schritt
+1: Schriftarten- und Farbressourcen &a--><!--uml;ndern65'--><xref role="JumpText"
+linkend="sag.regap.mkr.14"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Schritt
+2: Desktop-Anwendungsstammverzeichnis--><!--erstellen66'--><xref role="JumpText"
+linkend="sag.regap.mkr.15"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Schritt
+3: Registrierungspaketverzeichnisse er--><!--stellen67'--><xref role="JumpText"
+linkend="sag.regap.mkr.16"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Schritt
+4: Aktionen und Datentypen f&uuml;r di--><!--e Anwendung erstellen70'--><xref
+role="JumpText" linkend="sag.regap.mkr.19"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Schritt
+5: Hilfedateien dem Registrierungspake--><!--t hinzuf&uuml;gen73'--><xref
+role="JumpText" linkend="sag.regap.mkr.21"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Step 6:
+Informationsbibliotheken dem Registrierungspaket hinzufügen'--><xref role="JumpText"
+linkend="SAG.RegAp.div.19a"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Schritt
+7: Symbole f&uuml;r die Anwendung erst--><!--ellen74'--><xref role="JumpText"
+linkend="sag.regap.mkr.22"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Schritt
+8: Die Gruppe von Anwendungen erstelle--><!--n76'--><xref role="JumpText"
+linkend="sag.regap.mkr.23"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Schritt
+9: Anwendungen mit dtappintegrate regi--><!--strieren83'--><xref role="JumpText"
+linkend="sag.regap.mkr.29"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Beispiel
+f&uuml;r die Erstellung eines Registr--><!--ierungspakets86'--><xref role="JumpText"
+linkend="sag.regap.mkr.31"></para></entry></row></tbody></tgroup></informaltable>
+<para id="sag.regap.mkr.2">Eine Anwendung, die am Desktop vollst&auml;ndig
+registriert ist, verf&uuml;gt &uuml;ber:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>eine eigene Gruppe von Anwendungen auf der obersten Ebene
+des Anwendungsmanagers,</para>
+</listitem>
+<listitem><para>eine Aktion, die die Anwendung startet. Die Aktion wird durch
+ein Symbol in der Gruppe von Anwendungen dargestellt,</para>
+</listitem>
+<listitem><para>sowie, wahlweise, &uuml;ber Datentypen f&uuml;r ihre Datendateien.
+</para>
+</listitem>
+</itemizedlist>
+<para>Bei der Anwendungsregistrierung handelt es sich um eine Operation, die
+die Ausf&uuml;hrung der Anwendung nicht beeinflu&szlig;t:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die ausf&uuml;hrbare Datei der Anwendung wird nicht ge&auml;ndert.
+Daher k&ouml;nnen auch bereits vorhandene Anwendungen am System registriert
+werden.</para>
+</listitem>
+<listitem><para>Es ist nicht erforderlich, da&szlig; eine der gelieferten
+Dateien der Anwendung (z.B. die ausf&uuml;hrbare Datei <filename>app-defaults</filename>) an eine andere Position im Dateisystem verschoben wird.</para>
+</listitem>
+<listitem><para>Die Anwendungsregistrierung kann leicht r&uuml;ckg&auml;ngig
+gemacht werden. Das Werkzeug <command>dtappintegrate</command>, mit dem Anwendungen
+registriert werden, stellt eine Befehlszeilenoption zur Verf&uuml;gung, mit
+der der Proze&szlig; r&uuml;ckg&auml;ngig gemacht werden kann.</para>
+</listitem>
+</itemizedlist>
+<para>Ein Registrierungspaket wird erstellt durch:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>einen Systemadministrator, der eine bereits vorhandene Anwendung
+auf dem Desktop registrieren will.</para>
+</listitem>
+<listitem><para>einen Softwareprogrammierer, der ein Installationspaket f&uuml;r
+eine Desktop-f&auml;hige Anwendung erstellen will.</para>
+</listitem>
+</itemizedlist>
+<sect1 id="sag.regap.div.2">
+<title id="sag.regap.mkr.3">&Uuml;bersicht &uuml;ber die Anwendungsregistrierung<indexterm>
+<primary>Anwendungen</primary><secondary>Registrierung, siehe Registrierung</secondary></indexterm><indexterm><primary>Registrierung</primary><secondary>&Uuml;bersicht</secondary></indexterm></title>
+<para>Dieser Abschnitt erl&auml;utert:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>den Zweck der Anwendungsregistrierung</para>
+</listitem>
+<listitem><para>die Funktionen, die die Anwendungsregistrierung einer Anwendung
+zur Verf&uuml;gung stellt</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Ein ausf&uuml;hrliches Beispiel f&uuml;r die Registrierung einer bereits
+vorhandenen Anwendung kann dem Abschnitt <!--Original XRef content: '&ldquo;Beispiel
+f&uuml;r die Erstellung eines Registrierungspakets&rdquo; auf Seite&numsp;86'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.31"> entnommen werden.</para>
+</note>
+<sect2 id="sag.regap.div.3">
+<title>Funktionen, die die Anwendungsregistrierung zur Verf&uuml;gung stellt<indexterm>
+<primary>Anwendungen</primary><secondary>Funktionen der Anwendungsregistrierung</secondary></indexterm><indexterm><primary>Registrierungspaket</primary>
+<secondary>Zweck</secondary></indexterm><indexterm><primary>Registrierung</primary><secondary>Funktionen</secondary></indexterm></title>
+<para><indexterm><primary>Anwendungsmanager</primary><secondary>Anwendungen
+integrieren</secondary></indexterm></para>
+<para>Die Anwendungsregistrierung stellt Benutzern eine grafische M&ouml;glichkeit
+zur Verf&uuml;gung, um:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>eine Anwendung zu suchen.</para>
+<para>Nach der Installation ist die Anwendung im Anwendungsmanager &ldquo;registriert&rdquo;
+und verf&uuml;gt &uuml;ber eine eigene Gruppe von Anwendungen.</para>
+</listitem>
+</itemizedlist>
+<figure>
+<title id="sag.regap.mkr.4">Gruppen von Anwendungen auf der obersten Ebene
+des Anwendungsmanagers</title>
+<graphic id="sag.regap.grph.1" entityref="SAG.RegAp.fig.1"></graphic>
+</figure>
+<itemizedlist remap="Bullet1">
+<listitem><para>eine Anwendung zu starten.</para>
+<para>Die Gruppe von Anwendungen f&uuml;r die Anwendung enth&auml;lt ein Symbol,
+das der Benutzer doppelklicken kann, um die Anwendung zu starten.</para>
+</listitem>
+</itemizedlist>
+<figure>
+<title>Eine Gruppe von Anwendungen mit einem Symbol zum Starten der Anwendung</title>
+<graphic id="sag.regap.grph.2" entityref="SAG.RegAp.fig.2"></graphic>
+</figure>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>Datentypen</primary><secondary>Datendateien</secondary></indexterm>Datendateien zu identifizieren und zu bearbeiten.
+Die Datendateien der Anwendung verf&uuml;gen &uuml;ber ein eindeutiges Symbol
+im Dateimanager.</para>
+<para>Der Benutzer kann Datendateisymbole verwenden, um</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>die Anwendung zu starten (&ouml;ffnen).</para>
+</listitem>
+<listitem><para>Datendateien zu drucken.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<figure>
+<title>Men&uuml; einer Datendatei mit &acute;&Ouml;ffnen &acute; und &acute;Drucken
+&acute;</title>
+<graphic id="sag.regap.grph.3" entityref="SAG.RegAp.fig.3"></graphic>
+</figure>
+<itemizedlist remap="Bullet1">
+<listitem><para>andere Operationen, wie beispielsweise das elektronische Versenden
+von Post, Komprimieren, Anzeigen oder Abspielen von (Audio-) Daten durchzuf&uuml;hren.
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.regap.div.4">
+<title>Zweck der Anwendungsregistrierung<indexterm><primary>Registrierung</primary><secondary>Zweck</secondary></indexterm></title>
+<para><indexterm><primary>Konfigurationsdateien</primary><secondary>im Registrierungspaket</secondary></indexterm>Eine registrierte Desktop-Anwendung verf&uuml;gt &uuml;ber
+bestimmte Konfigurationsdateien, die das Desktop verwendet, um die Benutzerschnittstelle
+der Anwendung zur Verf&uuml;gung zu stellen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Definitionsdateien f&uuml;r Aktionen und Datentypen</para>
+</listitem>
+<listitem><para>Symbolbilddateien (Pixmap oder Bitmap)</para>
+</listitem>
+<listitem><para>ein Verzeichnis und Dateien, die die Gruppe von Anwendungen
+erstellen</para>
+</listitem>
+<listitem><para>wahlweise Desktop-Hilfedateien und Bedienfelddefinitionsdateien
+</para>
+</listitem>
+</itemizedlist>
+<para>Damit diese Dateien vom Desktop erkannt und verwendet werden k&ouml;nnen,
+m&uuml;ssen sie in bestimmten Verzeichnissen stehen, die durch die Suchpfade
+des Desktops angegeben werden.</para>
+<para>Die Verwaltung einer Anwendung wird erschwert, wenn deren Konfigurationsdateien
+auf viele verschiedene Verzeichnisse verteilt sind. Daher gestattet das Desktop
+einer Anwendung, alle ihre Desktop-Konfigurationsdateien in einem Verzeichnis
+zusammengestellt aufzubewahren. Diese Zusammenstellung von Dateien wird als<indexterm>
+<primary>Registrierungspaket</primary><secondary>Definition</secondary></indexterm> <emphasis
+role="Variable">Registrierungspaket</emphasis> bezeichnet.</para>
+<para>Ist die Anwendung Desktop-f&auml;hig, stellt sie ein Registrierungspaket
+als Bestandteil des Installationspakets zur Verf&uuml;gung. Erstellt der Systemadministrator
+die Konfigurationsdateien selbst, kann er das Registrierungspaket selbst erstellen.
+</para>
+<para>Die Konfigurationsdateien in dem Registrierungspaket sind f&uuml;r das
+Desktop nicht verf&uuml;gbar, weil sie sich nicht in den entsprechenden Verzeichnissen
+des Suchpfads befinden. Der Proze&szlig;, bei dem diese Dateien an die zutreffende
+Position gestellt werden, wird als<indexterm><primary>Registrierung</primary>
+<secondary>Definition</secondary></indexterm> <emphasis>Registrierung</emphasis>
+oder <emphasis role="Variable">Integrierung</emphasis> der Anwendung bezeichnet.
+</para>
+<para>Das Desktop stellt ein Werkzeug, <command>dtappintegrate</command>,
+zur Verf&uuml;gung, das die Registrierung durchf&uuml;hrt, indem es symbolisch
+verbundene Darstellungen der Dateien in den entsprechenden Verzeichnissen
+des Suchpfads erstellt.</para>
+<para>Viele Desktop-f&auml;hige Anwendungen f&uuml;hren <command>dtappintegrate</command> w&auml;hrend des Installationsprozesses automatisch aus. Integriert
+ein Systemadministrator eine bereits vorhandene Anwendung, kann er <command>dtappintegrate</command> selbst ausf&uuml;hren, nachdem er ein Registrierungspaket
+erstellt hat.</para>
+<para>Sobald eine Anwendung auf dem Desktop eines Systems registriert ist,
+steht die Anwendung allen Benutzern am System zur Verf&uuml;gung. Ist das
+System als ein Desktop-Anwendungs-Server<indexterm><primary>Anwendungs-Server</primary><secondary>Verf&uuml;gbarkeit von Anwendungen</secondary></indexterm> konfiguriert,
+steht die Anwendung au&szlig;erdem allen anderen Systemen im Netzwerk zur
+Verf&uuml;gung.</para>
+<para>Das Werkzeug <command>dtappintegrate</command> verf&uuml;gt &uuml;ber
+eine Befehlszeilenoption, die den Proze&szlig; r&uuml;ckg&auml;ngig macht,
+indem sie die Verbindungen abbricht. Es ist daher kein Problem, die Anwendung
+aus dem Anwendungsmanager zu entfernen, um sie einem anderen Anwendungs-Server
+hinzuzuf&uuml;gen oder sie zu aktualisieren.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.5">
+<title id="sag.regap.mkr.5">Allgemeine Schritte bei der Registrierung einer
+Anwendung<indexterm><primary>Registrierung</primary><secondary>allgemeine
+Schritte</secondary></indexterm></title>
+<note>
+<para>Ein ausf&uuml;hrliches Beispiel, bei dem anhand dieser Schritte ein
+Anwendungspaket erstellt wird, kann dem Abschnitt <!--Original XRef content:
+'&ldquo;Beispiel f&uuml;r die Erstellung eine--><!--s Registrierungspakets&rdquo;
+auf Seite&numsp;86'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.31">
+entnommen werden.</para>
+</note>
+<orderedlist>
+<listitem><para id="sag.regap.mkr.6">S&auml;mtliche Anwendungsressourcen,
+die Schriftarten und Farben setzen, &auml;ndern. Geschieht dies nicht, funktionieren
+die dynamischen Schriftarten und Farben des Desktops nicht richtig.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Schritt 1: Schriftarten- und Farbressourcen &auml;ndern&rdquo; auf
+Seite&numsp;65'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.14">
+entnommen werden.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.7">Ein Anwendungsstammverzeichnis erstellen.
+</para>
+<para>Siehe <!--Original XRef content:
+'&ldquo;Schritt 2: Desktop- Anwendungsstammverzeichnis erstellen&rdquo;
+auf Seite&numsp;66'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.15">
+.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.8">Die Verzeichnisstruktur unterhalb des
+Anwendungsstammverzeichnisses erstellen.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Schritt 3: Registrierungspaketverzeichnisse erstellen&rdquo; auf
+Seite&numsp;67'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.16">
+entnommen werden.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.9">Die Aktionen und Datentypen f&uuml;r
+die Anwendung erstellen.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Schritt 4: Aktionen und Datentypen f&uuml;r die Anwendung erstellen&rdquo;
+auf Seite&numsp;70'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.19">
+entnommen werden.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.10">Die Hilfedateien in ein entsprechendes
+Verzeichnis stellen.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Schritt 5: Hilfedateien dem Registrierungspaket hinzuf&uuml;gen&rdquo;
+auf Seite&numsp;73'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.21">
+entnommen werden.</para>
+</listitem>
+<listitem><para id="SAG.RegAp.mkr.10a">Die Dateien der Online-Dokumentation
+(Infobiblio) in ein entsprechendes Verzeichnis stellen.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&xd2;Step 6: Putting the Infolib Files in the
+Registration Package&xd3; on page&numsp;66'--><xref role="SecTitleAndPageNum"
+linkend="SAG.RegAp.div.19a"> entnommen werden.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.11">Die Symbole f&uuml;r die Anwendung erstellen.
+</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Schritt 7: Symbole f&uuml;r die Anwendung erstellen&rdquo; auf
+Seite&numsp;74'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.22">
+entnommen werden.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.12">Die Gruppe von Anwendungen f&uuml;r
+die Anwendung erstellen.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Schritt 8: Die Gruppe von Anwendungen erstellen&rdquo; auf Seite&numsp;76'--><xref
+role="SecTitleAndPageNum" linkend="sag.regap.mkr.23"> entnommen werden.</para>
+</listitem>
+<listitem><para id="sag.regap.mkr.13">Die Anwendung mit <command>dtappintegrate</command> registrieren.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Schritt 9: Anwendungen mit dtappintegrate registrieren&rdquo; auf
+Seite&numsp;83'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.29">
+entnommen werden.</para>
+</listitem>
+</orderedlist>
+</sect1>
+<sect1 id="sag.regap.div.6">
+<title id="sag.regap.mkr.14">Schritt 1: Schriftarten- und Farbressourcen &auml;ndern<indexterm>
+<primary>Registrierung</primary><secondary>Ressourcen &auml;ndern</secondary>
+</indexterm><indexterm><primary>Registrierung</primary><secondary>Ressourcen
+&auml;ndern</secondary></indexterm></title>
+<note>
+<para>Ein Beispiel f&uuml;r das &Auml;ndern von Ressourcen f&uuml;r eine Anwendung
+kann Schritt 1 des Abschnitts <!--Original XRef content: '&ldquo;Beispiel
+f&uuml;r die Erstellung eines--><!--
+Registrierungspakets'--><xref role="SectionTitle" linkend="sag.regap.mkr.31">
+auf <!--Original XRef content: 'Seite&numsp;87'--><xref role="PageNum" linkend="sag.regap.mkr.33">--
+entnommen werden.</para>
+</note>
+<para>Das Desktop stellt Mechanismen f&uuml;r das Setzen und Bearbeiten von
+Schnittstellenschriftarten und Fensterfarben zur Verf&uuml;gung. Damit eine
+Anwendung diese Mechanismen ohne Probleme verwenden kann, mu&szlig; m&ouml;glicherweise
+die Datei <filename>app-defaults</filename> der Anwendung ge&auml;ndert werden.
+</para>
+<sect2 id="sag.regap.div.7">
+<title>Schriftartenressourcen &auml;ndern<indexterm><primary>Umgebungsmanager</primary><secondary>Schriftartintegration</secondary></indexterm><indexterm>
+<primary>Registrierung</primary><secondary>Schriftart &auml;ndern</secondary>
+</indexterm><indexterm><primary>Schriftarten</primary><secondary>Ressourcen
+f&uuml;r Registrierung &auml;ndern</secondary></indexterm></title>
+<note>
+<para>Dieser Abschnitt bezieht sich auf Anwendungen, die mit Motif 1.2&trade;
+(oder neueren Versionen) erstellt wurden. Der Umgebungsmanager kann keine
+Schnittstellenschriftarten f&uuml;r Anwendungen setzen, die mit &auml;lteren
+Versionen von Motif geschrieben wurden.</para>
+</note>
+<para>Der Desktop-Umgebungsmanager setzt Schnittstellenschriftarten f&uuml;r
+Anwendungen, die mit Motif 1.2 (oder neueren Versionen) erstellt wurden,
+sofern f&uuml;r die Anwendung nicht anwendungsspezifische Schnittstellenschriftarten
+angegeben sind.</para>
+<para>Der Umgebungsmanager stellt zwei Schriftarten zur Verf&uuml;gung:</para>
+<para>Systemschriftart wird vom System f&uuml;r Bezeichnungen, Men&uuml;s
+und Tasten verwendet.</para>
+<para>Benutzerschriftart wird f&uuml;r bearbeitbare Bereiche, wie z.B. Textfelder,
+verwendet.</para>
+<para>Jede Schriftart steht in sieben Gr&ouml;&szlig;en, die im Dialogfenster
+Schriftarten mit 1 bis 7 bezeichnet sind, zur Verf&uuml;gung. Die Schriftarten
+des Umgebungsmanagers werden durch die Umgebungsmanagerressourcen, die in <filename>/usr/dt/app-defaults/</filename><symbol role="Variable">sprache</symbol><filename>/Dtstyle</filename> gesetzt werden, mit den tats&auml;chlichen Schriftarten
+am System verbunden.</para>
+<para>Soll die Anwendung 'Schriftarten' des Umgebungsmanagers verwenden, m&uuml;ssen
+Anwendungsressourcen, die Schnittstellenschriftarten angeben, entfernt werden.
+Das Desktop legt die Ressourcen der Anwendung automatisch entsprechend fest:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.50in">
+<colspec colwidth="3.51in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>FontList</systemitem></para></entry>
+<entry align="left" valign="top"><para>auf Systemschriftart festgelegt.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>XmText*FontList</systemitem></para></entry>
+<entry align="left" valign="top"><para>auf Benutzerschriftart festgelegt.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>XmTextField*FontLis</systemitem>t
+</para></entry>
+<entry align="left" valign="top"><para>auf Benutzerschriftart festgelegt.
+</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="sag.regap.div.8">
+<title>Farbressourcen &auml;ndern<indexterm><primary>Registrierung</primary>
+<secondary>Farbe &auml;ndern</secondary></indexterm><indexterm><primary>Farbressourcen &auml;ndern</primary></indexterm></title>
+<para><indexterm><primary>Umgebungsmanager</primary><secondary>Farbintegration</secondary></indexterm>Der Umgebungsmanager kann Anwendungsfarben dynamisch
+&auml;ndern. Die Anwendung mu&szlig; ein Client unter Motif 1.1 oder 1.2
+sein. Clients, die mit einem anderen Hilfsprogramm geschrieben wurden, k&ouml;nnen
+ihre Farben nicht dynamisch &auml;ndern. In diesem Fall mu&szlig; der Client
+erneut gestartet werden.</para>
+<para>Der einfachste Weg, um die dynamischen Farben, die das Desktop zur Verf&uuml;gung
+stellt, zu verwenden, ist, alle Anwendungsfarbressourcen f&uuml;r Vordergrund-
+und Hintergrundfarbe zu entfernen.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.9">
+<title id="sag.regap.mkr.15">Schritt 2: Desktop-Anwendungsstammverzeichnis
+erstellen<indexterm><primary>Anwendungen</primary><secondary>Stammverzeichnis</secondary></indexterm><indexterm><primary>Anwendungen</primary><secondary>app_root Verzeichnis</secondary></indexterm><indexterm><primary>Registrierung</primary><secondary>Anwendungsstammverzeichnis</secondary></indexterm><indexterm>
+<primary>Anwendungsstammverzeichnis</primary></indexterm></title>
+<note>
+<para>Ein Beispiel f&uuml;r die Erstellung des Desktop-Anwendungsstammverzeichnisses
+f&uuml;r eine Anwendung kann Schritt 2 des Abschnitts <!--Original XRef content:
+'&ldquo;Beispiel f&uuml;r die Erstellung eines--><!-- Registrierungspakets'--><xref
+role="SectionTitle" linkend="sag.regap.mkr.31"> auf <!--Original XRef content:
+'Seite&numsp;87'--><xref role="PageNum" linkend="sag.regap.mkr.33"> entnommen
+werden.</para>
+</note>
+<para>Die Registrierungspaketdateien f&uuml;r die Anwendung werden in ein
+Verzeichnis gestellt, das Anwendungsstammverzeichnis, oder <symbol role="Variable"><indexterm>
+<primary>app_root, siehe Anwendungsstammverzeichnis</primary></indexterm>app_root</symbol> genannt wird. Das Verzeichnis <symbol role="Variable">app_root</symbol>,
+das f&uuml;r die Desktop-Konfigurationsdateien verwendet wird, kann dasselbe
+Verzeichnis <symbol role="Variable">app_root</symbol> sein, das f&uuml;r die
+Installation der Anwendung verwendet wurde, es kann aber auch an einer anderen
+Position sein.</para>
+<para>Angenommen, eine Anwendung ist unter einem Verzeichnis <filename>/usr/BTE</filename> installiert. Dasselbe Verzeichnis k&ouml;nnte auch als <symbol role="Variable">app_root</symbol> f&uuml;r die Desktop-Konfigurationsdateien
+verwendet werden. Dennoch empfiehlt es sich, bei der Integrierung einer bereits
+vorhandenen nicht Desktop-f&auml;higen Anwendung ein anderes Desktop-Verzeichnis <symbol role="Variable">app_root</symbol> zu erstellen. Dadurch wird verhindert, da&szlig;
+die erstellten Konfigurationsdateien bei einer m&ouml;glichen Aktualisierung
+der Anwendung &uuml;berschrieben werden.</para>
+<para>So k&ouml;nnte ein Systemadministrator beispielsweise ein Verzeichnis <filename>/etc/desktop_approots/BTE</filename> als das Desktop-Verzeichnis <symbol role="Variable">app_root</symbol> erstellen.</para>
+</sect1>
+<sect1 id="sag.regap.div.10">
+<title id="sag.regap.mkr.16">Schritt 3: Registrierungspaketverzeichnisse erstellen<indexterm>
+<primary>Registrierungspaket</primary><secondary>Verzeichnisse</secondary>
+</indexterm></title>
+<note>
+<para>Ein Beispiel f&uuml;r die Erstellung der Registrierungspaketverzeichnisse
+f&uuml;r eine Anwendung kann Schritt 3 des Abschnitts <!--Original XRef content:
+'&ldquo;Beispiel f&uuml;r die Erstellung eine--><!--s Registrierungspakets'--><xref
+role="SectionTitle" linkend="sag.regap.mkr.31"> auf <!--Original XRef content:
+'Seite&numsp;88'--><xref role="PageNum" linkend="sag.regap.mkr.34"> entnommen
+werden.</para>
+</note>
+<para>Bei dem Registrierungspaket handelt es sich um die Gruppe der Desktop-Konfigurationsdateien,
+die das Desktop verwendet, um eine grafische Schnittstelle f&uuml;r die Anwendung
+zur Verf&uuml;gung zu stellen.</para>
+<sect2 id="sag.regap.div.11">
+<title>Inhalt des Registrierungspakets</title>
+<para>Die Desktop-Konfigurationsdateien enthalten:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Definitionsdateien f&uuml;r Aktionen und Datentypen</para>
+</listitem>
+<listitem><para>Symbolbilddateien</para>
+</listitem>
+<listitem><para>ein Verzeichnis f&uuml;r eine Gruppe von Anwendungen und dessen
+Inhalt</para>
+</listitem>
+<listitem><para>wahlweise: Hilfedatendateien und eine Bedienfeldkonfigurationsdatei
+</para>
+</listitem>
+</itemizedlist>
+<para>Das Registrierungspaket ist unter einem Verzeichnis der obersten Ebene,
+dem Anwendungsstammverzeichnis oder <symbol role="Variable">app_root</symbol>,
+zusammengestellt.</para>
+<figure>
+<title id="sag.regap.mkr.17">Ein Registrierungspaket unterhalb eines Anwendungsstammverzeichnisses</title>
+<graphic id="sag.regap.grph.4" entityref="SAG.RegAp.fig.4"></graphic>
+</figure>
+<para>Die wichtigsten Kategorien von Konfigurationsdateien unter dem Verzeichnis <symbol role="Variable">app_root</symbol> sind:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.52in">
+<colspec colwidth="4.46in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Unterverzeichnis</para></entry>
+<entry align="left" valign="bottom"><para>Inhalt</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>types</filename></para></entry>
+<entry align="left" valign="top"><para>Definitionsdateien f&uuml;r Aktionen
+und Datentypen</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>help</filename></para></entry>
+<entry align="left" valign="top"><para>Desktop-Hilfedateien</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>icons</filename></para></entry>
+<entry align="left" valign="top"><para>Bitmap- und Pixmap-Abbilddateien, die
+von den Aktionen und Datentypen der Anwendung verwendet werden</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>appmanager</filename></para></entry>
+<entry align="left" valign="top"><para>das Verzeichnis mit Inhalt, das die
+Gruppe von Anwendungen erstellt</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>infobiblio</filename></para></entry>
+<entry align="left" valign="top"><para>Dateien der Online-Dokumentation, die
+als Infobiblios, B&uuml;cherregale und B&uuml;cher organisiert sind</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>Jede dieser Kategorien verf&uuml;gt &uuml;ber Unterverzeichnisse f&uuml;r
+sprachabh&auml;ngige Dateien. Standardsprachdateien stehen im Verzeichnis
+C.</para>
+<sect3 id="sag.regap.div.12">
+<title>Registrierungspaket erstellen</title>
+<itemizedlist>
+<listitem><para>Folgende Verzeichnisse erstellen. Werden sprachabh&auml;ngige
+Konfigurationsdateien verwendet, mu&szlig; ein eigenes Verzeichnis f&uuml;r
+jede Sprache erstellt werden. Wird nur eine Sprache verwendet, werden die
+Dateien in das Verzeichnis <command>C</command> gestellt.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para><symbol role="Variable">app_root</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para><symbol role="Variable">app_root</symbol><filename>/dt/appconfig/help/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para><symbol role="Variable">app_root</symbol><filename>/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para><symbol role="Variable">app_root</symbol><filename>/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol><symbol role="Variable">/</symbol><symbol role="Variable">anwendungsgruppe_name</symbol>, wobei <symbol role="Variable">anwendungsgruppe_name</symbol> der Name der Gruppe von Anwendungen
+ist.</para>
+<para>Beispielsweise zeigt <!--Original XRef content: 'Abbildung&numsp;4&hyphen;5'--><xref
+role="CodeOrFigureOrTable" linkend="sag.regap.mkr.18"> den Anwendungsmanager
+mit einer Gruppe, f&uuml;r die <symbol role="Variable">anwendungsgruppe_name</symbol> &ldquo;Medien_Werkzeuge&rdquo; ist.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<figure>
+<title id="sag.regap.mkr.18">Gruppe von Anwendungen auf der obersten Ebene
+des Anwendungsmanagers</title>
+<graphic id="sag.regap.grph.5" entityref="SAG.RegAp.fig.5"></graphic>
+</figure>
+<para>Das Werkzeug <command>dtappintegrate</command> kann nur f&uuml;r die
+Desktop-Konfigurationsdateien in den Verzeichnissen <filename>types</filename>, <filename>help</filename>, <filename>icons</filename> und <filename>appmanager</filename>
+angewendet werden. Die bin&auml;re Befehlsdatei <filename>app-defaults</filename>
+der Anwendung und Nachrichtenkatalogdateien werden separat verwaltet.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.13">
+<title id="sag.regap.mkr.19">Schritt 4: Aktionen und Datentypen f&uuml;r die
+Anwendung erstellen<indexterm><primary>Aktionen</primary><secondary>ben&ouml;tigt
+f&uuml;r Registrierung</secondary></indexterm><indexterm><primary>Datentypen</primary><secondary>erforderlich f&uuml;r Registrierung</secondary></indexterm><indexterm>
+<primary>Registrierung</primary><secondary>erforderliche Aktionen</secondary>
+</indexterm><indexterm><primary>Registrierung</primary><secondary>ben&ouml;tigte
+Datentypen</secondary></indexterm></title>
+<note>
+<para>Ein Beispiel f&uuml;r die Erstellung der Aktionen und Datentypen f&uuml;r
+eine Anwendung kann Schritt 4 des Abschnitts <!--Original XRef content: '&ldquo;Beispiel
+f&uuml;r die Erstellung eine--><!--s Registrierungspakets'--><xref role="SectionTitle"
+linkend="sag.regap.mkr.31"> auf <!--Original XRef content: 'Seite&numsp;88'--><xref
+role="PageNum" linkend="sag.regap.mkr.35"> entnommen werden.</para>
+</note>
+<para>Aktionen und Datentypen stellen eine Benutzerschnittstelle f&uuml;r
+die Anwendung zur Verf&uuml;gung.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Aktionen stellen eine Benutzerschnittstelle
+zur Verf&uuml;gung, von der aus der Befehl die Anwendung startet.</para>
+</listitem>
+<listitem><para>Datentypen stellen ein angepa&szlig;tes Erscheinungsbild
+und angepa&szlig;tes Verhalten f&uuml;r die Datendateien der Anwendung zur
+Verf&uuml;gung.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.regap.div.14">
+<title>Aktionen und Datentypen, die f&uuml;r eine Anwendung erforderlich sind<indexterm>
+<primary>Anwendungen</primary><secondary>erforderliche Aktionen</secondary>
+</indexterm><indexterm><primary>Anwendungen</primary><secondary>erforderliche
+Datentypen</secondary></indexterm></title>
+<para>Bei typischen Anwendungen sind folgende Definitionen f&uuml;r Aktionen
+und Datentypen erforderlich:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Eine Aktion, die die Anwendung
+&ouml;ffnet.</para>
+</listitem>
+<listitem><para>Ein Datentyp f&uuml;r die Datendateien der Anwendung.
+Wird ein Datentyp erstellt, m&uuml;ssen folgende Aktionen ebenfalls erstellt
+werden:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>eine Aktion &ldquo;&Ouml;ffnen&rdquo;
+f&uuml;r die Datendateien der Anwendung</para>
+</listitem>
+<listitem><para>eine Aktion &ldquo;Drucken&rdquo; f&uuml;r die
+Datendateien der Anwendung</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Ein Datentyp f&uuml;r die Gruppe von Anwendungen.
+(Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Eindeutige Symbole f&uuml;r Gruppen vo--><!--n Anwendungen definieren&rdquo;
+auf Seite&numsp;78'--><xref role="SecTitleAndPageNum" linkend="sag.regap.mkr.26">
+entnommen werden.)</para>
+</listitem>
+</itemizedlist>
+<para>Eine Einf&uuml;hrung zur Verwendung von Aktionen und Datentypen auf
+dem Desktop enth&auml;lt <!--Original XRef content: 'Kapitel&numsp;8, &ldquo;Einf&uuml;hrung
+in Ak--><!--tionen und Datentypen'--><xref role="ChapNumAndTitle" linkend="sag.intac.mkr.1">.
+</para>
+</sect2>
+<sect2 id="sag.regap.div.15">
+<title>Position der Konfigurationsdateien mit den Definitionen f&uuml;r Aktionen
+und Datentyp</title>
+<para>Aktionen und Datentypen werden in Konfigurationsdateien definiert. Das
+einzige Erfordernis bei der Benennung von Dateien, die Definitionen f&uuml;r
+Aktionen und Datentypen enthalten, ist, da&szlig; sie mit dem Suffix <filename>.dt</filename> versehen sein m&uuml;ssen. Konventionellerweise wird die Datei <symbol role="Variable">aktion_name</symbol><filename>.dt</filename> oder <symbol role="Variable">anwendung_name</symbol><filename>.dt</filename> genannt.</para>
+<para>Dateien, die Aktionen und Datentypen enthalten, werden unter das Anwendungsstammverzeichnis
+in das Verzeichnis <symbol role="Variable">app_root</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol> gestellt. Standardwert
+f&uuml;r <symbol role="Variable">sprache</symbol> ist C.</para>
+<figure>
+<title>Definitionsdateien f&uuml;r Aktionen und Datentypen</title>
+<graphic id="sag.regap.grph.6" entityref="SAG.RegAp.fig.6"></graphic>
+</figure>
+</sect2>
+<sect2 id="sag.regap.div.16">
+<title>M&ouml;glichkeiten, Aktionen und Datentypen zu erstellen</title>
+<para>Definitionen f&uuml;r Aktionen und Datentypen f&uuml;r eine Anwendung
+k&ouml;nnen auf zwei verschiedene Art und Weisen erstellt werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>mit dem Werkzeug &ldquo;Aktion erstellen&rdquo;</para>
+<para>&ldquo;Aktion erstellen&rdquo;stellt eine benutzerfreundliche Schnittstelle
+mit Textfeldern zur Verf&uuml;gung, die der Benutzer ausf&uuml;llen mu&szlig;.
+Hier mu&szlig; der Benutzer bestimmte Einschr&auml;nkungen hinnehmen.</para>
+</listitem>
+<listitem><para>oder manuell</para>
+<para>Hierf&uuml;r ist es erforderlich, da&szlig; der Benutzer die Syntax
+f&uuml;r die Erstellung der Definitionen erlernt, aber daf&uuml;r erh&auml;lt
+er Zugriff auf s&auml;mtliche Funktionen.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.regap.div.17" role="Procedure">
+<title>Aktionen und Datentypen mit &ldquo;Aktion erstellen&rdquo; erstellen</title>
+<para>Bei dieser Prozedur wird das Dienstprogramm &ldquo;Aktion erstellen&rdquo;
+verwendet, um eine Aktion und Datentypen f&uuml;r die Anwendung zu erstellen.
+</para>
+<para>Weitere Informationen zu &ldquo;Aktion erstellen&rdquo; k&ouml;nnen
+der zugeh&ouml;rigen Online-Hilfefunktion oder <!--Original XRef content:
+'Kapitel&numsp;9, &ldquo;Aktionen
+und Datentyp--><!--en mit 'Aktion erstellen' erstellen'--><xref role="ChapNumAndTitle"
+linkend="sag.dtcra.mkr.1"> entnommen werden.</para>
+<orderedlist>
+<listitem><para id="sag.regap.mkr.20">Die Gruppe von Anwendungen &ldquo;Desktop_Anwendungen&rdquo;
+&ouml;ffnen und &ldquo;Aktion erstellen&rdquo; doppelklicken.</para>
+</listitem>
+<listitem><para>Mit &ldquo;Aktion erstellen&rdquo; die Definitionen f&uuml;r
+Aktionen und Datentypen f&uuml;r die Anwendung und deren Datentyp erstellen.
+</para>
+<para>Die Konfigurationsdatei, die mit &ldquo;Aktion erstellen&rdquo; erstellt
+wurde, wird in das Verzeichnis <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/type/</filename><symbol role="Variable">aktion_name</symbol><filename>.dt</filename> geschrieben. Die Aktionsdatei (die ausf&uuml;hrbare
+Datei mit demselben Namen wie die Aktion) wird in das Standardverzeichnis
+gestellt.</para>
+</listitem>
+<listitem><para>Die Aktion mit der Aktionsdatei aus dem Standardverzeichnis
+testen.</para>
+</listitem>
+<listitem><para>Die Definitionsdatei f&uuml;r Aktionen, <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/type/</filename><symbol role="Variable">aktion_name</symbol><filename>.dt</filename>, in das Verzeichnis <symbol role="Variable">app_root</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol> kopieren.</para>
+</listitem>
+<listitem><para>Nachdem das Verzeichnis f&uuml;r die Gruppe von Anwendungen
+erstellt wurde (siehe Abschnitt <!--Original XRef content: 'Abschnitt&numsp;,
+&ldquo;Schritt 7: Die Grupp--><!--e von Anwendungen erstellen&rdquo; auf
+ Seite&numsp;76'--><xref role="SecNumTitleAnsPage" linkend="sag.regap.mkr.23">),
+die Aktionsdatei <symbol role="Variable">Standardverzeichnis</symbol><filename>/</filename><symbol role="Variable">aktion_name</symbol> in das Verzeichnis <symbol role="Variable">app_root</symbol><filename>/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol><filename>/</filename><symbol>anwendungsgruppe_name</symbol> kopieren.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.regap.div.18" role="Procedure">
+<title>Aktionen und Datentypen manuell erstellen</title>
+<itemizedlist>
+<listitem><para>Eine Konfigurationsdatei mit den Definitionen f&uuml;r Aktionen
+und Datentypen f&uuml;r die Anwendung erstellen.</para>
+</listitem>
+</itemizedlist>
+<para>Definitionsdateien f&uuml;r Aktionen und Datentypen m&uuml;ssen der
+Benennungskonvention <symbol role="Variable">name</symbol><filename>.dt</filename>
+entsprechen.</para>
+<para>Der Benutzer kann alle Definitionen f&uuml;r Aktionen und Datentypen
+in eine einzige Datei stellen, oder er kann sie auf viele verschiedene Dateien
+verteilen. F&uuml;r jede Datei sollte ein Dateiname verwendet werden, aus
+dem f&uuml;r Systemadministratoren die Anwendung leicht erkennbar ist.</para>
+<para>Die Namen f&uuml;r Aktionen und Datentypen m&uuml;ssen aus einem Wort
+bestehen (keine eingegebenen Leerzeichen). Unterstreichungszeichen d&uuml;rfen
+verwendet werden. Konventionellerweise wird der erste Buchstabe des Aktions-
+oder Datentypnamens als Gro&szlig;buchstabe geschrieben. Es darf kein bereits
+vorhandener Aktions- oder Dateiname verwendet werden. Es sollte ein Name verwendet
+werden, aus dem f&uuml;r fortgeschrittene Benutzer und Systemadministratoren
+die Anwendung leicht erkennbar ist.</para>
+<para>Soll das Symbol der Anwendung mit einem anderen Namen als dem Aktionsnamen
+bezeichnet werden, mu&szlig; ein Feld <command>LABEL</command> in der Definition
+f&uuml;r die Aktion eingef&uuml;gt werden.</para>
+<para>Weitere Informationen zu der Erstellung von Aktionen und Datentypen
+k&ouml;nnen folgenden Kapiteln entnommen werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><!--Original XRef content: 'Kapitel&numsp;8,
+&ldquo;Einf&uuml;hrung in Ak--><!--tionen und Datentypen'--><xref role="ChapNumAndTitle"
+linkend="sag.intac.mkr.1"></para>
+</listitem>
+<listitem><para><!--Original XRef content: 'Kapitel&numsp;9, &ldquo;Aktionen
+und Datentyp--><!--en mit 'Aktion erstellen' erstellen'--><xref role="ChapNumAndTitle"
+linkend="sag.dtcra.mkr.1"></para>
+</listitem>
+<listitem><para><!--Original XRef content: 'Kapitel&numsp;10, &ldquo;Aktionen
+manuell ers--><!--tellen'--><xref role="ChapNumAndTitle" linkend="sag.cract.mkr.1"></para>
+</listitem>
+<listitem><para><!--Original XRef content: 'Kapitel&numsp;11, &ldquo;Datentypen
+manuell e--><!--rstellen'--><xref role="ChapNumAndTitle" linkend="sag.crdt.mkr.1"></para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.19">
+<title id="sag.regap.mkr.21">Schritt 5: Hilfedateien dem Registrierungspaket
+hinzuf&uuml;gen<indexterm><primary>Registrierung</primary><secondary>Hilfedateien</secondary></indexterm><indexterm><primary>Hilfedateien</primary><secondary>im Registrierungspaket</secondary></indexterm></title>
+<note>
+<para>Ein Beispiel f&uuml;r das Hinzuf&uuml;gen von Hilfedateien zu einem
+Registrierungspaket kann Schritt 5 des Abschnitts <!--Original XRef content:
+'&ldquo;Beispiel f&uuml;r die Erstellung eine--><!--s Registrierungspakets'--><xref
+role="SectionTitle" linkend="sag.regap.mkr.31"> auf <!--Original XRef content:
+'Seite&numsp;90'--><xref role="PageNum" linkend="sag.regap.mkr.36"> entnommen
+werden.</para>
+</note>
+<para>Verf&uuml;gt die Anwendung &uuml;ber einen Desktop-<indexterm><primary>Hilfeband</primary><secondary>im Registrierungspaket</secondary></indexterm>Hilfeband
+(einen Hilfeband, der mit dem Help Developer's Kit des Desktops erstellt wurde),
+sollte die Stammdatei f&uuml;r den Hilfeband (<filename>*.sdl</filename>)
+in das Verzeichnis <symbol role="Variable">app_root</symbol><filename>/appconfig/dt/help/</filename><symbol role="Variable">sprache</symbol> gestellt werden.</para>
+<para><indexterm><primary>Hilfe</primary><secondary>siehe auch Hilfeband,
+Hilfedateien</secondary></indexterm>Grafiken, die in den Hilfedateien verwendet
+werden, werden normalerweise in ein eigenes Unterverzeichnis f&uuml;r Grafiken
+gestellt. Die Grafiken m&uuml;ssen in Bezug auf die Stammdatei f&uuml;r den
+Hilfeband (<filename>*.sdl</filename>) in demselben Verzeichnis stehen, wie
+bei der Erstellung des Hilfebands.</para>
+<para>Stellt die Anwendung keinen Hilfeband zur Verf&uuml;gung, kann der Benutzer,
+falls er &uuml;ber den<indexterm><primary>Help Developer's Kit</primary>
+</indexterm> Help Developer's Kit verf&uuml;gt, einen Hilfeband erstellen.
+</para>
+<para>Es gibt zwei Stufen der Integration bei einem<indexterm><primary>Hilfeband</primary><secondary>Integrationsstufen</secondary></indexterm> Hilfeband:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>Hilfe</primary><secondary>vollst&auml;ndige
+Integration</secondary></indexterm>Vollst&auml;ndige Integration</para>
+<para>Ist Desktop-Hilfe vollst&auml;ndig integriert, kann auf den Hilfeband
+von der Anwendung aus zugegriffen werden, zum Beispiel &uuml;ber 'Kontexthilfe'
+und das Men&uuml; 'Hilfe'. F&uuml;r die vollst&auml;ndige Integration ist
+die &Auml;nderung der ausf&uuml;hrbaren Dateien der Anwendung erforderlich.
+</para>
+</listitem>
+<listitem><para><indexterm><primary>Hilfe</primary><secondary>Teilweise Integration</secondary></indexterm>Teilweise Integration</para>
+<para>Ist die Desktop-Hilfe partiell integriert, ist sie von der obersten
+Ebene des Hilfemanagers verf&uuml;gbar. Aber von den Fenstern der Anwendung
+kann nicht auf den Hilfeband zugegriffen werden. Es kann eine Aktion erstellt
+werden, &uuml;ber die aus der Gruppe von Anwendungen auf die Hilfe zugegriffen
+werden kann. Das folgende Beispiel f&uuml;r eine Aktion zeigt den Hilfeband
+in der<indexterm><primary>Hilfeband</primary><secondary>Hilfezugriff</secondary>
+</indexterm> Hilfestammdatei <filename>MyApp<indexterm><primary>sdl Dateien</primary></indexterm>.sdl</filename>:</para>
+<programlisting remap="CodeIndent1">ACTION OpenMyAppHelp
+{
+   LABEL         MyAppHelp 
+   ARG_COUNT     0  
+   TYPE          COMMAND   
+   WINDOW_TYPE   NO_STDIO   
+   EXEC_STRING   /usr/dt/bin/dthelpview -helpVolume MyApp   
+   DESCRIPTION   Anzeige hilft f&uuml;r die Anwendung MyApp. 
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.RegAp.div.19a">
+<title id="SAG.RegAp.mkr.21a">Schritt 6: Informationsbibliotheken dem Registrierungspaket
+hinzuf&uuml;gen<indexterm><primary>Registrierung</primary><secondary>Infobiblios</secondary></indexterm><indexterm><primary>Infobiblios</primary><secondary>im Registrierungspaket</secondary></indexterm></title>
+<para>Falls die Anwendung Online-Dokumentation enth&auml;lt (erstellt mit
+dem Werkzeug f&uuml;r Desktop-Informationssystementwickler), sollte die Informationsbibliothek
+(<filename>*.dti</filename>), die die Dokumentation enth&auml;lt, in folgendes
+Verzeichnis gebracht werden:<indexterm><primary>Infobiblio</primary><secondary>Stelle im Registrierungspaket</secondary></indexterm></para>
+<programlisting><symbol role="Variable">app_root</symbol><filename>/dt/Infobiblio/</filename><symbol role="Variable">sprache</symbol></programlisting>
+<para>Von den DocBook-Buchdateien (<filename>*.sgm</filename>) verwendete
+Grafiken werden normalerweise in einem Unterverzeichnis <command>Grafiken</command> abgelegt. Die Grafiken m&uuml;ssen, zusammen mit der Infobiblio-Datei
+(<filename>*.dti</filename>), in demselben Verzeichnis gespeichert sein, in
+dem sich die Infobiblio befand, als sie erstellt wurde.</para>
+<para>Falls die Anwendung keine Online-Dokumentation anbietet, k&ouml;nnen
+Sie sie selbst mit Hilfe des Werkzeugs f&uuml;r Informationssystementwickler
+erstellen.<indexterm><primary>Informationssystementwickler-Werkzeug</primary>
+</indexterm></para>
+<para>Es gibt zwei Integrationsstufen einer Infobiblio:<indexterm><primary>Infobiblio</primary><secondary>Integrationsstufen</secondary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Vollst&auml;ndige Integration.<indexterm><primary>Infobiblio</primary><secondary>vollst&auml;ndige Integration</secondary></indexterm></para>
+<para>Wenn eine Infobiblio voll integriert ist, kann auf sie von der Anwendung
+aus mit dem Befehl <literal>DtActionInvoke</literal>zugegriffen werden, um
+ein bestimmtes Thema unter dem Informationsmanager anzuzeigen. Eine vollst&auml;ndige
+Integration beinhaltet die &Auml;nderung der Befehlsdateien der Anwendung.
+</para>
+</listitem>
+<listitem><para>Teilweise Integration.<indexterm><primary>Infobiblio</primary>
+<secondary>Teilweise Integration</secondary></indexterm></para>
+<para>Wenn eine Infobiblio teilweise integriert ist, ist sie von der obersten
+Ebene des Informationsmanagers aus verf&uuml;gbar. Sie k&ouml;nnen jedoch
+nicht von den Anwendungsfenstern aus auf die Infobiblio zugreifen. Sie k&ouml;nnen
+au&szlig;erdem eine Aktion zur Verf&uuml;gung stellen, mit der von der Gruppe
+von Anwendungen aus auf die Infobiblio zugegriffen werden kann. Die folgende
+Beispielsaktion zeigt die Infobiblio an, die sich in der Infobiblio <filename>MyApp.dti</filename> befindet:</para>
+<programlisting>ACTION OpenMyAppInfobiblio
+{
+  LABEL           MyAppInfobiblio
+  ARG_TYPE        Infobiblio
+  TYPE            MAP
+  MAP_ACTION      DtLoadInfobiblio /usr/dt/Infobiblio/C/MyAppInfobiblio.dti
+  DESCRIPTION     Fordert den Informationsmanager auf, die Online-Dokumentation f&uuml;r die Anwendung MyApp anzuzeigen.
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="sag.regap.div.20">
+<title id="sag.regap.mkr.22">Schritt 7: Symbole f&uuml;r die Anwendung erstellen<indexterm>
+<primary>Registrierung</primary><secondary>Symbole</secondary></indexterm><indexterm>
+<primary>Symbole</primary><secondary>erforderlich f&uuml;r Registrierung</secondary>
+</indexterm></title>
+<note>
+<para>Ein Beispiel f&uuml;r die Erstellung der Symboldateien f&uuml;r eine
+Anwendung kann Schritt 6 des Abschnitts <!--Original XRef content: '&ldquo;Beispiel
+f&uuml;r die Erstellung eines--><!--
+
+Registrierungspakets'--><xref role="SectionTitle" linkend="sag.regap.mkr.31">
+auf <!--Original XRef content: 'Seite&numsp;91'--><xref role="PageNum" linkend="sag.regap.mkr.37">
+entnommen werden.</para>
+</note>
+<para>Das Desktop stellt Standardsymbole f&uuml;r Aktionen, Datentypen und
+Gruppen von Anwendungen zur Verf&uuml;gung. Aber m&ouml;glicherweise hat der
+Benutzer den Wunsch, eindeutige Symbole f&uuml;r die Anwendung zu erstellen.
+</para>
+<para>Symbole werden in das Verzeichnis <symbol role="Variable">app_root</symbol><filename>/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol> gestellt.
+</para>
+<sect2 id="sag.regap.div.21">
+<title>F&uuml;r das Desktop erforderliche Symbole</title>
+<para>Die Anwendung verwendet folgende Symbolabbilder auf dem Desktop:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><emphasis role="Lead-in"><indexterm><primary>Aktionssymbol</primary><secondary>startet Anwendung</secondary></indexterm>Aktionssymbol</emphasis>. Dieses Symbol mu&szlig; der Benutzer doppelklicken, um die Anwendung
+(Aktionen) zu starten. Auf dieses Symbol wird im Feld <command>ICON</command>
+der Aktion, die die Anwendung startet, Bezug genommen.</para>
+<para>Es sollten drei Gr&ouml;&szlig;en bereitgestellt werden: klein, mittel
+und gro&szlig;.</para>
+</listitem>
+<listitem><para><emphasis role="Lead-in"><indexterm><primary>Symbole</primary>
+<secondary>Datentyp</secondary></indexterm><indexterm><primary>Datentypen</primary><secondary>Symbole</secondary></indexterm> Datentypsymbol</emphasis>.
+Dieses Symbol wird verwendet, um die Datendateien der Anwendung im Dateimanager
+darzustellen. Auf dieses Symbol wird im Feld <command>ICON</command> der Datentypdefinition
+Bezug genommen.</para>
+<para>Unterst&uuml;tzt die Anwendung mehrere Datentypen, sollte f&uuml;r jeden
+Datentyp ein anderes Symbol zur Verf&uuml;gung gestellt werden.</para>
+<para>Es sollten zwei Gr&ouml;&szlig;en bereitgestellt werden: klein und mittel.
+</para>
+</listitem>
+<listitem><para><emphasis role="Lead-in"><indexterm><primary>Symbole</primary>
+<secondary>Anwendungsgruppen</secondary></indexterm>Symbol f&uuml;r Gruppe
+von Anwendungen</emphasis>. Dieses Symbol stellt das Verzeichnis auf der obersten
+Ebene des Anwendungsmanagers dar. Auf dieses Symbol wird im Feld <command>ICON</command> der Datentypdefinition f&uuml;r die Gruppe von Anwendungen
+Bezug genommen. (Siehe <!--Original
+XRef content: '&ldquo;Schritt 7: Die Gruppe von
+Anwendungen --><!--erstellen&rdquo; auf Seite&numsp;76'--><xref role="SecTitleAndPageNum"
+linkend="sag.regap.mkr.23"> .)</para>
+<para>Es sollten zwei Gr&ouml;&szlig;en bereitgestellt werden: klein und mittel.
+</para>
+</listitem>
+</itemizedlist>
+<para>Es ist m&ouml;glicherweise notwendig, sowohl Pixmap- als auch Bitmap-Versionen
+jedes Symbols bereitzustellen, um Farb- (acht Bit und gr&ouml;&szlig;er) und
+Monochrombildschirme (weniger als acht Bit) zu unterst&uuml;tzen.</para>
+<table id="sag.regap.tbl.1" frame="topbot">
+<title>Benennungskonventionen f&uuml;r Symboldateien</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colwidth="1.01in">
+<colspec colwidth="0.99in">
+<colspec colwidth="2.26in">
+<colspec colwidth="2.53in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Gr&ouml;&szlig;e</para></entry>
+<entry align="left" valign="bottom"><para>Pixel-Abmessung</para></entry><entry
+align="left" valign="bottom"><para>Bitmap-Name</para></entry><entry align="left"
+valign="bottom"><para>Pixmap-Name</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>klein</para></entry>
+<entry align="left" valign="top"><para>16 x 16</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Dateiname ohne
+Pfad</symbol><filename>.t.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Dateiname ohne
+Pfad</symbol><filename>.t.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>mittel</para></entry>
+<entry align="left" valign="top"><para>32 x 32</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Dateiname ohne
+Pfad</symbol><filename>.m.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Dateiname ohne
+Pfad</symbol><filename>.m.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>gro&szlig;</para></entry>
+<entry align="left" valign="top"><para>48 x 48</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Dateiname ohne
+Pfad</symbol><filename>.l.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Dateiname ohne
+Pfad</symbol><filename>.l.pm</filename></para></entry></row></tbody></tgroup>
+</table>
+<para>Werden keine Bitmap-Dateien zur Verf&uuml;gung gestellt, ordnet das
+Desktop die Farbspezifikationen der Pixmap-Dateien Schwarz- und Wei&szlig;werten
+zu. Dennoch kommt es m&ouml;glicherweise zu Abweichungen von dem vom Benutzer
+gew&uuml;nschten Erscheinungsbild.</para>
+<para>Weitere Informationen zu Symbolen k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Symbolbilddateien&rdquo; auf Seite&nu--><!--msp;224'--><xref
+role="SecTitleAndPageNum" linkend="sag.cricn.mkr.3"> entnommen werden.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.22">
+<title id="sag.regap.mkr.23">Schritt 8: Die Gruppe von Anwendungen erstellen<indexterm>
+<primary>Registrierung</primary><secondary>Anwendungsgruppe</secondary></indexterm><indexterm>
+<primary>Anwendungsgruppen</primary><secondary>erstellen im Registrierungspaket</secondary></indexterm></title>
+<note>
+<para>Ein Beispiel f&uuml;r die Erstellung der Gruppe von Anwendungen kann
+Schritt 7 des Abschnitts <!--Original XRef content: '&ldquo;Beispiel f&uuml;r
+die Erstellung eines--><!--
+Registrierungspakets'--><xref role="SectionTitle" linkend="sag.regap.mkr.31">
+auf <!--Original XRef content: 'Seite&numsp;91'--><xref role="PageNum" linkend="sag.regap.mkr.38">
+entnommen werden.</para>
+</note>
+<para>Nachdem die Definitionen f&uuml;r Aktionen und Datentypen f&uuml;r die
+Anwendung erstellt wurden, m&uuml;ssen die Konfigurationsdateien f&uuml;r
+das, was der Benutzer am Bildschirm tats&auml;chlich sieht, n&auml;mlich die
+Gruppe von Anwendungen und deren Inhalt, erstellt werden.</para>
+<para><indexterm><primary>Konfigurationsdateien</primary><secondary>im Registrierungspaket</secondary></indexterm>Bei der Gruppe von Anwendungen handelt es sich um
+ein Verzeichnis auf der obersten Ebene des Anwendungsmanagers (siehe <!--Original
+XRef content: 'Abbildung&numsp;4&hyphen;1 auf Seite&numsp;61'--><xref role="CodeOrFigOrTabAndPNum"
+linkend="sag.regap.mkr.4">).</para>
+<para>Die Gruppe von Anwendungen wird in drei Schritten erstellt:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>das Verzeichnis f&uuml;r die Gruppe von Anwendungen im Registrierungspaket
+erstellen.</para>
+</listitem>
+<listitem><para>wahlweise: f&uuml;r die Gruppe von Anwendungen ein eindeutiges
+Symbol erstellen. Hierzu mu&szlig; die Datentypdefinition f&uuml;r das Verzeichnis
+f&uuml;r die Gruppe von Anwendungen erstellt werden.</para>
+</listitem>
+<listitem><para>den Inhalt der Gruppe von Anwendungen erstellen.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.regap.div.23">
+<title>Das Verzeichnis f&uuml;r die Gruppe von Anwendungen erstellen</title>
+<para>Um eine Gruppe von Anwendungen zu erstellen, die Verzeichnisse in dem
+Registrierungspaket unter <command>appmanager</command>, wie in <!--Original
+XRef content: 'Abbildung&numsp;4&hyphen;7'--><xref role="CodeOrFigureOrTable"
+linkend="sag.regap.mkr.24"> gezeigt, erstellt:</para>
+<figure>
+<title id="sag.regap.mkr.24">Das Verzeichnis <command>appmanager</command></title>
+<graphic id="sag.regap.grph.7" entityref="SAG.RegAp.fig.7"></graphic>
+</figure>
+</sect2>
+<sect2 id="sag.regap.div.24">
+<title>Name der Gruppe von Anwendungen<indexterm><primary>Anwendungsgruppen</primary><secondary>Namen</secondary></indexterm></title>
+<para>Der Name &lt;Name der Anwendungsgruppe> in <!--Original XRef content:
+'Abbildung&numsp;4&hyphen;8'--><xref role="CodeOrFigureOrTable" linkend="sag.regap.mkr.25">
+ist der Name f&uuml;r die Gruppe von Anwendungen.</para>
+<figure>
+<title id="sag.regap.mkr.25">Der Name der Gruppe von Anwendungen (&lt;Name
+der Anwendungsgruppe>)</title>
+<graphic id="sag.regap.grph.8" entityref="SAG.RegAp.fig.8"></graphic>
+</figure>
+<para>Bei dem Namen kann es sich um jeden zul&auml;ssigen Datei- (bzw. Verzeichnis-)
+namen handeln. Ein deskriptiver Name ist empfehlenswert.</para>
+</sect2>
+<sect2 id="sag.regap.div.25">
+<title id="sag.regap.mkr.26">Eindeutige Symbole f&uuml;r Gruppen von Anwendungen
+definieren<indexterm><primary>Symbole</primary><secondary>Gruppe von Anwendungen</secondary></indexterm><indexterm><primary>Anwendungsgruppen</primary><secondary>Symbole f&uuml;r</secondary></indexterm><indexterm><primary>Gruppen von Anwendungen</primary><secondary>Symbole f&uuml;r</secondary></indexterm></title>
+<para>Das Desktop stellt ein Standardsymbol f&uuml;r Gruppen von Anwendungen
+zur Verf&uuml;gung. Dennoch kann der Benutzer ein eigenes Symbol erstellen.
+</para>
+<para>M&ouml;chte der Benutzer ein eindeutiges Symbol f&uuml;r die Gruppe
+von Anwendungen erstellen, mu&szlig; er</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>einen Datentyp f&uuml;r das Verzeichnis, das auf der obersten
+Ebene des Anwendungsmanagers erscheint, erstellen.</para>
+</listitem>
+<listitem><para>die Aktionen '&Ouml;ffnen' und 'Drucken' f&uuml;r den Datentyp
+erstellen.</para>
+</listitem>
+</itemizedlist>
+<para>Angenommen, der Benutzer m&ouml;chte eine Gruppe von Anwendungen mit
+dem Namen Medienwerkzeuge erstellen. Die folgende Datentypdefinition in einer
+Datei <symbol role="Variable">app_root</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol>/<symbol role="Variable">name</symbol><filename>.dt</filename> ordnet der Gruppe von Anwendungen ein
+eindeutiges Symbol zu.</para>
+<programlisting>DATA_ATTRIBUTES Medien_WerkzeugeAppgroup
+{
+   ACTIONS      OpenInPlace,OpenNewView
+   ICON         Medien_Werkzeuge
+   DESCRIPTION  Double-click to open the Medien_Werkzeuge \
+                Gruppe von Anwendungen
+}
+DATA_CRITERIA  Medien_WerkzeugeAppgroupCriteria1
+{
+   DATA_ATTRIBUTES_NAME  Medien_WerkzeugeAppgroup
+   MODE                  d
+   PATH_PATTERN          */appmanager/*/Medien_Werkzeuge
+}</programlisting>
+<para>Der Abschnitt Attribute der Definition gibt an, welches Symbol verwendet
+werden soll. Der Abschnitt Kriterien der Definition gibt an, da&szlig; der
+Datentyp f&uuml;r jedes Verzeichnis mit Namen <filename>Medien_Werkzeuge</filename>
+definiert wird, das ein Unterverzeichnis des Verzeichnisses <command>appmanager</command> ist.</para>
+<para><!--Original XRef content: 'Abbildung&numsp;4&hyphen;9'--><xref role="CodeOrFigureOrTable"
+linkend="sag.regap.mkr.27"> zeigt die Beziehung zwischen dem Namen der Gruppe
+von Anwendungen und der Datentypdefinition. Das Feld <filename>PATH_PATTERN</filename> in der Datentypdefinition verbindet ein eindeutiges Symbol mit
+der Gruppe von Anwendungen.</para>
+<figure>
+<title id="sag.regap.mkr.27">Zuordnung eines Symbols zu einer Gruppe von
+Anwendungen</title>
+<graphic id="sag.regap.grph.9" entityref="SAG.RegAp.fig.9"></graphic>
+</figure>
+<para>Anschlie&szlig;end sollte der Benutzer die Aktionen '&Ouml;ffnen' und
+'Drucken' f&uuml;r den Datentyp der<indexterm><primary>Anwendungsgruppen</primary><secondary>Aktionen</secondary></indexterm><indexterm><primary>Anwendungsgruppen</primary><secondary>Datentypen</secondary></indexterm> Gruppe
+von Anwendungen erstellen:</para>
+<programlisting>ACTION Open
+{
+   ARG_TYPE      Medien_WerkzeugeAppGroup
+   TYPE          MAP
+   MAP_ACTION    OpenAppGroup
+}
+ACTION Print
+{
+   ARG_TYPE      Medien_WerkzeugeAppGroup
+   TYPE          MAP
+   MAP_ACTION    PrintAppGroup
+}</programlisting>
+<para>Bei den Aktionen OpenAppGroup und PrintAppGroup handelt es sich um integrierte
+Aktionen, die in <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtappman.dt</filename> definiert sind.</para>
+</sect2>
+<sect2 id="sag.regap.div.26">
+<title>Inhalt der Gruppe von Anwendungen erstellen<indexterm><primary>Anwendungsgruppen</primary><secondary>Inhalt</secondary></indexterm><indexterm><primary>Registrierungspaket</primary><secondary>Inhalt der Anwendungsgruppe</secondary></indexterm></title>
+<para>Das wichtigste Element in der Gruppe von Anwendungen ist ein Symbol,
+mit dem die Anwendung gestartet wird (ein Aktionssymbol). Enth&auml;lt die
+Gruppe von Anwendungen mehrere Anwendungen, gibt es normalerweise ein Symbol
+f&uuml;r jede Anwendung.</para>
+<para>Zus&auml;tzlich zu einem oder mehreren Aktionssymbolen kann die Gruppe
+von Anwendungen noch folgendes enthalten:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>eine oder mehrere README-Dateien</para>
+</listitem>
+<listitem><para>eine oder mehrere Beispieldatendateien</para>
+</listitem>
+<listitem><para>Schablonen</para>
+</listitem>
+<listitem><para>ein Symbol, das der Benutzer doppelklicken kann, um Hilfeinformationen
+anzuzeigen</para>
+</listitem>
+<listitem><para>eine Hilfeseite</para>
+</listitem>
+<listitem><para>ein spezialisiertes Bedienelement im Bedienfeld</para>
+</listitem>
+</itemizedlist>
+<para>Die Gruppe von Anwendungen kann Unterverzeichnisse enthalten.</para>
+<sect3 id="sag.regap.div.27">
+<title>Aktionsdatei (Anwendungssymbol) erstellen<indexterm><primary>Symbole</primary><secondary>die Anwendungen repr&auml;sentieren</secondary></indexterm><indexterm>
+<primary>Registrierungspaket</primary><secondary>Anwendungssymbol</secondary>
+</indexterm><indexterm><primary>Registrierung</primary><secondary>Siehe auch
+Registrierungspaket</secondary></indexterm><indexterm><primary>Registrierungspaket</primary><secondary>Siehe auch Registrierung</secondary></indexterm></title>
+<para>Die Gruppe von Anwendungen sollte ein Symbol enthalten, das die Anwendung
+startet. Besteht die Gruppe aus mehreren Anwendungen, sollte f&uuml;r jede
+Anwendung ein Symbol vorhanden sein. Diese Symbole werden <emphasis role="Variable">Anwendungssymbole</emphasis> oder <emphasis role="Variable">Aktionssymbole</emphasis> genannt, da sie eine zugrundeliegende Aktion darstellen.</para>
+<para>Ein Aktionssymbol wird erstellt, indem eine ausf&uuml;hrbare Datei mit
+demselben Namen wie die Aktion, die sie ausf&uuml;hren soll, erstellt wird:
+</para>
+<programlisting>app_root/dt/appconfig/appmanager/anwendungsgruppe_name/aktion_name
+</programlisting>
+<para>Die Datei wird<indexterm><primary>Aktionsdatei</primary><secondary>erstellen</secondary></indexterm> <emphasis role="Variable">Aktionsdatei</emphasis>
+genannt, weil sie eine zugrundeliegende Aktion bildhaft darstellen soll.</para>
+<para>Wurde beispielsweise eine Aktion mit dem Namen 'BesterTextEditor' erstellt,
+die die Anwendung 'BesterTextEditor' ausf&uuml;hrt, mu&szlig; eine ausf&uuml;hrbare
+Datei mit Namen 'BesterTextEditor' erstellt werden. Im Dateimanager und dem
+Anwendungsmanager verwendet die Aktionsdatei das Symbolbild, das in der Definition
+f&uuml;r die Aktion angegeben wurde.</para>
+<para><!--Original XRef content: 'Abbildung&numsp;4&hyphen;10'--><xref role="CodeOrFigureOrTable"
+linkend="sag.regap.mkr.28"> zeigt die Beziehung zwischen der Definition der
+Aktion, der Aktionsdatei und dem tats&auml;chlichen Eintrag im Fenster des
+Anwendungsmanagers.</para>
+<figure>
+<title id="sag.regap.mkr.28">Das Anwendungssymbol ist eine Datei in der Gruppe
+von Anwendungen</title>
+<graphic id="sag.regap.grph.10" entityref="SAG.RegAp.fig.10"></graphic>
+</figure>
+</sect3>
+<sect3 id="sag.regap.div.28">
+<title>Read Me-Dateien<indexterm><primary>Anwendungspaket, siehe Registrierungspaket</primary></indexterm><indexterm><primary>Readme-Dateien</primary></indexterm><indexterm>
+<primary>Registrierungspaket</primary><secondary>Readme-Dateien</secondary>
+</indexterm><indexterm><primary>Anwendungsgruppen</primary><secondary>Readme-Dateien</secondary></indexterm></title>
+<para>Das Desktop stellt einen README-Datentyp zur Verf&uuml;gung, der f&uuml;r
+die README-Dateien der Anwendung verwendet werden kann. Eine der folgenden
+Benennungskonventionen verwenden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>README</command></para>
+</listitem>
+<listitem><para><command>readme</command></para>
+</listitem>
+<listitem><para><filename>README.*</filename></para>
+</listitem>
+<listitem><para><filename>Read.*.Me</filename></para>
+</listitem>
+<listitem><para><filename>read.*.me</filename></para>
+</listitem>
+<listitem><para><filename>READ.*.ME</filename></para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="sag.regap.div.29">
+<title>Ein spezialisiertes Bedienelement im Bedienfeld erstellen<indexterm>
+<primary>Bedienfeld</primary><secondary>Registrierungspaket</secondary></indexterm><indexterm>
+<primary>Registrierungspaket</primary><secondary>Bedienfeld steuern</secondary>
+</indexterm></title>
+<para>In den meisten F&auml;llen ist es nicht notwendig, eine Definition f&uuml;r
+das Bedienelement im Bedienfeld zur Verf&uuml;gung zu stellen. Der Benutzer
+kann die Anwendung zum Bedienfeld hinzuf&uuml;gen, indem er das Aktionssymbol
+dem Bedienelement Install Icon in einer Bedientafel &uuml;bergibt.</para>
+<para>M&ouml;glicherweise m&ouml;chte der Benutzer eine Bedienfeldkonfigurationsdatei
+erstellen, die eine Bedienelementdefinition f&uuml;r eine Anwendung enth&auml;lt,
+wenn Benutzer die M&ouml;glichkeit haben sollen, ein Bedienelement zu installieren,
+das sich anders verh&auml;lt als das Aktionssymbol. Wenn beispielsweise das
+Bedienelement eine Datei &uuml;berwacht und sein Erscheinungsbild &auml;ndern
+soll, wenn die &uuml;berwachte Datei sich &auml;ndert.</para>
+<para>Bedienfeldkonfigurationsdateien werden in das Verzeichnis <symbol role="Variable">app_root</symbol><filename>/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol> gestellt. Die Benennungskonvention lautet <symbol role="Variable">name</symbol><filename>.fp</filename>.</para>
+<para>Wird eine Konfigurationsdatei bereitgestellt, die ein Bedienelement
+enth&auml;lt, kann der Benutzer das Bedienelement einer Bedientafel hinzuf&uuml;gen,
+indem er die Datei <filename>*.fp</filename> dem Bedienelement 'Install Icon'
+in der Bedientafel &uuml;bergibt.</para>
+<para>Beispielsweise kann die folgende Definition in eine Bedienfeldkonfigurationsdatei
+in der Gruppe von Anwendungen gestellt werden. &Uuml;bergibt der Benutzer
+diese Datei einem Bedienelement 'Install Icon' in einer Bedientafel, wird
+in der Bedientafel ein Bedienelement erstellt, das die Anwendung 'BesterTextEditor'
+ein einziges Mal ausf&uuml;hrt. Wird 'BesterTextEditor' bereits ausgef&uuml;hrt,
+wird das Fenster auf dem Fensterstapel im aktuellen Arbeitsbereich zuoberst
+angezeigt.</para>
+<programlisting>CONTROL BesterTextEditorControl
+{
+   TYPE          icon
+   ICON          BTEFPanel
+   PUSH_RECALL   True
+   CLIENT_NAME   BTEd
+   PUSH_ACTION   BTEditor
+   DROP_ACTION   BTEditor
+   HELP_STRING   Startet die Anwendung "BesterTextEditor".
+}</programlisting>
+<para>Weitere Informationen zum Erstellen von Bedienfeldkonfigurationsdateien
+befinden sich in:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><!--Original XRef content: 'Kapitel&numsp;13,
+&ldquo;Erweiterte Anpassung--><!-- des Bedienfelds'--><xref role="ChapNumAndTitle"
+linkend="sag.frpc.mkr.1"></para>
+</listitem>
+<listitem><para>Hilfeseite <filename moreinfo="refentry">dtfpfile(4)</filename></para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.30">
+<title id="sag.regap.mkr.29">Schritt 9: Anwendungen mit dtappintegrate registrieren<indexterm>
+<primary>dtappintegrate</primary></indexterm><indexterm><primary>Registrierung</primary><secondary>dtappintegrate</secondary></indexterm></title>
+<note>
+<para>Ein Beispiel f&uuml;r die Registrierung einer Anwendung kann Schritt
+8 des Abschnitts <!--Original XRef content: '&ldquo;Beispiel f&uuml;r die
+Erstellung eines--><!--
+Registrierungspakets'--><xref role="SectionTitle" linkend="sag.regap.mkr.31">
+auf <!--Original XRef content: 'Seite&numsp;92'--><xref role="PageNum" linkend="sag.regap.mkr.39">
+entnommen werden.</para>
+</note>
+<para>Sobald ein Registrierungspaket unter einem Anwendungsstammverzeichnis
+erstellt wurde, kann die tats&auml;chliche Anwendungsregistrierung durchgef&uuml;hrt
+werden.</para>
+<para>Die Anwendungsregistrierung stellt Verbindungen zwischen dem Registrierungspaket
+und den Verzeichnissen im Desktop-Suchpfad her. (Weitere Informationen k&ouml;nnen
+dem Abschnitt <!--Original XRef content: '&ldquo;Wie dtappintegrate Anwendungen
+integr--><!--iert&rdquo; auf Seite&numsp;84'--><xref role="SecTitleAndPageNum"
+linkend="sag.regap.mkr.30"> entnommen werden.)</para>
+<sect2 id="sag.regap.div.31" role="Procedure">
+<title>Anwendungen mit dtappintegrate registrieren</title>
+<para>Ist die Anwendung Desktop-f&auml;hig, wird <command>dtappintegrate</command>
+normalerweise als letzter Schritt des Installationsprozesses automatisch ausgef&uuml;hrt.
+Wird <command>dtappintegrate</command> nicht automatisch ausgef&uuml;hrt,
+oder wurde bei der Erstellung der Konfigurationsdateien eine nicht Desktop-f&auml;hige
+Anwendung integriert, kann <command>dtappintegrate</command> auch manuell
+ausgef&uuml;hrt werden.</para>
+<orderedlist>
+<listitem><para>Als Benutzer 'root' anmelden.</para>
+</listitem>
+<listitem><para>Folgenden Befehl ausf&uuml;hren:</para>
+<para remap="CodeIndent1"><command>/usr/dt/bin/dtappintegrate -s <symbol role="Variable">app_root</symbol></command></para>
+<para>wobei <symbol role="Variable">app_root</symbol> das Desktop-Anwendungsstammverzeichnis
+ist. Weitere Informationen k&ouml;nnen der Hilfeseite <filename moreinfo="refentry">dtappintegrate(1)</filename> entnommen werden.</para>
+</listitem>
+<listitem><para>Die Gruppe von Anwendungen Desktop-Werkzeuge &ouml;ffnen und
+'Anwendungen erneut laden' doppelklicken.</para>
+</listitem>
+<listitem><para>&Uuml;berpr&uuml;fen, ob die Anwendung richtig registriert
+ist:</para>
+<itemizedlist>
+<listitem><para>Die oberste Ebene des Anwendungsmanagers anzeigen. Die neue
+Gruppe von Anwendungen sollte nun im Anwendungsmanager erscheinen.</para>
+</listitem>
+<listitem><para>Die Gruppe von Anwendungen &ouml;ffnen und das Aktionssymbol
+doppelklicken.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+<sect3 id="sag.regap.div.32">
+<title>Syntax und Optionen bei dtappintegrate<indexterm><primary>dtappintegrate</primary><secondary>Syntax</secondary></indexterm></title>
+<para><command>dtappintegrate -s <symbol role="Variable">app_root</symbol> [-t <symbol role="Variable">ziel_pfad</symbol>] [-l <symbol role="Variable">sprache</symbol>] [-u]</command></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.48in">
+<colspec colwidth="4.53in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>-s</command> <symbol role="Variable">app_root</symbol></para></entry>
+<entry align="left" valign="top"><para>Erforderlicher Parameter. Gibt das
+Anwendungsstammverzeichnis an, unter dem die Anwendung installiert wurde.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>-t</command> <symbol role="Variable">ziel_pfad</symbol></para></entry>
+<entry align="left" valign="top"><para>Wahlfreier Parameter. Standardm&auml;&szlig;ig
+wird die Position <filename>/etc/dt/appconfig</filename> im System verwendet.
+Gibt die Position an, mit der die Desktop-Konfigurationsdateien verbunden
+werden. Es mu&szlig; eine Position im Anwendungssuchpfad verwendet werden.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>-l</command> <symbol role="Variable">sprache</symbol></para></entry>
+<entry align="left" valign="top"><para>Wahlfreier Parameter. Standardm&auml;&szlig;ig
+ist jede Sprache m&ouml;glich. Gibt an, welche sprachabh&auml;ngigen Desktop-Konfigurationsdateien
+integriert werden sollen.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>-u</command></para></entry>
+<entry align="left" valign="top"><para>Wahlfreier Parameter. Macht die Integrierung
+der Anwendung r&uuml;ckg&auml;ngig und entfernt alle Verbindungen, die w&auml;hrend
+der Integrierung gesetzt wurden.</para></entry></row></tbody></tgroup></informaltable>
+</sect3>
+</sect2>
+<sect2 id="sag.regap.div.33">
+<title id="sag.regap.mkr.30">Wie dtappintegrate Anwendungen integriert<indexterm>
+<primary>Symbolische Verbindung</primary><secondary>erstellt bei Registrierung</secondary></indexterm><indexterm><primary>dtappintegrate</primary><secondary>Funktion</secondary></indexterm></title>
+<para>Die Funktion von <command>dtappintegrate</command> besteht darin, Verbindungen
+zwischen den installierten Dateien und den Positionen, wo das Desktop die
+Konfigurationsdateien sucht, herzustellen.</para>
+<sect3 id="sag.regap.div.34">
+<title>Aktionen und Datentypen<indexterm><primary>Aktionen</primary><secondary>integriert mit dtappintegrate</secondary></indexterm><indexterm><primary>Datentypen</primary><secondary>mit dtappintegrate integrieren</secondary>
+</indexterm></title>
+<para><command>dtappintegrate</command> erstellt symbolische Verweise von
+den Definitionsdateien f&uuml;r Aktionen und Datentypen im Registrierungspaket
+zu dem systemweiten Verzeichnis im Suchpfad der Aktionsdatenbankhilfe. Hierzu
+werden Verbindungen von</para>
+<para><filename><symbol role="Variable">app_root</symbol>/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/*.dt</filename></para>
+<para>zu</para>
+<para><filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/*.dt</filename></para>
+<para>hergestellt.</para>
+</sect3>
+<sect3 id="SAG.RegAp.div.34a">
+<title>Informationsbibliotheken<indexterm><primary>Infobiblios</primary>
+<secondary>mit dtappintegrate integriert</secondary></indexterm></title>
+<para><command>dtappintegrate</command> erstellt symbolische Verweise von
+den Informationsbibliotheken (Infobiblios) im Registrierungspaket zum systemweiten
+Verzeichnis entlang des Infobiblio-Suchpfades. Dies geschieht durch das Erstellen
+von Verweisen von</para>
+<programlisting><symbol role="Variable">app_root</symbol>/dt/Infobiblio/<symbol role="Variable">sprache</symbol>/*.dti</programlisting>
+<para>zu</para>
+<programlisting>/etc/dt/Infobiblio/<symbol role="Variable">sprache</symbol>/*.dti
+</programlisting>
+</sect3>
+<sect3 id="sag.regap.div.35">
+<title>Hilfeinformationsdateien<indexterm><primary>Hilfedateien</primary>
+<secondary>integriert mit dtappintegrate</secondary></indexterm></title>
+<para><command>dtappintegrate</command> erstellt symbolische Verbindungen
+von den Hilfedateien im Registrierungspaket zu dem f&uuml;r das System definierten
+Verzeichnis im Hilfesuchpfad. Hierzu werden Verbindungen von</para>
+<para><filename><symbol role="Variable">app_root</symbol>/dt/appconfig/help/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">help_file.</symbol>sdl</filename></para>
+<para>zu</para>
+<para><filename>/etc/dt/appconfig/help/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">help_file.</symbol>sdl</filename></para>
+<para>hergestellt.</para>
+</sect3>
+<sect3 id="sag.regap.div.36">
+<title>Symboldateien<indexterm><primary>Symbole</primary><secondary>integriert
+mit dtappintegrate</secondary></indexterm></title>
+<para><command>dtappintegrate</command> erstellt symbolische Verbindungen
+von den Symboldateien im Registrierungspaket zu dem f&uuml;r das System definierten
+Verzeichnis im Symbolsuchpfad. Hierzu werden Verbindungen von</para>
+<para><filename><symbol role="Variable">app_root</symbol>/dt/appconfig/icons/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">icon_files</symbol></filename></para>
+<para>zu</para>
+<para><filename>/etc/dt/appconfig/icons/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">icon_files</symbol></filename></para>
+<para>hergestellt.</para>
+</sect3>
+<sect3 id="sag.regap.div.37">
+<title>Gruppe von Anwendungen<indexterm><primary>Anwendungsgruppen</primary>
+<secondary>integriert mit dtappintegrate</secondary></indexterm></title>
+<para>Um die Gruppe von Anwendungen f&uuml;r die Anwendung in die oberste
+Ebene des Anwendungsmanagers zu stellen, erstellt <command>dtappintegrate</command> eine Verbindung zwischen dem Verzeichnis f&uuml;r die Gruppe von
+Anwendungen im Registrierungspaket und der f&uuml;r das System definierten
+Position im Anwendungssuchpfad. Hierzu werden Verbindungen vom Verzeichnis
+</para>
+<para><filename><symbol role="Variable">app_root</symbol>/dt/appconfig/appmanager/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">anwendungsgruppe_name</symbol></filename></para>
+<para>zu</para>
+<para><filename>/etc/dt/appconfig/appmanager/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">anwendungsgruppe_name</symbol></filename></para>
+<para>hergestellt.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.regap.div.38">
+<title id="sag.regap.mkr.31">Beispiel f&uuml;r die Erstellung eines Registrierungspakets<indexterm>
+<primary>Registrierung</primary><secondary>Beispiel</secondary></indexterm><indexterm>
+<primary>Registrierungspaket</primary><secondary>erstellen</secondary></indexterm></title>
+<para>Mit den folgenden Schritten wird ein Registrierungspaket f&uuml;r eine
+bereits vorhandene, nicht Desktop-f&auml;hige Anwendung mit dem Namen &ldquo;BesterTextEditor&rdquo;
+erstellt.</para>
+<sect2 id="sag.regap.div.39">
+<title>Notwendige Informationen zu 'BesterTextEditor'</title>
+<para>In diesem Beispiel wird f&uuml;r die Anwendung &ldquo;BesterTextEditor&rdquo;
+folgendes vorausgesetzt:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Sie wurde im Verzeichnis <filename>/usr/BTE</filename> installiert.
+</para>
+</listitem>
+<listitem><para>Die Session-Sprache des Benutzers ist der Standardwert <command>C</command>.</para>
+</listitem>
+<listitem><para>&ldquo;BesterTextEditor&rdquo; wird mit folgender Befehlszeile
+gestartet:</para>
+<para remap="CodeIndent1"><command>BTEd [<symbol role="Variable">dateiname</symbol>]</command></para>
+<para>wobei <symbol role="Variable">dateiname</symbol> der Name der Datendatei
+ist, die in dem neuen Fenster ge&ouml;ffnet werden soll. 'BesterTextEditor'
+erstellt sein eigenes Fenster, d.h. diese Anwendung wird nicht innerhalb eines
+emulierten Terminalfensters ausgef&uuml;hrt.</para>
+</listitem>
+<listitem><para>'BesterTextEditor' erstellt und verwendet zwei Arten von Datendateien:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Dokumentationsdateien. Hierf&uuml;r wird die Benennungskonvention <filename>*.bte</filename> verwendet. &ldquo;BesterTextEditor&rdquo;stellt eine Befehlszeile
+f&uuml;r das Ausdrucken der <filename>*.bte</filename>-Datendateien zur Verf&uuml;gung.
+Die Syntax dieses Befehls lautet:</para>
+<para remap="CodeIndent2"><command>BTEPrint [-d <symbol remap="courieroblique">zieldrucker</symbol>] [-s] <symbol role="Variable">dateiname</symbol></command></para>
+<para>wobei</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.48in">
+<colspec colwidth="5.02in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>-d</command> <symbol role="Variable">zieldrucker</symbol></para></entry>
+<entry align="left" valign="top">den Zieldrucker angibt.</entry></row>
+<row>
+<entry align="left" valign="top"><para><command>-s</command></para></entry>
+<entry align="left" valign="top"><para>angibt, da&szlig; sofort gedruckt wird
+und das Dialogfenster Drucken der Anwendung nicht angezeigt wird.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">dateiname</symbol></para></entry>
+<entry align="left" valign="top"><para>die zu druckende Datei angibt.</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>Schablonendateien. Hierf&uuml;r wird die Benennungskonvention <filename>*.tpl</filename> verwendet. Schablonendateien k&ouml;nnen nicht gedruckt werden.
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Die bereits vorhandenen, nicht Desktop-f&auml;higen Dateien
+app-defaults f&uuml;r 'BesterTextEditor' enthalten Ressourcen f&uuml;r Schnittstellenschriftarten
+und Vordergrund- und Hintergrundfarben.</para>
+</listitem>
+<listitem><para>Ein Online-Hilfeband f&uuml;r 'BesterTextEditor' wurde mit
+Hilfe des Help Developer's Kit des Desktop erstellt. F&uuml;r die Erstellung
+des Online-Hilfebands wurden folgende Quellendateien verwendet:</para>
+<programlisting remap="CodeIndent1">&hellip;/BTEHelp.htg 
+&hellip;/graphics/BTE1.xwd  
+&hellip;/graphics/BTE2.xwd</programlisting>
+<para>und die Datei <filename>&hellip;/BTEHelp.sdl</filename> erstellt.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.regap.div.40">
+<title>Schritte beim Registrieren von 'BesterTextEditor'</title>
+<para>Mit der folgenden schrittweisen Prozedur wird 'BesterTextEditor' registriert:
+</para>
+<orderedlist>
+<listitem><para><emphasis id="sag.regap.mkr.32" role="Lead-in">Schriftarten-
+und Farbressourcen &auml;ndern</emphasis></para>
+<para>In der Datei app-defaults des 'BesterTextEditor' die Ressourcen, die
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Schriftarten f&uuml;r Text und</para>
+</listitem>
+<listitem><para>Farben f&uuml;r Vorder- und Hintergrund</para>
+<para>festlegen, entfernen.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.33" role="Lead-in">Anwendungsstammverzeichnis
+erstellen</emphasis></para>
+<para>Folgendes Verzeichnis erstellen:</para>
+<para remap="CodeIndent1"><filename>/desktop_approots/BTE</filename></para>
+<para>Wird eine bereits vorhandene Anwendung integriert, sollte das Anwendungsstammverzeichnis
+an einer anderen Stelle erstellt werden, als der Position, an der die Installation
+erfolgte, da sonst die erstellten Konfigurationsdateien bei einer m&ouml;glichen
+Aktualisierung der Anwendung entfernt werden.</para>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.34" role="Lead-in"><indexterm>
+<primary>Symbole</primary><secondary>Darstellung von Anwendungen</secondary>
+</indexterm>Registrierungspaketverzeichnisse erstellen</emphasis></para>
+<para>Folgende Verzeichnisse erstellen:</para>
+<programlisting remap="CodeIndent1">/desktop_approots/BTE/dt/appconfig/types/C
+/desktop_approots/BTE/dt/appconfig/help/C
+/desktop_approots/BTE/dt/appconfig/icons/C
+/desktop_approots/BTE/dt/appconfig/appmanager/C/BesterTextEditor</programlisting>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.35" role="Lead-in">Aktionen und
+Datentypen f&uuml;r die Anwendung erstellen</emphasis></para>
+<itemizedlist>
+<listitem><para>Die Konfigurationsdatei f&uuml;r die Definitionen f&uuml;r
+Aktionen und Datentypen erstellen:</para>
+<para remap="CodeIndent2"><filename>/desktop_approots/BTE/dt/appconfig/types/C/BTE.dt</filename></para>
+</listitem>
+<listitem><para>Die Aktionsdefinition f&uuml;r die Ausf&uuml;hrung von 'BesterTextEditor'
+erstellen:</para>
+<programlisting>ACTION BTEditor
+{ 
+   WINDOW_TYPE   NO_STDIO
+   ICON          BTERun  
+   DESCRIPTION   Dieses Symbol doppelklicken oder BTE-Daten\
+                 datei &uuml;bergeben, um BTE auszuf&uuml;hren.   
+   EXEC_STRING   /usr/BTE/BTEd %Arg_1% 
+}</programlisting>
+</listitem>
+<listitem><para>Den Datentyp f&uuml;r die <filename>*.bte</filename> Dateien
+erstellen:</para>
+<programlisting>DATA_ATTRIBUTES BTEDataFile  
+{   
+   DESCRIPTION     BesterTextEditor data file.   
+   ICON            BTEData   
+   ACTIONS         Open,Print  
+}  
+
+DATA_CRITERIA BTEDataFileCriteria1  
+{   
+   DATA_ATTRIBUTES_NAME   BTEDataFile   
+   NAME_PATTERN           *.bte   
+   MODE                   f  
+}</programlisting>
+</listitem>
+<listitem><para>Den Datentyp f&uuml;r die <filename>*.tpl</filename> Dateien
+erstellen:</para>
+<programlisting>DATA_ATTRIBUTES BTETemplateFile  
+{   
+   DESCRIPTION    BesterTextEditor template file.   
+   ICON           BTETempl   
+   ACTIONS        Open  
+}
+ 
+DATA_CRITERIAL BTETemplateFileCriteria1  
+{   
+   DATA_ATTRIBUTES_NAME   BTETemplateFile  
+   NAME_PATTERN           *.tpl   
+   MODE                   f  
+}</programlisting>
+</listitem>
+<listitem><para>Die Aktion &ldquo;&Ouml;ffnen&rdquo; f&uuml;r die <filename>*.bte</filename> Dateien erstellen:</para>
+<programlisting>ACTION Open  
+{   
+   ARG_TYPE    BTEDataFile   
+   TYPE        MAP   
+   MAP_ACTION  BTEditor 
+}</programlisting>
+</listitem>
+<listitem><para>Die Aktion &acute;Drucken &acute; f&uuml;r <filename>*.bte</filename> Dateien erstellen:</para>
+<para>Im folgenden handelt es sich um einfache Druckaktionen, mit denen die
+Datendateien gedruckt werden. Bei diesen Aktionen ist ein Wert f&uuml;r die
+Umgebungsvariable <systemitem>LPDEST</systemitem> erforderlich und die Druckoption
+<command>-s</command> wird ignoriert. (Ist <systemitem>LPDEST</systemitem>
+nicht gesetzt, schl&auml;gt die Aktion m&ouml;glicherweise fehl.)</para>
+<programlisting>ACTION Print  
+{   
+   ARG_TYPE     BTEDataFile   
+   TYPE         MAP   
+   MAP_ACTION   BTEPrintData 
+} 
+ACTION BTEPrintData   }
+{   
+   WINDOW_TYPE  NO_STDIO   
+   EXEC_STRING  BTEPrint -d $LPDEST %Arg_1%  
+}</programlisting>
+<para>Es folgt eine weitere Version der Aktion &ldquo;BTEPrintData&rdquo;
+und einer Begleitprozedur. Diese werden eingesetzt, wenn <systemitem>LPDEST</systemitem> nicht gesetzt ist und das Dialogfenster &acute;Drucken &acute;
+nicht angezeigt werden soll.</para>
+<programlisting>ACTION BTEPrintData 
+{   
+   WINDOW_TYPE   NO_STDIO   
+   EXEC_STRING   /usr/BTE/bin/BTEenvprint %(File)Arg_1%   
+}</programlisting>
+<para>Die Prozedur <filename>/usr/BTE/bin/BTEenvprint</filename> hat folgenden
+Inhalt:</para>
+<programlisting># BTEenvprint 
+#!/bin/sh  
+DEST=''  
+SILENT='' 
+if [ $LPDEST ]; then   
+  DEST='-d $LPDEST'   fi   BTEPrint $DEST $SILENT $1</programlisting>
+</listitem>
+<listitem><para>Die Aktion &ldquo;&Ouml;ffnen&rdquo; f&uuml;r Dateien im Format <filename>*.tpl</filename> erstellen:</para>
+<programlisting>ACTION Open  
+{   
+   ARG_TYPE    BTETemplateFile   
+   TYPE        MAP   
+   MAP_ACTION  BTEditor  
+}</programlisting>
+</listitem>
+<listitem><para>Die Aktion &ldquo;Drucken&rdquo; f&uuml;r Dateien im Format <filename>*.tpl</filename> erstellen:</para>
+<programlisting>ACTION Print  
+{   
+   ARG_TYPES   BTETemplateFile   
+   TYPE        MAP   
+   MAP_ACTION  NoPrint  
+}</programlisting>
+<para>Bei 'NoPrint' handelt es sich um eine integrierte Aktion, die ein Dialogfenster
+anzeigt, in dem dem Benutzer mitgeteilt wird, da&szlig; die Datei nicht gedruckt
+werden kann.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.36" role="Lead-in">Hilfedateien
+in das Registrierungspaket stellen</emphasis></para>
+<itemizedlist>
+<listitem><para>Die Hilfedateien in folgende Positionen stellen:</para>
+<programlisting remap="CodeIndent2">/desktop_approots/BTE/dt/appconfig/help/C/BTEHelp.sdl 
+/desktop_approots/BTE/dt/appconfig/help/C/graphics/BTE1.xwd
+/desktop_approots/BTE/dt/appconfig/help/C/graphics/BTE2.xwd</programlisting>
+</listitem>
+<listitem><para>Folgende Datei erstellen:</para>
+<para remap="CodeIndent2"><filename>/desktop_approots/BTE/dt/appconfig/types/C/BTEhelp.dt</filename>.</para>
+<para>Die folgende Aktionsdefinition in die Datei stellen</para>
+<programlisting>ACTION BTEHelp  
+{   
+   WINDOW_TYPE   NO_STDIO   
+   EXEC_STRING   /usr/dt/bin/dthelpview -helpVolume \    
+                 BTEHelp.sdl  
+   DESCRIPTION   &Ouml;ffnet den BesterTextEditor Hilfeband.   
+}</programlisting>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.37" role="Lead-in">Symbole f&uuml;r
+die Anwendung erstellen</emphasis><indexterm><primary>Symbole</primary><secondary>f&uuml;r Anwendungen erstellen</secondary></indexterm></para>
+<para>Die Symbole mit dem Symboleditor erstellen. Folgende Gr&ouml;&szlig;enrichtlinien
+beachten:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="223*">
+<colspec colwidth="305*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Name</para></entry><entry align="left"
+valign="bottom"><para>Gr&ouml;&szlig;e</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Dateiname ohne
+Pfad</symbol><filename>.t.pm</filename></para></entry>
+<entry align="left" valign="top"><para>16 x 16</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Dateiname ohne
+Pfad</symbol><filename>.m.pm</filename></para></entry>
+<entry align="left" valign="top"><para>32 x 32</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Dateiname ohne
+Pfad</symbol><filename>.l.pm</filename></para></entry>
+<entry align="left" valign="top"><para>64 x 64</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Diese Symboldateien in folgendem Verzeichnis erstellen: <filename>/desktop_approots/BTE/dt/appconfig/icons/C</filename>:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Symbole f&uuml;r die Darstellung der Aktion, die die Anwendung
+ausf&uuml;hrt: <filename>BTERun.t.pm</filename>, <filename>BTERun.m.pm</filename>, <filename>BTERun.l.pm</filename></para>
+</listitem>
+<listitem><para>Symbole, die <filename>*.bte</filename> Dateien darstellen: <filename>BTEData.t.pm</filename>, <filename>BTEData.m.pm</filename>,</para>
+</listitem>
+<listitem><para>Symbole, die <filename>*.tpl</filename> Dateien darstellen: <filename>BTETempl.t.pm</filename>, <filename>BTETempl.m.pm</filename></para>
+</listitem>
+<listitem><para>Symbole, die die Gruppe von Anwendungen (siehe Schritt 7)
+darstellen: <filename>BTEApp.t.pm</filename>, <filename>BTEApp.m.pm</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.38" role="Lead-in">Gruppe von
+Anwendungen erstellen:</emphasis></para>
+<orderedlist>
+<listitem><para>Falls nicht bereits geschehen, folgendes Verzeichnis erstellen:
+</para>
+<para><filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/BesterTextEditor</filename></para>
+</listitem>
+<listitem><para>Dieser Schritt ist wahlfrei. Hierdurch wird ein eindeutiges
+Symbol f&uuml;r die Gruppe von Anwendungen zur Verf&uuml;gung gestellt, indem
+ein Datentyp und zugeh&ouml;rige Aktionen f&uuml;r die Gruppe von Anwendungen
+erstellt werden. Wird dieser Schritt nicht ausgef&uuml;hrt, verwendet die
+Gruppe von Anwendungen das Standardsymbol.</para>
+<para>Die folgenden Definitionen f&uuml;r Datentyp und Aktionen der Datei <filename>/desktop_approots/BTE/dt/appconfig/types/C/BTE.dt</filename> hinzuf&uuml;gen.
+Der Datentyp gibt an, welches Symbol die Gruppe von Anwendungen 'BesterTextEditor'
+verwendet. Die Aktionen verhalten sich beim &Ouml;ffnen und Drucken genauso
+wie die integrierten Gruppen von Anwendungen.</para>
+<programlisting>DATA_ATTRIBUTES BesterTextEditorAppGroup   
+{   
+   ACTIONS   OpenInPlace,OpenNewView   
+   ICON      BTEApp  
+}
+DATA_CRITERIA BesterTextEditorAppGroupCriterial  
+{   
+   DATA_ATTRIBUTES_NAME   BesterTextEditorAppGroup  
+   MODE                   d   
+   PATH_PATTERN           */appmanager/*/BesterTextEditor   
+} 
+ACTION Open  
+{   
+   ARG_TYPE    BesterTextEditorAppGroup   
+   TYPE        MAP   
+   MAP_ACTION  OpenAppGroup  
+} 
+ACTION Print  
+{   
+   ARG_TYPE    BesterTextEditorAppGroup   
+   TYPE        MAP   
+   MAP_ACTION  PrintAppGroup  
+}</programlisting>
+</listitem>
+<listitem><para>Ein Symbol in der Gruppe von Anwendungen erstellen, das die
+Anwendung startet. Hierzu folgende Datei erstellen:</para>
+<para><filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/BesterTextEditor/BTEditor</filename></para>
+<para>und die Datei ausf&uuml;hrbar machen.</para>
+</listitem>
+<listitem><para>Die Aktionsdatei in der Gruppe von Anwendungen erstellen,
+die den Hilfeband erstellt. Hierzu folgende Datei erstellen:</para>
+<para><filename>/desktop_approots/BTE/dt/appconfig/appmanager/C/BesterTextEditor/BTEHelp</filename></para>
+<para>und die Datei ausf&uuml;hrbar machen.</para>
+</listitem>
+<listitem><para>Weitere Dateien in die Gruppe von Anwendungen stellen, z.B.
+Readme-Dateien, Beispieldaten- und Schablonendateien.</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem><para><emphasis id="sag.regap.mkr.39" role="Lead-in">Anwendung registrieren</emphasis></para>
+<para>In einem emulierten Terminalfenster</para>
+<itemizedlist>
+<listitem><para>als Benutzer 'root' anmelden.</para>
+</listitem>
+<listitem><para>Folgenden Befehl ausf&uuml;hren:</para>
+<para remap="CodeIndent2"><command>/usr/dt/bin/dtappintegrate -s /desktop_approots/BTE</command></para>
+</listitem>
+<listitem><para>Die Gruppe von Anwendungen 'Desktop-Werkzeuge' &ouml;ffnen
+und auf 'Anwendungen erneut laden' doppelklicken.<indexterm><primary>Registrierung</primary><secondary>Beispiel</secondary></indexterm></para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+<?Pub *0000099324>

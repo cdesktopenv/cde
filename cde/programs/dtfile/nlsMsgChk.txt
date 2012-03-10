@@ -1,0 +1,401 @@
+# $XConsortium: nlsMsgChk.txt /main/2 1996/11/11 11:26:36 drk $
+Dtfile is composed of three different style toplevel windows (a directory
+view, a toolbox view and a trashcan), along with a large selection of user 
+dialogs and error dialogs.  Note that most dialogs have a help button, which 
+when pressed, will cause the help window to appear, displaying the 
+appropriate help information.
+
+1) To display a dtfile directory view, select the file cabinet icon
+   located in the top row of the front panel; a window similar to that
+   shown in figure dtfile-1 will appear. Select one of the icons in this 
+   directory, click mouse button 1 on a name of one of the files in this 
+   dialog; a text widget for renaming will appear. Enter a new filename using
+   a filename which already exists in this directory and press return; the 
+   error dialog shown in figure dtfile-2 will appear.  Enter a path name
+   such as "/tmp/tempfile" in the rename text widget and press return; the
+   error dialog shown in figure dtfile-3 will appear.  Press mouse button 1
+   any where in the file manager view to unpost the rename text edit widget.
+
+   dtfile-1 tests messages:
+      Set 3  Messages: 2, 3
+      Set 20 Mesages: 1-9 
+   dtfile-2 tests messages:
+      Set 9  _DtMessage: 9
+      Set 10  _DtMessage: 1
+   dtfile-3 tests messages:
+      Set 10  _DtMessage: 1
+      Set 30  _DtMessage: 11
+
+2) To post the dialog used to create a new data file, post the 'File' 
+   menupane, and select the 'New...' item; the dialog shown in figure
+   dtfile-4 will appear.  If you enter into this dialog the name of a
+   file which already exists, and then press return, the error dialog
+   shown in figure dtfile-5 will appear.  If you enter a name which includes
+   a space, the error dialog shown in figure dtfile-6 will appear.
+
+   dtfile-4 tests messages:
+      Set 10  Messages: 7, 9, 29
+   dtfile-5 tests messages:
+      Set 30  _DtMessage: 9
+      Set 11  _DtMessage: 6
+   dtfile-6 tests messages:
+      Set 10  Messages: 3, 21
+
+3) To post the dialog used to copy an existing file, select the icon
+   for the file, post the 'File' menupane, and select the 'Copy...' item;
+   the dialog shown in figure dtfile-7 will appear.  Press "Ok"; the 
+   dialog shown in figure dtfile-8 will appear.  If you type the path
+   "<your home directory>/.dt/Desktop/<filename>" into the copy as text
+   widget you will get the error dialog shown in dtfile-9.  If you type the
+   path "bogusname:/temp/file" into the copy as text widget you will get
+   the error dialog shown in dtfile-10. While the "Copy" dialog is still
+   up, rename the file you are copying in the File Manager view to some new
+   name. Do this by click mouse button 1 on the text portion of the icon; a
+   text label will appear; change the name and press return; the file will
+   now be renamed.  In the "Copy" dialog put some new name in the text field
+   such as "newfilename" and press "Ok"; the error dialog dtfile-11 will now
+   show up.
+
+   dtfile-7 tests messages:
+      Set 10  Messages: 6, 7, 9, 27
+   dtfile-8 tests messages:
+      Set 10  Messages: 2, 11
+   dtfile-9 tests messages:
+      Set 10  _DtMessage: 25
+   dtfile-10 tests messages:
+      Set 10  _DtMessage: 2, 13
+   dtfile-11 tests messages:
+      Set 10  _DtMessage: 2, 10
+
+4) To post the dialog used to view and alter the properties associated
+   with a file, select the icon for the file, post the 'File' menupane,
+   and select the 'Properties' item; the dialog shown in figure dtfile-12
+   will appear.  If you select the 'Group Name' field, and enter a non-existant
+   group name such as "bogus", press "OK"; the error dialog shown in figure
+   dtfile-13 will appear.  Change the group name back to a valid group name 
+   (probably users).  If you select the 'Owner Name" field, and enter a
+   non-existant user name such as "bogus", press "OK"; the error dialog shown
+   in figure dtfile-14 will appear.  Change the owner name back to what it was.
+   If the selected icon file is a link to another file the dialog in figure
+   dtfile-15 will appear. To get figure dtfile-15, open a second dtfile 
+   view in another directory besides the users HOME dir.  Take a file from 
+   the HOME dir and drag and drop it in the 2nd dtfile view while holding 
+   down the "Shift" key.  Select that file and bring up the Properties dialog.
+   By holding down the shift key you have created a link to the original file.
+   Note that it is basically the same a dtfile-12 except it has link
+   information in it.  Cancel out of the 'Properties' dialog.  Rename the
+   original file you dragged and dropped to create the link to some other name.
+   This will cause the linked file in the second dtfile dtfile view to
+   change to a broken link. Double click on this broken link; the error 
+   dialog shown in figure dtfile-16 will appear.
+
+   dtfile-12 tests messages:
+      Set 21  Messages: 2-13, 21
+   dtfile-13 tests messages:
+      Set 21  Messages: 16, 17
+   dtfile-14 tests messages:
+      Set 21  Messages: 15, 17
+   dtfile-15 tests messages:
+      Set 21  Messages: 2-13, 18, 21
+   dtfile-16 tests messages:
+      Set 9  Messages: 6, 7
+
+5) To post the dialog used to locate the collection of files matching a
+   particular set of patterns, constraints, and contents, post the 'File' 
+   menupane, and select the "Find" item; the dialog shown in figure dtfile-17
+   will appear.  Clear the "Search Directories" field; when the 'Start' button
+   is pressed, the error dialog shown in figure dtfile-18 will appear. 
+   Put a bogus directory in the "Search Directories" field such as "/asdfsdf";
+   when the 'Start' button is pressed, the error dialog shown in figure 
+   dtfile-19 will appear. Put some bogus search string in the "File contents:"
+   field such as "adfasdfasdf"; have a valid "Search Directory"; when the 
+   'Start' button is pressed, the error dialog shown in figure dtfile-20 will
+   appear. Do a valid file search such that it has a list of file(s) in the
+   "File Found:" scrolled list.  In a File Manager view remove 1 of the files
+   listed in the "Files Found": scrolled list.  Now in the Find Dialog select
+   that File and press "Open New View"; the error dialog shown in figure 
+   dtfile-21 will appear.
+
+   dtfile-17 tests messages:
+      Set 15  Messages: 4, 14, 15, 30-37, 40, 41
+   dtfile-18 tests messages:
+      Set 15  Messages: 1, 23
+   dtfile-19 tests messages:
+      Set 15  _DtMessage: 1
+      Set 30  _DtMessage: 12
+   dtfile-20 tests messages:
+      Set 15  Messages: 1, 27
+   dtfile-21 tests messages:
+      Set 15  Messages: 1, 26
+
+6) To post the dialog used to create a new directory, post the 'Directory' 
+   menupane, and select the 'New' item; the dialog shown in figure
+   dtfile-22 will appear.  If you press "OK" without typing anything in the 
+   text widget the error dialog shown in figure dtfile-23 will appear. 
+   If you enter into this dialog the name of a file which already exists, 
+   and then press return, the error dialog shown in figure dtfile-24 will
+   appear.
+
+   dtfile-22 tests messages:
+      Set 10  Messages: 16, 19, 28
+   dtfile-23 tests messages:
+      Set 10  Messages: 20, 22
+   dtfile-24 tests messages:
+      Set 11  _DtMessage: 6
+      Set 30  _DtMessage: 9
+
+
+7) To post the dialog used to change the current dtfile window to view a
+   different directory, post the 'Directory' menupane, and select the
+   'Change To' item; the dialog shown in figure dtfile-25 will appear.
+   Press "OK" with out typing in any text in the 'New Directory:' text 
+   field; the dialog shown in figure dtfile-26 will appear.
+   Enter a bogus new directory name in the 'New Directory:' text field such
+   as "/asdfasdf"; the dialog shown in figure dtfile-27 will appear.
+   Enter "/usr/lib/nls" as the new directory to view, and press return.
+
+   dtfile-25 tests messages:
+      Set 2  Messages: 2, 4, 10 
+   dtfile-26 tests messages:
+      Set 2  Messages: 1, 5
+   dtfile-27 tests messages:
+      Set 2  Messages: 1, 7
+
+8) Post the 'File' menupane, and again select the 'New' item; the dialog
+   shown earlier in figure dtfile-4 will appear.  Enter a new filename,
+   and press return; the error dialog shown in figure dtfile-28 will
+   appear, because you do not have permission to write in this directory.
+   Dismiss the 'New' dialog.
+
+   dtfile-28 tests messages:
+      Set 11 _DtMessage: 6
+      Set 30 _DtMessage: 7
+
+9) Select one of the icons in this directory, click mouse button 1 on a name
+   of one of the files in this dialog; a text widget for renaming will appear.
+   Enter a new filename, and press return; the error dialog shown
+   in figure dtfile-29 will appear, because you do not have permission to 
+   write in this directory. Press 'esc' to dismiss the rename text widget.
+
+   dtfile-29 tests messages:
+      Set 11 _DtMessage: 6
+      Set 30 _DtMessage: 6
+
+10) Go into one of the directories in /usr/lib/nls such as "C". Select one 
+   of the "text" icons in this directory, post the 'File' menupane, and 
+   again select the 'Copy...' item; the dialog shown earlier in figure 
+   dtfile-7 will appear.  Enter a new filename, and press return; the error
+   dialog shown in figure dtfile-30 will appear, because you do not have 
+   permission to write in this directory. Cancel out of the 'Copy' dialog.
+
+   dtfile-30 tests messages:
+      Set 11 _DtMessage: 6
+      Set 30 _DtMessage: 7
+
+11) Post the 'View' menupane, and select the 'Set Preferences' item; the dialog
+   shown in figure dtfile-31 will appear. Cancel out of the 'Set Preferences'
+   dialog.
+
+   dtfile-31 tests messages:
+      Set 23 Messages: 2-22
+
+12) Post the 'View' menupane, and select the 'Modify Filter List' item; 
+   the dialog shown in figure dtfile-32 will appear. Cancel out of the 
+   'Modify Filter List' dialog.
+   
+   dtfile-32 tests messages:
+      Set 13 Messages: 11, 20-24
+
+13) To display the dialog used to save the current setting for the dtfile
+   window, post the 'View' menupane, and select the 'Save Settings' item;
+   the dialog shown in figure dtfile-33 will appear.
+
+   dtfile-33 tests messages:
+      Set 18 _DtMessage: 29, 32
+
+14) Make sure your in your home directory; post the 'Directory' menupane and
+   select 'Home'. Select one of the directory icons in dtfile window, 
+   post the 'Actions' menupane, and select the "OpenNewView" item; another 
+   dtfile window will appear.  While pressing both the Control and the 
+   Shift keys, use mouse button 1 or 2 to drag an icon out of one of the
+   view, and into the second view; release button 1 or 2; the error dialog
+   shown in figure dtfile-34 should appear.  Close the second dtfile view;
+   post the 'File' menupane, and select Close.
+
+   dtfile-34 tests messages:
+      Set 18 Messages: 22, 31
+
+15) To display the trash can, post the 'File' menupane, and select the
+   "Show Trash" item; the dialog shown in figure dtfile-35 will appear.
+   In a file view of the directory "/usr/lib/nls" select several of the icons;
+   post the 'File' menupane, and select the 'Delete To Trash' item; 
+   because you do not have write permission for these files, the dialog 
+   shown in figure dtfile-36 will appear; press the "Ok" button; the dialog 
+   shown in figure dtfile-37 will appear.  Using the "Change To" dialog, 
+   change the current directory to "/"; select the icon for the directory named 
+   'tmp', and try to throw it in the trash; the dialog shown in figure 
+   dtfile-38 will appear; select the 'Cancel' button!
+   Close the Trash Can dialog.
+
+   dtfile-35 tests messages:
+      Set 27 Messages: 9, 51, 52, 55
+   dtfile-36 tests messages:
+      Set 27 Messages: 4, 7
+   dtfile-37 tests messages:
+      Set 27 Messages: 3, 5
+   dtfile-38 tests messages:
+      Set 27 Messages: 4, 8
+
+16) To post the toolbox window, select the toolbox icon, located in the top
+   row of the front panel (it looks like a toolbox); the dialog simular
+   to figure dtfile-39 will appear. (Note in the xwd there are no icons yet).
+   Close the toolbox.
+
+   dtfile-39 tests messages:
+      Set 3  Messages: 2, 3
+      Set 20 Mesages: 1-9 
+
+17) In a normal dtfile view and in your home directory, Drag and drop a 
+   directory onto itself; the dialog shown in figure dtfile-40 
+   will appear.  Press "Ok" in error dialog. Open a new view of a directory 
+   from your home directory by selecting it, post the 'Actions' menupane and
+   selecting 'OpenNewView'. A new dtfile view will appear.
+   From your home directory, single click mouse button 1 on the text of the 
+   directory icon you just opened a new view for.  A text edit 'rename'
+   widget will appear.  Type in a new name; the dialog shown in figure
+   dtfile-41 will appear.  Click anywhere within the file managers view
+   to unpost the rename text widget.
+     
+   dtfile-40 tests messages:
+      Set 11  Messages: 6, 16
+   dtfile-41 tests messages:
+      Set 11  Messages: 6, 30 
+
+18) From your home directory, take a file and drop it on the backdrop.  The
+   file will 'stick' there.  This is your 'Desktop'.  Take the same file from
+   your file manager view and again drop it on the Desktop; the dialog 
+   dtfile-42 will appear.  Press "OK" in the error dialog.  Take another 
+   file and drop it on the desktop, so now you have 2 objects on the Desktop.
+   These objects on the desktop are just representations of the file in the
+   File manager view, i.e. they are not copies.  Single click mouse button 1
+   on the text portion of the 2nd desktop object. A text edit widget will
+   appear on the desktop object.  Change the name of desktop object 2 to the 
+   same name of object 1 on the desktop; the dialog shown in figure dtfile-43
+   will appear. Press "Ok" in the error dialog.  Now change the name to a 
+   name of a file that already exists in the directory this file came from; 
+   the dialog dtfile-44 will appear. Press "OK" in the error dialog to 
+   dismiss it. Change the name back to its original file name by pressing 'esc'
+   in the text edit widget.
+
+   dtfile-42 tests messages:
+      Set 11  _DtMessage: 6
+      Set 28  _DtMessage: 3
+   dtfile-43 tests messages:
+      Set 10  _DtMessage: 1
+      Set 28  _DtMessage: 1
+   dtfile-44 tests messages:
+      Set 10  _DtMessage: 1
+      Set 28  _DtMessage: 2
+
+19) From the desktop object #2 popup menu (mouse button 3 push while cursor is
+   over the desktop object), select 'Open File's Folder'.  A new file manager
+   view will appear with the representation of the desktop object selected. 
+   Single click mouse button 1 on the text portion of the selected file in
+   the new file manager view.  Change the name to the same name of the file
+   which already exists on the desktop (object 1); the dialog shown in 
+   dtfile-45 will appear. Press "OK" to dismiss the error dialog.
+
+   dtfile-45 tests messages:
+      Set 10  _DtMessage: 1
+      Set 9  _DtMessage: 8
+
+20) Open a file manager view of a directory different from where the desktop 
+   objects came from (i.e. where their representations are at).  Drag and
+   drop one of the desktop objects into this new file manager view; the dialog
+   shown in dtfile-46 will appear.  Press the 'Cancel' button.  Now select
+   both desktop objects (hold control key down while pressing mouse button 1
+   when cursor is over the Desktop object) and drag and drop the objects into
+   the new file manager view; the dialog shown in dtfile-47 will appear. Press
+   'Cancel' button to dismiss the dialog.
+
+   dtfile-46 tests messages:
+      Set 12  Messages: 3, 4, 5
+   dtfile-47 tests messages:
+      Set 12  Messages: 3, 6
+
+21) Drag on drop one of the destkop objects onto the trash can on the front
+   panel; the dialog shown in dtfile-48 will appear. Drag more than one object
+   from the Desktop to the trash can on the front panel; the dialog shown in
+   dtfile-49 will appear.
+
+   dtfile-48 tests messages:
+      Set 27  Messages: 73, 74
+   dtfile-49 tests messages:
+      Set 27  Messages: 73, 75
+ 
+22) Goto the users home directory; post the 'Directory' menupane and select 
+   'Home'.  Select any directory in a File Manager view.  With mouse button 1
+   select the 'Actions' menu and go to the "OpenInPlace" selection. Don't let
+   mouse button 1 up.  While holding down mouse button 1, press the key F1.
+   The dialog shown in dtfile-50 will appear.  Do the same as above except
+   this time go to the "OpenNewView" selection.  The dialog shown in 
+   dtfile-51 will appear.
+
+   dtfile-50 tests messages:
+      Set 29  _DtMessage: 1, 4
+   dtfile-51 tests messages:
+      Set 29  Messages: 1, 3
+ 
+23) From the command line somewhere within the DT environment type the 
+   command "dtfile -dir ~ -restricted".  This brings up a view of the users
+   home directory that is restricted.  The dialog will look somewhat like
+   the dialog shown in dtfile-52.  Post the 'Directory' menupane, and select
+   the 'Fast Change To' item; the current directory line will change to a
+   text edit widget.  Type '..' in the text edit widget (Note the '/' should 
+   already be there), and press return.  The dialog shown in dtfile-53 will
+   appear.  Press "OK" to unpost the dialog. From the 'View' menupane, select
+   the 'Save settings' selection.  The dialog shown in dtfile-54 will appear.
+   Cancel out of the dialog.
+
+   dtfile-52 tests messages:
+      Set 3  Messages: 2, 3
+      Set 20 Mesages: 1-8 
+   dtfile-53 tests messages:
+      Set 2  _DtMessage: 1
+      Set 2  _DtMessage: 9
+   dtfile-54 tests messages:
+      Set 18  Messages: 30, 32
+ 
+24) To post the system toolbox window, select the toolbox icon slide up
+   located in the top row of the front panel (it looks like a toolbox) and
+   select the System Toolbox.  Pick up and drag one of the 'action' files
+   from the SystemToolbox to one of the File Manager's views.  Dialog
+   dtfile-55 will appear.  Select "OK" to dismiss the error dialog and  
+   close the toolbox.
+
+   dtfile-55 tests messages:
+      Set 11 Mesages: 34
+
+25) On a regular file manager view:
+     Post the 'File' menupane, this tests messages: 
+       Set 20  Messages: 10, 11, 16-19, 22, 23, 84-91, 117, 118, 121, 122
+     Post the 'Directory' menupane, this tests messages: 
+       Set 20  Messages: 28-30, 33, 34, 37, 38, 41, 42, 92-98
+     Post the 'View' menupane, this tests messages: 
+       Set 20  Messages: 46-48, 51, 52, 55, 62, 63, 99-104, 119, 120
+     Post the 'Help' menupane, this tests messages:
+       Set 20  Messages: 105-116
+
+26) On a trash view:
+     Post the 'File' menupane, this tests messages: 
+       Set 27  Messages: 12, 14, 16, 18, 24, 26, 28, 30, 76, 77
+     Post the 'Help' menupane, this tests messages:
+       Set 27  Messages: 59-70
+
+27) Post a popup menu on a File Manager object (i.e. press mouse button 3 when
+   cursor is over an object in a file manager view). This will test messages:
+       Set 12  Messages: 7-12
+
+28) Post a popup menu on a Desktop object (i.e. press mouse button 3 when
+   cursor is over an object in on the Desktop). This will test messages:
+       Set 28  Messages: 4-14

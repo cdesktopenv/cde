@@ -1,0 +1,888 @@
+<!-- $XConsortium: ch03.sgm /main/4 1996/10/11 09:23:39 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="infoapg.div.3">
+<title id="sidr7JBU3pBt8oL">構築準備</title>
+<indexterm><primary>ブック・ソース</primary><secondary>準備</secondary>
+</indexterm>
+<para>
+インフォメーション・システム・ツールキットのツールは、インフォメーション・マネージャで表示可能なドキュメントを構築するために、大量の異なる SGML ファイルを処理します。この節では、インフォメーション・マネージャでドキュメントを構築するときに必要なファイルについて説明します。
+<indexterm><primary>インフォメーション・ライブラリ</primary><secondary>構築
+</secondary><tertiary>必要なファイル</tertiary></indexterm>
+</para>
+<sect1>
+<title id="n1Pih7JBbpoBt8oL">必要なファイル</title>
+<indexterm><primary>構築要件</primary>
+<secondary>必要なファイル</secondary></indexterm>
+<para>
+インフォメーション・マネージャでブラウズ可能なブックを構築するには、次のファイルを用意しなければなりません。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="jbQg4bBSxI9X3cS">「ブック・ソース・ドキュメント」</link>
+これらの SGML に準拠したドキュメントには、ブックのテキストおよびその SGML マークアップが含まれます。
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="n3NGoZbBosJ9X3cS">「目次ファイル」</link>
+インフォメーション・マネージャのブックのそれぞれは、<filename>dtinfoTOC.dtd(5)</filename> に準拠したハイパーテキスト目次 (TOC) を必要とします。ハイパーテキスト目次 (TOC) は、<command>dtinfogen tocgen</command> コマンドを使用して作成することができます。
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="j3fa6XBbiK9X3cS">「スタイル・シート」</link>
+スタイル・シートは、ブックのフォーマット作成を管理します。インフォンメーション・マネージャでは、ブックのオンライン形式および印刷出力形式の両方について、スタイル・シートを指定することができます。スタイル・シートは、<filename>dtinfoStyle.dtd(5)</filename> に準拠していなければなりません。
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="r58-aZBwFK9X3cS">「ブックケース規定」</link>
+<filename>dtinfoBook.dtd(5)</filename> に準拠するブックケース規定には、構築過程において、インフォメーション・マネージャによって必要とされるすべての SGML エンティティが含まれるか、その参照が作成されます。ブックケース規定は、単一のブックでも、多くのブックを含むインフォメーション・マネージャの完全なインフォメーション・ライブラリでも、その構築で使用することができます。
+</para>
+<para>
+<link linkend="TcQg4bBSxI9X3cS">「ブックケース規定の作成」</link>
+は、このドキュメントの作成方法について記述します。<link linkend="XcQg4bBSxI9X3cS">「ブックケース規定の例」</link>で例を示しています。
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="jbQg4bBSxI9X3cS">ブック・ソース</title>
+<indexterm><primary>ブック・ソース</primary></indexterm>
+<indexterm><primary>必要なファイル</primary>
+<secondary>ブック・ソース</secondary></indexterm>
+<para>
+ブックケースの各ブックには、少くともひとつの SGML に準拠したドキュメントが必要です。単一の SGML ドキュメントが完全なブックになることもあります。また、完全なブックを形成する数個のドキュメントのうちのひとつのみになることもあります。
+</para>
+<para>
+SGML ブック・ソースには、ひとつであっても数個あっても、ブックのテキスト（内容）およびその SGML マークアップがあります。エンティティ参照の使用により、ドキュメント・ソースは、別のファイルや外部のシステム・ユニットにある外部テキストおよび非テキストのエンティティへの参照も作成します。
+</para>
+<para>
+エンティティ参照によって、指定されたエンティティが、SGML ドキュメントの参照ポイントに埋め込まれます。
+</para>
+<para>
+文書型定義 (DTD) は、SGML ドキュメント・ソースと関連付けられていなければなりません。文書型定義は、タイトル、段落、リスト、表、グラフィックなどのような要素の構造的な関係性を定義します。
+</para>
+<para>
+ほとんどの場合、文書型定義は、SGML ドキュメントの外部にあり、通常は各 SGML 準拠ドキュメントの先頭にある DOCTYPE 宣言により、SGML ドキュメントから参照されます。以下の例 <link linkend="mhgjriBo9H9X3cS">「DOCTYPE 宣言」</link> を参照してください。
+</para>
+<para>
+図 <link linkend="kADiOlB78H9X3cS">「SGML ドキュメント・ソース」</link> は、インフォメーション・マネージャのブックを作成するときに使用できるドキュメント（ハイパーテキスト目次と外部エンティティを含みます）間の関係を示しています。
+</para>
+<figure>
+<title id="kADiOlB78H9X3cS">SGML ドキュメント・ソース</title>
+<graphic id="gr55" entityref="infoapg.fig.2"></graphic>
+</figure>
+<para>
+SGML 宣言は、SGML のパーサによって必要とされます。これは、具体的なドキュメントで有効な文字セットと SGML の区切記号を規定します。<filename>dtinfo.decl(5)</filename> は、インフォメーション・マネージャによって使用される SGML 宣言です。
+<indexterm><primary>宣言</primary><secondary>SGML</secondary></indexterm>
+<indexterm><primary>SGML 宣言</primary></indexterm>
+</para>
+<para>
+インフォメーション・マネージャの宣言 <filename>dtinfo.decl(5)</filename> を、置き換えたり上書きしたりすることはできません。すなわち、インフォメーション・マネージャの SGML 宣言の OMITTAG は YES に設定されているため、文書型定義の要素宣言は、省略されたタグの最小化パラメータ（たとえば、<computeroutput>&ldquo;-o&rdquo; または &ldquo;--&rdquo;</computeroutput>）を含まなければなりません。詳細については、<citetitle pubwork="Book">International Standards Organization (ISO) 8879</citetitle> の <citetitle pubwork="Book">Element Declaration</citetitle> を参照してください。
+</para>
+<note>
+<para>
+インフォメーション・マネージャの SGML 宣言 <filename>dtinfo.decl</filename> は、インフォメーション・マネージャとともに提供され、<command>dtinfogen build</command>、<command>dtinfogen validate</command>、および <command>dtinfogen update</command> コマンドを起動したときには、自動的に参照されます。
+</para>
+</note>
+<figure>
+<title id="mhgjriBo9H9X3cS">DOCTYPE 宣言の例</title>
+<programlisting>
+&lt;!DOCTYPE Chapter PUBLIC
+&ldquo;-//HaL and O'Reilly//DTD DocBook//EN&rdquo;
+[
+&lt;!ENTITY % ISOlist PUBLIC
+ &ldquo;-//Common Desktop Environment//ENTITIES ISO Catalog//EN&rdquo;>
+ %ISOlist;
+ %ISOlat1;
+ %ISOnum;
+ %ISOpub;
+ %ISOtech;
+ &lt;!ENTITY % halpubs SYSTEM &ldquo;hal.gml&rdquo; >
+ %halpubs;
+]>
+&lt;CHAPTER ID=&rdquo;CH-1015-3-1&rdquo; LABEL=&rdquo;3&rdquo;>&lt;TITLE>Working in the
+X Environment&lt;/TITLE>
+&lt;TITLEABBREV>Working in the X Environment&lt;/TITLEABBREV>
+&lt;HIGHLIGHTS>
+&lt;PARA>This chapter shows you how to begin working
+productively in the X environment. It describes how to:
+&lt;/PARA>
+&hellip;
+</programlisting>
+</figure>
+<note>
+<para>
+SGML 準拠ドキュメントの作成方法を記述した書籍の一覧については、
+<link linkend="Q3yRgFBsz1698oL">「関連文書」</link>
+を参照してください。
+</para>
+</note>
+</sect1>
+
+<!--)))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect1>
+<title id="n3NGoZbBosJ9X3cS">目次</title>
+<indexterm><primary>目次</primary></indexterm>
+<para>
+インフォメーション・マネージャのインフォメーション・ライブラリの一部として構築する各ブックには、ハイパーテキスト目次 (TOC) が必要です。ハイパーテキスト・リンクは、目次のセクション・タイトルを、それらのタイトルが参照する実際のオンラインのセクションに接続します。
+<indexterm><primary>必要なファイル</primary>
+<secondary>目次</secondary></indexterm>
+</para>
+<para>
+インフォメーション・マネージャでは、目次は、ブックへのエントリ・ポイントとして表示されます。すなわち、デフォルトのブックへの線形パス（ユーザがあたかもブックのハードコピー版を読んでいるかのように参照できるパス）を確立します。ユーザが、目次中のセクション・タイトルを選択（その上でクリック）すると、ブラウザはリンクをたどって、ユーザのウィンドウにオンラインのセクションを表示します。
+</para>
+<para>
+また、インフォメーション・マネージャにおいては、目次は、オンライン・ドキュメント内の案内の支援という重要な機能により、強力なハイパーテキストのナビゲーション・ツールでもあります。たとえば、目次によって提供される情報を利用して、インフォメーション・マネージャのグラフィカル・マップは、ブック内におけるセクションの相対的な位置を表示することができます。また、目次を利用してインフォメーション・マネージャのブック・リスト・ウィンドウの複雑なブック・リストは、ブックの構造に関する階層的な情報を提供します。
+</para>
+<para>
+目次で必要なハイパーテキスト・リンクを設定するためには、インフォメーション・マネージャが、ユーザのドキュメント・ソース内のセクションを識別できなければなりません。これは、ユーザのブックの文書型定義へのインフォメーション・マネージャ設計様式の適用によって行われます。
+</para>
+
+<note>
+<para>
+ブックの目次を作成する前に、目次内でセクションとして参照されるべき文書型定義中の各要素を識別するために、インフォメーション・マネージャ設計様式を適用しなければなりません。これにより、インフォメーション・マネージャの目次ジェネレータが、セクションのタイトルとその一意のセクションIDの値を引き出すことが可能になります。
+（<link linkend="S3CTVcBfQJ9X3cS">「目次の設計様式」</link>を参照してください。）
+</para>
+</note>
+
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="n8aJ92dBIsI9X3cS">目次の作成</title>
+<indexterm><primary>目次</primary>
+<secondary>作成</secondary></indexterm>
+<para>
+各ブックのための目次を作成するには、<command>dtinfogen tocgen</command> コマンドを使用します。
+</para>
+
+<sect3>
+<title id="Sb4E8eBmqJ9X3cS">dtinfogen tocgen の実行</title>
+<para>ここでは、目次の生成のために <command>dtinfogen tocgen</command> を使用する例を示します。<command>dtinfogen&nbsp;tocgen</command> を実行する前に、ブックのソース・ファイルが次のようになっていることを確認してください。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+インフォメーション・マネージャ設計様式が適用される文書型定義を含むか、あるいは文書型定義への参照を取り込んでいること。
+</para>
+</listitem>
+<listitem>
+<para>
+文書型定義に基づく有効な SGML マークアップを含むこと。
+</para>
+</listitem>
+</itemizedlist>
+
+<para>
+この例の基本的な <command>dtinfogen tocgen</command> コマンド行を次に示します。
+</para>
+<programlisting>
+dtinfogen tocgen -T <replaceable>/usr/pers</replaceable> -f <replaceable>TOC.file</replaceable> -id <replaceable>asg.toc</replaceable> -title <replaceable>&ldquo;Acoustic Sound Generators&rdquo;</replaceable> <replaceable>pref.sgm</replaceable> <replaceable>ch01.sgm</replaceable> <replaceable>ch02.sgm</replaceable> <replaceable>ch03.sgm</replaceable> <replaceable>appx.sgm</replaceable>
+</programlisting>
+<para>
+各オプションの意味は以下のとおりです。
+</para>
+<variablelist>
+<varlistentry>
+<term><option>-T</option> <replaceable>/usr/pers</replaceable></term>
+<listitem>
+<para>
+構築過程で、一時的ファイルが置かれるディレクトリを指定します。デフォルトは、環境変数 <systemitem class="environvar">TMPDIR</systemitem> が使用されます。変数 <systemitem class="environvar">TMPDIR</systemitem> が設定されていない場合は、<filename>/usr/tmp</filename> が使用されます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>-f</option> <replaceable>TOC.file</replaceable></term>
+<listitem>
+<para>
+<command>dtinfogen tocgen</command> プロセスの出力が行われるファイル名を指定します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>-id</option> <replaceable>asg.toc</replaceable></term>
+<listitem>
+<para>
+新規に作成された目次ファイル内の目次識別子を指定します。<option>-id</option> の英数字の値（この場合 <replaceable>asg.toc</replaceable>）は、目次ファイルを目次が生成されたブック・ソース・ファイルの特定のセットと関連付けます。各ライブラリ内のブックケース間で一意の値を使用しなければなりません。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><option>-title</option>
+<replaceable>&ldquo;Acoustic Sound Generators&rdquo;</replaceable></term>
+<listitem>
+<para>
+目次のタイトルを指定します。<option>-title</option> の値（この場合 <replaceable>&ldquo;Acoustic Sound Generators&rdquo;</replaceable>）が、新規に作成された目次ファイルのタイトルになります。
+</para>
+<para>
+目次のタイトルは、それが関連するブッックの目次を識別します。インフォメーション・マネージャのウィンドウに表示されると、この名前が目次ノードのタイトルとして現われます。
+</para>
+<para>
+名前の提供で <option>-title</option> フラグを使用しない場合、生成後に目次ファイルを開き、デフォルトの文字列 <computeroutput>$Title = &ldquo;Table of Contents&rdquo;</computeroutput> を適切なタイトルに置き換えることもできます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><replaceable>pref.sgm</replaceable> <replaceable>ch01.sgm</replaceable>
+<replaceable>ch02.sgm</replaceable> <replaceable>ch03.sgm</replaceable>
+<replaceable>appx.sgm</replaceable></term>
+<listitem>
+<para>
+目次のセクション・タイトルの一覧が生成されるドキュメント・エンティティの名前を指定します。
+</para>
+<para>
+ドキュメント・エンティティは、その内容がオンライン・ブックに現われる順序で、コマンド行から入力されるべきです。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<command>dtinfogen tocgen</command> プログラムは、インフォメーション・マネージャ設計様式が適用されたことを検証し、ドキュメント・エンティティをその文書型定義に対して検証します。
+</para>
+<para>
+検証が正常に行われた後、<command>dtinfogen tocgen</command> は、ブック・ソース・ファイルと生成された目次ファイルから、セクションのタイトルとセクションの識別子を抽出します。
+</para>
+<para>
+ブック・ソース・ファイルのセクションの追加や削除を行う場合には、目次を再生成しなければなりません。
+</para>
+</sect3>
+</sect2>
+</sect1>
+
+<!--(((((((((((((((((((((((((((((((((((((((((((((-->
+
+<sect1>
+<title id="j3fa6XBbiK9X3cS">スタイル・シートの使用</title>
+<indexterm><primary>必要なファイル</primary>
+<secondary>スタイル・シート</secondary></indexterm><indexterm>
+<primary>スタイル・シート</primary><secondary>〜の使用</secondary></indexterm>
+<para>
+スタイル・シートは、インフォメーション・マネージャにおけるブックのフォーマットされた表現形式を管理します。単一のスタイル・シートを使用して、インフォメーション・マネージャから印刷されたときのブックの印刷出力形式、およびインフォメーション・マネージャにおけるブックのオンライン表示形式の両方
+を指定することができます。
+</para>
+<para>
+また、単一のスタイル・シートを使用してブックケース内の複数のドキュメントのフォーマット方法を記述したり、複数のスタイル・シートを使用して同一のブックケース内の異なるドキュメント・タイプを処理することもできます。
+</para>
+<itemizedlist>
+<listitem>
+<para>図 <link linkend="JmNvZbBE6K9X3cS">「複数のスタイル・シートの使用方法」</link> は、ブック内のブックとセクションによる異なるスタイル・シートの使用方法を示しています。
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="n2PY0rbBgJJ9X3cS">「異なるレベルでのスタイル・シートの指定」</link> では、スタイル・シートが、ブックケースのレベル、ブックのレベル、およびセクションのレベルで、どのように指定されるかを説明しています。
+</para>
+</listitem>
+<listitem>
+<para><link linkend="bPY0rbBgJJ9X3cS">「複数のスタイル・シートを使用したブックケースの例」</link> は、３つのブックにフォーマット形式の情報を提供する４つのスタイル・シートを使用するブックケース規定の例を示しています。
+</para>
+</listitem>
+</itemizedlist>
+<para>
+インフォメーション・データベースを一度構築すれば、<command>dtinfogen update</command>
+<indexterm><primary>インフォメーション・マネージャ</primary><secondary>コマンド</secondary><tertiary>dtinfogen update</tertiary></indexterm>
+ コマンドを使用して、新規のスタイル・シート情報によるセクションの再フォーマットを行うことができます。
+<link linkend="WmNvZbBE6K9X3cS">「構築されたブックケースのスタイル・シートの更新」</link>を参照してください。
+</para>
+<para>スタイル・シートの詳細については、
+<link linkend="BtCmaaB0ang24aK">「スタイル・シートの作成」</link>を参照してください。
+</para>
+<figure>
+<title id="JmNvZbBE6K9X3cS">複数のスタイル・シートの使用方法</title>
+<graphic id="gr56" entityref="infoapg.fig.3"></graphic>
+</figure>
+<para>
+図に示すように、デフォルトのスタイル・シート <replaceable>Style01</replaceable> は、別のスタイル・シートがブックのレベルまたはセクションのレベルで使用されない限り、ブックケース中のすべてのブックをフォーマットするために使用されます。デフォルトのスタイル・シートではないスタイル・シートが指定された場合、それが定義された特定のブックまたはセクションのフォーマットを行うときのみ有効となります。このとき、処理は、別のスタイル・シートが指定されない限り、デフォルトのスタイル・シートによって続行されます。
+</para>
+
+<!--))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="n5mNvZbBE6K9X3cS">スタイル・シートの定義</title>
+<indexterm><primary>スタイル・シート</primary>
+<secondary>定義</secondary></indexterm>
+<para>
+インフォメーション・マネージャのライブラリでは、各ブックケースのためのデフォルトのスタイル・シートを定義しなければなりません。（<link linkend="TcQg4bBSxI9X3cS">「ブックケース規定の作成」</link>を参照してください。）
+</para>
+<sect3>
+<title id="n2PY0rbBgJJ9X3cS">異なるレベルでのスタイル・シートの指定</title>
+<para>
+各スタイル・シートは、スタイル・シートのドキュメント自身の先頭で指定する一意の名前をもたなければなりません。ブックケースで使用されるすべてのスタイル・シートは、ブックケース規定の先頭にあるエンティティ宣言を使用して定義することができます。次に示すのは、スタイル・シートのセットのためのエンティティ宣言の例です。
+</para>
+<programlisting>
+[
+ &lt;!-- Style sheets -->
+ &lt;!ENTITY Style01 SYSTEM &ldquo;InfoMgrRN/style01.sty&rdquo; >
+ &lt;!ENTITY Style02 SYSTEM &ldquo;Perl/perl.sty&rdquo; >
+ &lt;!ENTITY PrefSty SYSTEM &ldquo;Preface/pref.sty&rdquo; >
+ &lt;!ENTITY IDXSty SYSTEM &ldquo;Index/IDX.sty&rdquo; >
+ ...............
+ ...............
+ ...............
+]
+</programlisting>
+<para>
+宣言されたスタイル・シートは、エンティティ参照を使用して、ブックケース規定の内部から参照されます。
+<link linkend="bPY0rbBgJJ9X3cS">「複数のスタイル・シートを使用したブックケースの例」</link>では、すべてのエンティティ宣言とスタイル・シートのエンティティ参照とともに完全なブックケース規定を示しています。
+</para>
+<sect4>
+<title id="SmNvZbBE6K9X3cS">ブックケースのレベルでのスタイル・シートの指定</title>
+<indexterm><primary>スタイル・シート</primary>
+<secondary>ブックケースのレベル</secondary></indexterm>
+<para>
+デフォルトのスタイル・シートは、ブックケースのレベルで指定されます。エンティティ参照は、そのブックケースのために定義された他のすべてのスタイル・シートに対して行われます。
+</para>
+<para>
+BOOKCASE 要素の開始タグは、ブックケースの内容の一覧表記を開始します。これには、使用されるスタイル・シートと処理される SGML ドキュメントが含まれます。
+</para>
+<para>
+ブックケースの最初のステートメント <computeroutput>&lt;BOOKCASE StyleSheet=style01></computeroutput> は <replaceable>style01</replaceable> をデフォルトのスタイル・シートとして命名します。BOOKCASENAME および BOOKCASEDESC 要素が指定された後、エンティティ参照が、ブックケースの内容をフォーマットするときに使用されるすべてのスタイル・シートのエンティティに対して作成されます。次に例を示します。
+</para>
+<programlisting>
+&lt;BOOKCASE StyleSheet=Style01>
+ &lt;BOOKCASENAME>INFOMGR&lt;/>
+ &lt;BOOKCASEDESC>Info Manager Release Notes&lt;/>
+
+ &lt;!-- Include the style sheets. -->
+
+ &amp;Style01;
+ &amp;Style02;
+ &amp;PrefSty;
+ &amp;IDXSty;
+</programlisting>
+
+<para>
+各エンティティ参照のアンパサンドとセミコロン、
+<computeroutput>&amp;Style01;</computeroutput>、
+<computeroutput>&amp;Style02;</computeroutput>、
+<computeroutput>&amp;PrefSty;</computeroutput>、および
+<computeroutput>&amp;IDXSty;</computeroutput> は、エンティティ参照の開始・終了区切記号です。
+</para>
+</sect4>
+<sect4>
+<title id="TmNvZbBE6K9X3cS">ブックのレベルでのスタイル・シートの指定</title>
+<indexterm><primary>スタイル・シート</primary>
+<secondary>ブックのレベル</secondary></indexterm>
+<para>
+BOOKCASE 要素で指定されるデフォルトのスタイル・シートは、別のスタイル・シートがブックのレベルまたはセクションのレベルで指定されない限り、ブックケースの各ブックのために使用されます。
+</para>
+<para>
+BOOK 要素の開始タグは、ブックの内容の一覧表記を開始し、（デフォルトのスタイル・シートではない場合に）使用されるスタイル・シートを参照します。次に例を示します。
+</para>
+<programlisting>
+&lt;/BOOK>
+
+&lt;!-- Perl Manual -->
+&lt;BOOK StyleSheet=Style02>
+</programlisting>
+<para>
+このステートメントは、<computeroutput>Style02</computeroutput> が <citetitle>Perl Manual</citetitle> SGML ソースをフォーマットするために使用されることを示しています。
+</para>
+<para>
+ブックのソース・ファイルが処理された後、次の BOOK 要素の開始タグは、別のスタイル・シートが指定されない限り、最初の BOOKCASE 要素の開始タグで指定されたデフォルトのスタイル・シートの値に、スタイル・シートを再設定します。
+</para>
+</sect4>
+<sect4>
+<title id="VmNvZbBE6K9X3cS">セクションのレベルでのスタイル・シートの指定</title>
+<indexterm><primary>スタイル・シート</primary>
+<secondary>セクションのレベル</secondary></indexterm>
+<para>
+セクション・レベルのスタイル・シートは、ブックケース・ファイルのブック要素の一覧表記内では指定されません。代わりに、インフォメーション・マネージャ設計様式を使用して、ブックの文書型定義 (DTD) において指定されます。インフォメーション・マネージャ設計様式は、指定されたスタイル・シートのフォーマット形式が適用されるブックの特定のセクション・レベルの要素を識別します。
+</para>
+<para>
+関連情報については、以下を参照してください。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="BtCmaaB0ang24aK">「スタイル・シートの作成」</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="vSMTMZBRyng24aK">「設計様式の理解」</link>
+</para>
+</listitem>
+</itemizedlist>
+</sect4>
+</sect3>
+</sect2>
+
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="bPY0rbBgJJ9X3cS">複数のスタイル・シートを使用したブックケースの例</title>
+
+<para>
+次に示すのは、３つのブックを定義し、４つのスタイル・シートを使用するブックケース規定の例です。このスタイル・シートのエンティティ、
+<computeroutput>&amp;PrefSty;</computeroutput> および 
+<computeroutput>&amp;IDXSty;</computeroutput> は、ブックの文書型定義で参照されます。
+</para>
+<programlisting>
+&lt;!DOCTYPE Bookcase PUBLIC
+&ldquo;-//Common Desktop Environment//DTD DtInfo Bookcase Description//EN&rdquo;
+[
+ &lt;!-- Style sheets -->
+ &lt;!ENTITY style01 SYSTEM &ldquo;InfoMgrRN/style01.sty&rdquo; >
+ &lt;!ENTITY style02 SYSTEM &ldquo;Perl/perl.sty&rdquo; >
+ &lt;!ENTITY PrefSty SYSTEM &ldquo;Preface/pref.sty&rdquo; >
+ &lt;!ENTITY IDXSty SYSTEM &ldquo;Index/IDX.sty&rdquo; >
+ &lt;!ENTITY TOCSTY SYSTEM &ldquo;TOC/TOC.sty&rdquo; >
+
+ &lt;!-- Book documents declared as SUBDOC -->
+ &lt;!ENTITY tocfile SYSTEM &ldquo;Small/small.toc&rdquo; SUBDOC >
+ &lt;!ENTITY ch03 SYSTEM &ldquo;Small/ch03.sgm&rdquo; SUBDOC >
+ &lt;!ENTITY xlsc SYSTEM &ldquo;Small/xlsc.sgm&rdquo; SUBDOC >
+ &lt;!ENTITY rnotes.TOC SYSTEM &ldquo;InfoMgrRN/rnotes.TOC&rdquo; SUBDOC >
+ &lt;!ENTITY rnotes.N SYSTEM &ldquo;InfoMgrRN/rnotes.N&rdquo; SUBDOC >
+ &lt;!ENTITY perl.TOC SYSTEM &ldquo;Perl/perl.TOC&rdquo; SUBDOC >
+ &lt;!ENTITY copytrade.N SYSTEM &ldquo;Perl/copytrade.N&rdquo; SUBDOC >
+ &lt;!ENTITY about.N SYSTEM &ldquo;Perl/02about.N&rdquo; SUBDOC >
+ &lt;!ENTITY intro.N SYSTEM &ldquo;Perl/1intro.N&rdquo; SUBDOC >
+ &lt;!ENTITY start.N SYSTEM &ldquo;Perl/2start.N&rdquo; SUBDOC >
+ &lt;!ENTITY datatypes.N SYSTEM &ldquo;Perl/3datatypes.N&rdquo; SUBDOC >
+ &lt;!ENTITY form.N SYSTEM &ldquo;Perl/4form.N&rdquo; SUBDOC >
+ &lt;!ENTITY commands.N SYSTEM &ldquo;Perl/5commands.N&rdquo; SUBDOC >
+ &lt;!ENTITY perl.NDX SYSTEM &ldquo;Perl/perl.NDX&rdquo; SUBDOC >
+ &lt;!ENTITY comments.N SYSTEM &ldquo;Perl/comments.N&rdquo; SUBDOC >
+
+
+]>
+&lt;BOOKCASE StyleSheet=style01>
+ &lt;BOOKCASENAME>Information Manager&lt;/>
+ &lt;BOOKCASEDESC>Information Manager Release Notes&lt;/>
+
+&lt;!-- Include the four style sheets. -->
+
+ &amp;style01;
+ &amp;style02;
+ &amp;PrefSty;
+ &amp;IDXSty;
+
+&lt;!-- *****BOOK 1 - Small example book***** -->
+&lt;BOOK>
+ &lt;TITLE>DocBook DTD Examples&lt;/>
+ &lt;SHORTTITLE>SGML Examples&lt;/>
+
+ &lt;TAB TabLoc=&rdquo;RE-1015-XLSCLIENTS-1&rdquo;>Manpage&lt;/>
+
+ &lt;TOCFILE>&amp;tocfile;&lt;/TOCFILE>
+ &lt;FILE>&amp;ch03;&lt;/FILE>
+ &lt;FILE>&amp;xlsc;&lt;/FILE>
+&lt;/BOOK>
+
+&lt;!-- *****BOOK 2 - Information Manager Release Notes***** -->
+&lt;BOOK>
+ &lt;TITLE>Information Manager Release Notes&lt;/>
+ &lt;SHORTTITLE>Info Manager Notes&lt;/>
+
+ &lt;TAB TabLoc=&rdquo;7M6zf5B0CM9X3cS&rdquo;>Contents&lt;/>
+ &lt;TAB TabLoc=&rdquo;wP3zf5B-BM9X3cS&rdquo;>Features&lt;/>
+ &lt;TAB TabLoc=&rdquo;yP3zf5B-BM9X3cS&rdquo;>To Do&lt;/>
+ &lt;TAB TabLoc=&rdquo;mJ6G0CB1LG9I8gW&rdquo;>Link Demos&lt;/>
+ &lt;TAB TabLoc=&rdquo;0K6zf5B-BM9X3cS&rdquo;>Figures&lt;/>
+
+ &lt;TOCFILE>&amp;rnotes.TOC;&lt;/>
+ &lt;FILE>&amp;rnotes.N;&lt;/>
+&lt;/BOOK>
+
+&lt;!-- *****BOOK 3 - Perl Manual***** -->
+&lt;BOOK StyleSheet=style02>
+ &lt;TITLE>Perl Manual&lt;/>
+
+ &lt;TAB TabLoc=&rdquo;Xmhyf5Bu6M9X3cS&rdquo;>Contents&lt;/>
+ &lt;TAB TabLoc=&rdquo;3tpQGzASEYy94aK&rdquo;>About This Book&lt;/>
+ &lt;TAB TabLoc=&rdquo;Oo9fP6B59WwA0YK&rdquo;>Index&lt;/>
+ &lt;TAB TabLoc=&rdquo;DNph.0BBMXwA0YK&rdquo;>Comments&lt;/>
+
+ &lt;TOCFILE>&amp;perl.TOC;&lt;/>
+ &lt;FILE>&amp;copytrade.N;&lt;/>
+ &lt;FILE>&amp;about.N;&lt;/>
+ &lt;FILE>&amp;intro.N;&lt;/>
+ &lt;FILE>&amp;start.N;&lt;/>
+ &lt;FILE>&amp;datatypes.N;&lt;/>
+ &lt;FILE>&amp;form.N;&lt;/>
+ &lt;FILE>&amp;commands.N;&lt;/>
+ &lt;FILE>&amp;perl.NDX;&lt;/>
+ &lt;FILE>&amp;comments.N;&lt;/>
+&lt;/BOOK>
+
+&lt;/BOOKCASE></programlisting>
+<note>
+<para>この例のブックケース規定は、インフォメーション・マネージャとともに提供される <filename>dtinfoBook.dtd</filename> に準拠しています。
+</para>
+</note>
+</sect2>
+</sect1>
+
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect1>
+<title id="r58-aZBwFK9X3cS">ブックケース規定</title>
+<indexterm><primary>ブックケース規定</primary></indexterm>
+<indexterm><primary>必要なファイル</primary>
+<secondary>ブックケース規定</secondary></indexterm>
+<para>
+ブックケースを構築してインフォメーション・ライブラリにするには、ブックケース規定を使用して、インフォメーション・マネージャのツールに何を構築するかを伝えます。
+</para>
+<para>
+もっとも単純な形式のブックケース規定には、ブックケース名とブックケース記述、各ブックのフォーマットを記述するスタイル・シート、およびブックに準拠する SGML ドキュメントのための SUBDOC エンティティ参照があります。
+</para>
+<para>
+ブックケース規定にブックのドキュメントを取り込むには、SGML SUBDOC エンティティ宣言
+<indexterm><primary>SGML</primary>
+<secondary>SUBDOC エンティティ宣言</secondary></indexterm>
+を使用しなければなりません。
+ブックケース規定の構造は、<filename>dtinfoBook.dtd</filename> で定義されています。
+</para>
+<para>
+ブックケース規定を作成する一般的な手続きは、<link linkend="TcQg4bBSxI9X3cS">「ブックケース規定の作成」</link>で説明しています。
+</para>
+<para>
+ブックケース規定で明記しなければならない情報には、次のものがあります。
+</para>
+<variablelist>
+<varlistentry>
+<term>ブックケース名</term>
+<listitem>
+<para>
+この名前は、インフォメーション・マネージャおよび内部検索エンジンによって使用されます。これは、英数字で８文字以内かつブックケース内で一意でなければなりません。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>ブックケース記述</term>
+<listitem>
+<para>
+これは、ブックケースに準拠するブックの説明または形式です。
+<citetitle>UNIX Administration Guides</citetitle> や
+<citetitle>Scientific Papers on Acoustic Sound Generation</citetitle>
+は典型的な例です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>ひとつまたは複数のスタイル・シート</term>
+<listitem>
+<para>
+スタイル・シートには、SGML ドキュメントがオンラインと印刷の両方の形式でどのようにフォーマットされるかを定義するフォーマット指示の集まりがあります。ブックケース規定のすべてのブックのためのデフォルトのスタイル・シートとして、ひとつのスタイル・シートを指定しなければなりません。
+</para>
+<para>
+ブックケース規定でスタイル・シートを取り込んだり、ブックケース規定の先頭のエンティティ宣言によってそれらを参照することができます。
+<link linkend="XcQg4bBSxI9X3cS">「ブックケース規定の例」</link>を参照してください。
+</para>
+<para>
+単一のブックケース規定において、インフォメーション・マネージャが複数のスタイル・シートをどのように処理するかを理解するには、
+<link linkend="j3fa6XBbiK9X3cS">「スタイル・シートの使用」</link>
+を参照してください。
+</para>
+<para>
+スタイル・シートの作成の詳細については、
+<link linkend="BtCmaaB0ang24aK">「スタイル・シートの作成」</link>
+を参照してください。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>ひとつまたは複数のブック</term>
+<listitem>
+<para>
+ブックケースの各ブックで指定する必要がある情報には、以下のものがあります。
+</para>
+<variablelist>
+<varlistentry>
+<term>ブック・タイトル</term>
+<listitem>
+<para>
+ブックケースの各ブックの正式なタイトルです。ブック・タイトルの長さは、技術的に無制限です。しかしながら、タイトルは長さで50文字以内にすべきです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>ブック・タイトルの省略形</term>
+<listitem>
+<para>
+オプションで指定する各ブック・タイトルの省略形です。
+タイトルの省略形は、インフォメーション・マネージャの検索エンジンによって使用されます。技術的には、タイトルの省略形の長さは無制限ですが、20文字を超えないようにすべきです。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>タブ情報</term>
+<listitem>
+<para>
+タブは、インフォメーション・マネージャのウィンドウに表示されます。これは、バインダのタブの模擬であり、ユーザがオンライン・ブックの別のセクションにすばやく移動することを可能にします。
+</para>
+<para>
+ブックケース規定で指定するタブ情報には、ブラウザ・インタフェースで使用可能なブック内の名前とセクションの識別子があります。
+</para>
+<para>
+タブはオプションであり、ひとつまたは複数のタブをブックケースの各ブックに指定することが可能です。各タブのテキストの長さおよび与えられたブックのタブ数は、技術的に無制限です。しかしながら、<literal>内容</literal>、<literal>はじめに</literal>、<literal>索引</literal>などのように、相対的に短いタブ名を使用し、表示するタブ数を制限することによって、オンライン上での読みやすさは向上します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>目次 (TOC)</term>
+<listitem>
+<para>
+ブックケース規定において定義される各ブックは、インフォメーション・マネージャの <filename>dtinfoTOC.dtd</filename> に準拠するハイパーテキスト目次がなければなりません。
+</para>
+<para>
+<command>dtinfogen tocgen</command> コマンドを使用して、インフォメーション・マネージャの目次を作成することができます。
+<link linkend="n8aJ92dBIsI9X3cS">「目次の作成」</link>を参照してください。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>ブック・ソース・ドキュメント</term>
+<listitem>
+<para>
+次に示すのは、各ブックを形成する SGML 準拠ドキュメントのエンティティです。
+</para>
+<para>
+これらのドキュメントは、別の文書型定義に合致する可能性があるため、構築過程においてソース情報を引き出すために、SGML SUBDOC エンティティを使用しなければなりません。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+図 <link linkend="xJDiOlB78H9X3cS">「ブックケース規定」</link> は、ブックケース規定とインフォメーション・ライブラリを構築するときに使用される他のドキュメントとの関係を示しています。
+</para>
+<figure>
+<title id="xJDiOlB78H9X3cS">ブックケース規定</title>
+<graphic id="gr57" entityref="infoapg.fig.4"></graphic>
+</figure>
+<sect2>
+<title id="TcQg4bBSxI9X3cS">ブックケース規定の作成</title>
+<indexterm><primary>ブックケース規定</primary>
+<secondary>作成</secondary></indexterm>
+<para>
+ブックケース規定を作成するには、次のようにします。
+</para>
+<orderedlist>
+<listitem>
+<para>
+<command>vi</command>、<command>emacs</command> のようなエディタや適切に構成された SGML エディタを使用して、ブック構築領域内で新規のファイルを開きます。必要ならば、以下に示す <link linkend="XcQg4bBSxI9X3cS">「ブックケースの例」</link> やこのマニュアルに含まれるブックケース規定の例をコピーし、目的にしたがって修正することもできます。
+</para>
+</listitem>
+<listitem>
+<para>
+ファイルの先頭で、ブックケースの文書型定義を指定します。次に例を示します。
+</para>
+<programlisting>
+&lt;!DOCTYPE Bookcase PUBLIC
+&ldquo;-//Common Desktop Environment//DTD DtInfo Bookcase Description//EN&rdquo;
+[
+</programlisting>
+<para>
+DOCTYPE 宣言の末尾にあるオープン・ブレイス（[）は、エンティティ宣言のセットが続くことを指示しています。
+<filename>dtinfoBook.dtd(5)</filename> マニュアル・ページを参照してください。
+</para>
+</listitem>
+<listitem>
+<para>
+エンティティ宣言を使用して、使用するスタイル・シートを指定します。
+エンティティ宣言を使用して、複数のスタイル・シートを定義することもできます。
+</para>
+
+<programlisting>
+&lt;!-- Style sheets -->
+&lt;!ENTITY style01 SYSTEM &ldquo;style01.sty&rdquo; >
+</programlisting>
+
+</listitem>
+<listitem>
+<para>
+SGML SUBDOC エンティティを使用して、ブックに合致したドキュメントを指定します。これには、目次も含まれます。
+</para>
+
+<programlisting>
+&lt;!-- Book files declared as SUBDOC -->
+&lt;!ENTITY tocfile SYSTEM &ldquo;small.toc&rdquo; SUBDOC >
+&lt;!ENTITY ch03 SYSTEM &ldquo;ch03.sgm&rdquo; SUBDOC >
+&lt;!ENTITY xlsc SYSTEM &ldquo;xlsc.sgm&rdquo; SUBDOC >
+</programlisting>
+
+</listitem>
+<listitem>
+<para>
+使用するすべてのエンティティを指定した後、クローズ・ブレイス（]）とクローズ宣言区切記号（>）でエンティティ宣言を閉じます。
+</para>
+<programlisting>]></programlisting>
+</listitem>
+<listitem>
+<para>
+SGML 開始タグ &lt;BOOKCASE> を入力し、ブックケースで使用するデフォルトのスタイル・シートを指定します。
+</para>
+<programlisting>
+&lt;BOOKCASE StyleSheet=sty1>
+</programlisting>
+<para>
+この例では、BOOKCASE 要素の属性 <replaceable>StyleSheet</replaceable> には、値 <systemitem>sty1</systemitem> が指定されています。これは、スタイル・シート・ファイル <filename>style01.sty</filename> 内の STYLESHEET 要素の名前です。
+</para>
+<para>
+エンティティのサブセット宣言において、複数のスタイル・シートが宣言されている場合、ブックケースのデフォルトのスタイル・シートとして、それらのうちのひとつを指定することができます。
+</para>
+</listitem>
+<listitem>
+<para>
+BOOKCASENAME 要素と BOOKCASEDESC 要素、およびその内容を入力します。この場合は、それぞれ、<replaceable>SMALL</replaceable> と <replaceable>Demonstration small bookcase</replaceable> です。
+</para>
+<para>
+BOOKCASENAME は、英数字８文字を超えることはできません。また、ピリオドを含むことはできません。
+</para>
+<para>
+次に、エンティティ参照を使用して、取り込まれるべきスタイル・シートを指定します。この場合は、<computeroutput>style01</computeroutput> です。
+</para>
+<programlisting>
+&lt;BOOKCASENAME>SMALL&lt;/>
+&lt;BOOKCASEDESC>Demonstration small bookcase&lt;/>
+&amp;style01;
+</programlisting>
+<para>
+ブックケースのすべてのスタイル・シートを参照した後、ブックケースを形成するブックの指定を開始します。
+</para>
+<note>
+<para>
+識別子の参照を使用して、異なるブックケースやブックケース内の異なるブックに、別々のスタイル・シートを割り当てることができます。
+<link linkend="j3fa6XBbiK9X3cS">「スタイル・シートの使用」</link>を参照してください。
+スタイル・シートの作成の詳細については、<link linkend="BtCmaaB0ang24aK">「スタイル・シートの作成」</link>を参照してください。
+</para>
+</note>
+</listitem>
+<listitem>
+<para>
+BOOK 要素の開始タグ、TITLE 要素とSHORTTITLE 要素、およびその内容を入力して、構築するブックを指定します。
+</para>
+<programlisting>
+&lt;BOOK>
+&lt;TITLE>DocBook DTD Examples&lt;/>
+&lt;SHORTTITLE>SGML Examples&lt;/>
+</programlisting>
+</listitem>
+<listitem>
+<para>
+ブックにバインダ・タブを設定している場合は、情報を記述します。
+</para>
+<para>
+各タブについて、TAB 要素の開始タグ（TabLoc 属性とその値を必要とします）、タブがブラウザに表示されたときに現われるテキスト（この場合は、&ldquo;Manpage&rdquo;）を指定しなければなりません。
+</para>
+
+<programlisting>
+&lt;TAB TabLoc=&ldquo;RE-1015-XLSCLIENTS-1&rdquo;>Manpage&lt;/>
+</programlisting>
+</listitem>
+<listitem>
+<para>
+ブックケース規定の先頭の SUBDOC エンティティ宣言によって参照される目次ドキュメントを含めるために、&lt;TOCFILE> タグを使用します。
+</para>
+<programlisting>
+&lt;TOCFILE>&amp;tocfile;&lt;/TOCFILE>
+</programlisting>
+</listitem>
+<listitem>
+<para>
+ブックケース規定の先頭の SUBDOC エンティティ宣言によって参照されるブック・ドキュメントを含めるために、&lt;FILE> タグを使用します。
+</para>
+<programlisting>
+&lt;FILE>&amp;ch03;&lt;/FILE>
+&lt;FILE>&amp;xlsc;&lt;/FILE>
+</programlisting>
+<para>
+また、&lt;FILE> タグの単一のセットで、複数のブック・ドキュメントの一覧を記述することもできます。次に例を示します。
+</para>
+<programlisting>
+&lt;FILE>&amp;ch03; &amp;xlsc;&lt;/FILE>
+</programlisting>
+</listitem>
+<listitem>
+<para>
+このブックのためのすべてドキュメントを参照した後、&lt;/BOOK> 終了タグを使用して、このブックを閉じます。
+</para>
+<programlisting>
+&lt;/BOOK>
+</programlisting>
+<para>
+ブックケースに含まれる各ブックについて、手順８から手順11を繰り返します。
+</para>
+</listitem>
+<listitem>
+<para>
+すべてのブックを指定した後、&lt;/BOOKCASE> 終了タグを使用して、ブックケース規定を閉じます。
+</para>
+<programlisting>
+&lt;/BOOKCASE>
+</programlisting>
+</listitem>
+</orderedlist>
+<para>
+完全なブックケースの例を
+<link linkend="XcQg4bBSxI9X3cS">「ブックケース規定の例」</link>に示します。
+</para>
+
+<!--)))))))))))))))))))))))))))))))))))))-->
+
+<sect3>
+<title id="XcQg4bBSxI9X3cS">ブックケース規定の例</title>
+<indexterm><primary>ブックケース規定</primary>
+<secondary>例</secondary></indexterm>
+<para>
+次に示すのは、小さなブックケース規定の例です。これは、単一のブックを含むひとつのブックケースを定義し、単一のスタイル・シートを使用しています。
+</para>
+<para>
+以下の例におけるスタイル・シートは、エンティティ参照によって参照されますが、スタイル・シート <computeroutput>STYLE01</computeroutput> の完全なテキストは、ブックケース規定に含まれます。
+</para>
+<programlisting>
+&lt;!DOCTYPE Bookcase PUBLIC
+&ldquo;-//Common Desktop Environment//DTD DtInfo Bookcase Description//EN&rdquo;
+[
+&lt;!-- Style sheets -->
+&lt;!ENTITY style01 SYSTEM &ldquo;style01.sty&rdquo; >
+
+&lt;!-- Book files declared as SUBDOC -->
+&lt;!ENTITY tocfile SYSTEM &ldquo;small.toc&rdquo; SUBDOC >
+&lt;!ENTITY ch03 SYSTEM &ldquo;ch03.sgm&rdquo; SUBDOC >
+&lt;!ENTITY xlsc SYSTEM &ldquo;xlsc.sgm&rdquo; SUBDOC >
+]>
+&lt;BOOKCASE StyleSheet=sty1>
+&lt;BOOKCASENAME>SMALL&lt;/>
+&lt;BOOKCASEDESC>Demonstration small bookcase&lt;/>
+&amp;style01;
+
+&lt;BOOK>
+&lt;TITLE>DocBook DTD Examples&lt;/>
+&lt;SHORTTITLE>SGML Examples&lt;/>
+
+&lt;!-- Tab information -->
+&lt;TAB TabLoc=&rdquo;RE-1015-XLSCLIENTS-1&rdquo;>Manpage&lt;/>
+
+&lt;TOCFILE>&amp;tocfile;&lt;/TOCFILE>
+
+&lt;FILE>&amp;ch03;&lt;/FILE>
+&lt;FILE>&amp;xlsc;&lt;/FILE>
+
+&lt;/BOOK>
+
+&lt;/BOOKCASE>
+</programlisting>
+<note>
+<para>
+このブックケース規定の例は、インフォメーション・マネージャとともに提供される <filename>dtinfoBook.dtd</filename> に準拠しています。
+</para>
+</note>
+</sect3>
+</sect2>
+</sect1>
+</chapter>

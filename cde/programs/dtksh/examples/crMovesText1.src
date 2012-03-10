@@ -1,0 +1,327 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: crMovesText1.src /main/3 1996/04/23 20:19:33 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This advanced shell script demonstrates the code necessary for forcing
+XCOMM  the Return key to move the focus to the next text field in a dialog,
+XCOMM  instead of causing the default pushbutton to be activated.  When the
+XCOMM  focus has moved to the last text field, then the Return key will activate
+XCOMM  the default pushbutton.
+XCOMM 
+
+XCOMM  This function modifies the text field indicated by $1, so that when
+XCOMM  the text field receives the focus, it clears the default button; when
+XCOMM  it loses the focus, it will reenable the default button.  It also adds
+XCOMM  some translations for catching the Return key, so that it can force
+XCOMM  the focus to the next text widget, which is indicated by $2
+SetCrControls()
+{
+   XtAddCallback $1 focusCallback "ClearDftButton"
+   XtAddCallback $1 losingFocusCallback "SetDftButton $OK"
+
+   XtOverrideTranslations $1 \
+	"Ctrl<Key>Return:ksh_eval(\"XmProcessTraversal $2 TRAVERSE_CURRENT\") 
+	<Key>Return:ksh_eval(\"XmProcessTraversal $2 TRAVERSE_CURRENT\")"
+}
+
+XCOMM  FocusOut Callback: reenables the default button
+SetDftButton()
+{
+   XtSetValues $FORM defaultButton:$OK
+}
+
+XCOMM  FocusIn Callback: disables the default button
+ClearDftButton()
+{
+   XtSetValues $FORM defaultButton:NULL
+}
+
+XCOMM  If the 'Ok' button is activated, but the 'Name' field is empty, then
+XCOMM  this function will display an error dialog.
+EmptyNameError()
+{
+   XmCreateErrorDialog ERROR_DIALOG $TOPLEVEL noName \
+            okLabelString:Ok \
+            messageString:"You must supply a name...."
+   XmMessageBoxGetChild CANCEL_BTN $ERROR_DIALOG DIALOG_CANCEL_BUTTON
+   XmMessageBoxGetChild HELP_BTN $ERROR_DIALOG DIALOG_HELP_BUTTON
+   XtUnmanageChildren $CANCEL_BTN $HELP_BTN
+
+   XtSetValues $(XtParent "-" $ERROR_DIALOG) title:foo
+
+   XtManageChildren $ERROR_DIALOG
+}
+
+XCOMM  Pushbutton Callback: attached to the 'Cancel' pushbutton
+QuitCB()
+{
+   exit 0
+}
+
+XCOMM  Pushbutton Callback: attached to the default pushbutton.  It extracts the
+XCOMM                       fields within the dialog, and does some validation.
+CheckActionValues()
+{
+   XtGetValues $LARGEICON value:LARGEICON_VALUE
+   XtGetValues $SMALLICON value:SMALLICON_VALUE
+   XtGetValues $DESCRIPTION value:DESCRIPTION_VALUE
+   XtGetValues $COMMANDLINE value:COMMANDLINE_VALUE
+   XtGetValues $PROMPT value:PROMPT_VALUE
+   XtGetValues $COMMANDTYPE menuHistory:COMMANDTYPE_WIDGET
+
+   XmTextGetString NAME_VALUE $NAME
+
+   if [ "$NAME_VALUE" = "" ] 
+   then
+      EmptyNameError
+   else
+      echo "Name: "$NAME_VALUE
+      echo "Large Icon: "$LARGEICON_VALUE
+      echo "Small Icon: "$SMALLICON_VALUE
+      echo "Description: "$DESCRIPTION_VALUE
+      echo "Command Line: "$COMMANDLINE_VALUE
+      echo "Prompt: "$PROMPT_VALUE
+      echo "Command Type: "$COMMANDTYPE_WIDGET
+   fi
+}
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL createAction CreateAction "$0" "$@"
+XtCreateManagedWidget FORM form XmForm $TOPLEVEL 
+
+XtCreateManagedWidget NAMELABEL nameLabel XmLabel $FORM \
+         topAttachment:ATTACH_FORM \
+         topOffset:20 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:20 \
+         labelString:"Name:"
+
+XtCreateManagedWidget NAME name XmText $FORM \
+         topAttachment:ATTACH_OPPOSITE_WIDGET \
+         topWidget:$NAMELABEL \
+         topOffset:-7 \
+         leftAttachment:ATTACH_WIDGET \
+         leftWidget:$NAMELABEL \
+         leftOffset:10 \
+         rightAttachment:ATTACH_FORM \
+         rightOffset:10 \
+	 navigationType:EXCLUSIVE_TAB_GROUP
+
+XtCreateManagedWidget COMMANDLINELABEL commandLineLabel XmLabel $FORM \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$NAMELABEL \
+         topOffset:20 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:20 \
+         labelString:"Command Line:"
+
+XtCreateManagedWidget COMMANDLINE commandLine XmText $FORM \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$COMMANDLINELABEL \
+         topOffset:5 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:40 \
+         rightAttachment:ATTACH_FORM \
+         rightOffset:10 \
+	 navigationType:EXCLUSIVE_TAB_GROUP
+
+XmCreatePulldownMenu PANE $FORM pane 
+XtCreateManagedWidget XWIN xwin XmPushButton $PANE \
+         labelString:"X Windows"
+XtCreateManagedWidget NOOUT noOut XmPushButton $PANE \
+         labelString:"No Output"
+XtCreateManagedWidget TERM term XmPushButton $PANE \
+         labelString:"Terminal"
+XtCreateManagedWidget TERMCLOSE termClose XmPushButton $PANE \
+         labelString:"Terminal [auto-close]"
+
+XmCreateOptionMenu COMMANDTYPE $FORM commandType \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$COMMANDLINE \
+         topOffset:20 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:20 \
+         rightAttachment:ATTACH_FORM \
+         rightOffset:10 \
+         labelString:"Window Type:" \
+         menuHistory:$TERM \
+         subMenuId:$PANE \
+	 navigationType:EXCLUSIVE_TAB_GROUP
+XtSetValues $COMMANDTYPE spacing:35
+XtManageChildren $COMMANDTYPE
+
+XtCreateManagedWidget OPTLABEL optLabel XmLabel $FORM \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$COMMANDTYPE \
+         topOffset:30 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:100 \
+         labelString:"Optional Fields"
+
+XtCreateManagedWidget SEP1 sep1 XmSeparator $FORM \
+         topAttachment:ATTACH_OPPOSITE_WIDGET \
+         topWidget:$OPTLABEL \
+         topOffset:10 \
+         rightAttachment:ATTACH_WIDGET \
+         rightWidget:$OPTLABEL \
+         rightOffset:5 \
+         leftAttachment:ATTACH_FORM \
+         orientation:HORIZONTAL \
+         separatorType:SHADOW_ETCHED_OUT
+
+XtCreateManagedWidget SEP2 sep2 XmSeparator $FORM \
+         topAttachment:ATTACH_OPPOSITE_WIDGET \
+         topWidget:$OPTLABEL \
+         topOffset:10 \
+         leftAttachment:ATTACH_WIDGET \
+         leftWidget:$OPTLABEL \
+         leftOffset:5 \
+         rightAttachment:ATTACH_FORM \
+         orientation:HORIZONTAL \
+         separatorType:SHADOW_ETCHED_OUT
+
+XtCreateManagedWidget PROMPTLABEL promptLabel XmLabel $FORM \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$OPTLABEL \
+         topOffset:20 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:20 \
+         labelString:"Filename Prompt:"
+
+XtCreateManagedWidget PROMPT prompt XmText $FORM \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$PROMPTLABEL \
+         topOffset:5 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:40 \
+         rightAttachment:ATTACH_FORM \
+         rightOffset:10 \
+	 navigationType:EXCLUSIVE_TAB_GROUP
+
+XtCreateManagedWidget LARGEICONLABEL largeIconLabel XmLabel $FORM \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$PROMPT \
+         topOffset:30 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:20 \
+         labelString:"Large Icon:"
+
+XtCreateManagedWidget LARGEICON largeIcon XmText $FORM \
+         topAttachment:ATTACH_OPPOSITE_WIDGET \
+         topWidget:$LARGEICONLABEL \
+         topOffset:-7 \
+         leftAttachment:ATTACH_WIDGET \
+         leftWidget:$LARGEICONLABEL \
+         leftOffset:20 \
+         rightAttachment:ATTACH_FORM \
+         rightOffset:10 \
+	 navigationType:EXCLUSIVE_TAB_GROUP
+
+XtCreateManagedWidget SMALLICONLABEL smallIconLabel XmLabel $FORM \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$LARGEICONLABEL \
+         topOffset:20 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:20 \
+         labelString:"Small Icon:"
+
+XtCreateManagedWidget SMALLICON smallIcon XmText $FORM \
+         topAttachment:ATTACH_OPPOSITE_WIDGET \
+         topWidget:$SMALLICONLABEL \
+         topOffset:-7 \
+         leftAttachment:ATTACH_OPPOSITE_WIDGET \
+         leftWidget:$LARGEICON \
+         rightAttachment:ATTACH_FORM \
+         rightOffset:10 \
+	 navigationType:EXCLUSIVE_TAB_GROUP
+
+XtCreateManagedWidget DESCRIPTIONLABEL descriptionLabel XmLabel $FORM \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$SMALLICONLABEL \
+         topOffset:20 \
+         leftAttachment:ATTACH_FORM \
+         leftOffset:20 \
+         labelString:"Description:"
+
+XmCreateScrolledText DESCRIPTION $FORM description \
+          topAttachment:ATTACH_WIDGET \
+          topWidget:$DESCRIPTIONLABEL \
+          topOffset:5 \
+          leftAttachment:ATTACH_FORM \
+          leftOffset:40 \
+          rightAttachment:ATTACH_FORM \
+          rightOffset:10 \
+          editMode:MULTI_LINE_EDIT \
+          rows:4 \
+	  navigationType:EXCLUSIVE_TAB_GROUP
+XtManageChildren $DESCRIPTION
+
+XtCreateManagedWidget SEP sep XmSeparator $FORM \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$DESCRIPTION \
+         topOffset:20 \
+         rightAttachment:ATTACH_FORM \
+         leftAttachment:ATTACH_FORM
+
+XtCreateManagedWidget OK ok XmPushButton $FORM \
+         labelString:Apply \
+         leftAttachment:ATTACH_POSITION \
+         leftPosition:10 \
+         rightAttachment:ATTACH_POSITION \
+         rightPosition:30 \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$SEP \
+         topOffset:20 \
+         bottomOffset:10 \
+         bottomAttachment:ATTACH_FORM
+XtAddCallback $OK activateCallback CheckActionValues
+
+XtCreateManagedWidget CLOSE close XmPushButton $FORM \
+         labelString:Close \
+         leftAttachment:ATTACH_POSITION \
+         leftPosition:40 \
+         rightAttachment:ATTACH_POSITION \
+         rightPosition:60 \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$SEP \
+         topOffset:20 \
+         bottomOffset:10 \
+         bottomAttachment:ATTACH_FORM
+XtAddCallback $CLOSE activateCallback QuitCB
+
+XtCreateManagedWidget HELP help XmPushButton $FORM \
+         labelString:Help \
+         leftAttachment:ATTACH_POSITION \
+         leftPosition:70 \
+         rightAttachment:ATTACH_POSITION \
+         rightPosition:90 \
+         topAttachment:ATTACH_WIDGET \
+         topWidget:$SEP \
+         topOffset:20 \
+         bottomOffset:10 \
+         bottomAttachment:ATTACH_FORM
+
+XtSetValues $FORM \
+	defaultButton:$OK \
+	cancelButton:$CLOSE \
+	navigationType:EXCLUSIVE_TAB_GROUP \
+	initialFocus:$NAME 
+
+XCOMM  Set up proper behavior for the Return key
+SetCrControls $NAME         $COMMANDLINE 
+SetCrControls $COMMANDLINE  $PROMPT 
+SetCrControls $PROMPT       $LARGEICON 
+SetCrControls $LARGEICON    $SMALLICON 
+
+XtRealizeWidget $TOPLEVEL
+XtMainLoop

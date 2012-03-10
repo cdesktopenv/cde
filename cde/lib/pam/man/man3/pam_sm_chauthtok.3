@@ -1,0 +1,159 @@
+.\" $XConsortium: pam_sm_chauthtok.3 /main/5 1996/10/29 15:20:04 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam_sm_chauthtok 3 "9 Jan 1996"
+.SH NAME
+pam_sm_chauthtok
+\- Service provider implementation for pam_chauthtok
+.SH SYNOPSIS
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+#include <security/pam_modules.h>
+.ft
+.fi
+.LP
+.BI "int pam_sm_chauthtok(pam_handle_t " "*pamh" ,
+.BI "const int " "flags");
+.SH DESCRIPTION
+.IX "pam_authtok" "" "\fLpam_authtok\fP \(em request changing authentication token"
+In response to a call to
+.BR pam_chauthtok (3)
+the PAM framework calls
+.BR pam_sm_chauthtok (3)
+from the modules listed in the
+.BR pam.conf (4)
+file. 
+The password management provider
+supplies the back-end functionality for
+this interface function.
+.PP
+.B pam_sm_chauthtok(\|)
+changes the authentication token associated with a
+particular user referenced by the authentication handle,
+.IR pamh.
+.LP
+The following flag may be passed in to
+.BR pam_chauthtok(\|) :
+.RS
+.IP PAM_SILENT 30
+The password service should not generate any messages
+.IP PAM_CHANGE_EXPIRED_AUTHTOK 30
+The password service should only update those passwords that have aged.
+If this flag is not passed, the password service should update all passwords.
+.IP PAM_PRELIM_CHECK 30
+The password service should only perform preliminary checks.
+No passwords should be updated.
+.IP PAM_UPDATE_AUTHTOK 30
+The password service should update passwords
+.RE
+.LP
+Note that PAM_PRELIM_CHECK and PAM_UPDATE_AUTHTOK can not be
+set at the same time.
+.LP
+Upon successful completion of the call, the authentication
+token of the user will be ready for change or will be changed
+(depending upon the flag)
+in accordance with the authentication scheme
+configured within the system.
+.PP
+The
+.I argc
+argument
+represents the number of module options passed in from the configuration file
+.BR pam.conf (4).
+.I argv
+specifies the module options, which are interpreted and processed
+by the password management service.  Please refer to the specific
+module man pages for the various available
+.I options.
+.LP
+It is the responsibility of
+.B pam_sm_chauthtok(\|)
+to determine if the new password meets certain strength requirements.
+.B pam_sm_chauthtok(\|)
+may continue to re-prompt the user (for a limited number of times)
+for a new password until the password entered
+meets the strength requirements.
+.LP
+Before returning,
+.B pam_sm_chauthtok(\|)
+should call 
+.B pam_get_item(\|)
+and retrieve both PAM_AUTHTOK
+and PAM_OLDAUTHTOK. If both are NULL,
+.B pam_sm_chauthtok(\|) 
+should set them to the new and old passwords
+as entered by the user.
+.SH NOTES
+The
+.SM PAM
+framework invokes the password services twice.  The first time the modules
+are invoked with the flag, PAM_PRELIM_CHECK.
+During this stage, the password modules should only perform preliminary
+checks (ping remote name services to see if they are
+ready for updates, for example).  If a password module
+detects a transient error (remote name service temporarily down, for example)
+it should return PAM_TRY_AGAIN to the
+.SM PAM
+framework, which
+will immediately return the error back to the application.
+If all password modules pass the preliminary check, the
+.SM PAM
+framework invokes the password services again with the flag,
+PAM_UPDATE_AUTHTOK.  During this stage, each password module should
+proceed to update the appropriate password.  Any error will again be
+reported back to application.
+.LP
+If a service module receives the flag, PAM_CHANGE_EXPIRED_AUTHTOK,
+it should check whether the password has aged or expired.
+If the password has aged or expired,
+then the service module should proceed to update the password.
+If the status indicates that the
+password has not yet aged/expired, then the password module
+should return PAM_IGNORE.
+.LP
+If a user's password has aged or expired, a 
+.SM PAM
+account module could save this information as state
+in the authentication handle,
+pamh, using
+.BR pam_set_data(\|) .
+The related password management module could retreive this information
+using
+.B pam_get_data(\|)
+to determine whether or not it should prompt
+the user to update the password for this particular module.
+.SH "RETURN VALUES"
+.PP
+Upon successful completion, PAM_SUCCESS must be returned.
+The following values may also be returned:
+.RS
+.IP PAM_PERM_DENIED 34
+No permission
+.IP PAM_AUTHTOK_ERR 34
+Authentication token manipulation error
+.IP PAM_AUTHTOK_RECOVERY_ERR 34
+Old authentication token cannot be recovered
+.IP PAM_AUTHTOK_LOCK_BUSY 34
+Authentication token lock busy
+.IP PAM_AUTHTOK_DISABLE_AGING 34
+Authentication token aging disabled
+.IP PAM_USER_UNKNOWN 34
+User unknown to password service
+.IP PAM_TRY_AGAIN 34
+Preliminary check by password service failed
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR pam_chauthtok (3),
+.BR pam.conf (4)

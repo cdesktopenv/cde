@@ -1,0 +1,121 @@
+.\" $XConsortium: chr.3 /main/2 1996/10/29 15:07:02 drk $
+.de L		\" literal font
+.ft 5
+.it 1 }N
+.if !\\$1 \&\\$1 \\$2 \\$3 \\$4 \\$5 \\$6
+..
+.de LR
+.}S 5 1 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de RL
+.}S 1 5 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de LI
+.}S 5 3 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de IL
+.}S 3 5 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de EX		\" start example
+.ta 1i 2i 3i 4i 5i 6i
+.PP
+.RS 
+.PD 0
+.ft 5
+.nf
+..
+.de EE		\" end example
+.fi
+.ft
+.PD
+.RE
+.PP
+..
+.TH CHR 3
+.SH NAME
+chr \- character constant conversion routines
+.SH SYNOPSIS
+.EX
+#include <ast.h>
+
+int          chresc(const char* \fIs\fP, char** \fIe\fP);
+int          chrtoi(const char* \fIs\fP);
+.EE
+.SH DESCRIPTION
+.L chresc
+converts and returns the next character constant in the 0-terminated string
+.IR s .
+If
+.I e
+is not 0 then
+.I *e
+is set to point to the next character in
+.I s
+on return.
+0 is returned and 
+.I e
+is not modified when the end of
+.I s
+is reached.
+.PP
+.L chrtoi
+converts the 0-terminated string
+.I s
+to an
+.I int
+and returns the value.
+The characters in
+.I s
+are converted in order from the left and shifted into the
+.I int
+value until up to the number of characters in an
+.I int
+is reached.
+This operation is inherently machine-dependent,
+but at least its defined in one place.
+.PP
+The following 
+.B \e
+escape sequences are recognized:
+.TP
+.LI \e ooo
+The character represented by the octal code
+.IR ooo .
+.TP
+.LI \ex xx
+The character represented by the hex code
+.IR xx .
+.TP
+.L \ea
+Alert (bell).
+.TP
+.L \eb
+Backspace.
+.TP
+.L \ef
+Formfeed.
+.TP
+.L \en
+Newline.
+.TP
+.L \er
+Carriage return.
+.TP
+.L \et
+Horizontal tab.
+.TP
+.L \ev
+Vertical tab.
+.TP
+.L \eE
+ESC (escape).
+.TP
+.L \e\e
+Backslash.
+.PP
+Other characters following
+.B \e
+are undefined (although for backwards compatibility they
+translate to themselves).
+.SH "SEE ALSO"
+str(3)

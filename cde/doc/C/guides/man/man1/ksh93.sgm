@@ -1,0 +1,6056 @@
+<!-- $XConsortium: ksh93.sgm /main/15 1996/10/30 16:32:16 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMX.MAN37.rsml.1">
+<RefMeta>
+<RefEntryTitle>ksh</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>ksh</Command></RefName>
+<RefPurpose>KornShell, a
+standard/restricted command and programming language
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>ksh</Command>
+<Arg Choice="opt">&plusmn;abcefhikmnoprstuvxCP</Arg>
+<Group>
+<Arg>&minus;I</Arg>
+<Arg>file</Arg>
+</Group>
+<Group>
+<Arg>&plusmn;o</Arg>
+<Arg>option</Arg>
+</Group>
+<Arg>.&thinsp;.&thinsp;.</Arg>
+<Arg Choice="opt">&minus;</Arg>
+<Arg Choice="opt">arg .&thinsp;.&thinsp;.</Arg>
+<Arg>rksh</Arg>
+<Arg Choice="opt">&plusmn;abcefhikmnoprstuvxCP</Arg>
+<Group>
+<Arg>&minus;I</Arg>
+<Arg>file</Arg>
+</Group>
+<Group>
+<Arg>&plusmn;o</Arg>
+<Arg>option</Arg>
+</Group>
+<Arg>.&thinsp;.&thinsp;.</Arg>
+<Arg Choice="opt">&minus;</Arg>
+<Arg Choice="opt">arg .&thinsp;.&thinsp;.</Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Emphasis>Ksh&hairsp;</Emphasis> is a command and programming language
+that executes commands read from a terminal
+or a file.
+<Emphasis>Rksh&hairsp;</Emphasis> is a restricted version of the
+command interpreter
+<Emphasis>ksh</Emphasis>; it is used to set up login names and execution environments whose
+capabilities are more controlled than those of the standard shell.
+See
+<Emphasis>Invocation&hairsp;</Emphasis> below
+for the meaning of arguments to the shell.
+</Para>
+<RefSect2>
+<Title>Definitions.</Title>
+<Para>A
+<Emphasis>metacharacter&hairsp;</Emphasis> is one of the following characters:
+</Para>
+<Para><Literal>; &amp; &lpar; &rpar; &verbar; &lt; &gt; new-line space tab</Literal>
+</Para>
+<Para>A
+<Emphasis>blank&hairsp;</Emphasis> is a
+<Literal>tab</Literal> or a
+<Literal>space</Literal>. An
+<Emphasis>identifier&hairsp;</Emphasis> is a sequence of letters, digits, or underscores
+starting with a letter or underscore.
+Identifiers are used as components of
+<Emphasis>variable&hairsp;</Emphasis> names.
+A
+<Emphasis>vname&hairsp;</Emphasis> is a sequence of one or more identifiers
+separated by a. and optionally preceded
+by a ..
+Vnames are used as function and variable names.
+A
+<Emphasis>word&hairsp;</Emphasis> is a sequence of
+<Emphasis>characters&hairsp;</Emphasis> excluding non-quoted
+<Emphasis>metacharacters</Emphasis>.</Para>
+<Para>A
+<Emphasis>command&hairsp;</Emphasis> is a sequence of characters in the syntax
+of the shell language.
+The shell reads each command and
+carries out the desired action either directly or by invoking
+separate utilities.
+A built-in command is a command that is carried out by the
+shell itself without creating a separate process.
+Some commands are built-in purely for convenience
+and are not documented here.
+Built-ins that cause
+side effects in the shell environment and
+built-ins that are found before performing a
+path search (see
+<Emphasis>Execution&hairsp;</Emphasis> below)
+are documented here.
+For historical reasons, some of
+these built-ins behave differently than
+other built-ins and are called
+<Emphasis>special built-ins</Emphasis>.</Para>
+</RefSect2>
+<RefSect2>
+<Title>Commands.</Title>
+<Para>A
+<Emphasis>simple-command&hairsp;</Emphasis> is a list of variable assignments
+(see
+<Emphasis>Variable</Emphasis> <Emphasis>Assignments&hairsp;</Emphasis> below)
+or a sequence of
+<Emphasis>blank&hairsp;</Emphasis> separated words
+which may be preceded by a list of variable assignments
+(see
+<Emphasis>Environment&hairsp;</Emphasis> below).
+The first word specifies the name of the command to
+be executed.
+Except as specified below,
+the remaining words are passed as arguments
+to the invoked command.
+The command name is passed as argument 0
+(see
+<Emphasis>exec</Emphasis>(2)). The
+<Emphasis>value&hairsp;</Emphasis> of a simple-command is its exit status; 0-255
+if it terminates normally; 256+<Emphasis>signum&hairsp;</Emphasis> if
+it terminates abnormally (the name of the signal corresponding
+to the exit status can be
+obtained via the
+<Literal>&minus;l $?</Literal> option of the
+<Literal>kill&hairsp;</Literal> built-in utility).
+</Para>
+<Para>An
+<Emphasis>arithmetic command</Emphasis> begins with a
+<Literal>((</Literal>, and consists of an arithmetic expression formed by
+all the characters until a matching
+<Literal>))</Literal>. (See
+<Emphasis>Arithmetic evaluation</Emphasis> below.)
+The exit status of an arithmetic command is 0 when the
+arithmetic expression evaluates to a non-zero value and
+is 1 when the arithmetic expression evaluates to 0.
+</Para>
+<Para>A
+<Emphasis>pipeline&hairsp;</Emphasis> is a sequence of one or more
+<Emphasis>commands&hairsp;</Emphasis> separated by
+<Literal>&verbar;</Literal>. The standard output of each command but the last
+is connected by a
+<Emphasis>pipe</Emphasis>(2) to the standard input of the next command.
+Each command,
+except possibly the last,
+is run as a separate process;
+the shell waits for the last command to terminate.
+The exit status of a pipeline is the exit
+status of the last command.
+Each pipeline can be preceded by the
+<Emphasis>reserved word</Emphasis> <Literal>!</Literal> which negates the exit status of the pipeline.
+</Para>
+<Para>A
+<Emphasis>list&hairsp;</Emphasis> is a sequence of one or more
+pipelines
+separated by
+<Literal>;</Literal>, <Literal>&amp;</Literal>, <Literal>&verbar;&amp;</Literal>, <Literal>&amp;&amp;</Literal>, or
+<Literal>&verbar;&thinsp;&verbar;</Literal>, and optionally terminated by
+<Literal>;</Literal>, <Literal>&amp;</Literal>, or
+<Literal>&verbar;&amp;</Literal>. Of these five symbols,
+<Literal>;</Literal>, <Literal>&amp;</Literal>, and
+<Literal>&verbar;&amp;</Literal> have equal precedence,
+which is lower than that of
+<Literal>&amp;&amp;</Literal> and
+<Literal>&verbar;&thinsp;&verbar;</Literal>. The symbols
+<Literal>&amp;&amp;</Literal> and
+<Literal>&verbar;&thinsp;&verbar;</Literal> also have equal precedence.
+A semicolon
+(<Literal>;</Literal>) causes sequential execution of the preceding pipeline; an ampersand
+(<Literal>&amp;</Literal>) causes asynchronous execution of the preceding pipeline (i.e., the shell does
+<Emphasis>not&hairsp;</Emphasis> wait for that pipeline to finish).
+The symbol
+<Literal>&verbar;&amp;</Literal> causes asynchronous execution of the preceding pipeline
+with a two-way pipe established to the parent shell;
+the standard input and output of the spawned pipeline
+can be written to and read from by the parent shell
+by applying
+the redirection operators
+<Literal>&lt;&amp;</Literal> and
+<Literal>>&amp;</Literal> with arg
+<Literal>p</Literal> to commands and by using
+<Literal>&minus;p</Literal> option of
+the built-in commands
+<Literal>read</Literal> and
+<Literal>print</Literal> described later.
+The symbol
+<Literal>&amp;&amp;</Literal> (&thinsp;<Literal>&verbar;&thinsp;&verbar;</Literal>&hairsp;) causes the
+<Emphasis>list&hairsp;</Emphasis> following it to be executed only if the preceding
+pipeline
+returns a zero (non-zero) value.
+An arbitrary number of new-lines may appear in a
+<Emphasis>list&hairsp;</Emphasis> instead of a semicolon,
+to delimit a command.
+</Para>
+<Para>A
+<Emphasis>command&hairsp;</Emphasis> is either a simple-command
+or one of the following.
+Unless otherwise stated,
+the value returned by a command is that of the
+last simple-command executed in the command.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>for vname&hairsp; in word&hairsp; .&thinsp;.&thinsp;. ;do list&hairsp; ;done</Term>
+<ListItem>
+<Para>Each time a
+<Literal>for</Literal> command is executed,
+<Emphasis>name&hairsp;</Emphasis> is set to the next
+<Emphasis>word&hairsp;</Emphasis> taken from the
+<Literal>in</Literal> <Emphasis>word&hairsp;</Emphasis> list.
+If
+<Literal>in</Literal> <Emphasis>word&hairsp;</Emphasis> .&thinsp;.&thinsp;.
+is omitted, then
+the
+<Literal>for</Literal> command executes the <Literal>do</Literal> <Emphasis>list&hairsp;</Emphasis> once for each positional parameter
+that is set
+(see
+<Emphasis>Parameter Expansion</Emphasis> below).
+Execution ends when there are no more words in the list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>for (( expr1&hairsp;; expr2&hairsp;; expr3&hairsp; )) ;do list&hairsp; ;done</Term>
+<ListItem>
+<Para>The arithmetic expression
+<Emphasis>expr1</Emphasis> is evaluated first.
+(See
+<Emphasis>Arithmetic evaluation</Emphasis> below.)
+The arithmetic expression
+<Emphasis>expr2</Emphasis> is repeatedly evaluated until it evalues to zero and when non-zero,
+<Symbol Role="Variable">list</Symbol> is executed and the arithmetic expression
+<Emphasis>expr3</Emphasis> evaluated.
+If any expression
+is omitted, then it behaves as if it evaluated to 1.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>select vname&hairsp; in word&hairsp; .&thinsp;.&thinsp;. ;do list&hairsp; ;done</Term>
+<ListItem>
+<Para>A
+<Literal>select</Literal> command prints on standard error (file descriptor 2) the set of
+<Emphasis>word</Emphasis>s, each preceded by a number.
+If
+<Literal>in</Literal> <Emphasis>word&hairsp;</Emphasis> .&thinsp;.&thinsp;.
+is omitted, then
+the
+positional parameters
+are used instead
+(see
+<Emphasis>Parameter Expansion</Emphasis> below).
+The
+<Symbol>PS3</Symbol> prompt is printed
+and a line is read from the standard input.
+If this line consists of the number
+of one of the listed
+<Emphasis>word</Emphasis>s, then the value of the variable
+<Emphasis>vname&hairsp;</Emphasis> is set to the
+<Emphasis>word&hairsp;</Emphasis> corresponding to this number.
+If this line is empty the selection list is
+printed again.
+Otherwise the value of the variable
+<Emphasis>vname&hairsp;</Emphasis> is set to
+<Symbol Role="Variable">null</Symbol>. The contents of the line read from standard input is
+saved in
+the variable
+<Symbol>REPLY</Symbol>. The
+<Emphasis>list&hairsp;</Emphasis> is executed for each selection until a
+<Literal>break&hairsp;</Literal> or
+<Emphasis>end-of-file&hairsp;</Emphasis> is encountered.
+If the
+<Symbol>REPLY</Symbol> variable is set to
+<Emphasis>null&hairsp;</Emphasis> by the execution of
+<Symbol Role="Variable">list</Symbol>, then the selection list is printed before
+displaying the
+<Symbol>PS3</Symbol> prompt for the next selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>case word&hairsp; in (pattern&hairsp; &verbar; pattern&hairsp; .&thinsp;.&thinsp;.) list&hairsp; ;; .&thinsp;.&thinsp;. esac</Term>
+<ListItem>
+<Para>A
+<Literal>case</Literal> command executes the
+<Emphasis>list&hairsp;</Emphasis> associated with the first
+<Emphasis>pattern&hairsp;</Emphasis> that matches
+<Emphasis>word</Emphasis>. The form of the patterns is
+the same as that used for
+file-name generation (see
+<Emphasis>File Name Generation&hairsp;</Emphasis> below).
+The
+<Literal>;;</Literal> operator causes execution of
+<Literal>case</Literal> to terminate.
+If
+<Literal>;&amp;</Literal> is used in place of
+<Literal>;;</Literal> the next subsequent list, if any, is executed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>if list&hairsp; ;then list&hairsp;</Term>
+<ListItem>
+<Para><Literal>elif</Literal> <Emphasis>list&hairsp;</Emphasis> <Literal>;then</Literal> <Emphasis>list&hairsp;</Emphasis> &str.CK; .&thinsp;.&thinsp;.
+&str.OK; <Literal>;else</Literal> <Emphasis>list&hairsp;</Emphasis> &str.CK; <Literal>;fi</Literal>
+The
+<Emphasis>list&hairsp;</Emphasis> following <Literal>if</Literal> is executed and,
+if it
+returns a zero exit status, the
+<Emphasis>list&hairsp;</Emphasis> following
+the first
+<Literal>then</Literal> is executed.
+Otherwise, the
+<Emphasis>list&hairsp;</Emphasis> following <Literal>elif</Literal>
+is executed and, if its value is zero,
+the
+<Emphasis>list&hairsp;</Emphasis> following
+the next
+<Literal>then</Literal> is executed.
+Failing that, the
+<Literal>else</Literal> <Emphasis>list&hairsp;</Emphasis> is executed.
+If the
+<Literal>if</Literal> <Emphasis>list&hairsp;</Emphasis> has non-zero exit status
+and there is no
+<Literal>else</Literal> <Symbol Role="Variable">list</Symbol>, then the
+<Literal>if</Literal> command returns a zero exit status.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>while list&hairsp; ;do list&hairsp; ;done</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>until list&hairsp; ;do list&hairsp; ;done</Term>
+<ListItem>
+<Para>A
+<Literal>while</Literal> command repeatedly executes the
+<Literal>while</Literal> <Emphasis>list&hairsp;</Emphasis> and, if the exit status of the last command in the list is zero, executes
+the
+<Literal>do</Literal> <Symbol Role="Variable">list</Symbol>; otherwise the loop terminates.
+If no commands in the
+<Literal>do</Literal> <Emphasis>list&hairsp;</Emphasis> are executed, then the
+<Literal>while</Literal> command returns a zero exit status;
+<Literal>until</Literal> may be used in place of
+<Literal>while</Literal> to negate
+the loop termination test.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>(list&hairsp;)</Term>
+<ListItem>
+<Para>Execute
+<Emphasis>list&hairsp;</Emphasis> in a separate environment.
+Note, that if two adjacent open parentheses are
+needed for nesting, a space must be inserted to avoid
+evaluation as an arithmetic command as described above.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>{ list&hairsp;;}</Term>
+<ListItem>
+<Para><Emphasis>list&hairsp;</Emphasis> is simply executed.
+Note that unlike the metacharacters
+<Literal>(</Literal> and
+<Literal>)</Literal>, <Literal>{</Literal> and
+<Literal>}</Literal> are
+<Emphasis>reserved word</Emphasis>s and must occur
+at the beginning of a line or after a
+<Literal>;</Literal> in order to be recognized.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[[ expression &hairsp;]]</Term>
+<ListItem>
+<Para>Evaluates
+<Emphasis>expression&hairsp;</Emphasis> and returns a zero exit status when
+<Emphasis>expression&hairsp;</Emphasis> is true.
+See
+<Emphasis>Conditional Expressions&hairsp;</Emphasis> below, for a description of
+<Emphasis>expression</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>function varname&hairsp; { list&hairsp; ;}</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>varname&hairsp; () { list&hairsp; ;}</Term>
+<ListItem>
+<Para>Define a function which is referenced by
+<Emphasis>varname</Emphasis>. A function whose
+<Emphasis>varname&hairsp;</Emphasis> contains a
+. is called a discipline function and the portion
+of the
+<Emphasis>varname&hairsp;</Emphasis> preceding the last
+. must refer to an existing variable.
+The body of the function is the
+<Emphasis>list&hairsp;</Emphasis> of commands between
+<Literal>{</Literal> and
+<Literal>}</Literal>. A function defined with the <Literal>function</Literal> <Emphasis>varname&hairsp;</Emphasis>
+syntax can also be used as an argument to the.
+special built-in command to get the equivalent behavior
+as if the <Emphasis>varname&hairsp;</Emphasis><Literal>()</Literal> syntax were used to define it.
+(See
+<Emphasis>Functions&hairsp;</Emphasis> below.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>time pipeline&hairsp;</Term>
+<ListItem>
+<Para>If <Emphasis>pipeline&hairsp;</Emphasis> is omitted the user and system time for
+the current shell and completed child processes is printed
+on standard error.
+Otherwise,
+<Emphasis>pipeline&hairsp;</Emphasis> is executed and the elapsed time as well as
+the user and system time are printed on standard error.
+</Para>
+<Para>The following reserved words
+are only recognized as such when they are the first word of a command
+and are not quoted:
+</Para>
+<Para><Literal>if then else elif fi case esac for
+while until do done { } function
+select time [[ ]] !</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Variable Assignments.</Title>
+<Para>One or more variable assignments can start a simple command
+or can be an arguments to the
+<Literal>typeset</Literal>, <Literal>export</Literal>, or
+<Literal>readonly</Literal> special built-in commands.
+The syntax for an <Emphasis>assignment&hairsp;</Emphasis> is of the form:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>varname&hairsp;=word&hairsp;</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>varname&hairsp;[word&hairsp;]=word&hairsp;</Term>
+<ListItem>
+<Para>No space is permitted between <Emphasis>varname&hairsp;</Emphasis> and the <Literal>=</Literal> or
+between <Literal>=</Literal> and <Emphasis>word&hairsp;</Emphasis>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>varname&hairsp;=(assign_list&hairsp;)</Term>
+<ListItem>
+<Para>No space is permitted between <Emphasis>varname&hairsp;</Emphasis> and the <Literal>=</Literal>.
+An <Emphasis>assign_list&hairsp;</Emphasis> can be one of the following:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>word&hairsp; ...</Term>
+<ListItem>
+<Para>Indexed array assignment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[word&hairsp;]=word&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Associative array assignment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>assignment&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Nested variable assignment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>typeset options assignment&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Nested variable assignment. Multiple assignments
+can be specified by separating each of them with a <Literal>;</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Comments.</Title>
+<Para>A word beginning with
+<Literal>#</Literal> causes that word and all the following characters up to a new-line
+to be ignored.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Aliasing.</Title>
+<Para>The first word of each command is replaced by the text of an
+<Literal>alias</Literal> if an
+<Literal>alias</Literal> for this word has been defined.
+An
+<Literal>alias</Literal> name consists of any number of characters excluding metacharacters,
+quoting characters,
+file expansion characters,
+parameter expansion and command substitution
+characters,
+and
+<Literal>=</Literal>. The replacement string can contain any
+valid shell script
+including the metacharacters listed above.
+The first word of each command in the
+replaced text,
+other than
+any that are in the process of being replaced,
+will be tested for aliases.
+If the last character of the alias value is a
+<Emphasis>blank&hairsp;</Emphasis> then the word following the alias will also be checked for alias
+substitution.
+Aliases can be used to redefine
+built-in commands but cannot be used to redefine
+the reserved words listed above.
+Aliases can be created and listed with the
+<Literal>alias</Literal> command and can be removed with the
+<Literal>unalias</Literal> command.
+</Para>
+<Para><Emphasis>Aliasing&hairsp;</Emphasis> is performed when
+scripts are read,
+not while they are executed.
+Therefore,
+for an alias to take effect
+the
+<Literal>alias
+definition command has to be executed before
+the command which references the alias is read.</Literal></Para>
+<Para>The following
+<Symbol Role="Variable">exported</Symbol> <Emphasis>aliases</Emphasis> are compiled into the shell
+but can be unset or redefined:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>autoload=&acute;typeset &minus;fu&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>command=&acute;command &acute;</Para>
+</ListItem>
+<ListItem>
+<Para>fc=hist</Para>
+</ListItem>
+<ListItem>
+<Para>float=&acute;typeset &minus;E&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>functions=&acute;typeset &minus;f&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>hash=&acute;alias &minus;t &minus;&minus;&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>history=&acute;hist &minus;l&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>integer=&acute;typeset &minus;i&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>nameref=&acute;typeset &minus;n&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>nohup=&acute;nohup &acute;</Para>
+</ListItem>
+<ListItem>
+<Para>r=&acute;hist &minus;s&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>redirect=&acute;command exec&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>stop=&acute;kill &minus;s STOP&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>times=&acute;{ {time;} 2>&amp;1;}&acute;</Para>
+</ListItem>
+<ListItem>
+<Para>type=&acute;whence &minus;v&acute;</Para>
+</ListItem>
+</ItemizedList>
+</RefSect2>
+<RefSect2>
+<Title>Tilde Substitution.</Title>
+<Para>After alias substitution is performed, each word
+is checked to see if it begins with an unquoted
+<Literal>&ap;</Literal>. For tilde substitution,
+<Emphasis>word&hairsp;</Emphasis> also refers to the
+<Emphasis>word&hairsp;</Emphasis> portion of parameter expansion
+( see
+<Emphasis>Parameter Expansion</Emphasis> below.)
+If it does, then the word up to a
+<Filename>/</Filename> is checked to see if it matches a user name in the
+password database (
+often the
+<Filename>/etc/passwd</Filename> file).
+If a match is found, the
+<Literal>&ap;</Literal> and the matched login name are replaced by the
+login directory of the matched user.
+If no match is found, the original text is left unchanged.
+A
+<Literal>&ap;</Literal> by itself, or in front of a
+<Filename>/</Filename>, is replaced by
+<Filename>$HOME</Filename>. A
+<Literal>&ap;</Literal> followed by a
+<Literal>+</Literal> or
+<Literal>&minus;</Literal> is replaced by the value of
+$PWDand
+$OLDPWDrespectively.
+</Para>
+<Para>In addition,
+when expanding a
+<Emphasis>variable assignment</Emphasis>, <Emphasis>tilde</Emphasis> substitution is attempted when
+the value of the assignment
+begins with a
+<Literal>&ap;</Literal>, and when a
+<Literal>&ap;</Literal> appears after a
+<Literal>:</Literal>. The
+<Literal>:</Literal> also terminates a
+<Literal>&ap;</Literal> login name.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Command Substitution.</Title>
+<Para>The standard output from a command enclosed in
+parentheses preceded by a dollar sign (
+<Literal>$(&thinsp;)</Literal>)
+or a pair of grave accents (&hairsp;<Literal>&grave;&hairsp;&grave;</Literal>&hairsp;)
+may be used as part or all
+of a word;
+trailing new-lines are removed.
+In the second (obsolete) form, the string between the quotes is processed
+for special quoting characters before the command is executed (see
+<Emphasis>Quoting&hairsp;</Emphasis> below).
+The command substitution
+&hairsp;<Literal>$(&hairsp;cat file&hairsp;)</Literal>&hairsp;
+can be replaced by the equivalent but faster
+&hairsp;<Literal>$(&hairsp;&lt;file&hairsp;)</Literal>&hairsp;.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Arithmetic Substitution.</Title>
+<Para>An arithmetic expression enclosed in double
+parentheses preceded by a dollar sign (
+<Literal>$((&thinsp;))</Literal>)
+is replaced by the value of the arithmetic expression
+within the double parentheses.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Process Substitution.</Title>
+<Para>This feature is only available on
+versions of the UNIX operating system that support the
+<Filename>/dev/fd</Filename> directory for naming open files.
+Each command argument of the form
+<Literal>&lt;(</Literal><Emphasis>list&hairsp;</Emphasis><Literal>)</Literal>
+or
+<Literal>>(</Literal><Emphasis>list&hairsp;</Emphasis><Literal>)</Literal>
+will run process
+<Symbol Role="Variable">list</Symbol> asynchronously connected to some file in
+<Filename>/dev/fd</Filename>. The name of this file will become the argument to the command.
+If the form with
+<Literal>></Literal> is selected then writing on this file will provide input for
+<Symbol Role="Variable">list</Symbol>. If
+<Literal>&lt;</Literal> is used,
+then the file passed as an argument will contain the output of the
+<Symbol Role="Variable">list</Symbol> process.
+For example,
+</Para>
+<Para><Literal>paste &lt;(cut &minus;f1</Literal> <Emphasis>file1</Emphasis><Literal>) &lt;(cut &minus;f3</Literal> <Emphasis>file2</Emphasis><Literal>) | tee >(</Literal><Emphasis>process1</Emphasis><Literal>) >(</Literal><Emphasis>process2</Emphasis><Literal>)</Literal>
+</Para>
+<Para><Emphasis>cuts</Emphasis> fields 1 and 3 from
+the files
+<Emphasis>file1</Emphasis> and
+<Emphasis>file2</Emphasis> respectively,
+<Emphasis>pastes</Emphasis> the results together, and
+sends it
+to the processes
+<Emphasis>process1</Emphasis> and
+<Emphasis>process2</Emphasis>, as well as putting it onto the standard output.
+Note that the file, which is passed as an argument to the command,
+is a UNIX
+<Emphasis>pipe</Emphasis>(2) so programs that expect to
+<Emphasis>lseek</Emphasis>(2) on the file will not work.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Parameter Expansion.</Title>
+<Para>A
+<Emphasis>parameter&hairsp;</Emphasis> is an
+<Symbol Role="Variable">variable</Symbol>, one or more digits,
+or any of the characters
+<Literal>&ast;</Literal>, <Literal>@</Literal>, <Literal>#</Literal>, <Literal>?</Literal>, <Literal>&minus;</Literal>, <Literal>$</Literal>, and
+<Literal>!\&caret;</Literal>. A
+<Emphasis>variable&hairsp;</Emphasis> is denoted by a <Emphasis>vname</Emphasis>.
+To create a variable whose
+<Emphasis>vname&hairsp;</Emphasis> contains a &period;,
+a variable whose
+<Emphasis>vname&hairsp;</Emphasis> consists of everything before the last &period; must already exist.
+A
+<Emphasis>variable&hairsp;</Emphasis> has a
+<Emphasis>value&hairsp;</Emphasis> and zero or more
+<Emphasis>attributes</Emphasis>. <Emphasis>Variables&hairsp;</Emphasis> can be assigned
+<Emphasis>values&hairsp;</Emphasis> and
+<Emphasis>attributes</Emphasis> by using the
+<Literal>typeset&hairsp;</Literal> special built-in command.
+The attributes supported by the shell are described
+later with the
+<Literal>typeset&hairsp;</Literal> special built-in command.
+Exported variables pass values and attributes to
+the environment.
+</Para>
+<Para>The shell supports both indexed and associative arrays.
+An element of an array variable is referenced by a
+<Emphasis>subscript</Emphasis>. A
+<Emphasis>subscript&hairsp;</Emphasis> for an indexed array is denoted by
+an
+<Emphasis>arithmetic</Emphasis> <Emphasis>expression&hairsp;</Emphasis> (see
+<Emphasis>Arithmetic evaluation</Emphasis> below)
+between a
+<Literal>[</Literal> and a
+<Literal>]</Literal>. To assign values to an indexed array, use
+<Literal>set &minus;A</Literal> <Emphasis>vname</Emphasis> <Symbol Role="Variable">value</Symbol> .&thinsp;.&thinsp;..
+The value of all
+subscripts must be in the
+range of
+0 through 4095.
+Indexed arrays need not be declared.
+Any reference to a variable
+with a valid subscript is
+legal and an array will be created if necessary.
+</Para>
+<Para>An associative array is created with the
+<Literal>&minus;A</Literal> option to
+<Literal>typeset.</Literal> A
+<Emphasis>subscript&hairsp;</Emphasis> for an associative array is denoted by
+a string enclosed between
+<Literal>[</Literal> and
+<Literal>]</Literal>.</Para>
+<Para>Referencing any array without a subscript
+is equivalent to referencing the array with subscript 0.
+</Para>
+<Para>The
+<Emphasis>value&hairsp;</Emphasis> of a
+<Emphasis>variable&hairsp;</Emphasis> may be assigned by writing:
+</Para>
+<Para><Emphasis>vname</Emphasis><Literal>=</Literal><Emphasis>value&hairsp;&thinsp;</Emphasis> &str.OK;
+<Emphasis>vname</Emphasis><Literal>=</Literal><Emphasis>value&hairsp;</Emphasis> &str.CK; .&thinsp;.&thinsp;.
+</Para>
+<Para>or
+</Para>
+<Para><Emphasis>vname</Emphasis><Literal>[</Literal><Emphasis>subscript</Emphasis><Literal>]=</Literal><Emphasis>value&hairsp;&thinsp;</Emphasis> &str.OK;
+<Emphasis>vname</Emphasis><Literal>[</Literal><Emphasis>subscript</Emphasis><Literal>]=</Literal><Emphasis>value&hairsp;</Emphasis> &str.CK; .&thinsp;.&thinsp;.
+</Para>
+<Para>Note that no space is allowed before or after the
+<Literal>=</Literal>.</Para>
+<Para>A
+<Emphasis>nameref&hairsp;</Emphasis> is a variable that is a reference to another variable.
+A nameref is created with the
+<Literal>&minus;n</Literal> attribute of
+<Literal>typeset</Literal>. The value of the variable at the time of the
+<Literal>typeset</Literal> command becomes the variable that will be referenced whenever
+the nameref variable is used.
+The name of a nameref variable cannot contain a ..
+When a variable or function name contains a ., and the portion
+of the name up to the first &period; matches the
+name of a nameref, the variable referred to is obtained by
+replacing the nameref portion with the name of the variable
+referenced by the nameref.
+A nameref provides a convenient way to refer to the variable
+inside a function whose name is passed as an argument to a function.
+For example, if the name of a variable is passed as the first
+argument to a function, the command
+</Para>
+<Para>typeset &minus;n var=$1
+</Para>
+<Para>inside the function causes references and assignments to
+<Literal>var</Literal> to be references and assignments to the variable whose
+name has been passed to the function.
+</Para>
+<Para>If either of the floating point attributes,
+<Literal>&minus;E</Literal>, or
+<Literal>&minus;F</Literal>, or the integer attribute,
+<Literal>&minus;i</Literal>, is set for
+<Emphasis>vname</Emphasis>, then the
+<Emphasis>value&hairsp;</Emphasis> is subject to arithmetic evaluation as described below.
+</Para>
+<Para>Positional parameters,
+parameters denoted by a number,
+may be assigned values with the
+<Literal>set&hairsp;</Literal> special built-in command.
+Parameter
+<Literal>$0</Literal> is set from argument zero when the shell
+is invoked.
+</Para>
+<Para>The character
+<Literal>$</Literal> is used to introduce substitutable
+<Emphasis>parameters</Emphasis>.</Para>
+<VariableList>
+<VarListEntry>
+<Term>${parameter&hairsp;}</Term>
+<ListItem>
+<Para>The shell
+reads all the characters from
+<Literal>${</Literal> to the matching
+<Literal>}</Literal> as part of the same word even if it contains
+braces or metacharacters.
+The value, if any, of the parameter is substituted.
+The braces are required when
+<Emphasis>parameter&hairsp;</Emphasis> is followed by a letter, digit, or underscore
+that is not to be interpreted as part of its name,
+when the variable name contains a .,
+or when a variable is subscripted.
+If
+<Emphasis>parameter&hairsp;</Emphasis> is one or more digits then it is a positional parameter.
+A positional parameter of more than one digit must be
+enclosed in braces.
+If
+<Emphasis>parameter&hairsp;</Emphasis> is
+<Literal>&ast;</Literal> or
+<Literal>@</Literal>, then all the positional
+parameters, starting with
+<Literal>$1</Literal>, are substituted
+(separated by a field separator character).
+If an array
+<Emphasis>vname&hairsp;</Emphasis> with subscript
+<Literal>&ast;</Literal> or
+<Literal>@</Literal> is used,
+then the value
+for each of the
+elements
+is substituted
+(separated by a field separator character).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${#parameter&hairsp;}</Term>
+<ListItem>
+<Para>If
+<Emphasis>parameter&hairsp;</Emphasis> is
+<Literal>&ast;</Literal> or
+<Literal>@</Literal>, the number of positional parameters is substituted.
+Otherwise, the length of the value of the
+<Emphasis>parameter&hairsp;</Emphasis> is substituted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${#vname[*]}</Term>
+<ListItem>
+<Para>The number of elements in the array
+<Emphasis>vname&hairsp;</Emphasis> is substituted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${!vname&hairsp;}</Term>
+<ListItem>
+<Para>Expands to the name of the variable referred to by
+<Emphasis>vname</Emphasis>. This will be
+<Emphasis>vname&hairsp;</Emphasis> except when
+<Emphasis>vname&hairsp;</Emphasis> is a name reference.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${!vname&hairsp;[subscript&hairsp;]}</Term>
+<ListItem>
+<Para>Expands to name of the subscript unless
+<Emphasis>subscript&hairsp;</Emphasis> is
+<Literal>*</Literal>, or
+<Literal>@</Literal>. When
+<Emphasis>subscript&hairsp;</Emphasis> is
+<Literal>*</Literal>, the list of array subscripts for <Emphasis>vname&hairsp;</Emphasis>
+is generated.
+For a variable that is not an array, the value is 0 if the variable
+is set. Otherwise it is null.
+When
+<Emphasis>subscript&hairsp;</Emphasis> is
+<Literal>@</Literal>, same as above, except that when used in double quotes,
+each array subscript yields a separate
+argument.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${!prefix&hairsp;*}</Term>
+<ListItem>
+<Para>Expands to the names of the variables whose names begin with
+<Emphasis>prefix</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;:&minus;word&hairsp;}</Term>
+<ListItem>
+<Para>If
+<Emphasis>parameter&hairsp;</Emphasis> is set and is non-null then substitute its value;
+otherwise substitute
+<Emphasis>word</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;:=word&hairsp;}</Term>
+<ListItem>
+<Para>If
+<Emphasis>parameter&hairsp;</Emphasis> is not set or is null then set it to
+<Emphasis>word</Emphasis>; the value of the parameter is then substituted.
+Positional parameters may not be assigned to
+in this way.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;:?word&hairsp;}</Term>
+<ListItem>
+<Para>If
+<Emphasis>parameter&hairsp;</Emphasis> is set and is non-null then substitute its value;
+otherwise, print
+<Emphasis>word&hairsp;</Emphasis> and exit from the shell.
+If
+<Emphasis>word&hairsp;</Emphasis> is omitted then a standard message is printed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;:+word&hairsp;}</Term>
+<ListItem>
+<Para>If
+<Emphasis>parameter&hairsp;</Emphasis> is set and is non-null then substitute
+<Emphasis>word</Emphasis>; otherwise substitute nothing.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;:offset&hairsp;:length&hairsp;}</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;:offset&hairsp;}</Term>
+<ListItem>
+<Para>Expands to the portion of the value of
+<Emphasis>parameter&hairsp;</Emphasis> starting at the character determined by expanding
+<Emphasis>offset&hairsp;</Emphasis> as an arithmetic expression and consisting of the
+number of characters determined by the arithmetic expression
+defined by
+<Emphasis>length.</Emphasis> In the second form, the remainder of the value is used.
+If
+<Emphasis>parameter&hairsp;</Emphasis> is
+<Literal>&ast;</Literal> or
+<Literal>@</Literal>, or is an array name indexed by
+<Literal>&ast;</Literal> or
+<Literal>@</Literal>, then
+<Emphasis>offset&hairsp;</Emphasis> and
+<Emphasis>length&hairsp;</Emphasis> refer to the array index and number
+of elements respectively.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;#pattern&hairsp;}</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;##pattern&hairsp;}</Term>
+<ListItem>
+<Para>If
+the shell
+<Emphasis>pattern&hairsp;</Emphasis> matches the beginning of the value of
+<Emphasis>parameter</Emphasis>, then the value of
+this expansion is the value of the
+<Emphasis>parameter&hairsp;</Emphasis> with the matched portion deleted;
+otherwise the value of this
+<Emphasis>parameter&hairsp;</Emphasis> is substituted.
+In the first form the smallest matching pattern is deleted and in the
+second form the largest matching pattern is deleted.
+When
+<Emphasis>parameter&hairsp;</Emphasis> is
+<Literal>@</Literal>, <Literal>*</Literal>, or an array variable with subscript
+<Literal>@</Literal>, or
+<Literal>*</Literal>, the substring operation is applied to each element in turn.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;%pattern&hairsp;}</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;%%pattern&hairsp;}</Term>
+<ListItem>
+<Para>If
+the shell
+<Emphasis>pattern&hairsp;</Emphasis> matches the end of the value of
+<Emphasis>parameter</Emphasis>, then the value of
+this expansion is the value of the
+<Emphasis>parameter&hairsp;</Emphasis> with the matched part deleted;
+otherwise substitute the value of
+<Emphasis>parameter</Emphasis>. In the first form the smallest matching pattern is deleted and in the
+second form the largest matching pattern is deleted.
+When
+<Emphasis>parameter&hairsp;</Emphasis> is
+<Literal>@</Literal>, <Literal>*</Literal>, or an array variable with subscript
+<Literal>@</Literal>, or
+<Literal>*</Literal>, the substring operation is applied to each element in turn.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;/pattern&hairsp;/string&hairsp;}</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>${parameter&hairsp;//pattern&hairsp;/string&hairsp;}</Term>
+<ListItem>
+<Para>Expands
+<Emphasis>parameter&hairsp;</Emphasis> and replaces
+<Emphasis>pattern&hairsp;</Emphasis> with the given
+<Emphasis>string.</Emphasis> In the first form,
+only the first occurrence of
+<Emphasis>pattern&hairsp;</Emphasis> is replaced.
+In the second form,
+each match for
+<Emphasis>pattern&hairsp;</Emphasis> is replaced by the given
+<Emphasis>string.</Emphasis> When
+<Emphasis>string&hairsp;</Emphasis> is null, the
+<Emphasis>pattern&hairsp;</Emphasis> will be deleted and the
+<Filename>/</Filename> in front of
+<Emphasis>string&hairsp;</Emphasis> may be omitted.
+When
+<Emphasis>parameter&hairsp;</Emphasis> is
+<Literal>@</Literal>, <Literal>*</Literal>, or an array variable with subscript
+<Literal>@</Literal>, or
+<Literal>*</Literal>, the substitution operation is applied to each element in turn.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>In the above,
+<Emphasis>word</Emphasis> is not evaluated unless it is
+to be used as the substituted string,
+so that, in the following example,
+<Literal>pwd</Literal> is executed only if
+<Literal>d</Literal> is not set or is null:
+</Para>
+<Para>print &thinsp;${d:&minus;&hairsp;$(&hairsp;pwd&hairsp;)&hairsp;}
+</Para>
+<Para>If the colon (
+<Literal>:</Literal> <Literal>)</Literal> is omitted from the above expressions,
+then the shell only checks whether
+<Emphasis>parameter&hairsp;</Emphasis> is set or not.
+</Para>
+<Para>The following
+parameters
+are automatically set by the shell:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>#</Term>
+<ListItem>
+<Para>The number of positional parameters in decimal.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;</Term>
+<ListItem>
+<Para>Options supplied to the shell on invocation or by
+the
+<Literal>set</Literal> command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>?</Term>
+<ListItem>
+<Para>The decimal value returned by the last executed command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>$</Term>
+<ListItem>
+<Para>The process number of this shell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>_</Term>
+<ListItem>
+<Para>Initially, the value of
+<Literal>_</Literal> is an absolute pathname of the shell or script being executed
+as passed in the
+<Emphasis>environment</Emphasis>. Subsequently it is assigned the last argument of the previous command.
+This parameter is not set for commands which are asynchronous.
+This parameter is also used to hold the name of the matching
+MAILfile when checking for mail.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>!</Term>
+<ListItem>
+<Para>The process number of the last background command invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>.sh.edchar</Term>
+<ListItem>
+<Para>This variable contains the value of the keyboard character
+(or sequence of characters if the first character is an ESC, ascii
+<Literal>033</Literal> <Literal>)</Literal> that has
+been entered when processing a
+KEYBDtrap.
+If the value is changed as part of the trap action, then the new
+value replaces the key (or key sequence) that caused the trap.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>.sh.edcol</Term>
+<ListItem>
+<Para>The character position of the cursor at the time of the most recent
+KEYBDtrap.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>.sh.edmode</Term>
+<ListItem>
+<Para>The value is set to ESC when processing a
+KEYBDtrap while in
+<Literal>vi</Literal> insert mode. (See
+<Emphasis>Vi Editing Mode</Emphasis> <Emphasis>&hairsp;</Emphasis> below.)
+Otherwise,
+<Literal>.sh.edmode</Literal> is null when processing a
+KEYBDtrap.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>.sh.edtext</Term>
+<ListItem>
+<Para>The characters in the input buffer at the time of the most recent
+KEYBDtrap.
+The value is null when not processing a
+KEYBDtrap.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>.sh.name</Term>
+<ListItem>
+<Para>Set to the name of the variable at the time of a
+<Literal>set</Literal> or
+<Literal>get</Literal> discipline is invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>.sh.subscript</Term>
+<ListItem>
+<Para>Set to the name subscript of the variable at the time of a
+<Literal>set</Literal> or
+<Literal>get</Literal> discipline is invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>.sh.value</Term>
+<ListItem>
+<Para>Set to the value of the variable at the time of a
+<Literal>set</Literal> discipline.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>.sh.version</Term>
+<ListItem>
+<Para>Set to a value that identifies the version of this shell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>LINENO</Term>
+<ListItem>
+<Para>The line number of the current line within the script or
+function being executed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>OLDPWD</Term>
+<ListItem>
+<Para>The previous working directory set by the
+<Literal>cd</Literal> command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>OPTARG</Term>
+<ListItem>
+<Para>The value of the last option argument processed by the
+<Literal>getopts</Literal> built-in command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>OPTIND</Term>
+<ListItem>
+<Para>The index of the last option argument processed by the
+<Literal>getopts</Literal> built-in command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>PPID</Term>
+<ListItem>
+<Para>The process number of the parent of the shell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>PWD</Term>
+<ListItem>
+<Para>The present working directory set by the
+<Literal>cd</Literal> command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>RANDOM</Term>
+<ListItem>
+<Para>Each time this variable is referenced, a random integer,
+uniformly distributed between 0 and 32767, is generated.
+The sequence of random numbers can be initialized by assigning
+a numeric value to
+<Symbol>RANDOM</Symbol>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>REPLY</Term>
+<ListItem>
+<Para>This variable is set by the
+<Literal>select</Literal> statement and by
+the
+<Literal>read</Literal> built-in command when no arguments are supplied.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>SECONDS</Term>
+<ListItem>
+<Para>Each time this variable is referenced, the number of
+seconds since shell invocation is returned.
+If this variable is
+assigned a value, then the value returned upon reference will
+be the value that was assigned plus the number of seconds since the assignment.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The following
+variables
+are used by the shell:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CDPATH</Term>
+<ListItem>
+<Para>The search path for the
+<Literal>cd</Literal> command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>COLUMNS</Term>
+<ListItem>
+<Para>If this variable is set,
+the value is used to define the width of the edit window
+for the shell edit modes and for printing
+<Literal>select</Literal> lists.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>EDITOR</Term>
+<ListItem>
+<Para>If the value of this variable ends in
+<Emphasis>emacs</Emphasis>, <Emphasis>gmacs</Emphasis>, or
+<Emphasis>vi</Emphasis> and the
+VISUALvariable is not set,
+then the corresponding option
+(see Special Command
+<Literal>set</Literal> below)
+will be turned on.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ENV</Term>
+<ListItem>
+<Para>If this variable is set, then
+parameter expansion, command substitution, and arithmetic substitution,
+are performed on
+the value to generate
+the pathname of the script that will be
+executed when the shell
+is invoked.
+(See
+<Emphasis>Invocation&hairsp;</Emphasis> below.)
+This file is typically used for
+<Symbol Role="Variable">alias</Symbol> and
+<Symbol Role="Variable">function</Symbol> definitions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>FCEDIT</Term>
+<ListItem>
+<Para>Obsolete name for
+the default editor name for the
+<Literal>hist</Literal> command.
+FCEDITis not used when
+HISTEDITis set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>FIGNORE</Term>
+<ListItem>
+<Para>A pattern that defines the set of filenames that will be
+ignored when performing filename matching.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>FPATH</Term>
+<ListItem>
+<Para>The search path for function definitions.
+This path is searched when a function with the
+<Literal>&minus;u</Literal> attribute is referenced and when a command is not found.
+If an executable file is found, then it is read and executed
+in the current environment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>IFS</Term>
+<ListItem>
+<Para>Internal field separators,
+normally
+<Literal>space</Literal>, <Literal>tab</Literal>, and
+<Literal>new-line</Literal> that are used to separate the results of
+command substitution or parameter expansion
+and to separate fields with the built-in command
+<Literal>read</Literal>. The first character of the
+<Symbol>IFS</Symbol> variable is used to separate arguments for the
+<Literal>"$&ast;"
+substitution. (See</Literal> <Emphasis>Quoting</Emphasis> below.)
+Each single occurrence of
+an
+<Symbol>IFS</Symbol> character in the string to be split,
+except
+<Literal>space</Literal>, <Literal>tab</Literal>, and
+<Literal>new-line</Literal>, separates a field.
+One or more
+<Literal>space</Literal>, <Literal>tab</Literal>, or
+<Literal>new-line</Literal> characters separate a field.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>HISTEDIT</Term>
+<ListItem>
+<Para>Name for
+the default editor name for the
+<Literal>hist</Literal> command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>HISTFILE</Term>
+<ListItem>
+<Para>If this variable is set when the shell is invoked, then
+the value is the pathname of the file that will be
+used to store the command history.
+(See
+<Emphasis>Command re-entry&hairsp;</Emphasis> below.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>HISTSIZE</Term>
+<ListItem>
+<Para>If this variable is set when the shell is invoked, then
+the number of previously entered commands that
+are accessible by this shell
+will be greater than or equal to this number.
+The default is 128.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>HOME</Term>
+<ListItem>
+<Para>The default argument (home directory) for the
+<Literal>cd</Literal> command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>LINES</Term>
+<ListItem>
+<Para>If this variable is set,
+the value is used to determine the column length for printing
+<Literal>select</Literal> lists.
+Select lists will print vertically until about two-thirds of
+LINESlines are filled.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>MAIL</Term>
+<ListItem>
+<Para>If this variable is set to the name of a mail file
+<Emphasis>and&hairsp;</Emphasis> the
+MAILPATHvariable is not set,
+then the shell informs the user of arrival of mail
+in the specified file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>MAILCHECK</Term>
+<ListItem>
+<Para>This variable specifies how often (in seconds) the
+shell will check for changes in the modification time
+of any of the files specified by the
+MAILPATHor
+MAILvariables.
+The default value is 600 seconds.
+When the time has elapsed
+the shell will check before issuing the next prompt.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>MAILPATH</Term>
+<ListItem>
+<Para>A colon (
+<Literal>:</Literal>)
+separated list of file names.
+If this variable is set
+then the shell informs the user of
+any modifications to the specified files
+that have occurred within the last
+MAILCHECKseconds.
+Each file name can be followed by a
+<Literal>?</Literal> and a message that will be printed.
+The message will undergo parameter expansion, command substitution,
+and arithmetic substitution
+with the variable
+<Literal>$_</Literal> defined as the name of the file that has changed.
+The default message is
+<Emphasis>you</Emphasis> <Emphasis>have</Emphasis> <Emphasis>mail</Emphasis> <Symbol Role="Variable">in</Symbol> <Emphasis>$_&hairsp;.</Emphasis></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>PATH</Term>
+<ListItem>
+<Para>The search path for commands (see
+<Emphasis>Execution&hairsp;</Emphasis> below).
+The user may not change
+<SystemItem Class="EnvironVar">PATH</SystemItem> if executing under
+<Literal>rksh</Literal> (except in
+<Literal>.profile&hairsp;).</Literal></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>PS1</Term>
+<ListItem>
+<Para>The value of this variable is expanded for parameter
+expansion, command substitution, and arithmetic substitution to define the
+primary prompt string which by default is
+``<Literal>$&thinsp;&thinsp;&thinsp;</Literal>''. The character
+<Literal>!</Literal> in the primary prompt string is replaced by the
+<Emphasis>command&hairsp;</Emphasis> number (see
+<Emphasis>Command Re-entry</Emphasis> <Emphasis>&hairsp;</Emphasis> below).
+Two successive occurrences of
+<Literal>!</Literal> will produce a single
+<Literal>!</Literal> when the prompt string is printed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>PS2</Term>
+<ListItem>
+<Para>Secondary prompt string, by default
+``<Literal>> &thinsp;</Literal>''.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>PS3</Term>
+<ListItem>
+<Para>Selection prompt string
+used within a
+<Literal>select</Literal> loop, by default
+``<Literal>#? &thinsp;</Literal>''.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>PS4</Term>
+<ListItem>
+<Para>The value of this variable is expanded for parameter evaluation,
+command substitution, and arithmetic substitution
+and precedes each line of an execution trace.
+If omitted, the execution trace prompt is
+``<Literal>+ &thinsp;</Literal>''.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>SHELL</Term>
+<ListItem>
+<Para>The pathname of the
+<Emphasis>shell&hairsp;</Emphasis> is kept in the environment.
+At invocation, if the basename of this variable is
+<Literal>rsh</Literal>, <Literal>rksh</Literal>, or
+<Literal>krsh</Literal>, then the shell becomes restricted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TMOUT</Term>
+<ListItem>
+<Para>If set to a value greater than zero,
+the
+<Literal>read</Literal> built-in command terminates after
+TMOUTseconds when input is from a terminal.
+Otherwise,
+the shell will terminate if a line is not entered within
+the prescribed number of seconds while reading from a terminal.
+(Note that the shell can be compiled with a maximum bound
+for this value which cannot be exceeded.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>VISUAL</Term>
+<ListItem>
+<Para>If the value of this variable ends in
+<Emphasis>emacs</Emphasis>, <Emphasis>gmacs</Emphasis>, or
+<Emphasis>vi</Emphasis> then the corresponding option
+(see Special Command
+<Literal>set</Literal> below)
+will be turned on.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The shell gives default values to
+<SystemItem Class="EnvironVar">PATH</SystemItem>, <Symbol>PS1</Symbol>, <Symbol>PS2</Symbol>,
+<Symbol>PS3</Symbol>, <Symbol>PS4</Symbol>, <Symbol>MAILCHECK</Symbol>, <Symbol>HISTEDIT</Symbol>,
+<Symbol>TMOUT</Symbol> and <Symbol>IFS</Symbol>,
+while
+<SystemItem Class="EnvironVar">HOME</SystemItem>, <SystemItem Class="EnvironVar">SHELL</SystemItem>, <Symbol>ENV</Symbol>, and
+<Symbol>MAIL</Symbol> are
+not set at all by the shell (although
+<SystemItem Class="EnvironVar">HOME</SystemItem> <Emphasis>is&hairsp;</Emphasis> set by
+<Emphasis>login</Emphasis>(1)). On some systems
+<Symbol>MAIL</Symbol> and
+<SystemItem Class="EnvironVar">SHELL</SystemItem> are also
+set by
+<Emphasis>login</Emphasis>(1).
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Field Splitting</Title>
+<Para>After parameter expansion and command substitution,
+the results of substitutions are scanned for the field separator
+characters (those found in
+<Literal>IFS&hairsp;</Literal>)
+and split into distinct fields where such characters are found.
+Explicit null fields (&hairsp;<Literal>"&hairsp;"</Literal> or <Literal>(fm&hairsp;(fm</Literal>&hairsp;) are retained.
+Implicit null fields
+(those resulting from
+<Emphasis>parameters&hairsp;</Emphasis> that have no values or command substitutions with no output) are removed.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>File Name Generation.</Title>
+<Para>Following splitting, each field is scanned for the characters
+<Literal>&ast;</Literal>, <Literal>?</Literal>, <Literal>(</Literal>, and
+<Literal>&str.OK;&hairsp;</Literal> unless the
+<Literal>&minus;f</Literal> option has been set.
+If one of these characters appears
+then the word is regarded as a
+<Symbol Role="Variable">pattern</Symbol>. Each file name component that contains any pattern character
+is replaced with a lexicographically sorted set of names
+that matches the pattern
+from
+that directory.
+If no file name is found that matches the pattern, then
+that component of the filename is left unchanged.
+If
+<SystemItem Class="EnvironVar">FIGNORE</SystemItem> is set,
+then each file name component
+that matches the pattern defined by the value of
+<SystemItem Class="EnvironVar">FIGNORE</SystemItem> is ignored when generating the matching filenames.
+The names
+. and
+<Literal>..</Literal> are also ignored.
+If
+<SystemItem Class="EnvironVar">FIGNORE</SystemItem> is not set,
+the character
+. at the start of each file name component
+will be ignored unless the first character of the pattern
+corresponding to this component is the character
+. itself.
+Note, that for other
+uses of pattern matching the
+<Filename>/</Filename> and
+. are not treated specially.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&ast;</Term>
+<ListItem>
+<Para>Matches any string, including the null string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>?</Term>
+<ListItem>
+<Para>Matches any single character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&hairsp;.&thinsp;.&thinsp;.&hairsp;</Term>
+<ListItem>
+<Para>Matches any one of the enclosed characters.
+A pair of characters separated by
+<Literal>&minus;</Literal> matches any
+character lexically between the pair, inclusive.
+If the first character following the opening
+<Literal>&str.OK;&hairsp;</Literal> is a
+<Literal>!</Literal> then any character not enclosed is matched.
+A
+<Literal>&minus;</Literal> can be included in the character set by putting it as the
+first or last character.
+Within
+<Literal>&str.OK;&hairsp;</Literal> and
+<Literal>&str.CK;&hairsp;</Literal> character classes can be specified with the syntax
+<Literal>[:</Literal><Symbol Role="Variable">class</Symbol><Literal>:]</Literal>
+where class is one of the following:
+</Para>
+<Para><Literal>alnum alpha cntrl digit graph lower print punct space upper xdigit</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A
+<Emphasis>pattern-list</Emphasis> is a list of one or more patterns separated from each other
+with a
+<Literal>&verbar;</Literal>. Composite patterns can be formed with one or more of the following:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>?(pattern-list&hairsp;)</Term>
+<ListItem>
+<Para>Optionally matches any one of the given patterns.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>*(pattern-list&hairsp;)</Term>
+<ListItem>
+<Para>Matches zero or more occurrences of the given patterns.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>+(pattern-list&hairsp;)</Term>
+<ListItem>
+<Para>Matches one or more occurrences of the given patterns.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>@(pattern-list&hairsp;)</Term>
+<ListItem>
+<Para>Matches exactly one of the given patterns.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>!(pattern-list&hairsp;)</Term>
+<ListItem>
+<Para>Matches anything except one of the given patterns.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Quoting.</Title>
+<Para>Each of the
+<Emphasis>metacharacters&hairsp;</Emphasis> listed earlier (see
+<Emphasis>Definitions&hairsp;</Emphasis> above)
+has a special meaning to the shell
+and causes termination of a word unless quoted.
+A character may be
+<Emphasis>quoted&hairsp;</Emphasis> (i.e., made to stand for itself)
+by preceding
+it with a
+<Literal>&bsol;</Literal>. The pair
+<Literal>&bsol;new-line</Literal> is removed.
+All characters enclosed between a pair of single quote marks
+(&hairsp;<Literal>&acute;&hairsp;&acute;</Literal>&hairsp;)
+that is not preceded by a
+<Literal>$</Literal> are quoted.
+A single quote cannot appear within the single quotes.
+A single quoted string preceded an unquoted
+<Literal>$</Literal> is processed as an ANSI-C string
+except that
+<Literal>&bsol;0</Literal> within the string causes the remainder of the
+string to be ignored and
+<Literal>&bsol;E</Literal> is equivalent to the escape character
+(ascii
+<Literal>033</Literal>). Inside double quote marks
+(<Literal>"&hairsp;"</Literal>),
+parameter and command substitution occur and
+<Literal>&bsol;</Literal> quotes the characters
+<Literal>&bsol;</Literal>, <Literal>&grave;</Literal>, <Literal>"</Literal>,
+and
+<Literal>$</Literal>. The meaning of
+<Literal>$&ast;</Literal> and
+<Literal>$@</Literal> is identical when not quoted or when used as a variable assignment value
+or as a file name.
+However, when used as a command argument,
+<Literal>"$&ast;"
+is equivalent to</Literal> <Literal>"$1</Literal><Symbol Role="Variable">d</Symbol><Literal>&thinsp;$2</Literal><Symbol Role="Variable">d</Symbol>&thinsp;.&thinsp;.&thinsp;.<Literal>"</Literal>,
+where
+<Symbol Role="Variable">d</Symbol> is the first character of the
+<Symbol>IFS</Symbol> variable, whereas
+<Literal>"$@"
+is equivalent to</Literal> <Literal>"$1"&thinsp;</Literal> <Literal>"$2"&thinsp;
+.&thinsp;.&thinsp;.&hairsp;.
+Inside grave quote marks
+(</Literal><Literal>&grave;&hairsp;&grave;</Literal>),
+<Literal>&bsol;</Literal> quotes the characters
+<Literal>&bsol;</Literal>, <Literal>&grave;</Literal>, and
+<Literal>$</Literal>. If the grave quotes occur within double quotes then
+<Literal>&bsol;</Literal> also quotes the character
+<Literal>"</Literal>.
+</Para>
+<Para>The special meaning of reserved words or aliases can be removed by quoting any
+character of the reserved word.
+The recognition of function names or built-in command names listed below
+cannot be altered by quoting them.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Arithmetic Evaluation.</Title>
+<Para>The shell performs arithmetic evaluation for
+arithmetic substitution, to evaluate an arithmetic command,
+to evaluate an indexed array subscript,
+and to evaluate arguments to
+the built-in commands
+<Literal>shift&hairsp;</Literal> and
+<Literal>let</Literal>. Evaluations are performed using
+double precision floating point
+arithmetic.
+Floating point constants follow the ANSI-C programming language
+conventions.
+Integer constants are of the form
+&str.OK;<Emphasis>base</Emphasis><Literal>#&hairsp;</Literal>&str.CK;<Emphasis>n&hairsp;</Emphasis>
+where
+<Emphasis>base&hairsp;</Emphasis> is a decimal number between two and sixty-four
+representing the arithmetic base
+and
+<Emphasis>n&hairsp;</Emphasis> is a number in that base.
+The digits above 9 are represented
+by the lower case characters, the upper case characters,
+<Literal>@</Literal>, and
+<Literal>_</Literal> respectively.
+For bases less than 36, upper and lower case
+character can be used interchangeably.
+If
+<Emphasis>base&hairsp;</Emphasis> is omitted
+then base 10 is used.
+</Para>
+<Para>An arithmetic expression uses the same syntax, precedence, and
+associativity of
+expression as the C language.
+All the C language operators
+that apply to floating point quantities can be used.
+In addition, when the value of an arithmetic variable
+or sub-expression can be represented as a long integer,
+all C language integer arithmetic operations can be performed.
+Variables can be referenced by name within an arithmetic expression
+without using the parameter expansion syntax.
+When a variable is referenced, its value is evaluated as
+an arithmetic expression.
+The following math library functions can be used with an arithmetic
+expression:
+</Para>
+<Para><Literal>abs acos asin atan cos cosh exp int log sin sinh sqrt tan tanh</Literal>
+</Para>
+<Para>An internal representation of a
+<Emphasis>variable&hairsp;</Emphasis> as a double precision floating point can be specified with the
+<Literal>&minus;E</Literal> &str.OK;<Emphasis>n&hairsp;</Emphasis>&str.CK;
+or
+<Literal>&minus;F</Literal> &str.OK;<Emphasis>n&hairsp;</Emphasis>&str.CK;
+option of the
+<Literal>typeset</Literal> special built-in command.
+The
+<Literal>&minus;E</Literal> option causes the expansion of the value to be represented using
+scientific notation when it is expanded.
+The optional option argument
+<Symbol Role="Variable">n</Symbol> defines the number of significant figures.
+The
+<Literal>&minus;F</Literal> option causes the expansion to be represented as a floating decimal number
+when it is expanded.
+The optional option argument
+<Symbol Role="Variable">n</Symbol> defines the number of places after the decimal point in this case.
+</Para>
+<Para>An internal integer representation of a
+<Emphasis>variable&hairsp;</Emphasis> can be specified with the
+<Literal>&minus;i</Literal> &str.OK;<Emphasis>n&hairsp;</Emphasis>&str.CK;
+option of the
+<Literal>typeset</Literal> special built-in command.
+The optional option argument
+<Symbol Role="Variable">n</Symbol> specifies an arithmetic base to be used when expanding the variable.
+If you do not specify an arithmetic base,
+the first assignment to the
+variable determines the arithmetic base.
+</Para>
+<Para>Arithmetic evaluation is performed on the value of each
+assignment to a variable with the
+<Literal>&minus;E</Literal>, <Literal>&minus;F</Literal>, or
+<Literal>&minus;i</Literal> attribute.
+Assigning a floating point number to a
+variable whose type is an integer causes the fractional
+part to be truncated.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Prompting.</Title>
+<Para>When used interactively,
+the shell prompts with the value of
+<Symbol>PS1</Symbol> after expanding it for parameter expansion, command substitution, and
+arithmetic substitution,
+before reading a command.
+In addition, each single
+<Literal>!</Literal> in the prompt is replaced by the command number.
+A
+<Literal>!!</Literal> is required to place
+<Literal>!</Literal> in the prompt.
+If at any time a new-line is typed and further input is needed
+to complete a command, then the secondary prompt
+(i.e., the value of
+<Symbol>PS2</Symbol>) is issued.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Conditional Expressions.</Title>
+<Para>A
+<Emphasis>conditional expression</Emphasis> is used with the
+<Literal>[[</Literal> compound command to test attributes of files and to compare
+strings.
+Field splitting and file name generation are
+not performed on the words between
+<Literal>[[</Literal> and
+<Literal>]]</Literal>. Each expression can be constructed from one or more
+of the following unary or binary expressions:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>string</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">string</Symbol> is not null.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;a file</Term>
+<ListItem>
+<Para>Same is <Literal>&minus;e</Literal> below.
+This is obsolete.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;b file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is a block special file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;c file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is a character special file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;d file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is a directory.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;e file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;f file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is an ordinary file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;g file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is has its setgid bit set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;k file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is has its sticky bit set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;n string</Term>
+<ListItem>
+<Para>True, if length of
+<Symbol Role="Variable">string</Symbol> is non-zero.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;o option</Term>
+<ListItem>
+<Para>True, if option named
+<Emphasis>option</Emphasis> is on.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;p file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is a fifo special file or a pipe.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;r file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is readable by current process.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;s file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and has size greater than zero.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;t fildes</Term>
+<ListItem>
+<Para>True, if file descriptor number
+<Emphasis>fildes</Emphasis> is open and associated with a terminal device.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;u file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is has its setuid bit set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;w file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is writable by current process.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;x file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is executable by current process.
+If
+<Symbol Role="Variable">file</Symbol> exists and is a directory, then true if the current process
+has permission to search in the directory.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;z string</Term>
+<ListItem>
+<Para>True, if length of
+<Symbol Role="Variable">string</Symbol> is zero.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;L file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is a symbolic link.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;O file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is owned by the effective user id of this process.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;G file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and its group matches the effective group id of this process.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;S file</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">file</Symbol> exists and is a socket.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>file1 &minus;nt file2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>file1</Emphasis> exists and is newer than
+<Emphasis>file2</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>file1 &minus;ot file2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>file1</Emphasis> exists and is older than
+<Emphasis>file2</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>file1 &minus;ef file2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>file1</Emphasis> and
+<Emphasis>file2</Emphasis> exist and refer to the same file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>string == pattern</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">string</Symbol> matches
+<Symbol Role="Variable">pattern</Symbol>. Any part of
+<Emphasis>pattern&hairsp;</Emphasis> can be quoted to cause it to be matched as a string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>string = pattern</Term>
+<ListItem>
+<Para>Same as <Literal>==</Literal> above, but is obsolete.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>string != pattern</Term>
+<ListItem>
+<Para>True, if
+<Symbol Role="Variable">string</Symbol> does not match
+<Symbol Role="Variable">pattern</Symbol>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>string1 &lt; string2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>string1</Emphasis> comes before
+<Emphasis>string2</Emphasis> based on ASCII value of their characters.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>string1 > string2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>string1</Emphasis> comes after
+<Emphasis>string2</Emphasis> based on ASCII value of their characters.
+</Para>
+<Para>The following obsolete arithmetic comparisons are also permitted:
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>exp1 &minus;eq exp2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>exp1</Emphasis> is equal to
+<Emphasis>exp2</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>exp1 &minus;ne exp2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>exp1</Emphasis> is not equal to
+<Emphasis>exp2</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>exp1 &minus;lt exp2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>exp1</Emphasis> is less than
+<Emphasis>exp2</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>exp1 &minus;gt exp2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>exp1</Emphasis> is greater than
+<Emphasis>exp2</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>exp1 &minus;le exp2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>exp1</Emphasis> is less than or equal to
+<Emphasis>exp2</Emphasis>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>exp1 &minus;ge exp2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>exp1</Emphasis> is greater than or equal to
+<Emphasis>exp2</Emphasis>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>In each of the above expressions, if
+<Symbol Role="Variable">file</Symbol> is of the form
+<Filename>/dev/fd/</Filename><Symbol Role="Variable">n</Symbol>,
+where
+<Symbol Role="Variable">n</Symbol> is an integer,
+then the test is applied to the open file whose
+descriptor number is
+<Symbol Role="Variable">n</Symbol>.
+</Para>
+<Para>A compound expression can be constructed from these primitives by
+using any of the following, listed in decreasing order of precedence.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>(expression)</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>expression</Emphasis> is true.
+Used to group expressions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>! expression</Term>
+<ListItem>
+<Para>True if
+<Emphasis>expression</Emphasis> is false.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>expression1 &amp;&amp; expression2</Term>
+<ListItem>
+<Para>True, if
+<Emphasis>expression1</Emphasis> and
+<Emphasis>expression2</Emphasis> are both true.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>expression1 &verbar;&verbar; expression2</Term>
+<ListItem>
+<Para>True, if either
+<Emphasis>expression1</Emphasis> or
+<Emphasis>expression2</Emphasis> is true.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Input/Output.</Title>
+<Para>Before a command is executed, its input and output
+may be redirected using a special notation interpreted by the shell.
+The following may appear anywhere in a simple-command
+or may precede or follow a
+<Emphasis>command&hairsp;</Emphasis> and are
+<Emphasis>not&hairsp;</Emphasis> passed on to the invoked command.
+Command substitution, parameter expansion,
+and arithmetic substitution occur before
+<Emphasis>word&hairsp;</Emphasis> or
+<Emphasis>digit&hairsp;</Emphasis> is used except as noted below.
+File name generation
+occurs only if the shell is interactive and
+the pattern matches a single file,
+Field splitting is not performed.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&lt; word</Term>
+<ListItem>
+<Para>Use file
+<Emphasis>word&hairsp;</Emphasis> as standard input (file descriptor 0).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>> word</Term>
+<ListItem>
+<Para>Use file
+<Emphasis>word&hairsp;</Emphasis> as standard output (file descriptor 1).
+If the file does not exist then it is created.
+If the file exists, and the
+<Literal>noclobber</Literal> option is on,
+this causes an error;
+otherwise, it is truncated to zero length.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>>| word</Term>
+<ListItem>
+<Para>Sames as
+<Literal>></Literal>, except that it overrides the
+<Literal>noclobber</Literal> option.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>>> word</Term>
+<ListItem>
+<Para>Use file
+<Emphasis>word&hairsp;</Emphasis> as standard output.
+If the file exists then output is appended to it (by first seeking to the end-of-file);
+otherwise, the file is created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&lt;> word</Term>
+<ListItem>
+<Para>Open file
+<Emphasis>word&hairsp;</Emphasis> for reading and writing
+as standard input.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&lt;&lt;[&minus;]word</Term>
+<ListItem>
+<Para>The shell input is read up to a line that is the same as
+<Emphasis>word</Emphasis> after any quoting has been removed remove,
+or to an end-of-file.
+No parameter substitution, command substitution, arithmetic substitution or
+file name generation is performed on
+<Emphasis>word</Emphasis>. The resulting document,
+called a
+<Emphasis>here-document</Emphasis>, becomes
+the standard input.
+If any character of
+<Emphasis>word&hairsp;</Emphasis> is quoted, then no interpretation
+is placed upon the characters of the document;
+otherwise, parameter expansion, command substitution, and arithmetic
+substitution occur,
+<Literal>&bsol;new-line</Literal> is ignored,
+and
+<Literal>&bsol;</Literal> must be used to quote the characters
+<Literal>&bsol;</Literal>, <Literal>$</Literal>, <Literal>&grave;</Literal>. If
+<Literal>&minus;</Literal> is appended to
+<Literal>&lt;&lt;</Literal>, then all leading tabs are stripped from
+<Emphasis>word&hairsp;</Emphasis> and from the document.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&lt;&amp; digit</Term>
+<ListItem>
+<Para>The standard input is duplicated from file descriptor
+<Emphasis>digit</Emphasis> (see
+<Emphasis>dup</Emphasis>(2)). Similarly for the standard output using
+<Literal>>&amp;&hairsp;</Literal><Emphasis>digit</Emphasis>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&lt;&amp;&minus;</Term>
+<ListItem>
+<Para>The standard input is closed.
+Similarly for the standard output using
+<Literal>>&amp;&minus;</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&lt;&amp;p</Term>
+<ListItem>
+<Para>The input from the co-process is moved to standard input.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>>&amp;p</Term>
+<ListItem>
+<Para>The output to the co-process is moved to standard output.
+</Para>
+<Para>If one of the above is preceded by a digit,
+then the
+file descriptor number referred to is that specified
+by the digit
+(instead of the default 0 or 1).
+For example:
+</Para>
+<Para>.&thinsp;.&thinsp;. &thinsp;2>&amp;1
+</Para>
+<Para>means file descriptor 2 is to be opened
+for writing as a duplicate
+of file descriptor 1.
+</Para>
+<Para>The order in which redirections are specified is significant.
+The shell evaluates each redirection in terms of the
+(<Emphasis>file descriptor</Emphasis>, <Symbol Role="Variable">file</Symbol>) association at the time of evaluation.
+For example:
+</Para>
+<Para>.&thinsp;.&thinsp;. &thinsp;1><Emphasis>fname&hairsp;</Emphasis> 2>&amp;1
+</Para>
+<Para>first associates file descriptor 1 with file
+<Emphasis>fname&hairsp;</Emphasis>. It then associates file descriptor 2 with the file associated with file
+descriptor 1 (i.e.
+<Emphasis>fname&hairsp;</Emphasis>). If the order of redirections were reversed, file descriptor 2 would be associated
+with the terminal (assuming file descriptor 1 had been) and then file descriptor
+1 would be associated with file
+<Emphasis>fname&hairsp;</Emphasis>.</Para>
+<Para>If a command is followed by
+<Literal>&amp;</Literal> and job control is not active,
+then the default standard input
+for the command
+is the empty file
+<Filename>/dev/null</Filename>. Otherwise, the environment for the execution of a command contains the
+file descriptors of the invoking shell as modified by
+input/output specifications.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Environment.</Title>
+<Para>The
+<Emphasis>environment&hairsp;</Emphasis> (see
+<Emphasis>environ</Emphasis>(7)) is a list of name-value pairs that is passed to
+an executed program in the same way as a normal argument list.
+The names must be
+<Emphasis>identifiers&hairsp;</Emphasis> and the values are character strings.
+The shell interacts with the environment in several ways.
+On invocation, the shell scans the environment
+and creates a
+variable
+for each name found,
+giving it the corresponding value and attributes and marking it
+<Emphasis>export</Emphasis>. Executed commands inherit the environment.
+If the user modifies the values of these
+variables
+or creates new ones,
+using the
+<Literal>export</Literal> or
+<Literal>typeset</Literal> <Literal>&minus;x</Literal> commands they become part of the
+environment.
+The environment seen by any executed command is thus composed
+of any name-value pairs originally inherited by the shell,
+whose values may be modified by the current shell,
+plus any additions
+which must be noted in
+<Literal>export</Literal> or
+<Literal>typeset</Literal> <Literal>&minus;x</Literal> commands.
+</Para>
+<Para>The environment for any
+<Emphasis>simple-command&hairsp;</Emphasis> or function
+may be augmented by prefixing it with one or more variable assignments.
+A variable assignment argument is a word of the form
+<Emphasis>identifier=value</Emphasis>. Thus:
+</Para>
+<programlisting>
+TERM=450 &thinsp;cmd &thinsp;args
+</programlisting>
+<Para>and
+</Para>
+<programlisting>
+(export &thinsp;TERM; &thinsp;TERM=450; &thinsp;cmd &thinsp;args)
+</programlisting>
+<Para>are equivalent (as far as the above execution of
+<Emphasis>cmd&hairsp;</Emphasis> is concerned except for special built-in commands listed below &minus;
+those that are
+preceded with a dagger).
+</Para>
+<Para>If the obsolete
+<Literal>&minus;k</Literal> option is set,
+<Emphasis>all&hairsp;</Emphasis> variable assignment arguments are placed in the environment,
+even if they occur after the command name.
+The following
+first prints
+<Literal>a=b c</Literal> and then
+<Literal>c</Literal>:
+</Para>
+<programlisting>
+echo a=b c
+set ;&minus;k
+echo a=b c
+</programlisting>
+<Para>This feature is intended for use with scripts written
+for early versions of the shell and its use in new scripts
+is strongly discouraged.
+It is likely to disappear someday.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Functions.</Title>
+<Para>For historical reasons, there are two
+ways to define functions,
+the
+<Symbol Role="Variable">name</Symbol><Literal>(&hairsp;)</Literal> syntax and
+the
+<Literal>function</Literal> <Emphasis>name&hairsp;</Emphasis> syntax, described in the
+<Emphasis>Commands</Emphasis> section above.
+Shell functions are read in and stored internally.
+Alias names are resolved when the function is read.
+Functions are executed like commands with the arguments
+passed as positional parameters.
+(See
+<Emphasis>Execution</Emphasis> below.)
+</Para>
+<Para>Functions defined by the
+<Literal>function</Literal> <Symbol Role="Variable">name</Symbol> syntax and called by name execute in the same process as the caller and
+share all files
+and present working directory with the
+caller.
+Traps caught by the caller are reset to their default action
+inside the function.
+A trap condition that is not caught or ignored by the
+function causes the function to terminate and the condition
+to be passed on to the caller.
+A trap on
+<Symbol>EXIT</Symbol> set inside a function
+is executed after the function completes in the environment
+of the caller.
+Ordinarily,
+variables are shared between the calling program
+and the function.
+However,
+the
+<Literal>typeset</Literal> special built-in command used within a function
+defines local variables whose scope includes
+the current function and
+all functions it calls.
+Errors within functions return control to the caller.
+</Para>
+<Para>Functions defined with the
+<Symbol Role="Variable">name</Symbol><Literal>(&hairsp;)</Literal> syntax and functions defined with the
+<Literal>function</Literal> <Symbol Role="Variable">name</Symbol> syntax that are invoked with the &period;
+special built-in
+are executed in the caller's
+environment and share all variables
+and traps with the caller.
+Errors within these function executions cause the script that contains
+them to abort.
+</Para>
+<Para>The special built-in command
+<Literal>return</Literal> is used to return
+from function calls.
+</Para>
+<Para>Function names
+can be listed with the
+<Literal>&minus;f</Literal> or
+<Literal>+f</Literal> option of the
+<Literal>typeset</Literal> special built-in command.
+The text of functions, when available, will also
+be listed with
+<Literal>&minus;f</Literal>. Functions can be undefined with the
+<Literal>&minus;f</Literal> option of the
+<Literal>unset</Literal> special built-in command.
+</Para>
+<Para>Ordinarily, functions are unset when the shell executes a shell script.
+Functions that need to be defined across separate
+invocations of the shell should
+be placed in a directory and the
+FPATH
+variable should contains the name of this directory.
+They may also
+be specified in the
+ENV
+file.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Jobs.</Title>
+<Para>If the
+<Literal>monitor</Literal> option of the
+<Literal>set</Literal> command is turned on,
+an interactive shell associates a <Emphasis>job</Emphasis> with each pipeline.
+It keeps
+a table of current jobs, printed by the
+<Literal>jobs</Literal> command, and assigns them small integer numbers.
+When a job is started asynchronously with
+<Literal>&amp;</Literal>, the shell prints a line which looks
+like:
+</Para>
+<Para>[1] 1234
+</Para>
+<Para>indicating that the job which was started asynchronously was job number
+1 and had one (top-level) process, whose process id was 1234.
+</Para>
+<Para>This paragraph and the next require features that are
+not in all versions of UNIX and may not apply.
+If you are running a job and wish to do something else you may hit the key
+<Literal>&caret;Z</Literal> (control-Z) which sends a STOP signal to the current job.
+The shell will then normally indicate that the job has been `Stopped',
+and print another prompt.
+You can then manipulate the state of this job,
+putting it in the background with the
+<Literal>bg</Literal> command, or run some other
+commands and then eventually bring the job back into the foreground with
+the foreground command
+<Literal>fg</Literal>. A <Literal>&caret;Z</Literal> takes effect immediately and
+is like an interrupt in that pending output and unread input are discarded
+when it is typed.
+</Para>
+<Para>A job being run in the background will stop if it tries to read
+from the terminal.
+Background jobs are normally allowed to produce output,
+but this can be disabled by giving the command ``stty tostop''.
+If you set this
+tty option, then background jobs will stop when they try to produce
+output like they do when they try to read input.
+</Para>
+<Para>There are several ways to refer to jobs in the shell.
+A job can be referred to by the process id of any process of the job
+or by one of the following:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>% number</Term>
+<ListItem>
+<Para>The job with the given number.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>% string</Term>
+<ListItem>
+<Para>Any job whose command line begins with
+<Symbol Role="Variable">string</Symbol>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>%? string</Term>
+<ListItem>
+<Para>Any job whose command line contains
+<Symbol Role="Variable">string</Symbol>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>%%</Term>
+<ListItem>
+<Para>Current job.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>%+</Term>
+<ListItem>
+<Para>Equivalent to
+<Literal>%%</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>%&minus;</Term>
+<ListItem>
+<Para>Previous job.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The shell learns immediately whenever a process changes state.
+It normally informs you whenever a job becomes blocked so that
+no further progress is possible, but only just before it prints
+a prompt.
+This is done so that it does not otherwise disturb your work.
+The
+<Literal>notify</Literal> option causes
+the shell to print these job change messages
+as soon as they occur.
+</Para>
+<Para>When the
+<Literal>monitor</Literal> option is on, each background job that completes
+triggers any trap set for
+<Symbol>CHLD</Symbol>.
+</Para>
+<Para>When you try to leave the shell while jobs are running or stopped, you will
+be warned that `You have stopped(running) jobs.'
+You may use the
+<Literal>jobs</Literal> command to see what they are.
+If you immediately try to
+exit again, the shell will not warn you a second time, and the stopped
+jobs will be terminated.
+When a login shell receives a HUP signal, it sends
+a HUP signal to each job that has not been disowned with a the
+<Literal>disown</Literal> built-in command described below.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Signals.</Title>
+<Para>The INT and QUIT signals for an invoked
+command are ignored if the command is followed by
+<Literal>&amp;</Literal> and the
+<Literal>monitor</Literal> option is not active.
+Otherwise, signals have the values
+inherited by the shell from its parent
+(but see also
+the
+<Literal>trap</Literal> built-in command below).
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Execution.</Title>
+<Para>Each time a command is read, the above substitutions
+are carried out.
+If the command name matches one
+of the
+<Emphasis>Special built-in Commands&hairsp;</Emphasis> listed below,
+it is executed within the
+current shell process.
+Next, the command name is checked to see if
+it matches a user defined function.
+If it does,
+the positional parameters are saved
+and then reset to the arguments of the
+<Emphasis>function&hairsp;</Emphasis> call.
+When the
+<Emphasis>function&hairsp;</Emphasis> completes or issues a
+<Literal>return</Literal>, the positional parameter list is restored.
+For functions defined with the
+<Literal>function</Literal> <Emphasis>name&hairsp;</Emphasis> syntax,
+any trap set on
+<Symbol>EXIT</Symbol> within the function is executed.
+The value of a
+<Emphasis>function&hairsp;</Emphasis> is the value of the last command executed.
+A function is also executed in the
+current shell process.
+If a command name is not a
+<Emphasis>special built-in command&hairsp;</Emphasis> or a user defined
+<Symbol Role="Variable">function</Symbol>, but it is one of the built-in commands listed below
+it is executed in the current shell process.
+</Para>
+<Para>The shell variable
+PATHdefines the search path for
+the directory containing the command.
+Alternative directory names are separated by
+a colon
+(<Literal>:</Literal>). The default path is
+<Literal>/bin:/usr/bin:</Literal> (specifying
+<Filename>/bin</Filename>, <Filename>/usr/bin</Filename>, and the current directory
+in that order).
+The current directory can be specified by
+two or more adjacent colons, or by a colon
+at the beginning or end of the path list.
+If the command name contains a <Filename>/</Filename> then the search path
+is not used.
+Otherwise, each directory in the path is
+searched for an executable file that is not a directory.
+If the shell
+determines that there is a built-in version
+of a command corresponding to a given pathname,
+this built-in is invoked in the current process.
+A process is created and
+an attempt is made to execute the command via
+<Emphasis>exec</Emphasis>(2). If the file has execute permission but is not an
+<Literal>a.out</Literal> file,
+it is assumed to be a file containing shell commands.
+A separate shell is spawned to read it.
+All non-exported variables are removed in this case.
+If the shell command
+file doesn't have read permission,
+or if the
+<Emphasis>setuid</Emphasis> and/or
+<Emphasis>setgid</Emphasis> bits are set on the file,
+then the shell executes an agent whose job it is to
+set up the permissions and execute the shell with the
+shell command file passed down as an open file.
+A parenthesized command is executed in
+a sub-shell without removing non-exported variables.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Command Re-entry.</Title>
+<Para>The text of the last
+HISTSIZE
+(default 128)
+commands entered from a terminal device
+is saved in a
+<Emphasis>history</Emphasis> file.
+The file
+<Filename>$HOME/.sh_history</Filename> is used if the
+HISTFILE
+variable is not set
+or if the file it names is not writable.
+A shell can access the commands of
+all
+<Emphasis>interactive</Emphasis> shells which use the same named
+<Symbol>HISTFILE</Symbol>. The built-in command
+<Literal>hist&hairsp;</Literal> is used to list or
+edit a portion of this file.
+The portion of the file to be edited or listed can be selected by
+number or by giving the first character or
+characters of the command.
+A single command or range of commands can be specified.
+If you do not specify an editor program as
+an argument to
+<Literal>hist&hairsp;</Literal> then the value of the variable
+<Symbol>HISTEDIT</Symbol> is used.
+If
+<Symbol>HISTEDIT</Symbol> is unset, the obsolete variable
+<Symbol>FCEDIT</Symbol> is used.
+If
+<Symbol>FCEDIT</Symbol> is not defined then
+<Filename>/bin/ed</Filename> is used.
+The edited command(s) is printed and re-executed upon
+leaving the editor unless you quit without writing.
+The
+<Literal>&minus;s</Literal> option
+(
+an in obsolete versions, the editor name
+<Literal>&minus;</Literal>)
+is used to skip the editing phase and
+to re-execute the command.
+In this case a substitution parameter of the form
+<Emphasis>old</Emphasis><Literal>=</Literal><Symbol Role="Variable">new</Symbol>
+can be used to modify the command before execution.
+For example, with the preset alias
+<Literal>r</Literal>, which is aliased to
+<Literal>&acute;hist &minus;s&acute;</Literal>, typing
+`<Literal>r bad=good c</Literal>'
+will re-execute the most recent command which starts with the letter
+<Literal>c</Literal>, replacing the first occurrence of the string
+<Literal>bad</Literal> with the string
+<Literal>good</Literal>.</Para>
+</RefSect2>
+<RefSect2>
+<Title>In-line Editing Options</Title>
+<Para>Normally, each command line entered from a terminal device is simply
+typed followed by a <Literal>new-line</Literal> (`RETURN' or `LINE&ensp;FEED').
+If either the
+<Literal>emacs</Literal>, <Literal>gmacs</Literal>, or
+<Literal>vi</Literal> option is active, the user can edit the command line.
+To be in either of these edit modes
+<Literal>set</Literal> the corresponding
+option.
+An editing option is automatically selected each time the
+<Symbol>VISUAL</Symbol> or
+<Symbol>EDITOR</Symbol> variable is assigned a value ending in either of these
+option names.
+</Para>
+<Para>The editing features require that the user's terminal
+accept `RETURN' as carriage return without line feed
+and that a space (`&ensp;') must overwrite the current character on
+the screen.
+</Para>
+<Para>The editing modes implement a concept where the user is looking through a
+window at the current line.
+The window width is the value of
+<SystemItem Class="EnvironVar">COLUMNS</SystemItem> if it is defined, otherwise 80.
+If the window width is too small to display the prompt and leave
+at least 8 columns to enter input, the prompt is truncated from the
+left.
+If the line is longer than the window width minus two, a mark is
+displayed at the end of the window to notify the user.
+As the cursor moves and reaches the window boundaries the window will be
+centered about the cursor.
+The mark is a
+<Literal>></Literal> (&lt;, <Literal>*</Literal>) if the line extends on the
+right (left, both) side(s) of the window.
+</Para>
+<Para>The search commands in each edit mode provide access to the history file.
+Only strings are matched, not patterns, although a leading
+<Literal>&caret;</Literal> in the string restricts the match
+to begin at the first character in the line.
+</Para>
+<Para>Each of the edit modes has an operation to list the files
+or commands that match a partially entered word.
+When applied to the first word on the line,
+or the first word after a
+<Literal>;</Literal>, <Literal>&verbar;</Literal>, <Literal>&amp;</Literal>, or
+<Literal>(</Literal>, and the word does not begin with
+<Literal>&ap;</Literal> or contain a
+<Filename>/</Filename>, the list of aliases, functions, and executable commands
+defined by the
+PATHvariable that could match the partial word is displayed.
+Otherwise, the list of files that match the given
+word is displayed.
+If the partially entered word does not contain any
+file expansion characters, a
+<Literal>*</Literal> is appended before generating these lists.
+After displaying the generated list, the input line
+is redrawn.
+These operations are called command name listing and file name listing,
+respectively.
+There are additional operations, referred to as command name
+completion and file name completion, which compute the list
+of matching commands or files, but instead of printing the list,
+replace
+the current word with a complete or partial match.
+For file name completion,
+if the match is unique, a
+<Filename>/</Filename> is appended if the file is a directory and a space is
+appended if the file is not a directory.
+Otherwise, the longest common prefix for all the matching
+files replaces the word.
+For command name completion, only the portion of the file names
+after the last
+<Filename>/</Filename> are used to find the longest command prefix.
+If only a single name matches this prefix, then the
+word is replaced with the command name followed by a space.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Key Bindings.</Title>
+<Para>The
+KEYBDtrap can be used to intercept keys as they are typed
+and change the characters that are actually seen by
+the shell.
+This trap is executed after each character
+( or sequence of characters when the first character is
+<Symbol>ESC</Symbol>) is entered while reading from a terminal.
+The variable
+<Literal>.sh.edchar</Literal> contains the character or character sequence which
+generated the trap.
+Changing the value of
+<Literal>.sh.edchar</Literal> in the trap action causes the shell to behave as if the
+new value were entered from the keyboard rather than
+the original value.
+</Para>
+<Para>The variable
+<Literal>.sh.edcol</Literal> is set to the input column number of the cursor at the time
+of the input.
+The variable
+<Literal>.sh.edmode</Literal> is set to
+<Symbol>ESC</Symbol> when in vi insert mode (see below) and is null otherwise.
+By prepending
+<Literal>${.sh.editmode}</Literal> to a value assigned to
+<Literal>.sh.edchar</Literal> it will cause the shell
+to change to control mode if it is not already in this mode.
+</Para>
+<Para>This trap is not invoked for characters entered as arguments to
+editing directives, or while reading input for a character search.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Emacs Editing Mode.</Title>
+<Para>This mode is entered by enabling either the
+<Emphasis>emacs</Emphasis> or
+<Emphasis>gmacs</Emphasis> option.
+The only difference between these two modes is the way
+they handle
+<Literal>&caret;T</Literal>. To edit, the user
+moves the cursor to the point needing correction and
+then inserts or deletes characters or words as needed.
+All the editing commands are control characters or escape
+sequences.
+The notation for control characters is caret (
+<Literal>&caret;</Literal>) followed
+by the character.
+For example,
+<Literal>&caret;F</Literal> is the notation for control
+<Literal>F</Literal>. This is entered by depressing `f' while holding down the
+`CTRL' (control) key.
+The `SHIFT' key is
+<Symbol Role="Variable">not</Symbol> depressed.
+(The notation
+<Literal>&caret;?</Literal> indicates the DEL (delete) key.)
+</Para>
+<Para>The notation for escape sequences is
+<Literal>M-</Literal> followed by a
+character.
+For example,
+<Literal>M-f</Literal> (pronounced Meta f)
+is entered by depressing ESC
+(ascii
+<Literal>033</Literal>) followed by `f'.
+(<Literal>M-F</Literal> would be the notation for ESC followed by `SHIFT' (capital) `F'.)
+</Para>
+<Para>All edit commands
+operate from any place on the line
+(not just at the beginning).
+Neither the "RETURN" nor the "LINE FEED" key is
+entered after edit commands except when noted.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&caret;F</Term>
+<ListItem>
+<Para>Move cursor forward (right) one character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-f</Term>
+<ListItem>
+<Para>Move cursor forward one word.
+(The
+<Literal>emacs</Literal> editor's idea of a word is a string of characters
+consisting of only letters, digits and underscores.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;B</Term>
+<ListItem>
+<Para>Move cursor backward (left) one character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-b</Term>
+<ListItem>
+<Para>Move cursor backward one word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;A</Term>
+<ListItem>
+<Para>Move cursor to start of line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;E</Term>
+<ListItem>
+<Para>Move cursor to end of line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;] char</Term>
+<ListItem>
+<Para>Move cursor forward to character
+<Symbol Role="Variable">char</Symbol> on current line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-&caret;] char</Term>
+<ListItem>
+<Para>Move cursor backward to character
+<Symbol Role="Variable">char</Symbol> on current line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;X&caret;X</Term>
+<ListItem>
+<Para>Interchange the cursor and mark.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>erase</Term>
+<ListItem>
+<Para>(User defined erase character as defined
+by the
+<Emphasis>stty</Emphasis>(1) command, usually
+<Literal>&caret;H</Literal> or
+<Literal>#</Literal>.) Delete previous character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;D</Term>
+<ListItem>
+<Para>Delete current character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-d</Term>
+<ListItem>
+<Para>Delete current word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-&caret;H</Term>
+<ListItem>
+<Para>(Meta-backspace) Delete previous word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-h</Term>
+<ListItem>
+<Para>Delete previous word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-&caret;?</Term>
+<ListItem>
+<Para>(Meta-DEL) Delete previous word (if your interrupt character is
+<Literal>&caret;?</Literal> (DEL, the default) then this command will not work).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;T</Term>
+<ListItem>
+<Para>Transpose current character with next character in
+<Emphasis>emacs</Emphasis> mode.
+Transpose two previous characters in
+<Emphasis>gmacs</Emphasis> mode.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;C</Term>
+<ListItem>
+<Para>Capitalize current character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-c</Term>
+<ListItem>
+<Para>Capitalize current word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-l</Term>
+<ListItem>
+<Para>Change the current word to lower case.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;K</Term>
+<ListItem>
+<Para>Delete from the cursor to the end of the line.
+If preceded by a numerical parameter whose value is less than the
+current cursor position, then delete from given position
+up to the cursor.
+If preceded by a numerical parameter whose value is greater than the
+current cursor position, then delete from cursor up to
+given cursor position.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;W</Term>
+<ListItem>
+<Para>Kill from the cursor to the mark.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-p</Term>
+<ListItem>
+<Para>Push the region from the cursor to the mark on the stack.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>kill</Term>
+<ListItem>
+<Para>(User defined kill character as defined
+by the stty command, usually
+<Literal>&caret;G</Literal> or
+<Literal>@</Literal>.) Kill the entire current line.
+If two
+<Symbol Role="Variable">kill</Symbol> characters are entered in succession, all
+kill characters from then on cause a line feed
+(useful when using paper terminals).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;Y</Term>
+<ListItem>
+<Para>Restore last item removed from line. (Yank item back to the line.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;L</Term>
+<ListItem>
+<Para>Line feed and print current line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;@</Term>
+<ListItem>
+<Para>(Null character) Set mark.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M- space</Term>
+<ListItem>
+<Para>(Meta space) Set mark.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;J</Term>
+<ListItem>
+<Para>(New&ensp;line) Execute the current line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;M</Term>
+<ListItem>
+<Para>(Return) Execute the current line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>eof</Term>
+<ListItem>
+<Para>End-of-file character,
+normally
+<Literal>&caret;D</Literal>, is processed as an End-of-file only
+if the current line is null.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;P</Term>
+<ListItem>
+<Para>Fetch previous command.
+Each time
+<Literal>&caret;P</Literal> is entered
+the previous command back in time is accessed.
+Moves back one line when not on the first line of a multi-line command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-&lt;</Term>
+<ListItem>
+<Para>Fetch the least recent (oldest) history line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-></Term>
+<ListItem>
+<Para>Fetch the most recent (youngest) history line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;N</Term>
+<ListItem>
+<Para>Fetch next command line.
+Each time
+<Literal>&caret;N</Literal> is entered
+the next command line forward in time is accessed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;R string</Term>
+<ListItem>
+<Para>Reverse search history for a previous command line containing
+<Symbol Role="Variable">string</Symbol>. If a parameter of zero is given, the search is forward.
+<StructName Role="typedef">String</StructName> is terminated by a "RETURN" or "NEW&ensp;LINE".
+If string is preceded by a
+<Literal>&caret;</Literal>, the matched line must begin with
+<Symbol Role="Variable">string</Symbol>. If
+<Symbol Role="Variable">string</Symbol> is omitted,
+then the next command line containing the most recent
+<Symbol Role="Variable">string</Symbol> is accessed.
+In this case a parameter of zero
+reverses the direction of the search.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;O</Term>
+<ListItem>
+<Para>Operate &minus; Execute the current line and fetch
+the next line relative to current line from the
+history file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M- digits</Term>
+<ListItem>
+<Para>(Escape) Define numeric parameter, the digits
+are taken as a parameter to the next command.
+The commands that accept a parameter are
+<Literal>&caret;F</Literal>, <Literal>&caret;B</Literal>, <Emphasis>erase</Emphasis>, <Literal>&caret;C</Literal>, <Literal>&caret;D</Literal>, <Literal>&caret;K</Literal>, <Literal>&caret;R</Literal>, <Literal>&caret;P</Literal>, <Literal>&caret;N</Literal>, <Literal>&caret;]</Literal>, <Literal>M-.</Literal>, <Literal>M-&caret;]</Literal>, <Literal>M-_</Literal>, <Literal>M-b</Literal>, <Literal>M-c</Literal>, <Literal>M-d</Literal>, <Literal>M-f</Literal>, <Literal>M-h</Literal>, <Literal>M-l</Literal> and
+<Literal>M-&caret;H</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M- letter</Term>
+<ListItem>
+<Para>Soft-key &minus; Your alias list is searched for an
+alias by the name
+<Literal>_</Literal><Emphasis>letter</Emphasis> and if an alias of this name is defined, its
+value will be inserted on the input queue.
+The
+<Emphasis>letter</Emphasis> must not be one of the above meta-functions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-[ letter</Term>
+<ListItem>
+<Para>Soft-key &minus; Your alias list is searched for an
+alias by the name
+<Literal>__</Literal><Emphasis>letter</Emphasis> and if an alias of this name is defined, its
+value will be inserted on the input queue.
+The can be used to program functions keys on many terminals.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-.</Term>
+<ListItem>
+<Para>The last word of the previous command is inserted
+on the line.
+If preceded by a numeric parameter, the value
+of this parameter determines which word to insert rather than
+the last word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-_</Term>
+<ListItem>
+<Para>Same as
+<Literal>M-.</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-*</Term>
+<ListItem>
+<Para>Attempt file name generation on the current word.
+An asterisk is appended if the word doesn't match any file
+or contain any special
+pattern characters.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Command or file name completion as described above.</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-=</Term>
+<ListItem>
+<Para>Command or file name listing as described above.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;U</Term>
+<ListItem>
+<Para>Multiply parameter of next command by 4.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;</Term>
+<ListItem>
+<Para>Escape next character.
+Editing characters, the user's erase, kill and
+interrupt (normally
+<Literal>&caret;?</Literal>) characters
+may be entered
+in a command line or in a search string if preceded by a
+<Literal>&bsol;</Literal>. The
+<Literal>&bsol;</Literal> removes the next character's
+editing features (if any).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;V</Term>
+<ListItem>
+<Para>Display version of the shell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>M-#</Term>
+<ListItem>
+<Para>If the line does not begin with a
+<Literal>#</Literal>, a
+<Literal>#</Literal> is inserted
+at the beginning of the line
+and after each new-line,
+and the line is entered.
+This causes a comment to be inserted in the history file.
+If the line begins with a
+<Literal>#</Literal>, the
+<Literal>#</Literal> is deleted and one
+<Literal>#</Literal> after each new-line is also deleted.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Vi Editing Mode.</Title>
+<Para>There are two typing modes.
+Initially, when you enter a command you are in the
+<Emphasis>input&hairsp;</Emphasis> mode.
+To edit, the user enters
+<Emphasis>control&hairsp;</Emphasis> mode by typing ESC
+(<Literal>033</Literal>) and moves the cursor to the point needing correction and
+then inserts or deletes characters or words as needed.
+Most control commands accept an optional repeat
+<Symbol Role="Variable">count</Symbol> prior to the command.
+</Para>
+<Para>When in
+<Literal>vi</Literal> mode on most systems,
+canonical processing is initially enabled and the
+command will be echoed again if the speed is 1200 baud or greater and it
+contains any control characters or less than one second has elapsed
+since the prompt was printed.
+The ESC character terminates canonical processing for the remainder of the command
+and the user can then modify the command line.
+This scheme has the advantages of canonical processing with the type-ahead
+echoing of raw mode.
+</Para>
+<Para>If the option
+<Literal>viraw&hairsp;</Literal> is also set, the terminal will always have canonical processing
+disabled.
+This mode is implicit for systems that do not support two
+alternate end of line delimiters,
+and may be helpful for certain terminals.
+</Para>
+<RefSect3>
+<Title>Input Edit Commands</Title>
+<Para>By default the editor is in input mode.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>erase</Term>
+<ListItem>
+<Para>(User defined erase character as defined
+by the stty command, usually
+<Literal>&caret;H</Literal> or
+<Literal>#</Literal>.) Delete previous character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;W</Term>
+<ListItem>
+<Para>Delete the previous blank separated word.
+One some systems the <Literal>viraw</Literal> option
+may be required for this to work.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>eof</Term>
+<ListItem>
+<Para>As the first character of the line causes
+the shell to terminate unless the <Literal>ignoreeof</Literal>
+option is set.
+Otherwise this character is ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;V</Term>
+<ListItem>
+<Para>Escape next character.
+Editing characters and the user's erase or kill
+characters may be entered
+in a command line or in a search string if preceded by a
+<Literal>&caret;V</Literal>. The
+<Literal>&caret;V</Literal> removes the next character's
+editing features (if any).
+One some systems the <Literal>viraw</Literal> option
+may be required for this to work.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;</Term>
+<ListItem>
+<Para>Escape the next
+<Emphasis>erase</Emphasis> or
+<Symbol Role="Variable">kill</Symbol> character.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect3>
+<RefSect3>
+<Title>Motion Edit Commands</Title>
+<Para>These commands will move the cursor.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>[count]l</Term>
+<ListItem>
+<Para>Cursor forward (right) one character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]w</Term>
+<ListItem>
+<Para>Cursor forward one alpha-numeric word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]W</Term>
+<ListItem>
+<Para>Cursor to the beginning of the next word that follows a blank.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]e</Term>
+<ListItem>
+<Para>Cursor to end of word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]E</Term>
+<ListItem>
+<Para>Cursor to end of the current blank delimited word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]h</Term>
+<ListItem>
+<Para>Cursor backward (left) one character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]b</Term>
+<ListItem>
+<Para>Cursor backward one word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]B</Term>
+<ListItem>
+<Para>Cursor to preceding blank separated word.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]&verbar;</Term>
+<ListItem>
+<Para>Cursor to column
+<Symbol Role="Variable">count</Symbol>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]fc</Term>
+<ListItem>
+<Para>Find the next character <Emphasis>c</Emphasis> in the current line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]Fc</Term>
+<ListItem>
+<Para>Find the previous character <Emphasis>c</Emphasis> in the current line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]tc</Term>
+<ListItem>
+<Para>Equivalent to
+<Literal>f</Literal> followed by
+<Literal>h</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]Tc</Term>
+<ListItem>
+<Para>Equivalent to
+<Literal>F</Literal> followed by
+<Literal>l</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count];</Term>
+<ListItem>
+<Para>Repeats
+<Symbol Role="Variable">count</Symbol> times,
+the last single character find command,
+<Literal>f</Literal>, <Literal>F</Literal>, <Literal>t</Literal>, or
+<Literal>T</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count],</Term>
+<ListItem>
+<Para>Reverses the last single character find command
+<Symbol Role="Variable">count</Symbol> times.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<Para>Cursor to start of line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;</Term>
+<ListItem>
+<Para>Cursor to first non-blank character in line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>$</Term>
+<ListItem>
+<Para>Cursor to end of line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>%</Term>
+<ListItem>
+<Para>Moves to balancing
+<Literal>(</Literal>, <Literal>)</Literal>, <Literal>{</Literal>, <Literal>}</Literal>, <Literal>[</Literal>, or
+<Literal>]</Literal>. If cursor is not on one of the above characters,
+the remainder of the line is searched for the first
+occurrence of one of the above characters first.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect3>
+<RefSect3>
+<Title>Search Edit Commands</Title>
+<Para>These commands access your command history.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>[count]k</Term>
+<ListItem>
+<Para>Fetch previous command.
+Each time
+<Literal>k</Literal> is entered
+the previous command back in time is accessed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]&minus;</Term>
+<ListItem>
+<Para>Equivalent to
+<Literal>k</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]j</Term>
+<ListItem>
+<Para>Fetch next command.
+Each time
+<Literal>j</Literal> is entered
+the next command forward in time is accessed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]+</Term>
+<ListItem>
+<Para>Equivalent to
+<Literal>j</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]G</Term>
+<ListItem>
+<Para>The command number
+<Symbol Role="Variable">count</Symbol> is fetched.
+The default is the least recent history command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>/ string</Term>
+<ListItem>
+<Para>Search backward through history for a previous command containing
+<Symbol Role="Variable">string</Symbol>. <StructName Role="typedef">String</StructName> is terminated by a "RETURN" or "NEW&ensp;LINE".
+If string is preceded by a
+<Literal>&caret;</Literal>, the matched line must begin with
+<Symbol Role="Variable">string</Symbol>. If <Symbol Role="Variable">string</Symbol> is null the previous string will be used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>? string</Term>
+<ListItem>
+<Para>Same as
+<Filename>/</Filename> except that search will be in the forward direction.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>n</Term>
+<ListItem>
+<Para>Search for next match of the last pattern to
+<Filename>/</Filename> or
+<Literal>?</Literal> commands.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>N</Term>
+<ListItem>
+<Para>Search for next match of the last pattern to
+<Filename>/</Filename> or
+<Literal>?</Literal>, but in reverse direction.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect3>
+<RefSect3>
+<Title>Text Modification Edit Commands</Title>
+<Para>These commands will modify the line.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>a</Term>
+<ListItem>
+<Para>Enter input mode and enter text after the current character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>A</Term>
+<ListItem>
+<Para>Append text to the end of the line.
+Equivalent to
+<Literal>$a</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]cmotion</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>c[count]motion</Term>
+<ListItem>
+<Para>Delete current character through the character that
+<Emphasis>motion</Emphasis> would move the cursor to and enter input mode.
+If <Emphasis>motion</Emphasis> is
+<Literal>c</Literal>, the entire line will be deleted and
+input mode entered.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>C</Term>
+<ListItem>
+<Para>Delete the current character through the end of line and enter input mode.
+Equivalent to
+<Literal>c$</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>S</Term>
+<ListItem>
+<Para>Equivalent to
+<Literal>cc</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>D</Term>
+<ListItem>
+<Para>Delete the current character through the end of line.
+Equivalent to
+<Literal>d$</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]dmotion</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>d[count]motion</Term>
+<ListItem>
+<Para>Delete current character through the character that
+<Emphasis>motion</Emphasis> would move to.
+If <Emphasis>motion</Emphasis> is
+<Literal>d</Literal>, the entire line will be deleted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>i</Term>
+<ListItem>
+<Para>Enter input mode and insert text before the current character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>I</Term>
+<ListItem>
+<Para>Insert text before the beginning of the line.
+Equivalent to
+<Literal>0i</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]P</Term>
+<ListItem>
+<Para>Place the previous text modification before the cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]p</Term>
+<ListItem>
+<Para>Place the previous text modification after the cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>R</Term>
+<ListItem>
+<Para>Enter input mode and
+replace characters on the screen with characters you type overlay fashion.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]rc</Term>
+<ListItem>
+<Para>Replace the
+<Symbol Role="Variable">count</Symbol> character(s) starting at the current cursor position with
+<Emphasis>c</Emphasis>, and advance the cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]x</Term>
+<ListItem>
+<Para>Delete current character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]X</Term>
+<ListItem>
+<Para>Delete preceding character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count].</Term>
+<ListItem>
+<Para>Repeat the previous text modification command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]&ap;</Term>
+<ListItem>
+<Para>Invert the case of the
+<Symbol Role="Variable">count</Symbol> character(s) starting at the current cursor position and advance the cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]_</Term>
+<ListItem>
+<Para>Causes the
+<Emphasis>count&hairsp;</Emphasis> word of the previous command to be appended and
+input mode entered.
+The last word is used
+if
+<Emphasis>count&hairsp;</Emphasis> is omitted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>*</Term>
+<ListItem>
+<Para>Causes an
+<Literal>*</Literal> to be appended to the current word and file name generation attempted.
+If no match is found,
+it rings the bell.
+Otherwise, the word is replaced
+by the matching pattern and input mode is entered.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;</Term>
+<ListItem>
+<Para>Command or file name completion as described above.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect3>
+<RefSect3>
+<Title>Other Edit Commands</Title>
+<Para>Miscellaneous commands.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>[count]ymotion</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>y[count]motion</Term>
+<ListItem>
+<Para>Yank current character through character that
+<Emphasis>motion</Emphasis> would move the cursor to and puts them into the delete buffer.
+The text and cursor are unchanged.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Y</Term>
+<ListItem>
+<Para>Yanks from current position to end of line.
+Equivalent to
+<Literal>y$</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>u</Term>
+<ListItem>
+<Para>Undo the last text modifying command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>U</Term>
+<ListItem>
+<Para>Undo all the text modifying commands performed on the line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>[count]v</Term>
+<ListItem>
+<Para>Returns the command
+<Literal>hist &minus;e ${VISUAL:&minus;${EDITOR:&minus;vi}}</Literal> <Emphasis>count</Emphasis> in the input buffer.
+If
+<Emphasis>count&hairsp;</Emphasis> is omitted, then the current line is used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;L</Term>
+<ListItem>
+<Para>Line feed and print current line.
+Has effect only in control mode.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;J</Term>
+<ListItem>
+<Para>(New&ensp;line) Execute the current line, regardless of mode.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&caret;M</Term>
+<ListItem>
+<Para>(Return) Execute the current line, regardless of mode.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>#</Term>
+<ListItem>
+<Para>If the first character of the command is a
+<Literal>#</Literal>, then this command deletes this
+<Literal>#</Literal> and each
+<Literal>#</Literal> that follows a newline.
+Otherwise,
+sends the line after
+inserting a
+<Literal>#</Literal> in front of each line in the command.
+Useful for causing the current line to be
+inserted in the history as a comment and
+uncommenting previously commented commands
+in the history file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>=</Term>
+<ListItem>
+<Para>Command or file name listing as described above.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>@ letter</Term>
+<ListItem>
+<Para>Your alias list is searched for an
+alias by the name
+<Literal>_</Literal><Emphasis>letter</Emphasis> and if an alias of this name is defined, its
+value will be inserted on the input queue for processing.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect3>
+</RefSect2>
+<RefSect2>
+<Title>Built-in Commands.</Title>
+<Para>The following simple-commands are executed in the shell process.
+Input/Output redirection is permitted.
+Unless otherwise indicated, the output is written on file descriptor 1
+and the exit status, when there is no syntax error, is zero.
+Except for
+<Literal>:</Literal>, <Literal>true</Literal>, <Literal>false</Literal>, <Literal>echo</Literal>, <Literal>command</Literal>, <Literal>newgrp</Literal>, and
+<Literal>login</Literal>, all built-in commands accept
+<Literal>&minus;&minus;</Literal> to indicate end of options.
+They also interpret the option
+<Literal>&minus;?</Literal> as a help request and print a
+<Emphasis>usage&hairsp;</Emphasis> message
+on standard error.
+Commands that are preceded by one or two &minus;
+are special built-in commands and
+are treated specially in the following ways:
+</Para>
+<OrderedList>
+<ListItem>
+<Para>Variable assignment lists preceding the command
+remain in effect when the command completes.
+</Para>
+</ListItem>
+<ListItem>
+<Para>I/O redirections are processed after variable assignments.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Errors
+cause a script
+that contains them to abort.
+</Para>
+</ListItem>
+<ListItem>
+<Para>They are not valid function names.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Words,
+following a command preceded by &minus;&minus;
+that are in the format of a variable assignment,
+are expanded with the same rules as a variable assignment.
+This means that
+tilde substitution is performed after the
+<Literal>=</Literal> sign and field splitting and file name generation are not
+performed.
+</Para>
+</ListItem>
+</OrderedList>
+<VariableList>
+<VarListEntry>
+<Term>&minus;: arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>The command only expands parameters.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; &thinsp;. name&hairsp; arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>If
+<Emphasis>name&hairsp;</Emphasis> is a function defined with the
+<Literal>function</Literal> <Emphasis>name&hairsp;</Emphasis> reserved word syntax,
+the function is executed in the current environment
+( as if it had been defined with the
+<Symbol Role="Variable">name</Symbol><Literal>()</Literal> syntax.)
+Otherwise if
+<Emphasis>name&hairsp;</Emphasis> refers to a file, the
+file is read in its entirety and the commands are
+executed in the current shell environment.
+The search path
+specified by
+PATHis used to find the directory containing file.
+If any arguments
+<Emphasis>arg&hairsp;</Emphasis> are given,
+they become the positional parameters while processing
+the
+. command and are restored upon completion.
+Otherwise the positional parameters are unchanged.
+The exit status is the exit status of the last command executed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;&minus; alias &minus;ptx name =value&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para><Literal>alias&hairsp;</Literal> with no arguments prints the list of aliases
+in the form
+<Emphasis>name=value&hairsp;</Emphasis> on standard output.
+The
+<Literal>&minus;p</Literal> option
+causes the word
+<Literal>alias</Literal> to be inserted before each one.
+When one or more arguments are given
+an
+<Emphasis>alias&hairsp;</Emphasis> is defined
+for each
+<Emphasis>name&hairsp;</Emphasis> whose
+<Emphasis>value&hairsp;</Emphasis> is given.
+A trailing space in
+<Emphasis>value&hairsp;</Emphasis> causes the next word to be checked for
+alias substitution.
+The obsolete
+<Literal>&minus;t</Literal> option is used to set and list tracked aliases.
+The value of a tracked alias is the full pathname
+corresponding to the given
+<Symbol Role="Variable">name</Symbol>. The value becomes undefined when the value of
+<SystemItem Class="EnvironVar">PATH</SystemItem> is reset but the alias remains tracked.
+Without the
+<Literal>&minus;t</Literal> option,
+for each
+<Emphasis>name&hairsp;</Emphasis> in the argument list
+for which no
+<Emphasis>value&hairsp;</Emphasis> is given, the name
+and value of the alias is printed.
+The obsolete
+<Literal>&minus;x</Literal> option has no effect.
+The exit status is non-zero if a
+<Emphasis>name&hairsp;</Emphasis> is given, but no value, and no alias has been defined for the
+<Emphasis>name&hairsp;</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>bg job&hairsp;.&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>This command is only on systems that support job control.
+Puts each specified
+<Emphasis>job&hairsp;</Emphasis> into the background.
+The current job is put in the background
+if
+<Emphasis>job&hairsp;</Emphasis> is not specified.
+See
+<Emphasis>Jobs</Emphasis> for a description of the format of
+<Emphasis>job</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; break n&hairsp;</Term>
+<ListItem>
+<Para>Exit from the enclosing
+<Literal>for&hairsp;</Literal>, <Literal>while&hairsp;</Literal>, <Literal>until&hairsp;</Literal>, or
+<Literal>select&hairsp;</Literal> loop, if any.
+If
+<Emphasis>n&hairsp;</Emphasis> is specified then break
+<Emphasis>n&hairsp;</Emphasis> levels.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>builtin &minus;ds &minus;f file&hairsp; name&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>If
+<Emphasis>name&hairsp;</Emphasis> is not specified, the built-ins are printed on standard output.
+The
+<Literal>&minus;s</Literal> option prints only the special built-ins.
+Otherwise, each
+<Emphasis>name&hairsp;</Emphasis> represents the pathname whose basename is the name of the built-in.
+The entry point function name is determined by prepending
+<Literal>b_</Literal> to the built-in name.
+Special built-ins cannot be bound to a pathname or deleted.
+The
+<Literal>&minus;d</Literal> option deletes each of the given built-ins.
+On systems that support dynamic loading, the
+<Literal>&minus;f</Literal> option names a shared library containing the code for built-ins.
+Once a library is loaded, its symbols become available
+for subsequent invocations of
+<Literal>builtin</Literal>. Multiple libraries can be specified with separate invocations
+of the <Literal>builtin</Literal> command.
+Libraries are searched in the reverse order in which they are specified.
+</Para>
+<para>
+Each command that is to be built-in must be written as a C function whose name is of the form
+<function>b_funcName</function>, where <function>funcName</function> is the name of the built-in
+to be added. This function has the same argument calling convention as 'main' (i.e. <literal>argc</literal>
+and <literal>argv</literal>&mdash; a list of strings).  The <function>b_funcName</function> parses and
+error-checks the incoming arguments and then calls the real <function>funcName</function> function.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>cd &minus;LP arg&hairsp;</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>cd &minus;LP old&hairsp; new&hairsp;</Term>
+<ListItem>
+<Para>This command can be in either of two forms.
+In the first form it
+changes the current directory to
+<Emphasis>arg</Emphasis>. If
+<Emphasis>arg&hairsp;</Emphasis> is
+<Literal>&minus;</Literal> the directory is changed to the previous
+directory.
+The shell
+variable
+HOMEis the default
+<Emphasis>arg</Emphasis>. The variable
+<SystemItem Class="EnvironVar">PWD</SystemItem> is set to the current directory.
+The shell variable
+CDPATHdefines the search path for
+the directory containing
+<Emphasis>arg</Emphasis>. Alternative directory names are separated by
+a colon
+(<Literal>:</Literal>). The default path is
+<Literal>&lt;null></Literal> (specifying the current directory).
+Note that the current directory is specified by a null path name,
+which can appear immediately after the equal sign
+or between the colon delimiters anywhere else in the path list.
+If
+<Emphasis>arg</Emphasis> begins with a <Filename>/</Filename> then the search path
+is not used.
+Otherwise, each directory in the path is
+searched for
+<Emphasis>arg</Emphasis>.</Para>
+<Para>The obsolete second form of
+<Literal>cd</Literal> substitutes the string
+<Symbol Role="Variable">new</Symbol> for the string
+<Emphasis>old</Emphasis> in the current directory name,
+<SystemItem Class="EnvironVar">PWD</SystemItem> and tries to change to this new directory.
+</Para>
+<Para>By default, symbolic links are not followed when
+finding the directory name.
+This is equivalent to the
+<Literal>&minus;L</Literal> option.
+The
+<Literal>&minus;P</Literal> option causes
+symbolic links to be followed when determining the directory.
+The last instance of
+<Literal>&minus;L</Literal> or
+<Literal>&minus;P</Literal> determines which method is used.
+</Para>
+<Para>The
+<Literal>cd&hairsp;</Literal> command may not be executed by
+<Literal>rksh&hairsp;.</Literal></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>command &minus;pvV name&hairsp; arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Without the
+<Literal>&minus;v</Literal> or
+<Literal>&minus;V</Literal> options,
+<Literal>command</Literal> executes
+<Emphasis>name&hairsp;</Emphasis> with the arguments given by
+<Emphasis>arg</Emphasis>. The
+<Literal>&minus;p</Literal> option causes
+a default path to be searched
+rather than the one defined by the value of
+<SystemItem Class="EnvironVar">PATH</SystemItem>. Functions will not be searched for when finding
+<Symbol Role="Variable">name</Symbol>. In addition, if
+<Emphasis>name&hairsp;</Emphasis> refers to a special built-in,
+none of the special properties associated with the leading
+daggers will be honored.
+(
+For example, the predefined alias
+<Literal>redirect=&acute;command exec&acute;</Literal> prevents a script from terminating when an invalid
+redirection is given.)
+With the
+<Literal>&minus;v</Literal> option,
+<Literal>command</Literal> is equivalent to the built-in
+<Literal>whence</Literal> command described below.
+The
+<Literal>&minus;V</Literal> options, causes
+<Literal>command</Literal> to
+<Literal>whence &minus;v</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; continue n&hairsp;</Term>
+<ListItem>
+<Para>Resume the next iteration of the enclosing
+<Literal>for&hairsp;</Literal>, <Literal>while&hairsp;</Literal>, <Literal>until&hairsp;</Literal>, or
+<Literal>select&hairsp;</Literal> loop.
+If
+<Emphasis>n&hairsp;</Emphasis> is specified then resume at the
+<Symbol Role="Variable">n</Symbol>-th enclosing loop.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>disown job&hairsp;.&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Causes the shell not to send a HUP signal to
+each given
+<Emphasis>job</Emphasis>, or all active jobs if
+<Emphasis>job</Emphasis> is omitted,
+when a login shell terminates.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>echo arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>When the first
+<Emphasis>arg&hairsp;</Emphasis> does not begin with a &minus;, and
+none of the arguments contain a &bsol;,
+then
+<Literal>echo</Literal> prints each of its arguments separated by a space
+and terminated by a new-line.
+Otherwise, the behavior of
+<Literal>echo</Literal> is system dependent
+and
+<Literal>print</Literal> or
+<Literal>printf</Literal> described below should be used.
+See
+<Emphasis>echo</Emphasis>(1) for usage and description.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; eval arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>The arguments are read as input
+to the shell
+and the resulting command(s) executed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; exec &minus;c &minus;a name&hairsp; arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>If
+<Emphasis>arg&hairsp;</Emphasis> is given,
+the command specified by
+the arguments is executed in place of this shell
+without creating a new process.
+The
+<Literal>&minus;c</Literal> option causes the environment to be cleared before applying
+variable assignments associated with the
+<Literal>exec</Literal> invocation.
+The
+<Literal>&minus;a</Literal> option
+causes
+<Emphasis>name&hairsp;</Emphasis> rather than the first
+<Emphasis>arg</Emphasis>, to become
+<Literal>argv[0]</Literal> for the new process.
+Input/output arguments may appear and
+affect the current process.
+If
+<Emphasis>arg&hairsp;</Emphasis> is not given
+the effect of this command is to
+modify file descriptors
+as prescribed by the input/output redirection list.
+In this case,
+any file descriptor numbers greater than 2 that are
+opened with this mechanism are closed when invoking
+another program.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>- exit n&hairsp;</Term>
+<ListItem>
+<Para>Causes the shell to exit
+with the exit status specified by
+<Symbol Role="Variable">n</Symbol>. The value will be the least significant 8 bits of the specified status.
+If
+<Emphasis>n&hairsp;</Emphasis> is omitted then the exit status is that of the last command executed.
+An end-of-file will also cause the shell to exit
+except for a
+shell which has the
+<Emphasis>ignoreeof</Emphasis> option (see
+<Literal>set</Literal> below) turned on.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;&minus; export &minus;p name&hairsp;=value&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>If
+<Emphasis>name&hairsp;</Emphasis> is not given,
+the names and values of each variable with
+the export attribute are printed with the values
+quoted in a manner that allows them to be re-inputed.
+The
+<Literal>&minus;p</Literal> option
+causes the word
+<Literal>export</Literal> to be inserted before each one.
+Otherwise, the given
+<Symbol Role="Variable">name</Symbol>s are marked for automatic
+export to the
+<Emphasis>environment&hairsp;</Emphasis> of subsequently-executed commands.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>fg job&hairsp;.&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>This command is only on systems that support job control.
+Each
+<Emphasis>job&hairsp;</Emphasis> specified is brought to the foreground and waited for in
+the specified order.
+Otherwise, the current job is
+brought into the foreground.
+See
+<Emphasis>Jobs</Emphasis> for a description of the format of
+<Emphasis>job</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>getconf name&hairsp; pathname&hairsp;</Term>
+<ListItem>
+<Para>Prints the current value of the configuration parameter given by
+<Symbol Role="Variable">name</Symbol>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>getopts optstring vname&hairsp; arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Checks
+<Emphasis>arg</Emphasis> for legal options.
+If
+<Emphasis>arg</Emphasis> is omitted,
+the positional parameters are used.
+An option argument begins with a
+<Literal>+</Literal> or a
+<Literal>&minus;</Literal>. An option not beginning with
+<Literal>+</Literal> or
+<Literal>&minus;</Literal> or the argument
+<Literal>&minus;&thinsp;&minus;</Literal> ends the options.
+<Emphasis>optstring</Emphasis> contains the letters that
+<Emphasis>getopts</Emphasis> recognizes.
+If a letter is followed by a
+<Literal>:</Literal>, that option is expected to have an argument.
+The options can be separated from the argument by blanks.
+</Para>
+<Para><Literal>getopts
+places the next option letter it finds inside variable</Literal> <Emphasis>vname&hairsp;</Emphasis> each time it is invoked with a
+<Literal>+</Literal> prepended when
+<Emphasis>arg</Emphasis> begins with a
+<Literal>+</Literal>. The index of the next
+<Emphasis>arg</Emphasis> is stored in
+<Symbol>OPTIND</Symbol>. The option argument,
+if any,
+gets stored in
+<Symbol>OPTARG</Symbol>.</Para>
+<Para>A leading
+<Literal>:</Literal> in
+<Emphasis>optstring</Emphasis> causes
+<Literal>getopts</Literal> to store the letter of an invalid
+option in
+<Symbol>OPTARG</Symbol>, and to set
+<Emphasis>vname</Emphasis> to
+<Literal>?</Literal> for an unknown option and to
+<Literal>:</Literal> when a required option is missing.
+Otherwise,
+<Literal>getopts</Literal> prints an error message.
+The exit status is non-zero when there are no more options.
+</Para>
+<Para>There is no way to specify any of the options
+<Literal>:</Literal>, <Literal>+</Literal>, <Literal>&minus;</Literal>, <Literal>?</Literal>, <Literal>[</Literal>, and
+<Literal>]</Literal>. The option
+<Literal>#</Literal> can only be specified as the first option.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>hist &minus;e ename&hairsp; &ensp; &minus;nlr&hairsp; first&hairsp; last&hairsp;</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>hist &minus;s old=new&hairsp; command&hairsp;</Term>
+<ListItem>
+<Para>In the first form,
+a range of commands from
+<Emphasis>first&hairsp;</Emphasis> to
+<Emphasis>last&hairsp;</Emphasis> is selected from the last
+<Symbol>HISTSIZE</Symbol> commands that were typed at the terminal.
+The arguments
+<Emphasis>first&hairsp;</Emphasis> and
+<Emphasis>last&hairsp;</Emphasis> may be specified as a number or as a string.
+A string is used to locate the most recent command starting with
+the given string.
+A negative number is used as an offset to the current command number.
+If the
+<Literal>&minus;l</Literal> option
+is selected,
+the commands are listed on standard output.
+Otherwise, the editor program
+<Emphasis>ename&hairsp;</Emphasis> is invoked on a file containing these
+keyboard commands.
+If
+<Emphasis>ename&hairsp;</Emphasis> is not supplied, then the value of the variable
+<Symbol>HISTEDIT</Symbol> is used.
+If
+<Symbol>HISTEDIT</Symbol> is not set then
+<Symbol>FCEDIT</Symbol> (default
+<Literal>/bin/ed&hairsp;</Literal>) is used as the editor.
+When editing is complete, the edited command(s)
+is executed if the changes have been saved.
+If
+<Emphasis>last&hairsp;</Emphasis> is not specified
+then it will be set to
+<Symbol Role="Variable">first</Symbol>. If
+<Emphasis>first&hairsp;</Emphasis> is not specified
+the default is the previous command
+for editing and &minus;16 for listing.
+The option
+<Literal>&minus;r</Literal> reverses the order of the commands and
+the option
+<Literal>&minus;n</Literal> suppresses command numbers when listing.
+In the second form the
+<Emphasis>command&hairsp;</Emphasis> is re-executed after the substitution
+<Emphasis>old&hairsp;</Emphasis><Literal>=</Literal><Emphasis>new&hairsp;</Emphasis>
+is performed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>jobs &minus;lnp&hairsp; job&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Lists information about each given job; or all active jobs if
+<Emphasis>job</Emphasis> is omitted.
+The
+<Literal>&minus;l</Literal> option lists process ids in addition to the normal information.
+The
+<Literal>&minus;n</Literal> option only displays jobs that have stopped or exited since last
+notified.
+The
+<Literal>&minus;p</Literal> option causes only the process group to be listed.
+See
+<Emphasis>Jobs</Emphasis> for a description of the format of
+<Emphasis>job</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>kill &minus;s signame&hairsp; job&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>kill &minus;n signum&hairsp; job&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>kill &minus;l sig&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Sends either the TERM (terminate) signal or the
+specified signal to the specified jobs or processes.
+Signals are either given by number with the
+<Literal>&minus;n</Literal> option or by name with the
+<Literal>&minus;s</Literal> option
+(as given in
+<Literal>&lt;signal.h></Literal>, stripped of the prefix ``SIG'' with
+the exception that SIGCLD is named CHLD).
+For backward compatibility, the
+<Literal>n</Literal> and
+<Literal>s</Literal> can be omitted and the number or name placed immediately
+after the
+<Literal>&minus;</Literal>. If the signal being sent is TERM (terminate) or HUP (hangup),
+then the job or process will be sent a CONT (continue) signal
+if it is stopped.
+The argument
+<Emphasis>job&hairsp;</Emphasis> can be the process id of a process that is not a member of one of the
+active jobs.
+See
+<Emphasis>Jobs</Emphasis> for a description of the format of
+<Emphasis>job</Emphasis>. In the third form,
+<Literal>kill &minus;l</Literal>, if
+<Emphasis>sig&hairsp;</Emphasis> is not specified,
+the signal names are listed.
+Otherwise, for each
+<Emphasis>sig&hairsp;</Emphasis> that is a name, the corresponding signal number is listed.
+For each
+<Emphasis>sig&hairsp;</Emphasis> that is a number, the signal name corresponding to the
+least significant 8 bits of
+<Emphasis>sig&hairsp;</Emphasis> is listed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>let arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Each
+<Emphasis>arg</Emphasis> is a separate
+<Emphasis>arithmetic expression</Emphasis> to be evaluated.
+See
+<Emphasis>Arithmetic Evaluation</Emphasis> above, for a description of arithmetic expression evaluation.
+</Para>
+<Para>The exit status is
+0 if the value of the last expression
+is non-zero, and 1 otherwise.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; newgrp arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Equivalent to
+<Literal>exec /bin/newgrp</Literal> <Emphasis>arg&hairsp;</Emphasis> .&thinsp;.&thinsp;.&hairsp;.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>print &minus;Rnprs&hairsp; &minus;u unit&hairsp; &minus;f format&hairsp; arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>With no options or with option
+<Literal>&minus;</Literal> or
+<Literal>&minus;&thinsp;&minus;</Literal>, Each
+<Emphasis>arg</Emphasis> is printed
+on standard output.
+The
+<Literal>&minus;f</Literal> option causes the arguments to be printed as
+described by
+<Literal>printf</Literal>. In this case any
+<Literal>n</Literal>, <Literal>r</Literal>, <Literal>R</Literal> options are ignored.
+Otherwise,
+unless the
+<Literal>&minus;R</Literal> or
+<Literal>&minus;r</Literal>, are specified, the following
+escape conventions will be applied:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&bsol;a</Term>
+<ListItem>
+<Para>The alert character (ascii
+<Literal>07</Literal>).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;b</Term>
+<ListItem>
+<Para>The backspace character (ascii
+<Literal>010</Literal>).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;c</Term>
+<ListItem>
+<Para>Causes
+<Literal>print</Literal> to end without processing more arguments and
+not adding a new-line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;f</Term>
+<ListItem>
+<Para>The formfeed character (ascii
+<Literal>014</Literal>).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;n</Term>
+<ListItem>
+<Para>The new-line character (ascii
+<Literal>012</Literal>).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;r</Term>
+<ListItem>
+<Para>The carriage return character (ascii
+<Literal>015</Literal>).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;t</Term>
+<ListItem>
+<Para>The tab character (ascii
+<Literal>011</Literal>).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;v</Term>
+<ListItem>
+<Para>The vertical tab character (ascii
+<Literal>013</Literal>).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;E</Term>
+<ListItem>
+<Para>The escape character (ascii
+<Literal>033</Literal>).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&bsol;&bsol;</Term>
+<ListItem>
+<Para>The backslash character &bsol;.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<Literal>&minus;R</Literal> option will print all subsequent arguments and options
+other than
+<Literal>&minus;n</Literal>. The
+<Literal>&minus;p</Literal> option causes the
+arguments to be written onto the pipe
+of the process spawned with
+<Literal>&verbar;&amp;</Literal> instead of standard output.
+The
+<Literal>&minus;s</Literal> option causes the
+arguments to be written onto the history file
+instead of standard output.
+The
+<Literal>&minus;u</Literal> option can be used to specify a one digit
+file descriptor unit number
+<Emphasis>unit&hairsp;</Emphasis> on which the
+output will be placed.
+The default is 1.
+If the option
+<Literal>&minus;n</Literal> is used, no
+<Literal>new-line&hairsp;</Literal> is added to the output.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>printf format&hairsp; arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>The arguments
+<Emphasis>arg&hairsp;</Emphasis> are printed on standard output
+in accordance with the ANSI-C
+formatting rules associated with the format string
+<Symbol Role="Variable">format</Symbol>. The following extensions can also be used:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>A
+<Literal>%b</Literal> format can be used instead of
+<Literal>%s</Literal> to cause escape sequences in the corresponding
+<Emphasis>arg&hairsp;</Emphasis> to be expanded as described in
+<Literal>print.</Literal></Para>
+</ListItem>
+<ListItem>
+<Para>A
+<Literal>%P</Literal> format can be used instead of
+<Literal>%s</Literal> to cause
+<Emphasis>arg&hairsp;</Emphasis> to be interpreted as an extended regular
+expression and be printed as a shell pattern.
+</Para>
+</ListItem>
+<ListItem>
+<Para>A
+<Literal>%q</Literal> format can be used instead of
+<Literal>%s</Literal> to cause the resulting string to be quoted in a manner than can
+be reinput to the shell.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The precision field of the
+<Literal>%d</Literal> format can be followed by a
+. and the output base.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>pwd &minus;LP</Term>
+<ListItem>
+<Para>Outputs the value of the current working
+directory.
+If the
+<Literal>&minus;P</Literal> option is given,
+all symbolic links are resolved from the name.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>read &minus;Aprs&hairsp; &minus;d delim&hairsp; &minus;t timeout&hairsp; &minus;u unit&hairsp; vname?prompt&hairsp; vname&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>The shell input mechanism.
+One line is read and
+is broken up into fields using the characters in
+IFSas separators.
+The escape character,
+<Literal>&bsol;</Literal>, is used to remove any special meaning for the next
+character and for line continuation.
+The
+<Literal>&minus;d</Literal> option
+causes the read to continue to the first character of
+<Emphasis>delim&hairsp;</Emphasis> rather than new-line.
+In raw mode,
+<Literal>&minus;r,</Literal> the
+<Literal>&bsol;</Literal> character is not treated specially.
+The first
+field is assigned to the first
+<Emphasis>vname</Emphasis>, the second field
+to the second
+<Emphasis>vname</Emphasis>, etc., with leftover fields assigned to the last
+<Emphasis>vname</Emphasis>. The
+<Literal>&minus;A</Literal> option causes the variable
+<Emphasis>vname&hairsp;</Emphasis> to be unset and each field that is read to be stored in
+successive elements of the indexed array
+<Emphasis>vname.</Emphasis> The
+<Literal>&minus;p</Literal> option causes the input line
+to be taken from the input pipe
+of a process spawned by the shell
+using
+<Literal>&verbar;&amp;</Literal>. If the
+<Literal>&minus;s</Literal> option is present,
+the input will be saved as a command in the history file.
+The option
+<Literal>&minus;u</Literal> can be used to specify a one digit file
+descriptor unit
+<Emphasis>unit&hairsp;</Emphasis> to read from.
+The file descriptor can be opened with the
+<Literal>exec&hairsp;</Literal> special built-in command.
+The default value of unit
+<Emphasis>n&hairsp;</Emphasis> is 0.
+The option
+<Literal>&minus;t</Literal> is used to specify a timeout in decimal
+seconds when reading from a terminal or pipe.
+If
+<Emphasis>vname&hairsp;</Emphasis> is omitted then
+<Symbol>REPLY</Symbol> is used as the default
+<Emphasis>vname</Emphasis>. An end-of-file with the
+<Literal>&minus;p</Literal> option causes cleanup for this process
+so that another can be spawned.
+If the first argument contains a
+<Literal>?</Literal>, the remainder of this word is used as a
+<Emphasis>prompt&hairsp;</Emphasis> on standard error
+when the shell is interactive.
+The exit status is 0 unless an end-of-file is encountered
+or read has timed out.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;&minus; readonly &minus;p vname=value&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>If
+<Emphasis>vname&hairsp;</Emphasis> is not given
+the names and values of each variable with
+the readonly attribute is printed with the values
+quoted in a manner that allows them to be re-inputed.
+The
+<Literal>&minus;p</Literal> option
+causes the word
+<Literal>readonly</Literal> to be inserted before each one.
+Otherwise, the given
+<Emphasis>vname</Emphasis>s are marked
+readonly and these
+names cannot be changed
+by subsequent assignment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; return n&hairsp;</Term>
+<ListItem>
+<Para>Causes a shell
+<Symbol Role="Variable">function</Symbol> or
+<Literal>&thinsp;.</Literal>
+script to return
+to the invoking script
+with the return status specified by
+<Symbol Role="Variable">n</Symbol>. The value will be the least significant 8 bits of the specified status.
+If
+<Emphasis>n&hairsp;</Emphasis> is omitted then the return status is that of the last command executed.
+If
+<Literal>return</Literal> is invoked while not in a
+<Symbol Role="Variable">function</Symbol> or a
+<Literal>&thinsp;.</Literal>
+script,
+then it behaves the same as
+<Literal>exit</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; set &plusmn;CPabefhkmnopstuvx &plusmn;o option&hairsp; .&thinsp;.&thinsp;. &plusmn;A vname&hairsp; arg&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>The options for this command have meaning as follows:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&minus;A</Term>
+<ListItem>
+<Para>Array assignment.
+Unset the variable
+<Emphasis>vname</Emphasis> and assign values sequentially from the
+list
+<Emphasis>arg</Emphasis>. If
+<Literal>+A</Literal> is used, the variable
+<Emphasis>vname</Emphasis> is not unset first.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;C</Term>
+<ListItem>
+<Para>Prevents redirection
+<Literal>></Literal> from truncating existing files.
+Files that are created are opened with the O_EXCL mode.
+Require
+<Literal>>&verbar;</Literal> to truncate a file when turned on.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;P</Term>
+<ListItem>
+<Para>Causes the
+<Literal>cd</Literal> and
+<Literal>pwd</Literal> built-in commands to default to physical mode.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;a</Term>
+<ListItem>
+<Para>All subsequent variables that are defined are automatically exported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;b</Term>
+<ListItem>
+<Para>Prints job completion messages as soon as a background job changes
+state rather than waiting for the next prompt.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;e</Term>
+<ListItem>
+<Para>If a command has a non-zero exit status,
+execute the
+<Symbol>ERR</Symbol> trap, if set,
+and exit.
+This mode is disabled while reading profiles.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;f</Term>
+<ListItem>
+<Para>Disables file name generation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;h</Term>
+<ListItem>
+<Para>Each command
+becomes a tracked alias when first encountered.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;k</Term>
+<ListItem>
+<Para>(Obsolete). All variable assignment arguments are placed in the environment for a command,
+not just those that precede the command name.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;m</Term>
+<ListItem>
+<Para>Background jobs will run in a separate process group
+and a line will print upon completion.
+The exit status of background jobs is reported in a completion message.
+On systems with job control,
+this option is turned on automatically for
+interactive shells.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;n</Term>
+<ListItem>
+<Para>Read commands and check them for syntax errors, but do not execute them.
+Ignored for interactive shells.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;o</Term>
+<ListItem>
+<Para>The following argument can be one of the following option names:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>allexport</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;a</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>errexit</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;e</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>bgnice</Term>
+<ListItem>
+<Para>All background jobs are run at a lower priority.
+This is the default mode.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>emacs</Term>
+<ListItem>
+<Para>Puts you in an
+<Emphasis>emacs</Emphasis> style in-line editor for command entry.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>gmacs</Term>
+<ListItem>
+<Para>Puts you in a
+<Emphasis>gmacs</Emphasis> style in-line editor for command entry.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ignoreeof</Term>
+<ListItem>
+<Para>The shell will not exit on end-of-file.
+The command
+<Literal>exit</Literal> must be used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>keyword</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;k</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>markdirs</Term>
+<ListItem>
+<Para>All directory names resulting from file name generation have a trailing
+<Filename>/</Filename> appended.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>monitor</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;m</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>noclobber</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;C</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>noexec</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;n</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>noglob</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;f</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>nolog</Term>
+<ListItem>
+<Para>Do not save function definitions in history file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>notify</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;b</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>nounset</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;u</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>physical</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;P</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>privileged</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;p</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>verbose</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;v</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>trackall</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;h</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>vi</Term>
+<ListItem>
+<Para>Puts you in insert mode of a
+<Emphasis>vi&hairsp;</Emphasis> style in-line editor
+until you hit escape character
+<Literal>033</Literal>. This puts you in control mode.
+A return sends the line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>viraw</Term>
+<ListItem>
+<Para>Each character is processed as it is typed
+in
+<Emphasis>vi&hairsp;</Emphasis> mode.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>xtrace</Term>
+<ListItem>
+<Para>Same as
+<Literal>&minus;x</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>If no option name is supplied then the current option settings are printed.</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;p</Term>
+<ListItem>
+<Para>Disables processing of the
+<Filename>$HOME/.profile</Filename> file and uses the file
+<Filename>/etc/suid_profile</Filename> instead of the
+<Symbol>ENV</Symbol> file.
+This mode is on whenever the effective uid (gid)
+is not equal to the real uid (gid).
+Turning this off causes the effective uid and gid to be
+set to the real uid and gid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;s</Term>
+<ListItem>
+<Para>Sort the positional parameters lexicographically.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;t</Term>
+<ListItem>
+<Para>(Obsolete). Exit after reading and executing one command.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;u</Term>
+<ListItem>
+<Para>Treat unset parameters as an error when substituting.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;v</Term>
+<ListItem>
+<Para>Print shell input lines as they are read.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;x</Term>
+<ListItem>
+<Para>Print commands and their arguments as they are executed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;&thinsp;&minus;</Term>
+<ListItem>
+<Para>Do not change any of the options; useful in setting
+<Literal>$1</Literal> to a value beginning with
+<Literal>&minus;</Literal>. If no arguments follow this option then the positional parameters are unset.
+</Para>
+<Para>As an obsolete feature,
+if the first
+<Emphasis>arg&hairsp;</Emphasis> is
+<Literal>&minus;</Literal> then the
+<Literal>&minus;x</Literal> and
+<Literal>&minus;v</Literal> options are turned off and the next
+<Emphasis>arg</Emphasis> is treated as the first argument.
+Using
+<Literal>+</Literal> rather than
+<Literal>&minus;</Literal> causes these options to be turned off.
+These options can also be used upon invocation of the shell.
+The current set of options may be found in
+<Literal>$&minus;</Literal>. Unless
+<Literal>&minus;A</Literal> is specified,
+the remaining arguments are positional
+parameters and are assigned, in order, to
+<Literal>$1</Literal> <Literal>$2</Literal> .&thinsp;.&thinsp;.&hairsp;.
+If no arguments are given then the names and values
+of all variables are printed on the standard output.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; shift n&hairsp;</Term>
+<ListItem>
+<Para>The positional parameters from
+<Literal>$</Literal><Symbol Role="Variable">n</Symbol><Literal>+1</Literal>
+.&thinsp;.&thinsp;.
+are renamed
+<Literal>$1</Literal> .&thinsp;.&thinsp;.&hairsp;
+, default
+<Emphasis>n&hairsp;</Emphasis> is 1.
+The parameter
+<Emphasis>n&hairsp;</Emphasis> can be any arithmetic expression that evaluates to a non-negative
+number less than or equal to
+<Literal>$#</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>sleep seconds&hairsp;</Term>
+<ListItem>
+<Para>Suspends execution for the number of decimal seconds or fractions of a
+second given by
+<Emphasis>seconds</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; trap &minus;p action&hairsp; sig&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>The &minus;p
+option causes the trap
+action associated with each trap as specified by the arguments
+to be printed with appropriate quoting.
+Otherwise,
+<Emphasis>action&hairsp;</Emphasis> will be processed as if it were an argument to
+<Literal>eval</Literal> when the shell
+receives signal(s)
+<Emphasis>sig</Emphasis>. Each
+<Emphasis>sig&hairsp;</Emphasis> can be given as a number or as the name of the signal.
+Trap commands are executed in order of signal number.
+Any attempt to set a trap on a signal that
+was ignored on entry to the current shell
+is ineffective.
+If
+<Emphasis>action&hairsp;</Emphasis> is omitted and the first
+<Emphasis>sig&hairsp;</Emphasis> is a number, or if
+<Emphasis>action&hairsp;</Emphasis> is
+<Literal>&minus;</Literal>, then the trap(s) for each
+<Emphasis>sig&hairsp;</Emphasis> are reset
+to their original values.
+If
+<Emphasis>action&hairsp;</Emphasis> is the null
+string then this signal is ignored by the shell and by the commands
+it invokes.
+If
+<Emphasis>sig&hairsp;</Emphasis> is
+<Symbol>ERR</Symbol> then
+<Emphasis>action&hairsp;</Emphasis> will be executed whenever a command has a non-zero exit status.
+If
+<Emphasis>sig&hairsp;</Emphasis> is
+<Symbol>DEBUG</Symbol> then
+<Emphasis>action&hairsp;</Emphasis> will be executed before each command.
+If
+<Emphasis>sig&hairsp;</Emphasis> is
+<Literal>0</Literal> or
+<Symbol>EXIT</Symbol> and the
+<Literal>trap</Literal> statement is executed inside the body of a function,
+then the command
+<Emphasis>action&hairsp;</Emphasis> is executed
+after the function completes.
+If
+<Emphasis>sig&hairsp;</Emphasis> is
+<Literal>0</Literal> or
+<Symbol>EXIT</Symbol> for a
+<Literal>trap</Literal> set outside any function
+then the command
+<Emphasis>action&hairsp;</Emphasis> is executed
+on exit from the shell.
+If
+<Emphasis>sig&hairsp;</Emphasis> is
+<Symbol>KEYBD</Symbol> then
+<Emphasis>action&hairsp;</Emphasis> will be executed whenever a key is read
+while in
+<Literal>emacs</Literal>, <Literal>gmacs</Literal>, or
+<Literal>vi&hairsp;</Literal> mode.
+The
+<Literal>trap</Literal> command
+with no arguments prints a list
+of commands associated with each signal number.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;&minus; typeset &plusmn;AHflnprtux&hairsp; &plusmn;EFLRZin&hairsp; vname&hairsp;=value&hairsp; &hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Sets attributes and values for shell variables and functions.
+When invoked inside a function,
+a new instance of the variables
+<Emphasis>vname&hairsp;</Emphasis> is created.
+The variables' value and type are restored
+when the function completes.
+The following list of attributes may be specified:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&minus;A</Term>
+<ListItem>
+<Para>Declares
+<Emphasis>vname&hairsp;</Emphasis> to be an associate array.
+Subscripts are strings rather than arithmetic
+expressions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;E</Term>
+<ListItem>
+<Para>Declares
+<Emphasis>vname&hairsp;</Emphasis> to be a double precision floating point number.
+If
+<Emphasis>n&hairsp;</Emphasis> is non-zero it defines the number of significant figures
+that are used when expanding
+<Emphasis>vname</Emphasis>. Otherwise ten significant figures will be used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;F</Term>
+<ListItem>
+<Para>Declares
+<Emphasis>vname&hairsp;</Emphasis> to be a double precision floating point number.
+If
+<Emphasis>n&hairsp;</Emphasis> is non-zero it defines the number of places after the
+decimal point that are used when expanding
+<Emphasis>vname</Emphasis>. Otherwise ten places after the decimal point will be used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;H</Term>
+<ListItem>
+<Para>This option provides UNIX to host-name file mapping on non-UNIX
+machines.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;L</Term>
+<ListItem>
+<Para>Left justify and remove leading blanks from
+<Symbol Role="Variable">value</Symbol>. If
+<Emphasis>n&hairsp;</Emphasis> is non-zero it defines the width
+of the field,
+otherwise it is determined by the width of the value of
+first assignment.
+When the variable is assigned to, it is
+filled on the right with blanks or truncated, if necessary, to
+fit into the field.
+The
+<Literal>&minus;R</Literal> option is turned off.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;R</Term>
+<ListItem>
+<Para>Right justify and fill with leading blanks.
+If
+<Emphasis>n&hairsp;</Emphasis> is non-zero it defines the width
+of the field,
+otherwise it is determined by the width of the value of
+first assignment.
+The field is left filled with blanks or
+truncated from the end if the
+variable is reassigned.
+The
+<Literal>&minus;L</Literal> option is turned off.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;Z</Term>
+<ListItem>
+<Para>Right justify and fill with leading zeros if
+the first non-blank character is a digit and the
+<Literal>&minus;L</Literal> option has not been set.
+Remove leading zeros if the
+<Literal>&minus;L</Literal> option is also set.
+If
+<Emphasis>n&hairsp;</Emphasis> is non-zero it defines the width
+of the field,
+otherwise it is determined by the width of the value of
+first assignment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;f</Term>
+<ListItem>
+<Para>The names refer to function names rather than
+variable names.
+No assignments can be made and the only other
+valid options are
+<Literal>&minus;t</Literal>, <Literal>&minus;u</Literal> and
+<Literal>&minus;x</Literal>. The option
+<Literal>&minus;t</Literal> turns on execution tracing for this function.
+The option
+<Literal>&minus;u</Literal> causes this function to be marked undefined.
+The
+<SystemItem Class="EnvironVar">FPATH</SystemItem> variable will be searched to find the function definition
+when the function is referenced.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;i</Term>
+<ListItem>
+<Para>Declares
+<Emphasis>vname&hairsp;</Emphasis> to be represented internally as integer.
+The right hand side of an assignment is evaluated as an
+arithmetic expression when assigning to an integer.
+If
+<Emphasis>n&hairsp;</Emphasis> is non-zero it defines the output arithmetic base,
+otherwise the the output base will be ten.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;l</Term>
+<ListItem>
+<Para>All upper-case characters are
+converted to lower-case.
+The upper-case option,
+<Literal>&minus;u</Literal> is turned off.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;n</Term>
+<ListItem>
+<Para>Declares
+<Emphasis>vname&hairsp;</Emphasis> to be a reference to the variable whose name is
+defined by the value of variable
+<Emphasis>vname</Emphasis>. This is usually used to reference a variable inside
+a function whose name has been passed as an argument.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;r</Term>
+<ListItem>
+<Para>The given
+<Emphasis>vname</Emphasis>s are marked
+readonly and these
+names cannot be changed
+by subsequent assignment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;t</Term>
+<ListItem>
+<Para>Tags the variables.
+Tags are user definable and have no special
+meaning to the shell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;u</Term>
+<ListItem>
+<Para>All lower-case characters are converted
+to upper-case characters.
+The lower-case option,
+<Literal>&minus;l</Literal>, is turned off.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;x</Term>
+<ListItem>
+<Para>The given
+<Emphasis>vname</Emphasis>s are marked for automatic
+export to the
+<Emphasis>environment&hairsp;</Emphasis> of subsequently-executed commands.
+Variables whose names contain a &period;
+can not be exported.
+</Para>
+<Para>The
+<Literal>&minus;i</Literal> attribute can not be specified along with
+<Literal>&minus;R</Literal>, <Literal>&minus;L</Literal>, <Literal>&minus;Z</Literal>, or
+<Literal>&minus;f</Literal>.</Para>
+<Para>Using
+<Literal>+</Literal> rather than
+<Literal>&minus;</Literal> causes these options to be turned off.
+If no
+<Emphasis>vname&hairsp;</Emphasis> arguments are given
+a list of
+<Emphasis>vnames&hairsp;</Emphasis> (and optionally the
+<Emphasis>values&hairsp;</Emphasis>) of the
+<Emphasis>variables&hairsp;</Emphasis> is printed.
+(Using
+<Literal>+</Literal> rather than
+<Literal>&minus;</Literal> keeps the
+values from being printed.)
+The
+<Literal>&minus;p</Literal> option causes
+<Literal>typeset</Literal> followed by the the option letters
+to be printed before each name
+rather than the names of the options.
+If any option other than
+<Literal>&minus;p</Literal> is given,
+only those variables
+which have all of the given
+options are printed.
+Otherwise, the
+<Emphasis>vname</Emphasis>s and
+<Emphasis>attributes&hairsp;</Emphasis> of all
+<Emphasis>variables&hairsp;</Emphasis> are printed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>ulimit &minus;HSacdfmnpstv limit&hairsp;</Term>
+<ListItem>
+<Para>Set or display a resource limit.
+The available resources limits are listed below.
+Many systems do not contain one or more of these limits.
+The limit for a specified resource is set when
+<Emphasis>limit&hairsp;</Emphasis> is specified.
+The value of
+<Emphasis>limit&hairsp;</Emphasis> can be a number in the unit specified below with each resource,
+or the value
+<Literal>unlimited</Literal>. The
+<Literal>&minus;H</Literal> and
+<Literal>&minus;S</Literal> options specify whether the hard limit or the
+soft limit for the given resource is set.
+A hard limit cannot be increased once it is set. A soft
+limit can be increased up to the value of the hard limit.
+If neither the
+<Literal>H</Literal> or
+<Literal>S</Literal> options is specified, the limit applies to both.
+The current resource limit is printed when
+<Emphasis>limit&hairsp;</Emphasis> is omitted.
+In this case the soft limit is printed unless
+<Literal>H</Literal> is specified.
+When more that one resource is specified, then the limit
+name and unit is printed before the value.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&minus;a</Term>
+<ListItem>
+<Para>Lists all of the current resource limits.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;c</Term>
+<ListItem>
+<Para>The number of 512-byte blocks on the size of core dumps.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;d</Term>
+<ListItem>
+<Para>The number of K-bytes on the size of the data area.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;f</Term>
+<ListItem>
+<Para>The number of 512-byte blocks on files that can be written the
+current process or by child processes (files of any size may be read).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;m</Term>
+<ListItem>
+<Para>The number of K-bytes on the size of physical memory.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;n</Term>
+<ListItem>
+<Para>The number of file descriptors plus 1.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;p</Term>
+<ListItem>
+<Para>The number of 512-byte blocks for pipe buffering.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;s</Term>
+<ListItem>
+<Para>The number of K-bytes on the size of the stack area.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;t</Term>
+<ListItem>
+<Para>The number of seconds to be used by each process.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;v</Term>
+<ListItem>
+<Para>The number of K-bytes for virtual memory.
+</Para>
+<Para>If no option is given,
+<Literal>&minus;f</Literal> is assumed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>umask &minus;S mask&hairsp;</Term>
+<ListItem>
+<Para>The user file-creation mask is set to
+<Emphasis>mask&hairsp;</Emphasis> (see
+<Emphasis>umask</Emphasis>(2)). <Symbol Role="Variable">mask</Symbol> can either be an octal number or
+a symbolic value as described in
+<Emphasis>chmod</Emphasis>(1). If a symbolic value is given,
+the new
+umask value is the complement of the result of
+applying
+<Emphasis>mask&hairsp;</Emphasis> to the complement of the previous umask value.
+If
+<Emphasis>mask&hairsp;</Emphasis> is omitted, the current value of the mask is printed.
+The
+<Literal>&minus;S</Literal> option causes the mode to be printed as a symbolic
+value. Otherwise, the
+mask is printed in octal.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus; unalias &minus;a name&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>The
+<Emphasis>aliases&hairsp;</Emphasis> given by the list of
+<Symbol Role="Variable">name</Symbol>s are removed from the
+<Emphasis>alias&hairsp;</Emphasis> list.
+The
+<Literal>&minus;a</Literal> option causes all the
+aliases to be unset.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;unset &minus;fv vname&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>The variables given by the list of
+<Emphasis>vname</Emphasis>s are unassigned,
+i.e.,
+their values and attributes are erased.
+Readonly variables cannot be unset.
+If the
+<Literal>&minus;f</Literal> option
+is set, then the names refer to
+<Emphasis>function&hairsp;</Emphasis> names.
+If the
+<Literal>&minus;v</Literal> option is set, then the names refer to
+<Emphasis>variable&hairsp;</Emphasis> names.
+The default is equivalent to
+<Literal>&minus;v</Literal>. Unsetting
+<Symbol>ERRNO</Symbol>, <Symbol>LINENO</Symbol>, <Symbol>MAILCHECK</Symbol>, <Symbol>OPTARG</Symbol>, <Symbol>OPTIND</Symbol>, <Symbol>RANDOM</Symbol>, <Symbol>SECONDS</Symbol>, <Symbol>TMOUT</Symbol>, and
+<Literal>_</Literal> removes their special meaning even if they are
+subsequently assigned to.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>wait job&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>Wait for the specified
+<Emphasis>job</Emphasis> and
+report its termination status.
+If
+<Emphasis>job&hairsp;</Emphasis> is not given then all currently active child processes are waited for.
+The exit status from this command is that of
+the last process waited for.
+See
+<Emphasis>Jobs</Emphasis> for a description of the format of
+<Emphasis>job</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>whence &minus;apv name&hairsp; .&thinsp;.&thinsp;.</Term>
+<ListItem>
+<Para>For each
+<Symbol Role="Variable">name</Symbol>, indicate how it
+would be interpreted if used as a command name.
+</Para>
+<Para>The
+<Literal>&minus;v</Literal> option
+produces a more verbose report.
+</Para>
+<Para>The
+<Literal>&minus;p</Literal> option
+does a path search for
+<Emphasis>name&hairsp;</Emphasis> even if name is an alias, a function, or a reserved word.
+The
+<Literal>&minus;a</Literal> is similar to the
+<Literal>&minus;v</Literal> option but causes
+all interpretations of the given name to be reported.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Invocation.</Title>
+<Para>If the shell is invoked by
+<Emphasis>exec</Emphasis>(2), and the first character of argument zero
+(<Literal>$0</Literal>) is
+<Literal>&minus;</Literal>, then the shell is assumed to be a
+<Emphasis>login</Emphasis> shell and
+commands are read from
+<Filename>/etc/profile</Filename> and then from either
+<Filename>.profile</Filename> in the current directory or
+<Filename>$HOME/.profile</Filename>, if either file exists.
+Next, commands are read from
+the file named by
+performing parameter expansion, command substitution,
+and arithmetic substitution on
+the value of the environment variable
+<Symbol>ENV</Symbol> if the file exists.
+If the
+<Literal>&minus;s</Literal> option is not present and
+<Emphasis>arg&hairsp;</Emphasis> is, then a path search is performed on the first
+<Emphasis>arg&hairsp;</Emphasis> to determine the name of the script to execute.
+The script
+<Emphasis>arg&hairsp;</Emphasis> must have read permission and any
+<Emphasis>setuid</Emphasis> and
+<Emphasis>getgid</Emphasis> settings will be ignored.
+If the script is not found on the path,
+<Emphasis>arg&hairsp;</Emphasis> is processed as if it named a built-in command or function.
+Commands are then read as described below;
+the following option are interpreted by the shell
+when it is invoked:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&minus;c</Term>
+<ListItem>
+<Para>If the
+<Literal>&minus;c</Literal> option is present then
+commands are read from the first
+<Emphasis>arg</Emphasis>. Any remaining arguments become
+position parameters starting at
+<Literal>0</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;s</Term>
+<ListItem>
+<Para>If the
+<Literal>&minus;s</Literal> option is present or if no
+arguments remain
+then commands are read from the standard input.
+Shell output,
+except for the output of the
+<Emphasis>Special</Emphasis> <Emphasis>Commands&hairsp;</Emphasis> listed above,
+is written to
+file descriptor 2.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;i</Term>
+<ListItem>
+<Para>If the
+<Literal>&minus;i</Literal> option is present or
+if the shell input and output are attached to a terminal (as told by
+<Emphasis>ioctl</Emphasis>(2)) then this shell is
+<Emphasis>interactive</Emphasis>. In this case TERM is ignored (so that <Literal>kill 0</Literal>
+does not kill an interactive shell) and INTR is caught and ignored
+(so that
+<Literal>wait</Literal> is interruptible).
+In all cases, QUIT is ignored by the shell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;r</Term>
+<ListItem>
+<Para>If the
+<Literal>&minus;r</Literal> option is present the shell is a restricted shell.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<Literal>&minus;I</Literal> <Emphasis>filename&hairsp;</Emphasis> option is used
+to generate a cross reference database
+that can be used by a separate utility
+to find definitions and references for variables and commands.
+</Para>
+<Para>The remaining options and arguments are described under the
+<Literal>set</Literal> command above.
+An optional
+<Literal>&minus;</Literal> as the first argument is ignored.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Rksh Only</Title>
+<Para><Emphasis>Rksh</Emphasis> is used to set up login names and execution environments whose
+capabilities are more controlled than those of the standard shell.
+The actions of
+<Literal>rksh</Literal> are identical to those of
+<Literal>ksh</Literal>, except that the following are disallowed:
+</Para>
+<simplelist>
+<member>
+changing directory (see
+<Emphasis>cd</Emphasis>(1))
+</member>
+<member>
+setting or unsetting the value or attributes of
+<SystemItem Class="EnvironVar">SHELL</SystemItem>, <Symbol>ENV</Symbol>, or
+<Symbol>PATH</Symbol>
+</member>
+<member>
+specifying path or
+command names containing
+<Filename>/</Filename>
+</member>
+<member>
+redirecting output
+(<Literal>></Literal>, <Literal>>|</Literal>, <Literal>&lt;></Literal>, and
+<Literal>>></Literal>)
+</member>
+</simplelist>
+<Para>The restrictions above are enforced
+after <Filename>.profile</Filename> and the
+<Symbol>ENV</Symbol> files are interpreted.
+</Para>
+<Para>When a command to be executed is found to be a shell procedure,
+invokes
+<Emphasis>sh&hairsp;}</Emphasis> {.B rksh&hairsp;
+invokes
+<Emphasis>ksh&hairsp;}</Emphasis> to execute it.
+Thus, it is possible to provide to the end-user shell procedures
+that have access to the full power of
+the standard shell,
+while imposing a limited menu of commands;
+this scheme assumes that the end-user does not have write and
+execute permissions in the same directory.
+</Para>
+<Para>The net effect of these rules is that the writer of the
+<Filename>.profile</Filename> has complete control over user actions,
+by performing guaranteed setup actions
+and leaving the user in an appropriate directory
+(probably
+<Emphasis>not&hairsp;</Emphasis> the login directory).
+</Para>
+<Para>The system administrator often sets up a directory
+of commands
+(i.e.,
+<Filename>/usr/rbin</Filename>) that can be safely invoked by
+<Literal>rksh</Literal>.</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>EXIT</Title>
+<Para>Errors detected by the shell, such as syntax errors,
+cause the shell
+to return a non-zero exit status.
+Otherwise, the shell returns the exit status of
+the last command executed (see also the
+<Literal>exit</Literal> command above).
+If the shell is being used non-interactively
+then execution of the shell file is abandoned.
+Run time errors detected by the shell are reported by
+printing the command or function name and the error condition.
+If the line number that the error occurred on is greater than one,
+then the line number is also printed in square brackets
+(<Literal>[]</Literal>) after the command or function name.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<simplelist>
+<member>
+/etc/passwd
+</member>
+<member>
+/etc/profile
+</member>
+<member>
+/etc/suid_profile
+</member>
+<member>
+$HOME/.profile
+</member>
+<member>
+/tmp/sh&ast;
+</member>
+<member>
+/dev/null
+</member>
+</simplelist>
+</RefSect1>
+<RefSect1>
+<Title>SEE</Title>
+<Para>cat(1),
+cd(1),
+chmod(1),
+cut(1),
+echo(1),
+emacs(1),
+env(1),
+gmacs(1),
+newgrp(1),
+stty(1),
+test(1),
+umask(1),
+vi(1),
+dup(2),
+exec(2),
+fork(2),
+ioctl(2),
+lseek(2),
+paste(1),
+pipe(2),
+umask(2),
+ulimit(2),
+wait(2),
+rand(3),
+a.out(5),
+profile(5),
+environ(7).
+</Para>
+<Para>Morris I. Bolsky and David G. Korn,
+<Emphasis>The KornShell Command and Programming Language</Emphasis>, Prentice Hall, 1989, ISBN 0-13-516972-0.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>CAVEATS</Title>
+<Para>If a command
+is executed, and then a command with the same name is
+installed in a directory in the search path before the directory where the
+original command was found, the shell will continue to
+<Emphasis>exec&hairsp;</Emphasis> the original command.
+Use the
+<Literal>&minus;t</Literal> option of the
+<Literal>alias&hairsp;</Literal> command to correct this situation.
+</Para>
+<Para>Some very old shell scripts contain a
+<Literal>&caret;</Literal> as a synonym for the pipe character
+<Literal>&verbar;</Literal>.</Para>
+<Para>Using the
+<Literal>hist&hairsp;</Literal> built-in command within a compound command will cause the whole
+command to disappear from the history file.
+</Para>
+<Para>The built-in command <Literal>&thinsp;.</Literal> <Emphasis>file&hairsp;</Emphasis>
+reads the whole file before any commands are executed.
+Therefore,
+<Literal>alias</Literal> and
+<Literal>unalias</Literal> commands in the file
+will not apply to any commands defined in the file.
+</Para>
+<Para>Traps are not processed while a job is waiting for a foreground process.
+Thus, a trap on
+<Symbol>CHLD</Symbol> won't be executed until the foreground job terminates.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.3 08/21/95 21:30:04-->

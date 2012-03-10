@@ -1,0 +1,247 @@
+//       $XConsortium: cgen_env.bil /main/3 1995/11/06 17:22:29 rswiston $
+//
+// @(#)cgen_env.bil	1.3 27 May 1994
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module cgen_env
+(
+
+:element dialog
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Environment Options"
+	:resizable		:true
+	:visible		:false
+	:default-button		get_btn
+	:help-button		help_btn
+	:help-volume		"AppBuilder"
+	:help-location		"ABCodeGenEnvirOptionsDialog"
+	:help-text		"Use this dialog to edit or examine the value of environment variables to be used when the code generator is run from the Code Generator Window."
+	:children		(
+		ctrl_panel
+		dialog_button_panel
+	)
+)
+:element ctrl_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj dialog 0)
+	:east-attachment	(:obj dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		name_textf
+		group
+	)
+)
+:element name_textf
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			39
+	:y			12
+	:label-type		:string
+	:label			"Variable Name:"
+	:label-position		:north
+	:num-columns		35
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:east-attachment	(:grid-line 90 0)
+	:west-attachment	(:grid-line 10 0)
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			84
+	:y			85
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:obj name_textf 15)
+	:south-attachment	(:grid-line 90 0)
+	:east-attachment	(:grid-line 90 0)
+	:west-attachment	(:grid-line 10 0)
+	:children		(
+		textpane
+		env_label
+	)
+)
+:element textpane
+(
+	:type			:text-pane
+	:text-type		:alphanumeric
+	:x			0
+	:y			31
+	:border-frame		:none
+	:num-rows		13
+	:num-columns		35
+	:hscrollbar		:never
+	:vscrollbar		:never
+	:word-wrap		:true
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj env_label 5)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element env_label
+(
+	:type			:label
+	:x			0
+	:y			0
+	:label-type		:string
+	:label			"Value:"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		get_btn
+		set_btn
+		reset_btn
+		cancel_btn
+		help_btn
+	)
+)
+:element get_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Get"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 19 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element set_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Set"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element reset_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element cancel_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element help_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:connection
+(
+	:from			get_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_get_envCB
+)
+:connection
+(
+	:from			set_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_set_envCB
+)
+:connection
+(
+	:from			reset_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_reset_envCB
+)
+:connection
+(
+	:from			dialog
+	:when			:after-create
+	:action-type		:call-function
+	:action			cgenP_init_env_list
+)
+:connection
+(
+	:from			cancel_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_cancel_envCB
+)
+)

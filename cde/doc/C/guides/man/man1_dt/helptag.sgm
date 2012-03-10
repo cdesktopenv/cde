@@ -1,0 +1,544 @@
+<!-- $XConsortium: helptag.sgm /main/9 1996/09/08 19:53:04 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMX.MAN22.rsml.1">
+<RefMeta>
+<RefEntryTitle>dthelptag</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dthelptag</Command></RefName>
+<RefPurpose>compile CDE Help source documents into runtime Help volumes
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dthelptag</Command>
+<Arg Choice="opt">options</Arg>
+<Arg><Replaceable>file</Replaceable></Arg>
+<Arg Choice="opt"><Replaceable>parser&minus;options</Replaceable></Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<note>
+<para>This utility has been superseded by the <command>dtdocbook</command> utility,
+which converts source documents that conform to the DocBook 2.2.1 DTD
+(Document Type Definition) subelement PART to documents
+that conform to the SDL 1.2 DTD. The converted DocBook documents
+are readable by the DtHelp viewer.
+</para>
+</note>
+<Para>The
+<Command>dthelptag</Command> utility is the CDE Help System compiler for translating
+HelpTag source markup into the online distribution format suitable for
+runtime display.
+See the <Emphasis>CDE Help System Author's and Programmer's
+Guide</Emphasis> for a description of the HelpTag markup language.
+See
+&cdeman.dthelpview; for more information on
+previewing compiled Help volumes.
+</Para>
+<Para>The
+<Command>dthelptag</Command> utility accepts a single file name as an argument.
+If the file name
+contains a period (``.''), any characters after the last period are
+considered to be the extension.
+The
+<Command>dthelptag</Command> utility removes all characters after the last period and uses the
+resulting name as the base name for all intermediate files and for the
+final output files.
+</Para>
+<Para>If the <Symbol Role="Variable">file</Symbol>
+argument has no periods,
+<Command>dthelptag</Command> uses the argument as the base name for intermediate and output files
+and assumes an extension of <Filename>.htg</Filename>, <Filename>.ctg</Filename> or <Filename>.sdl</Filename>
+for the input file.
+The <Filename>.ctg</Filename>
+extension is assumed when the <Literal>&minus;formal</Literal>
+option described below is used.
+The <Filename>.sdl</Filename>
+extension is assumed when the <Literal>&minus;compress</Literal>
+or <Literal>&minus;decompress</Literal>
+option (described later in this document) is used.
+</Para>
+<Para>Several options to
+<Command>dthelptag</Command> may precede the file name.
+Several arguments directing the
+parsing phase of the
+<Command>dthelptag</Command> process may follow the file name.
+</Para>
+<Para>The output file is:
+<Symbol Role="Variable">file</Symbol>.sdl &minus; the compiled help volume file.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<Para>The following options are available:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>&minus;verbose</Literal></Term>
+<ListItem>
+<Para>The <Literal>&minus;verbose</Literal>
+option will cause
+<Command>dthelptag</Command> to generate and display parser messages during processing.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;formal</Literal></Term>
+<ListItem>
+<Para>The <Literal>&minus;formal</Literal>
+option causes
+<Command>dthelptag</Command> to accept a subset of the HelpTag language that is strictly compliant
+to canonical SGML.
+(See the <Emphasis>CDE Help System Author's and Programmer's
+Guide</Emphasis>.)
+When this option is given, the default extension of the
+input file becomes <Filename>.ctg</Filename>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;nooptimize</Literal></Term>
+<ListItem>
+<Para>The <Literal>&minus;nooptimize</Literal>
+option eliminates certain optimizations that normally take place
+during translation of HelpTag markup to the runtime format.
+Using
+this option speeds the translation process.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;clean</Literal></Term>
+<ListItem>
+<Para>The <Literal>&minus;clean</Literal>
+option causes
+<Command>dthelptag</Command> to simply remove any intermediate files from the current directory.
+No translation takes place.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;debug</Literal></Term>
+<ListItem>
+<Para>The <Literal>&minus;debug</Literal>
+option causes
+<Command>dthelptag</Command> to leave all intermediate files in the current directory.
+The <Literal>&minus;debug</Literal>
+option also blocks the compression step of
+<Command>dthelptag</Command>, leaving the resulting <Filename>.sdl</Filename>
+output file in a human-readable form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;files</Literal></Term>
+<ListItem>
+<Para>The <Literal>&minus;files</Literal>
+option causes a list of files referenced in the translation process to
+be emitted to the standard output.
+No translation takes place.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;help</Literal></Term>
+<ListItem>
+<Para>The <Literal>&minus;help</Literal> option causes
+<Command>dthelptag</Command> to emit a synopsis of the
+<Command>dthelptag</Command> command line and a list of options to the standard output.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;decompress</Literal></Term>
+<ListItem>
+<Para>The <Literal>&minus;decompress</Literal>
+option causes
+<Command>dthelptag</Command> to decompress a previously created <Filename>.sdl</Filename>
+file.
+When this option is specified, the default input extension is <Filename>.sdl</Filename>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;compress</Literal></Term>
+<ListItem>
+<Para>The <Literal>&minus;compress</Literal>
+option causes
+<Command>dthelptag</Command> to compress a <Filename>.sdl</Filename>
+file that either was created by translating a <Filename>.htg</Filename>
+or <Filename>.ctg</Filename>
+file using the <Literal>&minus;debug</Literal>
+option or was previously decompressed using the <Literal>&minus;decompress</Literal>
+option.
+When this option is specified, the default input extension is <Filename>.sdl</Filename>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<RefSect2>
+<Title>Parser Options</Title>
+<Para>Any <Emphasis>parser options</Emphasis>
+follow the <Symbol Role="Variable">file</Symbol>
+argument on the command line and take the form
+<Literal>option=value</Literal>
+for those options taking an argument and simply <Literal>option</Literal>
+for those options not taking an argument.
+Parser options may also be set in the environment variable
+<SystemItem Class="EnvironVar">DTTAGOPT</SystemItem>, in a
+<Literal>helptag.opt</Literal>
+file or in a file named
+<Literal>file</Literal><Filename>.opt</Filename>
+in the current directory.
+The <Literal>helptag.opt</Literal>
+file may reside in the current directory or in the directory in which
+<Command>dthelptag</Command> is placed.
+</Para>
+<Para>The order of precedence of the option settings is:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The file
+<Literal>helptag.opt</Literal> in the
+<Command>dthelptag</Command> installation directory.
+This directory defaults to
+<Filename>/usr/dt/bin.</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>The environment variable <SystemItem Class="EnvironVar">DTTAGOPT</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The file
+<Literal>helptag.opt</Literal> in the current directory.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The file <Symbol Role="Variable">file</Symbol><Filename>.opt</Filename>
+in the current directory.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The command line.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Parser options set later in the list override options set earlier.
+</Para>
+<Para>The parser options supported by
+<Command>dthelptag</Command> are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>onerror=go</Literal></Term>
+<ListItem>
+<Para>Cause errors to be non-fatal.
+That is, parsing continues and later
+phases of the
+<Command>dthelptag</Command> process are run even if syntax errors were encountered.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>onerror=stop</Literal></Term>
+<ListItem>
+<Para>This is the default setting of the <Literal>onerror=</Literal> option.
+It causes the
+<Command>dthelptag</Command> process to stop upon completion of the parser phase if syntax errors were
+encountered during the parse.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>charset=name</Literal></Term>
+<ListItem>
+<Para>The default character set used by the
+help system is ISO8859-1.
+A different character set may be specified, for example,
+<Literal>name</Literal>,
+using the <Literal>charset=</Literal> option.
+The character set may also be set in the <Literal>helplang.ent</Literal>
+file described in the <Emphasis>CDE Help System Author's and Programmer's Guide</Emphasis>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>search=path</Literal></Term>
+<ListItem>
+<Para>Specifies one or more directory <Literal>path(s)</Literal>
+to be searched when executing
+<Command>dthelptag</Command>. Both
+<Command>dthelptag</Command> input files and/or additional graphics or entity declaration
+files referenced within the HelpTag markup can be made accessible by setting
+this option.
+The <Literal>search=</Literal>
+option may be specified more that once and the list of directories to
+search is accumulated.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>clearsearch</Literal></Term>
+<ListItem>
+<Para>Clears the list of directories searched for file and
+image entities.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>memo</Literal></Term>
+<ListItem>
+<Para>The <Literal>memo</Literal>
+option causes authors' comments to be included in the output.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>nomemo</Literal></Term>
+<ListItem>
+<Para>Specifies the inverse of the <Literal>memo</Literal>
+option.
+Both <Literal>memo</Literal>
+and <Literal>nomemo</Literal>
+may be specified, but the last entry will override any previous setting.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>shortfiles</Literal></Term>
+<ListItem>
+<Para>Neither the <Literal>shortfiles</Literal> <Emphasis>parser-option</Emphasis>
+nor any of its synonyms should be used.
+Rather, the <Literal>&minus;shortfiles</Literal>
+option should be given as an <Emphasis>option</Emphasis>
+to
+<Command>dthelptag</Command>. The
+<Command>dthelptag</Command> driver needs to know whether the user has requested short file names since
+<Command>dthelptag</Command> must know the names of the intermediate files.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>shortfile</Literal></Term>
+<ListItem>
+<Para>This is a synonym for <Literal>shortfiles</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">short</StructName></Term>
+<ListItem>
+<Para>This is a synonym for <Literal>shortfiles</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>longfiles</Literal></Term>
+<ListItem>
+<Para>This option and any of its synonyms should not be used for the same
+reason that the <Literal>shortfiles</Literal>
+option should not be used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>longfiles</Literal></Term>
+<ListItem>
+<Para>Long, untruncated file names are the default.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>longfile</Literal></Term>
+<ListItem>
+<Para>This is a synonym for <Literal>longfiles</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructName Role="typedef">long</StructName></Term>
+<ListItem>
+<Para>This is a synonym for <Literal>longfiles</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLES</Title>
+<Para><SystemItem Class="EnvironVar">LANG</SystemItem> determines the language in which the input
+<Symbol Role="Variable">file</Symbol> is interpreted.
+The
+<SystemItem Class="EnvironVar">LANG</SystemItem> environment variable can be overridden in the
+<Literal>helplang.ent</Literal>
+file described in the <Emphasis>CDE Help System Author's and Programmer's Guide</Emphasis>.
+</Para>
+<Para><SystemItem Class="EnvironVar">DTTAGOPT</SystemItem> may be used to set parser options.
+</Para>
+<RefSect2>
+<Title>International Code Set Support</Title>
+<Para>Single- and multi-byte character code sets are supported.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>INPUT FILES</Title>
+<Para>Following are the input files used by the
+<Command>dthelptag</Command> parser:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Filename>file.htg</Filename></Term>
+<ListItem>
+<Para>Default input file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>file.ctg</Literal></Term>
+<ListItem>
+<Para>Default input file when the <Literal>&minus;formal</Literal>
+option has been specified.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>file.st</Literal></Term>
+<ListItem>
+<Para>Status file and log.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>helplang.ent</Literal></Term>
+<ListItem>
+<Para>Character set information and localizable replacement text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>helptag.opt</Literal></Term>
+<ListItem>
+<Para>Option file.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>OUTPUT FILES</Title>
+<Para>Following are the input files used by the
+<Command>dthelptag</Command> parser:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Filename>file.sdl</Filename></Term>
+<ListItem>
+<Para>Runtime help volume
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>file.err</Literal></Term>
+<ListItem>
+<Para>Run log and error listing
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXTENDED DESCRIPTION</Title>
+<Para>The
+<Command>dthelptag</Command> utility is a driver program that executes two phases of the
+compilation process.
+The first phase translates the source markup
+into the distribution format.
+The second phase enhances the
+distribution file by precomputing information such as a list of
+identifiers in the file and their locations.
+These precomputations,
+along with several optimizations, enable rapid runtime display of
+the file.
+The second phase of the translation process also compresses
+the distribution file to reduce file system space required to store
+the file.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXIT STATUS</Title>
+<Para>The following exit values are returned:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<Para>Successful completion.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>1</Term>
+<ListItem>
+<Para>An error was detected in the source file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>2</Term>
+<ListItem>
+<Para>An invocation error was detected.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>CONSEQUENCES OF ERRORS</Title>
+<Para>Default.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<VariableList>
+<VarListEntry>
+<Term><Literal>dthelptag -clean myFile.htg</Literal></Term>
+<ListItem>
+<Para>Remove all files previously generated by processing a source file
+of <Filename>myFile.htg</Filename>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dthelptag myFile.htg onerror=go</Literal></Term>
+<ListItem>
+<Para>Process the file <Filename>myFile.htg</Filename>, not stopping even if there are syntax errors.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dthelptag myFile.htg</Literal></Term>
+<ListItem>
+<Para>Process the file <Filename>myFile.htg</Filename>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dthelpview;, <Emphasis>CDE Help System Author's and Programmer's Guide</Emphasis>.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

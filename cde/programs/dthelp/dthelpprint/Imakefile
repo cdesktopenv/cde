@@ -1,0 +1,22 @@
+XCOMM $TOG: Imakefile /main/11 1997/05/02 12:24:38 samborn $
+PROGRAMS = dthelpprint
+
+INCLUDES = -I. -I$(DTHELPSRC)
+DEFINES = -DDTLIB $(ICONV_INBUF_DEFINE) \
+          -DCDE_CONFIGURATION_TOP='"$(CDE_CONFIGURATION_TOP)"' \
+          -DCDE_INSTALLATION_TOP='"$(CDE_INSTALLATION_TOP)"'
+
+DEPLIBS = $(DEPDTHELPLIB) $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB)
+
+/* Sun needs the widechar library */
+#ifdef SunArchitecture
+SYS_LIBRARIES = DtClientSysLibs -lw $(CXXLIB)
+#else
+SYS_LIBRARIES = DtClientSysLibs $(CXXLIB)
+#endif
+
+SRCS = Main.c Initialize.c PrintUtil.c PrintTopics.c PrintManStrFile.c version.c
+OBJS = Main.o Initialize.o PrintUtil.o PrintTopics.o PrintManStrFile.o version.o
+
+ComplexProgramTarget($(PROGRAMS))

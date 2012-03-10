@@ -1,0 +1,163 @@
+XCOMM!/sbin/sh
+XCOMM $XConsortium: dtconfig.src /main/1 1996/07/24 11:39:47 drk $
+XCOMM
+XCOMM This version of the CDE dtconfig script is for use in the HP-UX
+XCOMM operating environment.
+XCOMM
+XCOMM  Common Desktop Environment
+XCOMM
+XCOMM  (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM  (c) Copyright 1993-1994,1996 Hewlett-Packard Company.
+XCOMM  (c) Copyright 1993-1994,1996 International Business Machines Corp.
+XCOMM  (c) Copyright 1993-1994,1996 Sun Microsystems, Inc.
+XCOMM  (c) Copyright 1993-1994,1996 Novell, Inc. 
+XCOMM  (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM  (c) Copyright 1996 Hitachi.
+XCOMM
+XCOMM This script can be run after CDE installation to configure CDE within
+XCOMM the host platforms operating environment.  For example, when auto-start
+XCOMM is selected, the CDE desktop login window will be displayed at end of the
+XCOMM workstation's power up boot cycle.
+XCOMM
+XCOMM Location:	CDE_INSTALLATION_TOP/bin/dtconfig
+
+PATH=/sbin:/usr/sbin:/usr/bin:/usr/dt/bin
+export PATH
+
+mode=$1
+arg_count=$#
+prg_name=$0
+
+Message()
+{
+XCOMM Message() - display message from dtconfig.cat
+XCOMM   $1 - message id
+XCOMM   $2 - fallback message text
+
+    if [ -x $DTDSPMSG ]; then
+	NLSPATH=/usr/dt/lib/nls/msg/%L/%N.cat:/usr/dt/lib/nls/msg/C/%N.cat $DTDSPMSG -s 30 dtconfig $1 "$2" "$3"
+	echo " "
+    else
+	echo "$2"
+    fi
+}
+
+usage_error() {
+    echo " "
+    Message 1 " CDE configuration utility"
+    echo " "
+    Message 2 "  $prg_name -d     (disable auto-start)" $prg_name
+    Message 3 "  $prg_name -e     (enable auto-start)" $prg_name
+    Message 4 "  $prg_name -kill  (kill dtlogin)" $prg_name
+    Message 5 "  $prg_name -reset (reset dtlogin)" $prg_name
+    Message 6 "  $prg_name -p     (printer action update)" $prg_name
+    echo " "
+}
+
+
+DTDSPMSG=/usr/dt/bin/dtdspmsg
+RC_MASTER=/sbin/init.d/dtlogin.rc
+RC_CONFIG_DESKTOP=/etc/rc.config.d/desktop
+VUERC=/usr/vue/bin/vuerc
+
+set `id`
+if [ $1 != "uid=0(root)" ]; then
+    Message 7 "$prg_name: this script must be run as root" $prg_name
+    exit 1
+fi
+
+if [ $arg_count -ne 1 ]; then
+    echo " "
+XCOMM
+XCOMM Display error message for too many arguments
+XCOMM
+    if [ $arg_count -gt 1 ]; then
+	Message 8 "Usage: Too many arguments"
+
+XCOMM
+XCOMM Display error message for NULL arguments passed
+XCOMM
+    elif [ $arg_count -eq 0 ]; then
+	Message 9 "Usage: Needs one argument"
+    fi
+
+    usage_error
+    exit 1
+fi
+
+rc_master_check() {
+    if [ ! -x $RC_MASTER ]; then
+	Message 10 "option failed"
+	Message 11 "could not execute $RC_MASTER" $RC_MASTER
+	exit 1
+    fi
+}
+
+case "$mode" in
+    '-d')
+	(
+	    if [ -f $RC_CONFIG_DESKTOP ]; then
+		DESKTOP=""
+		. $RC_CONFIG_DESKTOP
+		if [ CDE = "$DESKTOP" ]; then
+		    echo "# CDE Desktop disabled `date`" >$RC_CONFIG_DESKTOP
+		fi
+	    fi
+	)
+
+	Message 14 "done"
+	Message 15 "desktop auto-start disabled."
+	;;
+
+    '-e')
+#if (OSMAJORVERSION <= 10) && (OSMINORVERSION < 20)
+	if [ -f /tcb/files/auth/system/default ]; then
+	    Message 25 "CDE can not be enabled on a trusted system"
+	    Message 26 "unable to enable desktop auto-start"
+	    exit 1
+	fi
+#endif
+        echo "# CDE Desktop enabled `date`" >$RC_CONFIG_DESKTOP
+        echo "DESKTOP=CDE" >>$RC_CONFIG_DESKTOP
+
+	Message 14 "done"
+	Message 20 "desktop auto-start enabled."
+	;;
+
+    '-kill')
+	rc_master_check
+
+	$RC_MASTER stop
+
+	Message 14 "done"
+	Message 21 "dtlogin kill complete."
+	;;
+
+    '-reset')
+	rc_master_check
+
+	$RC_MASTER reset
+
+	Message 14 "done"
+	Message 22 "dtlogin config resources reloaded."
+	;;
+
+    '-p')
+	rc_master_check
+
+	$RC_MASTER update_printers
+
+	Message 14 "done"
+	Message 23 "printer action update is complete"
+	;;
+
+    *)
+	echo " "
+	Message 24 "Usage:"
+	usage_error
+	exit 1
+	;;
+
+esac
+
+exit 0

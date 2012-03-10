@@ -1,0 +1,333 @@
+<!-- $XConsortium: dtsrhanf.sgm /main/6 1996/09/08 20:19:48 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.INFO.dtsrhanfile">]]>
+<RefMeta>
+<RefEntryTitle>dtsrhanfile</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName>dtsrhanfile</RefName>
+<RefPurpose>
+Describes the format and syntax of DtSearch han files
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Synopsis>
+<Symbol Role="Variable">filename</Symbol>.han
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>Han files are the user generated profile files for <command>dtsrhan</command>.
+They identify fields in incoming text from which output fzk
+file fields can be constructed. The data from han files
+are loaded into memory by dtsrhan at initialization time.
+<command>dtsrhan</command> and han files have not been internationalized;
+han files may only contain ASCII characters.
+</para>
+<refsect2>
+<Title>General Format</Title>
+<para>All identifiers must begin with a letter, and must be composed entirely
+of alphanumerics and/or the underscore.
+</para>
+<para>Observe the following points when using using "strings":
+</para>
+<itemizedlist>
+<listitem>
+<para>If an identifying string contains quotes, use a backslash
+to create the quote. Example:
+</para>
+<programlisting>
+this string \"contains\" quotes
+</programlisting>
+<para>would find the string <literal>this string "contains" quotes</literal>.
+</para>
+</listitem>
+<listitem>
+<para>The above point makes it necessary to use double backslashes to create
+a single backslash. Example:
+</para>
+<programlisting>
+this string has a \\ backslash
+</programlisting>
+<para>would find the string <literal>this string has a \ backslash</literal>.
+</para>
+</listitem>
+<listitem>
+<para>Actually, using the backslash in any string will cause the next
+character to be included without exception. Thus, a string
+with <literal>this is \a test</literal> will end up being
+<literal>this is a test</literal>.
+The backslash is ignored, and the next character is imbedded
+in the string. This is only needed in the two cases described
+above, but can be used for any purpose.
+</para>
+</listitem>
+</itemizedlist>
+</refsect2>
+<refsect2>
+<Title>Individual Line Syntax</Title>
+<variablelist>
+<varlistentry><term># ... | blank line</term>
+<listitem>
+<para>Han file comment. Any line beginning with a pound sign
+in the first column, or any blank line, is discarded.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>line <emphasis>identifier</emphasis> = <emphasis>physical_line_number</emphasis></term>
+<listitem>
+<para>Defines a <literal>line</literal> with a physical line number in the record.
+<emphasis>physical_line_number</emphasis> must be a number.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>line <emphasis>identifier</emphasis> = column_number,"<emphasis>string</emphasis>" [<emphasis>column_number</emphasis>,"<emphasis>string</emphasis>"] ...</term>
+<listitem>
+<para>Defines a <literal>line</literal> using a column number and a
+'signature' string that should appear at that column.
+<emphasis>column_number</emphasis> can be a number, or
+<literal>*</literal> for 'any column'. "<emphasis>string</emphasis>"
+should be a string that occurs on the line in question. It is possible
+to define complex signatures using multiple clauses.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>field <emphasis>identifier</emphasis> = <emphasis>line_identifier</emphasis>,"<emphasis>string</emphasis>", <emphasis>offset</emphasis>, <emphasis>length</emphasis></term>
+<listitem>
+<para>Defines a <literal>field</literal> based on a declared line, a string
+found on that line, the offset from the first letter of the string, and
+the length of field.
+</para>
+<para><emphasis>line_identifier</emphasis> is an identifier declared with the
+<literal>line</literal> directive (see above).
+</para>
+<para>"<emphasis>string</emphasis>" is a string for relative positioning,
+where a field will follow a string that may not always occur in the
+same position on a line. If it is known that the field will always be
+in the same position, an empty string("") may be used.
+<emphasis>string</emphasis> must be enclosed in double quotes.
+<emphasis>offset</emphasis> must be a number, identifying the offset
+from the first character in the string. It starts at position 1, not 0,
+and may be negative.
+</para>
+<para><emphasis>length</emphasis> represents the length of the field. It may
+be a number, or it may be one of two special tokens:
+</para>
+<variablelist>
+<varlistentry><term><literal>eow</literal></term>
+<listitem>
+<para>End of word. The field will begin at <emphasis>offset</emphasis> and
+continue until the next white-space character.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>eoln</literal></term>
+<listitem>
+<para>End of line. The field will begin at <emphasis>offset</emphasis> and
+continue to the end of the line.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>An identifier <emphasis>string</emphasis> beginning with 3 uppercase M's
+("MMM...") will be considered an English month name string.
+At run time, if the first 3 chars of the field's value
+equal the first three chars of an English month name,
+the value string will be translated to a two character
+string of digits in the range "01" to "12".
+For example, if field <emphasis>MMMmymonth</emphasis> had an original value of
+"April ", it will be translated to "04" before use.
+</para>
+<para>In the case where a <literal>line</literal> identifier is associated with
+multiple lines in a single document, the field value will
+be determined from the last occurrence of the line within
+the record.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>constant <emphasis>identifier</emphasis> = "<emphasis>string</emphasis>"</term>
+<listitem>
+<para>Defines a <literal>constant</literal> field that can be used in
+abstracts and keys. The <emphasis>identifier</emphasis> is defined
+exactly the same as a <literal>field</literal> identifier. The value
+must be enclosed in double quotes.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>date = null | <emphasis>field_id</emphasis> [+ <emphasis>field_id</emphasis>] ...</term>
+<listitem>
+<para>Defines the document date for each document. It will
+be converted into a correctly formated fzk file date line.
+</para>
+<para><literal>null</literal> specifies undated documents. Undated documents
+always qualify for searches irrespective of date
+qualifiers in <function>DtSearchQuery</function>.
+</para>
+<para><emphasis>field_id</emphasis> is an identifier declared using the <literal>field</literal>
+or <literal>constant</literal> directives (see above).
+"MMM" fields are often useful for date assemblies.
+</para>
+<para>Multiple fields may be concatenated into a date.
+</para>
+<para>After concatenation, the assembled date must be of the following format:
+<emphasis>YYYYMMDDhhmm</emphasis> (exactly 12 digits). For example,
+<literal>199404171701</literal> is April 17, 1994 at 5:01 pm.
+<literal>200405031000</literal> is May 3, 2004, at 10:00 am (10
+o'oclock).
+</para>
+<para>Dates before 1900 or after 5995 are invalid.
+</para>
+<para>If <literal>date</literal> is not specified or is invalid, a generated date
+based on the current date and time will be used, but an
+invalid <literal>date</literal> will also generate an error message.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>key = <emphasis>field_id</emphasis> [+ <emphasis>field_id</emphasis>] ... | time | count</term>
+<listitem>
+<para>Defines the unique database key for each record in a fzk file.
+</para>
+<para><emphasis>field_id</emphasis> is a field identifier declared using the
+<literal>field</literal> or <literal>constant</literal> directives.
+</para>
+<para>Multiple fields may be concatenated into a key.
+</para>
+<para><literal>time</literal> is a special keyword used to generate keys based
+on the current run date and time, plus a sequential count suffix.
+</para>
+<para><literal>count</literal> is a special keyword used to generate keys
+based on a sequential count of records.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>upper</term>
+<listitem>
+<para>Specifies that keys written by handel are to be entirely converted
+to upper case. Without using this directive, mixed-case keys
+are allowed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>keychar = A | B | ...Z</term>
+<listitem>
+<para>Defines the character used to categorize keys for DtSearch. It
+must be an uppercase ASCII alphabetic character.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>delimiter = <emphasis>line_identifer</emphasis>, bottom</term>
+<listitem>
+<para>Defines the end of text (ETX) delimiter that will separate records.
+</para>
+<para><emphasis>line_identifier</emphasis> is an identifier declared with the
+<literal>line</literal> directive.
+</para>
+<para><literal>bottom</literal> is required. It specifies that the ETX will
+occur at the bottom of each record. Top of record delimiters are not
+supported.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>image = all | none</term>
+<listitem>
+<para>Defines whether the document image retrieved by
+<function>DtSearchRetrieve</function> is to contain all or none of the
+record, prior to application of <literal>imageinclude</literal> or
+<literal>imageexclude</literal> directives later in the han file. It
+defaults to <literal>all</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>imageinclude = <emphasis>line_identifier</emphasis> [- <emphasis>line_identifier</emphasis>]</term>
+<listitem>
+<para>Defines a line (or range of lines) to be included in the image.
+<emphasis>line_identifier</emphasis> is an identifier declared with the
+<literal>line</literal> directive.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>imageexclude = <emphasis>line_identifier</emphasis> [- <emphasis>line_identifier</emphasis>]</term>
+<listitem>
+<para>Defines a line (or range of lines) to be excluded from the image.
+<emphasis>line_identifier</emphasis> is an identifier declared with the
+<literal>line</literal> directive.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>abstract = field(s) <emphasis>field_identifier</emphasis> [+ <emphasis>field_identifier</emphasis>]...</term>
+<listitem>
+<para>Defines the abstract to be placed into the fzk file. It is created from
+the concatenations of fields. <emphasis>field_identifier</emphasis> is
+an identifier declared with the <literal>field</literal> directive.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>delblanklines = true | false</term>
+<listitem>
+<para>Determines if blank lines are to be removed from the record image or
+not. It defaults to <literal>false</literal>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<Title>Example</Title>
+<para>The sample han file shown here describes a text file containing a
+concatenated set of man pages documents.
+</para>
+<programlisting>
+# All records in the incoming text file are delimited by the same
+# end of text convention as the default for an fzk file, namely
+# a linefeed (control-L) on a line by itself ("\f\n").
+# Define a line named "etx" with that description,
+# and declare it to be the &lt;delimiter>.
+# Note that there must be a real ASCII control-L character between
+# the quotes in the line below.
+line etx = *,"^L"
+delimiter = etx, bottom
+
+# The command name that the man page is describing is on the first line.
+# To access it we need to define a line directive for line number 1.
+line line1 = 1
+
+# The name of the man page command begins in column 3 of line 1,
+# and the length is variable.  So we define a field identifier
+# named "command1" from column 3 to the end of the word.
+field command1 = line1,"",3,eow
+
+# We want each document abstract to have a constant prefix
+# followed by the name of the command.
+constant preabs = "Man Pages for "
+abstract = fields preabs + command1
+
+# We want all keys to be the name of the command, prefixed with
+# the same identifying character, an uppercase M.
+keychar = M
+key = command1
+
+# We want the each document date to be equivalent to the release
+# date of the original man pages, which we choose here to hard code
+# as November 1, 1994, at 1 o'clock in the afternoon.
+constant datecons = "199411011300"
+date = datecons
+</programlisting>
+</refsect2>
+</refsect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtsrhan;,
+&cdeman.dtsrindex;,
+&cdeman.dtsrfzkfiles;,
+&cdeman.dtsrlangfiles;,
+&cdeman.DtSearch;
+</Para>
+</RefSect1>
+</RefEntry>

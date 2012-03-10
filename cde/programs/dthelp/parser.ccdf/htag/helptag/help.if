@@ -1,0 +1,3717 @@
+/*   Copyright (c) 1986, 1987, 1988, 1989, 1990 Hewlett-Packard Co. */
+/* Interface definition for HP Tag/TeX translator */
+
+/* Things to watch out for:
+
+   1.  Index processing.  Notice for a number of tags (<BOOK> for example),
+       there is specific code when the tag is in <IDX>:
+         <START-CODE * IDX, * IDXSYN>, etc.
+       Many tags don't have empty <* IDX> string-code processing, to save
+       on executable size.  Therefore, when you add string-code processing
+       to a tag, make sure you add empty string-code for <* IDX>.
+   2.  Index processing for <COMPUTER>, <CURSOR>, <USER>.  They all have
+       hardcoded default values for their parameters to save on program
+       size (otherwise we have to uncomment parameter code).  This is not
+       a problem since parameters is unimplemented.  Need to watch out for
+       this when we do implement.
+*/
+
+/* Redefine m-starttextincell to enable */
+<!ENTITY m-starttextincell "">
+
+<!ENTITY MINUS SDATA "-">
+<!ENTITY PM SDATA "<CHARACTERSET symbol><0xB1></CHARACTERSET>">
+<!ENTITY DIV SDATA "<CHARACTERSET symbol><0xB8></CHARACTERSET>">
+<!ENTITY TIMES SDATA "<CHARACTERSET symbol><0xB4></CHARACTERSET>">
+<!ENTITY LEQ SDATA "<CHARACTERSET symbol><0xA3></CHARACTERSET>">
+<!ENTITY GEQ SDATA "<CHARACTERSET symbol><0xB3></CHARACTERSET>">
+<!ENTITY NEQ SDATA "<CHARACTERSET symbol><0xB9></CHARACTERSET>">
+<!ENTITY COPY SDATA "<CHARACTERSET symbol><0xE3></CHARACTERSET>">
+<!ENTITY REG SDATA "<CHARACTERSET symbol><0xE2></CHARACTERSET>">
+<!ENTITY TM SDATA "<CHARACTERSET symbol><0xE4></CHARACTERSET>">
+<!ENTITY ELLIPSIS SDATA "<CHARACTERSET symbol><0xBC></CHARACTERSET>">
+<!ENTITY VELLIPSIS SDATA
+"
+.
+.
+.
+">
+<!ENTITY PELLIPSIS SDATA "....">
+<!ENTITY A.M. SDATA "a.m.">
+<!ENTITY P.M. SDATA "p.m.">
+<!ENTITY MINUTES SDATA "<CHARACTERSET symbol><0xA2></CHARACTERSET>">
+<!ENTITY SECONDS SDATA "<CHARACTERSET symbol><0xB2></CHARACTERSET>">
+<!ENTITY DEG SDATA "<CHARACTERSET symbol><0xB0></CHARACTERSET>">
+<!ENTITY SQUOTE SDATA "`">
+<!ENTITY DQUOTE SDATA '"'>
+<!ENTITY ENDASH SDATA "-">
+<!ENTITY EMDASH SDATA " <CHARACTERSET symbol><0xBE></CHARACTERSET> ">
+<!ENTITY VBLANK SDATA "_">
+<!ENTITY CENTS SDATA "<CHARACTERSET iso8859-1><0xA2></CHARACTERSET>">
+<!ENTITY STERLING SDATA "<CHARACTERSET iso8859-1><0xA3></CHARACTERSET>">
+<!ENTITY M-D- PI "">
+<!ENTITY SIGSPACE SDATA "\ ">
+<!ENTITY MICRO SDATA "u">
+<!ENTITY OHM SDATA "ohm">
+<!ENTITY UP SDATA "up arrow">
+<!ENTITY DOWN SDATA "down arrow"> 
+<!ENTITY LEFT SDATA "\<-">
+<!ENTITY RIGHT SDATA "->">
+<!ENTITY HOME SDATA "home key">
+<!ENTITY BACK SDATA "\<--">
+<!ENTITY DATE SDATA CODE>
+     time_t nseconds;
+     struct tm *timefoo;
+     int maxsize = 20;
+     char s[20];
+
+     nseconds = time(NULL);
+     timefoo = localtime(&nseconds);
+     strftime(s, maxsize, "%x", timefoo);
+     fprintf(outfile, "%s\n", s);
+<\CODE>
+<!ENTITY TIME SDATA CODE>
+     time_t nseconds;
+     struct tm *timefoo;
+     int maxsize = 20;
+     char s[20];
+
+     nseconds = time(NULL);
+     timefoo = localtime(&nseconds);
+     strftime(s, maxsize, "%X", timefoo);
+     fprintf(outfile, "%s\n", s);
+<\CODE>
+<!ENTITY HALFSPACE SDATA " ">
+<!ENTITY M-SPECCHAR SDATA "Special characters">
+
+/* entities for service documentation, not in doctype */
+/*
+*<!ENTITY INSTMAN SDATA "Refer to innstruction manual.">
+*<!ENTITY HAZVOLT SDATA "Hazardous voltage.">
+*<!ENTITY GROUND SDATA "Ground.">
+*<!ENTITY DCVOLT SDATA "DC voltage.">
+*<!ENTITY NEGPULSE SDATA "Negative pulse.">
+*<!ENTITY POSPULSE SDATA "Positive pulse.">
+*<!ENTITY SINEWAVE SDATA "Sine wave.">
+*<!ENTITY SAWWAVE SDATA "Saw wave.">
+*<!ENTITY RAMPWAVE SDATA "Ramp wave.">
+*<!ENTITY TRIWAVE SDATA "Triangle wave.">
+*<!ENTITY SQWAVE SDATA "Square wave.">
+*/
+/*<!ENTITY calcent FILE "calc.ent">*/
+
+/* Code entities for toggling debugging traces */
+<!ENTITY m-aopt PI CODE>
+  m_malftrace = (LOGICAL) ! m_malftrace ;
+  <\CODE>
+
+<!ENTITY m-copt PI CODE>
+  m_chtrace = (LOGICAL) ! m_chtrace ;
+  <\CODE>
+
+<!ENTITY m-dopt PI CODE>
+  m_cdtrace = (LOGICAL) ! m_cdtrace ;
+  <\CODE>
+
+<!ENTITY m-hopt PI CODE>
+  m_heapchk = (LOGICAL) ! m_heapchk ;
+  <\CODE>
+
+<!ENTITY m-oopt PI CODE>
+  tracetostd = (LOGICAL) ! tracetostd ;
+  <\CODE>
+
+/* This option pertains to automatic index processing only (called by the
+   scripts only), so we don't need it in pi's.
+
+<!ENTITY m-popt PI CODE>
+  parentsrch = (LOGICAL) ! parentsrch ;
+  <\CODE>
+
+*/
+
+<!ENTITY m-sopt PI CODE>
+  m_scantrace = (LOGICAL) ! m_scantrace ;
+  <\CODE>
+
+<!ENTITY m-topt PI CODE>
+  m_tagtrace = (LOGICAL) ! m_tagtrace ;
+  <\CODE>
+
+/* This option does not pertain to a given document, so we don't
+   need it in pi's.
+
+<!ENTITY m-xopt PI CODE>
+  showmem = (LOGICAL) ! showmem ;
+  <\CODE>
+*/
+
+/* Code entities for MARKUP and HP Tag versions */
+<!ENTITY m-markup-ver SDATA CODE>
+  {
+  M_WCHAR *wc_1, *wc_2;
+
+  wc_1 = MakeWideCharString(M_VERSION);
+  wc_2 = MakeWideCharString("m-markup-ver");
+  m_piaction(wc_1, wc_2, M_SDATA) ;
+  m_free(wc_1,"wide character string");
+  m_free(wc_2,"wide character string");
+  }
+  <\CODE>
+
+<!ENTITY m-tagver SDATA CODE>
+  {
+  M_WCHAR *wc_1, *wc_2;
+
+  wc_1 = MakeWideCharString(version);
+  wc_2 = MakeWideCharString("m-tagver");
+  m_piaction(wc_1, wc_2, M_SDATA) ;
+  m_free(wc_1,"wide character string");
+  m_free(wc_2,"wide character string");
+  }
+  <\CODE>
+
+<!ENTITY m-machine SDATA CODE>
+#if defined(MSDOS)
+  m_piaction("VECTRA", "m-machine", M_SDATA) ;
+#else
+#if defined(hpux)
+  {
+  M_WCHAR *wc_1, *wc_2;
+
+  wc_1 = MakeWideCharString("HPUX");
+  wc_2 = MakeWideCharString("m-machine");
+  m_piaction(wc_1, wc_2, M_SDATA) ;
+  m_free(wc_1,"wide character string");
+  m_free(wc_2,"wide character string");
+  }
+#else
+#if defined(_AIX)
+  {
+  M_WCHAR *wc_1, *wc_2;
+
+  wc_1 = MakeWideCharString("AIX");
+  wc_2 = MakeWideCharString("m-machine");
+  m_piaction(wc_1, wc_2, M_SDATA) ;
+  m_free(wc_1,"wide character string");
+  m_free(wc_2,"wide character string");
+  }
+#else
+#if defined(sun)
+  {
+  M_WCHAR *wc_1, *wc_2;
+
+  wc_1 = MakeWideCharString("SUN");
+  wc_2 = MakeWideCharString("m-machine");
+  m_piaction(wc_1, wc_2, M_SDATA) ;
+  m_free(wc_1,"wide character string");
+  m_free(wc_2,"wide character string");
+  }
+#else
+#if defined(USL)
+  {
+  M_WCHAR *wc_1, *wc_2;
+
+  wc_1 = MakeWideCharString("USL");
+  wc_2 = MakeWideCharString("m-machine");
+  m_piaction(wc_1, wc_2, M_SDATA) ;
+  m_free(wc_1,"wide character string");
+  m_free(wc_2,"wide character string");
+  }
+#else
+#if defined(__uxp__)
+  {
+  M_WCHAR *wc_1, *wc_2;
+
+  wc_1 = MakeWideCharString("UXP");
+  wc_2 = MakeWideCharString("m-machine");
+  m_piaction(wc_1, wc_2, M_SDATA) ;
+  m_free(wc_1,"wide character string");
+  m_free(wc_2,"wide character string");
+  }
+#else
+  m_piaction("UNDEFINED MACHINE",
+	     "m-machine",
+	     M_SDATA) ;
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+  <\CODE>
+
+<SIGN-ON>HP HelpTag Formatting System. - Version A.01.00  (DTD Version A.01.23)
+<GLOBAL-DEFINE>
+#define DEFINE
+#include "global.h"
+static char ident1[]="@(#)Help Tag Parser";
+static char ident2[]="@(#)Version Number: A.01.00";
+static char ident3[]="@(#)Copyright (c) 1993 Hewlett-Packard Company.    All rights reserved.";
+
+<GLOBAL-DECLARE>
+#include "global.h"
+
+<START-CODE>
+  SEARCH *new ;
+  char *p ;
+  char *q ;
+
+  /* Pick version number out of sign-on message */
+  if (p = strstr(m_signon, VERSION)) {
+    p += strlen(VERSION) + 1 ;
+    for (q = p ; *q && *q != '\n'; q++) ;
+    if (*q == '\n') {
+      version = (char *) m_malloc(q - p + 1, "version") ;
+      *q = M_EOS ;
+      strcpy(version, p) ;
+      *q = '\n' ;
+      }
+    }
+
+  /* Following: please refer to comments in custom.c, m_setoptions() */
+  if (m_argc > 2) {
+    if ((strchr(m_argv[2], 'p')) || (strchr(m_argv[2], 'P')))
+      parentsrch = TRUE ;  /* Implies we are processing indexes */
+    }
+
+  helpcharset = MakeWideCharString("iso8859-1");
+
+  basename();
+
+  options(FALSE) ;
+  if (m_errexit && stoponerror) m_exit(m_errexit) ;
+
+  if (indir) {
+    new = (SEARCH *) m_malloc(sizeof(SEARCH), "search path") ;
+    new->directory = indir ;
+    new->next = path ;
+    path = new ;
+    }
+
+<END-CODE>
+  int i;
+  prebye = ftell(outfile) ;
+  fseek(outfile, texcomplete, SEEK_SET) ;
+  fseek(outfile, 0L, SEEK_END) ;
+  dumpxref() ;
+  if (glossary) checkgloss() ;
+
+  /* end last node */
+  fprintf(outfile, "</TOPIC>\n");
+
+  /* finish topic map */
+
+  fputs("\n", topicmapfp);
+  while (lastnodelevel--) {
+       /* indent routine >here< */
+       for (i = lastnodelevel; i > 0; i--) { fputs("  ", topicmapfp); }
+       fputs("}\n", topicmapfp);
+  }
+
+  /* polish up .hmi file */
+  if (!hadtitle) {
+       fprintf(docregfp, "*title:\t\"No title specified.\"\n");
+  }
+  /* else -- handled in element title */
+
+  if (!hadabstract) {
+       fprintf(docregfp, "*abstract:\t\"No abstract specified.");
+       if (hadtitle) {
+	    char *mb_savedtitle;
+
+	    mb_savedtitle = MakeMByteString(savedtitle);
+	    fprintf(docregfp, "  Title was ``%s''.", mb_savedtitle);
+	    m_free(mb_savedtitle,"multi-byte string");
+       }
+       fprintf(docregfp, "\"\n");
+  }
+  /* else -- handled in element abstract */
+
+  fprintf(docregfp, "*version:\t\"%s\"\n", version);
+
+  {
+    char *mb_charset;
+
+    mb_charset = MakeMByteString(helpcharset);
+    fprintf(docregfp, "*charSet:\t%s\n", mb_charset);
+    m_free(mb_charset, "multi-byte string");
+  }
+
+  /* warn if we have forward xrefs */
+  if (have_forward_xrefs) {
+       m_exit(77);
+  }
+
+<TEXT-CODE>
+    outchar(m_textchar, outfile) ;
+
+<PI-CODE>
+   outpi(m_enttype, m_pi, m_entname) ;
+
+
+<ELEMENT ABBREV>
+  <PARAM>
+    where = WHERE (QTOC = TOC,
+                   QFOOTER = FOOTER,
+                   QBOTH = BOTH) ;
+  <START-CODE CHAPHEAD RSUB>
+    abbrev = TRUE ;
+  <START-CODE CHAPHEAD RSECT>
+    abbrev = TRUE ;
+    fabbrev = (LOGICAL)
+              (! m_wcmbupstrcmp(where, QFOOTER) ||
+	       ! m_wcmbupstrcmp(where, QBOTH)) ;
+    if (fabbrev) {
+      didabbrev = TRUE ;
+      newhline = 0 ;
+      }
+    abbrev = TRUE ;
+    fputs("<ABBREV>", outfile);
+  <START-CODE CAPTION, CHAPHEAD MSGSUB>
+    abbrev = TRUE ;
+  <START-CODE CHAPHEAD CHAPTER, CHAPHEAD APPENDIX, CHAPTER MESSAGE,
+              CHAPHEAD TEST, CHAPHEAD S1, CHAPHEAD S2, CHAPHEAD S3,
+              CHAPHEAD S4, CHAPHEAD S5, CHAPHEAD S6, CHAPHEAD S7,
+              CHAPHEAD S8, CHAPHEAD S9, CHAPHEAD HOMETOPIC>
+    abbrev = TRUE ;
+    fabbrev = (LOGICAL)
+              (! m_wcmbupstrcmp(where, QFOOTER) ||
+	       ! m_wcmbupstrcmp(where, QBOTH)) ;
+    if (fabbrev) {
+      newhline = 0 ;
+     }
+    fputs("<ABBREV>", outfile);
+  <START-CODE>
+    M_WCHAR *wc_stago, *wc_tagc;
+
+    wc_stago = MakeWideCharString(m_stago);
+    wc_tagc  = MakeWideCharString(m_tagc);
+    
+    abbrev = TRUE ;
+    fabbrev = (LOGICAL)
+              (! m_wcmbupstrcmp(where, QFOOTER) ||
+	       ! m_wcmbupstrcmp(where, QBOTH)) ;
+    if (fabbrev) {
+      newhline = 0 ;
+    }
+    m_err2("Unimplemented %sABBREV%s reached", wc_stago, wc_tagc);
+    m_free(wc_stago,"wide character string");
+    m_free(wc_tagc,"wide character string");
+  <END-CODE>
+    fabbrev = FALSE ;
+    abbrev = FALSE ;
+  <END-CODE  CHAPHEAD RSECT,
+             CHAPHEAD CHAPTER, CHAPHEAD APPENDIX, CHAPTER MESSAGE,
+             CHAPHEAD TEST, CHAPHEAD S1, CHAPHEAD S2, CHAPHEAD S3,
+             CHAPHEAD S4, CHAPHEAD S5, CHAPHEAD S6, CHAPHEAD S7,
+             CHAPHEAD S8, CHAPHEAD S9, CHAPHEAD HOMETOPIC>
+    fabbrev = FALSE ;
+    abbrev = FALSE ;
+    fputs("</ABBREV>\n", outfile);
+
+
+<ELEMENT ABSTRACT>
+  <START-CODE>
+    M_WCHAR *wc_abstract;
+
+    wc_abstract = MakeWideCharString("_ABSTRACT");
+    
+    hadabstract = TRUE;
+    needabstracthead = TRUE;
+    starthelpnode(wc_abstract, TRUE);
+    fputs("*abstract:\t", docregfp);
+    m_free(wc_abstract,"wide character string");
+  <END-CODE>
+    fputs("\n", docregfp);
+  <TEXT-CODE>
+     outchar(m_textchar, outfile);
+     if (m_textchar == '\n') {
+        fputs(" \\\n", docregfp);
+     }
+     else {
+	 char mb_textchar[32];
+         int     length;
+
+	 length = wctomb(mb_textchar, m_textchar);
+	 mb_textchar[length] = '\0';
+         fputs(mb_textchar, docregfp) ;
+     }
+
+<ELEMENT ACRO>
+  <START-CODE>
+    if (echo) {
+      mb_echohead(m_stago);
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net);
+      }
+  <END-CODE>
+    if (echo) mb_echohead(m_net) ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <END-CODE * EXAMPLESEG, * IMAGE>
+    POPFONT ;
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+  <TEXT-CODE>
+    outchar(wc_toupper(m_textchar), outfile) ;
+
+<ELEMENT ANNOTATION>
+  <START-CODE>
+    fputs("<TYPE serif><ANGLE italic><SPACING p>\n", outfile);
+  <END-CODE>
+    fputs("</SPACING></ANGLE></TYPE>\n", outfile);
+
+<ELEMENT APPENDIX>
+  <PARAM>
+    id = ID ;
+    letter = LETTER ;
+    include = INCLUDE;
+    exclude = EXCLUDE;
+  <START-CODE>
+    appstart(id, letter) ;
+    thisnodelevel = 1;
+    starthelpnode(id, FALSE);
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+
+<ELEMENT BIBLIO>
+  <START-CODE>
+    unimp(m_parent(0)) ;
+			 /* when implementing:                              */
+                         /*  (1) Don't forget need begin/end                */
+                         /*  (2) Check code for <ITEM>                      */
+                         /*  (3) Suppression of need between head and text? */
+			 /*  (4) Consider if missing rev end check needed   */
+  <TEXT-CODE>
+  <END-CODE>
+    outfile = m_outfile;
+
+<ELEMENT BIBSUB>
+
+<ELEMENT BINDERNO>
+  <START-CODE>
+    char *string =
+      GetDefaultHeaderString("BinderNumberElementDefaultHeadingString",
+			     M_SDATA,
+			     "Binder Number");
+
+    mb_starthelpnode("_BINDERNO", TRUE);
+    fprintf(outfile,
+"<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n",
+	    string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT BOOK>
+  <START-CODE>
+    mb_strcode("<TYPE serif><ANGLE italic>", outfile) ;
+    if (echo) {
+      mb_echohead(m_stago) ;
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net) ;
+      }
+  <END-CODE>
+    mb_strcode("</ANGLE></TYPE>", outfile) ;
+    if (echo) mb_echohead(m_net) ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+<ELEMENT CAPTION>
+  <START-CODE FIGURE>
+    figcaption = TRUE ;
+    newhline = 0 ;
+    savhd = TRUE ;
+    hderr = FALSE ;
+    svheadlen = 0 ;
+    tooutput = TRUE ;
+    fputs("<WEIGHT bold>", outfile);
+  <END-CODE FIGURE>
+    savehead[svheadlen] = M_EOS ;
+    savhd = FALSE ;
+    tooutput = TRUE ;
+    fputs("</WEIGHT>", outfile);
+
+<ELEMENT CALLTEXT>
+  <PARAM>
+    callno = CALLNO ;
+  <TEXT-CODE>
+
+<ELEMENT CAUTION>
+  <START-CODE TEXT ITEM>
+    STARTSTUFF
+    /* In a tight list, paragraphs will have no trailing blank line.
+     * To match HPTag behavior, we need to emit a blank line and
+     * supress the leading blank line of the next paragraph, figure,
+     * example, etc., if any.
+    */
+    ncwTightList = "";
+    if ((lastlist->lastlist->space == TIGHT) &&
+	(lastlist->lastlist->where == INSIDE)) {
+       ncwTightList = " before 1";
+    }
+
+    rshnewclear() ;
+    notehead = FALSE ;
+  <START-CODE>
+    STARTSTUFF
+    ncwTightList = "";
+    rshnewclear() ;
+    notehead = FALSE ;
+  <END-CODE TEXT ITEM>
+    fputs("</PARAGRAPH>\n\n", outfile);
+    lastlist->lastlist->where = FOLLOW; /* supress leading newline */
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT CCELL>
+
+<ELEMENT CDISPLAY>
+  <PARAM>
+	file = ENTITY ;    
+	startrow = STARTROW  ;
+        endrow = ENDROW  ;
+	clip = CLIP ;
+	margin = MARGIN ;
+
+<ELEMENT CDROM>
+  <START-CODE>
+	/* ignore data chars meant only for cdrom */
+	/* we need CDROMsaveoutfile and can't just say m_outfile,
+           since we may be inside a table that has already
+ 	   been sending things to nullfile and it would be incorrect
+  	   to start sending to m_outfile now. I.e., if outfile is
+	   currently nullfile, we keep sending to nullfile in the 
+           end-code*/
+	CDROMsaveoutfile = outfile;
+	outfile = nullfile;
+  <END-CODE>
+	/* OK, let the data flow.  CDROM is ending. */
+	outfile = CDROMsaveoutfile;
+
+<ELEMENT CELL>
+  <PARAM>
+    style = CELLSPEC ;
+    span = SPAN ;
+    vspan = VSPAN ;
+
+<ELEMENT CHAPHEAD>
+  <START-CODE MESSAGE>
+    emsghead = USERHEAD ;
+
+<ELEMENT CHAPTER>
+  <PARAM>
+    id = ID ;
+    number = NUMBER ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    assert_hometopic_exists();
+    chapstart(id, number, "chapter") ;  /* opens new help file, too */
+    thisnodelevel = 1;
+    starthelpnode(id, FALSE);
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT CIRCLE>
+  <TEXT-CODE>
+    if (echo) mb_echohead("((") ;
+    mb_strcode("(", outfile) ;
+    outchar (m_textchar, outfile) ;
+    mb_strcode(")", outfile) ;
+    if (echo) mb_echohead("))") ;
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar('(');
+    indexchar(m_textchar) ;
+    indexchar(')');
+
+<ELEMENT CMD>
+
+<ELEMENT CMDDESC>
+
+<ELEMENT CMDDESCRIP>
+
+<ELEMENT CMDNAME>
+
+<ELEMENT CMDTYPE>
+
+<ELEMENT COLH>
+  <PARAM>
+    style = CELLSPEC ;
+    vspan = VSPAN  ;
+    span = SPAN ;
+
+<ELEMENT COLHEADS>
+
+<ELEMENT COMPUTER>
+  <START-CODE>
+    mb_strcode("<TYPE serif><SPACING m>", outfile);
+    if (echo) mb_echohead("``") ;
+  <END-CODE>
+    POPFONT ;
+    mb_strcode("</SPACING></TYPE>", outfile);
+    if (echo) mb_echohead("''") ;
+  <TEXT-CODE>
+     esoutchar(m_textchar) ;
+  <TEXT-CODE * IMAGE>
+     exoutchar(m_textchar) ;
+  <TEXT-CODE * EXAMPLESEG>
+     exoutchar(m_textchar) ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+<ELEMENT CONVENTIONS>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    mb_starthelpnode("_CONVENTIONS", TRUE);
+
+<ELEMENT COPYRIGHT>
+  <START-CODE>
+    mb_starthelpnode("_COPYRIGHT", TRUE);
+    fprintf(outfile, "<TITLE></TITLE>\n");
+    /* No Head.  Let author have a clean slate. */
+
+<ELEMENT COUNTRY>
+  <START-CODE>
+    char *string =
+      GetDefaultHeaderString("CountryElementDefaultHeadingString",
+			     M_SDATA,
+			     "Country");
+
+    mb_starthelpnode("_COUNTRY", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT CROW>
+
+<ELEMENT CSPOT>
+  <PARAM>
+    file = ENTITY ;
+    graphics = GRAPHICS (QNOGRAPHICS = NOGRAPHICS,
+                         QGRAPHICS = GRAPHICS) ;
+    width = WIDTH  ;
+    height = HEIGHT  ;
+
+<ELEMENT CSUSER>
+  <START-CODE>
+    if (echo) {
+      mb_echohead(m_stago) ;
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net) ;
+      }
+  <END-CODE>
+    if (echo) mb_echohead(m_net) ;
+  <START-CODE * OUTPUT...., * INPUT.....>
+    if (echo) {
+      mb_echohead(m_stago) ;
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net) ;
+      }
+  <TEXT-CODE>
+    esoutchar(m_textchar) ;
+
+<ELEMENT CSYNHEADS>
+
+<ELEMENT CSYNTAX>
+  <START-CODE>
+      char *mb_parent;
+
+      mb_parent = MakeMByteString(m_parent(0));
+      notimp(mb_parent, "BIG/SMALL page styles") ;
+      m_free(mb_parent,"multi-byte string");
+  <END-CODE>
+      outfile = m_outfile ;
+
+<ELEMENT CTABLE>
+  <PARAM>
+    type = TYPE (QKEYS2 = KEYS2,
+                 QCOMMAND = COMMAND) ;
+    graphics = GRAPHICS (QNOGRAPHICS = NOGRAPHICS,
+                         QGRAPHICS = GRAPHICS) ;
+    displines = DISPLINES (QTWO = TWO,
+                           QFOUR = FOUR,
+                           QEIGHT = EIGHT,
+                           QOTHER = OTHER) ;
+  <START-CODE>
+       char *mb_parent;
+
+       mb_parent = MakeMByteString(m_parent(0));
+       notimp(mb_parent, "BIG/SMALL page styles") ;
+       m_free(mb_parent,"multi-byte string");
+  <END-CODE>
+      outfile = m_outfile ;
+
+<ELEMENT CURSOR>
+  <START-CODE>
+    if (echo) {
+      mb_echohead(m_stago) ;
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net) ;
+      }
+  <END-CODE>
+    if (echo) mb_echohead(m_net) ;
+  <TEXT-CODE>
+    esoutchar(m_textchar) ;
+  <TEXT-CODE * EXAMPLESEG>
+    exoutchar(m_textchar) ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+<ELEMENT DEFAULT>
+  <PARAM>
+	calcqrgwidth = CALCQRGWIDTH ;
+    ctbltype = CTBLTYPE (QKEYS2 = KEYS2,
+                         QCOMMAND = COMMAND) ;
+    ctblgraphics = CTBLGRAPHICS (QNOGRAPHICS = NOGRAPHICS,
+                                 QGRAPHICS = GRAPHICS) ;
+    ctbldisplines = CTBLDISPLINES (QTWO = TWO,
+                                   QFOUR = FOUR,
+                                   QEIGHT = EIGHT,
+                                   QOTHER = OTHER) ;
+    extype = EXTYPE (QCOMPUTER = COMPUTER,
+                     QDISPLAY  = DISPLAY) ;
+    expos = EXPOS (QLEFT = LEFT,
+                   QINDENT = INDENT,
+                   QCENTER = CENTER) ;
+    exnotes = EXNOTES (QSIDE = SIDE,
+                       QSTACK = STACK) ;
+    exlines = EXLINES (QNUMBER = NUMBER,
+                       QNONUMBER = NONUMBER) ;
+    extextsize = EXTEXTSIZE (QNORMAL = NORMAL,
+                             QSMALLER = SMALLER,
+                             QSMALLEST = SMALLEST) ;
+    gloss = GLOSS (QGLOSS = GLOSS,
+                   QNOGLOSS = NOGLOSS) ;
+    type = LISTTYPE (QORDER = ORDER,
+                     QBULLET = BULLET,
+                     QPLAIN = PLAIN,
+                     QMILSPEC = MILSPEC,
+		     QCHECK = CHECK) ;
+    order = LISTORDERTYPE (QUALPHA = UALPHA,
+                           QLALPHA = LALPHA,
+                           QARABIC = ARABIC,
+                           QUROMAN = UROMAN,
+                           QLROMAN = LROMAN) ;
+    spacing = LISTSPACING (QTIGHT = TIGHT,
+                           QLOOSE = LOOSE) ;
+    longlabel = LONGLABEL (QWRAP = WRAP,
+                           QNOWRAP = NOWRAP) ;
+    labelwidth = LABELWIDTH ;
+    tableborder = TABLEBORDER (QBOX = BOX,
+                               QNOBOX = NOBOX) ;
+    tablerule = TABLERULE ;
+    allvr = TABLEALLVR ;
+    allhr = TABLEALLHR ;
+    tablevr = TABLEVR ;
+    tablehr = TABLEHR ;
+    tablespacing = TABLESPACING (QTIGHT = TIGHT,
+                                 QLOOSE = LOOSE) ;
+    tablepos = TABLEPOS (QLEFT = LEFT,
+                         QINDENT = INDENT,
+                         QCENTER = CENTER) ;
+    tabwidth = TABLEWIDTH (QFULL = FULL) ;
+    tabletextsize = TABLETEXTSIZE (QNORMAL = NORMAL,
+                                   QSMALLER = SMALLER,
+                                   QSMALLEST = SMALLEST) ;
+    notab = NUMBERTABLES (QNUMBER = NUMBER,
+                          QNONUMBER = NONUMBER) ;
+    figtype = FIGTYPE (QART = ART,
+                       QPCL = PCL,
+                       QTIFF = TIFF,
+                       QTIF = TIF,
+                       QLISTING = LISTING,
+                       QTEXT = TEXT,
+                       QHPGL = HPGL,
+                       QHPG = HPG) ;
+    oldfigtype = OLDFIGTYPE (QART = ART,
+                             QPCL = PCL,
+                             QTIFF = TIFF,
+                             QLISTING = LISTING,
+                             QTEXT = TEXT) ;
+    figmagnify = FIGMAGNIFY (QFIT = FIT) ;
+    figwidth = FIGWIDTH (QFULL = FULL,
+                         QTEXT = TEXT,
+                         QCURRENT = CURRENT) ;
+    figheight = FIGHEIGHT (QNATURAL = NATURAL) ;
+    figborder = FIGBORDER  (QTOP = TOP,
+                            QBOTTOM = BOTTOM,
+                            QBOX = BOX,
+                            QSCREEN = SCREEN,
+                            QNOBOX = NOBOX);
+    figvideo = FIGVIDEO (QINVERSE = INVERSE,
+                         QNOINVERSE = NOINVERSE) ;
+    figstrip = FIGSTRIP (QSTRIP = STRIP,
+                         QNOSTRIP = NOSTRIP) ;
+    figmargin = FIGMARGIN ;
+    figclip = FIGCLIP ;
+    figpenwidth = FIGPENWIDTH ;
+    figsnap = FIGSNAP (QSNAP = SNAP,
+                       QNOSNAP = NOSNAP) ;
+    figautoscale = FIGAUTOSCALE (QAUTOSCALE = AUTOSCALE,
+                                 QNOAUTOSCALE = NOAUTOSCALE) ;
+    figplottype = FIGPLOTTYPE ;
+    listtextsize = LISTTEXTSIZE (QNORMAL = NORMAL,
+                                 QSMALLER = SMALLER,
+                                 QSMALLEST = SMALLEST) ;
+    nofig = NUMBERFIGS (QNUMBER = NUMBER,
+                        QNONUMBER = NONUMBER) ;
+    eqn = EQN (QTEX = TEX) ;
+    rsectp = RSECTPAGEBREAK (QNEWPAGE = NEWPAGE,
+                             QSAMEPAGE = SAMEPAGE) ;
+
+<ELEMENT DEFINITION>
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT DESCRIP>
+
+<ELEMENT DISPLAY> /* we are not handling calculator here */
+  <START-CODE>
+    mb_strcode("<TYPE serif><SPACING m>", outfile);
+    if (echo) mb_echohead("::") ;
+  <END-CODE>
+    POPFONT ;
+    mb_strcode("</SPACING></TYPE>", outfile);
+    if (echo) mb_echohead("::") ;
+  <TEXT-CODE, * TNOTE>
+    esoutchar(m_textchar) ;
+  <TEXT-CODE * EXAMPLESEG>
+    exoutchar(m_textchar) ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+<ELEMENT DTERM>
+  <START-CODE>
+    termp = term ;
+    tooutput = FALSE;
+  <END-CODE>
+    M_WCHAR *p ;
+    tooutput = TRUE;
+    *termp = M_EOS ;
+    /* trim possible (perhaps) last space */
+    if (termp - term > 1 && *(termp-1) == ' ') {
+	 *(termp-1) = M_EOS;
+    }
+    if (m_ntrtrie(term, &gtree, (M_TRIE *) DEFINETERM)) {
+	 if (! m_resettrie(&gtree, term, (M_TRIE *) DEFINETERM)) {
+	      m_error("Internal error. Can't reset glossary trie") ;
+	      m_exit(TRUE) ;
+	 }
+    } 
+    fputs("<PARAGRAPH after 0 leftindent 3 id \"", outfile);
+    for (p = term; *p ; p++) {
+	 if (*p == ' ') {
+	      outchar('_', outfile);
+	 }
+	 else {
+	      outchar(wc_toupper(*p), outfile);
+	 }
+    }
+    fputs("_DEF\">", outfile);
+    /* handle .idt file, too */
+    {
+    char *mb_nodeid;
+
+    mb_nodeid = MakeMByteString(nodeid);
+    fprintf(idtablefp, "%s> ", mb_nodeid);
+    m_free(mb_nodeid,"multi-byte string");
+    }
+    for (p = term; *p ; p++) {
+	 if (*p == ' ') {
+	      fputc('_', idtablefp);
+	 }
+	 else {
+	      M_WCHAR uwc;
+	      char    mb_uwc[32]; /* arbitrarily large */
+	      int     length;
+
+	      uwc = wc_toupper(*p);
+	      length = wctomb(mb_uwc, uwc);
+	      mb_uwc[length] = '\0';
+	      fputs(mb_uwc, idtablefp);
+	 }
+    }
+    fputs("_DEF\n", idtablefp);
+    /* end */
+    fputs("<WEIGHT bold>", outfile);
+    for(p = term; *p; p++) {
+	 outchar(*p, outfile) ;
+    }
+    fputs("</WEIGHT>", outfile);
+  <TEXT-CODE>
+    termchar(m_textchar) ;
+  <PI-CODE>
+    termpi(m_enttype, m_pi, m_entname) ;
+
+<ELEMENT EDITION>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("EditionElementDefaultHeadingString",
+			     M_SDATA,
+			     "Edition");
+
+    mb_starthelpnode("_EDITION", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT EMPH>
+  <START-CODE>
+    mb_strcode("<ANGLE italic>", outfile) ;
+    if (echo) mb_echohead("!!") ;
+  <END-CODE>
+    mb_strcode("</ANGLE>", outfile) ;
+    if (echo) mb_echohead("!!") ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+<ELEMENT ENTRYPOINTSET>
+  <START-CODE>
+    mb_starthelpnode("_ENTRYPOINTSET", TRUE);
+    fprintf(outfile, "<PARAGRAPH><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></PARAGRAPH>\n\n", "Entrypointset");
+
+<ELEMENT ENTRYPOINT>
+
+<ELEMENT EQN>
+  <PARAM>
+    formatter = FORMATTER (QTEX = TEX) ;
+  <START-CODE>
+    fputs("<PARAGRAPH>", outfile);
+    unimp(m_parent(0)) ;
+  <END-CODE>
+    fputs("</PARAGRAPH>\n", outfile);
+
+<ELEMENT ESC>
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+  <START-CODE>
+    if (echo) {
+      mb_echohead(m_stago) ;
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net) ;
+      }
+  <END-CODE>
+    if (echo) mb_echohead(m_net) ;
+
+<ELEMENT EX>
+  <PARAM>
+    type = TYPE (QCOMPUTER = COMPUTER,
+                 QDISPLAY  = DISPLAY) ;
+    position = POSITION (QLEFT = LEFT,
+                         QINDENT = INDENT,
+                         QCENTER = CENTER) ;
+    notes = NOTES (QSIDE = SIDE,
+                   QSTACK = STACK) ;
+    width = WIDTH ;
+    lines = LINES (QNUMBER = NUMBER,
+                   QNONUMBER = NONUMBER) ;
+    textsize = TEXTSIZE (QNORMAL = NORMAL,
+                         QSMALLER = SMALLER,
+                         QSMALLEST = SMALLEST) ;
+  <START-CODE TEXT ITEM>
+    /* In a tight list, paragraphs will have no trailing blank line.
+     * To match HPTag behavior, we need to emit a blank line and
+     * supress the leading blank line of the next paragraph, figure,
+     * example, etc., if any.
+    */
+    char *listinfo;
+
+    listinfo = "";
+    if ((lastlist->lastlist->space == TIGHT) &&
+	(lastlist->lastlist->where == INSIDE)) {
+       listinfo = " before 1";
+    }
+
+    exvexstart(type, textsize, listinfo);
+    tonumexlines = (LOGICAL) (vnumber(lines) == NUMBER);
+    exlineno = 1 ;
+  <START-CODE>
+    exvexstart(type, textsize, "") ;
+    tonumexlines = (LOGICAL) (vnumber(lines) == NUMBER);
+    exlineno = 1 ;
+  <END-CODE TEXT ITEM>
+    /* Clear tonumexlines for other elements (e.g., image) which may
+       follow */
+    tonumexlines = FALSE ;
+    exvexend(textsize);
+    lastlist->lastlist->where = FOLLOW; /* supress leading newline */
+  <END-CODE>
+    /* Clear tonumexlines for other elements (e.g., image) which may
+       follow */
+    tonumexlines = FALSE ;
+    exvexend(textsize);
+
+<ELEMENT EXAMPLESEG>
+  <START-CODE>
+    if (tonumexlines) fprintf(outfile, " %d:  ", exlineno) ;
+  <END-CODE>
+    exlineno++ ;
+  <TEXT-CODE>
+     exoutchar(m_textchar) ;
+
+<ELEMENT EXPLAIN>
+
+<ELEMENT FICHENO>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("FichenoElementDefaultHeadingString",
+			     M_SDATA,
+			     "Ficheno");
+
+    mb_starthelpnode("_FICHENO", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT FIGNOTE>
+  <START-CODE>
+    if (ftype != ART)
+      {
+      M_WCHAR *wc_stago, *wc_tagc;
+
+      wc_stago = MakeWideCharString(m_stago);
+      wc_tagc  = MakeWideCharString(m_tagc);
+      m_err3("%s%s%s allowed only in ART figures", 
+             wc_stago,
+	     m_parent(0),
+	     wc_tagc) ;
+      m_free(wc_stago,"wide character string");
+      m_free(wc_tagc,"wide character string");
+      }
+    fignote = TRUE ;
+
+<ELEMENT FIGTEXT>
+  <START-CODE>
+    M_WCHAR *wc_stago, *wc_tagc;
+
+    wc_stago = MakeWideCharString(m_stago);
+    wc_tagc  = MakeWideCharString(m_tagc);
+    if (ftype != TEXT) 
+      {
+      M_WCHAR *wc_stago, *wc_tagc;
+
+      wc_stago = MakeWideCharString(m_stago);
+      wc_tagc  = MakeWideCharString(m_tagc);
+      m_err3("%s%s%s allowed only in TEXT figures", 
+             wc_stago,
+	     m_parent(0),
+	     wc_tagc) ;
+      m_free(wc_stago,"wide character string");
+      m_free(wc_tagc,"wide character string");
+      }
+
+<ELEMENT FIGURE>
+  <PARAM>
+    number = NUMBER ;
+    tonumber = TONUMBER (QNUMBER = NUMBER,
+                         QNONUMBER = NONUMBER) ;
+    id = ID ;
+    file = ENTITY ;
+    figpos = FIGPOS (QLEFT = LEFT,
+		     QCENTER = CENTER,
+		     QRIGHT = RIGHT) ;
+    cappos = CAPPOS (QLEFT = LEFT,
+		     QCENTER = CENTER,
+		     QRIGHT = RIGHT) ;
+    oldtype = OLDTYPE (QART = ART,
+                       QPCL = PCL,
+                       QTIFF = TIFF,
+                       QLISTING = LISTING,
+                       QTEXT = TEXT) ;
+    xwidth = WIDTH (QFULL = FULL,
+                   QTEXT = TEXT,
+                   QCURRENT = CURRENT) ;
+    xdepth = HEIGHT (QNATURAL = NATURAL) ;
+    xhadjust = HADJUST ;
+    xvadjust = VADJUST ;
+    border = BORDER (QTOP = TOP,
+                     QBOTTOM = BOTTOM,
+                     QBOX = BOX,
+                     QSCREEN = SCREEN,
+                     QNOBOX = NOBOX) ;
+    type = TYPE  (QART = ART,
+                  QPCL = PCL,
+                  QTIFF = TIFF,
+                  QTIF = TIF,
+                  QLISTING = LISTING,
+                  QTEXT = TEXT,
+                  QHPGL = HPGL,
+                  QHPG = HPG);
+    xmagnify = MAGNIFY (QFIT = FIT) ;
+    video = VIDEO (QINVERSE = INVERSE,
+                   QNOINVERSE = NOINVERSE) ;
+    strip = STRIP (QSTRIP = STRIP,
+                   QNOSTRIP = NOSTRIP) ;
+    mirror = MIRROR (QMIRROR = MIRROR) ;
+    margin = MARGIN ;
+    clip = CLIP ;
+    penwidth = PENWIDTH ;
+    snap = SNAP (QSNAP = SNAP,
+                 QNOSNAP = NOSNAP) ;
+    autoscale = AUTOSCALE (QAUTOSCALE = AUTOSCALE,
+                           QNOAUTOSCALE = NOAUTOSCALE) ;
+    plottype = PLOTTYPE ;
+    callout = CALLOUT ;
+    textsize = TEXTSIZE (QNORMAL = NORMAL,
+                         QSMALLER = SMALLER,
+                         QSMALLEST = SMALLEST) ;
+    ghyperlink = GHYPERLINK  ;
+    glinktype = GLINKTYPE (QJUMP = JUMP,
+                           QJUMPNEWVIEW = JUMPNEWVIEW,
+                           QDEFINITION = DEFINITION,
+                           QEXECUTE = EXECUTE,
+                           QAPPDEFINED = APPDEFINED,
+                           QMAN = MAN) ;
+    gdescription = GDESCRIPTION  ;
+  <START-CODE TEXT ITEM>
+    /* In a tight list, paragraphs will have no trailing blank line.
+     * To match HPTag behavior, we need to emit a blank line and
+     * supress the leading blank line of the next paragraph, figure,
+     * example, etc., if any.
+    */
+     char *listinfo;
+
+     listinfo = "";
+     if ((lastlist->lastlist->space == TIGHT) &&
+	 (lastlist->lastlist->where == INSIDE)) {
+	listinfo = " before 1";
+     }
+
+     figure(number,
+	    tonumber,
+	    id,
+	    file,
+	    figpos,
+	    cappos,
+	    oldtype,
+	    xwidth,
+	    xdepth,
+	    xhadjust,
+	    xvadjust,
+	    border,
+	    type,
+	    xmagnify,
+	    video,
+	    strip,
+	    mirror,
+	    margin,
+	    clip,
+	    penwidth,
+	    snap,
+	    autoscale,
+	    plottype,
+	    callout,
+	    textsize,
+	    ghyperlink,
+	    glinktype,
+	    gdescription,
+	    listinfo);
+  <START-CODE>
+     figure(number,
+	    tonumber,
+	    id,
+	    file,
+	    figpos,
+	    cappos,
+	    oldtype,
+	    xwidth,
+	    xdepth,
+	    xhadjust,
+	    xvadjust,
+	    border,
+	    type,
+	    xmagnify,
+	    video,
+	    strip,
+	    mirror,
+	    margin,
+	    clip,
+	    penwidth,
+	    snap,
+	    autoscale,
+	    plottype,
+	    callout,
+	    textsize,
+	    ghyperlink,
+	    glinktype,
+	    gdescription,
+	    "");
+  <END-CODE TEXT ITEM>
+    fputs("\n</FIGURE>\n</PARAGRAPH>\n\n", outfile);
+    if (id) {
+     /* id handling */
+     char *mb_nodeid, *mb_id;
+
+     mb_nodeid = MakeMByteString(nodeid);
+     mb_id     = MakeMByteString(id);
+     fprintf(idtablefp, "%s> %s\n", mb_nodeid, mb_id);
+     m_free(mb_nodeid,"multi-byte string");
+     m_free(mb_id,"multi-byte string");
+    }
+    lastlist->lastlist->where = FOLLOW; /* supress leading newline */
+  <END-CODE>
+    fputs("\n</FIGURE>\n</PARAGRAPH>\n\n", outfile);
+    if (id) {
+     /* id handling */
+     char *mb_nodeid, *mb_id;
+
+     mb_nodeid = MakeMByteString(nodeid);
+     mb_id     = MakeMByteString(id);
+     fprintf(idtablefp, "%s> %s\n", mb_nodeid, mb_id);
+     m_free(mb_nodeid,"multi-byte string");
+     m_free(mb_id,"multi-byte string");
+    }
+
+
+<ELEMENT FILLIN>
+  <PARAM>
+    length = LENGTH (QEND = END) ;
+  <START-CODE>
+    if (m_wcmbupstrcmp(length, QEND))
+	{
+	char *mb_parent;
+
+	mb_parent = MakeMByteString(m_parent(0));
+	if (mb_checkdimen( length, "LENGTH", mb_parent ))
+	    {
+	    /* check for negative values */
+	    M_WCHAR wmi;
+
+	    mbtowc(&wmi, "-", 1);
+	    if (w_strchr(length, wmi))
+		{
+		M_WCHAR *wc_stago, *wc_tagc;
+
+		wc_stago = MakeWideCharString(m_stago);
+		wc_tagc  = MakeWideCharString(m_tagc);
+		m_err3("Negative value [%s] for %sFILLIN%s, positive assumed",
+		       length,
+		       wc_stago,
+		       wc_tagc) ;
+		m_free(wc_stago,"wide character string");
+		m_free(wc_tagc,"wide character string");
+		}
+	    }
+	m_free(mb_parent,"multi-byte string");
+	}
+
+<ELEMENT FOOTER>
+  <START-CODE>
+      /* Headers and footers make no sense to Cache Creek; throw away
+       * all content.  We could do this with empty text-code here and
+       * context sensitive empty text-code in all elements of the model
+       * group that define their own text-code but that's really error
+       * prone and difficult to maintain.
+      */
+      HFsaveoutfile = outfile;
+      outfile = nullfile;
+  <END-CODE>
+      outfile = HFsaveoutfile;
+
+<ELEMENT FOOTNOTE>
+  /* When implementing, check conditionals of <FOOTNOTE> in <P>    */
+  <TEXT-CODE * EXAMPLESEG, * IMAGE>
+    outchar(m_textchar, outfile) ;
+  <END-CODE>
+    footnoteno++;
+    POPFONT; 
+
+<ELEMENT FRONT>
+
+<ELEMENT FRONTSUB>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+<START-CODE OTHERFRONT>
+   if (!had_an_otherfront_head) {
+	endhead();
+   }
+
+<ELEMENT GLOSSARY>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("GlossaryElementDefaultHeadingString",
+			     M_SDATA,
+			     "Glossary");
+
+    open_new_helpfile();
+    thisnodelevel = 1;
+    mb_starthelpnode("_GLOSSARY", FALSE);
+    strcpy(chapstring, string) ;
+    if (strlen(chapstring) + 1 > sizeof(chapstring)) {
+      m_error("Program error: exceeded chapstring") ;
+      m_exit(TRUE) ;
+      }
+    fputs("\nGlossary\n", stderr) ;
+    glossary = TRUE ;
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n", string) ;
+    m_free(string, "default header string return");
+  <END-CODE>
+    endhelpnode();
+
+<ELEMENT GRAPHIC>
+  <PARAM>
+    id = ID ;
+    file = ENTITY ;
+<START-CODE>
+    unsigned char etype, wheredef ;
+     /* Code from figstart */
+  if (id) {
+    mbstowcs(xrefstring, "\\<xref graphic>", 400);
+    xstrlen = w_strlen(xrefstring) ;
+    m_getline(&xrffile, &xrfline) ;
+    if (xrffile == NULL) {
+	 /* set to primary input source */
+	 xrffile = inputname;
+    }
+    setid(id,
+	  TRUE,
+	  FALSE,
+	  inchapter,
+	  chapstring,
+	  xrffile,
+	  xrfline,
+	  FALSE) ;
+
+    {
+    char *mb_nodeid, *mb_id;
+
+    mb_nodeid = MakeMByteString(nodeid);
+    mb_id     = MakeMByteString(id);
+    fprintf(idtablefp, "%s> %s\n", mb_nodeid, mb_id);
+    m_free(mb_nodeid,"multi-byte string");
+    m_free(mb_id,"multi-byte string");
+    }
+    }
+  /* initialize some stuff first:
+     - file is the entity name,
+     - f_file is the content of the entity,
+       used only if f_content nonNULL
+     - f_content is f_file with the relative pathname, initialized to NULL,
+     - f_contqual is fully qualified f_file, assigned ONLY IF
+       f_content nonNULL
+  */
+  file_ent = FALSE ;
+  f_content = NULL ;
+  f_contqual[0] = M_EOS ;
+
+  /* check ENTITY and determine the figure type  */
+  if (file) {
+    m_lookent(file, &etype, &f_file, &wheredef) ;
+    if (etype != M_SYSTEM) {
+      M_WCHAR *wc_stago, *wc_tagc, *wc_entsystem, *wc_entkw;
+
+      wc_stago     = MakeWideCharString(m_stago);
+      wc_tagc      = MakeWideCharString(m_tagc);
+      wc_entsystem = MakeWideCharString(m_entsystem);
+      wc_entkw     = MakeWideCharString(m_entkw);
+      m_err6("%s not a %s %s, as required for the ENTITY parameter of %s%s%s",
+             file,
+	     wc_entsystem,
+	     wc_entkw,
+	     wc_stago,
+	     m_parent(0),
+	     wc_tagc) ;
+      m_free(wc_stago,"wide character string");
+      m_free(wc_tagc,"wide character string");
+      m_free(wc_entsystem,"wide character string");
+      m_free(wc_entkw,"wide character string");
+      }
+    else {
+      file_ent = TRUE ;
+      f_content = searchforfile(f_file) ;
+      if (f_content) {
+        if (getqualified(f_contqual, f_content)) {
+	  /* unsuccessful qual */
+          if (w_strlen(f_content) < FNAMELEN)
+            w_strcpy(f_contqual, f_content) ;
+          else {
+            m_err1("Internal error. File name too long: %s", f_content) ;
+            m_exit(m_errexit) ;
+            }
+          }
+        }
+      else {
+        m_err2("Can't find file %s (declared in entity %s)", f_file, file) ;
+        }
+      }
+    }
+
+    {
+    char *mb_content;
+    static M_WCHAR empty = M_EOS;
+
+    if (!f_content) f_content = &empty;
+
+    mb_content = MakeMByteString(f_content);
+    fprintf(outfile, "<GRAPHIC file %s", mb_content);
+    m_free(mb_content,"multi-byte string");
+    }
+    if (id) {
+	 char *mb_id;
+
+	 mb_id = MakeMByteString(id);
+	 fprintf(outfile, " id %s", mb_id);
+	 m_free(mb_id,"multi-byte string");
+    }
+    fputs(">", outfile);
+
+<ELEMENT HARDWARE>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("HardwareElementDefaultHeadingString",
+			     M_SDATA,
+			     "Hardware");
+
+    mb_starthelpnode("_HARDWARE", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    newhline = 0 ;
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT HEAD>
+/* Accent headings */
+  <START-CODE NOTE, CAUTION, WARNING>
+    notehead = TRUE ;
+    newhline = 0 ;
+    fprintf(outfile, ncwStart, ncwTightList);
+/* Other headings */
+  <START-CODE P>
+    newhline = 0 ;
+    fputs("<PARAGRAPH><TYPE serif><WEIGHT bold>", outfile);
+/* Other headings */
+  <START-CODE IMAGE>
+    newhline = 0 ;
+    fputs("<PARAGRAPH><TYPE serif><WEIGHT bold>", outfile);
+/* Other headings */
+  <START-CODE  LIST, LABLIST, EX, SYNTAX>
+    newhline = 0 ;
+    fputs("<PARAGRAPH><TYPE serif><WEIGHT bold>", outfile);
+/* Node headings */
+  <START-CODE CHAPHEAD APPENDIX, CHAPHEAD CHAPTER, 
+              CHAPHEAD RSECT, CHAPHEAD S1, CHAPHEAD S2, CHAPHEAD S3,
+              CHAPHEAD S4, CHAPHEAD S5, CHAPHEAD S6, CHAPHEAD S7,
+              CHAPHEAD S8, CHAPHEAD S9, CHAPHEAD TEST, CHAPHEAD BIBLIO,
+              CHAPHEAD HOMETOPIC
+              >
+    newhline = 0 ;
+    echo = TRUE ;
+    savhd = TRUE ;
+    hderr = FALSE ;
+    svheadlen = 0 ;
+    fputs("<TITLE><TYPE serif><WEIGHT bold><SIZE 14>", outfile);
+/* Non node headings */
+  <START-CODE OTHERHEAD, CHAPHEAD RSUB, CHAPHEAD MSGSUB>
+    newhline = 0 ;
+    echo = TRUE ;
+    savhd = TRUE ;
+    hderr = FALSE ;
+    svheadlen = 0 ;
+    fputs("<PARAGRAPH><TYPE serif><WEIGHT bold><SIZE 12>", outfile);   
+/* Other headings */ /* notably procedure */
+  <START-CODE CHAPHEAD PROCEDURE>
+    newhline = 0 ;
+    echo = TRUE ;
+    savhd = TRUE ;
+    hderr = FALSE ;
+    svheadlen = 0 ;
+    fputs("<PARAGRAPH><TYPE serif><WEIGHT bold>", outfile);   
+/* Other headings */ 
+  <START-CODE CHAPHEAD>
+     M_WCHAR *wc_stago, *wc_tagc;
+
+     wc_stago = MakeWideCharString(m_stago);
+     wc_tagc  = MakeWideCharString(m_tagc);
+     m_err2("Unimplemented %sCHAPHEAD%s reached", wc_stago, wc_tagc);
+     m_free(wc_stago,"wide character string");
+     m_free(wc_tagc,"wide character string");
+/* Node heading */
+  <START-CODE PART>
+/* Non-node headings */
+  <START-CODE FRONTSUB>
+    echo = TRUE ;
+    newhline = 0 ;
+    fputs("<PARAGRAPH><TYPE serif><WEIGHT bold><SIZE 12>", outfile);
+/* Non-node headings */
+  <START-CODE LEGAL, SAFETY, MAP, ABSTRACT, PREFACE, CONVENTIONS, HISTORY>
+    echo = TRUE ;
+    newhline = 0 ;
+    needabstracthead = FALSE;
+    fputs("<TITLE><TYPE serif><WEIGHT bold><SIZE 12>", outfile);
+/* Node headings */
+  <START-CODE OTHERFRONT>
+    had_an_otherfront_head = TRUE;
+    newhline = 0 ;
+    echo = TRUE ;
+    savhd = TRUE ;
+    hderr = FALSE ;
+    svheadlen = 0 ;
+    fputs("<TITLE><TYPE serif><WEIGHT bold><SIZE 14>", outfile);
+/* Node headings.*/
+  <START-CODE MESSAGE>
+    echo = TRUE ;
+    newhline = 0 ;
+    /* Check MESSAGE, MSGSUB, BIBLIO, BIBSUB when implementing need begin */
+    fputs("<TITLE><TYPE serif><WEIGHT bold><SIZE 14>", outfile);
+/* Other headings.*/
+  <START-CODE BIBLIO, BIBSUB>
+    echo = TRUE ;
+    newhline = 0 ;
+    /* Check MESSAGE, MSGSUB, BIBLIO, BIBSUB when implementing need begin */
+    fputs("<PARAGRAPH><TYPE serif><WEIGHT bold><SIZE 12>", outfile);
+/* Accent headings */
+  <END-CODE NOTE>
+    char *iconName =
+      GetDefaultHeaderString("NoteElementDefaultIconFile", M_SYSTEM, "");
+
+    fprintf(outfile, ncwEnd, "");
+    if (*iconName)
+      {
+      fprintf(outfile, ncwGraphic, iconName);
+      m_free(iconName, "icon name");
+      }
+  <END-CODE CAUTION>
+    char *iconName =
+      GetDefaultHeaderString("CautionElementDefaultIconFile", M_SYSTEM, "");
+
+    fprintf(outfile, ncwEnd, "");
+    if (*iconName)
+      {
+      fprintf(outfile, ncwGraphic, iconName);
+      m_free(iconName, "icon name");
+      }
+  <END-CODE WARNING>
+    char *iconName =
+      GetDefaultHeaderString("WarningElementDefaultIconFile", M_SYSTEM, "");
+
+    fprintf(outfile, ncwEnd, "");
+    if (*iconName)
+      {
+      fprintf(outfile, ncwGraphic, iconName);
+      m_free(iconName, "icon name");
+      }
+<END-CODE>
+    fputs("\n\n", outfile);
+/* Other headings */ 
+  <END-CODE P>
+    fputs("</WEIGHT></TYPE></PARAGRAPH>\n\n", outfile);
+/* Other headings */
+  <END-CODE LIST, LABLIST, EX, SYNTAX>
+    fputs("</WEIGHT></TYPE></PARAGRAPH>\n\n", outfile);
+/* Other headings */
+  <END-CODE IMAGE>
+    fputs("</WEIGHT></TYPE></PARAGRAPH>\n\n", outfile);
+/* Non node headings */
+  <END-CODE FRONTSUB>
+    echo = FALSE ;
+    fputs("</SIZE></WEIGHT></TYPE></PARAGRAPH>\n\n", outfile);
+/* Non node headings */
+  <END-CODE LEGAL, SAFETY, MAP, ABSTRACT, PREFACE, CONVENTIONS, HISTORY>
+    echo = FALSE ;
+    fputs("</SIZE></WEIGHT></TYPE></TITLE>\n\n", outfile);
+/* Node headings. */
+  <END-CODE OTHERFRONT>
+    endhead() ;
+    fputs("</SIZE></WEIGHT></TYPE></TITLE>\n", outfile);
+/* Node headings. */
+  <END-CODE MESSAGE>
+    echo = FALSE ;
+    fputs("</SIZE></WEIGHT></TYPE></TITLE>\n", outfile);
+/* Other headings. */
+  <END-CODE BIBLIO, BIBSUB>
+    echo = FALSE ;
+    fputs("</WEIGHT></TYPE></PARAGRAPH>\n\n", outfile);
+/* Other headings */
+  <END-CODE CHAPHEAD PROCEDURE>
+    endhead() ;
+    fputs("</WEIGHT></TYPE></PARAGRAPH>\n\n", outfile);
+/* Non node headings */
+  <END-CODE CHAPHEAD MSGSUB>
+    endhead() ;
+    fputs("</SIZE></WEIGHT></TYPE></PARAGRAPH>\n\n", outfile);
+  <END-CODE CHAPHEAD RSUB, OTHERHEAD>
+    endhead() ;
+    fputs("</SIZE></WEIGHT></TYPE></PARAGRAPH>\n\n", outfile);
+/* Node headings */
+  <END-CODE CHAPHEAD RSECT,  CHAPHEAD S1, CHAPHEAD S2, CHAPHEAD S3,
+            CHAPHEAD S4, CHAPHEAD S5, CHAPHEAD S6, CHAPHEAD S7,
+            CHAPHEAD S8, CHAPHEAD S9, CHAPHEAD TEST, CHAPHEAD BIBLIO,
+            CHAPHEAD HOMETOPIC>
+    endhead() ;
+    fputs("</SIZE></WEIGHT></TYPE></TITLE>\n", outfile);
+  <END-CODE PART>
+  <END-CODE CHAPHEAD CHAPTER>
+    endhead() ;
+    fputs("</SIZE></WEIGHT></TYPE></TITLE>\n", outfile);
+  <END-CODE CHAPHEAD APPENDIX>
+    endhead() ;
+    fputs("</SIZE></WEIGHT></TYPE></TITLE>\n", outfile);
+  <END-CODE CHAPHEAD MESSAGE>
+    endhead() ;
+    fputs("</SIZE></WEIGHT></TYPE></TITLE>\n", outfile);
+<TEXT-CODE IMAGE>
+    outchar(m_textchar, outfile) ;
+
+<ELEMENT HEADER>
+  <START-CODE>
+      /* Headers and footers make no sense to Cache Creek; throw away
+       * all content.  We could do this with empty text-code here and
+       * context sensitive empty text-code in all elements of the model
+       * group that define their own text-code but that's really error
+       * prone and difficult to maintain.
+      */
+      HFsaveoutfile = outfile;
+      outfile = nullfile;
+  <END-CODE>
+      outfile = HFsaveoutfile;
+
+<ELEMENT HELPVOLUME>
+  <PARAM>
+    author = AUTHOR  ;
+    language = LANGUAGE (QENGLISH = ENGLISH,
+                         QNORWEGIAN = NORWEGIAN,
+                         QSWEDISH = SWEDISH,
+                         QDANISH = DANISH,
+                         QFINNISH = FINNISH,
+                         QDUTCH = DUTCH,
+                         QFRENCH = FRENCH,
+                         QGERMAN = GERMAN,
+                         QITALIAN = ITALIAN,
+                         QSPANISH = SPANISH)  ;
+    idxvol = IDXVOL  ;
+    status = STATUS  ;
+  <START-CODE>
+    thisnodelevel = 0;
+
+    mb_starthelpnode("_VERYTOP", TRUE);
+    manustart(language, idxvol, status) ;
+  <END-CODE> 
+    endhelpnode();
+
+
+<ELEMENT HISTORY>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    mb_starthelpnode("_HISTORY", TRUE);
+
+<ELEMENT HLINE>
+  <START-CODE * HEADER>
+    if (newhline == MAXHEADLINES)
+      m_error("Too many lines in header") ;
+    fputs("<NEWLINE>\n", outfile);
+  <START-CODE * FOOTER>
+    if (newhline == MAXHEADLINES)
+      m_error("Too many lines in footer") ;
+    if (newhline++) fputs("<NEWLINE>\n", outfile) ;
+  <START-CODE ABBREV>
+    if (fabbrev) {
+        if (newhline++) {
+	     fputs("<NEWLINE>\n", outfile);
+        }
+      }
+  <START-CODE CAPTION FIGURE>
+    if (newhline++) 
+      mb_shstring("<NEWLINE>\n",
+	       &svheadlen,
+	       (sizeof(savehead) / sizeof(M_WCHAR)),
+	       savehead,
+	       "Too many characters in head or caption",
+	       &hderr) ;
+  <START-CODE CAPTION TABLE>
+  <START-CODE COLH>
+  <START-CODE HEAD CHAPHEAD>
+    if (newhline++) {
+      fputs("  ", stderr) ;
+      fputs("<NEWLINE>", outfile) ;
+      if (savid) shchar(' ',
+			&xstrlen,
+			(sizeof(xrefstring) / sizeof(M_WCHAR)),
+			xrefstring,
+			idstring,
+		        "Too many characters in corresponding cross-reference",
+			&iderr) ;
+      shchar(' ',
+	     &svheadlen,
+	     (sizeof(savehead) / sizeof(M_WCHAR)),
+	     savehead,
+	     svhdstring,
+	     "Too many characters in head or caption", 
+	     &hderr) ;
+      }
+  <START-CODE TITLE>
+     if (newhline++) {
+	  fputs("<NEWLINE>", outfile) ;
+	  fputs("\\\n", docregfp) ;
+     }
+  <START-CODE HEAD P, HEAD IMAGE, HEAD LIST, HEAD LABLIST, HEAD EX, 
+              HEAD SYNTAX>
+    if (newhline++) fputc(' ', outfile) ;
+  <END-CODE HEAD CHAPHEAD, 
+            HEAD FRONTSUB, 
+            HEAD LEGAL, 
+            HEAD SAFETY, 
+            HEAD MAP, 
+            HEAD PREFACE,
+            HEAD CONVENTIONS, 
+            HEAD HISTORY, 
+            HEAD OTHERFRONT,
+            HEAD OTHERHEAD>
+    putc('\n', stderr) ;
+  <END-CODE HEAD ABSTRACT>
+    putc('\n', stderr) ;
+    fputs("\\\n\\\n", docregfp) ;
+  <END-CODE COLH>
+  <END-CODE>
+
+<ELEMENT HOMETOPIC>
+  <START-CODE>
+     mb_starthelpnode("_HOMETOPIC", FALSE);
+     nohometopic = FALSE;
+
+<ELEMENT HSEP>
+  <PARAM>
+    rule = RULE (QNORULE = NORULE,
+                 QRULE = RULE,
+                 QBLANK = BLANK) ;
+
+<ELEMENT HYPHENATIONS>
+
+<ELEMENT HYPHENTRY>
+  <TEXT-CODE>
+
+<ELEMENT IDSECTION>
+
+<ELEMENT IDX>
+  <PARAM>
+    main = MAIN ;
+    range = RANGE (QBEGIN = BEGIN,
+                   QEND = END) ;
+  <START-CODE>
+    have_index = TRUE ;
+    print[0] = '\0';
+    subprint[0] = '\0';
+    sort[0] = '\0';
+    subsort[0] = '\0';
+  <END-CODE>
+     /* ignore <idx end>'s in cache creek */
+    if (!range || (range && m_wcmbupstrcmp(range, QEND)) )
+	{ /* sort field */
+	char *mb_print, *mb_nodeid;
+	M_WCHAR *pwc, wnl, wsp;
+
+	mbtowc(&wnl, "\n", 1);
+	mbtowc(&wsp, " ", 1);
+
+	pwc = print;
+	while (pwc = w_strchr(pwc, wnl))
+	    *pwc = wsp;
+	mb_print = MakeMByteString(print);
+	if (w_strlen(sort) > 0)
+	    { /* use sort[] */
+	    char *mb_sort;
+
+	    pwc = sort;
+	    while (pwc = w_strchr(pwc, wnl))
+		*pwc = wsp;
+	    mb_sort = MakeMByteString(sort);
+	    if (w_strlen(subsort) > 0 || w_strlen(subprint) > 0)
+		{
+		/* append subsort or subprint */
+		char *mb_sub;
+		M_WCHAR *pwcSub;
+
+		pwcSub = (w_strlen(subsort) > 0) ? subsort : subprint;
+		pwc = pwcSub;
+		while (pwc = w_strchr(pwc, wnl))
+		    *pwc = wsp;
+		mb_sub = MakeMByteString(pwcSub);
+		fprintf(indexfp, "%s, %s", mb_sort, mb_sub);
+		m_free(mb_sub,"multi-byte string");
+		}
+	    else
+		{ /* plain sort */
+		fprintf(indexfp, "%s", mb_sort);
+		}
+	    m_free(mb_sort,"multi-byte string");
+	    }
+	else
+	    { /* use print field */
+	    if (w_strlen(subsort) > 0 || w_strlen(subprint) > 0)
+		{
+		/* append subsort or subprint */
+		char *mb_sub;
+		M_WCHAR *pwcSub;
+
+		pwcSub = (w_strlen(subsort) > 0) ? subsort : subprint;
+		pwc = pwcSub;
+		while (pwc = w_strchr(pwc, wnl))
+		    *pwc = wsp;
+		mb_sub = MakeMByteString(pwcSub);
+		fprintf(indexfp, "%s, %s", mb_print, mb_sub);
+		m_free(mb_sub,"multi-byte string");
+		}
+	    else
+		{ /* plain print */
+		fprintf(indexfp, "%s", mb_print);
+		}
+	    }
+	putc('\036', indexfp);
+
+	/* print field */
+	if (w_strlen(subprint) > 0)
+	    {
+	    char *mb_subprint;
+
+	    pwc = subprint;
+	    while (pwc = w_strchr(pwc, wnl))
+		*pwc = wsp;
+	    mb_subprint = MakeMByteString(subprint);
+	    fprintf(indexfp, "%s, %s", mb_print, mb_subprint);
+	    m_free(mb_subprint,"multi-byte string");
+	    }
+	else
+	    {
+	    fprintf(indexfp, "%s", mb_print);
+	    }
+	m_free(mb_print,"multi-byte string");
+	putc('\036', indexfp);
+
+	/* id field */
+
+	pwc = nodeid;
+	while (pwc = w_strchr(pwc, wnl))
+	    *pwc = wsp;
+	mb_nodeid = MakeMByteString(nodeid);
+	fprintf(indexfp, "%s", mb_nodeid);
+	m_free(mb_nodeid,"multi-byte string");
+	putc('\036', indexfp);
+	putc('\n', indexfp);
+	}
+  <TEXT-CODE>
+    indexchar(m_textchar) ;
+
+<ELEMENT IDX-CHAP>
+ 
+<ELEMENT IDX-CHAP-REF>
+  <PARAM>
+    main = MAIN ;
+
+<ELEMENT IDX-END>
+ 
+<ELEMENT IDX-ENTRY>
+     
+<ELEMENT IDX-FF>
+ 
+<ELEMENT IDX-LETTER>
+
+<ELEMENT IDX-PRIMARY>
+ 
+<ELEMENT IDX-PRIMARY-AND-REF>
+ 
+<ELEMENT IDX-REFS>
+ 
+<ELEMENT IDX-SECT>
+ 
+<ELEMENT IDX-START>
+ 
+<ELEMENT IDX-SUB>
+ 
+<ELEMENT IDX-SUB-AND-REF>
+ 
+<ELEMENT IDX-SYN>
+
+<ELEMENT IDX-VOL>
+ 
+<ELEMENT IDXSYN>
+  <START-CODE>
+    have_index = TRUE ;
+    print[0] = '\0';
+    subprint[0] = '\0';
+    sort[0] = '\0';
+    subsort[0] = '\0';
+  <TEXT-CODE>
+    indexchar(m_textchar) ;
+
+<ELEMENT IMAGE>
+  <PARAM>
+    indent = INDENT ;
+    id = ID;
+    gentity = GENTITY  ;
+    gposition = GPOSITION (QLEFT = LEFT,
+                           QRIGHT = RIGHT) ;
+    ghyperlink = GHYPERLINK  ;
+    glinktype = GLINKTYPE (QJUMP = JUMP,
+                           QJUMPNEWVIEW = JUMPNEWVIEW,
+                           QDEFINITION = DEFINITION,
+                           QEXECUTE = EXECUTE,
+                           QAPPDEFINED = APPDEFINED,
+                           QMAN = MAN) ;
+    gdescription = GDESCRIPTION  ;
+  /*
+    <C variable> = NUMBER ;
+  */
+  <START-CODE>
+    STARTSTUFF
+    indentp = indent;
+    imagegentityp = gentity;
+    imagegpositionp = gposition;
+    imageghyperlinkp = ghyperlink;
+    imageglinktypep = glinktype;
+    imagegdescription = gdescription;
+    rshnewclear() ;
+    parspace();
+    if (id) {
+      if (imageId)
+	  m_free(imageId,"multi-byte string");
+      imageId = MakeMByteString(id);
+      mbstowcs(xrefstring, "\\<xref image>", 400);
+      xstrlen = w_strlen(xrefstring) ;
+      m_getline(&xrffile, &xrfline) ;
+      if (xrffile == NULL) {
+          /* set to primary input source */
+          xrffile = inputname;
+      }
+      setid(id,
+	    TRUE,
+	    FALSE,
+	    inchapter,
+	    chapstring,
+	    xrffile,
+	    xrfline,
+	    FALSE) ;
+
+      {
+      char *mb_nodeid, *mb_id;
+
+      mb_nodeid = MakeMByteString(nodeid);
+      mb_id     = MakeMByteString(id);
+      fprintf(idtablefp, "%s> %s\n", mb_nodeid, mb_id);
+      m_free(mb_nodeid,"multi-byte string");
+      m_free(mb_id,"multi-byte string");
+      }
+    }
+  <TEXT-CODE>
+    exoutchar(m_textchar) ;
+
+<ELEMENT IMAGETEXT>
+  <START-CODE>
+     M_WCHAR *wc_image;
+
+     fputs("<PARAGRAPH", outfile);
+     if (imageId) {
+	fprintf(outfile, " id %s", imageId);
+	m_free(imageId,"multi-byte string");
+	imageId = NULL;
+	}
+     if (indentp) {
+	  fprintf(outfile,
+		  " firstindent %d leftindent %d",
+		  LEFTINDENT,
+		  LEFTINDENT);
+     }
+     fputs(" nowrap", outfile);
+
+     wc_image = MakeWideCharString("IMAGE");
+     handle_link_and_graphic(wc_image,
+			     imagegentityp,
+			     imagegpositionp,
+			     imageghyperlinkp,
+			     imageglinktypep,
+			     imagegdescription);
+     m_free(wc_image,"wide character string");
+
+    fputs(">", outfile);
+  <END-CODE>
+     fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT INDEX>
+
+<ELEMENT INFOSTART>
+ 
+<ELEMENT INDEXPRIMARY>
+  <START-CODE>
+    idxsavlen = 0; 
+    didsort = FALSE;
+  <END-CODE>
+    /* capture saved term unless <sort> got it already */
+    if (! didsort) {
+	 idxsav[idxsavlen] = M_EOS;
+         w_strcpy(print, idxsav);
+        
+    }
+    else { /* save the sort field */
+	 idxsav[idxsavlen] = M_EOS;
+	 w_strcpy(sort, idxsav);
+    }
+
+<ELEMENT INDEXSUB>
+  <START-CODE>
+    idxsavlen = 0; 
+    didsubsort = FALSE;
+  <END-CODE>
+    /* capture saved term unless <sort> got it already */
+    if (! didsubsort) {
+	 idxsav[idxsavlen] = M_EOS;
+	 w_strcpy(subprint, idxsav);
+    }
+    else { /* save the sort field */
+	 idxsav[idxsavlen] = M_EOS;
+	 w_strcpy(subsort, idxsav);
+    }
+
+
+<ELEMENT INPUT.....>
+  <START-CODE>
+    if (echo) mb_echohead("``") ;
+  <TEXT-CODE>
+  <END-CODE>
+    if (echo) mb_echohead("''") ;
+
+<ELEMENT INSIDE>
+  <START-CODE HEADER>
+    newhline = 0 ;
+  <START-CODE FOOTER>
+    newhline = 0 ;
+  <END-CODE>
+
+<ELEMENT ITEM>
+  <PARAM>
+    id = ID ;
+  <START-CODE LIST>
+    if (lastlist->lastlist->type == PLAIN) {
+      leaderok = TRUE ;   /* allow <LEADER> only in <LIST PLAIN> */
+      }
+    rshnewclear() ;
+    item(id) ;
+  <END-CODE LIST>
+    leaderok = FALSE ;
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT KEYCAP>
+  <START-CODE>
+    /* also does special handling for calculator--supers/subs */
+    /*handles super and subs in keys */
+    mb_strcode("[<TYPE sans_serif>", outfile) ;
+    if (echo) mb_echohead("[[") ;
+  <END-CODE>
+    mb_strcode("</TYPE>]", outfile) ;
+    if (echo) mb_echohead("]]") ;
+  <TEXT-CODE>
+     esoutchar(m_textchar) ;
+
+  <START-CODE * IDX, * IDXSYN>
+    indexchar('[');
+  <END-CODE * IDX, * IDXSYN>
+    indexchar(']');
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+<ELEMENT KEYS>
+
+<ELEMENT LABEL>
+  <START-CODE>
+    rshnewclear() ;
+    fputs("<PARAGRAPH", outfile);
+    if (list <= MAXLISTLEV && lablistindented[list]) {
+	 fputs(" after 0", outfile);
+    }
+    fputs(" leftindent 14><LABEL>", outfile);
+  <END-CODE>
+    fputs("</LABEL>\n", outfile);
+
+<ELEMENT LABH>
+  <START-CODE>
+    fputs("<PARAGRAPH leftindent 14><LABEL><WEIGHT bold>", outfile);
+  <END-CODE>
+    fputs("</WEIGHT></LABEL>\n", outfile);
+
+<ELEMENT LABHTEXT>
+  <START-CODE>
+     fputs("<PARAGRAPH><WEIGHT bold>", outfile);
+  <END-CODE>
+     fputs("</WEIGHT></PARAGRAPH>\n", outfile);
+     fputs("</PARAGRAPH>\n", outfile);
+
+<ELEMENT LABHEADS>
+
+<ELEMENT LABLIST>
+  <PARAM>
+    longlabel = LONGLABEL (QWRAP = WRAP,
+                           QNOWRAP = NOWRAP) ;
+    width = WIDTH ;
+    spacing = SPACING (QTIGHT = TIGHT,
+                       QLOOSE = LOOSE) ;
+  <START-CODE>
+    char *mb_parent;
+
+    mb_parent = MakeMByteString(m_parent(0));
+    startlablist(longlabel, mb_checkdimen(width, "WIDTH", mb_parent), spacing) ;
+    m_free(mb_parent,"multi-byte string");
+  <END-CODE>
+    list-- ;
+    fputs("</PARAGRAPH>\n", outfile);
+
+<ELEMENT LEADER>
+  <PARAM>
+    type = TYPE (QSPACE = SPACE,
+                 QDOTS = DOTS) ;
+  <START-CODE>
+    if (leaderok==TRUE)
+	{
+	if (! m_wcmbupstrcmp(type, QDOTS))
+	    {
+	    }
+	else if (! m_wcmbupstrcmp(type, QSPACE))
+	    {
+	    }
+	else
+	    {
+	    M_WCHAR *wc_stago, *wc_tagc;
+
+	    wc_stago = MakeWideCharString(m_stago);
+	    wc_tagc  = MakeWideCharString(m_tagc);
+	    m_err2("Internal error: element %sLEADER%s in tex.if",
+		   wc_stago,
+		   wc_tagc) ;
+	    m_free(wc_stago,"wide character string");
+	    m_free(wc_tagc,"wide character string");
+	    }
+	}
+    else
+	{
+	M_WCHAR *wc_stago, *wc_tagc;
+
+	wc_stago = MakeWideCharString(m_stago);
+	wc_tagc  = MakeWideCharString(m_tagc);
+	m_err4("%sLEADER%s only allowed in %sLIST PLAIN%s",
+	       wc_stago,
+	       wc_tagc,
+	       wc_stago,
+	       wc_tagc) ;
+	m_free(wc_stago,"wide character string");
+	m_free(wc_tagc,"wide character string");
+	}
+
+<ELEMENT LEGAL>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    mb_starthelpnode("_LEGAL", TRUE);
+
+<ELEMENT LINENO>
+  <PARAM>
+    id = ID ;
+  <START-CODE>
+    char mb_xrefstring[400];
+
+    if (! tonumexlines) 
+      m_error(
+    "Preparing cross-reference to a line in an example without line numbers"
+      ) ;
+    sprintf(mb_xrefstring, "%d", exlineno) ;
+    mbstowcs(xrefstring, mb_xrefstring, 400);
+    xstrlen = w_strlen(xrefstring) ;
+    m_getline(&xrffile, &xrfline) ;
+    if (xrffile == NULL) {
+	   /* set to primary input */
+	   xrffile = inputname;
+    }
+    setid(id,
+	  TRUE,
+	  FALSE,
+	  inchapter,
+	  chapstring,
+	  xrffile,
+	  xrfline,
+	  TRUE) ;
+    {
+    char *mb_id;
+
+    mb_id = MakeMByteString(id);
+    fprintf(outfile, "<ID \"%s\"></ID>", mb_id);
+    m_free(mb_id,"multi-byte string");
+    }
+
+<ELEMENT LINK>
+  <PARAM>
+     hyperlink = HYPERLINK  ;
+     type = TYPE (QJUMP = JUMP,
+		  QJUMPNEWVIEW = JUMPNEWVIEW,
+		  QDEFINITION = DEFINITION,
+		  QEXECUTE = EXECUTE,
+		  QAPPDEFINED = APPDEFINED,
+		  QMAN = MAN) ;
+     description = DESCRIPTION  ;
+  <START-CODE>
+     fputs("<LINK ", outfile);
+     if (!type) { /* default to type jump */
+	  fputs("0 ", outfile); 
+     }
+     else { /* type is set, choose which is correct */
+	  if (!m_wcmbupstrcmp(type, QJUMP))
+	    { fputs("0 ", outfile); global_linktype = 0;}
+	  else if (!m_wcmbupstrcmp(type, QJUMPNEWVIEW))
+	    { fputs("1 ", outfile); global_linktype = 1;}
+	  else if (!m_wcmbupstrcmp(type, QDEFINITION))
+	    { fputs("2 ", outfile); global_linktype = 2;}
+	  else if (!m_wcmbupstrcmp(type, QEXECUTE))
+	    { fputs("3 ", outfile); global_linktype = 3;}
+	  else if (!m_wcmbupstrcmp(type, QMAN))
+	    { fputs("4 ", outfile); global_linktype = 4;}
+	  else if (!m_wcmbupstrcmp(type, QAPPDEFINED))
+	    { fputs("5 ", outfile); global_linktype = 5;}
+          else { /* parser won't let this case happen */
+	    M_WCHAR *wc_stago, *wc_tagc;
+
+	    wc_stago = MakeWideCharString(m_stago);
+	    wc_tagc  = MakeWideCharString(m_tagc);
+	    m_err3("%sLINK%s (type=``%s'') did not match an allowed value",
+		   wc_stago,
+		   wc_tagc,
+		   type); 
+	    m_free(wc_stago,"wide character string");
+	    m_free(wc_tagc,"wide character string");
+	  }
+     }
+     if (hyperlink) {
+	  char *mb_hyperlink;
+
+	  mb_hyperlink = MakeMByteString(hyperlink);
+	  fprintf(outfile, "\"%s\"", mb_hyperlink);
+	  m_free(mb_hyperlink,"multi-byte string");
+     }
+     else {
+	  m_eprefix();
+	  fprintf(stderr,
+		  "Error: %sLINK%s hyperlink was undefined.\n",
+		  m_stago,
+		  m_tagc);
+	  fprintf(m_errfile,
+		  "Error: %sLINK%s hyperlink was undefined.\n",
+		  m_stago,
+		  m_tagc);
+	  fprintf(stderr,
+    "Beware of using a reserved value such as:\n%s, %s, %s, %s, %s, or %s.\n",
+		  QJUMP,
+		  QJUMPNEWVIEW,
+		  QDEFINITION,
+		  QEXECUTE,
+		  QAPPDEFINED,
+		  QMAN);
+	  fprintf(m_errfile,
+   "Beware of using a reserved value such as:\n%s, %s, %s, %s, %s, or %s.\n",
+		  QJUMP,
+		  QJUMPNEWVIEW,
+		  QDEFINITION,
+		  QEXECUTE,
+		  QAPPDEFINED,
+		  QMAN);
+	  m_errline("Use ``hyperlink='' if the value contains non-alphabetics");
+	  m_esuffix();
+	  fputs("_undefined", outfile);
+     }
+     if (description) {
+	  char *mb_description;
+
+	  mb_description = MakeMByteString(description);
+	  fprintf(outfile, " \"%s\"", mb_description);
+	  m_free(mb_description,"multi-byte string");
+     }
+     fputs(">", outfile);
+  <END-CODE>
+     /* reset link type to default.  This is braindead, but enough.
+
+	E.g.,
+
+	   <link foo DEFINITION><XREF bar><\link> 
+
+	will do the right thing (remember that xref turns to an implicit link).
+        Right_thing => xref becomes definition link.
+
+	However, in
+
+	   <link foo DEFINITION> <link fub> Test <\link> <xref bar> <\link>
+
+	the xref will think that is supposed to become a link of type jump,
+        not definition.  This case is odd, so we won't worry about it.
+     */
+     global_linktype = 0; 
+     fputs("</LINK>", outfile);
+
+<ELEMENT LIST>
+  <PARAM>
+    type = TYPE (QORDER = ORDER,
+                 QBULLET = BULLET,
+                 QPLAIN = PLAIN,
+                 QMILSPEC = MILSPEC,
+		 QCHECK = CHECK) ;
+    order = ORDERTYPE (QUALPHA = UALPHA,
+                       QLALPHA = LALPHA,
+                       QARABIC = ARABIC,
+                       QUROMAN = UROMAN,
+                       QLROMAN = LROMAN) ;
+    spacing = SPACING (QTIGHT = TIGHT,
+                       QLOOSE = LOOSE) ;
+    cont = CONTINUE ;
+  <START-CODE>
+    startlist(type, order, spacing, cont) ;
+  <END-CODE>
+    LIST *curlist ;
+    CONTCHAIN *chain, *xchain ;
+
+    curlist = lastlist->lastlist ;
+    for (chain = lastlist->chain ; chain ; chain = xchain) {
+      xchain = chain->next ;
+      m_free(chain, "list chain") ;
+      }
+    m_free(lastlist, "list structure") ;
+    lastlist = curlist ;
+    for (chain = lastlist->chain ; chain ; chain = chain->next) {
+      fseek(outfile, chain->where, SEEK_SET) ;
+      if (lastlist->count > 999) {
+        m_error("Unable to support more than 999 items in an ordered list") ;
+        lastlist->count = 999 ;
+        }
+      fseek(outfile, 0L, SEEK_END) ;
+      }
+    if (lastlist->type == BULLET) bulcount-- ;
+    list-- ;
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT LOCATION>
+  <PARAM>
+    id = ID  ;
+  <START-CODE>
+    if (id) {
+      char mb_xrefstring[400];
+
+      sprintf(mb_xrefstring, "\\<xref location>") ;
+      mbstowcs(xrefstring, mb_xrefstring, 400);
+      xstrlen = w_strlen(xrefstring) ;
+      m_getline(&xrffile, &xrfline) ;
+      if (xrffile == NULL) {
+           /* set to primary input source */
+           xrffile = inputname;
+      }
+    setid(id,
+	  TRUE,
+	  FALSE,
+	  inchapter,
+	  chapstring,
+	  xrffile,
+	  xrfline,
+	  FALSE) ;
+
+    {
+    char *mb_nodeid, *mb_id;
+
+    mb_nodeid = MakeMByteString(nodeid);
+    mb_id     = MakeMByteString(id);
+    fprintf(idtablefp, "%s> %s\n", mb_nodeid, mb_id);
+    fprintf(outfile, "<ID \"%s\">", mb_id);
+    m_free(mb_nodeid,"multi-byte string");
+    m_free(mb_id,"multi-byte string");
+    }
+    }
+  <END-CODE>
+    fprintf(outfile, "</ID>");
+    
+
+<ELEMENT MANUAL>
+  <PARAM>
+    language = LANGUAGE (QENGLISH = ENGLISH,
+                         QNORWEGIAN = NORWEGIAN,
+                         QSWEDISH = SWEDISH,
+                         QDANISH = DANISH,
+                         QFINNISH = FINNISH,
+                         QDUTCH = DUTCH,
+                         QFRENCH = FRENCH,
+                         QGERMAN = GERMAN,
+                         QITALIAN = ITALIAN,
+                         QSPANISH = SPANISH) ;
+    idxvol = IDXVOL ;
+    status = STATUS ;
+  <START-CODE>
+    thisnodelevel = 0;
+    mb_starthelpnode("_VERYTOP", TRUE);
+    manustart(language, idxvol, status) ;
+  <END-CODE> 
+    endhelpnode();
+
+<ELEMENT MAP>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    mb_starthelpnode("_MAP", TRUE);
+
+<ELEMENT INEQN>
+
+<ELEMENT MEMO>
+  <START-CODE> 
+    if (memo && !final) {
+      if (! m_wcmbupstrcmp(m_parent(1), "TEXT"))
+      fputs("<WEIGHT bold>", outfile) ;
+      }
+  <END-CODE>
+    if (memo && !final) {
+      POPFONT ;
+      fputs("</WEIGHT>", outfile) ;
+      }
+  <TEXT-CODE>
+    if (memo) {
+      if (m_textchar == '"') { /* handle funny quote in memo bug */
+        }
+      else {
+        outchar(m_textchar, outfile);
+        }
+      }
+  <PI-CODE>
+    /* could need to handle calculator context sensitive entities
+     * here if needed to reduce tex macro count 
+     */
+    if (memo) {
+	 outpi(m_enttype, m_pi, m_entname) ;
+    }
+
+<ELEMENT MESSAGE>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    open_new_helpfile();
+    thisnodelevel = 1;
+    mb_starthelpnode("_MESSAGE", FALSE);
+    chapst = FALSE ;
+    fprintf(stderr, "\nMessages.\n") ;
+    emsghead = DEFHEAD ;
+  <END-CODE>
+    endhelpnode();
+
+<ELEMENT METAINFO>
+
+<ELEMENT MFGNO>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("MfgNumberElementDefaultHeadingString",
+			     M_SDATA,
+			     "Manufacturing Number");
+
+    mb_starthelpnode("_MFGNO", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT MIDDLE>
+  <START-CODE HEADER>
+    newhline = 0 ;
+  <START-CODE FOOTER>
+    newhline = 0 ;
+
+<ELEMENT MSG>
+  <START-CODE>
+    checkmsghead() ;
+    fprintf(outfile, "<PARAGRAPH leftindent 5>\n");
+  <END-CODE>
+    fprintf(outfile, "</PARAGRAPH>\n");
+
+<ELEMENT MSGNUM>
+  <END-CODE>
+    fprintf(outfile, "\\ \\ ");
+
+<ELEMENT MSGSUB>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    checkmsghead() ;
+    chapst = TRUE ;
+    savid = checkid(NULL) ; /* hook for possible future ID */
+    iderr = FALSE ;
+
+<ELEMENT MSGTEXT>
+  <START-CODE>
+    checkmsghead() ;
+    fprintf(outfile, "<WEIGHT bold>");
+  <END-CODE>
+    fprintf(outfile, "</WEIGHT>\n");
+
+<ELEMENT NEED>
+  <PARAM>
+    type = TYPE (QBEGIN = BEGIN,
+                 QEND = END,
+                 QTOGETHER = TOGETHER) ;
+    depth = AMOUNT ;
+
+<ELEMENT NEWLINE>
+  <START-CODE>
+      fputs("<NEWLINE>", outfile) ;
+  <START-CODE * ABSTRACT>
+      fputs("<NEWLINE>", outfile) ;
+      fputs("\\\n", docregfp) ;
+
+       
+<ELEMENT NEWPAGE>
+  <START-CODE * RSECT>
+    if (rsectsame)
+      rsectholdnew = TRUE ;
+
+<ELEMENT NOBREAK>
+  <START-CODE>
+    if (echo) {
+      mb_echohead(m_stago) ;
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net) ;
+      }
+  <END-CODE>
+    if (echo) mb_echohead(m_net) ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+  <TEXT-CODE * EXAMPLESEG, * IMAGE>
+    outchar(m_textchar, outfile) ;
+
+<ELEMENT NOT>
+  <START-CODE>
+    if (echo) {
+      mb_echohead(m_stago) ;
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net) ;
+      }
+  <END-CODE>
+    if (echo) mb_echohead(m_net) ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+  <TEXT-CODE * EXAMPLESEG, * IMAGE>
+    outchar(m_textchar, outfile) ;
+
+<ELEMENT NOTE>
+  <START-CODE TEXT ITEM>
+    STARTSTUFF
+    /* In a tight list, paragraphs will have no trailing blank line.
+     * To match HPTag behavior, we need to emit a blank line and
+     * supress the leading blank line of the next paragraph, figure,
+     * example, etc., if any.
+    */
+    ncwTightList = "";
+    if ((lastlist->lastlist->space == TIGHT) &&
+	(lastlist->lastlist->where == INSIDE)) {
+       ncwTightList = " before 1";
+    }
+
+    rshnewclear() ;
+    notehead = FALSE ;
+  <START-CODE>
+    STARTSTUFF
+    ncwTightList = "";
+    rshnewclear() ;
+    notehead = FALSE ;
+  <END-CODE TEXT ITEM>
+    fputs("</PARAGRAPH>\n\n", outfile);
+    lastlist->lastlist->where = FOLLOW; /* supress leading newline */
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT NUMBER>
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+  <TEXT-CODE * EXAMPLESEG, * IMAGE>
+    outchar(m_textchar, outfile) ;
+
+<ELEMENT OPTBLOCK>
+  <START-CODE>
+    synelcnt = 0;
+    fputs("[", outfile);
+  <END-CODE>
+    fputs("]", outfile);
+
+
+<ELEMENT OTHERFRONT>
+  <PARAM>
+    id = ID  ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+     if (!id) {
+	  m_error("Warning:  <OTHERFRONT> topic will not be reachable because it has no ID");
+          m_errcnt--;
+     }
+     starthelpnode(id, TRUE);
+    had_an_otherfront_head = FALSE;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+     if (id && !had_an_otherfront_head) {
+        m_errline("You must use a <HEAD> tag after <OTHERFRONT>\n");
+     }
+
+<ELEMENT OTHERHEAD>
+
+<ELEMENT OUTPUT....>
+  <START-CODE>
+    if (echo) mb_echohead("``") ;
+  <TEXT-CODE>
+  <END-CODE>
+    if (echo) mb_echohead("''") ;
+
+<ELEMENT OUTSIDE>
+  <START-CODE HEADER>
+    newhline = 0 ;
+  <START-CODE FOOTER>
+    newhline = 0 ;
+  <END-CODE>
+
+<ELEMENT P>
+  <PARAM>
+    indent = INDENT ;
+    id = ID;
+    gentity = GENTITY  ;
+    gposition = GPOSITION (QLEFT = LEFT,
+                           QRIGHT = RIGHT) ;
+    ghyperlink = GHYPERLINK  ;
+    glinktype = GLINKTYPE (QJUMP = JUMP,
+                           QJUMPNEWVIEW = JUMPNEWVIEW,
+                           QDEFINITION = DEFINITION,
+                           QEXECUTE = EXECUTE,
+                           QAPPDEFINED = APPDEFINED,
+                           QMAN = MAN) ;
+    gdescription = GDESCRIPTION  ;
+  <START-CODE TEXT ITEM>
+    char *listinfo;
+
+    listinfo = "";
+    if (lastlist->lastlist->space == TIGHT) {
+       if (lastlist->lastlist->where == INSIDE)
+          listinfo = " before 1 after 0";
+       else if (lastlist->lastlist->where == FOLLOW)
+	  listinfo = " after 0";
+    }
+    lastlist->lastlist->where = INSIDE;
+
+    paragraph(indent,
+	      id,
+	      gentity,
+	      gposition,
+	      ghyperlink,
+	      glinktype,
+	      gdescription,
+	      listinfo);
+  <START-CODE>
+    paragraph(indent,
+	      id,
+	      gentity,
+	      gposition,
+	      ghyperlink,
+	      glinktype,
+	      gdescription,
+	      "");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT PAGENO>
+
+<ELEMENT PARM>
+  <START-CODE>
+    if (echo) {
+      mb_echohead(m_stago) ;
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net) ; /* '|' */
+      }
+  <END-CODE>
+    if (echo) mb_echohead(m_net) ; /* '|' */
+
+  <START-CODE * IDX, * IDXSYN>
+    /* We perhaps should allow <parm> to be used in <idx>.
+       Since we are now dependent on LaserROM, we just can't
+       add it in (as an inclusion exception to idx). 
+       So, we take out the code that would inplement it and
+       give an error message. */
+
+    M_WCHAR *wc_stago, *wc_tagc;
+
+    wc_stago = MakeWideCharString(m_stago);
+    wc_tagc  = MakeWideCharString(m_tagc);
+    m_err4("%sPARM%s not allowed in %sIDX%s.",
+	   wc_stago,
+	   wc_tagc,
+	   wc_stago,
+	   wc_tagc);
+    m_free(wc_stago,"wide character string");
+    m_free(wc_tagc,"wide character string");
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+  <START-CODE * CHAPHEAD>
+    M_WCHAR *wc_stago, *wc_tagc;
+
+    wc_stago = MakeWideCharString(m_stago);
+    wc_tagc  = MakeWideCharString(m_tagc);
+    m_err2("%sPARM%s not allowed in headings.", wc_stago, wc_tagc);
+    m_free(wc_stago,"wide character string");
+    m_free(wc_tagc,"wide character string");
+  <END-CODE * CHAPHEAD>
+
+  <END-CODE * EXAMPLESEG, * IMAGE>
+    POPFONT ;
+
+<ELEMENT PART>
+  <PARAM>
+    id = ID  ;
+    number = NUMBER  ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("PartElementDefaultHeadingString",
+			     M_SDATA,
+			     "Part");
+
+      unimp(m_parent(0)) ;
+      outfile = m_outfile; /* we want part not to trigger nullfile */
+      m_free(string, "default header string return");
+  <END-CODE>
+    endhelpnode();
+
+<ELEMENT PARTEXT>
+
+<ELEMENT PARTNO>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("PartNumberElementDefaultHeadingString",
+			     M_SDATA,
+			     "Part Number");
+
+    mb_starthelpnode("_PARTNO", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT PREFACE>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    mb_starthelpnode("_PREFACE", TRUE);
+   <END-CODE>
+
+<ELEMENT PRINTDATE>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("DatePrintedElementDefaultHeadingString",
+			     M_SDATA,
+			     "Date Printed");
+
+    mb_starthelpnode("_PRINTDATE", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT PROCEDURE>
+  
+<ELEMENT PRODUCT>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("ProductElementDefaultHeadingString",
+			     M_SDATA,
+			     "Product");
+
+    mb_starthelpnode("_PRODUCT", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT QUADCELL>
+
+<ELEMENT QUOTE>
+  <START-CODE * COMPUTER>
+    mb_strcode("\\\"", outfile) ;
+    if (echo) putc('"', stderr) ;
+  <END-CODE * COMPUTER>
+    mb_strcode("\\\"", outfile) ;
+    if (echo) putc('"', stderr) ;
+
+  <START-CODE>
+    mb_strcode("``", outfile) ;
+    if (echo) putc('"', stderr) ;
+  <END-CODE>
+    mb_strcode("''", outfile) ;
+    if (echo) putc('"', stderr) ;
+
+  <START-CODE * IDX, * IDXSYN>
+    indexchar('\"') ;
+  <END-CODE * IDX, * IDXSYN>
+    indexchar('\"') ;
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+<ELEMENT REFERENCES>
+
+<ELEMENT REPLACES>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("ReplacesElementDefaultHeadingString",
+			     M_SDATA,
+			     "Replaces");
+
+    mb_starthelpnode("_REPLACES", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT REQBLOCK>
+  <START-CODE>
+    synelcnt = 0;
+    fputs("{", outfile);
+  <END-CODE>
+    fputs("}", outfile);
+
+<ELEMENT REV>
+  <PARAM>
+    delim = DELIM (QBEGIN = BEGIN,
+                   QEND = END,
+                   QDELETE = DELETE) ;
+    revid = REVID  ;
+
+<ELEMENT REVIEWER>
+
+<ELEMENT REVIEWERS>
+  <TEXT-CODE>
+
+<ELEMENT ROW>
+
+<ELEMENT ROWH>
+  <PARAM>
+    style = CELLSPEC ;
+    span = SPAN ;
+    vspan = VSPAN ;
+
+<ELEMENT RSECT>
+  <PARAM>
+    id = ID ;
+    pagebreak = PAGEBREAK (QNEWPAGE = NEWPAGE,
+                           QSAMEPAGE = SAMEPAGE) ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    assert_hometopic_exists();
+    if (!rsectseq) thisnodelevel = lastnodelevel + 1;
+    starthelpnode(id, FALSE);
+    rsectstart(id, pagebreak) ;
+  <END-CODE>
+    if (st4) {
+      st4 = FALSE ;
+      }
+    endhelpnode();
+
+<ELEMENT RSUB>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    rshnewclear() ;
+  <START-CODE * S2>
+    if (rsectsame) st4 = TRUE ;
+    rshnewclear() ;
+  <END-CODE>
+    if (st4) st4 = FALSE ;
+
+<ELEMENT S1>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    assert_hometopic_exists();
+    thisnodelevel = 2;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    chapst = TRUE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT S2>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    thisnodelevel = 3;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT S3>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    thisnodelevel = 4;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <START-CODE * CSPOT>
+    thisnodelevel = 4;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT S4>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    thisnodelevel = 5;
+    starthelpnode(id, FALSE);
+    savid = checkid(id) ;
+    iderr = FALSE ;
+    st4 = TRUE ;
+  <START-CODE * CSPOT>
+    thisnodelevel = 5;
+    starthelpnode(id, FALSE);
+    savid = checkid(id) ;
+    iderr = FALSE ;
+    st4 = TRUE ;
+  <END-CODE>
+    if (st4) st4 = FALSE ;
+    endhelpnode();
+
+<ELEMENT S5>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    thisnodelevel = 6;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT S6>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    thisnodelevel = 7;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT S7>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    thisnodelevel = 8;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT S8>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    thisnodelevel = 9;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT S9>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    thisnodelevel = 10;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT SAFETY>
+  <PARAM>
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    mb_starthelpnode("_SAFETY", TRUE);
+<END-CODE>
+
+<ELEMENT SDC>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("SDCElementDefaultHeadingString",
+			     M_SDATA,
+			     "SDC");
+
+    mb_starthelpnode("_SDC", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT SEEFROMPRIMARY>
+  <START-CODE>
+    IDXSTRT
+  <END-CODE>
+    IDXEND
+
+<ELEMENT SEEFROMSUB>
+  <START-CODE>
+    IDXSTRT
+  <END-CODE>
+    IDXEND
+
+<ELEMENT SEETOPRIMARY>
+  <START-CODE>
+    IDXSTRT
+  <END-CODE>
+    IDXEND
+
+<ELEMENT SEETOSUB>
+  <START-CODE>
+    IDXSTRT
+  <END-CODE>
+    IDXEND
+
+<ELEMENT SERIALNO>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("SerialNumberElementDefaultHeadingString",
+			     M_SDATA,
+			     "Serial Number");
+
+    mb_starthelpnode("_SERIALNO", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    m_free(string, "default header string return");
+  <END-CODE>
+
+<ELEMENT SKLINE>
+  <START-CODE * IDX, * IDXSYN>
+    if (newhline++) indexchar(' ');
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+  <END-CODE>
+    skchars = 0 ;
+
+<ELEMENT SOFTKEY>
+  <START-CODE * IDX, * IDXSYN>
+    newhline = 0 ;
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+  <START-CODE>
+    sklines = 0 ;
+    skchars = 0 ;
+    if (echo) mb_echohead("{{") ;
+  <END-CODE>
+    if (echo) mb_echohead("}}") ;
+  <TEXT-CODE>
+     esoutchar(m_textchar) ;
+     skchars++ ;
+
+<ELEMENT SORT>
+  <START-CODE INDEXPRIMARY>
+     didsort = TRUE;
+     idxsav[idxsavlen] = M_EOS;
+     w_strcpy(print, idxsav);
+     idxsavlen = 0;
+  <END-CODE INDEXPRIMARY>
+     idxsav[idxsavlen] = M_EOS;
+     w_strcpy(sort, idxsav);
+  <START-CODE INDEXSUB>
+     didsubsort = TRUE;
+     idxsav[idxsavlen] = M_EOS;
+     w_strcpy(subprint, idxsav);
+     idxsavlen = 0;
+  <END-CODE INDEXSUB>
+     idxsav[idxsavlen] = M_EOS;
+     w_strcpy(subsort, idxsav);
+  <START-CODE>
+  <END-CODE>
+
+<ELEMENT SOURCE>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("SourceElementDefaultHeadingString",
+			     M_SDATA,
+			     "Source");
+
+    mb_starthelpnode("_SOURCE", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT SUB>
+  <START-CODE>
+    if (echo) mb_echohead("__") ;
+  <END-CODE>
+    if (echo) mb_echohead("__") ;
+  <START-CODE * COMPUTER, * SOFTKEY, * WHITEMENU>
+    if (echo) mb_echohead("__") ;
+  <END-CODE * COMPUTER, * SOFTKEY, * WHITEMENU>
+    if (echo) mb_echohead("__") ;
+  <START-CODE * CCELL>
+    if (echo) mb_echohead("__") ;
+  <END-CODE * CCELL>
+    if (echo) mb_echohead("__") ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+  <TEXT-CODE * COMPUTER, * SOFTKEY, * WHITEMENU>
+     outchar(m_textchar, outfile) ;
+
+  <TEXT-CODE * EXAMPLESEG, * IMAGE>
+    outchar(m_textchar, outfile) ;
+
+<ELEMENT SUBCATEGORY>
+  <START-CODE>
+     newhline = 0 ;
+
+<ELEMENT SUPER>
+  <START-CODE>
+    if (echo) mb_echohead("^^") ;
+  <END-CODE>
+    if (echo) mb_echohead("^^") ;
+  <TEXT-CODE * COMPUTER, * SOFTKEY, * WHITEMENU>
+     outchar(m_textchar, outfile) ;
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+  <TEXT-CODE * EXAMPLESEG, * IMAGE>
+     outchar(m_textchar, outfile) ;
+
+<ELEMENT SYNEL>
+  <START-CODE OPTBLOCK, REQBLOCK>
+    if (synelcnt++) {
+        fputs("\n", outfile);
+    }
+  <END-CODE OPTBLOCK, REQBLOCK>
+  <END-CODE>
+    fputs("\n", outfile);
+  <TEXT-CODE>
+     if (m_textchar == M_SPACE) fputs("\\ ", outfile) ;
+     else outchar(m_textchar, outfile) ;
+
+<ELEMENT SYNONYM>
+
+<ELEMENT SYNTAX>
+  <START-CODE TEXT ITEM>
+    /* In a tight list, paragraphs will have no trailing blank line.
+     * To match HPTag behavior, we need to emit a blank line and
+     * supress the leading blank line of the next paragraph, figure,
+     * example, etc., if any.
+    */
+    char *listinfo;
+    STARTSTUFF
+
+    listinfo = "";
+    if ((lastlist->lastlist->space == TIGHT) &&
+	(lastlist->lastlist->where == INSIDE)) {
+       listinfo = " before 1";
+    }
+    rshnewclear() ;
+    fprintf(outfile,
+   "<PARAGRAPH%s firstindent %d leftindent %d nowrap><TYPE serif><SPACING m>",
+	    listinfo,
+	    LEFTINDENT,
+	    LEFTINDENT);
+  <START-CODE>
+    STARTSTUFF
+    rshnewclear() ;
+    fprintf(outfile, "<PARAGRAPH firstindent %d leftindent %d nowrap><TYPE serif><SPACING m>", LEFTINDENT, LEFTINDENT);
+  <END-CODE TEXT ITEM>
+    fputs("</SPACING></TYPE></PARAGRAPH>\n\n", outfile);
+    lastlist->lastlist->where = FOLLOW; /* supress leading newline */
+  <END-CODE>
+    fputs("</SPACING></TYPE></PARAGRAPH>\n\n", outfile);
+  <TEXT-CODE>
+    if (m_textchar == M_SPACE) fputs("\\ ", outfile) ;
+    else outchar(m_textchar, outfile) ;
+
+<ELEMENT TABLE>
+  <PARAM>
+    style = COLSPEC ;
+    id = ID ;
+    number = NUMBER ;
+    tonumber = TONUMBER (QNUMBER = NUMBER,
+                         QNONUMBER = NONUMBER) ;
+    box = BOX (QBOX = BOX,
+               QNOBOX = NOBOX) ;
+    rule = RULE (QNORULE = NORULE,
+                 QHEADRULE = HEADRULE,
+                 QGRID = GRID) ;
+    vrule = ALLVRULES ;
+    hrule = ALLHRULES ;
+    vcount = VRULE ;
+    hcount = HRULE ;
+    spacing = SPACING (QTIGHT = TIGHT,
+                       QLOOSE = LOOSE) ;
+    width = WIDTH (QFULL = FULL) ;
+    position = POSITION (QLEFT = LEFT,
+                         QINDENT = INDENT,
+                         QCENTER = CENTER) ;
+    divide = DIVIDE ;
+    textsize = TEXTSIZE (QNORMAL = NORMAL,
+                         QSMALLER = SMALLER,
+                         QSMALLEST = SMALLEST) ;
+  <START-CODE>
+    fputs("<PARAGRAPH>", outfile);
+    unimp(m_parent(0)) ;
+  <END-CODE>
+    fputs("</PARAGRAPH>\n", outfile);
+
+<ELEMENT TABLEHEAD>
+    
+<ELEMENT TERM>
+  <PARAM>
+    base = BASE ;
+    gloss = GLOSS (QGLOSS = GLOSS,
+                   QNOGLOSS = NOGLOSS) ;
+  <START-CODE>
+    termp = term ;
+    wsterm = FALSE ;
+    tooutput = FALSE;
+    if (echo) mb_echohead("++") ;
+  <END-CODE * GLOSSARY>
+    endterm(base, gloss, 0); /* 0 => don't use definition window for link */
+  <END-CODE>
+    endterm(base, gloss, 2); /* 2 => use definition window for link       */
+  <TEXT-CODE>
+    termchar(m_textchar) ;
+  <PI-CODE>
+    /* could need to handle calculator context sensitive entities
+     * here if needed to reduce tex macro count 
+     */
+    termpi(m_enttype, m_pi, m_entname) ;
+     
+<ELEMENT TEST>
+  <PARAM>
+    id = ID ;
+    include = INCLUDE  ;
+    exclude = EXCLUDE  ;
+  <START-CODE>
+    thisnodelevel = 2;
+    starthelpnode(id, FALSE);
+    rsectseq = FALSE ;
+    chapst = TRUE ;
+    savid = checkid(id) ;
+    iderr = FALSE ;
+  <END-CODE>
+    rseqend() ;
+    endhelpnode();
+
+<ELEMENT TEXT>
+  <START-CODE NOTE>
+    char *iconName =
+      GetDefaultHeaderString("NoteElementDefaultIconFile", M_SYSTEM, "");
+    char *string = 
+      GetDefaultHeaderString("NoteElementDefaultHeadingString",
+			     M_SDATA,
+			     "NOTE");
+
+
+    /* Write default note head if no user-specified head was encountered */
+    if (! notehead) {
+      fprintf(outfile, ncwStart, ncwTightList);
+      fprintf(outfile, ncwEnd, string);
+      if (*iconName)
+	{
+	fprintf(outfile, ncwGraphic, iconName);
+	m_free(iconName, "icon name");
+	}
+      notehead = TRUE;
+      }
+    m_free(string, "default header string return");
+  <START-CODE CAUTION>
+    char *iconName =
+      GetDefaultHeaderString("CautionElementDefaultIconFile", M_SYSTEM, "");
+    char *string = 
+      GetDefaultHeaderString("CautionElementDefaultHeadingString",
+			     M_SDATA,
+			     "CAUTION");
+
+
+    /* Write default caution head if no user-specified head was encountered */
+    if (! notehead) {
+      fprintf(outfile, ncwStart, ncwTightList);
+      fprintf(outfile, ncwEnd, string);
+      if (*iconName)
+	{
+	fprintf(outfile, ncwGraphic, iconName);
+	m_free(iconName, "icon name");
+	}
+      notehead = TRUE;
+      }
+    m_free(string, "default header string return");
+  <START-CODE WARNING>
+    char *iconName =
+      GetDefaultHeaderString("WarningElementDefaultIconFile", M_SYSTEM, "");
+    char *string = 
+      GetDefaultHeaderString("WarningElementDefaultHeadingString",
+			     M_SDATA,
+			     "WARNING");
+
+    /* Write default warning head if no user-specified head was encountered */
+    if (! notehead) {
+      fprintf(outfile, ncwStart, ncwTightList);
+      fprintf(outfile, ncwEnd, string);
+      if (*iconName)
+	{
+	fprintf(outfile, ncwGraphic, iconName);
+	m_free(iconName, "icon name");
+	}
+      notehead = TRUE;
+      }
+    m_free(string, "default header string return");
+  <START-CODE OTHERFRONT>
+     if (!had_an_otherfront_head) {
+	   endhead();
+     }
+  <START-CODE MESSAGE>
+    checkmsghead() ;
+  <START-CODE ABSTRACT>
+     if (needabstracthead)
+         {
+         fprintf(outfile, "<TITLE></TITLE>\n");
+         needabstracthead = FALSE;
+         }
+  <END-CODE LABLIST>
+    fputs("</PARAGRAPH>\n", outfile);
+
+<ELEMENT TITLE>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("TitleElementDefaultHeadingString",
+			     M_SDATA,
+			     "Title");
+
+    hadtitle = TRUE;
+    mb_starthelpnode("_TITLE", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    newhline = 0 ;
+    savhd = TRUE ;
+    hderr = FALSE ;
+    svheadlen = 0 ;
+    tooutput = TRUE ;
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+    savehead[svheadlen] = M_EOS ;
+    savhd = FALSE ;
+    if (hderr) {
+	 m_error("Error collecting title characters.");
+    }
+
+    {
+    char *mb_savehead;
+
+    mb_savehead = MakeMByteString(savehead);
+    fprintf(docregfp, "*title:\t%s\n", mb_savehead);
+    m_free(mb_savehead,"multi-byte string");
+    }
+
+    savedtitle = (M_WCHAR *) m_malloc(w_strlen(savehead) + 1, "saved title");
+    w_strcpy(savedtitle, savehead);
+
+<ELEMENT TITLEFIG>
+
+<ELEMENT TNOTE>
+  <PARAM>
+    tnoteid = ID  ;
+
+<ELEMENT TNOTEREF>
+  <PARAM>
+    tnoteid = ID  ;
+
+<ELEMENT TOC>
+
+<ELEMENT USER>
+  <START-CODE>
+    if (echo) {
+      mb_echohead(m_stago) ;
+      echohead(m_parent(0)) ;
+      mb_echohead(m_net) ;
+      }
+    mb_strcode("<SPACING m><WEIGHT bold>", outfile);
+  <TEXT-CODE>
+    esoutchar(m_textchar) ;
+  <END-CODE>
+    if (echo) mb_echohead(m_net) ;
+    mb_strcode("</WEIGHT></SPACING>", outfile);
+  <TEXT-CODE * EXAMPLESEG>
+    exoutchar(m_textchar) ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+<ELEMENT VAR>
+  <START-CODE>
+    mb_strcode("<TYPE serif><ANGLE italic><SPACING p>", outfile) ;
+    if (echo) mb_echohead("%%") ;
+  <END-CODE>
+    mb_strcode("</SPACING></ANGLE></TYPE>", outfile) ;
+    if (echo) mb_echohead("%%") ;
+
+  <START-CODE * IDX, * IDXSYN>
+  <END-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+
+  <END-CODE * EXAMPLESEG, * IMAGE, * SYNEL>
+    POPFONT ;
+    mb_strcode("</SPACING></ANGLE></TYPE>", outfile) ;
+
+  /* added to fix calculator computer chars */
+  <TEXT-CODE * SYNEL> 
+    if (m_textchar == M_SPACE) fputs("\\ ", outfile) ;
+    else outchar(m_textchar, outfile) ;
+
+<ELEMENT VERSION>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("VersionElementDefaultHeadingString",
+			     M_SDATA,
+			     "Version");
+
+    mb_starthelpnode("_VERSION", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT VEX>
+  <PARAM>
+    type = TYPE (QCOMPUTER = COMPUTER,
+                 QDISPLAY  = DISPLAY) ;
+    position = POSITION (QLEFT = LEFT,
+                         QINDENT = INDENT,
+                         QCENTER = CENTER) ;
+    lines = LINES (QNUMBER = NUMBER,
+                   QNONUMBER = NONUMBER) ;
+    textsize = TEXTSIZE (QNORMAL = NORMAL,
+                         QSMALLER = SMALLER,
+                         QSMALLEST = SMALLEST) ;
+  <START-CODE TEXT ITEM>
+    /* In a tight list, paragraphs will have no trailing blank line.
+     * To match HPTag behavior, we need to emit a blank line and
+     * supress the leading blank line of the next paragraph, figure,
+     * example, etc., if any.
+    */
+    char *listinfo;
+
+    listinfo = "";
+    if ((lastlist->lastlist->space == TIGHT) &&
+	(lastlist->lastlist->where == INSIDE)) {
+       listinfo = " before 1";
+    }
+
+    exvexstart(type, textsize, listinfo) ;
+    tonumexlines = (LOGICAL) (vnumber(lines) == NUMBER);
+    exlineno = 1 ;
+    if (tonumexlines) fprintf(outfile, " %d.  ", exlineno) ;
+  <START-CODE>
+    exvexstart(type, textsize, "") ;
+    tonumexlines = (LOGICAL) (vnumber(lines) == NUMBER);
+    exlineno = 1 ;
+    if (tonumexlines) fprintf(outfile, " %d.  ", exlineno) ;
+  <END-CODE TEXT ITEM>
+     exvexend(textsize);
+    lastlist->lastlist->where = FOLLOW; /* supress leading newline */
+  <END-CODE>
+     exvexend(textsize);
+  <TEXT-CODE>
+      exoutchar(m_textchar) ;
+
+<ELEMENT VOLUME>
+  <START-CODE>
+    char *string = 
+      GetDefaultHeaderString("VolumeElementDefaultHeadingString",
+			     M_SDATA,
+			     "Volume");
+
+    mb_starthelpnode("_VOLUME", TRUE);
+    fprintf(outfile, "<TITLE><TYPE serif><WEIGHT bold><SIZE 14>%s</SIZE></WEIGHT></TYPE></TITLE>\n\n", string);
+    fputs("<PARAGRAPH>", outfile);
+    m_free(string, "default header string return");
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT WARNING>
+  <START-CODE TEXT ITEM>
+    STARTSTUFF
+    /* In a tight list, paragraphs will have no trailing blank line.
+     * To match HPTag behavior, we need to emit a blank line and
+     * supress the leading blank line of the next paragraph, figure,
+     * example, etc., if any.
+    */
+    ncwTightList = "";
+    if ((lastlist->lastlist->space == TIGHT) &&
+	(lastlist->lastlist->where == INSIDE)) {
+       ncwTightList = " before 1";
+    }
+
+    rshnewclear() ;
+    notehead = FALSE ;
+  <START-CODE>
+    STARTSTUFF
+    ncwTightList = "";
+    rshnewclear() ;
+    notehead = FALSE ;
+  <END-CODE TEXT ITEM>
+    fputs("</PARAGRAPH>\n\n", outfile);
+    lastlist->lastlist->where = FOLLOW; /* supress leading newline */
+  <END-CODE>
+    fputs("</PARAGRAPH>\n\n", outfile);
+
+<ELEMENT WHATSIT>
+  <PARAM>
+    original = ORIGINAL ;
+  <START-CODE>
+    --m_errcnt ; /* this is a message, not really an error */
+    if (original)
+      m_err1("Convert %s WHATSIT to Tag markup", original) ;
+    else
+      m_error("Convert WHATSIT to Tag markup") ;
+
+<ELEMENT WHITEMENU>
+  <START-CODE * IDX, * IDXSYN>
+    newhline = 0 ;
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+  <TEXT-CODE>
+
+<ELEMENT XREF>
+/* Cross-referencing that allows forward references is inherently a two-pass
+process.  However, this interface assumes a two-pass process.  MARKUP
+provides the first pass and TeX the second.  MARKUP can therefore define
+a TeX macro for every cross-reference and write a file of definitions of
+these macros that is read at the beginning of the TeX pass.  In fact,
+information about cross-references is stored in a trie by MARKUP.  Data is
+entered into this structure both when a cross-reference is defined (with
+an id parameter on a chapter, figure, etc.) and when it is used (with the
+xref element).  At the end of the manual, the file xref.tex is written
+with definitions of macros corresponding to all cross-references defined
+or accessed.  In addition, the file xreftbl is written to save this
+information in a form that can be read to initialize the trie the next
+time the manual is processed.  Saving cross-reference information across
+runs of MARKUP allows a manual to be processed a chapter at a time without
+invalidating interchapter references.  The file xreftbl should be
+deleted before final processing, however, to verify that no cross-references
+remain to an id that existed at one time and was deleted.  Such an id could
+remain in the cross-reference table indefinitely.
+*/
+  <PARAM>
+    id = ID ;
+  <START-CODE * IDX, * IDXSYN>
+  <TEXT-CODE * IDX, * IDXSYN>
+    indexchar(m_textchar) ;
+  <START-CODE>
+    xrefexpand(id) ;

@@ -1,0 +1,74 @@
+<!-- $XConsortium: dtsrmerg.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchMergeResults">]]>
+<refmeta>
+<refentrytitle>DtSearchMergeResults</refentrytitle>
+<manvolnum>library call</manvolnum>
+</refmeta>
+<refnamediv><refname><function>DtSearchMergeResults</function></refname>
+<refpurpose>Merge two DtSearch results lists into one</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/Search.h></funcsynopsisinfo>
+<funcdef>int <function>DtSearchMergeResults</function></funcdef>
+<paramdef>DtSrResult <parameter>**targlist</parameter></paramdef>
+<paramdef>DtSrResult <parameter>**srclist</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para><function>DtSearchMergeResults</function> merges the
+<symbol role="variable">srclist</symbol> results list into the
+<symbol role="variable">targlist</symbol> list using proximity for sort order,
+and sets the <symbol role="variable">srclist</symbol> source list
+pointer to NULL.
+</para>
+<para>This function is used to merge results from separate database searches
+for presentation to the user as a single results list.
+</para>
+<para>It presumes both lists are initially sorted by ascending proximity. It
+does nothing if source list is empty and returns <systemitem class="constant">DtSrOK</systemitem>. It moves the source list as is to
+the target list if the target list is empty and returns <systemitem class="constant">DtSrOK</systemitem>.
+</para>
+</refsect1>
+<refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">srclist</symbol></term>
+<listitem>
+<para>Specifies the results list to be merged into the target list.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">targlist</symbol></term>
+<listitem>
+<para>Specifies the results list into which the source list is to be merged.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<para><function>DtSearchMergeResults</function> returns <systemitem class="constant">DtSrERROR</systemitem> if either the
+<symbol role="variable">srclist</symbol> pointer or the
+<symbol role="variable">srclist</symbol> pointer is NULL. Otherwise, it returns
+<systemitem class="constant">DtSrOK</systemitem>, indicating a
+successful merge.
+</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtSrAPI;,
+&cdeman.DtSearchQuery;,
+&cdeman.DtSearchSortResults;,
+&cdeman.DtSearchFreeResults;
+</para>
+</refsect1></refentry>
+

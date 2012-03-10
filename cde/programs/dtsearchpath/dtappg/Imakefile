@@ -1,0 +1,26 @@
+XCOMM $TOG: Imakefile /main/14 1998/08/05 13:21:24 mgreess $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+INCLUDES = -I. -I../libCliSrv
+
+LOCAL_LIBRARIES = ../libCliSrv/libCliSrv.a $(TTLIB) $(XTOOLLIB) $(XLIB)
+DEPLIBS = ../libCliSrv/libCliSrv.a $(DEPTTLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+SYS_LIBRARIES = DtClientSysLibs DtClientExtraLibs
+
+#ifdef SunArchitecture
+SYS_LIBRARIES = -ldl -lintl
+#endif
+
+#ifdef RsArchitecture
+EXTRA_DEFINES = -DIOSTREAMSWORKS
+#endif
+
+SRCS = Options.C dtappgather.C
+OBJS = Options.o dtappgather.o
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(dtappg)

@@ -1,0 +1,93 @@
+<!-- $XConsortium: FilToAtV.sgm /main/6 1996/09/08 20:21:46 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN36.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN36.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtDtsFileToAttributeValue</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtDtsFileToAttributeValue</Function></RefName>
+<RefPurpose>get a specified attribute value for a file
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Dts.h>
+</FuncSynopsisInfo>
+<FuncDef>char <Function>*DtDtsFileToAttributeValue</Function></FuncDef>
+<ParamDef>const char *<Parameter>filepath</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>attr_name</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtDtsFileToAttributeValue</Function> function
+returns a data attribute value for the specified file.
+</Para>
+<Para>The
+<Emphasis>filepath</Emphasis> argument is the pathname of the file.
+</Para>
+<Para>The
+<Emphasis>attr_name</Emphasis> argument is a pointer to an attribute name string.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtDtsFileToAttributeValue</Function> function returns a pointer to a data attribute value string, or
+<SystemItem Class="Constant">NULL</SystemItem> if no value could be determined.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application should use the
+&cdeman.DtDtsFreeAttributeValue; function to release the memory for the returned value.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following takes a list of files as arguments
+and determines the description of the data type for each file:
+</Para>
+<InformalExample>
+<ProgramListing>#include &lt;Dt/Dts.h>
+#define ATTRIBUTE       "DESCRIPTION"
+main (int argc, char **argv)
+{
+        char    *attribute;
+        /* load data types database */
+        DtDtsLoadDataTypes();
+        argv++;
+        while (*argv) {
+                /* get attribute for file */
+                attribute = DtDtsFileToAttributeValue(*argv, ATTRIBUTE);
+                if (attribute)
+                        printf("%s: %s&bsol;n", *argv, attribute);
+                argv++;
+        }
+        DtDtsRelease();
+        exit(0);
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para><Filename Role="Header">Dt/Dts.h</Filename>, &cdeman.DtDtsLoadDataTypes;, &cdeman.DtDtsRelease;, &cdeman.DtDtsFreeAttributeValue;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

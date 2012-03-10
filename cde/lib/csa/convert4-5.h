@@ -1,0 +1,45 @@
+/* $XConsortium: convert4-5.h /main/1 1996/04/21 19:22:52 drk $ */
+/*
+ *  (c) Copyright 1993, 1994 Hewlett-Packard Company
+ *  (c) Copyright 1993, 1994 International Business Machines Corp.
+ *  (c) Copyright 1993, 1994 Novell, Inc.
+ *  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+ */
+
+#ifndef _CONVERT4_5_H
+#define _CONVERT4_5_H
+
+#include <EUSCompat.h>
+#include "ansi_c.h"
+#include "cm.h"
+#include "rtable4.h"
+
+/*
+ * functions to convert v4 data structures
+ */
+extern CSA_return_code _DtCm_accessentry4_to_cmsaccesslist P((
+				Access_Entry_4 *a4,
+				cms_access_entry **alist));
+
+extern CSA_return_code _DtCm_appt4_to_attrs P((
+				char		*calname,
+				Appt_4		*a4,
+				uint		num_attrs,
+				cms_attribute	*attrs,
+				boolean_t	rerule));
+
+extern int _DtCm_eventtype4_to_type P((Event_Type_4 tag));
+
+extern char *_DtCm_eventtype4_to_subtype P((Event_Type_4 tag));
+
+extern CSA_sint32 _DtCm_interval4_to_rtype P((Interval_4 val));
+
+extern CSA_sint32 _DtCm_apptstatus4_to_status P((Appt_Status_4 stat));
+
+extern CSA_sint32 _DtCm_privacy4_to_classification P((Privacy_Level_4 p));
+
+extern CSA_return_code _DtCmAttr4ToReminderValue P((
+				Attribute_4		*remval,
+				cms_attribute_value	**attrval));
+
+#endif

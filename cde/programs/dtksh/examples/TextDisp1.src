@@ -1,0 +1,100 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: TextDisp1.src /main/3 1996/04/23 20:18:56 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script exercises the commands which enable and disable
+XCOMM  updating in a text widget.  If the update is disabled, and the value of
+XCOMM  the text field is then changed, the text field will not update what is
+XCOMM  shown, until update is again enabled.
+XCOMM 
+
+XCOMM  Pushbutton Callback: enable update in the text widget
+EnableUpdate()
+{
+   XmTextEnableRedisplay $TEXT
+}
+
+XCOMM  Pushbutton Callback: disable update in the text widget
+DisableUpdate()
+{
+   XmTextDisableRedisplay $TEXT
+}
+
+XCOMM  Pushbutton Callback: changes the text value
+ChangeValue1()
+{
+   XmTextSetString $TEXT "line A
+line B
+line C
+line D
+line E
+line F
+line G"
+}
+
+XCOMM  Pushbutton Callback: changes the text value
+ChangeValue2()
+{
+   XmTextSetString $TEXT "line a
+line b
+line c
+line d
+line e
+line f
+line g"
+}
+
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL textDisp1 TextDisp1 "$0" "$@"
+XtSetValues $TOPLEVEL allowShellResize:True
+
+XmCreateScrolledText TEXT $TOPLEVEL text \
+	columns:20 \
+	rows:5 \
+	editMode:MULTI_LINE_EDIT \
+	value:\
+"line 1
+line 2
+line 3
+line 4"
+XtManageChild $TEXT
+
+XtRealizeWidget $TOPLEVEL
+
+XtCreateApplicationShell TOPLEVEL2 textDisp1a TopLevelShell
+
+XtCreateManagedWidget RC rc XmRowColumn $TOPLEVEL2 \
+         orientation:HORIZONTAL \
+         numColumns:2 \
+         packing:PACK_COLUMN 
+
+XtCreateManagedWidget PB1 pb1 XmPushButton $RC \
+	labelString:"Disable Update"
+XtAddCallback $PB1 activateCallback "DisableUpdate"
+
+XtCreateManagedWidget PB2 pb2 XmPushButton $RC \
+	labelString:"Enable Update"
+XtAddCallback $PB2 activateCallback "EnableUpdate"
+
+XtCreateManagedWidget PB3 pb3 XmPushButton $RC \
+	labelString:"Change Value 1"
+XtAddCallback $PB3 activateCallback "ChangeValue1"
+
+XtCreateManagedWidget PB4 pb4 XmPushButton $RC \
+	labelString:"Change Value 2"
+XtAddCallback $PB4 activateCallback "ChangeValue2"
+
+XtRealizeWidget $TOPLEVEL2
+
+XtMainLoop

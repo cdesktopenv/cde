@@ -1,0 +1,114 @@
+XCOMM   $TOG: Imakefile /main/3 1998/03/16 14:41:32 mgreess $
+#define DoNormalLib	NormalLibDtTerm
+#define DoSharedLib	SharedLibDtTerm
+#define DoDebugLib	DebugLibDtTerm
+#define DoProfileLib	ProfileLibDtTerm
+#define LibName		DtTerm
+#define SoRev		SODTTERMREV
+#define IncSubdir	Dt
+#define LibCreate	NO
+
+#include <Threads.tmpl>
+
+DEFINES = $(ARCHITECTURE_DEFINES)
+
+INCLUDES = -I.
+
+HEADERS = TermPrim.h TermPrimP.h
+
+SRCS = \
+	TermPrim.c \
+	TermPrimAction.c \
+	TermPrimBuffer.c \
+	TermPrimBufferWc.c \
+	TermPrimCursor.c \
+	TermPrimDebug.c \
+	TermPrimFunction.c \
+	TermPrimGetPty.c \
+	TermPrimLineDraw.c \
+	TermPrimParse.c \
+	TermPrimParseTable.c \
+	TermPrimParser.c \
+	TermPrimPendingText.c \
+	TermPrimRender.c \
+	TermPrimRenderMb.c \
+	TermPrimRenderFont.c \
+	TermPrimRenderFontSet.c \
+	TermPrimRenderLineDraw.c \
+	TermPrimRepType.c \
+	TermPrimScroll.c \
+	TermPrimSelect.c \
+	TermPrimSetPty.c \
+	TermPrimSetUtmp.c \
+	TermPrimSubproc.c \
+	TermPrimUtil.c    \
+	TermPrimVersion.c \
+	TermPrimWMProtocols.c
+
+OBJS = \
+	TermPrim.o \
+	TermPrimAction.o \
+	TermPrimBuffer.o \
+	TermPrimBufferWc.o \
+	TermPrimCursor.o \
+	TermPrimDebug.o \
+	TermPrimFunction.o \
+	TermPrimGetPty.o \
+	TermPrimLineDraw.o \
+	TermPrimParse.o \
+	TermPrimParseTable.o \
+	TermPrimParser.o \
+	TermPrimPendingText.o \
+	TermPrimRender.o \
+	TermPrimRenderMb.o \
+	TermPrimRenderFont.o \
+	TermPrimRenderFontSet.o \
+	TermPrimRenderLineDraw.o \
+	TermPrimRepType.o \
+	TermPrimScroll.o \
+	TermPrimSelect.o \
+	TermPrimSetPty.o \
+	TermPrimSetUtmp.o \
+	TermPrimSubproc.o \
+	TermPrimUtil.o    \
+	TermPrimVersion.o \
+	TermPrimWMProtocols.o
+
+#include <Library.tmpl>
+
+/* These should be cleaned up.  Test SVR4Architecture? */
+#ifdef AlphaArchitecture
+LinkFile(TermPrimGetPty.c,TermPrimGetPty-bsd.c)
+#endif
+
+#ifdef HPArchitecture
+# if OSMajorVersion > 9
+LinkFile(TermPrimGetPty.c,TermPrimGetPty-svr4.c)
+# else
+LinkFile(TermPrimGetPty.c,TermPrimGetPty-bsd.c)
+# endif
+#endif
+
+#ifdef IBMArchitecture
+LinkFile(TermPrimGetPty.c,TermPrimGetPty-clone.c)
+#endif
+
+#ifdef LinuxArchitecture
+LinkFile(TermPrimGetPty.c,TermPrimGetPty-clone.c)
+#endif
+
+#ifdef SunArchitecture
+LinkFile(TermPrimGetPty.c,TermPrimGetPty-svr4.c)
+#endif
+
+#ifdef USLArchitecture
+LinkFile(TermPrimGetPty.c,TermPrimGetPty-svr4.c)
+#endif
+
+#ifdef UXPArchitecture
+LinkFile(TermPrimGetPty.c,TermPrimGetPty-svr4.c)
+#endif
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

@@ -1,0 +1,770 @@
+#!/bin/sh
+set -h
+
+###############################################################################
+#
+#	Set up shell traps
+#
+###############################################################################
+
+USERPATH=$PATH
+PATH=/bin:/usr/bin:/usr/sbin
+RETCODE=0
+
+trap '\
+	RETCODE=${RETCODE:-$?}		;\
+        /bin/rm -rf $BogusInfoLibDir	;\
+        /bin/rm -f  $SRCLIBPATH/$MMDBMAP.1.$$ ;\
+        /bin/rm -f  $SRCLIBPATH/$MMDBMAP.2.$$ ;\
+        exit $RETCODE \
+' 0 1 2 3 4 5 6 7 8 10 12 15
+
+###############################################################################
+
+ECHOCMD="echo"
+ECHOSUF='\\c'
+
+if [ -n "`eval $ECHOCMD $ECHOSUF`" ]; then
+        ECHOCMD="echo -n"
+        ECHOSUF=""
+fi
+
+
+echo_f() {
+        eval $ECHOCMD "$1$ECHOSUF"
+}
+
+###############################################################################
+
+confirm_f() {
+
+YorN=
+echo ""
+echo_f "\ \ \ \ Is \[$1] correct? \[ynq\]\ "
+read YorN
+ 
+if [ "$YorN" = "q" -o "$YorN" = "Q" ] ; then
+        exit 0
+fi
+if [ -z "$YorN" -o "$YorN" = "y" -o "$YorN" = "Y" ] ; then
+        return 1
+else
+        return 0
+fi
+
+}
+
+###############################################################################
+
+read_f() {
+
+  ANSWER=
+  read ANSWER
+  if [ "$ANSWER" = "q" -o "$ANSWER" = "Q" ] ; then
+    exit 0
+  fi
+  
+}
+
+###############################################################################
+
+DisplayMenu() {
+  clear
+  
+  echo "
+  1) List bookcases in a library
+  2) Copy a bookcase from another library
+  3) Rename a bookcase
+  4) Rearrange bookcases in a library
+  5) Remove a bookcase
+  6) Exit
+  "
+
+  echo_f "Please enter your choice \[1-6\]\ "
+
+}
+
+###############################################################################
+### Listing of all bookcases available in $1
+
+ListCatalog () {
+  
+  # list all the bookcases available in the infolib parameter
+  echo "
+    The bookcases available in [$1] are:
+  "
+  awk 'BEGIN { FS="\t" }
+       { if (NR > 1)  printf ("      %d) %s\t[%s]\n", NR-1, $1, $2 ) }' \
+	< $1/$MMDBMAP
+}
+
+###############################################################################
+
+MoveCatalog () {
+  
+  # list all the bookcases available in the infolib parameter
+  echo "
+    The order of the bookcase(s) without [$BOOKCASENAME1] is:
+  "
+  awk 'BEGIN { FS="\t" }
+       { if (NR > 1)  printf ("      %d) %s\t[%s]\n", NR-1, $1, $2 ) }' \
+	< $1
+}
+
+###############################################################################
+
+ValidateInfolibPath () {
+  INFOLIB=$1
+  if [ -z "$INFOLIB" -o ! -d $INFOLIB ] ; then
+        echo "(ERROR) $INFOLIB is not a valid information library" >&2
+	INFOLIB=""
+	return
+  fi
+
+  cd $INFOLIB
+  INFOLIB=`pwd`
+  cd $CURDIR
+
+}
+
+###############################################################################
+
+ListLibrary() {
+
+  SRCLIBPATH=
+  while [ -z "$SRCLIBPATH" ] ; do
+
+    echo "
+    Enter the path for the library to view.
+    This can be a relative or absolute path, or to exit, type 'q'."
+    echo_f "\ \ \ \ --\>\ "
+    read_f
+
+    ValidateInfolibPath $ANSWER
+    SRCLIBPATH=$INFOLIB
+
+  done
+
+
+  ### prompt for name of bookcase that is going to be installed ###
+  LIBDESC=`awk 'BEGIN { FS="\t" }
+       { if (NR == 1)  print ($1) }' \
+	< $SRCLIBPATH/$MMDBMAP`
+
+  echo ""
+  echo "    Description:	[$LIBDESC]"
+  
+  ListCatalog $SRCLIBPATH
+
+  if [ $? -ne 0 ] ; then
+    exit 1
+  fi
+
+  echo ""
+  echo_f "\ \ \ \ Hit any key to continue or type 'q' to quit\ "
+  read_f
+ 
+}
+
+###############################################################################
+
+CopyBookcase() {
+  
+   ### prompt for infolib and bookcase ###
+
+  SRCLIBPATH=
+  while [ -z "$SRCLIBPATH" ] ; do
+
+    echo "
+    Enter the path for the library from which you want to copy a bookcase.
+    This can be a relative or absolute path, or to exit, type 'q'."
+    echo_f "\ \ \ \ --\>\ "
+
+    read_f
+    SRCLIBPATH=$ANSWER
+
+    ValidateInfolibPath $SRCLIBPATH
+    SRCLIBPATH=$INFOLIB
+
+  done
+
+
+  BOOKCASENAME=
+  while [ -z "$BOOKCASENAME" ] ; do 
+
+     ### prompt for name of bookcase that is going to be installed ###
+     ListCatalog $SRCLIBPATH
+
+     if [ $? -ne 0 ] ; then
+        exit 1
+     fi
+
+     SRCBOOKCASELIST=`awk '{ if (NR > 1) print $1 }' < $SRCLIBPATH/$MMDBMAP `
+     NUMPOS=`awk 'END { print NR-1 }' < $SRCLIBPATH/$MMDBMAP `
+
+     if [ $? -ne 0 ] ; then
+       echo "(ERROR) Cannot display bookcase #" >&2
+       exit 1
+     fi
+
+     echo ""
+     echo_f "\ \ \ \ Enter the number of the bookcase to copy \[1-$NUMPOS\]\ "
+     read_f
+     POSITION=$ANSWER
+
+     if [ -z "$POSITION" ] ; then
+        continue
+     fi
+
+     if [ "$POSITION" -lt 1 -o "$POSITION" -gt "$NUMPOS" ]; then
+        echo "(ERROR) Invalid choice [$POSITION], please try again"
+	sleep 2
+        continue
+     fi
+
+     ### Confirm the selection with the user
+
+     BOOKCASENAME=`awk '{
+                      if ( NR == position+1 ) { print $1 }
+                   }' position=$POSITION < $SRCLIBPATH/$MMDBMAP`
+
+     confirm_f "$BOOKCASENAME"
+     if [ $? -eq 0 ] ; then
+        BOOKCASENAME=""
+     fi
+  done
+     
+  DESTLIBPATH=
+  while [ -z "$DESTLIBPATH" ] ; do
+
+    echo "
+    Enter the path for the destination library.
+    This can be a relative or absolute path, or to exit, type 'q'."
+    echo_f "\ \ \ \ --\>\ "
+
+    read_f
+    DESTLIBPATH=$ANSWER
+
+    ValidateInfolibPath $DESTLIBPATH
+    DESTLIBPATH=$INFOLIB
+
+    ### Check if BookCaseName already exists ###
+
+    TSTSTRING=
+    TSTSTRING=`awk '{
+                      if ( $1 == bcname ) { print $1 }
+                     }' bcname=$BOOKCASENAME < $DESTLIBPATH/$MMDBMAP`
+
+    if [ -n "$TSTSTRING" ] ; then 
+
+      echo   "\ \ \ \ $BOOKCASENAME already exists in $DESTLIBPATH"
+      echo_f "\ \ \ \ Do you want to override it? \[ynq\]\ "
+      read_f
+
+      RESPONSE=$ANSWER
+      OVERRIDE=
+      if [ "$RESPONSE" = "y" ] ; then
+
+	OVERRIDE=-i
+	DeInstallBase $BOOKCASENAME $DESTLIBPATH
+	if [ $? -ne 0 ] ; then
+	  echo "(ERROR) Unable to remove $BOOKCASENAME from $DESTLIBPATH"
+	  exit 1
+	fi 
+      elif [ "$RESPONSE" = "n" ]; then
+	break
+      fi
+    fi
+
+    done
+
+    ### Prompt for parameter verification ###
+    echo "
+    You specified this information.
+
+    Copy [$BOOKCASENAME] from: $SRCLIBPATH
+                    to  : $DESTLIBPATH
+    "
+    echo_f "\ \ \ \ Is this correct? [ynq]\ "
+    read_f
+    echo ""
+    
+    RESPONSE=$ANSWER
+
+    if [ "$RESPONSE" = "n" ]; then
+      return
+    fi
+            
+    ### Grab the bookcase entry line
+    BCENTRY=`awk '{
+      if ( NR > 1 && $1 == bookcasename ) { print $0 }
+      }' bookcasename=$BOOKCASENAME $SRCLIBPATH/$MMDBMAP`
+
+    if [ -z "$BCENTRY" ]; then
+      echo "(ERROR) $BOOKCASENAME does not exist in $SRCLIBPATH"
+      exit 1
+    fi
+
+ 
+    if [ ! -d $BogusInfoLibDir ]; then
+      mkdir -p $BogusInfoLibDir
+    else
+      echo "(ERROR) $BogusInfoLibDir already exists, cannot proceed" >&2
+      exit 1
+    fi
+    cd $BogusInfoLibDir
+    MMDB_PATH=$BogusInfoLibDir
+      
+    ### set up the bogus link to fool MMDB into believing that 
+    ### it is an info-lib 
+    DESTBCLIST=`awk '{ if (NR > 1) print $1 }' < $DESTLIBPATH/$MMDBMAP `
+    for CurBookCase in $DESTBCLIST; do
+      ln -s $DESTLIBPATH/$CurBookCase $CurBookCase
+    done
+
+    if [ $? -ne 0 ]; then
+      echo "(ERROR) Failed to link bookcases from $DESTLIBPATH" >&2
+      exit 1
+    fi
+
+    ### Link the new bookcase to be installed ###
+    ln -s $SRCLIBPATH/$BOOKCASENAME $BOOKCASENAME
+    cp $DESTLIBPATH/$MMDBMAP $MMDBMAP
+
+    ### Update the new $MMDBMAP file with the new entry
+    echo "$BCENTRY" >> $MMDBMAP
+      
+    ### actually perform the validation ###
+
+    echo "    Validating bookcases...please wait"
+
+    ### Generate the BookCaseList ###
+    BookCaseList=`awk '{if (NR > 1) print $1 }' < $MMDBMAP`
+
+    for CurBookCase in $BookCaseList; do
+
+      if [ "$BOOKCASENAME" != "$CurBookCase" ]; then
+	echo "    ...Validating $BOOKCASENAME against $CurBookCase"
+	valBase $BOOKCASENAME $CurBookCase
+      fi
+   
+      if [ $? -ne 0 ]; then
+	echo "(ERROR) No copying is performed because of errors found in validation" >&2
+	rm -rf $BogusInfoLibDir
+	sleep 2
+	return
+      fi
+     
+    done
+
+    echo "    Validation complete."
+
+    ### clean up the bogus infolib directory ###
+    cd $CURDIR
+    rm -r $BogusInfoLibDir
+
+    echo "
+    Copying bookcase... please wait
+    "
+
+    cd $DESTLIBPATH
+    (cd $SRCLIBPATH ; tar cf - $BOOKCASENAME) | tar xpf -
+
+    if [ $? -ne 0 ]; then
+      echo "(ERROR) Copying failed" >&2
+      exit 1
+    fi
+    echo "$BCENTRY" >> $MMDBMAP
+    echo "    Bookcase copied."
+    echo ""
+    echo_f "\ \ \ \ Hit any key to continue or type 'q' to quit\ "
+    read_f
+}
+      
+###############################################################################
+
+RenameBookcase() {
+  ### prompt for bookcase to be renamed ###
+     
+  SRCLIBPATH=
+  while [ -z "$SRCLIBPATH" ] ; do
+
+    echo "
+    Enter the path for the library to modify.
+    This can be a relative or absolute path, or to exit, type 'q'."
+    echo_f "\ \ \ \ --\>\ "
+    read_f
+
+    ValidateInfolibPath $ANSWER
+    SRCLIBPATH=$INFOLIB
+
+  done
+
+  BOOKCASENAME=
+  while [ -z "$BOOKCASENAME" ] ; do 
+
+     ### prompt for name of bookcase that is going to be installed ###
+     ListCatalog $SRCLIBPATH
+
+     if [ $? -ne 0 ] ; then
+        exit 1
+     fi
+
+     SRCBOOKCASELIST=`awk '{ if (NR > 1) print $1 }' < $SRCLIBPATH/$MMDBMAP `
+     NUMPOS=`awk 'END { print NR-1 }' < $SRCLIBPATH/$MMDBMAP `
+
+     if [ $? -ne 0 ] ; then
+       echo "(ERROR) Cannot display bookcase #" >&2
+       exit 1
+     fi
+
+     echo ""
+     echo_f "\ \ \ \ Enter the number of the bookcase to rename \[1-$NUMPOS\]\ "
+     read_f
+     POSITION=$ANSWER
+
+     if [ -z "$POSITION" ] ; then
+        continue
+     fi
+
+     if [ "$POSITION" -lt 1 -o "$POSITION" -gt "$NUMPOS" ]; then
+        echo "(ERROR) Invalid choice [$POSITION], please try again"
+	sleep 2
+        continue
+     fi
+
+     ### Confirm the selection with the user
+
+     BOOKCASENAME=`awk '{
+                      if ( NR == position+1 ) { print $1 }
+                   }' position=$POSITION < $SRCLIBPATH/$MMDBMAP`
+
+     confirm_f "$BOOKCASENAME"
+     if [ $? -eq 0 ] ; then
+        BOOKCASENAME=""
+     fi
+  done
+
+  BookCaseTitle=""
+  while [ -z "$BookCaseTitle" ] ; do
+    
+    echo "
+    Enter the new description for $BOOKCASENAME, or type 'q' to quit."
+    echo_f "\ \ \ \ --\>\ "
+    read_f
+    BookCaseTitle=$ANSWER
+    
+    ### Confirm the title with the user ###
+    confirm_f "$BookCaseTitle"
+    if [ $? -eq 0 ] ; then
+      BOOKCASENAME=""
+      continue
+    fi
+
+    ChangeCaseTitle $SRCLIBPATH $BOOKCASENAME "$BookCaseTitle"
+
+    if [ $? -ne 0 ]; then
+      exit 1
+    fi     
+
+  done
+  echo "    Bookcase renamed."
+  echo ""
+  echo_f "\ \ \ \ Hit any key to continue or type 'q' to quit\ "
+  read_f
+}
+
+###############################################################################
+
+RearrangeBookcase() {
+     ### prompt for source information library ###
+     
+  SRCLIBPATH=
+  while [ -z "$SRCLIBPATH" ] ; do
+
+    echo "
+    Enter the path for the library to modify.
+    This can be a relative or absolute path, or to exit, type 'q'."
+    echo_f "\ \ \ \ --\>\ "
+    read_f
+
+    ValidateInfolibPath $ANSWER
+    SRCLIBPATH=$INFOLIB
+
+  done
+
+  BOOKCASENAME1=
+  while [ -z "$BOOKCASENAME1" ] ; do 
+
+     SRCBOOKCASELIST=`awk '{ if (NR > 1) print $1 }' < $SRCLIBPATH/$MMDBMAP `
+     NUMPOS=`awk 'END { print NR-1 }' < $SRCLIBPATH/$MMDBMAP `
+
+     if [ $NUMPOS -lt 2 ] ; then
+       echo "    No bookcases to rearrange only $NUMPOS available."
+       sleep 2
+       return
+     fi
+     
+     ### prompt for name of bookcase that is going to be moved ###
+     ListCatalog $SRCLIBPATH
+
+     if [ $? -ne 0 ] ; then
+        exit 1
+     fi
+
+     echo ""
+     echo_f "\ \ \ \ Enter the number of the bookcase to move \[1-$NUMPOS\]\ "
+     read_f
+     POSITION=$ANSWER
+
+     if [ -z "$POSITION" ] ; then
+        continue
+     fi
+
+     if [ "$POSITION" -lt 1 -o "$POSITION" -gt "$NUMPOS" ]; then
+        echo "(ERROR) Invalid choice [$POSITION], please try again"
+	sleep 2
+        continue
+     fi
+
+     ### Confirm the selection with the user
+
+     BOOKCASENAME1=`awk '{
+                      if ( NR == position+1 ) { print $1 }
+                   }' position=$POSITION < $SRCLIBPATH/$MMDBMAP`
+
+     confirm_f "$BOOKCASENAME1"
+     if [ $? -eq 0 ] ; then
+        BOOKCASENAME1=""
+     fi
+  done
+
+  ### Grab the entry line for the bookcase
+  BCENTRY=`awk '{
+    if ( NR > 1 && $1 == bookcasename ) { print $0 }
+    }' bookcasename=$BOOKCASENAME1 $SRCLIBPATH/$MMDBMAP`
+
+    if [ -z "$BCENTRY" ]; then
+      echo "(ERROR) $BOOKCASENAME1 does not exist in $SRCLIBPATH"
+      exit 1
+    fi
+        
+    ### Prepare $MMDBMAP for rearrangement ###
+    awk '{ 
+      if ( NR == 1 || $1 != BookCaseName ) { print $0 }
+      }' BookCaseName=$BOOKCASENAME1 \
+       < $SRCLIBPATH/$MMDBMAP > $SRCLIBPATH/$MMDBMAP.1.$$
+
+  POSITION=
+  while [ -z "$POSITION" ] ; do
+    MoveCatalog $SRCLIBPATH/$MMDBMAP.1.$$
+
+    echo "
+    
+    Enter the number corresponding to the position you want [$BOOKCASENAME1]
+    to occupy.  If another bookcase already occupies the position you
+    choose, the bookcase you are moving takes its place, and the original
+    bookcase moves one place down in the list."
+    
+    echo_f "\ \ \ \ Default is $NUMPOS, or type 'q' to quit. \[1-$NUMPOS\]\ "
+    read_f
+    POSITION=$ANSWER
+    if [ -z "$POSITION" ] ; then
+      POSITION=$NUMPOS
+    fi
+    
+    if [ $POSITION -lt 1 -o $POSITION -gt $NUMPOS ]; then
+       echo "(ERROR) Invalid choice [$POSITION], try again"
+           continue
+    fi
+
+
+    ### Prompt for parameter verification ###
+   echo "
+    You specified this order for the bookcases :
+    "
+    if [ "$POSITION" != "$NUMPOS" ]; then
+      awk ' {
+	if ( NR != POSITION+1 ) { print $0 }
+	if ( NR == POSITION+1 ) { print BookCaseEntry; print $0 }
+       }' POSITION="$POSITION" BookCaseEntry="$BCENTRY" <  \
+	$SRCLIBPATH/$MMDBMAP.1.$$ > $SRCLIBPATH/$MMDBMAP.2.$$
+    else
+      cp $SRCLIBPATH/$MMDBMAP.1.$$ $SRCLIBPATH/$MMDBMAP.2.$$
+      echo "$BCENTRY" >> $SRCLIBPATH/$MMDBMAP.2.$$
+    fi
+
+    awk 'BEGIN { FS="\t" }
+            { if (NR > 1) {printf("    %d) %s\t[%s]\n", NR-1, $1, $2); }}
+           ' < $SRCLIBPATH/$MMDBMAP.2.$$
+    echo ""
+
+    echo_f "\ \ \ \ Is this correct? \[ynq\]\ "
+    read_f
+    Response=$ANSWER
+    if [ "$Response" = "n" ]; then
+      POSITION=
+      continue
+    fi
+
+    ## move the file with new order to $MMDBMAP ###
+    mv $SRCLIBPATH/$MMDBMAP.2.$$ $SRCLIBPATH/$MMDBMAP
+    rm -f $SRCLIBPATH/$MMDBMAP.1.$$
+  done
+    
+  echo "    Bookcase rearranged."
+  echo ""
+  echo_f "\ \ \ \ Hit any key to continue or type 'q' to quit\ "
+  read_f
+}
+
+###############################################################################
+
+RemoveBookcase() {
+     ### prompt for bookcase to be removed ###
+     
+  SRCLIBPATH=
+  while [ -z "$SRCLIBPATH" ] ; do
+
+    echo "
+    Enter the path for the library to modify.
+    This can be a relative or absolute path, or to exit, type 'q'."
+    echo_f "\ \ \ \ --\>\ "
+    read_f
+
+    ValidateInfolibPath $ANSWER
+    SRCLIBPATH=$INFOLIB
+
+  done
+
+  BOOKCASENAME=
+  while [ -z "$BOOKCASENAME" ] ; do 
+
+     ### prompt for name of bookcase that is going to be installed ###
+     ListCatalog $SRCLIBPATH
+
+     if [ $? -ne 0 ] ; then
+        exit 1
+     fi
+
+     SRCBOOKCASELIST=`awk '{ if (NR > 1) print $1 }' < $SRCLIBPATH/$MMDBMAP `
+     NUMPOS=`awk 'END { print NR-1 }' < $SRCLIBPATH/$MMDBMAP `
+
+     if [ $? -ne 0 ] ; then
+       echo "(ERROR) Cannot display bookcase #" >&2
+       exit 1
+     fi
+
+     echo ""
+     echo_f "\ \ \ \ Enter the number of the bookcase to remove \[1-$NUMPOS\]\ "
+     read_f
+     POSITION=$ANSWER
+
+     if [ -z "$POSITION" ] ; then
+        continue
+     fi
+
+     if [ "$POSITION" -lt 1 -o "$POSITION" -gt "$NUMPOS" ]; then
+        echo "(ERROR) Invalid choice [$POSITION], please try again"
+	sleep 2
+        continue
+     fi
+
+     ### Confirm the selection with the user
+
+     BOOKCASENAME=`awk '{
+                      if ( NR == position+1 ) { print $1 }
+                   }' position=$POSITION < $SRCLIBPATH/$MMDBMAP`
+
+     confirm_f "$BOOKCASENAME"
+     if [ $? -eq 0 ] ; then
+        BOOKCASENAME=""
+     fi
+  done
+
+
+  ### Actually perform the de-installation ###
+  echo "    Removing $BOOKCASENAME...please wait"
+
+  DeInstallBase $BOOKCASENAME $SRCLIBPATH
+
+  if [ $? -ne 0 ]; then
+
+      echo "(ERROR) Bookcase is not removed because of errors found in De-Installation utility" >&2
+      exit 1
+   fi
+
+   echo "    Bookcase removed."
+   echo ""
+   echo_f "\ \ \ \ Hit any key to continue or type 'q' to quit\ "
+   read_f
+}
+
+###############################################################################
+
+CURDIR=`pwd`
+if [ -z "$OLIASDDKBIN" ]; then
+         NewDir=`dirname $0`
+         cd $NewDir
+         OLIASDDKBIN=`pwd`
+         cd $CURDIR
+fi
+
+export MMDB_PATH PATH TMPDIR
+TMPDIR=${TMPDIR:-/usr/tmp}
+PATH=/bin:/usr/bin:/usr/sbin:${OLIASDDKBIN}
+MMDBMAP=bookcase.map
+
+### set up bogus info-lib directory for validation
+BogusInfoLibDir=$TMPDIR/infolib$$
+
+###############################################################################
+
+## Get the task option ###
+
+CHOICE=
+while [ -z "$CHOICE" ] ; do
+
+  DisplayMenu
+   
+  read CHOICE
+
+  case "$CHOICE" in
+
+    1)
+       ListLibrary
+       ;;
+
+    2)
+       CopyBookcase
+       ;;
+    
+    3)
+       RenameBookcase
+       ;;
+    
+    4)
+       RearrangeBookcase
+       ;;
+    
+    5)
+       RemoveBookcase
+       ;;
+    
+    q|Q|6)
+	   exit 0
+	   ;;
+
+    *)
+       echo "
+       *** Invalid choice, please try again ***
+       " >&2
+       sleep 2
+       ;;
+
+  esac
+  cd $CURDIR
+  CHOICE=
+
+done
+

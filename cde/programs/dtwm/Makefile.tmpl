@@ -1,0 +1,705 @@
+# $XConsortium: Makefile.tmpl /main/2 1996/05/13 11:32:44 drk $
+#
+# Warning: the cpp used on this machine replaces
+# all newlines and multiple tabs/spaces in a macro
+# expansion with a single space.  Imake tries to
+# compensate for this, but is not always
+# successful.
+#
+
+          SHELL = /bin/sh
+            TOP = ./../..
+             AS = as
+             CC = cc
+            CPP = /lib/cpp
+             LD = ld
+           LINT = lint
+        INSTALL = bsdinstall
+           TAGS = ctags
+             RM = rm -f
+             MV = mv
+             LN = ln -s
+
+         RANLIB = echo
+             AR = ar clq
+             LS = ls
+
+       LINTOPTS = -ax -Nd7000 -Ns3000 -Na50000 -Np300 -Zf500 -Zn5000 -Zt7000
+    LINTOBJOPTS = -c -Nd7000 -Ns3000 -Na50000 -Np300 -Zf500 -Zn5000 -Zt7000
+
+    LINTLIBFLAG = -xo
+           MAKE = make
+    STD_DEFINES = -Wd,-X -Wc,-Nd7000,-Ns3000,-Np300 -DSYSV -DNLS16 -Dhp9000s300 -DMERGE -DJOBCONTROL -DXOS
+    CDEBUGFLAGS = -O -s
+        DESTDIR =
+
+        PATHSEP = /
+         DEPEND = $(DEPENDSRC)/makedepend
+          IMAKE = $(IMAKESRC)/imake
+            RGB = $(RGBSRC)/rgb
+         CFLAGS = $(CDEBUGFLAGS) $(INCLUDES) $(STD_DEFINES) $(DEFINES)
+      LINTFLAGS = $(LINTOPTS) $(INCLUDES) $(STD_DEFINES) $(DEFINES) -DLINT
+   LINTOBJFLAGS = $(LINTOBJOPTS) $(INCLUDES) $(STD_DEFINES) $(DEFINES) -DLINT
+
+  SYS_LIBRARIES = -lsetjmp
+
+        LDFLAGS = $(CDEBUGFLAGS) $(SYS_LIBRARIES) $(SYSAUX_LIBRARIES)
+   INSTUIDFLAGS = -m 4755
+   INSTLIBFLAGS = -m 0664
+   INSTINCFLAGS = -m 0444
+   INSTMANFLAGS = -m 0444
+   INSTAPPFLAGS = -m 0444
+
+      USRLIBDIR = $(DESTDIR)/usr/lib
+         BINDIR = $(DESTDIR)/usr/bin/X11
+         LIBDIR = $(USRLIBDIR)/X11
+     LINTLIBDIR = $(USRLIBDIR)/lint
+         INCDIR = $(DESTDIR)/usr/include/X11
+        FONTDIR = $(LIBDIR)/fonts
+         UWMDIR = $(LIBDIR)/uwm
+         MANDIR = $(DESTDIR)/usr/man/man1
+    XAPPLOADDIR = $(LIBDIR)/app-defaults
+         ADMDIR = $(DESTDIR)/usr/adm
+
+       MINCLUDE = $(TOP)/include
+      CLIENTSRC = $(TOP)/clients
+        DEMOSRC = $(TOP)/demos
+        MLIBSRC = $(TOP)/lib
+        WMSRC = $(CLIENTSRC)/mwm
+         LIBSRC = $(TOP)/Xlib
+        FONTSRC = $(TOP)/fonts
+     INCLUDESRC = $(TOP)/X11
+   INCLUDEXWSRC = $(TOP)/lib/Xm
+   INCLUDEXRSRC = $(TOP)/Xr11
+      SERVERSRC = $(TOP)/server
+        UTILSRC = $(TOP)/util
+     EXAMPLESRC = $(TOP)/examples
+     CONTRIBSRC = $(TOP)/contrib
+         DOCSRC = $(TOP)/doc
+      DEPENDSRC = $(UTILSRC)/makedepend
+       IMAKESRC = $(UTILSRC)/imake
+       IRULESRC = $(UTILSRC)/imake.includes
+         RGBSRC = $(UTILSRC)/rgb
+        XLIBSRC = $(LIBSRC)/X
+    MTOOLKITSRC = $(MLIBSRC)/Xt
+    AMWIDGETSRC = $(MLIBSRC)/Xaw
+   HPMWIDGETSRC = $(MLIBSRC)/Xm
+     TOOLKITSRC = $(LIBSRC)/Xt
+     AWIDGETSRC = $(LIBSRC)/Xaw
+    HPWIDGETSRC = $(LIBSRC)/Xw
+     OLDXLIBSRC = $(LIBSRC)/oldX
+   EXTENSIONSRC = $(TOP)/extensions
+        XMANSRC = $(DOCSRC)/Xlib/Xman
+         GRMSRC = $(TOP)/hp/grm
+         GRMLIB = $(GRMSRC)/libgrm/libgrm.a
+        GRMINCL = $(GRMSRC)/include
+   EXTENSIONLIB = $(EXTENSIONSRC)/lib/libXext.a
+           XLIB = $(XLIBSRC)/libX11.a
+        OLDXLIB = $(OLDXLIBSRC)/liboldX.a
+      XMTOOLLIB = $(MTOOLKITSRC)/libXt.a
+         XAMLIB = $(AMWIDGETSRC)/libXaw.a
+          XMLIB = $(HPMWIDGETSRC)/libXm.a
+       XTOOLLIB = $(TOOLKITSRC)/libXt.a
+         XAWLIB = $(AWIDGETSRC)/libXaw.a
+          XWLIB = $(HPWIDGETSRC)/libXw.a
+       LINTXLIB = $(XLIBSRC)/llib-lX11.ln
+      LINTXTOOL = $(TOOLKITSRC)/llib-lXt.ln
+        LINTXAW = $(AWIDGETSRC)/llib-lXaw.ln
+       INCLUDES = -I$(TOP)
+      MACROFILE = hpux.macros
+      IMAKE_CMD = $(NEWTOP)$(IMAKE) $(IMAKEOPTS) -TImake.tmpl \
+			-I$(NEWTOP)$(IRULESRC) \
+			-s Makefile
+         RM_CMD = $(RM) *.CKP *.ln *.BAK *.bak *.o core errs ,* *~ *.a \
+			tags TAGS make.log
+
+INCLUDES = -I./. -I$(TOP) -I$(INCLUDEXWSRC) -I$(MTOOLKITSRC)
+LOCAL_LIBRARIES = $(XMLIB) $(XMTOOLLIB)
+
+OBJS1=	WmCDecor.o\
+	WmColormap.o\
+	WmCEvent.o\
+	WmCPlace.o\
+	WmError.o\
+	WmEvent.o\
+	WmFeedback.o\
+	WmFunction.o\
+	WmGraphics.o\
+	WmIconBox.o\
+	WmIDecor.o\
+	WmImage.o\
+	WmInitWs.o\
+	WmIPlace.o\
+	WmKeyFocus.o\
+	WmMain.o\
+	WmManage.o\
+	WmMenu.o\
+	WmProperty.o\
+	WmProtocol.o\
+	WmResCvt.o\
+	WmResource.o\
+	WmResParse.o\
+	WmSignal.o\
+	WmWinConf.o\
+	WmWinInfo.o\
+	WmWinList.o\
+	WmWinState.o\
+	version.o
+
+SRCS1=	WmCDecor.c\
+	WmColormap.c\
+	WmCEvent.c\
+	WmCPlace.c\
+	WmError.c\
+	WmEvent.c\
+	WmFeedback.c\
+	WmFunction.c\
+	WmGraphics.c\
+	WmIconBox.c\
+	WmIDecor.c\
+	WmImage.c\
+	WmInitWs.c\
+	WmIPlace.c\
+	WmKeyFocus.c\
+	WmMain.c\
+	WmManage.c\
+	WmMenu.c\
+	WmProperty.c\
+	WmProtocol.c\
+	WmResCvt.c\
+	WmResource.c\
+	WmResParse.c\
+	WmSignal.c\
+	WmWinConf.c\
+	WmWinInfo.c\
+	WmWinList.c\
+	WmWinState.c\
+	version.c
+
+SYSLIBS= -lX11
+
+PROGRAMS=mwm
+
+.c.o:
+	$(RM) $@
+	$(CC) -c $(CFLAGS) $*.c
+
+ OBJS = $(OBJS1) $(OBJS2) $(OBJS3)
+ SRCS = $(SRCS1) $(SRCS2) $(SRCS3)
+
+all:: $(PROGRAMS)
+
+mwm: $(OBJS1) $(LOCAL_LIBRARIES)
+	$(RM) $@
+	$(CC) -o $@ $(OBJS1) $(LOCAL_LIBRARIES) $(LDFLAGS) $(SYSLIBS)
+
+install:: mwm
+	$(INSTALL) -c $(INSTALLFLAGS) mwm $(BINDIR)
+
+install:: mwm.man
+	$(INSTALL) -c $(INSTMANFLAGS) mwm.man $(MANDIR)/mwm.1
+relink::
+	$(RM) $(PROGRAMS)
+	$(MAKE) $(MFLAGS) $(PROGRAMS)
+
+depend:: $(DEPEND)
+
+depend::
+	$(DEPEND) -s "# DO NOT DELETE" $(CFLAGS) $(SRCS)
+
+$(DEPEND):
+	@echo "making $(DEPENDSRC)"; \
+	cd $(DEPENDSRC); $(MAKE)
+
+clean::
+	$(RM) $(PROGRAMS)
+
+all:: mwm.o
+
+mwm.o: $(OBJS)
+	$(RM) $@
+	$(LD) -r $(OBJS) -o $@
+
+clean::
+	$(RM_CMD) \#*
+
+Makefile:: $(IMAKE)
+
+Makefile:: Imakefile \
+	$(IRULESRC)/Imake.tmpl \
+	$(IRULESRC)/Imake.rules \
+	$(IRULESRC)/$(MACROFILE)
+	-$(RM) Makefile.bak; $(MV) Makefile Makefile.bak
+	$(IMAKE_CMD) -DTOPDIR=$(TOP)
+
+$(IMAKE):
+	@echo "making $(IMAKESRC)"; \
+	cd $(IMAKESRC); $(MAKE)
+
+tags::
+	$(TAGS) -w *.[ch]
+	$(TAGS) -xw *.[ch] > TAGS
+
+install::
+	@echo "install done"
+
+Makefiles::
+
+# DO NOT DELETE
+
+WmCDecor.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmCDecor.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmCDecor.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmCDecor.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmCDecor.o: /usr/include/string.h /usr/include/fcntl.h
+WmCDecor.o: /usr/include/sys/file.h /usr/include/time.h
+WmCDecor.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmCDecor.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmCDecor.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmCDecor.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmCDecor.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmCDecor.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmCDecor.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmCDecor.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmCDecor.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmCDecor.o: /usr/include/X11/cursorfont.h
+WmColormap.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmColormap.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmColormap.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmColormap.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmColormap.o: /usr/include/string.h /usr/include/fcntl.h
+WmColormap.o: /usr/include/sys/file.h /usr/include/time.h
+WmColormap.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmColormap.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmColormap.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmColormap.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmColormap.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmColormap.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmColormap.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmColormap.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmColormap.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmCEvent.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmCEvent.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmCEvent.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmCEvent.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmCEvent.o: /usr/include/string.h /usr/include/fcntl.h
+WmCEvent.o: /usr/include/sys/file.h /usr/include/time.h
+WmCEvent.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmCEvent.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmCEvent.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmCEvent.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmCEvent.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmCEvent.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmCEvent.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmCEvent.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmCEvent.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmCEvent.o: /usr/include/X11/Xatom.h
+WmCPlace.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmCPlace.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmCPlace.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmCPlace.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmCPlace.o: /usr/include/string.h /usr/include/fcntl.h
+WmCPlace.o: /usr/include/sys/file.h /usr/include/time.h
+WmCPlace.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmCPlace.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmCPlace.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmCPlace.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmCPlace.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmCPlace.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmCPlace.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmCPlace.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmCPlace.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmCPlace.o: /usr/include/X11/keysymdef.h
+WmError.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmError.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmError.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmError.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmError.o: /usr/include/string.h /usr/include/fcntl.h /usr/include/sys/file.h
+WmError.o: /usr/include/time.h /usr/include/sys/time.h
+WmError.o: ./../../lib/Xt/X11/Core.h ./../../lib/Xt/X11/Composite.h
+WmError.o: ./../../lib/Xt/X11/Constraint.h ./../../lib/Xt/X11/Object.h
+WmError.o: ./../../lib/Xt/X11/RectObj.h ./../../lib/Xt/X11/WindowObj.h
+WmError.o: ./../../lib/Xt/X11/CompObj.h ./../../lib/Xt/X11/CoreP.h
+WmError.o: ./../../lib/Xt/X11/CompositeP.h ./../../lib/Xt/X11/ConstrainP.h
+WmError.o: ./../../lib/Xt/X11/ObjectP.h ./../../lib/Xt/X11/RectObjP.h
+WmError.o: ./../../lib/Xt/X11/WindowObjP.h ./../../lib/Xt/X11/CompObjP.h
+WmError.o: ./../../lib/Xt/X11/Intrinsic.h ./../../lib/Xt/X11/StringDefs.h
+WmError.o: ./../../lib/Xm/Xm.h mwm.h /usr/include/stdio.h
+WmEvent.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmEvent.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmEvent.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmEvent.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmEvent.o: /usr/include/string.h /usr/include/fcntl.h /usr/include/sys/file.h
+WmEvent.o: /usr/include/time.h /usr/include/sys/time.h
+WmEvent.o: ./../../lib/Xt/X11/Core.h ./../../lib/Xt/X11/Composite.h
+WmEvent.o: ./../../lib/Xt/X11/Constraint.h ./../../lib/Xt/X11/Object.h
+WmEvent.o: ./../../lib/Xt/X11/RectObj.h ./../../lib/Xt/X11/WindowObj.h
+WmEvent.o: ./../../lib/Xt/X11/CompObj.h ./../../lib/Xt/X11/CoreP.h
+WmEvent.o: ./../../lib/Xt/X11/CompositeP.h ./../../lib/Xt/X11/ConstrainP.h
+WmEvent.o: ./../../lib/Xt/X11/ObjectP.h ./../../lib/Xt/X11/RectObjP.h
+WmEvent.o: ./../../lib/Xt/X11/WindowObjP.h ./../../lib/Xt/X11/CompObjP.h
+WmEvent.o: ./../../lib/Xt/X11/Intrinsic.h ./../../lib/Xt/X11/StringDefs.h
+WmEvent.o: ./../../lib/Xm/Xm.h mwm.h
+WmFeedback.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmFeedback.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmFeedback.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmFeedback.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmFeedback.o: /usr/include/string.h /usr/include/fcntl.h
+WmFeedback.o: /usr/include/sys/file.h /usr/include/time.h
+WmFeedback.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmFeedback.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmFeedback.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmFeedback.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmFeedback.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmFeedback.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmFeedback.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmFeedback.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmFeedback.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmFunction.o: /usr/include/signal.h /usr/include/sys/signal.h
+WmFunction.o: /usr/include/stdio.h WmGlobal.h /usr/include/X11/Xlib.h
+WmFunction.o: /usr/include/sys/types.h /usr/include/X11/X.h
+WmFunction.o: /usr/include/X11/Xutil.h ./../../lib/Xt/X11/IntrinsicP.h
+WmFunction.o: ./../../lib/Xt/X11/Intrinsic.h /usr/include/X11/Xresource.h
+WmFunction.o: /usr/include/X11/Xos.h /usr/include/string.h
+WmFunction.o: /usr/include/fcntl.h /usr/include/sys/file.h
+WmFunction.o: /usr/include/time.h /usr/include/sys/time.h
+WmFunction.o: ./../../lib/Xt/X11/Core.h ./../../lib/Xt/X11/Composite.h
+WmFunction.o: ./../../lib/Xt/X11/Constraint.h ./../../lib/Xt/X11/Object.h
+WmFunction.o: ./../../lib/Xt/X11/RectObj.h ./../../lib/Xt/X11/WindowObj.h
+WmFunction.o: ./../../lib/Xt/X11/CompObj.h ./../../lib/Xt/X11/CoreP.h
+WmFunction.o: ./../../lib/Xt/X11/CompositeP.h ./../../lib/Xt/X11/ConstrainP.h
+WmFunction.o: ./../../lib/Xt/X11/ObjectP.h ./../../lib/Xt/X11/RectObjP.h
+WmFunction.o: ./../../lib/Xt/X11/WindowObjP.h ./../../lib/Xt/X11/CompObjP.h
+WmFunction.o: ./../../lib/Xt/X11/Intrinsic.h ./../../lib/Xt/X11/StringDefs.h
+WmFunction.o: ./../../lib/Xm/Xm.h mwm.h
+WmGraphics.o: /usr/include/stdio.h /usr/include/X11/Xlib.h
+WmGraphics.o: /usr/include/sys/types.h /usr/include/X11/X.h
+WmGraphics.o: ./../../lib/Xt/X11/StringDefs.h /usr/include/X11/Xutil.h
+WmGraphics.o: ./../../lib/Xt/X11/Intrinsic.h ./../../lib/Xm/Xm.h WmGlobal.h
+WmGraphics.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmGraphics.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmGraphics.o: /usr/include/string.h /usr/include/fcntl.h
+WmGraphics.o: /usr/include/sys/file.h /usr/include/time.h
+WmGraphics.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmGraphics.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmGraphics.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmGraphics.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmGraphics.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmGraphics.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmGraphics.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmGraphics.o: ./../../lib/Xt/X11/CompObjP.h mwm.h
+WmIconBox.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xt/X11/Intrinsic.h
+WmIconBox.o: ./../../lib/Xt/X11/Shell.h ./../../lib/Xm/Xm.h
+WmIconBox.o: ./../../lib/Xm/DrawingA.h ./../../lib/Xm/ScrolledW.h
+WmIconBox.o: ./../../lib/Xm/RowColumn.h WmGlobal.h /usr/include/X11/Xlib.h
+WmIconBox.o: /usr/include/sys/types.h /usr/include/X11/X.h
+WmIconBox.o: /usr/include/X11/Xutil.h ./../../lib/Xt/X11/IntrinsicP.h
+WmIconBox.o: ./../../lib/Xt/X11/Intrinsic.h /usr/include/X11/Xresource.h
+WmIconBox.o: /usr/include/X11/Xos.h /usr/include/string.h
+WmIconBox.o: /usr/include/fcntl.h /usr/include/sys/file.h /usr/include/time.h
+WmIconBox.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmIconBox.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmIconBox.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmIconBox.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmIconBox.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmIconBox.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmIconBox.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmIconBox.o: ./../../lib/Xt/X11/CompObjP.h mwm.h WmResource.h
+WmIDecor.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmIDecor.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmIDecor.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmIDecor.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmIDecor.o: /usr/include/string.h /usr/include/fcntl.h
+WmIDecor.o: /usr/include/sys/file.h /usr/include/time.h
+WmIDecor.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmIDecor.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmIDecor.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmIDecor.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmIDecor.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmIDecor.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmIDecor.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmIDecor.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmIDecor.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmImage.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmImage.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmImage.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmImage.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmImage.o: /usr/include/string.h /usr/include/fcntl.h /usr/include/sys/file.h
+WmImage.o: /usr/include/time.h /usr/include/sys/time.h
+WmImage.o: ./../../lib/Xt/X11/Core.h ./../../lib/Xt/X11/Composite.h
+WmImage.o: ./../../lib/Xt/X11/Constraint.h ./../../lib/Xt/X11/Object.h
+WmImage.o: ./../../lib/Xt/X11/RectObj.h ./../../lib/Xt/X11/WindowObj.h
+WmImage.o: ./../../lib/Xt/X11/CompObj.h ./../../lib/Xt/X11/CoreP.h
+WmImage.o: ./../../lib/Xt/X11/CompositeP.h ./../../lib/Xt/X11/ConstrainP.h
+WmImage.o: ./../../lib/Xt/X11/ObjectP.h ./../../lib/Xt/X11/RectObjP.h
+WmImage.o: ./../../lib/Xt/X11/WindowObjP.h ./../../lib/Xt/X11/CompObjP.h
+WmImage.o: ./../../lib/Xt/X11/Intrinsic.h ./../../lib/Xt/X11/StringDefs.h
+WmImage.o: ./../../lib/Xm/Xm.h mwm.h
+WmInitWs.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmInitWs.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmInitWs.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmInitWs.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmInitWs.o: /usr/include/string.h /usr/include/fcntl.h
+WmInitWs.o: /usr/include/sys/file.h /usr/include/time.h
+WmInitWs.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmInitWs.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmInitWs.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmInitWs.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmInitWs.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmInitWs.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmInitWs.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmInitWs.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmInitWs.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmInitWs.o: WmResource.h /usr/include/X11/cursorfont.h
+WmInitWs.o: ./../../lib/Xt/X11/Shell.h ./../../lib/Xm/DrawingA.h
+WmIPlace.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmIPlace.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmIPlace.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmIPlace.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmIPlace.o: /usr/include/string.h /usr/include/fcntl.h
+WmIPlace.o: /usr/include/sys/file.h /usr/include/time.h
+WmIPlace.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmIPlace.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmIPlace.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmIPlace.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmIPlace.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmIPlace.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmIPlace.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmIPlace.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmIPlace.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmKeyFocus.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmKeyFocus.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmKeyFocus.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmKeyFocus.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmKeyFocus.o: /usr/include/string.h /usr/include/fcntl.h
+WmKeyFocus.o: /usr/include/sys/file.h /usr/include/time.h
+WmKeyFocus.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmKeyFocus.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmKeyFocus.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmKeyFocus.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmKeyFocus.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmKeyFocus.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmKeyFocus.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmKeyFocus.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmKeyFocus.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmMain.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmMain.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmMain.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmMain.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmMain.o: /usr/include/string.h /usr/include/fcntl.h /usr/include/sys/file.h
+WmMain.o: /usr/include/time.h /usr/include/sys/time.h
+WmMain.o: ./../../lib/Xt/X11/Core.h ./../../lib/Xt/X11/Composite.h
+WmMain.o: ./../../lib/Xt/X11/Constraint.h ./../../lib/Xt/X11/Object.h
+WmMain.o: ./../../lib/Xt/X11/RectObj.h ./../../lib/Xt/X11/WindowObj.h
+WmMain.o: ./../../lib/Xt/X11/CompObj.h ./../../lib/Xt/X11/CoreP.h
+WmMain.o: ./../../lib/Xt/X11/CompositeP.h ./../../lib/Xt/X11/ConstrainP.h
+WmMain.o: ./../../lib/Xt/X11/ObjectP.h ./../../lib/Xt/X11/RectObjP.h
+WmMain.o: ./../../lib/Xt/X11/WindowObjP.h ./../../lib/Xt/X11/CompObjP.h
+WmMain.o: ./../../lib/Xt/X11/Intrinsic.h ./../../lib/Xt/X11/StringDefs.h
+WmMain.o: ./../../lib/Xm/Xm.h mwm.h
+WmManage.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmManage.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmManage.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmManage.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmManage.o: /usr/include/string.h /usr/include/fcntl.h
+WmManage.o: /usr/include/sys/file.h /usr/include/time.h
+WmManage.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmManage.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmManage.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmManage.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmManage.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmManage.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmManage.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmManage.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmManage.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmMenu.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmMenu.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmMenu.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmMenu.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmMenu.o: /usr/include/string.h /usr/include/fcntl.h /usr/include/sys/file.h
+WmMenu.o: /usr/include/time.h /usr/include/sys/time.h
+WmMenu.o: ./../../lib/Xt/X11/Core.h ./../../lib/Xt/X11/Composite.h
+WmMenu.o: ./../../lib/Xt/X11/Constraint.h ./../../lib/Xt/X11/Object.h
+WmMenu.o: ./../../lib/Xt/X11/RectObj.h ./../../lib/Xt/X11/WindowObj.h
+WmMenu.o: ./../../lib/Xt/X11/CompObj.h ./../../lib/Xt/X11/CoreP.h
+WmMenu.o: ./../../lib/Xt/X11/CompositeP.h ./../../lib/Xt/X11/ConstrainP.h
+WmMenu.o: ./../../lib/Xt/X11/ObjectP.h ./../../lib/Xt/X11/RectObjP.h
+WmMenu.o: ./../../lib/Xt/X11/WindowObjP.h ./../../lib/Xt/X11/CompObjP.h
+WmMenu.o: ./../../lib/Xt/X11/Intrinsic.h ./../../lib/Xt/X11/StringDefs.h
+WmMenu.o: ./../../lib/Xm/Xm.h mwm.h WmResource.h /usr/include/stdio.h
+WmMenu.o: ./../../lib/Xt/X11/Shell.h ./../../lib/Xt/X11/IntrinsicI.h
+WmMenu.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/TranslateI.h
+WmMenu.o: ./../../lib/Xt/X11/CallbackI.h ./../../lib/Xt/X11/CompositeI.h
+WmMenu.o: ./../../lib/Xt/X11/ConvertI.h ./../../lib/Xt/X11/InitialI.h
+WmMenu.o: /usr/include/sys/param.h /usr/include/machine/param.h
+WmMenu.o: ./../../lib/Xt/X11/fd.h ./../../lib/Xt/X11/ResourceI.h
+WmMenu.o: ./../../lib/Xt/X11/EventI.h ./../../lib/Xm/XmP.h
+WmMenu.o: ./../../lib/Xm/CascadeB.h ./../../lib/Xm/CascadeBG.h
+WmMenu.o: ./../../lib/Xm/Label.h ./../../lib/Xm/LabelG.h
+WmMenu.o: ./../../lib/Xm/MenuShell.h ./../../lib/Xm/PushB.h
+WmMenu.o: ./../../lib/Xm/PushBG.h ./../../lib/Xm/RowColumn.h
+WmMenu.o: ./../../lib/Xm/RowColumnP.h ./../../lib/Xm/Separator.h
+WmMenu.o: ./../../lib/Xm/SeparatoG.h
+WmProperty.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmProperty.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmProperty.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmProperty.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmProperty.o: /usr/include/string.h /usr/include/fcntl.h
+WmProperty.o: /usr/include/sys/file.h /usr/include/time.h
+WmProperty.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmProperty.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmProperty.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmProperty.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmProperty.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmProperty.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmProperty.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmProperty.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmProperty.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmProperty.o: WmICCC.h /usr/include/X11/Xatom.h /usr/include/X11/Xmd.h mwmP.h
+WmProtocol.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmProtocol.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmProtocol.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmProtocol.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmProtocol.o: /usr/include/string.h /usr/include/fcntl.h
+WmProtocol.o: /usr/include/sys/file.h /usr/include/time.h
+WmProtocol.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmProtocol.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmProtocol.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmProtocol.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmProtocol.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmProtocol.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmProtocol.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmProtocol.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmProtocol.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmProtocol.o: WmICCC.h /usr/include/X11/Xatom.h /usr/include/X11/Xmd.h mwmP.h
+WmResCvt.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmResCvt.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmResCvt.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmResCvt.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmResCvt.o: /usr/include/string.h /usr/include/fcntl.h
+WmResCvt.o: /usr/include/sys/file.h /usr/include/time.h
+WmResCvt.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmResCvt.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmResCvt.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmResCvt.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmResCvt.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmResCvt.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmResCvt.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmResCvt.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmResCvt.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmResCvt.o: WmResource.h /usr/include/ctype.h
+WmResource.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmResource.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmResource.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmResource.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmResource.o: /usr/include/string.h /usr/include/fcntl.h
+WmResource.o: /usr/include/sys/file.h /usr/include/time.h
+WmResource.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmResource.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmResource.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmResource.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmResource.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmResource.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmResource.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmResource.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmResource.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmResource.o: WmResource.h WmIBitmap.h
+WmResParse.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmResParse.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmResParse.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmResParse.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmResParse.o: /usr/include/string.h /usr/include/fcntl.h
+WmResParse.o: /usr/include/sys/file.h /usr/include/time.h
+WmResParse.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmResParse.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmResParse.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmResParse.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmResParse.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmResParse.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmResParse.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmResParse.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmResParse.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmResParse.o: WmResource.h /usr/include/X11/cursorfont.h
+WmResParse.o: /usr/include/X11/Xatom.h /usr/include/stdio.h
+WmResParse.o: /usr/include/ctype.h
+WmSignal.o: /usr/include/signal.h /usr/include/sys/signal.h WmGlobal.h
+WmSignal.o: /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmSignal.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmSignal.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmSignal.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmSignal.o: /usr/include/string.h /usr/include/fcntl.h
+WmSignal.o: /usr/include/sys/file.h /usr/include/time.h
+WmSignal.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmSignal.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmSignal.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmSignal.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmSignal.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmSignal.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmSignal.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmSignal.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmSignal.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmWinConf.o: /usr/include/X11/X.h WmGlobal.h /usr/include/X11/Xlib.h
+WmWinConf.o: /usr/include/sys/types.h /usr/include/X11/Xutil.h
+WmWinConf.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmWinConf.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmWinConf.o: /usr/include/string.h /usr/include/fcntl.h
+WmWinConf.o: /usr/include/sys/file.h /usr/include/time.h
+WmWinConf.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmWinConf.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmWinConf.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmWinConf.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmWinConf.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmWinConf.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmWinConf.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmWinConf.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmWinConf.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmWinConf.o: /usr/include/X11/keysymdef.h
+WmWinInfo.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmWinInfo.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmWinInfo.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmWinInfo.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmWinInfo.o: /usr/include/string.h /usr/include/fcntl.h
+WmWinInfo.o: /usr/include/sys/file.h /usr/include/time.h
+WmWinInfo.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmWinInfo.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmWinInfo.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmWinInfo.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmWinInfo.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmWinInfo.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmWinInfo.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmWinInfo.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmWinInfo.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmWinInfo.o: WmICCC.h /usr/include/X11/Xatom.h /usr/include/X11/Xmd.h mwmP.h
+WmWinInfo.o: WmResource.h
+WmWinList.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmWinList.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmWinList.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmWinList.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmWinList.o: /usr/include/string.h /usr/include/fcntl.h
+WmWinList.o: /usr/include/sys/file.h /usr/include/time.h
+WmWinList.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmWinList.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmWinList.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmWinList.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmWinList.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmWinList.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmWinList.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmWinList.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmWinList.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmWinState.o: WmGlobal.h /usr/include/X11/Xlib.h /usr/include/sys/types.h
+WmWinState.o: /usr/include/X11/X.h /usr/include/X11/Xutil.h
+WmWinState.o: ./../../lib/Xt/X11/IntrinsicP.h ./../../lib/Xt/X11/Intrinsic.h
+WmWinState.o: /usr/include/X11/Xresource.h /usr/include/X11/Xos.h
+WmWinState.o: /usr/include/string.h /usr/include/fcntl.h
+WmWinState.o: /usr/include/sys/file.h /usr/include/time.h
+WmWinState.o: /usr/include/sys/time.h ./../../lib/Xt/X11/Core.h
+WmWinState.o: ./../../lib/Xt/X11/Composite.h ./../../lib/Xt/X11/Constraint.h
+WmWinState.o: ./../../lib/Xt/X11/Object.h ./../../lib/Xt/X11/RectObj.h
+WmWinState.o: ./../../lib/Xt/X11/WindowObj.h ./../../lib/Xt/X11/CompObj.h
+WmWinState.o: ./../../lib/Xt/X11/CoreP.h ./../../lib/Xt/X11/CompositeP.h
+WmWinState.o: ./../../lib/Xt/X11/ConstrainP.h ./../../lib/Xt/X11/ObjectP.h
+WmWinState.o: ./../../lib/Xt/X11/RectObjP.h ./../../lib/Xt/X11/WindowObjP.h
+WmWinState.o: ./../../lib/Xt/X11/CompObjP.h ./../../lib/Xt/X11/Intrinsic.h
+WmWinState.o: ./../../lib/Xt/X11/StringDefs.h ./../../lib/Xm/Xm.h mwm.h
+WmWinState.o: WmICCC.h /usr/include/X11/Xatom.h /usr/include/X11/Xmd.h
+version.o: ./../../include/osfversion.h

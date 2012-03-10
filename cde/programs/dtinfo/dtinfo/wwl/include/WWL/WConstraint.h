@@ -1,0 +1,62 @@
+/*
+ * $XConsortium: WConstraint.h /main/3 1996/06/11 16:58:11 cde-hal $
+ *
+ * Copyright (c) 1991 HaL Computer Systems, Inc.  All rights reserved.
+ * UNPUBLISHED -- rights reserved under the Copyright Laws of the United
+ * States.  Use of a copyright notice is precautionary only and does not
+ * imply publication or disclosure.
+ * 
+ * This software contains confidential information and trade secrets of HaL
+ * Computer Systems, Inc.  Use, disclosure, or reproduction is prohibited
+ * without the prior express written permission of HaL Computer Systems, Inc.
+ * 
+ *                         RESTRICTED RIGHTS LEGEND
+ * Use, duplication, or disclosure by the Government is subject to
+ * restrictions as set forth in subparagraph (c)(l)(ii) of the Rights in
+ * Technical Data and Computer Software clause at DFARS 252.227-7013.
+ *                        HaL Computer Systems, Inc.
+ *                  1315 Dell Avenue, Campbell, CA  95008
+ * 
+ */
+
+// This code is automatically generated in -*- c++ -*-
+#ifndef WConstraint_h
+#define WConstraint_h
+
+#include "WComposite.h"
+#include <X11/Constraint.h>
+
+class WConstraint : public WComposite {
+public :
+		DEFINE_INIT (WConstraint, WComposite, constraintWidgetClass)
+};
+
+#define	NULLWConstraint		WConstraint((Widget)0)
+
+class CConstraint {
+protected :
+	Widget	widget;
+public :
+inline		CConstraint (Widget w)	{ widget = w; }
+inline		CConstraint (WObject& w) { widget = Widget(w); }
+inline		operator Widget () const	{ return widget; }
+inline	Arg	Get (Arg& a) const	{ XtGetValues (widget, &a, 1); return a; }
+inline	void	Get (ArgList a, Cardinal c) const	{ XtGetValues (widget, a, c); }
+inline	Arg	_Get (Arg& a) const	{ XtGetValues (widget, &a, 1); return a; }
+inline	Arg     Set (Arg& a) const	{ XtSetValues (widget, &a, 1); return a; }
+inline	void	Set (ArgList a, Cardinal c) const	{ XtSetValues (widget, a, c); }
+inline	Arg     _Set (Arg& a) const	{ XtSetValues (widget, &a, 1); return a; }
+inline	void	AddCallback (const char* name, XtCallbackProc proc, caddr_t closure = NULL) const
+		{ XtAddCallback (widget, name, proc, closure); }
+inline	void	RemoveCallback (const char* name, XtCallbackProc proc, caddr_t closure = NULL) const { XtRemoveCallback (widget, name, proc, closure); }
+inline	void	AddCallbacks (const char* name, XtCallbackList callbacks) const
+		{ XtAddCallbacks (widget, name, callbacks); }
+inline	void	RemoveCallbacks (const char* name, XtCallbackList callbacks) const
+		{ XtRemoveCallbacks (widget, name, callbacks); }
+inline	void	RemoveAllCallbacks (const char* name) const
+		{ XtRemoveAllCallbacks (widget, name); }
+inline	void	CallCallbacks (const char* name, caddr_t call_data) const
+		{ XtCallCallbacks (widget, name, call_data); }
+};
+
+#endif

@@ -1,0 +1,241 @@
+XCOMM!/bin/sh
+XCOMM
+XCOMM $XConsortium: dtlpsetup.src /main/3 1996/04/23 12:01:59 drk $
+XCOMM
+XCOMM COMPONENT_NAME: desktop
+XCOMM
+XCOMM FUNCTIONS: dtlpsetup
+XCOMM
+XCOMM ORIGINS: 27 
+XCOMM
+XCOMM  (C) COPYRIGHT International Business Machines Corp. 1995
+XCOMM  All Rights Reserved
+XCOMM  US Government Users Restricted Rights - Use, duplication or
+XCOMM  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+XCOMM
+XCOMM
+XCOMM Add /usr/dt/lib/nls/msg/%L/%N.cat to NLSPATH
+XCOMM
+
+NLSPATH=/usr/dt/lib/nls/msg/%L/%N.cat:$NLSPATH
+export NLSPATH
+
+XCOMM Return Codes
+NO_VALID_FILE_ERR=7
+NO_READ_FILE_ERR=8
+
+usage="$0 [-b banner_title] [-d lpdest] [-f print_file] 
+	 [-m print_command] [-n copy_count] [-o other_options] 
+	 [-u user_filename] [-a] [-e] [-h] [-r] [-s] [-v] [-w]"
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	-b)
+		if [ $2 ]; then
+		  banner_title="$1 $2"
+		  shift; shift;
+                else
+		  echo "$usage" 1>&2
+		  exit 2
+                fi
+		;;
+	-b*)
+		banner_title="-b `expr "$1" : '-b\(.*\)'`"
+		shift
+		;;
+	-d)
+                if [ $2 ]; then
+		  lpdest="$1 $2"
+                  shift; shift;
+                else
+                  echo "$usage" 1>&2
+                  exit 2
+                fi
+		;;
+	-d*)
+		lpdest="-d `expr "$1" : '-d\(.*\)'`"
+		shift
+		;;
+	-c)
+		NOT_SUPPORTED=true
+		ARGS="$ARGS $1"
+                if [ $2 ]; then
+                  shift; shift;
+                else
+		  shift
+                fi
+		;;
+	-c*)
+		NOT_SUPPORTED=true
+		ARGS="$ARGS -c"
+		shift
+		;;
+	-t)
+		NOT_SUPPORTED=true
+		ARGS="$ARGS $1"
+                if [ $2 ]; then
+                  shift; shift;
+                else
+                  shift
+                fi
+		;;
+	-t*)
+		NOT_SUPPORTED=true
+		ARGS="$ARGS -t"
+		shift
+		;;
+	-i)
+		NOT_SUPPORTED=true
+		ARGS="$ARGS $1"
+		if [ $2 ]; then
+                  shift; shift;
+                else
+                  shift
+                fi
+                ;;
+	-i*)
+		NOT_SUPPORTED=true
+		ARGS="$ARGS -i"
+		shift
+		;;
+	-l)
+		NOT_SUPPORTED=true
+		ARGS="$ARGS $1"                
+		if [ $2 ]; then
+                  shift; shift;
+                else
+                  shift
+                fi
+		;;
+	-l*)
+		NOT_SUPPORTED=true
+		ARGS="$ARGS -l"
+		shift
+		;;
+	-f)
+                if [ $2 ]; then
+		  print_file=$2
+                  shift; shift;
+                else
+                  echo "$usage" 1>&2
+                  exit 2
+                fi
+		;;
+	-f*)
+		print_file=`expr "$1" : '-f\(.*\)'`
+		shift
+		;;
+	-m)
+                if [ $2 ]; then
+		  print_command="$1 $2"
+                  shift; shift;
+                else
+                  echo "$usage" 1>&2
+                  exit 2
+                fi
+		;;
+	-m*)
+		print_command="-m `expr "$1" : '-m\(.*\)'`"
+		shift
+		;;
+	-n)
+                if [ $2 ]; then
+		  copy_count="$1 $2"
+                  shift; shift;
+                else
+                  echo "$usage" 1>&2
+                  exit 2
+                fi
+		;;
+	-n*)
+		copy_count="-n `expr "$1" : '-n\(.*\)'`"
+		shift
+		;;
+	-o)
+                if [ $2 ]; then
+		  other_options="$1 $2"
+                  shift; shift;
+                else
+                  echo "$usage" 1>&2
+                  exit 2
+                fi
+		;;
+	-o*)
+		other_options="-o `expr "$1" : '-o\(.*\)'`"
+		shift
+		;;
+	-u)
+                if [ $2 ]; then
+		  user_filename="$1 $2"
+                  shift; shift;
+                else
+                  echo "$usage" 1>&2
+                  exit 2
+                fi
+		;;
+	-u*)
+		user_filename="-u `expr "$1" : '-u\(.*\)'`"
+		shift
+		;;
+	-a)
+		a=$1
+		shift
+		;;
+	-e)
+		e=$1
+		shift
+		;;
+	-r)
+		r=$1
+		shift
+		;;
+	-s)
+		s=$1
+		shift
+		;;
+	-v)
+		v=$1
+		shift
+		;;
+	-w)
+		w=$1
+		shift
+		;;
+	-*)
+		echo "$usage" 1>&2 
+		exit 2
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+if [ $# -gt 0 ]; then
+	echo "$usage" 1>&2 
+	exit 2
+fi
+
+if  [ $NOT_SUPPORTED ]; then
+  dspmsg -s 1 dtmigrate 2 'dtlpsetup: dtlpsetup has been replaced with dtlp.\
+\tdtlp will be automatically called in its place. \
+\tThe following flags and parameters on the dtlpsetup call \
+\thave been ignored because dtlp does not support these flags: \
+\t%1$s \n' "$ARGS"
+fi
+
+/usr/dt/bin/dtlp $banner_title $lpdest $print_command $copy_count $other_options $user_filename $a $e $h $r $s $v $w $print_file
+ 
+status=$?
+
+XCOMM dtlp return code of 5 maps to return code 7 of dtlpsetup
+if  [[ $status -eq 5 ]]
+  then exit NO_VALID_FILE_ERR
+XCOMM dtlp return code of 6 maps to return code 8 of dtlpsetup
+elif [[ $status -eq 6 ]] 
+  then exit NO_READ_FILE_ERR
+else
+XCOMM all others are synonomous
+  exit $status
+fi
+

@@ -1,0 +1,86 @@
+.\" $XConsortium: strton.3 /main/2 1996/10/29 15:15:29 drk $
+.de L		\" literal font
+.ft 5
+.it 1 }N
+.if !\\$1 \&\\$1 \\$2 \\$3 \\$4 \\$5 \\$6
+..
+.de LR
+.}S 5 1 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de RL
+.}S 1 5 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de EX		\" start example
+.ta 1i 2i 3i 4i 5i 6i
+.PP
+.RS 
+.PD 0
+.ft 5
+.nf
+..
+.de EE		\" end example
+.fi
+.ft
+.PD
+.RE
+.PP
+..
+.TH STRTON 3
+.SH NAME
+strton \- convert string to long integer
+.SH SYNOPSIS
+.L "long strton(char* s, char** e)"
+.SH DESCRIPTION
+.I strton
+converts the nul-terminated string
+.I s
+to a long integer.
+If 
+.I e
+not 0 then
+.I *e
+is set to point to the first unrecognized character in
+.IR s .
+Leading spaces in
+.I s
+are ignored.
+.PP
+A number is composed of
+.IR sign-base-number-suffix .
+All but
+.I number
+are optional.
+.I sign
+may be \+ or \-.
+.I base 
+may be:
+.TP
+.B 0x
+for hexadecimal;
+.TP
+.B 0
+for octal, or
+.TP
+.IR nn #
+for base
+2 \(le
+.I nn
+\(le 36.
+.PP
+For bases greater than 10 the additional digits are take from the set
+.BR [a-zA-Z] .
+The suffix multiplies the converted number and may be:
+.TP
+.B b
+block (512)
+.TP
+.B g
+giga (1024 * 1024 * 1024)
+.TP
+.B k
+kilo (1024)
+.TP
+.B m
+mega (1024 * 1024)
+.SH "SEE ALSO"
+atoi(3), scanf(3), strtod(3)

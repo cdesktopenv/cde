@@ -1,0 +1,113 @@
+XCOMM $XConsortium: Imakefile /main/10 1996/10/09 14:05:24 drk $
+/* parser Imakefile */
+
+HTAG2        = ..
+HTAG2SRC     = $(HTAG2)/htag2
+SDLPARSERSRC = $(HTAG2)/parser
+SDLELTDEFSRC = $(HTAG2)/eltdef
+SDLDTDFILE   = $(HTAG2SRC)/sdl.dtd
+SDLUTILSRC   = $(HTAG2)/util
+SDLBUILDSRC  = $(HTAG2)/build
+SDLUTILLIB   = $(HTAG2)/util/libutil.a
+
+INCLUDES = -I. -I$(SDLUTILSRC) -I$(HTAG2SRC) -I$(SDLBUILDSRC) \
+	   -I$(SDLELTDEFSRC)
+
+SRCS =  parser.c actutil.c \
+        closent.c code.c cyclent.c dcurelt.c \
+        end.c entity.c \
+        error.c getsign.c \
+        input.c level.c lookent.c \
+        minim.c optstrg.c param.c parent.c \
+        parutil.c pi.c \
+        scan.c setpar.c start.c string.c struct.c \
+        text.c
+
+OBJS =  parser.o actutil.o \
+        closent.o code.o cyclent.o dcurelt.o \
+        end.o entity.o \
+        error.o getsign.o \
+        input.o level.o lookent.o \
+        minim.o optstrg.o param.o parent.o \
+        parutil.o pi.o \
+        scan.o setpar.o start.o string.o struct.o \
+        text.o
+
+XLATEOBJECTS = $(HTAG2SRC)/LocaleXlate.o $(HTAG2SRC)/XlationSvc.o
+
+APPLOBJECTS = \
+	$(HTAG2SRC)/custom.o \
+	$(HTAG2SRC)/sdl.o    \
+	$(HTAG2SRC)/option.o \
+	$(HTAG2SRC)/out.o    \
+	$(XLATEOBJECTS)
+
+ELT_H = \
+	$(SDLELTDEFSRC)/entity2.h \
+	$(SDLELTDEFSRC)/globdec.h \
+	$(SDLELTDEFSRC)/globdef.h \
+	$(SDLELTDEFSRC)/if.h \
+	$(SDLELTDEFSRC)/pval.h \
+	$(SDLELTDEFSRC)/signon.h \
+	$(SDLELTDEFSRC)/signonx.h
+
+ELT_C = \
+	$(SDLELTDEFSRC)/efile.c \
+	$(SDLELTDEFSRC)/entfile.c \
+	$(SDLELTDEFSRC)/pfile.c \
+	$(SDLELTDEFSRC)/sfile.c \
+	$(SDLELTDEFSRC)/stfile.c \
+	$(SDLELTDEFSRC)/tfile.c
+
+ELT_DEFS = $(ELT_H) $(ELT_C)
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+LOCAL_LIBRARIES = $(SDLUTILLIB)
+SYS_LIBRARIES = $(XLIB) DtClientSysLibs
+
+#if defined (SunArchitecture)
+SYS_LIBRARIES = $(XLIB) -lm -ldl -lgen -lC
+#endif /* SunArchitecture */
+
+all:: $(HTAG2SRC)/dthelp_htag2
+
+other_dirs:
+	cd $(SDLELTDEFSRC); make
+	cd $(HTAG2SRC); make
+
+NormalLibraryObjectRule()
+NormalProgramTarget(parser,$(OBJS) $(APPLOBJECTS),delim.h $(LOCAL_LIBRARIES) other_dirs,$(LOCAL_LIBRARIES),)
+
+CPRODS = case.c context.h delim.h
+CTRASH = error delim.dat
+
+$(HTAG2SRC)/dthelp_htag2: parser
+	$(RM) $(HTAG2SRC)/dthelp_htag2
+	$(CP) parser $(HTAG2SRC)/dthelp_htag2
+
+$(CPRODS):  $(SDLUTILSRC)/context $(HTAG2SRC)/delim.par context.dat
+	$(RM) $(CPRODS) $(CTRASH)
+	/* get application-specific delim.dat */
+	$(CP) $(HTAG2SRC)/delim.par delim.dat
+	$(SDLUTILSRC)/context
+
+$(SDLUTILSRC)/context:
+	cd $(SDLUTILSRC); make context
+
+$(APPLOBJECTS):
+	cd $(HTAG2SRC); make
+
+$(ELT_DEFS):
+	cd $(SDLELTDEFSRC); make
+
+clean::
+	$(RM) $(CPRODS) $(CTRASH) parser *.o
+
+depend:: $(SRCS)
+
+includes:: $(CPRODS)
+
+DependTarget()

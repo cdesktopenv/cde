@@ -1,0 +1,69 @@
+XCOMM $XConsortium: Imakefile /main/8 1996/10/09 14:03:32 drk $
+XCOMM
+XCOMM 	RESTRICTED CONFIDENTIAL INFORMATION:
+XCOMM	
+XCOMM	The information in this document is subject to special
+XCOMM	restrictions in a confidential disclosure agreement between
+XCOMM	HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+XCOMM	document outside HP, IBM, Sun, USL, SCO, or Univel without
+XCOMM	Sun's specific written approval.  This document and all copies
+XCOMM	and derivative works thereof must be returned or destroyed at
+XCOMM	Sun's request.
+XCOMM
+XCOMM (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM (c) Copyright 1996 Hewlett-Packard Company.
+XCOMM (c) Copyright 1996 International Business Machines Corp.
+XCOMM (c) Copyright 1993,1996 Sun Microsystems, Inc.
+XCOMM (c) Copyright 1996 Novell, Inc. 
+XCOMM (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM (c) Copyright 1996 Hitachi.
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		ABobjXm
+#define LibHeaders	NO
+#define LibInstall	NO
+
+#include "../ab.tmpl"
+#include "../ab.rules"
+
+    INCLUDES = -I. -I$(ABINCLUDES)
+     DEFINES =
+
+SOURCES.h.shipped= 
+
+SOURCES.h.shared= \
+                objxm.h
+
+SOURCES.h.unshared = \
+		objxmP.h
+
+SRCS = 	objxm_args.c 	objxm_config.c 	objxm_conn.c \
+	objxm_inst.c 	objxm_objects.c objxm_strs.c \
+	objxm_util.c
+
+OBJS = 	objxm_args.o 	objxm_config.o 	objxm_conn.o \
+	objxm_inst.o 	objxm_objects.o objxm_strs.o \
+	objxm_util.o
+
+SYS_LIBRARIES = -lm $(ICONVSYSLIB) $(DYNLIBSYSLIB) $(REGEXSYSLIB)
+
+#ifdef	SunArchitecture
+WAITTARGET = .WAIT
+#endif	/* SunArchitecture */
+
+       LINTLIBS = $(XINPUTLIB) $(DTHELPLIB) $(DTSVCLIB) $(TTLIB)) $(XMLIB) $(XTOOLLIB) $(XLIB)
+LOCAL_LIBRARIES = $(XINPUTLIB) $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+
+#include <Library.tmpl>
+
+DependTarget()
+
+LinkFileList(shared_includes,$(SOURCES.h.shared),../include/ab_private,../../libABobjXm)
+
+includes:: shared_includes $(WAITTARGET)
+sdtgilcvt:
+dtcodegen: libABobjXm.a
+dtbuilder: libABobjXm.a

@@ -1,0 +1,179 @@
+<!-- $XConsortium: exec.sgm /main/7 1996/09/08 19:51:42 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN10.rsml.1">
+<RefMeta>
+<RefEntryTitle>dtexec</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dtexec</Command></RefName>
+<RefPurpose>execute command-based action
+<IndexTerm>
+<Primary>dtexec</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- *************************************************************************-->
+<!-- ** (c) Copyright 1993,1994 Hewlett-Packard Company -->
+<!-- ** (c) Copyright 1993,1994 International Business Machines Corp. -->
+<!-- ** (c) Copyright 1993,1994 Sun Microsystems, Inc.-->
+<!-- ** (c) Copyright 1993,1994 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dtexec</Command>
+<Arg Choice="opt">&minus;open<Replaceable>open_option</Replaceable></Arg>
+<Arg Choice="opt">&minus;ttprocid<Replaceable>procid</Replaceable></Arg>
+<Arg Choice="opt">&minus;tmp<Replaceable>tmpfile</Replaceable></Arg>
+<Arg><Replaceable>cmd</Replaceable></Arg>
+<Arg Choice="opt"><Replaceable>cmd_arg ...</Replaceable></Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>&str-XZ; uses the
+<Command>dtexec</Command> utility to execute
+<SystemItem Class="Constant">COMMAND</SystemItem> actions.
+In normal
+usage, &str-XZ; automatically invokes
+<Command>dtexec</Command> when it is needed.
+&str-XZ; users
+and administrators do not need to interact directly with
+<Command>dtexec</Command>.</Para>
+<Para>The primary argument for
+<Command>dtexec</Command> is the name of a command to execute and
+any command-line options or arguments for that command.
+There are
+several important services that
+<Command>dtexec</Command> provides for the commands that it executes.
+These services are controlled via the options specified in the ``OPTIONS''
+section in this document.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<Para>The following options are available:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>-open</Literal> <Emphasis>open_option</Emphasis></Term>
+<ListItem>
+<Para>The <Literal>-open</Literal> option tells
+<Command>dtexec</Command> whether it should continue to run or
+exit after the command terminates.
+</Para>
+<Para>The valid values for
+<Emphasis>open_option</Emphasis> are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>-1</Literal></Term>
+<ListItem>
+<Para>(default) continue to execute after <Emphasis>cmd</Emphasis> terminates.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>0</Literal></Term>
+<ListItem>
+<Para>exit as soon as <Emphasis>cmd</Emphasis> terminates.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>n</Literal></Term>
+<ListItem>
+<Para>continue to execute if <Emphasis>cmd</Emphasis> terminates
+within <Literal>n</Literal> seconds of starting.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The values <Literal>-1</Literal> and <Literal>n</Literal> are typically used when
+<SystemItem Class="Constant">COMMAND</SystemItem> actions are executed in a terminal emulator to control
+the lifetime of the terminal window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>-ttprocid</Literal> <Emphasis>procid</Emphasis></Term>
+<ListItem>
+<Para>The
+<Command>dtexec</Command> command uses the <Literal>-ttprocid</Literal> option
+to send ToolTalk messages
+back to the application that invoked the
+<SystemItem Class="Constant">COMMAND</SystemItem> action.
+These
+messages are used to convey status information (for example, the command
+has terminated).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>-tmp</Literal> <Emphasis>tmpfile</Emphasis></Term>
+<ListItem>
+<Para>The <Literal>-tmp</Literal> option names a temporary file that
+<Command>dtexec</Command> removes after <Emphasis>cmd</Emphasis> terminates if either no <Emphasis>-ttprocid</Emphasis> option is
+supplied or contact is lost with the specified <Emphasis>procid</Emphasis>.
+In normal usage, the parent process that starts
+<Command>dtexec</Command>, performs this cleanup.
+This option can be issued multiple times, once for each tmp file present.
+Typically, <Emphasis>tmpfile</Emphasis> also appears as a <Emphasis>cmd_arg</Emphasis>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXIT STATUS</Title>
+<Para>The following exit values are returned:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>0</Literal></Term>
+<ListItem>
+<Para>Implies all system resources were available to fork and exec the requested
+command, not that the requested command executed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>1</Literal></Term>
+<ListItem>
+<Para>An error occurred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>Normally, application programs do not directly invoke this program.
+Normally, an application program links with the
+action service, which then invokes
+<Command>dtexec</Command> as needed.
+Applications should use the
+<Literal>waitTime</Literal> resource to configure the value of the
+<Emphasis>&minus;open_option</Emphasis> and the <Literal>DtexecPath</Literal> resource to configure
+the location of
+<Command>dtexec</Command>.</Para>
+<Para>If <Emphasis>cmd</Emphasis> writes to stderr, the error messages are time stamped
+and redirected to the user's errorlog file (<Filename>$HOME/.dt/errorlog</Filename>)
+when <Emphasis>open_option</Emphasis> is <Literal>0</Literal>. If <Emphasis>open_option</Emphasis> is set
+otherwise, the error messages are typically displayed in the
+terminal window.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtaction;, &cdeman.dtactionfile;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

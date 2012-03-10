@@ -1,0 +1,148 @@
+<!-- $XConsortium: fil_ob_q.sgm /main/5 1996/08/30 12:46:58 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN75.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN75.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_file_objects_query</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_file_objects_query</Function></RefName>
+<RefPurpose>find all objects in the named file
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: fil_ob_q.sgm /main/5 1996/08/30 12:46:58 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>tt_file_objects_query</Function></FuncDef>
+<ParamDef>const char *<Parameter>filepath</Parameter></ParamDef>
+<ParamDef>Tt_filter_function <Parameter>filter</Parameter></ParamDef>
+<ParamDef>void *<Parameter>context</Parameter></ParamDef>
+<ParamDef>void *<Parameter>accumulator</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_file_objects_query</Function> function instructs the ToolTalk service to find all objects in the
+named file and pass the
+objids
+to the filter function.
+The context pointer and accumulator pointer initially specified are also
+passed to the filter function.
+</Para>
+<Para>As the ToolTalk service finds each object,
+it calls the filter function, passing the
+objid
+of the object and the two application-supplied pointers.
+The filter function performs its computation and returns a
+<StructName Role="typedef">Tt_filter_action</StructName> value that tells the query function whether to continue or to stop.
+<StructName Role="typedef">Tt_filter_action</StructName> values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_FILTER_CONTINUE</Term>
+<ListItem>
+<Para>The query function should continue.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_FILTER_STOP</Term>
+<ListItem>
+<Para>The query function should stop.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<Emphasis>filepath</Emphasis> argument is the name of the file to be searched for objects.
+The
+<Emphasis>filter</Emphasis> argument is the filter function to which the
+objids
+are to be passed.
+The
+<Symbol Role="Variable">context</Symbol> argument is a pointer to any information the filter needs to execute.
+The ToolTalk service does not interpret this argument,
+but passes it directly to the filter function.
+The
+<Emphasis>accumulator</Emphasis> argument is a pointer to where the filter is to store the results
+of the query and filter operations.
+The ToolTalk service does not interpret this argument, but passes
+it directly to the filter function.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_file_objects_query</Function> function returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBAVAIL</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the
+ToolTalk database needed for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBEXIST</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the
+specified ToolTalk database in the expected place.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PATH</Term>
+<ListItem>
+<Para>The specified pathname included an unsearchable directory.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_WRN_STOPPED</Term>
+<ListItem>
+<Para>The query operation being performed was halted by
+<StructName Role="typedef">Tt_filter_function</StructName>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

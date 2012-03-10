@@ -1,0 +1,244 @@
+XCOMM ######################################################################
+XCOMM 
+XCOMM      unsupported.dt
+XCOMM 
+XCOMM      Action and DataType definitions for unsupported software.
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary 
+XCOMM         of Novell, Inc.
+XCOMM 
+XCOMM      $XConsortium: unsupported.dt.src /main/4 1996/04/23 17:36:23 drk $
+XCOMM 
+XCOMM #####################################################################
+
+XCOMM ##########################################################################
+XCOMM 
+XCOMM  WARNING:  This file may be overwritten in subsequent installations of
+XCOMM      DT.  Consequently, any system wide changes should be made to
+XCOMM      an equivalent database file in CDE_INSTALLATION_TOP/types and not 
+XCOMM      in this file.
+XCOMM 
+XCOMM ##########################################################################
+#if defined(__aix)
+#define XBIN /usr/lpp/X11/bin
+#define XBIN_CONTRIB /usr/lpp/X11/bin
+#else
+#if defined(__sun)
+#define XBIN /usr/openwin/bin
+#define XBIN_CONTRIB /usr/openwin/bin
+#else
+#if defined(__hpux)
+#define XBIN /usr/bin/X11
+#define XBIN_CONTRIB /usr/contrib/bin/X11
+#else
+#define XBIN /usr/bin/X11
+#define XBIN_CONTRIB /usr/local/bin/X11
+#endif
+#endif
+#endif
+
+ACTION DtTypes
+{
+        LABEL		%|nls-32-#DtTypes#|
+        ARG_COUNT	0
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	CDE_INSTALLATION_TOP/bin/dtterm -e ksh -c '/usr/dt/bin/dttypes;'
+	DESCRIPTION	%|nls-9002-#The#|
+}
+ACTION DtTypes
+{
+        LABEL		%|nls-32-#DtTypes#|
+	TYPE		COMMAND
+	WINDOW_TYPE	PERM_TERMINAL
+	EXEC_STRING	sh -c '/usr/dt/bin/dttypes -type "%(File)Arg_1%"; \
+                 echo "%|nls-9011-#Select#|"'
+	DESCRIPTION	%|nls-9002-#The#|
+}
+
+ACTION Clipboard
+{
+        LABEL		%|nls-27-#Clipboard#|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	XBIN_CONTRIB/xclipboard
+	DESCRIPTION	%|nls-9003-#The#|
+}
+
+#ifdef __hpux
+ACTION DisplayFont
+{
+        LABEL		%|nls-29-#DisplayFont#|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	sh -c '/usr/contrib/bin/X11/xfd -fn \
+                `basename "%(File)Arg_1"%|nls-9012-#Font#|"%" | sed /[.].*/s///`;\
+	                if [ \$? -eq 1 ] ; then \
+                                 /usr/dt/bin/dterror.ds \
+                                   "%|nls-9014-#The Font#|" \
+                                   "%|nls-9015-#Invalid#|" \
+                                   "%|nls-21002-#OK#|" ; \
+	                fi'
+	DESCRIPTION	%|nls-9004-#The#|
+}
+
+%|nls-9016-#The ListWinInfo ...#|
+ACTION ListWinInfo
+{
+        LABEL		%|nls-33-#ListWinInfo#|
+        ARG_COUNT	0
+	TYPE		COMMAND
+	WINDOW_TYPE	PERM_TERMINAL
+	EXEC_STRING	\
+	  sh -c ' \
+	    /usr/contrib/bin/X11/xwininfo; \
+	    echo "%|nls-9011-#Select#|"'
+	DESCRIPTION	%|nls-9005-#The#|
+}
+
+ACTION ListWinProps
+{
+        LABEL           %|nls-34-#ListWinProps#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+            echo "%|nls-9013-#[When#|"; \
+            /usr/contrib/bin/X11/xprop | \${PAGER:-more}; \
+            echo "%|nls-9011-#Select#|"'
+        DESCRIPTION     %|nls-9006-#The#|
+}
+
+ACTION XserverInfo
+{
+        LABEL           %|nls-35-#XserverInfo#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+            /usr/contrib/bin/X11/xdpyinfo | \${PAGER:-more}; \
+            echo "%|nls-9011-#Select#|"'
+        DESCRIPTION     %|nls-9007-#The#|
+}
+#endif
+#ifdef __aix
+ACTION DisplayFont
+{
+        LABEL           %|nls-29-#DisplayFont#|
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+	EXEC_STRING	sh -c '/usr/lpp/X11/bin/xfd -fn \
+                `basename "%(File)Arg_1"%|nls-9012-#Font#|"%" | sed /[.].*/s///`;\
+	                if [ \$? -eq 1 ] ; then \
+                                 /usr/dt/bin/dterror.ds \
+                                   "%|nls-9014-#The Font#|" \
+                                   "%|nls-9015-#Invalid#|" \
+                                   "%|nls-21002-#OK#|" ; \
+	                fi'
+        DESCRIPTION     %|nls-9004-#The#|
+}
+
+%|nls-9016-#The ListWinInfo ...#|
+ACTION ListWinInfo
+{
+        LABEL		%|nls-33-#ListWinInfo#|
+        ARG_COUNT	0
+	TYPE		COMMAND
+	WINDOW_TYPE	PERM_TERMINAL
+	EXEC_STRING	\
+	  sh -c ' \
+	    /usr/lpp/X11/bin/xwininfo; \
+	    echo "%|nls-9011-#Select#|"'
+	DESCRIPTION	%|nls-9005-#The#|
+}
+
+ACTION ListWinProps
+{
+        LABEL           %|nls-34-#ListWinProps#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+            echo "%|nls-9013-#[When#|"; \
+            /usr/lpp/X11/bin/xprop | \${PAGER:-more}; \
+            echo "%|nls-9011-#Select#|"'
+        DESCRIPTION     %|nls-9006-#The#|
+}
+
+ACTION XserverInfo
+{
+        LABEL           %|nls-35-#XserverInfo#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+            /usr/lpp/X11/bin/xdpyinfo | \${PAGER:-more}; \
+            echo "%|nls-9011-#Select#|"'
+        DESCRIPTION     %|nls-9007-#The#|
+}
+#endif
+#ifdef __sun
+ACTION DisplayFont
+{
+        LABEL           %|nls-29-#DisplayFont#|
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+	EXEC_STRING	sh -c '/usr/openwin/bin/xfd -fn \
+                `basename "%(File)Arg_1"%|nls-9012-#Font#|"%" | sed /[.].*/s///`;\
+	                if [ \$? -eq 1 ] ; then \
+                                 /usr/dt/bin/dterror.ds \
+                                   "%|nls-9014-#The Font#|" \
+                                   "%|nls-9015-#Invalid#|" \
+                                   "%|nls-21002-#OK#|" ; \
+	                fi'
+        DESCRIPTION     %|nls-9004-#The#|
+}
+
+%|nls-9016-#The ListWinInfo ...#|
+ACTION ListWinInfo
+{
+        LABEL		%|nls-33-#ListWinInfo#|
+        ARG_COUNT	0
+	TYPE		COMMAND
+	WINDOW_TYPE	PERM_TERMINAL
+	EXEC_STRING	\
+	  sh -c ' \
+	    /usr/openwin/bin/xwininfo; \
+	    echo "%|nls-9011-#Select#|"'
+	DESCRIPTION	%|nls-9005-#The#|
+}
+
+ACTION ListWinProps
+{
+        LABEL           %|nls-34-#ListWinProps#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+            echo "%|nls-9013-#[When#|"; \
+            /usr/openwin/bin/xprop | \${PAGER:-more}; \
+            echo "%|nls-9011-#Select#|"'
+        DESCRIPTION     %|nls-9006-#The#|
+}
+
+ACTION XserverInfo
+{
+        LABEL           %|nls-35-#XserverInfo#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+            /usr/openwin/bin/xdpyinfo | \${PAGER:-more}; \
+            echo "%|nls-9011-#Select#|"'
+        DESCRIPTION     %|nls-9007-#The#|
+}
+#endif

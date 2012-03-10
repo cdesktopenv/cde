@@ -1,0 +1,661 @@
+<!-- $XConsortium: ch03.sgm /main/10 1996/12/20 20:01:47 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.CnfAM.div.1">
+<title id="SAG.CnfAM.mkr.1">Anwendungen hinzuf&uuml;gen und verwalten</title>
+<para><indexterm><primary>Anwendungsmanager</primary><secondary>Beschreibung</secondary></indexterm>Beim Anwendungsmanager handelt es sich um den Desktop-Container
+f&uuml;r Anwendungen, die dem Benutzer zur Verf&uuml;gung stehen.</para>
+<informaltable id="SAG.CnfAM.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.13in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Struktur
+des Anwendungsmanagers44'--><xref role="JumpText" linkend="SAG.CnfAM.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Anwendungen
+zum Anwendungsmanager hinzuf&uuml;gen48'--><xref role="JumpText" linkend="SAG.CnfAM.mkr.6"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Allgemeine
+Gruppen von Anwendungen erstellen und verwalten51'--><xref role="JumpText"
+linkend="SAG.CnfAM.mkr.10"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Suchpfad
+f&uuml;r Anwendungen &auml;ndern53'--><xref role="JumpText" linkend="SAG.CnfAM.mkr.11"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Allgemeine
+Anwendungsmanagerverwaltung54'--><xref role="JumpText" linkend="SAG.CnfAM.mkr.13"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Texteditor
+und den Terminal-Emulator &auml;ndern55'--><xref role="JumpText" linkend="SAG.CnfAM.mkr.14"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="SAG.CnfAM.div.2">
+<title id="SAG.CnfAM.mkr.2">Struktur des Anwendungsmanagers</title>
+<para>Die oberste Ebene des Anwendungsmanagers enth&auml;lt im allgemeinen
+Verzeichnisse. Jedes dieser Verzeichnisse und dessen Inhalt wird als<indexterm>
+<primary>Anwendungsgruppen</primary><secondary>Definition</secondary></indexterm> <emphasis>Gruppe von Anwendungen</emphasis> bezeichnet.</para>
+<figure>
+<title>Gruppen von Anwendungen im Anwendungsmanager</title>
+<graphic id="SAG.CnfAM.grph.1" entityref="SAG.CnfAM.fig.1"></graphic>
+</figure>
+<para>Die Gruppen von Anwendungen und deren Inhalt werden aus vielen verschiedenen
+Positionen, sowohl lokal als auch im Netz, zusammengestellt.</para>
+<sect2 id="SAG.CnfAM.div.3">
+<title>Verzeichnisposition des Anwendungsmanagers<indexterm><primary>Anwendungsmanager</primary><secondary>Verzeichnisposition</secondary></indexterm></title>
+<para>Im Dateisystem handelt es sich beim Anwendungsmanager um das Verzeichnis <filename>/var/dt/appconfig/appmanager/</filename><symbol role="Variable">anmeldung-hostname-anzeige</symbol>. Dieses Verzeichnis wird bei der Anmeldung eines Benutzers dynamisch
+erstellt.</para>
+<para>Meldet sich beispielsweise der Benutzer <command>ronv</command> am Bildschirm <filename>wxyz:0</filename> an, wird f&uuml;r den Anwendungsmanager das Verzeichnis <filename>/var/dt/appconfig/appmanager/ronv-wxyz-0</filename> erstellt.</para>
+</sect2>
+<sect2 id="SAG.CnfAM.div.4">
+<title id="SAG.CnfAM.mkr.3">Wie der Anwendungsmanager Anwendungen sucht und
+zusammenstellt<indexterm><primary>Anwendungen</primary><secondary>im Anwendungsmanager
+zusammenstellen</secondary></indexterm><indexterm><primary>Anwendungsmanager</primary><secondary>Anwendungen zusammenstellen</secondary></indexterm><indexterm>
+<primary>Anwendungsgruppen</primary><secondary>zusammenstellen</secondary>
+</indexterm></title>
+<para>Der Anwendungsmanager wird aufgebaut, indem lokale und ferne Gruppen
+von Anwendungen zusammengestellt werden. Die Gruppen von Anwendungen werden
+aus Verzeichnissen zusammengestellt, die auf dem<indexterm><primary>Anwendungssuchpfad</primary><secondary>Anwendungen suchen und zusammenstellen</secondary></indexterm> Anwendungssuchpfad
+liegen.</para>
+<para>Der Standardanwendungssuchpfad besteht aus folgenden Positionen:<indexterm>
+<primary>Suchpfad</primary><secondary>Anwendungen</secondary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.22in">
+<colspec colwidth="4.77in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Bereich</para></entry><entry
+align="left" valign="bottom"><para>Position</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>integriert</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>systemweit</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>pers&ouml;nlich</para></entry>
+<entry align="left" valign="top"><para><symbol>Standardverzeichnis</symbol><filename>/.dt/appmanager</filename></para></entry></row></tbody></tgroup></informaltable>
+<para>Um die oberste Ebene des Anwendungsmanagers zu erstellen, werden zum
+Zeitpunkt der Anmeldung Verbindungen von den Gruppen von Anwendungen (Verzeichnisse),
+die sich in Verzeichnissen im Anwendungssuchpfad befinden, zum Anwendungsmanagerverzeichnis <filename>/var/dt/appconfig/appmanager/</filename><symbol role="Variable">anmeldung-hostname-anzeige</symbol> hergestellt. Dies erfolgt durch das Desktop-Dienstprogramm<indexterm>
+<primary>dtappgather Desktop-Dienstprogramm</primary></indexterm> <command>dtappgather</command>, das vom Anmeldemanager automatisch ausgef&uuml;hrt
+wird, nachdem sich der Benutzer erfolgreich angemeldet hat.</para>
+<para>Beispielsweise stellt das Desktop folgende integrierte Gruppe von Anwendungen
+zur Verf&uuml;gung:</para>
+<programlisting><filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol><filename>/Desktop_Werkzeuge</filename></programlisting>
+<para>Zum Zeitpunkt der Anmeldung wird<indexterm><primary>Anwendungsmanager</primary><secondary>symbolische Verbindungen</secondary></indexterm> eine
+symbolische Verbindung hergestellt zu:</para>
+<programlisting>/var/dt/appconfig/appmanager/anmeldung-hostname-anzeige/Desktop_Werkzeuge
+</programlisting>
+<para>Der Anwendungssuchpfad kann ferne Verzeichnisse einschlie&szlig;en.
+Dadurch k&ouml;nnen Gruppen von Anwendungen aus Systemen im gesamten Netz
+zusammengestellt werden. Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Anwendungs-Server dem Anwendungssuchpfad hinzuf&uuml;gen&rdquo;
+auf Seite&numsp;53'--><xref role="SecTitleAndPageNum" linkend="SAG.CnfAM.mkr.12">
+entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.CnfAM.div.5">
+<title>Vorrangsregeln beim Zusammenstellen von Anwendungen<indexterm><primary>Anwendungsmanager</primary><secondary>Vorrangsregeln</secondary></indexterm></title>
+<para>Sind Anwendungen im Suchpfad mehrfach vorhanden, haben f&uuml;r den
+einzelnen Benutzer definierte Gruppen von Anwendungen Vorrang vor f&uuml;r
+das System definierten Gruppen, und f&uuml;r das System definierte Gruppen
+haben Vorrang vor integrierten Gruppen. Sind beispielsweise sowohl <filename>/usr/dt/appconfig/appmanager/C/Desktop_Werkzeuge</filename> als auch <filename>/etc/dt/appconfig/appmanager/C/Desktop_Werkzeuge</filename> vorhanden, wird
+die Gruppe von Anwendungen unter <filename>/etc</filename> verwendet.</para>
+</sect2>
+<sect2 id="SAG.CnfAM.div.6">
+<title>Gruppen von Anwendungen, die mit dem Standard- Desktop zur Verf&uuml;gung
+gestellt werden<indexterm><primary>Anwendungsgruppen</primary><secondary>Standard</secondary></indexterm></title>
+<para>Das nicht angepa&szlig;te Desktop stellt vier Gruppen von Anwendungen
+zur Verf&uuml;gung:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Desktop_Anwendungen</para>
+</listitem>
+<listitem><para>Desktop_Werkzeuge</para>
+</listitem>
+<listitem><para>Informationen</para>
+</listitem>
+<listitem><para>Systemadministrator</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.7">
+<title>Beispiel f&uuml;r die Zusammenstellung von Gruppen von Anwendungen<indexterm>
+<primary>Anwendungen</primary><secondary>zusammenstellen</secondary></indexterm></title>
+<para><!--Original XRef content: 'Abbildung&numsp;3&hyphen;2'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.CnfAM.mkr.4"> zeigt ein Anwendungsmanagerfenster mit verschiedenen
+Gruppen von Anwendungen. <!--Original XRef content: 'Tabelle&numsp;3&hyphen;1'--><xref
+role="CodeOrFigureOrTable" linkend="SAG.CnfAM.mkr.5"> zeigt die Verzeichnisse,
+aus denen die Gruppen von Anwendungen zusammengestellt werden.</para>
+<figure>
+<title id="SAG.CnfAM.mkr.4">Ein typisches Anwendungsmanagerfenster</title>
+<graphic id="SAG.CnfAM.grph.2" entityref="SAG.CnfAM.fig.2"></graphic>
+</figure>
+<table id="SAG.CnfAM.tbl.1" frame="Topbot">
+<title id="SAG.CnfAM.mkr.5">Quelle der Gruppen von Anwendungen in <!--Original
+XRef content: 'Abbildung&numsp;3&hyphen;2'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.CnfAM.mkr.4"></title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.00in">
+<colspec colwidth="5.00in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Name</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Verzeichnis</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>CAD_Anwendungen</para></entry>
+<entry align="left" valign="top"><para><filename>/net/ApServA/etc/dt/appconfig/appmanager/C/CAD_App</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Zeichen_Anwendungen</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/C/DrawingApp</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Desktop_Anwendungen</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/C/Desktop_Apps</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Desktop_Werkzeuge</para></entry>
+<entry align="left" valign="top"><para>/<filename>usr/dt/appconfig/appmanager/C/Desktop_Tools</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Informationen</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/C/Information</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Systemadministrator</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/C/System_Admin</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Tabellenkalkulation</para></entry>
+<entry align="left" valign="top"><para><filename>/users/anna/.dt/appmanager/MySpreadSheet</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Medien_Werkzeuge</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/C/</filename><command>Media_Tools</command></para></entry></row></tbody></tgroup>
+</table>
+<para>Wurden die Gruppen von Anwendungen Informationen oder Systemadministrator
+angepa&szlig;t, werden sie stattdessen aus <filename>/etc/dt/appconfig/appmanager/C</filename> erstellt.</para>
+<para>Die Gruppe <structname>CAD_Anwendungen</structname> wird bei der Zusammenstellung
+erfa&szlig;t, weil ein System mit dem Namen <command>ApServA</command> zum
+Anwendungssuchpfad hinzugef&uuml;gt wurde (Abschnitt <!--Original XRef content:
+'&ldquo;Anwendungs-Server
+dem Anwendungssuchpfad hinzuf&uuml;gen&rdquo; auf Seite&numsp;53'--><xref
+role="SecTitleAndPageNum" linkend="SAG.CnfAM.mkr.12">). Bei der Tabellenkalkulation
+handelt es sich um eine f&uuml;r den einzelnen Benutzer definierte Gruppe
+von Anwendungen, die nur dem Benutzer <command>anna</command> zur Verf&uuml;gung
+steht.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.8">
+<title id="SAG.CnfAM.mkr.6">Anwendungen zum Anwendungsmanager hinzuf&uuml;gen<indexterm>
+<primary>Anwendungen</primary><secondary>dem Anwendungsmanager hinzuf&uuml;gen</secondary></indexterm><indexterm><primary>Anwendungsmanager</primary><secondary>Anwendungen hinzuf&uuml;gen</secondary></indexterm></title>
+<para>Wurde eine Anwendung zum Anwendungsmanager hinzugef&uuml;gt, erscheint
+ein Symbol in einer Gruppe von Anwendungen, &uuml;ber das diese Anwendung
+gestartet wird.</para>
+<para>Viele Anwendungen stellen eine Gruppe von Anwendungen zur Verf&uuml;gung.
+Bei der Gruppe von Anwendungen handelt es sich um ein Verzeichnis auf der
+obersten Ebene des Anwendungsmanagers, das das Anwendungssymbol sowie weitere
+der Anwendung zugeh&ouml;rige Dateien enth&auml;lt.</para>
+<para>Einige Anwendungen verf&uuml;gen m&ouml;glicherweise nicht &uuml;ber
+eine eigene Gruppe von Anwendungen. Stattdessen befindet sich das Symbol,
+mit dem diese Anwendung gestartet wird, in einer allgemeinen Gruppe von Anwendungen.
+Beispielsweise kann der Benutzer eine leere Gruppe von Anwendungen mit dem
+Namen &ldquo;Spiele&rdquo; erstellen, die als Container f&uuml;r alle Spiele,
+die am System installiert werden, verwendet werden kann.</para>
+<sect2 id="SAG.CnfAM.div.9">
+<title>Verschiedene M&ouml;glichkeiten, Anwendungen zum Anwendungsmanager
+hinzuzuf&uuml;gen<indexterm><primary>Anwendungen</primary><secondary>hinzuf&uuml;gen</secondary></indexterm></title>
+<para>Es gibt zwei verschiedene M&ouml;glichkeiten, eine Anwendung dem Anwendungsmanager
+hinzuzuf&uuml;gen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Registrierung der Anwendung</para>
+</listitem>
+<listitem><para>Hinzuf&uuml;gen eines Anwendungssymbols ohne Registrierung
+der Anwendung</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.CnfAM.div.10">
+<title>Registrierung der Anwendung<indexterm><primary>Registrierung</primary>
+<secondary>Definition</secondary></indexterm></title>
+<para>Die Registrierung der Anwendung stellt die vollst&auml;ndige Integration
+der Anwendung zur Verf&uuml;gung.</para>
+<para><indexterm><primary>Anwendungen</primary><secondary>Registrierung</secondary>
+</indexterm>Eine registrierte Anwendung:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>hat ihre eigenen Gruppen von Anwendungen.</para>
+</listitem>
+<listitem><para>ist eine Anwendung, bei der die Desktop-Konfigurationsdateien
+an einer Position zusammengestellt sind. Diese Gruppe von Desktop-Konfigurationsdateien
+wird <emphasis><indexterm><primary>Registrierungspaket</primary></indexterm>Registrierungspaket</emphasis> genannt.</para>
+</listitem>
+<listitem><para>verf&uuml;gt m&ouml;glicherweise &uuml;ber einen registrierten
+Hilfeband.</para>
+</listitem>
+</itemizedlist>
+<para>Es gibt zwei M&ouml;glichkeiten, eine Anwendung zu registrieren:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Wird eine Desktop-f&auml;hige Anwendung installiert, wird
+automatisch eine Registrierung durchgef&uuml;hrt. Weitere Informationen k&ouml;nnen
+dem Abschnitt <!--Original XRef content:
+'&ldquo;Desktop-f&auml;hige Anwendungen zum Anwendungsmanager hinzuf&uuml;gen&rdquo;
+ auf Seite&numsp;50'--><xref role="SecTitleAndPageNum" linkend="SAG.CnfAM.mkr.7">
+entnommen werden.</para>
+</listitem>
+<listitem><para>Eine bereits vorhandene Anwendung kann durch Erstellen eines
+Registrierungspakets registriert werden. Weitere Informationen k&ouml;nnen
+dem Abschnitt <!--Original XRef content: '&ldquo;Eine bereits vorhandene
+oder eine nicht Desktop-f&auml;hige Anwendung registrieren&rdquo; auf Seite&numsp;50'--><xref
+role="SecTitleAndPageNum" linkend="SAG.CnfAM.mkr.8"> entnommen werden.</para>
+</listitem>
+</itemizedlist>
+<para>Die Verwendung eines Registrierungspakets vereinfacht die Verwaltung
+einer Anwendung auf dem Desktop. Das Registrierungspaket darf nicht an derselben
+Stelle im Dateisystem erstellt werden, an der sich die Desktop-Konfigurationsdateien
+befinden.</para>
+</sect3>
+<sect3 id="SAG.CnfAM.div.11">
+<title>Anwendungen ohne ein Registrierungspaket hinzuf&uuml;gen</title>
+<para>Soll der Anwendungsmanager nur ein Symbol zum Starten der Anwendung
+enthalten, wird diese Art und Weise, eine Anwendung hinzuzuf&uuml;gen, bevorzugt.
+</para>
+<para><indexterm><primary>Anwendungen</primary><secondary>ohne Registrierungspaket
+hinzuf&uuml;gen</secondary></indexterm>Eine Anwendung, die ohne ein Registrierungspaket
+hinzugef&uuml;gt wird,</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>hat m&ouml;glicherweise eine eigene Gruppe von Anwendungen,
+aber normalerweise wird das Symbol in eine bereits vorhandene Gruppe von Anwendungen
+gestellt.</para>
+</listitem>
+<listitem><para>ist eine Anwendung, deren Desktop-Konfigurationsdateien sich
+direkt in den Suchpfaden des Desktops befinden.</para>
+</listitem>
+</itemizedlist>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Anwendungssymbole einer bereits vorhandenen Gruppe von Anwendungen
+hinzuf&uuml;gen&rdquo; auf Seite&numsp;50'--><xref role="SecTitleAndPageNum"
+linkend="SAG.CnfAM.mkr.9"> entnommen werden.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.CnfAM.div.12" role="Procedure">
+<title id="SAG.CnfAM.mkr.7">Desktop-f&auml;hige Anwendungen zum Anwendungsmanager
+hinzuf&uuml;gen<indexterm><primary>Anwendungen</primary><secondary>Desktop-f&auml;hig</secondary></indexterm><indexterm><primary>Desktop-f&auml;hige Anwendung</primary></indexterm></title>
+<para>Bei einer Desktop-f&auml;higen Anwendung handelt es sich um eine Anwendung,
+die bei der Installation automatisch im Anwendungsmanager registriert wird.
+Die Dateigruppen der Anwendung enthalten auch das f&uuml;r das Desktop erforderliche
+Registrierungspaket.</para>
+<orderedlist>
+<listitem><para>Die Anwendung mit den mitgelieferten Instruktionen installieren.
+</para>
+</listitem>
+<listitem><para>Nachdem die Installation vollst&auml;ndig ausgef&uuml;hrt
+ist, 'Anwendungen erneut laden' in der Gruppe von Anwendungen 'Desktop-Werkzeuge'
+doppelt anklicken.</para>
+</listitem>
+<listitem><para>&Uuml;berpr&uuml;fen, ob die Installation vollst&auml;ndig
+ausgef&uuml;hrt ist.</para>
+<itemizedlist>
+<listitem><para>Den Anwendungsmanager &ouml;ffnen und &uuml;berpr&uuml;fen,
+ob die neue Gruppe von Anwendungen vorhanden ist.</para>
+</listitem>
+<listitem><para>Um die Anwendung zu &ouml;ffnen, die Gruppe von Anwendungen
+&ouml;ffnen und das Symbol der Anwendung doppelt anklicken.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.13" role="Procedure">
+<title id="SAG.CnfAM.mkr.8">Eine bereits vorhandene oder eine nicht Desktop-f&auml;hige
+Anwendung registrieren</title>
+<para>Hierbei handelt es sich um die bevorzugte Art und Weise, eine Anwendung
+auf dem Desktop vollst&auml;ndig zu integrieren.</para>
+<para>Das Desktop stellt ein Werkzeug, <command>dtappintegrate</command>,
+zur Verf&uuml;gung, das Verbindungen zwischen den Registrierungspaketdateien
+und den Verzeichnissen im Suchpfad des Desktops herstellt.</para>
+<para>Die Registrierung auf dem Desktop wird in <!--Original XRef content:
+'Kapitel&numsp;4, &ldquo;Eine Anwendung registrieren'--><xref role="ChapNumAndTitle"
+linkend="SAG.RegAp.mkr.1"> n&auml;her erl&auml;utert.</para>
+</sect2>
+<sect2 id="SAG.CnfAM.div.14" role="Procedure">
+<title id="SAG.CnfAM.mkr.9">Anwendungssymbole einer bereits vorhandenen Gruppe
+von Anwendungen hinzuf&uuml;gen</title>
+<para>In diesem Abschnitt wird erl&auml;utert, wie ein Anwendungssymbol zu
+einer bereits vorhandenen Gruppe von Anwendungen hinzugef&uuml;gt wird.</para>
+<para>Beispielsweise stellt das Desktop eine Gruppe von Anwendungen mit dem
+Namen 'Systemadministrator' zur Verf&uuml;gung, die f&uuml;r verschiedene
+Anwendungen und Prozeduren der Systemverwaltung reserviert ist. Bei einer
+Prozedur, die von Benutzern h&auml;ufig ausgef&uuml;hrt wird, besteht m&ouml;glicherweise
+der Wunsch, diese Prozedur durch Doppelklicken auf einem Symbol in der Gruppe
+von Anwendungen 'Systemadministrator' auszuf&uuml;hren.</para>
+<orderedlist>
+<listitem><para>Mit 'Aktion erstellen' kann eine Aktionsdefinition f&uuml;r
+die Anwendung erstellt werden.</para>
+<para>Weitere Informationen zu Aktionen erstellen k&ouml;nnen <!--Original
+XRef content: 'Kapitel&numsp;9, &ldquo;Aktionen und Datentypen mit 'Aktion
+erstellen' erstellen'--><xref role="ChapNumAndTitle" linkend="SAG.dtCrA.mkr.1">
+entnommen werden.</para>
+</listitem>
+<listitem><para>Eine ausf&uuml;hrbare Datei mit demselben Namen wie dem Aktionsnamen
+in dem Verzeichnis f&uuml;r die Gruppe von Anwendungen erstellen. Der Inhalt
+der Datei ist irrelevant.</para>
+<para>Wurde beispielsweise eine Aktion mit dem Namen &ldquo;Bereinigung&rdquo;
+erstellt, die ein Systemverwaltungswerkzeug ausf&uuml;hrt, mu&szlig; die ausf&uuml;hrbare
+Datei <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol><filename>/System_Admin/Bereinigung</filename> erstellt werden.
+</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.15">
+<title id="SAG.CnfAM.mkr.10">Allgemeine Gruppen von Anwendungen<indexterm>
+<primary>Anwendungsgruppen</primary><secondary>verwalten</secondary></indexterm> erstellen
+und verwalten</title>
+<para>Bei einer allgemeinen Anwendung handelt es sich um eine Gruppe von Anwendungen
+(Verzeichnis), die nicht einem bestimmten Anwendungsprodukt zugeordnet ist.
+Beispielsweise handelt es sich bei der integrierten Gruppe von Anwendungen
+&ldquo;Desktop_Werkzeug&rdquo; um eine allgemeine Gruppe, die Symbole f&uuml;r
+eine gro&szlig;e Anzahl von Anwendungen enth&auml;lt, zwischen denen zwar
+Beziehungen bestehen, die aber nicht Bestandteil eines einzigen Produkts sind.
+</para>
+<para>Es k&ouml;nnen zus&auml;tzliche allgemeine Gruppen von Anwendungen erstellt
+werden. Beispielsweise k&ouml;nnte der Benutzer eine Gruppe mit dem Namen
+Spiele erstellen, in die er alle am System verf&uuml;gbaren Spiele stellt.
+</para>
+<para>Eine allgemeine Gruppe von Anwendungen kann sowohl f&uuml;r das System
+als auch f&uuml;r den einzelnen Benutzer definiert werden.</para>
+<sect2 id="SAG.CnfAM.div.16" role="Procedure">
+<title>Eine f&uuml;r das System definierte allgemeine Gruppe von Anwendungen
+erstellen<indexterm><primary>Anwendungsgruppen</primary><secondary>systemweit</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Als Benutzer 'root' anmelden.</para>
+</listitem>
+<listitem><para>Ein Verzeichnis in <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol> erstellen.</para>
+<para>Der Name des Verzeichnisses wird zum Namen der<indexterm><primary>Anwendungsgruppen</primary><secondary>benennen</secondary></indexterm><indexterm>
+<primary>Gruppen von Anwendungen</primary><secondary>benennen</secondary>
+</indexterm> Gruppe von Anwendungen.</para>
+</listitem>
+<listitem><para>Auf &ldquo;Anwendungen erneut laden&rdquo; in der Gruppe von
+Anwendungen &ldquo;Desktop-Werkzeuge&rdquo; doppelklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.17" role="Procedure">
+<title>Eine f&uuml;r den einzelnen Benutzer definierte allgemeine Gruppe von
+Anwendungen erstellen<indexterm><primary>Pers&ouml;nliche Anwendungsgruppe</primary></indexterm><indexterm><primary>Pers&ouml;nliche Gruppe von Anwendungen</primary></indexterm><indexterm><primary>Anwendungsgruppen</primary><secondary>pers&ouml;nlich</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Ein Verzeichnis in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/appmanager</filename> erstellen.</para>
+<para>Der Name des Verzeichnisses wird zum Namen der Gruppe von Anwendungen.
+</para>
+</listitem>
+<listitem><para>Auf &ldquo;Anwendungen erneut laden&rdquo; in der Gruppe von
+Anwendungen &ldquo;Desktop-Werkzeuge&rdquo; doppelklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.18" role="Procedure">
+<title>Eine integrierte Gruppe von Anwendungen anpassen<indexterm><primary>Anwendungsgruppen</primary><secondary>anpassen</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Als Benutzer &ldquo;root&rdquo; anmelden.</para>
+</listitem>
+<listitem><para>Befindet sich die Gruppe von Anwendungen in <filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol>, die Gruppe von Anwendungen
+in /<filename>etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol> kopieren.</para>
+<para><indexterm><primary>Desktop_Tools Anwendungsgruppe &auml;ndern</primary>
+</indexterm>Der folgende Befehl kopiert beispielsweise die Gruppe von Anwendungen
+&ldquo;Desktop-Werkzeuge&rdquo;:</para>
+<programlisting remap="CodeIndent1"> cp -r /usr/dt/appconfig/appmanager/C/Desktop_Tools /etc/dt/appconfig/appmanager/C
+</programlisting>
+<para>Die neue Kopie der Gruppe von Anwendungen hat Vorrang vor der integrierten
+Version.</para>
+</listitem>
+<listitem><para>Die Kopie der Gruppe von Anwendungen &auml;ndern. So k&ouml;nnen
+beispielsweise neue Aktionsdateien (ausf&uuml;hrbare Dateien mit demselben
+Namen wie Aktionen) hinzugef&uuml;gt werden.</para>
+</listitem>
+<listitem><para>Damit die &Auml;nderungen sichtbar werden, mu&szlig; der Benutzer
+sich ab- und wieder anmelden.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.19">
+<title id="SAG.CnfAM.mkr.11">Suchpfad f&uuml;r Anwendungen &auml;ndern<indexterm>
+<primary>Anwendungssuchpfad</primary><secondary>&auml;ndern</secondary></indexterm></title>
+<para>Der wichtigste Grund f&uuml;r die &Auml;nderung des Anwendungssuchpfads
+ist das Hinzuf&uuml;gen eines<indexterm><primary>Anwendungsgruppe</primary>
+<secondary>benennen</secondary></indexterm> Anwendungs-Servers. Wird ein Anwendungs-Server
+zum Suchpfad hinzugef&uuml;gt, stellt der Anwendungsmanager alle f&uuml;r
+das System definierten Gruppen von Anwendungen des Servers zusammen.</para>
+<para>Weitere Informationen zum Anwendungssuchpfad k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Anwendungssuchpfad&rdquo; auf Seite&numsp;131'--><xref
+role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.8"> entnommen werden.</para>
+<sect2 id="SAG.CnfAM.div.20">
+<title>Standardsuchpfad<indexterm><primary>Anwendungssuchpfad</primary><secondary>Standard</secondary></indexterm></title>
+<para>Der Standardanwendungssuchpfad enth&auml;lt die folgendenVerzeichnisse:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.22in">
+<colspec colwidth="4.73in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Bereich</para></entry><entry
+align="left" valign="bottom"><para>Suchpfadverzeichnis</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>pers&ouml;nlich</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/appmanager</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>systemweit</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>integriert</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.CnfAM.div.21">
+<title id="SAG.CnfAM.mkr.12">Anwendungs-Server dem Anwendungssuchpfad hinzuf&uuml;gen<indexterm>
+<primary>Anwendungssuchpfad</primary><secondary>Anwendungs-Server hinzuf&uuml;gen</secondary></indexterm></title>
+<para>Zus&auml;tzlich zu der &Auml;nderung des Anwendungssuchpfads ist es
+m&ouml;glicherweise n&ouml;tig, zus&auml;tzliche Konfiguration-Aufgaben auszuf&uuml;hren,
+um die Kommunikation mit dem Anwendungs-Server zu erm&ouml;glichen. Weitere
+Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content: '&ldquo;Anwendungs-Services
+verwalten&rdquo; auf Seite&numsp;111'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.15">
+entnommen werden.</para>
+<sect3 id="SAG.CnfAM.div.22" role="Procedure">
+<title>Einen f&uuml;r das System definierten<indexterm><primary>Anwendungssuchpfad</primary><secondary>systemweit</secondary></indexterm> Anwendungssuchpfad
+setzen</title>
+<orderedlist>
+<listitem><para>Als Benutzer 'root' anmelden.</para>
+</listitem>
+<listitem><para>Ist die Datei /<filename>etc/dt/config/Xsession.d/0010.dtpaths</filename> nicht vorhanden, wird sie durch Kopieren von <filename>/usr/dt/config/Xsession.d/0010.dtpaths</filename> erstellt.</para>
+</listitem>
+<listitem><para>/<filename>etc/dt/Xsession.d/0010.paths</filename> zum Bearbeiten
+&ouml;ffnen. Eine Zeile mit der Variablen <systemitem>DTSPSYSAPPHOSTS</systemitem><indexterm>
+<primary>DTSPSYSAPPHOSTS Variable</primary><secondary>&auml;ndern</secondary>
+</indexterm> bearbeiten oder hinzuf&uuml;gen:</para>
+<programlisting>export DTSPSYSAPPHOSTS=hostname:[,hostname]</programlisting>
+<para>Die folgende Zeile f&uuml;gt beispielsweise das System <command>ApServA</command> zum Anwendungssuchpfad hinzu:</para>
+<programlisting remap="CodeIndent1">export DTSPSYSAPPHOSTS=ApServA:</programlisting>
+</listitem>
+<listitem><para>Alle Benutzer am System m&uuml;ssen dar&uuml;ber informiert
+werden, da&szlig; sie sich ab- und wieder anmelden m&uuml;ssen, damit die
+&Auml;nderung sichtbar wird.</para>
+</listitem>
+</orderedlist>
+</sect3>
+<sect3 id="SAG.CnfAM.div.23" role="Procedure">
+<title>Einen f&uuml;r den einzelnen Benutzer definierten Anwendungssuchpfad
+setzen<indexterm><primary>Anwendungssuchpfad</primary><secondary>pers&ouml;nlich</secondary></indexterm></title>
+<orderedlist>
+<listitem><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> zum Bearbeiten &ouml;ffnen.</para>
+</listitem>
+<listitem><para>Eine Zeile mit der Variablen <systemitem>DTSPSYSAPPHOSTS</systemitem><indexterm><primary>DTSPUSERAPPHOSTS Variable</primary><secondary>&auml;ndern</secondary></indexterm>
+bearbeiten oder hinzuf&uuml;gen:</para>
+<programlisting remap="CodeIndent1"> DTSPUSERAPPHOSTS=hostname:[,hostname]
+</programlisting>
+<para>Die folgende Zeile f&uuml;gt beispielsweise die Systeme <command>ApServB</command> und <command>ApServC</command> zum Anwendungssuchpfad hinzu:</para>
+<programlisting remap="CodeIndent1"> DTSPUSERAPPHOSTS=ApServB:,ApServC:</programlisting>
+</listitem>
+<listitem><para>Ab- und wieder anmelden.</para>
+</listitem>
+</orderedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.24">
+<title id="SAG.CnfAM.mkr.13">Allgemeine Anwendungsmanagerverwaltung<indexterm>
+<primary>Anwendungsmanager</primary><secondary>Allgemeine Verwaltung des</secondary>
+</indexterm></title>
+<para>Zur allgemeinen Anwendungsmanagerverwaltung geh&ouml;ren:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>das Entfernen einer Anwendung</para>
+</listitem>
+<listitem><para>das erneute Lesen der Datenbank f&uuml;r Anwendungen w&auml;hrend
+einer Session</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.CnfAM.div.25" role="Procedure">
+<title>Anwendung entfernen<indexterm><primary>Pers&ouml;nliche Anwendungsgruppen</primary></indexterm><indexterm><primary>Anwendungen</primary><secondary>entfernen</secondary></indexterm></title>
+<para>Wurde eine Anwendung mit dem Werkzeug <command>dtappintegrate</command>
+registriert, kann dieser Proze&szlig; mit <command>dtappintegrate</command>
+auch wieder r&uuml;ckg&auml;ngig gemacht werden. Ist eine Anwendung nicht
+registriert, wird ihre Gruppe von Anwendungen aus dem Anwendungsmanager entfernt
+und ihre Aktionen, Datentypen, Symbole und Hilfe sind nicht l&auml;nger verf&uuml;gbar.
+</para>
+<orderedlist>
+<listitem><para>Als Benutzer 'root' anmelden.</para>
+</listitem>
+<listitem><para><indexterm><primary>dtappintegrate</primary><secondary>Anwendung
+entfernen</secondary></indexterm>Folgenden Befehl ausf&uuml;hren:</para>
+<para remap="CodeIndent1"><command>dtappintegrate -s <symbol role="Variable">app_root</symbol> -u</command></para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.26" role="Procedure">
+<title>Anwendungsmanager w&auml;hrend einer Session aktualisieren<indexterm>
+<primary>Anwendungsmanager</primary><secondary>aktualisieren</secondary></indexterm></title>
+<para><indexterm><primary>Anwendungen</primary><secondary>neu laden</secondary>
+</indexterm>Werden Anwendungen zum Anwendungsmanager hinzugef&uuml;gt und
+sollen diese &Auml;nderungen sofort sichtbar werden, mu&szlig; der Anwendungsmanager
+erneut generiert werden.</para>
+<itemizedlist>
+<listitem><para>Die Gruppe von Anwendungen &ldquo;Desktop_Werkzeuge&rdquo;
+&ouml;ffnen und auf &ldquo;Anwendungen erneut laden&rdquo; doppelt klicken.
+</para>
+</listitem>
+</itemizedlist>
+<para>Die Aktion&ldquo;Anwendungen erneut laden&rdquo; kann zum Aktualisieren
+des Anwendungsmanagers verwendet werden, wenn Anwendungen zu einem Anwendungs-Server
+hinzugef&uuml;gt werden. Aber<indexterm><primary>Anwendungen Erneut Laden
+Aktion</primary></indexterm> &ldquo;Anwendungen erneut laden&rdquo; stellt
+nicht fest, da&szlig; Anwendungen vom Anwendungs-Server entfernt wurden oder
+von einer Position zu einer anderen verschoben wurden. Diese &Auml;nderungen
+werden erst sichtbar, wenn der Benutzer sich ab- und wieder anmeldet.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.27">
+<title id="SAG.CnfAM.mkr.14">Texteditor und den Terminal-Emulator &auml;ndern<indexterm>
+<primary>Text-Editor</primary><secondary>&auml;ndern</secondary></indexterm><indexterm>
+<primary>Terminal-Emulator</primary><secondary>&auml;ndern</secondary></indexterm></title>
+<para>Sowohl die Anwendung &ldquo;Texteditor&rdquo; als auch die Anwendung
+&ldquo;Terminal-Emulator&rdquo; k&ouml;nnen durch Auswahl eines Bedienelements
+im Bedienfeld oder durch Doppelklicken eines Symbols im Anwendungsmanager
+gestartet werden.</para>
+<para>Diese Anwendungen k&ouml;nnen auch durch andere Desktop-Aktivit&auml;ten
+gestartet werden.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die Anwendung 'Texteditor' wird ge&ouml;ffnet, wenn der Benutzer
+eine Textdatei im Dateimanager ausw&auml;hlt und im Men&uuml; 'Ausgew&auml;hlt
+&Ouml;ffne'&rdquo; ausw&auml;hlt. Der Standard-Texteditor ist <command>dtpad</command>.</para>
+</listitem>
+<listitem><para>Ein Terminal-Emulator wird ausgef&uuml;hrt, wenn ein Benutzer
+im Men&uuml; 'Datei' des Dateimanagers 'Terminal-Fenster &Ouml;ffnen' ausw&auml;hlt,
+oder wenn eine Aktion ein Terminal-Emulator-Fenster &ouml;ffnet. Der Standard-Terminal-Emulator
+ist <command>dtterm</command>.</para>
+</listitem>
+</itemizedlist>
+<para>Das Desktop kann so konfiguriert werden, da&szlig; in diesen Situationen
+ein anderer Texteditor oder ein anderer Terminal-Emulator verwendet wird.
+</para>
+<sect2 id="SAG.CnfAM.div.28" role="Procedure">
+<title>Den standardm&auml;&szlig;igen Texteditor oder Terminal-Emulator &auml;ndern</title>
+<orderedlist>
+<listitem><para>Soll die &Auml;nderung f&uuml;r das gesamte System gelten,
+als Benutzer 'root' anmelden.</para>
+</listitem>
+<listitem><para>Eine Aktion f&uuml;r den neuen Texteditor oder Terminal-Emulator
+erstellen.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Hierf&uuml;r kann die Anwendung 'Aktion erstellen' verwendet
+werden. Abbildung 3-3 zeigt ein Fenster 'Aktion erstellen', in dem eine Anwendung
+mit dem Namen TextPad angegeben ist. Weitere Informationen zu 'Aktion erstellen'
+k&ouml;nnen <!--Original XRef content:
+'Kapitel&numsp;9, &ldquo;Aktionen und Datentyp--><!--en mit 'Aktion erstellen'
+erstellen'--><xref role="ChapNumAndTitle" linkend="sag.dtcra.mkr.1"> entnommen
+werden.</para>
+<figure>
+<title><indexterm><primary>Anwendungsmanager</primary><secondary>allgemeine
+Verwaltung</secondary></indexterm>Fenster Aktion erstellen</title>
+<graphic id="sag.cnfam.grph.3" entityref="SAG.CnfAM.fig.3"></graphic>
+</figure>
+</listitem>
+<listitem><para><emphasis role="Variable">Oder aber</emphasis>, der Benutzer
+erstellt die Aktionsdefinition manuell, zum Beispiel:</para>
+<programlisting remap="CodeIndent2">ACTION TextPad 
+{
+   LABEL         TextPad 
+   TYPE          COMMAND   
+   EXEC_STRING   /usr/TP/bin/TextPad %(File)Arg_1%   
+   DESCRIPTION   Dieses Symbol doppelklicken, um \    
+                 die Anwendung TextPad zu starten. 
+}</programlisting>
+<para>Weitere Informationen zum manuellen Erstellen von Aktionsdefinitionen
+k&ouml;nnen <!--Original XRef content: 'Kapitel&numsp;10, &ldquo;Aktionen
+manuell ers--><!--tellen'--><xref role="ChapNumAndTitle" linkend="sag.cract.mkr.1">
+entnommen werden.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Die Konfigurationsdatei mit der neuen Aktion in das entsprechende
+Verzeichnis stellen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Ist die zutreffende Datei<indexterm><primary>user-prefs.dt
+Datei</primary></indexterm> <filename>user-prefs.dt</filename> nicht bereits
+vorhanden, wird sie durch Kopieren von <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/user-prefs.dt</filename> in folgende Verzeichnisse gestellt:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>systemweit: Verzeichnis <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol></filename></para>
+</listitem>
+<listitem><para>pers&ouml;nlich: Verzeichnis <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Die Texteditor- oder Terminal-Aktion in der systemweiten oder
+pers&ouml;nlichen Datei <filename>user-prefs.dt</filename> bearbeiten. Die
+Zeile <filename>MAP_ACTION</filename> so &auml;ndern, da&szlig; die Aktion
+an die neue Aktion adressiert wird.</para>
+<para>Beispielsweise kann die Zeile</para>
+<para remap="CodeIndent1"><computeroutput>MAP_ACTION Dtpad</computeroutput></para>
+<para>wie folgt ge&auml;ndert werden:</para>
+<para remap="CodeIndent1"><computeroutput>MAP_ACTION TextPad</computeroutput></para>
+</listitem>
+<listitem><para>Die Datei <filename>user-prefs.dt</filename> sichern.</para>
+</listitem>
+<listitem><para>Auf 'Aktionen erneut laden' in der Gruppe von Anwendungen
+'Desktop_Werkzeuge' doppelklicken, um die Datenbank f&uuml;r Aktionen erneut
+zu laden.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+<?Pub *0000046302>

@@ -1,0 +1,931 @@
+<!-- $XConsortium: ch11.sgm /main/11 1996/12/21 18:26:24 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.CrDT.div.1">
+<title id="SAG.CrDT.mkr.1">Datentypen manuell erstellen</title>
+<para><indexterm><primary>Datentypen</primary><secondary>manuell erstellen</secondary></indexterm>Es gibt zwei M&ouml;glichkeiten, eine Datentypdefinition
+zu erstellen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>in dem Werkzeug 'Aktion erstellen'. Die Verwendung von 'Aktion
+erstellen' wird in <!--Original XRef content:
+'Kapitel&numsp;9, &ldquo;Aktionen und Datentypen mit 'Aktion erstellen'
+erstellen'--><xref role="ChapNumAndTitle" linkend="SAG.dtCrA.mkr.1"> ausf&uuml;hrlich
+behandelt.</para>
+</listitem>
+<listitem><para>die Datentypdefinition manuell erstellen.</para>
+</listitem>
+</itemizedlist>
+<para>Um einen Datentyp manuell zu erstellen, ist es erforderlich, eine Datenbankdatei
+zu bearbeiten.</para>
+<para>Im folgenden Kapitel wird beschrieben, wie Datentypdefinitionen manuell
+erstellt werden.</para>
+<informaltable id="SAG.CrDT.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Gr&uuml;nde,
+einen Datentyp manuell zu erstellen206'--><xref role="JumpText" linkend="SAG.CrDT.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Komponenten
+einer Datentypdefinition: Kriterien und Attribute206'--><xref role="JumpText"
+linkend="SAG.CrDT.mkr.3"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Datentyp
+manuell erstellen: Allgemeine Schritte207'--><xref role="JumpText" linkend="SAG.CrDT.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Beispiel
+f&uuml;r die Erstellung einer pers&ouml;nlichen Aktion und eines Datentyps209'--><xref
+role="JumpText" linkend="SAG.CrDT.mkr.7"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Datenkriterien
+f&uuml;r einen Datentyp definieren213'--><xref role="JumpText" linkend="SAG.CrDT.mkr.11"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="SAG.CrDT.div.2">
+<title>Weiterf&uuml;hrende Informationen</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Eine Einf&uuml;hrung in Datentypen enth&auml;lt <!--Original
+XRef content: 'Kapitel&numsp;8, &ldquo;Einf&uuml;hrung
+in Aktionen und Datentypen'--><xref role="ChapNumAndTitle" linkend="SAG.IntAc.mkr.1">.
+</para>
+</listitem>
+<listitem><para>Referenzinformationen zu Datentypdefinitionen k&ouml;nnen
+der Hilfeseite <filename>dtdtsfile(4)</filename> entnommen werden.</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.CrDT.div.3">
+<title id="SAG.CrDT.mkr.2">Gr&uuml;nde, einen Datentyp manuell zu erstellen</title>
+<para>Wird ein Datentyp manuell erstellt, k&ouml;nnen alle M&ouml;glichkeiten,
+die die Syntax von Datentypdefinitionen bietet, ausgesch&ouml;pft werden.
+</para>
+<para><indexterm><primary>Datentypen</primary><secondary>Erfordernisse f&uuml;r
+manuelle Erstellung</secondary></indexterm>Sollen die folgenden Merkmale von
+Datentypen verwendet werden, mu&szlig; der Datentyp manuell erstellt werden:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Datentypzuordnung auf der Grundlage der Position (des Pfads).
+</para>
+</listitem>
+<listitem><para>Die M&ouml;glichkeit, dem Datentyp neben '&Ouml;ffnen' und
+'Drucken' weitere Aktionen zuzuordnen.</para>
+</listitem>
+<listitem><para>Mehrere Namens-, Muster- oder Inhaltskriterien werden f&uuml;r
+denselben Datentyp, beispielsweise ein Datentyp, der auf Dateien mit der Erweiterung <filename>*.abc</filename> oder <filename>*.def</filename> endet, verwendet.</para>
+</listitem>
+<listitem><para>Datentypzuordnung auf der Grundlage von Verweisen.</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.CrDT.div.4">
+<title id="SAG.CrDT.mkr.3">Komponenten einer Datentypdefinition: Kriterien
+und Attribute</title>
+<para>Eine Datentypdefinition besteht aus zwei separaten Datenbankdefinitionen:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Der Definition<indexterm><primary>DATA_ATTRIBUTES</primary>
+<secondary>Definition</secondary></indexterm> <filename>DATA_ATTRIBUTES</filename>.
+</para>
+<para>DerDefinition <filename>DATA_ATTRIBUTES</filename> beschreibt den Namen
+des Datentyps und das Erscheinungsbild und Verhalten von Dateien dieses Typs.
+</para>
+</listitem>
+<listitem><para>Die Definition <filename><indexterm><primary>DATA_CRITERIA</primary><secondary>Definition</secondary></indexterm>DATA_CRITERIA</filename>.
+</para>
+<para>Die Definition <filename>DATA_CRITERIA</filename> beschreibt, nach welchen
+Kriterien der Datentyp zugeordnet wird. Jede Kriteriendefinition gibt an,
+auf welche <filename>DATA_ATTRIBUTES</filename> Definition die Kriterien angewendet
+werden.</para>
+</listitem>
+</itemizedlist>
+<para>F&uuml;r jede Definition <filename>DATA_ATTRIBUTES</filename> mu&szlig;
+mindestens eine Definition <filename><indexterm><primary>DATA_CRITERIA</primary>
+<secondary>paarig mit DATA_ATTRIBUTES</secondary></indexterm>DATA_CRITERIA</filename> vorliegen. Es k&ouml;nnen ihr aber auch mehre Definitionen <filename>DATA_CRITERIA</filename> zugeordnet sein.</para>
+<para>Beispielsweise k&ouml;nnte ein Benutzer eine Attributdefinition f&uuml;r
+PostScript- Dateien erstellen, in der beschrieben wird, wie PostScript-Dateien
+im Dateimanager angezeigt werden und wie sie sich verhalten. Anschlie&szlig;end
+k&ouml;nnte der Benutzer zwei verschiedene Kriterien f&uuml;r den Datentyp
+PostScript erstellen, einen auf der Grundlage des Dateinamens und einen auf
+der Grundlage des Dateiinhalts.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'&ldquo;Datenkriterien f&uuml;r einen Datentyp definieren&rdquo; auf Seite&numsp;213'--><xref
+role="SecTitleAndPageNum" linkend="SAG.CrDT.mkr.11"> entnommen werden.</para>
+</sect1>
+<sect1 id="SAG.CrDT.div.5">
+<title id="SAG.CrDT.mkr.4">Datentyp manuell erstellen: Allgemeine Schritte</title>
+<para>In diesem Abschnitt wird beschrieben, wie eine Datentypkonfigurationsdatei
+erstellt wird.</para>
+<sect2 id="SAG.CrDT.div.6">
+<title id="SAG.CrDT.mkr.5">Konfigurationsdateien f&uuml;r Datentypen<indexterm>
+<primary>Datentypen</primary><secondary>Konfigurationsdateien</secondary>
+</indexterm><indexterm><primary>Konfigurationsdateien</primary><secondary>Datentypen</secondary></indexterm></title>
+<para>Konfigurationsdateien, die Datentypdefinitionen enthalten, m&uuml;ssen
+folgende Voraussetzungen erf&uuml;llen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die Dateien m&uuml;ssen der Benennungsskonvention <symbol role="Variable">name</symbol><filename>.dt</filename> entsprechen.</para>
+</listitem>
+<listitem><para>Die Dateien m&uuml;ssen sich im Datenbanksuchpfad befinden.
+Der Standardsuchpfad lautet:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.00in">
+<colspec colwidth="3.97in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Pers&ouml;nliche Datentypen</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Systemweite Datentypen</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Integrierte Datentypen</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol>. Dieses Verzeichnis sollte
+nicht verwendet werden.</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+<para>Weitere Informationen zum &Auml;ndern des Datenbanksuchpfads k&ouml;nnen
+dem Abschnitt <!--Original XRef content: '&ldquo;Wert eines Suchpfads setzen&rdquo;
+auf Seite&numsp;129'--><xref role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.6">
+entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.CrDT.div.7" role="Procedure">
+<title id="SAG.CrDT.mkr.6">Datentypdefinition erstellen<indexterm><primary>Datentypen</primary><secondary>definieren</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Eine bereits vorhandene Datenbankdatei &ouml;ffnen oder eine
+neue erstellen.</para>
+<para>Weitere Informationen k&ouml;nnen dem vorherigen Abschnitt <!--Original
+XRef content: '&ldquo;Konfigurationsdateien f&uuml;r Datenty--><!--pen'--><xref
+role="SectionTitle" linkend="sag.crdt.mkr.5"> entnommen werden.</para>
+</listitem>
+<listitem><para>Die Datenattribute f&uuml;r den Datentyp unter Verwendung
+folgender Syntax definieren:</para>
+<indexterm><primary>DATA_ATTRIBUTES</primary><secondary>Syntax</secondary>
+</indexterm>
+<programlisting>DATA_ATTRIBUTES daten_typ_name
+{
+   ICON          bild_name
+   DESCRIPTION   zeichenfolge
+   attribute_field
+   attribute_field
+   &hellip;
+}</programlisting>
+<para>wobei die Parameter folgende Bedeutung haben:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.36in">
+<colspec colwidth="4.61in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol>daten_typ_name</symbol></para></entry>
+<entry align="left" valign="top"><para>Ein eindeutiger Name, der diesem Datentyp
+zugeordnet wird.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>bild_name</symbol></para></entry>
+<entry align="left" valign="top"><para>Dateiname oder Pfad einer Symboldatei.
+Den Dateinamen ohne Pfad f&uuml;r die Datei verwenden. Beispielsweise wird
+f&uuml;r die Symboldateien <filename>myimage.m.pm</filename> und <filename>myimage.t.pm</filename> der Name <command>myimage</command> verwendet.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol>attribut_feld</symbol></para></entry>
+<entry align="left" valign="top">Feld, das das Erscheinungsbild oder Verhalten
+des Datentyps definiert.</entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>zeichenfolge</symbol></para></entry>
+<entry align="left" valign="top"><para>Zeichenfolge. Der Inhalt dieser Zeichenfolge
+wird f&uuml;r diesen Datentyp als Kontexthilfe angezeigt.</para></entry></row>
+</tbody></tgroup></informaltable>
+<para>Weitere Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Beispiel f&uuml;r die Erstellung eine--><!--r pers&ouml;nlichen
+Aktion und eines Datentyps&rdquo; auf Seite&numsp--><!--;209'--><xref role="SecTitleAndPageNum"
+linkend="sag.crdt.mkr.7"> entnommen werden.</para>
+</listitem>
+<listitem><para>Die Datenkriterien unter Verwendung folgender Syntax definieren:
+</para>
+<para remap="CodeIndent1"><command>DATA_CRITERIA <symbol role="Variable">kriterien_name</symbol></command></para>
+<programlisting>DATA_CRITERIA kriterion_name
+{  
+   DATA_ATTRIBUTES_NAME  daten_typ_name 
+   kriterien_feld 
+   kriterien_feld 
+   &hellip;
+}</programlisting>
+<para>wobei die Parameter folgende Bedeutung haben:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.31in">
+<colspec colwidth="4.69in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol>kriterien_name</symbol></para></entry>
+<entry align="left" valign="top"><para>Eindeutiger Name f&uuml;r diese Kriteriendefinition.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>daten_typ_name</symbol></para></entry>
+<entry align="left" valign="top"><para>Name, der in der Definition <filename>DATA_ATTRIBUTES</filename> verwendet wird.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>kriterien_feld</symbol></para></entry>
+<entry align="left" valign="top"><para>Feld, in dem das Kriterium f&uuml;r
+die Zuordnung einer Datei zu diesem Datentyp definiert wird.</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>Weitere Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Datenkriterien f&uuml;r einen Datenty--><!--p definieren&rdquo;
+auf Seite&numsp;213'--><xref role="SecTitleAndPageNum" linkend="sag.crdt.mkr.11">
+entnommen werden.</para>
+</listitem>
+<listitem><para>Die Datenbankdatei sichern.</para>
+</listitem>
+<listitem><para>Die Symbole f&uuml;r den Datentyp erstellen.</para>
+<para>Weitere Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Symbolbild angeben, das f&uuml;r eine--><!--n Datentyp
+verwendet wird&rdquo; auf Seite&numsp;211'--><xref role="SecTitleAndPageNum"
+linkend="sag.crdt.mkr.8"> entnommen werden.</para>
+</listitem>
+<listitem><para>Falls erforderlich, die Aktionen, die im Feld <command>ACTIONS</command> der Attributsdefinition aufgelistet sind, erstellen.</para>
+</listitem>
+<listitem><para>'Aktionen erneut laden' in der Gruppe von Anwendungen 'Desktop-
+Werkzeuge' doppelklicken, um die Datenbank erneut zu laden.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CrDT.div.8">
+<title id="SAG.CrDT.mkr.7">Beispiel f&uuml;r die Erstellung einer pers&ouml;nlichen
+Aktion und eines Datentyps<indexterm><primary>Datentypen</primary><secondary>Beispiel</secondary></indexterm><indexterm><primary>Pers&ouml;nliche Aktion
+und Datentypen erstellen</primary></indexterm></title>
+<para>Angenommen, das System enth&auml;lt eine Anwendung mit dem Namen <command>xgif</command>, die GIF-Bilder anzeigt. Normalerweise wird das Programm ausgef&uuml;hrt,
+indem folgendes eingegeben wird:</para>
+<programlisting>xgif <symbol role="Variable">dateiname</symbol></programlisting>
+<para>Nun sollen GIF-Bilder auf verschiedene Weise angezeigt werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Durch Doppelklicken einer GIF-Datendatei</para>
+</listitem>
+<listitem><para>Durch Ausw&auml;hlen der Datendatei und Ausw&auml;hlen der
+Anwendung im Men&uuml; 'Ausgew&auml;hlt'</para>
+<orderedlist>
+<listitem><para>Eine neue Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/GifViewer.dt</filename> zum Bearbeiten &ouml;ffnen.
+</para>
+</listitem>
+<listitem><para>Die Datentypdefinitionen eingeben:</para>
+<programlisting>DATA_ATTRIBUTES Gif
+{ 
+   DESCRIPTION    Gif image file. 
+   ICON           GifIcon 
+   ACTIONS        View
+}
+DATA_CRITERIA Gif_Criteria
+{ 
+   DATA_ATTRIBUTES_NAME   Gif 
+   NAME_PATTERN           *.gif
+}</programlisting>
+</listitem>
+<listitem><para>Die Aktionsdefinition f&uuml;r die Aktion 'GifViewer' eingeben:
+</para>
+<programlisting>ACTION GifViewer
+{ 
+   EXEC_STRING   xgif %(File)Arg_1"Gif-Datei anzeigen:"
+   WINDOW_TYPE   NO_STDIO 
+   DESCRIPTION   Eine Datei doppelklicken oder &uuml;bergeben,\
+                 um die GIF-Anzeige zu starten.
+}</programlisting>
+<para>Da die Definition kein Feld <command>ICON</command> enth&auml;lt, verwendet
+die Aktion das Standardsymbol des Systems.</para>
+</listitem>
+<listitem><para>Die folgende Zuordnungsaktion eingeben, um die Aktion GifViewer
+mit der Aktion View, die in der Datentypdefinition aufgelistet ist, zu verbinden.
+Mit dem Feld <command>ARG_TYPE</command> wird die Aktion View auf Dateien
+vom Typ Gif eingeschr&auml;nkt.</para>
+<programlisting>ACTION View
+{ 
+   ARG_TYPE    Gif 
+   TYPE        MAP
+   MAP_ACTION  GifViewer
+}</programlisting>
+</listitem>
+<listitem><para>Die Datei sichern.</para>
+</listitem>
+<listitem><para>Auf 'Aktionen erneut laden' in der Gruppe von Anwendungen
+Desktop- Werkzeuge doppelklicken, um die Datenbank erneut zu lesen.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrDT.div.9">
+<title>Datenattribute eines Datentyps definieren<indexterm><primary>DATA_ATTRIBUTES</primary><secondary>definieren</secondary></indexterm><indexterm><primary>Datentypen</primary><secondary>Attribute</secondary></indexterm></title>
+<para>Die Definition <filename>DATA_ATTRIBUTES</filename> definiert das Erscheinungsbild
+und das Verhalten des Datentyps. Sie gibt den Namen des Datentyps an und bietet
+die M&ouml;glichkeit, zus&auml;tzlich folgendes anzugeben:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Das Dateimanagersymbol (Feld <command>ICON</command>)</para>
+</listitem>
+<listitem><para>Das Verhalten bei Doppelklicken und den Inhalt des Men&uuml;s
+'Ausgew&auml;hlt' (Feld <command>ACTIONS</command>)</para>
+</listitem>
+<listitem><para>Die Kontexthilfe des Datentyps (Feld <command>DESCRIPTION<indexterm>
+<primary>DESCRIPTION, Feld</primary></indexterm><indexterm><primary>Dateitypen</primary><secondary>Hilfe</secondary></indexterm><indexterm><primary>Hilfe</primary><secondary>Datentyp</secondary></indexterm></command>)</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.CrDT.div.10">
+<title id="SAG.CrDT.mkr.8">Symbolbild angeben, das f&uuml;r einen Datentyp
+verwendet wird<indexterm><primary>Symbole</primary><secondary>Datentypen</secondary></indexterm><indexterm><primary>Dateitypen</primary><secondary>Symbole</secondary></indexterm></title>
+<para>Das Feld <command><indexterm><primary>ICON Feld</primary><secondary>f&uuml;r Datentyp</secondary></indexterm>ICON</command> wird verwendet, um
+das Symbol anzugeben, das im Dateimanager verwendet wird. Wird kein Symbolbild
+angegeben, wird im Dateimanager nur eine Bezeichnung angezeigt.</para>
+<para>Bei dem Wert des Felds <command><indexterm><primary>ICON Feld</primary>
+<secondary>g&uuml;ltige Werte</secondary></indexterm>ICON</command> kann es
+sich um folgendes handeln:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Einen<indexterm><primary>Basisdateiname</primary></indexterm><indexterm>
+<primary>Symbole</primary><secondary>Dateiname ohne Pfad</secondary></indexterm> Dateinamen
+ohne Pfad.</para>
+<para>Der Dateiname ohne Pfad ist der Name der Datei, die das Symbolbild enth&auml;lt,
+ohne die Dateinamenserweiterungen f&uuml;r Gr&ouml;&szlig;e (<filename>l</filename>, <filename>m</filename> und <filename>t</filename>) und Abbildtyp (<filename>bm</filename>
+und <filename>pm</filename>). Beispielsweise wird f&uuml;r Dateien mit den
+Namen <filename>GameIcon.m.pm</filename> und <filename>GameIcon.t.pm</filename>
+der Name <filename>GameIcon</filename> verwendet.</para>
+<para>Wird der Dateiname ohne Pfad verwendet, m&uuml;ssen die Symboldateien
+in ein Verzeichnis auf den Symbolsuchpfad gebracht werden:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Pers&ouml;nliche Symbole: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>Systemweite Symbole: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Einen absoluten Pfad zu der Symboldatei, einschlie&szlig;lich
+des vollst&auml;ndigen Dateinamens.</para>
+<para>Der absolute Pfad sollte nur verwendet werden, wenn die Symboldatei
+sich nicht im Symbolsuchpfad befindet. Befindet sich beispielsweise die Symboldatei <filename>GameIcon.m.pm</filename> im Verzeichnis <filename>/doc/projects</filename>,
+das sich nicht im Symbolsuchpfad befindet, wird im Feld <command>ICON</command>
+der Wert <filename>/doc/projects/GameIcon.m.pm</filename> gesetzt.</para>
+</listitem>
+</itemizedlist>
+<para><!--Original XRef content: 'Tabelle&numsp;11&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.CrDT.mkr.9"> enth&auml;lt eine Liste mit Symbolgr&ouml;&szlig;en,
+die der Benutzer erstellen sollte, und den zugeh&ouml;rigen Dateinamen.</para>
+<table id="SAG.CrDT.tbl.1" frame="Topbot">
+<title id="SAG.CrDT.mkr.9">Symbolnamen und Gr&ouml;&szlig;en f&uuml;r Datentypsymbole</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.49in">
+<colspec colwidth="1.60in">
+<colspec colwidth="1.90in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Gr&ouml;&szlig;e in Pixel</para></entry>
+<entry align="left" valign="bottom"><para>Bitmap-Name</para></entry><entry
+align="left" valign="bottom"><para>Pixmap-Name</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>48 x 48</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.l.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.l.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>32 x 32</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.m.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.m.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>16 x 16</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.t.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.t.pm</filename></para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="SAG.CrDT.div.11">
+<title id="SAG.CrDT.mkr.10">Datentypen Aktionen zuordnen<indexterm><primary>Aktionen</primary><secondary>Datentypen zuordnen</secondary></indexterm><indexterm>
+<primary>Datentypen</primary><secondary>Aktionen zuordnen</secondary></indexterm></title>
+<para>Es gibt zwei M&ouml;glichkeiten, Datentypen Aktionen zuzuordnen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>In dem Feld <command><indexterm><primary>ACTIONS Feld</primary></indexterm>ACTIONS</command> in der <filename>DATA_ATTRIBUTES</filename> Definition <filename></filename>werden
+die Aktionen aufgelistet, die im Men&uuml; 'Ausgew&auml;hlt' des Dateimanagers
+erscheinen. Die erste in der Liste aufgef&uuml;hrte Aktion ist die Standardaktion
+(Doppelklicken).</para>
+</listitem>
+<listitem><para>Aktionen k&ouml;nnen mit dem Feld <command>ARG_TYPE</command><indexterm>
+<primary>ARG_TYPE Feld</primary></indexterm> der Aktionsdefinition auf angegebene
+Datentypen beschr&auml;nkt werden.</para>
+</listitem>
+</itemizedlist>
+<para>Beispielsweise erstellt die folgende Datentypdefinition einen Datentyp
+f&uuml;r spezielle, vom Systemverwalter erstellte &ldquo;Readme&rdquo;-Dateien
+mit der Benennungskonvention <filename>*.rm</filename>.</para>
+<programlisting>DATA_ATTRIBUTES SysReadmeFile
+{
+   ICON       SysReadMe
+   ACTIONS    Open,Respond
+}
+DATA_CRITERIA SysReadmeFileCriteria
+{
+   NAME_PATTERN           *.rm
+   DATA_ATTRIBUTES_NAME   SysReadmeFile
+}</programlisting>
+<para>Eine spezielle Aktion 'Respond' f&uuml;r die Datei wird im folgenden
+definiert. Dadurch wird eine schreibbare Kopie der Datei im Texteditor ge&ouml;ffnet.
+Wird die Datei gesichert und der Texteditor verlassen, wird die Datei &uuml;ber
+elektronische Post an den Systemverwalter gesendet (Adresse <filename>sysadmin@utd</filename>).</para>
+<programlisting>ACTION Respond
+{
+   ARG_TYPE      SysReadmeFile
+   EXEC_STRING   /bin/sh -c 'cp %Arg_1% $HOME/readme.temp;\
+                 chmod +w $HOME/readme.temp;              \
+                 dtpad $HOME/readme.temp;                 \
+                 cat $HOME/readme.temp |                  \
+                 /usr/bin/mailx sysadmin@utd;             \
+                 rm $HOME/readme.temp'
+   WINDOW_TYPE   NO_STDIO
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrDT.div.12">
+<title>Dateien auf der Grundlage des Datentyps verdecken<indexterm><primary>ICON Feld</primary><secondary>g&uuml;ltige Werte</secondary></indexterm><indexterm>
+<primary>Dateitypen</primary><secondary>verdeckt</secondary></indexterm><indexterm>
+<primary>Dateien</primary><secondary>auf der Grundlage des Datentyps verstecken</secondary></indexterm></title>
+<para>Ist eine Datei ein verdeckter Datentyp, wird sie nicht im Dateimanager
+angezeigt.</para>
+<para>Im Feld <command>PROPERTIES</command> in der <filename>DATA_ATTRIBUTES</filename> Definition <filename></filename>wird angegeben, ob Objekte dieses
+Typs verdeckt werden:</para>
+<programlisting>PROPERTIES invisible</programlisting>
+</sect2>
+<sect2 id="SAG.CrDT.div.13">
+<title>Verhalten der Datei bei Bearbeitung angeben</title>
+<para>Die folgenden Felder <filename>DATA_ATTRIBUTES</filename> werden in
+erster Linie von Anwendungsprogrammierern verwendet. Hier wird angegeben,
+wie sich Dateien verhalten, wenn der Benutzer verschiedene Desktop-Aktivit&auml;ten
+durchf&uuml;hrt.</para>
+<para>Weitere Informationen k&ouml;nnen der Publikation <citetitle>Common
+Desktop Environment Programmer's Guide</citetitle> entnommen werden, die Bestandteil
+der Entwicklerumgebungsdokumentation ist.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.98in">
+<colspec colwidth="4.04in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Feld</para></entry><entry align="left"
+valign="bottom"><para>Beschreibung</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>MOVE_TO_ACTION</command></para><indexterm>
+<primary>MOVE_TO_ACTION Feld</primary></indexterm></entry>
+<entry align="left" valign="top"><para>F&uuml;r Container, wie zum Beispiel
+Verzeichnisse. Gibt an, da&szlig; eine Aktion ausgef&uuml;hrt wird, wenn eine
+Datei in einen Container dieses Datentyps verschoben wird.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>COPY_TO_ACTION</command></para><indexterm>
+<primary>COPY_TO_ACTION Feld</primary></indexterm></entry>
+<entry align="left" valign="top"><para>F&uuml;r Container, wie zum Beispiel
+Verzeichnisse. Gibt an, da&szlig; eine Aktion ausgef&uuml;hrt wird, wenn eine
+Datei in einen Container dieses Datentyps kopiert wird.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>LINK_TO_ACTION</command></para><indexterm>
+<primary>LINK_TO_ACTION Feld</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Gibt an, da&szlig; eine Aktion ausgef&uuml;hrt
+wird, wenn eine Datei mit einer Datei dieses Datentyps verbunden wird.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>IS_TEXT</command></para><indexterm>
+<primary>IS_TEXT Feld</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Gibt an, da&szlig; Dateien dieses Datentyps
+Text enthalten, der in einem Textfenster angezeigt werden kann.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>MEDIA</command></para><indexterm>
+<primary>MEDIA Feld</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Gibt den entsprechenden ToolTalk-Mediatyp
+an.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>MIME_TYPE</command></para><indexterm>
+<primary>MIME_TYPE_MEDIA Feld</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Gibt den entsprechenden MIME-Typ an.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>X400_TYPE</command></para><indexterm>
+<primary>X400_TYPE Feld</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Gibt den entsprechenden X400-Typ an.
+</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrDT.div.14">
+<title id="SAG.CrDT.mkr.11">Datenkriterien f&uuml;r einen Datentyp definieren<indexterm>
+<primary>Datentypen</primary><secondary>Kriterien</secondary></indexterm><indexterm>
+<primary>Datentypen</primary><secondary>differenzieren</secondary></indexterm><indexterm>
+<primary>Datentypen</primary><secondary>Kriterien definieren</secondary></indexterm></title>
+<para>Die Definition <filename><indexterm><primary>DATA_CRITERIA</primary>
+<secondary>definieren</secondary></indexterm>DATA_CRITERIA</filename> legt
+die Kriterien f&uuml;r die Zuordnung eines Objekttyps zu einer Datei oder
+einem Verzeichnis fest.</para>
+<para>Folgende Kriterien k&ouml;nnen f&uuml;r die Objektzuordnung verwendet
+werden:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.02in">
+<colspec colwidth="4.00in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Kriterium</para></entry><entry
+align="left" valign="bottom"><para>Beschreibung</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Dateiname</para></entry>
+<entry align="left" valign="top"><para>Der Dateiname mu&szlig; einem angegebenen
+Muster entsprechen. Das Feld <filename><indexterm><primary>NAME_PATTERN Feld</primary></indexterm>NAME_PATTERN</filename> verwenden.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Dateiposition</para></entry>
+<entry align="left" valign="top"><para>Der Pfad mu&szlig; einem angegebenen
+Muster entsprechen. Das Feld <filename><indexterm><primary>PATH_PATTERN Feld</primary></indexterm>PATH_PATTERN</filename> verwenden.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Dateiinhalt</para></entry>
+<entry align="left" valign="top"><para>Ein angegebener Teil des Inhalts der
+Datei mu&szlig; angegebenen Daten entsprechen. Das Feld <command><indexterm>
+<primary>CONTENT Feld</primary></indexterm>CONTENT</command> verwenden.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Dateimodus</para></entry>
+<entry align="left" valign="top"><para>Die Datei mu&szlig; &uuml;ber die angegebenen
+Berechtigungen verf&uuml;gen (Lesen, Schreiben, Ausf&uuml;hren, Verzeichnis).
+Das Feld<indexterm><primary>MODE Feld</primary></indexterm> MODE verwenden.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>Symbolische Verbindungen</primary><secondary>Datentypkriterien</secondary></indexterm>Symbolische
+Verbindungen</para></entry>
+<entry align="left" valign="top"><para>Die Datentypzuordnung erfolgt auf der
+Grundlage der Datei, mit der das Objekt verbunden wird.</para></entry></row>
+</tbody></tgroup></informaltable>
+<para>F&uuml;r einen Datentyp kann mehr als ein Kriterium verwendet werden.
+Aber die Kriterien <filename>NAME_PATTERN</filename> und <filename>PATH_PATTERN</filename> sollten nicht in demselben Datentyp verwendet werden.</para>
+<sect2 id="SAG.CrDT.div.15">
+<title>Datentypenzuordnung auf der Grundlage des Dateinamens<indexterm><primary>Dateitypen</primary><secondary>auf Name basierend</secondary></indexterm><indexterm>
+<primary>auf Name basierende Datentypen</primary></indexterm></title>
+<para>Das Feld <filename>NAME_PATTERN</filename> verwenden, um die erforderlichen
+Merkmale des Dateinamens anzugeben. Das Feld kann die folgenden Platzhalterzeichen
+enthalten:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.27in">
+<colspec colwidth="4.72in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>?</para><indexterm><primary>? Platzhalterzeichen </primary></indexterm></entry>
+<entry align="left" valign="top"><para>Entspricht einem beliebigen einzelnen
+Zeichen.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>*</para><indexterm><primary>* Platzhalterzeichen </primary></indexterm><indexterm><primary>Platzhalterzeichen in Datentypen </primary></indexterm></entry>
+<entry align="left" valign="top"><para>Entspricht einer beliebigen Folge von
+Zeichen (einschlie&szlig;lich einer leeren Zeichenfolge).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>[cc&hellip;]</para></entry>
+<entry align="left" valign="top"><para>Entspricht einem beliebigen der in
+Klammern gesetzten Zeichen (<symbol role="Variable">c</symbol>).</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>[c&minus;c]</para></entry>
+<entry align="left" valign="top"><para>Entspricht einem beliebigen Zeichen
+aus dem Bereich von <symbol role="Variable">c</symbol> bis <symbol role="Variable">c</symbol>.</para></entry></row></tbody></tgroup></informaltable>
+<sect3 id="SAG.CrDT.div.16">
+<title>Beispiele</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Datentypdefinition erstellt einen Datentyp auf
+der Grundlage des Dateinamens. Der Dateiname mu&szlig; mit <filename>QS</filename>
+anfangen und mit <filename>.doc</filename> enden.</para>
+<programlisting>DATA_ATTRIBUTES QS_Doc
+{ 
+   DESCRIPTION   Diese Datei enth&auml;lt ein Dokument zum QS-Projekt. 
+   ICON          Word_Doc 
+   ACTIONS       Open
+}
+DATA_CRITERIA QS_Doc_Criteria
+{ 
+   NAME_PATTERN           QS*.doc 
+   DATA_ATTRIBUTES_NAME   QS_Doc
+}</programlisting>
+</listitem>
+<listitem><para>Die folgende Definition erstellt einen Datentyp f&uuml;r Verzeichnisse
+mit dem Namen <filename>Demo_</filename><symbol role="Variable">n</symbol>,
+wobei <symbol role="Variable">n</symbol> den Zahlen 0 bis 9 entspricht.</para>
+<programlisting>DATA_ATTRIBUTES Demo_directory  
+{ 
+   DESCRIPTION  Dies ist ein Verzeichnis. Zum &Ouml;ffnen  doppelklicken. 
+   ICON         Demo 
+   ACTIONS      OpenInPlace,OpenNewView
+}
+DATA_CRITERIA Demo_directory_criteria
+{ 
+   NAME_PATTERN          Demo_[0-9]
+   MODE                  d 
+   DATA_ATTRIBUTES_NAME  Demo_directory
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrDT.div.17">
+<title>Datentypenzuordnung auf der Grundlage der Position<indexterm><primary>Dateitypen</primary><secondary>auf Pfad basierend</secondary></indexterm><indexterm>
+<primary>Dateitypen</primary><secondary>auf Position basierend</secondary>
+</indexterm><indexterm><primary>auf Position basierender Datentyp</primary>
+</indexterm><indexterm><primary>auf Pfad basierender Datentyp</primary></indexterm></title>
+<para>Das Feld <command>PATH_PATTERN</command><indexterm><primary>PATH_PATTERN
+Feld</primary><secondary>Syntax</secondary></indexterm> verwenden, um den Pfad
+anzugeben. Es k&ouml;nnen dieselben Platzhalterzeichen verwendet werden wie
+bei <command>NAME_PATTERN</command>.</para>
+<para>Beispielsweise verwendet der folgende Datentyp ein Kriterium auf der
+Grundlage des Pfads.</para>
+<programlisting>DATA_ATTRIBUTES Project_Graphics
+{
+   DESCRIPTION   Grafikdatei zum QS-Projekt. Symbol doppelklicken,\
+                 um die Grafik anzuzeigen.
+   ICON          QSgraphics
+}
+DATA_CRITERIA Project_Graphics_Criteria
+{
+   DATA_ATTRIBUTES_NAME   Project_Graphics
+   PATH_PATTERN           */projects/QS/graphics/*
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrDT.div.18">
+<title>Datentypenzuordnung auf der Grundlage des Dateinamens und der Position</title>
+<para>Soll ein Datentyp auf der Grundlage des Dateinamens als auch der Position
+erstellt werden, mu&szlig; der Name in dem Wert f&uuml;r das Feld <command>PATH_PATTERN</command> enthalten sein.<command>NAME_PATTERN</command> und <command>PATH_PATTERN</command> k&ouml;nnen nicht in derselben Kriteriendefinition
+verwendet werden.</para>
+<sect3 id="SAG.CrDT.div.19">
+<title>Beispiele</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Der im folgenden definierte Datentyp QS_Source_Files gilt
+f&uuml;r alle Dateien mit dem Namen <command>app</command><symbol role="Variable">n</symbol><filename>.c</filename>, wobei <symbol role="Variable">n</symbol>=
+1 bis 9. Sie befinden sich in den Unterverzeichnissen von <filename>*/projects/QS</filename>.</para>
+<programlisting>DATA_ATTRIBUTES QS_Source_Files 
+{
+   &hellip;
+}
+DATA_CRITERIA QS_Source_Files_Criteria
+{ 
+   PATH_PATTERN           */projects/QS/*/app[1-9].c
+   DATA_ATTRIBUTES_NAME   QS_Source_Files
+}</programlisting>
+</listitem>
+<listitem><para>Der folgende Datentyp gilt f&uuml;r alle Dateien im Verzeichnis <filename>/doc/project1</filename> mit dem Namen <filename>ch<symbol role="Variable">nn.xxx,</symbol></filename> wobei <symbol role="Variable">n</symbol> den Zahlen
+0 bis 9 entspricht. <symbol role="Variable">xxx</symbol> ist eine beliebige
+aus drei Zeichen bestehende Dateinamenserweiterung.</para>
+<programlisting>DATA_ATTRIBUTES ChapterFiles
+{ 
+   DESCRIPTION     Kapiteldatei f&uuml;r das Projektdokument.  
+   ICON            chapter 
+   ACTIONS         Edit,Print
+}
+DATA_CRITERIA Chapter_Criteria
+{ 
+   PATH_PATTERN            /doc/project1/ch[0-9][0-9].??? 
+   DATA_ATTRIBUTES_NAME   ChapterFiles
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrDT.div.20">
+<title id="SAG.CrDT.mkr.12">Dateimodi als Kriterium der Datentypzuordnung
+verwenden<indexterm><primary>Dateitypen</primary><secondary>Moduskriterium</secondary></indexterm></title>
+<para>Im Feld <command><indexterm><primary>MODE Feld</primary><secondary>Syntax</secondary></indexterm>MODE</command> die erforderlichen Berechtigungen
+angeben.</para>
+<para>Moduskriterien werden normalerweise in Kombination mit der Datentypzuordnung
+auf der Grundlage von Namen, Position oder Inhalt verwendet. Sie erm&ouml;glichen
+dem Benutzer, einen Datentyp auf eine Datei oder ein Verzeichnis einzuschr&auml;nken
+oder die erforderlichen Lese-, Schreib- und Ausf&uuml;hrungsberechtigungen
+anzugeben.</para>
+<para>Das Feld <command>MODE</command> kann die folgenden logischen Operatoren
+und Zeichen enthalten:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.01in">
+<colspec colwidth="4.98in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Operator</para></entry><entry
+align="left" valign="bottom"><para>Beschreibung</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>!</para></entry>
+<entry align="left" valign="top"><para>Logischer Operator<indexterm><primary>NICHT Operator im MODE Feld</primary></indexterm> NICHT</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>&amp;</para></entry>
+<entry align="left" valign="top"><para>Logischer Operator<indexterm><primary>UND Operator im MODE Feld</primary></indexterm> UND</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>|</para></entry>
+<entry align="left" valign="top"><para>Logisches<indexterm><primary>ODER
+Operator im MODE Feld</primary></indexterm> ODER</para></entry></row></tbody>
+</tgroup></informaltable>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.23in">
+<colspec colwidth="4.75in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Zeichen</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Beschreibung</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>f</para><indexterm><primary>Datei</primary>
+<secondary>Datentypkriterien</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Der Datentyp gilt nur f&uuml;r Dateien.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>d</para><indexterm><primary>Verzeichnis </primary><secondary>Datentypkriterien</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Der Datentyp gilt nur f&uuml;r Verzeichnisse.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>r</para></entry>
+<entry align="left" valign="top"><para>Die Datei kann von jedem Benutzer gelesen
+werden.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>w</para><indexterm><primary>Schreibgesch&uuml;tzte
+Datentypkriterien</primary></indexterm><indexterm><primary>Datentypen</primary>
+<secondary>schreibgesch&uuml;tzt</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>In die Datei kann von jedem Benutzer
+geschrieben werden.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>x</para><indexterm><primary>Datentypen </primary><secondary>ausf&uuml;hrbar</secondary></indexterm><indexterm><primary>ausf&uuml;hrbare Datei, Dateitypkriterien</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Die Datei kann von jedem Benutzer ausgef&uuml;hrt
+werden.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>l</para><indexterm><primary>Verbindung </primary><secondary>Datentypkriterien</secondary></indexterm></entry>
+<entry align="left" valign="top">Die Datei stellt eine Verbindung dar.</entry>
+</row>
+<row>
+<entry><para><command>u</command></para></entry>
+<entry><para>Die Datei ist set-uid</para></entry></row>
+<row>
+<entry><para><command>g</command></para></entry>
+<entry><para>Die Datei ist set-gid</para></entry></row></tbody></tgroup></informaltable>
+<para>Standardm&auml;&szlig;ig hat der Modus keinen Einflu&szlig;.</para>
+<sect3 id="SAG.CrDT.div.21">
+<title>Beispiele</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgenden Modusfelder schr&auml;nken den Datentyp wie
+folgt ein:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="0.99in">
+<colspec colwidth="4.99in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>f&amp;!w</para></entry>
+<entry align="left" valign="top"><para>Schreibgesch&uuml;tzte Dateien</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>!w</para></entry>
+<entry align="left" valign="top"><para>Schreibgesch&uuml;tzte Dateien und
+Verzeichnisse</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>f&amp;x</para></entry>
+<entry align="left" valign="top"><para>Ausf&uuml;hrbare Dateien</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>f&amp;w&amp;x</para></entry>
+<entry align="left" valign="top"><para>Dateien, in die geschrieben werden
+kann, und die ausf&uuml;hrbar sind</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>x|!w</para></entry>
+<entry align="left" valign="top"><para>Dateien, die ausf&uuml;hrbar oder schreibgesch&uuml;tzt
+sind</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>Die folgende Datentypdefinition erstellt einen Datentyp f&uuml;r
+schreibgesch&uuml;tzte, nicht ausf&uuml;hrbare Dateien, deren Namen der Benennungskonvention <filename>*.doc</filename> entsprechen. Es wird vorausgesetzt, da&szlig; eine Aktion
+View f&uuml;r den Datentyp bereits definiert wurde.</para>
+<programlisting>DATA_ATTRIBUTES ReadOnlyDocument 
+{ 
+   ICON          read_only 
+   DESCRIPTION   Dieses Dokument kann nicht beschrieben werden.\
+                 Ein Doppelklick f&uuml;hrt den Editor mit einer\
+                 schreibgesch&uuml;tzten Kopie der Datei aus. 
+   ACTIONS View
+}
+DATA_CRITERIA ReadOnlyDocument_Criteria
+{
+   NAME_PATTERN           *.doc 
+   MODE                   !d&amp;!x&amp;!w 
+   DATA_ATTRIBUTES_NAME   ReadOnlyDocument
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrDT.div.22">
+<title>Datentypzuordnung auf der Grundlage des Inhalts<indexterm><primary>Datentypen</primary><secondary>Inhalt</secondary></indexterm></title>
+<para>Im Feld <command><indexterm><primary>CONTENT Feld</primary></indexterm>CONTENT</command> wird angegeben, da&szlig; die Datentypzuordnung auf der Grundlage
+des Inhalts der Datei erfolgen soll. Die Datentypzuordnung auf der Grundlage
+des Inhalts einer Datei kann in Kombination mit der Datentypzuordnung auf
+der Grundlage von Namen oder Position verwendet werden.</para>
+<para>Die Zuordnung kann auf der Grundlage einer Zeichenfolge oder des numerischen
+Inhalts einer Datei erfolgen. Das erste Byte in der Datei erh&auml;lt die
+Zahl 0.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>F&uuml;r die Zuordnung auf der Grundlage einer Zeichenfolge
+folgende Syntax verwenden:</para>
+<para remap="CodeIndent1"><command>CONTENT <symbol role="Variable">start_byte</symbol> string <symbol role="Variable">zeichenfolge</symbol></command></para>
+</listitem>
+<listitem><para>F&uuml;r die Zuordnung auf der Grundlage des numerischen Inhalts
+folgende Syntax verwenden:</para>
+<para remap="CodeIndent1"><command>CONTENT <symbol role="Variable">start_byte</symbol> byte <symbol role="Variable">nummer</symbol></command></para>
+<para><command>CONTENT <symbol role="Variable">start_byte</symbol> short <symbol role="Variable">nummer</symbol></command></para>
+<para><command>CONTENT <symbol role="Variable">start_byte</symbol> long <symbol role="Variable">nummer</symbol></command></para>
+</listitem>
+<listitem><para>F&uuml;r die Zuordnung auf der Grundlage des Inhalts eines
+Verzeichnisses folgende Syntax verwenden:</para>
+<para remap="CodeIndent1"><command>CONTENT 0 filename &ldquo;<symbol role="Variable">datei_name</symbol>&rdquo;</command></para>
+<para>Standard-C-Notation f&uuml;r Oktal- (beginnend mit <command>0</command>)
+und Hexadezimalzahlen (beginnend mit <command>0X</command>) verwenden.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Die Datentypzuordnung auf der Grundlage des Inhalts beeintr&auml;chtigt
+die Systemleistung. Der Benutzer sollte, wenn m&ouml;glich, die Datentypzuordnung
+auf der Grundlage von Namen und Position verwenden.</para>
+</note>
+<para>Beispielsweise gilt der folgende Datentyp Writable_Wingz f&uuml;r alle
+Dateien mit Schreibberechtigung, die am Anfang der Datei die Zeichenfolge <command>WNGZ</command> enthalten.</para>
+<programlisting>DATA_ATTRIBUTES Writable_Wingz
+{
+   &hellip;
+}
+
+DATA_CRITERIA Writable_Wingz_Criteria
+{
+   CONTENT                 0 string WNGZ
+   MODE                    w&amp;!d
+   DATA_ATTRIBUTES_NAME    Writable_Wingz
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrDT.div.23" role="Procedure">
+<title id="SAG.CrDT.mkr.13">Datentypen mit mehreren unabh&auml;ngigen Kriterien
+erstellen<indexterm><primary>Dateitypen</primary><secondary>mehrere Kriterien</secondary></indexterm></title>
+<para>Es kann ein Datentyp mit mehreren unabh&auml;ngigen Kriterien erstellt
+werden, d.h. die Datei wird dem Datentyp zugeordnet, sofern er <emphasis>einem</emphasis> (oder beiden) Kriterium entspricht.</para>
+<orderedlist>
+<listitem><para>Die Definition <filename>DATA_ATTRIBUTES</filename> f&uuml;r
+den Datentyp erstellen.</para>
+</listitem>
+<listitem><para>Eine <filename><indexterm><primary>DATA_CRITERIA</primary>
+<secondary>mehrere</secondary></indexterm>DATA_CRITERIA</filename> Definition
+f&uuml;r jedes Kriterium erstellen.</para>
+<para>Das Feld <filename>DATA_ATTRIBUTES_NAME</filename> verwenden, um jedes
+Kriterium mit derselben Definition <filename>DATA_ATTRIBUTES</filename> zu
+verbinden.</para>
+</listitem>
+</orderedlist>
+<para>Beispielsweise erstellen die folgenden Definitionen den Datentyp Mif
+. Die Datentypzuordnung erfolgt auf der Grundlage von Namen oder Inhalt.</para>
+<programlisting>DATA_ATTRIBUTES Mif
+{
+   ICON          Frame
+   ACTION_LIST   Open,Print
+}
+
+DATA_CRITERIA Mif_Name_Criteria
+{
+   DATA_ATTRIBUTES_NAME   Mif
+   NAME_PATTERN           *.mif
+}
+
+DATA_CRITERIA Mif_Content_Criteria
+{
+   DATA_ATTRIBUTES_NAME   Mif
+   CONTENT                1 zeichenfolge MIFFile
+}</programlisting>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrDT.div.24">
+<title>Sprachenabh&auml;ngige Datentypen erstellen<indexterm><primary>Dateitypen</primary><secondary>Positionen</secondary></indexterm><indexterm><primary>Positionen</primary><secondary>Datentyp</secondary></indexterm></title>
+<para>Der Suchpfad f&uuml;r Datentypen enth&auml;lt sprachenabh&auml;ngige
+Positionen. Das Desktop verwendet den Wert von<indexterm><primary>LANG Variable</primary><secondary>Auswirkung auf Datentypen</secondary></indexterm> <systemitem>LANG</systemitem>, um festzulegen, welche Positionen nach Datentypdefinitionen
+durchsucht werden.</para>
+<sect2 id="SAG.CrDT.div.25">
+<title>Positionen f&uuml;r sprachenabh&auml;ngige Datentypen</title>
+<para>Sprachenabh&auml;ngige Datentypdefinitionen m&uuml;ssen in die entsprechenden
+sprachenabh&auml;ngigen Verzeichnisse im Aktionssuchpfad gestellt werden.
+</para>
+<para>Der Standardsuchpfad lautet:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pers&ouml;nliche Aktionen: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para>
+</listitem>
+<listitem><para>Systemweite Aktionen: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>Integrierte Aktionen: <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.CrDT.div.26" role="Procedure">
+<title>Datentypen sprachenabh&auml;ngig erstellen</title>
+<orderedlist>
+<listitem><para>Eine Datei in dem zugeh&ouml;rigen sprachenabh&auml;ngigen
+Verzeichnis erstellen (zum Beispiel in <filename>/etc/dt/appconfig/types/japanese</filename>).</para>
+</listitem>
+<listitem><para>Die Datentypdefinition in die sprachenabh&auml;ngige Konfigurationsdatei
+kopieren.</para>
+</listitem>
+<listitem><para>Ein oder mehrere Felder der Datentypdefinition sprachenabh&auml;ngig
+anpassen.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+<?Pub *0000055952>

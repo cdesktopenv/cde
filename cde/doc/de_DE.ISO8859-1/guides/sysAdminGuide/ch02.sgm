@@ -1,0 +1,778 @@
+<!-- $XConsortium: ch02.sgm /main/11 1996/12/21 18:26:00 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.SesMg.div.1">
+<title id="SAG.SesMg.mkr.1">Sessionmanager konfigurieren</title>
+<para>&Uuml;ber den Sessionmanager werden das Desktop gestartet und aktive
+Anwendungen, Farben, Schriftarten, Mausverhalten, Lautst&auml;rke und Tastaturklicken
+automatisch gesichert und wiederhergestellt.</para>
+<para>&Uuml;ber den Sessionmanager kann der Benutzer</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>die Startsession f&uuml;r alle Desktop-Benutzer anpassen.
+</para>
+</listitem>
+<listitem><para>die Umgebung und Ressourcen f&uuml;r alle Desktop-Benutzer
+anpassen.</para>
+</listitem>
+<listitem><para>die Session-Startnachricht &auml;ndern.</para>
+</listitem>
+<listitem><para>die Parameter f&uuml;r Session-Starthilfsprogramme und -d&auml;monen
+&auml;ndern.</para>
+</listitem>
+<listitem><para>die Farbverwendung am Desktop f&uuml;r alle Benutzer &auml;ndern.
+</para>
+</listitem>
+</itemizedlist>
+<informaltable id="sag.sesmg.itbl.1" frame="all">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.13in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Was ist
+eine Session?25'--><xref role="JumpText" linkend="sag.sesmg.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Session
+starten27'--><xref role="JumpText" linkend="sag.sesmg.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Start einer
+Session27'--><xref role="JumpText" linkend="sag.sesmg.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Zus&auml;tzliche
+Anpassungen beim Start der Session36'--><xref role="JumpText" linkend="sag.sesmg.mkr.8"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Dateien
+und Verzeichnisse des Sessionmanagers41--><!--'--><xref role="JumpText" linkend="sag.sesmg.mkr.10"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="SAG.SesMg.div.2">
+<title id="SAG.SesMg.mkr.2">Was ist eine Session?<indexterm><primary>Session-Steuerung</primary><secondary>Einf&uuml;hrung</secondary></indexterm><indexterm><primary>Session</primary><secondary>Definition</secondary></indexterm></title>
+<para>Bei einer Session handelt es sich um eine Datensammlung mit Anwendungen,
+Einstellungen und Ressourcen auf dem Desktop eines Benutzers. Unter &ldquo;Sessionmanager&rdquo;
+versteht man eine Gruppe von &Uuml;bereink&uuml;nften und Protokollen auf
+dem Desktop eines Benutzers, mit deren Hilfe die Session eines Benutzers gesichert
+und wiederhergestellt werden kann. Ein Benutzer kann sich am System anmelden
+und findet dieselben aktiven Anwendungen, Einstellungen und Ressourcen vor
+wie bei der letzten Abmeldung. Meldet sich ein Benutzer zum ersten Mal am
+Desktop an, wird eine<indexterm><primary>Session</primary><secondary>Standard</secondary></indexterm> Standard-Startsession geladen. Danach unterscheidet
+die Sessionssteuerung zwischen<indexterm><primary>Aktuelle Session</primary>
+</indexterm><indexterm><primary>Session</primary><secondary>aktuell</secondary>
+</indexterm> aktueller und<indexterm><primary>Session</primary><secondary>Standardsitzung</secondary></indexterm><indexterm><primary>Standardsitzung</primary></indexterm> Standardsitzung.</para>
+<sect2 id="SAG.SesMg.div.3">
+<title>Startsession<indexterm><primary>Session</primary><secondary>Standard</secondary></indexterm><indexterm><primary>Session</primary><secondary>erste Anmeldung</secondary></indexterm></title>
+<para>Meldet sich ein Benutzer zum ersten Mal am Desktop an, generiert die
+Sessionssteuerung die Startsession des Benutzers unter Verwendung von Systemstandardwerten.
+Standardm&auml;&szlig;ig werden der Dateimanager und 'Einf&uuml;hrung in das
+Desktop', ein Hilfeband, gestartet.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.4">
+<title>Aktuelle Session<indexterm><primary>Session</primary><secondary>aktuell</secondary></indexterm><indexterm><primary>aktuelle Session</primary></indexterm></title>
+<para>Unter der aktuellen Session versteht man die jeweils aktive Session
+des Benutzers, unabh&auml;ngig davon, ob es sich um eine bei der Anmeldung
+wiederhergestellte gesicherte Standardsitzung, eine gesicherte aktuelle Session
+oder die Standard-Startsession des Systems handelt. Auf der Grundlage der
+Einstellungen f&uuml;r den Start des Umgebungsmanagers des Benutzers sichert
+die Sessionssteuerung die aktuelle Session automatisch, wenn der Benutzer
+die Session verl&auml;&szlig;t. Bei der n&auml;chsten Anmeldung am Desktop
+startet die Sessionssteuerung die zuvor gesicherte aktuelle Session neu, d.
+h. das Desktop wird in demselben Status wiederhergestellt wie bei der letzten
+Abmeldung des Benutzers.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.5">
+<title>Standardsitzung<indexterm><primary>Session</primary><secondary>Standardsitzung</secondary></indexterm><indexterm><primary>Standardsitzung</primary></indexterm></title>
+<para>Das Desktop kann aber auch bei jeder Anmeldung in demselben Status wiederhergestellt
+werden, unabh&auml;ngig davon, in welchem Status es sich befand, als der Benutzer
+sich zuletzt abmeldete. Der Benutzer kann den Status der aktuellen Session
+speichern, und dann &uuml;ber die Einstellungen f&uuml;r den Start der Umgebungsparameter
+diese Session &uuml;ber den Sessionmanager bei jeder Anmeldung starten lassen.
+</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.6">
+<title>Bildschirmspezifische Sessions<indexterm><primary>Session</primary>
+<secondary>bildschirmspezifisch</secondary></indexterm></title>
+<para>Um eine spezifische Session f&uuml;r einen spezifischen Bildschirm auszuf&uuml;hren,
+kann der Benutzer eine bildschirmspezifische Session erstellen. Hierzu kann
+der Benutzer das Verzeichnis <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/sessions</filename> in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/</filename><symbol role="Variable">anzeige</symbol> kopieren, wobei es
+sich bei <symbol role="Variable">anzeige</symbol> um den realen, nicht qualifizierten
+Host-Namen handelt (zum Beispiel ist <filename>pablo:0</filename> g&uuml;ltig, <filename>pablo.gato.com:0</filename> oder <filename>unix:0</filename> sind nicht g&uuml;ltig).
+Meldet sich der Benutzer am Bildschirm <filename>pablo:0</filename> an, startet
+die Sessionssteuerung diese bildschirmspezifische Session.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.SesMg.div.7">
+<title id="SAG.SesMg.mkr.3">Session starten<indexterm><primary>Session</primary>
+<secondary>starten</secondary></indexterm><indexterm><primary>Session-Steuerung</primary><secondary>starten</secondary></indexterm><indexterm><primary>Session-Steuerung</primary><secondary>siehe auch Session</secondary></indexterm></title>
+<para>die Sessionssteuerung wird &uuml;ber <filename>/usr/dt/bin/<indexterm>
+<primary>Xsession Datei</primary><secondary>Session-Steuerung starten</secondary>
+</indexterm>Xsession</filename> gestartet. Meldet sich der Benutzer &uuml;ber
+den Anmeldemanager an, wird <command>Xsession</command> standardm&auml;&szlig;ig
+gestartet.</para>
+<para>Der Benutzer kann auch die herk&ouml;mmliche Anmeldung im Zeichenmodus<indexterm><primary>Anmeldung (getty)</primary></indexterm>
+(<command>getty</command>) verwenden und den Sessionmanager manuell mit Hilfsprogrammen,
+die einen X-Server starten, wie z.B. <command>xinit</command>, starten. Beispiel: <command>xinit /usr/dt/bin/Xsession</command>.</para>
+</sect1>
+<sect1 id="SAG.SesMg.div.8">
+<title id="SAG.SesMg.mkr.4">Start einer Session</title>
+<para>Beim Start des Sessionmanagers werden folgende Schritte durchgef&uuml;hrt,
+um die Session eines Benutzers zu starten:</para>
+<orderedlist>
+<listitem><para>Die Prozedur <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> wird als Ausgangsobjekt verwendet.<indexterm><primary>.dtprofile Datei</primary><secondary>Verwendung als Ausgangsobjekt</secondary>
+</indexterm></para>
+</listitem>
+<listitem><para>Die Prozeduren <command>Xsession.d</command> werden als Ausgangsobjekte
+verwendet.<indexterm><primary>Xsession.d Verzeichnis</primary></indexterm></para>
+</listitem>
+<listitem><para>Eine<indexterm><primary>Session-Steuerung</primary><secondary>Begr&uuml;&szlig;ungsnachricht</secondary></indexterm><indexterm><primary>Begr&uuml;&szlig;ungsnachricht</primary><secondary>anzeigen</secondary></indexterm> Begr&uuml;&szlig;ungsnachricht
+wird angezeigt.</para>
+</listitem>
+<listitem><para><indexterm><primary>Desktop-Suchpfade</primary></indexterm>Desktop-Suchpfade
+werden eingerichtet.</para>
+</listitem>
+<listitem><para>Verf&uuml;gbare Anwendungen werden erfa&szlig;t.</para>
+</listitem>
+<listitem><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.profile</filename><indexterm><primary>profile Datei</primary></indexterm> oder <symbol role="Variable">Standardverzeichnis</symbol><filename>/.login</filename><indexterm>
+<primary>login Datei</primary></indexterm> werden m&ouml;glicherweise zus&auml;tzlich
+als Ausgangsobjekte verwendet.</para>
+</listitem>
+<listitem><para>Der Nachrichtend&auml;mon<indexterm><primary>ToolTalk</primary>
+<secondary>Nachrichtend&auml;mon</secondary></indexterm> ToolTalk<superscript>
+&reg;</superscript> wird gestartet.</para>
+</listitem>
+<listitem><para>Die Session-Ressourcen<indexterm><primary>Session</primary>
+<secondary>Ressourcen</secondary></indexterm><indexterm><primary>Ressourcen</primary><secondary>Session</secondary></indexterm> werden geladen.</para>
+</listitem>
+<listitem><para>Der<indexterm><primary>Farb-Server</primary></indexterm> Farb-Server
+wird gestartet.</para>
+</listitem>
+<listitem><para>Der<indexterm><primary>Arbeitsbereichssteuerung</primary>
+<secondary>starten</secondary></indexterm> Arbeitsbereichssteuerung wird gestartet.
+</para>
+</listitem>
+<listitem><para>Die Session-Anwendungen werden gestartet.<indexterm><primary>Anwendungen</primary><secondary>bei Anmeldung starten</secondary></indexterm></para>
+<para>Die oben aufgef&uuml;hrten Schritte werden in den folgenden Abschnitten
+n&auml;her beschrieben.</para>
+</listitem>
+</orderedlist>
+<sect2 id="SAG.SesMg.div.9">
+<title>Prozedur<indexterm><primary>.dtprofile Datei</primary><secondary>Verwendung als Ausgangsobjekt</secondary></indexterm> .dtprofile als Ausgangsobjekt
+verwenden</title>
+<para>Beim Start einer Session verwendet die Prozedur <systemitem><indexterm>
+<primary>Xsession Datei</primary></indexterm>Xsession</systemitem> die Prozedur
+des Benutzers <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename><indexterm><primary>Umgebungsvariable</primary><secondary>in .dtprofile</secondary></indexterm> als Ausgangsobjekt. Bei der Prozedur <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename>
+handelt es sich um ein Skript aus <command>/bin/sh</command> oder <command>/bin/ksh</command>, das Benutzern erm&ouml;glicht,<indexterm><primary>Umgebungsvariable</primary><secondary>in .dtprofile</secondary></indexterm> Umgebungsvariablen
+f&uuml;r ihre Sessions einzurichten. Weitere Informationen zum Einrichten
+von Umgebungsvariablen k&ouml;nnen <!--Original XRef content: '&ldquo;Zus&auml;tzliche
+Anpassungen beim Start der Session&rdquo; auf Seite&numsp;36'--><xref role="HeadingAndPage"
+linkend="SAG.SesMg.mkr.8"> entnommen werden.</para>
+<para>Ist die Prozedur <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> nicht vorhanden, wie das beispielsweise der Fall ist,
+wenn sich der Benutzer zum ersten Mal am Desktop anmeldet, kopiert <command>Xsession</command> die Standardprozedur f&uuml;r das Desktop <filename>sys.dtprofile</filename> in<indexterm><primary>Shell</primary><secondary>pers&ouml;nliche
+Anpassung</secondary></indexterm> <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename>.<indexterm><primary>.dtprofile Datei</primary><secondary>erstellen</secondary></indexterm></para>
+<para><indexterm><primary>Umgebungsvariable</primary><secondary>Standard</secondary>
+</indexterm>Die Standardprozedur f&uuml;r das Desktop ist <filename>/usr/dt/config/sys.dtprofile</filename>.<indexterm><primary>sys.dtprofile Datei</primary></indexterm> Um
+die Prozedur<indexterm><primary>Shell</primary><secondary>systemweite Anpassung</secondary></indexterm> <filename>sys.dtprofile</filename> anzupassen, <filename>sys.dtprofile</filename> aus <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename> kopieren und die neue Datei bearbeiten.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.10">
+<title id="SAG.SesMg.mkr.5">Prozeduren<indexterm><primary>Xsession.d Verzeichnis</primary><secondary>Prozeduren</secondary></indexterm> Xsession.d als Ausgangsobjekte
+verwenden</title>
+<para>Nach der Prozedur <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> verwendet die Prozedur <command>Xsession</command>
+die Prozeduren <command>Xsession.d</command> als Ausgangsobjekte. Diese Prozeduren
+werden zum Festlegen zus&auml;tzlicher Umgebungsvariablen verwendet und starten
+wahlfreie D&auml;monen f&uuml;r die Session eines Benutzers. Die Standardprozeduren <command>Xsession.d</command> sind:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.68in">
+<colspec colwidth="4.33in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>0010.dtpaths</command></para></entry>
+<entry align="left" valign="top"><para>dokumentiert anpa&szlig;bare Desktop-Suchpfade.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>0020.dtims</command></para></entry>
+<entry align="left" valign="top"><para>startet einen optionalen Eingabemethoden-Server.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>0030.dttmpdir</command></para></entry>
+<entry align="left" valign="top"><para>erstellt ein tempor&auml;res Verzeichnis
+pro Benutzer pro Session.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>0040.xmbind</command></para></entry>
+<entry align="left" valign="top"><para>definiert f&uuml;r <filename>$XMBINDDIR</filename> den Standardwert f&uuml;r das Desktop.</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Daneben k&ouml;nnen zus&auml;tzliche lieferantenspezifische Prozeduren
+in <command>Xsession.d</command> vorhanden sein.</para>
+<para><command>Xsession</command> verwendet zun&auml;chst alle Dateien im
+Verzeichnis <filename>/usr/dt/config/Xsession.d</filename> und anschlie&szlig;end
+die Dateien im Verzeichnis <filename>/etc/dt/config/Xsession.d</filename>
+als Ausgangsobjekte.</para>
+<para>Die Standardprozeduren f&uuml;r das Desktop <command>Xsession.d</command><indexterm>
+<primary>Xsession.d Verzeichnis</primary><secondary>anpassen</secondary></indexterm> befinden
+sich im Verzeichnis <filename>/usr/dt/config/Xsession.d</filename>. Um ein
+Skript aus <command>Xsession.d</command> anzupassen, das aus <filename>/usr/dt/config/Xsession.d</filename> bestehende Skript in <filename>/etc/dt/config/Xsession.d</filename>
+kopieren und die neue Datei bearbeiten. F&uuml;r diese Aufgabe mu&szlig; Ausf&uuml;hrungsberechtigung
+vorliegen.</para>
+<para><indexterm><primary>Xsession Datei</primary><secondary>systemweite Anpassung</secondary></indexterm><indexterm><primary>Session-Steuerung</primary><secondary>systemweite Anpassung</secondary></indexterm>Damit <command>Xsession</command>
+eine vom Benutzer erstellte Prozedur automatisch als Ausgangsobjekt verwendet,
+mu&szlig; diese in <filename>/etc/dt/config/Xsession.d</filename> kopiert
+werden.</para>
+<note>
+<para>&Auml;ndert oder erstellt der Benutzer ein Skript f&uuml;r <command>Xsession.d</command>, sollte er sicherstellen, da&szlig; Vordergrundbefehle,
+die er absetzt, nicht zu lange dauern, da die Dauer dieser Befehle sich direkt
+auf die Startzeit der Session auswirkt. Ist kein Vordergrundbefehl vorhanden,
+wird der Start der Session blockiert. Befehle, die in einer Prozedur <command>Xsession.d</command> ausgef&uuml;hrt werden, und die w&auml;hrend der gesamten
+Dauer der Session ausgef&uuml;hrt werden sollen, sollten im Hintergrund ausgef&uuml;hrt
+werden.</para>
+</note>
+</sect2>
+<sect2 id="SAG.SesMg.div.11">
+<title><indexterm><primary>Begr&uuml;&szlig;ungsnachricht</primary><secondary>anzeigen</secondary></indexterm>Begr&uuml;&szlig;ungsnachricht anzeigen</title>
+<para>Nachdem <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> und die Prozeduren <command>Xsession.d</command> als
+Ausgangsobjekte verwendet wurden, zeigt <command>Xsession</command> eine Begr&uuml;&szlig;ungsnachricht
+&uuml;ber den gesamten Bildschirm an. Diese Begr&uuml;&szlig;ungsnachricht
+kann angepa&szlig;t oder vollst&auml;ndig abgeschaltet werden. Client <systemitem>dthello</systemitem> zeigt die Nachricht an.</para>
+<para><indexterm><primary>Begr&uuml;&szlig;ungsnachricht</primary><secondary>&auml;ndern</secondary></indexterm>Um den Nachrichtentext zu &auml;ndern,
+die Optionen f&uuml; r<command>dthello</command> durch &Auml;nderung der Variablen <filename>dtstart_hello[0]</filename> &auml;ndern.</para>
+<para>Um <filename>dtstart_hello[0]</filename> zu &auml;ndern, mu&szlig; ein
+Skript <filename>/etc/dt/config/Xsession.d</filename> erstellt werden, welches
+den neuen Wert festlegt. Um die Nachricht des Tages f&uuml;r alle Benutzer
+anzuzeigen, mu&szlig; eine ausf&uuml;hrbare Prozedur <command>sh</command>
+oder<command>ksh</command> erstellt werden, z. B. <filename>/etc/dt/config/Xsession.d/</filename><symbol>myvars</symbol><filename>,</filename> und <filename>dtstart_hello[0]</filename> wie folgt festgelegt werden:</para>
+<programlisting>dtstart_hello[0]="/usr/dt/bin/dthello -file /etc/motd &amp;"
+</programlisting>
+<para>Auf dieselbe Weise k&ouml;nnen Benutzer die Begr&uuml;&szlig;ungsnachricht
+f&uuml;r ihre eigenen Sessions &auml;ndern, indem sie <filename>dtstart_hello[0]</filename> in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> festlegen.</para>
+<para>Um die Begr&uuml;&szlig;ungsnachricht abzuschalten, mu&szlig; <command>dtstart_hello[0]=''</command> festgelegt werden.</para>
+<para>Weitere Informationen zu <command>dthello</command> k&ouml;nnen der
+Hilfeseite <command>dthello</command> entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.12">
+<title><indexterm><primary>Sessionmanager</primary><secondary>Suchpfade einrichten</secondary></indexterm><indexterm><primary>Suchpfad</primary><secondary>eingestellt von der Session-Steuerung</secondary></indexterm>Desktop-Suchpfade
+einrichten</title>
+<para>Die Desktop-Suchpfade werden bei der Anmeldung durch <systemitem><indexterm>
+<primary>dtsearchpath Variable</primary></indexterm>dtsearchpath</systemitem>
+eingerichtet. <systemitem>dtsearchpath</systemitem> verwendet zwei Kategorien
+von Umgebungsvariablen:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.51in">
+<colspec colwidth="4.48in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Eingabevariablen</para></entry>
+<entry align="left" valign="top"><para>Systemumgebungsvariablen und Umgebungsvariablen
+f&uuml;r einzelne Benutzer, deren Werte vom Systemadministrator oder vom Endbenutzer
+gesetzt werden.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Ausgabevariablen</para></entry>
+<entry align="left" valign="top"><para>Variablen, die von <systemitem>dtsearchpath</systemitem> erstellt werden, und denen von <systemitem>dtsearchpath</systemitem>
+Werte zugeordnet werden. Der Wert jeder Variablen ist der Suchpfad f&uuml;r
+die Desktop-Session.</para></entry></row></tbody></tgroup></informaltable>
+<para>Um die Befehlszeilenoptionen von <systemitem>dtsearchpath</systemitem>
+zu &auml;ndern, die Variable <filename>dtstart_searchpath</filename> &auml;ndern.
+Um die Variable <systemitem><indexterm><primary>dtstart_searchpath Variable</primary></indexterm>dtstart_searchpath</systemitem> f&uuml;r alle Benutzer
+zu &auml;ndern, eine ausf&uuml;hrbare Prozedur <command>sh</command> oder <command>ksh</command> (z.B. <filename>/etc/dt/config/Xsession.d/</filename> <symbol>myvars</symbol>) erstellen und <filename>dtstart_searchpath</filename> wie
+folgt festlegen:</para>
+<programlisting>dtstart_searchpath="/usr/dt/bin/dtsearchpath"</programlisting>
+<para>Auf dieselbe Weise k&ouml;nnen Benutzer die Optionen f&uuml;r <systemitem>dtsearchpath</systemitem> f&uuml;r ihre eigenen Sessions &auml;ndern, indem
+sie <filename>dtstart_searchpath</filename> in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> festlegen.</para>
+<para>Weitere Informationen zu <systemitem>dtsearchpath</systemitem> k&ouml;nnen <!--Original
+XRef content: 'Kapitel&numsp;7, &ldquo;Desktop- Suchpfade'--><xref role="ChapNumAndTitle"
+linkend="SAG.Datab.mkr.1"> entnommen werden. Weitere Informationen zu den
+Optionen f&uuml;r <systemitem>dtsearchpath</systemitem> k&ouml;nnen der Hilfeseite <systemitem>dtsearchpath</systemitem> entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.13">
+<title>Verf&uuml;gbare Anwendungen erfassen</title>
+<para>Nachdem die Desktop-Suchpfade eingerichtet sind, werden unter Verwendung
+von <systemitem>dtappgather</systemitem> verf&uuml;gbare Anwendungen erfa&szlig;t.
+Um die Befehlszeilenoptionen von<indexterm><primary>Anwendungsmanager</primary>
+<secondary>Anwendungen erfassen</secondary></indexterm><indexterm><primary>Session-Steuerung</primary><secondary>Anwendungen erfassen</secondary></indexterm><indexterm>
+<primary>Anwendungen</primary><secondary>erfassen von der Session-Steuerung</secondary></indexterm><indexterm><primary>dtappgather Variable</primary>
+</indexterm> <systemitem>dtappgather</systemitem> zu &auml;ndern, mu&szlig;
+die Variable <filename>dtstart_appgather</filename> ge&auml;ndert werden.
+Um die Variable <systemitem>dtstart_appgather</systemitem><filename>dtstart_appgather</filename><indexterm><primary>dtstart_appgather Variable</primary></indexterm> f&uuml;r
+alle Benutzer zu &auml;ndern, eine ausf&uuml;hrbare Prozedur <command>sh</command>
+oder<command>ksh</command> (z.B. <filename>/etc/dt/config/Xsession.d/</filename> <symbol>myvars</symbol>) erstellen und <filename>dtstart_appgather</filename> wie
+folgt festlegen:</para>
+<programlisting>dtstart_appgather="/usr/dt/bin/dtappgather &amp;"</programlisting>
+<para>Auf dieselbe Weise k&ouml;nnen Benutzer die Optionen f&uuml;r <systemitem>dtappgather</systemitem> f&uuml;r ihre eigenen Sessions &auml;ndern, indem
+sie <filename>dtstart_appgather</filename> in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> festlegen.</para>
+<para>Weitere Informationen zu den Optionen f&uuml;r <systemitem>dtappgather</systemitem> k&ouml;nnen der Hilfeseite <filename>dtappgather(4)</filename>
+entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.14">
+<title id="SAG.SesMg.mkr.6"><indexterm><primary>Umgebungsvariable</primary>
+<secondary>Verwendung von .login oder .profile als Ausgangsobjekte</secondary>
+</indexterm>M&ouml;gliche Verwendung der Prozeduren .profile oder .login als
+Ausgangsobjekte<indexterm><primary>Shell</primary><secondary>Verwendung von
+.profile oder .login als Ausgangsprojekte</secondary></indexterm><indexterm>
+<primary>.profile Datei</primary><secondary>Verwendung als Ausgangsobjekt</secondary></indexterm><indexterm><primary>.login Datei</primary><secondary>Verwendung als Ausgangsobjekt</secondary></indexterm></title>
+<para><command>Xsession</command> ist in der Lage, die herk&ouml;mmlichen
+Prozeduren <symbol role="Variable">Standardverzeichnis</symbol><filename>/.profile</filename> oder <symbol role="Variable">Standardverzeichnis</symbol><filename>/.login</filename> eines Benutzers als Ausgangsobjekte zu verwenden. Diese
+M&ouml;glichkeit ist standardm&auml;&szlig;ig inaktiviert. Damit <command>Xsession</command> die Prozeduren <filename>.profile</filename> oder <filename>.login</filename> als Ausgangsobjekte verwendet, mu&szlig; <systemitem><indexterm>
+<primary>DTSOURCEPROFILE Variable</primary></indexterm>DTSOURCEPROFILE</systemitem>
+auf <command>true</command> festgelegt werden.</para>
+<para>Um <systemitem>DTSOURCEPROFILE</systemitem> f&uuml;r alle Benutzer zu
+&auml;ndern, mu&szlig; ein Skript <filename>/etc/dt/config/Xsession.d</filename>
+erstellt werden, welches den neuen Wert festlegt. Um <systemitem>DTSOURCEPROFILE</systemitem> f&uuml;r alle Benutzer auf <systemitem>true</systemitem> festzulegen,
+eine ausf&uuml;hrbare Prozedur<command>sh</command> oder<command>ksh</command>,
+z.B. <filename>/etc/dt/config/Xsession.d/</filename><symbol>myvars</symbol>
+erstellen und <systemitem>DTSOURCEPROFILE</systemitem> wie folgt festlegen:
+</para>
+<programlisting>DTSOURCEPROFILE=true</programlisting>
+<para>Auf dieselbe Weise k&ouml;nnen Benutzer <systemitem>DTSOURCEPROFILE</systemitem> f&uuml;r ihre eigenen Sessions &auml;ndern, indem sie <systemitem>DTSOURCEPROFILE</systemitem> in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> auf <command>true</command> festlegen.
+</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.15">
+<title>Nachrichtend&auml;mon<indexterm><primary>ToolTalk</primary><secondary>Nachrichtend&auml;mon</secondary></indexterm> ToolTalk starten</title>
+<para>Der Nachrichtend&auml;mon ToolTalk, <systemitem>ttsession</systemitem>,
+erm&ouml;glicht unabh&auml;ngigen Anwendungen die Kommunikation untereinander,
+ohne direkt miteinander verbunden zu sein. Hierzu erstellen und senden Anwendungen
+ToolTalk-Nachrichten. <systemitem>ttsession</systemitem> kommuniziert im Netz
+und &uuml;bermittelt Nachrichten.</para>
+<para>Um die Befehlszeilenoptionen f&uuml;r <systemitem><indexterm><primary>ttsession</primary><secondary>starten</secondary></indexterm>ttsession</systemitem>
+zu &auml;ndern, mu&szlig; die Variable <filename>dtstart_ttsession</filename>
+ge&auml;ndert werden. Um die Variable<systemitem><indexterm><primary>dtstart_ttsession
+Variable</primary></indexterm> dtstart_ttsession</systemitem> f&uuml;r alle
+Benutzer zu &auml;ndern, eine ausf&uuml;hrbare Prozedur <command>sh</command>
+oder <command>ksh</command> (z.B. <filename>/etc/dt/config/Xsession.d/</filename><symbol role="Variable">myvars</symbol>) erstellen und <filename>dtstart_ttsession</filename> wie folgt festlegen:</para>
+<programlisting>dtstart_ttsession=&ldquo;/usr/dt/bin/ttsession -s"</programlisting>
+<para>Auf dieselbe Weise k&ouml;nnen Benutzer die Optionen f&uuml;r <command>ttsession</command> f&uuml;r ihre eigenen Sessions &auml;ndern, indem sie <filename>dtstart_ttsession</filename> in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> festlegen.</para>
+<para>Weitere Informationen zu Optionen f&uuml;r <command>ttsession</command>
+k&ouml;nnen der Hilfeseite <command>ttsession</command> entnommen werden.
+Weitere Informationen zu <command>ttsession</command> k&ouml;nnen <citetitle>Getting Started Using ToolTalk Messaging</citetitle> entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.16">
+<title><indexterm><primary>Session-Steuerung</primary><secondary>Client</secondary>
+</indexterm>Client des Sessionmanagers starten</title>
+<para>An dieser Stelle startet <systemitem>Xsession</systemitem> <filename>/usr/dt/bin/dtsession</filename>, der den Session-Startproze&szlig; fortf&uuml;hrt.
+</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.17">
+<title id="SAG.SesMg.mkr.7">Session-Ressourcen starten<indexterm><primary>Session-Steuerung</primary><secondary>Ressourcen laden</secondary></indexterm><indexterm>
+<primary>Ressourcen</primary><secondary>laden</secondary></indexterm></title>
+<para>die Sessionssteuerung verwendet das X-Server-Merkmal <filename>RESOURCE_MANAGER</filename>, um Desktop-Ressourcen f&uuml;r alle Anwendungen zur Verf&uuml;gung
+zu stellen. die Sessionssteuerung l&auml;dt <filename>RESOURCE_MANAGER</filename>,
+indem er:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>die Systemstandardressourcen l&auml;dt</para>
+</listitem>
+<listitem><para>vom Systemverwalter systemweite Ressourcen hinzuf&uuml;gt
+</para>
+</listitem>
+<listitem><para>benutzerdefinierte Ressourcen hinzuf&uuml;gt</para>
+</listitem>
+</itemizedlist>
+<para>Die Standardressourcen f&uuml;r das Desktop befinden sich in <filename>/usr/dt/config/</filename><symbol role="Variable">sprache</symbol><filename>/sys.resources</filename>.<indexterm><primary>sys.resources Datei</primary>
+</indexterm><indexterm><primary>Ressourcen</primary><secondary>Standarddesktop</secondary></indexterm> Diese Ressourcen werden durch das Merkmal <filename>RESOURCE_MANAGER</filename> der Session jedes Benutzers verf&uuml;gbar gemacht.
+Diese Datei sollte nicht bearbeitet werden, da sie bei anschlie&szlig;enden
+Desktop-Installationen &uuml;berschrieben wird.</para>
+<para>Die Anzahl der Systemstandardressourcen kann erh&ouml;ht werden, indem <filename>/etc/dt/config/</filename><symbol>sprache</symbol><filename>/sys.resources</filename><indexterm><primary>sys.resources file</primary></indexterm> erstellt
+wird. In dieser Datei k&ouml;nnen Standardressourcen au&szlig;er Kraft gesetzt
+oder zus&auml;tzliche Ressourcen f&uuml;r alle Desktop-Benutzer erstellt werden.
+Da diese Datei w&auml;hrend des Session-Starts mit den Standardressourcen
+f&uuml;r das Desktop gemischt wird, sollten nur neue oder aktualisierte Ressourcenspezifikationen
+in diese Datei gestellt werden. Die in dieser Datei angegebenen Ressourcen
+werden durch das Merkmal <filename>RESOURCE_MANAGER</filename> der Session
+jedes Benutzers verf&uuml;gbar gemacht. Ressourcen, die in dieser Datei spezifiziert
+sind, haben Vorrang vor den Standardressourcen f&uuml;r das Desktop.</para>
+<para>Benutzer k&ouml;nnen die Anzahl der Standardressourcen f&uuml;r das
+Desktop und der systemweiten Ressourcen unter Verwendung ihrer Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.Xdefaults</filename>
+erh&ouml;hen. Die in dieser Datei angegebenen Ressourcen werden durch das
+Merkmal <filename>RESOURCE_MANAGER</filename> der Session dieses Benutzers
+verf&uuml;gbar gemacht. Ressourcen, die in dieser Datei spezifiziert sind,
+haben Vorrang vor den Standardressourcen f&uuml;r das Desktop oder Ressourcendateien
+des Systemverwalters.</para>
+<note>
+<para>Im Dienstprogramm X Toolkit Intrinsics wird angegeben, da&szlig; Ressourcen
+f&uuml;r eine Anwendung entweder aus <filename><indexterm><primary>RESOURCE_MANAGER
+Eigenschaften</primary></indexterm>RESOURCE_MANAGER</filename> oder aus
+<symbol role="Variable">Standardverzeichnis</symbol><filename>/.Xdefaults</filename>
+geladen werden, aber nicht aus beiden. Normalerweise w&uuml;rde dies bedeuten,
+da&szlig; die Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.Xdefault</filename>s des Benutzers ignoriert w&uuml;rde. Aber da die Sessionssteuerung
+die Datei <symbol role="Variable">Standardverzeichnis</symbol>/<filename>.Xdefaults,</filename><indexterm><primary>.Xdefaults Datei[Xdefaults file]</primary></indexterm> wie oben beschrieben, beim Sessionstart mit <filename>RESOURCE_MANAGER</filename> mischt, wird diese Datei dennoch ber&uuml;cksichtigt.
+&Auml;ndert ein Benutzer <symbol role="Variable">Standardverzeichnis</symbol>/<filename>.Xdefaults</filename>, werden die &Auml;nderungen bei neuen Anwendungen erst
+sichtbar, wenn der Benutzer die Aktion 'Ressourcen erneut laden' aufruft.
+Die Aktion 'Ressourcen erneut laden' weist den Sessionmanager an, <filename>RESOURCE_MANAGER</filename> mit den Standardressourcen, den systemweiten Ressourcen
+und den benutzerdefinierten Ressourcen erneut zu laden. Dies bewirkt &Auml;nderungen
+in den systemweiten und den benutzerdefinierten Ressourcendateien, die den
+Anwendungen zur Verf&uuml;gung stehen.</para>
+</note>
+<para>Weitere Informationen hierzu siehe:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><!--Original XRef content: '&ldquo;Anwendungsressourcen
+einstellen&rdquo;
+auf Seite&numsp;282'--><xref role="SecTitleAndPageNum" linkend="SAG.FACol.mkr.2"></para>
+</listitem>
+<listitem><para>Hilfeseite <filename>dtresourcesfile(4)</filename></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.SesMg.div.18">
+<title>Farb-Server starten<indexterm><primary>Farb-Server</primary><secondary>starten</secondary></indexterm></title>
+<para>die Sessionssteuerung dient als<indexterm><primary>Farb-Server</primary>
+<secondary>Ressourcen</secondary></indexterm> Farb-Server f&uuml;r das Desktop
+und stellt folgende Ressourcen in <command>dtsession</command> f&uuml;r dessen
+Konfiguration zur Verf&uuml;gung.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.97in">
+<colspec colwidth="4.03in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem><indexterm><primary>foregroundColor
+Ressource</primary></indexterm>foregroundColor</systemitem></para></entry>
+<entry align="left" valign="top"><para>Steuert, ob ein Pixel der Vordergrundfarbe
+zugeordnet ist.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem><indexterm><primary>dynamicColor
+Ressource</primary></indexterm>dynamicColor</systemitem></para></entry>
+<entry align="left" valign="top"><para>Gibt an, ob schreibgesch&uuml;tzte
+Farben zugeordnet sind.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem><indexterm><primary>shadowPixmaps
+Ressource</primary></indexterm>shadowPixmaps</systemitem></para></entry>
+<entry align="left" valign="top">Gibt an, ob Farben f&uuml;r Schatten &uuml;ber
+oberem oder unterem Bereich zugeordnet sind.</entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem><indexterm><primary>colorUse,
+Ressource</primary></indexterm>colorUse</systemitem></para></entry>
+<entry align="left" valign="top"><para>Begrenzt die Farbzuordnung.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem><indexterm><primary>writeXrdbColors
+Ressource</primary></indexterm>writeXrdbColors</systemitem></para></entry>
+<entry align="left" valign="top">Gibt an, ob die *Hintergrund- und *Vordergrundressourcen
+in die Ressourcedatenbank gestellt werden.</entry></row></tbody></tgroup>
+</informaltable>
+<para>Farb-Server-Ressourcen k&ouml;nnen f&uuml;r alle Benutzer festgelegt
+werden, indem <filename>/etc/dt/config/</filename><symbol>sprache</symbol><filename>/sys.resources</filename> erstellt wird und die Farb-Server-Ressourcen in
+dieser Datei definiert werden.</para>
+<para>Auf dieselbe Weise k&ouml;nnen Benutzer Farb-Server-Ressourcen f&uuml;r
+ihre eigenen Sessions festlegen, indem sie Farb-Server-Ressourcen in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.Xdefaults</filename>
+definieren.</para>
+<para>Weitere Informationen zum Festlegen von Farb-Server-Ressourcen k&ouml;nnen
+dem Abschnitt <!--Original XRef content: '&ldquo;Farben verwalten&rdquo; auf
+Seite&numsp;292'--><xref role="SecTitleAndPageNum" linkend="SAG.FACol.mkr.8">
+entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.19">
+<title><indexterm><primary>Arbeitsbereichssteuerung</primary><secondary>starten</secondary></indexterm><indexterm><primary>Session-Steuerung</primary><secondary>Arbeitsbereichssteuerung starten</secondary></indexterm>Arbeitsbereichssteuerung
+starten</title>
+<para>die Sessionssteuerung ist verantwortlich f&uuml;r den Start des Arbeitsbereichssteuerung.
+Standardm&auml;&szlig;ig wird <filename>/usr/dt/bin/dtwm</filename><indexterm>
+<primary>Arbeitsbereichssteuerung</primary><secondary>starten</secondary>
+</indexterm> gestartet. Mit der Ressource <systemitem>wmStartupsystemitem</systemitem><indexterm><primary>wmStartupsystemitem Ressource</primary></indexterm><indexterm>
+<primary>Fenstersteuerung</primary><secondary>&auml;ndern</secondary></indexterm>
+kann eine andere Fenstersteuerung angegeben werden.</para>
+<para>Um eine andere Fenstersteuerung f&uuml;r alle Benutzer anzugeben, mu&szlig; <filename>/etc/dt/config/</filename><symbol>sprache</symbol><filename>/sys.resources</filename> erstellt werden und der vollst&auml;ndige Pfadname sowie die Optionen
+f&uuml;r die Fenstersteuerung mit der Ressource <systemitem>Dtsession*wmStartupsystemitem</systemitem> in dieser Datei angegeben werden.</para>
+<para>Auf dieselbe Weise k&ouml;nnen Benutzer eine andere Fenstersteuerung
+f&uuml;r ihre eigenen Sessions definieren, indem sie die Ressource <systemitem>Dtsession*wmStartupsystemitem</systemitem> in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.Xdefaults</filename> angeben.</para>
+<para>Weitere Informationen zur Fenstersteuerung k&ouml;nnen <!--Original
+XRef content: 'Kapitel&numsp;14, &ldquo;Arbeitsbereichsmanager anpassen'--><xref
+role="ChapNumAndTitle" linkend="SAG.WMCnf.mkr.1"><filename></filename> entnommen
+werden.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.20">
+<title>Session-Anwendungen starten<indexterm><primary>Anwendungen</primary>
+<secondary>bei Anmeldung starten</secondary></indexterm><indexterm><primary>Session-Steuerung</primary><secondary>Anwendungen starten</secondary></indexterm></title>
+<para>Beim Starten einer Session werden durch den Sessionmanager Anwendungen,
+die als Teil der Session gesichert wurden, erneut gestartet. Die Standardanwendungsgruppe
+des Systems, die als Teil der Startsession des Benutzers wiederhergestellt
+wird, befindet sich in <filename>/usr/dt/config/</filename><symbol role="Variable">sprache</symbol><filename>/sys.session</filename>.<indexterm><primary>sys.session
+Datei</primary></indexterm> Diese Datei sollte nicht bearbeitet werden, da
+sie bei anschlie&szlig;enden Desktop-Installationen &uuml;berschrieben wird.
+</para>
+<para>Weitere Informationen hierzu k&ouml;nnen der Hilfeseite <filename moreinfo="RefEntry">dtsessionfile(4)</filename> entnommen werden.</para>
+<para><indexterm><primary>Session-Steuerung</primary><secondary>Anwendungen
+starten</secondary></indexterm>Ein Systemverwalter kann die Gruppe von Anwendungen,
+die als Teil der Startsession des Benutzers gestartet werden, ersetzen, indem
+er <filename>/usr/dt/config/</filename><symbol role="Variable">sprache</symbol><filename>/sys.session</filename> in <filename>/etc/dt/config/</filename><symbol role="Variable">sprache</symbol><filename>/sys.session</filename> kopiert und die letztgenannte
+Datei &auml;ndert. Im Gegensatz zu den Ressourcendateien ersetzt diese Datei
+die Desktop-Standarddatei vollst&auml;ndig, so da&szlig; eine Kopie der Systemstandarddatei
+erstellt werden kann und alle notwendigen &Auml;nderungen darin vorgenommen
+werden k&ouml;nnen.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.SesMg.div.21">
+<title id="SAG.SesMg.mkr.8">Zus&auml;tzliche Anpassungen beim Start der Session</title>
+<para>Hierzu geh&ouml;ren:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>das Festlegen von Umgebungsvariablen</para>
+</listitem>
+<listitem><para>das Festlegen von Ressourcen</para>
+</listitem>
+<listitem><para>die Verwendung bildschirmabh&auml;ngiger Sessions</para>
+</listitem>
+<listitem><para>die Ausf&uuml;hrung von Prozeduren bei der Anmeldung</para>
+</listitem>
+<listitem><para>die Wiederherstellung einer Sicherungs-Session</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.SesMg.div.22" role="Procedure">
+<title id="SAG.SesMg.mkr.9"><indexterm><primary>Umgebungsvariable</primary>
+<secondary>Einstellung</secondary></indexterm><indexterm><primary>Variable</primary><secondary>Umgebung, siehe Umgebungsvariable</secondary></indexterm>Umgebungsvariablen
+festlegen</title>
+<itemizedlist>
+<listitem><para><indexterm><primary>Umgebungsvariable</primary><secondary>systemweit</secondary></indexterm>Um systemweite Umgebungsvariablen festzulegen,
+m&uuml;ssen Sie eine Datei im Verzeichnis <filename>/etc/dt/config/Xsession.d</filename><indexterm><primary>Xsession.d directory</primary></indexterm> erstellten,
+die die Variable festlegt und<indexterm><primary>Umgebungsvariable</primary>
+<secondary>setzen</secondary></indexterm> exportiert.</para>
+<para>Wird beispielsweise eine ausf&uuml;hrbare Prozedur <command>sh</command>
+oder <command>ksh</command>, <filename>/etc/dt/config/Xsession.d/</filename><symbol role="Variable">myvars,</symbol></para>
+<para>mit der Angabe</para>
+<para remap="CodeIndent1"><command>export</command> <systemitem>MYVARIABLE=</systemitem> <symbol role="Variable">&ldquo;wert&rdquo;</symbol></para>
+<para>erstellt, wird die Variable <systemitem>MYVARIABLE</systemitem> bei
+der n&auml;chsten Anmeldung in der Umgebung jedes Benutzers festgelegt.</para>
+</listitem>
+<listitem><para><indexterm><primary>Umgebungsvariable</primary><secondary>pers&ouml;nlich</secondary></indexterm>Um pers&ouml;nliche Umgebungsvariablen
+festzulegen, m&uuml;ssen Sie die Variable im <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename><indexterm><primary>.dtprofile Datei</primary><secondary>Umgebungsvariable setzen</secondary></indexterm> definieren.
+</para>
+<para>Beispiel:</para>
+<programlisting remap="CodeIndent1"> export MYVARIABLE=&ldquo;wert&rdquo;
+</programlisting>
+<para>wird die Variable <symbol>MYVARIABLE</symbol> bei der n&auml;chsten
+Anmeldung in der Umgebung des entsprechenden Benutzers festgelegt.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Der Sessionssteuerung liest die Dateien <filename>.profile</filename><indexterm>
+<primary>.profile Datei</primary><secondary>nicht vom Anmelde-Manager gelesen</secondary></indexterm> oder <filename>.login</filename><indexterm><primary>.login Datei</primary><secondary>nicht vom Anmelde-Manager gelesen</secondary>
+</indexterm><indexterm><primary>Shell</primary><secondary>siehe auch Umgebungsvariable</secondary></indexterm> nicht automatisch. Sie kann jedoch entsprechend konfiguriert
+werden. Siehe<!--Original XRef content:
+'&ldquo;M&ouml;gliche Verwendung der Prozeduren .profile oder .login als Ausgangsobjekte&rdquo;
+auf Seite&numsp;31'--><xref role="SecTitleAndPageNum" linkend="SAG.SesMg.mkr.6">
+.</para>
+</note>
+</sect2>
+<sect2 id="SAG.SesMg.div.23" role="Procedure">
+<title>Ressourcen festlegen<indexterm><primary>Ressourcen</primary><secondary>setzen</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Um systemweite Ressourcen festzulegen, werden diese Ressourcen
+der Datei <filename>/etc/dt/config/</filename><symbol role="Variable">sprache</symbol><filename>/sys.resources</filename><indexterm><primary>sys.resources
+Datei</primary></indexterm> hinzugef&uuml;gt. (M&ouml;glicherweise mu&szlig;
+diese Datei erstellt werden.)</para>
+</listitem>
+</itemizedlist>
+<note>
+<para><filename><indexterm><primary>.dtprofile Datei</primary><secondary>Syntax</secondary></indexterm>.dtprofile</filename> unterst&uuml;tzt nur die
+Syntax von <command>/bin/sh</command> oder <command>/bin/ksh</command>.</para>
+</note>
+<para>Wird beispielsweise in <filename>/etc/dt/config/C/sys.resources</filename>
+angegeben:</para>
+<programlisting>AnApplication*resource: wert</programlisting>
+<para>wird die Ressource <systemitem>AnApplication*resource</systemitem> bei
+der n&auml;chsten Anmeldung in dem Merkmal <filename><indexterm><primary>RESOURCE_MANAGER Eigenschaften</primary></indexterm>RESOURCE_MANAGER</filename>
+jedes Benutzers festgelegt werden.</para>
+<itemizedlist>
+<listitem><para>Um pers&ouml;nliche Ressourcen festzulegen, werden diese Ressourcen
+der Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.Xdefaults</filename> hinzugef&uuml;gt.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.SesMg.div.24" role="Procedure">
+<title>Bildschirmspezifische Ressourcen festlegen<indexterm><primary>bildschirmspezifische
+Ressourcen</primary></indexterm><indexterm><primary>Ressourcen</primary>
+<secondary>bildschirmspezifisch</secondary></indexterm></title>
+<para>Es k&ouml;nnen bildschirmspezifische Ressourcen f&uuml;r alle Desktop-Benutzer
+am System festgelegt werden. Benutzer k&ouml;nnen aber auch bildschirmspezifische
+Ressourcen f&uuml;r ihre eigenen Sessions festlegen. Dies erm&ouml;glicht,
+Ressourcen abh&auml;ngig vom Bildschirm, an dem sich der Benutzer am Desktop
+anmeldet, festzulegen.</para>
+<itemizedlist>
+<listitem><para>Um bildschirmspezifische Ressourcen f&uuml;r alle Desktop-Benutzer
+am System festzulegen, mu&szlig; die Datei <filename>/etc/dt/config/</filename><symbol role="Variable">sprache</symbol><filename>/sys.resources</filename> erstellt
+werden, die die bildschirmspezifischen Ressourcen angibt.</para>
+</listitem>
+<listitem><para>Um bildschirmspezifische Ressourcen f&uuml;r einzelne Benutzer
+festzulegen, geben Sie die Ressource im <symbol role="Variable">Standardverzeichnis</symbol><filename>/.Xdefaults</filename> an.</para>
+</listitem>
+</itemizedlist>
+<para>Diese Ressourcen werden begrenzt, indem sie in bedingte Anweisungen
+des &Uuml;bertragungsprotokollprogramms (<command>cpp</command>)<indexterm>
+<primary>&Uuml;bertragungsprotokollprogramm</primary></indexterm> eingeschlossen
+werden. Ein Makro <command>DISPLAY_<symbol>anzeigename</symbol></command><indexterm>
+<primary>DISPLAY_displayname Makro</primary></indexterm> wird abh&auml;ngig
+vom Wert der Variablen <filename>$DISPLAY</filename> definiert. Dies geschieht,
+indem die Satzzeichen . (Punkt) und: (Doppelpunkt) in _ (Unterstreichungszeichen)
+umgesetzt, s&auml;mtliche Anzeigespezifikationen &uuml;bergangen und den Ergebnissen
+schlie&szlig;lich <filename>DISPLAY_</filename> vorangesetzt werden.</para>
+<para>So w&uuml;rde aus einem <filename>$DISPLAY</filename> von <filename>:0</filename> ein <filename>DISPLAY_0</filename> und ein <filename>$DISPLAY</filename> von <filename>blanco.gato.com:0.0</filename> w&auml;re <filename>DISPLAY_blanco_gato_com_0</filename>. Der resultierende Wert kann als Teil
+eines <systemitem>cpp</systemitem>-Tests in einer Session-Ressourcendatei
+verwendet werden. Wird beispielsweise in <filename>/etc/dt/config/C/sys.resources</filename> folgendes angegeben:</para>
+<programlisting>Myapp*resource: value
+
+#ifdef DISPLAY_blanco_gato_com_0
+Myapp*resource: specialvalue1
+#endif
+
+#ifdef DISPLAY_pablo_gato_com_0
+Myapp*resource: specialvalue2
+#endif</programlisting>
+<para>wird die Ressource <systemitem>MyApp*resource</systemitem> in <filename>RESOURCE_MANAGER</filename> auf <filename>specialvalue1</filename> festgelegt,
+wenn sich der Benutzer am Bildschirm <filename>blanco.gato.com:0</filename>
+anmeldet, auf <filename>specialvalue2</filename>, wenn sich der Benutzer an <filename>pablo.gato.com:0</filename> anmeldet, und auf <command>value</command>, wenn
+sich der Benutzer an einem anderen Bildschirm anmeldet.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.25" role="Procedure">
+<title>Anwendungen f&uuml;r die Startsession &auml;ndern<indexterm><primary>Session</primary><secondary>Startsession</secondary></indexterm></title>
+<para>F&uuml;r die Startsession des Benutzers k&ouml;nnen andere, spezielle
+Anwendungen angegeben werden.</para>
+<orderedlist>
+<listitem><para>Hierzu <filename>/usr/dt/config/</filename><symbol role="Variable">sprache</symbol><filename>/sys.session</filename> in <filename>/etc/dt/config/</filename><symbol role="Variable">sprache</symbol><filename>/sys.session</filename> kopieren.</para>
+</listitem>
+<listitem><para>Die neue Datei <filename><indexterm><primary>sys.session Datei</primary></indexterm>sys.session</filename> &auml;ndern.</para>
+<para>Jeder Eintrag in <filename>sys.session</filename> hat folgendes Format:
+</para>
+<para><indexterm><primary>dtsmcmd Befehl</primary></indexterm><command>dtsmcmd
+-cmd <symbol>befehl_und_optionen</symbol></command></para>
+<para>Um eine zus&auml;tzliche Anwendung als Teil der Startsession eines Benutzers
+zu starten, einen neuen Eintrag in <filename>sys.session</filename> mit einem
+vollst&auml;ndigen Pfadnamen angeben. Soll beispielsweise <filename>/usr/bin/X11/xclock</filename> als Teil der Startsession eines Benutzers gestartet werden, einen
+Eintrag <systemitem>xclock</systemitem> in <filename>/etc/dt/config/C/sys.resources</filename> hinzuf&uuml;gen:</para>
+<programlisting remap="CodeIndent1">#  
+# Start up xclock...  
+#  
+dtsmcmd -cmd &ldquo;/usr/bin/X11/xclock -digital&rdquo;</programlisting>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.SesMg.div.26" role="Procedure">
+<title>Bildschirmspezifische Session einrichten<indexterm><primary>Session</primary><secondary>bildschirmspezifisch</secondary></indexterm><indexterm>
+<primary>bildschirmspezifische Session</primary></indexterm></title>
+<para>Ein Benutzer kann eine bildschirmspezifische Session einrichten, um
+eine Session optimal an einen bestimmten Bildschirm anzupassen.</para>
+<itemizedlist>
+<listitem><para>Hierzu das Verzeichnis <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/sessions</filename><indexterm><primary>sessions Verzeichnis</primary></indexterm> ins <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/</filename><symbol role="Variable">anzeige</symbol> kopieren, wobei es
+sich bei <symbol role="Variable">anzeige</symbol> um den realen, nicht qualifizierten
+Rechnernamen handelt (zum Beispiel ist <filename>pablo:0</filename> g&uuml;ltig, <filename>pablo.gato.com:0</filename> oder <filename>unix:0</filename> sind nicht g&uuml;ltig).
+</para>
+</listitem>
+</itemizedlist>
+<para>Beispiel f&uuml;r die Erstellung einer bildschirmspezifischen Session
+f&uuml;r Bildschirm <filename>pablo.gato.com:0</filename>:</para>
+<programlisting>cp -r Standardverzeichnis/.dt/sessions Standardverzeichnis/.dt/pablo:0
+</programlisting>
+<para>Bei der n&auml;chsten Anmeldung des Benutzers am Bildschirm <filename>pablo.gato.com:0</filename> startet die Sessionssteuerung diese bildschirmspezifische
+Session.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.27">
+<title>Zus&auml;tzliche Befehle beim Starten einer Session und der Abmeldung
+ausf&uuml;hren</title>
+<para>Benutzer k&ouml;nnen festlegen, da&szlig; bei der Anmeldung von Desktop-Sessions
+zus&auml;tzliche Befehle gestartet werden. Dies ist n&uuml;tzlich bei der
+Einrichtung von X-Einstellungen, die &uuml;ber den Sessionmanager nicht gesichert
+werden. Beispielsweise kann der Benutzer mit <systemitem>xsetroot</systemitem>
+den Arbeitsbereichszeiger anpassen. Es k&ouml;nnen Anwendungen gestartet werden,
+die &uuml;ber den Sessionmanager nicht gesichert und wiederhergestellt werden
+k&ouml;nnen. Wird eine Anwendung bei der Wiederherstellung einer Session nicht
+erneut gestartet, kann der Benutzer &uuml;ber diese zus&auml;tzlichen Befehle
+den Client starten.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.28" role="Procedure">
+<title><indexterm><primary>Session-Steuerung</primary><secondary>Befehle beim
+Start ausf&uuml;hren</secondary></indexterm><indexterm><primary>Session</primary>
+<secondary>Befehle beim Start ausf&uuml;hren</secondary></indexterm>Zus&auml;tzliche
+Befehle beim Starten einer Session ausf&uuml;hren</title>
+<itemizedlist>
+<listitem><para>Die Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/sessions/sessionetc</filename>erstellen,<indexterm><primary>sessionetc
+Datei</primary></indexterm> die die gew&uuml;nschten Befehle enth&auml;lt.
+</para>
+<para>Im allgemeinen handelt es sich bei dieser Datei um ein Skript, f&uuml;r
+welches Ausf&uuml;hrungsberechtigung vorliegen mu&szlig;. Prozesse, die in <command>sessionetc</command> gestartet wurden, sollten im Hintergrund ausgef&uuml;hrt
+werden.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para><command>sessionetc</command> sollte nicht verwendet werden, um Clients
+zu starten, die &uuml;ber den Sessionmanager automatisch wiederhergestellt
+werden. Es k&ouml;nnten auf diese Weise mehrere Kopien der Anwendung gleichzeitig
+gestartet werden, die der Benutzer m&ouml;glicherweise nicht sofort sieht,
+da die Fenster &uuml;bereinander gestapelt sind.</para>
+</note>
+</sect2>
+<sect2 id="SAG.SesMg.div.29" role="Procedure">
+<title>Zus&auml;tzliche Befehle bei der Abmeldung ausf&uuml;hren<indexterm>
+<primary>Session</primary><secondary>Befehle bei Abmeldung durchf&uuml;hren</secondary></indexterm><indexterm><primary>Session-Steuerung</primary><secondary>Befehle bei der Abmeldung ausf&uuml;hren</secondary></indexterm></title>
+<para>Eine Zusatzdatei zu <command>sessionetc</command> ist <command>sessionexit</command> .<indexterm><primary>sessionexit Datei</primary></indexterm> Mit <command>sessionexit</command> werden Arbeitsg&auml;nge am Ende einer Session durchgef&uuml;hrt,
+die vom Sessionmanager nicht &uuml;bernommen werden.</para>
+<itemizedlist>
+<listitem><para>Die Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/sessions/sessionexit</filename> erstellen.</para>
+<para>Wie bei <command>sessionetc</command>, handelt es sich auch bei dieser
+Datei um ein Skript, f&uuml;r das Ausf&uuml;hrungsberechtigung vorliegen mu&szlig;.
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.SesMg.div.30" role="Procedure">
+<title>Session aus einer Sicherungskopie wiederherstellen<indexterm><primary>Session</primary><secondary>wiederherstellen</secondary></indexterm><indexterm>
+<primary>Session-Steuerung</primary><secondary>Sicherungskopie</secondary>
+</indexterm><indexterm><primary>Session</primary><secondary>Sicherungskopie</secondary></indexterm></title>
+<para>Wird eine Session &uuml;ber den Sessionmanager gesichert, werden die
+Session-Informationen im Verzeichnis <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/sessions</filename> oder, bei bildschirmspezifischen
+Sessions, im Verzeichnis <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/</filename><emphasis>anzeige</emphasis> gespeichert. In diesen Verzeichnissen
+erstellt die Sessionssteuerung ein Unterverzeichnis mit dem Namen <systemitem>current</systemitem> oder <filename>home,</filename> um Informationen f&uuml;r
+die aktuelle bzw. die Standardsitzung zu speichern. Bevor die Session-Informationen
+gespeichert werden, erstellt die Sessionssteuerung eine Sicherungskopie der
+vorherigen Session mit diesem Namen und speichert sie in <filename>current.old</filename> bzw. <filename>home.old</filename>.<indexterm><primary>current.old,
+Verzeichnis</primary></indexterm></para>
+<indexterm><primary>home.old Verzeichnis</primary></indexterm>
+<orderedlist>
+<listitem><para>Um eine Session aus einer Sicherungskopie wiederherzustellen,
+mu&szlig; sich der Benutzer &uuml;ber die Failsafe Session oder die Befehlszeile
+am Anmeldefenster anmelden.</para>
+</listitem>
+<listitem><para>Anschlie&szlig;end mu&szlig; er das Verzeichnis mit der gesicherten
+Session in das Verzeichnis mit dem aktiven Namen kopieren. Um beispielsweise
+die gesicherte Standardsitzung wiederherzustellen, folgendes eingeben:</para>
+</listitem>
+</orderedlist>
+<programlisting>cp -r Standardverzeichnis/.dt/sessions/home.old Standardverzeichnis/.dt/sessions/home
+</programlisting>
+<para>Bildschirmspezifische Sessions k&ouml;nnen auf dieselbe Weise wiederhergestellt
+werden.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.31" role="Procedure">
+<title>Probleme beim Starten einer Session ermitteln<indexterm><primary>Session-Steuerung</primary><secondary>Probleme</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Die Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/startlog</filename> &uuml;berpr&uuml;fen.<indexterm><primary>startlog
+Datei</primary></indexterm><indexterm><primary>Session</primary><secondary>Probleme beim Start</secondary></indexterm></para>
+<para>Die Datei <filename>startlog</filename> enth&auml;lt die Ausgabe ( <command>stderr</command>) aus Anwendungen, die von der Session-Steuerung (auf dem
+Rechner der Session-Steuerung) gestartet wurden.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.SesMg.div.32">
+<title id="SAG.SesMg.mkr.10">Dateien und Verzeichnisse des Sessionmanagers<indexterm>
+<primary>Konfigurationsdateien</primary><secondary>Session-Steuerung</secondary>
+</indexterm><indexterm><primary>Session-Steuerung</primary><secondary>Dateien</secondary></indexterm><indexterm><primary>Session-Steuerung</primary><secondary>Verzeichnisse</secondary></indexterm></title>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>/usr/dt/bin/Xsession</filename></para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/Xsession.d/*</filename></para>
+</listitem>
+<listitem><para><filename>/usr/dt/bin/dtsession</filename></para>
+</listitem>
+<listitem><para><filename>/usr/dt/bin/dtsession_res</filename></para>
+</listitem>
+<listitem><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/sessions/current</filename></para>
+</listitem>
+<listitem><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/sessions/home</filename></para>
+</listitem>
+<listitem><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/</filename><symbol>anzeige</symbol><filename>/current</filename></para>
+</listitem>
+<listitem><para><filename><symbol role="Variable">Standardverzeichnis</symbol>/.dt/<symbol>anzeige</symbol>/home</filename></para>
+</listitem>
+</itemizedlist>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+<?Pub *0000064907>

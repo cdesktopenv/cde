@@ -1,0 +1,522 @@
+:
+# Glenn Fowler
+# AT&T Bell Laboratories
+#
+# @(#)C.probe (AT&T Bell Laboratories) 05/09/95
+#
+# probe [ -d ] c-compiler-path [ attributes ]
+#
+# common C probe preamble for the tool specific probes
+#
+# NOTE: some cc -E's do syntax analysis!
+
+#
+# probe_* are first eval'd and then attempted from left to right
+#
+
+probe_arflags="-xar"
+probe_binding="-dy -dn -Bdynamic -Bstatic -Wl,-ashared -Wl,-aarchive -call_shared -non_shared '' -static"
+probe_env="CC_OPTIONS CCOPTS LD_OPTIONS LDOPTS LIBPATH LPATH"
+probe_include="stdio.h iostream.h complex.h ctype.h plot.h stdarg.h varargs.h ranlib.h hash.h sys/types.h stab.h"
+probe_l="l yyreject m sin mopt sin"
+probe_lxx="C exit ++ exit g++ exit"
+probe_ld="ld link"
+probe_ldlib="LD_LIBRARY_PATH LIBPATH LPATH"
+probe_ldmap="'-Wl,-M' '-Qoption ld -M' '-Wl,-m' '-m'"
+probe_lib="a lib"
+probe_members="-all"
+probe_nm="nm"
+probe_nmflags="'' -p -B"
+probe_pic="-Kpic -fpic -pic +z '-G 0'"
+probe_ppprefix="a n"
+probe_shared="'' -G -b -c -shared"
+probe_size="size"
+probe_src="cxx C cc c"
+probe_readonly="-R -xMerge -Wa,-r"
+probe_sa=".sa"
+probe_so=".so .sl"
+probe_symprefix="_"
+probe_unresolved="'-expect_unresolved \"*\"'"
+probe_verbose="'-v -v' '-# -#' '-d -d' -dryrun"
+
+#
+# the following are set by the preamble for the tool specific probe
+#
+
+cc=cc
+debug=
+dir=.
+dynamic=
+exe=exe
+executable="test -x"
+hosted=
+obj=o
+ppenv=
+ppopt=
+predef=
+prepred=
+sa=
+so=
+sov=
+static=
+stdlib=
+stdpp=
+suffix_command=
+tmpdir=/tmp/probe$$
+undef="define defined elif else endif error if ifdef ifndef include line pragma undef __STDC__ __STDPP__ __ARGC__ __BASE__ __BASE_FILE__ __DATE__ __FILE__ __INCLUDE_LEVEL__ __LINE__ __PATH__ __TIME__ __VERSION__"
+
+#
+# now the common probes
+#
+
+case $1 in
+-d)	debug=1; shift ;;
+-*)	set x ;;
+*)	debug= ;;
+esac
+
+cc=$1
+case $cc in
+/*)	;;
+*)	echo "Usage: $0 [ -d ] c-compiler-path [ attributes ]" >&2; exit 1 ;;
+esac
+ATTRIBUTES=
+eval $2
+_probe_PATH=$PATH
+PATH=/bin:/usr/bin:$PATH
+
+case $0 in
+*/*)	dir=`echo $0 | sed -e 's,//*[^/]*\$,,'` ;;
+esac
+
+$executable . 2>/dev/null || executable='test -r'
+
+trap 'code=$?; cd ..; rm -rf $tmpdir; exit $code' 0 1 2 3
+mkdir $tmpdir
+cd $tmpdir
+
+exec 3>&1 4>&2 </dev/null
+case $debug in
+"")	exec >/dev/null 2>&1
+	;;
+*)	PS4='+$LINENO+ '
+	set -x
+	;;
+esac
+
+if	(xxx=xxx; unset xxx)
+then	eval unset $probe_env
+else	eval set x $probe_env
+	while	:
+	do	shift
+		case $# in
+		0)	break ;;
+		esac
+		eval x='$'$1
+		case $x in
+		"")	;;
+		*)	eval $1=
+			export $1
+			;;
+		esac
+	done
+fi
+
+mkdir suffix
+cd suffix
+for src in $probe_src
+do	echo "main(){return 0;}" > ../test.$src
+	rm -f test*
+	if	$cc -c ../test.$src
+	then	set test.*
+		if	test -f "$1"
+		then	o="$*"
+			mv $* ..
+			for i in $o
+			do	if	$cc -o test.exe ../$i
+				then	obj=`echo "$i" | sed -e 's,test.,,'`
+					$executable test.exe || executable="test -r"
+					set test*
+					rm *
+					if	$cc -o test ../$i
+					then	rm $*
+						set test.*
+						if	$executable "$1"
+						then	exe=`echo "$1" | sed -e 's,test.,,'`
+							suffix_command=.$exe
+						fi
+					fi
+					break 2
+				fi
+			done
+		fi
+	fi
+done
+cd ..
+
+case $src in
+c)	;;
+*)	echo '// (
+main()
+{
+	class { public: int i; } j;
+	j.i = 0;
+	int k = j.i + 1;
+	return k;
+}' > dialect.$src
+	if	$cc -c dialect.$src && $cc -o dialect.$exe dialect.$obj && $executable dialect.$exe
+	then	mv dialect.$src dialect.c
+		rm -f dialect.$obj dialect.$exe
+		if	$cc -c dialect.c && $cc -o dialect.$exe dialect.$obj && $executable dialect.$exe
+		then	src=c
+		else	set x $cc
+			while	:
+			do	shift
+				case $# in
+				0)	break ;;
+				esac
+				case $1 in
+				*=*)	continue ;;
+				esac
+				case `echo $1 | sed -e 's,.*/,,'` in
+				*CC*|*++*|*[xX][xX]*|*[pP][lL][uU][sS]*) ;;
+				*)	src=c ;;
+				esac
+				break
+			done
+		fi
+	else	src=c
+	fi
+	;;
+esac
+
+set x x '(' 1 'int x;' 0
+while	:
+do	shift
+	shift
+	case $# in
+	[01])	break ;;
+	esac
+	rm -f test.$obj
+	echo "$1" > test.$src
+	$cc -c test.$src
+	r=$?
+	case $r in
+	0)	test -f test.$obj || r=1 ;;
+	*)	r=1 ;;
+	esac
+	case $2:$r in
+	0:0)	;;
+	0:1)	echo "$cc: not a C compiler: failed to compile \`\`$1''" >&4
+		exit 1
+		;;
+	1:0)	echo "$cc: not a C compiler: successfully compiled \`\`$1''" >&4
+		exit 1
+		;;
+	esac
+done
+
+echo '#include <stdio.h>
+main(){printf("hello");return(0);}' > dynamic.$src
+if	$cc -c dynamic.$src
+then	eval set x $probe_so
+	while	:
+	do	shift
+		case $# in
+		0)	break ;;
+		esac
+		k=
+		for i in "" .1 .2 .3 .4 .5 .6 .7 .8 .9
+		do	rm -f dynamic.$exe > libc$1$i
+			$cc -L. -o dynamic.$exe dynamic.$obj && $executable dynamic.$exe
+			x=$?
+			(cd ..; rm $tmpdir/libc$1$i)
+			case $x in
+			0)	;;
+			*)	k=X$k
+				case $k in
+				XXX)	break ;;
+				esac
+				;;
+			esac
+		done
+		case $k in
+		XXX)	so=$1
+			sov=1
+			break
+			;;
+		?*)	so=$1
+			break
+			;;
+		esac
+	done
+	rm -f dynamic.$exe
+	if	$cc -o dynamic.$exe dynamic.$obj 2>e && $executable dynamic.$exe
+	then	e=`wc -l e`
+		maybe=
+		eval set x x $probe_binding
+		while	:
+		do	shift
+			shift
+			case $# in
+			0)	break ;;
+			esac
+			rm -f dynamic.$exe
+			$cc -o dynamic.$exe $1 dynamic.$obj 2>e && $executable dynamic.$exe || continue
+			case $1 in
+			?*)	case $maybe in
+				"")	maybe=$1 ;;
+				*)	maybe=-- ;;
+				esac
+				;;
+			esac
+			case `wc -l e` in
+			$e)	;;
+			*)	continue ;;
+			esac
+			d=`ls -s dynamic.$exe`
+			rm -f dynamic.$exe
+			$cc -o dynamic.$exe $2 dynamic.$obj 2>e && $executable dynamic.$exe || continue
+			case `wc -l e` in
+			$e)	;;
+			*)	continue ;;
+			esac
+			case `ls -s dynamic.$exe` in
+			$d)	;;
+			*)	dynamic=$1
+				static=$2
+				maybe=
+				break
+				;;
+			esac
+		done
+		case $maybe in
+		""|--)	;;
+		*)	dynamic=$maybe ;;
+		esac
+	fi
+fi
+
+echo 'main(){return(0);}' > hosted.$src
+$cc -o hosted.$exe hosted.$src && ./hosted.$exe && hosted=1
+
+cp /bin/echo cpp
+chmod u+w cpp
+for prefix in $probe_ppprefix `echo $cc | sed -e '/cc\$/!d' -e 's,cc\$,,' -e 's,.*/,,'`
+do	cp cpp ${prefix}cpp
+done
+
+echo "" > flags.$src
+echo '#pragma pp:version' > libpp.$src
+
+if	test `realcppC=./cpp $cc -Dprobe -E flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1
+then	ppenv='realcppC=${ppcmd}'
+elif	test `cppC=./cpp $cc -Dprobe -E flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1
+then	ppenv='cppC=${ppcmd}'
+elif	test `_CPPNAME=./cpp $cc -Dprobe -E flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1
+then	ppenv='_CPPNAME=${ppcmd}'
+elif	test `_CPP=./cpp $cc -Dprobe -E flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1
+then	ppenv='_CPP=${ppcmd}'
+elif	test `$cc -Dprobe -E -%p+. flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1 && test `$cc -Dprobe -E -%p+. flags.$src | wc -l` -eq 1
+then	ppopt='-%p+${ppdir}'
+elif	test `$cc -Dprobe -E -Yp,. flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1
+then	ppopt='-Yp,${ppdir}'
+elif	test `$cc -Dprobe -E -Qpath $tmpdir flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1
+then	ppopt='-Qpath ${ppdir}'
+elif	test `$cc -Dprobe -E -tp -B./ flags.$src 2>err.out | tee cpp.out | grep -c '[-]Dprobe'` -eq 1 -a ! -s err.out
+then	ppopt='-tp -B${ppdir}/'
+elif	test `$cc -Dprobe -E -B./ flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1
+then	ppopt='-B${ppdir}/'
+elif	test `$cc -Dprobe -E -tp -h./ -B flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1
+then	ppopt='-tp -h${ppdir}/ -B'
+elif	test `$cc -Dprobe -E -t p,./cpp flags.$src | tee cpp.out | grep -c '[-]Dprobe'` -eq 1
+then	ppopt='-t p,${ppcmd}'
+else	{
+		eval set x $probe_verbose
+		shift
+		for o in "$@"
+		do	$cc -E $o flags.$src
+		done
+	} 2>&1 | sed -e "s/['\"]//g" > cpp.out
+fi
+
+set x `cat cpp.out`
+def=
+definclude="-I+C -I-H"
+stdinclude=$definclude
+usrinclude=/usr/include
+while	:
+do	case $# in
+	0|1)	break ;;
+	esac
+	shift
+	case $1 in
+	-A)	case $2 in
+		*\(*\))	shift
+			prepred="$prepred `echo $1 | sed 's/\(.*\)(\(.*\))/\1 \2/'`"
+			;;
+		esac
+		;;
+	-A\(*\))
+		prepred="$prepred `echo $1 | sed 's/-A\(.*\)(\(.*\))/\1 \2/'`"
+		;;
+	-[DI][-+][A-Z]*)
+		stdpp=1
+		case $1 in
+		-I?[CH])	case $def in
+				?*)	definclude="$definclude $1" ;;
+				*)	stdinclude="$stdinclude $1" ;;
+				esac
+				;;
+		-I-S*|-YI,*)	usrinclude="`echo $1 | sed 's/....//'`" ;;
+		-Y?,*)		;;
+		-Y*)		usrinclude="`echo $1 | sed 's/..//'`" ;;
+		esac
+		;;
+	-D)	shift
+		case $1 in
+		[A-Za-z_]*=*)	predef="$predef
+`echo $1 | sed -e 's/=.*//'`" ;;
+		[A-Za-z_]*)	predef="$predef
+$1" ;;
+		esac
+		;;
+	-Dprobe);;
+	-D*)	case $1 in
+		-D[A-Za-z_]*=*)	predef="$predef
+`echo $1 | sed -e 's/^-D//' -e 's/=.*//'`" ;;
+		-D[A-Za-z_]*)	predef="$predef
+`echo $1 | sed -e 's/^-D//'`" ;;
+		esac
+		;;
+	-I)	shift
+		case $1 in
+		[\\/]*)	case $def in
+			?*)	definclude="$definclude $1" ;;
+			*)	stdinclude="$stdinclude $1" ;;
+			esac
+			;;
+		esac
+		;;
+	-I[\\/]*)
+		case $def in
+		?*)	definclude="$definclude `echo $1 | sed 's/-I//'`" ;;
+		*)	stdinclude="$stdinclude `echo $1 | sed 's/-I//'`" ;;
+		esac
+		;;
+	-U)	shift
+		undef="$undef $1"
+		;;
+	-U*)	undef="$undef `echo $1 | sed 's/^-U//'`"
+		;;
+	flags.$src)def=
+		;;
+	esac
+done
+stdinclude="$stdinclude $definclude"
+
+case " $stdinclude " in
+*\ $usrinclude\ *)
+	case $usrinclude in
+	[\\/]usr[\\/]include)
+		usrinclude=
+		;;
+	*)	case " $stdinclude " in
+		*\ [\\/]usr[\\/]include\ *)
+			usrinclude=
+			;;
+		*)	usrinclude=/usr/include
+			;;
+		esac
+		;;
+	esac
+	;;
+esac
+
+case $ppopt$ppenv in
+?*)	echo '#!/bin/sh
+	echo $VIRTUAL_ROOT | sed "s/:.*//"' > cpp
+	chmod +x cpp
+	ppcmd=cpp
+	ppdir=.
+	eval x='`'$ppenv '$'cc -E $ppopt flags.$src'`'
+	case $x in
+	?*)	tstinclude=$x/usr/include
+		;;
+	esac
+	cp /bin/echo cpp
+	chmod u+w cpp
+	;;
+esac
+
+eval set x $probe_include
+while	:
+do	shift
+	case $# in
+	0)	break ;;
+	esac
+	echo "#include <$1>" > include.$src
+	$cc -E include.$src
+done > include.out
+
+ccinclude=
+x=$stdinclude
+stdinclude=
+for f in $x $tstinclude `sed -e '/^#[line 	]*[0-9][0-9]*[ 	][ 	]*"[\\\\/]/!d' -e s'/^#[line 	]*[0-9][0-9]*[ 	][ 	]*"\(.*\)[\\\\/].*".*/\1/' include.out | sort -u`
+do	case $f in
+	-I*)	;;
+	*[\\/]cc)
+		ccinclude=1
+		;;
+	*[\\/]sys)
+		f=`echo $f | sed -e 's/.sys\$//'`
+		case $f in
+		${usrinclude}[\\/]*)
+			test -d $f/sys -o -f $f/stdio.h -o -f $f/iostream.h || continue
+			;;
+		$usrinclude)
+			continue
+			;;
+		esac
+		;;
+	${usrinclude}[\\/]*)
+		test -d $f/sys -o -f $f/stdio.h -o -f $f/iostream.h || continue
+		;;
+	$usrinclude)
+		continue
+		;;
+	esac
+	if	test -d $f
+	then	case " $stdinclude " in
+		*\ $f\ *)	;;
+		*)	stdinclude="$stdinclude $f" ;;
+		esac
+	fi
+done
+rm include.out
+case $ccinclude in
+?*)	eval set x $probe_include
+	while	:
+	do	shift
+		case $# in
+		0)	break ;;
+		esac
+		echo "#include <cc/$1>" > include.$src
+		if	$cc -E include.$src > /dev/null
+		then	break
+		fi
+	done
+	case $# in
+	0)	;;
+	*)	x=$stdinclude
+		stdinclude=
+		for f in $x
+		do	case $f in
+			*[\\/]cc)	;;
+			*)	stdinclude="$stdinclude $f" ;;
+			esac
+		done
+		;;
+	esac
+	;;
+esac

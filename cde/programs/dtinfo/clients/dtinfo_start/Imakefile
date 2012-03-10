@@ -1,0 +1,52 @@
+XCOMM $XConsortium: Imakefile /main/5 1996/06/11 17:45:12 cde-hal $
+/*
+ * (c) Copyright 1996 Digital Equipment Corporation.
+ * (c) Copyright 1996 Hewlett-Packard Company.
+ * (c) Copyright 1996 International Business Machines Corp.
+ * (c) Copyright 1996 Sun Microsystems, Inc.
+ * (c) Copyright 1996 Novell, Inc. 
+ * (c) Copyright 1996 FUJITSU LIMITED.
+ * (c) Copyright 1996 Hitachi.
+ */
+
+INCLUDES =  -I.
+
+#ifdef AIXArchitecture
+  LDPOSTLIB=-blibpath:/usr/dt/lib:/X11/lib:/usr/lib/threads:/usr/lib:/lib
+#endif
+
+XCOMM something wrong with depend of Xt on IBM
+
+#ifdef AIXArchitecture
+  DEPLIBS = \
+	$(DEPDTSVCLIB) \
+	$(DEPTTLIB) \
+	$(DEPXMLIB) \
+	$(DEPXLIB)
+#else
+  DEPLIBS = \
+	$(DEPDTSVCLIB) \
+	$(DEPTTLIB) \
+	$(DEPXMLIB) \
+	$(DEPXTOOLLIB) \
+	$(DEPXLIB)
+#endif
+
+LOCAL_LIBRARIES = \
+	$(DTSVCLIB) \
+	$(TTLIB) \
+	$(XMLIB) \
+	$(XTOOLLIB) \
+	$(XLIB)
+
+PROGRAMS=dtinfo_start
+
+SRCS = dtinfo_start.c
+
+OBJS = dtinfo_start.o
+
+all:: $(OBJS)
+
+LinkSourceFile(dtinfo_start.opnums,$(PROGRAMSRC)/tttypes)
+
+ComplexProgramTarget($(PROGRAMS))

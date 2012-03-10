@@ -1,0 +1,106 @@
+# $XConsortium: Imakefile /main/10 1996/08/14 17:50:16 cde-ibm $
+#
+# (c) Copyright 1996 Digital Equipment Corporation.
+# (c) Copyright 1996 Hewlett-Packard Company.
+# (c) Copyright 1996 International Business Machines Corp.
+# (c) Copyright 1996 Sun Microsystems, Inc.
+# (c) Copyright 1996 Novell, Inc.
+# (c) Copyright 1996 FUJITSU LIMITED.
+# (c) Copyright 1996 Hitachi.
+#
+
+REQUIREDLIBS = -lc -lm
+
+#ifdef AlphaArchitecture
+EXTRA_DEFINES = -DBYTE_SWAP -D_OSF_SOURCE -D_XOPEN_SOURCE
+#endif
+
+#ifdef USLArchitecture
+EXTRA_DEFINES = -DBYTE_SWAP -D_XOPEN_SOURCE
+#endif
+
+#ifdef UXPArchitecture
+EXTRA_DEFINES = -D_XOPEN_SOURCE
+#endif
+
+#define DoNormalLib	NormalLibDtSearch
+#define DoSharedLib	SharedLibDtSearch
+#define DoDebugLib	DebugLibDtSearch
+#define DoProfileLib	ProfileLibDtSearch
+#define LibName		DtSearch
+#define SoRev		SODTSEARCHREV
+#define IncSubdir	Dt
+#define LibCreate	NO
+
+#ifndef DtSvcDefines
+# define DtSvcDefines	-DXK_MISCELLANY -DMULTIBYTE
+#endif
+DEFINES = DtSvcDefines \
+          -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
+          -DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\" \
+          -DNO_TRANS -DUNIX -DNO_CONST -D_POSIX_SOURCE 
+
+INCLUDES = -I.
+
+
+HEADERS = \
+	dbtype.h   dproto.h   inittab.h  ncb.h      task.h     vista.h \
+	dblock.h   dbxtrn.h   dtcover.h  ll.h       proto.h    trxlog.h
+
+SRCS = \
+	alloc.c     cmstat.c    cmtype.c   connect.c \
+	costat.c    cotype.c    crget.c    crread.c    crset.c \
+	crstat.c    crtype.c    crwrite.c  csmget.c    csmread.c \
+	csmset.c    csmwrite.c  csoget.c   csoread.c   csoset.c \
+	csowrite.c  csstat.c    ctscm.c    ctsco.c     ctscr.c \
+	dbacode.c   dbdpath.c 	dbfpath.c  dblfcns.c \
+        dbswab.c    dbuserid.c \
+	delete.c    destroy.c   dio.c      discon.c    disdel.c \
+	fillnew.c   findco.c    findfm.c   findlm.c    findnm.c \
+	findpm.c    gtscm.c     gtsco.c    gtscr.c     gtscs.c \
+	initial.c   inittab.c   ismember.c \
+	isowner.c   keydel.c    keyexist.c keyfcns.c \
+	keyfind.c   keyfrst.c   keylast.c  keynext.c   keyprev.c \
+	keystore.c  libfcns.c   makenew.c  mapchar.c \
+	members.c   netunix.c   oflag.c    opens.c     options.c \
+	pathfcns.c  recfcns.c   recfrst.c  reclast.c   recnext.c \
+	recprev.c   recread.c   recset.c \
+	recstat.c   recwrite.c  renfile.c  rwcurr.c    setdb.c \
+	setmm.c     setmo.c     setmr.c    setom.c     setoo.c \
+	setor.c     setrm.c     setro.c    startup.c   stscm.c \
+	stsco.c     stscr.c     stscs.c \
+	utscm.c     utsco.c     utscr.c    utscs.c
+
+/* WARNING!!!!
+ * Any .o's added to this list need to be added to DTUTIL1_OBJS1
+ * and SHARED_DTUTIL1_OBJS1 in the DtSearch Imakefile.
+ */
+OBJS = \
+	alloc.o     cmstat.o    cmtype.o   connect.o \
+	costat.o    cotype.o    crget.o    crread.o    crset.o \
+	crstat.o    crtype.o    crwrite.o  csmget.o    csmread.o \
+	csmset.o    csmwrite.o  csoget.o   csoread.o   csoset.o \
+	csowrite.o  csstat.o    ctscm.o    ctsco.o     ctscr.o \
+	dbacode.o   dbdpath.o 	dbfpath.o  dblfcns.o \
+        dbswab.o    dbuserid.o \
+	delete.o    destroy.o   dio.o      discon.o    disdel.o \
+	fillnew.o   findco.o    findfm.o   findlm.o    findnm.o \
+	findpm.o    gtscm.o     gtsco.o    gtscr.o     gtscs.o \
+	initial.o   inittab.o   ismember.o \
+	isowner.o   keydel.o    keyexist.o keyfcns.o \
+	keyfind.o   keyfrst.o   keylast.o  keynext.o   keyprev.o \
+	keystore.o  libfcns.o   makenew.o  mapchar.o \
+	members.o   netunix.o   opens.o    options.o   oflag.o \
+	pathfcns.o  recfcns.o   recfrst.o  reclast.o   recnext.o \
+	recprev.o   recread.o   recset.o \
+	recstat.o   recwrite.o  renfile.o  rwcurr.o    setdb.o \
+	setmm.o     setmo.o     setmr.o    setom.o     setoo.o \
+	setor.o     setrm.o     setro.o    startup.o   stscm.o \
+	stsco.o     stscr.o     stscs.o \
+	utscm.o     utsco.o     utscr.o    utscs.o
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

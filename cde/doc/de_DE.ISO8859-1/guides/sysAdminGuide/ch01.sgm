@@ -1,0 +1,1113 @@
+<!-- $XConsortium: ch01.sgm /main/11 1996/12/21 18:25:53 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.LogMg.div.1">
+<title id="SAG.LogMg.mkr.1">Anmeldemanager konfigurieren</title>
+<para><indexterm><primary>Anmelde-Manager</primary><secondary>siehe Anmeldeserver</secondary></indexterm><indexterm><primary>Anmelde-Manager</primary><secondary>Definition</secondary></indexterm>Beim Anmeldemanager handelt es sich um einen
+Server<indexterm><primary>Anmelde-Server</primary><secondary>Anmeldefenster</secondary></indexterm>, &uuml;ber den die Anzeige eines Anmeldefensters,
+die Identifikation von Benutzern<indexterm><primary>Anmelde-Server</primary>
+<secondary>Benutzeridentifikation</secondary></indexterm> sowie der Start
+einer Benutzersitzung<indexterm><primary>Anmelde-Server</primary><secondary>Session starten</secondary></indexterm> gesteuert wird. Die Anmeldung am
+grafischen Bildschirm bietet eine attraktive Alternative zur herk&ouml;mmlichen
+Anmeldung im Zeichenmodus an Bitmap-Bildschirmen. Bildschirme, die &uuml;ber
+den Anmelde-Server verwaltet werden, k&ouml;nnen direkt an den Anmelde-Server<indexterm>
+<primary>Anmelde-Server</primary><secondary>Bildschirmanschlu&szlig;</secondary>
+</indexterm> oder an eine Xstation oder Datenstation im Netz angeschlossen
+werden.</para>
+<note>
+<para>Der Anmelde-Server kann nur durch den Erstbenutzer gestartet, gestoppt
+oder angepa&szlig;t werden.</para>
+</note>
+<informaltable id="SAG.LogMg.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Anmelde-Server
+starten2'--><xref role="JumpText" linkend="SAG.LogMg.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Lokale
+Bildschirme und Bildschirme im Netz verwalten3'--><xref role="JumpText" linkend="SAG.LogMg.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Fehlerpr&uuml;fung11'--><xref
+role="JumpText" linkend="SAG.LogMg.mkr.6"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Anmelde-Server
+stoppen11'--><xref role="JumpText" linkend="SAG.LogMg.mkr.7"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Erscheinungsbild
+des Anmeldefensters &auml;ndern13'--><xref role="JumpText" linkend="SAG.LogMg.mkr.10"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Anmeldemanager
+verwalten22'--><xref role="JumpText" linkend="SAG.LogMg.mkr.12"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Dateien
+des Anmeldemanagers23'--><xref role="JumpText" linkend="SAG.LogMg.mkr.13"></para></entry>
+</row></tbody></tgroup></informaltable>
+<para><indexterm><primary>Anmelde-Manager</primary><secondary>anpassen</secondary>
+</indexterm></para>
+<para>Der Anmelde-Server:<indexterm><primary>Anmelde-Server</primary><secondary>&Uuml;berblick</secondary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>kann ein Anmeldefenster auf Bitmap-Bildschirmen sofort oder
+auf Aufforderung auf lokalen Bitmap-Bildschirmen oder Bitmap-Bildschirmen
+im Netz anzeigen.</para>
+</listitem>
+<listitem><para>erm&ouml;glicht den direkten Anschlu&szlig; von Zeichenkonsolenanzeigen.
+</para>
+</listitem>
+<listitem><para>kann ein Auswahlfenster anzeigen, &uuml;ber das Benutzer Anmeldefenster
+anderer Anmelde-Server im Netz anzeigen k&ouml;nnen.</para>
+</listitem>
+<listitem><para>gestattet den gesteuerten Zugriff auf den Anmelde-Server.
+</para>
+</listitem>
+<listitem><para>erm&ouml;glicht den Zugriff auf die herk&ouml;mmliche Anmeldung
+im Zeichenmodus</para>
+</listitem>
+</itemizedlist>
+<para>Bildschirme, die &uuml;ber den Anmeldemanager verwaltet werden, k&ouml;nnen
+direkt an den Anmeldemanager-Server oder an eine Xstation oder Datenstation
+im Netz angeschlossen sein. Bei lokalen Bildschirmen startet der Anmelde-Server
+automatisch einen X-Server und zeigt ein Anmeldefenster an. Bei Bildschirmen
+im Netz, wie z. B. Xstations, unterst&uuml;tzt der Anmelde-Server X Display
+Manager Protocol (XDMCP) 1.0, welches Bildschirmen erm&ouml;glicht, die Anzeige
+eines Anmeldefensters beim Anmelde-Server anzufordern.</para>
+<indexterm><primary>XDMCP</primary></indexterm>
+<sect1 id="SAG.LogMg.div.2">
+<title id="SAG.LogMg.mkr.2">Anmelde-Server starten</title>
+<para>Normalerweise wird der Anmelde-Server<indexterm><primary>Anmelde-Server</primary><secondary>starten</secondary></indexterm> beim booten des Systems
+gestartet. Der<indexterm><primary>Anmelde-Server</primary><secondary>von
+der Befehlszeile starten</secondary></indexterm> Anmelde-Server kann aber auch
+&uuml;ber die Befehlszeile gestartet werden.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Soll der Anmelde-Server beim booten des Systems gestartet
+werden, folgendes eingeben:</para>
+<para><command>/usr/dt/bin/dtconfig -e</command></para>
+<para>Damit wird der Anmelde-Server beim booten des Systems automatisch gestartet.
+</para>
+</listitem>
+<listitem><para>Um den Anmelde-Server &uuml;ber die Befehlszeile zu starten,
+folgendes eingeben:</para>
+<para><command>/usr/dt/bin/dtlogin -daemon</command></para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Obwohl der Anmelde-Server auch &uuml;ber die Befehlszeile gestartet
+werden kann, damit tempor&auml;re Konfigurationen getestet werden k&ouml;nnen,
+sollte der Anmelde-Server normalerweise beim booten des Systems gestartet
+werden.</para>
+</note>
+</sect1>
+<sect1 id="SAG.LogMg.div.3">
+<title id="SAG.LogMg.mkr.3">Lokale Bildschirme und Bildschirme im Netz verwalten</title>
+<para><!--Original XRef content: 'Abbildung&numsp;1&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.LogMg.mkr.4"> zeigt eine m&ouml;gliche Anmelde-Serverkonfiguration.
+</para>
+<figure>
+<title id="SAG.LogMg.mkr.4">M&ouml;gliche Anmelde-Serverkonfiguration<indexterm>
+<primary>X-Terminals</primary><secondary>M&ouml;gliche Anmelde-Serverkonfiguration</secondary></indexterm></title>
+<graphic id="SAG.LogMg.grph.1" entityref="SAG.LogMg.fig.1"></graphic>
+</figure>
+<sect2 id="SAG.LogMg.div.4">
+<title>Proze&szlig;-ID des<indexterm><primary>Anmelde-Server</primary><secondary>Proze&szlig;</secondary></indexterm><indexterm><primary>-ID</primary></indexterm> Anmelde-Servers
+feststellen</title>
+<para>Standardm&auml;&szlig;ig wird die Proze&szlig;-ID des Anmelde-Servers
+in der Datei <filename>/var/dt/Xpid</filename><indexterm><primary>Xpid Datei</primary></indexterm> gespeichert.</para>
+<para>Um eine &Auml;nderung vorzunehmen, kann die Ressource <systemitem>Dtlogin.pidFile</systemitem> in der Datei <filename>Xconfig</filename><indexterm><primary>Xconfig Datei</primary><secondary>&auml;ndern</secondary></indexterm> gesetzt
+werden. Wird eine &Auml;nderung vorgenommen, mu&szlig; das angegebene Verzeichnis
+beim Start des Anmelde-Servers bereits vorhanden sein.</para>
+<para>Um eine &Auml;nderung in der Datei <filename>Xconfig</filename> vorzunehmen,
+wird <command>Xconfig</command><filename>Xconfig</filename> aus <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename> kopiert. Nach der &Auml;nderung von <filename>/etc/dt/config/Xconfig</filename> wird der Anmelde-Server angewiesen, die Datei <filename>Xconfig</filename> erneut zu lesen, indem folgendes eingegeben wird:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Damit wird der Befehl <command>kill -HUP</command> <symbol role="Variable">Proze&szlig;-ID des Anmelde-Servers</symbol> gegeben.</para>
+<para>Um beispielsweise die Proze&szlig;-ID des Anmelde-Servers in <filename>/var/myservers/Dtpid</filename> zu speichern, mu&szlig; in der Datei <filename>Xconfig</filename> folgende Angabe vorhanden sein:</para>
+<programlisting>Dtlogin.pidFile: /var/myservers/Dtpid</programlisting>
+<para>Wird der Anmelde-Server erneut gestartet, wird die Proze&szlig;-ID des
+Anmelde-Servers in <filename>/var/myservers/Dtpid<indexterm><primary>Dtpid
+Datei</primary></indexterm></filename> gespeichert. Das Verzeichnis <filename>/var/myservers</filename> mu&szlig; beim Start des Anmelde-Servers bereits
+vorhanden sein.</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.5">
+<title>Anmeldefenster an einem lokalen Bildschirm anzeigen</title>
+<para>Beim Systemstart &uuml;berpr&uuml;ft der Anmelde-Server die Datei <command>Xservers<indexterm><primary>Xservers Datei</primary><secondary>Server starten</secondary></indexterm></command>, um festzustellen, ob ein X-Server gestartet
+werden mu&szlig;, und ob und wie Anmeldefenster am lokalen Bildschirm oder
+an Bildschirmen im Netz angezeigt werden sollen.</para>
+<para>Um eine &Auml;nderung in der Datei <filename>Xservers</filename> vorzunehmen,
+wird <filename>Xservers</filename> aus <filename>/usr/dt/config</filename>
+in <filename>/etc/dt/config</filename> kopiert. Nach der &Auml;nderung von <filename>/etc/dt/config/Xservers</filename> wird der Anmelde-Server angewiesen, bei
+folgender Eingabe die Datei <filename>Xservers</filename> erneut zu lesen:
+</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Damit wird der Befehl <command>kill -HUP</command> <symbol role="Variable">Proze&szlig;-ID des Anmelde-Servers</symbol> gegeben.</para>
+<para>Eine Zeile in der Datei <filename>Xservers</filename><indexterm><primary>Xservers Datei</primary><secondary>Syntax</secondary></indexterm> hat folgendes
+Format:</para>
+<programlisting>anzeige_name anzeige_klasse anzeige_typ X_server_befehl</programlisting>
+<para>wobei die einzelnen Elemente folgende Bedeutung haben:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.50in">
+<colspec colwidth="4.50in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">anzeige_name</symbol></para></entry>
+<entry align="left" valign="top"><para>Teilt dem Anmelde-Server den f&uuml;r
+die Verbindung zum X-Server zu verwendenden Verbindungsnamen mit (im folgenden
+Beispiel: :0). Ein Wert * (Stern) wird erweitert zu <symbol role="Variable">host name</symbol>:0. Die angegebene Nummer mu&szlig; der in <symbol role="Variable">X_server_befehl</symbol> Verbindungsnummer angegebenen Nummer entsprechen.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">anzeige_klasse</symbol></para></entry>
+<entry align="left" valign="top"><para>Gibt f&uuml;r diesen Bildschirm spezifische
+Ressourcen an (im folgenden Beispiel: <command>Local</command>).</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">anzeige_typ</symbol></para></entry>
+<entry align="left" valign="top"><para>Teilt dem Anmelde-Server mit, ob es
+sich bei dem Bildschirm um einen lokalen Bildschirm oder einen Bildschirm
+im Netz handelt, und wie die Option f&uuml;r die Anmeldung &uuml;ber Befehlszeile
+im Anmeldefenster verwaltet wird (im folgenden Beispiel: <filename>local@console</filename> ).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">X_server_befehl</symbol></para></entry>
+<entry align="left" valign="top"><para>Gibt die Befehlszeile, Verbindungsnummer
+und weitere Optionen an, die der Anmelde-Server ben&ouml;tigt, um den X-Server
+zu starten (im folgenden Beispiel: <filename>/usr/bin/X11/X :0</filename>).
+Die angegebene Verbindungsnummer mu&szlig; der in <symbol role="Variable">anzeige_name</symbol> angegebenen Nummer entsprechen.</para></entry></row>
+</tbody></tgroup></informaltable>
+<para>Eine Zeile in der Datei <filename>Xservers</filename> sieht standardm&auml;&szlig;ig
+ungef&auml;hr folgenderma&szlig;en aus:</para>
+<programlisting>:0 Local local@console /usr/bin/X11/X :0</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.6">
+<title>Anmelde-Server ohne lokalen Bildschirm<indexterm><primary>Bitmap-Bildschirm,
+Anmelde-Server ohne lokalen Bildschirm</primary></indexterm> ausf&uuml;hren</title>
+<para>Verf&uuml;gt das Anmelde-Server-System &uuml;ber keinen<indexterm>
+<primary>Anmelde-Server</primary><secondary>kein Bitmap-Bildschirm</secondary>
+</indexterm> Bitmap-Bildschirm, wird der Anmelde-Server ohne lokalen Bildschirm<indexterm>
+<primary>Anmelde-Server</primary><secondary>ohne lokalen Bildschirm ausf&uuml;hren</secondary></indexterm> ausgef&uuml;hrt, indem die Zeile f&uuml;r den lokalen
+Bildschirm in der Datei <filename>Xservers</filename><indexterm><primary>Xservers Datei</primary><secondary>Standard</secondary></indexterm> mit Hilfe
+eines <filename>#</filename> (Nummernzeichen) auf Kommentar gesetzt wird.
+Beispiel:</para>
+<programlisting># :0 Local local@console /usr/bin/X11/X :0</programlisting>
+<para>Nach dem Start l&auml;uft der Anmelde-Server im Hintergrund und wartet
+auf Anforderungen von Bildschirmen im Netz.</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.7">
+<title><?X-setsize 11.0 pt>Auf Anmeldung &uuml;ber Befehlszeile an einem lokalen
+Bildschirm zugreifen</title>
+<para>W&auml;hlt der Benutzer im Anmeldefenster 'Anmeldung &uuml;ber Befehlszeile'<indexterm>
+<primary>Anmelde-Server</primary><secondary>Anmeldung &uuml;ber Befehlszeile</secondary></indexterm> aus, beendet der Anmelde-Server den X-Server tempor&auml;r
+und gestattet den Zugriff auf die herk&ouml;mmliche Anmeldung &uuml;ber Befehlszeile,
+die auf einer Datenstationseinheit mit Bitmap-Bildschirm ausgef&uuml;hrt wird.
+Nachdem der Benutzer sich an- und wieder abgemeldet hat, bzw. nach der &Uuml;berschreitung
+eines angegebenen Zeitlimits, startet der Anmelde-Server den X-Server erneut.
+</para>
+<note>
+<para>Auf die Option<indexterm><primary>Anmeldung &uuml;ber Befehlszeile</primary></indexterm> 'Anmeldung &uuml;ber Befehlszeile' kann bei Bildschirmen
+im Netz nicht zugegriffen werden.</para>
+</note>
+<para>Die Angabe <symbol role="Variable">anzeige_typ</symbol> steuert das
+Verhalten der Anmeldung &uuml;ber Befehlszeile. <symbol role="Variable">anzeige_typ</symbol> hat folgendes Format:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>local@</filename><symbol role="Variable">anzeige_
+terminal_ger&auml;t</symbol></para>
+</listitem>
+<listitem><para><command><indexterm><primary>Anzeigetyp local</primary></indexterm>local</command></para>
+</listitem>
+<listitem><para><command><indexterm><primary>Anzeigetyp foreign</primary>
+</indexterm>foreign</command></para>
+</listitem>
+</itemizedlist>
+<para>Wird <command>local</command>@<symbol role="Variable">anzeige_terminal_ger&auml;t</symbol> angegeben, nimmt der Anmelde-Server an, da&szlig; der X-Server und <filename>/dev/</filename><symbol role="Variable">anzeige_terminal_ger&auml;t</symbol>
+sich auf derselben physischen Einheit befinden, und da&szlig; eine Anmeldung
+&uuml;ber Befehlszeile (normalerweise <command>getty</command>) auf der Einheit
+ausgef&uuml;hrt wird. W&auml;hlt der Benutzer 'Anmeldung &uuml;ber Befehlszeile'
+aus, wird der X-Server beendet, und es kann auf die Anmeldung &uuml;ber Befehlszeile
+(<command>getty</command>) zugegriffen werden, die auf <filename>/dev/</filename><symbol role="Variable">anzeige_terminal_ger&auml;t</symbol> ausgef&uuml;hrt wird.
+</para>
+<para>Um die Option 'Anmeldung &uuml;ber Befehlszeile' an einem Bildschirm
+zu inaktivieren, mu&szlig; f&uuml;r <symbol role="Variable">anzeige_terminal_ger&auml;t</symbol> none angegeben werden. Standardm&auml;&szlig;ig wird bei <symbol role="Variable">anzeige_terminal_ger&auml;t</symbol> <command>console</command>
+angegeben. Wird <command>local</command> angegeben, wird f&uuml;r <symbol role="Variable">anzeige_terminal_ger&auml;t</symbol> automatisch der Standardwert <command>console</command> festgelegt. Wird <command>foreign</command> angegeben, wird
+die Option 'Anmeldung &uuml;ber Befehlszeile' inaktiviert.</para>
+<note>
+<para>Wird der Anmelde-Server &uuml;ber die Befehlszeile gestartet, wird die
+Option 'Anmeldung &uuml;ber Befehlszeile' am lokalen Bildschirm inaktiviert.
+</para>
+</note>
+</sect2>
+<sect2 id="SAG.LogMg.div.8">
+<title>Konsole mit zeichenorientierter Anzeige verwenden<indexterm><primary>Konsole mit zeichenorientierter Anzeige</primary></indexterm></title>
+<para>Verf&uuml;gt das Anmelde-Server-System &uuml;ber einen direkt<indexterm>
+<primary>Anmelde-Server</primary><secondary>Konsole mit zeichenorientierter
+Anzeige</secondary></indexterm> angeschlossenen nicht grafikf&auml;higen Bildschirm,
+der als Konsole dient, kann <symbol role="Variable">anzeige_terminal_ger&auml;t</symbol> auf <command>none</command> gesetzt werden, um die Anmeldung &uuml;ber
+Befehlszeile im Anmeldefenster des Bitmap-Bildschirms zu inaktivieren.</para>
+<para>Alternativ kann, wenn die Anmeldung &uuml;ber Befehlszeile <command> <command>(getty</command>)<indexterm><primary>Anmeldung &uuml;ber Befehlszeile (getty)</primary></indexterm></command> sowohl auf der Konsole mit zeichenorientierter
+Anzeige als auch auf dem Bitmap-Bildschirm ausgef&uuml;hrt wird, <symbol role="Variable">anzeige_terminal_ger&auml;t</symbol> auf die Einheit mit Anmeldung &uuml;ber
+Befehlszeile (<command>getty</command>) f&uuml;r Bitmap-Bildschirm gesetzt
+werden.</para>
+<para>Befindet sich beispielsweise die 'Anmeldung &uuml;ber Befehlszeile'
+(<command>getty</command>) f&uuml;r Bitmap-Bildschirm auf der Einheit <filename>/dev/tty01</filename>, kann <symbol role="Variable">anzeige_typ</symbol> auf <computeroutput>local@tty01</computeroutput> festgelegt werden.</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.9">
+<title id="SAG.LogMg.mkr.5">Anmeldefenster an einem Bildschirm im Netz anzeigen<indexterm><primary>Anmeldefenster</primary><secondary>Anzeige an einem
+Bildschirm im Netz</secondary></indexterm></title>
+<para>Der Anmelde-Server kann Anforderungen von Bildschirmen im Netz entgegennehmen,
+ein Anmeldefenster an diesem bestimmten Bildschirm anzuzeigen. Bei dem Bildschirm
+im Netz handelt es sich normalerweise um eine Xstation, es kann aber auch
+eine Datenstation sein.</para>
+<para>Um Anforderungen von Bildschirmen im Netz zu verwalten, unterst&uuml;tzt
+der Anmelde-Server das X Display Manager Protocol (XDMCP)<indexterm><primary>XDMCP</primary><secondary>Definition</secondary></indexterm> 1.0. Dieses Protokoll
+erm&ouml;glicht dem Anmelde-Server, Anforderungen von Bildschirmen im Netz
+auszuhandeln, zu akzeptieren oder zur&uuml;ckzuweisen. Bei den meisten Xstations
+ist XDMCP integriert.</para>
+<sect3 id="SAG.LogMg.div.10">
+<title>XDMCP-Direktanforderung von<indexterm><primary>XDMCP</primary><secondary>Direktanforderung</secondary></indexterm> Bildschirmen im Netz<indexterm>
+<primary>X station</primary><secondary>XDMCP-direkt</secondary></indexterm></title>
+<para>Wird eine Xstation so konfiguriert, da&szlig; der XDMCP-Direktmodus<indexterm><primary>XDMCP</primary><secondary>Direktanforderung von Bildschirmen
+im Netz</secondary></indexterm>
+(Abfragemodus) verwendet wird, wird der Xstation
+der Host-Name des Anmelde-Server-Hosts mitgeteilt. Beim booten der Xstation
+geht automatisch eine Anforderung an den Anmelde-Server, und dieser zeigt
+ein Anmeldefenster an der Xstation an. Informationen zur Konfiguration einer
+Xstation f&uuml;r XDMCP-Direktmodus k&ouml;nnen der Dokumentation zur Xstation
+entnommen werden.</para>
+<para>Die meisten X-Server unterst&uuml;tzen auch die Option <command>-query</command><indexterm><primary>-query Option</primary></indexterm>. In diesem
+Modus verh&auml;lt sich der X-Server, als ob er eine Xstation sei, und sendet
+eine Aufforderung zur Anzeige eines Anmeldefensters auf dem X-Server direkt
+an den Anmelde-Server. Wird beispielsweise der X-Server auf einem Bitmap-Bildschirm
+auf der Datenstation <command>bridget</command> gestartet, wird der Anmelde-Server <command>anita</command> ein Anmeldefenster auf dem X-Server anzeigen:</para>
+<programlisting>X -query anita</programlisting>
+</sect3>
+<sect3 id="SAG.LogMg.div.11">
+<title>Indirekte XDMCP-Anforderungen<indexterm><primary>XDMCP</primary><secondary>indirekte Anforderungen</secondary></indexterm> von Bildschirmen im Netz<indexterm>
+<primary>X terminals</primary><secondary>XDMCP-indirect</secondary></indexterm></title>
+<para>Wird eine Xstation so konfiguriert, da&szlig; der indirekte XDMCP-Modus
+verwendet wird, wird der Xstation der Host-Name des Anmelde-Server-Hosts mitgeteilt.
+Beim booten der Xstation geht eine Anforderung an den Anmelde-Server, der
+daraufhin ein Auswahlfenster mit weiteren Anmelde-Server-Hosts im Netz anzeigt.
+Aus dieser Liste kann der Benutzer einen Host ausw&auml;hlen, der dann ein
+Anmeldefenster auf der Xstation des Benutzers anzeigt. Informationen zur Konfiguration
+einer Xstation f&uuml;r den indirekten XDMCP-Modus k&ouml;nnen der Dokumentation
+zur Xstation entnommen werden.</para>
+<para>Wie beim Direktmodus unterst&uuml;tzen die meisten X-Server die Option <command>-indirect</command><indexterm><primary>-indirect Option</primary></indexterm>,
+durch die ein X-Server im indirekten XDMCP-Modus Verbindung zum Anmelde-Server
+aufnimmt.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.12">
+<title>Bildschirme im Netz<indexterm><primary>X station</primary><secondary>Bildschirme ohne XDMCP</secondary></indexterm> ohne XDMCP verwalten</title>
+<para>&Auml;ltere Xstations unterst&uuml;tzen m&ouml;glicherweise XDMCP nicht.
+Damit der Anmelde-Server ein Anmeldefenster auf diesen Xstations anzeigen
+kann, mu&szlig; der Name der Xstation in der Datei <filename>Xservers</filename>
+enthalten sein.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.13">
+<title>Beispiel</title>
+<para>Folgende Zeilen in der Datei <filename>Xservers</filename> geben dem
+Anmelde-Server an, da&szlig; Anmeldefenster an zwei Xstations ohne XDMCP, <command>ruby</command> und <command>wolfie</command> angezeigt werden sollen:</para>
+<programlisting>ruby.blackdog.com:0 AcmeXsta foreign
+wolfie:0 PandaCo foreign</programlisting>
+<para>Da sich der Bildschirm im Netz befindet, enth&auml;lt <symbol role="Variable">anzeige_name</symbol> den Host-Namen als Teil des Namens. Bei <symbol role="Variable">anzeige_ klasse</symbol> k&ouml;nnen Ressourcen angegeben werden, die f&uuml;r
+eine bestimmte Klasse von Xstations spezifisch sind. (Zu welcher Bildschirmklasse
+eine Xstation geh&ouml;rt, kann der zugeh&ouml;rigen Dokumentation entnommen
+werden.) Wird bei <symbol role="Variable">anzeige_typ</symbol> <command>foreign</command> angegeben, wird der Anmelde-Server angewiesen, eine Verbindung
+zu einem bereits vorhandenen X-Server herzustellen, statt einen eigenen X-Server
+zu starten. In diesem Fall erfolgt f&uuml;r <symbol role="Variable">X_server_befehl</symbol> keine Angabe.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.14">
+<title>Zugriff auf<indexterm><primary>Anmelde-Server</primary><secondary>Zugriff steuern</secondary></indexterm> Anmelde-Server steuern</title>
+<para>Standardm&auml;&szlig;ig kann jeder Host im Netz, der Zugriff auf den
+Anmelde-Server-Host hat, die Anzeige eines Anmeldefensters anfordern. Der
+Zugriff auf den Anmelde-Server kann durch &Auml;nderung der Datei <filename>Xaccess</filename><indexterm><primary>Xaccess Datei</primary></indexterm>
+eingeschr&auml;nkt werden.</para>
+<para>Um eine &Auml;nderung in der Datei <filename>Xaccess</filename> <filename>Xaccess</filename> vorzunehmen, wird <filename>Xaccess</filename> aus <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename> kopiert.
+Nach der &Auml;nderung von <filename>/etc/dt/config/Xaccess</filename> wird
+der Anmelde-Server angewiesen, die Datei <filename>Xaccess</filename> erneut
+zu lesen, indem folgendes eingegeben wird:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Damit wird der Befehl <command>kill -HUP</command> <symbol role="Variable">Proze&szlig;-ID des Anmelde-Servers</symbol> gegeben.</para>
+<sect3 id="SAG.LogMg.div.15">
+<title>XDMCP-Direktmodus<indexterm><primary>X Terminals</primary><secondary>XDMCP-Direktmodus</secondary></indexterm></title>
+<para>Versucht ein Host, &uuml;ber den<indexterm><primary>XDMCP</primary>
+<secondary>Direktmodus</secondary></indexterm> XDMCP-Direktmodus eine Verbindung
+zum Anmelde-Server herzustellen, wird der Host-Name mit den Eintr&auml;gen
+in der Datei<indexterm><primary>X station</primary><secondary>Xaccess Liste</secondary></indexterm> <filename>Xaccess</filename> verglichen, um festzustellen,
+ob dem Host der Zugriff auf den Anmelde-Server gestattet ist. Bei den Eintr&auml;gen
+in der Datei <filename>Xaccess</filename> handelt es sich um Namen von Hosts,
+denen der Zugriff auf den Anmelde-Server gestattet ist. Diese Host-Namen k&ouml;nnen
+auch die Platzhalterzeichen * (Stern) und ? (Fragezeichen) enthalten. Ein
+* (Stern) entspricht keinem oder mehr Zeichen, ein ? (Fragezeichen) entspricht
+einem beliebigen Zeichen. Ein ! (Ausrufezeichen) vor einem Eintrag gibt an,
+da&szlig; dem entsprechenden Host der Zugriff nicht gestattet ist.</para>
+<para>Beispiel einer Datei <filename>Xaccess</filename> mit drei Eintr&auml;gen:
+</para>
+<programlisting>amazon.waterloo.com
+*.dept5.waterloo.com
+!*</programlisting>
+<para>Der erste Eintrag gestattet dem Host <filename>amazon.waterloo.com</filename>
+den Zugriff auf den Anmelde-Server, der zweite Eintrag gestattet jedem Host
+den Zugriff, dessen vollst&auml;ndiger Dom&auml;nenname auf <filename>dept5.waterloo.com</filename> endet. Der letzte Eintrag gibt an, da&szlig; jedem anderen Host
+der Zugriff nicht gestattet ist.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.16">
+<title>Indirekter XDMCP-Modus<indexterm><primary>X terminals</primary><secondary>XDMCP-indirekter Modus</secondary></indexterm></title>
+<para>Versucht ein Host, &uuml;ber den indirekten<indexterm><primary>XDMCP</primary><secondary>indirekter Modus</secondary></indexterm> XDMCP-Modus
+eine Verbindung zum Anmelde-Server herzustellen, wird der Host-Name mit den
+Eintr&auml;gen in der Datei <command>Xaccess</command> verglichen, um festzustellen,
+ob dem Host der Zugriff auf den Anmelde-Server gestattet ist. Die Eintr&auml;ge
+in der Datei <command>Xaccess</command> entsprechen den Eintr&auml;gen im
+XDMCP-Direktmodus einschlie&szlig;lich der Platzhalterzeichen, werden aber
+mit einer Zeichenfolge<indexterm><primary>CHOOSER Zeichenfolge</primary>
+<secondary>Definition</secondary></indexterm> <command>CHOOSER<indexterm>
+<primary>X terminals</primary><secondary>CHOOSER string</secondary></indexterm></command>
+markiert. Beispiel:</para>
+<programlisting>amazon.waterloo.com   CHOOSER BROADCAST
+*.dept5.waterloo.com  CHOOSER BROADCAST
+!*  CHOOSER BROADCAST</programlisting>
+<para>Auch hier gestattet der erste Eintrag dem Host <filename>amazon.waterloo.com</filename> den Zugriff auf den Anmelde-Server, der zweite Eintrag gestattet
+jedem Host den Zugriff, dessen vollst&auml;ndiger Dom&auml;nenname auf <filename>dept5.waterloo.com</filename> endet. Der letzte Eintrag gibt an, da&szlig;
+jedem anderen Host der Zugriff nicht gestattet ist.</para>
+<para>Nach der Zeichenfolge <command>CHOOSER</command><indexterm><primary>CHOOSER Zeichenfolge</primary><secondary>Identifikation</secondary></indexterm>
+kann eine der folgenden Angaben stehen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>BROADCAST</command><indexterm><primary>BROADCAST,
+verwendet im indirekten XDMCP-Modus</primary></indexterm></para>
+</listitem>
+<listitem><para><symbol role="Variable">liste der hostnamen</symbol></para>
+</listitem>
+</itemizedlist>
+<para><command>BROADCAST</command> bedeutet, da&szlig; der Anmelde-Server
+eine Anforderung zur Generierung einer Liste verf&uuml;gbarer Anmelde-Server-Hosts
+an das Teilnetz des Anmelde-Servers sendet. Wird eine Liste mit Host-Namen
+angegeben, wird diese Liste als Liste verf&uuml;gbarer Anmelde-Hosts verwendet.
+Beispiel:</para>
+<programlisting>amazon.waterloo.com   CHOOSER shoal.waterloo.com alum.waterloo.com
+*.dept5.waterloo.com  CHOOSER BROADCAST
+!*  CHOOSER BROADCAST</programlisting>
+<para>Stellt <filename>amazon.waterloo.com</filename> eine Verbindung &uuml;ber
+den indirekten XDMCP-Modus her, wird eine Liste angezeigt, die aus <command>shoal</command> und <command>alum</command> besteht. Stellt <filename>alice.dept5.waterloo.com</filename> eine Verbindung her, wird eine Liste aller verf&uuml;gbarer Anmelde-Server-Hosts
+im Teilnetz des Anmelde-Servers angezeigt. Anforderungen anderer Anmelde-Server
+im indirekten XDMCP-Modus werden nicht akzeptiert.</para>
+<para>Eine weitere M&ouml;glichkeit, eine Liste mit Host-Namen anzugeben,
+besteht darin, ein oder mehrere Makros zu definieren, die die Liste der Host-Namen
+enthalten. Beispiel:</para>
+<programlisting>%list1   shoal.waterloo.com alum.waterloo.com
+amazon.waterloo.com  CHOOSER %list1</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.LogMg.div.17">
+<title id="SAG.LogMg.mkr.6">Fehlerpr&uuml;fung<indexterm><primary>Anmelde-Server</primary><secondary>Fehlerpr&uuml;fung</secondary></indexterm><indexterm>
+<primary>Anmelde-Manager</primary><secondary>Fehlerpr&uuml;fung</secondary>
+</indexterm></title>
+<para>Standardm&auml;&szlig;ig zeichnet der Anmelde-Server Fehler in der Datei
+systematisch auf<indexterm><primary>Xerrors Datei</primary></indexterm> <filename>/var/dt/Xerrors</filename>. Um eine &Auml;nderung vorzunehmen, kann die Ressource <filename>Dtlogin.errorLogFile</filename> in der Datei <filename>Xconfig</filename>
+festgelegt werden. Das angegebene Verzeichnis mu&szlig; beim Start des Anmelde-Servers
+bereits vorhanden sein.</para>
+<para>Damit beispielsweise der Anmelde-Server Fehler in der Datei <filename>/var/mylogs/Dterrors</filename> systematisch aufzeichnet, mu&szlig; die Datei <filename>Xconfig</filename> folgende Angabe enthalten:</para>
+<programlisting>Dtlogin.errorLogFile: /var/mylogs/Dterrors</programlisting>
+<para>Wird der Anmelde-Server erneut gestartet, zeichnet der Anmelde-Server
+Fehler in der Datei systematisch auf<filename>/var/mylogs/Dterrors</filename>.<indexterm>
+<primary>Dterrors Datei</primary></indexterm> Das Verzeichnis <filename>/var/mylogs</filename> mu&szlig; beim Start des Anmelde-Servers bereits vorhanden sein.
+</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.18">
+<title id="SAG.LogMg.mkr.7">Anmelde-Server<indexterm><primary>Anmelde-Server</primary><secondary>stoppen</secondary></indexterm> stoppen</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Soll der automatische Start des<indexterm><primary>Anmelde-Server</primary><secondary>stoppen</secondary></indexterm> Anmelde-Servers beim
+booten des Systems inaktiviert werden, mu&szlig; folgendes eingegeben werden:
+</para>
+<para remap="CodeIndent1"><command>/usr/dt/bin/dtconfig -d</command></para>
+<indexterm><primary>dtconfig Befehl</primary></indexterm>
+<para>Damit wird der Anmelde-Server beim n&auml;chsten booten des Systems
+nicht gestartet.</para>
+</listitem>
+<listitem><para>Soll der Anmelde-Server durch L&ouml;schen der Proze&szlig;-ID
+gestoppt werden, mu&szlig; folgendes eingegeben werden:</para>
+<para remap="CodeIndent1"><command>/usr/dt/bin/dtconfig -kill</command></para>
+<para>Damit wird der Befehl <command>kill</command> <symbol role="Variable">Proze&szlig;-ID des Anmelde-Servers</symbol> gegeben.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Wird die Proze&szlig;-ID des<indexterm><primary>Anmelde-Server</primary>
+<secondary>Proze&szlig;-ID l&ouml;schen</secondary></indexterm> Anmelde-Servers
+gel&ouml;scht, werden alle vom Anmelde-Server verwalteten Benutzer-Sessions
+beendet.</para>
+</note>
+<para>Der Anmelde-Server kann auch durch L&ouml;schen der Proze&szlig;-ID
+gestoppt werden. Die Proze&szlig;-ID des Anmelde-Servers ist in <filename>/var/dt/Xpid</filename> oder in <filename>Xconfig</filename> durch die in
+der Ressource <systemitem>Dtlogin.pidFile</systemitem> angegebenen Datei gespeichert.
+</para>
+<para>Ist der Benutzer zum Zeitpunkt, an dem er den Anmelde-Server l&ouml;scht,
+auf dem Desktop angemeldet, wird die Desktop-Session sofort beendet.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.19">
+<title id="SAG.LogMg.mkr.8">Anmeldefenster</title>
+<para>Das vom Anmelde-Server angezeigte Anmeldefenster stellt eine attraktive
+Alternative zu herk&ouml;mmlichen Anmeldefenstern im Zeichenmodus dar und
+bietet dem Benutzer ein Leistungsspektrum, das &uuml;ber die M&ouml;glichkeiten
+einer Anmeldung im Zeichenmodus hinausgeht.</para>
+<figure>
+<title id="SAG.LogMg.mkr.9">Desktop-Anmeldefenster</title>
+<graphic id="SAG.LogMg.grph.2" entityref="SAG.LogMg.fig.2"></graphic>
+</figure>
+<para>Wie bei der Anmeldung im Zeichenmodus gibt der Benutzer einen Benutzernamen
+und anschlie&szlig;end ein Kennwort ein. Wird der Benutzer identifiziert,
+startet der Anmelde-Server eine Desktop-Session f&uuml;r den Benutzer. Verl&auml;&szlig;t
+der Benutzer die Desktop-Session, zeigt der Anmelde-Server ein neues Anmeldefenster
+an, und der Proze&szlig; beginnt von neuem.</para>
+<para>Das Anmeldefenster kann angepa&szlig;t werden, indem<indexterm><primary>Anmeldefenster</primary><secondary>anpassen</secondary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>das Erscheinungsbild des Anmeldefensters ge&auml;ndert wird.
+</para>
+</listitem>
+<listitem><para>X-Server-Berechtigungen konfiguriert werden.</para>
+</listitem>
+<listitem><para>die Standardsprache ge&auml;ndert wird.</para>
+</listitem>
+<listitem><para>vor der Anzeige des Anmeldefensters Befehle eingegeben werden.
+</para>
+</listitem>
+<listitem><para>der Inhalt des Sprachenmen&uuml;s des Anmeldefensters ge&auml;ndert
+wird.</para>
+</listitem>
+<listitem><para>der Befehl zum Start der Benutzersession angegeben wird.</para>
+</listitem>
+<listitem><para>vor dem Start der Desktop-Session des Benutzers Befehle eingegeben
+werden.</para>
+</listitem>
+<listitem><para>nach Beendigung der Benutzer-Session Befehle eingegeben werden.
+</para>
+</listitem>
+</itemizedlist>
+<para>Dies kann jeweils f&uuml;r alle Bildschirme oder aber f&uuml;r jeden
+einzelnen Bildschirm erfolgen.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.20">
+<title id="SAG.LogMg.mkr.10">Erscheinungsbild des Anmeldefensters &auml;ndern</title>
+<para>Das Erscheinungsbild des<indexterm><primary>Anmeldefenster</primary>
+<secondary>Erscheinungsbild &auml;ndern</secondary></indexterm> Anmeldefensters
+kann angepa&szlig;t werden, indem das Logo oder die Grafik, die Begr&uuml;&szlig;ungsnachrichten
+und die Schriftarten ge&auml;ndert werden.</para>
+<para>Um eine &Auml;nderung in der Datei <filename>Xresources</filename> vorzunehmen,
+wird <filename>Xresources</filename> aus <filename>/usr/dt/config/</filename><symbol role="Variable">sprache</symbol> in <filename>/etc/dt/config/</filename><symbol role="Variable">sprache</symbol> kopiert. Beim n&auml;chsten Aufruf des Anmeldefensters
+werden alle &Auml;nderungen wirksam. Um die Neuanzeige eines Anmeldefensters
+zu erzwingen, im Men&uuml; 'Optionen' des Anmeldefensters 'Anmeldefenster
+zur&uuml;cksetzen' ausw&auml;hlen.</para>
+<para>Zu den Attributen des Anmeldefensters, die durch Ressourcenspezifikationen
+in der Datei <filename>Xresources</filename><indexterm><primary>Xresources
+Datei</primary></indexterm> festgelegt werden k&ouml;nnen, geh&ouml;ren:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.98in">
+<colspec colwidth="3.01in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*logo*bitmapFile</systemitem></para><indexterm><primary>Anmelde-Manager</primary><secondary>Ressourcen</secondary></indexterm><indexterm><primary>Anmeldefenster</primary>
+<secondary>Ressourcen</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Bitmap- oder Pixmap-Datei f&uuml;r
+die Anzeige als Logoabbild</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*greeting*labelString</systemitem></para></entry>
+<entry align="left" valign="top"><para>Begr&uuml;&szlig;ungsnachricht</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*greeting*persLabelString</systemitem></para></entry>
+<entry align="left" valign="top"><para>Angepa&szlig;te Begr&uuml;&szlig;ungsnachricht
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*greeting*fontList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Schriftart f&uuml;r Begr&uuml;&szlig;ungsnachrichten
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*labelFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Schriftart f&uuml;r Tasten und Bezeichnungen
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*textFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Schriftart f&uuml;r Hilfe und Fehlermeldungen
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*<symbol role="Variable">sprache</symbol>*languageName</systemitem></para></entry>
+<entry align="left" valign="top"><para>Alternativtext f&uuml;r l&auml;nderspezifische
+Angaben f&uuml;r <symbol role="Variable">sprache</symbol></para></entry></row>
+</tbody></tgroup></informaltable>
+<sect2 id="SAG.LogMg.div.21" role="Procedure">
+<title>Logo &auml;ndern</title>
+<itemizedlist>
+<listitem><para>Die Ressource <systemitem>Dtlogin*logo*bitmapFile</systemitem>
+in der Datei <filename>Xresources</filename> festlegen.</para>
+<para>Das Logo kann als farbige Pixmap- oder als Bitmap-Datei vorliegen.</para>
+</listitem>
+</itemizedlist>
+<para>Im folgenden Beispiel wird die Bitmap-Datei <filename>Mylogo</filename>
+als Logo verwendet:</para>
+<programlisting>Dtlogin*logo*bitmapFile: /usr/local/lib/X11/dt/bitmaps/Mylogo.bm
+</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.22" role="Procedure">
+<title>Begr&uuml;&szlig;ungsnachricht<indexterm><primary>Anmeldefenster</primary>
+<secondary>Begr&uuml;&szlig;ung</secondary></indexterm><indexterm><primary>Begr&uuml;&szlig;ungsnachricht</primary><secondary>&auml;ndern</secondary>
+</indexterm> &auml;ndern</title>
+<para><indexterm><primary>Begr&uuml;&szlig;ungsnachricht</primary><secondary>Standard</secondary></indexterm>Standardm&auml;&szlig;ig zeigt der Anmelde-Server
+die Nachricht <computeroutput>Willkommen</computeroutput> auf Rechner <symbol role="Variable">hostname</symbol> im Anmeldefenster an. Diese Nachricht kann
+folgenderma&szlig;en ge&auml;ndert werden:</para>
+<itemizedlist>
+<listitem><para>Die Ressource <systemitem>Dtlogin*greeting*labelString</systemitem>
+in <filename>Xresources</filename>setzen.</para>
+<para>Der Wert der Ressource <systemitem>labelString</systemitem> kann die
+Variable %<symbol role="Variable">Lokaler Host</symbol>%, die durch den Host-Namen
+des Anmelde-Servers ersetzt wird, und die Variable % <symbol role="Variable">Anzeige Name</symbol>%, die durch den Namen des X-Servers ersetzt wird, an
+dessen Bildschirm die Nachricht angezeigt wird, enthalten.</para>
+</listitem>
+</itemizedlist>
+<para>Im folgenden Beispiel wird die Begr&uuml;&szlig;ungsnachricht in <computeroutput>Hier ist <symbol role="Variable">hostname</symbol>!</computeroutput> ge&auml;ndert:
+</para>
+<programlisting>Dtlogin*greeting*labelString: Hier ist %LocalHost%!</programlisting>
+<para>Nach Eingabe des Benutzernamens zeigt der Anmelde-Server standardm&auml;&szlig;ig
+die Nachricht <computeroutput>Willkommen: <symbol role="Variable">benutzername</symbol> </computeroutput> an. Diese Nachricht kann ge&auml;ndert werden,
+indem die Ressource <systemitem>Dtlogin*greeting*perslabelString</systemitem>
+in <filename>Xresources</filename> festgelegt wird. Der Wert von <systemitem>perslabelString</systemitem> kann die Variable %s enthalten, die durch <symbol role="Variable">benutzername</symbol> ersetzt wird.</para>
+<para>Im folgenden Beispiel wird die angepa&szlig;te Begr&uuml;&szlig;ungsnachricht
+in <command>Hallo</command> <symbol role="Variable">benutzername</symbol>
+ge&auml;ndert.</para>
+<programlisting>Dtlogin*greeting*persLabelString: Hallo %s</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.23" role="Procedure">
+<title>Schriftarten &auml;ndern<indexterm><primary>Anmeldefenster</primary>
+<secondary>Schriftarten</secondary></indexterm></title>
+<para>Die im Anmeldefenster verwendeten Schriftarten k&ouml;nnen ge&auml;ndert
+werden, indem eine der folgenden Schriftartressourcen in <filename>Xresources</filename> ge&auml;ndert wird<filename>:<indexterm><primary>Xresources Datei</primary></indexterm></filename></para>
+<para>Um die verf&uuml;gbaren Schriftarten aufzulisten, folgendes eingeben:
+</para>
+<para><command>xlsfonts [-<symbol role="Variable">optionen</symbol>] [-fn <symbol role="Variable">muster</symbol>]</command></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.98in">
+<colspec colwidth="3.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*greeting*fontList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Schriftart f&uuml;r Begr&uuml;&szlig;ungsnachricht
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*labelFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Schriftart f&uuml;r Tasten und Bezeichnungen
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*textFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Schriftart f&uuml;r Hilfe und Fehlermeldungen
+</para></entry></row></tbody></tgroup></informaltable>
+<para>Im folgenden Beispiel wird eine gro&szlig;e Schriftart f&uuml;r die
+Begr&uuml;&szlig;ungsnachricht angegeben (die Angabe darf eine Zeile nicht
+&uuml;berschreiten):</para>
+<programlisting>Dtlogin*greeting*fontList: -dt-interface system-medium-r-normal-xxl*-*-*-*-*-*-*-*-*:
+</programlisting>
+<sect3 id="SAG.LogMg.div.24" role="Procedure">
+<title>Alternativtext f&uuml;r jede Sprache anzeigen lassen<indexterm><primary>Anmeldefenster, Verhalten &auml;ndern</primary></indexterm></title>
+<para>Damit im Men&uuml; 'Sprache' des Anmeldefensters statt der standardm&auml;&szlig;igen
+l&auml;nderspezifischen Angabe ein Alternativtext angezeigt wird, mu&szlig;
+die Ressource <systemitem>Dtlogin*<symbol role="Variable">sprache</symbol>*languageName</systemitem> in der Datei <filename>Xresources</filename> ge&auml;ndert werden:
+</para>
+<programlisting>Dtlogin*En_US*languageName: American</programlisting>
+<para>Statt der l&auml;nderspezifischen Angabe <filename>En_US</filename>
+wird nun der Text <computeroutput>American</computeroutput> angezeigt.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.25">
+<title>Verhalten des<indexterm><primary>Anmeldefenster</primary><secondary>Verhalten &auml;ndern</secondary></indexterm> Anmeldefensters &auml;ndern</title>
+<para>Um das Verhalten des Anmeldefensters zu &auml;ndern, k&ouml;nnen Ressourcen
+in der Datei <filename>Xconfig</filename> ge&auml;ndert werden.</para>
+<para>Um eine &Auml;nderung in der Datei <filename>Xconfig</filename> vorzunehmen,
+wird <filename>Xconfig</filename> aus <filename>/usr/dt/config</filename>
+in <filename>/etc/dt/config</filename> kopiert. Nach der &Auml;nderung von <filename>/etc/dt/config/Xconfig</filename> wird der Anmelde-Server angewiesen, die
+Datei <filename>Xconfig</filename> erneut zu lesen, indem folgendes eingegeben
+wird:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Damit wird der Befehl <command>kill -HUP (</command> <symbol role="Variable">Proze&szlig;-ID des Anmelde-Servers</symbol>) gegeben.</para>
+<para>Zu den Ressourcen, die in der Datei <filename>Xconfig</filename><indexterm>
+<primary>Xconfig Datei</primary><secondary>Ressourcen setzen</secondary></indexterm> spezifiziert
+sind, geh&ouml;ren:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="3.00in">
+<colspec colwidth="3.51in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*authorize</systemitem></para></entry>
+<entry align="left" valign="top">Spezifikation der Datei <command>Xaccess</command></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*environment</systemitem></para></entry>
+<entry align="left" valign="top"><para>X-Server-Umgebung</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*language</systemitem></para></entry>
+<entry align="left" valign="top">Standardsprache</entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*languageList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Liste der Sprachen f&uuml;r das Men&uuml;
+'Sprachen' im Anmeldefenster</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*resources</systemitem></para></entry>
+<entry align="left" valign="top"><para>Spezifikation der Datei <command>Xresources</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*setup</systemitem></para></entry>
+<entry align="left" valign="top"><para>Spezifikation der Datei <command>Xsetup</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*startup</systemitem></entry>
+<entry align="left" valign="top"><para>Spezifikation der Datei <command>Xstartup</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*session</systemitem></entry>
+<entry align="left" valign="top"><para>Spezifikation der Datei <command>Xsession</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*failsafeClient</systemitem></entry>
+<entry align="left" valign="top"><para>Spezifikation der Prozedur <command>Xfailsafe</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*reset</systemitem></entry>
+<entry align="left" valign="top">Spezifikation der Prozedur <command>Xreset</command></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*userPath</systemitem></entry>
+<entry align="left" valign="top"><para>PATH f&uuml;r <command>Xsession</command>
+und <command>Xfailsafe</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*systemPath</systemitem></entry>
+<entry align="left" valign="top"><para>PATH f&uuml;r <command>Xsetup</command>, <command>Xstartup</command> und <command>Xfailsafe</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*systemShell</systemitem></entry>
+<entry align="left" valign="top"><para>SHELL f&uuml;r <command>Xsetup</command>, <command>Xstartup</command> und <command>Xfailsafe</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin.timeZone</systemitem></entry>
+<entry align="left" valign="top"><para>TZ f&uuml;r alle Prozeduren</para></entry>
+</row></tbody></tgroup></informaltable>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.26">
+<title>Verhalten des Anmeldefensters an einzelnen Bildschirmen &auml;ndern<indexterm>
+<primary>Anmeldefenster</primary><secondary>Verhalten an einzelnen Bildschirmen</secondary></indexterm><indexterm><primary>Mehrere Bildschirme</primary>
+<secondary>Anmelde-Manager</secondary></indexterm></title>
+<para>In den obigen Beispielen wurde durch die &Auml;nderung einer Ressource
+in der Datei <filename>Xconfig</filename> das Verhalten des Anmeldefensters
+an allen Bildschirmen ge&auml;ndert. Ressourcen, die mit einem * (Stern) gekennzeichnet
+sind, k&ouml;nnen auch f&uuml;r einzelne Bildschirme ge&auml;ndert werden.
+Damit kann der Benutzer das Verhalten einzelner Bildschirme seinen W&uuml;nschen
+anpassen. Um eine Ressource f&uuml;r einen bestimmten Bildschirm zu setzen,
+wird die Ressource folgenderma&szlig;en angegeben: <systemitem>Dtlogin*<symbol role="Variable">anzeigeName</symbol>*<symbol role="Variable">ressource</symbol></systemitem>.
+Soll beispielsweise die benutzerabh&auml;ngige Zugriffssteuerung f&uuml;r
+Bildschirm <filename>expo:0</filename> abgeschaltet werden, aber an anderen
+Bildschirmen erhalten bleiben, wird folgendes eingegeben:</para>
+<programlisting>Dtlogin*expo_0*authorize: False</programlisting>
+<note>
+<para>S&auml;mtliche Sonderzeichen im Namen des Bildschirms, wie z.B.: (Doppelpunkt)
+oder . (Punkt), werden durch _ (Unterstreichungszeichen) ersetzt.</para>
+</note>
+</sect2>
+<sect2 id="SAG.LogMg.div.27">
+<title>Zugriffsrechte auf den X-Server &auml;ndern<indexterm><primary>Anmeldefenster</primary><secondary>X-Server Zugriff</secondary></indexterm><indexterm>
+<primary>X-Server</primary><secondary>Zugriffsrechte &auml;ndern</secondary>
+</indexterm></title>
+<para>Standardm&auml;&szlig;ig gestattet der Anmelde-Server die Zugriffssteuerung
+auf den X-Server jeweils einzelnen Benutzern auf der Grundlage von Berechtigungsdaten,
+die in der Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.Xauthority</filename> gespeichert und gesch&uuml;tzt sind. Nur Benutzern,
+die diese Datei lesen k&ouml;nnen, ist es gestattet, eine Verbindung zum X-Server
+herzustellen. Dies ist die bevorzugte Methode der Zugriffssteuerung auf den
+X-Server.</para>
+<para>Eine Alternative zur benutzerabh&auml;ngigen Zugriffssteuerung bietet
+die Host-gest&uuml;tzte Zugriffssteuerung. Bei dieser Methode erh&auml;lt,
+wenn ein Host Zugriff auf einen X-Server hat, jeder Benutzer an diesem Host
+Zugriff auf den X-Server. M&ouml;gliche Gr&uuml;nde f&uuml;r die Verwendung
+der Host-gest&uuml;tzten Zugriffssteuerung sind:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>&Auml;ltere R2 und R3 X-Clients k&ouml;nnen nicht &uuml;ber
+die benutzerabh&auml;ngige Zugriffssteuerung eine Verbindung zu einem X-Server
+herstellen.</para>
+</listitem>
+<listitem><para>In nicht gesicherten Netzen k&ouml;nnte ein nicht berechtigter
+Benutzer die Berechtigungsdaten, die zwischen dem X-Client und dem X-Server
+im Netz weitergereicht werden, abfangen.</para>
+</listitem>
+</itemizedlist>
+<para>Die Ressource <filename>Xconfig</filename> <systemitem>Dtlogin*authorize</systemitem><indexterm><primary>authorize, Ressource</primary></indexterm> weist
+den Anmelde-Server an, die benutzerabh&auml;ngige Zugriffssteuerung zu verwenden.
+Soll die host-gest&uuml;tzte Zugriffssteuerung verwendet werden, mu&szlig;
+der Wert der Ressource authorize auf <command>False</command> festgelegt werden.
+Beispiel:</para>
+<programlisting>Dtlogin*authorize: False</programlisting>
+<sect3 id="SAG.LogMg.div.28" role="Procedure">
+<title>X-Server-Umgebung<indexterm><primary>Anmeldefenster</primary><secondary>X -Server Umgebung</secondary></indexterm> &auml;ndern</title>
+<para>Soll der X-Server mit einer oder mehreren Umgebungsvariablen und -werten
+ausgestattet werden, wenn er &uuml;ber den Anmelde-Server gestartet wird,
+k&ouml;nnen diese mit der Ressource <systemitem>Dtlogin*environment</systemitem>
+in <filename>Xconfig</filename> angegeben werden. Beispiel:</para>
+<programlisting>Dtlogin*environment: VAR1=foo VAR2=bar</programlisting>
+<para>Hier werden die Variablen <symbol>VAR1</symbol> und <symbol>VAR2</symbol>
+dem lokalen X-Server-Proze&szlig; zur Verf&uuml;gung gestellt. Diese Variablen
+werden auch in die Prozeduren <command>Xsession</command> und <command>Xfailsafe</command> exportiert.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.29" role="Procedure">
+<title>Standardsprache &auml;ndern<indexterm><primary>Anmeldefenster</primary>
+<secondary>Standardsprache &auml;ndern</secondary></indexterm></title>
+<para>Wenn sich der Benutzer &uuml;ber das Anmeldefenster am Desktop anmeldet,
+wird die Benutzer-Session unter der l&auml;nderspezifischen Angabe ausgef&uuml;hrt,
+die der Benutzer im Untermen&uuml; 'Sprachen' des Men&uuml;s 'Optionen' ausgew&auml;hlt
+hat. W&auml;hlt der Benutzer keine Sprache aus, verwendet der Anmelde-Server
+die Standardsprache. Der Benutzer kann festlegen, welche Sprache als Standardsprache
+verwendet werden soll, indem er die Ressource <systemitem>Dtlogin*language</systemitem> in <filename>Xconfig</filename> setzt. <filename><indexterm>
+<primary>Dtlogin*language Ressource</primary></indexterm></filename>Beispiel:
+</para>
+<programlisting>Dtlogin*language: Ja_JP</programlisting>
+<para>Welche Sprachen auf einem System installiert sind, kann der zugeh&ouml;rigen
+Dokumentation entnommen werden.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.30" role="Procedure">
+<title>Inhalt des Men&uuml;s 'Sprachen' des Anmeldefensters &auml;ndern<indexterm>
+<primary>Anmeldefenster</primary><secondary>Inhalt des Men&uuml;s Sprache
+&auml;ndern</secondary></indexterm><indexterm><primary>Men&uuml; Sprache</primary><secondary>&Auml;ndern</secondary></indexterm></title>
+<para>Standardm&auml;&szlig;ig erstellt der Anmelde-Server im Anmeldefenster
+das Men&uuml; 'Sprachen' mit einer Liste aller l&auml;nderspezifischen Angaben,
+die auf dem System installiert sind. W&auml;hlt der Benutzer in dieser Liste
+eine l&auml;nderspezifische Angabe aus, zeigt der Anmelde-Server das Anmeldefenster
+in der Sprache der ausgew&auml;hlten l&auml;nderspezifischen Angabe erneut
+an. Meldet sich der Benutzer anschlie&szlig;end im Anmeldefenster an, startet
+der Anmelde-Server eine Desktop-Session in der Sprache der ausgew&auml;hlten
+l&auml;nderspezifischen Angabe f&uuml;r den Benutzer.</para>
+<para>Der Benutzer kann eine eigene Liste mit Sprachen erstellen, indem er
+die Ressource <systemitem>Dtlogin*languageList</systemitem> in <filename>Xconfig</filename> &auml;ndert:</para>
+<programlisting>Dtlogin*languageList: En_US De_DE</programlisting>
+<para>Der Anmelde-Server zeigt nun nur <computeroutput>En_US</computeroutput>
+und <computeroutput>De_DE</computeroutput> im Men&uuml; 'Sprachen' des Anmeldefensters
+an.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.31">
+<title>Befehle vor der Anzeige des Anmeldefensters eingeben<indexterm><primary>Anmelde-Manager</primary><secondary>Befehle eingeben</secondary></indexterm></title>
+<para>Nachdem der X-Server gestartet wurde, aber bevor das Anmeldefenster
+angezeigt wird, f&uuml;hrt der Anmelde-Server die Prozedur <filename>Xsetup</filename> aus. <filename>Xsetup</filename><indexterm><primary>Xsetup Datei</primary></indexterm> wird mit Root-Berechtigung ausgef&uuml;hrt und setzt
+Befehle ab, die ausgef&uuml;hrt werden m&uuml;ssen, bevor das Anmeldefenster
+angezeigt wird.</para>
+<para>Um eine &Auml;nderung in der Datei <filename>Xsetup</filename> vorzunehmen,
+wird <filename>Xsetup</filename> aus <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename> kopiert. Beim n&auml;chsten Aufruf des Anmeldefensters
+wird die ge&auml;nderte Datei <filename>Xsetup</filename> ausgef&uuml;hrt.
+</para>
+<sect3 id="SAG.LogMg.div.32">
+<title>Befehle eingeben, bevor die Benutzer-Session gestartet wird</title>
+<para>Nachdem der Benutzer den Benutzernamen und das Kennwort eingegeben hat
+und diese identifiziert worden sind, aber bevor die Benutzer-Session gestartet
+worden ist, f&uuml;hrt der Anmelde-Server die Prozedur <command>Xstartup</command>
+aus. <command>Xstartup<indexterm><primary>Xstartup Datei</primary></indexterm></command>
+wird mit Root-Berechtigung ausgef&uuml;hrt und setzt Befehle ab, die als Erstbenutzer
+ausgef&uuml;hrt werden m&uuml;ssen, bevor die Benutzer-Session gestartet wird.
+</para>
+<para>Um eine &Auml;nderung in der Datei <filename>Xstartup</filename> vorzunehmen,
+wird <filename>Xstartup</filename> aus <filename>/usr/dt/config</filename>
+in <filename>/etc/dt/config</filename> kopiert. Bei der n&auml;chsten Anmeldung
+des Benutzers wird die ge&auml;nderte Datei <command>Xstartup</command> <filename>Xstartup</filename> ausgef&uuml;hrt.</para>
+</sect3>
+<sect3 id="SAG.LogMg.div.33">
+<title>Desktop-Session starten</title>
+<para>Standardm&auml;&szlig;ig startet der Anmelde-Server die Benutzer-Session,
+indem er die Prozedur <command>Xsession</command><indexterm><primary>Xsession
+Datei</primary><secondary>ausgef&uuml;hrt vom Anmelde-Server</secondary></indexterm> ausf&uuml;hrt. <command>Xsession</command>wird mit der Berechtigung des Benutzers ausgef&uuml;hrt
+und setzt Befehle ab, die f&uuml;r den Start des Desktops ben&ouml;tigt werden.
+</para>
+<note>
+<para>Die Prozedur <command>Xsession</command> darf nicht direkt aktualisiert
+werden.</para>
+</note>
+<para>Informationen &uuml;ber die Anpassung des Starts einer Desktop-Session
+f&uuml;r den Benutzer k&ouml;nnen <!--Original XRef content: 'Kapitel&numsp;2,
+&ldquo;Sessionmanager konfigurieren'--><xref role="ChapNumAndTitle" linkend="SAG.SesMg.mkr.1">
+entnommen werden.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.34">
+<title>Einfache Motif-Session starten<indexterm><primary>Session</primary>
+<secondary>einfache Motif-Session</secondary></indexterm></title>
+<para>W&auml;hlt der Benutzer im Untermen&uuml; 'Sessions' des Men&uuml;s
+'Optionen' des Anmeldefensters 'einfache Motif-Session'<indexterm><primary>Einfache Motif-Session</primary></indexterm> aus, f&uuml;hrt der Anmelde-Server
+die Prozedur <command>Xfailsafe</command> aus.<indexterm><primary>Xfailsafe
+Datei</primary></indexterm> <command>Xfailsafe</command> wird mit der Berechtigung
+des Benutzers ausgef&uuml;hrt und setzt Befehle ab, die eine Minimalumgebung
+mit Fenstertechnik, normalerweise ein Datenstationsfenster und eine wahlfreie
+Fenstersteuerung, startet.</para>
+<para>Um eine &Auml;nderung in der Datei <filename>Xfailsafe</filename> vorzunehmen,
+wird <filename>Xfailsafe</filename> aus <filename>/usr/dt/config</filename>
+in <filename>/etc/dt/config</filename> kopiert. Bei der n&auml;chsten Anmeldung
+des Benutzers wird die ge&auml;nderte Datei <command>Xfailsafe</command> <filename>Xfailsafe</filename> ausgef&uuml;hrt.</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.35">
+<title>Nach dem Ende der Benutzer-Session<indexterm><primary>Session</primary>
+<secondary>Prozedur am Ende ausf&uuml;hren</secondary></indexterm></title>
+<para>Nachdem der Benutzer die Desktop- oder einfache Motif-Session verlassen
+hat, f&uuml;hrt der Anmelde-Server die Prozedur <command>Xreset</command>
+aus. <command>Xreset</command><indexterm><primary>Xreset Datei</primary>
+</indexterm> wird mit Root-Berechtigung ausgef&uuml;hrt und setzt Befehle
+ab, die als Erstbenutzer ausgef&uuml;hrt werden m&uuml;ssen, nachdem die Benutzer-Session
+beendet wurde.</para>
+<para>Um eine &Auml;nderung in der Datei <filename>Xreset</filename> vorzunehmen,
+wird <filename>Xreset</filename> aus <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename> kopiert. Bei der n&auml;chsten Anmeldung des Benutzers
+wird die ge&auml;nderte Datei <filename>Xreset</filename> ausgef&uuml;hrt.
+</para>
+</sect2>
+<sect2 id="SAG.LogMg.div.36">
+<title>Umgebung des Anmelde-Servers</title>
+<para>Der Anmelde-Server stellt eine Umgebung zur Verf&uuml;gung, die in die
+Prozeduren <command>Xsetup</command>, <command>Xstartup</command>, <command>Xsession</command>, <command>Xfailsafe</command> und <command>Xreset</command>
+exportiert wird. Diese Umgebung wird in <!--Original XRef content: 'Tabelle&numsp;1&hyphen;1'--><xref
+role="CodeOrFigureOrTable" linkend="SAG.LogMg.mkr.11"> beschrieben. Weitere
+Variablen k&ouml;nnen ebenfalls durch den Anmelde-Server exportiert werden.
+</para>
+<table id="SAG.LogMg.tbl.1" frame="Topbot">
+<title id="SAG.LogMg.mkr.11">Umgebungen des Anmelde-Servers<indexterm><primary>Anmelde-Server</primary><secondary>Umgebung</secondary></indexterm></title>
+<tgroup cols="6" colsep="0" rowsep="0">
+<colspec colwidth="2.01in">
+<colspec colwidth="0.33in">
+<colspec colwidth="0.27in">
+<colspec colwidth="0.26in">
+<colspec colwidth="0.29in">
+<colspec colwidth="2.85in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Umgebungsvariable</para></entry>
+<entry align="left" valign="bottom"><para><command>Xsetup</command></para></entry>
+<entry align="left" valign="bottom"><para><command>Xstartup</command></para></entry>
+<entry align="left" valign="bottom"><para><command>Xsession</command></para></entry>
+<entry align="left" valign="bottom"><para><literal><command>Xreset</command></literal></para></entry>
+<entry align="left" valign="bottom"><para>Beschreibung</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">LANG</systemitem></para><indexterm><primary>LANG Variable</primary><secondary>vom Anmelde-Manager eingestellt</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Standard- oder ausgew&auml;hlte Sprache
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>XAUTHORITY</systemitem></para><indexterm>
+<primary>XAUTHORITY Variable, eingestellt vom Anmelde-Manager</primary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X-Berechtigungsdatei &auml;ndern (Option).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">PATH</systemitem></para><indexterm><primary>PATH Variable</primary><secondary>eingestellt vom Anmelde-Manager</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Wert der Ressource <systemitem>Dtlogin*userPath</systemitem> (<command>Xsession</command>, <command>Xfailsafe</command>)
+oder der Ressource <systemitem>Dtlogin*systemPath</systemitem> ( <command>Xsetup</command>, <command>Xstartup</command>, <command>Xreset</command>)
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">DISPLAY</systemitem></para><indexterm><primary>DISPLAY Variable, gesetzt vom Anmeldemanager </primary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Verbindungsnummer des X-Servers</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>SHELL</systemitem></para><indexterm>
+<primary>SHELL Variable, eingestellt vom Anmelde-Manager</primary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>In <filename>/etc/passwd</filename>
+(<command>Xsession</command>, <command>Xfailsafe</command>) angegebene Shell
+oder Ressource <systemitem>Dtlogin*systemShell</systemitem> (<command>Xsetup</command>, <command>Xstartup</command>, <command>Xreset</command>)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">TZ</systemitem></para><indexterm>
+<primary>TZ Variable</primary></indexterm></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Wert der Ressource <systemitem>Dtlogin.timeZone</systemitem> oder vom System festgelegte Zeitzone</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">USER</systemitem></para><indexterm><primary>USER Variable</primary></indexterm></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Benutzername</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">HOME</systemitem></para><indexterm><primary>HOME Variable</primary></indexterm></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>In <command>/etc/passwd</command> angegebenes
+Benutzerverzeichnis</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="EnvironVar">LOGNAME</systemitem></para><indexterm><primary>LOGNAME Variable</primary></indexterm></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Benutzername</para></entry></row></tbody>
+</tgroup></table>
+</sect2>
+<sect2 id="SAG.LogMg.div.37">
+<title>Pfad f&uuml;r Benutzer oder System &auml;ndern</title>
+<para>Der Anmelde-Server legt die Umgebungsvariable <systemitem>PATH</systemitem>
+fest,<indexterm><primary>Anmelde-Server</primary><secondary>Benutzerpfad</secondary></indexterm> wenn die Prozeduren <command><indexterm><primary>Xsession Datei</primary><secondary>Pfad setzen</secondary></indexterm>Xsession</command> und <command><indexterm><primary>Xfailsafe Datei</primary></indexterm>Xfailsafe</command> ausgef&uuml;hrt werden. Der Benutzer kann einen Alternativpfad
+zu diesen Prozeduren festlegen:</para>
+<sect3 id="SAG.LogMg.div.38" role="Procedure">
+<title>Benutzerpfad &auml;ndern<indexterm><primary>Pfad</primary><secondary>Benutzer</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Die Ressource <systemitem>Dtlogin*userPath</systemitem> in <filename>Xconfig</filename><indexterm><primary>userPath, Ressource</primary></indexterm> festlegen.
+Beispiel:<indexterm><primary>Umgebungsvariable</primary><secondary>Anmeldemanager</secondary></indexterm></para>
+</listitem>
+</itemizedlist>
+<programlisting>Dtlogin*userPath:/usr/bin:/etc:/usr/sbin:/usr/ucb:/usr/bin/X11
+</programlisting>
+</sect3>
+<sect3 id="SAG.LogMg.div.39" role="Procedure">
+<title>Systempfad &auml;ndern<indexterm><primary>Pfad</primary><secondary>System</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Die Ressource <systemitem>Dtlogin*systemPath</systemitem>
+in <filename>Xconfig</filename><indexterm><primary>systemPath Ressource</primary>
+</indexterm> festlegen. Beispiel:</para>
+</listitem>
+</itemizedlist>
+<programlisting>Dtlogin*systemPath: /usr/bin/X11:/etc:/bin:/usr/bin:/usr/ucb
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="SAG.LogMg.div.40" role="Procedure">
+<title>System-Shell &auml;ndern</title>
+<para>Der Anmelde-Server legt die Umgebungsvariable <systemitem>SHELL</systemitem>
+fest, wenn die Prozeduren <command>Xsetup</command>, <command>Xstartup</command>
+und <command>X<indexterm><primary>Anmelde-Server</primary><secondary>System-Shell</secondary></indexterm>failsafe</command> ausgef&uuml;hrt werden. Standardm&auml;&szlig;ig
+wird <filename>/bin/sh</filename> festgelegt. Soll alternativ zu diesen Prozeduren
+eine andere Shell zur Verf&uuml;gung gestellt werden, die Ressource <systemitem>Dtlogin*systemShell</systemitem> in <filename>Xconfig</filename> festlegen.
+Beispiel:</para>
+<programlisting>Dtlogin*systemShell: /bin/ksh</programlisting>
+</sect2>
+<sect2 id="SAG.LogMg.div.41" role="Procedure">
+<title>Zeitzone &auml;ndern</title>
+<para>Der Anmelde-Server legt die Umgebungsvariable TZ fest, wenn die Prozeduren <command>Xsetup</command>, <command>Xstartup</command>, <command>Xsession</command>, <command>Xfailsafe</command> und <command>Xreset</command> ausgef&uuml;hrt werden.
+Der Standardwert wird dem System entnommen, so da&szlig; eine &Auml;nderung
+normalerweise nicht<indexterm><primary>Anmelde-Server</primary><secondary>Zeitzone &auml;ndern</secondary></indexterm> notwendig ist. Soll eine andere
+Zeitzone zur Verf&uuml;gung gestellt werden, die Ressource <systemitem>Dtlogin*timeZone</systemitem> in <filename>Xconfig</filename><indexterm><primary>timeZone
+Ressource</primary></indexterm>festlegen. Beispiel:</para>
+<programlisting>Dtlogin.timeZone: CST6CDT</programlisting>
+</sect2>
+</sect1>
+<sect1 id="SAG.LogMg.div.42">
+<title id="SAG.LogMg.mkr.12">Anmeldemanager verwalten</title>
+<para>Wird der Anmelde-Server gestartet, wird ein Proze&szlig; <command>dtlogin</command> gestartet. Der Proze&szlig; <command>dtlogin</command> liest die
+Datei <command>Xconfig</command>, um die Anfangskonfiguration des Anmelde-Servers
+und weitere Konfigurationsdateien des Anmelde-Servers festzustellen. Dann
+liest der Anmelde-Server die Datei <filename>Xservers</filename>, um festzustellen,
+ob Bildschirme vorhanden sind, die explizit verwaltet werden m&uuml;ssen,
+und die Datei <filename>Xaccess</filename>, um den Zugriff auf den Anmelde-Server
+zu steuern.</para>
+<para>Stellt der Anmelde-Server in der Datei <filename>Xservers</filename><indexterm>
+<primary>Xservers Datei</primary><secondary>lokale Bildschirmverwaltung</secondary>
+</indexterm> fest, da&szlig; ein lokaler Bildschirm zu verwalten ist, startet
+er, gem&auml;&szlig; den Instruktionen in der Datei <filename>Xservers</filename>,
+einen X-Server und zeigt an diesem Bildschirm ein Anmeldefenster an.</para>
+<para>Stellt der Anmelde-Server in der Datei <filename>Xservers</filename>
+fest, da&szlig; ein Bildschirm im Netz zu verwalten ist, wird er davon ausgehen,
+da&szlig; ein X-Server mit dem angegebenen Bildschirmnamen bereits l&auml;uft,
+und ein Anmeldefenster an diesem Bildschirm anzeigen.</para>
+<para>Anschlie&szlig;end wird der Anmelde-Server auf XDMCP-Anforderungen aus
+dem Netz warten.</para>
+<para>F&uuml;r jeden Bildschirm, den er verwaltet, erstellt der Anmelde-Server
+zun&auml;chst einen neuen Proze&szlig; <command>dtlogin</command> f&uuml;r
+diesen Bildschirm. Dies bedeutet, da&szlig;, wenn der Anmelde-Server <symbol role="Variable">n</symbol> Bildschirme verwaltet, <symbol role="Variable">n+1</symbol> Prozesse <command>dtlogin</command> vorhanden sind. Der Anmelde-Server
+f&uuml;hrt die Prozedur <command>Xsetup</command> aus, l&auml;dt die Datei <filename>Xresources</filename>, und f&uuml;hrt dann <command>dtgreet</command> aus,
+um das Anmeldefenster anzuzeigen. Nachdem der Benutzer einen Benutzernamen
+und ein Kennwort eingegeben hat und identifiziert wurde, f&uuml;hrt der Anmelde-Server
+die Prozedur <command>Xstartup</command> aus, sowie anschlie&szlig;end die
+Prozedur <command>Xsession</command> bzw. <command>Xfailsafe<indexterm><primary>Xfailsafe Datei</primary></indexterm></command>. Hat der Benutzer die Session
+beendet, f&uuml;hrt der Anmelde-Server die Prozedur <command>Xreset</command>
+aus.</para>
+<para>Erh&auml;lt der Anmelde-Server eine indirekte<indexterm><primary>XDMCP</primary><secondary>indirekte Anforderungen</secondary></indexterm> XDMCP-Anforderung,
+wird <command>dtchooser</command> ausgef&uuml;hrt und eine Liste mit Anmelde-Server-Hosts
+auf dem Bildschirm angezeigt. W&auml;hlt der Benutzer einen Host aus dieser
+Liste, verwaltet der Anmelde-Server an diesem Host den Bildschirm.</para>
+<para>Die Konfigurationsdateien <command>Xaccess</command>, <command>Xconfig</command>, <command>Xfailsafe</command>, <command>Xreset</command>, <symbol role="Variable">sprache</symbol><filename>/Xresources</filename>, <command>Xservers</command>, <command>Xsetup</command> und <command>Xstartup</command>
+sucht der Anmelde-Server standardm&auml;&szlig;ig zuerst in <filename>/etc/dt/config</filename> und dann in <filename>/usr/dt/config</filename>. Er verwendet
+die Datei, die er zuerst findet.</para>
+</sect1>
+<sect1 id="SAG.LogMg.div.43">
+<title id="SAG.LogMg.mkr.13">Dateien des Anmeldemanagers<indexterm><primary>Konfigurations-Dateien</primary><secondary>Anmeldemanager</secondary></indexterm></title>
+<para>Die Dateien des Anmeldemanagers<indexterm><primary>Anmelde-Manager</primary><secondary>Konfigurationsdateien</secondary></indexterm> befinden
+sich standardm&auml;&szlig;ig in:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="4.00in">
+<colspec colwidth="3.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtlogin</filename></para><indexterm>
+<primary>dtlogin, siehe Anmelde-Manager</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Anmelde-Server und Anzeigemanager</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtgreet</filename></para><indexterm>
+<primary>dtgreet Datei</primary></indexterm></entry>
+<entry align="left" valign="top">Zeigt ein Anmeldefenster an einem Bildschirm
+an.</entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtchooser</filename></para><indexterm>
+<primary>dtchooser Datei</primary></indexterm></entry>
+<entry align="left" valign="top">Zeigt ein Auswahlfenster an einem Bildschirm
+an.</entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/Xsession</filename></para></entry>
+<entry align="left" valign="top">Startet eine Desktop-Session.</entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xfailsafe</filename></para></entry>
+<entry align="left" valign="top">Startet eine einfache Motif-Session.</entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xconfig</filename></para></entry>
+<entry align="left" valign="top"><para>Konfigurationsdatei des Anmelde-Servers
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xservers</filename></para></entry>
+<entry align="left" valign="top"><para>Anzeigebeschreibungsdatei des Anmelde-Servers
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xaccess</filename></para></entry>
+<entry align="left" valign="top"><para>Zugriffsbeschreibungsdatei des Anmelde-Servers
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/</filename><symbol role="Variable">sprache</symbol><filename>/Xresources</filename></para></entry>
+<entry align="left" valign="top">Anzeigeentwurfsressourcen</entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xsetup</filename></para></entry>
+<entry align="left" valign="top"><para>Anzeigekonfigurationsdatei</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xstartup</filename></para></entry>
+<entry align="left" valign="top">Startdatei vor der Session</entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xreset</filename></para></entry>
+<entry align="left" valign="top"><para>Datei f&uuml;r R&uuml;cksetzung nach
+der Session</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/var/dt/Xpid</filename></para></entry>
+<entry align="left" valign="top"><para>Proze&szlig;-ID des Anmelde-Servers
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/var/dt/Xerrors</filename></para></entry>
+<entry align="left" valign="top"><para>Fehlerprotokolldatei des Anmelde-Servers
+</para></entry></row></tbody></tgroup></informaltable>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+<?Pub *0000083170>

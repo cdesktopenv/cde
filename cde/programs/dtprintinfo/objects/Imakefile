@@ -1,0 +1,31 @@
+XCOMM $TOG: Imakefile /main/5 1998/08/25 12:59:24 mgreess $
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+SUBDIRS = PrintObj
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+INCLUDES = -I. -I.. -I./PrintObj -I../util
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+#ifdef RsArchitecture
+EXTRA_DEFINES = -DHAS_EXCEPTIONS
+#endif
+
+SRCS = BaseObj.C
+OBJS = BaseObj.o
+
+NormalCplusplusObjectRule()
+
+all::	$(OBJS)
+
+clean::
+	$(RM) *.map

@@ -1,0 +1,52 @@
+XCOMM!/bin/ksh 
+XCOMM $XConsortium: Xsession.ow2.src /main/3 1996/11/19 11:41:57 drk $
+XCOMM ####################################################################
+XCOMM ##  File:              Xsession.ow2
+XCOMM ##
+XCOMM ##  Default Location:  /usr/dt/config/Xsession.ow2
+XCOMM ##
+XCOMM ##  Purpose:           OpenWindows Desktop start script
+XCOMM ##
+XCOMM ##  Invoked by:        /usr/dt/bin/Xsession
+XCOMM ##
+XCOMM ##  Revision:          @(#)Xsession.ow2.src 1.3 95/02/16 
+XCOMM ##
+XCOMM ##  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM ##
+XCOMM ####################################################################
+
+XCOMM First a little namespace cleanup of vars associated with this
+XCOMM (and /usr/dt/bin/Xsession.ow) scripts.
+
+unset SDT_ALT_SESSION
+unset SDT_ALT_HELLO
+unset SDT_NO_DSDM
+
+XCOMM
+XCOMM Find "xinitrc" file by standard precedence rules and start 
+XCOMM the user's OpenWindows Desktop.
+XCOMM
+
+DEFAULT_XINITRC="/usr/openwin/lib/Xinitrc"
+HOME_XINITRC="$HOME/.xinitrc"
+
+    if [ -z "$XINITRC" ]; then
+	if [ -f $HOME_XINITRC ]; then
+	    XINITRC=$HOME_XINITRC
+	else
+	    XINITRC=$DEFAULT_XINITRC
+	fi
+    fi
+
+    echo "OpenWindows Desktop Login"
+
+    if [ -f $XINITRC ]; then
+	echo "using xinitrc file: $XINITRC"
+        /bin/ksh $XINITRC
+    else
+	echo "xinitrc file: $XINITRC not found"
+	if [ -f $DEFAULT_XINITRC ]; then
+	    echo "using xinitrc: $DEFAULT_XINITRC"
+	    /bin/ksh $DEFAULT_XINITRC 
+	fi
+    fi

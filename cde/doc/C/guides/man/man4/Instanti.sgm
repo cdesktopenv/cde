@@ -1,0 +1,100 @@
+<!-- $XConsortium: Instanti.sgm /main/6 1996/09/08 20:14:38 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN98.rsml.1">
+<RefMeta>
+<RefEntryTitle>Instantiate</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>Instantiate</Filename></RefName>
+<RefPurpose>open a document factory
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Instanti.sgm /main/6 1996/09/08 20:14:38 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>[<Symbol Role="Variable">file</Symbol>] Instantiate(in <Emphasis>mediaType template</Emphasis>);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Emphasis>Instantiate</Emphasis> request causes the handler to open a factory for
+<Emphasis>mediaType</Emphasis> documents based on
+<Emphasis>template</Emphasis>. Usually this means opening an untitled buffer not bound to any file.
+The handler replies when the untitled buffer is successfully opened.
+</Para>
+<Para>The
+<Emphasis>template</Emphasis> argument
+is the template of the document.
+If this argument is unset
+(in other words, has a value of
+<Literal>(char *)0</Literal>), then the template to us is in
+the file named in the message's
+<Symbol Role="Variable">file</Symbol> attribute. If the
+<Symbol Role="Variable">file</Symbol> attribute is also unset, no template has been supplied, and the
+factory should use its default template (usually, an empty buffer).
+The data type
+(<Emphasis>mediaType</Emphasis>) of the
+<Emphasis>template</Emphasis> argument should be
+<Literal>string</Literal>, unless nulls are valid in the given media type,
+in which case the data type must be
+<Literal>bytes</Literal>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttmedia.ptype.declare; function can be used to register for,
+and help process, this message.
+</Para>
+<Para>This message can be sent with the
+&cdeman.ttmedia.load; function.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>To instantiate an appointment document, the application can send an
+<Emphasis>Instantiate</Emphasis> request with a first argument whose vtype is
+<Symbol>DT_APPOINTMENT</Symbol>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The ToolTalk service may return one of the following errors
+in processing the
+<Emphasis>Instantiate</Emphasis> request:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_DESKTOP_ENOENT</Term>
+<ListItem>
+<Para>The file that was alleged to contain the template does not exist.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_MEDIA_ERR_FORMAT</Term>
+<ListItem>
+<Para>The template is not a valid instance of the media type.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.ttmedia.ptype.declare;, &cdeman.ttmedia.load;; <Emphasis>Intro</Emphasis>, <Symbol Role="Message">Deposit</Symbol>, <Symbol Role="Message">Edit</Symbol>, <Symbol Role="Message">Status</Symbol> requests.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

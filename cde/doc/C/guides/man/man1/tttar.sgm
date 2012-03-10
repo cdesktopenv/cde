@@ -1,0 +1,449 @@
+<!-- $XConsortium: tttar.sgm /main/11 1996/10/30 16:32:45 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDEMX.XCDI.MAN7.rsml.1">]]><![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN7.rsml.1">]]><refmeta>
+<refentrytitle>tttar</refentrytitle><manvolnum>user cmd</manvolnum></refmeta><refnamediv>
+<refname><command>tttar</command></refname><refpurpose>process files and ToolTalk
+objects in an archive</refpurpose></refnamediv><!-- $XConsortium: tttar.sgm
+/main/4 1995/08/30 23:36:18 rws $--><!-- CDE Common Source Format, Version
+1.0.0--><!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company--><!--
+(c) Copyright 1993, 1994, 1995 International Business Machines Corp.--><!--
+(c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.--><!-- (c) Copyright
+1993, 1994, 1995 Novell, Inc.--><refsynopsisdiv>
+<cmdsynopsis>
+<command>tttar c</command><arg>t</arg><arg>x</arg><arg choice="opt">EfhpSv</arg><arg choice="opt"><replaceable>tarfile</replaceable></arg><arg><replaceable>pathname</replaceable></arg><arg>.&thinsp;.&thinsp;.</arg>
+</cmdsynopsis>
+<cmdsynopsis>
+<command>tttar c</command><arg>t</arg><arg>xfL</arg><arg choice="opt">EhpRSv</arg><arg><replaceable>tttarfile</replaceable></arg><group><group><arg>&minus;rename <replaceable>oldname</replaceable></arg><arg><replaceable>newname</replaceable></arg></group>
+<arg>.&thinsp;.&thinsp;.</arg></group><arg><replaceable>pathname</replaceable></arg>
+<arg>.&thinsp;.&thinsp;.</arg>
+</cmdsynopsis>
+<cmdsynopsis>
+<command>tttar</command><arg>&minus;h</arg><arg>&minus;help</arg>
+</cmdsynopsis>
+<cmdsynopsis>
+<command>tttar</command><arg>&minus;v</arg>
+</cmdsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>tttar</command> utility has two fundamentally different
+modes.</para>
+<itemizedlist>
+<listitem>
+<para>Without the <Literal>L</Literal> function modifier, <command>tttar</command>
+acts as a ToolTalk-aware wrapper for <command>tar</command>(1), archiving (or
+extracting) multiple files and their ToolTalk objects onto (or from) a single
+archive, called a <emphasis>tarfile</emphasis>.</para>
+</listitem>
+<listitem>
+<para>With the <Literal>L</Literal> function modifier, <command>tttar</command>
+does not invoke <command>tar</command> to archive actual files, but instead
+archives (or extracts) only ToolTalk objects onto (or from) a single archive,
+called a <emphasis>tttarfile</emphasis>. Since without the <Literal>L</Literal>
+function modifier <command>tttar</command> acts like an ToolTalk-aware <command>tar</command>(1), the description below is phrased as if the <Literal>L</Literal>
+function modifier is in effect. That is, the text refers to <emphasis>tttarfiles</emphasis> instead of <emphasis>tarfiles</emphasis>, and it describes archiving
+and de-archiving only ``the ToolTalk objects of the named files'' rather than
+archiving and de-archiving both ``the named files and their ToolTalk objects.''
+</para>
+</listitem>
+</itemizedlist>
+<para>The actions of <command>tttar</command> are controlled by the first
+argument, the <symbol role="Variable">key</symbol>, a string of characters
+containing exactly one function letter from the set <literal>ctx</literal>,
+and one or more of the optional function modifiers listed under <Symbol>OPERANDS</Symbol>. Other arguments to <command>tttar</command> are file or
+directory names that specify which files to archive or extract ToolTalk objects
+for. By default, the appearance of a directory name refers recursively to
+the files and subdirectories of that directory.</para>
+<para>A file does not have to exist for a ToolTalk object to be associated
+with its pathname. When <command>tttar</command> descends into a directory,
+it does not attempt to archive the objects associated with any files that
+do not exist in the directory.</para>
+<para>When extracting from a <command>tar</command> archive that is given
+to <command>tttar</command> either on magnetic tape or on the standard input,
+the current working directory must be writable, so that the <emphasis>tttarfile</emphasis> can be placed there temporarily.</para>
+</refsect1><refsect1>
+<title>OPTIONS</title><![ %CDE.C.XO; [<Para>The
+<Command>tttar</Command> utility supports the &str-Zu;,
+except that the
+<Literal>&minus;help</Literal> and
+<Literal>&minus;rename</Literal> options are full words, which cannot be combined
+with the other options, and
+<Literal>&minus;rename</Literal> can only be used after
+the first operand,
+<Emphasis>tttarfile</Emphasis>.</Para>
+]]>
+<para>The following options are available:</para>
+<variablelist>
+<varlistentry><term><literal>&minus;h</literal></term>
+<listitem>
+<para></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;help</literal></term>
+<listitem>
+<para>Write a help message for invoking <command>tttar</command> and then
+exit.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;rename</literal><emphasis>&numsp;oldname&numsp;newname</emphasis></term>
+<listitem>
+<para>Interpret the next two arguments as an <emphasis>oldname</emphasis>
+and a <emphasis>newname</emphasis>, respectively, and rename any entry archived
+as <emphasis>oldname</emphasis> to <emphasis>newname</emphasis>. If <emphasis>oldname</emphasis> is a directory, then <command>tttar</command> recursively
+renames the entries as well. If more than one <literal>&minus;rename</literal>
+option applies to an entry (because of one or more parent directories being
+renamed), the most specific <literal>&minus;rename</literal> option applies.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;v</literal></term>
+<listitem>
+<para>Write the version number of <command>tttar</command> and then exit.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>OPERANDS</title>
+<para>The following operands are supported:</para>
+<variablelist>
+<varlistentry><term><symbol role="Variable">key</symbol></term>
+<listitem>
+<para>The <symbol role="Variable">key</symbol> operand consists of a function
+letter followed immediately by zero or more modifying letters.</para>
+<para>The function letter is one of the following:</para>
+<variablelist>
+<varlistentry><term><literal>c</literal></term>
+<listitem>
+<para>Create a new archive and write the ToolTalk objects of the named files
+onto it.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>t</literal></term>
+<listitem>
+<para>Write to standard output the names of all the files in the archive.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>x</literal></term>
+<listitem>
+<para>Extract the ToolTalk objects of the named files from the archive. If
+a named file matches a directory with contents in the archive, this directory
+is (recursively) extracted. The owner and modification time of the ToolTalk
+objects are restored (if possible). If no
+<symbol role="Variable">filename</symbol> arguments are given, the ToolTalk objects of all files named in
+the archive are extracted.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The following characters can be appended to the function letter. Appending
+the same character more than once produces undefined results.</para>
+<variablelist>
+<varlistentry><term><literal>f</literal></term>
+<listitem>
+<para>Use the next argument as the name of the <emphasis>tttarfile</emphasis>.
+If <emphasis>tttarfile</emphasis> is given as `<literal>&minus;</literal>', <command>tttar</command> writes to the standard output or reads from the standard input,
+whichever is appropriate.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>h</literal></term>
+<listitem>
+<para>Follow symbolic links as if they were normal files or directories. Normally, <command>tttar</command> does not follow symbolic links.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>p</literal></term>
+<listitem>
+<para>Preserve. Restore the named files to their original modes, ignoring
+the present <emphasis>umask</emphasis> value (see <function>umask</function>(2)). <![ %CDE.C.CDE; [The <command>tttar</command> utility also extracts setUID and sticky information for the
+super-user. This option is only useful with the <literal>x</literal> function
+letter, and has no meaning if the <Literal>L</Literal> function letter is
+given. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Literal>L</Literal></term>
+<listitem>
+<para>Do not invoke <command>tar</command>(1). <![ %CDE.C.CDE; [This modifier
+must be used with the <literal>f</literal> function modifier, since reading
+and writing an <command>tttar</command> archive directly to or from magnetic
+tape is unimplemented. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Literal>R</Literal></term>
+<listitem>
+<para>Do not recurse into directories. <![ %CDE.C.CDE; [This modifier is valid
+only with the <Literal>L</Literal> function modifier. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>v</literal></term>
+<listitem>
+<para>Verbose. Write to standard error the name of each file processed, preceded
+by a string indicating the operation being performed, as follows:</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="140*">
+<colspec align="left" colwidth="316*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Key Letter</literal></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+</row>
+<row>
+<entry align="left" valign="top">c</entry>
+<entry align="left" valign="top">"a "</entry></row>
+<row>
+<entry align="left" valign="top">x</entry>
+<entry align="left" valign="top">"x "</entry></row></tbody></tgroup></informaltable>
+<para>The file name may be followed by additional information, such as the
+size of the file in the archive or file system, in an unspecified format.
+When used with the <literal>t</literal> function letter, <literal>v</literal>
+writes to standard output more information about the archive entries than
+just the name.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para><![ %CDE.C.XO; [It is unspecified whether the following functions and modifiers are supported:
+]]><![ %CDE.C.CDE; [The following functions and modifiers are not supported: ]]></para>
+<itemizedlist>
+<listitem>
+<para>The <literal>r</literal> and <literal>u</literal> function letters of <command>tar</command>(1), for incrementally updating an archive.</para>
+</listitem>
+<listitem>
+<para>The <Literal>X</Literal> and <Literal>F</Literal> function modifiers
+and the <literal>&minus;I</literal> option of <command>tar</command>(1), for
+including or excluding files from being archived based on SCCS status or being
+listed in a special file.</para>
+</listitem>
+<listitem>
+<para>The <literal>w</literal> function modifier and the <literal>&minus;C</literal> option of <command>tar</command>(1), for pausing or changing directories
+between the files listed on the command line.</para>
+</listitem>
+<listitem>
+<para>Writing and reading <emphasis>tttarfiles</emphasis> (that is, archives
+produced with the <Literal>L</Literal> function modifier) directly to and
+from magnetic tape.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">pathname</symbol></term>
+<listitem>
+<para>A pathname of a regular file or directory to be archived (when the <literal>c</literal> function letter is used), extracted ( <literal>x</literal>) or
+listed ( <literal>t</literal>). When <symbol role="Variable">pathname</symbol>
+is the pathname of a directory, the action applies to all of the files and
+(recursively) subdirectories of that directory. When the <literal>f</literal>
+letter is used in the <symbol role="Variable">key</symbol> operand, the initial
+<symbol role="Variable">pathname</symbol> operand is interpreted as an archive name,
+as described previously.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>tarfile</emphasis></term>
+<listitem>
+<para>A pathname of a regular file to be read or written as an archive of
+files.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>ttarfile</emphasis></term>
+<listitem>
+<para>A pathname of a regular file to be read or written as an archive of
+ToolTalk objects.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>STDIN</title>
+<para>When the <literal>f</literal> modifier is used with the <literal>t</literal>
+or <literal>x</literal> function letter and the pathname is &minus;, the standard
+input is an archive file formatted as described in <literal>EXTENDED DESCRIPTION</literal>. Otherwise, the standard input is not used.</para>
+</refsect1><refsect1>
+<title>INPUT FILES</title>
+<para>The files identified by the <symbol role="Variable">pathname</symbol>
+operands are regular files or directories. The file identified by the <emphasis>tarfile</emphasis> operand is a regular file formatted as described in <![ %CDE.C.CDE; [ <command>tar</command>(1). ]]><![ %CDE.C.XO; [<Command>tar</Command> in the &str-ZC;.
+]]>The file identified by the <emphasis>tttarfile</emphasis> operand is a
+regular file formatted as described in <literal>EXTENDED DESCRIPTION</literal>.
+</para>
+</refsect1><refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>The following environment variables affect the execution of <command>tttar</command>:</para>
+<variablelist>
+<varlistentry><term><systemitem class="EnvironVar">LANG</systemitem></term>
+<listitem>
+<para>Provide a default value for the internationalization variables that
+are unset or null. If <systemitem class="EnvironVar">LANG</systemitem> is
+unset or null, the corresponding value from the implementation-specific default
+locale will be used. If any of the internationalization variables contains
+an invalid setting, the utility behaves as if none of the variables had been
+defined.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>LC_ALL</emphasis></term>
+<listitem>
+<para>If set to a non-empty string value, override the values of all the other
+internationalization variables.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>LC_MESSAGES</emphasis></term>
+<listitem>
+<para>Determine the locale that is used to affect the format and contents
+of diagnostic messages written to standard error and informative messages
+written to standard output.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">NLSPATH</systemitem></term>
+<listitem>
+<para>Determine the location of message catalogues for the processing of <emphasis>LC_MESSAGES</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">TZ</systemitem></term>
+<listitem>
+<para>Determine the timezone used with date and time strings.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>ASYNCHRONOUS EVENTS</title><![ %CDE.C.XO; [<Para>Default.
+</Para>
+]]><![ %CDE.C.CDE; [<para>The <command>tttar</command> utility takes the standard
+action for all signals.</para>]]></refsect1><refsect1>
+<title>STDOUT</title>
+<para>When the <literal>&minus;h</literal> option is used, <command>tttar</command> writes to standard output a help message in an unspecified format.
+</para>
+<para>When the <literal>&minus;v</literal> option is used, <command>tttar</command> writes to standard output a version number in an unspecified format.
+</para>
+<para>When the <literal>f</literal> modifier is used with the <literal>c</literal>
+function letter and the pathname is &minus;, the standard output is an archive
+file formatted as described in <literal>EXTENDED DESCRIPTION</literal>.</para>
+<para>Otherwise, the standard output is not used.</para>
+</refsect1><refsect1>
+<title>STDERR</title>
+<para>The standard error is used for diagnostic messages and the file name
+output described under the <literal>v</literal> modifier (when the <literal>t</literal> function letter is not used).</para>
+</refsect1><refsect1>
+<title>OUTPUT FILES</title>
+<para>Output files are created, as specified by the archive, when the <literal>x</literal> function letter is used.</para>
+</refsect1><refsect1>
+<title>EXTENDED DESCRIPTION</title>
+<para>The archive file produced and read by <command>tttar</command> is formatted
+as described in <command>tar</command>(1), with the addition of one extra file
+named <literal>tttarfile</literal>. (If one of the user files being archived
+is also named <literal>tttarfile</literal>, the results are unspecified.)
+The <literal>tttarfile</literal> contains all the ToolTalk <symbol role="Variable">spec</symbol> information for the ToolTalk objects in the other files in the
+archive. The contents of <literal>tttarfile</literal> are written according
+to the referenced XDR specification (RFC 1014). The only XDR data types used
+are:</para>
+<variablelist>
+<varlistentry><term><StructName Role="typedef">int</StructName></term>
+<listitem>
+<para>A four-octet signed integer, most significant octet first</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>string</literal></term>
+<listitem>
+<para>A four-octet unsigned integer length, most significant octet first,
+followed by the characters of the string, followed by sufficient (0 to 3)
+residual zero octets to make the total number of octets a multiple of four.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The <literal>tttarfile</literal> starts with two integers. The first
+is always 1, to mark this as the header record. The second is always 1, indicating
+this is version 1 of the <emphasis>tttarfile</emphasis> format. <![ %CDE.C.CDE; [Any
+future revisions of the <emphasis>tttarfile</emphasis> format should increment
+the version number so older programs processing the <emphasis>tttarfile</emphasis>
+can diagnose the incompatibility. ]]></para>
+<para>The end of the <literal>tttarfile</literal> is a integer 3, marking
+the end-of-file record.</para>
+<para>In between, there is one logical record for each spec. Each logical
+record starts with an integer 2, marking it as a spec record. Other integer
+values are reserved for assignment to future data types.</para>
+<para>After the record identifier, the spec record contains, in sequence:
+</para>
+<orderedlist>
+<listitem>
+<para>A string giving the Tooltalk object identifier (<emphasis>objid</emphasis>)
+of the object represented by the spec</para>
+</listitem>
+<listitem>
+<para>A string giving the name of the file (as found in the archive table
+of contents) that contains the contents of the ToolTalk object represented
+by the spec</para>
+</listitem>
+<listitem>
+<para>A string giving the ToolTalk object type identifier (<emphasis>otid</emphasis>) of the ToolTalk object represented by the spec</para>
+</listitem>
+<listitem>
+<para>An integer giving the number of properties for this object</para>
+</listitem>
+</orderedlist>
+<para>The properties of the object immediately follow the number of properties.
+Each property consists of:</para>
+<orderedlist>
+<listitem>
+<para>A string giving the name of the property</para>
+</listitem>
+<listitem>
+<para>An integer, which is always zero (for historical compatibility)</para>
+</listitem>
+<listitem>
+<para>An integer giving the number of values for this property</para>
+</listitem>
+<listitem>
+<para>A string for each value</para>
+</listitem>
+</orderedlist>
+<para>After the values, the next property is found, until all properties for
+the object have been accounted for; then the next spec is found, until all
+specs for objects associated with files in the archive are accounted for.
+</para>
+</refsect1><refsect1>
+<title>EXIT STATUS</title>
+<para>The following exit values are returned:</para>
+<variablelist>
+<varlistentry><term>0</term>
+<listitem>
+<para>All files and ToolTalk objects were moved successfully.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>>0</term>
+<listitem>
+<para>An error occurred or the invoked <command>tar</command>(1) command exited
+with a non-zero value.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>CONSEQUENCES OF ERRORS</title>
+<para>Default.</para>
+</refsect1><![ %CDE.C.CDE; [<refsect1>
+<title>FILES</title>
+<variablelist>
+<varlistentry><term>/mountpoint/TT_DB</term>
+<listitem>
+<!-- ex-TP-->
+<para>The directory used as a database for the ToolTalk objects of files in
+the file system mounted at <emphasis>/mountpoint</emphasis>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>]]><refsect1>
+<title>APPLICATION USAGE</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title><![ %CDE.C.CDE; [<para><command>tar</command>(1), <?Pub Caret></para>]]><![ %CDE.C.XO; [<Para><Command>tar</Command> in the &str-ZC;;
+</Para>
+]]>
+<para>&cdeman.ttcp;, &cdeman.ttsession;.</para>
+</refsect1></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->
+<?Pub *0000050473>

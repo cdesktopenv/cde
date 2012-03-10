@@ -1,0 +1,57 @@
+<!-- $XConsortium: ch09.sgm /main/4 1996/10/11 09:24:29 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter id="infoapg.div.9">
+<Title id="vSMTMZBRyng24aK">設計様式の理解</Title>
+<IndexTerm><Primary>設計様式</Primary>
+<Secondary>理解</Secondary></IndexTerm>
+<Para>
+インフォメーション・マネージャを使用して、SGML ドキュメントのセットから、インフォメーション・ライブラリのブックの集まりであるブックケースを構築します。これらのドキュメントの中には、スタイル・シートのように、SGML 文書型が、インフォメーション・マネージャとともに配布される SGML 文書型定義 (DTD) によって定義されるものがあります。他のものについては、ブックの内容のように、どのような文書型定義 (DTD) でも使用することが可能です。
+</Para>
+<Para>
+多くの SGML アプリケーションが、さまざまな文書型定義の要素に付与されるべきセマンティクス理解の問題に直面します。これを処理するために、インフォメーション・マネージャは、設計様式を提供します。
+</Para>
+<Para>
+設計様式は、あるアプリケーションによって統一的に処理されるべき要素を含むクラスに与えられる名前です。設計様式は、ベース・クラスを定義します。このとき、特定の文書型定義において定義される特定の SGML の要素は、サブクラスとして扱われます。設計様式を実装するには、インフォメーション・マネージャの設計様式と対応する標準の SGML 属性で、文書型定義を記述します。ほとんどの場合、設計様式は、<SystemItem>FIXED</SystemItem> キーワードを使用し、すべてのドキュメント中のすべての要素のインスタンスに特定の属性値を設定することによって、定義されます。
+</Para>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<Sect1>
+<Title id="kZLOUiBgsK9X3cS">設計様式の単純な例</Title>
+<Para>
+インフォメーション・マネージャがインフォメーションを正確に管理できるように、既存の文書型定義を修正しなければなりません。たとえば、インフォメーション・マネージャは、「タイトル (title)」を使用します。これにより、インフォメーション・マネージャの表示ウィンドウのさまざまなウィンドウに表示される内容を決定します。もちろん、どのような特定の文書型定義においても、タイトル・オブジェクトの汎用識別子の選択に制限はありません。これは、<SystemItem>head</SystemItem>、<SystemItem>h1</SystemItem>、<SystemItem>title</SystemItem> などのように呼ばれます。アプリケーションがこれらのタイトル・オブジェクトを識別できるようにするために、文書型定義に属性 <SystemItem>DTINFO.Title</SystemItem> を適用します。特定の要素が <SystemItem>head</SystemItem> という名前であるとした場合の例を次に示します。
+</Para>
+<ProgramListing>
+&lt;!ELEMENT   HEAD  - - (PCDATA) >
+&lt;!ATTLIST   HEAD
+               DTINFO.Title  NAME #FIXED "#CONTENT">
+</ProgramListing>
+<Para>
+アプリケーションがドキュメントを処理しているとき、要素 <SystemItem>HEAD</SystemItem> の各インスタンスは、<SystemItem>DTINFO.Title</SystemItem> と名付けられた属性と関連付けられます。アプリケーションは、このことを認識することができ、タイトルがあるものとして要素の内容を処理することができます。
+</Para>
+<Note>
+<Para>
+設計様式の適用は、SGML インスタンスの検証性に影響を与えません。文書型定義への設計様式適用の詳細については、<Link Linkend="nWGeMZBc9og24aK">「設計様式の利用」</Link> を参照してください。
+</Para>
+</Note>
+</Sect1>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<Sect1>
+<Title id="zZLOUiBgsK9X3cS">設計様式のツールキット・モデルへの適合方法</Title>
+<Para>
+図 <Link Linkend="dPkT9aB7Wng24aK">「ツールキット・モデル」</Link> は、インフォメーションの異なる部分が、構築過程において、どのように対話するかを示しています。図　の共有領域は、設計様式を処理する構築の一部分を表現しています。
+</Para>
+<Figure>
+<Title id="dPkT9aB7Wng24aK">ツールキット・モデル</Title>
+<GRAPHIC id="gr53" entityref="infoapg.fig.9"></graphic>
+</Figure>
+<Para>
+インフォメーション・マネージャによって提供される文書型定義の下におけるブックケース開発の詳細については、<Link Linkend="TcQg4bBSxI9X3cS">「ブックケース・ドキュメントの作成」</Link> を参照してください。<Filename>dtinfoStyle.dtd</Filename> に準拠するスタイル・シートのドキュメント作成の詳細については、<Link Linkend="btcmaab0ang24ak">「スタイル・シートの作成」</Link> を参照してください。
+</Para>
+</Sect1>
+</Chapter>
+

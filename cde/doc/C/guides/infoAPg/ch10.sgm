@@ -1,0 +1,1019 @@
+<!-- $XConsortium: ch10.sgm /main/4 1996/10/11 09:24:36 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="infoapg.div.10">
+<title id="nWGeMZBc9og24aK">Using Architectural Forms</title>
+<indexterm><primary>document type definition</primary>
+<secondary>applying architectural forms to</secondary></indexterm>
+<para>
+Your SGML documents conform to a particular document type definition
+(DTD). To make the Information Manager understand how to treat the
+elements defined in your DTD, you apply attributes to basic elements
+in the DTD. These attributes correspond to Information Manager
+architectural forms, which are semantics that Information Manager
+interprets to build documents into an on-line library.
+</para>
+<note>
+<para>
+The examples in this section are from version 2.2.1 of the DocBook DTD.
+</para>
+</note>
+<para>
+Information Manager architectural forms are based on the
+organizational model of documentation in the Information Manager.
+The Information Manager groups an information library into bookcases
+containing books with sections whose titles are arranged in a hypertext
+table of contents. It includes access to specific elements such as tables
+and graphics.
+</para>
+<para>
+Bookcases, books, sections, titles, links, tables, and graphics,
+are examples of important elements that the browser must identify
+to manage the information. Information Manager provides architectural
+forms that correspond to each of these types of information.
+To identify these pieces for the Information Manager,
+you apply the corresponding architectural forms to your DTD.
+Specifically, you add attributes to each element that has characteristics
+you want to identify. To make it easier to maintain your DTD,
+use parameter entity references provided by the Information Manager.
+</para>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="VyBTVcBfQJ9X3cS">Using Parameter Entity References</title>
+<para>The Information Manager provides parameter entity references
+as a quick (and recommended) way to use Information Manager
+architectural forms. The entity names for Information Manager
+architectural forms are stored in
+<filename>/usr/dt/infolib/&lt;lang>/SGML/dtinfo.af</filename>.
+By using parameter entity references in your attributes list
+rather than entering complete attributes, you'll be able to take
+advantage of new features of the Information Manager,
+while minimizing changes to your DTD. For example:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+To apply the complete attribute:
+</para>
+<literallayout>
+&lt;!ELEMENT caption - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST caption
+        %commonatts;
+
+        DTINFO.TITLE CDATA #FIXED &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+</listitem>
+<listitem><para>To use the parameter entity reference:</para>
+<literallayout>
+&lt;!ELEMENT caption - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST caption
+        %commonatts;
+
+        %DTINFO.Title; &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+</listitem>
+</itemizedlist>
+<para>
+See <link linkend="EzilaaBwXng24aK">Applying Architectural Forms</link>
+and <link linkend="fyBTVcBfQJ9X3cS">Description of Information Manager
+Architectural Forms</link> for more information on editing your DTD.
+</para>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="fyBTVcBfQJ9X3cS">Description of DTINFO Architectural Forms</title>
+<para>
+The descriptions of architectural forms identify related forms,
+forms that are commonly used in conjunction with the architectural
+form being described. A related form is identified in the documentation
+using its corresponding attribute name. This section discusses:
+</para>
+<itemizedlist>
+<listitem><para><link linkend="orilaaBwXng24aK">Section Forms</link></para>
+</listitem>
+<listitem><para><link linkend="KtilaaBwXng24aK">Value Form</link></para>
+</listitem>
+<listitem><para><link linkend="fsilaaBwXng24aK">Scope Forms</link></para>
+</listitem>
+<listitem><para><link linkend="nyilaaBwXng24aK">Hypertext Forms</link></para>
+</listitem>
+<listitem><para><link linkend="draW.aB80og24aK">Style Form</link></para>
+</listitem>
+</itemizedlist>
+<para>
+Although it is easier to create tables of contents, bookcase
+specifications and style sheets from scratch, you can apply Information
+Manager architectural forms to existing bookcase, style sheet,
+and table of contents DTDs. For more information see Bookcase Forms,
+Style Sheet Forms, and <link linkend="S3CTVcBfQJ9X3cS">Table of Contents
+Forms</link>.
+</para>
+<note>
+<para>
+These architectural forms must be applied before most
+<command>dtinfogen</command> subcommands can be used.
+</para>
+</note>
+<!--)))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="QnDu4iB6dmg24aK">Understanding Values</title>
+<para>For Information Manager architectural forms that take data values,
+a simple functional language provides a mechanism to assemble combinations
+of element content, attribute values, and literals. The arguments
+are defined in the table
+<link linkend="UtilaaBwXng24aK">Syntax for Creating Values</link>.
+</para>
+<table>
+<Title id="UtilaaBwXng24aK">Syntax for Creating Values</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="156*">
+<colspec colwidth="372*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Syntax</literal></entry>
+<entry align="left" valign="top"><literal>Meaning</literal>
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">attr()</entry>
+<entry align="left" valign="top">attr() returns the value of the attribute
+name used as the argument. IMPLIED attributes return an empty string.
+attr() references attributes on the current element only.
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">concat()</entry>
+<entry align="left" valign="top">concat() concatenates string arguments
+(literals, contents of elements, attribute values, or values of the other
+functions).
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">firstof()</entry>
+<entry align="left" valign="top">firstof() returns the first non-empty
+string in its arguments. It chooses the value from the order of
+possibilities defined by its arguments.
+</entry>
+</row>
+<row>
+<entry align="left" valign="top"><replaceable>element name</replaceable>
+</entry>
+<entry align="left" valign="top"><replaceable>element name</replaceable>
+uses, as the value, the name of an element that is a member of the current
+element's content model.
+</entry>
+</row>
+<row>
+<entry align="left" valign="top"><replaceable>literal string</replaceable>
+</entry>
+<entry align="left" valign="top"><replaceable>literal string</replaceable>
+uses either a pair of '...' or "..." enclosing quotes to signify a literal
+string
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">#CONTENT</entry>
+<entry align="left" valign="top">#CONTENT uses all of the current element's
+content as the value.
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<note>
+<para>
+You can combine the syntax explained in the table to create the
+value you want, and you can add literal strings as needed.
+</para>
+</note>
+<para>
+Examples of specifying values for architectural forms are:
+</para>
+<literallayout>
+DTINFO.Title  CDATA             #FIXED
+                                    "concat( attr(Label), RefTitle, ManVolNum )"
+DTINFO.Graphic  CDATA           #FIXED
+                                  "firstof( attr(Fileref), attr(Other), #CONTENT )"
+</literallayout>
+</sect2>
+<!-- ))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) -->
+<sect2>
+<title id="orilaaBwXng24aK">Section Forms</title>
+<indexterm><primary>architectural forms</primary>
+<secondary>section forms</secondary></indexterm>
+<para>
+For the Information Manager to understand the structure of your SGML
+files, you must apply section architectural forms. The use and meaning
+of a form's value depends on the type of form it is. For example, when
+specified for a chapter title, the value is displayed in the hypertext
+table of contents. For <systemitem>DTINFO.Graphic</systemitem>, the
+value is the name of the file containing the graphic data. These
+relationships are described in the table <link
+linkend="GiaW.aB80og24aK">Meaning of the Form Values</link>.</para>
+<table>
+<title id="GiaW.aB80og24aK">Meaning of the Form Values</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="160*">
+<colspec colwidth="368*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Section Form</literal></entry>
+<entry align="left" valign="top"><literal>Meaning of Value Form,
+When Applied</literal>
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.Section</entry>
+<entry align="left" valign="top">The value of a section is what would be
+displayed in the Information Manager Reading window.
+The default is #CONTENT.
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.Title</entry>
+<entry align="left" valign="top">The value of a title for
+DTINFO.Section is displayed in the Information Manager Book List.
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.Graphic</entry>
+<entry align="left" valign="top">The value of a graphic is the file name
+containing the graphical data. This value can also be derived from
+entity references.
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.Ignore</entry>
+<entry align="left" valign="top">This information will not be stored
+in the database or in the FulText Index (so it won't be displayed).
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.ShortTitle</entry>
+<entry align="left" valign="top">The value of a shorttitle is the
+text used in certain places in the Reading window where a full title
+might be truncated.
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<variablelist>
+<varlistentry>
+<term><systemitem>DTINFO.Section</systemitem></term>
+<listitem>
+<para>
+Apply the <systemitem>DTINFO.Section</systemitem> form to container
+elements that separate pieces of information such as chapters.
+Use <systemitem>DTINFO.Section</systemitem> to define which elements
+you want displayed to readers as a unit of information in a reading window
+of the Information Manager. <command>dtinfogen</command> can derive
+the hierarchy by containment using <systemitem>DTINFO.Section</systemitem>.
+</para>
+<para>
+Entity name: <systemitem>DTINFO.Section</systemitem>
+</para>
+<para>
+Attribute template:
+<systemitem>DTINFO.Section CDATA FIXED &ldquo;#CONTENT&rdquo;</systemitem>
+</para>
+<para>
+Related Forms:
+<systemitem>DTINFO.ID</systemitem> (Required), <systemitem>DTINFO.Scope</systemitem>, <systemitem>DTINFO.ShortTitle</systemitem>, <systemitem>DTINFO.Style</systemitem>, <systemitem>DTINFO.Title</systemitem> (Required), <systemitem>DTINFO.Value</systemitem></para>
+<para>
+Example:
+</para>
+<literallayout>
+&lt;!ELEMENT Preface - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;)) >
+&lt;!ATTLIST Preface
+        %commonatts;
+
+        %DTINFO.Section;            &ldquo;#CONTENT&rdquo;
+        %DTINFO.Style;              &ldquo;sty1&rdquo;
+        %DTINFO.Title;              &ldquo;#CONTENT&rdquo;
+        %DTINFO.ID;                 &ldquo;attr(id)&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem>DTINFO.Title</systemitem></term>
+<listitem>
+<para>
+You typically apply <systemitem>DTINFO.Title</systemitem>
+to any type of title, including chapter titles, headings, captions,
+figure titles, table titles, and example titles.
+</para>
+<para>
+Entity name: <systemitem>DTINFO.Title</systemitem>
+</para>
+<para>
+Attribute template: <systemitem>DTINFO.Title CDATA #FIXED</systemitem>
+</para>
+<para>
+Related Forms: <systemitem>DTINFO.Scope</systemitem>, <systemitem>DTINFO.Value</systemitem></para>
+<para>
+Example:
+</para>
+<literallayout>
+&lt;!ELEMENT RefMeta - - (RefEntryTitle, ManVolNum?,RefMiscInfo*) >
+&lt;!ATTLIST RefMeta
+        %commonatts;
+
+        %DTINFO.Title;          #&ldquo;CONTENT&rdquo;
+        %DTINFO.Value;          &ldquo;concat( RefEntryTitle, ManVolNum)&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>DTINFO.ShortTitle</systemitem></term>
+<listitem>
+<para>
+If your existing DTD has an abbreviated form of a title, apply the
+<systemitem>DTINFO.ShortTitle</systemitem> to that element. The content
+of this element is never displayed in a reading window, but may appear
+as a list item in a dialog. The content does not appear in the FulText
+index.</para>
+<para>
+Entity name: <systemitem>DTINFO.ShortTitle</systemitem></para>
+<para>
+Attribute template: <systemitem>DTINFO.ShortTitle CDATA #FIXED</systemitem></para>
+<para>
+Related Forms: <systemitem>DTINFO.Value</systemitem></para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT TitleAbbrev - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST TitleAbbrev
+        %commonatts;
+
+        %DTINFO.ShortTitle;  &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>DTINFO.Graphic</systemitem></term>
+<listitem>
+<para>
+Apply <systemitem>DTINFO.Graphic</systemitem> to elements that designate graphics, mathematical equations, or certain types of tables.</para>
+<para>
+Entity name: <systemitem>DTINFO.Graphic</systemitem></para>
+<para>
+Attribute template: <systemitem>DTINFO.Graphic CDATA #FIXED</systemitem></para>
+<para>
+Related Forms: <systemitem>DTINFO.Scope</systemitem>, <systemitem>DTINFO.ID</systemitem>.</para>
+<para>
+Example:
+</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref   ENTITY   #IMPLIED
+        Fileref     CDATA    #IMPLIED
+        Format      NOTATION
+                    %notationtypes; #IMPLIED
+        Id          ID       #IMPLIED
+
+        %DTINFO.Graphic; &ldquo;#CONTENT&rdquo;
+        %DTINFO.ID;      &ldquo;:attr( ID )&rdquo;
+        %DTINFO.Scope.Graphic;
+></literallayout>
+</listitem>
+</varlistentry>
+<!-- ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((-->
+<VARLISTENTRY>
+<Term><SystemItem>DTINFO.Table</SystemItem></Term>
+<listitem>
+<para>
+<comment>We may not support DTINFO.Table - so it may be commented
+out in future documentation.</comment>
+Elements that designate SGML-encoded tables according to the CALS table
+model should receive the <SystemItem>DTINFO.Table</SystemItem> attribute.
+Otherwise they should receive <SystemItem>DTINFO.Graphic</SystemItem>.
+</para>
+<para>
+Entity name: <SystemItem>DTINFO.Table</SystemItem></para>
+<para>
+Attribute template: <SystemItem>DTINFO.Table CDATA #FIXED</SystemItem></para>
+<para>
+Related Forms: <SystemItem>Scope.Table</SystemItem>.</para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT InformalTable - - ((%tblcontent.gp;)) -(Table|InformalTable)&gt;
+&lt;!ATTLIST InformalTable
+        %commonatts;
+
+        Colsep   %yesorno;                          #IMPLIED
+        Frame    (Top|Bottom|Topbot|All|Sides|None) #IMPLIED
+        Orient   (Port | Land)                      #IMPLIED
+        Pgwide   %yesorno;                          #IMPLIED
+        Rowsep   %yesorno;                          #IMPLIED
+        Tabstyle NMTOKEN                            #IMPLIED
+
+        %DTINFO.Table;      &ldquo;#CONTENT&rdquo;
+        %DTINFO.Scope.Table;
+&gt;
+</LITERALLAYOUT>
+</ListItem>
+</VarListEntry>
+<varlistentry>
+<term><systemitem>DTINFO.Ignore</systemitem></term>
+<listitem>
+<para>
+Apply <systemitem>DTINFO.Ignore</systemitem> to elements that contain
+information you do not want to have displayed. If the elements contain
+useful hypertext information, it will be used during the build process.
+For example, you can provide a <systemitem>DTINFO.Value</systemitem>
+that is passed up and used to create a hypertext value.</para>
+<para>
+Entity name: <systemitem>DTINFO.Ignore</systemitem></para>
+<para>
+Attribute template: <systemitem>DTINFO.Ignore CDATA #FIXED</systemitem></para>
+<para>
+Related Forms: <systemitem>DTINFO.Value</systemitem></para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT InternalComment - - ((%inlinechar.gp;)+)>
+&lt;!ATTLIST InternalComment
+        %DTINFO.Ignore; &ldquo;#CONTENT&rdquo;
+        %DTINFO.Value;          &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="KtilaaBwXng24aK">Value Form</title>
+<indexterm><primary>architectural forms</primary>
+<secondary>section value form</secondary></indexterm>
+<para>
+The <systemitem>DTINFO.Value</systemitem> form defines the return value
+of an architectural form. <systemitem>DTINFO.Value</systemitem> returns
+a value to a higher-level element. For example, assume element
+<replaceable>foo</replaceable> has a content model of
+<replaceable>a?</replaceable>, <replaceable>b</replaceable>,
+and <replaceable>foo</replaceable> uses the architectural form
+<systemitem>DTINFO.Title firstof &ldquo;(a,b)&rdquo;</systemitem>.
+The value of <replaceable>a</replaceable> might be constructed
+by concatenating its <systemitem>Label</systemitem> attribute
+and its content. This construction can be processed and given
+to <replaceable>foo</replaceable> using <systemitem>DTINFO.Value</systemitem>.
+Only one <systemitem>DTINFO.Value</systemitem> can be placed on
+any element.</para>
+<para>
+The value architectural form is:</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>DTINFO.Value</systemitem></term>
+<listitem>
+<para>
+The <systemitem>DTINFO.Value</systemitem> attribute specifies a
+return value for an architectural form. The value for
+<systemitem>DTINFO.Value</systemitem> is a functional language
+that creates a stream to be used as a value. The value takes the
+form of an implied concatenation. The arguments are defined in the
+table <link linkend="UtilaaBwXng24aK">Syntax for Referencing Values</link>.
+</para>
+<para>
+Entity name: <systemitem>DTINFO.Value</systemitem></para>
+<para>
+Attribute template: <systemitem>DTINFO.Value CDATA #FIXED &ldquo; <replaceable>Value</replaceable>&rdquo;</systemitem></para>
+<para>
+Related Forms: All section forms</para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT RefMeta - - (RefEntryTitle, ManVolNum?,RefMiscInfo*) >
+&lt;!ATTLIST RefMeta
+        %commonatts;
+
+        %DTINFO.Title;
+        %DTINFO.Value; &ldquo;concat( RefEntryTitle,'(`,
+ManVolNum,')')&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="fsilaaBwXng24aK">Scope Forms</title>
+<indexterm><primary>architectural forms</primary>
+<secondary>scope forms</secondary></indexterm>
+<para>
+In the Information Manager, users can define the scope of searches.
+They can tell the browser which books to include in a search, and
+can specify whether to search all components of the books, body text,
+examples, indexes, graphics, tables, titles, or some combination thereof.
+Scope architectural forms determine which elements are included in a
+search scope in the Information Manager. Specifically, they determine
+which scope information is indexed within the FulText index. The scope
+applies to any element contained within an element to which
+<systemitem>DTINFO.Scope</systemitem> has been applied.
+</para>
+<para>
+To apply scope forms to an element, you apply the
+<systemitem>DTINFO.Scope</systemitem> attribute with any of five values.
+If you do not apply a scope form to an element the data has the default
+scope of <systemitem>Body Text</systemitem>.
+</para>
+<para>
+Possible values for <systemitem>DTINFO.Scope</systemitem> include Example,
+Graphic, Index, Table and Title, and are represented by these entities:
+</para>
+<variablelist>
+<varlistentry><term><systemitem>DTINFO.Scope.Example</systemitem></term>
+<listitem>
+<para>
+Apply the <systemitem>DTINFO.Scope</systemitem> attribute with a
+value of <systemitem>Example</systemitem> to elements that contain data
+you want to include in searches that are scoped to include examples.
+</para>
+<para>
+Entity name: <systemitem>DTINFO.Scope.Example</systemitem></para>
+<para>
+Attribute template: <systemitem>DTINFO.Scope Name #FIXED Example</systemitem></para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT Example - - (Title, TitleAbbrev?, (%para.gp; |
+                        %list.gp; | %object.gp;)+) >
+&lt;!ATTLIST Example
+        %commonatts;
+        Label  CDATA  #IMPLIED
+
+        %DTINFO.Scope.Example;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>DTINFO.Scope.Graphic</systemitem></term>
+<listitem>
+<para>
+Apply the <systemitem>DTINFO.Scope</systemitem> attribute with a
+value of <systemitem>Graphic</systemitem> to elements you want included
+in searches that are scoped to include graphics. The effect of applying
+this architectural form is that any strings contained within certain
+graphic types may be extracted and indexed for searching.
+</para>
+<para>
+Entity name: <systemitem>DTINFO.Scope.Graphic</systemitem></para>
+<para>
+Attribute template: <systemitem>DTINFO.Scope Name #FIXED Graphic</systemitem></para>
+<para>
+Related Forms: <systemitem>DTINFO.Graphic</systemitem>, <systemitem>DTINFO.ID</systemitem>, <systemitem>DTINFO.Value</systemitem></para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref   ENTITY               #IMPLIED
+        Fileref      CDATA               #IMPLIED
+        Format      NOTATION
+                         %notationtypes  #IMPLIED
+        Id                 ID                   #IMPLIED
+
+        %DTINFO.Graphic;
+        %DTINFO.ID;             &ldquo;attr( Id )&rdquo;
+        %DTINFO.Scope.Graphic;
+        %DTINFO.Value;          &ldquo;attr( Fileref )&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem>DTINFO.Scope.Index</systemitem></term>
+<listitem>
+<para>
+Apply the <systemitem>DTINFO.Scope</systemitem> attribute with a
+value of <systemitem>Index</systemitem> to elements you want included
+in searches that are scoped to include book indexes.
+</para>
+<para>
+Entity name: <systemitem>DTINFO.Scope.Index</systemitem></para>
+<para>
+Attribute template: <systemitem>DTINFO.Scope Name #FIXED Index</systemitem></para>
+<para>
+Related Forms: <systemitem>DTINFO.Section</systemitem></para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT (SetIndex | Index) - - (DocInfo?, (Title,
+                       TitleAbbrev?)?, (%component.gp;)*, (IndexDiv+ |
+                       IndexEntry+)) >
+&lt;!ATTLIST (SetIndex | Index)
+        %commonatts;
+
+        %DTINFO.Section;
+        DTINFO.Scope.Index;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem>DTINFO.Scope.Table</systemitem></term>
+<listitem>
+<para>
+Apply the <systemitem>DTINFO.Scope</systemitem> attribute with a
+value of <systemitem>Table</systemitem> to elements you want included
+in searches that are scoped to include tables. The effect of this
+architectural form is that any strings contained within the CALS
+SGML table model are indexed for searching.
+</para>
+<para>
+Entity name: <systemitem>DTINFO.Scope.Table</systemitem>
+</para>
+<para>
+Attribute template: <systemitem>DTINFO.Scope Name #FIXED Table</systemitem>
+</para>
+<para>
+Related Forms: <systemitem>DTINFO.Table</systemitem>.</para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT InformalTable - - ((%tblcontent.gp;)) -(Table|InformalTable)>
+&lt;!ATTLIST InformalTable
+        %commonatts;
+        Colsep       %yesorno;                          #IMPLIED
+        Frame        (Top|Bottom|Topbot|All|Sides|None) #IMPLIED
+        Orient      (Port | Land)                       #IMPLIED
+        Pgwide      %yesorno;                           #IMPLIED
+        Rowsep    %yesorno;                             #IMPLIED
+        Tabstyle    NMTOKEN                             #IMPLIED
+
+        %DTINFO.Table;
+        %DTINFO.Scope.Table;
+></literallayout>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem>DTINFO.Scope.Title</systemitem></term>
+<listitem>
+<para>
+Apply the <systemitem>DTINFO.Scope</systemitem> attribute with a
+value of <systemitem>Title</systemitem> to elements you want included
+in searches that are scoped to include titles.
+</para>
+<para>
+Entity name: <systemitem>DTINFO.Scope.Title</systemitem></para>
+<para>
+Attribute template: <systemitem>DTINFO.Scope Name #FIXED Title</systemitem></para>
+<para>
+Related Forms: <systemitem>DTINFO.Title</systemitem>,
+<systemitem>DTINFO.Value</systemitem>.</para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT RefMeta - - (RefEntryTitle, ManVolNum?, RefMiscInfo*) >
+&lt;!ATTLIST RefMeta
+        %commonatts;
+
+        %DTINFO.Title;
+        %DTINFO.Scope.Title;
+        %DTINFO.Value; &ldquo;concat( RefEntryTitle, ManVolNum)&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="nyilaaBwXng24aK">Hypertext Forms</title>
+<indexterm><primary>architectural forms</primary>
+<secondary>location forms</secondary></indexterm>
+<para>
+The attributes corresponding to hypertext architectural forms
+are <systemitem>DTINFO.ID</systemitem> and
+<systemitem>DTINFO.IDREF</systemitem>. For information on assigning
+a value for these attributes see the table
+<link linkend="UtilaaBwXng24aK">Syntax for Referencing Values</link>.
+</para>
+<note>
+<para>
+SGML reference concrete syntax specifies that the value
+of <systemitem>DTINFO.ID</systemitem> and
+<systemitem>DTINFO.IDREF</systemitem> must be no more
+than 1024 characters long and must start with an alpha-numeric character.
+</para>
+</note>
+<variablelist>
+<varlistentry><term><systemitem>DTINFO.ID</systemitem></term>
+<listitem>
+<para>
+Apply the <systemitem>DTINFO.ID</systemitem> attribute to any
+element which specifies the destination of a link.
+</para>
+<para>
+Entity name: <systemitem>DTINFO.ID</systemitem></para>
+<para>
+Attribute template: <systemitem>DTINFO.ID CDATA #FIXED &ldquo;<replaceable>Value</replaceable>&rdquo;</systemitem></para>
+<para>
+Related Forms: All</para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT Anchor - O EMPTY >
+!ATTLIST Anchor
+        Id              ID              #REQUIRED
+        Pagenum         CDATA           #IMPLIED
+        Remap           CDATA           #IMPLIED
+        Role            CDATA           #IMPLIED
+        XRefLabel       CDATA           #IMPLIED
+
+        %DTINFO.ID;                     &ldquo;attr( Id )&rdquo;
+>
+</literallayout>
+<note>
+<para>
+The value of each <systemitem>DTINFO.ID</systemitem> must be unique.
+</para>
+</note>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>DTINFO.IDREF</systemitem></term>
+<listitem>
+<para>
+Apply the <systemitem>DTINFO.IDREF</systemitem> attribute to
+any element that contains data to be used as a hot spot for
+traversing to the location specified as the value for
+<systemitem>DTINFO.IDREF</systemitem>.</para>
+<para>Entity name: <systemitem>DTINFO.IDREF</systemitem>
+</para>
+<para>
+Attribute template: <systemitem>DTINFO.IDREF CDATA #FIXED &ldquo;<replaceable>Value</replaceable>&rdquo;</systemitem></para>
+<para>
+Related Forms: All</para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT Link - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST Link
+        Endterm         IDREF           #IMPLIED
+        Linkend         IDREF           #REQUIRED
+        Type            CDATA           #IMPLIED
+
+        %DTINFO.IDREF; &ldquo;attr( Linkend )&rdquo;
+>
+</literallayout>
+<note>
+<para>
+The value of <systemitem>DTINFO.IDREF</systemitem> should be the
+value of an existing <systemitem>DTINFO.ID</systemitem>.
+</para>
+</note>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="draW.aB80og24aK">Style Form</title>
+<indexterm><primary>architectural forms</primary>
+<secondary>style form</secondary></indexterm>
+<para>
+The attribute corresponding to the style architectural form is:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>DTINFO.Style</systemitem></term>
+<listitem>
+<para>
+Apply the Information Manager style architectural form,
+<systemitem>DTINFO.Style</systemitem>, to elements to which you have
+already applied the structural form <systemitem>DTINFO.Section</systemitem>
+and for which you want to override their inherited style sheet.
+<systemitem>DTINFO.Style</systemitem> can be used only for elements
+with <systemitem>DTINFO</systemitem> architectural forms
+<systemitem>Bookcase</systemitem>, <systemitem>Book</systemitem> and
+<systemitem>DTINFO.Section</systemitem>.
+</para>
+<para>
+The value of <systemitem>DTINFO.Style</systemitem> is the name of
+a style sheet (the value of a style sheet's
+<systemitem>DTINFO.ID</systemitem> architectural form) and must
+resolve to a style sheet specified in the bookcase specification document.
+Style sheets are inherited by all subordinate sections unless
+they are overridden with a new one.
+</para>
+<note>
+<para>
+Because the content of <systemitem>DTINFO.Style</systemitem> is a
+string that matches the ID of a stylesheet name (and is not an element)
+it must be quoted twice, as in
+<userinput>%DTINFO.Style; &ldquo;&lsquo;sty1&rsquo;&rdquo;</userinput>
+or in the form <userinput>%DTINFO.Style
+&ldquo;concat(&lsquo;sty1&rsquo;)&rdquo;</userinput>
+</para>
+</note>
+<para>
+Entity name: <systemitem>DTINFO.Style</systemitem>
+</para>
+<para>
+Attribute template:
+<systemitem>DTINFO.Style CDATA #FIXED &ldquo;<replaceable>Value</replaceable>&rdquo;</systemitem></para>
+<para>
+Related Forms: <systemitem>DTINFO.Section</systemitem></para>
+<para>
+Example:</para>
+<literallayout>
+&lt;!ELEMENT Preface - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;)) >
+&lt;!ATTLIST Preface
+        %commonatts;
+
+        %DTINFO.Section;
+        %DTINFO.Style;  &ldquo;&lsquo;sty1&rsquo;&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+</sect1>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="EzilaaBwXng24aK">Applying Architectural Forms</title>
+<indexterm><primary>architectural forms</primary>
+<secondary>applying to existing DTD</secondary></indexterm>
+<para>
+Use this procedure to apply architectural forms to your DTD.
+Refer to <link linkend="fyBTVcBfQJ9X3cS">Description of Information
+Manager Architectural Forms</link> for information on when to apply
+architectural forms to an element in your DTD:
+</para>
+<note>
+<para>
+Applying the attributes for architectural forms does not
+invalidate your document instance, nor does it require any
+modifications to your document instance.
+</para>
+</note>
+<orderedlist>
+<listitem>
+<para>
+At the top of your DTD, add the entity declaration and use statement
+for Information Manager architectural forms:</para>
+<literallayout>
+&lt;!ENTITY % DOCBOOK PUBLIC
+ &ldquo;-//Common Desktop Environment//ENTITIES DtInfo Architectural Forms//EN&rdquo;
+>
+%DOCBOOK;
+</literallayout>
+</listitem>
+<listitem>
+<para>
+Analyze your DTD to understand what you want to display.
+</para>
+</listitem>
+<listitem>
+<para>
+Identify container elements and the corresponding
+<link linkend="orilaaBwXng24aK">section architectural form</link>
+for each. For example, an element for figure captions corresponds
+to the <systemitem>Title</systemitem> form.
+</para>
+</listitem>
+<listitem>
+<para>In the attributes list for the element you are modifying,
+enter the parameter entity reference or complete attribute.
+</para>
+<para>
+To use the parameter entity reference:
+</para>
+<literallayout>
+&lt;!ELEMENT caption - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST caption
+        %commonatts;
+
+        %DTINFO.Title; &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+<para>
+To use the complete attribute:
+</para>
+<literallayout>
+&lt;!ELEMENT caption - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST caption
+        %commonatts;
+
+        DTINFO.Title CDATA #FIXED &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+<note>
+<para>
+Some architectural forms have related, required forms.
+For example, the <systemitem>DTINFO.Section</systemitem>
+form requires an <systemitem>DTINFO.Title</systemitem> and
+an <systemitem>DTINFO.ID</systemitem>.
+See <link linkend="fyBTVcBfQJ9X3cS">Description of Information
+Manager Architectural Forms</link> for details.
+</para>
+</note>
+</listitem>
+<listitem>
+<para>
+For the element you are working with, determine whether to
+apply a <link linkend="nyilaaBwXng24aK">hypertext form</link>:
+</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref       ENTITY          #IMPLIED
+        Fileref         CDATA           #IMPLIED
+        Format          NOTATION
+                        %notationtypes  #IMPLIED
+        Id              ID              #IMPLIED
+
+        %DTINFO.Graphic;
+        %DTINFO.ID;                     &ldquo;attr( Id )&rdquo;
+>
+</literallayout>
+<note>
+<para>
+You can build a bookcase after applying a minimum of
+<systemitem>DTINFO.Section</systemitem>,
+<systemitem>DTINFO.Title</systemitem>, and
+<systemitem>DTINFO.ID</systemitem> forms.
+</para>
+</note>
+</listitem>
+<listitem>
+<para>
+For the element you are working with, determine whether to apply a
+<link linkend="KtilaaBwXng24aK">data form</link>:
+</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref       ENTITY          #IMPLIED
+        Fileref         CDATA           #IMPLIED
+        Format          NOTATION
+                        %notationtypes  #IMPLIED
+        Id              ID              #IMPLIED
+
+        %DTINFO.Graphic;
+        %DTINFO.ID;                     &ldquo;attr( Id )&rdquo;
+        %DTINFO.Value;                  &ldquo;attr( Fileref )&rdquo;
+>
+</literallayout>
+</listitem>
+<listitem>
+<para>
+For the element you are working with, determine whether to apply a
+<link linkend="fsilaaBwXng24aK">scope form</link>:
+</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref       ENTITY          #IMPLIED
+        Fileref         CDATA           #IMPLIED
+        Format          NOTATION
+                        %notationtypes  #IMPLIED
+        Id              ID              #IMPLIED
+
+        %DTINFO.Graphic;
+        %DTINFO.Scope.Graphic;
+        %DTINFO.ID;                 &ldquo;attr( Id )&rdquo;
+        %DTINFO.Value;              &ldquo;attr( Fileref )&rdquo;
+>
+</literallayout>
+</listitem>
+<listitem>
+<para>
+For elements to which you have applied the
+<systemitem>DTINFO.Section</systemitem> architectural form,
+determine whether to use a style sheet other than the one inherited
+by this section. To use a different style sheet, apply a
+<link linkend="draW.aB80og24aK">style form</link>:
+</para>
+<literallayout>
+&lt;!ELEMENT Preface - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;)) >
+&lt;!ATTLIST Preface
+        %commonatts;
+
+        %DTINFO.Section;
+        %DTINFO.Style;     &ldquo;sty1&rdquo;
+>
+</literallayout>
+</listitem>
+<listitem>
+<para>
+Repeat steps 4 through 7 for each element which
+requires an architectural form.
+</para>
+</listitem>
+</orderedlist>
+</sect1>
+</chapter>

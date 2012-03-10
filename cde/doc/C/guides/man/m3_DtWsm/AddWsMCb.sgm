@@ -1,0 +1,146 @@
+<!-- $XConsortium: AddWsMCb.sgm /main/6 1996/09/08 20:23:22 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN60.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN60.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtWsmAddWorkspaceModifiedCallback</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtWsmAddWorkspaceModifiedCallback</Function></RefName>
+<RefPurpose>add a callback to be called when any workspace is changed
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Wsm.h>
+</FuncSynopsisInfo>
+<FuncDef>DtWsmCBContext <Function>DtWsmAddWorkspaceModifiedCallback</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>DtWsmWsModifiedProc <Parameter>ws_change</Parameter></ParamDef>
+<ParamDef>Pointer <Parameter>client_data</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtWsmAddWorkspaceModifiedCallback</Function> function works with the
+<![ %CDE.C.XO; [workspace manager
+]]><![ %CDE.C.CDE; [&str-XZ;
+workspace manager,
+&cdeman.dtwm;, ]]>and registers a function to be called when a workspace is added,
+deleted or modified.
+</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument is a realized widget.
+</Para>
+<Para>The
+<Emphasis>ws_change</Emphasis> argument is the procedure to be called when a workspace is
+modified.
+</Para>
+<Para>The
+<Symbol Role="Variable">client_data</Symbol> argument points to arbitrary client data to be
+passed back to
+<Emphasis>ws_change</Emphasis>.</Para>
+<Para>The
+header defines the
+<StructName Role="typedef">DtWsmWsModifiedProc</StructName> callback prototype as follows:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef void (*DtWsmWsModifiedProc)(Widget <Symbol Role="Variable">widget</Symbol>,
+        Atom <Emphasis>aWorkspace</Emphasis>,
+        DtWsmWsReason <Symbol Role="Variable">reason</Symbol>,
+        Pointer <Symbol Role="Variable">client_data</Symbol>);
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument is the ID of the widget to be registered with the callback.
+</Para>
+<Para>The
+<Emphasis>aWorkspace</Emphasis> argument is the name of the new current workspace
+(converted to an X atom).
+</Para>
+<Para>The
+<Symbol Role="Variable">reason</Symbol> argument is a type of modification:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtWSM_REASON_ADD</Term>
+<ListItem>
+<Para>A new workspace was added.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtWSM_REASON_BACKDROP</Term>
+<ListItem>
+<Para>The backdrop for the workspace changed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtWSM_REASON_CURRENT</Term>
+<ListItem>
+<Para>A different workspace was made the current workspace.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtWSM_REASON_DELETE</Term>
+<ListItem>
+<Para>A workspace was deleted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtWSM_REASON_TITLE</Term>
+<ListItem>
+<Para>The workspace title changed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<Symbol Role="Variable">client_data</Symbol> argument points to the client data to be
+registered with the callback.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtWsmAddWorkspaceModifiedCallback</Function> function returns a workspace callback registration context.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+<Function>DtWsmAddWorkspaceModifiedCallback</Function> function returns a registration context that the application
+must save in order to remove this callback later.
+</Para>
+<Para><Function>DtWsmAddWorkspaceModifiedCallback</Function> requires a window; thus, a gadget is not acceptable for the
+<Symbol Role="Variable">widget</Symbol> argument.
+</Para>
+<Para>The
+&cdeman.DtWsmRemoveWorkspaceCallback; function needs a registration context to remove the callback.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Wsm.h;, <![ %CDE.C.CDE; [&cdeman.dtwm;, ]]>&cdeman.DtWsmGetWorkspaceInfo;, &cdeman.DtWsmGetWorkspaceList;, &cdeman.DtWsmRemoveWorkspaceCallback;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

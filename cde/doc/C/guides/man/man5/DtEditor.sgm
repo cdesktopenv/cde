@@ -1,0 +1,724 @@
+<!-- $XConsortium: DtEditor.sgm /main/8 1996/09/08 19:59:04 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN73.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN73.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Dt/Editor.h</RefEntryTitle>
+<ManVolNum>file formats</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>Dt/Editor.h</Filename></RefName>
+<RefPurpose>editor widget definitions
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<Synopsis>#include &lt;Dt/Editor.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Filename Role="Header">Dt/Editor.h</Filename> header defines structures, enumerations and function prototypes for
+the Editor widget class.
+</Para>
+<Para>The header defines the
+<StructName Role="typedef">DtEditorDataFormat</StructName> enumeration data type,
+with at least the following members:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_TEXT</Term>
+<ListItem>
+<Para>The data being transferred is a pointer
+to a
+<SystemItem Class="Constant">NULL</SystemItem>&minus;terminated string of characters (a <StructName Role="typedef">char *</StructName>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_WCHAR</Term>
+<ListItem>
+<Para>The data being transferred is a
+wide character string (a <StructName Role="typedef">wchar_t *</StructName>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_DATA</Term>
+<ListItem>
+<Para>The data being transferred is a
+sized buffer (a
+<StructName Role="typedef">DtEditor_DataObj</StructName>).</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The header defines the following structure:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+        unsigned int <Symbol Role="Variable">length</Symbol>;
+        void *<Emphasis>buf</Emphasis>;
+} DtEditor_DataObj;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">length</Symbol> argument is the
+size in bytes of the data buffer.
+The
+<Emphasis>buf</Emphasis> argument is a
+pointer to the data buffer.
+</Para>
+<Para>The
+<StructName Role="typedef">DtEditorContentRec</StructName> structure is used to transfer data between
+an application and Editor widget.
+It indicates the type of data being
+transferred along with the actual data.
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+        DtEditorDataFormat <Symbol Role="Variable">type</Symbol>;
+        union {
+                char <Emphasis>*string</Emphasis>;
+                wchar_t <Emphasis>*wchar</Emphasis>;
+                DtEditor_DataObj <Symbol Role="Variable">data</Symbol>;
+        } <Symbol Role="Variable">value</Symbol>;
+} DtEditorContentRec;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">type</Symbol> argument
+indicates the type of data contained in the structure.
+The
+<Symbol Role="Variable">string</Symbol> argument
+points to a
+<SystemItem Class="Constant">NULL</SystemItem>&minus;terminated string of characters.
+It is valid when
+<Symbol Role="Variable">type</Symbol> is
+<SystemItem Class="Constant">DtEDITOR_TEXT</SystemItem>. The
+<Emphasis>wchar</Emphasis> argument
+points to a wide character string.
+It is valid when
+<Symbol Role="Variable">type</Symbol> is
+<SystemItem Class="Constant">DtEDITOR_WCHAR</SystemItem>. The
+<Symbol Role="Variable">data</Symbol> argument
+is a
+<StructName Role="typedef">DtEditor_DataObj</StructName> that contains the size of the
+data and a pointer to it.
+It is valid when
+<Symbol Role="Variable">type</Symbol> is
+<SystemItem Class="Constant">DtEDITOR_DATA</SystemItem>.</Para>
+<Para>The
+<StructName Role="typedef">DtEditorChangeValues</StructName> structure is used optionally to specify
+the string to search for and its replacement value for
+&cdeman.DtEditorChange;.</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+        char *<Emphasis>find</Emphasis>,
+        char *<Emphasis>changeTo</Emphasis>,
+} DtEditorChangeValues;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Emphasis>find</Emphasis> argument
+is a text string to locate in an DtEditor widget.
+The
+<Emphasis>changeTo</Emphasis> argument
+is the replacement string for the one or more occurrences of the string
+specified in
+<Emphasis>find</Emphasis>. It can be
+<SystemItem Class="Constant">NULL</SystemItem>.</Para>
+<Para>The
+<StructName Role="typedef">DtEditorFormatSettings</StructName> structure is used to optionally specify
+the left margin setting, right margin setting, and alignment style for
+&cdeman.DtEditorFormat;.</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+        int <Emphasis>leftMargin</Emphasis>,
+        int <Emphasis>rightMargin</Emphasis>,
+        unsigned int <Symbol Role="Variable">alignment</Symbol>,
+} DtEditorFormatSettings;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Emphasis>leftMargin</Emphasis> argument
+is the column number of the left boundary when formatting text.
+Text is not extended to the left of this column.
+It must be non-negative.
+The
+<Emphasis>rightMargin</Emphasis> argument
+is the column number of the right boundary when formatting text.
+Text is not extended to the right of this column.
+It must be larger than
+<Emphasis>leftMargin</Emphasis>. The
+<Symbol Role="Variable">alignment</Symbol> argument
+specifies the style of alignment when formatting text (see the
+constants listed in this header).
+</Para>
+<Para>The
+header declares the following variable:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>WidgetClass      dtEditorWidgetClass;
+</ProgramListing>
+</InformalExample>
+<Para>The
+header defines the following constants for use with the
+&cdeman.DtEditorChange; function:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_ALL_OCCURRENCES</Term>
+<ListItem>
+<Para>Change all instances of the find string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_CURRENT_SELECTION</Term>
+<ListItem>
+<Para>Replace the currently selected text with the replacement string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NEXT_OCCURRENCE</Term>
+<ListItem>
+<Para>Change the next occurrence of the find string after the insertion
+cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+header defines the following constants for use with the
+&cdeman.DtEditorFormat; function:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_FORMAT_ALL</Term>
+<ListItem>
+<Para>Reformats all the text in a DtEditor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_FORMAT_PARAGRAPH</Term>
+<ListItem>
+<Para>Reformats only the paragraph containing the insertion cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_ALIGN_CENTER</Term>
+<ListItem>
+<Para>Centers each line of text between the left and right margins.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_ALIGN_JUSTIFY</Term>
+<ListItem>
+<Para>Aligns the text flush with both the left and right margins.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_ALIGN_LEFT</Term>
+<ListItem>
+<Para>Aligns the text flush with the left margin.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_ALIGN_RIGHT</Term>
+<ListItem>
+<Para>Aligns the text flush with the right margin.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+header defines the following constant for use with the
+&cdeman.DtEditorGoToLine; function:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_LAST_LINE</Term>
+<ListItem>
+<Para>Moves the cursor to the beginning of the last line in the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+header defines the following
+<StructName Role="typedef">DtEditorErrorCode</StructName> constants:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_NO_ERRORS</Term>
+<ListItem>
+<Para>The function completed its task without errors.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Not enough system memory is available to complete the task.
+]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_TYPE</Term>
+<ListItem>
+<Para>The specified type is not a recognized
+<StructName Role="typedef">DtEditorDataFormat</StructName> when setting or retrieving contents or the specified
+Alignment type is not recognized when formatting text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_RANGE</Term>
+<ListItem>
+<Para>The starting character position in a text replacement is greater than
+the ending character position or the specified Amount To Format
+when formatting text is not recognized.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NULL_ITEM</Term>
+<ListItem>
+<Para>The data buffer is
+<SystemItem Class="Constant">NULL</SystemItem> when passing data in a buffer.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_ILLEGAL_SIZE</Term>
+<ListItem>
+<Para>The specified size of a data buffer is negative when passing data in a
+buffer, or the left and right margin values are illegal when formatting text.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_SPELL_FILTER_FAILED</Term>
+<ListItem>
+<Para>The
+<Function>DtEditor</Function> function cannot successfully execute the filter specified by the
+<SystemItem Class="Resource">DtNspellFilter</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NO_TMP_FILE</Term>
+<ListItem>
+<Para>The
+<Function>DtEditor</Function> function cannot create a temporary file in the directory returned by
+<Function>tmpnam</Function>3S. ]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_FILENAME</Term>
+<ListItem>
+<Para>No file was specified.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NONEXISTENT_FILE</Term>
+<ListItem>
+<Para>The file specified for reading does not exist.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_UNREADABLE_FILE</Term>
+<ListItem>
+<Para>The file specified is unreadable for an unspecified reason.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_READ_ONLY_FILE</Term>
+<ListItem>
+<Para>The file is read only.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NULLS_REMOVED</Term>
+<ListItem>
+<Para>The file contained embedded
+<SystemItem Class="Constant">NULL</SystemItem> characters, which were removed.
+]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NO_FILE_ACCESS</Term>
+<ListItem>
+<Para>The file cannot be accessed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_DIRECTORY</Term>
+<ListItem>
+<Para>The file specified is a directory.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_CHAR_SPECIAL_FILE</Term>
+<ListItem>
+<Para>The file specified is a character-special device.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_BLOCK_MODE_FILE</Term>
+<ListItem>
+<Para>The file specified is a block-mode device.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_UNWRITABLE_FILE</Term>
+<ListItem>
+<Para>The application does not have write permission for the file or directory.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_WRITABLE_FILE</Term>
+<ListItem>
+<Para>The specified file exists and the
+<Emphasis>overwriteIfExists</Emphasis> flag is set to
+False.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_SAVE_FAILED</Term>
+<ListItem>
+<Para>The contents of the widget could not be saved for an unspecified reason.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+header defines the following
+enumeration values as reasons for the
+<SystemItem Class="Resource">DtNtextSelectCallback</SystemItem>:</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_TEXT_SELECT</Term>
+<ListItem>
+<Para>Some text has been selected within the edit window (that is, the selection
+has become non-
+<SystemItem Class="Constant">NULL</SystemItem>).</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_TEXT_DESELECT</Term>
+<ListItem>
+<Para>No text is selected within the edit window (that is, the selection
+has become
+<SystemItem Class="Constant">NULL</SystemItem>).</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+header defines the following constants as reasons for the
+<SystemItem Class="Resource">XmNhelpCallback</SystemItem>:</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_HELP_EDIT_WINDOW</Term>
+<ListItem>
+<Para>The help request originated in the edit window.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_LINE</Term>
+<ListItem>
+<Para>The help request originated in the status line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_CURRENT_LINE</Term>
+<ListItem>
+<Para>The help request originated from the Current Line Number
+display in the status line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_TOTAL_LINES</Term>
+<ListItem>
+<Para>The help request originated from the Total Lines display in
+the status line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_MESSAGE</Term>
+<ListItem>
+<Para>The help request originated from the Message field in the
+status line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_STATUS_OVERSTRIKE</Term>
+<ListItem>
+<Para>The help request originated from the Overstrike indicator
+in the status line.
+]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_FORMAT_DIALOG</Term>
+<ListItem>
+<Para>The help request originated from the Help button in the
+Format Settings dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_FORMAT_LEFT_MARGIN</Term>
+<ListItem>
+<Para>The help request originated from the Left Margin field in
+the Format Settings dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_FORMAT_RIGHT_MARGIN</Term>
+<ListItem>
+<Para>The help request originated from the Right Margin Field in
+the Format Settings dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_FORMAT_ALIGNMENT</Term>
+<ListItem>
+<Para>The help request originated from the Alignment buttons in the Format Settings
+dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_CHANGE_DIALOG</Term>
+<ListItem>
+<Para>The help request originated from the Help button in the Find/Change dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_CHANGE_FIND</Term>
+<ListItem>
+<Para>The help request originated from the Find field in the Find/Change dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_CHANGE_CHANGE</Term>
+<ListItem>
+<Para>The help request originated from the Change To field in the Find/Change dialog.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_SPELL_DIALOG</Term>
+<ListItem>
+<Para>The help request originated from the Help button in the Spell dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_SPELL_MISSPELLED_WORDS</Term>
+<ListItem>
+<Para>The help request originated from the list of misspelled words in the Spell dialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_HELP_SPELL_CHANGE</Term>
+<ListItem>
+<Para>The help request originated from the Change To field in the Spell dialog.
+]]></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+header defines the following as functions:
+</Para>
+<Synopsis>Widget DtCreateEditor(Widget <Symbol Role="Variable">parent</Symbol>,
+        char *<Symbol Role="Variable">name</Symbol>,
+        ArgList <Symbol Role="Variable">arglist</Symbol>,
+        Cardinal <Symbol Role="Variable">argcount</Symbol>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorAppend(Widget <Symbol Role="Variable">widget</Symbol>,
+        DtEditorContentRec *<Symbol Role="Variable">data</Symbol>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorAppendFromFile(Widget <Symbol Role="Variable">widget</Symbol>,
+        char *<Emphasis>fileName</Emphasis>);
+</Synopsis>
+<Synopsis>Boolean DtEditorChange(Widget <Symbol Role="Variable">widget</Symbol>,
+        DtEditorChangeValues *<Emphasis>findChangeStrings</Emphasis>,
+        unsigned int <Emphasis>instanceToChange</Emphasis>);
+</Synopsis>
+<Synopsis>Boolean DtEditorCheckForUnsavedChanges(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>Boolean DtEditorClearSelection(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>Boolean DtEditorCopyToClipboard(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>Boolean DtEditorCutToClipboard(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>Boolean DtEditorDeleteSelection(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>Boolean DtEditorDeselect(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<![ %CDE.C.CDE; [
+<Synopsis>void DtEditorDisableRedisplay(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>void DtEditorEnableRedisplay(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+]]>
+<Synopsis>Boolean DtEditorFind(Widget <Symbol Role="Variable">widget</Symbol>,
+        char * <Emphasis>find</Emphasis>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorFormat(Widget <Symbol Role="Variable">widget</Symbol>,
+        DtEditorFormatSettings *<Emphasis>formatSettings</Emphasis>,
+        unsigned int <Emphasis>amountToFormat</Emphasis>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorGetContents(Widget <Symbol Role="Variable">widget</Symbol>,
+        DtEditorContentRec *<Symbol Role="Variable">data</Symbol>,
+        Boolean <Emphasis>hardCarriageReturns</Emphasis>,
+        Boolean <Emphasis>markContentsAsSaved</Emphasis>);
+</Synopsis>
+<Synopsis>XmTextPosition DtEditorGetInsertionPosition(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>XmTextPosition DtEditorGetLastPosition(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Para><![ %CDE.C.CDE; [</Para>
+<Synopsis>Widget DtEditorGetMessageTextFieldID(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Para>]]></Para>
+<Synopsis>void DtEditorGetSizeHints(Widget <Symbol Role="Variable">widget</Symbol>,
+        XSizeHints *<Emphasis>pHints</Emphasis>);
+</Synopsis>
+<Synopsis>void DtEditorGoToLine(Widget <Symbol Role="Variable">widget</Symbol>,
+        int <Emphasis>lineNumber</Emphasis>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorInsert(Widget <Symbol Role="Variable">widget</Symbol>,
+        DtEditorContentRec *<Symbol Role="Variable">data</Symbol>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorInsertFromFile(Widget <Symbol Role="Variable">widget</Symbol>,
+        char *<Emphasis>fileName</Emphasis>);
+</Synopsis>
+<Synopsis>void DtEditorInvokeFindChangeDialog(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>void DtEditorInvokeFormatDialog(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Para><![ %CDE.C.CDE; [</Para>
+<Synopsis>DtEditorErrorCode DtEditorInvokeSpellDialog(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Para>]]></Para>
+<Synopsis>Boolean DtEditorPasteFromClipboard(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorReplace(Widget <Symbol Role="Variable">widget</Symbol>,
+        XmTextPosition <Symbol Role="Variable">startPos</Symbol>,
+        XmTextPosition <Symbol Role="Variable">endPos</Symbol>,
+        DtEditorContentRec *<Symbol Role="Variable">data</Symbol>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorReplaceFromFile(Widget <Symbol Role="Variable">widget</Symbol>,
+        XmTextPosition <Symbol Role="Variable">startPos</Symbol>,
+        XmTextPosition <Symbol Role="Variable">endPos</Symbol>,
+        char *<Emphasis>fileName</Emphasis>);
+</Synopsis>
+<Para><![ %CDE.C.CDE; [</Para>
+<Synopsis>void DtEditorReset(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Para>]]></Para>
+<Synopsis>DtEditorErrorCode DtEditorSaveContentsToFile(Widget <Symbol Role="Variable">widget</Symbol>,
+        char *<Emphasis>fileName</Emphasis>,
+        Boolean <Emphasis>overwriteIfExists</Emphasis>,
+        Boolean <Emphasis>hardCarriageReturns</Emphasis>,
+        Boolean <Emphasis>markContentsAsSaved</Emphasis>);
+</Synopsis>
+<Synopsis>Boolean DtEditorSelectAll(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorSetContents(Widget <Symbol Role="Variable">widget</Symbol>,
+        DtEditorContentRec *<Symbol Role="Variable">data</Symbol>);
+</Synopsis>
+<Synopsis>DtEditorErrorCode DtEditorSetContentsFromFile(Widget <Symbol Role="Variable">widget</Symbol>,
+        char *<Emphasis>fileName</Emphasis>);
+</Synopsis>
+<Synopsis>void DtEditorSetInsertionPosition(Widget <Symbol Role="Variable">widget</Symbol>,
+                XmTextPosition <Symbol Role="Variable">position</Symbol>);
+</Synopsis>
+<Synopsis>void DtEditorTraverseToEditor(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+<Synopsis>Boolean DtEditorUndoEdit(Widget <Symbol Role="Variable">widget</Symbol>);
+</Synopsis>
+</RefSect1>
+<![ %CDE.C.CDE; [
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.DtCreateEditor;, &cdeman.DtEditor;,
+&cdeman.DtEditorAppend;,
+&cdeman.DtEditorAppendFromFile;,
+&cdeman.DtEditorChange;,
+&cdeman.DtEditorCheckForUnsavedChanges;,
+&cdeman.DtEditorClearSelection;,
+&cdeman.DtEditorCopyToClipboard;,
+&cdeman.DtEditorCutToClipboard;,
+&cdeman.DtEditorDeleteSelection;,
+&cdeman.DtEditorDeselect;, &cdeman.DtEditorFind;,
+&cdeman.DtEditorFormat;,
+&cdeman.DtEditorGetContents;,
+&cdeman.DtEditorGetInsertionPosition;,
+&cdeman.DtEditorGetLastPosition;,
+&cdeman.DtEditorGetMessageTextFieldID;,
+&cdeman.DtEditorGetSizeHints;,
+&cdeman.DtEditorGoToLine;, &cdeman.DtEditorInsert;,
+&cdeman.DtEditorInsertFromFile;,
+&cdeman.DtEditorInvokeFindChangeDialog;,
+&cdeman.DtEditorInvokeFormatDialog;,
+&cdeman.DtEditorInvokeSpellDialog;,
+&cdeman.DtEditorPasteFromClipboard;,
+&cdeman.DtEditorReplace;,
+&cdeman.DtEditorReplaceFromFile;,
+&cdeman.DtEditorReset;,
+&cdeman.DtEditorSaveContentsToFile;,
+&cdeman.DtEditorSelectAll;,
+&cdeman.DtEditorSetContents;,
+&cdeman.DtEditorSetContentsFromFile;,
+&cdeman.DtEditorSetInsertionPosition;,
+&cdeman.DtEditorTraverseToEditor;,
+&cdeman.DtEditorUndoEdit;.</Para>
+</RefSect1>
+]]>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

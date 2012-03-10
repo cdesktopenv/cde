@@ -1,0 +1,1126 @@
+<!-- $XConsortium: ch03.sgm /main/4 1996/10/11 09:23:39 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="infoapg.div.3">
+<title id="sidr7JBU3pBt8oL">Preparing to Build</title>
+<indexterm><primary>book source</primary><secondary>preparing</secondary>
+</indexterm>
+<para>
+Tools in the Information System Toolkit process a number of
+different SGML files to build documents that are displayable in the
+Information Manager. This section discusses the files required to
+build documents with the Information Manager.
+<indexterm><primary>information libraries</primary><secondary>building
+</secondary><tertiary>required files</tertiary></indexterm>
+</para>
+<sect1>
+<title id="n1Pih7JBbpoBt8oL">Required Files</title>
+<indexterm><primary>build requirements</primary>
+<secondary>required files</secondary></indexterm>
+<para>
+To build an Information Manager browsable book, you must supply the following:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="jbQg4bBSxI9X3cS">Book Source Document(s)
+</link> &mdash; These SGML-conforming documents contain the text of the book
+and its SGML markup.
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="n3NGoZbBosJ9X3cS">Table of Contents File
+</link> &mdash; Each Information Manager book requires a hypertext TOC that
+conforms to <filename>dtinfoTOC.dtd(5)</filename>.
+You can create the hypertext TOC with the
+<command>dtinfogen tocgen</command> command.
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="j3fa6XBbiK9X3cS">Style Sheets</link> &mdash;
+Style sheets govern the formatting of your books.
+In Information Manager, you can specify style sheet
+information for both
+the on-line and printed output of your books.
+Style sheets must conform to <filename>dtinfoStyle.dtd(5)</filename>.
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="r58-aZBwFK9X3cS">Bookcase Specification</link>
+&mdash; The bookcase specification, which conforms to
+<filename>dtinfoBook.dtd(5)</filename>, contains or makes reference
+to all of the SGML entities
+required by the Information Manager during the build process.
+A bookcase specification can be used to build a single book or
+a complete Information Manager information library that
+contains many books.
+</para>
+<para>
+<link linkend="TcQg4bBSxI9X3cS">Creating a Bookcase Specification</link>
+describes how you can create this document.
+An example is shown in <link linkend="XcQg4bBSxI9X3cS">Example Bookcase
+Specification</link>.
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="jbQg4bBSxI9X3cS">Book Source</title>
+<indexterm><primary>book source</primary></indexterm>
+<indexterm><primary>required files</primary>
+<secondary>book source</secondary></indexterm>
+<para>
+At least one conforming SGML document is required for each book
+in your bookcase. A single SGML document may constitute a
+complete book or it may be only one of several documents
+that make up a complete book.
+</para>
+<para>
+The SGML book source, whether it is one document or several,
+includes the text (content) of the book and its SGML markup.
+Through the use of entity references, the document source may
+also make reference to external text and non-text entities
+that reside in separate files or external system units.
+</para>
+<para>
+Entity references cause the specified entities to be embedded
+at the reference point in the SGML document.
+</para>
+<para>
+A document type definition (DTD) must be associated with the
+SGML document source. The DTD defines the structural
+relationships of elements such as titles, paragraphs, lists, tables,
+graphics, and so forth.
+</para>
+<para>
+In most cases the DTD resides outside of the SGML document and
+is referenced by it, typically in a DOCTYPE declaration at the top of
+each SGML-conforming document. See the example
+<link linkend="mhgjriBo9H9X3cS">DOCTYPE Declaration</link> below.
+</para>
+<para>
+The figure <link linkend="kADiOlB78H9X3cS">SGML Document Source</link>
+illustrates the relationship between documents, including hypertext
+TOCs, and external entities, that can be used to produce an
+Information Manager book.
+</para>
+<figure>
+<title id="kADiOlB78H9X3cS">SGML Document Source</title>
+<graphic id="gr55" entityref="infoapg.fig.2"></graphic>
+</figure>
+<para>
+An SGML declaration is required by the SGML parser. It specifies the
+character set and SGML delimiters that are valid for the document
+instance. <filename>dtinfo.decl(5)</filename> is the SGML declaration
+used by the Information Manager.
+<indexterm><primary>declaration</primary><secondary>SGML</secondary></indexterm>
+<indexterm><primary>SGML declaration</primary></indexterm>
+</para>
+<para>
+The Information Manager declaration <filename>dtinfo.decl(5)</filename>
+cannot be substituted or overridden. Therefore, your DTD's element
+declarations must contain the omitted tag minimization parameter
+(for example: <computeroutput>&ldquo;-o&rdquo; or &ldquo;--&rdquo;
+</computeroutput>) because the Information Manager SGML declaration has
+OMITTAG set to YES. For more information,
+see <citetitle pubwork="Book">Element Declaration</citetitle>,
+in <citetitle pubwork="Book">International Standards Organization (ISO) 8879
+</citetitle>.
+</para>
+<note>
+<para>
+The Information Manager's SGML declaration
+<filename>dtinfo.decl</filename> is supplied with the Information
+Manager and is referenced automatically when you invoke the
+<command>dtinfogen build</command>, <command>dtinfogen
+validate</command>, or <command>dtinfogen update</command> commands.
+</para>
+</note>
+<figure>
+<title id="mhgjriBo9H9X3cS">Example DOCTYPE Declaration</title>
+<programlisting>
+&lt;!DOCTYPE Chapter PUBLIC
+&ldquo;-//HaL and O'Reilly//DTD DocBook//EN&rdquo;
+[
+&lt;!ENTITY % ISOlist PUBLIC
+ &ldquo;-//Common Desktop Environment//ENTITIES ISO Catalog//EN&rdquo;>
+ %ISOlist;
+ %ISOlat1;
+ %ISOnum;
+ %ISOpub;
+ %ISOtech;
+ &lt;!ENTITY % halpubs SYSTEM &ldquo;hal.gml&rdquo; >
+ %halpubs;
+]>
+&lt;CHAPTER ID=&rdquo;CH-1015-3-1&rdquo; LABEL=&rdquo;3&rdquo;>&lt;TITLE>Working in the
+X Environment&lt;/TITLE>
+&lt;TITLEABBREV>Working in the X Environment&lt;/TITLEABBREV>
+&lt;HIGHLIGHTS>
+&lt;PARA>This chapter shows you how to begin working
+productively in the X environment. It describes how to:
+&lt;/PARA>
+&hellip;
+</programlisting>
+</figure>
+<note>
+<para>
+See <link linkend="Q3yRgFBsz1698oL">Related Documentation</link>
+for a listing of books that describe how to create
+SGML-conforming documents.
+</para>
+</note>
+</sect1>
+
+<!--)))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect1>
+<title id="n3NGoZbBosJ9X3cS">Table of Contents</title>
+<indexterm><primary>table of contents</primary></indexterm>
+<para>
+Each book you build as part of an Information Manager
+information library is required to have a hypertext table of
+contents (TOC). Hypertext links connect the list of section
+titles in the TOC with the actual on-line sections to which
+those titles refer.
+<indexterm><primary>required files</primary>
+<secondary>table of contents</secondary></indexterm>
+</para>
+<para>
+The TOC is displayed in the Information Manager as the initial
+entry point to a book. It establishes the default linear path of
+the book &mdash; the path that a reader would take if he or she
+were reading a hard copy version of the book. When a reader selects
+(clicks on) a section title in the TOC, the browser traverses
+the link and displays the on-line section in a reading window.
+</para>
+<para>
+In the Information Manager, the TOC is also a powerful hypertext
+navigation tool with important features that help to orient the
+reader spatially within the on-line document. For example,
+using information supplied by the TOC, the Information Manager
+graphical map is able to display the relative locations of sections
+in the book. And, using the TOC, the Information Manager's Book List
+window's collapsible book list provides hierarchical information
+about the book's structure.
+</para>
+<para>In order to set up the hypertext links required in the
+TOC, the Information Manager must be able to identify sections
+in your document source. This is done through the application
+of the Information Manager architectural forms to your book's DTD.
+</para>
+
+<note>
+<para>
+Before you can create a TOC for your book, you must apply
+Information Manager architectural forms to identify every element
+in your DTD that is to be referenced as a section in the TOC.
+This enables Information Manager's table of contents generator
+to extract the section's title and its unique section ID value.
+(See <link linkend="S3CTVcBfQJ9X3cS">Table of Contents Architectural Forms
+</link>.)
+</para>
+</note>
+
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="n8aJ92dBIsI9X3cS">Creating a Table of Contents</title>
+<indexterm><primary>table of contents</primary>
+<secondary>creating</secondary></indexterm>
+<para>
+You use the <command>dtinfogen tocgen</command> command to create the
+TOCs for each of your books.
+</para>
+
+<sect3>
+<title id="Sb4E8eBmqJ9X3cS">Running dtinfogen tocgen</title>
+<para>Here's an example of using <command>dtinfogen tocgen</command>
+to generate a table of contents.
+Before running <command>dtinfogen&nbsp;tocgen</command>,
+ensure that the book&rsquo;s source files:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Contain a DTD or include a reference to a DTD to which the
+Information Manager architectural forms have been applied.
+</para>
+</listitem>
+<listitem>
+<para>
+Contain valid SGML markup based on the DTD.
+</para>
+</listitem>
+</itemizedlist>
+
+<para>
+The basic <command>dtinfogen tocgen</command> command line
+for this example is:</para>
+<programlisting>
+dtinfogen tocgen -T <replaceable>/usr/pers</replaceable> -f <replaceable>TOC.file</replaceable> -id <replaceable>asg.toc</replaceable> -title <replaceable>&ldquo;Acoustic Sound Generators&rdquo;</replaceable> <replaceable>pref.sgm</replaceable> <replaceable>ch01.sgm</replaceable> <replaceable>ch02.sgm</replaceable> <replaceable>ch03.sgm</replaceable> <replaceable>appx.sgm</replaceable>
+</programlisting>
+<para>
+where
+</para>
+<variablelist>
+<varlistentry>
+<term><option>-T</option> <replaceable>/usr/pers</replaceable></term>
+<listitem>
+<para>
+Specifies the directory in which temporary files are
+placed during the build process. The default is to use the
+environment variable <systemitem class="environvar">TMPDIR</systemitem>.
+If variable <systemitem class="environvar">TMPDIR</systemitem> is not set,
+<filename>/usr/tmp</filename> is used.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>-f</option> <replaceable>TOC.file</replaceable></term>
+<listitem>
+<para>
+Specifies the name of the file to which the output of
+the <command>dtinfogen tocgen</command> process is sent.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>-id</option> <replaceable>asg.toc</replaceable></term>
+<listitem>
+<para>
+Specifies the TOC identifier in the newly created TOC file.
+The alphanumeric string value of <option>-id</option>,
+in this case <replaceable>asg.toc</replaceable>, associates the
+table of contents file with the specific set of book source files
+for which the TOC was generated. You must use a value that is
+unique across bookcases in each library.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><option>-title</option>
+<replaceable>&ldquo;Acoustic Sound Generators&rdquo;</replaceable></term>
+<listitem>
+<para>
+Specifies the TOC title. The value of <option>-title</option>,
+in this case, <replaceable>&ldquo;Acoustic Sound Generators&rdquo;</replaceable>,
+becomes the title of the newly created TOC file.
+</para>
+<para>
+The TOC title identifies the table of contents of the book
+with which it is associated. This name appears as the title of
+the TOC node when viewed in the Information Manager reading window.
+</para>
+<para>
+If you don't use the <option>-title</option> flag to supply a name,
+you may open the TOC file after it is generated and replace the
+default string <computeroutput>$Title = &ldquo;Table of Contents&rdquo;
+</computeroutput> with the appropriate title.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><replaceable>pref.sgm</replaceable> <replaceable>ch01.sgm</replaceable>
+<replaceable>ch02.sgm</replaceable> <replaceable>ch03.sgm</replaceable>
+<replaceable>appx.sgm</replaceable></term>
+<listitem>
+<para>
+Specifies the names of the document entities from which the
+table of contents section title listing will be generated.
+</para>
+<para>The document entities should be entered on the command
+line in the order in which their contents should appear in
+the on-line book.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+The <command>dtinfogen tocgen</command> program validates your
+document entities against their DTDs, verifying that the
+Information Manager architectural forms have been applied.
+</para>
+<para>
+After successful validation, <command>dtinfogen tocgen</command>
+then extracts the list of section titles and section identifiers
+from the book source files and generates the TOC file.
+</para>
+<para>
+If you later add or remove sections in any of the book source files,
+you must regenerate the TOC.
+</para>
+</sect3>
+</sect2>
+</sect1>
+
+<!--(((((((((((((((((((((((((((((((((((((((((((((-->
+
+<sect1>
+<title id="j3fa6XBbiK9X3cS">Using Style Sheets</title>
+<indexterm><primary>required files</primary>
+<secondary>style sheet</secondary></indexterm><indexterm>
+<primary>style sheet</primary><secondary>using</secondary></indexterm>
+<para>
+Style sheets control the formatted appearance of your books
+in Information Manager. You can use a single style sheet to
+specify both the on-line display characteristics of your books
+in the Information Manager as well as the printed output
+characteristics of your books when printed from the
+Information Manager.
+</para>
+<para>
+You can also use a single style sheet to describe how
+to format multiple documents within a bookcase, or you can
+use multiple style sheets to process different document types
+within the same bookcase.
+</para>
+<itemizedlist>
+<listitem>
+<para>The figure <link linkend="JmNvZbBE6K9X3cS">How Multiple Style Sheets
+are Used</link> illustrates how books and sections within books
+can use different style sheets.
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="n2PY0rbBgJJ9X3cS">Specifying Style Sheets at Different
+Levels</link> explains how style sheets can be specified at
+the bookcase level, at the book level, and at the section level.
+</para>
+</listitem>
+<listitem>
+<para><link linkend="bPY0rbBgJJ9X3cS">Example Bookcase Using Multiple
+Style Sheets</link> shows an example bookcase specification
+that uses four style sheets to provide formatting information
+for three books.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+Once you have built an information database, you can use
+the <command>dtinfogen update</command>
+<indexterm><primary>Information Manager</primary>
+<secondary>commands</secondary>
+<tertiary>dtinfogen update</tertiary></indexterm>
+command to reformat the sections using new style sheet information.
+See <link linkend="WmNvZbBE6K9X3cS">Updating Style Sheets in Built
+Bookcases</link>.
+</para>
+<para>For information about creating style sheets,
+see <link linkend="BtCmaaB0ang24aK">Creating a Style Sheet</link>.
+</para>
+<figure>
+<title id="JmNvZbBE6K9X3cS">How Multiple Style Sheets are Used</title>
+<graphic id="gr56" entityref="infoapg.fig.3"></graphic>
+</figure>
+<para>
+As shown in the illustration, the default style sheet
+<replaceable>Style01</replaceable> will be used to format
+all books in a bookcase unless a different style sheet is
+specified at the book level, or at the section level.
+When a style sheet other than the default style sheet is specified,
+it is valid only for formatting the specified book or the section
+for which it was defined. Processing then continues with the
+default style sheet unless a different style sheet is again specified.
+</para>
+
+<!--))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="n5mNvZbBE6K9X3cS">Defining Style Sheets</title>
+<indexterm><primary>style sheet</primary>
+<secondary>defining</secondary></indexterm>
+<para>
+You must define a default style sheet for every
+bookcase in your Information Manager library
+(see <link linkend="TcQg4bBSxI9X3cS">Creating a
+Bookcase Specification</link>.)
+</para>
+<sect3>
+<title id="n2PY0rbBgJJ9X3cS">Specifying Style Sheets at Different Levels</title>
+<para>
+Each style sheet must have a unique name, specified at the top
+of the style sheet document itself. All of the style sheets
+used in a bookcase can be defined using entity declarations
+at the top of the bookcase specification. Here is an example
+of entity declarations for a set of style sheets:
+</para>
+<programlisting>
+[
+ &lt;!-- Style sheets -->
+ &lt;!ENTITY Style01 SYSTEM &ldquo;InfoMgrRN/style01.sty&rdquo; >
+ &lt;!ENTITY Style02 SYSTEM &ldquo;Perl/perl.sty&rdquo; >
+ &lt;!ENTITY PrefSty SYSTEM &ldquo;Preface/pref.sty&rdquo; >
+ &lt;!ENTITY IDXSty SYSTEM &ldquo;Index/IDX.sty&rdquo; >
+ ...............
+ ...............
+ ...............
+]
+</programlisting>
+<para>
+The declared style sheets are referenced from within the
+bookcase specification using entity references.
+<link linkend="bPY0rbBgJJ9X3cS">Example Bookcase Using Multiple
+Style Sheets</link> illustrates a complete bookcase specification
+with all entity declarations and style sheet entity references.
+</para>
+<sect4>
+<title id="SmNvZbBE6K9X3cS">Specifying a Style Sheet at the Bookcase
+Level</title>
+<indexterm><primary>style sheet</primary>
+<secondary>bookcase level</secondary></indexterm>
+<para>
+The default style sheet is specified at the bookcase level.
+Entity references are made to any other style sheets that are
+defined for the bookcase.
+</para>
+<para>The BOOKCASE element start tag begins the listing of
+the bookcase's contents, including the style sheets that
+will be used and the SGML document entities that will be processed.
+</para>
+<para>
+The initial bookcase statement
+<computeroutput>&lt;BOOKCASE StyleSheet=style01></computeroutput>
+names <replaceable>style01</replaceable> as the default style sheet.
+After the BOOKCASENAME and BOOKCASEDESC elements are specified,
+entity references are made to all style sheet entities that will
+be used to format the bookcase's contents. For example:
+</para>
+<programlisting>
+&lt;BOOKCASE StyleSheet=Style01>
+ &lt;BOOKCASENAME>INFOMGR&lt;/>
+ &lt;BOOKCASEDESC>Info Manager Release Notes&lt;/>
+
+ &lt;!-- Include the style sheets. -->
+
+ &amp;Style01;
+ &amp;Style02;
+ &amp;PrefSty;
+ &amp;IDXSty;
+</programlisting>
+
+<para>
+The ampersand and semicolon in each of the entity references:
+<computeroutput>&amp;Style01;</computeroutput>,
+<computeroutput>&amp;Style02;</computeroutput>,
+<computeroutput>&amp;PrefSty;</computeroutput>, and
+<computeroutput>&amp;IDXSty;</computeroutput>are the open and close
+delimiters for entity references.
+</para>
+</sect4>
+<sect4>
+<title id="TmNvZbBE6K9X3cS">Specifying a Style Sheet at the Book Level</title>
+<indexterm><primary>style sheet</primary>
+<secondary>book level</secondary></indexterm>
+<para>
+The default style sheet specified by the BOOKCASE element
+is used for each book in a bookcase unless a different style
+sheet is specified at the book level or at the section level.
+</para>
+<para>
+The BOOK element start tag begins the listing of the book's
+contents, and refers to the style sheet that will be used
+(if it is different than the default style sheet). For example:
+</para>
+<programlisting>
+&lt;/BOOK>
+
+&lt;!-- Perl Manual -->
+&lt;BOOK StyleSheet=Style02>
+</programlisting>
+<para>
+This statement specifies that <computeroutput>Style02</computeroutput>
+will be used to format the <citetitle>Perl Manual</citetitle> SGML source.
+</para>
+<para>
+After the book's source files are processed, the next
+BOOK element start tag resets the style sheet to the default
+style sheet value specified by the initial BOOKCASE element start tag,
+unless another style sheet is specified.
+</para>
+</sect4>
+<sect4>
+<title id="VmNvZbBE6K9X3cS">Specifying a Style Sheet at the
+Section Level</title>
+<indexterm><primary>style sheet</primary>
+<secondary>section level</secondary></indexterm>
+<para>
+Section-level style sheets are not specified inside the book
+element listing of the bookcase file. Instead, they are specified
+in a book's document type definition (DTD) using Information Manager
+architectural forms. The Information Manager architectural forms
+identify specific section-level elements in a book to which
+the formatting characteristics of a specified style sheet
+will apply.
+</para>
+<para>
+For related information, see:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="BtCmaaB0ang24aK">Creating a Style Sheet</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="vSMTMZBRyng24aK">Understanding Architectural Forms</link>
+</para>
+</listitem>
+</itemizedlist>
+</sect4>
+</sect3>
+</sect2>
+
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="bPY0rbBgJJ9X3cS">Example Bookcase Using Multiple Style Sheets</title>
+
+<para>
+This is an example of a bookcase specification that defines
+three books and uses four style sheets. The style sheet entities
+<computeroutput>&amp;PrefSty;</computeroutput> and
+<computeroutput>&amp;IDXSty;</computeroutput> are referenced
+in the book DTD(s).
+</para>
+<programlisting>
+&lt;!DOCTYPE Bookcase PUBLIC
+&ldquo;-//Common Desktop Environment//DTD DtInfo Bookcase Description//EN&rdquo;
+[
+ &lt;!-- Style sheets -->
+ &lt;!ENTITY style01 SYSTEM &ldquo;InfoMgrRN/style01.sty&rdquo; >
+ &lt;!ENTITY style02 SYSTEM &ldquo;Perl/perl.sty&rdquo; >
+ &lt;!ENTITY PrefSty SYSTEM &ldquo;Preface/pref.sty&rdquo; >
+ &lt;!ENTITY IDXSty SYSTEM &ldquo;Index/IDX.sty&rdquo; >
+ &lt;!ENTITY TOCSTY SYSTEM &ldquo;TOC/TOC.sty&rdquo; >
+
+ &lt;!-- Book documents declared as SUBDOC -->
+ &lt;!ENTITY tocfile SYSTEM &ldquo;Small/small.toc&rdquo; SUBDOC >
+ &lt;!ENTITY ch03 SYSTEM &ldquo;Small/ch03.sgm&rdquo; SUBDOC >
+ &lt;!ENTITY xlsc SYSTEM &ldquo;Small/xlsc.sgm&rdquo; SUBDOC >
+ &lt;!ENTITY rnotes.TOC SYSTEM &ldquo;InfoMgrRN/rnotes.TOC&rdquo; SUBDOC >
+ &lt;!ENTITY rnotes.N SYSTEM &ldquo;InfoMgrRN/rnotes.N&rdquo; SUBDOC >
+ &lt;!ENTITY perl.TOC SYSTEM &ldquo;Perl/perl.TOC&rdquo; SUBDOC >
+ &lt;!ENTITY copytrade.N SYSTEM &ldquo;Perl/copytrade.N&rdquo; SUBDOC >
+ &lt;!ENTITY about.N SYSTEM &ldquo;Perl/02about.N&rdquo; SUBDOC >
+ &lt;!ENTITY intro.N SYSTEM &ldquo;Perl/1intro.N&rdquo; SUBDOC >
+ &lt;!ENTITY start.N SYSTEM &ldquo;Perl/2start.N&rdquo; SUBDOC >
+ &lt;!ENTITY datatypes.N SYSTEM &ldquo;Perl/3datatypes.N&rdquo; SUBDOC >
+ &lt;!ENTITY form.N SYSTEM &ldquo;Perl/4form.N&rdquo; SUBDOC >
+ &lt;!ENTITY commands.N SYSTEM &ldquo;Perl/5commands.N&rdquo; SUBDOC >
+ &lt;!ENTITY perl.NDX SYSTEM &ldquo;Perl/perl.NDX&rdquo; SUBDOC >
+ &lt;!ENTITY comments.N SYSTEM &ldquo;Perl/comments.N&rdquo; SUBDOC >
+
+
+]>
+&lt;BOOKCASE StyleSheet=style01>
+ &lt;BOOKCASENAME>Information Manager&lt;/>
+ &lt;BOOKCASEDESC>Information Manager Release Notes&lt;/>
+
+&lt;!-- Include the four style sheets. -->
+
+ &amp;style01;
+ &amp;style02;
+ &amp;PrefSty;
+ &amp;IDXSty;
+
+&lt;!-- *****BOOK 1 - Small example book***** -->
+&lt;BOOK>
+ &lt;TITLE>DocBook DTD Examples&lt;/>
+ &lt;SHORTTITLE>SGML Examples&lt;/>
+
+ &lt;TAB TabLoc=&rdquo;RE-1015-XLSCLIENTS-1&rdquo;>Manpage&lt;/>
+
+ &lt;TOCFILE>&amp;tocfile;&lt;/TOCFILE>
+ &lt;FILE>&amp;ch03;&lt;/FILE>
+ &lt;FILE>&amp;xlsc;&lt;/FILE>
+&lt;/BOOK>
+
+&lt;!-- *****BOOK 2 - Information Manager Release Notes***** -->
+&lt;BOOK>
+ &lt;TITLE>Information Manager Release Notes&lt;/>
+ &lt;SHORTTITLE>Info Manager Notes&lt;/>
+
+ &lt;TAB TabLoc=&rdquo;7M6zf5B0CM9X3cS&rdquo;>Contents&lt;/>
+ &lt;TAB TabLoc=&rdquo;wP3zf5B-BM9X3cS&rdquo;>Features&lt;/>
+ &lt;TAB TabLoc=&rdquo;yP3zf5B-BM9X3cS&rdquo;>To Do&lt;/>
+ &lt;TAB TabLoc=&rdquo;mJ6G0CB1LG9I8gW&rdquo;>Link Demos&lt;/>
+ &lt;TAB TabLoc=&rdquo;0K6zf5B-BM9X3cS&rdquo;>Figures&lt;/>
+
+ &lt;TOCFILE>&amp;rnotes.TOC;&lt;/>
+ &lt;FILE>&amp;rnotes.N;&lt;/>
+&lt;/BOOK>
+
+&lt;!-- *****BOOK 3 - Perl Manual***** -->
+&lt;BOOK StyleSheet=style02>
+ &lt;TITLE>Perl Manual&lt;/>
+
+ &lt;TAB TabLoc=&rdquo;Xmhyf5Bu6M9X3cS&rdquo;>Contents&lt;/>
+ &lt;TAB TabLoc=&rdquo;3tpQGzASEYy94aK&rdquo;>About This Book&lt;/>
+ &lt;TAB TabLoc=&rdquo;Oo9fP6B59WwA0YK&rdquo;>Index&lt;/>
+ &lt;TAB TabLoc=&rdquo;DNph.0BBMXwA0YK&rdquo;>Comments&lt;/>
+
+ &lt;TOCFILE>&amp;perl.TOC;&lt;/>
+ &lt;FILE>&amp;copytrade.N;&lt;/>
+ &lt;FILE>&amp;about.N;&lt;/>
+ &lt;FILE>&amp;intro.N;&lt;/>
+ &lt;FILE>&amp;start.N;&lt;/>
+ &lt;FILE>&amp;datatypes.N;&lt;/>
+ &lt;FILE>&amp;form.N;&lt;/>
+ &lt;FILE>&amp;commands.N;&lt;/>
+ &lt;FILE>&amp;perl.NDX;&lt;/>
+ &lt;FILE>&amp;comments.N;&lt;/>
+&lt;/BOOK>
+
+&lt;/BOOKCASE></programlisting>
+<note>
+<para>This example bookcase specification conforms to the
+<filename>dtinfoBook.dtd</filename> distributed with the Information Manager.
+</para>
+</note>
+</sect2>
+</sect1>
+
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))-->
+
+<sect1>
+<title id="r58-aZBwFK9X3cS">Bookcase Specification</title>
+<indexterm><primary>bookcase specification</primary></indexterm>
+<indexterm><primary>required files</primary>
+<secondary>bookcase specification</secondary></indexterm>
+<para>
+To build a bookcase into an information library, you use a bookcase
+specification to tell the Information Manager tools what to build.
+</para>
+<para>
+In its simplest form, the bookcase specification
+contains the bookcase name and bookcase description,
+the style sheets that describe the formatting of each book,
+and the SUBDOC entity references for the SGML documents
+comprising the books.
+</para>
+<para>
+You must use SGML SUBDOC entity declarations
+<indexterm><primary>SGML</primary>
+<secondary>SUBDOC entity declarations</secondary></indexterm>
+to include the book documents in the bookcase specification.
+The structure of the bookcase specification is defined in
+<filename>dtinfoBook.dtd</filename>.
+</para>
+<para>
+A general procedure for producing a bookcase specification
+is provided in the section <link linkend="TcQg4bBSxI9X3cS">
+Creating a Bookcase Specification</link>.
+</para>
+<para>
+The information you need to supply in the bookcase specification includes:
+</para>
+<variablelist>
+<varlistentry>
+<term>Bookcase name</term>
+<listitem>
+<para>
+This name is used by the Information Manager and by the
+internal search engine. It must be no longer than eight
+alphanumeric characters and it must be unique within the bookcase.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Bookcase description</term>
+<listitem>
+<para>
+This is a description or synopsis of the book(s) comprising the bookcase.
+Typical examples might be: <citetitle>UNIX Administration Guides</citetitle>,
+or <citetitle>Scientific Papers on Acoustic Sound Generation</citetitle>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>One or more style sheets</term>
+<listitem>
+<para>
+Style sheets contain the collection of formatting instructions
+that define how an SGML document should be formatted both on-line
+and in print. You must identify one style sheet as the default style
+sheet for all books in the bookcase specification.
+</para>
+<para>
+You can include style sheets in the bookcase specification
+or you can reference them via an entity declaration at the top
+of the bookcase specification.
+See <link linkend="XcQg4bBSxI9X3cS">Example Bookcase Specification</link>.
+</para>
+<para>
+To understand how the Information Manager handles multiple style sheets
+in a single bookcase specification, see <link linkend="j3fa6XBbiK9X3cS">
+Using Style Sheets</link>.
+</para>
+<para>
+For information about creating style sheets,
+see <link linkend="BtCmaaB0ang24aK">Creating a Style Sheet</link>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>One or more books</term>
+<listitem>
+<para>
+The information you need to supply for each book in the
+bookcase specification includes:
+</para>
+<variablelist>
+<varlistentry>
+<term>Book title</term>
+<listitem>
+<para>The full title of each book in the bookcase.
+The length of a book title is technically unlimited.
+Optimally however, titles should be no longer than 50 characters in length.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Book short title</term>
+<listitem>
+<para>
+An optional abbreviated title for each book.
+The short title is used by the Information Manager's search engine.
+Technically, the length of the short title is unlimited,
+but optimally it should be no more than 20 characters in length.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Tab information</term>
+<listitem>
+<para>
+Tabs are displayed in an Information Manager reading window.
+They resemble binder tabs and enable readers to move quickly
+to different sections in an on-line book.
+</para>
+<para>
+The tab information you supply in the bookcase specification
+includes the names and unique identifiers of sections in a book
+that will be available through the browser interface.
+</para>
+<para>
+Tabs are optional and one or more of them may be specified
+for each book in the bookcase. The length of the text of each
+tab and the number of tabs in a given book is technically unlimited.
+However, on-line readability will be improved by using
+relatively concise tab names such as <literal>Contents</literal>,
+<literal>Preface</literal>, <literal>Index</literal>, and so forth,
+and limiting the number of tabs to be displayed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Table of contents (TOC)</term>
+<listitem>
+<para>
+Each book defined in the bookcase specification must have a
+hypertext TOC that conforms to the Information Manager
+<filename>dtinfoTOC.dtd</filename>.
+</para>
+<para>
+You can use the <command>dtinfogen tocgen</command> command
+to produce an Information Manager table of contents.
+See <link linkend="n8aJ92dBIsI9X3cS">Creating a Table of Contents</link>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Book source documents</term>
+<listitem>
+<para>
+These are the SGML-conforming document entities that make up each book.
+</para>
+<para>
+Because these documents may conform to different DTDs,
+you must use SGML SUBDOC entities to pull in the source
+information during the build process.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+The figure <link linkend="xJDiOlB78H9X3cS">Bookcase Specification</link>
+illustrates the relationship of the bookcase specification and other
+documents used to build an information library.
+</para>
+<figure>
+<title id="xJDiOlB78H9X3cS">Bookcase Specification</title>
+<graphic id="gr57" entityref="infoapg.fig.4"></graphic>
+</figure>
+<sect2>
+<title id="TcQg4bBSxI9X3cS">Creating a Bookcase Specification</title>
+<indexterm><primary>bookcase specification</primary>
+<secondary>creating</secondary></indexterm>
+<para>
+To create a bookcase specification:
+</para>
+<orderedlist>
+<listitem>
+<para>
+Using a text editor such as <command>vi</command>, <command>emacs</command>,
+or an appropriately configured SGML editor, open a new file in
+your book's build area. If you prefer, you can copy the
+<link linkend="XcQg4bBSxI9X3cS">Example Bookcase Specification</link>
+below or any example bookcase specification included in this
+documentation and modify it for your purposes.
+</para>
+</listitem>
+<listitem>
+<para>
+At the top of the file, specify the bookcase DTD. For example:
+</para>
+<programlisting>
+&lt;!DOCTYPE Bookcase PUBLIC
+&ldquo;-//Common Desktop Environment//DTD DtInfo Bookcase Description//EN&rdquo;
+[
+</programlisting>
+<para>
+The open brace ( [ ) at the end of the DOCTYPE declaration indicates
+that a set of entity declarations will follow.
+See the <filename>dtinfoBook.dtd(5)</filename> man page.
+</para>
+</listitem>
+<listitem>
+<para>
+Using an entity declaration, specify the style sheet to use.
+You can define multiple style sheets using entity declarations.
+</para>
+
+<programlisting>
+&lt;!-- Style sheets -->
+&lt;!ENTITY style01 SYSTEM &ldquo;style01.sty&rdquo; >
+</programlisting>
+
+</listitem>
+<listitem>
+<para>
+Using the SGML SUBDOC entity feature, specify the documents
+that will comprise the book, including the TOC.
+</para>
+
+<programlisting>
+&lt;!-- Book files declared as SUBDOC -->
+&lt;!ENTITY tocfile SYSTEM &ldquo;small.toc&rdquo; SUBDOC >
+&lt;!ENTITY ch03 SYSTEM &ldquo;ch03.sgm&rdquo; SUBDOC >
+&lt;!ENTITY xlsc SYSTEM &ldquo;xlsc.sgm&rdquo; SUBDOC >
+</programlisting>
+
+</listitem>
+<listitem>
+<para>
+After specifying all of the entities you will be using,
+close the entity declaration with a closing brace ( ] )
+and a closing declaration delimiter ( > ).
+</para>
+<programlisting>]></programlisting>
+</listitem>
+<listitem>
+<para>
+Enter the SGML start tag &lt;BOOKCASE> and specify the default
+style sheet to use for the bookcase.
+</para>
+<programlisting>
+&lt;BOOKCASE StyleSheet=sty1>
+</programlisting>
+<para>
+In this example, the BOOKCASE element's attribute
+<replaceable>StyleSheet</replaceable> is assigned the value
+<systemitem>sty1</systemitem>, which is the name of the STYLESHEET
+element in the style sheet file <filename>style01.sty</filename>.
+</para>
+<para>
+If multiple style sheets are declared in the entity subset
+declaration, you can specify any one of them as the default
+style sheet for the bookcase.
+</para>
+</listitem>
+<listitem>
+<para>
+Enter the BOOKCASENAME and BOOKCASEDESC elements and their
+contents&mdash;in this case <replaceable>SMALL</replaceable> and
+<replaceable>Demonstration small bookcase</replaceable>, respectively.
+</para>
+<para>
+BOOKCASENAME can be no longer than eight alphanumeric characters,
+and must not contain periods.
+</para>
+<para>
+Next, using an entity reference, specify the style sheet to be
+included&mdash;in this case <computeroutput>style01</computeroutput>.
+</para>
+<programlisting>
+&lt;BOOKCASENAME>SMALL&lt;/>
+&lt;BOOKCASEDESC>Demonstration small bookcase&lt;/>
+&amp;style01;
+</programlisting>
+<para>
+After referencing all style sheets for the bookcase, begin
+specifying the book(s) that make up the bookcase.
+</para>
+<note>
+<para>Different style sheets can be assigned to different bookcases,
+and even to different books within a bookcase using an identifier
+reference. See <link linkend="j3fa6XBbiK9X3cS">Using Style Sheets</link>.
+For information about creating style sheets, see
+<link linkend="BtCmaaB0ang24aK">Creating a Style Sheet</link>.
+</para>
+</note>
+</listitem>
+<listitem>
+<para>
+Specify the book to build by entering the BOOK element's start tag,
+and the TITLE and SHORTTITLE elements and their contents.
+</para>
+<programlisting>
+&lt;BOOK>
+&lt;TITLE>DocBook DTD Examples&lt;/>
+&lt;SHORTTITLE>SGML Examples&lt;/>
+</programlisting>
+</listitem>
+<listitem>
+<para>
+If you are setting up binder tabs in your book, supply the
+tab information.
+</para>
+<para>
+For each tab, you must specify the TAB element's start tag&mdash;
+which requires the TabLoc attribute and its value&mdash;and the text
+(in this case &ldquo;Manpage&rdquo;) that will appear in the tab when
+it is displayed in the browser.
+</para>
+
+<programlisting>
+&lt;TAB TabLoc=&ldquo;RE-1015-XLSCLIENTS-1&rdquo;>Manpage&lt;/>
+</programlisting>
+</listitem>
+<listitem>
+<para>Use the &lt;TOCFILE> tag to contain the table of contents
+document referenced via the SUBDOC entity declaration at the top
+of the bookcase specification.
+</para>
+<programlisting>
+&lt;TOCFILE>&amp;tocfile;&lt;/TOCFILE>
+</programlisting>
+</listitem>
+<listitem>
+<para>
+Use &lt;FILE> tags to contain the book documents referenced
+via SUBDOC entity declarations at the top of the bookcase specification.
+</para>
+<programlisting>
+&lt;FILE>&amp;ch03;&lt;/FILE>
+&lt;FILE>&amp;xlsc;&lt;/FILE>
+</programlisting>
+<para>
+You can also list multiple book documents in a single set of &lt;FILE>
+tags. For example:
+</para>
+<programlisting>
+&lt;FILE>&amp;ch03; &amp;xlsc;&lt;/FILE>
+</programlisting>
+</listitem>
+<listitem>
+<para>
+After all documents are referenced for this book,
+close this book using the &lt;/BOOK> end tag.
+</para>
+<programlisting>
+&lt;/BOOK>
+</programlisting>
+<para>
+Repeat steps 8 thorough 11 for each additional book that is to be
+included in the bookcase.
+</para>
+</listitem>
+<listitem>
+<para>
+After all books are specified, close the bookcase specification
+using the &lt;/BOOKCASE> end tag.
+</para>
+<programlisting>
+&lt;/BOOKCASE>
+</programlisting>
+</listitem>
+</orderedlist>
+<para>
+The complete bookcase example is shown in
+<link linkend="XcQg4bBSxI9X3cS">Example Bookcase Specification</link>.
+</para>
+
+<!--)))))))))))))))))))))))))))))))))))))-->
+
+<sect3>
+<title id="XcQg4bBSxI9X3cS">Example Bookcase Specification</title>
+<indexterm><primary>bookcase specification</primary>
+<secondary>example</secondary></indexterm>
+<para>
+This is an example of a small bookcase specification.
+It defines one bookcase containing a single book and uses a
+single style sheet.
+</para>
+<para>
+Although the style sheet in the example below is referenced
+via an entity reference, the complete text of the style sheet
+<computeroutput>STYLE01</computeroutput> could be included
+in the bookcase specification.
+</para>
+<programlisting>
+&lt;!DOCTYPE Bookcase PUBLIC
+&ldquo;-//Common Desktop Environment//DTD DtInfo Bookcase Description//EN&rdquo;
+[
+&lt;!-- Style sheets -->
+&lt;!ENTITY style01 SYSTEM &ldquo;style01.sty&rdquo; >
+
+&lt;!-- Book files declared as SUBDOC -->
+&lt;!ENTITY tocfile SYSTEM &ldquo;small.toc&rdquo; SUBDOC >
+&lt;!ENTITY ch03 SYSTEM &ldquo;ch03.sgm&rdquo; SUBDOC >
+&lt;!ENTITY xlsc SYSTEM &ldquo;xlsc.sgm&rdquo; SUBDOC >
+]>
+&lt;BOOKCASE StyleSheet=sty1>
+&lt;BOOKCASENAME>SMALL&lt;/>
+&lt;BOOKCASEDESC>Demonstration small bookcase&lt;/>
+&amp;style01;
+
+&lt;BOOK>
+&lt;TITLE>DocBook DTD Examples&lt;/>
+&lt;SHORTTITLE>SGML Examples&lt;/>
+
+&lt;!-- Tab information -->
+&lt;TAB TabLoc=&rdquo;RE-1015-XLSCLIENTS-1&rdquo;>Manpage&lt;/>
+
+&lt;TOCFILE>&amp;tocfile;&lt;/TOCFILE>
+
+&lt;FILE>&amp;ch03;&lt;/FILE>
+&lt;FILE>&amp;xlsc;&lt;/FILE>
+
+&lt;/BOOK>
+
+&lt;/BOOKCASE>
+</programlisting>
+<note>
+<para>
+This example bookcase specification conforms to the
+<filename>dtinfoBook.dtd</filename> distributed with the Information Manager.
+</para>
+</note>
+</sect3>
+</sect2>
+</sect1>
+</chapter>

@@ -1,0 +1,1701 @@
+<!-- $XConsortium: ch10.sgm /main/11 1996/12/21 19:19:30 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.cract.div.1">
+<title id="sag.cract.mkr.1"><indexterm><primary>azioni</primary><secondary>creazione manuale</secondary></indexterm>Creazione delle azioni con la procedura
+manuale</title>
+<para>Esistono due metodi per creare le azioni:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Usare l'applicazione del desktop Creare azione</para>
+</listitem>
+<listitem><para>Creare manualmente la definizione dell'azione</para>
+</listitem>
+</itemizedlist>
+<para>Per creare un'azione manualmente &egrave; necessario editare un file
+del database. Questo capitolo spiega come creare manualmente le definizioni
+delle azioni.</para>
+<informaltable id="sag.cract.itbl.1" frame="all">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.55in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Casi in
+cui occorre creare le azioni manualmen--><!--te158'--><xref role="JumpText"
+linkend="sag.cract.mkr.2"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Creazione
+manuale di un'azione: procedura gene--><!--rale159'--><xref role="JumpText"
+linkend="sag.cract.mkr.4"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Creazione
+di una stringa di esecuzione per un'--><!--azione COMMAND169'--><xref role="JumpText"
+linkend="sag.cract.mkr.13"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Supporto
+di finestre ed emulatori di terminale--><!-- per le azioni COMMAND176'--><xref
+role="JumpText" linkend="sag.cract.mkr.24"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Restrizione
+delle azioni a determinati argomen--><!--ti178'--><xref role="JumpText" linkend="sag.cract.mkr.29"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Creazione
+di azioni che eseguano applicazioni --><!--su sistemi remoti180'--><xref role="JumpText"
+linkend="sag.cract.mkr.32"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Uso delle
+variabili nelle definizioni delle az--><!--ioni e dei tipi di dati182'--><xref
+role="JumpText" linkend="sag.cract.mkr.34"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Avvio di
+un'azione dalla riga comandi183'--><xref role="JumpText" linkend="sag.cract.mkr.37"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Creazione
+di azioni in lingue diverse185'--><xref role="JumpText" linkend="sag.cract.mkr.39"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Creazione
+di azioni per le applicazioni ToolTa--><!--lk186'--><xref role="JumpText"
+linkend="sag.cract.mkr.40"></para></entry></row></tbody></tgroup></informaltable>
+<sect1 id="sag.cract.div.2">
+<title>Vedere anche</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Per una descrizione introduttiva delle azioni, vedere il <!--Original
+XRef content: 'Capitolo&numsp;8,
+&ldquo;Introduzione alle a--><!--zioni e ai tipi di dati'--><xref role="ChapNumAndTitle"
+linkend="sag.intac.mkr.1">.</para>
+</listitem>
+<listitem><para>Per informazioni sull'uso di Creare azione, vedere il <!--Original
+XRef content: 'Capitolo&numsp;9, &ldquo;Creazione
+di azioni--><!-- e tipi di dati con Creare azione'--><xref role="ChapNumAndTitle"
+linkend="sag.dtcra.mkr.1">.</para>
+</listitem>
+<listitem><para>Per informazioni sulle definizioni delle azioni, vedere la
+pagina di spiegazioni <filename>dtactionfile(4)</filename>.</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="sag.cract.div.3">
+<title id="sag.cract.mkr.2">Casi in cui occorre creare le azioni manualmente</title>
+<para><indexterm><primary>azioni</primary><secondary>tipi</secondary></indexterm>Esistono
+tre tipi di azioni:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>COMMAND</command></para>
+</listitem>
+<listitem><para><command>MAP</command></para>
+</listitem>
+<listitem><para><filename>TT_MSG</filename></para>
+</listitem>
+</itemizedlist>
+<para id="sag.cract.mkr.3">L'applicazione Creare azione permette di creare
+alcuni tipi di azioni <command>COMMAND</command> e <command>MAP</command>.
+Tutte le azioni <filename>TT_MSG</filename> devono essere create manualmente.
+</para>
+<para>Per maggiori informazioni, vedere <!--Original XRef content: '&ldquo;Limitazioni
+di Creare azione&rdquo; a--><!-- pagina&numsp;144'--><xref role="SecTitleAndPageNum"
+linkend="sag.dtcra.mkr.3">.</para>
+<sect2 id="sag.cract.div.4">
+<title><indexterm><primary>COMMAND, azione</primary></indexterm><indexterm>
+<primary>azioni</primary><secondary>COMMAND</secondary></indexterm>Azioni
+COMMAND</title>
+<para>Si definisce <emphasis>azione di comando</emphasis> un'azione che esegue
+un comando di avvio di un'applicazione o di un'utility, uno script di una
+shell o un comando del sistema operativo. La definizione di questo tipo di
+azioni include sempre il comando da eseguire (<filename>EXEC_STRING</filename>).
+</para>
+<para>Le azioni di comando pi&ugrave; comuni possono essere create con lo
+strumento Creare azione. Tuttavia, in presenza di alcune condizioni &egrave;
+necessario crearle manualmente; ad esempio, quando l'azione specifica:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pi&ugrave; argomenti (file) con una richiesta diversa per
+ognuno.</para>
+</listitem>
+<listitem><para>Il richiamo di un'azione &mdash; un'azione che avvii altre
+azioni.</para>
+</listitem>
+<listitem><para>Un comportamento dipendente dal numero degli argomenti &mdash;
+un'azione che si comporti in modo diverso a seconda del numero di file specificati
+come argomenti.</para>
+</listitem>
+<listitem><para>Un host di esecuzione remoto &mdash; un'azione che avvii un'applicazione
+su un sistema diverso da quello in cui si trova la definizione dell'azione.
+</para>
+</listitem>
+<listitem><para>Un cambiamento di utente &mdash; un'azione che debba essere
+eseguita con un nome utente diverso (ad esempio, che richieda la password
+di superutente).</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.cract.div.5">
+<title><indexterm><primary>MAP, azioni</primary><secondary>definizione</secondary>
+</indexterm>Azioni MAP<indexterm><primary>azioni</primary><secondary>MAP</secondary>
+</indexterm></title>
+<para>Si definisce <emphasis>azione di mappatura</emphasis> un'azione che
+viene &ldquo;mappata&rdquo; in un'altra azione anzich&eacute; specificare
+direttamente un comando o un messaggio ToolTalk.</para>
+<para>La mappatura offre la possibilit&agrave; di specificare nomi alternativi
+per le azioni. Ad esempio, il database include un'azione di comando predefinita
+di nome &ldquo;Editor delle icone&rdquo; che avvia l'applicazione corrispondente;
+esso include per&ograve; anche un'azione Aprire, la cui applicazione &egrave;
+limitata ai file a mappa di bit e a mappa di pixel (con il campo <filename>ARG_TYPE</filename>), che viene mappata nell'azione Editor delle icone. Questo
+permette di avviare l'Editor delle icone selezionando un file a mappa di bit
+o a mappa di pixel dalla Gestione di file e quindi scegliendo Aprire dal menu
+Selezioni.</para>
+<para>Le possibilit&agrave; di mappatura offerte da Creare azione sono limitate
+alle azioni Aprire e Stampare. Tutte le altre azioni di mappatura devono essere
+create manualmente.</para>
+</sect2>
+<sect2 id="sag.cract.div.6">
+<title><indexterm><primary>azioni</primary><secondary>TT_MSG</secondary></indexterm>Azioni
+TT_MSG (messaggi ToolTalk)</title>
+<para>Le azioni <filename>TT_MSG</filename> inviano un messaggio ToolTalk.
+Tutte le azioni di tipo <filename>TT_MSG</filename> devono essere create manualmente.
+</para>
+</sect2>
+</sect1>
+<sect1 id="sag.cract.div.7">
+<title id="sag.cract.mkr.4">Creazione manuale di un'azione: procedura generale<indexterm>
+<primary>azioni</primary><secondary>creazione manuale</secondary></indexterm></title>
+<para>Questa sezione descrive come creare un file di configurazione per la
+definizione di un'azione.</para>
+<sect2 id="sag.cract.div.8">
+<title id="sag.cract.mkr.5">File di configurazione per le azioni<indexterm>
+<primary>azioni</primary><secondary>file di configurazione</secondary></indexterm><indexterm>
+<primary>file di configurazione</primary><secondary>azioni</secondary></indexterm><indexterm>
+<primary>dt, file</primary></indexterm></title>
+<para>I file di configurazione contenenti le definizioni delle azioni devono
+rispondere ai seguenti requisiti:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome del file deve avere il formato <symbol role="Variable">nome</symbol><filename>.dt</filename></para>
+</listitem>
+<listitem><para><indexterm><primary>percorso di ricerca dei database</primary>
+</indexterm><indexterm><primary>percorsi di ricerca</primary><secondary>azioni</secondary></indexterm>I file devono trovarsi nel percorso di ricerca del
+database (per le azioni e i tipi di dati). Il percorso di ricerca predefinito
+comprende le directory seguenti:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="156*">
+<colspec colwidth="300*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Azioni personali</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Azioni di sistema</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Azioni predefinite</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol>. Questa directory non dovrebbe
+essere utilizzata.</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+<para>Per informazioni su come modificare il percorso di ricerca delle azioni
+e dei tipi di dati, vedere <!--Original XRef content: '&ldquo;Impostazione
+del valore di un percorso--><!-- di ricerca&rdquo; a
+pagina&numsp;117'--><xref role="SecTitleAndPageNum" linkend="sag.datab.mkr.6">.
+</para>
+</sect2>
+<sect2 id="sag.cract.div.9" role="Procedure">
+<title id="sag.cract.mkr.6">Come creare un'azione manualmente<indexterm><primary>azioni</primary><secondary>creazione manuale</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Aprire un file del database o crearne uno nuovo. Vedere la
+sezione seguente, <!--Original XRef content: '&ldquo;File di configurazione
+per le azioni'--><xref role="SectionTitle" linkend="sag.cract.mkr.5">.</para>
+</listitem>
+<listitem><para>Creare la definizione dell'azione usando la sintassi:</para>
+<programlisting>ACTION nome_azione
+{
+   TYPE    <symbol role="Variable">tipo_azione</symbol>
+ <symbol>campo_azione</symbol> 
+   &hellip;
+}</programlisting>
+<para>dove:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="157*">
+<colspec colwidth="371*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>azioni</primary>
+<secondary>nomi</secondary></indexterm><symbol role="Variable">nome_azione</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; il nome usato per eseguire
+l'azione.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>azioni</primary>
+<secondary>tipi</secondary></indexterm><symbol role="Variable">tipo_azione</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; <command>COMMAND</command>
+(il tipo predefinito), <command>MAP</command> o <filename>TT_MSG.</filename></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>azioni</primary>
+<secondary>campi</secondary></indexterm><symbol role="Variable">campo_azione</symbol></para></entry>
+<entry align="left" valign="top"><para>&Egrave; uno dei campi necessari o
+opzionali per il tipo di azione specificato. Tutti i campi sono formati da
+una parola chiave e da un valore.</para><para>In questo capitolo sono descritti
+molti dei campi usati per la definizione delle azioni. Per maggiori informazioni,
+vedere la pagina di spiegazioni dtactionfile(4).</para></entry></row></tbody>
+</tgroup></informaltable>
+</listitem>
+<listitem><para>Salvare il file.</para>
+</listitem>
+<listitem><para>Se si desidera associare all'icona dell'azione un'immagine
+che la identifichi in modo specifico, creare le icone appropriate. Le posizioni
+predefinite per le icone sono le seguenti:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Icone personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>Icone di sistema: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">lingua.</symbol> La <symbol role="Variable">lingua</symbol> predefinita
+&egrave; l'inglese (C).</para>
+<para>Per maggiori informazioni, vedere <!--Original XRef content: '&ldquo;Scelta
+dell'icona da utilizzare per u--><!--n'azione&rdquo; a pagina&numsp;165'--><xref
+role="SecTitleAndPageNum" linkend="sag.cract.mkr.10">.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Fare doppio clic su &ldquo;Ricaricare azioni&rdquo; nel gruppo
+Strumenti_desktop.</para>
+</listitem>
+<listitem><para>Creare un file per l'azione. Questo file creer&agrave; un'icona
+per la rappresentazione dell'azione nella Gestione di file e nella Gestione
+di applicazioni. (Se l'azione produce l'avvio dell'applicazione, l'icona verr&agrave;
+detta<indexterm><primary>icone</primary><secondary>di applicazioni</secondary>
+</indexterm> <emphasis>icona dell'applicazione</emphasis>.)</para>
+<para>Per creare il file dell'azione, creare un file eseguibile il cui nome
+coincida con il <symbol>nome_azione</symbol>. Il file potr&agrave; essere
+creato in qualunque directory per la quale si possieda l'autorizzazione di
+scrittura. Si potr&agrave; creare qualsiasi numero di file dell'azione.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.cract.div.10">
+<title id="sag.cract.mkr.7">Esempio di creazione di un'azione COMMAND<indexterm>
+<primary>COMMAND, azione</primary><secondary>esempio</secondary></indexterm><indexterm>
+<primary>azioni</primary><secondary>esempio</secondary></indexterm></title>
+<para>La procedura seguente crea un'azione personale che avvia un'applicazione
+fax sul sistema remoto AppServerA. Il comando per l'avvio dell'applicazione
+fax &egrave;:</para>
+<programlisting>/usr/fax/bin/faxcompose [<symbol role="Variable">nomefile</symbol>]</programlisting>
+<orderedlist>
+<listitem><para>Creare il file <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/Fax.dt</filename>.</para>
+</listitem>
+<listitem><para>Inserire nel file la seguente definizione dell'azione:</para>
+<programlisting>ACTION ComporreFax
+{ 
+        TYPE         COMMAND
+        ICON         fax
+        WINDOW_TYPE  NO_STDIO
+        EXEC_STRING  /usr/fax/bin/faxcompose-c %Arg_1
+        EXEC_HOST    AppServerA
+        DESCRIPTION  Esegue il programma di composizione fax
+}</programlisting>
+<para>I campi <filename>WINDOW_TYPE</filename> e <filename>EXEC_STRING</filename>
+descrivono il comportamento dell'azione.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="158*">
+<colspec colwidth="370*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>WINDOW_TYPE</filename></para></entry>
+<entry align="left" valign="top"><para>La parola chiave <filename>NO_STDIO</filename> specifica che l'azione non deve essere eseguita in una finestra
+di emulazione di terminale.</para><para>Vedere <!--Original XRef content:
+'&ldquo;Indicazione del supporto di finestre p--><!--er l'azione&rdquo; a
+pagina&numsp;176'--><xref role="SecTitleAndPageNum" linkend="sag.cract.mkr.25"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>EXEC_STRING</filename></para></entry>
+<entry align="left" valign="top"><para>La sintassi <filename>%Arg_1%</filename>
+accetta un file come argomento. Facendo doppio clic sull'icona dell'azione,
+verr&agrave; aperta una finestra vuota per la composizione dei fax.</para><para>Vedere <!--Original XRef content: '&ldquo;Creazione di una stringa di esecuzione--><!--
+per un'azione COMMAND&rdquo; a pagina&numsp;169'--><xref role="SecTitleAndPageNum"
+linkend="sag.cract.mkr.13">.</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>Salvara il file</para>
+</listitem>
+<listitem><para>Usare l'editor delle icone per creare i file grafici seguenti
+in <filename>DirectoryIniziale/.dt/icons</filename>:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para><filename>fax.m.pm</filename>, con dimensione 32x32 pixel
+</para>
+</listitem>
+<listitem><para><filename>fax.t.pm</filename>, con dimensione 16x16 pixel
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Fare doppio clic su "Ricaricare azioni" nel gruppo <filename>Strumenti_desktop</filename>.</para>
+</listitem>
+<listitem><para>Creare un file eseguibile di nome <filename>ComporreFax</filename>
+in una dirctory per la quale si possieda l'autorizzazione di scrittura (ad
+esempio, nella directory iniziale).</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.cract.div.11">
+<title id="sag.cract.mkr.8">Esempio di creazione di un'azione MAP<indexterm>
+<primary>MAP, azioni</primary><secondary>esempio</secondary></indexterm><indexterm>
+<primary>azioni</primary><secondary>esempio</secondary></indexterm></title>
+<para>Si supponga che i file da inviare via fax vengano in genere creati con
+l'Editor di testo e contengano il tipo di dati TEXTFILE (con nome *<filename>.txt</filename>).</para>
+<para>Questa procedura aggiunge un'opzione &ldquo;Fax&rdquo; al menu Selezioni
+associato al tipo di dati.</para>
+<orderedlist>
+<listitem><para>Aprire il file <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/Fax.dt</filename> creato nell'esempio precedente.</para>
+</listitem>
+<listitem><para>Aggiungere al file la seguente definizione dell'azione di
+mappatura:</para>
+<programlisting>ACTION Fax
+{
+   ARG_TYPE   TEXTFILE
+   TYPE       MAP
+   MAP_ACTION ComporreFax
+}</programlisting>
+</listitem>
+<listitem><para>Salvare il file.</para>
+</listitem>
+<listitem><para>Copiare la definizione degli attributi per il tipo di dati
+TEXTFILE da /<filename>usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/dtpad.dt</filename> nel nuovo file <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types/textfile.dt</filename>. Aggiungere
+l'azione Fax al campo <command>ACTIONS</command>.</para>
+<programlisting>DATA_ATTRIBUTES TEXTFILE
+{
+   ACTIONS  Open,Print,Fax
+   ICON     Dtpenpd
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Salvare il file.</para>
+</listitem>
+<listitem><para>Aprire la Gestione di applicazioni e fare doppio clic su &ldquo;Ricaricare
+azioni&rdquo; nel gruppo Strumenti_desktop.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.cract.div.12" role="Procedure">
+<title id="sag.cract.mkr.9">Come ricaricare il database delle azioni e dei
+tipi di dati<indexterm><primary>tipi di dati</primary><secondary>rilettura</secondary></indexterm><indexterm><primary>tipi di dati</primary><secondary>Ricaricare azioni</secondary></indexterm><indexterm><primary>azioni</primary>
+<secondary>rilettura</secondary></indexterm><indexterm><primary>database</primary>
+<secondary>rilettura delle azioni</secondary></indexterm><indexterm><primary>Ricaricare azioni, azione</primary></indexterm><indexterm><primary>database</primary><secondary>rilettura</secondary></indexterm><indexterm><primary>Ricaricare azioni, azione</primary></indexterm></title>
+<para>Perch&eacute; la definizioni delle azioni nuove o modificate abbiano
+effetto, &egrave; necessario che il desktop rilegga il database.</para>
+<itemizedlist>
+<listitem><para>Aprire il gruppo Strumenti_desktop e fare doppio clic su &ldquo;Ricaricare
+azioni&rdquo;.</para>
+</listitem>
+<listitem><para><symbol role="Variable">Oppure</symbol>, eseguire il comando:
+</para>
+<para remap="CodeIndent1"><command>dtaction ReloadActions</command></para>
+</listitem>
+</itemizedlist>
+<para>ReloadActions &egrave; il nome dell'azione rappresentata dall'icona
+&ldquo;Ricaricare azioni&rdquo;.</para>
+<para>Il database delle azioni viene riletto anche quando l'utente:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Effettua il login</para>
+</listitem>
+<listitem><para>Riavvia la Gestione dello spazio di lavoro</para>
+</listitem>
+<listitem><para>Salva un'azione nella finestra di Creare azione scegliendo
+Salvare dal menu File</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.cract.div.13">
+<title><indexterm><primary>icone</primary><secondary>di azioni</secondary>
+<tertiary>creazione</tertiary></indexterm><indexterm><primary>icone</primary>
+<secondary>di applicazioni</secondary><tertiary>creazione</tertiary></indexterm><indexterm>
+<primary>file delle azioni</primary><secondary>creazione</secondary></indexterm>Creazione
+del file (icona) dell'azione<indexterm><primary>azioni</primary><secondary>file, Vedere file delle azioni</secondary></indexterm><indexterm><primary>icone</primary><secondary>di azioni</secondary></indexterm><indexterm><primary>azioni</primary><secondary>icone</secondary></indexterm></title>
+<para>Si definisce<indexterm><primary>file delle azioni</primary></indexterm> <emphasis>file dell'azione</emphasis> il file creato per fornire una rappresentazione
+visiva dell'azione nella Gestione di file o nella Gestione di applicazioni.
+</para>
+<figure>
+<title><emphasis>File delle azioni</emphasis> (detti anche <emphasis>icone
+delle azioni</emphasis> o <emphasis>icone delle applicazioni</emphasis>) nella
+Gestione di applicazioni</title>
+<graphic id="sag.cract.grph.1" entityref="SAG.CrAct.fig.1"></graphic>
+</figure>
+<para>Poich&eacute; l'icona di questo file rappresenta un'azione, essa viene
+detta anche <emphasis><indexterm><primary>icone delle azioni</primary></indexterm>icona
+dell'azione</emphasis>. Se l'azione produce l'avvio di un'applicazione, la
+stessa icona pu&ograve; essere chiamata <emphasis>icona dell'applicazione</emphasis>.</para>
+<para>Facendo doppio clic sull'icona viene eseguita l'azione rappresentata.
+L'icona dell'azione pu&ograve; fungere anche da area di rilascio.</para>
+<sect3 id="sag.cract.div.14" role="Procedure">
+<title>Come creare il file (l'icona) dell'azione</title>
+<orderedlist>
+<listitem><para>Creare un file eseguibile con lo stesso nome dell'azione<indexterm>
+<primary>azioni</primary><secondary>nomi</secondary></indexterm>. Il contenuto
+del file &egrave; irrilevante.</para>
+</listitem>
+</orderedlist>
+<para>Ad esempio, se la definizione dell'azione fosse la seguente:</para>
+<programlisting>ACTION App_preferita
+{
+  EXEC_STRING  Appp -file %Arg_1%
+  DESCRIPTION  Avvia App_preferita
+  ICON         App_pref
+}</programlisting>
+<para>il file dell'azione sar&agrave; un file eseguibile di nome <filename>App_preferita</filename>. Nella Gestione di file e nella Gestione di applicazioni,
+il file <filename>App_preferita</filename> user&agrave; l'immagine dell'icona <filename>App_pref.<symbol role="Variable">dimensione</symbol>.<symbol role="Variable">tipo</symbol></filename>. Facendo doppio clic sull'icona di <filename>App_preferita</filename> verr&agrave; eseguita la stringa di esecuzione dell'azione, e
+il testo di aiuto relativo all'icona sar&agrave; il contenuto del campo<indexterm>
+<primary>aiuto</primary><secondary>sui file delle azioni</secondary></indexterm><indexterm>
+<primary>DESCRIPTION, campo</primary></indexterm> <command>DESCRIPTION</command>
+(<command>Avvia App_preferita</command>).</para>
+</sect3>
+<sect3 id="sag.cract.div.15">
+<title><indexterm><primary>azioni</primary><secondary>etichette</secondary>
+</indexterm><indexterm><primary>etichette</primary><secondary>azioni</secondary>
+</indexterm><indexterm><primary>LABEL, campo delle azioni</primary></indexterm>Etichette
+delle azioni</title>
+<para>Se la definizione dell'azione include il campo <command>LABEL</command>,
+il file dell'azione comparir&agrave; nella Gestione di file e nella Gestione
+di applicazioni con l'etichetta specificata da questo campo anzich&eacute;
+con il nome effettivo del file (<symbol role="Variable">nome_azione</symbol>).
+Ad esempio, se la definizione dell'azione contiene quanto segue:</para>
+<programlisting>ACTION App_preferita
+{
+   LABEL Applicazione preferita
+   &hellip;
+}</programlisting>
+<para>l'icona dell'azione comparir&agrave; con l'etichetta &ldquo;Applicazione
+preferita&rdquo;.</para>
+</sect3>
+</sect2>
+<sect2 id="sag.cract.div.16">
+<title id="sag.cract.mkr.10">Scelta dell'icona da utilizzare per un'azione<indexterm>
+<primary>azioni</primary><secondary>icone</secondary></indexterm><indexterm>
+<primary>icone</primary><secondary>di azioni</secondary></indexterm></title>
+<para>Usare il campo <command>ICON</command> per specificare l'icona da utilizzare
+nella Gestione di file e nella Gestione di applicazioni per rappresentare
+l'azione.</para>
+<para>Se non viene specificata alcuna icona, il sistema user&agrave; l'immagine
+predefinita per i file delle<indexterm><primary>azioni</primary><secondary>icone predefinite</secondary></indexterm> azioni, <filename>/usr/dt/appconfig/icons/</filename><symbol role="Variable">lingua</symbol><filename>/Dtactn.*</filename>.
+</para>
+<figure>
+<title>Icona predefinita per le azioni</title>
+<graphic id="sag.cract.grph.2" entityref="SAG.CrAct.fig.2"></graphic>
+</figure>
+<para>L'icona predefinita per le azioni pu&ograve; essere modificata usando
+la risorsa:<indexterm><primary>actionIcon, risorsa</primary></indexterm></para>
+<programlisting>*actionIcon: <symbol role="Variable">file_icona</symbol></programlisting>
+<para>dove <symbol role="Variable">file_icona</symbol> pu&ograve; essere un
+nome base o un percorso assoluto.</para>
+<para>Il valore del campo <command>ICON</command> pu&ograve; essere:<indexterm>
+<primary>ICON, campo</primary><secondary>valori possibili</secondary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il nome base di un file.</para>
+<para>Con il termine<indexterm><primary>file</primary><secondary>nome base</secondary></indexterm><indexterm><primary>nome base dei file</primary></indexterm> <emphasis>nome base</emphasis> si intende il nome del file contenente l'immagine dell'icona
+esclusi i suffissi per la dimensione (<filename>m</filename> e <filename>t</filename>) e per il tipo di immagine (<filename>bm</filename> e <filename>pm</filename>). Ad esempio, per i file <filename>IconaGiochi.m.pm</filename>
+e <filename>IconaGiochi.t.pm</filename> il nome base sar&agrave; <filename>IconaGiochi</filename>.</para>
+<para>Se si utilizza il nome base, i file delle icone devono trovarsi in directory
+incluse nel percorso di ricerca delle icone:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Per le icone personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>Per le icone di sistema: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Il percorso assoluto del file dell'icona, incluso il nome
+completo del file.</para>
+<para>L'uso del percorso assoluto &egrave; necessario solo se il file dell'icona
+non si trova in una directory del percorso di ricerca. Ad esempio, se il file <filename>IconaGiochi.m.pm</filename> si trova nella directory <filename>/doc/progetti</filename>, che non &egrave; inclusa nel percorso di ricerca delle icone,
+il valore del campo <command>ICON</command> dovr&agrave; essere <filename>/doc/progetti/IconaGiochi.m.pm</filename>.</para>
+</listitem>
+</itemizedlist>
+<para>La <!--Original XRef content: 'Tabella&numsp;10&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="sag.cract.mkr.11"> indica le dimensioni con cui creare le icone e
+i nomi da utilizzare per i rispettivi file.</para>
+<table id="sag.cract.tbl.1" frame="topbot">
+<title id="sag.cract.mkr.11">Nomi e dimensioni per le icone delle azioni</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.71in">
+<colspec colwidth="2.25in">
+<colspec colwidth="1.84in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Dimensioni in pixel</literal></para></entry><entry align="left" valign="bottom"><para><literal>Nome del file a mappa di bit</literal></para></entry><entry align="left" valign="bottom"><para><literal>Nome del file a mappa di pixel</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>48 x 48</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.l.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.l.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>32 x 32</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.m.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.m.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>16 x 16</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.t.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nome</symbol><filename>.t.pm</filename></para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="sag.cract.div.17" role="Procedure">
+<title>Come modificare la definizione di un'azione esistente<indexterm><primary>azioni</primary><secondary>editazione</secondary></indexterm><indexterm><primary>azioni</primary><secondary>modifica</secondary></indexterm><indexterm><primary>editazione delle azioni</primary></indexterm></title>
+<para>&Egrave; possibile modificare qualsiasi azione disponibile sul sistema,
+incluse le azioni predefinite.</para>
+<note>
+<para>Prestare molta attenzione nel modificare il database delle azioni predefinite.
+Queste azioni sono state realizzate specificamente per applicazioni del desktop.
+</para>
+</note>
+<orderedlist>
+<listitem><para>Localizzare la definizione dell'azione da modificare.</para>
+<para>Le directory predefinite per le definizioni delle azioni sono le seguenti:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Azioni predefinite: <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+<listitem><para>Azioni di sistema: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+<listitem><para>Azioni personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename></para>
+<para><indexterm><primary>&lt;</primary></indexterm><indexterm><primary>$nopage>azioni</primary><secondary>percorso di ricerca, Vedere percorso di ricerca dei database</secondary></indexterm>Il sistema in uso potrebbe usare altre directory.
+Per visualizzare un elenco delle directory utilizzate dal sistema per le azioni,
+eseguire il comando:</para>
+<para remap="CodeIndent1"><command>dtsearchpath -v</command><indexterm><primary>dtsearchpath</primary></indexterm></para>
+<para>Il sistema in uso utilizza le directory elencate sotto<indexterm><primary>DTDATABASESEARCHPATH, variabile</primary><secondary>uso</secondary></indexterm> <systemitem>DTDATABASESEARCHPATH</systemitem>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Se necessario, copiare il testo della definizione dell'azione
+in un file nuovo o esistente in una delle directory seguenti:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Azioni di sistema: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+<listitem><para>Azioni personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename></para>
+<para>Creare una copia delle azioni predefinite, evitando di editare i file
+della directory <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Editare la definizione dell'azione. Al termine, salvare il
+file.</para>
+</listitem>
+<listitem><para>Fare doppio clic su &ldquo;Ricaricare azioni&rdquo; nel gruppo
+Strumenti_desktop.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.cract.div.18">
+<title id="sag.cract.mkr.12">Precedenza nelle definizioni delle azioni<indexterm>
+<primary>azioni</primary><secondary>regole di precedenza</secondary></indexterm><indexterm>
+<primary>precedenza</primary><secondary>nella composizione del database delle
+azioni</secondary></indexterm></title>
+<para>Quando un utente richiama un'azione, il sistema ricerca nel database
+un'azione con un nome corrispondente. Se sono presenti pi&ugrave; azioni con
+quel nome, il sistema utilizzer&agrave; determinate regole di precedenza per
+decidere quale utilizzare.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Se non specificato diversamente, la precedenza si basa sulla
+posizione (directory) in cui si trova la definizione. L'elenco seguente riporta
+l'ordine di precedenza utilizzato:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Azioni personali (<symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename>)</para>
+</listitem>
+<listitem><para>Azioni del sistema locale (<filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol>)</para>
+</listitem>
+<listitem><para>Azioni di un sistema remoto (<symbol role="Variable">nomehost</symbol>:<filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol>). Gli host remoti su cui viene effettuata la ricerca sono
+quelli inclusi nel percorso di ricerca delle applicazioni.</para>
+</listitem>
+<listitem><para>Azioni predefinite (<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol>)</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>All'interno di ogni directory, i file <filename>*.dt</filename>
+vengono letti in ordine alfabetico.</para>
+</listitem>
+<listitem><para>Le azioni limitate da <filename><indexterm><primary>ARG_CLASS,
+campo</primary></indexterm>ARG_CLASS</filename>, <filename><indexterm><primary>ARG_TYPE, campo</primary></indexterm>ARG_TYPE</filename>, <filename><indexterm>
+<primary>ARG_MODE, campo</primary></indexterm>ARG_MODE</filename> o <filename><indexterm>
+<primary>ARG_COUNT, campo</primary></indexterm>ARG_COUNT</filename> hanno
+la precedenza sulle azioni non limitate. (L'impostazione predefinita per questi
+quattro campi &egrave; <filename>*</filename>.)</para>
+<para>Quando vengono applicate due o pi&ugrave; di queste limitazioni, l'ordine
+di precedenza &egrave; il seguente:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para><filename>ARG_CLASS</filename></para>
+</listitem>
+<listitem><para><filename>ARG_TYPE</filename></para>
+</listitem>
+<listitem><para><filename>ARG_MODE</filename></para>
+</listitem>
+<listitem><para><filename>ARG_COUNT</filename></para>
+<para>Quando esistono due o pi&ugrave; limitazioni di tipo <filename>ARG_COUNT</filename>, l'ordine di precedenza &egrave; il seguente:</para>
+</listitem>
+<listitem><para>Valore intero specifico <symbol role="Variable">n</symbol></para>
+</listitem>
+<listitem><para><filename>&lt;</filename><symbol role="Variable">n</symbol></para>
+</listitem>
+<listitem><para><filename>></filename><symbol role="Variable">n</symbol></para>
+</listitem>
+<listitem><para><filename>*</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<para>Ad esempio, si considerino le seguenti parti della definizione dell'azione
+ModificaIllustrazioni:</para>
+<programlisting>ACTION ModificaIllustrazioni
+# ModificaIllustrazioni-1
+{
+   ARG_TYPE   XWD
+   &hellip;
+}
+
+ACTION ModificaIllustrazioni
+# ModificaIllustrazioni-2
+{
+   ARG_COUNT  0
+   &hellip;
+}
+
+ACTION ModificaIllustrazioni
+# ModificaIllustrazioni-3
+{
+   ARG_TYPE   *
+   &hellip;
+}</programlisting>
+<para>Facendo semplicemente doppio clic sull'icona dell'azione ModificaIllustrazioni,
+senza specificare alcun argomento, verr&agrave; eseguito ModificaIllustrazioni-2,
+perch&eacute; <filename>ARG_COUNT 0</filename> ha la precedenza. Specificando
+come argomento un file di tipo XWD verr&agrave; usato ModificaIllustrazioni-1,
+poich&eacute; &egrave; specificato l'<command>ARG_TYPE</command> XWD. Specificando
+come argomento un file di qualsiasi altro tipo verr&agrave; eseguito ModificaIllustrazioni-3.
+</para>
+</sect2>
+</sect1>
+<sect1 id="sag.cract.div.19">
+<title id="sag.cract.mkr.13">Creazione di una stringa di esecuzione per un'azione
+COMMAND<indexterm><primary>azioni</primary><secondary>stringa di esecuzione</secondary></indexterm><indexterm><primary>stringa di esecuzione</primary>
+</indexterm><indexterm><primary>riga comandi per le azioni</primary></indexterm><indexterm>
+<primary>azioni</primary><secondary>stringa di esecuzione</secondary></indexterm><indexterm>
+<primary>COMMAND, azione</primary><secondary>stringa di esecuzione</secondary>
+</indexterm><indexterm><primary>&lt;</primary></indexterm><indexterm><primary>$nopage>EXEC_STRING, campo, Vedere stringa di esecuzione[EXEC_STRING, campo</primary><secondary>aaa]</secondary></indexterm></title>
+<para>Un'azione di tipo <command><indexterm><primary>COMMAND, azione</primary>
+<secondary>campi richiesti</secondary></indexterm>COMMAND</command> deve contenere
+necessariamente almeno due campi: <command>ACTION</command> ed <filename>EXEC_STRING</filename>.</para>
+<programlisting>ACTION <symbol role="Variable">nome_azione</symbol> 
+{
+    EXEC_STRING <symbol role="Variable">stringa_di_esecuzione</symbol> 
+}</programlisting>
+<para>La stringa di esecuzione &egrave; la parte pi&ugrave; importante della
+definizione di un'azione <command>COMMAND</command>. Essa utilizza una sintassi
+simile a quella usata per le righe comandi nelle finestre di terminale, ma
+include alcuni componenti aggiuntivi per la gestione dei file e delle stringhe
+usate come argomenti.</para>
+<sect2 id="sag.cract.div.20">
+<title><indexterm><primary>stringa di esecuzione</primary><secondary>caratteristiche
+generali</secondary></indexterm>Caratteristiche generali delle stringhe di
+esecuzione</title>
+<para>Le stringhe di esecuzione possono includere:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Argomenti in forma di file o di altro tipo</para>
+</listitem>
+<listitem><para>Componenti della sintassi delle shell</para>
+</listitem>
+<listitem><para>Nomi o percorsi assoluti di file eseguibili</para>
+</listitem>
+</itemizedlist>
+<sect3 id="sag.cract.div.21">
+<title>Argomenti delle azioni<indexterm><primary>azioni</primary><secondary>argomenti</secondary></indexterm><indexterm><primary>argomenti</primary><secondary>delle azioni</secondary></indexterm></title>
+<para>Un argomento &egrave; un'informazione richiesta da un comando o da
+un'applicazione per essere eseguita correttamente. Ad esempio, si consideri
+la riga comandi usata per aprire un file nell'Editor di testo:</para>
+<programlisting>dtpad <symbol role="Variable">nomefile</symbol></programlisting>
+<para>In questo comando, <symbol role="Variable">nomefile</symbol> &egrave;
+un argomento del comando <command>dtpad</command>.</para>
+<para>Come i comandi e le applicazioni, anche le azioni possono avere argomenti.
+Un'azione <command>COMMAND</command> pu&ograve; usare due tipi di dati:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>File</para>
+</listitem>
+<listitem><para>Stringhe</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="sag.cract.div.22">
+<title>Uso di una shell nelle stringhe di esecuzione<indexterm><primary>stringa
+di esecuzione</primary><secondary>sintassi della shell</secondary></indexterm><indexterm>
+<primary>shell</primary><secondary>sintassi nella stringa di esecuzione</secondary>
+</indexterm></title>
+<para>Le stringhe di esecuzione vengono eseguite direttamente, non attraverso
+una shell. &Egrave; possibile, tuttavia, specificare una stringa che preveda
+l'uso di una shell.</para>
+<para>Ad esempio:</para>
+<programlisting>EXEC_STRING \
+        /bin/sh -c \
+        'tar -tvf %(File)Arg_1% 2>&amp;1 | \${PAGER:-more};\
+        echo &ldquo;\\n*** Scegliere Chiudere per uscire ***&ldquo;'</programlisting>
+</sect3>
+<sect3 id="sag.cract.div.23">
+<title>Nome o percorso assoluto dell'eseguibile<indexterm><primary>stringa
+di esecuzione</primary><secondary>indicazione dell'</secondary></indexterm><indexterm>
+<primary>eseguibile</primary></indexterm></title>
+<para>Se l'applicazione si trova in una directory inclusa nella variabile<indexterm>
+<primary>PATH, variabile</primary></indexterm> PATH si pu&ograve; usare semplicemente
+il nome del file eseguibile. Se si trova in un'altra posizione occorre specificare
+il<indexterm><primary>stringa di esecuzione</primary><secondary>uso del percorso
+assoluto</secondary></indexterm> percorso assoluto dell'eseguibile.</para>
+</sect3>
+</sect2>
+<sect2 id="sag.cract.div.24">
+<title id="sag.cract.mkr.14">Creazione di un'azione che non utilizzi argomenti<indexterm>
+<primary>stringa di esecuzione</primary><secondary>senza argomenti</secondary>
+</indexterm><indexterm><primary>azioni</primary><secondary>senza argomenti</secondary></indexterm><indexterm><primary>azioni</primary><secondary>senza
+dati</secondary></indexterm></title>
+<para>Usare per l'<filename>EXEC_STRING</filename> la stessa sintassi richiesta
+per avviare l'applicazione da una riga comandi.</para>
+<sect3 id="sag.cract.div.25">
+<title>Esempi</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questa stringa di esecuzione fa parte di un'azione che avvia
+il client X <command>xcutsel</command>.</para>
+<para remap="CodeIndent1"><computeroutput>EXEC_STRING xcutsel</computeroutput></para>
+</listitem>
+<listitem><para>Questa stringa di esecuzione avvia il client <command>xclock</command> come orologio digitale. La riga comandi include un'opzione ma non
+richiede argomenti.</para>
+<para remap="CodeIndent1"><computeroutput>EXEC_STRING xclock -digital</computeroutput></para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="sag.cract.div.26">
+<title id="sag.cract.mkr.15">Creazione di un'azione che accetti il rilascio
+di un file<indexterm><primary>stringa di esecuzione</primary><secondary>abilitazione
+del rilascio dei file</secondary></indexterm><indexterm><primary>azioni</primary>
+<secondary>accettazione del rilascio di un file</secondary></indexterm><indexterm>
+<primary>area di rilascio</primary><secondary>icone delle azioni</secondary>
+</indexterm><indexterm><primary>rilascio dei file, accettazione nelle azioni</primary></indexterm></title>
+<para>Specificare l'argomento usando la seguente sintassi:</para>
+<programlisting>%Arg_<symbol role="Variable">n</symbol>%</programlisting>
+<indexterm><primary>Arg_n, sintassi</primary></indexterm>
+<para>oppure</para>
+<programlisting>%(File)Arg_<symbol role="Variable">n</symbol>%</programlisting>
+<para>Il componente <filename>(File)</filename> &egrave; opzionale, poich&eacute;
+nell'impostazione predefinita gli argomenti forniti ad <filename>Arg_</filename><symbol role="Variable">n</symbol> vengono interpretati automaticamente come file.
+(Per informazioni sull'uso della sintassi <filename>%(String)Arg_</filename><symbol role="Variable">n</symbol><filename>%</filename>, vedere <!--Original XRef
+content: '&ldquo;Interpretazione di un argomento file c--><!--ome stringa&rdquo;
+a pagina&numsp;173'--><xref role="SecTitleAndPageNum" linkend="sag.cract.mkr.19">.)
+</para>
+<para>Questa sintassi permette di rilasciare un file di dati sull'icona dell'azione
+per avviare l'azione usando quel file come argomento. Essa sostituisce l'argomento
+<symbol role="Variable">n</symbol> nella riga comandi. Il file pu&ograve;
+essere sia locale che remoto.</para>
+<sect3 id="sag.cract.div.27">
+<title>Esempi</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questa stringa di esecuzione esegue il comando <command>wc
+-w</command> usando un file rilasciato come parametro.
+</para>
+<para remap="CodeIndent1"><computeroutput>EXEC_STRING wc -w %Arg_1%</computeroutput></para>
+</listitem>
+<listitem><para>Questo esempio mostra una parte della definizione di un'azione
+che accetta solo directory come argomenti. Rilasciando una directory sull'icona
+dell'azione, viene visualizzato l'elenco di tutti i file della directory che
+possiedono le autorizzazioni di lettura e scrittura.</para>
+<programlisting>ACTION Elenco_file_scrivibili
+{
+        ARG_TYPE FOLDER
+        EXEC_STRING /bin/sh -c  'ls  -l  %Arg_1%  |  grep rw-'  
+        &hellip;
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="sag.cract.div.28">
+<title id="sag.cract.mkr.16">Creazione di un'azione che richieda un file come
+argomento<indexterm><primary>stringa di esecuzione</primary><secondary>richiesta
+di un file</secondary></indexterm><indexterm><primary>azioni</primary><secondary>richiesta di un file</secondary></indexterm><indexterm><primary>argomenti</primary><secondary>richiesta</secondary></indexterm><indexterm><primary>richieste di argomenti per le azioni</primary></indexterm></title>
+<para>Inserire la richiesta dell'argomento nella stringa di esecuzione usando
+la seguente sintassi:</para>
+<programlisting>%(File)"<symbol>richiesta</symbol>"%</programlisting>
+<para>Questa sintassi crea un'azione che chiede di specificare il un nome
+di un file quando l'utente fa doppio clic sull'icona.</para>
+<para>Ad esempio, questa stringa di esecuzione visualizza un riquadro di dialogo
+che richiede un argomento per il comando <command>wc -w</command>:</para>
+<programlisting>EXEC_STRING wc -w %(File)"Contare le parole del file:"%</programlisting>
+</sect2>
+<sect2 id="sag.cract.div.29">
+<title id="sag.cract.mkr.17">Creazione di un'azione che accetti il rilascio
+di un file o che richieda un file<indexterm><primary>azioni</primary><secondary>accettazione del rilascio o richiesta di argomenti</secondary></indexterm></title>
+<para>Inserire la richiesta dell'argomento nella stringa di esecuzione usando
+la seguente sintassi:</para>
+<programlisting>%Arg_<symbol role="Variable">n</symbol>&ldquo;<symbol role="Variable">richiesta</symbol>&ldquo;%</programlisting>
+<para>oppure</para>
+<programlisting>%(File)Arg_<symbol role="Variable">n</symbol>&ldquo;<symbol role="Variable">richiesta</symbol>&ldquo;%</programlisting>
+<para>Questa sintassi produce un'azione che:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Accetta come argomento un file rilasciato sull'icona dell'azione.
+</para>
+</listitem>
+<listitem><para>Visualizza un riquadro di dialogo che chiede di specificare
+il un nome di un file quando l'utente fa doppio clic sull'icona.</para>
+</listitem>
+</itemizedlist>
+<para>Ad esempio, questa stringa di esecuzione esegue il comando <command>lp -oraw</command> sul file rilasciato sull'icona dell'azione. Se l'azione
+viene avviata facendo doppio clic sull'icona, compare un riquadro di dialogo
+che chiede di inserire il nome del file.</para>
+<programlisting>EXEC_STRING lp -oraw %Arg_1"File da stampare:"%</programlisting>
+</sect2>
+<sect2 id="sag.cract.div.30">
+<title id="sag.cract.mkr.18">Creazione di un'azione che richieda un argomento
+diverso da un file<indexterm><primary>stringa di esecuzione</primary><secondary>richiesta di una stringa</secondary></indexterm><indexterm><primary>azioni</primary><secondary>argomenti diversi dai file</secondary></indexterm><indexterm>
+<primary>argomenti</primary><secondary>parametri diversi dai file</secondary>
+</indexterm><indexterm><primary>stringhe, uso come argomenti per le azioni</primary></indexterm><indexterm><primary>azioni</primary><secondary>argomenti
+diversi dai file</secondary></indexterm></title>
+<para>Per specificare un parametro diverso da un file, usare la sintassi:
+</para>
+<programlisting>%"<symbol role="Variable">richiesta</symbol>"%</programlisting>
+<para>oppure</para>
+<programlisting>%(String)"<symbol role="Variable">richiesta</symbol>"%</programlisting>
+<para>Il componente <filename>(String)</filename> &egrave; opzionale, poich&eacute;
+nell'impostazione predefinita il testo tra virgolette viene interpretato automaticamente
+come una stringa. Questa sintassi visualizza un riquadro di dialogo che richiede
+un parametro diverso da un file; non usare questa sintassi per richiedere
+il nome di un file.</para>
+<para>Ad esempio, questa stringa di esecuzione esegue il comando <command>xwd</command> e richiede di aggiungere un valore ad ogni pixel:</para>
+<programlisting>EXEC_STRING xwd -add %"Aggiungere un valore:"% -out %Arg_1"File:"%
+</programlisting>
+</sect2>
+<sect2 id="sag.cract.div.31">
+<title id="sag.cract.mkr.19">Interpretazione di un argomento file come stringa</title>
+<para>Usare per l'argomento la seguente sintassi:</para>
+<programlisting>%(String)Arg_<symbol role="Variable">n</symbol>%</programlisting>
+<para>Ad esempio, questa stringa di esecuzione stampa un file usando come
+intestazione il nome del file con il comando <command>lp -t</command><symbol role="Variable">intestazione nomefile.</symbol></para>
+<programlisting>EXEC_STRING lp -t%(String)Arg_1% %(File)Arg_1"File da stampare:"%
+</programlisting>
+</sect2>
+<sect2 id="sag.cract.div.32">
+<title id="sag.cract.mkr.20">Aggiunta dell'utilizzo di una shell in un'azione<indexterm>
+<primary>azioni</primary><secondary>uso delle shell</secondary></indexterm><indexterm>
+<primary>shell</primary><secondary>uso nelle azioni</secondary></indexterm><indexterm>
+<primary>shell</primary><secondary>uso nelle azioni</secondary></indexterm></title>
+<para>Specificare l'uso della shell nella stringa di esecuzione:</para>
+<programlisting>/bin/sh -c '<symbol role="Variable">comando</symbol>'
+/bin/ksh -c '<symbol role="Variable">comando</symbol>'
+/bin/csh -c '<symbol role="Variable">comando</symbol>'</programlisting>
+<sect3 id="sag.cract.div.33">
+<title>Esempi</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questa stringa di esecuzione produce un'azione che utilizza
+il piping di una shell.</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING /bin/sh -c 'ps | lp'</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>La stringa di esecuzione seguente &egrave; pi&ugrave; complessa,
+poich&eacute; richiede l'uso di una shell ed accetta un file come argomento.
+</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING /bin/sh -c 'tbl %Arg_1&ldquo;Pagina man:&ldquo;% | troff -man'
+</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questa stringa di esecuzione richiede come argomento un file
+in formato compresso. L'azione decomprime il file e lo stampa usando <command>lp -oraw</command>.</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING  /bin/sh -c 'cat %Arg_1 &ldquo;File da stampare:&ldquo;% | \
+             uncompress | lp -oraw'</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questa stringa di esecuzione esegue uno script di una shell.
+</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING /usr/local/bin/AvviaClientGnu</programlisting>
+</sect3>
+</sect2>
+<sect2 id="sag.cract.div.34">
+<title>Creazione di azioni COMMAND che accettino pi&ugrave; argomenti (file)<indexterm>
+<primary>stringa di esecuzione</primary><secondary>accettazione di pi&ugrave;</secondary></indexterm><indexterm><primary>file come argomenti</primary>
+</indexterm><indexterm><primary>argomenti</primary><secondary>per l'</secondary>
+</indexterm><indexterm><primary>indicazione di pi&ugrave;</primary></indexterm><indexterm>
+<primary>file</primary></indexterm></title>
+<para>Le azioni possono gestire pi&ugrave; file specificati come argomenti
+in tre modi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>L'azione viene eseguita ripetutamente, una volta per ogni
+argomento. Quando l'<filename>EXEC_STRING</filename> contiene la specifica
+di un unico argomento e l'utente rilascia un gruppo di due o pi&ugrave; file
+sull'icona dell'azione, l'azione viene eseguita separatamente per ognuno dei
+file accettati come argomenti.</para>
+<para>Ad esempio, se vengono forniti pi&ugrave; argomenti per un'azione con
+la seguente definizione:</para>
+<programlisting>ACTION VisualizzaImmagine
+{
+   EXEC_STRING xwud -in %Arg_1%
+   &hellip;
+}</programlisting>
+<para>l'azione VisualizzaImmagine verr&agrave; eseguita ripetutamente su tutti
+i file.</para>
+</listitem>
+<listitem><para>L'azione pu&ograve; usare due o pi&ugrave; argomenti non intercambiabili.
+Ad esempio, l'azione:</para>
+<para remap="CodeIndent1"><command>xsetroot -cursor <symbol role="Variable">filecursore filemaschera</symbol></command></para>
+<para>richiede due file diversi in un ordine specifico.</para>
+</listitem>
+<listitem><para>L'azione pu&ograve; eseguire lo stesso comando sul complesso
+dei file specificati come argomento. Ad esempio, l'azione:</para>
+<para remap="CodeIndent1"><computeroutput>pr <symbol role="Variable">file</symbol> [<symbol role="Variable">file</symbol> &hellip;]</computeroutput></para>
+<para>stamper&agrave; uno o pi&ugrave; file in un unico lavoro di stampa.
+</para>
+</listitem>
+</itemizedlist>
+<sect3 id="sag.cract.div.35">
+<title id="sag.cract.mkr.21">Creazione di un'azione con argomenti non intercambiabili<indexterm>
+<primary>azioni</primary><secondary>argomenti non intercambiabili</secondary>
+</indexterm><indexterm><primary>argomenti</primary><secondary>parametri non
+intercambiabili</secondary></indexterm></title>
+<para>Usare una delle seguenti convenzioni di sintassi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Per fare in modo che l'azione richieda i nomi dei file, usare
+questa sintassi per ognuno degli argomenti:</para>
+<para remap="CodeIndent1"><computeroutput>%(File)&ldquo;<symbol role="Variable">richiesta</symbol>&rdquo;%</computeroutput></para>
+<para>Usare una stringa di <symbol role="Variable">richiesta</symbol> diversa
+per ogni argomento.</para>
+<para>Ad esempio, questa stringa di esecuzione richiede due file.</para>
+<para remap="CodeIndent1"><computeroutput>EXEC_STRING xsetroot -cursor %(File)&ldquo;Bitmap
+del cursore:&rdquo;% \ %(File)&ldquo;Bitmap della maschera:&rdquo;%</computeroutput></para>
+</listitem>
+<listitem><para>Per fare in modo che l'azione accetti il rilascio dei file,
+usare questa sintassi per ognuno degli argomenti:</para>
+<para remap="CodeIndent1"><computeroutput>%Arg_<symbol role="Variable">n</symbol>%</computeroutput></para>
+<para>usando valori diversi di <symbol role="Variable">n</symbol> per ogni
+argomento. Ad esempio:</para>
+<para remap="CodeIndent1"><computeroutput>EXEC_STRING diff %Arg_1% %Arg_2%</computeroutput></para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="sag.cract.div.36">
+<title id="sag.cract.mkr.22">Creazione di un'azione con argomenti intercambiabili<indexterm>
+<primary>azioni</primary><secondary>argomenti intercambiabili</secondary>
+</indexterm><indexterm><primary>argomenti</primary><secondary>parametri intercambiabili</secondary></indexterm></title>
+<para>Usare una delle seguenti convenzioni di sintassi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Per creare un'azione che accetti il rilascio dei file ed esegua
+un comando nella forma</para>
+<para><symbol role="Variable">comando file</symbol><subscript>1</subscript> <symbol role="Variable">file</symbol><subscript>2</subscript> &hellip;, usare questa
+sintassi per i file di argomento:</para>
+<para remap="CodeIndent1"><computeroutput>%Args%</computeroutput></para>
+</listitem>
+<listitem><para>Per creare un'azione che accetti il rilascio di due o pi&ugrave;
+file, o che facendo doppio clic sull'icona visualizzi una richiesta per un
+singolo file, usare questa sintassi per gli argomenti:</para>
+<para remap="CodeIndent1"><computeroutput>%Arg_1&ldquo;<symbol role="Variable">richiesta</symbol>&rdquo;% %Args%</computeroutput></para>
+<para>L'azione eseguir&agrave; il comando nella forma: <symbol role="Variable">comando file</symbol><subscript>1</subscript> <symbol role="Variable">file</symbol> <subscript>2</subscript> &hellip;.</para>
+</listitem>
+</itemizedlist>
+<sect4 id="sag.cract.div.37">
+<title>Esempi</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questa stringa di esecuzione crea un'azione che esegue il
+comando</para>
+</listitem>
+</itemizedlist>
+<programlisting>pr <symbol role="Variable">file</symbol><subscript>1</subscript> <symbol role="Variable">file</symbol><subscript>2</subscript></programlisting>
+<para>accettando pi&ugrave; file come argomenti.</para>
+<programlisting>EXEC_STRING pr %Args%</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questa stringa di esecuzione crea un'azione simile a quella
+dell'esempio precedente, ma in questo caso facendo doppio clic sull'icona
+(senza specificare argomenti) viene visualizzata una richiesta.</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING pr %Arg_1"File da stampare:"% %Args%</programlisting>
+</sect4>
+</sect3>
+<sect3 id="sag.cract.div.38">
+<title id="sag.cract.mkr.23">Creazione di un'azione che accetti il rilascio
+di pi&ugrave; file<indexterm><primary>azioni</primary><secondary>accettazione
+del rilascio di pi&ugrave;</secondary></indexterm><indexterm><primary>file</primary></indexterm></title>
+<para>Per fare in modo che l'azione accetti il rilascio di pi&ugrave; file
+ed esegua un comando nella forma:</para>
+<programlisting><symbol role="Variable">comando</symbol> <symbol role="Variable">file</symbol> <subscript>1</subscript><symbol role="Variable">file</symbol><subscript>
+2</subscript> &hellip;</programlisting>
+<para>usare la sintassi:</para>
+<programlisting>%Args%</programlisting>
+<sect4 id="sag.cract.div.39">
+<title>Esempi</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questa stringa di esecuzione esegue uno script di nome Controllo
+su pi&ugrave; file:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING   /usr/local/bin/Controllo \
+              %Arg_1&ldquo;File da controllare:&ldquo;% %Args%</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questa stringa di esecuzione esegue il comando <command>lp
+-oraw</command> su pi&ugrave; file:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING lp -oraw %Arg_1&ldquo;File da stampare:&ldquo;% %Args%
+</programlisting>
+</sect4>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.cract.div.40">
+<title id="sag.cract.mkr.24">Supporto di finestre ed emulatori di terminale
+per le azioni COMMAND<indexterm><primary>azioni</primary><secondary>supporto
+di finestre</secondary></indexterm><indexterm><primary>emulatore di terminale</primary><secondary>uso per le azioni</secondary></indexterm></title>
+<para>Le azioni <command>COMMAND</command> supportano le finestre del desktop
+in diversi modi.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Se l'applicazione dispone di una propria finestra, l'azione
+pu&ograve; essere scritta in modo da non richiedere alcun supporto aggiuntivo.
+Questa opzione viene usata anche quando un'azione esegue un comando che non
+richiede un input diretto dell'utente e non produce alcun output.</para>
+</listitem>
+<listitem><para>Se l'applicazione deve essere eseguita in una finestra di
+emulazione di terminale, l'azione pu&ograve; essere scritta in modo da aprire
+una finestra e quindi eseguirvi l'applicazione. Esistono diverse opzioni per
+la scelta del terminale.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.cract.div.41">
+<title id="sag.cract.mkr.25">Indicazione del supporto di finestre per l'azione</title>
+<para>Usare il campo <filename>WINDOW_TYPE</filename> per specificare il tipo
+di supporto delle finestre richiesto dall'azione.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="159*">
+<colspec colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>WINDOW_TYPE, campo</primary></indexterm>TIPO DI FINESTRA</para></entry>
+<entry align="left" valign="top"><para>Supporto di finestre fornito</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>NO_STDIO,
+supporto a finestre</primary></indexterm>NO_STDIO</filename></para></entry>
+<entry align="left" valign="top"><para>Nessuno. Usare <filename>NO_STDIO</filename>
+se l'applicazione ha una propria finestra, o se il comando non produce alcun
+output visibile.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>PERM_TERMINAL,
+supporto a finestre</primary></indexterm>PERM_TERMINAL</filename></para></entry>
+<entry align="left" valign="top"><para>Finestra di emulazione di terminale
+permanente. L'azione apre una finestra di terminale che rimane aperta fino
+a quando non viene chiusa esplicitamente, e in cui l'utente ha la possibilit&agrave;
+di inserire informazioni. Usare questa opzione con i comandi che accettano
+un input, producono un output e quindi terminano (ad esempio, <command>ls</command> <symbol role="Variable">directory</symbol>).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>TERMINAL,
+supporto a finestre</primary></indexterm>TERMINAL</command></para></entry>
+<entry align="left" valign="top"><para>Finestra di emulazione di terminale
+temporanea. L'azione apre una finestra di terminale che si chiude non appena
+il comando &egrave; completato. Usare questa opzione con i comandi eseguiti
+a schermo intero (ad esempio, <command>vi</command>).</para></entry></row>
+</tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="sag.cract.div.42">
+<title id="sag.cract.mkr.26">Indicazione di opzioni per l'emulatore di terminale<indexterm>
+<primary>emulatore di terminale</primary><secondary>opzioni della riga comandi
+per le azioni</secondary></indexterm><indexterm><primary>azioni</primary>
+<secondary>opzioni per il terminale</secondary></indexterm></title>
+<para>Usare il campo <filename>TERM_OPTS</filename> nella definizione dell'azione
+per specificare opzioni precise per il comando di avvio dell'emulatore di
+terminale.</para>
+<para>Ad esempio, l'azione seguente richiede di specificare l'host di esecuzione:
+</para>
+<programlisting>ACTION TermSuSistemaScelto
+{
+   WINDOW_TYPE    PERM_TERMINAL
+   EXEC_HOST      %(String)"Terminale remoto su:"%
+   TERM_OPTS      -title %(String)"Titolo della finestra:"%
+   EXEC_STRING    $SHELL
+}</programlisting>
+</sect2>
+<sect2 id="sag.cract.div.43">
+<title id="sag.cract.mkr.27">Modifica dell'emulatore di terminale predefinito<indexterm>
+<primary>emulatore di terminale</primary><secondary>impostazione predefinita
+per le azioni</secondary></indexterm><indexterm><primary>azioni</primary>
+<secondary>supporto di un terminale</secondary></indexterm><indexterm><primary>azioni</primary><secondary>terminale predefinito</secondary></indexterm></title>
+<para>L'emulatore di terminale predefinito per le azioni &egrave; <command>dtterm</command>. &Egrave; tuttavia possibile impostare un diverso emulatore
+di terminale da usare quando l'azione non specifica il tipo richiesto in modo
+esplicito.</para>
+<para>La riga comandi dell'emulatore di terminale usato dalle azioni deve
+comprendere le seguenti opzioni:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>-title</command> <symbol role="Variable">titolo_finestra</symbol></para>
+</listitem>
+<listitem><para><command>-e</command> <symbol role="Variable">comando</symbol>
+</para>
+</listitem>
+</itemizedlist>
+<para>L'emulatore di terminale predefinito per le azioni viene determinato
+da due risorse:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>localTerminal, risorsa</primary></indexterm>La
+risorsa <command>localTerminal</command> specifica l'emulatore di terminale
+usato dalle applicazioni locali.</para>
+<para remap="CodeIndent1"><computeroutput>*localTerminal: <symbol role="Variable">terminale</symbol></computeroutput></para>
+<para>Ad esempio:</para>
+<para>*localTerminal: xterm</para>
+</listitem>
+<listitem><para id="sag.cract.mkr.28">La risorsa <systemitem>remoteTerminal</systemitem> specifica l'emulatore di terminale usato dalle applicazioni
+remote.</para>
+</listitem>
+</itemizedlist>
+<programlisting>*remoteTerminal: <symbol role="Variable">host</symbol>:<symbol role="Variable">terminale</symbol> [,<symbol role="Variable">host</symbol>:<symbol role="Variable">terminale</symbol>&hellip;]</programlisting>
+<para>Ad esempio:</para>
+<programlisting>*remoteTerminal: sysibm1:/usr/bin/xterm,syshp2:/usr/bin/yterm
+</programlisting>
+</sect2>
+</sect1>
+<sect1 id="sag.cract.div.44">
+<title id="sag.cract.mkr.29"><indexterm><primary>azioni</primary><secondary>restrizione degli argomenti</secondary></indexterm><indexterm><primary>argomenti</primary><secondary>restrizione nelle azioni</secondary></indexterm>Restrizione
+delle azioni a determinati argomenti</title>
+<para>La restrizione di un'azione a un determinato tipo di argomenti la rende
+pi&ugrave; precisa. Ad esempio, pu&ograve; essere utile restringere un'azione
+che richiami un visualizzatore di file PostScript specificando che l'azione
+pu&ograve; accettare come argomenti solo file PostScript; con la restrizione,
+l'azione restituir&agrave; un messaggio di errore se verr&agrave; specificato
+un file non PostScript.</para>
+<para>Si possono restringere le azioni in base ai seguenti fattori:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il tipo di dati del file da specificare come argomento.</para>
+</listitem>
+<listitem><para>Il numero degli argomenti &mdash; ad esempio, nessun argomento
+oppure uno o pi&ugrave; argomenti. Questo permette di ottenere un comportamento
+diverso quando si fa doppio clic sull'icona e quando si rilasciano due o pi&ugrave;
+file.</para>
+</listitem>
+<listitem><para>La modalit&agrave; di lettura/scrittura dell'argomento.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.cract.div.45">
+<title id="sag.cract.mkr.30">Restrizione di un'azione a un tipo di dati specifico<indexterm>
+<primary>azioni</primary><secondary>restrizione dei tipi di dati</secondary>
+</indexterm><indexterm><primary>tipi di dati</primary><secondary>restrizione
+nelle azioni</secondary></indexterm></title>
+<para><indexterm><primary>ARG_TYPE, campo</primary></indexterm>Usare il campo <filename>ARG_TYPE</filename> per specificare i tipi di dati accettati dall'azione.
+Usare il nome dell'attributo dei dati.</para>
+<para>&Egrave; anche possibile inserire un elenco di tipi di dati separati
+da virgole.</para>
+<para>Ad esempio, nella seguente definizione si presume che sia stato creato
+un tipo di dati Gif.</para>
+<programlisting>ACTION Aprire_Gif
+{
+   TYPE           COMMAND
+   LABEL          "Visualizzazione Gif"
+   WINDOW_TYPE    NO_STDIO
+   ARG_TYPE       xgif
+   DESCRIPTION    Visualizza file gif
+   EXEC_STRING    xgif
+}</programlisting>
+</sect2>
+<sect2 id="sag.cract.div.46">
+<title>Restrizione di un'azione in base al numero degli argomenti<indexterm>
+<primary>azioni</primary><secondary>restrizione del numero di argomenti</secondary>
+</indexterm><indexterm><primary>argomenti</primary><secondary>numero ammesso
+per le azioni</secondary></indexterm></title>
+<para><indexterm><primary>ARG_COUNT, campo</primary></indexterm>Usare il campo <filename>ARG_COUNT</filename> per specificare il numero di argomenti che l'azione
+pu&ograve; accettare. Sono ammessi i seguenti valori:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="108*">
+<colspec colwidth="420*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>*</filename></para></entry>
+<entry align="left" valign="top"><para>(Valore predefinito) Qualsiasi numero
+di argomenti. Gli altri valori hanno la precedenza su <filename>*</filename>.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">n</symbol></para></entry>
+<entry align="left" valign="top"><para>Qualsiasi intero non negativo, incluso
+lo zero.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>></filename><symbol role="Variable">n</symbol></para></entry>
+<entry align="left" valign="top"><para>Pi&ugrave; di <symbol role="Variable">n</symbol> argomenti.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>&lt;</filename><symbol role="Variable">n</symbol></para></entry>
+<entry align="left" valign="top"><para>Meno di <symbol role="Variable">n</symbol>
+argomenti.</para></entry></row></tbody></tgroup></informaltable>
+<para>Una delle funzioni per cui pu&ograve; essere utilizzato <filename>ARG_COUNT</filename> &egrave; quella di ottenere un comportamento diverso dell'azione
+a seconda che l'utente faccia doppio clic sulla sua icona o vi rilasci un
+file. Vedere la sezione seguente, <!--Original XRef content: '&ldquo;Come
+ottenere un comportamento diverso--><!-- al doppio clic sull'icona e al
+rilascio di un file'--><xref role="SectionTitle" linkend="sag.cract.mkr.31">.
+</para>
+</sect2>
+<sect2 id="sag.cract.div.47" role="Procedure">
+<title id="sag.cract.mkr.31">Come ottenere un comportamento diverso al doppio
+clic sull'icona e al rilascio di un file<indexterm><primary>azioni</primary>
+<secondary>funzionalit&agrave;</secondary></indexterm><indexterm><primary>diverse per doppio clic e rilascio</primary></indexterm><indexterm><primary>ARG_COUNT, campo</primary></indexterm></title>
+<para>La procedura descritta qui di seguito permette di creare un'azione che
+accetti il rilascio di un file ma non richieda alcun argomento facendo doppio
+clic sull'icona.</para>
+<orderedlist>
+<listitem><para>Inserire nella definizione dell'azione la funzionalit&agrave;
+relativa al doppio clic.</para>
+<para>Usare il campo <filename>ARG_COUNT</filename> per specificare <filename>0</filename> argomenti. Usare per <filename>EXEC_STRING</filename> una sintassi
+che non accetti il rilascio degli argomenti.</para>
+</listitem>
+<listitem><para>Creare una seconda definizione per la funzionalit&agrave;
+di rilascio.</para>
+<para>Usare il campo <filename>ARG_COUNT</filename> per specificare <filename>>0</filename> argomenti. Usare per <filename>EXEC_STRING</filename> una sintassi
+che accetti il rilascio di un file.</para>
+</listitem>
+</orderedlist>
+<para>Ad esempio, si supponga di poter usare le due righe comandi seguenti
+per avviare un editor di nome <command>vedit</command>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Per avviare l'editor senza specificare argomenti:</para>
+<para remap="CodeIndent1"><command>vedit</command></para>
+</listitem>
+<listitem><para>Per avviare l'editor specificando come argomento un file da
+aprire in modalit&agrave; di sola lettura:</para>
+<para remap="CodeIndent1"><command>vedit -R</command> <symbol role="Variable">nomefile</symbol></para>
+</listitem>
+</itemizedlist>
+<para>Le due azioni seguenti creano le funzionalit&agrave; di doppio clic
+e rilascio per un'azione di nome Vedit. La prima azione ha la precedenza quando
+si cerca una corrispondenza nel database, poich&eacute; il campo <filename>ARG_COUNT</filename> <filename>0</filename> &egrave; pi&ugrave; specifico
+rispetto al valore predefinito <filename>ARG_COUNT</filename> <filename>*</filename> che verr&agrave; usato per il rilascio.</para>
+<programlisting># Funzionalit&agrave; del doppio clic
+ACTION Vedit
+{
+   TYPE          COMMAND
+   ARG_COUNT     0
+   WINDOW_TYPE   PERM_TERMINAL
+   EXEC_STRING   vedit
+}
+
+# Funzionalit&agrave; di rilascio
+ACTION Vedit
+{
+   TYPE           COMMAND
+   WINDOW_TYPE    PERM_TERMINAL
+   EXEC_STRING    vedit -R %Arg_1%
+}</programlisting>
+</sect2>
+<sect2 id="sag.cract.div.48">
+<title>Restrizione di un'azione in base alla modalit&agrave; dell'argomento</title>
+<para>Si pu&ograve; utilizzare il campo <filename>ARG_MODE</filename> per
+specificare la modalit&agrave; di lettura/scrittura dell'argomento. I valori
+ammessi sono:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="107*">
+<colspec colwidth="421*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>*</filename></para></entry>
+<entry align="left" valign="top"><para>(Valore predefinito) Qualsiasi modalit&agrave;
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>!w</filename></para></entry>
+<entry align="left" valign="top"><para>Non-scrivibile</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>w</command></para></entry>
+<entry align="left" valign="top"><para>Scrivibile</para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="sag.cract.div.49">
+<title id="sag.cract.mkr.32">Creazione di azioni che eseguano applicazioni
+su sistemi remoti<indexterm><primary>azioni</primary><secondary>esecuzione
+di applicazioni remote</secondary></indexterm><indexterm><primary>esecuzione
+remota</primary><secondary>azioni</secondary></indexterm></title>
+<para>Nel descrivere l'esecuzione remota delle azioni, si far&agrave; spesso
+riferimento ai due termini seguenti:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="189*">
+<colspec colwidth="339*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>database</primary>
+<secondary>host</secondary></indexterm>host del database</para></entry>
+<entry align="left" valign="top"><para>Il sistema in cui si trova la definizione
+dell'azione</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>host di esecuzione</primary><secondary>creazione di azioni per</secondary></indexterm>host di
+esecuzione</para></entry>
+<entry align="left" valign="top"><para>Il sistema su cui viene avviato l'eseguibile
+</para></entry></row></tbody></tgroup></informaltable>
+<para>In genere, le azioni e le relative applicazioni si trovano sullo stesso
+sistema; in questi casi non &egrave; richiesta alcuna sintassi particolare,
+perch&eacute; l'host di esecuzione predefinito per le azioni &egrave; l'host
+del database.</para>
+<para>Tuttavia, quando l'host di esecuzione non coincide con l'host del database,
+la definizione dell'azione deve specificare la posizione in cui eseguire il
+comando contenuto nella stringa di esecuzione.</para>
+<para>La possibilit&agrave; di collocare le azioni e le applicazioni su sistemi
+diversi &egrave; una caratteristica dell'architettura client/server del desktop.
+Per una trattazione pi&ugrave; approfondita delle applicazioni di rete, vedere
+<!--Original XRef content: '&ldquo;Amministrazione dei servizi per le ap--><!--plicazioni&rdquo;
+a pagina&numsp;100'--><xref role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.15">.
+</para>
+<sect2 id="sag.cract.div.50">
+<title id="sag.cract.mkr.33">Creazione di un'azione che esegua un'applicazione
+remota<indexterm><primary>EXEC_HOST, campo</primary></indexterm><indexterm>
+<primary>%</primary></indexterm><indexterm><primary>DatabaseHost%</primary>
+</indexterm><indexterm><primary></primary></indexterm><indexterm><primary>%</primary></indexterm><indexterm><primary>LocalHost%</primary></indexterm><indexterm>
+<primary></primary></indexterm><indexterm><primary>%</primary></indexterm><indexterm>
+<primary>DisplayHost%</primary></indexterm><indexterm><primary></primary>
+</indexterm><indexterm><primary>%</primary></indexterm><indexterm><primary>SessionHost%</primary></indexterm></title>
+<para><indexterm><primary>EXEC_HOST, campo</primary></indexterm><indexterm>
+<primary>host di esecuzione</primary><secondary>definizione con il campo EXEC_HOST</secondary></indexterm>Usare il campo <filename>EXEC_HOST</filename> nella
+definizione dell'azione per specificare la posizione dell'applicazione.</para>
+<para>I valori ammessi per <filename>EXEC_HOST</filename> sono:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="191*">
+<colspec colwidth="337*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>DataBaseHost,
+parola chiave</primary></indexterm>%DatabaseHost%</filename></para></entry>
+<entry align="left" valign="top"><para>L'host che contiene la definizione
+dell'azione.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>%LocalHost%</filename></para></entry>
+<entry align="left" valign="top"><para>L'host da cui viene avviata l'azione
+(il <emphasis>server della sessione</emphasis>).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>DisplayHost,
+parola chiave</primary></indexterm>%DisplayHost%</filename></para></entry>
+<entry align="left" valign="top"><para>L'host che esegue il server X (non
+previsto per i terminal X).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>SessionHost,
+parola chiave</primary></indexterm>%SessionHost%</filename></para></entry>
+<entry align="left" valign="top"><para>L'host su cui viene eseguita la Gestione
+del login.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">nomehost</symbol></para></entry>
+<entry align="left" valign="top"><para>L'host specificato. Usare questo valore
+per gli ambienti in cui l'azione deve essere sempre eseguita su un host particolare.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>%&ldquo;</filename><symbol role="Variable">richiesta</symbol><filename>&ldquo;%</filename></para></entry>
+<entry align="left" valign="top"><para>Richiesta di inserimento del nome host
+visualizzata ad ogni esecuzione dell'azione.</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Il valore predefinito &egrave; <filename>%DatabaseHost%</filename>, <filename>%LocalHost%</filename>.<indexterm><primary>EXEC_HOST, campo</primary><secondary>valore predefinito</secondary></indexterm> Con questa impostazione, se si
+omette il campo <filename>EXEC_HOST</filename> l'azione cerca inizialmente
+di eseguire il comando sull'host che contiene la sua definizione. Se l'operazione
+non riesce, l'azione cerca di eseguire il comando sul server della sessione.
+</para>
+<sect3 id="sag.cract.div.51">
+<title>Esempi</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questo campo specifica l'host <command>ddsyd</command>:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_HOST ddsyd</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questo campo richiede un nome host:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_HOST %"Host contenente l'applicazione:"%</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Questo campo specifica che l'azione cercher&agrave; inizialmente
+di eseguire l'applicazione sull'host contenente la definizione dell'azione.
+Se non dovesse riuscire, essa cercher&agrave; di eseguire l'applicazione sull'host <command>ddsyd</command>.</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_HOST %DatabaseHost%, ddsyd</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.cract.div.52">
+<title id="sag.cract.mkr.34">Uso delle variabili nelle definizioni delle azioni
+e dei tipi di dati<indexterm><primary>variabili</primary><secondary>uso nelle
+definizioni delle azioni</secondary></indexterm><indexterm><primary>azioni</primary><secondary>uso delle variabili nelle definizioni</secondary></indexterm><indexterm>
+<primary>tipi di dati</primary><secondary>uso delle variabili nelle definizioni</secondary></indexterm></title>
+<para>Le definizioni delle azioni e dei tipi di dati possono comprendere variabili
+in forma di stringa e variabili d'ambiente.</para>
+<sect2 id="sag.cract.div.53">
+<title id="sag.cract.mkr.35">Uso di variabili stringa in un'azione<indexterm>
+<primary>variabili</primary><secondary>stringa, nelle definizioni delle azioni</secondary></indexterm><indexterm><primary>azioni</primary><secondary>uso
+di variabili stringa</secondary></indexterm></title>
+<para>La definizione di una variabile stringa ha effetto dal punto della definizione
+fino alla fine del file. Non esistono variabili stringa globali per il database.
+</para>
+<para>Se una variabile stringa e una variabile d'ambiente hanno lo stesso
+nome, la variabile stringa avr&agrave; la precedenza.</para>
+<sect3 id="sag.cract.div.54" role="Procedure">
+<title>Come definire una variabile stringa</title>
+<orderedlist>
+<listitem><para>Usare la sintassi:</para>
+<para remap="CodeIndent1"><command>set <symbol role="Variable">nome_variabile</symbol>=<symbol role="Variable">valore</symbol></command></para>
+</listitem>
+</orderedlist>
+<para>I nomi delle variabili possono contenere qualsiasi carattere alfanumerico
+e il carattere di sottolineatura (<filename>_</filename>). Ogni definizione
+deve occupare una riga diversa.</para>
+<para>Ad esempio:</para>
+<programlisting>set Server_applicazioni_remoto=sysapp
+set Server_file_remoto=sysdata</programlisting>
+</sect3>
+<sect3 id="sag.cract.div.55" role="Procedure">
+<title>Come impostare un riferimento a una variabile stringa</title>
+<orderedlist>
+<listitem><para>Usare la sintassi:</para>
+<para remap="CodeIndent1"><command>$[{]<symbol role="Variable">nome_variabile</symbol>[}]</command></para>
+</listitem>
+</orderedlist>
+<para>Ad esempio:</para>
+<programlisting>EXEC-HOST $Server_applicazioni_remoto
+CWD /net/${Server_file_remoto}/doc/project</programlisting>
+</sect3>
+</sect2>
+<sect2 id="sag.cract.div.56">
+<title id="sag.cract.mkr.36">Uso delle variabili d'ambiente nelle azioni e
+nei tipi di dati<indexterm><primary>variabili d'</primary></indexterm><indexterm>
+<primary>ambiente</primary><secondary>definizioni delle azioni</secondary>
+</indexterm><indexterm><primary>azioni</primary><secondary>variabili d'</secondary>
+</indexterm><indexterm><primary>ambiente</primary></indexterm></title>
+<orderedlist>
+<listitem><para>Per impostare un riferimento a una variabile d'ambiente, usare
+la sintassi:</para>
+<para remap="CodeIndent1"><command>$[{]<symbol role="Variable">variabile</symbol>[}]</command>.</para>
+</listitem>
+</orderedlist>
+<para>La variabile viene espansa (cio&egrave; sostituita dal suo valore) al
+momento del caricamento del database. Se una variabile stringa e una variabile
+d'ambiente hanno lo stesso nome, la variabile stringa avr&agrave; la precedenza.
+</para>
+<para>Ad esempio, questa stringa di esecuzione stampa un file usando il nome
+di login dell'utente come intestazione.</para>
+<programlisting>EXEC-STRING lp -t$LOGNAME %(File)Arg_1%</programlisting>
+</sect2>
+</sect1>
+<sect1 id="sag.cract.div.57">
+<title id="sag.cract.mkr.37">Avvio di un'azione dalla riga comandi<indexterm>
+<primary>azioni</primary><secondary>uso per l'</secondary></indexterm><indexterm>
+<primary>esecuzione di altre azioni</primary></indexterm></title>
+<para>Il comando del desktop <command>dtaction</command> permette di eseguire
+le azioni da una riga comandi. Questo comando pu&ograve; essere usato per
+eseguire le azioni da:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Script</para>
+</listitem>
+<listitem><para>Altre azioni</para>
+</listitem>
+<listitem><para>Una riga comandi di un emulatore di terminale</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.cract.div.58">
+<title>Sintassi di dtaction<indexterm><primary>dtaction</primary><secondary>sintassi</secondary></indexterm></title>
+<para><command>dtaction [-user <symbol role="Variable">nome_utente</symbol>]
+[-execHost <symbol role="Variable">nomehost</symbol>] <symbol role="Variable">nome_azione</symbol> [<symbol role="Variable">argomento</symbol> [<symbol role="Variable">argomento</symbol>]&hellip;]</command></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="162*">
+<colspec colwidth="366*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>-user</filename> <symbol role="Variable">nome_utente</symbol></para></entry>
+<entry align="left" valign="top"><para>Permette di eseguire l'azione operando
+con un nome utente diverso. Se <command>dtaction</command> viene richiamato
+da un utente diverso da quello specificato con <symbol role="Variable">nome_utente</symbol>, viene visualizzata la richiesta di una parola chiave.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>-<command>execHost</command> <symbol role="Variable">nomehost</symbol></para></entry>
+<entry align="left" valign="top"><para>Solo per le azioni <command>COMMAND</command>; specifica l'host su cui verr&agrave; eseguito il comando.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">argomento</symbol></para></entry>
+<entry align="left" valign="top"><para>Argomento/i da usare per l'azione,
+in genere file.</para></entry></row></tbody></tgroup></informaltable>
+<para>Il client <command>dtaction</command> dispone di altre opzioni per la
+riga comandi. Per maggiori informazioni, vedere la pagina di spiegazioni <filename moreinfo="refentry">dtaction(1)</filename>.</para>
+</sect2>
+<sect2 id="sag.cract.div.59">
+<title>Creazione di un'azione che esegua un'altra azione<indexterm><primary>azioni</primary><secondary>uso per l'</secondary></indexterm><indexterm><primary>esecuzione di altre azioni</primary></indexterm></title>
+<para>Usare <command>dtaction</command> nella <filename>EXEC_STRING</filename>
+dell'azione.</para>
+<para>Ad esempio, l'azione seguente utilizza un'azione predefinita di nome
+Spell (presentata come &ldquo;Controllare ortografia&rdquo; nella Gestione
+di applicazioni). La nuova azione eseguir&agrave; l'Editor di testo e l'azione
+Spell, visualizzando gli errori riscontrati in una finestra di emulazione
+di terminale separata.</para>
+<programlisting>ACTION ApriECorreggi
+{
+    WINDOW_TYPE    NO_STDIO
+    EXEC_STRING    /bin/sh -c 'dtaction Spell \
+                   %Arg_1&ldquo;File:&ldquo;%; dtpad %Arg_1%'
+}</programlisting>
+</sect2>
+<sect2 id="sag.cract.div.60">
+<title id="sag.cract.mkr.38">Creazione di un'azione che venga eseguita con
+un nome utente diverso<indexterm><primary>azioni</primary><secondary>esecuzione
+come utente diverso</secondary></indexterm><indexterm><primary>utente, cambiamento
+per l'</primary></indexterm><indexterm><primary>esecuzione di un'</primary>
+</indexterm><indexterm><primary>azione</primary></indexterm><indexterm><primary>dtaction</primary><secondary>uso per il cambiamento di utente</secondary>
+</indexterm></title>
+<para>Usare la seguente sintassi nella <filename>EXEC_STRING</filename>:
+</para>
+<programlisting>EXEC_STRING dtaction -user <symbol role="Variable">nome_utente nome_azione</symbol> [<symbol role="Variable">argomento</symbol>]</programlisting>
+<para>Il nuovo utente (<symbol role="Variable">nome_utente</symbol>) deve
+avere accesso di visualizzazione al sistema attraverso uno dei seguenti meccanismi:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Autorizzazione di lettura per il file <filename>.Xauthority</filename> dell'utente specificato al login</para>
+</listitem>
+<listitem><para><emphasis>Oppure</emphasis>, autorizzazione xhost</para>
+</listitem>
+</itemizedlist>
+<para>Ad esempio, le due azioni seguenti offrono la possibilit&agrave; di
+diventare superutente e di editare un file di impostazioni predefinite delle
+applicazioni.</para>
+<programlisting>ACTION ImpPred
+{
+      WINDOW_TYPE    NO_STDIO
+      EXEC_STRING    /usr/dt/bin/dtaction -user root \
+                     ModificaImpPred %Arg_1&ldquo;File:&ldquo;%
+}
+
+ACTION ModificaImpPred
+{
+      WINDOW_TYPE    TERMINAL
+      EXEC_STRING    /bin/sh -c 'chmod +w %Arg_1%; \
+                     vi %Arg_1%; chmod -w %Arg_1%'
+}</programlisting>
+</sect2>
+</sect1>
+<sect1 id="sag.cract.div.61">
+<title id="sag.cract.mkr.39">Creazione di azioni in lingue diverse</title>
+<para>Il percorso di ricerca per i tipi di dati include directory dipendenti
+dalla lingua. Il desktop utilizza il valore di LANG per determinare le posizioni
+in cui cercare le definizioni dei tipi di dati.</para>
+<sect2 id="sag.cract.div.62">
+<title>Posizione delle azioni localizzate</title>
+<para>Le definizioni delle azioni localizzate devono trovarsi nelle directory
+corrette del percorso di ricerca delle azioni.</para>
+<para>Il percorso di ricerca predefinito comprende le directory seguenti:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Azioni personali: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename></para>
+</listitem>
+<listitem><para>Azioni di sistema: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+<listitem><para>Azioni predefinite: <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.cract.div.63" role="Procedure">
+<title>Come tradurre un'azione esistente<indexterm><primary>azioni</primary>
+<secondary>etichette</secondary></indexterm><indexterm><primary>etichette</primary><secondary>azioni</secondary></indexterm><indexterm><primary>localizzazione</primary><secondary>delle etichette delle azioni</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Creare un file nella directory appropriata dipendente dalla
+lingua (ad esempio, in <filename>/etc/dt/appconfig/types/it</filename>).
+</para>
+</listitem>
+<listitem><para>Copiare la definizione dell'azione nel file di configurazione
+dipendente dalla lingua.</para>
+<para>Ad esempio, si potr&agrave; copiare la definizione di un'azione da</para>
+<para remap="CodeIndent1"><filename><symbol role="Variable">radice_app</symbol>/dt/appconfig/types/C/<symbol role="Variable">file</symbol>.dt</filename></para>
+<para>in</para>
+<para remap="CodeIndent1"><filename><symbol role="Variable">radice_app</symbol>/dt/appconfig/types/it/<symbol role="Variable">nuovofile</symbol>.dt</filename></para>
+</listitem>
+<listitem><para>Aggiungere un campo <command>LABEL</command> o modificare
+il campo <command>LABEL</command> esistente.</para>
+<para remap="CodeIndent1"><command>LABEL <symbol role="Variable">stringa</symbol></command></para>
+<para>La Gestione di applicazioni e la Gestione di file useranno questa stringa
+per identificare l'icona dell'azione.</para>
+</listitem>
+<listitem><para>Adattare i campi seguenti nella definizione dell'azione:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Per le icone tradotte: <command>ICON</command></para>
+</listitem>
+<listitem><para>Per i testi di aiuto tradotti: <command>DESCRIPTION</command></para>
+</listitem>
+<listitem><para>Per le richieste tradotte: tutto il testo tra virgolette nella <filename>EXEC_STRING</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="sag.cract.div.64">
+<title id="sag.cract.mkr.40">Creazione di azioni per le applicazioni ToolTalk<indexterm>
+<primary>TT_MSG, azione</primary><secondary>creazione</secondary></indexterm><indexterm>
+<primary>ToolTalk</primary><secondary>azioni per le applicazioni</secondary>
+</indexterm><indexterm><primary>&lt;</primary></indexterm><indexterm><primary>$nopage>ToolTalk</primary><secondary>azione, Vedere TT_MSG, azione</secondary>
+</indexterm></title>
+<note>
+<para>Le informazioni seguenti si riferiscono solo alle applicazioni che
+supportano i messaggi ToolTalk.</para>
+</note>
+<para>Creare un'azione di tipo <filename>TT_MSG</filename> che invii un messaggio
+ToolTalk.</para>
+<programlisting>ACTION <symbol role="Variable">nome_azione</symbol> 
+{
+    TYPE TT_MSG
+    &hellip;
+}</programlisting>
+<sect2 id="sag.cract.div.65">
+<title>Campi addressing e disposition</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il campo <command>addressing</command> di ToolTalk &egrave;
+sempre impostato su <filename>TT_PROCEDURE</filename>.</para>
+</listitem>
+<listitem><para>Il campo <command>disposition</command> di ToolTalk viene
+impostato automaticamente sul valore specificato nello schema del messaggio
+statico.</para>
+</listitem>
+</itemizedlist>
+<sect3 id="sag.cract.div.66">
+<title>Messaggi non supportati</title>
+<para>Le azioni di tipo <filename>TT_MSG</filename> non supportano i messaggi
+seguenti:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>I messaggi di ToolTalk orientati agli oggetti</para>
+</listitem>
+<listitem><para>L'uso di contesti come argomenti nei messaggi</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="sag.cract.div.67">
+<title>Parole chiave per le azioni TT_MSG<indexterm><primary>TT_MSG, azione</primary><secondary>parole chiave</secondary></indexterm></title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="140*">
+<colspec colwidth="388*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Parola chiave</para></entry>
+<entry align="left" valign="bottom"><para>Uso</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>TT_CLASS</filename></para></entry>
+<entry align="left" valign="top"><para>Definisce il valore del campo <command>class</command> dei messaggi di ToolTalk</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_SCOPE</filename></para></entry>
+<entry align="left" valign="top"><para>Definisce il valore del campo <command>scope</command> dei messaggi di ToolTalk</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_OPERATION</filename></para></entry>
+<entry align="left" valign="top"><para>Definisce il valore del campo <command>operation</command> dei messaggi di ToolTalk</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_FILE</filename></para></entry>
+<entry align="left" valign="top"><para>Definisce il valore del campo <command>file</command> dei messaggi di ToolTalk</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_ARGn_MODE</filename></para></entry>
+<entry align="left" valign="top"><para>Definisce il valore dell'attributo <command>mode</command> di ToolTalk per l'argomento <symbol role="Variable">n</symbol>
+del messaggio</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_ARGn_VTYPE</filename></para></entry>
+<entry align="left" valign="top"><para>Definisce il valore dell'attributo <command>vtype</command> di ToolTalk per l'argomento <symbol role="Variable">n</symbol>
+del messaggio</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_ARGn_VALUE</filename></para></entry>
+<entry align="left" valign="top"><para>Definisce il valore dell'argomento <symbol role="Variable">n</symbol> del messaggio</para></entry></row></tbody></tgroup>
+</informaltable>
+</sect3><?Pub Caret>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:05:15-->
+<?Pub *0000098540>

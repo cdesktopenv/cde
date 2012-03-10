@@ -1,0 +1,82 @@
+XCOMM $TOG: Imakefile /main/10 1998/08/10 15:47:14 mgreess $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		DtMail
+#define LibHeaders	NO
+#define LibInstall	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+SUBDIRS = Common RFC
+EXTRALIBRARYDEPS = Common/DONE RFC/DONE
+
+MakeSubdirs($(SUBDIRS))
+ForceSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+#include <Threads.tmpl>
+
+#if defined(DtMailDynamicLinking) && DtMailDynamicLinking
+DYNLIB_SRCS = Common/DlDynamicLib.C
+DYNLIB_OBJS = Common/DlDynamicLib.o
+#else
+DYNLIB_SRCS = Common/NotDynamic.C
+DYNLIB_OBJS = Common/NotDynamic.o
+#endif
+
+COMMON_OBJS = \
+	$(DYNLIB_OBJS) \
+	Common/APOPServer.o \
+	Common/AUTOServer.o \
+	Common/Buffer.o \
+	Common/DetermineFileLocality.o \
+	Common/DtMailBodyPart.o \
+	Common/DtMailEnvelope.o \
+	Common/DtMailError.o \
+	Common/DtMailMailBox.o \
+	Common/DtMailMessage.o \
+	Common/DtMailRc.o \
+	Common/DtMailServer.o \
+	Common/DtMailTransport.o \
+	Common/DtMailValuesBuiltin.o \
+	Common/DtMailXtProc.o \
+	Common/DtVirtArray.o \
+	Common/DynamicLib.o \
+	Common/FileShare.o \
+	Common/HashTable.o \
+	Common/IMAPServer.o \
+	Common/IO.o \
+	Common/LanguagePortability.o \
+	Common/ObjectKey.o \
+	Common/POP2Server.o \
+	Common/POP3Server.o \
+	Common/Process.o \
+	Common/Session.o \
+	Common/Threads.o \
+	Common/md5.o \
+	Common/str_utils.o
+
+RFC_OBJS = \
+	RFC/AliasExpand.o \
+	RFC/MIMEBodyPart.o \
+	RFC/MIMEPartial.o \
+	RFC/RFCBodyPart.o \
+	RFC/RFCEnvelope.o \
+	RFC/RFCFormat.o \
+	RFC/RFCMailBox.o \
+	RFC/RFCMailValues.o \
+	RFC/RFCMessage.o \
+	RFC/RFCMIME.o \
+	RFC/RFCTransport.o \
+	RFC/SunV3.o \
+	RFC/V3BodyPart.o
+
+OBJS = $(COMMON_OBJS) $(RFC_OBJS)
+
+#include <Library.tmpl>

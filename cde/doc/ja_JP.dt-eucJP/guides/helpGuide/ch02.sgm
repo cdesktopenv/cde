@@ -1,0 +1,966 @@
+<!-- $XConsortium: ch02.sgm /main/16 1996/10/22 14:42:26 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.OrgH.div.1">
+<title id="HRDC.OrgH.mkr.1">ヘルプ・ボリュームの構成および記述</title>
+<para>この章では、ヘルプ・ソース・ファイルの構成とコンポーネントについて説明します。また、ヘルプ・ソース・ファイルを処理して、オンライン・ヘルプ・ボリュームを作成する方法についての手順の例を示します。</para>
+<sect1 id="HRDC.OrgH.div.2">
+<title id="HRDC.OrgH.mkr.2">ヘルプ・ボリュームのコンポーネント</title>
+<para>ヘルプ・ボリュームには、トップレベル・ボリューム・トピック（Part 要素に含まれる）、メタ情報（DocInfo 要素に含まれる）、ブック・コンポーネント（章、セクション、リスト、および表のような）、索引、および用語集という主要なタイプのコンポーネントがあります。</para>
+<sect2 id="HRDC.OrgH.div.3">
+<title>トップレベル要素: Part</title>
+<para><emphasis>Part</emphasis> は、ヘルプ・ボリュームの構造におけるトップレベルの要素です。他のすべてのコンポーネントは、階層構造において、Part の下位要素です。
+</para>
+<para>Part の下位の階層構造を、複数の Sect1 を含む複数の Chapter、複数の Sect2 を含む複数の Sect1、複数の Sect3 を含む Sect2、などのように、数階層にすることも可能です。しかし、階層内でユーザが迷わないようにするために、階層をできる限り浅くしておくべきです。
+</para>
+<para>Part は、コンポーネントとして、オプションの DocInfo、必須の Title、オプションの TitleAbbrev、オプションの PartIntro、およびひとつまたは複数の Chapter のような他のブック・コンポーネントを、この順序で含むことが可能です。
+</para>
+<para>Part は、共通の属性およびラベル属性をもちます。</para>
+</sect2>
+<sect2 id="HRDC.OrgH.div.4">
+<title>トピックとサブトピック</title>
+<para>トピックとサブトピックは、Part の下に階層を形成します。通常、最初のレベルのトピックは、Chapter 要素を用いて、章に分割されます。章の内部では、Sect1 のサブトピックは Sect2 というタグ、Sect2 のサブトピックは Sect3 というタグ、というように、トピックはセクションとして構成されます。
+</para>
+<para><xref role="CodeOrFigureOrTable" linkend="HRDC.OrgH.mkr.3">では、３つの章がある単純な階層を示しています。各章には、第１レベルのセクションがいくつかあります。３番目の章には第２レベルのセクションが2つ追加されています。
+</para>
+<figure>
+<title id="HRDC.OrgH.mkr.3">ヘルプ・ボリュームのトピック構成</title>
+<programlisting>Part
+        DocInfo
+        Title
+        Chapter
+                Sect1
+                Sect1
+                Sect1
+        Chapter
+                Sect1
+                        Sect2
+                                Sect3
+                        Sect2
+                Sect1
+                Sect1
+                        Sect2
+                        Sect2
+                                Sect3</programlisting>
+</figure>
+</sect2>
+<sect2 id="HRDC.OrgH.div.5">
+<title>エンティティ</title>
+<para>設計者定義の<emphasis>エンティティ</emphasis>は、文字列またはファイル名を指定します。<emphasis>エンティティ宣言</emphasis>は、エンティティ名とエンティティが表す文字列またはファイルを定義します。
+</para>
+<para>エンティティは、次の場合に有効です。</para>
+<itemizedlist><listitem><para><emphasis>テキストの共通の文字列を参照する</emphasis>テキストが変更されたり、繰り返し入力したくないような場合に便利です。テキストを挿入したい場所では、エンティティ名を参照してください。
+</para>
+</listitem><listitem><para><emphasis>外部ファイルを参照する。</emphasis>
+グラフィック・ファイルにアクセスするにはエンティティが必要です。&lt;Graphic> 要素には Entityref 属性があり、これがグラフィック・イメージ・ファイルを参照します。
+</para>
+</listitem></itemizedlist>
+<para>ヘルプ・ボリューム内の他のマークアップの前にすべてのエンティティの宣言を入力しなければなりません。定義済みのエンティティを入れるには、<emphasis>エンティティの参照</emphasis>を使用します。</para>
+<para>エンティティの参照は、ヘルプ・ボリューム内であれば、どこでも使用できます。 DocBook ソフトウェアでヘルプ・ボリュームを処理する場合、各エンティティの参照は、そのエンティティが指すテキストまたはファイルで置換されます。
+<xref role="SecTitleAndPageNum" linkend="HRDC.OrgH.mkr.22">では、エンティティの定義方法と使い方について説明しています。
+</para>
+</sect2>
+<sect2 id="HRDC.OrgH.div.6">
+<title>メタ情報</title>
+<para><emphasis>メタ情報</emphasis>は、<emphasis>ユーザの情報についての情報</emphasis>です。
+</para>
+<para>DocBook マークアップでは、ヘルプ・ボリュームに関するメタ情報は、DocInfo 要素に含まれています。
+</para>
+<para>DocInfo は、次の要素を次に示す順序で含むことが可能です。
+</para>
+<itemizedlist><listitem><para>Title (必須)</para>
+</listitem><listitem><para>TitleAbbrev (任意)</para>
+</listitem><listitem><para>Subtitle (任意)</para>
+</listitem><listitem><para>ひとつまたは複数の AuthorGroups (必須)</para>
+</listitem><listitem><para>任意の数の Abstracts (任意、ボリュームの内容に関する簡潔な記述</para>
+</listitem><listitem><para>RevHistory (任意)</para>
+</listitem><listitem><para>任意の数の LegalNotices (任意、登録商標、著作権などに関する情報の提供)</para>
+</listitem></itemizedlist>
+<para>ヘルプ・システムは、DocInfo のメタ情報を使用して、ヘルプ・ボリュームのタイトルとその著作権情報を表示します。要約の記述は、フロントパネルのデスクトップ・ヘルプ・ビューアによって表示されます。ヘルプ・ボリュームを表示できる他のアプリケーションもまたこの情報を使用できます。
+</para>
+<para><xref role="SecTitleAndPageNum" linkend="HRDC.OrgH.mkr.15">は、メタ情報セクションの作成方法を示しています。
+</para>
+</sect2>
+<sect2 id="HRDC.OrgH.div.7">
+<title>用語集</title>
+<para>用語集には、ヘルプ・ボリュームで使用されている用語に対する定義が入っています。用語が、GlossTerm 要素を使用して入力される場合、自動的にリンクになり、選択されると、その用語に関する用語エントリを表示します。
+</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.8">
+<title id="HRDC.OrgH.mkr.4">一般的なマークアップの指針</title>
+<para>オンライン・ヘルプは通常のテキスト・ファイルで記述されています。特殊コード、または<emphasis>タグ</emphasis>を使用して、情報内の<emphasis>要素</emphasis>にマークを付けます。タグは、DocBook と呼ばれるマークアップ言語を形成します。	
+</para>
+<para>標準のテキスト・エディタを使用する場合、DocBook マークアップが入力されます。エディタがマクロ・パッケージを提供している場合、タグはコマンド・キーを使用すると、保存および挿入できます。DocBook マークアップは、構造化エディタを使用して生成することもできます。
+(<xref role="SecTitleAndPageNum" linkend="HRDC.Intro.mkr.24">を参照してください)。</para>
+<para>DocBook マークアップ言語は、章、セクション、サブセクションなどのハイレベル要素、段落、リスト、および表などのブロック単位の要素、強調された語、シンボルなどのロウレベルなインライン要素を定義する要素の階層を定義します。
+</para>
+<sect2 id="HRDC.OrgH.div.9">
+<title id="HRDC.OrgH.mkr.5">ソース・ファイル内のマークアップ</title>
+<para>ほとんどの要素のマークアップは、開始タグと終了タグで構成されます。開始タグは、三角括弧 (&lt; と >) の間に要素名を入れて入力します。終了タグも同様ですが、要素名の先頭に / (スラッシュ)が付きます。DocBook マークアップのタグでは、大文字・小文字の区別はありません。
+</para>
+<programlisting>&lt;Element attribute name="attribute value"> ... text ... &lt;/Element>
+</programlisting>
+<para>たとえば、本のタイトルの初めと終わりをマークするには、次のようにマークアップを使用します。
+</para>
+<programlisting>&lt;Title id="GSNW">Geographical Survey of Northern Wisconsin&lt;/Title>
+</programlisting>
+<para>ここで &lt;Title> は開始タグ、&lt;/Title> は終了タグ、GSNW は Title 要素のID属性の値です。要素の複数の属性に値を指定する場合は、式 <symbol>属性名</symbol>="<symbol>属性値</symbol>" をスペースで区切ります。
+</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.13">
+<title id="HRDC.OrgH.mkr.7">ヘルプ・ボリュームの例</title>
+<para>次の標準的なマークアップは、入力に使用されるヘルプ・ボリュームとタグの重要な要素の例を示しています。インデントは、要素の階層関係を明示するためです。したがって、実際に記述するヘルプ・ファイルで、インデントを行う必要はありません。
+</para>
+<programlisting>DocType
+Part
+        DocInfo
+                Title
+                AuthorGroup
+                Abstract
+                LegalNotice
+        Title
+        PartIntro
+        Chapter
+                Title
+                Sect1
+                        Title
+                        Para
+                        Para
+                        Sect2
+                                Title
+                                Para
+                                Sect3
+                                        Title
+                                        Para
+                                        Para
+                        Sect2
+                                Title
+                                Para
+        Chapter
+                Title
+                Sect1
+                        Title
+                        Para
+                        Para
+                        Sect2
+                                Title
+                                Para
+                        Sect2
+                                Title
+                                Para
+        Glossary
+</programlisting>
+</sect1>
+<sect1 id="HRDC.OrgH.div.14">
+<title id="HRDC.OrgH.mkr.8">ヘルプ・ソース・ファイル</title>
+<para>オンライン・ヘルプは、通常のテキスト・ファイルで記述されます。DocBook ソフトウェアで、これらのファイルを処理またはコンパイルし、ヘルプ・システムによって読み込むことができる実行時のヘルプ・ファイルを作成します。
+</para>
+<sect2 id="HRDC.OrgH.div.15">
+<title>volume.sgm ファイルの作成</title>
+<para>DocBook には、<symbol>volume</symbol><filename>.sgm</filename> という名前のプライマリ・コントロール・ファイルが必要です。ここで、<symbol role="Variable">volume</symbol> には、選択したボリューム名が入ります。
+</para>
+<para><symbol role="Variable">volume</symbol>は、必ず、一意かつ有意なものにしてください。<symbol role="Variable">volume</symbol> が、一般的すぎる場合は、他のユーザが作成した別のボリュームと重複してしまう可能性があります。アプリケーションのヘルプを記述する場合、アプリケーションのクラス名を使用することを推奨します。
+</para>
+<sect3 id="HRDC.OrgH.div.16">
+<title>複数のソース・ファイル</title>
+<para><symbol>volume</symbol><filename>.sgm</filename> には、エンティティの宣言とヘルプ・ボリュームを作成するファイルへのエンティティの参照が記述されています。DocBook は、入力として単一の <symbol role="Variable">volume</symbol><filename>.sgm</filename> ファイルを必要としますが、作業を複数のソース・ファイルに分割することができます。追加のファイルは、<emphasis>ファイル・エンティティ</emphasis>を使用して、<symbol role="Variable">volume</symbol><filename>.sgm</filename> にまとめられます。ファイル・エンティティは、他のファイルへのポインタのようなものです。そのファイルは、実際には、<symbol>volume</symbol><filename>.sgm</filename> ファイル内でエンティティの名前が表示されたところであれば、どこでも挿入されます。参照されるファイルもまた、別のファイルを参照するエンティティを含むことができます。
+</para>
+</sect3>
+<sect3 id="HRDC.OrgH.div.17">
+<title>例</title>
+<para>ヘルプ・ボリュームには６つの章があり、各章は独立したファイルであるとします。ファイルには、HomeTopic, Metainfo, TOC, Tasks, Reference, および Glossary があります。ヘルプ・ボリュームの <symbol>volume</symbol><filename>.sgm</filename> ファイルには、６つのファイルそれぞれに対するファイル・エントリと、ファイルの処理を DocBook ソフトウェアに指示するエンティティ参照リストが含まれています。
+</para>
+<programlisting>...
+&lt;!entity HomeTopic        FILE &ldquo;HomeTopic&rdquo;>
+&lt;!entity MetaInformation  FILE &ldquo;Metainfo&rdquo;>
+&lt;!entity TableOfContents  FILE &ldquo;TOC&rdquo;>
+&lt;!entity Tasks            FILE &ldquo;Tasks&rdquo;>
+&lt;!entity Reference        FILE &ldquo;Reference&rdquo;>
+&lt;!entity Glossary         FILE &ldquo;Glossary&rdquo;>
+...
+&amp;HomeTopic;
+&amp;MetaInformation;
+&amp;TableOfContents;
+&amp;Tasks;
+&amp;Reference;
+&amp;Glossary;
+
+</programlisting>
+<para>実行中の DocBook の詳細は、
+<xref role="SecTitleAndPageNum" linkend="HRDC.CrHV.mkr.3">で説明しています。
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.18">
+<title id="HRDC.OrgH.mkr.9">ファイル・マネージャのヘルプ・ファイル</title>
+<para>ファイル・マネージャは、ヘルプ・ファイルを疑問符付きのファイル・アイコンで表現します。<xref role="PageNum" linkend="HRDC.OrgH.mkr.10">の<xref role="CodeOrFigureOrTable" linkend="HRDC.OrgH.mkr.10">には、ひとつのソース・ファイル (<filename>.sgm</filename> 拡張子のファイル) およびひとつの実行時ファイル (<filename>.sdl</filename> 拡張子のファイル) があります。マークアップ・ファイルをダブルクリックすると、標準エディタが編集用のファイルを開きます。ファイル (<filename>.sdl</filename> 拡張子のファイル) をダブルクリックすると、ヘルプ・ビューアを使用して実行時のファイルが表示されます。
+</para>
+<figure>
+<title id="HRDC.OrgH.mkr.10">ヘルプ・ファイルによるファイル・マネージャ表示</title>
+<graphic id="HRDC.OrgH.grph.2" entityref="HRDC.OrgH.fig.2"></graphic>
+</figure>
+<para>実行時のヘルプ・ボリュームを作成するには、ファイル・マネージャにある <filename>.sgm</filename> ファイルを最初に選択してください。次に、ファイル・マネージャの[選択]メニューから[コンパイル]を選択してください。
+</para>
+<sect2 id="HRDC.OrgH.div.19">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para><filename moreinfo="RefEntry">dthelpaction(4)</filename> マニュアル・ページ</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.20">
+<title id="HRDC.OrgH.mkr.11">新規にヘルプ・ボリュームを記述する例</title>
+<para>通常は、<filename>help</filename> ディレクトリの中にヘルプ・ファイルを入れます。この例では、スタンドアロンのヘルプ・ボリュームの作成および表示方法について示しています。（スタンドアロンのボリュームの場合、アプリケーションとの対話はありません。）
+</para>
+<para>ヘルプ・ボリュームの作成および処理を行うには、次の手順にしたがいます。
+</para>
+<orderedlist><listitem><para>ヘルプ・ファイル用のソース・ディレクトリを作成します。</para>
+</listitem><listitem><para>マスタ DocBook ファイルを作成します。</para>
+</listitem><listitem><para>実行時ヘルプ・ファイルを作成します。</para>
+</listitem><listitem><para>ヘルプ・ボリュームを表示します。</para>
+</listitem></orderedlist>
+<para>各タスクについては、次からこの節で説明します。テキスト・ファイルで使用されているマークアップ言語については、この章で後述します。DocBook のマークアップについては、<xref role="ChapNumAndTitle" linkend="HRDC.WrTop.mkr.1">および<citetitle>共通デスクトップ環境 DocBook 文書型定義ガイド</citetitle>でさらに詳しく説明しています。</para>
+<sect2 id="HRDC.OrgH.div.21">
+<title>ソース・ディレクトリの作成</title>
+<orderedlist><listitem><para>ヘルプ・ファイルの作成および処理を行う <filename>helpfiles</filename> という名前のディレクトリを作成します。
+</para>
+</listitem><listitem><para>作成したばかりのディレクトリに <filename>Commands.sgm</filename> という名前のテキスト・ファイルを作成します。
+</para>
+<para>この例では、すべての情報は単一のファイルに格納されます。通常、ヘルプを記述しているシステムやアプリケーションについて完全に説明するためには、複数のファイルを使用します。
+</para>
+<para><filename>Commands.sgm</filename> ファイルには、テキストと要素タグを格納します。&lt; と > (三角括弧) 内の要素タグは、情報の構造を示します。</para>
+</listitem><listitem><para><filename>Commands.sgm</filename> ファイルに、次のマークアップ・テキストを入力します。</para>
+<programlisting>
+&lt;Chapter>
+&lt;Title id="CommandSummary-id>Command Summary&lt;/Title>
+&lt;Indexterm>&lt;Primary>commands&lt;Primary>&lt;/Indexterm>
+&lt;Para>Your&amp;product; is capable of the following operations:&lt;/Para>
+&lt;ItemizedList>
+&lt;ListItem>&lt;Para>&lt;Link Linkend="ChannelChange-id">ChannelChange&lt;/Link>&lt;/Para>&lt;/ListItem>
+&lt;ListItem>&lt;Para>&lt;Link Linkend="VolumeUp-id"> VolumeUp &lt;/Link>       &lt;/Para>&lt;/ListItem>
+&lt;ListItem>&lt;Para>&lt;Link Linkend="VolumeDown-id"> VolumeDown &lt;/Link>&lt;/Para>&lt;/ListItem>
+&lt;ListItem>&lt;Para>&lt;Link Linkend="VolumeMute-id"> VolumeMute &lt;/Link>&lt;/Para>&lt;/ListItem>
+&lt;/ItemizedList>
+&lt;Para>Choose one of the hyperlinks (underlined phrases)
+to find out how to perform that operation.&lt;/Para>
+&lt;Sect1 id="ChannelChange-s">
+&lt;Title id="ChannelChange-t">Changing the Channel&lt;/Title>
+&lt;Indexterm>&lt;Primary>channel&lt;Secondary>changing&lt;/Secondary>&lt;Primary>&lt;/Indexterm>
+&lt;Para>Speak the command:
+&lt;Programlisting> channel&lt;/Programlisting>
+followed by a number from &lt;Command>one&lt;/Command>to &lt;Command>ninety-nine&lt;/Command>.&lt;/Para>
+&lt;/Sect1>
+&lt;Sect1 id="VolumeUp-s">
+&lt;Title id="VolumeUp-t">Turning Up the Volume&lt;/Title>
+&lt;Indexterm>&lt;Primary>volume&lt;Secondary>changing&lt;/Secondary>&lt;/Primary>&lt;/Indexterm>
+&lt;Para>Speak the command:
+&lt;Programlisting>volume up&lt;/Programlisting>&lt;/Para>
+&lt;Para>For additional volume, speak the command:
+&lt;Programlisting>more&lt;/Programlisting>&lt;/para>
+&lt;Para>(See also &lt;Link Linkend="VolumeDown-id">VolumeDown&lt;/Link>)&lt;/Para>
+&lt;/Sect1>
+&lt;Sect1 id="VolumeDown-s">
+&lt;Title id="VolumeDown-t">Turning Down the Volume&lt;/Title>
+&lt;Indexterm>&lt;Primary>volume&lt;Secondary>changing&lt;/Secondary>&lt;/Primary>&lt;/Indexterm>
+&lt;Para>Speak the command:
+&lt;Programlisting>volume down&lt;/Programlisting>&lt;/Para>
+&lt;Para>To reduce the volume further, speak the command:
+&lt;Programlisting>more&lt;/Programlisting>&lt;/Para>
+&lt;Para>(See also &lt;Link Linkend="VolumeUp-id"> VolumeUp &lt;/Link> and &lt;Link Linkend="VolumeMute-id">VolumeMute&lt;/Link>)&lt;/Para>
+&lt;/Sect1>
+&lt;Sect1 id="VolumeMute-s">
+&lt;Title id="VolumeMute-t">Turning Off the Sound&lt;/Title>
+&lt;Indexterm>&lt;Primary>volume&lt;Secondary>changing&lt;/Secondary>&lt;/Primary>&lt;/Indexterm>
+&lt;Indexterm>&lt;Primary>sound&lt;Secondary>on/off&lt;/Secondary>&lt;/Primary>&lt;/Indexterm>
+&lt;Para>Speak the command:
+&lt;Programlisting>sound off&lt;/Programlisting>&lt;/Para>
+&lt;Para>To restore the sound, speak the command:
+&lt;Programlisting>sound on&lt;/Programlisting>&lt;/Para>
+&lt;Para>(See also &lt;Link Linkend="VolumeDown-id">VolumeDown&lt;/Link> and &lt;Link Linkend="VolumeUp-id">VolumeUp&lt;/Link>&lt;/Para>
+&lt;/Sect1>
+&lt;/Chapter>
+
+</programlisting>
+</listitem><listitem><para>情報にタイトルを付け、著作権情報とオンライン・ヘルプに関する他の情報を提供するテキスト・ファイルを作成します。
+</para>
+<para>この例では、<filename>Commands.sgm</filename> ファイルと同じディレクトリにある <filename>Metainfo.sgm</filename> という名前のファイルに次のテキストが格納されます。
+</para>
+<programlisting>&lt;DocInfo>
+ &lt;Title> Using the &amp;product;&lt;/Title>
+        &lt;AuthorGroup>&lt;Author>Jim Jonas&lt;/Author>
+                &lt;/AuthorGroup>
+        &lt;Abstract> Help for Using the &amp;product;.
+                &lt;/Abstract>
+        &lt;LegalNotice>
+        &lt;BlockQuote>
+        &lt;para>&amp;copy; 1995 Voice Activation Company.
+        All rights reserved.&lt;/para>
+        &lt;/BlockQuote>
+                &lt;/LegalNotice>
+&lt;/DocInfo>
+
+</programlisting>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="HRDC.OrgH.div.23">
+<title>マスタ DocBook ファイルの作成</title>
+<orderedlist><listitem><para>名前が <symbol role="Variable">volume</symbol><filename>.sgm</filename> の形式になるテキスト・ファイルを作成します。この例では、<filename>voiceact.sgm</filename> というファイル名になっています。</para>
+</listitem><listitem><para><filename>voiceact.sgm</filename> ファイルで、<filename>Commands.sgm</filename> ファイルと <filename>Metainfo.sgm</filename> ファイルの名前とエンティティ名を関連付ける<emphasis>エンティティ</emphasis>を定義します。また、<filename>Commands.sgm</filename> ファイルと <filename>Metainfo.sgm</filename> ファイルで、（直接的または間接的に）使用されているエンティティも定義します。最後に、それぞれのエンティティ名で、<filename>Commands.sgm</filename> ファイルと <filename>Metainfo.sgm</filename> を参照します。</para>
+</listitem></orderedlist>
+<para>この例では、<filename>voiceact.sgm</filename> の内容は、次のようになります。<literal>&lt;!--&hellip;--></literal>内の要素はコメントなので、無視されます。
+</para>
+<programlisting>&lt;!-- Declare an entity for each of the source text files. -->
+&lt;!entity MetaInformation  FILE &ldquo;Metainfo&rdquo;>
+&lt;!entity Commands   FILE &ldquo;Commands&rdquo;>
+
+&lt;!-- Define an entity that names the product and includes
+        the trademark symbol (&amp;tm;). -->
+
+&lt;!entity product &ldquo;VoAc&amp;tm; Voice-Activated Remote Control&rdquo;>
+
+&lt;!-- Include the text files. -->
+&lt;Part>
+&amp;MetaInformation;
+&amp;Commands;
+&lt;/Part></programlisting>
+</sect2>
+<sect2 id="hrdc.orgh.div.25">
+<title>実行時のヘルプ・ファイルの作成</title>
+<orderedlist><listitem><para>端末エミュレータで、次のコマンドを入力し、<filename>/usr/dt/bin</filename> ディレクトリが、検索パスに含まれていることを確認してください。
+</para>
+<para><command>echo $PATH</command></para>
+<para>ディレクトリが検索パスに含まれていない場合には、環境変数PATHに追加してください。やり方がわからない場合には、システムのドキュメンテーションを参照するか、あるいはシステム管理者に問い合わせてください。
+</para>
+</listitem><listitem><para>ファイル・マネージャを開き、<filename>helpfiles</filename> ディレクトリに移動します。<filename>voiceact.sgm</filename> ファイルのアイコンを選択し、ファイル・マネージャの[選択]メニューから[コンパイル]を選択します。
+</para>
+<para>この手順により、実行時のバージョンのオンライン・ヘルプ・ボリューム (<filename>voiceact.sdl</filename>) を作成する DocBook ソフトウェアが実行されます。ステータスとエラー・メッセージが新規ファイルに格納され、<symbol>volume</symbol><filename>.log</filename> という形式の名前付けられます。</para>
+</listitem><listitem><para><filename>voiceact.log</filename> ファイルを開き、エラーもなくファイルが処理されていることを確認します。エラーが発生している場合、必要に応じてテキスト・ファイルの編集および名前の変更を行って修正します。
+</para>
+</listitem></orderedlist>
+<note>
+<para>端末エミュレータで、DocBook を手動で実行することもできます。
+</para>
+<para>そのためには、次のコマンドを実行します。</para>
+<para><command>dtdocbook voiceact.sgm</command></para>
+</note>
+</sect2>
+<sect2 id="hrdc.orgh.div.26">
+<title>ヘルプ・ボリュームの表示</title>
+<para><filename>helpfiles</filename> ディレクトリから、<filename>voiceact.sdl</filename> ファイルのアイコンをダブルクリックします。</para>
+<para>これにより、デスクトップのヘルプ・ビューアを使用してヘルプ・ボリュームが表示されます。情報をスクロールしたり、ハイパーリンクを選択して、関連情報へジャンプできます。
+</para>
+<note>
+<para>端末エミュレータで、ヘルプ・ビューアを手動で実行することもできます。
+</para>
+<para>そのためには、次のコマンドを実行します。新しいヘルプ・ボリュームが表示されます。
+</para>
+<para><command>dthelpview -h voiceact.sdl</command></para>
+</note>
+<sect3 id="hrdc.orgh.div.27">
+<title>関連項目</title>
+<itemizedlist>
+<listitem><para><xref role="PageNum" linkend="hrdc.crhv.mkr.1">の
+<xref role="ChapNumAndTitle" linkend="hrdc.crhv.mkr.1"></para></listitem>
+<listitem><para><xref role="PageNum" linkend="hrdc.cmds.mkr.1">の
+<xref role="ChapNumAndTitle" linkend="hrdc.cmds.mkr.1"></para></listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.28">
+<title id="HRDC.OrgH.mkr.12">トピック階層の作成</title>
+<para>ヘルプ・ボリューム内のトピック階層は、<emphasis>Part</emphasis> から始まります。各ヘルプ・ボリュームには、Part が必ずひとつなければなりません。Part の下にある第１レベルのサブトピックは、&lt;Chapter> タグを付けて入力しなければなりません。</para>
+<para>サブトピックのレベルを追加する場合は、&lt;Sect1>、&lt;Sect2>、&lt;Sect3>、&lt;Sect4>、および &lt;Sect5> のように入力します。DocBook のマークアップ言語は、５つのトピック・レベルをサポートしています。しかし、第3または第4レベルよりも下にある情報は、多くの読者にとってみつけにくいものです。
+</para>
+<para>ヘルプ・ボリュームが表示されたら、ヘルプ・ウィンドウはそのトピック・ツリーにトピックのリストを表示します。&lt;Chapter>、&lt;Sect1>、&lt;Sect2>、&lt;Sect3>、&lt;Sect4>、または &lt;Sect5> がタグが入力されているトピックは、トピック・ツリーに自動的に表示されます。トピックをブラウズし表示するには、この方法が簡単です。
+</para>
+<para>トピック内から他の関連情報を表示するには、ハイパーリンクを作成します。そのためには、それぞれのトピックに固有のIDを割り当て、ハイパーリンクが、ヘルプ情報内のどこでも特定のIDを参照できるようにします。
+</para>
+<sect2 id="HRDC.OrgH.div.29">
+<title>例</title>
+<para>このサンプルに一致する階層を作成したとします。
+</para>
+<programlisting>Tutorial for New Users
+        Module 1: Getting Started
+        Module 2: Creating Your First Report
+        Module 3: Printing the Report
+        Module 4: Saving Your Work and Quitting
+Task Reference
+        Starting and Stopping
+                To Start the Program
+                To Quit the Program
+        Creating Reports
+                To Create a Detailed Report
+                To Create a Summary Report
+Concepts for Advanced Users
+        Using Report Hot Links
+        Sharing Reports within a Workgroup
+Reference
+        Command Summary
+        Report Attributes Summary</programlisting>
+<para>その場合、ヘルプ・ボリュームのマークアップの概要は、次のようになります。（各トピックの本文や各トピックのIDは省略します。）
+</para>
+<programlisting>&lt;Part>
+&lt;title>Welcome to ReportMaster&lt;/title>
+
+&lt;chapter>
+        &lt;title>Tutorial for New Users&lt;/title>
+        overview of chapter topic
+        &lt;sect1>
+        &lt;title>Module 1: Getting Started&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Module 2: Creating Your First Report&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Module 3: Printing the Report&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Module 4: Saving Your Work and Quitting&lt;/title>
+                body of topic
+                &lt;/sect1>
+&lt;/chapter>
+
+&lt;chapter>
+        &lt;title>Task Reference&lt;/title>
+        overview of chapter topic
+&lt;sect1>
+        &lt;title>Starting and Stopping&lt;/title>
+        body of topic
+        &lt;sect2>
+                &lt;title>To Start the Program&lt;/title>
+                body of topic
+                &lt;/sect2>
+        &lt;sect2>
+                &lt;title>To Quit the Program&lt;/title>
+                body of topic
+                &lt;/sect2>
+&lt;sect1>
+        &lt;title>Creating Reports&lt;/title>
+        body of topic
+        &lt;sect2>
+                &lt;title>To Create a Detailed Report&lt;/title>
+                body of topic
+                &lt;/sect2>
+        &lt;sect2>
+                &lt;title>To Create a Summary Report&lt;/title>
+                body of topic
+                &lt;/sect2>
+        &lt;/sect1>
+&lt;/chapter>
+
+&lt;chapter>
+        &lt;title>Concepts for Advanced Users&lt;/title>
+        overview of chapter topic
+        &lt;sect1>
+        &lt;title>Using Report Hot Links&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Sharing Reports within a Workgroup&lt;/title>
+                body of topic
+                &lt;/sect1>
+&lt;/chapter>
+
+&lt;chapter>
+        &lt;title>Reference&lt;/title>
+        overview of chapter topic
+        &lt;sect1>
+        &lt;title>Command Summary&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Report Attributes Summary&lt;/title>
+                body of topic
+                &lt;/sect1>
+&lt;/chapter>
+&lt;/part></programlisting>
+<para>各トピックの本体およびトピックのIDは、示していません。空白およびインデントは、読みやすくするためであり、実効性はありません。
+</para>
+<sect3 id="HRDC.OrgH.div.30">
+<title>関連項目</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.OrgH.mkr.18">では、トピックへのIDの割り当てについて説明しています。
+</para>
+</listitem><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.WrTop.mkr.14">では、ハイパーリンクの作成方法について説明しています。
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="hrdc.orgh.div.31" role="Procedure">
+<title id="hrdc.orgh.mkr.13">パートを作成するには</title>
+<itemizedlist><listitem><para>次のように Part 要素を使用します。</para>
+</listitem></itemizedlist>
+<programlisting>&lt;Part>
+        &lt;DocInfo>
+                &lt;Title>Volume Title&lt;/Title>
+                &lt;AuthorGroup>
+                        &lt;Author>author's name here&lt;/Author>
+                &lt;/AuthorGroup>
+                &lt;Abstract>
+                        &lt;Para>abstract here&lt;/Para>
+                &lt;/Abstract>
+                &lt;LegalNotice>
+                        &lt;BlockQuote>
+                        &lt;Para>copyrights etc. &lt;/Para>
+                        &lt;/BlockQuote>
+                &lt;/LegalNotice>
+        &lt;/DocInfo>
+        &lt;Title>Volume Title&lt;/Title>
+        &lt;/PartIntro>&lt;Para>This is the home topic.&lt;/Para>&lt;/PartIntro>
+        &lt;Chapter Id="chapid">
+                &lt;Title>This Chapter&lt;/Title>
+                &lt;Sect1 Id="sect1id">
+                        &lt;Title>Sect1 Heading&lt;/Title>
+                        &lt;Sect2 Id="sect2id">
+                                &lt;Title>Sect2 Heading&lt;/Title>
+                ...
+                ...
+                ...
+                        &lt;/sect2>
+                &lt;/sect1>
+        &lt;/chapter>
+&lt;/Part>
+
+</programlisting>
+<para>パートには、オプションの DocInfo、必須の Title、オプションの TitleAbbrev、オプションの PartIntro、および Chapter または Section のような他のブック・コンポーネントをひとつまたはそれ以上、この順序で、含めることが可能です。
+</para>
+<para>DocInfo が存在する場合、ヘルプ・ボリュームの Title は、２回現われることに注意してください。ひとつは、DocInfo 中であり、DocInfo に続く最初の要素として、もう一度現われます。
+</para>
+<sect3 id="hrdc.orgh.div.32">
+<title>例</title>
+<para>ここに示すのは、パートの４つのサブトピックへのハイパーリンクがある、PartIntro 付きの Part の例です。
+</para>
+<programlisting>
+&lt;/Part>
+&lt;title>Report Master&lt;/title>
+&lt;PartIntro>
+&lt;Para>Welcome to the online help for Report Master. Please choose one of the following hyperlinks:&lt;/Para>
+&lt;itemizedlist>
+&lt;listitem>&lt;para>&lt;Link Linkend="Tutorial-id">Tutorial&lt;/Link> &lt;/para>&lt;/listitem>
+&lt;listitem>&lt;para>&lt;Link Linkend="Tasks-id">Tasks&lt;/Link>&lt;/para>&lt;/listitem>
+        &lt;listitem>&lt;para>&lt;Link Linkend="Concepts-id">VolumeDown&lt;/Link>&lt;/para>&lt;/listitem>
+        &lt;listitem>&lt;para>&lt;Link Linkend="Reference-id">VolumeMute&lt;/Link>&lt;/para>&lt;/listitem>
+&lt;/itemizedlist>.
+&lt;Para>If you need help, press F1.&lt;/Para>
+&lt;/PartIntro>
+...
+&lt;/Part></programlisting>
+<para>上記のマークアップの出力は、次のとおりです。
+</para>
+<graphic id="hrdc.orgh.igrph.2" entityref="HRDC.OrgH.fig.4"></graphic>
+</sect3>
+</sect2>
+<sect2 id="hrdc.orgh.div.33" role="Procedure">
+<title id="hrdc.orgh.mkr.14">トピックを階層に追加するには</title>
+<itemizedlist><listitem><para>別のトピックを同じレベルに追加するには、その終了タグで要素を閉じ、その開始タグで開くことによって同じ要素を繰り返します。
+</para>
+<para>サブトピック（階層内でさらに１レベル下のトピック）を追加するには、前のトピックよりも１レベル下にある要素を使用します。
+</para>
+</listitem></itemizedlist>
+<sect3 id="hrdc.orgh.div.34">
+<title>例</title>
+<para>現在のトピックが &lt;Sect1> である場合、&lt;Sect2> を使用してサブトピックを入力します。
+</para>
+<programlisting>&lt;sect1>
+        &lt;title>Creating Reports&lt;/title>
+        body of the topic
+        &lt;sect2>
+                &lt;title>To Create a Detailed Report&lt;/title>
+                body of the first subtopic
+                &lt;/sect2>
+        &lt;sect2>
+                &lt;title>To Create a Summary Report&lt;/title>
+                body of the second subtopic
+                &lt;/sect2>
+&lt;/sect1></programlisting>
+<para>２番目の Sect2 も Sect1 のサブトピックです。</para>
+<note>
+<para>親子兄弟のメタファは、階層内のトピック間の関係を、記述するのに使用されることもあります。前の例では、Sect1 トピックは両方の Sect2（子トピック）の「親」です。２つの Sect2 は、お互いに「兄弟」になります。３つのすべてのトピックは、Chapter のトピックの「子孫」です。
+</para>
+</note>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.35">
+<title id="HRDC.OrgH.mkr.15">メタ情報トピックの作成</title>
+<para>DocInfo メタ情報セクションは、おもに<emphasis>情報に関する情報</emphasis>を記述しています。DocBook マークアップ言語によるヘルプ・ボリュームのメタ情報は、Part の最初のコンポーネントとして現われる DocInfo 要素に含まれます。DocInfo は、ヘルプ・ボリュームのタイトルと著者を含み、著作権と商標に関する法的な注意事項、およびボリュームの内容の要約を含むことも可能です。
+</para>
+<para>DocInfo は、次の要素を次の順序で含むことが可能です。</para>
+<itemizedlist><listitem><para>Title (必須)</para>
+</listitem><listitem><para>TitleAbbrev (任意)</para>
+</listitem><listitem><para>Subtitle (任意)</para>
+</listitem><listitem><para>ひとつまたは複数の AuthorGroups (必須)</para>
+</listitem><listitem><para>複数の Abstracts (任意)</para>
+</listitem><listitem><para>ひとつの RevHistory (任意)</para>
+</listitem><listitem><para>複数の LegalNotices (任意)</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.OrgH.div.36" role="Procedure">
+<title id="HRDC.OrgH.mkr.16">メタ情報セクションを作成するには</title>
+<orderedlist><listitem><para>次に示すように、セクションを開始するために &lt;DocInfo>、続けて必須の Title 要素を入力します。
+</para>
+<programlisting>&lt;DocInfo>
+        &lt;title><symbol>Volume Title Here</symbol>&lt;/title>
+
+</programlisting>
+</listitem><listitem><para>必要ならば、オプションの TitleAbbrev および Subtitle 要素を入力します。
+</para>
+</listitem><listitem><para>必須の AuthorGroup 要素を入力します。これは、ひとつまたは複数の Authors、Collabs、および CorpAuthors を含みますが、順序は任意です
+</para>
+</listitem><listitem><para>必要ならば、シンタクス・モデルにしたがって、オプションの Abstract および LegalNotice 要素を入力します。
+</para>
+<programlisting>&lt;Abstract Id="SDL-RESERVED-abstract">
+        &lt;Para>abstract here&lt;/Para>
+&lt;/Abstract>
+
+&lt;LegalNotice Id="SDL-RESERVED-copyright">
+        &lt;BlockQuote>
+                &lt;Para>&copy; year &amp; copyright holder's name&lt;/Para>
+        &lt;/BlockQuote>
+&lt;/LegalNotice>
+
+</programlisting>
+</listitem><listitem><para>セクションを終了させるために、DocInfo 終了タグを入力します。
+</para>
+</listitem></orderedlist>
+<para>Abstract セクションの使用を推奨します。ヘルプ・ボリュームにアクセスするアプリケーションは、この情報を使用してボリュームの簡単な説明を行います。その抜粋は単純なテキスト・ウィンドウに表示される可能性があるので、DocBook のマークアップを取り込まないようにしてください。
+</para>
+<sect3 id="HRDC.OrgH.div.37">
+<title>例</title>
+<para>ここに示すのは、DocInfo 要素に含まれる典型的なメタ情報セクションのマックアップです。
+</para>
+<programlisting>
+&lt;DocInfo>
+&lt;title>Report Master, Version 1.0&lt;/title>
+
+&lt;AuthorGroup>
+        &lt;Author>Jim Jonas&lt;/Author>
+&lt;/AuthorGroup>
+
+&lt;Abstract>
+        &lt;Para>This is the online help for the mythical Report Master application. This help includes a self-guided tutorial, a summary of common tasks, general concepts, and quick reference summaries.&lt;/Para>
+&lt;/Abstract>
+
+&lt;LegalNotice>
+        &lt;BlockQuote>
+                &lt;Para>
+        Version 1.0
+        &amp;copy; Copyright Reports Incorporated 1995
+        All rights reserved.
+                &lt;/Para>
+        &lt;/BlockQuote>
+&lt;/LegalNotice>
+&lt;/DocInfo></programlisting>
+<para>BlockQuite 要素は、著作権表示の改行を維持するために使用されます。<literal>&amp;copy;</literal> エンティティは、著作権のシンボルを挿入します。
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.39">
+<title>非階層トピックの追加</title>
+<para>Chapter または Sect1、Sect2、Sect3、Sect4、Sect5 の要素タグが入力されているトピックは、自動的にトピック・ツリーに表示されます。タイトルがトピック・ツリーで選択されると、対応するヘルプ・トピックが一般ヘルプ・ダイアログ・ボックスに表示されます。
+</para>
+<para>しかし、すでに作成されているトピック階層からは独立しているトピックを作成および表示したい場合もあります。これらの非階層トピックは、簡易ヘルプ・ダイアログ・ボックスにトピックを表示するカスタム定義リンクを作成する場合に有用です。
+</para>
+<para>Appendix は、Sect 階層に結合されていないフリー・フロート・ヘッディングのためのタグです。これには、インライン要素を含めることが可能です。
+</para>
+<para>Appendix は、ID属性、XRefLabel 属性、および Lable 属性も含む共通の属性をもちます。非階層トピックのために Appendix 要素を使用する場合、Role 属性の値は、&ldquo;notoc&rdquo; にすべきです。</para>
+<sect2 id="hrdc.orgh.div.40" role="Procedure">
+<title id="hrdc.orgh.mkr.17">非階層トピックを追加するには</title>
+<itemizedlist><listitem><para>次のようにして、BridgeHead 要素を使用して、非階層トピックを追加します。
+</para>
+<programlisting>&lt;Appendix id="bh-some-id" role="notoc">
+        <symbol>text of the topic</symbol>
+&lt;/Appendix></programlisting>
+</listitem></itemizedlist>
+<para>前提として、このトピックを表示する定義リンクが、ヘルプ・ボリューム中の他のトピック内に存在するものとします。
+</para>
+<para>リンクは、以下に示すようになります。</para>
+<programlisting>Here's a sample of a pop-up &lt;link linkend="bh-some-id">
+definition link.&lt;/link></programlisting>
+<para>語句 &ldquo;definition link&rdquo; が実際のハイパーリンクであり、破線の下線で表示されます。リンクを選択すると、簡易ヘルプ・ダイアログ・ボックスにトピックのテキストが表示されます。
+</para>
+<sect3 id="hrdc.orgh.div.42">
+<title>関連項目</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="hrdc.wrtop.mkr.14"></para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.43">
+<title id="HRDC.OrgH.mkr.18">トピックへのアクセス</title>
+<para>DocBook 言語の多くの要素は、ID属性をサポートしています。IDは、トピックとトピック内の要素を識別するために内部的に使用される独自の名前です。IDは、DocBook の共通属性のひとつなので、共通属性をもつ要素は、すべてID属性をサポートすることができます。
+</para>
+<para>IDは、一度しか定義されませんが、複数のハイパーリンクと相互参照は同じIDを参照できます。IDは、ユーザには見えません。
+</para>
+<para>アプリケーションのヘルプを記述している場合、ユーザがヘルプを要求したときに表示される特定のトピックを識別するために、アプリケーションがIDを使用することもあります。
+</para>
+<para>たとえば、アプリケーションのメニューを説明するいくつかのトピックを記述する場合などです。トピックに割り当てるIDは、アプリケーションの開発者によって使用されます。アプリケーション・コード内に同一のIDを定義することにより、開発者は特定のトピックを統合することができます。これにより、アプリケーションは、特定のメニューに関してヘルプが要求されたときに正しいトピックへアクセスし、表示することができます。
+</para>
+<sect2 id="HRDC.OrgH.div.44">
+<title>ID名に関する規則</title>
+<itemizedlist><listitem><para>ID文字列は、英字（AからZとaからz）、数字（0から9）、ピリオド（.）、およびマイナス記号（-）から成ります。ID文字列は、必ず英字で始まり、少くともそれらが現われるドキュメント内で一意でなければなりません。
+</para>
+</listitem><listitem><para>ID文字列では大文字・小文字の区別が<emphasis>ありません</emphasis>が、可読性を向上させるために、しばしば使用されます。
+</para>
+</listitem><listitem><para>ID文字列の長さは、128文字以内です。
+</para>
+</listitem><listitem><para>単一のヘルプ・ボリューム内の各IDは、一意でなければなりません。
+</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.OrgH.div.44a">
+<title>組み込みID</title>
+<para>組み込みIDをもっている要素は、数個ありますが、設計者定義IDをサポートしていません。次の要素のそれぞれも新しいトピックを開始しますが、これらの要素は定義済みID（括弧内のもの）を持っています。
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="264*">
+<colspec colwidth="264*">
+<tbody>
+<row>
+<entry align="left" valign="top">&lt;PartIntro></entry>
+<entry align="left" valign="top">( _hometopic)</entry></row>
+<row>
+<entry align="left" valign="top">&lt;LegalNotice> in &lt;DocInfo></entry>
+<entry align="left" valign="top">( _copyright)</entry></row>
+<row>
+<entry align="left" valign="top">&lt;Abstract> in &lt;DocInfo></entry>
+<entry align="left" valign="top">( _abstract)</entry></row>
+<row>
+<entry align="left" valign="top">&lt;Glossary></entry>
+<entry align="left" valign="top">( _glossary)</entry></row>
+<row>
+<entry align="left" valign="top">&lt;Title> in &lt;DocInfo></entry>
+<entry align="left" valign="top">( _title)</entry></row></tbody></tgroup>
+</informaltable>
+</sect2>
+<sect2 id="HRDC.OrgH.div.45" role="Procedure">
+<title id="HRDC.OrgH.mkr.19">DocBook 要素にIDを追加するには</title>
+<itemizedlist><listitem><para>次のように、要素の開始タグ内にIDを指定します。</para>
+<programlisting>&lt;Element ID="<symbol>id-string</symbol>"></programlisting>
+<para>ID文字列の値は、引用符で囲むことに注意してください。
+</para>
+</listitem></itemizedlist>
+<para>共通属性をもつすべての DocBook 要素は、設計者定義IDをサポートします。それらの DocBook 要素を次に示します。
+</para>
+<itemizedlist><listitem><para>Abbrev</para>
+</listitem><listitem><para>Abstract</para>
+</listitem><listitem><para>Anchor</para>
+</listitem><listitem><para>Appendix</para>
+</listitem><listitem><para>Author</para>
+</listitem><listitem><para>BlockQuote</para>
+</listitem><listitem><para>BridgeHead</para>
+</listitem><listitem><para>Chapter</para>
+</listitem><listitem><para>ComputerOutput</para>
+</listitem><listitem><para>CorpAuthor</para>
+</listitem><listitem><para>DocInfo</para>
+</listitem><listitem><para>Entry</para>
+</listitem><listitem><para>EntryTbl</para>
+</listitem><listitem><para>Example</para>
+</listitem><listitem><para>Figure</para>
+</listitem><listitem><para>Glossary</para>
+</listitem><listitem><para>GlossDiv</para>
+</listitem><listitem><para>GlossEntry</para>
+</listitem><listitem><para>GlossTerm</para>
+</listitem><listitem><para>Graphic</para>
+</listitem><listitem><para>Index</para>
+</listitem><listitem><para>IndexDiv</para>
+</listitem><listitem><para>IndexEntry</para>
+</listitem><listitem><para>InformalTable</para>
+</listitem><listitem><para>ItemizedList</para>
+</listitem><listitem><para>KeyCap</para>
+</listitem><listitem><para>LiteralLayout</para>
+</listitem><listitem><para>OrderedList</para>
+</listitem><listitem><para>Part</para>
+</listitem><listitem><para>PrimaryIE</para>
+</listitem><listitem><para>ProgramListing</para>
+</listitem><listitem><para>Quote</para>
+</listitem><listitem><para>RefEntry</para>
+</listitem><listitem><para>Reference</para>
+</listitem><listitem><para>Screen</para>
+</listitem><listitem><para>Sect1 - Sect5</para>
+</listitem><listitem><para>See</para>
+</listitem><listitem><para>SeeAlso</para>
+</listitem><listitem><para>SeeIE</para>
+</listitem><listitem><para>Seg</para>
+</listitem><listitem><para>SegListItem</para>
+</listitem><listitem><para>SegmentedList</para>
+</listitem><listitem><para>SegTitle</para>
+</listitem><listitem><para>Sidebar</para>
+</listitem><listitem><para>SpanSpec</para>
+</listitem><listitem><para>Table</para>
+</listitem><listitem><para>TBody</para>
+</listitem><listitem><para>TFoot</para>
+</listitem><listitem><para>TGroup</para>
+</listitem><listitem><para>Term</para>
+</listitem><listitem><para>Title</para>
+</listitem><listitem><para>TitleAbbrev</para>
+</listitem><listitem><para>ToC</para>
+</listitem><listitem><para>UserInput</para>
+</listitem><listitem><para>VariableList</para>
+</listitem><listitem><para>VarListEntry</para>
+</listitem></itemizedlist>
+<para>ID指定をサポートする DocBook 要素のID指定に加えて、ドキュメント中の参照点にIDを設定するために、Anchor 要素を使用することができます。このとき、Anchor は、Linkend 属性の値として Anchor のID文字列を指定する Link のためのターゲットをマークすることができます。Anchor はインライン要素で、ほとんどすべての場所に現われることが可能です。Anchor は、空要素であり、内容はもちません。
+</para>
+<para>Anchor は、ID、Pagenum、Remap、Role、および XRefLabel 属性をもつことができますが、ID属性のみ必須です。最低限、Anchor の開始タグは、IDをともなって現われなければなりません。
+</para>
+<para>位置IDへのリンクを選択すると、ヘルプ・ビューアは、IDを含むトピックを表示し、IDの位置までウィンドウをスクロールします。
+</para>
+<sect3 id="HRDC.OrgH.div.45a">
+<title>Anchor要素のシンタクス</title>
+<programlisting>&lt;anchor id="<symbol>id-string</symbol>"></programlisting>
+</sect3>
+<sect3 id="HRDC.OrgH.div.45b">
+<title>Anchor 要素の例</title>
+<programlisting>There is an Anchor <symbol>&lt;anchor id=&ldquo;077-ch02-AN-7&rdquo;></symbol> in this sentence.</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.49">
+<title id="HRDC.OrgH.mkr.22">エンティティの使い方</title>
+<para><emphasis>エンティティ</emphasis>には、文字列とファイルの内容を指定することができます。
+</para>
+<para><emphasis>エンティティ宣言</emphasis>は、エンティティ名と特定の文字列やファイル名とを関連付けることによりエンティティを定義します。
+</para>
+<para><emphasis>エンティティの参照</emphasis>は、<command>dtdocbook</command> で、ヘルプ・ボリュームを処理すると文字列やファイルの内容に置き換えられます。
+</para>
+<para>エンティティは、次のときに有用です。</para>
+<itemizedlist><listitem><para><emphasis>テキストの共通の文字列を参照する。</emphasis>これは、引き続く類似テキストを変更したり、繰り返し入力したくないような場合に有用です。 
+</para>
+<para>一度、テキストを表すエンティティを宣言すれば、テキストを挿入したいところで、エンティティ名を参照すれば済みます。
+</para>
+</listitem><listitem><para><emphasis>外部ファイル、特にグラフィック・ファイルを参照する。</emphasis>エンティティは、グラフィック・ファイルへのアクセス方法のひとつを提供します。
+</para>
+<para>Graphic 要素は、その属形を通じて、グラフィック・データを含む外部ファイルを指します。
+</para>
+<para>グラフィック・データを含むファイルは、必要ならばパス名を付加したファイル名を値とする Graphic の Fileref 属性を使用することによって、指定することができます。
+</para>
+<para>また、グラフィック・データを含むファイルが、エンティティを宣言している場合は、エンエィティ名を値とする Graphic の Entityref 属性を使用することによって、指定することができます。
+</para>
+</listitem></itemizedlist>
+<para>File エンティティも、DocBook のソースを複数のファイルに分割するときに有用です。処理中のマスタ DocBook ファイルに他のファイルを取り込むには、エンティティの参照を使用します。
+
+</para>
+<sect2 id="HRDC.OrgH.div.50">
+<title><emphasis>エンティティの宣言に関する規則</emphasis></title>
+<itemizedlist><listitem><para>エンティティ名は、英字（AからZとaからz）、数字（0から9）、ビリオド（.）、およびマイナス記号（-）から成り、必ず英字で始まります。
+</para>
+</listitem><listitem><para>エンティティ名は、大文字でも小文字でも<emphasis>意味は変わりません</emphasis>が、読みやすいように使い分けてください。
+</para>
+</listitem><listitem><para>エンティティ名の長さは、128文字以内です。
+</para>
+</listitem><listitem><para>各エンティティ名は、単一のボリューム内では一意でなければなりません。
+</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.OrgH.div.51" role="Procedure">
+<title id="HRDC.OrgH.mkr.23">テキスト・エンティティを作成するには</title>
+<orderedlist><listitem><para>次のようにエンティティを宣言します。
+</para>
+<programlisting>&lt;!entity <symbol>Entityname</symbol> "<symbol>text string</symbol>"></programlisting>
+<para><symbol>Entityname</symbol> は、エンティティの名前で、<symbol>text string</symbol> は、エンティティへの各参照に代わる文字列です。<emphasis>すべてのエンティティの宣言が、ヘルプ・ボリュームの文書型宣言に含まれなければならないことに注意してください。</emphasis></para>
+</listitem><listitem><para><symbol>text string</symbol>を挿入したい各位置には、次のようにエンティティの参照を入力します。
+</para>
+<programlisting><symbol>&amp;Entityname;</symbol></programlisting>
+<para><literal>&amp;</literal> (アンパサンド) と <literal>;</literal> (セミコロン) は、DocBook ソフトウェアがエンティティの参照を適切に認識するために必要です。
+</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.OrgH.div.52">
+<title>例</title>
+<para>次の行は、&ldquo;Society of Agricultural Engineers&rdquo; という文字列が入っているAssocという名前のテキスト・エンティティを宣言しています。
+</para>
+<programlisting>&lt;!entity Assoc "Society of Agricultural Engineers"></programlisting>
+<para>次の文には、エンティティへの参照が記述されています。
+</para>
+<programlisting>Welcome to the &amp;Assoc;.</programlisting>
+<para>ヘルプ・ボリュームが DocBook ソフトウェアで処理されると、エンティティの参照は、エンティティの値に置き換えられます。そのため、文は次のように表示されます。
+</para>
+<para>Welcome to the Society of Agricultural Engineers.</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.OrgH.div.53" role="Procedure">
+<title id="HRDC.OrgH.mkr.24">ファイル・エンティティを作成するには</title>
+<orderedlist><listitem><para>次のようにエンティティを宣言します。
+</para>
+<programlisting>&lt;!entity <symbol role="Variable">Entityname</symbol> SYSTEM "<symbol role="Variable">filename</symbol>"></programlisting>
+<para><symbol role="Variable">Entityname</symbol> は、エンティティの名前で、<symbol>filename</symbol> は、ファイルの名前です。キーワード <Symbol>SYSTEM</Symbol> は必須です。</para>
+</listitem><listitem><para>次のようにエンティティを参照します。</para>
+<itemizedlist><listitem><para>ファイルがテキスト・ファイルの場合、ファイルの内容を挿入したい各位置に次のエンティティの参照を入力します。
+</para>
+<programlisting><symbol>&amp;Entityname;</symbol></programlisting>
+<para>&amp; (アンパサンド) と ; (セミコロン) の文字は、DocBook ソフトウェアがエンティティの参照を適切に認識するために必要です。
+</para>
+</listitem><listitem><para>ファイルがグラフィック・ファイルの場合、Entityref 属性の値として、次のようにエンティティの名前を入れます。
+</para>
+<programlisting>&lt;Graphic ID="<symbol>some-graphic-id</symbol>"Entityref=" <symbol>Entityname</symbol>">&lt;/Graphic></programlisting>
+</listitem></itemizedlist>
+</listitem></orderedlist>
+<sect3 id="HRDC.OrgH.div.54">
+<title>例:テキスト・ファイル・エンティティ</title>
+<para><filename>file1</filename>、<filename>file2</filename>、および <filename>file3</filename> という名前の３つのファイルと、&lt;docinfo> &hellip; &lt;/docinfo> セクションがある４番目のファイルに、ヘルプ・ボリュームのテキストを記述したとします。次のようにして４つのファイルを <symbol>volume</symbol><filename>.sgm</filename> ファイルに取り込むことができます。
+</para>
+<programlisting>&lt;!DOCTYPE DOCBOOK [
+&lt;!entity DocInformation SYSTEM "docinfo">
+&lt;!entity MyFirstFile SYSTEM "file1">
+&lt;!entity MySecondFile SYSTEM "file2">
+&lt;!entity MyThirdFile SYSTEM "file3">
+.<?Pub Caret>..
+>]
+
+&lt;Part>
+&amp;DocInformation;
+&lt;Title>My Home Title&lt;/Title>
+
+&amp;MyFirstFile;
+&amp;MySecondFile;
+&amp;MyThirdFile;</programlisting>
+</sect3>
+<sect3 id="HRDC.OrgH.div.55">
+<title>例:グラフィック・ファイル・エンティティ</title>
+<para>単一のヘルプ・ボリュームのPartに図があり、図のグラフィック・イメージが <filename>picture.tif</filename> という名前のファイルに格納されているとします。次の例は、そのイメージが図でどのように使用されているかを示しています。
+</para>
+<programlisting>&lt;!DOCTYPE DOCBOOK [
+&lt;!entity DocInformation SYSTEM &ldquo;docinfo&rdquo;>
+&lt;!entity MyPicture SYSTEM &ldquo;picture.tif&rdquo;>
+...
+]>
+&lt;Part>
+&amp;DocInformation;
+&lt;PartIntro>&lt;Title>A Simple Graphic&lt;/Title>
+&lt;Para>Welcome to my application's help volume.&lt;/Para>
+&lt;/Part>
+&lt;Figure>
+&lt;Title>A Picture&lt;/Title>
+&lt;Graphic entityref="MyPicture"> &lt;/Graphic>
+&lt;/Figure>
+&lt;/PartIntro>
+&lt;/Part>
+
+</programlisting>
+<para>テキスト &ldquo;A Picture&rdquo; は、図のタイトルです。
+</para>
+<para>マークアップの出力は、次のとおりです。
+</para>
+<graphic id="HRDC.OrgH.igrph.3" entityref="HRDC.OrgH.fig.5"></graphic>
+</sect3>
+<sect3 id="HRDC.OrgH.div.56">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="SecTitleAndPageNum"
+linkend="HRDC.WrTop.mkr.23"></para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub *0000055796>

@@ -1,0 +1,53 @@
+XCOMM $XConsortium: Imakefile /main/3 1996/07/17 12:21:51 rws $
+
+#ifdef IBMArchitecture
+EXTRA_DEFINES = -Dvfork=fork
+#endif
+
+PROG1=sgmls
+SRCS1=lexrf.c pcbrf.c synrf.c context.c md1.c md2.c pars1.c pars2.c serv.c \
+      sgml1.c sgml2.c sgmlmsg.c sgmlxtrn.c traceset.c entgen.c sgmlio.c \
+      xfprintf.c main.c unixproc.c sgmldecl.c version.c strerror.c getopt.c \
+      msgcat.c lineout.c ambig.c exclude.c lextaba.c
+
+OBJS1=lexrf.o pcbrf.o synrf.o context.o md1.o md2.o pars1.o pars2.o serv.o \
+      sgml1.o sgml2.o sgmlmsg.o sgmlxtrn.o traceset.o entgen.o sgmlio.o \
+      xfprintf.o main.o unixproc.o sgmldecl.o version.o strerror.o getopt.o \
+      msgcat.o lineout.o ambig.o exclude.o lextaba.o
+
+PROG2=sgmlsasp
+OBJS2=sgmlsasp.o replace.o sgmls.o strerror.o getopt.o
+SRCS2a=sgmlsasp.c replace.c sgmls.c 
+SRCS2=$(SRCS2a) strerror.c getopt.c
+
+PROG3=rast
+SRCS3a=rast.c
+SRCS3=$(SRCS3a) sgmls.c strerror.c
+OBJS3=rast.o sgmls.o strerror.o getopt.o
+
+XCOMM Not build for now...
+PROG4=genlex
+SRCS4a=genlex.c ebcdic.c
+SRCS4=$(SRCS4a) lextaba.c lexrf.c
+OBJS4=genlex.o ebcdic.o lextaba.o lexrf.o
+
+XCOMM SRCS=$(SRCS1) $(SRCS2a) $(SRCS3a) $(SRCS4a) lextabe.c
+
+HDRS=action.h adl.h entity.h error.h etype.h sgmldecl.h keyword.h lextoke.h \
+     msg.h sgmlaux.h sgmlfnsm.h sgmlincl.h sgmlmain.h lineout.h sgmlxtrn.h \
+     source.h synxtrn.h tools.h trace.h context.h getopt.h msgcat.h std.h \
+     appl.h sgmls.h sgmlsasp.h replace.h lexcode.h latin1.h ebcdic.h
+
+PROGRAMS = $(PROG1) $(PROG2) $(PROG3)
+
+#ifdef USLArchitecture
+/* work around likely optimizer problem */
+context.o: context.c
+	RemoveFile($@)
+	ClearmakeOSName
+	$(CC) -c $(CCOPTIONS) $(THREADS_CFLAGS) $(ALLDEFINES) $*.c
+#endif
+
+ComplexProgramTarget_1(sgmls,,)
+ComplexProgramTarget_2(sgmlsasp,,)
+ComplexProgramTarget_3(rast,,)

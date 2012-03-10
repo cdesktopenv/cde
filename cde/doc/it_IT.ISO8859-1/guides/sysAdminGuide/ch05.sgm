@@ -1,0 +1,1253 @@
+<!-- $XConsortium: ch05.sgm /main/9 1996/12/21 19:19:12 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<?Pub Caret>
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.clsrv.div.1">
+<title id="sag.clsrv.mkr.1">Configurazione del desktop in una rete</title>
+<para><indexterm><primary>&lt;</primary></indexterm><indexterm><primary>$nopage>rete</primary><secondary>Vedere anche server[rete</secondary><tertiary>aaa]</tertiary>
+</indexterm>Il desktop &egrave; concepito per operare efficacemente in ambienti
+di rete. La sua architettura permette agli amministratori di sistema di distribuire
+sull'intera rete tutte le risorse di elaborazione, inclusi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Applicazioni.</para>
+</listitem>
+<listitem><para>File di dati per le applicazioni.</para>
+</listitem>
+<listitem><para>Servizi per le sessioni del desktop (applicazioni come la
+Gestione del login e la Gestione di file).</para>
+</listitem>
+<listitem><para>Servizi di aiuto. I file contenenti le informazioni
+di aiuto possono essere collocati in un server centrale.</para>
+<informaltable id="sag.clsrv.itbl.1" frame="all">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.62in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Introduzione
+alle funzioni di rete del desktop--><!--86'--><xref role="JumpText" linkend="sag.clsrv.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Procedure
+generali per la configurazione delle--><!-- funzioni di rete del desktop90'--><xref
+role="JumpText" linkend="sag.clsrv.mkr.5"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Configurazione
+dei servizi di rete del sistema--><!-- operativo per il desktop90'--><xref
+role="JumpText" linkend="sag.clsrv.mkr.6"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Configurazione
+dei sistemi client e server per--><!-- il desktop94'--><xref role="JumpText"
+linkend="sag.clsrv.mkr.9"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Amministrazione
+dei servizi per le applicazion--><!--i100'--><xref role="JumpText" linkend="sag.clsrv.mkr.15"></para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+<sect1 id="sag.clsrv.div.2">
+<title id="sag.clsrv.mkr.2">Introduzione alle funzioni di rete del desktop<indexterm>
+<primary>rete</primary><secondary>introduzione</secondary></indexterm><indexterm>
+<primary>client-server, Vedere rete&lt;</primary></indexterm><indexterm><primary>$nopage></primary></indexterm></title>
+<para>Il sistema operativo offre una serie di servizi di rete, inclusi i file
+system distribuiti e l'esecuzione remota. I server X delle finestre forniscono
+ulteriori funzionalit&agrave; di rete, come l'accesso ai video remoti e ai
+servizi di sicurezza.</para>
+<para>Il desktop sovrappone un'interfaccia utente a queste funzionalit&agrave;,
+la cui architettura ha lo scopo di rendere i sistemi in rete:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pi&ugrave; facili da usare.
+Gli utenti possono avviare le applicazioni e accedere ai dati senza doversi
+preoccupare della loro posizione effettiva nella rete.</para>
+</listitem>
+<listitem><para>Pi&ugrave; facili da amministrare. Il desktop comprende
+strumenti di integrazione delle applicazioni e percorsi di ricerca a livello
+di rete che permettono ai sistemi di localizzare facilmente i dati e le applicazioni
+remote. Inoltre, il processo di mappatura dei nomi dei file del desktop semplifica
+l'amministrazione di reti complesse con numerosi server.</para>
+</listitem>
+<listitem><para>Flessibili. Anche se le funzioni di amministrazione
+del desktop sono state concepite per le situazioni di rete pi&ugrave; comuni,
+esso pu&ograve; supportare molte altre configurazioni di rete personalizzate.
+</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.clsrv.div.3">
+<title>Tipi di servizi di rete del desktop<indexterm><primary>rete</primary>
+<secondary>tipi di servizi</secondary></indexterm></title>
+<para>Il collegamento in rete permette a un utente che lavora su un determinato
+sistema di accedere a una serie di servizi di elaborazione distribuiti su
+altri sistemi, come:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>La sessione del desktop e le
+sue applicazioni &mdash; ad esempio, la Gestione dello spazio di lavoro e
+la Gestione di file</para>
+</listitem>
+<listitem><para>Altre applicazioni</para>
+</listitem>
+<listitem><para>File di dati</para>
+</listitem>
+</itemizedlist>
+<para>Nelle reti si utilizza il termine<indexterm><primary>server</primary>
+<secondary>definizione</secondary></indexterm> <symbol role="Variable">server</symbol> per indicare un sistema che fornisce servizi di elaborazione ad
+altri sistemi. Viceversa, i sistemi che ricevono un servizio da un server
+vengono detti<indexterm><primary>client</primary><secondary>definizione</secondary>
+</indexterm> <symbol role="Variable">client</symbol> di quel server.</para>
+<para>In una rete complessa, &egrave; possibile che un sistema utilizzi vari
+servizi residenti su diversi sistemi della rete. Inoltre, &egrave; possibile
+che uno stesso sistema operi come server per determinate funzioni (ad esempio
+come server di sessioni) e come client per altre (ad esempio di un server
+di applicazioni).</para>
+</sect2>
+<sect2 id="sag.clsrv.div.4">
+<title>Configurazioni di rete tipiche</title>
+<para>Dal punto di vista del desktop, una tipica configurazione di rete pu&ograve;
+contenere varie combinazioni dei seguenti componenti:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="228*">
+<colspec colwidth="228*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Video</para></entry>
+<entry align="left" valign="top"><para>Sistema su cui viene eseguito il server
+X delle finestre</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>server</primary>
+<secondary>di sessioni</secondary></indexterm><indexterm><primary>server</primary>
+<secondary>di login</secondary></indexterm>Server di login/sessione</para></entry>
+<entry align="left" valign="top"><para>Sistema su cui vengono eseguite le
+applicazioni del desktop (Gestione del login, Gestione dello spazio di lavoro,
+ecc.)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>server di applicazioni</primary><secondary>definizione</secondary></indexterm><indexterm><primary>applicazioni</primary><secondary>server</secondary></indexterm>Server di applicazioni
+</para></entry>
+<entry align="left" valign="top"><para>Sistema su cui vengono eseguite altre
+applicazioni</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>server</primary>
+<secondary>di file</secondary></indexterm><indexterm><primary>file</primary>
+<secondary>server</secondary></indexterm>Server di file</para></entry>
+<entry align="left" valign="top"><para>Sistema su cui risiedono i dati usati
+dalle applicazioni</para></entry></row></tbody></tgroup></informaltable>
+<para>Una delle configurazioni di rete pi&ugrave; comuni comprende una serie
+di sistemi che accedono a un server di applicazioni. La <!--Original XRef
+content: 'Figura&numsp;5&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="sag.clsrv.mkr.3">
+illustra una workstation che utilizza un server di applicazioni. Il server
+X e la sessione del desktop vengono eseguiti sulla workstation.</para>
+<figure>
+<title id="sag.clsrv.mkr.3">I server di applicazioni forniscono servizi alla
+sessione del desktop</title>
+<graphic id="sag.clsrv.grph.1" entityref="SAG.ClSrv.fig.1"></graphic>
+</figure>
+<para>Spesso le reti utilizzano un<indexterm><primary>file server</primary>
+</indexterm> server di file per memorizzare grandi quantit&agrave; di dati.
+Questi dati possono essere usati sia dalle applicazioni eseguite su un server
+di applicazioni, sia dalle applicazioni del desktop (ad esempio, la Gestione
+di file richiede l'accesso ai file di dati per visualizzarli nella sua finestra
+del desktop).</para>
+<figure>
+<title>I server di file forniscono dati ai server di applicazioni e ai server
+di sessioni</title>
+<graphic id="sag.clsrv.grph.2" entityref="SAG.ClSrv.fig.2"></graphic>
+</figure>
+<para><indexterm><primary>terminali X</primary><secondary>servizi di sessione</secondary></indexterm>I terminali X eseguono il server X e ricevono i servizi
+per le sessioni del desktop da un altro sistema.</para>
+<figure>
+<title>I terminali X ricevono i servizi per le sessioni da un server di sessioni</title>
+<graphic id="sag.clsrv.grph.3" entityref="SAG.ClSrv.fig.3"></graphic>
+</figure>
+</sect2>
+<sect2 id="sag.clsrv.div.5">
+<title>Altre configurazioni di rete</title>
+<para>Grazie alla sua flessibilit&agrave;, il desktop pu&ograve; supportare
+anche configurazioni di rete pi&ugrave; complesse di quelle finora descritte.
+In generale, questo significa rendere disponibili altri tipi di servizi, oltre
+ai server di file, ai server di applicazioni.</para>
+<figure>
+<title>I servizi richiesti da un server di applicazioni possono essere distribuiti</title>
+<graphic id="sag.clsrv.grph.4" entityref="SAG.ClSrv.fig.4"></graphic>
+</figure>
+</sect2>
+<sect2 id="sag.clsrv.div.6">
+<title id="sag.clsrv.mkr.4"><indexterm><primary>server</primary><secondary>tipi</secondary></indexterm>Tipi di server</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="200*">
+<colspec colwidth="256*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Video</para></entry>
+<entry align="left" valign="top"><para>Sistema che esegue il server X delle
+finestre.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Server di login/di sessione</para></entry>
+<entry align="left" valign="top"><para>Sistema che esegue la sessione del
+desktop (Gestione del login, Gestione delle sessioni, Gestione delle finestre,
+Gestione di file, ecc.)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Server di applicazioni</para></entry>
+<entry align="left" valign="top"><para>Sistema su cui vengono eseguite le
+applicazioni. Detto anche <emphasis>host di esecuzione</emphasis></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Server di file</para></entry>
+<entry align="left" valign="top"><para>Sistema in cui vengono memorizzati
+i file di dati per le applicazioni</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>server</primary>
+<secondary>di aiuto</secondary></indexterm><indexterm><primary>aiuto</primary>
+<secondary>server</secondary></indexterm>Server di aiuto</para></entry>
+<entry align="left" valign="top"><para>Sistema in cui risiedono i file contenenti
+le informazioni di aiuto</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>azioni</primary>
+<secondary>server, Vedere database, server&lt;</secondary></indexterm><indexterm>
+<primary>$nopage></primary></indexterm><indexterm><primary>database</primary>
+<secondary>server</secondary></indexterm>Server di database (azioni)</para></entry>
+<entry align="left" valign="top"><para>Sistema in cui risiedono i file contenenti
+le definizioni delle azioni e dei tipi di dati</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>server</primary>
+<secondary>di icone</secondary></indexterm><indexterm><primary>icone</primary>
+<secondary>server</secondary></indexterm>Server di icone</para></entry>
+<entry align="left" valign="top"><para>Sistema in cui risiedono i file delle
+icone</para></entry></row></tbody></tgroup></informaltable>
+<para>La rete pu&ograve; comprendere anche altri tipi di server, ad esempio
+per le parole chiave, la posta elettronica, le funzionalit&agrave; video,
+ecc.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.clsrv.div.7">
+<title id="sag.clsrv.mkr.5">Procedure generali per la configurazione delle
+funzioni di rete del desktop<indexterm><primary>rete</primary><secondary>configurazione generale</secondary></indexterm></title>
+<para>Per configurare le funzioni di rete del desktop sono richieste tre procedure
+generali:</para>
+<orderedlist>
+<listitem><para>Configurazione dei servizi di rete di base del sistema operativo.
+</para>
+<para>Si tratta dei servizi di rete forniti dal sistema operativo da cui dipende
+il desktop. Vedere <!--Original XRef content: '&ldquo;Configurazione dei servizi
+di rete del--><!-- sistema operativo per il desktop&rdquo; a pagina&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para>Installazione e configurazione dei servizi e del software
+di rete del desktop.</para>
+<para>Si tratta dei servizi richiesti dal desktop, indipendentemente dal tipo
+di sistema client o server da configurare. Vedere <!--Original XRef content:
+'&ldquo;Configurazione dei sistemi client e s--><!--erver per il desktop&rdquo;
+a pagina&numsp;94'--><xref role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.9">.
+</para>
+</listitem>
+<listitem><para>Configurazione del tipo specifico di server o client.</para>
+<para>Ad esempio, la configurazione di un server di applicazioni richiede
+una procedura diversa da quella necessaria per un server di file. Vedere <!--Original
+XRef content: '&ldquo;Amministrazione dei servizi per le app--><!--licazioni&rdquo;
+a pagina&numsp;100'--><xref role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.15">.
+</para>
+</listitem>
+</orderedlist>
+</sect1>
+<sect1 id="sag.clsrv.div.8">
+<title id="sag.clsrv.mkr.6">Configurazione dei servizi di rete del sistema
+operativo per il desktop<indexterm><primary>rete</primary><secondary>configurazione
+base</secondary></indexterm></title>
+<para>Il desktop richiede, a livello del sistema operativo base, la seguente
+configurazione di rete:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Gli utenti devono avere un conto di login sul server delle
+sessioni e su ognuno dei sistemi che fornisce servizi del desktop a questo
+server. Ogni utente deve avere lo stesso ID utente e lo stesso ID di gruppo
+su tutti i sistemi client e server.</para>
+</listitem>
+<listitem><para>I sistemi devono avere accesso ai server di file remoti che
+contengono i dati usati dalla sessione e da altre applicazioni.</para>
+</listitem>
+<listitem><para>Lo spooler di stampa <command>lp</command> deve essere configurato
+in modo da poter accedere alle stampanti remote.</para>
+</listitem>
+<listitem><para><command>sendmail</command> deve essere configurato per i
+servizi di posta elettronica.</para>
+</listitem>
+<listitem><para>Devono essere configurate le autorizzazioni X.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.clsrv.div.9">
+<title>Creazione dei conti di login per gli utenti<indexterm><primary>login</primary><secondary>account</secondary></indexterm></title>
+<para>Questa sezione descrive i requisiti per la creazione dei conti di login
+per la rete del desktop.</para>
+<sect3 id="sag.clsrv.div.10">
+<title>Creazione dei conti di login</title>
+<para>Gli utenti devono avere un conto di login su:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Tutti i sistemi che forniscono servizi al desktop, inclusi
+i server di applicazioni, i server di file e i sistemi che gestiscono le stampanti
+di rete.</para>
+</listitem>
+<listitem><para>Tutti i server di sessioni a cui hanno accesso gli utenti.
+Solitamente, i server di sessioni vengono usati con terminali X.</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="sag.clsrv.div.11">
+<title>Creazione di ID utente e di gruppo uguali</title>
+<para>Gli utenti UNIX sono identificati da un nome di login e da un ID utente
+numerico<indexterm><primary>UID</primary></indexterm><indexterm><primary>ID utente</primary></indexterm> (UID). Per l'uso del desktop in una rete, ogni
+utente deve avere lo stesso nome di login e lo stesso UID su tutti i sistemi
+client e server.</para>
+<para>Gli utenti UNIX vengono inoltre assegnati a uno o pi&ugrave; gruppi
+di login, ognuno dei quali possiede un nome e un ID numerico<indexterm><primary>GID</primary></indexterm><indexterm><primary>ID di gruppo</primary></indexterm> (GID).
+Per l'uso del desktop in una rete, tutti i sistemi devono usare gli stessi
+nomi e ID per i gruppi.</para>
+<para>Per maggiori informazioni, vedere la pagina di spiegazioni <filename moreinfo="refentry">id(1)</filename> o <filename moreinfo="refentry">id(1M)</filename>.</para>
+</sect3>
+</sect2>
+<sect2 id="sag.clsrv.div.12">
+<title id="sag.clsrv.mkr.7">Configurazione degli accessi ai file system distribuiti<indexterm>
+<primary>file</primary><secondary>accesso ai file distribuiti</secondary>
+</indexterm></title>
+<para>Il desktop utilizza<indexterm><primary>file</primary><secondary>condivisione</secondary></indexterm><indexterm><primary>NFS</primary></indexterm><indexterm>
+<primary>file</primary><secondary>accesso remoto</secondary></indexterm> NFS<superscript>
+&lsquor;</superscript> per la condivisione dei file tra i sistemi. L'amministratore
+dovr&agrave; identificare tutti i file system della rete che contengano file
+condivisi e attivarli correttamente<indexterm><primary>file</primary><secondary>attivazione con mount</secondary></indexterm> (con <command>mount</command>)
+su tutti i sistemi appropriati.</para>
+<para>In genere, &egrave; necessario fornire le seguenti possibilit&agrave;
+di accesso ai file remoti:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>La directory iniziale<indexterm><primary>directory iniziale</primary><secondary>condivisione</secondary></indexterm> dell'utente deve
+essere condivisa da tutti i sistemi client e server del desktop. Questa condizione
+&egrave; necessaria perch&eacute;:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>La directory iniziale contiene file di dati a cui devono accedere
+applicazioni eseguite su sistemi remoti. Ad esempio, le applicazioni che utilizzano
+file di dati usano spesso la directory iniziale come posizione predefinita
+per questi file.</para>
+</listitem>
+<listitem><para><indexterm><primary>autenticazione, directory</primary></indexterm><indexterm>
+<primary>dtspcd</primary><secondary>directory di autenticazione</secondary>
+</indexterm>La directory iniziale &egrave; la directory predefinita per il
+meccanismo di autenticazione <command>dtspcd</command>. Per maggiori informazioni
+su <command>dtspcd</command>, vedere <!--Original XRef content: '&ldquo;Configurazione
+del daemon di controllo--><!-- dei processi secondari&rdquo; a pagina&numsp;98'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.13">.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Se gli utenti devono accedere a file di dati che non si trovano
+nella loro directory iniziale, occorre che questi dati siano condivisi da
+tutti i sistemi client e server della rete del desktop.</para>
+</listitem>
+<listitem><para>Le directory di installazione e configurazione del desktop
+(<filename>/usr/dt</filename> e <filename>/etc/dt</filename>) devono essere
+condivise da tutti i sistemi client e server della rete, in modo che tutte
+le applicazioni degli utenti accedano agli stessi file di configurazione.
+</para>
+</listitem>
+</itemizedlist>
+<sect3 id="sag.clsrv.div.13">
+<title><indexterm><primary>directory iniziale</primary><secondary>in rete</secondary></indexterm>Creazione di una directory iniziale di rete</title>
+<para>In un ambiente di rete, il desktop opera in modo pi&ugrave; efficiente
+quando gli utenti dispongono di un'unica directory iniziale condivisa su tutti
+i sistemi client e server.</para>
+<para>Una directory iniziale condivisa in rete permette agli utenti di usare
+sistemi diversi senza perdere le proprie impostazioni e configurazioni personalizzate.
+Questo &egrave; possibile perch&eacute; le impostazioni personalizzate e
+le informazioni richieste per ripristinare la sessione precedente vengono
+salvate in directory secondarie della directory iniziale.</para>
+<para>Una directory iniziale comune &egrave; richiesta anche per:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il meccanismo di autorizzazione X predefinito. Vedere <!--Original
+XRef content: '&ldquo;Configurazione delle autorizzazioni X--><!--&rdquo;
+a pagina&numsp;93'--><xref role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.8">.
+</para>
+</listitem>
+<listitem><para>Il daemon di controllo dei processi secondari del desktop,
+che per avviare le applicazioni remote deve avere accesso di scrittura alla
+directory iniziale dell'utente.</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="sag.clsrv.div.14">
+<title>Coerenza dei<indexterm><primary>file</primary><secondary>corrispondenza
+dei nomi</secondary></indexterm> nomi dei file</title>
+<para>La rete deve essere configurata in modo che gli utenti possano accedere
+ai propri dati da tutti i sistemi usando lo stesso nome. Questo si ottiene
+impostando una <emphasis>coerenza nei nomi dei file</emphasis>, realizzata
+in genere con l'uso di<indexterm><primary>collegamenti simbolici</primary>
+<secondary>corrispondenza dei nomi dei file</secondary></indexterm> collegamenti
+simbolici appropriati. Ad esempio, per configurare tutti i sistemi in modo
+che la directory iniziale di ogni utente si presenti come <filename>/utenti/</filename><symbol role="Variable">nome_login</symbol> si potr&agrave; creare
+un collegamento simbolico che punti all'effettivo punto di mount della directory.
+</para>
+</sect3>
+</sect2>
+<sect2 id="sag.clsrv.div.15">
+<title>Configurazione degli accessi a stampanti remote<indexterm><primary>stampanti</primary><secondary>accesso remoto</secondary></indexterm></title>
+<para>Il desktop utilizza lo spooler di stampa<indexterm><primary>lp</primary>
+<secondary>spooler di stampa</secondary></indexterm> <command>lp</command>
+per accedere alle stampanti locali o remote. Per maggiori informazioni sulla
+configurazione dello spooler <command>lp</command>, vedere la pagina di spiegazioni <filename moreinfo="refentry">lpadmin(1M)</filename>.</para>
+<para><indexterm><primary>stampa</primary><secondary>prove</secondary></indexterm>Prima
+di effettuare una stampa usando l'interfaccia grafica del desktop, verificare
+che sia possibile stampare con tutte le stampanti usando il comando<indexterm>
+<primary>lp</primary><secondary>comando</secondary></indexterm> <command>lp</command>.</para>
+<para><indexterm><primary>stampanti</primary><secondary>nomi dei dispositivi</secondary></indexterm>Si consiglia di adottare una coerenza dei nomi anche
+per le stampanti. Ad esempio, se una determinata stampante &egrave; identificata
+come <filename>Postscript1</filename> sul sistema a cui &egrave; collegata
+direttamente, anche tutti gli altri sistemi che abbiano accesso remoto a quella
+stampante dovranno utilizzare il nome <filename>Postscript1</filename>.</para>
+</sect2>
+<sect2 id="sag.clsrv.div.16">
+<title><indexterm><primary>posta elettronica, configurazione</primary></indexterm><indexterm>
+<primary>rete</primary><secondary>posta elettronica</secondary></indexterm>Configurazione
+della posta elettronica</title>
+<para>L'applicazione di posta elettronica del desktop utilizza <command>sendmail</command> per gestire lo scambio di messaggi tra i sistemi. Per maggiori
+informazioni su come configurare la connettivit&agrave; per la posta elettronica,
+vedere la pagina di spiegazioni<indexterm><primary>sendmail</primary></indexterm> <filename moreinfo="refentry">sendmail(1M)</filename>.</para>
+<para>Prima di provare ad inviare o ricevere messaggi dal desktop, verificare
+che lo scambio dei messaggi possa essere gestito correttamente usando il
+comando<indexterm><primary>mailx</primary></indexterm> <command>mailx</command>.
+</para>
+</sect2>
+<sect2 id="sag.clsrv.div.17">
+<title id="sag.clsrv.mkr.8">Configurazione delle autorizzazioni X<indexterm>
+<primary>autorizzazioni X</primary></indexterm><indexterm><primary>rete</primary>
+<secondary>autorizzazioni X</secondary></indexterm></title>
+<para>Il desktop utilizza il meccanismo X predefinito per autorizzare le applicazioni
+remote (client X) ad accedere al video locale. Il metodo pi&ugrave; semplice
+per configurare questi accessi consiste nel creare una directory iniziale
+di rete per ciascun utente. Questo permette di rispettare le seguenti condizioni:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>L'utente deve possedere le autorizzazioni
+di lettura e scrittura per il file <symbol role="Variable">DirectoryIniziale</symbol><filename>/.Xauthority.</filename></para>
+</listitem>
+<listitem><para>Il file <filename>.Xauthority</filename> di un
+server di applicazioni deve contenere il &ldquo;magic cookie&rdquo; per il
+video su cui verr&agrave; eseguita l'applicazione.</para>
+</listitem>
+</itemizedlist>
+<para>Per maggiori informazioni, vedere le pagine di spiegazioni <filename moreinfo="refentry">X(1)</filename> o <filename moreinfo="refentry">xauth(1)</filename>.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.clsrv.div.18">
+<title id="sag.clsrv.mkr.9">Configurazione dei sistemi client e server per
+il desktop<indexterm><primary>client</primary><secondary>di server, configurazione</secondary></indexterm><indexterm><primary>server</primary><secondary>configurazione</secondary></indexterm><indexterm><primary>rete</primary><secondary>configurazione
+di client e server</secondary></indexterm></title>
+<para>Questa sezione descrive i requisiti per la configurazione di rete che
+riguardano specificamente il desktop &mdash; vale a dire le funzionalit&agrave;
+fornite dal desktop anzich&eacute; dal sistema operativo di base.</para>
+<para>Gli argomenti trattati sono divisi in due parti:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Configurazione dei servizi di
+login e delle sessioni.</para>
+</listitem>
+<listitem><para>Configurazione dei servizi richiesti per le applicazioni
+e i dati, ad esempio server di applicazioni, di database, di icone, di file,
+di aiuto e relativi client.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.clsrv.div.19">
+<title>Configurazione dei servizi di login e delle<indexterm><primary>server
+di sessioni</primary><secondary>Vedere anche server di login&lt;</secondary>
+</indexterm><indexterm><primary>$nopage></primary></indexterm> sessioni<indexterm>
+<primary>server di login</primary><secondary>configurazione</secondary></indexterm></title>
+<para>Un server di login o di sessioni &egrave; un sistema che fornisce servizi
+del desktop (Gestione del login, Gestione delle sessioni, Gestione di file,
+Gestione di finestre, ecc.) ad un video e a un server X.</para>
+<para><indexterm><primary>server di sessioni</primary></indexterm><indexterm>
+<primary>terminali X</primary></indexterm><indexterm><primary>server</primary>
+<secondary>di login</secondary></indexterm>In genere, un server di sessioni
+fornisce questi servizi ai terminali X. Tuttavia, &egrave; possibile creare
+una configurazione di rete che concentri i servizi per le sessioni su uno
+o pi&ugrave; server accessibili sia da terminali X che da workstation.</para>
+<para>La Gestione del login &egrave; il componente del desktop che ha il compito
+di fornire i servizi di login agli altri video. Una volta che l'utente ha
+effettuato il login viene avviata una Gestione delle sessioni.</para>
+<para>Per informazioni su come configurare i server di login e di sessioni
+e i terminali X, vedere <!--Original XRef content: '&ldquo;Visualizzazione
+di uno schermo di logi--><!--n su un video di rete&rdquo; a pagina&numsp;6'--><xref
+role="SecTitleAndPageNum" linkend="sag.logmg.mkr.6">.</para>
+</sect2>
+<sect2 id="SAG.ClSrv.div.19a">
+<title>Configurazione dei server di metodo di input<indexterm><primary>server
+di metodo di input</primary><secondary>configurazione</secondary></indexterm></title>
+<para>Il server di metodo di input (IMS) viene avviato dal comando <command>dtimsstart</command>. Generalmente <command>dtimsstart</command> viene avviato
+automaticamente all'avvio Xsession (login dell'utente) dallo script <filename>/usr/dt/config/Xsession.d/0020.dtims</filename>.</para>
+<para>A seconda della selezione corrente di locale, variabili di ambiente,
+file di configurazione e opzione della riga comandi, <command>dtimsstart</command>
+visualizza una finestra dalla quale l'utente pu&ograve; selezionare l'IMS
+da usare. Dalla finestra di selezione, l'utente pu&ograve; inoltre richiedere
+di avviare un IMS in un sistema remoto. In questo caso, <command>dtimsstart</command>:</para>
+<itemizedlist>
+<listitem><para>Esegue l'azione <literal>DtImsGetRemoteConf</literal> per
+reperire informazioni sugli IMS registrati nel sistema remoto specificato
+</para>
+</listitem>
+<listitem><para>Elenca nella finestra di selezione gli IMS registrati</para>
+</listitem>
+<listitem><para>Esegue l'azione <literal>DtImsRunRemoteIms</literal> per avviare
+nel sistema remoto l'IMS selezionato dall'utente</para>
+</listitem>
+</itemizedlist>
+<para>Durante la ricerca di un IMS in un sistema remoto, <command>dtimsstart</command> rintraccia solamente gli IMS registrati. Perch&eacute; venga registrato
+in un sistema (locale o remoto), un IMS deve:</para>
+<itemizedlist>
+<listitem><para>Essere definito nel file di voci. Ogni locale ha il proprio
+file di voci che elenca gli IMS che supportano detto locale. L'ubicazione
+del file di voci del locale &egrave;<filename>/usr/dt/config/ims/&lt;nome_locale></filename>.</para>
+</listitem>
+<listitem><para>Avere il proprio file di voci nel sistema. Il file di voci
+dell'IMS ne descrive gli attributi. Questi comprendono i protocolli supportati,
+il nome del server su cui viene eseguito l'IMS, le opzione della riga comandi
+per l'IMS e un'indicazione informando se l'IMS consente o no l'esecuzione
+a distanza. L'ubicazione dei file di voci dell'IMS &egrave;<filename>/usr/dt/config/ims/&lt;nome_ims></filename>.</para>
+</listitem>
+</itemizedlist>
+<para>Per la descrizione e gli esempi dei formati di file vedere la pagina
+spiegazioni<command>dtimsstart</command>.</para>
+<para>Per definire gli host dove &egrave; possibile trovare un IMS occorre
+configurare la risorsa dell'applicazione <literal>imServerHosts</literal>.
+Questa risorsa (che viene utilizzata dalla Gestione degli stili durante
+l'identificazione degli IMS per la selezione da parte dell'utente) contiene
+un elenco separato di nomi di host. Ad esempio:</para>
+<programlisting>*imServerHosts: xylo,expo</programlisting>
+</sect2>
+<sect2 id="sag.clsrv.div.20">
+<title>Configurazione di altri servizi per le applicazioni</title>
+<para>Questa sezione descrive i requisiti di rete generali del desktop:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>server di applicazioni</primary><secondary>configurazione</secondary></indexterm><indexterm><primary>applicazioni</primary>
+<secondary>server</secondary></indexterm>Server di applicazioni</para>
+</listitem>
+<listitem><para><indexterm><primary>database</primary><secondary>server</secondary>
+</indexterm><indexterm><primary>server di database</primary><secondary>configurazione</secondary></indexterm>Server di database</para>
+</listitem>
+<listitem><para><indexterm><primary>icone</primary><secondary>server</secondary>
+</indexterm><indexterm><primary>server di icone</primary><secondary>configurazione</secondary></indexterm>Server di icone</para>
+</listitem>
+<listitem><para><indexterm><primary>aiuto</primary><secondary>server</secondary>
+</indexterm><indexterm><primary>server di aiuto</primary><secondary>configurazione</secondary></indexterm>Server di aiuto</para>
+</listitem>
+</itemizedlist>
+<sect3 id="sag.clsrv.div.21" role="Procedure">
+<title id="sag.clsrv.mkr.10">Come configurare i client e i server per il desktop</title>
+<orderedlist>
+<listitem><para>Impostare le configurazioni di rete del sistema
+operativo richieste dal desktop.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Configurazione dei servizi
+di rete del--><!-- sistema operativo per il desktop&rdquo; a pagina&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para><indexterm><primary>file</primary><secondary>requisiti
+per la rete</secondary></indexterm><indexterm><primary>rete</primary><secondary>file richiesti</secondary></indexterm>Installare il desktop o il suo sottoinsieme
+minimo:</para>
+<para>&Egrave; necessario installare:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Tutti i file di runtime del
+Common Desktop Environment</para>
+</listitem>
+<listitem><para><emphasis>Oppure</emphasis>, i set di file:<indexterm><primary>CDE-MIN, file</primary></indexterm><indexterm><primary>CDE-TT, file</primary>
+</indexterm> CDE-MIN e CDE-TT</para>
+<note>
+<para>L'installazione e gli insiemi di file possono differire tra i diversi
+prodotti.</para>
+</note>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Configurare il sistema per il daemon del server
+di database per i nomi dei file di ToolTalk<indexterm><primary>database</primary>
+<secondary>server per i nomi dei file</secondary></indexterm>, <filename><indexterm>
+<primary>rpc.ttdbserver</primary></indexterm>rpc.ttdbserver.</filename></para>
+<para>Questa operazione dovrebbe avvenire automaticamente all'installazione
+del desktop. Per maggiori informazioni, vedere <!--Original XRef content:
+'&ldquo;Configurazione del server del databas--><!--e di ToolTalk&rdquo;
+a pagina&numsp;99'--><xref role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.14">.
+</para>
+</listitem>
+<listitem><para>Installare e configurare il daemon di controllo
+dei processi secondari (<command><indexterm><primary>dtspcd</primary></indexterm>dtspcd</command> ).</para>
+<para>Questa operazione dovrebbe avvenire automaticamente all'installazione
+del desktop. Per maggiori informazioni, vedere <!--Original XRef content:
+'&ldquo;Configurazione del daemon di controll--><!--o dei processi secondari&rdquo;
+a pagina&numsp;98'--><xref role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.13">.
+</para>
+</listitem>
+<listitem><para><indexterm><primary>file</primary><secondary>dati
+remoti</secondary></indexterm>Eseguire il &ldquo;mount&rdquo; di tutti i dati
+remoti richiesti.</para>
+<para>I dati vengono considerati &ldquo;remoti&rdquo; quando si trovano su
+un sistema diverso da quello su cui viene eseguita l'applicazione che li utilizza.
+</para>
+<para>Ad esempio:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Se un'applicazione utilizza
+i dati residenti su un server di file, essa deve eseguire il &ldquo;mount&rdquo;
+di quei file.</para>
+</listitem>
+<listitem><para>Se le icone della Gestione di file si trovano su
+un server di icone, il server della sessione dovr&agrave; eseguire il &ldquo;mount&rdquo;
+di quei file.</para>
+</listitem>
+<listitem><para>Se la rete utilizza un server di aiuto per i file
+di aiuto del desktop, il server delle sessioni e tutti i server di applicazioni
+dovranno eseguire il &ldquo;mount&rdquo; di quei file.</para>
+<para>Per maggiori informazioni sui punti di &ldquo;mount&rdquo;, vedere il
+paragrafo seguente <!--Original XRef content: '&ldquo;Configurazione
+dei punti di mount per --><!--i file system remoti'--><xref role="SectionTitle"
+linkend="sag.clsrv.mkr.11">.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect3>
+<sect3 id="sag.clsrv.div.22">
+<title id="sag.clsrv.mkr.11">Configurazione dei punti di mount per i file
+system remoti<indexterm><primary>file</primary><secondary>punto di mount</secondary>
+</indexterm><indexterm><primary>punto di mount per file remoti</primary></indexterm></title>
+<para><indexterm><primary>file</primary><secondary>mappatura dei nomi</secondary>
+</indexterm>Quando il desktop gestisce il passaggio del nome di un file da
+un sistema ad un altro, esso deve trasformare, o <emphasis>mappare</emphasis>,
+quel nome in uno riconoscibile dal sistema di destinazione. Questa mappatura
+&egrave; necessaria perch&eacute; un file pu&ograve; avere punti di mount
+diversi sui vari sistemi, e quindi viene identificato con nomi diversi. Ad
+esempio, il file /<filename>progetti/importante</filename> su <command>sysA</command> potr&agrave; essere accessibile come <filename>/net/sysA/progetti/importante</filename> su <command>sysB</command>.</para>
+<sect4 id="sag.clsrv.div.23">
+<title>Requisiti per la mappatura dei nomi dei file</title>
+<para>Per eseguire correttamente la mappatura dei nomi dei file, &egrave;
+necessario che si verifichi una delle seguenti condizioni:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Venga usato il comando <command>mount</command> per eseguire
+un &ldquo;mount&rdquo; statico dei file system.
+Questi mount statici vengono generalmente configurati in un file, ad esempio <filename>/etc/checklist</filename>, <filename>/etc/mnttab</filename> o <filename>/etc/filesystems</filename>.</para>
+<para>Perch&eacute; la mappatura dei nomi dei file funzioni correttamente
+tra i diversi sistemi, &egrave; necessario che i mount dei file system utilizzino
+gli stessi nomi per gli host. Se un host &egrave; conosciuto con diversi nomi
+(ad esempio perch&eacute; utilizza un alias, o perch&eacute; ha pi&ugrave;
+indirizzi LAN con nomi diversi), occorrer&agrave; usare lo stesso nome e lo
+stesso formato in tutte le operazioni di mount.</para>
+</listitem>
+<listitem><para><emphasis>Oppure</emphasis>, viene usato l'automounter
+per eseguire il &ldquo;mount&rdquo; dei file system nel punto predefinito <filename>/net</filename>.</para>
+</listitem>
+<listitem><para><emphasis>Oppure</emphasis>, viene usato l'<indexterm><primary>automounter</primary></indexterm>automounter per eseguire il &ldquo;mount&rdquo;
+dei file system in un punto diverso da <filename>/net</filename> e la variabile
+d'ambiente <systemitem class="environvar">DTMOUNTPOINT</systemitem> viene
+impostata in modo da indicare il punto di mount. Vedere la prossima sezione, <!--Original
+XRef content: '&ldquo;Impostazione
+di un valore per DTMOUNTP--><!--OINT'--><xref role="SectionTitle" linkend="sag.clsrv.mkr.12">.
+</para>
+</listitem>
+</itemizedlist>
+<para>Per informazioni sull'automounter, vedere la pagina di spiegazioni <filename moreinfo="refentry">automount(1M)</filename>.</para>
+</sect4>
+<sect4 id="sag.clsrv.div.24">
+<title id="sag.clsrv.mkr.12">Impostazione di un valore per DTMOUNTPOINT</title>
+<para><indexterm><primary>DTMOUNTPOINT, variabile</primary><secondary>impostazione</secondary></indexterm><indexterm><primary>DTMOUNTPOINT, variabile</primary>
+<secondary>uso nei processi</secondary></indexterm>La variabile d'ambiente <systemitem class="environvar">DTMOUNTPOINT</systemitem> deve essere impostata quando
+si verificano entrambe le seguenti condizioni:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Il mount dei file system viene
+eseguito con l'automounter.</para>
+</listitem>
+<listitem><para><emphasis>E</emphasis>, il punto di mount usato
+per i file system remoti &egrave; diverso da <filename>/net</filename>.</para>
+</listitem>
+</itemizedlist>
+<para>La variabile <systemitem class="environvar">DTMOUNTPOINT</systemitem>
+deve essere impostata per una serie di processi, inclusi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>I processi dell'utente che vengono
+avviati automaticamente al momento del login, come la Gestione dello spazio
+di lavoro (<command>dtwm</command>) e la Gestione di file (<command>dtfile</command> )</para>
+</listitem>
+<listitem><para>I processi di sistema come <filename><indexterm><primary>rpc.ttdbserver</primary></indexterm>rpc.ttdbserver</filename> e <command>dtspcd</command>, avviati da meccanismi come <command>inetd</command></para>
+</listitem>
+<listitem><para>Le applicazioni che vengono avviate dal desktop
+su sistemi locali o remoti</para>
+</listitem>
+<listitem><para>Le applicazioni che vengono avviate dall'utente
+da una riga comandi di una shell</para>
+</listitem>
+</itemizedlist>
+<para>Per impostare <systemitem class="environvar">DTMOUNTPOINT</systemitem>
+per tutti questi processi:</para>
+<orderedlist>
+<listitem><para>Editare il file <filename>/etc/<indexterm><primary>inetd.conf</primary></indexterm>inetd.conf</filename>:</para>
+<orderedlist>
+<listitem><para>Cercare la riga relativa a <command><indexterm><primary>dtspcd</primary></indexterm>dtspcd</command> e aggiungere:</para>
+<para remap="CodeIndent2"><computeroutput>-mount_point <symbol role="Variable">punto_di_mount</symbol></computeroutput></para>
+</listitem>
+<listitem><para>Cercare la riga relativa a <filename>rpc.ttdbserver</filename>
+e aggiungere:</para>
+<para remap="CodeIndent2"><computeroutput>-m <symbol role="Variable">punto_di_mount</symbol> </computeroutput></para>
+<para>Se ad esempio si utilizza l'automounter con il punto di mount <filename>/nfs</filename>, le righe di <filename>/etc/inetd.conf</filename> dovranno
+avere la forma seguente:</para>
+<programlisting>dtspc stream tcp nowait root /usr/dt/bin/dtspcd /usr/dt/bin/dtspcd -mount_point /nfs
+rpc stream tcp wait root /usr/dt/bin/rpc.ttdbserver 100083 1 rpc.ttdbserver -m /nfs
+</programlisting>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem><para>Eseguire la procedura sul sistema che rilegge <filename>/etc/inetd.conf</filename>. Per maggiori informazioni, vedere la pagina di
+spiegazioni <filename moreinfo="refentry">inetd(1M)</filename>.</para>
+</listitem>
+<listitem><para><indexterm><primary>DTMOUNTPOINT, variabile</primary><secondary>ereditariet&agrave;</secondary></indexterm>Impostare <systemitem class="environvar">DTMOUNTPOINT</systemitem> in modo che il suo valore venga
+ereditato dai login degli utenti.</para>
+<para>Questo si ottiene impostando la variabile in <filename>/etc/dt/config/Xsession.d</filename>. Per maggiori informazioni sull'impostazione delle variabili d'ambiente,
+vedere <!--Original XRef content: '&ldquo;Come impostare
+le variabili d'ambient--><!--e&rdquo; a pagina&numsp;33'--><xref role="SecTitleAndPageNum"
+linkend="sag.sesmg.mkr.9">.</para>
+</listitem>
+</orderedlist>
+</sect4>
+</sect3>
+<sect3 id="sag.clsrv.div.25">
+<title id="sag.clsrv.mkr.13">Configurazione del daemon di controllo dei processi
+secondari</title>
+<para>Il servizio del desktop per il controllo dei processi<indexterm><primary>controllo dei processi secondari, Vedere SPC&lt;</primary></indexterm><indexterm>
+<primary>$nopage></primary></indexterm> secondari (<indexterm><primary>SPC</primary></indexterm>SPC) provvede all'esecuzione dei comandi client/server.
+</para>
+<para>Il daemon del desktop<indexterm><primary>daemon di controllo dei processi
+secondari, Vedere dtspcd&lt;</primary></indexterm><indexterm><primary>$nopage></primary></indexterm> per il controllo dei processi secondari (<command><indexterm>
+<primary>dtspcd</primary></indexterm>dtspcd</command>) viene usato dal desktop
+per avviare le applicazioni remote. Si tratta di un daemon <command>inet</command>
+che accetta le richieste dei client remoti riguardanti l'esecuzione di comandi.
+Per maggiori informazioni su come configurare i daemon <command>inet</command>,
+vedere la pagina di spiegazioni <filename moreinfo="refentry">inetd.conf(1M)</filename>.</para>
+<para>Per richiamare le azioni remote, la libreria per il richiamo delle azioni
+del desktop utilizza il servizio SPC.</para>
+<sect4 id="sag.clsrv.div.26">
+<title>Per configurare<indexterm><primary>dtspcd</primary><secondary>configurazione</secondary></indexterm> dtspcd</title>
+<orderedlist>
+<listitem><para>Verificare che <command>dtspc</command> sia registrato
+correttamente sia in <filename>/etc/services</filename> che in <filename>/etc/inetd.conf</filename>. Vedere la pagina di spiegazioni <filename moreinfo="refentry">dtspcd(1M)</filename>.</para>
+</listitem>
+<listitem><para>Solo per HP-UX: Verificare che <filename>/usr/adm/inetd.sec</filename> sia configurato correttamente. Vedere la pagina di spiegazioni <filename moreinfo="refentry"><indexterm><primary>inetd.sec</primary></indexterm>inetd.sec(4)</filename>.</para>
+</listitem>
+</orderedlist>
+</sect4>
+<sect4 id="sag.clsrv.div.27">
+<title><indexterm><primary>SPC</primary><secondary>sicurezza</secondary></indexterm>Sicurezza
+degli SPC</title>
+<para>Il meccanismo di autenticazione per il servizio di controllo dei processi
+secondari &egrave; basato sull'autenticazione dei file system. Il daemon <command>dtspcd</command> deve avere accesso a una <emphasis>directory di autenticazione</emphasis> che sia accessibile anche a tutti i sistemi client SPC.</para>
+<para>Nell'impostazione predefinita, la directory di autenticazione di <command><indexterm>
+<primary>dtspcd</primary><secondary>directory di autenticazione</secondary>
+</indexterm><indexterm><primary>autenticazione, directory</primary></indexterm>dtspcd</command> &egrave; la directory iniziale dell'utente. Tuttavia, &egrave;
+possibile configurare <command>dtspcd</command> per l'uso di una directory
+diversa impostando l'opzione <filename>-auth_dir</filename> nella directory
+<filename>/etc/inetd.conf</filename>. Per maggiori informazioni, vedere la
+pagina di spiegazioni <filename>dtspcd(1M)</filename>.</para>
+<para>Poich&eacute; il meccanismo di autenticazione degli SPC si basa sull'autenticazione
+dei file system, il servizio SPC avr&agrave; esattamente lo stesso livello
+di sicurezza dei file system distribuiti. Se si utilizza il desktop in una
+rete in cui i file system distribuiti non sono sufficientemente protetti,
+pu&ograve; essere opportuno disabilitare il daemon <command>dtspcd</command>.
+Per disabilitare <command>dtspcd</command>, anteporre un simbolo di commento
+alla riga relativa a <command>dtspc</command> in <filename>/etc/services</filename>.
+</para>
+</sect4>
+</sect3>
+<sect3 id="sag.clsrv.div.28">
+<title><indexterm><primary>variabili d'</primary></indexterm><indexterm><primary>ambiente</primary><secondary>esecuzione remota</secondary></indexterm>Configurazione
+delle variabili d'ambiente per l'esecuzione remota</title>
+<para>Quando il desktop utilizza un'azione per avviare un'applicazione su
+un sistema remoto, le variabili d'ambiente dell'utente vengono copiate sul
+sistema remoto e inserite nell'ambiente dell'applicazione.</para>
+<para>Nell'impostazione predefinita, alcune delle variabili d'ambiente vengono
+alterate prima di essere copiate sul sistema remoto. &Egrave; possibile configurare
+sia il componente che richiama l'azione, sia il servizio di controllo dei
+processi secondari del desktop in modo da eseguire un'ulteriore elaborazione
+delle variabili d'ambiente prima che queste vengano inserite nell'ambiente
+dell'applicazione.</para>
+<para>Per maggiori informazioni sulla configurazione predefinita e su come
+modificarla, vedere le pagine di spiegazioni <filename>dtactionfile(4)</filename>
+e <filename>dtspcdenv(4)</filename>.</para>
+</sect3>
+<sect3 id="sag.clsrv.div.29">
+<title id="sag.clsrv.mkr.14">Configurazione del server del database di<indexterm>
+<primary>ToolTalk</primary><secondary>server di database, Vedere rpc.ttdbserver&lt;</secondary></indexterm><indexterm><primary>$nopage></primary></indexterm> ToolTalk</title>
+<para>Uno dei componenti di ToolTalk &egrave; il server del database <filename>/usr/dt/bin/rpc.ttdbserver</filename>.</para>
+<para>Il server del database di ToolTalk viene usato dal servizio di messaging
+di ToolTalk e per la mappatura dei nomi dei file. In genere viene registrato
+in <filename>/etc/inetd.conf</filename> al momento dell'installazione del
+desktop e non richiede configurazioni aggiuntive.</para>
+<para>Per maggiori informazioni sul server del database di ToolTalk e le sue
+opzioni di configurazione, vedere la pagina di spiegazioni <filename>rpc.ttdbserver(1M)</filename>.</para>
+</sect3>
+<sect3 id="sag.clsrv.div.30">
+<title>Configurazione del server di messaggi di<indexterm><primary>ToolTalk</primary><secondary>server di messaggi, Vedere ttsession&lt;</secondary>
+</indexterm><indexterm><primary>$nopage></primary></indexterm> ToolTalk</title>
+<para>Il server di messaggi di ToolTalk &egrave; <command><indexterm><primary>ttsession</primary></indexterm>ttsession</command>. Nell'impostazione predefinita
+non richiede alcuna configurazione, e viene avviato dallo script <command>Xession</command> al momento del login.</para>
+<para>Per maggiori informazioni sul server di messaggi di ToolTalk e sulle
+sue opzioni di configurazione, vedere la pagina di spiegazioni <command>ttsession</command>.</para>
+</sect3>
+<sect3 id="sag.clsrv.div.31">
+<title>Configurazione del daemon dell'Agenda<indexterm><primary>Agenda, daemon</primary></indexterm></title>
+<para>Uno dei componenti dell'applicazione Agenda &egrave; il daemon <filename><indexterm>
+<primary>rpc.cmsd</primary></indexterm>rpc.cmsd</filename>. Questo daemon
+viene solitamente registrato in <filename>/etc/inetd.conf</filename> durante
+l'installazione del desktop e non richiede ulteriori configurazioni.</para>
+<para>Per maggiori informazioni sul daemon dell'Agenda e sulle sue opzioni
+di configurazione, vedere la pagina di spiegazioni <filename>rpc.cmsd</filename><filename moreinfo="refentry">(1)</filename>.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.clsrv.div.32">
+<title id="sag.clsrv.mkr.15">Amministrazione dei servizi per le applicazioni<indexterm>
+<primary>server di applicazioni</primary><secondary>amministrazione</secondary>
+</indexterm></title>
+<para>Questa sezione riguarda i requisiti di configurazione specifici per:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>I server di applicazioni e i
+loro client</para>
+</listitem>
+<listitem><para>I server del desktop che forniscono servizi speciali
+&mdash; server di database, server di icone e server di aiuto</para>
+</listitem>
+</itemizedlist>
+<para>Descrive inoltre i requisiti necessari per due configurazioni speciali
+per le applicazioni di rete:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Gli host di esecuzione remota</para>
+</listitem>
+<listitem><para>Le applicazioni eseguite attraverso mount dei file
+system</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.clsrv.div.33">
+<title>Variabili d'ambiente per i percorsi di ricerca</title>
+<para>Il desktop utilizza una serie di variabili d'ambiente per specificare
+i percorsi di ricerca usati per localizzare i file di configurazione delle
+applicazioni, ad esempio il database delle azioni e dei tipi di file, i file
+con le informazioni di aiuto e i file delle icone.</para>
+<para>Per informazioni su come utilizzare le variabili d'ambiente per i percorsi
+di ricerca, vedere il <!--Original XRef content: 'Capitolo&numsp;7, &ldquo;Percorsi
+di ricerca --><!--del desktop'--><xref role="ChapNumAndTitle" linkend="sag.datab.mkr.1">
+, o la pagina di spiegazioni <filename moreinfo="refentry">dtenvvar(5)</filename>.
+</para>
+</sect2>
+<sect2 id="sag.clsrv.div.34">
+<title>Configurazione di un server di applicazioni e dei suoi client<indexterm>
+<primary>esecuzione remota</primary><secondary>configurazione del server di
+applicazioni</secondary></indexterm></title>
+<para>Nella configurazione standard, i server di applicazioni contengono tutti
+i file binari e di configurazione associati alle applicazioni, inclusi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Gli eseguibili dell'applicazione</para>
+</listitem>
+<listitem><para>I file di configurazione standard come le impostazioni
+predefinite delle applicazioni, i cataloghi dei messaggi e le librerie condivise
+per quell'applicazione.</para>
+</listitem>
+<listitem><para>I file di configurazione del desktop:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>I file di definizione per le
+azioni e i tipi di dati</para>
+</listitem>
+<listitem><para>I file contenenti le immagini per le icone</para>
+</listitem>
+<listitem><para>I file con le informazioni di aiuto del desktop</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<figure>
+<title><indexterm><primary>server di applicazioni</primary><secondary>configurazione
+standard</secondary></indexterm>Configurazione standard di un server di applicazioni</title>
+<graphic id="sag.clsrv.grph.5" entityref="SAG.ClSrv.fig.5"></graphic>
+</figure>
+<sect3 id="sag.clsrv.div.35" role="Procedure">
+<title>Come configurare un server di applicazioni<indexterm><primary>server
+di applicazioni</primary><secondary>configurazione</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Impostare le configurazioni di rete del sistema
+operativo richieste per il desktop.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Configurazione dei servizi
+di rete del--><!-- sistema operativo per il desktop&rdquo; a pagina&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para>Impostare la configurazione generale del desktop
+richiesta per i server.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Come configurare i client
+e i server p--><!--er il desktop&rdquo; a pagina&numsp;95'--><xref role="SecTitleAndPageNum"
+linkend="sag.clsrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Installare le applicazioni.</para>
+</listitem>
+<listitem><para>Se un'applicazione non possiede le funzioni per
+la registrazione automatica, occorrer&agrave; eseguire la procedura di registrazione
+manualmente.</para>
+<para>Vedere il <!--Original XRef content: 'Capitolo&numsp;4, &ldquo;Registrazione
+di un'--><!--applicazione'--><xref role="ChapNumAndTitle" linkend="sag.regap.mkr.1">.
+</para>
+</listitem>
+</orderedlist>
+</sect3>
+<sect3 id="sag.clsrv.div.36" role="Procedure">
+<title>Come configurare il client di un server di applicazioni<indexterm>
+<primary>server di applicazioni</primary><secondary>client</secondary></indexterm><indexterm>
+<primary>server di applicazioni</primary><secondary>configurazione dei client</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Impostare le configurazioni di rete del sistema
+operativo richieste per il desktop.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Configurazione dei servizi
+di rete del--><!-- sistema operativo per il desktop&rdquo; a pagina&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para>Impostare la configurazione generale del desktop
+richiesta per i client.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Come configurare i client
+e i server p--><!--er il desktop&rdquo; a pagina&numsp;95'--><xref role="SecTitleAndPageNum"
+linkend="sag.clsrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Aggiungere il server di applicazioni al percorso
+di ricerca delle applicazioni a livello personale o di sistema:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="156*">
+<colspec colwidth="372*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>A livello di sistema</para></entry>
+<entry align="left" valign="top"><para>Impostare la variabile <systemitem class="environvar">DTSPSYSAPPHOSTS</systemitem> in <filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>A livello personale</para></entry>
+<entry align="left" valign="top"><para>Impostare la variabile <systemitem class="environvar">DTSPSYSAPPHOSTS</systemitem> in <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dtprofile</filename></para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+</orderedlist>
+<para>Ad esempio, aggiungendo la riga seguente in /<filename>etc/dt/config/Xsession.d/0010.dtpaths</filename> si aggiunger&agrave; un sistema con nome host <command>SysAAA</command> e <command>SysBBB</command> al percorso di ricerca delle applicazioni:
+</para>
+<programlisting>DTSPSYSAPPHOSTS=SysAAA:,SysBBB:</programlisting>
+<para>Per maggiori informazioni sul percorso di ricerca delle applicazioni,
+vedere:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><!--Original XRef content: '&ldquo;Percorso
+di ricerca delle applicazioni--><!--&rdquo; a pagina&numsp;118'--><xref role="SecTitleAndPageNum"
+linkend="sag.datab.mkr.8"></para>
+</listitem>
+<listitem><para><!--Original XRef content: '&ldquo;Impostazione
+del valore di un percorso--><!-- di ricerca&rdquo; a pagina&numsp;117'--><xref
+role="SecTitleAndPageNum" linkend="sag.datab.mkr.6"></para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="sag.clsrv.div.37">
+<title id="sag.clsrv.mkr.16">Configurazione dei servizi per i database, le
+icone e l'aiuto<indexterm><primary>server di icone</primary><secondary>configurazione</secondary></indexterm><indexterm><primary>server di aiuto</primary><secondary>configurazione</secondary></indexterm><indexterm><primary>server di database</primary><secondary>configurazione</secondary></indexterm><indexterm><primary>server di database</primary><secondary>configurazione</secondary></indexterm><indexterm>
+<primary>server</primary><secondary>di azioni</secondary></indexterm><indexterm>
+<primary>server</primary><secondary>di tipi di dati</secondary></indexterm><indexterm>
+<primary>tipi di dati</primary><secondary>server</secondary></indexterm><indexterm>
+<primary>azioni</primary><secondary>server</secondary></indexterm></title>
+<para>In genere, le definizioni delle azioni e dei tipi di dati, le icone
+e i file dell'aiuto associati a un'applicazione vengono installati sullo stesso
+sistema in cui risiede l'applicazione.</para>
+<para>Ad esempio, una configurazione tipica per i file dell'aiuto &egrave;
+la seguente:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>I file di aiuto della Gestione
+di file si trovano in genere sul server delle sessioni. Il desktop li localizza
+in quanto il percorso di ricerca dell'aiuto imposta automaticamente la ricerca
+nelle directory corrette del server delle sessioni.</para>
+</listitem>
+<listitem><para>I file di aiuto delle altre applicazioni si trovano
+generalmente sullo stesso server in cui risiedono le applicazioni. Il server
+delle sessioni li localizza poich&eacute; modificando il percorso di ricerca
+delle applicazioni si modifica automaticamente anche il percorso di ricerca
+dell'aiuto.</para>
+</listitem>
+</itemizedlist>
+<para>In alcune situazioni pu&ograve; essere conveniente collocare il database
+(azioni e tipi di dati), i file di aiuto o le icone in altri punti della rete.
+Ad esempio, se la rete utilizza diversi server per le sessioni, pu&ograve;
+essere utile creare un server dell'aiuto in cui memorizzare tutti i file di
+aiuto per le applicazioni del desktop (Gestione di file, Gestione degli stili,
+ecc.). Questa disposizione permetter&agrave; di risparmiare spazio sul disco,
+perch&eacute; i file di aiuto non dovranno essere duplicati su ogni server
+di sessioni.</para>
+<sect3 id="sag.clsrv.div.38" role="Procedure">
+<title id="sag.clsrv.mkr.17">Come creare un server di database, di aiuto o
+di icone<indexterm><primary>server di database</primary><secondary>creazione</secondary></indexterm><indexterm><primary>server di icone</primary><secondary>creazione</secondary></indexterm><indexterm><primary>server di aiuto</primary>
+<secondary>creazione</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Impostare le configurazioni di rete del sistema
+operativo richieste per il desktop.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Configurazione dei servizi
+di rete del--><!-- sistema operativo per il desktop&rdquo; a pagina&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para>Impostare la configurazione generale del desktop
+richiesta per i client.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Come configurare i client
+e i server p--><!--er il desktop&rdquo; a pagina&numsp;95'--><xref role="SecTitleAndPageNum"
+linkend="sag.clsrv.mkr.10">.</para>
+</listitem>
+<listitem><para id="sag.clsrv.mkr.18">Installare i file del database,
+dell'aiuto o delle icone.</para>
+<para>I file possono essere collocati in qualunque posizione sul sistema.
+Tuttavia, pu&ograve; essere pi&ugrave; semplice usare le posizioni indicate
+qui di seguito, poich&eacute; queste sono le directory in cui la ricerca si
+svolge automaticamente quando un sistema viene designato come server di applicazioni.
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>File del database: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+<listitem><para>File dell'aiuto: <filename>/etc/dt/appconfig/help/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+<listitem><para>File delle icone: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">lingua</symbol></para>
+<para>Se si desidera configurare un server di database, le azioni dovranno
+specificare la posizione di esecuzione dei relativi comandi (<filename>EXEC_STRING</filename> ). Vedere <!--Original XRef content: '&ldquo;Indicazione di
+un host di esecuzione r--><!--emota&rdquo; a pagina&numsp;105'--><xref role="SecTitleAndPageNum"
+linkend="sag.clsrv.mkr.19">.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect3>
+<sect3 id="sag.clsrv.div.39" role="Procedure">
+<title>Come configurare il server di sessioni per la ricerca di un server
+di database, di aiuto o di icone<indexterm><primary>server di aiuto</primary>
+<secondary>client</secondary></indexterm><indexterm><primary>server di icone</primary><secondary>client</secondary></indexterm><indexterm><primary>server
+di database</primary><secondary>client</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Impostare le configurazioni di rete del sistema
+operativo richieste per il desktop.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Configurazione dei servizi
+di rete del--><!-- sistema operativo per il desktop&rdquo; a pagina&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para>Impostare la configurazione generale del desktop
+richiesta per i client.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Come configurare i client
+e i server p--><!--er il desktop&rdquo; a pagina&numsp;95'--><xref role="SecTitleAndPageNum"
+linkend="sag.clsrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Aggiungere il server di database, di icone o di
+aiuto al percorso di ricerca appropriato.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Se i file di dati sono stati
+collocati nelle posizioni specificate nel <!--Original XRef content: 'Punto&numsp;3'--><xref
+role="Step" linkend="sag.clsrv.mkr.18"> di <!--Original XRef content: '&ldquo;Come
+creare un server di database, di --><!--aiuto o di icone'--><xref role="SectionTitle"
+linkend="sag.clsrv.mkr.17">, si potr&agrave; modificare il percorso di ricerca
+dell'applicazione.</para>
+</listitem>
+<listitem><para>Se i file di dati sono stati collocati in altre
+posizioni, occorrer&agrave; modificare il percorso di ricerca specifico.</para>
+<para>Ad esempio, se i file dell'aiuto sono stati collocati nella directory
+<filename>/etc/dt/help</filename> sul sistema <command>SysCCC</command>,
+si dovr&agrave; aggiungere la riga seguente a<filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename>:</para>
+<para remap="CodeIndent2"><computeroutput>DTSPSYSHELP=/net/SysCCC/etc/dt/help</computeroutput></para>
+<para>Per maggiori informazioni sull'impostazione dei percorsi di ricerca,
+vedere:</para>
+</listitem>
+<listitem><para><!--Original XRef content: '&ldquo;Percorso di
+ricerca dei database (azio--><!--ni/tipi di dati)&rdquo; a pagina&numsp;122'--><xref
+role="SecTitleAndPageNum" linkend="sag.datab.mkr.12"></para>
+</listitem>
+<listitem><para><!--Original XRef content: '&ldquo;Percorso di
+ricerca delle icone&rdquor--><!--; a pagina&numsp;124'--><xref role="SecTitleAndPageNum"
+linkend="sag.datab.mkr.13"></para>
+</listitem>
+<listitem><para><!--Original XRef content: '&ldquo;Percorso di
+ricerca dell'aiuto&rdquo;--><!-- a pagina&numsp;126'--><xref role="SecTitleAndPageNum"
+linkend="sag.datab.mkr.14"></para>
+</listitem>
+<listitem><para><!--Original XRef content: '&ldquo;Impostazione
+del valore di un percorso--><!-- di ricerca&rdquo; a pagina&numsp;117'--><xref
+role="SecTitleAndPageNum" linkend="sag.datab.mkr.6"></para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect3>
+</sect2>
+<sect2 id="sag.clsrv.div.40">
+<title>Configurazioni speciali per le applicazioni di rete</title>
+<para>Questa sezione descrive come configurare i sistemi per eseguire le
+applicazioni:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Su sistemi diversi da quello
+in cui risiedono le azioni &mdash; su host di esecuzione remota</para>
+</listitem>
+<listitem><para>Localmente, attraverso mount dei file system</para>
+</listitem>
+</itemizedlist>
+<sect3 id="sag.clsrv.div.41">
+<title id="sag.clsrv.mkr.19">Indicazione di un host di esecuzione remota<indexterm>
+<primary>esecuzione remota</primary><secondary>con azioni di applicazioni
+remote</secondary></indexterm></title>
+<para>Nella configurazione tipica dei server di applicazioni, la definizione
+dell'azione si trova nello stesso sistema in cui risiede l'eseguibile dell'applicazione.
+Tuttavia,<indexterm><primary>azioni</primary><secondary>esecuzione di applicazioni
+remote</secondary></indexterm> &egrave; possibile scrivere azioni che eseguano
+comandi su altri sistemi. In questa configurazione, il sistema contenente
+l'applicazione viene detto <emphasis><indexterm><primary>host di esecuzione</primary><secondary>configurazione</secondary></indexterm>host di esecuzione</emphasis>.<indexterm><primary>EXEC_HOST, Vedere host di esecuzione&lt;</primary>
+</indexterm><indexterm><primary>$nopage></primary></indexterm></para>
+<para>La definizione dell'azione pu&ograve; essere collocata nel server delle
+sessioni o in un sistema che fornisca le azioni e i tipi di dati a questo
+server &mdash; detto <emphasis><indexterm><primary>server di database</primary>
+</indexterm><indexterm><primary>database</primary><secondary>host</secondary>
+</indexterm>server di database</emphasis> o <emphasis>host di database</emphasis>.
+</para>
+<para>Le definizioni delle azioni utilizzano il campo <filename>EXEC_HOST</filename> per specificare la posizione in cui dovranno essere eseguiti i
+relativi comandi (<filename>EXEC_STRING</filename>). Ad esempio, l'azione
+seguente specifica che il client <command>xload</command> verr&agrave; eseguito
+su un sistema con nome host <command>SysDDD</command>:</para>
+<programlisting>ACTION XloadSysDDD
+{
+  TYPE         COMMAND
+  EXEC_HOST    SysDDD
+  EXEC_STRING  /usr/bin/X11/xload -label SysDDD
+}</programlisting>
+<para>Se il campo <filename><indexterm><primary>EXEC_HOST, campo</primary>
+<secondary>valori multipli</secondary></indexterm>EXEC_HOST</filename> specifica
+pi&ugrave; nomi host, il desktop cercher&agrave; di eseguire il comando di <filename>EXEC_STRING</filename> su tutti gli host seguendo l'ordine indicato, fino
+a quando ne trover&agrave; uno che possa eseguire l'azione. Ad esempio, il
+seguente campo <filename>EXEC_HOST</filename> specifica che l'azione dovr&agrave;
+cercare inizialmente di eseguire il comando <filename>EXEC_STRING</filename>
+su <command>SysDDD</command>, e quindi, se non dovesse riuscire, dovr&agrave;
+provare su <command>SysEEE</command>.</para>
+<programlisting> EXEC_HOST SysDDD,SysEEE</programlisting>
+<para>Se il campo <filename><indexterm><primary>EXEC_HOST, campo</primary>
+<secondary>valore predefinito</secondary></indexterm>EXEC_HOST</filename>
+di un'azione non viene impostato, esso assume il valore predefinito <filename>%DatabaseHost%</filename>. Il valore di <filename>%DatabaseHost%</filename>
+viene ricavato dal percorso di ricerca del database.</para>
+<para>Ad esempio, si supponga che il percorso di ricerca del database sia
+stato modificato con l'aggiunta della riga seguente a <filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename>:</para>
+<programlisting><indexterm><primary>percorso di ricerca dei database</primary>
+<secondary>effetto su EXEC_HOST</secondary></indexterm><indexterm><primary> DTSPSYSDATABASEHOSTS, variabile</primary><secondary>effetto su EXEC_HOST</secondary>
+</indexterm><indexterm><primary>EXEC_HOST, campo</primary><secondary>relazioni con il percorso di ricerca dei database </secondary></indexterm>
+DTSPSYSDATABASEHOSTS=SysAAA:,/net/SysBBB/etc/dt/appconfig/types/C</programlisting>
+<para><command>SysAAA</command> viene specificato usando la sintassi di host
+qualificato &mdash; <filename>SysAAA:</filename>. Un'azione trovata usando
+questo elemento del percorso di ricerca imposter&agrave; l'host del database
+su <command>SysAAA</command>. Tuttavia, un'azione trovata usando la porzione
+<filename>/net/SysBBB</filename>&hellip; del percorso di ricerca imposter&agrave;
+l'host del database sul sistema locale, poich&eacute; questa sintassi non
+include il qualificatore dell'host.</para>
+<sect4 id="sag.clsrv.div.42">
+<title><indexterm><primary>host di esecuzione</primary><secondary>configurazione</secondary></indexterm>Come configurare l'host di esecuzione remota</title>
+<orderedlist>
+<listitem><para>Impostare le configurazioni di rete del sistema
+operativo richieste per il desktop.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Configurazione dei servizi
+di rete del--><!-- sistema operativo per il desktop&rdquo; a pagina&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para>Impostare le configurazioni generali del desktop
+richieste per i server.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Come configurare i client
+e i server p--><!--er il desktop&rdquo; a pagina&numsp;95'--><xref role="SecTitleAndPageNum"
+linkend="sag.clsrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Verificare che le applicazioni siano installate
+e configurate correttamente per l'esecuzione locale.</para>
+</listitem>
+</orderedlist>
+</sect4>
+<sect4 id="sag.clsrv.div.43">
+<title>Come configurare il sistema contenente la definizione dell'azione</title>
+<orderedlist>
+<listitem><para>Impostare le configurazioni di rete del sistema
+operativo richieste per il desktop.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Configurazione dei servizi
+di rete del--><!-- sistema operativo per il desktop&rdquo; a pagina&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para>Impostare le configurazioni generali del desktop
+richieste per i server.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Come configurare i client
+e i server p--><!--er il desktop&rdquo; a pagina&numsp;95'--><xref role="SecTitleAndPageNum"
+linkend="sag.clsrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Creare e installare le definizioni delle azioni
+e i gruppi di applicazioni.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Creazione di azioni che
+eseguano appli--><!--cazioni su sistemi remoti&rdquo; a pagina&numsp;180'--><xref
+role="SecTitleAndPageNum" linkend="sag.cract.mkr.32"> e <!--Original XRef
+content: '&ldquo;Creazione e amministrazione dei gruppi--><!-- di applicazioni
+ generali&rdquo; a pagina&numsp;46'--><xref role="SecTitleAndPageNum" linkend="sag.cnfam.mkr.10">.
+</para>
+</listitem>
+</orderedlist>
+</sect4>
+<sect4 id="sag.clsrv.div.44">
+<title>Come configurare il server delle sessioni</title>
+<orderedlist>
+<listitem><para>Impostare le configurazioni di rete del sistema
+operativo richieste per il desktop.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Configurazione dei servizi
+di rete del--><!-- sistema operativo per il desktop&rdquo; a pagina&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para>Impostare le configurazioni generali del desktop
+richieste per i client.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Come configurare i client
+e i server p--><!--er il desktop&rdquo; a pagina&numsp;95'--><xref role="SecTitleAndPageNum"
+linkend="sag.clsrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Modificare il percorso di ricerca delle azioni
+in modo da includere l'host del database.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Percorso di ricerca dei
+database (azio--><!--ni/tipi di dati)&rdquo; a pagina&numsp;122'--><xref role="SecTitleAndPageNum"
+linkend="sag.datab.mkr.12">.</para>
+</listitem>
+<listitem><para>Modificare il percorso di ricerca delle applicazioni
+in modo da includere l'host di esecuzione.</para>
+<para>Vedere <!--Original XRef content: '&ldquo;Percorso di ricerca delle
+applicazioni--><!--&rdquo; a pagina&numsp;118'--><xref role="SecTitleAndPageNum"
+linkend="sag.datab.mkr.8">.</para>
+</listitem>
+</orderedlist>
+</sect4>
+</sect3>
+<sect3 id="sag.clsrv.div.45">
+<title><indexterm><primary>mount, uso per l'</primary></indexterm><indexterm>
+<primary>esecuzione di applicazioni</primary></indexterm><indexterm><primary>applicazioni</primary><secondary>esecuzione locale con mount</secondary></indexterm><indexterm>
+<primary>rete</primary><secondary>esecuzione di applicazioni con mount</secondary>
+</indexterm>Esecuzione delle applicazioni sul sistema locale</title>
+<para>Nella configurazione standard, le applicazioni vengono eseguite sul
+server delle applicazioni. A volte, tuttavia, pu&ograve; essere utile eseguire
+localmente sul server delle sessioni un'applicazione installata su un sistema
+remoto.</para>
+<figure>
+<title>Esecuzione attraverso punti di mount</title>
+<graphic id="sag.clsrv.grph.6" entityref="SAG.ClSrv.fig.6"></graphic>
+</figure>
+<sect4 id="sag.clsrv.div.46">
+<title>Come configurare il server di applicazioni</title>
+<para>Non &egrave; richiesta alcuna configurazione speciale.</para>
+</sect4>
+<sect4 id="sag.clsrv.div.47">
+<title>Come configurare il server delle sessioni</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Modificare il percorso di ricerca delle applicazioni. Usare
+il percorso assoluto locale dell'applicazione.</para>
+</listitem>
+</itemizedlist>
+<para>Ad esempio, si potr&agrave; usare la variabile seguente per localizzare
+un'applicazione registrata su <command>sysAAA</command>:</para>
+<programlisting>DTSPSYSAPPHOSTS=/net/SysAAA/etc/dt/appconfig/appmanager/C
+</programlisting>
+<para>Il server delle sessioni dovr&agrave; avere accesso ai file di configurazione
+dell'applicazione, come i file delle impostazioni predefinite, i cataloghi
+dei messaggi e le librerie condivise.</para>
+</sect4>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:05:15-->
+<?Pub *0000078194>

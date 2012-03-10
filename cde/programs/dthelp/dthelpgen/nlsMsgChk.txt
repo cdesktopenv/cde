@@ -1,0 +1,172 @@
+# $XConsortium: nlsMsgChk.txt /main/2 1996/11/11 11:28:27 drk $
+helpgen is a non-Motif (terminal based) application. It creates three files,
+<filename>.hv, <filename>00.ht and <filename>01.ht in the target directory.
+The default target directory is '/usr/dt/help/<language>/Browser'. The
+default <filename> is 'browser'.
+
+1)  To get the usage message, type
+	helpgen -help
+
+    tests message:
+	Set 1  _DtMessage: 1
+
+2)  Specify a name using the -dir option that is not a directory. To do
+    this, create a file in the /tmp directory, then use it as if it were
+    a directory. For example, type:
+
+	touch /tmp/testdir
+	helpgen -dir /tmp/testdir/testfile
+
+    Remove /tmp/testdir when finished.
+
+    tests message:
+	Set 1  _DtMessage: 2
+
+3)  Attempt to write to a directory that only the super-user (system
+    administrator)  has permission to write to. To do this, check that
+    the directory /usr/vhelp/help exists and that write permission is
+    denied for the average user. For example, type:
+
+	ll -d /usr/vhelp/help.
+
+    If the permission shown do not allow the average user access, continue.
+    Otherwise, change them to disallow access or create and/or use another
+    directory that does not allow the average user access.
+
+    Upon finding a suitable directory for testing, type the following (this
+    example assumes /usr/vhelp/help is being used):
+
+	helpgen -dir /usr/vhelp/help/testdir.
+
+    tests message:
+	Set 1  _DtMessage: 3
+
+4)  Specify a name using the -dir option that is not a directory. To do
+    this, create a file in the /tmp directory, then use it as if it were
+    a directory. For example, type:
+
+	touch /tmp/testdir
+	helpgen -dir /tmp/testdir
+
+    Remove /tmp/testdir when finished.
+
+    tests message:
+	Set 1  _DtMessage: 6
+
+5)  Attempt to overwrite an existing read-only browser volume. To do this,
+    check the permissions on the files in the directory
+    /usr/dt/help/C/Browser. If the permissions allow the average user
+    to access these files, change the permissions to allow only the
+    super-user access. Type:
+
+	helpgen
+
+    tests message:
+	Set 1  _DtMessage: 8
+
+6)  Create a browser volume in a read-only directory. To do this, create
+    a directory without write permission. For example, type:
+
+	mkdir /tmp/testdir
+	chmod -w /tmp/testdir
+
+    Now use the read-only directory as the parameter to the -dir option:
+
+	helpgen -dir /tmp/testdir
+
+    Remove /tmp/testdir when finished.
+
+    tests message:
+	Set 1  _DtMessage: 9
+
+7)  Copy a family file to a work directory. Edit the file and remove
+    the 'title' resource from the file. Symbolically link this file
+    to the directory /usr/vhelp/families/<language>. Type:
+
+	helpgen -dir /tmp
+
+    Remove the symbolic link in /usr/vhelp/families/<language> and
+    the browser volumes in /tmp when done.
+
+    tests message:
+	Set 1  _DtMessage: 11
+
+8)  Copy a family file to a work directory. Edit the file and remove
+    the 'abstract' resource from the file. Symbolically link this file
+    to the directory /usr/vhelp/families/<language>. Type:
+
+	helpgen -dir /tmp
+
+    Remove the symbolic link in /usr/vhelp/families/<language> and
+    the browser volumes in /tmp when done.
+
+    tests message:
+	Set 1  _DtMessage: 12
+
+9)  Copy a family file to a work directory. Edit the file and remove
+    the 'volumes' resource from the file. Symbolically link this file
+    to the directory /usr/vhelp/families/<language>. Type:
+
+	helpgen -dir /tmp
+
+    Remove the symbolic link in /usr/vhelp/families/<language> and
+    the browser volumes in /tmp when done.
+
+    tests message:
+	Set 1  _DtMessage: 13
+
+10) Copy a family file to a work directory. Edit the file and remove
+    the 'charSet' resource from the file. Symbolically link this file
+    to the directory /usr/vhelp/families/<language>. Type:
+
+	helpgen -dir /tmp
+
+    Remove the symbolic link in /usr/vhelp/families/<language> and
+    the browser volumes in /tmp when done.
+
+    tests message:
+	Set 1  _DtMessage: 14
+
+11) Move the directory /usr/vhelp/familes to /usr/vhelp/familes.save.
+    NOTE: This requires the user to be super-user.
+    Type:
+
+	helpgen -dir /tmp
+
+    Restore the families directory by moving /usr/vhelp/families.save
+    to /usr/vhelp/families.
+
+    tests message:
+	Set 1  _DtMessage: 16
+
+12) Move the directory /usr/vhelp/volumes to /usr/vhelp/volumes.save.
+    NOTE: This requires the user to be super-user.
+    Type:
+
+	helpgen -dir /tmp
+
+    Restore the families directory by moving /usr/vhelp/volumes.save
+    to /usr/vhelp/volumes.
+
+    tests message:
+	Set 1  _DtMessage: 17
+
+13) Run helpgen as super-user. Run helpview. The application helpview,
+    can either be run from a terminal window or by selecting the icon on
+    the front panel showing books with a question mark over them. The
+    window that displays should show the browser volume created by helpgen.
+
+    The text localized in set 2 messages 2 through 4 should be displayed
+    at the top of the window. The text between the <ABBREV> tags in
+    set 2 message 3 will be displayed in the topic hierarchy. The last
+    hypertext link (underlined titles) should be from set 2 message 5.
+
+    The text will use the fonts associated with the character set
+    specified in set 2 message 1. Check that the app-defaults file
+    for helpview contains a font set associated with the character
+    set specified.
+
+    tests messages:
+	Set 2  Messages: 1-5
+	Set 3  Messages: 1-7
+

@@ -1,0 +1,68 @@
+.\" $XConsortium: pam_dial_auth.5 /main/4 1996/10/29 15:42:09 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam_dial_auth 5 "19 Jan 1996"
+.SH NAME
+pam_dial_auth \- authentication management PAM module for dialups
+.SH SYNOPSIS
+.LP
+.B /usr/lib/security/pam_dial_auth.so.1
+.LP
+.SH DESCRIPTION
+.IX "pam_dial_auth" "" "\fLpam_dial_auth\fP \(em authentication management for dialups"
+.PP
+The dialup PAM module,
+.BR /usr/lib/security/pam_dial_auth.so.1 ,
+authenticates a user according to the
+.B /etc/dialups
+and
+.B /etc/d_passwd
+files.
+Only
+.B pam_sm_authenticate(\|)
+is implemented within this module.
+.B pam_sm_setcred(\|)
+is a null function.
+.B /usr/lib/security/pam_dial_auth.so.1
+is designed to be stacked immediately below
+the
+.B /usr/lib/security/pam_unix.so.1
+module
+for the login service.
+.PP
+.B pam_sm_authenticate(\|)
+performs authentication only if both the
+.B /etc/dialups
+and 
+.B /etc/d_passwd
+files exist.
+The user's terminal line is checked against
+entries in the
+.B /etc/dialups
+file.
+If there is a match, the user's
+shell is compared against entries in the
+.B /etc/d_passwd
+file.
+If there is a matching entry, the user is
+prompted for a password which is validated against the entry
+in the
+.B /etc/d_passwd
+file. If the passwords match, the
+user is authenticated.
+The following option may be passed in to this service module:
+.RS
+.IP debug 15
+.BR syslog (3)
+debugging information at LOG_DEBUG level
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR pam_authenticate (3),
+.BR d_passwd (4),
+.BR dialups (4),
+.BR pam.conf (4)
+

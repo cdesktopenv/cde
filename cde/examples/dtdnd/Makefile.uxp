@@ -1,0 +1,46 @@
+# $XConsortium: Makefile.uxp /main/3 1996/05/13 11:46:45 drk $
+##########################################################################
+#
+#  Makefile for dtdnddemo
+#
+#	UXP Platform 
+#
+#	    (Fujitsu.patch applied)
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+#      Novell, Inc.
+##########################################################################
+
+PROGRAM		= dtdnddemo
+SOURCES		= demo.c icon.c text.c file.c buff.c
+OBJECTS		= demo.o icon.o text.o file.o buff.o
+APPDEFAULTS	= Dtdnddemo
+
+DEFINES		= 
+CDEBUGFLAGS	= -O
+CFLAGS		= -Xc $(DEFINES) $(CDEBUGFLAGS)
+
+DTINCLUDE	= -I/usr/dt/include
+
+INCLUDES	= $(DTINCLUDE) 
+
+DTLIBS		= -L/usr/dt/lib -lDtSvc -ltt -lXm
+X11LIBS		= -lXt -lX11
+SYSLIBS		= -lw -lgen -lnsl -lresolv -lsocket 
+
+LIBRARIES	= $(DTLIBS) $(X11LIBS) $(SYSLIBS)
+LDFLAGS		= 
+
+.c.o:
+	${CC} -c $(CFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM)
+
+$(PROGRAM)::	$(OBJECTS) $(APPDEFAULTS)
+	${CC} -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+clean::
+	rm -f $(PROGRAM) $(OBJECTS)

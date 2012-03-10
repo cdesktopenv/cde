@@ -1,0 +1,99 @@
+<!-- $XConsortium: DtAction.sgm /main/7 1996/09/08 19:58:29 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN319.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN319.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Dt/Action.h</RefEntryTitle>
+<ManVolNum>file formats</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>Dt/Action.h</Filename></RefName>
+<RefPurpose>action service definitions
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<Synopsis>#include &lt;Dt/Action.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Filename Role="Header">Dt/Action.h</Filename> header defines the following
+<SystemItem Class="Constant">DtActionStatus</SystemItem> constants:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>DtACTION_OK
+DtACTION_INVALID_ID
+DtACTION_INVOKED
+DtACTION_DONE
+DtACTION_CANCELED
+DtACTION_FAILED
+DtACTION_STATUS_UPDATE
+</ProgramListing>
+</InformalExample>
+<Para>The header defines the following data type through
+<Literal>typedef</Literal>:</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef unsigned long DtActionInvocationID;
+</ProgramListing>
+</InformalExample>
+<Para>The header defines the following callback prototypes:
+</Para>
+<Synopsis>typedef void (*DtActionCallbackProc)(DtActionInvocationID <Emphasis>id</Emphasis>,
+        XtPointer <Symbol Role="Variable">client_data</Symbol>,
+        DtActionArg *<Symbol Role="Variable">args</Symbol>,
+        int <Emphasis>argCount</Emphasis>,
+        DtActionStatus <Symbol Role="Variable">status</Symbol>);
+</Synopsis>
+<Synopsis>typedef void (*DtDbReloadCallbackProc)(XtPointer <Symbol Role="Variable">clientData</Symbol>);
+</Synopsis>
+<Para>The header defines the following as functions:
+</Para>
+<Synopsis>void DtDbReloadNotify(DtDbReloadCallbackProc <Symbol Role="Variable">proc</Symbol>,
+        XtPointer <Symbol Role="Variable">clientData</Symbol>);
+</Synopsis>
+<Synopsis>void DtDbLoad(void);
+</Synopsis>
+<Synopsis>Boolean DtActionExists(char *<Symbol Role="Variable">s</Symbol>);
+</Synopsis>
+<Synopsis>char *DtActionLabel(char *<Symbol Role="Variable">s</Symbol>);
+</Synopsis>
+<Synopsis>char *DtActionDescription(char *<Emphasis>actionName</Emphasis>);
+</Synopsis>
+<Synopsis>char *DtActionIcon(char *<Emphasis>actionName</Emphasis>);
+</Synopsis>
+<Synopsis>DtActionInvocationID
+DtActionInvoke(Widget <Symbol Role="Variable">w</Symbol>,
+        char *<Symbol Role="Variable">action</Symbol>,
+        DtActionFile *<Symbol Role="Variable">args</Symbol>,
+        int <Emphasis>argCount</Emphasis>,
+        char *<Emphasis>termOpts</Emphasis>,
+        char *<Emphasis>execHost</Emphasis>,
+        char *<Emphasis>contextDir</Emphasis>,
+        int <Emphasis>useIndicator</Emphasis>,
+        DtActionCallbackProc <Emphasis>statusUpdateCb</Emphasis>,
+        XtPointer <Symbol Role="Variable">client_data</Symbol>);
+</Synopsis>
+</RefSect1>
+<![ %CDE.C.CDE; [
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.DtActionDescription;, &cdeman.DtActionExists;, &cdeman.DtActionIcon;, &cdeman.DtActionInvoke;, &cdeman.DtActionLabel;, &cdeman.DtActionCallbackProc;, &cdeman.DtDbLoad;, &cdeman.DtDbReloadNotify;, &cdeman.dtaction;.</Para>
+</RefSect1>
+]]>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

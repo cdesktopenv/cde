@@ -1,0 +1,1084 @@
+<!-- $XConsortium: ch02.sgm /main/16 1996/10/22 14:42:26 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.OrgH.div.1">
+<title id="HRDC.OrgH.mkr.1">Organizing and Writing a Help Volume</title>
+<para>This chapter describes the organization and components of a help source
+file. It also provides a step-by-step example that shows how to process a
+help source file to create an online help volume.</para>
+<sect1 id="HRDC.OrgH.div.2">
+<title id="HRDC.OrgH.mkr.2">Help Volume Components</title>
+<para>A help volume has the following major types of components: entity declarations,
+a top-level volume topic (contained in the Part element) meta information
+(contained in the DocInfo element), book components (like Chapters, Sections,
+Lists, and Tables), the index and the glossary.</para>
+<sect2 id="HRDC.OrgH.div.3">
+<title>The Top Level Element: Part</title>
+<para>The <emphasis>Part</emphasis> is the top-level element in the structure
+of a help volume. All other components are subelements of Part in the structural
+hierarchy.</para>
+<para>The structural hierarchy under Part may be several levels deep with
+Chapters containing Sect1s, Sect1s containing Sect2s, Sect2s containing Sect3s,
+and so on. To help prevent users from getting lost, however, you should keep
+your hierarchy as shallow as possible.</para>
+<para>Part may contain the following components in the following order: an
+optional DocInfo, a required Title, an optional TitleAbbrev, an optional PartIntro,
+and one or more other book components, like Chapters.</para>
+<para>Part has the common attributes and a label attribute.</para>
+</sect2>
+<sect2 id="HRDC.OrgH.div.4">
+<title>Topics and Subtopics</title>
+<para>Topics and subtopics form a hierarchy below the Part. Typically, the
+first level of topics is divided into chapters, using the Chapter element.
+Within a chapter, topics are organized into sections, with subtopics of a
+Sect1 tagged as Sect2s, subtopics of a Sect2 tagged as Sect3s, and so on.
+</para>
+<para><xref role="CodeOrFigureOrTable" linkend="HRDC.OrgH.mkr.3"> shows a
+simple hierarchy that includes three chapters. Each chapter contains several
+first-level sections. The third chapter adds two second-level sections.</para>
+<figure>
+<title id="HRDC.OrgH.mkr.3">Help volume structural organization</title>
+<programlisting>Part
+        DocInfo
+        Title
+        Chapter
+                Sect1
+                Sect1
+                Sect1
+        Chapter
+                Sect1
+                        Sect2
+                                Sect3
+                        Sect2
+                Sect1
+                Sect1
+                        Sect2
+                        Sect2
+                                Sect3</programlisting>
+</figure>
+</sect2>
+<sect2 id="HRDC.OrgH.div.5">
+<title>Entities</title>
+<para>An author-defined <emphasis>entity</emphasis> can represent a string
+of characters or a file name. An <emphasis>entity declaration</emphasis> defines
+the entity name and the string or file it represents.</para>
+<para>Entities are useful for:</para>
+<itemizedlist><listitem><para><emphasis>Referencing a common string of text.</emphasis> This is useful if there is some likelihood that the text may change
+or you simply don't want to type it repeatedly. Each place you want the text
+inserted, you reference the entity name.</para>
+</listitem><listitem><para><emphasis>Referencing an external file.</emphasis>
+Entities are often used for accessing graphics files. The &lt;Graphic> element
+has an Entityref attribute, which refers to a graphic image file.</para>
+</listitem></itemizedlist>
+<para>All entity declarations must be entered before any other markup in your
+help volume. To include an entity that you have defined, you use an <emphasis>entity reference.</emphasis></para>
+<para>Entity references can be used anywhere within your help volume inside
+a document type declaration. When you process your help volume with the DocBook
+software, each entity reference is replaced with the text or file that the
+entity represents. <xref role="SecTitleAndPageNum" linkend="HRDC.OrgH.mkr.22">describes
+how to define and use entities.</para>
+</sect2>
+<sect2 id="HRDC.OrgH.div.6">
+<title>Meta Information</title>
+<para><emphasis>Meta information</emphasis> is <emphasis>information about
+your information</emphasis>.</para>
+<para>In DocBook markup, meta information about a help volume is contained
+in the DocInfo element.</para>
+<para>DocInfo may contain the following elements in the following order:</para>
+<itemizedlist><listitem><para>Title (required)</para>
+</listitem><listitem><para>TitleAbbrev (optional)</para>
+</listitem><listitem><para>Subtitle (optional)</para>
+</listitem><listitem><para>one or more AuthorGroups (required)</para>
+</listitem><listitem><para>any number of Abstracts (optional brief descriptions
+of the volume's contents)</para>
+</listitem><listitem><para>a RevHistory (optional)</para>
+</listitem><listitem><para>any number of LegalNotices (optional, giving information
+on trademarks, copyrights, etc.)</para>
+</listitem></itemizedlist>
+<para>The Help System uses the meta information in DocInfo to display the
+Title of a help volume and its copyright information. The Abstract description
+is displayed by the desktop Help Viewer in the Front Panel. Other applications
+capable of displaying help volumes could also make use of this information.
+</para>
+<para><xref role="SecTitleAndPageNum" linkend="HRDC.OrgH.mkr.15"> shows you
+how to create a meta information section.</para>
+</sect2>
+<sect2 id="HRDC.OrgH.div.7">
+<title>Glossary</title>
+<para>The glossary includes definitions for important terms that you've used
+throughout your help volume. If a term is entered using the GlossTerm element,
+then it automatically becomes a link that, when selected, displays the glossary
+entry for that term.</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.8">
+<title id="HRDC.OrgH.mkr.4">General Markup Guidelines</title>
+<para>Online help is written in ordinary text files. You use special codes,
+called <emphasis>tags</emphasis>, to markup <emphasis>elements</emphasis>
+within the information. The tags form a markup language called DocBook.</para>
+<para>If a standard text editor is used, DocBook markup is typed. If the editor
+provides a macro package, tags can be stored and inserted using command keys.
+DocBook markup can also be generated using a structured editor (see <xref
+role="SecTitleAndPageNum" linkend="HRDC.Intro.mkr.24">).</para>
+<para>The DocBook markup language defines a hierarchy of elements that define
+high-level elements, such as chapters and sections, block-oriented elements,
+such as paragraphs, lists, and tables, and low level in-line elements such
+as emphasized words and symbols.</para>
+<sect2 id="HRDC.OrgH.div.9">
+<title id="HRDC.OrgH.mkr.5">Markup in Your Source Files</title>
+<para>The markup for most elements consists of a start tag and an end tag.
+Start tags are entered with the element name between angle brackets (&lt;
+and >). End tags are similar, but the element name is preceded by a / (forward
+slash). Case is not significant in DocBook markup tags.</para>
+<programlisting>&lt;Element attribute name="attribute value"> ... text ... &lt;/Element>
+</programlisting>
+<para>For example, to mark the start and end of a book title you use markup
+like this:</para>
+<programlisting>&lt;Title id="GSNW">Geographical Survey of Northern Wisconsin&lt;/Title>
+</programlisting>
+<para>Where &lt;Title> is the start tag, and &lt;/Title> is the end tag, and
+GSNW is the value of the ID attribute of the Title element. If the element
+has more than one attribute with a specified value, the <symbol>attribute
+name</symbol>="<symbol>attribute value</symbol>" expressions are separated
+by spaces.</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.13">
+<title id="HRDC.OrgH.mkr.7">A Help Volume at a Glance</title>
+<para>The following schematic markup illustrates important elements of a help
+volume and the tags used to enter them. Indentation is used here simply to
+highlight the hierarchical relationship of the elements; you don't need to
+indent the help files that you write.</para>
+<programlisting>DocType
+Part
+        DocInfo
+                Title
+                AuthorGroup
+                Abstract
+                LegalNotice
+        Title
+        PartIntro
+        Chapter
+                Title
+                Sect1
+                        Title
+                        Para
+                        Para
+                        Sect2
+                                Title
+                                Para
+                                Sect3
+                                        Title
+                                        Para
+                                        Para
+                        Sect2
+                                Title
+                                Para
+        Chapter
+                Title
+                Sect1
+                        Title
+                        Para
+                        Para
+                        Sect2
+                                Title
+                                Para
+                        Sect2
+                                Title
+                                Para
+        Glossary
+</programlisting>
+</sect1>
+<sect1 id="HRDC.OrgH.div.14">
+<title id="HRDC.OrgH.mkr.8">Help Source Files</title>
+<para>Online help is written in ordinary text files. You process, or compile,
+these files with the DocBook software to create run-time help files that can
+be read by the Help System.</para>
+<sect2 id="HRDC.OrgH.div.15">
+<title>Creating Your volume.sgm File</title>
+<para>DocBook expects a primary control file named <symbol>volume</symbol><filename>.sgm</filename>, where <symbol role="Variable">volume</symbol> is a name you
+choose.</para>
+<para>Be sure your <symbol role="Variable">volume</symbol> name is unique
+and meaningful. If your <symbol role="Variable">volume</symbol> name is too
+general, it may conflict with another volume that someone else has created.
+If you are writing application help, one recommended practice is to use the
+application's class name.</para>
+<sect3 id="HRDC.OrgH.div.16">
+<title>Multiple Source Files</title>
+<para>The named <symbol>volume</symbol><filename>.sgm</filename> file contains
+entity declarations and entity references to files that make up the help volume.
+Although DocBook expects a single <symbol role="Variable">volume</symbol><filename>.sgm</filename> file as input, you can separate your work into multiple source
+files. Additional files are sourced into the <symbol role="Variable">volume</symbol><filename>.sgm</filename> file using <emphasis>file entities</emphasis>.
+A file entity is like a pointer to another file. That file, in effect, is
+inserted wherever the entity's name appears in the <symbol>volume</symbol><filename>.sgm</filename> file. The referenced files can also contain entity references
+to yet other files.</para>
+</sect3>
+<sect3 id="HRDC.OrgH.div.17">
+<title>Example</title>
+<para>Suppose a help volume has six chapters and each chapter is a separate
+file. The files are: HomeTopic, Metainfo, TOC, Tasks, Reference, and Glossary.
+The <symbol>volume</symbol><filename>.sgm</filename> file for the help volume
+includes file entities for each of the six files and a list of entity references
+that instruct the DocBook software to process the files.</para>
+<programlisting>...
+&lt;!entity HomeTopic        FILE &ldquo;HomeTopic&rdquo;>
+&lt;!entity MetaInformation  FILE &ldquo;Metainfo&rdquo;>
+&lt;!entity TableOfContents  FILE &ldquo;TOC&rdquo;>
+&lt;!entity Tasks            FILE &ldquo;Tasks&rdquo;>
+&lt;!entity Reference        FILE &ldquo;Reference&rdquo;>
+&lt;!entity Glossary         FILE &ldquo;Glossary&rdquo;>
+...
+&amp;HomeTopic;
+&amp;MetaInformation;
+&amp;TableOfContents;
+&amp;Tasks;
+&amp;Reference;
+&amp;Glossary;
+</programlisting>
+<para>The details of running DocBook are covered in <xref role="SecTitleAndPageNum"
+linkend="HRDC.CrHV.mkr.3">.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.18">
+<title id="HRDC.OrgH.mkr.9">Help Files in File Manager</title>
+<para>File Manager represents help files as file icons with a question mark.
+In <xref role="CodeOrFigureOrTable" linkend="HRDC.OrgH.mkr.10"> on <xref role="PageNum"
+linkend="HRDC.OrgH.mkr.10">, there is one source file (the one with the
+<filename>.sgm</filename>) and one run-time file (<filename>.sdl</filename> extension).
+If you double-click a markup file, your standard editor opens the file for
+editing. Double-clicking a (<filename>.sdl</filename> extension) file displays
+the run-time file using the Help Viewer.</para>
+<figure>
+<title id="HRDC.OrgH.mkr.10">File Manager view of help files</title>
+<graphic id="HRDC.OrgH.grph.2" entityref="HRDC.OrgH.fig.2"></graphic>
+</figure>
+<para>To create a run-time help volume, first select the <filename>.sgm</filename>
+file icon in File Manager. Then, choose Compile from the File Manager Selected
+menu.</para>
+<sect2 id="HRDC.OrgH.div.19">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><filename moreinfo="RefEntry">dthelpaction(4)</filename> man page</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.20">
+<title id="HRDC.OrgH.mkr.11">Writing Your First Help Volume: A Step-by-Step
+Example</title>
+<para>Typically you organize your help files in a <filename>help</filename>
+directory. This step-by-step example demonstrates how to create and view a
+standalone help volume. (As a standalone volume, it does not involve interaction
+with an application.)</para>
+<para>To create and process a help volume, you follow these steps:</para>
+<orderedlist><listitem><para>Create the source directory for help files.</para>
+</listitem><listitem><para>Create the master DocBook file.</para>
+</listitem><listitem><para>Create the run-time help files.</para>
+</listitem><listitem><para>Display the help volume.</para>
+</listitem></orderedlist>
+<para>Each task is described in the section that follows. The markup language
+used in the text files is introduced later in this chapter. DocBook markup
+is described more fully in <xref role="ChapNumAndTitle" linkend="HRDC.WrTop.mkr.1">
+and in the <citetitle>Guide to the DocBook DTD</citetitle>.</para>
+<sect2 id="HRDC.OrgH.div.21">
+<title>Create the Source Directory</title>
+<orderedlist><listitem><para>Create a directory named <filename>helpfiles</filename> where you will create and process your help files.</para>
+</listitem><listitem><para>Create a text file named <filename>Commands.sgm</filename> in the directory just created.</para>
+<para>For this example, all the information is put into a single file. Typically,
+you will use multiple files to fully explain the system or application you
+are writing help for.</para>
+<para>The <filename>Commands.sgm</filename> file contains text and element
+tags. The element tags within the &lt; and > (angle brackets) indicate the
+structure of the information.</para>
+</listitem><listitem><para>Type the following markup text in the
+<filename>Commands.sgm</filename> file.</para>
+<programlisting>
+&lt;Chapter>
+&lt;Title id="CommandSummary-id>Command Summary&lt;/Title>
+&lt;Indexterm>&lt;Primary>commands&lt;Primary>&lt;/Indexterm>
+&lt;Para>Your&amp;product; is capable of the following operations:&lt;/Para>
+&lt;ItemizedList>
+&lt;ListItem>&lt;Para>&lt;Link Linkend="ChannelChange-id">ChannelChange&lt;/Link>&lt;/Para>&lt;/ListItem>
+&lt;ListItem>&lt;Para>&lt;Link Linkend="VolumeUp-id"> VolumeUp &lt;/Link>       &lt;/Para>&lt;/ListItem>
+&lt;ListItem>&lt;Para>&lt;Link Linkend="VolumeDown-id"> VolumeDown &lt;/Link>&lt;/Para>&lt;/ListItem>
+&lt;ListItem>&lt;Para>&lt;Link Linkend="VolumeMute-id"> VolumeMute &lt;/Link>&lt;/Para>&lt;/ListItem>
+&lt;/ItemizedList>
+&lt;Para>Choose one of the hyperlinks (underlined phrases)
+to find out how to perform that operation.&lt;/Para>
+&lt;Sect1 id="ChannelChange-s">
+&lt;Title id="ChannelChange-t">Changing the Channel&lt;/Title>
+&lt;Indexterm>&lt;Primary>channel&lt;Secondary>changing&lt;/Secondary>&lt;Primary>&lt;/Indexterm>
+&lt;Para>Speak the command:
+&lt;Programlisting> channel&lt;/Programlisting>
+followed by a number from &lt;Command>one&lt;/Command>to &lt;Command>ninety-nine&lt;/Command>.&lt;/Para>
+&lt;/Sect1>
+&lt;Sect1 id="VolumeUp-s">
+&lt;Title id="VolumeUp-t">Turning Up the Volume&lt;/Title>
+&lt;Indexterm>&lt;Primary>volume&lt;Secondary>changing&lt;/Secondary>&lt;/Primary>&lt;/Indexterm>
+&lt;Para>Speak the command:
+&lt;Programlisting>volume up&lt;/Programlisting>&lt;/Para>
+&lt;Para>For additional volume, speak the command:
+&lt;Programlisting>more&lt;/Programlisting>&lt;/para>
+&lt;Para>(See also &lt;Link Linkend="VolumeDown-id">VolumeDown&lt;/Link>)&lt;/Para>
+&lt;/Sect1>
+&lt;Sect1 id="VolumeDown-s">
+&lt;Title id="VolumeDown-t">Turning Down the Volume&lt;/Title>
+&lt;Indexterm>&lt;Primary>volume&lt;Secondary>changing&lt;/Secondary>&lt;/Primary>&lt;/Indexterm>
+&lt;Para>Speak the command:
+&lt;Programlisting>volume down&lt;/Programlisting>&lt;/Para>
+&lt;Para>To reduce the volume further, speak the command:
+&lt;Programlisting>more&lt;/Programlisting>&lt;/Para>
+&lt;Para>(See also &lt;Link Linkend="VolumeUp-id"> VolumeUp &lt;/Link> and &lt;Link Linkend="VolumeMute-id">VolumeMute&lt;/Link>)&lt;/Para>
+&lt;/Sect1>
+&lt;Sect1 id="VolumeMute-s">
+&lt;Title id="VolumeMute-t">Turning Off the Sound&lt;/Title>
+&lt;Indexterm>&lt;Primary>volume&lt;Secondary>changing&lt;/Secondary>&lt;/Primary>&lt;/Indexterm>
+&lt;Indexterm>&lt;Primary>sound&lt;Secondary>on/off&lt;/Secondary>&lt;/Primary>&lt;/Indexterm>
+&lt;Para>Speak the command:
+&lt;Programlisting>sound off&lt;/Programlisting>&lt;/Para>
+&lt;Para>To restore the sound, speak the command:
+&lt;Programlisting>sound on&lt;/Programlisting>&lt;/Para>
+&lt;Para>(See also &lt;Link Linkend="VolumeDown-id">VolumeDown&lt;/Link> and &lt;Link Linkend="VolumeUp-id">VolumeUp&lt;/Link>&lt;/Para>
+&lt;/Sect1>
+&lt;/Chapter>
+</programlisting>
+</listitem><listitem><para>Create a text file that gives the information a
+title, provides copyright information, and provides other information about
+the online help.</para>
+<para>In this example, the following text is put into a file called
+<filename>Metainfo.sgm</filename> in the same directory as the <filename>Commands.sgm</filename>file.</para>
+<programlisting>&lt;DocInfo>
+ &lt;Title> Using the &amp;product;&lt;/Title>
+        &lt;AuthorGroup>&lt;Author>Jim Jonas&lt;/Author>
+                &lt;/AuthorGroup>
+        &lt;Abstract> Help for Using the &amp;product;.
+                &lt;/Abstract>
+        &lt;LegalNotice>
+        &lt;BlockQuote>
+        &lt;para>&amp;copy; 1995 Voice Activation Company.
+        All rights reserved.&lt;/para>
+        &lt;/BlockQuote>
+                &lt;/LegalNotice>
+&lt;/DocInfo>
+</programlisting>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="HRDC.OrgH.div.23">
+<title>Create the Master DocBook File</title>
+<orderedlist><listitem><para>Create a text file whose name is of the form <symbol role="Variable">volume</symbol><filename>.sgm</filename>. In this example,
+the file is named <filename>voiceact.sgm</filename>.</para>
+</listitem><listitem><para>In the <filename>voiceact.sgm</filename> file,
+define <emphasis>entities</emphasis> that associate the names of the
+<filename>Commands.sgm</filename> and <filename>Metainfo.sgm</filename> files with entity
+names. Also, define any entities that are used (either directly or indirectly)
+in the <filename>Commands.sgm</filename> and <filename>Metainfo.sgm</filename>
+files. Finally, refer to the <filename>Commands.sgm</filename> and
+<filename>Metainfo.sgm</filename> files by their entity names.</para>
+</listitem></orderedlist>
+<para>In this example, the contents of the <filename>voiceact.sgm</filename>
+file look like this. The text within the <literal>&lt;!--&hellip;--></literal>
+elements are comments, which are ignored.</para>
+<programlisting>&lt;!-- Declare an entity for each of the source text files. -->
+&lt;!entity MetaInformation  FILE &ldquo;Metainfo&rdquo;>
+&lt;!entity Commands   FILE &ldquo;Commands&rdquo;>
+
+&lt;!-- Define an entity that names the product and includes
+        the trademark symbol (&amp;tm;). -->
+
+&lt;!entity product &ldquo;VoAc&amp;tm; Voice-Activated Remote Control&rdquo;>
+
+&lt;!-- Include the text files. -->
+&lt;Part>
+&amp;MetaInformation;
+&amp;Commands;
+&lt;/Part></programlisting>
+</sect2>
+<sect2 id="hrdc.orgh.div.25">
+<title>Create the Run-Time Help Files</title>
+<orderedlist><listitem><para>Verify that the <filename>/usr/dt/bin</filename>
+directory is in your search path by typing this command in a terminal window:
+</para>
+<para><command>echo $PATH</command></para>
+<para>If the directory is not in your path, add it to your PATH environment
+variable. If you're not sure how to do this, refer to your system documentation
+or ask your system administrator.</para>
+</listitem><listitem><para>Open File Manager and change to the
+<filename>helpfiles</filename> directory. Select the <filename>voiceact.sgm</filename>
+file icon and choose Compile from the Selected menu in File Manager.</para>
+<para>This executes the DocBook software which creates a run-time version
+of your online help volume (<filename>voiceact.sdl</filename>). Status and
+error messages are placed in a new file, whose name is of the form <symbol>volume</symbol><filename>.log</filename>.</para>
+</listitem><listitem><para>Open the <filename>voiceact.log</filename> file
+to check that your file processed without errors. If errors occurred, fix
+them by editing or renaming the text files as needed.</para>
+</listitem></orderedlist>
+<note>
+<para>You can run DocBook manually in a terminal window.</para>
+<para>To do so, execute the following command:</para>
+<para><command>dtdocbook voiceact.sgm</command></para>
+</note>
+</sect2>
+<sect2 id="hrdc.orgh.div.26">
+<title>Display the Help Volume</title>
+<para>From the <filename>helpfiles</filename> directory, double-click the
+<filename>voiceact.sdl</filename> file icon.</para>
+<para>This displays the help volume using the desktop Help Viewer. You can
+now scroll through the information and jump to related information by choosing
+hyperlinks.</para>
+<note>
+<para>You can run the Help Viewer manually in a terminal window.</para>
+<para>To do so, execute the following command, which displays the new help
+volume:</para>
+<para><command>dthelpview -h voiceact.sdl</command></para>
+</note>
+<sect3 id="hrdc.orgh.div.27">
+<title>See Also</title>
+<itemizedlist><listitem><para><xref role="ChapNumAndTitle" linkend="hrdc.crhv.mkr.1">,
+on <xref role="PageNum" linkend="hrdc.crhv.mkr.1"></para>
+</listitem><listitem><para><xref role="ChapNumAndTitle" linkend="hrdc.cmds.mkr.1">,
+on <xref role="PageNum" linkend="hrdc.cmds.mkr.1"></para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.28">
+<title id="HRDC.OrgH.mkr.12">Creating a Topic Hierarchy</title>
+<para>The topic hierarchy within your help volume begins with the <emphasis>Part</emphasis>. Each help volume must have one Part. The first level of subtopics
+below Part must be entered with &lt;Chapter> tags.</para>
+<para>Additional levels of subtopics are entered with &lt;Sect1>, &lt;Sect2>,
+&lt;Sect3>, &lt;Sect4>, and &lt;Sect5>. The DocBook markup language supports
+five topic levels, but bear in mind that information more than three or four
+levels deep often leads many readers to feel lost.</para>
+<para>When a help volume is displayed, the help window displays a list of
+topics in its topic tree. Any topic entered with a &lt;Chapter>, &lt;Sect1>,
+&lt;Sect2>, &lt;Sect3>, &lt;Sect4>, or &lt;Sect5> tag automatically appears
+in the topic tree. This provides an easy way to browse and view topics.</para>
+<para>To enable users to display other related information from within a topic,
+you create hyperlinks. To do so, you assign a unique ID to each destination
+topic. Hyperlinks make it possible to reference a specific ID anywhere in
+your help information.</para>
+<sect2 id="HRDC.OrgH.div.29">
+<title>Example</title>
+<para>Suppose you want to create a hierarchy to match this simple outline:
+</para>
+<programlisting>Tutorial for New Users
+        Module 1: Getting Started
+        Module 2: Creating Your First Report
+        Module 3: Printing the Report
+        Module 4: Saving Your Work and Quitting
+Task Reference
+        Starting and Stopping
+                To Start the Program
+                To Quit the Program
+        Creating Reports
+                To Create a Detailed Report
+                To Create a Summary Report
+Concepts for Advanced Users
+        Using Report Hot Links
+        Sharing Reports within a Workgroup
+Reference
+        Command Summary
+        Report Attributes Summary</programlisting>
+<para>Then the general outline of your help volume would look like this.</para>
+<programlisting>&lt;Part>
+&lt;title>Welcome to ReportMaster&lt;/title>
+
+&lt;chapter>
+        &lt;title>Tutorial for New Users&lt;/title>
+        overview of chapter topic
+        &lt;sect1>
+        &lt;title>Module 1: Getting Started&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Module 2: Creating Your First Report&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Module 3: Printing the Report&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Module 4: Saving Your Work and Quitting&lt;/title>
+                body of topic
+                &lt;/sect1>
+&lt;/chapter>
+
+&lt;chapter>
+        &lt;title>Task Reference&lt;/title>
+        overview of chapter topic
+&lt;sect1>
+        &lt;title>Starting and Stopping&lt;/title>
+        body of topic
+        &lt;sect2>
+                &lt;title>To Start the Program&lt;/title>
+                body of topic
+                &lt;/sect2>
+        &lt;sect2>
+                &lt;title>To Quit the Program&lt;/title>
+                body of topic
+                &lt;/sect2>
+&lt;sect1>
+        &lt;title>Creating Reports&lt;/title>
+        body of topic
+        &lt;sect2>
+                &lt;title>To Create a Detailed Report&lt;/title>
+                body of topic
+                &lt;/sect2>
+        &lt;sect2>
+                &lt;title>To Create a Summary Report&lt;/title>
+                body of topic
+                &lt;/sect2>
+        &lt;/sect1>
+&lt;/chapter>
+
+&lt;chapter>
+        &lt;title>Concepts for Advanced Users&lt;/title>
+        overview of chapter topic
+        &lt;sect1>
+        &lt;title>Using Report Hot Links&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Sharing Reports within a Workgroup&lt;/title>
+                body of topic
+                &lt;/sect1>
+&lt;/chapter>
+
+&lt;chapter>
+        &lt;title>Reference&lt;/title>
+        overview of chapter topic
+        &lt;sect1>
+        &lt;title>Command Summary&lt;/title>
+                body of topic
+                &lt;/sect1>
+        &lt;sect1>
+        &lt;title>Report Attributes Summary&lt;/title>
+                body of topic
+                &lt;/sect1>
+&lt;/chapter>
+&lt;/part></programlisting>
+<para>(The body of each topic and IDs for the topics are not shown. Spacing
+and indentations are only for ease of reading, and are not significant.)</para>
+<sect3 id="HRDC.OrgH.div.30">
+<title>See Also</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.OrgH.mkr.18">describes
+assigning IDs to topics</para>
+</listitem><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.WrTop.mkr.14">describes
+how to create hyperlinks</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="hrdc.orgh.div.31" role="Procedure">
+<title id="hrdc.orgh.mkr.13">To Create a Part</title>
+<itemizedlist><listitem><para>Use the Part element as follows:</para>
+</listitem></itemizedlist>
+<programlisting>&lt;Part>
+        &lt;DocInfo>
+                &lt;Title>Volume Title&lt;/Title>
+                &lt;AuthorGroup>
+                        &lt;Author>author's name here&lt;/Author>
+                &lt;/AuthorGroup>
+                &lt;Abstract>
+                        &lt;Para>abstract here&lt;/Para>
+                &lt;/Abstract>
+                &lt;LegalNotice>
+                        &lt;BlockQuote>
+                        &lt;Para>copyrights etc. &lt;/Para>
+                        &lt;/BlockQuote>
+                &lt;/LegalNotice>
+        &lt;/DocInfo>
+        &lt;Title>Volume Title&lt;/Title>
+        &lt;/PartIntro>&lt;Para>This is the home topic.&lt;/Para>&lt;/PartIntro>
+        &lt;Chapter Id="chapid">
+                &lt;Title>This Chapter&lt;/Title>
+                &lt;Sect1 Id="sect1id">
+                        &lt;Title>Sect1 Heading&lt;/Title>
+                        &lt;Sect2 Id="sect2id">
+                                &lt;Title>Sect2 Heading&lt;/Title>
+                ...
+                ...
+                ...
+                        &lt;/sect2>
+                &lt;/sect1>
+        &lt;/chapter>
+&lt;/Part>
+</programlisting>
+<para>Part may contain the following components in the following order: an
+optional DocInfo, a required Title, an optional TitleAbbrev, an optional PartIntro,
+and one or more other book components, like Chapters and Sections.</para>
+<para>Note that the Title of the help volume appears twice, if a DocInfo is
+present: once within DocInfo, and again as the first element following DocInfo.
+</para>
+<sect3 id="hrdc.orgh.div.32">
+<title>Example</title>
+<para>Here's a sample Part with a PartIntro that includes hyperlinks to the
+Part's four subtopics:</para>
+<programlisting>
+&lt;/Part>
+&lt;title>Report Master&lt;/title>
+&lt;PartIntro>
+&lt;Para>Welcome to the online help for Report Master. Please choose one of the following hyperlinks:&lt;/Para>
+&lt;itemizedlist>
+&lt;listitem>&lt;para>&lt;Link Linkend="Tutorial-id">Tutorial&lt;/Link> &lt;/para>&lt;/listitem>
+&lt;listitem>&lt;para>&lt;Link Linkend="Tasks-id">Tasks&lt;/Link>&lt;/para>&lt;/listitem>
+        &lt;listitem>&lt;para>&lt;Link Linkend="Concepts-id">VolumeDown&lt;/Link>&lt;/para>&lt;/listitem>
+        &lt;listitem>&lt;para>&lt;Link Linkend="Reference-id">VolumeMute&lt;/Link>&lt;/para>&lt;/listitem>
+&lt;/itemizedlist>.
+&lt;Para>If you need help, press F1.&lt;/Para>
+&lt;/PartIntro>
+...
+&lt;/Part></programlisting>
+<para>The preceding markup produces this output:</para>
+<graphic id="hrdc.orgh.igrph.2" entityref="HRDC.OrgH.fig.4"></graphic>
+</sect3>
+</sect2>
+<sect2 id="hrdc.orgh.div.33" role="Procedure">
+<title id="hrdc.orgh.mkr.14">To Add a Topic to the Hierarchy</title>
+<itemizedlist><listitem><para>To add another topic at the same level, close
+the element using its end tag, then repeat the same element by opening it
+with its start tag.</para>
+<para>To add a subtopic (a topic one level deeper in the hierarchy), use the
+element that is one level deeper than the preceding topic.</para>
+</listitem></itemizedlist>
+<sect3 id="hrdc.orgh.div.34">
+<title>Example</title>
+<para>If the current topic is a &lt;Sect1>, enter a subtopic using &lt;Sect2>.
+</para>
+<programlisting>&lt;sect1>
+        &lt;title>Creating Reports&lt;/title>
+        body of the topic
+        &lt;sect2>
+                &lt;title>To Create a Detailed Report&lt;/title>
+                body of the first subtopic
+                &lt;/sect2>
+        &lt;sect2>
+                &lt;title>To Create a Summary Report&lt;/title>
+                body of the second subtopic
+                &lt;/sect2>
+&lt;/sect1></programlisting>
+<para>The second Sect2 is also a subtopic of the Sect1.</para>
+<note>
+<para>Sometimes parent-child-sibling metaphors are used to describe the relationships
+topics in a hierarchy. In the preceding example, the Sect1 topic is the &ldquo;parent&rdquo;
+of both Sect2s (the &ldquo;children&rdquo; topics). The two Sect2s are &ldquo;siblings&rdquo;
+of one another. All three topics are &ldquo;descendents&rdquo; of the Chapter's
+topic.</para>
+</note>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.35">
+<title id="HRDC.OrgH.mkr.15">Creating Meta Information Topics</title>
+<para>The DocInfo meta information section is primarily intended for <emphasis>information about information</emphasis>. In the DocBook markup language,
+Meta information for a help volume is contained in the DocInfo element that
+may occur as the first component of a Part. DocInfo contains information about
+the help volume's title and authors, may contain legal notices about copyrights
+and trademarks, and abstracts of the volume's contents.</para>
+<para>DocInfo may contain the following elements in the following order:</para>
+<itemizedlist><listitem><para>Title (required)</para>
+</listitem><listitem><para>TitleAbbrev (optional)</para>
+</listitem><listitem><para>Subtitle (optional)</para>
+</listitem><listitem><para>one or more AuthorGroups (required)</para>
+</listitem><listitem><para>any number of Abstracts (optional)</para>
+</listitem><listitem><para>a RevHistory (optional)</para>
+</listitem><listitem><para>any number of LegalNotices (optional)</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.OrgH.div.36" role="Procedure">
+<title id="HRDC.OrgH.mkr.16">To Create a Meta Information Section</title>
+<orderedlist><listitem><para>Enter the &lt;DocInfo> tag to start the section,
+and follow immediately with the required Title element, as shown:</para>
+<programlisting>&lt;DocInfo>
+        &lt;title><symbol>Volume Title Here</symbol>&lt;/title>
+</programlisting>
+</listitem><listitem><para>Enter the optional TitleAbbrev and Subtitle elements
+if needed.</para>
+</listitem><listitem><para>Enter the required AuthorGroup element, which contains
+one or more Authors, Collabs, or CorpAuthors, in any order.</para>
+</listitem><listitem><para>Enter the optional Abstract and LegalNotice elements
+if needed, following these syntax models:</para>
+<programlisting>&lt;Abstract Id="SDL-RESERVED-abstract">
+        &lt;Para>abstract here&lt;/Para>
+&lt;/Abstract>
+
+&lt;LegalNotice Id="SDL-RESERVED-copyright">
+        &lt;BlockQuote>
+                &lt;Para>&copy; year &amp; copyright holder's name&lt;/Para>
+        &lt;/BlockQuote>
+&lt;/LegalNotice>
+</programlisting>
+</listitem><listitem><para>Enter the DocInfo end tag to end the section.</para>
+</listitem></orderedlist>
+<para>The Abstract section is recommended. Applications that access help volumes
+can use this information to present a brief description of the volume. Because
+the abstract might be displayed in plain text windows avoid including any
+DocBook markup in the abstract.</para>
+<sect3 id="HRDC.OrgH.div.37">
+<title>Example</title>
+<para>Here's a markup for typical meta information section contained in the
+DocInfo element:</para>
+<programlisting>
+&lt;DocInfo>
+&lt;title>Report Master, Version 1.0&lt;/title>
+
+&lt;AuthorGroup>
+        &lt;Author>Jim Jonas&lt;/Author>
+&lt;/AuthorGroup>
+
+&lt;Abstract>
+        &lt;Para>This is the online help for the mythical Report Master application. This help includes a self-guided tutorial, a summary of common tasks, general concepts, and quick reference summaries.&lt;/Para>
+&lt;/Abstract>
+
+&lt;LegalNotice>
+        &lt;BlockQuote>
+                &lt;Para>
+        Version 1.0
+        &amp;copy; Copyright Reports Incorporated 1995
+        All rights reserved.
+                &lt;/Para>
+        &lt;/BlockQuote>
+&lt;/LegalNotice>
+&lt;/DocInfo></programlisting>
+<para>The BlockQuote element is used to preserve the line breaks in the copyright
+notice. The <literal>&amp;copy;</literal> entity inserts the copyright symbol.
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.39">
+<title>Adding a Nonhierarchical Topic</title>
+<para>Topics entered with the Chapter, Sect1, Sect2, Sect3, Sect4, Sect5 element
+tags automatically appear in the topic tree. When a title is selected in the
+topic tree, the corresponding help topic is displayed in a general help dialog
+box.</para>
+<para>Sometimes you may want to create and display a topic independent of
+the structural hierarchy you have created. These nonhierarchical topics are
+useful for creating custom definition links that pop-up a topic in a quick
+help dialog box.</para>
+<para>Appendix is the tag for a free-floating heading not tied to the Sect
+hierarchy. It may contain inline elements.</para>
+<para>Appendix has the common attributes, including the ID attribute and the
+XRefLabel atttribute, and also the Label attribute. When using the Appendix
+element for nonhierarchical topics, the value of the Role attribute should
+be &ldquo;notoc&rdquo;.</para>
+<sect2 id="hrdc.orgh.div.40" role="Procedure">
+<title id="hrdc.orgh.mkr.17">To Add a Nonhierarchical Topic</title>
+<itemizedlist><listitem><para>Add the nonhierarchical topic using the BridgeHead
+element as follows:</para>
+<programlisting>&lt;Appendix id="bh-some-id" role="notoc">
+        <symbol>text of the topic</symbol>
+&lt;/Appendix></programlisting>
+</listitem></itemizedlist>
+<para>Presumably, a definition link to display this topic will exist within
+some other topic in the help volume.</para>
+<para>The link might look like this:</para>
+<programlisting>Here's a sample of a pop-up &lt;link linkend="bh-some-id">
+definition link.&lt;/link></programlisting>
+<para>The words &ldquo;definition link&rdquo; become the active hyperlink
+and will be displayed with a dashed underline. Selecting the link displays
+the text of the topic in a quick help dialog box.</para>
+<sect3 id="hrdc.orgh.div.42">
+<title>See Also</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="hrdc.wrtop.mkr.14"></para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.43">
+<title id="HRDC.OrgH.mkr.18">Accessing Topics</title>
+<para>Many elements in the DocBook language support an ID attribute. An ID
+is a unique name used internally to identify topics and elements within topics.
+Since ID is one of DocBook's common attributes, any element with the common
+attributes can support an ID attribute.</para>
+<para>An ID is defined only once, but multiple hyperlinks and cross-references
+can refer to the same ID. IDs are not seen by the user.</para>
+<para>If you are writing help for an application, IDs are also used by the
+application to identify particular topics to display when the user requests
+help.</para>
+<para>For example, you might write several topics that describe an application's
+menus. The IDs that you assign to the topics are used by the application developer.
+By defining identical IDs within the application code, the developer can integrate
+specific topics. This allows the application to access and display the correct
+topic when help is requested for a particular menu.</para>
+<sect2 id="HRDC.OrgH.div.44">
+<title>Rules for ID Names</title>
+<itemizedlist><listitem><para>ID strings may contain letters (A - Z and a
+- z), digits (0 - 9), the period (.), and the minus (&minus;) sign. ID strings
+must begin with a letter, and be unique at least within the document in which
+they occur.</para>
+</listitem><listitem><para>Case in ID strings is <emphasis>not</emphasis>
+significant, but is often used to increase readability.</para>
+</listitem><listitem><para>ID strings cannot be longer than 128 characters.
+</para>
+</listitem><listitem><para>Each ID within a single help volume must be unique.
+</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.OrgH.div.44a">
+<title>Built-in IDs</title>
+<para>A few elements have built-in IDs, and so do not support an author-defined
+ID. Each of the following elements have predefined IDs (shown in parentheses):
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="264*">
+<colspec colwidth="264*">
+<tbody>
+<row>
+<entry align="left" valign="top">&lt;PartIntro></entry>
+<entry align="left" valign="top">( _hometopic)</entry></row>
+<row>
+<entry align="left" valign="top">&lt;LegalNotice> in &lt;DocInfo></entry>
+<entry align="left" valign="top">( _copyright)</entry></row>
+<row>
+<entry align="left" valign="top">&lt;Abstract> in &lt;DocInfo></entry>
+<entry align="left" valign="top">( _abstract)</entry></row>
+<row>
+<entry align="left" valign="top">&lt;Glossary></entry>
+<entry align="left" valign="top">( _glossary)</entry></row>
+<row>
+<entry align="left" valign="top">&lt;Title> in &lt;DocInfo></entry>
+<entry align="left" valign="top">( _title)</entry></row></tbody></tgroup>
+</informaltable>
+</sect2>
+<sect2 id="HRDC.OrgH.div.45" role="Procedure">
+<title id="HRDC.OrgH.mkr.19">To Add an ID to a DocBook Element</title>
+<itemizedlist><listitem><para>You include the ID string in the opening tag
+of the element as follows:</para>
+<programlisting>&lt;Element ID="<symbol>id-string</symbol>"></programlisting>
+<para>Note that the value of the ID string is enclosed in quotation marks.
+</para>
+</listitem></itemizedlist>
+<para>All the DocBook elements with the common attributes support an author-defined
+ID. These are:</para>
+<itemizedlist><listitem><para>Abbrev</para>
+</listitem><listitem><para>Abstract</para>
+</listitem><listitem><para>Anchor</para>
+</listitem><listitem><para>Appendix</para>
+</listitem><listitem><para>Author</para>
+</listitem><listitem><para>BlockQuote</para>
+</listitem><listitem><para>BridgeHead</para>
+</listitem><listitem><para>Chapter</para>
+</listitem><listitem><para>ComputerOutput</para>
+</listitem><listitem><para>CorpAuthor</para>
+</listitem><listitem><para>DocInfo</para>
+</listitem><listitem><para>Entry</para>
+</listitem><listitem><para>EntryTbl</para>
+</listitem><listitem><para>Example</para>
+</listitem><listitem><para>Figure</para>
+</listitem><listitem><para>Glossary</para>
+</listitem><listitem><para>GlossDiv</para>
+</listitem><listitem><para>GlossEntry</para>
+</listitem><listitem><para>GlossTerm</para>
+</listitem><listitem><para>Graphic</para>
+</listitem><listitem><para>Index</para>
+</listitem><listitem><para>IndexDiv</para>
+</listitem><listitem><para>IndexEntry</para>
+</listitem><listitem><para>InformalTable</para>
+</listitem><listitem><para>ItemizedList</para>
+</listitem><listitem><para>KeyCap</para>
+</listitem><listitem><para>LiteralLayout</para>
+</listitem><listitem><para>OrderedList</para>
+</listitem><listitem><para>Part</para>
+</listitem><listitem><para>PrimaryIE</para>
+</listitem><listitem><para>ProgramListing</para>
+</listitem><listitem><para>Quote</para>
+</listitem><listitem><para>RefEntry</para>
+</listitem><listitem><para>Reference</para>
+</listitem><listitem><para>Screen</para>
+</listitem><listitem><para>Sect1 - Sect5</para>
+</listitem><listitem><para>See</para>
+</listitem><listitem><para>SeeAlso</para>
+</listitem><listitem><para>SeeIE</para>
+</listitem><listitem><para>Seg</para>
+</listitem><listitem><para>SegListItem</para>
+</listitem><listitem><para>SegmentedList</para>
+</listitem><listitem><para>SegTitle</para>
+</listitem><listitem><para>Sidebar</para>
+</listitem><listitem><para>SpanSpec</para>
+</listitem><listitem><para>Table</para>
+</listitem><listitem><para>TBody</para>
+</listitem><listitem><para>TFoot</para>
+</listitem><listitem><para>TGroup</para>
+</listitem><listitem><para>Term</para>
+</listitem><listitem><para>Title</para>
+</listitem><listitem><para>TitleAbbrev</para>
+</listitem><listitem><para>ToC</para>
+</listitem><listitem><para>UserInput</para>
+</listitem><listitem><para>VariableList</para>
+</listitem><listitem><para>VarListEntry</para>
+</listitem></itemizedlist>
+<para>In addition to including IDs with DocBook elements that support them,
+you can use the Anchor element to set an ID at an arbitrary point within a
+document. The Anchor can then mark a target for a Link, which will take the
+Anchor's ID string for the value of its Linkend attribute. Anchor is an inline
+element that may appear almost anywhere. Anchor is an empty element, with
+no content.</para>
+<para>Anchor can have ID, Pagenum, Remap, Role, and XRefLabel attributes,
+but only the ID attribute is required. At the minimum, only the Anchor start
+tag is present, with an ID.</para>
+<para>When you activate a link to a location ID, the Help Viewer displays
+the topic containing the ID and scrolls the window to the ID position.</para>
+<sect3 id="HRDC.OrgH.div.45a">
+<title>Syntax of the Anchor element</title>
+<programlisting>&lt;anchor id="<symbol>id-string</symbol>"></programlisting>
+</sect3>
+<sect3 id="HRDC.OrgH.div.45b">
+<title>Example of the Anchor element</title>
+<programlisting>There is an Anchor <symbol>&lt;anchor id=&ldquo;077-ch02-AN-7&rdquo;></symbol> in this sentence.</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.OrgH.div.49">
+<title id="HRDC.OrgH.mkr.22">Using Entities</title>
+<para>An <emphasis>entity</emphasis> can represent a string of characters
+or the contents of a file.</para>
+<para>An <emphasis>entity declaration</emphasis> defines the entity by associating
+the entity name with a specific character string or file name.</para>
+<para>An <emphasis>entity reference</emphasis> is replaced by the string
+or file contents when you process the help volume with the <command>dtdocbook</command> command.</para>
+<para>Entities are useful for:</para>
+<itemizedlist><listitem><para><emphasis>Referencing a given string of text.</emphasis> This is useful if there is some likelihood that the given string
+of text may subsequently need to be changed, or if you simply don't want to
+type it repeatedly.</para>
+<para>Once you have declared an entity to stand for a given string of text,
+each place you want the text inserted, you simply reference the entity name.
+</para>
+</listitem><listitem><para><emphasis>Referencing an external file, particularly
+a graphics file.</emphasis> Entities provide one way of accessing graphics
+files.</para>
+<para>The Graphic element points via its attributes to an external file containing
+graphical data.</para>
+<para>The file that contains the graphical data can be specified by using
+Graphic's Fileref attribute with the value of the filename, qualified by a
+pathname if desired.</para>
+<para>Alternatively, if the file that contains the graphical data has been
+declared an entity, it can be specified by using Graphic's Entityref with
+the value of the entity name.</para>
+</listitem></itemizedlist>
+<para>File entities are also useful for splitting your DocBook source into
+multiple files. Use entity references to include other files into your master
+DocBook file for processing.</para>
+<sect2 id="HRDC.OrgH.div.50">
+<title><emphasis>Rules for Entity Declarations</emphasis></title>
+<itemizedlist><listitem><para>Entity names may contain letters (A - Z and
+a - z), digits (0 - 9), the period (.), and the minus (&minus;) sign, and
+must begin with a letter.</para>
+</listitem><listitem><para>Case is <emphasis>not</emphasis> significant in
+entity names, but is often used to increase readability.</para>
+</listitem><listitem><para>Entity names cannot be longer than 128 characters.
+</para>
+</listitem><listitem><para>Each entity name must be unique within a single
+volume.</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.OrgH.div.51" role="Procedure">
+<title id="HRDC.OrgH.mkr.23">To Create a Text Entity</title>
+<orderedlist><listitem><para>Declare an entity as follows:</para>
+<programlisting>&lt;!entity <symbol>Entityname</symbol> "<symbol>text string</symbol>"></programlisting>
+<para>Where <symbol>Entityname</symbol> is the name of the entity and <symbol>tex stringt</symbol> is the string that you want substituted for every reference
+to the entity. <emphasis>Remember, all entity declarations must be contained
+in the document type declaration of your help volume.</emphasis></para>
+</listitem><listitem><para>For each location where you want the <symbol>text
+string</symbol> to be inserted, enter the entity reference as follows:</para>
+<programlisting><symbol>&amp;Entityname;</symbol></programlisting>
+<para>The <literal>&amp;</literal> (ampersand) and <literal>;</literal> (semicolon)
+characters are required for the DocBook software to properly recognize the
+entity reference.</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.OrgH.div.52">
+<title>Example</title>
+<para>The following line declares a text entity named Assoc that contains
+the string &ldquo;Society of Agricultural Engineers&rdquo;:</para>
+<programlisting>&lt;!entity Assoc "Society of Agricultural Engineers"></programlisting>
+<para>The following sentence includes a reference to the entity:</para>
+<programlisting>Welcome to the &amp;Assoc;.</programlisting>
+<para>When the help volume is processed with the DocBook software, the entity
+reference is replaced with the value of the entity. So, the sentence will
+read:</para>
+<para>Welcome to the Society of Agricultural Engineers.</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.OrgH.div.53" role="Procedure">
+<title id="HRDC.OrgH.mkr.24">To Create a File Entity</title>
+<orderedlist><listitem><para>Declare an entity as follows:</para>
+<programlisting>&lt;!entity <symbol role="Variable">Entityname</symbol> SYSTEM "<symbol role="Variable">filename</symbol>"></programlisting>
+<para>Where <symbol role="Variable">Entityname</symbol> is the name of the
+entity and <symbol>filename</symbol> is the name of the file. The keyword <Symbol>SYSTEM</Symbol> is required.</para>
+</listitem><listitem><para>Reference the entity as follows:</para>
+<itemizedlist><listitem><para>If the file is a text file, enter the following
+entity reference at each location where you want the contents of the file
+inserted.</para>
+<programlisting><symbol>&amp;Entityname;</symbol></programlisting>
+<para>The &amp; (ampersand) and; (semicolon) characters are required for
+the DocBook software to properly recognize the entity reference.</para>
+</listitem><listitem><para>If the file is a graphics file, include the name
+of the entity as the value of the Entityref attribute like this:</para>
+<programlisting>&lt;Graphic ID="<symbol>some-graphic-id</symbol>"Entityref=" <symbol>Entityname</symbol>">&lt;/Graphic></programlisting>
+</listitem></itemizedlist>
+</listitem></orderedlist>
+<sect3 id="HRDC.OrgH.div.54">
+<title>Example: Text File Entities</title>
+<para>Suppose you wrote the text for your help volume in three files named
+<filename>file1</filename>, <filename>file2</filename>, and <filename>file3</filename>,
+plus a fourth file containing your &lt;docinfo> &hellip; &lt;/docinfo> section.
+You could include them in your <symbol>volume</symbol><filename>.sgm</filename>
+file like this:</para>
+<programlisting>&lt;!DOCTYPE DOCBOOK [
+&lt;!entity DocInformation SYSTEM "docinfo">
+&lt;!entity MyFirstFile SYSTEM "file1">
+&lt;!entity MySecondFile SYSTEM "file2">
+&lt;!entity MyThirdFile SYSTEM "file3">
+.<?Pub Caret>..
+>]
+
+&lt;Part>
+&amp;DocInformation;
+&lt;Title>My Home Title&lt;/Title>
+
+&amp;MyFirstFile;
+&amp;MySecondFile;
+&amp;MyThirdFile;</programlisting>
+</sect3>
+<sect3 id="HRDC.OrgH.div.55">
+<title>Example: A Graphic File Entity</title>
+<para>Suppose a simple help volume has a Part with a Graphic in it, and graphic
+data for the Graphic is stored in a file named <filename>picture.tif</filename>.
+The following example shows how that Graphic would be included by using an
+entity reference.</para>
+<programlisting>&lt;!DOCTYPE DOCBOOK [
+&lt;!entity DocInformation SYSTEM &ldquo;docinfo&rdquo;>
+&lt;!entity MyPicture SYSTEM &ldquo;picture.tif&rdquo;>
+...
+]>
+&lt;Part>
+&amp;DocInformation;
+&lt;PartIntro>&lt;Title>A Simple Graphic&lt;/Title>
+&lt;Para>Welcome to my application's help volume.&lt;/Para>
+&lt;/Part>
+&lt;Figure>
+&lt;Title>A Picture&lt;/Title>
+&lt;Graphic entityref="MyPicture"> &lt;/Graphic>
+&lt;/Figure>
+&lt;/PartIntro>
+&lt;/Part>
+</programlisting>
+<para>The text &ldquo;A Picture&rdquo; is the figure's caption.</para>
+<para>The markup produces this output:</para>
+<graphic id="HRDC.OrgH.igrph.3" entityref="HRDC.OrgH.fig.5"></graphic>
+</sect3>
+<sect3 id="HRDC.OrgH.div.56">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="SecTitleAndPageNum"
+linkend="HRDC.WrTop.mkr.23"></para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub *0000055796>

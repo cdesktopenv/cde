@@ -1,0 +1,155 @@
+<!-- $XConsortium: block_wh.sgm /main/5 1996/08/30 14:01:38 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN274.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN274.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tttk_block_while</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tttk_block_while</Function></RefName>
+<RefPurpose>block while a counter is greater than zero
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: block_wh.sgm /main/5 1996/08/30 14:01:38 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>tttk_block_while</Function></FuncDef>
+<ParamDef>XtAppContext <Parameter>app2run</Parameter></ParamDef>
+<ParamDef>const int *<Parameter>blocked</Parameter></ParamDef>
+<ParamDef>int <Parameter>ms_timeout</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tttk_block_while</Function> function
+is used to process asynchronous events, such as ToolTalk messages
+or window system events, while waiting for a condition or timeout.
+</Para>
+<Para>If
+<Emphasis>app2run</Emphasis> is not zero, then an event loop is run for that application context,
+by repeatedly calling
+<Function>XtAppProcessEvent</Function>(3) with
+<Emphasis>ms_timeout</Emphasis> being effected using
+<Function>XtAppAddTimeOut</Function>(3). If
+<Emphasis>app2run</Emphasis> is zero, then the file descriptor (as returned by
+&cdeman.tt.fd;) of the default procid is polled (using the
+<Function>poll</Function>(2) function) and
+&cdeman.tttk.Xt.input.handler; is called whenever the file descriptor is active.
+</Para>
+<Para>If
+<Emphasis>blocked</Emphasis> is zero, then
+<Function>tttk_block_while</Function> runs until
+<Emphasis>ms_timeout</Emphasis> occurs.
+If
+<Emphasis>blocked</Emphasis> is non-zero, then the loop is run until either
+<Emphasis>ms_timeout</Emphasis> occurs, or
+<Emphasis>*blocked</Emphasis> is less than 1.
+</Para>
+<Para>If
+<Emphasis>ms_timeout</Emphasis> is zero,
+<Function>tttk_block_while</Function> checks once for events, processes the first one, and then returns.
+If
+<Emphasis>ms_timeout</Emphasis> is negative,
+no timeout is in effect.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tttk_block_while</Function> function returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_ETIMEDOUT</Term>
+<ListItem>
+<Para>The timeout occurred within
+<Emphasis>ms_timeout</Emphasis> milliseconds, or
+<Emphasis>ms_timeout</Emphasis> was zero and no input was available.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_EINTR</Term>
+<ListItem>
+<Para>The
+<Emphasis>app2run</Emphasis> argument was zero, and
+<Function>poll</Function>(2) was interrupted by a signal.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_EAGAIN</Term>
+<ListItem>
+<Para>The
+<Emphasis>app2run</Emphasis> argument was zero, and
+<Function>poll</Function>(2) returned
+<SystemItem Class="Constant">EAGAIN</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>If
+<Emphasis>app2run</Emphasis> is not zero and
+<Emphasis>ms_timeout</Emphasis> is negative, then
+<Function>tttk_block_while</Function> will only return when
+<Emphasis>*blocked</Emphasis> is less than 1, with
+<SystemItem Class="Constant">TT_OK</SystemItem> being returned.
+</Para>
+<Para>If
+<Emphasis>app2run</Emphasis> is not zero,
+<Emphasis>ms_timeout</Emphasis> is negative, and
+<Emphasis>blocked</Emphasis> is zero, then
+<Function>tttk_block_while</Function> behaves equivalent to
+<Function>XtAppMainLoop</Function>(3), and will never return.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>If
+<Emphasis>app2run</Emphasis> is zero, then only messaging events for the default procid will be serviced.
+Events for other procids will be blocked, as will window
+system events, so that the graphical user interface of the application
+will not update itself even, for example, after expose events.
+</Para>
+<Para>On the other hand, if the application passes its Xt context in as
+<Emphasis>app2run</Emphasis>, then window system events will continue to be handled, as will message
+activity for all procids for which an
+<Function>XtAppAddInput</Function>(3) has been done.
+Since the window system event loop is fully operational
+in this case, the application should take care to disable any
+user interface controls that the user should not operate while
+the application is waiting for
+<Function>tttk_block_while</Function> to return.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.tttk.Xt.input.handler;; <![ %CDE.C.CDE; [<Function>poll</Function>(2), <Function>XtAppPending</Function>(3), <Function>XtAppAddTimeOut</Function>(3), <Function>XtAppNextEvent</Function>(3), <Function>XtDispatchEvent</Function>(3). ]]><![ %CDE.C.XO; [<Function>poll</Function> in the &str-ZK;;
+<Function>XtAppPending</Function>, <Function>XtAppAddTimeOut</Function>, <Function>XtAppNextEvent</Function>, <Function>XtDispatchEvent</Function> in the &str-Zt;.
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

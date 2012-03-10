@@ -1,0 +1,62 @@
+# %%  (c) Copyright 1993, 1994 Hewlett-Packard Company			
+# %%  (c) Copyright 1993, 1994 International Business Machines Corp.	
+# %%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			
+# %%  (c) Copyright 1993, 1994 Novell, Inc. 				
+# %%  $XConsortium: Makefile.shipped /main/3 1995/10/20 17:05:10 rswiston $ 			 				
+# If OPENWINHOME is set, then use that location to
+# search for the include files and library files. If
+# it is not set, then use /usr/openwin.
+WIN_HOME:sh = \
+ (					\
+  case ${OPENWINHOME}			\
+  in ?*) echo ${OPENWINHOME};;		\
+      *) echo "/usr/openwin";;		\
+  esac;					\
+ )
+
+OS_VERSION:sh = (uname -r | sed 's/\..*//')
+
+OBJ_FORMAT_4 = sun
+OBJ_FORMAT_5 = elf
+OBJ_FORMAT = $(OBJ_FORMAT_$(OS_VERSION))
+
+# Parameters.
+
+PROGRAM = CoEd
+SOURCES.cc = CoEdTextBuffer.cc CoEditor.cc CoEd.cc
+SOURCES.h = CoEdTextBuffer.h
+
+# Derived parameters.
+
+SOURCES = \
+	$(SOURCES.h) \
+	$(SOURCES.cc)
+
+OBJECTS = \
+	$(SOURCES.cc:%.cc=%.o)
+
+# Compiler flags.
+
+CC=CC
+CFLAGS += -g
+CPPFLAGS += -I$(WIN_HOME)/include -I../libCoEd
+LDFLAGS += \
+	-L$(WIN_HOME)/lib \
+	-L../libCoEd/$(OBJ_FORMAT)_g
+LDLIBS_5 = -lXol -lXt -lX11 -Bstatic -lCoEd \
+	-Bdynamic -ltt -lnsl -lsocket -lc -ldl -lintl -lw -Bstatic
+LDLIBS_4 = -lXol -lXt -lX11 -Bstatic -lCoEd \
+	-Bdynamic -ltt -lce -lI18N -lc -Bstatic
+LDLIBS += $(LDLIBS_$(OS_VERSION))
+
+# Standard targets.
+
+.MAKE_STATE:
+
+all:	 $(PROGRAM)
+
+$(PROGRAM): $(OBJECTS)
+	LD_RUN_PATH=$(WIN_HOME)/lib $(LINK.cc) -o $@ $(OBJECTS) $(LDLIBS)
+
+%.i: %.c
+	cpp $(CPPFLAGS) $< > $@

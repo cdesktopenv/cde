@@ -1,0 +1,433 @@
+.\" $XConsortium: nval.3 /main/3 1995/11/01 16:25:36 rswiston $
+.TH NVAL 3 "12 Nov 1992"
+.PP
+\fBNAME\fP
+.PP
+\fBnval\fR \- a \f5ksh\fP name/value library 
+.PP
+\fBSYNOPSIS\fP
+.ta .8i 1.6i 2.4i 3.2i 4.0i 4.8i
+.PP
+.nf
+.ft 5
+#include	<nval.h>
+
+Namval_t 	*nv_open(const char *\fIname\fP, Hashtab_t *\fItable\fP, int \fIflags\fP);
+void	nv_close(Namval_t *\fInp\fP);
+Hashtab_t	*nv_getscope(int \fIindex\fP);
+
+char	*nv_getval(Namval_t *\fInp\fP);
+double	nv_getnum(Namval_t *\fInp\fP);
+unsigned	nv_isattr(Namval_t *\fInp\fP, unsigned \fIflags\fP);
+char	*nv_name(Namval_t *\fInp\fP);
+void	nv_newattr(Namval_t *\fInp\fP, unsigned \fIflags\fP, int \fIsize\fP);
+void	nv_putval(Namval_t *\fInp\fP, const char *\fIval\fP, int \fIflags\fP);
+int	nv_size(Namval_t *\fInp\fP);
+Namfun_t	*nv_stack(Namval_t *\fInp\fP, Namfun_t *\fIfp\fP);
+int	nv_scan(Hashtab_t *\fItable\fP, void(*\fIfn\fP)(Namval_t*,int,int));
+void	nv_unset(Namval_t *\fInp\fP);
+
+Namarr_t	*nv_setarray(Namval_t *\fInp\fP,void*(*\fIfun\fP)(Namval_t*,const char*,int));
+Namval_t	*nv_putsub(Namval_t *\fInp\fP, char *\fIname\fP, long \fImode\fP);
+char	*nv_getsub(Namval_t *\fInp\fP);
+int	nv_nextsub(Namval_t *\fInp\fP);
+int	nv_aindex(Namval_t *\fInp\fP);
+void	nv_setref(Namval_t *\fInp\fP);
+void	nv_setvtree(Namval_t *\fInp\fP);
+
+char	*nv_getv(Namval_t *\fInp\fP, Namfun_t *\fIfp\fP);
+double	nv_getn(Namval_t *\fInp\fP, Namfun_t *\fIfp\fP);
+void	nv_putv(Namval_t *\fInp\fP, const char *\fIval\fP, int \fIflags\fP, Namfun_t *\fIfp\fP);
+char	*nv_setdisc(Namval_t *\fInp\fP, const char *\fIa\fP, Namval_t *\fIf\fP, Namfun_t *\fIfp\fP);
+Namval_t	*nv_create(Namval_t *\fInp\fP, const char *\fIname\fP, Namfun_t *\fIfp\fP);
+.fR
+.fi
+.PP
+\fBDESCRIPTION\fP
+.PP
+\fINval\fP is a library of functions for interacting with name-value
+pairs as used in \f5ksh\fP.
+It is built on top an the extensible hashing library facility
+in \f5libast\fP. (See hash(3)).
+Each name-value pair is represented by a
+type named \f5Namval_t\fP. 
+A \f5Namval_t\fP contains the name, value and
+attributes of a variable.
+Some attributes can have an associated number that
+represents the field width, arithmetic base, or precision.
+Additionally, each name-value pair can be associated with
+one or more processing disciplines that affect
+its behavior.
+.PP
+The function \f5nv_open()\fP returns a pointer to a name-value
+pair corresponding to the given \fIname\fP.
+It can also assign a value and give attributes to a name-value pair.
+The argument \fItable\fP defines the table to search.
+A \f5NULL\fP value causes the shell variable table to be searched.
+It is possible for an application to create additional tables
+with the hash library.
+In addition, the \f5nv_getscope()\fP function returns a ponter to
+the hash table for the scope corresponding to \fIindex\fP,
+or \f5NULL\fP if no such table exists.
+A value of \f50\fP for \fIindex\fP indicates the global scope.
+A positive \fIindex\fP indicates the number of levels back
+on the function call stack to find the scope.
+The \fIflags\fP argument consists of the bitwise-or of zero or more
+of the attributes listed later and zero or more of the following:
+.IP
+\f5NV_VARNAME\fP:
+An invalid variable name causes an error.
+.IP
+\f5NV_IDENTIFIER\fP:
+A variable name that is not an identifier causes an error.
+.IP
+\f5NV_ASSIGN\fP:
+The \fIname\fP argument can contain an assignment.
+.IP
+\f5NV_NOARRAY\fP:
+The \fIname\fP argument cannot contain a subscript.
+.IP
+\f5NV_NOREF\fP:
+Do not follow references when finding the name-value pair.
+.IP
+\f5NV_NOADD\fP:
+The name-value pair will not be added if it doesn't exist.
+Instead, a \f5NULL\fP pointer will be returned.
+.IP
+\f5NV_NOSCOPE\fP:
+Only the top level scope is used.
+.PP
+If a name-value pair by this name does not already exist, it is
+created unless \fIflags\fP contains the \f5NV_NOADD\fP flag.
+If neither \f5NV_VARNAME\fP nor \f5NV_IDENTIFIER\fP is
+specified, and \f5NV_NOASSIGN\fP is specified,
+then no validity check is performed on the \fIname\fP argument
+and no further processing is performed.
+Otherwise, if \f5NV_NOASSIGN\fP is not specified, then the characters up
+to the first \f5=\fP are used to find the name-value pair,
+and the characters after the \f5=\fP are used to define
+the value that will be assigned to this name-value pair.
+If \fIname\fP does not contain an \f5=\fP, than no assignment
+will be made.
+If the first identifier in \fIname\fP is a reference and is not
+preceded by a \fB.\fP,
+it will be replaced by the value of the reference
+to find the name of a variable.
+Unless \fIflags\fP contains the \f5NV_NOREF\fP flag,
+if the name-value pair give by \fIname\fP has the \f5NV_REF\fP
+attribute, it will be replaced by the variable whose name
+is the value of this name-value pair.
+Unless prohibited by the \f5NV_NOASSIGN\fP \fIflags\fP argument,
+the \fIname\fP variable can contain an \f5=\fP
+and a value that will be assigned to the name-value pair.
+Any attributes appearing in the \fIflags\fP argument
+will be applied to the name-value pair after any value is assigned.
+.PP
+The \f5nv_close()\fP indicates that the pointer returned by
+\f5nv_open()\fP will not be referenced again.  If the
+name-value pair is unset, and not referenced elsewhere,
+the name-value pair may be freed.
+.PP
+The \f5nv_name()\fP function returns the name of the given name-value
+pair \fInp\fP.
+The \f5nv_size()\fP function returns the size of the field for
+justified variables, the arithmetic base for integer variables,
+and the precision or number of places after the decimal point
+for floating point variables.
+The \f5nv_getval()\fP function returns the value of the given
+name-value pair as a string.  A \f5NULL\fP return value indicates
+that the name-value pair is unset.
+The \f5nv_getnum()\fP function returns the value of the given
+name-value pair as a double precision number.
+For name-value pairs without the \f5NV_INTEGER\fP attribute,
+the string value is evaluated as an arithmetic expression to
+arrive at a numerical value.
+.PP
+The \f5nv_putval()\fP function is used to assign a \fIvalue\fP to
+the name-value pair \fInp\fP.
+The \fIflags\fP argument consists zero or more of the bitwise-or
+of \f5NV_INTEGER\fP, \f5NV_RDONLY\fP, \f5NV_REF\fP, and \f5NV_NOFREE\fP.
+The presence of \f5NV_RDONLY\fP allows the assignment to occur
+even if the name-value pair has the \f5NV_RDONLY\fP attribute.
+The presence of \f5NV_INTEGER\fP indicates that the \fIvalue\fP
+argument is actually a pointer to a double precision number
+containing the value for this name-value pair.
+The presence of \f5NV_REF\fP indicates that the \fIvalue\fP
+argument is actually a pointer to a name-value pair
+and \f5np\fP should become a reference to this name-value pair.
+If \f5NV_NOFREE\fP is specified, \fIvalue\fP itself becomes
+the value of the name-value pair \fInp\fP.
+Otherwise, a  copy of the value is stored
+as the value for \fInp\fP.
+.PP
+The \f5nv_unset()\fP function clears out the value and attributes
+of the given name-value function but does not free the name-value
+pair.
+.PP
+The following attributes can be associated with a name-value pair:
+.IP
+\f5NV_EXPORT\fP:
+The export attribute.
+.IP
+\f5NV_RDONLY\fP:
+The readonly attribute.
+.IP
+\f5NV_LTOU\fP:
+Lower case characters are converted to upper case characters.
+.IP
+\f5NV_UTOL\fP:
+Upper case characters are converted to lower case characters.
+.IP
+\f5NV_RJUST\fP:
+Right justify and blank fill.
+This attribute has an associated size that defines the
+string length of the value.
+.IP
+\f5NV_LJUST\fP:
+Left justify and blank fill.
+This attribute has an associated size that defines the
+string length of the value.
+.IP
+\f5NV_ZFILL\fP:
+Without \f5NV_LJUST\fP, right justifies and fills with leading zeros.
+With \f5NV_LJUST\fP, left justify and strip leading zeros.
+Left justify and blank fill.
+This attribute has an associated size that defines the
+string length of the value.
+.IP
+\f5NV_TAGGED\fP:
+Indicates the tagged attribute.
+.IP
+\f5NV_INTEGER\fP:
+Causes value to be represented by a number.
+This attribute has an associated number that defines the
+arithmetic base to be used when the value is expanded as a string.
+.IP
+\f5NV_DOUBLE\fP:
+Used in conjunction with \f5NV_INTEGER\fP to cause value
+to be stored as a double precision floating point number.
+This attribute has an associated number that defines the
+number of places after the decimal point to be used when
+the value is expanded as a string.
+.IP
+\f5NV_EXPNOTE\fP:
+Used in conjunction with \f5NV_INTEGER\fP and \f5NV_DOUBLE\fP to
+cause the value to be represented in scientific notation when
+expanded as a string.
+This attribute has an associated number that defines the
+the precision of the mantissa.
+.IP
+\f5NV_REF\fP:
+The name-value pair is a name reference variable.
+.PP
+The \f5nv_isattr()\fP function can test whether or not any of
+the attributes given by \fIflags\fP is set.
+The attribute \f5NV_ARRAY\fP can be used to test whether
+or not the given name-value pair is an array.
+The \f5nv_newattr()\fP function can be used to change the
+attributes of the given name-value pair.
+The \fIsize\fP argument is needed for attributes that require
+an additional argument.
+Changing the attribute may require changing the value
+to agree with the new attributes.
+For an array variable, each of the values will be changed.
+.PP
+The \f5nv_scan()\fP function is used to walk through
+all name-value pairs in the table given by \fItable\fP.
+If \fIfn\fP is non-zero, then this function will be executed
+for each name-value pair in the table. 
+The number of elements in the table will be returned.
+.PP
+Disciplines provide a way to
+intercept the lookup and assignment operations and to
+extend the operations permitted on a name-value pair.
+A discipline consists of a set of functions and related
+data that are used to override and extend the operations
+on a name-value pair. 
+A discipline is defined by the types
+\f5Namfun_t\fP and \f5Namdisc_t\fP.
+The \f5Namdisc_t\fP is not modified by any of these functions and
+can therefore be shared by several name-value pairs. 
+It contains following public fields in the order listed:
+.nf
+      \f5size_t		dsize;\fP
+      \f5void		(*putval)(Namval_t*,const char*,int,Namfun_t*);\fP
+      \f5char		*(*getval)(Namval_t*,Namfun_t*);\fP
+      \f5double		(*getnum)(Namval_t*,Namfun_t*);\fP
+      \f5char		*(*setdisc)(Namval_t*,const char*,Namval_t*,Namfun_t*);\fP
+      \f5Namval_t	*(*create)(Namval_t*,const char*,Namfun_t*);\fP
+.fi
+The \f5Namfun_t\fP type contains a member named
+\f5disc\fP which points to a \f5Namdisc_t\fP structure.
+To create a discipline with additional user data,
+define a structure with an instance of \f5Namfun_t\fP
+as the first element.
+The \f5dsize\fP field of the \f5Namdisc_t\fP structure must be
+the size of this structure.  A value of 0,
+indicates that there are no additional fields and is equivalent
+to \f5sizeof(Namfun_t)\fP.
+.PP
+When a variable is referenced by calling the \f5nv_getval()\fP function,
+the \f5getval()\fP discipline function is called with a pointer
+to the name-value pair, \fInp\fP, and a pointer to the discipline,
+\fIfp\fP.
+Inside the \f5getval()\fP function, the \f5nv_getv()\fP function
+can be called to get the value of the name-value pair that
+would have resulted if the discipline were not used.
+The \f5getnum()\fP discipline is called whenever a numerical
+value is needed for the name-value pair \fInp\fP.
+The \f5nv_getn()\fP function can be called from within
+the \f5getnum()\fP discipline to get the value that would
+have resulted if there were no \f5getnum()\fP discipline.
+.PP
+The \f5putval\fP\f5()\fP discipline function is used to
+override the assignment of values
+to a name-value pair.
+It is called whenever a value is assigned with \f5nv_putval()\fP
+or unset with \f5nv_unset()\fP.
+When a name-value pair is unset, \f5putval\fP\f5()\fP
+is called with \fIvalue\fP set to \f5NULL\fP. 
+The \f5nv_putv()\fP function is used within the \f5putval()\fP
+to perform the assignment or unset that would have occurred
+if the discipline had not been installed.
+.PP
+The \f5create()\fP discipline function is called from
+\f5nv_open()\fP when the name-value pair for name containing a
+.B \s+2.\s-2
+doesn't exist, unless \f5NV_NOADD\fP was specified.
+This function is passed the name-value pointer of the longest
+parent name-value pair that exists, plus the remaining string.
+The \f5create()\fP discipline function
+must return the created name-value pair, otherwise the default action
+will be taken.
+If the name-value pair that is returned, is the same as the
+one given, then the the behavior will be the same as if
+an invalid name had been given to \f5nv_open()\fP.
+The \f5nv_create()\fP function may be called within
+the \f5create()\fP
+discipline function
+to perform the action that would have occurred
+by an earlier discipline.
+.PP
+The \f5setdisc()\fP discipline function is used
+to extend the set of available shell level discipline functions
+associated with a name-value pair by allowing
+functions whose name is of the
+form \fIvarname\fP\f5.\fP\fIaction\fP to be defined.
+By default, each name-value pair can have a \f5get\fP,
+\f5set\fP, and \f5unset\fP discipline associated with it.
+Whenever a function whose name is of the 
+form \fIvarname\fP\f5.\fP\fIaction\fP is defined or is unset,
+and \fIaction\fP is not \f5get\fP,
+\f5set\fP, or \f5unset\fP, the \fIsetdisc\fP\f5()\fP function is invoked
+with the same argument format as \f5nv_setdisc\fP\f5()\fP.
+The argument \fIf\fP points to the name-value pair associated
+with the function being defined, or \f5NULL\fP if the function is
+being unset.
+If the given action \fIa\fP is not known by this discipline,
+it should return the value returned by calling
+\f5nv_setdisc(\fP\fInp\fP\f5,\fP\fIa\fP\f5,\fP\fIf\fP\f5,\fP\fIfp\fP\f5)\fP
+so that it can be searched for in previously stacked disciplines.
+Otherwise, the \fIsetdisc\fP\f5()\fP function should save the function
+name-value pair pointer, and return a non-\f5NULL\fP value.
+The name-value pointer to the function can be used to invoke
+the function at an application defined point.
+If the action \fIa\fP is \f5NULL\fP, then \fIf\fP points to
+an action name instead of a name-value pair pointer.
+The \fIsetdisc\fP\f5()\fP must return the
+name of the action that follows the action name given by
+\fIf\fP.  If \fIf\fP is also \f5NULL\fP, the name of the first action
+must be returned.
+This allows an application to get the list of valid discipline
+action names allowed by a given name-value pair.
+.PP
+A discipline is installed or removed with the
+\f5nv_stack()\fP function.
+If \fIfp\fP is non-\f5NULL\fP, the discipline is pushed onto
+the stack of disciplines associated with the given name-value
+pair \fInp\fP.
+Otherwise, the most recently pushed discipline is popped
+and returned.
+.PP
+The \f5nv_aindex()\fP function returns
+the current index for
+the indexed array given by the name-value pair pointer \fInp\fP. 
+The return value is negative if \fInp\fP refers to
+an associative array.
+.PP
+The \f5nv_setarray()\fP function is used to create an associative array
+from a name-value pair node.
+The function \fIfun\fP defines the semantics of the associative
+array.
+Using \fIfun\fP equal to \f5nv_associative()\fP implements the default
+associative array semantics
+that are used with \f5typeset\ -A\fP.
+The function \fIfun\fP will be called with third argument as follows:
+.IP
+\f5NV_AINIT\fP:
+This will be called at initialization.
+The function you supply must return a pointer to a structure
+that contains the type \f5Namarr_t\fP as the first element.
+All other calls receive this value as an argument.
+.IP
+\f5NV_AFREE\fP:
+This will be called after all elements of the name-value pair have been
+deleted and the array is to be freed.
+.IP
+\f5NV_ADELETE\fP:
+The current element should be deleted.
+.IP
+\f5NV_ANEXT\fP:
+This means that the array subscript should be advanced to the
+next subscript.  A \f5NULL\fP return indicates that there are
+no more subscripts.
+.IP
+\f5NV_ANAME\fP:
+The name of the current subscript must be returned.
+.PP
+If \fInp\fP refers to an array,
+the \f5nv_getsub()\fP returns a pointer to
+the name of the current subscript.
+Otherwise, \f5nv_getsub()\fP
+returns \f5NULL\fP.
+.PP
+The \f5nv_putsub()\fP function is used to
+set the subscript for the next reference to \f5np\fP.
+If the \f5name\fP argument is not \f5NULL\fP,
+it defines the value of the next subscript. 
+The \f5mode\fP argument can contain one or more of the following flags:
+.IP
+\f5ARRAY_ADD\fP:
+Add the subscript if not found.
+Otherwise, \f5nv_putsub()\fP returns \f5NULL\fP if the
+given subscript is not found.
+.IP
+\f5ARRAY_SCAN\fP:
+Begin a walk through the subscripts starting at the subscript
+given by \f5name\fP if given.  Otherwise,
+the walk is started from the beginning.
+.IP
+\f5ARRAY_UNDEF\fP:
+This causes any current scan to terminate and leaves the
+subscript in an undefined state.
+.PP
+If \f5ARRAY_ADD\fP is not given and the subscript
+does not exist, a \f5NULL\fP value is returned.
+.PP
+The \f5nv_nextsub()\fP function is used to advance to the
+next subscript.
+It returns 0 if there are no more subscripts or if called
+when not in a scan.
+.PP
+The \f5nv_setref()\fP function makes the name-value pair \f5np\fP
+into a reference to the variable whose name is given by
+the value of \f5np\fP.
+.PP
+The \f5nv_setvtree()\fP function makes the name-value pair \f5np\fP
+into a tree structured variable so that \f5nv_getval()\fP
+will return a string containing all the names and values of
+children nodes in a format that can be used in
+a shell compound assignment.
+.PP
+\fBAUTHOR\fP
+David G. Korn (dgk@research.att.com).

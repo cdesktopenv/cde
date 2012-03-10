@@ -1,0 +1,131 @@
+<!-- $XConsortium: dtsessdb.sgm /main/6 1996/09/08 20:19:12 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<refentry id="CDE.SESS.dtsessiondb">
+<refmeta><refentrytitle>
+dtsessiondb
+</refentrytitle><manvolnum>special file</manvolnum>
+</refmeta>
+<refnamediv><refname><filename>dtsessiondb</filename></refname><refpurpose>
+format and location of desktop session database</refpurpose></refnamediv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>During a session checkpoint, the Session Manager creates a database
+of its clients and for each client saves the values of the following
+properties:
+</para>
+<simplelist>
+<member>
+<literal>CurrentDirectory</literal>
+</member>
+<member>
+<literal>Program</literal>
+</member>
+<member>
+<literal>RestartCommand</literal>
+</member>
+<member>
+<literal>CloneCommand</literal>
+</member>
+<member>
+<literal>DiscardCommand</literal>
+</member>
+<member>
+<literal>Environment</literal>
+</member>
+<member>
+<literal>RestartStyleHint</literal>
+</member>
+</simplelist>
+<para>The Session Manager also saves a client's host name and session id.
+If a client's screen number is available, the Session Manager
+will save the screen number.
+</para>
+<para>CDEnext session databases (<Filename>dtsession.db</Filename>)
+supersede CDE1.0 session databases (described in
+&cdeman.dtsessionfile;). The CDEnext Session Manager
+can read CDE 1.0 session databases but not write
+to them. It will write only to CDEnext session databases.
+</para>
+<Para>At session startup, the session manager restarts any applications
+that were saved as part of the selected session. The system default set of
+applications to be restored as part of the user's Initial Session can be found in
+/usr/dt/config/$LANG/sys.session. This file should not be edited as
+it will be unconditionally overwritten upon subsequent desktop
+installations.
+</Para>
+<Para>A system administrator may replace the set of applications that
+are restored as part of the user's Initial Session by creating
+a file named /etc/dt/config/$LANG/sys.session. Unlike the resource
+files, this file will be used as a complete replacement for the
+desktop default file, so it is valid to make a copy of the system
+default file and make any necessary modifications.
+</Para>
+</refsect1>
+<refsect1>
+<title>FORMAT</title>
+<para>The CDEnext Session Manager database format is based upon Xrm and
+is as follows:
+</para>
+<programlisting>! dtsession.db
+!
+.version: &lt;dtsession version>
+.dtsessionID: &lt;dtsession's session ID>
+!
+Client.&lt;ClientID>: &lt;ClientID>
+&lt;ClientID>.SessionID: &lt;client's session ID>
+&lt;ClientID>.Program:
+&lt;ClientID>.host:
+&lt;ClientID>.screen:
+&lt;ClientID>.RestartCommand.0:
+&lt;ClientID>.RestartCommand.1:
+&lt;ClientID>.RestartCommand.&lt;n>:
+&lt;ClientID>.CloneCommand.0:
+&lt;ClientID>.CloneCommand.1:
+&lt;ClientID>.CloneCommand.&lt;n>:
+&lt;ClientID>.DiscardCommand.0:
+&lt;ClientID>.DiscardCommand.1:
+&lt;ClientID>.DiscardCommand.&lt;n>:
+&lt;ClientID>.Environment.0:
+&lt;ClientID>.Environment.1:
+&lt;ClientID>.Environment.&lt;n>:
+!
+ProxyClient.&lt;proxy_client_num>: &lt;proxy_client_num>
+&lt;proxy_client_num>.screen:
+&lt;proxy_client_num>.host:
+&lt;proxy_client_num>.cmd:
+</programlisting>
+<para>&lt;ClientID> is a sequential number for the XSMP-based session clients.
+&lt;proxy_client_num> is a sequential number for the proxy or ICCCM-based
+session clients.
+</para>
+<para>The <literal>RestartCommand</literal>, <literal>CloneCommand</literal>,
+<literal>DiscardCommand</literal>, and <literal>Environment</literal> properties
+are of format ARRAY8. To facilitate the storage of these properties, the
+Session Manager stores them as separate resources, with appropriate suffixes
+for their positions in the array.
+</para>
+<para>The CDEnext Session Manager includes its version number when it writes a
+session database. CDE 1.0 session databases do not contain version information.
+</para>
+<para>The Session Manager sets only the <literal>_DT_SESSION_HINTS</literal>
+property if the started session is from a CDE 1.0 session database.
+The CDEnext Window Manager uses the <literal>_DT_SESSION_HINTS</literal>
+property if it is defined. It saves this information in its state file.
+The Session Manager does not store any window manager
+information in its database.
+</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtsession;,
+&cdeman.dtsessionfile;
+</para>
+</refsect1>
+</refentry>
+

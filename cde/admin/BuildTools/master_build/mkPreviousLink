@@ -1,0 +1,55 @@
+#! /usr/local/bin/perl
+
+eval "exec /usr/local/bin/perl -S $0 $*"
+   if $running_under_some_shell;
+
+###############################################################################
+#
+# File:          mkPreviousLink
+# RCS:           $XConsortium: mkPreviousLink /main/3 1995/10/30 13:44:16 rswiston $
+# Author:        John Herberg   
+# Created:       4/13/94
+# Language:      perl
+# Package:
+# Status
+#
+# (c) Copyright 1994, Hewlett-Packard, all rights reserved.
+#
+# Usage:         mkPreviousLink <directory>
+#
+# Description:   Copies latest link in directory to previous.
+#
+###############################################################################
+
+
+###############################################################################
+# printUsage - print sytax of script and die
+###############################################################################
+
+sub printUsage
+{
+   die "Usage: mkPreviousLink <binstallpath>\n";
+}
+
+
+###
+### Start main
+###
+
+&printUsage() if ((@ARGV != 1) || ($ARGV[0] =~ /^-/o));
+
+$tree=$ARGV[0];
+$_ = "$tree/latest";
+
+### Resolve link
+
+( -l ) || die "*** Error: $_ is not a symbolic link\n";
+defined($ldest = readlink) || die "*** Error: Failed to resolve link, $_ $ldest\n";
+
+### Create "previous" link
+
+chdir($tree) || die "*** Error: Failed to change directory to $tree\n";
+unlink("previous");
+symlink($ldest, "previous") || 
+ 	die "*** Error: Could not create link, $tree/previous -> $ldest\n";
+

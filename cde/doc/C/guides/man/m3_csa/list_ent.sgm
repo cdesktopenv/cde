@@ -1,0 +1,365 @@
+<!-- $XConsortium: list_ent.sgm /main/4 1996/08/30 15:36:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN61.rsml.1">
+<RefMeta>
+<RefEntryTitle>csa_list_entries</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>csa_list_entries</Function></RefName>
+<RefPurpose>list the calendar entries that match all the attribute search criteria
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- (c) Copyright 1994 X.400 API Association-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;xcsa.h>
+</FuncSynopsisInfo>
+<FuncDef>CSA_return_code <Function>csa_list_entries</Function></FuncDef>
+<ParamDef>CSA_session_handle <Parameter>session</Parameter></ParamDef>
+<ParamDef>CSA_uint32 <Parameter>number_attributes</Parameter></ParamDef>
+<ParamDef>CSA_attribute *<Parameter>entry_attributes</Parameter></ParamDef>
+<ParamDef>CSA_enum *<Parameter>list_operators</Parameter></ParamDef>
+<ParamDef>CSA_uint32 *<Parameter>number_entries</Parameter></ParamDef>
+<ParamDef>CSA_entry_handle **<Parameter>entries</Parameter></ParamDef>
+<ParamDef>CSA_extension *<Parameter>list_entries_extensions</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>csa_list_entries</Function> function lists the entry handles for the calendar entries
+that match all the attribute search criteria.
+Using the
+returned entry handles, the entries can have their
+attributes listed and read, or the entries can updated or
+deleted.
+Only the calendar owner, users with
+<SystemItem Class="Constant">CSA_OWNER_RIGHTS,</SystemItem> users with
+<SystemItem Class="Constant">CSA_VIEW_PUBLIC_ENTRIES,</SystemItem> user with
+<SystemItem Class="Constant">CSA_VIEW_CONFIDENTIAL_ENTRIES,</SystemItem> or users with
+<SystemItem Class="Constant">CSA_VIEW_PRIVATE_ENTRIES</SystemItem> access rights can list entries in the calendar.
+If
+<Emphasis>list_operators</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem>, this specifies a short hand for an array of operators of
+<SystemItem Class="Constant">CSA_MATCH_EQUAL_TO.</SystemItem> The criteria are specified by the array of attributes and
+the array of operators.
+Each operator in operators
+specifies how the corresponding attribute value is to be
+matched.
+The following operators are supported:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_MATCH_ANY</Term>
+<ListItem>
+<Para>Matches an entry that contains the corresponding attribute
+regardless of the value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_MATCH_EQUAL_TO</Term>
+<ListItem>
+<Para>Matches an entry that contains an attribute with a value
+equal to the corresponding value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_MATCH_NOT_EQUAL_TO</Term>
+<ListItem>
+<Para>Matches an entry that contains an attribute with a value
+not equal to the corresponding value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_MATCH_GREATER_THAN</Term>
+<ListItem>
+<Para>Matches an entry that contains an attribute with a value
+greater than the corresponding value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_MATCH_LESS_THAN</Term>
+<ListItem>
+<Para>Matches an entry that contains an attribute with a value
+less than the corresponding value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_MATCH_GREATHER_THAN_OR_EQUAL_TO</Term>
+<ListItem>
+<Para>Matches an entry that contains an attribute with a value
+greater than or equal to the corresponding value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_MATCH_LESS_THAN_OR_EQUAL_TO</Term>
+<ListItem>
+<Para>Matches an entry that contains an attribute with a value
+less than or equal to the corresponding value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_MATCH_CONTAIN</Term>
+<ListItem>
+<Para>Applies to character string values only.
+It matches an
+entry that contains the corresponding substring value.
+The
+only operators supported for reminder type attributes are
+<SystemItem Class="Constant">CSA_MATCH_ANY</SystemItem> and
+<SystemItem Class="Constant">CSA_MATCH_EQUAL_TO.</SystemItem> Searching of attributes with opaque data type is not
+supported.
+It is implementation specific in what order the
+array of entries will be returned.
+If either
+<Emphasis>number_attributes</Emphasis> is zero or
+<Emphasis>entry_attributes</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem>, then all of the entries will be returned.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<RefSect2>
+<Title>Session (Session Handle)</Title>
+<Para>Opaque session handle that represents a session with the
+calendaring service.
+</Para>
+<Para>Session handles are created by a logon function call and
+invalidated with a logoff function call.
+If the session
+handle is invalid, then the error
+<SystemItem Class="Constant">CSA_E_INVALID_SESSION_HANDLE</SystemItem> is returned.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Number Attributes (Uint32)</Title>
+<Para>Specifies the size of the arrays pointed to by
+<Emphasis>entry_attributes</Emphasis> and
+<Emphasis>list_operators</Emphasis>. If
+<Emphasis>entry_attributes</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem>, then this must be zero.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Entry Attributes (Attribute)</Title>
+<Para>A pointer to an array of attribute structures specifying
+the matching criteria.
+If
+<Emphasis>number_attributes</Emphasis> is zero, then this must be
+<SystemItem Class="Constant">NULL</SystemItem>.</Para>
+</RefSect2>
+<RefSect2>
+<Title>List Operators (Enum)</Title>
+<Para>A pointer to an array of matching operators.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>List Entries Extensions (Extension)</Title>
+<Para>A pointer to an array of
+<StructName Role="typedef">CSA_extension</StructName> structures for this function.
+The array may contain both
+input extensions for providing additional information to
+the function and output extensions for receiving
+information from the function.
+A value of
+<SystemItem Class="Constant">NULL</SystemItem> indicates that the caller is not using any extensions.
+See the extensions structure for more information.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<RefSect2>
+<Title>Number Entries (Uint32)</Title>
+<Para>The number of entry handles in entries.
+If this value is
+<SystemItem Class="Constant">NULL</SystemItem>, then no entries were found to match the search criteria.
+If more entries were found than can be represented in the
+available memory, then the error
+<SystemItem Class="Constant">CSA_E_INSUFFICIENT_MEMORY</SystemItem> will be returned.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Entries (Entry Handle)</Title>
+<Para>A pointer to an array of entry handles that match all the
+search criteria.
+This array is allocated by the service
+and should be freed with a single call to
+&cdeman.csa.free;.</Para>
+</RefSect2>
+<RefSect2>
+<Title>List Entries Extensions (Extension)</Title>
+<Para>If output extensions were passed to the function in the
+extensions list, the results from the service will be
+available in the extension.
+See the extensions structure for more information.
+Whether the function succeeded or
+not, and, if not, why.
+It may be success or one of the
+values listed under ERRORS below.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The
+<Function>csa_list_entries</Function> function returns the following error values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_E_FAILURE</Term>
+<ListItem>
+<Para>There was a general failure that does not
+fit the description of any other error code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Insufficient memory was available to complete the requested operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_ATTRIBUTE</Term>
+<ListItem>
+<Para>An attribute was specified that was not defined by this
+specification and the implementation does not support the
+attribute as an application specific attribute.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_ATTRIBUTE_VALUE</Term>
+<ListItem>
+<Para>An invalid attribute value was specified for an attribute.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_DATA_EXT</Term>
+<ListItem>
+<Para>The data extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_ENUM</Term>
+<ListItem>
+<Para>A
+<StructName Role="typedef">CSA_enum</StructName> value is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FLAG</Term>
+<ListItem>
+<Para>A flag value in the
+<Symbol Role="Variable">flags</Symbol> argument was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The function extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_PARAMETER</Term>
+<ListItem>
+<Para>A function parameter was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_SESSION_HANDLE</Term>
+<ListItem>
+<Para>The specified Session Handle is invalid or no longer valid
+(e.g., after logging off).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NO_AUTHORITY</Term>
+<ListItem>
+<Para>The user has insufficient authority for this function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_SERVICE_UNAVAILABLE</Term>
+<ListItem>
+<Para>The requested calendar service is unavailable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_ATTRIBUTE</Term>
+<ListItem>
+<Para>An attribute was encountered that is unsupported by the calendar service.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_DATA_EXT</Term>
+<ListItem>
+<Para>The data extension requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_ENUM</Term>
+<ListItem>
+<Para>The specified enumerated value is not valid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FLAG</Term>
+<ListItem>
+<Para>The flag requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The specified function extension is not supported or
+<SystemItem Class="Constant">CSA_EXT_REQUIRED</SystemItem> is set.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.csa.csa.h;, &cdeman.csa.add.calendar;, &cdeman.csa.add.entry;, &cdeman.csa.call.callbacks;, &cdeman.csa.delete.calendar;, &cdeman.csa.delete.entry;, &cdeman.csa.free;, &cdeman.csa.free.time.search;, &cdeman.csa.list.calendar.attributes;, &cdeman.csa.list.calendars;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.logoff;, &cdeman.csa.logon;, &cdeman.csa.look.up;, &cdeman.csa.query.configuration;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.read.entry.attributes;, &cdeman.csa.read.next.reminder;, &cdeman.csa.register.callback;, <![ %CDE.C.XO; [&cdeman.csa.restore;, &cdeman.csa.save;, ]]>&cdeman.csa.unregister.callback;, &cdeman.csa.update.calendar.attributes;, &cdeman.csa.update.entry.attributes;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

@@ -1,0 +1,116 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: XdrawTest.src /main/3 1996/04/23 20:19:28 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates the calling sequence for most of
+XCOMM  the X drawing commands.
+XCOMM 
+
+ExposeCallback()
+{
+   XDrawRectangle $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+			     10 20 100 200 \
+                             120 20 200 100
+
+   XFillRectangle $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                              -foreground red -background green 20 30 80 180 
+
+   XClearArea $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                              30 40 60 40 false
+
+   XDrawLine $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                              -foreground red -background white 130 22 130 117
+
+   XDrawLines $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                              140 30 140 101 \
+                              150 101 150 30
+
+   XDrawLines $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                              -CoordModePrevious -line_width 3 160 30 0 71 \
+                              10 0 0 -71
+
+   XDrawPoint $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                              180 30 180 101
+
+   XDrawPoints $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+	190 30 190 40 190 50 190 60 190 70 190 80 190 90 190 101
+
+   XDrawPoints $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                              -CoordModePrevious \
+	                      200 30 0 10 0 10 0 10 0 10 0 10 0 10 0 10
+
+   XDrawSegments $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                    -function clear -foreground green -background red \
+                    -line_width 3 \
+	            210 30 210 40 210 50 210 60 210 70 210 80 210 90 210 100
+
+   XDrawArc $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                     -line_width 3 20 300 100 150 300 5760
+
+   XFillArc $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                     -line_width 3 20 270 100 150 11520 5760
+
+   XDrawString $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                     -font fixed -foreground blue -background red 200 200 \
+                     "XDrawString" 
+
+   XDrawImageString $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                     -foreground green -background red 200 250 \
+                     "XDrawImageString" 
+
+   XFillPolygon $(XtDisplay "-" $CB_WIDGET) $(XtWindow "-" $CB_WIDGET) \
+                     -Convex -CoordModePrevious \
+	             300 300 30 70 30 -140
+
+   XTextWidth "-" fixed "Hi Mom"
+}
+
+ClearWindow()
+{
+   XClearWindow $(XtDisplay "-" $DRAWINGAREA) $(XtWindow "-" $DRAWINGAREA)
+}
+
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL drawingArea DrawingArea "$0" "$@"
+
+XtCreateManagedWidget FORM form XmForm $TOPLEVEL
+
+XtCreateManagedWidget DRAWINGAREA drawingArea XmDrawingArea $FORM \
+	topAttachment:ATTACH_FORM \
+	leftAttachment:ATTACH_FORM \
+	rightAttachment:ATTACH_FORM
+XtAddCallback $DRAWINGAREA exposeCallback ExposeCallback
+
+XtCreateManagedWidget SEP sep XmSeparator $FORM \
+	topAttachment:ATTACH_WIDGET \
+	topWidget:$DRAWINGAREA \
+	leftAttachment:ATTACH_FORM \
+	rightAttachment:ATTACH_FORM
+
+XtCreateManagedWidget PB pb XmPushButton $FORM \
+	labelString:"Clear The Window" \
+	topAttachment:ATTACH_WIDGET \
+	topWidget:$SEP \
+	leftAttachment:ATTACH_FORM \
+	rightAttachment:ATTACH_FORM \
+	bottomAttachment:ATTACH_FORM
+XtAddCallback $PB activateCallback ClearWindow
+
+XtSetValues $DRAWINGAREA \
+         height:450 \
+         width:450
+
+XtRealizeWidget $TOPLEVEL
+
+XtMainLoop

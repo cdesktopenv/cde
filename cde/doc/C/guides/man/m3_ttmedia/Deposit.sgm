@@ -1,0 +1,173 @@
+<!-- $XConsortium: Deposit.sgm /main/5 1996/08/30 14:42:49 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN269.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN269.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttmedia_Deposit</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttmedia_Deposit</Function></RefName>
+<RefPurpose>send a Deposit request to checkpoint a document
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Deposit.sgm /main/5 1996/08/30 14:42:49 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>ttmedia_Deposit</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>load_contract</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>buffer_id</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>media_type</Parameter></ParamDef>
+<ParamDef>const unsigned char *<Parameter>new_contents</Parameter></ParamDef>
+<ParamDef>int <Parameter>new_len</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>pathname</Parameter></ParamDef>
+<ParamDef>XtAppContext <Parameter>app2run</Parameter></ParamDef>
+<ParamDef>int <Parameter>ms_timeout</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttmedia_Deposit</Function> function
+is used to perform a checkpoint save on a document that was the
+subject of a Media Exchange
+<Emphasis>load_contract</Emphasis> request such as
+<Symbol Role="Message">Edit</Symbol>, <Emphasis>Compose</Emphasis>, or
+<Emphasis>Open</Emphasis>. <![ %CDE.C.XO; [(See
+<XRef Linkend="XCDI.TT.anch.7" Role="3">.) ]]>To carry out a checkpoint save, the editor must send the new document
+contents back to the sender of
+<Emphasis>load_contract</Emphasis>.</Para>
+<Para>The
+<Function>ttmedia_Deposit</Function> function
+creates and sends a
+<Symbol Role="Message">Deposit</Symbol> request and returns the
+success or failure of that request.
+The
+<Emphasis>load_contract</Emphasis> argument is the request that caused this editor to load the document.
+The
+<Emphasis>buffer_id</Emphasis> argument is the identifier
+of the buffer this editor created if the document was
+loaded via an
+<Emphasis>Open</Emphasis> request.
+If
+<Emphasis>buffer_id</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem>, the
+the ToolTalk service
+gives the
+<Symbol Role="Message">Deposit</Symbol> request a
+<StructName Role="typedef">Tt_address</StructName> of
+<SystemItem Class="Constant">TT_HANDLER</SystemItem> and sends it directly to the
+<Function>tt_message_sender</Function> of
+<Emphasis>load_contract</Emphasis>; otherwise, the
+the ToolTalk service
+will address it as a
+<SystemItem Class="Constant">TT_PROCEDURE</SystemItem> and insert
+<Emphasis>buffer_id</Emphasis> into the request to match the pattern registered by the
+sender of the
+<Emphasis>load_contract</Emphasis>.</Para>
+<Para>The
+<Function>ttmedia_Deposit</Function> function uses the
+<Emphasis>media_type</Emphasis> argument as the
+vtype
+of the contents argument of the sent request, and
+<Emphasis>new_contents</Emphasis> and
+<Emphasis>new_len</Emphasis> as its value.
+The latter two must be zero if
+<Symbol Role="Variable">pathname</Symbol> is used to name a temporary file into which the editor will place the
+checkpointed document.
+The editor is free to remove the temporary
+file after the reply to the
+<Symbol Role="Message">Deposit</Symbol> request is received; that is, after
+<Function>ttmedia_Deposit</Function> has returned.
+</Para>
+<Para>After the request is sent,
+<Function>ttmedia_Deposit</Function> passes
+<Emphasis>app2run</Emphasis> and
+<Emphasis>ms_timeout</Emphasis> to
+&cdeman.tttk.block.while; to wait for the reply.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttmedia_Deposit</Function> function returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_ETIMEDOUT</Term>
+<ListItem>
+<Para>No reply was received within
+<Emphasis>ms_timeout</Emphasis> milliseconds.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMEM</Term>
+<ListItem>
+<Para>There is insufficient memory available to perform the function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_OVERFLOW</Term>
+<ListItem>
+<Para>The ToolTalk service has more active messages than it can handle.
+(The maximum number of active messages is
+implementation specific, but is at least 2000.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The
+<Symbol Role="Variable">pathname</Symbol> argument was
+<SystemItem Class="Constant">NULL</SystemItem> or was a ToolTalk error pointer.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The specified process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttmedia.load;, &cdeman.ttmedia.load.reply;, &cdeman.ttmedia.ptype.declare;, &cdeman.ttdt.Save;, &cdeman.tttk.block.while;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

@@ -1,0 +1,173 @@
+XCOMM ##########################################################################
+XCOMM 
+XCOMM      print.dt
+XCOMM 
+XCOMM      Action and DataType Definitions for the printing
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+XCOMM 
+XCOMM      $XConsortium: print.dt.src /main/4 1996/04/23 17:36:13 drk $
+XCOMM 
+#define HASH #
+%|nls-7001-#HASH The printer#|
+XCOMM 
+XCOMM ##########################################################################
+set DtDbVersion=1.0
+
+XCOMM ##########################################################################
+XCOMM 
+%|nls-10-#HASH WARNING:...#|
+XCOMM 
+XCOMM ##########################################################################
+
+XCOMM ##################################################################
+XCOMM 
+%|nls-11-#HASH Data Attributes#|
+XCOMM 
+XCOMM ##################################################################
+DATA_ATTRIBUTES PRINTER_UNKNOWN
+{
+        ACTIONS         PrinterUnconfigured
+        ICON		DtPrtun
+        IS_EXECUTABLE   true
+        DESCRIPTION     %|nls-7009-#This#|
+        TYPE_LABEL      %|nls-31088-#PRINTER_UNKNOWN#|
+}
+DATA_CRITERIA PRINTER_UNKNOWN1
+{
+	DATA_ATTRIBUTES_NAME PRINTER_UNKNOWN
+	MODE		f&x
+        NAME_PATTERN    *_Print
+}
+
+XCOMM 
+%|nls-7002-#HASH The default#|
+XCOMM 
+ACTION Print
+{
+	LABEL		%|nls-2-#Print#|
+	ARG_TYPE	*
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING     /usr/dt/bin/dtlp "%(File)Arg_1%"
+	DESCRIPTION	%|nls-7010-#This#|
+}
+ACTION PrintRaw
+{
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING     /usr/dt/bin/dtlp -w "%(File)Arg_1%"
+}
+
+XCOMM 
+%|nls-7003-#HASH If no#|
+XCOMM 
+ACTION Print
+{
+	LABEL			%|nls-2-#Print#|
+	ARG_COUNT		0
+	TYPE			MAP
+	MAP_ACTION		Dtprintinfo
+}
+
+XCOMM 
+%|nls-7023-#HASH The Print Manager#|
+XCOMM 
+ACTION DtPrintManager
+{
+	LABEL		%|nls-7022-#Print Manager#|
+        ICON            FpPrtmg
+        TYPE            COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtprintinfo -all
+	DESCRIPTION	%|nls-7024-#The#|
+}
+
+XCOMM 
+%|nls-7004-#HASH The Print Jobs#|
+XCOMM 
+ACTION Dtprintinfo
+{
+	LABEL		%|nls-7011-#Print Jobs#|
+        ICON            Fpprnt
+        TYPE            COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtprintinfo -p "%(String)Arg_1%"
+	DESCRIPTION	%|nls-7012-#The#|
+}
+
+ACTION Dtprintinfo
+{
+	LABEL		%|nls-7011-#Print Jobs#|
+	ARG_COUNT	0
+        ICON            Fpprnt
+        TYPE            COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtprintinfo
+	DESCRIPTION	%|nls-7012-#The#|
+}
+
+XCOMM ###############################################################
+XCOMM  
+%|nls-7005-#HASH   Actions for#|
+XCOMM  
+XCOMM ###############################################################
+ 
+XCOMM 
+%|nls-7006-#HASH   If a file#|
+XCOMM 
+ACTION DtPrint
+{
+	LABEL		%|nls-7013-#Default Printer#|
+	ARG_TYPE	*
+        ICON		Fpprnt
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	/usr/dt/bin/dtaction Print "%(File)Arg_1%"
+	DESCRIPTION	%|nls-7010-#The#|
+}
+
+XCOMM 
+%|nls-7007-#HASH   If no file#|
+XCOMM 
+ACTION DtPrint
+{
+	LABEL		%|nls-7013-#Default Printer#|
+	ARG_COUNT	0
+        ICON		Fpprnt
+	TYPE		MAP
+	MAP_ACTION	Dtprintinfo
+	DESCRIPTION	%|nls-7012-#The#|
+}
+
+
+XCOMM 
+%|nls-7008-#HASH   Here are actions#|
+XCOMM 
+ACTION PrinterUnconfigured
+{
+	LABEL		%|nls-7014-#PrinterUnconfigured#|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dterror.ds \
+                        "%|nls-7015-#This#|" \
+                        "%|nls-7016-#Unconfigured Printer#|" \
+                        "%|nls-6-#OK#|" \
+                        "HELP"
+	DESCRIPTION	%|nls-7017-#The#|
+}
+
+ACTION Printer_Trash
+{
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dterror.ds \
+                        "%|nls-7018-#Putting a#|" \
+                        "%|nls-7019-#Delete Printer#|" \
+                        "%|nls-6-#OK#|"
+        DESCRIPTION     %|nls-7020-#The#|
+}
+XCOMM ######################## EOF ############################################

@@ -1,0 +1,110 @@
+<!-- $XConsortium: MsgLogO.sgm /main/9 1996/10/25 10:36:30 cdedoc $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.MSG.DtMsgLogOpenFile">]]>
+<![ %CDE.C.XO; [<refentry id="XCSA.MSG.DtMsgLogOpenFile">]]>
+<refmeta><refentrytitle>
+DtMsgLogOpenFile
+</refentrytitle><manvolnum>library call</manvolnum></refmeta><refnamediv>
+<refname><function>DtMsgLogOpenFile</function></refname><refpurpose>
+opens a log file
+</refpurpose></refnamediv><refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/MsgLog.h></funcsynopsisinfo>
+<funcdef>FILE* <function>DtMsgLogOpenFile</function></funcdef>
+<paramdef>const char* <parameter>type</parameter></paramdef>
+<paramdef>char** <parameter>filename_return</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtMsgLogOpenFile</function> function
+calls <function>fopen</function> to open a log file
+with type <literal>open</literal> mode. If <function>fopen</function> opens
+a log file successfully and returns a non-NULL
+<symbol role="Variable">filename_return</symbol>,
+<function>DtMsgLogOpenFile</function> calls
+<function>malloc</function> to allocate space for
+<symbol role="Variable">filename_return</symbol>.
+<function>DtMsgLogOpenFile</function> then copies the
+log file name to
+<symbol role="Variable">filename_return</symbol>.
+</para>
+<para>The caller must use the <function>free</function> function to release the
+space allocated for <symbol role="Variable">filename_return</symbol>,
+if it is not NULL. The caller must also close the file pointer
+returned by <function>DtMsgLogOpenFile</function>. Use
+caution in doing this because stderr may be returned.
+</para>
+<para>For a description of the algorithm used to determine the log file to open,
+see &cdeman.DtMsgLogMessage;. Note that if a log file cannot
+be opened, <symbol role="Variable">filename_return</symbol> will be set to NULL.
+</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">type</symbol></term>
+<listitem>
+<para>Specifies the file open flag. See
+<function>fopen</function>(3) for more information.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">filename_return</symbol></term>
+<listitem>
+<para>Specifies the variable to receive the returned log file name.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>ERRORS/WARNINGS</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>The following code fragment opens the log file,
+logs the log file name, closes the file, and frees
+the space allocated for the file name.
+</para>
+<programlisting>
+char * log_file;
+FILE * fp = DtMsgLogOpenFile ("a+", &amp;log_file);
+
+if (log_file) {
+    DtMsgLogMessage (argv[0], DtMsgLogInformation,
+          "The log file name is: %s", log_file);
+    free (log_file);
+}
+if (fp &amp;&amp; fp != stderr)
+     fclose (fp);
+</programlisting>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>If <function>DtMsgLogMessage</function> completes
+successfully, it returns a pointer to the opened log file.
+If it cannot open a log file, it returns stderr.
+</para>
+</refsect1><refsect1>
+<title>FILES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtMsgLogMessage;,
+&cdeman.DtMsgLogSetHandler;</para>
+</refsect1></refentry>

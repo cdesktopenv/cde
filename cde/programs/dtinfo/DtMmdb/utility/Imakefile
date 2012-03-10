@@ -1,0 +1,49 @@
+XCOMM $XConsortium: Imakefile /main/14 1996/08/21 15:54:08 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	NormalLibDtMmdb
+#define DoSharedLib	SharedLibDtMmdb
+#define DoDebugLib	DebugLibDtMmdb
+#define DoProfileLib	ProfileLibDtMmdb
+#define LibName		DtMmdb
+#define SoRev		SODTMMDBREV
+#define LibHeaders	NO
+#define LibCreate	NO
+#define LargePICTable	YES
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+XCOMM In DtMmdb we compile as C_API sources.
+DEFINES  = -DC_API -DPORTABLE_DB
+INCLUDES = -I.. $(EXCEPTIONS_INCLUDES) -I../misc
+
+BASE_SRCS = \
+	funcs.C		ostring.C	pm_random.C	atoi_pearson.C \
+	xtime.C		buffer.C	atoi_larson.C	atomic_lock.C \
+	rw_lock.C	atoi_fast.C	filter.C	mmdb_exception.C \
+	randomize.C
+
+C_API_SRCS = \
+	streambuf.C	charbuf.C	filebuf.C	strstream.C \
+	iostream.C	fstream.C	stream.C	ios.C
+
+SRCS = $(BASE_SRCS)	  $(C_API_SRCS)
+OBJS = $(BASE_SRCS:.C=.o) $(C_API_SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

@@ -1,0 +1,51 @@
+# $XConsortium: Makefile.uxp /main/2 1996/05/13 11:36:33 drk $
+##########################################################################
+#
+#  Makefile for datatyping.c
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+#      Novell, Inc.
+##########################################################################
+
+#ifndef CDE_INSTALLATION_TOP
+  CDE_INSTALLATION_TOP = /usr/dt
+#endif
+
+PROGRAM        = datatyping
+SOURCES        = datatyping.c
+OBJECTS        = datatyping.o
+
+OPTIMIZEDFLAGS = -O
+
+DTINCLUDE      = -I$(CDE_INSTALLATION_TOP)/include
+#XMINCLUDE     = -I$(CDE_INSTALLATION_TOP)/include
+X11INCLUDE     = -I/usr/X/include
+INCLUDES       = $(DTINCLUDE) $(XMINCLUDE) $(X11INCLUDE)
+
+DTSVCLIB       = -L$(CDE_INSTALLATION_TOP)/lib -lDtSvc
+TTLIB          = -L$(CDE_INSTALLATION_TOP)/lib -ltt
+XMLIB          = -L$(CDE_INSTALLATION_TOP)/lib -lXm
+XTLIB          = -L/usr/X/lib -lXt
+X11LIB         = -L/usr/X/lib -lX11 
+CPLUSPLUS      = -L/usr/add-on/C++/lib -lC
+EXTRA_LIBS     = -L/usr/lib -lgen -lnsl -lresolv -lsocket -lXIM \
+                 -L/usr/add-on/C++/lib -lC
+
+LIBRARIES      = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTLIB) \
+                 $(X11LIB) $(CPLUSPLUS) $(EXTRA_LIBS)
+LDFLAGS        =
+
+.c.o:
+	cc -c $(OPTIMIZEDFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM)
+
+$(PROGRAM)::	$(OBJECTS)
+	cc -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+clean::
+	rm -f $(PROGRAM)
+	rm -f $(OBJECTS)

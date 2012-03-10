@@ -1,0 +1,80 @@
+XCOMM $TOG: Imakefile /main/2 1997/12/23 11:41:20 bill $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+XCOMM Do not put any -g here, will cause the generation of MasterTemplate.c.c
+XCOMM to use centerline_new, which cannot be linked on HP  
+XCOMM darwinl 6/27/95
+
+#ifdef DtinfoClient
+DEFINES=-DCDE_NEXT
+#else
+DEFINES=
+#endif
+
+INCLUDES = -I$(DTMMDBSRC)/HardCopy $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES) -I$(DTMMDBSRC)
+
+#if defined(CplusplusCompilerMajorVersion) && (CplusplusCompilerMajorVersion == 4)
+XCOMM need the ptr repository
+CXXEXTRA_DEFINES = -ptr../templates
+#endif
+
+#if defined(USLArchitecture)
+CXXEXTRA_DEFINES = -Xo
+#endif
+
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+LinkSourceFile(TemplatesAutoNumber.C,$(DTMMDBSRC)/HardCopy)
+
+EXTRA_SRCS = TemplatesAutoNumber.C
+#endif
+
+LinkSourceFile(FPset.C,$(DTMMDBSRC)/HardCopy)
+LinkSourceFile(HardCopyFP.C,$(DTMMDBSRC)/HardCopy)
+LinkSourceFile(autoNumber.C,$(DTMMDBSRC)/HardCopy)
+LinkSourceFile(autoNumberFP.C,$(DTMMDBSRC)/HardCopy)
+
+BASE_SRCS = FPset.C HardCopyFP.C autoNumber.C autoNumberFP.C
+
+SRCS = $(BASE_SRCS)       $(EXTRA_SRCS)
+OBJS = $(BASE_SRCS:.C=.o) $(EXTRA_SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+#ifdef HPArchitecture
+LinkSourceFile(all_tmpls,$(DTMMDBSRC)/HardCopy)
+SpecialCPlusPlusObjectRule(TemplatesAutoNumber.o,,+pti all_tmpls -DEXPAND_TEMPLATES)
+#elif defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4)
+LinkSourceFile(all_tmpls,$(DTMMDBSRC)/HardCopy)
+SpecialCPlusPlusObjectRule(TemplatesAutoNumber.o,,+Tall_tmpls -DEXPAND_TEMPLATES)
+#elif defined(AlphaArchitecture)	
+SpecialCPlusPlusObjectRule(TemplatesAutoNumber.o,,-ptf -DEXPAND_TEMPLATES)
+#else
+SpecialCPlusPlusObjectRule(TemplatesAutoNumber.o,,-ptf -DEXPAND_TEMPLATES)
+SpecialCPlusPlusExpandRule(TemplatesAutoNumber..c,TemplatesAutoNumber.C,-ptf -DEXPAND_TEMPLATES)
+#endif
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

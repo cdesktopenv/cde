@@ -1,0 +1,416 @@
+/* $XConsortium: README /main/4 1996/07/15 14:38:42 drk $ */
+This memo documents the Widget MetaLanguage (WML) facility which generates
+the Uil compiler language description.
+
+1. Introduction
+
+The Uil compiler's language definition has the following components:
+	- Invariant parts of the language grammar. This consists of the
+	  basic syntax and keywords, for example, the 'arguments' directive.
+	- Dynamic parts of the language. This consists of the widget/gadget
+	  classes supported by the language, including all resources
+	  (arguments and reasons), and the definitions of legal relationships
+	  among these parts (which classes are legal controls (children)
+	  of any given class, default values, and so on).
+	- The data types supported by the compiler. The code which supports
+	  the data types is invariant, but the data types must also be
+	  declared and made known in WML in order to provide a clean
+	  specification.
+
+The dynamic parts of the language definition in the compiler are represented
+as follows. The representation falls into two classes:
+	- Definitions of the language used for validity checking and
+	  reporting:
+		o A set of #define literals name all data types, classes,
+		  arguments, and reasons in the language.
+		o A set of statically compiled tables defines the names and
+		  legal relationships among these entities.
+	- All data types, classes, arguments, and reasons are treated as
+	  keywords in the Uil grammar. This is supported by:
+		o A set of #define literals which names all the tokens in
+		  the language. Some of these tokens receive identical
+		  values to the literals mentioned above (this identity is
+		  crucial to the compiler's correct functioning).
+		o A set of statically compiled tables used by lexical
+		  analysis to detect and classify the language keywords.
+		o A yacc grammar including these token definitions which
+		  generates a compilable Uil language parser.
+
+These representations are all contained in .h files except for the parser,
+which is contained in a .y file and its resulting .c file.
+
+The WML system's task is to generate all these literals and tables based on
+a specification of the dynamic parts of the Uil language - the data types,
+widget/gadget classes, arguments, and reasons. The components of the system
+are:
+	- A specification of the of set of widgets to be supported. This
+	  specification is an ASCII file containing a WML language
+	  specification as described below. The WML language is a simple
+	  declarative language whose syntax is similar to Uil itself.
+	- A process named wml, which parses the WML specification and
+	  produces the following output:
+		o The .h files which define the first class of language
+		  representations - the validity checking and reporting
+		  information.
+		o A set of .dat files which are used by succeeding processes
+		  to produce the Uil grammar.
+		o A report file which describes the toolkit being supported.
+		o A .mm file to be incorporated in the Uil language
+		  documentation, which tabulates the built-in language
+		  tables for Uil user reference.
+	- A process named wmluily which generates the Uil grammar.
+	- A process named wmltokens which generates token data
+	- A process named wmlkeyword which generates the token and lexical
+	  analysis tables.
+
+A shell script is provided which runs the system. The individual processes
+and inputs can usually be ignored.
+
+
+2. Environment
+
+The generation and use of the WML system requires the following:
+	- The C language compiler and runtime system (cc).
+	- The lexical generator facility (lex)
+	- the compiler compiler facility (yacc)
+
+The WML facility is found in directory /wmlsrc. It assumes the following
+directories also exist:
+	/uilsrc - the directory to which the output files are to be moved
+	/mrmsrc/Mrm - contains MrmCmpr.h and other .h files required to
+		compile the uil compiler.
+
+The tables produced by WML must be consistent with the Mrm compression
+code tables emboded in /mrmsrc/Mrm/MrmCmpr.h and /mrmsrc/Mrm/MrmCmprTbl.h.
+If in doubt, refer to /mrmsrc/Mrm/urmc.README for details.
+
+
+3. WML input
+
+Input to WML consists of:
+	- A description of the widget set (toolkit) to be suppported in
+	  the WML specification language.
+	- Data files supplied with WML facility, and which you will
+	  usually not need to modify. These are:
+		o grammar.y	- specifies the invariant part of the
+				  Uil grammar
+		o charset.dat	- specifies the character sets supported by
+				  the compiler when handling compound strings
+	  Any other .dat files found in /wmlsrc are the result of running
+	  the facility, and may be ignored.
+
+3.A. WML specification language
+
+The WML specification is a simple declarative language whose syntax is
+similar to that of Uil itself. It models the widget set to be suppored in
+a way that is very similar to the Uil language. It differs in having class
+inheritance similar to Xt widget classes, which minimizes the amount of
+specification and reduces errors. The properties of the model are:
+	- Class properties
+		o Classes are differentiated into two types - metaclasses
+		  and classes. Metaclasses cannot instantiate widgets.
+		  Typically, a WML metaclass is generated for each metaclass
+		  in the widget set to be supported.
+		o A regular class is defined for every low-level create
+		  routine in the widget set. There are typically more WML
+		  classes that widget set classes. For instance, there
+		  is one XmRowColumn class, with six WML classes (XmRowColumn
+		  XmMenuBar, XmOptionMenu, XmPopupMenu, XmPulldownMenu,
+		  XmRadioBox).
+		o Gadgets are modelled as variants of a corresponding
+		  widget class.
+		o A class may have zero or one superclasses. A class
+		  inherits all the resources and controls of its superclass
+		  (recursively). An inherited resource may have some of
+		  its properties overridden.
+		o A class is given a name which becomes its Uil language
+		  keyword (for regular classes). Metaclass names do
+		  not appear in Uil.
+		o A class is identified to Mrm by its creation
+		  convenience function (low-level create function). Examples
+		  are XmCreateLabel, XmCreatePushButtonGadget.
+	- Resource properties
+		o Resources are divided into two classes - arguments and
+		  and reasons. This models the Uil language distinction
+		  between callbacks and all other resources.
+		o A resource is considered to have universal scope. Once
+		  defined, it may be used in any class. Its name and datatype
+		  are invariant, but its default value may be overridden.
+		o A resource is included in a class by referencing it.
+		  Resources are inherited. Inherited resources may be
+		  excluded, which meancs they are not available in the
+		  class which provides this override (and its subclasses).
+		  This corresponds to the Motif toolkit N/A access value.
+		o A resource is given a name which becomes its Uil language
+		  keyword.
+		o A resource is identified to Mrm by the toolkit literal
+		  used to name it in arglists. Examples are
+		  XmNheight, XmNancestorSensitive, XmNhelpCallback. The
+		  resource literal defaults to the resource name, and need
+		  not be explicitly specified where they are identical.
+	- Control properties
+		o A control is a class which is permitted as the child
+		  of some other class.
+		o Naming the controls of a class is a WML feature which
+		  supports validity checking. There is no coresponding
+		  explicit feature in any Xt widget set.
+
+3.A.1 WML syntax and semantics
+
+The WML syntax can be quickly inferred from the standard input file
+provided with WML - motif-tables.wml. A quick BNF is provided in section 7.
+
+
+WML semantics are:
+	- '!' introduces a comment. Comments run from '!' to EOL.
+	- A string value may be quoted by enclosing in double quotes '"'.
+	  Names as well as values may be quoted. Keywords may not.
+	- All names are case-sensitive. Forward and backward references
+	  are allowed. All references to be resolved are to items defined
+	  in WML. These are:
+		o Type = <an item defined in a DataType statement>
+		o SuperClass =
+		  WidgetClass = <an item defined in a Class statement>
+		o Resources { <items defined in Resource statement> };
+		o Controls { <items defined in Class or ControlList>
+				statements> };
+	- A convenience function name is required for all classes except
+	  Metaclasses.
+	- Datatypes are required for all Arguments, Constraints, and
+	  SubResources.
+	- Arguments and SubResources are functionally identical, and
+	  are distinguished only because they are different kinds of
+	  resources in Xt widget sets. Constraints apply only to the
+	  referencing class's children. The same name may not be
+	  used for both an Argument and a Constraint (once a Constraint,
+	  always a Constraint).
+	- If a resource occurs in the widget set with more than one
+	  datatype, the Uil datatype 'any' must be used.
+	- The ResourceLiteral attribute for resources is optional, and
+	  need only be specified when the name is not identical to the literal.
+	- The DocName and Default attributes are only used for documentation.
+	  They are arbitrary strings.
+	- The WidgetClass attribute identifies the Widget class
+	  associated with a Gadget class, and is required.
+	- The DialogClass attribute is optional.
+	- The ControlList statement is a simply macro for lists of
+	  controls. It avoids tedious repetition of identical lists.
+	  A Controls block in a Class statement allows Class and
+	  ControlList names to be freely mixed.
+
+
+4. WML output
+	- The .h files and parser required by the compiler. These
+	  are automatically moved to /uilsrc by the runwml script.
+	- A report describing the supported widget set, always named
+	  wml.report. This report is intended to aid in validating
+	  the WML source. The report is organized in a way which makes
+	  if fairly easy to compare the Uil langauge against widget
+	  set documentation as exemplified by the Motif Programmer's
+	  Reference Manual. The reported is sorted as follows:
+		- alphabetically by class name
+		- Resources ordered by ancestor (top of tree first).
+		  Resources are listed alphabetically, with datatype
+		  and default always shown.
+		- Reasons ordered by ancestor (top of tree first),
+		  then alphabetically.
+		- Controls listed alphabetically.
+	- A file which provides documentation for the language, intended
+	  to be an appendix to a Uil manual as exemplified by the
+	  Guide to the Motif User Interface Language Compiler. This file
+	  is named wml-uil.mm
+
+
+5. Generating and running WML
+
+The script file /wmlsrc/genwml will build WML. The script file /wmlsrc/runwml
+will run WML with motif-tables.src as input.
+
+
+6. Gotchas and problems in current WML implementation
+
+The script files genwml and runwml should be replaced by Makefiles.
+
+The documentation file ?.mm is relatively untested. The tables should
+probably be modified, as they are currently too big to print cleanly.
+The handling of the DocName attribute is incorrect.
+
+The specification of the Motif toolkit in motif-tables.wml has not been
+fully validated against the latest toolkit documentation. We believe there
+are no or very few errors in the actual resources and the classes which
+use them. There may be errors in the default values, which will appear
+in the documentation.
+
+
+7. WML BNF
+
+WML-specification : statement_block_list
+
+statement_block_list:
+	<empty>
+	statement_block_list statement_block
+
+statement_block:
+	class_statement_block
+	| resource_statement_block
+	| datatype_statement_block
+	| control_list_statement_block
+
+class_statement_block:
+	'Class' class_statement_list
+
+resource_statement_block:
+	'Resource' resource_statement_list
+
+datatype_statement_block:
+	'Datatype' datatype_statement_list
+
+control_list_statement_block:
+	'ControlList' control_list_statement_list
+
+class_statement_list:
+	class_statement ';'
+	| class_statement_list class_statement ';'
+
+resource_statement_list:
+	resource_statement ';'
+	| resource_statement_list resource_statement ';'
+
+datatype_statement_list:
+	datatype_statement ';'
+	| datatype_statement_list datatype_statement ';'
+
+control_list_statement_list:
+	control_list_statement ';'
+	| control_list_statement_list control_list_statement ';'
+
+class_statement:
+	<name> ':' class_type class_definition
+
+class_type:
+	'MetaClass' | 'Widget' | 'Gadget'
+
+class_definition:
+	<empty>
+	| '{' '}'
+	| '{' class_attribute_list '}'
+
+class_attribute_list:
+	class_attribute_name '=' <string> ';'
+	| class_boolean_attribute_name '=' boolean_attribute_value ';'
+	| class_resources ';'
+	| class_controls ';'
+
+class_attribute_name:
+	'SuperClass' | 'Alias' | 'ConvenienceFunction' | 'WidgetClass' |
+	'DocName'
+
+class_boolean_attribute_name:
+	'DialogClass'
+
+boolean_attribute_value:
+	'True' | 'False'
+
+class_resources:
+	'Resources' class_resources_block
+
+class_resources_block:
+	<empty>
+	'{' '}'
+	'{' class_resource_list '}'
+
+class_resource_list:
+	class_resource_element
+	| class_resource_list class_resource_element
+
+class_resource_element:
+	<name> class_resource_attributes ';'
+
+class_resource_attributes:
+	<empty>
+	'{' '}' ';'
+	'{' class_resource_attribute_list '}'
+
+class_resource_attribute_list:
+	class_resource_attribute_element
+	| class_resource_attribute_list class_resource_attribute_element
+
+class_attribute_element
+	class_resource_attribute_name '=' <string> ';'
+	| boolean_class_resource_attribute_name '=' boolean_attribute_value ';'
+
+class_resource_attribute_name:
+	'Default'
+
+boolean_class_resource_attribute_name:
+	'Exclude'
+
+class_controls:
+	'Controls' class_controls_block
+
+class_controls_block:
+	<empty>
+	| '{' '}' ';'
+	| '{' class_controls_list '}'
+
+class_controls_list:
+	class_controls_element
+	class_controls_list class_controls_element
+
+class_controls_element:
+	<name> ;
+
+resource_statement:
+	<name> ':' resource_type resource_definition
+
+resource_type:
+	'Argument' | 'Reason' | 'Constraint' | 'SubResource'
+
+resource_definition:
+	<empty>
+	'{' '}'
+	'{' resource_attribute_list '}'
+
+resource_attribute_list:
+	resource_attribute
+	resource_attribute_list resource_attribute
+
+resource_attribute:
+	resource_attribute_name '=' <string> ';'
+
+resource_attribute_name:
+	'Type' | 'ResourceLiteral' | 'Alias' | 'Related' | 'Default' |
+	'DocName'
+
+datatype_statement:
+	<name> datatype_definition
+
+datatype_definition:
+	<empty>
+	| '{' '}'
+	| '{' datatype_attribute_list '}'
+
+datatype_attribute_list:
+	datatype_attribuute
+	datatype_attribute_list datatype_attribute
+
+datatype_attribute:
+	datatype-attribute_name '=' <string> ';'
+
+datatype_attribute_name:
+	'Alias' | 'DocName'
+
+control_list_statement:
+	<name> control_list_definition
+
+control_list_definition:
+	<empty>
+	'{' '}'
+	'{' control_list_controls_list '}'
+
+control_list_controls_list:
+	control_list_control
+	control_list_controls_list control_list_control
+
+control_list_control:
+	<name> ';'

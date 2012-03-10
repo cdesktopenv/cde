@@ -1,0 +1,36 @@
+sys	filio,ioctl
+
+vax asm note{ register layout ok for vax string operations }end execute{
+	main()
+	{
+	#ifndef vax
+		return absurd = -1;
+	#else
+		register int	r11, r10, r9, r8, r7, r6;
+		r11 = r10 = r9 = r8 = r7 = r6 = -1;
+		asm("clrw	r11");
+		asm("clrw	r10");
+		asm("clrw	r9");
+		asm("clrw	r8");
+		asm("clrw	r7");
+		asm("clrw	r6");
+		if(sizeof(int) != sizeof(char*) || r11 || r10 || r9 || r8 || r7 || r6 )
+			return -1;
+		return 0;
+	#endif
+	}
+}end
+
+i386 cvt note{ 386 native floating point conversions better than C }end link{
+	main()
+	{
+	#ifndef i386
+		return absurd = -1;
+	#else
+		ecvt();
+		fcvt();
+		strtod();
+		return 0;
+	#endif
+	}
+}end

@@ -1,0 +1,79 @@
+#!/bin/sh
+# $TOG: process_msg /main/4 1999/09/20 10:33:13 mgreess $
+# Script to determine which source files need to have new messages 
+# substitued into them and accomplish those substitutions.  The 
+# files on the command line will be run thru genmsg, and those 
+# files that exhibit actual differences will then be checked out, 
+# and really run thru genmsg, and then checked back in.
+#
+# To use the script, you must scccs get all of the source files you wish
+# to process, as well as dtcm.msg and project.set.  When ready, one runs 
+# "process_msg *.c".  It will look thru all the .c files, looking to 
+# see which ones have unassigned message id's, and check those files out.  
+# It will then run those files thru genmsg, and regenerate the dtcm.msg 
+# file.  You must delta in the processed .c files as well as project.set 
+# and dtcm.msg.  A bunch of old .msg files will remain in the directory.
+# The old message file will be stored in dtcm.msg.orig.
+
+rm -f *.new *.msg >/dev/null
+filelist=""
+null=""
+for file in $* 
+do
+	genmsg -l project.set $file >/dev/null
+	diff $file $file.new   >/dev/null
+	if [ $? != 0 ]  
+	then
+		filelist="$filelist $file"
+	fi
+done
+
+echo $filelist
+
+if [ "$filelist" = "$null" ] 
+then
+	echo "No files need to be updated.  Exiting."
+	exit
+fi
+
+# Now that we have the list of files that actually need to 
+# be changed, check to see if any of them are already checked 
+# out.  If they are, then quit with an error, else run 
+# genmsg to change them.
+
+checkout=`sccs tell`
+
+if [ "$checkout" ] 
+then
+	for file in $filelist 
+	do
+		for newfile in $checkout 
+		do
+			if [ "$file" = "$newfile" ] 
+			then
+				echo "The file $file needs to be changed, but is already checked out.  Exiting"
+				exit
+			fi
+		done
+	done
+fi
+
+
+sccs edit $filelist project.set dtcm.msg
+
+
+for file in $filelist 
+do
+	genmsg -c NL_COMMENT -l project.set $file >/dev/null
+	mv $file.new $file
+	mv project.set.new project.set
+done
+
+# regenerate the message file for the application
+
+mv -f dtcm.msg dtcm.msg.orig
+
+genmsg -c NL_COMMENT -d dtcm.msg $* 
+
+#sccs unedit $filelist project.set dtcm.msg
+#rm *.new *.msg

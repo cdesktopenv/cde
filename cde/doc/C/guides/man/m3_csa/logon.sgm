@@ -1,0 +1,295 @@
+<!-- $XConsortium: logon.sgm /main/4 1996/08/30 15:37:09 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN65.rsml.1">
+<RefMeta>
+<RefEntryTitle>csa_logon</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>csa_logon</Function></RefName>
+<RefPurpose>log on to the calendar service and establish a session with a calendar
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- (c) Copyright 1994 X.400 API Association-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;xcsa.h>
+</FuncSynopsisInfo>
+<FuncDef>CSA_return_code <Function>csa_logon</Function></FuncDef>
+<ParamDef>CSA_service_reference <Parameter>calendar_service</Parameter></ParamDef>
+<ParamDef>CSA_calendar_user *<Parameter>user</Parameter></ParamDef>
+<ParamDef>CSA_string <Parameter>password</Parameter></ParamDef>
+<ParamDef>CSA_string <Parameter>character_set</Parameter></ParamDef>
+<ParamDef>CSA_string <Parameter>required_csa_version</Parameter></ParamDef>
+<ParamDef>CSA_session_handle *<Parameter>session</Parameter></ParamDef>
+<ParamDef>CSA_extension *<Parameter>logon_extensions</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>csa_logon</Function> function allows the calling application to logon to the
+calendar service.
+If the specified calendar does not
+exist, then the error
+<SystemItem Class="Constant">CSA_E_CALENDAR_NOT_EXIST</SystemItem> is returned.
+</Para>
+<Para>The function returns a Session Handle that the application
+will use in subsequent CSA calls.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<RefSect2>
+<Title>Calendar Service (Service Reference)</Title>
+<Para>A calendar service name specifying the requested
+calendaring service, (e.g., the path to a calendar store or
+a remote server node name).
+This value may be
+<SystemItem Class="Constant">NULL</SystemItem> if the underlying calendaring service does not require a
+service name or if UI is allowed.
+This may be necessary on
+some implementations and ignored on others.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>User (Calendar User)</Title>
+<Para>A pointer to the calendar user structure that identifies
+the user and calendar to the calendaring service.
+This
+value may be
+<SystemItem Class="Constant">NULL</SystemItem>.</Para>
+</RefSect2>
+<RefSect2>
+<Title>Password (String)</Title>
+<Para>A string containing the password required for access to the
+CSA service.
+This value may be
+<SystemItem Class="Constant">NULL</SystemItem> if the underlying calendaring service does not require a
+password or if UI is allowed.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Character Set (String)</Title>
+<Para>A CSA formal public identifier string for the character set
+of strings used by the CSA caller.
+The client may pass
+<SystemItem Class="Constant">NULL</SystemItem> in which case the character set used is determined by the
+CSA service.
+The supported values are implementation
+specific.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Required CSA Version (String)</Title>
+<Para>The formal public identifier for the CSA version number
+required by the application.
+For this version of the
+specification this string must be
+``-//XAPIA/CSA/VERSION1/NONSGML CSA Version 1//EN''.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Logon Extensions (Extensions)</Title>
+<Para>A pointer to an array of
+<StructName Role="typedef">CSA_extension</StructName> structures for this function.
+The array may contain both
+input extensions for providing additional information to
+the function and output extensions for receiving
+information from the function.
+A value of
+<SystemItem Class="Constant">NULL</SystemItem> indicates that the caller is not using any extensions.
+See the extensions structure for more information.
+</Para>
+<Para>Through extensions, the application can find out which
+extensions are available and set which data extensions will
+be active for the session.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<RefSect2>
+<Title>Session (Session Handle)</Title>
+<Para>Opaque session handle that represents a session with the
+CSA calendar.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Logon Extensions (Extensions)</Title>
+<Para>If output extensions were passed to the function in the
+extensions list, the results from the service will be
+available in the extension.
+See the extensions structure for more information.
+Whether the function succeeded or
+not, and, if not, why.
+It may be success or one of the
+values listed under ERRORS below.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The
+<Function>csa_logon</Function> function returns the following error values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_E_CALENDAR_NOT_EXIST</Term>
+<ListItem>
+<Para>The specified calendar does not exist.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_FAILURE</Term>
+<ListItem>
+<Para>There was a general failure that does not
+fit the description of any other error code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Insufficient memory was available to complete the requested operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_CALENDAR_SERVICE</Term>
+<ListItem>
+<Para>The underlying calendar service is invalid, so logging on cannot be completed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_CONFIGURATION</Term>
+<ListItem>
+<Para>The specified logon configuration is inconsistent with the
+selected calendar service.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_DATA_EXT</Term>
+<ListItem>
+<Para>The data extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FLAG</Term>
+<ListItem>
+<Para>A flag value in the
+<Symbol Role="Variable">flags</Symbol> argument was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The function extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_PARAMETER</Term>
+<ListItem>
+<Para>A function parameter was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_PASSWORD</Term>
+<ListItem>
+<Para>The password is incorrect.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_USER</Term>
+<ListItem>
+<Para>The specified calendar user is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NO_AUTHORITY</Term>
+<ListItem>
+<Para>The user has insufficient authority for this function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_PASSWORD_REQUIRED</Term>
+<ListItem>
+<Para>A password is required on this calendar service.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_SERVICE_UNAVAILABLE</Term>
+<ListItem>
+<Para>The requested calendar service is unavailable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_TOO_MANY_USERS</Term>
+<ListItem>
+<Para>The implementation cannot support the additional logon of
+another calendar user at this time.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_CHARACTER_SET</Term>
+<ListItem>
+<Para>The character set requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_DATA_EXT</Term>
+<ListItem>
+<Para>The data extension requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The specified function extension is not supported or
+<SystemItem Class="Constant">CSA_EXT_REQUIRED</SystemItem> is set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_VERSION</Term>
+<ListItem>
+<Para>The specification version specified in the call cannot be
+supported by this CSA implementation.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.csa.csa.h;, &cdeman.csa.add.calendar;, &cdeman.csa.add.entry;, &cdeman.csa.call.callbacks;, &cdeman.csa.delete.calendar;, &cdeman.csa.delete.entry;, &cdeman.csa.free;, &cdeman.csa.free.time.search;, &cdeman.csa.list.calendar.attributes;, &cdeman.csa.list.calendars;, &cdeman.csa.list.entries;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.logoff;, &cdeman.csa.look.up;, &cdeman.csa.query.configuration;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.read.entry.attributes;, &cdeman.csa.read.next.reminder;, &cdeman.csa.register.callback;, <![ %CDE.C.XO; [&cdeman.csa.restore;, &cdeman.csa.save;, ]]>&cdeman.csa.unregister.callback;, &cdeman.csa.update.calendar.attributes;, &cdeman.csa.update.entry.attributes;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

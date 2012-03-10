@@ -1,0 +1,853 @@
+<!-- $XConsortium: dtfpfile.sgm /main/8 1996/08/31 14:55:31 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN95.rsml.1">
+<refmeta><refentrytitle>dtfpfile</refentrytitle><manvolnum>special file</manvolnum>
+</refmeta>
+<refnamediv><refname><filename>dtfpfile</filename></refname><refpurpose>format
+and locations of front panel configuration files</refpurpose></refnamediv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<refsynopsisdiv>
+<synopsis>set DtDbVersion=<emphasis>version_number</emphasis>
+set <emphasis>VariableName</emphasis>=<emphasis>variable_value</emphasis>
+<emphasis>RecordType</emphasis> <emphasis>record_name</emphasis>
+{
+        # <emphasis>Comment</emphasis>
+        <emphasis>Keyword</emphasis> <emphasis>Value</emphasis>
+        <emphasis>Keyword</emphasis> <emphasis>Value</emphasis>
+        ...
+}</synopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <literal>dtfpfile</literal> front panel database provides definitions
+for the components that define the content and functionality of the front
+panel. Files containing front panel definitions must end with the <Filename>.fp</Filename> suffix. Like the action and data type database, the front panel
+database is constructed by reading all files ending in the <Filename>.fp</Filename>
+suffix found in the search path specified by the <systemitem class="EnvironVar">DTDATABASESEARCHPATH</systemitem> environment variable.</para>
+<para>See &cdeman.dtdtfile; for a complete description of the
+directory locations where these database files are found and for a description
+of the specific syntax for the database files.</para>
+<refsect2>
+<title>File Format</title>
+<para>The general syntax of the front panel configuration files is as described
+above in the SYNOPSIS section of this man page.</para>
+<para>The <emphasis>Comments</emphasis>, <emphasis>Versions</emphasis> and <emphasis>Variables</emphasis> fields are described in &cdeman.dtdtfile;.
+</para>
+<para>The front panel record types each have a set of Keyword and Value pairs.
+There are six record types defined: <systemitem class="Constant">PANEL</systemitem>, <systemitem class="Constant">BOX</systemitem>, <systemitem class="Constant">SUBPANEL</systemitem>, <systemitem class="Constant">SWITCH</systemitem>, <systemitem class="Constant">CONTROL</systemitem> and <systemitem class="Constant">ANIMATION</systemitem>. Each
+record type has a set of keywords defined for it. Many of the keywords are
+used for multiple record types.</para>
+</refsect2>
+<refsect2>
+<title>Record Types</title>
+<variablelist>
+<varlistentry><term><Symbol>PANEL</Symbol> <emphasis>front panel name</emphasis></term>
+<listitem>
+<para>The <systemitem class="Constant">PANEL</systemitem> record type defines
+the outermost container of the front panel. It can contain one or more <systemitem class="Constant">BOX</systemitem>es and optionally repositioning handles,
+a menu and a minimize button. The keywords defined for <systemitem class="Constant">PANEL</systemitem> are described in the following table.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.93in">
+<colspec align="left" colname="col1" colwidth="229*">
+<colspec align="left" colwidth="159*">
+<colspec align="left" colname="col3" colwidth="101*">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>PANEL Record Type
+Keywords and Values</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Keyword</literal></entry>
+<entry align="left" valign="top"><literal>Value</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top">CONTROL_BEHAVIOR</entry>
+<entry align="left" valign="top">(<literal>double_click</literal>/ <literal>single_click</literal>)</entry>
+<entry align="left" valign="top">single_click</entry></row>
+<row>
+<entry align="left" valign="top">DISPLAY_CONTROL_LABELS</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">DISPLAY_HANDLES</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top">DISPLAY_MENU</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top">DISPLAY_MINIMIZE</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top">HELP_STRING</entry>
+<entry align="left" valign="top"><symbol role="Variable">string</symbol></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_TOPIC</entry>
+<entry align="left" valign="top"><emphasis>topic name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_VOLUME</entry>
+<entry align="left" valign="top"><emphasis>volume name</emphasis></entry>
+<entry align="left" valign="top">FPanel</entry></row>
+<row>
+<entry align="left" valign="top">LOCKED</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">PANEL_GEOMETRY</entry>
+<entry align="left" valign="top">{+&minus;}<symbol role="Variable">xoffset</symbol>[{+&minus;}<symbol role="Variable">yoffset</symbol>]</entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">RESOLUTION</entry>
+<entry align="left" valign="top">(<literal>high</literal>/<literal>medium</literal> /<literal>low</literal>/<literal>match_display</literal>)</entry>
+<entry align="left" valign="top">match_display</entry></row>
+<row>
+<entry align="left" valign="top">SUBPANEL_UNPOST</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">True</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><Symbol>BOX</Symbol> <emphasis>box name</emphasis></term>
+<listitem>
+<para>The <systemitem class="Constant">BOX</systemitem> record type defines
+a container within a <systemitem class="Constant">PANEL</systemitem> that
+can hold a row of <systemitem class="Constant">CONTROLS</systemitem> and at
+most one <systemitem class="Constant">SWITCH</systemitem> container. Multiple <systemitem class="Constant">BOX</systemitem>es within a <systemitem class="Constant">PANEL</systemitem> are stacked vertically. The keywords defined for <systemitem class="Constant">BOX</systemitem> are described in the following table.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colname="col1" colwidth="160*">
+<colspec align="left" colwidth="184*">
+<colspec align="left" colname="col3" colwidth="112*">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>BOX Record Type
+Keywords and Values</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Keyword</literal></entry>
+<entry align="left" valign="top"><literal>Value</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top">CONTAINER_NAME</entry>
+<entry align="left" valign="top">front panel name</entry>
+<entry align="left" valign="top">NULL (required)</entry></row>
+<row>
+<entry align="left" valign="top">DELETE</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">HELP_STRING</entry>
+<entry align="left" valign="top"><symbol role="Variable">string</symbol></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_TOPIC</entry>
+<entry align="left" valign="top"><emphasis>topic name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_VOLUME</entry>
+<entry align="left" valign="top"><emphasis>volume name</emphasis></entry>
+<entry align="left" valign="top">FPanel</entry></row>
+<row>
+<entry align="left" valign="top">LOCKED</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">POSITION_HINTS</entry>
+<entry align="left" valign="top">(<literal>first</literal>/<literal>last</literal>/<symbol role="Variable">integer</symbol> &ge; 1)</entry>
+<entry align="left" valign="top">first</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><Symbol>SUBPANEL</Symbol> <emphasis>subpanel name</emphasis></term>
+<listitem>
+<para>The <systemitem class="Constant">SUBPANEL</systemitem> record type defines
+a secondary container for <systemitem class="Constant">CONTROL</systemitem>s
+that slide up from the front panel. <systemitem class="Constant">SUBPANEL</systemitem> s can also contain a drop zone where new controls can be dynamically
+added. The keywords defined for <systemitem class="Constant">SUBPANEL</systemitem>
+are described in the following table.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colname="col1" colwidth="166*">
+<colspec align="left" colwidth="121*">
+<colspec align="left" colname="col3" colwidth="169*">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>SUBPANEL Record
+Type Keywords and Values</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Keyword</literal></entry>
+<entry align="left" valign="top"><literal>Value</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top">CONTAINER_NAME</entry>
+<entry align="left" valign="top"><emphasis>control name</emphasis></entry>
+<entry align="left" valign="top">NULL (required)</entry></row>
+<row>
+<entry align="left" valign="top">CONTROL_INSTALL</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top">DELETE</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">HELP_STRING</entry>
+<entry align="left" valign="top"><symbol role="Variable">string</symbol></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_TOPIC</entry>
+<entry align="left" valign="top"><emphasis>topic name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_VOLUME</entry>
+<entry align="left" valign="top"><emphasis>volume name</emphasis></entry>
+<entry align="left" valign="top">FPanel</entry></row>
+<row>
+<entry align="left" valign="top">LOCKED</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">TITLE</entry>
+<entry align="left" valign="top"><symbol role="Variable">string</symbol></entry>
+<entry align="left" valign="top">NULL</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><Symbol>SWITCH</Symbol> <emphasis>switch name</emphasis></term>
+<listitem>
+<para>The <systemitem class="Constant">SWITCH</systemitem> record type defines
+a container within a <systemitem class="Constant">BOX</systemitem> that contains
+a set of push buttons, each of which give access to a corresponding workspace.
+See &cdeman.dtwm; for a description of the multiple workspace capabilities.
+Also contained within the <systemitem class="Constant">SWITCH</systemitem>
+container is an optional set of <systemitem class="Constant">CONTROL</systemitem>s.
+These are presented in a column on each side of the push buttons. The keywords
+defined for <systemitem class="Constant">SWITCH</systemitem> are described
+in the following table.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.93in">
+<colspec align="left" colname="col1" colwidth="173*">
+<colspec align="left" colwidth="177*">
+<colspec align="left" colname="col3" colwidth="139*">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>SWITCH Record Type
+Keywords and Values</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Keyword</literal></entry>
+<entry align="left" valign="top"><literal>Value</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top">CONTAINER_NAME</entry>
+<entry align="left" valign="top"><emphasis>box name</emphasis></entry>
+<entry align="left" valign="top">NULL (required)</entry></row>
+<row>
+<entry align="left" valign="top">DELETE</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">HELP_STRING</entry>
+<entry align="left" valign="top"><symbol role="Variable">string</symbol></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_TOPIC</entry>
+<entry align="left" valign="top"><emphasis>topic name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_VOLUME</entry>
+<entry align="left" valign="top"><emphasis>volume name</emphasis></entry>
+<entry align="left" valign="top">FPanel</entry></row>
+<row>
+<entry align="left" valign="top">LOCKED</entry>
+<entry align="left" valign="top">(<systemitem class="Constant">True</systemitem>/<systemitem class="Constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">NUMBER_OF_ROWS</entry>
+<entry align="left" valign="top"><symbol role="Variable">integer</symbol></entry>
+<entry align="left" valign="top">2</entry></row>
+<row>
+<entry align="left" valign="top">POSITION_HINTS</entry>
+<entry align="left" valign="top">(<literal>first</literal>/<literal>last</literal>/<symbol role="Variable">integer</symbol> &ge; 1)</entry>
+<entry align="left" valign="top">first</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><Symbol>CONTROL</Symbol> <emphasis>control name</emphasis></term>
+<listitem>
+<para>The <systemitem class="Constant">CONTROL</systemitem> record type defines
+the main functional component of the front panel. <systemitem class="Constant">CONTROL</systemitem>s typically have actions defined for them that are invoked
+on selection or drag and drop or both. <systemitem class="Constant">CONTROL</systemitem> s are displayed with icons or labels or both and can have iconic
+animations associated with them. The keywords defined for <systemitem class="Constant">CONTROL</systemitem> are described in the following table.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colname="col1" colwidth="188*">
+<colspec align="left" colwidth="178*">
+<colspec align="left" colname="col3" colwidth="90*">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>CONTROL Record Type
+Keywords and Values</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Keyword</literal></entry>
+<entry align="left" valign="top"><literal>Value</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top">ALTERNATE_ICON</entry>
+<entry align="left" valign="top"><emphasis>image name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">CLIENT_GEOMETRY</entry>
+<entry align="left" valign="top"><symbol role="Variable">width</symbol> <literal>x</literal> <symbol role="Variable">height</symbol></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">CLIENT_NAME</entry>
+<entry align="left" valign="top"><emphasis>client name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">CONTAINER_NAME</entry>
+<entry align="left" valign="top">(<emphasis>box name</emphasis>/ <emphasis>switch name</emphasis>/<emphasis>subpanel name</emphasis>)</entry>
+<entry align="left" valign="top">NULL (required)</entry></row>
+<row>
+<entry align="left" valign="top">CONTAINER_TYPE</entry>
+<entry align="left" valign="top">(<Symbol>BOX</Symbol>/<Symbol>SWITCH</Symbol>/ <Symbol>SUBPANEL</Symbol>)</entry>
+<entry align="left" valign="top">NULL (required)</entry></row>
+<row>
+<entry align="left" valign="top">DATE_FORMAT</entry>
+<entry align="left" valign="top"><emphasis>format string</emphasis></entry>
+<entry align="left" valign="top">%b%n%e</entry></row>
+<row>
+<entry align="left" valign="top">DELETE</entry>
+<entry align="left" valign="top">(<systemitem class="constant">True</systemitem>/<systemitem class="constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">DROP_ACTION</entry>
+<entry align="left" valign="top"><emphasis>action_name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">DROP_ANIMATION</entry>
+<entry align="left" valign="top"><emphasis>animation name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">FILE_NAME</entry>
+<entry align="left" valign="top"><symbol role="Variable">pathname</symbol></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_STRING</entry>
+<entry align="left" valign="top"><symbol role="Variable">string</symbol></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_TOPIC</entry>
+<entry align="left" valign="top"><emphasis>topic name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">HELP_VOLUME</entry>
+<entry align="left" valign="top"><emphasis>volume name</emphasis></entry>
+<entry align="left" valign="top">FPanel</entry></row>
+<row>
+<entry align="left" valign="top">ICON</entry>
+<entry align="left" valign="top"><emphasis>image name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">LABEL</entry>
+<entry align="left" valign="top"><symbol role="Variable">string</symbol></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">LOCKED</entry>
+<entry align="left" valign="top">(<systemitem class="constant">True</systemitem>/<systemitem class="constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">MONITOR_TYPE</entry>
+<entry align="left" valign="top">(<literal>none</literal>/<literal>mail</literal>/ <literal>file</literal>)</entry>
+<entry align="left" valign="top">none</entry></row>
+<row>
+<entry align="left" valign="top">POSITION_HINTS</entry>
+<entry align="left" valign="top">(<literal>first</literal>/<literal>last</literal>/<symbol role="Variable">integer</symbol> &ge; 1)</entry>
+<entry align="left" valign="top">first</entry></row>
+<row>
+<entry align="left" valign="top">PUSH_ACTION</entry>
+<entry align="left" valign="top"><emphasis>action_name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">PUSH_ANIMATION</entry>
+<entry align="left" valign="top"><emphasis>animation name</emphasis></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top">PUSH_RECALL</entry>
+<entry align="left" valign="top">(<systemitem class="constant">True</systemitem>/<systemitem class="constant">False</systemitem>)</entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top">TYPE</entry>
+<entry align="left" valign="top">(<literal>blank</literal>/<literal>busy</literal>/ <literal>client</literal>/<literal>clock</literal>/<literal>date</literal>/ <literal>file</literal>/<literal>icon</literal>)</entry>
+<entry align="left" valign="top">icon</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><Symbol>ANIMATION</Symbol> <emphasis>animation name</emphasis></term>
+<listitem>
+<para>The <systemitem class="Constant">ANIMATION</systemitem> record types
+are a sequence of image name and time delay pairs that are displayed by a <systemitem class="Constant">CONTROL</systemitem> on a <systemitem class="Constant">PUSH_ACTION</systemitem> or <systemitem class="Constant">DROP_ACTION</systemitem>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colname="col1" colwidth="123*">
+<colspec align="left" colwidth="222*">
+<colspec align="left" colname="col3" colwidth="111*">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>ANIMATION Record
+Type Keywords and Values</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Keyword</literal></entry>
+<entry align="left" valign="top"><literal>Value</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top">ANIMATION</entry>
+<entry align="left" valign="top"><emphasis>image name</emphasis> [ <emphasis>millisecond delay</emphasis>]</entry>
+<entry align="left" valign="top">None [200]</entry></row></tbody></tgroup>
+</informaltable>
+</refsect2>
+<refsect2>
+<title>Keyword and Value Descriptions</title>
+<para>The following list contains a description of each of the keywords defined
+by the front panel.</para>
+<variablelist>
+<varlistentry><term>ALTERNATE_ICON</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with control types of: <literal>busy</literal> and <literal>icon</literal>.</para>
+<para><systemitem class="Constant">ALTERNATE_ICON</systemitem> defines an
+image to be used to replace the normal image within a control with a mail
+or file value for the <systemitem class="Constant">MONITOR_TYPE</systemitem>.
+The image is displayed when the file being monitored changes. For the <literal>busy</literal> control, <systemitem class="Constant">ALTERNATE_ICON</systemitem>
+is cycled with <systemitem class="Constant">ICON</systemitem> to give the
+blinking effect.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>ANIMATION</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">ANIMATION</systemitem>.
+</para>
+<para>Used with control keywords of: <systemitem class="Constant">PUSH_ANIMATION</systemitem> and <systemitem class="Constant">DROP_ANIMATION</systemitem>.
+</para>
+<para><systemitem class="Constant">ANIMATION</systemitem> defines a sequence
+of images to be displayed for either a <systemitem class="Constant">PUSH_ACTION</systemitem> or <systemitem class="Constant">DROP_ACTION</systemitem>. Each
+animation within the list is displayed in order with a default time separation
+of 200 milliseconds. For a slower or faster sequence, the image name value
+can be followed by the amount of time to display the image. If no time value
+is specified, the previously specified value is used.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>CLIENT_GEOMETRY</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with control type of: <literal>client</literal>.</para>
+<para>Used with control keywords of: <systemitem class="Constant">CLIENT_NAME</systemitem>.</para>
+<para><systemitem class="Constant">CLIENT_GEOMETRY</systemitem> specifies
+the size (in pixels) needed for the window of a client displayed within the
+front panel.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>CLIENT_NAME</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with control types of: <literal>client</literal> or <literal>icon</literal>.</para>
+<para>Used with control keywords of: <systemitem class="Constant">PUSH_RECALL</systemitem>.</para>
+<para><systemitem class="Constant">CLIENT_NAME</systemitem> specifies a name
+used to associate a control with an executable. It is necessary for control
+types of <literal>client</literal> (an X client running within the front panel)
+and for <literal>icon</literal> when the keyword <systemitem class="Constant">PUSH_RECALL</systemitem> is True. The value <emphasis>client name</emphasis>
+is the name of the executable or can be set via a command-line argument for
+some clients (such as <command>xterm</command> <literal>&minus;name</literal> <emphasis>panelterm</emphasis>). The <emphasis>client name</emphasis> for a running
+client can be found by executing xprop. The first string of the <systemitem class="Constant">WM_CLASS</systemitem> property is the value used.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>CONTAINER_NAME</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">BOX</systemitem>, <systemitem class="Constant">SUBPANEL</systemitem>, <systemitem class="Constant">SWITCH</systemitem> and <systemitem class="Constant">CONTROL</systemitem>.</para>
+<para><systemitem class="Constant">CONTAINER_NAME</systemitem> associates
+a component with its parent. For example, the <systemitem class="Constant">CONTAINER_NAME</systemitem> value for a <systemitem class="Constant">SWITCH</systemitem> tells the front panel into which <systemitem class="Constant">BOX</systemitem> it should be placed. Since controls can reside in several
+different component types, <systemitem class="Constant">CONTAINER_NAME</systemitem>
+is used in conjunction with <systemitem class="Constant">CONTAINER_TYPE</systemitem>
+to define a control's parent.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>CONTAINER_TYPE</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para><systemitem class="Constant">CONTAINER_TYPE</systemitem> defines a control's
+parent type. This is used to identify a control uniquely so that it can be
+created within the proper parent.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>CONTROL_BEHAVIOR</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>.
+</para>
+<para><systemitem class="Constant">CONTROL_BEHAVIOR</systemitem> provides
+the mechanism for setting the user model for front panel controls. Controls
+can be set to invoke their <systemitem class="Constant">PUSH_ACTION</systemitem>
+by either a single or double click.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>CONTROL_INSTALL</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">SUBPANEL</systemitem>.
+</para>
+<para><systemitem class="Constant">CONTROL_INSTALL</systemitem> enables or
+disables dynamic control installation into subpanels. A value of True causes
+the control installation area to be displayed within the subpanel.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DATE_FORMAT</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with control types of: <literal>date</literal>.</para>
+<para><systemitem class="Constant">DATE_FORMAT</systemitem> specifies the
+layout of the date string for a control of type <literal>date</literal>. The
+format is the same used by the UNIX <function>strftime</function>(3) function.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DELETE</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">BOX</systemitem>, <systemitem class="Constant">SUBPANEL</systemitem>, <systemitem class="Constant">SWITCH</systemitem> and <systemitem class="Constant">CONTROL</systemitem>.</para>
+<para><systemitem class="Constant">DELETE</systemitem> is used to override
+and remove a non-locked component from the front panel. This is necessary
+to eliminate system default front panel components without replacing the default
+files. To use <systemitem class="Constant">DELETE</systemitem>, a copy of
+the component definition with the additional <systemitem class="Constant">DELETE</systemitem> keyword is stored in a file with an <Filename>.fp</Filename>
+suffix in the user's or application type's directory.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DISPLAY_CONTROL_LABELS</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>.
+</para>
+<para><systemitem class="Constant">DISPLAY_CONTROL_LABELS</systemitem> specifies
+whether the controls contained within the front panel's boxes have their labels
+displayed.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DISPLAY_HANDLES</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>.
+</para>
+<para>If <systemitem class="Constant">DISPLAY_HANDLES</systemitem> is set
+to True, the move handles are displayed along the left and right edges of
+the front panel.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DISPLAY_MENU</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>.
+</para>
+<para>If <systemitem class="Constant">DISPLAY_MENU</systemitem> is set to
+True, and <systemitem class="Constant">DISPLAY_HANDLES</systemitem> is also
+set to True, the system menu button is displayed in the upper left hand corner
+of the front panel.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DISPLAY_MINIMIZE</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>.
+</para>
+<para>If <systemitem class="Constant">DISPLAY_MINIMIZE</systemitem> is set
+to True, and <systemitem class="Constant">DISPLAY_HANDLES</systemitem> is
+also set to True, the minimize button is displayed in the upper right hand
+corner of the front panel.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DROP_ACTION</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para><systemitem class="Constant">DROP_ACTION</systemitem> specifies the
+function that is invoked when a drop occurs on the control.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>DROP_ANIMATION</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with all control types except: <literal>client</literal>.</para>
+<para><systemitem class="Constant">DROP_ANIMATION</systemitem> specifies the
+name of an animation record to be displayed when a drop occurs on the control.
+The control must have a <systemitem class="Constant">DROP_ACTION</systemitem>
+defined for the animation to be used.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>FILE_NAME</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with control types of: <literal>icon</literal> and <literal>file</literal>.</para>
+<para>For the control type of <literal>file</literal>, <systemitem class="Constant">FILE_NAME</systemitem> is the pathname of the file to be used for the control.
+The file's file type, actions and images are extracted from the action database
+for the control.</para>
+<para>For <systemitem class="Constant">MONITOR_TYPE</systemitem> <literal>mail</literal> and <literal>file</literal>, <systemitem class="Constant">FILE_NAME</systemitem> specifies the pathname of the file the front panel
+monitors for either mail arrival or some other user-defined data.</para>
+<para>For <systemitem class="Constant">MONITOR_TYPE</systemitem> <literal>file</literal>, the <systemitem class="Constant">ALTERNATE_ICON</systemitem>
+image is displayed when the monitored file is non-empty. The <systemitem class="Constant">ICON</systemitem> image is displayed if the file is empty or non-existent.
+</para>
+<para>For <systemitem class="Constant">MONITOR_TYPE</systemitem> <literal>mail</literal>, the <systemitem class="Constant">ALTERNATE_ICON</systemitem>
+image is displayed when the file increases in size.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>HELP_STRING</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>, <systemitem class="Constant">BOX</systemitem>, <systemitem class="Constant">SUBPANEL</systemitem>, <systemitem class="Constant">SWITCH</systemitem> and <systemitem class="Constant">CONTROL</systemitem>.</para>
+<para><systemitem class="Constant">HELP_STRING</systemitem> specifies an on-line
+help string to display when help is requested over a front panel component.
+Since each component type can have a help string associated with it, there
+is a precedence used in deciding which help string to display. Control help
+takes precedence over box help, switch help and subpanel help. Box help takes
+precedence over subpanel help. The <systemitem class="Constant">HELP_STRING</systemitem> value is used only if no <systemitem class="Constant">HELP_TOPIC</systemitem> value is defined.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>HELP_TOPIC</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>, <systemitem class="Constant">BOX</systemitem>, <systemitem class="Constant">SUBPANEL</systemitem>, <systemitem class="Constant">SWITCH</systemitem> and <systemitem class="Constant">CONTROL</systemitem>.</para>
+<para><systemitem class="Constant">HELP_TOPIC</systemitem> specifies an on-line
+help topic that is used with either the default help volume or a help volume
+specified by the <systemitem class="Constant">HELP_VOLUME</systemitem> keyword
+to display help information when requested over a front panel component. Like
+the <systemitem class="Constant">HELP_STRING</systemitem> keyword, each component
+type can have a help topic associated with it and the same precedence rules
+are used.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>HELP_VOLUME</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>, <systemitem class="Constant">BOX</systemitem>, <systemitem class="Constant">SUBPANEL</systemitem>, <systemitem class="Constant">SWITCH</systemitem> and <systemitem class="Constant">CONTROL</systemitem>.</para>
+<para>When <systemitem class="Constant">HELP_VOLUME</systemitem> is used in
+conjunction with <systemitem class="Constant">HELP_TOPIC</systemitem>, it
+defines the help information to be displayed for a front panel component.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>ICON</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with control types of: <literal>icon</literal>, <literal>file</literal>
+and <literal>busy</literal>.</para>
+<para><systemitem class="Constant">ICON</systemitem> specifies the image to
+be displayed within a control.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>LABEL</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with control types of: <literal>icon</literal>, <literal>file</literal>, <literal>clock</literal> and <literal>busy</literal>.</para>
+<para><systemitem class="Constant">LABEL</systemitem> specifies the string
+to be displayed when a control is in a subpanel.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>LOCKED</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>, <systemitem class="Constant">BOX</systemitem>, <systemitem class="Constant">SUBPANEL</systemitem>, <systemitem class="Constant">SWITCH</systemitem> and <systemitem class="Constant">CONTROL</systemitem>.</para>
+<para><systemitem class="Constant">LOCKED</systemitem> provides the mechanism
+to prevent a component definition of identical type, name and parent from
+overriding (replacing) this definition. Since the front panel can be defined
+within multiple configuration files, it provides the flexibility to override
+components found earlier in the search path. Like actions and file types,
+this allows the front panel to be customized at several levels.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MONITOR_TYPE</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with control types of: <literal>icon</literal> and <literal>file</literal></para>
+<para><systemitem class="Constant">MONITOR_TYPE</systemitem> specifies the
+method of checking the file being monitored, specified by the keyword <systemitem class="Constant">FILE_NAME</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>NUMBER_OF_ROWS</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">SWITCH</systemitem>.
+</para>
+<para><systemitem class="Constant">NUMBER_OF_ROWS</systemitem> provides control
+over the layout of the workspace switch buttons. The switch buttons are arranged
+in a row and column layout with the <systemitem class="Constant">NUMBER_OF_ROWS</systemitem> keyword defining the number of rows in the layout. The number
+of columns is derived from this value and the total number of switch buttons.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>PANEL_GEOMETRY</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>.
+</para>
+<para><systemitem class="Constant">PANEL_GEOMETRY</systemitem> specifies a
+non-default location to position the front panel when it is created. By default,
+the front panel is centered along the bottom of the display.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>POSITION_HINTS</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">BOX</systemitem>, <systemitem class="Constant">SWITCH</systemitem> and <systemitem class="Constant">CONTROL</systemitem>.</para>
+<para><systemitem class="Constant">POSITION_HINTS</systemitem> specifies the
+ordering of boxes in the front panel, the switch and controls in boxes, and
+controls in subpanels. When two components have the same value for <systemitem class="Constant">POSITION_HINTS</systemitem>, the first one read from the
+configuration file is placed first.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>PUSH_ACTION</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para><systemitem class="Constant">PUSH_ACTION</systemitem> specifies the
+function that is invoked when a selection occurs on the control.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>PUSH_ANIMATION</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with all control types except: <literal>client</literal>.</para>
+<para><systemitem class="Constant">PUSH_ANIMATION</systemitem> specifies the
+name of an animation record to be displayed when a selection occurs on the
+control. The control must have a <systemitem class="Constant">PUSH_ACTION</systemitem> defined for the animation to be used.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>PUSH_RECALL</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>Used with control keywords of: <systemitem class="Constant">CLIENT_NAME</systemitem>.</para>
+<para>When <systemitem class="Constant">PUSH_RECALL</systemitem> is set to
+True, it specifies that only one process can be started by the control. If
+the process is already running, it is displayed within the current workspace
+and shuffled to the top of the window stack. The value for the <systemitem class="Constant">CLIENT_NAME</systemitem> keyword is used to identify the
+process for push recall behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>RESOLUTION</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>.
+</para>
+<para><systemitem class="Constant">RESOLUTION</systemitem> allows the icon
+set for the front panel to be forced to a particular set. By default, the
+front panel determines the display resolution at runtime and chooses the high
+resolution icon set if the display width is 1024 pixels or wider.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>SUBPANEL_UNPOST</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">PANEL</systemitem>.
+</para>
+<para>When <systemitem class="Constant">SUBPANEL_UNPOST</systemitem> is set
+to True, it causes a subpanel to hide itself whenever a <systemitem class="Constant">PUSH_ACTION</systemitem> occurs on one of the subpanel controls. If the subpanel
+has been torn off of the front panel, the behavior of the subpanel is forced
+to remain posted on <systemitem class="Constant">PUSH_ACTION</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>TITLE</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">SUBPANEL</systemitem>.
+</para>
+<para><systemitem class="Constant">TITLE</systemitem> specifies the string
+to be displayed in the title area of the subpanel.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>TYPE</term>
+<listitem>
+<para>Used with record types of: <systemitem class="Constant">CONTROL</systemitem>.
+</para>
+<para>A number of different control types are defined by the front panel:
+</para>
+<variablelist>
+<varlistentry><term><literal>blank</literal></term>
+<listitem>
+<para>Space-holder control</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>busy</literal></term>
+<listitem>
+<para>Busy light</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>client</literal></term>
+<listitem>
+<para>A client window</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>clock</literal></term>
+<listitem>
+<para>Front panel clock</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>date</literal></term>
+<listitem>
+<para>Fro<?Pub Caret>nt panel date</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>file</literal></term>
+<listitem>
+<para>References a file on the file system and uses that file's actions and
+image</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>icon</literal></term>
+<listitem>
+<para>Front panel general control</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para>The default front panel configuration file is <Filename>/usr/dt/appconfig/types/C/dtwm.fp</Filename>.</para>
+<para>Files containing the attributes of dynamically created front panel components
+are in the directory <Filename>$HOME/.dt/types/fp_dynamic</Filename>.</para>
+</refsect1>
+<refsect1>
+<title>APPLICATION USAGE</title>
+<para>Errors encountered when loading front panel database files are written
+to the user's <Filename>$HOME/.dt/errorlog</Filename> file.</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtwm;, <function>strftime</function>(3), &cdeman.dtdtfile;.</para>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->
+<?Pub *0000074083>

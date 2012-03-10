@@ -1,0 +1,129 @@
+<!-- $XConsortium: HelpRetu.sgm /main/6 1996/08/30 13:03:58 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN48.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN48.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtHelpReturnSelectedWidgetId</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtHelpReturnSelectedWidgetId</Function></RefName>
+<RefPurpose>select a widget or gadget
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Help.h>
+</FuncSynopsisInfo>
+<FuncDef>int <Function>DtHelpReturnSelectedWidgetId</Function></FuncDef>
+<ParamDef>Widget <Parameter>parent</Parameter></ParamDef>
+<ParamDef>String <Parameter>cursor</Parameter></ParamDef>
+<ParamDef>Widget *<Parameter>widget</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtHelpReturnSelectedWidgetId</Function> function provides an
+interface for users to select a component within an application.
+</Para>
+<Para>This function
+grabs the pointer and returns the widget within which a button press occurs.
+Pressing the escape key (ESC) aborts this function.
+</Para>
+<Para>The
+<Symbol Role="Variable">parent</Symbol> argument specifies the widget ID to use as the basis
+of the interaction, usually a top level shell.
+</Para>
+<Para>The
+<Symbol Role="Variable">cursor</Symbol> argument specifies the cursor to be used for the pointer
+during the interaction.
+If a
+<SystemItem Class="Constant">NULL</SystemItem> value is used,
+<Function>DtHelpReturnSelectedWidgetId</Function> uses a default cursor value.
+</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument is the return value (for example, the
+selected widget).
+A
+<SystemItem Class="Constant">NULL</SystemItem> value is returned on error.
+</Para>
+<Para>The
+<Function>DtHelpReturnSelectedWidgetId</Function> function allows applications to get the widget ID for
+any widget in their user interface that the user has selected via the
+pointer.
+The application can then directly display a
+help topic based on the selected widget, or dynamically
+construct some help information based on the current context of the selected
+item.
+At any point while the question mark cursor is displayed, the user can
+select the escape key to abort the function call, and a
+<SystemItem Class="Constant">NULL</SystemItem> value is returned.
+If the user selects any
+item outside the current applications windows, an error status is
+returned along with a
+<SystemItem Class="Constant">NULL</SystemItem> value for the
+<Symbol Role="Variable">widget</Symbol> argument.
+<![ %CDE.C.CDE; [Refer to &cdeman.XmTrackingLocate; for a similar function.
+]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtHelpReturnSelectedWidgetId</Function> function returns one of the following status values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtHELP_SELECT_ERROR</Term>
+<ListItem>
+<Para>An error occurred while attempting to process the function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtHELP_SELECT_INVALID</Term>
+<ListItem>
+<Para>The user selected an invalid component that is not contained
+in the current widget hierarchy.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtHELP_SELECT_ABORT</Term>
+<ListItem>
+<Para>The user aborted the function (for example, pressed the escape key), and a
+<SystemItem Class="Constant">NULL</SystemItem> widget value is passed back.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtHELP_SELECT_VALID</Term>
+<ListItem>
+<Para>The user selected a valid component within the application, and the
+<Symbol Role="Variable">widget</Symbol> argument is the ID of the selected component.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Help.h;, &cdeman.DtCreateHelpQuickDialog;, &cdeman.DtCreateHelpDialog;; <![ %CDE.C.CDE; [&cdeman.XmTrackingLocate;, ]]><![ %CDE.C.XO; [<Function>XmTrackingLocate</Function> in the &str-ZM;.
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

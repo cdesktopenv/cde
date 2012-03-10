@@ -1,0 +1,278 @@
+#!/bin/ksh
+#
+# extract_log.ksh
+#
+########################################################################
+#set -x
+
+##########################################################################
+#
+# Script setup:  THIS NEEDS TO BE FIRST
+#
+SCRIPTS_DIR="`dirname $0`"
+if [ "" = "$SCRIPTS_DIR" ]; then
+	SCRIPTS_DIR=/project/dt/scripts
+fi
+if [ ! -f $SCRIPTS_DIR/script_setup.ksh ]; then
+    print -u2 "$PRG:  File '$SCRIPTS_DIR/script_setup.ksh' NOT found!"
+    print -u2 "$PRG:  Exiting ..."
+    exit 1
+fi
+. $SCRIPTS_DIR/script_setup.ksh
+
+##########################################################################
+##########################################################################
+#
+# Script specific global variables
+#
+##########################################################################
+##########################################################################
+COMPONENTS_FILES=""
+COMPONENTS=""
+DEBUG="False"
+LOG_FILE=""
+ERROR_FILE=""
+LOG_DIRECTORY=""
+PROG_NAME="`basename $0`"
+
+usage ()
+{
+    print -u1 "USAGE: $1"
+    print -u1 "\t[{-c | -components_file} <file>]"
+    print -u1 "\t        # Specifies a file containing a list of components to"
+    print -u1 "\t        # be extracted.  Multiple -c flags can be specified."
+    print -u1 "\t{-e | -errorfile} <file>"
+    print -u1 "\t        # Specifies the error file to send errors."
+    print -u1 "\t[-h | -? | -help]"
+    print -u1 "\t        # Print usage and exit"
+    print -u1 "\t[{-ld | -logdirectory} <directory>]"
+    print -u1 "\t        # Specifies an alternative directory to store the"
+    print -u1 "\t        # extracted component logs.  Defaults to the directory"
+    print -u1 "\t        # containing the log file."
+    print -u1 "\t{-l | -logfile} <file>"
+    print -u1 "\t        # Specifies the log file to be extracted from."
+    print -u1 "\t[component ...]"
+    print -u1 "\t        # Specifies individual components to be extraced."
+    print -u1 "\t        # Each component specification is should correspond"
+    print -u1 "\t        # to an individual directory in the source tree."
+}
+
+#
+# Do command-line processing
+#
+while [ $# -gt 0 ]; do
+    case $1 in
+
+	-debug)
+	    DEBUG="True"
+	    shift 1 ;;
+
+	-c | -components_file)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    COMPONENTS_FILES="$2 $COMPONENTS_FILES"
+	    shift 2 ;;
+
+	-e | -errorfile)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    ERROR_FILE=$2
+	    shift 2 ;;
+
+	-ld | -logdirectory)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    LOG_DIRECTORY=$2
+	    shift 2 ;;
+
+	-l | -logfile)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    LOG_FILE=$2
+	    shift 2 ;;
+
+	-h | -? | -help)
+	    usage $PROG_NAME
+	    do_exit 1 ;;
+
+	*)
+	    COMPONENTS="$COMPONENTS $1"
+	    shift 1;;
+    esac
+done
+
+if [ ! -z "$ERROR_FILE" ]
+then
+    exec 2>> $ERROR_FILE
+fi
+
+#
+# Check to make sure that the command-line parameters make sense.
+#
+if [ -z "$COMPONENTS_FILES" ] && [ -z "$COMPONENTS" ]
+then
+    print -u2 "$PROG_NAME:  No components or component files specified."
+    print -u2 "$PROG_NAME:  exiting ..."
+    do_exit 1
+fi
+
+for f in $COMPONENTS_FILES
+do
+    if [ ! -f $f ]
+    then
+        print -u2 "$PROG_NAME:  Component file \"$f\" does not exist."
+        print -u2 "$PROG_NAME:  exiting ..."
+        do_exit 1
+    fi
+done
+
+if [ -z "$LOG_FILE" ]
+then
+    print -u2 "$PROG_NAME:  Missing argument for log file."
+    print -u2 "$PROG_NAME:  exiting ..."
+    do_exit 1
+fi
+
+if [ ! -f $LOG_FILE ]
+then
+    print -u2 "$PROG_NAME:  Log file \"$LOG_FILE\" does not exist."
+    print -u2 "$PROG_NAME:  exiting ..."
+    do_exit 1
+fi
+
+if [ -n "$LOG_DIRECTORY" ] && [ ! -d $LOG_DIRECTORY ]
+then
+    print -u2 "$PROG_NAME:  Log directory \"$LOG_DIRECTORY\" does not exist."
+    print -u2 "$PROG_NAME:  exiting ..."
+    do_exit 1
+fi
+
+if [ -z "$LOG_DIRECTORY" ]
+then
+    LOG_DIRECTORY=`dirname $LOG_FILE`
+    #
+    # Just being paranoid.  dirname should return '.' if there is no
+    # directory component.
+    #
+    if [ -z "$LOG_DIRECTORY" ]
+    then
+	LOG_DIRECTORY='.'
+    fi
+fi
+
+#
+# Collect all the components from the components files.
+#
+for f in "$COMPONENTS_FILES"
+do
+    for c in `cat $f`
+    do
+	COMPONENTS="$COMPONENTS $c"
+    done
+done
+
+#
+# Collect all the build messages
+# ignoring those that have been commented out.
+#
+MESSAGES="XXXXXXX"
+IFS="
+"
+for m in `cat $BUILD_MSGS`
+do
+    MESSAGES="$MESSAGES|$m"
+done
+IFS=" "
+
+#
+# Build the awk script
+#
+SCRIPT=/tmp/${PROG_NAME}.$$.awk
+do_register_temporary_file $SCRIPT
+
+touch $SCRIPT
+chmod 775 $SCRIPT
+print -n -u1 'BEGIN {
+    do_print = 0
+}
+/.*/ {
+    if (' >> $SCRIPT
+
+IFS="|"
+let i=0
+for m in $MESSAGES
+do
+    if [ i -gt 0 ]; then
+	print -n -u1 " || " >> $SCRIPT
+    fi
+    print -n -u1 "index(\$0, \"$m \")" >> $SCRIPT
+    let i=$i+1
+done
+IFS=" "
+
+#
+# NOTE on:  (index($NF, PATTERN) == 1 || index($NF, PATTERN) == 3)
+#	This check is intended to guard against false matches on
+#	subcomponents:  i.e. config and programs/dtlogin/config.
+#	The problem is that top level subdirectories show up differently
+#	than lower level directories.  E.g.:
+#	    /prog/cde/config 		=> making all in ./config...
+#	    /prog/cde/programs/dtlogin	=> making all in programs/dtlogin...
+#
+#	There are 2 ways to handle this, in the components files or here.
+#	I've chosen here.
+#
+print -n -u1 ')
+    {
+        if (index($NF, PATTERN) == 1 || index($NF, PATTERN) == 3)
+	{
+            do_print = 1
+	    print
+	    next
+        }
+        else
+        {
+	    do_print = 0
+	    next
+        }
+    }
+    if (do_print) print
+}' >> $SCRIPT
+
+#
+# Extract each of the specified component logs.
+#
+TMP_LOG_FILE=${LOG_FILE}.$$
+do_register_temporary_file $TMP_LOG_FILE
+
+sed -n -e 's/\(.\{0,254\}\).*/\1/p' $LOG_FILE > $TMP_LOG_FILE
+for c in $COMPONENTS
+do
+    COMPONENT_LOG=$LOG_DIRECTORY/`echo $c | tr "/" ","`.log
+    PATTERN="$c"
+
+    #
+    # sed protects awk from lines which are too long.
+    #
+    if [ "$DEBUG" = "True" ]
+    then
+        echo "awk -f $SCRIPT PATTERN=$PATTERN $TMP_LOG_FILE > 
+	$COMPONENT_LOG"
+    else
+        awk -f $SCRIPT PATTERN=$PATTERN $TMP_LOG_FILE > $COMPONENT_LOG
+    fi
+
+done
+
+#
+# Clean up temporary files and exit
+#
+do_exit 0

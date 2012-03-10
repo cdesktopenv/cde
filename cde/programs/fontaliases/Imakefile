@@ -1,0 +1,33 @@
+XCOMM $XConsortium: Imakefile /main/4 1996/09/13 17:25:20 drk $
+
+/* Unknown architectures will undefine IHaveSubdirs below... */
+#define IHaveSubdirs
+#define PassCDebugFlags  /**/
+
+#if defined(HPArchitecture)
+SUBDIRS = hp
+#elif defined(AIXArchitecture)
+SUBDIRS = ibm
+#elif defined(SunArchitecture)
+SUBDIRS = sun
+#elif defined(USLArchitecture)
+SUBDIRS = novell
+#elif defined(UXPArchitecture)
+SUBDIRS = uxp
+#elif defined(AlphaArchitecture)
+SUBDIRS = dec
+#else
+# undef IHaveSubdirs
+#endif
+
+#ifdef IHaveSubdirs
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+#else /* IHaveSubdirs */
+
+all::
+depend::
+
+#endif /* IHaveSubdirs */

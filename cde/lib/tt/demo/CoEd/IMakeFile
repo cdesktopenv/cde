@@ -1,0 +1,29 @@
+# %%  (c) Copyright 1993, 1994 Hewlett-Packard Company			
+# %%  (c) Copyright 1993, 1994 International Business Machines Corp.	
+# %%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			
+# %%  (c) Copyright 1993, 1994 Novell, Inc. 				
+# %%  $XConsortium: IMakeFile /main/3 1995/10/20 17:03:28 rswiston $ 			 				
+#ifdef HideFromImake
+ #
+ # IMakeFile 1.2	17 Nov 1994
+ #
+ # This preamble turns this imakefile into a shell script which will
+ # create/update this directory's makefile when invoked as follows:
+ # % sh IMakeFile [[GNU]MakeFile]
+ #
+IMAKEDIR=../../imake; export IMAKEDIR
+exec make -f $IMAKEDIR/Boot.mk ${1+"$@"}
+#endif HideFromImake
+
+TT_DIR	= ../..
+SUB-DIRS = libCoEd CoEd
+
+include $(TT_DIR)/Make.macros
+
+default: all
+
+All:: $(MAKEFILE)s
+All all clean cleaner clean.mk::
+	for dir in $(SUB-DIRS) ; do \
+		(cd $$dir; $(MAKE) $(MAKE_FLAGS) $@) \
+	done

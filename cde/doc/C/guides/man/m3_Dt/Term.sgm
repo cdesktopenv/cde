@@ -1,0 +1,2074 @@
+<!-- $XConsortium: Term.sgm /main/15 1996/10/08 20:02:47 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDEMX.XCSA.MAN53.rsml.1">]]><![ %CDE.C.XO; [<refentry
+id="XCSA.MAN53.rsml.1">]]><refmeta><refentrytitle>DtTerm</refentrytitle><manvolnum>
+library call</manvolnum></refmeta><refnamediv><refname><classname>DtTerm</classname></refname>
+<refpurpose>DtTerm widget class</refpurpose></refnamediv>
+<refsynopsisdiv>
+<synopsis>#include &lt;Dt/Term.h></synopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title><![ %CDE.C.CDE; [<para>The DtTerm widget provides
+the core set of functionality needed to emulate an <literal>ANSI X3.64-1979</literal> - and <literal>ISO 6429:1992(E)</literal>-style terminal, such as
+the DEC VT220. This functionality includes text rendering, scrolling, margin
+and tab support, escape sequence parsing and the low-level OS-specific interface
+required to allocate and configure a <literal>pty</literal> or STREAMS pseudo-terminal
+device and write the system's <literal>utmp</literal> device.</para>]]><![ %CDE.C.XO; [<para>The DtTerm widget provides the core set of functionality needed to emulate
+a terminal that supports the control sequences in the &str-Z5; and the &str-Z6;.
+This functionality includes text rendering, scrolling, margin and tab support,
+escape sequence parsing and the low-level implementation-specific interfaces
+required to allocate and configure a pseudo-terminal device and to update
+the system's implementation-dependent database of logged-in users (see <command>who</command> in the &str-ZC;).</para>]]>
+<refsect2>
+<title>Classes</title>
+<para>The DtTerm widget inherits behavior and resources from the <classname>Core</classname> and <classname>XmPrimitive</classname> classes.</para>
+<para>The class pointer is <Symbol>dtTermWidgetClass</Symbol>.</para>
+<para>The class name is <classname>DtTerm</classname>.</para>
+</refsect2>
+<refsect2>
+<title>New Resources</title>
+<para>The following table defines a set of widget resources used by the application
+to specify data. The application can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a resource
+by name or by class in a <Filename>.Xdefaults</Filename> file, the application
+must remove the <Symbol>DtN</Symbol> or <Symbol>DtC</Symbol> prefix and
+use the remaining letters. To specify one of the defined values for a resource
+in a <Filename>.Xdefaults</Filename> file, the application must remove the <symbol>Dt</symbol> prefix and use the remaining letters (in either lower case or
+upper case, but including any underscores between words). The codes in the
+access column indicate if the given resource can be set at creation time (C),
+set by using <function>XtSetValues</function> (S), retrieved by using <function>XtGetValues</function> (G), or is not applicable (N/A).</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.62in">
+<colspec align="left" colname="col1" colwidth="182*">
+<colspec align="left" colname="col2" colwidth="201*">
+<colspec align="left" colwidth="84*">
+<colspec align="left" colwidth="76*">
+<colspec align="left" colwidth="86*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>DtTerm Resource
+Set, Part 1 of 2</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNallowSendEvents</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCAllowSendEvents</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNappCursorDefault</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCAppCursorDefault</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNappKeypadDefault</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCAppKeypadDefault</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNautoWrap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCAutoWrap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNbackgroundIsSelect</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCBackgroundIsSelect</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNbaseHeight</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCBaseHeight</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNbaseWidth</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCBaseWidth</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNblinkRate</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCBlinkRate</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">250</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNc132</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCC132</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNcharCursorStyle</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCCharCursorStyle</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">unsigned char</StructName></entry>
+<entry align="left" valign="top"><systemitem class="Constant">DtTERM_CHAR_CURSOR_BOX</systemitem></entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup>
+</informaltable>
+<informaltable remap="center" orient="port">
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.55in">
+<colspec align="left" colname="col1" colwidth="2.29in">
+<colspec align="left" colname="col2" colwidth="2.45in">
+<colspec align="left" colwidth="0.96in">
+<colspec align="left" colwidth="1.11in">
+<colspec align="left" colwidth="0.84in">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>DtTerm Resource
+Set, Part 2 of 2</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNcolumns</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCColumns</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">short</StructName></entry>
+<entry align="left" valign="top">80</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNconsoleMode</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCConsoleMode</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><Symbol>DtNemulationID</Symbol></entry>
+<entry align="left" valign="top"><Symbol>DtCEmulationID</Symbol></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">``DtTermWidget''</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNheightInc</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCHeightInc</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNinputVerifyCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNjumpScroll</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCJumpScroll</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNkshMode</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCKshMode</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNlogging</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCLogging</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<!-- DKS DtNlogFile@DtCLogFile@String@\f3dttermLogXXXXX\fP@CSG-->
+<!-- DKS DtNlogInhibit@DtCLogInhibit@Boolean@False@CSG-->
+<!-- DKS DtNloginShell@DtCLoginShell@Boolean@False@CSG-->
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNmapOnOutput</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCMapOnOutput</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNmapOnOutputDelay</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCMapOnOutputDelay</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNmarginBell</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCMarginBell</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNmarginHeight</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCMarginHeight</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">2</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNmarginWidth</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCMarginWidth</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">2</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNnMarginBell</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCNMarginBell</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">10</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNoutputLogCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNpointerBlank</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCPointerBlank</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNpointerBlankDelay</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCPointerBlankDelay</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">2</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNpointerColor</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCForeground</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNpointerColorBackground</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCBackground</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNpointerShape</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCPointerShape</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top"><command>xterm</command></entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNreverseWrap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCReverseWrap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNrows</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCRows</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">short</StructName></entry>
+<entry align="left" valign="top">24</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNsaveLines</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCSaveLines</systemitem></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">4s</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNshadowType</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCShadowType</systemitem></entry>
+<entry align="left" valign="top">unsigned char</entry>
+<entry align="left" valign="top">DtSHADOW_IN</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNstatusChangeCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNsubprocessArgv</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCSubprocessArgv</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">String *</StructName></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNsubprocessCmd</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCSubprocessCmd</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNsubprocessExec</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCSubprocessExec</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNsubprocessLoginShell</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCSubprocessLoginShell</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNsubprocessPid</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCSubprocessPid</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">&minus;1</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNsubprocessTerminationCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNsubprocessTerminationCatch</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCSubprocessTerminationCatch</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNsunFunctionKeys</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCSunFunctionKeys</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNtermDevice</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCTermDevice</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">&minus;1</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNtermDeviceAllocate</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCTermDeviceAllocate</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNtermId</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCTermId</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">``vt220''</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNtermName</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCTermName</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">``dtterm''</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNtermSlaveName</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCTermSlaveName</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNttyModes</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCTtyModes</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNuserBoldFont</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCUserBoldFont</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNuserFont</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCUserFont</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNverticalScrollBar</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCVerticalScrollBar</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Widget</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNvisualBell</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCVisualBell</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">DtNwidthInc</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">DtCWidthInc</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">G</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><literal>allowSendEvents</literal></term>
+<listitem>
+<para>Specifies that the terminal emulator allow synthetic events (generated
+and sent by another application). Enabling this resource opens up a possible
+security hole.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>appCursorDefault</literal></term>
+<listitem>
+<para>Specifies the initial cursor mode. If True, the cursor keys are initially
+in application mode. If False, the cursor keys are initially in cursor mode.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>appKeypadDefault</literal></term>
+<listitem>
+<para>Specifies the initial keypad mode. If True, the keypad keys are initially
+in application mode. If False, the keypad keys are initially in numeric mode.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>c132</literal></term>
+<listitem>
+<para>Specifies whether or not the <systemitem class="constant">DECCOLM</systemitem>
+escape sequence that switches between a 132- and 80-column window is honored.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>consoleMode</literal></term>
+<listitem>
+<para>Specifies that output directed at <Filename>/dev/console</Filename> be
+directed instead to the terminal window. It is provided as a way to prevent
+output that would normally be displayed on the internal terminal emulator
+(ITE) from overwriting the X server's display. It is not provided as a general
+mechanism to direct the output from an arbitrary system's <Filename>/dev/console</Filename> to an arbitrary X server. Ownership of, and read-write permission
+for, <Filename>/dev/console</Filename> is required to redirect console output.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNautoWrap</systemitem></term>
+<listitem>
+<para>Specifies whether or not auto-wrap is initially enabled.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNbackgroundIsSelect</systemitem></term>
+<listitem>
+<para>Controls the background color. When False, the background color is the
+color specified. When True, the background color is the select color corresponding
+to the background and is constant with other Motif-based applications.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNbaseHeight</systemitem></term>
+<listitem>
+<para>Specifies the terminal window's base height. With this resource the
+application computes its base height for the shell widget, which then allows
+the window manager to provide appropriate sizing feedback to the user. The
+height of the terminal window is:</para>
+<informalexample remap="indent">
+<programlisting><systemitem class="resource">DtNbaseHeight</systemitem> + <systemitem class="resource">DtNrows</systemitem> &times; <systemitem class="resource">DtNheightInc</systemitem></programlisting>
+</informalexample>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNbaseWidth</systemitem></term>
+<listitem>
+<para>Specifies the terminal window's base width. With this resource the application
+computes its base width for the shell widget, which then allows the window
+manager to provide appropriate sizing feedback to the user. The width of the
+terminal window is:</para>
+<informalexample remap="indent">
+<programlisting><systemitem class="resource">DtNbaseWidth</systemitem> + <systemitem class="resource">DtNcolumns</systemitem> &times; <systemitem class="resource">DtNwidthInc</systemitem></programlisting>
+</informalexample>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNblinkRate</systemitem></term>
+<listitem>
+<para>Specifies the number of milliseconds the cursor is in the on and off
+states while blinking. A value of 250 blinks the cursor two times per second.
+A value of zero turns blinking off.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNc132</systemitem></term>
+<listitem>
+<para>This resource specifies whether or not the <systemitem class="constant">DECCOLM</systemitem> escape sequence should be honored.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNcharCursorStyle</systemitem></term>
+<listitem>
+<para>Specifies the text cursor shape. A <systemitem class="constant">DtTERM_CHAR_CURSOR_BOX</systemitem> value specifies a cursor the width and height of the base font's
+bounding box. A <systemitem class="constant">DtTERM_CHAR_CURSOR_BAR</systemitem>
+value specifies a cursor the width of the base font's bounding box, two pixels
+high, and drawn with its top on the baseline. The default is <systemitem class="constant">DtTERM_CHAR_CURSOR_BOX</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNcolumns</systemitem></term>
+<listitem>
+<para>Specifies the number of text columns in the terminal window. For additional
+information, see <systemitem class="resource">DtNbaseWidth</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNemulationID</Symbol></term>
+<listitem>
+<para>Specifies the string to which the <emphasis>TERMINAL_EMULATOR</emphasis>
+environment variable is set.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNheightInc</systemitem></term>
+<listitem>
+<para>Specifies the character cell height used as the height increment when
+calculating the size of the terminal window. For additional information, see <systemitem class="resource">DtNbaseHeight</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNinputVerifyCallback</systemitem></term>
+<listitem>
+<para>Specifies the list of callbacks called before the DtTerm widget sends
+text to the child process. The text may be generated either in response to
+keyboard input, selection or drag and drop. The <structname role="typedef">DtTermInputVerifyCallbackStruct</structname> structure's address is passed
+to this callback. <systemitem class="constant">DtCR_TERM_INPUT_VERIFY</systemitem>
+is the <symbol role="Variable">reason</symbol> set by the callback.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNjumpScroll</systemitem></term>
+<listitem>
+<para>Specifies that the DtTerm widget uses jump scrolling. <![ %CDE.C.CDE; [Under
+jump scrolling, the screen may be scrolled more than one line at a time. This
+means faster screen updates when multiple lines of text are sent to the terminal. ]]>The
+maximum number of lines that may be jump scrolled is limited to the number
+of lines in the terminal window. The DtTerm widget guarantees that all lines
+are displayed.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNkshMode</systemitem></term>
+<listitem>
+<para>Enables <command>ksh</command> mode. With <command>ksh</command> mode,
+a key pressed with the extend modifier bit set generates an escape character
+followed by the character generated by the unextended keystroke. <![ %CDE.C.HP; [This
+option is provided for use with <command>emacs</command>(1)
+and the emacs command-line editor mode of &cdeman.ksh; or <command>ied</command>(1). ]]>This option is provided for use with <command>emacs</command>(1)
+and the emacs command-line editor mode of &cdeman.ksh;. It conflicts
+with the normal meta key use for generating extended single byte characters
+and for generating multi-byte Asian characters. <!--
+DKS .LI  "\f3DtNlogging\fP"--><!-- DKS This resource
+enables output logging.  When logging is enabled,
+a--><!--ll--><!-- DKS output received from the pty
+will be
+logged either to a file or t--><!--o a--><!-- DKS
+command
+pipeline (as specified via the \f3DtNlogFile\fP resource
+--><!--below).--><!-- DKS Since these data are being
+logged
+directly from the pty, it will --><!--include--><!--
+DKS
+all escape characters and carriage return / new line
+pairs sent b--><!--y the--><!-- DKS terminal line
+discipline.
+ Output may be enabled and disabled via--><!-- escape--><!--
+DKS sequences.  The default is False.--><!-- DKS .LI
+ "\f3DtNlogFile\fP"--><!-- DKS This resource specifies
+the name of the file to which the output --><!--logging--><!--
+DKS described above is written.  If the filename begins
+with a pipe s--><!--ymbol--><!-- DKS ("\f3|\fP"),
+the rest
+of the string is assumed to be a command to--><!--
+be used
+as--><!-- DKS the endpoint of a pipe.  The default
+filename is--><!-- \f3dttermLogXXXXX\fP--><!-- DKS
+(where "XXXXX" is the process ID of the parent process)
+and is cr--><!--eated--><!-- DKS in the directory
+from which
+the subprocess was started.--><!-- DKS .LI  "\f3DtNlogInhibit\fP"--><!--
+DKS This resource indicates that device and file logging
+should be--><!-- DKS inhibited.  The default is False.--></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNmapOnOutput</systemitem></term>
+<listitem>
+<para>Indicates that the terminal widget map (de-iconify) itself upon subprocess
+output if it is unmapped (iconified). An initial period of time during which
+the terminal widget does not map itself upon subprocess output can be specified
+via the <systemitem class="resource">DtNmapOnOutputDelay</systemitem> resource.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNmapOnOutputDelay</systemitem></term>
+<listitem>
+<para>Specifies the number of seconds after start-up that the widget does
+not honor the <systemitem class="resource">DtNmapOnOutput</systemitem> resource.
+This allows for initial output (for example, shell prompts) to be sent to
+the terminal without auto-mapping the window. The default is zero (no delay).
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNmarginBell</systemitem></term>
+<listitem>
+<para>Specifies whether or not the bell rings when the user types near the
+right margin. The distance from the right margin is specified by the <literal>nMarginBell</literal> resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNmarginHeight</systemitem></term>
+<listitem>
+<para>Specifies the height of the margin between the text and the top and
+bottom of the DtTerm widget's window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNmarginWidth</systemitem></term>
+<listitem>
+<para>Specifies the width of the margin between the text and both sides of
+the DtTerm widget's window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNnMarginBell</systemitem></term>
+<listitem>
+<para>Specifies the number of characters from the right margin at which the
+margin bell rings when enabled via the <systemitem class="resource">DtNmarginBell</systemitem> resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNoutputLogCallback</systemitem></term>
+<listitem>
+<para>Specifies the list of callbacks called when the widget receives text
+from the child process. <structname role="typedef">DtTermOutputLogCallbackStruct</structname> is the structure type whose address is passed to this callback. <systemitem class="constant">DtCR_TERM_OUTPUT_LOG</systemitem> is the <symbol role="Variable">reason</symbol> set by the callback.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNpointerBlank</systemitem></term>
+<listitem>
+<para>Indicates that the pointer cursor is in blanking mode. In this mode,
+the cursor turns on when the pointer is moved, and is blanked either after
+a selectable number of seconds or after keyboard input. The delay is set via
+the <systemitem class="resource">DtNpointerBlankDelay</systemitem> resource.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNpointerBlankDelay</systemitem></term>
+<listitem>
+<para>Specifies the number of seconds to wait after the pointer has stopped
+moving before blanking the pointer (see <systemitem class="resource">DtNpointerBlank</systemitem> ). A value of zero prevents the pointer from blanking until a
+key is pressed.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNpointerColor</systemitem></term>
+<listitem>
+<para>Specifies the foreground color the DtTerm widget uses for the terminal
+window's pointer (X11 cursor). The default is the terminal window's foreground
+color.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNpointerColorBackground</systemitem></term>
+<listitem>
+<para>Specifies the background color the DtTerm widget uses for the terminal
+window's pointer (X11 cursor). The default is the terminal window's background
+color.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNpointerShape</systemitem></term>
+<listitem>
+<para>Specifies the X cursor font character the DtTerm widget uses as the
+pointer cursor. The font character should be specified as a string from the
+include file, <filename role="Header">X11/cursorfont.h</filename>, with the
+leading <Symbol>XC_</Symbol> removed. <![ %CDE.C.CDE; [The default is <command>xterm</command>(1). ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNreverseWrap</systemitem></term>
+<listitem>
+<para>Specifies whether or not reverse-wraparound is enabled.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNrows</systemitem></term>
+<listitem>
+<para>Specifies the number of rows of text in the terminal window. For additional
+information, see <systemitem class="resource">DtNbaseHeight</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNsaveLines</systemitem></term>
+<listitem>
+<para>Defines the number of lines in the terminal buffer beyond the length
+of the window. The resource value consists of a number followed by an optional
+suffix. If no suffix is included or the suffix is ``l'' (ell), the total length
+of the terminal buffer is the number plus the length of the terminal window.
+If the suffix is ``s,'' the total length of the terminal buffer is (the number
+plus one) times the length of the terminal window. The DtTerm widget tries
+to maintain the same buffer-to-window ratio when the window is resized larger.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNshadowType</systemitem></term>
+<listitem>
+<para>Specifies the type of shadow drawn around the terminal window. See the <![ %CDE.C.XO; [XmFrame ]]><![ %CDE.C.CDE; [&cdeman.XmFrame; ]]>widget
+for supported shadow types.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNstatusChangeCallback</systemitem></term>
+<listitem>
+<para>Specifies the list of callbacks called when the DtTerm widget's status
+changes. Status changes include changes such as cursor position, caps lock
+state and insert char state. The <structname role="typedef">DtTermStatusChangeCallbackStruct</structname> structure's address is passed to this callback. <systemitem class="constant">DtCR_TERM_STATUS_CHANGE</systemitem> is the <symbol role="Variable">reason</symbol> the callback sends.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNsubprocessArgv</systemitem></term>
+<listitem>
+<para>Specifies the argument list passed to the subprocess if <systemitem class="resource">DtNsubprocessExec</systemitem> is True. If <systemitem class="resource">DtNsubprocessCmd</systemitem> is <systemitem class="constant">NULL</systemitem>,
+the first string of this argument is used as the name of the command to execute.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNsubprocessCmd</systemitem></term>
+<listitem>
+<para>Specifies the name of the command to run if <systemitem class="resource">DtNsubprocessExec</systemitem> is True. If <systemitem class="resource">DtNsubprocessExec</systemitem> is <systemitem class="constant">NULL</systemitem>, the first
+string of the <systemitem class="resource">DtNsubprocessArgv</systemitem>
+argument is used.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNsubprocessExec</systemitem></term>
+<listitem>
+<para>This resource specifies whether or not a subprocess is <function>fork</function>(2) and <function>exec</function>(2). If True, a subprocess is launched
+as specified via the <systemitem class="resource">DtNsubprocessArgv</systemitem>
+resource, if set, or the <systemitem class="resource">DtNsubprocessCmd</systemitem>
+resource, if set, or the <systemitem class="environvar">SHELL</systemitem>
+environment variable, if set, or the default system shell.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtNsubprocessloginShell</Symbol></term>
+<listitem><![ %CDE.C.XO; [<para>Indicates that the starting shell is to be
+a login shell (that is, the first character of <symbol role="Variable">argv</symbol>[0]
+is to be a dash), that tells the shell to read the system's <literal>profile</literal> and the user's <Filename>.profile</Filename> files (for &cdeman.ksh; and <command>sh</command>(1)).</para>]]><![ %CDE.C.CDE; [<para>Indicates that the
+starting shell be a login shell (that is, the first character of <symbol role="Variable">argv</symbol>[0] be a dash), that tells the shell to read the system's <literal>profile</literal> and the user's <Filename>.profile</Filename> files (for &cdeman.ksh; and <command>sh</command>(1)) or the system's <literal>csh.login</literal> and the user's <Filename>.login</Filename> (for <command>csh</command>(1)
+</para>]]></listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNsubprocessPid</systemitem></term>
+<listitem>
+<para>Supplies the process ID of the subprocess running in the terminal widget
+when <systemitem class="resource">DtNsubprocessExec</systemitem> is True.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNsubprocessTerminationCallback</systemitem></term>
+<listitem>
+<para>Supplies the list of callbacks called when the subprocess associated
+with the DtTerm widget exits. The <structname role="typedef">DtTermSubprocessTerminationCallbackStruct</structname> structure's address is passed to this callback. <systemitem class="constant">DtCR_TERM_SUBPROCESS_TERMINATION</systemitem> is the
+<symbol role="Variable">reason</symbol> the callback sends.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNsubprocessTerminationCatch</systemitem></term>
+<listitem>
+<para>Specifies whether or not the DtTerm widget installs a signal handler
+to catch the subprocess termination. If the application installs its own signal
+handler, the application must catch the subprocess termination and inform
+the DtTerm widget via the &cdeman.DtTermSubprocReap; function.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNsunFunctionKeys</systemitem></term>
+<listitem>
+<para>Specifies whether or not Sun Function Key escape sequences are generated
+for function keys instead of standard escape sequences. <![ %CDE.C.XO; [See <xref
+role="3" linkend="xcsa.m5dtt.anch.4">for a description of the Sun Function
+Key escape sequences. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNtermDevice</systemitem></term>
+<listitem>
+<para>Supplies the file descriptor for the master side of the <![ %CDE.C.CDE; [ <literal>pty</literal> or STREAMS ]]>pseudo-terminal device associated with the DtTerm
+widget.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNtermDeviceAllocate</systemitem></term>
+<listitem>
+<para>Specifies whether or not the DtTerm widget allocates a <![ %CDE.C.CDE; [ <literal>pty</literal> or STREAMS ]]>pseudo-terminal device, or uses the pseudo-terminal
+device passed to it via the <systemitem class="resource">DtNtermDevice</systemitem>
+resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNtermId</systemitem></term>
+<listitem>
+<para>Supplies the name the DtTerm widget uses to select the correct response
+to terminal ID queries. Valid values are <literal>vt100</literal>, <literal>vt101</literal>, <literal>vt102</literal> and <literal>vt220</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNtermName</systemitem></term>
+<listitem>
+<para>Supplies the name the DtTerm widget uses in setting the <emphasis>TERM</emphasis> environment variable. The default is &cdeman.dtterm;.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNtermSlaveName</systemitem></term>
+<listitem>
+<para>Supplies the name of the slave device of the <![ %CDE.C.CDE; [ <literal>pty</literal> or STREAMS ]]>pseudo-terminal device associated with the DtTerm
+widget. The DtTerm widget uses this resource to update the system's <![ %CDE.C.CDE; [ <literal>utmp</literal> ]]><![ %CDE.C.XO; [implementation-dependent database of logged-in
+users (see <command>who</command> in the &str-ZC;) ]]>entry associated with
+the subprocess.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNttyModes</systemitem></term>
+<listitem>
+<para>Specifies a string containing terminal-setting keywords and the characters
+to which they may be bound. Allowable keywords include: <literal>intr</literal>, <literal>quit</literal>, <literal>erase</literal>, <literal>kill</literal>, <literal>eof</literal>, <literal>eol</literal>, <literal>swtch</literal>, <literal>start</literal>, <literal>stop</literal>, <literal>brk</literal>, <literal>susp</literal>, <literal>dsusp</literal>, <literal>rprnt</literal>, <literal>flush</literal>, <literal>weras</literal> and <literal>lnext</literal>. The
+terminal emulator correctly parses and silently ignores keywords that do not
+apply to a specific architecture. Control characters can be specified as <literal>&caret;char</literal> (for example, <literal>&caret;c</literal> or <literal>&caret;u</literal>), and <literal>&caret;?</literal> can be used to indicate
+delete. This is useful for overriding the default terminal settings without
+having to do an <command>stty</command>(1) every time a DtTerm widget is created.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNuserBoldFont</systemitem></term>
+<listitem>
+<para>Supplies the <structname role="typedef">XmFontList</structname> the
+DtTerm widget uses to display bold terminal text. The terminal emulator supports
+only character or mono-spaced fonts. When using proportional fonts, the behavior
+is undefined. The terminal emulator generates a default bold font based on
+the XLFD name of the <literal>userFont</literal>. If that font is not available,
+the terminal emulator generates bold text by overstriking (with a one pixel
+offset) the <literal>userFont</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNuserFont</systemitem></term>
+<listitem>
+<para>Supplies the <structname role="typedef">XmFontList</structname> the
+DtTerm widget uses to display terminal text. The terminal emulator supports
+only character or mono-spaced fonts. When using proportional fonts, the behavior
+is undefined. The terminal emulator gets a default font via the <systemitem class="resource">XmNtextFontList</systemitem> value of the parent bulletin
+board (see the <![ %CDE.C.XO; [XmBulletinBoard ]]><![ %CDE.C.CDE; [&cdeman.XmBulletinBoard; ]]>widget)
+in the same manner as the <![ %CDE.C.XO; [XmText ]]><![ %CDE.C.CDE; [&cdeman.XmText; ]]>widget.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNverticalScrollBar</systemitem></term>
+<listitem>
+<para>Specifies a an application-supplied vertical scroll bar widget to update
+as scrolling occurs. The DtTerm widget does not create the scroll bar.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNvisualBell</systemitem></term>
+<listitem>
+<para>Specifies whether the DtTerm widget uses a visible bell (that is, flashing)
+instead of an audible bell when &lt;control>-G is received.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DtNwidthInc</systemitem></term>
+<listitem>
+<para>Specifies the character cell width the DtTerm widget uses as the width
+increment when calculating the size of the terminal window. For additional
+information, see <systemitem class="resource">DtNbaseWidth</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<!--.nr 3i-->
+</refsect2>
+<refsect2>
+<title>Inherited Resources</title>
+<para>The DtTerm widget inherits behavior and resources from the following
+named superclasses. For a complete description of each resource, see the <![ %CDE.C.CDE; [man
+page ]]><![ %CDE.C.XO; [entry in &str-ZM; ]]>for that superclass.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.32in">
+<colspec align="left" colname="col1" colwidth="173*">
+<colspec align="left" colname="col2" colwidth="192*">
+<colspec align="left" colwidth="88*">
+<colspec align="left" colwidth="81*">
+<colspec align="left" colwidth="70*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>XmPrimitive Resource
+Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNbottomShadowColor</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCBottomShadowColor</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNbottomShadowPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCBottomShadowPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top"><systemitem class="constant">XmUNSPECIFIED_PIXMAP</systemitem></entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNforeground</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCForeground</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNhelpCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNhighlightColor</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCHighlightColor</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNhighlightOnEnter</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCHighlightOnEnter</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNhighlightPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCHighlightPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNhighlightThickness</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCHighlightThickness</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">2</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNnavigationType</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCNavigationType</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XmNavigationType</structname></entry>
+<entry align="left" valign="top">XmNONE</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNshadowThickness</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCShadowThickness</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">2</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNtopShadowColor</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCTopShadowColor</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNtopShadowPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCTopShadowPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNtraversalOn</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCTraversalOn</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNunitType</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCUnitType</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">unsigned char</StructName></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNuserData</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCUserData</systemitem></entry>
+<entry align="left" valign="top"><literal>Pointer</literal></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup></informaltable>
+<informaltable remap="center" orient="port">
+<tgroup cols="5" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.15in">
+<colspec align="left" colname="col1" colwidth="168*">
+<colspec align="left" colname="col2" colwidth="156*">
+<colspec align="left" colwidth="99*">
+<colspec align="left" colwidth="104*">
+<colspec align="left" colwidth="63*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>Core Resource Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNaccelerators</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCAccelerators</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtAccelerators</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNancestorSensitive</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCSensitive</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNbackground</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCBackground</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNbackgroundPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top"><systemitem class="Constant">XmUNSPECIFIED_PIXMAP</systemitem></entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNborderColor</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCBorderColor</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixel</structname></entry>
+<entry align="left" valign="top">XtDefaultForeground</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNborderPixmap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCPixmap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Pixmap</structname></entry>
+<entry align="left" valign="top"><systemitem class="Constant">XmUNSPECIFIED_PIXMAP</systemitem></entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNborderWidth</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCBorderWidth</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNcolormap</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCColormap</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Colormap</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNdepth</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCDepth</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNdestroyCallback</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCCallback</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtCallbackList</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNheight</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCHeight</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNinitialResourcesPersistent</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCInitialResourcesPersistent</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNmappedWhenManaged</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCMappedWhenManaged</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNscreen</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCScreen</systemitem></entry>
+<entry align="left" valign="top"><StructName Role="typedef">Screen *</StructName></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNsensitive</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCSensitive</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNtranslations</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCTranslations</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">XtTranslations</structname></entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNwidth</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCWidth</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Dimension</structname></entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNx</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCPosition</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Position</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">XmNy</systemitem></entry>
+<entry align="left" valign="top"><systemitem class="resource">XmCPosition</systemitem></entry>
+<entry align="left" valign="top"><structname role="typedef">Position</structname></entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Callback Information</title>
+<para>A pointer to the <structname role="typedef">DtTermStatusChangeCallbackStruct</structname> callback structure, which includes at least the following members,
+is passed to callbacks for <systemitem class="Resource">DtNstatusChangeCallback</systemitem>.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.56in">
+<colspec align="Left" colwidth="117*">
+<colspec align="Left" colwidth="139*">
+<colspec align="Left" colwidth="285*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>reason</computeroutput></entry>
+<entry align="left" valign="top">Indicates why the callback was invoked: <systemitem class="Constant">DtCR_TERM_STATUS_CHANGE</systemitem>.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>XEvent</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>*event</computeroutput></entry>
+<entry align="left" valign="top">Points to the <structname role="typedef">XEvent</structname>, if any, that triggered the callback or <systemitem class="Constant">NULL</systemitem>.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>cursorX</computeroutput></entry>
+<entry align="left" valign="top">The current text cursor X (column) position.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>cursorY</computeroutput></entry>
+<entry align="left" valign="top">The current text cursor Y (row) position.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Boolean</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>capsLock</computeroutput></entry>
+<entry align="left" valign="top">The current state of the caps lock indicator.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Boolean</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>stop</computeroutput></entry>
+<entry align="left" valign="top">The current state subprocess output parsing.
+Processing output from the subprocess can be turned on and off via the <function>stop</function> action (similar to the <systemitem class="Constant">XON</systemitem>/<systemitem class="Constant">XOFF</systemitem> handshake invoked via &lt;control>-S/&lt;control>-Q).</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>DtTermInsertCharMode</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>insertCharMode</computeroutput></entry>
+<entry align="left" valign="top">Not used by the DtTerm widget.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Boolean</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>locked</computeroutput></entry>
+<entry align="left" valign="top">The current state of the keyboard caps lock.</entry></row></tbody></tgroup></informaltable>
+<para>A pointer to the <structname role="typedef">DtTermSubprocessTerminationCallbackStruct</structname> callback structure, which includes at least the following members,
+is passed to callbacks for <systemitem class="Resource">DtNsubprocessTerminationCallback</systemitem>.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.13in">
+<colspec align="Left" colwidth="83*">
+<colspec align="Left" colwidth="106*">
+<colspec align="Left" colwidth="316*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>reason</computeroutput></entry>
+<entry align="left" valign="top">Indicates why the callback was invoked: <systemitem class="Constant">DtCR_TERM_SUBPROCESS_TERMINATION</systemitem>.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>XEvent</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>*event</computeroutput></entry>
+<entry align="left" valign="top">Points to the <structname role="typedef">XEvent</structname>, if any, that triggered the callback or <systemitem class="Constant">NULL</systemitem>.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>pid_t</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>pid</computeroutput></entry>
+<entry align="left" valign="top">The process ID of the terminated subprocess.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>status</computeroutput></entry>
+<entry align="left" valign="top">The exit status of the terminated subprocess.</entry></row></tbody></tgroup></informaltable>
+<para>A pointer to the <structname role="typedef">DtTermInputVerifyCallbackStruct</structname> callback structure, which includes at least the following members,
+is passed to callbacks for <systemitem class="Resource">DtNinputVerifyCallback</systemitem>.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.05in">
+<colspec align="Left" colwidth="93*">
+<colspec align="Left" colwidth="102*">
+<colspec align="Left" colwidth="304*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>reason</computeroutput></entry>
+<entry align="left" valign="top">Indicates why the callback was invoked: <systemitem class="Constant">DtCR_TERM_INPUT_VERIFY</systemitem>.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>XEvent</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>*event</computeroutput></entry>
+<entry align="left" valign="top">Points to the <structname role="typedef">XEvent</structname>, if any, that triggered the callback or <systemitem class="Constant">NULL</systemitem>.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Boolean</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>doit</computeroutput></entry>
+<entry align="left" valign="top">Indicates whether the text should be sent
+to the child process. Setting <symbol role="Variable">doit</symbol> to False
+negates the action.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>unsigned char</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>*text</computeroutput></entry>
+<entry align="left" valign="top">Points to the text (either single- or multi-byte
+depending on the locale) to be sent to the child process.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>length</computeroutput></entry>
+<entry align="left" valign="top">Specifies the number of bytes to be sent
+to the child process.</entry></row></tbody></tgroup></informaltable>
+<para>A pointer to the <Symbol>DtTermOutputlogVerifyCallbackStruct</Symbol>
+callback structure, which includes at least the following members, is passed
+to callbacks for <systemitem class="Resource">DtNoutputLogCallback</systemitem>.
+</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.08in">
+<colspec align="Left" colwidth="92*">
+<colspec align="Left" colwidth="92*">
+<colspec align="Left" colwidth="317*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>reason</computeroutput></entry>
+<entry align="left" valign="top">Indicates why the callback was invoked: <systemitem class="Constant">DtCR_TERM_OUTPUT_LOG</systemitem>.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>XEvent</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>*event</computeroutput></entry>
+<entry align="left" valign="top">Points to the <structname role="typedef">XEvent</structname>, if any, that triggered the callback or <systemitem class="Constant">NULL</systemitem>.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>unsigned char</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>*text</computeroutput></entry>
+<entry align="left" valign="top">Points to the text (either single- or multi-byte
+depending on the locale) received from the child process.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>length</computeroutput></entry>
+<entry align="left" valign="top">Specifies the number of bytes received from
+the child process.</entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Translations</title>
+<para>The DtTerm widget includes translations from <![ %CDE.C.XO; [ <classname>XmPrimitive</classname>. ]]><![ %CDE.C.CDE; [ &cdeman.XmPrimitive;. ]]></para>
+<para>Altering translations in <literal>#override</literal> or <literal>#augment</literal> mode is undefined.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.49in">
+<colspec align="Left" colwidth="233*">
+<colspec align="Left" colwidth="385*">
+<tbody>
+<row>
+<entry align="center" valign="top"><literal>Key Pressed</literal></entry>
+<entry align="center" valign="top"><literal>Action Routine</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift ~Ctrl&lt;Key>KP_Multiply:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>XtDisplayInstalledAccelerators(&thinsp;)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift Ctrl&lt;Key>KP_Multiply:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>XtDisplayAccelerators(&thinsp;)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift Ctrl&lt;Key>KP_Multiply:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>XtDisplayTranslations(&thinsp;)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfCancel:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>process-cancel(&thinsp;)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfCopy:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>copy-clipboard(&thinsp;)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfCut:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>copy-clipboard(&thinsp;)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfPaste:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>paste-clipboard(&thinsp;)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfBeginLine:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>beginning-of-buffer(&thinsp;)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfEndLine:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>end-of-buffer(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>osfUp:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>scroll(1,line)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>osfDown:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>scroll(&minus;1,line)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfUp:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>move-cursor(up)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfDown:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>move-cursor(down)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfLeft:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>move-cursor(backward)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfRight:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>move-cursor(forward)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>Do:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-edit-key(do)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>Help:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-edit-key(help)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>Menu:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-edit-key(menu)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>Find:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-edit-key(find)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>Insert:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-edit-key(insert)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>Select:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-edit-key(select)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>osfPageUp:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-edit-key(prior)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>osfPageDown:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-edit-key(next)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfPageUp:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>scroll(&minus;1,page)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;Key>osfPageDown:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>scroll(1,page)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>Mod1&lt;Key>Break:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>soft-reset(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>Break:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>hard-reset(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift ~Mod1&lt;Key>Break:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-break(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>Ctrl&lt;Key>Cancel:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>stop(long)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Ctrl&lt;Key>Cancel:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>stop(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>Tab:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>tab(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Space:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(space)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Tab:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(tab)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Enter:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(enter)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_F1:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(f1)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_F2:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(f2)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_F3:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(f3)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_F4:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(f4)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Equal:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(equal)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Multiply:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(multiply)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Add:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(add)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Separator:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(separator)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Subtract:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(subtract)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Decimal:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(decimal)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_Divide:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(divide)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_0:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(0)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_1:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(1)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_2:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(2)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_3:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(3)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_4:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(4)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_5:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(5)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_6:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(6)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_7:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(7)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_8:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(8)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Mod1&lt;Key>KP_9:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>keypad-key-execute(9)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F1:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(1,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F2:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(2,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F3:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(3,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F4:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(4,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F5:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(5,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F6:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(6,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F7:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(7,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F8:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(8,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F9:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(9,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F10:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(10,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F11:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(11,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F12:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(12,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F13:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(13,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F14:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(14,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F15:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(15,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F16:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(16,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F17:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(17,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F18:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(18,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F19:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(19,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F20:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(20,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F21:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(21,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F22:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(22,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F23:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(23,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F24:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(24,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F25:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(25,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F26:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(26,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F27:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(27,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F28:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(28,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F29:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(29,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F30:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(30,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F31:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(31,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F32:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(32,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F33:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(33,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F34:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(34,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift&lt;Key>F35:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(35,
+UDK)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F1:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(1,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F2:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(2,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F3:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(3,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F4:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(4,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F5:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(5,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F6:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(6,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F7:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(7,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F8:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(8,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F9:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(9,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F10:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(10,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F11:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(11,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F12:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(12,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F13:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(13,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F14:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(14,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F15:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(15,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F16:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(16,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F17:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(17,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F18:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(18,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F19:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(19,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F20:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(20,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F21:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(21,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F22:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(22,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F23:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(23,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F24:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(24,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F25:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(25,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F26:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(26,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F27:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(27,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F28:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(28,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F29:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(29,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F30:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(30,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F31:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(31,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F32:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(32,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F33:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(33,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F34:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(34,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Key>F35:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>vt-function-key-execute(35,
+function)</computeroutput></entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;KeyRelease>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>key-release(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;KeyPress>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>insert(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift~Ctrl&lt;Btn1Down>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>grab-focus(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>Shift~Ctrl&lt;Btn1Down>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>extend-start(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Ctrl&lt;Btn1Motion>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>select-adjust(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Ctrl&lt;Btn1Up>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>extend-end(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Btn2Down>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>process-bdrag(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>~Shift&lt;Btn2Up>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>copy-to(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;EnterWindow>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>enter(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;LeaveWindow>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>leave(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;FocusIn>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>focus-in(&thinsp;)</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>&lt;FocusOut>:</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>focus-out(&thinsp;)</computeroutput></entry>
+</row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Action Routines</title>
+<para>The DtTerm widget supports the following action routines: <!-- DKS .LI
+ "\f3answerback\^\f1(\|)"--><!-- DKS This action sends the answer back message
+to the child process.--><!-- DKS .LI  "\f3backarrow\^\f1(\|)"--><!-- DKS This
+action sends a \f3\s-1DEL\s0\fP (delete) character to the child--><!-- process.--></para>
+<variablelist>
+<varlistentry><term><emphasis>bell&hairsp;</emphasis>(<literal>[</literal><symbol role="Variable">percentage</symbol><literal>]</literal>)</term>
+<listitem>
+<para>Rings the keyboard bell at the specified
+<symbol role="Variable">percentage</symbol> above or below the base volume.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>break&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Sends an RS232 break signal to the child process.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>cancel&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Sends a <Symbol>CAN</Symbol> (cancel) character to the child process.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>copy-clipboard&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Copies current selection to the clipboard.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>copy-to&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Sends the primary selection to the subprocess.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>do&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Sends the escape sequence (see <![ %CDE.C.CDE; [&cdeman.dttermesc;) ]]><![ %CDE.C.XO; [<xref
+role="2" linkend="XCSA.M5DTT.anch.1">) ]]>associated with the <literal>Do</literal> key to the child process.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>edit-key&hairsp;</emphasis>( <symbol role="Variable">string</symbol>)</term>
+<listitem>
+<para>Sends the escape sequence (see <![ %CDE.C.CDE; [&cdeman.dttermesc;) ]]><![ %CDE.C.XO; [<xref
+role="2" linkend="XCSA.M5DTT.anch.1">) ]]>associated with the corresponding
+edit key to the child process. The interpretation of these keys is application-specific.
+Valid values for <symbol role="Variable">string</symbol> are:</para>
+<informalexample remap="indent">
+<programlisting>find
+insert
+next
+prior
+remove
+select</programlisting>
+</informalexample>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>extend-start&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Starts the extension of the currently selected text. The amount of text
+selected depends on the number of mouse clicks (see <function>grab-focus</function>).
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>extend-end&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Extends the current selection. The amount of text selected depends on
+the number of mouse clicks (see <function>grab-focus</function>).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>function-key-execute&hairsp;</emphasis>( <emphasis>num</emphasis><literal>[,</literal> <symbol role="Variable">type</symbol> <literal>]</literal>)</term>
+<listitem>
+<para>Sends the escape sequence (see <![ %CDE.C.CDE; [&cdeman.dttermesc;) ]]><![ %CDE.C.XO; [<xref
+role="2" linkend="XCSA.M5DTT.anch.1">) ]]>associated with the corresponding
+function key <emphasis>num</emphasis> to the child process. Valid values for <emphasis>num</emphasis> are 1 to 35, inclusive. If <symbol role="Variable">type</symbol>
+is set to <literal>function</literal> (or not set at all), the escape sequence
+(see <![ %CDE.C.CDE; [&cdeman.dttermesc;) ]]><![ %CDE.C.XO; [<xref role="2" linkend="XCSA.M5DTT.anch.1">) ]]>associated
+with function key <emphasis>num</emphasis> is sent to the child process. If
+<symbol role="Variable">type</symbol> is set to <systemitem class="Constant">UDK</systemitem>,
+then the string associated with user defined key <emphasis>num</emphasis>
+is sent to the child process.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>grab-focus&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Performs one of the following depending on the number of multiple mouse
+clicks. One click deselects any selected text and sets the selection anchor
+at the pointer position; two clicks selects a word; three clicks selects a
+line of text; and four clicks selects all text.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>hard-reset&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Performs a hard reset on the terminal emulator. <![ %CDE.C.CDE; [See &cdeman.dttermesc; for a definition of hard reset. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>help&hairsp;</emphasis>(&thinsp;)</term>
+<listitem><![ %CDE.C.CDE; [<para>Sends the escape sequence (see <![ %CDE.C.CDE; [ &cdeman.dttermesc;) ]]><![ %CDE.C.XO; [<XRef Linkend="XCSA.M5DTT.anch.1" Role="2">) ]]>associated
+with the DEC VT220 Help key to the child process.</para>]]><![ %CDE.C.XO; [<para>Sends the escape sequence (see <![ %CDE.C.CDE; [&cdeman.dttermesc;) ]]><![ %CDE.C.XO; [<xref
+role="2" linkend="XCSA.M5DTT.anch.1">) ]]>associated with the DEC VT220 Help
+key to the child process.</para>]]>
+<para>The interpretation of this key is application-specific.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>keymap&hairsp;</emphasis>(name)</term>
+<listitem>
+<para>Defines a new translation table whose resource name is named with the
+suffix <literal>Keymap</literal> (case is significant). The name <systemitem class="Constant">None</systemitem> restores the original translation table.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>keypad-key-execute&hairsp;</emphasis>(<symbol role="Variable">string</symbol>)</term>
+<listitem>
+<para>Sends the escape sequence (see <![ %CDE.C.CDE; [&cdeman.dttermesc;) ]]><![ %CDE.C.XO; [<xref
+role="2" linkend="XCSA.M5DTT.anch.1">) ]]>associated with the corresponding
+keypad key to the child process. The interpretation of these keys is application-specific.
+Valid values for <symbol role="Variable">string</symbol> are:</para>
+<informalexample remap="indent">
+<programlisting>f1 &minus; f4
+space
+tab
+enter
+equal
+multiply
+add
+separator
+subtract
+decimal
+divide
+0 &minus; 9</programlisting>
+</informalexample>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>move-cursor&hairsp;</emphasis>( <symbol role="Variable">direction</symbol>)</term>
+<listitem>
+<para>Sends the escape sequence (see <![ %CDE.C.CDE; [&cdeman.dttermesc;) ]]><![ %CDE.C.XO; [<xref
+role="2" linkend="XCSA.M5DTT.anch.1">) ]]>associated with the corresponding
+cursor motion to the child process. The interpretation of these keys is application-specific.
+Valid values for <symbol role="Variable">direction</symbol> are:</para>
+<informalexample remap="indent">
+<programlisting>up
+down
+backward
+forward</programlisting>
+</informalexample>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>paste-clipboard&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Sends the contents of the clipboard to the subprocess.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>process-bdrag&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>The result of this action is determined by several factors: position
+of the location cursor, motion of the location cursor and the interval between
+a <literal>BTransfer</literal> release.</para>
+<para>This action sends the current selection to the subprocess if text is
+selected, the location cursor is disjoint from the current selection and no
+motion is detected within a given time interval.</para>
+<para>The action drags the current selection if the location cursor is positioned
+on the selection, the time interval is exceeded and movement of the location
+cursor is detected. This action creates a <literal>DragContext</literal> object
+whose <systemitem class="Resource">XmNexportTargets</systemitem> resource
+value includes target types of <systemitem class="Constant">COMPOUND_TEXT</systemitem>, <systemitem class="Constant">STRING</systemitem> and <systemitem class="Constant">TEXT</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>redraw-display&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Redraws the contents of the text window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>scroll&hairsp;</emphasis>( <symbol role="Variable">count</symbol><literal>[,</literal> <symbol role="Variable">units</symbol> <literal>]</literal>)</term>
+<listitem>
+<para>Scrolls the display memory down if <symbol role="Variable">count</symbol>
+is greater than zero, or up if <symbol role="Variable">count</symbol> is less
+than zero. The number of lines scrolled is based on count and units. The default
+for units is <literal>line</literal>. Valid values for <symbol role="Variable">units</symbol> are:</para>
+<informalexample remap="indent">
+<programlisting>page
+halfpage
+line</programlisting>
+</informalexample>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>select-adjust&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Extends the selection. The amount of text selected depends on the number
+of mouse clicks. One click selects characters; two clicks selects words; three
+clicks selects lines; and four clicks selects the entire buffer.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>select-all&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Selects all text.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>select-page&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Selects all text currently displayed on the screen.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>self-insert&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Sends the character associated with the key pressed to the child process.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>soft-reset&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Performs a soft reset of the terminal. <![ %CDE.C.CDE; [For a definition
+of soft reset see the ``Reset'' section in &cdeman.dttermesc;. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>stop&hairsp;</emphasis>( <symbol role="Variable">state</symbol>)</term>
+<listitem>
+<para>Toggles, starts, or stops the process of reading data from the child
+process. Valid values for <symbol role="Variable">state</symbol> are:</para>
+<informalexample remap="indent">
+<programlisting>toggle
+on
+off</programlisting>
+</informalexample>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>string&hairsp;</emphasis>( <symbol role="Variable">string</symbol>)</term>
+<listitem>
+<para>Inserts the specified text string as if it had been typed. The string
+must be quoted if it contains white space or non-alphanumeric characters.
+The string is interpreted as a hexadecimal character constant if it begins
+with the characters <literal>0x</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>tab&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Sends a tab to the child process.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>visual-bell&hairsp;</emphasis>(&thinsp;)</term>
+<listitem>
+<para>Flashes the window quickly.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Virtual Bindings</title>
+<para>The bindings for virtual keys are vendor-specific. Virtual bindings
+do not apply when the DtTerm widget has input focus. For information about
+bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</para>
+</refsect2>
+<refsect2>
+<title>On-the-Spot Preedit Style and Behavior</title>
+<para>When the user selects the on-the-spot input method style, preedit
+strings are displayed in the <command>dtterm</command> window.
+To commit a preedit string,
+the user can choose from a number of generic actions, including
+<literal>cut</literal>, <literal>paste</literal>,
+<literal>cursor movement</literal>, and <literal>commit key</literal>.
+</para>
+<para>In addition to the generic actions, several
+of the <function>DtTerm</function> action routines
+may cause committal. These action routines include
+<literal>move_cursor</literal>, <literal>process_bdrag</literal>,
+and <literal>string</literal>. The action routines correspond
+to the generic commit actions.
+</para>
+<para>When the preedit buffer is active, it may be highlighted. This highlight
+value can be set by the input method server. Since there is only a
+single highlight mode available in <function>DtTerm</function>
+the following <Symbol>XIMFeedbacks</Symbol> will set the highlight:
+</para>
+<simplelist>
+<member>
+ <Symbol>XIMPrimary</Symbol>
+</member>
+<member>
+ <Symbol>XIMSecondary</Symbol>
+</member>
+<member>
+ <Symbol>XIMTertiary</Symbol>
+</member>
+</simplelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtterm;, <![ %CDE.C.HP; [<Command>emacs</Command>(1), ]]>&cdeman.Dt.Term.h;, &cdeman.DtTermInitialize;, &cdeman.DtTermDisplaySend;, &cdeman.DtTermSubprocSend;, &cdeman.DtTermSubprocReap;, <![ %CDE.C.CDE; [&cdeman.dttermesc;, <Filename MoreInfo="RefEntry">pty</Filename>(7), <function>XtSetValues</function>(1), <function>XtGetValues</function>(1), &cdeman.XmFrame;, &cdeman.XmPrimitive;, &cdeman.XmFontList;, &cdeman.XmBulletinBoard;, &cdeman.XmText;, &cdeman.VirtualBindings;, &cdeman.Core;. ]]><![ %CDE.C.XO; [ <function>XtSetValues</function>(1) and <function>XtGetValues</function>(1), in the &str-Zt;; <classname>XmFrame</classname>, <classname>XmPrimitive</classname>, <structname role="typedef">XmFontList</structname>, <classname>XmBulletinBoard</classname>, <classname>XmText</classname>, in the &str-Zl;; <emphasis>VirtualBindings</emphasis>, <classname>Core</classname> in the &str-ZM;; <command>who</command> in the &str-ZC;. ]]></para>
+</refsect1></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

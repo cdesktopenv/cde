@@ -1,0 +1,85 @@
+/*
+ * $XConsortium: void_ptr_array.h /main/4 1996/07/18 14:31:24 drk $
+ *
+ * Copyright (c) 1993 HAL Computer Systems International, Ltd.
+ * All rights reserved.  Unpublished -- rights reserved under
+ * the Copyright Laws of the United States.  USE OF A COPYRIGHT
+ * NOTICE IS PRECAUTIONARY ONLY AND DOES NOT IMPLY PUBLICATION
+ * OR DISCLOSURE.
+ * 
+ * THIS SOFTWARE CONTAINS CONFIDENTIAL INFORMATION AND TRADE
+ * SECRETS OF HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.  USE,
+ * DISCLOSURE, OR REPRODUCTION IS PROHIBITED WITHOUT THE
+ * PRIOR EXPRESS WRITTEN PERMISSION OF HAL COMPUTER SYSTEMS
+ * INTERNATIONAL, LTD.
+ * 
+ *                         RESTRICTED RIGHTS LEGEND
+ * Use, duplication, or disclosure by the Government is subject
+ * to the restrictions as set forth in subparagraph (c)(l)(ii)
+ * of the Rights in Technical Data and Computer Software clause
+ * at DFARS 252.227-7013.
+ *
+ *          HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.
+ *                  1315 Dell Avenue
+ *                  Campbell, CA  95008
+ * 
+ */
+
+
+
+#ifndef _void_ptr_array_h
+#define _void_ptr_array_h 1
+
+#include  "utility/funcs.h"
+#include  "utility/buffer.h"
+
+//**************************************************************
+//
+// an void_ptr_array class
+// holding voidPtr elements in range [0, count()-1]
+//
+//**************************************************************
+
+class void_ptr_array : public buffer 
+{
+
+public:
+   void_ptr_array(int exp_size) ;
+   void_ptr_array(void_ptr_array&) ;
+   virtual ~void_ptr_array() {};
+
+   Boolean expandWith(int extra_void_ptrs);
+
+   Boolean insert(void* element, int i) ;
+
+   void reset_vptr(voidPtr value);  // set all cells to value
+
+   inline void reset_elmts(int i) { v_elmts = i; };  
+   inline int no_elmts() { return v_elmts; };    
+
+   inline int count() {
+      return (buf_sz() / sizeof(voidPtr) );
+   };
+
+// terminate value: -1
+   inline int first() {
+      return ( count() == 0 ) ? -1 : 0;
+   };
+   inline virtual void* operator [](int i) {
+      return ((voidPtr*)(v_base))[i] ;
+   };
+   inline void next(int& ind) {
+      if ( ind == count() -1 )
+      ind = -1;
+   else
+      ind++;
+   };
+
+   friend ostream& operator <<(ostream&, void_ptr_array&);
+
+protected:
+
+   int v_elmts;
+};
+
+#endif

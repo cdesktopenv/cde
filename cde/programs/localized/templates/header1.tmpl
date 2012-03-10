@@ -1,0 +1,53 @@
+XCOMM $XConsortium: header1.tmpl /main/2 1996/04/21 19:55:03 drk $
+
+/*
+ * Imakefile to run the nls tagging tool on *.nls text files to create
+ * localized text files. This depends on the implicit make rules for
+ * suffixes: .ad .nls .tmsg
+ * Files with a ".tmsg" suffix are identical (in format) to ordinary
+ * nls message files except that the message they contain are destined
+ * for use by ordinary text files instead of object binaries.  The
+ * ".tmsg" files are not converted to ".cat" files, but are processed
+ * by the nls tagging utility "merge".
+ */
+
+DESKTOP_VERSION_STRING = DesktopVersionString
+
+
+/*
+ * Implicit rules to generate localized text files from an nls source
+ * template (.nls) and a message tag file (.tmsg).  The message tag
+ * file is identical to an ordinary nls .msg file except that it is
+ * never used to build a ".cat" file -- instead it is used to build
+ * the localized text file itself.
+ */
+#ifndef NlsTmsgRule
+# define NlsTmsgRule()							@@\
+.SUFFIXES: .tmsg .nls							@@\
+									@@\
+.nls:									@@\
+	@echo "Extracting NLS messages for: $*"				@@\
+	$(NLSTAGUTIL) -lang $(LANG) $*.tmsg < $*.nls > $* || $(RM) $*	@@\
+	$(RM) .*.m
+#endif
+
+
+/*
+ * This rule creates a description file containing resources from a tagged
+ * .nls file and a .tmsg file.  This file is used by dtstyle for the labels
+ * of the backdrops and palettes.
+ */
+#ifndef DtstyleDescRule
+#define DtstyleDescRule(targetfile,sourcefile)				@@\
+all:: targetfile							@@\
+									@@\
+targetfile: sourcefile.nls sourcefile.tmsg				@@\
+	@echo "Extracting NLS messages for: targetfile"			@@\
+	$(NLSTAGUTIL) -lang $(LANG) sourcefile.tmsg < sourcefile.nls >\ @@\
+	targetfile || $(RM) targetfile
+#endif /* DtstyleDescRule */
+
+
+NLSTAGUTIL = $(CDESRC)/localized/util/merge
+
+NlsTmsgRule()

@@ -1,0 +1,131 @@
+XCOMM $TOG: Imakefile /main/2 1997/12/23 11:43:20 bill $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#ifdef DtinfoClient
+DEFINES = -DCDE_NEXT 
+#else
+DEFINES =
+#endif
+
+INCLUDES = -I$(DTMMDBSRC)/StyleSheet $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES) -I$(DTMMDBSRC)
+
+#ifdef RegenParserFiles
+LinkSourceFile(defParser.y,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(style.y,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(defToken.l,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(tokenStyle.l,$(DTMMDBSRC)/StyleSheet)
+
+YACCSTACK = -DYYSTACKSIZE=20000
+YFLAGS    = -l -d 
+LFLAGS    = -8 -s 
+
+LexTarget(tokenStyle,style)
+YaccTarget(style,style)
+
+LexTarget(defToken,defParser)
+YaccTarget(defParser,defParser)
+#endif
+
+
+#if defined(CplusplusCompilerMajorVersion) && (CplusplusCompilerMajorVersion == 4)
+XCOMM need the ptr repository
+CXXEXTRA_DEFINES = -ptr../templates
+#endif
+
+#if defined(USLArchitecture)
+CXXEXTRA_DEFINES = -Xo
+#endif
+
+LinkSourceFile(Attribute.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(AttributeList.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(BitVector.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(DocParser.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(Element.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(Expression.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(Feature.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(FeatureDefDictionary.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(FeatureSet.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(FeatureValue.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(PathQualifier.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(PathTable.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(Resolver.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(ResolverStack.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(SSPath.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(StyleSheet.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(StyleSheetExceptions.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(SymTab.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(VariableTable.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(defParser.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(defToken.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(style.C,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(tokenStyle.C,$(DTMMDBSRC)/StyleSheet)
+
+NORMAL_SRCS = \
+	Attribute.C	AttributeList.C		BitVector.C \
+	DocParser.C	Element.C		Expression.C \
+	Feature.C	FeatureDefDictionary.C	FeatureSet.C \
+	FeatureValue.C	PathQualifier.C		PathTable.C \
+	Resolver.C	ResolverStack.C		SSPath.C \
+	StyleSheet.C	StyleSheetExceptions.C	SymTab.C \
+	VariableTable.C	defParser.C		defToken.C \
+	style.C		tokenStyle.C
+
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+LinkSourceFile(SSTemplates.C,$(DTMMDBSRC)/StyleSheet)
+
+TEMPLATE_SRCS = SSTemplates.C
+#endif
+
+LinkSourceFile(RendererHCV.C,$(DTMMDBSRC)/StyleSheet)
+
+VALIDATOR_SRCS = RendererHCV.C
+
+#ifdef HPArchitecture
+LinkSourceFile(all_tmpls,$(DTMMDBSRC)/StyleSheet)
+SpecialCPlusPlusObjectRule(SSTemplates.o,,+pti all_tmpls -DEXPAND_TEMPLATES)
+#elif defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4) 
+LinkSourceFile(all_tmpls,$(DTMMDBSRC)/StyleSheet)
+SpecialCPlusPlusObjectRule(SSTemplates.o,,+Tall_tmpls -DEXPAND_TEMPLATES)
+#elif defined(AlphaArchitecture)
+SpecialCPlusPlusObjectRule(SSTemplates.o,,-ptf -DEXPAND_TEMPLATES)
+#else
+SpecialCPlusPlusObjectRule(SSTemplates.o,,-ptf -DEXPAND_TEMPLATES)
+SpecialCPlusPlusExpandRule(SSTemplates..c,SSTemplates.C,-ptf -DEXPAND_TEMPLATES)
+#endif
+
+LinkSourceFile(hardcopy.feature.spec,$(DTMMDBSRC)/StyleSheet)
+LinkSourceFile(online.feature.spec,$(DTMMDBSRC)/StyleSheet)
+
+InstallMultipleDest(install_buildtools,hardcopy.feature.spec,$(INSTALL_ETC_DIR))
+InstallMultipleDest(install_buildtools,online.feature.spec,$(INSTALL_ETC_DIR))
+
+SRCS = $(NORMAL_SRCS)       $(TEMPLATE_SRCS)       $(VALIDATOR_SRCS)
+OBJS = $(NORMAL_SRCS:.C=.o) $(TEMPLATE_SRCS:.C=.o) $(VALIDATOR_SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

@@ -1,0 +1,297 @@
+<!-- $XConsortium: pdm.sgm /main/4 1996/10/22 09:42:03 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<refentry id="cde.XPRINT.dtpdm">
+<refmeta>
+<refentrytitle>dtpdm</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv>
+<refname><command>dtpdm</command></refname>
+<refpurpose>Print Dialog Manager to provide
+printer-specific GUIs
+</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtpdm</command>
+<arg choice="opt">&minus;vdisplay <replaceable>vdpy</replaceable></arg>
+<arg choice="opt">&minus;window <replaceable>vwid</replaceable></arg>
+<arg choice="opt">&minus;pdisplay <replaceable>pdpy</replaceable></arg>
+<arg choice="opt">&minus;pcontext <replaceable>pcid</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para><command>dtpdm</command> is the Print Dialog Manager (PDM) that is
+invoked by the Print Dialog Manager Daemon (<command>dtpdmd</command>) to
+provide printer-specific GUIs on behalf of a printing application. It is
+a process separate from the print server.
+</para>
+<para>At an application&rsquo;s request <command>dtpdm</command> posts to
+the user&rsquo;s display a set of printer-specific dialogs that enable the
+user to configure a variety of printer options.
+</para>
+<para>The <command>dtpdm</command> program provides a setup dialog to X printing
+applications that allows the user to set printer specific and job specific
+options. The setup dialog appears to be part of the application, but it is
+actually managed by the <command>dtpdm</command> on behalf of the application.
+It is capable of providing dialogs in all locales for which there exist applicable
+message catalogs.
+</para>
+<para><command>dtpdm</command> presents a dialog containing
+the printer name and description plus an <literal>XmNotebook</literal>
+widget. This widget contains two tabs: one for the Printer
+Setup Box and one for the Job Setup Box. Each of these boxes provides
+controls that allow for configuration of various printing options.
+</para>
+<para>The <command>dtpdm</command> dialog also contains three pushbuttons
+labelled <literal>OK</literal>, <literal>Cancel</literal>, and <literal>Help</literal>. When the user presses <literal>OK</literal>, <command>dtpdm</command> dismisses the dialog and sets the newly configured printing options
+in the current print context (via <function>XpSetAttributes</function>).
+When the user presses <literal>Cancel</literal>, <command>dtpdm</command>
+dismisses the dialog and makes no changes to the print context.
+</para>
+<refsect2>
+<title>Printer Setup Box</title>
+<para>The Printer Setup box presents options specific to the currently selected
+printer. The options presented may vary in other PDM implementations. The
+printer setup options presented by <command>dtpdm</command> are as follows:
+</para>
+<variablelist>
+<varlistentry><term>Printer Information</term>
+<listitem>
+<para>Provides information about the X Printer. The information consists of the
+printer model and the document
+format used to generate documents sent to this X Printer.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Page Orientation</term>
+<listitem>
+<para>Specifies how the output will be oriented on the page. The orientation options
+presented in the menu depend on the printer, but up to four orientations
+are possible: portrait, landscape, reverse portrait, and reverse landscape.
+An icon adjacent to the <literal>Options</literal> menu presents a graphical
+illustration showing the current selection.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Printed Sides</term>
+<listitem>
+<para>Specifies single or double-sided printing. The actual choices available depend
+on the printer, but up to three choices are possible: simplex, duplex, and
+tumble. An icon adjacent to the <literal>Options</literal> menu presents
+a graphical illustration showing the current selection.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Tray</term>
+<listitem>
+<para>Specifies the printer tray from which the media will be drawn. The
+<literal>Auto-select</literal> tray option is available
+for all printers. Selecting this
+option indicates no preference as to which tray to use. Remaining Tray selections
+are dependent on the printer.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Page Size</term>
+<listitem>
+<para>Specifies the media size for printing. The entries in this list box depend on
+whether the <literal>Loaded in Printer</literal> or <literal>All Sizes</literal>
+radio button is selected.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Loaded in Printer</term>
+<listitem>
+<para>Provides a list of the media sizes currently available on the printer. If the
+current <literal>Tray</literal> option is <literal>Auto-select</literal>,
+the user will see all media sizes available in all of the printer&rsquo;s
+trays. If a specific tray is selected, only the media size loaded in that
+tray will be shown. Information on which media size is available in which
+tray is provided by the system administrator via the
+<literal>input-trays-medium</literal> attribute.
+If the system administrator does not provide this information,
+the <literal>Loaded in Printer</literal> radio button will be inactive.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>All Sizes</term>
+<listitem>
+<para>Provides a list of all supported media sizes available for the printer. If the
+user selects this button, the <literal>Tray</literal> option is set to
+<literal>Auto-select</literal>. This button is provided for the following situations:
+</para>
+<itemizedlist>
+<listitem>
+<para>If the system administrator has not specified
+which sizes are loaded in the printer
+</para>
+</listitem>
+<listitem>
+<para>If a desired media size is not loaded and the printer
+prompts for the requested size
+</para>
+</listitem>
+<listitem>
+<para>If the output never reaches an actual printer (for
+example, when printing to a file)
+</para>
+</listitem></itemizedlist>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Job Setup Box</title>
+<para>The Job Setup box presents options specific to the spooler controlling
+the printer. The options presented may vary in other PDM implementations,
+depending on the spooler. The job setup options presented by <command>dtpdm</command> are as follows:
+</para>
+<variablelist>
+<varlistentry><term>Send Mail When Done</term>
+<listitem>
+<para>Instructs <command>dtpdm</command> to send an email message to the user
+when the job is completed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Banner Page Title</term>
+<listitem>
+<para>Specifies the text the user wants to appear on the banner page of the
+output.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Print Command Options</term>
+<listitem>
+<para>Specifies command line options and arguments that the user wants to
+pass to the spooler. <command>dtpdm</command> performs no parsing of this
+field. All parsing and argument validation is performed by the underlying
+spooler.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para>The following options are available:</para>
+<variablelist>
+<varlistentry><term><literal>&minus;vdisplay</literal> <emphasis>vdpy</emphasis></term>
+<listitem>
+<para>Specifies the display connection to the Video X-Server.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;window</literal> <emphasis>vwid</emphasis></term>
+<listitem>
+<para>Specifies the window id on the Video X-Server to which the PDM&rsquo;s
+dialogs should be posted as transient windows.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;pdisplay</literal> <emphasis>pdpy</emphasis></term>
+<listitem>
+<para>Specifies the display connection to the Print X-Server.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;pcontext</literal> <emphasis>pcid</emphasis></term>
+<listitem>
+<para>Specifies the print context id on the Print X-Server. The PDM uses
+this id to gain access to the print context being used by the requesting
+application.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>The Dt Print Dialog Manager uses the environment variable
+<systemitem class="environvar">LANG</systemitem> to identify
+the location of its localized message file.
+</para>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>RETURN VALUES</title>
+<para>The return values (defined as integer constants in
+<filename>Dt/dtpdmd.h</filename>) are as follows:</para>
+<variablelist>
+<varlistentry><term><literal>PDM_EXIT_OK</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that the user selected <literal>OK</literal>
+to dismiss the PDM.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>PDM_EXIT_CANCEL</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that the user selected
+<literal>CANCEL</literal> to dismiss the PDM.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>DM_EXIT_VXAUTH</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that it did not have proper authority to
+make a display connection on the Video X-Server.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>PDM_EXIT_PXAUTH</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that it did not have proper authority to
+make a display connection to the Print X-Server.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>PDM_EXIT_ERROR</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that it encountered an error.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>all other values</term>
+<listitem>
+<para>The PDMD treats all unknown return values the same as
+<literal>PDM_EXIT_ERROR</literal>. Such return values
+are likely from uncontrollable exit conditions
+often found in other libraries (for example, untrapped XIO errors from libX).
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ERRORS/WARNINGS</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para><function>dtpdmd</function>1</para>
+</refsect1>
+</refentry>

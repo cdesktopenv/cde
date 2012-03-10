@@ -1,0 +1,46 @@
+XCOMM $XConsortium: Imakefile /main/7 1996/08/21 15:43:32 drk $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+MAKEFILEDEPS=Classlist.mk
+
+LIBNAME=Query
+
+
+INCLUDES=$(BROWSER_INCLUDES) $(COMMON_CLASS_INCLUDES)
+
+#include "Classlist.mk"
+
+OBJS=$(SRCS:.C=.o)
+
+#if defined(HPArchitecture)||defined(UXPArchitecture)
+/*
+ *  SWM - Need to compile this file with +i so
+ *  the correct code is generated. The HP compiler
+ *  doesn't handle class members declared as static void _*
+ *  correctly without the +i option.
+ */
+SpecialCPlusPlusObjectRule(QueryTermView.o,,+i)
+#endif
+
+#if defined(UseWideChars) && defined(SunArchitecture) && (OSMajorVersion == 4)
+WC_OBJS= \
+QueryTerm.o \
+QueryGroup.o
+
+SpecialCPlusPlusObjectRule($(WC_OBJS),,-I/VOB/olias/library/Xwchar/src)
+#endif
+
+make_libfiles($(LIBNAME), $(CLASSES))
+make_msgs($(LIBNAME), $(MSGS))
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#else
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+#endif
+
+clean::
+	$(RM) *..c
+
+DependTarget()

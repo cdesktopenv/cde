@@ -1,0 +1,109 @@
+libast changes
+
+08/11/95 fix malloc bug in magic
+	 update linux and bsd 386 magic entries
+07/17/95 fix port/astconf universe initialization
+	 fix misc/optget opt_info.nopt initialization
+	 drop tmset() TZ=... because it only worked when TZ=... was ignored
+05/09/95 mongo <ast.h> namespace cleanup
+	 drop > 2 year old obsolete interfaces
+	 sfvprintf.c fix for (char:8 short:16 int:32 long:64) architectures
+	 TMP_MAX back into conf.tab
+	 pathbin() and pathshell() now use astconf()
+	 fix pathtemp() to not cache getenv("TMPDIR")
+	 fix ftwalk() metaphysical to handle non-dirs too
+	 initialize *_info = { 0 }; for ancient ld semantics (NeXT)
+	 fix magic() to do vmfree()
+	 astconf(X_OK) must prefix lines with "getconf"
+	 use <wchar.h> and wctype in strmatch() if available
+	 _lib_utime_now checks utime(path,0)
+	 _lib_poll_notimer checks poll(x,0,timeout)
+	 add another _lib_utime_now check to port/touch.c
+	 fix dd_buf cast in dir/opendir.c
+	 split getconf.h into conftab.h and conftab.c for :READONLY:
+	 use mbtowc() only if MB_LEN_MAX>1
+	 sfio char* -> Void_t* cleanup
+	 handle old syntax in misc/magic.c
+	 sigdata.c holds readonly signal strings
+	 pathcheck() does AT&T checks for tools matching PARANOID - yuk
+	 unused var cleanup
+	 deprecate hash_info in favor of hashlast()
+	 fix bad conf.sh ksh integer interactions
+	 dll cleanup
+	 magic.c falls back to malloc for now
+	 add environ to <ast.h> -- C library global data syms are *RESERVED*
+	 sfhdr.h memccpy(1,2,3,size_t) prototype
+04/01/95 version 4.0
+	 convert to vmalloc
+	 allow sigcritical() nesting mismatch to work around vfork() bug
+	 add strexpr() primitive for streval() with user handle (like ftwalk)
+	 add <magic.h> and magic.c file command magic interface
+	 update magic mail message entry
+	 fix keyprintf() invisible char count nesting bug
+	 add sfstrnew(SF_READ|SF_WRITE) for alternate sfstropen() modes
+	 sfstrnew(SF_READ) but reading requires sfseek(), sfreserve()
+	 add conf.tab and conf.sh to nail C/POSIX limits/unistd macros
+	 add getconf() string interface to *conf*
+	 _DLL_INTERMEDIATE_DATA for systems that require indirect globals
+	 _DLL for building shared libraries with _DLL_INTERMEDIATE_DATA
+	 vecfile() restricted to S_ISREG()
+	 add spawnveg() for job control
+	 convert procopen() PROC_PGRP(id) to spawnveg()
+	 fmterror() returns error text given errno (strerror() does same)
+	 fmtsignal() returns signal text given errno (strsignal() does same)
+	 {sig_name,sig_text,SIG_MAX} -> sig_info.{name,text,sigmax}
+	 liberror("",...) omits [%s library] prefix
+	 update features/signal.c table
+	 add vmdisc() and change vmnewof() to use vmresize()
+	 fix conf.sh to allow refs to previously defined limits
+	 fix undefined entries in getconf()
+	 magic data in magic.tab
+	 fix stropt() pointer cast
+	 vmalloc() exception handler replaces nomalloc()
+	 merge sigdata.c into fmtsignal.c -- sun link needs function w/ data!
+	 sftmp() bug fix
+	 drop local <unistd.h> even with _POSIX_SOURCE
+	 fix vmstrdup() macro arg miscount
+	 fix conf.sh to handle enum'd symbolic constants in unistd.h
+	 drop malloc() et.al. prototypes from vmalloc.h
+	 fix sfvprintf() %d argument reference
+	 add OSF/1 AES symbol(s) to conf.tab
+	 determine standards prefix from conf.tab
+	 add _CS_SHELL to conf.tab
+	 getpath() default is confstr(_CS_PATH)
+	 getshell() default is confstr(_CS_SHELL)
+	 unify keyprintf user function args (should have learned by now!)
+	 add quad type to magic
+	 add astfeature() to unify universe style dynamic features
+	 add ftwflags() to determine FTW_* flags from astfeature()
+03/11/95 fix stropt() to not modify its *const* arg
+	 handle "'\ quotes and chresc() in stropt() values
+	 , treated like :space: between stropt() options
+	 fix procopen() fd dup to ignore self-dups
+	 add library id[] to misc/state.c
+	 add ftwalk(FTW_METAPHYSICAL) for posix -H
+	 sfvprintf() now handles balanced () in %()
+	 add tmfmt() with buffer size check to replace tmform()
+	 add fmttime() calling tmfmt() to fit fmt*() mold
+	 add <keyprintf.h> and keyprintf() to support %(...)? in commands
+	 add Hash_table_t for size==0 in stropt()
+	 add EXTTYPE extended header to tar.h
+02/14/95 sfmove() buffer size overflow fix
+	 add _SFSTDIO_H to sfio.h
+	 rename setenv() to setenviron() -- posix finally decided
+	 rename <option.h> opt_* to opt_info.*
+	 update features/unistd.c for _SC_* and _PC_* posix additions
+01/19/95 (char*)uchar cast in fmtesc()
+	 fix hash bucket memory leak in hashlook() [via John Mocenigo]
+	 update strings/strtape()
+	 fix optget()/optjoin() to handle leading +
+	 add ALIGN_ prefix to <align.h> identifiers
+01/11/95 change tm/*.c tmset(0) to tmset(tm_info.zone) to keep user setting
+	 fix tmform() %Z null pointer dereference
+01/01/95 add this RELEASE file
+	 fix strperm() to properly handle "644 file"
+	 fix tokline() to return last '\0' terminated line in string
+	 fix tokscan() to properly handle \\n splice
+	 add fmtesc() to complement stresc()
+	 add LS_NUMBER to fmtls()
+	 drop spurious optusage() ' '

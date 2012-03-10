@@ -1,0 +1,59 @@
+# $XConsortium: Makefile.IBM /main/2 1996/05/13 11:31:00 drk $
+##########################################################################
+#
+#  Makefile for dthelpdemo
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+#      Novell, Inc.
+##########################################################################
+
+#ifndef CDE_INSTALLATION_TOP
+  CDE_INSTALLATION_TOP = /usr/dt
+#endif
+
+PROGRAM        = dthelpdemo
+SOURCES        = Main.c HelpCache.c HourGlass.c
+OBJECTS        = Main.o HelpCache.o HourGlass.o
+HELPSRC        = helpdemo.htg
+HELPOUT        = help/helpdemo.sdl \
+                 help/helpdemo.err \
+                 help/helpdemo.xrh
+
+
+OPTIMIZEDFLAGS = -O
+
+DTINCLUDE      = -I$(CDE_INSTALLATION_TOP)/include
+X11INCLUDE     = -I/usr/include
+EXTRA_INCLUDES =
+INCLUDES       = $(DTINCLUDE) $(X11INCLUDE) $(EXTRA_INCLUDES)
+
+DTHELPLIB       = -L$(CDE_INSTALLATION_TOP)/lib -lDtHelp
+DTSVCLIB       = -L$(CDE_INSTALLATION_TOP)/lib -lDtSvc
+TTLIB          = -L$(CDE_INSTALLATION_TOP)/lib -ltt
+XMLIB          = -L$(CDE_INSTALLATION_TOP)/lib -lXm
+XTLIB          = -L/usr/lib -lXt
+X11LIB         = -L/usr/lib -lX11
+
+LIBRARIES      = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTLIB) $(X11LIB)
+LDFLAGS        =
+
+.c.o:
+	cc -c $(OPTIMIZEDFLAGS) $(INCLUDES) $<
+
+all::   $(PROGRAM) volume
+
+$(PROGRAM)::	$(OBJECTS)
+	cc -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+volume::
+	(cd help/ ; \
+	dthelptag $(HELPSRC);)
+
+clean::
+	rm -f $(PROGRAM)
+	rm -f $(OBJECTS)
+	rm -f $(HELPOUT)
+

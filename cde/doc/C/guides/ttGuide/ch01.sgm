@@ -1,0 +1,672 @@
+<!-- $XConsortium: ch01.sgm /main/8 1996/09/08 19:35:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="TTUG.Intro.div.1">
+<Title Id="TTUG.Intro.mkr.1">Introducing the ToolTalk Service</Title>
+<Para>As computer users increasingly demand that independently developed
+applications work together, inter-operability is becoming an important theme
+for software developers. By cooperatively using each other's facilities,
+inter&hyphen;operating applications offer users capabilities that would be difficult to
+provide in a single application. The ToolTalk service is designed to facilitate the
+development of inter-operating applications that serve individuals and work
+groups.</Para>
+<Para>The<IndexTerm>
+<Primary>ToolTalk service</Primary>
+</IndexTerm>
+ToolTalk service enables independent applications to communicate with
+each other without having direct knowledge of each other. Applications create
+and send ToolTalk messages to communicate with each other. The ToolTalk
+service receives these messages, determines the recipients, and then delivers
+the messages to the appropriate applications, as shown in
+<!--Original XRef content: 'Figure&numsp;1&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.Intro.mkr.2">.</Para>
+<Figure>
+<Title Id="TTUG.Intro.mkr.2">Applications Using the ToolTalk Service</Title>
+<Graphic Entityref="TTUG.Intro.fig.1" Id="TTUG.Intro.grph.1"></Graphic>
+</Figure>
+<Sect1 Id="TTUG.Intro.div.2">
+<Title>What Kind of Work Problems Can the ToolTalk Service Solve?</Title>
+<Para>This section describes some of the<IndexTerm>
+<Primary>inter-operability problems, solved by the ToolTalk service</Primary>
+</IndexTerm>
+inter-operability problems the ToolTalk
+service is designed to solve. The ToolTalk service is the appropriate technology
+to use if your application needs:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Tool inter&hyphen;changeability</Para>
+</ListItem>
+<ListItem>
+<Para>Control integration</Para>
+</ListItem>
+<ListItem>
+<Para>Network&hyphen;transparent events that are not owned by any well&hyphen;known server
+(for example, an X server) and that do not have any predictable set of
+listeners</Para>
+</ListItem>
+<ListItem>
+<Para>Automatic tool invocation</Para>
+</ListItem>
+<ListItem>
+<Para>A widely-available distributed object system</Para>
+</ListItem>
+<ListItem>
+<Para>Persistent objects</Para>
+</ListItem>
+</ItemizedList>
+<Para>Of course, there are some inter-operability problems for which the ToolTalk
+service may not be the appropriate technology to use. However, when your
+application needs to solve both sorts of problems (that is, a combination of
+those inter-operability problems for which the ToolTalk service is designed to
+solve and those problems for which it is not designed), you can use the
+ToolTalk service in combination with other technologies.</Para>
+<Sect2 Id="TTUG.Intro.div.3">
+<Title>Tool Inter-changeability</Title>
+<Para>Use the ToolTalk service when you want<IndexTerm>
+<Primary>plug-and-play</Primary>
+</IndexTerm>
+plug-and-play capability. The term
+<Emphasis>plug-and-play</Emphasis> means that any tool can be replaced by any other tool that follows
+the same protocol. That is, any tool that follows a given ToolTalk protocol can
+be placed (plugged) into your computing environment and perform (play)
+those functions indicated by the protocol. Tools can be mixed and matched,
+without modification and without having any specific built-in knowledge of
+each other.</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.4">
+<Title>Control Integration</Title>
+<Para>Use the ToolTalk service when your application requires<IndexTerm>
+<Primary>control integration</Primary>
+</IndexTerm>
+control integration.
+The term <Emphasis>control integration</Emphasis> indicates a group of tools working together toward
+a common end without direct user intervention. The ToolTalk service enables
+control integration through its easy and flexible facilities for issuing arbitrary
+requests, either to specific tool instances or to anonymous service providers.</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.5">
+<Title>Network-Transparent Events</Title>
+<Para>Use the ToolTalk service when your application needs to generate or receive<IndexTerm>
+<Primary>network-transparent events</Primary>
+</IndexTerm>
+network-transparent events. To be useful, traditional event mechanisms (such
+as signals and window-system events) require special circumstances; for
+example, you must know a process or window ID. The ToolTalk service allows
+events to be expressed naturally: in terms of the file to which the event refers,
+or the group of processes on the network to which the event is applicable. The
+ToolTalk service delivers events (called <Emphasis>notices</Emphasis>) to any interested process
+anywhere on the network. ToolTalk notices are a flexible and easy way to
+provide extensibility for your system.</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.6">
+<Title>Automatic Tool Invocation</Title>
+<Para>Use the ToolTalk service when your application needs network-transparent<IndexTerm>
+<Primary>automatic invocation</Primary>
+</IndexTerm>
+automatic invocation. The ToolTalk service lets you describe the messages that,
+when sent from any location on the network, should cause your tool to be
+invoked. The ToolTalk auto-start facility is easier to use and less host-specific
+than the conventional <Filename MoreInfo="RefEntry">inetd</Filename>(1) facility.</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.7">
+<Title>Distributed-Object System</Title>
+<Para>Use ToolTalk when you need to build your application on a<IndexTerm>
+<Primary>distributed object system</Primary>
+</IndexTerm>
+distributed-object
+system that is available across a wide variety of platforms. ToolTalk's object
+system can be used by any application on all the popular UNIX platforms,
+regardless of whether the application</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Is single- or multi-threaded</Para>
+</ListItem>
+<ListItem>
+<Para>Has a command-line or graphical user interface</Para>
+</ListItem>
+<ListItem>
+<Para>Uses its own event loop, or that of a window-system toolkit</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>Programs coded to the ToolTalk object-oriented messaging interface are
+<Symbol Role="Variable">not</Symbol> portable to<IndexTerm>
+<Primary>OMG-compliant systems</Primary>
+</IndexTerm>
+CORBA&hyphen;compliant systems without source changes.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.8">
+<Title>Persistent Objects</Title>
+<Para>Use the ToolTalk service when your application needs to place<IndexTerm>
+<Primary>objects, persistent</Primary>
+</IndexTerm>
+objects
+unobtrusively in the UNIX file system.</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.9">
+<Title>Scenarios Illustrating How the ToolTalk Service Helps Solve Work Problems</Title>
+<Para>The s<IndexTerm>
+<Primary>scenarios illustrating the ToolTalk service in use</Primary>
+</IndexTerm>
+cenarios in this section illustrate how the ToolTalk service helps users
+solve their work problems. The message protocols used in these scenarios are
+hypothetical.</Para>
+<Sect3 Id="TTUG.Intro.div.10">
+<Title>Using the ToolTalk Desktop Services Message Set</Title>
+<Para>The<IndexTerm>
+<Primary>ToolTalk message sets</Primary>
+<Secondary>Desktop</Secondary>
+</IndexTerm>
+ToolTalk<IndexTerm>
+<Primary>Desktop Services Message Set</Primary>
+</IndexTerm>
+Desktop Services Message Set allows an application to integrate
+and control other applications without user intervention. This section presents
+two scenarios (
+<!--Original XRef content: '&xd2;The Smart Desktop'--><XRef Role="SectionTitle" Linkend="TTUG.Intro.mkr.3"> and
+<!--Original XRef content: '&xd2;Integrated Toolsets&xd3; on page&numsp;6'--><XRef Role="SecTitleAndPageNum" Linkend="TTUG.Intro.mkr.4">) that
+show how the Desktop Services Message Set might be implemented.</Para>
+<Sect4 Id="TTUG.Intro.div.11">
+<Title Id="TTUG.Intro.mkr.3">The Smart Desktop</Title>
+<Note>
+<Para>The scenario in this section is intended to illustrate how the ToolTalk
+service can be used in an application-level program that interprets user
+requests; it is <Symbol Role="Variable">not</Symbol> intended to illustrate how the Common Desktop Environment
+product implements the ToolTalk service to interpret user
+requests.</Para>
+</Note>
+<Para>A common user requirement for a graphic user interface (GUI) front-end is the
+ability to have data files be aware (or &ldquo;know&rdquo;) of their applications. To do this,
+an application-level program is needed to interpret the user's requests.
+Examples of application-level programs (known as <Emphasis>smart desktops</Emphasis>) are the
+Apple Macintosh&reg; finder, Microsoft Windows&trade; File Manager, and the
+Common Desktop Desktop File Manager. The key common requirements for
+smart desktops are:</Para>
+<OrderedList Remap="List1">
+<ListItem>
+<Para>Takes a file</Para>
+</ListItem>
+<ListItem>
+<Para>Determines its application</Para>
+</ListItem>
+<ListItem>
+<Para>Invokes the application</Para>
+</ListItem>
+</OrderedList>
+<Para>The ToolTalk Service provides additional flexibility by allowing classes of tools
+to edit a specific data type. The following scenario illustrates how the Desktop
+Services Message Set might be implemented as a smart desktop transparent to
+the end-user.</Para>
+<OrderedList>
+<ListItem>
+<Para>Diane double-clicks on the File Manager icon.</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>The File Manager opens and displays the files in Diane's current directory.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Diane double-clicks on an icon for a data file.</Para>
+<OrderedList Remap="List2">
+<ListItem>
+<Para>The File Manager requests that the file represented by the icon be
+displayed. The File Manager encodes the file type in the <Symbol Role="Variable">display</Symbol> message.</Para>
+</ListItem>
+<ListItem>
+<Para>The ToolTalk session manager matches the pattern in the <Symbol Role="Variable">display</Symbol> message
+to a registered application (in this case, the Icon Editor), and finds an
+instance of the application running on Diane's desktop.</Para>
+<Note>
+<Para>If the ToolTalk session manager does not find a running instance of the
+application, it checks the statically-defined<IndexTerm>
+<Primary>process type (ptype)</Primary>
+</IndexTerm>
+process types (ptypes) and starts
+an application that best matches the pattern in the message. If none of the
+ptypes matches, the session manager returns failure to the File Manager
+application.</Para>
+</Note>
+</ListItem>
+<ListItem>
+<Para>The Icon Editor accepts the <Symbol Role="Variable">display</Symbol> message, de&hyphen;iconifies itself, and raises
+itself to the top of the display.</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+<ListItem>
+<Para>Diane manually edits the file.</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="TTUG.Intro.div.12">
+<Title Id="TTUG.Intro.mkr.4">Integrated Toolsets</Title>
+<Para>Another significant application for which the Desktop Services Message Set
+can be implemented is <Emphasis>integrated toolsets</Emphasis>. These environments can be applied in
+vertical applications (such as a CASE developer toolset) or in horizontal
+environments (such as compound documents). Common to both of these
+applications is the premise that the overall solution is built from specialized
+applications designed to perform one particular task well. Examples of
+integrated toolset applications are text editors, drawing packages, video or
+audio display tools, compiler front&hyphen;ends, and debuggers. The integrated toolset
+environment requires applications to interact by calling on each other to
+handle user requests. For example, to display video, an editor calls a video
+display program; or to check a block of completed code, an editor calls a
+compiler.</Para>
+<Para>The following scenario shows how the Desktop Services Message Set might be
+implemented as an integrated toolset:</Para>
+<OrderedList>
+<ListItem>
+<Para>Bruce is working on a compound document using his favorite editor.</Para>
+<Para>He decides to change the some of the source code text.</Para>
+</ListItem>
+<ListItem>
+<Para>Bruce double-clicks on the source code text.</Para>
+<OrderedList Remap="List2">
+<ListItem>
+<Para>The Document Editor first determines the text represents source code
+and then determines which file contains the source code.</Para>
+</ListItem>
+<ListItem>
+<Para>The Document Editor sends an <Emphasis>edit</Emphasis> message request, using the file name
+as a parameter for the message.</Para>
+</ListItem>
+<ListItem>
+<Para>The ToolTalk session manager matches the pattern in the <Emphasis>edit</Emphasis> message to
+a registered application (in this case, the Source Code Editor), and finds
+an instance of the application running on Bruce's desktop.</Para>
+<Note>
+<Para>If the ToolTalk session manager does not find a running instance of the
+application, it checks the statically-defined ptypes and starts an application
+that best matches the pattern in the message. If none of the ptypes matches, the
+session manager returns failure to the Document Editor application.</Para>
+</Note>
+</ListItem>
+<ListItem>
+<Para>The Source Code Editor accepts the <Emphasis>edit</Emphasis> message request.</Para>
+</ListItem>
+<ListItem>
+<Para>The Source Code Editor determines that the source code file is under
+configuration control, and sends a message to check out the file.</Para>
+</ListItem>
+<ListItem>
+<Para>The Source Code Control application accepts the message and creates a
+read-write copy of the requested file. It then passes the name of the file
+back to the Source Code Editor.</Para>
+</ListItem>
+<ListItem>
+<Para>The Source Code Editor opens a window that contains the source file.</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+<ListItem>
+<Para>Bruce edits the source code text.</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+</Sect3>
+<Sect3 Id="TTUG.Intro.div.13">
+<Title>Using the ToolTalk Document and Media Exchange Message Set</Title>
+<Para>The<IndexTerm>
+<Primary>ToolTalk message sets</Primary>
+<Secondary>Document and Media Exchange</Secondary>
+</IndexTerm>
+ToolTalk<IndexTerm>
+<Primary>Document and Media Exchange Message Set</Primary>
+</IndexTerm>
+Document and Media Exchange Message Set is very flexible and
+robust. This section illustrates three uses of the ToolTalk Document and Media
+Exchange Message Set:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Integrating multimedia into an authoring application</Para>
+</ListItem>
+<ListItem>
+<Para>Adding multimedia extensions to an existing application</Para>
+</ListItem>
+<ListItem>
+<Para>Extending the <Emphasis>cut-and-paste</Emphasis> facility of X with a media-translation facility</Para>
+</ListItem>
+</ItemizedList>
+<Sect4 Id="TTUG.Intro.div.14">
+<Title>Integrating Multimedia Functionality</Title>
+<Para>Integrating multimedia functionality into an application allows end-users of
+the application to embed various media types in their documents.</Para>
+<Para>Typically, an icon that represents the media object is embedded in the
+document. Upon selection of an embedded object, the ToolTalk service
+automatically invokes an appropriate external media application and the object
+is played as illustrated in the following scenario.</Para>
+<OrderedList Remap="List1">
+<ListItem>
+<Para>Daniel opens a document that contains multimedia objects.</Para>
+</ListItem>
+<ListItem>
+<Para>The window shows the document with several icons representing various
+media types (such as sound, video, and graphics).</Para>
+</ListItem>
+<ListItem>
+<Para>Daniel double-clicks on the sound icon.</Para>
+<Para>A sound application (called a <Emphasis>player</Emphasis>) is launched and the embedded
+recording is played.</Para>
+</ListItem>
+<ListItem>
+<Para>To edit the recording, Daniel clicks once on the icon to select it and uses the
+third mouse button to display an Edit menu.</Para>
+<Para>An editing application is launched, and Daniel edits the media object.</Para>
+</ListItem>
+</OrderedList>
+</Sect4>
+<Sect4 Id="TTUG.Intro.div.15">
+<Title>Adding Multimedia Extensions to Existing Applications</Title>
+<Para>The ToolTalk Document and Media Exchange Message Set also allows an
+application to use other multimedia applications to extend its features or
+capabilities. For example, a Calendar Manager can be extended to use the
+Audio Tool to play a sound file as a reminder of an appointment, as illustrated
+in the following scenario:</Para>
+<OrderedList Remap="List1">
+<ListItem>
+<Para>Shelby opens her Calendar Manager and sets an appointment.</Para>
+</ListItem>
+<ListItem>
+<Para>Shelby clicks on an Audio Response button, which causes the Audio Tool to
+start.</Para>
+</ListItem>
+<ListItem>
+<Para>Shelby records her message; for example, &ldquo;Bring the report.&rdquo;</Para>
+</ListItem>
+</OrderedList>
+<Para>When Shelby's appointment reminder is executed, the Calendar Manager will
+start the Audio Tool and play Shelby's recorded reminder.</Para>
+</Sect4>
+<Sect4 Id="TTUG.Intro.div.16">
+<Title>Extending the X Cut-and-Paste Facility</Title>
+<Para>The ToolTalk Document and Media Exchange Message Set can support an
+extensible, open-ended translation facility. The following scenario illustrates
+how an extensible multimedia <Emphasis>cut and paste</Emphasis> facility could work:</Para>
+<OrderedList Remap="List1">
+<ListItem>
+<Para>Maria opens two documents that are different media types.</Para>
+</ListItem>
+<ListItem>
+<Para>Maria selects a portion of Document A and cuts the portion using the
+standard <Emphasis>X</Emphasis>-windowing <Emphasis>cut</Emphasis> facility.</Para>
+</ListItem>
+<ListItem>
+<Para>Maria then pastes the cut portion into Document B.</Para>
+<OrderedList Remap="List2">
+<ListItem>
+<Para>Document B negotiates the transfer of the cut data with Document A.</Para>
+</ListItem>
+<ListItem>
+<Para>If Document B does not understand any of the types offered by
+Document&numsp;A, it requests that Document&numsp;A sends it a <Emphasis>tagged media type</Emphasis>.
+Document B uses the tagged media type to broadcast a ToolTalk message
+requesting a translation of the media type to a media type it understands.</Para>
+</ListItem>
+<ListItem>
+<Para>A registered translation utility accepts the request and returns the
+translated version of the media type to Document B.</Para>
+</ListItem>
+<ListItem>
+<Para>The paste of the translated data into Document B is performed.</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</OrderedList>
+</Sect4>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="TTUG.Intro.div.17">
+<Title><IndexTerm>
+<Primary>how applications use ToolTalk messages</Primary>
+</IndexTerm>How Applications Use ToolTalk Messages</Title>
+<Para>Applications create, send, and receive ToolTalk messages to communicate with
+other applications<Interface Class="Button">.<IndexTerm>
+<Primary>senders</Primary>
+</IndexTerm>
+Senders</Interface> create, fill in, and send a message; the ToolTalk
+service determines the recipients and delivers the message to the<IndexTerm>
+<Primary>recipients</Primary>
+</IndexTerm>
+recipients.
+Recipients retrieve messages, examine the information in the message, and
+then either discard the message or perform an operation and reply with the
+results.</Para>
+<Sect2 Id="TTUG.Intro.div.18">
+<Title><IndexTerm>
+<Primary>sending ToolTalk messages</Primary>
+</IndexTerm><IndexTerm>
+<Primary>messages</Primary>
+<Secondary>sending</Secondary>
+</IndexTerm>Sending ToolTalk Messages</Title>
+<Para><IndexTerm>
+<Primary>ToolTalk messages</Primary>
+</IndexTerm>ToolTalk messages are simple structures that contain fields for address, subject,
+and delivery information. To send a ToolTalk message, an application obtains
+an empty message, fills in the message attributes, and sends the message. The
+sending application needs to provide the following information:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Is the message a notice or a request (that is, should the recipient respond to
+the message)?</Para>
+</ListItem>
+<ListItem>
+<Para>What interest does the recipient share with the sender? (For example, is the
+recipient running in a specific user session or interested in a specific file?)</Para>
+</ListItem>
+</ItemizedList>
+<Para>To narrow the focus of the message delivery, the sending application can
+provide more information in the message.</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.19">
+<Title>Message Patterns</Title>
+<Para>An important ToolTalk<IndexTerm>
+<Primary>features, of ToolTalk</Primary>
+</IndexTerm>
+feature is that senders need to know little about the
+recipients because applications that want to receive messages explicitly state
+what message they want to receive. This information is registered with the
+ToolTalk service in the form of <Emphasis>message patterns</Emphasis>.</Para>
+<Para>Applications can provide message patterns to the ToolTalk service at
+installation time and while the application is running. Message patterns are
+created similarly to the way a message is created; both use the same type of
+information. For each type of message an application wants to receive, it
+obtains an empty message pattern, fills in the attributes, and registers the
+pattern with the ToolTalk service.<IndexTerm>
+<Primary>message patterns</Primary>
+</IndexTerm>
+These message patterns usually match the
+message protocols that applications have agreed to use. Applications can add
+more patterns for individual use.</Para>
+<Para>When the ToolTalk service receives a message from a sending application, it
+compares the information in the message to the register patterns. Once matches
+have been found, the ToolTalk service<IndexTerm>
+<Primary>messages</Primary>
+<Secondary>determining recipients of</Secondary>
+</IndexTerm>
+delivers copies of the message to all
+recipients.</Para>
+<Para>For each pattern that describes a message an application wants to receive, the
+application declares whether it can <Emphasis><IndexTerm>
+<Primary>messages</Primary>
+<Secondary>handling</Secondary>
+</IndexTerm>handle</Emphasis> or <Emphasis><IndexTerm>
+<Primary>messages</Primary>
+<Secondary>observing</Secondary>
+</IndexTerm>observe</Emphasis> the message. Although
+many applications can observe a message, only one application can handle the
+message to ensure that a requested operation is performed only once. If the
+ToolTalk service cannot find a handler for a request, it returns the message to
+the sending application indicating that delivery failed.</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.20">
+<Title><IndexTerm>
+<Primary>receiving ToolTalk messages</Primary>
+</IndexTerm><IndexTerm>
+<Primary>messages</Primary>
+<Secondary>receiving</Secondary>
+</IndexTerm>Receiving ToolTalk Messages</Title>
+<Para>When the ToolTalk service determines that a message needs to be delivered to
+a specific process, it creates a copy of the message and notifies the process that
+a message is waiting. If a receiving application is not running, the ToolTalk
+service looks for instructions (provided by the application at installation time)
+on how to start the application.</Para>
+<Para>The process retrieves the message and examines its contents.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the message contains a notice that an operation has been performed, the
+process reads the information and then discards the message.</Para>
+</ListItem>
+<ListItem>
+<Para>If the message contains a request to perform an operation, the process
+performs the operation and returns the result of the operation in a reply to
+the original message. Once the reply has been sent, the process discards the
+original message.</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="TTUG.Intro.div.21">
+<Title>ToolTalk Message Distribution</Title>
+<Para>The ToolTalk service provides two methods of<IndexTerm>
+<Primary>addressing messages, methods of</Primary>
+</IndexTerm><IndexTerm>
+<Primary>messages</Primary>
+<Secondary>methods of addressing</Secondary>
+</IndexTerm>
+addressing messages:
+<Emphasis>process&hyphen;oriented</Emphasis> messages and <Emphasis>object-oriented</Emphasis> messages.</Para>
+<Sect2 Id="TTUG.Intro.div.22">
+<Title>Process-Oriented Messages</Title>
+<Para><IndexTerm>
+<Primary>process-oriented messages</Primary>
+</IndexTerm><IndexTerm>
+<Primary>messages</Primary>
+<Secondary>process-oriented</Secondary>
+</IndexTerm>Process-oriented messages are addressed to processes. Applications that create
+a process-oriented message address the message to either a specific process or
+to a particular type of process. Process-oriented messages are a good way for
+existing applications to begin communication with other applications.
+Modifications to support process-oriented messages are straightforward and
+usually take a short time to implement.</Para>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.23">
+<Title>Object-Oriented Messages</Title>
+<Para><IndexTerm>
+<Primary>object-oriented messages</Primary>
+</IndexTerm><IndexTerm>
+<Primary>messages</Primary>
+<Secondary>object-oriented</Secondary>
+</IndexTerm>Object-oriented messages are addressed to objects managed by applications.
+Applications that create an object-oriented message address the message to
+either a specific object or to a particular type of object. Object-oriented
+messages are particularly useful for applications that currently use objects or
+that are to be designed around objects. If an existing application is not
+object&hyphen;oriented, the ToolTalk service allows applications to identify portions of
+application data as objects so that applications can begin to communicate about
+these objects.</Para>
+<Note>
+<Para>Programs coded to the ToolTalk object-oriented messaging interface are
+<Symbol Role="Variable">not</Symbol> portable to<IndexTerm>
+<Primary>OMG-compliant systems</Primary>
+</IndexTerm>
+CORBA&hyphen;compliant systems without source changes.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="TTUG.Intro.div.24">
+<Title>Determining Message Delivery</Title>
+<Para>To<IndexTerm>
+<Primary>determining who receive messages</Primary>
+</IndexTerm>
+determine which groups receive messages, you <Emphasis>scope</Emphasis> your messages.
+Scoping limits the delivery of messages to a particular session or file.</Para>
+<Sect3 Id="TTUG.Intro.div.25">
+<Title>Sessions</Title>
+<Para>A<IndexTerm>
+<Primary>session, ToolTalk concept of</Primary>
+</IndexTerm>
+<Emphasis>session</Emphasis> is a group of processes that have an instance of the ToolTalk message
+server in common (refer to Appendix C for information on thread-safe session management).
+When a process opens communication with the ToolTalk
+service, a default session is located (or created, if a session does not already
+exist) and a <Emphasis>process identifier</Emphasis> (<Emphasis>procid</Emphasis>) is assigned to the process. Default sessions
+are located either through an environment variable (called &ldquo;process tree
+sessions&rdquo;) or through the X display (called &ldquo;X sessions&rdquo;).</Para>
+<Para>The concept of a session is important in the delivery of messages. Senders can
+scope a message to a session and the ToolTalk service will deliver it to all
+processes that have message patterns that reference the current session. To
+update message patterns with the current<IndexTerm>
+<Primary>session identifier (sessid)</Primary>
+</IndexTerm>
+<Emphasis>session identifier</Emphasis> (sessid), applications
+join the session.</Para>
+</Sect3>
+<Sect3 Id="TTUG.Intro.div.26">
+<Title>Files</Title>
+<Para>A container for data that is of interest to applications is called a<IndexTerm>
+<Primary>files</Primary>
+<Secondary>ToolTalk concept of</Secondary>
+</IndexTerm>
+<Symbol Role="Variable">file</Symbol> in this
+book.</Para>
+<Para>The concept of a file is important in the delivery of messages. Senders can
+scope a message to a file and the ToolTalk service will deliver it to all processes
+that have message patterns that reference the file without regard to the
+process's default session. To update message patterns with the current file path
+name, applications join the file.</Para>
+<Para>You can also scope a message to a file within a session. The ToolTalk service
+will deliver the message to all processes that reference both the file and session
+in their message patterns.</Para>
+<Note>
+<Para>The<IndexTerm>
+<Primary>file scoping, restrictions</Primary>
+</IndexTerm>
+file scoping feature is restricted to NFS&reg; and UFS file systems.</Para>
+</Note>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="TTUG.Intro.div.27">
+<Title><IndexTerm>
+<Primary>modifying your application to use the ToolTalk service</Primary>
+</IndexTerm>Modifying Applications to Use the ToolTalk Service</Title>
+<Para>Before you modify your application to use the ToolTalk service, you must
+define (or locate) a ToolTalk<IndexTerm>
+<Primary>message protocol</Primary>
+</IndexTerm>
+<Emphasis>message protocol</Emphasis>: a set of ToolTalk messages that
+describe operations applications agree to perform. The message protocol
+specification includes the set of messages and how applications should behave
+when they receive the messages.</Para>
+<Para>To use the ToolTalk service, an application calls ToolTalk functions from the
+ToolTalk<IndexTerm>
+<Primary>application programming interface (API)</Primary>
+</IndexTerm>
+API. The ToolTalk API provides functions to register with the ToolTalk
+service, to create message patterns, to send messages, to receive messages, to
+examine message information, and so on. To modify your application to use
+the ToolTalk service, you must first include the ToolTalk API header file in your
+program. You also need to modify your application to:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Initialize the ToolTalk service and join a session</Para>
+</ListItem>
+<ListItem>
+<Para>Register message patterns with the ToolTalk service</Para>
+</ListItem>
+<ListItem>
+<Para>Send and receive messages</Para>
+</ListItem>
+<ListItem>
+<Para>Unregister message patterns and leave your ToolTalk session</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 05:02:32-->

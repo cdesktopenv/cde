@@ -1,0 +1,201 @@
+<!-- $XConsortium: udcexch.sgm /main/8 1996/09/08 19:57:46 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="cde.UDC.dtudcexch">]]>
+<refmeta><refentrytitle>dtudcexch</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtudcexch</command>
+</refname>
+<refpurpose>UDC data exchange utility
+</refpurpose></refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtudcexch</command>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>dtudcexch</command> utility is a tool for exchanging User
+Defined Character (UDC) glyph images between systems. It runs only in
+GUI mode.
+</para>
+<para><command>dtudcexch</command> provides the system administrator with a
+mechanism for distributing UDC glyph images among different systems.
+Specifically, it allows UDC glyph images to be created on one system
+using the UDC Font Editor (<command>dtudcfonted</command>) and then
+propagated to other systems. <command>dtudcexch</command> stores the UDC
+glyph images in a BDF (Bitmap Distribution Format) file, which is
+transported to a target system. On the taregt system,
+<command>dtudcexch</command> is run again, this time to extract the
+images from the BDF file and add them to the appropriate font file.
+</para>
+<para><command>dtudcexch</command> provides both an export and an import
+function. The export function reads the selected UDC
+glyph images from a font file and stores them in a BDF file for transfer
+to other systems. The import function reads all UDC glyph images in a
+BDF file and adds them to a specified font file.
+</para>
+<para><command>dtudcexch</command> searches font files in the directories
+that are specified on the X server&rsquo;s font path or in the <systemitem class="environvar">DTUDCFONTPATH</systemitem> environment variable. It accepts
+only UDC fonts that are available in the current locale and that are defined
+in the X NLS database.
+</para>
+<para>When exporting, <command>dtudcexch</command> uses glyph indexes of the
+UDC code area in the PCF/SNF font file to select the UDC glyph images. It
+stores the converted images in the BDF-format file at the same glyph indexes.
+When importing, <command>dtudcexch</command> adds the UDC glyph images to
+the PCF/SNF font file at the same glyph indexes found in the BDF file. The
+UDC code area information is defined in the X NLS database.
+</para>
+<para>To create different glyph indexes for the images on the target system,
+you can edit the BDF file before you invoke the import function.
+</para>
+<refsect2>
+<title>Starting the Exchange Utility</title>
+<para>Start the Exchange Utility by entering the <command>dtudcexch</command>
+command. The <literal>Starting</literal> window appears.
+</para>
+</refsect2>
+<refsect2>
+<title>Exporting UDCs</title>
+<para>To export UDCs:
+</para>
+<orderedlist>
+<listitem>
+<para>Select the <literal>export function</literal> button on the
+<literal>Starting</literal> window. The <literal>Font
+Selection</literal> window appears. (This window is the same as the
+<literal>Font Selection</literal> window in the Font Editor. For a
+description of the available operations on this window, see
+&cdeman.dtudcfonted;.)
+</para>
+</listitem>
+<listitem>
+<para>Select a font on the <literal>Font Selection</literal> window and click
+<literal>Open</literal>. The <literal>UDC Glyph Indexes
+Selection</literal> window appears. This window lists all the glyph
+indexes for all the UDC glyph images contained in the selected font.
+</para>
+</listitem>
+<listitem>
+<para>Select one or more glyph indexes on the window. (To select multiple
+glyph indexes, use the <literal>Ctrl</literal> or
+<literal>Shift</literal> key as usual.) Then click
+<Literal>OK</Literal>. The <literal>BDF File Selection</literal> window
+appears.
+</para>
+</listitem>
+<listitem>
+<para>Specify a file name on the <literal>BDF File Selection</literal> window
+and click <Literal>OK</Literal>. <command>dtudcexch</command> creates
+the file and stores the glyph images of the selected glyph indexes in
+the file in BDF format. <command>dtudcexch</command> then terminates.
+</para>
+</listitem>
+</orderedlist>
+</refsect2>
+<refsect2>
+<title>Importing UDCs</title>
+<para>To import UDCs:
+</para>
+<orderedlist>
+<listitem>
+<para>Select the <literal>import function</literal> button on the
+<literal>Starting</literal> window. The <literal>BDF File
+Selection</literal> window appears.
+</para>
+</listitem>
+<listitem>
+<para>Specify the name of the BDF file that contains the UDC glyph images to
+be imported and click <Literal>OK</Literal>. The <literal>Font
+Selection</literal> window appears.
+</para>
+</listitem>
+<listitem>
+<para>Select an XLFD (X Logical Font Description) font file and click
+<literal>Open</literal>. <command>dtudcexch</command> adds all glyph
+imagees in the BDF file to the selected font.
+<command>dtudcexch</command> then terminates.
+</para>
+</listitem>
+</orderedlist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>EXIT STATUS</title>
+<variablelist remap="tight">
+<varlistentry><term>0</term>
+<listitem>
+<para><command>dtudcexch</command> terminated successfully.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>>1</term>
+<listitem>
+<para>An error occurred.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para><command>dtudcexch</command> references the <systemitem class="environvar">DTUDCFONTPATH</systemitem> variable, which is a colon-separated list of directories
+to search when looking for UDC font files.
+</para>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>ERRORS/WARNINGS</title>
+<variablelist>
+<varlistentry><term>Failed to open the selected font. You have no right to
+access the font file, or the format of the file is not consistent.</term>
+<listitem>
+<para>An error occurred when attempting to open the PCF/SNF font file.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Failed to open <emphasis>BDF-font-file</emphasis>. ou
+have no right to access the file, or the format of the file is not consistent.</term>
+<listitem>
+<para>An error occurred when attempting to open the BDF font file.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Glyph images in this BDF file can't be added to
+the font.</term>
+<listitem>
+<para>An error occurred when attempting to save the PCF/SNF font file.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>There are one or more glyph images being overwritten.
+Overwrite?</term>
+<listitem>
+<para>One or more glyph images in the PCF/SNF font file will be replaced
+by glyph images from the BDF file.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtudcfonted;
+</para>
+</refsect1>
+</refentry>

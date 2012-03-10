@@ -1,0 +1,2586 @@
+/* $TOG: libtt.elist /main/24 1999/10/15 17:22:29 mgreess $ */
+
+/*************************************************************************
+ * Export list for libDtSvc
+ * This list *must* be updated whenever a change is made to the library API.
+ * 
+ * The syntax for the symbol declarations in this list is as follows:
+ * 	public       sym => Public   C   symbol, i.e., publicized API
+ * 	publicC++    sym => Public   C++ symbol, i.e., publicized API
+ * 	private      sym => Private  C   symbol, i.e., unpublicized API
+ * 	privateC++   sym => Private  C++ symbol, i.e., unpublicized API
+ * 	internal     sym => Internal C   symbol, i.e., not part of API
+ * 	internalC++  sym => Internal C++ symbol, i.e., not part of API
+ *  
+ **************************************************************************/
+
+
+/*
+ * Try to make all systems look as similar as possible.
+ */
+
+/* Get tooltalk OPT_ definitions. */
+#define _STDIO_H
+#define __STDIO_H
+#if defined(OSMAJORVERSION)
+# define OSMajorVersion OSMAJORVERSION
+# define OSMinorVersion OSMINORVERSION
+#endif
+#include "tt_options.h"
+
+#ifdef USL
+# define FILE		_FILE_
+#endif
+
+#ifdef _AIX
+# define size_t		unsigned long
+# define pid_t		int
+# define uid_t		unsigned long
+#elif defined(hpV4)
+# define size_t		unsigned int
+# define pid_t		int
+# define uid_t		int
+#else
+# define size_t		unsigned int
+# define pid_t		long
+# define uid_t		long
+#endif
+
+#if defined(hpV4)
+# define xdrproc_t	int (*)(...)
+#else
+# define xdrproc_t	int (*)(void)
+#endif
+
+#if defined(_AIX)
+# define va_list	char*
+#elif defined(hpV4)
+# define va_list	double*
+#else
+# define va_list	void*
+#endif
+
+#ifndef _AIX
+# define CLIENT		__client
+#endif
+
+
+/********************************************************************
+ * Public symbols -- available to everyone
+ ********************************************************************/
+
+public tt_open
+public tt_close
+public tt_X_session
+public tt_default_ptype
+public tt_default_ptype_set
+public tt_default_file
+public tt_default_file_set
+public tt_default_session
+public tt_default_session_set
+public tt_default_procid
+public tt_default_procid_set
+public tt_file_join
+public tt_file_quit
+public tt_file_objects_query
+public tt_file_move
+public tt_file_copy
+public tt_file_destroy
+public tt_message_context_val
+public tt_message_context_ival
+public tt_message_context_bval
+public tt_message_context_xval
+public tt_message_context_set
+public tt_message_icontext_set
+public tt_message_bcontext_set
+public tt_message_xcontext_set
+public tt_context_join
+public tt_icontext_join
+public tt_bcontext_join
+public tt_xcontext_join
+public tt_context_quit
+public tt_icontext_quit
+public tt_bcontext_quit
+public tt_xcontext_quit
+public tt_message_contexts_count
+public tt_message_context_slotname
+public tt_message_create
+public tt_message_create_super
+public tt_message_destroy
+public tt_message_send
+public tt_message_send_on_exit
+public tt_message_receive
+public tt_message_reply
+public tt_message_reject
+public tt_message_accept
+public tt_message_fail
+public tt_message_pattern
+public tt_message_callback_add
+public tt_message_user
+public tt_message_user_set
+public tt_message_arg_add
+public tt_message_arg_mode
+public tt_message_arg_type
+public tt_message_arg_val
+public tt_message_arg_val_set
+public tt_message_arg_bval
+public tt_message_arg_bval_set
+public tt_message_barg_add
+public tt_message_arg_ival
+public tt_message_arg_ival_set
+public tt_message_iarg_add
+public tt_message_arg_xval
+public tt_message_arg_xval_set
+public tt_message_xarg_add
+public tt_message_args_count
+public tt_message_class
+public tt_message_class_set
+public tt_message_file
+public tt_message_file_set
+public tt_message_object
+public tt_message_object_set
+public tt_message_id
+public tt_message_op
+public tt_message_op_set
+public tt_message_opnum
+public tt_message_otype
+public tt_message_otype_set
+public tt_message_address
+public tt_message_address_set
+public tt_message_handler
+public tt_message_handler_set
+public tt_message_handler_ptype
+public tt_message_handler_ptype_set
+public tt_message_accepters_count
+public tt_message_accepter
+public tt_message_rejecters_count
+public tt_message_rejecter
+public tt_message_abstainers_count
+public tt_message_abstainer
+public tt_message_disposition
+public tt_message_disposition_set
+public tt_message_scope
+public tt_message_scope_set
+public tt_message_sender
+public tt_message_sender_ptype
+public tt_message_sender_ptype_set
+public tt_message_session
+public tt_message_session_set
+public tt_message_state
+public tt_message_status
+public tt_message_status_set
+public tt_message_status_string
+public tt_message_status_string_set
+public tt_message_uid
+public tt_message_gid
+public tt_pnotice_create
+public tt_prequest_create
+public tt_onotice_create
+public tt_orequest_create
+public tt_spec_create
+public tt_spec_write
+public tt_spec_destroy
+public tt_spec_file
+public tt_spec_type
+public tt_spec_type_set
+public tt_spec_move
+public tt_spec_propname
+public tt_spec_propnames_count
+public tt_spec_prop
+public tt_spec_prop_add
+public tt_spec_prop_count
+public tt_spec_prop_set
+public tt_spec_bprop
+public tt_spec_bprop_add
+public tt_spec_bprop_set
+public tt_objid_equal
+public tt_objid_objkey
+public tt_otype_deriveds_count
+public tt_otype_derived
+public tt_otype_base
+public tt_otype_is_derived
+public tt_otype_osig_count
+public tt_otype_hsig_count
+public tt_otype_osig_op
+public tt_otype_hsig_op
+public tt_otype_osig_args_count
+public tt_otype_hsig_args_count
+public tt_otype_osig_arg_mode
+public tt_otype_hsig_arg_mode
+public tt_otype_osig_arg_type
+public tt_otype_hsig_arg_type
+public tt_pattern_create
+public tt_pattern_destroy
+public tt_pattern_register
+public tt_pattern_unregister
+public tt_pattern_callback_add
+public tt_pattern_user
+public tt_pattern_user_set
+public tt_pattern_category
+public tt_pattern_category_set
+public tt_pattern_arg_add
+public tt_pattern_barg_add
+public tt_pattern_iarg_add
+public tt_pattern_xarg_add
+public tt_pattern_class_add
+public tt_pattern_file_add
+public tt_pattern_object_add
+public tt_pattern_op_add
+public tt_pattern_opnum_add
+public tt_pattern_otype_add
+public tt_pattern_address_add
+public tt_pattern_disposition_add
+public tt_pattern_scope_add
+public tt_pattern_sender_add
+public tt_pattern_sender_ptype_add
+public tt_pattern_session_add
+public tt_pattern_state_add
+public tt_pattern_context_add
+public tt_pattern_icontext_add
+public tt_pattern_bcontext_add
+public tt_pattern_xcontext_add
+public tt_ptype_declare
+public tt_ptype_undeclare
+public tt_ptype_exists
+public tt_ptype_opnum_callback_add
+public tt_otype_opnum_callback_add
+public tt_session_join
+public tt_session_quit
+public tt_initial_session
+public tt_session_propname
+public tt_session_propnames_count
+public tt_session_prop
+public tt_session_prop_add
+public tt_session_prop_count
+public tt_session_prop_set
+public tt_session_bprop
+public tt_session_bprop_add
+public tt_session_bprop_set
+public tt_session_types_load
+public tt_fd
+public tt_mark
+public tt_release
+public tt_malloc
+public tt_free
+public tt_status_message
+public tt_pointer_error
+public tt_error
+public tt_int_error
+public tt_error_pointer
+public tt_error_int
+public tt_trace_control
+public tt_message_print
+public tt_pattern_print
+public tt_file_netfile
+public tt_netfile_file
+public tt_host_file_netfile
+public tt_host_netfile_file
+public tt_feature_enabled
+public tt_feature_required
+public ttdt_open
+public ttdt_sender_imprint_on
+public ttdt_close
+public ttdt_session_join
+public ttdt_session_quit
+public ttdt_message_accept
+public ttdt_subcontract_manage
+public ttdt_file_join
+public ttdt_file_event
+public ttdt_file_quit
+public ttdt_Get_Modified
+public ttdt_Save
+public ttdt_Revert
+public ttdt_file_notice
+public ttdt_file_request
+public ttmedia_ptype_declare
+public ttmedia_load
+public ttmedia_load_reply
+public ttmedia_Deposit
+public tttk_Xt_input_handler
+public tttk_block_while
+public tttk_message_create
+public tttk_message_destroy
+public tttk_message_reject
+public tttk_message_fail
+public tttk_message_abandon
+public tttk_string_op
+public tttk_op_string
+
+/*
+ * Public symbols added during the thread-safing of libtt
+ */
+public tt_procid_session
+public tt_thread_procid
+public tt_thread_procid_set
+public tt_thread_session
+public tt_thread_session_set
+
+/*
+ * Public symbols added for ICE style authorization
+ */
+public tt_AuthFileName
+public tt_FreeAuthFileEntry
+public tt_GenerateMagicCookie
+public tt_GetAuthFileEntry
+public tt_LockAuthFile
+public tt_ReadAuthFileEntry
+public tt_UnlockAuthFile
+public tt_WriteAuthFileEntry
+
+/********************************************************************
+ * Private symbols -- Undocumented APIs that are exported for B.C.
+ *	or because privileged applications may need used them.
+ ********************************************************************/
+
+/* This is commented as a temporary function? */
+private _ttds_file_server
+
+/* These constants in tttk.h should really be considered public. */
+private Tttk_boolean
+private Tttk_file
+private Tttk_height
+private Tttk_integer
+private Tttk_message_id
+private Tttk_string
+private Tttk_title
+private Tttk_width
+private Tttk_xoffset
+private Tttk_yoffset
+
+privateC++ _Tt_allocated::operator delete(void*)
+privateC++ _Tt_allocated::operator new(size_t)
+privateC++ _Tt_arg::_Tt_arg(const _Tt_arg_ptr&)
+privateC++ _Tt_arg::_Tt_arg(tt_mode,const char*)
+privateC++ _Tt_arg::_Tt_arg(void)
+privateC++ _Tt_arg::data_string(_Tt_string&) const
+privateC++ _Tt_arg::match_score(const _Tt_arg&,int&) const
+privateC++ _Tt_arg::operator==(const _Tt_arg&) const
+privateC++ _Tt_arg::~_Tt_arg(void)
+privateC++ _Tt_arg_list::_Tt_arg_list(void)
+privateC++ _Tt_arg_list_cursor::~_Tt_arg_list_cursor(void)
+privateC++ _Tt_arg_list_ptr::_Tt_arg_list_ptr(void)
+privateC++ _Tt_arg_list_ptr::xdr(XDR*)
+privateC++ _Tt_arg_list_ptr::~_Tt_arg_list_ptr(void)
+privateC++ _Tt_arg_ptr::_Tt_arg_ptr(void)
+privateC++ _Tt_arg_ptr::~_Tt_arg_ptr(void)
+privateC++ _Tt_auth::_Tt_auth(_Tt_auth_level)
+privateC++ _Tt_auth::~_Tt_auth(void)
+privateC++ _Tt_auth::generate_auth_cookie(void)
+privateC++ _Tt_auth::retrieve_auth_cookie(void)
+privateC++ _Tt_auth::set_auth_level(_Tt_auth_level)
+privateC++ _Tt_auth::set_sessionid(int,_Tt_auth_level,_Tt_string,int)
+privateC++ _Tt_basename(const char*,int)
+privateC++ _Tt_context::_Tt_context(void)
+privateC++ _Tt_context::setName(const char*)
+privateC++ _Tt_context_list::_Tt_context_list(void)
+privateC++ _Tt_context_list::append_ordered(const _Tt_context_ptr&)
+privateC++ _Tt_context_list_cursor::~_Tt_context_list_cursor(void)
+privateC++ _Tt_context_list_ptr::_Tt_context_list_ptr(void)
+privateC++ _Tt_context_list_ptr::xdr(XDR*)
+privateC++ _Tt_context_list_ptr::~_Tt_context_list_ptr(void)
+privateC++ _Tt_context_ptr::~_Tt_context_ptr(void)
+privateC++ _Tt_db_access::_Tt_db_access(void)
+privateC++ _Tt_db_access_ptr::_Tt_db_access_ptr(void)
+privateC++ _Tt_db_access_ptr::~_Tt_db_access_ptr(void)
+privateC++ _Tt_db_client::_Tt_db_client(void)
+privateC++ _Tt_db_client::garbage_collect_in_server(void)
+privateC++ _Tt_db_client::~_Tt_db_client(void)
+privateC++ _Tt_db_key::_Tt_db_key(const _Tt_string&)
+privateC++ _Tt_db_key::_Tt_db_key(short)
+privateC++ _Tt_db_key::operator==(const _Tt_db_key&) const
+privateC++ _Tt_db_key::string(void) const
+privateC++ _Tt_db_key_ptr::_Tt_db_key_ptr(void)
+privateC++ _Tt_db_key_ptr::~_Tt_db_key_ptr(void)
+privateC++ _Tt_db_object::_Tt_db_object(void)
+privateC++ _Tt_db_object::addProperty(const _Tt_db_property_ptr&,int)
+privateC++ _Tt_db_object::create(const _Tt_string&,const _Tt_string&)
+privateC++ _Tt_db_object::getAccess(void)
+privateC++ _Tt_db_object::remove(void)
+privateC++ _Tt_db_object::setAccess(const _Tt_db_access_ptr&)
+privateC++ _Tt_db_object::setType(const _Tt_string&)
+privateC++ _Tt_db_object::write(void)
+privateC++ _Tt_db_object_ptr::~_Tt_db_object_ptr(void)
+privateC++ _Tt_db_property::_Tt_db_property(void)
+privateC++ _Tt_db_property::is_empty(void) const
+privateC++ _Tt_db_property_list::_Tt_db_property_list(void)
+privateC++ _Tt_db_property_list_cursor::~_Tt_db_property_list_cursor(void)
+privateC++ _Tt_db_property_list_ptr::_Tt_db_property_list_ptr(void)
+privateC++ _Tt_db_property_list_ptr::~_Tt_db_property_list_ptr(void)
+privateC++ _Tt_db_property_ptr::_Tt_db_property_ptr(void)
+privateC++ _Tt_db_property_ptr::~_Tt_db_property_ptr(void)
+privateC++ _Tt_desktop::_Tt_desktop(void)
+privateC++ _Tt_desktop::init(_Tt_string,_Tt_dt_type)
+privateC++ _Tt_desktop::notify_fd(void)
+privateC++ _Tt_desktop::set_error_handler(int (*)(void*))
+privateC++ _Tt_desktop::set_prop(_Tt_string,_Tt_string&)
+privateC++ _Tt_desktop_lock::_Tt_desktop_lock(const _Tt_desktop_ptr&)
+privateC++ _Tt_desktop_lock_ptr::_Tt_desktop_lock_ptr(void)
+privateC++ _Tt_desktop_lock_ptr::~_Tt_desktop_lock_ptr(void)
+privateC++ _Tt_dirname(const char*,int)
+privateC++ _Tt_file::networkPath_(_Tt_object_ptr&)
+privateC++ _Tt_file_system::_Tt_file_system(void)
+privateC++ _Tt_file_system::bestMatchToPath(const _Tt_string&)
+privateC++ _Tt_file_system::~_Tt_file_system(void)
+privateC++ _Tt_file_system_entry_ptr::~_Tt_file_system_entry_ptr(void)
+privateC++ _Tt_global::_Tt_global(void)
+privateC++ _Tt_global::drop_mutex(void)
+privateC++ _Tt_global::find_host(_Tt_string,_Tt_host_ptr&,int)
+privateC++ _Tt_global::get_local_host(_Tt_host_ptr&)
+privateC++ _Tt_global::grab_mutex(void)
+privateC++ _Tt_global::maxfds(void)
+privateC++ _Tt_global::set_xdr_version(int)
+privateC++ _Tt_global::xdr_version(void)
+privateC++ _Tt_int_rec::_Tt_int_rec(int)
+privateC++ _Tt_int_rec_list::_Tt_int_rec_list(void)
+privateC++ _Tt_int_rec_list_cursor::~_Tt_int_rec_list_cursor(void)
+privateC++ _Tt_int_rec_list_ptr::_Tt_int_rec_list_ptr(void)
+privateC++ _Tt_int_rec_list_ptr::~_Tt_int_rec_list_ptr(void)
+privateC++ _Tt_int_rec_ptr::~_Tt_int_rec_ptr(void)
+privateC++ _Tt_map_entry::getPathAddress(_Tt_object_ptr&)
+privateC++ _Tt_message::_Tt_message(void)
+privateC++ _Tt_message::add_out_arg(_Tt_arg_ptr&)
+privateC++ _Tt_message::add_voter(const _Tt_procid_ptr&,tt_state)
+privateC++ _Tt_message::base_constructor(void)
+privateC++ _Tt_message::clr_observer_procid(void)
+privateC++ _Tt_message::context(const char*) const
+privateC++ _Tt_message::is_equal(const _Tt_message_ptr&)
+privateC++ _Tt_message::is_start_message(void) const
+privateC++ _Tt_message::pattern_id(void)
+privateC++ _Tt_message::set_handler_procid(const _Tt_procid_ptr&)
+privateC++ _Tt_message::set_handler_ptype(_Tt_string)
+privateC++ _Tt_message::set_opnum(int)
+privateC++ _Tt_message::set_pattern_id(_Tt_string)
+privateC++ _Tt_message::set_start_message(int)
+privateC++ _Tt_message::set_state(tt_state)
+privateC++ _Tt_message::set_status(int)
+privateC++ _Tt_message::unset_handler_procid(void)
+privateC++ _Tt_message::update_message(const _Tt_message_ptr&)
+privateC++ _Tt_message::xdr(XDR*)
+privateC++ _Tt_message::~_Tt_message(void)
+privateC++ _Tt_message_list::_Tt_message_list(void)
+privateC++ _Tt_message_list::~_Tt_message_list(void)
+privateC++ _Tt_message_list_cursor::~_Tt_message_list_cursor(void)
+privateC++ _Tt_message_list_ptr::_Tt_message_list_ptr(void)
+privateC++ _Tt_message_list_ptr::~_Tt_message_list_ptr(void)
+privateC++ _Tt_message_ptr::_Tt_message_ptr(void)
+privateC++ _Tt_message_ptr::~_Tt_message_ptr(void)
+privateC++ _Tt_mp::_Tt_mp(void)
+privateC++ _Tt_mp::find_session(_Tt_string,_Tt_session_ptr&,int,int)
+privateC++ _Tt_mp::~_Tt_mp(void)
+privateC++ _Tt_msg_context::_Tt_msg_context(void)
+privateC++ _Tt_msg_context::enVarName(void) const
+privateC++ _Tt_msg_context::isEnvEntry(void) const
+privateC++ _Tt_msg_context::stringRep(void) const
+privateC++ _Tt_msg_context::~_Tt_msg_context(void)
+privateC++ _Tt_msg_context_list_cursor::~_Tt_msg_context_list_cursor(void)
+privateC++ _Tt_msg_context_ptr::_Tt_msg_context_ptr(void)
+privateC++ _Tt_msg_context_ptr::~_Tt_msg_context_ptr(void)
+privateC++ _Tt_msg_trace::_Tt_msg_trace(_Tt_message&,_Tt_dispatch_reason)
+privateC++ _Tt_msg_trace::_Tt_msg_trace(_Tt_message&,const _Tt_procid&)
+privateC++ _Tt_msg_trace::_Tt_msg_trace(_Tt_message&,tt_state)
+privateC++ _Tt_msg_trace::~_Tt_msg_trace(void)
+privateC++ _Tt_new_ptr::_Tt_new_ptr(_Tt_object*)
+privateC++ _Tt_new_ptr::_Tt_new_ptr(const _Tt_new_ptr&)
+privateC++ _Tt_new_ptr::_Tt_new_ptr(void)
+privateC++ _Tt_new_ptr::operator=(_Tt_object*)
+privateC++ _Tt_new_ptr::operator=(const _Tt_new_ptr&)
+privateC++ _Tt_new_ptr::xdr(XDR*,int (*)(XDR*,_Tt_object*),_Tt_object* (*)(void))
+privateC++ _Tt_new_ptr::~_Tt_new_ptr(void)
+privateC++ _Tt_object::xdr(XDR*)
+privateC++ _Tt_object::~_Tt_object(void)
+privateC++ _Tt_object_list::_Tt_object_list(const _Tt_object_list&)
+privateC++ _Tt_object_list::_Tt_object_list(void)
+privateC++ _Tt_object_list::append(_Tt_object_list_ptr)
+privateC++ _Tt_object_list::append(const _Tt_object_ptr&)
+privateC++ _Tt_object_list::append_destructive(_Tt_object_list_ptr)
+privateC++ _Tt_object_list::bot(void) const
+privateC++ _Tt_object_list::flush(void)
+privateC++ _Tt_object_list::is_empty(void) const
+privateC++ _Tt_object_list::operator[](int) const
+privateC++ _Tt_object_list::pop(void)
+privateC++ _Tt_object_list::print(void (*)(const _Tt_ostream&,const _Tt_object*),const _Tt_ostream&) const
+privateC++ _Tt_object_list::push(const _Tt_object_ptr&)
+privateC++ _Tt_object_list::top(void) const
+privateC++ _Tt_object_list::xdr(XDR*,int (*)(XDR*,_Tt_object*),_Tt_object* (*)(void))
+privateC++ _Tt_object_list::~_Tt_object_list(void)
+privateC++ _Tt_object_list_cursor::_Tt_object_list_cursor(const _Tt_object_list_cursor&)
+privateC++ _Tt_object_list_cursor::_Tt_object_list_cursor(const _Tt_object_list_ptr&)
+privateC++ _Tt_object_list_cursor::_Tt_object_list_cursor(void)
+privateC++ _Tt_object_list_cursor::is_valid(void) const
+privateC++ _Tt_object_list_cursor::next(void)
+privateC++ _Tt_object_list_cursor::operator*(void) const
+privateC++ _Tt_object_list_cursor::prev(void)
+privateC++ _Tt_object_list_cursor::remove(void)
+privateC++ _Tt_object_list_cursor::reset(const _Tt_object_list_ptr&)
+privateC++ _Tt_object_list_cursor::reset(void)
+privateC++ _Tt_object_list_cursor::~_Tt_object_list_cursor(void)
+privateC++ _Tt_object_list_ptr::_Tt_object_list_ptr(void)
+privateC++ _Tt_object_list_ptr::~_Tt_object_list_ptr(void)
+privateC++ _Tt_object_ptr::_Tt_object_ptr(void)
+privateC++ _Tt_object_ptr::~_Tt_object_ptr(void)
+privateC++ _Tt_object_table::_Tt_object_table(int)
+privateC++ _Tt_object_table::insert(_Tt_object_ptr&)
+privateC++ _Tt_object_table::lookup(const _Tt_string&) const
+privateC++ _Tt_object_table::lookup(const _Tt_string&,_Tt_object_ptr&) const
+privateC++ _Tt_object_table::print(void (*)(const _Tt_ostream&,const _Tt_object*),const _Tt_ostream&) const
+privateC++ _Tt_object_table::remove(const _Tt_string&)
+privateC++ _Tt_object_table::xdr(XDR*,int (*)(XDR*,_Tt_object*),_Tt_object* (*)(void))
+privateC++ _Tt_object_table::~_Tt_object_table(void)
+privateC++ _Tt_object_table_cursor::_Tt_object_table_cursor(const _Tt_object_table_cursor&)
+privateC++ _Tt_object_table_cursor::_Tt_object_table_cursor(const _Tt_object_table_ptr&)
+privateC++ _Tt_object_table_cursor::_Tt_object_table_cursor(void)
+privateC++ _Tt_object_table_cursor::next(void)
+privateC++ _Tt_object_table_cursor::operator*(void)
+privateC++ _Tt_object_table_cursor::reset(_Tt_object_table_ptr&)
+privateC++ _Tt_object_table_cursor::~_Tt_object_table_cursor(void)
+privateC++ _Tt_object_table_ptr::_Tt_object_table_ptr(void)
+privateC++ _Tt_object_table_ptr::~_Tt_object_table_ptr(void)
+privateC++ _Tt_ostream::operator<<(char) const
+privateC++ _Tt_ostream::operator<<(const _Tt_string&) const
+privateC++ _Tt_ostream::operator<<(const char*) const
+privateC++ _Tt_ostream::operator<<(int) const
+privateC++ _Tt_ostream::_Tt_ostream(FILE*)
+privateC++ _Tt_ostream::~_Tt_ostream(void)
+privateC++ _Tt_pat_context::_Tt_pat_context(const _Tt_context&)
+privateC++ _Tt_pat_context::_Tt_pat_context(void)
+privateC++ _Tt_pat_context::addValue(const _Tt_msg_context&)
+privateC++ _Tt_pat_context::deleteValue(const _Tt_msg_context&)
+privateC++ _Tt_pat_context::~_Tt_pat_context(void)
+privateC++ _Tt_pat_context_list::append_ordered(const _Tt_pat_context_ptr&)
+privateC++ _Tt_pat_context_list_cursor::~_Tt_pat_context_list_cursor(void)
+privateC++ _Tt_pat_context_ptr::~_Tt_pat_context_ptr(void)
+privateC++ _Tt_patlist::_Tt_patlist(void)
+privateC++ _Tt_patlist_ptr::_Tt_patlist_ptr(void)
+privateC++ _Tt_patlist_ptr::~_Tt_patlist_ptr(void)
+privateC++ _Tt_patlist_table_ptr::_Tt_patlist_table_ptr(void)
+privateC++ _Tt_patlist_table_ptr::~_Tt_patlist_table_ptr(void)
+privateC++ _Tt_pattern::_Tt_pattern(void)
+privateC++ _Tt_pattern::add_field(const _Tt_string&,_Tt_string_list_ptr&)
+privateC++ _Tt_pattern::add_field(int,_Tt_int_rec_list_ptr&)
+privateC++ _Tt_pattern::add_netfile(const _Tt_string&,int)
+privateC++ _Tt_pattern::del_file(const _Tt_string&)
+privateC++ _Tt_pattern::del_session(const _Tt_string&)
+privateC++ _Tt_pattern::join_files(const _Tt_string&) const
+privateC++ _Tt_pattern::set_id(const _Tt_string&)
+privateC++ _Tt_pattern::xdr(XDR*)
+privateC++ _Tt_pattern::~_Tt_pattern(void)
+privateC++ _Tt_pattern_list::_Tt_pattern_list(void)
+privateC++ _Tt_pattern_list_cursor::~_Tt_pattern_list_cursor(void)
+privateC++ _Tt_pattern_list_ptr::_Tt_pattern_list_ptr(void)
+privateC++ _Tt_pattern_list_ptr::~_Tt_pattern_list_ptr(void)
+privateC++ _Tt_pattern_ptr::_Tt_pattern_ptr(void)
+privateC++ _Tt_pattern_ptr::~_Tt_pattern_ptr(void)
+privateC++ _Tt_pid_t_rec_list_ptr::_Tt_pid_t_rec_list_ptr(void)
+privateC++ _Tt_pid_t_rec_list_ptr::~_Tt_pid_t_rec_list_ptr(void)
+privateC++ _Tt_procid::_Tt_procid(void)
+privateC++ _Tt_procid::add_joined_file(_Tt_string)
+privateC++ _Tt_procid::del_joined_file(_Tt_string)
+privateC++ _Tt_procid::id(void) const
+privateC++ _Tt_procid::joined_to_file(_Tt_string)
+privateC++ _Tt_procid::processing(const _Tt_message&)
+privateC++ _Tt_procid::xdr(XDR*)
+privateC++ _Tt_procid::~_Tt_procid(void)
+privateC++ _Tt_procid_list::_Tt_procid_list(void)
+privateC++ _Tt_procid_list::~_Tt_procid_list(void)
+privateC++ _Tt_procid_list_cursor::~_Tt_procid_list_cursor(void)
+privateC++ _Tt_procid_list_ptr::_Tt_procid_list_ptr(void)
+privateC++ _Tt_procid_list_ptr::~_Tt_procid_list_ptr(void)
+privateC++ _Tt_procid_ptr::_Tt_procid_ptr(void)
+privateC++ _Tt_procid_ptr::~_Tt_procid_ptr(void)
+privateC++ _Tt_qmsg_info::_Tt_qmsg_info(void)
+privateC++ _Tt_qmsg_info_ptr::_Tt_qmsg_info_ptr(void)
+privateC++ _Tt_qmsg_info_ptr::~_Tt_qmsg_info_ptr(void)
+privateC++ _Tt_session::_Tt_session(void)
+privateC++ _Tt_session::address_string(void)
+privateC++ _Tt_session::call(int,xdrproc_t,char*,xdrproc_t,char*,int,int)
+privateC++ _Tt_session::client_session_init(void)
+privateC++ _Tt_session::desktop_event_callback(void)
+privateC++ _Tt_session::displayname(void)
+privateC++ _Tt_session::env(void)
+privateC++ _Tt_session::find_advertised_address(_Tt_string&)
+privateC++ _Tt_session::has_id(const _Tt_string&)
+privateC++ _Tt_session::has_id(const _Tt_string_list_ptr)
+privateC++ _Tt_session::parsed_address(_Tt_string&)
+privateC++ _Tt_session::ping(void)
+privateC++ _Tt_session::process_tree_id(void)
+privateC++ _Tt_session::set_env(_Tt_env,_Tt_string)
+privateC++ _Tt_session::set_id(char*)
+privateC++ _Tt_session::xdr(XDR*)
+privateC++ _Tt_session::~_Tt_session(void)
+privateC++ _Tt_session_prop::_Tt_session_prop(_Tt_string,_Tt_string)
+privateC++ _Tt_session_prop_list::_Tt_session_prop_list(void)
+privateC++ _Tt_session_prop_list_cursor::~_Tt_session_prop_list_cursor(void)
+privateC++ _Tt_session_prop_ptr::~_Tt_session_prop_ptr(void)
+privateC++ _Tt_session_ptr::_Tt_session_ptr(void)
+privateC++ _Tt_session_ptr::~_Tt_session_ptr(void)
+privateC++ _Tt_stream_socket::_Tt_stream_socket(_Tt_host_ptr&,int)
+privateC++ _Tt_stream_socket::fd(void)
+privateC++ _Tt_stream_socket::init(int)
+privateC++ _Tt_stream_socket::send(char*,int)
+privateC++ _Tt_string::_Tt_string(const _Tt_string&)
+privateC++ _Tt_string::_Tt_string(const char*)
+privateC++ _Tt_string::_Tt_string(const unsigned char*,int)
+privateC++ _Tt_string::_Tt_string(int)
+privateC++ _Tt_string::_Tt_string(void)
+privateC++ _Tt_string::cat(const _Tt_string&) const
+privateC++ _Tt_string::cmp(const char*,int) const
+privateC++ _Tt_string::index(char) const
+privateC++ _Tt_string::left(int) const
+privateC++ _Tt_string::operator char*(void) const
+privateC++ _Tt_string::operator const char*(void) const
+privateC++ _Tt_string::operator=(const char*)
+privateC++ _Tt_string::operator[](int)
+privateC++ _Tt_string::operator[](int) const
+privateC++ _Tt_string::print(const _Tt_ostream&,int,int) const
+privateC++ _Tt_string::right(int) const
+privateC++ _Tt_string::rindex(char) const
+privateC++ _Tt_string::rsplit(char,_Tt_string&) const
+privateC++ _Tt_string::set(const unsigned char*,int)
+privateC++ _Tt_string::sh_match(const _Tt_string&) const
+privateC++ _Tt_string::split(char,_Tt_string&) const
+privateC++ _Tt_string::strchr(char) const
+privateC++ _Tt_string::strrchr(char) const
+privateC++ _Tt_string::xdr(XDR*)
+privateC++ _Tt_string::~_Tt_string(void)
+privateC++ _Tt_string_buf::print(const _Tt_ostream&,int,int) const
+privateC++ _Tt_string_buf_list_ptr::xdr(XDR*)
+privateC++ _Tt_string_buf_list_ptr::~_Tt_string_buf_list_ptr(void)
+privateC++ _Tt_string_list::_Tt_string_list(void)
+privateC++ _Tt_string_list::~_Tt_string_list(void)
+privateC++ _Tt_string_list_cursor::_Tt_string_list_cursor(const _Tt_string_list_ptr&)
+privateC++ _Tt_string_list_cursor::_Tt_string_list_cursor(void)
+privateC++ _Tt_string_list_cursor::operator*(void) const
+privateC++ _Tt_string_list_cursor::operator->(void) const
+privateC++ _Tt_string_list_cursor::~_Tt_string_list_cursor(void)
+privateC++ _Tt_string_list_ptr::_Tt_string_list_ptr(void)
+privateC++ _Tt_string_list_ptr::operator=(_Tt_string_list*)
+privateC++ _Tt_string_list_ptr::operator=(const _Tt_string_list_ptr&)
+privateC++ _Tt_string_list_ptr::~_Tt_string_list_ptr(void)
+privateC++ _Tt_string_map::_Tt_string_map(_Tt_string (*)(_Tt_object_ptr&))
+privateC++ _Tt_string_map::findEntry(const _Tt_string&)
+privateC++ _Tt_string_map::loadFile(const _Tt_string&)
+privateC++ _Tt_string_map_ptr::_Tt_string_map_ptr(void)
+privateC++ _Tt_string_map_ptr::~_Tt_string_map_ptr(void)
+privateC++ _tt_syslog(FILE*,int,const char* ...)
+privateC++ _Tt_trace::decr_indent(void) const
+privateC++ _Tt_trace::incr_indent(void) const
+privateC++ _Tt_trace::operator<<(const _Tt_pattern&) const
+privateC++ _Tt_trace::operator<<(const _Tt_string&) const
+privateC++ _Tt_trace::operator<<(const char*) const
+privateC++ _Tt_trace::operator<<(int) const
+privateC++ _Tt_trace::print(void (*)(const _Tt_ostream&,const _Tt_object*),const _Tt_object*) const
+privateC++ _Tt_xdr_size_stream::_Tt_xdr_size_stream(void)
+privateC++ _Tt_xdr_size_stream::operator XDR*(void)
+#ifdef __osf__
+privateC++ _tt_base64_encode(unsigned int)
+#else /* __osf__ */
+privateC++ _tt_base64_encode(unsigned long)
+#endif /* __osf__ */
+privateC++ _tt_catgets(int,int,const char*)
+privateC++ _tt_db_create_objid(const _Tt_db_key_ptr&,const _Tt_string&,const _Tt_string&,const _Tt_string&)
+privateC++ _tt_dir_entries(const _Tt_string&,int)
+privateC++ _tt_entrypt_to_string(_Tt_entry_pt)
+privateC++ _tt_enumname(tt_category)
+privateC++ _tt_enumname(tt_class)
+privateC++ _tt_enumname(tt_feature)
+privateC++ _tt_enumname(tt_mode)
+privateC++ _tt_enumname(tt_scope)
+privateC++ _tt_enumname(tt_status)
+privateC++ _tt_errno_status(int)
+privateC++ _tt_file_netfile(const char*)
+privateC++ _tt_free_rpc_messages(const _tt_message_list&)
+privateC++ _tt_free_rpc_properties(const _tt_property_list&)
+privateC++ _tt_free_rpc_property(const _tt_property&)
+privateC++ _tt_free_rpc_strings(const _tt_string_list&)
+privateC++ _tt_get_realpath(char*,char*)
+privateC++ _tt_get_rpc_access(const _tt_access&,_Tt_db_access_ptr&)
+privateC++ _tt_get_rpc_properties(const _tt_property_list&,_Tt_db_property_list_ptr&)
+privateC++ _tt_get_rpc_property(const _tt_property&,_Tt_db_property_ptr&)
+privateC++ _tt_get_rpc_strings(const _tt_string_list&,_Tt_string_list_ptr&)
+privateC++ _tt_getdtablesize(void)
+privateC++ _tt_gethostname(void)
+privateC++ _tt_global
+privateC++ _tt_is_network_path(const _Tt_string&)
+privateC++ _tt_isdir(const _Tt_string&)
+privateC++ _tt_lib_version
+privateC++ _tt_mp
+privateC++ _tt_netfile_file(const char*)
+privateC++ _tt_network_path_to_local_path(const _Tt_string&)
+privateC++ _tt_openlog(const char*,int,int)
+privateC++ _tt_patlist_op(_Tt_object_ptr&)
+privateC++ _tt_pointer_error(void*)
+privateC++ _tt_procid_id(_Tt_object_ptr&)
+privateC++ _tt_put_all_env_var(int,const char* ...)
+privateC++ _tt_putenv(const char*,const char*)
+privateC++ _tt_realpath(const _Tt_string&)
+privateC++ _tt_restoredtablesize(void)
+privateC++ _tt_set_rpc_access(const _Tt_db_access_ptr&,_tt_access&)
+privateC++ _tt_set_rpc_properties(const _Tt_db_property_list_ptr&,_tt_property_list&)
+privateC++ _tt_set_rpc_property(const _Tt_db_property_ptr&,_tt_property&)
+privateC++ _tt_set_rpc_strings(const _Tt_string_list_ptr&,_tt_string_list&)
+privateC++ _tt_sigset(int,void (*)(int))
+privateC++ _tt_strdup(const _Tt_string&)
+privateC++ _tt_string_print(const _Tt_ostream&,const _Tt_object*)
+privateC++ _tt_svc_getargs
+privateC++ _tt_user_path(_Tt_string,_Tt_string,int)
+privateC++ _tt_zoomdtablesize(void)
+privateC++ tt_xdr_auth_iceauth_args(XDR*,_Tt_auth_iceauth_args*)
+privateC++ tt_xdr_context_join_args(XDR*,_Tt_context_join_args*)
+privateC++ tt_xdr_declare_ptype_args(XDR*,_Tt_declare_ptype_args*)
+privateC++ tt_xdr_dispatch_reply_args(XDR*,_Tt_dispatch_reply_args*)
+privateC++ tt_xdr_fd_args(XDR*,_Tt_fd_args*)
+privateC++ tt_xdr_file_join_args(XDR*,_Tt_file_join_args*)
+privateC++ tt_xdr_load_types_args(XDR*,_Tt_load_types_args*)
+privateC++ tt_xdr_message(XDR*,_Tt_message_ptr*)
+privateC++ tt_xdr_next_message_args(XDR*,_Tt_next_message_args*)
+privateC++ tt_xdr_otype_args(XDR*,_Tt_otype_args*)
+privateC++ tt_xdr_procid(XDR*,_Tt_procid_ptr*)
+privateC++ tt_xdr_prop_args(XDR*,_Tt_prop_args*)
+privateC++ tt_xdr_rpc_result(XDR*,_Tt_rpc_result*)
+privateC++ tt_xdr_string(XDR*,_Tt_string*)
+privateC++ tt_xdr_update_args(XDR*,_Tt_update_args*)
+privateC++ xdr_Tt_isaddindex_args(XDR*,_Tt_isaddindex_args*)
+privateC++ xdr_Tt_isam_results(XDR*,_Tt_isam_results*)
+privateC++ xdr_Tt_isbuild_args(XDR*,_Tt_isbuild_args*)
+privateC++ xdr_Tt_iscntl_args(XDR*,_Tt_iscntl_args*)
+privateC++ xdr_Tt_iscntl_results(XDR*,_Tt_iscntl_results*)
+privateC++ xdr_Tt_isdelrec_args(XDR*,_Tt_isdelrec_args*)
+privateC++ xdr_Tt_isopen_args(XDR*,_Tt_isopen_args*)
+privateC++ xdr_Tt_isread_args(XDR*,_Tt_isread_args*)
+privateC++ xdr_Tt_isread_results(XDR*,_Tt_isread_results*)
+privateC++ xdr_Tt_isrewrec_args(XDR*,_Tt_isrewrec_args*)
+privateC++ xdr_Tt_isstart_args(XDR*,_Tt_isstart_args*)
+privateC++ xdr_Tt_iswrite_args(XDR*,_Tt_iswrite_args*)
+privateC++ xdr_Tt_oidaccess_args(XDR*,_Tt_oidaccess_args*)
+privateC++ xdr_Tt_oidaccess_results(XDR*,_Tt_oidaccess_results*)
+privateC++ xdr_Tt_session_args(XDR*,_Tt_session_args*)
+privateC++ xdr_Tt_spec_props(XDR*,_Tt_spec_props*)
+privateC++ xdr_Tt_test_and_set_args(XDR*,_Tt_test_and_set_args*)
+privateC++ xdr_Tt_test_and_set_results(XDR*,_Tt_test_and_set_results*)
+privateC++ xdr_Tt_transaction_args(XDR*,_Tt_transaction_args*)
+privateC++ xdr_tt_add_file_prop_args(XDR*,_tt_add_file_prop_args*)
+privateC++ xdr_tt_add_obj_prop_args(XDR*,_tt_add_obj_prop_args*)
+privateC++ xdr_tt_auth_level_results(XDR*,_tt_auth_level_results*)
+privateC++ xdr_tt_create_file_args(XDR*,_tt_create_file_args*)
+privateC++ xdr_tt_create_obj_args(XDR*,_tt_create_obj_args*)
+privateC++ xdr_tt_db_cache_results(XDR*,_tt_db_cache_results*)
+privateC++ xdr_tt_db_results(XDR*,_Tt_db_results*)
+privateC++ xdr_tt_del_file_prop_args(XDR*,_tt_del_file_prop_args*)
+privateC++ xdr_tt_del_obj_prop_args(XDR*,_tt_del_obj_prop_args*)
+privateC++ xdr_tt_delete_session_args(XDR*,_tt_delete_session_args*)
+privateC++ xdr_tt_delete_session_results(XDR*,_tt_delete_session_results*)
+privateC++ xdr_tt_dequeue_msgs_args(XDR*,_tt_dequeue_msgs_args*)
+privateC++ xdr_tt_dequeue_msgs_results(XDR*,_tt_dequeue_msgs_results*)
+privateC++ xdr_tt_file_access_results(XDR*,_tt_file_access_results*)
+privateC++ xdr_tt_file_netfile_args(XDR*,_tt_file_netfile_args*)
+privateC++ xdr_tt_file_netfile_results(XDR*,_tt_file_netfile_results*)
+privateC++ xdr_tt_file_objs_results(XDR*,_tt_file_objs_results*)
+privateC++ xdr_tt_file_partition_results(XDR*,_tt_file_partition_results*)
+privateC++ xdr_tt_file_prop_results(XDR*,_tt_file_prop_results*)
+privateC++ xdr_tt_file_props_results(XDR*,_tt_file_props_results*)
+privateC++ xdr_tt_garbage_collect_results(XDR*,_tt_garbage_collect_results*)
+privateC++ xdr_tt_get_all_sessions_args(XDR*,_tt_get_all_sessions_args*)
+privateC++ xdr_tt_get_all_sessions_results(XDR*,_tt_get_all_sessions_results*)
+privateC++ xdr_tt_get_file_access_args(XDR*,_tt_get_file_access_args*)
+privateC++ xdr_tt_get_file_objs_args(XDR*,_tt_get_file_objs_args*)
+privateC++ xdr_tt_get_file_prop_args(XDR*,_tt_get_file_prop_args*)
+privateC++ xdr_tt_get_file_props_args(XDR*,_tt_get_file_props_args*)
+privateC++ xdr_tt_get_obj_access_args(XDR*,_tt_get_obj_access_args*)
+privateC++ xdr_tt_get_obj_file_args(XDR*,_tt_get_obj_file_args*)
+privateC++ xdr_tt_get_obj_prop_args(XDR*,_tt_get_obj_prop_args*)
+privateC++ xdr_tt_get_obj_props_args(XDR*,_tt_get_obj_props_args*)
+privateC++ xdr_tt_is_file_in_db_args(XDR*,_tt_is_file_in_db_args*)
+privateC++ xdr_tt_is_file_in_db_results(XDR*,_tt_is_file_in_db_results*)
+privateC++ xdr_tt_is_obj_in_db_args(XDR*,_tt_is_obj_in_db_args*)
+privateC++ xdr_tt_is_obj_in_db_results(XDR*,_tt_is_obj_in_db_results*)
+privateC++ xdr_tt_move_file_args(XDR*,_tt_move_file_args*)
+privateC++ xdr_tt_obj_access_results(XDR*,_tt_obj_access_results*)
+privateC++ xdr_tt_obj_file_results(XDR*,_tt_obj_file_results*)
+privateC++ xdr_tt_obj_prop_results(XDR*,_tt_obj_prop_results*)
+privateC++ xdr_tt_obj_props_results(XDR*,_tt_obj_props_results*)
+privateC++ xdr_tt_obj_type_results(XDR*,_tt_obj_type_results*)
+privateC++ xdr_tt_queue_msg_args(XDR*,_tt_queue_msg_args*)
+privateC++ xdr_tt_remove_file_args(XDR*,_tt_remove_file_args*)
+privateC++ xdr_tt_remove_obj_args(XDR*,_tt_remove_obj_args*)
+privateC++ xdr_tt_set_file_access_args(XDR*,_tt_set_file_access_args*)
+privateC++ xdr_tt_set_file_prop_args(XDR*,_tt_set_file_prop_args*)
+privateC++ xdr_tt_set_file_props_args(XDR*,_tt_set_file_props_args*)
+privateC++ xdr_tt_set_obj_access_args(XDR*,_tt_set_obj_access_args*)
+privateC++ xdr_tt_set_obj_file_args(XDR*,_tt_set_obj_file_args*)
+privateC++ xdr_tt_set_obj_prop_args(XDR*,_tt_set_obj_prop_args*)
+privateC++ xdr_tt_set_obj_props_args(XDR*,_tt_set_obj_props_args*)
+privateC++ xdr_tt_set_obj_type_args(XDR*,_tt_set_obj_type_args*)
+
+/* These next four are only used when building non-threaded dbserver */
+privateC++ _Tt_db_client_ptr::_Tt_db_client_ptr(void)
+privateC++ _Tt_db_client_ptr::~_Tt_db_client_ptr(void)
+privateC++ _Tt_db_client::delete_session(_Tt_string)
+privateC++ _Tt_db_client::get_all_sessions(void)
+
+#ifdef _AIX
+/* AIX c++filt does not demangle these symbols. */
+privateC++ __vft10_Tt_object
+privateC++ __vft12_Tt_arg_list10_Tt_object
+privateC++ __vft14_Tt_file_table10_Tt_object
+privateC++ __vft16_Tt_pattern_list10_Tt_object
+privateC++ __vft17_Tt_patlist_table10_Tt_object
+privateC++ __vft16_Tt_context_list10_Tt_object
+privateC++ __vft16_Tt_message_list10_Tt_object
+privateC++ __vft15_Tt_procid_list10_Tt_object
+#else
+privateC++ _Tt_object::__vtbl
+privateC++ _Tt_arg_list::__vtbl
+privateC++ _Tt_file_table::__vtbl
+privateC++ _Tt_pattern_list::__vtbl
+privateC++ _Tt_patlist_table::__vtbl
+privateC++ _Tt_context_list::__vtbl
+privateC++ _Tt_message_list::__vtbl
+privateC++ _Tt_procid_list::__vtbl
+#endif
+
+#ifdef hpV4
+/* If debugging is enabled the tt clients require these symbols on HP. */
+privateC++ _Tt_arg::__vtbl
+privateC++ _Tt_context::__vtbl
+privateC++ _Tt_db_access::__vtbl
+privateC++ _Tt_db_client::__vtbl
+privateC++ _Tt_db_hostname_redirection_map::__vtbl
+privateC++ _Tt_db_key::__vtbl
+privateC++ _Tt_db_object::__vtbl
+privateC++ _Tt_db_property::__vtbl
+privateC++ _Tt_desktop_lock::__vtbl
+privateC++ _Tt_file_system_entry::__vtbl
+privateC++ _Tt_global::__vtbl
+privateC++ _Tt_int_rec::__vtbl
+privateC++ _Tt_message::__vtbl
+privateC++ _Tt_mp::__vtbl
+privateC++ _Tt_msg_context::__vtbl
+privateC++ _Tt_object_list::__vtbl
+privateC++ _Tt_object_table::__vtbl
+privateC++ _Tt_pat_context::__vtbl
+privateC++ _Tt_patlist::__vtbl
+privateC++ _Tt_pattern::__vtbl
+privateC++ _Tt_procid::__vtbl
+privateC++ _Tt_session::__vtbl
+privateC++ _Tt_session_prop::__vtbl
+privateC++ _Tt_string_buf::__vtbl
+privateC++ _Tt_string_buf_list::__vtbl
+privateC++ _Tt_string_list::__vtbl
+#endif
+
+#ifdef OPT_BUG_SUNOS_5
+/* This symbol was accidentally exported in libtt.so.1, so preserve */
+/* it for backward compatibility. */
+private iserrno
+#endif
+
+/*
+ * This symbol (like all C++ symbols) really should be internal, but
+ * some of the tt clients used it in CDE 1.0.
+ */
+privateC++ _Tt_string_buf_ptr::~_Tt_string_buf_ptr(void)
+
+
+
+/********************************************************************
+ * Internal symbols -- not to be used outside the library.
+ ********************************************************************/
+
+internal TtDtOps
+internal _TttkKeys
+internal _tt_api_status_page
+#ifdef OPT_TLI
+internal _tt_bind_endpoint
+#endif
+internal _tt_c_mp
+internal _tt_htab
+internal _tt_string_list_decode
+internal _tt_string_list_encode
+internal _tt_svc_freeargs
+#ifdef OPT_TLI
+internal _tt_tli_set_nodelay
+#endif
+#ifdef OPT_DLOPEN_X11
+internal _tt_xlib
+internal _tt_xt
+#endif
+internal _ttdnd_receive
+internal _ttdtme
+internal ttdnd_init
+internal ttdnd_negotiate_types
+internal ttdnd_start_transfer
+
+#ifdef OPT_XTHREADS
+/* Conditionally compiled routines in api/c/api_default.C. */
+internalC++ _tt_feature_enabled(tt_feature)
+internalC++ _tt_feature_required(tt_feature)
+internalC++ _tt_thread_procid(void)
+internalC++ _tt_thread_procid_set(const char*)
+internalC++ _tt_thread_session(void)
+internalC++ _tt_thread_session_set(const char*)
+#endif
+
+internalC++ _TtDtProcid::_TtDtProcid(const char*,const char*,const char*)
+internalC++ _TtDtProcid::pats_create(_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*),_WidgetRec*,void*) const
+internalC++ _TtDtProcid::~_TtDtProcid(void)
+internalC++ _Tt_api_callback::_Tt_api_callback(void)
+internalC++ _Tt_api_callback::print(FILE*) const
+internalC++ _Tt_api_callback::~_Tt_api_callback(void)
+internalC++ _Tt_api_callback_list::_Tt_api_callback_list(void)
+internalC++ _Tt_api_callback_list::xdr(XDR*)
+internalC++ _Tt_api_callback_list::~_Tt_api_callback_list(void)
+internalC++ _Tt_api_callback_list_cursor::~_Tt_api_callback_list_cursor(void)
+internalC++ _Tt_api_callback_list_maker(void)
+internalC++ _Tt_api_callback_list_ptr::_Tt_api_callback_list_ptr(void)
+internalC++ _Tt_api_callback_list_ptr::xdr(XDR*)
+internalC++ _Tt_api_callback_list_ptr::~_Tt_api_callback_list_ptr(void)
+internalC++ _Tt_api_callback_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_api_callback_maker(void)
+internalC++ _Tt_api_callback_ptr::_Tt_api_callback_ptr(void)
+internalC++ _Tt_api_callback_ptr::xdr(XDR*)
+internalC++ _Tt_api_callback_ptr::~_Tt_api_callback_ptr(void)
+internalC++ _Tt_api_callback_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_api_filename_map::canonical_path_val(void)
+internalC++ _Tt_api_filename_map::hostname_val(void)
+internalC++ _Tt_api_filename_map::lpath_val(void)
+internalC++ _Tt_api_filename_map::parse_netfilename(const _Tt_string&)
+internalC++ _Tt_api_filename_map::rpath_val(void)
+internalC++ _Tt_api_filename_map::set_filename(const _Tt_string&)
+internalC++ _Tt_api_filename_map_maker(void)
+internalC++ _Tt_api_filename_map_ptr::_Tt_api_filename_map_ptr(void)
+internalC++ _Tt_api_filename_map_ptr::xdr(XDR*)
+internalC++ _Tt_api_filename_map_ptr::~_Tt_api_filename_map_ptr(void)
+internalC++ _Tt_api_filename_map_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_api_handle::_Tt_api_handle(void)
+internalC++ _Tt_api_handle::add_callback(tt_callback_action (*)(_Tt_message_handle*,_Tt_pattern_handle*))
+internalC++ _Tt_api_handle::fetch(int)
+internalC++ _Tt_api_handle::mptr(void)
+internalC++ _Tt_api_handle::pptr(void)
+internalC++ _Tt_api_handle::print(FILE*) const
+internalC++ _Tt_api_handle::ptr_set(_Tt_c_message_ptr)
+internalC++ _Tt_api_handle::ptr_set(_Tt_pattern_ptr)
+internalC++ _Tt_api_handle::run_callbacks(_Tt_message_handle*,_Tt_pattern_handle*)
+internalC++ _Tt_api_handle::store(int,void*)
+internalC++ _Tt_api_handle::~_Tt_api_handle(void)
+internalC++ _Tt_api_handle_list::_Tt_api_handle_list(void)
+internalC++ _Tt_api_handle_list::xdr(XDR*)
+internalC++ _Tt_api_handle_list::~_Tt_api_handle_list(void)
+internalC++ _Tt_api_handle_list_cursor::~_Tt_api_handle_list_cursor(void)
+internalC++ _Tt_api_handle_list_maker(void)
+internalC++ _Tt_api_handle_list_ptr::_Tt_api_handle_list_ptr(void)
+internalC++ _Tt_api_handle_list_ptr::xdr(XDR*)
+internalC++ _Tt_api_handle_list_ptr::~_Tt_api_handle_list_ptr(void)
+internalC++ _Tt_api_handle_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_api_handle_maker(void)
+internalC++ _Tt_api_handle_ptr::_Tt_api_handle_ptr(void)
+internalC++ _Tt_api_handle_ptr::xdr(XDR*)
+internalC++ _Tt_api_handle_ptr::~_Tt_api_handle_ptr(void)
+internalC++ _Tt_api_handle_table::_Tt_api_handle_table(void)
+internalC++ _Tt_api_handle_table::add_callback(_Tt_message_handle*,tt_callback_action (*)(_Tt_message_handle*,_Tt_pattern_handle*))
+internalC++ _Tt_api_handle_table::add_callback(_Tt_pattern_handle*,tt_callback_action (*)(_Tt_message_handle*,_Tt_pattern_handle*))
+internalC++ _Tt_api_handle_table::clear(_Tt_c_message_ptr)
+internalC++ _Tt_api_handle_table::clear(_Tt_message_handle*)
+internalC++ _Tt_api_handle_table::clear(_Tt_pattern_handle*)
+internalC++ _Tt_api_handle_table::clear(_Tt_pattern_ptr)
+internalC++ _Tt_api_handle_table::fetch(_Tt_message_handle*,int)
+internalC++ _Tt_api_handle_table::fetch(_Tt_pattern_handle*,int)
+internalC++ _Tt_api_handle_table::lookup_mhandle(_Tt_c_message_ptr)
+internalC++ _Tt_api_handle_table::lookup_msg(_Tt_message_handle*)
+internalC++ _Tt_api_handle_table::lookup_pat(_Tt_pattern_handle*)
+internalC++ _Tt_api_handle_table::lookup_pat_by_id(_Tt_string,_Tt_pattern_handle*&)
+internalC++ _Tt_api_handle_table::lookup_phandle(_Tt_pattern_ptr)
+internalC++ _Tt_api_handle_table::run_message_callbacks(_Tt_message_handle*,_Tt_pattern_handle*)
+internalC++ _Tt_api_handle_table::run_pattern_callbacks(_Tt_pattern_handle*,_Tt_message_handle*)
+internalC++ _Tt_api_handle_table::store(_Tt_message_handle*,int,void*)
+internalC++ _Tt_api_handle_table::store(_Tt_pattern_handle*,int,void*)
+internalC++ _Tt_api_handle_table::~_Tt_api_handle_table(void)
+internalC++ _Tt_api_handle_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_api_spec_map_ref::_Tt_api_spec_map_ref(void)
+internalC++ _Tt_api_spec_map_ref::addSpec(_Tt_objid_spec_ptr)
+internalC++ _Tt_api_spec_map_ref::apiSpecKey(_Tt_object_ptr&)
+internalC++ _Tt_api_spec_map_ref::apiSpecMapP
+internalC++ _Tt_api_spec_map_ref::deleteSpec(_Tt_string)
+internalC++ _Tt_api_spec_map_ref::flush(void)
+internalC++ _Tt_api_spec_map_ref::getSpec(_Tt_string)
+internalC++ _Tt_api_spec_map_ref::~_Tt_api_spec_map_ref(void)
+internalC++ _Tt_api_stg_stack::_Tt_api_stg_stack(void)
+internalC++ _Tt_api_stg_stack::free(char*)
+internalC++ _Tt_api_stg_stack::malloc(size_t)
+internalC++ _Tt_api_stg_stack::mark(void)
+internalC++ _Tt_api_stg_stack::release(int)
+internalC++ _Tt_api_stg_stack::take(char*)
+internalC++ _Tt_api_stg_stack::~_Tt_api_stg_stack(void)
+internalC++ _Tt_api_stg_stack_elm::print(FILE*) const
+internalC++ _Tt_api_stg_stack_elm::~_Tt_api_stg_stack_elm(void)
+internalC++ _Tt_api_stg_stack_elm_list::_Tt_api_stg_stack_elm_list(void)
+internalC++ _Tt_api_stg_stack_elm_list::xdr(XDR*)
+internalC++ _Tt_api_stg_stack_elm_list::~_Tt_api_stg_stack_elm_list(void)
+internalC++ _Tt_api_stg_stack_elm_list_cursor::~_Tt_api_stg_stack_elm_list_cursor(void)
+internalC++ _Tt_api_stg_stack_elm_list_maker(void)
+internalC++ _Tt_api_stg_stack_elm_list_ptr::_Tt_api_stg_stack_elm_list_ptr(void)
+internalC++ _Tt_api_stg_stack_elm_list_ptr::xdr(XDR*)
+internalC++ _Tt_api_stg_stack_elm_list_ptr::~_Tt_api_stg_stack_elm_list_ptr(void)
+internalC++ _Tt_api_stg_stack_elm_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_api_stg_stack_elm_maker(void)
+internalC++ _Tt_api_stg_stack_elm_ptr::_Tt_api_stg_stack_elm_ptr(void)
+internalC++ _Tt_api_stg_stack_elm_ptr::xdr(XDR*)
+internalC++ _Tt_api_stg_stack_elm_ptr::~_Tt_api_stg_stack_elm_ptr(void)
+internalC++ _Tt_api_stg_stack_elm_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_api_stg_stack_maker(void)
+internalC++ _Tt_api_stg_stack_ptr::_Tt_api_stg_stack_ptr(void)
+internalC++ _Tt_api_stg_stack_ptr::xdr(XDR*)
+internalC++ _Tt_api_stg_stack_ptr::~_Tt_api_stg_stack_ptr(void)
+internalC++ _Tt_api_stg_stack_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_api_userdata::_Tt_api_userdata(void)
+internalC++ _Tt_api_userdata::print(FILE*) const
+internalC++ _Tt_api_userdata::~_Tt_api_userdata(void)
+internalC++ _Tt_api_userdata_list::_Tt_api_userdata_list(void)
+internalC++ _Tt_api_userdata_list::xdr(XDR*)
+internalC++ _Tt_api_userdata_list::~_Tt_api_userdata_list(void)
+internalC++ _Tt_api_userdata_list_cursor::~_Tt_api_userdata_list_cursor(void)
+internalC++ _Tt_api_userdata_list_maker(void)
+internalC++ _Tt_api_userdata_list_ptr::_Tt_api_userdata_list_ptr(void)
+internalC++ _Tt_api_userdata_list_ptr::xdr(XDR*)
+internalC++ _Tt_api_userdata_list_ptr::~_Tt_api_userdata_list_ptr(void)
+internalC++ _Tt_api_userdata_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_api_userdata_maker(void)
+internalC++ _Tt_api_userdata_ptr::_Tt_api_userdata_ptr(void)
+internalC++ _Tt_api_userdata_ptr::xdr(XDR*)
+internalC++ _Tt_api_userdata_ptr::~_Tt_api_userdata_ptr(void)
+internalC++ _Tt_api_userdata_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_arg::_Tt_arg(const _Tt_arg&)
+internalC++ _Tt_arg::_Tt_arg(const _Tt_string&)
+internalC++ _Tt_arg::_Tt_arg(const char*)
+internalC++ _Tt_arg::_Tt_arg(tt_mode,_Tt_string&)
+internalC++ _Tt_arg::constructor_common(void)
+internalC++ _Tt_arg::data_int(int&) const
+internalC++ _Tt_arg::print(const _Tt_ostream&) const
+internalC++ _Tt_arg::set_data_int(int)
+internalC++ _Tt_arg::set_data_string(const _Tt_string&)
+internalC++ _Tt_arg::update_value(const _Tt_arg&)
+internalC++ _Tt_arg::xdr(XDR*)
+internalC++ _Tt_arg_list::xdr(XDR*)
+internalC++ _Tt_arg_list::~_Tt_arg_list(void)
+internalC++ _Tt_arg_list_maker(void)
+internalC++ _Tt_arg_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_arg_maker(void)
+internalC++ _Tt_arg_ptr::xdr(XDR*)
+internalC++ _Tt_arg_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_auth::read_auth_file(char*)
+internalC++ _Tt_auth::write_auth_file(char*)
+internalC++ _Tt_auth::modify_auth_entry(_tt_AuthFileEntry*,_tt_AuthFileEntryList**)
+internalC++ _Tt_auth::read_auth_entries(FILE*,_tt_AuthFileEntryList**)
+internalC++ _Tt_audit::entry(char*,_Tt_entry_pt ...)
+internalC++ _Tt_c_file::_Tt_c_file(_Tt_string)
+internalC++ _Tt_c_file::_Tt_c_file(void)
+internalC++ _Tt_c_file::c_join(_Tt_procid_ptr&)
+internalC++ _Tt_c_file::c_quit(_Tt_procid_ptr&)
+internalC++ _Tt_c_file::process_message_queue(int)
+internalC++ _Tt_c_file::~_Tt_c_file(void)
+internalC++ _Tt_c_file_maker(void)
+internalC++ _Tt_c_file_ptr::_Tt_c_file_ptr(void)
+internalC++ _Tt_c_file_ptr::xdr(XDR*)
+internalC++ _Tt_c_file_ptr::~_Tt_c_file_ptr(void)
+internalC++ _Tt_c_file_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_c_message::_Tt_c_message(void)
+internalC++ _Tt_c_message::_rpc_dispatch(void) const
+internalC++ _Tt_c_message::_rpc_dispatch_2(void) const
+internalC++ _Tt_c_message::dispatch(int)
+internalC++ _Tt_c_message::dispatch_file_scope_notification(_Tt_file_ptr&)
+internalC++ _Tt_c_message::dispatch_on_exit(void)
+internalC++ _Tt_c_message::is_a_diff(void)
+internalC++ _Tt_c_message::resolve(void)
+internalC++ _Tt_c_message::set_return_handler_flags(void)
+internalC++ _Tt_c_message::~_Tt_c_message(void)
+internalC++ _Tt_c_message_maker(void)
+internalC++ _Tt_c_message_ptr::_Tt_c_message_ptr(void)
+internalC++ _Tt_c_message_ptr::xdr(XDR*)
+internalC++ _Tt_c_message_ptr::~_Tt_c_message_ptr(void)
+internalC++ _Tt_c_message_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_c_mp::_Tt_c_mp(void)
+internalC++ _Tt_c_mp::c_init(void)
+internalC++ _Tt_c_mp::c_remove_procid(_Tt_procid_ptr&)
+internalC++ _Tt_c_mp::create_new_procid(void)
+internalC++ _Tt_c_mp::default_c_procid(void)
+internalC++ _Tt_c_mp::default_procid(void)
+internalC++ _Tt_c_mp::procid_count(void)
+internalC++ _Tt_c_mp::set_default_procid(_Tt_string,int)
+#ifdef OPT_XTHREADS
+internalC++ _Tt_c_mp::set_multithreaded(void)
+#endif
+internalC++ _Tt_c_mp::~_Tt_c_mp(void)
+internalC++ _Tt_c_msg_context::_Tt_c_msg_context(void)
+internalC++ _Tt_c_msg_context::c_join(_Tt_session&,_Tt_procid_ptr&)
+internalC++ _Tt_c_msg_context::c_quit(_Tt_session&,_Tt_procid_ptr&)
+internalC++ _Tt_c_msg_context::~_Tt_c_msg_context(void)
+internalC++ _Tt_c_msg_context_list::_Tt_c_msg_context_list(void)
+internalC++ _Tt_c_msg_context_list::xdr(XDR*)
+internalC++ _Tt_c_msg_context_list::~_Tt_c_msg_context_list(void)
+internalC++ _Tt_c_msg_context_list_cursor::~_Tt_c_msg_context_list_cursor(void)
+internalC++ _Tt_c_msg_context_list_maker(void)
+internalC++ _Tt_c_msg_context_list_ptr::_Tt_c_msg_context_list_ptr(void)
+internalC++ _Tt_c_msg_context_list_ptr::xdr(XDR*)
+internalC++ _Tt_c_msg_context_list_ptr::~_Tt_c_msg_context_list_ptr(void)
+internalC++ _Tt_c_msg_context_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_c_msg_context_maker(void)
+internalC++ _Tt_c_msg_context_ptr::_Tt_c_msg_context_ptr(void)
+internalC++ _Tt_c_msg_context_ptr::xdr(XDR*)
+internalC++ _Tt_c_msg_context_ptr::~_Tt_c_msg_context_ptr(void)
+internalC++ _Tt_c_msg_context_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_c_procid::_Tt_c_procid(const _Tt_string&)
+internalC++ _Tt_c_procid::_Tt_c_procid(void)
+internalC++ _Tt_c_procid::add_pattern(_Tt_pattern_ptr&)
+internalC++ _Tt_c_procid::api_in(_Tt_string&)
+internalC++ _Tt_c_procid::api_out(void)
+internalC++ _Tt_c_procid::clear_signal(void)
+internalC++ _Tt_c_procid::close(void)
+internalC++ _Tt_c_procid::commit(void)
+internalC++ _Tt_c_procid::declare_ptype(_Tt_string&)
+internalC++ _Tt_c_procid::default_session(void)
+internalC++ _Tt_c_procid::del_pattern(const _Tt_string&)
+internalC++ _Tt_c_procid::exists_ptype(_Tt_string&)
+internalC++ _Tt_c_procid::init(void)
+internalC++ _Tt_c_procid::load_types(_Tt_string&)
+internalC++ _Tt_c_procid::next_message(_Tt_c_message_ptr&)
+internalC++ _Tt_c_procid::set_default_file(const _Tt_string&)
+internalC++ _Tt_c_procid::set_default_ptype(_Tt_string&)
+internalC++ _Tt_c_procid::set_default_session(_Tt_string&)
+internalC++ _Tt_c_procid::set_fd_channel(int)
+internalC++ _Tt_c_procid::unblock_ptype(const _Tt_string&)
+internalC++ _Tt_c_procid::undeclare_ptype(_Tt_string&)
+internalC++ _Tt_c_procid::update_message(const _Tt_c_message_ptr&,tt_state)
+internalC++ _Tt_c_procid::~_Tt_c_procid(void)
+internalC++ _Tt_c_procid_maker(void)
+internalC++ _Tt_c_procid_ptr::_Tt_c_procid_ptr(void)
+internalC++ _Tt_c_procid_ptr::xdr(XDR*)
+internalC++ _Tt_c_procid_ptr::~_Tt_c_procid_ptr(void)
+internalC++ _Tt_c_procid_table::xdr(XDR*)
+internalC++ _Tt_c_procid_table::~_Tt_c_procid_table(void)
+internalC++ _Tt_c_procid_table_cursor::~_Tt_c_procid_table_cursor(void)
+internalC++ _Tt_c_procid_table_maker(void)
+internalC++ _Tt_c_procid_table_ptr::_Tt_c_procid_table_ptr(void)
+internalC++ _Tt_c_procid_table_ptr::xdr(XDR*)
+internalC++ _Tt_c_procid_table_ptr::~_Tt_c_procid_table_ptr(void)
+internalC++ _Tt_c_procid_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_c_procid_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_c_session::_Tt_c_session(void)
+internalC++ _Tt_c_session::c_addprop(_Tt_string,_Tt_string)
+internalC++ _Tt_c_session::c_getprop(_Tt_string,int,_Tt_string&)
+internalC++ _Tt_c_session::c_init(void)
+internalC++ _Tt_c_session::c_join(_Tt_procid_ptr&)
+internalC++ _Tt_c_session::c_propcount(_Tt_string,int&)
+internalC++ _Tt_c_session::c_propname(int,_Tt_string&)
+internalC++ _Tt_c_session::c_propnames_count(int&)
+internalC++ _Tt_c_session::c_quit(_Tt_procid_ptr&)
+internalC++ _Tt_c_session::c_setprop(_Tt_string,_Tt_string)
+internalC++ _Tt_c_session::startup_ttsession(_Tt_string&)
+internalC++ _Tt_c_session::~_Tt_c_session(void)
+internalC++ _Tt_c_session_maker(void)
+internalC++ _Tt_c_session_ptr::_Tt_c_session_ptr(void)
+internalC++ _Tt_c_session_ptr::xdr(XDR*)
+internalC++ _Tt_c_session_ptr::~_Tt_c_session_ptr(void)
+internalC++ _Tt_c_session_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_client_isam_file::_Tt_client_isam_file(const _Tt_string&,int,const _Tt_db_client_ptr&)
+#ifdef _AIX
+/* The AIX c++filt bungles this symbol. */
+internalC++ _Tt_client_isam_file::_Tt_client_isam_file(const _Tt_string&,int)T234_Tt_client_isam_key_descriptor_ptrT2RC17_Tt_db_client_ptr
+#else
+internalC++ _Tt_client_isam_file::_Tt_client_isam_file(const _Tt_string&,int,int,_Tt_client_isam_key_descriptor_ptr,int,const _Tt_db_client_ptr&)
+#endif
+internalC++ _Tt_client_isam_file::addIndex(_Tt_client_isam_key_descriptor_ptr)
+internalC++ _Tt_client_isam_file::deleteRecord(long,const _Tt_client_isam_record_ptr&)
+internalC++ _Tt_client_isam_file::findStartRecord(const _Tt_client_isam_key_descriptor_ptr&,int,const _Tt_client_isam_record_ptr&,int)
+internalC++ _Tt_client_isam_file::getEmptyRecord(void)
+internalC++ _Tt_client_isam_file::getFullRecord(const _Tt_string&)
+internalC++ _Tt_client_isam_file::getISAMFileInfo(void)
+internalC++ _Tt_client_isam_file::readMagicString(void)
+internalC++ _Tt_client_isam_file::readRecord(int)
+internalC++ _Tt_client_isam_file::readRecord(int,const _Tt_client_isam_record_ptr&)
+internalC++ _Tt_client_isam_file::setErase(int)
+internalC++ _Tt_client_isam_file::setTtISAMFileDefaults(void)
+internalC++ _Tt_client_isam_file::updateRecord(long,const _Tt_client_isam_record_ptr&)
+internalC++ _Tt_client_isam_file::writeMagicString(const _Tt_string&)
+internalC++ _Tt_client_isam_file::writeRecord(const _Tt_client_isam_record_ptr&)
+internalC++ _Tt_client_isam_file::~_Tt_client_isam_file(void)
+internalC++ _Tt_client_isam_file_maker(void)
+internalC++ _Tt_client_isam_file_ptr::_Tt_client_isam_file_ptr(void)
+internalC++ _Tt_client_isam_file_ptr::xdr(XDR*)
+internalC++ _Tt_client_isam_file_ptr::~_Tt_client_isam_file_ptr(void)
+internalC++ _Tt_client_isam_file_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_client_isam_key_descriptor::_Tt_client_isam_key_descriptor(void)
+internalC++ _Tt_client_isam_key_descriptor::addKeyPart(short,short,short)
+internalC++ _Tt_client_isam_key_descriptor::getKeyPart(short,short&,short&,short&) const
+internalC++ _Tt_client_isam_key_descriptor::setKeyPart(short,short,short,short)
+internalC++ _Tt_client_isam_key_descriptor::~_Tt_client_isam_key_descriptor(void)
+internalC++ _Tt_client_isam_key_descriptor_list::_Tt_client_isam_key_descriptor_list(void)
+internalC++ _Tt_client_isam_key_descriptor_list::xdr(XDR*)
+internalC++ _Tt_client_isam_key_descriptor_list::~_Tt_client_isam_key_descriptor_list(void)
+internalC++ _Tt_client_isam_key_descriptor_list_cursor::~_Tt_client_isam_key_descriptor_list_cursor(void)
+internalC++ _Tt_client_isam_key_descriptor_list_maker(void)
+internalC++ _Tt_client_isam_key_descriptor_list_ptr::_Tt_client_isam_key_descriptor_list_ptr(void)
+internalC++ _Tt_client_isam_key_descriptor_list_ptr::xdr(XDR*)
+internalC++ _Tt_client_isam_key_descriptor_list_ptr::~_Tt_client_isam_key_descriptor_list_ptr(void)
+internalC++ _Tt_client_isam_key_descriptor_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_client_isam_key_descriptor_maker(void)
+internalC++ _Tt_client_isam_key_descriptor_ptr::_Tt_client_isam_key_descriptor_ptr(void)
+internalC++ _Tt_client_isam_key_descriptor_ptr::xdr(XDR*)
+internalC++ _Tt_client_isam_key_descriptor_ptr::~_Tt_client_isam_key_descriptor_ptr(void)
+internalC++ _Tt_client_isam_key_descriptor_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_client_isam_record::_Tt_client_isam_record(const _Tt_client_isam_key_descriptor_list_ptr&,int,int)
+internalC++ _Tt_client_isam_record::getBytes(int,int) const
+internalC++ _Tt_client_isam_record::getKeyDescriptor(int) const
+internalC++ _Tt_client_isam_record::getKeyPartValue(int,int) const
+internalC++ _Tt_client_isam_record::getNumberOfKeys(void) const
+internalC++ _Tt_client_isam_record::setBytes(int,const _Tt_string&)
+internalC++ _Tt_client_isam_record::setBytes(int,int,const _Tt_string&)
+internalC++ _Tt_client_isam_record::setKeyPartValue(int,int,const _Tt_string&)
+internalC++ _Tt_client_isam_record::~_Tt_client_isam_record(void)
+internalC++ _Tt_client_isam_record_list::_Tt_client_isam_record_list(void)
+internalC++ _Tt_client_isam_record_list::xdr(XDR*)
+internalC++ _Tt_client_isam_record_list::~_Tt_client_isam_record_list(void)
+internalC++ _Tt_client_isam_record_list_cursor::~_Tt_client_isam_record_list_cursor(void)
+internalC++ _Tt_client_isam_record_list_maker(void)
+internalC++ _Tt_client_isam_record_list_ptr::_Tt_client_isam_record_list_ptr(void)
+internalC++ _Tt_client_isam_record_list_ptr::xdr(XDR*)
+internalC++ _Tt_client_isam_record_list_ptr::~_Tt_client_isam_record_list_ptr(void)
+internalC++ _Tt_client_isam_record_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_client_isam_record_maker(void)
+internalC++ _Tt_client_isam_record_ptr::_Tt_client_isam_record_ptr(void)
+internalC++ _Tt_client_isam_record_ptr::xdr(XDR*)
+internalC++ _Tt_client_isam_record_ptr::~_Tt_client_isam_record_ptr(void)
+internalC++ _Tt_client_isam_record_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_context::_Tt_context(const _Tt_context&)
+internalC++ _Tt_context::print(const _Tt_ostream&) const
+internalC++ _Tt_context::xdr(XDR*)
+internalC++ _Tt_context::~_Tt_context(void)
+internalC++ _Tt_context_list::xdr(XDR*)
+internalC++ _Tt_context_list::~_Tt_context_list(void)
+internalC++ _Tt_context_list_maker(void)
+internalC++ _Tt_context_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_context_maker(void)
+internalC++ _Tt_context_ptr::_Tt_context_ptr(void)
+internalC++ _Tt_context_ptr::xdr(XDR*)
+internalC++ _Tt_context_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_access::~_Tt_db_access(void)
+internalC++ _Tt_db_access_maker(void)
+internalC++ _Tt_db_access_ptr::xdr(XDR*)
+internalC++ _Tt_db_access_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_client::SetError(clnt_stat)
+internalC++ _Tt_db_client::_Tt_db_client(_Tt_db_results&)
+internalC++ _Tt_db_client::_Tt_db_client(const _Tt_string&,_Tt_db_results&)
+internalC++ _Tt_db_client::addFileProperty(const _Tt_string&,const _Tt_db_property_ptr&,int,int&)
+internalC++ _Tt_db_client::addObjectProperty(const _Tt_string&,const _Tt_db_property_ptr&,int,_Tt_db_property_list_ptr&,int&)
+internalC++ _Tt_db_client::addsession(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_db_client::connectToDB(const _Tt_string&)
+internalC++ _Tt_db_client::createAuth(void)
+internalC++ _Tt_db_client::createFile(const _Tt_string&,const _Tt_db_property_list_ptr&,const _Tt_db_access_ptr&,int&)
+internalC++ _Tt_db_client::createObject(const _Tt_string&,const _Tt_string&,const _Tt_string&,const _Tt_db_property_list_ptr&,const _Tt_db_access_ptr&,int&)
+internalC++ _Tt_db_client::deleteFileProperty(const _Tt_string&,const _Tt_db_property_ptr&,int&)
+internalC++ _Tt_db_client::deleteObjectProperty(const _Tt_string&,const _Tt_db_property_ptr&,_Tt_db_property_list_ptr&,int&)
+internalC++ _Tt_db_client::delsession(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_db_client::dequeueMessages(const _Tt_string&,const _Tt_string_list_ptr&,_Tt_message_list_ptr&)
+internalC++ _Tt_db_client::file_netfile(const _Tt_string&,_Tt_string&)
+internalC++ _Tt_db_client::getCurrentAccess(void) const
+internalC++ _Tt_db_client::getFileAccess(const _Tt_string&,_Tt_db_access_ptr&)
+internalC++ _Tt_db_client::getFileObjects(const _Tt_string&,int&,_Tt_string_list_ptr&)
+internalC++ _Tt_db_client::getFilePartition(const _Tt_string&,_Tt_string&,_Tt_string&)
+internalC++ _Tt_db_client::getFileProperties(const _Tt_string&,int&,_Tt_db_property_list_ptr&)
+internalC++ _Tt_db_client::getFileProperty(const _Tt_string&,const _Tt_string&,int&,_Tt_db_property_ptr&)
+internalC++ _Tt_db_client::getObjectAccess(const _Tt_string&,_Tt_db_access_ptr&)
+internalC++ _Tt_db_client::getObjectFile(const _Tt_string&,_Tt_string&)
+internalC++ _Tt_db_client::getObjectProperties(const _Tt_string&,int&,_Tt_db_property_list_ptr&)
+internalC++ _Tt_db_client::getObjectProperty(const _Tt_string&,const _Tt_string&,int&,_Tt_db_property_ptr&)
+internalC++ _Tt_db_client::getObjectType(const _Tt_string&,_Tt_string&)
+internalC++ _Tt_db_client::gettype(const _Tt_string&,_Tt_string&)
+internalC++ _Tt_db_client::isFileInDatabase(const _Tt_string&,int&)
+internalC++ _Tt_db_client::isObjectInDatabase(const _Tt_string&,_Tt_string&)
+internalC++ _Tt_db_client::isaddindex(int,keydesc*)
+internalC++ _Tt_db_client::isbuild(char*,int,keydesc*,int)
+internalC++ _Tt_db_client::isclose(int)
+internalC++ _Tt_db_client::iscntl(int,int,char*)
+internalC++ _Tt_db_client::isdelrec(int,long,char*)
+internalC++ _Tt_db_client::iserase(char*)
+internalC++ _Tt_db_client::isopen(char*,int)
+internalC++ _Tt_db_client::isread(int,char*,int)
+internalC++ _Tt_db_client::isrewrec(int,long,char*)
+internalC++ _Tt_db_client::isstart(int,keydesc*,int,char*,int)
+internalC++ _Tt_db_client::iswrite(int,char*)
+internalC++ _Tt_db_client::mfs(const _Tt_string&)
+internalC++ _Tt_db_client::moveFile(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_db_client::netfile_file(const _Tt_string&,_Tt_string&)
+internalC++ _Tt_db_client::oldDBToNewDBResults(_Tt_old_db_results)
+internalC++ _Tt_db_client::queueMessage(const _Tt_string&,const _Tt_string_list_ptr&,const _Tt_message_ptr&)
+internalC++ _Tt_db_client::removeFile(const _Tt_string&)
+internalC++ _Tt_db_client::removeObject(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_db_client::setCurrentAccess(const _Tt_db_access_ptr&)
+internalC++ _Tt_db_client::setFileAccess(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_db_client::setFileProperties(const _Tt_string&,const _Tt_db_property_list_ptr&,int&)
+internalC++ _Tt_db_client::setFileProperty(const _Tt_string&,const _Tt_db_property_ptr&,int&)
+internalC++ _Tt_db_client::setObjectAccess(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_db_client::setObjectFile(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_db_client::setObjectProperties(const _Tt_string&,const _Tt_db_property_list_ptr&,_Tt_db_property_list_ptr&,int&)
+internalC++ _Tt_db_client::setObjectProperty(const _Tt_string&,const _Tt_db_property_ptr&,_Tt_db_property_list_ptr&,int&)
+internalC++ _Tt_db_client::setObjectType(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_db_client::setTtDBDefaults(void)
+internalC++ _Tt_db_client_list::_Tt_db_client_list(void)
+internalC++ _Tt_db_client_list::xdr(XDR*)
+internalC++ _Tt_db_client_list::~_Tt_db_client_list(void)
+internalC++ _Tt_db_client_list_cursor::~_Tt_db_client_list_cursor(void)
+internalC++ _Tt_db_client_list_maker(void)
+internalC++ _Tt_db_client_list_ptr::_Tt_db_client_list_ptr(void)
+internalC++ _Tt_db_client_list_ptr::xdr(XDR*)
+internalC++ _Tt_db_client_list_ptr::~_Tt_db_client_list_ptr(void)
+internalC++ _Tt_db_client_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_client_maker(void)
+internalC++ _Tt_db_client_ptr::xdr(XDR*)
+internalC++ _Tt_db_client_table::xdr(XDR*)
+internalC++ _Tt_db_client_table::~_Tt_db_client_table(void)
+internalC++ _Tt_db_client_table_cursor::~_Tt_db_client_table_cursor(void)
+internalC++ _Tt_db_client_table_maker(void)
+internalC++ _Tt_db_client_table_ptr::_Tt_db_client_table_ptr(void)
+internalC++ _Tt_db_client_table_ptr::xdr(XDR*)
+internalC++ _Tt_db_client_table_ptr::~_Tt_db_client_table_ptr(void)
+internalC++ _Tt_db_client_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_client_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_file::_Tt_db_file(const _Tt_string&)
+internalC++ _Tt_db_file::_Tt_db_file(const _Tt_string&,const _Tt_db_property_list_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_db_file::_Tt_db_file(void)
+internalC++ _Tt_db_file::addProperty(const _Tt_db_property_ptr&,int)
+internalC++ _Tt_db_file::addSession(const _Tt_string&)
+internalC++ _Tt_db_file::copy(const _Tt_string&)
+internalC++ _Tt_db_file::createDBFile(void)
+internalC++ _Tt_db_file::deleteProperty(const _Tt_db_property_ptr&)
+internalC++ _Tt_db_file::deleteSession(const _Tt_string&)
+internalC++ _Tt_db_file::dequeueMessages(const _Tt_string_list_ptr&,_Tt_message_list_ptr&)
+internalC++ _Tt_db_file::getAccess(void)
+internalC++ _Tt_db_file::getCurrentAccess(void) const
+internalC++ _Tt_db_file::getHostname(void)
+internalC++ _Tt_db_file::getNetworkPath(const _Tt_string&)
+internalC++ _Tt_db_file::getObjects(void)
+internalC++ _Tt_db_file::getProperties(void)
+internalC++ _Tt_db_file::getProperty(const _Tt_string&)
+internalC++ _Tt_db_file::getSessions(void)
+internalC++ _Tt_db_file::isFileInDatabase(void)
+internalC++ _Tt_db_file::move(const _Tt_string&)
+internalC++ _Tt_db_file::processDBResults(void)
+internalC++ _Tt_db_file::queueMessage(const _Tt_string_list_ptr&,const _Tt_message_ptr&)
+internalC++ _Tt_db_file::remove(void)
+internalC++ _Tt_db_file::setAccess(const _Tt_db_access_ptr&)
+internalC++ _Tt_db_file::setCurrentAccess(const _Tt_db_access_ptr&)
+internalC++ _Tt_db_file::setProperties(const _Tt_db_property_list_ptr&)
+internalC++ _Tt_db_file::setProperty(const _Tt_db_property_ptr&)
+internalC++ _Tt_db_file::setTtDBFileDefaults(const _Tt_string&,const _Tt_db_property_list_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_db_file::~_Tt_db_file(void)
+internalC++ _Tt_db_file_maker(void)
+internalC++ _Tt_db_file_ptr::_Tt_db_file_ptr(void)
+internalC++ _Tt_db_file_ptr::xdr(XDR*)
+internalC++ _Tt_db_file_ptr::~_Tt_db_file_ptr(void)
+internalC++ _Tt_db_file_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_hostname_global_map_ref::_Tt_db_hostname_global_map_ref(void)
+internalC++ _Tt_db_hostname_global_map_ref::addDB(_Tt_db_client_ptr&)
+internalC++ _Tt_db_hostname_global_map_ref::dbHostnameMap
+internalC++ _Tt_db_hostname_global_map_ref::dbHostnameMapKey(_Tt_object_ptr&)
+internalC++ _Tt_db_hostname_global_map_ref::flush(void)
+internalC++ _Tt_db_hostname_global_map_ref::getDB(const _Tt_string&,_Tt_string&,_Tt_db_results&)
+internalC++ _Tt_db_hostname_global_map_ref::removeDB(const _Tt_string&)
+internalC++ _Tt_db_hostname_global_map_ref::~_Tt_db_hostname_global_map_ref(void)
+internalC++ _Tt_db_hostname_redirection_map::_Tt_db_hostname_redirection_map(void)
+internalC++ _Tt_db_hostname_redirection_map::findEntry(const _Tt_string&)
+internalC++ _Tt_db_hostname_redirection_map::refresh(void)
+internalC++ _Tt_db_hostname_redirection_map::~_Tt_db_hostname_redirection_map(void)
+internalC++ _Tt_db_key::~_Tt_db_key(void)
+internalC++ _Tt_db_key_maker(void)
+internalC++ _Tt_db_key_ptr::xdr(XDR*)
+internalC++ _Tt_db_key_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_object::_Tt_db_object(const _Tt_string&)
+internalC++ _Tt_db_object::copy(const _Tt_string&)
+internalC++ _Tt_db_object::create(const _Tt_string&)
+internalC++ _Tt_db_object::createDBObject(void)
+internalC++ _Tt_db_object::createMemoryObject(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_db_object::deleteProperty(const _Tt_db_property_ptr&)
+internalC++ _Tt_db_object::getCurrentAccess(void) const
+internalC++ _Tt_db_object::getDBObjectHostnameFromID(void)
+internalC++ _Tt_db_object::getFile(void)
+internalC++ _Tt_db_object::getObjectKey(void) const
+internalC++ _Tt_db_object::getProperties(void)
+internalC++ _Tt_db_object::getProperty(const _Tt_string&)
+internalC++ _Tt_db_object::getType(void)
+internalC++ _Tt_db_object::internalRefresh(void)
+internalC++ _Tt_db_object::isObjectInDatabase(int)
+internalC++ _Tt_db_object::makeEquivalentObjectID(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_db_object::move(const _Tt_string&)
+internalC++ _Tt_db_object::processDBResults(void)
+internalC++ _Tt_db_object::refresh(void)
+internalC++ _Tt_db_object::remove(const _Tt_string&)
+internalC++ _Tt_db_object::setCurrentAccess(const _Tt_db_access_ptr&)
+internalC++ _Tt_db_object::setObjectID(const _Tt_string&)
+internalC++ _Tt_db_object::setProperties(const _Tt_db_property_list_ptr&)
+internalC++ _Tt_db_object::setProperty(const _Tt_db_property_ptr&)
+internalC++ _Tt_db_object::setTtDBObjectDefaults(void)
+internalC++ _Tt_db_object::~_Tt_db_object(void)
+internalC++ _Tt_db_object_list::_Tt_db_object_list(void)
+internalC++ _Tt_db_object_list::xdr(XDR*)
+internalC++ _Tt_db_object_list::~_Tt_db_object_list(void)
+internalC++ _Tt_db_object_list_cursor::~_Tt_db_object_list_cursor(void)
+internalC++ _Tt_db_object_list_maker(void)
+internalC++ _Tt_db_object_list_ptr::_Tt_db_object_list_ptr(void)
+internalC++ _Tt_db_object_list_ptr::xdr(XDR*)
+internalC++ _Tt_db_object_list_ptr::~_Tt_db_object_list_ptr(void)
+internalC++ _Tt_db_object_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_object_maker(void)
+internalC++ _Tt_db_object_ptr::_Tt_db_object_ptr(void)
+internalC++ _Tt_db_object_ptr::xdr(XDR*)
+internalC++ _Tt_db_object_table::xdr(XDR*)
+internalC++ _Tt_db_object_table::~_Tt_db_object_table(void)
+internalC++ _Tt_db_object_table_cursor::~_Tt_db_object_table_cursor(void)
+internalC++ _Tt_db_object_table_maker(void)
+internalC++ _Tt_db_object_table_ptr::_Tt_db_object_table_ptr(void)
+internalC++ _Tt_db_object_table_ptr::xdr(XDR*)
+internalC++ _Tt_db_object_table_ptr::~_Tt_db_object_table_ptr(void)
+internalC++ _Tt_db_object_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_object_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_property::~_Tt_db_property(void)
+internalC++ _Tt_db_property_list::xdr(XDR*)
+internalC++ _Tt_db_property_list::~_Tt_db_property_list(void)
+internalC++ _Tt_db_property_list_maker(void)
+internalC++ _Tt_db_property_list_ptr::xdr(XDR*)
+internalC++ _Tt_db_property_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_db_property_maker(void)
+internalC++ _Tt_db_property_ptr::xdr(XDR*)
+internalC++ _Tt_db_property_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_desktop::close(void)
+internalC++ _Tt_desktop::del_prop(_Tt_string)
+internalC++ _Tt_desktop::get_prop(_Tt_string,_Tt_string&)
+internalC++ _Tt_desktop::io_error_proc(void*)
+internalC++ _Tt_desktop::io_exception
+internalC++ _Tt_desktop::lock(void)
+internalC++ _Tt_desktop::process_event(void)
+internalC++ _Tt_desktop::restore_user_handler(void)
+internalC++ _Tt_desktop::session_name(_Tt_string)
+internalC++ _Tt_desktop::unlock(void)
+internalC++ _Tt_desktop::~_Tt_desktop(void)
+internalC++ _Tt_desktop_lock::_Tt_desktop_lock(void)
+internalC++ _Tt_desktop_lock::~_Tt_desktop_lock(void)
+internalC++ _Tt_desktop_lock_maker(void)
+internalC++ _Tt_desktop_lock_ptr::xdr(XDR*)
+internalC++ _Tt_desktop_lock_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_desktop_maker(void)
+internalC++ _Tt_desktop_ptr::_Tt_desktop_ptr(void)
+internalC++ _Tt_desktop_ptr::xdr(XDR*)
+internalC++ _Tt_desktop_ptr::~_Tt_desktop_ptr(void)
+internalC++ _Tt_desktop_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_file::_Tt_file(const _Tt_string&)
+internalC++ _Tt_file::_Tt_file(void)
+internalC++ _Tt_file::query(tt_filter_action (*)(tt_filter_action (*)(const char*,void*,void*),_Tt_string,void*,void*),tt_filter_action (*)(const char*,void*,void*),void*,void*)
+internalC++ _Tt_file::~_Tt_file(void)
+internalC++ _Tt_file_list::_Tt_file_list(void)
+internalC++ _Tt_file_list::xdr(XDR*)
+internalC++ _Tt_file_list::~_Tt_file_list(void)
+internalC++ _Tt_file_list_cursor::~_Tt_file_list_cursor(void)
+internalC++ _Tt_file_list_maker(void)
+internalC++ _Tt_file_list_ptr::_Tt_file_list_ptr(void)
+internalC++ _Tt_file_list_ptr::xdr(XDR*)
+internalC++ _Tt_file_list_ptr::~_Tt_file_list_ptr(void)
+internalC++ _Tt_file_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_file_maker(void)
+internalC++ _Tt_file_ptr::_Tt_file_ptr(void)
+internalC++ _Tt_file_ptr::xdr(XDR*)
+internalC++ _Tt_file_ptr::~_Tt_file_ptr(void)
+internalC++ _Tt_file_system::findBestMountPoint(_Tt_string&,int&,_Tt_string&)
+internalC++ _Tt_file_system::findMountEntry(const _Tt_string&)
+internalC++ _Tt_file_system::flush(void)
+internalC++ _Tt_file_system::lastMountTime
+internalC++ _Tt_file_system::updateFileSystemEntries(void)
+internalC++ _Tt_file_system_entry::_Tt_file_system_entry(const _Tt_string&,const _Tt_string&,const _Tt_string&,int,int)
+internalC++ _Tt_file_system_entry::_Tt_file_system_entry(void)
+internalC++ _Tt_file_system_entry::~_Tt_file_system_entry(void)
+internalC++ _Tt_file_system_entry_list::_Tt_file_system_entry_list(void)
+internalC++ _Tt_file_system_entry_list::xdr(XDR*)
+internalC++ _Tt_file_system_entry_list::~_Tt_file_system_entry_list(void)
+internalC++ _Tt_file_system_entry_list_cursor::~_Tt_file_system_entry_list_cursor(void)
+internalC++ _Tt_file_system_entry_list_maker(void)
+internalC++ _Tt_file_system_entry_list_ptr::_Tt_file_system_entry_list_ptr(void)
+internalC++ _Tt_file_system_entry_list_ptr::xdr(XDR*)
+internalC++ _Tt_file_system_entry_list_ptr::~_Tt_file_system_entry_list_ptr(void)
+internalC++ _Tt_file_system_entry_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_file_system_entry_maker(void)
+internalC++ _Tt_file_system_entry_ptr::_Tt_file_system_entry_ptr(void)
+internalC++ _Tt_file_system_entry_ptr::xdr(XDR*)
+internalC++ _Tt_file_system_entry_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_file_table::xdr(XDR*)
+internalC++ _Tt_file_table::~_Tt_file_table(void)
+internalC++ _Tt_file_table_cursor::~_Tt_file_table_cursor(void)
+internalC++ _Tt_file_table_maker(void)
+internalC++ _Tt_file_table_ptr::_Tt_file_table_ptr(void)
+internalC++ _Tt_file_table_ptr::xdr(XDR*)
+internalC++ _Tt_file_table_ptr::~_Tt_file_table_ptr(void)
+internalC++ _Tt_file_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_file_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_global::_maxfds
+internalC++ _Tt_global::find_host_byname(_Tt_string,_Tt_host_ptr&)
+internalC++ _Tt_global::~_Tt_global(void)
+internalC++ _Tt_host::_Tt_host(void)
+internalC++ _Tt_host::addr_length(void) const
+internalC++ _Tt_host::init_byaddr(_Tt_string)
+internalC++ _Tt_host::init_byname(_Tt_string)
+internalC++ _Tt_host::init_bystringaddr(_Tt_string)
+internalC++ _Tt_host::init_from_hostent(hostent*)
+internalC++ _Tt_host::xdr(XDR*)
+internalC++ _Tt_host::~_Tt_host(void)
+internalC++ _Tt_host_equiv::_Tt_host_equiv(void)
+internalC++ _Tt_host_equiv::hostname_equiv(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_host_equiv::prefix_host(const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_host_equiv::~_Tt_host_equiv(void)
+internalC++ _Tt_host_equiv_maker(void)
+internalC++ _Tt_host_equiv_ptr::_Tt_host_equiv_ptr(void)
+internalC++ _Tt_host_equiv_ptr::xdr(XDR*)
+internalC++ _Tt_host_equiv_ptr::~_Tt_host_equiv_ptr(void)
+internalC++ _Tt_host_equiv_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_host_list::_Tt_host_list(void)
+internalC++ _Tt_host_list::xdr(XDR*)
+internalC++ _Tt_host_list::~_Tt_host_list(void)
+internalC++ _Tt_host_list_cursor::~_Tt_host_list_cursor(void)
+internalC++ _Tt_host_list_maker(void)
+internalC++ _Tt_host_list_ptr::_Tt_host_list_ptr(void)
+internalC++ _Tt_host_list_ptr::xdr(XDR*)
+internalC++ _Tt_host_list_ptr::~_Tt_host_list_ptr(void)
+internalC++ _Tt_host_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_host_maker(void)
+internalC++ _Tt_host_ptr::_Tt_host_ptr(void)
+internalC++ _Tt_host_ptr::xdr(XDR*)
+internalC++ _Tt_host_ptr::~_Tt_host_ptr(void)
+internalC++ _Tt_host_table::xdr(XDR*)
+internalC++ _Tt_host_table::~_Tt_host_table(void)
+internalC++ _Tt_host_table_cursor::~_Tt_host_table_cursor(void)
+internalC++ _Tt_host_table_maker(void)
+internalC++ _Tt_host_table_ptr::_Tt_host_table_ptr(void)
+internalC++ _Tt_host_table_ptr::xdr(XDR*)
+internalC++ _Tt_host_table_ptr::~_Tt_host_table_ptr(void)
+internalC++ _Tt_host_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_host_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_hostname_cache::_Tt_hostname_cache(_Tt_string&)
+internalC++ _Tt_hostname_cache::_Tt_hostname_cache(void)
+internalC++ _Tt_hostname_cache::h_keyfn(_Tt_object_ptr&)
+internalC++ _Tt_hostname_cache::~_Tt_hostname_cache(void)
+internalC++ _Tt_hostname_cache_list::_Tt_hostname_cache_list(void)
+internalC++ _Tt_hostname_cache_list::xdr(XDR*)
+internalC++ _Tt_hostname_cache_list::~_Tt_hostname_cache_list(void)
+internalC++ _Tt_hostname_cache_list_cursor::~_Tt_hostname_cache_list_cursor(void)
+internalC++ _Tt_hostname_cache_list_maker(void)
+internalC++ _Tt_hostname_cache_list_ptr::_Tt_hostname_cache_list_ptr(void)
+internalC++ _Tt_hostname_cache_list_ptr::xdr(XDR*)
+internalC++ _Tt_hostname_cache_list_ptr::~_Tt_hostname_cache_list_ptr(void)
+internalC++ _Tt_hostname_cache_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_hostname_cache_maker(void)
+internalC++ _Tt_hostname_cache_ptr::_Tt_hostname_cache_ptr(void)
+internalC++ _Tt_hostname_cache_ptr::xdr(XDR*)
+internalC++ _Tt_hostname_cache_ptr::~_Tt_hostname_cache_ptr(void)
+internalC++ _Tt_hostname_cache_table::xdr(XDR*)
+internalC++ _Tt_hostname_cache_table::~_Tt_hostname_cache_table(void)
+internalC++ _Tt_hostname_cache_table_cursor::~_Tt_hostname_cache_table_cursor(void)
+internalC++ _Tt_hostname_cache_table_maker(void)
+internalC++ _Tt_hostname_cache_table_ptr::_Tt_hostname_cache_table_ptr(void)
+internalC++ _Tt_hostname_cache_table_ptr::xdr(XDR*)
+internalC++ _Tt_hostname_cache_table_ptr::~_Tt_hostname_cache_table_ptr(void)
+internalC++ _Tt_hostname_cache_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_hostname_cache_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_int_rec::_Tt_int_rec(void)
+internalC++ _Tt_int_rec::print(const _Tt_ostream&) const
+internalC++ _Tt_int_rec::xdr(XDR*)
+internalC++ _Tt_int_rec::~_Tt_int_rec(void)
+internalC++ _Tt_int_rec_list::xdr(XDR*)
+internalC++ _Tt_int_rec_list::~_Tt_int_rec_list(void)
+internalC++ _Tt_int_rec_list_maker(void)
+internalC++ _Tt_int_rec_list_ptr::xdr(XDR*)
+internalC++ _Tt_int_rec_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_int_rec_maker(void)
+internalC++ _Tt_int_rec_ptr::_Tt_int_rec_ptr(void)
+internalC++ _Tt_int_rec_ptr::xdr(XDR*)
+internalC++ _Tt_int_rec_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_map_entry::_Tt_map_entry(void)
+internalC++ _Tt_map_entry::getAddress(_Tt_object_ptr&)
+internalC++ _Tt_map_entry::~_Tt_map_entry(void)
+internalC++ _Tt_map_entry_maker(void)
+internalC++ _Tt_map_entry_ptr::_Tt_map_entry_ptr(void)
+internalC++ _Tt_map_entry_ptr::xdr(XDR*)
+internalC++ _Tt_map_entry_ptr::~_Tt_map_entry_ptr(void)
+internalC++ _Tt_map_entry_table::xdr(XDR*)
+internalC++ _Tt_map_entry_table::~_Tt_map_entry_table(void)
+internalC++ _Tt_map_entry_table_cursor::~_Tt_map_entry_table_cursor(void)
+internalC++ _Tt_map_entry_table_maker(void)
+internalC++ _Tt_map_entry_table_ptr::_Tt_map_entry_table_ptr(void)
+internalC++ _Tt_map_entry_table_ptr::xdr(XDR*)
+internalC++ _Tt_map_entry_table_ptr::~_Tt_map_entry_table_ptr(void)
+internalC++ _Tt_map_entry_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_map_entry_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_message::_set_id(int)
+internalC++ _Tt_message::add_arg(_Tt_arg_ptr&)
+internalC++ _Tt_message::add_context(_Tt_msg_context_ptr&)
+internalC++ _Tt_message::api_id(void) const
+internalC++ _Tt_message::context(int) const
+internalC++ _Tt_message::contextsCount(void) const
+internalC++ _Tt_message::gid(void) const
+internalC++ _Tt_message::id(void) const
+internalC++ _Tt_message::is_awaiting_reply(void) const
+internalC++ _Tt_message::print(const _Tt_ostream&) const
+internalC++ _Tt_message::set_awaiting_reply(int)
+internalC++ _Tt_message::set_file(_Tt_string)
+internalC++ _Tt_message::set_id(void)
+internalC++ _Tt_message::set_message_class(tt_class)
+internalC++ _Tt_message::set_object(_Tt_string)
+internalC++ _Tt_message::set_observer_procid(const _Tt_procid_ptr&)
+internalC++ _Tt_message::set_op(_Tt_string)
+internalC++ _Tt_message::set_otype(_Tt_string)
+internalC++ _Tt_message::set_paradigm(tt_address)
+internalC++ _Tt_message::set_reliability(tt_disposition)
+internalC++ _Tt_message::set_scope(tt_scope)
+internalC++ _Tt_message::set_sender(_Tt_procid_ptr&)
+internalC++ _Tt_message::set_sender_ptype(_Tt_string)
+internalC++ _Tt_message::set_session(_Tt_session_ptr&)
+internalC++ _Tt_message::set_status_string(_Tt_string)
+internalC++ _Tt_message::set_super(void)
+internalC++ _Tt_message::status_string(void)
+internalC++ _Tt_message::uid(void) const
+internalC++ _Tt_message_list::xdr(XDR*)
+internalC++ _Tt_message_list_maker(void)
+internalC++ _Tt_message_list_ptr::xdr(XDR*)
+internalC++ _Tt_message_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_message_maker(void)
+internalC++ _Tt_message_ptr::xdr(XDR*)
+internalC++ _Tt_message_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_mp::check_if_sessions_alive(void)
+internalC++ _Tt_mp::find_file(_Tt_string,_Tt_file_ptr&,int)
+internalC++ _Tt_mp::find_session_by_fd(int,_Tt_session_ptr&)
+internalC++ _Tt_mp::generate_message_id(void)
+internalC++ _Tt_mp::generate_pattern_id(void)
+internalC++ _Tt_mp::remove_file(_Tt_string)
+internalC++ _Tt_mp::remove_session(_Tt_string)
+internalC++ _Tt_mp::save_session_fd(int)
+internalC++ _Tt_msg_context::print(const _Tt_ostream&) const
+internalC++ _Tt_msg_context::print_(const _Tt_ostream&,const _Tt_object*)
+internalC++ _Tt_msg_context::setValue(const _Tt_string&)
+internalC++ _Tt_msg_context::setValue(int)
+internalC++ _Tt_msg_context::xdr(XDR*)
+internalC++ _Tt_msg_context_list::_Tt_msg_context_list(void)
+internalC++ _Tt_msg_context_list::append_ordered(const _Tt_msg_context_ptr&)
+internalC++ _Tt_msg_context_list::xdr(XDR*)
+internalC++ _Tt_msg_context_list::~_Tt_msg_context_list(void)
+internalC++ _Tt_msg_context_list_maker(void)
+internalC++ _Tt_msg_context_list_ptr::_Tt_msg_context_list_ptr(void)
+internalC++ _Tt_msg_context_list_ptr::xdr(XDR*)
+internalC++ _Tt_msg_context_list_ptr::~_Tt_msg_context_list_ptr(void)
+internalC++ _Tt_msg_context_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_msg_context_maker(void)
+internalC++ _Tt_msg_context_ptr::xdr(XDR*)
+internalC++ _Tt_msg_context_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_object::null_ptr(void)
+internalC++ _Tt_object::verify_refcount(int)
+internalC++ _Tt_object_list::dequeue(void)
+internalC++ _Tt_object_list::verify(int (*)(const _Tt_object*))
+internalC++ _Tt_object_list_cursor::insert(const _Tt_object_ptr&)
+internalC++ _Tt_object_list_cursor::operator->(void) const
+internalC++ _Tt_object_list_element::_Tt_object_list_element(void)
+internalC++ _Tt_object_list_element::~_Tt_object_list_element(void)
+internalC++ _Tt_object_list_maker(void)
+internalC++ _Tt_object_list_ptr::xdr(XDR*)
+internalC++ _Tt_object_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_object_maker(void)
+internalC++ _Tt_object_ptr::xdr(XDR*)
+internalC++ _Tt_object_table::flush(void)
+internalC++ _Tt_object_table_cursor::is_valid(void) const
+internalC++ _Tt_object_table_cursor::operator->(void)
+internalC++ _Tt_object_table_cursor::prev(void)
+internalC++ _Tt_object_table_cursor::reset(void)
+internalC++ _Tt_object_table_maker(void)
+internalC++ _Tt_object_table_ptr::xdr(XDR*)
+internalC++ _Tt_object_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_object_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_objid_spec::_Tt_objid_spec(_Tt_string)
+internalC++ _Tt_objid_spec::_Tt_objid_spec(void)
+internalC++ _Tt_objid_spec::getOnDiskFlag(void)
+internalC++ _Tt_objid_spec::setOnDiskFlag(int)
+internalC++ _Tt_objid_spec::~_Tt_objid_spec(void)
+internalC++ _Tt_objid_spec_maker(void)
+internalC++ _Tt_objid_spec_ptr::_Tt_objid_spec_ptr(void)
+internalC++ _Tt_objid_spec_ptr::xdr(XDR*)
+internalC++ _Tt_objid_spec_ptr::~_Tt_objid_spec_ptr(void)
+internalC++ _Tt_objid_spec_table::xdr(XDR*)
+internalC++ _Tt_objid_spec_table::~_Tt_objid_spec_table(void)
+internalC++ _Tt_objid_spec_table_cursor::~_Tt_objid_spec_table_cursor(void)
+internalC++ _Tt_objid_spec_table_maker(void)
+internalC++ _Tt_objid_spec_table_ptr::_Tt_objid_spec_table_ptr(void)
+internalC++ _Tt_objid_spec_table_ptr::xdr(XDR*)
+internalC++ _Tt_objid_spec_table_ptr::~_Tt_objid_spec_table_ptr(void)
+internalC++ _Tt_objid_spec_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_objid_spec_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_old_db::_Tt_old_db(const _Tt_string&,const _Tt_db_client_ptr&)
+internalC++ _Tt_old_db::_Tt_old_db(void)
+internalC++ _Tt_old_db::addFileProperty(const _Tt_string&,const _Tt_db_property_ptr&,int,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::addObjectProperty(const _Tt_string&,const _Tt_db_property_ptr&,int,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::addProperty(const _Tt_string&,const _Tt_db_property_ptr&,int)
+internalC++ _Tt_old_db::addPropertyValue(const _Tt_string&,const _Tt_string&,const _Tt_string&)
+internalC++ _Tt_old_db::connectToDB(const _Tt_string&,const _Tt_db_client_ptr&)
+internalC++ _Tt_old_db::createFile(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::createObject(const _Tt_string&,const _Tt_string&,const _Tt_db_access_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::deleteFileObjects(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::deleteFileProperties(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::deleteFileProperty(const _Tt_string&,const _Tt_db_property_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::deleteObjectProperties(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::deleteObjectProperty(const _Tt_string&,const _Tt_db_property_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::deleteProperties(const _Tt_string&,int)
+internalC++ _Tt_old_db::deleteProperty(const _Tt_string&,const _Tt_db_property_ptr&)
+internalC++ _Tt_old_db::getAccess(const _Tt_string&,_Tt_db_access_ptr&)
+internalC++ _Tt_old_db::getFile(const _Tt_string&,_Tt_string&)
+internalC++ _Tt_old_db::getFileAccess(const _Tt_string&,const _Tt_db_access_ptr&,_Tt_db_access_ptr&)
+internalC++ _Tt_old_db::getFileChildren(const _Tt_string&,_Tt_string_list_ptr&)
+internalC++ _Tt_old_db::getFileKey(const _Tt_string&,_Tt_string&)
+internalC++ _Tt_old_db::getFileObjects(const _Tt_string&,const _Tt_db_access_ptr&,_Tt_string_list_ptr&)
+internalC++ _Tt_old_db::getFileProperties(const _Tt_string&,const _Tt_db_access_ptr&,_Tt_db_property_list_ptr&)
+internalC++ _Tt_old_db::getFileProperty(const _Tt_string&,const _Tt_string&,const _Tt_db_access_ptr&,_Tt_db_property_ptr&)
+internalC++ _Tt_old_db::getObjectAccess(const _Tt_string&,const _Tt_db_access_ptr&,_Tt_db_access_ptr&)
+internalC++ _Tt_old_db::getObjectFile(const _Tt_string&,const _Tt_db_access_ptr&,_Tt_string&)
+internalC++ _Tt_old_db::getObjectKey(const _Tt_string&)
+internalC++ _Tt_old_db::getObjectProperties(const _Tt_string&,const _Tt_db_access_ptr&,_Tt_db_property_list_ptr&)
+internalC++ _Tt_old_db::getObjectProperty(const _Tt_string&,const _Tt_string&,const _Tt_db_access_ptr&,_Tt_db_property_ptr&)
+internalC++ _Tt_old_db::getProperties(const _Tt_string&,_Tt_db_property_list_ptr&)
+internalC++ _Tt_old_db::getProperty(const _Tt_string&,const _Tt_string&,_Tt_db_property_ptr&)
+internalC++ _Tt_old_db::removeFile(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::removeObject(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setAccess(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setFileAccess(const _Tt_string&,const _Tt_db_access_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setFileFile(const _Tt_string&,const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setFileProperties(const _Tt_string&,const _Tt_db_property_list_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setFileProperty(const _Tt_string&,const _Tt_db_property_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setObjectAccess(const _Tt_string&,const _Tt_db_access_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setObjectFile(const _Tt_string&,const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setObjectProperties(const _Tt_string&,const _Tt_db_property_list_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setObjectProperty(const _Tt_string&,const _Tt_db_property_ptr&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::setProperties(const _Tt_string&,const _Tt_db_property_list_ptr&)
+internalC++ _Tt_old_db::setProperty(const _Tt_string&,const _Tt_db_property_ptr&)
+internalC++ _Tt_old_db::verifyAccess(const _Tt_string&,const _Tt_db_access_ptr&,int,int)
+internalC++ _Tt_old_db::verifyObjectAccess(const _Tt_string&,const _Tt_db_access_ptr&,int,int)
+internalC++ _Tt_old_db::verifyUserOnlyObjectAccess(const _Tt_string&,const _Tt_db_access_ptr&)
+internalC++ _Tt_old_db::~_Tt_old_db(void)
+internalC++ _Tt_old_db_list::_Tt_old_db_list(void)
+internalC++ _Tt_old_db_list::xdr(XDR*)
+internalC++ _Tt_old_db_list::~_Tt_old_db_list(void)
+internalC++ _Tt_old_db_list_cursor::~_Tt_old_db_list_cursor(void)
+internalC++ _Tt_old_db_list_maker(void)
+internalC++ _Tt_old_db_list_ptr::_Tt_old_db_list_ptr(void)
+internalC++ _Tt_old_db_list_ptr::xdr(XDR*)
+internalC++ _Tt_old_db_list_ptr::~_Tt_old_db_list_ptr(void)
+internalC++ _Tt_old_db_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_old_db_maker(void)
+internalC++ _Tt_old_db_message_info::_Tt_old_db_message_info(void)
+internalC++ _Tt_old_db_message_info::xdr(XDR*)
+internalC++ _Tt_old_db_message_info::~_Tt_old_db_message_info(void)
+internalC++ _Tt_old_db_message_info_maker(void)
+internalC++ _Tt_old_db_message_info_ptr::_Tt_old_db_message_info_ptr(void)
+internalC++ _Tt_old_db_message_info_ptr::xdr(XDR*)
+internalC++ _Tt_old_db_message_info_ptr::~_Tt_old_db_message_info_ptr(void)
+internalC++ _Tt_old_db_message_info_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_old_db_partition_map_ref::_Tt_old_db_partition_map_ref(void)
+internalC++ _Tt_old_db_partition_map_ref::addDB(_Tt_old_db_ptr&)
+internalC++ _Tt_old_db_partition_map_ref::dbPartitionMap
+internalC++ _Tt_old_db_partition_map_ref::dbPartitionMapKey(_Tt_object_ptr&)
+internalC++ _Tt_old_db_partition_map_ref::flush(void)
+internalC++ _Tt_old_db_partition_map_ref::getDB(const _Tt_string&,const _Tt_db_client_ptr&)
+internalC++ _Tt_old_db_partition_map_ref::removeDB(const _Tt_string&)
+internalC++ _Tt_old_db_partition_map_ref::~_Tt_old_db_partition_map_ref(void)
+internalC++ _Tt_old_db_ptr::_Tt_old_db_ptr(void)
+internalC++ _Tt_old_db_ptr::xdr(XDR*)
+internalC++ _Tt_old_db_ptr::~_Tt_old_db_ptr(void)
+internalC++ _Tt_old_db_table::xdr(XDR*)
+internalC++ _Tt_old_db_table::~_Tt_old_db_table(void)
+internalC++ _Tt_old_db_table_cursor::~_Tt_old_db_table_cursor(void)
+internalC++ _Tt_old_db_table_maker(void)
+internalC++ _Tt_old_db_table_ptr::_Tt_old_db_table_ptr(void)
+internalC++ _Tt_old_db_table_ptr::xdr(XDR*)
+internalC++ _Tt_old_db_table_ptr::~_Tt_old_db_table_ptr(void)
+internalC++ _Tt_old_db_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_old_db_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_ostream::_Tt_ostream(_Tt_string&)
+internalC++ _Tt_ostream::_Tt_ostream(void)
+internalC++ _Tt_ostream::operator<<(const _Tt_message&) const
+internalC++ _Tt_ostream::operator<<(const _Tt_pattern&) const
+internalC++ _Tt_ostream::operator<<(long) const
+internalC++ _Tt_ostream::operator<<(tt_callback_action) const
+internalC++ _Tt_ostream::operator<<(tt_status) const
+internalC++ _Tt_ostream::operator<<(unsigned long) const
+internalC++ _Tt_ostream::operator<<(void*) const
+internalC++ _Tt_ostream::operator=(FILE*)
+internalC++ _Tt_ostream::operator=(_Tt_string&)
+internalC++ _Tt_ostream::print(void (*)(const _Tt_ostream&,const _Tt_object*),const _Tt_object*) const
+internalC++ _Tt_ostream::set_indent(const _Tt_string&) const
+internalC++ _Tt_ostream::sprintf(unsigned int,const char* ...) const
+internalC++ _Tt_pat_context::addValue(const _Tt_string&)
+internalC++ _Tt_pat_context::addValue(int)
+internalC++ _Tt_pat_context::print(const _Tt_ostream&) const
+internalC++ _Tt_pat_context::print_(const _Tt_ostream&,const _Tt_object*)
+internalC++ _Tt_pat_context::xdr(XDR*)
+internalC++ _Tt_pat_context_list::_Tt_pat_context_list(void)
+internalC++ _Tt_pat_context_list::xdr(XDR*)
+internalC++ _Tt_pat_context_list::~_Tt_pat_context_list(void)
+internalC++ _Tt_pat_context_list_maker(void)
+internalC++ _Tt_pat_context_list_ptr::_Tt_pat_context_list_ptr(void)
+internalC++ _Tt_pat_context_list_ptr::xdr(XDR*)
+internalC++ _Tt_pat_context_list_ptr::~_Tt_pat_context_list_ptr(void)
+internalC++ _Tt_pat_context_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_pat_context_maker(void)
+internalC++ _Tt_pat_context_ptr::_Tt_pat_context_ptr(void)
+internalC++ _Tt_pat_context_ptr::xdr(XDR*)
+internalC++ _Tt_pat_context_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_patlist::_Tt_patlist(_Tt_string)
+internalC++ _Tt_patlist::~_Tt_patlist(void)
+internalC++ _Tt_patlist_list::_Tt_patlist_list(void)
+internalC++ _Tt_patlist_list::xdr(XDR*)
+internalC++ _Tt_patlist_list::~_Tt_patlist_list(void)
+internalC++ _Tt_patlist_list_cursor::~_Tt_patlist_list_cursor(void)
+internalC++ _Tt_patlist_list_maker(void)
+internalC++ _Tt_patlist_list_ptr::_Tt_patlist_list_ptr(void)
+internalC++ _Tt_patlist_list_ptr::xdr(XDR*)
+internalC++ _Tt_patlist_list_ptr::~_Tt_patlist_list_ptr(void)
+internalC++ _Tt_patlist_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_patlist_maker(void)
+internalC++ _Tt_patlist_ptr::xdr(XDR*)
+internalC++ _Tt_patlist_table::xdr(XDR*)
+internalC++ _Tt_patlist_table::~_Tt_patlist_table(void)
+internalC++ _Tt_patlist_table_cursor::~_Tt_patlist_table_cursor(void)
+internalC++ _Tt_patlist_table_maker(void)
+internalC++ _Tt_patlist_table_ptr::xdr(XDR*)
+internalC++ _Tt_patlist_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_patlist_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_pattern::add_object(const _Tt_string&)
+internalC++ _Tt_pattern::base_constructor(void)
+internalC++ _Tt_pattern::context(const char*) const
+internalC++ _Tt_pattern::context(int) const
+internalC++ _Tt_pattern::contextsCount(void) const
+internalC++ _Tt_pattern::print(const _Tt_ostream&) const
+internalC++ _Tt_pattern_list::xdr(XDR*)
+internalC++ _Tt_pattern_list::~_Tt_pattern_list(void)
+internalC++ _Tt_pattern_list_maker(void)
+internalC++ _Tt_pattern_list_ptr::xdr(XDR*)
+internalC++ _Tt_pattern_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_pattern_maker(void)
+internalC++ _Tt_pattern_ptr::xdr(XDR*)
+internalC++ _Tt_pattern_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_pid_t_rec::_Tt_pid_t_rec(pid_t)
+internalC++ _Tt_pid_t_rec::_Tt_pid_t_rec(void)
+internalC++ _Tt_pid_t_rec::print(const _Tt_ostream&) const
+internalC++ _Tt_pid_t_rec::xdr(XDR*)
+internalC++ _Tt_pid_t_rec::~_Tt_pid_t_rec(void)
+internalC++ _Tt_pid_t_rec_list::_Tt_pid_t_rec_list(void)
+internalC++ _Tt_pid_t_rec_list::xdr(XDR*)
+internalC++ _Tt_pid_t_rec_list::~_Tt_pid_t_rec_list(void)
+internalC++ _Tt_pid_t_rec_list_cursor::~_Tt_pid_t_rec_list_cursor(void)
+internalC++ _Tt_pid_t_rec_list_maker(void)
+internalC++ _Tt_pid_t_rec_list_ptr::xdr(XDR*)
+internalC++ _Tt_pid_t_rec_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_pid_t_rec_maker(void)
+internalC++ _Tt_pid_t_rec_ptr::_Tt_pid_t_rec_ptr(void)
+internalC++ _Tt_pid_t_rec_ptr::xdr(XDR*)
+internalC++ _Tt_pid_t_rec_ptr::~_Tt_pid_t_rec_ptr(void)
+internalC++ _Tt_pid_t_rec_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_procid::fd(void)
+internalC++ _Tt_procid::is_equal(_Tt_string&)
+internalC++ _Tt_procid::port(void) const
+internalC++ _Tt_procid::print(const _Tt_ostream&) const
+internalC++ _Tt_procid_list::xdr(XDR*)
+internalC++ _Tt_procid_list_maker(void)
+internalC++ _Tt_procid_list_ptr::xdr(XDR*)
+internalC++ _Tt_procid_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_procid_maker(void)
+internalC++ _Tt_procid_ptr::xdr(XDR*)
+internalC++ _Tt_procid_table::xdr(XDR*)
+internalC++ _Tt_procid_table::~_Tt_procid_table(void)
+internalC++ _Tt_procid_table_cursor::~_Tt_procid_table_cursor(void)
+internalC++ _Tt_procid_table_maker(void)
+internalC++ _Tt_procid_table_ptr::_Tt_procid_table_ptr(void)
+internalC++ _Tt_procid_table_ptr::xdr(XDR*)
+internalC++ _Tt_procid_table_ptr::~_Tt_procid_table_ptr(void)
+internalC++ _Tt_procid_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_procid_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_qmsg_info::xdr(XDR*)
+internalC++ _Tt_qmsg_info::~_Tt_qmsg_info(void)
+internalC++ _Tt_qmsg_info_maker(void)
+internalC++ _Tt_qmsg_info_ptr::xdr(XDR*)
+internalC++ _Tt_qmsg_info_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_rpc_client::_Tt_rpc_client(int)
+internalC++ _Tt_rpc_client::call(int,xdrproc_t,char*,xdrproc_t,char*,int)
+internalC++ _Tt_rpc_client::init(_Tt_host_ptr&,int,int,uid_t,_Tt_auth&)
+internalC++ _Tt_rpc_client::socket(void)
+internalC++ _Tt_rpc_client::~_Tt_rpc_client(void)
+internalC++ _Tt_rpc_client_maker(void)
+internalC++ _Tt_rpc_client_ptr::_Tt_rpc_client_ptr(void)
+internalC++ _Tt_rpc_client_ptr::xdr(XDR*)
+internalC++ _Tt_rpc_client_ptr::~_Tt_rpc_client_ptr(void)
+internalC++ _Tt_rpc_client_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_session::Xid(_Tt_string)
+internalC++ _Tt_session_list::_Tt_session_list(void)
+internalC++ _Tt_session_list::xdr(XDR*)
+internalC++ _Tt_session_list::~_Tt_session_list(void)
+internalC++ _Tt_session_list_cursor::~_Tt_session_list_cursor(void)
+internalC++ _Tt_session_list_maker(void)
+internalC++ _Tt_session_list_ptr::_Tt_session_list_ptr(void)
+internalC++ _Tt_session_list_ptr::xdr(XDR*)
+internalC++ _Tt_session_list_ptr::~_Tt_session_list_ptr(void)
+internalC++ _Tt_session_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_session_maker(void)
+internalC++ _Tt_session_prop::_Tt_session_prop(_Tt_string,_Tt_string_list_ptr)
+internalC++ _Tt_session_prop::_Tt_session_prop(void)
+internalC++ _Tt_session_prop::~_Tt_session_prop(void)
+internalC++ _Tt_session_prop_list::xdr(XDR*)
+internalC++ _Tt_session_prop_list::~_Tt_session_prop_list(void)
+internalC++ _Tt_session_prop_list_maker(void)
+internalC++ _Tt_session_prop_list_ptr::_Tt_session_prop_list_ptr(void)
+internalC++ _Tt_session_prop_list_ptr::xdr(XDR*)
+internalC++ _Tt_session_prop_list_ptr::~_Tt_session_prop_list_ptr(void)
+internalC++ _Tt_session_prop_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_session_prop_maker(void)
+internalC++ _Tt_session_prop_ptr::_Tt_session_prop_ptr(void)
+internalC++ _Tt_session_prop_ptr::xdr(XDR*)
+internalC++ _Tt_session_prop_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_session_ptr::xdr(XDR*)
+internalC++ _Tt_session_table::xdr(XDR*)
+internalC++ _Tt_session_table::~_Tt_session_table(void)
+internalC++ _Tt_session_table_cursor::~_Tt_session_table_cursor(void)
+internalC++ _Tt_session_table_maker(void)
+internalC++ _Tt_session_table_ptr::_Tt_session_table_ptr(void)
+internalC++ _Tt_session_table_ptr::xdr(XDR*)
+internalC++ _Tt_session_table_ptr::~_Tt_session_table_ptr(void)
+internalC++ _Tt_session_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_session_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_stream_socket::_Tt_stream_socket(void)
+internalC++ _Tt_stream_socket::accept(void)
+internalC++ _Tt_stream_socket::port(void)
+internalC++ _Tt_stream_socket::read_would_block(void)
+internalC++ _Tt_stream_socket::recv(char*,int)
+internalC++ _Tt_stream_socket::sock(void)
+internalC++ _Tt_stream_socket::~_Tt_stream_socket(void)
+internalC++ _Tt_stream_socket_maker(void)
+internalC++ _Tt_stream_socket_ptr::_Tt_stream_socket_ptr(void)
+internalC++ _Tt_stream_socket_ptr::xdr(XDR*)
+internalC++ _Tt_stream_socket_ptr::~_Tt_stream_socket_ptr(void)
+internalC++ _Tt_stream_socket_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_string::cat(char) const
+internalC++ _Tt_string::cat(int) const
+internalC++ _Tt_string::cat(long) const
+internalC++ _Tt_string::cat(unsigned int) const
+internalC++ _Tt_string::cat(unsigned long) const
+internalC++ _Tt_string::hash(int) const
+internalC++ _Tt_string::index(const char*) const
+internalC++ _Tt_string::mid(int,int) const
+internalC++ _Tt_string::print(void) const
+internalC++ _Tt_string::quote_nulls(void) const
+internalC++ _Tt_string::replace(const char*,const _Tt_string&) const
+internalC++ _Tt_string::split(const char*,_Tt_string&) const
+internalC++ _Tt_string::split(int,_Tt_string&) const
+internalC++ _Tt_string::strchr(const char*) const
+internalC++ _Tt_string::unquote_nulls(void) const
+internalC++ _Tt_string_buf::_Tt_string_buf(const _Tt_string_buf&)
+internalC++ _Tt_string_buf::set(const unsigned char*,int)
+internalC++ _Tt_string_buf::xdr(XDR*)
+internalC++ _Tt_string_buf::xdr_1(XDR*)
+internalC++ _Tt_string_buf::xdr_2(XDR*)
+internalC++ _Tt_string_buf::~_Tt_string_buf(void)
+internalC++ _Tt_string_buf_list::_Tt_string_buf_list(void)
+internalC++ _Tt_string_buf_list::xdr(XDR*)
+internalC++ _Tt_string_buf_list::~_Tt_string_buf_list(void)
+internalC++ _Tt_string_buf_list_cursor::~_Tt_string_buf_list_cursor(void)
+internalC++ _Tt_string_buf_list_maker(void)
+internalC++ _Tt_string_buf_list_ptr::_Tt_string_buf_list_ptr(void)
+internalC++ _Tt_string_buf_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_string_buf_maker(void)
+internalC++ _Tt_string_buf_ptr::xdr(XDR*)
+internalC++ _Tt_string_buf_ptr::_Tt_string_buf_ptr(void)
+internalC++ _Tt_string_buf_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_string_list::_Tt_string_list(const _Tt_string_buf_list&)
+internalC++ _Tt_string_list::_Tt_string_list(const _Tt_string_list&)
+internalC++ _Tt_string_map::_Tt_string_map(void)
+internalC++ _Tt_string_map::~_Tt_string_map(void)
+internalC++ _Tt_string_map_maker(void)
+internalC++ _Tt_string_map_ptr::xdr(XDR*)
+internalC++ _Tt_string_map_xdr(XDR*,_Tt_object*)
+#ifdef OPT_XTHREADS
+internalC++ _Tt_threadspecific::_Tt_threadspecific(const _Tt_c_session_ptr&,const _Tt_c_procid_ptr&)
+internalC++ _Tt_threadspecific::free_procid(void)
+internalC++ _Tt_threadspecific::thread_stgstack(void)
+#endif
+internalC++ _Tt_trace::_allowed2trace(void)
+internalC++ _Tt_trace::_entry(void)
+internalC++ _Tt_trace::_exit(int,const char* (*)(int),int)
+internalC++ _Tt_trace::_pstream
+internalC++ _Tt_trace::_toggled_off
+internalC++ _Tt_trace::any_tracing(void)
+internalC++ _Tt_trace::entry(_Tt_message&,_Tt_dispatch_reason)
+internalC++ _Tt_trace::entry(_Tt_message&,const _Tt_procid&)
+internalC++ _Tt_trace::entry(_Tt_message&,tt_state)
+internalC++ _Tt_trace::entry(char*,_Tt_entry_pt,va_list)
+internalC++ _Tt_trace::entry(tt_callback_action (*)(_Tt_message_handle*,_Tt_pattern_handle*),_Tt_message_handle*,_Tt_pattern_handle*)
+internalC++ _Tt_trace::exit(_Tt_message_handle*)
+internalC++ _Tt_trace::exit(_Tt_pattern_handle*)
+internalC++ _Tt_trace::exit(char*)
+internalC++ _Tt_trace::exit(int)
+internalC++ _Tt_trace::exit(tt_address)
+internalC++ _Tt_trace::exit(tt_callback_action)
+internalC++ _Tt_trace::exit(tt_category)
+internalC++ _Tt_trace::exit(tt_class)
+internalC++ _Tt_trace::exit(tt_disposition)
+internalC++ _Tt_trace::exit(tt_mode)
+internalC++ _Tt_trace::exit(tt_scope)
+internalC++ _Tt_trace::exit(tt_state)
+internalC++ _Tt_trace::exit(tt_status)
+internalC++ _Tt_trace::exit(void)
+internalC++ _Tt_trace::exit(void*)
+internalC++ _Tt_trace::exitq(void)
+internalC++ _Tt_trace::fini(void)
+internalC++ _Tt_trace::init(int)
+internalC++ _Tt_trace::operator<<(_Tt_message&) const
+internalC++ _Tt_trace::operator<<(tt_status) const
+internalC++ _Tt_trace::toggle(void)
+internalC++ _Tt_trace_parser::_Tt_trace_parser(_Tt_trace_parser&)
+internalC++ _Tt_trace_parser::_Tt_trace_parser(const char*)
+internalC++ _Tt_trace_parser::_Tt_trace_parser(int)
+internalC++ _Tt_trace_parser::_Tt_trace_parser(void)
+internalC++ _Tt_trace_parser::_is_traced(const _Tt_message&) const
+internalC++ _Tt_trace_parser::add_function(const _Tt_string&)
+internalC++ _Tt_trace_parser::add_handler_ptype(const _Tt_string&)
+internalC++ _Tt_trace_parser::add_op(const _Tt_string&)
+internalC++ _Tt_trace_parser::add_sender_ptype(const _Tt_string&)
+internalC++ _Tt_trace_parser::add_state(int)
+internalC++ _Tt_trace_parser::any_tracing(void)
+internalC++ _Tt_trace_parser::attributes_val(void) const
+internalC++ _Tt_trace_parser::clear_functions(void)
+internalC++ _Tt_trace_parser::clear_handler_ptypes(void)
+internalC++ _Tt_trace_parser::clear_ops(void)
+internalC++ _Tt_trace_parser::clear_sender_ptypes(void)
+internalC++ _Tt_trace_parser::clear_states(void)
+internalC++ _Tt_trace_parser::follow_val(void)
+internalC++ _Tt_trace_parser::handler_ptypes_val(void)
+internalC++ _Tt_trace_parser::ifunction_val(void)
+internalC++ _Tt_trace_parser::is_traced(_Tt_entry_pt) const
+internalC++ _Tt_trace_parser::is_traced(const _Tt_message&) const
+internalC++ _Tt_trace_parser::is_traced(const _Tt_message&,_Tt_dispatch_stage) const
+internalC++ _Tt_trace_parser::mode_val(void)
+internalC++ _Tt_trace_parser::ops_val(void)
+internalC++ _Tt_trace_parser::parse(void)
+internalC++ _Tt_trace_parser::sender_ptypes_val(void)
+internalC++ _Tt_trace_parser::set_attributes(int)
+internalC++ _Tt_trace_parser::set_follow(int)
+internalC++ _Tt_trace_parser::set_function(int)
+internalC++ _Tt_trace_parser::set_sink(const _Tt_string&,int)
+internalC++ _Tt_trace_parser::sfunction_val(void)
+internalC++ _Tt_trace_parser::sink_val(void)
+internalC++ _Tt_trace_parser::states_val(void)
+internalC++ _Tt_trace_parser::tracer_init(void)
+internalC++ _Tt_trace_parser::~_Tt_trace_parser(void)
+internalC++ _Tt_trace_stream::_Tt_trace_stream(const char*)
+internalC++ _Tt_trace_stream::_Tt_trace_stream(int)
+internalC++ _Tt_trace_stream::_Tt_trace_stream(void)
+internalC++ _Tt_trace_stream::decr_indent(void) const
+internalC++ _Tt_trace_stream::incr_indent(void) const
+internalC++ _Tt_trace_stream::init(void)
+internalC++ _Tt_trace_stream::~_Tt_trace_stream(void)
+internalC++ _Tt_typecb::_Tt_typecb(const _Tt_string&,int)
+internalC++ _Tt_typecb::_Tt_typecb(void)
+internalC++ _Tt_typecb::add_callback(tt_callback_action (*)(_Tt_message_handle*,_Tt_pattern_handle*))
+internalC++ _Tt_typecb::opnum(void)
+internalC++ _Tt_typecb::run_callbacks(_Tt_message_handle*,_Tt_pattern_handle*)
+internalC++ _Tt_typecb::get_typename(void)
+internalC++ _Tt_typecb::~_Tt_typecb(void)
+internalC++ _Tt_typecb_list::_Tt_typecb_list(void)
+internalC++ _Tt_typecb_list::xdr(XDR*)
+internalC++ _Tt_typecb_list::~_Tt_typecb_list(void)
+internalC++ _Tt_typecb_list_cursor::~_Tt_typecb_list_cursor(void)
+internalC++ _Tt_typecb_list_maker(void)
+internalC++ _Tt_typecb_list_ptr::_Tt_typecb_list_ptr(void)
+internalC++ _Tt_typecb_list_ptr::xdr(XDR*)
+internalC++ _Tt_typecb_list_ptr::~_Tt_typecb_list_ptr(void)
+internalC++ _Tt_typecb_list_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_typecb_maker(void)
+internalC++ _Tt_typecb_ptr::_Tt_typecb_ptr(void)
+internalC++ _Tt_typecb_ptr::xdr(XDR*)
+internalC++ _Tt_typecb_ptr::~_Tt_typecb_ptr(void)
+internalC++ _Tt_typecb_table::xdr(XDR*)
+internalC++ _Tt_typecb_table::~_Tt_typecb_table(void)
+internalC++ _Tt_typecb_table_cursor::~_Tt_typecb_table_cursor(void)
+internalC++ _Tt_typecb_table_maker(void)
+internalC++ _Tt_typecb_table_ptr::_Tt_typecb_table_ptr(void)
+internalC++ _Tt_typecb_table_ptr::xdr(XDR*)
+internalC++ _Tt_typecb_table_ptr::~_Tt_typecb_table_ptr(void)
+internalC++ _Tt_typecb_table_xdr(XDR*,_Tt_object*)
+internalC++ _Tt_typecb_xdr(XDR*,_Tt_object*)
+internalC++ _Ttmedia_ptype_info::_Ttmedia_ptype_info(_Tt_message_handle* (*)(_Tt_message_handle*,void*,Tttk_op,tt_status,unsigned char*,int,char*,char*),void*)
+internalC++ _TttkItem2Free::_TttkItem2Free(_Tt_message_handle*)
+internalC++ _TttkItem2Free::_TttkItem2Free(_Tt_pattern_handle*)
+internalC++ _TttkItem2Free::_TttkItem2Free(char*)
+internalC++ _TttkItem2Free::_TttkItem2Free(void)
+internalC++ _TttkItem2Free::operator=(_Tt_message_handle*)
+internalC++ _TttkItem2Free::operator=(_Tt_pattern_handle*)
+internalC++ _TttkItem2Free::operator=(char*)
+internalC++ _TttkItem2Free::~_TttkItem2Free(void)
+internalC++ _TttkList2Free::_TttkList2Free(unsigned int)
+internalC++ _TttkList2Free::_destruct(void)
+internalC++ _TttkList2Free::_item(int)
+internalC++ _TttkList2Free::flush(void)
+internalC++ _TttkList2Free::operator+=(_Tt_message_handle*)
+internalC++ _TttkList2Free::operator+=(_Tt_pattern_handle*)
+internalC++ _TttkList2Free::operator+=(char*)
+internalC++ _TttkList2Free::~_TttkList2Free(void)
+internalC++ _prepend_P_to_sessid(const char*,_Tt_string&)
+internalC++ _ttDesktopMessageFinish(_Tt_message_handle*,_Tt_message_handle*,int)
+internalC++ _ttDesktopPatternFinish(_Tt_pattern_handle*,_Tt_message_handle*,int)
+internalC++ _ttDtCallbackAction(_Tt_message_handle*)
+internalC++ _ttDtGetLocaleCB(_Tt_message_handle*,_Tt_pattern_handle*,void*,void*)
+internalC++ _ttDtMessageCB(_Tt_message_handle*,_Tt_pattern_handle*)
+internalC++ _ttDtMessageGong(_Tt_message_handle*,tt_status,const char*,int,int)
+internalC++ _ttDtOp(Tttk_op)
+internalC++ _ttDtPError(const char*,const char*)
+internalC++ _ttDtPMessageCreate(_Tt_message_handle*,tt_class,tt_scope,const char*,Tttk_op,_Tt_message_handle* (*)(_Tt_message_handle*,_Tt_pattern_handle*,void*,void*),void*,void*)
+internalC++ _ttDtPatternCreate(tt_category,tt_scope,int,const char*,Tttk_op,_Tt_message_handle* (*)(_Tt_message_handle*,_Tt_pattern_handle*,void*,void*),void*,void*,int)
+internalC++ _ttDtPrint(const char*,const char*)
+internalC++ _ttDtPrintInt(const char*,const char*,int)
+internalC++ _ttDtPrintStatus(const char*,const char*,tt_status)
+internalC++ _ttMeOpnumCB(_Tt_message_handle*,_Tt_pattern_handle*)
+internalC++ _ttTkNoteReplyStatus(_Tt_message_handle*,_Tt_pattern_handle*,void*,void*)
+internalC++ _tt_X_session(const char*)
+internalC++ _tt_add_file_prop_1(_tt_add_file_prop_args*,CLIENT*)
+internalC++ _tt_add_file_prop_1(_tt_add_file_prop_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_add_obj_prop_1(_tt_add_obj_prop_args*,CLIENT*)
+internalC++ _tt_add_obj_prop_1(_tt_add_obj_prop_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_addsession_1(_Tt_session_args*,CLIENT*)
+internalC++ _tt_api_handle_print(FILE*,const _Tt_object*)
+internalC++ _tt_api_stg_stack_elm_print(FILE*,const _Tt_object*)
+internalC++ _tt_api_userdata_print(FILE*,const _Tt_object*)
+internalC++ _tt_arg_print(const _Tt_ostream&,const _Tt_object*)
+internalC++ _tt_base64_decode(const char*)
+internalC++ _tt_bcontext_join(const char*,const unsigned char*,int)
+internalC++ _tt_bcontext_quit(const char*,const unsigned char*,int)
+internalC++ _tt_close(void)
+internalC++ _tt_context_join(const char*,const char*)
+internalC++ _tt_context_quit(const char*,const char*)
+internalC++ _tt_create_file_1(_tt_create_file_args*,CLIENT*)
+internalC++ _tt_create_file_1(_tt_create_file_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_create_obj_1(_tt_create_obj_args*,CLIENT*)
+internalC++ _tt_create_obj_1(_tt_create_obj_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_db_network_path(const _Tt_string&,_Tt_string&,_Tt_string&,_Tt_string&,_Tt_string&)
+internalC++ _tt_db_objid_to_key(const _Tt_string&)
+internalC++ _tt_default_file(void)
+internalC++ _tt_default_file_set(const char*)
+internalC++ _tt_default_procid(void)
+internalC++ _tt_default_procid_set(const char*)
+internalC++ _tt_default_ptype(void)
+internalC++ _tt_default_ptype_set(const char*)
+internalC++ _tt_default_session(void)
+internalC++ _tt_default_session_set(const char*)
+internalC++ _tt_delete_file_prop_1(_tt_del_file_prop_args*,CLIENT*)
+internalC++ _tt_delete_file_prop_1(_tt_del_file_prop_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_delete_obj_prop_1(_tt_del_obj_prop_args*,CLIENT*)
+internalC++ _tt_delete_obj_prop_1(_tt_del_obj_prop_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_delete_session_1(_tt_delete_session_args*,CLIENT*)
+internalC++ _tt_delsession_1(_Tt_session_args*,CLIENT*)
+internalC++ _tt_dequeue_messages_1(_tt_dequeue_msgs_args*,CLIENT*)
+internalC++ _tt_dequeue_messages_1(_tt_dequeue_msgs_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_enumname(_Tt_entry_pt)
+internalC++ _tt_enumname(tt_address)
+internalC++ _tt_enumname(tt_callback_action)
+internalC++ _tt_enumname(tt_disposition)
+internalC++ _tt_enumname(tt_filter_action)
+internalC++ _tt_enumname(tt_state)
+internalC++ _tt_error_int(tt_status)
+internalC++ _tt_error_pointer(tt_status)
+internalC++ _tt_fd(void)
+internalC++ _tt_file_copy(const char*,const char*)
+internalC++ _tt_file_destroy(const char*)
+internalC++ _tt_file_join(const char*)
+internalC++ _tt_file_move(const char*,const char*)
+internalC++ _tt_file_netfile_1(_tt_file_netfile_args*,CLIENT*)
+internalC++ _tt_file_objects_query(const char*,tt_filter_action (*)(const char*,void*,void*),void*,void*)
+internalC++ _tt_file_quit(const char*)
+internalC++ _tt_free(char*)
+internalC++ _tt_free_rpc_message(const _tt_message&)
+internalC++ _tt_garbage_collect_1(void*,CLIENT*)
+internalC++ _tt_get_all_sessions_1(_tt_get_all_sessions_args*,CLIENT*)
+internalC++ _tt_get_api_error(_Tt_db_results,api_module)
+internalC++ _tt_get_file_access_1(_tt_get_file_access_args*,CLIENT*)
+internalC++ _tt_get_file_access_1(_tt_get_file_access_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_get_file_objs_1(_tt_get_file_objs_args*,CLIENT*)
+internalC++ _tt_get_file_objs_1(_tt_get_file_objs_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_get_file_partition_1(char**,CLIENT*)
+internalC++ _tt_get_file_partition_1(char**,const _Tt_db_client_ptr&)
+internalC++ _tt_get_file_prop_1(_tt_get_file_prop_args*,CLIENT*)
+internalC++ _tt_get_file_prop_1(_tt_get_file_prop_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_get_file_props_1(_tt_get_file_props_args*,CLIENT*)
+internalC++ _tt_get_file_props_1(_tt_get_file_props_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_get_first_set_env_var(int ...)
+internalC++ _tt_get_min_auth_level_1(void*,CLIENT*)
+internalC++ _tt_get_obj_access_1(_tt_get_obj_access_args*,CLIENT*)
+internalC++ _tt_get_obj_access_1(_tt_get_obj_access_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_get_obj_file_1(_tt_get_obj_file_args*,CLIENT*)
+internalC++ _tt_get_obj_file_1(_tt_get_obj_file_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_get_obj_prop_1(_tt_get_obj_prop_args*,CLIENT*)
+internalC++ _tt_get_obj_prop_1(_tt_get_obj_prop_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_get_obj_props_1(_tt_get_obj_props_args*,CLIENT*)
+internalC++ _tt_get_obj_props_1(_tt_get_obj_props_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_get_obj_type_1(_tt_get_obj_type_args*,CLIENT*)
+internalC++ _tt_get_rpc_message(const _tt_message&,_Tt_message_ptr&)
+internalC++ _tt_get_rpc_messages(const _tt_message_list&,_Tt_message_list_ptr&)
+internalC++ _tt_get_rpc_result(void)
+internalC++ _tt_gethostid(void)
+internalC++ _tt_getoidaccess_1(_Tt_oidaccess_args*,CLIENT*)
+internalC++ _tt_gettype_1(_Tt_spec_props*,CLIENT*)
+internalC++ _tt_host_addr(_Tt_object_ptr&)
+internalC++ _tt_host_file_netfile(const char*,const char*)
+internalC++ _tt_host_name(_Tt_object_ptr&)
+internalC++ _tt_host_netfile_file(const char*,const char*)
+internalC++ _tt_icontext_join(const char*,int)
+internalC++ _tt_icontext_quit(const char*,int)
+internalC++ _tt_initial_session(void)
+internalC++ _tt_int_error(int)
+internalC++ _tt_int_rec_print(const _Tt_ostream&,const _Tt_object*)
+internalC++ _tt_internal_init(void)
+internalC++ _tt_is_file_in_db_1(_tt_is_file_in_db_args*,CLIENT*)
+internalC++ _tt_is_file_in_db_1(_tt_is_file_in_db_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_is_obj_in_db_1(_tt_is_obj_in_db_args*,CLIENT*)
+internalC++ _tt_is_obj_in_db_1(_tt_is_obj_in_db_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_isaddindex_1(_Tt_isaddindex_args*,CLIENT*)
+internalC++ _tt_isbuild_1(_Tt_isbuild_args*,CLIENT*)
+internalC++ _tt_isclose_1(int*,CLIENT*)
+internalC++ _tt_iscntl_1(_Tt_iscntl_args*,CLIENT*)
+internalC++ _tt_isdelrec_1(_Tt_isdelrec_args*,CLIENT*)
+internalC++ _tt_iserase_1(char**,CLIENT*)
+internalC++ _tt_isopen_1(_Tt_isopen_args*,CLIENT*)
+internalC++ _tt_isread_1(_Tt_isread_args*,CLIENT*)
+internalC++ _tt_isrewrec_1(_Tt_isrewrec_args*,CLIENT*)
+internalC++ _tt_isstart_1(_Tt_isstart_args*,CLIENT*)
+internalC++ _tt_iswrite_1(_Tt_iswrite_args*,CLIENT*)
+internalC++ _tt_load_xlib(void)
+internalC++ _tt_load_xt(void)
+internalC++ _tt_local_network_path(const _Tt_string&)
+internalC++ _tt_log_error(int,int,char*,char*)
+internalC++ _tt_malloc(size_t)
+internalC++ _tt_mark(void)
+internalC++ _tt_message_abstain(_Tt_message_handle*)
+internalC++ _tt_message_abstainer(_Tt_message_handle*,int)
+internalC++ _tt_message_abstainers_count(_Tt_message_handle*)
+internalC++ _tt_message_accept(_Tt_message_handle*)
+internalC++ _tt_message_accepter(_Tt_message_handle*,int)
+internalC++ _tt_message_accepters_count(_Tt_message_handle*)
+internalC++ _tt_message_address(_Tt_message_handle*)
+internalC++ _tt_message_address_set(_Tt_message_handle*,tt_address)
+internalC++ _tt_message_arg_add(_Tt_message_handle*,tt_mode,const char*,const char*)
+internalC++ _tt_message_arg_bval(_Tt_message_handle*,int,unsigned char**,int*)
+internalC++ _tt_message_arg_bval_set(_Tt_message_handle*,int,const unsigned char*,int)
+internalC++ _tt_message_arg_ival(_Tt_message_handle*,int,int*)
+internalC++ _tt_message_arg_ival_set(_Tt_message_handle*,int,int)
+internalC++ _tt_message_arg_mode(_Tt_message_handle*,int)
+internalC++ _tt_message_arg_type(_Tt_message_handle*,int)
+internalC++ _tt_message_arg_val(_Tt_message_handle*,int)
+internalC++ _tt_message_arg_val_set(_Tt_message_handle*,int,const char*)
+internalC++ _tt_message_arg_xval(_Tt_message_handle*,int,xdrproc_t,void*)
+internalC++ _tt_message_arg_xval_set(_Tt_message_handle*,int,xdrproc_t,void*)
+internalC++ _tt_message_args_count(_Tt_message_handle*)
+internalC++ _tt_message_barg_add(_Tt_message_handle*,tt_mode,const char*,const unsigned char*,int)
+internalC++ _tt_message_bcontext_set(_Tt_message_handle*,const char*,const unsigned char*,int)
+internalC++ _tt_message_callback_add(_Tt_message_handle*,tt_callback_action (*)(_Tt_message_handle*,_Tt_pattern_handle*))
+internalC++ _tt_message_class(_Tt_message_handle*)
+internalC++ _tt_message_class_set(_Tt_message_handle*,tt_class)
+internalC++ _tt_message_context_bval(_Tt_message_handle*,const char*,unsigned char**,int*)
+internalC++ _tt_message_context_ival(_Tt_message_handle*,const char*,int*)
+internalC++ _tt_message_context_set(_Tt_message_handle*,const char*,const char*)
+internalC++ _tt_message_context_slotname(_Tt_message_handle*,int)
+internalC++ _tt_message_context_val(_Tt_message_handle*,const char*)
+internalC++ _tt_message_context_xval(_Tt_message_handle*,const char*,xdrproc_t,void*)
+internalC++ _tt_message_contexts_count(_Tt_message_handle*)
+internalC++ _tt_message_create(void)
+internalC++ _tt_message_create_super(_Tt_message_handle*)
+internalC++ _tt_message_destroy(_Tt_message_handle*)
+internalC++ _tt_message_disposition(_Tt_message_handle*)
+internalC++ _tt_message_disposition_set(_Tt_message_handle*,tt_disposition)
+internalC++ _tt_message_fail(_Tt_message_handle*)
+internalC++ _tt_message_file(_Tt_message_handle*)
+internalC++ _tt_message_file_set(_Tt_message_handle*,const char*)
+internalC++ _tt_message_gid(_Tt_message_handle*)
+internalC++ _tt_message_handler(_Tt_message_handle*)
+internalC++ _tt_message_handler_ptype(_Tt_message_handle*)
+internalC++ _tt_message_handler_ptype_set(_Tt_message_handle*,const char*)
+internalC++ _tt_message_handler_set(_Tt_message_handle*,const char*)
+internalC++ _tt_message_iarg_add(_Tt_message_handle*,tt_mode,const char*,int)
+internalC++ _tt_message_icontext_set(_Tt_message_handle*,const char*,int)
+internalC++ _tt_message_id(_Tt_message_handle*)
+internalC++ _tt_message_object(_Tt_message_handle*)
+internalC++ _tt_message_object_set(_Tt_message_handle*,const char*)
+internalC++ _tt_message_op(_Tt_message_handle*)
+internalC++ _tt_message_op_set(_Tt_message_handle*,const char*)
+internalC++ _tt_message_opnum(_Tt_message_handle*)
+internalC++ _tt_message_otype(_Tt_message_handle*)
+internalC++ _tt_message_otype_set(_Tt_message_handle*,const char*)
+internalC++ _tt_message_pattern(_Tt_message_handle*)
+internalC++ _tt_message_print(_Tt_message_handle*)
+internalC++ _tt_message_receive(void)
+internalC++ _tt_message_reject(_Tt_message_handle*)
+internalC++ _tt_message_rejecter(_Tt_message_handle*,int)
+internalC++ _tt_message_rejecters_count(_Tt_message_handle*)
+internalC++ _tt_message_reply(_Tt_message_handle*)
+internalC++ _tt_message_scope(_Tt_message_handle*)
+internalC++ _tt_message_scope_set(_Tt_message_handle*,tt_scope)
+internalC++ _tt_message_send(_Tt_message_handle*)
+internalC++ _tt_message_send_on_exit(_Tt_message_handle*)
+internalC++ _tt_message_sender(_Tt_message_handle*)
+internalC++ _tt_message_sender_ptype(_Tt_message_handle*)
+internalC++ _tt_message_sender_ptype_set(_Tt_message_handle*,const char*)
+internalC++ _tt_message_session(_Tt_message_handle*)
+internalC++ _tt_message_session_set(_Tt_message_handle*,const char*)
+internalC++ _tt_message_state(_Tt_message_handle*)
+internalC++ _tt_message_status(_Tt_message_handle*)
+internalC++ _tt_message_status_set(_Tt_message_handle*,int)
+internalC++ _tt_message_status_string(_Tt_message_handle*)
+internalC++ _tt_message_status_string_set(_Tt_message_handle*,const char*)
+internalC++ _tt_message_uid(_Tt_message_handle*)
+internalC++ _tt_message_user(_Tt_message_handle*,int)
+internalC++ _tt_message_user_set(_Tt_message_handle*,int,void*)
+internalC++ _tt_message_xarg_add(_Tt_message_handle*,tt_mode,const char*,xdrproc_t,void*)
+internalC++ _tt_message_xcontext_set(_Tt_message_handle*,const char*,xdrproc_t,void*)
+internalC++ _tt_mfs_1(char**,CLIENT*)
+internalC++ _tt_min_auth_level_1(char**,CLIENT*,clnt_stat*)
+internalC++ _tt_move_file_1(_tt_move_file_args*,CLIENT*)
+internalC++ _tt_move_file_1(_tt_move_file_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_netfile_file_1(_tt_file_netfile_args*,CLIENT*)
+internalC++ _tt_objid_equal(const char*,const char*)
+internalC++ _tt_objid_objkey(const char*)
+internalC++ _tt_onotice_create(const char*,const char*)
+internalC++ _tt_open(void)
+internalC++ _tt_orequest_create(const char*,const char*)
+internalC++ _tt_otype_base(const char*)
+internalC++ _tt_otype_derived(const char*,int)
+internalC++ _tt_otype_deriveds_count(const char*)
+internalC++ _tt_otype_hsig_arg_mode(const char*,int,int)
+internalC++ _tt_otype_hsig_arg_type(const char*,int,int)
+internalC++ _tt_otype_hsig_args_count(const char*,int)
+internalC++ _tt_otype_hsig_count(const char*)
+internalC++ _tt_otype_hsig_op(const char*,int)
+internalC++ _tt_otype_is_derived(const char*,const char*)
+internalC++ _tt_otype_opnum_callback_add(const char*,int,tt_callback_action (*)(_Tt_message_handle*,_Tt_pattern_handle*))
+internalC++ _tt_otype_osig_arg_mode(const char*,int,int)
+internalC++ _tt_otype_osig_arg_type(const char*,int,int)
+internalC++ _tt_otype_osig_args_count(const char*,int)
+internalC++ _tt_otype_osig_count(const char*)
+internalC++ _tt_otype_osig_op(const char*,int)
+internalC++ _tt_pattern_address_add(_Tt_pattern_handle*,tt_address)
+internalC++ _tt_pattern_arg_add(_Tt_pattern_handle*,tt_mode,const char*,const char*)
+internalC++ _tt_pattern_barg_add(_Tt_pattern_handle*,tt_mode,const char*,const unsigned char*,int)
+internalC++ _tt_pattern_bcontext_add(_Tt_pattern_handle*,const char*,const unsigned char*,int)
+internalC++ _tt_pattern_callback_add(_Tt_pattern_handle*,tt_callback_action (*)(_Tt_message_handle*,_Tt_pattern_handle*))
+internalC++ _tt_pattern_category(_Tt_pattern_handle*)
+internalC++ _tt_pattern_category_set(_Tt_pattern_handle*,tt_category)
+internalC++ _tt_pattern_class_add(_Tt_pattern_handle*,tt_class)
+internalC++ _tt_pattern_context_add(_Tt_pattern_handle*,const char*,const char*)
+internalC++ _tt_pattern_create(void)
+internalC++ _tt_pattern_destroy(_Tt_pattern_handle*)
+internalC++ _tt_pattern_disposition_add(_Tt_pattern_handle*,tt_disposition)
+internalC++ _tt_pattern_file_add(_Tt_pattern_handle*,const char*)
+internalC++ _tt_pattern_iarg_add(_Tt_pattern_handle*,tt_mode,const char*,int)
+internalC++ _tt_pattern_icontext_add(_Tt_pattern_handle*,const char*,int)
+internalC++ _tt_pattern_object_add(_Tt_pattern_handle*,const char*)
+internalC++ _tt_pattern_op_add(_Tt_pattern_handle*,const char*)
+internalC++ _tt_pattern_opnum_add(_Tt_pattern_handle*,int)
+internalC++ _tt_pattern_otype_add(_Tt_pattern_handle*,const char*)
+internalC++ _tt_pattern_print(_Tt_pattern_handle*)
+internalC++ _tt_pattern_register(_Tt_pattern_handle*)
+internalC++ _tt_pattern_scope_add(_Tt_pattern_handle*,tt_scope)
+internalC++ _tt_pattern_sender_add(_Tt_pattern_handle*,const char*)
+internalC++ _tt_pattern_sender_ptype_add(_Tt_pattern_handle*,const char*)
+internalC++ _tt_pattern_session_add(_Tt_pattern_handle*,const char*)
+internalC++ _tt_pattern_state_add(_Tt_pattern_handle*,tt_state)
+internalC++ _tt_pattern_unregister(_Tt_pattern_handle*)
+internalC++ _tt_pattern_user(_Tt_pattern_handle*,int)
+internalC++ _tt_pattern_user_set(_Tt_pattern_handle*,int,void*)
+internalC++ _tt_pattern_xarg_add(_Tt_pattern_handle*,tt_mode,const char*,xdrproc_t,void*)
+internalC++ _tt_pattern_xcontext_add(_Tt_pattern_handle*,const char*,xdrproc_t,void*)
+internalC++ _tt_pnotice_create(tt_scope,const char*)
+internalC++ _tt_prequest_create(tt_scope,const char*)
+internalC++ _tt_print_escaped_string(const _Tt_ostream&,const char*,int,int,int)
+internalC++ _tt_procid_session(const char*)
+internalC++ _tt_ptype_declare(const char*)
+internalC++ _tt_ptype_exists(const char*)
+internalC++ _tt_ptype_opnum_callback_add(const char*,int,tt_callback_action (*)(_Tt_message_handle*,_Tt_pattern_handle*))
+internalC++ _tt_ptype_opnum_user(const char*,int)
+internalC++ _tt_ptype_opnum_user_set(const char*,int,void*)
+internalC++ _tt_ptype_undeclare(const char*)
+internalC++ _tt_queue_message_1(_tt_queue_msg_args*,CLIENT*)
+internalC++ _tt_queue_message_1(_tt_queue_msg_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_release(int)
+internalC++ _tt_remove_file_1(_tt_remove_file_args*,CLIENT*)
+internalC++ _tt_remove_file_1(_tt_remove_file_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_remove_obj_1(_tt_remove_obj_args*,CLIENT*)
+internalC++ _tt_remove_obj_1(_tt_remove_obj_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_session_address(_Tt_object_ptr&)
+internalC++ _tt_session_bprop(const char*,const char*,int,unsigned char**,int*)
+internalC++ _tt_session_bprop_add(const char*,const char*,const unsigned char*,int)
+internalC++ _tt_session_bprop_set(const char*,const char*,const unsigned char*,int)
+internalC++ _tt_session_join(const char*)
+internalC++ _tt_session_prop(const char*,const char*,int)
+internalC++ _tt_session_prop_add(const char*,const char*,const char*)
+internalC++ _tt_session_prop_count(const char*,const char*)
+internalC++ _tt_session_prop_set(const char*,const char*,const char*)
+internalC++ _tt_session_propname(const char*,int)
+internalC++ _tt_session_propnames_count(const char*)
+internalC++ _tt_session_quit(const char*)
+internalC++ _tt_session_types_load(const char*)
+internalC++ _tt_set_file_access_1(_tt_set_file_access_args*,CLIENT*)
+internalC++ _tt_set_file_access_1(_tt_set_file_access_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_set_file_prop_1(_tt_set_file_prop_args*,CLIENT*)
+internalC++ _tt_set_file_prop_1(_tt_set_file_prop_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_set_file_props_1(_tt_set_file_props_args*,CLIENT*)
+internalC++ _tt_set_file_props_1(_tt_set_file_props_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_set_obj_access_1(_tt_set_obj_access_args*,CLIENT*)
+internalC++ _tt_set_obj_access_1(_tt_set_obj_access_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_set_obj_file_1(_tt_set_obj_file_args*,CLIENT*)
+internalC++ _tt_set_obj_file_1(_tt_set_obj_file_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_set_obj_prop_1(_tt_set_obj_prop_args*,CLIENT*)
+internalC++ _tt_set_obj_prop_1(_tt_set_obj_prop_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_set_obj_props_1(_tt_set_obj_props_args*,CLIENT*)
+internalC++ _tt_set_obj_props_1(_tt_set_obj_props_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_set_obj_type_1(_tt_set_obj_type_args*,CLIENT*)
+internalC++ _tt_set_obj_type_1(_tt_set_obj_type_args*,const _Tt_db_client_ptr&)
+internalC++ _tt_set_rpc_message(const _Tt_message_ptr&,_tt_message&)
+internalC++ _tt_setoidgroup_1(_Tt_oidaccess_args*,CLIENT*)
+internalC++ _tt_setoidmode_1(_Tt_oidaccess_args*,CLIENT*)
+internalC++ _tt_setoiduser_1(_Tt_oidaccess_args*,CLIENT*)
+internalC++ _tt_spec_bprop(const char*,const char*,int,unsigned char**,int*)
+internalC++ _tt_spec_bprop_add(const char*,const char*,const unsigned char*,int)
+internalC++ _tt_spec_bprop_set(const char*,const char*,const unsigned char*,int)
+internalC++ _tt_spec_create(const char*)
+internalC++ _tt_spec_destroy(const char*)
+internalC++ _tt_spec_file(const char*)
+internalC++ _tt_spec_move(const char*,const char*)
+internalC++ _tt_spec_prop(const char*,const char*,int)
+internalC++ _tt_spec_prop_add(const char*,const char*,const char*)
+internalC++ _tt_spec_prop_count(const char*,const char*)
+internalC++ _tt_spec_prop_set(const char*,const char*,const char*)
+internalC++ _tt_spec_propname(const char*,int)
+internalC++ _tt_spec_propnames_count(const char*)
+internalC++ _tt_spec_type(const char*)
+internalC++ _tt_spec_type_set(const char*,const char*)
+internalC++ _tt_spec_write(const char*)
+internalC++ _tt_status_message(tt_status)
+internalC++ _tt_strdup(const char*)
+internalC++ _tt_strdup(const char*,int)
+internalC++ _tt_take(char*)
+internalC++ _tt_test_and_set_1(_Tt_test_and_set_args*,CLIENT*)
+internalC++ _tt_trace_parse(_Tt_string&,_Tt_trace_parser*)
+internalC++ _tt_transaction_1(_Tt_transaction_args*,CLIENT*)
+internalC++ _tt_typecb_key(_Tt_object_ptr&)
+internalC++ _tt_typecb_key(const _Tt_string&,int)
+internalC++ _tt_valid_otype(const char*)
+internalC++ _tt_vsyslog(FILE*,int,const char*,va_list)
+internalC++ _tt_xcontext_join(const char*,xdrproc_t,void*)
+internalC++ _tt_xcontext_quit(const char*,xdrproc_t,void*)
+internalC++ _tt_xdr_cstring_list(XDR*,char***)
+internalC++ _tt_xdr_decode(xdrproc_t,void*,_Tt_string)
+internalC++ _tt_xdr_encode(xdrproc_t,void*,_Tt_string&)
+internalC++ _tt_xdr_sizeof(xdrproc_t,void*)
+internalC++ _tt_xdr_string_list(XDR*,_Tt_string_list_ptr*)
+internalC++ _ttdt_contract_cb(_Tt_message_handle*,_Tt_pattern_handle*,void*,void*)
+internalC++ _ttdt_do_GSet_Geometry(_Tt_message_handle*,void*,_Tt_message_handle*,int*,int*,int*,int*)
+internalC++ _ttdt_do_Get_XInfo(_Tt_message_handle*,void*,_Tt_message_handle*,char**,int*,int*)
+internalC++ _ttdt_do_RaiseLower(_Tt_message_handle*,void*,_Tt_message_handle*)
+internalC++ _ttdt_do_Set_XInfo(_Tt_message_handle*,void*,_Tt_message_handle*,char*,int,int)
+internalC++ _ttdt_do_wm_state(_Tt_message_handle*,void*,_Tt_message_handle*,int*)
+internalC++ _ttdt_file_request(Tttk_op,_Tt_message_handle*,const char*,tt_scope,_XtAppStruct*,int)
+internalC++ _ttdt_pat(Tttk_op,_Tt_message_handle* (*)(_Tt_message_handle*,_Tt_pattern_handle*,void*,void*),tt_category,_Tt_message_handle*,void*,void*,int)
+internalC++ _ttdt_posix_cb(_Tt_message_handle*,_Tt_pattern_handle*,void*,void*)
+internalC++ _ttdt_realized_widget(void*,int)
+internalC++ _tttk_block_app_while(_XtAppStruct*,const int*,int)
+internalC++ _tttk_block_procid_while(const int*,int)
+internalC++ _tttk_message_am_handling(_Tt_message_handle*)
+internalC++ _tttk_message_arg_is_set(_Tt_message_handle*,unsigned int)
+internalC++ _tttk_message_arg_ival(_Tt_message_handle*,unsigned int,int)
+internalC++ _tttk_message_arg_val(_Tt_message_handle*,unsigned int,const char*)
+internalC++ _tttk_message_id(_Tt_message_handle*,int)
+internalC++ _tttk_message_in_final_state(_Tt_message_handle*)
+internalC++ _tttk_message_receive(const char*)
+internalC++ _tttk_message_reply(_Tt_message_handle*)
+internalC++ _tttk_pattern_contract(_Tt_pattern_handle*)
+internalC++ _tttk_patterns_destroy(_Tt_pattern_handle**)
+internalC++ _tttk_timed_out(void*,unsigned long)
+internalC++ operator<<(_Tt_trace_stream&,_Tt_message&)
+internalC++ ttMediaLoadPatCB(_Tt_message_handle*,_Tt_pattern_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,Tttk_op,tt_status,unsigned char*,int,char*,char*),void*,Tttk_op,int,int)
+internalC++ tt_ldpath(_Tt_string,_Tt_string&)
+internalC++ tt_xdr_add_pattern_args(XDR*,_Tt_add_pattern_args*)
+internalC++ tt_xdr_arg(XDR*,_Tt_arg_ptr*)
+internalC++ tt_xdr_arg_list(XDR*,_Tt_arg_list_ptr*)
+internalC++ tt_xdr_bstring(XDR*,char**)
+internalC++ tt_xdr_del_pattern_args(XDR*,_Tt_del_pattern_args*)
+internalC++ tt_xdr_message_list(XDR*,_Tt_message_list_ptr*)
+internalC++ tt_xdr_pattern(XDR*,_Tt_pattern_ptr*)
+internalC++ ttdt_Get_Geometry(const char*,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,int,int,int,int),void*,int)
+internalC++ ttdt_Get_Geometry_pat(tt_category,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,int*,int*,int*,int*),void*,int)
+internalC++ ttdt_Get_Iconified(const char*,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,int),void*,int)
+internalC++ ttdt_Get_Iconified_pat(tt_category,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,int*),void*,int)
+internalC++ ttdt_Get_Locale(const char*,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,const char**,const char**),void*,const char**,int)
+internalC++ ttdt_Get_Situation(const char*,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,char*),void*,int)
+internalC++ ttdt_Get_XInfo(const char*,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,char*,int,int),void*,int)
+internalC++ ttdt_Get_XInfo_pat(tt_category,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,char**,int*,int*),void*,int)
+internalC++ ttdt_Set_Geometry(const char*,_Tt_message_handle*,tt_class,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,int,int,int,int),void*,int,int,int,int,int)
+internalC++ ttdt_Set_Geometry_pat(tt_category,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,int*,int*,int*,int*),void*,int)
+internalC++ ttdt_Set_Iconified(const char*,_Tt_message_handle*,tt_class,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,int),void*,int,int)
+internalC++ ttdt_Set_Iconified_pat(tt_category,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,int*),void*,int)
+internalC++ ttdt_Set_XInfo(const char*,_Tt_message_handle*,tt_class,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,char*,int,int),void*,const char*,int,int,int)
+internalC++ ttdt_Set_XInfo_pat(tt_category,_Tt_message_handle*,_Tt_message_handle* (*)(_Tt_message_handle*,void*,_Tt_message_handle*,char*,int,int),void*,int)
+internalC++ ttdt_Started(_Tt_message_handle*,const char*,const char*,const char*,int)
+internalC++ ttdt_Status(_Tt_message_handle*,_Tt_message_handle*,const char*,const char*,const char*,const char*,int)
+internalC++ ttdt_Stopped(_Tt_message_handle*,const char*,const char*,const char*,int)
+internalC++ xdr_Tt_prop(XDR*,_Tt_prop*)
+internalC++ xdr_Tt_trans_record(XDR*,_Tt_trans_record*)
+internalC++ xdr_Tt_trans_record_list(XDR*,_Tt_trans_record**)
+internalC++ xdr_keydesc(XDR*,keydesc*)
+internalC++ xdr_keypart(XDR*,keypart*)
+internalC++ xdr_tt_access(XDR*,_tt_access*)
+internalC++ xdr_tt_get_obj_type_args(XDR*,_tt_get_obj_type_args*)
+internalC++ xdr_tt_message(XDR*,_tt_message*)
+internalC++ xdr_tt_property(XDR*,_tt_property*)
+internalC++ xdr_tt_property_value(XDR*,_tt_property_value*)
+internalC++ xdr_tt_string(XDR*,_tt_string*)
+
+/*
+ * Public symbols added for ICE style authorization
+ */
+internalC++ _tt_AuthFileName(void)
+internalC++ _tt_FreeAuthFileEntry(_tt_AuthFileEntry*)
+internalC++ _tt_GenerateMagicCookie(int)
+internalC++ _tt_GetAuthFileEntry(char*,char*,char*)
+internalC++ _tt_LockAuthFile(char*,int,int,long)
+internalC++ _tt_ReadAuthFileEntry(FILE*)
+internalC++ _tt_UnlockAuthFile(char*)
+internalC++ _tt_WriteAuthFileEntry(FILE*,_tt_AuthFileEntry*)
+
+#ifdef OPT_BUG_USL
+internal _xti_strerror
+#endif
+
+#ifdef _AIX
+/* Including <pthread.h> defines these symbols everywhere on AIX machines. */
+internal __page_size
+internal __page_sizeM1
+internal __page_sizeX16
+internal __page_sizeX24
+internal __page_size_K
+internal _mutex_global_np
+#endif
+
+#if defined(_AIX) || defined(__osf__)
+/* Symbols from realpath.c */
+internal _tt_internal_realpath
+#endif
+
+#if defined(sun)
+/* C++ symbols from the Sun compiler */
+internal _pure_error_
+internalC++ operator delete(void*)
+internalC++ set_terminate(void(*)(void))
+internalC++ set_unexpected(void(*)(void))
+internalC++ terminate(void)
+internalC++ unexpected(void)
+internalC++ xstack::get_prev(void)
+#endif

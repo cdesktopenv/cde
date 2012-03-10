@@ -1,0 +1,43 @@
+/* XPM */
+/* $XConsortium: Dtsectnexti.m.pm /main/2 1996/07/23 12:21:34 drk $ */
+static char * Dtsectnexti_m_pm[] = {
+/* width height ncolors cpp [x_hot y_hot] */
+"32 32 4 1 0 0",
+/* colors */
+" 	s background	m black	c #949494949494",
+".	s iconGray2	m white	c #bdbdbdbdbdbd",
+"X	s iconGray4	m white	c #949494949494",
+"o	s iconGray6	m black	c #636363636363",
+/* pixels */
+"    ..................          ",
+"    .XXXXXXXXXXXXXXXX.o         ",
+"    .XXXXXXXXXXXXXXXX..o        ",
+"    .XXXXXXXXXXXXXXXX.X.o       ",
+"    .XXXXXXXXXXXXXXXX..X.o      ",
+"    .XXXXXXXXXXXXXXXX.X.X.o     ",
+"    .XXXXXXXXXXXXXXXX..X.X.o    ",
+"    .XXXXXXXXXXXXXXXXoooooooo   ",
+"    .XXXXXXXXXXXXXXXXXooooooo   ",
+"    .XXXXXXXXXXXXXXXXXXXXXXXoo  ",
+"    .XXXXXXXXXXXXXXXXXXXXXXXoo  ",
+"    .XXXXXXX.........XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXoooooXXXXXXX.....XXXoo  ",
+"    .XXXXoXXXXXXXXXXXXX.XXXXoo  ",
+"    .XXXXXoXXXXXXXXXXX.XXXXXoo  ",
+"    .XXXXXXoXXXXXXXXX.XXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXXoXXXXX.XXXXXXXXoo  ",
+"    .XXXXXXXXXoXXX.XXXXXXXXXoo  ",
+"    .XXXXXXXXXXoX.XXXXXXXXXXoo  ",
+"    .XXXXXXXXXXXoXXXXXXXXXXXoo  ",
+"    .XXXXXXXXXXXXXXXXXXXXXXXoo  ",
+"    .XXXXXXXXXXXXXXXXXXXXXXXoo  ",
+"    .ooooooooooooooooooooooooo  ",
+"      oooooooooooooooooooooooo  "};

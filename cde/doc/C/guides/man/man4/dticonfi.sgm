@@ -1,0 +1,376 @@
+<!-- $XConsortium: dticonfi.sgm /main/9 1996/09/08 20:18:23 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN97.rsml.1">
+<refmeta><refentrytitle>dticonfile</refentrytitle><manvolnum>special file
+</manvolnum></refmeta>
+<refnamediv><refname><filename>dticonfile</filename></refname><refpurpose>
+icon conventions for &str-XZ; icons</refpurpose></refnamediv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<refsynopsisdiv>
+<synopsis>The conventions used within the &str-XZ; for icon
+sizes, naming, location, and usage are specified.</synopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>Both X Pixmap and X Bitmap icon file formats are used within the &str-XZ;.
+X Pixmap (XPM) icons are multi-color images based on the XPM format developed
+by Arnaud Le Hors. A pixmap file is an ASCII file that can be read and modified
+by hand, in addition to using color pixmap editors (like the &str-XZ; Icon
+Editor). X Bitmap (XBM) icons are monochrome (two-color) images based on the
+official X11 Bitmap File Format. Bitmap files are ASCII files; however, the
+data is simply a binary representation of the bitmap, and as such is not easily
+read or modified by hand. The &str-XZ; icon editor can create and modify XBM
+icons. The icon editor has the ability to write out any icon in either the
+XPM or XBM file format. For a more detailed description of these file formats
+and the icon editor, see the &cdeman.dtbmfile;, &cdeman.dtpmfile; and &cdeman.dticon; man pages.</para>
+<refsect2>
+<title>File Naming</title>
+<para>&str-XZ; icon file names are typically in one of the following forms:
+</para>
+<informalexample remap="indent">
+<programlisting><emphasis>basename</emphasis>.<symbol role="Variable">format</symbol>
+<emphasis>basename</emphasis>.<symbol role="Variable">size</symbol>.<symbol role="Variable">format</symbol></programlisting>
+</informalexample>
+<para>The <emphasis>basename</emphasis> is the logical name of the icon. The
+basenames for icons that are installed with &str-XZ; begin with either <literal>Dt</literal> or <literal>Fp</literal>. <literal>Dt</literal> is the default
+prefix for all &str-XZ; icons. The <literal>Fp</literal> prefix is used for
+icons that appear in the front panel when an icon other than the default <literal>Dt</literal> icon is desired. In this case, the basename is the same.</para>
+<para>If an additional icon is needed for the client <literal>iconImage</literal>
+(iconified client window icon), a third prefix, <literal>Ic</literal>, is
+used.</para>
+<para>The <symbol role="Variable">format</symbol> is <literal>pm</literal>
+for a pixmap file and <literal>bm</literal> for a bitmap file. Size is a single
+letter: <literal>l</literal> for large, <literal>m</literal> for medium, <literal>s</literal> for small and <literal>t</literal> for tiny. Many of the logical
+icons are provided in multiple sizes for both color and monochrome. This allows &str-XZ;
+to use the optimal color and size combination for the specific task and configuration
+the user is running. Many bitmap icons have a mask associated with the icon.
+These are named <emphasis>basename.size</emphasis><literal>_m.</literal><symbol role="Variable">format</symbol>.
+All icons are named so that the longest filename
+associated with that icon is 14 bytes or less; this allows it to be used on
+a short filename system. The longest filename can be described as <literal>Dt</literal><emphasis>xxxxx</emphasis><literal>_m.l.pm</literal>, where <emphasis>xxxxx</emphasis> is the logical icon name.</para>
+</refsect2>
+<refsect2>
+<title>Example</title>
+<para>This is an example of icon files that might be associated with the icon <literal>foo</literal>. The single logical icon <literal>foo</literal> contains tiny,
+small, medium and large bitmap icons (with mask) and pixmap icons.</para>
+<informalexample remap="indent">
+<programlisting>Dtfoo.t.pm
+Dtfoo.t.bm
+Dtfoo.t_m.bm
+Dtfoo.s.pm
+Dtfoo.s.bm
+Dtfoo.s_m.bm
+Dtfoo.m.pm
+Dtfoo.m.bm
+Dtfoo.m_m.bm
+Dtfoo.l.pm
+Dtfoo.l.bm
+Dtfoo.l_m.bm</programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>Icon Sizes</title>
+<para>Icons of the following sizes and with the following suffixes are supported:
+</para>
+<variablelist>
+<varlistentry><term>Large</term>
+<listitem>
+<para>48&thinsp;&times;&thinsp;48 icon with <Filename>.l</Filename> suffix</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Medium</term>
+<listitem>
+<para>32&thinsp;&times;&thinsp;32 icon with <Filename>.m</Filename> suffix</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Small</term>
+<listitem>
+<para>24&thinsp;&times;&thinsp;24 icon with <Filename>.s</Filename> suffix</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Tiny</term>
+<listitem>
+<para>16&thinsp;&times;&thinsp;16 icon with <Filename>.t</Filename> suffix</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The icon sizes used varies for different components, and is dependent
+on the display hardware.</para>
+</refsect2>
+<refsect2>
+<title>Table Of Icon Sizes Used</title>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.07in">
+<colspec align="left" colwidth="182*">
+<colspec align="left" colwidth="190*">
+<colspec align="left" colwidth="128*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>&str-XZ; Component</literal></entry>
+<entry align="left" valign="top"><literal>HiRes,MedRes</literal></entry>
+<entry align="left" valign="top"><literal>LoRes(vga)</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Front Panel</literal></entry>
+<entry align="left" valign="top"><literal>48&thinsp;&times;&thinsp;48</literal></entry>
+<entry align="left" valign="top"><literal>32&thinsp;&times;&thinsp;32</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>FP Subpanels</literal></entry>
+<entry align="left" valign="top"><literal>32&thinsp;&times;&thinsp;32</literal></entry>
+<entry align="left" valign="top"><literal>24&thinsp;&times;&thinsp;24</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>FP Inset FP</literal></entry>
+<entry align="left" valign="top"><literal>24&thinsp;&times;&thinsp;24</literal></entry>
+<entry align="left" valign="top"><literal>16&thinsp;&times;&thinsp;16</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>WMgr ClientIcon</literal></entry>
+<entry align="left" valign="top"><literal>48&thinsp;&times;&thinsp;48</literal></entry>
+<entry align="left" valign="top"><literal>32&thinsp;&times;&thinsp;32</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>File Mgr (Large)</literal></entry>
+<entry align="left" valign="top"><literal>32&thinsp;&times;&thinsp;32</literal></entry>
+<entry align="left" valign="top"><literal>32&thinsp;&times;&thinsp;32</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>File Mgr (Small)</literal></entry>
+<entry align="left" valign="top"><literal>16&thinsp;&times;&thinsp;16</literal></entry>
+<entry align="left" valign="top"><literal>16&thinsp;&times;&thinsp;16</literal></entry>
+</row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Icon Colors</title>
+<para>These colors are used in &str-XZ; icons. The dynamic colors use color
+cells from one of the color sets in the user's color palette (except none,
+which requires no color cell).</para>
+<para>The eight icon color names are already included in the <literal>rgb.txt</literal> file. The eight icon gray color names should be added to each &str-XZ;
+vendor's <literal>rgb.txt</literal>.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="4.17in">
+<colspec align="left" colwidth="164*">
+<colspec align="left" colwidth="179*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Color Name (rgb.txt)</literal></entry>
+<entry align="left" valign="top"><literal>Symbolic Name (&lt;icon>.pm)</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>&lt; dynamic ></literal></entry>
+<entry align="left" valign="top"><literal>none</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>&lt; dynamic ></literal></entry>
+<entry align="left" valign="top"><literal>background</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>&lt; dynamic ></literal></entry>
+<entry align="left" valign="top"><literal>selectColor</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>&lt; dynamic ></literal></entry>
+<entry align="left" valign="top"><literal>topShadowColor</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>&lt; dynamic ></literal></entry>
+<entry align="left" valign="top"><literal>bottomShadowColor</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>black</literal></entry>
+<entry align="left" valign="top"><literal>iconColor1</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>white</literal></entry>
+<entry align="left" valign="top"><literal>iconColor2</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>red</literal></entry>
+<entry align="left" valign="top"><literal>iconColor3</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>green</literal></entry>
+<entry align="left" valign="top"><literal>iconColor4</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>blue</literal></entry>
+<entry align="left" valign="top"><literal>iconColor5</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>yellow</literal></entry>
+<entry align="left" valign="top"><literal>iconColor6</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>cyan</literal></entry>
+<entry align="left" valign="top"><literal>iconColor7</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>magenta</literal></entry>
+<entry align="left" valign="top"><literal>iconColor8</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>iconGray1</literal></entry>
+<entry align="left" valign="top"><literal>iconGray1</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>iconGray2</literal></entry>
+<entry align="left" valign="top"><literal>iconGray2</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>iconGray3</literal></entry>
+<entry align="left" valign="top"><literal>iconGray3</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>iconGray4</literal></entry>
+<entry align="left" valign="top"><literal>iconGray4</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>iconGray5</literal></entry>
+<entry align="left" valign="top"><literal>iconGray5</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>iconGray6</literal></entry>
+<entry align="left" valign="top"><literal>iconGray6</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>iconGray7</literal></entry>
+<entry align="left" valign="top"><literal>iconGray7</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>iconGray8</literal></entry>
+<entry align="left" valign="top"><literal>iconGray8</literal></entry></row>
+</tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Icon File Locations</title>
+<para>&str-XZ; has default locations where it looks to find system and user
+icon files. See the &cdeman.dtappintegrate; manual page for detailed
+information on where to install icons. See the &cdeman.dtsearchpath;
+manual page for information on the icon lookup path.</para>
+</refsect2>
+<refsect2>
+<title>Icon Usage In &str-XZ;</title>
+<para>Icons are used in a variety of ways within &str-XZ;. Following are examples
+of some of the general areas in which users can use icons to customize &str-XZ;
+configurations. A system administrator can also do this on a system- or network-wide
+basis. For more detailed information on any of these topics, see the documentation
+for that component or configuration file.</para>
+</refsect2>
+<refsect2>
+<title>Actions And Data Types</title>
+<para>An icon is associated with an action or data type using the <systemitem class="Constant">ICON</systemitem> keyword in the action or data type definition
+(located in <Filename>.dt</Filename> files). If &str-XZ; naming conventions
+are followed, there is no need to specify the path or icon suffix. The size
+and format used is determined at runtime based on the system configuration.
+</para>
+</refsect2>
+<refsect2>
+<title>Example</title>
+<informalexample remap="indent">
+<programlisting>ACTION    IslandPaintOpenDoc
+{
+    ICON           Ipaint
+    WINDOW_TYPE    NO_STDIO
+    EXEC_HOST      MyMachine
+    EXEC_STRING    /usr/bin/IslandPaint %(File)Arg_1"File to open:"
+}</programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>Client Icons</title>
+<para>An icon is associated with a client's iconified window through the iconImage
+window manager resource as follows:</para>
+<informalexample remap="indent">
+<programlisting><literal>Dtwm*</literal><emphasis>clientName</emphasis><literal>*iconImage: IconFilename</literal></programlisting>
+</informalexample>
+<para>The icon may be a pixmap or bitmap format icon. Some clients do not
+allow their default icon to be overridden.</para>
+</refsect2>
+<refsect2>
+<title>Example</title>
+<informalexample remap="indent">
+<programlisting>Dtwm*IslandPaint*clientIcon: IslandPaint.bm</programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>Front Panel</title>
+<para>Icons can be displayed as controls in the front panel using the <systemitem class="Constant">ICON</systemitem> keyword in control definitions. Either
+pixmap- or bitmap-format icons can be used. For controls that are of type <literal>icon</literal> with <systemitem class="Constant">MONITOR_TYPE</systemitem>
+set to <literal>file</literal> or <literal>mail</literal>, an alternate image
+can be specified using the keyword <systemitem class="Constant">ALTERNATE_ICON</systemitem>. The alternate icon is used when the file size has grown. Controls
+of type <literal>busy</literal> can also have an alternate icon, which is
+cycled with the <systemitem class="Constant">ICON</systemitem> to give a blinking
+effect. For controls that allow a <systemitem class="Constant">PUSH_ACTION</systemitem> or a <systemitem class="Constant">DROP_ACTION</systemitem>,
+push or drop animation can be defined using multiple icons that create animation
+visual effects.</para>
+</refsect2>
+<refsect2>
+<title>Example</title>
+<informalexample remap="indent">
+<programlisting>CONTROL DirectoryTerm
+{
+    TYPE             icon
+    IMAGE            directoryTerm
+    DROP_ACTION      f.action StartDirectoryTerm
+    PUSH_ACTION      f.action StartDirectoryTerm
+    PUSH_ANIMATION   DirAnimation
+}
+ANIMATION DirAnimation
+{
+    ANIMATION   frame1  300
+    ANIMATION   frame2
+    ...
+}</programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>Backdrops</title>
+<para>The backdrop icons show up in a list in the Backdrop Dialog of the Style
+Manager. The user can select a single backdrop per workspace to be used as
+the background for that workspace. This is a visual clue to help the user
+distinguish one workspace from another. Backdrops are available in both monochrome
+(bitmap) and color (pixmap) format (all backdrops are unique; there are not
+bitmap and pixmap versions of the same backdrop). Although backdrops use the
+same file format as other icons, they are not used like what is typically
+referred to as an icon. They would be more accurately described as an image.
+The image is repeated (tiled) to fill the entire background of a workspace.
+This is not typically done with an icon. The &str-XZ; comes with a set of
+standard backdrops. Some are monochrome and some are in color. Custom backdrops
+can be added to system-installed backdrops using the Style Manager and Window
+Manager <literal>backdropDirectories</literal> resource. Backdrops can be
+either bitmap or pixmap format. A system administrator can add system-wide
+backdrops to the system-wide default backdrop directory, <Filename>/usr/dt/backdrops/C</Filename>.</para>
+</refsect2>
+<refsect2>
+<title>Example</title>
+<informalexample remap="indent">
+<programlisting>*backdropDirectories: /users/julie/.dt/icons/myBackdrops
+</programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>File Manager As Icon Browser</title>
+<para>The File Manager can be used as an icon browser. In this mode, when
+you change to a directory that contains icons ( <Filename>.bm</Filename> or <Filename>.pm</Filename> files), each icon is displayed next to the icon file name. To
+enable icon browsing, copy the file <Filename>/usr/dt/contrib/types/IconBrowse.dt</Filename> into your <Filename>$HOME/.dt/types</Filename> directory. Then reload
+the action database by executing the <literal>ReloadActions</literal> action.
+For large icons, or on systems with little memory, this could cause delays
+on some directories. To disable icon browsing, remove personal copies of the <literal>IconBrowse.dt</literal> file and reload the <?Pub Caret>action database again.
+</para>
+</refsect2>
+<refsect2>
+<title>Design Recommendations</title>
+<para>In order to allow colorful icons while minimizing the number of colors
+used by the &str-XZ;, it is recommended that the colors used be limited to
+those available in the Icon Editor. These include the dynamic Motif widget
+colors, as well as a set of static colors and static gray colors. The dynamic
+colors include foreground, background, top shadow, bottom shadow, select and
+a transparent color. The static colors include black, white, red, blue, green,
+yellow, magenta and cyan. The static gray colors are eight varying shades
+of gray, from nearly black to nearly white.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtpmfile;, &cdeman.dtbmfile;, &cdeman.dticon;, &cdeman.dtfpfile;, &cdeman.dtdtfile;, &cdeman.dtactionfile;, &cdeman.dtdtsfile;, &cdeman.dtstyle;, &cdeman.dtenvvar;, <function>xmgeticonfilename</function>(3).
+</para>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->
+<?Pub *0000047663>

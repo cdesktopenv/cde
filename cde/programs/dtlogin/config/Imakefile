@@ -1,0 +1,79 @@
+XCOMM $TOG: Imakefile /main/10 1999/02/26 11:28:56 mgreess $
+
+#if InstallXdmConfig
+      XDMCONFIG = xdm-config
+   XDMRESOURCES = Xresources
+     XDMSERVERS = Xservers
+     XDMSESSION = Xsession
+
+InstallNonExec($(XDMCONFIG),$(XDMDIR))
+InstallNonExec($(XDMRESOURCES),$(XDMDIR))
+InstallNonExec($(XDMSERVERS),$(XDMDIR))
+InstallNonExec($(XDMSESSION),$(XDMDIR))
+
+Xservers:
+	echo "Choose one of" Xservers.* "and copy it to Xservers"
+	exit 1
+#endif
+
+LOCAL_CPP_DEFINES = -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP) \
+                    -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
+                    -DCDE_LOGFILES_TOP=$(CDE_LOGFILES_TOP) \
+                    -DXPROJECTROOT=X11ProjectRoot
+
+
+#ifdef SunArchitecture
+EXTRA_CPP_TARGETS = \
+	0015.sun.env \
+	Xresources.ow \
+	Xsession.ow \
+	Xsession.ow2
+#else
+EXTRA_CPP_TARGETS =
+#endif
+
+CPP_TARGETS = \
+	0060.dtsysenv		Dtlogin \
+	Xaccess			Xconfig \
+	Xconfig.con		Xconfig.nc \
+	Xfailsafe		Xreset \
+	Xresources		Xresources.ive \
+	Xservers		Xservers.con \
+	Xservers.nc		Xsession \
+	Xsession.ive		Xsetup \
+	Xstartup		current.session \
+	display.current.session	display.home.session \
+	dtlslocale		dtprofile \
+	home.session		$(EXTRA_CPP_TARGETS)
+
+AllTarget($(CPP_TARGETS))
+
+CppScriptTarget(0015.sun.env,0015.sun.env.src,$(LOCAL_CPP_DEFINES),)
+CppScriptTarget(0020.dtims,0020.dtims.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(0060.dtsysenv,0060.dtsysenv.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Dtlogin,Dtlogin.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xaccess,Xaccess.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xconfig,Xconfig.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xconfig.con,Xconfig.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xconfig.nc,Xconfig.src,-D_NO_CONSOLE $(LOCAL_CPP_DEFINES),)
+CppScriptTarget(Xfailsafe,Xfailsafe.src,$(LOCAL_CPP_DEFINES),)
+CppScriptTarget(Xreset,Xreset.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xresources,Xresources.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xresources.ive,Xresources.src,-DIVE $(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xresources.ow,Xresources.ow.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xservers,Xservers.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xservers.con,Xservers.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xservers.nc,Xservers.src,-D_NO_CONSOLE $(LOCAL_CPP_DEFINES),)
+CppSourceFile(Xservers.nc,Xservers.src,-D_NO_CONSOLE,)
+CppScriptTarget(Xsession,Xsession.src,$(LOCAL_CPP_DEFINES),)
+CppScriptTarget(Xsession.ive,Xsession.src,-DIVE $(LOCAL_CPP_DEFINES),)
+CppScriptTarget(Xsession.ow,Xsession.ow.src,$(LOCAL_CPP_DEFINES),)
+CppScriptTarget(Xsession.ow2,Xsession.ow2.src,$(LOCAL_CPP_DEFINES),)
+CppScriptTarget(Xsetup,Xsetup.src,$(LOCAL_CPP_DEFINES),)
+CppScriptTarget(Xstartup,Xstartup.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(current.session,current.session.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(display.current.session,display.current.session.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(display.home.session,display.home.session.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(dtlslocale,dtlslocale.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(dtprofile,dtprofile.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(home.session,home.session.src,$(LOCAL_CPP_DEFINES),)

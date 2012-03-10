@@ -1,0 +1,661 @@
+<!-- $XConsortium: ch03.sgm /main/11 1996/12/21 19:18:57 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.cnfam.div.1">
+<title id="sag.cnfam.mkr.1">Installazione e amministrazione delle applicazioni</title>
+<para><indexterm><primary>Gestione di applicazioni</primary><secondary>descrizione</secondary></indexterm>La Gestione di applicazioni &egrave; il contenitore
+delle applicazioni disponibili agli utenti del desktop.</para>
+<informaltable id="sag.cnfam.itbl.1" frame="all">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.13in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Struttura
+della Gestione di applicazioni40'--><xref role="JumpText" linkend="sag.cnfam.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Aggiunta
+di nuove applicazioni alla Gestione d--><!--i applicazioni43'--><xref role="JumpText"
+linkend="sag.cnfam.mkr.6"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Creazione
+e amministrazione dei gruppi di appl--><!--icazioni generali46'--><xref role="JumpText"
+linkend="sag.cnfam.mkr.10"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Modifica
+del percorso di ricerca usato per loc--><!--alizzare le applicazioni47'--><xref
+role="JumpText" linkend="sag.cnfam.mkr.11"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Amministrazione
+generale della Gestione di app--><!--licazioni49'--><xref role="JumpText"
+linkend="sag.cnfam.mkr.13"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Cambiamento
+dell'editor di testo e dell'emulat--><!--ore di terminale50'--><xref role="JumpText"
+linkend="sag.cnfam.mkr.14"></para></entry></row></tbody></tgroup></informaltable>
+<sect1 id="sag.cnfam.div.2">
+<title id="sag.cnfam.mkr.2">Struttura della Gestione di applicazioni</title>
+<para>Il livello pi&ugrave; elevato della Gestione di applicazioni contiene
+generalmente un insieme di directory. Ognuna di queste, e il relativo contenuto,
+viene detta un<indexterm><primary>gruppi di applicazioni</primary><secondary>definizione</secondary></indexterm> <emphasis>gruppo di applicazioni</emphasis>.
+</para>
+<figure>
+<title>Gruppi di applicazioni nella Gestione di applicazioni</title>
+<graphic id="sag.cnfam.grph.1" entityref="SAG.CnfAM.fig.1"></graphic>
+</figure>
+<para>I gruppi di applicazioni che compiono nella Gestione di applicazioni
+possono risiedere in diverse posizioni, sia sul sistema locale che nella rete.
+</para>
+<sect2 id="sag.cnfam.div.3">
+<title>Posizione delle directory della Gestione di applicazioni<indexterm>
+<primary>Gestione di applicazioni</primary><secondary>posizione nel file system</secondary></indexterm></title>
+<para>Nel file system, la Gestione di applicazioni &egrave; la directory <filename>/var/dt/appconfig/appmanager/<symbol role="Variable">login</symbol>-<symbol role="Variable">nomehost</symbol>-<symbol role="Variable">display</symbol></filename>.
+Questa directory viene creata in modo dinamico ad ogni login dell'utente.
+</para>
+<para>Ad esempio, se l'utente <command>ron</command> effettua il login dal
+display <filename>wxyz:0</filename>, la directory della Gestione di applicazioni
+sar&agrave; <filename>/var/dt/appconfig/appmanager/ron- wxyz-0</filename>.
+</para>
+</sect2>
+<sect2 id="sag.cnfam.div.4">
+<title id="sag.cnfam.mkr.3">Come vengono identificate le applicazioni<indexterm>
+<primary>applicazioni</primary><secondary>identificazione nella Gestione di
+applicazioni</secondary></indexterm><indexterm><primary>Gestione di applicazioni</primary><secondary>identificazione delle applicazioni</secondary></indexterm><indexterm>
+<primary>gruppi di applicazioni</primary><secondary>identificazione</secondary>
+</indexterm></title>
+<para>La Gestione di applicazioni identifica e riunisce gruppi di applicazioni
+locali e remoti. Questi gruppi vengono localizzati nelle directory incluse
+nel percorso di ricerca delle<indexterm><primary>percorsi di ricerca</primary>
+<secondary>applicazioni</secondary></indexterm> applicazioni.</para>
+<para>Il percorso di ricerca predefinito comprende le seguenti directory:<indexterm>
+<primary>applicazioni</primary><secondary>percorso di ricerca</secondary>
+</indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="145*">
+<colspec colwidth="311*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Livello</para></entry><entry
+align="left" valign="bottom"><para>Posizione</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Predefinito</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">lingua</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Di sistema</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">lingua</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Personale</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/appmanager</filename></para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Per realizzare il livello pi&ugrave; elevato della Gestione di applicazioni,
+al momento del login viene creata una serie di collegamenti tra i gruppi di
+applicazioni (directory) inclusi nel percorso di ricerca delle applicazioni
+e la directory <filename>/var/dt/appconfig/appmanager/<symbol role="Variable">login</symbol>-<symbol role="Variable">nomehost</symbol>-<symbol role="Variable">display</symbol></filename>. L'operazione di identificazione e raggruppamento
+viene eseguita dall'utility del desktop<indexterm><primary>dtappgather</primary>
+</indexterm> <command>dtappgather</command>, che viene avviata automaticamente
+dalla Gestione del login.</para>
+<para>Ad esempio, il desktop comprende il gruppo di applicazioni predefinito:
+</para>
+<programlisting>/usr/dt/appconfig/appmanager/<symbol role="Variable">lingua</symbol>/Strumenti_desktop</programlisting>
+<para>Al momento del login, verr&agrave; creato un<indexterm><primary>Gestione
+di applicazioni</primary><secondary>collegamenti simbolici</secondary></indexterm>
+collegamento simbolico con:</para>
+<programlisting>/var/dt/appconfig/appmanager/<symbol role="Variable">login</symbol>-<symbol role="Variable">nomehost</symbol>-<symbol role="Variable">display</symbol>/Strumenti_desktop</programlisting>
+<para>Il percorso di ricerca delle applicazioni pu&ograve; includere anche
+directory remote. Questo permette di localizzare e rendere disponibili applicazioni
+che risiedono su sistemi distribuiti nella rete. Per maggiori informazioni,
+vedere <!--Original XRef content: '&&ldquo;Aggiunta di un server di applicazioni--><!--
+al percorso di ricerca&rdquo; a pagina&numsp;48'--><xref role="SecTitleAndPageNum"
+linkend="sag.cnfam.mkr.12">.</para>
+</sect2>
+<sect2 id="sag.cnfam.div.5">
+<title>Regole di precedenza nel raggruppamento delle applicazioni<indexterm>
+<primary>Gestione di applicazioni</primary><secondary>regole di precedenza</secondary></indexterm><indexterm><primary>gruppi di applicazioni</primary>
+<secondary>precedenza</secondary></indexterm></title>
+<para>Se nel percorso di ricerca sono comprese pi&ugrave; copie delle stesse
+applicazioni, i gruppi di applicazioni personali avranno la precedenza su
+quelli di sistema, e questi ultimi su quelli predefiniti. Ad esempio, se sono
+presenti sia il gruppo <filename>/usr/dt/appconfig/appmanager/it/Strumenti_desktop</filename> che il gruppo <filename>/etc/dt/appconfig/appmanager/it/Strumenti_desktop</filename>, verr&agrave; usata la copia sotto <filename>/etc</filename>.
+</para>
+</sect2>
+<sect2 id="sag.cnfam.div.6">
+<title>Gruppi di applicazioni predefiniti del desktop<indexterm><primary>gruppi di applicazioni</primary><secondary>gruppi predefiniti</secondary>
+</indexterm></title>
+<para>La configurazione predefinita del desktop comprende quattro gruppi di
+applicazioni.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Applicazioni_desktop</para>
+</listitem>
+<listitem><para>Strumenti_desktop</para>
+</listitem>
+<listitem><para>Informazioni</para>
+</listitem>
+<listitem><para>Amministrazione_sistema</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.cnfam.div.7">
+<title>Esempio di localizzazione dei gruppi di applicazioni<indexterm><primary>applicazioni</primary><secondary>identificazione</secondary></indexterm></title>
+<para>La <!--Original XRef content: 'Figura&numsp;3&hyphen;2'--><xref role="CodeOrFigureOrTable"
+linkend="sag.cnfam.mkr.4"> mostra una finestra della Gestione di applicazioni
+contenente una serie di gruppi di applicazioni. La <!--Original XRef content:
+'Tabella&numsp;3&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="sag.cnfam.mkr.5">
+mostra le directory in cui questi gruppi sono stati localizzati.</para>
+<figure>
+<title id="sag.cnfam.mkr.4">Una finestra tipo della Gestione di applicazioni</title>
+<graphic id="sag.cnfam.grph.2" entityref="SAG.CnfAM.fig.2"></graphic>
+</figure>
+<table id="sag.cnfam.tbl.1" frame="topbot">
+<title id="sag.cnfam.mkr.5">Origine dei gruppi di applicazioni della <!--Original
+XRef content: 'Figura&numsp;3&hyphen;2'--><xref role="CodeOrFigureOrTable"
+linkend="sag.cnfam.mkr.4"></title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.16in">
+<colspec colwidth="6.36in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Nome</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Directory di origine</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>App_CAD</para></entry>
+<entry align="left" valign="top"><para><filename>/net/ApServA/etc/dt/appconfig/appmanager/it/App_CAD</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>App_disegno</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/it/App_disegno</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Applicazioni_desktop</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/it/Applicazioni_desktop</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Strumenti_desktop</para></entry>
+<entry align="left" valign="top"><para>/<filename>usr/dt/appconfig/appmanager/it/Strumenti_desktop</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Informazioni</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/it/Informazioni</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Amministrazione_sistema</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/C/Amministrazione_sistema</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Foglio_elettronico</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">/</symbol><filename>utenti/anna/.dt/appmanager/Foglio_elettronico</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Strumenti_media</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/C/</filename>Strumenti_media</para></entry></row></tbody></tgroup></table>
+<para>Se i gruppi Informazioni o Amministrazione_sistema fossero stati personalizzati,
+essi verrebbero acquisiti da <filename>/etc/dt/appconfig/appmanager/it</filename>.
+</para>
+<para>Il gruppo App_CAD viene acquisito perch&eacute; &egrave; stato aggiunto
+un sistema di nome Ap<structname>ServA</structname> al percorso di ricerca
+delle applicazioni (vedere <!--Original XRef content: '&&ldquo;Aggiunta di
+un
+server di applicazioni--><!-- al percorso di ricerca&rdquo; a pagina&numsp;48'-->).
+Foglio_elettronico &egrave; un gruppo di applicazioni personale, disponibile
+solo per l'utente <command>anna</command>.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.cnfam.div.8">
+<title id="sag.cnfam.mkr.6">Aggiunta di nuove applicazioni alla Gestione di
+applicazioni<indexterm><primary>applicazioni</primary><secondary>aggiunta
+alla Gestione di applicazioni</secondary></indexterm><indexterm><primary>Gestione di applicazioni</primary><secondary>aggiunta di applicazioni</secondary>
+</indexterm></title>
+<para>Quando si aggiunge una nuova applicazione alla Gestione di applicazioni,
+in uno dei gruppi compare un'icona per l'avvio di quell'applicazione.</para>
+<para>Molte applicazioni sono associate ad un proprio gruppo. Questo gruppo
+viene presentato come una directory al livello pi&ugrave; elevato della Gestione
+di applicazioni, e contiene l'icona dell'applicazione e altri file correlati.
+</para>
+<para>Altre applicazioni non sono associate a un proprio gruppo. In questi
+casi, l'icona per l'avvio dell'applicazione verr&agrave; collocata in un gruppo
+collettivo. Ad esempio, si potr&agrave; creare un gruppo di nome &amp;&ldquo;Giochi&rdquo;
+in cui collocare i giochi installati sul sistema.</para>
+<sect2 id="sag.cnfam.div.9">
+<title>Metodi disponibili per aggiungere nuove applicazioni<indexterm><primary>applicazioni</primary><secondary>metodi per l'</secondary></indexterm><indexterm>
+<primary>aggiunta di un'</primary></indexterm><indexterm><primary>applicazione</primary></indexterm></title>
+<para>Per aggiungere un'applicazione alla Gestione di applicazioni si pu&ograve;
+procedere in due modi:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Registrare l'applicazione</para>
+</listitem>
+<listitem><para>Aggiungere l'icona dell'applicazione senza registrarla</para>
+</listitem>
+</itemizedlist>
+<sect3 id="sag.cnfam.div.10">
+<title>Registrazione di un'applicazione<indexterm><primary>registrazione</primary>
+<secondary>definizione</secondary></indexterm></title>
+<para>La registrazione di un'applicazione assicura la sua completa integrazione
+nel desktop.</para>
+<para><indexterm><primary>applicazioni</primary><secondary>registrate, definizione</secondary></indexterm>Le applicazioni registrate presentano le seguenti
+caratteristiche:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Dispongono di un proprio gruppo.</para>
+</listitem>
+<listitem><para>I loro file di configurazione sono raggruppati in un'unica
+posizione. Questo insieme di file di configurazione viene detto <emphasis><indexterm>
+<primary>pacchetto di registrazione</primary></indexterm>pacchetto di registrazione</emphasis>.</para>
+</listitem>
+<listitem><para>Possono avere un volume di aiuto registrato.</para>
+</listitem>
+</itemizedlist>
+<para>La registrazione delle applicazioni pu&ograve; avvenire in due modi:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Quando si installa un'applicazione predisposta per il desktop,
+la registrazione avviene automaticamente. Vedere <!--Original XRef content:
+'&&ldquo;Come aggiungere un'applicazione predi--><!--sposta
+per il desktop alla Gestione di applicazioni&rdquo; a pagina&--><!--numsp;45'--><xref
+role="SecTitleAndPageNum" linkend="sag.cnfam.mkr.7">.</para>
+</listitem>
+<listitem><para>Le applicazioni esistenti possono essere registrare creando
+un pacchetto di registrazione. Vedere <!--Original XRef content:
+'&&ldquo;Come registrare applicazioni esistenti--><!-- o non predisposte
+per il desktop&rdquo; a pagina&numsp;45'--><xref role="SecTitleAndPageNum"
+linkend="sag.cnfam.mkr.8">.</para>
+</listitem>
+</itemizedlist>
+<para>L'uso di un pacchetto di registrazione rende pi&ugrave; semplice l'amministrazione
+dell'applicazione nel desktop. Il pacchetto di registrazione viene creato
+in una posizione del file system diversa da quelle utilizzate per i file di
+configurazione del desktop.</para>
+</sect3>
+<sect3 id="sag.cnfam.div.11">
+<title>Aggiunta di un'applicazione senza l'uso di un pacchetto di registrazione.</title>
+<para>Questo metodo &egrave; preferibile quando si desidera che la Gestione
+di applicazioni contenga solo l'icona per l'avvio dell'applicazione.</para>
+<para><indexterm><primary>applicazioni</primary><secondary>aggiunta senza
+registrazione</secondary></indexterm>Le applicazioni aggiunte senza l'uso
+di un pacchetto di registrazione presentano le seguenti caratteristiche:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Possono avere un proprio gruppo, ma solitamente la loro icona
+viene collocata in un gruppo esistente</para>
+</listitem>
+<listitem><para>I loro file di configurazione vengono collocati direttamente
+in directory incluse nei percorsi di ricerca del desktop.</para>
+</listitem>
+</itemizedlist>
+<para>Vedere <!--Original XRef content: '&&ldquo;Come aggiungere l'icona
+di un'applicaz--><!--ione ad un gruppo esistente&rdquo; a pagina&numsp;45'--><xref
+role="SecTitleAndPageNum" linkend="sag.cnfam.mkr.9">.</para>
+</sect3>
+</sect2>
+<sect2 id="sag.cnfam.div.12" role="Procedure">
+<title id="sag.cnfam.mkr.7">Come aggiungere un'applicazione predisposta per
+il desktop alla Gestione di applicazioni<indexterm><primary>applicazioni</primary>
+<secondary>predisposte per il desktop</secondary></indexterm></title>
+<para>Le applicazioni predisposte per il desktop vengono registrate automaticamente
+nella Gestione di applicazioni al momento dell'installazione. L'insieme di
+file associato all'applicazione include il pacchetto di registrazione richiesto
+dal desktop.</para>
+<orderedlist>
+<listitem><para>Installare l'applicazione seguendo le istruzioni fornite.
+</para>
+</listitem>
+<listitem><para>Al termine dell'installazione, fare doppio clic su &ldquo;Ricaricare
+applicazioni&rdquo; nel gruppo <structname>Strumenti_desktop</structname>.
+</para>
+</listitem>
+<listitem><para>Verificare che l'installazione sia completa:</para>
+<orderedlist>
+<listitem><para>Aprire la Gestione di applicazioni e verificare che sia presente
+il nuovo gruppo di applicazioni.</para>
+</listitem>
+<listitem><para>Per avviare l'applicazione, aprire il gruppo in cui &egrave;
+contenuta e fare doppio clic sulla sua icona.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.cnfam.div.13" role="Procedure">
+<title id="sag.cnfam.mkr.8">Come registrare applicazioni esistenti o non predisposte
+per il desktop</title>
+<para>Questo &egrave; il metodo preferibile per integrare pienamente un'applicazione
+nel desktop.</para>
+<para>Il desktop dispone di un tool, <command>dtappintegrate</command>, che
+permette di creare collegamenti tra i file del pacchetto di registrazione
+e le directory del percorso di ricerca del desktop.</para>
+<para>La registrazione nel desktop &egrave; descritta dettagliatamente nel
+<!--Original XRef content: 'Capitolo&numsp;4, &&ldquo;Registrazione di un--><!--'applicazione'--><xref
+role="ChapNumAndTitle" linkend="sag.regap.mkr.1">.</para>
+</sect2>
+<sect2 id="sag.cnfam.div.14" role="Procedure">
+<title id="sag.cnfam.mkr.9">Come aggiungere l'icona di un'applicazione ad
+un gruppo esistente</title>
+<para>La procedura descritta qui di seguito permette di aggiungere l'icona
+di un'applicazione ad un gruppo gi&agrave; esistente.</para>
+<para>Ad esempio, il desktop comprende un gruppo di applicazioni di nome <structname>Amministrazione_sistema</structname>che viene riservato ad applicazioni e
+script usati per l'amministrazione dei sistemi. Se viene creato uno script
+che gli utenti utilizzano con una certa frequenza, pu&ograve; essere comodo
+creare un'icona per questo script e inserirla nel gruppo di applicazioni <structname>Amministrazione_sistema</structname>.</para>
+<orderedlist>
+<listitem><para>Usando Creare azione, creare la definizione di un'azione per
+l'applicazione.</para>
+<para>Per maggiori informazioni su Creare azione, vedere il <!--Original
+XRef content: 'Capitolo&numsp;9, &&ldquo;Creazione di azioni--><!-- e tipi
+di dati con Creare azione'--><xref role="ChapNumAndTitle" linkend="sag.dtcra.mkr.1">.
+</para>
+</listitem>
+<listitem><para>Creare un file eseguibile con lo stesso nome dell'azione nella
+directory del gruppo in cui inserire l'applicazione. Il contenuto del file
+&egrave; irrilevante.</para>
+<para>Ad esempio, se si &egrave; creata un'azione di nome &ldquo;Pulizia&rdquo;
+che esegue un tool di amministrazione dei sistemi, si dovr&agrave; creare
+il file eseguibile <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">lingua</symbol><filename>/Amministrazione_sistema/Pulizia.</filename></para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="sag.cnfam.div.15">
+<title id="sag.cnfam.mkr.10">Creazione e amministrazione dei gruppi di applicazioni
+generali<indexterm><primary>gruppi di applicazioni</primary><secondary>amministrazione</secondary></indexterm></title>
+<para>Un gruppo di applicazioni si dice generale quando non &egrave; associato
+ad un determinato prodotto applicativo. Ad esempio, il gruppo di applicazioni
+predefinito Strumenti_desktop &egrave; un gruppo generale che contiene le
+icone di diverse applicazioni correlate ma non incluse in uno stesso prodotto.
+</para>
+<para>Oltre ai gruppi predefiniti &egrave; possibile creare nuovi gruppi di
+applicazioni generali. Ad esempio, si potr&agrave; creare un gruppo di nome
+Giochi in cui collocare tutti i giochi disponibili sul sistema.</para>
+<para>I gruppi di applicazioni generali possono essere disponibili a livello
+personale o di sistema.</para>
+<sect2 id="sag.cnfam.div.16" role="Procedure">
+<title>Come creare un gruppo di applicazioni generali di sistema<indexterm>
+<primary>gruppi di applicazioni</primary><secondary>di sistema</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Effettuare il login come superutente.</para>
+</listitem>
+<listitem><para>Creare una directory in <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">lingua</symbol>.</para>
+<para>Il nome della directory diventer&agrave; il nome del gruppo di<indexterm>
+<primary>gruppi di applicazioni</primary><secondary>assegnazione dei nomi</secondary></indexterm> applicazioni.</para>
+</listitem>
+<listitem><para>Fare doppio clic su &ldquo;Ricaricare applicazioni&rdquo;
+nel gruppo Strumenti_desktop.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.cnfam.div.17" role="Procedure">
+<title>Come creare un gruppo di applicazioni generali personale<indexterm>
+<primary>gruppi di applicazioni</primary><secondary>personali</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Creare una directory in <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/appmanager</filename>.</para>
+<para>Il nome della directory diventer&agrave; il nome del gruppo di applicazioni.
+</para>
+</listitem>
+<listitem><para>Fare doppio clic su &ldquo;Ricaricare applicazioni&rdquo;
+nel gruppo Strumenti_desktop.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.cnfam.div.18" role="Procedure">
+<title>Come personalizzare un gruppo di applicazioni predefinito<indexterm>
+<primary>gruppi di applicazioni</primary><secondary>personalizzazione</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Effettuare il login come superutente.</para>
+</listitem>
+<listitem><para>Se il gruppo di applicazioni si trova in <filename>/usr/dt/appconfig/appmanager/</filename> <symbol role="Variable">lingua</symbol>, copiarlo in /<filename>etc/dt/appconfig/appmanager/</filename><symbol role="Variable">lingua</symbol>.
+</para>
+<para><indexterm><primary>Strumenti_desktop, modifica</primary></indexterm>Ad
+esempio, il comando seguente copia il gruppo di applicazioni Strumenti_desktop:
+</para>
+<programlisting remap="CodeIndent1">cp -r /usr/dt/appconfig/appmanager/it/Strumenti_desktop /etc/dt/appconfig/appmanager/it
+</programlisting>
+<para>La nuova copia del gruppo di applicazioni avr&agrave; la precedenza
+rispetto alla versione predefinita.</para>
+</listitem>
+<listitem><para>Modificare la copia del gruppo di applicazioni. Ad esempio,
+aggiungere nuovi file di azioni (file eseguibili con lo stesso nome delle
+azioni).</para>
+</listitem>
+<listitem><para>Per visualizzare le modifiche, uscire dal desktop e rieseguire
+il login.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="sag.cnfam.div.19">
+<title id="sag.cnfam.mkr.11">Modifica del percorso di ricerca usato per localizzare
+le applicazioni<indexterm><primary>percorso di ricerca delle applicazioni</primary><secondary>modifica</secondary></indexterm></title>
+<para>Una delle cause pi&ugrave; frequenti per la modifica del percorso di
+ricerca &egrave; l'aggiunta di un nuovo server di applicazioni<indexterm>
+<primary>server di applicazioni</primary><secondary>aggiunta</secondary></indexterm>.
+Aggiungendo un server di applicazioni al percorso di ricerca, la Gestione
+di applicazioni localizzer&agrave; tutti i gruppi di applicazioni di quel
+server disponibili a livello di sistema.</para>
+<para>Per maggiori informazioni sul percorso di ricerca, vedere <!--Original
+XRef content: '&&ldquo;Percorso di ricerca delle applicazion--><!--i&rdquo;
+a pagina&numsp;118'--><xref role="SecTitleAndPageNum" linkend="sag.datab.mkr.8">.
+</para>
+<sect2 id="sag.cnfam.div.20">
+<title>Il percorso di ricerca predefinito<indexterm><primary>percorso di ricerca
+delle applicazioni</primary><secondary>valore predefinito</secondary></indexterm></title>
+<para>Il percorso di ricerca predefinito delle applicazioni include queste
+directory:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="132*">
+<colspec colwidth="324*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Livello</para></entry><entry
+align="left" valign="bottom"><para>Directory del percorso di ricerca</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Personale</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/appmanager</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Di sistema</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">lingua</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Predefinito</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">lingua</symbol></para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="sag.cnfam.div.21">
+<title id="sag.cnfam.mkr.12">Aggiunta di un server di applicazioni al percorso
+di ricerca<indexterm><primary>percorso di ricerca delle applicazioni</primary>
+<secondary>modifica</secondary></indexterm></title>
+<para>Oltre alla modifica del percorso di ricerca, potr&agrave; essere necessario
+eseguire altre operazioni di configurazione per abilitare la comunicazione
+con il server di applicazioni. Vedere <!--Original XRef content: '&&ldquo;Amministrazione
+dei servizi per le app--><!--licazioni&rdquo; a pagina&numsp;100'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.15">.</para>
+<sect3 id="sag.cnfam.div.22" role="Procedure">
+<title>Come impostare un percorso di ricerca delle applicazioni<indexterm>
+<primary>percorso di ricerca delle applicazioni</primary><secondary>di sistema</secondary></indexterm> a livello di sistema</title>
+<orderedlist>
+<listitem><para>Effettuare il login come superutente.</para>
+</listitem>
+<listitem><para>Se il file <filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename> non esiste, crearlo copiando <filename>/usr/dt/config/Xsession.d/0010.dtpaths</filename>.</para>
+</listitem>
+<listitem><para>Aprire con un editor <filename>/etc/dt/Xsession.d/0010.paths</filename>. Aggiungere o editare la riga che imposta la variabile <systemitem>DTSPSYSAPPHOSTS</systemitem><indexterm><primary>DTSPSYSAPPHOSTS, variabile</primary><secondary>modifica</secondary></indexterm>:</para>
+<programlisting remap="CodeIndent1">DTSPSYSAPPHOSTS=<symbol role="Variable">nomehost</symbol>:[,nomehost]</programlisting>
+<para>Ad esempio, la riga seguente aggiunge il sistema <command>ApServA</command>
+al percorso di ricerca delle applicazioni:</para>
+<para remap="CodeIndent1"><computeroutput>DTSPSYSAPPHOSTS=ApServA:</computeroutput></para>
+</listitem>
+<listitem><para>Perch&eacute; la modifica diventi effettiva, tutti gli utenti
+del sistema dovranno effettuare il logout e quindi un nuovo login.</para>
+</listitem>
+</orderedlist>
+</sect3>
+<sect3 id="sag.cnfam.div.23" role="Procedure">
+<title>Come impostare un percorso di ricerca delle applicazioni a livello<indexterm>
+<primary>percorso di ricerca delle applicazioni</primary><secondary>personale</secondary></indexterm> personale</title>
+<orderedlist>
+<listitem><para>Aprire con un editor il file <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dtprofile</filename>.</para>
+</listitem>
+<listitem><para>Aggiungere o editare la riga che imposta la variabile <systemitem>DTSPUSERAPPHOSTS</systemitem><indexterm><primary>DTSPUSERAPPHOSTS, variabile</primary><secondary>modifica</secondary></indexterm>:</para>
+<programlisting remap="CodeIndent1">DTSPUSERAPPHOSTS=<symbol role="Variable">nomehost</symbol>:[,nomehost]</programlisting>
+<para>Ad esempio, la riga seguente aggiunge i sistemi <command>ApServB</command>
+e <command>ApServC</command> al percorso di ricerca delle applicazioni:</para>
+<para remap="CodeIndent1"><computeroutput>DTSPUSERAPPHOSTS=ApServB:,ApServC:</computeroutput></para>
+</listitem>
+<listitem><para>Uscire dal desktop ed eseguire un nuovo login.</para>
+</listitem>
+</orderedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.cnfam.div.24">
+<title id="sag.cnfam.mkr.13">Amministrazione generale della Gestione di applicazioni<indexterm>
+<primary>Gestione di applicazioni</primary><secondary>amministrazione generale</secondary></indexterm></title>
+<para>Le funzioni di amministrazione generali della Gestione di applicazioni
+comprendono:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>la cancellazione di un'applicazione</para>
+</listitem>
+<listitem><para>la rilettura del database delle applicazioni durante una sessione
+</para>
+</listitem>
+</itemizedlist>
+<sect2 id="sag.cnfam.div.25" role="Procedure">
+<title>Cancellazione di un'applicazione<indexterm><primary>applicazioni</primary>
+<secondary>annullamento della registrazione</secondary></indexterm><indexterm>
+<primary>applicazioni</primary><secondary>cancellazione</secondary></indexterm></title>
+<para>Se un'applicazione &egrave; stata registrata usando il tool <command>dtappintegrate</command>, si potr&agrave; usare lo stesso tool anche per la
+procedura inversa. Annullando la registrazione di un'applicazione, il suo
+gruppo verr&agrave; eliminato dalla Gestione di applicazioni; inoltre le azioni,
+i tipi di dati, le icone e i testi di aiuto di quell'applicazione non saranno
+pi&ugrave; disponibili.</para>
+<orderedlist>
+<listitem><para>Effettuare il login come superutente.</para>
+</listitem>
+<listitem><para><indexterm><primary>dtappintegrate</primary><secondary>cancellazione
+di un'</secondary></indexterm><indexterm><primary>applicazione</primary></indexterm>Eseguire
+il comando:</para>
+<para remap="CodeIndent1"><command>dtappintegrate -s <symbol role="Variable">radice_app</symbol> -u</command></para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="sag.cnfam.div.26" role="Procedure">
+<title>Aggiornamento della Gestione di applicazioni durante una sessione<indexterm>
+<primary>Gestione di applicazioni</primary><secondary>aggiornamento</secondary>
+</indexterm></title>
+<para><indexterm><primary>applicazioni</primary><secondary>rilettura</secondary>
+</indexterm>Quando si aggiunge una nuova applicazione e si desidera che la
+modifica abbia effetto immediatamente, &egrave; necessario ricreare la Gestione
+di applicazioni.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Aprire il gruppo di applicazioni Strumenti_desktop e fare
+doppio clic su &amp;&ldquo;Ricaricare applicazioni&rdquo;.</para>
+</listitem>
+</itemizedlist>
+<para>L'azione &ldquo;Ricaricare applicazioni&rdquo; permette di aggiornare
+la Gestione di applicazioni dopo avere aggiunto nuovi programmi ad un server
+di applicazioni. Tuttavia,<indexterm><primary>Ricaricare applicazioni, azione</primary></indexterm> essa non &egrave; in grado di localizzare le applicazioni
+che sono state eliminate da un server o spostate in una nuova posizione. Queste
+modifiche diventano effettive solo dal login successivo nel sistema.</para>
+</sect2>
+</sect1>
+<sect1 id="sag.cnfam.div.27">
+<title id="sag.cnfam.mkr.14">Cambiamento dell'editor di testo e dell'emulatore
+di terminale<indexterm><primary>editor di testo, modifica dell'</primary>
+</indexterm><indexterm><primary>impostazione predefinita</primary></indexterm><indexterm>
+<primary>emulatore di terminale</primary><secondary>modifica dell'</secondary>
+</indexterm><indexterm><primary>impostazione predefinita</primary></indexterm></title>
+<para>Sia l'editor di testo che l'emulatore di terminale possono essere avviati
+scegliendo il rispettivo controllo nel Pannello principale o facendo doppio
+clic sull'icona appropriata nella Gestione di applicazioni.</para>
+<para>Queste applicazioni possono essere avviate anche con altre attivit&agrave;
+del desktop.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>L'editor di testo viene avviato quando si seleziona un file
+di testo nella Gestione di file e si sceglie Aprire dal menu Selezioni. L'editor
+predefinito &egrave; <command>dtpad</command>.</para>
+</listitem>
+<listitem><para>L'emulatore di terminale viene avviato scegliendo &ldquo;Aprire
+terminale&rdquo; dal menu File della Gestione di file, o quando un'azione
+apre una finestra di emulazione di terminale. L'emulatore di terminale predefinito
+&egrave; <command>dtterm</command>.</para>
+</listitem>
+</itemizedlist>
+<para>Il desktop pu&ograve; essere configurato in modo da usare, nelle situazioni
+descritte, un editor di testo o un emulatore di terminale diversi da quelli
+predefiniti.</para>
+<sect2 id="sag.cnfam.div.28" role="Procedure">
+<title>Come cambiare l'editor di testo o l'emulatore di terminale predefinito</title>
+<orderedlist>
+<listitem><para>Se la modifica deve essere apportata a livello di sistema,
+effettuare il login come superutente.</para>
+</listitem>
+<listitem><para>Creare un'azione per il nuovo editor di testo o per l'emulatore
+di terminale.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Usare l'applicazione Creare azione. La <!--Original XRef content:
+'Figura&numsp;3&hyphen;3'--><xref role="CodeOrFigureOrTable" linkend="sag.cnfam.mkr.15">
+mostra una finestra di Creare azione con i dati relativi a un'applicazione
+di nome TextPad. Per maggiori informazioni su Creare azione, vedere il <!--Original
+XRef content: 'Capitolo&numsp;9, &&ldquo;Creazione
+ di azioni--><!-- e tipi di dati con Creare azione'--><xref role="ChapNumAndTitle"
+linkend="sag.dtcra.mkr.1">..</para>
+</listitem>
+</itemizedlist>
+<figure>
+<title id="sag.cnfam.mkr.15">La finestra di Creare azione</title>
+<graphic id="sag.cnfam.grph.3" entityref="SAG.CnfAM.fig.3"></graphic>
+</figure>
+<itemizedlist remap="Bullet2">
+<listitem><para><emphasis role="Variable">Oppure</emphasis>, creare la definizione
+dell'azione manualmente; ad esempio:</para>
+<para remap="CodeIndent2"><programlisting>ACTION TextPad
+{
+   LABEL        TextPad 
+   TYPE         COMMAND
+   WINDOW_TYPE  NO_STDIO
+   EXEC_STRING  /usr/TP/bin/TextPad %(File)Arg_1%
+   DESCRIPTION  Fare doppio clic su questa icona per avviare \
+                                     l'applicazione TextPad.
+}</programlisting></para>
+<para>Per informazioni su come creare le definizioni delle azioni manualmente,
+vedere il <!--Original XRef content: 'Capitolo&numsp;10, &&ldquo;Creazione
+delle azi--><!--oni con la procedura manuale'--><xref role="ChapNumAndTitle"
+linkend="sag.cract.mkr.1">.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Collocare il file di configurazione che contiene la nuova
+azione nella directory appropriata:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>A livello di sistema: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+<listitem><para>A livello personale: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Se necessario, creare il file<indexterm><primary>user-prefs.dt,
+file</primary></indexterm> <filename>user-prefs.dt</filename> appropriato copiando <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol><filename>/user-prefs.dt</filename> nella directory indicata:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>A livello di sistema: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">lingua</symbol></para>
+</listitem>
+<listitem><para>A livello personale: <symbol role="Variable">DirectoryIniziale</symbol><filename>/.dt/types</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Editare l'azione TextEditor o Terminal nel file <filename>user-prefs.dt</filename> di sistema o personale. Modificare la riga <filename>MAP_ACTION</filename> in modo da mappare l'azione in base alla nuova azione
+definita.</para>
+<para>Ad esempio, cambiare la riga:</para>
+<para remap="CodeIndent1"><command>MAP_ACTION Dtpad</command></para>
+<para>in:</para>
+<para remap="CodeIndent1"><command>MAP_ACTION TextPad</command></para>
+</listitem>
+<listitem><para>Salvare il file <filename>user-prefs.dt</filename>.</para>
+</listitem>
+<listitem><para>Fare doppio clic su &ldquo;Ricaricare azioni&rdquo; nel gruppo
+di applicazioni Strumenti_desktop per ricaricare il database delle azioni.
+</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:05:15-->
+<?Pub Caret>
+<?Pub *0000041856>

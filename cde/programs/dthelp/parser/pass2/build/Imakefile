@@ -1,0 +1,75 @@
+XCOMM $XConsortium: Imakefile /main/3 1995/11/08 10:41:11 rswiston $
+/* build Imakefile */
+
+HTAG2        = ..
+HTAG2SRC     = $(HTAG2)/htag2
+SDLPARSERSRC = $(HTAG2)/parser
+SDLELTDEFSRC = $(HTAG2)/eltdef
+SDLDTDFILE   = $(HTAG2SRC)/sdl.dtd
+SDLUTILSRC   = $(HTAG2)/util
+SDLBUILDSRC  = $(HTAG2)/build
+SDLUTILLIB   = $(HTAG2)/util/libutil.a
+
+INCLUDES = -I. -I$(SDLUTILSRC)
+
+SRCS = \
+	build.c buildutl.c eltree.c except.c fsa.c out.c param.c \
+	scan.c sref.c tree.c
+
+OBJS = \
+	build.o buildutl.o eltree.o except.o fsa.o out.o param.o \
+	scan.o sref.o tree.o
+
+CHPRODS = context.h delim.h
+CCPRODS = case.c
+
+BHPRODS = dtd.h entity.h arc.h
+BCPRODS =
+
+CTRASH  = error delim.dat
+BTRASH  = error template
+
+CPRODS  = $(CHPRODS) $(CCPRODS)
+BPRODS  = $(BHPRODS) $(BCPRODS)
+TRASH   = error delim.dat template
+
+PRODUCTS = $(CPRODS) $(BPRODS)
+
+LOCAL_LIBRARIES = $(SDLUTILLIB)
+
+/* Don't use shared libs for hp */
+#ifdef HPArchitecture
+#if OSMajorVersion > 7
+EXTRA_LOAD_FLAGS = -Wl,-a archive
+#endif
+#endif
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+all:: $(PRODUCTS)
+
+$(BPRODS): build $(SDLDTDFILE)
+	$(RM) $(BPRODS) $(BTRASH)
+	./build < $(SDLDTDFILE)
+
+NormalLibraryObjectRule()
+NormalProgramTarget(build,$(OBJS),delim.h $(LOCAL_LIBRARIES),$(LOCAL_LIBRARIES),)
+
+$(CPRODS):  $(SDLUTILSRC)/context $(HTAG2SRC)/delim.bld context.dat
+	$(RM) $(CPRODS) $(CTRASH)
+	/* get application-specific delim.dat */
+	$(CP) $(HTAG2SRC)/delim.bld delim.dat
+	$(SDLUTILSRC)/context sparse
+
+$(SDLUTILSRC)/context:
+	cd $(SDLUTILSRC); make context
+
+clean::
+	$(RM) $(PRODUCTS) $(TRASH)
+
+depend:: $(SRCS)
+DependTarget()
+
+includes:: $(PRODUCTS)

@@ -1,0 +1,92 @@
+/*
+ * $XConsortium: bucket_array.cc /main/3 1996/06/11 17:15:51 cde-hal $
+ *
+ * Copyright (c) 1993 HAL Computer Systems International, Ltd.
+ * All rights reserved.  Unpublished -- rights reserved under
+ * the Copyright Laws of the United States.  USE OF A COPYRIGHT
+ * NOTICE IS PRECAUTIONARY ONLY AND DOES NOT IMPLY PUBLICATION
+ * OR DISCLOSURE.
+ * 
+ * THIS SOFTWARE CONTAINS CONFIDENTIAL INFORMATION AND TRADE
+ * SECRETS OF HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.  USE,
+ * DISCLOSURE, OR REPRODUCTION IS PROHIBITED WITHOUT THE
+ * PRIOR EXPRESS WRITTEN PERMISSION OF HAL COMPUTER SYSTEMS
+ * INTERNATIONAL, LTD.
+ * 
+ *                         RESTRICTED RIGHTS LEGEND
+ * Use, duplication, or disclosure by the Government is subject
+ * to the restrictions as set forth in subparagraph (c)(l)(ii)
+ * of the Rights in Technical Data and Computer Software clause
+ * at DFARS 252.227-7013.
+ *
+ *          HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.
+ *                  1315 Dell Avenue
+ *                  Campbell, CA  95008
+ * 
+ */
+
+
+
+#include "diskhash/bucket_array.h"
+
+bucket_array::bucket_array(int bs, page_storage* k_store): 
+v_key_store(k_store), v_cached_bucket_ptr(0)
+{
+//////////////////////////////////////
+// physically add buckets to the store
+//////////////////////////////////////
+   if ( v_key_store -> pages() == 1 ) {
+      v_buckets = 0;
+      expandWith(bs);
+   } else
+      v_buckets = bs;
+}
+
+bucket_array::~bucket_array()
+{
+  delete v_cached_bucket_ptr;
+}
+
+Boolean bucket_array::expandWith(int extra_buckets)
+{
+   v_key_store -> add_page_frames(extra_buckets);
+
+   for ( int i=v_buckets; i<v_buckets+extra_buckets; i++ ) {
+      disk_bucket* x = new disk_bucket(i, v_key_store);
+      delete x;
+   }
+
+   v_buckets += extra_buckets;
+
+   return true;
+}
+
+disk_bucket& bucket_array::get_bucket(int i)
+{
+//MESSAGE(cerr, form("to get bucket %d", i));
+  if ( v_cached_bucket_ptr == 0 || v_cached_bucket_ptr -> bnum() != i ) {
+
+//if ( v_cached_bucket_ptr )
+//MESSAGE(cerr, form("free bucket %d %d", 
+//      v_cached_bucket_ptr -> bnum(), int(v_cached_bucket_ptr)));
+
+     delete v_cached_bucket_ptr;
+     v_cached_bucket_ptr = new disk_bucket(i, v_key_store);
+
+//MESSAGE(cerr, form("new bucket %d %d", 
+//int(v_cached_bucket_ptr), v_cached_bucket_ptr -> bnum()));
+
+  }
+  return *v_cached_bucket_ptr;
+}
+            
+ostream& bucket_array::asciiOut(ostream& out, print_func_ptr_t)
+{
+   return out;
+}
+
+   
+ostream& operator<<(ostream& out, bucket_array&)
+{
+   return out;
+}

@@ -1,0 +1,354 @@
+<!-- $XConsortium: ses_join.sgm /main/7 1996/09/08 20:22:12 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN266.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN266.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttdt_session_join</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttdt_session_join</Function></RefName>
+<RefPurpose>join a ToolTalk session
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: ses_join.sgm /main/7 1996/09/08 20:22:12 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_pattern <Function>*ttdt_session_join</Function></FuncDef>
+<ParamDef>const char *<Parameter>sessid</Parameter></ParamDef>
+<ParamDef>Ttdt_contract_cb <Parameter>cb</Parameter></ParamDef>
+<ParamDef>Widget <Parameter>shell</Parameter></ParamDef>
+<ParamDef>void *<Parameter>clientdata</Parameter></ParamDef>
+<ParamDef>int <Parameter>join</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttdt_session_join</Function> function
+joins the session
+<Emphasis>sessid</Emphasis>, registering patterns and
+default callbacks for many standard Desktop message interfaces.
+If
+<Emphasis>sessid</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem>, the default session is joined.
+</Para>
+<Para>The
+<Function>ttdt_session_join</Function> function
+registers for the following
+<SystemItem Class="Constant">TT_HANDLER</SystemItem>-addressed requests:
+</Para>
+<OrderedList>
+<ListItem>
+<Para><Symbol Role="Message">Get_Environment</Symbol>, <Symbol Role="Message">Set_Environment</Symbol>, <Symbol Role="Message">Get_Locale</Symbol>, <Symbol Role="Message">Set_Locale</Symbol>, <Symbol Role="Message">Get_Situation</Symbol>, <Symbol Role="Message">Set_Situation</Symbol>, <Symbol Role="Message">Signal</Symbol>, <Symbol Role="Message">Get_Sysinfo</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Message">Get_Geometry</Symbol>, <Symbol Role="Message">Set_Geometry</Symbol>, <Symbol Role="Message">Get_Iconified</Symbol>, <Symbol Role="Message">Set_Iconified</Symbol>, <Symbol Role="Message">Get_Mapped</Symbol>, <Symbol Role="Message">Set_Mapped</Symbol>, <Symbol Role="Message">Raise</Symbol>, <Symbol Role="Message">Lower</Symbol>, <Symbol Role="Message">Get_XInfo</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Message">Pause</Symbol>, <Symbol Role="Message">Resume</Symbol>, <Symbol Role="Message">Quit</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Message">Get_Status</Symbol>, <Emphasis>Do_Command</Emphasis></Para>
+</ListItem>
+</OrderedList>
+<Para>If
+<Emphasis>join</Emphasis> is True,
+<Function>ttdt_session_join</Function> actually joins the indicated session.
+</Para>
+<Para>The ToolTalk service
+handles messages in (1) transparently.
+</Para>
+<Para>If
+<Symbol Role="Variable">shell</Symbol> is non-
+<SystemItem Class="Constant">NULL</SystemItem>, then it is expected to be a realized
+<Emphasis>mappedWhenManaged</Emphasis> <Emphasis>applicationShellWidget</Emphasis>, and
+the ToolTalk service
+handles messages in (2) transparently.
+(If
+<Symbol Role="Variable">shell</Symbol> is merely a realized widget, then
+the ToolTalk service
+handles only the
+<Symbol Role="Message">Get_XInfo</Symbol> request, and
+<Function>ttdt_session_join</Function> fails the rest of (2) with
+<SystemItem Class="Constant">TT_DESKTOP_ENOTSUP</SystemItem>.) If
+<Symbol Role="Variable">shell</Symbol> is
+<SystemItem Class="Constant">NULL</SystemItem>, then
+the ToolTalk service
+treats messages in (2) equivalently to those in (4).
+</Para>
+<Para>If
+<Symbol Role="Variable">shell</Symbol> is non-
+<SystemItem Class="Constant">NULL</SystemItem> and
+<Emphasis>cb</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem>, then
+the ToolTalk service
+handles messages in (3) transparently as follows;
+otherwise, it treats them as equivalent to those in (4).
+The
+<Symbol Role="Message">Quit</Symbol> request results in a
+<SystemItem Class="Constant">WM_DELETE_WINDOW</SystemItem> event on
+<Symbol Role="Variable">shell</Symbol> if the
+<Emphasis>silent</Emphasis> and
+<Emphasis>force</Emphasis> arguments of the
+<Symbol Role="Message">Quit</Symbol> request are both False.
+In other words, if
+<Symbol Role="Variable">shell</Symbol> is supplied without a
+<Emphasis>cb</Emphasis>, then a
+<Symbol Role="Message">Quit</Symbol> request may imply that the user
+quit the application's top-level window using the window manager.
+<Symbol Role="Message">Pause</Symbol> and
+<Symbol Role="Message">Resume</Symbol> requests result in
+the ToolTalk service
+passing
+<Symbol Role="Variable">shell</Symbol> and the appropriate boolean value to
+<Function>XtSetSensitive</Function>(3).</Para>
+<Para>If
+<Emphasis>cb</Emphasis> is not
+<SystemItem Class="Constant">NULL</SystemItem>, the ToolTalk service passes
+messages in (4) to
+<Emphasis>cb</Emphasis>; otherwise,
+<Function>ttdt_session_join</Function> fails with
+<SystemItem Class="Constant">TT_DESKTOP_ENOTSUP</SystemItem>.</Para>
+<Para>The
+<StructName Role="typedef">Ttdt_contract_cb</StructName> argument is a callback defined as:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message (*Ttdt_contract_cb)(Tt_message <Emphasis>msg</Emphasis>,
+        void *<Emphasis>clientdata</Emphasis>,
+        Tt_message <Emphasis>contract</Emphasis>);
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Emphasis>msg</Emphasis> argument is
+a message in
+<StructName Role="typedef">Tt_state</StructName> <SystemItem Class="Constant">TT_SENT</SystemItem>. If
+<Emphasis>msg</Emphasis> is a
+<SystemItem Class="Constant">TT_REQUEST</SystemItem>, the client program becomes responsible for either failing,
+rejecting or replying to
+<Emphasis>msg</Emphasis>. After doing so, the client program may dispose of
+<Emphasis>msg</Emphasis> with
+<Function>tttk_message_destroy</Function>. The
+<Emphasis>clientdata</Emphasis> argument is the
+<Emphasis>clientdata</Emphasis> passed to
+<Function>ttdt_session_join</Function> or
+&cdeman.ttdt.message.accept;. The
+<Emphasis>contract</Emphasis> argument is the
+<Emphasis>contract</Emphasis> passed to
+<Function>ttdt_message_accept</Function>. For callbacks installed by
+<Function>ttdt_session_join</Function>, <Emphasis>contract</Emphasis> is always zero.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttdt_session_join</Function> function
+returns a null-terminated array of
+<StructName Role="typedef">Tt_pattern</StructName>; otherwise, it returns an error pointer.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned handle:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_ERR_NOMEM</Term>
+<ListItem>
+<Para>There is insufficient memory available to perform the function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The pointer passed does not point to an object
+of the correct type for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The specified process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_SESSION</Term>
+<ListItem>
+<Para>The specified ToolTalk session is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The null-terminated array of
+<StructName Role="typedef">Tt_pattern</StructName> returned by
+<Function>ttdt_session_join</Function> should be destroyed by passing the array to
+&cdeman.ttdt.file.quit;.</Para>
+<Para>The ToolTalk service will reply to the
+<Symbol Role="Message">Quit</Symbol> request before generating the
+<SystemItem Class="Constant">WM_DELETE_WINDOW</SystemItem> event.
+If the application catches and cancels this event,
+then the sender of the
+<Symbol Role="Message">Quit</Symbol> request will be misled
+into thinking the application actually quit.
+Applications that can cancel
+<SystemItem Class="Constant">WM_DELETE_WINDOW</SystemItem> should install a real
+<StructName Role="typedef">Ttdt_contract_cb</StructName>.</Para>
+<Para>The ToolTalk service handles the
+<Symbol Role="Message">Pause</Symbol> and
+<Symbol Role="Message">Resume</Symbol> requests by setting the sensitivity of
+<Symbol Role="Variable">widget</Symbol>. If
+<Symbol Role="Variable">widget</Symbol> is the parent of any top-level pop-up shells,
+<Function>XtSetSensitive</Function>(3) will not affect them.
+Applications that can have such pop-ups
+should install a real
+<StructName Role="typedef">Ttdt_contract_cb</StructName>.</Para>
+<Para>A
+<StructName Role="typedef">Ttdt_contract_cb</StructName> should return zero if it processes
+<Emphasis>msg</Emphasis> successfully, or a
+<Function>tt_error_pointer</Function> cast to
+<StructName Role="typedef">Tt_message</StructName> if processing results in an error.
+It should return the
+<Emphasis>msg</Emphasis> if it does not consume it.
+If
+<Emphasis>msg</Emphasis> is returned, then the ToolTalk service passes
+<SystemItem Class="Constant">TT_CALLBACK_CONTINUE</SystemItem> down the call stack, so that
+<Emphasis>msg</Emphasis> will be offered to other callbacks or (more likely) be returned from
+&cdeman.tt.message.receive;. Applications will rarely want
+<Emphasis>msg</Emphasis> to get processed by other callbacks or in the main event loop.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>This is the typical algorithm of a
+<StructName Role="typedef">Ttdt_contract_cb</StructName> for an application that handles
+<Symbol Role="Message">Pause</Symbol>, <Symbol Role="Message">Resume</Symbol> or
+<Symbol Role="Message">Quit</Symbol> requests for itself, but lets the ToolTalk service
+handle the X11-related requests listed in (2).
+Since this example callback deals with the case when
+<Emphasis>contract</Emphasis> is not zero, it can also be used as the
+<StructName Role="typedef">Ttdt_contract_cb</StructName> passed to
+<Function>ttdt_message_accept</Function>.</Para>
+<InformalExample>
+<ProgramListing>Tt_message myContractCB(Tt_message      msg,
+        void           *clientdata,
+        Tt_message      contract)
+{
+        char *opString = tt_message_op(msg);
+        Tttk_op op = tttk_string_op(opString);
+        tt_free(opString);
+        int silent = 0;
+        int force  = 0;
+        Boolean cancel = False;
+        Boolean sensitive = True;
+        char *status, command;
+        switch(op) {
+            case TTDT_QUIT:
+                tt_message_arg_ival(msg, 0, &amp;silent);
+                tt_message_arg_ival(msg, 1, &amp;force);
+                if (contract == 0) {
+                        /* Quit entire application */
+                        cancel = ! myQuitWholeApp(silent, force);
+                } else {
+                        /* Quit just the specified request being
+                           worked on */
+                        cancel = ! myCancelThisRequest(contract,
+                                silent, force);
+                }
+                if (cancel) {
+                        /* User canceled Quit; fail the Quit request */
+                        tttk_message_fail(msg, TT_DESKTOP_ECANCELED, 0, 1);
+                } else {
+                        tt_message_reply(msg);
+                        tttk_message_destroy(msg);
+                }
+                return 0;
+            case TTDT_PAUSE:
+                sensitive = False;
+            case TTDT_RESUME:
+                if (contract == 0) {
+                        int already = 1;
+                        if (XtIsSensitive(myTopShell) != sensitive) {
+                                already = 0;
+                                XtSetSensitive(myTopShell, sensitive);
+                        }
+                        if (already) {
+                                tt_message_status_set(msg,
+                                        TT_DESKTOP_EALREADY);
+                        }
+                } else {
+                        if (XtIsSensitive(thisShell) == sensitive) {
+                                tt_message_status_set(msg,
+                                        TT_DESKTOP_EALREADY);
+                        } else {
+                                XtSetSensitive(thisShell, sensitive);
+                        }
+                }
+                tt_message_reply(msg);
+                tttk_message_destroy(msg);
+                return 0;
+            case TTDT_GET_STATUS:
+                if (contract == 0) {
+                        status = "Message about status of entire app";
+                } else {
+                        status = "Message about status of this request";
+                }
+                tt_message_arg_val_set(msg, 0, status);
+                tt_message_reply(msg);
+                tttk_message_destroy(msg);
+                return 0;
+            case TTDT_DO_COMMAND:
+                if (! haveExtensionLanguage) {
+                        tttk_message_fail(msg, TT_DESKTOP_ENOTSUP, 0, 1);
+                        return 0;
+                }
+                command = tt_message_arg_val(msg, 0);
+                result = myEval(command);
+                tt_free(command);
+                tt_message_status_set(msg, result);
+                if (tt_is_err(result)) {
+                        tttk_message_fail(msg, result, 0, 1);
+                } else {
+                        tt_message_reply(msg);
+                        tttk_message_destroy(msg);
+                }
+                return 0;
+        }
+        /* Unrecognized message; do not consume it */
+        return msg;
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttdt.session.quit;, &cdeman.tt.session.join;, <![ %CDE.C.CDE; [<Function>XtSetSensitive</Function>(3), ]]><![ %CDE.C.XO; [<Function>XtSetSensitive</Function> in the &str-Zt;,
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

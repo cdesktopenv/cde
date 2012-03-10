@@ -1,0 +1,173 @@
+<!-- $XConsortium: dtsrfzkf.sgm /main/6 1996/09/08 20:19:39 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.INFO.dtsrfzkfiles">]]>
+<RefMeta>
+<RefEntryTitle>dtsrfzkfiles</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName>dtsrfzkfiles</RefName>
+<RefPurpose>
+Describes the formats of DtSearch fzk files
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Synopsis>
+<Symbol Role="Variable">filename</Symbol>.fzk
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>An fzk file contains one or more documents to be loaded into a database
+in a simple canonical format. It is read by both
+<command>dtsrload</command> and <command>dstrindex</command>. It is
+typically a transient file created only for loading and indexing, and
+then discarded.
+</para>
+<refsect2>
+<Title>Header Portion</Title>
+<para>The header portion of each document in an fzk file consists
+of 4 lines of ASCII text, ie 4 ASCII strings, each ending in ASCII
+line feed characters (<literal>\n</literal>, 0x0A).
+</para>
+<para>Line 1 of each document in a DtSearch fzk file must contain
+the hard-coded string <literal>0,2\n</literal>.
+</para>
+<para>Line 2 must contain the string <literal>ABSTRACT:</literal> beginning
+in column 1, followed by the text desired to be returned on the results
+list when the document is the result of a successful search by the API.
+The abstract can contain any desired text up to the maximum length in
+bytes specified for the database at creation time. Abstracts are often
+displayed to the user after a successful search as an aid in deciding
+whether to retrieve the full document. Alternatively abstracts may be a
+file name or URL used as a reference by the developer's application to
+retrieve the document without further assistance from the search engine.
+</para>
+<para>Line 3 must contain the unique document key beginning in column 1. A
+document key is a text string containing all text up to the linefeed at
+the end of the line, up to the maximum database key size specified by
+the <systemitem class="constant">DtSrMAX_DB_KEYSIZE</systemitem>
+constant. Unique means that if the key already exists in the database,
+the load program will replace the document in its entirety by the new
+document (an update). If the key does not already exist, the document
+will be newly created (an add).
+</para>
+<para>The first character of the unique document key is called the "keytype".
+The search engine has the ability to limit searches to user specified
+subsets of keytypes, so keytypes are a logical, second level of database
+organization. Typically, keytypes are used by developers to distinguish
+document "types" or "sources" in a manner that may be perceived as
+meaningful to the application or users.
+</para>
+<para>Line 4 is the document date. It must begin
+in column 1 and conform
+to this exact pattern:
+</para>
+<programlisting>
+<emphasis>yy</emphasis>/<emphasis>mm</emphasis>/<emphasis>dd</emphasis>~<emphasis>hh</emphasis>:<emphasis>mm</emphasis>
+</programlisting>
+<para>The slashes, tilde, and colon are mandatory.
+The numeric values are integers based on the Gregorian calendar:
+</para>
+<variablelist>
+<varlistentry><term><emphasis>yy</emphasis></term>
+<listitem>
+<para>The number of years since 1900.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>mm</emphasis></term>
+<listitem>
+<para>A month number from 1 to 12.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>dd</emphasis></term>
+<listitem>
+<para>A day number from 1 to 31, but valid for the indicated month.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>hh</emphasis></term>
+<listitem>
+<para>A 24-hour clock hour number (military designation),
+where "0" is midnight, "13" is one o'clock pm, etc.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>mm</emphasis></term>
+<listitem>
+<para>The minutes number from "0" to "59".
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The search engine has the ability to limit searches to ranges
+of user specified document dates. If Line 4 contains an
+invalid date format, the load program will provide
+a default document date of the current run date.
+Documents may be marked "undated" with the null date string "0/0/0~0:0".
+Undated documents always qualify for results lists irrespective
+of date range qualifiers in the API search function
+<function>DtSearchQuery</function>.
+</para>
+</refsect2>
+<refsect2>
+<Title>Text Portion</Title>
+<para>All subsequent text (that is, all characters in the fzk file stream after
+Line 4 and up to the end-of-record delimiter string) is document text.
+The text portion is not presumed to be ASCII nor presumed to
+be periodically marked by ASCII linefeeds.
+Although typical, it is not strictly necessary that the text
+portion of a document in the fzk file be identical for both programs.
+</para>
+<para><command>dtsrload</command> reads only the text portion for AusText type
+databases. It compresses and stores AusText type text in the database
+document repository (see &cdeman.dtsrcreate;). In this case,
+the text portion should be the exact desired image to be retrieved by
+subsequent API retrieval functions. The text portion of a document in an
+fzk file for a DtSearch type database is discarded by
+<command>dtsrload</command>.
+</para>
+<para>On the other hand, <command>dtsrindex</command> reads the text portion
+for all databases, but only to parse and index words for subsequent API
+search functions. Word parsing is performed in the specified language
+and linguistic codeset of the database.
+</para>
+<para>As an example of how the fzk file might be different for
+document loading and word parsing, consider a tag-formatted document.
+The document in its entirety might be in the text portion
+of the fzk file for dtsrload, while the tags might be stripped
+from the file for <command>dtsrindex</command>.
+</para>
+</refsect2>
+<refsect2>
+<Title>ETX String</Title>
+<para>Documents are delimited in an fzk file by a special end-of-text (ETX)
+string occurring at the end of the text portion. By convention the ETX
+string is an ASCII formfeed character followed by an ASCII linefeed
+character (<literal>\f\n</literal>, 0x0C0A). However,
+<command>dtsrload</command> and <command>dtsrindex</command> can be
+instructed to use a different string by optional command line arguments.
+The ETX string is strictly a record separator; it is not considered part
+of the text of the previous record and is always discarded.
+</para>
+</refsect2>
+</refsect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtsrcreate;,
+&cdeman.dtsrhan;,
+&cdeman.dtsrload;,
+&cdeman.dtsrindex;,
+&cdeman.DtSrAPI;,
+&cdeman.DtSearch;
+</Para>
+</RefSect1>
+</RefEntry>

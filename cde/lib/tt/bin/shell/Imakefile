@@ -1,0 +1,49 @@
+XCOMM $XConsortium: Imakefile /main/10 1996/05/08 09:27:50 drk $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+#include <Threads.tmpl>
+
+#include "../../tooltalk.tmpl"
+
+DEFINES =
+INCLUDES = -I. -I../../lib
+
+DEPLIBS         = TtClientDepLibs
+LOCAL_LIBRARIES = TtClientLibs
+SYS_LIBRARIES   =
+
+#ifdef TtClientExtraLibs
+EXTRA_LIBRARIES = TtClientExtraLibs
+#endif
+
+PROG1 = ttmv
+SRCS1 = ttmv.C mover.C
+OBJS1 = ttmv.o mover.o
+
+PROG2 = ttrm
+SRCS2 = ttrm.C remover.C
+OBJS2 = ttrm.o remover.o
+
+PROG3 = ttcp
+SRCS3 = ttcp.C copier.C
+OBJS3 = ttcp.o copier.o
+
+PROG4 = ttrmdir
+SRCS4 = $(SRCS2)
+OBJS4 = $(OBJS2)
+
+PROGRAMS = $(PROG1) $(PROG2) $(PROG3) $(PROG4)
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget_1($(PROG1),$(LOCAL_LIBRARIES),/**/)
+ComplexCplusplusProgramTarget_2($(PROG2),$(LOCAL_LIBRARIES),/**/)
+ComplexCplusplusProgramTarget_3($(PROG3),$(LOCAL_LIBRARIES),/**/)
+ComplexCplusplusProgramTarget_4($(PROG4),$(LOCAL_LIBRARIES),/**/)
+
+SpecialCplusplusObjectRule(remover,remover,$(TT_VERSION_DEFINE))
+SpecialCplusplusObjectRule(mover,mover,$(TT_VERSION_DEFINE))
+SpecialCplusplusObjectRule(copier,copier,$(TT_VERSION_DEFINE))

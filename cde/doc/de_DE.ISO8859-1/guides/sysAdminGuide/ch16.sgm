@@ -1,0 +1,885 @@
+<!-- $XConsortium: ch16.sgm /main/10 1996/12/20 20:03:20 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.I18N.div.1">
+<title id="SAG.I18N.mkr.1">L&auml;nderspezifische Desktop- Sessions konfigurieren</title>
+<para>Um l&auml;nderspezifische Desktop-Sessions zu konfigurieren, m&uuml;ssen
+folgende Schritte unternommen werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die <systemitem>LANG</systemitem>-Umgebungsvariable und andere
+NLS- (National Language Support) Umgebungsvariablen einstellen.</para>
+</listitem>
+<listitem><para>Auf sprachenabh&auml;ngige Nachrichtenkataloge und Ressourcendateien
+zugreifen.</para>
+</listitem>
+<listitem><para>Fernausf&uuml;hrung von Anwendungen &uuml;ber internationalisierte
+Systeme.</para>
+<informaltable id="SAG.I18N.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'LANG-Umgebungsvariable
+verwalten304'--><xref role="JumpText" linkend="SAG.I18N.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Schriftarten
+finden307'--><xref role="JumpText" linkend="SAG.I18N.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Ressourcendateien
+f&uuml;r Standardwerte von Anwendungen eingrenzen307'--><xref role="JumpText"
+linkend="SAG.I18N.mkr.5"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Aktions-
+und Datenarten eingrenzen308'--><xref role="JumpText" linkend="SAG.I18N.mkr.6"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Symbole
+und Bitmaps eingrenzen308'--><xref role="JumpText" linkend="SAG.I18N.mkr.7"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Hilfeb&auml;nde
+eingrenzen310'--><xref role="JumpText" linkend="SAG.I18N.mkr.9"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Nachrichtenkataloge
+eingrenzen310'--><xref role="JumpText" linkend="SAG.I18N.mkr.10"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Fernausf&uuml;hrung
+von l&auml;nderspezifischen Desktopanwendungen310'--><xref role="JumpText"
+linkend="SAG.I18N.mkr.11"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Tastaturbelegung
+zur&uuml;cksetzen311'--><xref role="JumpText" linkend="SAG.I18N.mkr.12"></para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+<sect1 id="SAG.I18N.div.2">
+<title id="SAG.I18N.mkr.2">Umgang mit der LANG-Umgebungsvariable<indexterm>
+<primary>LANG Variable, Umgang mit</primary></indexterm><indexterm><primary>LANG Variable</primary></indexterm></title>
+<para>F&uuml;r das Desktop mu&szlig; die <systemitem>LANG</systemitem>-Umgebungsvariable
+eingestellt werden, auf welche sich die sprachenspezifischen Routinen des
+Betriebssystems st&uuml;tzen. Das Desktop unterst&uuml;tzt:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Westeurop&auml;ische und Romanische Sprachen</para>
+</listitem>
+<listitem><para>Japanisch</para>
+</listitem>
+<listitem><para>Traditionelles Chinesisch</para>
+</listitem>
+<listitem><para>Vereinfachtes Chinesisch</para>
+</listitem>
+<listitem><para>Koreanisch</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>M&ouml;glicherweise wurde eine Unterst&uuml;tzung f&uuml;r andere Sprachen
+bereits vom H&auml;ndler installiert.</para>
+</note>
+<para><systemitem>LANG</systemitem> kann auf jeden Wert eingestellt werden,
+der vom Betriebssystem unterst&uuml;tzt wird. Das Men&uuml; 'Optionen' des
+Anmeldebildschirms zeigt die Liste der unterst&uuml;tzten Sprachen und Gebiete.
+</para>
+<para>Es gibt vier M&ouml;glichkeiten, <systemitem>LANG</systemitem> f&uuml;r
+das Desktop einzustellen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Eine Ressource in der Datei <filename>Xconfig</filename> bearbeiten
+</para>
+</listitem>
+<listitem><para>&Uuml;ber das 'Optionen' Men&uuml; des Anmeldebildschirms
+</para>
+</listitem>
+<listitem><para>Eine ausf&uuml;hrbares Skript <command>sh</command> oder <command>ksh Xsession.d</command> erstellen. (Mehr Informationen zum Benutzen eines
+Xsession.d Skriptes k&ouml;nnen dem Abschnitt <!--Original
+XRef content:
+'&ldquo;Prozeduren Xsession.d als Ausgangsobjekte
+verwenden&rdquo; auf Seite&numsp;28'--><xref role="SecTitleAndPageNum" linkend="SAG.SesMg.mkr.5">
+entnommen werden.)</para>
+</listitem>
+<listitem><para>Die Datei <filename>.dtprofile</filename> des Benutzers bearbeiten.
+</para>
+</listitem>
+</itemizedlist>
+<para>Wenn <systemitem>LANG</systemitem> eingestellt ist, verwendet das Desktop
+die folgenden sprachenspezifischen Dateien, um die l&auml;nderspezifische
+Schnittstelle zu bestimmen.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.53in">
+<colspec colwidth="4.44in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Farben</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/palettes/desc</filename><symbol role="Variable">.sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Hintergrundmuster</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/backdrops/desc</filename><symbol role="Variable">.sprache</symbol></para></entry></row></tbody></tgroup></informaltable>
+<sect2 id="SAG.I18N.div.3">
+<title>Sprache f&uuml;r mehrere Benutzer einstellen</title>
+<para>Wenn die Sprache mit einer <filename>Xconfig</filename> Datei eingestellt
+wird, ist der Anmeldebildschirm l&auml;nderspezifisch, und <systemitem>LANG</systemitem> ist f&uuml;r alle Benutzer eingestellt. Dies ist die einzige
+M&ouml;glichkeit, <systemitem>LANG</systemitem> f&uuml;r alle Bildschirme
+in Systemen mit mehreren Bildschirmen zu &auml;ndern. (Um <filename>Xconfig</filename> zu &auml;ndern, <filename>/usr/dt/config/Xconfig</filename> in <filename>/etc/dt/config/Xconfig</filename> kopieren.)</para>
+<para>Die Sprache wird eingestellt, indem die folgende Zeile in <filename>/etc/dt/config/Xconfig</filename> gestellt wird:</para>
+<programlisting>dtlogin.host_bildschirm.language: sprache</programlisting>
+<para>Zum Beispiel setzt die folgende Zeile <systemitem>LANG</systemitem>
+auf <filename>Swedish_locale</filename> bei der Anzeige <filename>my_host:0</filename>.</para>
+<programlisting><command>dtlogin.my_host_0.language: Swedish_locale</command></programlisting>
+<para>Der <command>dtlogin</command>-Client liest den entsprechenden Nachrichtenkatalog
+f&uuml;r diese Sprache und baut den l&auml;nderspezifischen Anmeldebildschirm
+auf. Der <command>dtlogin</command>-Client bestimmt dann die Liste der l&auml;nderspezifischen
+Angaben mit Hilfe der folgenden Ressourcen in der Ressourcendatei <filename>/etc/dt/config/Xresources</filename>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><systemitem>dtlogin*language</systemitem></para>
+</listitem>
+<listitem><para><systemitem>dtlogin*languageList</systemitem></para>
+</listitem>
+<listitem><para><systemitem>dtlogin*languageName</systemitem></para>
+</listitem>
+</itemizedlist>
+<para>Die Datei <filename>Xconfig</filename> mu&szlig; m&ouml;glicherweise
+die <systemitem>NLSPATH</systemitem>-Umgebungsvariable entsprechend der ausgew&auml;hlten
+Sprache einstellen. Wenn dies nicht der Fall ist oder wenn <systemitem>NLSPATH</systemitem> selbst eingestellt werden soll, k&ouml;nnen mehr Informationen
+dem Abschnitt <!--Original XRef content:
+'&ldquo;NLSPATH-Umgebungsvariable&rdquo; auf Seite&numsp;307'--><xref role="HeadingAndPage"
+linkend="SAG.I18N.mkr.3"> entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.I18N.div.4">
+<title>Sprache f&uuml;r eine Session einstellen</title>
+<para>Um die Sprache f&uuml;r eine Session einzustellen, das Men&uuml; 'Optionen'
+des Anmeldebildschirms verwenden. Der Anmeldebildschirm ist l&auml;nderspezifisch,
+und <systemitem>LANG</systemitem> ist f&uuml;r den Benutzer eingestellt. Am
+Ende der Session kehrt <systemitem>LANG</systemitem> zum Standardwert (eingestellt
+in <command>dtlogin</command>) zur&uuml;ck.</para>
+</sect2>
+<sect2 id="SAG.I18N.div.5">
+<title>Sprache f&uuml;r einen Benutzer einstellen<indexterm><primary>LANG
+Variable</primary><secondary>in .dtprofile</secondary></indexterm><indexterm>
+<primary>.dtprofile Datei</primary><secondary>LANG einstellen</secondary>
+</indexterm></title>
+<para>Ein Benutzer kann die Einstellung des <systemitem>LANG</systemitem>
+bei der Anmeldung in der Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename> neu belegen. Der Anmeldebildschirm
+ist nicht l&auml;nderspezifisch, und <systemitem>LANG</systemitem> wird f&uuml;r
+den Benutzer eingestellt.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Wenn <command>sh</command> oder <command>ksh</command> benutzt
+wird:</para>
+<programlisting>LANG=sprache
+export  LANG</programlisting>
+</listitem>
+<listitem><para>Wenn <command>csh</command> benutzt wird:</para>
+<para remap="CodeIndent1"><command>setenv</command> <systemitem>LANG</systemitem> <symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.I18N.div.6">
+<title>LANG-Umgebungsvariable und Session-Konfiguration</title>
+<para>Die <systemitem>LANG</systemitem>-Umgebungsvariable &auml;ndert den
+Verzeichnisnamen, der f&uuml;r die Session-Konfigurationsdateien gesucht wird.
+</para>
+<para>Es gibt folgende l&auml;nderspezifische Session-Konfigurationsdateien:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>/usr/dt/config/</filename><symbol>sprache</symbol><filename>/Xresources</filename> (Anmeldemanager- Ressourcendatei)</para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/</filename><symbol>sprache</symbol><filename>/sys.font</filename> (Sessionmanager-Ressourcendatei)</para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/</filename><symbol>sprache</symbol><filename>/sys.resources</filename> (Sessionmanager- Ressourcendatei)</para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/</filename><symbol>sprache</symbol><filename>/sys.session</filename> (Sessionmanager ausf&uuml;hrbare Shell)</para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/</filename><symbol>sprache</symbol><filename>/sys.dtwmrc</filename> (Fenstersteuerung- Ressourcendatei)</para>
+</listitem>
+<listitem><para><filename>/usr/dt/appconfig/types/</filename><symbol>sprache</symbol><filename>/dtwm.fp</filename> (Fenstersteuerung- Bedienfeld)</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.I18N.div.7">
+<title>Andere NLS-Umgebungsvariablen einstellen<indexterm><primary>NLS Umgebungsvariable</primary></indexterm></title>
+<para>Neben <systemitem>LANG</systemitem> gibt es andere <systemitem>NLS</systemitem>-Umgebungsvariablen,
+wie zum Beispiel <systemitem>LC_CTYPE</systemitem> und <systemitem>LC_ALL</systemitem>. Diese Variablen werden weder von der Sprachenressource <command>dtlogin</command> beeinflu&szlig;t, noch von dem Men&uuml; Optionen des Anmeldebildschirms.
+Sie m&uuml;ssen in die folgenden Dateien gestellt werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>systemweite Variablen: <filename>/etc/dt/config/Xsession.d</filename></para>
+</listitem>
+<listitem><para>pers&ouml;nliche Variablen: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dtprofile</filename></para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.I18N.div.8">
+<title id="SAG.I18N.mkr.3">NLSPATH-Umgebungsvariable</title>
+<para>Die <systemitem>NLSPATH</systemitem>-Umgebungsvariable bestimmt die
+Verzeichnispfade, die Anwendungen nach Nachrichtenkatalogen durchsuchen. Sowohl <systemitem>LANG</systemitem> als auch <systemitem>NLSPATH</systemitem> m&uuml;ssen eingestellt
+sein, um diese Nachrichtenkataloge zu benutzen. Mehr Informationen &uuml;ber
+die Position von l&auml;nderspezifischen Nachrichten k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Nachrichtenkataloge eingrenzen&rdquo;
+auf Seite&numsp;310'--><xref role="HeadingAndPage" linkend="SAG.I18N.mkr.10">
+entnommen werden. Die meisten Desktop-Clients werden beim Neustart den Pfad
+vor <systemitem>NLSPATH</systemitem> setzen.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.I18N.div.9">
+<title id="SAG.I18N.mkr.4">Schriftarten finden</title>
+<para>Die im Desktop enthaltenen Schriftarten befinden sich im Verzeichnis
+<filename>/usr/lib/X11/fonts</filename>.<indexterm><primary>Schriftarten</primary><secondary>Hauptverzeichnis</secondary></indexterm> Jedes Verzeichnis
+enth&auml;lt eine Verzeichnisdatei <filename>fonts.dir</filename> und eine
+Alias-Datei <filename>fonts.alias</filename>. Mehr Informationen &uuml;ber
+das Erstellen der Dateien <filename>fonts.dir</filename> und <filename>fonts.alias</filename> k&ouml;nnen der Hilfeseite <filename>mkfontdir</filename> entnommen
+werden.<indexterm><primary>Schriftarten</primary><secondary>finden mit Verzeichnisdatei</secondary></indexterm><indexterm><primary>Schriftarten</primary><secondary>finden mit Aliasdatei</secondary></indexterm><indexterm><primary>Schriftarten</primary><secondary>finden mit dem Befehl mkfontdir</secondary></indexterm><indexterm>
+<primary>mkfontdir Befehl</primary></indexterm></para>
+<para>Mit dem Befehl <command>xlsfonts</command> k&ouml;nnen alle verf&uuml;gbaren
+Schriftarten auf einem Server aufgelistet werden. Mit dem Befehl <command>xset</command> k&ouml;nnen dem Server Schriftarten hinzugef&uuml;gt oder von
+ihm gel&ouml;scht werden.</para>
+</sect1>
+<sect1 id="SAG.saI18N.div.9a">
+<title id="SAG.saI18N.mkr.4a">Umgang mit Benutzerdefinierten Zeichen<indexterm>
+<primary>benutzerdefinierte Zeichen</primary><secondary>Umgang mit</secondary>
+</indexterm><indexterm><primary>Lokalisierung</primary><secondary>benutzerdefinierte
+Zeichen</secondary></indexterm></title>
+<sect2>
+<title>&Uuml;berblick</title>
+<para>In ostasiatischen L&auml;ndern wie China, Korea und Japan ist die Verwendung
+chinesischer Zeichen (in China Hanzi, in Korea Hanja und in Japan Kanji genannt)
+weit verbreitet. Da die Anzahl chinesischer Zeichen sehr gro&szlig; ist (mehr
+als 50000 im gr&ouml;&szlig;ten japanischen Kanji-W&ouml;rterbuch), definieren
+die codierten Standard-Zeichens&auml;tze f&uuml;r chinesische Zeichen (wie
+zum Beispiel JIS X 0208, KS C 5601 und GB 2312) nur die am h&auml;ufigsten
+verwendeten Zeichen.</para>
+<para>F&uuml;r normale Schreibzwecke reicht ein Standard-zeichensatz aus.
+In einigen F&auml;llen ist jedoch die Verwendung von nicht-standardisierten
+Zeichen erforderlich. Zum Beispiel m&uuml;ssen in Japan bei der Einwohnermeldung
+Personen- und Ortsnamen in exakt den gleichen Zeichen geschrieben werden,
+die zuvor in handgeschriebenen Anmeldeformularen benutzt wurden. Ein weiteres
+Beispiel ist die Ver&ouml;ffentlichung von antiken Dokumenten wie Taoistische
+oder Konfuzianische Klassiker. Diese Dokumente enthalten viele Zeichen, die
+heute veraltet und in den Standardzeichens&auml;tzen nicht definiert sind.
+Solche nicht-standardisierten Zeichen werden "Benutzerdefinierte Zeichen"
+genannt.</para>
+<sect3>
+<title>Wie UDCs organisiert sind</title>
+<para>Benutzerdefinierte Zeichen ( user-defined characters oder UDCs genannt)
+verwenden entweder "leere" Code-Punkte (Punkte im Code-Satz, denen keine Zeichen
+zugeordnet sind) oder einen Bereich zur Privatnutzung (falls ein solcher durch
+den Code-Satz definiert ist). In den meisten F&auml;llen stellt der Systemhersteller
+einen UDC-Bereich zur Verf&uuml;gung, der aus einem oder mehreren zusammenh&auml;ngenden
+Bl&ouml;cken von Code-Punkten besteht, die f&uuml;r UDCs benutzt werden k&ouml;nnen.
+</para>
+<para>Das grundlegende Verfahren f&uuml;r die Erstellung eines UDCs stellt
+sich folgenderma&szlig;en:</para>
+<orderedlist>
+<listitem><para>Einen Code-Punkt im UDC-Bereich dem zu definierenden Zeichen
+zuordnen.</para>
+</listitem>
+<listitem><para>Ein Glyphenabbild (oder eine Reihe von Glyphenabbildern zur
+Definition von verschiedenen Schriftgr&ouml;&szlig;en) f&uuml;r dieses Zeichen
+mit dem UDC-Schriftart-Editor <command>dtudcfonted</command> erstellen.</para>
+</listitem>
+</orderedlist>
+<para>Wenn ein UDC erstellt ist, kann es mit dem Dienstprogramm UDC-Datenaustausch
+an andere Systeme verteilt werden. Zur Gew&auml;hrleistung von Einheitlichkeit
+beim Datenaustausch sollten UDC-Definitionen innerhalb einer Organisation
+&uuml;bereinstimmen.</para>
+<para>Bevor Sie versuchen, UDCs zu erstellen, m&uuml;ssen Sie entscheiden:
+</para>
+<itemizedlist>
+<listitem><para>Welcher Code-Satz verwendet wird und welche Code-Punkte f&uuml;r
+UDCs zur Verf&uuml;gung stehen. Zur Erstellung von UDCs m&uuml;ssen Benutzer
+wissen, welche Code-Punkte verwendet werden sollen.</para>
+<para>Beim Austausch von Textdaten unter dem X-Protokoll wird zusammengesetzter
+Text benutzt. In zusammengesetztem Text k&ouml;nnen erweiterte Segmente zur
+&Uuml;bertragung von UDCs benutzt werden. Falls Sie erweiterte Segmente f&uuml;r
+die UDC-&Uuml;bertragung verwenden, sollten Sie den Codiernamen f&uuml;r die
+UDCs definieren und angeben, wie Code-Punkte oder Glyphen-Indexe in den Segmenten
+&uuml;bertragen werden.</para>
+</listitem>
+<listitem><para>Wie Schriftartdateien organisiert sind und welche Glyphen-Indexe
+f&uuml;r UDCs verwendet werden. UDCs k&ouml;nnen in Standard-Schriftartdateien
+mit leeren Glyphenindexen oder in separaten, UDC-spezifischen Schriftartdateien
+gespeichert werden. Wenn separate Dateien benutzt werden, sollte das System
+mit leeren Schriftartdateien f&uuml;r UDCs geliefert werden. Bei der Bearbeitung
+eines existierenden UDCs mu&szlig; der Benutzer den Schriftartnamen und die
+Glyphen-Indexe f&uuml;r das UDC angeben. Dies setzt voraus, da&szlig; der
+Benutzer die Beziehung zwischen Code-Punkten und Glyphen-Indexen kennt.</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3>
+<title>Schriftartdateien</title>
+<para>Damit UDCs angezeigt und gedruckt werden k&ouml;nnen, m&uuml;ssen sie
+in Datenbanken als Schriftartdateien gespeichert sein. UDC-Glyphen werden
+wie andere Zeichenglyphen in Schriftartdateien aufbewahrt, die im X Window
+System benutzt werden. Die Schriftartdateien befinden sich im PCF (Portable
+Compiled Format; &uuml;bertragbares, kompiliertes Format) bzw. SNF (Server
+Natural Format, nat&uuml;rliches Server-Format) Format, auf die &uuml;ber
+einen X-Server zugegriffen werden kann. Der UDC-Schriftart-Editor kann ebenfalls
+auf Schriftartdateien in diesen Formaten zugreifen.</para>
+<para>Wenn der X-Server ein UDC anzeigt, bezieht sich dies auf das UDC in
+der zugeh&ouml;rigen Schriftartdatei. In gleicher Weise bezieht sich beim
+Drucken eines UDCs die Spul-Funktion des Druckers auf das UDC in der Schriftartdatei.
+</para>
+<para>Schriftartdateien m&uuml;ssen speziell eingerichtet werden, um vom X
+Window System verwendet werden zu k&ouml;nnen. In anderen Worten, sie m&uuml;ssen
+in Verzeichnissen abgelegt werden, die auf dem Schriftartpfad des X-Servers
+definiert sind. Die Verwaltungsdateien (wie <symbol role="Variable">fonts.dir</symbol>) m&uuml;ssen ebenfalls in diesen Verzeichnissen gespeichert werden.
+Der UDC-Schriftart-Editor installiert keine Schriftartdateien und &auml;ndert
+keine Ressourcen wie z.B. <symbol role="Variable">fonts.dir</symbol> im System.
+</para>
+<para>Der UDC-Schriftart-Editor kann nur UDC-Schriftartdateien verwenden,
+die in der aktuellen Sprachumgebung zur Verf&uuml;gung stehen und die in der
+X NLS-Datenbank definiert sind. The X NLS-Datenbank ist eine Datenbank, die
+definiert, welcher Code-Satz und Schriftartsatz f&uuml;r die jeweilige Sprachumgebung
+benutzt werden. Der UDC-Schriftart-Editor erstellt UDC-Schriftarten in verschiedenen
+Punktgr&ouml;&szlig;en und Stilen. Um eine neue, bearbeitbare Schriftart hinzuzuf&uuml;gen,
+m&uuml;ssen Sie den Namen des Code-Satzes und den UDC-Bereich in der X NLS-Datenbank
+angeben.</para>
+<para>Wenn der UDC-Schriftart-Editor und das Dienstprogramm UDC-Datenaustausch
+nach Schriftartdateien suchen, durchsuchen sie zuerst die Umgebungsvariable <systemitem class="environvar">DTUDCFONTPATH</systemitem> (eine Liste von durch Doppelpunkte
+abgetrennten Verzeichnissen, die UDC-Schriftartdateien enth&auml;lt) und dann
+die Verzeichnisse, die in der Datei<filename>/usr/dt/config/$LANG/fonts.list</filename> angegeben sind. Zur Einstellung von Schriftartsuchverzeichnissen
+f&uuml;r jede Sprachumgebung diese in der Datei <filename>fonts.list</filename>
+angeben. (Vergessen Sie nicht den Doppelpunkt am Ende!) Zum Beispiel:</para>
+<programlisting>#
+# fonts.list file example
+#
+  /usr/lib/X11/fonts/misc:
+  /usr/dt/config/xfonts/ja:</programlisting>
+</sect3>
+</sect2>
+<sect2>
+<title>Der UDC-Schriftart-Editor</title>
+<para>Der UDC-Schriftart-Editor (<command>dtudcfonted</command>) erm&ouml;glicht
+Ihnen das Erstellen, Bearbeiten und L&ouml;schen von UDCs.</para>
+<para>Ausf&uuml;hrliche Details &uuml;ber die Verwendung des UDC-Schriftart-Editors
+finden Sie auf der Hilfeseite <command>dtudcfonted</command>.</para>
+<para>Wenn Sie den UDC-Schriftart-Editor starten, erscheint das Fenster ' <literal>Schriftartauswahl</literal>'.</para>
+<para>UDC-Schriftartdateien werden durch einen XLFD (X Logical Font Description,
+logische Schriftartbeschreibung)-Namen angegeben. XLFDs sind eindeutige und
+beschreibende Schriftartnamen, die von Clienten und Anwendungen benutzt werden.
+Die verschiedenen Schriftartattribute wie Stil und ein Zeichensatzname sind
+in der XLFD enthalten. Je nach Bedarf k&ouml;nnen Sie den Stil, die Gr&ouml;&szlig;e
+und den UDC-Code-Bereich der Schriftartdatei ausw&auml;hlen. Der UDC-Code-Bereich
+enth&auml;lt sowohl die Code-Satznummer, wie sie in der X NLS-Datenbank angegeben
+ist, als auch den Bereich von UDC-Glyphen-Indexen, die in dem Code-Satz verwendet
+werden k&ouml;nnen.</para>
+<para>Zur Auflistung der verf&uuml;gbaren UDC-Schriftartdateien w&auml;hlen
+Sie den Code-Satz, Stil und die Definitionszeichengr&ouml;&szlig;e der gew&uuml;nschten
+Schriftart im Auswahlfeld aus. Durch die Angabe einer Schriftart und die Auswahl
+der Schaltfl&auml;che '<literal>&Ouml;ffnen</literal>' wird das Fenster ' <literal>Zeichen bearbeiten</literal>' angezeigt.</para>
+<sect3>
+<title>Erstellung und Bearbeitung von Zeichen</title>
+<para>Zeichenmuster werden im Fenster '<literal>Zeichen bearbeiten</literal>'
+erstellt oder bearbeitet.</para>
+<para>Den Code f&uuml;r das zu bearbeitende Zeichen aus der Zeichenliste ausw&auml;hlen.
+Hierdurch wird das verkn&uuml;pfte Zeichenmuster im Bearbeitungsfeld angezeigt.
+Sollte der Zeichencode im UDC-Bereich nicht registriert worden sein, wird
+nichts angezeigt.</para>
+<para>Wenn der Zeichencode noch nicht registriert wurde, den Code im Fenster
+'<literal>Bedienelement Zeichen</literal>' hinzuf&uuml;gen oder das Muster
+im Fenster '<literal>Zeichen kopieren</literal>' kopieren. Details dar&uuml;ber,
+wie Sie Zeichencodes hinzuf&uuml;gen k&ouml; nnen, finden Sie im Abschnitt
+"Hinzuf&uuml;gen und L&ouml;schen von Zeichencodes". Details dar&uuml;ber,
+wie Sie Zeichenmuster kopieren k&ouml;nnen, finden Sie im Abschnitt "Kopieren
+von Zeichenmustern".</para>
+<para>Ein Satz von Zeichenwerkzeugen und Optionen des Men&uuml;s ' <literal>Bearbeiten</literal>' stellen einen vollst&auml;ndigen Satz von Man&ouml;vern
+f&uuml;r die Erstellung und Bearbeitung von Zeichenmustern zur Verf&uuml;gung.
+</para>
+</sect3>
+<sect3>
+<title>Hinzuf&uuml;gen und L&ouml;schen von Zeichencodes</title>
+<para>Im Fenster '<literal>Bedienelement Zeichen</literal>', zu dem Sie durch
+Auswahl der Option '<literal>Hinzuf&uuml;gen/L&ouml;schen</literal>' im Men&uuml;
+'<literal>Zeichen</literal>' gelangen, werden Zeichencodes hinzugef&uuml;gt
+und gel&ouml;scht.</para>
+<para>Zur Hinzuf&uuml;gung eines Zeichencodes dessen vier hexadezimale Ziffern
+im Bereich 'Benutzerdefiniertes Zeichen' angeben und auf die Schaltfl&auml;che
+'<literal>Hinzuf&uuml;gen</literal>' klicken. Sie k&ouml;nnen auch einen Bereich
+von Zeichen hinzuf&uuml;gen, indem Sie die Codes f&uuml;r das erste und letzte
+Zeichen im Bereich angeben. Jeder neue Zeichencode wird der Liste von Zeichen
+hinzugef&uuml;gt, die im Fenster '<literal>Zeichen bearbeiten</literal>' bearbeitet
+werden. Das zu bearbeitende Zeichen ist das erste Zeichen des hinzugef&uuml;gten
+Zeichencodes (oder des hinzugef&uuml;gten Zeichencodefeldes). Wenn es bereits
+registriert wurde, wird das Zeichenmuster f&uuml;r den angegebenen Zeichencode
+nicht ge&auml;ndert.</para>
+<para>Um einen Zeichencode zu l&ouml;schen, dessen vier hexadezimale Ziffern
+im Bereich 'Benutzerdefiniertes Zeichen' angeben und auf die Schaltfl&auml;che
+'<literal>L&ouml;schen</literal>' klicken. Sie k&ouml;nnen auch einen Bereich
+von Zeichen l&ouml;schen, indem Sie die Codes f&uuml;r das erste und letzte
+Zeichen im Bereich angeben. Das Dienstprogramm fordert Sie zur Best&auml;tigung
+jedes L&ouml;schvorgangs auf.</para>
+<para>Das L&ouml;schen eines Zeichencodes entfernt diesen von der Liste von
+Zeichen, die im Fenster '<literal>Zeichen bearbeiten</literal>' bearbeitet
+werden. Der Zeichencode, der auf den gel&ouml;schten Zeichencode folgt, wird
+zum aktuellen bearbeitbaren Zeichencode.</para>
+</sect3>
+<sect3>
+<title>Die grafische Eingabe von Zeichencodes</title>
+<para>Um einen Zeichencode grafisch einzugeben, auf die Schaltfl&auml;che
+'<literal>Code</literal>' im Fenster '<literal>Bedienelement Zeichen</literal>'
+klicken. Das Fenster '<literal>Zeichencode eingeben</literal>' erscheint.
+In diesem Fenster auf das gew&uuml;nschte Zeichen und dann auf ' <literal>Anwenden</literal>' klicken, um den Code f&uuml;r das ausgew&auml;hlte Zeichen
+in das Code-Eingabefeld des Fensters '<literal>Bedienelement Zeichen</literal>'
+einzuf&uuml;gen.</para>
+</sect3>
+<sect3>
+<title>Kopieren von Zeichenmustern</title>
+<para>Um bereits registrierte oder erstellte Zeichenmuster zu kopieren, ' <literal>Kopieren</literal>' im Men&uuml; '<literal>Zeichen</literal>' ausw&auml;hlen.
+Das Fenster '<literal>Zeichen kopieren</literal>' erscheint. Durch Kopieren
+wird der Zeichencode, der f&uuml;r den Bestimmungsort des Kopiervorgangs angegeben
+wurde, der Zeichenliste im Bearbeitungsfenster hinzugef&uuml;gt.</para>
+<para>Um ein Zeichenmuster zu kopieren, w&auml;hlen Sie die Zeichengr&ouml;&szlig;e
+und geben Sie dessen aus vier hexadezimalen Ziffern bestehenden Code an. (Sie
+k&ouml;nnen auch einen Bereich kopieren, indem Sie die Codes f&uuml;r das
+erste und letzte Zeichen im Bereich eingeben.) Dann den/die aus vier hexadezimalen
+Ziffern bestehenden Code(s) f&uuml;r das/die Zielzeichen angeben und auf die
+Schaltfl&auml;che '<literal>Kopieren</literal>' klicken.</para>
+<para>Sie k&ouml;nnen auch zusammengesetzte Kopien durchf&uuml;hren, in denen
+die Punkte im Quellzeichenmuster mit den Punkten im Zielzeichenmuster durch
+den logischen Operator OR verbunden werden.</para>
+</sect3>
+</sect2>
+<sect2>
+<title>Das Dienstprogramm UDC-Datenaustausch</title>
+<para>Das Dienstprogramm UDC-Datenaustausch (<command>dtudcexch</command>)
+ist ein Werkzeug f&uuml;r den Austausch von UDC-Glyphenabbildern zwischen
+Systemen.</para>
+<para><command>dtudcexch</command> bietet einen Mechanismus f&uuml;r die Verteilung
+von UDC-Glyphenabbildern auf verschiedene Systeme. Insbesondere erm&ouml;glicht
+es die Erstellung von UDC-Glyphenabbildern auf einem System mit dem UDC-Schriftart-Editor
+(<command>dtudcfonted</command>) und die anschlie&szlig;ende Verteilung auf
+andere Systeme. <command>dtudcexch</command> speichert die UDC-Glyphenabbilder
+in einer BDF-Datei (Bitmap Distribution Format, Bitmap-Verteilungsformat),
+die dann zu einem Zielsystem transportiert wird. Im Zielsystem wird <command>dtudcexch</command> erneut ausgef&uuml;hrt, dieses Mal, um die Abbilder aus
+der BDF-Datei herauszunehmen und sie der entsprechenden Schriftartdatei hinzuzuf&uuml;gen.
+</para>
+<para><command>dtudcexch</command> bietet sowohl eine Export- als auch eine
+Import-Funktion. Die Funktion 'Exportieren' liest die ausgew&auml;hlten UDC-Glyphenabbilder
+aus einer Schriftartdatei und speichert sie in einer BDF-Datei zur &Uuml;bertragung
+auf andere Systeme. Die Funktion 'Importieren' liest alle UDC-Glyphenabbilder
+in einer BDF-Datei und f&uuml;gt sie einer angegebenen Schriftartdatei hinzu.
+</para>
+<para>Beim Exportieren verwendet <command>dtudcexch</command> zur Auswahl
+der UDC-Glyphenabbilder Glyphen-Indexe des UDC-Code-Bereichs in der PCF/SNF-Schriftartdatei.
+Es speichert die umgewandelten Abbilder in der Datei im BDF-Format mit denselben
+Glyphen-Indexen. Beim Importieren f&uuml;gt <command>dtudcexch</command> die
+UDC-Glyphenabbilder der PCF/SNF-Schriftartdatei denselben Glyphenindexen hinzu,
+die in der BDF-Datei gefunden wurden. Die Informationen des UDC-Code-Bereiches
+werden in der X NLS-Datenbank definiert.</para>
+<para>Um verschiedene Glyphenindexe f&uuml;r die Abbilder im Zielsystem zu
+erstellen, k&ouml;nnen Sie die BDF-Datei bearbeiten, bevor Sie die Funktion
+'Importieren' aufrufen.</para>
+<para>Details zur Benutzung des Dienstprogramms UDC-Datenaustausch finden
+Sie auf der Hilfeseite <command>dtudcexch</command>.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.I18N.div.10">
+<title id="SAG.I18N.mkr.5">Ressourcendateien f&uuml;r Standardwerte von Anwendungen
+eingrenzen<indexterm><primary>Eingrenzen</primary><secondary>Standardwerte</secondary></indexterm><indexterm><primary>XUSERFILESEARCHPATH Variable</primary></indexterm><indexterm><primary>Ressourcen</primary><secondary>sprachenabh&auml;ngig</secondary></indexterm><indexterm><primary>Standardwert</primary><secondary>sprachenabh&auml;ngig</secondary></indexterm></title>
+<para>Die Standardposition der Datei <filename>app-defaults</filename> f&uuml;r
+den Desktop-Client ist <filename>/usr/dt/app-defaults/</filename><symbol role="Variable">sprache</symbol>. Wenn zum Beispiel <systemitem>LANG</systemitem> auf <command>Swedish_locale</command> eingestellt ist, dann suchen Anwendungen nach ihrer
+<filename>app-defaults</filename> Datei in <filename>/usr/dt/app-defaults/Swedish_locale</filename>. Wenn <systemitem>LANG</systemitem> nicht eingestellt ist, wird <symbol role="Variable">sprache</symbol> ignoriert, und die Anwendungen suchen ihre <filename>app-defaults</filename> Datei in <filename>/usr/app-defaults/C</filename>.
+</para>
+<para>Um die Position der Datei <filename>app-defaults</filename> zu &auml;ndern,
+die <systemitem>XFILESEARCHPATH</systemitem>-Umgebungsvariable verwenden.
+Um zum Beispiel <filename>app-defaults</filename> nach <filename>/users</filename>
+zu verschieben, <systemitem>XFILESEARCHPATH</systemitem> in <filename>/usr/app-defaults/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">klassenname</symbol></filename>
+stellen.</para>
+<para>Wenn <systemitem>XFILESEARCHPATH</systemitem> in <symbol role="Variable">Standardverzeichnis</symbol><command>/.dtprofile</command> gestellt wird,
+gilt der Wert f&uuml;r alle Desktop- und X-Clients, die ausgef&uuml;hrt werden.
+Nicht- Clients finden ihre Ressourcendateien nicht, bevor sie in das von <systemitem>XFILESEARCHPATH</systemitem> angegebene Verzeichnis kopiert oder mit ihm verbunden
+werden.</para>
+</sect1>
+<sect1 id="SAG.I18N.div.11">
+<title id="SAG.I18N.mkr.6">Aktions- und Datenarten eingrenzen</title>
+<note>
+<para>Um eine Datei in das Verzeichnis <filename>/usr/dt/appconfig</filename>
+anzupassen, die Datei vor dem Anpassen in das Verzeichnis <filename>/etc/dt/appconfig</filename> kopieren.</para>
+</note>
+<para>Der Suchpfad f&uuml;r Aktions- und Datenartendefinitionsdateien enth&auml;lt
+sprachenspezifische Verzeichnisse in:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/dt/types</filename></para>
+</listitem>
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>integriert: <filename>/usr/dt/appconfig/types/<symbol role="Variable">sprache</symbol></filename></para>
+</listitem>
+</itemizedlist>
+<para>Der Suchpfad f&uuml;r Konfigurationsdateien des Anwendungsmanagers lautet:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/dt/appmanager</filename></para>
+</listitem>
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>integriert: <filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+<para>Datei- und Verzeichnisnamen in diesem Verzeichnis sind l&auml;nderspezifisch.
+</para>
+</sect1>
+<sect1 id="SAG.I18N.div.12">
+<title id="SAG.I18N.mkr.7">Symbole und Bitmaps eingrenzen</title>
+<para>Um ein Symbol einzugrenzen, das Symbol mit dem Symboleditor bearbeiten
+und speichern in:</para>
+<programlisting>/etc/dt/appconfig/icons/sprache</programlisting>
+<para>Wenn es in einem anderen Verzeichnis gespeichert wurde, die <systemitem>XMICONSEARCHPATH</systemitem>-Umgebungsvariable so einstellen, da&szlig; sie
+das Verzeichnis mit dem gespeicherten Symbol enth&auml;lt. Die <systemitem>XMICONBMSEARCHPATH</systemitem>-Umgebungsvariable steuert den Pfad, mit dem
+nach Symbolen gesucht wird.</para>
+</sect1>
+<sect1 id="SAG.I18N.div.13">
+<title id="SAG.I18N.mkr.8">Namen von Hintergrundmustern eingrenzen</title>
+<para>Die Eingrenzung von Hintergrundmustern wird mit Hilfe von Beschreibungsdateien
+durchgef&uuml;hrt (<filename>desc.<symbol role="Variable">sprache</symbol></filename>
+und <filename>desc.backdrops</filename>). Es gibt kein spezifisch eingegrenztes
+Verzeichnis f&uuml;r Hintergrundmusterdateien (wie z.B. <filename>/usr/dt/backdrops/<symbol role="Variable">sprache</symbol></filename>). Alle l&auml;nderspezifischen
+Angaben benutzen dieselben Hintergrundmusterdateien, haben aber ihre eigene <filename>desc.</filename><symbol role="Variable">sprache</symbol> Datei, die die &uuml;bersetzten
+Namen der Hintergrundmuster enth&auml;lt.</para>
+<para>Die Beschreibungsdatei enth&auml;lt Ressourcenspezifikationen f&uuml;r
+die &uuml;bersetzten Namen der Hintergrundmuster. Beispiel:</para>
+<programlisting>Backdrops*Corduroy.desc:    Velours
+Backdrops*DarkPaper.desc:    PapierKraft
+Backdrops*Foreground.desc: AvantPlan</programlisting>
+<para>Die Datei <filename>desc.<symbol role="Variable">sprache</symbol></filename>
+wird dazu benutzt, die Beschreibung der Hintergrundmuster f&uuml;r l&auml;nderspezifische
+Angaben <symbol role="Variable">sprache</symbol> abzurufen, um das Hintergrundmuster
+im Style Manager anzuzeigen. Wenn es eine Beschreibungsspezifikation gibt,
+wird sie in der Hintergrundmusterliste des Style Manager angezeigt. Sonst
+wird der Name der Hintergrundmusterdatei benutzt.</para>
+<para>Benutzer k&ouml;nnen ihre eigenen Hintergrundmusterbeschreibungen der
+Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/backdrops/desc.backdrops</filename> hinzuf&uuml;gen. Mit dieser Datei werden Hintergrundmusterbeschreibungen
+von allen Hintergrundmustern abgerufen, die der Benutzer hinzugef&uuml;gt
+hat, unabh&auml;ngig von den l&auml;nderspezifischen Angaben.</para>
+<para>Der Suchpfad f&uuml;r die <filename>description</filename> Dateien lautet:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/backdrops/desc.backdrops</filename></para>
+</listitem>
+<listitem><para>systemweit: <filename>/etc/dt/backdrops/desc.</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>integriert: <filename>/usr/dt/backdrops/desc.</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.I18N.div.14">
+<title>Palettennamen eingrenzen</title>
+<para>Die Eingrenzung von Paletten wird mit Hilfe von Beschreibungsdateien
+durchgef&uuml;hrt (<filename>desc</filename>.<symbol role="Variable">sprache</symbol> und <filename>desc.palettes</filename>). Es gibt kein spezifisch
+eingegrenztes Verzeichnis (wie z.B. <filename>/usr/dt/palettes/</filename><symbol role="Variable">sprache</symbol>). Alle l&auml;nderspezifischen Angaben benutzen
+dieselben Palettendateien, haben aber ihre eigene <filename>desc.palettes</filename> Datei mit den &uuml;bersetzten Namen der Paletten.</para>
+<para>Die Beschreibungsdatei enth&auml;lt Ressourcenspezifikationen f&uuml;r
+die &uuml;bersetzten Palettennamen. Beispiel:</para>
+<programlisting>Palettes*Cardamon.desc:    Cardamone
+Palettes*Cinnamon.desc:    Cannelle
+Palettes*Clove.desc:       Brun</programlisting>
+<para>Die Datei <filename>desc.<symbol role="Variable">sprache</symbol></filename>
+wird dazu benutzt, die Beschreibung der Paletten f&uuml;r l&auml;nderspezifische
+Angaben <symbol role="Variable">sprache</symbol> abzurufen, um die Palette
+in der Liste des Style Manager anzuzeigen. Wenn es eine Beschreibungsspezifikation
+gibt, wird sie in der Palettenliste des Style Managers angezeigt. Sonst wird
+der Name der Palettendatei benutzt.</para>
+<para>Benutzer k&ouml;nnen ihre eigenen Palettenbeschreibungen der Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/palettes/desc.palettes</filename> hinzuf&uuml;gen. Mit dieser Datei werden Palettenbeschreibungen
+von allen Paletten abgerufen, die der Benutzer hinzugef&uuml;gt hat, unabh&auml;ngig
+von den l&auml;nderspezifischen Angaben.</para>
+<para>Der Suchpfad f&uuml;r die Beschreibungsdateien lautet:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/palettes/desc.palettes</filename></para>
+</listitem>
+<listitem><para>systemweit: <filename>/etc/dt/palettes/desc.</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>integriert: <filename>/usr/dt/palettes/desc.</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.saI18N.div.14a">
+<title id="SAG.saI18N.mkr.9a">Lokalisierung einer Infobiblio<indexterm><primary>Infobiblio</primary><secondary>lokalsieren</secondary></indexterm><indexterm>
+<primary>Lokalisierung</primary><secondary>Infobiblio</secondary></indexterm></title>
+<para>Eine Infobiblio enth&auml;lt ein oder mehrere B&uuml;cherregale, von
+denen jedes ein oder mehrere B&uuml;cher enth&auml;lt, die mit dem Informationsmanager
+durchsucht werden k&ouml;nnen. In dieser Hierarchie haben nur die Infobiblios
+verkn&uuml;pfte Desktop-Aktionen. Als Desktopentit&auml;ten k&ouml;nnen Infobiblios
+durch Ziehen und &Uuml;bergeben im Bedienelement Informationsmanager ge&ouml;ffnet
+werden. Wenn eine Infobiblio ge&ouml;ffnet wird, zeigt der Informationsmanager
+das B&uuml;cherlistenfenster an, das alle in der Infobiblio enthaltenen B&uuml;cherregale
+auff&uuml;hrt.</para>
+<para>Der Standardpfad f&uuml;r Infobiblios wird durch die Umgebungsvariable <systemitem class="environvar">DTINFOLIBPATH</systemitem> festgelegt. (Der standardm&auml;&szlig;ige-CDE-Desktoppfad
+ist <filename>/usr/dt/dtinfo/cde.dti</filename>.) Die Datei <symbol role="Variable">name</symbol><filename>.oli</filename> auf der ersten Verzeichnisebene einer
+Infobiblio enth&auml;lt den abgek&uuml;rzten Namen f&uuml;r die Infobiblio.
+Lokalisierungen einer Infobiblio finden sich in Unterverzeichnissen unter
+der ersten Verzeichnisebene und werden nach der NLS-Maske %<symbol role="Variable">L</symbol> (oder %<symbol role="Variable">l</symbol>_%<symbol role="Variable">t</symbol>.%<symbol role="Variable">c</symbol>.) benannt. Im B&uuml;cherlistenfenster
+des Informationsmanagers erscheint jedes B&uuml;cherregal in einer Infobiblio
+mit einer lokalisierten Zeichenfolge oder einem Titel, die/der in der Datei <filename>bookcase.map</filename> im Unterverzeichnis des B&uuml;cherregals gespeichert
+ist.</para>
+</sect1>
+<sect1 id="SAG.I18N.div.15">
+<title id="SAG.I18N.mkr.9">Hilfeb&auml;nde eingrenzen</title>
+<para>Wenn ein Hilfeband eingegrenzt wurde, mu&szlig; er in einem der folgenden
+Verzeichnisse gespeichert werden. Der erste gefundene Hilfeband wird benutzt.
+Die Verzeichnisse werden in der folgenden Reihenfolge durchsucht:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/help</filename></para>
+</listitem>
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/help/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>integriert: <filename role="Variable">/usr/dt/appconfig/help/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.I18N.div.16">
+<title id="SAG.I18N.mkr.10">Nachrichtenkataloge eingrenzen</title>
+<para>Wenn ein Nachrichtenkatalog eingegrenzt wurde, mu&szlig; er im folgenden
+Verzeichnis gespeichert werden:</para>
+<para><filename>/usr/dt/lib/nls/msg/</filename><symbol role="Variable">sprache</symbol>.</para>
+<para>Diese Verzeichnisse enthalten die <filename>*.cat</filename> Dateien.
+</para>
+</sect1>
+<sect1 id="SAG.I18N.div.17">
+<title id="SAG.I18N.mkr.11">Fernausf&uuml;hrung von l&auml;nderspezifischen
+Desktopanwendungen</title>
+<para>L&auml;nderspezifische Desktopanwendungen k&ouml;nnen an jedem fernen
+Ausf&uuml;hrungshost aufgerufen werden, der eine &auml;hnliche l&auml;nderspezifische
+Desktopinstallation hat. Die Werte der NLS-&auml;hnlichen Umgebungsvariablen
+am Host, der die Anwendung aufruft, werden dem entfernten Host &uuml;bergeben,
+wenn die Anwendung startet. Die Umgebungsvariablen enthalten jedoch keine
+Hostinformationen.</para>
+</sect1>
+<sect1 id="SAG.I18N.div.18">
+<title id="SAG.I18N.mkr.12">Tastaturbelegung zur&uuml;cksetzen</title>
+<para>Wenn unerwartete Zeichen oder Verhaltensmuster erscheinen, oder wenn
+Zeichen nicht angezeigt oder eingegeben werden k&ouml;nnen, mu&szlig; entweder
+die Tastaturbelegung zur&uuml;ckgesetzt oder installiert werden, oder die
+Eingabemethode mu&szlig; ge&auml;ndert werden.</para>
+<para id="SAG.I18N.mkr.13">Die Eingabemethode wird bestimmt von den <systemitem>LC_CTYPE</systemitem>-, <systemitem>LANG</systemitem>- oder <systemitem>LC_ALL</systemitem> -Umgebungsvariablen oder der Sprache, die von der Option ' -lang'
+angegeben wird.<indexterm><primary>Eingabemethode</primary></indexterm></para>
+<para>Wenn der Benutzer zum Beispiel ein Terminal mit der l&auml;nderspezifischen
+Angabe in der C-Umgebung in einer POSIX-Shell &ouml;ffnen m&ouml;chte, wie
+z.B.:</para>
+<programlisting>LANG=C  dtterm</programlisting>
+<para>Dieses neue Terminal verwendet die l&auml;nderspezifische Angabe in
+der C- Umgebung, einschlie&szlig;lich der C-Eingabemethode und Schriftarten.
+Wenn eine sprachenspezifische Tastatur benutzt wird, akzeptiert die Eingabemethode
+m&ouml;glicherweise keine erweiterten Zeichen zur Eingabe. Wenn die l&auml;nderspezifische
+Angabe in der C-Umgebung mit einer sprachenspezifischen Tastatur benutzt wird,
+mu&szlig; der Benutzer die <systemitem>LC_CTYPE</systemitem> (oder <systemitem>LANG</systemitem> oder <systemitem>LC_ALL</systemitem>) Umgebungsvariable
+vor dem Aufrufen des Terminals auf einen entsprechenden Wert setzen.</para>
+<para>Um beispielsweise die l&auml;nderspezifische Angabe in der C-Umgebung
+mit der deutschen Tastatur zu benutzen, folgendes eingeben:</para>
+<programlisting>LANG=C LC_CTYPE=DeDE dtterm</programlisting>
+<para>Wenn der X-Server zur&uuml;ckgesetzt wurde, und die Tastenbelegungen
+initialisiert wurden, kann die richtige Tastenbelegung am Server mit dem Befehl <command>xmodmap</command> zur&uuml;ckgesetzt werden.</para>
+</sect1>
+<sect1 id="SAG.saI18N.div.19">
+<title id="SAG.saI18N.mkr.14a">Auswahl eines Eingabemethode-Servers<indexterm>
+<primary>Eingabemethode-Server</primary><secondary>ausw&auml;hlen</secondary>
+</indexterm></title>
+<para>Asiatische Benutzer k&ouml;nnen entweder beim Start einer Session oder
+jederzeit w&auml;hrend einer Session (durch Verwendung des Umgebungsparameter-Bedienelements
+Internationalisierung) w&auml;hlen, welchen Eingabemethode-Server (IMS) sie
+benutzen m&ouml;chten. Die IMS-Auswahl ist nur dann erlaubt, wenn <systemitem class="environvar">LANG</systemitem> auf eine Asiatische Sprache (Japanisch,
+Koreanisch, traditionelles Chinesisch oder standardisiertes Chinesisch) eingestellt
+ist.</para>
+<para>Sobald ein IMS ausgew&auml;hlt wurde, k&ouml;nnen Benutzer den IMS-Auswahlmodus
+so einstellen, da&szlig; sie bei der n&auml;chsten Anmeldung zur Eingabe eines
+IMS aufgefordert werden oder automatisch den aktuell ausgew&auml;hlten IMS
+benutzen.</para>
+<para>Die IMS-Auswahl und der IMS-Auswahlmodus werden in der folgenden Datei
+gespeichert:<indexterm><primary>Eingabemethode-Server</primary><secondary>Auswahldatei</secondary></indexterm> <programlisting><symbol role="Variable">$HOME</symbol>/.dt/ims/[<symbol role="Variable">anzeige_name</symbol>/]<symbol role="Variable">CDE_sprachumgebung_name</symbol></programlisting></para>
+<para>Das Format der IMS-Auswahldatei ist:</para>
+<programlisting><literal>@SelectMode:</literal>    <literal>0</literal> (Bei Anmeldung fragen), oder
+                <literal>1</literal> (Aktuelle Eingabemethode wiederaufnehmen)
+<literal>@ImsName:</literal>       <symbol role="Variable">ims_name</symbol>
+<literal>@HostName:</literal>      <symbol role="Variable">host_name</symbol></programlisting>
+<sect2 id="SAG.saI18N.div.20">
+<title id="SAG.saI18N.mkr.15">Beim Start einer Session<indexterm><primary>Eingabemethode-Server</primary><secondary>beim Start einer Session ausw&auml;hlen</secondary></indexterm></title>
+<para>Um Benutzern die Auswahl eines IMS vor dem Start einer Session zu erm&ouml;glichen,
+die Umgebungsvariable <systemitem class="environvar">DTSTARTIMS</systemitem>
+auf <systemitem class="constant">TRUE</systemitem> einstellen. Die Einstellung
+von <systemitem class="environvar">DTSTARTIMS</systemitem> auf <systemitem class="constant">TRUE</systemitem> veranla&szlig;t die Session-Steuerung,
+das Skript <filename>/usr/dt/config/Xsession.d/0020.dtims</filename> auszuf&uuml;hren.
+Dieses Skript &uuml;berpr&uuml;ft <systemitem class="environvar">LANG</systemitem>.
+Wenn <systemitem class="environvar">LANG</systemitem> auf eine Asiatische
+Sprache eingestellt ist, ruft das Skript das Programm <command>dtimsstart</command> auf. <command>dtimsstart</command> zeigt den Dialog 'Eingabemethode-Auswahl'
+an, in dem der Bentuzer ausw&auml;hlen kann, welcher IMS verwendet werden
+soll. Er kann einen IMS ausw&auml;hlen, der entweder auf dem lokalen oder
+auf einem entfernten Rechner betrieben wird.</para>
+<para>Zur Einstellung des Auswahlmodus kann der Benutzer das Umgebungsparameter-Bedienelement
+saI18N (unten beschrieben) oder den Befehl <command>DtActionInvoke</command>
+verwenden, um die Aktion <literal>DtImsMode</literal> in <literal>Desktop_Tools</literal> im Anwendungsmanager auszuf&uuml;hren. Die Aktion <literal>DtImsMode</literal> zeigt einen Dialog an, in dem der Benutzer entweder <literal>Bei
+Anmeldung fragen</literal> oder <literal>Aktuelle Eingabemethode wiederaufnehmen</literal> ausw&auml;hlen kann.</para>
+<para>Der Name des ausgew&auml;hlten IMS und seines Rechners sowie der Auswahlmodus
+werden in der IMS-Auswahldatei aufgezeichnet.</para>
+</sect2>
+<sect2 id="SAG.saI18N.div.21">
+<title id="SAG.saI18N.mkr.16">W&auml;hrend einer Session<indexterm><primary>Eingabemethode-Server</primary><secondary>w&auml;hrend einer Session ausw&auml;hlen</secondary></indexterm></title>
+<para>Ein Benutzer kann jederzeit w&auml;hrend einer Session durch Klicken
+auf das Umgebungsparameter-Bedienelement saI18N ausw&auml;hlen, welcher IMS
+benutzt werden soll. (Dieses Bedienelement erscheint nur, wenn <systemitem class="environvar">LANG</systemitem> auf eine Asiatische Sprache eingestellt
+ist.) Der Dialog 'Eingabemethode-Auswahl' wird angezeigt. Falls ein aktueller
+IMS vorhanden ist, zeigt der Dialog sowohl dessen Namen als auch den Server-Rechner,
+auf dem er betrieben wird. Der Benutzer kann einen IMS ausw&auml;hlen, der
+entweder auf dem lokalen oder einem entfernen Rechner betrieben wird.</para>
+<para>Zur Definition der Rechner, auf denen ein IMS gefunden werden kann,
+k&ouml;nnen Sie die Anwendungsressource <literal>imServerHosts</literal> konfigurieren.
+Der Umgebungsparameter verwendet diese Ressource, um festzustellen, welche
+Rechner dem Benutzer zur IMS-Auswahl vorzulegen sind. Sie enth&auml;lt eine
+Liste mit durch Komma abgetrennten Rechnernamen.</para>
+<para>Zus&auml;tzlich zur Auswahl des IMS kann der Benutzer den Auswahlmodus
+entweder auf <literal>Bei Anmeldung fragen</literal> oder auf <literal>Aktuelle
+Eingabemethode wiederaufnehmen</literal> einstellen.</para>
+<para>Der Name des ausgew&auml;hlten IMS und seines Rechners sowie der Auswahlmodus
+werden in der IMS-Auswahldatei aufgezeichnet.</para>
+</sect2>
+<sect2 id="SAG.saI18N.div.22">
+<title id="SAG.saI18N.mkr.17">Einstellung der IMS-Konfigurationsdateien<indexterm>
+<primary>Eingabemethode-Server</primary><secondary>Konfigurationsdateien</secondary>
+</indexterm></title>
+<para>Zus&auml;tzlich zur IMS-Auswahldatei (oben beschrieben) wird die IMS-Konfiguration
+definiert durch:</para>
+<itemizedlist>
+<listitem><para>Die Sprachumgebung-Eintragdatei</para>
+</listitem>
+<listitem><para>Die IMS-Eintragdatei</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.saI18N.div.23">
+<title id="SAG.saI18N.mkr.18">Sprachumgebung-Eintragdatei<indexterm><primary>Eingabemethode-Server</primary><secondary>Sprachumgebung-Eintragdatei</secondary>
+</indexterm><indexterm><primary>Sprachumgebung-Eintragdatei</primary></indexterm></title>
+<para>Die Sprachumgebung-Eintragdatei listet die IMS auf, die eine gegebene
+Sprachumgebung unterst&uuml;tzen. Sie ist in <filename>/usr/dt/config/ims/</filename><symbol role="Variable">sprachumgebung_name</symbol> gespeichert
+und hat das Format:</para>
+<programlisting>@Default: <symbol role="Variable">ims_name</symbol>
+<symbol role="Variable">ims_name</symbol>: <symbol role="Variable">etikett_zeichenfolge</symbol>
+&hellip;</programlisting>
+<para>Es folgt eine Muster-IMS-Auflistung f&uuml;r die Sprachumgebung <literal>ja_JP.SJIS</literal>:</para>
+<programlisting>@Default: xjim
+xjim:     HP XJIM
+atok8:    ATOK8
+vje:      VJE-gamma
+egbridge: EGBridge
+none:     Keine Eingabemethode</programlisting>
+</sect3>
+<sect3 id="SAG.saI18N.div.24">
+<title id="SAG.saI18N.mkr.19">IMS-Eintragdatei<indexterm><primary>Eingabemethode-Server</primary><secondary>IMS-Eintragdatei</secondary></indexterm><indexterm>
+<primary>IMS-Eintragdatei</primary></indexterm></title>
+<para>Die IMS-Eintragdatei beschreibt die Attribute eines IMS. Sie ist in <filename>/usr/dt/config/ims/</filename> <symbol role="Variable">ims_name</symbol> gespeichert
+und hat das Format:</para>
+<programlisting><symbol role="variable">attribut_name</symbol>: <symbol role="variable">attribut_wert</symbol></programlisting>
+<para>wobei <symbol role="variable">attribut_name</symbol> lautet:</para>
+<variablelist>
+<varlistentry><term><literal>protocols</literal></term>
+<listitem>
+<para>Ein Zeichenfolge-Attribut, das die unterst&uuml;tzten XIM-Protokolle
+identifiziert. G&uuml;ltige Protokolle sind XIM, Ximp und Xsi. Dieses Attribut
+ist erforderlich.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>server_name</literal></term>
+<listitem>
+<para>Ein Zeichenfolge-Attribut, das den Server identifiziert, auf dem der
+IMS betrieben wird. Dieses Attribut wird f&uuml;r XMODIFIERS benutzt und ist
+erforderlich.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>cmd_path</literal></term>
+<listitem>
+<para>Ein Pfad-Attribut, das den absoluten Pfad der ausf&uuml;hrbaren Datei
+des IMSs angibt. Es handelt sich um ein eingebautes Schl&uuml;sselwort, das
+f&uuml;r lokale in Xlib gebaute IM benutzt wird und keinen separaten Proze&szlig;
+ben&ouml;tigt. Dieses Attribut ist erforderlich.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>cmd_param</literal></term>
+<listitem>
+<para>Ein Zeichenfolge-Attribut, das eine Befehlszeilenoption f&uuml;r den
+IMS-Server liefert. Die Standardeinstellung ist NULL.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_set</literal></term>
+<listitem>
+<para>Ein Zeichenfolge-Attribut, das die einzustellenden Umgebungsvariablen
+angibt, mit Ausnahme von XMODIFIERS. Die Standardeinstellung ist NULL.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_unset</literal></term>
+<listitem>
+<para>Ein Zeichenfolge-Attribut, das die Umgebungsvariablen angibt, deren
+Einstellung aufgehoben werden soll, mit Ausnahme von XMODIFIERS. Die Standardeinstellung
+ist NULL.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>env_pass</literal></term>
+<listitem>
+<para>Ein Zeichenfolge-Attribut, das die Umgebungsvariablen angibt, die an
+einen entfernt ausgef&uuml;hrten IMS weitergegeben werden sollen, mit Ausnahme
+von LANG, DISPLAY und XMODIFIERS. Die Standardeinstellung ist NULL.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>has_window</literal></term>
+<listitem>
+<para>Ein Boolesches Attribut, das anzeigt, ob der IMS sein eigenes Hauptfenster-Erscheinungsbild
+hat oder nicht. Die Standardeinstellung ist FALSE.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_server</literal></term>
+<listitem>
+<para>Ein Boolesches Attribut, das anzeigt, ob <command>dtimsstart</command>
+den IMS starten sollte oder nicht. TRUE sollte f&uuml;r die lokale IM gesetzt
+werden, da sie keinen von <command>dtimsstart</command> gestarteten Server-Proze&szlig;
+erfordert. Die Standardeinstellung ist FALSE.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_remote</literal></term>
+<listitem>
+<para>Ein Boolesches Attribut, das anzeigt, ob der IMS entfernte Ausf&uuml;hrung
+erlaubt oder nicht. Die Standardeinstellung ist FALSE.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>no_option</literal></term>
+<listitem>
+<para>Ein Boolesches Attribut, das anzeigt, ob der IMS die Befehlzeilenoption
+erlaubt oder nicht. Bei TRUE werden alle von <literal>-imsopt</literal> angegebenen
+Optionen ignoriert, obgleich der Wert des Attributs <literal>cmd_param</literal>
+ungeachtet dieses Wertes immer gilt. TRUE sollte f&uuml;r die lokale IM gesetzt
+werden. Die Standardeinstellung ist FALSE.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Beachten Sie, da&szlig; mehrfache Werte, wenn sie erlaubt sind, als
+durch Leerstellen getrennte Liste angegeben werden m&uuml;ssen. Falls mehrere
+Eintr&auml;ge mit demselben Attributnamen in der Datei erscheinen, wird nur
+der letzte benutzt.</para>
+<para>Es folgt der Inhalt einer Muster-IMS-Eintragdatei <filename>/usr/dt/config/ims/</filename><symbol role="Variable">xjim</symbol>.</para>
+<programlisting>protocols:   XIM Ximp
+server_name: xjim
+cmd_path:    /usr/bin/X11/xjim
+cmd_param:   -iconic
+env_set:
+env_unset:
+env_pass:
+has_window:  TRUE</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.saI18N.div.20a">
+<title id="SAG.saI18N.mkr.15a">Einstellung des Eingabemethodenstils<indexterm>
+<primary>Eingabemethodenstil</primary><secondary>einstellen</secondary></indexterm></title>
+<para>Mit dem Umgebungsparameter-Bedienelement saI18N kann der Benutzer den
+Eingabemethodenstil einstellen, der bestimmt, wie die Vorbearbeitung erfolgen
+soll. Die Reihenfolge, in der Vorbearbeitungsstile verwendet werden, ist in
+der Ressource <literal>XmNpreeditType</literal> von <command>VendorShell</command>
+gespeichert. <literal>XmNpreeditType</literal> zeichnet die bevorzugte Reihenfolge
+von Vorbearbeitungsstilen als eine durch Komma abgetrennte Liste auf. Zum
+Beispiel:</para>
+<programlisting>OnTheSpot,OverTheSpot,OffTheSpot,Root</programlisting>
+<para>Durch Verwendung der Schaltfl&auml;chen <literal>Move-Up</literal> und <literal>Move-Down</literal> im vom Bedienelement saI18N angezeigten Dialog kann der
+Benutzer die Vorbearbeitungsstile innerhalb der Liste neu ordnen.</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+<?Pub *0000063800>

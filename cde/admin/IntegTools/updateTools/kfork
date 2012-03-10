@@ -1,0 +1,42 @@
+#! /bin/ksh
+#
+#  Shell script to kill off specified processes
+#
+#  Usage:  kfork <process-to-kill> <waiting time before retry>
+
+# check for the optional 3rd parameter
+# it will tell how long to wait before
+# the next kill attempt
+if [ $# -ge 2 ]
+then
+  die_time=$2
+else
+  die_time=1
+fi
+
+ps ${PS_ALL_FLAG} | grep $1 > /tmp/tmp.$$
+if  [ -s /tmp/tmp.$$ ]
+then
+	awk '{print "kill", $1}' /tmp/tmp.$$ | /bin/csh
+	sleep $die_time			 # wait for it to die
+	ps ${PS_ALL_FLAG} | grep $1  > /tmp/tmp.$$
+	if  [ -s /tmp/tmp.$$ ]
+	then
+		awk '{print "kill -3", $1}' /tmp/tmp.$$ | /bin/csh
+		sleep $die_time			# wait for it to die
+		ps ${PS_ALL_FLAG} | grep $1  > /tmp/tmp.$$
+		if [ -s /tmp/tmp.$$ ]
+		then
+			awk '{print "kill -9", $1}' /tmp/tmp.$$ | /bin/csh
+		fi
+		rm /tmp/tmp.$$
+	fi
+	if [ -f /tmp/tmp.$$ ]
+	then
+		rm /tmp/tmp.$$
+	fi
+fi
+if [ -f /tmp/tmp.$$ ]
+then
+	rm /tmp/tmp.$$
+fi

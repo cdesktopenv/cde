@@ -1,0 +1,122 @@
+<!-- $XConsortium: dtinfoBook.dtd /main/5 1996/11/07 11:56:16 drk $ -->
+<!--
+    Formal Public Identifier (FPI):
+      -//Common Desktop Environment//DTD DtInfo Bookcase Description//EN
+  -->
+
+		    <!-- DtInfo Architectural Forms -->
+
+<!ENTITY % OLAF PUBLIC 
+	"-//Common Desktop Environment//ENTITIES DtInfo Architectural Forms//EN"
+>
+%OLAF;
+
+<!ENTITY % ISO-List PUBLIC "-//Common Desktop Environment//ENTITIES ISO Catalog//EN">
+	%ISO-List;
+
+	%ISOamsa;
+	%ISOamsb;
+	%ISOamsn;
+	%ISOamso;
+	%ISOamsr;
+	%ISOcyr1;
+	%ISOdia;
+	%ISOgrk1;
+	%ISOgrk3;
+	%ISOlat1;
+	%ISOlat2;
+	%ISOnum;
+	%ISOpub;
+	%ISOtech;
+
+<!--
+	Describe the BookCase contents.
+  -->
+<!ELEMENT BookCase - - ( BookcaseName, BookcaseDesc, StyleSheet+, Book+ ) >
+<!ATTLIST BookCase
+		StyleSheet	IDREF		#REQUIRED
+
+		%DTINFO.Bookcase;
+		%DTINFO.Style;			"attr( StyleSheet )"
+>
+
+<!ELEMENT BookcaseName - - ( #PCDATA ) >
+<!ATTLIST BookcaseName
+		%DTINFO.BookcaseName;
+>
+
+<!ELEMENT BookcaseDesc - - ( #PCDATA ) >
+<!ATTLIST BookcaseDesc
+		%DTINFO.BookcaseDesc;
+>
+
+<!ELEMENT Book - - ( Title, ShortTitle?, Access?, Tab*, TOCFile, File+ ) > 
+<!ATTLIST Book
+		StyleSheet	IDREF		#IMPLIED
+
+		%DTINFO.Book;
+		%DTINFO.Style;			"attr( StyleSheet )"
+>
+
+<!ELEMENT Title - - ( #PCDATA ) >
+<!ATTLIST Title
+		%DTINFO.BookTitle;
+>
+
+<!ELEMENT ShortTitle - - ( #PCDATA ) >
+<!ATTLIST ShortTitle
+		%DTINFO.BookShortTitle;
+>
+
+<!ELEMENT Access - O EMPTY >
+<!ATTLIST Access
+		Feature		CDATA		#REQUIRED
+		VenCode		CDATA		#REQUIRED
+		Version	        CDATA		#REQUIRED
+		Grouping	CDATA		#REQUIRED
+		DefaultSection	CDATA		#REQUIRED
+		DemoTerms	CDATA		#IMPLIED
+
+		%DTINFO.BookAccess;	
+>
+
+<!ELEMENT Tab - - ( #PCDATA ) >
+<!ATTLIST Tab
+		TabLoc		CDATA		#REQUIRED
+
+		%DTINFO.BookTab;
+		%DTINFO.IDREF;			"attr( TabLoc )"
+>
+
+<!--
+	Each file may override the default style sheet that its contents
+	will use, and any section within the file can override the style
+	sheet via a DTD modification.
+  -->
+<!ELEMENT TOCFile - - ( #PCDATA ) >
+<!ATTLIST TOCFile
+		%DTINFO.BookTOCFile;
+>
+
+<!ELEMENT File - - ( #PCDATA ) >
+<!ATTLIST File
+		%DTINFO.BookFile;
+>
+
+<!--
+	Enable optional localization of stylesheet fragments.
+	The entity name used here is irrelevant; the FPI matches
+	one used in the toolkit's catalog and (optionally) in user's
+	local catalog.
+  -->
+<!ENTITY % LocalFoo PUBLIC
+	"-//Common Desktop Environment//ENTITIES Dtinfo SS Localization//EN"
+>
+%LocalFoo;
+
+			 <!-- Style Sheet DTD -->
+
+<!ENTITY % StyleSheet.dtd PUBLIC
+	"-//Common Desktop Environment//DTD DtInfo Style Sheet//EN"
+>
+%StyleSheet.dtd;

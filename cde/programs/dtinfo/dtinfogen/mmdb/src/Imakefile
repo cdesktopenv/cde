@@ -1,0 +1,203 @@
+XCOMM $TOG: Imakefile /main/11 1997/12/31 09:07:38 bill $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+NormalLibraryObjectRule()
+
+INCLUDES  = -I.. $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES)
+CINCLUDES = -I..
+
+ 
+MMDB_DIR=../../../mmdb
+
+#ifdef AIXArchitecture
+
+API_OBJS = \
+	$(MMDB_DIR)/api/base.o			$(MMDB_DIR)/api/info_base.o \
+	$(MMDB_DIR)/api/info_lib.o			$(MMDB_DIR)/api/smart_ptr.o \
+	$(MMDB_DIR)/api/transaction.o		$(MMDB_DIR)/api/utility.o
+
+BTREE_OBJS = \
+	$(MMDB_DIR)/btree/mmdb_btree.o
+
+#if !defined(AIXArchitecture)
+EXTRA_BTREE_BERKELEY_OBJS = $(MMDB_DIR)/btree_berkeley/memmove.o
+#endif
+
+BTREE_BERKELEY_OBJS = \
+	$(MMDB_DIR)/btree_berkeley/bt_close.o	$(MMDB_DIR)/btree_berkeley/bt_conv.o \
+	$(MMDB_DIR)/btree_berkeley/bt_debug.o	$(MMDB_DIR)/btree_berkeley/bt_delete.o \
+	$(MMDB_DIR)/btree_berkeley/bt_get.o		$(MMDB_DIR)/btree_berkeley/bt_open.o \
+	$(MMDB_DIR)/btree_berkeley/bt_overflow.o	$(MMDB_DIR)/btree_berkeley/bt_page.o \
+	$(MMDB_DIR)/btree_berkeley/bt_put.o		$(MMDB_DIR)/btree_berkeley/bt_search.o \
+	$(MMDB_DIR)/btree_berkeley/bt_seq.o		$(MMDB_DIR)/btree_berkeley/bt_split.o \
+	$(MMDB_DIR)/btree_berkeley/bt_stack.o	$(MMDB_DIR)/btree_berkeley/bt_utils.o \
+	$(MMDB_DIR)/btree_berkeley/mktemp.o		$(MMDB_DIR)/btree_berkeley/realloc.o \
+	$(MMDB_DIR)/btree_berkeley/snprintf.o	$(EXTRA_BTREE_BERKELEY_OBJS) \
+	$(MMDB_DIR)/btree_berkeley/mpool.o		$(MMDB_DIR)/btree_berkeley/db.o
+
+COMPRESSION_OBJS = \
+	$(MMDB_DIR)/compression/abs_agent.o		$(MMDB_DIR)/compression/zip.o \
+	$(MMDB_DIR)/compression/huffman.o		$(MMDB_DIR)/compression/trie.o \
+	$(MMDB_DIR)/compression/code.o		$(MMDB_DIR)/compression/lzss.o \
+	$(MMDB_DIR)/compression/sgml.o		$(MMDB_DIR)/compression/ps.o
+
+DISKHASH_OBJS = \
+	$(MMDB_DIR)/diskhash/disk_bucket.o		$(MMDB_DIR)/diskhash/bucket_array.o \
+	$(MMDB_DIR)/diskhash/disk_hash.o
+
+DSTR_OBJS = \
+	$(MMDB_DIR)/dstr/set.o			$(MMDB_DIR)/dstr/bset.o \
+	$(MMDB_DIR)/dstr/slist.o			$(MMDB_DIR)/dstr/dlist_cell.o \
+	$(MMDB_DIR)/dstr/dlist.o			$(MMDB_DIR)/dstr/heap.o \
+	$(MMDB_DIR)/dstr/void_ptr_array.o		$(MMDB_DIR)/dstr/void_ptr_stack.o \
+	$(MMDB_DIR)/dstr/memory_pool.o		$(MMDB_DIR)/dstr/dstr_test.o \
+	$(MMDB_DIR)/dstr/index_agent.o		$(MMDB_DIR)/dstr/token_stack.o \
+	$(MMDB_DIR)/dstr/slist_char_ptr_cell.o
+
+DTI_EXCS_OBJS = \
+	$(MMDB_DIR)/dti_excs/Jump_Environment.o	$(MMDB_DIR)/dti_excs/Exceptions.o \
+	$(MMDB_DIR)/dti_excs/Exception.o		$(MMDB_DIR)/dti_excs/Destructable.o \
+	$(MMDB_DIR)/dti_excs/terminate.o
+
+DYNHASH_OBJS = \
+	$(MMDB_DIR)/dynhash/data_t.o		$(MMDB_DIR)/dynhash/imp_bucket.o \
+	$(MMDB_DIR)/dynhash/imp_die.o
+
+HMPHF_OBJS = \
+	$(MMDB_DIR)/hmphf/buckets.o			$(MMDB_DIR)/hmphf/mphf_funcs.o \
+	$(MMDB_DIR)/hmphf/mphf_hash_table.o		$(MMDB_DIR)/hmphf/params.o \
+	$(MMDB_DIR)/hmphf/pattern.o			$(MMDB_DIR)/hmphf/sorter.o
+
+INDEX_OBJS = \
+	$(MMDB_DIR)/index/btree_index.o		$(MMDB_DIR)/index/dyn_disk_index.o \
+	$(MMDB_DIR)/index/dyn_index.o		$(MMDB_DIR)/index/dyn_memory_index.o \
+	$(MMDB_DIR)/index/fast_mphf.o		$(MMDB_DIR)/index/hash.o \
+	$(MMDB_DIR)/index/index.o			$(MMDB_DIR)/index/inv_lists.o \
+	$(MMDB_DIR)/index/mphf_index.o
+
+MGRS_OBJS = \
+	$(MMDB_DIR)/mgrs/managers.o			$(MMDB_DIR)/mgrs/misc.o \
+	$(MMDB_DIR)/mgrs/query_mgr.o		$(MMDB_DIR)/mgrs/template_mgr.o
+
+MISC_OBJS = \
+	$(MMDB_DIR)/misc/unique_id.o
+
+OBJECT_OBJS = \
+	$(MMDB_DIR)/object/composite.o		$(MMDB_DIR)/object/compressed_pstring.o \
+	$(MMDB_DIR)/object/cset.o			$(MMDB_DIR)/object/dl_list.o \
+	$(MMDB_DIR)/object/dl_list_cell.o		$(MMDB_DIR)/object/handler.o \
+	$(MMDB_DIR)/object/integer.o		$(MMDB_DIR)/object/long_pstring.o \
+	$(MMDB_DIR)/object/oid.o			$(MMDB_DIR)/object/oid_list.o \
+	$(MMDB_DIR)/object/oid_t.o			$(MMDB_DIR)/object/primitive.o \
+	$(MMDB_DIR)/object/pstring.o		$(MMDB_DIR)/object/random_gen.o \
+	$(MMDB_DIR)/object/root.o			$(MMDB_DIR)/object/short_list.o \
+	$(MMDB_DIR)/object/tuple.o
+
+OLIASDB_OBJS = \
+	$(MMDB_DIR)/oliasdb/asciiIn_filters.o 	$(MMDB_DIR)/oliasdb/collectionIterator.o \
+	$(MMDB_DIR)/oliasdb/dlp_hd.o 		$(MMDB_DIR)/oliasdb/dlp_test.o \
+	$(MMDB_DIR)/oliasdb/doc_hd.o 		$(MMDB_DIR)/oliasdb/doc_test.o \
+	$(MMDB_DIR)/oliasdb/graphic_hd.o 		$(MMDB_DIR)/oliasdb/graphic_test.o \
+	$(MMDB_DIR)/oliasdb/loc_test.o 		$(MMDB_DIR)/oliasdb/locator_hd.o \
+	$(MMDB_DIR)/oliasdb/mark.o 			$(MMDB_DIR)/oliasdb/mark_base.o  \
+	$(MMDB_DIR)/oliasdb/mark_test.o 		$(MMDB_DIR)/oliasdb/mmdb.o \
+	$(MMDB_DIR)/oliasdb/node_hd.o 		$(MMDB_DIR)/oliasdb/node_test.o \
+	$(MMDB_DIR)/oliasdb/olias_funcs.o 		$(MMDB_DIR)/oliasdb/olias_test.o \
+	$(MMDB_DIR)/oliasdb/stylesheet_hd.o 	$(MMDB_DIR)/oliasdb/stylesheet_test.o \
+	$(MMDB_DIR)/oliasdb/toc_hd.o 		$(MMDB_DIR)/oliasdb/toc_test.o \
+	$(MMDB_DIR)/oliasdb/user_base.o
+
+SCHEMA_OBJS = \
+	$(MMDB_DIR)/schema/desc.o			$(MMDB_DIR)/schema/store_desc.o \
+	$(MMDB_DIR)/schema/object_dict.o		$(MMDB_DIR)/schema/stored_object_desc.o \
+	$(MMDB_DIR)/schema/index_desc.o		$(MMDB_DIR)/schema/inv_desc.o \
+	$(MMDB_DIR)/schema/agent_desc.o		$(MMDB_DIR)/schema/container_desc.o \
+	$(MMDB_DIR)/schema/sheet.o			$(MMDB_DIR)/schema/token.o
+
+STORAGE_OBJS = \
+	$(MMDB_DIR)/storage/abs_storage.o		$(MMDB_DIR)/storage/chunks_index.o	\
+	$(MMDB_DIR)/storage/heap_comp_funcs.o	$(MMDB_DIR)/storage/lru.o \
+	$(MMDB_DIR)/storage/page.o			$(MMDB_DIR)/storage/page_cache.o \
+	$(MMDB_DIR)/storage/page_rep.o		$(MMDB_DIR)/storage/page_storage.o \
+	$(MMDB_DIR)/storage/rep_cell.o		$(MMDB_DIR)/storage/rep_policy.o \
+	$(MMDB_DIR)/storage/store_test.o		$(MMDB_DIR)/storage/unixf_storage.o \
+	$(MMDB_DIR)/storage/version.o		$(MMDB_DIR)/storage/vm_storage.o
+
+UTILITY_OBJS = \
+	$(MMDB_DIR)/utility/funcs.o			$(MMDB_DIR)/utility/ostring.o \
+	$(MMDB_DIR)/utility/pm_random.o		$(MMDB_DIR)/utility/atoi_pearson.o \
+	$(MMDB_DIR)/utility/xtime.o			$(MMDB_DIR)/utility/buffer.o \
+	$(MMDB_DIR)/utility/atoi_larson.o		$(MMDB_DIR)/utility/atomic_lock.o \
+	$(MMDB_DIR)/utility/rw_lock.o		$(MMDB_DIR)/utility/atoi_fast.o \
+	$(MMDB_DIR)/utility/filter.o		$(MMDB_DIR)/utility/mmdb_exception.o \
+	$(MMDB_DIR)/utility/randomize.o
+
+DTI_CC_OBJS = \
+	$(MMDB_DIR)/dti_cc/CC_Listbase.o		$(MMDB_DIR)/dti_cc/cc_exceptions.o \
+	$(MMDB_DIR)/dti_cc/CC_String.o		$(MMDB_DIR)/dti_cc/CC_Tokenizer.o \
+	$(MMDB_DIR)/dti_cc/CC_Stack.o		$(MMDB_DIR)/dti_cc/CC_Slist.o
+
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+EXTRA_HARDCOPY_OBJS = $(MMDB_DIR)/HardCopy/TemplatesAutoNumber.o
+#endif
+
+HARDCOPY_OBJS = \
+	$(MMDB_DIR)/HardCopy/FPset.o		$(MMDB_DIR)/HardCopy/HardCopyFP.o \
+	$(MMDB_DIR)/HardCopy/autoNumber.o		$(MMDB_DIR)/HardCopy/autoNumberFP.o \
+	$(EXTRA_HARDCOPY_OBJS)
+
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+EXTRA_STYLESHEET_OBJS = $(MMDB_DIR)/StyleSheet/SSTemplates.o
+#endif
+
+STYLESHEET_OBJS = \
+	$(MMDB_DIR)/StyleSheet/Attribute.o		$(MMDB_DIR)/StyleSheet/AttributeList.o \
+	$(MMDB_DIR)/StyleSheet/BitVector.o		$(MMDB_DIR)/StyleSheet/DocParser.o \
+	$(MMDB_DIR)/StyleSheet/Element.o		$(MMDB_DIR)/StyleSheet/Expression.o \
+	$(MMDB_DIR)/StyleSheet/Feature.o		$(MMDB_DIR)/StyleSheet/FeatureDefDictionary.o \
+	$(MMDB_DIR)/StyleSheet/FeatureSet.o		$(MMDB_DIR)/StyleSheet/FeatureValue.o \
+	$(MMDB_DIR)/StyleSheet/PathQualifier.o		$(MMDB_DIR)/StyleSheet/PathTable.o \
+	$(MMDB_DIR)/StyleSheet/Resolver.o		$(MMDB_DIR)/StyleSheet/ResolverStack.o \
+	$(MMDB_DIR)/StyleSheet/SSPath.o			$(MMDB_DIR)/StyleSheet/StyleSheet.o \
+	$(MMDB_DIR)/StyleSheet/StyleSheetExceptions.o \
+	$(MMDB_DIR)/StyleSheet/SymTab.o			$(MMDB_DIR)/StyleSheet/VariableTable.o \
+	$(MMDB_DIR)/StyleSheet/defParser.o		$(MMDB_DIR)/StyleSheet/defToken.o \
+	$(MMDB_DIR)/StyleSheet/style.o			$(MMDB_DIR)/StyleSheet/tokenStyle.o \
+	$(MMDB_DIR)/StyleSheet/RendererHCV.o	$(EXTRA_STYLESHEET_OBJS)
+
+MMDB_OBJS = $(HARDCOPY_OBJS) $(STYLESHEET_OBJS) $(DTI_CC_OBJS)
+
+ALL_MMDB_OBJS =	$(API_OBJS)		$(BTREE_OBJS) \
+	$(BTREE_BERKELEY_OBJS)	$(COMPRESSION_OBJS) \
+	$(DISKHASH_OBJS)	$(DSTR_OBJS) \
+	$(DTI_EXCS_OBJS) 	$(DYNHASH_OBJS) \
+	$(HMPHF_OBJS)		$(INDEX_OBJS) \
+	$(MGRS_OBJS)		$(MISC_OBJS) \
+	$(OBJECT_OBJS)		$(OLIASDB_OBJS) \
+	$(SCHEMA_OBJS)		$(STORAGE_OBJS) \
+	$(UTILITY_OBJS)		$(MMDB_OBJS)
+#endif
+
+#ifdef AIXArchitecture
+Libs = $(ALL_MMDB_OBJS) $(MATH_LIB) $(DTSVCLIB) $(TTLIB) $(XLIB)
+#else
+Libs = $(MMDB_LIBS) $(MATH_LIB) $(DTSVCLIB) $(TTLIB) $(XLIB)
+#endif
+
+Libs_C_API = $(MMDB_LIBS_C_API) $(DTSVCLIB) $(TTLIB) $(XLIB) $(MATH_LIB)
+
+SimpleCPlusPlusProgram(dbdrv,main.o,$(Libs))
+SimpleCPlusPlusProgram(restore,restore.o,$(Libs))
+
+#ifdef USLArchitecture
+SimpleCPlusPlusProgram(dbdrv_c_api,main_c_api.o,$(Libs_C_API))
+#else
+SimpleCProgram(dbdrv_c_api,main_c_api.o,$(Libs_C_API))
+#endif
+
+InstallBuildToolsBinary(dbdrv)
+
+SRCS = main.C main_c_api.c
+
+DependTarget()

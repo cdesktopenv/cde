@@ -1,0 +1,502 @@
+<!-- $XConsortium: ch07.sgm /main/4 1996/10/11 09:24:11 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="infoapg.div.7">
+<title id="tgmdnkb6vm9x3cs">インフォメーション・マネージャのスタイル・シートの理解</title>
+<IndexTerm><Primary>スタイル・シート</Primary><Secondary>理解</Secondary></IndexTerm>
+<para>
+スタイル・シートは、文書型定義における要素のオンラインおよび印刷フォーマットの属性を定義することによって、インフォメーション・マネージャのブラウザによるドキュメントの表示形式を制御します。インフォメーション・マネージャのスタイル・シートは、スタイル・シート文書型定義 <filename>dtinfoStyle.dtd</filename> に準拠していなければなりません。
+</para>
+<para>
+スタイル・シートは、ブックケース規定ドキュメントの一部として指定されます。インフォメーション・マネージャでインフォメーション・ライブラリを構築するには、ブックケースのレベルで、デフォルトのスタイル・シートを参照しなければなりません。詳細については、<filename>dtinfoBook.dtd(5)</filename> マニュアル・ページ、<link linkend="n0Crl2IBiWmBt8oL">「構築過程とツール」</link>、および <link linkend="j3fa6XBbiK9X3cS">「スタイル・シートの使用」</link> を参照してください。
+</para>
+<para>
+スタイル・シートの作成に関する特定の情報については、以下を参照してください。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="whpipbbc3h9x3cs">「スタイル・シートの構造」</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="btcmaab0ang24ak">「スタイル・シートの作成」</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="suwh3wbmhwy94ak">「スタイル機能」</link>
+</para>
+</listitem>
+
+</itemizedlist>
+<!-- ))))))))))))))))))))))))))))))))))))))))))))) -->
+<sect1>
+<title id="whpipbbc3h9x3cs">スタイル・シートの構造</title>
+<IndexTerm><Primary>スタイル・シートの構造</Primary></IndexTerm>
+<para>
+スタイル・シートは、<systemitem>AutoNumber</systemitem> 宣言から成り、この後に <systemitem>Path</systemitem> ステートメントおよびスタイル規定が続きます。
+</para>
+<para>
+スタイル・シートは、ブックケース、ブック、およびセクションのレベルで指定することができます。ブックケース以下のレベルでスタイル・シートを指定しない場合、そのレベルのスタイルは、それが含む要素から継承されます。要素にスタイル・シートが指定されていない場合、テキストは、グローバルな Xresources ファイルで指定されているデフォルト値、14ポイントの Helvetica で、インフォメーション・マネージャの表示ウィンドウに表示されます。印刷のときのデフォルトのフォントは、12ポイントの Helvetica です。
+</para>
+<note>
+<para>
+継承に関する詳細についていは、
+<link linkend="pgqaykbbgsg24ak">「継承の理解」</link> を参照してください。
+</para>
+</note>
+<para>
+各スタイル・シートには、あるブックケースのドキュメントの範囲内で、一意の名前がなければなりません。インフォメーション・マネージャは、スタイル・シート名を、ブックケースおよびそのブックとセクションそれぞれにおける参照として使用します。
+</para>
+<para>
+スタイル・シートの作成は、基本的には、要素選択の問題です。これは、<link linkend="jipipbbc3h9x3cs"><systemitem>Path</systemitem></link> ステートメントを通じて行うもので、名前、コンテキスト、および属性によって選択します。それから、<systemitem>Path</systemitem> にタイポグラフィック・プロパティを割り当てます。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+パスのない <systemitem>Select</systemitem> 機能を使用して、属性値、絶対位置、あるいは相対位置によって要素を選択することができます。
+</para>
+</listitem>
+<listitem>
+<para>
+スタイル・シートの <systemitem>Path</systemitem> ステートメントを使用して、<systemitem>Online</systemitem> あるいは <systemitem>Print</systemitem> (ハード・コピー) 機能で、フォーマット対象の要素を識別することもできます。
+</para>
+</listitem>
+<listitem>
+<para>
+<systemitem>Online</systemitem> および <systemitem>Print</systemitem> 機能の設定は、次に示す <link linkend="cwccmncd70hp2ol">「印刷固有の機能」</link> を除いて、機能、記述、および規定と合致します。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="n4kpipbbc3h9x3cs">Medium</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="r74dmncp70hp2ol">PageBreak</link>
+</para></listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<para>
+次に、Chapter 属性のフォーマット属性を指定するスタイル・シート構文の部分的な例を示します。これは、ある種のドキュメントにおいては、<systemitem>DTINFO.Section</systemitem> 設計様式を使用する最大の要素です。スタイル・シートの最初の <systemitem>Path</systemitem> として、最大の <systemitem>DTINFO.Section</systemitem> を指定することは、デフォルトのレンダリング属性を設定するとき、有用なことがあります。
+</para>
+<literallayout>
+&lt;Path>
+Chapter&lt;/Path>
+&lt;online>
+   &lt;wrap word>
+   &lt;margin left=20 right=20>
+   &lt;font fallback=sans weight=medium  slant=roman size=14>
+   &lt;family name=helvetica charset="iso8859-1">
+   &lt;/font>
+&lt;/online>
+</literallayout>
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="jipipbbc3h9x3cs">パスの指定</title>
+<IndexTerm><Primary>パスの指定</Primary></IndexTerm>
+<para>
+パス・ステートメントは、もっとも外側の要素からスタイル・シートで指定された機能によって影響を受けるある要素までの階層的なパスを指定します。与えられた階層構造において、特定の要素を識別するには、その要素への最少限の一意なパスを指定するだけです。
+</para>
+<para>
+パスは、常に、コンテキストにおいて要素または要素クラスと一致する最初のパス指定によって解決されます。特別な要素 <systemitem>Select</systemitem> ステートメントと同じようにワイルドカード文字を使用して、フォーマット対象の特定の要素を識別することができます。<systemitem>Select</systemitem> ステートメントについては、<link linkend="n6jmj9jbj6ng24ak">「Select ステートメントの使用」</link> で、説明しています。
+</para>
+<para>
+次に示す図では、Chapter 要素には、その後に２つの Paragraph 要素とひとつの Section 要素が続く Title があります。また、Section 要素には、Title と２つの Paragraph 要素があります。
+</para>
+<Figure>
+<Title id="n1mievocfe0hp2ol">単純なドキュメント階層構造</Title>
+<GRAPHIC id="gr71" entityref="infoapg.fig.10"></graphic>
+</Figure>
+<para>
+この図に基づく Section 要素の完全なパスは、以下のようになります。
+</para>
+<programlisting>
+&lt;Path> Chapter Section &lt;/Path>
+</programlisting>
+<note>
+<para>
+ダイアグラムの階層構造には、ただひとつの Section 要素があるため、Section 要素を識別するには、要素名だけで十分です。
+</para>
+</note>
+<para>
+Section 要素内に含まれる Paragraph 要素を識別するパスは、以下のようになります。
+</para>
+<programlisting>
+&lt;Path>Chapter Section Paragraph &lt;/Path>
+</programlisting>
+<para>
+スタイル・シートにおいて、パスを指定する場合、２つのワイルドカードが使用可能です。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+疑問符 ( <literal>?</literal> ) は、生起するすべての単一要素を示します。
+</para>
+</listitem>
+<listitem>
+<para>
+アスタリスク ( <literal>*</literal> ) は、生起する要素を０個を含むいくつでも示します。
+</para>
+</listitem>
+</itemizedlist>
+<para>
+上の図に基づくと、次に示す２つのステートメントは、同じ要素を指定します。
+</para>
+<programlisting>
+&lt;Path> Chapter Section Title &lt;/Path>
+</programlisting>
+<programlisting>
+&lt;Path> Chapter ? Title &lt;/Path>
+</programlisting>
+<para>
+しかしながら、上記の２つの PATH ステートメントとは異なり、次の PATH ステートメントは、セクションに含まれる Title ステートメント以外も選択します。
+</para>
+<programlisting>
+&lt;Path> Chapter * Title &lt;/Path>
+</programlisting>
+</sect2>
+</sect1>
+
+<!--)))))))))))))))))))))))))))))))))))))))))-->
+
+<sect1>
+<title id="n6jmj9jbj6ng24ak">Select ステートメントの使用</title>
+<IndexTerm><Primary>select ステートメント</Primary></IndexTerm>
+<para>
+<systemitem>Select</systemitem> ステートメントによって、異なるスタイルを、異なるコンテキストの同じ要素に適用することが可能になります。たとえば、<systemitem>Select</systemitem> を使用することによって、フォーマット属性の異なるセットを、特定の型のヘッド（リスト内の副次的な編成か、警告の一部か）に続くかどうかに依存して、段落要素に適用することができます。これは、<systemitem>Select</systemitem> ステートメントによって、要素の属性値またはその位置による要素の特定のインスタンスとの一致を行うことができるために、可能です。
+</para>
+<para>
+<systemitem>Path</systemitem> 内の各要素は、それ自身の <systemitem>Select</systemitem> ステートメントをもつことができます。<systemitem>Select</systemitem> ステートメントは、単純な比較演算子、「等しい」(==)、「等しくない」(!=)、およびブール演算子、「および」 (&#38;&#38;) と「または」(||) を使用します。
+</para>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="lkb3nlchsaznuzs">属性による要素の識別</title>
+<para>
+要素の属性値を使用して、要素を識別することができます。たとえば、Paragraph 要素が、次に示すような開始タグをもっていたとしましょう。
+</para>
+<programlisting>
+&lt;PARAGRAPH label="UNIque">
+</programlisting>
+<para>
+この場合、Paragraph 要素へのパスは、以下のように指定することができます。
+</para>
+<programlisting>
+&lt;PATH>Paragraph &lt;Select>@label == "UNIque"&lt;/Select>
+&lt;/PATH>
+</programlisting>
+<para>
+この方法では、"@" 文字の後の属性名として、どのような要素属性でも使用することができます。同じように、次のステートメントにより、同じ Paragraph 要素を明示的に排除することも可能です。
+</para>
+<programlisting>
+&lt;PATH>Paragraph &lt;Select>@label != "UNIque"&lt;/Select>
+&lt;/PATH>
+</programlisting>
+</sect2>
+<!--(((((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="azp3nlcmsaznuzs">位置による要素の識別</title>
+<para>
+要素の階層構造における要素の相対位置または絶対位置に基づくモデルを使用して、位置による要素の識別を行うことができます。その識別キーワードによって２つの方法があります。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+解析木における要素の絶対位置。<systemitem>"Position"</systemitem> キーワードを使用します。
+</para>
+</listitem>
+<listitem>
+<para>
+兄弟位置間の要素の相対位置。<systemitem>"Sibling"</systemitem> キーワードを使用します。
+</para>
+</listitem>
+</itemizedlist>
+<para>
+これら２つのモデルは、どのような <systemitem>Path</systemitem> ステートメントであっても、いっしょに使用することができます。いずれも、値として数値を必要としますが、特別な値 <systemitem>"#LAST"</systemitem> を使用して、要素のリストにおける最後の要素を指定することもできます。以下に示す文書型定義フラグメントとドキュメント・インスタンス・フラグメントの例は、２つの可能な絶対位置および相対位置による要素の選択モデルを示しています。続くサンプルの <systemitem>Path</systemitem> ステートメントは、２つのモデルを使用して、特定の要素項目を選択するためのこれらの選択機構の利用方法を示しています。
+</para>
+
+<example>
+<title id="itzl.ocz40hp2ol">文書型定義フラグメントとドキュメント・インスタンス・フラグメント</title>
+
+<literallayout>
+&lt;!ELEMENT List - - (Title?,Item+)> 
+&lt;!ATTLIST List  Type     (Bulleted|Numbered)    "Bulleted">  
+&lt;!ELEMENT Title - - #PCDATA > 
+&lt;!ELEMENT Item  - - #PCDATA > 
+INSTANCE A:                         INSTANCE B: 
+&lt;List Type="Numbered">           &lt;List Type="Numbered"> 
+&lt;Item>Fee&lt;/item>              &lt;Title>Fee Fie Foe Fum&lt;/item> 
+&lt;Item>Fie&lt;/item>              &lt;Item>Fee&lt;/item> 
+&lt;Item>Foe&lt;/item>              &lt;Item>Fie&lt;/item> 
+&lt;Item>Fum&lt;/item>              &lt;Item>Foe&lt;/item> 
+&lt;/List>                          &lt;Item>Fum&lt;/item>                            
+                                    &lt;/List>
+</literallayout>
+</example>
+
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((-->
+
+<sect3>
+<title id="n7ch3nlcwsaznuzs">絶対位置モデル</title>
+<para>
+<systemitem>SELECT</systemitem> ステートメントの <systemitem>"Position"</systemitem> キーワードを使用することにより、解析木におけるその絶対位置に基づいて、要素を選択することができます。
+</para>
+<para>
+上で示した文書型定義フラグメントとドキュメント・インスタンス・フラグメントの例では、コンテント・モデルにより、オプションの Title 要素が可能ですが、インスタンス A では、オプションの Title 要素を使用していません。次に示すパスは、インスタンス A の最初の Item 要素を識別します。
+</para>
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>  Item &lt;Select>position == 1 &lt;/Select>
+&lt;/PATH>
+</programlisting>
+<para>
+先行するパスが、インスタンス B のために使用されたとすれば、インフォメーション・マネージャは、最初の Item 要素を見つけることができません。なぜなら、その解析木における絶対位置は２番目であり、その直近の Title の後だからです。
+</para>
+<para>
+次に示すパスは、インスタンス A の残りの Item 要素を選択します。
+</para>
+
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>  Item &lt;Select>position != 1 &lt;/Select>
+&lt;/PATH>
+</programlisting>
+
+<para>
+先行するパスが、インスタンス B において使用されたとすれば、すべての Item 要素が一致することになります。
+</para>
+</sect3>
+<!-- (((((((((((((((((((((((((((((((((((((((((((( -->
+<sect3>
+<title id="jrj3nlcbsaznuzs">相対位置モデル</title>
+<para>
+<systemitem>Select</systemitem> ステートメントの <systemitem>"Sibling"</systemitem> キーワードを使用することにより、解析木における類似の兄弟への相対的な位置に基づいて、要素を選択することができます。このモデルは、類似の要素グループにおいて、最初の要素と最後の要素を選択するための直接的なメソッドを提供します。
+</para>
+<para>
+次に示すステートメントにより、インスタンス A あるいはインスタンス B のどちらかの最初の要素を識別することができます。
+</para>
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>   Item &lt;Select> sibling == 1 &lt;/Select>
+&lt;/PATH>
+</programlisting>
+<para>
+次に示すパスは、両インスタンスの最後の Item 要素を識別します。
+</para>
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>   Item &lt;Select> sibling == "#LAST" &lt;/Select>
+&lt;/PATH>
+</programlisting>
+</sect3>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n62r3nlcgsaznuzs">選択式のグループ化</title>
+<para>
+次に示す比較演算子を使用することにより、<systemitem>Select</systemitem> 式をグループ化して、最初でも最後でもない要素を識別することができます。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+&#38;&#38; -- 「論理積」演算子。
+すべての式が真ならば、真です。
+</para>
+</listitem>
+<listitem>
+<para>
+|| -- 「論理和」演算子。
+いずれかの式が真ならば、真です。
+</para>
+</listitem>
+</itemizedlist>
+<para>
+グループ化演算子が提供されていない場合でも、自然な左から右への論理は、類似の結果をもたらします。次に示すパスは、インスタンス B のための複合的な <systemitem>Select</systemitem> ステートメントを示しています。
+</para>
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>     Item &lt;Select>sibling != 1 &#38;&#38; position != "#LAST" &lt;/Select>
+&lt;/PATH>
+</programlisting>
+<para>
+上で説明したように、<systemitem>Select</systemitem> ステートメントの内容は、位置または属性値のいずれかを指定することができます。そして、ひとつ以上の <systemitem>Select</systemitem> が、<systemitem>Path</systemitem> ステートメントにおいて（各要素名ごとにひとつ）出現することができます。次に、<systemitem>Select</systemitem> ステートメントの使用に関する他のガイドラインを示します。
+</para>
+<variablelist>
+<varlistentry>
+<term>position == <replaceable>n</replaceable></term>
+<listitem>
+<para>
+要素の文字列における相対位置が、<replaceable>n</replaceable> に等しければ、その要素を選択します。たとえば、<userinput>position == 3</userinput> は、その位置が 3 に等しい要素を選択します。
+先行する空白は必須であり、その後に <userinput>==</userinput> が続かなければなりません。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>position != <replaceable>n</replaceable></term>
+<listitem>
+<para>
+要素の文字列における相対位置が、<replaceable>n</replaceable> に<emphasis>等しくなければ</emphasis>、その要素を選択します。たとえば、<userinput>position != 3</userinput> は、その位置が 3 に<emphasis>等しくない</emphasis>要素を選択します。
+先行する空白は必須であり、その後に <userinput>!=</userinput> が続かなければなりません。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>@<replaceable>attribute</replaceable> == <replaceable>"string"</replaceable></term>
+<listitem>
+<para>
+<replaceable>attribute</replaceable> が <replaceable>string</replaceable> に等しい要素を選択します。たとえば、<userinput>@label == "chapter"</userinput> は、値 "chapter" の Label 属性をもつ要素を選択します。
+先行する空白は必須であり、その後に <userinput>==</userinput> が続かなければなりません。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>@<replaceable>attribute</replaceable> != "<replaceable>string</replaceable>"</term>
+<listitem>
+<para>
+<replaceable>attribute</replaceable> が <replaceable>string</replaceable> に<emphasis>等しくない</emphasis>要素を選択します。たとえば、<userinput>@label != "chapter"</userinput> は、値 "chapter" <emphasis>でない</emphasis> Label 属性をもつ要素を選択します。
+先行する空白は必須であり、その後に <userinput>!=</userinput> が続かなければなりません。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+次の例は、値 "chapter" の Label 属性をもつ Title 要素を指定します。
+</para>
+<programlisting>
+&lt;Path> * title &lt;Select>@label == "chapter"&lt;/Select>
+&lt;/Path>
+</programlisting>
+<note>
+<para>
+インフォメーション・マネージャは、ワイルドカードによる選択をサポートしていません。たとえば、<userinput>&lt;Path> * &lt;Select>@label == "Chapter" &lt;/Select>&lt;/Path></userinput> は、サポートしていません。
+</para>
+</note>
+</sect2>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="zqw3nlcmsaznuzs">要素の階層構造と DTINFO.Section</title>
+<para>
+スタイル・シートにおいては、ソースの文書型定義によって定義される要素の階層構造が、フォーマットを必要とする唯一の要素の階層構造であるとは、必ずしも限りません。<systemitem>DTINFO.Section</systemitem> の設計様式が適用される各要素は、ユーザが指定しなければならない独立した要素の階層構造の根を形成します。すなわち、図 <link linkend="n1mievocfe0hp2ol">「単純なドキュメントの階層構造」</link> における要素のパスは、<systemitem>DTINFO.Section</systemitem> が Chapter 要素にのみ適用されていれば、真です。
+</para>
+<para>
+しかしながら、<systemitem>DTINFO.Section</systemitem> が、Chapter と Section の両方に適用されると、Section 要素に含まれる Paragraph 要素のための最小限の一意なパスは、以下のようになります。
+</para>
+<programlisting>
+&lt;Path> Section Paragraph
+&lt;/Path>
+</programlisting>
+<para>
+同様に、Chapter 要素に含まれる Paragraph 要素のためのパスは、以下のようになります。
+</para>
+<programlisting>
+&lt;Path> Chapter Paragraph
+&lt;/Path>
+</programlisting>
+</sect2>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="pgqaykbbgsg24ak">継承の理解</title>
+<para>
+スタイル・シートの機能には、含んでいる親の要素から継承されるものもあります。以下に示す短いスタイル・シートの例が示すように、スタイル・シートが親または子の要素に別のフォーマット属性を指定するまで、子の要素は継承可能なフォーマット属性を表示します。親のスタイル指定が変更されると、そのすべての子の要素は、同じ変更を継承します。
+</para>
+<para>
+例のスタイル・シートは、要素 SECT1、SECT1 TITLE、および PARA のための <systemitem>Path</systemitem> ステートメントを示しています。<systemitem>Font</systemitem>、<systemitem>Family</systemitem>、および <systemitem>Margin</systemitem> が SECT1 要素で設定され、SECT1 に含まれる別の要素（SECT1 TITLE と PARA）によって継承されることに注意してください。２番目の <systemitem>Path</systemitem> ステートメントでは、すべての SECT1 TITLE 要素のフォント・サイズおよびウェイトの値が、18-point、medium にリセットされています。これらの新規の値は、PARA が SECT1 の子であり SECT1 TITLE の子ではないため、PARA によって継承されません。
+</para>
+<example>
+<title id="vpgq.occ50hp2ol">短いスタイル・シートの例</title>
+<literallayout>
+&lt;STYLESHEET Name=General>
+
+&lt;path>
+SECT1 &lt;/path>
+&lt;Online>
+   &lt;Font Fallback=sans Weight=medium Slant=roman Size=14>
+   &lt;Family Name=helvetica Charset=iso8859-1>
+   &lt;Margin Left=20 Right=20 Top=30 Bottom=30>
+&lt;/Online>
+
+&lt;path> SECT1 TITLE &lt;/path>
+&lt;Online>
+   &lt;Font  Weight=bold  Size=18> 
+&lt;/Online>
+
+&lt;path>
+PARA &lt;/path>
+&lt;Online>
+   &lt;Linebreak both>
+   &lt;Layout  ASpace=6  BSpace=6> 
+&lt;/Online>
+
+&lt;/STYLESHEET>
+
+</literallayout></example>
+<para>
+継承されるスタイル指定は、以下のとおりです。
+</para>
+<itemizedlist>
+<listitem>
+<para><link linkend="rrn5xmc0gwwa0yk">Font</link></para>
+</listitem>
+<listitem>
+<para><link linkend="ujpipbbc3h9x3cs">HighLight</link></para>
+</listitem>
+<listitem>
+<para><link linkend="djpipbbc3h9x3cs">Ignore</link></para>
+</listitem>
+<listitem>
+<para><link linkend="jjpipbbc3h9x3cs">Layout</link></para>
+</listitem>
+<listitem>
+<para><link linkend="xjpipbbc3h9x3cs">Margin</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n4kpipbbc3h9x3cs">Medium</link></para>
+</listitem>
+</itemizedlist>
+
+<para>
+継承されないスタイル指定は、以下のとおりです。
+</para>
+<itemizedlist>
+<listitem>
+<para><link linkend="dq2emncz70hp2ol">Border</link></para>
+</listitem>
+<listitem>
+<para><link linkend="yrddmncb70hp2ol">Cell</link></para>
+</listitem>
+<listitem>
+<para><link linkend="qjpipbbc3h9x3cs">ColFormat</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n0jpipbbc3h9x3cs">LineBreak</link>
+</para>
+</listitem>
+<listitem>
+<para><link linkend="r74dmncp70hp2ol">PageBreak</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n4llcmnc770hp2ol">Position</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n9kpipbbc3h9x3cs">Prefix and Suffix</link></para>
+</listitem>
+<listitem>
+<para><link linkend="w9jdmnch70hp2ol">Row</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n0sodmncn70hp2ol">Table</link></para>
+</listitem>
+<listitem>
+<para>TGroup</para>
+</listitem>
+</itemizedlist>
+
+
+</sect1>
+</chapter>

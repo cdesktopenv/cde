@@ -1,0 +1,207 @@
+#!/bin/ksh
+#
+# build_project
+#
+########################################################################
+# set -x
+
+##########################################################################
+#
+# Script setup:  THIS NEEDS TO BE FIRST
+#
+SCRIPTS_DIR="`dirname $0`"
+if [ "" = "$SCRIPTS_DIR" ]; then
+	SCRIPTS_DIR=/project/dt/scripts
+fi
+
+##########################################################################
+#
+# Script setup: 
+#
+if [ ! -f $SCRIPTS_DIR/script_setup.ksh ]; then
+    print -u2 "$PRG:  File '$SCRIPTS_DIR/script_setup.ksh' NOT found!"
+    print -u2 "$PRG:  Exiting ..."
+    exit 1
+fi
+. $SCRIPTS_DIR/script_setup.ksh
+
+PROG_NAME=$0
+CDETEST_BUILD_COMMAND=$CDETEST_TOP/admin/BuildTools/master_build/test_build
+BOOTSTRAPCFLAGS='BOOTSTRAPCFLAGS=""'
+PROJECT=""
+BUILD_TYPE="inc"
+LOG_DIR="/tmp"
+
+########################################################################
+#
+# usage -
+#
+usage ()
+{
+	cat <<eof
+USAGE: $1
+	{-p | -project} {x11 | motif | cde | cdedoc | cde-test}
+	[-c | -clean]   # Do a clean build; the default is incremental
+	[{-t | -top} <dir>]
+	[{-l | -log_dir} <dir>] # Only used with project cde-test
+		# Default TOP for x11 is '$X_TOP'.
+		# Default TOP for motif is '$MOTIF_TOP'.
+		# Default TOP for cde is '$CDE_TOP'.
+		# Default TOP for cdedoc is '$CDEDOC_TOP'.
+		# Default TOP for cde-test is '$CDETEST_TOP'.
+	[-h | -? | -help]  # Print usage and exit
+eof
+}
+
+
+########################################################################
+#
+# Parse command line
+#
+while [ $# -gt 0 ]; do
+	case $1 in
+		-p | -project) 		PROJECT=$2; 		shift 2 ;; 
+		-c | -clean)		BUILD_TYPE="clean";	shift 1 ;;
+		-t | -top)		TOP=$2;			shift 2 ;;
+		-l | -log_dir)		LOG_DIR=$2;		shift 2 ;;
+		-h | -? | -help | *) 	usage $PROG_NAME;
+					exit 1;
+	esac
+done
+
+if [ "" = "$PROJECT" ]; then
+	usage $PROG_NAME
+	exit 1
+fi
+
+
+########################################################################
+#
+# Define OS-specific variables
+#
+case "`uname -s`" in
+
+	SunOS)		if [ "4.1.4" = "`uname -r`" ]; then
+				export PATH=$PATH:/usr/local/bin 
+			else
+				export PATH=/opt/SUNWspro/bin:/usr/ccs/bin:$PATH:/usr/local/bin
+				export LM_LICENSE_FILE=/opt/SUNWspro/license_dir/license.dat
+			fi
+			;;
+
+	UNIX_System_V)	BOOTSTRAPCFLAGS="BOOTSTRAPCFLAGS=-D__uxp__"
+			export PATH=/usr/ccs/bin:$PATH:/usr/local/bin
+			print -u1 "$PROG_NAME: Setting $BOOTSTRAPCFLAGS" ;;
+
+	UNIX_SV)	export PATH=$PATH:/usr/local/bin
+			print -u1 "$PROG_NAME: Setting $BOOTSTRAPCFLAGS" ;;
+
+	IRIX)		export PATH=$PATH:/usr/sbin ;;
+
+	HP-UX)		export PATH=$PATH:/usr/ccs/bin ;;
+
+	Linux)		export PATH=$PATH:/usr/bin:/usr/local/bin ;;
+
+	*)		export PATH=$PATH:/usr/local/bin ;;
+esac
+
+
+########################################################################
+#
+# Set the cwd
+#
+if [ "" = "$TOP" ]; then
+	case $PROJECT in
+		x | x11) 	cd $X_TOP ;;
+
+		motif) 		cd $MOTIF_TOP ;;
+
+		cde) 		cd $CDE_TOP ;;
+
+		cdedoc) 	cd $CDEDOC_TOP ;;
+
+		cde-test) 	cd $CDETEST_TOP ;;
+
+		*)	print -u2 "Exiting ... Project '$PROJECT' is NOT supported!"
+			exit 1
+	esac
+else
+	cd $TOP
+fi
+
+
+########################################################################
+#
+# Audits
+#
+if [ $PROJECT != "cde-test" -a ! -f Makefile ]; then
+	print -u2 "Exiting ...  No Makefile is in the '`pwd`' directory!"
+	exit 1
+fi
+
+
+########################################################################
+#
+# Run the build script
+#
+case $BUILD_TYPE in
+
+    clean)
+        case $PROJECT in
+            x | x11 | motif)
+		TARGET=World ;;
+	    cde)
+		TARGET=World.dev ;;
+	    cdedoc)
+		TARGET=World.doc ;;
+	    cde-test)
+		FLAGS="-c -w" ;;
+        esac 
+        ;;
+
+    inc)	
+        case $PROJECT in
+            x | x11 | motif)
+		TARGET=Everything ;;
+            cde)
+		TARGET=Everything.dev ;;
+	    cdedoc)
+		TARGET=Everything.doc ;;
+	    cde-test)
+		FLAGS=-c ;;
+        esac 
+        ;;
+esac
+    
+
+case $PROJECT in
+
+    x | x11 | motif | cde | cdedoc)
+	case "`uname -s`" in
+	    UNIX_SV) 
+		if [ "" = "$TOP" ]; then
+		    make -k BOOTSTRAPCFLAGS="-DSVR4 -Di386" $TARGET
+		else
+		    make -k BOOTSTRAPCFLAGS="-DSVR4 -Di386" $TARGET TOP=$TOP
+		fi
+		;;
+	    Linux)
+		if [ "" = "$TOP" ]; then
+		    make -k $TARGET
+		else
+		    make -k $TARGET TOP=$TOP
+		fi
+		;;
+	    *)
+		if [ "" = "$TOP" ]; then
+		    make -k "$BOOTSTRAPCFLAGS" $TARGET
+		else
+		    make -k "$BOOTSTRAPCFLAGS" $TARGET TOP=$TOP
+		fi
+		;;
+        esac
+        ;;
+
+    cde-test)
+	$CDETEST_BUILD_COMMAND -build $CDETEST_TOP $FLAGS -log $LOG_DIR ;;
+esac 

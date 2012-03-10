@@ -1,0 +1,1117 @@
+<!-- $XConsortium: ch01.sgm /main/2 1996/12/17 06:26:35 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.LogMg.div.1">
+<Title Id="SAG.LogMg.mkr.1">ログイン・マネージャの構成</Title>
+<Para>
+ログイン・マネージャは、ログイン画面の表示、ユーザの認証、ユーザのセッションの起動を行うサーバです。グラフィカルなログインは、従来のビットマップ・ディスプレイ用のキャラクタ・モードでのログインに代わる魅力的な方法です。ログイン・サーバが管理するログイン画面は、ログイン・。サーバのディスプレイに直接表示することも、ネットワーク上のＸ端末またはワークステーションのディスプレイに表示することもできます。
+<IndexTerm><Primary>ログイン・マネージャ</Primary><Secondary>ログイン・サーバも参照してください。</Secondary></IndexTerm><IndexTerm><Primary>ログイン・マネージャ</Primary><Secondary>定義</Secondary></IndexTerm><IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>ログイン画面の表示</Secondary></IndexTerm><IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>ユーザの認証</Secondary></IndexTerm><IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>セッションの起動</Secondary></IndexTerm><IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>ディスプレイの接続</Secondary></IndexTerm>
+</Para>
+<Note>
+<Para>
+ログイン・サーバを起動、停止、カスタマイズするときは、必ず root ユーザで行ってください。
+</Para>
+</Note>
+<InformalTable Id="SAG.LogMg.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Starting the Login Server2'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Managing Local and Network Displays3'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Checking for Errors10'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.17"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Stopping the Login Server10'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.18"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Changing the Login Screen Appearance12'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.20"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Administering Login Manager20'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.42"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Login Manager Files21'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.43"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para Id="SAG.LogMg.mkr.2">ログイン・サーバには次の機能があります。
+<IndexTerm><Primary>ログイン・マネージャ</Primary><Secondary>カスタマイズ</Secondary></IndexTerm><IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>概要</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+特に指示しなければビットマップ・ディスプレイに、指示すればローカルなビットマップ・ディスプレイおよびネットワーク上のビットマップ・ディスプレイにログイン画面を表示できます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+キャラクタ・コンソール・ディスプレイに直接接続できます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ネットワーク上の他のログイン・サーバからユーザがログイン画面を表示できるようにする選択画面を表示できます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ログイン・サーバへのアクセスをコントロールできます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+従来のキャラクタ・モード・ログインにアクセスできます。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+ログイン・マネージャが管理するディスプレイは、ログイン・マネージャのサーバに接続することも、ネットワーク上のＸ端末またはワークステーションに接続することもできます。ローカル・ディスプレイでは、ログイン・サーバが自動的にＸサーバを起動し、ログイン画面を表示します。Ｘ端末などのネットワーク・ディスプレイでは、ログイン・サーバはＸディスプレイ・マネージャ・プロトコル (XDMCP)
+<IndexTerm>
+<Primary>XDMCP</Primary>
+</IndexTerm>
+1.0 をサポートします。このプロトコルにより、ディスプレイは、ログイン・サーバがディスプレイにログイン画面を表示するよう要求できます。
+</Para>
+<Sect1 Id="SAG.LogMg.div.2">
+<Title Id="SAG.LogMg.mkr.3">ログイン・サーバの起動</Title>
+<Para>
+ログイン・サーバは、通常、システムのブート時に起動されます。コマンド行からもログイン・サーバを起動できます。
+<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>起動</Secondary></IndexTerm><IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>コマンド行からの起動</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+システムのブート時にログイン・サーバを起動するよう設定するには、次のように入力します。
+<Command>/usr/dt/bin/dtconfig -e</Command></Para>
+<Para>
+ログイン・サーバは、リブート時に自動的に起動されます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+コマンド行からログイン・サーバを起動するには、次のように入力します。
+<Command>/usr/dt/bin/dtlogin -daemon</Command></Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>
+一時的に構成をテストするためにログイン・サーバをコマンド行から起動することはできますが、通常はシステムのブート時にログイン・サーバを起動してください。
+</Para>
+</Note>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.3">
+<Title Id="SAG.LogMg.mkr.4">ローカル・ディスプレイおよびネットワーク・ディスプレイの管理</Title>
+<Para><!--Original XRef content: 'Figure&numsp;1&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.LogMg.mkr.1"> にログイン・サーバの構成を示します。
+</Para>
+<Figure>
+<Title Id="SAG.LogMg.mkr.5">ログイン・サーバの構成例
+<IndexTerm><Primary>Ｘ端末</Primary><Secondary>ログイン・サーバの構成</Secondary></IndexTerm></Title>
+<Graphic Entityref="SAG.LogMg.fig.1" Id="SAG.LogMg.grph.1"></Graphic>
+</Figure>
+<Sect2 Id="SAG.LogMg.div.4">
+<Title>ログイン・サーバのプロセスIDの検出<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>プロセスID</Secondary></IndexTerm></Title>
+<Para>
+デフォルトでは、ログイン・サーバはプロセスIDを <Filename>/var/dt/Xpid<IndexTerm>
+<Primary>Xpid ファイル</Primary>
+</IndexTerm></Filename>に格納します。</Para>
+<Para>
+これを変更するため、<Filename>Dtlogin.pidFile</Filename> リソースを <Command>Xconfig<IndexTerm><Primary>Xconfig ファイル</Primary><Secondary>変更</Secondary></IndexTerm></Command> ファイルに設定できます。変更を行った場合、ログイン・サーバの起動時に指定したディレクトリが存在していなければなりません。
+</Para>
+<Para><Command>Xconfig</Command> を変更するには、<Command>Xconfig</Command> を <Filename>/usr/dt/config</Filename> から <Filename>/etc/dt/config</Filename> へコピーします。<Filename>/etc/dt/config/Xconfig</Filename> を変更した後で、次のように入力し、<Command>Xconfig</Command> をもう一度読み込むようログイン・サーバに通知します。
+</Para>
+<ProgramListing>/usr/dt/bin/dtconfig -reset</ProgramListing>
+<Para>
+これは、コマンド <Command>kill -HUP</Command> <Symbol Role="Variable">login server process ID</Symbol> を発行します。</Para>
+<Para>
+たとえば、ログイン・サーバのプロセスIDを <Filename>/var/myservers/Dtpid</Filename> に格納するには、<Command>Xconfig</Command> ファイルで次のように設定してください。
+</Para>
+<ProgramListing>Dtlogin.pidFile: /var/myservers/Dtpid</ProgramListing>
+<Para>
+ログイン・サーバを再起動すると、ログイン・サーバはプロセスIDを <Filename>/var/myservers/Dtpid<IndexTerm><Primary>Dtpid ファイル</Primary></IndexTerm></Filename> に格納します。<Filename>/var/myservers</Filename> ディレクトリは、ログイン・サーバの起動時に存在しなければなりません。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.5">
+<Title>ローカル・ディスプレイでのログイン画面の表示</Title>
+<Para>
+起動時、ログイン・サーバは <Command>Xservers<IndexTerm><Primary>Xservers ファイル</Primary><Secondary>サーバの起動</Secondary></IndexTerm></Command> ファイルを検索して、Ｘサーバを起動する必要があるかどうか、ログイン画面をローカル・ディスプレイまたはネットワーク・ディスプレイに表示するかどうかとその方法を決定します。
+</Para>
+<Para>
+<Command>Xservers</Command> を変更するには、<Command>Xservers</Command> を <Filename>/usr/dt/config</Filename> から <Filename>/etc/dt/config</Filename> へコピーします。<Filename>/etc/dt/config</Filename>/<Command>Xservers</Command> を変更した後で、次のように入力し、<Command>Xservers</Command> をもう一度読み込むようログイン・サーバに通知します。
+</Para>
+<ProgramListing>/usr/dt/bin/dtconfig -reset</ProgramListing>
+<Para>
+これは、コマンド <Command>kill -HUP</Command> <Symbol Role="Variable">login server process ID</Symbol> を発行します。
+</Para>
+<Para>
+<Command><IndexTerm><Primary>Xservers ファイル</Primary><Secondary>構文</Secondary></IndexTerm>Xservers</Command> 行の書式は以下のとおりです。
+</Para>
+<ProgramListing><Symbol Role="Variable">display_name</Symbol> <Symbol Role="Variable">display_class</Symbol> <Symbol Role="Variable">display_type</Symbol> <Symbol Role="Variable">X_server_command</Symbol></ProgramListing>
+<Para>
+次に説明を示します。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="124*">
+<colspec colwidth="404*">
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">display_name</Symbol></Para></Entry>
+<Entry><Para>
+Ｘサーバに接続するときに使用する接続名（以下の例では :0）をログイン・サーバに通知します。* (アスタリスク) の値は <Symbol Role="Variable">host name</Symbol>:0 に展開されます。指定した番号は、<Symbol Role="Variable">X_server_command</Symbol> 接続番号で指定した番号と一致しなければなりません。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">display_class</Symbol></Para></Entry>
+<Entry><Para>
+このディスプレイに固有のリソース（以下の例では <Command>Local</Command>）を識別します。 
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">display_type</Symbol></Para></Entry>
+<Entry><Para>
+ディスプレイがローカル・ディスプレイとネットワーク・ディスプレイのどちらであるかと、ログイン画面の [コマンド行ログイン] オプションを管理する方法（以下の例では <Filename>local@console</Filename>）を、ログイン・サーバに通知します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">X_server_command</Symbol></Para></Entry>
+<Entry><Para>
+Ｘサーバの起動にログイン・サーバが使用するコマンド行、接続番号、他のオプション（以下の例では <command>/usr/bin/X11/X :0</command>）を識別します。指定した接続番号は <Symbol Role="Variable">display_name</Symbol> で指定した番号と一致しなければなりません。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+デフォルトの <Command>Xservers</Command> 行は、次のようになります。
+</Para>
+<ProgramListing>:0 Local local@console /usr/bin/X11/X :0</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.6">
+<Title>ローカル・ディスプレイなしでのログイン・サーバの実行<IndexTerm><Primary>ビットマップ・ディスプレイ、〜なしでのログイン・サーバの実行</Primary></IndexTerm></Title>
+<Para>
+ログイン・サーバ・システムに<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>ビットマップ・ディスプレイがない</Secondary></IndexTerm>ビットマップ・ディスプレイがない場合は、<Filename>#</Filename> (ポンド記号) を使用してローカル・ディスプレイ
+の <Command>Xservers</Command><IndexTerm><Primary>Xservers ファイル</Primary><Secondary>デフォルト</Secondary></IndexTerm> を注釈行にすることにより、ローカル・ディスプレイなしで<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>ローカル・ディスプレイなしの実行</Secondary></IndexTerm>ログイン・サーバを実行してください。以下に例を示します。
+</Para>
+<ProgramListing># :0 Local local@console /usr/bin/X11/X :0</ProgramListing>
+<Para>
+ログイン・サーバは、起動されるとバックグラウンドで実行され、ネットワーク・ディスプレイからの要求を待ちます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.7">
+<Title>ローカル・ディスプレイでのコマンド行ログインへのアクセス</Title>
+<Para>
+ログイン画面で[コマンド行ログイン]<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>コマンド行ログイン</Secondary></IndexTerm>をユーザが選択すると、ログイン・サーバが一時的にＸサーバを終了させ、ビットマップ・ディスプレイ端末デバイスで実行中の、従来のコマンド行ログインにアクセスできるようになります。ユーザがログインしてからログアウトした後、または指定したタイムアウト時間が経過した後、ログイン・サーバはＸサーバを再起動します。
+</Para>
+<Note>
+<Para>
+ネットワーク・ディスプレイでは、<IndexTerm><Primary>コマンド行ログイン</Primary></IndexTerm>[コマンド行ログイン]オプションは使用できません。
+</Para>
+</Note>
+<Para>
+<Symbol Role="Variable">display_type</Symbol> は、[コマンド行ログイン]の動作を制御します。<Symbol Role="Variable">display_type</Symbol> の書式は次のとおりです。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>local@</Filename><Symbol Role="Variable">display_ terminal_device</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>local ディスプレイ・タイプ</Primary>
+</IndexTerm>local</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>foreign ディスプレイ・タイプ</Primary>
+</IndexTerm>foreign</Command></Para>
+</ListItem>
+</ItemizedList>
+<Para>
+<Command>local</Command>@<Symbol Role="Variable">display_terminal_device</Symbol> を指定すると、ログイン・サーバは、Ｘサーバおよび <Filename>/dev/</Filename><Symbol Role="Variable">display_terminal_device</Symbol> が同じ物理デバイス上に存在し、コマンド行ログイン（通常は <Command>getty</Command>）がそのデバイスで実行されているものとみなします。ユーザが[コマンド行ログイン]を選択すると、Ｘサーバが終了し、<Filename>/dev/</Filename><Symbol Role="Variable">display_terminal_device</Symbol> で実行されているコマンド行ログイン（<Command>getty</Command>）にアクセスできるようになります。
+</Para>
+<Para>
+ディスプレイの[コマンド行ログイン]オプションを指定しないようにするには、<Symbol Role="Variable">display_terminal_device</Symbol> に <Command>none</Command> を指定します。デフォルトの <Symbol Role="Variable">display_terminal_device</Symbol> は <Command>console</Command> です。<Command>local</Command> を指定すると、<Symbol Role="Variable">display_terminal_device</Symbol> はデフォルトの <Command>console</Command> になります。<Command>foreign</Command> を指定すると、[コマンド行ログイン]オプションは使用できません。
+</Para>
+<Note>
+<Para>
+ログイン・サーバをコマンド行から起動したときは、ローカル・ディスプレイの[コマンド行ログイン]オプションは使用できません。
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.8">
+<Title>キャラクタ・ディスプレイ・コンソールの適用<IndexTerm><Primary>キャラクタ・ディスプレイ・コンソール</Primary></IndexTerm></Title>
+<Para>
+ログイン・サーバ・システムに、直接接続されているキャラクタ・ディスプレイ<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>キャラクタ・ディスプレイ・コンソール</Secondary></IndexTerm>がコンソールとして備えられている場合、<Symbol Role="Variable">display_terminal_device</Symbol> に <Command>none</Command> を設定して、ビットマップ・ディスプレイ・ログイン画面の[コマンド行ログイン]オプションを使用できないようにすることもできます。
+</Para>
+<Para>
+コマンド行ログイン（<Command><IndexTerm><Primary>getty</Primary></IndexTerm>getty</Command>）を、キャラクタ・ディスプレイ・コンソールおよびビットマップ・ディスプレイの両方で実行している場合、<Symbol Role="Variable">display_terminal_device</Symbol> をビットマップ・ディスプレイのコマンド行ログイン（<Command>getty</Command>）デバイスに変更することができます。
+</Para>
+<Para>
+たとえば、ビットマップ・ディスプレイ・コマンド行ログイン（<Command>getty</Command>）がデバイス <Filename>/dev/tty01</Filename> にある場合、<Symbol Role="Variable">display_type</Symbol> を <ComputerOutput>local@tty01</ComputerOutput> に変更します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.9">
+<Title Id="SAG.LogMg.mkr.6">ネットワーク・ディスプレイでのログイン画面の表示<IndexTerm><Primary>ログイン画面</Primary><Secondary>ネットワーク・ディスプレイでの表示</Secondary></IndexTerm></Title>
+<Para>
+ログイン・サーバは、ネットワーク・ディスプレイからの要求でログイン画面を特定のディスプレイに表示させることができます。ネットワーク・ディスプレイは通常Ｘ端末ですが、ワークステーションの場合もあります。
+</Para>
+<Para>
+ネットワーク・ディスプレイからの要求を管理するため、ログイン・サーバはＸディスプレイ・マネージャ・プロトコル (XDMCP)<IndexTerm><Primary>XDMCP</Primary><Secondary>定義</Secondary></IndexTerm> 1.0 をサポートします。このプロトコルは、ログイン・サーバがネットワーク・ディスプレイからの要求を受け入れたり拒否したりできるようにします。ほとんどのＸ端末に XDMCP が組み込まれています。
+</Para>
+<Sect3 Id="SAG.LogMg.div.10">
+<Title>ネットワーク・ディスプレイからの XDMCP の直接要求<IndexTerm><Primary>XDMCP</Primary><Secondary>直接要求</Secondary></IndexTerm><IndexTerm><Primary>Ｘ端末</Primary><Secondary>XDMCP-direct</Secondary></IndexTerm></Title>
+<Para>
+XDMCP 直接モード<IndexTerm><Primary>XDMCP</Primary><Secondary>照会モード</Secondary></IndexTerm>（照会モード）を使用するようにＸ端末を構成するときは、ログイン・サーバのホスト名をＸ端末に通知します。Ｘ端末をブートすると、自動的にログイン・サーバに通信し、ログイン・サーバがＸ端末にログイン画面を表示します。XDMCP 直接モード用にＸ端末を構成する方法については、Ｘ端末のマニュアルを参照してください。
+</Para>
+<Para>
+ほとんどのＸサーバは <Filename>-query</Filename> オプション<IndexTerm><Primary>-query オプション</Primary></IndexTerm> もサポートしています。このモードでは、ＸサーバはＸ端末のように動作して、ログイン・サーバ・ホストに直接通信し、Ｘサーバにログイン画面を表示するよう要求します。たとえば、Ｘサーバをワークステーション <Command>bridget</Command> のビットマップ・ディスプレイで起動すると、ログイン・サーバ <Command>anita</Command> がＸサーバにログイン画面を表示します。
+<ProgramListing>X -query anita</ProgramListing>
+</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.11">
+<Title>ネットワーク・ディスプレイからの XDMCP の間接要求<IndexTerm><Primary>XDMCP</Primary><Secondary>間接要求</Secondary></IndexTerm><IndexTerm><Primary>Ｘ端末</Primary><Secondary>XDMCP-indirect</Secondary></IndexTerm></Title>
+<Para>
+XDMCP 間接モードを使用するようにＸ端末を構成するときは、ログイン・サーバのホスト名をＸ端末に通知します。Ｘ端末をブートすると、ログイン・サーバに通信し、ログイン・サーバが、ネットワークの他のログイン・サーバ・ホストのリストを選択画面で表示します。このリストからユーザはホストを選択でき、そのホストがユーザのＸ端末にログイン画面を表示します。XDMCP 間接モード用にＸ端末を構成する方法については、Ｘ端末のマニュアルを参照してください。
+</Para>
+<Para>
+直接モード同様、ほとんどのＸサーバが <Filename>-indirect</Filename> オプション<IndexTerm><Primary>-indirect オプション</Primary></IndexTerm> をサポートしています。このオプションを指定するとＸサーバは XDMCP 間接モードでログイン・サーバと通信します。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.12">
+<Title>非 XDMCP ネットワーク・ディスプレイの管理<IndexTerm><Primary>Ｘ端末</Primary><Secondary>非 XDMCP ディスプレイ</Secondary></IndexTerm></Title>
+<Para>
+旧式のＸ端末は XDMCP をサポートしていない可能性があります。このようなＸ端末にログイン・サーバがログイン画面を表示するには、<Command>Xservers</Command> ファイルにＸ端末名を記入します。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.13">
+<Title>例</Title>
+<Para>
+次に示す <Command>Xservers</Command> ファイルの行は、<Command>ruby</Command> および <Command>wolfie</Command> という２つの非 XDMCP Ｘ端末に、ログイン・サーバがログイン画面を表示します。
+</Para>
+<ProgramListing>ruby.blackdog.com:0 AcmeXsta foreign
+wolfie:0 PandaCo foreign</ProgramListing>
+<Para>
+ディスプレイはネットワーク上にあるので、<Symbol Role="Variable">display_name</Symbol> はホスト名を名前の一部として取り込みます。<Symbol Role="Variable">display class</Symbol> は、特定のクラスのＸ端末に固有のリソースを指定するのに使用します（Ｘ端末のマニュアルに、Ｘ端末のディスプレイ・クラスが記載されています）。<Command>foreign</Command> の <Symbol Role="Variable">display_type</Symbol> はログイン・サーバに、ログイン・サーバ自身を起動するのではなく、既存のＸサーバに接続するよう通知します。この場合、<Symbol Role="Variable">X_server_command</Symbol> は指定されません。
+</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.14">
+<Title>ログイン・サーバへのアクセスのコントロール<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>アクセスのコントロール</Secondary></IndexTerm></Title>
+<Para>
+デフォルトでは、ログイン・サーバ・ホストにアクセスするネットワークのホストはすべて、ログイン画面を表示するよう要求できます。<Command>Xaccess</Command> ファイル<IndexTerm><Primary>Xaccess ファイル</Primary></IndexTerm> を変更すると、ログイン・サーバへのアクセスを制御できます。
+</Para>
+<Para>
+<Command>Xaccess</Command> を変更するには、<Command>Xaccess</Command> を <Filename>/usr/dt/config</Filename> から <Filename>/etc/dt/config</Filename> へコピーします。<Filename>/etc/dt/config/Xaccess</Filename> を変更したら、次のように入力して <Command>Xaccess</Command> をもう一度読み込むようログイン・サーバに通知します。
+</Para>
+<ProgramListing>/usr/dt/bin/dtconfig -reset</ProgramListing>
+<Para>
+これは、コマンド <Command>kill -HUP</Command> <Symbol Role="Variable">login server process ID</Symbol> を発行します。
+</Para>
+<Sect3 Id="SAG.LogMg.div.15">
+<Title>XDMCP 直接モード<IndexTerm><Primary>Ｘ端末</Primary><Secondary>XDMCP-direct</Secondary></IndexTerm></Title>
+<Para>
+ホストが <IndexTerm><Primary>XDMCP</Primary><Secondary>直接アクセス</Secondary></IndexTerm> XDMCP 直接モードによってログイン・サーバに接続しようとすると、ホスト名が <IndexTerm><Primary>Ｘ端末</Primary><Secondary>Xaccess リスト</Secondary></IndexTerm> <Command>Xaccess</Command> エントリと比較されて、ホストがログイン・サーバにアクセスできるかどうか決定されます。<Command>Xaccess</Command> の各エントリは、ワイルドカード <Filename>*</Filename> (アスタリスク) および <Filename>?</Filename> (疑問符) を含むホスト名です。<Filename>*</Filename> (アスタリスク) は０以上の文字に、<Filename>?</Filename> (疑問符) は任意の１文字に一致します。<Filename>!</Filename> (感嘆符) がエントリの前に付くとアクセスできず、これがなければアクセスできます。
+</Para>
+<Para>
+たとえば、<Command>Xaccess</Command> に次の３つのエントリが含まれているとします。
+</Para>
+<ProgramListing>amazon.waterloo.com
+
+*.dept5.waterloo.com
+
+!*</ProgramListing>
+<Para>
+最初のエントリはホスト <Filename>amazon.waterloo.com</Filename> から、２番目のエントリはフルドメイン名が <Filename>dept5.waterloo.com</Filename> で終わっている任意のホストからログイン・サーバがアクセスできるようにし、最後のエントリはいずれのホストからもアクセスできないようにします。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.16">
+<Title>XDMCP 間接モード<IndexTerm><Primary>Ｘ端末</Primary><Secondary>XDMCP-indirect</Secondary></IndexTerm></Title>
+<Para>
+ホストが XDMCP 間接モードによってログイン・サーバに接続しようとすると、ホスト名が <Command>Xaccess</Command> エントリと比較されて、ホストがログイン・サーバにアクセスできるかどうかが決定されます。<Command>Xaccess</Command> の各エントリは XDMCP 直接モードと同様で、ワイルドカードを含んでいますが、各エントリに <Command>CHOOSER</Command> 文字列がマークされていることころが異なります。例を次に示します。
+<IndexTerm><Primary>XDMCP</Primary><Secondary>間接アクセス</Secondary></IndexTerm><IndexTerm><Primary>CHOOSER 文字列</Primary><Secondary>定義</Secondary></IndexTerm><IndexTerm><Primary>Ｘ端末</Primary><Secondary>CHOOSER 文字列</Secondary></IndexTerm>
+</Para>
+<ProgramListing>amazon.waterloo.com  CHOOSER BROADCAST
+
+*.dept5.waterloo.com CHOOSER BROADCAST
+
+!* CHOOSER BROADCAST</ProgramListing>
+<Para>
+最初のエントリはホスト <Filename>amazon.waterloo.com</Filename> から、２番目のエントリはフルドメイン名が <Filename>dept5.waterloo.com</Filename> で終わっている任意のホストからログイン・サーバがアクセスできるようにし、最後のエントリはいずれのホストからもアクセスできないようにします。
+</Para>
+<Para>
+<Command>CHOOSER</Command><IndexTerm><Primary>CHOOSER 文字列</Primary><Secondary>識別</Secondary></IndexTerm> の後は次のいずれかが続きます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>BROADCAST, XDMCP-indirect で使用される</Primary>
+</IndexTerm>BROADCAST</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">list of host names</Symbol></Para>
+</ListItem>
+</ItemizedList>
+<Para>
+<Command>BROADCAST</Command> は、ログイン・サーバにログイン・サーバ・サブネットワークへ同報通信させて、使用可能なログイン・サーバ・ホストのリストを生成します。ホスト名のリストは、使用可能なログイン・ホストのリストとしてそのリストを使用するように、ログイン・サーバに通知します。例を次に示します。
+</Para>
+<ProgramListing>amazon.waterloo.com  CHOOSER shoal.waterloo.com alum.waterloo.com
+
+*.dept5.waterloo.com CHOOSER BROADCAST
+
+!* CHOOSER BROADCAST</ProgramListing>
+<Para>
+<Filename>amazon.waterloo.com</Filename> が XDMCP 間接モードによって接続する場合、<Command>shoal</Command> および <Command>alum</Command> を含むリストが表示されます。<Filename>alice.dept5.waterloo.com</Filename> を接続する場合は、ログイン・サーバ・サブネットワークで使用可能な全ログイン・サーバ・ホストのリストが表示されます。他の XDMCP 間接モードは拒否されます。
+</Para>
+<Para>
+ホスト名のリストを指定するもうひとつの方法は、ホスト名のリストを含む１つ以上のマクロを定義することです。例を次に示します。
+</Para>
+<ProgramListing>&percnt;list1  shoal.waterloo.com alum.waterloo.com
+amazon.waterloo.com CHOOSER &percnt;list1</ProgramListing>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.17">
+<Title Id="SAG.LogMg.mkr.7">エラー検査<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>トラブルジュート</Secondary></IndexTerm><IndexTerm><Primary>ログイン・マネージャ</Primary><Secondary>エラー</Secondary></IndexTerm></Title>
+<Para>
+デフォルトでは、ログイン・サーバは <IndexTerm><Primary>Xerrors ファイル</Primary></IndexTerm><Filename>/var/dt/Xerrors</Filename> ファイルにエラーを記録します。これを変更するため、<Filename>Dtlogin.errorLogFile</Filename> リソースを <Command>Xconfig</Command> ファイルに設定できます。指定したディレクトリは、ログイン・サーバの起動時に必ず存在しなければなりません。
+</Para>
+<Para>
+たとえば、ログイン・サーバが <Filename>/var/mylogs/Dterrors</Filename> ファイルにエラーを記録するようにするには、<Command>Xconfig</Command> ファイルで次のように設定してください。
+</Para>
+<ProgramListing>Dtlogin.errorLogFile: /var/mylogs/Dterrors</ProgramListing>
+<Para>
+ログイン・サーバが再起動すると、ログイン・サーバは <Filename>/var/mylogs/<IndexTerm><Primary>Dterrors ファイル</Primary></IndexTerm>Dterrors</Filename> ファイルにエラーを記録します。<Filename>/var/mylogs</Filename> ディレクトリは、ログイン・サーバの起動時に必ず存在しなければなりません。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.18">
+<Title Id="SAG.LogMg.mkr.8">ログイン・サーバの停止<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>停止</Secondary></IndexTerm></Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+システムのブート時に<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>抑止</Secondary></IndexTerm>ログイン・サーバを起動しないようにするには、次のように入力します。
+</Para>
+<programlisting>/usr/dt/bin/dtconfig -d<IndexTerm>
+<Primary>dtconfig コマンド</Primary>
+</IndexTerm></programlisting>
+<Para>
+この設定により、次回のリブート時にシステムはログイン・サーバを起動しません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+プロセスIDを Kill してログイン・サーバを停止するには、次のように入力します。
+</Para>
+<programlisting>/usr/dt/bin/dtconfig -kill</programlisting>
+<Para>
+これは、コマンド <Command>kill</Command> <Symbol Role="Variable">login server process ID</Symbol> を発行します。
+</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>
+ログイン・サーバのプロセスを終了すると、<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>プロセスIDのkill</Secondary></IndexTerm>ログイン・サーバが管理するユーザ・セッションはすべて終了します。
+</Para>
+</Note>
+<Para>
+プロセスIDを kill してログイン・サーバを停止することもできます。ログイン・サーバのプロセスIDは <Filename>/var/dt/Xpid</Filename> か、<Filename>Dtlogin.pidFile</Filename> リソースによって <Command>Xconfig</Command> に指定したファイルに格納されます。
+</Para>
+<Para>
+ログイン・サーバを強制終了したときにデスクトップにログインすると、デスクトップ・セッションはすぐに終了します。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.19">
+<Title Id="SAG.LogMg.mkr.9">ログイン画面</Title>
+<Para>
+ログイン・サーバが表示するログイン画面は、従来のキャラクタ・モードでのログイン画面に代わるもので、キャラクタ・モードでのログインを超える能力を備えています。
+</Para>
+<Figure>
+<Title Id="SAG.LogMg.mkr.10">デスクトップ・ログイン画面</Title>
+<Graphic Entityref="SAG.LogMg.fig.2" Id="SAG.LogMg.grph.2"></Graphic>
+</Figure>
+<Para>
+キャラクタ・モードでのログイン同様、ユーザ名の後にパスワードを入力します。認証されれば、ログイン・サーバはデスクトップ・セッションを起動します。デスクトップ・セッションを終了すると、ログイン・サーバは新しいログイン画面を表示し、処理が再開されます。
+</Para>
+<Para>
+次のようなログイン画面のカスタマイズができます。
+<IndexTerm><Primary>ログイン画面</Primary><Secondary>カスタマイズ</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ログイン画面表示の変更
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+Ｘサーバ権限の設定
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+デフォルト言語の変更
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ログイン画面を表示する前にコマンドを発行する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ログイン画面の[言語]メニューの内容変更
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ユーザのセッションを起動するコマンドの指定
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ユーザのデスクトップ・セッションを起動する前にコマンドを発行する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ユーザのセッションが終了した後にコマンドを発行する
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+上記はいずれも、ディスプレイの全部、あるいはディスプレイごとに行うことができます。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.20">
+<Title Id="SAG.LogMg.mkr.11">ログイン画面表示の変更</Title>
+<Para>
+<IndexTerm><Primary>ログイン画面</Primary><Secondary>表示の変更</Secondary></IndexTerm>ログイン画面表示をカスタマイズするため、ロゴまたはグラフィック、ウェルカム・メッセージ、フォントを変更できます。
+</Para>
+<Para>
+<Command>Xresources</Command> を変更するには、<Command>Xresources</Command> を <Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol> から <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol> にコピーします。次回からは、すべての変更を反映したログイン画面が表示されます。ログイン画面を強制的に再表示させるには、ログイン画面の[オプション]メニューから[ログイン画面のリセット]を選択します。
+</Para>
+<Para>
+<Command>Xresources<IndexTerm><Primary>Xresources ファイル</Primary></IndexTerm></Command> ファイルのリソース指定によって決定されるログイン画面の属性は次のとおりです。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="3.20in">
+<colspec colwidth="3.10in">
+<TBody>
+<Row>
+<Entry><Para>
+<Filename>Dtlogin*logo*bitmapFile</Filename><IndexTerm><Primary>ログイン・マネージャ</Primary><Secondary>リソース</Secondary></IndexTerm><IndexTerm><Primary>ログイン画面</Primary><Secondary>リソース</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+ロゴ・イメージとして表示するビットマップ・ファイルまたはピックスマップ・ファイル
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*greeting*labelString</Filename></Para></Entry>
+<Entry><Para>
+ウェルカム・メッセージ
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*greeting*persLabelString</Filename></Para></Entry>
+<Entry><Para>
+個人用ウェルカム・メッセージ
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Dtlogin*greeting*fontList</Command></Para></Entry>
+<Entry><Para>
+ウェルカム・メッセージ用フォント
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*labelFont</Filename></Para></Entry>
+<Entry><Para>
+プッシュ・ボタンおよびラベル用フォント
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*textFont</Filename></Para></Entry>
+<Entry><Para>
+ヘルプ・メッセージおよびエラー・メッセージ用フォント
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*</Filename><Symbol Role="Variable">language</Symbol><Filename>*languageName</Filename></Para></Entry>
+<Entry><Para>
+ロケール名 <Symbol Role="Variable">language</Symbol> 用の選択テキスト
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect2 Id="SAG.LogMg.div.21" Role="Procedure">
+<Title>ロゴを変更するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Filename>Dtlogin*logo*bitmapFile</Filename> リソースを <Command>Xresources</Command> に設定します。
+</Para>
+<Para>
+ロゴはカラー・ピックスマップ・ファイルまたはビットマップ・ファイルです。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+次の例は、ロゴに <Command>Mylogo</Command> ビットマップを使用します。
+</Para>
+<ProgramListing>Dtlogin*logo*bitmapFile: /usr/local/lib/X11/dt/bitmaps/Mylogo.bm</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.22" Role="Procedure">
+<Title>ウェルカム・メッセージを変更するには<IndexTerm><Primary>ログイン画面</Primary><Secondary>ウェルカム・メッセージの変更</Secondary></IndexTerm><IndexTerm><Primary>ログイン画面</Primary><Secondary>挨拶</Secondary></IndexTerm><IndexTerm><Primary>ウェルカム・メッセージ</Primary><Secondary>変更</Secondary></IndexTerm></Title>
+<Para>
+デフォルトでは、ログイン・サーバはログイン画面にメッセージ <Command>Welcome</Command> <Command>to</Command> <symbol Role="Variable">host name</Symbol> を表示します。このメッセージは次の方法で変更できます。
+<IndexTerm><Primary>ウェルカム・メッセージ</Primary><Secondary>デフォルト</Secondary></IndexTerm>
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+<Filename>Dtlogin*greeting*labelString</Filename> リソースを <Command>Xresources</Command> に設定します。
+</Para>
+<Para>
+<Command>labelString</Command> リソースの値には、ログイン・サーバ・ホスト名に置き換える&percnt;<Symbol Role="Variable">LocalHost</Symbol>&percnt; と、Ｘサーバ・ディスプレイ名に置き換える &percnt;<Symbol Role="Variable">DisplayName</Symbol>&percnt; を指定できます。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+次の例は、ウェルカム・メッセージを <Filename>Here's</Filename> <Symbol Role="Variable">host name</Symbol><Filename>!</Filename> に変更します。
+</Para>
+<ProgramListing>Dtlogin*greeting*labelString: Here's &percnt;LocalHost&percnt;!</ProgramListing>
+<Para>
+ユーザ名を一度入力すると、ログイン・サーバはデフォルトで <Command>Welcome</Command> <Symbol Role="Variable">username</Symbol> というメッセージを表示します。このメッセージは <Filename>Dtlogin*greeting*persLabelString</Filename> リソースを <Command>Xresources</Command> に設定すると変更できます。<Command>persLabelString</Command> の値には、<Symbol Role="Variable">username</Symbol> に置き換える percnt;<Command>s</Command> を指定できます。
+</Para>
+<Para>
+次の例は個人用ウェルカム・メッセージを <Command>Hello</Command> <Symbol Role="Variable">username</Symbol> に変更します。
+</Para>
+<ProgramListing>Dtlogin*greeting*persLabelString: Hello &percnt;s</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.23" Role="Procedure">
+<Title>フォントを変更するには<IndexTerm><Primary>ログイン画面</Primary><Secondary>フォント</Secondary></IndexTerm></Title>
+<Para>
+ログイン画面で使用するフォントを、次のフォント・リソースのいずれかを <Filename>Xresources<IndexTerm><Primary>Xresources ファイル</Primary></IndexTerm></Filename> に設定することにより変更できます。
+</Para>
+<Para>
+使用可能なフォントの一覧を表示するには、次のように入力します。
+</Para>
+<ProgramListing>xlsfonts [-<Symbol Role="Variable">options</Symbol>] [-fn <Symbol Role="Variable">pattern</Symbol>]</ProgramListing>
+<InformalTable>
+<TGroup Cols="2">
+<TBody>
+<Row>
+<Entry><Para><Command>Dtlogin*greeting*fontList</Command></Para></Entry>
+<Entry><Para>
+ウェルカム・メッセージ用フォント
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*labelFont</Filename></Para></Entry>
+<Entry><Para>
+プッシュ・ボタンおよびラベル用フォント
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*textFont</Filename></Para></Entry>
+<Entry><Para>
+ヘルプ・メッセージおよびエラー・メッセージ用フォント
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+次の例は、ウェルカム・メッセージを大きいフォントで表示します（指定する値は必ず１行に入れてください）。
+</Para>
+<ProgramListing>Dtlogin*greeting*fontList: -dt-interface system-medium-r-normal-xxl*-*-*-*-*-*-*-*-*:</ProgramListing>
+<Sect3 Id="SAG.LogMg.div.24" Role="Procedure">
+<Title>各言語を表示するためのテキストを提供するには<IndexTerm><Primary>ログイン画面</Primary><Secondary>ローカライズ</Secondary></IndexTerm><IndexTerm><Primary>ローカライゼーション</Primary><Secondary>ログイン画面</Secondary></IndexTerm></Title>
+<Para>
+ログイン画面の[言語]メニューに、ロケール名のデフォルト・ディスプレイではなく、ロケールごとのテキストを表示するには、<Filename>Dtlogin*</Filename><Symbol Role="Variable">language</Symbol><Filename>*languageName</Filename> リソースを <Command>Xresources</Command> に設定します。
+</Para>
+<ProgramListing>Dtlogin*En_US*languageName: American</ProgramListing>
+<Para>
+ロケール名 <Filename>En_US</Filename> ではなく、テキスト <Command>American</Command> が表示されます。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.25">
+<Title>ログイン画面動作の変更<IndexTerm><Primary>ログイン画面</Primary><Secondary>動作の変更</Secondary></IndexTerm></Title>
+<Para>
+ログイン画面の動作をカスタマイズするには、<Command>Xconfig</Command> ファイルに指定したリソースを変更します。
+</Para>
+<Para>
+<Command>Xconfig</Command> を変更するには、<Command>Xconfig</Command> を <Filename>/usr/dt/config</Filename> から <Filename>/etc/dt/config</Filename> にコピーします。<Filename>/etc/dt/config/Xconfig</Filename> を変更したら、次のように入力して <Command>Xconfig</Command> をもう一度読み込むようログイン・サーバに通知します。
+</Para>
+<ProgramListing>/usr/dt/bin/dtconfig -reset</ProgramListing>
+<Para>
+これは、コマンド <Command>kill</Command> <Command>-HUP</Command> <Symbol Role="Variable">login server process ID</Symbol> を発行します。
+</Para>
+<Para>
+<Command>Xconfig</Command> ファイル<IndexTerm><Primary>Xconfig ファイル</Primary><Secondary>〜のリソースの設定</Secondary></IndexTerm> に指定するリソース<IndexTerm><Primary>ログイン・マネージャ</Primary><Secondary>リソース</Secondary></IndexTerm>は次のとおりです。 
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="200*">
+<colspec colwidth="328*">
+<TBody>
+<Row>
+<Entry><Para><Filename>Dtlogin*authorize</Filename></Para></Entry>
+<Entry><Para>Xaccess ファイル仕様</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*environment</Filename></Para></Entry>
+<Entry><Para>Ｘサーバ環境</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*language</Filename></Para></Entry>
+<Entry><Para>デフォルト言語</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*languageList</Filename></Para></Entry>
+<Entry><Para>ログイン画面の[言語]メニューの言語リスト</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*resources</Filename></Para></Entry>
+<Entry><Para><Command>Xresources</Command> 仕様</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*setup</Filename></Para></Entry>
+<Entry><Para><Command>Xsetup</Command> ファイル仕様</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*</Filename>startup</Para></Entry>
+<Entry><Para><Command>Xstartup</Command> ファイル仕様</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*session</Para></Entry>
+<Entry><Para><Command>Xsession</Command> ファイル仕様</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*failsafeClient</Para></Entry>
+<Entry><Para><Command>Xfailsafe</Command> スクリプト仕様</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*reset</Para></Entry>
+<Entry><Para><Command>Xreset</Command> スクリプト仕様</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*userPath</Para></Entry>
+<Entry><Para><Command>Xsession</Command> および <Command>Xfailsafe</Command> 用 PATH 環境変数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*systemPath</Para></Entry>
+<Entry><Para><Command>Xsetup</Command>、<Command>Xstartup</Command> および
+<Command>Xfailsafe</Command> 用 PATH 環境変数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*systemShell</Para></Entry>
+<Entry><Para><Command>Xsetup</Command>、<Command>Xstartup</Command> および
+<Command>Xfailsafe</Command> 用 SHELL 環境変数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin.timeZone</Para></Entry>
+<Entry><Para>全スクリプト用タイムゾーン</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.26">
+<Title>ディスプレイごとのログイン画面動作の変更<IndexTerm><Primary>ログイン画面</Primary><Secondary>ディスプレイ依存動作</Secondary></IndexTerm><IndexTerm><Primary>複数ディスプレイ</Primary><Secondary>ログイン・マネージャ</Secondary></IndexTerm></Title>
+<Para>
+以下の例では、<Command>Xconfig</Command> リソースを変更して、全ディスプレイのログイン画面動作を変更します。リストで * (アスタリスク) の付いたリソースは、ディスプレイごとに指定できます。これにより、あるディスプレイのログイン画面動作のカスタマイズを指定できます。特定のディスプレイのリソースを指定するには、リソースを <Filename>Dtlogin*</Filename><Symbol Role="Variable">displayName</Symbol><Filename>*</Filename><Symbol Role="Variable">resource</Symbol> と指定します。たとえば、ディスプレイ <Filename>expo:0</Filename> のユーザによるアクセス・コントロールをオフにして、他のディスプレイはそのままオンにする場合は、次のように指定します。
+</Para>
+<ProgramListing>Dtlogin*expo_0*authorize: False</ProgramListing>
+<Note>
+<Para>
+ディスプレイ名の : (コロン) や . (ピリオド) などの特殊文字は、_ (下線) に置き換えられます。
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.27">
+<Title>Ｘサーバ・アクセスの変更<IndexTerm><Primary>ログイン画面</Primary><Secondary>Ｘサーバ・アクセス</Secondary></IndexTerm><IndexTerm><Primary>Ｘサーバ</Primary><Secondary>アクセスの変更</Secondary></IndexTerm></Title>
+<Para>
+デフォルトでは、ログイン・サーバが、ユーザごとにＸサーバのアクセスを制御できるようにします。ログイン・サーバは <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xauthority</Filename> ファイルに格納され保護されている権限データに基づきます。このファイルを読み込めるユーザだけがＸサーバに接続できます。一般に、これが望ましいＸサーバ・アクセス・コントロールの方法です。
+</Para>
+<Para>
+ユーザベースのアクセス・コントロールの代わりに、ホストベースのアクセス・コントロールも可能です。この方法を使用すると、ホストがＸサーバへのアクセスを与えられている場合、そのホストのすべてのユーザがＸサーバに接続できます。ホストベースのコントロールを使用するのは、次のような理由からです。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+古い R2 および R3 のＸのクライアントは、ユーザベースのアクセス・コントロールではＸサーバに接続できません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+安全性が確立されていないネットワークでは、ネットワークのＸクライアントとＸサーバとの間で渡される認証データを盗まれる可能性があります。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+<Command>Xconfig Dtlogin*<IndexTerm><Primary>authorize リソース</Primary></IndexTerm>authorize</Command> リソースは、ユーザベースのＸサーバ・アクセス・コントロールを使用することをログイン・サーバに通知します。ホストベースのアクセス・コントロールを使用するときは、次のように authorize リソース値を <Command>False</Command> に変更します。
+</Para>
+<ProgramListing>Dtlogin*authorize: False</ProgramListing>
+<Sect3 Id="SAG.LogMg.div.28" Role="Procedure">
+<Title>Ｘサーバ環境を変更するには<IndexTerm><Primary>Ｘサーバ</Primary><Secondary>環境の変更</Secondary></IndexTerm><IndexTerm><Primary>ログイン画面</Primary><Secondary>Ｘサーバ環境</Secondary></IndexTerm></Title>
+<Para>
+ログイン・サーバによって起動されたときにひとつ以上の環境変数と値をＸサーバに指定する場合は、<Command>Xconfig</Command> の <Filename>Dtlogin*environment</Filename> リソースを使用して指定できます。次に例を示します。
+</Para>
+<ProgramListing>Dtlogin*environment: VAR1=foo VAR2=bar</ProgramListing>
+<Para>
+この例は、ローカルなＸサーバ・プロセスで変数 <Filename>VAR1</Filename> および <Filename>VAR2</Filename> を使用できるようにします。これらの変数も、<Command>Xsession</Command> および <Command>Xfailsafe</Command> スクリプトへエクスポートされます。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.29" Role="Procedure">
+<Title>デフォルト言語を変更するには<IndexTerm><Primary>ログイン画面</Primary><Secondary>デフォルト言語の変更</Secondary></IndexTerm></Title>
+<Para>
+ログイン画面からデスクトップにログインするとき、ユーザ・セッションは、[オプション]メニューの[言語]サブメニューから選択されたロケールで実行されます。言語を選択しない場合、ログイン・サーバはデフォルト言語を使用します。<Command>Xconfig</Command> の <Filename>Dtlogin*language<IndexTerm><Primary>Dtlogin*language リソース</Primary></IndexTerm></Filename> リソースを次のように設定することにより、デフォルト言語の値をコントロールできます。
+</Para>
+<ProgramListing>Dtlogin*language: Ja_JP</ProgramListing>
+<Para>
+システムのマニュアルを調べて、システムにインストールされている言語を判定してください。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.30" Role="Procedure">
+<Title>ログイン画面の[言語]メニューの内容を変更するには<IndexTerm><Primary>ログイン画面</Primary><Secondary>[言語]メニューの内容の変更</Secondary></IndexTerm><IndexTerm><Primary>[言語]メニュー、カスタマイズ</Primary></IndexTerm></Title>
+<Para>
+デフォルトでは、ログイン・サーバは、システムにインストールされたすべてのロケールのリストが入っているログイン画面の[言語]メニューを作成します。そのリストからロケールを選択すると、ログイン・サーバは選択されたロケールでログイン画面を再表示します。その後ログインすると、ログイン・サーバはそのロケールでデスクトップ・セッションを起動します。
+</Para>
+<Para>
+<Command>Xconfig</Command> の <Filename>Dtlogin*languageList</Filename> リソースを変更することにより、独自の言語のリストを指定できます。
+</Para>
+<ProgramListing>Dtlogin*languageList: En_US De_DE</ProgramListing>
+<Para>
+このように指定すると、ログイン・サーバは <Filename>En_US</Filename> および <Filename>De_DE</Filename> だけをログイン画面の[言語]メニューに表示します。
+</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.31">
+<Title>ログイン画面が表示される前にコマンドを発行する<IndexTerm><Primary>ログイン・マネージャ</Primary><Secondary>コマンドの発行</Secondary></IndexTerm></Title>
+<Para>
+Ｘサーバの起動後でログイン画面が表示される前に、ログイン・サーバは <Command>Xsetup</Command> スクリプトを実行します。<Command>Xsetup<IndexTerm><Primary>Xsetup ファイル</Primary></IndexTerm></Command> は root の権限に合わせて実行され、ログイン画面を表示する前に実行する必要のあるコマンドを発行します。
+</Para>
+<Para>
+<Command>Xsetup</Command> を変更するには、<Command>Xsetup</Command> を <Filename>/usr/dt/config</Filename> から <Filename>/etc/dt/config</Filename> へコピーします。次にログイン画面が表示されるときは、変更された <Command>Xsetup</Command> が実行されます。
+</Para>
+<Sect3 Id="SAG.LogMg.div.32">
+<Title>ユーザ・セッション起動前のコマンドの発行</Title>
+<Para>
+ユーザ名とパスワードを入力し、それが認証された後で、ユーザ・セッションが起動される前に、ログイン・サーバは <Command>Xstartup</Command> スクリプトを実行します。<Command>Xstartup<IndexTerm><Primary>Xstartup ファイル</Primary></IndexTerm></Command> は root の権限に合わせて実行され、ユーザ・セッションを起動する前に root として実行する必要のあるコマンドを発行します。
+</Para>
+<Para>
+<Command>Xstartup</Command> を変更するには、<Command>Xstartup</Command> を <Filename>/usr/dt/config</Filename> から <Filename>/etc/dt/config</Filename> へコピーします。次にログイン画面が表示されるときは、変更された <Command>Xstartup</Command> が実行されます。
+<?X-setsize 9.0 pt>.</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.33">
+<Title>デスクトップ・セッションの実行</Title>
+<Para>
+デフォルトでは、ログイン・サーバは <Command>Xsession</Command> スクリプトを実行することによりユーザ・セッションを起動します。<Command>Xsession<IndexTerm><Primary>Xsession ファイル</Primary><Secondary>ログイン・サーバによる実行</Secondary></IndexTerm></Command> はユーザの権限に合わせて実行され、デスクトップの起動に必要なコマンドを発行します。
+</Para>
+<Note>
+<Para><Command>Xsession</Command> スクリプトは直接変更しないでください。</Para>
+</Note>
+<Para>
+ユーザのデスクトップ・セッション起動のカスタマイズ方法については、
+<!--Original XRef content: 'Chapter&numsp;2, &xd2;Configuring Session Manager'--><XRef Role="ChapNumAndTitle" Linkend="SAG.SesMg.div.1"> を参照してください。
+</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.34">
+<Title>復旧セッションの起動<IndexTerm><Primary>セッション</Primary><Secondary>復旧</Secondary></IndexTerm></Title>
+<Para>
+ログイン画面の[オプション]メニューの[セッション]サブメニューから[復旧セッション]<IndexTerm><Primary>復旧セッション</Primary></IndexTerm>を選択する場合、ログイン・サーバは <Command>Xfailsafe</Command> スクリプトを実行します。<Command>Xfailsafe</Command> はユーザの権限に合わせて実行され、アイコン化されたウィンドウ（通常は[端末]ウィンドウおよびオプションのウィンドウ・マネージャ）環境の起動に必要なコマンドを発行します。<IndexTerm><Primary>Xfailsafe ファイル</Primary></IndexTerm>
+</Para>
+<Para>
+<Command>Xfailsafe</Command> を変更するには、<Command>Xfailsafe</Command> を <Filename>/usr/dt/config</Filename> から <Filename>/etc/dt/config</Filename> へコピーします。次にログイン画面が表示されるときは、変更された <Command>Xfailsafe</Command> が実行されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.35">
+<Title>ユーザのセッションが終了した後で<IndexTerm><Primary>セッション</Primary><Secondary>終了時のスクリプト実行</Secondary></IndexTerm></Title>
+<Para>
+ユーザがデスクトップまたは復旧セッションを終了した後、ログイン・サーバは <Command>Xreset</Command> スクリプトを実行します。<Command>Xreset</Command><IndexTerm><Primary>Xreset ファイル</Primary></IndexTerm> は root の権限に合わせて実行され、ユーザのセッションを終了した後で root として実行する必要のあるコマンドを発行します。
+</Para>
+<Para>
+<Command>Xreset</Command> を変更するには、<Command>Xreset</Command> を <Filename>/usr/dt/config</Filename> から <Filename>/etc/dt/config</Filename> へコピーします。次にログイン画面が表示されるときは、変更された <Command>Xreset</Command> が実行されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.36">
+<Title>ログイン・サーバ環境</Title>
+<Para>
+ログイン・サーバは、<Command>Xsetup</Command>、<Command>Xstartup</Command>、<Command>Xsession</Command>、<Command>Xfailsafe</Command> および <Command>Xreset</Command> スクリプトへエクスポートする環境を提供します。この環境は
+<!--Original XRef content: 'Table&numsp;1&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.LogMg.tbl.1"> で説明します。これら以外の変数もログイン・サーバによってエクスポートされることがあります。
+</Para>
+<Table Id="SAG.LogMg.tbl.1" Frame="Topbot">
+<Title Id="SAG.LogMg.mkr.12">ログイン・サーバ環境<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>環境</Secondary></IndexTerm></Title>
+<TGroup Cols="6" colsep="0" rowsep="0">
+<colspec colwidth="1.27in">
+<colspec colwidth="0.25in">
+<colspec colwidth="0.20in">
+<colspec colwidth="0.23in">
+<colspec colwidth="0.24in">
+<colspec colwidth="3.71in">
+<THead>
+<Row>
+<Entry><Para><Literal>環境</Literal><Literal>変数</Literal></Para></Entry>
+<Entry><Para><Literal><Command>Xsetup</Command></Literal></Para></Entry>
+<Entry><Para><Literal><Command>Xstartup</Command></Literal></Para></Entry>
+<Entry><Para><Command>Xsession</Command></Para></Entry>
+<Entry><Para><Literal><Command>Xreset</Command></Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>LANG 変数</Primary>
+<Secondary>ログイン・マネージャで設定</Secondary>
+</IndexTerm>LANG</SystemItem></Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>デフォルト言語または選択された言語</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Literal><IndexTerm>
+<Primary>XAUTHORITY 変数、ログイン・マネージャで設定</Primary>
+</IndexTerm>XAUTHORITY</Literal></Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>代替Ｘ許可ファイル（オプション）</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>PATH 変数</Primary>
+<Secondary>ログイン・マネージャで設定</Secondary>
+</IndexTerm>PATH</SystemItem></Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>
+<Command>Dtlogin*userPath</Command> リソース (<Command>Xsession</Command>, <Command>Xfailsafe</Command>) または <Filename>Dtlogin*systemPath</Filename> リソース (<Command>Xsetup</Command>, <Command>Xstartup</Command>, <Command>Xreset</Command>) の値</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>DISPLAY 変数、ログイン・マネージャで設定</Primary>
+</IndexTerm>DISPLAY</SystemItem></Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>Ｘサーバ接続番号</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Literal><IndexTerm>
+<Primary>SHELL 変数、ログイン・マネージャで設定</Primary>
+</IndexTerm>SHELL</Literal></Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para><Filename>/etc/passwd</Filename> に指定されたシェル
+(<Command>Xsession</Command>、<Command>Xfailsafe</Command>) または
+<Filename>Dtlogin*systemShell</Filename> リソース
+(<Command>Xsetup</Command>、<Command>Xstartup</Command>、<Command>Xreset</Command>)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>TZ 変数</Primary>
+</IndexTerm>TZ</SystemItem></Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para><Filename>Dtlogin.timeZone</Filename> リソースまたはシステムで決められたタイムゾーンの値
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>USER 変数</Primary>
+</IndexTerm>USER</SystemItem></Para></Entry>
+<Entry></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>ユーザ名</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>HOME 変数</Primary>
+</IndexTerm>HOME</SystemItem></Para></Entry>
+<Entry></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para><Command>/etc/passwd</Command> に指定したホーム・ディレクトリ</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>LOGNAME 変数</Primary>
+</IndexTerm>LOGNAME</SystemItem></Para></Entry>
+<Entry></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>×</Para></Entry>
+<Entry><Para>ユーザ名</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.37">
+<Title>ユーザ・パスまたはシステム・パスの変更</Title>
+<Para>
+ログイン・サーバは、<Command><IndexTerm><Primary>Xsession ファイル</Primary><Secondary>PATH の設定</Secondary></IndexTerm>Xsession</Command> スクリプトおよび <Command><IndexTerm><Primary>Xfailsafe ファイル</Primary></IndexTerm>Xfailsafe</Command> スクリプトを実行するときに PATH <IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>ユーザ・パス</Secondary></IndexTerm> 環境変数を設定します。これらのスクリプトの代替パスを指定できます。
+</Para>
+<Sect3 Id="SAG.LogMg.div.38" Role="Procedure">
+<Title>ユーザ・パスを変更するには<IndexTerm><Primary>パス</Primary><Secondary>ユーザ</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Filename>Xconfig</Filename> に <Filename>Dtlogin*userPath</Filename><IndexTerm><Primary>userPath リソース</Primary></IndexTerm> リソースを設定します。次に例を示します。
+<IndexTerm><Primary>環境変数</Primary><Secondary>ログイン・マネージャ</Secondary></IndexTerm></Para>
+</ListItem>
+</OrderedList>
+<ProgramListing>Dtlogin*userPath:/usr/bin:/etc:/usr/sbin:/usr/ucb:/usr/bin/X11</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.39" Role="Procedure">
+<Title>システム・パスを変更するには<IndexTerm><Primary>パス</Primary><Secondary>システム</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Command>Xconfig</Command> に <Filename>Dtlogin*<IndexTerm><Primary>systemPath リソース</Primary></IndexTerm>systemPath</Filename> リソースを設定します。次に例を示します。
+</Para>
+</ListItem>
+</OrderedList>
+<ProgramListing>Dtlogin*systemPath: /usr/bin/X11:/etc:/bin:/usr/bin:/usr/ucb</ProgramListing>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.40" Role="Procedure">
+<Title>システム・シェルを変更するには</Title>
+<Para>
+ログイン・サーバは、<Command>Xsetup</Command>、<Command>Xstartup</Command> および <Command><IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>システム・シェル</Secondary></IndexTerm>Xfailsafe</Command> スクリプトを実行するときに SHELL 環境変数を設定します。デフォルトは <Filename>/bin/sh</Filename> です。これらのスクリプトに別のシェルを指定したい場合は、次のように <Command>Xconfig</Command> に <Filename>Dtlogin*systemShell</Filename> リソースを設定します。
+</Para>
+<ProgramListing>Dtlogin*systemShell: /bin/ksh</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.41" Role="Procedure">
+<Title>タイムゾーンを変更するには</Title>
+<Para>
+ログイン・サーバは、<Command>Xsetup</Command>、<Command>Xstartup</Command>、<Command>Xsession</Command>、<Command>Xfailsafe</Command>、および <Command>Xreset</Command> スクリプトを実行するときに TZ<IndexTerm><Primary>TZ 変数</Primary></IndexTerm> 環境変数を設定します。デフォルト値はシステムから派生するので、通常はこの動作を<IndexTerm><Primary>ログイン・サーバ</Primary><Secondary>タイムゾーンの変更</Secondary></IndexTerm><IndexTerm><Primary>タイムゾーン、変更</Primary></IndexTerm>変更する必要はありません。これらのスクリプトに別のタイムゾーンを指定したい場合は、次のように <Command>Xconfig</Command> に <Filename>Dtlogin.<IndexTerm><Primary>timeZone リソース</Primary></IndexTerm>timeZone</Filename> リソースを指定します。次に例を示します。
+</Para>
+<ProgramListing>Dtlogin.timeZone: CST6CDT</ProgramListing>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.42">
+<Title Id="SAG.LogMg.mkr.13">ログイン・マネージャの管理</Title>
+<Para>
+ログイン・サーバが起動すると、ひとつの <Command>dtlogin</Command> プロセスが起動します。<Command>dtlogin</Command> プロセスは、<Command>Xconfig</Command> ファイルを読み込んで、最初のログイン・サーバ構成を判定し、他のログイン・サーバ構成ファイルを配置します。それから <Command>Xservers</Command> ファイルを読み込んで、明示的に管理するディスプレイがあるかどうかを調べ、<Command>Xaccess</Command> ファイルを読み込んでログイン・サーバへのアクセスをコントロールします。
+</Para>
+<Para>
+ログイン・サーバが、ローカル・ディスプレイを管理する必要があることを <Command>Xservers<IndexTerm><Primary>Xservers ファイル</Primary><Secondary>ローカル・ディスプレイの管理</Secondary></IndexTerm></Command> ファイルで知ると、<Command>Xservers</Command> ファイルで指定したようにＸサーバを起動し、そのディスプレイにログイン画面を表示します。
+</Para>
+<Para>
+ログイン・サーバが、ネットワーク・ディスプレイを管理する必要があることを <Command>Xservers</Command> ファイルで知ると、Ｘサーバがすでに指定したディスプレイ名で実行されているものと見なし、そのディスプレイにログイン画面を表示します。
+</Para>
+<Para>
+その後、ログイン・サーバはネットワークからの XDMCP 要求を待ちます。
+</Para>
+<Para>
+管理されている各ディスプレイに対して、ログイン・サーバはそのディスプレイ用の新しい <Command>dtlogin</Command> プロセスを最初に作成します。つまり、ログイン・サーバが <Symbol Role="Variable">n</Symbol> 個のディスプレイを管理している場合、<Symbol Role="Variable">n</Symbol><Symbol Role="Variable">+1</Symbol> 個の <Command>dtlogin</Command> プロセスが存在します。ログイン・サーバは <Command>Xsetup</Command> スクリプトを実行し、<Command>Xresources</Command> ファイルを読み込んでから、<Command>dtgreet</Command> を実行してログイン画面を表示します。ユーザ名とパスワードを入力して認証されると、ログイン・サーバは <Command>Xstartup</Command> スクリプトを実行してから <Command>Xsession</Command> または <Command>Xfailsafe<IndexTerm><Primary>Xfailsafe ファイル</Primary></IndexTerm></Command> スクリプトを実行します。セッションを終了すると、ログイン・サーバは <Command>Xreset</Command> スクリプトを実行します。
+</Para>
+<Para>
+ログイン・サーバが<IndexTerm><Primary>XDMCP</Primary><Secondary>間接モード要求</Secondary></IndexTerm> XDMCP 間接モード要求を獲得すると、<Command>dtchooser</Command> を実行してディスプレイのログイン・サーバ・ホストのリストを表示します。リストからホストを選択すると、そのホスト名のログイン・サーバがディスプレイを管理します。
+</Para>
+<Para>
+<Command>Xaccess</Command>、<Command>Xconfig</Command>、<Command>Xfailsafe</Command>、<Command>Xreset</Command>、<Symbol Role="Variable">language</Symbol><Filename>/Xresources</Filename>、<Command>Xservers</Command>、<Command>Xsetup</Command>w、および <Command>Xstartup</Command> 構成ファイルについては、デフォルトではログイン・サーバが最初に <Filename>/etc/dt/config</Filename> を調べ、次に <Filename>/usr/dt/config</Filename> を調べて最初に見つけたファイルを使用します。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.43">
+<Title Id="SAG.LogMg.mkr.14">ログイン・マネージャ・ファイル<IndexTerm><Primary>構成ファイル</Primary><Secondary>ログイン・マネージャ</Secondary></IndexTerm></Title>
+<Para>
+ログイン・マネージャ・ファイルのデフォルト位置は次のとおりです。
+<IndexTerm><Primary>ログイン・マネージャ</Primary><Secondary>構成ファイル</Secondary></IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2">
+<TBody>
+<Row>
+<Entry><Para><Filename>/usr/dt/bin/dtlogin</Filename><IndexTerm><Primary>dtlogin</Primary><secondary>ログイン・マネージャを参照してください</secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>ログイン・サーバおよびディスプレイ・マネージャ</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/bin/dtgreet</Filename><IndexTerm><Primary>dtgreet file</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>ディスプレイ用ログイン画面の表示</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/bin/dtchooser</Filename><IndexTerm><Primary>dtchooser file</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>ディスプレイ用選択画面の表示</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/bin/Xsession</Filename></Para></Entry>
+<Entry><Para>デスクトップ・セッションの起動</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xfailsafe</Filename></Para></Entry>
+<Entry><Para>復旧セッションの起動</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xconfig</Filename></Para></Entry>
+<Entry><Para>ログイン・サーバ構成ファイル</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xservers</Filename></Para></Entry>
+<Entry><Para>ログイン・サーバ・ディスプレイ記述ファイル</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xaccess</Filename></Para></Entry>
+<Entry><Para>ログイン・サーバ・アクセス記述ファイル</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/Xresources</Filename></Para></Entry>
+<Entry><Para>レイアウト・リソースの表示</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xsetup</Filename></Para></Entry>
+<Entry><Para>セットアップ・ファイルの表示</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xstartup</Filename></Para></Entry>
+<Entry><Para>セッション起動ファイル</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xreset</Filename></Para></Entry>
+<Entry><Para>セッション開始後のリセット・ファイル</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/var/dt/Xpid</Filename></Para></Entry>
+<Entry><Para>ログイン・サーバのプロセスID</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/var/dt/Xerrors</Filename></Para></Entry>
+<Entry><Para>ログイン・サーバのエラー記録ファイル</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

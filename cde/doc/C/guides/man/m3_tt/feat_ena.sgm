@@ -1,0 +1,105 @@
+<!-- $XConsortium: feat_ena.sgm /main/10 1996/09/08 20:12:18 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+
+<![%CDE.C.CDE;[<Refentry Id="CDEMX.XCDI.MAN69a.rsml.1">]]>
+<![%CDE.C.XO;[<Refentry Id="XCDI.MAN69a.rsml.1">]]>
+
+<RefMeta>
+<RefEntryTitle>tt_feature_enabled</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_feature_enabled</Function></RefName>
+<RefPurpose>
+determine if a particular feature has been enabled in this process
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>tt_feature_enabled</Function></FuncDef>
+<ParamDef>Tt_feature <Parameter>feature</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_feature_enabled</Function> function
+queries the ToolTalk service to see if the specified feature has
+previously been enabled.
+This allows a library that "wraps around" ToolTalk for sending and receiving
+messages to determine if multithreaded execution has been enabled by the
+main program, and to modify its behavior accordingly.
+</para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<VariableList>
+<VarListEntry>
+<Term><symbol role="Variable">feature</symbol></Term>
+<ListItem>
+<Para>Specifies the feature whose enabled status is to be
+checked.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon completion, the
+<Function>tt_feature_enabled</Function> function returns
+the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry><Term><SystemItem Class="Constant">TT_OK</SystemItem></Term>
+<ListItem>
+<Para>The feature has been enabled previously.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><Term><SystemItem Class="Constant">TT_WRN_NOT_ENABLED</SystemItem></Term>
+<ListItem>
+<Para>The feature has not yet been enabled
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_UNIMP</Term>
+<ListItem>
+<Para>The version of the ToolTalk library linked with the calling code does
+not support the indicated feature.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>A library using ToolTalk could check to see if the
+calling application had previously turned on
+ToolTalk's multithreading feature with the following code:
+</para>
+<programlisting>
+Tt_status ttstat;
+ttstat = tt_feature_enabled(TT_FEATURE_MULTITHREADED);
+if (ttstat != TT_OK) {
+  ttstat = tt_feature_required(TT_FEATURE_MULTITHREADING);
+}
+</programlisting>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;,
+&cdeman.tt.feature.required;
+</Para>
+</RefSect1>
+</refentry>

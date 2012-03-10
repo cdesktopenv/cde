@@ -1,0 +1,28 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/10/09 14:04:32 drk $
+PROGRAMS = volumegen
+
+       INCLUDES = -I.
+
+#if defined(ApolloArchitecture)
+#if defined(SHLIB)
+   LOCAL_LIBRARIES = -A inlib,$(XLIB)
+#endif
+#endif
+
+#if defined(SunArchitecture)
+SYS_LIBRARIES = -ldl -lgen
+#endif
+
+
+SRCS = Volumegen.c \
+       Pstack.c
+OBJS = Volumegen.o \
+       Pstack.o
+
+NormalLibraryObjectRule()
+ComplexProgramTarget($(PROGRAMS))
+
+
+
+
+

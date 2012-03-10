@@ -1,0 +1,138 @@
+XCOMM $TOG: Imakefile /main/15 1998/04/07 08:55:29 mgreess $
+DESKTOP_VERSION_STRING = DesktopVersionString
+
+KSH93SRC = ./ksh93
+INCLUDES = -I. -I$(KSH93SRC)/include/ast -I$(KSH93SRC)/src/cmd/ksh93/include -I$(KSH93SRC)/src/cmd/ksh93
+
+/* DEPLIBS contains the list of library depencies for a client.
+ * LOCAL_LIBRARIES contains the list of libraries on the link line.
+ * Generally, the dependency form of a library has DEP as a prefix.
+ * e.g. put $(XLIB) in LOCAL_LIBRARIES and $(DEPXLIB) in DEPLIBS.
+ * NOTE: if DEPLIBS is not set here, it is by default null and there
+ *       are no library dependencies for clients.
+ *       You cannot put -Llibpath into DEPLIBS. You must put actual
+ *       paths to the library.
+ */
+DEPLIBS = $(DEPDTHELPLIB) $(DEPDTSVCLIB) $(DEPDTWIDGETLIB) $(DEPDTPRINTLIB) \
+	  $(DEPXPLIB) $(DEPTTLIB) $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB) \
+	  $(KSH93SRC)/lib/libast.a
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTWIDGETLIB) $(DTSVCLIB) $(DTPRINTLIB) \
+                  $(XPLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB) \
+		  $(KSH93SRC)/lib/libcmd.a  $(KSH93SRC)/lib/libast.a 
+
+SYS_LIBRARIES = -lm $(DYNLIBSYSLIB) $(REGEXSYSLIB) $(ICONVSYSLIB)
+
+#ifdef HPArchitecture
+EXTRA_DEFINES = -Wl,-E -DHPUX_DYNLIB -Wp,-H12000
+SYS_LIBRARIES = -lm -ldld 
+#endif
+
+#ifdef RsArchitecture
+EXTRA_DEFINES = -DDYNLIB -D_IBMRPC_
+LOCAL_LDFLAGS = -bE:dtksh.exp
+#endif
+
+#if defined (SunArchitecture)
+EXTRA_DEFINES = -DDYNLIB
+#endif
+
+#if defined (USLArchitecture)
+EXTRA_DEFINES = -DDYNLIB
+LOCAL_LDFLAGS = -Wl,-Bexport:dtksh.exp
+#endif
+
+#if defined (UXPArchitecture)
+EXTRA_DEFINES = -DDYNLIB
+LOCAL_LDFLAGS = -Wl,-Bexport:dtksh.exp
+#endif
+
+#if defined(HPOSFArchitecture)
+#endif
+
+
+#if defined(ApolloArchitecture)
+EXTRA_INCLUDES = -I/bsd4.3/usr/include -I/sys5/usr/include \
+	-I$(DTHELPSRC) -I$(DTPRINTSRC)
+#else
+EXTRA_INCLUDES = -I$(DTHELPSRC) -I$(DTPRINTSRC)
+#endif
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+#if defined(LinuxArchitecture)
+SUBDIRS = examples
+KSH93OBJ =
+#else
+SUBDIRS = examples ksh93
+KSH93OBJ = $(KSH93SRC)/ksh93.o
+#endif
+
+MakeSubdirs($(SUBDIRS))
+
+KSH93LIBSHELL = $(KSH93SRC)/src/cmd/ksh93/libshell.a
+
+PROGRAMS = dtksh
+
+SRCS =  \
+		userinit.c \
+		builtins.c \
+		aliases.c \
+		widget.c \
+		dtkcvt.c \
+		dtkcmds.c \
+		XtCvtrs.c \
+		xmcvt.c \
+		xmcmds.c \
+		xmwidgets.c \
+		extra.c \
+                xmdtksym.c \
+		findsym.c \
+		msgs.c \
+		version.c
+
+OBJS =  \
+		$(KSH93OBJ) \
+		libshell.a \
+		widget.o \
+		dtkcvt.o \
+		dtkcmds.o \
+		XtCvtrs.o \
+		xmcvt.o \
+		xmcmds.o \
+		xmwidgets.o \
+		extra.o \
+                xmdtksym.o \
+                findsym.o \
+                msgs.o \
+		version.o \
+		$(LOCAL_LIBRARIES2)
+
+all:: dtksh
+
+$(KSH93SRC)/ksh93.o:
+	cd $(KSH93SRC); $(MAKE)
+
+XCOMM
+XCOMM Must replace standard ksh tables of builtins and aliases
+XCOMM with our augmented versions.
+XCOMM
+
+libshell.a: $(KSH93SLIBSHELL) userinit.o builtins.o aliases.o
+	$(CP) $(KSH93LIBSHELL) libshell.a; \
+	ar d libshell.a userinit.o builtins.o aliases.o ; \
+	$(AR) libshell.a userinit.o builtins.o aliases.o
+
+SpecialObjectRule(userinit.o,$(NULL),-DSHOPT_VSH -DKSHELL -D_TRACE_ )
+SpecialObjectRule(builtins.o,$(NULL),-DSHOPT_VSH -DKSHELL -D_TRACE_ )
+SpecialObjectRule(aliases.o,$(NULL),-DSHOPT_VSH -DKSHELL -D_TRACE_ )
+
+ComplexProgramTarget($(PROGRAMS))
+
+clean::
+	@echo "	Cleaning ksh directories"
+	./MakeClean

@@ -1,0 +1,1736 @@
+#!/bin/ksh 
+
+# File:         install-cde
+# SCCS:		@(#)install-cde 1.3 95/03/14 SMI;
+# Author:       Eric Nielsen,  SunSoft Inc, Mountain View, CA.
+# Created:      02/01/95
+# Modified by:
+#                                                          
+# Language:     ksh
+# Package:      N/A
+# Status:       SunSoft CDE distributed
+#
+# (c) Copyright 1995, SunSoft Inc, all rights reserved.
+#
+# Description:	This script installs SunSoft CDE 1.0                      
+#
+# ********************************************************************
+# ********************************************************************
+#
+# The Function Help, which gives you general usage for sunsoft_src
+# HELP
+#
+# ********************************************************************
+ 
+function HELP
+{
+    cat<<eof
+
+        Usage:install-cde [flags]
+	     []			(No flags invokes menu)
+             [ -loc <dir>]     	(Install location for /usr/dt )
+	     [ -link  ]		( Link to the current CDE install )
+             [ -ver ]      	(Install packages in interactive mode )
+	     [ -noclean ]	(Do not remove old packages before installation)
+	     [ -nospace ] 	(Do not check available disk space)
+	     [ -nocheck ]       (Do not check for /usr/dt directory)
+	     [ -nopatches ]	(Do not install patches)
+	     [ -nologin ]	(Do not configure desktop login)
+	     [ -remove ]        (Remove all CDE packages)
+             [ -min ]  	    	(Install minimium CDE configuration)
+             [ -end ]     	(Install min and end-usr CDE configuration)
+             [ -dev ]      	(Install min, end-usr and developer configuration)
+	     [ -debug ]         (Sets Ksh mode to -xv for debugging/logging)
+	     [ -help ]		(Displays this help message)
+	     [ ? ] 		(Displays this help message)
+
+	Example: install-cde -loc /home/ericni/cde -ver -dev -nospace  
+
+	Note: 	Flags can be in any order
+
+eof
+exit
+}
+ 
+# ********************************************************************
+#
+#       Function which checks for enought space for packages
+# 	     
+#
+# ********************************************************************
+
+function CheckDisk
+{
+
+
+$DEBUG
+	if [ ! -d ${SDTHOME}/bin ]
+	then
+		mkdir -p ${SDTHOME}/bin
+		if [ $? -ne 0 ]
+then
+clear
+cat <<XYZZY
+$LINE
+ 
+ Error: Could not create $SDTHOME directory. Please verify that
+        you have root permission on the file system located
+	at $SDTHOME
+
+ Hint:  You most likely have an existing /usr/dt link which points to
+	a remote server. If you don't have root permission on
+	this server, you need to manually remove the this link 
+	before running install-cde again.
+	  
+ 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+ 
+			read
+			echo "Error: $DATE: The mkdir -p on  $SDTHOME command returned a none zero exit, the directory creation failed" >> $ADMIN_LOG
+			Exit
+		fi
+
+		CDE_CHECK="NO"
+
+	fi
+
+	if [ $CLEAN == "YES" ] 
+	then 
+		echo "Cleaning up any existing CDE packages..."
+		if [ "${MIN}" == "YES" ]
+		then
+			pkg_del_list="${MIN_RM_PKGS}" 
+			REMOVE_TT_ONLY="YES"
+			Tooltalk_min
+			REMOVE_TT_ONLY="NO"
+			CLEAN="NO"
+		fi
+
+		if [ "${END}" == "YES" ]
+		then
+			pkg_del_list="${MIN_RM_PKGS} ${END_RM_PKGS}"
+			CLEAN="NO"
+		fi
+
+		if [ "${DEV}" == "YES" ]
+		then
+			pkg_del_list="${MIN_RM_PKGS} ${END_RM_PKGS} ${DEV_RM_PKGS}"
+			REMOVE_TT_ONLY="YES"
+			Tooltalk_dev
+			REMOVE_TT_ONLY="NO"
+			CLEAN="NO"
+		fi
+
+		for pkg in $pkg_del_list
+       		do
+               		/bin/pkginfo -q ${pkg}.*
+               		FOUNDPKG=$?
+               		if [ $FOUNDPKG -eq 0 ]; then
+                       		if [ $VERT == "YES" ]; then
+                               		/usr/sbin/pkgrm $VERBOSE ${pkg}.* 2>&1 | tee -a $PKG_RM_LOG
+                       		else
+                               		/usr/sbin/pkgrm $VERBOSE ${pkg}.* 2>&1 | tee -a $PKG_RM_LOG | grep $pkg
+                       		fi
+               		fi
+ 
+       		done
+	fi	
+
+
+	if [ ! -d ${SDTHOME}/bin ]
+	then
+		mkdir -p ${SDTHOME}/bin
+        fi
+
+	  diskfree=`df -k ${SDTHOME}/bin | awk '{print $4}' | sed '/avail/d'`
+          if [ $diskfree -lt $SIZE ]
+          then
+
+        	DONE=NO
+        	MENU_SELECT=NO
+        	clear
+ 
+        	cat <<XYZZY
+$LINE
+ 
+ Error: $SDTHOME has only `expr $diskfree / 1000` Megabytes of space left,
+        you need `expr $SIZE / 1000` Megabytes for this cde cluster
+ 
+        Choose an alternate install location for /usr/dt, or free up
+	`expr $SIZE / 1000`  Megabytes in $SDTHOME.
+ 
+ 
+                Press <Enter> to Exit...
+$LINE
+XYZZY
+ 
+        	read
+        	echo "Error: $DATE: Not enough space in file system to install cde. " >> $ADMIN_LOG
+
+		EXIT_STATUS=1
+		Exit
+
+	else
+		DONE=YES
+		MENU_SELECT=YES
+	fi
+}	
+
+# ********************************************************************
+#
+#       Function which configures login                
+#
+# ********************************************************************
+
+function RunDtconfig
+{
+
+	DONE=YES
+        MENU_SELECT=YES
+
+	if [ -f /usr/dt/bin/dtconfig ]
+	then
+               if [ $VERT == "YES" ]; then
+
+				/usr/dt/bin/dtconfig -e 
+				DTCONFIG_RESULT=$?
+                       else
+				/usr/dt/bin/dtconfig -e 2>&1 > /dev/null
+				DTCONFIG_RESULT=$?
+                       fi
+		if [ $DTCONFIG_RESULT -ne 0 ]
+		then
+			clear
+			cat <<XYZZY
+$LINE
+ 
+ Error: Could not run /usr/dt/bin/dtconfig successfully. The install-cde
+        was unable to setup the Solaris desktop login.
+ 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+ 
+			read
+			echo "Error: $DATE: The install-cde script could not run dtconfig -e correctly" >> $ADMIN_LOG
+			EXIT_STATUS=1
+			Exit
+		fi
+
+	fi
+}
+
+
+# ********************************************************************
+#
+#       Function which installs minimium CDE packages
+#
+# ********************************************************************
+
+function  InstallMin
+{
+$DEBUG
+	DONE=YES
+        MENU_SELECT=YES
+
+
+if [ $CDE_CHECK == "YES" ]
+then
+	if [ -f /usr/dt/bin/dtlogin ]
+	then
+ 
+		cat <<XYZZY
+$LINE
+ 
+ Warning: This install program has detected a CDE dtlogin binary, located 
+	  at "/usr/dt/bin/dtlogin". If you choose to continue you will destory
+	  any current version of CDE that might be present. 
+
+$LINE
+
+XYZZY
+		print -n "\tDo you wish to continue [Y]"
+
+		read response
+
+		if [[ $response = `` ]] then response="Y";  fi
+
+		if [[ $response = "Y" || $response = "y" ]] 
+		then
+			echo
+		else
+			DONE=NO
+			MENU_SELECT=NO
+			EXIT_STATUS=1
+			Exit
+		fi
+ 
+	fi
+
+fi
+
+
+touch /usr/dt/tmp.install.file.$$
+if [ `ls -l /usr/dt/tmp.install.file.$$ | grep root | wc -l` -eq 0 ]
+then
+        rm /usr/dt/tmp.install.file.$$
+        clear
+        cat <<XYZZY
+$LINE
+
+ Error: This machine does not appear to have root permission for
+        the filesystem located at: $SDTHOME
+ 
+ 
+ Hint:  You most likely have an existing /usr/dt link which points to
+        a remote server. If you don't have root permission on
+        this server, you need to manually remove the this link
+        before running install-cde again.
+ 
+ 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+ 
+        read
+        echo "Error: $DATE: Can not create root permission files in $SDTHOME" >> $ADMIN_LOG
+        EXIT_STATUS=1
+        Exit
+fi
+
+
+if [ -d cde-min ]
+then
+ 	cd cde-min
+
+
+	SUNWdtcor=
+        if [ "`uname -r`" == "5.5" ]
+        then
+                if [ ! -h /usr/dt/lib/libtt.so  ]; then  if [ ! -f /usr/dt/lib/libtt.so ]; then
+
+                        SUNWdtcor=SUNWdtcor
+
+                        fi
+                fi
+	fi
+
+	pkglist="${MIN_PKGS} ${SUNWdtcor}"
+	COPYRIGHT_FIRST_TIME="YES"
+	AddPkgs
+	Tooltalk_min
+	cd $TOP
+	INSTALL_GOOD="YES"
+
+else
+	DONE=NO
+	MENU_SELECT=NO
+	clear
+ 
+	cat <<XYZZY
+$LINE
+ 
+ Error: Can't find the cde-min package directory located on 
+	the CDE cdrom. Be sure you execute this script
+	in the top directory of your CDE cdrom, where the
+	directories: cde-min, cde-end-user, cde-developer and
+	patches should be available.
+ 
+        Exit this install script and restart it from the correct
+        location.
+ 
+ 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+
+	read
+	echo "Error: $DATE: Can not find the cde-min directory, to load min packages" >> $ADMIN_LOG 
+	EXIT_STATUS=1
+	Exit
+fi
+
+} 
+
+
+
+# ####################################################################
+#
+#
+#	Function which installs End User
+#
+# ####################################################################
+
+function InstallEnd
+{
+$DEBUG
+if [ -d cde-end-user ]
+then
+	pkglist="${END_PKGS}"
+        cd cde-end-user
+	AddPkgs 
+        cd $TOP
+
+else
+	DONE=NO
+	MENU_SELECT=NO
+	clear
+ 
+cat <<XYZZY
+$LINE
+ 
+ Error: Can't find the cde-end-user package directory located on
+        the CDE cdrom. Be sure you execute this script
+        in the top directory of your CDE cdrom, where the
+        directories: cde-min, cde-end-user, cde-developer and
+        patches should be available.
+ 
+        Exit this install script and restart it from the correct
+        location.
+ 
+ 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+ 
+	read
+	echo "Error: $DATE: Can not find the cde-end-user directory, to load end-usr packages" >> $ADMIN_LOG
+	EXIT_STATUS=1
+	Exit
+fi
+ 
+ 
+}
+
+# ********************************************************************
+#
+#       Function which installs cde-developer packages
+#
+# ********************************************************************
+
+function InstallDev
+{
+$DEBUG
+if [ -d cde-developer ]
+then
+
+# If we are in 2.5, replace the SUNWmfman & SUNWmfdm if we have previously 
+# removed it in the create link function
+
+	SUNWmfman=
+	SUNWmfdm=
+        if [ "`uname -r`" == "5.5" ]
+        then
+                if [ ! -f /usr/dt/share/man/man3/XmActivateProtocol.3x  ]; then  
+ 
+                        SUNWmfman=SUNWmfman
+
+		fi
+
+                if [ ! -f /usr/dt/share/examples/motif/dogs/Dog.c  ]; then  
+  
+                        SUNWmfdm=SUNWmfdm 
+ 
+		fi
+
+        fi
+
+	pkglist="${DEV_PKGS} ${SUNWmfman} ${SUNWmfdm}"
+        cd cde-developer
+	AddPkgs 
+	Tooltalk_dev
+        cd $TOP
+ 
+else
+	DONE=NO
+	MENU_SELECT=NO
+	clear
+	cat <<XYZZY
+$LINE
+ 
+ Error: Can't find the cde-developer package directory located on
+        the CDE cdrom. Be sure you execute this script
+        in the top directory of your CDE cdrom, where the
+        directories: cde-min, cde-end-user, cde-developer and
+        patches should be available.
+ 
+        Exit this install script and restart it from the correct
+        location.
+ 
+ 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+ 
+	read
+	echo "Error: $DATE: Can not find the cde-developer directory, to load end-usr packages" >> $ADMIN_LOG
+	EXIT_STATUS=1
+	Exit
+fi
+ 
+
+}
+
+# ********************************************************************
+#
+#       Function which adds packages
+#       REMOVE
+#
+# ********************************************************************
+function RemoveCDE
+{
+$DEBUG
+REMOVE_TT_ONLY="YES"
+clear
+cat <<XYZZY
+$LINE
+ 
+ Warning: This remove program will remove all the CDE packages from 
+	  your system.  
+ 
+$LINE
+ 
+XYZZY
+print -n "\tDo you wish to continue [Y]"
+ 
+read response
+ 
+if [[ $response = `` ]] then response="Y";  fi
+ 
+if [[ $response = "Y" || $response = "y" ]] then
+	echo
+else
+         Exit
+fi
+ 
+ 
+pkglist="${MIN_RM_PKGS} ${END_RM_PKGS} ${DEV_RM_PKGS}"
+
+clear
+if [ -f /usr/dt/bin/dtconfig ]
+then
+	/usr/dt/bin/dtconfig -e 2>&1 > /dev/null
+fi
+
+echo "Starting to Remove Packages..."
+
+Tooltalk_min
+Tooltalk_dev
+
+for pkg in $pkglist
+        do
+                /bin/pkginfo -q ${pkg}.*
+                FOUNDPKG=$?
+                if [ $FOUNDPKG -eq 0 ]; then
+                       if [ $VERT == "YES" ]; then
+                               /usr/sbin/pkgrm $VERBOSE ${pkg}.* 2>&1 | tee -a $PKG_RM_LOG
+                       else
+                               /usr/sbin/pkgrm $VERBOSE ${pkg}.* 2>&1 | tee -a $PKG_RM_LOG | grep $pkg
+                       fi
+                fi
+
+	done
+Exit
+}
+
+# ********************************************************************
+#
+#       Function which adds packages
+# 	PKGS
+#
+# ********************************************************************
+
+function AddPkgs
+{
+$DEBUG	
+
+	if [ $COPYRIGHT_FIRST_TIME == "YES" ]; then
+		echo "Starting Install ....."
+	fi
+        for pkg in $pkglist
+        do
+                if [ $COPYRIGHT_FIRST_TIME == "YES" ]; then
+                        /usr/sbin/pkgadd $VERBOSE -d `pwd` $pkg 2>&1 | tee -a $PKG_LOG
+                        if [ $? -ne 0 ] ; then
+                                echo $ERROR_LINE
+                                echo $ERROR_LINE >> $ADMIN_LOG
+                        fi
+                        COPYRIGHT_FIRST_TIME="NO"
+ 
+                else if [ "$COPYRIGHT_FIRST_TIME" == "NO" ] ; then
+                        if [ $VERT == "YES" ] ; then
+                                /usr/sbin/pkgadd $VERBOSE -d `pwd` $pkg 2>&1 | tee -a $PKG_LOG
+                        else
+                                /usr/sbin/pkgadd $VERBOSE -d `pwd` $pkg 2>&1 | tee -a $PKG_LOG | grep $pkg
+                        fi
+                     fi
+                fi
+	done
+
+}
+
+
+# ********************************************************************
+#
+#       Function which sets install options
+#
+# ********************************************************************
+
+
+function SetOptions
+{
+clear
+ 
+cat <<XYZZY
+ 
+$LINE
+ 
+ 
+        4.  Set Install Options          [ Current ]	 [ New ]
+ 
+XYZZY
+print -n "              Install Location:         [ $SDTHOME ]  	[ ]\b\b"
+ 
+read NEW_SDTHOME
+
+if [ "${NEW_SDTHOME}" == "" ]
+then 
+	NEW_SDTHOME="/usr/dt"
+fi
+ 
+firstchar=`echo $NEW_SDTHOME | cut -c1`
+if [ "$firstchar" != "/" ]
+then
+		echo ""
+		echo ""
+                echo "\tError: \t $NEW_SDTHOME is not an absolute path, please try again "
+		echo ""
+		echo ""
+               	echo "\t\tPress <Enter> to continue...."
+		read
+                return
+
+fi
+SDTHOME=$NEW_SDTHOME
+
+print -n "	      Remove Old CDE Packages:	[ $CLEAN 	] 	[ ]\b\b"
+
+read NEW_CLEAN
+
+if [ "${NEW_CLEAN}" != "YES" ] ; then if [ "${NEW_CLEAN}" != "NO" ] ; then if [ "${NEW_CLEAN}" != "" ]
+ then
+ 	echo ""
+ 	echo ""
+ 	echo "\tError: \t You must answer YES or NO ,  please try again "
+	echo ""
+	echo ""
+	echo "\t\tPress <Enter> to continue...."
+	read
+	return
+  fi
+ fi
+fi
+
+if [ "$NEW_CLEAN" == "" ] 
+then
+	CLEAN=YES
+else
+	CLEAN=$NEW_CLEAN
+fi
+
+print -n "	      Interactive Installation 	[ $VERT 	]	[ ]\b\b"
+
+read NEW_VERT
+
+if [ "${NEW_VERT}" != "YES" ] ; then if [ "${NEW_VERT}" != "NO" ] ; then if [ "${NEW_VERT}" != "" ]
+then
+        echo ""
+        echo ""
+        echo "\tError: \t You must answer YES or NO ,  please try again "
+        echo ""
+        echo ""
+        echo "\t\tPress <Enter> to continue...."
+        read
+        return
+  fi
+ fi
+fi
+ 
+if [ "${NEW_VERT}" == "" ]
+then
+        VERT=NO
+	VERBOSE="-n -a /tmp/admin.$$"
+else
+	VERT=$NEW_VERT
+	if [ $VERT == "YES" ];  then VERBOSE="" ;  fi
+	if [ $VERT == "NO" ];  then VERBOSE="-n -a /tmp/admin.$$" ;  fi
+fi
+
+print    "	     Solaris Desktop Login	 "
+print -n "	            at System Boot:	[ $DTLOGIN 	]	[ ]\b\b"
+ 
+read NEW_DTLOGIN
+ 
+ 
+if [ "${NEW_DTLOGIN}" != "YES" ] ; then if [ "${NEW_DTLOGIN}" != "NO" ] ; then if [ "${NEW_DTLOGIN}" != "" ]
+ then
+        echo ""
+        echo ""
+        echo "\tError: \t You must answer YES or NO ,  please try again "
+        echo ""
+        echo ""
+        echo "\t\tPress <Enter> to continue...."
+        read
+        return
+  fi
+ fi
+fi
+ 
+if [ "$NEW_DTLOGIN" == "" ]
+then
+        DTLOGIN=YES
+else
+        DTLOGIN=$NEW_DTLOGIN
+fi
+
+
+}
+
+# ********************************************************************
+#
+#       Function which creates the new install location link
+#
+# ********************************************************************
+ 
+ 
+function CreateTheLink 
+{
+$DEBUG 
+clear
+
+if [ -d /usr/dt ]
+then
+
+	if [ "`uname -r`" == "5.5" ]
+	then
+		S_R="SUNWdtcor SUNWmfrun SUNWmfman SUNWmfdm"
+		for i in $S_R
+		do
+		echo "Cleaning up Solaris 2.5 $i package from /usr/dt ..."
+                       if [ $VERT == "YES" ]; then
+                          /usr/sbin/pkgrm $VERBOSE ${i}.* 2>&1 | tee -a $PKG_RM_LOG | grep -v no
+                       else
+                          /usr/sbin/pkgrm $VERBOSE ${i}.* 2>&1 | tee -a $PKG_RM_LOG | grep $i | grep -v no 
+                       fi
+		done
+
+
+	fi
+
+	if [ -d /usr/dt ]
+	then
+
+		find /usr/dt -depth -exec /bin/rmdir {}  2>&1 > /dev/null \; 2>&1 > /dev/null
+	fi
+
+fi
+
+/usr/bin/rm /usr/dt 2>&1 > /dev/null
+
+if [ -d /usr/dt ]
+then
+
+
+	clear
+ 
+	cat <<XYZZY
+$LINE
+ 
+ Warning:  A "/usr/dt" directory still exists on this machine, this 
+	   prohibits a needed link from being setup from 
+
+	   	/usr/dt to $SDTHOME  
+
+	   This installation can move the current /usr/dt to 
+
+	  	 /usr/dt.pre.CDE.${DATE} 
+
+	   and proceed with the installation.
+
+
+	   Do you want to move your current /usr/dt  
+
+ 
+$LINE
+
+
+XYZZY
+
+                print -n "\tMove existing /usr/dt directory [Y]"
+
+		read response
+
+		if [[ $response = `` ]] then response="Y";  fi
+
+		if [[ $response = "Y" || $response = "y" ]] 
+		then
+			mv /usr/dt /usr/dt.pre.CDE.${DATE}
+			mkdir -p  ${SDTHOME}
+			if [ $? -ne 0 ]
+			then
+			clear
+cat <<XYZZY
+$LINE
+ 
+
+ Error: Could not create $SDTHOME directory. Please verify that
+        you have root permission on the file system located
+        at $SDTHOME
+ 
+ Hint:  You most likely have an existing /usr/dt link which points to
+        a remote server. If you don't have root permission on
+        this server, you need to manually remove the this link
+        before running install-cde again.
+ 
+ 
+                Press <Enter> to exit..
+
+$LINE
+XYZZY
+			EXIT_STATUS=1
+			Exit
+			fi
+			ln -s ${SDTHOME} /usr/dt
+			if [ $? -ne 0 ]
+			then 
+			clear
+			cat <<XYZZY
+			$LINE
+			 
+ 			Error:  Could not create alternate link from /usr/dt to $SDTHOME , 
+        			please verfy you have root permission on the file systems
+				in question.
+			 
+			 Hint:  You most likely have an existing /usr/dt link which points to
+       				a remote server. If you don't have root permission on
+        			this server, you need to manually remove the this link
+        			before running install-cde again.
+ 
+		 
+                			Press <Enter> to exit..
+			$LINE
+XYZZY
+
+			 
+			read
+			echo "Error: $DATE: The ln -s $SDTHOME command returned a none zero exit, the link failed" >> $ADMIN_LOG
+			EXIT_STATUS=1
+			Exit
+			fi
+
+		else
+			DONE=NO
+			MENU_SELECT=NO
+			EXIT_STATUS=1
+			Exit
+		fi
+ 
+ 
+fi
+
+if [ -f /usr/dt ]
+then
+ 
+ 
+        clear
+ 
+        cat <<XYZZY
+$LINE
+ 
+ Warning:  A "/usr/dt" file still exists on this machine, this
+           prohibits a needed link from being setup from
+ 
+                /usr/dt to $SDTHOME
+ 
+           This installation can move the current /usr/dt to
+ 
+                 /usr/dt.pre.CDE.${DATE}
+ 
+           and proceed with the installation.
+ 
+           Do you want to move your current /usr/dt 
+ 
+ 
+$LINE
+
+
+XYZZY
+ 
+                print -n "\tMove existing /usr/dt file [Y]"
+ 
+                read response
+ 
+                if [[ $response = `` ]] then response="Y";  fi
+ 
+                if [[ $response = "Y" || $response = "y" ]]
+                then
+			mv /usr/dt /usr/dt.pre.CDE.${DATE}
+                        mkdir -p  ${SDTHOME}
+			if [ $? -ne 0 ]
+                        then
+                        clear
+cat <<XYZZY
+$LINE
+ 
+ Error: Could not create $SDTHOME directory. Please verify you have
+        you have root permission on the file systems in question.
+ 
+
+ Hint:  You most likely have an existing /usr/dt link which points to
+        a remote server. If you don't have root permission on
+        this server, you need to manually remove the this link
+        before running install-cde again.
+ 
+ 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+                        EXIT_STATUS=1
+                        Exit
+                        fi
+
+                        ln -s ${SDTHOME} /usr/dt
+                        if [ $? -ne 0 ]
+                        then
+                        clear
+                        cat <<XYZZY
+                        $LINE
+ 
+                        Error: Could not create alternate link from /usr/dt to $SDTHOME ,
+                                please verfy you have root permission on the file systems
+                                in question.
+ 
+			Hint:   You most likely have an existing /usr/dt link which points to
+        			a remote server. If you don't have root permission on
+        			this server, you need to manually remove the this link
+        			before running install-cde again.
+ 
+ 
+                                        Press <Enter> to exit..
+                        $LINE
+XYZZY
+ 
+ 
+                        read
+                        echo "Error: $DATE: The ln -s $SDTHOME command returned a none zero exit, the link faile
+d" >> $ADMIN_LOG
+			EXIT_STATUS=1
+                        Exit
+                        fi
+ 
+                else
+                        DONE=NO
+                        MENU_SELECT=NO
+                        EXIT_STATUS=1
+                        Exit
+                fi
+ 
+ 
+fi
+
+
+
+mkdir -p  ${SDTHOME}
+ln -s ${SDTHOME} /usr/dt
+if [ $? -ne 0 ]
+then 
+clear
+cat <<XYZZY
+$LINE
+ 
+ Error: Could not create alternate link from /usr/dt to $SDTHOME , 
+        please verfy you have root permission on the file systems
+	in question.
+ 
+
+
+ Hint:  You most likely have an existing /usr/dt link which points to
+        a remote server. If you don't have root permission on
+        this server, you need to manually remove the this link
+        before running install-cde again.
+ 
+ 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+ 
+read
+echo "Error: $DATE: The ln -s $SDTHOME command returned a none zero exit, the link failed" >> $ADMIN_LOG
+Exit
+fi
+
+touch /usr/dt/tmp.install.file.$$
+if [ `ls -l /usr/dt/tmp.install.file.$$ | grep root | wc -l` -eq 0 ]
+then
+	rm /usr/dt/tmp.install.file.$$
+	rm /usr/dt
+	clear
+	cat <<XYZZY
+$LINE
+ 
+ Error: This machine does not appear to have root permission for
+	the filesystem located at: $SDTHOME
+ 
+ Hint:  You most likely have an existing /usr/dt link which points to
+       	a remote server. If you don't have root permission on
+        this server, you need to manually remove the this link
+        before running install-cde again.
+ 
+	 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+ 
+	read
+	echo "Error: $DATE: The ln -s $SDTHOME command returned a none zero exit, the link failed" >> $ADMIN_LOG
+	EXIT_STATUS=1
+	Exit
+fi
+
+rm /usr/dt/tmp.install.file.$$
+MENU_SELECT=NO
+
+
+
+
+}
+
+# ********************************************************************
+#
+#	Checks Root permission in /usr/dt file system
+#
+# ********************************************************************
+
+
+function CheckRoot
+
+{
+
+touch /usr/dt/tmp.install.file.$$
+if [ `ls -l /usr/dt/tmp.install.file.$$ | grep root | wc -l` -eq 0 ]
+then
+        rm /usr/dt/tmp.install.file.$$
+        clear
+        cat <<XYZZY
+$LINE
+ 
+ Error: This machine does not appear to have root permission for
+        the filesystem located at: $SDTHOME
+ 
+ Hint:  You most likely have an existing /usr/dt link which points to
+        a remote server. If you don't have root permission on
+        this server, you need to manually remove the this link
+        before running install-cde again.
+ 
+	 
+ 
+                Press <Enter> to exit..
+$LINE
+XYZZY
+ 
+        read
+        echo "Error: $DATE: Can not create root permission files in $SDTHOME" >> $ADMIN_LOG
+        EXIT_STATUS=1
+        Exit
+fi
+ 
+rm /usr/dt/tmp.install.file.$$
+MENU_SELECT=NO
+
+}
+
+
+# ********************************************************************
+#
+#	Install Min Cluster Pathces     
+#
+# ********************************************************************
+
+function MinPatch
+{
+
+case "X$(uname -r)" in
+                X5.4)
+
+			MIN_PATCHES_sparc=""
+			MIN_PATCHES_x86=""
+
+			PATCHES=MIN_PATCHES_${PLATFORM}
+
+                ;;
+                *)
+                ;;
+esac
+
+
+}
+
+
+# ********************************************************************
+#
+#	Install End Cluster Patches     
+#
+# ********************************************************************
+
+function EndPatch
+{
+
+
+case "X$(uname -r)" in
+                X5.4)
+
+		END_PATCHES_sparc="101925-02"
+		END_PATCHES_x86="101926-02"
+
+		if [ $PLATFORM == "sparc" ]
+		then
+			PATCHES=$END_PATCHES_sparc
+		else
+			PATCHES=$END_PATCHES_x86
+		fi
+
+		cd $TOP
+		 
+
+		for i in $PATCHES
+		do
+		 
+			if [ -d Patches/${PLATFORM}/${i} ]
+			then
+
+				if [ `showrev -p | /usr/bin/cut -d" " -f1,2 | grep $i | wc -l` -eq 0 ]
+				then  
+					Patches/${PLATFORM}/${PATCHES}/installpatch `pwd`/Patches/${PLATFORM}/${i} 2>&1 > /dev/null
+					echo "INSTALLED PATCH ${i} "
+				fi
+			fi
+		done 
+		;;
+		*)
+		;;
+esac
+
+}
+
+# ********************************************************************
+#
+#	Install Developer Cluster Patches     
+#
+# ********************************************************************
+
+function DevPatch
+{
+case "X$(uname -r)" in
+                X5.4)
+ 
+                        DEV_PATCHES_sparc=""
+                        DEV_PATCHES_x86=""
+ 
+                        PATCHES=DEV_PATCHES_${PLATFORM}
+
+                ;;
+                *)
+                ;;
+esac
+
+}
+
+# ********************************************************************
+#
+#	Install CDE exit function     
+#
+# ********************************************************************
+
+function Exit
+{
+
+	cat <<XYZZY
+
+$LINE
+
+
+XYZZY
+
+if [ -f $ADMIN_LOG ]
+then
+
+        cat <<XYZZY
+
+ 
+Note:   A install-cde log which has error messages
+        from the install-cde script can be found at:
+
+             install-cde log: $ADMIN_LOG
+XYZZY
+fi
+if [ -f  $PKG_LOG ]
+then
+
+	cat <<XYZZY
+
+ 
+Note:	A pkgadd log which contains a complete log of all the output
+	from the "pkgadd" utility can be found at:
+
+             pkgadd log: $PKG_LOG
+XYZZY
+fi
+if [ -f $PKG_RM_LOG ]
+then
+
+	cat <<XYZZY
+
+
+Note:	A pkgrm log which contains a complete log of all the output
+	from the "pkgrm" utility can be found at:
+
+             pkgrm log: $PKG_RM_LOG 
+XYZZY
+fi
+if [ $INSTALL_GOOD == "YES" ]
+then
+	if [ $SEND_MAIL == "YES" ]
+	then
+		UNAME=`uname -a`
+		VERSION=`grep DtVERSION_STRING cde-developer/SUNWdtinc/reloc/dt/share/include/Dt/Dt.h | awk -F\" '{print $2}'`
+		SUBJECT=${VERSION}:${UNAME}
+		if [ -x /usr/dist/exe/whatami ]
+	 	then 
+			  /usr/dist/exe/whatami 2>&1 > /tmp/tmp.whatami.$$
+		else
+			echo "NO /usr/dist/exe/whatami AVAILABLE" > /tmp/tmp.whatami.$$
+		fi
+
+	        ( cd /tmp; mailx  -s " $SUBJECT " -F cdeinstall@cde-www.Eng.Sun.COM /dev/null  < /tmp/tmp.whatami.$$ 2>&1 > /dev/null )
+	fi
+
+
+	cat <<XYZZY
+
+
+Note:	CDE has been installed on this system, please reboot this 
+	machine before starting CDE
+
+XYZZY
+fi
+
+	cat <<XYZZY
+
+The install-cde script has completed.
+$LINE
+
+
+XYZZY
+
+
+exit $EXIT_STATUS
+}
+
+# ********************************************************************
+#
+#	Link to packages.
+#
+# ********************************************************************
+
+function LinkFunc
+{
+
+if [ -d dt ]
+then 
+  	if [ -d /usr/dt ]
+	then
+	   /bin/mv /usr/dt /usr/dt.pre-install-cde.${DATE}
+	fi
+
+	ln -s `pwd`/dt /usr/dt
+else
+
+         clear
+         cat <<XYZZY
+$LINE
+ 
+ Error: We could not find the dt directory, are you sure you
+	are running install-cde from the correct directory. 
+
+ 
+                Press <Enter> to exit..
+ 
+$LINE
+ 
+XYZZY
+          read
+          echo "Error: $DATE: Could not find a dt directory to link to."  >> $ADMIN_LOG
+          EXIT_STATUS=1
+          Exit
+
+fi
+
+}
+
+# ****************************************************************************
+# *
+# *     Determine if it is ok to remove SUNWtltk on 2.4
+# *
+# ***************************************************************************
+
+function Tooltalk_min
+{
+
+
+case "X$(uname -r)" in
+                X5.4)
+			
+			if [ $CLEAN == "YES" ]; then
+
+				TTPKG_LIST=`pkginfo | grep SUNWtltk | grep -v SUNWtltkd | grep -v SUNWtltkm | awk '{print $2 }'`
+				for i in $TTPKG_LIST
+				do
+					FOUNDPKG=`/bin/pkginfo -l $i | grep "VERSION" | grep "3.5" | wc -l`
+                			if [ $FOUNDPKG -ne 0 ]; then
+                       				if [ $VERT == "YES" ]; then
+                               				/usr/sbin/pkgrm $VERBOSE $i 2>&1 | tee -a $PKG_RM_LOG
+                       				else
+                               				/usr/sbin/pkgrm $VERBOSE $i 2>&1 | tee -a $PKG_RM_LOG | grep $i
+                       				fi
+						
+					fi
+				done
+
+			fi
+
+			if [ $REMOVE_TT_ONLY == "NO" ] ; then
+
+                        	if [ $VERT == "YES" ] ; then
+                                	/usr/sbin/pkgadd $VERBOSE -d `pwd` SUNWtltk 2>&1 | tee -a $PKG_LOG
+                        	else
+                                	/usr/sbin/pkgadd $VERBOSE -d `pwd` SUNWtltk 2>&1 | tee -a $PKG_LOG | grep SUNWtltk
+                        	fi
+			fi
+
+
+		;;
+ 
+                *)
+                ;;
+esac
+ 
+
+}
+
+# ****************************************************************************
+# *
+# *     Determine if it is ok to remove SUNWtltkm, SUNWtltkd on 2.4
+# *
+# ***************************************************************************
+
+function Tooltalk_dev
+{
+
+
+case "X$(uname -r)" in
+                X5.4)
+
+
+			if [ $CLEAN == "YES" ]; then
+
+                        	TTPKG_LIST=`pkginfo | grep SUNWtltkd | awk '{print $2 }'`
+                        	for i in $TTPKG_LIST
+                        	do
+                                	FOUNDPKG=`/bin/pkginfo -l $i | grep "VERSION" | grep "3.5" | wc -l`
+                                	if [ $FOUNDPKG -ne 0 ]; then
+                       				if [ $VERT == "YES" ]; then
+                               				/usr/sbin/pkgrm $VERBOSE $i 2>&1 | tee -a $PKG_RM_LOG
+                       				else
+                               				/usr/sbin/pkgrm $VERBOSE $i 2>&1 | tee -a $PKG_RM_LOG | grep $i
+                       				fi
+                                	fi
+                        	done
+
+			fi
+
+			if [ $REMOVE_TT_ONLY == "NO" ] ; then
+
+	                        if [ $VERT == "YES" ] ; then
+                                	/usr/sbin/pkgadd $VERBOSE -d `pwd` SUNWtltkd 2>&1 | tee -a $PKG_LOG
+                        	else
+                                	/usr/sbin/pkgadd $VERBOSE -d `pwd` SUNWtltkd 2>&1 | tee -a $PKG_LOG | grep SUNWtltkd
+                        	fi
+			fi
+
+			if [ $CLEAN == "YES" ]; then
+
+                        	TTPKG_LIST=`pkginfo | grep SUNWtltkm | awk '{print $2 }'`
+                        	for i in $TTPKG_LIST
+                        	do
+                                	FOUNDPKG=`/bin/pkginfo -l $i | grep "VERSION" | grep "3.5" | wc -l`
+                                	if [ $FOUNDPKG -ne 0 ]; then
+                       				if [ $VERT == "YES" ]; then
+                               				/usr/sbin/pkgrm $VERBOSE $i 2>&1 | tee -a $PKG_RM_LOG
+                       				else
+                               				/usr/sbin/pkgrm $VERBOSE $i 2>&1 | tee -a $PKG_RM_LOG | grep $i
+                       				fi
+                                	fi
+                        	done
+			fi
+
+			if [ $REMOVE_TT_ONLY == "NO" ] ; then
+
+					
+                        	if [ $VERT == "YES" ] ; then
+                                	/usr/sbin/pkgadd $VERBOSE -d `pwd` SUNWtltkm 2>&1 | tee -a $PKG_LOG
+                        	else
+                                	/usr/sbin/pkgadd $VERBOSE -d `pwd` SUNWtltkm 2>&1 | tee -a $PKG_LOG | grep SUNWtltkm
+                        	fi
+			fi
+		;;
+ 
+                *)
+                ;;
+esac
+ 
+
+}
+
+
+# ********************************************************************
+#
+#	Load Package Strings.
+# 	LOAD
+#
+# ********************************************************************
+function LoadStrings
+{
+$DEBUG
+case "X$(uname -r)" in
+                X5.4)
+
+		DEV_PKGS="SUNWdtinc SUNWdtma SUNWdtmad SUNWmfdm SUNWdthed SUNWdtab SUNWdtdem SUNWmfman"
+		END_PKGS="SUNWdtwm SUNWdthe SUNWdthev SUNWdtdst SUNWdtim" 
+		MIN_PKGS="SUNWdtft SUNWdtdmn SUNWdtbas SUNWdticn SUNWdtdte SUNWmfrun"
+
+		DEV_RM_PKGS="SUNWdtinc SUNWdtma SUNWdtmad SUNWmfdm SUNWmfdem SUNWdthed SUNWdtab SUNWdtdem SUNWmfman"
+		END_RM_PKGS="SUNWdtwm SUNWdthe SUNWdthev SUNWdtdst SUNWdtim" 
+		MIN_RM_PKGS="SUNWdtft SUNWdtdmn SUNWdtbas SUNWdticn SUNWdtdte SUNWmfrun"
+
+                ;;
+                X5.5)
+
+		SUNWdtcor=
+
+		if [ ! -h /usr/dt/lib/libtt.so  ]; then  if [ ! -f /usr/dt/lib/libtt.so ]; then
+	
+			SUNWdtcor=SUNWdtcor
+
+			fi
+                fi
+
+		/bin/pkginfo -q SUNWtltk.*
+                FOUNDPKG=$?
+                if [ $FOUNDPKG -ne 0 ]; then
+			SUNWtltk=SUNWtltk
+			SUNWtltkm=SUNWtltkm
+			SUNWtltkd=SUNWtltkd
+		else
+			SUNWtltk=
+			SUNWtltkm=
+			SUNWtltkd=
+                fi
+ 
+		DEV_PKGS="SUNWdtinc SUNWdtma SUNWdtmad SUNWdthed  SUNWdtab SUNWdtdem ${SUNWtltkm} ${SUNWtltkd}"
+		END_PKGS="SUNWdtwm SUNWdthe SUNWdthev SUNWdtdst SUNWdtim" 
+		MIN_PKGS="SUNWdtft SUNWdtdmn SUNWdtbas SUNWdticn ${SUNWdtcor} SUNWdtdte SUNWmfrun ${SUNWtltk}"
+
+		DEV_RM_PKGS="SUNWdtinc SUNWdtma SUNWdtmad SUNWdthed  SUNWdtab SUNWdtdem ${SUNWtltkm} ${SUNWtltkd}"
+		END_RM_PKGS="SUNWdtwm SUNWdthe SUNWdthev SUNWdtdst SUNWdtim"
+		MIN_RM_PKGS="SUNWdtft SUNWdtdmn SUNWdtbas SUNWdticn  ${SUNWtltk} SUNWdtdte SUNWmfrun"
+                ;;
+                *)
+                clear
+                cat <<XYZZY
+$LINE
+ 
+ Error: CDE 1.0 is only supported on SunOS 5.4 and 5.5
+ 
+ 
+                Press <Enter> to exit..
+ 
+$LINE
+ 
+XYZZY
+                read
+                echo "Error: $DATE: Wrong OS version, uname -r did not return 5.4 or 5.5" >> $ADMIN_LOG
+		EXIT_STATUS=1
+                Exit
+                ;;
+esac
+}
+
+
+# ********************************************************************
+#
+#	Check to be sure user is root
+#
+# ********************************************************************
+
+	USER=`/bin/id | grep root | wc -l`
+	if [ $USER -eq 0 ]
+	then
+
+		echo ""
+		echo "You must be root to run this script"
+        	echo ""
+        	exit 1
+	fi
+
+
+
+
+# ********************************************************************
+#
+#	Variable Initialization
+# 	VARS
+#
+# ********************************************************************
+	trap 'rm -f /tmp/admin.$$; rm -f tmp.whatami.$$;  rm -f /usr/dt/tmp.install.file.$$;  exit' INT QUIT TERM EXIT
+	TOP=`pwd`
+	CHECK=YES
+	CDE_CHECK=YES
+	EXIT_STATUS=0
+	VERT="NO"
+	NEW_VERT=
+	DEBUG=
+	CLEAN=YES
+	NEW_CLEAN=
+	PATCH=YES
+	DTLOGIN=YES
+	SDTHOME=/usr/dt
+	SUNWtltk=
+	SUNWtltkm=
+	SUNWtltkd=
+	NEW_SDTHOME=
+	MIN=
+	END=
+	DEV=
+	INSTALL_GOOD="NO"
+	SEND_MAIL="YES"
+	REMOVE_TT_ONLY="NO"
+	PLATFORM=`uname -p`
+	if [ $PLATFORM == "i386" ] 
+	then
+		PLATFORM="x86"
+	fi	
+	RELEASE=`uname -r`
+	DATE=`date '+%d%b%y-%H:%M:%S'`
+	PATH=/bin:/usr/bin:/etc:/usr/bin
+	ADMIN_LOG=/usr/tmp/SunSoft_CDE1.0_install.log.${DATE}
+	PKG_RM_LOG=/usr/tmp/SunSoft_CDE1.0_pkgrm.log.${DATE}
+	PKG_LOG=/usr/tmp/SunSoft_CDE1.0_pkgadd.log.${DATE}
+	VERBOSE="-n -a /tmp/admin.$$"
+	MENU_SELECT=NO
+	DONE=NO
+	LINE="____________________________________________________________________________"
+
+	cat >/tmp/admin.$$ <<EOF
+basedir=default
+mail=
+runlevel=quit
+conflict=nocheck
+setuid=nocheck
+action=nocheck
+partial=nocheck
+instance=unique
+idepend=nocheck
+rdepend=nocheck
+space=quit
+EOF
+
+
+# ********************************************************************
+#
+#	Argument Processing
+# ARGS
+#
+# ********************************************************************
+
+      	if [ $# -gt 14 ]
+        then
+                HELP $1      # exit on error
+        fi
+
+	while [ $# -gt 0 ]
+	   do case $1 in
+		-loc)  SDTHOME=$2; 			shift 2	;; # install location for /usr/dt
+		-link)  LINKDIR=$2 ; LinkFunc ;		exit	;; 
+		-noclean) CLEAN="NO"; 			shift	;;
+		-nospace) CHECK="NO"; 			shift	;;
+		-nocheck) CDE_CHECK="NO"; 		shift	;;
+		-nopatches) PATCH="NO";			shift	;;
+		-nologin) DTLOGIN="NO";			shift   ;;
+		-debug) DEBUG="set -xv"; 		shift	;;
+		-remove) LoadStrings; RemoveCDE;	exit	;;
+		-help) HELP; 				exit	;;
+		?) HELP; 				exit	;;
+		-ver)  VERT="YES"; VERBOSE="";  	shift   ;;
+		-min)  MENU_SELECT="YES"; response="1"; shift 	;;
+		-end)  MENU_SELECT="YES"; response="2"; shift	;;
+		-dev)  MENU_SELECT="YES"; response="3"; shift	;;
+		*) HELP $1; 				shift	;; # exit on error
+    	   esac
+	done
+
+
+# ********************************************************************
+#
+#	Place the selection Menu on the screen                     
+#
+# ********************************************************************
+
+LoadStrings
+
+while [ $DONE = "NO" ]
+do
+while [ $MENU_SELECT = "NO" ]
+do
+ 
+clear
+
+cat <<XYZZY
+$LINE
+
+
+		Solaris Common Desktop Environment
+			Installation Script
+			     Beta 1.0
+
+$LINE
+
+
+	1.  Minimum Installation 
+
+
+	2.  CDE End User
+
+
+	3.  Developer & End User
+
+
+	4.  Set Install Options		  
+
+	     Install Location: 		[ $SDTHOME ]
+	     Remove Old CDE Packages:	[ $CLEAN 	]
+	     Interactive Installation:  [ $VERT 	]
+	     Solaris Desktop Login 
+	            at System Boot:	[ $DTLOGIN 	]
+			
+	0.  Cancel Installation 
+
+$LINE
+
+
+XYZZY
+print -n "\tSELECT A NUMBER [2] "
+
+read response
+if [[ $response = `` ]] then response="2";  fi
+ 
+print ""
+print -n "\tYou have selected \"$response\", is this Correct ? (Y/N) [Y]"
+ 
+read abort_chance
+if [[ $abort_chance = "Y"  ||  $abort_chance = "y" ]] then
+        MENU_SELECT=YES
+fi
+if [[ $abort_chance = `` ]] then MENU_SELECT=YES;  fi
+
+clear
+
+done
+ 
+if [[ $MENU_SELECT = YES ]] then
+
+
+case $response in
+ 
+        "1" )
+	SIZE=17000
+	MIN="YES"
+	if [ $CHECK == "YES" ] 	; then CheckDisk 	; else DONE=YES;  fi
+	if [ $SDTHOME != "/usr/dt" ] ; then CreateTheLink ; else DONE=YES;  fi
+	if [ $DONE = "YES" ]    ; then InstallMin	;	fi
+	if [ $PATCH = "YES" ]	; then MinPatch		; else DONE=YES;	fi
+	if [ $DTLOGIN = "YES" ] ; then RunDtconfig	; else DONE=YES;	fi
+        ;;
+
+        "2" )
+	SIZE=35000
+	MIN="YES"
+	END="YES"
+	if [ $CHECK == "YES" ] 	; then CheckDisk 	; else DONE=YES;  fi
+	if [ $SDTHOME != "/usr/dt" ] ; then CreateTheLink ; else DONE=YES;  fi
+	if [ $DONE = "YES" ]    ; then InstallMin	;	fi
+	if [ $DONE = "YES" ]    ; then InstallEnd 	;	fi
+	if [ $PATCH = "YES" ]	; then MinPatch		; else DONE=YES;	fi
+	if [ $PATCH = "YES" ]	; then EndPatch		; else DONE=YES;	fi
+	if [ $DTLOGIN = "YES" ] ; then RunDtconfig	; else DONE=YES;	fi
+        ;;
+
+        "3" )
+	SIZE=60000
+	MIN="YES"
+	END="YES"
+	DEV="YES"
+	if [ $CHECK == "YES" ] 	; then CheckDisk 	; else DONE=YES;  fi
+	if [ $SDTHOME != "/usr/dt" ] ; then CreateTheLink ; else DONE=YES;  fi
+	if [ $DONE = "YES" ]    ; then InstallMin	;	fi
+	if [ $DONE = "YES" ]    ; then InstallEnd 	;	fi
+	if [ $DONE = "YES" ] 	; then InstallDev 	;	fi
+	if [ $PATCH = "YES" ]	; then MinPatch		; else DONE=YES;	fi
+	if [ $PATCH = "YES" ]	; then EndPatch		; else DONE=YES;	fi
+	if [ $PATCH = "YES" ]	; then DevPatch		; else DONE=YES;	fi
+	if [ $DTLOGIN = "YES" ] ; then RunDtconfig	; else DONE=YES;	fi
+        ;;
+
+        "4" )
+	SetOptions
+	MENU_SELECT=NO
+        ;;
+
+        "0" )
+	DONE="YES"
+        ;;
+
+ 	*)
+        print ""
+        print ""
+        print "\t\tI don't recogize..\"$response\" Sorry.. "
+        sleep 2
+        MENU_SELECT=NO
+        ;;
+ 
+esac
+fi
+
+done 
+Exit 
+
+
+
+
+# ********************************************************************
+#
+#	The End
+#
+********************************************************************
+

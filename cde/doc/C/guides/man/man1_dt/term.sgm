@@ -1,0 +1,1492 @@
+<!-- $XConsortium: term.sgm /main/16 1996/11/15 15:22:47 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDEMX.XCSA.MAN8.rsml.1">]]><![ %CDE.C.XO; [<refentry
+id="XCSA.MAN8.rsml.1">]]><refmeta><refentrytitle>dtterm</refentrytitle><manvolnum>
+user cmd</manvolnum></refmeta><refnamediv><refname><command>dtterm</command></refname>
+<refpurpose>emulate a terminal window</refpurpose></refnamediv>
+<refsynopsisdiv>
+<!-- following kludge because HP man command does not display \(+- correctly-->
+<cmdsynopsis>
+<command>dtterm</command>
+<arg choice="opt">&plusmn;132</arg>
+<arg choice="opt">&plusmn;aw</arg>
+<arg choice="opt">&minus;background <replaceable>background_color</replaceable></arg>
+<arg choice="opt">&minus;bg <replaceable>background_color</replaceable></arg>
+<arg choice="opt">&plusmn;bs</arg>
+<arg choice="opt">&minus;C</arg>
+<arg choice="opt">&minus;display <replaceable>display_name</replaceable></arg>
+<arg choice="opt">&minus;e <replaceable>program_argument ...</replaceable></arg>
+<arg choice="opt">&minus;fb <replaceable>fontset</replaceable></arg>
+<arg choice="opt">&minus;fg <replaceable>foreground_color</replaceable></arg>
+<arg choice="opt">&minus;fn <replaceable>fontset</replaceable></arg>
+<arg choice="opt">&minus;font <replaceable>fontset</replaceable></arg>
+<arg choice="opt">&minus;foreground <replaceable>foreground_color</replaceable></arg>
+<arg choice="opt">&minus;geometry <replaceable>geometry_string</replaceable></arg>
+<arg choice="opt">&minus;help</arg>
+<arg choice="opt">&plusmn;iconic</arg>
+<arg choice="opt">&plusmn;j</arg>
+<arg choice="opt">&plusmn;kshMode</arg>
+<?sml-break><!-- for the sake of tbl after docbook-to-man -->
+<arg choice="opt">&plusmn;l</arg>
+<arg choice="opt">&minus;lf <replaceable>file_name</replaceable></arg>
+<arg choice="opt">&plusmn;ls</arg>
+<arg choice="opt">&plusmn;map</arg>
+<arg choice="opt">&plusmn;mb</arg>
+<arg choice="opt">&minus;ms <replaceable>pointer_color</replaceable></arg>
+<arg choice="opt">&minus;name <replaceable>prog_name</replaceable></arg>
+<arg choice="opt">&minus;nb <replaceable>number</replaceable></arg>
+<arg choice="opt">&plusmn;rw</arg>
+<arg choice="opt">&minus;S <replaceable>ccn</replaceable></arg>
+<arg choice="opt">&minus;S <replaceable>c.n</replaceable></arg>
+<arg choice="opt">&plusmn;sb</arg>
+<arg choice="opt">&plusmn;sf</arg>
+<group><arg>&minus;sl <replaceable>screens</replaceable></arg>
+<group><arg>s&thinsp;</arg><arg>&thinsp;l</arg></group></group>
+<arg choice="opt">&minus;ti <replaceable>term_id</replaceable></arg>
+<arg choice="opt">&minus;title <replaceable>title_string</replaceable></arg>
+<arg choice="opt">&minus;tm <replaceable>term_modes</replaceable></arg>
+<arg choice="opt">&minus;tn <replaceable>term_name</replaceable></arg>
+<arg choice="opt">&minus;usage</arg>
+<arg choice="opt">&plusmn;vb</arg>
+<arg choice="opt">&minus;xrm <replaceable>resource_string</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title><![ %CDE.C.CDE; [<para>The <command>dtterm</command>
+utility provides runtime support of legacy applications written for terminals
+conforming to <literal>ANSI X3.64-1979</literal> and <literal>ISO 6429:1992(E)</literal>, such as the DEC VT220.</para>]]><![ %CDE.C.XO; [<para>The <command>dtterm</command> utility provides runtime support of applications written
+for terminals conforming to the &str-Z5; and the &str-Z6;.</para>]]></refsect1><refsect1>
+<title>OPTIONS</title><![ %CDE.C.XO; [<para>The <command>dtterm</command>
+utility does not support the &str-Zu; because it uses the X Window System
+convention of full-word options.</para>]]>
+<para>The following options are available:</para>
+<variablelist>
+<varlistentry><term><literal>&minus;132</literal></term>
+<listitem>
+<para>Recognize the <systemitem class="Constant">DECCOLM</systemitem> escape
+sequence and resize the window appropriately. Normally, <command>dtterm</command>
+ignores the <systemitem class="Constant">DECCOLM</systemitem> escape sequence,
+which switches between 80- and 132-column mode.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+132</literal></term>
+<listitem>
+<para>Ignore the <systemitem class="Constant">DECCOLM</systemitem> escape
+sequence. This is the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;aw</literal></term>
+<listitem>
+<para>Allow auto-wraparound. This option allows the cursor to automatically
+wrap to the beginning of the next line when it is at the right-most position
+of a line and text is output. This is the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+aw</literal></term>
+<listitem>
+<para>Do not allow auto-wraparound.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;background</literal>  <symbol role="Variable">background_color</symbol></term>
+<listitem>
+<para>Specify the terminal window background and the default background for
+the scroll bar and the X11 pointer cursor. This option defaults to either
+the primary colorset background (default) or select pixel (see <literal>&minus;bs</literal> ). <![ %CDE.C.HP; [(When not running under HPVUE,
+it defaults to
+<Literal>*background/*Background</Literal> with an ultimate fallback color of black.)
+]]>The <symbol role="Variable">background_color</symbol> argument describes
+the background color.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry><term><literal>&minus;bg</literal>  <symbol role="Variable">background_color</symbol></term>
+<listitem>
+<para>The <symbol role="Variable">background_color</symbol> argument describes the background color.</para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry><term><literal>&minus;bs</literal></term>
+<listitem>
+<para>Use the Motif select color instead of the background color for the terminal
+window's background color.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+bs</literal></term>
+<listitem>
+<para>Do not use the Motif select color instead of the background color for
+the terminal window's background color. This is the default behavior.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry><term><literal>&minus;C</literal></term>
+<listitem>
+<para>Specify that output directed to <Filename>/dev/console</Filename> be directed
+instead to the terminal window. It is provided as a way to prevent output,
+which would normally be displayed on the internal terminal emulator (ITE),
+from overwriting the X server's display. It is not provided as a general purpose
+mechanism to direct the output from an arbitrary system's <Filename>/dev/console</Filename> to an arbitrary X server. Ownership of, and read-write permission
+for, <Filename>/dev/console</Filename> is required in order to redirect console
+output.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;display</literal> <symbol role="variable">display_name</symbol></term>
+<listitem>
+<para>Specify the X11 display server. This defaults to the <systemitem class="EnvironVar">DISPLAY</systemitem> environment variable. The <symbol role="variable">display_name</symbol>
+argument specifies the X11 display to which <command>dtterm</command> connects.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;e</literal> <symbol role="variable">program_argument
+...</symbol></term>
+<listitem>
+<para>Specify an executable program and any command-line arguments <command>dtterm</command> invokes as a subprocess when <command>dtterm</command> is
+started. It must be the last option on the command line. The <symbol role="variable">program_argument</symbol> arguments specify the program and any command-line arguments to
+be invoked by <command>dtterm</command>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;fb</literal> <symbol role="variable">fontset</symbol></term>
+<listitem>
+<para>Specify an <structname role="typedef">XFontSet</structname> used by <command>dtterm</command> when displaying bold terminal text. The <structname role="typedef">XFontSet</structname> should be specified as a Motif <![ %CDE.C.CDE; [&cdeman.XmFontList;. ]]><![ %CDE.C.XO; [ <structname role="typedef">XmFontList</structname>. ]]>The terminal emulator supports only character
+or mono-spaced fonts. When using proportional fonts, the behavior is undefined.
+The terminal emulator generates a default bold font based on the XLFD name
+of the <literal>userFont</literal>. If that font is not available, the terminal
+emulator generates bold text by overstriking (with a one pixel offset) the <literal>userFont</literal>. The <symbol role="variable">fontset</symbol> argument specifies the
+bold terminal <structname role="typedef">XFontSet</structname> used by <command>dtterm</command>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;fg</literal>  <symbol role="Variable">foreground_color</symbol></term>
+<listitem>
+<para>Specify the foreground color of the terminal window as well as the default
+foreground color used by <command>dtterm</command> for the scroll bar and
+the for the X11 pointer cursor. This option defaults to either the primary
+colorset foreground (default) or select pixel. <![ %CDE.C.HP; [(When not running under HPVUE,
+it defaults to
+<Literal>*foreground/*Foreground</Literal> with an ultimate fallback color of white.)
+]]>The <symbol role="Variable">foreground_color</symbol> argument specifies
+the foreground color.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;fn</literal> <symbol role="variable">fontset</symbol></term>
+<listitem>
+<para>Specify an <structname role="typedef">XFontSet</structname> used by <command>dtterm</command> when displaying terminal text. It should be specified as
+a Motif <![ %CDE.C.CDE; [&cdeman.XmFontList;. ]]><![ %CDE.C.XO; [<structname role="typedef">XmFontList</structname>. ]]>Only character or mono-spaced fonts
+are supported. When using proportional fonts, the behavior is undefined. This
+font is not used to display non-terminal text (such as menu bar, popup menus
+or dialogs). The default uses the <systemitem class="Resource">XmNtextFontList</systemitem> value of the parent bulletin board (see the XmBulletinBoard
+widget) in the same manner as the XmText widget. The <symbol role="variable">fontset</symbol>
+argument specifies the terminal <structname role="typedef">XFontSet</structname>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;font</literal> <symbol role="variable">fontset</symbol></term>
+<listitem>
+<para>Equivalent to <literal>&minus;fn</literal>. The <symbol role="variable">fontset</symbol>
+argument specifies the terminal <structname role="typedef">XFontSet</structname>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;foreground</literal>  <symbol role="Variable">foreground_color</symbol></term>
+<listitem>
+<para>Equivalent to <literal>&minus;fg</literal>. The <symbol role="Variable">foreground_color</symbol> argument specifies the foreground color used by <command>dtterm</command>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;geometry</literal> <symbol role="variable">geometry_string</symbol></term>
+<listitem>
+<para>Specify the terminal window's preferred size and position. Width and
+height are expressed in characters. The default size is 24 lines of 80 characters
+each. There is no default position. The <symbol role="variable">geometry_string</symbol>
+argument specifies the terminal geometry used by <command>dtterm</command>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;help</literal></term>
+<listitem>
+<para>Display a message summarizing <command>dtterm</command> usage.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;iconic</literal></term>
+<listitem>
+<para>Display the terminal emulator initially in an iconified state.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+iconic</literal></term>
+<listitem>
+<para>Display the terminal emulator initially as a normal window. This is
+the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;j</literal></term>
+<listitem>
+<para>Use jump scrolling. With jump scrolling, the screen may be scrolled
+more than one line at a time. This provides for faster screen updates when
+multiple lines of text are sent to the terminal. The maximum number of lines
+that may be jump scrolled is limited to the number of lines in the terminal
+window. The <command>dtterm</command> terminal emulator guarantees that all
+lines are displayed. This is the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+j</literal></term>
+<listitem>
+<para>Do not use jump scrolling.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;kshMode</literal></term>
+<listitem>
+<para>Enable <command>ksh</command> mode. In <command>ksh</command> mode,
+a key pressed with the extend modifier bit set generates an escape character
+followed by the character generated by the un-extended keystroke. <![ %CDE.C.HP; [This option is provided for use with
+<Command>emacs</Command>(1) and the emacs
+command-line editor mode of
+&cdeman.ksh; or
+<Command>ied</Command>(1). ]]>This option is provided for use with <command>emacs</command> command-line editor mode of &cdeman.ksh;. It conflicts
+with the normal meta key use for generating extended single byte characters
+and for generating multi-byte Asian characters.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+kshMode</literal></term>
+<listitem>
+<para>Do not enable &cdeman.ksh; mode. This is the default behavior.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;l</literal></term>
+<listitem>
+<para>Enables output logging. When <command>dtterm</command> enables logging,
+all output received from the subprocess is logged either to a file or to a
+command pipeline (as specified via the <literal>&minus;lf</literal> option
+described in the following paragraph). Since data are logged directly from
+the subprocess, the log file includes all escape characters and carriage-return
+and newline pairs the terminal line discipline sends. The application may
+enable and disable logging via escape sequences.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+l</literal></term>
+<listitem>
+<para>Disable output logging. This is the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;lf</literal>  <symbol role="Variable">file_name</symbol></term>
+<listitem>
+<para>Name the file to which <command>dtterm</command> writes the output log.
+If the <symbol role="Variable">file_name</symbol> argument begins with a pipe
+symbol (&thinsp;|&thinsp;), <command>dtterm</command> assumes the rest of
+the string to be a command to be used as the endpoint of a pipe. The default
+file name is <literal>DttermLog</literal> <symbol role="variable">XXXXX</symbol> (where <symbol role="variable">XXXXX</symbol> is a unique value) and is created
+in the directory from which the subprocess was started. The <symbol role="Variable">file_name</symbol> argument specifies the log file name used by <command>dtterm</command> for logging.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;ls</literal></term>
+<listitem><![ %CDE.C.CDE; [<para>Start a login shell (the first character
+of <symbol role="Variable">argv</symbol>[0] is a dash), indicating to the
+shell that it should read the system's <literal>profile</literal> and the
+user's <Filename>.profile</Filename> files (for &cdeman.ksh; and <command>sh</command>(1)), or the system's <literal>csh.login</literal> and the user's <Filename>.login</Filename> (for <command>csh</command>(1)).</para>]]><![ %CDE.C.XO; [<para>Start a login shell (the first character of <symbol role="Variable">argv</symbol>[0]
+is a dash), indicating to the shell that it should read the system's <literal>profile</literal> and the user's <Filename>.profile</Filename> files (for &cdeman.ksh; and <command>sh</command>(1)).</para>]]></listitem>
+</varlistentry>
+<varlistentry><term><literal>+ls</literal></term>
+<listitem>
+<para>Start a normal (non-login) shell. This is the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;map</literal></term>
+<listitem>
+<para>Map (de-iconify) <command>dtterm</command> upon subprocess output if <command>dtterm</command> is unmapped (iconified). The user can specify, via the <literal>mapOnOutputDelay</literal> resource, an initial period of time during which <command>dtterm</command> does not map itself upon subprocess output.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+map</literal></term>
+<listitem>
+<para>Indicate there is no special mapping behavior. This is the default behavior.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;mb</literal></term>
+<listitem>
+<para>Ring a bell when the user types at a specified distance from the right
+margin. The distance from the right margin is specified by the <literal>&minus;nb</literal> option.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+mb</literal></term>
+<listitem>
+<para>Do not ring a bell when the user types near the right margin. This is
+the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;ms</literal> <symbol role="variable">pointer_color</symbol></term>
+<listitem>
+<para>Specify the foreground color used by <command>dtterm</command> for the
+terminal window's (X11) pointer cursor. The default is the terminal window's
+foreground color (see <literal>&minus;foreground</literal>). The <symbol role="variable">pointer_color</symbol> argument specifies the pointer foreground color used
+by <command>dtterm</command>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;name</literal> <symbol role="variable">prog_name</symbol></term>
+<listitem>
+<para>Specify the X11 name of the <command>dtterm</command> window. The <symbol role="variable">prog_name</symbol> argument specifies the name to use.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;nb</literal> <symbol role="variable">number</symbol></term>
+<listitem>
+<para>Ring the bell this number of characters from the right margin when enabled.
+The default is 10. The <symbol role="variable">number</symbol> argument specifies the
+number of characters.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;rw</literal></term>
+<listitem>
+<para>Enable reverse-wraparound.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+rw</literal></term>
+<listitem>
+<para>Do not enable reverse-wraparound. This is the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;S</literal><symbol role="variable">ccn</symbol></term>
+<listitem>
+<para>Run the terminal emulator against a pre-opened <![ %CDE.C.CDE; [ <literal>pty</literal> or STREAMS ]]>pseudo-terminal device. The terminal emulator
+provides this option to use when the pseudo-terminal device name is of the
+form <literal>tty??</literal> (that is, exactly two characters following the <literal>tty</literal>). This option is intended for use when <command>dtterm</command>
+is programmatically invoked from within another application. The <symbol role="variable">cc</symbol> argument specifies the last two characters of the pseudo-terminal
+device's slave name where the pseudo-terminal device slave name is of the
+form <literal>tty??</literal>. This value is ignored, but must be exactly
+two characters in length. The <symbol role="Variable">n</symbol> argument
+specifies the file descriptor number that corresponds to the pseudo-terminal
+device's already opened master side.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;S</literal><symbol role="variable">c.n</symbol></term>
+<listitem>
+<para>Equivalent to <literal>&minus;S</literal><symbol role="variable">ccn</symbol>, but
+provided for systems with a larger pseudo-terminal device name space. The <symbol role="variable">c</symbol> argument specifies the last component of the pseudo-terminal
+device slave name. The terminal emulator ignores this value and the value
+may be empty. The <symbol role="Variable">n</symbol> argument specifies the
+number of the file descriptor that corresponds to the pseudo-terminal device's
+already opened master side.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;sb</literal></term>
+<listitem>
+<para>Display a scroll bar. This is the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+sb</literal></term>
+<listitem>
+<para>Do not display a scroll bar.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;sf</literal></term>
+<listitem>
+<para>Generate Sun Function Key escape sequences instead of <![ %CDE.C.CDE; [standard
+ANSI escape sequences ]]><![ %CDE.C.XO; [the escape sequences described in <xref
+role="2" linkend="XCSA.M5DTT.anch.1">]]>for the terminal's function keys. <![ %CDE.C.XO; [See <xref
+role="3" linkend="XCSA.M5DTT.anch.4">for a description of the Sun Function
+Key escape sequences. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+sf</literal></term>
+<listitem>
+<para>Generate <![ %CDE.C.CDE; [standard ANSI escape sequences ]]><![ %CDE.C.XO; [the
+escape sequences described in <xref role="2" linkend="XCSA.M5DTT.anch.1">]]>instead
+of Sun Function Key escape sequences for the terminal's function keys. This
+is the default behavior.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;sl</literal>  <symbol role="Variable">screens</symbol>[<literal>s|l</literal>]</term>
+<listitem>
+<para>Specify the number of lines in the terminal buffer beyond the length
+of the window. The option value consists of a number followed by an optional
+suffix. If no suffix is included or the suffix is "l" (ell), the total length
+of the terminal buffer is <symbol role="Variable">screens</symbol> plus the
+length of the terminal window. If the suffix is "s" (ess) the total length
+of the terminal buffer is ( <symbol role="Variable">screens</symbol>+1) times
+the length of the terminal window. The <command>dtterm</command> utility attempts
+to maintain the same buffer-to-window ratio when the window is resized larger.
+The default is <literal>4s</literal>. The <symbol role="Variable">screens</symbol>
+argument specifies the number of screens or lines to save.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;ti</literal> <symbol role="variable">term_id</symbol></term>
+<listitem>
+<para>Specify the name used by <command>dtterm</command> to select the correct
+response to terminal ID queries. Valid values are <literal>vt100</literal>, <literal>vt101</literal>, <literal>vt102</literal>, and <literal>vt220</literal>. The
+default is <literal>vt220</literal>. The <symbol role="variable">term_id</symbol> argument
+specifies the terminal ID to use.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;title</literal> <symbol role="variable">title_string</symbol></term>
+<listitem>
+<para>The <symbol role="variable">title_string</symbol> argument specifies
+the window title used by <command>dtterm</command>. The title
+defaults to the last component of the program's path if the
+<literal>-e</literal> option is specified;
+otherwise the title defaults to <literal>Terminal</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;tm</literal> <symbol role="variable">term_modes</symbol></term>
+<listitem>
+<para>Specify a string containing terminal-setting keywords and the characters
+to which they can be bound. Allowable keywords include: <literal>intr</literal>, <literal>quit</literal>, <literal>erase</literal>, <literal>kill</literal>, <literal>eof</literal>, <literal>eol</literal>, <literal>swtch</literal>, <literal>start</literal>, <literal>stop</literal>, <literal>brk</literal>, <literal>susp</literal>, <literal>dsusp</literal>, <literal>rprnt</literal>, <literal>flush</literal>, <literal>weras</literal> and <literal>lnext</literal>. The
+terminal emulator correctly parses and silently ignores keywords that do not
+apply to a specific architecture. Control characters can be specified as <literal>&caret;</literal><symbol role="Variable">char</symbol> (for example, <literal>&caret;c</literal> or <literal>&caret;u</literal>), and <literal>&caret;?</literal> can be used to indicate Delete. <![ %CDE.C.CDE; [This is useful
+for overriding the default terminal settings without having to do an <command>stty</command>(1) every time a DtTerm widget is created. ]]>The default is <systemitem class="Constant">NULL</systemitem>. The <symbol role="variable">term_modes</symbol> argument
+specifies the terminal mode string.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;tn</literal> <symbol role="variable">term_name</symbol></term>
+<listitem>
+<para>Specify a name to which <command>dtterm</command> sets the <systemitem class="environvar">TERM</systemitem> environment variable. The default is <command>dtterm</command>.
+The <symbol role="variable">term_name</symbol> argument specifies the terminal name used
+by <command>dtterm</command>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;usage</literal></term>
+<listitem>
+<para>Display a usage message on the screen.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;vb</literal></term>
+<listitem>
+<para>Use a visual bell instead of an audible one. Flash the window instead
+of ringing the terminal bell whenever a &lt;control>-G is received.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>+vb</literal></term>
+<listitem>
+<para>Use an audio bell instead of a visual one. This is the default behavior.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;xrm</literal> <symbol role="variable">resource_string</symbol></term>
+<listitem>
+<para>Allow the user to specify the X11 Resource Manager-style resources on
+the command line. The <symbol role="variable">resource_string</symbol> argument specifies
+an X11 resource string. (See <function>XrmParseCommand</function>(3) and <function>XGetDefault</function>(3) for more information.)</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>OPERANDS</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>STDIN</title>
+<para>Not used.</para>
+</refsect1><refsect1>
+<title>INPUT FILES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>The following environment variables affect the execution of <command>dtterm</command>:</para>
+<variablelist>
+<varlistentry><term><systemitem class="EnvironVar">DISPLAY</systemitem></term>
+<listitem>
+<para>Specify the default X Windows display to connect to (see <literal>&minus;display</literal> ). The terminal emulator sets the subprocess's <systemitem class="EnvironVar">DISPLAY</systemitem> environment variable to the connected X11 display name.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">HOME</systemitem></term>
+<listitem>
+<para>Determine the user's home directory, the location of configuration files.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">LANG</systemitem></term>
+<listitem>
+<para>Provide a default value for the internationalization variables that
+are unset or null. If <systemitem class="EnvironVar">LANG</systemitem> is
+unset or null, the corresponding value from the implementation-specific default
+locale will be used. If any of the internationalization variables contains
+an invalid setting, the utility behaves as if none of the variables had been
+defined.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">LC_ALL</systemitem></term>
+<listitem>
+<para>If set to a non-empty string value, override the values of all the other
+internationalization variables.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">LC_MESSAGES</systemitem></term>
+<listitem>
+<para>Determine the locale that is used to affect the format and contents
+of diagnostic messages written to standard error and informative messages
+written to standard output.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">NLSPATH</systemitem></term>
+<listitem>
+<para>Determine the location of message catalogues for the processing of <systemitem class="environvar">LC_MESSAGES</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">SHELL</systemitem></term>
+<listitem>
+<para>Determine the default application to run.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">XAPPLRESDIR</systemitem></term>
+<listitem>
+<para>Specify the name of a directory that contains application-specific resources.
+If this environment variable is defined, and is set to an existing directory,
+then it is searched (in addition to the standard locations) for files containing
+application-specific resource specifications.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">XENVIRONMENT</systemitem></term>
+<listitem>
+<para>Specify the name of a resource file with user- or machine-specific resources.
+If this variable is not defined, <command>dtterm</command> looks for a file
+named <filename>$HOME/.Xdefaults-</filename> <symbol role="variable">hostname</symbol>
+instead, where <symbol role="variable">hostname</symbol> is the name of the host where
+the application is executing.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">XFILESEARCHPATH</systemitem></term>
+<listitem>
+<para>Define a language-dependent location of <literal>app-defaults</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">XMODIFIER</systemitem></term>
+<listitem>
+<para>Specify which input method to use.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">XUSERFILESEARCHPATH</systemitem></term>
+<listitem>
+<para>Control where X applications look for their <literal>app-defaults</literal>
+resource files. The default is located in the directory <Filename>/usr/dt/app-defaults</Filename>. <![ %CDE.C.HP; [(Under Motif without CDE, the default is
+<Filename>/usr/lib/X11/app-defaults</Filename>). ]]>The user must set <systemitem class="EnvironVar">XUSERFILESEARCHPATH</systemitem> if the user's resource
+files are not in this location.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The terminal emulator creates the following variable when it invokes
+another process:</para>
+<variablelist><![ %CDE.C.HP; [<VarListEntry>
+<Term><SystemItem Class="EnvironVar">COLUMNS</SystemItem></Term>
+<ListItem>
+<Para>The terminal emulator sets the subprocess's
+<SystemItem Class="EnvironVar">COLUMNS</SystemItem> environment variable to the number of columns present in the terminal
+window at creation.
+If the size of the terminal window is subsequently
+changed the terminal emulator uses the
+<systemitem class="environvar">TIOCSWINSZ</systemitem> <Function>ioctl</Function> to inform the applications running against it of the new column count.
+Under normal use, the user's shell updates
+<SystemItem Class="EnvironVar">COLUMNS</SystemItem> with the updated value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">LINES</SystemItem></Term>
+<ListItem>
+<Para>The terminal emulator sets the subprocess's
+<SystemItem Class="EnvironVar">LINES</SystemItem> environment variable to the number of lines present in the terminal
+window at creation.
+If the size of the terminal window is subsequently
+changed, the terminal emulator uses the
+<SystemItem Class="Constant">TIOCSWINSZ</SystemItem> <Function>ioctl</Function>(2) to inform the applications running against it of the newline count.
+Under normal use, the user's shell updates
+<SystemItem Class="EnvironVar">LINES</SystemItem> with the updated value.
+</Para>
+</ListItem>
+</VarListEntry>
+]]>
+<varlistentry><term><systemitem class="environvar">TERM</systemitem></term>
+<listitem>
+<para>The terminal emulator sets the subprocess's <systemitem class="environvar">TERM</systemitem>
+environment variable to the <literal>termName</literal> resource value. Applications
+use this variable to determine the type of escape sequences to use when driving
+the terminal emulator.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">TERMINAL_EMULATOR</systemitem></term>
+<listitem>
+<para>The terminal emulator sets the subprocess's <systemitem class="environvar">TERMINAL_EMULATOR</systemitem> environment variable to <command>dtterm</command> to indicate
+that the process is running from a <command>dtterm</command> terminal emulator.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">WINDOWID</systemitem></term>
+<listitem>
+<para>The terminal emulator sets the subprocess's <systemitem class="environvar">WINDOWID</systemitem>
+environment variable to the window number of the window in which text is rendered.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RESOURCES</title>
+<para>The <command>dtterm</command> utility allows the user to specify behavior
+through X11 resources as well as the command-line interface. The following
+is a list of the defined resources:</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.98in">
+<colspec align="left" colname="col1" colwidth="215*">
+<colspec align="left" colname="col2" colwidth="173*">
+<colspec align="left" colwidth="79*">
+<colspec align="left" colwidth="109*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<tbody>
+<row>
+<entry align="left" spanname="1to2" valign="top"><literal>The dtterm Client
+Resource Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">allowSendEvents</systemitem></entry>
+<entry align="left" valign="top"><classname>AllowSendEvents</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">appCursorDefault</systemitem></entry>
+<entry align="left" valign="top"><classname>AppCursorDefault</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">appKeypadDefault</systemitem></entry>
+<entry align="left" valign="top"><classname>AppKeypadDefault</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">autoWrap</systemitem></entry>
+<entry align="left" valign="top"><classname>AutoWrap</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">background</systemitem></entry>
+<entry align="left" valign="top"><classname>Background</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">backgroundIsSelect</systemitem></entry>
+<entry align="left" valign="top"><classname>BackgroundIsSelect</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<!-- !!!! normal VUE string:-->
+<!-- backgroundIsSelect@BackgroundIsSelect@Boolean@True-->
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">blinkRate</systemitem></entry>
+<entry align="left" valign="top"><classname>BlinkRate</classname></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">250</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">borderColor</systemitem></entry>
+<entry align="left" valign="top"><classname>BorderColor</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">"black"</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">borderWidth</systemitem></entry>
+<entry align="left" valign="top"><classname>BorderWidth</classname></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">0</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">c132</systemitem></entry>
+<entry align="left" valign="top"><classname>C132</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">charCursorStyle</systemitem></entry>
+<entry align="left" valign="top"><classname>CharCursorStyle</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">"char_cursor_box"</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">consoleMode</systemitem></entry>
+<entry align="left" valign="top"><classname>ConsoleMode</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">foreground</systemitem></entry>
+<entry align="left" valign="top"><classname>Foreground</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">geometry</systemitem></entry>
+<entry align="left" valign="top"><classname>Geometry</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">iconic</systemitem></entry>
+<entry align="left" valign="top"><classname>Iconic</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">iconName</systemitem></entry>
+<entry align="left" valign="top"><classname>IconName</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">"dtterm"</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">jumpScroll</systemitem></entry>
+<entry align="left" valign="top"><classname>JumpScroll</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">kshMode</systemitem></entry>
+<entry align="left" valign="top"><classname>KshMode</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">logging</systemitem></entry>
+<entry align="left" valign="top"><classname>Logging</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">logFile</systemitem></entry>
+<entry align="left" valign="top"><classname>LogFile</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">"DttermLog<symbol role="variable">XXXXX</symbol>" (where
+ <symbol role="variable">XXXXX</symbol> is a unique value)</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">logInhibit</systemitem></entry>
+<entry align="left" valign="top"><classname>LogInhibit</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">loginShell</systemitem></entry>
+<entry align="left" valign="top"><classname>LoginShell</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">mapOnOutput</systemitem></entry>
+<entry align="left" valign="top"><classname>AutoMap</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">mapOnOutputDelay</systemitem></entry>
+<entry align="left" valign="top"><classname>MapDelay</classname></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">0</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">marginBell</systemitem></entry>
+<entry align="left" valign="top"><classname>MarginBell</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">menuBar</systemitem></entry>
+<entry align="left" valign="top"><classname>MenuBar</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">menuPopup</systemitem></entry>
+<entry align="left" valign="top"><classname>MenuPopup</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">nMarginBell</systemitem></entry>
+<entry align="left" valign="top"><classname>NMarginBell</classname></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">10</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">pointerBlank</systemitem></entry>
+<entry align="left" valign="top"><classname>PointerBlank</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">pointerBlankDelay</systemitem></entry>
+<entry align="left" valign="top"><classname>PointerBlankDelay</classname></entry>
+<entry align="left" valign="top"><StructName Role="typedef">int</StructName></entry>
+<entry align="left" valign="top">2</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">pointerColor</systemitem></entry>
+<entry align="left" valign="top"><classname>Foreground</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">foreground color</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">pointerColorBackground</systemitem></entry>
+<entry align="left" valign="top"><classname>Background</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">background color</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">pointerShape</systemitem></entry>
+<entry align="left" valign="top"><classname>PointerShape</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">"xterm"</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">reverseWrap</systemitem></entry>
+<entry align="left" valign="top"><classname>ReverseWrap</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">saveLines</systemitem></entry>
+<entry align="left" valign="top"><classname>SaveLines</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">4s</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">scrollBar</systemitem></entry>
+<entry align="left" valign="top"><classname>ScrollBar</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">sunFunctionKeys</systemitem></entry>
+<entry align="left" valign="top"><classname>SunFunctionKeys</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">termId</systemitem></entry>
+<entry align="left" valign="top"><classname>TermId</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">"vt220"</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">termName</systemitem></entry>
+<entry align="left" valign="top"><classname>TermName</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">"dtterm"</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">title</systemitem></entry>
+<entry align="left" valign="top"><classname>Title</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">"dtterm"</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">ttyModes</systemitem></entry>
+<entry align="left" valign="top"><classname>TtyModes</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">userBoldFont</systemitem></entry>
+<entry align="left" valign="top"><classname>UserBoldFont</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">userFont</systemitem></entry>
+<entry align="left" valign="top"><classname>UserFont</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">XmFontList</structname></entry>
+<entry align="left" valign="top">dynamic</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="environvar">visualBell</systemitem></entry>
+<entry align="left" valign="top"><classname>VisualBell</classname></entry>
+<entry align="left" valign="top"><structname role="typedef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><systemitem class="environvar">allowSendEvents</systemitem></term>
+<listitem>
+<para>Specifies that the terminal emulator allow synthetic events (generated
+and sent by another application). Enabling this resource opens up a possible
+security hole.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">appCursorDefault</systemitem></term>
+<listitem>
+<para>If True, the cursor keys are initially in application mode. If False,
+the cursor keys are initially in cursor mode.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">appKeypadDefault</systemitem></term>
+<listitem>
+<para>If True, the keypad keys are initially in application mode. If False,
+the keypad keys are initially in numeric mode.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">autoWrap</systemitem></term>
+<listitem>
+<para>Specifies whether or not auto-wraparound is initially enabled.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">background</systemitem></term>
+<listitem>
+<para>Specifies the background color of the terminal window as well as the
+default background color for the scroll bar. This resource defaults to either
+the primary colorset background or select pixel (see <systemitem class="environvar">backgroundIsSelect</systemitem> ). <![ %CDE.C.HP; [(When not being run under HPVUE,
+this resource defaults to black.)
+]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">backgroundIsSelect</systemitem></term>
+<listitem>
+<para>Specifies that the terminal window should use the Motif select color
+instead of the background color for the terminal window's background color.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">blinkRate</systemitem></term>
+<listitem>
+<para>Specifies the number of milliseconds the cursor is in the on and off
+states while blinking. A value of 250 blinks the cursor two times per second.
+A value of zero turns blinking off.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">borderColor</systemitem></term>
+<listitem>
+<para>Specifies the border color for the window. The window border need not
+be visible when re-parenting window managers are used.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">borderWidth</systemitem></term>
+<listitem>
+<para>Specifies the border width of the shell widget's window. This value
+may be overridden by re-parenting window managers.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">c132</systemitem></term>
+<listitem>
+<para>Specifies whether or not the <systemitem class="Constant">DECCOLM</systemitem>
+escape sequence, which switches between a 132- and 80-column window, is honored.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">charCursorStyle</systemitem></term>
+<listitem>
+<para>This resource specifies the shape of the text cursor. A <systemitem class="Constant">char_cursor_box</systemitem> value specifies a cursor the
+width and height of the base font's bounding box. A <systemitem class="Constant">char_cursor_bar</systemitem> value specifies a cursor the width of the base
+font's bounding box, 2 pixels high, and drawn with its top on the baseline.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">consoleMode</systemitem></term>
+<listitem>
+<para>Specifies that output directed at <Filename>/dev/console</Filename> be
+directed instead to the terminal window. It is provided as a way to prevent
+output, that would normally be displayed on the internal terminal emulator
+(ITE), from overwriting the X server's display. It is not provided as a general
+mechanism to direct the output from an arbitrary system's <Filename>/dev/console</Filename> to an arbitrary X server. Ownership of, and read-write permission
+for, <Filename>/dev/console</Filename> is required in order to redirect console
+output.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">foreground</systemitem></term>
+<listitem>
+<para>Specifies the foreground of the terminal window as well as the default
+used by <command>dtterm</command> for the scroll bar and the color used for
+the pointer cursor. This resource defaults to the primary colorset foreground
+pixel. <![ %CDE.C.HP; [(When not running under HPVUE,
+this resource defaults to white.)
+]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">geometry</systemitem></term>
+<listitem>
+<para>Specifies the terminal window's preferred size and position. The default
+size is 24 lines of 80 characters each. There is no default position.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">iconGeometry</systemitem></term>
+<listitem>
+<para>Specifies the preferred position of the terminal emulator's icon. Window
+managers may ignore this value. There is no default.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">iconic</systemitem></term>
+<listitem>
+<para>Specifies whether or not the terminal emulator is initially displayed
+in an iconified state.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">iconName</systemitem></term>
+<listitem>
+<para>Specifies the name for the icon. When used with the <literal>&minus;e</literal> option, the default is the last component of the program's path;
+otherwise, the default is the last component of the name used to execute <command>dtterm</command> (that is, <symbol role="Variable">argv</symbol>[0]).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">jumpScroll</systemitem></term>
+<listitem>
+<para>Specifies that <command>dtterm</command> use jump scrolling. With jump
+scrolling, the screen may be scrolled more than one line at a time. This provides
+for faster screen updates when multiple lines of text are sent to the terminal.
+The maximum number of lines that may be jump scrolled is limited to the number
+of lines in the terminal window. The <command>dtterm</command> terminal emulator
+guarantees that all lines are displayed.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">kshMode</systemitem></term>
+<listitem>
+<para>Enables ksh mode. With ksh mode, a key pressed with the extend modifier
+bit set generates an escape character followed by the character generated
+by the un-extended keystroke. <![ %CDE.C.HP; [This option is provided for use with
+<Command>emacs</Command>(1) and the emacs
+command-line editor mode of
+&cdeman.ksh; or
+<Command>ied</Command>(1). ]]>This option is provided for use with the <command>emacs</command> command-line editor mode of &cdeman.ksh;. It conflicts
+with the normal meta key use for generating extended single byte characters
+and for generating multi-byte Asian characters.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">logging</systemitem></term>
+<listitem>
+<para>Enables output logging. When logging is enabled, all output received
+from the subprocess is logged either to a file or to a command pipeline (as
+specified via the <literal>logFile</literal> option). Since the data is logged
+directly from the subprocess, it includes all escape characters and carriage-returns
+and newline pairs the terminal line discipline sends. Logging may be enabled
+and disabled via escape sequences.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">logFile</systemitem></term>
+<listitem>
+<para>Specifies the filename to which <command>dtterm</command> writes the
+output log. If the filename begins with a pipe symbol (&thinsp;|&thinsp;), <command>dtterm</command> assumes the rest of the string is a command to be used as
+the endpoint of a pipe. The default filename is
+<filename>DttermLog</filename><symbol role="variable">XXXXX</symbol>
+(where <symbol role="variable">XXXXX</symbol> is a unique value) and
+is created in the directory from which the subprocess was started.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">logInhibit</systemitem></term>
+<listitem>
+<para>Indicates that <command>dtterm</command> inhibit device and file logging.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">loginShell</systemitem></term>
+<listitem><![ %CDE.C.CDE; [<para>Indicates that the shell that is started
+be a login shell (that is, the first character of <symbol role="Variable">argv</symbol>[0] is a dash), indicating that the shell should read the system's <classname>profile</classname> and the user's <Filename>.profile</Filename> files (for &cdeman.ksh; and <command>sh</command>(1)) or the system <classname>csh.login</classname> and the user's <Filename>.login</Filename> (for <command>csh</command>(1)).
+</para>]]><![ %CDE.C.XO; [<para>Indicates that the shell that is started be
+a login shell (that is, the first character of
+<symbol role="Variable">argv</symbol>[0] is a dash), indicating that the shell should read the system's <classname>profile</classname> and the user's <Filename>.profile</Filename> files (for &cdeman.ksh; and <command>sh</command>(1)).</para>]]></listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">mapOnOutput</systemitem></term>
+<listitem>
+<para>Indicates that the terminal emulator map (de-iconify) itself upon subprocess
+output if it is unmapped (iconified). The user can specify, via the <systemitem class="environvar">mapOnOutputDelay</systemitem> resource, an initial period of time during which <command>dtterm</command> does not map itself upon subprocess output.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">mapOnOutputDelay</systemitem></term>
+<listitem>
+<para>Specifies the number of seconds after start-up that <command>dtterm</command> does not honor the <systemitem class="environvar">mapOnOutput</systemitem>
+resource. This
+allows the application to send initial output (for example, shell prompts)
+to the terminal without auto mapping the window. The default is zero (no delay).
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">marginBell</systemitem></term>
+<listitem>
+<para>Specifies whether or not the bell rings when the user types near the
+right margin. The distance from the right margin is specified by the <systemitem class="environvar">nMarginBell</systemitem> resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">menuBar</systemitem></term>
+<listitem>
+<para>Indicates that <command>dtterm</command> displays a pulldown menu bar.
+The default is True.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">menuPopup</systemitem></term>
+<listitem>
+<para>Indicates that <command>dtterm</command> displays a popup menu. The
+default is True.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">nMarginBell</systemitem></term>
+<listitem>
+<para>Specifies the number of characters from the right margin at which the
+margin bell rings, when enabled.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">pointerBlank</systemitem></term>
+<listitem>
+<para>Specifies that <command>dtterm</command> puts the pointer cursor into
+blanking mode. In this mode, the cursor turns on when the pointer is moved,
+and is blanked after a selectable number of seconds or after keyboard input.
+The <systemitem class="environvar">pointerBlankDelay</systemitem> resource sets the delay.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">pointerBlankDelay</systemitem></term>
+<listitem>
+<para>Specifies the number of seconds to wait after the pointer has stopped
+moving before blanking the pointer (see <systemitem class="environvar">pointerBlank</systemitem>).
+A value of zero delays pointer blanking until a key is pressed.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">pointerColor</systemitem></term>
+<listitem>
+<para>Specifies the foreground color used by <command>dtterm</command> for
+the terminal window's pointer (X11) cursor. The default is the terminal window's
+foreground color (see <systemitem class="environvar">foreground</systemitem>).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">pointerColorBackground</systemitem></term>
+<listitem>
+<para>Specifies the background color used by <command>dtterm</command> for
+the terminal window's pointer (X11) cursor. The default is the terminal window's
+background color (see <systemitem class="environvar">background</systemitem>).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">pointerShape</systemitem></term>
+<listitem>
+<para>Specifies the X cursor font character used by <command>dtterm</command>
+as the pointer cursor. The font character must be specified as a string from
+the <filename role="Header">X11/cursorfont.h</filename> header with the leading <Symbol>XC_</Symbol> removed. The default is <command>xterm</command>(1).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">reverseWrap</systemitem></term>
+<listitem>
+<para>Specifies whether or not reverse-wraparound is enabled.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">saveLines</systemitem></term>
+<listitem>
+<para>Specifies the number of lines in the terminal buffer beyond the length
+of the window. The option value consists of a number followed by an optional
+suffix. If no suffix is included or the suffix is "l" (ell), the total length
+of the terminal buffer is <symbol role="Variable">screens</symbol> plus the
+length of the terminal window. If the suffix is "s" (ess) the total length
+of the terminal buffer is ( <symbol role="Variable">screens</symbol>+1) times
+the length of the terminal window. The <command>dtterm</command> utility attempts
+to maintain the same buffer-to-window ratio when the window is resized larger.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">scrollBar</systemitem></term>
+<listitem>
+<para>Specifies that <command>dtterm</command> displays a scroll bar.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">sunFunctionKeys</systemitem></term>
+<listitem>
+<para>Specifies whether <command>dtterm</command> generates Sun Function Key
+escape sequences instead of <![ %CDE.C.CDE; [standard ANSI escape sequences ]]><![ %CDE.C.XO; [the
+escape sequences described in <xref role="2" linkend="XCSA.M5DTT.anch.1">]]>for
+the terminal's function keys. <![ %CDE.C.XO; [See <xref role="3" linkend="XCSA.M5DTT.anch.4">for
+a description of the Sun Function Key escape sequences. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">termId</systemitem></term>
+<listitem>
+<para>Supplies the name used to select the correct response to terminal ID
+queries. Valid values are <literal>vt100</literal>, <literal>vt101</literal>, <literal>vt102</literal>, and <literal>vt220</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">termName</systemitem></term>
+<listitem>
+<para>Specifies a name to which <command>dtterm</command> sets the <systemitem class="environvar">TERM</systemitem> environment variable. The default is <command>dtterm</command>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">title</systemitem></term>
+<listitem>
+<para>Specifies the window title. When used with the <literal>&minus;e</literal>
+option, the default is the last component of the program's path; otherwise,
+the default is the last component of the name used to execute <command>dtterm</command> (that is, <symbol role="Variable">argv</symbol>[0]).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">ttyModes</systemitem></term>
+<listitem>
+<para>Specifies a string containing terminal-setting keywords and the characters
+to which they can be bound. Allowable keywords include: <literal>intr</literal>, <literal>quit</literal>, <literal>erase</literal>, <literal>kill</literal>, <literal>eof</literal>, <literal>eol</literal>, <literal>swtch</literal>, <literal>start</literal>, <literal>stop</literal>, <literal>brk</literal>, <literal>susp</literal>, <literal>dsusp</literal>, <literal>rprnt</literal>, <literal>flush</literal>, <literal>weras</literal> and <literal>lnext</literal>. The
+terminal emulator correctly parses and silently ignores keywords that do not
+apply to a specific architecture. Control characters can be specified as <literal>&caret;</literal><symbol role="Variable">char</symbol> (for example, <literal>&caret;c</literal> or <literal>&caret;u</literal>), and <literal>&caret;?</literal> can be used to indicate Delete. <![ %CDE.C.CDE; [This is useful
+for overriding the default terminal settings without having to do an <command>stty</command>(1) every time a DtTerm widget is created. ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">userBoldFont</systemitem></term>
+<listitem>
+<para>Specifies an <structname role="typedef">XFontSet</structname> used by <command>dtterm</command> when displaying bold terminal text. The <structname role="typedef">XFontSet</structname> should be specified as a Motif <![ %CDE.C.CDE; [&cdeman.XmFontList;. ]]><![ %CDE.C.XO; [ <structname role="typedef">XmFontList</structname>. ]]>The terminal emulator supports only character
+or mono-spaced fonts. When using proportional fonts, the behavior is undefined.
+The terminal emulator generates a default bold font based on the <Symbol>XLFD</Symbol> name of the <classname>userFont</classname>. If that font is not
+available, <command>dtterm</command> generates bold text by overstriking (with
+a one pixel offset) the <systemitem class="environvar">userFont</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">userFont</systemitem></term>
+<listitem>
+<para>Specifies an <structname role="typedef">XFontSet</structname> used by <command>dtterm</command> when displaying terminal text. <structname role="typedef">XFontSet</structname> should be specified as a Motif <![ %CDE.C.CDE; [&cdeman.XmFontList;. ]]><![ %CDE.C.XO; [ <structname role="typedef">XmFontList</structname>. ]]>The terminal emulator supports only character
+or mono-spaced fonts. When using proportional fonts, the behavior is undefined.
+This font is not used to display non-terminal text (such as menu bar, popup
+menu and dialog). The default is the <systemitem class="Resource">XmNtextFontList</systemitem> value of the parent bulletin board (see the XmBulletinBoard
+widget) in the same manner as the XmText widget.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">visualBell</systemitem></term>
+<listitem>
+<para>Indicates that a visual bell is preferred over an audible one. Instead
+of ringing the terminal bell whenever a &lt;control>-G is received, the window
+is flashed.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<refsect2>
+<title>Resource/Option Correspondence</title>
+<para>Many of the preceding resources correspond to the command-line arguments.
+The following table describes the relationship between the two:</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.09in">
+<colspec align="left" colwidth="221*">
+<colspec align="left" colwidth="281*">
+<tbody>
+<row>
+<entry align="left" valign="top"><classname>Command-line option</classname></entry>
+<entry align="left" valign="top"><classname>Resource Setting</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;132</classname></entry>
+<entry align="left" valign="top"><classname>*c132: True</classname></entry></row>
+<row>
+<entry align="left" valign="top"><classname>+132</classname></entry>
+<entry align="left" valign="top"><classname>*c132: False</classname></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;aw</classname></entry>
+<entry align="left" valign="top"><classname>*autoWrap: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+aw</classname></entry>
+<entry align="left" valign="top"><classname>*autoWrap: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;background</classname> <symbol role="Variable">background_color</symbol></entry>
+<entry align="left" valign="top"><classname>*background:</classname> <symbol role="Variable">background_color</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;bg</classname> <symbol role="Variable">background_color</symbol></entry>
+<entry align="left" valign="top"><classname>*background:</classname> <symbol role="Variable">background_color</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;bs</classname></entry>
+<entry align="left" valign="top"><classname>*backgroundIsSelect: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+bs</classname></entry>
+<entry align="left" valign="top"><classname>*backgroundIsSelect: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;C</classname></entry>
+<entry align="left" valign="top"><classname>*consoleMode: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;display</classname> <symbol role="variable">display_name</symbol></entry>
+<entry align="left" valign="top"><classname>.display:</classname> <symbol role="variable">display_name</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;e</classname> <symbol role="variable">program_argument...</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;fb</classname> <symbol role="variable">fontset</symbol></entry>
+<entry align="left" valign="top"><classname>*userBoldFont:</classname> <symbol role="variable">fontset</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;fg</classname> <symbol role="Variable">foreground_color</symbol></entry>
+<entry align="left" valign="top"><classname>*foreground:</classname> <symbol role="Variable">foreground_color</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;fn</classname> <symbol role="variable">fontset</symbol></entry>
+<entry align="left" valign="top"><classname>*userFont:</classname> <symbol role="variable">fontset</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;font</classname> <symbol role="variable">fontset</symbol></entry>
+<entry align="left" valign="top"><classname>*userFont:</classname> <symbol role="variable">fontset</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;foreground</classname> <symbol role="Variable">foreground_color</symbol></entry>
+<entry align="left" valign="top"><classname>*foreground:</classname> <symbol role="Variable">foreground_color</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;geometry</classname> <symbol role="variable">geometry_string</symbol></entry>
+<entry align="left" valign="top"><classname>.geometry:</classname> <symbol role="variable">geometry_string</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;iconic</classname></entry>
+<entry align="left" valign="top"><classname>.iconic: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+iconic</classname></entry>
+<entry align="left" valign="top"><classname>.iconic: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;j</classname></entry>
+<entry align="left" valign="top"><classname>*jumpScroll: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+j</classname></entry>
+<entry align="left" valign="top"><classname>*jumpScroll: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;kshMode</classname></entry>
+<entry align="left" valign="top"><classname>*kshMode: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+kshMode</classname></entry>
+<entry align="left" valign="top"><classname>*kshMode: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;l</classname></entry>
+<entry align="left" valign="top"><classname>*logging: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+l</classname></entry>
+<entry align="left" valign="top"><classname>*logging: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;lf</classname> <symbol role="Variable">file_name</symbol></entry>
+<entry align="left" valign="top"><classname>*logFile:</classname> <symbol role="Variable">file_name</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;ls</classname></entry>
+<entry align="left" valign="top"><classname>*loginShell: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+ls</classname></entry>
+<entry align="left" valign="top"><classname>*loginShell: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;map</classname></entry>
+<entry align="left" valign="top"><classname>*mapOnOutput: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+map</classname></entry>
+<entry align="left" valign="top"><classname>*mapOnOutput: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;mb</classname></entry>
+<entry align="left" valign="top"><classname>*marginBell: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+mb</classname></entry>
+<entry align="left" valign="top"><classname>*marginBell: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;ms</classname> <symbol role="variable">pointer_color</symbol></entry>
+<entry align="left" valign="top"><classname>*pointerColor:</classname> <symbol role="variable">pointer_color</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;name</classname> <symbol role="variable">prog_name</symbol></entry>
+<entry align="left" valign="top"><classname>.name:</classname> <symbol role="variable">prog_name</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;nb</classname> <symbol role="variable">number</symbol></entry>
+<entry align="left" valign="top"><classname>*nMarginBell:</classname> <symbol role="variable">number</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;rw</classname></entry>
+<entry align="left" valign="top"><classname>*reverseWrap: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+rw</classname></entry>
+<entry align="left" valign="top"><classname>*reverseWrap: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;sb</classname></entry>
+<entry align="left" valign="top"><classname>*scrollBar: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+sb</classname></entry>
+<entry align="left" valign="top"><classname>*scrollBar: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;sf</classname></entry>
+<entry align="left" valign="top"><classname>*sunFunctionKeys: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+sf</classname></entry>
+<entry align="left" valign="top"><classname>*sunFunctionKeys: False</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>&minus;sl</classname> <symbol role="Variable">screens</symbol>s</entry>
+<entry align="left" valign="top"><classname>*saveLines:</classname> <symbol role="Variable">screens  * lines/screen</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;sl</classname> <symbol role="Variable">lines</symbol></entry>
+<entry align="left" valign="top"><classname>*saveLines:</classname> <symbol role="Variable">lines</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;ti</classname> <symbol role="variable">term_id</symbol></entry>
+<entry align="left" valign="top"><classname>*termId:</classname> <symbol role="variable">term_id</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;title</classname> <symbol role="variable">title_string</symbol></entry>
+<entry align="left" valign="top"><classname>.title:</classname> <symbol role="variable">title_string</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;tm</classname> <symbol role="variable">term_modes</symbol></entry>
+<entry align="left" valign="top"><classname>*ttyModes:</classname> <symbol role="variable">term_modes</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;tn</classname> <symbol role="variable">term_name</symbol></entry>
+<entry align="left" valign="top"><classname>*termName:</classname> <symbol role="variable">term_name</symbol></entry></row>
+<row>
+<entry align="left" valign="top"><classname>&minus;vb</classname></entry>
+<entry align="left" valign="top"><classname>*visualBell: True</classname></entry>
+</row>
+<row>
+<entry align="left" valign="top"><classname>+vb</classname></entry>
+<entry align="left" valign="top"><classname>*visualBell: False</classname></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect2>
+</refsect1><refsect1>
+<title>ASYNCHRONOUS EVENTS</title><![ %CDE.C.XO; [<para>Default.</para>]]><![ %CDE.C.CDE; [<para>The <command>dtterm</command> utility takes the
+standard action for all signals.</para>]]></refsect1><refsect1>
+<title>STDOUT</title>
+<para>Not used.</para>
+</refsect1><refsect1>
+<title>STDERR</title>
+<para>Used only for diagnostic messages.</para>
+</refsect1><refsect1>
+<title>OUTPUT FILES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXTENDED DESCRIPTION</title>
+<refsect2>
+<title>On-the-Spot Preedit Style and Behavior</title>
+<para>When the user selects the on-the-spot input method style, preedit
+strings are displayed in the <command>dtterm</command> window, causing
+original data within <command>dtterm</command> to shift out to make room
+for the data in the preedit buffer.
+</para>
+<para>To cause <command>dtterm</command> to commit the preedit string,
+the user can select one of the following actions:
+</para>
+<simplelist>
+<member>
+ <classname>cut</classname>
+</member>
+<member>
+ <classname>paste</classname>
+</member>
+<member>
+ <classname>selection</classname>
+</member>
+<member>
+ <classname>cursor movement</classname>
+</member>
+<member>
+ <classname>commit key</classname>
+</member>
+</simplelist>
+<para>Note that the input method server may interpret cursor movement events
+within the preedit buffer as preedit movement commands. In this case,
+the string may not be committed. The interpretation of these movement
+events is completely dependent upon the implementation of the input
+method server.
+</para>
+<para>In addition to the generic actions listed above, there are several
+action routines defined in the <classname>DtTerm</classname> widget that
+may cause committal. These action routines include
+<classname>move_cursor</classname>, <classname>process_bdrag</classname>,
+and <classname>string</classname>. The action routines correspond
+to the generic commit actions listed above.
+</para>
+<para>When the preedit buffer is active, it may be highlighted. This highlight
+value can be set by the input method server. Since there is only a
+single highlight mode available in the <classname>DtTerm</classname> widget,
+the following <Symbol>XIMFeedback</Symbol>s will set the highlight:
+</para>
+<simplelist>
+<member>
+ <Symbol>XIMPrimary</Symbol>
+</member>
+<member>
+ <Symbol>XIMSecondary</Symbol>
+</member>
+<member>
+ <Symbol>XIMTertiary</Symbol>
+</member>
+</simplelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>EXIT STATUS</title>
+<variablelist remap="tight">
+<varlistentry><term>0</term>
+<listitem>
+<para>successful completion</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>>0</term>
+<listitem>
+<para>an error occurred</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>CONSEQUENCES OF ERRORS</title>
+<para>Default.</para>
+</refsect1><refsect1>
+<title>APPLICATION USAGE</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.Dt.Term.h;, <![ %CDE.C.CDE; [ <command>stty</command>(1), &cdeman.dttermesc;, <command>X</command>(1), &cdeman.XmFontList;, &cdeman.XmText;, <command>pty</command>(7), <command>tty</command>(7). ]]><![ %CDE.C.XO; [<classname>XmBulletinBoard</classname>, <classname>XmText</classname> in the &str-ZM;; <function>XrmParseCommand</function>(3), <function>XGetDefault</function>(3) in the &str-Zl;. ]]></para>
+</refsect1></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->
+

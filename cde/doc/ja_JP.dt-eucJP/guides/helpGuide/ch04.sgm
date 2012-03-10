@@ -1,0 +1,405 @@
+<!-- $XConsortium: ch04.sgm /main/15 1996/10/22 14:42:40 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.CrHV.div.1">
+<title id="HRDC.CrHV.mkr.1">ヘルプ・ボリュームの処理と表示</title>
+<para>この章では、ヘルプ・システムをオンライン形式で表示するために作成するマークアップしたヘルプ・ファイルの処理方法を説明します。また、デスクトップのフロントパネルのヘルプ・ビューアからヘルプ・ボリュームにアクセスする方法も説明します。
+</para>
+<informaltable id="HRDC.CrHV.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating Run-Time Help Files89'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.2"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Create a Run-Time Help Volume89'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.3"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Viewing a Help Volume92'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.6"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a Help Volume92'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.7"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Adding Your Help to the Index Volume94'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.8"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Printing Help Topics98'--><xref role="JumpText"
+linkend="HRDC.CrHV.mkr.13"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Testing Your Help99'--><xref role="JumpText"
+linkend="HRDC.CrHV.mkr.15"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<sect1 id="HRDC.CrHV.div.2">
+<title>概要</title>
+<para>ヘルプ・ボリュームを表示するには、DocBook ソフトウェアでファイルを処理し、実行時のヘルプ・ファイルを作成しなければなりません。実行時のファイルは、<emphasis>セマンティッック・デリバリ言語 (SDL - Semantic Delivery Language)</emphasis> と呼ばれるオンライン・プレゼンテーション形式を使用します。実行時のヘルプ・ファイルは、ファイル記述子 <filename>.sdl</filename> で識別できます。
+</para>
+<para>ユーティリティ <command>dtdocbook</command> は、DocBook 2.2.1 文書型定義 (DTD) の副要素 Part に準拠するドキュメントを受け取り、DtHelp ビューアの入力になることができる SDL 1.2 文書型定義 (DTD) に準拠するドキュメントを出力します。
+</para>
+<para>翻訳では、ドキュメントの実行時の表示速度を向上させるために、いくつかの項目が事前に処理されます。これらの項目には、目次、キーワード索引、相互参照の解決、および順序付けされたリストのラベル付けがあります。翻訳によって出力される SDL に準拠したドキュメントは、デフォルトで圧縮されます。
+</para>
+<graphic id="HRDC.CrHV.igrph.1" entityref="HRDC.CrHV.fig.1"></graphic>
+<para>ヘルプ・システムは、ヘルプ固有ファイルのデスクトップでのアクションとデータ型を定義します。これにより、デスクトップから実行時のヘルプ・ファイルを簡単に処理および表示できます。
+</para>
+<sect2 id="HRDC.CrHV.div.3">
+<title>DocBookソフトウェア</title>
+<para>DocBookソフトウェアは、ファイル・マネージャでヘルプのソース・ファイルをダブルクリックすると自動的に起動されます。または、手動で <command>dtdocbook</command> コマンドを端末ウィンドウで実行すると起動されます。
+</para>
+<para><command>dtdocbook</command> には、２つの重要なタスクがあります。
+</para>
+<orderedlist><listitem><para>DocBook の<emphasis>パーサ</emphasis>は、マークアップされたファイルを、ヘルプ・システムが理解できる内部形式（セマンティック・デリバリ言語）に変換します。マークアップにエラーがある場合は、<symbol role="Variable">volume</symbol><filename>.log</filename> というファイルにエラーが報告されます。</para>
+</listitem><listitem><para>パーサのエラーがない場合は、マスタのヘルプ・ボリューム・ファイル (<symbol role="Variable">volume</symbol><filename>.sdl</filename>) が作成されます。
+</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="HRDC.CrHV.div.4">
+<title>ボリュームの表示</title>
+<para>DocBook でのソース・ファイルの処理が終了すると、いつでもヘルプ・ボリュームを表示できます。表示するには、ファイル・マネージャで、<symbol role="Variable">volume</symbol><filename>.sdl</filename> のファイル・アイコンをダブルクリックするか、端末ウィンドウで <command>dthelpview</command> コマンドを使用します。
+</para>
+<graphic id="HRDC.CrHV.igrph.2" entityref="HRDC.CrHV.fig.2"></graphic>
+<para>アプリケーション用のヘルプを記述していて、そのアプリケーションが使用できる状態であれば、アプリケーションを実行してヘルプを呼び出せば、ヘルプを表示できます。
+</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrHV.div.5">
+<title id="HRDC.CrHV.mkr.2">実行時のヘルプ・ファイルの作成</title>
+<para><command>dtdocbook</command> を実行すると、<symbol role="Variable">volume</symbol><filename>.sgm</filename> ファイル、および、エンティティを使用して指定された追加ファイルを読み取ります。また、使用するグラフィック・ファイルが存在するかどうかも確認します。
+</para>
+<para>検索パスに <command>/usr/dt/bin/dtdocbook</command> コマンドがあることを確認してください。（確認方法がわからない場合には、システム管理者に問い合わせてください。）
+</para>
+<sect2 id="hrdc.crhv.div.6" role="Procedure">
+<title id="hrdc.crhv.mkr.3">実行時のヘルプ・ボリュームを作成するには</title>
+<orderedlist><listitem><para>ファイル・マネージャを開き、ディレクトリを <symbol role="Variable">volume</symbol><filename>.sgm</filename> ファイルのあるディレクトリに変更します。
+</para>
+<graphic id="hrdc.crhv.igrph.3" entityref="HRDC.CrHV.fig.3"></graphic>
+</listitem><listitem><para>ファイル・アイコンを選択します。
+</para>
+</listitem><listitem><para>ファイル・マネージャの[選択]メニューで[コンパイル]を選択します。
+</para>
+<para><symbol role="Variable">volume</symbol><filename>.sgm</filename> ファイルが処理され、<symbol role="Variable">volume</symbol><filename>.sdl</filename> ファイルと <symbol role="Variable">volume</symbol><filename>.log</filename> ファイルが作成されます。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="HRDC.CrHV.div.7">
+<title>DocBook の出力</title>
+<para>DocBook は、その入力として、<symbol role="Variable">volume</symbol><filename>.sgm</filename> を受け取り、いくつかのファイルを出力します。
+</para>
+<itemizedlist><listitem><para>もっとも重要なのは、最終的な出力ファイルが、<symbol role="Variable">volume</symbol><filename>.sdl</filename> という名前の実行時ヘルプ・ボリュームであることです。</para>
+</listitem><listitem><para>処理中にエラーが発生すると、それらは、<symbol role="Variable">volume</symbol><filename>.log</filename> という名前のエラー・ファイルに報告されます。これは、通常、使用後に削除します。</para>
+</listitem></itemizedlist>
+<para><symbol role="Variable">volume</symbol><filename>.sdl</filename> ファイルは、ソース・ファイルのエラーがなくなるまで作成されません。
+</para>
+<para><symbol role="Variable">volume</symbol><filename>.sdl</filename> ファイル、およびユーザのグラフィック・ファイルは、ヘルプ・トピックを表示するために、ヘルプ・システムによって読み込まれます。
+</para>
+<para>実行時のヘルプ・ファイルは、ユーザの <symbol role="Variable">volume</symbol><filename>.sgm</filename> ファイルと同じベース名をもちます。たとえば、ユーザのソース・ファイルの名前が、<filename>Librarian.sgm</filename> ならば、ヘルプ・ボリュームの名前は、<filename>Librarian.sdl</filename> になります。</para>
+<para><command>dtdocbook</command> ユーティリティは、引き数として単一のファイルを受け付けます。ファイル名が、&ldquo;<filename>.sgm</filename>&rdquo; という文字列で終わっていれば、これらの文字列がファイル名の拡張子であることが仮定され、すべての中間ファイル、および最終的な出力ファイルのファイル・ベース名を作成するために、削除されます。
+</para>
+<para>既存の SDL ファイルの圧縮や伸張を要求するために、<command>dtdocbook -c</command> または <command>dtdocbook -d</command> オプションを指定する場合、入力ファイル名は、ldquo;<filename>.sdl</filename>&rdquo; という文字列で終わります。もう一度、繰り返すと、これらの文字列はファイル名の拡張子と仮定され、すべての中間ファイルおよび最終的な出力ファイルのファイル・ベース名を作成するために、削除されます。
+</para>
+<para><command>-c</command> オプションが指定され、そのファイルがすでに圧縮されている場合、ファイルは伸張されてから圧縮されます。このアクションは、圧縮された SDL ファイルの集積状態を検証する手段として有用です。
+</para>
+<para><command>-d</command> が指定され、そのファイルがすでに伸張されている場合、、再度の解析とすべての事前計算処理の実行が行われ、ファイルは再度書き込まれます。このアクションは、SDL ファイルの集積状態を検証する手段として有用です。また、たとえば、SDL ファイルを直接編集したことによって再計算が必要になった場合に、個別のヘルプ・トピックのバイト・オフセットを含むそのような再計算を強制的に実行するときにも有用です。
+</para>
+<para>最終的なファイル名の拡張子は、常に &ldquo;<filename>.sdl</filename>&rdquo; になります。<command>dtdocbook -o</command> オプションが指定された場合には、<command>dtdocbook -o</command> への引き数 <symbol role="Variable">filename</symbol> が、与えられた出力ファイル名として使用されます。
+</para>
+<caution>
+<para><command>dtdocbook</command> を実行した後で、実行時ヘルプ・ファイルやグラフィック・ファイルの名前を、決して変更してはいけません。<symbol role="Variable">volume</symbol><filename>.sdl</filename> ファイルに格納された情報は、元の名前に依存します。<symbol role="Variable">volume</symbol><filename>.sgm</filename> ファイルやグラフィック・ファイルの名前を変更した場合は、必ず、<command>dtdocbook</command> を再実行してください。
+</para>
+</caution>
+</sect2>
+<sect2 id="HRDC.CrHV.div.8" role="Procedure">
+<title>手動で dtdocbook コマンドを実行するには</title>
+<itemizedlist><listitem><para><command>dtdocbook</command> コマンドは、次のように実行します。
+</para>
+<para><command>dtdocbook</command> <symbol>options</symbol> <symbol>volume</symbol></para>
+<para><symbol>options</symbol> が、<symbol>volume</symbol> 名の前にあることをみてください。<xref role="SecTitleAndPageNum" linkend="HRDC.CmdS.mkr.2"> には、すべての有効なオプションをリストされています。</para>
+</listitem></itemizedlist>
+<sect3 id="HRDC.CrHV.div.9">
+<title>コマンド Options.sgm の例</title>
+<para>次のコマンドは、<filename>MyVolume</filename> という名前のヘルプ・ボリュームを処理します。</para>
+<programlisting>dtdocbook MyVolume</programlisting>
+<para><command>-r</command> オプションを使用すると、<filename>MyVolume.sgm</filename> というソース・ファイルを処理することによって生成されたすべてのファイルが削除されます。
+</para>
+<programlisting>dtdocbook -r MyVolume.sgm</programlisting>
+<para>次のコマンドは、<filename>MyVolume.sgm</filename> という名前のソース・ファイルを処理し、結果を <filename>Other_File.sdl</filename> という名前のファイルに出力します。</para>
+<programlisting>dtdocbook -o Other_File.sdl MyVolume.sgm</programlisting>
+<para><command>-v</command> オプションを使用すると、進行状況が画面に表示されます。
+</para>
+<programlisting>dtdocbook -v MyVolume</programlisting>
+</sect3>
+<sect3 id="HRDC.CrHV.div.11">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="ChapNumAndTitle"
+linkend="HRDC.Inst.mkr.1"> は、アプリケーション・インストール・パッケージにどのヘルプ・ファイルが含まれているかを説明しています。
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.CrHV.div.12" role="Procedure">
+<title id="HRDC.CrHV.mkr.5">パーサ・エラーをレビューおよび修正するには</title>
+<para>最初のエラー・メッセージは、SGML パーサから出力されます。これらのほとんどは、SGML のシンタクスに関するエラー・メッセージですが、「ファイルがみつからない」という種類のものもあります。
+</para>
+<para>ソース・ファイルを SGML から SDL に翻訳する処理の２つのパスも、シンタクスに関するエラー・メッセージや「ファイルがみつからない」というメッセージを生成しますが、件数は多くありません。２つのパスのうち２番目のパスは、まれにしかエラー・メッセージを発行しません。すべてのシンタクスと内容は、それまでにチェックされてしまうからです。
+</para>
+<para><command>dtdocbook</command> を実行後、<symbol role="Variable">volume</symbol><filename>.log</filename> ファイル（ここで <symbol role="Variable">volume</symbol> は、ユーザの<symbol role="Variable">volume</symbol><filename>.sgm</filename> ファイルのベース名です）の内容をみてください。</para>
+<para>ひとつの単純なエラーが、数個のエラー・メッセージを出力する可能性は、おおいにあります。なぜなら、エラーによって、パーサが意図したコンテキストの解析順序を失い、引き続くマークアップを適切に解釈することが不可能になるからです。
+</para>
+<sect3 id="HRDC.CrHV.div.13">
+<title>一般的なエラー</title>
+<para>処理エラーのほとんどは、以下の一般的なミスによるものです。
+</para>
+<itemizedlist><listitem><para>終了タグの付け忘れ</para>
+</listitem><listitem><para>間違ったエンティティ名の使用</para>
+</listitem><listitem><para>無効な要素IDの参照</para>
+</listitem></itemizedlist>
+<para>要素に終了タグを付け忘れるのは、よくあるミスです。<emphasis>事実上、すべての DocBook の要素には、終了タグが必要です。</emphasis>リスト内の図のように、複雑な要素を別の要素内に、構造的にネストする場合は、マークアップをチェックしてください。
+</para>
+<para>また、不正確なエンティティ名を使用するとエラーが出力されます。ほとんどの場合、これは単純なスペルミスです。ある場合には、エンティティ名が変更されているにもかかわらず、元の名前への相互参照が、エラーの原因となります。エンティティ名を変更した場合には、ソース・ファイルを検索して、すべてのエンティティ名のインスタンスをチェックすることを忘れないでください。
+</para>
+<para>また、要素に割り当てられたIDを変更すると、あらゆる相互参照やトピックへのリンクに影響するため、エラーが出力されることがあります。IDを変更した場合には、ソース・ファイルを検索して、そのIDのすべてのインスタンスをチェックすることを忘れないでください。
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrHV.div.14">
+<title id="HRDC.CrHV.mkr.6">ヘルプ・ボリュームの表示</title>
+<para>ヘルプ・ビューアは、どのヘルプ・ボリュームでも表示できます。ヘルプ・ビューアは、アプリケーション定義リンクを除く（これはユーザのリンクをどのように解釈すべきかわからないためです）すべての型のハイパーリンクをサポートしています。
+</para>
+<para>アプリケーション用ヘルプを記述していて、そのアプリケーションが使用できる状態であれば、アプリケーションを実行し、ユーザが操作するようにヘルプを呼び出せば、ヘルプを表示できます。
+</para>
+<sect2 id="HRDC.CrHV.div.15" role="Procedure">
+<title id="HRDC.CrHV.mkr.7">ヘルプ・ボリュームを表示するには</title>
+<orderedlist><listitem><para>ファイル・マネージャを開き、ディレクトリを <symbol role="Variable">volume</symbol><filename>.sdl</filename> ファイルのあるディレクトリに移動します。
+</para>
+</listitem><listitem><para>アイコンをダブルクリックします。</para>
+<para>デフォルトでは、ヘルプ・ビューアを使用してファイルが表示されます。
+</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.CrHV.div.16" role="Procedure">
+<title>手動で dthelpview コマンドを実行するには</title>
+<itemizedlist><listitem><para>表示したいボリュームの <symbol role="Variable">volume</symbol><filename>.sdl</filename> ファイルが、現在のディレクトリにあるか、または登録されている場合は、次のコマンドを実行します。
+</para>
+<para><command>dthelpview -helpVolume <symbol role="Variable">volume</symbol><filename>.sdl</filename></command></para>
+<para><emphasis>あるいは、</emphasis><symbol role="Variable">volume</symbol><filename>.sdl</filename> が別のディレクトリにある（そして未登録である）場合は、次のコマンドを実行します。
+</para>
+<para><command>dthelpview -helpVolume /<symbol>full-path</symbol>/ <symbol>volume</symbol>.sdl</command></para>
+</listitem></itemizedlist>
+<para>これらのコマンドで、<command>-helpVolume</command> パラメータは、短縮して <command>-h</command> にすることができます。
+</para>
+</sect3>
+<sect3 id="HRDC.CrHV.div.17">
+<title>例</title>
+<para>ヘルプ・ボリュームを編集したばかりとしましょう。まず、DocBook ソフトウェアで、これを処理します。
+</para>
+<programlisting>dtdocbook MyVolume.sgm</programlisting>
+<para>エラーがなければ、次のコマンドで表示することができます。
+</para>
+<programlisting>dthelpview -h MyVolume.sdl</programlisting>
+</sect3>
+<sect3 id="HRDC.CrHV.div.18">
+<title>関連項目</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.Inst.mkr.9"></para>
+</listitem></itemizedlist>
+</sect3>
+<sect3 id="HRDC.CrHV.div.19">
+<title>例: 個人用ヘルプ・ディレクトリ</title>
+<para>プロジェクト期間中に、自分が開発しているヘルプ・ボリュームにアクセスしたいけれども、システムのすべてのユーザに公開したくはない場合があります。たとえば、作業ディレクトリが、<filename>/projects/help</filename> で、ヘルプ・ボリュームが <filename>Myvolume</filename> という名前だとします。</para>
+<para>まず、ボリュームを登録できるホーム・ディレクトリに個人用ヘルプ・ディレクトリを作成します。
+</para>
+<programlisting>mkdir -p $HOME/.dt/help/C</programlisting>
+<para>次に（DocBook ソフトウェアによって作成される）<filename>Myvolume.sdl</filename> ファイルへのシンボリック・リンクを作成します。
+</para>
+<programlisting>ln -s /projects/help/Myvolume.sdl $HOME/.dt/help/C/Myvolume.sdl
+</programlisting>
+<para>これで（現在のディレクトリとは無関係に）ボリュームを次のコマンドで表示できます。これは、ホーム・ディレクトリ内の <filename>.dt/help/C</filename> ディレクトリは、ヘルプ・システムがヘルプ・ボリュームを検索するときに最初に参照するからです。
+</para>
+<programlisting>dthelpview -helpVolume Myvolume.sdl</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrHV.div.20">
+<title id="HRDC.CrHV.mkr.8">索引ボリュームへのヘルプの追加</title>
+<para>デスクトップは、索引ボリュームと呼ばれる特別なヘルプ・ボリュームを提供しています。索引ボリュームには、システムで使用可能なヘルプ・ボリュームがリストされます。索引ボリュームは、フロントパネルで、[ヘルプ・ビューア]コントロールをクリックすると表示されます。
+</para>
+<para>索引ボリュームから各種のヘルプ・ボリュームを直接表示できます。これにより、アプリケーションを起動しなくても、アプリケーション固有のヘルプにアクセスできます。また、スタンドアロン・ヘルプを記述している場合は、ユーザがそのヘルプを得られる唯一の方法です。
+</para>
+<figure>
+<title id="HRDC.CrHV.mkr.9">ヘルプ・ファミリを表示する索引ヘルプ・ボリューム</title>
+<graphic id="HRDC.CrHV.grph.1" entityref="HRDC.CrHV.fig.4"></graphic>
+</figure>
+<para>ヘルプ・ボリュームを索引ボリュームで使用可能にするには、ヘルプ・ファミリ・ファイルを作成します。アプリケーションがデスクトップに登録されている場合には、ファミリ・ファイルの存在によって、ヘルプ・ボリュームが索引ボリュームに取り込まれます。
+</para>
+<sect2 id="HRDC.CrHV.div.21">
+<title id="HRDC.CrHV.mkr.10">索引ボリューム</title>
+<para>デスクトップ・ユーティリティは、索引ボリュームの作成および更新を行います。ユーザが、初めてフロントパネルのヘルプ・ビューアをクリックすると、ユーティリティが自動的に実行されます。これは、ヘルプ検索パスのディレクトリにあるヘルプ・ボリュームとヘルプ・ファミリ・ファイルを識別します。ユーザの <filename>HomeDirectory/.dt/help/$DTUSERSESSION</filename> ディレクトリにある <filename>index.hv</filename> と呼ばれるファイルを作成します。初期作成後は、ボリュームは変更が発生したときのみ更新されます。
+</para>
+<para>索引ボリュームを手動で更新するには、<xref role="SecTitleAndPageNum" linkend="HRDC.CmdS.mkr.5"> を参照してください。</para>
+<para>索引ボリュームにリストされたどのヘルプ・ボリュームも、ボリューム・タイトルを選択することによって表示することができます。複数の異なるボリュームを表示して、その間を移動できるため、索引ヘルプのウィンドウには、[トップレベル]と呼ばれるボタンが追加されます。このボタンを使用して、ひとつまたは複数のボリュームを表示した後、索引リストに戻ることができます。
+</para>
+</sect2>
+<sect2 id="HRDC.CrHV.div.22">
+<title>ヘルプ・ファミリ・ファイル</title>
+<para>デスクトップ・ユーティリティは、どのヘルプ・ボリュームが索引ボリュームに集められているか識別するために、ヘルプ・ファミリ・ファイルを調べます。<xref role="PageNum" linkend="HRDC.CrHV.mkr.9"> の <xref role="CodeOrFigureOrTable" linkend="HRDC.CrHV.mkr.9"> は、索引ボリュームにリストされている「共通デスクトップ環境」と「概要およびデスクトップの基本スキル」という２つのヘルプ・ファミリを示します。各ファミリ・ファイルは、ひとつまたは複数の関連するヘルプ・ボリュームから成ります。たとえば、「共通デスクトップ環境」ファミリには、デスクトップを説明する異なるボリュームが含まれています。
+</para>
+<para>アプリケーションとそのヘルプ・ファイルをデスクトップにインストールする方法の詳細については、『共通デスクトップ環境 上級ユーザおよびシステム管理者ガイド』を参照してください。
+</para>
+</sect2>
+<sect2 id="HRDC.CrHV.div.23" role="Procedure">
+<title id="HRDC.CrHV.mkr.11">ヘルプ・ファミリを作成するには</title>
+<orderedlist><listitem><para>プロダクトに独自のファイル名を付けます。<emphasis>ヘルプ・ファミリ</emphasis>のファイルであることが識別できるように、拡張子 <filename>.hf</filename> を使用します。
+</para>
+<para><filename><symbol>family</symbol>.hf</filename></para>
+</listitem><listitem><para>次の行をファイルに入力します。
+</para>
+<programlisting>*.charSet:           <symbol>character-set</symbol>
+*.title:        <symbol>family title</symbol>
+*.bitmap:       <symbol>icon file</symbol>
+*.abstract:     <symbol>family abstract</symbol>
+*.volumes:      <symbol>volume volume volume ...</symbol></programlisting>
+<para><symbol>character-set</symbol> は、<symbol>family title</symbol> 文字列と <symbol>family abstract</symbol> 文字列が使用する文字セットです。サポートされている文字セットのリストについては、<xref role="SecTitleAndPageNum" linkend="HRDC.Lang.mkr.11"> を参照してください。<symbol>family title</symbol> と <symbol>family abstract</symbol> には、DocBook マークアップを指定できません。このファイルは、DocBook ソフトウェアでは<emphasis>処理されません。</emphasis>
+</para>
+<para><symbol>icon file</symbol> はオプションです。指定する場合、ファイルの位置を指定するのに使用するパスは絶対パス名でなければなりません。アイコンを付けない場合は、ファミリ・ファイルに <filename>*.bitmap</filename> リソースを指定しないようにしてください。
+</para>
+<para><symbol>volume</symbol> 名のリストは、そのファミリにどのボリュームが属すのかを識別します。ボリュームは、この行に表示される順番にリストされます。ひとつのボリュームが複数のファミリにリストされることもあります。
+</para>
+<para>いずれかの値が１行を超える場合、最後の行以外の各行を、バックスラッシュ (<filename>\</filename>) で終わらせます。
+</para>
+<para>ファイル内で <filename>!</filename> (感嘆符) で始まる行はコメント行であり、無視されます。
+</para>
+</listitem><listitem><para>最終的なプロダクトを準備するとき、<symbol>family</symbol><filename>.hf</filename> ファイルと残りのヘルプ・ファイルをインストールしてください。デスクトップ統合スクリプト (<command>dtappintegrate</command>) は、実行されると、ファミリ・ファイルへのシンボリック・リンクを作成します。
+</para>
+<para><command>dtappintegrate</command> スクリプトの実行方法は、<citetitle>共通デスクトップ環境 上級ユーザおよびシステム管理者ガイド</citetitle>で説明しています。
+</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.CrHV.div.24">
+<title>例</title>
+<para>次の例は、デスクトップのオンライン・ヘルプ用のファミリ・ファイルです。
+</para>
+<programlisting>*.charSet:      ISO-8859-1
+*.title:        Common Desktop Environment
+*.bitmap:       /usr/dt/appconfig/help/C/graphics/cdelogo.pm
+*.abstract:     Overview and Basic Desktop Skills \
+                * File Manager and the Desktop \
+                * Front Panel \
+                * Application Manager \
+                * Style Manager \
+                * Text Editor \
+                * Mailer
+*.volumes: Intromgr.sdl Filemgr.sdl FPanel.sdl
+           Appmanager.sdl Stylemgr.sdl
+           Textedit.sdl Mailer.sdl
+
+</programlisting>
+<para>実際にデスクトップ・ソフトウェアに指定されているヘルプ・ファミリが、この図のとおりになっているとはかぎりません。
+</para>
+</sect3>
+<sect3 id="HRDC.CrHV.div.25">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para>サポートされている文字セットの名前のリストについては、<xref role="SecTitleAndPageNum" linkend="HRDC.Lang.mkr.5"> を参照してください。
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="hrdc.crhv.div.26" role="Procedure">
+<title id="hrdc.crhv.mkr.12">索引ボリュームを表示するには</title>
+<orderedlist><listitem><para>デスクトップのフロントパネルから[ヘルプ・ビューア]コントロールを選択します。
+</para>
+<graphic id="hrdc.crhv.igrph.4" entityref="HRDC.CrHV.fig.5"></graphic>
+</listitem><listitem><para>ヘルプ・ウィンドウをスクロールして、システムで使用可能なヘルプ・ファミリを表示します。
+</para>
+</listitem><listitem><para>必要ならば、ヘルプ・ファミリ・タイトルを選択して、ボリュームを表示します。
+</para>
+</listitem></orderedlist>
+<note>
+<para>ヘルプ・システムに関するヘルプ情報を表示するには、「共通デスクトップ環境」のタイトル、次に「デスクトップ ヘルプ・システム」を選択してください。
+</para>
+</note>
+<sect3 id="hrdc.crhv.div.27" role="Procedure">
+<title>手動で索引ボリュームを表示するには</title>
+<itemizedlist><listitem><para><command>dthelpview</command> コマンドを、次のように実行します。
+</para>
+<programlisting>dthelpview -helpVolume index</programlisting>
+</listitem></itemizedlist>
+</sect3>
+<sect3 id="hrdc.crhv.div.28">
+<title>関連項目</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="hrdc.cmds.mkr.4"> は <command>dthelpview</command> コマンド行をリストしています。
+</para>
+</listitem><listitem><para><command>dthelpgen</command>(1) マニュアル・ページ
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrHV.div.29">
+<title id="HRDC.CrHV.mkr.13">ヘルプ・トピックの印刷<indexterm><primary>印刷</primary><secondary>ヘルプ・トピック</secondary></indexterm></title>
+<para>ヘルプ・ボリュームを表示した後、ヘルプ・トピックを印刷することができます。
+<!--Original XRef content: 'Figure&numsp;4&hyphen;2'--><xref role="CodeOrFigureOrTable" linkend="HRDC.CrHV.mkr.14"> のダイアログ・ボックスで個々のトピック、目次および索引情報、ヘルプ・ボリューム全体を印刷できます。印刷出力では、グラフィックは省略されます。
+</para>
+<figure>
+<title id="HRDC.CrHV.mkr.14">ヘルプの印刷ダイアログ・ボックス</title>
+<graphic id="HRDC.CrHV.grph.2" entityref="HRDC.CrHV.fig.6"></graphic>
+</figure>
+</sect1>
+<sect1 id="HRDC.CrHV.div.30">
+<title id="HRDC.CrHV.mkr.15">ヘルプのテスト</title>
+<indexterm><primary>テスト</primary><secondary>ヘルプ</secondary></indexterm><indexterm><primary>ハイパーリンクの検証</primary></indexterm><indexterm><primary>ハイパーリンク</primary><secondary>ハイパーリンクの検証</secondary></indexterm><indexterm><primary>アプリケーションのエントリ・ポイントの検証</primary></indexterm><indexterm><primary>アプリケーションのエントリ・ポイント、検証</primary></indexterm><indexterm><primary>アプリケーションのエントリ・ポイント、検証</primary></indexterm><indexterm><primary>ポイント、エントリ、アプリケーションにおける検証</primary></indexterm><indexterm><primary>テスト</primary><secondary>さまざまなディスプレイ上のグラフィック</secondary></indexterm><indexterm><primary>グラフィック、さまざまなディスプレイ上のテスト</primary></indexterm><indexterm><primary>ディスプレイ、さまざまな〜上のグラフィックのテスト</primary></indexterm>
+<para>ヘルプ・ボリュームのテストは、他のソフトウェア・プロダクトのテストと同じように重要です。テストを計画するときに役立つヒントをいくつか紹介します。
+</para>
+<sect2 id="HRDC.CrHV.div.31">
+<title>ハイパーリンクの妥当性テスト</title>
+<itemizedlist remap="Bullet1"><listitem><para>ヘルプ・ボリュームを表示して、すべてのハイパーリンクを試します。（実線または破線の下線の付いた）テキストは、すべてハイパーリンクです。また、ハイパーリンクになっているすべてのグラフィックもテストします。グラフィック・ハイパーリンクは、ハイパーリンクの印として、イメージの周りに（破線または実線の）隅が開いている枠を使用しています。
+</para>
+</listitem><listitem><para>アプリケーション固有のヘルプを記述していて <command>JumpNewView</command>、<command>Man</command>、または <command>AppDefined</command> リンクのいずれかを指定した場合は、これらのリンクをアプリケーションからテストしなければなりません。これらのリンクを <command>dthelpview</command> を使用してテストしても、アプリケーション内から正しく動作する保証にはなりません。
+</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.CrHV.div.32">
+<title>エントリ・ポイントの確認</title>
+<para>特定のヘルプ・トピックへのアクセスにIDを使用するアプリケーション固有のヘルプを記述している場合、IDがヘルプ・ボリューム内で正しく確立されているかを調べる方法は２つあります。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>アプリケーションを実行して、ユーザ
+がするようにヘルプを要求し、エントリ・ポイントをひとつずつ確認します。これにより、アプリケーションが正しいIDを使用しているかという検証もできます。
+</para>
+</listitem><listitem><para>アプリケーションが（開発中で）まだ使用できない場合は、各IDに対して <command>dthelpview</command> を実行することで、各IDをテストできます。
+</para>
+<programlisting>dthelpview -helpVolume <symbol role="Variable">volume.sdl</symbol> -locationId <symbol role="Variable">id</symbol></programlisting>
+<para><symbol role="Variable">id</symbol> は、テストしたい位置IDです。<command>dthelpview</command> が正しいトピックを表示していれば、そのIDは大丈夫です。
+</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.CrHV.div.33">
+<title>索引エントリのチェック</title>
+<para>ユーザは、ヘルプ・トピックをみつけるために、ヘルプ・ボリュームの索引を検索したり、ブラウズしたりします。あいまいな用語や重複したエントリがないように、索引エントリも丁寧に検査してください。また、各索引エントリを選択して、表示されるトピックがもっとも適切な情報か検証してください。
+</para>
+</sect2>
+<sect2 id="HRDC.CrHV.div.34">
+<title>グラフィックのテスト</title>
+<itemizedlist remap="Bullet1"><listitem><para>グラフィックが、カラー、グレースケール、白黒ディスプレイで表示可能なことを検査するために、物理的にアプリケーションをさまざまなディスプレイで表示します。
+</para>
+</listitem><listitem><para>デスクトップが使用するカラーの数を変更して、他のディスプレイをシミュレートすることもできます。そのためには、スタイル・マネージャを開き、[色の数]を選択し、異なるカラー・オプションを指定します。
+</para>
+</listitem></itemizedlist>
+<sect3 id="HRDC.CrHV.div.36">
+<title>関連項目</title>
+<itemizedlist remap="Bullet1"><listitem><para><!--Original XRef content: '&ldquo;Generating a Index Help Volume (dthelpgen)&rdquo; on page&numsp;193'--><xref role="SecTitleAndPageNum" linkend="HRDC.CmdS.mkr.5"></para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->

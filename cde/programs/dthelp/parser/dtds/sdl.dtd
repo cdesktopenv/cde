@@ -1,0 +1,1010 @@
+<!SGML "ISO 8879:1986"
+
+  -- ======================================================
+                  Semantic Delivery Language DTD
+
+ (c) Copyright 1993, 1994 Hewlett-Packard Company
+ (c) Copyright 1993, 1994 International Business Machines Corp.
+ (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+ (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of Novell, Inc.
+
+     Permission to use, copy, and distribute this Document Type
+     Definition (DTD) is hereby granted, provided that the above
+     copyright notice appear in all copies and that both that
+     copyright notice and this permission notice appear in supporting
+     hardcopy and online documentation.  All other rights reserved.
+
+     The names of the companies owning the copyright or the company
+     logos may not be used in advertising or publicity pertaining to
+     distribution of this DTD without specific, written prior
+     permission.  The companies make no representations about the
+     suitability of this DTD for any purpose.  It is provided "as is"
+     without express or implied warranty.
+
+     The companies disclaim all warranties with regard to this DTD,
+     including all implied warranties of merchantability and fitness,
+     in no event shall the companies be liable for any special,
+     indirect or consequential damages or any damages whatsoever
+     resulting from loss of use, data or profits, whether in an action
+     of contract, negligence or other tortious action, arising out of
+     or in connection with the use or performance of this DTD.
+
+     ======================================================
+
+     RCS information is later in the document
+  --
+
+  -- SGML Declaration ________________________________________________--
+CHARSET
+BASESET "ISO 646-1983//CHARSET International Reference Version
+          (IRV)//ESC 2/5 4/0"
+DESCSET      0        9      UNUSED
+             9        2      9
+            11        2      UNUSED
+            13        1      13
+            14       18      UNUSED
+            32       95      32
+           127        1      UNUSED
+
+BASESET "ISO Registration Number 100//CHARSET ECMA-94
+          Right Part of Latin Alphabet  Nr. 1//ESC  2/13  4/1"
+DESCSET    128       32      UNUSED
+           160        5      32
+           165        1      UNUSED
+           166       88      38
+           254        1      127
+           255        1      UNUSED
+
+CAPACITY SGMLREF
+    TOTALCAP 350000
+    ENTCAP   100000
+    ENTCHCAP  50000
+    ELEMCAP   50000
+    GRPCAP   210000
+    EXGRPCAP  50000
+    EXNMCAP   50000
+    ATTCAP    50000
+    ATTCHCAP  50000
+    AVGRPCAP  50000
+    NOTCAP    50000
+    NOTCHCAP  50000
+    IDCAP     50000
+    IDREFCAP  50000
+    MAPCAP   210000
+    LKSETCAP  50000
+    LKNMCAP   50000
+
+SCOPE DOCUMENT
+SYNTAX -- The Core Reference Syntax except with ATTCNT, LITLEN, NAMELEN,
+          GRPCNT, and GRPGTCNT changed --
+
+SHUNCHAR CONTROLS   0   1   2   3   4   5   6   7   8   9
+                   10  11  12  13  14  15  16  17  18  19
+                   20  21  22  23  24  25  26  27  28  29
+                   30  31 127 255
+
+BASESET "ISO 646-1983//CHARSET International Reference Version
+          (IRV)//ESC 2/5 4/0"
+DESCSET      0      128      0
+
+FUNCTION     RE      13
+             RS      10
+             SPACE   32
+             TAB     SEPCHAR    9
+
+NAMING
+   LCNMSTRT ""
+   UCNMSTRT ""
+   LCNMCHAR "-."
+   UCNMCHAR "-."
+   NAMECASE
+      GENERAL YES
+      ENTITY  YES
+
+DELIM
+   GENERAL  SGMLREF
+   SHORTREF SGMLREF
+   NAMES    SGMLREF
+   QUANTITY SGMLREF
+       ATTCNT    140
+       LITLEN   4096
+       NAMELEN    64
+       GRPCNT    100
+       GRPGTCNT  253
+       TAGLVL     48
+
+FEATURES
+    MINIMIZE
+        DATATAG    NO
+        OMITTAG    NO
+        RANK       NO
+        SHORTTAG   NO
+    LINK
+        SIMPLE     NO
+        IMPLICIT   NO
+        EXPLICIT   NO
+    OTHER
+        CONCUR     NO
+        SUBDOC     NO
+        FORMAL     NO
+        APPINFO  NONE
+>
+
+<!DOCTYPE sdldoc [
+<!-- ======================================================
+   -              Semantic Delivery Language DTD
+   -
+   -
+   - Original:  March 9, 1992
+   -
+   - Transcribed on: March 10, 1993
+   -
+   - $XConsortium: sdl.dtd /main/3 1995/11/08 09:58:22 rswiston $
+   - $Header: /proj/.cde-1/cde1/dthelp/parser/dtds/sdl.dtd /main/3 1995/11/08 09:58:22 rswiston $
+   -
+   - ======================================================
+  -->
+
+<!-- Parameter Entities ______________________________________________-->
+
+<!ENTITY % system-notations "(graphic  | text     | audio    | video    |
+                              animate  | crossdoc | man-page | textfile |
+                              sys-cmd  | callback | script   | switch)" >
+
+<!ENTITY % generated-elements "(loids, toss?, lophrases?, index?, rel-docs?,
+                                rel-file?, notes?)" >
+
+<!ENTITY % key-class    "acro       | book      | emph     | jargon     |
+                         l10n       | name      | quote    | product    |
+                         termdef    | term      | mach-in  | mach-out   |
+                         mach-cont  | pub-lit   | udefkey" >
+
+<!ENTITY % head-class    "label     | head      | caption  | annotation |
+                          phead     | udefhead" >
+
+<!ENTITY % format-class  "table     | cell      | list     | item       |
+                          text      | udeffrmt" >
+
+<!ENTITY % graphic-class "figure    | in-line   | button   | icon       |
+                          udefgrph" >
+
+<!ENTITY % phrase-class  "( super   | sub )" >
+
+<!ENTITY % font-styles
+           '-- height of font in points; main body is 10 point --
+            pointsz   NUMBER             #IMPLIED
+
+            -- width of font in points; defaults to point size --
+            -- similar to point size but refers to relative    --
+            -- width rather than height (e.g., an 8 point font --
+            -- based on a square would be 8 pt, 8 set)         --
+            set-width NUMBER             #IMPLIED
+
+            -- one of 42 CDE colors or "RGB:rrrr/gggg/bbbb"    --
+            color     CDATA              #IMPLIED
+
+            -- XLFD typeface name for use on X Window System   --
+            -- e.g., "-adobe-helvetica-bold-i-narrow-*-"       --
+            -- One each of normal, italic, bold and bold       --
+            -- italic must be specified.                       --
+            -- These should only be specified if the author is --
+            -- sure of exactly what font is desired.  In the   --
+            -- usual case, only the logical typeface spec.     --
+            -- defined below will be given.                    --
+            xlfd      CDATA              #IMPLIED
+            xlfdi     CDATA              #IMPLIED
+            xlfdb     CDATA              #IMPLIED
+            xlfdib    CDATA              #IMPLIED
+
+            -- MS-Windows typeface name (maximum of 32 chars)  --
+            -- One each of normal, italic, bold and bold       --
+            -- italic must be specified.                       --
+            -- As for the XLFD specification above, these      --
+            -- should only be provided if an author knows the  --
+            -- exact font desired.                             --
+            typenam   CDATA              #IMPLIED
+            typenami  CDATA              #IMPLIED
+            typenamb  CDATA              #IMPLIED
+            typenamib CDATA              #IMPLIED
+
+            -- Logical typeface spec (allows mapping into one  --
+            -- of the 13 PostScript typefaces).  This spec. is --
+            -- used if an exact match XLFD or Windows type-    --
+            -- face name attribute is missing or cannot be     --
+            -- found.  In the usual case, these will be        --
+            -- specified in preference to specifying an exact  --
+            -- font.                                           --
+
+            -- processor should default style to "sans-serif"  --
+            style     ( serif      |
+                        sans-serif |
+                        symbol     )     #IMPLIED
+
+            -- processor should deflt spacing to "monospace"   --
+            spacing   ( monospace  |
+                        propspace  )     #IMPLIED
+
+            -- processor should default weight to "medium"     --
+            weight    ( medium     |
+                        bold       )     #IMPLIED
+
+            -- processor should default slant to "roman"       --
+            slant     ( roman      |
+                        italic     |
+                        rev-italic )     #IMPLIED
+
+            -- processor should default special to "none"      --
+            special   ( underline  |
+                        strikeout  |
+                        none       )     #IMPLIED'         >
+
+<!ENTITY % format-styles
+           '-- left and right margins are additive and measured    --
+            -- in character widths defaulting to "0"               --
+            l-margin  NUMBER             #IMPLIED
+            r-margin  NUMBER             #IMPLIED
+
+            -- top and bottom margins merely take the maximum and  --
+            -- are measured in lines defaulting to "0"             --
+            t-margin  NUMBER             #IMPLIED
+            b-margin  NUMBER             #IMPLIED
+
+            -- border specifies the decoration type                --
+            -- processor should default border to "no-border"      --
+            border   ( no-border         |
+                       full-border       |
+                       horizontal-border |
+                       vertical-border   |
+                       top-border        |
+                       bottom-border     |
+                       left-border       |
+                       right-border      )
+                                         #IMPLIED
+
+
+            -- applies to the text in the element, not the element --
+            -- itself.                                             --
+            -- processor should default vjust to "top-vjust"       --
+            vjust    ( top-vjust    |
+                       bottom-vjust |
+                       center-vjust )    #IMPLIED' >
+
+<!ENTITY % linkage   "anchor | link" >
+<!ENTITY % reference "snref"         >
+<!ENTITY % simple    "key | sphrase | rev | if | spc | %reference;" >
+<!ENTITY % atomic    "( %simple; | %linkage; )" >
+
+<!NOTATION tcl SYSTEM "embedded tcl interpreter">
+<!NOTATION sh  SYSTEM "/bin/sh">
+<!NOTATION csh SYSTEM "/bin/csh">
+<!NOTATION ksh SYSTEM "/bin/ksh">
+
+
+<!-- Document Hierarchy  _____________________________________________-->
+
+<!-- The root element is a pageless document, sdldoc.
+   -   A sdldoc contains one or more virtual pages.
+   -   A Virtual page is the smallest display unit.
+   -   A Block is a unit of a given style.
+   -   A Paragraph is a unit of character formatting.
+  -->
+<!ELEMENT sdldoc     - - (vstruct, head*, snb?, virpage+)>
+<!ATTLIST sdldoc         pub-id     CDATA              #REQUIRED
+                         doc-id     CDATA              #REQUIRED
+                         timestmp   CDATA              #REQUIRED
+                         first-page IDREF              #IMPLIED
+                         product    CDATA              #IMPLIED
+                         prodpn     CDATA              #IMPLIED
+                         prodver    CDATA              #IMPLIED
+                         license    CDATA              #IMPLIED
+                         language   CDATA              #IMPLIED
+                         charset    CDATA              #IMPLIED
+                         author     CDATA              #IMPLIED
+                         version    CDATA              #IMPLIED
+                         sdldtd     CDATA              #REQUIRED
+                         srcdtd     CDATA              #IMPLIED >
+
+
+<!ELEMENT vstruct   - - (%generated-elements;) >
+<!ATTLIST vstruct       version     CDATA              #IMPLIED
+                        doc-id      CDATA              #REQUIRED >
+
+
+<!ELEMENT virpage   - - (head*, snb?, (block | form)*) >
+<!ATTLIST virpage       id          ID                 #REQUIRED
+                        level       NUMBER             #REQUIRED
+                        version     CDATA              #IMPLIED
+                        language    CDATA              #IMPLIED
+                        charset     CDATA              #IMPLIED
+                        doc-id      CDATA              #REQUIRED
+                        ssi         CDATA              #IMPLIED >
+
+
+<!ELEMENT snb       - - (head?, (%system-notations;)+) >
+<!ATTLIST snb           version     CDATA              #IMPLIED >
+
+
+<!ELEMENT block     - - (head*, (p | cp)*) >
+<!ATTLIST block         id          ID                 #IMPLIED
+
+                        -- processor should default level to "1"      --
+                        level       NUMBER             #IMPLIED
+                        version     CDATA              #IMPLIED
+                        class       (%format-class;)   #IMPLIED
+                        language    CDATA              #IMPLIED
+
+                        -- prcessor shld deflt charset to "ISO8859-1" --
+                        charset     CDATA              #IMPLIED
+
+                        length      NUMBER             #IMPLIED
+
+                        -- processor should default app to "all"      --
+                        app        ( all      |
+                                     help     |
+                                     tutorial |
+                                     ref      |
+                                     sys      )        #IMPLIED
+
+                        -- processor should default timing to "sync"  --
+                        timing     ( sync | async )    #IMPLIED
+                        ssi         CDATA              #IMPLIED >
+
+
+<!ELEMENT form      - - (head*, ((fstyle, fdata) | (fdata, fstyle))) >
+<!ATTLIST form          id          ID                 #IMPLIED
+
+                        -- processor shld deflt level to nest of form --
+                        level       NUMBER             #IMPLIED
+                        version     CDATA              #IMPLIED
+                        class       (%format-class;)   #IMPLIED
+                        language    CDATA              #IMPLIED
+
+                        -- prcessor shld deflt charset to "ISO8859-1" --
+                        charset     CDATA              #IMPLIED
+                        length      NUMBER             #IMPLIED
+
+                        -- processor should default app to "all"      --
+                        app        ( all      |
+                                     help     |
+                                     tutorial |
+                                     ref      |
+                                     sys      )        #IMPLIED
+                        ssi         CDATA              #IMPLIED >
+
+
+<!ELEMENT fstyle    - - (frowvec+) >
+<!ATTLIST fstyle        -- The number of columns in this form, ncols, --
+                        -- should be a number greater than zero.      --
+                        -- Unless overridden by a "colw" (column      --
+                        -- width) specification in a formstyle, the   --
+                        -- available space is divided evenly among    --
+                        -- the columns.  Unless overriden by a "colj" --
+                        -- specification in a formstyle, the columns  --
+                        -- are all left justified.                    --
+                        -- processor should default ncols to 1        --
+                        ncols       NUMBER             #IMPLIED >
+
+
+<!ELEMENT frowvec   - O EMPTY >
+<!ATTLIST frowvec       -- processor should default hdr to "NO"       --
+                        hdr         (YES | NO)         #IMPLIED
+
+                        -- Ids of cell contents.  One id per cell.    --
+                        -- Each id must refer to either a block or a  --
+                        -- form.                                      --
+                        cells       IDREFS             #REQUIRED >
+
+
+<!ELEMENT fdata     - - ((block | form)*) >
+
+
+<!-- Containers ______________________________________________________-->
+
+<!ELEMENT p         - - (head*, (%atomic | #PCDATA)+) >
+<!ATTLIST p             id          ID                 #IMPLIED
+                        version     CDATA              #IMPLIED
+
+                        -- processor should default type to "dynamic" --
+                        type        (literal |
+                                     lined   |
+                                     dynamic )         #IMPLIED
+                        ssi         CDATA              #IMPLIED >
+
+
+<!ELEMENT cp        - - CDATA >
+<!ATTLIST cp            id          ID                 #IMPLIED
+                        version     CDATA              #IMPLIED
+
+                        -- processor should default type to "dynamic" --
+                        type        (literal |
+                                     lined   |
+                                     dynamic )         #IMPLIED
+                        ssi         CDATA              #IMPLIED >
+
+
+<!-- Heads may have multiple sub-heads -->
+<!ELEMENT head      - - ((%atomic; | #PCDATA)*, subhead*) >
+<!ELEMENT subhead   - - ((%atomic | #PCDATA)*) >
+<!ATTLIST (head | subhead)
+                        id          ID                 #IMPLIED
+                        version     CDATA              #IMPLIED
+
+                        -- processor should default class to "head"   --
+                        class       (%head-class;)     #IMPLIED
+                        language    CDATA              #IMPLIED
+
+                        -- prcessor shld deflt charset to "ISO8859-1" --
+                        charset     CDATA              #IMPLIED
+
+                        -- processor should default type to "dynamic" --
+                        type        (literal |
+                                     lined   |
+                                     dynamic )         #IMPLIED
+                        abbrev      CDATA              #IMPLIED
+                        ssi         CDATA              #IMPLIED >
+
+
+
+<!-- Atomic Link Elements ____________________________________________-->
+
+<!ELEMENT anchor    - O EMPTY     -- Just marks the spot to jump to   -->
+<!ATTLIST anchor        id          ID                 #REQUIRED >
+
+
+<!ELEMENT link      - - ((%atomic; | #PCDATA)+) -(link)>
+<!ATTLIST link          -- rid is to id in this document or to a link --
+                        -- type element such as crossdoc in the snb   --
+                        -- of the current virpage                     --
+                        rid         IDREF              #REQUIRED
+
+                        -- button should be a graphic in the snb      --
+                        button      IDREF              #IMPLIED
+
+                        linkinfo    CDATA              #IMPLIED
+                        descript    CDATA              #IMPLIED
+
+                        -- processor shld default window to "current" --
+                        window      (current  |
+                                     new      |
+                                     popup    )        #IMPLIED
+
+                        -- procssr shld dflt traversal to "noreturn"  --
+                        traversal   (return   |
+                                     noreturn )        #IMPLIED >
+
+
+<!-- reference to an element or alternates in the system notation block -->
+<!ELEMENT snref     - - (refitem+, alttext?) >
+<!ATTLIST snref         id         ID                  #IMPLIED >
+
+
+<!-- Each refitem is tried in turn until one can be  successfully
+   - formatted.  The button is used to request display of the refitem
+   - on systems where display of the item would be slow or expensive
+   - in some other way, i.e., the button is displayed and the refitem
+   - is only displayed on activiation of the button.
+  -->
+<!ELEMENT refitem   - - (head*) >
+<!ATTLIST refitem       -- rid should point to a representational    --
+                        -- element in the system notation block      --
+                        rid        IDREF               #REQUIRED
+                        class      (%graphic-class; |
+                                    %format-class;  )  #REQUIRED
+
+                        -- button should be a graphic in the snb      --
+                        button      IDREF              #IMPLIED
+                        ssi         CDATA              #IMPLIED   >
+
+
+<!-- simple text to use if all else fails -->
+<!ELEMENT alttext   - - CDATA >
+
+
+<!-- Atomic Text Elements ____________________________________________-->
+
+<!-- empty rev implies delete -->
+<!ELEMENT rev       - - ((%atomic; | #PCDATA)*) -(rev) >
+
+
+<!-- font changes -->
+<!ELEMENT key       - - ((%atomic; | #PCDATA)*) -(link) >
+<!ATTLIST key           -- prcessor shld deflt charset to "ISO8859-1" --
+                        charset     CDATA              #IMPLIED
+                        class       (%key-class;)      #REQUIRED
+                        ssi         CDATA              #IMPLIED >
+
+
+<!-- super or subscripted phrase -->
+<!ELEMENT sphrase   - - (spc | #PCDATA)* >
+<!ATTLIST sphrase       class       %phrase-class      #REQUIRED
+                        ssi         CDATA              #IMPLIED >
+
+
+<!-- conditional inclusion of text -->
+<!ELEMENT if        - - (cond, then, else?) >
+
+
+<!-- call "interp" passing CDATA -->
+<!ELEMENT cond      - - CDATA >
+<!ATTLIST cond          -- processor should default interp to "ksh"   --
+                        interp      NOTATION
+                                    (tcl |
+                                     sh  |
+                                     ksh |
+                                     csh )             #IMPLIED >
+
+
+<!-- include this text if "cond" returns non-zero -->
+<!ELEMENT then      - - ((%atomic; | #PCDATA)*) >
+
+
+<!-- include this text if "cond" returns zero -->
+<!ELEMENT else      - - ((%atomic; | #PCDATA)*) >
+
+
+<!-- special characters: the "name" attribute must be one of the special
+   - character names, e.g., [bull  ] (bullet), defined in the public
+   - character entities such as ISOpub, "ISO 8879:1986//ENTITIES
+   - Publishing//EN";  these entities are defined in sections D.4.2.1
+   - through D.4.5.6 of The SGML Handbook (Goldfarb).
+   -->
+<!ELEMENT spc       - O EMPTY >
+<!ATTLIST spc           name        CDATA              #REQUIRED >
+
+
+<!-- Notation Elements _______________________________________________-->
+<!-- The first group are representaional - referenced via <snref>     -->
+
+<!-- Only one graphic element is declared.  The "class" attribute in
+   - the refitem of the referring snref is used to distinguish between
+   - figure, in-line or button.
+  -->
+<!ELEMENT graphic   - O EMPTY >
+<!ATTLIST graphic       id          ID                 #REQUIRED
+                        format      CDATA              #IMPLIED
+                        method      IDREF              #IMPLIED
+                        xid         CDATA              #REQUIRED >
+
+
+<!-- alternate rich text for use in a list of refitems in snref -->
+<!ELEMENT text      - - ((p | cp)*) >
+<!ATTLIST text          id          ID                 #REQUIRED
+                        language    CDATA              #IMPLIED
+
+                        -- prcessor shld dflt charset to "ISO8859-1"  --
+                        charset     CDATA              #IMPLIED   >
+
+
+<!ELEMENT audio     - O EMPTY >
+<!ATTLIST audio         id          ID                 #REQUIRED
+                        format      CDATA              #IMPLIED
+                        method      IDREF              #IMPLIED
+                        xid         CDATA              #REQUIRED >
+
+
+<!ELEMENT video     - O EMPTY >
+<!ATTLIST video         id          ID                 #REQUIRED
+                        format      CDATA              #IMPLIED
+                        method      IDREF              #IMPLIED
+                        xid         CDATA              #REQUIRED >
+
+
+<!ELEMENT animate   - O EMPTY >
+<!ATTLIST animate       id          ID                 #REQUIRED
+                        format      CDATA              #IMPLIED
+                        method      IDREF              #IMPLIED
+                        xid         CDATA              #REQUIRED >
+
+
+<!-- Execute the content of this element using the specified "interp"
+   - whenever the script element is referenced via an snref.  If the
+   - script returns a value, that value effectively becomes the CDATA
+   - content of the script element and is interpolated into the document
+   - at the point of the snref.
+  -->
+<!ELEMENT script    - - CDATA >
+<!ATTLIST script        id          ID                 #REQUIRED
+                        -- processor should default interp to "ksh"   --
+                        interp      NOTATION
+                                    (tcl |
+                                     sh  |
+                                     ksh |
+                                     csh )             #IMPLIED >
+
+
+<!-- The second group in the snb is linkage - referenced via <link>   -->
+<!ELEMENT crossdoc  - O EMPTY >
+<!ATTLIST crossdoc      id          ID                 #REQUIRED
+
+                        -- cross document link - doc & id   --
+                        xid         CDATA              #REQUIRED >
+
+<!ELEMENT man-page  - O EMPTY >
+<!ATTLIST man-page      id          ID                 #REQUIRED
+                        xid         CDATA              #REQUIRED >
+
+
+<!ELEMENT textfile  - O EMPTY >
+<!ATTLIST textfile      id          ID                 #REQUIRED
+                        xid         CDATA              #REQUIRED
+                        offset      CDATA              #IMPLIED 
+                        format      CDATA              #IMPLIED  >
+
+
+<!ELEMENT sys-cmd   - O EMPTY >
+<!ATTLIST sys-cmd       id          ID                 #REQUIRED
+                        command     CDATA              #REQUIRED >
+
+
+<!ELEMENT callback  - O EMPTY >
+<!ATTLIST callback     id           ID                 #REQUIRED
+                       data         CDATA              #IMPLIED  >
+
+
+<!-- The switch element is always hyperlinked to.  The interpreter,
+   - interp, is called passing the CDATA content and returning a number
+   - 0 to n.  The return value of the interpreter is used to index into
+   - the list of branches and the hyperlink is continued to that ID.  A
+   - return value less than zero or greater than the number of IDs minus
+   - 1 causes the hyperlink to continue to branch 0.
+  -->
+<!ELEMENT switch    - - CDATA >
+<!ATTLIST switch        id         ID                  #REQUIRED
+                        -- processor should default interp to "ksh"   --
+                        interp     NOTATION
+                                   (tcl |
+                                    sh  |
+                                    ksh |
+                                    csh )              #IMPLIED
+                        branches   IDREFS              #REQUIRED >
+
+
+<!-- Generated Elements ______________________________________________-->
+
+<!ELEMENT rel-docs  - O EMPTY >
+<!ELEMENT rel-file  - O EMPTY >
+<!ELEMENT notes     - O EMPTY >
+
+
+<!-- The list of identifiers, loids, element is a list of ids in this
+     document in the order they are defined.  The "count" attribute of
+     loids is the number of ids it contains.  The higher level DTD to
+     SDL translator may precompute "count" to enable the processor to
+     preallocate space for the ids.  If "count" is not present, the
+     processor must compute the number itself from the document.  The
+     "type" attribute of id is the name of the element to which the
+     id belongs.  The "rid" (referenced identifier) attribute is the
+     identifier being listed.  The "rssi" (referenced source semantic
+     identifier) is the "ssi" of the element to which the identifier
+     belongs.  Similarly, the "rlevel" (referenced level) attribute
+     is the "level" of the element to which the identifier belongs.
+     Finally, the "offset" attribute is the byte offset in the document
+     to the start of the virtual page containing the identifier. -->
+<!ELEMENT loids     - - (id*) >
+<!ATTLIST loids         count      NUMBER              #IMPLIED   >
+
+<!ELEMENT id        - O EMPTY >
+<!ATTLIST id            type       (virpage  |
+                                    block    |
+                                    form     |
+                                    p        |
+                                    cp       |
+                                    head     |
+                                    subhead  |
+                                    anchor   |
+                                    switch   |
+                                    snref    |
+                                    graphic  |
+                                    text     |
+                                    audio    |
+                                    video    |
+                                    animate  |
+                                    crossdoc |
+                                    man-page |
+                                    textfile |
+                                    sys-cmd  |
+                                    script   |
+                                    callback )         #REQUIRED
+                        rid         IDREF              #REQUIRED
+                        rssi        CDATA              #IMPLIED
+                        rlevel      NUMBER             #IMPLIED
+                        offset      NUMBER             #REQUIRED  >
+
+
+<!-- An index consists of zero or more entries.  Each entry contains
+     the indexed (rich) text.  The "count" attribute of index is the
+     number of entries (recursively) it contains.  The higher level
+     DTD to SDL translator may precompute "count" to enable the
+     processor to preallocate space for the entries.  If "count" is
+     not present, the processor must compute the number itself from
+     the document.  The "locs" and "main" attributes of an entry are
+     lists of ids where the entry may be found.  Those ids found on
+     the "main" list may be highlighted or emphasized in some way to
+     indicate a greater importance than the ids found on the "locs"
+     list - a definition, for example.  Otherwise, ids found on the
+     "locs" list and the "main" list behave identically.  The "syns"
+     attribute of an entry is another list of ids that refer to other
+     entry elements and correspond to a "See also" or synonym type
+     reference in an index.  The "sort" attribute is an optional sort
+     key to be used if the indexed entry is to be sorted other than
+     by its content.  The index should be pre-sorted although the
+     optional sort keys are preserved in case multiple indexes need
+     to be merged at some later date.  An entry element may also
+     contain other entries to allow a hierarchical index to be
+     generated. -->
+<!ELEMENT index     - - (entry*)                                  >
+<!ATTLIST index         head        CDATA              #IMPLIED
+                        count       NUMBER             #IMPLIED   >
+
+<!ELEMENT entry     - - ((%simple; | #PCDATA)*, entry*)           >
+<!ATTLIST entry         id          ID                 #IMPLIED
+                        main        IDREFS             #IMPLIED
+                        locs        IDREFS             #IMPLIED
+                        syns        IDREFS             #IMPLIED
+                        sort        CDATA              #IMPLIED   >
+
+
+<!-- The lophrases (list of phrases) element is generated by the
+     higher level DTD to SDL translator.  It is a list of phrases used
+     from the toss element content in this document.  The phrases are
+     used to map the users knowledge domain into the constructs used
+     in SDL.  This information can be used to to pass the phrases
+     available for structured/semantic searches to a browser or viewer
+     to allow that browser or viewer to offer that information to the
+     user.  The "count" attribute of lophrases is the number of phrases
+     it contains.  The higher level DTD to SDL translator may precompute
+     "count" to enable the processor to preallocate space for the
+     phrases.  If "count" is not present, the processor must compute
+     the number itself from the document.  -->
+<!ELEMENT lophrases - - (phrase+) >
+<!ATTLIST lophrases     count       NUMBER             #IMPLIED  >
+
+<!ELEMENT phrase    - O EMPTY     >
+<!ATTLIST phrase        text        CDATA              #REQUIRED >
+
+
+<!-- The following element, toss (table of semantics and styles), is
+     generated by the higher level DTD to SDL translator.  The "count"
+     attribute of toss is the number of styles it contains.  The
+     translator may precompute "count" to enable the processor to
+     preallocate space for the styles.  If "count" is not present, the
+     processor must compute the number itself from the document.  The
+     first three attributes of each sub-element are used for lookup in
+     the toss.  When formatting an element, the toss is searched for a
+     semantic match, i.e., a match of the ssi, class and level/rlevel.
+     The result of the search is font and/or formatting information
+     along with the phrase describing the meaning of an element of this
+     style.
+
+     With the exception of the XLFD and Windows typeface name, an
+     unspecified attribute implies inheritance.
+
+     The "phrase" attribute is an English (or natural language) phrase
+     describing the intended use (semantics) of an element of this
+     style.  -->
+<!ELEMENT toss      - - (keystyle*,
+                         headstyle*,
+                         formstyle*,
+                         frmtstyle*,
+                         grphstyle*) >
+<!ATTLIST toss          count       NUMBER             #IMPLIED   >
+
+
+<!ELEMENT keystyle  - O EMPTY    >
+<!ATTLIST keystyle      class       (%key-class;)      #REQUIRED
+                        ssi         CDATA              #IMPLIED
+
+                        -- the level of the element being described   --
+                        rlevel      NUMBER             #IMPLIED
+
+                        phrase      CDATA              #IMPLIED
+
+                        -- likelihood that this element contains an   --
+                        -- actual hit when doing a full text search   --
+                        srch-wt     NUMBER             #IMPLIED
+
+                        -- strings to emit on entry and exit from key --
+                        enter       CDATA              #IMPLIED
+                        exit        CDATA              #IMPLIED
+
+                        %font-styles; >
+
+
+
+<!ELEMENT headstyle - O EMPTY    >
+<!ATTLIST headstyle     class       (%head-class;)     #REQUIRED
+                        ssi         CDATA              #IMPLIED
+
+                        -- the level of the element being described   --
+                        rlevel      NUMBER             #IMPLIED
+
+                        phrase      CDATA              #IMPLIED
+
+                        -- likelihood that this element contains an   --
+                        -- actual hit when doing a full text search   --
+                        srch-wt     NUMBER             #IMPLIED
+
+                        -- horizontal orientation of the head with    --
+                        -- respect to its associated document,        --
+                        -- vstruct, virpage, snb, block, form, or p;  --
+                        -- or of the subhead with respect to its      --
+                        -- head.                                      --
+                        -- procsr shld dflt orient to "center-orient" --
+                        orient      (left-orient         |
+                                     center-orient       |
+                                     right-orient        |
+                                     left-margin-orient  |
+                                     right-margin-orient |
+                                     left-corner-orient  |
+                                     right-corner-orient )
+                                                       #IMPLIED
+
+                        -- vertical orientation of the head or        --
+                        -- subhead with respect to its parent.        --
+                        -- procsor shld dflt vorient to "top-vorient" --
+                        vorient     (top-vorient    |
+                                     bottom-vorient |
+                                     center-vorient )  #IMPLIED
+
+                        -- This attribute applies to head elements    --
+                        -- only, since subheads cannot contain more   --
+                        -- subheads.  The attribute determines        --
+                        -- whether the vorient attribute applies to   --
+                        -- the head only or to the entire head object --
+                        -- including its subheads.                    --
+                        -- processor shld deflt placement to "parent" --
+                        placement   (object | parent)  #IMPLIED
+
+                        -- Head width is the percent of the           --
+                        -- available space for this element that      --
+                        -- should be given to its head or the percent --
+                        -- of the head that should be given to a      --
+                        -- subhead.  It is expressed as a fixed point --
+                        -- number 1 to 10000 with an implied decimal  --
+                        -- point two places to the left of the right  --
+                        -- side.                                      --
+                        -- processor should default headw to "10000"  --
+                        headw        CDATA             #IMPLIED
+
+                        -- where to put this head or subhead if it    --
+                        -- collides with one already placed.          --
+                        -- Horizontal stacking means place this one   --
+                        -- under the other.  Vertical stacking means  --
+                        -- place this one to the right of the other.  --
+                        -- processor should default stack to "vert"   --
+                        stack       (horiz | vert)     #IMPLIED
+
+                        -- does the body wrap around the head text?   --
+                        -- "join" implies starting the content of the --
+                        -- surrounding element immediatly after this  --
+                        -- head (i.e., on the same line as the bottom --
+                        -- of this head).                             --
+                        -- processor should default flow to "nowrap"  --
+                        flow         (wrap   |
+                                      nowrap |
+                                      join)            #IMPLIED
+
+                        %font-styles;
+                        %format-styles;
+
+                        -- applies to the text in the element, not    --
+                        -- the element itself.                        --
+                        -- prcsr shld dflt justify to "left-justify"  --
+                        justify      (left-justify   |
+                                      right-justify  |
+                                      center-justify |
+                                      numeric-justify) #IMPLIED >
+
+
+<!ELEMENT formstyle - O EMPTY    >
+<!ATTLIST formstyle     class        (%format-class;)  #REQUIRED
+                        ssi          CDATA             #IMPLIED
+
+                        -- the level of the element being described   --
+                        rlevel       NUMBER            #IMPLIED
+
+                        phrase       CDATA             #IMPLIED
+
+                        -- likelihood that this element contains an   --
+                        -- actual hit when doing a full text search   --
+                        srch-wt      NUMBER            #IMPLIED
+
+                        -- The widths of the columns in this form,    --
+                        -- colw, is a space separated list of comma   --
+                        -- separated integral triples.  If only two   --
+                        -- comma separated numbers in a triple are    --
+                        -- given, the second is replicated to make    --
+                        -- three.  If only one number is given, the   --
+                        -- other two are assumed to be 0. The first   --
+                        -- number of a triple is the optimally        --
+                        -- desired width.  The second number is how   --
+                        -- much the column is willing to grow         --
+                        -- relative to the other columns.  The third  --
+                        -- number is how much the column is willing   --
+                        -- to shrink relative to the other columns.   --
+                        -- The numbers are summed and the total is    --
+                        -- taken as 100 percent of available space.   --
+                        -- That space is then divided among the       --
+                        -- columns.  The process of summing and       --
+                        -- dividing is repeated until all the         --
+                        -- desired/shrink/grow constraints are met or --
+                        -- it is known to be impossible to meet them. --
+                        -- If meeting the constraints is impossible,  --
+                        -- the column is handled similarly to a       --
+                        -- graphic that will not fit, e.g., a scroll- --
+                        -- bar may be added to allow the form to be   --
+                        -- larger than the size of the viewing area.  --
+                        -- There should be as many triples as given   --
+                        -- in the value "ncols" in the "fstyle" sub-  --
+                        -- element of the form element to which this  --
+                        -- "formstyle" is being applied.  Extra       --
+                        -- triples are ignored.  If less than "ncols" --
+                        -- triples are provided, the last triple is   --
+                        -- replicated.                                --
+                        colw         CDATA             #IMPLIED
+
+                        -- Column justification, taken from one of    --
+                        -- l | r | c | d (left, right, centered and   --
+                        -- decimal), separated by spaces, for each    --
+                        -- column of the form.  Extras are ignored.   --
+                        -- If there are fewer than the number of      --
+                        -- columns specified by the "ncols" attribute --
+                        -- of the "fstyle" subelement of the "form"   --
+                        -- to which this "formstyle" is being         --
+                        -- applied, the last value is replicated.     --
+                        -- The value defaults to "l" (left justified) --
+                        colj         CDATA             #IMPLIED
+
+                        %font-styles;
+                        %format-styles; >
+
+
+<!ELEMENT frmtstyle - O EMPTY    >
+<!ATTLIST frmtstyle     class        (%format-class;)  #REQUIRED
+                        ssi          CDATA             #IMPLIED
+
+                        -- the level of the element being described   --
+                        rlevel       NUMBER            #IMPLIED
+
+                        phrase       CDATA             #IMPLIED
+
+                        -- first line lmargin may be negative but     --
+                        -- it's a number used to indicate extension   --
+                        -- or indentation at start                    --
+                        -- processor should default f-margin to "0"   --
+                        f-margin     CDATA             #IMPLIED
+
+                        -- likelihood that this element contains an   --
+                        -- actual hit when doing a full text search   --
+                        srch-wt      NUMBER            #IMPLIED
+
+                        %font-styles;
+                        %format-styles;
+
+                        -- applies to the text in the element, not    --
+                        -- the element itself.                        --
+                        -- prcsr shld dflt justify to "left-justify"  --
+                        justify      (left-justify   |
+                                      right-justify  |
+                                      center-justify |
+                                      numeric-justify) #IMPLIED >
+
+<!ELEMENT grphstyle - O EMPTY    >
+<!ATTLIST grphstyle     class        (%graphic-class;) #REQUIRED
+                        ssi          CDATA             #IMPLIED
+
+                        -- the level of the element being described   --
+                        rlevel       NUMBER            #IMPLIED
+
+                        phrase       CDATA             #IMPLIED
+
+                        %format-styles;
+
+                        -- applies to the graphic in the element, not --
+                        -- the element itself.                        --
+                        -- prcsr shld dflt justify to "left-justify"  --
+                        justify      (left-justify   |
+                                      right-justify  |
+                                      center-justify ) #IMPLIED >
+
+] >

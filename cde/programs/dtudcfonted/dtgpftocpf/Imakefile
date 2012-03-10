@@ -1,0 +1,26 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/09/09 11:19:51 drk $
+
+        DESTDIR = $(CDE_INSTALLATION_TOP)
+        BINDIR  = /bin
+
+        OPT1 = -DDEFAULT_CODESET='"'3'"'
+#ifdef X11ProjectRoot
+        OPT2 = -DFONTC='"'$(XPROJECTROOT)/bin/bdftopcf'"'
+#else
+        OPT2 = -DFONTC='"'$(BINDIR)/bdftopcf'"'
+#endif
+        OPT3 = -DSNFFONTC='"'$(SNFFONTC)'"'
+
+        DEFINES     = $(OPT1) $(OPT2) $(OPT3)
+
+       INCLUDES   = -I../include -I../libfal/include
+
+        DEPLIBS   = ../libfuty/liboakfuty.a ../libfal/libfal.a $(DEPXLIB)
+LOCAL_LIBRARIES   = ../libfuty/liboakfuty.a ../libfal/libfal.a $(XLIB)
+  SYS_LIBRARIES   = -lc
+
+           SRCS   = gpftocpf.c
+
+           OBJS   = gpftocpf.o
+
+ComplexProgramTarget(dtgpftocpf)

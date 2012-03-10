@@ -1,0 +1,974 @@
+<!-- $XConsortium: ch11.sgm /main/10 1996/12/20 20:39:34 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.CrDT.div.1">
+<title id="SAG.CrDT.mkr.1">Cr&eacute;ation manuelle de types de donn&eacute;es</title>
+<para><indexterm><primary>Types de fichiers, voir types de donn&eacute;es&lt;$nopage></primary></indexterm><indexterm><primary>Types de donn&eacute;es</primary>
+<secondary>cr&eacute;ation manuelle</secondary></indexterm>Un type de donn&eacute;es
+peut &ecirc;tre d&eacute;fini de deux fa&ccedil;ons:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>&agrave; l'aide de l'utilitaire Cr&eacute;er action. Pour
+plus de d&eacute;tails sur cet utilitaire, reportez-vous au <!--Original XRef
+content: 'chapitre&numsp;9, Création d'actions
+et de types de données à l'aide de Créer action'--><xref role="ChapNumAndTitle"
+linkend="SAG.dtCrA.mkr.1"></para>
+</listitem>
+<listitem><para>en cr&eacute;ant manuellement la d&eacute;finition du type
+de donn&eacute;es.</para>
+</listitem>
+</itemizedlist>
+<para>Pour cr&eacute;er manuellement un type de donn&eacute;es, vous devez
+modifier un fichier de base de donn&eacute;es.</para>
+<para>Le pr&eacute;sent chapitre d&eacute;crit la proc&eacute;dure de cr&eacute;ation
+manuelle.</para>
+<informaltable id="SAG.CrDT.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Pourquoi
+créer un type de données manuellement ?198'--><xref role="JumpText" linkend="SAG.CrDT.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Critères
+et attributs d'une définition de type de données198'--><xref role="JumpText"
+linkend="SAG.CrDT.mkr.3"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Procédure
+de création manuelle d'un type de données199'--><xref role="JumpText" linkend="SAG.CrDT.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Exemple
+de création201'--><xref role="JumpText" linkend="SAG.CrDT.mkr.7"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Définition
+des critères d'un type de données206'--><xref role="JumpText" linkend="SAG.CrDT.mkr.11"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="SAG.CrDT.div.2">
+<title>Informations connexes :</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pour une pr&eacute;sentation des types de donn&eacute;es,
+reportez-vous au <!--Original XRef content: 'chapitre&numsp;8,
+Introduction aux actions et aux types de données'--><xref role="ChapNumAndTitle"
+linkend="SAG.IntAc.mkr.1">.</para>
+</listitem>
+<listitem><para>Pour plus de d&eacute;tails sur les d&eacute;finitions de
+types de donn&eacute;es, reportez-vous &agrave; la page de manuel <filename>dtdtsfile(4)</filename>.</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.CrDT.div.3">
+<title id="SAG.CrDT.mkr.2">Pourquoi cr&eacute;er un type de donn&eacute;es
+manuellement ?</title>
+<para>La cr&eacute;ation manuelle d'un type de donn&eacute;es permet de tirer
+parti des possibilit&eacute;s de la syntaxe des d&eacute;finitions de types
+de donn&eacute;es.</para>
+<para><indexterm><primary>Types de donn&eacute;es</primary><secondary>cr&eacute;ation
+manuelle</secondary></indexterm>Un type de donn&eacute;es doit &ecirc;tre
+cr&eacute;&eacute; manuellement si vous souhaitez b&eacute;n&eacute;ficier
+des fonctions suivantes:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>type de donn&eacute;es associ&eacute; au chemin</para>
+</listitem>
+<listitem><para>possibilit&eacute; d'indiquer les actions (autres qu'Ouvrir
+et Imprimer) associ&eacute;es au type de donn&eacute;es</para>
+</listitem>
+<listitem><para>multiplicit&eacute; des crit&egrave;res de noms, mod&egrave;les
+et contenus d'un m&ecirc;me type de donn&eacute;es, par exemple un type de
+donn&eacute;es bas&eacute; sur des fichiers <filename>*.abc</filename> ou <filename>*.def</filename></para>
+</listitem>
+<listitem><para>type de donn&eacute;es bas&eacute; sur des liens</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.CrDT.div.4">
+<title id="SAG.CrDT.mkr.3">Crit&egrave;res et attributs d'une d&eacute;finition
+de type de donn&eacute;es</title>
+<para>La d&eacute;finition d'un type de donn&eacute;es est constitu&eacute;e
+de deux d&eacute;finitions distinctes de base de donn&eacute;es.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>D&eacute;finition<indexterm><primary>DATA_ATTRIBUTES</primary>
+<secondary>d&eacute;finition</secondary></indexterm> <filename>DATA_ATTRIBUTES</filename></para>
+<para>Elle indique le nom du type de donn&eacute;es, l'apparence et le comportement
+des fichiers de ce type.</para>
+</listitem>
+<listitem><para>D&eacute;finition <filename><indexterm><primary>DATA_CRITERIA</primary><secondary>d&eacute;finition</secondary></indexterm> DATA_CRITERIA</filename></para>
+<para>Elle indique les crit&egrave;res du type de donn&eacute;es. Chacune
+des d&eacute;finitions de crit&egrave;res indique la d&eacute;finition du
+param&egrave;tre <filename>DATA_ATTRIBUTES</filename> &agrave; laquelle les
+crit&egrave;res s'appliquent.</para>
+</listitem>
+</itemizedlist>
+<para>Il doit exister moins une d&eacute;finition de <filename><indexterm>
+<primary>DATA_CRITERIA</primary><secondary>avec DATA_ATTRIBUTES</secondary>
+</indexterm>DATA_CRITERIA</filename> pour chaque d&eacute;finition de <filename>DATA_ATTRIBUTES</filename>; une d&eacute;finition de <filename>DATA_ATTRIBUTES</filename> peut &ecirc;tre associ&eacute;e &agrave; plusieurs param&egrave;tres <filename>DATA_CRITERIA</filename>.</para>
+<para>Vous pouvez, par exemple, cr&eacute;er une d&eacute;finition d'attributs
+pour fichiers PostScript qui d&eacute;termine la pr&eacute;sentation et le
+comportement de ces fichiers dans le Gestionnaire de fichiers. Etablissez
+ensuite deux crit&egrave;res distincts pour le type de donn&eacute;es PostScript,
+l'un bas&eacute; sur le nom du fichier et l'autre bas&eacute; sur son contenu.
+</para>
+<para>Pour plus de d&eacute;tails, reportez-vous &agrave; la section <!--Original
+XRef content: 'Définition des critères d'un type de données,
+page&numsp;206'--><xref role="SecTitleAndPageNum" linkend="SAG.CrDT.mkr.11">.
+</para>
+</sect1>
+<sect1 id="SAG.CrDT.div.5">
+<title id="SAG.CrDT.mkr.4">Proc&eacute;dure de cr&eacute;ation manuelle d'un
+type de donn&eacute;es</title>
+<para>La pr&eacute;sente section d&eacute;crit la proc&eacute;dure &agrave;
+suivre pour cr&eacute;er un fichier de configuration de type de donn&eacute;es.
+</para>
+<sect2 id="SAG.CrDT.div.6">
+<title id="SAG.CrDT.mkr.5">Fichiers de configuration pour types de donn&eacute;es<indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>fichiers de configuration</secondary></indexterm><indexterm><primary>Fichiers de configuration</primary>
+<secondary>types de donn&eacute;es</secondary></indexterm></title>
+<para>Les fichiers de configuration contenant des d&eacute;finitions de types
+de donn&eacute;es doivent:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>respecter la convention d'appellation <symbol role="Variable">nom</symbol><filename>.dt</filename></para>
+</listitem>
+<listitem><para>figurer sur le chemin de recherche de la base de donn&eacute;es
+qui est, par d&eacute;faut:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="128*">
+<colspec colwidth="400*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>personnel</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">R&eacute;pPersonnel</symbol><filename>/.dt/types</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>syst&egrave;me</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">langue</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>int&eacute;gr&eacute;</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">langue</symbol>. Il est pr&eacute;f&eacute;rable
+de ne pas utiliser ce r&eacute;pertoire.</para></entry></row></tbody></tgroup>
+</informaltable>
+</listitem>
+</itemizedlist>
+<para>Pour plus de d&eacute;tails sur la modification du chemin, reportez-vous
+&agrave; la section <!--Original XRef content: 'Définition de la valeur
+d'un chemin de recherche, page&numsp;123'--><xref role="SecTitleAndPageNum"
+linkend="SAG.Datab.mkr.6">.</para>
+</sect2>
+<sect2 id="SAG.CrDT.div.7" role="Procedure">
+<title id="SAG.CrDT.mkr.6">D&eacute;finition d'un type de donn&eacute;es<indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>d&eacute;finition</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Ouvrez un fichier de base de donn&eacute;es existant ou cr&eacute;ez-en
+un nouveau.</para>
+<para>Pour plus de d&eacute;tails, reportez-vous &agrave; la section pr&eacute;c&eacute;dente <!--Original
+XRef content: 'Fichiers de configuration pour
+types d--><!--e donnies'--><xref role="SectionTitle" linkend="sag.crdt.mkr.5">.
+</para>
+</listitem>
+<listitem><para>D&eacute;finissez les attributs du type de donn&eacute;es
+&agrave; l'aide de la syntaxe:</para>
+<indexterm><primary>DATA_ATTRIBUTES</primary><secondary>syntaxe</secondary>
+</indexterm>
+<programlisting>DATA_ATTRIBUTES nom_type_donn&eacute;es 
+{
+   ICON         nom_image  
+   DESCRIPTION  cha&icirc;ne 
+   zone_attribut 
+   zone_attribut
+   &hellip;
+}</programlisting>
+<para>O&ugrave;:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="159*">
+<colspec colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol>nom_type_donn&eacute;es</symbol></para></entry>
+<entry align="left" valign="top"><para>Nom unique affect&eacute; &agrave;
+ce type de donn&eacute;es.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>nom_image</symbol></para></entry>
+<entry align="left" valign="top"><para>Nom de fichier ou chemin d'un fichier
+d'ic&ocirc;ne. Utilisez le nom de base du fichier. Par exemple, pour les fichiers
+d'ic&ocirc;nes <filename>image.m.pm</filename> et <filename>image.t.pm</filename>,
+utilisez <command>image</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>zone_attribut</symbol></para></entry>
+<entry align="left" valign="top"><para>Zone d&eacute;finissant l'apparence
+ou le comportement d'un type de donn&eacute;es.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>cha&icirc;ne</symbol></para></entry>
+<entry align="left" valign="top"><para>Cha&icirc;ne de caract&egrave;res.
+Le contenu correspondra &agrave; l'aide sur le type de donn&eacute;es.</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>Reportez-vous &agrave; la section <!--Original XRef content: 'Exemple
+de criation, page&nums--><!--p;201'--><xref role="SecTitleAndPageNum" linkend="sag.crdt.mkr.7">.
+</para>
+</listitem>
+<listitem><para>D&eacute;finissez les crit&egrave;res du type de donn&eacute;es
+&agrave; l'aide de la syntaxe:</para>
+<indexterm><primary>DATA_CRITERIA</primary><secondary>syntaxe</secondary>
+</indexterm>
+<programlisting remap="CodeIndent1">DATA_CRITERIA nom_crit&egrave;re 
+{ 
+   DATA_ATTRIBUTES_NAME  nom_type_donn&eacute;es 
+   zone_crit&egrave;res  
+   zone_crit&egrave;res 
+   &hellip; 
+}</programlisting>
+<para>O&ugrave;:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="156*">
+<colspec colwidth="372*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol>nom_crit&egrave;res</symbol></para></entry>
+<entry align="left" valign="top"><para>Nom unique de la d&eacute;finition
+de ces crit&egrave;res.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>nom_type_donn&eacute;es</symbol></para></entry>
+<entry align="left" valign="top"><para>Nom utilis&eacute; dans la d&eacute;finition
+du param&egrave;tre <filename>DATA_ATTRIBUTES</filename>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol>zone_crit&egrave;res</symbol></para></entry>
+<entry align="left" valign="top"><para>Zone utilis&eacute;e pour d&eacute;finir
+les crit&egrave;res d'affectation d'un fichier &agrave; un type de donn&eacute;es.
+</para></entry></row></tbody></tgroup></informaltable>
+<para>Reportez-vous &agrave; la section <!--Original
+XRef content: 'Difinition
+des crithres d'un type de d--><!--onnies, page&numsp;206'--><xref role="SecTitleAndPageNum"
+linkend="sag.crdt.mkr.11">.</para>
+</listitem>
+<listitem><para>Enregistrez le fichier de base de donn&eacute;es.</para>
+</listitem>
+<listitem><para>Cr&eacute;ez les ic&ocirc;nes de ce type de donn&eacute;es.
+</para>
+<para>Pour plus de d&eacute;tails, reportez-vous &agrave; la section <!--Original
+XRef content: 'Indication de l'image de l'ictne
+assoc--><!--iie au type de
+donnies, page&numsp;203'--><xref role="SecTitleAndPageNum" linkend="sag.crdt.mkr.8">.
+</para>
+</listitem>
+<listitem><para>Au besoin, cr&eacute;ez les actions list&eacute;es dans la
+zone <command>ACTIONS</command> de la d&eacute;finition des attributs.</para>
+</listitem>
+<listitem><para>Cliquez deux fois sur Recharger actions dans le groupe d'applications
+Outils_Bureau pour recharger la base de donn&eacute;es.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CrDT.div.8">
+<title id="SAG.CrDT.mkr.7"><?X-setsize 13.0 pt>Exemple de cr&eacute;ation<indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>exemple</secondary></indexterm><indexterm>
+<primary>Action et type de donn&eacute;es personnels</primary><secondary>cr&eacute;ation</secondary></indexterm></title>
+<para>Cet exemple suppose que le syst&egrave;me contient une application <command>xgif</command>, permettant l'affichage d'images GIF. Ce programme est g&eacute;n&eacute;ralement
+lanc&eacute; &agrave; l'aide de la commande:</para>
+<para><command>xgif</command> <symbol role="Variable">nom_fichier</symbol></para>
+<para>Vous pouvez afficher des images GIF de diff&eacute;rentes fa&ccedil;ons:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>en cliquant deux fois sur un fichier GIF</para>
+</listitem>
+<listitem><para>en s&eacute;lectionnant le fichier et l'application dans le
+menu Objets s&eacute;lectionn&eacute;s</para>
+<orderedlist>
+<listitem><para>Ouvrez un nouveau fichier <symbol role="Variable">R&eacute;pPersonnel</symbol><filename>/.dt/types/GifViewer.dt</filename> pour le modifier.</para>
+</listitem>
+<listitem><para>Entrez les d&eacute;finitions des types de donn&eacute;es
+:</para>
+<programlisting>DATA_ATTRIBUTES Gif 
+{ 
+   DESCRIPTION           Fichier image Gif.
+   ICON                  GifIcon
+   ACTIONS               Visualiser 
+}
+DATA_CRITERIA Gif_Criteria 
+{
+   DATA_ATTRIBUTES_NAME  Gif
+   NAME_PATTERN          *.gif 
+}</programlisting>
+</listitem>
+<listitem><para>Entrez la d&eacute;finition de l'action GifViewer:</para>
+<programlisting>ACTION GifViewer 
+{ 
+   EXEC_STRING     xgif %(File)Arg_1"Fichier Gif &agrave; visualiser:"
+   WINDOW_TYPE     NO_STDIO
+   DESCRIPTION     Cliquez deux fois ou posez un fichier\ 
+                   pour lancer l'application. 
+}</programlisting>
+<para>La d&eacute;finition ne comportant pas de zone <command>ICON</command>,
+l'action fera appel &agrave; l'ic&ocirc;ne par d&eacute;faut du syst&egrave;me.
+</para>
+</listitem>
+<listitem><para>Entrez l'action de correspondance suivante pour associer l'action
+GifViewer &agrave; l'action Visualiser figurant dans la d&eacute;finition
+du type de donn&eacute;es. Utilisez la zone <filename>ARG_TYPE</filename>
+pour limiter cette action aux fichiers de type Gif.</para>
+<programlisting remap="CodeIndent1">ACTION Visualiser 
+{
+   ARG_TYPE    Gif 
+   TYPE        MAP 
+   MAP_ACTION  GifViewer
+ }</programlisting>
+</listitem>
+<listitem><para>Enregistrez le fichier.</para>
+</listitem>
+<listitem><para>Cliquez deux fois sur Recharger actions dans le groupe d'applications
+Outils_Bureau pour recharger la base de donn&eacute;es.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrDT.div.9">
+<title>D&eacute;finition des attributs d'un type de donn&eacute;es<indexterm>
+<primary>DATA_ATTRIBUTES</primary><secondary>d&eacute;finition</secondary>
+</indexterm><indexterm><primary>Types de donn&eacute;es</primary><secondary>attributs</secondary></indexterm></title>
+<para>La d&eacute;finition de <filename>DATA_ATTRIBUTES</filename> indique
+l'apparence, le comportement et le nom du type de donn&eacute;es et permet
+de pr&eacute;ciser:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>l'ic&ocirc;ne du Gestionnaire de fichiers (zone <command>ICON</command>)</para>
+</listitem>
+<listitem><para>le contenu du menu S&eacute;lectionn&eacute;(s) et son comportement
+lors d'un double clic (zone <command>ACTIONS</command>)</para>
+</listitem>
+<listitem><para>l'aide sur le type de donn&eacute;es (zone <command>DESCRIPTION<indexterm>
+<primary>Zone</primary><secondary>DESCRIPTION</secondary></indexterm><indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>aide</secondary></indexterm><indexterm>
+<primary>Aide</primary><secondary>type de donn&eacute;es</secondary></indexterm></command>)
+</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.CrDT.div.10">
+<title id="SAG.CrDT.mkr.8">Indication de l'image de l'ic&ocirc;ne associ&eacute;e
+au type de donn&eacute;es<indexterm><primary>Ic&ocirc;nes</primary><secondary>types de donn&eacute;es</secondary></indexterm><indexterm><primary>Types
+de donn&eacute;es</primary><secondary>ic&ocirc;nes</secondary></indexterm></title>
+<para>Utilisez la zone <command><indexterm><primary>Zone</primary><secondary>ICON</secondary><tertiary>type de donn&eacute;es</tertiary></indexterm>ICON</command> pour indiquer l'ic&ocirc;ne utilis&eacute;e dans le Gestionnaire
+de fichiers. Si vous ne l'indiquez pas, ce dernier affichera uniquement un
+libell&eacute;.</para>
+<para>Il existe deux types de valeur pour la zone <command><indexterm><primary>Zone</primary><secondary>ICON</secondary><tertiary>valeurs</tertiary></indexterm>ICON</command>.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Nom<indexterm><primary>Nom de base du fichier</primary></indexterm><indexterm>
+<primary>Ic&ocirc;nes</primary><secondary>nom de base du fichier</secondary>
+</indexterm> de base du fichier:</para>
+<para>Le nom de base du fichier est le nom du fichier contenant l'image de
+l'ic&ocirc;ne moins les suffixes de la taille (<command>l</command>, <command>m</command> et <command>t</command>) et du type d'image (<command>bm</command>
+et <command>pm</command>). Par exemple, si des fichiers s'appellent <filename>Ic&ocirc;neJeu.m.pm</filename> et <filename>Ic&ocirc;neJeu.t.pm</filename>,
+utilisez <filename>Ic&ocirc;neJeu</filename>.</para>
+<para>Si vous utilisez un nom de fichier de base, les fichiers d'ic&ocirc;ne
+doivent &ecirc;tre copi&eacute;s dans un r&eacute;pertoire figurant sur le
+chemin de recherche d'ic&ocirc;ne:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>ic&ocirc;nes personnelles: <symbol role="Variable">R&eacute;p_Personnel</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>ic&ocirc;nes appliqu&eacute;es au syst&egrave;me: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">langue</symbol></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Chemin de recherche absolu, comprenant le nom complet du fichier:
+</para>
+<para>Utilisez le chemin absolu uniquement si le fichier d'ic&ocirc;ne ne
+figure pas sur le chemin de recherche de l'ic&ocirc;ne. Par exemple, si le
+fichier <filename>Ic&ocirc;neJeu.m.pm</filename> se trouve dans le r&eacute;pertoire <filename>/doc/projects</filename>, qui ne figure pas sur le chemin de recherche, la
+valeur de la zone <command>ICON</command> sera <filename>/doc/projects/Ic&ocirc;neJeu.m.pm</filename>.</para>
+</listitem>
+</itemizedlist>
+<para>Le <!--Original XRef content: 'Tableau&numsp;11&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.CrDT.mkr.9"> r&eacute;pertorie les tailles d'ic&ocirc;nes &agrave;
+cr&eacute;er et les noms de fichiers correspondants.</para>
+<table id="SAG.CrDT.tbl.1" frame="Topbot">
+<title id="SAG.CrDT.mkr.9">Noms et tailles des ic&ocirc;nes de types de donn&eacute;es</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.97in">
+<colspec colwidth="2.01in">
+<colspec colwidth="1.99in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Taille en pixels</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Nom du bitmap</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Nom du pixmap</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>48 x 48</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nom</symbol><filename>.l.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nom</symbol><filename>.l.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>32 x 32</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nom</symbol><filename>.m.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nom</symbol><filename>.m.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>16 x 16</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nom</symbol><filename>.t.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">nom</symbol><filename>.t.pm</filename></para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="SAG.CrDT.div.11">
+<title id="SAG.CrDT.mkr.10">Association de types de donn&eacute;es<indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>association avec des
+actions</secondary></indexterm> avec des actions<indexterm><primary>Actions</primary><secondary>association avec des types de donn&eacute;es</secondary>
+</indexterm><indexterm><primary>Types de donn&eacute;es</primary><secondary>association avec des actions</secondary></indexterm></title>
+<para>Les types de donn&eacute;es peuvent &ecirc;tre associ&eacute;s &agrave;
+des actions de deux mani&egrave;res:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>La zone <command><indexterm><primary>Zone</primary><secondary>ACTIONS</secondary></indexterm>ACTIONS</command> figurant dans la d&eacute;finition
+du param&egrave;tre <filename>DATA_ATTRIBUTES</filename> r&eacute;pertorie
+les actions qui appara&icirc;tront dans le menu Objets s&eacute;lectionn&eacute;s
+du Gestionnaire de fichiers. La premi&egrave;re action de la liste est l'action
+par d&eacute;faut (double clic).</para>
+</listitem>
+<listitem><para>Il est possible de limiter les actions aux types de donn&eacute;es
+indiqu&eacute;s &agrave; l'aide de la zone <filename><indexterm><primary>Zone</primary><secondary>ARG_TYPE</secondary></indexterm>ARG_TYPE</filename>
+figurant dans la d&eacute;finition de l'action.</para>
+</listitem>
+</itemizedlist>
+<para>La d&eacute;finition suivante, par exemple, cr&eacute;e un type de donn&eacute;es
+concernant les fichiers &ldquo;readme cr&eacute;&eacute;s par l'administrateur
+syst&egrave;me &agrave; l'aide de la convention d'appellation <filename>*.rm</filename>.</para>
+<programlisting>DATA_ATTRIBUTES FichierSysReadme 
+{
+   ICON                  SysReadMe
+   ACTIONS               Ouvrir,R&eacute;pondre
+} 
+
+DATA_CRITERIA Crit&egrave;resFichierSysReadme
+{
+   NAME_PATTERN          *.rm
+   DATA_ATTRIBUTES_NAME  FichierSysReadme
+}</programlisting>
+<para>Une action de r&eacute;ponse est d&eacute;finie ci-dessous pour le fichier.
+Elle permet d'ouvrir une copie modifiable du fichier dans l'Editeur de texte.
+Une fois le fichier sauvegard&eacute; et l'Editeur de texte ferm&eacute;,
+le fichier est transmis &agrave; l'administrateur syst&egrave;me (adresse <filename>sysadmin@utd</filename>).</para>
+<programlisting>ACTION R&eacute;pondre 
+{
+   ARG_TYPE     FichierSysReadme
+   EXEC_STRING  /bin/sh -c 'cp %Arg_1% $HOME/readme.temp;\
+                chmod +w $HOME/readme.temp; \
+                dtpad $HOME/readme.temp; \
+                cat $HOME/readme.temp | \
+                /usr/bin/mailx sysadmin@utd; \
+                rm $HOME/readme.temp'
+   WINDOW_TYPE  NO_STDIO
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrDT.div.12">
+<title>Masquage des fichiers en fonction du type de donn&eacute;es<indexterm>
+<primary>Fichiers</primary><secondary>cach&eacute;s</secondary></indexterm><indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>fichiers cach&eacute;s</secondary></indexterm><indexterm><primary>Fichiers</primary><secondary>cach&eacute;s</secondary></indexterm></title>
+<para>Si le type de donn&eacute;es d'un fichier est invisible, ce dernier
+n'appara&icirc;t pas dans le Gestionnaire de fichiers.</para>
+<para>Utilisez la zone <command>PROPERTIES</command> figurant dans la d&eacute;finition
+de <filename>DATA_ATTRIBUTES</filename> pour cacher les ic&ocirc;nes de ce
+type:</para>
+<programlisting>PROPERTIES invisible</programlisting>
+</sect2>
+<sect2 id="SAG.CrDT.div.13">
+<title>Comportement d'un fichier manipul&eacute;</title>
+<para>Les zones <filename>DATA_ATTRIBUTES</filename> suivantes sont utilis&eacute;es
+principalement par les programmeurs syst&egrave;me. Elles indiquent le comportement
+des fichiers lorsque l'utilisateur ex&eacute;cute certaines t&acirc;ches.
+</para>
+<para>Pour plus de d&eacute;tails, reportez-vous au manuel <citetitle>Common
+Desktop Environment Programmer's Guide</citetitle>.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="212*">
+<colspec colwidth="316*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Zone</para></entry><entry align="left"
+valign="bottom"><para>Description</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>Zone</primary><secondary>MOVE_TO_ACTION</secondary></indexterm>MOVE_TO_ACTION</filename></para></entry>
+<entry align="left" valign="top"><para>Concerne les conteneurs tels que les
+r&eacute;pertoires. Cette zone indique une action qui doit &ecirc;tre ex&eacute;cut&eacute;e
+lors du transfert d'un fichier vers un conteneur de ce type.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>C<indexterm><primary>Zone</primary><secondary>COPY_TO_ACTION</secondary></indexterm> OPY_TO_ACTION</filename></para></entry>
+<entry align="left" valign="top"><para>Concerne les conteneurs tels que les
+r&eacute;pertoires. Cette zone indique une action qui doit &ecirc;tre ex&eacute;cut&eacute;e
+lors de la copie d'un fichier dans un conteneur de ce type.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>Zone</primary><secondary>LINK_TO_ACTION</secondary></indexterm>LINK_TO_ACTION</filename></para></entry>
+<entry align="left" valign="top"><para>Cette zone indique une action qui doit
+&ecirc;tre ex&eacute;cut&eacute;e lors de l'association d'un fichier &agrave;
+un autre fichier de ce type.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>Zone</primary><secondary>IS_TEXT</secondary></indexterm>IS_TEXT</filename></para></entry>
+<entry align="left" valign="top"><para>Indique que les fichiers de ce type
+contiennent du texte affichable dans une bo&icirc;te de message.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>Zone</primary>
+<secondary>MEDIA</secondary></indexterm>MEDIA</command></para></entry>
+<entry align="left" valign="top"><para>Indique le type de support ToolTalk
+correspondant.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>Zone</primary><secondary>MIME_TYPE_MEDIA</secondary></indexterm>MIME_TYPE</filename></para></entry>
+<entry align="left" valign="top"><para>Indique le type MIME correspondant.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>Zone</primary><secondary>X400_TYPE</secondary></indexterm>X400_TYPE</filename></para></entry>
+<entry align="left" valign="top"><para>Indique le type X400 correspondant.
+</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrDT.div.14">
+<title id="SAG.CrDT.mkr.11">D&eacute;finition des crit&egrave;res d'un type
+de donn&eacute;es<indexterm><primary>Types de donn&eacute;es</primary><secondary>crit&egrave;res</secondary></indexterm><indexterm><primary>Types de donn&eacute;es</primary><secondary>diff&eacute;renciation</secondary></indexterm><indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>crit&egrave;res</secondary>
+</indexterm><indexterm><primary>2</primary></indexterm></title>
+<para>La d&eacute;finition du param&egrave;tre <filename><indexterm><primary>DATA_CRITERIA</primary><secondary>d&eacute;finition</secondary></indexterm>DATA_CRITERIA</filename> indique les crit&egrave;res utilis&eacute;s pour affecter un type
+d'objet &agrave; un fichier ou &agrave; un r&eacute;pertoire.</para>
+<para>Vous pouvez utiliser les crit&egrave;res ci-dessous pour indiquer les
+types d'objets.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="174*">
+<colspec colwidth="354*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Crit&egrave;res</para></entry>
+<entry align="left" valign="bottom"><para>Description</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Nom de fichier</para></entry>
+<entry align="left" valign="top"><para>Il doit correspondre &agrave; un mod&egrave;le
+donn&eacute;. Utilisez la zone <filename><indexterm><primary>Zone</primary>
+<secondary>NAME_PATTERN</secondary></indexterm>NAME_PATTERN</filename>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Emplacement du fichier</para></entry>
+<entry align="left" valign="top"><para>Le chemin doit correspondre &agrave;
+un mod&egrave;le donn&eacute;. Utilisez la zone <filename><indexterm><primary>Zone</primary><secondary>PATH_PATTERN</secondary></indexterm>PATH_PATTERN</filename>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Contenu du fichier</para></entry>
+<entry align="left" valign="top"><para>Une partie donn&eacute;e du contenu
+du fichier doit correspondre &agrave; des donn&eacute;es sp&eacute;cifiques.
+Utilisez la zone <command><indexterm><primary>Zone</primary><secondary>CONTENT</secondary></indexterm>CONTENT</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Mode du fichier</para></entry>
+<entry align="left" valign="top"><para>Le fichier doit disposer des autorisations
+sp&eacute;cifi&eacute;es (acc&egrave;s en lecture et &eacute;criture, ex&eacute;cutable
+et r&eacute;pertoire). Utilisez la zone <command><indexterm><primary>Zone</primary><secondary>MODE</secondary></indexterm>MODE</command>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>Liens symboliques</primary><secondary>crit&egrave;res</secondary></indexterm>Liens symboliques
+</para></entry>
+<entry align="left" valign="top"><para>Le type est bas&eacute; sur le fichier
+auquel l'objet est li&eacute;.</para></entry></row></tbody></tgroup></informaltable>
+<para>Un type de donn&eacute;es accepte pusieurs crit&egrave;res. Il est cependant
+pr&eacute;f&eacute;rable de ne pas utiliser les crit&egrave;res <filename>NAME_PATTERN</filename> et <filename>PATH_PATTERN</filename> pour un m&ecirc;me
+type.</para>
+<sect2 id="SAG.CrDT.div.15">
+<title>Types de donn&eacute;es bas&eacute;s sur le nom<indexterm><primary>Types de donn&eacute;es</primary><secondary>bas&eacute;s sur le nom</secondary>
+</indexterm></title>
+<para>Utilisez la zone <filename>NAME_PATTERN</filename> pour indiquer les
+exigences de l'appellation. Les caract&egrave;res g&eacute;n&eacute;riques
+suivants sont accept&eacute;s:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="174*">
+<colspec colwidth="354*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>?</para><indexterm><primary>Caract&egrave;re
+g&eacute;n&eacute;rique</primary></indexterm><indexterm><primary></primary>
+<secondary>?</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Remplace tout caract&egrave;re.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>*</para><para><indexterm><primary>Caract&egrave;re g&eacute;n&eacute;rique</primary></indexterm><indexterm>
+<primary></primary><secondary>*</secondary></indexterm><indexterm><primary>Types de donn&eacute;es</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Remplace une s&eacute;quence de caract&egrave;res
+(pouvant &ecirc;tre une cha&icirc;ne nulle).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>[cc&hellip;]</para></entry>
+<entry align="left" valign="top"><para>Remplace le(s) caract&egrave;re(s)
+(c) entre crochets.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>[c&minus;c]</para></entry>
+<entry align="left" valign="top"><para>Remplace le(s) caract&egrave;re(s)
+compris entre c et c.</para></entry></row></tbody></tgroup></informaltable>
+<sect3 id="SAG.CrDT.div.16">
+<title>Exemples</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>La d&eacute;finition suivante cr&eacute;e un type de donn&eacute;es
+bas&eacute; sur le nom du fichier. Ce nom doit commencer par <command>QS</command>
+et se terminer par <filename>.doc</filename>.</para>
+<programlisting>DATA_ATTRIBUTES Doc_QS 
+{
+   DESCRIPTION  Ce fichier contient un document pour le projet QS 
+   ICON         Word_Doc
+   ACTIONS      Ouvrir
+} 
+
+DATA_CRITERIA Crit&egrave;resDoc_QS
+{
+   NAME_PATTERN          QS*.doc
+   DATA_ATTRIBUTES_NAME  Doc_QS }</programlisting>
+</listitem>
+<listitem><para>La d&eacute;finition suivante cr&eacute;e un type de donn&eacute;es
+pour les r&eacute;pertoires portant le nom <filename>Demo_</filename><symbol role="Variable">n</symbol> o&ugrave; <symbol role="Variable">n</symbol> correspond
+&agrave; un chiffre compris entre 0 et 9.</para>
+<programlisting remap="CodeIndent1">DATA_ATTRIBUTES R&eacute;pertoire_Demo 
+{ 
+   DESCRIPTION  Ceci est un r&eacute;pertoire. Cliquez deux fois\ 
+                dessus pour l'ouvrir. 
+   ICON         Demo
+   ACTIONS      OpenInPlace,OpenNewView 
+} 
+DATA_CRITERIA Crit&egrave;res_r&eacute;pertoire_Demo 
+{
+   NAME_PATTERN          Demo_[0-9] 
+   MODE                  d 
+   DATA_ATTRIBUTES_NAME  R&eacute;pertoire_Demo}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrDT.div.17">
+<title>Types de donn&eacute;es bas&eacute;s sur l'emplacement<indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>bas&eacute;s sur le chemin</secondary></indexterm><indexterm><primary>Types de donn&eacute;es</primary>
+<secondary>bas&eacute;s sur l'emplacement</secondary></indexterm><indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>bas&eacute;s sur l'emplacement</secondary></indexterm><indexterm><primary>Types de donn&eacute;es</primary>
+<secondary>bas&eacute;s sur le chemin</secondary></indexterm></title>
+<para>Utilisez la zone <filename><indexterm><primary>Zone</primary><secondary>PATH_PATTERN</secondary><tertiary>syntaxe</tertiary></indexterm>PATH_PATTERN</filename> pour indiquer le chemin. Vous pouvez utiliser les m&ecirc;mes
+caract&egrave;res g&eacute;n&eacute;riques que pour le crit&egrave;re <filename>NAME_PATTERN</filename>.</para>
+<para>Par exemple, le type de donn&eacute;es suivant fait appel &agrave; un
+crit&egrave;re bas&eacute; sur le chemin.</para>
+<programlisting>DATA_ATTRIBUTES Graphique_projet 
+{
+   DESCRIPTION   Fichier graphique pour le projet QS. Cliquez \
+                 deux fois sur l'ic&ocirc;ne pour voir le graphique.
+   ICON          QSgraphics
+}
+
+DATA_CRITERIA Crit&egrave;res_graphique_projet 
+{
+   DATA_ATTRIBUTES_NAME   Graphique_projet
+   PATH_PATTERN           */projects/QS/graphics/*
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrDT.div.18">
+<title>Types de donn&eacute;es bas&eacute;s sur le nom et l'emplacement</title>
+<para>Pour cr&eacute;er un type de donn&eacute;es bas&eacute; &agrave; la
+fois sur le nom et sur l'emplacement, ajoutez le nom &agrave; la valeur <filename>PATH_PATTERN</filename>. Vous ne pouvez pas utiliser &agrave; la fois <filename>NAME_PATTERN</filename> et <filename>PATH_PATTERN</filename> pour le m&ecirc;me
+crit&egrave;re de d&eacute;finition.</para>
+<sect3 id="SAG.CrDT.div.19">
+<title>Exemples</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Le type de donn&eacute;es QS_Source_Files d&eacute;fini ci-dessous
+s'applique &agrave; tous les fichiers <command>app</command><symbol role="Variable">n</symbol><filename>.c</filename>, o&ugrave; <symbol role="Variable">n</symbol>
+est un chiffre compris entre 1 et 9, situ&eacute; dans des sous- r&eacute;pertoires
+de <filename>*/projects/QS</filename>.</para>
+<programlisting remap="CodeIndent1">DATA_ATTRIBUTES Fichiers_source_QS  
+{
+   &hellip; 
+} 
+DATA_CRITERIA Crit&egrave;res_fichiers_source_QS 
+{
+   PATH_PATTERN          */projects/QS/*/app[1-9].c 
+   DATA_ATTRIBUTES_NAME  Fichiers_source_QS 
+}</programlisting>
+</listitem>
+<listitem><para>Le type de donn&eacute;es suivant s'applique &agrave; tous
+les fichiers du r&eacute;pertoire <filename>/doc/project1</filename> dont
+le nom est <filename>ch</filename><symbol role="Variable">nn</symbol>.<symbol role="Variable">xxx</symbol> o&ugrave; <symbol role="Variable">n</symbol>
+est un chiffre compris entre 0 et 9, et <symbol role="Variable">xxx</symbol>
+est une extension &agrave; trois caract&egrave;res.</para>
+<programlisting>DATA_ATTRIBUTES Fichiers_chapitre 
+{
+   DESCRIPTION  Chapitre du projet.
+   ICON         chapter
+   ACTIONS      Editer,Imprimer 
+}
+DATA_CRITERIA Crit&egrave;res_chapitre 
+{
+   PATH_PATTERN           /doc/project1/ch[0-9][0-9].???
+   DATA_ATTRIBUTES_NAME   Fichiers_chapitre 
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrDT.div.20">
+<title id="SAG.CrDT.mkr.12">Utilisation des modes de fichiers comme crit&egrave;res<indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>crit&egrave;res de mode</secondary></indexterm></title>
+<para>Utilisez la zone <command><indexterm><primary>Zone</primary><secondary>MODE</secondary><tertiary>syntaxe</tertiary></indexterm>MODE</command> pour
+indiquer les autorisations requises.</para>
+<para>Les crit&egrave;res de mode sont g&eacute;n&eacute;ralement associ&eacute;s
+&agrave; un type de donn&eacute;es bas&eacute; sur le nom, l'emplacement ou
+le contenu des fichers. Ils permettent de limiter un type de donn&eacute;es
+&agrave; un fichier ou &agrave; un r&eacute;pertoire, ou d'indiquer l'autorisation
+de lecture, d'&eacute;criture ou d'ex&eacute;cution requise.</para>
+<para>La zone <command>MODE</command> peut comporter les caract&egrave;res
+ou les op&eacute;rateurs logiques suivants:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="107*">
+<colspec colwidth="421*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Op&eacute;rateur</para></entry>
+<entry align="left" valign="bottom"><para>Description</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>!</para></entry>
+<entry align="left" valign="top"><para>Op&eacute;rateur logique<indexterm>
+<primary>Op&eacute;rateur</primary></indexterm><indexterm><primary></primary>
+<secondary>NOT</secondary><tertiary>zone MODE</tertiary></indexterm> NOT</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>&amp;</para></entry>
+<entry align="left" valign="top"><para>Op&eacute;rateur logique<indexterm>
+<primary>Op&eacute;rateur</primary></indexterm><indexterm><primary></primary>
+<secondary>AND</secondary><tertiary>zone MODE</tertiary></indexterm> AND</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>|</para></entry>
+<entry align="left" valign="top"><para>Op&eacute;rateur logique<indexterm>
+<primary>Op&eacute;rateur</primary></indexterm><indexterm><primary></primary>
+<secondary>OR</secondary><tertiary>zone MODE</tertiary></indexterm> OR</para></entry>
+</row></tbody></tgroup></informaltable>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="214*">
+<colspec colwidth="314*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Caract&egrave;re</para></entry>
+<entry align="left" valign="bottom"><para>Description</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>f</para><indexterm><primary>Fichier </primary><secondary>crit&egrave;res de type de donn&eacute;es</secondary>
+</indexterm></entry>
+<entry align="left" valign="top"><para>Type de donn&eacute;es s'appliquant
+uniquement aux fichiers.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>d</para><para><indexterm><primary>R&eacute;pertoire</primary></indexterm><indexterm><primary></primary><secondary>crit&egrave;res de type de donn&eacute;es</secondary></indexterm><indexterm>
+<primary></primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Type de donn&eacute;es s'appliquant
+uniquement aux r&eacute;pertoires.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>r</para></entry>
+<entry align="left" valign="top"><para>Fichier lisible par un utilisateur
+quelconque.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>w</para><para><indexterm><primary>Acc&egrave;s en lecture seule</primary></indexterm><indexterm><primary></primary>
+</indexterm><indexterm><primary>Types de donn&eacute;es</primary></indexterm><indexterm>
+<primary></primary><secondary>lecture seule</secondary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Fichier accessible en &eacute;criture
+par un utilisateur quelconque.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>x</para><para><indexterm><primary>Types de donn&eacute;es</primary></indexterm><indexterm><primary></primary>
+<secondary>fichier ex&eacute;cutable</secondary></indexterm><indexterm><primary>Fichier</primary><secondary>ex&eacute;cutable</secondary></indexterm><indexterm>
+<primary></primary><secondary>crit&egrave;res</secondary></indexterm><indexterm>
+<primary></primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Le fichier est ex&eacute;cutable par
+un utilisateur quelconque.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>l</para><para><indexterm><primary>Lien</primary><secondary>crit&egrave;res</secondary></indexterm><indexterm>
+<primary></primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Le fichier est un lien.</para></entry>
+</row>
+<row>
+<entry><para><command>u</command></para></entry>
+<entry><para>The file is set-uid</para></entry></row>
+<row>
+<entry><para><command>g</command></para></entry>
+<entry><para>The file is set-gid</para></entry></row></tbody></tgroup></informaltable>
+<para>Par d&eacute;faut, le mode n'est pas support&eacute;.</para>
+<sect3 id="SAG.CrDT.div.21">
+<title>Exemples</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Les zones suivantes limitent le type de donn&eacute;es &agrave;
+la description correspondante:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="104*">
+<colspec colwidth="424*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>f&amp;!w</para></entry>
+<entry align="left" valign="top"><para>Fichiers accessibles en mode Lecture
+seulement</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>!w</para></entry>
+<entry align="left" valign="top"><para>Fichiers et r&eacute;pertoires accessibles
+en mode Lecture seulement</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>f&amp;x</para></entry>
+<entry align="left" valign="top"><para>Fichiers ex&eacute;cutables</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>f&amp;w&amp;x</para></entry>
+<entry align="left" valign="top"><para>Fichiers accessibles en modes Lecture
+et Ex&eacute;cution</para></entry></row>
+<row>
+<entry align="left" valign="top">x|!w</entry>
+<entry align="left" valign="top"><para>Fichiers ex&eacute;cutables ou accessibles
+en mode Lecture seulement</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>La d&eacute;finition suivante cr&eacute;e un type de donn&eacute;es
+pour les fichiers non-ex&eacute;cutables accessibles en lecture seule dont
+le nom respecte la convention d'appellation <filename>*.doc</filename>. Cette
+d&eacute;finition suppose qu'une action Visualiser a &eacute;t&eacute; d&eacute;finie
+pour ce type de donn&eacute;es.</para>
+<programlisting remap="CodeIndent1">DATA_ATTRIBUTES Document_lecture_seule 
+{
+   ICON         read_only 
+   DESCRIPTION  Ce document n'est pas modifiable. \ 
+                Cliquez deux fois pour ouvrir une \ 
+                copie accessible en lecture seule \ 
+                dans l'&eacute;diteur.
+ACTIONS         Visualiser 
+}
+DATA_CRITERIA Crit&egrave;res_document_lecture_seule
+{
+   NAME_PATTERN          *.doc
+   MODE                  !d&amp;!x&amp;!w 
+   DATA_ATTRIBUTES_NAME  Document_lecture_seule 
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrDT.div.22">
+<title>Type de donn&eacute;es bas&eacute; sur le contenu<indexterm><primary>Types de donn&eacute;es</primary><secondary>bas&eacute;s sur le contenu</secondary>
+</indexterm></title>
+<para>Utilisez la zone <command><indexterm><primary>Zone</primary><secondary>CONTENT</secondary></indexterm>CONTENT</command> pour indiquer un type de
+donn&eacute;es bas&eacute; sur le contenu du fichier. Un tel type de donn&eacute;es
+peut &ecirc;tre utilis&eacute; avec des types de donn&eacute;es bas&eacute;s
+sur le nom ou sur l'emplacement.</para>
+<para>Le type peut d&eacute;pendre d'une cha&icirc;ne ou de chiffres contenus
+dans le fichier. Le premier octet du fichier porte le num&eacute;ro 0.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pour une cha&icirc;ne, utilisez la syntax:</para>
+<para remap="CodeIndent1"><programlisting>CONTENT <symbol role="Variable">octet_d&eacute;but</symbol> string <symbol role="Variable">cha&icirc;ne</symbol></programlisting></para>
+</listitem>
+<listitem><para>Pour des chiffres, utilisez la syntaxe:</para>
+<programlisting>CONTENT <symbol role="Variable">octet_d&eacute;but</symbol> byte <symbol role="Variable">num&eacute;ro</symbol>
+ CONTENT <symbol role="Variable">octet_d&eacute;but</symbol> short <symbol role="Variable">num&eacute;ro</symbol>
+ CONTENT <symbol role="Variable">octet_d&eacute;but</symbol> long <symbol role="Variable">num&eacute;ro</symbol></programlisting>
+</listitem>
+<listitem><para>Pour le contenu d'un r&eacute;pertoire, utilisez la syntaxe
+:</para>
+<para remap="CodeIndent1"><programlisting>CONTENT 0 filename &ldquo;<symbol role="Variable">nom_fichier</symbol></programlisting></para>
+<para>Utilisez la notation C standard pour la num&eacute;rotation octale (<?Pub Caret>0
+de t&ecirc;te) et hexad&eacute;cimale (0X de t&ecirc;te).</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>L'utilisation d'un type de donn&eacute;es bas&eacute; sur le contenu
+peut provoquer un ralentissement des performances du syst&egrave;me. Utilisez
+de pr&eacute;f&eacute;rence un type bas&eacute; sur le nom ou sur l'emplacement.
+</para>
+</note>
+<para>Par exemple, le type de donn&eacute;es suivant, Wingz_modifiable, s'applique
+&agrave; tous les fichiers accessibles en &eacute;criture et contenant la
+cha&icirc;ne <command>WNGZ</command> en d&eacute;but de fichier.</para>
+<programlisting>DATA_ATTRIBUTES Wingz_modifiable
+{
+   &hellip;
+}
+
+DATA_CRITERIA Crit&egrave;res_Wingz_modifiable 
+{
+   CONTENT               0 string WNGZ
+   MODE                  w&amp;!d
+   DATA_ATTRIBUTES_NAME  Wingz_modifiable
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrDT.div.23" role="Procedure">
+<title id="SAG.CrDT.mkr.13">Cr&eacute;ation d'un type de donn&eacute;es &agrave;
+l'aide de plusieurs crit&egrave;res ind&eacute;pendants<indexterm><primary>Types de donn&eacute;es</primary><secondary>crit&egrave;res multiples</secondary>
+</indexterm></title>
+<para>Vous pouvez cr&eacute;er un type de donn&eacute;es &agrave; l'aide de
+plusieurs crit&egrave;res ind&eacute;pendants, c'est-&agrave;-dire que le
+fichier est affect&eacute; &agrave; un type de donn&eacute;es s'il r&eacute;pond
+&agrave; l'un des crit&egrave;res suivants (ou au deux).</para>
+<orderedlist>
+<listitem><para>Cr&eacute;ez la d&eacute;finition du param&egrave;tre <filename>DATA_ATTRIBUTES</filename> du type de donn&eacute;es.</para>
+</listitem>
+<listitem><para>Cr&eacute;ez une d&eacute;finition de <filename><indexterm>
+<primary>DATA_CRITERIA</primary><secondary>multiples</secondary></indexterm>DATA_CRITERIA</filename> pour chaque crit&egrave;re.</para>
+<para>Utilisez la zone <filename>DATA_ATTRIBUTES_NAME</filename> pour associer
+chacun des crit&egrave;res &agrave; une d&eacute;finition de <filename>DATA_ATTRIBUTES</filename> unique.</para>
+</listitem>
+</orderedlist>
+<para>Par exemple, les d&eacute;finitions suivantes permettent de cr&eacute;er
+le type de donn&eacute;es Mif. Le type est bas&eacute; sur le nom et le contenu.
+</para>
+<programlisting>DATA_ATTRIBUTES Mif 
+{
+   ICON         Frame
+   ACTION_LIST  Ouvrir,Imprimer
+}
+
+DATA_CRITERIA Crit&egrave;res_Nom_Mif 
+{
+   DATA_ATTRIBUTES_NAME  Mif
+   NAME_PATTERN          *.mif 
+}
+
+DATA_CRITERIA Crit&egrave;res_Contenu_Mif 
+{
+   DATA_ATTRIBUTES_NAME  Mif
+   CONTENT               1 string MIFFile
+}</programlisting>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrDT.div.24">
+<title>Cr&eacute;ation de types de donn&eacute;es adapt&eacute;s au pays<indexterm>
+<primary>Types de donn&eacute;es</primary><secondary>adapt&eacute;s au pays</secondary></indexterm><indexterm><primary>Adaptation</primary><secondary>type de donn&eacute;es</secondary></indexterm></title>
+<para>Le chemin de recherche de types de donn&eacute;es comporte des emplacements
+li&eacute;s &agrave; la langue utilis&eacute;e. Le Bureau utilise la valeur
+de<indexterm><primary>Variable</primary><secondary>LANG</secondary><tertiary>effet sur le type de donn&eacute;es</tertiary></indexterm> la variable LANG
+pour d&eacute;terminer les emplacements des d&eacute;finitions de types de
+donn&eacute;es.</para>
+<sect2 id="SAG.CrDT.div.25">
+<title>Emplacements des types de donn&eacute;es adapt&eacute;s au pays</title>
+<para>Les d&eacute;finitions de ces types de donn&eacute;es doivent figurer
+dans les r&eacute;pertoires correspondant &agrave; la langue, sur le chemin
+de recherche des actions.</para>
+<para>Le chemin par d&eacute;faut est:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Actions personnelles: <symbol role="Variable">R&eacute;pPersonnel</symbol><filename>/.dt/types</filename></para>
+</listitem>
+<listitem><para>Actions syst&egrave;me: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">langue</symbol></para>
+</listitem>
+<listitem><para>Actions int&eacute;gr&eacute;es: <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">langue</symbol></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.CrDT.div.26" role="Procedure">
+<title>Adaptation d'un type de donn&eacute;es</title>
+<orderedlist>
+<listitem><para>Cr&eacute;ez un fichier dans le r&eacute;pertoire correspondant
+&agrave; la langue (par exemple, dans <filename>/etc/dt/appconfig/types/japanese</filename> ).</para>
+</listitem>
+<listitem><para>Copiez la d&eacute;finition du type de donn&eacute;es dans
+le fichier de configuration li&eacute; &agrave; la langue.</para>
+</listitem>
+<listitem><para>Adaptez les zones de la d&eacute;finition de ce type de donn&eacute;es.
+</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 15:21:25-->
+<?Pub *0000056425>

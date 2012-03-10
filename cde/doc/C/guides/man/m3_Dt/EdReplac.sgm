@@ -1,0 +1,199 @@
+<!-- $XConsortium: EdReplac.sgm /main/6 1996/09/08 20:03:38 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN35.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN35.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtEditorReplace</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtEditorReplace</Function></RefName>
+<RefPurpose>replace a portion of the contents of a DtEditor widget
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Editor.h>
+</FuncSynopsisInfo>
+<FuncDef>DtEditorErrorCode <Function>DtEditorReplace</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>XmTextPosition <Parameter>startPos</Parameter></ParamDef>
+<ParamDef>XmTextPosition <Parameter>endPos</Parameter></ParamDef>
+<ParamDef>DtEditorContentRec *<Parameter>data</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtEditorReplace</Function> function replaces part of the contents of a DtEditor widget with a string,
+a wide character string or sized buffer.
+The data is transferred to the
+DtEditor widget using a
+<StructName Role="typedef">DtEditorContentRec</StructName>, which indicates the
+type of data being transferred along with the actual data.
+All data following the start position
+and up to, but not including, the end position is replaced.
+If the start position and the end position are equal, the
+data is inserted after the end position.
+The character positions begin at zero and are numbered sequentially
+from the beginning of the text.
+After the replacement, the insertion cursor is positioned after the
+last character inserted.
+</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument specifies the DtEditor widget ID.
+</Para>
+<Para>The
+<Symbol Role="Variable">startPos</Symbol> argument specifies the starting character position of
+the portion to replace.
+The replacement begins
+at this character.
+</Para>
+<Para>The
+<Symbol Role="Variable">endPos</Symbol> argument specifies the ending character position of
+the portion to replace.
+The replacement ends
+before this character.
+</Para>
+<Para>The
+<Symbol Role="Variable">data</Symbol> argument is a pointer to the data structure
+containing the data to insert.
+<![ %CDE.C.CDE; [</Para>
+<Para>For a complete definition of the DtEditor widget
+and its associated resources, see
+&cdeman.DtEditor;. ]]></Para>
+<Para>For a complete definition of
+<StructName Role="typedef">DtEditorContentRec</StructName>, see
+&cdeman.Dt.Editor.h;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<![ %CDE.C.XO; [
+<Para>Upon successful completion, the
+<Function>DtEditorReplace</Function> function returns
+<SystemItem Class="Constant">DtEDITOR_NO_ERRORS</SystemItem>; otherwise, if it cannot
+replace the string, the function returns one of the following values:
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>Upon successful completion, the
+<Function>DtEditorReplace</Function> function returns one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_NO_ERRORS</Term>
+<ListItem>
+<Para>The data was replaced sucessfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NULLS_REMOVED</Term>
+<ListItem>
+<Para>NULL characters were found and removed from the data.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Otherwise, if
+the
+<Function>DtEditorReplace</Function> function
+cannot replace the data in the DtEditor widget,
+it returns one of the following values:
+</Para>
+]]>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_TYPE</Term>
+<ListItem>
+<Para>The Type field is not recognized.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_RANGE</Term>
+<ListItem>
+<Para>The
+<Symbol Role="Variable">startPos</Symbol> argument is greater than the
+<Symbol Role="Variable">endPos</Symbol> argument.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_ILLEGAL_SIZE</Term>
+<ListItem>
+<Para>The size of the buffer passed in is negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NULL_ITEM</Term>
+<ListItem>
+<Para>The data buffer is
+<SystemItem Class="Constant">NULL</SystemItem>. <![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Not enough system memory is available to replace the data.
+]]></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following code segment modifies the contents of a
+DtEditor widget to ``The quick fox.''
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Widget                  editor;
+DtEditorContentRec      cr;
+DtEditorErrorCode       status;
+XmTextPosition          start = (XmTextPosition) 4,
+                        end = (XmTextPosition) 9;
+char                    *sampleString1="The brown fox",
+                        *sampleString2="quick";
+cr.type = DtEDITOR_TEXT;
+cr.value.string = sampleString1;
+status = DtEditorSetContents(editor, &amp;cr);
+<![ %CDE.C.XO; [if (status != DtEDITOR_NO_ERRORS) {
+]]><![ %CDE.C.CDE; [if (status != DtEDITOR_NO_ERRORS &amp;&amp; status != DtEDITOR_NULLS_REMOVED) {
+]]>        printf("Unable to set contents of the widget&bsol;n");
+} else {
+        cr.type = DtEDITOR_TEXT;
+        cr.data.string = sampleString2;
+        status = DtEditorReplace(editor, start, end, &amp;cr);
+        if (status != DtEDITOR_NO_ERRORS)
+          printf("Unable to replace part of the widget contents&bsol;n");
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>If the data is in a disk file, rather than in memory, the application should
+use
+&cdeman.DtEditorReplaceFromFile;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Editor.h;, &cdeman.DtEditor;, &cdeman.DtEditorAppend;, &cdeman.DtEditorAppendFromFile;, &cdeman.DtEditorGetContents;, &cdeman.DtEditorInsert;, &cdeman.DtEditorInsertFromFile;, &cdeman.DtEditorReplaceFromFile;, &cdeman.DtEditorSaveContentsToFile;, &cdeman.DtEditorSetContents;, &cdeman.DtEditorSetContentsFromFile;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

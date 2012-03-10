@@ -1,0 +1,248 @@
+<!-- $XConsortium: pdmd.sgm /main/4 1996/10/22 09:43:45 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<refentry id="CDE.XPRINT.DTPDMD">
+<refmeta><refentrytitle>dtpdmd</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv>
+<refname><command>dtpdmd</command></refname>
+<refpurpose>
+Print Dialog Manager daemon
+</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtpdmd</command><arg choice="opt">&minus;d <replaceable>display</replaceable></arg>
+<arg choice="opt">&minus;a <replaceable>selection</replaceable></arg>
+<arg choice="opt">&minus;p <replaceable>pdm</replaceable></arg>
+<arg choice="opt">&minus;P <replaceable>pdm</replaceable></arg>
+<arg choice="opt">&minus;s</arg>
+<arg choice="opt">&minus;l <replaceable>logfile</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>dtpdmd</command> command uses the Print Dialog Manager
+Selection Protocol to start a Print Dialog Manager (PDM) on behalf of an
+application.</para>
+<para><command>dtpdmd</command> is a long-lived daemon process that receives
+client requests for a PDM, uses some lookup rules, and then starts an appropriate
+PDM to service the request. When the PDM finishes, control returns to <command>dtpdmd</command> and <command>dtpdmd</command> in turn responds to the client
+with the final status.</para>
+<refsect2>
+<title>PDMD/PDM Protocol</title>
+<para><command>dtpdmd</command> uses a specific protocol to communicate with
+the PDM. Communication to the PDM is done via a standardized command line
+and environment.
+Communication from the PDM is done via standardized exit codes.</para>
+<refsect3>
+<title>Standardized Command Line</title>
+<para>The standardized command line is as follows:</para>
+<cmdsynopsis>
+<command>dt-pdm-command</command>
+<arg choice="opt"><replaceable>dt-pdm-options</replaceable></arg>
+<arg choice="plain">&minus;vdisplay <replaceable>vdpy</replaceable></arg>
+<arg choice="plain">&minus;window <replaceable>vwid</replaceable></arg>
+<arg choice="plain">&minus;pdisplay <replaceable>pdpy</replaceable></arg>
+<arg choice="plain">&minus;pcontext <replaceable>pcid</replaceable></arg>
+</cmdsynopsis>
+<variablelist>
+<varlistentry><term><emphasis>dt-pdm-command</emphasis></term>
+<listitem>
+<para>Specifies the path for the PDM executable.
+It is derived by the <command>dtpdmd</command> from either the
+<literal>&minus;p</literal> or <literal>&minus;P</literal> option.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>dt-pdm-options</emphasis></term>
+<listitem>
+<para>Specifies options that may have accompanied the <emphasis>dt-pdm-command</emphasis>,
+whether specified on the <command>dtpdmd</command> command line by the
+<literal>&minus;p</literal> or <literal>&minus;P</literal> option or from other sources.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;vdisplay</literal> <emphasis>vdpy</emphasis></term>
+<listitem>
+<para>Specifies the display connection to the Video X-Server.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;window</literal> <emphasis>vwid</emphasis></term>
+<listitem>
+<para>Specifies the window id on the Video X-Server to which the PDM&rsquo;s
+dialogs should be posted as transient windows.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;pdisplay</literal> <emphasis>pdpy</emphasis></term>
+<listitem>
+<para>Specifies the display connection to the Print X-Server.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;pcontext</literal> <emphasis>pcid</emphasis></term>
+<listitem>
+<para>Specifies the print context id on the Print X-Server. The PDM uses
+this id to gain access to the print context being used by the requesting
+application.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect3>
+<refsect3>
+<title>Standardized Exit Codes</title>
+<para>The standardized exit codes (defined as integer constants in
+<filename>Dt/dtpdmd.h</filename>) are as follows:
+</para>
+<variablelist>
+<varlistentry><term><literal>PDM_EXIT_OK</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that the user selected <literal>OK</literal>
+to dismiss the PDM.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>PDM_EXIT_CANCEL</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that the user selected <literal>CANCEL</literal> to dismiss the PDM.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>DM_EXIT_VXAUTH</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that it did not have proper authority to
+make a display connection on the Video X-Server.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>PDM_EXIT_PXAUTH</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that it did not have proper authority to
+make a display connection to the Print X-Server.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>PDM_EXIT_ERROR</literal></term>
+<listitem>
+<para>The PDM is telling the PDMD that it encountered an error.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>all other values</term>
+<listitem>
+<para>The PDMD treats all unknown return values the same as <literal>PDM_EXIT_ERROR</literal>. Such return values are likely from uncontrollable exit conditions
+often found in other libraries (for example, untrapped XIO errors from libX).
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect3>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para>The following options are available:</para>
+<variablelist>
+<varlistentry><term><literal>&minus;d</literal> <emphasis>display</emphasis></term>
+<listitem>
+<para>Specifies the display connection to an X-Server upon which an X-selection
+will be created and managed for requests. If specified, it overrides the
+environment variable <systemitem class="environvar">XPDMDISPLAY</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;a</literal> <emphasis>selection</emphasis></term>
+<listitem>
+<para>Specifies an alternative X-selection name for <command>dtpdmd</command>
+to create and manage. If specified, it overrides the environment variable
+<systemitem class="environvar">XPDMSELECTION</systemitem>. By default,
+the selection name is <literal>PDM_MANAGER</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;p</literal> <emphasis>pdm</emphasis></term>
+<listitem>
+<para>Specifies a PDM execution string to use if no other PDM execution string
+can be derived, usually from the Server Attribute
+<literal>dt-pdm-command</literal> from the X-Server.
+By default, the execution string is <literal>dtpdm</literal>.
+All execution strings are applied against the current search path.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;P</literal> <emphasis>pdm</emphasis></term>
+<listitem>
+<para>Specifies an alternative PDM execution string that overrides all other
+sources of such execution strings. All execution strings are applied
+against the current search path.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;s</literal></term>
+<listitem>
+<para>Instructs <command>dtpdmd</command> to turn on the security exchange
+portion of the PDM Selection Protocol. By default, <command>dtpdmd</command>
+does not exchange security information with an application over the wire,
+so the appearance of <literal>auto hosting</literal> cannot be done.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;l</literal> <emphasis>logfile</emphasis></term>
+<listitem>
+<para>Specifies a file for <command>dtpdmd</command> to use for logging errors
+and warnings. Entries are time-stamped and may be generated by <command>dtpdmd</command> or any child PDM via stderr. The previous contents of the
+log file are destroyed. By default, <filename>/dev/null</filename> is used.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>Prior to starting a PDM, the <command>dtpdmd</command> may
+first modify the following environment variable:
+</para>
+<variablelist>
+<varlistentry><term><systemitem class="environvar">XAUTHORITY</systemitem></term>
+<listitem>
+<para>If the <command>dtpdmd</command> has come into possession of X-authority
+information that the PDM will need, it sets this environment
+variable so that the PDM will automatically have access to the proper
+X-authority information.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>In addition, the <command>dtpdmd</command> may set a locale hint
+passed to it by the PDM Selection Protocol from the client prior
+to starting a PDM. On POSIX systems, <function>setlocale</function>(3C)
+will be used.
+</para>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>ERRORS/WARNINGS</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para><function>dtpdm</function>1</para>
+</refsect1>
+</refentry>
+

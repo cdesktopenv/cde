@@ -1,0 +1,1988 @@
+<!-- $XConsortium: ch13.sgm /main/2 1996/12/17 06:28:30 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.FrPC.div.1">
+<Title Id="SAG.FrPC.mkr.1">フロントパネル拡張機能のカスタマイズ<IndexTerm><Primary>フロントパネル</Primary><Secondary>カスタマイズ</Secondary></IndexTerm></Title>
+<Para>
+フロントパネルのポップアップ・メニューと、サブパネルのアイコンのインストール・コントロールを使用して、フロントパネルをカスタマイズすることができます。
+</Para>
+<Para>
+本章では、構成ファイルの作成および編集によるフロントパネルのカスタマイズについて説明します。
+</Para>
+<InformalTable Id="SAG.FrPC.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Front Panel Configuration Files212'--><XRef Role="JumpText" Linkend="SAG.FrPC.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Administering User Interface Customizations214'--><XRef Role="JumpText" Linkend="SAG.FrPC.div.8"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Organization of the Front Panel Definition215'--><XRef Role="JumpText" Linkend="SAG.FrPC.div.11"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Modifying the Main Panel219'--><XRef Role="JumpText" Linkend="SAG.FrPC.div.19"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Creating and Modifying Subpanels223'--><XRef Role="JumpText" Linkend="SAG.FrPC.div.26"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Defining Front Panel Controls228'--><XRef Role="JumpText" Linkend="SAG.FrPC.div.34"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Customizing the Workspace Switch236'--><XRef Role="JumpText" Linkend="SAG.FrPC.div.46"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'General Front Panel Configuration237'--><XRef Role="JumpText" Linkend="SAG.FrPC.div.50"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="SAG.FrPC.div.2">
+<Title>関連項目</Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para Id="SAG.FrPC.mkr.2">
+フロントパネル・コントロール構成に関する参照情報は、
+<Filename MoreInfo="RefEntry">dtfpfile(4X)</Filename> のマニュアル・ページを参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ワークスペース・マネージャに関する参照情報は、
+<Filename>dtwm</Filename>(1) と <Filename>dtwmrc(4)</Filename> のマニュアル・ページを参照してください。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="SAG.FrPC.div.3">
+<Title Id="SAG.FrPC.mkr.3">フロントパネル構成ファイル<IndexTerm><Primary>構成ファイル</Primary><Secondary>フロントパネル</Secondary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary><Secondary>構成ファイル</Secondary></IndexTerm></Title>
+<Para>
+フロントパネルは、構成ファイルのデータベースで定義されます。
+</Para>
+<Para>
+構成ファイルは、フロントパネルをカスタマイズする方法を提供します。次のような変更は、構成ファイルを編集しないと実行できません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+新しいコントロールの位置をメイン・パネルに追加する。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+特殊な型のコントロール（クライアントのウィンドウなど）を追加する。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+特定のデフォルト動作を変更する。たとえば、フロントパネル・コントロールがシングルクリックとダブルクリックのどちらに反応するか変更するなどです。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+パネル構成に最大限の柔軟性を提供するために、構成ファイルは個人用、システム共通、または他のシステムに配置することができます。
+</Para>
+<Para>
+フロントパネルは、ワークスペース・マネージャによって作成および管理されます。
+</Para>
+<Sect2 Id="SAG.FrPC.div.4">
+<Title>デフォルトのフロントパネル構成ファイル</Title>
+<Para>
+デフォルトのフロントパネル構成ファイルは、フロントパネル構成ファイル <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/<IndexTerm><Primary>dtwm.fp ファイル</Primary></IndexTerm>dtwm.fp</Filename> で定義されます。
+</Para>
+<Para>
+このファイルは変更してはいけません。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.5">
+<Title>フロントパネル構成ファイルの検索パス<IndexTerm><Primary>検索パス</Primary><Secondary>フロントパネルの定義</Secondary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary><Secondary>検索パス</Secondary></IndexTerm></Title>
+<Para>
+フロントパネル定義は、ローカルに位置するファイルやリモート・システムのファイルに分散することができます。
+</Para>
+<Para>
+<IndexTerm><Primary>フロントパネル</Primary><Secondary>ファイルの命名規則</Secondary></IndexTerm>
+フロントパネルの定義に使用するファイルは、次の要求事項を満たさなければなりません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ファイル名が <Filename>.fp</Filename> で終わる。例: <Filename>mail.fp.</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ファイルがアクション・データベース検索パス上に位置する。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+デフォルトのアクション・データベース検索パスには次のディレクトリがあります。次の順番で検索されます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="284*">
+<colspec colwidth="244*">
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para></Entry>
+<Entry><Para>個人用カスタマイズ</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+<Entry><Para>システム共通カスタマイズ</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+<Entry><Para>組み込みパネルおよびコントロール</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+追加のディレクトリ <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/fp_dynamic</Filename> は、ユーザ・インタフェースで行われる個人用カスタマイズに使用します。このディレクトリを手動のカスタマイズに使用しないでください。
+<IndexTerm><Primary>fp_dynamic ディレクトリ</Primary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary><Secondary>動的カスタマイズ</Secondary></IndexTerm>
+</Para>
+<Para>
+アクション・データベース検索パスに、システムをネットワーク用に構成するためにディレクトリを追加することもあります。特に、システムがアプリケーション・サーバにアクセスするよう構成する場合は、リモート位置が追加されます。詳細については、
+<!--Original XRef content: '&xd2;Database (Action/Data Types) Search Path&xd3; on page&numsp;120'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.12"> を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.6">
+<Title Id="SAG.FrPC.mkr.4">フロントパネルの構成方法: 優先規則<IndexTerm><Primary>フロントパネル</Primary><Secondary>構成の優先度</Secondary></IndexTerm><IndexTerm><Primary>優先度</Primary><Secondary>フロントパネルの構成</Secondary></IndexTerm></Title>
+<Para>
+フロントパネルは、アクション・データベース検索パス上のすべての構成ファイルで作成されます。
+</Para>
+<Para>
+定義のコンポーネントが競合する場合は、どの定義を使用するかは優先規則が決定します。次の場合、２つのコンポーネントは競合します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<Filename>CONTAINER_NAME</Filename> と <Filename>CONTAINER_TYPE</Filename> が同じコントロール名である
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+２つのコンポーネントが同じ位置にある（名前は異なるが、<Filename>CONTAINER_NAME</Filename>、<Filename>CONTAINER_TYPE</Filename>、および <Filename>POSITION_HINTS</Filename> が同じである）
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+フロントパネルは次の優先規則を使用します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+コンポーネントのコントロール名、コンテナ名、コンテナ型がすべて同じである場合、先に読み込まれたコンポーネントを使用します。
+</Para>
+<Para>
+たとえば、次のフィールドをもつという点以外は異なるシステム共通コントロールと組み込みコントロールの場合、システム共通コントロールが優先されます。
+</Para>
+<programlisting>CONTROL TextEditor
+{
+ CONTAINER_TYPE  BOX
+ CONTAINER_NAME  Top
+ &hellip;
+}
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+２つのコンポーネントが同じ位置にある場合は、読み込まれた順番に配置します。
+</Para>
+<Para>
+たとえば、メインパネルに新しい個人用コントロール (<Filename>CONTAINER_TYPE</Filename> BOX と <Filename>CONTAINER_NAME</Filename> Top) を作成して <Filename>POSITION_HINTS</Filename>(5) を割り当てた場合、その個人用コントロールは組み込みコントロールとその他の 5 より高い位置番号をもつすべてのコントロールをひとつずつ右へずらします。
+</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>
+新規にシステム共通または個人用のコントロールを作成することによってコントロールを変更する場合は、新しいコントロール定義に同じコントロール名、<Filename>CONTAINER_NAME</Filename>、<Filename>CONTAINER_TYPE</Filename> を指定しなければなりません。そうしないと、既存のコントロールと新しいコントロールの両方が表示されてしまいます。
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.7">
+<Title><IndexTerm><Primary>フロントパネル</Primary><Secondary>動的カスタマイズ</Secondary></IndexTerm>動的に作成されたフロントパネル・ファイル</Title>
+<Para>
+[アイコンのインストール]コントロールとポップアップ・メニューを使用してフロントパネルをカスタマイズすると、ファイルは <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/fp_dynamic.</Filename> ディレクトリに書き込まれます。
+</Para>
+<Para>
+フロントパネルは追加のファイル <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/dtwmfp.session</Filename> を作成します。このファイルは、カスタマイズしたフロントパネルの状態をセッションごとに保存および復元するのに使用します。
+<IndexTerm><Primary>dtwmfp.session ファイル</Primary></IndexTerm>
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FrPC.div.8">
+<Title Id="SAG.FrPC.mkr.5">ユーザ・インタフェースのカスタマイズの管理</Title>
+<Para>
+コントロールのポップアップ・メニューと[アイコンのインストール]コントロールを使用して、フロントパネルを大規模にカスタマイズすることができます。
+</Para>
+<Para>
+この節では、次のことを説明します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+特定の個人用カスタマイズを回避する方法。たとえば、ユーザがコントロールを削除できないようにする方法など。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+個人用カスタマイズを元に戻す方法。たとえば、うっかり削除してしまったひとつのコントロールを復元するよう他のユーザが要求してきた場合の方法など。
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.FrPC.div.9" Role="Procedure">
+<Title>個人用カスタマイズを回避するには<IndexTerm><Primary>フロントパネル</Primary><Secondary>個人用カスタマイズの管理</Secondary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary><Secondary>コントロール、「コントロール&lt;$nopage>」を参照してください</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+コントロールが組み込みコントロールの場合は、定義を <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> から <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/</Filename><Symbol Role="Variable">name</Symbol><Filename>.fp.</Filename> へコピーします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+次の行をコントロール定義に追加します。
+</Para>
+<programlisting>LOCKED   True</programlisting>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.10" Role="Procedure">
+<Title>変更されたフロントパネル、削除されたコントロールまたはサブパネルを復元するには<IndexTerm><Primary>サブパネル</Primary><Secondary>削除されたものの復元</Secondary></IndexTerm><IndexTerm><Primary>コントロール</Primary><Secondary>復元</Secondary></IndexTerm></Title>
+<Para>
+[デスクトップツール]アプリケーション・グループの[フロントパネルの復元]アクションは、ユーザ・インタフェースで行われたフロントパネルのカスタマイズをすべて削除します。このアクションを使用して、フロントパネルのポップアップ・メニューで行った個人用カスタマイズをすべて削除できます。
+<IndexTerm><Primary>[フロントパネルの復元]アクション</Primary></IndexTerm><IndexTerm><Primary>コントロール</Primary><Secondary>ロック</Secondary></IndexTerm><IndexTerm><Primary>LOCKED フィールド</Primary></IndexTerm>
+</Para>
+<Para>
+個々のコントロールを復元するには次の手順にしたがってください。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/fp_dynamic</Filename> ディレクトリで、コントロールを削除したときに作成されたファイルを削除します。コントロールは、削除された元のコントロールと同じ名前になります。
+</Para>
+<Para>
+たとえば、アイコン・エディタ・コントロールを削除した場合、<Filename>fp_dynamic</Filename> ディレクトリのファイルの内容は次のようになります。
+</Para>
+<programlisting>IconEditor
+{ &hellip;
+ DELETE   True
+}
+<IndexTerm><Primary>DELETE フィールド</Primary></IndexTerm>
+</programlisting>
+</ListItem>
+</OrderedList>
+<Para>
+サブパネルを削除すると、そのサブパネルとサブパネルの各コントロールに対して、別の動的ファイルが作成されます。
+</Para>
+<para>
+関連情報については、
+<!--XRef content: 'Modifying the Main Panel'--><XRef Role="JumpText" Linkend="SAG.FrPC.div.19"> を参照してください。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FrPC.div.11">
+<Title Id="SAG.FrPC.mkr.6">フロントパネル定義の構成<IndexTerm><Primary>フロントパネル</Primary><Secondary>定義の編成</Secondary></IndexTerm></Title>
+<Para>
+フロントパネルは、フロントパネルのコンポーネントの定義を集めて構築されます。各コンポーネントは、フロントパネル上のコンポーネントの配置、コンポーネントの外観および動作を定義する構文が必要です。
+</Para>
+<Sect2 Id="SAG.FrPC.div.12">
+<Title Id="SAG.FrPC.mkr.7">フロントパネル・コンポーネント<IndexTerm><Primary>フロントパネル</Primary><Secondary>コンポーネント</Secondary></IndexTerm></Title>
+<Figure>
+<Title>フロントパネルのコンポーネント</Title>
+<Graphic Entityref="SAG.FrPC.fig.1" Id="SAG.FrPC.grph.1"></Graphic>
+</Figure>
+<Para>
+フロントパネルは次のように構成されます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<Command><IndexTerm><Primary>PANEL 定義</Primary></IndexTerm>PANEL</Command> は、フロントパネル全体のトップレベルのコンテナ（親）です。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Command>PANEL</Command> はひとつ以上の <Command>BOX</Command> のコンテナです。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Command><IndexTerm><Primary>BOX 定義</Primary></IndexTerm>BOX</Command> はひとつ以上の <Command>CONTROL</Command> のコンテナです。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+特別なコンテナは２種類あります。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<Command><IndexTerm><Primary>SUBPANEL 定義</Primary></IndexTerm>SUBPANEL</Command> は、特定のコントロールと関連付けられています（このコントロールはサブパネルのコンテナです)。サブパネルは、関連付けられているコントロールから上方に「スライド」して表示されます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>ワークスペース・スイッチ</Primary><Secondary>定義</Secondary></IndexTerm>
+<Command>SWITCH</Command> には、ワークスペースを変更するボタンと追加のコントロールが入っています。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.13">
+<Title Id="SAG.FrPC.mkr.8">フロントパネル定義の一般的な構文<IndexTerm><Primary>フロントパネル</Primary><Secondary>構文</Secondary></IndexTerm></Title>
+<Para>
+フロントパネルの各コンポーネントは、次の構文を使用して別々に定義されます。
+</Para>
+<programlisting><Symbol Role="Variable">COMPONENT</Symbol> <Symbol Role="Variable">name</Symbol>
+{
+<Symbol Role="Variable">KEYWORD</Symbol>   <Symbol Role="Variable">value</Symbol>
+<Symbol Role="Variable">KEYWORD</Symbol>   <Symbol Role="Variable">value</Symbol>
+&hellip;
+}
+</ProgramListing>
+<Para>
+キーワードには必須なものとオプションのものがあります。詳細については、
+<Filename MoreInfo="RefEntry">dtfpfile(4X</Filename>) のマニュアル・ページを参照してください。
+</Para>
+<Sect3 Id="SAG.FrPC.div.14">
+<Title><IndexTerm><Primary>PANEL 定義</Primary><Secondary>構文</Secondary></IndexTerm>PANEL 定義</Title>
+<Para>
+<Command>PANEL</Command> はトップレベルのコンポーネントです。定義には次のものが含まれます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>フロントパネル名</Para>
+</ListItem>
+<ListItem>
+<Para>フロントパネル全体の一般的な外観と動作</Para>
+</ListItem>
+</ItemizedList>
+<programlisting>PANEL <Symbol Role="Variable">front_panel_name</Symbol>
+{
+ <Symbol Role="Variable">KEYWORD</Symbol>    <Symbol Role="Variable">value</Symbol>
+ <Symbol Role="Variable">KEYWORD</Symbol>    <Symbol Role="Variable">value</Symbol>
+    &hellip;
+</ProgramListing>
+<Para>
+<Emphasis>front_panel_name</Emphasis> はフロントパネルに固有の名前です。デフォルトの名前は「FrontPanel」です。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.15">
+<Title><IndexTerm><Primary>BOX 定義</Primary><Secondary>構文</Secondary></IndexTerm>BOX 定義</Title>
+<Para>
+<Command>BOX</Command> 定義には次のものが含まれます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>BOX</Command> 名</Para>
+</ListItem>
+<ListItem>
+<Para>ボックスが入っている <Command>PANEL</Command> (<Filename><IndexTerm><Primary>CONTAINER_NAME フィールド</Primary></IndexTerm>CONTAINER_NAME</Filename>)</Para>
+</ListItem>
+<ListItem>
+<Para><Command>PANEL</Command> 内のボックスの位置 (<Filename>POSITION_HINTS</Filename>)</Para>
+</ListItem>
+<ListItem>
+<Para>ボックス全体に適用する外観と動作を記述するフィールド</Para>
+</ListItem>
+</ItemizedList>
+<programlisting>BOX <Symbol Role="Variable">box_name</Symbol>
+{
+ CONTAINER_NAME     <Symbol Role="Variable">front_panel_name</Symbol>
+ POSITION_HINTS     <Symbol Role="Variable">position</Symbol>
+ <Symbol Role="Variable">KEYWORD</Symbol>            <Symbol Role="Variable">value</Symbol>
+ <Symbol Role="Variable">KEYWORD</Symbol>            <Symbol Role="Variable">value</Symbol>
+   &hellip;
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.16">
+<Title><IndexTerm><Primary>CONTROL 定義、構文</Primary></IndexTerm>CONTROL 定義</Title>
+<Para>
+<Command>CONTROL</Command> 定義には次のものが含まれます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>CONTROL</Command> 名</Para>
+</ListItem>
+<ListItem>
+<Para>コントロールがボックス、サブパネル、スイッチのいずれにあるか (<Filename><IndexTerm><Primary>CONTAINER_TYPE フィールド</Primary></IndexTerm>CONTAINER_TYPE</Filename>)</Para>
+</ListItem>
+<ListItem>
+<Para>コントロールがどのボックス、サブパネル、スイッチに入っているか (<Filename><IndexTerm><Primary>CONTAINER_NAME フィールド</Primary></IndexTerm>CONTAINER_NAME</Filename>)</Para>
+</ListItem>
+<ListItem>
+<Para><Command>BOX</Command> 内の <Command>CONTROL</Command> の位置 (<Filename>POSITION_HINTS</Filename>)</Para>
+</ListItem>
+<ListItem>
+<Para>コントロールの外観と動作を記述するフィールド</Para>
+</ListItem>
+</ItemizedList>
+<programlisting>CONTROL <Symbol Role="Variable">control_name</Symbol>
+{
+ CONTAINER_TYPE     BOX <Symbol Role="Variable">or</Symbol> SUBPANEL <Symbol Role="Variable">or</Symbol> SWITCH
+ CONTAINER_NAME     <Symbol Role="Variable">box_name</Symbol> <Symbol Role="Variable">or</Symbol> <Symbol Role="Variable">subpanel_name</Symbol> <Symbol Role="Variable">or</Symbol> <Symbol Role="Variable">switch_name</Symbol>
+ TYPE               <Symbol Role="Variable">control_type</Symbol>
+ POSITION_HINTS     <Symbol Role="Variable">position</Symbol>
+ <Symbol Role="Variable">KEYWORD</Symbol>            <Symbol Role="Variable">value</Symbol>
+ <Symbol Role="Variable">KEYWORD</Symbol>            <Symbol Role="Variable">value</Symbol>
+ &hellip;
+}
+<IndexTerm><Primary>サブパネル</Primary><Secondary>定義</Secondary></IndexTerm>
+<IndexTerm><Primary>サブパネル</Primary><Secondary>構文</Secondary></IndexTerm>
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.17">
+<Title><IndexTerm><Primary>サブパネル</Primary><Secondary>構文</Secondary></IndexTerm>SUBPANEL 定義</Title>
+<Para>
+<Command>SUBPANEL</Command> 定義には次のものが含まれます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>SUBPANEL</Command> 名</Para>
+</ListItem>
+<ListItem>
+<Para>サブパネルに関連付けるコントロール名<IndexTerm><Primary>サブパネル</Primary><Secondary>コンテナ</Secondary></IndexTerm> (<Filename><IndexTerm><Primary>CONTAINER_NAME フィールド</Primary></IndexTerm>CONTAINER_NAME</Filename>)</Para>
+</ListItem>
+<ListItem>
+<Para>サブパネルに固有の外観と動作を記述するフィールド</Para>
+</ListItem>
+</ItemizedList>
+<programlisting>SUBPANEL <Symbol Role="Variable">subpanel_name</Symbol>
+{
+ CONTAINER_NAME  <Symbol Role="Variable">control_name</Symbol>
+ <Symbol Role="Variable">KEYWORD</Symbol>         <Symbol Role="Variable">value</Symbol>
+ <Symbol Role="Variable">KEYWORD</Symbol>         <Symbol Role="Variable">value</Symbol>
+   &hellip;
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.18">
+<Title><IndexTerm><Primary>SWITCH 定義</Primary></IndexTerm><IndexTerm><Primary>ワークスペース・スイッチ</Primary><Secondary>定義の構文</Secondary></IndexTerm>SWITCH 定義</Title>
+<Para>
+<Command>SWITCH</Command> 定義には次のものが含まれます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>SWITCH</Command> 名</Para>
+</ListItem>
+<ListItem>
+<Para><Command>SWITCH</Command> が入っている <Command>BOX</Command> (<Filename><IndexTerm><Primary>CONTAINER_NAME フィールド</Primary></IndexTerm>CONTAINER_NAME</Filename>)</Para>
+</ListItem>
+<ListItem>
+<Para><Command>BOX</Command> 内の <Command>SWITCH</Command> の位置 (<Filename>POSITION_HINTS</Filename>)</Para>
+</ListItem>
+<ListItem>
+<Para><Command>SWITCH</Command> の外観と動作を記述するフィールド</Para>
+</ListItem>
+</ItemizedList>
+<programlisting>SWITCH <Symbol Role="Variable">switch_name</Symbol>
+{
+ CONTAINER_NAME  <Symbol Role="Variable">box_name</Symbol>
+ POSITION_HINTS  <Symbol Role="Variable">position</Symbol>
+ <Symbol Role="Variable">KEYWORD</Symbol>         <Symbol Role="Variable">value</Symbol>
+ <Symbol Role="Variable">KEYWORD</Symbol>         <Symbol Role="Variable">value</Symbol>
+   &hellip;
+}
+</ProgramListing>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FrPC.div.19">
+<Title Id="SAG.FrPC.mkr.9">メイン・パネルの変更<IndexTerm><Primary>フロントパネル</Primary><Secondary>変更</Secondary></IndexTerm></Title>
+<Para>
+メイン・パネルは、サブパネルを除くフロントパネルのウィンドウです。
+</Para>
+<Figure>
+<Title>メイン・パネルのコンテナ</Title>
+<Graphic Entityref="SAG.FrPC.fig.2" Id="SAG.FrPC.grph.2"></Graphic>
+</Figure>
+<Para>
+次の変更を行うことができます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>コントロールの追加または削除</Para>
+</ListItem>
+<ListItem>
+<Para>コントロールの位置の交換</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.FrPC.div.20" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.10">メイン・パネルにコントロールを追加するには<IndexTerm><Primary>コントロール</Primary><Secondary>メイン・パネルへの追加</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+フロントパネル構成ファイルを作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>システム共通: <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/*.fp</ComputerOutput></Para>
+</ListItem>
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/*.fp</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+ファイルにコントロールを定義します。
+</Para>
+<Para>
+コントロールのコンテナを指定するために、<Filename>CONTAINER_NAME</Filename> フィールドと <Filename>CONTAINER_TYPE</Filename> フィールドを使用します。
+</Para>
+<programlisting>CONTAINER_NAME  Top
+CONTAINER_TYPE  BOX
+</ProgramListing>
+<Para>
+コントロールの配置を左から右へ指定するために <Filename>POSITION_HINTS</Filename> を使用します。カスタマイズは組み込みコントロールに優先するので、新しいコントロールが入ると同じ位置にあった既存のコントロールは、ひとつずつ右へずれます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+構成ファイルを保存します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+フロントパネル・コントロールのアイコンを作成します。
+</Para>
+<Para>
+<!--Original XRef content: '&xd2;Specifying the Icon Used by a Control&xd3; on page&numsp;223'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FrPC.mkr.12"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、ファイル <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/audio.fp</ComputerOutput> にある次のコントロール定義は、オーディオ・アプリケーションのコントロールを[時計]と[カレンダ]のコントロールの間に挿入します。
+</Para>
+<programlisting>CONTROL AudioApplication
+{
+ TYPE             icon
+ CONTAINER_NAME   Top
+ CONTAINER_TYPE   BOX
+ ICON             AudioApp
+ POSITION_HINTS   2
+ PUSH_ACTION      StartAudioApplication
+ PUSH_RECALL      true
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.21" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.11">コントロールを削除するには<IndexTerm><Primary>コントロール</Primary><Secondary>フロントパネルからの削除</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+フロントパネル構成ファイルを作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>システム共通: <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/</ComputerOutput><Symbol Role="Variable">name</Symbol><ComputerOutput>.fp</ComputerOutput></Para>
+</ListItem>
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirector</Symbol><Filename>y/.dt/types/</Filename><Symbol Role="Variable">name</Symbol><Filename>.fp</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+削除したいコントロールの定義を新しいファイルにコピーします。
+</Para>
+<Para>
+削除したいコントロールが組み込みの場合、定義はファイル <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> にあります。
+</Para>
+<Para>
+定義全体をコピーする必要はありません。しかし、必ず <Filename>CONTAINER_NAME</Filename> と <Filename>CONTAINER_TYPE</Filename> のフィールドを含む範囲をコピーしてください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+定義に <Command>DELETE</Command> フィールドを追加します。
+</Para>
+<programlisting>DELETE   True</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+構成ファイルを保存します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、ファイル <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/TrashCan.fp</Filename> にある次のコントロール定義は、[ごみ箱]コントロールを削除します。
+</Para>
+<programlisting>CONTROL Trash
+{
+ CONTAINER_NAME  Top
+ CONTAINER_TYPE  BOX
+ DELETE          True
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.22" Role="Procedure">
+<Title>コントロールを変更するには<IndexTerm><Primary>コントロール</Primary><Secondary>変更</Secondary></IndexTerm></Title>
+<Para>
+コントロール定義を変更する必要がある場合（たとえば、アイコン・イメージを変更する場合など）は、次の手順を行います。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+コントロール定義全体を <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> から次のファイルにコピーします。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>システム共通: <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/</ComputerOutput><Symbol Role="Variable">name</Symbol><ComputerOutput>.fp</ComputerOutput></Para>
+</ListItem>
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/</Filename><Symbol Role="Variable">name</Symbol><Filename>.fp</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+変更したいフィールドを編集します。フィールドを追加することもできます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ファイルを保存します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.23" Role="Procedure">
+<Title>コントロールの位置を交換するには<IndexTerm><Primary>コントロール</Primary><Secondary>他のコントロールとの交換</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+位置を変更したいコントロールの定義を <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> から次のファイルにコピーします。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>システム共通: <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/</ComputerOutput><Symbol Role="Variable">name</Symbol><ComputerOutput>.fp</ComputerOutput></Para>
+</ListItem>
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/</Filename><Symbol Role="Variable">name</Symbol><Filename>.fp</Filename></Para>
+<Para>
+移動したいコントロールごとにコントロール定義全体をコピーしなければなりません。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+コントロール定義の <Filename><IndexTerm><Primary>POSITION_HINTS フィールド</Primary></IndexTerm>POSITION_HINTS</Filename> フィールドの値を交換します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ファイルを保存します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、ファイル <Filename>/etc/dt/appconfig/types/C/MailInfo.fp</Filename> にある次のコントロール定義は、[メール]と[ヘルプ・マネージャ]のコントロールの位置を交換し、それらのコントロールを個人の変更に対してロックします。
+</Para>
+<programlisting>CONTROL Mail
+{
+ POSITION_HINTS     12
+ LOCKED     True
+ &hellip;
+ <Symbol Role="Variable">the rest of the control definition</Symbol>
+}
+CONTROL InfoManager
+{
+ POSITION_HINTS     5
+ LOCKED     True
+ &hellip;
+ <Symbol Role="Variable">the rest of the control definition</Symbol>
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.24" Role="Procedure">
+<Title>フロントパネル・コントロールを置換するには<IndexTerm><Primary>コントロール</Primary><Secondary>置換</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+次のものを同じにして別のコントロール定義を作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Symbol Role="Variable">control_name</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Filename><IndexTerm><Primary>CONTAINER_NAME フィールド</Primary></IndexTerm>CONTAINER_NAME</Filename> の値</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、次の２つのコントロールは異なる２つの構成ファイルで定義されます。これらのコントロールはコントロール名とコンテナ名が同じなので、同一コントロールとみなされます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>/etc/dt/appconfig/types/C/SysControls.fp</Filename> にある定義:</Para>
+<programlisting>Control ImportantApplication
+{
+ CONTAINER_NAME     Top
+ CONTAINER_TYPE     BOX
+ POSITION_HINTS     2
+ &hellip;
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/MyControls.fp</Filename> にある定義:</Para>
+<programlisting>Control ImportantApplication
+{
+ CONTAINER_NAME     Top
+ CONTAINER_TYPE     BOX
+ POSITION_HINTS     6
+ &hellip;
+</ProgramListing>
+</ListItem>
+</ItemizedList>
+<Para>
+個人用コントロールが優先されるので、コントロールは位置 6 に配置されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.25">
+<Title Id="SAG.FrPC.mkr.12">コントロールが使用するアイコンの指定<IndexTerm><Primary>コントロール</Primary><Secondary>外観</Secondary></IndexTerm><IndexTerm><Primary>コントロール</Primary><Secondary>アイコン</Secondary></IndexTerm><IndexTerm><Primary>アイコン</Primary><Secondary>フロントパネル</Secondary></IndexTerm></Title>
+<Para>
+コントロール定義の <Command><IndexTerm><Primary>ICON フィールド</Primary><Secondary>フロントパネルにおける</Secondary></IndexTerm>ICON</Command> フィールドは、コントロールが使用するアイコン・イメージを定義します。
+</Para>
+<Para>
+<Command>ICON</Command> フィールドの値は次のいずれかになります。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>ベース・ファイル名</Para>
+<Para>
+ベース・ファイル名は、アイコン・イメージを格納しているファイルの名前から、サイズの拡張子 (<Command>m</Command> と <Command>t</Command>) とイメージ型 (<Command>bm</Command> と <Command>pm</Command>) を除いたものです。たとえば、ファイル名が <Command>MyGame.l.pm</Command> と <Command>MyGame.m.pm</Command> の場合、<Command>MyGame</Command> を使用します。
+</Para>
+<Para>
+ベース・ファイル名を使用する場合は、アイコン・ファイルはアイコン検索パス上のディレクトリになければなりません。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>個人用アイコン: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>システム共通アイコン: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+完全なファイル名を含む、アイコン・ファイルへの絶対パス
+</Para>
+<Para>
+アイコン・ファイルへの絶対パスは、アイコン・ファイルがアイコン検索パス上にない場合のみ使用するようにしてください。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+必要なアイコンのサイズは、コントロールの位置によって決まります。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="92*">
+<colspec colwidth="436*">
+<THead>
+<Row>
+<Entry><Para>位置</Para></Entry>
+<Entry><Para>サイズ</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>メイン・パネル</Para></Entry>
+<Entry><Para>48 × 48 pixels (<Symbol Role="Variable">name</Symbol><Filename>.l.pm</Filename> または <Symbol Role="Variable">name</Symbol><Filename>.l.bm)</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>サブパネル</Para></Entry>
+<Entry><Para>32 × 32 pixels (<Symbol Role="Variable">name</Symbol><Filename>.m.pm</Filename> または <Symbol Role="Variable">name</Symbol><Filename>.m.bm)</Filename></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+アイコン・ファイルを次のいずれかに配置します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>個人用アイコン: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>システム共通アイコン: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FrPC.div.26">
+<Title Id="SAG.FrPC.mkr.13">サブパネルの作成と変更<IndexTerm><Primary>サブパネル</Primary><Secondary>作成</Secondary></IndexTerm><IndexTerm><Primary>サブパネル</Primary><Secondary>変更</Secondary></IndexTerm></Title>
+<Para>
+フロントパネルのポップアップ・メニューを使用して、サブパネルの作成および変更ができます。
+</Para>
+<Para>
+この節では、システム共通のカスタマイズの方法を説明します。それにはフロントパネル構成ファイルを変更する必要があります。
+</Para>
+<Para>
+サブパネルは、メイン・パネル内のコントロールに「接続」されています。
+</Para>
+<Figure>
+<Title>サブパネルのコンテナはそのサブパネルが接続されているコントロール</Title>
+<Graphic Entityref="SAG.FrPC.fig.3" Id="SAG.FrPC.grph.3"></Graphic>
+</Figure>
+<Para>
+<IndexTerm><Primary>サブパネル</Primary><Secondary>メイン・パネルとの関連付け</Secondary></IndexTerm>
+接続はサブパネルの定義で行われます。<Filename>CONTAINER_NAME</Filename> フィールドは、サブパネルが接続されるコントロールを指定します。
+</Para>
+<programlisting>CONTROL <Symbol Role="Variable">control_name</Symbol>
+{
+   &hellip;
+}
+
+SUBPANEL <Symbol Role="Variable">subpanel_name</Symbol>
+{
+ CONTAINER_NAME      <Symbol Role="Variable">control_name</Symbol>
+ &hellip;
+}
+</ProgramListing>
+<Sect2 Id="SAG.FrPC.div.27" Role="Procedure">
+<Title>新しいシステム共通サブパネルを作成するには<IndexTerm><Primary>サブパネル</Primary><Secondary>システム共通のカスタマイズ</Secondary></IndexTerm><IndexTerm><Primary>サブパネル</Primary><Secondary>新しい</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+メイン・パネル上の、サブパネルを接続したいコントロールの <Symbol Role="Variable">control_name</Symbol> を検出します。
+</Para>
+<Para>
+コントロールが組み込みの場合、定義はファイル <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> にあります。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+新しいファイル <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/*.fp</Filename> を作成します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+サブパネルを定義します。
+</Para>
+<programlisting>SUBPANEL <Symbol Role="Variable">subpanel_name</Symbol>{
+ CONTAINER_NAME    <Symbol Role="Variable">control_name</Symbol>
+ TITLE             <Symbol Role="Variable">value</Symbol>
+ <Symbol Role="Variable">KEYWORD    value</Symbol>
+ &hellip;
+}
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+新しい構成ファイルを保存します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.28">
+<Title>組み込みサブパネルのカスタマイズ<IndexTerm><Primary>サブパネル</Primary><Secondary>組み込みパネルのカスタマイズ</Secondary></IndexTerm></Title>
+<Para>
+組み込みサブパネルの一般的な属性（タイトルなど）と内容を変更することができます。
+</Para>
+<Sect3 Id="SAG.FrPC.div.29" Role="Procedure">
+<Title>組み込みサブパネルの一般的な属性を変更するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+新しいフロントパネル構成ファイルを作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>システム共通: <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/</ComputerOutput><Symbol Role="Variable">name</Symbol><ComputerOutput>.fp</ComputerOutput></Para>
+</ListItem>
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/</Filename><Symbol Role="Variable">name</Symbol><Filename>.fp</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+デフォルトの <Command>SUBPANEL</Command> 定義全体を <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>/<Filename>dtwm.fp</Filename> から新しいファイルへコピーします。
+</Para>
+<programlisting>SUBPANEL   <Symbol Role="Variable">subpanel_name</Symbol>
+{
+  &hellip;
+}
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+サブパネル定義を変更します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+新しい構成ファイルを保存します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、ファイル <Filename>/users/janice/.dt/types/PerApps.fp</Filename> にある次の定義は、[個人アプリケーション]サブパネルの名前を変更します。
+</Para>
+<programlisting>SUBPANEL PersAppsSubpanel
+{
+ CONTAINER_NAME  TextEditor
+ TITLE           Janice's Applications
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.30" Role="Procedure">
+<Title>組み込みサブパネルにシステム共通コントロールを追加するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+フロントパネル構成ファイル <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/</ComputerOutput><Symbol Role="Variable">name</Symbol><ComputerOutput>.fp</ComputerOutput> を作成します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+システム共通コントロールをファイルに定義します。
+</Para>
+<Para>
+コントロールのコンテナを指定するために、<Filename>CONTAINER_NAME</Filename> フィールドと <Filename>CONTAINER_TYPE</Filename> フィールドを使用します。
+</Para>
+<programlisting>CONTROL <Symbol Role="Variable">control_name</Symbol>
+{
+ CONTAINER_NAME     <Symbol Role="Variable">subpanel_name</Symbol>
+ CONTAINER_TYPE     <Filename>SUBPANEL</Filename>
+ &hellip;
+}
+</ProgramListing>
+<Para>
+<!--Original XRef content: '&xd2;Defining Front Panel Controls&xd3; on page&numsp;228'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FrPC.div.34"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+構成ファイルを保存します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、新しいファイル <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/DigitalClock.fp</ComputerOutput> に定義された次のコントロールは（[デスクトップツール]アプリケーション・グループの）[デジタル時計]を、すべてのユーザの[個人アプリケーション]サブパネルに追加します。
+</Para>
+<programlisting>CONTROL DigitalClockControl
+{
+ TYPE            icon
+ CONTAINER_NAME  PerAppsSubpanel
+ CONTAINER_TYPE  SUBPANEL
+ ICON            Dtdgclk
+ PUSH_ACTION     DigitalClock
+ PUSH_RECALL     True
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.31" Role="Procedure">
+<Title>組み込みサブパネルからコントロールを削除するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+メイン・パネルのコントロールを削除する方法と同じです。
+<!--Original XRef content: '&xd2;To Remove a Control&xd3; on page&numsp;220'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FrPC.mkr.11"> を参照してください。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.32" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.14"><IndexTerm><Primary>[アイコンのインストール]のコントロール、削除</Primary></IndexTerm>アイコンのインストールのコントロールを削除するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+次のフィールドをサブパネル定義に追加します。
+</Para>
+<programlisting>CONTROL_INSTALL     False</programlisting>
+</ListItem>
+</OrderedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.33" Role="Procedure">
+<Title>サブパネルの自動的に閉じる動作を変更するには<IndexTerm><Primary>サブパネル</Primary><Secondary>自動的に閉じる動作の変更</Secondary></IndexTerm></Title>
+<Para>
+デフォルトでは、サブパネルを元の位置から移動させていない限り、コントロールを選択するとサブパネルも閉じます。
+</Para>
+<Para>
+サブパネルを明示的に閉じるまでサブパネルを開いておくようにフロントパネルを構成できます。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+フロントパネル構成ファイルを作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>システム共通: <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/*.fp</ComputerOutput></Para>
+</ListItem>
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/*.fp</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+デフォルトの <Command>PANEL</Command> 定義を <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol>/<Filename>dtwm.fp</Filename> から新しいファイルへコピーします。
+</Para>
+<programlisting>PANEL FrontPanel
+{
+  &hellip;
+}
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+次のフィールドを <Command>PANEL</Command> 定義に追加します。
+</Para>
+<programlisting>SUBPANEL_UNPOST    False</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+新しい構成ファイルを保存します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FrPC.div.34">
+<Title Id="SAG.FrPC.mkr.15">フロントパネル・コントロール定義<IndexTerm><Primary>コントロール</Primary><Secondary>定義</Secondary></IndexTerm></Title>
+<Para>
+アイコンを[アイコンのインストール]コントロールにドロップすることで、個人用のコントロールを作成できます。
+</Para>
+<Para>
+この方法によって簡単にカスタマイズできますが、提供される機能はフロントパネル・コントロールの機能のサブセットになります。たとえば、[アイコンのインストール]コントロールを使用して作成されたコントロールは、次のことが行えません。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>アニメーション機能</Para>
+</ListItem>
+<ListItem>
+<Para>クライアント・ウィンドウの表示</Para>
+</ListItem>
+<ListItem>
+<Para>イベント発生時に外観を変更すること（たとえば新しいメールを受け取った場合など）</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+この節では、手動でフロントパネル・コントロールを作成する方法を説明します。
+</Para>
+<Para>
+フロントパネル・コントロールの構文に関する参照情報は、
+<Filename MoreInfo="RefEntry">dtfpfile(4X)</Filename> のマニュアル・ページを参照してください。
+</Para>
+<Sect2 Id="SAG.FrPC.div.35">
+<Title>フロントパネル・コントロール定義</Title>
+<Para>
+フロントパネル定義の構造は次のとおりです。
+</Para>
+<programlisting>CONTROL <Symbol Role="Variable">control_name</Symbol>
+{
+  TYPE            <Symbol Role="Variable">control_type</Symbol>
+  CONTAINER_NAME  <Symbol Role="Variable">value</Symbol>
+  CONTAINER_TYPE  <Symbol Role="Variable">value</Symbol>
+  <Symbol Role="Variable">other fields defining appearance and behavior</Symbol>
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.36">
+<Title><IndexTerm><Primary>コントロール</Primary><Secondary>型</Secondary></IndexTerm>コントロールの型</Title>
+<Para>
+コントロール定義の <Command><IndexTerm><Primary>TYPE フィールド</Primary></IndexTerm>TYPE</Command> フィールドは、コントロールの基本的な動作を指定します。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="111*">
+<colspec colwidth="417*">
+<THead>
+<Row>
+<Entry><Para>コントロールの TYPE</Para></Entry>
+<Entry><Para>コントロールの動作</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>icon</Command><IndexTerm><Primary>アイコン・フロントパネル・コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>(デフォルト) コントロールは、コントロールをクリックするかフィイルをコントロール上にドロップすると、指定されたアクションを実行します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>blank</Command><IndexTerm><Primary>ブランク型コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>コントロールの間隔を調節するためのプレースホルダです。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ビジー</Command><IndexTerm><Primary>ビジー型コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>ビジー・ライト。アクションが起動されると、コントロールが点滅します（イメージを切り替えます）。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>client</Command><IndexTerm><Primary>クライアント型コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>フロントパネルのクライアント・ウィンドウ</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>clock</Command><IndexTerm><Primary>クロック型コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>時計です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>date</Command><IndexTerm><Primary>日付型コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>現在の日付を表示します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>file</Command><IndexTerm><Primary>ファイル型コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>ファイルを表します。コントロールを選択すると、フィイルのデフォルト・アクションを実行します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.37" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.16">新しいコントロールを作成するには<IndexTerm><Primary>コントロール</Primary><Secondary>作成</Secondary></IndexTerm></Title>
+<Para>
+この節では、コントロールを定義する一般的な手順と、さまざまな型のコントロールの作成方法を説明します。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+コントロールに、<Filename>PUSH_ACTION</Filename> または <Filename>DROP_ACTION</Filename>、あるいはその両方が関連付けられている場合は、アクション定義を作成します。これらは、コントロールをクリックする、またはファイルをコントロール上にドロップすると実行されるアクションです。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+コントロールのアイコン・イメージ・ファイルを作成します。
+</Para>
+<Para>
+アイコンのサイズ、名前、位置については、
+<!--Original XRef content: '&xd2;Icon Image Files&xd3; on page&numsp;201'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CrIcn.mkr.3"> を参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+新しいフロントパネル構成ファイルを作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>システム共通: <ComputerOutput>/etc/dt/appconfig/types/</ComputerOutput><Symbol Role="Variable">language</Symbol><ComputerOutput>/*.fp</ComputerOutput></Para>
+</ListItem>
+<ListItem>
+<Para>個人用: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/*.fp</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+ファイルにコントロール定義を追加します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ファイルを保存します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+<Sect3 Id="SAG.FrPC.div.38">
+<Title Id="SAG.FrPC.mkr.17">クリックするとアクションを実行するコントロールの作成</Title>
+<Para>
+コントロールの動作を定義するには、次のフィールドを使用します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>TYPE</Command>: <Command>icon</Command> に設定します</Para>
+</ListItem>
+<ListItem>
+<Para><Filename><IndexTerm><Primary>PUSH_ACTION フィールド</Primary></IndexTerm>PUSH_ACTION:</Filename> 実行するアクション名を指定します</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+たとえば、[個人アプリケーション]サブパネルに入る次のコントロールは、ユーザが獲得したゲームを実行します。
+</Para>
+<programlisting>CONTROL Ball
+{
+ TYPE            icon
+ CONTAINER_NAME  PersAppsSubpanel
+ CONTAINER_TYPE  SUBPANEL
+ ICON            ball
+ PUSH_ACTION     RunBallGame
+ HELP_STRING     &ldquo;Choose this control to play Ball.&rdquo;
+}
+</ProgramListing>
+<Para>
+次のコントロールは、スイッチの左上隅に配置されます。このコントロールは、CutDisp という名前のアクションを起動します。
+</Para>
+<programlisting>CONTROL StartCutDisp
+{
+  TYPE             icon
+  CONTAINER_NAME   Switch
+  CONTAINER_TYPE   SWITCH
+  POSITION_HINTS   first
+  ICON             cutdisp
+  HELP_STRING      &ldquo;Choose this control to run cutdisp.&rdquo;
+  PUSH_ACTION      CutDisp
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.39">
+<Title><IndexTerm><Primary>コントロール</Primary><Secondary>ファイルを開く〜</Secondary></IndexTerm>ファイルを開くコントロールの作成</Title>
+<Para>
+コントロールの動作を定義するには、次のフィールドを使用します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>TYPE</Command>: <Command>file</Command> に設定します</Para>
+</ListItem>
+<ListItem>
+<Para><Filename><IndexTerm><Primary>FILE_NAME フィールド</Primary></IndexTerm>FILE_NAME:</Filename> 開くファイルのパスを指定します</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>PUSH_ACTION:</Filename> <Command>Open</Command> に設定します</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+ファイルのデータ型に Open アクションが定義されていなければなりません。
+</Para>
+<Para>
+たとえば、次のコントロールはメイン・パネルの右側奥に配置されます。このコントロールは、テキスト・エディタをデータファイル <Filename>/users/ellen/PhoneList.txt</Filename> で起動します。<Filename>*.txt</Filename> ファイルの Open アクションは、デフォルト・アクション・データベースの一部です。
+</Para>
+<programlisting>CONTROL EditPhoneList
+{
+ TYPE            file
+ FILE_NAME       /users/ellen/PhoneList.txt
+ CONTAINER_NAME  Top
+ CONTAINER_TYPE  BOX
+ POSITION_HINTS  last
+ ICON            PhoneBook
+ HELP_STRING     &ldquo;This control displays Ellen's phone list.&rdquo;
+ PUSH_ACTION     Open
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.40">
+<Title Id="SAG.FrPC.mkr.18">ドロップ領域として動作するコントロールの作成<IndexTerm><Primary>ドロップ領域</Primary><Secondary>フロントパネル・コントロール</Secondary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary><Secondary>ドロップ領域コントロール</Secondary></IndexTerm><IndexTerm><Primary>コントロール</Primary><Secondary>ドロップ領域</Secondary></IndexTerm></Title>
+<Para>
+ファイルをコントロール上にドロップしたときに実行されるアクションは、<Filename><IndexTerm><Primary>DROP_ACTION フィールド</Primary></IndexTerm>DROP_ACTION</Filename> フィールドに指定します。このアクションはファイル引き数を受け取れなければなりません。
+</Para>
+<Para>
+コントロール定義に <Filename>PUSH_ACTION</Filename> フィールドと <Filename>DROP_ACTION</Filename> フィールドの両方を含む場合が多いです。同じアクションをプッシュ＆ドロップ・アクションに使用できます。
+</Para>
+<Para>
+たとえば、[個人アプリケーション]サブパネルにある次のコントロールは、ファイル引き数を受け取るＸクライアント <Command>xwud</Command> を実行します。
+</Para>
+<programlisting>CONTROL Run_xwud
+{
+ CONTAINER_NAME   PerAppsSubpanel
+ CONTAINER_TYPE   SUBPANEL
+ POSITION_HINTS   2
+ ICON             XwudImage
+ PUSH_ACTION      RunXwud
+ DROP_ACTION      RunXwud
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.41">
+<Title Id="SAG.FrPC.mkr.19">ファイルを監視するコントロールの作成<IndexTerm><Primary>コントロール</Primary><Secondary>監視</Secondary></IndexTerm></Title>
+<Para>
+コントロールの動作を定義するには、次のフィールドを使用します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>TYPE</Command>: 次のいずれかの値を指定します。</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="66*">
+<colspec colwidth="462*">
+<TBody>
+<Row>
+<Entry><Para><Command>icon</Command><IndexTerm><Primary>アイコン型コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>コントロールに <Filename>PUSH_ACTION</Filename>、または <Filename>DROP_ACTION</Filename>、あるいはその両方を指定したい場合は、この型を使用します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>file</Command><IndexTerm><Primary>ファイル型コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>コントロールを選択したときに、ファイル・マネージャでファイル・アイコンをダブルクリックしたときのような動作を行いたい場合は、この型を使用します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para><Command>ICON</Command> および <Filename><IndexTerm><Primary>ALTERNATE_ICON フィールド</Primary></IndexTerm>ALTERNATE_ICON:</Filename>監視するファイルの、変更なしの状態と変更ありの状態を示すイメージを記述します。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename><IndexTerm><Primary>MONITOR_TYPE フィールド</Primary></IndexTerm>MONITOR_TYPE</Filename>: イメージを変化させる条件を記述します。次のいずれかの値を使用します。</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="61*">
+<colspec colwidth="467*">
+<TBody>
+<Row>
+<Entry><Para><Command>mail</Command><IndexTerm><Primary>コントロールの監視型</Primary></IndexTerm><IndexTerm><Primary>メール型コントロール</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+コントロールは、ファイルに情報が追加されると外観が変わります。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>file</Command></Para></Entry>
+<Entry><Para>
+コントロールは、指定されたファイルが空でなくなると外観が変わります。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para><Filename>FILE_NAME<IndexTerm><Primary>FILE_NAME フィールド</Primary></IndexTerm></Filename>: ファイルを監視するように指定します。</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+たとえば、次のコントロールは、anonymous ftp を使用して自分のシステムに転送されることになっている <Command>meetings</Command> という名前のファイルの有無を確認します。そのファイルが、このコントロールは、[個人アプリケーション]サブパネルのいちばん上に配置されます。
+</Para>
+<programlisting>CONTROL MonitorCalendar
+{
+ TYPE              file
+ CONTAINER_NAME    PersonalApps
+ CONTAINER_TYPE    SUBPANEL
+ POSITION_HINTS    first
+ FILE_NAME         /users/ftp/meetings
+ MONITOR_TYPE      file
+ ICON              meetingsno
+ ALTERNATE_ICON    meetingsyes
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.42">
+<Title Id="SAG.FrPC.mkr.20">１インスタンス（切り替え）コントロール<IndexTerm><Primary>コントロール</Primary><Secondary>切り替え</Secondary></IndexTerm><IndexTerm><Primary>コントロール</Primary><Secondary>１インスタンス</Secondary></IndexTerm></Title>
+<Para>
+１インスタンス・コントロールは、<Filename>PUSH_ACTION</Filename> によって起動されたプロセスがすでに実行中であるかどうかをチェックします。プロセスが実行中でない場合は、<Filename>PUSH_ACTION</Filename> が実行されます。プロセスがすでに実行中の場合は、ウィンドウが現在のワークスペースのウィンドウの重なりのいちばん上に移動します。
+</Para>
+<Para>
+コントロールの動作を定義するには、次のフィールドを使用します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>PUSH_RECALL</Filename>: <Command>True</Command> に設定します。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename><IndexTerm><Primary>CLIENT_NAME フィールド</Primary></IndexTerm>CLIENT_NAME</Filename>: コントロールにクライアント名を指定します。</Para>
+<Para>
+<Filename>CLIENT_NAME</Filename> の値は、アプリケーションのトップレベル・ウィンドウの WM_CLASS 属性の一番目の文字列 (<Symbol Role="Variable">res_name</Symbol>) に一致しなければなりません。詳細については、<Filename>xprop</Filename>(1) のマニュアル・ページを参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>PUSH_ACTION</Filename>: コントロールをクリックしたときに実行されるアクションを記述します。</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+たとえば、次のコントロールは、MyEditor という名前のアクションをもつアプリケーションのインスタンスをひとつ実行します。
+</Para>
+<programlisting>CONTROL MyEditor
+{
+ TYPE            icon
+ CONTAINER_NAME  Top
+ CONTAINER_TYPE  BOX
+ POSITION_HINTS  15
+ PUSH_RECALL     True
+ CLIENT_NAME     BestEditor
+ PUSH_ACTION     StartMyEditor
+ ICON            MyEd
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.43" Role="Procedure">
+<Title>クライアントのウィンドウ・コントロールを作成するには<IndexTerm><Primary>フロントパネル</Primary><Secondary>〜のクライアント</Secondary></IndexTerm><IndexTerm><Primary>クライアント</Primary><Secondary>フロントパネルのウィンドウ</Secondary></IndexTerm><IndexTerm><Primary>コントロール</Primary><Secondary>クライアント</Secondary></IndexTerm></Title>
+<Para>
+クライアント・ウィンドウ・コントロールは、フロントパネルにはめ込まれたアプリケーション・ウィンドウです。たとえば、<Command>xload</Command> クライアントのウィンドウ・コントロールを作成することで、システム負荷メータをフロントパネルに入れることができます。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+コントロールを定義します。
+</Para>
+<Para>
+コントロールの動作を定義するには、次のフィールドを使用します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Command>TYPE</Command>: <Command>client</Command> に設定します。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename><IndexTerm><Primary>CLIENT_NAME フィールド</Primary></IndexTerm>CLIENT_NAME</Filename>: 起動するクライアントを指定します。</Para>
+<Para>
+<Filename>CLIENT_NAME</Filename> の値は、アプリケーションのトップレベル・ウィンドウの WM_CLASS 属性の一番目の文字列 (<Symbol Role="Variable">res_name</Symbol>) に一致しなければなりません。詳細については、<Filename>xprop</Filename>(1) のマニュアル・ページを参照してください。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename><IndexTerm><Primary>CLIENT_GEOMETRY フィールド</Primary></IndexTerm>CLIENT_GEOMETRY</Filename>: クライアントのフロントパネル・ウィンドウで必要なサイズをピクセル単位で指定します。</Para>
+<Para>
+<Filename>xwininfo</Filename>(1) のマニュアル・ページで、ピクセル単位のウィンドウ・サイズを調べる方法を説明しています。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+端末エミュレータのコマンド行からクライアントを起動します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、次のコントロールは 30 × 20 ピクセルの負荷メータを表示します。
+</Para>
+<programlisting>CONTROL LoadMeter
+{
+ TYPE             client
+ CONTAINER_NAME   Top
+ CONTAINER_TYPE   BOX
+ CLIENT_NAME      xload
+ CLIENT_GEOMETRY  30x20
+}
+</ProgramListing>
+<Para>
+セッションの間にクライアントが保存および復元されない場合、コントロールをクリックすると、そのコントロールがクライアントを起動するように構成するとします。たとえば、次の行を定義に追加すると LoadMeter コントロールが <Command>xload</Command> を起動するように構成できます。
+</Para>
+<ProgramListing>PUSH_ACTION    StartXload</ProgramListing>
+<Para>
+そして、次のアクションを作成します。
+</Para>
+<programlisting>ACTION StartXload
+{
+ WINDOW_TYPE    NO_STDIO
+ EXEC_STRING    /usr/contrib/bin/X11/xload
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.44" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.21">コントロールをアニメーション化するには<IndexTerm><Primary>コントロール</Primary><Secondary>アニメーション</Secondary></IndexTerm><IndexTerm><Primary>フロントパネルのアニメーション</Primary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary><Secondary>アニメーション</Secondary></IndexTerm></Title>
+<Para>
+アニメーション・シーケンスを接続してコントロールを選択するか、またはオブジェクトをコントロール上にドロップしたときに使用することができます。
+</Para>
+<Para>
+アニメーション・シーケンスを指定するためには、コントロールは次の条件が必要です。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>型が <Command>icon</Command> であること</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>PUSH_ACTION</Filename> または <Filename>DROP_ACTION</Filename> をもっていること</Para>
+</ListItem>
+</ItemizedList>
+<OrderedList>
+<ListItem>
+<Para>
+<Command><IndexTerm><Primary>ANIMATION 定義</Primary></IndexTerm>ANIMATION</Command> コンポーネントを使用して、アニメーション・シーケンスを指定します。
+</Para>
+<programlisting>ANIMATION <Symbol Role="Variable">animation_name</Symbol>
+{
+ ANIMATION <Symbol Role="Variable">icon_image</Symbol>    [<Symbol Role="Variable">delay</Symbol>]
+ ANIMATION <Symbol Role="Variable">icon_image</Symbol>    [<Symbol Role="Variable">delay</Symbol>]
+ &hellip;
+}
+</ProgramListing>
+<Para>
+<Symbol Role="Variable">delay</Symbol> は、アニメーション・アイコン間のミリ秒単位の遅延時間です。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Filename><IndexTerm><Primary>PUSH_ANIMATION フィールド</Primary></IndexTerm>PUSH_ANIMATION</Filename> および <Filename><IndexTerm><Primary>DROP_ANIMATION フィールド</Primary></IndexTerm>DROP_ANIMATION</Filename> フィールド、またはそのいずれかをコントロール定義に追加します。値は <Command>ANIMATION</Command> シーケンス名です。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、次の行は BestEditor アプリケーションを起動するコントロールをアニメーション化します。アイコン間の遅延時間は 300 ミリ秒です。この例では、アイコン・ファイル <Filename>frame1</Filename>、<Filename>frame2</Filename> などが作成済みであることを仮定しています。
+</Para>
+<programlisting>CONTROL BestEditor
+{
+ &hellip;
+ PUSH_ANIMATION BestEdAnimation
+ &hellip;
+}
+
+ANIMATION BestEdAnimation
+{
+ ANIMATION frame1   300
+ ANIMATION frame2
+ &hellip;
+}
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FrPC.div.45">
+<Title Id="SAG.FrPC.mkr.22">フロントパネル・コントロールのアイテムヘルプを提供する<IndexTerm><Primary>ヘルプ</Primary><Secondary>フロントパネル</Secondary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary><Secondary>ヘルプ</Secondary></IndexTerm><IndexTerm><Primary>コントロール</Primary><Secondary>アイテムヘルプについて</Secondary></IndexTerm></Title>
+<Para>
+コントロールにヘルプを提供するには次の２つの方法があります。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+コントロール定義にヘルプ文字列を提供する
+</Para>
+<Para>
+コントロールのアイテムヘルプを起動すると、ヘルプ文字列がヘルプ・ビューアに表示されます。ヘルプ文字列にはフォーマット（ヘッダなど）やリンクを指定できません。
+</Para>
+<Para>
+ヘルプ文字列を表示するには、コントロール定義にヘルプ文字列を指定します。
+</Para>
+<programlisting>HELP_STRING    <Symbol Role="Variable">help_string</Symbol>
+<IndexTerm><Primary>HELP_STRING フィールド</Primary></IndexTerm>
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+登録済みヘルプ・ボリュームにヘルプ・トピックを指定する
+</Para>
+<Para>
+ヘルプ・トピックは、ヘルプ・システムの全機能を使用して作成された情報です。ヘルプ・トピックを記述するには、デスクトップのヘルプ開発者用キットを使用する必要があります。
+</Para>
+<Para>
+ヘルプ・トピックを表示するには、ヘルプ・ボリュームとトピックIDをコントロール定義に指定します。
+</Para>
+<programlisting>HELP_VOLUME    <Symbol Role="Variable">help_volume_name</Symbol>
+HELP_TOPIC     <Symbol Role="Variable">topic_id</Symbol>
+<IndexTerm><Primary>HELP_VOLUME フィールド</Primary></IndexTerm>
+<IndexTerm><Primary>HELP_TOPIC フィールド</Primary></IndexTerm>
+</programlisting>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FrPC.div.46">
+<Title Id="SAG.FrPC.mkr.23">ワークスペース・スイッチのカスタマイズ<IndexTerm><Primary>ワークスペース・スイッチ</Primary><Secondary>カスタマイズ</Secondary></IndexTerm><IndexTerm><Primary>スイッチ、「ワークスペース・スイッチ&lt;$nopage>」を参照してください</Primary></IndexTerm></Title>
+<Para>
+ワークスペース・スイッチをカスタマイズするにはいくつかの方法があります。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+ワークスペースの数を変更する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+スイッチの配置を変更する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+スイッチのコントロールを変更する
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.FrPC.div.47" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.24">ワークスペースのデフォルト数を変更するには<IndexTerm><Primary>ワークスペース</Primary><Secondary>デフォルト数の変更</Secondary></IndexTerm><IndexTerm><Primary>ワークスペース・スイッチ</Primary><Secondary>ワークスペースの数</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+次のワークスペース・マネージャ・リソースを変更します。
+</Para>
+<programlisting>Dtwm*workspaceCount: <Symbol Role="Variable">n</Symbol></programlisting>
+</ListItem>
+</OrderedList>
+<Para>
+詳細については、
+<!--Original XRef content: '&xd2;To Change the Number of Workspaces on a System-Wide Basis&xd3; on page&numsp;244'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.WMCnf.div.9"> を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.48" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.25">スイッチの列の数を変更するには<IndexTerm><Primary>ワークスペース・スイッチ</Primary><Secondary>列の数</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Command>SWITCH</Command> 定義の <Filename><IndexTerm><Primary>NUMBER_OF_ROWS フィールド</Primary></IndexTerm>NUMBER_OF_ROWS</Filename> フィールドを変更します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、次の例は３列のスイッチを定義します。
+</Para>
+<programlisting>SWITCH Switch
+{
+ CONTAINER_NAME    <Symbol Role="Variable">box_name</Symbol>
+ NUMBER_OF_ROWS    3
+ &hellip;
+}
+</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.49" Role="Procedure">
+<Title>ワークスペース・スイッチのコントロールを変更および追加するには<IndexTerm><Primary>ワークスペース・スイッチ</Primary><Secondary>コントロールの追加</Secondary></IndexTerm><IndexTerm><Primary>コントロール</Primary><Secondary>ワークスペース・スイッチ</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+フロントパネル構成ファイルをコントロール定義とともに作成します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+コントロールをスイッチの内側に指定します。
+</Para>
+<programlisting>CONTAINER_NAME   Switch
+CONTAINER_TYPE   SWITCH
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+スイッチ内での位置を指定します。
+</Para>
+<programlisting>POSITION_HINTS    <Symbol Role="Variable">n</Symbol></programlisting>
+<Para>
+<Symbol Role="Variable">n</Symbol> は整数です。位置は左から右、上から下の順に番号が付けられています（デフォルトの２列スイッチの場合、位置は 1 から 4 です）。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+コントロールのアイコンを作成します。16 × 16 ピクセルのサイズを推奨します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、次のコントロールは、スイッチに端末エミュレータ・コントロールを入れます。
+</Para>
+<programlisting>CONTROL SwitchTerminal
+{
+  TYPE                  icon
+  CONTAINER_NAME        Switch
+  CONTAINER_TYPE        SWITCH
+  POSITION_HINTS        3
+  ICON                  Fpterm
+  LABEL                 Terminal
+  PUSH_ACTION           Dtterm
+  HELP_TOPIC            FPOnItemTerm
+  HELP_VOLUME           FPanel
+}
+</ProgramListing>
+<Para>
+このコントロールは、組み込みアイコンと、[個人アプリケーション]サブパネルの端末エミュレータ・コントロールが使用するのと同じヘルプ・トピックを使用します。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FrPC.div.50">
+<Title Id="SAG.FrPC.mkr.26">一般的なフロントパネルの構成</Title>
+<Para>
+フロントパネルの <Command>PANEL</Command> 構文により、次のことが実行されます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+フロントパネルの位置を変更する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+ウィンドウ装飾を変更する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+コントロールの一般的な外観および動作を設定する
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+デフォルトの <Command>PANEL</Command> 記述は <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> にあります。
+</Para>
+<Para>
+追加情報については、<Filename MoreInfo="RefEntry">dtfpfile(4X)</Filename> のマニュアル・ページを参照してください
+</Para>
+<Sect2 Id="SAG.FrPC.div.51">
+<Title>一般的な手順</Title>
+<OrderedList>
+<ListItem>
+<Para>
+新しいフロントパネル構成ファイルを <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol> または <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename> に作成します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+デフォルトの <Command>PANEL</Command> 記述を <Filename>/usr/dt/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> から新しいファイルにコピーします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Command>PANEL</Command> 記述を編集します。</Para>
+</ListItem>
+</OrderedList>
+<Para>
+新しい <Command>PANEL</Command> 記述は、デフォルトに優先します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.52" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.27">デフォルトのフロントパネル位置を変更するには<IndexTerm><Primary>フロントパネル</Primary><Secondary>画面上の位置</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+位置を変更するには、<Command>PANEL</Command> 定義の <Filename><IndexTerm><Primary>PANEL_GEOMETRY フィールド</Primary></IndexTerm>PANEL_GEOMETRY</Filename> フィールドを使用します。
+</Para>
+<Para>
+たとえば、次のパネルは右上端にあります。
+</Para>
+<programlisting>PANEL SpecialFrontPanel
+{
+  PANEL_GEOMETRY      -1+1
+   &hellip;
+}
+</ProgramListing>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.53" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.28">メインパネルのコントロールにラベルを付けるには<IndexTerm><Primary>ラベル</Primary><Secondary>フロントパネル・コントロール</Secondary></IndexTerm><IndexTerm><Primary>フロントパネル</Primary></IndexTerm><IndexTerm><Primary>ラベル付けコントロール</Primary></IndexTerm><IndexTerm><Primary>コントロール</Primary><Secondary>ラベル付け</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Command>PANEL</Command> 定義に次の行を追加します。
+</Para>
+<programlisting>DISPLAY_CONTROL_LABELS   True</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+各コントロールに <Command>LABEL</Command> フィールドを追加します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+<Command>LABEL</Command> が指定されていない場合は、<Symbol Role="Variable">control_name</Symbol> を使用します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.54" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.29">コントロールのクリック動作を変更するには<IndexTerm><Primary>コントロール</Primary><Secondary>クリック対ダブルクリック</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+コントロールの <Filename>PUSH_ACTION</Filename> を実行する方法を指定するには、<Command>PANEL</Command> 定義の <Filename><IndexTerm><Primary>CONTROL_BEHAVIOR フィールド</Primary></IndexTerm>CONTROL_BEHAVIOR</Filename> フィールドを使用します。指定可能な値は次のとおりです。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="132*">
+<colspec colwidth="396*">
+<TBody>
+<Row>
+<Entry><Para><Filename>single_click</Filename></Para></Entry>
+<Entry><Para>コントロールをクリックして、<Filename>PUSH_ACTION</Filename> を実行します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>double_click</Filename></Para></Entry>
+<Entry><Para>コントロールをダブルクリックして <Filename>PUSH_ACTION</Filename> を実行します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.55" Role="Procedure">
+<Title Id="SAG.FrPC.mkr.30">まったく新しいフロントパネルを作成するには<IndexTerm><Primary>フロントパネル</Primary><Secondary>新しい</Secondary></IndexTerm></Title>
+<Para>
+多数の変更を行いたい場合は、新しいフロントパネルを作成したほうがよいでしょう。
+</Para>
+<Para>
+組み込みのフロントパネル・コンポーネントとの競合を避けるために、完全に新しいフロントパネルでは、パネルとその他のコンテナに新しい名前を付けます。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+新しいフロントパネル用の <Command>PANEL</Command> パネル・コンポーネントを作成します。一意の名前を指定します。
+</Para>
+<programlisting>PANEL <Symbol Role="Variable">front_panel_name</Symbol>
+{
+   &hellip;
+}
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+新しいコンテナ名を使用して、新しいボックスとコントロールを作成します。
+</Para>
+<Para>
+既存のコンポーネントを使用したい場合は、それらの定義をコピーしてから <Filename>CONTAINER_NAME</Filename> の値を変更する必要があります。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FrPC.div.56">
+<Title>３列の個人用フロントパネルの作成例<IndexTerm><Primary>フロントパネル</Primary><Secondary>列の追加</Secondary></IndexTerm></Title>
+<Para>
+次の例は、デフォルトのフロントパネルを、コントロールが３列になるように変更します。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+<Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/dtwm.fp</Filename> を <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/MyFrontPanel.fp</Filename> にコピーします。ファイルに書き込み権を与えます。
+</Para>
+<Para>
+このファイルを編集して新しいフロントパネルを提供します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+フロントパネル名を変更します。
+</Para>
+<programlisting>PANEL NewFrontPanel</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+Top という名前のボックス名を変更し、そのコンテナ名を編集します。
+</Para>
+<programlisting>BOX NewFrontPanelTop
+{
+  CONTAINER_NAME     NewFrontPanel
+  POSITION_HINTS     first
+  &hellip;
+}
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+中断と下段のボックス定義を追加します。
+</Para>
+<programlisting>BOX NewFrontPanelMiddle
+{
+  CONTAINER_NAME      NewFrontPanel
+  POSITION_HINTS      second
+}
+BOX NewFrontPanelBottom
+{
+  CONTAINER_NAME      NewFrontPanel
+  POSITION_HINTS      second
+}
+</ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+次のコントロールの <Filename>CONTAINER_NAME</Filename> を <Command>NewFrontPanelTop</Command> に変更します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>[時計]</Para>
+</ListItem>
+<ListItem>
+<Para>[日付]</Para>
+</ListItem>
+<ListItem>
+<Para>[ホーム]</Para>
+</ListItem>
+<ListItem>
+<Para>[テキストエディタ]</Para>
+</ListItem>
+<ListItem>
+<Para>[メール]</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+次のコントロールの <Filename>CONTAINER_NAME</Filename> を <Command>NewFrontPanelBottom</Command> に変更します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>[プリンタ]</Para>
+</ListItem>
+<ListItem>
+<Para>[スタイル]</Para>
+</ListItem>
+<ListItem>
+<Para>[アプリケーション]</Para>
+</ListItem>
+<ListItem>
+<Para>[インフォメーション]</Para>
+</ListItem>
+<ListItem>
+<Para>[ごみ箱]</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+スイッチの <Filename>CONTAINER_NAME</Filename> を <Command>NewFrontPanelMiddle</Command> に変更します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+リソースを設定します。
+</Para>
+<programlisting>Dtwm*frontPanel*name:  NewFrontPanel</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+[ワークスペース]メニューから[ワークスペースマネージャの再起動]を選択します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

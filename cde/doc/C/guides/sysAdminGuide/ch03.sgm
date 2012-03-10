@@ -1,0 +1,694 @@
+<!-- $XConsortium: ch03.sgm /main/8 1996/09/08 19:32:35 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.CnfAM.div.1">
+<Title Id="SAG.CnfAM.mkr.1">Adding and Administering Applications</Title>
+<Para><IndexTerm>
+<Primary>Application Manager</Primary>
+<Secondary>description</Secondary>
+</IndexTerm>Application Manager is the desktop container for applications available to the
+user.</Para>
+<InformalTable Id="SAG.CnfAM.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.125 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Structure of Application Manager40'--><XRef Role="JumpText" Linkend="SAG.CnfAM.mkr.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Adding Applications to Application Manager43'--><XRef Role="JumpText" Linkend="SAG.CnfAM.mkr.6"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Creating and Administering General Application Groups45'--><XRef Role="JumpText" Linkend="SAG.CnfAM.mkr.10"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Modifying the Search Path Used To Locate Applications47'--><XRef Role="JumpText" Linkend="SAG.CnfAM.mkr.11"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'General Application Manager Administration48'--><XRef Role="JumpText" Linkend="SAG.CnfAM.mkr.13"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Changing the Text Editor and Terminal Emulator49'--><XRef Role="JumpText" Linkend="SAG.CnfAM.mkr.14"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="SAG.CnfAM.div.2">
+<Title Id="SAG.CnfAM.mkr.2">Structure of Application Manager</Title>
+<Para>The top level of Application Manager generally contains directories. Each of
+these directories, and its contents, is called an<IndexTerm>
+<Primary>application groups</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+<Emphasis>application group</Emphasis>.</Para>
+<Figure>
+<Title>Application groups in Application Manager</Title>
+<Graphic Entityref="SAG.CnfAM.fig.1" Id="SAG.CnfAM.grph.1"></Graphic>
+</Figure>
+<Para>The application groups and their contents are gathered from multiple locations
+locally and throughout the network.</Para>
+<Sect2 Id="SAG.CnfAM.div.3">
+<Title>Directory Location of Application Manager<IndexTerm><Primary>Application Manager</Primary><Secondary>file system location</Secondary></IndexTerm></Title>
+<Para>In the file system, Application Manager is the directory
+<Filename>/var/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">login</Symbol><Filename>-</Filename><Symbol Role="Variable">hostname</Symbol><Filename>-</Filename><Symbol Role="Variable">display</Symbol><Command>.</Command> The directory is
+created dynamically each time the user logs in.</Para>
+<Para>For example, if user <Command>ronv</Command> logs in from display <Filename>wxyz:0</Filename>, the Application
+Manager directory <Filename>/var/dt/appconfig/appmanager/ronv-wxyz-0</Filename> is
+created.</Para>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.4">
+<Title Id="SAG.CnfAM.mkr.3">How Application Manager Finds and Gathers Applications<IndexTerm><Primary>applications</Primary><Secondary>gathering into Application Manager</Secondary></IndexTerm><IndexTerm><Primary>Application Manager</Primary><Secondary>gathering applications</Secondary></IndexTerm><IndexTerm><Primary>application groups</Primary><Secondary>gathering</Secondary></IndexTerm></Title>
+<Para>Application Manager is built by gathering local and remote application groups.
+The application groups are gathered from directories located along the<IndexTerm>
+<Primary>application search path</Primary>
+<Secondary>used to gather applications</Secondary>
+</IndexTerm>
+application search path.</Para>
+<Para>The default application search path consists of these locations:<IndexTerm>
+<Primary>applications</Primary>
+<Secondary>search path</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>search paths</Primary>
+<Secondary>applications</Secondary>
+</IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="93*">
+<colspec colwidth="435*">
+<THead>
+<Row>
+<Entry><Para>Scope</Para></Entry>
+<Entry><Para>Location</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Built-in</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>System-wide</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Personal</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/appmanager</Filename></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>To create the top level of Application Manager, links are created at login time
+from the application groups (directories) located in directories on the
+application search path to the Application Manager directory
+<Filename>/var/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">login</Symbol><Filename>-</Filename><Symbol Role="Variable">hostname</Symbol><Filename>-</Filename><Symbol Role="Variable">display</Symbol>. The gathering
+operation is done by the desktop utility
+<Command>dtappgather</Command>, which is automatically
+run by Login Manager after the user has successfully logged in.<IndexTerm><Primary>dtappgather</Primary></IndexTerm>
+</Para>
+<Para>For example, the desktop provides the built-in application group:</Para>
+<ProgramListing><Filename>/usr/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol><Filename>/Desktop_Tools</Filename></ProgramListing>
+<Para>At login time, a<IndexTerm>
+<Primary>Application Manager</Primary>
+<Secondary>symbolic links</Secondary>
+</IndexTerm>
+symbolic link is created to:</Para>
+<ProgramListing>/<Filename>var/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">login</Symbol><Filename>-</Filename><Symbol Role="Variable">hostname</Symbol><Filename>-</Filename><Symbol Role="Variable">display</Symbol><Filename>/Desktop_Tools</Filename></ProgramListing>
+<Para>The application search path can include remote directories. This provides a
+way to gather application groups from systems located throughout the
+network. For more information, see
+<!--Original XRef content: '&xd2;Adding an Application Server to the
+Application Search Path&xd3; on page&numsp;47'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CnfAM.mkr.12">.</Para>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.5">
+<Title>Precedence Rules in Gathering Applications<IndexTerm><Primary>Application Manager</Primary><Secondary>precedence rules</Secondary></IndexTerm><IndexTerm><Primary>application groups</Primary><Secondary>precedence</Secondary></IndexTerm></Title>
+<Para>Where duplicates exist along the search path, personal application groups have
+precedence over system-wide groups, and system-wide groups have
+precedence over built-in groups. For example, if both
+<Filename>/usr/dt/appconfig/appmanager/C/Desktop_Tools</Filename> and
+<Command>/etc/dt/appconfig/appmanager/C/Desktop_Tools</Command> exist, the
+application group under <Filename>/etc</Filename> will be the one used.</Para>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.6">
+<Title>Application Groups Provided with the Default Desktop<IndexTerm><Primary>application groups</Primary><Secondary>default</Secondary></IndexTerm></Title>
+<Para>The uncustomized desktop provides four application groups.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Desktop_Apps</Para>
+</ListItem>
+<ListItem>
+<Para>Desktop_Tools</Para>
+</ListItem>
+<ListItem>
+<Para>Information</Para>
+</ListItem>
+<ListItem>
+<Para>System_Admin</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.7">
+<Title>Example of How Application Groups Are Gathered<IndexTerm><Primary>applications</Primary><Secondary>gathering</Secondary></IndexTerm></Title>
+<Para><!--Original XRef content: 'Figure&numsp;3&hyphen;2'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CnfAM.mkr.4"> shows an Application Manager window containing a variety of
+application groups.
+<!--Original XRef content: 'Table&numsp;3&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CnfAM.mkr.5"> shows the directories from which the application
+groups were gathered.</Para>
+<Figure>
+<Title Id="SAG.CnfAM.mkr.4">A typical Application Manager window</Title>
+<Graphic Entityref="SAG.CnfAM.fig.2" Id="SAG.CnfAM.grph.2"></Graphic>
+</Figure>
+<Table Id="SAG.CnfAM.tbl.1" Frame="Topbot">
+<Title Id="SAG.CnfAM.mkr.5">Source of Application Groups for
+<!--Original XRef content: 'Figure&numsp;3&hyphen;2'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CnfAM.mkr.4"></Title>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.22in">
+<colspec colwidth="4.86in">
+<THead>
+<Row>
+<Entry><Para><Literal>Name</Literal></Para></Entry>
+<Entry><Para><Literal>Directory Gathered</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>CAD_App</Para></Entry>
+<Entry><Para><Filename>/net/ApServA/etc/dt/appconfig/appmanager/C/CAD_App</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DrawingApp</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/appmanager/C/DrawingApp</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Desktop_Apps</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/appmanager/C/Desktop_Apps</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Desktop_Tools</Para></Entry>
+<Entry><Para>/<Filename>usr/dt/appconfig/appmanager/C/Desktop_Tools</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Information</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/appmanager/C/Information</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>System_Admin</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/appmanager/C/System_Admin</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>MySpreadSheet</Para></Entry>
+<Entry><Para><Symbol Role="Variable">/</Symbol><Filename>users/anna/.dt/appmanager/MySpreadSheet</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Media_Tools</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/appmanager/C/</Filename>Media_Tools</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>If the Information or System_Admin application groups have been customized,
+they will be gathered from <Filename>/etc/dt/appconfig/appmanager/C</Filename> instead.</Para>
+<Para>The CAD_App group is gathered because a system named <Command>ApServA</Command> has been
+added to the application search path (see
+<!--Original XRef content: '&xd2;Adding an Application Server to the
+Application Search Path&xd3; on page&numsp;47'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CnfAM.mkr.12">). MySpreadSheet is a personal application
+group, available only to user <Command>anna</Command>.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CnfAM.div.8">
+<Title Id="SAG.CnfAM.mkr.6">Adding Applications to Application Manager<IndexTerm><Primary>applications</Primary><Secondary>adding to Application Manager</Secondary></IndexTerm><IndexTerm><Primary>Application Manager</Primary><Secondary>adding applications</Secondary></IndexTerm></Title>
+<Para>When an application has been added to Application Manager, there is an icon
+in an application group that starts that application.</Para>
+<Para>Many applications provide an application group. The application group is a
+directory at the top level of Application Manager that contains the application
+icon and other files related to the application.</Para>
+<Para>Some applications may not have their own application group. Instead, the icon
+to start the application is located in a general application group. For example,
+you could create an empty application group named &ldquo;Games&rdquo; that you use as
+a container for all the games you install on the system.</Para>
+<Sect2 Id="SAG.CnfAM.div.9">
+<Title>Ways to Add Applications to Application Manager<IndexTerm><Primary>applications</Primary><Secondary>ways to add</Secondary></IndexTerm></Title>
+<Para>There are two ways to add an application to Application Manager:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Registering the application</Para>
+</ListItem>
+<ListItem>
+<Para>Adding an application icon without registering the application</Para>
+</ListItem>
+</ItemizedList>
+<Sect3 Id="SAG.CnfAM.div.10">
+<Title>Registering the Application<IndexTerm><Primary>registration</Primary><Secondary>definition</Secondary></IndexTerm></Title>
+<Para>Application registration provides full application integration.</Para>
+<Para><IndexTerm>
+<Primary>applications</Primary>
+<Secondary>registered, definition</Secondary>
+</IndexTerm>A registered application:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Has its own application group.</Para>
+</ListItem>
+<ListItem>
+<Para>Has its desktop configuration files gathered under a single location. This
+group of desktop configuration files is called the <Emphasis><IndexTerm>
+<Primary>registration package</Primary>
+</IndexTerm>registration package</Emphasis>.</Para>
+</ListItem>
+<ListItem>
+<Para>May have a registered help volume.</Para>
+</ListItem>
+</ItemizedList>
+<Para>There are two ways an application can become registered:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>When you install a desktop-smart application, registration occurs
+automatically. See
+<!--Original XRef content: '&xd2;To Add a Desktop-Smart Application to Application
+Manager&xd3; on page&numsp;44'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CnfAM.mkr.7">.</Para>
+</ListItem>
+<ListItem>
+<Para>An existing application can be registered by creating a registration package.
+See
+<!--Original XRef content: '&xd2;To Register an Existing or Non-Desktop Smart Application&xd3; on
+page&numsp;45'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CnfAM.mkr.8">.</Para>
+</ListItem>
+</ItemizedList>
+<Para>The use of a registration package makes the application easier to administer on
+the desktop. The registration package is created somewhere in the file system
+other than the locations used for desktop configuration files.</Para>
+</Sect3>
+<Sect3 Id="SAG.CnfAM.div.11">
+<Title>Adding the Application without Using a Registration Package.</Title>
+<Para>This is the preferred way to add application when you want Application
+Manager to contain only an icon to start the application.</Para>
+<Para><IndexTerm>
+<Primary>applications</Primary>
+<Secondary>adding without registering</Secondary>
+</IndexTerm>An application added without using a registration package:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>May have its own application group, but usually has its icon placed in an
+existing application group</Para>
+</ListItem>
+<ListItem>
+<Para>Has its desktop configuration files placed directly in locations along the
+desktop's search paths.</Para>
+</ListItem>
+</ItemizedList>
+<Para>See
+<!--Original XRef content: '&xd2;To Add an Application Icon to an Existing Application Group&xd3; on
+page&numsp;45'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.CnfAM.mkr.9">.</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.12" Role="Procedure">
+<Title Id="SAG.CnfAM.mkr.7">To Add a Desktop-Smart Application to Application Manager<IndexTerm><Primary>applications</Primary><Secondary>desktop-smart</Secondary></IndexTerm><IndexTerm><Primary>desktop-smart application</Primary></IndexTerm></Title>
+<Para>A desktop-smart application is an application that is automatically registered
+into Application Manager when the application is installed. The application's
+filesets include the registration package required by the desktop.</Para>
+<OrderedList>
+<ListItem>
+<Para>Install the application using instructions provided with the application.</Para>
+</ListItem>
+<ListItem>
+<Para>When installation is complete, double-click Reload Applications in the
+Desktop_Tools application group.</Para>
+</ListItem>
+<ListItem>
+<Para>Verify that installation is complete:</Para>
+<OrderedList>
+<ListItem>
+<Para>Open Application Manager and check for the presence of the new
+application group.</Para>
+</ListItem>
+<ListItem>
+<Para>To open the application, open the application group and double-click the
+application's icon.</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.13" Role="Procedure">
+<Title Id="SAG.CnfAM.mkr.8">To Register an Existing or Non-Desktop Smart Application</Title>
+<Para>This is the preferred way to fully integrate an application into the desktop.</Para>
+<Para>The desktop provides a tool, <Command>dtappintegrate</Command>, that creates links between the
+registration package files and the directories on the desktop search path.</Para>
+<Para>Desktop registration is explained in
+<!--Original XRef content: 'Chapter&numsp;4, &xd2;Registering an Application'--><XRef Role="ChapNumAndTitle" Linkend="SAG.RegAp.div.1">.</Para>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.14" Role="Procedure">
+<Title Id="SAG.CnfAM.mkr.9">To Add an Application Icon to an Existing Application Group</Title>
+<Para>This procedure explains how to add an application icon to an existing
+application group.</Para>
+<Para>For example, the desktop provides an application group named
+System_Admin that has been reserved for various applications and scripts
+related to administering systems. If you have a script that users frequently run,
+you might want users to be able to run the script by double-clicking an icon in
+the System_Admin application group.</Para>
+<OrderedList>
+<ListItem>
+<Para>Use Create Action to create an action definition for the application.</Para>
+<Para>For more information about Create Action, see
+<!--Original XRef content: 'Chapter&numsp;9, &xd2;Creating Actions
+and Data Types Using Create Action'--><XRef Role="ChapNumAndTitle" Linkend="SAG.dtCrA.div.1">.</Para>
+</ListItem>
+<ListItem>
+<Para>Create an executable file with the same name as the action name in the
+directory for the application group. The content of the file is irrelevant.</Para>
+<Para>For example, if you've created an action named &ldquo;Cleanup&rdquo; that runs a
+system administration tool, you would create the executable file:
+</para>
+<programlisting>/etc/dt/appconfig/appmanager/<Symbol Role="Variable">language</Symbol>/System_Admin/Cleanup
+</programlisting>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CnfAM.div.15">
+<Title Id="SAG.CnfAM.mkr.10">Creating and Administering General Application Groups<IndexTerm><Primary>application groups</Primary><Secondary>administering</Secondary></IndexTerm></Title>
+<Para>A general application is an application group (directory) that is not associated
+with one particular application product. For example, the built-in
+Desktop_Tools application group is a general group containing icons for a
+large number of applications that are related, but not part of a single product.</Para>
+<Para>You can create additional general application groups. For example, you might
+want to create a group called Games to group together the various games
+available on the system.</Para>
+<Para>A general application group can be system-wide or personal in scope.</Para>
+<Sect2 Id="SAG.CnfAM.div.16" Role="Procedure">
+<Title>To Create a System-Wide General Application Group<IndexTerm><Primary>application groups</Primary><Secondary>system-wide</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Log in as root.</Para>
+</ListItem>
+<ListItem>
+<Para>Create a directory in <Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol>.</Para>
+<Para>The name of the directory becomes the name of the<IndexTerm>
+<Primary>application groups</Primary>
+<Secondary>naming</Secondary>
+</IndexTerm>
+application group.</Para>
+</ListItem>
+<ListItem>
+<Para>Double-click Reload Applications in the Desktop_Tools application group.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.17" Role="Procedure">
+<Title>To Create a Personal General Application Group<IndexTerm><Primary>personal application group</Primary></IndexTerm><IndexTerm><Primary>application groups</Primary><Secondary>personal</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Create a directory in <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/appmanager</Filename>.</Para>
+<Para>The name of the directory becomes the name of the application group.</Para>
+</ListItem>
+<ListItem>
+<Para>Double-click Reload Applications in the Desktop_Tools application group.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.18" Role="Procedure">
+<Title>To Customize a Built-In Application Group<IndexTerm><Primary>application groups</Primary><Secondary>customizing</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Log in as root.</Para>
+</ListItem>
+<ListItem>
+<Para>If the application group is located in
+<Filename>/usr/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol>, copy the application group
+to /<Filename>etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol>.</Para>
+<Para><IndexTerm>
+<Primary>Desktop_Tools application group, modifying</Primary>
+</IndexTerm>For example, the following command copies the Desktop_Tools application
+group:</Para>
+<programlisting>cp -r /usr/dt/appconfig/appmanager/C/Desktop_Tools /etc/dt/appconfig/appmanager/C</programlisting>
+<Para>The new copy of the application group will have precedence over the built-
+in version.</Para>
+</ListItem>
+<ListItem>
+<Para>Modify the copy of the application group. For example, you can add new
+action files (executable files with the same name as actions).</Para>
+</ListItem>
+<ListItem>
+<Para>To see the changes, log out and back in.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CnfAM.div.19">
+<Title Id="SAG.CnfAM.mkr.11">Modifying the Search Path Used To Locate Applications<IndexTerm><Primary>application search path</Primary><Secondary>reason for modifying</Secondary></IndexTerm></Title>
+<Para>The major reason for modifying the application search path is to add an<IndexTerm>
+<Primary>application servers</Primary>
+<Secondary>adding</Secondary>
+</IndexTerm>
+application server. When you add an application server to the search path,
+Application Manager gathers all the server's system-wide application groups.</Para>
+<Para>For more information on the application search path, see
+<!--Original XRef content: '&xd2;Application Search
+Path&xd3; on page&numsp;116'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.7">.</Para>
+<Sect2 Id="SAG.CnfAM.div.20">
+<Title>The Default Search Path<IndexTerm><Primary>application search path</Primary><Secondary>default</Secondary></IndexTerm></Title>
+<Para>The default application search path includes these directories:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="108*">
+<colspec colwidth="420*">
+<THead>
+<Row>
+<Entry><Para>Scope</Para></Entry>
+<Entry><Para>Search Path Directory</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Personal</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/appmanager</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>System-wide</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Built-in</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.21">
+<Title Id="SAG.CnfAM.mkr.12">Adding an Application Server to the Application Search Path<IndexTerm><Primary>application search path</Primary><Secondary>modifying</Secondary></IndexTerm></Title>
+<Para>In addition to modifying the application search path, it may be necessary to
+perform additional configuration tasks to enable communication with the
+application server. See
+<!--Original XRef content: '&xd2;Administering Application Services&xd3; on page&numsp;99'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.div.32">.</Para>
+<Sect3 Id="SAG.CnfAM.div.22" Role="Procedure">
+<Title>To Set a System-Wide Application Search Path<IndexTerm><Primary>application search path</Primary><Secondary>system-wide</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Log in as root.</Para>
+</ListItem>
+<ListItem>
+<Para>If the file /<Filename>etc/dt/config/Xsession.d/0010.dtpaths</Filename> doesn't exist,
+create it by copying <Filename>/usr/dt/config/Xsession.d/0010.dtpaths</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>Open /<Filename>etc/dt/Xsession.d/0010.paths</Filename> for editing. Add or edit a line
+setting the <Command><IndexTerm>
+<Primary>DTSPSYSAPPHOSTS variable</Primary>
+<Secondary>modifying</Secondary>
+</IndexTerm>DTSPSYSAPPHOSTS</Command> variable:</Para>
+<programlisting>DTSPSYSAPPHOSTS=<Symbol Role="Variable">hostname</Symbol>:[,hostname]</programlisting>
+<Para>For example, the following line adds the system <Command>ApServA</Command> to the application
+search path:</Para>
+<programlisting>DTSPSYSAPPHOSTS=ApServA:</programlisting>
+</ListItem>
+<ListItem>
+<Para>Inform all users on the system that they must log out and then log back in
+for the change to take effect.</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+<Sect3 Id="SAG.CnfAM.div.23" Role="Procedure">
+<Title>To Set a Personal Application Search Path<IndexTerm><Primary>application search path</Primary><Secondary>personal</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Open <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> for editing.</Para>
+</ListItem>
+<ListItem>
+<Para>Add or edit a line setting the <Command><IndexTerm>
+<Primary>DTSPUSERAPPHOSTS variable</Primary>
+<Secondary>modifying</Secondary>
+</IndexTerm>DTSPUSERAPPHOSTS</Command> variable:</Para>
+<programlisting>DTSPUSERAPPHOSTS=<Symbol Role="Variable">hostname</Symbol>:[,hostname]</programlisting>
+<Para>For example, the following line adds the systems <Command>ApServB</Command> and <Command>ApServC</Command> to
+the application search path:</Para>
+<programlisting>DTSPUSERAPPHOSTS=ApServB:,ApServC:</programlisting>
+</ListItem>
+<ListItem>
+<Para>Log out and then log back in.</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CnfAM.div.24">
+<Title Id="SAG.CnfAM.mkr.13">General Application Manager Administration<IndexTerm><Primary>Application Manager</Primary><Secondary>general administration</Secondary></IndexTerm></Title>
+<Para>General Application Manager administration tasks include:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Removing an application</Para>
+</ListItem>
+<ListItem>
+<Para>Rereading the database of applications during a session</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.CnfAM.div.25" Role="Procedure">
+<Title>To Remove an Application<IndexTerm><Primary>applications</Primary><Secondary>un-registering</Secondary></IndexTerm><IndexTerm><Primary>applications</Primary><Secondary>removing</Secondary></IndexTerm></Title>
+<Para>If an application has been registered using the <Command>dtappintegrate</Command> tool, you can
+also use <Command>dtappintegrate</Command> to reverse the process. When an application is
+unregistered, its application group is removed from Application Manager, and
+its actions, data types, icons, and help are no longer available.</Para>
+<OrderedList>
+<ListItem>
+<Para>Log in as root.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>dtappintegrate</Primary>
+<Secondary>removing application</Secondary>
+</IndexTerm>Run the command:</Para>
+<programlisting>dtappintegrate -s <Symbol Role="Variable">app_root</Symbol> -u</programlisting>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.CnfAM.div.26" Role="Procedure">
+<Title>To Update Application Manager During a Session<IndexTerm><Primary>Application Manager</Primary><Secondary>updating</Secondary></IndexTerm></Title>
+<Para><IndexTerm>
+<Primary>applications</Primary>
+<Secondary>reloading</Secondary>
+</IndexTerm>You must rebuild Application Manager if you add applications and want those
+changes to take effect immediately.</Para>
+<OrderedList>
+<ListItem>
+<Para>Open the Desktop_Tools application group and double-click Reload
+Applications.</Para>
+</ListItem>
+</OrderedList>
+<Para>Reload Applications is useful for updating Application Manager when
+applications are added to an application server. However,<IndexTerm>
+<Primary>Reload Applications action</Primary>
+</IndexTerm>
+Reload Applications
+does not detect applications that have been removed from an application
+server, or applications that have been moved from one location to another.
+These changes take effect when the user logs out and back in.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CnfAM.div.27">
+<Title Id="SAG.CnfAM.mkr.14">Changing the Text Editor and Terminal Emulator<IndexTerm><Primary>text editor, changing</Primary></IndexTerm><IndexTerm><Primary>terminal emulator</Primary><Secondary>changing</Secondary></IndexTerm></Title>
+<Para>Both the text editor and terminal emulator applications can be started by
+choosing a control in the Front Panel, or by double-clicking an icon in
+Application Manager.</Para>
+<Para>These applications are also started by other desktop activities.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The text editor application opens when the user selects a text file in File
+Manager and chooses Open from the Selected menu. The default text editor
+is <Command>dtpad</Command>.</Para>
+</ListItem>
+<ListItem>
+<Para>A terminal emulator runs when a user chooses Open Terminal from File
+Manager's File menu, or when an action opens a terminal emulator window.
+The default terminal emulator is <Command>dtterm</Command>.</Para>
+</ListItem>
+</ItemizedList>
+<Para>You can configure the desktop to use a different text editor or terminal
+emulator application in these situations.</Para>
+<Sect2 Id="SAG.CnfAM.div.28" Role="Procedure">
+<Title>To Change the Default Text Editor or Terminal Emulator</Title>
+<OrderedList>
+<ListItem>
+<Para>If the change is system-wide, log in as root.</Para>
+</ListItem>
+<ListItem>
+<Para>Create an action for the new text editor or terminal emulator application.</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>You can use the Create Action application.
+<!--Original XRef content: 'Figure&numsp;3&hyphen;3'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CnfAM.mkr.15"> shows a Create
+Action window filled in for an application named TextPad. For more
+information about Create Action, see
+<!--Original XRef content: 'Chapter&numsp;9, &xd2;Creating Actions and
+Data Types Using Create Action'--><XRef Role="ChapNumAndTitle" Linkend="SAG.dtCrA.div.1">.</Para>
+<Figure>
+<Title Id="SAG.CnfAM.mkr.15">Create Action window</Title>
+<Graphic Entityref="SAG.CnfAM.fig.3" Id="SAG.CnfAM.grph.3"></Graphic>
+</Figure>
+</ListItem>
+<ListItem>
+<Para>Or, you can create the action definition manually; for example:.</Para>
+<programlisting>ACTION TextPad
+{
+  LABEL        TextPad
+  TYPE         COMMAND
+  WINDOW_TYPE  NO_STDIO
+  EXEC_STRING  /usr/TP/bin/TextPad &percnt;(File)Arg_1&percnt;
+  DESCRIPTION  Double-click this icon to start the \
+               TextPad application.
+}
+</programlisting>
+<Para>For information on creating action definitions manually, see
+<!--Original XRef content: 'Chapter&numsp;10,
+&xd2;Creating Actions Manually'--><XRef Role="ChapNumAndTitle" Linkend="SAG.CrAct.div.1">.</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Place the configuration file containing the new action in the proper
+directory:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>System-wide: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>Personal: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>If it doesn't already exist, create the appropriate <Filename>user-prefs.dt</Filename> file by
+copying <Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/user-prefs.dt</Filename> to:<IndexTerm><Primary>user-prefs.dt file</Primary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>System-wide: the <Command>/etc/dt/appconfig/types/</Command><Symbol Role="Variable">language</Symbol> directory</Para>
+</ListItem>
+<ListItem>
+<Para>Personal: the <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename> directory</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Edit the TextEditor or Terminal action in the system-wide or personal
+<Filename>user-prefs.dt</Filename> file. Modify the <Filename>MAP_ACTION</Filename> line to map the action to the
+new action.</Para>
+<Para>For example, change the line:</Para>
+<programlisting>MAP_ACTION Dtpad</programlisting>
+<Para>to:</Para>
+<programlisting>MAP_ACTION TextPad</programlisting>
+</ListItem>
+<ListItem>
+<Para>Save the <Filename>user-prefs.dt</Filename> file.</Para>
+</ListItem>
+<ListItem>
+<Para>Double-click Reload Actions in the Desktop_Tools application group to
+reload the actions database.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

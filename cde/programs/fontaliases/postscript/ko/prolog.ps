@@ -1,0 +1,251 @@
+%!
+% $XConsortium: prolog.ps /main/3 1996/11/19 16:37:15 drk $
+% RESTRICTED CONFIDENTIAL INFORMATION:
+%
+% The information in this document is subject to special
+% restrictions in a confidential disclosure agreement between
+% HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+% document outside HP, IBM, Sun, USL, SCO, or Univel without
+% Sun's specific written approval.  This document and all copies
+% and derivative works thereof must be returned or destroyed at
+% Sun's request.
+%
+% Copyright 1995 by Sun Microsystems, Inc.  All rights reserved.
+%
+%! Prolog of cmprint & mp for Korean EUC font definition
+
+/ConstantWidth false def
+
+/checkfont {
+    5 dict begin
+	/basefontname exch def
+	/basefontdict basefontname findfont def
+	/newfont basefontdict maxlength dict def
+	basefontdict {
+	    exch dup /FID ne 
+		{ exch newfont 3 1 roll put }
+		{ pop pop }
+		ifelse
+	} forall
+	newfont /FontName get
+    end
+} def
+
+/Kodig-Medium.r21 checkfont /Courier eq {
+	/GotFont false def
+	/Kodig-Medium-COMB-H checkfont /Courier eq {
+		/GotOWFont false def
+	} {
+		/GotOWFont true def
+	} ifelse
+} {
+	/GotFont true def
+} ifelse
+
+GotOWFont {
+	/Kodig-Medium-COMB-H findfont pop
+	/Myeongjo-Medium-COMB-H findfont pop
+} {
+	GotFont {
+		/Kodig-Medium findfont pop
+		/Myeongjo-Medium findfont pop
+	} if
+} ifelse
+ 
+/append { % str1 str2 => str3
+        1 index length dup 2 index length add string    % s1 s2 l1 s3
+        dup 5 -1 roll 0 exch putinterval                % s2 l1 s3
+        dup 4 2 roll exch putinterval
+} bind def
+ 
+/_tohex {
+ dup 10 eq {(A)}{ dup 11 eq {(B)}{ dup 12 eq {(C)}{ dup 13 eq {(D)}{
+ dup 14 eq {(E)}{ dup 15 eq {(F)}{ dup 16 ge {(0)}{dup 1 string cvs
+ }ifelse }ifelse }ifelse }ifelse }ifelse }ifelse }ifelse exch pop
+} bind def
+
+/tohex {                                %       int => (hex)
+        dup 16 mod                      %       AB Y
+        exch 16 idiv                    %       Y X
+        _tohex exch _tohex              %       (X) (Y)
+        2 string dup dup                %       (x) (y) (  ) (  ) (  )
+        5 -1 roll 0 exch putinterval    %       (y) (x ) (x )
+        3 -1 roll 1 exch putinterval
+} bind def
+ 
+/repeat-findfont { % (Myeongjo-Medium.r) start end => dict..
+        3 -1 roll /fontname exch def
+        1 exch {
+                fontname length 2 add string dup   % 33 (  ) (  )
+                0 fontname putinterval             % 33 (Ryumin-Light.r  )
+                dup fontname length 4 -1 roll      % (..) (..) 14 33
+                tohex putinterval cvn findfont
+        } for
+} bind def
+
+/makecodesets { % (fontname) => font
+	/CodeSet1 exch def
+	/CodeSet1
+                13 dict begin
+                       /FontName 1 index def
+                       /FMapType 5 def
+                       /Encoding [
+                                64 {0} repeat   % 80 - 9F
+                                0 0 0 1 0 2 0 3 0 4 0 5 0 6 0 7
+                                0 8 0 9 0 10 0 11 0 12 0 13 0 14 0 15
+                                0 16 0 17 0 18 0 19 0 20 0 21 0 22 0 23
+                                0 24 0 25 0 26 0 27 0 28 0 29 0 30 0 31
+                                0 32 0 33 0 34 0 35 0 36 0 37 0 38 0 39
+                                0 40 0 41 0 42 0 43 0 44 0 45 0 46 0 47
+                                0 48 0 49 0 50 0 51 0 52 0 53 0 54 0 55
+                                0 56 0 57 0 58 0 59 0 60 0 61 0 62 0 63
+                                0 64 0 65 0 66 0 67 0 68 0 69 0 70 0 71
+                                0 72 0 73 0 74 0 75 0 76 0 77 0 78 0 79
+                                0 80 0 81 0 82 0 83 0 84 0 85 0 86 0 87
+                                0 88 0 89 0 90 0 91 0 92 0 93 0 0 0 0
+                        ] def
+                        /WMode 0 def
+                        /FontType 0 def
+                        /FontMatrix matrix def
+                        /FDepVector [
+                                /NotDefFont findfont
+                                CodeSet1 (.r) append 33 44 repeat-findfont
+                                3 { /NotDefFont findfont } repeat
+                                CodeSet1 (.r) append 48 72 repeat-findfont
+				/NotDefFont findfont
+				CodeSet1 (.r) append 74 125 repeat-findfont
+                        ] def
+                        currentdict
+                end
+		definefont pop
+		(CodeSet1)
+} bind def
+
+/makeEUCfont { % CodeSet1font (fontname) => -
+    (LC_) 1 index append
+    13 dict begin
+        /FontName 1 index def
+        /FMapType 4 def
+        /Encoding [ 0 1 ] def
+        /WMode 0 def
+        /FontType 0 def
+        /FontMatrix matrix def
+        /FDepVector [
+            4 -1 roll findfont
+            ConstantWidth {
+                dup 1000 exch 1000 scalefont setfont
+		(ab) stringwidth pop div scalefont
+            } if
+            5 -1 roll findfont
+        ] def  
+        currentdict
+    end
+    definefont
+    pop
+} bind def
+
+/copyfont {
+    5 dict begin
+	/newfontname exch def
+	/basefontname exch def
+
+	/basefontdict basefontname findfont def
+	/newfont basefontdict maxlength dict def
+
+	basefontdict {
+	    exch dup /FID ne 
+		{ exch newfont 3 1 roll put }
+		{ pop pop }
+		ifelse
+	} forall
+
+	newfont /FontName newfontname put
+	newfontname newfont definefont pop
+    end
+} def
+
+%  define LC_Times-Roman for korean locale
+%
+GotOWFont {
+	(Myeongjo-Medium-COMB-H) (Times-Roman) makeEUCfont
+} {
+	GotFont {
+		(Myeongjo-Medium) makecodesets (Times-Roman) makeEUCfont
+	} {
+		/Times-Roman /LC_Times-Roman copyfont
+	} ifelse
+} ifelse
+ 
+% LC_Times-Bold
+%
+GotOWFont {
+	(Myeongjo-Medium-COMB-H) (Times-Bold) makeEUCfont
+} {
+	GotFont {
+		(Myeongjo-Medium) makecodesets (Times-Bold) makeEUCfont
+	} {
+		/Times-Bold /LC_Times-Bold copyfont
+	} ifelse
+} ifelse
+ 
+% LC_Times-Italic
+%
+GotOWFont {
+	(Myeongjo-Medium-COMB-H) (Times-Italic) makeEUCfont
+} {
+	GotFont {
+		(Myeongjo-Medium) makecodesets (Times-Italic) makeEUCfont
+	} {
+		/Times-Italic /LC_Times-Italic copyfont
+	} ifelse
+} ifelse
+
+% LC_Helvetica
+%
+GotOWFont {
+	(Kodig-Medium-COMB-H) (Helvetica) makeEUCfont
+} {
+	GotFont {
+		(Kodig-Medium) makecodesets (Helvetica) makeEUCfont
+	} {
+		/Helvetica /LC_Helvetica copyfont
+	} ifelse
+} ifelse
+ 
+% LC_Helvetica-Bold
+%
+GotOWFont {
+	(Kodig-Medium-COMB-H) (Helvetica-Bold) makeEUCfont
+} {
+	GotFont {
+		(Kodig-Medium) makecodesets (Helvetica-Bold) makeEUCfont
+	} {
+		/Helvetica-Bold /LC_Helvetica-Bold copyfont
+	} ifelse
+} ifelse
+ 
+% LC_Courier
+%
+/ConstantWidth true def 
+GotOWFont {
+	(Kodig-Medium-COMB-H) (Courier) makeEUCfont
+} {
+	GotFont {
+		(Kodig-Medium) makecodesets (Courier) makeEUCfont
+	} {
+		/Courier /LC_Courier copyfont
+	} ifelse
+} ifelse
+/ConstantWidth false def
+ 
+% LC_Helvetica-BoldOblique
+%
+GotOWFont {
+	(Kodig-Medium-COMB-H) (Helvetica-BoldOblique) makeEUCfont
+} {
+	GotFont {
+		(Kodig-Medium) makecodesets (Helvetica-BoldOblique) makeEUCfont
+	} {
+		/Helvetica-BoldOblique /LC_Helvetica-BoldOblique copyfont
+	} ifelse
+} ifelse

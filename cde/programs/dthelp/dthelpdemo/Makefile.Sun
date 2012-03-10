@@ -1,0 +1,61 @@
+# $XConsortium: Makefile.Sun /main/2 1996/05/13 11:31:16 drk $
+##########################################################################
+#
+#  Makefile for dthelpdemo
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+#      Novell, Inc.
+##########################################################################
+
+#ifndef CDE_INSTALLATION_TOP
+  CDE_INSTALLATION_TOP = /usr/dt
+#endif
+
+PROGRAM        = dthelpdemo
+SOURCES        = Main.c HelpCache.c HourGlass.c
+OBJECTS        = Main.o HelpCache.o HourGlass.o
+HELPSRC        = helpdemo.htg
+HELPOUT        = help/helpdemo.sdl \
+                 help/helpdemo.err \
+                 help/helpdemo.xrh
+
+OPTIMIZEDFLAGS = -O
+
+DTINCLUDE      = -I$(CDE_INSTALLATION_TOP)/include
+X11INCLUDE     = -I/usr/openwin/include
+INCLUDES       = $(DTINCLUDE) $(X11INCLUDE)
+DTSVCLIB       = -L$(CDE_INSTALLATION_TOP)/lib -lDtSvc
+DTHELPLIB       = -L$(CDE_INSTALLATION_TOP)/lib -lDtHelp
+
+TTLIB          = -L$(CDE_INSTALLATION_TOP)/lib -ltt
+XMLIB          = -L$(CDE_INSTALLATION_TOP)/lib -lXm
+XTLIB          = -L/usr/openwin/lib -lXt
+X11LIB         = -L/usr/openwin/lib -lX11 
+CPLUSPLUS      = -L/usr/lib -lC
+EXTRA_LIBS     = -L/usr/openwin/lib -lgen 
+
+LIBRARIES      = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTLIB) \
+                 $(X11LIB) $(CPLUSPLUS) $(EXTRA_LIBS)
+
+LDFLAGS        = -R$(CDE_INSTALLATION_TOP)/lib:/usr/openwin/lib
+
+.c.o:
+	cc -c $(OPTIMIZEDFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM) volume
+
+$(PROGRAM)::	$(OBJECTS)
+	cc -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+volume::
+	(cd help/ ; \
+	dthelptag $(HELPSRC);)
+
+clean::
+	rm -f $(PROGRAM)
+	rm -f $(OBJECTS)
+	rm -f $(HELPOUT)
+

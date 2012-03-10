@@ -1,0 +1,40 @@
+XCOMM!/sbin/sh
+XCOMM $XConsortium: dtrc.getty_wait.src /main/1 1996/07/24 11:41:57 drk $
+XCOMM
+XCOMM This version of the CDE dtconfig script is for use in the HP-UX
+XCOMM operating environment.
+XCOMM
+XCOMM  Common Desktop Environment
+XCOMM
+XCOMM  (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM  (c) Copyright 1993-1994,1996 Hewlett-Packard Company.
+XCOMM  (c) Copyright 1993-1994,1996 International Business Machines Corp.
+XCOMM  (c) Copyright 1993-1994,1996 Sun Microsystems, Inc.
+XCOMM  (c) Copyright 1993-1994,1996 Novell, Inc. 
+XCOMM  (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM  (c) Copyright 1996 Hitachi.
+XCOMM
+XCOMM This script waits for the console getty to start.  This prevents dtlogin
+XCOMM from running an X server that would grab the display before the rc
+XCOMM checklist is complete.
+XCOMM
+XCOMM Location:	CDE_INSTALLATION_TOP/config/dtrc.d/10_getty_wait
+
+XCOMM
+XCOMM Wait for the console getty to start.
+XCOMM
+
+PATH=/sbin:/usr/sbin:/usr/bin:/usr/dt/bin
+export PATH
+
+let count=0
+while [ $count -lt 60 ]
+do
+    TMP=`ps -tconsole | fgrep getty`
+    if [ $? -eq 0 ]; then
+	GETTY=true
+	break
+    fi
+    sleep 2
+    let count=count+1
+done

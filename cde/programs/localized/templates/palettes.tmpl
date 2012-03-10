@@ -1,0 +1,21 @@
+XCOMM $XConsortium: palettes.tmpl /main/2 1996/04/21 19:55:13 drk $
+
+#ifdef RsArchitecture
+SHELL=/bin/ksh
+#endif
+
+OBJS = desc.$(SOURCE_LANG)
+
+DtstyleDescRule(desc.$(SOURCE_LANG),Palettes)
+
+LinkFile(Palettes.nls,$(CDESRC)/dtstyle/Palettes)
+
+depend::
+
+clean::
+	$(RM) $(OBJS)
+	for i in *.nls; do \
+		[ -z $$i ] && continue; \
+		[ -h $$i ] && $(RM) $$i; \
+	done; true; 
+

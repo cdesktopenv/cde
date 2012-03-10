@@ -1,0 +1,144 @@
+#!/bin/ksh
+#set -x
+######################################################################
+# check to see if the system release is OK and build environments are OK
+# on an AIX build box
+#   Yanling Qi (yanling@austin.ibm.com) (512-838-2846)
+######################################################################
+#
+Lslpp()
+{
+  /bin/lslpp -lc $1|grep  "usr"|grep -v "AVAILABLE" 
+}
+#
+# (1) check oslevel
+#
+OSLEVEL=$(/bin/oslevel |fgrep '3250')
+print "\nCheck OS level......"
+if [ "XX$OSLEVEL" = "XX" ]; then
+        echo "  System Release Incorrect. /bin/oslevel should be 3250"
+        echo "  system is instead `/bin/oslevel`"
+        echo ""
+   else
+        echo " Check oslevel Passed"
+fi
+# 
+# (2) check basic operating system  package (/usr/bin /usr/lpp and some 
+#     /usr/lib /usr/bin/ld
+#
+print "\nCheck basic operating system  package......"
+  Lslpp  bos.obj |awk -F: '{
+     if ($1 ~ "usr")
+       {
+	if($2 == "bos.obj 03.02.00.00" && ($3 == "COMMITTED" || $3 == "APPLIED"))
+                  printf(" Check base Operating System Package: Passed\n");
+	else { 
+		  printf("Package should be: bos.obj 03.02.00.00\n")
+		  printf("      yours is: %s\n",$0);
+                        }
+       }
+      else    # missing this package
+                  printf("Package bos.obj 03.02.00.00 is missing\n")
+                  }'
+
+#
+# (3) Check C++ compliler
+print "\nCheck C++ compliler......"
+  Lslpp  xlCcmp.obj  |awk -F: '{
+      if ($1 ~ "usr")
+        if($2 == "xlCcmp.obj 01.01.02.29" && ($3 == "COMMITTED" || $3 == "APPLIED"))
+                  printf(" Check AIX XL C++ Compiler/6000 Package:  Passed\n");
+        else{
+                  printf(" Package should be xlCcmp.obj 01.01.02.29\n")
+                  printf("      yours is: %s\n",$0);
+
+                        }
+      else    # missing this package
+                  printf("Package xlCcmp.obj 01.01.02.29 is missing\n");
+          }'
+#
+# (4) check C++ lib       /usr/lpp/xlC/lib/libC.a
+#                        /usr/lpp/xlC/lib/profiled/libC.a
+
+#
+print "\nCheck C++ lib......"
+  Lslpp  xlCrte.obj|awk -F: '{
+      if ($1 ~ "usr")
+        if($2 == "xlCrte.obj 01.01.02.29" && ($3 == "COMMITTED" || $3 == "APPLIED"))
+                  printf(" Check AIX XL C++ Compiler/6000 Runtime Package:  Passed\n");
+        else{
+                  printf(" Package should be xlCrte.obj 01.01.02.29\n")
+                  printf("      yours is: %s\n",$0);
+
+                        }
+      else    # missing this package
+                  printf("Package xlCrte.obj 01.01.02.29 is missing\n");
+          }'
+#
+#  (5) check c compliler 
+#
+print "\nCheck xl c compiler......"
+  Lslpp xlccmp.obj |awk -F: '{
+      if ($1 ~ "usr")
+        if($2 == "xlccmp.obj 01.03.00.12" && ($3 == "COMMITTED" || $3 == "APPLIED"))
+                  printf(" Check AIX XL C Compiler Package:  Passed\n");
+        else{
+                  printf(" Package should be xlccmp.obj 01.03.00.12\n")
+                  printf("      yours is: %s\n",$0);
+
+                        }
+      else    # missing this package
+                  printf("Package xlccmp.obj 01.03.00.12 is missing\n");
+          }'
+#
+#  (6) check Base Application Development Toolkit 
+#      cpp lex yacc 
+#
+print "\nCheck Base Application Development Toolkit......"
+  Lslpp  bosadt.bosadt.obj |awk -F: '{
+      if ($1 ~ "usr")
+        if($2 == "bosadt.bosadt.obj 03.02.00.00" && ($3 == "COMMITTED" || $3 == "APPLIED"))
+                  printf(" Check Base Application Development Toolkit Package:  Passed\n");
+        else{
+                  printf(" Package should be bosadt.bosadt.obj 03.02.00.00\n")
+                  printf("      yours is: %s\n",$0);
+
+                        }
+      else    # missing this package
+                  printf("Package bosadt.bosadt.obj 03.02.00.00 is missing\n");
+          }'
+#
+#  (7) check  Base Development Libraries & Include files 
+#      cpp lex yacc
+#
+print "\nCheck  Base Development Libraries & Include files......"
+  Lslpp  bosadt.lib.obj |awk -F: '{
+      if ($1 ~ "usr")
+        if($2 == "bosadt.lib.obj 03.02.00.00" && ($3 == "COMMITTED" || $3 == "APPLIED"))
+                  printf(" Check Base Development Libraries & Include files Package:  Passed\n");
+        else{
+                  printf(" Package should be bosadt.lib.obj 03.02.00.00\n")
+                  printf("      yours is: %s\n",$0);
+
+                        }
+      else    # missing this package
+                  printf("Package bosadt.lib.obj 03.02.00.00 is missing\n");
+          }'
+
+#
+#  (8) check  X Development Libraries and Include Files
+#
+#
+print "\nCheck  X Development Libraries and Include Files......"
+  Lslpp  X11dev.obj |awk -F: '{
+      if ($1 ~ "usr")
+        if($2 == "X11dev.obj 01.02.03.00" && ($3 == "COMMITTED" || $3 == "APPLIED"))
+                  printf(" Check X Development Libraries and Include Files Package:  Passed\n");
+        else{
+                  printf(" Package should be X11dev.obj 01.02.03.00\n")
+                  printf("      yours is: %s\n",$0);
+
+                        }
+      else    # missing this package
+                  printf("Package X11dev.obj 01.02.03.00 is missing\n");
+          }'

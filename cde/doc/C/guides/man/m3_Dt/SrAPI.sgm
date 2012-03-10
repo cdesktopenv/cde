@@ -1,0 +1,466 @@
+<!-- $XConsortium: dtsrapi.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSrAPI">]]>
+<refmeta><refentrytitle>DtSrAPI</refentrytitle>
+<manvolnum>library call</manvolnum></refmeta><refnamediv>
+<refname>DtSrAPI</refname>
+<refpurpose>Describes overview, constants, and structures
+for DtSearch online API</refpurpose></refnamediv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The DtSearch API provides programmatic access to the DtSearch search and
+retrieval engine. The API functions are located in the library
+<filename>libDtSr</filename>, and are directly linked into user written
+search programs.
+</para>
+<para>Search and retrieval of DtSearch databases is available through three
+essential API functions:
+</para>
+<variablelist>
+<varlistentry><term><function>DtSearchInit</function></term>
+<listitem>
+<para>Opens databases and other files, and generally initializes the search
+engine for subsequent requests.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtSearchQuery</function></term>
+<listitem>
+<para>Is passed a user query and some
+search options, performs the requested search, and returns a linked list of
+structures, called a results list, representing the objects satisfying the
+search. The results list contains abstracted information about the documents
+suitable for display to an end user, as well as private information used for
+subsequent retrievals.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtSearchRetrieve</function></term>
+<listitem>
+<para>Retrieves an object given data from a results list node. When a results
+list contains all the information an application needs, retrieval by
+DtSearch may not be required. For example when the documents themselves
+are not stored in DtSearch databases and the document references are
+available from the results list, the calling program may access the
+objects directly.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<refsect2>
+<title>DtSearch MessageList</title>
+<para>All functions can potentially return multiple messages on a global linked
+list of messages called the MessageList. Most unsuccessful return codes append
+at least one message to the MessageList, but even successful returns may append
+messages, and multiple messages are always possible.</para>
+<para>Messages are standard C text strings terminated by a zero byte, and
+were designed to be displayed directly to users.</para>
+<para>Several API utility functions are available for manipulating the MessageList.
+</para>
+</refsect2>
+<refsect2>
+<title>Fatal API Errors</title>
+<para>Certain fatal errors will require an immediate abort from the engine.
+By default fatal error messages will be written to the
+<filename>stderr</filename>, but can be written to a text file specified
+in <function>DtSearchInit</function>.
+</para>
+<para>All API aborts are implemented through a call to
+<function>DtSearchExit</function>. <function>DtSearchExit()</function>
+ensures cleanup of a number of system resources before the final call to
+<function>exit</function>. Developers can add an additional user exit
+to <function>DtSearchExit</function> to specify additional emergency
+clean up before process exit.
+</para>
+</refsect2>
+</refsect1><refsect1>
+<title>CONSTANTS</title>
+<refsect2>
+<title>Function Return Code Constants</title>
+<para>Most API functions return one of a set of standard integer return codes.
+The return code <systemitem class="constant">DtSrOK</systemitem> means complete
+success, other return codes indicate various levels of negative results or
+failure.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="157*">
+<colspec align="left" colwidth="371*">
+<tbody>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrOK</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Normal, affirmative, successful
+response.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="constant">DtSrNOTAVAIL</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Generic negative response. For
+example, no hits on search, no such record, etc.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="constant">DtSrFAIL</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Miscellaneous unsuccessful engine
+returns.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="constant">DtSrREINIT</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Engine reinitialized, request canceled.
+Often returned when invalid database name detected. Caller should clean up
+and call <function>DtSearchReinit()</function>.</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrERROR</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Fatal caller programming error.
+</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrABORT</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Fatal engine failure, caller must
+abort.</para></entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Language Numbers</title>
+<para>Each DtSearch database is associated with an integer representing among
+other things the natural language of its documents. These constants are used
+throughout the API to identify the supported languages.
+</para>
+<informaltable>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="50*">
+<colspec align="left" colwidth="300*">
+<tbody>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrLaENG</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>0</para></entry>
+<entry align="left" valign="bottom"><para>English, ASCII char set (default)
+</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrLaENG2</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>1</para></entry>
+<entry align="left" valign="bottom"><para>English, ISO Latin-1 char set</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrLaESP</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>2</para></entry>
+<entry align="left" valign="bottom"><para>Spanish, ISO Latin-1 char set</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrLaFRA</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>3</para></entry>
+<entry align="left" valign="bottom"><para>French, ISO Latin-1 char set</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrLaITA</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>4</para></entry>
+<entry align="left" valign="bottom"><para>Italian, ISO Latin-1 char set</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrLaDEU</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>5</para></entry>
+<entry align="left" valign="bottom"><para>German, ISO Latin-1 char set</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrLaJPN</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>6</para></entry>
+<entry align="left" valign="bottom"><para>Japanese, EUC, auto kanji compounds
+</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrLaJPN2</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>7</para></entry>
+<entry align="left" valign="bottom"><para>Japanese, EUC, listed kanji compounds
+</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrLaLAST</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>7</para></entry>
+<entry align="left" valign="bottom"><para>Last supported <systemitem class="constant">DtSrLa</systemitem> constant</para></entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Other General Constants</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="213*">
+<colspec align="left" colwidth="315*">
+<tbody>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrVERSION</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>DtSearch version number string.
+</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrMAX_KTNAME</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Maximum string length of a keytype
+name.</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrMAX_DB_KEYSIZE</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Maximum size of the unique document
+key.</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrMAXWIDTH_HWORD</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Largest possible word or stem size.
+</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrMAX_STEMCOUNT</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Maximum number of boolean search
+terms.</para></entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>DtSrObjdate Type</title>
+<para><structname role="typedef">DtSrObjdate</structname> is a typdef for
+an unsigned integer used as a date/time stamp for documents.
+</para>
+<para>DtSearch queries may be qualified by document date ranges. The data
+type packs certain standard <structname>struct tm</structname> fields into
+bitmap fields to minimize space.
+</para>
+<para><structname role="typedef">DtSrObjdate</structname> are based on the
+western Gregorian calendar and are not guaranteed to map to other time locales.
+</para>
+<para>DtSearch <structname role="typedef">objdates</structname> have a range
+from 1900 to 5995 inclusive and a resolution of 1 minute. From hi order bits
+to low:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="157*">
+<colspec align="left" colwidth="371*">
+<tbody>
+<row>
+<entry align="left" valign="bottom"><para>12 bits = <symbol role="variable">tm_year</symbol></para></entry>
+<entry align="left" valign="bottom"><para>(0 - 4095, years since 1900 (1900
+- 5995))</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para>4 bits = <symbol role="variable">tm_mon</symbol></para></entry>
+<entry align="left" valign="bottom"><para>(0 - 11, month name index)</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para>5 bits = <symbol role="variable">tm_mday</symbol></para></entry>
+<entry align="left" valign="bottom"><para>(1 - 31, day of month)</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para>5 bits = <symbol role="variable">tm_hour</symbol></para></entry>
+<entry align="left" valign="bottom"><para>(0 - 23, hours since midnight)</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para>6 bits = <symbol role="variable">tm_min</symbol></para></entry>
+<entry align="left" valign="bottom"><para>(0 - 59, minutes since top of hour)
+</para></entry></row></tbody></tgroup></informaltable>
+</refsect2>
+</refsect1><refsect1>
+<title>STRUCTURES</title>
+<refsect2>
+<title>DtSrKeytype Type</title>
+<programlisting>typedef struct {
+    char        <symbol role="variable">is_selected</symbol>;
+    char        <symbol role="variable">ktchar</symbol>;
+    char        <symbol role="variable">name</symbol>   [ <systemitem class="constant">DtSrMAX_KTNAME</systemitem>+1];
+}       <structname role="typedef">DtSrKeytype</structname>;
+</programlisting>
+<para>A DtSearch keytype references a logical subset of the database.</para>
+<para>The primary identifier for a keytype is the keytype character
+<symbol role="variable">ktchar</symbol>. The <symbol role="variable">ktchar</symbol>
+identifies the subset of the database that has that character as the first
+character of its document keys.</para>
+<para>The <structname role="typedef">DtSrKeytype</structname> structure associates
+the <symbol role="variable">ktchar</symbol> with a short <symbol role="variable">name</symbol> string for use in user GUI labels identifying the keytype, and
+provides a boolean selection toggle for the keytype.</para>
+<para>An array of <structname role="typedef">DtSrKeytype</structname> structures
+is maintained by the API for each database after API initialization. The API
+function <function>DgSearchGetKeytypes()</function> is used to access the
+array.</para>
+<para>The <symbol role="variable">is_selected</symbol> boolean in each array
+node indicates whether the user has selected that keytype to be returned in
+the current search. The application must ensure that the boolean reflects
+the current state of the user's desires prior to any search. Typically this
+is done by having the <structname>keytypes array</structname> track user interface
+toggle buttons for the database.</para>
+</refsect2>
+<refsect2>
+<title>DtSrResult Structure</title>
+<programlisting>typedef struct _DtSrResult {
+    struct _DtSrResult <symbol role="variable">*link</symbol>;
+    long        <symbol role="variable">flags</symbol>;
+    long        <symbol role="variable">objflags</symbol>;
+    long        <symbol role="variable">objuflags</symbol>;
+    long        <symbol role="variable">objsize</symbol>;
+    <structname role="typedef">DtSrObjdates</structname>         <symbol role="variable">objdate</symbol>;
+    short       <symbol role="variable">objtype</symbol>;
+    short       <symbol role="variable">objcost</symbol>;
+    int         <symbol role="variable">dbn</symbol>;
+    DB_ADDR     <symbol role="variable">dba</symbol>;
+    short       <symbol role="variable">language</symbol>;
+    char        <symbol role="variable">reckey</symbol> [<systemitem role="constant">
+DtSrMAX_DB_KEYSIZE</systemitem>];
+    int         <symbol role="variable">proximity</symbol>;
+    char        <symbol role="variable">*abstractp</symbol>;
+}       <structname>DtSrResult</structname>;
+</programlisting>
+<para>The API function <function>DtSearchQuery</function> returns a results
+list upon successful completion of a search. A results list is a linked list
+of <structname>DtSrResult</structname> structures, where each node represents
+a database document that satisfied the query.</para>
+<variablelist>
+<varlistentry><term><symbol role="Variable">link</symbol></term>
+<listitem>
+<para>Pointer to the next results list node.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">flags</symbol></term>
+<listitem>
+<para>(reserved)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">objflags</symbol></term>
+<listitem>
+<para>The constant <systemitem class="constant">DtSrFlNOTAVAIL</systemitem>
+means that the object is not retrievable from the search engine.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">objuflags</symbol></term>
+<listitem>
+<para>User flags from database record. These are not used by DtSearch and
+are available for application definition.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">objsize</symbol></term>
+<listitem>
+<para>In uncompressed bytes.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">objdate</symbol></term>
+<listitem>
+<para>Zero is the null date; document is 'undated'.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">objtype</symbol></term>
+<listitem>
+<para>Document type from database header record. <symbol role="Variable">Objtype</symbol> is typically used
+by application code to identify and launch browsers.</para>
+<para>Values above x1000 (4096) are set aside for application
+definition. The following constants identify defined values:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="212*">
+<colspec align="left" colwidth="316*">
+<tbody>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrObjUNKNOWN</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Document type unknown or not applicable
+</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrObjTEXT</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Generic, unformatted flat text
+</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrObjBINARY</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Generic binary object</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrObjSGML</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Generic SGML formatted document</para></entry></row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrObjHTML</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>HTML formatted document</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrObjPOSTSCR</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Postscript document</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrObjINTERLF</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>Interleaf document</para></entry>
+</row>
+<row>
+<entry align="left" valign="bottom"><para><systemitem class="constant">DtSrObjDTINFO</systemitem></para></entry>
+<entry align="left" valign="bottom"><para>DtInfo document</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">objcost</symbol></term>
+<listitem>
+<para>(reserved)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">dbn</symbol></term>
+<listitem>
+<para>Database number; index into <structname>dbnames</structname> array
+from <function>DtSearchInit</function> and <function>DtSearchReinit</function>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">dba</symbol></term>
+<listitem>
+<para>Atomic document identifier within a database.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">language</symbol></term>
+<listitem>
+<para>Language number of the database <systemitem class="constant">DtSrLa...</systemitem> constant).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">reckey</symbol></term>
+<listitem>
+<para>Document's unique database key. The first character of reckey is the
+keytype character.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">proximity</symbol></term>
+<listitem>
+<para>Sort field for ranking results lists. Derived from frequency of occurrence
+statistics for the query words in the document. Often displayed to users
+as the subjective 'distance' between the document and the query, in other
+words a measure of the likelihood that the document will satisfy the user's
+needs.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">abstractp</symbol></term>
+<listitem>
+<para>Document's abstract string from the database.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>DtSrHitword Structure</title>
+<programlisting>typedef struct {
+    long        <symbol role="Variable">offset</symbol>; /* word location in cleartext */
+    long        <symbol role="Variable">length</symbol>; /* length of word */
+}       <structname>DtSrHitword</structname>;
+</programlisting>
+<para>Given a text string and the array of search terms returned from
+<function>DtSearchQuery</function>,
+<function>DtSearchHighlight</function> will generate a table of offsets
+and lengths where the search terms are located in the text. The table is
+typically used to highlight the search terms in the text is a manner
+appropriate to the application's user interface.
+</para>
+<para>The <structname>DtSrHitword</structname> structure is one element in the
+table. For each search term to be highlighted,
+<symbol role="Variable">offset</symbol> specifies the beginning byte for the
+term, and <symbol role="Variable">length</symbol> specifies the extent
+of the term in bytes.
+</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtSrAPI;,
+&cdeman.DtSearchInit;,
+&cdeman.DtSearchReinit;,
+&cdeman.DtSearchExit;,
+&cdeman.DtSearchGetKeytypes;,
+&cdeman.DtSearchSetMaxResults;,
+&cdeman.DtSearchGetMaxResults;,
+&cdeman.DtSearchQuery;,
+&cdeman.DtSearchRetrieve;,
+&cdeman.DtSearchHighlight;,
+&cdeman.DtSearchValidDateString;,
+&cdeman.DtSearchMergeResults;,
+&cdeman.DtSearchSortResults;,
+&cdeman.DtSearchFreeResults;,
+&cdeman.DtSearchHasMessages;,
+&cdeman.DtSearchAddMessages;,
+&cdeman.DtSearchGetMessages;,
+&cdeman.DtSearchFreeMessages;,
+&cdeman.DtSearch;
+</para>
+</refsect1></refentry>
+

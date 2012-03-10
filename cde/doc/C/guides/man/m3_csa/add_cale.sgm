@@ -1,0 +1,287 @@
+<!-- $XConsortium: add_cale.sgm /main/5 1996/08/30 15:32:18 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN52.rsml.1">
+<RefMeta>
+<RefEntryTitle>csa_add_calendar</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>csa_add_calendar</Function></RefName>
+<RefPurpose>add a calendar to the calendar service
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- (c) Copyright 1994 X.400 API Association-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;xcsa.h>
+</FuncSynopsisInfo>
+<FuncDef>CSA_return_code <Function>csa_add_calendar</Function></FuncDef>
+<ParamDef>CSA_session_handle <Parameter>session</Parameter></ParamDef>
+<ParamDef>CSA_calendar_user *<Parameter>user</Parameter></ParamDef>
+<ParamDef>CSA_uint32 <Parameter>number_attributes</Parameter></ParamDef>
+<ParamDef>CSA_attribute *<Parameter>calendar_attributes</Parameter></ParamDef>
+<ParamDef>CSA_extension *<Parameter>add_calendar_extensions</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>csa_add_calendar</Function> function creates a calendar on the calendar service.
+If
+the user does not have sufficient authority to add a
+calendar to the service, the error
+<SystemItem Class="Constant">CSA_E_NO_AUTHORITY</SystemItem> is returned.
+If the calendar already exists the error
+<SystemItem Class="Constant">CSA_E_CALENDAR_EXISTS</SystemItem> is returned.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<RefSect2>
+<Title>Session (Session Handle)</Title>
+<Para>Opaque session handle that represents a session with the
+calendaring service.
+</Para>
+<Para>Session handles are created by a logon function call and
+invalidated with a logoff function call.
+If the session
+handle is invalid, then the error
+<SystemItem Class="Constant">CSA_E_INVALID_SESSION_HANDLE</SystemItem> is returned.
+The session handle may be
+<SystemItem Class="Constant">NULL</SystemItem> if the calendar service does not require a session to be
+established in order to add a calendar.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>User (Calendar User)</Title>
+<Para>A pointer to a calendar user structure.
+This specifies the
+user and name of the calendar to be added to the calendar
+service.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Number Attributes (Uint32)</Title>
+<Para>The number of elements in
+<Emphasis>calendar_attributes</Emphasis> argument.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Calendar Attributes (Attributes)</Title>
+<Para>A pointer to an array of attribute structures that specify
+the calendar attributes for the new calendar.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Add CalendarExtensions (Extension)</Title>
+<Para>A pointer to an array of
+<StructName Role="typedef">CSA_extension</StructName> structures for this function.
+The array may contain both
+input extensions for providing additional information to
+the function and output extensions for receiving
+information from the function.
+A value of
+<SystemItem Class="Constant">NULL</SystemItem> indicates that the caller is not using any extensions.
+See the extensions structure for more information.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<RefSect2>
+<Title>Add Calendar Extensions (Extension)</Title>
+<Para>If output extensions were passed to the function in the
+extensions list, the results from the service will be
+available in the extension.
+See the extensions structure for more information.
+Whether the function succeeded or
+not, and, if not, why.
+It may be success or one of the
+values listed under ERRORS below.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The
+<Function>csa_add_calendar</Function> function returns the following error values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_E_CALENDAR_EXISTS</Term>
+<ListItem>
+<Para>The specified calendar already exists.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_DISK_FULL</Term>
+<ListItem>
+<Para>Insufficient disk space was available to complete
+the requested operation (this may refer to local or shared disk space).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_FAILURE</Term>
+<ListItem>
+<Para>There was a general failure that does not
+fit the description of any other error code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Insufficient memory was available to complete the requested operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_ATTRIBUTE</Term>
+<ListItem>
+<Para>An attribute was specified that was not defined by this
+specification and the implementation does not support the
+attribute as an application specific attribute.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_ATTRIBUTE_VALUE</Term>
+<ListItem>
+<Para>An invalid attribute value was specified for an attribute.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FLAG</Term>
+<ListItem>
+<Para>A flag value in the
+<Symbol Role="Variable">flags</Symbol> argument was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The function extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_PARAMETER</Term>
+<ListItem>
+<Para>A function parameter was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INAVLID_SESSION_HANDLE</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_USER</Term>
+<ListItem>
+<Para>The specified calendar user is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NO_AUTHORITY</Term>
+<ListItem>
+<Para>The user has insufficient authority for this function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NOT_SUPPORTED</Term>
+<ListItem>
+<Para>The operation requested is not supported by this implementation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_READONLY</Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_SERVICE_UNAVAILABLE</Term>
+<ListItem>
+<Para>The requested calendar service is unavailable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_TEXT_TOO_LARGE</Term>
+<ListItem>
+<Para>The size of the text string passed to the implementation is too large.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_ATTRIBUTE</Term>
+<ListItem>
+<Para>An attribute was encountered that is unsupported by the calendar service.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_CHARACTER_SET</Term>
+<ListItem>
+<Para>The character set requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_DATA_EXT</Term>
+<ListItem>
+<Para>The data extension requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_ENUM</Term>
+<ListItem>
+<Para>The specified enumerated value is not valid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FLAG</Term>
+<ListItem>
+<Para>The flag requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The specified function extension is not supported or
+<SystemItem Class="Constant">CSA_EXT_REQUIRED</SystemItem> is set.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.csa.csa.h;, &cdeman.csa.add.entry;, &cdeman.csa.call.callbacks;, &cdeman.csa.delete.calendar;, &cdeman.csa.delete.entry;, &cdeman.csa.free;, &cdeman.csa.free.time.search;, &cdeman.csa.list.calendar.attributes;, &cdeman.csa.list.calendars;, &cdeman.csa.list.entries;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.logoff;, &cdeman.csa.logon;, &cdeman.csa.look.up;, &cdeman.csa.query.configuration;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.read.entry.attributes;, &cdeman.csa.read.next.reminder;, &cdeman.csa.register.callback;, <![ %CDE.C.XO; [&cdeman.csa.restore;, &cdeman.csa.save;, ]]>&cdeman.csa.unregister.callback;, &cdeman.csa.update.calendar.attributes;, &cdeman.csa.update.entry.attributes;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

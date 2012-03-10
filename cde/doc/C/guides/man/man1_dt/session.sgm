@@ -1,0 +1,1348 @@
+<!-- $XConsortium: session.sgm /main/12 1996/11/15 15:27:24 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN32.rsml.1" remap="">
+<refmeta><refentrytitle>dtsession</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtsession</command></refname><refpurpose>the
+CDE Session Manager</refpurpose></refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtsession</command><arg choice="opt">&minus;norestore</arg><arg choice="opt">&minus;session <replaceable>session_name</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>dtsession</command> client provides X11R6 XSMP and (by
+proxy) ICCCM 1.1 compliant session management functionality during a user
+session, which is the time from login to logout. It launches a window manager
+and allows for saving a session, restoring a session, locking a session, launching
+screen savers and allocating colors for desktop compatible clients.</para>
+<refsect2>
+<title>Key Supported Tasks</title>
+<para>The <command>dtsession</command> client supports the following key tasks:</para>
+<itemizedlist><listitem><para>Initializing a session.</para>
+</listitem><listitem><para>Launching a window manager.</para>
+</listitem><listitem><para>Restoring a home, current, <emphasis>display-specific</emphasis> home, or <emphasis>display-specific</emphasis> current session.
+</para>
+</listitem><listitem><para>Providing session locking on command or timeout.
+</para>
+</listitem><listitem><para>Providing session screen saving on command or timeout.
+</para>
+</listitem><listitem><para>Acting as a color allocation server for other DT
+clients.</para>
+</listitem><listitem><para>Saving a home, current, <emphasis>display-specific</emphasis> home, or <emphasis>display-specific</emphasis> current session.
+</para>
+</listitem><listitem><para>Displaying confirmation dialog at logout.</para>
+</listitem><listitem><para>Displaying session selection dialog at logout.
+</para>
+</listitem><listitem><para>Terminating a session.</para>
+</listitem></itemizedlist>
+</refsect2>
+<refsect2>
+<title>A Session</title>
+<para>A session is the collection of applications, settings and resources
+that are present on the user's desktop. Session management is a set of conventions
+and protocols that allow a special session manager such as <command>dtsession</command> to save and restore a user's session. A user is able to log into
+their system and be presented with the same set of running applications, settings
+and resources as were present when the user logged off. When a user logs into
+the desktop for the first time, a default initial (new user) session is loaded.
+Afterward, <command>dtsession</command> supports the notion of a current, a home, and a <emphasis>display-specific</emphasis> session, which may be either current or home.
+</para>
+</refsect2>
+<refsect2>
+<title>The Initial Session</title>
+<para>When a user logs into the desktop for the first time, <command>dtsession</command> will generate the user's initial session using system default values.
+The initial session is sometimes referred to as the "new user" session. Refer
+to Session Resource Management and Session Application Management for more
+information.</para>
+</refsect2>
+<refsect2>
+<title>The Current Session</title>
+<para>The user's running session is always considered the current session,
+whether restored upon login from a saved home session, a saved current session
+or the system default initial session. Based on the user's Style Manager
+Startup settings, when the user exits the session, the current session is
+automatically saved. When the user next logs into the desktop, <command>dtsession</command> allows the user to select the previously saved current
+session as the session to start. This means that the desktop will be restored
+to the same state it was in when the user last logged out.</para>
+</refsect2>
+<refsect2>
+<title>The Home Session</title>
+<para>Another option is having the desktop be restored to the same state every
+time the user logs in, regardless of its state when the user logged out. The
+user may save the state of the current session, then via the Style Manager
+Startup settings, have the desktop start that session every time the user
+logs in. Alternatively, <command>dtsession</command> will allow the user to
+select the home session as the session to start at login.</para>
+</refsect2>
+<refsect2>
+<title>Display-specific Sessions</title>
+<para>To run a specific session for a specific display, a user can create
+a display-specific session. To do this, the user can copy the <filename>$HOME/.dt/sessions</filename>
+directory to the <filename>$HOME/.dt/sessions/</filename><symbol role="variable">display</symbol> directory
+where <symbol role="variable">display</symbol> is the real,
+unqualified hostname (for example, pablo:0 is valid, pablo.gato.com:0 or local:0
+is not). When the user logs in, <command>dtsession</command> will allow the
+user to select a display-specific home or current session as the session to
+start. <command>Dtsession</command> will actually launch the session only
+if it is compatible with the user's login display.</para>
+</refsect2>
+<refsect2>
+<title>The X11R6 XSMP Session Management Protocol</title>
+<para>For an application to be saved upon logout and restarted upon login,
+it must participate in a simple session management protocol. <command>dtsession</command> supports the X11R6 XSMP Session Management Protocol.</para>
+<para>Applications that wish to save their state can take part in the <property>WM_SAVE_YOURSELF</property>
+protocol. To do this, an application needs to set the <property>WM_SAVE_YOURSELF</property> property
+on one and only one of its top-level windows. When the user presses the <literal>Set Home Session</literal> button in the Style Manager, <command>dtsession</command> sends a <literal>SaveYourself</literal> message to the top-level
+window of each of its clients. The message sets the save-type to <literal>Local</literal>, shutdown to 0, interact-style to <literal>None</literal>
+and fast to 0.</para>
+<para>When an application receives the message, it sends a <literal>SaveYourselfPhase2Request</literal> message to the Session Manager, which will reply with a <literal>SaveYourselfPhase2</literal> message. Only when the Window Manager receives
+the <literal>SaveYourselfPhase2</literal> message will it save its state.
+The information saved by the Window Manager for each of its client's set
+of windows will include: geometry, icon state and workspace.</para>
+<para>If interact-style on the initial <literal>SaveYourself</literal> message
+is <literal>None</literal>, the application cannot interact with the user
+in any way as it is saving its state. If it is <literal>Any</literal>, the
+application can interact with the user for any purpose. This includes the
+ability to de-iconify itself, as well as to change its current workspace.
+To minimize confusion, the Session Manager issues a ToolTalk message to the
+Window Manager requesting the recommended order to interact. The Window Manager
+responds with the list of SM_CLIENT_IDs and their associated workspace numbers
+in workspace order. After receiving an Interact message (with interact-style
+set to <literal>Any</literal>), an application should go system-modal to
+prevent other, less well-behaved non-interacting applications from allowing
+user interaction while the application is interacting with its user.</para>
+<para>Because an application will usually save its state into a file, the
+Session Manager provides <function>DtSessionSavePath</function> as a convenience
+function that returns a full pathname of a file in which an application can
+save its state. While the application is saving its state, <command>dtsession</command> awaits notice from the application that it is done. To tell <command>dtsession</command> that the state save is complete, the application updates
+the <property>WM_COMMAND</property> property on its top-level window.</para>
+<para>The <property>WM_COMMAND</property> property on an application's top-level window serves
+two purposes. First, a change of this property is the indication to <command>dtsession</command> that an application is done saving its state and <command>dtsession</command> can proceed to the next application. Second, the <property>WM_COMMAND</property>
+property value is expected to contain the command line that <command>dtsession</command> will use to restart the application at session startup. If an application
+is launched with a full pathname, then it should use the full pathname when
+setting <property>WM_COMMAND</property>. Applications that do not need to save their state, but
+wish to be restarted, can simply set <property>WM_COMMAND</property> during application startup
+and forget about it.</para>
+<para>Refer to the <function>XmAddWmProtocols</function>, <function>XmAddWMProtocolCallback</function>, and <function>XSetCommand</function> APIs for more information.
+</para>
+<para>In addition to the "save-yourself" client session management support,
+the X11R6 XSMP protocol provides the following features (which are not found
+in the ICCCM protocol):</para>
+<itemizedlist><listitem><para>It allows applications to interact with the
+user during normal shut down to confirm or discard unsaved changes.</para>
+</listitem><listitem><para>It provides a mechanism to explicitly tell applications
+to exit.</para>
+</listitem><listitem><para>Most importantly, it provides a common framework
+to support applications that are not X clients and applications that exit
+before the session is saved but that must remain part of the session for
+restart purposes (for example, an input method server).</para>
+</listitem></itemizedlist>
+</refsect2>
+<refsect2>
+<title>The ICCCM Session Management Protocol</title>
+<para><command>dtsession</command> implements the X11R6 XSMP session
+management protocol and provides backward compatibility by acting as a proxy
+for client applications that continue to use the older ICCCM session management
+protocol.</para>
+</refsect2>
+<refsect2>
+<title>Restoring A Session</title>
+<para>At session startup time, <command>dtsession</command> presents a dialog
+that allows the user to select which of the following sessions to start:</para>
+<variablelist>
+<varlistentry><term>Current</term>
+<listitem>
+<para>Start the user's most recent session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Home</term>
+<listitem>
+<para>Start the user's home session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>display-name</emphasis> - Current</term>
+<listitem>
+<para>Create a new display-specific session and start the first of the following
+sessions that exists: <orderedlist><listitem><para>display-specific Home
+</para>
+</listitem><listitem><para>generic Home</para>
+</listitem><listitem><para>new user (initial) session</para>
+</listitem></orderedlist></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>display-name</emphasis> - Home</term>
+<listitem>
+<para>Create a new display-specific session and start the user's generic home
+session if it exists. Otherwise, start a new user session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Fail-safe Session</term>
+<listitem>
+<para>Start a fail-safe session (Xfailsafe)</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Although a user's list of sessions is not known until after the user
+logs in, the dialog presents all of the session choices. If a user selects
+a session that does not exist, <command>dtsession</command> takes the following
+actions. If the user selects:</para>
+<variablelist>
+<varlistentry><term>Home</term>
+<listitem>
+<para><command>dtsession</command> starts a new user session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Current</term>
+<listitem>
+<para><command>dtsession</command> starts the user's home session if it exists.
+If it does not, it starts a new user session.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>If the user selects a display-specific session and one does not exist, <command>dtsession</command> posts a warning dialog stating that a new session will
+be created. The warning dialog contains three buttons:</para>
+<variablelist>
+<varlistentry><term><literal>Cancel Login</literal></term>
+<listitem>
+<para>Cancels the login and returns the user to the login screen.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Literal>OK</Literal></term>
+<listitem>
+<para>If a display-specific Home session was selected, <command>dtsession</command> creates a new display-specific session and starts the user's generic
+home session if it exists. If it does not exist, it starts a new user session.
+</para>
+<para>If a display-specific Current session was selected, <command>dtsession</command> creates a new display-specific session and starts a display-specific
+home, generic home, or new user session, depending on which it finds first.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Help</literal></term>
+<listitem>
+<para>Displays help text about the warning dialog.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Session Resource Management</title>
+<para>The session manager uses the X Server <property>RESOURCE_MANAGER</property> property on which
+to make available desktop resources to all applications. The session manager
+will load the <property>RESOURCE_MANAGER</property> in the following manner:</para>
+<itemizedlist><listitem><para>load the system default resources, AND</para>
+</listitem><listitem><para>merge any system administrator specified resources,
+AND</para>
+</listitem><listitem><para>merge any user specified resources.</para>
+</listitem></itemizedlist>
+<para>The desktop default resources can be found in <filename>/usr/dt/config/$LANG/sys.resources</filename>.
+These resources will be made available to each user's session
+via the <property>RESOURCE_MANAGER</property> property. This file should not be edited as it will
+be unconditionally overwritten upon subsequent desktop installations.</para>
+<para>A system administrator may augment the system default resources by creating
+<filename>/etc/dt/config/$LANG/sys.resources</filename>. In this file, a
+system administrator may override system default resources or specify additional
+resources. As this file is merged into the desktop default resources during
+session startup, it is preferable that only new or updated resource specifications
+be placed in this file, rather than a copy being made of the desktop default
+resource file. Resources specified in this file will be made available to
+each user's session via the <property>RESOURCE_MANAGER</property> property. Resources specified
+in this file take precedence over those specified in the desktop default resource
+file.</para>
+<para>A user may augment the desktop default and system administrator resources
+via their <filename>$HOME/.Xdefaults</filename> file. Resources specified
+in this file will be made available to only that user's session via the <property>RESOURCE_MANAGER</property>
+property. Resources specified in this file take precedence over those specified
+in the desktop default or system administrator resource files.</para>
+<note>
+<para>The X Toolkit Intrinsics specifies that it will load resources for an
+application from either <property>RESOURCE_MANAGER</property> or from <filename>$HOME/.Xdefaults</filename>,
+but not both. Ordinarily, this would mean that the user's
+<filename>$HOME/.Xdefaults</filename> file would be ignored. However, the session manager
+accommodates <filename>$HOME/.Xdefaults</filename> by merging it into the <property>RESOURCE_MANAGER</property>
+at session startup as described above. If a user changes <filename>$HOME/.Xdefaults</filename>,
+the changes will not be visible to new applications until the
+user invokes the <literal>ReloadResources</literal> action.</para>
+</note>
+<para>The <literal>ReloadResources</literal> action will instruct the session
+manager to reload the <property>RESOURCE_MANAGER</property> with the system, system administrator,
+and user specified resources. This is useful to make available to new applications
+changes made to system administrator or user specified resource files.</para>
+<para>See also &cdeman.dtresourcesfile; and &cdeman.dtsessionaction;.</para>
+</refsect2>
+<refsect2>
+<title>Session Application Management</title>
+<para>At session startup, the session manager will restart any applications
+that were saved as part of the session. The system default set of applications
+to be restored as part of the user's Initial Session can be found in
+<filename>/usr/dt/config/$LANG/sys.session</filename>. This file should not be edited
+as it will be unconditionally overwritten upon subsequent desktop installations.
+</para>
+<para>See also &cdeman.dtsessionfile;.</para>
+<para>A system administrator may replace the set of applications that are
+restored as part of the user's Initial Session by creating a file named
+<filename>/etc/dt/config/$LANG/sys.session</filename>. Unlike the resource files, this
+file will be used as a complete replacement for the desktop default file,
+so it is valid to make a copy of the system default file and make any necessary
+modifications.</para>
+</refsect2>
+<refsect2>
+<title>Session Manager Authentication</title>
+<para>The Session Manager uses ICE-based authentication as described in the
+Inter-Client Exchange (ICE) Library v1.0.</para>
+<para>The Session Manager is built with a table of available authentication
+protocols. Selection of the protocol is done via the <literal>AuthName</literal>
+resource. The <literal>AuthName</literal> default is the string <literal>MIT-MAGIC-COOKIE-1</literal>. The Session Manager supports the same protocols
+as the Login Manager.</para>
+</refsect2>
+<refsect2>
+<title>The Window Manager</title>
+<para><command>dtsession</command> is responsible for starting the window
+manager. By default <filename>/usr/dt/bin/dtwm</filename> is started. An alternate
+window manager can be specified with the wmStartupCommand resource. Refer
+to the Workspace Manager specification for more information.</para>
+</refsect2>
+<refsect2>
+<title>The Style Manager</title>
+<para>The style manager provides the interface by which a user can change
+various desktop and X server settings for the current session. Refer to the
+Style Manager specification for more information.</para>
+</refsect2>
+<refsect2>
+<title>The Color Server</title>
+<para><command>dtsession</command> serves as the color server for the desktop
+and provides a set of resources that can be used to configure it.
+The <systemitem class="environvar">foregroundColor</systemitem> resource controls whether a pixel is allocated for
+the foreground color. The <systemitem class="environvar">dynamicColor</systemitem> resource specifies
+whether read-only colors are allocated. The <systemitem class="environvar">shadowPixmaps</systemitem>
+resource specifies whether colors are allocated for top shadow or bottom shadow.
+The <systemitem class="environvar">colorUse</systemitem> resource limits color allocation. Finally,
+the <systemitem class="environvar">writeXrdbColors</systemitem> resource specifies whether
+the <systemitem class="environvar">*background</systemitem>
+and <systemitem class="environvar">*foreground</systemitem> resources are placed in the resource database. See the Color
+Server Resources section for more information.
+</para>
+</refsect2>
+<refsect2>
+<title>The Color Sharing Protocol</title>
+<para>The CDE desktop makes use of a color sharing protocol between
+<command>dtsession</command>
+and the rest of the desktop (<command>dtstyle</command> in particular)
+and Motif. This protocol allows:
+</para>
+<itemizedlist>
+<listitem>
+<para>Non-CDE (non Motif/<function>XmColorObject</function>) applications to
+make use of the CDE color scheme.
+</para>
+</listitem>
+<listitem>
+<para>Applications (Motif or not) that create their own private colormap to
+copy the <command>dtsession</command> desktop pixels and avoid or
+limit technicolor effect.
+</para>
+</listitem>
+<listitem>
+<para>Motif applications to easily share the desktop GUI pixels when they use
+a private colormap.
+</para>
+</listitem>
+</itemizedlist>
+<para>The color sharing protocol involves:
+</para>
+<itemizedlist>
+<listitem>
+<para>The selection name (<systemitem class="constant">CUSTOMIZE_DATA</systemitem>), type (<systemitem class="constant">TYPE_OF_MONITOR</systemitem>), and format used by
+<command>dtsession</command> to communicate the monitor
+characterization to <command>dtstyle</command> (or any other style
+manager).
+</para>
+</listitem>
+<listitem>
+<para>The selection name (<systemitem class="constant">CUSTOMIZE_DATA</systemitem>), type (<systemitem class="constant">PIXEL_SET</systemitem>), and format used by
+<command>dtsession</command> to communicate its palette pixel ids to
+the <literal>ColorObject</literal> (in <filename>libXm</filename>) and
+to <command>dtstyle</command>.
+</para>
+</listitem>
+<listitem>
+<para>Two functions (<function>XmeGetColorObjData</function> and
+<function>XmeGetColorObjCells</function>) that deliver the desktop
+pixels to the application in a form easily suitable for its use
+(<Symbol>XColor</Symbol>).
+</para>
+</listitem>
+</itemizedlist>
+<para>A Color Set is a set of five colors that are used to represent a single
+logical color in the Motif toolkit. For each background color (the
+logical color), there are associated top shadow, bottom shadow,
+foreground, and select colors, all generated from the background color.
+These associated colors are the mechanism for giving widgets their 3-D
+appearance.
+</para>
+<para>A Color Palette is a named set of a maximum of eight background colors.
+A single palette is used to color the desktop components. A list of
+default palettes is provided from which the user can select. The user
+can also add and delete palettes, as well as modify an existing palette.
+</para>
+<para><command>dtsession</command>, the color server, uses ICCCM X Selection
+based mechanisms to communicate color use, palette and color set pixel
+information to the desktop clients.
+</para>
+<para>The name of the (<systemitem class="constant">CUSTOMIZE_DATA</systemitem>) selection is the atom
+<literal>Customize Data:</literal><emphasis>i</emphasis>, where
+<emphasis>i</emphasis> is the screen number.
+</para>
+<para>The names of the targets are the atoms <literal>Type Of Monitor</literal>
+and <literal>Pixel Sets</literal>.
+</para>
+<refsect3>
+<title>Type of Monitor Target</title>
+<para>The <literal>Type Of Monitor</literal> target is used to convey color
+settings to the desktop clients, such as <command>dtstyle</command> or
+the Motif toolkit, that need this information. The content corresponds
+to the value of the <command>dtsession</command> color usage
+resources.
+</para>
+<para>When asked to convert the screen <literal>Customize
+Data:</literal><emphasis>i</emphasis> selection to the target
+<literal>Type Of Monitor</literal>, the format and content encoding used
+is the following:
+</para>
+<itemizedlist>
+<listitem>
+<para><literal>type:</literal> STRING
+</para>
+</listitem>
+<listitem>
+<para><literal>length:</literal> 20
+</para>
+</listitem>
+<listitem>
+<para><literal>format:</literal> 8
+</para>
+</listitem>
+<listitem>
+<para><literal>content:</literal> a series of 4 numbers, in hexadecimal
+format, separated by the underscore (_) character (that is, using the
+printf/scanf format <literal>%x_%x_%x_%x</literal>), and including from
+left to right:
+</para>
+<itemizedlist>
+<listitem>
+<para>The <literal>colorUse</literal> resource, which corresponds to the type
+of monitor in use by the desktop.
+</para>
+<simplelist>
+<member>
+<systemitem class="constant">B_W</systemitem> = 0
+</member>
+<member>
+<systemitem class="constant">LOW_COLOR</systemitem> = 1
+</member>
+<member>
+<systemitem class="constant">MEDIUM_COLOR</systemitem> = 2
+</member>
+<member>
+<systemitem class="constant">HIGH_COLOR</systemitem> = 3
+</member>
+</simplelist>
+</listitem>
+<listitem>
+<para>The <literal>shadowPixmaps</literal> resource, which controls if
+dithered pixmaps are used to render the shadows in the target GUI.
+</para>
+<simplelist>
+<member>
+<systemitem class="constant">FALSE</systemitem> = 0
+</member>
+<member>
+<systemitem class="constant">TRUE</systemitem> = 1
+</member>
+</simplelist>
+</listitem>
+<listitem>
+<para>The <literal>foregroundColor</literal> resource, which controls whether
+or not a pixel was allocated for the foreground or if
+<literal>WhitePixel</literal> or <literal>BlackPixel</literal> is used.
+</para>
+<simplelist>
+<member>
+<systemitem class="constant">DYNAMIC</systemitem> = 0
+</member>
+<member>
+<systemitem class="constant">BLACK</systemitem> = 1
+</member>
+<member>
+<systemitem class="constant">WHITE</systemitem> = 2
+</member>
+</simplelist>
+</listitem>
+<listitem>
+<para>The <literal>dynamicColor</literal> resource, which controls whether or
+not the pixels allocated are read/write or read-only cells.
+</para>
+<simplelist>
+<member>
+<systemitem class="constant">FALSE</systemitem> = 0
+</member>
+<member>
+<systemitem class="constant">TRUE</systemitem> = 1
+</member>
+</simplelist>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<para>This information, especially <literal>dynamicColor</literal>, is
+currently used only by <command>dtstyle</command> in CDE to
+implement the color manager GUI.
+</para>
+</refsect3>
+<refsect3>
+<title>Pixel Sets Target</title>
+<para>The <literal>Pixel Sets</literal> target is used to convey palette and
+color set pixel information to the desktop clients. The content is
+always 8 color set values, but depending on the color usage settings,
+some entries will be the duplicated. For the receiver of this
+information, however, it simply means it can access the index as
+specified in the high color scheme.
+</para>
+<para>When asked to convert the screen <literal>Customize
+Data:</literal><emphasis>i</emphasis> selection to the target
+<literal>Pixel Sets</literal>, the format used is the following:
+</para>
+<itemizedlist>
+<listitem>
+<para><literal>type:</literal> STRING
+</para>
+</listitem>
+<listitem>
+<para><literal>length:</literal> 400
+</para>
+</listitem>
+<listitem>
+<para><literal>format:</literal> 8
+</para>
+</listitem>
+<listitem>
+<para><literal>content:</literal> a first number (<literal>%x_</literal>) for
+the <literal>colorUse</literal> resource (see "Type of Monitor Target"
+above for encoding) and a series of 8 (corresponding to the maximum
+number of color sets in CDE) sets of 5 numbers, in hexadecimal format
+(<literal>%x_%x_%x_%x_%x</literal>), each describing from left to right:
+</para>
+<itemizedlist>
+<listitem>
+<para><literal>background</literal> pixel (bg)
+</para>
+</listitem>
+<listitem>
+<para><literal>foreground</literal> pixel (fg)
+</para>
+</listitem>
+<listitem>
+<para><literal>top_shadow</literal> pixel (ts)
+</para>
+</listitem>
+<listitem>
+<para><literal>bottom_shadow</literal> pixel (bs)
+</para>
+</listitem>
+<listitem>
+<para><literal>select_color</literal> pixel (sc)
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<para>The mapping between color set Ids and <literal>colorUse</literal> is as follows:
+</para>
+<Itemizedlist>
+<listitem>
+<para><systemitem class="constant">HIGH_COLOR</systemitem>
+</para>
+<orderedlist>
+<listitem>
+<para>Active window borders.
+</para>
+</listitem>
+<listitem>
+<para>Inactive window borders.
+</para>
+</listitem>
+<listitem>
+<para>Switch for workspace 1 and every fourth additonal workspace (workspace 5, 9,...).
+</para>
+</listitem>
+<listitem>
+<para>Text and list areas.
+</para>
+</listitem>
+<listitem>
+<para>Main window background (<literal>primaryColorSetId</literal>) and switch
+for workspace 4 and every fourth additional workspace (workspace 8,
+12,...).
+</para>
+</listitem>
+<listitem>
+<para>Dialog box background and menu bar
+(<literal>secondaryColorSetId</literal>) and switch for workspace 3 and
+every fourth additional workspace (workspace 7, 11,...).
+</para>
+</listitem>
+<listitem>
+<para>Switch for workspace 2 and every fourth addional workspace (workspace 6, 10, ...).
+</para>
+</listitem>
+<listitem>
+<para>Front panel background.
+</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<para><systemitem class="constant">MEDIUM_COLOR</systemitem>
+</para>
+<orderedlist>
+<listitem>
+<para>Active window borders.
+</para>
+</listitem>
+<listitem>
+<para>Window bodies:
+</para>
+<itemizedlist>
+<listitem>
+<para>Inactive window borders
+</para>
+</listitem>
+<listitem>
+<para>Main window and dialog box backgrounds and menu bar
+</para>
+</listitem>
+<listitem>
+<para>Front Panel background
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<para>Workspace switches and backgrounds
+</para>
+</listitem>
+<listitem>
+<para>Text and list backgrounds
+</para>
+</listitem>
+<listitem>
+<para>same as 2
+</para>
+</listitem>
+<listitem>
+<para>same as 2
+</para>
+</listitem>
+<listitem>
+<para>same as 3
+</para>
+</listitem>
+<listitem>
+<para>same as 2
+</para>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<para><systemitem class="constant">LOW_COLOR</systemitem> and <systemitem class="constant">BLACK_WHITE</systemitem>
+</para>
+<orderedlist>
+<listitem>
+<para>Active window borders.
+</para>
+</listitem>
+<listitem>
+<para>Everything else.
+</para>
+</listitem>
+<listitem>
+<para>.. to 8: same as 2.
+</para>
+</listitem>
+</orderedlist>
+</listitem>
+</itemizedlist>
+<para>For each color set, the cell allocation scheme is the following
+(<literal>dynamicColor</literal> determines if the pixels are allocated
+read/write or read-only):
+</para>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<colspec align="left" colwidth="1.76in">
+<colspec align="left" colwidth="1.70in">
+<colspec align="left" colwidth="1.92in">
+<colspec align="left" colwidth="1.34in">
+<colspec align="left" colwidth="1.05in">
+<thead>
+<row>
+<entry><para><literal>colorUse</literal></para></entry>
+<entry><para><literal>shadowPixmaps</literal></para></entry>
+<entry><para><literal>foregroundColor</literal></para></entry>
+<entry><para>Cells allocation</para></entry>
+<entry><para>Number</para></entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry><para>HIGH_COLOR
+</para></entry>
+<entry><para>FALSE
+</para></entry>
+<entry><para>DYNAMIC
+</para></entry>
+<entry><para>(fg,bg,ts,bs,sc)
+</para></entry>
+<entry><para>5*8 = 40
+</para></entry>
+</row>
+<row>
+<entry><para>HIGH_COLOR
+</para></entry>
+<entry><para>FALSE
+</para></entry>
+<entry><para>BLACK or WHITE
+</para></entry>
+<entry><para>(bg,ts,bs,sc)
+</para></entry>
+<entry><para>4*8 = 32
+</para></entry>
+</row>
+<row>
+<entry><para>HIGH_COLOR
+</para></entry>
+<entry><para>TRUE
+</para></entry>
+<entry><para>DYNAMIC
+</para></entry>
+<entry><para>(fg,bg,sc)
+</para></entry>
+<entry><para>3*8 = 24
+</para></entry>
+</row>
+<row>
+<entry><para>HIGH_COLOR
+</para></entry>
+<entry><para>TRUE
+</para></entry>
+<entry><para>BLACK or WHITE
+</para></entry>
+<entry><para>(bg,sc)
+</para></entry>
+<entry><para>2*8 = 16
+</para></entry>
+</row>
+<row>
+<entry><para>MEDIUM_COLOR
+</para></entry>
+<entry><para>FALSE
+</para></entry>
+<entry><para>DYNAMIC
+</para></entry>
+<entry><para>(fg,bg,ts,bs,sc)
+</para></entry>
+<entry><para>5*4 = 20
+</para></entry>
+</row>
+<row>
+<entry><para>MEDIUM_COLOR
+</para></entry>
+<entry><para>FALSE
+</para></entry>
+<entry><para>BLACK or WHITE
+</para></entry>
+<entry><para>(bg,ts,bs,sc)
+</para></entry>
+<entry><para>4*4 = 16
+</para></entry>
+</row>
+<row>
+<entry><para>MEDIUM_COLOR
+</para></entry>
+<entry><para>TRUE
+</para></entry>
+<entry><para>DYNAMIC
+</para></entry>
+<entry><para>(fg,bg,sc)
+</para></entry>
+<entry><para>3*4 = 12
+</para></entry>
+</row>
+<row>
+<entry><para>MEDIUM_COLOR
+</para></entry>
+<entry><para>TRUE
+</para></entry>
+<entry><para>BLACK or WHITE
+</para></entry>
+<entry><para>(bg,sc)
+</para></entry>
+<entry><para>2*4 = 8
+</para></entry>
+</row>
+<row>
+<entry><para>LOW_COLOR
+</para></entry>
+<entry><para>FALSE
+</para></entry>
+<entry><para>DYNAMIC
+</para></entry>
+<entry><para>(fg,bg,ts,bs,sc)
+</para></entry>
+<entry><para>5*2 = 10
+</para></entry>
+</row>
+<row>
+<entry><para>LOW_COLOR
+</para></entry>
+<entry><para>FALSE
+</para></entry>
+<entry><para>BLACK or WHITE
+</para></entry>
+<entry><para>(bg,ts,bs,sc)
+</para></entry>
+<entry><para>4*2 = 8
+</para></entry>
+</row>
+<row>
+<entry><para>LOW_COLOR
+</para></entry>
+<entry><para>TRUE
+</para></entry>
+<entry><para>DYNAMIC
+</para></entry>
+<entry><para>(fg,bg,sc)
+</para></entry>
+<entry><para>3*2 = 6
+</para></entry>
+</row>
+<row>
+<entry><para>LOW_COLOR
+</para></entry>
+<entry><para>TRUE
+</para></entry>
+<entry><para>BLACK or WHITE
+</para></entry>
+<entry><para>(bg,sc)
+</para></entry>
+<entry><para>2*2 = 4
+</para></entry>
+</row>
+<row>
+<entry><para>B_W
+</para></entry>
+<entry><para>TRUE
+</para></entry>
+<entry><para>opposite
+</para></entry>
+<entry><para>BG
+</para></entry>
+<entry><para>0
+</para></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3>
+</refsect2>
+<refsect2>
+<title>Session Lock</title>
+<para>Dtsession provides session locking. The current session can be locked
+directly by pressing the lock icon on the front panel. If supported by the
+X server, the current session can be locked after a specified period of inactivity.
+To unlock the session, the user must enter their login password.</para>
+<para>By default, <command>dtsession</command> supports traditional local UNIX authentication
+for unlocking the session. Additional re-authentication functions such as
+those required by DCE may be added by individual vendors.</para>
+</refsect2>
+<refsect2>
+<title>Screen Savers</title>
+<para>Dtsession provides support for the launching of external screen savers
+as a part of session locking from the front panel or, if supported by the
+X server, after a specified period of inactivity. Refer to the Screen Saver
+specification for information as to how screen savers are integrated into
+the desktop.</para>
+</refsect2>
+<refsect2>
+<title>X Server Screen Saver Extensions</title>
+<para>Dtsession's ability to provide session lock or screen saver launch after
+a specified period of inactivity depends upon the availability of an X server
+screen saver extension. <command>dtsession</command> supports two such extensions:</para>
+<itemizedlist><listitem><para>X Consortium Sample X11 Screen Saver Extension
+1.0</para>
+</listitem><listitem><para>HP X Screen Saver Extension</para>
+</listitem></itemizedlist>
+<para>The ability of <command>dtsession</command> to recognize both, either or none of these
+extensions is vendor specific.</para>
+</refsect2>
+<refsect2>
+<title>Launching The Session Manager</title>
+<para><command>dtsession</command> should be launched from the Xsession script.
+Xsession is described in the login manager specification. It is recommended
+that Xsession be launched from <command>dtlogin</command> as part of the login
+sequence as the default, but there are alternative methods of starting Xsession:
+</para>
+<variablelist>
+<varlistentry><term>dtlogin</term>
+<listitem>
+<para>the default dtlogin configuration launches <command>Xsession</command>
+when a user logs in</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>proxy</term>
+<listitem>
+<para>some systems will allow programs such as <command>xinit</command>, <command>x11start</command> or <command>startx</command> to start Xsession</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Starting Services Before the Session Manager</title>
+<para>If you must start a service after login but before the Session Manager
+(for example, an input method server), start the service by placing a script
+in the fdirectory <filename>/usr/dt/config/Xsession.d</filename>.</para>
+<para>To avoid being restarted by the Session Manager when a session is started,
+a service that must be started before the Session Manager should explicitly
+set the <literal>RestartStyleHint</literal> property to <literal>RestartNever</literal> (possibly by setting an Xt resource).</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para>The <command>dtsession</command> client is automatically invoked by
+the DT Login Manager (<command>dtlogin</command>). If desired, <command>dtsession</command> may also be started on an existing X server. Note that <command>dtsession</command> automatically starts a window manager.</para>
+<para>The following options are available:</para>
+<variablelist>
+<varlistentry><term><literal>&minus;norestore</literal></term>
+<listitem>
+<para>Instructs <command>dtsession</command> not to restore a previous session
+nor save the session upon logout.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;session</literal> <symbol role="variable">session_name</symbol></term>
+<listitem>
+<para>Instructs <command>dtsession</command> to start the specified session.
+Valid session names are:</para>
+<itemizedlist><listitem><para>current</para>
+</listitem><listitem><para>home</para>
+</listitem><listitem><para><symbol role="variable">display_name</symbol>:<symbol role="variable">display_number</symbol> /current</para>
+</listitem><listitem><para><symbol role="variable">display_name</symbol>:<symbol role="variable">display_number</symbol> /home</para>
+</listitem></itemizedlist>
+<para>where <symbol role="variable">display_name</symbol> is the unqualified display host
+name and <symbol role="variable">display_number</symbol> is the display number.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN</title>
+<para>Exit values are:</para>
+<variablelist>
+<varlistentry><term>0</term>
+<listitem>
+<para>Successful completion.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>>1</term>
+<listitem>
+<para>Error condition occurred.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<refsect2>
+<title>dtsession -norestore</title>
+<para>Start session manager from command line without restoring previous session.
+</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<refsect2>
+<title>Color Server</title>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colwidth="123*">
+<colspec align="left" colwidth="128*">
+<colspec align="left" colwidth="76*">
+<colspec align="left" colwidth="129*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">colorUse</systemitem></entry>
+<entry align="left" valign="top"><classname>ColorUse</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">String</structname></entry>
+<entry align="left" valign="top">DEFAULT</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">dynamicColor</systemitem></entry>
+<entry align="left" valign="top"><classname>DynamicColor</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">foregroundColor</systemitem></entry>
+<entry align="left" valign="top"><classname>ForegroundColor</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">String</structname></entry>
+<entry align="left" valign="top">DYNAMIC</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">shadowPixmaps</systemitem></entry>
+<entry align="left" valign="top"><classname>ShadowPixmaps</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">String</structname></entry>
+<entry align="left" valign="top">DEFAULT</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">writeXrdbColors</systemitem></entry>
+<entry align="left" valign="top"><classname>WriteXrdbColors</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">Boolean</structname></entry>
+<entry align="left" valign="top">True</entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Screen Lock/Screen Save</title>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colwidth="126*">
+<colspec align="left" colwidth="129*">
+<colspec align="left" colwidth="109*">
+<colspec align="left" colwidth="92*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">keys</systemitem></entry>
+<entry align="left" valign="top"><classname>Keys</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">unsigned char</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">passwordTimeout</systemitem></entry>
+<entry align="left" valign="top"><classname>passwordTimeout</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">unsigned int</structname></entry>
+<entry align="left" valign="top">10</entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Miscellaneous</title>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.87in">
+<colspec align="left" colwidth="2.04in">
+<colspec align="left" colwidth="1.88in">
+<colspec align="left" colwidth="1.39in">
+<colspec align="left" colwidth="1.11in">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">AuthName</systemitem></entry>
+<entry align="left" valign="top"><classname>AuthName</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">String</structname></entry>
+<entry align="left" valign="top">DEFAULT</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">IgnoreEnvironment</systemitem></entry>
+<entry align="left" valign="top"><classname>IgnoreEnvironment</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">String</structname></entry>
+<entry align="left" valign="top">NULL</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">queryServerSettings</systemitem></entry>
+<entry align="left" valign="top"><classname>QueryServerSettings</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">NumSessionsBackedup</systemitem></entry>
+<entry align="left" valign="top"><classname>NumSessionsBackedup</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">unsigned int</structname></entry>
+<entry align="left" valign="top">2</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">saveFontPath</systemitem></entry>
+<entry align="left" valign="top"><classname>SaveFontPath</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">Boolean</structname></entry>
+<entry align="left" valign="top">False</entry></row>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">wmStartupCommand</systemitem></entry>
+<entry align="left" valign="top"><classname>WmStartupCommand</classname></entry>
+<entry align="left" valign="top"><structname role="typdef">executable path</structname></entry>
+<entry align="left" valign="top">NULL</entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>AuthName</title>
+<para>This resource specifies the authentication protocol that <command>dtsession</command> is to use. The default is the string <literal>MIT-MAGIC-COOKIE-1</literal>. <command>dtsession</command> supports the same protocols as <command>dtlogin</command>.</para>
+</refsect2>
+<refsect2>
+<title>colorUse - DEFAULT</title>
+<para>This resource specifies the number of colors to use for the user interface.
+Valid types are: Color server will determine type of monitor based upon number
+of display planes of the screen as follows:</para>
+<variablelist>
+<varlistentry><term>1,2</term>
+<listitem>
+<para>B_W</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>4</term>
+<listitem>
+<para>LOW_COLOR</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>6</term>
+<listitem>
+<para>MEDIUM_COLOR</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>7+</term>
+<listitem>
+<para>HIGH_COLOR</para>
+<para><literal>B_W</literal> - Specifies a black and white system. The color
+palettes will use two color cells for the user interface. In this configuration
+only two color palettes are available: BlackWhite and WhiteBlack. These palettes
+cannot dynamically change. To change a palette, all applications using that
+color palette must be restarted. This resource value forces ShadowPixmaps
+to True, and ForegroundColor to either black or white depending on the palette
+chosen.</para>
+<para><Symbol>LOW_COLOR</Symbol> - Specifies a low color system. The color
+palettes will have two color sets and use a maximum of 12 color cells for
+the user interface, including black and white (color cells 0 and 1). The number
+of co ShadowPixmaps and ForegroundColor.</para>
+<para><Symbol>MEDIUM_COLOR</Symbol> - Specifies a medium color system. The
+color palettes will have 4 color sets and use a maximum of 22 color cells
+for the user interface, including black and white (color cells 0 and 1). The
+number of color cells can be reduced by using the resources ShadowPixmaps
+and ForegroundColor.</para>
+<para><Symbol>HIGH_COLOR</Symbol> - Specifies a high color system. The color
+palettes will have 8 color sets and use a maximum of 42 color cells for the
+user interface. including black and white (color cells 0 and 1). The number
+of color cells can be reduced by using the resources ShadowPixmaps and ForegroundColor.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>dynamicColor</title>
+<para>This resource can have values of True or False. dynamicColor is used
+to reduce the number of color cells being used. Once a palette has been selected
+and it is not likely to be changed, dynamicColor can be set to False. If set
+to False colors cannot be dynamically changed using the DT style manager.
+A selected palette will take effect the next session. The next time the session
+comes up, the color server uses Read Only color cells that can be shared by
+all clients, thus reducing the number of color cells used.</para>
+</refsect2>
+<refsect2>
+<title>foregroundColor</title>
+<para>This resource can have values of White, Black or Dynamic. ForegroundColor
+causes all text (foreground) to use either pixel 0 or 1 (Black or White) or
+to have a color cell dedicated to foreground and changes in response to the
+background color (Dynamic) for each ColorSet. If set to White or Black, the
+number of color cells used per ColorSet is reduced by 1.</para>
+</refsect2>
+<refsect2>
+<title>keys</title>
+<para>This resource is a list of keyholders who have the ability to unlock
+the screen any time it is locked by the user. The list is a list of user id's
+separated by commas. For example if user kim has the following resource active
+during a session:</para>
+<variablelist>
+<varlistentry><term>Dtsession*keys: fred,keith</term>
+<listitem>
+<para>Users fred and keith have the ability to unlock the display when kim
+locks it.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>passwordTimeout</title>
+<para>This resource specifies (in seconds) the amount of time before the password
+dialog is removed from the screen. When the display is locked, the pointer
+shows a lock cursor, and a dialog appears which asks for the user password.
+If no activity from the pointer or keyboard is detected for passwordTimeout
+seconds, the dialog is removed from the screen. The dialog is redisplayed
+as soon as a pointer or keyboard event is detected. An passwordTimeout of
+0 leaves the password dialog in place for the entire time the display is locked.
+The default value is 10 seconds.</para>
+</refsect2>
+<refsect2>
+<title>queryServerSettings</title>
+<para>This resource specifies whether <command>dtsession</command> queries the server at logout
+for all its settings or saves only those settings set by using the DT Style
+Manager. Querying the server ensures that all settings are saved; however,
+there is a degradation in performance when a full query is done. The default
+value is False, which means that the server will not be queried.</para>
+</refsect2>
+<refsect2>
+<title>NumSessionsBackedup</title>
+<para>This resource specifies the number of checkpoints to keep. When the
+number of checkpoints for a session exceeds this value, the <literal>DiscardCommand</literal> properties for the oldest session will be executed and the oldest
+checkpoint will be removed. The default is 2.</para>
+</refsect2>
+<refsect2>
+<title>shadowPixmaps</title>
+<para>For color systems, this resource can have a value of True or False.
+If True, topShadowColor and bottomShadowColor use the same pixel as background
+and topShadowPixmap and bottomShadowPixmap are specified instead of solid
+color to create the 3D look. This reduces the number of color cells per ColorSet
+by 2. ShadowPixmaps defaults to True for systems with 4 or less color planes
+(16 or less color cells), and False for systems with more than 4 color planes.
+</para>
+</refsect2>
+<refsect2>
+<title>wmStartupCommand</title>
+<para>This resource allows for an alternate window manager to be started at
+login. If this resource is <symbol role="Define">NULL</symbol>, <command>dtsession</command>
+starts <Filename>/usr/dt/bin/dtwm.</Filename> An alternate startup might look
+like: <literal>Dtsession*wmStartupCommand: /usr/bin/X11/mwm</literal></para>
+<note>
+<para>The command should not have any commands to a shell in it, and that
+it should not be surrounded by quotes. Also, if any other window manager other
+than dtwm is used, clients will be restored, but may not be restored to the
+correct position. By default, this resource contains a NULL value.</para>
+</note>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<variablelist>
+<varlistentry><term>/usr/dt/config/$LANG/sys.session</term>
+<listitem>
+<para>The desktop default set of applications for the user's Initial Session.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>/etc/dt/config/$LANG/sys.session</term>
+<listitem>
+<para>System Administrator specified set of applications for the user's Initial
+Session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>/usr/dt/config/$LANG/sys.resources</term>
+<listitem>
+<para>The desktop default resources.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>$HOME/.dt/startlog</term>
+<listitem>
+<para>A log of processes started by the <literal>Xsession</literal> script. This file is used
+only to help diagnose session startup problems.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>$HOME/.dt/session/<symbol role="variable">session_name</symbol>/db.session</term>
+<listitem>
+<para>The CDE1.0 database file maintained for each session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>$HOME/.dt/sessionlogs</term>
+<listitem>
+<para>
+When <command>dtsession</command> is started by the <literal>Xsession</literal> script,
+its <literal>stderr</literal> is duplicated to a session-specific file in
+<filename>$HOME/.dt/sessionlogs</filename>, so that all <literal>stderr</literal>
+written by apps started by <command>dtsession</command> will get logged in this file.
+The name of the file that is used is <filename><symbol role="variable">host_name</symbol>_DISPLAY</FILENAME>=$DISPLAY,
+where <symbol role="variable">host_name</symbol> is the name of the host where the session was started.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>$HOME/.dt/<symbol role="variable">session_dir</symbol>/<symbol role="variable">session_name</symbol>/dtsession.db</term>
+<listitem>
+<para>The CDEnext database file maintained for each session,
+where <symbol role="variable">session_dir</symbol> is <literal>sessions</literal> or
+the display name for display-specific
+<symbol role="variable">session_name</symbol> is either <literal>home</literal> or
+<literal>current</literal>.
+CDEnext session databases supersede CDE1.0 session databases.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>/etc/dt/config/$LANG/sys.resources</term>
+<listitem>
+<para>System administrator specified resources.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>$HOME/.Xdefaults</term>
+<listitem>
+<para>User specified resources.</para>
+<para>Dtsession stores session information in <filename>$HOME/.dt/sessions</filename>
+or <filename>$HOME/.dt/sessions/</filename><emphasis>display</emphasis>. The content of these directories should not be directly edited
+by the user.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>/usr/dt/app-defaults/$LANG/Dtsession</term>
+<listitem>
+<para>Default <command>dtsession</command> resources.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>SEE</title>
+<para>See related specifications:</para>
+<variablelist>
+<varlistentry><term>dtstyle</term>
+<listitem>
+<para>Customization of many session properties</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>dtscreen</term>
+<listitem>
+<para>Desktop screen savers</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>dtwm</term>
+<listitem>
+<para>Window manager</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>dtlogin</term>
+<listitem>
+<para>Login manager</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>dtsessionaction</term>
+<listitem>
+<para>Session manager actions</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>dtsessiondb</term>
+<listitem>
+<para>Format and location of CDEnext session database files</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>dtsessionfile</term>
+<listitem>
+<para>Format and location of CDE 1.0 desktop session files</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>dtresourcesfile</term>
+<listitem>
+<para>Format and location of desktop resource files</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>startlog</term>
+<listitem>
+<para>Log of processes started by the <literal>Xsession</literal> script
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.3 08/21/95 21:30:04-->

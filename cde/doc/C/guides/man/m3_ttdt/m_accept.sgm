@@ -1,0 +1,186 @@
+<!-- $XConsortium: m_accept.sgm /main/8 1996/08/30 14:29:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN263.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN263.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttdt_message_accept</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttdt_message_accept</Function></RefName>
+<RefPurpose>accept a contract to handle a ToolTalk request
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_pattern <Function>*ttdt_message_accept</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>contract</Parameter></ParamDef>
+<ParamDef>Ttdt_contract_cb <Parameter>cb</Parameter></ParamDef>
+<ParamDef>Widget <Parameter>shell</Parameter></ParamDef>
+<ParamDef>void *<Parameter>clientdata</Parameter></ParamDef>
+<ParamDef>int <Parameter>accept</Parameter></ParamDef>
+<ParamDef>int <Parameter>sendStatus</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttdt_message_accept</Function> function
+registers in the default session for
+<SystemItem Class="Constant">TT_HANDLER</SystemItem>-addressed requests:
+</Para>
+<OrderedList>
+<ListItem>
+<Para><Symbol Role="Message">Get_Geometry</Symbol>, <Symbol Role="Message">Set_Geometry</Symbol>, <Symbol Role="Message">Get_Iconified</Symbol>, <Symbol Role="Message">Set_Iconified</Symbol>, <Symbol Role="Message">Get_Mapped</Symbol>, <Symbol Role="Message">Set_Mapped</Symbol>, <Symbol Role="Message">Raise</Symbol>, <Symbol Role="Message">Lower</Symbol>, <Symbol Role="Message">Get_XInfo</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Message">Pause</Symbol>, <Symbol Role="Message">Resume</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Message">Quit</Symbol>, <Symbol Role="Message">Get_Status</Symbol></Para>
+</ListItem>
+</OrderedList>
+<Para>If the
+<Symbol Role="Variable">shell</Symbol> argument is not
+<SystemItem Class="Constant">NULL</SystemItem>, the ToolTalk service
+handles messages in (1) transparently;
+otherwise, it treats them like messages in (3).
+</Para>
+<Para>If
+<Symbol Role="Variable">shell</Symbol> is non-
+<SystemItem Class="Constant">NULL</SystemItem> and
+<Emphasis>cb</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem>, then
+the ToolTalk service
+handles messages in (2) transparently by passing
+<Symbol Role="Variable">shell</Symbol> and the appropriate boolean value to
+<Function>XtSetSensitive</Function>(3). If
+<Emphasis>cb</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem>, then
+the ToolTalk service
+treats messages in (2) like (3).
+</Para>
+<Para>If
+<Emphasis>cb</Emphasis> is not
+<SystemItem Class="Constant">NULL</SystemItem>, <Function>ttdt_message_accept</Function> passes messages in (3) to the
+<Emphasis>cb</Emphasis> callback; otherwise it fails with
+<SystemItem Class="Constant">TT_DESKTOP_ENOTSUP</SystemItem>.</Para>
+<Para>If
+<Emphasis>accept</Emphasis> is True,
+<Function>ttdt_message_accept</Function> calls
+&cdeman.tt.message.accept; with a
+<Emphasis>contract</Emphasis> argument.
+If
+<Emphasis>contract</Emphasis> has a returned value from
+<Function>tt_message_status</Function> of
+<SystemItem Class="Constant">TT_WRN_START_MESSAGE</SystemItem>, it is the message that caused the tool to be started.
+The tool should join any scopes it wants to serve before accepting
+<Emphasis>contract</Emphasis>, so that it will receive any other messages already dispatched to its
+ptype.
+Otherwise, those messages will cause other instances of the
+ptype
+to be started.
+If that is in fact desired (for example,
+because the tool can only service one message at a time), then
+the tool should undeclare its
+ptype
+while it is busy.
+</Para>
+<Para>If
+<Emphasis>sendStatus</Emphasis> is True,
+<Function>ttdt_message_accept</Function> sends a
+<Symbol Role="Message">Status</Symbol> notice to the requester, using the
+arguments (if any) passed to
+<Function>ttdt_open</Function>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttdt_message_accept</Function> function
+returns a null-terminated array of
+<StructName Role="typedef">Tt_pattern</StructName>, and associates this array with
+<Emphasis>contract</Emphasis>; otherwise, it returns an error pointer.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned handle:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The pointer passed does not point to an object
+of the correct type for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_UNIMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; for the default session is of a version that does not support
+<Function>tt_message_accept</Function>. If
+<Emphasis>contract</Emphasis> is a
+<SystemItem Class="Constant">TT_WRN_START_MESSAGE</SystemItem>, messages to the tool's
+ptype
+will remain blocked until
+<Emphasis>contract</Emphasis> is rejected, replied to, or failed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+<Function>ttdt_message_accept</Function> function
+is what a tool calls when it wants to accept responsibility for
+handling (that is, failing or rejecting) a request.
+</Para>
+<Para>If
+<Emphasis>contract</Emphasis> is destroyed by
+&cdeman.tttk.message.destroy;, then the patterns will also be destroyed.
+Otherwise, the caller
+is responsible for iterating over the array and destroying each
+pattern.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>See
+&cdeman.ttdt.session.join; for an example of a
+<StructName Role="typedef">Ttdt_contract_cb</StructName> callback that can be used with
+<Function>ttdt_message_accept</Function>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;,
+&cdeman.ttdt.open;,
+&cdeman.ttmedia.ptype.declare;,
+&cdeman.tt.ptype.declare;,
+&cdeman.ttdt.session.join;,
+&cdeman.ttdt.file.join;,
+<![ %CDE.C.CDE;[&cdeman.tt.ptype.undeclare;,
+<Function>XtSetSensitive</Function>(3). ]]><![ %CDE.C.XO;
+[&cdeman.tt.ptype.undeclare;;
+<Function>XtSetSensitive</Function> in the &str-Zt;.
+]]>
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

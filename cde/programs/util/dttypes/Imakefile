@@ -1,0 +1,46 @@
+XCOMM $XConsortium: Imakefile /main/8 1996/10/09 14:11:13 drk $
+
+        DEFINES = -DXK_MISCELLANY
+       INCLUDES = -I.
+
+DEPLIBS = $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB)
+SYS_LIBRARIES   = -lm 
+
+
+#ifdef HPArchitecture
+EXTRA_DEFINES = +e
+#endif
+
+#ifdef SCOArchitecture
+ATLIB=
+SYS_LIBRARIES   = -lm -lcrypt
+#endif
+
+#ifdef RsArchitecture
+ATLIB=
+#endif
+
+#ifdef USLArchitecture
+SYS_LIBRARIES   = -lm -lgen 
+ATLIB=
+#endif
+
+#ifdef UXPArchitecture
+SYS_LIBRARIES   = -lm -lgen 
+ATLIB=
+#endif
+
+#if defined(HPOSFArchitecture)
+#endif
+
+#if defined(SunArchitecture)
+ATLIB=
+SYS_LIBRARIES = -lm -ldl -lgen
+#endif /* SunArchitecture */
+
+
+SRCS = dttypes.c
+OBJS = dttypes.o
+
+ComplexProgramTarget(dttypes)

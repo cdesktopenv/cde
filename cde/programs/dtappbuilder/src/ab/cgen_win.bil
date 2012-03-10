@@ -1,0 +1,844 @@
+//       $XConsortium: cgen_win.bil /main/3 1995/11/06 17:23:20 rswiston $
+//
+// @(#)cgen_win.bil	1.19 13 Apr 1995
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module cgen_win
+(
+
+:element mainwindow
+(
+	:type			:base-window
+	:bg-color		"white"
+	:icon-label		"Code Generator"
+	:label			"Code Generator"
+	:resizable		:true
+	:visible		:false
+	:iconic			:false
+	:children		(
+		menubar
+		proj_ctrl_panel
+		output_termp
+		button_ctrl_panel
+		input_termp
+	)
+	:win-children		(
+		cgen_props.cgen_props_dlg
+		cgen_env.dialog
+	)
+)
+:element menubar
+(
+	:type			:container
+	:container-type		:menu-bar
+	:active			:true
+	:children		(
+		menubar_File_item
+		menubar_Options_item
+		menubar_Help_item
+	)
+)
+:element menubar_File_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"File"
+	:is-help-item		:false
+	:mnemonic		"F"
+	:menu			file_pulldown
+	:active			:true
+)
+:element menubar_Options_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Options"
+	:is-help-item		:false
+	:mnemonic		"O"
+	:menu			options_pulldown
+	:active			:true
+)
+:element menubar_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Help"
+	:is-help-item		:true
+	:mnemonic		"H"
+	:menu			help_pulldown
+	:active			:true
+)
+:element proj_ctrl_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj mainwindow 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		output_term_label
+		proj_path_group
+	)
+)
+:element output_term_label
+(
+	:type			:label
+	:x			8
+	:y			25
+	:label-type		:string
+	:label			"Output Pane:"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj proj_path_group 4)
+	:south-attachment	(:point 0 4)
+	:east-attachment	(:point 0 8)
+	:west-attachment	(:point 0 8)
+)
+:element proj_path_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			8
+	:y			4
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 4)
+	:east-attachment	(:point 0 8)
+	:west-attachment	(:point 0 8)
+	:children		(
+		proj_label
+		proj_dir
+	)
+)
+:element proj_label
+(
+	:type			:label
+	:x			0
+	:y			0
+	:label-type		:string
+	:label			"Path:"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element proj_dir
+(
+	:type			:label
+	:x			52
+	:y			0
+	:label-type		:string
+	:label			"                          "
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:obj proj_label 5)
+)
+:element output_termp
+(
+	:type			:term-pane
+	:x			0
+	:y			44
+	:border-frame		:none
+	:num-rows		13
+	:num-columns		82
+	:vscrollbar		:always
+	:process-string		"/bin/cat"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj proj_ctrl_panel 0)
+	:east-attachment	(:obj mainwindow 0)
+	:west-attachment	(:point 0 0)
+)
+:element button_ctrl_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			224
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:obj output_termp 0)
+	:east-attachment	(:obj mainwindow 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		input_term_label
+		group
+		separator
+	)
+)
+:element input_term_label
+(
+	:type			:label
+	:x			5
+	:y			37
+	:label-type		:string
+	:label			"Term Pane:"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj separator 5)
+	:south-attachment	(:point 0 4)
+	:east-attachment	(:point 0 8)
+	:west-attachment	(:point 0 8)
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			128
+	:y			4
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		gen_code_btn
+		make_btn
+		run_btn
+		make_run_btn
+		abort_btn
+	)
+)
+:element gen_code_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:x			0
+	:y			0
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Generate Code"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:grid-line 20 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element make_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:x			140
+	:y			0
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Make"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element run_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:x			221
+	:y			0
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Run"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element make_run_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:x			275
+	:y			0
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Make & Run"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element abort_btn
+(
+	:type			:button
+	:button-type		:push-button
+	:x			369
+	:y			0
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Abort"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:element separator
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			237
+	:y			26
+	:visible		:true
+	:north-attachment	(:obj group 5)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element input_termp
+(
+	:type			:term-pane
+	:x			1
+	:y			261
+	:border-frame		:none
+	:num-rows		27
+	:num-columns		82
+	:vscrollbar		:always
+	:process-string		"/bin/csh"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj button_ctrl_panel 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element file_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		file_pulldown_Make_Run_item
+		file_pulldown_Generate_Code_item
+		file_pulldown_Make_item
+		file_pulldown_Run_item
+		file_pulldown_Abort_item
+		file_pulldown_separator1_item
+		file_pulldown_CD_to_Project_item
+		file_pulldown_separator2_item
+		file_pulldown_Close_item
+	)
+)
+:element file_pulldown_Make_Run_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Make & Run"
+	:mnemonic		"k"
+	:active			:true
+)
+:element file_pulldown_Generate_Code_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Generate Code"
+	:mnemonic		"G"
+	:menu			generate_menu
+	:active			:true
+)
+:element file_pulldown_Make_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Make"
+	:mnemonic		"M"
+	:active			:true
+)
+:element file_pulldown_Run_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Run"
+	:mnemonic		"R"
+	:active			:true
+)
+:element file_pulldown_Abort_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Abort"
+	:mnemonic		"A"
+	:active			:true
+)
+:element file_pulldown_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element file_pulldown_CD_to_Project_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"CD to Project"
+	:mnemonic		"D"
+	:active			:true
+)
+:element file_pulldown_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element file_pulldown_Close_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Close"
+	:mnemonic		"C"
+	:active			:true
+)
+:element options_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		options_pulldown_Generator_item
+		options_pulldown_Environment_item
+	)
+)
+:element options_pulldown_Generator_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Generator..."
+	:mnemonic		"G"
+	:active			:true
+)
+:element options_pulldown_Environment_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Environment..."
+	:mnemonic		"E"
+	:active			:true
+)
+:element help_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		help_pulldown_Overview_item
+		help_pulldown_separator1_item
+		help_pulldown_Tasks_item
+		help_pulldown_Reference_item
+		help_pulldown_separator2_item
+		help_pulldown_On_Item_item
+		help_pulldown_separator3_item
+		help_pulldown_Using_Help_item
+		help_pulldown_separator4_item
+		help_pulldown_About_Application_Builder_item
+	)
+)
+:element help_pulldown_Overview_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Overview..."
+	:mnemonic		"v"
+	:active			:true
+)
+:element help_pulldown_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_Tasks_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Tasks..."
+	:mnemonic		"T"
+	:active			:true
+)
+:element help_pulldown_Reference_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Reference..."
+	:mnemonic		"R"
+	:active			:true
+)
+:element help_pulldown_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_On_Item_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"On Item"
+	:mnemonic		"O"
+	:active			:true
+)
+:element help_pulldown_separator3_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_Using_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Using Help..."
+	:mnemonic		"U"
+	:active			:true
+)
+:element help_pulldown_separator4_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_About_Application_Builder_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"About Application Builder..."
+	:mnemonic		"A"
+	:active			:true
+)
+:element generate_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		generate_menu_According_to_Options_item
+		generate_menu_Entire_Project_item
+	)
+)
+:element generate_menu_According_to_Options_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"According to Options"
+	:mnemonic		"A"
+	:active			:true
+)
+:element generate_menu_Entire_Project_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Entire Project"
+	:mnemonic		"E"
+	:active			:true
+)
+:element query_save_or_abort_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Code Generator"
+	:message		"You have unsaved edits.\n\nYou may save your changes or cancel."
+	:action1-label		"Save"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"Click Cancel to cancel the code generator operation.\n\nClick Save to save the project before performing the\ncode generator operation."
+)
+:element query_save_or_gen_old_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Code Generator"
+	:message		"You have unsaved edits.\n\nYou may save your changes or perform the\noperation on the version of the project\nthat was most recently saved."
+	:action1-label		"Save"
+	:action2-label		"Use Previous"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"Code was generated for the project previously.\nChanges have been made to the project which\nhave not been saved. \n\nClick Save to save the project before performing\nthe operation.\n\nClick Use Previous to perform the operation on\nthe project as it was most recently saved.\n\nClick Cancel to cancel the operation."
+)
+:element modify_path_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Code Generator"
+	:message		"\n"
+	:action1-label		"Yes"
+	:action2-label		"No"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"When a command is invoked, it first needs to be\nfound.  Your PATH environment variable specifies\nthe directories that should be searched. In order\nto execute this command the specified directory\nneeds to be added to the list of directories to\nsearch. \n\nClick Yes to add the directory to your path and\nrun the command.\n\nClick No if you do not want to add the directory\nto your path, but still want to run the command.\n\nClick Cancel if you do not want to add the directory\nto your path and you do not want to run the command."
+)
+:element no_makefile_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Code Generator"
+	:message		"No makefile exists.\n\nDo you want to create one?\n\n"
+	:action1-label		"Yes"
+	:action2-label		"No"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"A Makefile does not exist for the current project.\n\nClick Yes to create a Makefile by running the\ncode generator on the project; and 'make' will\nbe run.\n\nClick No to cancel the operation."
+)
+:element wrong_makefile_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Code Generator"
+	:message		"The Makefile in this directory does not seem\nto belong to the project you have loaded.\n\nDo you want to destroy the existing Makefile\nand create a new one?\n\n"
+	:action1-label		"Yes"
+	:action2-label		"No"
+	:action3-label		"Never"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action2-button
+	:help-text		"The existing Makefile may not build the current\nproject. \n\nClick Yes to continue, creating a new Makefile\nand overwriting the existing one.\n\nClick No to run make using the current Makefile.\n\nClick Never only if you never want to overwrite\nthe existing Makefile. You will not be asked\nagain for confirmation, during this session of\nApp Builder.\n"
+)
+:element no_exe_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Code Generator"
+	:message		"The executable for this project does not exist.\n\nDo you want to build it?"
+	:action1-label		"Build"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The code for the current project has not been\ncompiled yet to produce an executable. You have\nthe option of building the project or cancelling\nthe operation."
+)
+:connection
+(
+	:from			gen_code_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_gen_codeCB
+)
+:connection
+(
+	:from			make_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_makeCB
+)
+:connection
+(
+	:from			run_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_runCB
+)
+:connection
+(
+	:from			make_run_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_make_runCB
+)
+:connection
+(
+	:from			abort_btn
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_abortCB
+)
+:connection
+(
+	:from			abort_btn
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_set_insensitive
+)
+:connection
+(
+	:from			file_pulldown_Close_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_close_cgen_winCB
+)
+:connection
+(
+	:from			output_termp
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_set_termp_inactive
+)
+:connection
+(
+	:from			input_termp
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_init_termp
+)
+:connection
+(
+	:from			file_pulldown_Make_Run_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_make_runCB
+)
+:connection
+(
+	:from			file_pulldown_Make_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_makeCB
+)
+:connection
+(
+	:from			file_pulldown_Run_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_runCB
+)
+:connection
+(
+	:from			file_pulldown_Abort_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_abortCB
+)
+:connection
+(
+	:from			file_pulldown_Abort_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_set_insensitive
+)
+:connection
+(
+	:from			file_pulldown_CD_to_Project_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_cd_to_projCB
+)
+:connection
+(
+	:from			generate_menu_According_to_Options_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_gen_codeCB
+)
+:connection
+(
+	:from			generate_menu_Entire_Project_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_generate_entire_projCB
+)
+:connection
+(
+	:from			options_pulldown_Generator_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_show_cgen_optionsCB
+)
+:connection
+(
+	:from			options_pulldown_Environment_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_show_env_dlgCB
+)
+:connection
+(
+	:from			help_pulldown_Using_Help_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"Help4Help"
+	:help-location		"_hometopic"
+)
+:connection
+(
+	:from			help_pulldown_Overview_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABCodeGenerator"
+)
+:connection
+(
+	:from			help_pulldown_Reference_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABCodeGenerator"
+)
+:connection
+(
+	:from			help_pulldown_Tasks_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABBuildandRun"
+)
+:connection
+(
+	:from			help_pulldown_On_Item_item
+	:when			:activate
+	:action-type		:on-item-help
+)
+)

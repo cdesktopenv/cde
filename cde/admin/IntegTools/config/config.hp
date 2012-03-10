@@ -1,0 +1,207 @@
+####################################################
+### Configuration Instructions for HP-UX Systems ###
+####################################################
+
+There are two ways to start the desktop:
+
+
+   * You can manually start the desktop Login Manager. The advantage
+     of using this method is that you will not have to edit
+     /etc/inittab.
+
+   * You can enable the system to automatically start the desktop
+     when the system is rebooted.  This is done by editing
+     /etc/inittab.
+
+Removing the Developer's Conference CDE Desktop
+===============================================
+
+It is imperative that Snapshot 1 and Snapshot 2 desktops do not
+co-mingle. Installers and users should ensure that old clients and
+configuration files are exited or removed.
+
+
+Upgrading systems in a networked environment
+--------------------------------------------
+
+If CDE is installed in a network environment, it is imperative that
+all systems be upgraded at the same time.
+
+
+Removing the Snapshot 1 desktop
+-------------------------------
+
+Installers are advised to remove the Snapshot 1 Desktop files from
+their systems. Those clients and files are obsolete.
+
+
+Stopping Desktop clients before installing Snapshot 2
+-----------------------------------------------------
+
+If the Snapshot 1 desktop is not removed, ensure that all desktop
+clients are inactive before installing the Snapshot 2 desktop. If the
+desktop was started via /etc/inittab, issue the telinit command to
+stop dtlogin and any other desktop client.
+
+
+Removing the users's .dtprofile and .dt directory
+-------------------------------------------------
+
+It is strongly advised that all CDE users on the system remove or
+rename their .dt directory and their .dtprofile.  The Snapshot 2
+Desktop is not compatible with the Snapshot 1 Desktop versions of
+these files.
+
+If users have customized their .dt/dtwmrc file and want to keep it,
+they will need to cut and paste the appropriate pieces into the new
+dtwmrc provided.
+
+
+
+Before You Start the Desktop (HP-UX)
+======================================
+
+Special Configurations
+----------------------
+
+If your system has one of these special configurations, you may need to
+edit certain Login Manager files before starting the desktop. See
+chapter 2 of the Getting Started Guide:
+
+
+	* If the system console is a non-bitmap device.
+
+	* If the system is an X terminal or a host for X terminals.
+
+	* If the system has more than one display.
+
+
+
+The Subprocess Control Daemon 
+=============================
+
+If you are working in an environment where a CDE Desktop action needs
+to start an application on another workstation running CDE, the
+Subprocess Control Daemon configuration must be completed on both
+workstations.
+
+1. Log in as root.
+
+2. For authentication, the user's home directory on a remote system
+   must be mounted to the local system.
+
+3. To run an application with a WINDOW_TYPE of NO_STDIO (see Appendix
+   A, Advanced User's and System Administrator's Guide), you will need
+   to provide NFS-access by the local (client) system to the remote
+   (application server) system's /var directory (if /var is a distinct
+   volume), or / directory (if it is not). The mount point must be
+   /nfs/<remote_host>/var (again, if /var is a distinct volume) or
+   /nfs/<remote_host>/ (if it is not). Export the appropriate
+   directory in /etc/exports on both the local and remote hosts.
+
+
+To Start And Stop the Desktop Manually 
+======================================
+
+To Start the Desktop:
+--------------------
+
+1. Log in as root.
+
+2. Enter:
+
+	/usr/dt/bin/dtlogin -daemon
+
+   This starts the Login Manager and displays the Login screen.
+   Logging in starts a desktop session.
+
+To Stop the Desktop:
+--------------------
+
+When you stop the Login Manager, you automatically kill all
+X servers and desktop sessions that it started.
+
+1. In a terminal emulator window, log in as root.
+
+2. Obtain the process id of the parent Login Manager by entering:
+
+	cat /var/dt/Xpid
+
+3. Kill the Login Manager by entering:
+
+	kill -TERM <process_id>
+
+where <process_id> is the value obtained from Xpid.
+
+
+To Enable and Disable Desktop Auto-Start
+========================================
+
+When your system is configured to start the desktop automatically, the
+desktop Login Manager runs when the system is booted.
+
+To start the desktop automatically, you must edit /etc/inittab to:
+
+      * Add a line that starts the CDE Desktop.
+
+      * Set the default run level to the run level assigned to the CDE
+	Desktop.
+
+      NOTE: Edit /etc/inittab very carefully.
+            Errors in the file can prevent the system from booting
+	    successfully.
+
+
+To Enable Desktop Auto-Start
+----------------------------
+
+1. Log in as root.
+
+2. If you are running HP VUE, shut it down by entering:
+
+	/etc/telinit <n>; exit
+
+	where <n> is a run level assigned to the console and not
+	assigned to HP VUE or to halting the system.  You can find a
+	run level by examinining the lines beginning with cons and vue
+	in /etc/inittab.  For example, the following lines indicate
+	that you can use run levels other than 3, 4, or 6.
+
+           halt:6:wait:/usr/lib/X11/ignition/shutdown.ksh
+	   cons:012456:respawn:/etc/getty -h console console
+	   vue :34:respawn:/etc/vuerc
+
+
+3. Make a backup copy of /etc/inittab.
+
+4. Open /etc/inittab for editing (in a diskless cluster, /etc/inittab
+   is a context-dependent file).
+
+5. Look for the line that sets the default run level (starting with
+   init:).  Set the default run level to 5.
+
+	init:5:initdefault:
+
+	
+6. Add a line that starts the desktop at that run level:
+
+	dt :5:respawn:/usr/dt/bin/dtrc                     
+	
+
+To Disable Desktop Auto-Start
+-----------------------------
+
+You can restore a console by changing to a run level assigned to a
+console and not assigned to the desktop.
+
+
+Switching Between CDE and HP VUE
+--------------------------------
+You can switch back and forth between CDE and HP VUE by executing:
+
+	/etc/telinit <n>; exit
+
+
+where <n>=3 switches to HP VUE and <n>=5 switches to CDE.
+
+

@@ -1,0 +1,89 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: CallbackTest2.src /main/3 1996/04/23 20:17:57 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates how widget callbacks can be
+XCOMM  added and removed.  It adds callbacks both using XtAddCallback and
+XCOMM  by specifying a callback as a resource, when the test pushbutton
+XCOMM  is created.
+XCOMM 
+
+XCOMM  The activate callback which can be dynamically added and removed
+ActivateCallback1()
+{
+   echo "activateCallback1 invoked"
+}
+
+XCOMM  The activate callback which is added when the widget was created
+ActivateCallback2()
+{
+   echo "activateCallback2 invoked"
+}
+
+XCOMM  Pushbutton Callback: Adds an activate callback to the test pushbutton
+AddCallback1()
+{
+   XtAddCallback $TESTPB activateCallback ActivateCallback1
+   XtGetValues $TESTPB activateCallback:AC
+   echo "Callback list = "$AC
+}
+
+XCOMM  Pushbutton Callback: Removes an activate callback from the test pushbutton
+DeleteCallback1()
+{
+   XtRemoveCallback $TESTPB activateCallback ActivateCallback1
+   XtGetValues $TESTPB activateCallback:AC2
+   echo "Callback list = "$AC2
+}
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL callbackTest CallbackTest "$0" "$@"
+
+XtCreateManagedWidget FORM form XmForm $TOPLEVEL
+
+XtCreateManagedWidget PB1 pb XmPushButton $FORM \
+	labelString:"Add Callback1" \
+	topAttachment:ATTACH_FORM \
+	topOffset:10 \
+	leftAttachment:ATTACH_POSITION \
+	leftPosition:10 \
+	rightAttachment:ATTACH_POSITION \
+	rightPosition:40 \
+	activateCallback:AddCallback1
+
+XtCreateManagedWidget PB2 pb2 XmPushButton $FORM \
+	labelString:"Delete Callback1" \
+	topAttachment:ATTACH_FORM \
+	topOffset:10 \
+	leftAttachment:ATTACH_POSITION \
+	leftPosition:60 \
+	rightAttachment:ATTACH_POSITION \
+	rightPosition:90 \
+	activateCallback:DeleteCallback1
+
+XtCreateManagedWidget TESTPB testpb XmPushButton $FORM \
+	labelString:"Test Button" \
+	topAttachment:ATTACH_WIDGET \
+	topWidget:$PB2 \
+	topOffset:20 \
+	leftAttachment:ATTACH_POSITION \
+	leftPosition:20 \
+	rightAttachment:ATTACH_POSITION \
+	rightPosition:80 \
+	bottomAttachment:ATTACH_FORM \
+	bottomOffset:10 \
+	activateCallback:ActivateCallback2
+
+XtRealizeWidget $TOPLEVEL
+
+XtMainLoop

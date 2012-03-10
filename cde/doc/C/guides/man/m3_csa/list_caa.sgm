@@ -1,0 +1,203 @@
+<!-- $XConsortium: list_caa.sgm /main/4 1996/08/30 15:35:13 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN59.rsml.1">
+<RefMeta>
+<RefEntryTitle>csa_list_calendar_attributes</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>csa_list_calendar_attributes</Function></RefName>
+<RefPurpose>list the names of the calendar attributes associated with a calendar
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- (c) Copyright 1994 X.400 API Association-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;xcsa.h>
+</FuncSynopsisInfo>
+<FuncDef>CSA_return_code <Function>csa_list_calendar_attributes</Function></FuncDef>
+<ParamDef>CSA_session_handle <Parameter>session</Parameter></ParamDef>
+<ParamDef>CSA_uint32 *<Parameter>number_names</Parameter></ParamDef>
+<ParamDef>CSA_attribute_reference **<Parameter>calendar_attributes_names</Parameter></ParamDef>
+<ParamDef>CSA_extension *<Parameter>list_calendar_attributes_extensions</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>csa_list_calendar_attributes</Function> function lists the names of the calendar attributes
+associated with a calendar.
+Using the returned calendar
+attribute name(s), the attribute value(s) may be read using
+the
+&cdeman.csa.read.calendar.attributes; function.
+Only the owner of the calendar, users with
+<SystemItem Class="Constant">CSA_OWNER_RIGHTS,</SystemItem> or users with
+<SystemItem Class="Constant">CSA_VIEW_CALENDAR_ATTRIBUTES</SystemItem> access rights can list the calendar attributes.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<RefSect2>
+<Title>Session (Session Handle)</Title>
+<Para>Opaque session handle that represents a session with the
+calendaring service.
+</Para>
+<Para>Session handles are created by a logon function call and
+invalidated with a logoff function call.
+If the session
+handle is invalid, then the error
+<SystemItem Class="Constant">CSA_E_INVALID_SESSION_HANDLE</SystemItem> is returned.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>List Calendar Attributes Extensions (Extension)</Title>
+<Para>A pointer to an array of
+<StructName Role="typedef">CSA_extension</StructName> structures for this function.
+The array may contain both
+input extensions for providing additional information to
+the function and output extensions for receiving
+information from the function.
+A value of
+<SystemItem Class="Constant">NULL</SystemItem> indicates that the caller is not using any extensions.
+See the extensions structure for more information.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<RefSect2>
+<Title>Number Names (Uint32)</Title>
+<Para>A pointer to the number of calendar attribute names
+returned in
+<Emphasis>calendar_attribute_names</Emphasis>.</Para>
+</RefSect2>
+<RefSect2>
+<Title>Calendar Attribute Names (Attribute Reference)</Title>
+<Para>A pointer to an array of attribute names containing the
+names of the calendar attributes in the calendar.
+This
+array is allocated by the service, and should be freed with
+a single call to
+&cdeman.csa.free;.</Para>
+</RefSect2>
+<RefSect2>
+<Title>List Calendar Attributes Extensions (Extension)</Title>
+<Para>If output extensions were passed to the function in the
+extensions list, the results from the service will be
+available in the extension.
+See the extensions structure for more information.
+Whether the function succeeded or
+not, and, if not, why.
+It may be success or one of the
+values listed under ERRORS below.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The
+<Function>csa_list_calendar_attributes</Function> function returns the following error values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_E_FAILURE</Term>
+<ListItem>
+<Para>There was a general failure that does not
+fit the description of any other error code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Insufficient memory was available to complete the requested operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The function extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FLAG</Term>
+<ListItem>
+<Para>A flag value in the
+<Symbol Role="Variable">flags</Symbol> argument was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_PARAMETER</Term>
+<ListItem>
+<Para>A function parameter was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_SESSION_HANDLE</Term>
+<ListItem>
+<Para>The specified Session Handle is invalid or no longer valid
+(e.g., after logging off).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NO_AUTHORITY</Term>
+<ListItem>
+<Para>The user has insufficient authority for this function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NOT_SUPPORTED</Term>
+<ListItem>
+<Para>The operation requested is not supported by this implementation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_SERVICE_UNAVAILABLE</Term>
+<ListItem>
+<Para>The requested calendar service is unavailable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FLAG</Term>
+<ListItem>
+<Para>The flag requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The specified function extension is not supported or
+<SystemItem Class="Constant">CSA_EXT_REQUIRED</SystemItem> is set.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.csa.csa.h;, &cdeman.csa.add.calendar;, &cdeman.csa.add.entry;, &cdeman.csa.call.callbacks;, &cdeman.csa.delete.calendar;, &cdeman.csa.delete.entry;, &cdeman.csa.free;, &cdeman.csa.free.time.search;, &cdeman.csa.list.calendars;, &cdeman.csa.list.entries;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.logoff;, &cdeman.csa.logon;, &cdeman.csa.look.up;, &cdeman.csa.query.configuration;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.read.entry.attributes;, &cdeman.csa.read.next.reminder;, &cdeman.csa.register.callback;, <![ %CDE.C.XO; [&cdeman.csa.restore;, &cdeman.csa.save;, ]]>&cdeman.csa.unregister.callback;, &cdeman.csa.update.calendar.attributes;, &cdeman.csa.update.entry.attributes;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

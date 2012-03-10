@@ -1,0 +1,1209 @@
+<!-- $XConsortium: ch01.sgm /main/8 1996/09/08 19:32:12 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.LogMg.div.1">
+<Title Id="SAG.LogMg.mkr.1">Configuring Login Manager</Title>
+<Para>The Login Manager is a server responsible for displaying a login screen,
+authenticating users, and starting a user's session. The graphical login is an
+attractive alternative to the traditional character mode login for bitmap
+displays. Displays managed by the login server can be directly attached to the
+login server or attached to an X terminal or workstation on the network.<IndexTerm><Primary>Login Manager</Primary><Secondary>See also login server</Secondary></IndexTerm><IndexTerm><Primary>Login Manager</Primary><Secondary>definition</Secondary></IndexTerm><IndexTerm><Primary>login servers</Primary><Secondary>displaying login screen</Secondary></IndexTerm><IndexTerm><Primary>login servers</Primary><Secondary>authenticating users</Secondary></IndexTerm><IndexTerm><Primary>login servers</Primary><Secondary>starting a session</Secondary></IndexTerm><IndexTerm><Primary>login servers</Primary><Secondary>attaching displays</Secondary></IndexTerm>
+</Para>
+<Note>
+<Para>You must be a root user to start, stop, or customize the login server.</Para>
+</Note>
+<InformalTable Id="SAG.LogMg.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Starting the Login Server2'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Managing Local and Network Displays3'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Checking for Errors10'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.17"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Stopping the Login Server10'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.18"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Changing the Login Screen Appearance12'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.20"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Administering Login Manager20'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.42"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Login Manager Files21'--><XRef Role="JumpText" Linkend="SAG.LogMg.div.43"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para Id="SAG.LogMg.mkr.2">The login server:<IndexTerm><Primary>Login Manager</Primary><Secondary>customizing</Secondary></IndexTerm><IndexTerm><Primary>login servers</Primary><Secondary>overview</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Can display a login screen on bitmap displays unconditionally or by request
+on local and network bitmap displays</Para>
+</ListItem>
+<ListItem>
+<Para>Accommodates directly attached character console displays</Para>
+</ListItem>
+<ListItem>
+<Para>Can display a chooser screen that enables users to display login screens
+from other login servers on the network</Para>
+</ListItem>
+<ListItem>
+<Para>Allows controlled access to the login server</Para>
+</ListItem>
+<ListItem>
+<Para>Provides access to the traditional character-mode login</Para>
+</ListItem>
+</ItemizedList>
+<Para>Displays managed by the Login Manager can be directly attached to the Login
+Manager server or attached to an X terminal or workstation on the network.
+For local displays, the login server will automatically start an X server and
+display a login screen. For network displays, such as X terminals, the login
+server supports the X Display Manager Protocol (XDMCP)<IndexTerm>
+<Primary>XDMCP</Primary>
+</IndexTerm>
+1.0, which allows
+displays to request that the login server display a login screen on the display.</Para>
+<Sect1 Id="SAG.LogMg.div.2">
+<Title Id="SAG.LogMg.mkr.3">Starting the Login Server</Title>
+<Para>The login server is usually started when the system is booted. You
+can also start the login server from a command line.<IndexTerm><Primary>login servers</Primary><Secondary>starting</Secondary></IndexTerm><IndexTerm><Primary>login servers</Primary><Secondary>starting from command line</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>To set the login server to start when the system is booted, type
+<Command>/usr/dt/bin/dtconfig -e</Command></Para>
+<Para>The login server will then start automatically when you reboot.</Para>
+</ListItem>
+<ListItem>
+<Para>To start the login server from a command line, type
+<Command>/usr/dt/bin/dtlogin -daemon</Command></Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>Although starting the login server from the command line is available
+for temporary configuration testing, you should normally start the login server
+when the system is booted.</Para>
+</Note>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.3">
+<Title Id="SAG.LogMg.mkr.4">Managing Local and Network Displays</Title>
+<Para><!--Original XRef content: 'Figure&numsp;1&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.LogMg.mkr.1">shows a possible login server configuration.</Para>
+<Figure>
+<Title Id="SAG.LogMg.mkr.5">Possible login server configuration<IndexTerm><Primary>X terminals</Primary><Secondary>possible login server configurations</Secondary></IndexTerm></Title>
+<Graphic Entityref="SAG.LogMg.fig.1" Id="SAG.LogMg.grph.1"></Graphic>
+</Figure>
+<Sect2 Id="SAG.LogMg.div.4">
+<Title>Finding the Login Server Process ID<IndexTerm><Primary>login servers</Primary><Secondary>process ID</Secondary></IndexTerm></Title>
+<Para>By default, the login server stores its process ID in <Filename>/var/dt/Xpid<IndexTerm>
+<Primary>Xpid file</Primary>
+</IndexTerm></Filename>.</Para>
+<Para>To change this, you can set the <Filename>Dtlogin.pidFile</Filename> resource in the <Command>Xconfig<IndexTerm>
+<Primary>Xconfig file</Primary>
+<Secondary>modifying</Secondary>
+</IndexTerm></Command>
+file. If changed, the directory specified must exist when the login server is
+started.</Para>
+<Para>To modify <Command>Xconfig</Command>, copy <Command>Xconfig</Command> from <Filename>/usr/dt/config</Filename> to
+<Filename>/etc/dt/config</Filename>. After modifying <Filename>/etc/dt/config/Xconfig</Filename>, tell the
+login server to reread <Command>Xconfig</Command> by typing:</Para>
+<ProgramListing>/usr/dt/bin/dtconfig -reset</ProgramListing>
+<Para>This issues the command <Command>kill -HUP</Command> <Symbol Role="Variable">login server process ID.</Symbol></Para>
+<Para>For example, to store the login server process ID in <Filename>/var/myservers/Dtpid</Filename>,
+set the following in the <Command>Xconfig</Command> file:</Para>
+<ProgramListing>Dtlogin.pidFile: /var/myservers/Dtpid</ProgramListing>
+<Para>When the login server is restarted, the login server will store its process ID in
+<Filename>/var/myservers/Dtpid<IndexTerm>
+<Primary>Dtpid file</Primary>
+</IndexTerm></Filename>. The <Filename>/var/myservers</Filename> directory must exist when
+the login server is started.</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.5">
+<Title>Displaying a Login Screen on a Local Display</Title>
+<Para>Upon startup, the login server checks the <Command>Xservers<IndexTerm>
+<Primary>Xservers file</Primary>
+<Secondary>starting a server</Secondary>
+</IndexTerm></Command> file to determine if an X
+server needs to be started and to determine if and how login screens should be
+displayed on local or network displays.</Para>
+<Para>To modify <Command>Xservers</Command>, copy <Command>Xservers</Command> from <Filename>/usr/dt/config</Filename> to
+<Filename>/etc/dt/config</Filename>. After modifying <Filename>/etc/dt/config</Filename>/<Command>Xservers</Command>, tell the
+login server to reread <Command>Xservers</Command> by typing:</Para>
+<ProgramListing>/usr/dt/bin/dtconfig -reset</ProgramListing>
+<Para>This issues the command <Command>kill -HUP</Command> <Symbol Role="Variable">login server process ID</Symbol></Para>
+<Para>The format of an <Command><IndexTerm>
+<Primary>Xservers file</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>Xservers</Command> line is:</Para>
+<ProgramListing><Symbol Role="Variable">display_name</Symbol> <Symbol Role="Variable">display_class</Symbol> <Symbol Role="Variable">display_type</Symbol> <Symbol Role="Variable">X_server_command</Symbol></ProgramListing>
+<Para>where</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="124*">
+<colspec colwidth="404*">
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">display_name</Symbol></Para></Entry>
+<Entry><Para>Tells the login server the connection name to use when
+connecting to the X server (:0 in the following
+example). A value of * (asterisk) is expanded to
+<Symbol Role="Variable">host name</Symbol>:0. The number specified must match the
+number specified in the <Symbol Role="Variable">X_server_command</Symbol> connection
+number.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">display_class</Symbol></Para></Entry>
+<Entry><Para>Identifies resources specific to this display (<Command>Local</Command> in
+the following example).</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">display_type</Symbol></Para></Entry>
+<Entry><Para>Tells the login server whether the display is local or a
+network display, and how to manage the Command
+Line Login option on the login screen
+(<Filename>local@console</Filename> in the following example).</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">X_server_command</Symbol></Para></Entry>
+<Entry><Para>Identifies the command line, connection number, and
+other options the login server will use to start the X
+server (<command>/usr/bin/X11/X :0</command> in the following
+example). The connection number specified must
+match the number specified in the <Symbol Role="Variable">display_name</Symbol>.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The default <Command>Xservers</Command> line is similar to:</Para>
+<ProgramListing>:0 Local local@console /usr/bin/X11/X :0</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.6">
+<Title>Running the Login Server without a Local Display<IndexTerm><Primary>bitmapped display,running Login Server without</Primary></IndexTerm></Title>
+<Para>If your login server system has no<IndexTerm>
+<Primary>login servers</Primary>
+<Secondary>no bitmap display</Secondary>
+</IndexTerm>
+bitmap display, run the login server without
+a local display<IndexTerm>
+<Primary>login servers</Primary>
+<Secondary>running without a local display</Secondary>
+</IndexTerm>
+by commenting out the <Command>Xservers</Command><IndexTerm>
+<Primary>Xservers file</Primary>
+<Secondary>default</Secondary>
+</IndexTerm>
+line for the local display
+using a <Filename>#</Filename> (pound sign). For example,</Para>
+<ProgramListing># :0 Local local@console /usr/bin/X11/X :0</ProgramListing>
+<Para>When the login server starts, it runs in the background waiting for requests
+from network displays.</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.7">
+<Title>Accessing Command Line Login on a Local Display</Title>
+<Para>When the user selects Command Line Login<IndexTerm>
+<Primary>login servers</Primary>
+<Secondary>command line login</Secondary>
+</IndexTerm>
+on the login screen, the login
+server temporarily terminates the X server, allowing access to the traditional
+command-line login running on the bitmap display terminal device. After the
+user has logged in and then out, or after a specified time-out, the login server
+will restart the X server.</Para>
+<Note>
+<Para>The<IndexTerm>
+<Primary>command-line login</Primary>
+</IndexTerm>
+Command Line Login option is unavailable on network displays.</Para>
+</Note>
+<Para>The <Symbol Role="Variable">display_type</Symbol> controls the behavior of Command Line Login. The format of
+<Symbol Role="Variable">display_type</Symbol> is:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>local@</Filename><Symbol Role="Variable">display_ terminal_device</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>local display type</Primary>
+</IndexTerm>local</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>foreign display type</Primary>
+</IndexTerm>foreign</Command></Para>
+</ListItem>
+</ItemizedList>
+<Para>When <Command>local</Command>@<Symbol Role="Variable">display_terminal_device</Symbol> is specified, the login server assumes that
+the X server and <Filename>/dev/</Filename><Symbol Role="Variable">display_terminal_device</Symbol> are on the same physical device,
+and that a command line login (usually <Command>getty</Command>) is running on the device. When
+the user selects Command Line Login, the X server is terminated, allowing
+access to the running command-line login (<Command>getty</Command>) running on the
+<Filename>/dev/</Filename><Symbol Role="Variable">display_terminal_device</Symbol>.</Para>
+<Para>To disable the Command Line Login option on a display, specify <Command>none</Command> as the
+<Symbol Role="Variable">display_terminal_device</Symbol>. The default <Symbol Role="Variable">display_terminal_device</Symbol> is <Command>console</Command>. When
+<Command>local</Command> is specified, <Symbol Role="Variable">display_terminal_device</Symbol> defaults to <Command>console</Command>. When
+<Command>foreign</Command> is specified, Command Line Login is disabled.</Para>
+<Note>
+<Para>The Command Line Login option will be disabled on the local display
+when the login server is started from the command line.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.8">
+<Title>Accommodating a Character Display Console<IndexTerm><Primary>character display console</Primary></IndexTerm></Title>
+<Para>If your login server system has a d<IndexTerm>
+<Primary>login servers</Primary>
+<Secondary>character display console</Secondary>
+</IndexTerm>
+irectly attached character display serving as
+a console, you may also want to set <Symbol Role="Variable">display_terminal_device</Symbol> to <Command>none</Command> to disable
+Command Line Login on the bitmap display login screen.</Para>
+<Para>Alternatively, if a command-line login (<Command><IndexTerm>
+<Primary>getty</Primary>
+</IndexTerm>getty</Command>) is running on both the character
+display console and the bitmap display, you can change <Symbol Role="Variable">display_terminal_device</Symbol>
+to the command line login (<Command>getty</Command>) device on the bitmap display.</Para>
+<Para>For example, if the bitmap display command-line login (<Command>getty</Command>) is on device
+<Filename>/dev/tty01</Filename>, change the <Symbol Role="Variable">display_type</Symbol> to <ComputerOutput>local@tty01</ComputerOutput>.</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.9">
+<Title Id="SAG.LogMg.mkr.6">Displaying a Login Screen on a Network Display<IndexTerm><Primary>login screen</Primary><Secondary>displaying on a network display</Secondary></IndexTerm></Title>
+<Para>The login server can accept requests from network displays to display a login
+screen on that particular display. The network display is usually an X terminal
+but can also be a workstation.</Para>
+<Para>To manage requests from network displays, the login server supports the X
+Display Manager Protocol (XDMCP)<IndexTerm>
+<Primary>XDMCP</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+1.0. This protocol enables the login server
+to negotiate and accept or reject requests from network displays. Most X
+terminals have XDMCP built in.</Para>
+<Sect3 Id="SAG.LogMg.div.10">
+<Title>XDMCP Direct Requests from Network Displays<IndexTerm><Primary>XDMCP</Primary><Secondary>direct requests</Secondary></IndexTerm><IndexTerm><Primary>X terminals</Primary><Secondary>XDMCP-direct</Secondary></IndexTerm></Title>
+<Para>When you configure your X terminal to use XDMCP direct<IndexTerm>
+<Primary>XDMCP</Primary>
+<Secondary>query mode</Secondary>
+</IndexTerm>
+(query mode), you
+tell your X terminal the host name of the login server host. When the X
+terminal is booted, it automatically contacts the login server, and the login
+server displays a login screen on the X terminal. See your X terminal
+documentation for information describing how to configure your X terminal
+for XDMCP direct mode.</Para>
+<Para>Most X servers also support the <Filename>-query</Filename><IndexTerm>
+<Primary>-query option</Primary>
+</IndexTerm>
+option. In this mode, your X server
+behaves as if it were an X terminal, contacting the login server host directly
+and requesting that it display a login screen on the X server. For example,
+starting the X server on a bitmap display on workstation <Command>bridget</Command> will have
+login server <Command>anita</Command> display a login screen on the X server:</Para>
+<ProgramListing>X -query anita</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.11">
+<Title>XDMCP Indirect Requests from Network Display<IndexTerm><Primary>XDMCP</Primary><Secondary>indirect requests</Secondary></IndexTerm><IndexTerm><Primary>X terminals</Primary><Secondary>XDMCP-indirect</Secondary></IndexTerm></Title>
+<Para>When you configure your X terminal to use XDMCP indirect mode, you tell
+your X terminal the host name of the login server host. When the X terminal is
+booted, it will contact the login server, and the login server will present a list,
+through a chooser screen, of other login server hosts on the network. From this
+list, the user can select a host, and that host will display a login screen on the
+user's X terminal. See your X terminal documentation for information
+describing how to configure your X terminal for XDMCP indirect mode.</Para>
+<Para>As with direct mode, most X servers support the <Filename>-indirect</Filename><IndexTerm>
+<Primary>-indirect option</Primary>
+</IndexTerm>
+option, which
+causes your X server to contact the login server in XDMCP indirect mode.</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.12">
+<Title>Managing Non-XDMCP Network Displays<IndexTerm><Primary>X terminals</Primary><Secondary>non-XDMCP displays</Secondary></IndexTerm></Title>
+<Para>Older X terminals may not support XDMCP. For the login server to display a
+login screen on this type of X terminal, list the X terminal name in the
+<Command>Xservers</Command> file.</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.13">
+<Title>Example</Title>
+<Para>The following lines in the <Command>Xservers</Command> file direct the login server to display a
+login screen on two non-XDMCP X terminals, <Command>ruby</Command> and <Command>wolfie</Command>:</Para>
+<ProgramListing>ruby.blackdog.com:0 AcmeXsta foreign
+wolfie:0 PandaCo foreign</ProgramListing>
+<Para>Since the display is on the network, <Symbol Role="Variable">display_name</Symbol> includes the host name as
+part of the name. The <Symbol Role="Variable">display class</Symbol> can be used to specify resources specific to a
+particular class of X terminals. (Your X terminal documentation should tell you
+the display class of your X terminal.) The <Symbol Role="Variable">display_type</Symbol> of <Command>foreign</Command> tells the
+login server to connect to an existing X server rather than to start its own. In
+this case, an <Symbol Role="Variable">X_server_command</Symbol> is not specified.</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.14">
+<Title>Controlling Access to the Login Server<IndexTerm><Primary>login servers</Primary><Secondary>controlling access</Secondary></IndexTerm></Title>
+<Para>By default, any host on your network that has access to your login server host
+can request a login screen be displayed. You can limit access to the login server
+by modifying the <Command>Xaccess</Command><IndexTerm>
+<Primary>Xaccess file</Primary>
+</IndexTerm>
+file.</Para>
+<Para>To modify <Command>Xaccess</Command>, copy <Command>Xaccess</Command> from <Filename>/usr/dt/config</Filename> to
+<Filename>/etc/dt/config</Filename>. After modifying <Filename>/etc/dt/config/Xaccess</Filename>, tell the
+login server to reread <Command>Xaccess</Command> by typing:</Para>
+<ProgramListing>/usr/dt/bin/dtconfig -reset</ProgramListing>
+<Para>This issues the command <Command>kill -HUP</Command> <Symbol Role="Variable">login server process ID</Symbol>.</Para>
+<Sect3 Id="SAG.LogMg.div.15">
+<Title>XDMCP Direct<IndexTerm><Primary>X terminals</Primary><Secondary>XDMCP-direct</Secondary></IndexTerm></Title>
+<Para>When a host attempts to connect to the login server via<IndexTerm>
+<Primary>XDMCP</Primary>
+<Secondary>direct access</Secondary>
+</IndexTerm>
+XDMCP-direct, the
+host name is compared to the<IndexTerm>
+<Primary>X terminals</Primary>
+<Secondary>Xaccess list</Secondary>
+</IndexTerm>
+<Command>Xaccess</Command> entries to determine whether the host
+is allowed access to the login server. Each <Command>Xaccess</Command> entry is a host name
+including the wildcards <Filename>*</Filename> (asterisk) and <Filename>?</Filename> (question mark). An <Filename>*</Filename> (asterisk)
+matches zero or more characters and a <Filename>?</Filename> (question mark) matches any one
+character. An <Filename>!</Filename> (exclamation point) prefacing an entry disallows access, while
+no preface allows access.</Para>
+<Para>For example, if <Command>Xaccess</Command> contains the following three entries:</Para>
+<ProgramListing>amazon.waterloo.com
+
+*.dept5.waterloo.com
+
+!*</ProgramListing>
+<Para>The first entry allows access to the login server from host
+<Filename>amazon.waterloo.com</Filename>, the second entry allows access from any host whose
+full domain name ends in <Filename>dept5.waterloo.com</Filename>, and the last entry disallows
+access from any other host.</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.16">
+<Title>XDMCP Indirect<IndexTerm><Primary>X terminals</Primary><Secondary>XDMCP-indirect</Secondary></IndexTerm></Title>
+<Para>When a host attempts to connect to the login server via
+XDMCP-indirect, the
+host name is compared to the <Command>Xaccess</Command> entries to determine whether the host
+is allowed access to the login server. Each <Command>Xaccess</Command> entry is similar to the
+XDMCP-direct entries, including wildcards, except that each entry is marked
+with a <Command>CHOOSER</Command> string. For example:<IndexTerm><Primary>XDMCP</Primary><Secondary>indirect access</Secondary></IndexTerm><IndexTerm><Primary>CHOOSER string</Primary><Secondary>definition</Secondary></IndexTerm><IndexTerm><Primary>X terminals</Primary><Secondary>CHOOSER string</Secondary></IndexTerm>
+</Para>
+<ProgramListing>amazon.waterloo.com  CHOOSER BROADCAST
+
+*.dept5.waterloo.com CHOOSER BROADCAST
+
+!* CHOOSER BROADCAST</ProgramListing>
+<Para>Again, the first entry allows access to the login server from host
+<Filename>amazon.waterloo.com</Filename>, the second entry allows access from any host whose
+full domain name ends in <Filename>dept5.waterloo.com</Filename>, and the last entry disallows
+access from any other host.</Para>
+<Para>One of the following can be after the <Command>CHOOSER</Command><IndexTerm>
+<Primary>CHOOSER string</Primary>
+<Secondary>identifying</Secondary>
+</IndexTerm>
+:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>BROADCAST, used in XDMCP-indirect</Primary>
+</IndexTerm>BROADCAST</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">list of host names</Symbol></Para>
+</ListItem>
+</ItemizedList>
+<Para><Command>BROADCAST</Command> tells the login server to broadcast to the login server sub-network
+to generate a list of available login server hosts. A list of host names tells the
+login server to use that list for the list of available login hosts. For example:</Para>
+<ProgramListing>amazon.waterloo.com  CHOOSER shoal.waterloo.com alum.waterloo.com
+
+*.dept5.waterloo.com CHOOSER BROADCAST
+
+!* CHOOSER BROADCAST</ProgramListing>
+<Para>If <Filename>amazon.waterloo.com</Filename> connects via XDMCP-indirect, it will be presented
+a list containing <Command>shoal</Command> and <Command>alum</Command>. If <Filename>alice.dept5.waterloo.com</Filename> connects,
+it will be presented with a list of all available login server hosts on the login
+server sub-network. Other XDMCP-indirect requests will be denied.</Para>
+<Para>An alternative to specifying a list of host names is to define one or more
+macros containing the list of host names. For example:</Para>
+<ProgramListing>&percnt;list1  shoal.waterloo.com alum.waterloo.com
+
+amazon.waterloo.com CHOOSER &percnt;list1</ProgramListing>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.17">
+<Title Id="SAG.LogMg.mkr.7">Checking for Errors<IndexTerm><Primary>login servers</Primary><Secondary>troubleshooting</Secondary></IndexTerm><IndexTerm><Primary>Login Manager</Primary><Secondary>errors</Secondary></IndexTerm></Title>
+<Para>By default, the login server logs errors in the<IndexTerm>
+<Primary>Xerrors file</Primary>
+</IndexTerm>
+<Filename>/var/dt/Xerrors</Filename> file. To
+change this, you can set the <Filename>Dtlogin.errorLogFile</Filename> resource in the <Command>Xconfig</Command> file. The directory specified must exist when the login server is
+started.</Para>
+<Para>For example, to have the login server log errors in the
+<Filename>/var/mylogs/Dterrors</Filename> file, set the following in the <Command>Xconfig</Command> file:</Para>
+<ProgramListing>Dtlogin.errorLogFile: /var/mylogs/Dterrors</ProgramListing>
+<Para>When the login server is restarted, the login server will log errors to the
+<Filename>/var/mylogs/<IndexTerm>
+<Primary>Dterrors file</Primary>
+</IndexTerm>Dterrors</Filename> file. The <Filename>/var/mylogs</Filename> directory must exist when
+the login server is started.</Para>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.18">
+<Title Id="SAG.LogMg.mkr.8">Stopping the Login Server<IndexTerm><Primary>login servers</Primary><Secondary>stopping</Secondary></IndexTerm></Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>To disable<IndexTerm>
+<Primary>login servers</Primary>
+<Secondary>disabling</Secondary>
+</IndexTerm>
+login server start up when the system is booted, type:</Para>
+<programlisting>/usr/dt/bin/dtconfig -d<IndexTerm>
+<Primary>dtconfig command</Primary>
+</IndexTerm></programlisting>
+<Para>This will tell the system not to start the login server when you next reboot.</Para>
+</ListItem>
+<ListItem>
+<Para>To Stop the login server by killing the process ID, type:</Para>
+<programlisting>/usr/dt/bin/dtconfig -kill</programlisting>
+<Para>This issues the command <Command>kill</Command> <Symbol Role="Variable">login server process ID</Symbol>)</Para>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>Killing the l<IndexTerm>
+<Primary>login servers</Primary>
+<Secondary>killing process ID</Secondary>
+</IndexTerm>
+ogin server process terminates all user sessions managed by
+the login server.</Para>
+</Note>
+<Para>You can also stop the login server by killing the process ID. The login server
+process ID is stored in <Filename>/var/dt/Xpid</Filename> or in the file specified in <Command>Xconfig</Command> by
+the <Filename>Dtlogin.pidFile</Filename> resource.</Para>
+<Para>If you are logged into the desktop at the time you kill the login server, your
+desktop session will immediately terminate.</Para>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.19">
+<Title Id="SAG.LogMg.mkr.9">The Login Screen</Title>
+<Para>The login screen displayed by the login server is an attractive alternative to the
+traditional character-mode login screen and provides capabilities beyond those
+provided by a character-mode login.</Para>
+<Figure>
+<Title Id="SAG.LogMg.mkr.10">Desktop login screen</Title>
+<Graphic Entityref="SAG.LogMg.fig.2" Id="SAG.LogMg.grph.2"></Graphic>
+</Figure>
+<Para>As with a character mode login, the user enters a user name followed by a
+password. If authenticated, the login server starts a desktop session for the
+user. When the user exits the desktop session, the login server displays a new
+login screen, and the process begins again.</Para>
+<Para>To customize the login screen, you can<IndexTerm>
+<Primary>login screen</Primary>
+<Secondary>customizing</Secondary>
+</IndexTerm>
+:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Change the login screen appearance</Para>
+</ListItem>
+<ListItem>
+<Para>Configure X server authority</Para>
+</ListItem>
+<ListItem>
+<Para>Change the default language</Para>
+</ListItem>
+<ListItem>
+<Para>Issue commands prior to display of the login screen</Para>
+</ListItem>
+<ListItem>
+<Para>Change the contents of the login screen Language menu</Para>
+</ListItem>
+<ListItem>
+<Para>Specify the command to start the user's session</Para>
+</ListItem>
+<ListItem>
+<Para>Issue commands prior to the start of the user's desktop session</Para>
+</ListItem>
+<ListItem>
+<Para>Issue commands after the user's session ends</Para>
+</ListItem>
+</ItemizedList>
+<Para>Each of these can be done for all displays or on a per-display basis.</Para>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.20">
+<Title Id="SAG.LogMg.mkr.11">Changing the Login Screen Appearance</Title>
+<Para>To customize the<IndexTerm>
+<Primary>login screen</Primary>
+<Secondary>changing appearance</Secondary>
+</IndexTerm>
+login screen appearance, you can change the logo or graphic,
+the welcome messages, and the fonts.</Para>
+<Para>To modify <Command>Xresources</Command>, copy <Command>Xresources</Command> from <Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol>
+to <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol>. The login screen will reflect any changes the
+next time the login screen is displayed. To force a redisplay of a login screen,
+select Reset Login Screen from the login screen Options menu.</Para>
+<Para>Attributes of the login screen that can be determined by resource specifications
+in the <Command>Xresources<IndexTerm>
+<Primary>Xresources file</Primary>
+</IndexTerm></Command> file include:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="3.20in">
+<colspec colwidth="3.10in">
+<TBody>
+<Row>
+<Entry><Para><Filename>Dtlogin*logo*bitmapFile</Filename><IndexTerm><Primary>Login Manager</Primary><Secondary>resources</Secondary></IndexTerm><IndexTerm><Primary>login screen</Primary><Secondary>resources</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Bitmap or pixmap file to display as logo image</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*greeting*labelString</Filename></Para></Entry>
+<Entry><Para>Welcome message</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*greeting*persLabelString</Filename></Para></Entry>
+<Entry><Para>Personalized welcome message</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Dtlogin*greeting*fontList</Command></Para></Entry>
+<Entry><Para>Font for welcome messages</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*labelFont</Filename></Para></Entry>
+<Entry><Para>Font for push buttons and labels</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*textFont</Filename></Para></Entry>
+<Entry><Para>Font for help and error messages</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*</Filename><Symbol Role="Variable">language</Symbol><Filename>*languageName</Filename></Para></Entry>
+<Entry><Para>Alternate text for locale name <Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect2 Id="SAG.LogMg.div.21" Role="Procedure">
+<Title>To Change the Logo</Title>
+<OrderedList>
+<ListItem>
+<Para>Set the <Filename>Dtlogin*logo*bitmapFile</Filename> resource in <Command>Xresources</Command>.</Para>
+<Para>The logo can be a color pixmap or a bitmap file.</Para>
+</ListItem>
+</OrderedList>
+<Para>The following example uses the <Command>Mylogo</Command> bitmap as the logo:</Para>
+<ProgramListing>Dtlogin*logo*bitmapFile: /usr/local/lib/X11/dt/bitmaps/Mylogo.bm</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.22" Role="Procedure">
+<Title>To Change the Welcome Message<IndexTerm><Primary>login screen</Primary><Secondary>changing the welcome message</Secondary></IndexTerm><IndexTerm><Primary>login screen</Primary><Secondary>greeting</Secondary></IndexTerm><IndexTerm><Primary>welcome message</Primary><Secondary>changing</Secondary></IndexTerm></Title>
+<Para>By default, the login server displays the message
+<Command>Welcome</Command> <Command>to</Command> <symbol Role="Variable">host name</Symbol> on the login screen. To change this
+message:<IndexTerm><Primary>welcome message</Primary><Secondary>default</Secondary></IndexTerm>
+</Para>
+<OrderedList>
+<ListItem>
+<Para>Set the <Filename>Dtlogin*greeting*labelString</Filename> resource in <Command>Xresources</Command>.</Para>
+<Para>The value of the <Command>labelString</Command> resource can contain &percnt;<Symbol Role="Variable">LocalHost</Symbol>&percnt;, which
+will be replaced by the login server host name, and &percnt;<Symbol Role="Variable">DisplayName</Symbol>&percnt;, which
+will be replaced by the X server display name.</Para>
+</ListItem>
+</OrderedList>
+<Para>The following example changes the welcome message to <Filename>Here's</Filename> <Symbol Role="Variable">host name</Symbol><Filename>!</Filename>:</Para>
+<ProgramListing>Dtlogin*greeting*labelString: Here's &percnt;LocalHost&percnt;!</ProgramListing>
+<Para>Once the user name has been entered, the login server displays the message
+<Command>Welcome</Command> <Symbol Role="Variable">username</Symbol> by default. You can change this message by setting the
+<Filename>Dtlogin*greeting*persLabelString</Filename> resource in <Command>Xresources</Command>. The value
+of the <Command>persLabelString</Command> can contain &percnt;<Command>s</Command>, which will be replaced by the
+<Symbol Role="Variable">username</Symbol>.</Para>
+<Para>The following example changes the personalized welcome message to <Command>Hello</Command> <Symbol Role="Variable">username</Symbol>.</Para>
+<ProgramListing>Dtlogin*greeting*persLabelString: Hello &percnt;s</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.23" Role="Procedure">
+<Title>To Change the Fonts<IndexTerm><Primary>login screen</Primary><Secondary>fonts</Secondary></IndexTerm></Title>
+<Para>You can change the fonts used on the login screen by setting one of the
+following font resources in <Filename>Xresources:<IndexTerm>
+<Primary>Xresources file</Primary>
+</IndexTerm></Filename></Para>
+<Para>To list the available fonts, type:</Para>
+<ProgramListing>xlsfonts [-<Symbol Role="Variable">options</Symbol>] [-fn <Symbol Role="Variable">pattern</Symbol>]</ProgramListing>
+<InformalTable>
+<TGroup Cols="2">
+<TBody>
+<Row>
+<Entry><Para><Command>Dtlogin*greeting*fontList</Command></Para></Entry>
+<Entry><Para>Font for welcome messages</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*labelFont</Filename></Para></Entry>
+<Entry><Para>Font for push buttons and labels</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*textFont</Filename></Para></Entry>
+<Entry><Para>Font for help and error messages</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The following example uses a large font for the welcome message (the value
+you specify must be contained on one line):</Para>
+<ProgramListing>Dtlogin*greeting*fontList: -dt-interface system-medium-r-normal-xxl*-*-*-*-*-*-*-*-*:</ProgramListing>
+<Sect3 Id="SAG.LogMg.div.24" Role="Procedure">
+<Title>To Provide Alternate Text to Display for Each Language<IndexTerm><Primary>login screen</Primary><Secondary>localizing</Secondary></IndexTerm><IndexTerm><Primary>localization</Primary><Secondary>login screen</Secondary></IndexTerm></Title>
+<Para>To display per-locale text on the login screen Language menu instead of the
+default display of the locale name, modify the
+<Filename>Dtlogin*</Filename><Symbol Role="Variable">language</Symbol><Filename>*languageName</Filename> resource name resource in <Command>Xresources</Command>:</Para>
+<ProgramListing>Dtlogin*En_US*languageName: American</ProgramListing>
+<Para>The text <Command>American</Command> will now be displayed rather than the locale name <Filename>En_US</Filename>.</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.25">
+<Title>Changing the Login Screen Behavior<IndexTerm><Primary>login screen</Primary><Secondary>changing behavior</Secondary></IndexTerm></Title>
+<Para>To customize the login screen behavior, you can modify resources specified in
+the <Command>Xconfig</Command> file.</Para>
+<Para>To modify <Command>Xconfig</Command>, copy <Command>Xconfig</Command> from <Filename>/usr/dt/config</Filename> to
+<Filename>/etc/dt/config</Filename>. After modifying <Filename>/etc/dt/config/Xconfig</Filename>, tell the
+login server to reread <Command>Xconfig</Command> by typing:</Para>
+<ProgramListing>/usr/dt/bin/dtconfig -reset</ProgramListing>
+<Para>This which issues the command <Command>kill</Command> <Command>-HUP</Command> <Symbol Role="Variable">login server process ID</Symbol>)</Para>
+<Para><IndexTerm>
+<Primary>Login Manager</Primary>
+<Secondary>resources</Secondary>
+</IndexTerm>Resources specified in the <Command>Xconfig</Command><IndexTerm>
+<Primary>Xconfig file</Primary>
+<Secondary>setting resources in</Secondary>
+</IndexTerm>
+file include:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="200*">
+<colspec colwidth="328*">
+<TBody>
+<Row>
+<Entry><Para><Filename>Dtlogin*authorize</Filename></Para></Entry>
+<Entry><Para>Xaccess file specification</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*environment</Filename></Para></Entry>
+<Entry><Para>X server environment</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*language</Filename></Para></Entry>
+<Entry><Para>Default language</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*languageList</Filename></Para></Entry>
+<Entry><Para>Language list for login screen Language menu</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*resources</Filename></Para></Entry>
+<Entry><Para><Command>Xresources</Command> specification</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*setup</Filename></Para></Entry>
+<Entry><Para><Command>Xsetup</Command> file specification</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtlogin*</Filename>startup</Para></Entry>
+<Entry><Para><Command>Xstartup</Command> file specification</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*session</Para></Entry>
+<Entry><Para><Command>Xsession</Command> file specification</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*failsafeClient</Para></Entry>
+<Entry><Para><Command>Xfailsafe</Command> script specification</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*reset</Para></Entry>
+<Entry><Para><Command>Xreset</Command> script specification</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*userPath</Para></Entry>
+<Entry><Para>PATH for <Command>Xsession</Command> and <Command>Xfailsafe</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*systemPath</Para></Entry>
+<Entry><Para>PATH for <Command>Xsetup</Command>, <Command>Xstartup</Command> and
+<Command>Xfailsafe</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin*systemShell</Para></Entry>
+<Entry><Para>SHELL for <Command>Xsetup</Command>, <Command>Xstartup</Command> and
+<Command>Xfailsafe</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dtlogin.timeZone</Para></Entry>
+<Entry><Para>TZ for all scripts</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.26">
+<Title>Changing the Login Screen Behavior Per Display<IndexTerm><Primary>login screen</Primary><Secondary>display-dependent behavior</Secondary></IndexTerm><IndexTerm><Primary>multiple displays</Primary><Secondary>Login Manager</Secondary></IndexTerm></Title>
+<Para>In the examples below, changing an <Command>Xconfig</Command> resource changes the login
+screen behavior for all displays. The resources listed with an * (asterisk) can be
+specified on a per-display basis. This enables you to specify custom login
+screen behavior for certain displays. To specify a resource for a particular
+display, the resource is specified as <Filename>Dtlogin*</Filename><Symbol Role="Variable">displayName</Symbol><Filename>*</Filename><Symbol Role="Variable">resource</Symbol>. For
+example, if you would like to turn off user based access control for display
+<Filename>expo:0</Filename> but leave it on for other displays, you would specify:</Para>
+<ProgramListing>Dtlogin*expo_0*authorize: False</ProgramListing>
+<Note>
+<Para>Any special character in the display name, such as a: (colon) or.
+(period), is replaced by an _ (underbar).</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.27">
+<Title>Changing the X Server Access<IndexTerm><Primary>login screen</Primary><Secondary>X server access</Secondary></IndexTerm><IndexTerm><Primary>X server</Primary><Secondary>changing access</Secondary></IndexTerm></Title>
+<Para>By default, the login server allows X server access control on a per user basis
+and is based on authorization data stored and protected in the
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xauthority</Filename> file. Only users who can read this file are
+allowed to connect to the X server. Generally, this is the preferred method of X
+server access control.</Para>
+<Para>An alternative to user-based access control is host-based access control. Using
+this method, if a host is granted access to the X server, any user on that host is
+allowed to connect to the X server. Reasons to use host-based control include:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Older R2 and R3 X clients will not be able to connect to an X server using
+user-based access control.</Para>
+</ListItem>
+<ListItem>
+<Para>On unsecured networks, a snooper may be able to intercept the
+authorization data passed between the X client and X server on the network.</Para>
+</ListItem>
+</ItemizedList>
+<Para>The <Command>Xconfig Dtlogin*<IndexTerm>
+<Primary>authorize resource</Primary>
+</IndexTerm>
+authorize</Command> resource tells the login server to use
+user-based X server access control. To use host-based access control, change the
+authorize resource value to <Command>False</Command>, for example:</Para>
+<ProgramListing>Dtlogin*authorize: False</ProgramListing>
+<Sect3 Id="SAG.LogMg.div.28" Role="Procedure">
+<Title>To Change the X Server Environment<IndexTerm><Primary>X server</Primary><Secondary>changing environment</Secondary></IndexTerm><IndexTerm><Primary>login screen</Primary><Secondary>X server environment</Secondary></IndexTerm></Title>
+<Para>If you want to provide the X server with one or more environment variables
+and values when started by the login server, you can specify them using the
+<Filename>Dtlogin*environment</Filename> resource in <Command>Xconfig</Command>. For example:</Para>
+<ProgramListing>Dtlogin*environment: VAR1=foo VAR2=bar</ProgramListing>
+<Para>will make the variables <Filename>VAR1</Filename> and <Filename>VAR2</Filename> available to the local X server process.
+These variables will also be exported to the <Command>Xsession</Command> and <Command>Xfailsafe</Command> scripts.</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.29" Role="Procedure">
+<Title>To Change the Default Language<IndexTerm><Primary>login screen</Primary><Secondary>changing default language</Secondary></IndexTerm></Title>
+<Para>When the user logs in to the desktop from the login screen, the user session is
+run under the locale selected from the Language submenu of the Options
+menu. If the user does not select a language, the login server default language
+is used. You can control the value of the default language by setting the
+<Filename>Dtlogin*language<IndexTerm>
+<Primary>Dtlogin*language resource</Primary>
+</IndexTerm></Filename> resource in <Command>Xconfig</Command>. For example:</Para>
+<ProgramListing>Dtlogin*language: Ja_JP</ProgramListing>
+<Para>Check your system documentation to determine the languages installed on
+your system.</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.30" Role="Procedure">
+<Title>To Change the Content of the Login Screen Language Menu<IndexTerm><Primary>login screen</Primary><Secondary>changing content of language menu</Secondary></IndexTerm><IndexTerm><Primary>Language menu, customizing</Primary></IndexTerm></Title>
+<Para>By default the login server creates the login screen Language menu containing
+a list of all locales installed on the system. When the user selects a locale from
+the login screen language list, the login server will redisplay the login screen in
+the selected locale. When the user subsequently logs in, the login server will
+start a desktop session for the user in that locale.</Para>
+<Para>You can specify your own list of languages by modifying the
+<Filename>Dtlogin*languageList</Filename> resource in <Command>Xconfig</Command>:</Para>
+<ProgramListing>Dtlogin*languageList: En_US De_DE</ProgramListing>
+<Para>The login server now displays only <Filename>En_US</Filename> and <Filename>De_DE</Filename> in the login screen
+Language menu.</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.31">
+<Title>Issuing Commands Before the Login Screen Appears<IndexTerm><Primary>Login Manager</Primary><Secondary>issuing commands</Secondary></IndexTerm></Title>
+<Para>After the X server has started but before the login screen appears, the login
+server runs the <Command>Xsetup</Command> script. <Command>Xsetup<IndexTerm>
+<Primary>Xsetup file</Primary>
+</IndexTerm></Command> runs with root authority and issues
+commands needing to be run before the display of the login screen.</Para>
+<Para>To modify <Command>Xsetup</Command>, copy <Command>Xsetup</Command> from <Filename>/usr/dt/config</Filename> to
+<Filename>/etc/dt/config</Filename>. The next time the login screen is displayed, the modified
+<Command>Xsetup</Command> will be run.</Para>
+<Sect3 Id="SAG.LogMg.div.32">
+<Title>Issuing Commands Before Starting the User Session</Title>
+<Para>After the user enters the user name and password and they are authenticated,
+but before the user session is started, the login server runs the <Command>Xstartup</Command>
+script. <Command>Xstartup<IndexTerm>
+<Primary>Xstartup file</Primary>
+</IndexTerm></Command> runs with root authority and issues commands needing to be
+run as root prior to the user session start.</Para>
+<Para>To modify <Command>Xstartup</Command>, copy <Command>Xstartup</Command> from <Filename>/usr/dt/config</Filename> to
+<Filename>/etc/dt/config</Filename>. The next time the user logs in, the modified <Command>Xstartup</Command> will
+be run<?X-setsize 9.0 pt>.</Para>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.33">
+<Title>Starting a Desktop Session</Title>
+<Para>By default, the login server starts the user session by running the <Command>Xsession</Command>
+script. <Command>Xsession<IndexTerm>
+<Primary>Xsession file</Primary>
+<Secondary>run by login server</Secondary>
+</IndexTerm></Command> runs with the user's authority and issues commands needed
+to start the desktop.</Para>
+<Note>
+<Para>Do not directly update the <Command>Xsession</Command> script.</Para>
+</Note>
+<Para>See
+<!--Original XRef content: 'Chapter&numsp;2, &xd2;Configuring Session Manager'--><XRef Role="ChapNumAndTitle" Linkend="SAG.SesMg.div.1">, for information on how to
+customize the user's desktop session startup.</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.34">
+<Title>Starting a Failsafe Session<IndexTerm><Primary>session</Primary><Secondary>failsafe</Secondary></IndexTerm></Title>
+<Para>If the user selects Failsafe Session<IndexTerm>
+<Primary>fail-safe sessions</Primary>
+</IndexTerm>
+from the Sessions submenu of the login
+screen Options menu, the login server runs the <Command>Xfailsafe</Command> script.
+<Command>Xfailsafe</Command>
+runs with the user's authority and issues commands needed to start a minimal
+windowing environment, usually a Terminal window and an optional window
+manager.<IndexTerm><Primary>Xfailsafe file</Primary></IndexTerm>
+</Para>
+<Para>To modify <Command>Xfailsafe</Command>, copy <Command>Xfailsafe</Command> from <Filename>/usr/dt/config</Filename> to
+<Filename>/etc/dt/config</Filename>. The next time the user logs in, the modified <Command>Xfailsafe</Command>
+will be run.</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.35">
+<Title>After the User's Session Ends<IndexTerm><Primary>session</Primary><Secondary>script run at end</Secondary></IndexTerm></Title>
+<Para>After the user exits the desktop or failsafe session, the login server runs the
+<Command>Xreset</Command> script. <Command>Xreset</Command><IndexTerm>
+<Primary>Xreset file</Primary>
+</IndexTerm>
+runs with root authority and issues commands needing
+to be run as root after the end of the user's session.</Para>
+<Para>If you wish to modify <Command>Xreset</Command>, copy <Command>Xreset</Command> from <Filename>/usr/dt/config</Filename> to
+<Filename>/etc/dt/config</Filename>. The next time the user logs in, the modified <Command>Xreset</Command> will be
+run.</Para>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.36">
+<Title>The Login Server Environment</Title>
+<Para>The login server provides an environment that it exports to the <Command>Xsetup</Command>,
+<Command>Xstartup</Command>, <Command>Xsession</Command>, <Command>Xfailsafe</Command> and <Command>Xreset</Command> scripts. This environment is
+described in
+<!--Original XRef content: 'Table&numsp;1&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.LogMg.tbl.1">. Additional variables may also be exported by the login
+server.</Para>
+<Table Id="SAG.LogMg.tbl.1" Frame="Topbot">
+<Title Id="SAG.LogMg.mkr.12">Login Server Environments<IndexTerm><Primary>login servers</Primary><Secondary>environments</Secondary></IndexTerm></Title>
+<TGroup Cols="6" colsep="0" rowsep="0">
+<colspec colwidth="1.27in">
+<colspec colwidth="0.25in">
+<colspec colwidth="0.20in">
+<colspec colwidth="0.23in">
+<colspec colwidth="0.24in">
+<colspec colwidth="3.71in">
+<THead>
+<Row>
+<Entry><Para><Literal>Environment</Literal><Literal>Variable</Literal></Para></Entry>
+<Entry><Para><Literal><Command>Xsetup</Command></Literal></Para></Entry>
+<Entry><Para><Literal><Command>Xstartup</Command></Literal></Para></Entry>
+<Entry><Para><Command>Xsession</Command></Para></Entry>
+<Entry><Para><Literal><Command>Xreset</Command></Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>LANG variable</Primary>
+<Secondary>set by Login Manager</Secondary>
+</IndexTerm>LANG</SystemItem></Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>Default or selected language</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Literal><IndexTerm>
+<Primary>XAUTHORITY variable,set by Login Manager</Primary>
+</IndexTerm>XAUTHORITY</Literal></Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>Alternate X authority file (optional)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>PATH variable</Primary>
+<Secondary>set by Login Manager</Secondary>
+</IndexTerm>PATH</SystemItem></Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>Value of the <Command>Dtlogin*userPath</Command>
+resource (<Command>Xsession</Command>, <Command>Xfailsafe</Command>) or
+<Filename>Dtlogin*systemPath</Filename> resource (<Command>Xsetup</Command>,
+<Command>Xstartup</Command>, <Command>Xreset</Command>)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>DISPLAY variable,set by Login Manager</Primary>
+</IndexTerm>DISPLAY</SystemItem></Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X server connection number</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Literal><IndexTerm>
+<Primary>SHELL variable, set by Login Manager</Primary>
+</IndexTerm>SHELL</Literal></Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>Shell specified in <Filename>/etc/passwd</Filename>
+(<Command>Xsession</Command>, <Command>Xfailsafe</Command>) or
+<Filename>Dtlogin*systemShell</Filename> resource
+(<Command>Xsetup</Command>, <Command>Xstartup</Command>, <Command>Xreset</Command>)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>TZ variable</Primary>
+</IndexTerm>TZ</SystemItem></Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>Value of <Filename>Dtlogin.timeZone</Filename> resource or
+timezone determined from system</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>USER variable</Primary>
+</IndexTerm>USER</SystemItem></Para></Entry>
+<Entry></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>User name</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>HOME variable</Primary>
+</IndexTerm>HOME</SystemItem></Para></Entry>
+<Entry></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>Home directory specified in <Command>/etc/passwd</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><SystemItem Class="EnvironVar"><IndexTerm>
+<Primary>LOGNAME variable</Primary>
+</IndexTerm>LOGNAME</SystemItem></Para></Entry>
+<Entry></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>X</Para></Entry>
+<Entry><Para>User name</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.37">
+<Title>Changing the User or System Path</Title>
+<Para>The login server sets the PATH e<IndexTerm>
+<Primary>login servers</Primary>
+<Secondary>user path</Secondary>
+</IndexTerm>
+nvironment variable when it runs the
+<Command><IndexTerm>
+<Primary>Xsession file</Primary>
+<Secondary>setting PATH</Secondary>
+</IndexTerm>Xsession</Command> and <Command><IndexTerm>
+<Primary>Xfailsafe file</Primary>
+</IndexTerm>Xfailsafe</Command> scripts. You can provide an alternate path to these
+scripts</Para>
+<Sect3 Id="SAG.LogMg.div.38" Role="Procedure">
+<Title>To Change the User Path<IndexTerm><Primary>path</Primary><Secondary>user</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Set the <Filename>Dtlogin*userPath</Filename><IndexTerm>
+<Primary>userPath resource</Primary>
+</IndexTerm>
+resource in <Filename>Xconfig.</Filename> For example:<IndexTerm>
+<Primary>environment variables</Primary>
+<Secondary>Login Manager</Secondary>
+</IndexTerm></Para>
+</ListItem>
+</OrderedList>
+<ProgramListing>Dtlogin*userPath:/usr/bin:/etc:/usr/sbin:/usr/ucb:/usr/bin/X11</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.LogMg.div.39" Role="Procedure">
+<Title>To Change the System Path<IndexTerm><Primary>path</Primary><Secondary>system</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Set the <Filename>Dtlogin*<IndexTerm>
+<Primary>systemPath resource</Primary>
+</IndexTerm>
+systemPath</Filename> resource in <Command>Xconfig</Command>. For example:</Para>
+</ListItem>
+</OrderedList>
+<ProgramListing>Dtlogin*systemPath: /usr/bin/X11:/etc:/bin:/usr/bin:/usr/ucb</ProgramListing>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.40" Role="Procedure">
+<Title>To Change the System Shell</Title>
+<Para>The login server sets the SHELL environment variable when it runs the
+<Command>Xsetup</Command>, <Command>Xstartup</Command> and <Command>X<IndexTerm>
+<Primary>login servers</Primary>
+<Secondary>system shell</Secondary>
+</IndexTerm>
+failsafe</Command> scripts. The default is <Filename>/bin/sh</Filename>. If you
+wish to provide an alternate shell to these scripts, you can set the
+<Filename>Dtlogin*systemShell</Filename> resource in <Command>Xconfig</Command>. For example:</Para>
+<ProgramListing>Dtlogin*systemShell: /bin/ksh</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.LogMg.div.41" Role="Procedure">
+<Title>To Change the Time Zone</Title>
+<Para>The login server sets the TZ<IndexTerm>
+<Primary>TZ variable</Primary>
+</IndexTerm>
+environment variable when it runs the <Command>Xsetup</Command>,
+<Command>Xstartup</Command>, <Command>Xsession</Command>, <Command>Xfailsafe</Command>, and <Command>Xreset</Command> scripts. The default value is
+derived from the system so usually you w<IndexTerm>
+<Primary>login servers</Primary>
+<Secondary>changing the time zone</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>time zone, changing</Primary>
+</IndexTerm>
+ill not need to change this behavior.
+To provide an alternate time zone to these scripts, set the <Filename>Dtlogin.<IndexTerm>
+<Primary>timeZone resource</Primary>
+</IndexTerm>
+timeZone</Filename>
+resource in <Command>Xconfig</Command>. For example:</Para>
+<ProgramListing>Dtlogin.timeZone: CST6CDT</ProgramListing>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.42">
+<Title Id="SAG.LogMg.mkr.13">Administering Login Manager</Title>
+<Para>When the login server starts, one <Command>dtlogin</Command> process is started. The <Command>dtlogin</Command>
+process reads the <Command>Xconfig</Command> file to determine the initial login server
+configuration and locate other login server configuration files. The login server
+then reads the <Command>Xservers</Command> file to see if it has any displays to explicitly manage,
+and also reads the <Command>Xaccess</Command> file to control access to the login server.</Para>
+<Para>If the login server finds from the <Command>Xservers<IndexTerm>
+<Primary>Xservers file</Primary>
+<Secondary>managing local display</Secondary>
+</IndexTerm></Command> file that it needs to manage a local
+display, it will start an X server as instructed in the <Command>Xservers</Command> file and then
+display a login screen on that display.</Para>
+<Para>If the login server finds from the <Command>Xservers</Command> file that it needs to manage a
+network display, it will assume an X server is already running with the
+specified display name and display a login screen on that display.</Para>
+<Para>The login server will then wait for XDMCP requests from the network.</Para>
+<Para>For each display managed, the login server first creates a new <Command>dtlogin</Command>
+process for that display. This means if the login server is managing <Symbol Role="Variable">n</Symbol> displays,
+there will be <Symbol Role="Variable">n</Symbol><Symbol Role="Variable">+1</Symbol> <Command>dtlogin</Command> processes. The login server will run the <Command>Xsetup</Command>
+script, load the <Command>Xresources</Command> file, then run <Command>dtgreet</Command> to display the login
+screen. Once the user has entered a username and password and has been
+authenticated, the login server will run the <Command>Xstartup</Command> script and then the
+<Command>Xsession</Command> or <Command>Xfailsafe<IndexTerm>
+<Primary>Xfailsafe file</Primary>
+</IndexTerm></Command> script. When the user has exited the session, the
+login server will run the <Command>Xreset</Command> script.</Para>
+<Para>If the login server gets an<IndexTerm>
+<Primary>XDMCP</Primary>
+<Secondary>indirect requests</Secondary>
+</IndexTerm>
+XDMCP-indirect request, it will run <Command>dtchooser</Command> to
+present a list of login server hosts on the display. When the user selects a host
+from the list, the login server on that host will manage the display.</Para>
+<Para>For the <Command>Xaccess</Command>, <Command>Xconfig</Command>, <Command>Xfailsafe</Command>, <Command>Xreset</Command>, <Symbol Role="Variable">language</Symbol><Filename>/Xresources</Filename>,
+<Command>Xservers</Command>, <Command>Xsetup</Command>, and <Command>Xstartup</Command> configuration files, the login server will by
+default look first in <Filename>/etc/dt/config</Filename>, then <Filename>/usr/dt/config</Filename>, and use the
+first file found.</Para>
+</Sect1>
+<Sect1 Id="SAG.LogMg.div.43">
+<Title Id="SAG.LogMg.mkr.14">Login Manager Files<IndexTerm><Primary>configuration files</Primary><Secondary>Login Manager</Secondary></IndexTerm></Title>
+<Para>The default locations of the Login Manager files are:<IndexTerm><Primary>Login Manager</Primary><Secondary>configuration files</Secondary></IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2">
+<TBody>
+<Row>
+<Entry><Para><Filename>/usr/dt/bin/dtlogin</Filename><IndexTerm><Primary>dtlogin</Primary><secondary>See Login Manager</secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>The login server and display manager</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/bin/dtgreet</Filename><IndexTerm><Primary>dtgreet file</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Displays a login screen for a display</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/bin/dtchooser</Filename><IndexTerm><Primary>dtchooser file</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Displays a chooser screen for a display</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/bin/Xsession</Filename></Para></Entry>
+<Entry><Para>Starts a desktop session</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xfailsafe</Filename></Para></Entry>
+<Entry><Para>Starts a failsafe session</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xconfig</Filename></Para></Entry>
+<Entry><Para>Login server configuration file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xservers</Filename></Para></Entry>
+<Entry><Para>Login server display description file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xaccess</Filename></Para></Entry>
+<Entry><Para>Login server access description file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/Xresources</Filename></Para></Entry>
+<Entry><Para>Display layout resources</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xsetup</Filename></Para></Entry>
+<Entry><Para>Display setup file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xstartup</Filename></Para></Entry>
+<Entry><Para>Pre-session startup file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/usr/dt/config/Xreset</Filename></Para></Entry>
+<Entry><Para>Post-session reset file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/var/dt/Xpid</Filename></Para></Entry>
+<Entry><Para>Process ID of the login server</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>/var/dt/Xerrors</Filename></Para></Entry>
+<Entry><Para>Error log file of the login server</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

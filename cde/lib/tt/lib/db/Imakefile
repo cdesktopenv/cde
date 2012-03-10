@@ -1,0 +1,68 @@
+XCOMM $XConsortium: Imakefile /main/7 1996/04/21 19:12:19 drk $
+#define DoNormalLib	NormalLibTt
+#define DoSharedLib	SharedLibTt
+#define DoDebugLib	DebugLibTt
+#define DoProfileLib	ProfileLibTt
+#define LibName		tt
+#define SoRev		SOTTREV
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(ISAM_INCLUDES)
+
+#include <Threads.tmpl>
+
+#include "../../tooltalk.tmpl"
+
+DEFINES =
+INCLUDES = -I../../lib
+ISAM_INCLUDES = -I../../mini_isam 
+
+/*** NOTE!
+ *** Every time a .o is added below it needs to be added to
+ *** the lib/tt/lib Imakefile in DB_OBJS and SHARED_DB_OBJS
+ ***/
+
+SRCS =  db_server_clnt.C                      db_server_xdr.C \
+        old_db_server_functions.C             tt_client_isam_file.C \
+        tt_client_isam_file_utils.C           tt_client_isam_key_descriptor.C \
+        tt_client_isam_key_descriptor_utils.C tt_client_isam_record.C \
+        tt_client_isam_record_utils.C         tt_db_access_utils.C \
+        tt_db_client.C                        tt_db_client_utils.C \
+        tt_db_create_objid.C                  tt_db_file.C \
+        tt_db_file_utils.C                    tt_db_hostname_global_map_ref.C \
+        tt_db_hostname_redirection_map.C      tt_db_key.C \
+        tt_db_key_utils.C                     tt_db_network_path.C \
+        tt_db_object.C                        tt_db_object_utils.C \
+        tt_db_objid_to_key.C                  tt_db_property.C \
+        tt_db_property_utils.C                tt_db_rpc_message_routines.C \
+        tt_db_rpc_routines.C                  tt_old_db.C \
+        tt_old_db_message_info.C              tt_old_db_message_info_utils.C \
+        tt_old_db_partition_map_ref.C         tt_old_db_utils.C
+
+OBJS =  db_server_clnt.o                      db_server_xdr.o \
+        old_db_server_functions.o             tt_client_isam_file.o \
+        tt_client_isam_file_utils.o           tt_client_isam_key_descriptor.o \
+        tt_client_isam_key_descriptor_utils.o tt_client_isam_record.o \
+        tt_client_isam_record_utils.o         tt_db_access_utils.o \
+        tt_db_client.o                        tt_db_client_utils.o \
+        tt_db_create_objid.o                  tt_db_file.o \
+        tt_db_file_utils.o                    tt_db_hostname_global_map_ref.o \
+        tt_db_hostname_redirection_map.o      tt_db_key.o \
+        tt_db_key_utils.o                     tt_db_network_path.o \
+        tt_db_object.o                        tt_db_object_utils.o \
+        tt_db_objid_to_key.o                  tt_db_property.o \
+        tt_db_property_utils.o                tt_db_rpc_message_routines.o \
+        tt_db_rpc_routines.o                  tt_old_db.o \
+        tt_old_db_message_info.o              tt_old_db_message_info_utils.o \
+        tt_old_db_partition_map_ref.o         tt_old_db_utils.o
+
+
+#include <Library.tmpl>
+
+SpecialCplusplusLibObjectRule(db_server_xdr,,$(ISAM_INCLUDES))
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

@@ -1,0 +1,51 @@
+.\" $XConsortium: iblocks.3 /main/2 1996/10/29 15:08:38 drk $
+.de L		\" literal font
+.ft 5
+.it 1 }N
+.if !\\$1 \&\\$1 \\$2 \\$3 \\$4 \\$5 \\$6
+..
+.de LR
+.}S 5 1 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de RL
+.}S 1 5 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de EX		\" start example
+.ta 1i 2i 3i 4i 5i 6i
+.PP
+.RS 
+.PD 0
+.ft 5
+.nf
+..
+.de EE		\" end example
+.fi
+.ft
+.PD
+.RE
+.PP
+..
+.TH IBLOCKS 3
+.SH NAME
+iblocks \- compute number file blocks used
+.SH SYNOPSIS
+.EX
+#include <ls.h>
+
+long     _iblocks(struct stat* \fIst\fP);
+.EE
+.SH DESCRIPTION
+.L _iblocks
+returns the number of blocks used by the file whose
+.IR stat (2)
+information is pointed to by
+.IR st .
+The count includes both data and indirect blocks.
+.PP
+This routine is used by
+.B <ls.h>
+on system without the
+.LI "struct stat" st_blocks
+field.
+.SH "SEE ALSO"
+ls(1), stat(2)

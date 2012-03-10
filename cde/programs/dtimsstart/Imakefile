@@ -1,0 +1,39 @@
+XCOMM $XConsortium: Imakefile /main/8 1996/04/21 19:55:32 drk $
+
+DEFINES =  -DNLS
+INCLUDES = -I. -I$(CDELIBSRC)
+
+#if defined (SunArchitecture)
+DEPLIBS = $(DEPDTSVCLIB) $(DEPTTLIB) \
+                  $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTSVCLIB) $(TTLIB) \
+                  $(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB)
+#else
+DEPLIBS = $(DEPDTHELPLIB) $(DEPDTSVCLIB) $(DEPTTLIB) \
+                  $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) \
+                  $(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB)
+#endif /* SunArchitecture */
+
+SYS_LIBRARIES = DtClientSysLibs
+
+#if defined (SunArchitecture)
+EXTRA_CCOPTIONS = -xF
+#endif
+ 
+#if defined (RsArchitecture)
+EXTRA_DEFINES = -DANSICPP
+#endif /* RsArchitecture */
+
+
+PROGRAMS=dtimsstart 
+
+SRCS =	action.c 	env.c		file.c \
+	main.c		remote.c 	select.c \
+	start.c 	util.c		win.c
+
+OBJS =	action.o 	env.o		file.o \
+	main.o		remote.o 	select.o \
+	start.o 	util.o		win.o
+
+ComplexProgramTarget($(PROGRAMS))

@@ -1,0 +1,157 @@
+<!-- $XConsortium: ch04.sgm /main/5 1996/09/08 19:36:34 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="PG.smgr.div.1">
+<Title Id="PG.smgr.mkr.1">セッション・マネージャとの統合</Title>
+<Para>セッション・マネージャは、ユーザが（現在のセッションから）ログアウトするときや、ユーザが（ホーム・セッションとして）環境を保存するときに、デスクトップ環境と実行中のアプリケーションに関する情報を保存します。
+アプリケーションが現在のセッッションまたはホーム・セッションの一部として保存され、次のセッションの一部として再起動されるためには、Xクライアント間通信規約マニュアル（ICCCM）1.1のセッション管理プロトコルに関与する必要があります。
+この章では、セッション・マネージャがセッションを保存し、復元する方法を概説し、アプリケーションがセッション管理に関与するために必要な手順を詳しく述べます。
+</Para>
+<InformalTable Id="PG.smgr.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How Session Manager Saves Sessions and Applications27'-->
+<XRef Role="JumpText" Linkend="PG.smgr.mkr.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How to Program the Application for Session Management28'-->
+<XRef Role="JumpText" Linkend="PG.smgr.mkr.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How Session Manager Restores a Session30'-->
+<XRef Role="JumpText" Linkend="PG.smgr.mkr.4"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="PG.smgr.div.2">
+<Title Id="PG.smgr.mkr.2">セッション・マネージャがセッション及びアプリケーションを保存する方法</Title>
+<Para>
+セッションを終了するときや、ホーム・セッションを保存するとき、 セッション・マネージャは次のことを行います。</Para>
+<OrderedList>
+<ListItem>
+<Para>選択されたリソース設定とXサーバ設定を保存する。
+</Para>
+</ListItem>
+<ListItem>
+<Para>各アプリケーションが状態を保存できるようにして、保存の完了を待つ。
+</Para>
+</ListItem>
+<ListItem>
+<Para>アプリケーションの再起動に必要なコマンド行を獲得する。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="PG.smgr.div.3">
+<Title Id="PG.smgr.mkr.3">セッション管理のためのアプリケーションのプログラム方法</Title>
+<Sect2 Id="PG.smgr.div.4">
+<Title>プログラム環境の設定</Title>
+<Para>この節では、統合プロセスの一部としてアプリケーションを保存するために必要なプログラミングの手順を説明します。
+</Para>
+<Para>プログラム環境を設定するには、次の手順に従います。</Para>
+<OrderedList>
+<ListItem>
+<Para>次のヘッダ・ファイルを組み込みます。</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>Xm/Xm.h</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>Xm/Protocols.h</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>Dt/Session.h</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para><Command>libXm</Command>と<Command>libDtSvc</Command>をリンクします。</Para>
+</ListItem>
+<ListItem>
+<Para>ツールキットを初期化して、トップレベル・ウィジェットを作成します。</Para>
+</ListItem>
+</OrderedList>
+<Sect3 Id="PG.smgr.div.5">
+<Title>WM_SAVE_YOURSELFアトムの設定</Title>
+<Para>次の例で示すように、Motifの<Filename>XmAddWMProtocol()</Filename>関数を利用して、アプリケーションのトップレベル・ウィンドウの<ComputerOutput>WM_PROTOCOLS</ComputerOutput>属性の<Filename>WM_SAVE_YOURSELF</Filename>アトムを設定します。
+</Para>
+<ProgramListing>Atom XaWmSaveYourself;
+
+Display *dsp;
+
+
+
+dsp = XtDisplay(toplevel);
+
+XaWmSaveYourself =
+
+XmInternAtom(dsp, &rdquo;WM_SAVE_YOURSELF&rdquo;, False);
+
+XmAddWMProtocols(toplevel, &amp;XaWmSaveYourself, 1);</ProgramListing>
+<Note>
+<Para>複数のウィンドウに対して<ComputerOutput>WM_SAVE_YOURSELF</ComputerOutput>アトムを設定しないでください。</Para>
+</Note>
+</Sect3>
+<Sect3 Id="PG.smgr.div.6">
+<Title>WM_SAVE_YOURSELFメッセージを受け取るための準備</Title>
+<Para>Motifの<Filename>XmAddWMProtocolCallback()</Filename>関数を使用して、アプリケーションが
+<Filename>WM_SAVE_YOURSELF</Filename>クライアント・メッセージを受け取ったときに呼び出されるコールバック・プロシージャを設定します。
+</Para>
+<ProgramListing>XmAddWMProtocolCallback(toplevel, XaWmSaveYourself,
+SaveYourselfProc,
+   toplevel);</ProgramListing>
+</Sect3>
+<Sect3 Id="PG.smgr.div.7">
+<Title>WM_SAVE_YOURSELFメッセージの処理</Title>
+<Para>セッション・マネージャがこのアプリケーションのトップレベル・ウィンドウに<Filename>WM_SAVE_YOURSELF</Filename>クライアント・メッセージを送ると、
+<Filename>SaveYourselfProc()</Filename>コールバック・プロシージャが呼び出されます。
+このコールバックを使用して、アプリケーションの状態を保存します。
+アプリケーションはプログラマが選んだ任意の方法で状態を保存できますが、保存中はユーザと対話できません。
+</Para>
+<Para>セッション・マネージャは、アプリケーションの状態を保存するための絶対パス名とベース・ファイル名を返す手段として、<Filename>DtSessionSavePath()</Filename>関数を提供します。
+</Para>
+</Sect3>
+<Sect3 Id="PG.smgr.div.8">
+<Title>WM_COMMAND属性の設定</Title>
+<Para>アプリケーションが<Filename>WM_SAVE_YOURSELF</Filename>メッセージの処理
+（状態を保存するか、メッセージを無視する）を終了した後、
+アプリケーションはトップレベル・ウィンドウの<Filename>WM_COMMAND</Filename>属性を設定して、保存操作が完了したことをセッション・マネージャに知らせなければなりません。
+</Para>
+<Para>アプリケーションのトップレベル・ウィンドウの<Filename>WM_COMMAND</Filename>属性を設定するには、Xlibの<Filename>XsetCommand()</Filename>関数を使います。
+この属性を設定することによって、アプリケーションが<Filename>WM_SAVE_YOURSELF</Filename>メッセージの処理を終了したことを
+セッション・マネージャに知らせ、アプリケーションを再起動するために必要なコマンド行を
+セッション・マネージャに与えます。
+</Para>
+<Para><Filename>XsetCommand()</Filename>は、コマンド引数の配列を受け入れます。
+アプリケーションが保存プロセスの一部として<Filename>DtSessionSavePath()</Filename>関数を使用する場合には、<Filename>XsetCommand()</Filename>には追加のコマンド引数<Command>&hyphen;session</Command> <Symbol Role="Variable">basename</Symbol>が必要です。<Symbol Role="Variable">basename</Symbol>は、<Filename>DtSessionSavePath()</Filename>によって返されるベース・ファイル名です。</Para>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.smgr.div.9">
+<Title Id="PG.smgr.mkr.4">セッション・マネージャがセッションを復元する方法</Title>
+<Para>セッション・マネージャは、次のようにしてセッションを復元します。</Para>
+<OrderedList>
+<ListItem>
+<Para>リソース・データベースとサーバ設定を復元する。
+</Para>
+</ListItem>
+<ListItem>
+<Para>保存されたコマンド行を使用して、アプリケーションを再起動する。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>アプリケーションが、保存された状態のパスを見つけるために<Filename>DtSessionSavePath()</Filename>を使用した場合には、
+アプリケーションはベース・ファイル名を<Filename>-session</Filename>引数から
+<Filename>DtSessionRestorePath()</Filename>関数に渡して、保存状態の絶対パス名を見つけることができます。
+</Para>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->

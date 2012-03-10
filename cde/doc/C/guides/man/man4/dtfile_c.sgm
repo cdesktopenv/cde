@@ -1,0 +1,145 @@
+<!-- $XConsortium: dtfile_c.sgm /main/4 1996/09/08 20:17:58 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN80.rsml.1" Remap="">
+<RefMeta>
+<RefEntryTitle>dtfile_config</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>dtfile_config</Filename></RefName>
+<RefPurpose>CDE File Manager configuration file
+</RefPurpose>
+</RefNameDiv>
+<!--- -->
+<!--     (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!--     (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!--     (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!--     (c) Copyright 1993, 1994 Novell, Inc.-->
+<!--- -->
+<RefSynopsisDiv>
+<Synopsis><Literal># Comment
+aix:3     = native
+hpux:0    = native
+sunos:ufs = native
+end
+#
+native: buttonLabel = Modify extended attributes ...
+        warning     = Warning:\nExtended attributes may limit your access
+        fsDialog    = /local/bin/modExtAttr
+        dismiss     = yes</Literal></Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The File Manager properties dialog can be used to change Unix file
+attributes. It can also be configured to allow editing of additional,
+filesystem-specific, attributes (such as Access Control Lists in AFS
+file systems). This ability is currently limited to IBM, Sun, and HP
+systems.
+</Para>
+<Para>Whenever the properties dialog is invoked, File Manager identifies the
+type of filesystem using platform-dependent library functions. For AIX
+the st_vfstype field returned by stat is used, for HPUX the f_fsid[1]
+field returned by statfs is used, and for SUNOS the f_basetype field
+returned by statvfs is used. The contents of this field is combined
+with the name of the system to create an identifier for the filesystem
+(e.g. aix:3). File Manager reads a configuration file (see below for
+file format) looking for this compound identifier. If it is not found,
+no further action is taken. Any errors which occur while reading the
+configuration file are logged in $HOME/.dt/errorlog.
+</Para>
+<Para>If found, the platform-dependent identifier is mapped to a
+platform-independent form (e.g. native). For each platform-independent
+identifier, the configuration file provides the name of a program which
+can be used to edit filesystem-specific properties. In addition, it
+give a label that is used on a button which is added to the properties
+dialog. When the button is pressed, File Manager forks a process to
+execute the program. While the filesystem-specific dialog appears to
+the user to be part of File Manager, it is implemented as a top-level
+shell and can be executed from the command line. File Manager provides
+only a single argument to the program: the complete path of the file.
+An option is also provided for the normal properties dialog to be
+Cancelled when the file-system specific dialog is invoked. Note that
+this will cause any changes made in the normal properties dialog to be
+lost.
+</Para>
+<Para>The platform-dependent identifier can also be used to present a message
+in the properties dialog. This message can appear either on its own or
+in conjunction with a pushbutton and properties dialog program as
+described above.
+</Para>
+<RefSect2>
+<Title>Location of configuration file</Title>
+<Para>File Manager looks in three places for the configuration file, stopping
+the search once the file is found. The three locations, in search order,
+are $HOME/dtfile.config (user-specific configuraton),
+/etc/dt/config/dtfile.config (customized system configuration) and
+/usr/dt/config/$LANG/dtfile.config (factory defaults). If none of these
+is found, an error message indicating that /usr/dt/config/$LANG/dtfile.config
+cannot be found is placed in $HOME/.dt/errorlog. For debugging, File
+Manager will use a configuration file defined in the environment
+variable DTFSCONFIG before searching any of the other locations.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Format of configuration file</Title>
+<Para>The File Manager configuration file consists of two sections. The first
+section maps platform-specific information to a platform-independent
+identifier. There are two fields in the platform-specific portion
+separated by a colon. The first field identifies the platform: aix,
+hpux, sunos. The second field depends on platform; for aix it is an
+integer corresponding to the st_vfstype field returned by stat, for hpux
+it is an integer corresponding to the f_fsid[1] field returned by
+statfs, for sunos it is a string corresponding to the f_basetype field
+returned by statvfs. The platform-independent identifier is given
+following an equals sign. The keyword "end" delimits the list of
+mappings. For example, to define the "native" file systems on several
+platforms:
+</Para>
+<ProgramListing>aix:3 = native
+hpux:0 = native
+sunos:ufs = native
+end
+</ProgramListing>
+<Para>The second section of the configuration file provides information needed
+by File Manager to execute the filesystem-specific dialog. It consists
+of a list of platform-independent identifiers followed by a colon and
+several fields. Each field consists of a name followed by an equals sign
+and a string. The five field names are: buttonLabel, which defines a
+label for a button in the permissions dialog; fsDialog, which defines
+the path to the program which displays the dialog for editing
+file-specific properties; warning, which is optional and defines a
+warning message to be displayed in permissions dialog; and dismiss,
+which is optional, and specifies if the normal properties dialog is to
+be cancelled when the file-system specific dialog is invoked. Dismiss
+can be set to either "yes" or "no" and defaults to "no". "\n" can be
+included in the warning text to generate a new line. Continuing the
+native file system example used above, the following would enable a
+file-system specific dialog generated by the program
+/local/bin/modExtAttr:
+</Para>
+<ProgramListing>native: buttonLabel = Modify extended attributes ...
+        warning     = Warning:\nExtended attributes may limit your access
+        fsDialog    = /local/bin/modExtAttr
+        dismiss     = yes
+</ProgramListing>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>SEE</Title>
+<Para>The factory-default configuration file,
+/usr/dt/config/$LANG/dtfile.config, contains further examples. Included
+are some test examples that can be enabled by removing comment
+characters from the definition lines in the file. Also included are
+defaults for AFS file systems which cause a warning message to be added
+to the regular properties dialog, but no dialog is provided.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

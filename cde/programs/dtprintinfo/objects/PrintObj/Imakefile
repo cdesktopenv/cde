@@ -1,0 +1,28 @@
+XCOMM $XConsortium: Imakefile /main/4 1996/04/21 19:52:17 drk $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		PrintObj
+#define LibHeaders	NO
+#define LibInstall	NO
+ 
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+INCLUDES = -I. -I.. -I../.. -I../../util
+
+#ifdef RsArchitecture
+DEFINES = -DHAS_EXCEPTIONS
+#endif
+
+#ifdef AlphaArchitecture
+DEFINES = -UNO_REGCOMP
+#endif
+
+SRCS = 	ParseJobs.C	PrintJob.C 	PrintSubSys.C 	Queue.C
+OBJS = 	ParseJobs.o	PrintJob.o 	PrintSubSys.o 	Queue.o
+
+#include <Library.tmpl>
+
+DependTarget()

@@ -1,0 +1,184 @@
+<!-- $XConsortium: dthffile.sgm /main/6 1996/09/08 20:18:15 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN81.rsml.1">
+<RefMeta>
+<RefEntryTitle>dthffile</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>dthffile</Filename></RefName>
+<RefPurpose>define the format of CDE Help Family files
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<Synopsis>CDE
+<Literal>Help</Literal> <Literal>Family</Literal> file format description.
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The Family file is based on the X11 syntax for application resources.
+Family files are used in conjunction with
+&cdeman.dthelpgen; to generate a browser Help volume
+that allows users to navigate through all of the available Help information.
+</Para>
+<Para>The Family file,
+<Literal>&lt;filename>.hf</Literal>, contains the following fields: character set,
+title, abstract, volume list and an optional image name.
+</Para>
+<Para>The
+<Literal>charSet</Literal> field specifies the standard CDE locale and code set value to be used in
+parsing the title and abstract fields of the Family file.
+The default
+value is <Literal>en_US.iso8859-1</Literal>.
+See the
+<Emphasis>CDE</Emphasis> <Emphasis>Help</Emphasis> <Emphasis>System</Emphasis> <Emphasis>Author's</Emphasis> <Emphasis>and</Emphasis> <Emphasis>Programmer's</Emphasis> for a complete list of supported locales and code sets.
+The Family title and abstract must not contain any HelpTag
+markup as this file is not processed by the HelpTag
+software.
+</Para>
+<Para>The
+<Literal>title</Literal> field specifies the title of the family, as displayed in the top-level of
+the browser Help volume.
+</Para>
+<Para>The
+<Literal>abstract</Literal> field specifies the abstract for the Family.
+Used to describe the family, it
+gives information about what type of volumes are in this Family or
+why these volumes are related.
+For long abstracts, the
+backslash character can be used to continue to the next line.
+</Para>
+<Para>The
+<Literal>volumes</Literal> field specifies which volumes belong to the Family.
+The
+volumes are listed in the order they appear on this line.
+A volume may
+be listed in more than one Family.
+This is a list of volume
+names separated by spaces.
+The ending <Filename>.sdl</Filename>
+extension must be specified if the search path contains a
+<Literal>%H</Literal> rather than an
+<Literal>%H.sdl</Literal>. See
+&cdeman.DtHelpDialog; for more information about CDE Help search path syntax and use.
+</Para>
+<Para>The
+<Literal>[bitmap]</Literal> field specifies the image that pictorially describes the Family.
+This image is displayed in the top-level browser volume just under the
+Family title, and to the left of the abstract text.
+</Para>
+<Para>The
+<Literal>icon</Literal> file is optional.
+If one is provide, the
+path used to specify the location of the file should be a complete
+pathname.
+If an icon file is not provided, the
+<Literal>*.bitmap</Literal> resource in the Family file should not be provided.
+</Para>
+<Para><Literal>Supported</Literal> <Literal>Graphics</Literal> <Literal>Formats:</Literal></Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>*.xwd</Literal></Term>
+<ListItem>
+<Para>X11 XWD file
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>*.tif</Literal></Term>
+<ListItem>
+<Para>TIFF 5.0 image file
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>*.pm</Literal></Term>
+<ListItem>
+<Para>X11 X Pixmap file
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>*.bm</Literal></Term>
+<ListItem>
+<Para>X11 Bitmap file
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<RefSect2>
+<Title>Registering A Product Family</Title>
+<Para>To register a product family, create and install a Help
+Family file (<Literal>product.hf</Literal>) with the rest of the product's Help files.
+Register the Family file by running the
+<Command>dtappintegrate</Command> script, which
+creates a symbolic link to the <Literal>product.hf</Literal> file.
+For most products, the
+appropriate place for the link is
+<Filename>/etc/dt/appconfig/help/language/</Filename>. See
+&cdeman.dtappintegrate; for more information on registering Help within the desktop.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<VariableList>
+<VarListEntry>
+<Term><Literal>*.charSet:</Literal></Term>
+<ListItem>
+<Para>iso8859-1
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>*.title:</Literal></Term>
+<ListItem>
+<Para>Developer's Information About The Help System
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>*.abstract:</Literal></Term>
+<ListItem>
+<Para>Abstract giving a short description about the Help system.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>*.volumes:</Literal></Term>
+<ListItem>
+<Para>helpkit.sdl helpdemo.sdl
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>*.bitmap:</Literal></Term>
+<ListItem>
+<Para><Filename>/usr/local/bitmap/helpGraphic.bm</Filename>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dthelpgen;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

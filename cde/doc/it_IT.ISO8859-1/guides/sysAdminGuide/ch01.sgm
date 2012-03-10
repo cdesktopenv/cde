@@ -1,0 +1,1101 @@
+<!-- $XConsortium: ch01.sgm /main/10 1996/12/20 20:46:54 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="sag.logmg.div.1">
+<title id="sag.logmg.mkr.1">Configurazione della Gestione del login</title>
+<para><indexterm><primary>&lt;</primary></indexterm><indexterm><primary>$nopage>Gestione
+del login</primary><secondary>Vedere anche server di login[Gestione del login</secondary><tertiary>aaa]</tertiary></indexterm><indexterm><primary>Gestione
+del login</primary><secondary>definizione</secondary></indexterm>La Gestione
+del login &egrave; un server<indexterm><primary>server di login</primary>
+<secondary>visualizzazione dello schermo di login</secondary></indexterm>
+responsabile della visualizzazione dello schermo di login, dell'autenticazione
+degli utenti<indexterm><primary>server di login</primary><secondary>autenticazione
+degli utenti</secondary></indexterm> e dell'avvio delle sessioni degli utenti<indexterm>
+<primary>server di login</primary><secondary>avvio di una sessione</secondary>
+</indexterm>. Il login grafico &egrave; una gradevole alternativa al login
+tradizionale per i monitor a mappa di bit. I video gestiti dal server di login
+possono essere collegati direttamente al server di login,<indexterm><primary>server di login</primary><secondary>collegamento di un video</secondary></indexterm>
+oppure a un terminale X o a una workstation della rete.</para>
+<note>
+<para>Per avviare, arrestare o personalizzare il server di login &egrave;
+necessario operare come superutente.</para>
+</note>
+<informaltable id="sag.logmg.itbl.1" frame="all">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Avvio del
+server di login2'--><xref role="JumpText" linkend="sag.logmg.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Gestione
+dei video locali e di rete3'--><xref role="JumpText" linkend="sag.logmg.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Analisi
+degli errori10'--><xref role="JumpText" linkend="sag.logmg.mkr.7"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Arresto
+del server di login10'--><xref role="JumpText" linkend="sag.logmg.mkr.8"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Modifica
+dell'aspetto dello schermo di login12--><!--'--><xref role="JumpText" linkend="sag.logmg.mkr.11"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Amministrazione
+della Gestione del login20'--><xref role="JumpText" linkend="sag.logmg.mkr.13"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'File della
+Gestione del login21'--><xref role="JumpText" linkend="sag.logmg.mkr.14"></para></entry>
+</row></tbody></tgroup></informaltable>
+<para id="sag.logmg.mkr.2"><indexterm><primary>Gestione del login</primary>
+<secondary>personalizzazione</secondary></indexterm></para>
+<para>Il server di login svolge le seguenti funzioni<indexterm><primary>server
+di login</primary><secondary>descrizione</secondary></indexterm>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pu&ograve; visualizzare lo schermo di login su video a mappa
+di bit sia locali che di rete, in modo incondizionato o su richiesta</para>
+</listitem>
+<listitem><para>Serve le console a caratteri collegate direttamente</para>
+</listitem>
+<listitem><para>Pu&ograve; visualizzare uno schermo di selezione che permette
+agli utenti di accedere agli schermi di login da altri server di login della
+rete</para>
+</listitem>
+<listitem><para>Permette l'accesso controllato al server di login</para>
+</listitem>
+<listitem><para>Permette di usare il login tradizionale a caratteri</para>
+</listitem>
+</itemizedlist>
+<para>Per disporre di queste funzioni, i video possono essere collegati direttamente
+al server della Gestione del login oppure a un terminale X o a una workstation
+della rete. Per i video locali, il server di login avvier&agrave; automaticamente
+un server X e visualizzer&agrave; uno schermo di login. Per i video collegati
+in rete, come i terminali X, il server di login supporta il protocollo X Display
+Manager Protocol (XDMCP)<indexterm><primary>XDMCP</primary></indexterm> 1.0,
+grazie al quale i video possono richiedere al server la visualizzazione dello
+schermo di login.</para>
+<sect1 id="sag.logmg.div.2">
+<title id="sag.logmg.mkr.3">Avvio del server di login</title>
+<para>Il server di login viene in genere avviato<indexterm><primary>server
+di login</primary><secondary>avvio</secondary></indexterm> al boot del sistema.
+Pu&ograve; tuttavia essere avviato anche da una riga comandi<indexterm><primary>server di login</primary><secondary>avvio dalla riga comandi</secondary></indexterm>.
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Per impostare l'avvio del server di login al boot del sistema,
+digitare <command>/usr/dt/bin/dtconfig -e</command></para>
+<para>Il server di login si avvier&agrave; automaticamente al reboot.</para>
+</listitem>
+<listitem><para>Per avviare il server di login da una riga comandi, digitare
+</para>
+<para><command>/usr/dt/bin/dtlogin -daemon</command></para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Il server di login pu&ograve; essere avviato dalla riga comandi per
+esigenze di prova della configurazione, ma in generale &egrave; pi&ugrave;
+appropriato l'avvio del server al boot del sistema.</para>
+</note>
+</sect1>
+<sect1 id="sag.logmg.div.3">
+<title id="sag.logmg.mkr.4">Gestione dei video locali e di rete</title>
+<para>La <!--Original XRef content: 'Figura&numsp;1&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="sag.logmg.mkr.5"> mostra una possibile configurazione del server
+di login.</para>
+<figure>
+<title id="sag.logmg.mkr.5">Possibile configurazione del server di login<indexterm>
+<primary>terminali X</primary><secondary>possibili configurazioni del server
+di login</secondary></indexterm></title>
+<graphic id="sag.logmg.grph.1" entityref="SAG.LogMg.fig.1"></graphic>
+</figure>
+<sect2 id="sag.logmg.div.4">
+<title>Determinazione dell'ID di processo del server di login<indexterm>
+<primary>server di login</primary><secondary>ID del processo</secondary></indexterm></title>
+<para>Nell'impostazione predefinita, il server di login memorizza il suo ID
+di processo in <filename>/var/dt/Xpid<indexterm><primary>Xpid, file</primary>
+</indexterm></filename>.</para>
+<para>Per cambiare questa impostazione &egrave; possibile modificare la risorsa
+<filename>Dtlogin.pidFile</filename> nel file <filename>Xconfig</filename>.<indexterm>
+<primary>Xconfig, file</primary><secondary>modifica</secondary></indexterm> La
+directory specificata dovr&agrave; esistere al momento dell'avvio del server
+di login.</para>
+<para>Per modificare <filename>Xconfig</filename>, copiare il file da <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename>. Dopo avere
+modificato <filename>/etc/dt/config/Xconfig</filename>, far rileggere <filename>Xconfig</filename> dal server di login digitando:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Questa operazione produce il comando <command>kill -HUP</command> <symbol role="Variable">ID processo server di login.</symbol></para>
+<para>Ad esempio, per memorizzare l'ID di processo del server di login in
+<filename>/var/server/Dtpid</filename>, modificare come segue il file <filename>Xconfig</filename>:</para>
+<programlisting>Dtlogin.pidFile: /var/server/Dtpid</programlisting>
+<para>Al riavvio del server di login, l'ID del processo verr&agrave; memorizzato
+in <filename>/var/server/Dtpid<indexterm><primary>Dtpid, file</primary></indexterm></filename>.
+La directory <filename>/var/server</filename> dovr&agrave; esistere quando
+verr&agrave; avviato il server di login.</para>
+</sect2>
+<sect2 id="sag.logmg.div.5">
+<title>Visualizzazione di uno schermo di login su un video locale</title>
+<para>All'avvio, il server di login controlla il file <filename>Xservers</filename><indexterm>
+<primary>Xservers, file</primary><secondary>avvio di un server</secondary>
+</indexterm> per determinare se debba essere avviato un server X e per stabilire
+se e come visualizzare gli schermi di login sui monitor locali e di rete.
+</para>
+<para>Per modificare il file <filename>Xservers</filename>, copiare il file
+da <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename>.
+Dopo avere modificato <filename>/etc/dt/config/Xservers</filename>, far rileggere <filename>Xservers</filename> al server di login digitando:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Questa operazione produce il comando <command>kill -HUP</command> <symbol role="Variable">ID processo server di login</symbol></para>
+<para>Il formato delle righe di <filename>Xservers</filename><indexterm><primary>Xservers, file</primary><secondary>sintassi</secondary></indexterm> &egrave;
+il seguente:</para>
+<programlisting><symbol role="Variable">nome_video classe_video tipo_video comando_server_X</symbol></programlisting>
+<para>dove</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="139*">
+<colspec colwidth="389*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">nome_video</symbol></para></entry>
+<entry align="left" valign="top"><para>Indica al server di login il nome da
+usare per la connessione al server X (:0 nell'esempio seguente). Il valore
+* (asterisco) equivale a <symbol role="Variable">nomehost</symbol>:0.</para><para>Il numero specificato deve corrispondere al numero di connessione del <symbol role="Variable">comando_server_X</symbol>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">classe_video</symbol></para></entry>
+<entry align="left" valign="top"><para>Identifica le risorse specifiche del
+video (<command>Local</command> nell'esempio seguente).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">tipo_video</symbol></para></entry>
+<entry align="left" valign="top"><para>Indica al server di login se il video
+&egrave; locale o in rete, e specifica come gestire l'opzione Login della
+riga comandi nello schermo di login (<filename>local@console</filename> nell'esempio
+seguente).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">comando_server_X</symbol></para></entry>
+<entry align="left" valign="top"><para>Identifica la riga comandi, il numero
+di connessione e altre opzioni che il server di login dovr&agrave; usare per
+avviare il server X (<filename>/usr/bin/X11/X:</filename> <filename>0</filename>
+nell'esempio seguente). Il numero di connessione deve corrispondere a quello
+specificato nel <symbol>nome_video</symbol>.</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>La riga predefinita di Xservers ha la forma seguente:</para>
+<programlisting>:0 Local locale@console /usr/bin/X11/X :0</programlisting>
+</sect2>
+<sect2 id="sag.logmg.div.6">
+<title>Avvio del server di login senza un video locale<indexterm><primary>video</primary><secondary>a mappa di bit, avvio del server di login senza</secondary></indexterm></title>
+<para>Se il sistema utilizzato come server di login non dispone di un monitor
+a mappa di bit<indexterm><primary>server di login</primary><secondary>uso
+senza un video a mappa di bit</secondary></indexterm>, avviare il server di
+login senza video locale escludendo la riga corrispondente del file <command>Xservers</command> con il simbolo di<indexterm><primary>server di login</primary>
+<secondary>uso senza un video locale</secondary></indexterm> commento <filename>#</filename><indexterm><primary>Xservers, file</primary><secondary>versione
+predefinita</secondary></indexterm>. Ad esempio:</para>
+<programlisting># :0 Local locale@console /usr/bin/X11/X :0</programlisting>
+<para>Il server di login verr&agrave; avviato in background e ricever&agrave;
+le richieste dei video della rete.</para>
+</sect2>
+<sect2 id="sag.logmg.div.7">
+<title>Accesso al login della riga comandi su un video locale</title>
+<para>Scegliendo l'opzione &ldquo;Login della riga comandi&rdquo; dallo schermo
+di login,<indexterm><primary>server di login</primary><secondary>login della
+riga comandi</secondary></indexterm> il server di login arresta temporaneamente
+il server delle finestre X e consente di eseguire il login in forma tradizionale
+sul video a mappa di bit di un terminale. Quando l'utente effettua il logout,
+o dopo un periodo di tempo specificato, il server di login riavvia il server
+X.</para>
+<note>
+<para>L'opzione<indexterm><primary>login</primary><secondary>della riga comandi</secondary></indexterm> &ldquo;Login della riga comandi&rdquo; non &egrave;
+disponibile sui video collegati mediante la rete.</para>
+</note>
+<para>Il comportamento del &ldquo;Login della riga comandi&rdquo; dipende
+dal <symbol role="Variable">tipo_video</symbol>. Il formato del <symbol role="Variable">tipo_video</symbol> &egrave; il seguente:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>local@</filename><symbol role="Variable">terminale_video</symbol></para>
+</listitem>
+<listitem><para><command><indexterm><primary>video</primary><secondary>locale</secondary></indexterm>local</command></para>
+</listitem>
+<listitem><para><command><indexterm><primary>video</primary><secondary>remoto</secondary></indexterm>foreign</command></para>
+</listitem>
+</itemizedlist>
+<para>Se si specifica <command>local</command>@<symbol role="Variable">terminale_video</symbol>, il server di login presume che il server X e <filename>/dev/</filename><symbol role="Variable">terminale_video</symbol> si trovino sullo stesso dispositivo
+fisico, e che su quel dispositivo sia in esecuzione un login della riga comandi
+(solitamente <command>getty</command>). Selezionando &ldquo;Login della riga
+comandi&rdquo;, il server X viene arrestato e l'utente pu&ograve; accedere
+al login in esecuzione (<command>getty</command>) su <filename>/dev/</filename><symbol role="Variable">terminale_video</symbol>.</para>
+<para>Per disabilitare l'opzione &ldquo;Login della riga comandi&rdquo; su
+un video, specificare <command>none</command> come <symbol role="Variable">terminale_video</symbol>. L'impostazione predefinita per <symbol role="Variable">terminale_video</symbol> &egrave; <command>console</command>. Specificando <command>local</command>, il valore di <symbol role="Variable">terminale_video</symbol>
+viene impostato automaticamente su <command>console</command>. Specificando <command>foreign</command>, l'opzione &ldquo;Login della riga comandi&rdquo; viene
+disabilitata.</para>
+<note>
+<para>Avviando il server di login dalla riga comandi, l'opzione &ldquo;Login
+della riga comandi&rdquo; viene automaticamente disabilitata sul video locale.
+</para>
+</note>
+</sect2>
+<sect2 id="sag.logmg.div.8">
+<title>Abilitazione di una console di visualizzazione a caratteri<indexterm>
+<primary>console a caratteri</primary></indexterm></title>
+<para>Se il sistema utilizzato come server di login &egrave; collegato direttamente
+a un video a<indexterm><primary>server di login</primary><secondary>console
+a caratteri</secondary></indexterm> caratteri utilizzato come console, si potr&agrave;
+impostare il <symbol role="Variable">terminale_video</symbol> su <command>none</command> per disabilitare l'opzione &ldquo;Login della riga comandi&rdquo;
+nello schermo di login del video a mappa di bit.</para>
+<para>In alternativa, se sia la console a caratteri che il video a mappa di
+bit utilizzano un login della riga comandi (<command><indexterm><primary>getty</primary></indexterm>getty</command>), &egrave; possibile impostare
+il <symbol role="Variable">terminale_video</symbol> sul dispositivo usato
+per il login (<command>getty</command>) sul video a mappa di bit.</para>
+<para>Ad esempio, se il login della riga comandi eseguito sul video a mappa
+di bit si trova sul dispositivo <filename>/dev/tty01</filename>, cambiare
+il <symbol role="Variable">tipo_video</symbol> in <computeroutput>local@tty01</computeroutput>.</para>
+</sect2>
+<sect2 id="sag.logmg.div.9">
+<title id="sag.logmg.mkr.6">Visualizzazione di uno schermo di login<indexterm>
+<primary>schermo di login</primary><secondary>visualizzazione su un video
+di rete</secondary></indexterm> su un video di rete</title>
+<para>Il server di login pu&ograve; visualizzare uno schermo di login su qualsiasi
+video della rete che generi una richiesta corrispondente, si tratti di un
+terminale X o di una workstation.</para>
+<para>Per gestire le richieste dei video della rete, il server di login supporta
+il protocollo XDMCP 1.0 (X Display Manager Protocol)<indexterm><primary>XDMCP</primary><secondary>definizione</secondary></indexterm>, che permette al
+server di login di negoziare, e quindi accettare o rifiutare, le richieste
+ricevute dai video della rete. Il protocollo XDMCP &egrave; integrato nella
+maggior parte dei terminali X.</para>
+<sect3 id="sag.logmg.div.10">
+<title>Richieste XDMCP dirette dei video<indexterm><primary>XDMCP</primary>
+<secondary>richieste dirette</secondary></indexterm> di rete<indexterm><primary>terminali X</primary><secondary>XDMCP con richieste dirette</secondary></indexterm></title>
+<para>Quando il terminale X viene configurato per l'utilizzo di XDMCP in modo
+diretto<indexterm><primary>XDMCP</primary><secondary>modo query</secondary>
+</indexterm> (modo di interrogazione), l'utente deve specificare al terminale
+X il nome host del sistema da utilizzare come server di login. Durante il
+boot, il terminale X contatter&agrave; automaticamente il server di login,
+il quale visualizzer&agrave; uno schermo di login sul terminale. Per informazioni
+su come configurare il terminale X per l'uso di XDMCP in modo diretto, vedere
+la documentazione del terminale.</para>
+<para>In genere, i server X supportano anche l'opzione <filename>-query</filename><indexterm>
+<primary>-query, opzione</primary></indexterm>. In questa modalit&agrave;,
+il server X si comporta esattamente come un terminale X, contattando direttamente
+l'host del server di login per richiedere la visualizzazione dello schermo
+di login. Ad esempio, avviando il server X su un video a mappa di bit di una
+workstation di nome <command>bianca</command>, il server di login <command>anita</command> visualizzer&agrave; uno schermo di login sul server X che
+ha generato la richiesta:</para>
+<programlisting>X -query anita</programlisting>
+</sect3>
+<sect3 id="sag.logmg.div.11">
+<title>Richieste XDMCP indirette<indexterm><primary>XDMCP</primary><secondary>richieste indirette</secondary></indexterm> dei video di rete<indexterm><primary>terminali X</primary><secondary>XDMCP con richieste indirette</secondary>
+</indexterm></title>
+<para>Quando il terminale X viene configurato per l'utilizzo di XDMCP in modo
+indiretto, l'utente deve specificare al terminale X il nome host del sistema
+da utilizzare come server di login. Durante il boot, il terminale X contatter&agrave;
+il server di login, il quale presenter&agrave; l'elenco dei server di login
+disponibili nella rete. Da questo elenco, l'utente potr&agrave; scegliere
+l'host che dovr&agrave; visualizzare lo schermo di login sul terminale X.
+Per informazioni su come configurare il terminale X per l'uso di XDMCP in
+modo indiretto, vedere la documentazione del terminale.</para>
+<para>In genere, come nel modo diretto, i server X supportano l'opzione <command>-indirect</command><indexterm><primary>-indirect, opzione</primary></indexterm>,
+con la quale il server X contatta il server di login in modalit&agrave; XDMCP
+indiretta.</para>
+</sect3>
+<sect3 id="sag.logmg.div.12">
+<title>Gestione dei video di rete non-XDMCP<indexterm><primary>terminali
+X</primary><secondary>video non-XDMCP</secondary></indexterm></title>
+<para>Alcuni terminali X di vecchia produzione non supportano il protocollo
+XDMCP. Per fare in modo che il server di login visualizzi lo schermo di login
+su un terminale di questo tipo, includere il nome del terminale nel file
+<filename>Xservers</filename>.</para>
+</sect3>
+<sect3 id="sag.logmg.div.13">
+<title>Esempio</title>
+<para>Queste righe del file <filename>Xservers</filename> ordinano al server
+di login di visualizzare uno schermo di login su due terminali X non-XDMCP
+di nome <command>rosso</command> e <command>grigio</command>:</para>
+<programlisting>rosso.arcobaleno.com:0 AcmeXsta foreign
+grigio:0 PandaCo foreign</programlisting>
+<para>Poich&eacute; il video fa parte della rete, il <symbol role="Variable">nome_video</symbol> include anche il nome dell'host. La <symbol role="Variable">classe del video</symbol> pu&ograve; essere usata per indicare risorse specifiche
+per una determinata classe di terminali X. (Per determinare la classe del
+terminale X in uso, vedere la documentazione del terminale.) Il <symbol role="Variable">tipo_video</symbol> <command>foreign</command> indica al server di login di
+collegarsi a un server X esistente anzich&eacute; di avviarne uno nuovo. In
+questo caso non &egrave; specificato alcun <symbol role="Variable">comando_server_X</symbol>.</para>
+</sect3>
+</sect2>
+<sect2 id="sag.logmg.div.14">
+<title>Controllo dell'accesso al server di<indexterm><primary>server di login</primary><secondary>controllo degli accessi</secondary></indexterm> login</title>
+<para>Nell'impostazione predefinita, qualsiasi host della rete che abbia accesso
+al sistema usato come server di login pu&ograve; richiedere la visualizzazione
+di uno schermo di login. L'accesso al server di login pu&ograve; tuttavia
+essere limitato modificando il file <filename>Xaccess</filename><indexterm>
+<primary>Xaccess, file</primary></indexterm>.</para>
+<para>Per modificare <filename>Xaccess</filename>, copiare il file da <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename>. Modificare <filename>/etc/dt/config/Xaccess</filename> e quindi ordinare al server di login di
+rileggere <filename>Xaccess</filename>:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Questo comando esegue <command>kill -HUP</command> <symbol role="Variable">ID di processo del server di login</symbol>.</para>
+<sect3 id="sag.logmg.div.15">
+<title>XDMCP diretto<indexterm><primary>terminali X</primary><secondary>XDMCP
+diretto</secondary></indexterm></title>
+<para>Quando un host cerca di connettersi al server di login usando<indexterm>
+<primary>XDMCP</primary><secondary>accesso diretto</secondary></indexterm> XDMCP
+in modo diretto, il nome dell'host viene confrontato con il contenuto del
+file<indexterm><primary>terminali X</primary><secondary>elenco Xaccess</secondary>
+</indexterm> <command>Xaccess</command> per determinare se quell'host sia autorizzato
+o meno ad accedere al server di login. Ogni riga del file <filename>Xaccess</filename> corrisponde a un nome host, inclusi i caratteri speciali * (asterisco)
+e ? (punto interrogativo). L'asterisco corrisponde a zero o pi&ugrave; caratteri
+qualsiasi, mentre il punto interrogativo corrisponde ad un singolo carattere
+qualsiasi. Un ! (punto esclamativo) all'inizio di una riga disabilita l'accesso
+al server di login, mentre in mancanza di un punto esclamativo l'accesso &egrave;
+abilitato.</para>
+<para>Ad esempio, se <filename>Xaccess</filename> contiene le tre righe seguenti:
+</para>
+<programlisting>adamo.globo.com
+*.rep5.globo.com
+
+!*</programlisting>
+<para>La prima riga abilita l'accesso al server di login dall'host <filename>adamo.globo.com</filename>, la seconda abilita l'accesso da tutti gli host
+il cui nome completo termini in <filename>rep5.globo.com</filename>, mentre
+l'ultima riga disabilita l'accesso da qualsiasi altro host.</para>
+</sect3>
+<sect3 id="sag.logmg.div.16">
+<title>XDMCP indiretto<indexterm><primary>terminali X</primary><secondary>XDMCP indiretto</secondary></indexterm></title>
+<para>Quando un host cerca di connettersi al server di login usando<indexterm>
+<primary>XDMCP</primary><secondary>accesso indiretto</secondary></indexterm> XDMCP
+in modo indiretto, il nome dell'host viene confrontato con il contenuto di
+<command>Xaccess</command> per determinare il suo diritto di accesso al server
+di login. Le righe di <command>Xaccess</command> hanno un formato analogo
+a quelle usate da XDMCP in modo diretto, inclusi i caratteri speciali, ma
+in questo caso ogni riga contiene una stringa<indexterm><primary>CHOOSER,
+stringa</primary><secondary>definizione</secondary></indexterm> <command>CHOOSER<indexterm>
+<primary>terminali X</primary><secondary>stringa CHOOSER</secondary></indexterm></command>.
+Ad esempio:</para>
+<programlisting>adamo.globo.com  CHOOSER BROADCAST
+*.rep5.globo.com CHOOSER BROADCAST
+!*     CHOOSER BROADCAST</programlisting>
+<para>Anche in questo caso, la prima riga abilita l'accesso al server di login
+dall'host <filename>adamo.globo.com</filename>, la seconda abilita l'accesso
+da tutti gli host il cui nome completo termini in <filename>rep5.globo.com</filename>, mentre l'ultima riga disabilita l'accesso da qualsiasi altro
+host.</para>
+<para>La stringa <command>CHOOSER</command><indexterm><primary>CHOOSER, stringa</primary><secondary>identificazione</secondary></indexterm> pu&ograve; essere
+seguita da:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command><indexterm><primary>BROADCAST, uso in XDMCP indiretto</primary></indexterm>BROADCAST</command></para>
+</listitem>
+<listitem><para><symbol role="Variable">lista dei nomi host</symbol></para>
+</listitem>
+</itemizedlist>
+<para>L'istruzione <command>BROADCAST</command> indica al server di login
+di generare, mediante una connessione con l'intera sottorete, un elenco degli
+host disponibili come server di login. Una lista di nomi host indica direttamente
+al server di login quali host sono disponibili. Ad esempio:</para>
+<programlisting>adamo.globo.com  CHOOSER saturno.globo.com luna.globo.com
+*.rep5.globo.com  CHOOSER BROADCAST
+
+!* CHOOSER BROADCAST</programlisting>
+<para>Collegandosi al server con XDMCP in modo indiretto, <filename>adamo.globo.com</filename> ricever&agrave; una lista di host contenente <command>saturno</command> e <command>luna</command>, mentre <filename>alice.rep5.globo.com</filename> ricever&agrave; l'elenco di tutti i server di login disponibili
+nella sottorete. Le altre richieste generate con XDMCP in modo indiretto
+verranno rifiutate.</para>
+<para>Un metodo alternativo per specificare una lista di host consiste nel
+definire una o pi&ugrave; macro contenenti un elenco di nomi host. Ad esempio:
+</para>
+<programlisting>%lista1 saturno.globo.com luna.globo.com
+adamo.globo.com CHOOSER %lista1</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="sag.logmg.div.17">
+<title id="sag.logmg.mkr.7">Analisi degli errori<indexterm><primary>server
+di login</primary><secondary>analisi degli errori</secondary></indexterm><indexterm>
+<primary>Gestione del login</primary><secondary>errori</secondary></indexterm></title>
+<para>Nell'impostazione predefinita, il server di login registra gli errori
+nel file<indexterm><primary>Xerrors, file</primary></indexterm> <filename>/var/dt/Xerrors</filename>. Questa impostazione pu&ograve; essere modificata
+editando la risorsa <filename>Dtlogin.errorLogFile</filename> nel file <filename>Xconfig</filename>. La directory specificata deve esistere al momento dell'avvio
+del server di login.</para>
+<para>Ad esempio, per fare in modo che il server di login registri gli errori
+nel file <filename>/var/log/Dterrors</filename>, impostare la risorsa seguente
+nel file <filename>Xconfig</filename>:</para>
+<programlisting>Dtlogin.errorLogFile: /var/log/Dterrors</programlisting>
+<para>Riavviando il server di login, gli errori verranno registrati nel file
+<filename>/var/log/<indexterm><primary>Dterrors, file</primary></indexterm>Dterrors</filename>. La directory <filename>/var/log</filename> dovr&agrave; esistere
+quando verr&agrave; riavviato il server di login.</para>
+</sect1>
+<sect1 id="sag.logmg.div.18">
+<title id="sag.logmg.mkr.8">Arresto del server di login<indexterm><primary>server di login</primary><secondary>arresto</secondary></indexterm></title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Per disabilitare l'avvio del server di login al boot del sistema,
+digitare:</para>
+<para remap="CodeIndent1"><indexterm><primary>dtconfig, comando</primary>
+</indexterm><programlisting>/usr/dt/bin/dtconfig -d</programlisting></para>
+<para>Questo comando indicher&agrave; al sistema di non avviare il server
+di login al boot successivo.</para>
+</listitem>
+<listitem><para>Per arrestare il server di login eliminando l'ID del processo,
+digitare:</para>
+<para remap="CodeIndent1"><programlisting>/usr/dt/bin/dtconfig -kill</programlisting></para>
+<para>In questo modo verr&agrave; eseguito il comando <command>kill</command> <symbol role="Variable">ID di processo server di login</symbol>)</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>L'arresto del processo del server di l<indexterm><primary>server di
+login</primary><secondary>eliminazione dell'</secondary></indexterm><indexterm>
+<primary>ID del processo</primary></indexterm>ogin con il comando <command>kill</command> causer&agrave; l'interruzione di tutte le sessioni utente gestite
+dal server di login.</para>
+</note>
+<para>Il server di login pu&ograve; anche essere arrestato eliminando l'ID
+del processo, in genere memorizzato in <filename>/var/dt/Xpid</filename> o
+nel file specificato in <filename>Xconfig</filename> dalla risorsa <filename>Dtlogin.pidFile</filename>.</para>
+<para>L'arresto del server di login causer&agrave; l'interruzione immediata
+delle sessioni correnti del desktop.</para>
+</sect1>
+<sect1 id="sag.logmg.div.19">
+<title id="sag.logmg.mkr.9">Lo schermo di login</title>
+<para>Lo schermo di login visualizzato dal server offre una serie di funzioni
+aggiuntive rispetto al login a caratteri tradizionale.</para>
+<figure>
+<title id="sag.logmg.mkr.10">Schermo di login del desktop</title>
+<graphic id="sag.logmg.grph.2" entityref="SAG.LogMg.fig.2"></graphic>
+</figure>
+<para>Come nel login a caratteri, l'utente deve inserire un nome e una parola
+chiave. Se le informazioni fornite vengono autenticate, il server di login
+avvia una sessione del desktop per l'utente specificato. All'uscita dalla
+sessione del desktop verr&agrave; presentato un nuovo schermo di login, che
+potr&agrave; essere utilizzato per ripetere l'intero processo.</para>
+<para>Per personalizzare lo schermo di login si possono eseguire una o pi&ugrave;
+delle seguenti operazioni<indexterm><primary>schermo di login</primary><secondary>personalizzazione</secondary></indexterm>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Modificare l'aspetto dello schermo di login</para>
+</listitem>
+<listitem><para>Configurare le autorizzazioni del server X</para>
+</listitem>
+<listitem><para>Modificare la lingua predefinita</para>
+</listitem>
+<listitem><para>Eseguire un comando prima della visualizzazione dello schermo
+di login</para>
+</listitem>
+<listitem><para>Modificare il menu Lingua dello schermo di login</para>
+</listitem>
+<listitem><para>Specificare il comando da utilizzare per l'avvio della sessione
+dell'utente</para>
+</listitem>
+<listitem><para>Eseguire un comando prima dell'avvio della sessione dell'utente
+</para>
+</listitem>
+<listitem><para>Eseguire un comando dopo il termine della sessione dell'utente
+</para>
+</listitem>
+</itemizedlist>
+<para>Ognuna di queste operazioni pu&ograve; essere eseguita per tutti i video
+o per un video specifico.</para>
+</sect1>
+<sect1 id="sag.logmg.div.20">
+<title id="sag.logmg.mkr.11">Modifica dell'aspetto dello schermo di login</title>
+<para>Per personalizzare l'aspetto dello schermo di<indexterm><primary>schermo
+di login</primary><secondary>modifica dell'</secondary></indexterm><indexterm>
+<primary>aspetto</primary></indexterm> login &egrave; possibile cambiare il
+logo o la presentazione grafica, i messaggi di benvenuto e i font.</para>
+<para>Per modificare il file <filename>Xresources</filename>, copiare il file
+da <filename>/usr/dt/config/</filename><symbol role="Variable">lingua</symbol>
+in <filename>/etc/dt/config/</filename><symbol role="Variable">lingua</symbol>.
+Le modifiche verranno applicate all'avvio successivo dello schermo di login.
+Per forzare l'applicazione delle modifiche nella sessione corrente, selezionare
+&ldquo;Ripristinare schermo di login&rdquo; dal menu Opzioni dello schermo
+di login.</para>
+<para>Gli attributi dello schermo di login che dipendono dall'impostazione
+delle risorse nel file <command>Xresources<indexterm><primary>Xresources,
+file</primary></indexterm></command> includono i seguenti:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="317*">
+<colspec colwidth="211*">
+<tbody>
+<row>
+<entry align="left" valign="top"><systemitem class="resource">Dtlogin*logo*bitmapFile</systemitem> </entry>
+<entry align="left" valign="top"><para>File a mappa di bit o a mappa di pixel
+da visualizzare come logo</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">Dtlogin*greeting*labelString</systemitem></para></entry>
+<entry align="left" valign="top"><para>Messaggio di benvenuto</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">Dtlogin*greeting*persLabelString</systemitem></para></entry>
+<entry align="left" valign="top"><para>Messaggio di benvenuto personalizzato
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">Dtlogin*greeting*fontList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Font per i messaggi di benvenuto</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">Dtlogin*labelFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Font per i pulsanti e le opzioni</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">Dtlogin*textFont</systemitem></para></entry>
+<entry align="left" valign="top"><para>Font per i messaggi di aiuto e di errore
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="resource">Dtlogin*<symbol role="Variable">lingua</symbol>*languageName</systemitem></para></entry>
+<entry align="left" valign="top"><para>Testo alternativo per la <symbol role="Variable">lingua</symbol> della versione locale</para></entry></row></tbody></tgroup>
+</informaltable>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colwidth="317*">
+<colspec colwidth="211*">
+<tbody>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry></row></tbody></tgroup></informaltable>
+<sect2 id="sag.logmg.div.21" role="Procedure">
+<title>Per modificare il logo</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Impostare la risorsa <systemitem>Dtlogin*logo*bitmapFile</systemitem> in <filename>Xresources</filename>.</para>
+<para>Il logo pu&ograve; essere un file a mappa di bit o a mappa di pixel
+a colori.</para>
+</listitem>
+</itemizedlist>
+<para>In questo esempio viene usato come logo il file a mappa di bit <filename>Logo_pers</filename>:</para>
+<programlisting>Dtlogin*logo*bitmapFile:
+/usr/local/lib/X11/dt/bitmaps/Logo_pers.bm</programlisting>
+</sect2>
+<sect2 id="sag.logmg.div.22" role="Procedure">
+<title>Per cambiare il messaggio di benvenuto<indexterm><primary>schermo di
+login</primary><secondary>cambiamento del messaggio di benvenuto</secondary>
+</indexterm><indexterm><primary>schermo di login</primary><secondary>formula
+di saluto</secondary></indexterm><indexterm><primary>messaggio di benvenuto</primary><secondary>modifica</secondary></indexterm></title>
+<para>Nell'impostazione<indexterm><primary>messaggio di benvenuto</primary>
+<secondary>formula predefinita</secondary></indexterm> predefinita, il server
+di login visualizza il messaggio <computeroutput>Benvenuti in <symbol role="Variable">nome_host</symbol></computeroutput>. Per cambiare questo messaggio:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Impostare la risorsa <systemitem class="resource">Dtlogin*greeting*labelString</systemitem> in <filename>Xresources</filename>.</para>
+<para>Il valore della risorsa <systemitem class="resource">labelString</systemitem>
+potr&agrave; contenere %<symbol role="Variable">LocalHost</symbol>%, che verr&agrave;
+sostituito dal nome dell'host usato come server di login, e %<symbol role="Variable">DisplayName</symbol>%, che verr&agrave; sostituito dal nome del video del
+server X.</para>
+</listitem>
+</itemizedlist>
+<para>Nell'esempio seguente, il messaggio di benvenuto viene cambiato in <command>Siete</command> <command>su</command> <symbol role="Variable">nome_host</symbol><filename>!</filename>:</para>
+<programlisting>Dtlogin*greeting*labelString: Siete su %LocalHost%!</programlisting>
+<para>Dopo l'inserimento del nome utente, il server di login visualizza il
+messaggio <filename>Benvenuto,</filename> <symbol role="Variable">nome_utente</symbol>. Questo messaggio pu&ograve; essere modificato impostando la risorsa <systemitem>Dtlogin*greeting*persLabelString</systemitem> in <filename>Xresources</filename>.
+Il valore di <command>persLabelString</command> potr&agrave; contenere la
+variabile <command>%s</command>, che verr&agrave; sostituita dal <symbol role="Variable">nome_utente</symbol>.</para>
+<para>Nell'esempio seguente, il messaggio di benvenuto personalizzato viene
+modificato in Salve<computeroutput> <symbol role="Variable">nome_utente</symbol>!</computeroutput>.</para>
+<programlisting>Dtlogin*greeting*persLabelString: Salve %s !</programlisting>
+</sect2>
+<sect2 id="sag.logmg.div.23" role="Procedure">
+<title>Per cambiare i<indexterm><primary>schermo di login</primary><secondary>font</secondary></indexterm> font</title>
+<para>I font utilizzati nello schermo di login possono essere cambiati impostando
+una delle risorse seguenti in <filename>Xresources:<indexterm><primary>Xresources,
+file</primary></indexterm></filename></para>
+<para>Per ottenere l'elenco dei font disponibili, digitare:</para>
+<programlisting><command>xlsfonts [-</command><symbol role="Variable">opzioni</symbol><command>] [-fn</command> <symbol role="Variable">schema</symbol>]
+</programlisting>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="264*">
+<colspec colwidth="264*">
+<tbody>
+<row>
+<entry align="left" valign="top"><systemitem><command>Dtlogin*greeting*fontList</command></systemitem> </entry>
+<entry align="left" valign="top"><para>Font per i messaggi di benvenuto</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><systemitem><filename>Dtlogin*labelFont</filename></systemitem> </entry>
+<entry align="left" valign="top"><para>Font per i pulsanti, i menu e le opzioni
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*textFont</systemitem>
+</para></entry>
+<entry align="left" valign="top"><para>Font per i messaggi di aiuto e di errore
+</para></entry></row></tbody></tgroup></informaltable>
+<para>L'esempio seguente imposta l'uso di un font di grandi dimensioni per
+il messaggio di benvenuto (il valore specificato deve occupare una sola riga):
+</para>
+<programlisting>Dtlogin*greeting*fontList: -dt-interface system-medium-r-normal-xxl*-*-*-*-*-*-*-*-*:
+</programlisting>
+<sect3 id="sag.logmg.div.24" role="Procedure">
+<title>Per specificare un testo alternativo per<indexterm><primary>schermo
+di login</primary><secondary>localizzazione</secondary></indexterm> le lingue
+disponibili<indexterm><primary>localizzazione</primary><secondary>dello schermo
+di login</secondary></indexterm></title>
+<para>Per visualizzare nel menu Lingua una o pi&ugrave; opzioni personalizzate
+anzich&eacute; i nomi predefiniti delle versioni locali, modificare come nell'esempio
+la risorsa <systemitem>Dtlogin*<symbol role="Variable">lingua</symbol> *languageName</systemitem> in <filename>Xresources</filename>:</para>
+<programlisting>Dtlogin*En_US*languageName: Americano</programlisting>
+<para>Il testo <command>Americano</command> sostituir&agrave; il nome predefinito
+della versione locale <filename>En_US</filename>.</para>
+</sect3>
+<sect3 id="sag.logmg.div.25">
+<title>Modifica del comportamento dello schermo di login<indexterm><primary>schermo di login</primary><secondary>modifica del comportamento</secondary>
+</indexterm></title>
+<para>Il comportamento dello schermo di login pu&ograve; essere personalizzato
+modificando le risorse specificate nel file <filename>Xconfig</filename>.
+</para>
+<para>Per modificare <command>Xconfig</command>, copiare il file da <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename>. Modificare <filename>/etc/dt/config/Xconfig</filename> e quindi far rileggere il file al server
+di login digitando:</para>
+<programlisting>/usr/dt/bin/dtconfig -reset</programlisting>
+<para>Verr&agrave; eseguito il comando <command>kill</command> <command>-HUP</command> <symbol role="Variable">ID di processo del server di login</symbol></para>
+<para><indexterm><primary>Gestione del login</primary><secondary>risorse</secondary>
+</indexterm>Le risorse specificate nel file <filename>Xconfig<indexterm><primary>Xconfig, file</primary><secondary>impostazione delle risorse</secondary></indexterm></filename>
+includono:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="241*">
+<colspec colwidth="287*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*authorize</systemitem></para></entry>
+<entry align="left" valign="top"><para>Informazioni sul file <command>Xaccess</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*environment</systemitem></para></entry>
+<entry align="left" valign="top"><para>Ambiente del server X</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><systemitem><filename>Dtlogin*language</filename></systemitem></entry>
+<entry align="left" valign="top"><para>Lingua predefinita</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtlogin*languageList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Elenco delle opzioni del menu Lingua
+dello schermo di login</para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem><filename>Dtlogin*resources</filename></systemitem></entry>
+<entry align="left" valign="top"><para>Informazioni su <command>Xresources</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem><filename>Dtlogin*setup</filename></systemitem></entry>
+<entry align="left" valign="top"><para>Informazioni sul file <command>Xsetup</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem><filename>Dtlogin*</filename>startup</systemitem> </entry>
+<entry align="left" valign="top"><para>Informazioni sul file <command>Xstartup</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*session</systemitem></entry>
+<entry align="left" valign="top"><para>Informazioni sul file <command>Xsession</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*failsafeClient</systemitem></entry>
+<entry align="left" valign="top"><para>Informazioni sullo script <command>Xfailsafe</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*reset</systemitem></entry>
+<entry align="left" valign="top"><para>Informazioni sullo script <command>Xreset</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*userPath</systemitem></entry>
+<entry align="left" valign="top"><para>PATH per <command>Xsession</command>
+e <command>Xfailsafe</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*systemPath</systemitem></entry>
+<entry align="left" valign="top"><para>PATH per <command>Xsetup</command>, <command>Xstartup</command> e <command>Xfailsafe</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin*systemShell</systemitem></entry>
+<entry align="left" valign="top"><para>SHELL per <command>Xsetup</command>, <command>Xstartup</command> e <command>Xfailsafe</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><systemitem>Dtlogin.timeZone</systemitem></entry>
+<entry align="left" valign="top"><para>TZ per tutti gli script</para></entry>
+</row></tbody></tgroup></informaltable>
+</sect3>
+</sect2>
+<sect2 id="sag.logmg.div.26">
+<title>Modifica del comportamento dello schermo di login per ogni video<indexterm>
+<primary>schermo di login</primary><secondary>comportamento dipendente dal
+video</secondary></indexterm><indexterm><primary>video</primary><secondary>multipli</secondary></indexterm></title>
+<para>Negli esempi riportati qui di seguito, la modifica di una risorsa di <systemitem>Xconfig</systemitem> cambia il comportamento dello schermo di login per tutti
+i video. Le risorse affiancate da un asterisco (*) possono essere specificate
+anche limitatamente a un video specifico. Per specificare una risorsa per
+un determinato video occorre usare il formato <systemitem>Dtlogin*<symbol role="Variable">nome_video</symbol>*<symbol role="Variable">risorsa</symbol></systemitem>.
+Ad esempio, per disabilitare il controllo degli accessi basato sugli utenti
+per il video <filename>expo:0</filename> e lasciarlo abilitato per gli altri
+video, occorrer&agrave; specificare:</para>
+<programlisting>Dtlogin*expo_0*authorize: False</programlisting>
+<note>
+<para>Tutti i caratteri speciali contenuti nei nomi dei video, come i due
+punti (:) o i punti (.), vengono sostituiti da un carattere di sottolineatura
+(_).</para>
+</note>
+</sect2>
+<sect2 id="sag.logmg.div.27">
+<title>Modifica dell'accesso al server X<indexterm><primary>schermo di login</primary><secondary>accesso al server X</secondary></indexterm><indexterm>
+<primary>server X</primary><secondary>modifica dell'</secondary></indexterm><indexterm>
+<primary>accesso</primary></indexterm></title>
+<para>Nell'impostazione predefinita, il server di login abilita il controllo
+degli accessi al server X basandosi sugli utenti e usando i dati di autorizzazione
+memorizzati e protetti nel file <symbol role="Variable">DirectoryIniziale</symbol><filename>/.Xauthority</filename>. Solo gli utenti autorizzati a
+leggere questo file potranno connettersi al server X. In generale, questo
+&egrave; il metodo preferito per il controllo degli accessi ai server X.
+</para>
+<para>Un'alternativa al metodo basato sugli utenti &egrave; rappresentata
+dal controllo degli accessi basato sugli host. Con questo metodo, abilitando
+l'accesso al server X da un determinato host, il diritto di accesso viene
+esteso automaticamente a tutti gli utenti che hanno accesso a quell'host.
+Questo metodo pu&ograve; rendersi necessario per le seguenti ragioni:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>I client X di tipo R2 e R3 non possono connettersi a un server
+X che utilizzi il controllo degli accessi basato sugli utenti.</para>
+</listitem>
+<listitem><para>Se la rete non &egrave; protetta, &egrave; possibile che un
+estraneo riesca a intercettare i dati di autorizzazione scambiati tra il client
+X e il server X.</para>
+</listitem>
+</itemizedlist>
+<para>La risorsa <systemitem>Dtlogin*authorize</systemitem><indexterm><primary>authorize, risorsa</primary></indexterm> di <filename>Xconfig</filename> indica
+al server di login di usare il controllo degli accessi basato sugli utenti.
+Per usare il metodo basato sull'host, cambiare il valore della risorsa di
+autorizzazione in <literal>False</literal>. Ad esempio:</para>
+<programlisting>Dtlogin*authorize: False</programlisting>
+<sect3 id="sag.logmg.div.28" role="Procedure">
+<title>Per cambiare l'ambiente del serve<indexterm><primary>server X</primary>
+<secondary>modifica dell'</secondary></indexterm><indexterm><primary>ambiente</primary></indexterm>r X<indexterm><primary>schermo di login</primary><secondary>ambiente del server X</secondary></indexterm></title>
+<para>Se si desidera associare una o pi&ugrave; variabili d'ambiente a un
+server X al momento del suo avvio dal server di login, occorrer&agrave; specificare
+tali variabili usando la risorsa <systemitem>Dtlogin*environment</systemitem>
+in <filename>Xconfig</filename>. Ad esempio, la risorsa:</para>
+<programlisting>Dtlogin*environment: VAR1=foo VAR2=bar</programlisting>
+<para>render&agrave; le variabili <symbol>VAR1</symbol> e <symbol>VAR2</symbol>
+disponibili per il processo del server X locale. Queste variabili verranno
+esportate anche negli script <command>Xsession</command> e <command>Xfailsafe</command>.</para>
+</sect3>
+<sect3 id="sag.logmg.div.29" role="Procedure">
+<title>Per cambiare la lingua predefinita<indexterm><primary>schermo di login</primary><secondary>cambiamento della lingua predefinita</secondary></indexterm></title>
+<para>Quando si avvia una sessione del desktop dallo schermo di login, &egrave;
+possibile scegliere la lingua da utilizzare dal menu secondario Lingua del
+menu Opzioni. Se non viene selezionata alcuna lingua specifica verr&agrave;
+usata quella predefinita. La lingua predefinita pu&ograve; essere impostata
+con la risorsa <systemitem>Dtlogin*language<indexterm><primary>Dtlogin*language,
+risorsa</primary></indexterm></systemitem> in <filename>Xconfig</filename>.
+Ad esempio:</para>
+<programlisting>Dtlogin*language: Ja_JP</programlisting>
+<para>Per determinare quali lingue sono installate sul sistema in uso, vedere
+la documentazione del sistema.</para>
+</sect3>
+<sect3 id="sag.logmg.div.30" role="Procedure">
+<title>Per cambiare il menu Lingua dello schermo di login<indexterm><primary>schermo di login</primary><secondary>modifica del menu Lingua</secondary>
+</indexterm><indexterm><primary>Lingua, menu, personalizzazione</primary>
+</indexterm></title>
+<para>Nell'impostazione predefinita, il server di login crea il menu Lingua
+includendo tutte le versioni locali installate sul sistema. Quando l'utente
+seleziona una lingua, il server di login ripresenta lo schermo di login in
+quella lingua. La sessione del desktop verr&agrave; quindi avviata nella lingua
+selezionata.</para>
+<para>&Egrave; possibile specificare l'elenco delle lingue disponibili modificando
+la risorsa <systemitem>Dtlogin*languageList</systemitem> in <filename>Xconfig</filename>. Ad esempio:</para>
+<programlisting>Dtlogin*languageList: En_US De_DE</programlisting>
+<para>Con l'impostazione riportata in questo esempio, il server di login creer&agrave;
+un menu Lingua contenente solo le opzioni <filename>En_US</filename> e <filename>De_DE</filename>.</para>
+</sect3>
+</sect2>
+<sect2 id="sag.logmg.div.31">
+<title>Esecuzione di un comando prima della comparsa dello schermo di login<indexterm>
+<primary>Gestione del login</primary><secondary>esecuzione di comandi</secondary>
+</indexterm></title>
+<para>Dopo l'avvio del server X ma prima della comparsa dello schermo di login,
+il server di login esegue lo script <command>Xsetup</command>.<indexterm>
+<primary>Xsetup, file</primary></indexterm> Questo script richiede le autorizzazioni
+di superutente ed esegue i comandi che devono essere completati prima della
+visualizzazione dello schermo di login.</para>
+<para>Per modificare <command>Xsetup</command>, copiare il file da <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename> <literal>.</literal> La versione modificata di <command>Xsetup</command> verr&agrave;
+usata al login successivo.</para>
+<sect3 id="sag.logmg.div.32">
+<title>Esecuzione di un comando prima dell'avvio della sessione utente</title>
+<para>Dopo l'inserimento e l'autenticazione del nome utente e della parola
+chiave, ma prima dell'avvio della sessione utente, il server di login esegue
+lo script <command>Xstartup</command>. <command>Xstartup<indexterm><primary>Xstartup, file</primary></indexterm></command> richiede le autorizzazioni
+di superutente ed esegue i comandi che devono essere completati prima dell'avvio
+della sessione utente.</para>
+<para>Per modificare <command>Xstartup</command>, copiare il file da <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename>. La versione
+modificata di <command>Xstartup</command> verr&agrave; usata al login successivo.
+</para>
+</sect3>
+<sect3 id="sag.logmg.div.33">
+<title>Avvio di una sessione del desktop</title>
+<para>Nell'impostazione predefinita, il server di login avvia la sessione
+dell'utente eseguendo lo script <command>Xsession</command>. <command>Xsession<indexterm>
+<primary>Xsession, file</primary><secondary>esecuzione dal server di login</secondary></indexterm></command> richiede le autorizzazioni dell'utente
+ed esegue i comandi necessari per l'avvio del desktop.</para>
+<note>
+<para>Non aggiornare mai direttamente lo script <command>Xsession</command>.
+</para>
+</note>
+<para>Per informazioni su come personalizzare l'avvio delle sessioni del desktop
+di un utente, vedere il <!--Original XRef content: 'Capitolo&numsp;2, &ldquo;Configurazione
+della--><!-- Gestione delle sessioni'--><xref role="ChapNumAndTitle" linkend="sag.sesmg.mkr.1">..
+</para>
+</sect3>
+</sect2>
+<sect2 id="sag.logmg.div.34">
+<title>Avvio di una sessione protetta<indexterm><primary>sessione</primary>
+<secondary>protetta</secondary></indexterm></title>
+<para>Selezionando &ldquo;Sessione a finestra singola&rdquo; dal menu secondario
+Sessioni del menu Opzioni dello schermo di login, il server di login esegue
+lo script <command>Xfailsafe<indexterm><primary>Xfailsafe, file</primary>
+</indexterm></command>. <command>Xfailsafe</command> richiede le autorizzazioni
+dell'utente ed esegue i comandi necessari per l'avvio di un ambiente a finestre
+base, costituito in genere da un Terminale e talvolta da un gestore di finestre.
+</para>
+<para>Per modificare <command>Xfailsafe</command>, copiare il file da <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename>. La versione
+modificata di <command>Xfailsafe</command> verr&agrave; eseguita al login
+successivo dell'utente.</para>
+</sect2>
+<sect2 id="sag.logmg.div.35">
+<title>Al termine della sessione utente<indexterm><primary>sessione</primary>
+<secondary>esecuzione di uno script alla fine</secondary></indexterm></title>
+<para>Quando l'utente esce da una sessione normale o protetta del desktop,
+il server di login esegue lo script <command>Xreset</command>. <command>Xreset</command><indexterm><primary>Xreset, file</primary></indexterm> richiede
+le autorizzazioni di superutente ed esegue i comandi necessari dopo la fine
+della sessione utente.</para>
+<para>Per modificare <command>Xreset</command>, copiare il file da <filename>/usr/dt/config</filename> in <filename>/etc/dt/config</filename>. La versione
+modificata di <command>Xreset</command> verr&agrave; eseguita al login successivo.
+</para>
+</sect2>
+<sect2 id="sag.logmg.div.36">
+<title>L'ambiente del server di login</title>
+<para>Il server di login crea un ambiente che viene poi esportato negli script <command>Xsetup</command>, <command>Xstartup</command>, <command>Xsession</command>, <command>Xfailsafe</command> e <command>Xreset</command>. Questo ambiente viene descritto
+nella <!--Original XRef content: 'Tabella&numsp;1&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="sag.logmg.mkr.12">. Il server di login potr&agrave; esportare anche
+altre variabili oltre a quelle elencate.</para>
+<table id="sag.logmg.tbl.1" frame="topbot">
+<title id="sag.logmg.mkr.12">Ambiente del server di login<indexterm><primary>server di login</primary><secondary>ambienti</secondary></indexterm></title>
+<tgroup cols="6" colsep="0" rowsep="0">
+<colspec colwidth="1.73in">
+<colspec colwidth="0.26in">
+<colspec colwidth="0.24in">
+<colspec colwidth="0.26in">
+<colspec colwidth="0.22in">
+<colspec colwidth="2.86in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Variabile d'ambiente</literal></para></entry><entry align="left" valign="bottom"><para><filename>Xsetup</filename></para></entry><entry align="left" valign="bottom"><para><filename>Xstartup</filename></para></entry><entry align="left" valign="bottom"><para><filename>Xsession</filename></para></entry><entry align="left" valign="bottom"><para><filename>Xreset</filename></para></entry><entry align="left" valign="bottom"><para><literal>Descrizione</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem class="environvar"><indexterm>
+<primary>LANG, variabile</primary><secondary>impostazione dalla Gestione del
+login</secondary></indexterm> LANG</systemitem></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Lingua predefinita o selezionata</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><literal><indexterm><primary>XAUTHORITY,
+variabile</primary><secondary>impostazione dalla Gestione del login</secondary>
+</indexterm>XAUTHORITY</literal></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>File alternativo per le autorizzazioni
+X (opzionale)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="environvar"><indexterm>
+<primary>PATH, variabile</primary><secondary>impostazione dalla Gestione del
+login</secondary></indexterm>PATH</systemitem></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Valore della risorsa <filename>Dtlogin*userPath</filename> (<command>Xsession</command>, <command>Xfailsafe</command>) o
+<filename>Dtlogin*systemPath</filename> (<command>Xsetup</command>, <command>Xstartup</command>, <command>Xreset</command>)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="environvar"><indexterm>
+<primary>DISPLAY, variabile, impostazione dalla Gestione del login</primary>
+</indexterm>DISPLAY</systemitem></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Numero di connessione del server X
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal><indexterm><primary>SHELL,
+variabile</primary><secondary>impostazione dalla Gestione del login</secondary>
+</indexterm>SHELL</literal></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Shell specificata in <filename>/etc/passwd</filename> (<command>Xsession</command>, <command>Xfailsafe</command>) o
+risorsa <filename>Dtlogin*systemShell</filename> (<command>Xsetup</command>,
+<command>Xstartup</command>, <command>Xreset</command>)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="environvar"><indexterm>
+<primary>TZ, variabile</primary></indexterm>TZ</systemitem></para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Valore della risorsa <filename>Dtlogin.timeZone</filename> o fuso orario determinato dal sistema</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="environvar"><indexterm>
+<primary>USER, variabile</primary></indexterm>USER</systemitem></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Nome dell'utente</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="environvar"><indexterm>
+<primary>HOME, variabile</primary></indexterm>HOME</systemitem></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Directory iniziale specificata in <command>/etc/passwd</command></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem class="environvar"><indexterm>
+<primary>LOGNAME, variabile</primary></indexterm>LOGNAME</systemitem></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>X</para></entry>
+<entry align="left" valign="top"><para>Nome dell'utente</para></entry></row>
+</tbody></tgroup><?Pub Caret></table>
+</sect2>
+<sect2 id="sag.logmg.div.37">
+<title>Modifica del percorso dell'utente o del sistema</title>
+<para>Il server di login imposta la variabile d'ambiente PATH<indexterm>
+<primary>server di login</primary><secondary>percorso dell'</secondary></indexterm><indexterm>
+<primary>utente</primary></indexterm> durante l'esecuzione degli script <command><indexterm>
+<primary>Xsession, file</primary><secondary>impostazione della variabile PATH</secondary></indexterm>Xsession</command> e <command><indexterm><primary>Xfailsafe, file</primary></indexterm>Xfailsafe</command>. Ogni utente ha la
+possibilit&agrave; di specificare un percorso alternativo per questi script.
+</para>
+<sect3 id="sag.logmg.div.38" role="Procedure">
+<title>Per modificare il percorso dell'utente<indexterm><primary>percorso</primary><secondary>dell'</secondary></indexterm><indexterm><primary>utente</primary></indexterm></title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Impostare la risorsa <filename>Dtlogin*<indexterm><primary>userPath, risorsa</primary></indexterm>userPath</filename> in <filename>Xconfig.</filename> Ad esempio:<indexterm><primary>variabili d'</primary></indexterm><indexterm>
+<primary>ambiente</primary><secondary>Gestione del login</secondary></indexterm></para>
+</listitem>
+</itemizedlist>
+<programlisting>Dtlogin*userPath:/usr/bin:/etc:/usr/sbin:/usr/ucb:/usr/bin/X11
+</programlisting>
+</sect3>
+<sect3 id="sag.logmg.div.39" role="Procedure">
+<title>Per modificare il percorso di sistema<indexterm><primary>percorso</primary>
+<secondary>di sistema</secondary></indexterm></title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Impostare la risorsa <filename>Dtlogin*<indexterm><primary>systemPath, risorsa</primary></indexterm>systemPath</filename> in <command>Xconfig</command>. Ad esempio:</para>
+</listitem>
+</itemizedlist>
+<programlisting>Dtlogin*systemPath: /usr/bin/X11:/etc:/bin:/usr/bin:/usr/ucb
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="sag.logmg.div.40" role="Procedure">
+<title>Per cambiare la shell di sistema</title>
+<para>Il server di login imposta la variabile d'ambiente SHELL durante l'esecuzione
+degli script <command>Xsetup</command>, <command>Xstartup</command> e <command>X<indexterm><primary>server di login</primary><secondary>shell di sistema</secondary></indexterm>failsafe</command>. L'impostazione predefinita &egrave;
+<filename>/bin/sh</filename>, che tuttavia pu&ograve; essere modificata cambiando
+la risorsa <systemitem>Dtlogin*systemShell</systemitem> in <filename>Xconfig</filename>. Ad esempio:</para>
+<programlisting>Dtlogin*systemShell: /bin/ksh</programlisting>
+</sect2>
+<sect2 id="sag.logmg.div.41" role="Procedure">
+<title>Per cambiare il fuso orario</title>
+<para>Il server di login imposta la variabile d'ambiente TZ<indexterm><primary>TZ, variabile</primary></indexterm> durante l'esecuzione degli script <command>Xsetup</command>, <command>Xstartup</command>, <command>Xsession</command>, <command>Xfailsafe</command> e <command>Xreset</command>. Il valore predefinito viene
+ricavato dal sistema, perci&ograve; di norma non &egrave; necessario modificare<indexterm>
+<primary>server di login</primary><secondary>cambiamento del fuso orario</secondary></indexterm><indexterm><primary>fuso orario, cambiamento</primary>
+</indexterm> il valore acquisito. Per impostare un fuso orario differente per
+questi script, modificare la risorsa <systemitem>Dtlogin.timeZone</systemitem>
+in <filename>Xconfig</filename>. Ad esempio:</para>
+<programlisting>Dtlogin.timeZone: CST6CDT</programlisting>
+</sect2>
+</sect1>
+<sect1 id="sag.logmg.div.42">
+<title id="sag.logmg.mkr.13">Amministrazione della Gestione del login</title>
+<para>All'avvio del server di login viene attivato un unico processo <command>dtlogin</command>. Il processo <command>dtlogin</command> legge il file <filename>Xconfig</filename> per determinare la configurazione iniziale del server di
+login e localizzare gli altri file di configurazione disponibili. Il server
+di login legge quindi il file <filename>Xservers</filename> per determinare
+se la presenza o meno di display da gestire in modo esplicito, e legge il
+file <filename>Xaccess</filename> per controllare l'accesso al server di login.
+</para>
+<para>Se nel file <filename>Xservers<indexterm><primary>Xservers, file</primary>
+<secondary>gestione del video locale</secondary></indexterm></filename> &egrave;
+specificato che il server di login deve gestire un display locale, esso avvier&agrave;
+un server X in base alle informazioni specificate in <filename>Xservers</filename>
+e quindi visualizzer&agrave; uno schermo di login su quel video.</para>
+<para>Se nel file <filename>Xservers</filename> &egrave; specificato che il
+server di login deve gestire un video di rete, esso presumer&agrave; che il
+server X richiesto sia gi&agrave; in esecuzione con il nome del video specificato
+e visualizzer&agrave; uno schermo di login su quel video.</para>
+<para>Il server di login attender&agrave; quindi le richieste XDMCP dei client
+della rete.</para>
+<para>Il server di login crea un nuovo processo <command>dtlogin</command>
+per ogni video da gestire. Questo significa che, se il server di login gestisce
+un numero <symbol role="Variable">n</symbol> di video, il numero dei processi <command>dtlogin</command> sar&agrave; pari a <symbol role="Variable">n</symbol><symbol role="Variable">+1</symbol>. Il server di login eseguir&agrave; lo script <command>Xsetup</command>, caricher&agrave; il file <command>Xresources</command> e
+quindi eseguir&agrave; <command>dtgreet</command> per visualizzare lo schermo
+di login. Dopo l'inserimento e l'autenticazione del nome utente e della password,
+il server di login eseguir&agrave; lo script <command>Xstartup</command> e
+quindi lo script <command>Xsession</command> o <command>Xfailsafe<indexterm>
+<primary>Xfailsafe, file</primary></indexterm></command>. Al termine della
+sessione eseguir&agrave; lo script <command>Xreset</command>.</para>
+<para>Se il server di login riceve una richiesta<indexterm><primary>XDMCP</primary><secondary>richieste indirette</secondary></indexterm> XDMCP indiretta,
+esso esegue <command>dtchooser</command> per presentare un elenco degli host
+disponibili come server di login per il video richiedente. La gestione del
+video verr&agrave; quindi affidata all'host selezionato dall'utente.</para>
+<para>Per leggere i file di configurazione <filename>Xaccess</filename>, <filename>Xconfig</filename>, <filename>Xfailsafe</filename>, <filename>Xreset</filename>,
+<symbol role="Variable">lingua</symbol><filename>/Xresources</filename>, <filename>Xservers</filename>, Xsetup e Xstartup, il server di login cercher&agrave;
+inizialmente in <filename>/etc/dt/config</filename>, quindi in <filename>/usr/dt/config</filename>, e utilizzer&agrave; il primo file localizzato.
+</para>
+</sect1>
+<sect1 id="sag.logmg.div.43">
+<title id="sag.logmg.mkr.14">File della Gestione del login<indexterm><primary>file di configurazione</primary><secondary>Gestione del login</secondary>
+</indexterm></title>
+<para>Nell'impostazione predefinita, i file della Gestione del login si trovano
+nelle seguenti posizioni<indexterm><primary>Gestione del login</primary><secondary>file di configurazione</secondary></indexterm>:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="302*">
+<colspec colwidth="226*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtlogin</filename></para></entry>
+<entry align="left" valign="top"><para>Avvia il server di login e la</para><para>gestione dei video</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtgreet</filename></para></entry>
+<entry align="left" valign="top"><para>Visualizza uno schermo di login per
+un video</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/dtchooser</filename></para></entry>
+<entry align="left" valign="top"><para>Visualizza una videata di selezione
+per un video</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/bin/Xsession</filename></para></entry>
+<entry align="left" valign="top"><para>Avvia una sessione del desktop</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xfailsafe</filename></para></entry>
+<entry align="left" valign="top"><para>Avvia una sessione protetta</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xconfig</filename></para></entry>
+<entry align="left" valign="top"><para>File di configurazione del server di
+login</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xservers</filename></para></entry>
+<entry align="left" valign="top"><para>File di descrizione dei video del server
+di login</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xaccess</filename></para></entry>
+<entry align="left" valign="top"><para>File di descrizione degli accessi del
+server di login</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/</filename><symbol role="Variable">lingua</symbol><filename>/Xresources</filename></para></entry>
+<entry align="left" valign="top"><para>Risorse per l'impostazione della visualizzazione
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xsetup</filename></para></entry>
+<entry align="left" valign="top"><para>File di configurazione della visualizzazione
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xstartup</filename></para></entry>
+<entry align="left" valign="top"><para>File di avvio pre-sessione</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/config/Xreset</filename></para></entry>
+<entry align="left" valign="top"><para>File di ripristino post-sessione</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/var/dt/Xpid</filename></para></entry>
+<entry align="left" valign="top"><para>ID del processo del server di login
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/var/dt/Xerrors</filename></para></entry>
+<entry align="left" valign="top"><para>File di log degli errori del server
+di login</para></entry></row></tbody></tgroup></informaltable>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:05:15-->
+<?Pub *0000076110>

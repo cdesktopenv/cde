@@ -1,0 +1,84 @@
+<!-- $XConsortium: TermSubR.sgm /main/8 1996/10/08 20:44:54 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN56.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN56.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtTermSubprocReap</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtTermSubprocReap</Function></RefName>
+<RefPurpose>allow a DtTerm widget to clean up after subprocess termination
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Term.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>DtTermSubprocReap</Function></FuncDef>
+<ParamDef>pid_t <Parameter>pid</Parameter></ParamDef>
+<ParamDef>int *<Parameter>stat_loc</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtTermSubprocReap</Function> function allows DtTerm widgets to function correctly
+in applications that have installed a
+<SystemItem Class="Constant">SIGCHLD</SystemItem> signal handler.
+</Para>
+<Para>The
+<Emphasis>pid</Emphasis> argument specifies the process ID of the child process
+<Function>wait</Function>(2) returns.
+</Para>
+<Para>The
+<Emphasis>stat_loc</Emphasis> argument specifies the termination information
+<Function>wait</Function>(2) returns.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUES</Title>
+<Para>The
+<Function>DtTermSubprocReap</Function> function returns no value.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+<Function>DtTermSubprocReap</Function> function allows an application to install its own
+<SystemItem Class="Constant">SIGCHLD</SystemItem> signal handler.
+</Para>
+<Para>The application must install its own
+<SystemItem Class="Constant">SIGCHILD</SystemItem> signal handler and call
+<Function>DtTermSubprocReap</Function> if the DtTerm widget was created with the
+<Symbol>DtSubprocessTerminatorCatch</Symbol> resource set to
+<SystemItem Class="Constant">False</SystemItem>.</Para>
+<Para>The application must call the
+<Function>DtTermSubprocReap</Function> function after performing a
+<Function>wait</Function>(2) (or associated function) on a terminated child process.
+If the child process is associated with a DtTerm
+widget, the widget's data structures are cleaned
+up and the associated callbacks invoked.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Term.h;, &cdeman.DtTerm;, <![ %CDE.C.CDE; [<Filename MoreInfo="RefEntry">signal</Filename>(5), <Function>wait</Function>(2). ]]><![ %CDE.C.XO; [<Function>sigaction</Function>, <Function>wait</Function> in the &str-ZK;.
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

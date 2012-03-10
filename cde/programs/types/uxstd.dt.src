@@ -1,0 +1,741 @@
+XCOMM ##########################################################################
+XCOMM
+XCOMM     uxstd.dt
+XCOMM
+XCOMM     Action and DataType definitions for standard operating system commands.
+XCOMM
+XCOMM    (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+XCOMM    (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+XCOMM    (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM    (c) Copyright 1993, 1994, 1995 Novell, Inc.
+XCOMM
+XCOMM $TOG: uxstd.dt.src /main/7 1998/07/29 17:09:27 mgreess $
+XCOMM
+XCOMM ##########################################################################
+#define HASH #
+
+set DtDbVersion=1.0
+
+XCOMM ##########################################################################
+XCOMM
+%|nls-10-#HASH WARNING:...#|
+XCOMM
+XCOMM ##########################################################################
+#define STAR *
+XCOMM ##########################################################################
+XCOMM
+%|nls-11-#HASH Data Attributes#|
+XCOMM 
+XCOMM ##########################################################################
+DATA_ATTRIBUTES MAN_PAGE
+{
+        ACTIONS         Open,Print
+        ICON            Dtmanpg
+        IS_TEXT		true
+        ACTIONS         Open,Print
+        MIME_TYPE	text/plain
+	DESCRIPTION	%|nls-10001-#This file#|
+        TYPE_LABEL      %|nls-31089-#MAN_PAGE#|
+}
+DATA_CRITERIA MAN_PAGE1
+{
+        DATA_ATTRIBUTES_NAME MAN_PAGE
+        MODE            f
+        PATH_PATTERN    STAR/man/man*/STAR.[1-9]*
+}
+DATA_CRITERIA MAN_PAGE2
+{
+        DATA_ATTRIBUTES_NAME MAN_PAGE
+        MODE            f
+        PATH_PATTERN    STAR/man/cat*/STAR.[1-9]*
+}
+ACTION Open
+{
+        LABEL           %|nls-1-Open|
+        ARG_TYPE        MAN_PAGE
+        TYPE            MAP
+        MAP_ACTION	Dtmanpageview
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        MAN_PAGE
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtlp -a "%Arg_1%"
+}
+
+XCOMM ##########################################################
+
+DATA_ATTRIBUTES TAR
+{
+        ACTIONS         Open,TarUnpack,Print
+        ICON		Dtmagtp
+        NAME_TEMPLATE	%s.tar
+        MIME_TYPE	application/octet-stream
+	DESCRIPTION	%|nls-10002-#This file#|
+        TYPE_LABEL      %|nls-31090-#TAR#|
+}
+DATA_CRITERIA TAR1
+{
+	DATA_ATTRIBUTES_NAME TAR
+        MODE            f
+	NAME_PATTERN	*.tar
+}
+ACTION Open
+{
+        LABEL           %|nls-1-Open|
+        ARG_TYPE        TAR
+        TYPE            MAP
+        MAP_ACTION      TarList
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        TAR
+        TYPE            MAP
+        MAP_ACTION      PrintTarList
+}
+ACTION TarList
+{
+	LABEL		%|nls-10003-#Archive List Contents#|
+        ICON		Dtmagtp
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+                        tar -tvf "%(File)Arg_1%" 2>&1 | \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10004-#The Archive#|
+}
+ACTION PrintTarList
+{
+	LABEL		%|nls-10005-#PrintTarList#|
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     sh -c ' \
+                        tar -tvf "%(File)Arg_1%" | \
+                           /usr/dt/bin/dtlp -u "%|nls-10003-#Archive Li#|"'
+	DESCRIPTION	%|nls-10006-#The TarList#|
+}
+ACTION TarUnpack
+{
+	LABEL		%|nls-10007-#Archive Unpack#|
+        ICON		Dtmagtp
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+	                tar -xvf "%(File)Arg_1"%|nls-10008-#Filename:#|"%" \
+                           2>&1 | \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10009-#The#|
+}
+
+XCOMM ##########################################################
+
+DATA_ATTRIBUTES COMPRESSED
+{
+        ACTIONS         Uncompress
+        ICON		Dtcmprs
+        NAME_TEMPLATE	%s.Z
+        MIME_TYPE	application/octet-stream
+        SUNV3_TYPE      compress
+	DESCRIPTION	%|nls-10010-#This is#|
+        TYPE_LABEL      %|nls-31091-#COMPRESSED#|
+}
+DATA_CRITERIA COMPRESSED1
+{
+	DATA_ATTRIBUTES_NAME COMPRESSED
+        MODE            f
+        NAME_PATTERN    *.Z
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        COMPRESSED
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+ACTION Uncompress
+{
+	LABEL		%|nls-10011-#Uncompress File#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+	                uncompress -vf "%(File)Arg_1%" %(File)Args% 2>&1 | \
+                           \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10012-#The#|
+}
+
+XCOMM ##########################################################
+
+DATA_ATTRIBUTES SHELL
+{
+        ACTIONS         Run,Open,Print
+        ICON            Dtbshll
+        IS_EXECUTABLE   true
+        COPY_TO_ACTION  Execute
+        NAME_TEMPLATE	%s.sh
+        MIME_TYPE	text/plain
+        SUNV3_TYPE      shell-script
+        DESCRIPTION     %|nls-10013-#This file#|
+        TYPE_LABEL      %|nls-31092-#SHELL#|
+}
+DATA_CRITERIA SHELL1
+{
+        DATA_ATTRIBUTES_NAME SHELL
+        MODE            f&x
+	NAME_PATTERN	*.sh
+}
+DATA_CRITERIA SHELL2
+{
+        DATA_ATTRIBUTES_NAME SHELL
+        CONTENT         0 string #!/bin/sh
+        MODE            f&x
+}
+DATA_CRITERIA SHELL3
+{
+        DATA_ATTRIBUTES_NAME SHELL
+        CONTENT         0 string #! /bin/sh
+        MODE            f&x
+}
+ACTION Run
+{
+        LABEL           %|nls-3-#Run#|
+        ARG_TYPE        SHELL
+        TYPE            MAP
+        MAP_ACTION      Execute
+}
+
+XCOMM ##########################################################
+
+DATA_ATTRIBUTES CSHELL
+{
+        ACTIONS         Run,Open,Print
+        ICON            Dtcshll
+        IS_EXECUTABLE   true
+        COPY_TO_ACTION  Execute
+        NAME_TEMPLATE	%s.csh
+        MIME_TYPE	text/plain
+        SUNV3_TYPE      cshell-script
+        DESCRIPTION     %|nls-10014-#A#|
+        TYPE_LABEL      %|nls-31093-#CSHELL#|
+}
+DATA_CRITERIA CSHELL1
+{
+        DATA_ATTRIBUTES_NAME CSHELL
+        MODE            f&x
+        NAME_PATTERN    *.csh
+}
+DATA_CRITERIA CSHELL2
+{
+        DATA_ATTRIBUTES_NAME CSHELL
+        CONTENT		0 string #!/bin/csh
+        MODE            f&x
+}
+DATA_CRITERIA CSHELL3
+{
+        DATA_ATTRIBUTES_NAME CSHELL
+        CONTENT		0 string #! /bin/csh
+        MODE            f&x
+}
+ACTION Run
+{
+        LABEL           %|nls-3-#Run#|
+        ARG_TYPE        CSHELL
+        TYPE            MAP
+        MAP_ACTION      Execute
+}
+
+XCOMM ##########################################################
+
+DATA_ATTRIBUTES KSHELL
+{
+        ACTIONS         Run,Open,Print
+        ICON            Dtkshll
+        IS_EXECUTABLE   true
+        COPY_TO_ACTION  Execute
+        NAME_TEMPLATE	%s.ksh
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-10015-#A#|
+        TYPE_LABEL      %|nls-31094-#KSHELL#|
+}
+DATA_CRITERIA KSHELL1
+{
+        DATA_ATTRIBUTES_NAME KSHELL
+        MODE            f&x
+        NAME_PATTERN    *.ksh
+}
+DATA_CRITERIA KSHELL2
+{
+        DATA_ATTRIBUTES_NAME KSHELL
+        CONTENT		0 string #!/bin/ksh
+        MODE            f&x
+}
+DATA_CRITERIA KSHELL3
+{
+        DATA_ATTRIBUTES_NAME KSHELL
+        CONTENT		0 string #! /bin/ksh
+        MODE            f&x
+}
+ACTION Run
+{
+        LABEL           %|nls-3-#Run#|
+        ARG_TYPE        KSHELL
+        TYPE            MAP
+        MAP_ACTION      Execute
+}
+
+XCOMM ##########################################################
+
+DATA_ATTRIBUTES SHAR
+{
+        ACTIONS         Unshar
+        ICON 		Dtshar           
+        NAME_TEMPLATE	%s.shar
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-10016-#This file#|
+        TYPE_LABEL      %|nls-31095-#SHAR#|
+}
+DATA_CRITERIA SHAR1
+{
+        DATA_ATTRIBUTES_NAME SHAR
+        MODE            f
+        NAME_PATTERN    *.shar
+}
+ACTION Print
+{
+        LABEL           %|nls-2-#Print#|
+        ARG_TYPE        SHAR
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+ACTION Unshar
+{
+        LABEL           %|nls-10017-#Unshar#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+                        sh "%(File)Arg_1%" 2>&1 | \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+        DESCRIPTION     %|nls-10018-#The Unshar#|
+}
+
+XCOMM ##########################################################
+
+DATA_ATTRIBUTES UUENCODE
+{
+        ACTIONS         Uudecode
+        ICON            Dtuuncd
+        NAME_TEMPLATE	%s.uu
+        MIME_TYPE	text/plain
+        DESCRIPTION     %|nls-10019-#This is#|
+        TYPE_LABEL      %|nls-31096-#UUENCODE#|
+}
+DATA_CRITERIA UUENCODE1
+{
+        DATA_ATTRIBUTES_NAME UUENCODE
+        MODE            f
+        NAME_PATTERN    *.uu
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        UUENCODE
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+ACTION Uudecode
+{
+        LABEL           %|nls-10020-#Uudecode#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+                        uudecode "%(File)Arg_1%" 2>&1 | \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+        DESCRIPTION     %|nls-10021-#The Undecode#|
+}
+
+XCOMM ##########################################################
+#undef MESSAGE_CAT
+DATA_ATTRIBUTES MESSAGE_CAT
+{
+        ACTIONS         (None)
+        ICON            Dtcat
+        NAME_TEMPLATE   %s.cat
+        MIME_TYPE	application/octet-stream
+        DESCRIPTION     %|nls-10022-#This file#|
+        TYPE_LABEL      %|nls-31097-#MESSAGE_CAT#|
+}
+DATA_CRITERIA MESSAGE_CAT1
+{
+        DATA_ATTRIBUTES_NAME MESSAGE_CAT
+        MODE            f
+        NAME_PATTERN    *.cat
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        MESSAGE_CAT
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+
+XCOMM ##########################################################################
+XCOMM ##########################################################################
+XCOMM
+%|nls-12-#HASH Actions#|
+XCOMM 
+XCOMM ##########################################################################
+XCOMM #####################
+XCOMM
+%|nls-10027-#HASH Unix Editors#|
+XCOMM
+XCOMM #####################
+ACTION Vi
+{
+        LABEL		%|nls-10030-#Text Editor (Vi)#|
+        ARG_COUNT       0
+	TYPE		COMMAND
+	WINDOW_TYPE	TERMINAL
+        EXEC_STRING     vi
+	DESCRIPTION	%|nls-10032-#The#|
+}
+ACTION Vi
+{
+        LABEL		%|nls-10030-#Text Editor (Vi)#|
+	TYPE		COMMAND
+	WINDOW_TYPE	TERMINAL
+        EXEC_STRING     vi "%(File)Arg_1"%|nls-10031-#File To Edit:#|"%"
+	DESCRIPTION	%|nls-10032-#The#|
+}
+
+XCOMM ######
+
+ACTION Vedit
+{
+        LABEL		%|nls-10033-#Vedit#|
+        ARG_COUNT       0
+	TYPE		COMMAND
+	WINDOW_TYPE	TERMINAL
+	EXEC_STRING	vedit
+	DESCRIPTION	%|nls-10034-#The Vedit#|
+}
+ACTION Vedit
+{
+        LABEL		%|nls-10033-#Vedit#|
+	TYPE		COMMAND
+	WINDOW_TYPE	TERMINAL
+	EXEC_STRING	vedit "%(File)Arg_1"%|nls-10031-#File To Edit:#|"%"
+	DESCRIPTION	%|nls-10034-#The Vedit#|
+}
+
+XCOMM #####################
+XCOMM
+%|nls-10028-#HASH Unix Commands#|
+XCOMM
+XCOMM #####################
+%|nls-10029-#HASH The following#|
+ACTION Tar
+{
+	LABEL		%|nls-10035-#Archive#|
+        ICON		Dtmagtp
+	ARG_COUNT	>1
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	\
+          sh -c ' \
+           if [ "%(File)Args%" = "" ] ; then \
+                /usr/dt/bin/dterror.ds \
+            "%|nls-10036-#The#|" \
+            "%|nls-10037-#Invalid#|" \
+            "%|nls-6-#OK#|" ; \
+           else \
+           true %(File)Args%; \
+           /usr/dt/bin/dterror.ds \
+            "%|nls-10036-#The#|" \
+            "%|nls-10037-#Invalid#|" \
+            "%|nls-6-#OK#|" \
+           fi; '
+	DESCRIPTION	%|nls-10038-#The#|
+}
+ACTION Tar
+{
+	LABEL		%|nls-10035-#Archive#|
+        ICON		Dtmagtp
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+	EXEC_STRING	\
+	  sh -c ' \
+            if [ "%(File)Args%" = "" ] ; then \
+	        echo "%|nls-10040-#ERROR:#|"; \
+            else \
+	    if [ ! -d "%(File)Arg_1"%|nls-10039-#Folder To... #|"%" ] ; then \
+	        echo "%|nls-10040-#ERROR:#|"; \
+	    else \
+                FOLDER="%(File)Arg_1%.tar"; \
+	        TAR_FILE=`basename "%(File)Arg_1%.tar"`; \
+                echo "%|nls-10041-#Creating \$FOLDER.#|"; \
+                echo "%|nls-10042-#[Please Wait...}#|"; \
+	        tar -cvf \$TAR_FILE `basename "%(File)Arg_1%"` 2>&1 | \
+	          \${PAGER:-more}; \
+                echo "%|nls-10043-#\\\\nThe Archive...#|"; \
+	    fi; \
+	    fi; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10038-#The#|
+}
+
+XCOMM ######
+
+ACTION TarList
+{
+        LABEL           %|nls-10003-#Archive List Contents#|
+        ICON		Dtmagtp
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dtaction TarList \
+                            "%(File)Arg_1"%|nls-10044-#Archive to List:#|"%"
+        DESCRIPTION     %|nls-10004-#The#|
+}
+
+XCOMM ######
+
+ACTION TarUnpack
+{
+        LABEL           %|nls-10007-#Archive Unpack#|
+        ICON		Dtmagtp
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dtaction TarUnpack \
+                            "%(File)Arg_1"%|nls-10045-#Archive to Unpack:#|"%"
+        DESCRIPTION     %|nls-10009-#The#|
+}
+
+XCOMM ######
+
+ACTION Compress
+{
+	LABEL		%|nls-10046-#Compress File#|
+        ICON		Dtcmprs
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+	                 compress -vf "%(File)Arg_1"%|nls-10047-#File to Compress:#|"%" \
+                         %(File)Args% 2>&1 | \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10048-#The#|
+}
+
+XCOMM ######
+
+ACTION Uncompress
+{
+        LABEL           %|nls-10011-#Uncompress File#|
+        ICON		Dtcmprs
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dtaction Uncompress \
+                            "%(File)Arg_1"%|nls-10049-#File to Uncompress:#|"%"
+        DESCRIPTION     %|nls-10012-#The#|
+}
+
+XCOMM ######
+
+ACTION Env
+{
+	LABEL		%|nls-10050-#Environment Variables#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+                         env 2>&1 | \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10051-#The#|
+}
+
+XCOMM ######
+
+ACTION Diff
+{
+	LABEL		%|nls-10052-#Compare Files#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+	    file1="%(File)Arg_1"%|nls-10053-#First File (<):#|"%" ;\
+	    file2="%(File)Arg_2"%|nls-10054-#Second File (>):#|"%" ;\
+            cmp -s \$file1 \$file2 ;\
+            if [ \$? -eq 0 ] ; then \
+              echo "%|nls-10055-#The files...#|" ; \
+            else \
+              diff \$file1 \$file2  | \${PAGER:-more} ;\
+            fi ;\
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10056-#The#|
+}
+
+XCOMM ######
+
+ACTION Rm
+{
+	LABEL		%|nls-10057-#Shred File#|
+	TYPE		COMMAND
+	WINDOW_TYPE	PERM_TERMINAL
+	EXEC_STRING	\
+	  sh -c ' \
+	    echo "%|nls-10058-#[Enter#|"; \
+	    rm -i "%(File)Arg_1"%|nls-10059-#File To Shred:#|"%" %(File)Args%; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10060-#The#|
+}
+
+XCOMM ######
+
+ACTION Wc
+{
+	LABEL		%|nls-10061-#Count Words#| 
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+	    (echo %|nls-10062-#"  lines  words  chars filename"#|; \
+	     echo %|nls-10063-#"  ============================"#|; \
+	     wc "%(File)Arg_1"%|nls-10064-#File To Count:#|"%" %(File)Args%) 2>&1 | \
+	       \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10065-#The#|
+}
+
+XCOMM ######
+
+ACTION Spell
+{
+	LABEL		%|nls-10066-#Check Spelling#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+	    (echo "%|nls-10067-#Misspelled#|"; \
+	     spell "%(File)Arg_1"%|nls-10068-#File To Spell Check:#|"%" %(File)Args%) 2>&1 | \
+               \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10069-#The#|
+}
+
+XCOMM ######
+
+#ifdef __hpux
+ACTION Df
+{
+	LABEL		%|nls-10070-#Disk Usage#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+            bdf 2>&1 | \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10071-#The#|
+}
+#else
+ACTION Df
+{
+	LABEL		%|nls-10070-#Disk Usage#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+            df 2>&1 | \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10071-#The#|
+}
+#endif
+
+XCOMM ######
+
+ACTION DuSort
+{
+	LABEL		%|nls-10072-#Folder Size#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+	    if [ ! -d "%(File)Arg_1"%|nls-10075-#Folder To Size:#|"%" ] ; then \
+	        echo "%|nls-10040-#ERROR:#|"; \
+	    else \
+	        echo "%|nls-10042-#[Please wait ...]\\n#|"; \
+	        (echo "%|nls-10073-#Blocks  File/Dir  - (Blocks are 512-bytes)#|"; \
+	         echo "%|nls-10074-#==========================================#|"; \
+	         du -s "%(File)Arg_1"%|nls-10075-#Folder To Size:#|"%" | sort -n) 2>&1 | \
+                   \${PAGER:-more}; \
+	    fi; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10076-#The#|
+}
+
+XCOMM ######
+
+ACTION Grep
+{
+	LABEL		%|nls-10077-#Search Text#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+            SEARCH_FILE="%(File)Arg_1"%|nls-10078-#File To Search:#|"%"; \
+            if [ -d \$SEARCH_FILE ] ; then \
+                echo "%|nls-10079-#ERROR: \$SEARCH_FILE#|"; \
+            else \
+               grep %"%|nls-10080-#Search String:#|"% \$SEARCH_FILE \
+                                   %(File)Args% >/tmp/dtstrsearch 2>&1; \
+               if [ \$? -eq 1 ] ; then  \
+                  echo "%|nls-10081-#No Matches#|"; \
+               else \
+                  cat /tmp/dtstrsearch | \${PAGER:-more}; \
+               fi; \
+               rm /tmp/dtstrsearch; \
+            fi; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10082-#The#|
+}
+
+XCOMM ######
+
+ACTION File
+{
+	LABEL		%|nls-10083-#Type File#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+	    file "%(File)Arg_1"%|nls-10084-#File To Type:#|"%" %(File)Args% 2>&1 | \
+              \${PAGER:-more}; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10085-#The#|
+}
+
+XCOMM ######
+
+ACTION Execute
+{
+	LABEL		%|nls-10086-#Execute#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+	  "%(File)Arg_1"%|nls-10087-#File To Execute:#|"%" %"%|nls-10088-#Options:#|"% %"%|nls-10089-#Arguments:#|"% %(File)Args%
+	DESCRIPTION	%|nls-10090-#The#|
+}
+
+XCOMM ######
+
+ACTION ExecuteCmd
+{
+	LABEL		%|nls-10091-#Execute Command#|
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+	          %"%|nls-10092-#Command:#|"% %(File)Args%; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-10093-#The#|
+}
+XCOMM ######################## EOF ############################################

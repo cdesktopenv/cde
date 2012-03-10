@@ -1,0 +1,532 @@
+<!-- $XConsortium: DndDragS.sgm /main/8 1996/09/08 20:02:44 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN25.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN25.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtDndDragStart</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtDndDragStart</Function>,
+<Function>DtDndVaDragStart</Function>
+</RefName>
+<RefPurpose>initiate a drag
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Dnd.h>
+</FuncSynopsisInfo>
+<FuncDef>Widget <Function>DtDndDragStart</Function></FuncDef>
+<ParamDef>Widget <Parameter>dragSource</Parameter></ParamDef>
+<ParamDef>XEvent *<Parameter>event</Parameter></ParamDef>
+<ParamDef>DtDndProtocol <Parameter>protocol</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>numItems</Parameter></ParamDef>
+<ParamDef>unsigned char <Parameter>operations</Parameter></ParamDef>
+<ParamDef>XtCallbackList <Parameter>convertCallback</Parameter></ParamDef>
+<ParamDef>XtCallbackList <Parameter>dragFinishCallback</Parameter></ParamDef>
+<ParamDef>ArgList <Parameter>argList</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>argCount</Parameter></ParamDef>
+</FuncSynopsis>
+<FuncSynopsis Remap="ANSI">
+<FuncDef>Widget <Function>DtDndVaDragStart</Function></FuncDef>
+<ParamDef>Widget <Parameter>dragSource</Parameter></ParamDef>
+<ParamDef>XEvent *<Parameter>event</Parameter></ParamDef>
+<ParamDef>DtDndProtocol <Parameter>protocol</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>numItems</Parameter></ParamDef>
+<ParamDef>unsigned char <Parameter>operations</Parameter></ParamDef>
+<ParamDef>XtCallbackList <Parameter>convertCallback</Parameter></ParamDef>
+<ParamDef>XtCallbackList <Parameter>dragFinishCallback</Parameter></ParamDef>
+<ParamDef>...</ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtDndDragStart</Function> and
+<Function>DtDndVaDragStart</Function> functions initiate a Motif drag, with drag visuals appropriate to the
+type of data being dragged,
+and updates the translation table of the drag context.
+Either of the functions
+is called from the application's event handler, which interprets
+mouse events to determine when a drag should begin.
+</Para>
+<Para>The only difference between
+<Function>DtDndDragStart</Function> and
+<Function>DtDndVaDragStart</Function> is how the argument list is passed.
+The argument list is passed as an
+<StructName Role="typedef">ArgList</StructName> to
+<Function>DtDndDragStart</Function> and using
+<Symbol Role="Variable">varargs</Symbol> for
+<Function>DtDndVaDragStart</Function>.</Para>
+<Para>The
+<Emphasis>dragSource</Emphasis> argument is the widget that received the event that triggered the drag.
+</Para>
+<Para>The
+<Symbol Role="Variable">event</Symbol> argument is the button press or button motion event that triggered the drag.
+</Para>
+<Para>The
+<Symbol Role="Variable">protocol</Symbol> argument specifies the protocol used for the data transfer.
+Valid values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtDND_TEXT_TRANSFER</Term>
+<ListItem>
+<Para>A list of text is being transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtDND_FILENAME_TRANSFER</Term>
+<ListItem>
+<Para>A list of file names is being transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtDND_BUFFER_TRANSFER</Term>
+<ListItem>
+<Para>A list of memory buffers is being transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<Emphasis>numItems</Emphasis> argument specifies the number of items being dragged.
+</Para>
+<Para>The
+<Symbol Role="Variable">operations</Symbol> argument indicates which operations the
+<Emphasis>dragSource</Emphasis> supports.
+The operations are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>XmDROP_COPY</Term>
+<ListItem>
+<Para>Copy operations are valid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>XmDROP_LINK</Term>
+<ListItem>
+<Para>Link operations are valid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>XmDROP_MOVE</Term>
+<ListItem>
+<Para>Move operations are valid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A drag source can support any combination of these operations.
+A combination of operations is specified by the
+bitwise inclusive OR of several operation values.
+For example, to support the move and copy operations,
+the application can specify:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>XmDROP_MOVE | XmDROP_COPY
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Emphasis>convertCallback</Emphasis> argument is a callback function that
+is invoked when a drop has started and the drop site has requested
+data from the drag source.
+The
+<Emphasis>convertCallback</Emphasis> is responsible for providing the data that is transferred to the drop site.
+<![ %CDE.C.CDE; [
+<!-- this is omitted from X/Open because it is info not--><!-- typically stated there about Motif callbacks-->The arguments for the
+<Emphasis>convertCallback</Emphasis> are the Motif Drag Context, an
+<StructName Role="typedef">XtPointer</StructName> to application-supplied client data,
+and an
+<StructName Role="typedef">XtPointer</StructName> to a
+<StructName Role="typedef">DtDndConvertCallbackStruct</StructName> structure.
+]]></Para>
+<Para>The
+<Emphasis>dragFinishCallback</Emphasis> argument is a callback function that
+is invoked when the drag and drop transaction is complete.
+The
+<Emphasis>dragFinishCallback</Emphasis> is called after the
+<Emphasis>convertCallback</Emphasis>, if applicable.
+(The
+<Emphasis>convertCallback</Emphasis> is called only after a drop has started
+on an eligible drop site, whereas
+<Emphasis>dragFinishCallback</Emphasis> is called after the drag finishes,
+whether or not a drop occurred.)
+The
+<Emphasis>dragFinishCallback</Emphasis> should reset any drag motion handler and free any memory allocated
+by the drag source during the drag and drop transaction.
+<![ %CDE.C.CDE; [The arguments
+for the
+<Emphasis>dragFinishCallback</Emphasis> are the Motif Drag Context, an
+<StructName Role="typedef">XtPointer</StructName> to application-supplied client data,
+and an
+<StructName Role="typedef">XtPointer</StructName> to a
+<StructName Role="typedef">DtDndDragFinishCallbackStruct</StructName> structure.
+]]></Para>
+<RefSect2>
+<Title>Argument Value Pairs</Title>
+<Para>The
+<Function>DtDndDragStart</Function> and
+<Function>DtDndVaDragStart</Function> functions support the following optional argument-value pairs.
+Motif resources can be set via the argument list as well,
+provided they are not resources that are used by the drag and drop subsystem;
+see
+<Literal>Motif Resources</Literal>.</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNsourceIcon</SystemItem> (<StructName Role="typedef">Widget</StructName>)</Term>
+<ListItem>
+<Para>Specifies the
+<Classname>XmDragIcon</Classname> used to represent the data being dragged.
+This icon is created using either
+&cdeman.DtDndCreateSourceIcon; or
+&cdeman.XmCreateDragIcon;. If
+<SystemItem Class="Resource">DtNsourceIcon</SystemItem> is
+<SystemItem Class="Constant">NULL</SystemItem>, then a default icon is used, which is appropriate for the data
+begin dragged.
+The default value is
+<SystemItem Class="Constant">NULL</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNbufferIsText</SystemItem> (<StructName Role="typedef">Boolean</StructName>)</Term>
+<ListItem>
+<Para>Specifies whether the dragged buffer should also be sourced
+as text, allowing the buffer to be dropped onto text widgets.
+This attribute is only valid if
+<Symbol Role="Variable">protocol</Symbol> <SystemItem Class="Constant">DtDND_BUFFER_TRANSFER</SystemItem> and is ignored for other transfers.
+If
+<SystemItem Class="Resource">DtNbufferIsText</SystemItem> is True, the buffer is sourced as text in addition
+to being sourced as buffers;
+if it is False, the buffers are sourced only as buffers.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">DtNdropOnRootCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the callback to be invoked when the drop occurs on the desktop.
+This callback is only for use by specialized clients such as file managers.
+If
+<SystemItem Class="Resource">DtNdropOnRootCallback</SystemItem> is
+<SystemItem Class="Constant">NULL</SystemItem>, then drops onto the desktop background are not allowed.
+The default value is
+<SystemItem Class="Constant">NULL</SystemItem>. ]]></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Callbacks</Title>
+<Para>Once the rendezvous with the drop site has been accomplished,
+the application-provided callback functions are called
+to perform the transfer of the dragged data.
+</Para>
+<Para>First, the
+<Emphasis>convertCallback</Emphasis> is called with a
+<Symbol Role="Variable">reason</Symbol> of
+<SystemItem Class="Constant">DtCR_DND_CONVERT_DATA</SystemItem>. The application must set the
+<StructName Role="typedef">DtDndContext</StructName> fields appropriate to the transfer protocol to
+provide the data to be transferred to the drop site.
+</Para>
+<Para>If the drag operation is
+<SystemItem Class="Constant">XmDROP_MOVE</SystemItem> and the drop site requests that the move be completed,
+the
+<Emphasis>convertCallback</Emphasis> is called again with a
+<Symbol Role="Variable">reason</Symbol> of
+<SystemItem Class="Constant">DtCR_DND_CONVERT_DELETE</SystemItem>. The application should delete its version of the dragged data.
+</Para>
+<Para>Once the data transfer is complete, the
+<Emphasis>dragFinishCallback</Emphasis> is called with a
+<Symbol Role="Variable">reason</Symbol> of
+<SystemItem Class="Constant">DtCR_DND_DRAG_FINISH</SystemItem>. The application should free any memory allocated in the
+<Emphasis>convertCallback</Emphasis> and restore any application state.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>Each of the callbacks for
+<Function>DtDndDragStart</Function> and
+<Function>DtDndVaDragStart</Function> has an associated callback structure.
+These callbacks cannot be used with the
+<Function>XtAddCallback</Function>(3) interface.
+</Para>
+<Para>A pointer to the following structure is passed to the
+<Emphasis>convertCallback</Emphasis>:</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        DtDndContext *<Emphasis>dragData</Emphasis>;
+        DtDndStatus <Symbol Role="Variable">status</Symbol>;
+} DtDndConvertCallbackStruct, *DtDndConvertCallback;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">reason</Symbol> argument indicates why the callback was invoked.
+The possible reasons for this callback are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtCR_DND_CONVERT_DATA</Term>
+<ListItem>
+<Para>The callback provides the requested data by setting appropriate
+fields in the
+<Emphasis>dragData</Emphasis> structure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtCR_DND_CONVERT_DELETE</Term>
+<ListItem>
+<Para>The callback completes the
+<SystemItem Class="Constant">XmDROP_MOVE</SystemItem> operation by deleting its copy of the dragged data.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<Symbol Role="Variable">event</Symbol> argument
+points to the
+<StructName Role="typedef">XEvent</StructName> that triggered the callback.
+</Para>
+<Para>The
+<Emphasis>dragData</Emphasis> argument
+specifies the
+<StructName Role="typedef">DtDndContext</StructName> that contains the data to be dragged.
+If the
+<Symbol Role="Variable">reason</Symbol> argument
+is
+<SystemItem Class="Constant">DtCR_DND_CONVERT_DATA,</SystemItem> the application must provide the data by setting the relevant fields in the
+<StructName Role="typedef">DtDndContext</StructName>, as described in the following
+<Literal>Structures</Literal> section.
+If the
+<Symbol Role="Variable">reason</Symbol> argument is
+<SystemItem Class="Constant">DtCR_DND_CONVERT_DELETE</SystemItem>, the application must delete the original data that
+completes a move operation.
+</Para>
+<Para>The
+<Symbol Role="Variable">status</Symbol> argument
+indicates the status of the conversion.
+The application can set this to
+<SystemItem Class="Constant">DtDND_FAILURE</SystemItem> to cancel the conversion and consequently the drag and drop operation.
+The value of
+<Symbol Role="Variable">status</Symbol> is normally
+<SystemItem Class="Constant">DtDND_SUCCESS</SystemItem>.</Para>
+<Para>A pointer to the following structure is passed to the
+<Emphasis>dragFinishCallback</Emphasis>:</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct {
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        DtDndContext *<Emphasis>dragData</Emphasis>;
+        Widget <Emphasis>sourceIcon</Emphasis>;
+} DtDndDragFinishCallbackStruct, *DtDndDragFinishCallback;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">reason</Symbol> argument
+indicates why the callback was invoked.
+The valid reason for this callback is
+<SystemItem Class="Constant">DtCR_DND_DRAG_FINISH</SystemItem>.</Para>
+<Para>The
+<Symbol Role="Variable">event</Symbol> argument
+points to the
+<StructName Role="typedef">XEvent</StructName> that triggered the callback.
+</Para>
+<Para>The
+<Emphasis>sourceIcon</Emphasis> argument
+specifies the source icon registered in the call to
+<Function>DtDndDragStart</Function>. This widget is provided to allow the application to free data associated
+with the source icon and optionally destroy the source icon.
+</Para>
+<Para>The
+<Emphasis>dragData</Emphasis> argument specifies the
+<StructName Role="typedef">DtDndContext</StructName> that contains the data that was dragged.
+The application should free any
+data it associated with the
+<Emphasis>dragData</Emphasis>.</Para>
+</RefSect2>
+<RefSect2>
+<Title>Structures</Title>
+<Para>The following structures are used by the drag source in the
+<Emphasis>convertCallback</Emphasis> and
+<Emphasis>dragFinishCallback</Emphasis> to communicate data between the application and the drag and drop subsystem.
+The
+<StructName Role="typedef">DtDndContext</StructName> structure is passed to these callbacks as
+<Emphasis>dragData</Emphasis> in the callback structure appropriate to the callback.
+</Para>
+<Para>In the
+<Emphasis>convertCallback</Emphasis>, the application that is acting as the drag source is responsible for filling
+in the
+<StructName Role="typedef">DtDndContext</StructName> structure with the data being transferred.
+</Para>
+<Para>In the
+<Emphasis>dragFinishCallback</Emphasis>, the application acting as the drag source is responsible for freeing any
+data it allocated for use in the
+<StructName Role="typedef">DtDndContext</StructName> structure.
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct _DtDndContext {
+        DtDndProtocol <Symbol Role="Variable">protocol</Symbol>;
+        int <Emphasis>numItems</Emphasis>;
+        union {
+                XmString *<Symbol Role="Variable">strings</Symbol>;
+                String *<Emphasis>files</Emphasis>;
+                DtDndBuffer *<Emphasis>buffers</Emphasis>;
+        } <Symbol Role="Variable">data</Symbol>;
+} DtDndContext;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">protocol</Symbol> argument indicates the data transfer protocol under which the data in the
+<StructName Role="typedef">DtDndContext</StructName> is being transferred.
+Valid values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtDND_TEXT_TRANSFER</Term>
+<ListItem>
+<Para>A list of text is being transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtDND_FILENAME_TRANSFER</Term>
+<ListItem>
+<Para>A list of file names is being transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtDND_BUFFER_TRANSFER</Term>
+<ListItem>
+<Para>A list of memory buffers is being transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<Emphasis>numItems</Emphasis> argument indicates the number of items being transferred.
+</Para>
+<Para>The
+<Symbol Role="Variable">data</Symbol> argument is a union containing data that
+should be stored and read in the format
+corresponding to the specified
+<Symbol Role="Variable">protocol</Symbol>. The data structures corresponding to the transfer protocols are as follows.
+</Para>
+<Para>The
+<Symbol Role="Variable">strings</Symbol> argument is valid if the
+<Symbol Role="Variable">protocol</Symbol> is
+<SystemItem Class="Constant">DtDND_TEXT_TRANSFER</SystemItem>. The
+<Symbol Role="Variable">strings</Symbol> argument is an array of pointers to Motif strings
+containing the text being transferred.
+</Para>
+<Para>The
+<Emphasis>files</Emphasis> argument is valid if the
+<Symbol Role="Variable">protocol</Symbol> is
+<SystemItem Class="Constant">DtDND_FILENAME_TRANSFER</SystemItem>. It is an array of pointers to the names of the files being transferred.
+The file names have been converted to local host file names
+where possible.
+</Para>
+<Para>The
+<Emphasis>buffers</Emphasis> argument is valid if the
+<Symbol Role="Variable">protocol</Symbol> is
+<SystemItem Class="Constant">DtDND_BUFFER_TRANSFER</SystemItem>. It is an array of pointers to
+<StructName Role="typedef">DtDndBuffer</StructName> structures containing the meory buffers being transferred.
+</Para>
+<Para>The following structure is used with
+<SystemItem Class="Constant">DtDND_FILENAME_TRANSFER</SystemItem>:</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef struct _DtDndBuffer {
+        void *<Emphasis>bp</Emphasis>;
+        int <Symbol Role="Variable">size</Symbol>;
+        string <Symbol Role="Variable">name</Symbol>;
+} DtDndBuffer;
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Emphasis>bp</Emphasis> argument points to the buffer data being transferred.
+</Para>
+<Para>The
+<Symbol Role="Variable">size</Symbol> argument indicates the number of bytes in the buffer.
+</Para>
+<Para>The
+<Symbol Role="Variable">name</Symbol> argument points to the name of the buffer.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Motif Resources</Title>
+<Para>When it calls
+&cdeman.XmDragStart;, the
+<Function>DtDndDragStart</Function> function sets Motif resources;
+the application must not modify the values of any of these resources.
+Resources other than those listed here
+can be used and are passed through to the underlying
+<Function>XmDragStart</Function> call.
+</Para>
+<Para>The following resources are modified by
+<Function>DtDndDragStart</Function> and
+<Function>DtDndVaDragStart</Function> in the Motif Drag Context:
+</Para>
+<ItemizedList>
+<ListItem><Para><SystemItem Class="Resource">XmNblendModel</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNclientData</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNconvertProc</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNcursorBackground</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNcursorForeground</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNdragDropFinishCallback</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNdragOperations</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNdropFinishCallback</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNdropStartCallback</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNexportTargets</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNnumExportTargets</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNsourcePixmapIcon</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNtopLevelEnterCallback</SystemItem></Para></ListItem>
+</ItemizedList>
+<Para>The following resources are modified by
+<Function>DtDndDragStart</Function> and
+<Function>DtDndVaDragStart</Function> in the Motif Drag Icon:
+</Para>
+<ItemizedList>
+<ListItem><Para><SystemItem Class="Resource">XmNattachment</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNdepth</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNheight</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNhotX</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNhotY</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNmask</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNoffsetX</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNoffsetY</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNpixmap</SystemItem></Para></ListItem>
+<ListItem><Para><SystemItem Class="Resource">XmNwidth</SystemItem></Para></ListItem>
+</ItemizedList>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtDndDragStart</Function> function returns the drag context widget created
+when the Motif drag is started;
+otherwise, it returns
+<SystemItem Class="Constant">NULL</SystemItem> if the drag could not be started.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Dnd.h;, &cdeman.DtDtsFileToDataType;, &cdeman.DtDndCreateSourceIcon;, &cdeman.DtDndDropRegister;, &cdeman.DtDndDropRegister;, <![ %CDE.C.CDE; [&cdeman.DtDndDropUnregister;, &cdeman.XmCreateDragIcon;, &cdeman.XmDragContext;, &cdeman.XmDragIcon;, &cdeman.XmDragStart;. ]]><![ %CDE.C.XO; [<Function>DtDndDropUnregister</Function>; <Function>XmCreateDragIcon</Function>, <Function>XmDragContext</Function>, <Function>XmDragIcon</Function>, <Function>XmDragStart</Function> in the &str-ZM;.
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

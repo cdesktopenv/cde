@@ -1,0 +1,1111 @@
+<!-- $XConsortium: ch07.sgm /main/3 1996/12/17 06:27:33 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.Datab.div.1">
+<Title Id="SAG.Datab.mkr.1">デスクトップ検索パス</Title>
+<Para>
+デスクトップは、アプリケーションとそれに関連付けられたデスクトップ・ファイルを検出するために検索パスを使用します。
+<IndexTerm><Primary>ヘルプ検索パス</Primary><Secondary>「検索パス」も参照してください</Secondary></IndexTerm><IndexTerm><Primary>アクション</Primary><Secondary>検索パス、「データベース検索パス」も参照してください</Secondary></IndexTerm>
+</Para>
+<InformalTable Id="SAG.Datab.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Desktop Search Paths and Their Environment Variables114'--><XRef Role="JumpText" Linkend="SAG.Datab.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Setting the Value of a Search Path115'--><XRef Role="JumpText" Linkend="SAG.Datab.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Application Search Path116'--><XRef Role="JumpText" Linkend="SAG.Datab.div.7"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Database (Action/Data Types) Search Path120'--><XRef Role="JumpText" Linkend="SAG.Datab.div.14"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Icon Search Path122'--><XRef Role="JumpText" Linkend="SAG.Datab.div.20"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Help Search Path123'--><XRef Role="JumpText" Linkend="SAG.Datab.div.26"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Localized Search Paths125'--><XRef Role="JumpText" Linkend="SAG.Datab.div.32"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+<IndexTerm><Primary>検索パス</Primary><Secondary>デスクトップで定義された</Secondary></IndexTerm>
+デスクトップは、
+<!--Original XRef content: 'Table&numsp;7&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.Datab.tbl.1"> にある４つの検索パスを提供します。
+</Para>
+<Table Id="SAG.Datab.tbl.1" Frame="Topbot">
+<Title Id="SAG.Datab.mkr.2">デスクトップ検索パス</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>検索パス</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>アプリケーション</Para></Entry>
+<Entry><Para>
+アプリケーションを検出するのに使用します。アプリケーション・マネージャは、アプリケーション検索パスを使用して、ユーザのログイン時に動的にトップレベルを生成します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>データベース</Para></Entry>
+<Entry><Para>
+アクションおよびデータ型の定義ファイル (<Filename>*.dt</Filename> ファイル) とフロントパネル・ファイル (<Filename>*.fp</Filename> ファイル) の追加位置を指定するのに使用します。 
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アイコン</Para></Entry>
+<Entry><Para>
+アイコンの追加位置を指定するのに使用します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>インフォメーション・ライブラリ</Para></Entry>
+<Entry><Para>
+インフォメーション・ライブラリの追加位置を指定するのに使用します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ヘルプ・データ</Para></Entry>
+<Entry><Para>
+デスクトップ・ヘルプ・データの追加位置を指定するのに使用します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>
+検索パスには、ローカル・ディスプレイとリモート・ディレクトリの両方を指定できます。したがって、デスクトップのネットワーク・アーキテクチャにおいて検索パスは重要な役割を果たします。たとえば、アプリケーション・サーバ上でシステムがアプリケーションを見つけられるのは、そのアプリケーション・サーバがアプリケーション検索パスにリストされているからです。
+</Para>
+<Para>
+検索パスにリモート位置を指定する場合は、その位置へのリモート・ファイル・アクセスを構成しなければなりません。詳細については、
+<!--Original XRef content: '&xd2;Configuring Distributed File System Access&xd3; on page&numsp;91'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.7"> を参照してください。
+</Para>
+<Sect1 Id="SAG.Datab.div.2">
+<Title Id="SAG.Datab.mkr.3">デスクトップ検索パスと環境変数</Title>
+<Para>
+デスクトップ検索パスは、デスクトップ・ユーティリティ <Command>dtsearchpath</Command> によってログイン時に作成されます。<Command>dtsearchpath</Command> ユーティリティは、環境変数と組み込みの位置の組み合わせを使って検索パスを作成します。
+</Para>
+<Para>
+<IndexTerm><Primary>検索パス</Primary><Secondary>入力変数</Secondary></IndexTerm><IndexTerm><Primary>入力変数</Primary></IndexTerm>
+<Command>dtsearchpath</Command> が読み取る環境変数を <Emphasis>入力変数</Emphasis> といいます。このような変数は、システム管理者またはエンド・ユーザによって設定されます。入力変数は命名規則 <Filename>DTSP*</Filename> を使用します。
+</Para>
+<Para>
+ログイン時に <Command>dtsearchpath</Command> が実行されると、入力変数に割り当てられた値を組み込んで、組み込み位置を追加し、<Emphasis>出力変数</Emphasis>の値を作成します。検索パスひとつにつき、ひとつの出力変数があります。
+<IndexTerm><Primary>検索パス</Primary><Secondary>出力変数</Secondary></IndexTerm><IndexTerm><Primary>出力変数</Primary></IndexTerm>
+</Para>
+<Table Id="SAG.Datab.tbl.2" Frame="Topbot">
+<Title>デスクトップ検索パス環境変数<IndexTerm><Primary>検索パス</Primary><Secondary>環境変数</Secondary></IndexTerm><IndexTerm><Primary>環境変数</Primary><Secondary>検索パス</Secondary></IndexTerm></Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="1.125 in">
+<ColSpec Colname="2" Colwidth="2.0 in">
+<ColSpec Colname="3" Colwidth="1.875 in">
+<ColSpec Colname="4" Colwidth="1.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>検索パスの種類</Literal></Para></Entry>
+<Entry><Para><Literal>出力環境変数</Literal></Para></Entry>
+<Entry><Para><Literal>システム共通の入力変数</Literal></Para></Entry>
+<Entry><Para><Literal>個人用の入力変数</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>アプリケーション</Para></Entry>
+<Entry><Para>
+<IndexTerm><Primary>DTAPPSEARCHPATH 変数</Primary><Secondary>定義</Secondary></IndexTerm><IndexTerm><Primary>DTAPPSEARCHPATH 変数</Primary><Secondary>定義</Secondary></IndexTerm>DTAPPSEARCHPATH</Para></Entry>
+<Entry><Para>
+<IndexTerm><Primary>DTSPSYSAPPHOSTS 変数</Primary><Secondary>定義</Secondary></IndexTerm>DTSPSYSAPPHOSTS</Para></Entry>
+<Entry><Para>
+<IndexTerm><Primary>DTSPUSERAPPHOSTS 変数</Primary><Secondary>定義</Secondary></IndexTerm>DTSPUSERAPPHOSTS</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Footnote Id="SAG.Datab.fn.9">
+<Para>アクション、データ型、およびフロントパネル定義</Para>
+</Footnote></Para><Para Id="SAG.Datab.mkr.4"><FootnoteRef Linkend="SAG.Datab.fn.9"></FootnoteRef>データベース</Para></Entry>
+<Entry><Para>
+<IndexTerm><Primary>DTDATABASESEARCHPATH 変数</Primary><Secondary>定義</Secondary></IndexTerm>DTDATABASESEARCHPATH</Para></Entry>
+<Entry><Para>
+<IndexTerm><Primary>DTSPSYSDATABASEHOSTS 変数</Primary><Secondary>定義</Secondary></IndexTerm>DTSPSYSDATABASEHOSTS</Para></Entry>
+<Entry><Para>
+<IndexTerm><Primary>DTSPUSERDATABASEHOSTS 変数</Primary><Secondary>定義</Secondary></IndexTerm>DTSPUSERDATABASEHOSTS</Para></Entry>
+</Row>
+<Row>
+<Entry><Para Id="SAG.Datab.mkr.5">アイコン</Para></Entry>
+<Entry><Para>XMICONSEARCHPATH, XMICONBMSEARCHPATH
+<IndexTerm><Primary>XMICONSEARCHPATH 変数</Primary><Secondary>定義</Secondary></IndexTerm><IndexTerm><Primary>XMICONBMSEARCHPATH 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPSYSICON
+<IndexTerm><Primary>DTSPSYSICON 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPUSERICON
+<IndexTerm><Primary>DTSPUSERICON 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para Id="SAG.Datab.mkr.5a">インフォメーション・ライブラリ</Para></Entry>
+<Entry><Para>DTINFOLIBSEARCHPATH
+<IndexTerm><Primary>DTINFOLIBSEARCHPATH 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPSYSINFOLIB
+<IndexTerm><Primary>DTSPSYSINFOLIB 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPUSERINFOLIB
+<IndexTerm><Primary>DTSPUSERINFOLIB 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ヘルプ・データ</Para></Entry>
+<Entry><Para>DTHELPSEARCHPATH
+<IndexTerm><Primary>DTHELPSEARCHPATH 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPSYSHELP
+<IndexTerm><Primary>DTSPSYSHELP 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPUSERHELP
+<IndexTerm><Primary>DTSPUSERHELP 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>
+コンポーネントは出力変数の値を使用します。たとえば、アプリケーション・マネージャは、アプリケーション・グループを検出するためにアプリケーション検索パスの値 (DTAPPSEARCHPATH) を使用します。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.3">
+<Title Id="SAG.Datab.mkr.6">検索パスの値の設定<IndexTerm><Primary>検索パス</Primary><Secondary>設定</Secondary></IndexTerm></Title>
+<Para>
+システム共通または個人単位で検索パスを変更できます。変更は、システム共通または個人用の入力変数に値を設定することによって行われます。変更はすべて組み込み検索パス位置に追加されます。
+</Para>
+<Sect2 Id="SAG.Datab.div.4" Role="Procedure">
+<Title Id="SAG.Datab.mkr.7">検索パスの現在の値（出力変数）を参照するには<IndexTerm><Primary>検索パス</Primary><Secondary>現在の値</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+検索パスの現在の値を表示するには、<Command>dtsearchpath</Command> コマンドを使用します。
+</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>
+現在の（ログイン）ユーザの値を取得するには、次のように実行します。
+</Para>
+<programlisting>dtsearchpath -v
+<IndexTerm><Primary>dtsearchpath</Primary></IndexTerm>
+</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+別のユーザの値を取得するには、次のように実行します。
+</Para>
+<programlisting>dtsearchpath -u <Symbol Role="Variable">user</Symbol></programlisting>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Para>
+検索パスの値には、次の変数が含まれます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="0.72in">
+<colspec colwidth="5.30in">
+<TBody>
+<Row>
+<Entry><Para>&percnt;I<IndexTerm><Primary>&percnt;I</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTINFOLIBSEARCHPATH で使用します。デフォルトのインフォメーション・ライブラリの名前です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>&percnt;H<IndexTerm><Primary>&percnt;H</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTHELPSEARCHPATH で使用します。ヘルプ・ボリューム名です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>&percnt;B<IndexTerm><Primary>&percnt;B</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>XMICONSEARCHPATH で使用します。アイコン・ファイルのベース名です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>&percnt;M<IndexTerm><Primary>&percnt;M</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>XMICONSEARCHPATH で使用します。アイコン・ファイル (<Filename>.l</Filename>、<Filename>.m</Filename>、<Filename>.s</Filename>、<Filename>.t</Filename>) のサイズです。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>&percnt;L</Filename><IndexTerm><Primary>&percnt;L</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>LANG 環境変数の値です。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.5" Role="Procedure">
+<Title>検索パスに個人用の変更を行うには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> を編集するために開きます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+個人用の入力変数を定義する行を追加または編集します。
+</Para>
+<Para>
+たとえば、次の行はユーザの個人用アプリケーション検索パスに位置を追加します。
+</Para>
+<programlisting>DTSPUSERAPPHOSTS=/projects1/editors</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+変更を有効にするために、ログアウトしてからログインし直します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.6" Role="Procedure">
+<Title>検索パスにシステム共通の変更を行うには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+root でログインします。</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>/etc/dt/config/Xsession.d/0010.dtpaths</Filename> ファイルが存在しない場合は、<Filename>/usr/dt/config/Xsession.d/0010.dtpaths</Filename> をコピーして作成します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>/etc/dt/Xsession.d/0010.paths</Filename> を編集するために開きます。システム共通の入力変数を定義する行を追加または編集します。
+</Para>
+<Para>
+たとえば、次の行はシステム共通のヘルプ検索パスに位置を追加します。
+</Para>
+<programlisting>DTSPSYSHELP=/applications/helpdata</programlisting>
+</ListItem>
+<ListItem>
+<Para>
+システム上のすべてのユーザに、変更を有効にするためにログアウトしてからログインし直すよう通知します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.7">
+<Title Id="SAG.Datab.mkr.8">アプリケーション検索パス<IndexTerm><Primary>アプリケーション検索パス</Primary><Secondary>定義</Secondary></IndexTerm><IndexTerm><Primary>検索パス</Primary><Secondary>アプリケーション</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション検索パスは、デスクトップがローカル・システムとネットワーク上のアプリケーション・サーバのアプリケーションを検出するのに使う一次検索パスです。
+</Para>
+<Para>
+アプリケーション検索パスに位置が追加されると、別の検索パス（データベース、アイコン、ヘルプ）は該当するデータの位置を反映させるために自動的に更新されます。したがって、アプリケーション検索パスによって、アプリケーションとデスクトップ構成ファイルの管理が比較的簡単になります。
+<!--Original XRef content: '&xd2;How the Application Search Path Affects the Database, Icon, and Help Search Paths&xd3; on page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.13"> を参照してください。
+</Para>
+<Sect2 Id="SAG.Datab.div.8">
+<Title Id="SAG.Datab.mkr.9">デフォルトのアプリケーション検索パス<IndexTerm><Primary>アプリケーション検索パス</Primary><Secondary>デフォルト</Secondary></IndexTerm></Title>
+<Para>
+デフォルトのアプリケーション検索パスの位置には、個人用、システム共通、組み込みがあります。デフォルトの <Symbol Role="Variable">language</Symbol> は <Command>C</Command> です。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="143*">
+<colspec colwidth="385*">
+<TBody>
+<Row>
+<Entry><Para>個人用の位置</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/appmanager</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>システム共通の位置</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>組み込みの位置</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.9">
+<Title>アプリケーション検索パス環境変数<IndexTerm><Primary>環境変数</Primary><Secondary>アプリケーション検索パス</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション検索パス</Primary><Secondary>環境変数</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション検索パスは、組み込み位置と次の入力変数で構成されます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="168*">
+<colspec colwidth="360*">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSAPPHOSTS</Para></Entry>
+<Entry><Para>システム共通のアプリケーション検索パス入力変数
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERAPPHOSTS</Para></Entry>
+<Entry><Para>個人用のアプリケーション検索パス入力変数</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+構成された検索パスは、
+<IndexTerm><Primary>DTAPPSEARCHPATH 変数</Primary><Secondary>構成</Secondary></IndexTerm>DTAPPSEARCHPATH 出力変数によって指定されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.10">
+<Title>アプリケーション検索パス入力変数の構文<IndexTerm><Primary>アプリケーション検索パス</Primary><Secondary>構文</Secondary></IndexTerm></Title>
+<Para>
+<IndexTerm><Primary>DTSPSYSAPPHOSTS 変数</Primary><Secondary>構文</Secondary></IndexTerm>DTSPSYSAPPHOSTS 変数と
+<IndexTerm><Primary>DTSPUSERAPPHOSTS 変数</Primary><Secondary>構文</Secondary></IndexTerm>DTSPUSERAPPHOSTS 変数の構文は次のとおりです。
+</Para>
+<ProgramListing><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]</ProgramListing>
+<Para>
+<Symbol Role="Variable">location</Symbol> の構文は次のとおりです。</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.13in">
+<colspec colwidth="4.89in">
+<TBody>
+<Row>
+<Entry><Para>/<Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>
+ローカル（セッション・サーバ）システムのディレクトリを指定します。ローカル・ディレクトリを追加するには、この構文を使用します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">hostname</Symbol><Filename>:</Filename></Para></Entry>
+<Entry><Para>
+システム共通の <Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol> ディレクトリをシステム <Symbol Role="Variable">hostname</Symbol> に指定します。アプリケーション・サーバを追加するには、この構文を使用します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">hostname</Symbol><Filename>:/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>
+リモート・システム <Symbol Role="Variable">hostname</Symbol> にディレクトリを指定します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>localhost:</Filename></Para></Entry>
+<Entry><Para>
+ローカル・システム共通の位置です。このキーワードは、ローカル・システム共通の位置の優先度を変更するときに使用します。
+<!--Original XRef content: '&xd2;Changing the Precedence of the System- Wide Local Location&xd3; on page&numsp;118'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.12"> を参照してください。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.11">
+<Title>アプリケーション検索パスの構成方法<IndexTerm><Primary>アプリケーション検索パス</Primary><Secondary>構成</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション検索パスの値 (<IndexTerm><Primary>DTAPPSEARCHPATH 変数</Primary><Secondary>構成</Secondary></IndexTerm>DTAPPSEARCHPATH) は、次の位置を組み合わせて作成されます。位置は、上から優先度の高い順に並んでいます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>DTSPUSERAPPHOSTS 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para>デフォルトの個人用の位置: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/appmanager</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>デフォルトの位置: <Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol><?X-setsize 9.0 pt></Para>
+</ListItem>
+<ListItem>
+<Para>DTSPSYSAPPHOSTS 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+<Para>次の構文は、ディレクトリ <Filename>/etc/dt/appconfig/appmanager</Filename> をシステム <Symbol Role="Variable">hostname</Symbol> に指定するために展開されます。
+</Para>
+<ProgramListing><Symbol Role="Variable">hostname</Symbol><Filename>:</Filename></ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.12">
+<Title Id="SAG.Datab.mkr.10">システム共通のローカル位置の優先度の変更<IndexTerm><Primary>アプリケーション検索パス</Primary><Secondary>優先度の変更</Secondary></IndexTerm></Title>
+<Para>
+デフォルトでは、ローカル・システム共通の位置 (<Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol>) はリモート位置に優先します。したがって、ローカル・アプリケーション・グループは、同名のリモート・グループに優先します。たとえば、ローカル・システムとリモート・システムの両方にプリンタ・アプリケーション・グループ (<Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol><Filename>/Printers</Filename>) がある場合、ローカル・グループを使用します。
+</Para>
+<Para>
+アプリケーション検索パス入力変数に、ローカル・システム共通のアプリケーション・グループの優先度を指定するためには、次の構文を使用します。
+</Para>
+<ProgramListing>localhost:</ProgramListing>
+<Para>
+たとえば、システムがアプリケーション・サーバ <Command>SysA</Command>、<Command>SysB</Command>、および <Command>SysC</Command> にアクセスしなければならず、<Command>SysB</Command> のシステム共通のアプリケーション・グループを同名の他のローカル・グループよりも優先にしたいとします。
+</Para>
+<Para>
+そのような動作は、DTSPSYSAPPHOSTS の次の値で作成されます。</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=SysB:,localhost:,SysA:,SysC:</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.13">
+<Title Id="SAG.Datab.mkr.11">アプリケーション検索パスがデータベース、アイコン、ヘルプの検索パスに与える影響<IndexTerm><Primary>アイコン検索パス</Primary><Secondary>アプリケーション検索パスに関係する</Secondary></IndexTerm><IndexTerm><Primary>データベース検索パス</Primary><Secondary>アプリケーション検索パスに関係する</Secondary></IndexTerm><IndexTerm><Primary>ヘルプ検索パス</Primary><Secondary>アプリケーション検索パスに関係する</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション検索パスに追加が行われると、対応する位置が、データベース検索パス、アイコン検索パス、ヘルプ検索パスに自動的に追加されます。この機能により、アプリケーション検索パス入力変数を設定するだけで、アプリケーション・サーバを検索パスに追加することができます。
+</Para>
+<Para>
+たとえば、DTSPSYSAPPHOSTS を次のように設定した場合、</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=servera:</ProgramListing>
+<Para>
+次の検索パスが影響を受けます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="108*">
+<colspec colwidth="420*">
+<THead>
+<Row>
+<Entry><Para>検索パス</Para></Entry>
+<Entry><Para>検索パスに追加されるディレクトリ</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>アプリケーション</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>データベース</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アイコン</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>インフォメーション・ライブラリ</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/infolib/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ヘルプ</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+同様に DTSPSYSAPPHOSTS を次のように設定した場合は、</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=/projects1/apps</ProgramListing>
+<Para>
+次の検索パスが影響を受けます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="93*">
+<colspec colwidth="435*">
+<THead>
+<Row>
+<Entry><Para>検索パス</Para></Entry>
+<Entry><Para>検索パスに追加されるディレクトリ</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>アプリケーション</Para></Entry>
+<Entry><Para><Filename>/projects1/apps/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>データベース</Para></Entry>
+<Entry><Para>/<Filename>projects1/apps/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アイコン</Para></Entry>
+<Entry><Para>/<Filename>projects1/apps/icons/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>インフォメーション・ライブラリ</Para></Entry>
+<Entry><Para>/<Filename>projects1/apps/infolib/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ヘルプ</Para></Entry>
+<Entry><Para>/<Filename>projects1/apps/help/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.14">
+<Title Id="SAG.Datab.mkr.12">データベース（アクションおよびデータ型）検索パス<IndexTerm><Primary>アクション検索パス、「データベース検索パス」を参照してください</Primary></IndexTerm><IndexTerm><Primary>データ型</Primary><Secondary>検索パス、「データベース検索パス」を参照してください</Secondary></IndexTerm><IndexTerm><Primary>データベース検索パス</Primary><Secondary>「検索パス」も参照してください</Secondary></IndexTerm><IndexTerm><Primary>データベース検索パス</Primary></IndexTerm></Title>
+<Para>
+データベース検索パスは、次の定義を格納しているファイルを指定された位置で検索するように、デスクトップに指示します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>アクションおよびデータ型定義 (<Filename>*.dt</Filename> ファイル)</Para>
+</ListItem>
+<ListItem>
+<Para>フロントパネル定義 (<Filename>*.fp</Filename> ファイル)</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+データベース・サーバを作成した場合や、データベース・ファイルのローカル位置を追加した場合は、データベース検索パスを変更しなければならないことがあります。
+</Para>
+<Sect2 Id="SAG.Datab.div.15">
+<Title>デフォルトのデータベース検索パス<IndexTerm><Primary>データベース検索パス</Primary><Secondary>デフォルト</Secondary></IndexTerm></Title>
+<Para>
+デフォルトのデータベース検索パスの位置には、個人用、システム共通、組み込みがあります。デフォルトの <Symbol Role="Variable">language</Symbol> は <Filename>C</Filename> です。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="153*">
+<colspec colwidth="375*">
+<TBody>
+<Row>
+<Entry><Para>個人用の位置</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>システム共通の位置</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>組み込みの位置</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.16">
+<Title>アプリケーション検索パスがデータベース検索パスに与える影響<IndexTerm><Primary>データベース検索パス</Primary><Secondary>アプリケーション検索パスに関係する</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション検索パスに位置が追加されると、適切なデータベースのサブディレクトリが、データベース検索パスに自動的に追加されます
+(<!--Original XRef content: '&xd2;How the Application Search Path Affects the Database, Icon, Infolib, and Help Search Paths&xd3; on page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.11"> を参照してください)。
+</Para>
+<Para>
+たとえば、アプリケーション・サーバ <Filename>hosta:</Filename> がアプリケーション検索パスに追加された場合、ディレクトリ <Filename>hosta:/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol> が、データベース検索パスに自動的に追加されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.17">
+<Title>データベース検索パス環境変数<IndexTerm><Primary>環境変数</Primary><Secondary>データベース検索パス</Secondary></IndexTerm><IndexTerm><Primary>データベース検索パス</Primary><Secondary>環境変数</Secondary></IndexTerm></Title>
+<Para>
+データベース検索パスは、組み込み位置と次の入力変数で構成されます。
+</Para>
+<InformalTable>
+<TGroup Cols="2">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSDATABASEHOSTS<IndexTerm><Primary>DTSPSYSDATABASEHOSTS 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>システム共通のデータベース検索パス入力変数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERDATABASEHOSTS<IndexTerm><Primary>DTSPUSERDATABASEHOSTS 変数</Primary><Secondary>定義</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>個人用のデータベース検索パス入力変数</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+アプリケーション検索パス以外の位置を指定するには、これらの入力変数を使用します。
+</Para>
+<Para>
+構成されたデータベース検索パスは、出力変数 <IndexTerm><Primary>DTDATABASESEARCHPATH 変数</Primary><Secondary>構成</Secondary></IndexTerm>DTDATABASESEARCHPATH によって指定されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.18">
+<Title>データベース検索パス入力変数の構文<IndexTerm><Primary>データベース検索パス</Primary><Secondary>構文</Secondary></IndexTerm></Title>
+<Para>
+<IndexTerm><Primary>DTSPSYSDATABASEHOSTS 変数</Primary><Secondary>構文</Secondary></IndexTerm>DTSPSYSDATABASEHOSTS 変数と
+<IndexTerm><Primary>DTSPUSERDATABASEHOSTS 変数</Primary><Secondary>構文</Secondary></IndexTerm>DTSPUSERDATABASEHOSTS 変数の構文は、次のとおりです。
+</Para>
+<ProgramListing><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]</ProgramListing>
+<Para><Symbol Role="Variable">location</Symbol> の構文は、次のとおりです。</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.07in">
+<colspec colwidth="4.91in">
+<TBody>
+<Row>
+<Entry><Para><Filename>/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>ローカル（セッション・サーバ）システムのディレクトリを指定します。ローカル・ディレクトリを追加するにはこの構文を使用します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">hostname</Symbol><Filename>:</Filename></Para></Entry>
+<Entry><Para>システム共通のディレクトリ <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol> をシステム <Symbol Role="Variable">hostname</Symbol> に指定します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">hostname</Symbol><Filename>:/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>リモート・システム <Symbol Role="Variable">hostname</Symbol> にディレクトリを指定します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.19">
+<Title>データベース検索パスの構成方法<IndexTerm><Primary>データベース検索パス</Primary><Secondary>構成</Secondary></IndexTerm></Title>
+<Para>
+データベース検索パスの値 (<IndexTerm><Primary>DTDATABASESEARCHPATH 変数</Primary><Secondary>構成</Secondary></IndexTerm>DTDATABASESEARCHPATH) は、次の位置を組み合わせて作成されます。位置は、上から優先度の高い順に並んでいます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>DTSPUSERDATABASEHOSTS 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para>DTSPUSERAPPHOSTS 変数から派生した位置</Para>
+</ListItem>
+<ListItem>
+<Para>デフォルトの個人用の位置: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>デフォルト位置: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol><?X-setsize 9.0 pt></Para>
+</ListItem>
+<ListItem>
+<Para>DTSPSYSDATABASEHOSTS 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para>DTSPSYSAPPHOSTS 変数から派生した位置</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+<Para>次の構文は、ディレクトリ <Filename>/etc/dt/appconfig/types</Filename> をシステム <Symbol Role="Variable">hostname</Symbol> に指定するために展開されています。
+</Para>
+<ProgramListing><Symbol Role="Variable">hostname</Symbol><Filename>:</Filename></ProgramListing>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.20">
+<Title Id="SAG.Datab.mkr.13">アイコン検索パス<IndexTerm><Primary>アイコン検索</Primary></IndexTerm></Title>
+<Para>
+アイコン検索パスは、デスクトップが使用するビットマップとピックスマップのイメージ・ファイルを格納しているファイルを、指定された位置で検索するようデスクトップに指示します。
+</Para>
+<Sect2 Id="SAG.Datab.div.21">
+<Title>デフォルトのアイコン検索パス<IndexTerm><Primary>アイコン検索パス</Primary><Secondary>デフォルト</Secondary></IndexTerm></Title>
+<Para>
+デフォルトのアイコン検索パスの位置には、個人用、システム共通、組み込みがあります。デフォルトの <Symbol Role="Variable">language</Symbol> は <Filename>C</Filename> です。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="157*">
+<colspec colwidth="371*">
+<TBody>
+<Row>
+<Entry><Para>個人用の位置</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>システム共通の位置</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>組み込みの位置</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.22">
+<Title>アプリケーション検索パスがアイコン検索パスに与える影響<IndexTerm><Primary>アイコン検索パス</Primary><Secondary>アプリケーション検索パスと関係する</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション検索パスに位置が追加されると、適切なアイコンのサブディレクトリが、アイコン検索パスに自動的に追加されます
+(<!--Original XRef content: '&xd2;How the Application Search Path Affects the Database, Icon, Infolib, and Help Search Paths&xd3; on page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.11"> を参照してください)。
+</Para>
+<Para>
+たとえば、アプリケーション・サーバ <Filename>hosta:</Filename> がアプリケーション検索パスに追加された場合、ディレクトリ <Filename>hosta:/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol> がアイコン検索パスに自動的に追加されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.23">
+<Title>アイコン検索パス環境変数<IndexTerm><Primary>環境変数</Primary><Secondary>ビットマップ検索パス</Secondary></IndexTerm><IndexTerm><Primary>環境変数</Primary><Secondary>ピックスマップ検索パス</Secondary></IndexTerm><IndexTerm><Primary>環境変数</Primary><Secondary>アイコン検索パス</Secondary></IndexTerm><IndexTerm><Primary>アイコン検索パス</Primary><Secondary>環境変数</Secondary></IndexTerm></Title>
+<Para>
+アイコン検索パスは、組み込み位置と次の入力変数で構成されます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="142*">
+<colspec colwidth="386*">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSICON</Para></Entry>
+<Entry><Para>システム共通のアイコン検索パス入力変数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERICON</Para></Entry>
+<Entry><Para>個人用のアイコン検索パス入力変数</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+アプリケーション検索パス以外の位置を指定するには、これらの入力変数を使用します。
+</Para>
+<Para>
+構成されたアイコン検索パスは、次の２つの出力変数によって指定されます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="208*">
+<colspec colwidth="320*">
+<TBody>
+<Row>
+<Entry><Para>XMICONSEARCHPATH<IndexTerm><Primary>XMICONSEARCHPATH 変数</Primary><Secondary>用途</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>カラー・ディスプレイに使用します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>XMICONBMSEARCHPATH<IndexTerm><Primary>XMICONBMSEARCHPATH 変数</Primary><Secondary>用途</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>モノクロ・ディスプレイに使用します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.24">
+<Title>アイコン検索パス入力変数の構文<IndexTerm><Primary>アイコン検索パス</Primary><Secondary>〜の構文</Secondary></IndexTerm></Title>
+<Para>
+<IndexTerm><Primary>DTSPSYSICON 変数</Primary><Secondary>構文</Secondary></IndexTerm>DTSPSYSICON 変数と
+<IndexTerm><Primary>DTSPUSERICON 変数</Primary><Secondary>構文</Secondary></IndexTerm>DTSPUSERICON 変数の構文は次のとおりです。
+</Para>
+<ProgramListing><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]</ProgramListing>
+<Para><Symbol Role="Variable">location</Symbol> の構文は次のとおりです。</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="1">
+<colspec colwidth="68*">
+<colspec colwidth="460*">
+<TBody>
+<Row>
+<Entry><Para><Filename>/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>ローカル（セッション・サーバ）システムのディレクトリを指定します。ローカル・ディレクトリを追加するには、この構文を使用します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+別のシステムの位置を指定するには、たとえば <Filename>/nfs/servera/projects/icons</Filename> のように、ネットワーク・ファイル名を使用します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.25">
+<Title>アイコン検索パスの構成方法<IndexTerm><Primary>アイコン検索パス</Primary><Secondary>構成</Secondary></IndexTerm></Title>
+<Para>
+アイコン検索パスの値
+(<IndexTerm><Primary>XMICONSEARCHPATH 変数</Primary><Secondary>構成</Secondary></IndexTerm>XMICONSEARCHPATH と <IndexTerm><Primary>XMICONBMSEARCHPATH 変数</Primary><Secondary>構成</Secondary></IndexTerm>XMICONBMSEARCHPATH) は、次の位置を組み合わせて作成されます。位置は、上から優先度の高い順に並んでいます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>DTSPUSERICON 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para>DTSPUSERAPPHOSTS 変数から派生した位置</Para>
+</ListItem>
+<ListItem>
+<Para>デフォルトの個人用の位置: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>デフォルト位置: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol><?X-setsize 9.0 pt></Para>
+</ListItem>
+<ListItem>
+<Para>DTSPSYSICON 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para>DTSPSYSAPPHOSTS 変数から派生した位置</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+<Para>
+カラーの検索パスとモノクロの検索パスは、ピックスマップとビットマップの優先度だけ異なります。XMICONSEARCHPATH 変数はビットマップよりピックスマップを優先し、XMICONBMSEARCPATH はピックスマップよりビットマップを優先します。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.20a">
+<Title Id="SAG.Datab.mkr.13a">インフォメーション・ライブラリ検索パス<IndexTerm><Primary>インフォメーション・ライブラリ検索パス</Primary></IndexTerm></Title>
+<Para>
+インフォメーション・ライブラリ検索パスは、システムに登録されるインフォメーション・ライブラリを、指定された位置で検索するようデスクトップに指示します。
+</Para>
+<para>
+<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem> と <systemitem class="environvar">DTINFOLIBDEFAULT</systemitem> 環境変数は、<command>dtsearchpath</command> ユーティリティによって、インストール時に定義されます。
+</para>
+<Sect2 Id="SAG.Datab.div.21a">
+<Title>デフォルトのインフォメーション・ライブラリ検索パス<IndexTerm><Primary>インフォメーション・ライブラリ検索パス</Primary><Secondary>デフォルト</Secondary></IndexTerm></Title>
+<Para>
+デフォルトのインフォメーション・ライブラリ検索パスの位置には、システム共通および組み込みがあります。デフォルトの <Symbol Role="Variable">language</Symbol> は <Filename>C</Filename> です。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="157*">
+<colspec colwidth="371*">
+<TBody>
+<Row>
+<Entry><Para>システム共通の位置</Para></Entry>
+<Entry><Para><Filename>/etc/dt/infolib/</Filename><Symbol Role="Variable">%L/%I</Symbol>.dti</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>組み込みの位置</Para></Entry>
+<Entry><Para><Filename>/usr/dt/infolib/</Filename><Symbol Role="Variable">%L/%I</Symbol>.dti</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<para>
+<systemitem class="environvar">DTINFOLIBDEFAULT</systemitem> の値は、<Symbol Role="Variable">%I</Symbol> で置き換えられます。<systemitem class="environvar">DTINFOLIBDEFAULT</systemitem> のデフォルト値は、<literal>cde</literal> です。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.22a">
+<Title>アプリケーション検索パスがインフォメーション・ライブラリ検索パスに与える影響<IndexTerm><Primary>インフォメーション・ライブラリ検索パス</Primary><Secondary>アプリケーション検索パスに関係する</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション検索パスに位置が追加されると、適切なインフォメーション・ライブラリのサブディレクトリが、インフォメーション・ライブラリ検索パスに自動的に追加されます
+(<!--Original XRef content: '&xd2;How the Application Search Path Affects the Database, Icon, Infolib, and Help Search Paths&xd3; on page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.11"> を参照してください)。
+</Para>
+<Para>
+たとえば、アプリケーション・サーバ <Filename>hosta:</Filename> がアプリケーション検索パスに追加された場合、ディレクトリ <Filename>hosta:/etc/dt/infolib/</Filename><Symbol Role="Variable">%L</Symbol> が、インフォメーション・ライブラリ検索パスに自動的に追加されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.23a">
+<Title>インフォメーション・ライブラリ検索パス環境変数<IndexTerm><Primary>環境変数</Primary><Secondary>インフォメーション・ライブラリ検索パス</Secondary></IndexTerm><IndexTerm><Primary>インフォメーション・ライブラリ検索パス</Primary><Secondary>環境変数</Secondary></IndexTerm></Title>
+<Para>
+インフォメーション・ライブラリ検索パスは、組み込み位置と次の入力変数で構成されます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="142*">
+<colspec colwidth="386*">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSINFOLIB</Para></Entry>
+<Entry><Para>システム共通のインフォメーション・ライブラリ検索パス入力変数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERINFOLIB</Para></Entry>
+<Entry><Para>個人用のインフォメーション・ライブラリ検索パス入力変数</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+アプリケーション検索パス以外の位置を指定するには、これらの入力変数を使用します。
+</Para>
+<Para>
+構成されたインフォメーション・ライブラリ検索パスは、出力変数 <systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem> によって指定されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.24a">
+<Title>インフォメーション・ライブラリ検索パス入力変数の構文<IndexTerm><Primary>インフォメーション・ライブラリ検索パス</Primary><Secondary>〜の構文</Secondary></IndexTerm></Title>
+<Para>
+<systemitem class="environvar">DTSPSYSINFOLIB</systemitem> 変数と <systemitem class="environvar">DTSPUSERINFOLIB</systemitem> 変数の構文は次のとおりです。
+<IndexTerm><Primary>DTSPSYSINFOLIB 変数</Primary><Secondary>構文</Secondary></IndexTerm><IndexTerm><Primary>DTSPUSERINFOLIB 変数</Primary><Secondary>構文</Secondary></IndexTerm>
+</Para>
+<programlisting><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]
+</ProgramListing>
+<Para><Symbol Role="Variable">location</Symbol> の構文は次のとおりです。</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="1">
+<colspec colwidth="68*">
+<colspec colwidth="460*">
+<TBody>
+<Row>
+<Entry><Para><Filename>/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>ローカル（セッション・サーバ）システムのディレクトリを指定します。ローカル・ディレクトリを追加するにはこの構文を使用します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+別のシステム上での位置を指定するには、たとえば <Filename>/nfs/servera/projects/infolib</Filename> のように、ネットワーク・ファイル名を使用します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.25a">
+<Title>インフォメーション・ライブラリ検索パスの構成方法<IndexTerm><Primary>インフォメーション・ライブラリ検索パス</Primary><Secondary>構成</Secondary></IndexTerm></Title>
+<Para>
+インフォメーション・ライブラリ検索パスの値 (<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>) は、次の位置を組み合わせて作成されます。
+<IndexTerm><Primary>XMinfolibSEARCHPATH 変数</Primary><Secondary>構成</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><systemitem class="environvar">DTSPUSERINFOLIB</systemitem> 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para><systemitem class="environvar">DTSPUSERAPPHOSTS</systemitem> 変数から派生した位置</Para>
+</ListItem>
+<ListItem>
+<Para>デフォルト位置: <Filename>/etc/dt/infolib/</Filename><Symbol Role="Variable">%L/%I</Symbol><Filename>.dti</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><systemitem class="environvar">DTSPSYSINFOLIB</systemitem> 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para><systemitem class="environvar">DTSPSYSAPPHOSTS</systemitem> 変数から派生した位置</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/infolib/</Filename><Symbol Role="Variable">%L/%I</Symbol><Filename>.dti</Filename>
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.26">
+<Title Id="SAG.Datab.mkr.14">ヘルプ検索パス<IndexTerm><Primary>ヘルプ検索パス</Primary></IndexTerm><IndexTerm><Primary>検索パス</Primary><Secondary>ヘルプ</Secondary></IndexTerm></Title>
+<Para>
+ヘルプ検索パスは、システムに登録されるヘルプ情報を格納しているファイルを、指定された位置で検索するようデスクトップに指示します。
+</Para>
+<Sect2 Id="SAG.Datab.div.27">
+<Title>デフォルトのヘルプ検索パス<IndexTerm><Primary>ヘルプ検索パス</Primary><Secondary>デフォルト</Secondary></IndexTerm><IndexTerm><Primary>ヘルプ検索パス</Primary><Secondary>デフォルト</Secondary></IndexTerm></Title>
+<Para>
+デフォルトのヘルプ検索パスの位置には、個人用、システム共通、組み込みがあります。デフォルトの <Symbol Role="Variable">language</Symbol> は <Filename>C</Filename> です。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="146*">
+<colspec colwidth="382*">
+<TBody>
+<Row>
+<Entry><Para>個人用の位置</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/help</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>システム共通の位置</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/.dt/help/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>組み込みの位置</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.28">
+<Title>アプリケーション検索パスがヘルプ検索パスに与える影響<IndexTerm><Primary>ヘルプ検索パス</Primary><Secondary>アプリケーション検索パスに関係する</Secondary></IndexTerm></Title>
+<Para>
+アプリケーション検索パスに位置が追加されると、適切なヘルプのサブディレクトリが、ヘルプ検索パスに自動的に追加されます
+(<!--Original XRef content: '&xd2;How the Application Search Path Affects the Database, Icon, Infolib, and Help Search Paths&xd3; on page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.11"> を参照してください)。
+</Para>
+<Para>
+たとえば、アプリケーション・サーバ <Filename>hosta:</Filename> がアプリケーション検索パスに追加された場合、ディレクトリ <Filename>hosta:/etc/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol> がヘルプ検索パスに自動的に追加されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.29">
+<Title>ヘルプ検索パス環境変数<IndexTerm><Primary>環境変数</Primary><Secondary>ヘルプ検索パス</Secondary></IndexTerm><IndexTerm><Primary>ヘルプ検索パス</Primary><Secondary>環境変数</Secondary></IndexTerm></Title>
+<Para>
+ヘルプ検索パスは、組み込み位置と次の入力変数で構成されます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="140*">
+<colspec colwidth="388*">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSHELP<IndexTerm><Primary>DTSPSYSHELP 変数</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>システム共通のヘルプ検索パス入力変数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERHELP</Para></Entry>
+<Entry><Para>個人用のヘルプ検索パス入力変数</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+アプリケーション検索パス以外の位置を指定するには、これらの入力変数を使用します。
+</Para>
+<Para>
+構成されたヘルプ検索パスは、出力変数 DTHELPSEARCHPATH によって指定されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.30">
+<Title>ヘルプ検索パス入力変数の構文<IndexTerm><Primary>ヘルプ検索パス</Primary><Secondary>構文</Secondary></IndexTerm></Title>
+<Para>
+<IndexTerm><Primary>DTSPSYSHELP 変数</Primary><Secondary>syntax</Secondary></IndexTerm>DTSPSYSHELP 変数と
+<IndexTerm><Primary>DTSPUSERHELP 変数</Primary><Secondary>syntax</Secondary></IndexTerm>DTSPUSERHELP 変数の構文は次のとおりです。 
+</Para>
+<ProgramListing><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]</ProgramListing>
+<Para><Symbol Role="Variable">location</Symbol> の構文は次のとおりです。</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="1">
+<colspec colwidth="53*">
+<colspec colwidth="475*">
+<TBody>
+<Row>
+<Entry><Para><Filename>/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>ローカル（セッション・サーバ）システムのディレクトリを指定します。ローカル・ディレクトリを追加するにはこの構文を使用します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+別のシステム上での位置を指定するには、たとえば <Filename>/nfs/servera/projects/help</Filename> のように、ネットワーク・ファイル名を使用します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.31">
+<Title>ヘルプ検索パスの構成方法<IndexTerm><Primary>ヘルプ検索パス</Primary><Secondary>構成</Secondary></IndexTerm></Title>
+<Para>
+ヘルプ検索パスの値 (DTHELPSEARCHPATH) は、次の位置を組み合わせて作成されます。位置は、上から優先度の高い順に並んでいます。
+<IndexTerm><Primary>DTHELPSEARCHPATH 変数</Primary><Secondary>構成</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>DTSPUSERHELP 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para>DTSPUSERAPPHOSTS 変数から派生した位置</Para>
+</ListItem>
+<ListItem>
+<Para>デフォルトの個人用の位置: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/help</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>デフォルト位置: <Filename>/etc/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol><?X-setsize 9.0 pt></Para>
+</ListItem>
+<ListItem>
+<Para>DTSPSYSHELP 変数を使用して指定した位置</Para>
+</ListItem>
+<ListItem>
+<Para>DTSPSYSAPPHOSTS 変数から派生した位置</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.32">
+<Title Id="SAG.Datab.mkr.15">ローカライズされた検索パス<IndexTerm><Primary>検索パス</Primary><Secondary>ローカライズされた</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション検索パス</Primary><Secondary>ローカライズされた</Secondary></IndexTerm></Title>
+<Para>
+出力変数には、ローカライズされた位置とデフォルト (<Command>C</Command>) 位置の両方のエントリがあります。
+</Para>
+<Para>
+たとえば、デフォルトのアプリケーション検索パスは次のとおりです。
+</Para>
+<ProgramListing><Symbol Role="Variable">HomeDirectory</Symbol>/.dt/appmanager
+/etc/dt/appconfig/appmanager/<Symbol Role="Variable">language</Symbol>
+/etc/dt/appconfig/appmanager/C
+/usr/dt/appconfig/appmanager/<Symbol Role="Variable">language</Symbol>
+/usr/dt/appconfig/appmanager/C
+</ProgramListing>
+<Para>
+ここで <Symbol Role="Variable">language</Symbol> は LANG 環境変数の値です。
+</Para>
+<Para>
+（システム共通と組み込みの）それぞれの範囲で、言語固有の位置はデフォルトの位置に優先します。
+</Para>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

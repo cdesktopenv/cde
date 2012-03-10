@@ -1,0 +1,142 @@
+XCOMM $TOG: Imakefile /main/14 1998/04/22 14:18:31 mgreess $
+#define DoNormalLib	NormalLibDtSvc
+#define DoSharedLib	SharedLibDtSvc
+#define DoDebugLib	DebugLibDtSvc
+#define DoProfileLib	ProfileLibDtSvc
+#define LibName		DtSvc
+#define SoRev		SODTSVCREV
+#define IncSubdir	Dt
+#define LibCreate	NO
+
+#include <Threads.tmpl>
+
+#ifndef DtSvcDefines
+# define DtSvcDefines	-DXK_MISCELLANY -DMULTIBYTE
+#endif
+DEFINES = DtSvcDefines \
+          -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
+          -DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\"
+INCLUDES =  -I. -I../include
+
+#ifdef SunArchitecture
+EXTRA_INCLUDES = -I$(DTHELPSRC)
+EXTRA_SRCS = SunDtHelp.c
+EXTRA_OBJS = SunDtHelp.o
+#endif
+
+HEADERS = \
+	ChkpntP.h \
+	Collate.h \
+	CommandM.h \
+	Connect.h \
+	DataTypes.h \
+	DtNlUtils.h \
+	DtP.h \
+	DtPStrings.h \
+	DtosP.h \
+	DtpadM.h \
+	EnvControlI.h \
+	EnvControlP.h \
+	FileM.h \
+	FileUtil.h \
+	GetDispRes.h \
+	DtGetMessageP.h \
+        HashP.h \
+	HourGlass.h \
+	IconFile.h \
+	Indicator.h \
+	IndicatorM.h \
+	Info.h \
+	LocaleXlate.h \
+	Lock.h \
+	Message.h \
+	Msg.h \
+	MsgP.h \
+	MsgCatP.h \
+	MsgLog.h \
+	MsgLogI.h \
+	Service.h \
+	Setlocale.h \
+	SharedProcs.h \
+	SmCreateDirs.h \
+	Spc.h \
+	SvcTT.h \
+	Unistd.h \
+	UserMsg.h \
+	Utility.h \
+	UtilityP.h \
+	XlationSvc.h
+
+SRCS = \
+	$(EXTRA_SRCS) \
+	ChkpntClient.c \
+	ChkpntListen.c \
+	DtEnvMap.c \
+	DtNlUtils.c \
+	EnvControl.c \
+	FileUtil.c \
+	GetDispRes.c \
+	GetMessage.c \
+	HourGlass.c \
+	Info.c \
+	SharedProcs.c \
+	SmCreateDirs.c \
+	UErrNoBMS.c \
+	Utility.c \
+	ActIndicator.c \
+	CmdUtility.c \
+	DtGetMessage.c \
+	DtUtil.c \
+	GetEmbed.c \
+        Hash.c \
+	PrintXErr.c \
+	XmWrap.c \
+	addToRes.c \
+	lock.c \
+	SvcTT.c \
+	MsgCat.c \
+	MsgLog.c \
+	LocaleXlate.c \
+	XlationSvc.c
+
+/* WARNING!!!!
+ * Any .o's added to this list need to be added to DTUTIL2_OBJS
+ * and SHARED_DTUTIL2_OBJS in the DtSvc Imakefile.
+ */
+OBJS = \
+        $(EXTRA_OBJS) \
+	ChkpntClient.o \
+	ChkpntListen.o \
+	DtEnvMap.o \
+	DtNlUtils.o \
+	EnvControl.o \
+	FileUtil.o \
+	GetDispRes.o \
+	GetMessage.o \
+	HourGlass.o \
+	Info.o \
+	SharedProcs.o \
+	SmCreateDirs.o \
+	UErrNoBMS.o \
+	Utility.o \
+	ActIndicator.o \
+	CmdUtility.o \
+	DtGetMessage.o \
+	DtUtil.o \
+	GetEmbed.o \
+        Hash.o \
+	PrintXErr.o \
+	XmWrap.o \
+	addToRes.o \
+	lock.o \
+	SvcTT.o \
+	MsgCat.o \
+	MsgLog.o \
+	LocaleXlate.o \
+	XlationSvc.o
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

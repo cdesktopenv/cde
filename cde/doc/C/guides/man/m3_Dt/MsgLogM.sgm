@@ -1,0 +1,299 @@
+<!-- $XConsortium: MsgLogM.sgm /main/10 1996/10/25 10:36:20 cdedoc $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.MSG.DtMsgLogMessage">]]>
+<![ %CDE.C.XO; [<refentry id="XCSA.MSG.DtMsgLogMessage">]]>
+<refmeta><refentrytitle>
+DtMsgLogMessage
+</refentrytitle><manvolnum>library call</manvolnum></refmeta><refnamediv>
+<refname><function>DtMsgLogMessage</function></refname><refpurpose>logs
+a message
+</refpurpose></refnamediv><refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/MsgLog.h></funcsynopsisinfo>
+<funcdef>void <function>DtMsgLogMessage</function></funcdef>
+<paramdef>const char* <parameter>program_name</parameter></paramdef>
+<paramdef>DtMsgLogType <parameter>msg_type</parameter></paramdef>
+<paramdef>const char* <parameter>format</parameter></paramdef>
+<paramdef>va_list <parameter>args</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtMsgLogMessage</function> function
+logs the given arguments in one message.
+The format of the message is specified by
+<symbol role="Variable">format</symbol> and thus is
+controlled by the application. The format of each logged entry is:
+</para>
+<programlisting>
+*** &lt;Msgtype_string>( &lt;Msg_type>):  &lt;Program_name>: PID  &lt;Proc_id>:  &lt;Date>
+ &lt;The_message>
+*** [ &lt;Bytes_output>]
+</programlisting>
+<para>The value of &lt;Msgtype_string> depends on the value of
+<symbol role="Variable">msg_type</symbol>. Its value is:
+</para>
+<variablelist>
+<varlistentry><term><symbol role="constant">INFORMATION</symbol></term>
+<listitem>
+<para>if <symbol role="Variable">msg_type</symbol> is <Symbol>DtMsgLogInformation</Symbol>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="constant">STDERR</symbol></term>
+<listitem>
+<para>if <symbol role="Variable">msg_type</symbol> is <Symbol>DtMsgLogStderr</Symbol>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="constant">DEBUG</symbol></term>
+<listitem>
+<para>if <symbol role="Variable">msg_type</symbol> is <Symbol>DtMsgLogDebug</Symbol>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="constant">WARNING</symbol></term>
+<listitem>
+<para>if <symbol role="Variable">msg_type</symbol> is <Symbol>DtMsgLogWarning</Symbol>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="constant">ERROR</symbol></term>
+<listitem>
+<para>if <symbol role="Variable">msg_type</symbol> is <Symbol>DtMsgLogError</Symbol>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="constant">UNKNOWN</symbol></term>
+<listitem>
+<para>for all other values of <symbol role="Variable">msg_type</symbol>
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>&lt;Msgtype_string> is prefaced with the
+string <literal>***</literal> and one space character.
+&lt;Msg_type> is replaced with the value of
+the <symbol role="Variable">msg_type</symbol> argument (placed within parentheses).
+&lt;Program_name> is replaced with the value of the
+<symbol role="Variable">program_name</symbol>.
+&lt;Proc_id> is the application's process id.
+&lt;Date> is the date and time the message is logged.
+&lt;The_message> is the formatted message including the arguments.
+&lt;Bytes_output> (enclosed in brackets) is replaced with the
+number of bytes output for the message and header information.
+(The number of bytes printed for the line containing
+&lt;Bytes_output> is not included.). A colon and a space (respectively)
+are printed after the closing parenthesis for &lt;Msg_type>, &lt;Program_name>,
+and &lt;Proc_id>.
+</para>
+<para>One newline is output after the date and one newline
+is output after the message. After the message, a line beginning
+with the string <literal>***</literal> is output, followed by a space
+character, a <literal>[</literal> character, the number of
+bytes printed, a <literal>]</literal> character, and,finally,
+two newlines (one blank line separates messages).
+</para>
+<para>The message type string and date specification are localized
+and thus are retrieved from the current locale's message catalog.
+It is the application's responsibility to localize the message to be logged.
+</para>
+<para>An example log entry is:
+</para>
+<programlisting>
+*** WARNING(3): fontview: PID 12312: Thu Jun 13 16:51:51 1995
+The specified font 'fixed' could not be loaded.
+*** [109]
+</programlisting>
+<para>To log a multi-line message, use a single call to
+<function>DtMsgLogMessage</function>.
+</para>
+<para><function>DtMsgLogMessage</function> attempts to open the
+following files in the indicated sequence (by calling the
+<function>fopen</function> function with the <literal>a+</literal>
+option). It uses the first file that is successfully opened.
+</para>
+<variablelist>
+<varlistentry><term><filename>$HOME/.dt/errorlog</filename></term>
+<listitem>
+<para>This file is used only if the environment variable
+<systemitem class="environvar">HOME</systemitem> is defined.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>/var/dt/tmp/$DTUSERSESSION/errorlog</filename></term>
+<listitem>
+<para>This file is used only if the environment variable
+<systemitem class="environvar">DTUSERSESSION</systemitem> is defined.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>&lt;filename>/tmp/&lt;user_name>.errorlog&lt;/filename></term>
+<listitem>
+<para>In this filename, &lt;user_name> is replaced by the user's
+login name. The login name is determined by using the
+environment variable
+<systemitem class="environvar">LOGNAME</systemitem>, if it
+is defined, or <systemitem class="environvar">USER</systemitem>, if
+LOGNAME is not defined. If neither variable is defined,
+<function>DtMsgLogMessage</function> uses the
+<function>getpwuid</function> function to determine &lt;user_name>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para><function>DtMsgLogMessage</function> calls
+<function>DtMsgLogOpenFile</function> to determine where to log
+the message. If <function>DtMsgLogOpenFile</function> returns
+NULL, <function>DtMsgLogMessage</function> will output the
+message to stderr.
+</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">program_name</symbol></term>
+<listitem>
+<para>Specifies a string "tag" to identify the application
+issuing the message. This is generally an application's
+<literal>argv[0]</literal> so the message can be traced to
+an executable program.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">msg_type</symbol></term>
+<listitem>
+<para>Specifies the
+<StructName Role="typedef">DtMsgLogType</StructName> structure
+that defines the message type. See "Structures" in this man page.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">format</symbol></term>
+<listitem>
+<para>Specifies the <function>sprintf</function> format of the message.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">args</symbol></term>
+<listitem>
+<para>Specifies the variable number of arguments needed by
+<symbol role="Variable">format</symbol>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>STRUCTURES</title>
+<para>The <symbol role="Variable">msg_type</symbol> argument is specified
+as a <StructName Role="typedef">DtMsgLogType</StructName>
+enumeration data type, with the following members:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtMsgLogInformation</Term>
+<ListItem>
+<Para>Designates informational messages that do not have to be brought
+to the user's immediate attention (for example, status information).
+It is acceptable to not present messages of this type to the user.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtMsgLogDebug</Term>
+<ListItem>
+<Para>Designates debugging messages written by the application (for example,
+via a <literal>-debug</literal> command line option).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtMsgLogStderr</Term>
+<ListItem>
+<Para>Designates messages that an application produces to log the stderr
+from a child process.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtMsgLogWarning</Term>
+<ListItem>
+<Para>Designates messages for errors that are not severe enough to cause
+program termination.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtMsgLogError</Term>
+<ListItem>
+<Para>Designates messages for fatal errors that require program termination.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>The values of the following environment variables
+determine which file is opened by
+<function>DtMsgLogMessage</function>:
+<systemitem class="environvar">HOME</systemitem>,
+<systemitem class="environvar">LOGNAME</systemitem>,
+<systemitem class="environvar">USER</systemitem>,
+and <systemitem class="environvar">DTUSERSESSION</systemitem>.
+See "Description" in this man page for more information.
+</para>
+<para>Because <function>DtMsgLogMessage</function> calls
+the <function>catopen</function> function, it is
+indirectly influenced by the environment variables that affect
+<function>catopen</function>, such as
+<systemitem class="environvar">LANG</systemitem>,
+and <systemitem class="environvar">NLSPATH</systemitem>.
+See <function>catopen</function>(3) for more information.
+</para>
+</refsect1><refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>The default mechanism to view the message log is to
+invoke the Watch Errors action which is located in the Application Manager's
+<literal>Desktop_Tools</literal> folder.
+</para>
+</refsect1><refsect1>
+<title>ERRORS/WARNINGS</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>The following code fragment illustrates how to log a
+localized warning message:
+</para>
+<programlisting>
+#include &lt;nl_types.h>
+
+char *s1, *s2; /* temp strings - catgets may return
+                  a pointer to a static buffer */
+nl_catd catd = catopen ("app.cat", 0);
+s1           = strdup (catgets (catd, 4, 10, "string 1"));
+s2           = strdup (catgets (catd, 4, 10, "string 2"));
+DtMsgLogMessage (argv[0],
+      DtMsgLogWarning,
+      "%s %s",
+      s1, s2);
+</programlisting>
+</refsect1><refsect1>
+<title>FILES</title>
+<para>See &cdeman.DtMsgLogOpenFile;.
+</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtMsgLogOpenFile;,
+&cdeman.DtMsgLogSetHandler;</para>
+</refsect1></refentry>

@@ -1,0 +1,84 @@
+XCOMM $TOG: app-defaults.tmpl /main/8 1998/08/05 18:05:09 mgreess $
+
+#ifdef RsArchitecture
+SHELL=/bin/ksh
+#endif
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+OBJS =  \
+        Dthelpview  \
+        Dtimsstart  \
+        Dtlogin  \
+        Dthello  \
+        Dtsession  \
+        Dtscreen  \
+        Dtwm  \
+        Dtfile  \
+        Dtstyle  \
+        Dtpad  \
+        Dticon  \
+        Dtcreate \
+        Dtcalc \
+        Dtcm \
+	Dtterm \
+	Dtmail \
+	Dtbuilder \
+	Dtinfo \
+	Dtudcfonted \
+        Dt
+
+all:: $(OBJS)
+
+LinkFile(Dthelpview.nls,$(CDESRC)/dthelp/dthelpview/Dthelpview)
+LinkFile(Dtimsstart.nls,$(CDESRC)/dtimsstart/Dtimsstart)
+LinkFile(Dtlogin.nls,$(CDESRC)/dtlogin/config/Dtlogin)
+LinkFile(Dthello.nls,$(CDESRC)/dthello/Dthello)
+LinkFile(Dtsession.nls,$(CDESRC)/dtsession/Dtsession)
+LinkFile(Dtscreen.nls,$(CDESRC)/dtscreen/Dtscreen)
+LinkFile(Dtwm.nls,$(CDESRC)/dtwm/Dtwm.defs)
+LinkFile(Dtfile.nls,$(CDESRC)/dtfile/Dtfile)
+LinkFile(Dtstyle.nls,$(CDESRC)/dtstyle/Dtstyle)
+LinkFile(Dtpad.nls,$(CDESRC)/dtpad/Dtpad)
+LinkFile(Dticon.nls,$(CDESRC)/dticon/Dticon)
+LinkFile(Dtcreate.nls,$(CDESRC)/dtcreate/Dtcreate)
+LinkFile(Dtcalc.nls,$(CDESRC)/dtcalc/Dtcalc)
+LinkFile(Dtcm.nls,$(CDESRC)/dtcm/dtcm/Dtcm.ad)
+LinkFile(Dtterm.nls,$(CDESRC)/dtterm/Dtterm.ad)
+LinkFile(Dtmail.nls,$(CDESRC)/dtmail/dtmail/Dtmail)
+LinkFile(Dtbuilder.nls,$(CDESRC)/dtappbuilder/src/ab/Dtbuilder.ad)
+LinkFile(Dtinfo.nls,$(CDESRC)/dtinfo/dtinfo/src/Dtinfo)
+LinkFile(Dtudcfonted.nls,$(CDESRC)/dtudcfonted/resource/Dtudcfonted)
+LinkFile(Dt.nls,$(DTSVCSRC)/DtUtil2/Dt.ad)
+
+DtstyleDescRule(Dthelpview,Dthelpview)
+DtstyleDescRule(Dtimsstart,Dtimsstart)
+DtstyleDescRule(Dtlogin,Dtlogin)
+DtstyleDescRule(Dthello,Dthello)
+DtstyleDescRule(Dtsession,Dtsession)
+DtstyleDescRule(Dtscreen,Dtscreen)
+DtstyleDescRule(Dtwm,Dtwm)
+DtstyleDescRule(Dtfile,Dtfile)
+DtstyleDescRule(Dtstyle,Dtstyle)
+DtstyleDescRule(Dtpad,Dtpad)
+DtstyleDescRule(Dticon,Dticon)
+DtstyleDescRule(Dtcreate,Dtcreate)
+DtstyleDescRule(Dtcalc,Dtcalc)
+DtstyleDescRule(Dtcm,Dtcm)
+DtstyleDescRule(Dtterm,Dtterm)
+DtstyleDescRule(Dtmail,Dtmail)
+DtstyleDescRule(Dtbuilder,Dtbuilder)
+DtstyleDescRule(Dtinfo,Dtinfo)
+DtstyleDescRule(Dtudcfonted,Dtudcfonted)
+DtstyleDescRule(Dt,Dt)
+
+depend::
+
+clean::
+	$(RM) $(OBJS)
+	-for i in *.nls; do \
+		[ -z "$$i" ] && continue; \
+		[ -h "$$i" ] && $(RM) $$i; \
+	done; true;

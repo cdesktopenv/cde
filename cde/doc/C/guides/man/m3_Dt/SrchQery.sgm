@@ -1,0 +1,410 @@
+<!-- $XConsortium: dtsrqery.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchQuery">]]>
+<refmeta><refentrytitle>DtSearchQuery</refentrytitle>
+<manvolnum>library call</manvolnum>
+</refmeta>
+<refnamediv>
+<refname><function>DtSearchQuery</function></refname>
+<refpurpose>Perform a DtSearch database search for a specified query
+</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/Search.h></funcsynopsisinfo>
+<funcdef>int <function>DtSearchQuery</function></funcdef>
+<paramdef>void <parameter>*qry</parameter></paramdef>
+<paramdef>char <parameter>*dbname</parameter></paramdef>
+<paramdef>int <parameter>search_type</parameter></paramdef>
+<paramdef>char <parameter>*date1</parameter></paramdef>
+<paramdef>char <parameter>*date2</parameter></paramdef>
+<paramdef>DtSrResult <parameter>**results</parameter></paramdef>
+<paramdef>long <parameter>*resultscount</parameter></paramdef>
+<paramdef>char <parameter>*stems</parameter></paramdef>
+<paramdef>int <parameter>*stemcount</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para><function>DtSearchQuery</function> is the DtSearch API search function.
+</para>
+<para><function>DtSearchQuery</function> is passed a query string and some
+search options, performs the requested search, and if successful returns a
+linked list of <structname>DtSrResult</structname> structures representing
+the documents satisfying the search.
+</para>
+<para>The results list contains information about the documents that can be
+used for subsequent retrievals, as well as information suitable for
+display to an end user.
+</para>
+<refsect2>
+<title>Search Types</title>
+<para><function>DtSearchQuery</function> supports three types of searches:
+<Literal>P</Literal>, <Literal>W</Literal>, and <Literal>S</Literal>.
+</para>
+<refsect3>
+<title>Type <Literal>P</Literal> Search Query Strings</title>
+<para>Query strings for search type <Literal>P</Literal> have the simplest syntax, namely a
+sequence of words separated by ASCII whitespace. Punctuation and invalid words
+are silently discarded by the search engine. The only possible syntax error
+is that all query words happen to be invalid in the language of the database.
+</para>
+<para>Search type <Literal>P</Literal> is often used to implement a limited
+Query-by-Example (QBE) search paradigm. In this scenario, users
+typically paste document text from whatever source into a query string
+text field. Their expectation is that the search engine will return the
+documents in the database that are "most similar" to the text of the
+query string, and the statistical sort of the results list usually
+satisfies that expectation.
+</para>
+<para>Note that although search type <Literal>P</Literal> does not use boolean
+syntax, it is actually implemented as a stemmed search (type
+<Literal>S</Literal> search) with implied boolean ORs between words.
+</para>
+</refsect3>
+<refsect3>
+<title>Types <Literal>S</Literal> and <Literal>W</Literal> Boolean Query Strings</title>
+<para>Query strings for search types <Literal>S</Literal> (stemmed boolean)
+and <Literal>W</Literal> (exact word boolean) must be syntactically
+valid boolean expressions as described below. Any string that does not
+match a valid expression rule is invalid and will fail with an error
+message.
+</para>
+<para>Query words for all search types may be entered in any codeset for a
+supported DtSearch language, including multibyte languages. Words may be
+identified as invalid by the language module of the database for a
+number of reasons including any words that would not have been indexed
+because they are too short, too long, on the stop list, etc. With one
+exception, linguistically invalid words result in a syntax error. The
+exception is in the case of an "all ANDs" query, where invalid words and
+valid words that happen not to be in the database are silently erased
+from the query string.
+</para>
+<para>The boolean query operators are the ASCII metacharacters: '&amp;' for
+AND, '|' for OR, '~' for NOT, '(' and ')' for open and close parentheses
+respectively, and '@ <Literal>nnn</Literal>' for collocation expressions.
+</para>
+<para>All expression tokens are separated by ASCII whitespace. Typically this
+i 1 or more space or tab characters. Omitting whitespace separators is
+legal if it can be done unambiguously. For example "word1&amp;word2" is
+a legal expression but "word1word2" would be interpreted as a single
+word token.
+</para>
+<para>The ASCII "at" sign (@) marks a special boolean <emphasis>collocation
+operator</emphasis>. The collocation operator has the syntax "@n...",
+the ASCII "at" sign followed by one or more ASCII numeric digits,
+representing an integer with value greater than zero. Collocation is a
+variation of the AND search where a user can specify the maximum
+distance in bytes between any two words. In most languages a byte is
+equivalent to a character position. For example to find "ice" and
+"cream" separated by no more than five characters, the search query "ice
+@5 cream" may be used. Unlike other boolean operators, the collocation
+operator can apply only to naked word tokens, not other expressions.
+Searches including collocation operators are slower than searches
+without them, and can be much slower for common words.
+</para>
+<para>There are a maximum of 8 distinct word tokens. Collocation operators
+count as part of the 8. There is no limit to the number of operators, as
+long as they match the syntax rules.
+</para>
+<note>
+<para>
+Collocation operators are only supported for "Austext flavor" databases.
+The default flavor of database created by <command>dtsrcreate</command> is
+"Dtinfo flavor," which does not support collocation.
+</para>
+</note>
+</refsect3>
+</refsect2>
+<refsect2>
+<title>Boolean Query Syntax Rules</title>
+<para>There are only 6 syntax rules and the rules are recursive. Ambiguity is
+resolved by precedence and associativity rules.
+</para>
+<orderedlist>
+<listitem>
+<para><emphasis>valid_expression</emphasis> := <emphasis>word_token</emphasis>
+</para>
+<para>A valid expression can be just a valid naked word token. Semantically,
+the expression returns all documents containing the specified word. The
+<emphasis>word_token</emphasis> must be a valid word in the language of
+the database being searched.
+</para>
+</listitem>
+<listitem>
+<para><emphasis>valid_expression</emphasis> := <emphasis>valid_expression</emphasis> '&amp;' <emphasis>valid_expression</emphasis>
+</para>
+<para>The ASCII ampersand character is the AND character. Semantically, it
+returns all documents satisfying both the first and second expressions
+(boolean intersection). AND is also the "implied" boolean operator in
+the following sense: the query parser will insert an ampersand between
+words or expressions that otherwise would be separated only by
+whitespace. For example "word1 word2" becomes "word1 &amp; word2".
+</para>
+</listitem>
+<listitem>
+<para><emphasis>valid_expression</emphasis> := <emphasis>valid_expression</emphasis> '|' <emphasis>valid_expression</emphasis>
+</para>
+<para>The ASCII virgule (vertical slash) character is the OR character. It
+means return all documents satisfying either the first or the second
+expression (boolean union).
+</para>
+</listitem>
+<listitem>
+<para><emphasis>valid_expression</emphasis> := '(' <emphasis>valid_expression</emphasis> ')'
+</para>
+<para>Valid expressions may be recursively nested in ASCII open and close
+parentheses characters. The query parser "forgives" two common human errors.
+It will automatically discard excessive close parentheses characters, and
+it will automatically generate close parentheses characters if necessary at
+the end of a query. For example, "aaa | (bbb &amp; ccc)))))) ddd" becomes
+"aaa | ( bbb &amp; ccc) &amp; ddd", and "aaa ((bbbb" becomes "aaa ( ( bbb
+) )".
+</para>
+</listitem>
+<listitem>
+<para><emphasis>valid_expression</emphasis> := '~' <emphasis>valid_expression</emphasis>
+</para>
+<para>The ASCII tilde character is the unary NOT operator. It returns every
+document in the database that is not in the set satisfying the expression.
+</para>
+</listitem>
+<listitem>
+<para><emphasis>valid_expression</emphasis> := <emphasis>word_token</emphasis>
+<emphasis>collocation_operator</emphasis> <emphasis>word_token</emphasis>
+</para>
+<para>Collocation operators are permitted only between words, not expressions.
+Each of the word tokens and the collocation operator itself occupy slots
+in the table of 8 maximum word tokens.
+</para>
+</listitem>
+</orderedlist>
+</refsect2>
+<refsect2>
+<title>Boolean Associativity and Precedence Table</title>
+<para>In order from highest precedence to lowest:
+</para>
+<informaltable>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colwidth="114*">
+<colspec align="left" colwidth="105*">
+<colspec align="left" colwidth="3.51in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Associativity</para></entry>
+<entry align="left" valign="bottom"><para>Operator</para></entry><entry align="left"
+valign="bottom"><para>Example</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>(none)</para></entry>
+<entry align="left" valign="top"><para>COLLOC</para></entry>
+<entry align="left" valign="top"><para></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>right</para></entry>
+<entry align="left" valign="top"><para>NOT</para></entry>
+<entry align="left" valign="top"><para>"aaa~bbb" resolved as "aaa &amp; (&tilde;(bbb)"
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>left</para></entry>
+<entry align="left" valign="top"><para>AND</para></entry>
+<entry align="left" valign="top"><para>"aaa bbb ccc" resolved
+as "(aaa &amp; bbb) &amp; ccc"</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>left</para></entry>
+<entry align="left" valign="top"><para>OR</para></entry>
+<entry align="left" valign="top"><para>"aaa|bbb|ccc"
+resolved as "(aaa | bbb) | ccc"</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>(none)</para></entry>
+<entry align="left" valign="top"><para>naked word</para></entry>
+<entry align="left" valign="top"><para></para></entry></row></tbody></tgroup>
+</informaltable>
+</refsect2>
+<refsect2>
+<title>Example Boolean Queries</title>
+<programlisting>
+aaa bbb ccc
+</programlisting>
+<para>Returns all records that contain at least one occurrence of all three words.
+</para>
+<programlisting>
+aaa | (bbb ~ccc)
+</programlisting>
+<para>Retrieves all records containing "aaa"
+and also all records containing "bbb", but not
+"ccc".
+</para>
+<programlisting>
+aaa ~(aaa @1 bbb)
+</programlisting>
+<para>Returns all records containing "aaa" but omits those
+where "aaa" is one character away from "bbb".
+</para>
+<para>It is possible to formulate a query that requires retrieving all records
+in the database that contain none of the query words (for example,
+<literal>~aaa</literal>. Users should be warned that in
+a large database such a search can take a very long time.
+</para>
+<para>Using the implied associativity and precedence rules, the ambiguous
+query string <literal>aaa ~bbb | ccc ~ddd @10 eee</literal>
+is disambiguated as <literal>(aaa &amp; (~bbb))
+| (ccc &amp; (~(ddd @10 eee)))</literal>.
+</para>
+</refsect2>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">search_type</symbol></term>
+<listitem>
+<para>Specifies the type of search to perform. Valid values are
+<Literal>P</Literal>, <Literal>W</Literal>, and <Literal>S</Literal>.
+</para>
+<para>Search type <Literal>P</Literal> indicates that the query string is a
+sequence of words separated by ASCII whitespace.
+It requests that the words be stemmed prior to searching, that all
+documents containing any of the words be returned, that the results list
+be statistically sorted, and that no more than the top
+<symbol role="Variable">MaxResults</symbol> list items be returned where
+<symbol role="Variable">MaxResults</symbol> is the current value
+returned from <function>DtSearchGetMaxResults</function>. Note that a
+type <Literal>P</Literal> search is identical to a type
+<Literal>S</Literal> boolean search with an implied boolean OR between
+words.
+</para>
+<para>Search types <Literal>W</Literal> and <Literal>S</Literal> are boolean
+query searches. They indicate that the query string is a sequence of
+words and boolean operators matching the syntax described under "Types
+<Literal>S</Literal> and <Literal>W</Literal> Boolean Query Strings"
+above.
+</para>
+<para>Type <Literal>S</Literal> requests that words be stemmed prior to
+searching. Type 'W' requests that words be left unstemmed. Both types
+request that all documents containing the combinations of query words
+specified by the boolean operations be returned, that the results list
+be statistically sorted if possible, and that no more than the top
+<symbol role="Variable">MaxResults</symbol> list items be returned
+where<symbol role="Variable">MaxResults</symbol> is the current value
+returned from <function>DtSearchGetMaxResults</function>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">dbname</symbol></term>
+<listitem>
+<para>Specifies which database is to be searched. It is any one of the
+database name strings returned from <function>DtSearchInit</function> or
+<function>DtSearchReinit</function>. If
+<symbol role="Variable">dbname</symbol> is NULL, the first database name string
+is used.
+</para>
+<para>Within the specified database, searches will be restricted to those
+documents whose <symbol role="Variable">DtSrKeytype.is_selected</symbol>
+field is nonzero.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">date1</symbol> and
+<symbol role="Variable">date2</symbol></term>
+<listitem>
+<para>Specify a range of document dates to use for the search. Only documents
+within the specified range will be returned on the results list.
+</para>
+<para><symbol role="Variable">date1</symbol> is the older end of the range and
+if not NULL, requests DtSearch to return only those records younger than
+(that is, after) the specified date.
+</para>
+<para><symbol role="Variable">date2</symbol> is the younger end of the range
+and if not NULL, requests DtSearch to return only those records older
+than (that is before) the specified date.
+</para>
+<para>It is valid to specify just one of the arguments.
+</para>
+<para>Undated documents always qualify for a results list regardless of search
+date strings. The format of a valid date string is described in
+&cdeman.DtSearchValidDateString;.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">stems</symbol> and
+<symbol role="Variable">stemscount</symbol></term>
+<listitem>
+<para>Specify a character buffer to hold parsed and stemmed words and a
+variable to receive the number of stored words.
+<symbol role="Variable">stems</symbol> and <symbol role="Variable">stemscount</symbol> are optional; they can be NULL. However, if either
+is specified, they must both be specified.
+</para>
+<para>If specified <symbol role="Variable">stems</symbol>must point to a
+character buffer large enough to hold
+<symbol role="Variable">DtSrMAX_STEMCOUNT</symbol> by
+<symbol role="Variable">DtSrMAXWIDTH_HWORD</symbol> bytes. An array of parsed
+and stemmed query words will be stored here by the API for use by a
+later call to <function>DtSearchHighlight</function>.
+</para>
+<para>The size of the array will be stored in
+<symbol role="Variable">stemscount</symbol>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">results</symbol> and
+<symbol role="Variable">resultscount</symbol></term>
+<listitem>
+<para>Specify where a pointer to the results list will be stored and a
+variable to receive the number of items on the list.
+</para>
+<para>Results lists can be manipulated with several utility functions.
+</para>
+<para>In <function>DtSearch</function>, frequency of occurrence information is
+maintained for words across the whole database and within documents. For
+most queries, results lists are sorted by this statistical information
+and presented to the user as a "proximity" number for each document on
+the list. Proximity is meant to appear to a user as a distance, or a
+measure of the nearness of the query to the document. Conceptually, the
+smaller the proximity the "closer" the document is to the query and the
+more likely it will be valuable to the user
+</para>
+<para>DtSearch searches only one database at a time and returns only results
+lists for that single database. However, browsers often provide the
+illusion of simultaneous searches in multiple databases, merging the
+results lists by proximity when completed. Since the domain of knowledge
+and density of words and records may vary from database to database, the
+value of proximity numbers may similarly vary, and some databases may be
+underrepresented on merged results lists.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<para>This function has three common return codes.
+</para>
+<para><systemitem class="constant">DtSrOK</systemitem> is returned, as well
+as a results list and stems array, when the search was completely successful.
+</para>
+<para><systemitem class="constant">DtSrNOTAVAIL</systemitem> is returned when
+the query was valid but the search was unsuccessful (that is, no set of
+documents matched the query). There are usually no messages with
+<systemitem class="constant">DtSrNOTAVAIL</systemitem>.
+</para>
+<para><systemitem class="constant">DtSrFAIL</systemitem> is returned when the
+search was unsuccessful, usually because of an invalid query, and user
+messages on the MessageList explain why.
+</para>
+<para>Any API function can also return <systemitem class="constant">DtSrREINIT</systemitem> and the return codes for fatal engine errors at any time.
+</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtSrAPI;,
+&cdeman.DtSearchReinit;,
+&cdeman.DtSearchGetMaxResults;,
+&cdeman.DtSearchSetMaxResults;,
+&cdeman.DtSearchGetKeytypes;,
+&cdeman.DtSearchValidDateString;,
+&cdeman.DtSearchSortResults;,
+&cdeman.DtSearchFreeResults;,
+&cdeman.DtSearchHighlight;</para>
+</refsect1></refentry>

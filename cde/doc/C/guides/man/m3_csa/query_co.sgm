@@ -1,0 +1,368 @@
+<!-- $XConsortium: query_co.sgm /main/4 1996/08/30 15:37:52 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN67.rsml.1">
+<RefMeta>
+<RefEntryTitle>csa_query_configuration</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>csa_query_configuration</Function></RefName>
+<RefPurpose>Determine information about the installed CSA configuration
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- (c) Copyright 1994 X.400 API Association-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;xcmc.h>
+</FuncSynopsisInfo>
+<FuncDef>CSA_return_code <Function>csa_query_configuration</Function></FuncDef>
+<ParamDef>CSA_session_handle <Parameter>session</Parameter></ParamDef>
+<ParamDef>CSA_enum <Parameter>item</Parameter></ParamDef>
+<ParamDef>CSA_buffer *<Parameter>reference</Parameter></ParamDef>
+<ParamDef>CSA_extension *<Parameter>query_configuration_extensions</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>csa_query_configuration</Function> function queries the underlying implementation's
+configuration, and returns the information requested about
+it, allocating memory when necessary.
+The underlying
+configuration file format is implementation dependent.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<RefSect2>
+<Title>Session (Session Handle)</Title>
+<Para>Opaque session handle that represents a session with the
+calendaring service.
+</Para>
+<Para>Session handles are created by a logon function call and
+invalidated with a logoff function call.
+</Para>
+<Para>Session may be
+<SystemItem Class="Constant">NULL</SystemItem> to indicate that there is no session and that session
+independent information should be returned.
+This will
+provide default logon information.
+</Para>
+<Para>If this value is set to a valid Session Handle, session
+dependent configuration information will be returned.
+</Para>
+<Para>If the session handle is invalid, then the error
+<SystemItem Class="Constant">CSA_E_INVALID_SESSION_HANDLE</SystemItem> is returned.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Item (Enum)</Title>
+<Para>This argument indicates which configuration information
+should be returned.
+If the specified item is not
+appropriate for the implementation, the error
+<SystemItem Class="Constant">CSA_E_UNSUPPORTED_ENUM</SystemItem> is returned.
+The possible values include:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_CONFIG_CHARACTER_SET</Term>
+<ListItem>
+<Para>The reference argument will be a pointer to the array of
+character set FPI strings for the implementation.
+The
+array will be terminated with a
+<SystemItem Class="Constant">NULL</SystemItem> string.
+The first character set FPI in the array is the
+default character set used if the caller does not specify
+one explicitly.
+This pointer to the array should be freed
+using
+&cdeman.csa.free;. This FPI is used by the caller at logon to specify to the
+implementation to use a different character set than the
+default.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CONFIG_LINE_TERM</Term>
+<ListItem>
+<Para>The reference argument will be a pointer to a
+<StructName Role="typedef">CSA_enum</StructName> variable, which will be set to a value of
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_LINE_TERM_CRLF</Term>
+<ListItem>
+<Para>if the line delimiter is a carriage return followed by a line feed,
+<SystemItem Class="Constant">CSA_LINE_TERM_LF</SystemItem> if the line delimiter is a line feed, or
+<SystemItem Class="Constant">CSA_LINE_TERM_CR</SystemItem> if the line delimiter is a carriage return.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CONFIG_DEFAULT_SERVICE</Term>
+<ListItem>
+<Para>The returned reference argument will be a pointer to a
+<StructName Role="typedef">CSA_string</StructName> into which the default service name will be returned.
+A pointer value of
+<SystemItem Class="Constant">NULL</SystemItem> will be written if no default service name is available.
+This pointer should be freed using
+&cdeman.csa.free;. This string, along with the one returned by
+<SystemItem Class="Constant">CSA_CONFIG_DEFAULT_USER,</SystemItem> can be used as defaults in user dialogs when asking for the
+service name, user name, and password.
+This will be
+returned in the implementation default character set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CONFIG_DEFAULT_USER</Term>
+<ListItem>
+<Para>The reference argument will be a pointer to a
+<Literal>CSA_string,</Literal> into which the default user name will be returned.
+A
+pointer value of
+<SystemItem Class="Constant">NULL</SystemItem> will be written if no default user name is available.
+This
+pointer should be freed using
+&cdeman.csa.free;. This string, along with the one returned by
+<SystemItem Class="Constant">CSA_CONFIG_DEFAULT_SERVICE,</SystemItem> can be used as defaults in user dialogs when asking for the
+provider name, user name, and password.
+This will be
+returned in the implementation default character set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CONFIG_REQ_PASSWORD</Term>
+<ListItem>
+<Para>The reference argument will be a pointer to a
+<StructName Role="typedef">CSA_enum</StructName> variable, which will be set to a value of
+<SystemItem Class="Constant">CSA_REQUIRED_NO</SystemItem> if the password is not required to logon,
+<SystemItem Class="Constant">CSA_REQUIRED_OPT</SystemItem> if the password is optional to logon, or
+<SystemItem Class="Constant">CSA_REQUIRED_YES</SystemItem> if the password is required to logon.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CONFIG_REQ_SERVICE</Term>
+<ListItem>
+<Para>The reference argument will be a pointer to a
+<StructName Role="typedef">CSA_enum</StructName> variable, which will be set to a value of
+<SystemItem Class="Constant">CSA_REQUIRED_NO</SystemItem> if the service name is not required to logon,
+<SystemItem Class="Constant">CSA_REQUIRED_OPT</SystemItem> if the service name is optional to logon, or
+<SystemItem Class="Constant">CSA_REQUIRED_YES</SystemItem> if the service name is required to logon.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CONFIG_REQ_USER</Term>
+<ListItem>
+<Para>The reference argument will be a pointer to a
+<StructName Role="typedef">CSA_enum</StructName> variable, which will be set to a value of
+<SystemItem Class="Constant">CSA_REQUIRED_NO</SystemItem> if the user name is not required to logon,
+<SystemItem Class="Constant">CSA_REQUIRED_OPT</SystemItem> if the user name is optional to logon, or
+<SystemItem Class="Constant">CSA_REQUIRED_YES</SystemItem> if the user name is required to logon.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CONFIG_UI_AVAIL</Term>
+<ListItem>
+<Para>The reference argument will be a pointer to a
+<StructName Role="typedef">CSA_boolean</StructName> variable, which will be set to a true value if there is UI
+provided by the CSA implementation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CONFIG_VER_IMPLEM</Term>
+<ListItem>
+<Para>The reference argument will be a pointer to a
+<StructName Role="typedef">CSA_string</StructName> variable, which will be set to the CSA formal public
+identifier for the version number for the implementation.
+This pointer should be freed using
+&cdeman.csa.free;.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CONFIG_VER_SPEC</Term>
+<ListItem>
+<Para>The reference argument will be a pointer to a
+<StructName Role="typedef">CSA_string</StructName> variable, which will be set to the CSA formal public
+identifier for the CSA specification version number
+supported by this implementation.
+This pointer should be
+freed using
+&cdeman.csa.free;.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The error
+<SystemItem Class="Constant">CSA_E_UNSUPPORTED_ENUM</SystemItem> is returned if the specified value is not supported by the
+implementation.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Query Configuration Extensions (Extension)</Title>
+<Para>A pointer to an array of
+<StructName Role="typedef">CSA_extension</StructName> structures for this function.
+The array may contain both
+input extensions for providing additional information to
+the function and output extensions for receiving
+information from the function.
+A value of
+<SystemItem Class="Constant">NULL</SystemItem> indicates that the caller is not using any extensions.
+See the extensions structure for more information.
+</Para>
+<Para>Through extensions, the application can find out which
+extensions are available.
+The extension to do this is
+<SystemItem Class="Constant">CSA_X_COM_SUPPORT_EXT.</SystemItem> Any CSA implementation that supports extensions must
+support this extension.
+For more information on this
+extension, see the common extensions section of the
+extensions appendix in this document
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<RefSect2>
+<Title>Reference (Buffer)</Title>
+<Para>This argument points to the buffer in which to receive the
+configuration information.
+The type of the variable or
+buffer depends on the item argument.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Query Configuration Extensions (Extension)</Title>
+<Para>If output extensions were passed to the function in the
+extensions list, the results from the service will be
+available in the extension.
+See the extensions structure for more information.
+Whether the function succeeded or
+not, and, if not, why.
+It may be success or one of the
+values listed under ERRORS below.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The
+<Function>csa_query_configuration</Function> function returns the following error values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_E_FAILURE</Term>
+<ListItem>
+<Para>There was a general failure that does not
+fit the description of any other error code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Insufficient memory was available to complete the requested operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_ENUM</Term>
+<ListItem>
+<Para>A
+<StructName Role="typedef">CSA_enum</StructName> value is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FLAG</Term>
+<ListItem>
+<Para>A flag value in the
+<Symbol Role="Variable">flags</Symbol> argument was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The function extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_PARAMETER</Term>
+<ListItem>
+<Para>A function parameter was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_SESSION_HANDLE</Term>
+<ListItem>
+<Para>The specified Session Handle is invalid or no longer valid
+(e.g., after logging off).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NOT_SUPPORTED</Term>
+<ListItem>
+<Para>The operation requested is not supported by this implementation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_SERVICE_UNAVAILABLE</Term>
+<ListItem>
+<Para>The requested calendar service is unavailable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_ENUM</Term>
+<ListItem>
+<Para>The specified enumerated value is not valid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FLAG</Term>
+<ListItem>
+<Para>The flag requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The specified function extension is not supported or
+<SystemItem Class="Constant">CSA_EXT_REQUIRED</SystemItem> is set.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.csa.csa.h;, &cdeman.csa.add.calendar;, &cdeman.csa.add.entry;, &cdeman.csa.call.callbacks;, &cdeman.csa.delete.calendar;, &cdeman.csa.delete.entry;, &cdeman.csa.free;, &cdeman.csa.free.time.search;, &cdeman.csa.list.calendar.attributes;, &cdeman.csa.list.calendars;, &cdeman.csa.list.entries;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.logoff;, &cdeman.csa.logon;, &cdeman.csa.look.up;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.read.entry.attributes;, &cdeman.csa.read.next.reminder;, &cdeman.csa.register.callback;, <![ %CDE.C.XO; [&cdeman.csa.restore;, &cdeman.csa.save;, ]]>&cdeman.csa.unregister.callback;, &cdeman.csa.update.calendar.attributes;, &cdeman.csa.update.entry.attributes;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

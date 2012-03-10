@@ -1,0 +1,68 @@
+<!-- $XConsortium: dtsrmsgs.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchMessages">]]><refmeta>
+<refentrytitle>DtSearchMessages</refentrytitle><manvolnum>library call
+</manvolnum></refmeta>
+<refnamediv>
+<refname><function>DtSearchMessages</function></refname>
+<refpurpose>Access and manipulate messages on the DtSearch MessageList
+</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/Search.h></funcsynopsisinfo>
+<funcdef>int <function>DtSearchHasMessages</function></funcdef>
+<paramdef></paramdef>
+<funcdef>void <function>DtSearchAddMessage</function></funcdef>
+<paramdef>const char <parameter>*msg</parameter></paramdef>
+<funcdef>char <function>*DtSearchGetMessages</function></funcdef>
+<paramdef></paramdef>
+<funcdef>void <function>DtSearchFreeMessages</function></funcdef>
+<paramdef></paramdef>
+</funcsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The DtSearch online search engine may assemble detailed user messages
+to explain various errors and failures. These messages are designed
+to provide a user with enough information to correct the error.
+Often more than one message is assembled onto the MessageList
+as the result of a single API call. The calling code may also
+append messages to the MessageList prior to display to the user.
+All messages remain on the MessageList and new messages are
+appended to the preexisting list until the list is specifically
+freed by the calling code.</para>
+<para><function>DtSearchHasMessages</function> returns zero if
+the MessageList is empty, and returns nonzero if there are any information
+or error messages currently on the MessageList.
+</para>
+<para><function>DtSearchAddMessage</function> appends a message to the end of
+the MessageList. A message is defined as a zero-terminated C string.
+</para>
+<para><function>DtSearchGetMessages</function> returns a static text buffer
+containing all current messages on the MessageList. The messages are
+returned as a single flat, zero-terminated C string, with two ASCII
+linefeed characters between messages (giving the appearance of a blank
+line between messages). It is expected that the calling code will
+display the text in a message dialog box or its equivalent. The returned
+buffer address is valid until the next call. If the MessageList is
+currently empty, this function returns a pointer to an empty string.
+</para>
+<para><function>DtSearchFreeMessages</function> clears all messages on the
+MessageList. It is usually called after the user has dismissed a dialog
+box displaying the current messages.
+</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtSrAPI;
+</para>
+</refsect1></refentry>
+
+

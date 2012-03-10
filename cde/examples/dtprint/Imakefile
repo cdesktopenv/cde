@@ -1,0 +1,60 @@
+XCOMM $XConsortium: Imakefile /main/7 1996/10/09 14:02:30 drk $
+DESKTOP_VERSION_STRING = DesktopVersionString
+
+/* General case INCLUDES DEFINES LOCAL_LIBRARIES
+ * Each individual architecture may have more or less of the above.
+ * USE_libraryname in LOCAL_LIBRARIES is by default empty.
+ * It should be set when necessary to the real library macro name.
+ */
+        DEFINES = -DXK_MISCELLANY -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\"
+       INCLUDES = -I.
+
+/* DEPLIBS contains the list of library depencies for a client.
+ * LOCAL_LIBRARIES contains the list of libraries on the link line.
+ * Generally, the dependency form of a library has DEP as a prefix.
+ * e.g. put $(XLIB) in LOCAL_LIBRARIES and $(DEPXLIB) in DEPLIBS.
+ * NOTE: if DEPLIBS is not set here, it is by default null and there
+ *       are no library dependencies for clients.
+ *       You cannot put -Llibpath into DEPLIBS. You must put actual
+ *       paths to the library.
+ */
+DEPLIBS = $(DEPDTPRINTLIB) $(DEPDTHELPLIB) $(DEPDTSVCLIB) \
+		$(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTPRINTLIB) $(DTHELPLIB) $(DTSVCLIB) $(XMLIB) \
+		  $(XTOOLLIB) $(XLIB) -L/proj/x11/xc/usrlib -lXp
+SYS_LIBRARIES	= -lm
+
+#ifdef RsArchitecture
+SYS_LIBRARIES = -lmsaa -liconv
+#endif
+
+#if defined (SunArchitecture)
+SYS_LIBRARIES = -lintl -L/opt/SUNWspro/SC2.0.1 -lm -lgen -ldl -lC
+#endif
+
+#if defined (USLArchitecture)
+SYS_LIBRARIES = -lm -lnsl -lsocket -lgen
+#endif
+
+#if defined(HPOSFArchitecture)
+#endif
+
+PROGRAMS=dtprint
+
+OBJS = \
+	AppSpecific.o \
+	Main.o \
+	MainWindow.o \
+	Print.o
+
+SRCS = \
+	AppSpecific.c \
+	Main.c \
+	MainWindow.c \
+	Print.c
+
+all::
+NormalLibraryObjectRule()
+
+ComplexProgramTarget($(PROGRAMS))
+

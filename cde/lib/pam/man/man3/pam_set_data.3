@@ -1,0 +1,108 @@
+.\" $XConsortium: pam_set_data.3 /main/5 1996/10/29 15:19:01 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.\" Don't forget to enter .IX index entries for each function.
+.nr X
+.TH pam_set_data 3 "9 Jan 1996"
+.SH NAME
+pam_set_data, pam_get_data
+\- PAM routines to maintain module specific state
+.SH SYNOPSIS
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+.ft
+.fi
+.LP
+.BI "int pam_set_data(pam_handle_t " "*pamh" ,
+.BI "const char *" "module_data_name" ,
+.BI "const void *" "data" ,
+.BI "void " "(*cleanup)(pam_handle_t *pamh, void *data, int pam_end_status)" );
+.LP
+.BI "int pam_get_data(const pam_handle_t " "*pamh" ,
+.BI "const char *" "module_data_name" ,
+.BI "void **" "data" );
+.SH DESCRIPTION
+.IX "pam_set_data" "" "\fLpam_set_data\fP \(em set module info"
+.B pam_set_data(\|)
+and
+.B pam_set_data(\|)
+allow
+.SM PAM
+service modules to access and update module specific information as needed.
+These functions should not be used by applications.
+.LP
+.B pam_set_data(\|)
+stores module specific data within the PAM handle,
+.I pamh.
+The
+.I module_data_name
+argument
+uniquely identifies the data, and the
+.I data
+argument
+represents the actual data.
+.I module_data_name 
+should be unique across all services (UNIX, etc).
+.LP
+The
+.I cleanup
+function is used to free any memory used by the
+.I data
+after it is no longer needed, and is invoked by
+.BR pam_end(\|) .
+The
+.I cleanup
+function takes as its arguments a pointer to the PAM handle,
+.I pamh,
+a pointer to the actual data,
+.I data,
+and a status code,
+.I pam_end_status.
+The status code determines exactly what state information needs to be 
+purged, and is therefore specific to each module.
+.LP
+If
+.B pam_set_data(\|)
+is called and module data already exists under the same
+.I module_data_name
+(from a prior call to
+.BR pam_set_data(\|) ),
+then the existing
+.I data
+is replaced by the new
+.I data,
+and the existing
+.I cleanup
+function is replaced by the new
+.I cleanup
+function.
+.LP
+.B pam_get_data(\|)
+retrieves module specific data stored in the PAM handle,
+.I pamh,
+identified by the unique name,
+.I module_data_name.
+The
+.I data
+argument is assigned the address of the requested data.
+.SH "RETURN VALUES"
+.PP
+In addition to the return values listed in
+.BR pam (3),
+the following value may also be returned:
+.RS
+.IP PAM_NO_MODULE_DATA 28
+No module specific data is present
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR pam_end (3)

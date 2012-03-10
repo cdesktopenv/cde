@@ -1,0 +1,551 @@
+<!-- $XConsortium: ch09.sgm /main/2 1996/12/17 06:41:38 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="UG.Print.div.1">
+<title id="UG.Print.mkr.1">印刷</title>
+<para>ユーザはデスクトップにより、ファイルを簡単に印刷したり、印刷ジョブを検索またはキ
+ャンセルしたり、プリンタと印刷ジョブに関する情報を得ることができます。
+</para>
+<informaltable id="UG.Print.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Your Default Printer175'--><xref
+role="JumpText" linkend="UG.Print.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Printing Files176'--><xref role="JumpText"
+linkend="UG.Print.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Printer Applications180'--><xref
+role="JumpText" linkend="UG.Print.mkr.8"></para></entry></row></tbody></tgroup>
+</informaltable>
+<sect1 id="UG.Print.div.2">
+<title id="UG.Print.mkr.2">デフォルト・プリンタ</title>
+<para><indexterm><primary>デフォルト・プリンタ</primary><secondary>デフォルト・プリンタの定義</secondary></indexterm><indexterm><primary>プリンタ</primary><secondary>デフォルト・プリンタの定義</secondary></indexterm>システムに、印刷に使用できるプリンタが 1 つ以上ある場合があります。そのうちの 1 つが<symbol role="Variable">デ
+フォルト</symbol>プリンタに指定されます。デフォルト・プリンタは、ドキュメントを印刷する
+ために出力したけれどもプリンタ名を指定しなかった場合に、デスクトップが自動的に使
+用するプリンタです。初めてデスクトップを開いたときに、デフォルト・プリンタはフロ
+ントパネルに表示されます。</para>
+<para>フロントパネルにデフォルト・プリンタ以外のプリンタを表示する方法は、
+<!--Original XRef content: '&xd2;To Change the Front Panel Printer&xd3; on page&numsp;186'--><xref role="SecTitleAndPageNum" linkend="UG.Print.mkr.9">を参照してください。
+</para>
+<sect2 id="UG.Print.div.3" role="Procedure">
+<title>デフォルト・プリンタを判別するには</title>
+<orderedlist><listitem><para>デフォルト・プリンタの名前を見つけるには、フロントパネルの[個人プリンタ]サブ
+パネルで[デフォルト]プリンタ・コントロールをダブルクリックします。</para>
+<para>これによりプリンタ・ジョブ・アプリケーションが起動します。プリンタ・アイコン
+の下にある名前がデフォルト・プリンタです。<indexterm><primary>デフォルト・プリンタ</primary><secondary>デフォルト・プリンタを判別する</secondary></indexterm><indexterm><primary>プリンタ</primary><secondary>デフォルト・プリンタを判別する</secondary></indexterm></para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.4" role="Procedure">
+<title id="UG.Print.mkr.3">デフォルト・プリンタを変更するには</title>
+<indexterm><primary>デフォルト・プリンタ</primary><secondary>デフォルト・プリンタを変更する</secondary></indexterm>
+<indexterm><primary>プリンタ</primary><secondary>デフォルト・プリンタを変更する</secondary></indexterm>
+<para>別のプリンタをデフォルト・プリンタに指定するには、次のようにします。</para>
+<orderedlist><listitem><para>ホーム・フォルダに戻り、ファイル <filename>.dtprofile</filename> を開きます。</para>
+</listitem>
+<listitem><para>LPDEST環境変数の値を設定する行を追加または編集します。</para>
+<programlisting>LPDEST=<symbol role="Variable">printer_device;</symbol> <command>export LPDEST</command>
+</programlisting>
+<para><command>csh</command> を使用している場合、構文は次のとおりです。</para>
+<programlisting>setenv LPDEST <symbol role="Variable">printer_device</symbol>
+</programlisting>
+</listitem></orderedlist>
+<note>
+<para>この変更は、ユーザが次回ログアウトして再びログインした時点から有効になります。</para>
+</note>
+<para>たとえば次の行は、デフォルト・プリンタを<filename>laser3d</filename>というデバイス名のプリンタに
+変更します。</para>
+<programlisting>LPDEST=laser3d; export LPDEST</programlisting>
+<para><command>csh</command> を使用している場合、構文は次のとおりです。</para>
+<programlisting>setenv LPDEST laser3d</programlisting>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.5">
+<title id="UG.Print.mkr.4">ファイルの印刷</title>
+<indexterm><primary>ファイル</primary><secondary>印刷するファイルの型</secondary></indexterm>
+<indexterm><primary>印刷</primary><secondary>印刷できるファイルの型</secondary></indexterm>
+<para id="UG.Print.mkr.5">デスクトップは、<!--Original XRef content: 'Table&numsp;9&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="UG.Print.mkr.6">のリストに示すように型の
+異なるファイルを印刷できます。</para>
+<table id="UG.Print.tbl.1" frame="Topbot">
+<title id="UG.Print.mkr.6">印刷できるデータの型 (初期構成)</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="7.13in">
+<colspec colwidth="147*">
+<colspec colwidth="222*">
+<colspec colwidth="219*">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>データの型</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>データ型要件</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>説明</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Text file</para></entry>
+<entry align="left" valign="top"><para>ファイル名が<computeroutput>.txt</computeroutput>で終わる</para></entry>
+<entry align="left" valign="top"><para>普通の (ASCII) テキスト・データが
+入っているテキスト・ファイル</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>PostScript</para></entry>
+<entry align="left" valign="top"><para>ファイル名が<computeroutput>.ps,</computeroutput>で終わるか、
+内容が PostScript データであ
+ると認識される</para></entry>
+<entry align="left" valign="top"><para>PostScriptファイル</para><para>(PostScript プリンタが必要)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>PCL</para></entry>
+<entry align="left" valign="top"><para>ファイル名が<computeroutput>.pcl</computeroutput>で終わるか、
+内容が PCL データであると認
+識される</para></entry>
+<entry align="left" valign="top"><para>プリンタ制御言語ファイル(PCLプ
+リンタが必要)Printer Control Language files</para><para>(requires a PCL printer)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Data</para></entry>
+<entry align="left" valign="top"><para>テキスト・データが入っている</para></entry>
+<entry align="left" valign="top"><para>他のデータ型に一致しない ASCII デー
+タが入っているすべてのファイルに
+割り当てられたデフォルトのデータ
+型</para></entry>
+</row></tbody></tgroup></table>
+<para>その他の型のファイルを作成するアプリケーションがシステムにインストールされた場合、
+システム管理者がそのようなアプリケーションのための印刷機能を追加できます。<indexterm>
+<primary>ファイル</primary><secondary>印刷するファイルの型 &lt;$endrange></secondary></indexterm><indexterm><primary>印刷</primary>
+<secondary>印刷できるファイルの型 &lt;$endrange></secondary></indexterm></para>
+<note>
+<para>PostScript<superscript>TM</superscript>ファイルまたはPCLファイルを印刷する前に、宛先のプリンタがそ
+れらのファイルを印刷できるかどうかを確認してください。</para>
+</note>
+<sect2 id="UG.Print.div.6">
+<title>プリンタへのファイルの出力</title>
+<para>ファイルをプリンタへ出力するには次の方法があります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>フロントパネルを使用する</para>
+</listitem><listitem><para>ファイル・マネージャを使用する</para>
+</listitem><listitem><para>印刷マネージャを使用する</para>
+</listitem><listitem><para>アプリケーションを使用する</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="UG.Print.div.7" role="Procedure">
+<title>フロントパネルを使用して印刷するには</title>
+<orderedlist><listitem><para>1つまたは複数のファイルを、ファイル・マネージャから、フロントパネルの[プリンタ]
+コントロールか、[個人プリンタ]サブパネルの[プリンタ]アイコンにドラッグします。</para>
+<para>システムが印刷オプションを指定するための[印刷]ダイアログ・ボックスを表示します。
+[印刷]ダイアログ・ボックスは、ユーザが[プリンタ]コントロールにドラッグした各
+ファイルについて1つずつ表示されます。</para>
+<indexterm><primary>印刷</primary><secondary>フロントパネルを使用して印刷する</secondary></indexterm>
+<indexterm><primary>フロントパネル</primary><secondary>フロントパネルを使用して印刷する</secondary></indexterm>
+<graphic id="UG.Print.igrph.1" entityref="UG.Print.fig.1"></graphic>
+<note>
+<para>pscolorはユーザのシステムには表示されません。これは、システムに追加された
+プリンタの一例です。</para>
+</note>
+</listitem>
+<listitem><para><emphasis>オプションの手順です。</emphasis>追加の印刷オプションを設定するには、[印刷] ダイアログ・
+ボックスのテキスト・フィールドを使用します。(<!--Original XRef content: '&xd2;Setting Print Options Using the Print Dialog Box&xd3; on page&numsp;179'--><xref role="SecTitleAndPageNum" linkend="UG.Print.mkr.7">を参照してください)。
+</para>
+</listitem><listitem><para>ジョブをプリンタに送信するために[印刷]ダイアログ・ボックスで[了解]をクリッ
+クします。<indexterm><primary>フロントパネル</primary><secondary>フロントパネルを使用して印刷する &lt;$endrange></secondary>
+</indexterm><indexterm><primary>印刷]</primary><secondary>フロントパネルを使用して印刷する &lt;$endrange></secondary></indexterm></para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.8" role="Procedure">
+<title>ファイル・マネージャを使用して印刷するには</title>
+<orderedlist><listitem><para>ファイル・マネージャでファイルを選択します。<indexterm>
+<primary>ファイル・マネージャ</primary><secondary>ファイル・マネージャを使用して印刷する</secondary></indexterm></para>
+</listitem><listitem><para>[選択]メニューかファイルのポップアップ・メニューの[印刷]を選択します。</para>
+<para>システムが、さまざまな印刷オプションを指定するための[印刷]ダイアログ・ボック
+スを表示します。</para>
+</listitem><listitem><para><emphasis>オプションの手順です。</emphasis>追加の印刷オプションを設定するには、[印刷]ダイアログ・
+ボックスのテキスト・フィールドを使用します。(<!--Original XRef content: '&xd2;Setting Print Options Using the Print Dialog Box&xd3; on page&numsp;179'--><xref role="SecTitleAndPageNum" linkend="UG.Print.mkr.7">を参照してください)。</para>
+</listitem><listitem><para>ジョブをプリンタに送信するために[印刷]ダイアログ・ボックスで[了解]をクリッ
+クします。<indexterm><primary>印刷</primary><secondary>ファイル・マネージャを使用して印刷する</secondary></indexterm></para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.9" role="Procedure">
+<title>印刷マネージャを使用して印刷するには</title>
+<orderedlist><listitem><para>[個人プリンタ]サブパネルから印刷マネージャを起動します。<indexterm><primary>印刷</primary><secondary>印刷マネージャを使用して印刷する</secondary></indexterm></para>
+</listitem><listitem><para>ファイルをファイル・マネージャから印刷マネージャのプリンタ・アイコンにドラッ
+グします。<indexterm><primary>印刷マネージャ</primary><secondary>印刷マネージャを使用して印刷する</secondary></indexterm></para>
+<para>印刷マネージャでは、プリンタ・アイコンか、プリンタの右側のジョブ・リスト領域
+にドキュメントをドロップすることでドキュメントを出力できます。</para>
+<note>
+<para>ダウンしているプリンタ(フラグで示される)にジョブを提出した場合は、ジョブ・
+リストに表示されていても決して印刷されません。</para>
+</note>
+<para>システムが、さまざまな印刷オプションを指定するための[印刷]ダイアログ・ボック
+スを表示します。</para>
+</listitem>
+<listitem><para><emphasis>オプションの手順です。</emphasis>. (<!--Original XRef content: '&xd2;Setting Print Options Using the Print Dialog Box&xd3; on page&numsp;179'--><xref role="SecTitleAndPageNum" linkend="UG.Print.mkr.7">を参照してください)。</para>
+</listitem><listitem><para>ジョブをプリンタに送信するために[印刷]ダイアログ・ボックスで[了解]をクリッ
+クします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.10">
+<title id="UG.Print.mkr.7">[印刷]ダイアログ・ボックスを使用した印刷オプションの設定</title>
+<para><indexterm><primary>[印刷]ダイアログ &lt;$startrange></primary></indexterm>デスクトップは、ユーザがテキスト・ファイル、PCL ファイル、PostScript ファイル、デー
+タ・ファイルを印刷するときに[印刷]ダイアログ・ボックスを表示します。(<!--Original XRef content: 'Table&numsp;9&hyphen;1 on page&numsp;177'--><xref role="CodeOrFigOrTabAndPNum" linkend="UG.Print.mkr.6">を参照してください。)</para>
+<graphic id="UG.Print.igrph.2" entityref="UG.Print.fig.2"></graphic>
+<para>ワード・プロセッサのドキュメントなどのアプリケーション・データ・ファイルを印刷す
+るために出力すると、そのアプリケーション・データ・ファイルに固有な一意の[印刷]
+ダイアログ・ボックスが表示されます。</para>
+<para>[ファイル名]フィールドは、印刷されるファイルの名前が表示されます。
+[プリンタの説明]フィールドは現在のプリンタ選択の情報が表示されます。
+</para>
+<para>[印刷] ダイアログ・ボックスを使用して次の印刷オプションを設定します。<indexterm><primary>印刷オプション</primary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.20in">
+<colspec align="left" colwidth="161*">
+<colspec align="left" colwidth="350*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>[プリンタ名]</para></entry>
+<entry align="left" valign="top"><para>印刷ジョブの宛先。初期のテキスト・フィールドには、ユーザ
+がデータ・ファイルをドロップしたプリンタが表示されます。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>[印刷部数]</para></entry>
+<entry align="left" valign="top"><para>印刷する部数。デフォルトは1です。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>[完了時にメールを送信]</para></entry>
+<entry align="left" valign="top"><para>印刷ジョブが完了した時に電子メールを送るように要求できます。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>[バナーページのタイトル]</para></entry>
+<entry align="left" valign="top"><para>バナーページに表示されるタイトル。バナーページは、プリン
+タがユーザのドキュメントの最初のページの前に印刷するペー
+ジです。</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>[印刷コマンドオプション]</para></entry>
+<entry align="left" valign="top"><para>印刷の実行方法を変更するその他のオプション。このフィール
+ドの使用方法の詳細については、次の節を参照してください。</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>別のプリンタを使うには、[プリンタの追加]ボタンをクリックします。
+[プリンタ選択エ]ダイアログ・ボックスは、使用可能なプリンタを示します。
+プリンタのリストの中から希望のプリンタを選択すると、選択したプリンタの名前が、
+[プリンタ名]フィールドに表示されます。
+</para>
+<sect3 id="UG.Print.div.11">
+<title>印刷コマンドオプション</title>
+<para><indexterm><primary>印刷</primary><secondary>印刷コマンドの発行</secondary></indexterm><indexterm><primary>印刷コマンドの発行</primary>
+</indexterm><indexterm><primary>コマンド</primary><secondary>印刷のために発行するコマンド</secondary></indexterm>[印刷]ダイアログ・ボックスの[印刷コマンドオプション]テキスト・フィールドを使用して、
+その他の印刷オプションを設定できます。使用したい印刷オプションには、テキスト・フィー
+ルドに適切な<command>lp</command>コマンドの引き数を入力してください。
+<command>lp</command>コマンドの引き数のリストを見るには、[端末エミュレータ]ウィンドウで<command>man lp</command>と入力します。</para>
+<para>たとえば、<command>lp</command>の引き数の1つに<literal>-m</literal>があります。このフラグは、ユーザのドキ
+ュメント
+の印刷が完了したことを示すメール・メッセージを、ユーザに送信するようプリント・サー
+バに要求します。この引き数を使用するには、[印刷]ダイアログ・ボックスの[印刷コマ
+ンドオプション]フィールドに<literal>-m</literal>と入力してください。すると、ドキュメントの印刷が
+完了したときに、ユーザのメールボックスにプリンタからのメッセージが表示されます。<indexterm><primary>[印刷]ダイアログ・ボックス &lt;$endrange></primary></indexterm></para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.12">
+<title id="UG.Print.mkr.8">プリンタ・アプリケーション</title>
+<para>ユーザがドキュメント (印刷ジョブ) を印刷するために出力した後は、印刷マネージャま
+たはプリンタ・ジョブ・アプリケーションを使用して、印刷処理の進行状況を知ることが
+できます。プリンタ・ジョブでは、1 つのプリンタのジョブに関する情報が得られます。
+印刷マネージャは、ユーザのシステム上のすべてのプリンタを示します。</para>
+<sect2 id="UG.Print.div.13">
+<title>印刷マネージャ</title>
+<para><indexterm><primary>印刷マネージャ</primary><secondary>印刷マネージャ</secondary>
+</indexterm>[印刷マネージャ]ウィンドウを次に示します。変更方法については、
+<!--Original XRef content: '&xd2;Changing the Print Manager Display&xd3; on page&numsp;187'--><xref role="SecTitleAndPageNum" linkend="UG.Print.mkr.11">を参照してください。
+</para>
+<graphic id="UG.Print.igrph.3" entityref="UG.Print.fig.3"></graphic>
+<sect3 id="UG.Print.div.14" role="Procedure">
+<title>印刷マネージャを起動するには</title>
+<itemizedlist remap="Bullet1"><listitem><para>フロントパネルの [個人プリンタ] サブパネルで [印刷マネージャ] のコントロールを
+クリックします。<indexterm><primary>印刷マネージャ</primary><secondary>印刷マネージャの起動 &lt;$startrange></secondary></indexterm><indexterm><primary>起動</primary>
+<secondary>印刷マネージャの起動 &lt;$startrange></secondary></indexterm></para>
+</listitem></itemizedlist>
+<graphic id="UG.Print.igrph.4" entityref="UG.Print.fig.4"></graphic>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>または、</emphasis>アプリケーション・マネージャのデスクトップ・アプリケーション・グルー
+プで[印刷マネージャ]をダブルクリックします。<indexterm><primary>印刷マネージャ</primary><secondary>印刷マネージャの起動 &lt;$endrange></secondary></indexterm><indexterm><primary>起動</primary>
+<secondary>印刷マネージャ &lt;$endrange></secondary></indexterm></para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="UG.Print.div.15">
+<title>プリンタ・ジョブ・アプリケーション</title>
+<para><indexterm><primary>プリンタ・ジョブ</primary></indexterm>プリンタ・ジョブ・アプリケーションは、ユーザがフロントパネルから 1 つのプリンタ
+を開いたときに表示されるアプリケーションです。プリンタ・ジョブ・アプリケーションは、
+印刷マネージャを簡素化したもので、システム上のすべてのプリンタを表示する代わりに
+1 つのプリンタだけを表示します。</para>
+<graphic id="UG.Print.igrph.5" entityref="UG.Print.fig.5"></graphic>
+<sect3 id="UG.Print.div.16" role="Procedure">
+<title>プリンタ・ジョブ・アプリケーションを起動するには</title>
+<orderedlist><listitem><para>フロントパネルの [プリンタ] コントロールをクリックします。<indexterm>
+<primary>プリンタ・ジョブ</primary><secondary>プリンタ・ジョブの起動</secondary></indexterm><indexterm>
+<primary>起動</primary><secondary>プリンタ・ジョブの起動</secondary></indexterm></para>
+</listitem></orderedlist>
+<graphic id="UG.Print.igrph.6" entityref="UG.Print.fig.6"></graphic>
+<para>図中の pscolor プリンタは、システムに追加されたプリンタの一例です。ユーザのサブ
+パネルには表示されません。</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.17">
+<title>印刷ジョブ情報の表示</title>
+<para><indexterm><primary>印刷ジョブ</primary><secondary>印刷ジョブの定義</secondary>
+</indexterm>ユーザがプリンタ・アイコンを開くと、プリンタで印刷を待っているジョブの情報が表示
+されます。プリンタ・アイコンの右側の表示領域には、印刷を待っている各ジョブのアイ
+コンと、各ジョブの順番、ジョブ名、所有者が表示されます。</para>
+<sect2 id="UG.Print.div.18" role="Procedure">
+<title>プリンタ・アイコンを開くには</title>
+<para><indexterm><primary>印刷ジョブ</primary><secondary>印刷ジョブの表示</secondary>
+</indexterm><indexterm><primary>表示</primary><secondary>印刷ジョブの表示</secondary></indexterm>プリンタを開く方法は3種類あります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>プリンタ・アイコンの左側の[+](開く)ボタンをクリックします。</para>
+</listitem><listitem><para>プリンタを選択してから、[選択]メニューか、プリンタのポップアップ・メニュー ([Shift]
++[F10] キーかマウス・ボタン3を押すと表示される) の[開く]を選択します。</para>
+</listitem><listitem><para>プリンタ・アイコンをダブルクリックします。</para>
+</listitem></itemizedlist>
+<note>
+<para>ユーザがジョブをプリンタに送信したときに印刷を待っているジョブがない場合は、
+ユーザのジョブは [印刷マネージャ] ウィンドウや [プリンタ・ジョブ] のウィンドウに
+表示されません。</para>
+</note>
+</sect2>
+<sect2 id="UG.Print.div.19" role="Procedure">
+<title>プリンタ・アイコンを閉じるには</title>
+<para><indexterm><primary>印刷ジョブ</primary><secondary>印刷ジョブを隠す</secondary>
+</indexterm><indexterm><primary>隠す</primary><secondary>待ち状態の印刷ジョブを隠す</secondary></indexterm>印刷を待っているジョブを表示したくない場合は、プリンタを閉じてください。</para>
+<itemizedlist remap="Bullet1"><listitem><para>プリンタ・アイコンの左側の[-](閉じる) ボタンをクリックします。</para>
+</listitem><listitem><para>プリンタを選択してから、[選択]メニューか、プリンタのポップアップ・メニュー ([Shift]
++[F10]キーかマウス・ボタン 3 を押すと表示される)の[閉じる]を選択します。</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="UG.Print.div.20" role="Procedure">
+<title>印刷ジョブを検索するには</title>
+<orderedlist><listitem><para>[プリンタ]メニューの[検索]を選択します。<indexterm>
+<primary>印刷ジョブ</primary><secondary>印刷ジョブの検索</secondary></indexterm><indexterm>
+<primary>検索</primary><secondary>印刷ジョブの検索</secondary></indexterm></para>
+<para>[検索]は印刷マネージャでは使用できますが、プリンタ・ジョブ・アプリケーション
+では使用できません。</para>
+</listitem><listitem><para>[ジョブ名]フィールドに、検索したい印刷ジョブの名前を入力します。</para>
+<para>たとえば <command>cat</command>と入力すると、ジョブ名に「cat」が含まれるすべてのジョブが、大文
+字か小文字かに関わらず検索されます(「Catchall」や「catalog」など)。</para>
+<para>「cat」という名前のジョブだけを検索するには、[大／小文字の区別あり] を選択します。</para>
+<para>大文字小文字を区別して一致するジョブだけを検索したい場合は、[大／小文字の区別
+なし] を選択解除します。
+</para>
+<note>
+<para>[検索]では、ユーザが所有者である印刷ジョブのリストだけを検索します。また、
+現在表示されていないプリンタも含め、すべてのプリンタに対して検索を行います。</para>
+</note>
+</listitem>
+<listitem><para>[検索開始]をクリックします。</para>
+</listitem><listitem><para>ジョブの検索が完了したら、印刷マネージャで直接そのジョブに進むか、または取り
+消すことができます。検索されたジョブに進むには、ジョブを選択して [行先指定]を
+クリックします。検索されたジョブを取り消すには、ジョブを選択して [印刷ジョブ
+の取消し]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.21" role="Procedure">
+<title>印刷ジョブを取り消すには</title>
+<orderedlist><listitem><para>[印刷マネージャ] ウィンドウか [プリンタ・ジョブ] ウィンドウの印刷ジョブを選択します。<indexterm><primary>印刷ジョブ</primary><secondary>印刷ジョブを取り消す</secondary></indexterm><indexterm><primary>取消し</primary><secondary>印刷ジョブを取り消す</secondary></indexterm></para>
+</listitem><listitem><para>[選択]メニューか印刷ジョブのポップアップ・メニュー([Shift]+[F10]キーかマウス・
+ボタン3を押すと表示される)の[取消し]を選択します。</para>
+</listitem><listitem><para>確認ダイアログ・ボックスで[はい]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.22">
+<title>印刷ジョブの属性</title>
+<itemizedlist remap="Bullet1"><listitem><para>ジョブ名</para>
+</listitem><listitem><para>ジョブ所有者</para>
+</listitem><listitem><para>ジョブ番号</para>
+</listitem><listitem><para>ジョブ・サイズ</para>
+</listitem><listitem><para>ジョブが提出された時刻</para>
+</listitem><listitem><para>ジョブが提出された日付</para>
+</listitem></itemizedlist>
+<note>
+<para>フィールドによっては、「使用不可能」と表示されることがあります。これは、そ
+の情報を印刷システムが提供していないことを示します。</para>
+</note>
+<graphic id="UG.Print.igrph.7" entityref="UG.Print.fig.7"></graphic>
+<sect3 id="UG.Print.div.23" role="Procedure">
+<title>印刷ジョブ属性を表示する</title>
+<orderedlist><listitem><para>印刷ジョブを選択します。<indexterm><primary>印刷ジョブ</primary><secondary>印刷ジョブ属性を表示する</secondary></indexterm><indexterm>
+<primary>表示</primary><secondary>印刷ジョブ属性を表示する</secondary></indexterm><indexterm>
+<primary>属性</primary><secondary>印刷ジョブ属性</secondary></indexterm></para>
+</listitem><listitem><para>[選択]メニューか印刷ジョブのポップアップ・メニュー([Shift]+[F10]キーかマウス
+・ボタン3を押すと表示される)の[属性] を選択します。</para>
+<para>属性が表示されます。</para>
+</listitem></orderedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.24">
+<title>プリンタとフロントパネル</title>
+<para>フロントパネルに表示されるプリンタは、通常はユーザのデフォルト・プリンタです。こ
+れを別のプリンタに変更したり、[個人プリンタ]サブパネルにプリンタを追加すること
+ができます。</para>
+<sect2 id="UG.Print.div.25" role="Procedure">
+<title id="UG.Print.mkr.9">フロントパネルのプリンタを変更するには</title>
+<note>
+<para>この作業ではデフォルト・プリンタの割り当てが変更されません。デフォルト・プ
+リンタの変更方法については、<!--Original XRef content: '&xd2;To Change the Default Printer&xd3; on page&numsp;176'--><xref role="SecTitleAndPageNum" linkend="UG.Print.mkr.3">を参照してください。</para>
+</note>
+<orderedlist><listitem><para>(フロントパネルの [プリンタ] コントロールの上にある矢印をクリックして) [個人プ
+リンタ]サブパネルを開き、フロントパネルに移動したいプリンタのアイコンが表示
+されることを確認します。<indexterm>
+<primary>プリンタ</primary><secondary>フロントパネルのプリンタを変更する</secondary>
+</indexterm><indexterm><primary>フロントパネル</primary><secondary>フロントパネルのプリンタを変更する</secondary></indexterm></para>
+<para>目的のプリンタが [個人プリンタ] サブパネルにない場合は、<!--Original XRef content: '&xd2;To Add a Printer to the Personal Printers Subpanel'--><xref role="SectionTitle" linkend="UG.Print.mkr.10">の手順に従って追加してください。
+</para>
+</listitem><listitem><para>サブパネルで、フロントパネルに追加したいプリンタ・アイコンを指し、アイコンの
+ポップアップ・メニュー([Shift]+[F10]キーかマウス・ボタン 3 を押すと表示される)
+の[メインパネルに表示]を選択します。</para>
+<para>プリンタが変更されたか確認するには、フロントパネルの[プリンタ]コントロールを
+ダブルクリックし、表示される[プリンタ・ジョブ]ウィンドウでアイコン名をチェッ
+クします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.26" role="Procedure">
+<title id="UG.Print.mkr.10">[個人プリンタ] サブパネルにプリンタを追加するには</title>
+<orderedlist><listitem><para>(フロントパネルの[プリンタ]コントロールの上にある矢印をクリックして)[個人プ
+リンタ]サブパネルを開きます。</para>
+</listitem><listitem><para>印刷マネージャを起動します。</para>
+</listitem><listitem><para>プリンタ・アイコンを、[印刷マネージャ]ウィンドウから、開いたサブパネルの[ア
+イコンのインストール]コントロールにドラッグします。</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.27">
+<title id="UG.Print.mkr.11">印刷マネージャの表示の変更</title>
+<para>この節では印刷マネージャの表示パラメータの変更方法を説明します。</para>
+<sect2 id="UG.Print.div.28" role="Procedure">
+<title>プリンタおよび印刷ジョブの表示方法を変更するには</title>
+<orderedlist><listitem><para>[表示]メニューの[オプションの設定]を選択します。<indexterm>
+<primary>プリンタ</primary><secondary>印刷マネージャにおけるプリンタの表示</secondary>
+</indexterm><indexterm><primary>印刷マネージャ</primary><secondary>印刷マネージャにおけるプリンタの表示</secondary></indexterm></para>
+</listitem><listitem><para>印刷ジョブをどのように表示したいか選択します。
+</para>
+<itemizedlist remap="Bullet2"><listitem><para>[大型アイコン]　　−　プリンタと印刷ジョブを大型アイコンで表示します。</para>
+</listitem><listitem><para>[小型アイコン]　−　プリンタと印刷ジョブを小型アイコンで表示します。</para>
+</listitem><listitem><para>[名前のみ]　−　プリンタと印刷ジョブをテキストのみで表示します。</para>
+</listitem><listitem><para>[詳細]　−　ジョブ所有者、サイズ、ジョブ番号、各ジョブが提出された日付と時
+刻を表示します。</para>
+</listitem><listitem><para>[ラベルを表示]　−　詳細の各行の説明をジョブ・リスト領域の左側に表示します。<indexterm><primary>印刷ジョブ</primary><secondary>印刷マネージャにおけるプ印刷ジョブの表示</secondary></indexterm><indexterm>
+<primary>印刷マネージャ</primary><secondary>印刷マネージャにおけるプ印刷ジョブの表示</secondary>
+</indexterm></para>
+</listitem></itemizedlist>
+<note>
+<para>フィールドによっては、「使用不可能」と表示されることがあります。これは、そ
+の情報をプリント・サーバが提供していないことを示します。</para>
+</note>
+</listitem>
+<listitem><para>[了解]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.29" role="Procedure">
+<title>更新頻度を変更するには</title>
+<orderedlist><listitem><para>[表示] メニューの [オプションの設定] を選択します。</para>
+</listitem><listitem><para>プリンタが印刷ジョブの情報を照会される頻度を指定するために、間隔ゲージを調整
+します。デフォルトは30秒ごとです。</para>
+</listitem><listitem><para>[了解]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.30" role="Procedure">
+<title>表示されるジョブを限定するには</title>
+<orderedlist><listitem><para>[表示]メニューの[オプションの設定]を選択します。<indexterm>
+<primary>印刷ジョブ</primary><secondary>印刷マネージャで表示されるジョブを限定する</secondary></indexterm><indexterm><primary>印刷マネージャ</primary>
+<secondary>印刷マネージャで表示されるジョブを限定する</secondary></indexterm></para>
+</listitem><listitem><para>表示したいジョブを選択します。</para>
+<itemizedlist remap="Bullet2"><listitem><para>[ユーザのジョブのみ]　−　自分の印刷ジョブだけを表示します。</para>
+</listitem><listitem><para>[全員のジョブ]　−　すべての印刷ジョブを表示します。</para>
+</listitem></itemizedlist>
+</listitem><listitem><para>[了解]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.31" role="Procedure">
+<title>印刷マネージャのメッセージ行を表示するには</title>
+<orderedlist><listitem><para>[表示] メニューの [オプションの設定] を選択します。</para>
+</listitem><listitem><para>メッセージ行を [印刷マネージャ] ウィンドウの下部に表示するために、[メッセージ行]
+を選択します。<indexterm><primary>印刷マネージャ</primary><secondary>印刷マネージャのメッセージ行の表示</secondary></indexterm><indexterm><primary>表示</primary><secondary>印刷マネージャのメッセージ行を表示する</secondary></indexterm>
+</para>
+<para>メッセージ行には、ユーザのシステム上のプリンタ数と、現在表示されていないプリ
+ンタ数も表示されます。また、プリンタの更新がいつ行われたかを通知するメッセー
+ジも表示されます。</para>
+</listitem><listitem><para>[了解]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.32" role="Procedure">
+<title>印刷マネージャの障害フラグを表示するには</title>
+<orderedlist><listitem><para>[表示]メニューの[表示リストの変更]を選択します。<indexterm>
+<primary>印刷マネージャ</primary><secondary>印刷マネージャの障害フラグ</secondary></indexterm><indexterm>
+<primary>displaying</primary><secondary>印刷マネージャの障害フラグ</secondary>
+</indexterm></para>
+</listitem><listitem><para>プリンタに障害が発生したときにフラグ・アイコンをプリンタの横に表示するために、
+[障害フラグ]を選択します。</para>
+<para>障害に関する詳細は、[フラグ]アイコンをダブルクリックすると表示されます。</para>
+</listitem><listitem><para>[了解]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.33" role="Procedure">
+<title>表示するプリンタを決定するには</title>
+<orderedlist><listitem><para>[表示]メニューの[表示リストの変更]を選択します。</para>
+<para>[印刷マネージャ] ウィンドウで見えるプリンタは、名前が強調表示されています。</para>
+</listitem><listitem><para>強調表示されていないプリンタを[印刷マネージャ]ウィンドウで見えるようにするには、
+そのプリンタをクリックします。</para>
+<para>強調表示されているプリンタをメイン・ウィンドウから削除するには、そのプリンタ
+をクリックします。また、すべてのプリンタを表示するには[すべてを選択]を、すべ
+てのプリンタを隠すには[選択をすべて解除]を使用します。</para>
+</listitem><listitem><para>[了解]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.34">
+<title>プリンタの属性</title>
+<para>次の属性が表示できます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>アイコン・ラベル</para>
+</listitem><listitem><para>アイコン</para>
+</listitem><listitem><para>説明</para>
+</listitem><listitem><para>プリンタ・キュー</para>
+</listitem><listitem><para>プリンタ・キュー・ステータス</para>
+</listitem><listitem><para>デバイス名</para>
+</listitem><listitem><para>デバイス・ステータス</para>
+</listitem></itemizedlist>
+<sect2 id="UG.Print.div.35" role="Procedure">
+<title>プリンタの属性を表示するには</title>
+<orderedlist><listitem><para>[印刷マネージャ] ウィンドウでプリンタを選択するか、[プリンタ・ジョブ] ウィンド
+ウのプリンタを選択します。<indexterm><primary>プリンタ</primary><secondary>プリンタの属性を表示する</secondary></indexterm><indexterm><primary>表示</primary><secondary>プリンタの属性を表示する</secondary></indexterm></para>
+</listitem><listitem><para>[選択] メニューかプリンタのポップアップ・メニュー([Shift]+[F10]キーかマウス・
+ボタン3を押すと表示される)の[属性]を選択します。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.36" role="Procedure">
+<title>プリンタのアイコンを変更するには</title>
+<orderedlist><listitem><para>プリンタを選択します。<indexterm><primary>プリンタ</primary><secondary>プリンタのアイコンを変更する</secondary></indexterm><indexterm>
+<primary>アイコン</primary><secondary>プリンタのアイコンを変更する</secondary></indexterm><indexterm>
+<primary>changing</primary><secondary>プリンタのアイコン</secondary></indexterm></para>
+</listitem><listitem><para>[選択]メニューかプリンタのポップアップ・メニュー([Shift]+[F10]キーかマウス・
+ボタン3を押すと表示される)の[属性]を選択します。</para>
+</listitem><listitem><para>[アイコンセット検索] をクリックします。</para>
+</listitem><listitem><para>使用したい新規アイコンを選択します。</para>
+<para>使用したいアイコンがない場合は、[アイコン・フォルダ] メニューで別のフォルダを
+選択します。このダイアログ・ボックスは、3 つのサイズがすべて設定されているア
+イコンだけを表示します。</para>
+</listitem><listitem><para>アイコンを選択したら、[了解]をクリックします。</para>
+</listitem><listitem><para>[属性]ダイアログ・ボックスで[了解]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.37" role="Procedure">
+<title>プリンタのアイコン・ラベルを変更するには</title>
+<orderedlist><listitem><para>プリンタを選択します。<indexterm><primary>プリンタ</primary><secondary>プリンタのアイコン・ラベル</secondary></indexterm><indexterm>
+<primary>ラベル</primary><secondary>プリンタのアイコン・ラベルを変更する</secondary></indexterm><indexterm>
+<primary>変更</primary><secondary>プリンタのアイコン・ラベルを変更する</secondary></indexterm></para>
+</listitem><listitem><para>[選択]メニューかプリンタのポップアップ・メニュー([Shift]+[F10]キーかマウス・
+ボタン3を押すと表示される)の[属性]を選択します。</para>
+</listitem><listitem><para>新規のアイコン・ラベルを [アイコン・ラベル] フィールドに入力します。</para>
+</listitem><listitem><para>[了解]をクリックします。</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:57:19-->
+<?Pub Caret>
+<?Pub *0000050508>

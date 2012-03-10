@@ -1,0 +1,25 @@
+# all records are delimited by ^L
+#  define a line with that description, and declare it to be the delimiter
+# (Note that there is a real Ctrl-L between the quotes in the line below).
+line header = *,""
+delimiter = header,bottom
+
+# the command is on the first line.  Define a line identifier for the 
+#  line
+line line1 = 1
+
+# the name of the command begins in column 3, and the length is variable,
+#  so we define a field identifier from column 3 to the end of the word
+field command1 = line1,"",3,eow
+
+# the abstract will have a constant prefix
+constant preabs = "Man Pages for "
+abstract = fields preabs + command1
+
+# all keys must have an identifying character
+keychar = M
+key = command1
+
+# Provide date equiv to rlse date of original man pages
+constant datecons = "199411011101"
+date = datecons

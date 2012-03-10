@@ -1,0 +1,113 @@
+// $XConsortium: UAS_SearchScope.C /main/6 1996/09/14 13:10:00 cde-hal $
+#include "UAS_Exceptions.hh"
+#include "UAS_SearchScope.hh"
+
+#include <string.h>
+#include <stream.h>
+
+#define CLASS UAS_SearchScope
+STATIC_SENDER_CC (ScopeCreated);
+STATIC_SENDER_CC (ScopeDeleted);
+STATIC_SENDER_CC (ScopeRenamed);
+
+UAS_SearchScope::UAS_SearchScope (const char *name,
+                                  UAS_PtrList<UAS_BookcaseEntry> &bcases,
+                                  u_int component_mask, bool ro)
+: f_name (NULL),
+  f_deleted (0),
+  f_read_only (ro),
+  f_infolib(NULL)
+{
+  f_name = new char[strlen(name) + 1 ];
+  strcpy(f_name, name);
+
+  f_bcases = bcases;
+
+  f_search_zones.zones(component_mask);
+
+  static ScopeCreated create_msg;
+  create_msg.f_search_scope = this;
+  send_message (create_msg, 0);
+}
+
+UAS_SearchScope::~UAS_SearchScope()
+{
+  static ScopeDeleted delete_msg;
+  delete_msg.f_search_scope = this;
+  send_message (delete_msg, 0);
+  delete f_name;
+  for (int i = 0; i < f_bcases.numItems(); i++)
+    delete f_bcases[i]; 
+
+  f_infolib = NULL;
+}
+
+void
+UAS_SearchScope::bookcases(UAS_PtrList<UAS_BookcaseEntry> &bcases)
+{
+  // delete existing bookcases before inserting new set.
+  for (int i = 0; i < f_bcases.numItems(); i++)
+    delete f_bcases[i]; 
+
+  f_bcases = bcases;
+}
+
+const char *
+UAS_SearchScope::name(const char *newname)
+{
+  delete f_name ;
+  u_int len = strlen(newname);
+  f_name = new char[len + 1] ;
+  strcpy(f_name,newname);
+  return name();
+}
+
+void
+UAS_SearchScope::set_name (const char *name)
+{
+  delete f_name;
+  f_name = new char[strlen(name) + 1 ];
+  strcpy(f_name, name);
+  static ScopeRenamed rename_msg;
+  rename_msg.f_search_scope = this;
+  send_message (rename_msg, 0);
+}
+
+#ifdef DEBUG
+void
+UAS_SearchScope::dump()
+{
+  UAS_BookcaseEntry *bce;
+
+  cout << "Scope: " << f_name << endl;
+  for (int i = 0; i < f_bcases.numItems(); i++) {
+      bce = f_bcases[i];
+      cout << "  Bookcase:     " << bce->name() << endl;
+      if (bce->book_list().numItems()) {
+          cout << "  Book Numbers: ";
+          for (int j = 0; j < bce->book_list().numItems(); j++)
+              cout << (bce->book_list())[j] << " ";
+          cout << "\n";
+      }
+  }
+  cout << "  Search Zones: ";
+
+  if (f_search_zones.all())
+      cout << "All Components\n";
+  else {
+      if (f_search_zones.titles())
+          cout << "Titles ";
+      if (f_search_zones.bodies())
+          cout << "Body ";
+      if (f_search_zones.examples())
+          cout << "Examples ";
+      if (f_search_zones.indexes())
+          cout << "Index ";
+      if (f_search_zones.tables())
+          cout << "Tables ";
+      if (f_search_zones.graphics())
+          cout << "Graphics";
+      cout << "\n";
+  }
+}
+#endif

@@ -1,0 +1,1915 @@
+<!-- $XConsortium: ch08.sgm /main/4 1996/10/11 09:24:19 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="infoapg.div.8">
+<title id="btcmaab0ang24ak">Creating a Style Sheet</title>
+<IndexTerm><Primary>style sheets</Primary>
+<Secondary>creating</Secondary></IndexTerm>
+<para>
+A style sheet consists of optional definitions for system-generated
+number tokens, followed by sets of element path statements and their
+formatting specifications. To create a style sheet for use with
+the Information Manager, follow these steps:
+</para>
+<orderedlist>
+<listitem>
+<para>
+Open a new file, using a text editor such as <literal>vi</literal> or
+<literal>emacs</literal>, or an SGML editor.
+</para>
+</listitem>
+<listitem>
+<para>
+In the file, identify the style sheet name by giving
+a value to the Name attribute of the StyleSheet element. For example:
+</para>
+<literallayout>
+&lt;StyleSheet name=<replaceable>sty1</replaceable>>
+</literallayout>
+<para>
+This name must be unique across style sheets in a bookcase.
+</para>
+</listitem>
+<listitem>
+<para>
+If you plan to use the <systemitem>AutoNumber</systemitem>
+feature, create an autonumber for each token stream. System-generated
+number tokens can be used only with the Prefix and Suffix features. For example:
+</para>
+<literallayout>
+&lt;AutoNumber id=num0  reset=enumeratedlist  counter=numitem  type=ucroman  initial="1">
+&lt;AutoNumber id=num1  reset=enumeratedlist  counter=numitem  type=lcroman  initial="1">
+&lt;AutoNumber id=num2  reset=enumeratedlist  counter=numitem  type=arabic  initial="1">
+</literallayout>
+<para>
+For more information on using the autonumber feature, see AutoNumbers in the
+<filename>dtinfoStyle.dtd(5)</filename> man page.
+</para>
+</listitem>
+<listitem>
+<para>
+Using an element <systemitem>Path</systemitem>
+statement, specify the path to the element for which you are defining
+the style. <systemitem>Path</systemitem> statements
+are read left to right, parent element to child element. You need
+only specify the minimum unique path to any given element. This
+example specifies the path to the LITERALLAYOUT element:
+</para>
+<literallayout>
+&lt;Path>LITERALLAYOUT&lt;/Path>
+</literallayout>
+</listitem>
+<listitem>
+<para>
+For each <systemitem>Path</systemitem>
+you must specify either the <systemitem>Online</systemitem>
+feature set or the <systemitem>Print</systemitem>
+feature set, or both. To specify both, you must define the on-line
+features first. For example:
+</para>
+<literallayout>
+&lt;Path>
+LITERALLAYOUT&lt;/Path>
+&lt;Online>
+   &lt;Font fallback=mono>
+   &lt;Family name=courier weight=medium size=12 charset=iso8859-1>
+   &lt;Layout flow=verbatim lindent=12 aspace=6 bspace=6>
+   &lt;LineBreak both>
+&lt;/Online>
+&lt;Print>
+   &lt;Font fallback=mono>
+   &lt;Family name=courier weight=medium size=12 charset=iso8859-1>
+   &lt;Layout flow=verbatim lindent=12 aspace=6 bspace=6>
+   &lt;LineBreak both>
+&lt;/Print>
+</literallayout>
+<note>
+<para>
+The <systemitem>Print</systemitem>
+and <systemitem>Online</systemitem> feature sets
+match in function, description, and specification except for two
+print-specific exceptions: <link linkend="n4kpipbbc3h9x3cs">Medium</link> and
+<link linkend="r74dmncp70hp2ol">PageBreak</link>.
+</para>
+</note>
+</listitem>
+<listitem>
+<para>
+Repeat steps 4 and 5 for each element <systemitem>Path</systemitem> for which you want to specify
+a particular style.
+</para>
+</listitem>
+</orderedlist>
+<!--(((((((((((((((((((((((((((((((((((((-->
+<sect1><title id="suwh3wbmhwy94ak">Using Style Features</title>
+<para>
+The style features discussed in this chapter are:
+</para>
+<para>
+Font Features
+</para>
+<itemizedlist>
+
+<listitem>
+<para>
+<link linkend="n6jpipbbc3h9x3cs">Font</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="ujpipbbc3h9x3cs">HighLight</link>
+</para>
+</listitem>
+</itemizedlist>
+<para>
+Layout Features
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="jjpipbbc3h9x3cs">Layout</link>
+</para>
+</listitem>
+<listitem>
+<para><link linkend="n0jpipbbc3h9x3cs">LineBreak</link></para>
+</listitem>
+<listitem>
+<para><link linkend="xjpipbbc3h9x3cs">Margin</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n4llcmnc770hp2ol">Position</link></para>
+</listitem>
+</itemizedlist>
+<para>Print-specific Features</para>
+<itemizedlist>
+
+<listitem>
+<para><link linkend="n4kpipbbc3h9x3cs">Medium</link></para>
+</listitem>
+<listitem>
+<para><link linkend="r74dmncp70hp2ol">PageBreak</link></para>
+</listitem>
+</itemizedlist>
+<para>Table Features</para>
+<itemizedlist>
+<listitem>
+<para><link linkend="n0sodmncn70hp2ol">Table</link></para>
+</listitem>
+<listitem>
+<para><link linkend="qjpipbbc3h9x3cs">ColFormat</link></para>
+</listitem>
+<listitem>
+<para><link linkend="w9jdmnch70hp2ol">Row</link></para>
+</listitem>
+<listitem>
+<para><link linkend="yrddmncb70hp2ol">Cell</link></para>
+</listitem>
+<listitem>
+<para>TGroup</para>
+</listitem>
+
+</itemizedlist>
+<para>Other Features</para>
+<itemizedlist>
+<listitem>
+<para><link linkend="dq2emncz70hp2ol">Border</link></para>
+</listitem>
+
+<listitem>
+<para><link linkend="djpipbbc3h9x3cs">Ignore</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n9kpipbbc3h9x3cs">Prefix and
+Suffix</link></para>
+</listitem>
+</itemizedlist>
+</sect1>
+<!--(((((((((((((((((((((((((((((((((((((((((((((-->
+<sect1>
+<title id="r6x9mncr60hp2ol">Font Features</title>
+<para>
+The style sheet features described in this section&mdash;
+<link linkend="n6jpipbbc3h9x3cs">Font</link>, and
+<link linkend="ujpipbbc3h9x3cs">HighLight</link>&mdash; are related
+to the appearance of text in the Information Manager browser.
+</para>
+<!--)))))))))))))))))))))))))-->
+<sect2>
+<title id="n6jpipbbc3h9x3cs">Font</title>
+<para>
+The <systemitem>Font</systemitem> feature
+specifies font families and character sets, and font attributes.
+The syntax of the <systemitem>Font</systemitem>
+feature contains font attribute specifications, followed by any
+number of <systemitem>Family</systemitem> subfeatures,
+in which the font family and character sets are specified.
+</para>
+<para>
+The <systemitem>Font</systemitem>
+feature eliminates character set ambiguities. Here's the syntax:
+</para>
+<programlisting>
+&lt;Font
+ Fallback = {sans | serif | mono | symbol | mincho | gothic}
+ Position = {subscript | sub | superscript | super | baseline}
+ Size = [0-9]+
+ Slant = {italic| roman}
+ Spacing = {char | prop | mono}
+ Style = "string"
+ Weight = {bold| medium}
+ Width = {normal | narrow}>
+&lt;Family
+ Name = "string"
+ Charset = "string"
+ Foundry = "string" >
+&lt;/Font>
+</programlisting>
+<!--)))))))))))))))))))))))))))))))-->
+<sect3>
+<title id="rrn5xmc0gwwa0yk">Font Attributes</title>
+<para>
+The <systemitem>Font</systemitem> attributes
+define the typography of the specified element. The following font
+attributes are used by all font families in the
+Information Manager browser.
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Fallback</systemitem></term>
+<listitem>
+<para>
+The <systemitem>Fallback</systemitem>
+attribute specifies the font family to use if the desired
+<systemitem>Family</systemitem> is not available on the
+font server. The available options map to the following
+Information Manager X resources, which are
+shown with the default values provided in the global X resources
+file. If the <systemitem>Fallback</systemitem>
+attribute is not specified, the default is <systemitem>sans</systemitem>.
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>sans</systemitem></term>
+<listitem>
+<para>
+Specifies a sans serif font. The <systemitem>Dtinfo*FontSans</systemitem>
+default is <literal>-dt-application-medium-r-normal-sans-*-*-*-*-p-*-iso8859-1</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>serif</systemitem></term>
+<listitem>
+<para>
+Specifies a serif font. The <systemitem>Dtinfo*FontSerif</systemitem>
+default is <literal>-dt-application-medium-r-normal-serif-*-*-*-*-p-*-iso8859-1</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>mono</systemitem></term>
+<listitem>
+<para>
+Specifies a mono-spaced font. The <systemitem>Dtinfo*FontMono</systemitem>
+default is <literal>-dt-application-medium-r-normal-serif-*-*-*-*-m-*-iso8859-1</literal>. 
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>symbol</systemitem></term>
+<listitem>
+<para>Specifies a symbol font. The <systemitem>Dtinfo*FontSymbol</systemitem> default is
+<literal>-dt-application-medium-r-normal-*-*-*-*-*-p-*-dtsymbol-1</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>mincho</systemitem></term>
+<listitem>
+<para>The default is <systemitem>Dtinfo*FontMincho</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>gothic</systemitem></term>
+<listitem>
+<para>The default is <systemitem>Dtinfo*FontGothic</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Position</systemitem></term>
+<listitem>
+<para>
+Specifies where text should be placed relative to
+the baseline. The options are: <systemitem>superscript</systemitem>
+(above the baseline) and <systemitem>subscript</systemitem>
+(below the baseline). You can use the terms <systemitem>super</systemitem>
+and <systemitem>sub</systemitem> as shorthand for
+<systemitem>superscript</systemitem> and <systemitem>subscript</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Size</systemitem></term>
+<listitem>
+<para>Specifies the font size in points. The default is
+14 points.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Slant</systemitem></term>
+<listitem>
+<para>The values for the <systemitem>Slant</systemitem>
+attribute are <systemitem>roman</systemitem> or
+<systemitem>italic</systemitem>. The default is
+<systemitem>roman</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Spacing</systemitem></term>
+<listitem>
+<para>Specifies character spacing, either <systemitem>prop</systemitem>
+(proportional), <systemitem>char</systemitem> (character cell), or
+<systemitem>mono</systemitem> (monospaced).
+The default is <systemitem>char</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Style</systemitem></term>
+<listitem>
+<!--per Rivers, still need more info-->
+<para>
+Specifies additional style information.
+The default is no additional style information.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Weight</systemitem></term>
+<listitem>
+<para>
+Specifies the weight of the font, either <systemitem>medium</systemitem>
+(regular) or <systemitem>bold</systemitem> (thick). The default is
+<systemitem>medium</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Width</systemitem></term>
+<listitem>
+<para>Specifies the width of the font, either <systemitem>normal</systemitem>
+or <systemitem>narrow</systemitem>. The default is <systemitem>normal</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect3>
+<!--(((((((((((((((((((((((((((((((((((((-->
+<sect3>
+<title id="zotxgncmddznuzs">Font Family Subfeature</title>
+<para>
+The <systemitem>Family</systemitem> subfeature
+specifies one or more font families and character sets. The following
+list defines the attributes for the <systemitem>Family</systemitem>
+subfeature:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Family</systemitem></term>
+<listitem>
+<para>The <systemitem>Family</systemitem>
+attribute specifies the font family and character sets used for
+display in the
+Information Manager browser. The possible <systemitem>Family</systemitem>
+values are strings specifying:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Foundry</systemitem></term>
+<listitem>
+<para>
+The name of the font company. <systemitem>Foundry</systemitem>
+is an optional parameter.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Name</systemitem></term>
+<listitem>
+<para>
+The name of the font. <systemitem>Name</systemitem>
+is a required parameter.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Charset</systemitem></term>
+<listitem>
+<para>The name of the encoding standard to which the font
+conforms. <systemitem>Charset</systemitem> is
+a required parameter.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>
+The specified font names and character sets must be available on the
+font server of the system that will be displaying the Information
+Manager documents. If no <systemitem>Family</systemitem> specifications
+are used, the element uses the font specified with the
+<systemitem>Fallback</systemitem> attribute of the
+<systemitem>Font</systemitem> feature.
+</para>
+</note>
+<para>
+The following example illustrates an online path statement
+that uses <systemitem>Font</systemitem> and <systemitem>Family</systemitem>
+attributes:
+</para>
+<literallayout>
+&lt;Path>
+PARA&lt;/Path>
+&lt;Online>
+   &lt;Font  Fallback=sans  Weight=medium  Slant=roman  Size=12  Spacing=prop  Slant=italic  Width=normal>
+   &lt;Family  Name=helvetica  Charset=iso8859-1>
+&lt;/Online>
+</literallayout>
+<!--(((((((((((((((((((((((((((((((-->
+<sect4>
+<title id="pt3bmncx60hp2ol">Font Inheritance</title>
+<para>
+The <systemitem>Font</systemitem> feature
+is <link linkend="pgqaykbbgsg24ak">inherited</link>. Inheritance
+determines the set of fonts and font characteristics that will be
+applied to inheriting elements. To mask out a font face, both the
+font <systemitem>Family</systemitem> feature and
+the <systemitem>Charset</systemitem> attribute
+must be set. Masking occurs because of the <systemitem>Charset</systemitem>
+attribute.
+</para>
+<para>
+To change an element's inherited font characteristics, you
+need only change the appropriate <systemitem>Font</systemitem>
+feature, not the complete <systemitem>Font/Family</systemitem>
+specification. For example:
+</para>
+<literallayout>
+&lt;Font Weight=bold>
+</literallayout>
+<para>
+would be sufficient to change an inherited characteristic
+for a given element.
+</para>
+</sect4>
+</sect3>
+</sect2>
+<!--(((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="ujpipbbc3h9x3cs">HighLight</title>
+<!--per Rivers, more info needed on this-->
+<para>
+The <systemitem>HighLight</systemitem> feature
+specifies font-independent display highlights.
+The <systemitem>HighLight</systemitem> feature is
+<link linkend="pgqaykbbgsg24ak">inherited</link>. Its syntax
+is:
+</para>
+<programlisting>
+&lt;Highlight
+BGColor = "<replaceable>colors</replaceable>"
+FGColor = "<replaceable>colors</replaceable>"
+Overline = {true | false}
+StrikeThrough = {true | false}
+Underline = {true | false}>
+</programlisting>
+<para>
+Reverse video, and background
+and foreground colors are supported in the <systemitem>Online</systemitem>
+feature sets only. Boxed, overline, strike through, and underline
+can be used in both the <systemitem>Print</systemitem>
+and <systemitem>Online</systemitem> feature sets.
+The default background and foreground colors are defined in the
+X resources file.
+</para>
+<para>The <systemitem>HighLight</systemitem>
+feature has the following attributes.
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>BGColor</systemitem></term>
+<listitem>
+<para>
+Specifies screen background color. You can choose
+from any X Window System color name.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<systemitem>FGColor</systemitem></term>
+<listitem>
+<para>
+Specifies screen background color. You can choose
+from any X Window System color name.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Overline</systemitem></term>
+<listitem>
+<para>
+Draws a line above the element. Attribute values
+are <systemitem>true</systemitem> and <systemitem>false</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>StrikeThrough</systemitem></term>
+<listitem>
+<para>Draws a line through the element. Attribute values
+are <systemitem>true</systemitem> and <systemitem>false</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Underline</systemitem></term>
+<listitem>
+<para>
+Draws a line below the element. Valid values
+are <systemitem>true</systemitem> and <systemitem>false</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+This example shows a <systemitem>Path</systemitem>
+statement for underlining a TERM
+element.
+</para>
+<literallayout>
+&lt;Path>
+VARLISTENTRY TERM&lt;/Path>
+&lt;Online>
+   &lt;Highlight  underline=true>
+&lt;/Online>
+&lt;Print>
+   &lt;Highlight  underline=true>
+&lt;/Print>
+</literallayout>
+</sect2>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="p2wbmnc170hp2ol">Layout Features</title>
+<para>
+The style sheet features described in this section&mdash;
+<link linkend="jjpipbbc3h9x3cs">Layout</link>,
+<link linkend="n0jpipbbc3h9x3cs">LineBreak</link>,
+<link linkend="xjpipbbc3h9x3cs">Margin</link>, and
+<link linkend="n4llcmnc770hp2ol">Position</link>&mdash; are related
+to the layout of screens and pages in the
+Information Manager browser.
+</para>
+<!--)))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="jjpipbbc3h9x3cs">Layout</title>
+<para>
+The <systemitem>Layout</systemitem> feature
+specifies element spacing, indentation, and text flow formatting.
+The syntax for <systemitem>Layout</systemitem>
+is:
+</para>
+<programlisting>
+&lt;Layout
+ASpace = [0-9]+
+BSpace = [0-9]+
+Leading = [0-9]+
+FIndent = [0-9]+
+LIndent = [0-9]+
+RIndent = [0-9]+
+Flow = {verbatim | filled}
+Justify = {left | right | center}
+Wrap = {block | join | none}>
+</programlisting>
+<para>
+Possible formatting attributes are:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>ASpace</systemitem>, <systemitem>BSpace</systemitem></term>
+<listitem>
+<para>
+These attributes specify the space in points above
+and below the current element. The default value is 10 points.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Leading</systemitem></term>
+<listitem>
+<para>The <systemitem>Leading</systemitem>
+attribute specifies the inter-line space, in points, between the
+baseline of one line of text and the top of the highest ascending
+character of the following line. The default value is 2 points.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>FIndent</systemitem>, <systemitem>LIndent</systemitem>, <systemitem>RIndent</systemitem></term>
+<listitem>
+<para>
+These attributes specify the first, left, and right
+indents, respectively, of a text element. Each value, expressed
+in points, is relative to any surrounding elements or to the value
+set with the <systemitem>Margin</systemitem> feature.
+The default value is 0 (zero).
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Flow</systemitem></term>
+<listitem>
+<para>
+The <systemitem>Flow</systemitem>
+attribute specifies how the whitespace and linefeed characters in
+the current element are to be handled.</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>verbatim</systemitem></term>
+<listitem>
+<para>
+If the value <systemitem>verbatim</systemitem>
+is chosen, whitespace and linefeed characters are considered significant.
+That is, the text line is not automatically wrapped but is allowed
+to extend beyond the text margin and the window border until a linefeed
+character is encountered. The value <systemitem>verbatim</systemitem>
+also causes the horizontal scroll bar to be displayed as necessary
+to accommodate the text line.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>filled</systemitem></term>
+<listitem>
+<para>If the value <systemitem>filled</systemitem>
+is chosen, whitespace and linefeed characters are not considered
+significant and the text line is wrapped if it extends beyond the
+window border. The default value is <systemitem>filled</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Justify</systemitem></term>
+<listitem>
+<para>The <systemitem>Justify</systemitem>
+attribute specifies how text lines within the current element are
+to be aligned.</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>left</systemitem></term>
+<listitem>
+<para>The value <systemitem>left</systemitem>
+causes text lines to be aligned along the left margin, while the
+right margin runs ragged.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>right</systemitem></term>
+<listitem>
+<para>
+The value <systemitem>right</systemitem>
+causes text lines to be aligned along the right margin, while the
+left margin runs ragged.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>center</systemitem></term>
+<listitem>
+<para>The value <systemitem>center</systemitem>
+causes text lines to be aligned to the center, with ragged left
+and right margins.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Wrap</systemitem></term>
+<listitem><para>The <systemitem>Wrap</systemitem>
+attribute works with the <link linkend="n4llcmnc770hp2ol">Position</link>
+feature and specifies how text within the current element should
+flow.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>
+When the <systemitem>Wrap</systemitem>
+attribute and the <systemitem>Position</systemitem>
+feature are used, the <link linkend="n0jpipbbc3h9x3cs">LineBreak</link>
+feature is ignored.
+</para>
+</note>
+<para>
+<systemitem>Layout</systemitem> is an <link linkend="pgqaykbbgsg24ak">inherited</link> feature.
+</para>
+<para>
+This example uses the <systemitem>Layout</systemitem>
+feature:
+</para>
+<literallayout>
+&lt;Path>
+LITERALLAYOUT&lt;/Path>
+&lt;Online>
+   &lt;layout  Flow=verbatim  LIndent=12  ASpace=6  BSpace=6  Leading=4>
+&lt;/Online>
+</literallayout>
+</sect2>
+<!--)))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n0jpipbbc3h9x3cs">LineBreak</title>
+<para>
+The <systemitem>LineBreak</systemitem> feature
+inserts a line break before and/or after the current element. The
+syntax is:
+</para>
+<programlisting>
+&lt;LineBreak {before | after | both}>
+</programlisting>
+<para>
+The three possible values for <systemitem>LineBreak</systemitem>
+are:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>before</systemitem></term>
+<listitem>
+<para>
+Inserts a line break before the current element.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>after</systemitem></term>
+<listitem>
+<para>
+Inserts a line break after the current element.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>both</systemitem></term>
+<listitem>
+<para>
+Inserts a line break both before and after the current
+element.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<systemitem>LineBreak</systemitem> is not
+inherited.
+</para>
+<para>
+This example uses <systemitem>LineBreak</systemitem>
+with a value of <systemitem>both</systemitem>:
+</para>
+<literallayout>
+&lt;Path>
+PREFACE TITLE&lt;/Path>
+&lt;Online>
+   &lt;LineBreak  both>
+   &lt;Fontsize=20 weight=medium>
+   &lt;/Online>
+&lt;Print>
+   &lt;LineBreak&  both>
+   &lt;Font  size=24 weight=bold>
+&lt;/Print>
+</literallayout>
+</sect2>
+<!--)))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="xjpipbbc3h9x3cs">Margin</title>
+<para>
+The <systemitem>Margin</systemitem> feature
+specifies the boundaries of the document rendering area, in points.
+</para>
+<programlisting>
+&lt;Margin
+Bottom = [0-9]+
+Top = [0-9]+
+Left = [0-9]+
+Right = [0-9]+>
+</programlisting>
+<para>
+The values for the <systemitem>Margin</systemitem>
+attribute are:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Bottom</systemitem></term>
+<listitem>
+<para>
+Specifies the vertical space following the last
+line on the screen or page.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Top</systemitem></term>
+<listitem>
+<para>
+Specifies the vertical space preceding the first
+line on the screen or page.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Left</systemitem></term>
+<listitem>
+<para>
+Specifies the distance between the left edge of
+the element and the left edge of the screen or page.
+</para>
+<note>
+<para>
+For on-line margins, the system uses 18 points of space
+in the left margin for items such as Bookmark icons. Thus, any value
+assigned to <systemitem>Left</systemitem> (for
+on-line rendering) would be in addition to the 18-point system-defined
+setting.
+</para>
+</note>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Right</systemitem></term>
+<listitem>
+<para>
+Specifies the distance between the right edge of
+the element and the right edge of the screen or page.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+The <systemitem>Margin</systemitem> feature
+is <link linkend="pgqaykbbgsg24ak">inherited</link> and should
+only be used on the root element of an element hierarchy. Here's
+an example of a <systemitem>Path</systemitem>
+statement containing <systemitem>Font</systemitem>,
+<systemitem>Family</systemitem>, and <systemitem>Margin</systemitem>
+attributes:
+</para>
+<literallayout>
+&lt;Path>
+CHAPTER&lt;/Path>
+&lt;Online>
+   &lt;Font  Fallback=sans  Weight=medium  Slant=roman Size=18>
+   &lt;Family  Name=helvetica  Charset=iso8859-1>
+   &lt;Margin  Left=6  Right=12  Top=18  Bottom=18>
+&lt;/Online>
+&lt;Print>
+   &lt;Font  Fallback=sans  Weight=medium  Slant=roman  Size=24>
+   &lt;Family  Name=helvetica  Charset=iso8859-1>
+   &lt;Margin  Left=18  Right=18  Top=18  Bottom=18>
+&lt;/Print>
+</literallayout>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n4llcmnc770hp2ol">Position</title>
+<!--per Rivers, needs more info-->
+<para>
+The <systemitem>Position</systemitem> feature
+is used with the <systemitem>Wrap</systemitem>
+attribute of the <link linkend="jjpipbbc3h9x3cs">Layout</link>
+feature to specify where the current element should start relative
+to the defined margins, and how text should flow in the current
+and succeeding elements.
+</para>
+<programlisting>
+&lt;Position
+Horiz = {lcorner | left | lmargin | center | rcorner | Right | rmargin}
+Vert = {bottom | middle | top}>
+</programlisting>
+<para>
+The <systemitem>Position</systemitem>
+feature is not inherited.
+</para>
+</sect2>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="cwccmncd70hp2ol">Print-specific Features</title>
+<para>
+The style sheet features described in this section&mdash;
+<link linkend="n4kpipbbc3h9x3cs"><systemitem>Medium</systemitem></link>, and
+<link linkend="r74dmncp70hp2ol"><systemitem>PageBreak</systemitem></link>&mdash; are specific
+to Information Manager print functionality.
+</para>
+
+<!--))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n4kpipbbc3h9x3cs">Medium</title>
+<!-- per Rivers, values need to be checked)-->
+<para>
+The <systemitem>Medium</systemitem> feature
+specifies the orientation and size of the print medium. The
+<systemitem>Medium</systemitem> feature is <link linkend="pgqaykbbgsg24ak">
+inherited</link> and should be
+specified at the root-level of an element hierarchy.
+</para>
+<programlisting>
+&lt;Medium
+Orientation = {landscape | portrait}
+</programlisting>
+<para>
+The <systemitem>Medium</systemitem> feature
+has an <systemitem>Orientation</systemitem> attribute,
+which specifies the orientation of the text on the printed
+page. Values for the <systemitem>Orientation</systemitem>
+attribute are <systemitem>landscape</systemitem>
+and <systemitem>portrait</systemitem>.
+</para>
+<para>
+Here is an example <systemitem>&lt;Path></systemitem>
+statement using the <systemitem>Medium</systemitem>
+feature:
+</para>
+<literallayout>
+&lt;path>CHAPTER
+&lt;/path>
+&lt;print>
+   &lt;Medium Orientation="portrait">
+&lt;/print>
+</literallayout>
+</sect2>
+<!--((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="r74dmncp70hp2ol">PageBreak</title>
+<para>
+The PageBreak feature inserts a page break before and/or after
+the current element. The syntax is:
+</para>
+<programlisting>
+&lt;PageBreak {before | after | both}>
+</programlisting>
+<para>
+The three possible values for <systemitem>PageBreak</systemitem>
+are:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>before</systemitem></term>
+<listitem>
+<para>
+Inserts a page break before the current element.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>after</systemitem></term>
+<listitem>
+<para>
+Inserts a page break after the current element.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>both</systemitem></term>
+<listitem>
+<para>
+Inserts a page break both before and after the current
+element.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+The <systemitem>PageBreak</systemitem> feature
+is not inherited.
+</para>
+<para>
+This example uses <systemitem>PageBreak</systemitem>
+with a value of <systemitem>before</systemitem>:
+</para>
+<literallayout>
+&lt;Path>SECT1 TITLE
+&lt;/Path>
+&lt;Print>
+   &lt;PageBreak  before>
+   &lt;Font  size=30 weight=bold>
+&lt;/Print>
+</literallayout>
+</sect2>
+</sect1>
+<!--))))))))))))))))))))))))))))))))))))))#####-->
+<sect1>
+<title id="y.9dmncv70hp2ol">Table Features</title>
+<para>
+The style sheet features described in this section&mdash;
+<link linkend="n0sodmncn70hp2ol">Table</link>,
+<link linkend="qjpipbbc3h9x3cs">ColFormat</link>,
+<link linkend="w9jdmnch70hp2ol">Row</link>,
+<link linkend="yrddmncb70hp2ol">Cell</link>
+ColSep, Frame, and Rowsep
+&mdash; are related to
+the formatting of
+Information Manager tables. A set of <systemitem>Path</systemitem>
+statements illustrating the use of the set of
+<systemitem>Table</systemitem> features is provided at
+the end of the section. (See <link linkend="gwugepcem0hp2ol">Table
+Example</link>.)
+</para>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n0sodmncn70hp2ol">Table</title>
+<para>
+The <systemitem>Table</systemitem> feature
+is used to format a two-dimensional grid. The style sheet parsing
+cannot check for the use of <systemitem>Cell</systemitem>,
+<systemitem>ColFormat</systemitem>, or <systemitem>Row</systemitem>
+features on child elements
+of any element where <systemitem>Table</systemitem>
+is used. Users must verify these features manually.
+<systemitem>Table</systemitem> syntax is:
+</para>
+<programlisting>
+&lt;Table
+ColSep = "integer"
+Frame ={ Top | Bottom | TopBot | Sides | All | None }
+RowSep = "integer"
+>
+</programlisting>
+<para>
+The <systemitem>Table</systemitem> feature
+has the following attributes:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>ColSep</systemitem></term>
+<listitem>
+<para>The <systemitem>ColSep</systemitem> attribute specifies whether or not a vertical
+rule (line) is to be displayed at the right edge of the cells in the table. A value
+of 0 indicates false, any integer other than 0 indicates true.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Frame</systemitem></term>
+<listitem>
+<para>The <systemitem>Frame</systemitem> attribute controls the placement
+of rulings (lines) around the outer edges of the
+TGroups that form the body of a Table. There are three primitive values
+(<literal>Top</literal>, <literal>Bottom</literal>,
+<literal>None</literal>), and three compound values (<literal>TopBot</literal>,
+<literal>Sides</literal>, <literal>All</literal>). The default is <literal>None</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Rowsep</systemitem></term>
+<listitem>
+<para>The <systemitem>Rowsep</systemitem> attribute specifies whether or not a horizontal
+rule (line) is to be displayed at the bottom edge of
+cells in the table. A value of 0 indicates false, any integer other than 0 indicates true.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<literallayout>
+&lt;Path>
+TABLE&lt;/Path>
+&lt;Online>
+   &lt;Table Cols=3>
+&lt;/Online>
+&lt;Print>
+   &lt;Table Cols=3>
+&lt;/Print>
+</literallayout>
+<para>
+The <systemitem>Table</systemitem> feature is not inherited.
+</para>
+</sect2>
+
+<!--))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="tgrxxx">TGroup</title>
+<para>The <systemitem>TGroup</systemitem> feature specifies the formatting
+for a portion of a table. Note that the style sheet parser cannot check for the
+use of <systemitem>Cell</systemitem>, <systemitem>ColFormat</systemitem>, or <systemitem>Row</systemitem>
+features on child elements of the element where
+<systemitem>TGroup</systemitem> is used, so users must check manually.
+</para>
+<para>
+The TGroup feature has the following attributes:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>CharAlign</systemitem></term>
+<listitem>
+<para>The <systemitem>CharAlign</systemitem> attribute specifies the character to use as the
+alignment point within cells if the
+TGroup's <systemitem>Justify</systemitem> attribute is set to <literal>Char</literal>.
+The default is the period character.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>ColSep</systemitem></term>
+<listitem>
+<para>The <systemitem>ColSep</systemitem> attribute specifies whether or not a
+vertical rule (line) is to be displayed at the right edge of cells
+in the table. A value of 0 indicates false, any integer other than 0 indicates true.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>Justify</systemitem></term>
+<listitem>
+<para>The <systemitem>Justify</systemitem> attribute specifies horizontal alignment of
+text in the cells of the table. For <literal>Left</literal>, textlines are
+aligned along the left margin and ragged on the right. For <literal>Right</literal>,
+textlines are aligned along the right margin and ragged on the left. For <literal>Center</literal>,
+textlines are ragged on both margins and aligned along the center of the element. The <literal>Char</literal> option aligns
+text&mdash; usually numbers&mdash; with two characters in each line to the right of the character
+specified by the CharAlign attribute, and the rest of the line to the left. The default value for the <systemitem>Justify</systemitem>
+attribute is Left. Note that CALS tables specify a value of "justify"
+(meaning both left- and right-aligned text)&mdash; this is not supported.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>RowSep</systemitem></term>
+<listitem>
+<para>The <systemitem>RowSep</systemitem> attribute specifies whether or not a
+horizontal rule (line) is to be displayed at the bottom edge of
+cells in the table. A value of 0 indicates false, any integer other than 0 indicates true.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>VJustify</systemitem></term>
+<listitem>
+<para>The <systemitem>VJustify</systemitem> attribute specifies vertical positioning
+of the content of cells in the table. The differences
+among the three settings are only noticeable for cells whose content
+does not fill the cell from top
+to bottom. For <literal>Top</literal>, the content is started at the top of a cell and
+may complete before the bottom
+of the cell. For <literal>Bottom</literal>, the content ends at the bottom of a cell;
+there may be unused space above the content. For <literal>Middle</literal>, the content is vertically centered in a cell.
+The default value for the <systemitem>VJstify</systemitem> attribute is <literal>Top</literal>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<programlisting>
+&lt;TGroup
+ CharAlign = "char"
+ ColSep = "integer"
+ Justify = { Left | Right | Center | Char }
+ RowSep = "integer"
+ VJustify = { Top | Middle | Bottom }
+>
+</programlisting>
+<para>
+The <systemitem>TGroup</systemitem> feature is not inherited.
+</para>
+
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="qjpipbbc3h9x3cs">ColFormat</title>
+<para>
+The <systemitem>ColFormat</systemitem> feature
+specifies the formatting for individual columns in a table. You
+use one <systemitem>ColFormat</systemitem> feature
+for each column in the table, in left-to-right order. If a table
+instance has 10 columns and the containing <systemitem>Table</systemitem>
+element (which uses the <systemitem>Table</systemitem>
+feature) has <systemitem>ColFormat</systemitem>
+features for only 8 of the columns, the last two columns get the
+default values of the last specified <systemitem>ColFormat</systemitem>
+feature.
+</para>
+<programlisting>
+&lt;ColFormat
+ Charalign = "<replaceable>char</replaceable>"
+ ColSep = "integer"
+ Justify = {left | right | center | char}
+ Name = "<replaceable>string</replaceable>"
+ RowSep = "integer"
+ Width = [0-9]+
+>
+</programlisting>
+<para>
+The <systemitem>ColFormat</systemitem> feature
+has the following attributes:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Charalign</systemitem></term>
+<listitem>
+<para>
+Specifies the character to use in columns where
+the <systemitem>Justify</systemitem> attribute
+is set to <systemitem>Char</systemitem>. The default
+is the period (.) character.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColSep</systemitem></term>
+<listitem>
+<para>
+The <systemitem>ColSep</systemitem> attribute specifies whether or not a vertical rule (line)
+is to be displayed at the right edge of cells in columns that use this format.
+A value of 0 indicates false, any integer other than 0 indicates true.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>Justify</systemitem></term>
+<listitem>
+<para>
+Specifies how to handle text lines in the column.
+Possible values are:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>left</systemitem></term>
+<listitem>
+<para>
+Aligns the text to the left margin. The right margin
+runs ragged.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>right</systemitem></term>
+<listitem>
+<para>
+Aligns the text to the right margin. The left margin
+runs ragged.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>center</systemitem></term>
+<listitem>
+<para>
+Aligns the text to the center of the element. The
+left and right margins run ragged.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>char</systemitem></term>
+<listitem>
+<para>
+Aligns text, usually numbers, with two characters
+in each line to the right of the character specified by the
+<systemitem>CharAlign</systemitem> attribute. The rest
+of the characters align left.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>
+The default value for the <systemitem>Justify</systemitem>
+attribute is <systemitem>left</systemitem> in
+Information Manager, unlike
+CALS tables, in which the <systemitem>justify</systemitem>
+attribute value specifies left and right alignment.
+</para>
+</note>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Name</systemitem></term>
+<listitem>
+<para>The <systemitem>Name</systemitem>
+attribute is a string that is used by the <systemitem>Cell</systemitem>
+feature to reference the particular column formatting
+(<systemitem>ColFormat</systemitem>) attributes to use.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>RowSep</systemitem></term>
+<listitem>
+<para>
+The <systemitem>RowSep</systemitem> attribute specifies whether or not a horizontal rule (line)
+is to be displayed at the bottom edge of cells in columns that use this format.
+A value of 0 indicates false, any integer other than 0 indicates true.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Width</systemitem></term>
+<listitem>
+<para>
+The <systemitem>Width</systemitem>
+attribute specifies the width of the column relative to other columns.
+</para>
+<para>
+For example, if three column formats are referenced from a
+row, their width values divided by their total widths will determine
+the amount of space used. Thus, if column A has a width value of
+90, and columns B and C each have width values of 180, column A
+will be formatted to use 20% (90/450).
+</para>
+<para>
+If the <systemitem>Width</systemitem> attribute
+is not specified, the rows of the column instance are examined,
+and the widest segment found there is used as the default width
+of that column.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+The <systemitem>ColFormat</systemitem> feature
+is not inherited.
+</para>
+<para>
+Here is an example of a path statement using the <systemitem>ColFormat</systemitem> feature:
+</para>
+<literallayout>
+&lt;Path>
+TABLE&lt;/Path>
+&lt;Online>
+   &lt;ColFormat Cols=3  Justify=left  Name="column1"  Width=90>
+&lt;/Online>
+&lt;Print>
+   &lt;ColFormat Cols=3  Justify=left  Name="column1"  Width=90>
+&lt;/Print>
+</literallayout>
+</sect2>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="w9jdmnch70hp2ol">Row</title>
+<para>
+The <systemitem>Row</systemitem> feature
+identifies the beginning of a row, typically in a table. It can
+be used with <systemitem>Cell</systemitem> and
+<systemitem>Table</systemitem>.
+</para>
+<programlisting>
+&lt;Row>
+</programlisting>
+
+<programlisting>
+&lt;Row
+ RowSep = "integer"
+ VJustify = { Top | Middle | Bottom }
+>
+</programlisting>
+<para>
+The <systemitem>Row</systemitem> feature
+has the following attributes:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Rowsep</systemitem></term>
+<listitem>
+<para>
+RowSep specifies whether or not a horizontal rule (line) is to be displayed at the bottom edge of
+cells in the row. A value of 0 indicates false, any integer other than 0 indicates true.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>VJustify</systemitem></term>
+<listitem>
+<para>
+The <systemitem>VJustify</systemitem> attribute specifies vertical positioning of the content of cells in the row. The differences among
+the three settings are only noticeable for cells whose content does not fill the cell from top to
+bottom. For <literal>Top</literal>, the content is started at the top of a cell and may complete before the bottom of
+the cell. For <literal>Bottom</literal>, the content ends at the bottom of a cell; there may be unused space above
+the content. For <literal>Middle</literal>, the content is vertically centered in a cell. The default value for the
+<systemitem>VJustify</systemitem> attribute is <literal>Top</literal>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+The <systemitem>Row</systemitem> feature is not inherited.
+</para>
+<literallayout>
+&lt;Path>ROW
+&lt;/Path>
+&lt;Online>
+   &lt;Row>
+&lt;/Online>
+&lt;Print>
+   &lt;Row>
+&lt;/Print>
+</literallayout>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="yrddmncb70hp2ol">Cell</title>
+<para>
+The <systemitem>Cell</systemitem> feature specifies the formatting to
+use for a cell. It also identifies the beginning of the cell and defines
+its horizontal and vertical spans.
+</para>
+<programlisting>
+&lt;Cell
+ CharAlign = "char"
+ ColRef = "string"
+ ColSep = "integer"
+ ColStart = "string"
+ ColEnd = "string"
+ Justify = { Left | Right | Center | Char }
+ SpanRows = [0-9]+
+ VJustify = { Top | Middle | Bottom }
+</programlisting>
+<para>
+The <systemitem>Cell</systemitem> feature
+has the following attributes:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>CharAlign</systemitem></term>
+<listitem><para>The <systemitem></systemitem>
+attribute specifies the character to use as the alignment point in cells where the Justify
+attribute is set to Char. The default is the period (.) character.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColRef</systemitem></term>
+<listitem>
+<para>The <systemitem>ColRef</systemitem>
+attribute is a string that references the name of the column format
+(<link linkend="qjpipbbc3h9x3cs">ColFormat</link>) to use for
+formatting the cell.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColSep</systemitem></term>
+<listitem><para>The <systemitem>ColSep</systemitem>
+attribute specifies whether or not a vertical rule (line) is to be displayed at the right edge of the
+cell. A value of 0 indicates false, any integer other than 0 indicates true.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColStart</systemitem></term>
+<listitem><para>The <systemitem>ColStart</systemitem> attribute refers to the column
+(defined by the named <systemitem>ColFormat</systemitem>)
+to use as the starting
+(leftmost) column for a horizontally-spanned cell. If <systemitem>ColEnd</systemitem> isn't also specified,
+<systemitem>ColStart</systemitem> serves the same purpose as <systemitem>ColRef</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>ColEnd</systemitem></term>
+<listitem><para>The <systemitem>ColEnd</systemitem> attribute
+refers to the column (defined by the named <systemitem>ColFormat</systemitem>) to use as the rightmost
+column for a horizontally-spanned cell. Ignored if <systemitem>ColStart</systemitem> isn't also specified.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Justify</systemitem></term>
+<listitem><para>The <systemitem>Justify</systemitem> attribute specifies
+horizontal alignment of text in the cell. For <literal>Left</literal>, textlines are aligned along
+the left margin and ragged on the right. For <literal>Right</literal>, textlines are aligned along the right margin
+and ragged on the left. For <literal>Center</literal>, textlines are ragged on both margins and aligned along the
+center of the element. The <literal>Char</literal> option aligns text&mdash; usually numbers&mdash; with two characters in
+each line to the right of the character specified by the <systemitem>CharAlign</systemitem> attribute, and the rest of the
+line to the left. The default value for the <systemitem>Justify</systemitem> attribute is <literal>Left</literal>. Note that CALS tables
+specify a value of "justify" (meaning both left- and right-aligned text)&mdash; this is not supported.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>SpanRows</systemitem></term>
+<listitem>
+<para>The <systemitem>SpanRows</systemitem>
+attribute specifies the vertical span of the cell. The value of
+<systemitem>SpanRows</systemitem> must be a positive
+number. The default is 1.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>RowSep</systemitem></term>
+<listitem><para>The <systemitem>RowSep</systemitem> attribute specifies
+whether or not a horizontal rule (line) is to be displayed at the bottom edge of
+the cell. A value of 0 indicates false, any integer other than 0 indicates true.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>VJustify</systemitem></term>
+<listitem><para>The <systemitem>VJustify</systemitem> attribute specifies
+vertical positioning of cell content. The differences among the three settings
+are only noticeable for cells whose content does not fill the cell from top to bottom. For <literal>Top</literal>, the
+content is started at the top of the cell and may complete before the bottom of the cell. For
+<literal>Bottom</literal>, the content ends at the bottom of the cell; there may be unused space above the content.
+For <literal>Middle</literal>, the content is vertically centered in the cell. The default value for the <systemitem>VJustify</systemitem>
+attribute is <literal>Top</literal>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+The <systemitem>Cell</systemitem> feature
+can be used with the <link linkend="w9jdmnch70hp2ol">Row</link>
+and <link linkend="n0sodmncn70hp2ol">Table</link> features.
+If a single element implies the beginning of a table, row, and cell,
+all three features can be used.
+</para>
+<para>
+The <systemitem>Cell</systemitem> feature
+is not inherited.
+</para>
+<literallayout>
+&lt;Path>TABLE
+&lt;/Path>
+&lt;Online>
+   &lt;Cell  ColRef="column1"  SpanCols=1  SpanRows=1>
+&lt;/Online>
+&lt;Print>
+   &lt;Cell  ColRef="column1"  SpanCols=1  SpanRows=1>
+&lt;/Print>
+</literallayout>
+<para>
+The following set of <systemitem>Path</systemitem>
+statements illustrates how a table might be specified in a style
+sheet. The example uses attribute references to assign values to
+the table-related features. These values would be specified in other
+elements in the document.
+</para>
+<example>
+<title id="gwugepcem0hp2ol">Table Example</title>
+<literallayout>
+&lt;Path>TABLE
+&lt;/Path>
+&lt;Online>
+   &lt;Border display="@frame">
+&lt;/Online>
+
+&lt;Path>TGROUP
+&lt;/Path>
+&lt;Online>
+   &lt;Table Cols="@cols">
+&lt;/Online>
+
+&lt;Path>COLSPEC
+&lt;/Path>
+&lt;Online>
+   &lt;ColFormat Justify="@align" Name="@colname" Width="@colwidth">
+&lt;/Online>
+
+&lt;Path>TBODY
+&lt;/Path>
+&lt;Online>
+   &lt;Border
+   display=all>
+&lt;/Online>
+
+&lt;Path>ROW
+&lt;/Path>
+&lt;Online>
+   &lt;Row>
+&lt;/Online>
+
+&lt;Path>ENTRY
+&lt;/Path>
+&lt;Online>
+   &lt;Cell  ColRef="@colname"  SpanCols="@nameend -  @namest + 1" SpanRows="@morerows + 1>
+   &lt;border display=all>
+&lt;/Online>
+</literallayout>
+</example>
+</sect2>
+</sect1>
+<!--))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="n38xdmnct70hp2ol">Other Features</title>
+<para>
+The style sheet features described in this section are
+<link linkend="dq2emncz70hp2ol">Border</link>,
+
+<link linkend="djpipbbc3h9x3cs">Ignore</link>, and
+<link linkend="n9kpipbbc3h9x3cs">Prefix and Suffix</link>.
+</para>
+<!--)))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="dq2emncz70hp2ol">Border</title>
+<para>
+The <systemitem>Border</systemitem> feature is used to
+draw rule lines at the outside
+edges of an element. Its syntax is:
+</para>
+<programlisting>
+&lt;Border
+ Display = {bottom | left | right | top | all | horiz | vert }
+ Thickness = [0-9]+>
+</programlisting>
+<para>
+The <systemitem>Border</systemitem> feature
+has the following attributes:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>Display</systemitem></term>
+<listitem>
+<para>
+The <systemitem>Display</systemitem>
+attribute accepts the following values:
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>bottom</systemitem></term>
+<listitem>
+<para>
+Specifies a rule line below the element.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>left</systemitem></term>
+<listitem>
+<para>
+Specifies a rule line to the left of the element.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>right</systemitem></term>
+<listitem>
+<para>
+Specifies a rule line to the right of the element.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>top</systemitem></term>
+<listitem>
+<para>
+Specifies a rule line above the element.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>all</systemitem></term>
+<listitem>
+<para>
+This compound value specifies rule lines above,
+below, and to the right and left of the element.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>horiz</systemitem></term>
+<listitem>
+<para>
+This compound value specifies rule lines above and
+below the element.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><systemitem>vert</systemitem></term>
+<listitem>
+<para>
+This compound value specifies rule lines to the
+left and right of the element.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>Thickness</systemitem></term>
+<listitem>
+<para>
+Specifies the line weight of the border in points. The value
+of <systemitem>Thickness</systemitem> must be
+a positive number.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+The <systemitem>Border</systemitem> feature
+is not inherited.
+</para>
+<para>
+This example <systemitem>Path</systemitem>
+statement displays a 2-point border around the LINK element.
+</para>
+<literallayout>
+&lt;Path>
+LINK&lt;/Path>
+&lt;Online>
+   &lt;Border  Display=all  Thickness=2>
+&lt;/Online>
+&lt;Print>
+   &lt;Border  Display=al  Thickness=2>
+&lt;/Print>
+</literallayout>
+</sect2>
+
+<!--)))))))))))))))))))))))))))))))))))))))-->
+
+<sect2>
+<title id="djpipbbc3h9x3cs">Ignore</title>
+<para>
+<systemitem>Ignore</systemitem> specifies
+whether the contents of the element are to be displayed or printed.
+Its syntax is:
+</para>
+<programlisting>
+&lt;Ignore
+>
+</programlisting>
+<para>This example <systemitem>Path</systemitem>
+statement specifies that text delimited by the VERSION
+element will not be displayed or printed.
+</para>
+<literallayout>
+&lt;Path>VERSION
+&lt;/Path>
+&lt;Online>
+   &lt;Ignore>
+&lt;/Online>
+&lt;Print>
+   &lt;Ignore>
+&lt;/Print>
+</literallayout>
+<note>
+<para>
+The <systemitem>DTINFO.Ignore</systemitem> architectural form prevents an element
+and its contents from being placed in the full-text index and document
+database. The Ignore feature also prevents the content from being
+rendered. For more information, see <link linkend="infoapg.div.9">Understanding
+Architectural Forms</link>.
+</para>
+</note>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n9kpipbbc3h9x3cs">Prefix and Suffix</title>
+<para>
+The <systemitem>Prefix</systemitem> and
+<systemitem>Suffix</systemitem> features add constant
+text before and after the content of an element. Each instance of
+a <systemitem>Prefix</systemitem> or <systemitem>Suffix</systemitem>
+feature must include one
+<systemitem>Content</systemitem> subfeature and
+any number of additional <systemitem>allowed</systemitem>
+features.
+</para>
+<programlisting>
+&lt;Prefix>
+ &lt;Content>
+ {#PCDATA | Auto}+ &lt;/content>
+ <replaceable>allowed features</replaceable>
+&lt;/Prefix>
+&lt;Suffix>
+ &lt;Content>
+ {#PCDATA | Auto}+ &lt;/content>
+ <replaceable>allowed features</replaceable>
+&lt;/Suffix>
+</programlisting>
+<para>
+<systemitem>Prefix</systemitem> and <systemitem>Suffix</systemitem>
+features are not inherited.
+</para>
+<!--(((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect3>
+<title id="s75skocwg0hp2ol">Content Subfeature and Allowed
+Features for Prefix and Suffix</title>
+<para>
+The <systemitem>Content</systemitem> subfeature
+can contain any combination of text or system-generated number tokens.
+</para>
+<para>
+To specify a system-generated number token, use the
+<systemitem>Auto</systemitem> subfeature, which has one
+required attribute&mdash; <replaceable>ID</replaceable>.
+The <replaceable>ID</replaceable>
+in this case is the name of the number token specified with the
+<systemitem>AutoNumber</systemitem>
+feature. Use both start and end tags when using the
+<systemitem>Content</systemitem> subfeature.
+</para>
+<para>
+You can specify the following allowed features in a
+<systemitem>Prefix</systemitem> or <systemitem>Suffix</systemitem> feature.
+</para>
+<itemizedlist>
+
+<listitem>
+<para><link linkend="n6jpipbbc3h9x3cs">Font</link></para>
+</listitem>
+<listitem>
+<para><link linkend="ujpipbbc3h9x3cs">HighLight</link></para>
+</listitem>
+<listitem>
+<para><link linkend="jjpipbbc3h9x3cs">Layout</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n0jpipbbc3h9x3cs">LineBreak</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n4llcmnc770hp2ol">Position</link></para>
+</listitem>
+</itemizedlist>
+<para>
+This example shows a <systemitem>Prefix</systemitem>
+and <systemitem>Suffix</systemitem> for the CAUTION element:
+</para>
+<literallayout>
+&lt;Path>CAUTION
+&lt;Path/>
+&lt;Online>
+   &lt;Prefix>
+   &lt;Content>CAUTION:
+   &lt;/Content>
+   &lt;Font Weight=bold size=14>
+   &lt;Layout LIndent=6 ASpace=6>
+   &lt;Linebreak both>
+   &lt;Highlight Underline=true>
+   &lt;/Prefix>
+&lt;/Online>
+&lt;Print>
+   &lt;Prefix>
+   &lt;Content>CAUTION:
+   &lt;/Content>
+   &lt;Font Weight=bold size=14>
+   &lt;Layout LIndent=6 ASpace=6>
+   &lt;Linebreak both>
+   &lt;Highlight Underline=true>
+   &lt;/Prefix>
+&lt;/Print>
+
+&lt;Path>CAUTION&lt;Path/>
+&lt;Online>
+   &lt;Suffix>&lt;Content>CAUTION:
+   &lt;/Content>
+   &lt;Font Weight=bold size=14>
+   &lt;Layout LIndent=6 ASpace=6>
+   &lt;Linebreak both>
+   &lt;Highlight Underline=true>
+   &lt;/Suffix>
+&lt;/Online>
+&lt;Print>
+   &lt;Suffix>
+   &lt;Content>WARRANTY ALERT
+   &lt;/Content>
+   &lt;Font Weight=bold Size=14>
+   &lt;Layout LIndent=6 ASpace=6>
+   &lt;Linebreak both>
+   &lt;Highlight Underline=true>
+   &lt;/SUFFIX>
+&lt;/Print>
+</literallayout>
+</sect3>
+</sect2>
+</sect1>
+</chapter>

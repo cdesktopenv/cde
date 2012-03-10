@@ -1,0 +1,180 @@
+set prototyped
+tst stat_ver sys/types.h sys/stat.h com{
+	#if _STAT_VER > 0
+	int i;
+	#else
+	)
+	#endif
+}end pass{
+	cat <<!
+	#define _ver_fstat	_fxstat
+	#define _ver_FSTAT	_FXSTAT
+	#define _ver_lstat	_lxstat
+	#define _ver_LSTAT	_LXSTAT
+	#define _ver_stat	_xstat
+	#define _ver_STAT	_XSTAT
+	!
+}end
+tst mknod_ver sys/types.h sys/stat.h com{
+	#if _MKNOD_VER > 0
+	int i;
+	#else
+	)
+	#endif
+}end pass{
+	cat <<!
+	#define _ver_mknod	_xmknod
+	#define _ver_MKNOD	_XMKNOD
+	!
+}end
+cat{
+	#if defined(__uxp__)
+	#include <sys/types.h>
+	#include <sys/mkdev.h>
+	#endif
+	#ifndef _def_param_lcl
+	#ifndef S_ISUID
+	#if !defined(_AST_H) && !defined(_TM_H)
+	#include <sys/types.h>
+	#endif
+	#if defined(__STDPP__directive) && defined(__STDPP__hide)
+	#if !defined(_ver_mknod)
+	__STDPP__directive pragma pp:hide mknod
+	#endif
+	#if !defined(_ver_stat)
+	__STDPP__directive pragma pp:hide fstat lstat
+	#endif
+	__STDPP__directive pragma pp:hide chmod mkdir mkfifo umask
+	#else
+	#if !defined(_ver_mknod)
+	#define mknod ______mknod
+	#endif
+	#if !defined(_ver_stat)
+	#define fstat ______fstat
+	#define lstat ______lstat
+	#endif
+	#define chmod ______chmod
+	#define mkdir ______mkdir
+	#define mkfifo ______mkfifo
+	#define umask ______umask
+	#endif
+	#include <sys/stat.h>
+	#if defined(__STDPP__directive) && defined(__STDPP__hide)
+	#if !defined(_ver_mknod)
+	__STDPP__directive pragma pp:nohide mknod
+	#endif
+	#if !defined(_ver_stat)
+	__STDPP__directive pragma pp:nohide fstat lstat
+	#endif
+	__STDPP__directive pragma pp:nohide chmod mkdir mkfifo umask
+	#else
+	#if !defined(_ver_mknod)
+	#undef	mknod
+	#endif
+	#if !defined(_ver_stat)
+	#undef	fstat
+	#undef	lstat
+	#endif
+	#undef	chmod
+	#undef	mkdir
+	#undef	mkfifo
+	#undef	umask
+	#endif
+	#endif
+	#endif
+	#define FS_default	"ufs"
+}end
+mac{
+	#include <sys/types.h>
+	#include <sys/stat.h>
+	#ifndef major
+	#include <sys/param.h>
+	#ifndef major
+	#include <sys/sysmacros.h>
+	#endif
+	<<"#if defined(__STDPP__directive) && defined(__STDPP__initial)">>
+	<<"__STDPP__directive pragma pp:initial">>
+	<<"#endif">>
+	<<"#ifndef major">>
+	#ifdef major
+	<<"#define major(x)">> major((x))
+	#else
+	<<"#define major(x)">> ((int)(((unsigned)(x)>>8)&0377))
+	#endif
+	<<"#endif">>
+	<<"#ifndef minor">>
+	#ifdef minor
+	<<"#define minor(x)">> minor((x))
+	#else
+	<<"#define minor(x)">> ((int)((x)&0377))
+	#endif
+	<<"#endif">>
+	<<"#ifndef makedev">>
+	#ifdef makedev
+	<<"#define makedev(x,y)">> makedev((x),(y))
+	#else
+	<<"#define makedev(x,y)">> ((dev_t)((((x)&0377)<<8)|((y)&0377)))
+	#endif
+	<<"#endif">>
+	#endif
+	<<"#if defined(__STDPP__directive) && defined(__STDPP__initial)">>
+	<<"__STDPP__directive pragma pp:noinitial">>
+	<<"#endif">>
+}end fail{
+	cat <<!
+	#ifndef major
+	#define major(x)	((int)(((unsigned)(x)>>8)&0377))
+	#endif
+	#ifndef minor
+	#define minor(x)	((int)((x)&0377))
+	#endif
+	#ifndef makedev
+	#define makedev(x,y)	((dev_t)((((x)&0377)<<8)|((y)&0377)))
+	#endif
+	!
+}end
+mem stat.st_blocks,stat.st_blksize,stat.st_rdev sys/types.h sys/stat.h
+mem statfs.f_files,statfs.f_bavail sys/types.h sys/mount.h sys/statfs.h sys/vfs.h
+hdr mntent,mnttab
+lib getmntent,statfs,statvfs
+sys mount,statfs,statvfs,vfs
+cat{
+	#if _sys_statvfs
+	#include <sys/statvfs.h>
+	#else
+	struct statvfs
+	{
+	unsigned long	f_bsize;	/* fundamental file system block size */
+	unsigned long	f_frsize;	/* fragment size */
+	unsigned long	f_blocks;	/* total # of blocks of f_frsize on fs */
+	unsigned long	f_bfree;	/* total # of free blocks of f_frsize */
+	unsigned long	f_bavail;	/* # of free blocks avail to non-superuser */
+	unsigned long	f_files;	/* total # of file nodes (inodes) */
+	unsigned long	f_ffree;	/* total # of free file nodes */
+	unsigned long	f_favail;	/* # of free nodes avail to non-superuser */
+	unsigned long	f_fsid;		/* file system id (dev for now) */
+	char		f_basetype[16]; /* target fs type name, null-terminated */
+	unsigned long	f_flag;		/* bit-mask of flags */
+	unsigned long	f_namemax;	/* maximum file name length */
+	char		f_fstr[32];	/* filesystem-specific string */
+	unsigned long	f_filler[16];	/* reserved for future expansion */
+	};
+	extern int	fstatvfs(int, struct statvfs*);
+	extern int	statvfs(const char*, struct statvfs*);
+	#endif
+}end
+str st_fstype sys/types.h sys/stat.h com{
+	int f(st){struct stat* st;return st->st_fstype[0];}
+}end
+int st_fstype sys/types.h sys/stat.h com{
+	int f(st){struct stat* st;return st->st_fstype = 1;}
+}end
+int st_spare1 sys/types.h sys/stat.h com{
+	int f(st){struct stat* st;return st->st_spare1 = 1;}
+}end
+ary st_spare4 sys/types.h sys/stat.h com{
+	int f(st){struct stat* st;return st->st_spare4[0] = 1;}
+}end
+ary st_pad4 sys/types.h sys/stat.h com{
+	int f(st){struct stat* st;return st->st_pad4[0] = 1;}
+}end

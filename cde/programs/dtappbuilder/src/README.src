@@ -1,0 +1,248 @@
+%W% %G%
+
+$XConsortium: README.src /main/3 1995/11/06 17:09:47 rswiston $
+
+CDE1.0 Application Builder Source Code Documentation
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+
+This document describes the structure & style guidelines for the source
+code of the CDE1.0 Application Builder reference implementation.  This
+document covers:
+	
+  I. Source Architecture (libraries & dependencies)
+ II. Source Directory Structure
+III. Style Guidelines
+	A. Files (.h & .c)
+	    i. naming
+	   ii. structure
+	B. Functions
+	    i. naming
+	   ii. return values
+	C. Data
+	    i. naming
+
+
+
+I. Source Architecture
+----------------------
+
+The Application Builder consists of 2 independent (but tightly
+integrated) executables:
+	. The AB Front-end (ab):  the GUI which is used to 'build'
+	  the GUI & application-framework definitions for a CDE
+	  application and write them out into BIL (Builder Interchage
+	  Language) files.
+
+	. The AB Code-generator (abmf): the engine which interprets
+	  the BIL files and generates the appropriate Motif/CDE
+	  C code/resource files/etc.
+
+Both of these executables are based on a common internal mechanism
+which is implemented in a set of separate libraries.  Each library
+is composed of one or more logical modules.
+
+
+			libAButil
+			    |	
+	   ----------------------------------
+	   |	|		|	    |		  	
+	   |	|	     libABobj	    |		
+	   |	|		|	    |				
+	   |	|       ------------------  |		
+	   |    |    	|     |	         |  | 		
+	   |   libABobjXm     |	        libABil	
+	   |        |         |		   |		
+	   |        |         |		   |		
+	   -----------------------------------
+		|		      |
+	    Front-end		 Code-generator
+	        ab . . . . . . . . . abmf
+
+
+1. libAButil -  Provides general purpose utility mechanisms used 
+		throughout the source code, including definitions of 
+		common types and an efficient string-handling 
+		mechanism. This library is window-system/toolkit
+		independent.
+
+2. libABobj  -  Provides core mechinism for storing the representation 
+		for an application (and the objects it contains) in 
+		memory.  This library is window-system/toolkit 
+		independent ("mechanism", NOT "policy").
+
+3. libABobjXm-  Provides engine which manipulates the libABobj data
+		structures in a way appropriate for, and dependent on, 
+		the Motif toolkit.  This library is heavily dependent 
+		on the X11 window-system & the Motif toolkit 
+		(implements the "policy" for libABobj).
+
+4. libABil   -  Provides the mechanism for translating the libABobj
+		data structures in memory to disk (reads/writes
+		BIL, UIL files).
+
+
+
+
+II. Source Directory Structure
+-------------------------------
+
+The source code for the CDE Application Builder is organized
+in a "flattened" structure corresponding to the architecture
+described above. The directory structure looks like the following:
+
+			/src
+			  |
+ -------------------------------------------------------------
+ |     |     |	    |	     |		|	   |	     |
+/ab  /abmf /doc  /include  /libABil /libABobj /libABobjXm  /libAButil
+		    |
+		------------
+		|	   |
+		ab/   ab_private/
+
+
+Each directory contains a Makefile, and all header & .c source
+files for its modules.  The "ab" & "ab_private" include directories
+contain symbolic links to the shared header files in each directory
+(make include-paths simpler!).
+
+Below is a desription of each directory & the modules it includes:
+
+ab:
+	pal-    implements the mainwindow palette of objects
+	ab -    manipulates the UI objects created by the user 
+		(create, resize, copy, etc)	
+	brws -  implements the AB Browser mechanism
+	conn -  implements the AB Connections manager
+	proj -  implements the AB Project mechanism
+	prop -  implements the AB Property Dialogs
+	help -  implements the AB Help Editor 
+	ttalk-  implements the AB ToolTalk Editor
+	abui -  implements UI utility routines used by all ab modules
+	abx  -  implements X utility routines used by all ab modules
+
+abmf:
+	abmf -  implements the code generator
+
+libABil:
+	abil -  implements generic interchange-language functions
+	bil  -  implements reading/writing BIL files
+	uil  -  implements reading/writing UIL files
+
+libABobj:
+	obj  -  implements the AB object data structures
+	trav -  implements the traversal mechanisms for the 'obj'
+		data structures
+
+libABobjXm:
+	objxm -  implements Motif-izing 'obj' data structures
+
+libAButil:
+	abio -  implements AB input/output routines
+	util  - implements general-purpose AB utilities
+	istr -  implements the AB string library
+	
+
+
+
+III. Style Guidelines
+---------------------
+
+Since the Application Builder is a large & complex application
+being developed by multiple engineers, a set of coding style
+conventions have been adopted in order to make the source more easily 
+readable.
+
+0. The general C programming style follows the Guidelines
+   outlined in the "The C++ Programming Style Guide Quick Reference"
+   (by HP & SunSoft) (except that indent is 4 spaces, not 8).
+
+A. Files
+   Each module consists of a single public header file, and one or
+   more private header & source files, as required.  
+
+   If the module contains a GUI (built with AB), then the module may
+   also include BIL & AB-generated-source files.
+
+   i. naming
+	a) All files for a module are prefixed by their module-name.
+	b) The public header file matches identically the module-name.
+	c) Any private header files are appended with a "P".
+
+	    e.g.  brws module -->>
+
+		  public header:    brws.h
+		  private headers:  brws_mthdsP.h
+		  source files:     brws.c, brws_mthds.c, ...
+
+		  bil files:	    brws.bil
+		  AB-generated:	    brws_ui.c, brws_stubs.c
+			
+   ii. structure
+	All header & source files generally follow the format contained 
+	in the "template.h" & "template.c" files present in each 
+	directory (see those files for details).
+
+
+B. Functions
+
+   Functions are categorized into 3 basic categories:
+      . public         : other modules/libraries may call them
+      . module-private : only files within the module may call them
+      . private        : static within a file 
+	    
+   i. naming
+	a) All public functions are prefixed with the module name*
+	b) All module-private functions are prefixed with the module
+	   name + "P"
+	c) All private functions do NOT have the module prefix,
+	   but have a unique and relatively meaningful name
+
+	     e.g. 
+		public:         objxm_instantiate_obj()
+	        module-private: objxmP_merge_args()
+		private:        destroy_widget_tree()
+
+  ii. return values
+	a) If a function does not return any specific data and is 
+	   relatively guaranteed to complete successfully, it is 
+	   defined as type "void".
+	b) Otherwise, it returns an "int" indicating the degree of 
+	   success in completing its task, with values >=0 defining
+	   success (the return codes defined in libAButil/[ABerror.h] 
+	   are used for consistency).   
+	
+
+C. Data
+
+   Data is categorized into 3 classes:
+      . global        : other modules within the library/directory can
+	                access them (AVOIDED WHENEVER POSSIBLE!)
+      . module-global : different files within a module may access
+      . private       : statically defined in a file
+
+   i. naming
+	a) All global data is prefixed with the module name, first
+	   letter capitalized
+ 	b) All module-global data is prefixed with the module name 
+	   + "P"
+	c) All private data is NOT prefixed, but should have a 
+	   unique and relatively meaningful name
+
+	    e.g.  
+		global:        Ab_project
+	    	module-global: abP_grid_size
+		private:       gbox_gc
+
+
+
+		   
+
+
+
+
+
+
+

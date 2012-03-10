@@ -1,0 +1,883 @@
+--  HP Tag Document-Type Definition
+    Copyright (c) Hewlett-Packard Company, 1987-1991
+    Version 1.23  (8/20/93)-with Calculator Additions
+    $XConsortium: hptag.dtd /main/2 1996/11/07 11:55:45 drk $
+--
+
+--  Standard pre-defined HP Tag Entities --
+  -- Math symbols --
+<!ENTITY minus SDATA > -- Minus sign --
+<!ENTITY pm SDATA > -- Plus or minus sign --
+<!ENTITY div SDATA > -- Division sign --
+<!ENTITY times SDATA > -- Multiplication sign --
+<!ENTITY leq SDATA >  -- Less than or equals sign --
+<!ENTITY geq SDATA >  -- Greater than or equals sign --
+<!ENTITY neq SDATA >  -- Not equals sign --
+
+  -- Special typographical symbols --
+<!ENTITY copy SDATA >
+<!ENTITY reg SDATA >
+<!ENTITY tm SDATA >
+<!ENTITY ellipsis SDATA >
+<!ENTITY pellipsis SDATA >
+<!ENTITY vellipsis SDATA >
+<!ENTITY a.m. SDATA >
+<!ENTITY p.m. SDATA >
+<!ENTITY minutes SDATA >
+<!ENTITY seconds SDATA >
+<!ENTITY deg SDATA >
+<!ENTITY squote SDATA >   -- Single quote, non-directional --
+<!ENTITY dquote SDATA >   -- Double quote, non-directional --
+<!ENTITY endash SDATA >
+<!ENTITY emdash SDATA >
+<!ENTITY vblank SDATA >  -- Visible blank for syntax descriptions --
+<!ENTITY cents SDATA >
+<!ENTITY sterling SDATA > -- Pound sterling --
+<!ENTITY m-d- PI >     -- Discretionary hyphen --
+<!ENTITY space SDATA > -- Unescaped significant space (for <ex>) --
+<!ENTITY sigspace SDATA > -- Significant space --
+<!ENTITY sigdash SDATA > -- Significant dash (hyphen) --
+<!ENTITY empty SDATA "">
+
+  -- Special technical symbols --
+<!ENTITY micro SDATA >
+<!ENTITY ohm SDATA >
+
+  -- Keycap arrows --
+<!ENTITY up SDATA >
+<!ENTITY down SDATA >
+<!ENTITY left SDATA >
+<!ENTITY right SDATA >
+<!ENTITY home SDATA >
+<!ENTITY back SDATA >
+
+  -- Miscellaneous entities --
+<!ENTITY date SDATA >
+<!ENTITY time SDATA >
+<!ENTITY halfspace SDATA >
+
+  -- Entities for service documentation --
+--<!ENTITY INSTMAN SDATA >
+<!ENTITY HAZVOLT SDATA >
+<!ENTITY GROUND SDATA >
+<!ENTITY DCVOLT SDATA >
+<!ENTITY NEGPULSE SDATA >
+<!ENTITY POSPULSE SDATA >
+<!ENTITY SINEWAVE SDATA >
+<!ENTITY SAWWAVE SDATA >
+<!ENTITY RAMPWAVE SDATA >
+<!ENTITY TRIWAVE SDATA >
+<!ENTITY SQWAVE SDATA >
+--
+  --  Entities for partext short references --
+<!ENTITY m-startemph       STARTTAG "emph">
+<!ENTITY m-startcomputer   STARTTAG "computer">
+<!ENTITY m-startquote      STARTTAG "quote">
+<!ENTITY m-startkeycap     STARTTAG "keycap">
+<!ENTITY m-startsuper      STARTTAG "super">
+<!ENTITY m-startsub        STARTTAG "sub">
+<!ENTITY m-startvar        STARTTAG "var">
+<!ENTITY m-startterm       STARTTAG "term">
+<!ENTITY m-startcircle     STARTTAG "circle">
+
+  -- Miscellaneous entities for system use--
+<!ENTITY m-msgnumst        STARTTAG "msgnum">
+<!ENTITY m-msgnumend       ENDTAG "msgnum">
+<!ENTITY m-msgtxtst        STARTTAG "msgtext">
+<!ENTITY m-textmap         MD "USEMAP TEXT" >
+<!ENTITY m-starttext       STARTTAG "text">
+<!ENTITY m-starthline      STARTTAG "hline">
+<!ENTITY m-startpartext    STARTTAG "partext">
+<!ENTITY m-endcomp         ENDTAG "computer">
+<!ENTITY m-startchi        STARTTAG "computer HALFBRIGHT INVERSE">
+<!ENTITY m-startcfi        STARTTAG "computer FULLBRIGHT INVERSE">
+<!ENTITY m-startuser       STARTTAG "user">
+<!ENTITY m-enduser         ENDTAG "user">
+<!ENTITY m-startuhi        STARTTAG "user HALFBRIGHT INVERSE">
+<!ENTITY m-startufi        STARTTAG "user FULLBRIGHT INVERSE">
+<!ENTITY m-startcursor     STARTTAG "cursor">
+<!ENTITY m-endcursor       ENDTAG "cursor">
+<!ENTITY m-startcurhi      STARTTAG "cursor HALFBRIGHT INVERSE">
+<!ENTITY m-startcurfi      STARTTAG "cursor FULLBRIGHT INVERSE">
+<!ENTITY m-endopt          ENDTAG "optblock">
+<!ENTITY m-endreq          ENDTAG "reqblock">
+
+  -- Entities for MARKUP delimiters --
+<!ENTITY m-backslash CDATA "\">
+<!ENTITY m-lt CDATA "<">
+<!ENTITY m-and CDATA "&">
+
+  -- For localizable "special characters" head in
+     automatically generated index --
+<!ENTITY m-specchar SDATA>
+
+<!SHORTREF text>
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "W.W.W.W" -> &ellipsis,
+    "W.W.W.W.W" -> &pellipsis,
+    "W--W" -> &emdash,
+    "W--W&#RE;" -> &emdash,
+    "&#RE;W--W" -> &emdash,
+    "-?" -> &m-d-,
+    "!!" -> &m-startemph,
+    "``" -> &m-startcomputer,
+    '"' -> &m-startquote,
+    "[[" -> &m-startkeycap,
+    "^^" -> &m-startsuper,
+    "__" -> &m-startsub,
+    "%%" -> &m-startvar,
+    "++" -> &m-startterm,
+    "((" -> &m-startcircle,
+    ;
+
+helpvolume -> (metainfo?,
+               hometopic?,
+               (!chapter* | (s1*, rsect*)),
+               message?,
+               glossary?)
+  <EXCEPT> +(memo | idx | newpage | need)
+  <PARAM>
+    author CDATA,
+    language CDATA,
+    idxvol NAMETOKEN,
+    status CDATA,
+  <USEMAP text>
+  <MIN> STARTTAG ENDTAG
+  ;
+
+hometopic -> (chaphead, !text?)
+  <MIN> ENDTAG
+  ;
+
+otherhead -> (head, !text?)
+  <MIN> ENDTAG
+  ;
+
+memo -> CDATA      -- A writer's note to self or reviewer --
+  <PARAM>
+    audience NAMES
+  ;
+
+link -> (partext)
+  <EXCEPT> -(link | xref)
+  <PARAM>
+    hyperlink CDATA,
+    type (JUMP | JUMPNEWVIEW | DEFINITION | EXECUTE | APPDEFINED | MAN),
+    description CDATA
+  ;
+
+location -> (partext?)
+  <PARAM>
+    id ID #REQUIRED
+  ;
+
+--  Front matter  --
+metainfo -> (idsection, abstract?, otherfront*)
+  <EXCEPT> -(footnote)
+  <MIN> ENDTAG
+  ;
+
+idsection -> (title & copyright?)
+  <MIN> STARTTAG ENDTAG
+  ;
+
+title -> (hline +)
+  <EXCEPT> -(memo | location | idx | newpage | need)
+  <MIN> ENDTAG
+  <ADDMAP>
+    "&#RE;" -> ENDTAG "title",
+    "W\" -> &m-starthline,
+    "&&#RE;" -> " ",
+  ;
+
+copyright -> (text)
+  <EXCEPT> -(memo | location | idx | newpage | need)
+  <MIN> ENDTAG
+  ;
+
+frontsub -> (head, text)
+  <MIN> ENDTAG
+  <PARAM>
+    include CDATA,
+    exclude CDATA
+  ;
+
+abstract -> (head?, !text?, frontsub*)
+  <MIN> ENDTAG
+  <PARAM>
+    include CDATA,
+    exclude CDATA
+  ;
+
+otherfront -> (head?, !text?, frontsub*)
+  <MIN> ENDTAG
+  <PARAM>
+    id ID,
+    include CDATA,
+    exclude CDATA
+  ;
+
+chapter -> (chaphead, !text?, (test* | (s1*, rsect*)) )
+  <MIN> ENDTAG
+  ;
+
+<!PARAM chapter test s1 s2 s3 s4 s5 s6 s7 s8 s9>
+  id ID,
+  number NUMBERTOKEN #IMPLIED,
+  include CDATA,
+  exclude CDATA
+  ;
+
+test -> (chaphead, !text?, s1*, rsect*)
+  <MIN> ENDTAG
+  ;
+
+s1 -> (chaphead, !text?, s2*, rsect*)
+  <MIN> ENDTAG
+  ;
+
+s2 -> (chaphead, !text?, s3*, rsect*)
+  <MIN> ENDTAG
+  ;
+
+s3 -> (chaphead, !text?, s4*, rsect*)
+  <MIN> ENDTAG
+  ;
+
+s4 -> (chaphead, !text?, s5*, rsect*)
+  <MIN> ENDTAG
+  ;
+
+s5 -> (chaphead, !text?, s6*, rsect*)
+  <MIN> ENDTAG
+  ;
+
+s6 -> (chaphead, !text?, s7*, rsect*)
+  <MIN> ENDTAG
+  ;
+
+s7 -> (chaphead, !text?, s8*, rsect*)
+  <MIN> ENDTAG
+  ;
+
+s8 -> (chaphead, !text?, s9*, rsect*)
+  <MIN> ENDTAG
+  ;
+
+s9 -> (chaphead, !text?)
+  <MIN> ENDTAG
+  ;
+
+procedure -> (chaphead, !text?)
+  <EXCEPT> -(procedure)
+  <MIN> ENDTAG
+  ;
+
+rsect -> (chaphead, !text?, rsub*)
+  <MIN> ENDTAG
+  <PARAM>
+    id ID,
+    pagebreak (NEWPAGE | SAMEPAGE),
+    include CDATA,
+    exclude CDATA
+  ;
+
+rsub -> (chaphead, text?)
+  <MIN> ENDTAG
+  <PARAM>
+    include CDATA,
+    exclude CDATA
+  ;
+
+chaphead -> (head, abbrev?)
+  <EXCEPT> -(memo | location | idx | newpage | need | footnote)
+  <MIN> STARTTAG ENDTAG
+  ;
+
+head -> (hline +)
+  <EXCEPT> -(memo | location | idx | newpage | need)
+  <MIN> STARTTAG ENDTAG
+  <ADDMAP>
+    "&#RE;" -> ENDTAG "head",
+    "W\" -> &m-starthline,
+    "&&#RE;" -> " ",
+  ;
+
+hline -> (partext?)
+  <MIN> STARTTAG ENDTAG
+  ;
+
+abbrev -> (hline +)
+  <EXCEPT> -(need | footnote)
+  <MIN> ENDTAG
+  <PARAM>
+    where (TOC | FOOTER | BOTH) BOTH
+  <ADDMAP>
+    "&#RE;" -> ENDTAG "abbrev",
+    "&&#RE;" -> " ",
+    "W\" -> &m-starthline,
+  ;
+
+--  TEXT  --
+text -> (!p         | note   | caution | warning | lablist   |
+	  list      | ex     | vex     | esc     | otherhead |
+	  procedure | syntax | figure  | image   )*
+  <MIN> STARTTAG ENDTAG
+  ;
+
+<!PARAM p image>
+  number NUMBER,
+  indent (INDENT),
+  id ID,
+  gentity ENTITY,
+  gposition (LEFT | RIGHT),
+  ghyperlink CDATA,
+  glinktype (JUMP | JUMPNEWVIEW | DEFINITION | EXECUTE | APPDEFINED | MAN),
+  gdescription CDATA
+  ;
+
+p -> (head?, partext)
+  <EXCEPT> +(newline, parm)
+  <ADDMAP>
+    "&#RS;&#RE;" -> ENDTAG "p", -- blank line --
+  <MIN> STARTTAG ENDTAG
+    ;
+
+newline -> EMPTY
+  ;
+
+image -> (head?, imagetext)
+  <EXCEPT> -(footnote)
+  -- <ADDMAP> --
+  -- Leading spaces on first line should trigger <partext> start-tag --
+  --  " " -> "&sigspace;", --
+  ;
+  
+imagetext -> (partext)
+  <MIN> STARTTAG ENDTAG
+  <ADDMAP>
+  -- Record ends are significant around em-dashes --
+    "W--W&#RE;" -> "&emdash&#RE;",
+    "&#RE;W--W" -> "&#RE;&emdash",
+  ;
+
+(note | caution | warning)
+  -> (head?, text)
+  <EXCEPT> -(note | caution | warning | footnote)
+  ;
+
+list -> (head?, item +)
+  <ADDMAP>
+    "&#RS;W*" -> STARTTAG "item",
+  <PARAM>
+    type (ORDER | BULLET | PLAIN | MILSPEC | CHECK) #IMPLIED,
+    ordertype (UALPHA | LALPHA | ARABIC | UROMAN | LROMAN) #IMPLIED,
+    spacing (TIGHT | LOOSE) #IMPLIED,
+    continue (CONTINUE)
+  ;
+
+item -> (text)
+  <EXCEPT> +(parm)
+  <PARAM>
+    id ID
+  <MIN> ENDTAG
+  ;
+
+lablist -> (head?, labheads?, (label, text)+)
+  <ADDMAP>
+    "&#RS;W\" -> STARTTAG "label",
+  <PARAM>
+    longlabel (WRAP | NOWRAP) #IMPLIED,
+    width CDATA #IMPLIED,
+    spacing (TIGHT | LOOSE) #IMPLIED
+  ;
+
+labheads -> (labh, labhtext)
+  <EXCEPT> -(memo | location | idx | newpage | need)
+  <ADDMAP>
+    "W\" -> STARTTAG "labh",
+    "&#RS;W\" -> STARTTAG "labh",
+  <MIN> ENDTAG
+  ;
+
+labh -> (partext)
+  <ADDMAP>
+    "W\" -> &m-startpartext,
+    "&#RS;W\" -> &m-startpartext,
+  <MIN> STARTTAG ENDTAG
+  ;
+
+labhtext -> (partext)
+  <ADDMAP>
+    "&#RS;W\" -> STARTTAG "label",
+  <MIN> STARTTAG ENDTAG
+  ;
+
+label -> (partext)
+  <EXCEPT> +(parm)
+  <ADDMAP>
+    "W\" -> &m-starttext,
+    "&#RS;W\" -> &m-starttext,
+  <MIN> ENDTAG
+  ;
+
+ex -> (head?, (!exampleseg, annotation?)+)
+  <EXCEPT> -(ex | vex | note | caution | warning | syntax | footnote) +(parm)
+  <PARAM>
+    type (COMPUTER | DISPLAY) #IMPLIED,
+    position (LEFT | INDENT | CENTER) #IMPLIED,
+    notes (SIDE | STACK) #IMPLIED,
+    width CDATA #IMPLIED,
+    lines (NUMBER | NONUMBER) #IMPLIED,
+    textsize (NORMAL | SMALLER | SMALLEST) #IMPLIED,
+  <USEMAP>
+  -- Leading spaces on first line should trigger <exampleseg> start-tag --
+    " " -> "&space;",
+    "<<" -> STARTTAG "annotation",
+    -- Line-final & expands to nothing here, but to a space in head
+       and other elements --
+    "&&#RE;" -> "",
+  -- partext short references --
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "``" -> &m-startcomputer,
+    "[[" -> &m-startkeycap,
+    "^^" -> &m-startsuper,
+    "__" -> &m-startsub,
+    "%%" -> &m-startvar,
+  ;
+
+exampleseg -> (partext)
+  <EXCEPT> +(lineno)
+  <MIN> STARTTAG ENDTAG
+  ;
+
+lineno -> EMPTY
+  <PARAM> id ID #REQUIRED
+  ;
+
+annotation -> (partext?)
+  <EXCEPT> +(newline)
+  <USEMAP>
+    ">>" -> ENDTAG "annotation",
+  -- partext short references --
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "W.W.W.W" -> &ellipsis,
+    "W.W.W.W.W" -> &pellipsis,
+    "W--W" -> &emdash,
+    "W--W&#RE;" -> &emdash,
+    "&#RE;W--W" -> &emdash,
+    "-?" -> &m-d-,
+    "!!" -> &m-startemph,
+    "``" -> &m-startcomputer,
+    '"' -> &m-startquote,
+    "[[" -> &m-startkeycap,
+    "^^" -> &m-startsuper,
+    "__" -> &m-startsub,
+    "%%" -> &m-startvar,
+    "++" -> &m-startterm,
+    "((" -> &m-startcircle,
+  ;
+
+vex -> CDATA
+  <PARAM>
+    type (COMPUTER | DISPLAY) #IMPLIED,
+    position (LEFT | INDENT | CENTER) #IMPLIED,
+    lines (NUMBER | NONUMBER) #IMPLIED,
+    textsize (NORMAL | SMALLER | SMALLEST) #IMPLIED,
+  ;
+
+-- synel + allows short reference of RE -> ENDTAG "synel" --
+syntax -> (head?, synel +)
+  <USEMAP>
+    "[[" -> &m-startkeycap,
+    "%%" -> &m-startvar,
+    "[" -> STARTTAG "optblock",
+    "{" -> STARTTAG "reqblock",
+    "&&#RE;" -> " ",
+    "]" -> &m-endopt,
+    "}" -> &m-endreq,
+  -- partext short references --
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "W.W.W.W" -> &ellipsis,
+    "W.W.W.W.W" -> &pellipsis,
+  ;
+
+synel -> (#PCDATA | esc | var | keycap | optblock | reqblock | parm)+
+  <ADDMAP>
+    "&#RE;" -> ENDTAG "synel",
+  <MIN> STARTTAG ENDTAG
+  ;
+
+optblock -> (synel)+
+  ;
+
+reqblock -> (synel)+
+  ;
+
+footnote -> (p +)
+  <EXCEPT> -(footnote)
+  ;
+
+idx -> (indexprimary, indexsub?)
+  <EXCEPT> -(term | footnote | location | idx | newpage | need)
+  <PARAM>
+    main (MAIN),
+    range (BEGIN | END)
+  <USEMAP text>
+  -- idx cannot inherit short-reference map from manual because if
+     idx is called from within a partext element with identical open
+     and close short-ref delimiters (e.g., !! or %%), a first
+     occurrence of the delimiter within the idx should be an open
+     instead of a close--
+  ;
+
+indexprimary -> (partext, sort?)
+  <ADDMAP>
+    "W:W" -> STARTTAG "indexsub",
+  <MIN> STARTTAG ENDTAG
+  ;
+
+indexsub -> (partext, sort?)
+  <MIN> ENDTAG
+  ;
+
+sort -> (#PCDATA | esc)+
+  <MIN> ENDTAG
+  ;
+
+graphic -> EMPTY
+  <PARAM>
+    id ID,
+    entity ENTITY,
+  ;
+
+figure -> (caption?)
+  <EXCEPT> -(figure, graphic)
+  <PARAM>
+    number NUMBER #IMPLIED,
+    tonumber (NUMBER | NONUMBER) #IMPLIED,
+    id ID,
+    entity ENTITY,
+    figpos (LEFT | CENTER | RIGHT) #IMPLIED,
+    cappos (LEFT | CENTER | RIGHT) #IMPLIED,
+    oldtype (ART | PCL | TIFF | LISTING | TEXT) #IMPLIED,
+    width NAMETOKEN #IMPLIED,
+    height NAMETOKEN #IMPLIED,
+  --The next two parameters are NAMETOKENs instead of
+    NUMBERTOKENs so they can be negative numbers--
+    hadjust NAMETOKEN,
+    vadjust NAMETOKEN,
+    border (TOP | BOTTOM | BOX | SCREEN | NOBOX) #IMPLIED,
+    continue (CONTINUE),
+    type NAME #IMPLIED,
+    magnify NAMETOKEN #IMPLIED,
+    video (INVERSE | NOINVERSE) #IMPLIED,
+    strip (STRIP | NOSTRIP) #IMPLIED,
+    mirror (MIRROR),
+    margin CDATA #IMPLIED,
+    clip CDATA,
+    penwidth CDATA,
+    snap (SNAP | NOSNAP) #IMPLIED,
+    autoscale (AUTOSCALE | NOAUTOSCALE) #IMPLIED,
+    plottype CDATA,
+    callout NUMBER,
+    textsize (NORMAL | SMALLER | SMALLEST) #IMPLIED,
+    ghyperlink CDATA,
+    glinktype (JUMP | JUMPNEWVIEW | DEFINITION | EXECUTE | APPDEFINED | MAN),
+    gdescription CDATA
+  ;
+
+caption -> (!hline +, abbrev?)
+  <EXCEPT> -(memo | location | idx | newpage | need)
+  <ADDMAP>
+    "&#RE;" -> ENDTAG "caption",
+    "&&#RE;" -> " ",
+    "W\" -> &m-starthline,
+  <MIN> STARTTAG ENDTAG
+  ;
+
+input..... ->  (#PCDATA | var | user | cursor | super |
+                sub | esc)*
+  <EXCEPT> -(location | idx)
+  <USEMAP>
+    "[[" -> "[[",
+  <MIN> ENDTAG
+  ;
+
+output.... -> (#PCDATA | var | user | cursor | super |
+               sub | esc)*
+  <EXCEPT> -(location | idx)
+  <USEMAP>
+    "[[" -> "[[",
+  <MIN> ENDTAG
+  ;
+
+keys -> (partext)*
+  <EXCEPT> +(newline)
+  <MIN> ENDTAG
+  ;
+
+cdisplay -> EMPTY
+  <PARAM>
+    entity ENTITY,
+    startrow NUMBER,
+    endrow NUMBER,
+    clip CDATA,
+    margin CDATA
+  ;
+
+descrip -> (p)*
+  <MIN> ENDTAG
+  ;
+
+hsep -> EMPTY
+  <PARAM> rule (NORULE | RULE | BLANK) RULE
+  ;
+
+-- Included text elements --
+-- If modify definition of "partext", check exclusions to "term"--
+partext -> (#PCDATA  | acro   | emph     | computer | graphic |
+	    term     | var    | circle   | quote    | keycap  |
+	    user     | cursor | super    | sub      | book    |
+	    number   | xref   | footnote | esc      | leader  |
+	    location | link)*
+  <MIN> STARTTAG ENDTAG
+  ;
+
+acro -> (#PCDATA | esc | super | sub)*
+  ;
+
+esc -> CDATA
+  ;
+
+emph -> (partext)
+  <ADDMAP>
+    "!!" -> ENDTAG "emph",
+  ;
+
+parm -> (partext)
+  <EXCEPT> -(parm)
+  ;
+
+leader -> EMPTY
+  <PARAM>
+    type (SPACE | DOTS) DOTS,
+  ;
+    
+<!PARAM computer user cursor>
+  underline (UL| NOUL) NOUL,
+  intensity (FULLBRIGHT | HALFBRIGHT) FULLBRIGHT,
+  video (NOINVERSE | INVERSE) NOINVERSE,
+  blinking (BLINK | NOBLINK) NOBLINK
+  ;
+
+computer -> (#PCDATA | quote | keycap | var | user | cursor |
+	     super | sub | esc)*
+  <USEMAP>
+    '"'  -> &m-startquote,
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "W.W.W.W" -> &ellipsis,
+    "W.W.W.W.W" -> &pellipsis,
+    "''" -> &m-endcomp,
+    "[[" -> &m-startkeycap,
+    "%%" -> &m-startvar,
+    "~~" -> "&m-endcomp;&m-startchi;",
+    "$$" -> "&m-endcomp;&m-startcfi;",
+    "``" -> "&m-endcomp;&m-startcomputer",
+    "^^" -> &m-startsuper,
+    "__" -> &m-startsub,
+  ;
+
+user -> (#PCDATA | keycap | var | super | sub | esc | cursor)*
+  <USEMAP>
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "W.W.W.W" -> &ellipsis,
+    "W.W.W.W.W" -> &pellipsis,
+    "[[" -> &m-startkeycap,
+    "%%" -> &m-startvar,
+    "~~" -> "&m-enduser;&m-startuhi;",
+    "$$" -> "&m-enduser;&m-startufi;",
+    "``" -> "&m-enduser;&m-startuser;",
+    "^^" -> &m-startsuper,
+    "__" -> &m-startsub
+  ;
+
+cursor -> (#PCDATA | keycap | var | super | sub | esc)*
+  <USEMAP>
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "W.W.W.W" -> &ellipsis,
+    "W.W.W.W.W" -> &pellipsis,
+    "[[" -> &m-startkeycap,
+    "%%" -> &m-startvar,
+    "~~" -> "&m-endcursor;&m-startcurhi;",
+    "$$" -> "&m-endcursor;&m-startcurfi;",
+    "``" -> "&m-endcursor;&m-startcursor;",
+    "^^" -> &m-startsuper,
+    "__" -> &m-startsub
+  ;
+
+term -> (partext)
+  <EXCEPT>
+    -(emph | computer | term | var | quote | user |
+             cursor | book | number | footnote)
+  <PARAM>
+    base CDATA,
+    gloss (GLOSS | NOGLOSS)
+  <ADDMAP>
+    "++" -> ENDTAG "term",
+  ;
+
+quote -> (partext)
+  <ADDMAP>
+    '"' -> ENDTAG "quote",
+  ;
+
+number -> (#PCDATA)
+  ;
+
+keycap -> (#PCDATA | super | sub | esc)+
+  <EXCEPT> -(need)
+  <USEMAP>
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "]]" -> ENDTAG "keycap",
+    "^^" -> &m-startsuper,
+    "__" -> &m-startsub,
+  ;
+
+super -> (#PCDATA)
+  <USEMAP>
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "%%" -> &m-startvar,
+    "__" -> &m-startsub,
+    "^^" -> ENDTAG "super"
+  ;
+
+sub -> (#PCDATA)
+  <USEMAP>
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "%%" -> &m-startvar,
+    "^^" -> &m-startsuper,
+    "__" -> ENDTAG "sub"
+  ;
+
+var -> (#PCDATA | sub | super | esc)+
+  <USEMAP>
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "%%" -> ENDTAG "var",
+    "^^" -> &m-startsuper,
+    "__" -> &m-startsub
+  ;
+
+circle -> (#PCDATA)
+  <EXCEPT> -(need)
+  <USEMAP>
+    "&\" -> &m-backslash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "))" -> ENDTAG "circle",
+  ;
+
+book -> (partext)
+  <EXCEPT> -(book)
+  ;
+
+xref -> EMPTY
+  <PARAM>
+    id IDREF #REQUIRED
+  ;
+
+-- Stuff following the chapters and appendixes:  error messages
+    and glossary
+--
+  -- Error Messages --
+message -> (chaphead?, !text?, (msg + | msgsub + ) )
+  <MIN> ENDTAG
+  <PARAM>
+    include CDATA,
+    exclude CDATA
+  ;
+
+msgsub -> (chaphead, !text?, msg +)
+  <MIN> STARTTAG ENDTAG
+  <PARAM>
+    include CDATA,
+    exclude CDATA
+  ;
+
+msg -> (!msgnum?, msgtext, explain?)
+  <MIN> ENDTAG
+  <ADDMAP>
+    "&#RE;" -> "&m-msgtxtst;"
+  ;
+
+msgnum -> (#PCDATA | esc)+
+  <ADDMAP>
+    "&#RE;" -> "&m-msgnumend;&m-msgtxtst;",
+  <MIN> STARTTAG ENDTAG
+  ;
+
+msgtext -> (partext)
+  <EXCEPT> +(newline)
+  <MIN> STARTTAG ENDTAG
+  <USEMAP text>
+  ;
+
+explain -> (text)
+  <MIN> ENDTAG
+  <USEMAP text>
+  ;
+
+references -> (item +)
+  <ADDMAP>
+    "&#RS;W*" -> STARTTAG "item",
+  <MIN> ENDTAG
+  ;
+
+  -- Glossary --
+glossary -> (!text?, (dterm, definition)+)
+  <MIN> ENDTAG
+  ;
+
+dterm -> (partext)
+  <EXCEPT> -(term)
+  <MIN> ENDTAG
+  <ADDMAP>
+    "&#RE;" -> ENDTAG "dterm",
+    "&&#RE;" -> " ",
+  ;
+
+definition -> (text)
+  <MIN> STARTTAG ENDTAG
+  ;
+
+-- Formatting elements --
+newpage -> EMPTY
+  ;
+
+need -> EMPTY
+  <PARAM>
+    type (BEGIN | END | TOGETHER),
+    amount NUMBERTOKEN
+  ;

@@ -1,0 +1,18 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/11/29 11:06:09 rswiston $
+
+XLATESRC  = $(DTSVCSRC)/DtUtil2
+
+INCLUDES = -I../lib/tptregexp -I../tcl -I$(XLATESRC)
+DEPLIBS = $(DEPDTSVCLIB)
+LOCAL_LIBRARIES = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB) \
+-L../lib/tptregexp -ltptregexp -L../tcl -ltcl
+#if defined(SunArchitecture) || defined (UXPArchitecture) || defined(USLArchitecture)
+EXTRA_LIBRARIES = -lsocket -lnsl -lgen -lm
+#else
+EXTRA_LIBRARIES = -lm
+#endif
+
+OBJS = main.o util.o info.o translate.o traninit.o tranvar.o tables.o browse.o
+SRCS = main.c util.c info.c translate.c traninit.c tranvar.c tables.c browse.c
+
+ComplexProgramTarget(instant)

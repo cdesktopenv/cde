@@ -1,0 +1,62 @@
+XCOMM ##########################################################################
+XCOMM 
+XCOMM      dthelpprint.dt
+XCOMM 
+XCOMM      Actions and filetypes for dthelpprint files.
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+XCOMM 
+XCOMM      $XConsortium: dthelpprint.dt.src /main/4 1996/04/23 17:35:22 drk $
+XCOMM 
+XCOMM ##########################################################################
+#define HASH #
+set DtDbVersion=1.0
+
+XCOMM ##########################################################################
+XCOMM 
+%|nls-10-#HASH WARNING:...#|
+XCOMM 
+XCOMM ##########################################################################
+
+XCOMM ##################################################################
+XCOMM 
+%|nls-11-#HASH Data Attributes#|
+XCOMM 
+XCOMM ##################################################################
+DATA_ATTRIBUTES DTHELP_PRINT_FILE
+{
+        ACTIONS         Print
+        ICON		Dthvol
+        NAME_TEMPLATE   _phlp%s
+        DESCRIPTION     %|nls-8001-#This file#|
+        TYPE_LABEL      %|nls-31051-#DTHELP_PRINT_FILE#|
+}
+DATA_CRITERIA DTHELP_PRINT_FILE1
+{
+        DATA_ATTRIBUTES_NAME DTHELP_PRINT_FILE
+        MODE            f
+        NAME_PATTERN    _phlp*
+}
+ACTION Print
+{
+	ARG_TYPE 	DTHELP_PRINT_FILE
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	/usr/dt/bin/dtlp -f "%(File)Arg_1%" \
+                ${LPDEST:+-d} ${LPDEST:+$LPDEST} \
+                -n "${DTPRINTCOPYCOUNT:-1}" \
+                -b "${DTPRINTBANNERTITLE:-CDE Help}" \
+                "${DTPRINTCOMMAND:+-m}" \
+                        "${DTPRINTCOMMAND:+$DTPRINTCOMMAND}" \
+                "${DTPRINTFROMCODESET:+-c}" \
+                        "${DTPRINTFROMCODESET:+$DTPRINTFROMCODESET}" \
+                "${DTPRINTCODESET:+-t}" "${DTPRINTCODESET:+$DTPRINTCODESET}" \
+                -u "${DTPRINTUSERFILENAME:-Help Information}" \
+                -w "${DTPRINTRAW:-$FALSE}" \
+                -s "${DTPRINTSILENT:-$TRUE}" \
+                -e "${DTPRINTFILEREMOVE:-$TRUE}";
+}
+XCOMM ######################## EOF ############################################

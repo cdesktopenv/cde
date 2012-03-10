@@ -1,0 +1,305 @@
+.\" $XConsortium: dtstyle.man /main/2 1995/07/17 10:51:43 drk $
+.TH DTSTYLE 1X 
+.ds ]W HP DT 3.0
+.SH NAME
+\fBdtstyle - HP DT Style Manager.\fP
+.sp 1
+.SH SYNOPSIS
+.B dtstyle
+.sp 1
+.SH DESCRIPTION
+\fIDtstyle\fP is the HP DT Style Manager application that provides 
+an interactive method of customizing the visual elements and system behavior
+of HP DT.  The Style Manager buttons represent customization tasks
+for the following:
+.sp 1
+.IP "\fBColor\fP"
+Select workspace colors and palettes.
+.IP "\fBFonts\fP"
+Select application font sizes.
+.IP "\fBBackdrop\fP"
+Select workspace backdrop patterns.
+.IP "\fBKeyboard\fP"
+Set key click volume or character repeat capability.
+.IP "\fBMouse\fP"
+Change mouse button order, double-click speed, pointer
+acceleration or pointer movement threshold.
+.IP "\fBAudio\fP"
+Change the beeper volume, tone, or duration.
+.IP "\fBScreen\fP"
+Choose the number of minutes before your screen times out or
+whether or not your screen is covered and locked at time out.
+.IP "\fBWindow\fP"
+Specify how a window aquires focus, if the window raises when it
+receives focus, or where window icons are placed.
+.IP "\fBStartup\fP"
+Specify how your session begins and ends.
+.sp 1
+.SH STYLE MANAGER SPECIFIC RESOURCES
+The following resources control the appearance and behavior of 
+\fIStyle Manager\fP.
+.sp 1
+.TS
+center;
+cB sss
+lB lB lB lB
+l l l l.
+Style Manager Resources
+Name	Class	Type	Default
+_
+componentList	ComponentList	string	see below*
+paletteDirectories	PaletteDirectories	string	NULL
+writeXrdbImmediate	WriteXrdbImmeidate	Boolean	true
+.TE
+.sp 1
+.IP "\fBcomponentList\fP"
+Specifies the Style Manager components with a list of component keywords 
+separated by spaces.  Valid component keywords include: 
+Color, Font, Backdrop, Keybaord, Mouse, Audio, Screen, Dtwm, and Startup.
+The default componentList value is: Color Font Backdrop Keyboard Mouse Audio 
+Screen Dtwm Startup.
+The componentList resource for a Dtlite session is: Color Backdrop
+Font Dtwm.
+.sp 1
+.IP "\fBpaletteDirectories\fP"
+Specifies a list of the directories (separated by spaces) where additional
+color palettes are located.  
+These palette files are used to generate the list of color 
+palettes that a user may select from in the Color dialog.
+In addition to this list palettes are also searched for in 
+/usr/dt/palettes and $HOME/.dt/palettes.
+.sp 1
+.IP "\fBwriteXrdbImmediate\fP"
+Controls when new font size or new mouse double-click time resources are
+used.  If True, new resources are used when new clients start.  If False, 
+new resources are used at the next session (after logout, with "Resume
+Current Session" selected in the Startup dialog, and login).
+.sp 3
+.SH "COLOR AND BACKDROP RESOURCES: GLOBAL TO HP DT"
+The following resources are used by more than one HP DT component.
+The syntax for specifying global resources is:
+.EX
+    \fB*\fIresource_id\fR
+.EE
+.sp 1
+.TS
+center;
+cB sss
+lB lB lB lB
+l l l l.
+Color and Backdrop Resources: Global 
+Name	Class	Type	Default
+_
+backdropDirectory	BackdropDirectory	string	/usr/dt/icons/Dtbackdrops
+colorUse	ColorUse	int	dynamic*
+dynamicColor	DynamicColor	Boolean	true
+foregroundColor	ForegroundColor	int	dynamic*
+shadowPixmaps	ShadowPixmaps	int	dynamic*
+writeXrdbColors	WriteXrdbColors	Boolean	true
+.TE
+.ps 7
+\h'50p'*The display type determines default.
+.ps
+.sp 1
+.IP "\fBbackdropDirectory\fP"
+Specifies the directory location for the backdrops listed
+in the backdrop dialog.  This resource is also used
+by dtwm.
+.sp 1
+.IP "\fBcolorUse\fP"
+Specifies the number of colors to use for the user interface.
+The default value for this resource is determined by querying
+the X server for the number of color cells on the system.
+Valid values are:
+.RS
+.IP \(bu 3
+\fBB_W\fP \(em  Specifies a black and white system.  
+The color palettes use only Black and Whte (color cells 0 and 1) and
+icons are displayed as bitonal images.
+In this configuration four color palettes are available:
+Black, White, BlackWhite and WhiteBlack.
+These palettes do not dynamically change.  To change a palette,
+the HP Dt session must be restarted.
+This resource value forces \fBshadowPixmaps\fP to True, and 
+\fBforegroundColor\fP to either black or white depending on the palette 
+chosen.
+.IP \(bu 3
+\fBLOW_COLOR\fP \(em Specifies a low color system.  
+The color palettes use 2 color sets and icons are displayed as bitonal 
+images.
+The number of color cells can be further reduced by using the resources 
+\fBshadowPixmaps\fP and \fBforegroundColor\fP.
+.IP \(bu 3
+\fBMEDIUM_COLOR\fP \(em Specifies a medium color system.  
+The color palettes use 4 color sets and icons are displayed as bitonal 
+images.
+The number of color cells can be further reduced by using the resources 
+\fBshadowPixmaps\fP and \fBforegroundColor\fP.
+.IP \(bu 3
+\fBHIGH_COLOR\fP \(em Specifies a high color system.  
+The color palettes use 8 color sets and icons are displayed as 
+multi-color images.
+The number of color cells can be reduced by using the resources 
+\fBshadowPixmaps\fP and \fBforegroundColor\fP.
+.RE
+.sp 1
+.TS
+center;
+RC
+cB| Bc.
+planes	ColorUse
+_
+2-3	B_W
+4	LOW_COLOR
+6	MEDIUM_COLOR
+8+	HIGH_COLOR
+.TE
+.sp 1
+
+.IP "\fBdynamicColor\fP"
+This resource can have values of True or False.  \fBdynamicColor\fP is
+used to reduce the number of color cells being used.  Once a palette has
+been selected and it is not likely to be changed,  \fBdynamicColor\fP can
+be set to False.
+If set to False colors cannot be dynamically changed using the DT
+style manager. A selected
+palette will take effect the next session.
+The next time the session comes up, the color server uses Read Only
+color cells that can be shared by all clients, thus reducing
+the number of color cells used.
+
+.IP "\fBforegroundColor\fP"
+This resource can have values of White, Black or Dynamic.
+\fBforegroundColor\fP causes all text (foreground) to use either pixel 0 
+or 1 (Black
+or White) or to have a color cell dedicated to foreground that changes in
+response to the background color (Dynamic) for each ColorSet.
+If set to White or Black, the number of color cells used per ColorSet is
+reduced by 1.
+.IP "\fBshadowPixmaps\fP"
+For color systems, this resource can have a value of True or False.
+If True, \fBtopShadowColor\fP and \fBbottomShadowColor\fP use the same
+pixel as background and \fBtopShadowPixmap\fP and 
+\fBbottomShadowPixmap\fP are specified
+instead of solid color to create the 3D look.
+This reduces the number of color cells per ColorSet by 2.
+\fBshadowPixmaps\fP defaults to True for systems with 4 or less color planes
+(16 or less color cells),
+and False for systems with more than 4 color planes.
+.IP "\fBwriteXrdbColors\fP"
+This resource should only be used if you are running non HP Motif 1.1 clients
+that have color schemes that conflict with HP DT colors.  This has no
+impact on clients linked with the Motif 1.1 library.  This resource
+specifies whether color resource information should be written out.
+If set to False, \fBbackground\fP and \fBforeground\fP resources are not
+written out with the values of the current palette.  This means that
+non HP Motif 1.1 clients do not get HP DT colors when they are started.
+The default value is True.
+.RE
+.sp 1
+.SH "COLOR RESOURCES: CLIENT SPECIFIC"
+The following resources are specified on a per client bases.  
+The syntax for specifying client-specific resources is
+.EX
+   \fB\fIclient_name_or_class\fB*\fIresource_id\fR
+.EE
+.sp 1
+.TS
+center;
+cB sss
+lB lB lB lB
+l l l l.
+Color Resource Set: Client Specific
+Name	Class	Type	Default
+_
+primaryColorSetId	PrimaryColorSetId	int	3
+secondaryColorSetId	SecondaryColorSetId	int	4
+.TE
+.sp 1
+.RS
+.IP "\fBprimaryColorSetId\fP"
+This resource specifies the primary color for an application.
+The primary color is used for the main background areas of the application
+and all children of the main area.
+The value of this resource is a number from one to eight that represents
+a specific color set in a palette.
+.IP "\fBsecondaryColorSetId\fP"
+This resource specifies the secondary color for an application.
+The secondary color is used for the menubar and all menus and dialogs
+of the application.
+This allows dialogs on the screen to be visually associated with its parent
+application by matching the dialog color to the menubar.
+The value of this resource is a number from one to eight that represents
+a specific color set in a palette.
+.RE
+.sp 1
+.SH "COLOR RESOURCES: DTWM SPECIFIC"
+The following are Dtwm-specific resources.
+.sp 1
+.TS
+center;
+cB sss
+lB lB lB lB
+l l l l.
+Color Resource Set: Dtwm specific
+Name	Class	Type	Default
+_
+activeColorSetId	ActiveColorSetId	int	1
+inactiveColorSetId	InactiveColorSetId	int	2
+.TE
+.sp 1
+.RS
+.IP "\fBactiveColorSetId\fP"
+Specifies the active frame color for \fIdtwm\fP.  The value
+of this resource is a number from one to eight, which represents a specific
+color set in a palette.
+.IP "\fBinactiveColorSetId\fP"
+Specifies the inactive frame color for \fIdtwm\fP.  The value
+of this resource is a number from one to eight, which represents a specific
+color set in a palette.
+.RE
+.sp2
+.TS
+center;
+cB sss
+lB lB lB lB
+l l l l.
+Font Resource Set
+Name	Class	Type	Default
+_
+numFonts	NumFonts	int	7
+systemFont1	SystemFont1	FontList	-bitstream-swiss*742-medium-r-normal--13-100-72-72-p-75-hp-roman8
+systemFont2	SystemFont2	FontList	-bitstream-swiss*742-medium-r-normal--14-90-85-85-p-81-hp-roman8
+systemFont3	SystemFont3	FontList	-bitstream-swiss*742-bold-r-normal--16-120-72-72-p-94-hp-roman8
+systemFont4	SystemFont4	FontList	-bitstream-swiss*742-bold-r-normal--17-140-85-85-p-100-hp-roman8
+systemFont5	SystemFont5	FontList	-bitstream-swiss*742-medium-r-normal--19-140-85-85-p-110-hp-roman8
+systemFont6	SystemFont6	FontList	-bitstream-swiss*742-medium-r-normal--23-196-85-85-p-133-hp-roman8
+systemFont7	SystemFont7	FontList	-bitstream-swiss*742-medium-r-normal--26-171-110-110-p-150-hp-roman8
+userFont1	UserFont1	FontList	-adobe-courier-medium-r-normal--10-100-75-75-m-60-hp-roman8
+userFont2	UserFont2	FontList	-adobe-courier-medium-r-normal--12-120-75-75-m-70-hp-roman8
+userFont3	UserFont3	FontList	-bitstream-prestige-medium-r-normal--16-120-72-72-m-80-hp-roman8
+userFont4	UserFont4	FontList	-bitstream-prestige-medium-r-normal--17-128-72-72-m-90-hp-roman8
+userFont5	UserFont5	FontList	-bitstream-prestige-medium-r-normal--19-160-72-72-m-110-hp-roman8
+userFont6	UserFont6	FontList	-bitstream-prestige-medium-r-normal--23-179-85-85-m-120-hp-roman8
+userFont7	UserFont7	FontList	-bitstream-prestige-medium-r-normal--26-171-110-110-m-140-hp-roman8
+.TE
+.sp 1
+.RS
+.IP "\fBnumFonts\fP"
+Specifies the number of System/User Font pairs presented in the Font dialog.
+.IP "\fBsystemFont[1-7]\fP"
+Specifies a SystemFont for a particular font size that can be selected in
+the Font dialog.
+.IP "\fBuserFont[1-7]\fP"
+Specifies a UserFont for a particular font size that can be selected in
+the Font dialog.
+.RE
+.sp1
+.SH COPYRIGHT
+Copyright 1990 Hewlett-Packard Company.
+.sp1
+.SH ORIGIN
+Hewlett-Packard Company UTD-CV.
+.sp 1
+.SH SEE ALSO
+\fBX(1)\fP, \fBdtsession(1X)\fP, \fBdtwm(1X)\fP.

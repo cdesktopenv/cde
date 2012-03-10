@@ -1,0 +1,123 @@
+<!-- $XConsortium: GetWsInf.sgm /main/8 1996/09/23 14:36:47 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDEMX.XCSA.MAN64.rsml.1">]]><![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN64.rsml.1">]]><refmeta>
+<refentrytitle>DtWsmGetWorkspaceInfo</refentrytitle><manvolnum>library call
+</manvolnum></refmeta><refnamediv><refname><function>DtWsmGetWorkspaceInfo</function></refname><refpurpose>get detailed workspace information</refpurpose>
+</refnamediv><!-- CDE Common Source Format, Version 1.0.0--><!-- *************************************************************************--><!--
+**  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company--><!-- **  (c)
+Copyright 1993, 1994, 1995 International Business Machines Corp.--><!-- **
+ (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.--><!-- **  (c) Copyright
+1993, 1994, 1995 Novell, Inc.--><!-- *************************************************************************--><refsynopsisdiv>
+<funcsynopsis remap="ANSI">
+<funcsynopsisinfo>#include &lt;Dt/Wsm.h></funcsynopsisinfo>
+<funcdef>int <function>DtWsmGetWorkspaceInfo</function></funcdef>
+<paramdef>Display *<parameter>display</parameter></paramdef>
+<paramdef>Window <parameter>root</parameter></paramdef>
+<paramdef>Atom <parameter>aWorkspace</parameter></paramdef>
+<paramdef>DtWsmWorkspaceInfo **<parameter>ppWsInfo</parameter></paramdef>
+</funcsynopsis></refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtWsmGetWorkspaceInfo</function> function works with the <![ %CDE.C.XO; [workspace manager
+]]><![ %CDE.C.CDE; [&str-XZ; workspace manager, &cdeman.dtwm;, ]]>and
+returns detailed information on a specific workspace.</para>
+<para>The <symbol role="Variable">display</symbol> argument is the X display.
+</para>
+<para>The <symbol role="Variable">root</symbol> argument is the root window
+of the screen of interest.</para>
+<para>The <emphasis>aWorkspace</emphasis> argument is the workspace name (converted
+to an X atom).</para>
+<para>The <emphasis>*ppWsInfo</emphasis> argument is the address of a variable
+to receive the returned pointer to the workspace information data.</para>
+<para>The <structname role="typedef">DtWsmWorkspaceInfo</structname> structure
+contains at least the following members:</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.22in">
+<colspec align="left" colwidth="90*">
+<colspec align="left" colwidth="174*">
+<colspec align="left" colwidth="249*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>Atom</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>workspace</computeroutput></entry>
+<entry align="left" valign="top">The workspace name (converted to an X atom).</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>unsigned long</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>bg</computeroutput></entry>
+<entry align="left" valign="top">The pixel ID used for the background color
+of the backdrop.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>unsigned long</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>fg</computeroutput></entry>
+<entry align="left" valign="top">The pixel ID used for the foreground color
+of the backdrop.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Atom</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>backdropName</computeroutput></entry>
+<entry align="left" valign="top">The backdrop file name (converted to an X
+atom). The file must be in either X Bitmap file format (with extension <Filename>.bm</Filename>) or X Pixmap file format (with extension <Filename>.pm</Filename>).
+The workspace management services look for the file along the same path used
+for searching icons. The directory <Filename>/usr/dt/backdrops</Filename> is
+the default directory if the file cannot be found along the icon search path.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>colorSetId</computeroutput></entry>
+<entry align="left" valign="top">The colorset number used for this workspace,
+which affects the backdrop color and the button color for this workspace on
+the front panel.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>char</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>*pchTitle</computeroutput></entry>
+<entry align="left" valign="top">The title displayed in the button for this
+workspace on the front panel. This string is interpreted in the locale in
+which the <![ %CDE.C.XO; [workspace manager
+]]><![ %CDE.C.CDE; [&str-XZ; workspace manager, &cdeman.dtwm;, ]]>is
+running. The title is different from the workspace name. The workspace name,
+when converted from an X atom, is used as the identifier for a workspace in
+the workspace manager function calls. The <![ %CDE.C.XO; [workspace manager
+]]><![ %CDE.C.CDE; [&str-XZ; workspace manager, &cdeman.dtwm;. ]]>also
+uses the workspace name as a resource name; thus, the characters used in a
+workspace name are restricted to the characters in the X Portable Character
+Set. The workspace name for a workspace created from the front panel is generated
+automatically by the <![ %CDE.C.XO; [workspace manager.
+]]><![ %CDE.C.CDE; [&str-XZ; workspace manager, &cdeman.dtwm;. ]]></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>Window</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>*backdropWindows</computeroutput></entry>
+<entry align="left" valign="top">A pointer to an array of windows that make
+up the backdrop.</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>numBackdropWindows</computeroutput></entry>
+<entry align="left" valign="top">The number of elements in the <emphasis>backdropWindows</emphasis> array.</entry></row></tbody></tgroup></informaltable>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>Upon successful completion, the <function>DtWsmGetWorkspaceInfo</function>
+function returns Success and the workspace manager returns in <emphasis>*ppWsInfo</emphasis> a pointer to a <Symbol>DtWsmInfo</Symbol> structure that contains
+information about the workspace <emphasis>aWorkspace</emphasis>; otherwise,
+it returns a value not equal to Success.</para>
+</refsect1><refsect1>
+<title>APPLICATION USAGE</title>
+<para>If the <function>DtWsmGetWorkspaceInfo</function> function is not successful,
+failure may be due to a memory allocation error or failure to find the correct
+workspace information (that is, the <![ %CDE.C.XO; [workspace manager
+]]><![ %CDE.C.CDE; [&str-XZ; workspace manager, &cdeman.dtwm;, ]]>is
+not running). The application must use the &cdeman.DtWsmFreeWorkspaceInfo; function to free the data returned in <emphasis>*ppWsInfo</emphasis>.
+The <emphasis>*backdropWindows</emphasis> pointer may be useful for applications
+that are interested in some events on the root window. Since the backdrop
+covers the root window, the backdrop catches the button events before they
+reach the root.</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.Dt.Wsm.h;, <![ %CDE.C.CDE; [ &cdeman.dtwm;, ]]>&cdeman.DtWsmGetWorkspaceList;, &cdeman.DtWsmFreeWorkspaceInfo;.</para>
+</refsect1></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->
+<?Pub Caret>
+<?Pub *0000036558>

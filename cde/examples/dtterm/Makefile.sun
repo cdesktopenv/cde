@@ -1,0 +1,45 @@
+# $XConsortium: Makefile.sun /main/2 1996/05/13 11:51:45 drk $
+##########################################################################
+#
+#  Makefile for dtterm examples (SUN)
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Novell, Inc.
+#
+##########################################################################
+
+CC		= cc
+RM		= rm -f
+
+PROGRAM		= term
+SOURCES		= term.c
+OBJECTS		= term.o
+
+DEFINES		= 
+CDEBUGFLAGS	= -O
+CFLAGS		= $(DEFINES) $(CDEBUGFLAGS)
+
+DTINCLUDE	= -I/usr/dt/include
+X11INCLUDE	= -I/usr/openwin/include
+
+INCLUDES	= $(DTINCLUDE) $(X11INCLUDE)
+
+DTLIBS		= -L/usr/dt/lib -lDtTerm -lDtHelp -lXm
+X11LIBS		= -L/usr/openwin/lib -lXt -lX11
+SYSLIBS		= -ldl -lw -lgen
+
+LIBRARIES	= $(DTLIBS) $(X11LIBS) $(SYSLIBS)
+LDFLAGS		= -R/usr/dt/lib:/usr/openwin/lib
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM)
+
+$(PROGRAM)::	$(OBJECTS)
+	$(CC) -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+clean::
+	$(RM) $(PROGRAM) $(OBJECTS)

@@ -1,0 +1,648 @@
+<!-- $XConsortium: ch07.sgm /main/4 1996/10/11 09:24:11 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="infoapg.div.7">
+<title id="tgmdnkb6vm9x3cs">Understanding Information Manager Style Sheets</title>
+<IndexTerm><Primary>style sheets</Primary><Secondary>understanding</Secondary></IndexTerm>
+<para>
+Style sheets control the appearance of your documents in the Information
+Manager browser by defining the on-line and print formatting
+characteristics of every element in your DTD. Information Manager style
+sheets must conform to the stylesheet document type definition,
+<filename>dtinfoStyle.dtd</filename>.
+</para>
+<para>
+Style sheets are specified as part of the bookcase specification
+document. To build an information library with the Information Manager,
+you must reference a default style sheet at the bookcase level. For more
+information see <filename>dtinfoBook.dtd(5)</filename>,
+<link linkend="n0Crl2IBiWmBt8oL">About the Build Process and Tools</link>,
+and <link linkend="j3fa6XBbiK9X3cS">Using Style Sheets</link>.
+</para>
+<para>
+For specific information about creating style sheets see:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="whpipbbc3h9x3cs">Style Sheet Structure</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="btcmaab0ang24ak">Creating a Style Sheet</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="suwh3wbmhwy94ak">Style Features</link>
+</para>
+</listitem>
+
+</itemizedlist>
+<!-- ))))))))))))))))))))))))))))))))))))))))))))) -->
+<sect1>
+<title id="whpipbbc3h9x3cs">Style Sheet Structure</title>
+<IndexTerm><Primary>style sheet structure</Primary></IndexTerm>
+<para>
+A style sheet consists of <systemitem>AutoNumber</systemitem>
+declarations, followed by <systemitem>Path</systemitem> statements
+and style specifications.
+</para>
+<para>
+You can specify style sheets at the bookcase, book, and section
+levels. If, at a level subordinate to the bookcase level, you do
+not specify a style sheet, the style for that level is inherited
+from a containing element. If no style sheet is specified in a containing
+element, the text appears in the Information Manager Reading Window
+in 14 point Helvetica, the default as specified in the global
+Xresources file. The default font for print is 12 point Helvetica.
+</para>
+<note>
+<para>
+For more information on inheritance, see
+<link linkend="pgqaykbbgsg24ak">Understanding Inheritance</link>.
+</para>
+</note>
+<para>
+Each style sheet must have a unique name within the scope of a Bookcase
+document. The Information Manager uses the style sheet name as a
+reference within a bookcase and within each of its books and sections.
+</para>
+<para>
+Creating a style sheet is essentially a matter of selecting
+elements, via a <link linkend="jipipbbc3h9x3cs"><systemitem>Path</systemitem></link>
+statement, by name, context, and attribute(s), and then assigning
+typographic properties to the <systemitem>Path</systemitem>.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+You can use the <systemitem>Select</systemitem>
+feature within a path to select elements by attribute value, by
+absolute position, or by relative position.
+</para>
+</listitem>
+<listitem>
+<para>
+You use <systemitem>Path</systemitem>
+statements in the style sheet to identify the elements you wish to
+format using <systemitem>Online</systemitem> and/or
+<systemitem>Print</systemitem> (hard copy) feature
+specifications.
+</para>
+</listitem>
+<listitem>
+<para>
+The <systemitem>Online</systemitem>
+and <systemitem>Print</systemitem> feature sets
+match in function, description, and specification except for these
+<link linkend="cwccmncd70hp2ol">print-specific features</link>:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="n4kpipbbc3h9x3cs">Medium</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="r74dmncp70hp2ol">PageBreak</link>
+</para></listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<para>
+Here is a partial example of style sheet syntax specifying
+the formatting characteristics of a Chapter
+element, which in some documentation is the largest element that
+uses the <systemitem>DTINFO.Section</systemitem>
+architectural form. Specifying the largest <systemitem>DTINFO.Section</systemitem>
+as the first <systemitem>Path</systemitem> in your style sheet is
+sometimes useful for setting up default rendering characteristics.
+</para>
+<literallayout>
+&lt;Path>
+Chapter&lt;/Path>
+&lt;online>
+   &lt;wrap word>
+   &lt;margin left=20 right=20>
+   &lt;font fallback=sans weight=medium  slant=roman size=14>
+   &lt;family name=helvetica charset="iso8859-1">
+   &lt;/font>
+&lt;/online>
+</literallayout>
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="jipipbbc3h9x3cs">Specifying the Path</title>
+<IndexTerm><Primary>specifying the path</Primary></IndexTerm>
+<para>
+A path statement specifies the hierarchical path from the
+outermost containing element to an element that will be affected
+by some feature you specify in the style sheet. To identify a particular
+element in a given hierarchy, you simply specify the minimum unique
+path to that element.
+</para>
+<para>
+A path is always resolved by the first path specification
+that matches the element or element class in context. You can use
+wildcard characters as well as special element
+<systemitem>Select</systemitem> statements to identify
+specific elements for formatting. <systemitem>Select</systemitem>
+statements are described in <link linkend="n6jmj9jbj6ng24ak">Using
+Select Statements</link>.
+</para>
+<para>
+In the following figure, the Chapter
+element contains a Title followed by two Paragraph
+elements and a Section element. The Section
+element, in turn, contains a Title and two Paragraph elements.
+</para>
+<Figure>
+<Title id="n1mievocfe0hp2ol">Simple Document Hierarchy</Title>
+<GRAPHIC id="gr71" entityref="infoapg.fig.10"></graphic>
+</Figure>
+<para>
+Based on the preceding figure, the complete path for
+the Section element is:
+</para>
+<programlisting>
+&lt;Path> Chapter Section &lt;/Path>
+</programlisting>
+<note>
+<para>
+Because the hierarchy in the diagram contains only one Section element,
+the element name alone is sufficient to identify the Section element.
+</para>
+</note>
+<para>
+To identify Paragraph elements contained in Section
+elements, the path is:
+</para>
+<programlisting>
+&lt;Path>Chapter Section Paragraph &lt;/Path>
+</programlisting>
+<para>
+Two wildcards are available for specifying paths in a style sheet:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+The question mark ( <literal>?</literal> )
+specifies that any single element can intervene.
+</para>
+</listitem>
+<listitem>
+<para>The asterisk ( <literal>*</literal> )
+wildcard specifies zero or any number of intervening elements.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+Based on the figure above, the following two statements specify
+the same element:
+</para>
+<programlisting>
+&lt;Path> Chapter Section Title &lt;/Path>
+</programlisting>
+<programlisting>
+&lt;Path> Chapter ? Title &lt;/Path>
+</programlisting>
+<para>
+However, unlike the two PATH statements above, the following PATH statement
+selects more than the Title statement contained in Section.
+</para>
+<programlisting>
+&lt;Path> Chapter * Title &lt;/Path>
+</programlisting>
+</sect2>
+</sect1>
+
+<!--)))))))))))))))))))))))))))))))))))))))))-->
+
+<sect1>
+<title id="n6jmj9jbj6ng24ak">Using Select Statements</title>
+<IndexTerm><Primary>select statements</Primary></IndexTerm>
+<para>
+<systemitem>Select</systemitem> statements
+enable you to apply a different style to the same element in different
+contexts. For example, by using a <systemitem>Select</systemitem>
+statement, you can apply a different set of formatting characteristics
+to a paragraph element depending on whether it follows a particular
+type of head, is subordinated within a list, or is part of a warning.
+This is possible because <systemitem>Select</systemitem>
+statements enable you to match specific instances of the element
+either by the element's attribute value or by its position.
+</para>
+<para>
+Each element in a <systemitem>Path</systemitem> can have its own
+<systemitem>Select</systemitem> statement. <systemitem>Select</systemitem> statements
+use simple comparison operators: equal to (==), not equal to (!=), and boolean operators,
+"and" (&#38;&#38;) and "or" (||).
+</para>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="lkb3nlchsaznuzs">Identifying Elements by Attribute</title>
+<para>
+You can identify elements by using element attribute values.
+For example, if a Paragraph element
+has the following start-tag:
+</para>
+<programlisting>
+&lt;PARAGRAPH label="UNIque">
+</programlisting>
+<para>
+then the path to that Paragraph element can be specified as:
+</para>
+<programlisting>
+&lt;PATH>Paragraph &lt;Select>@label == "UNIque"&lt;/Select>
+&lt;/PATH>
+</programlisting>
+<para>
+Any element attribute can be used in this way by prepending
+the "@" character to the attribute name. Similarly, the same
+Paragraph element could be specifically
+excluded with the following statement:
+</para>
+<programlisting>
+&lt;PATH>Paragraph &lt;Select>@label != "UNIque"&lt;/Select>
+&lt;/PATH>
+</programlisting>
+</sect2>
+<!--(((((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="azp3nlcmsaznuzs">Identifying Elements by Position</title>
+<para>
+You can identify elements by position using models based on
+the relative or absolute position of an element in the element hierarchy.
+The two approaches, with their identifying keywords, are:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+The absolute position of elements
+in the parse tree, using the <systemitem>"Position"</systemitem>
+keyword.
+</para>
+</listitem>
+<listitem>
+<para>The relative position of elements among like siblings,
+using the <systemitem>"Sibling"</systemitem> keyword.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+These two models can be used together in any
+<systemitem>Path</systemitem> statement. Both require
+numbers as values, but you can also use a special value,
+<systemitem>"#LAST"</systemitem>, to specify the last element
+in a list of elements. The example DTD Fragment and Document Instance
+Fragments below illustrates two possible absolute and relative position
+element selection models. The sample <systemitem>Path</systemitem>
+statements that follow use the two models to illustrate how you
+can use these selection mechanisms to select specific element items.
+</para>
+
+<example>
+<title id="itzl.ocz40hp2ol">DTD Fragment and Document Instance Fragments</title>
+
+<literallayout>
+&lt;!ELEMENT List - - (Title?,Item+)> 
+&lt;!ATTLIST List  Type     (Bulleted|Numbered)    "Bulleted">  
+&lt;!ELEMENT Title - - #PCDATA > 
+&lt;!ELEMENT Item  - - #PCDATA > 
+INSTANCE A:                         INSTANCE B: 
+&lt;List Type="Numbered">           &lt;List Type="Numbered"> 
+&lt;Item>Fee&lt;/item>              &lt;Title>Fee Fie Foe Fum&lt;/item> 
+&lt;Item>Fie&lt;/item>              &lt;Item>Fee&lt;/item> 
+&lt;Item>Foe&lt;/item>              &lt;Item>Fie&lt;/item> 
+&lt;Item>Fum&lt;/item>              &lt;Item>Foe&lt;/item> 
+&lt;/List>                          &lt;Item>Fum&lt;/item>                            
+                                    &lt;/List>
+</literallayout>
+</example>
+
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((-->
+
+<sect3>
+<title id="n7ch3nlcwsaznuzs">Absolute Position Model</title>
+<para>
+You can select an element based on its absolute position in
+the parse tree by using the <systemitem>"Position"</systemitem>
+keyword in <systemitem>SELECT</systemitem> statements.
+</para>
+<para>
+In the example DTD Fragment and Document Instance Fragments
+shown above, the content model allows an optional Title element,
+but in Instance A, the optional Title element is not used.
+The following path identifies the first Item
+element in Instance A:
+</para>
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>  Item &lt;Select>position == 1 &lt;/Select>
+&lt;/PATH>
+</programlisting>
+<para>
+If the preceding path were used for Instance B, the Information Manager
+would not find the first Item element because its absolute position in
+the parse tree is second, after its peer Title.
+</para>
+<para>
+The following path selects the remaining Item elements in Instance A:
+</para>
+
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>  Item &lt;Select>position != 1 &lt;/Select>
+&lt;/PATH>
+</programlisting>
+
+<para>
+If the preceding path were used in Instance B, all of the
+Item elements would match.
+</para>
+</sect3>
+<!-- (((((((((((((((((((((((((((((((((((((((((((( -->
+<sect3>
+<title id="jrj3nlcbsaznuzs">Relative Position Model</title>
+<para>
+You can select elements based on their position, relative
+to like siblings, in the parse tree by using the
+<systemitem>"Sibling"</systemitem> keyword in
+<systemitem>Select</systemitem> statements. This model
+provides a direct method for selecting the first and last elements
+in a group of like elements.
+</para>
+<para>
+You can identify the first Item
+element in either Instance A or Instance B with the following statement:
+</para>
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>   Item &lt;Select> sibling == 1 &lt;/Select>
+&lt;/PATH>
+</programlisting>
+<para>
+The following path identifies the last Item element in both Instances:
+</para>
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>   Item &lt;Select> sibling == "#LAST" &lt;/Select>
+&lt;/PATH>
+</programlisting>
+</sect3>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="n62r3nlcgsaznuzs">Grouping Select Expressions</title>
+<para>
+You can group <systemitem>Select</systemitem>
+expressions to identify the elements that are neither first nor
+last by using the following comparison operators:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+&#38;&#38; -- The "and" operator.
+All expressions must be true.
+</para>
+</listitem>
+<listitem>
+<para>|| -- The "or" operator. Any expression can be true.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+Although no grouping operator is provided, the natural left-to-right
+logic effects similar results. The following path shows a compound
+<systemitem>Select</systemitem> statement for
+Instance B:
+</para>
+<programlisting>
+&lt;PATH> List &lt;Select>@Type == "Numbered"&lt;/Select>     Item &lt;Select>sibling != 1 &#38;&#38; position != "#LAST" &lt;/Select>
+&lt;/PATH>
+</programlisting>
+<para>
+As described above, the content of a <systemitem>Select</systemitem>
+statement can specify either position or attribute value. And, more
+than one <systemitem>Select</systemitem> can occur
+in a <systemitem>Path</systemitem> statement (one
+per element name). Here are some additional guidelines regarding
+the use of <systemitem>Select</systemitem> statements.
+</para>
+<variablelist>
+<varlistentry>
+<term>position == <replaceable>n</replaceable></term>
+<listitem>
+<para>
+Selects the element if its relative position in
+a string of elements is equal to <replaceable>n</replaceable>. For
+example <userinput>position == 3</userinput> selects
+the element if its position is equal to 3. A space must precede
+and follow the <userinput>==</userinput>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>position != <replaceable>n</replaceable></term>
+<listitem>
+<para>
+Selects the element if its relative position in
+a string of elements is <emphasis>not</emphasis> equal to <replaceable>n</replaceable>.
+For example <userinput>position != 3</userinput>
+selects the element if its position is <emphasis>not</emphasis>
+equal to 3. A space must precede and follow the <userinput>!=</userinput>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>@<replaceable>attribute</replaceable> == <replaceable>"string"</replaceable></term>
+<listitem>
+<para>Selects the element if its <replaceable>attribute</replaceable>
+is equal to <replaceable>string</replaceable>. For example,
+<userinput>@label == "chapter"</userinput> specifies
+an element that has a label attribute with the value "chapter".
+A space must precede and follow the <userinput>==</userinput>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>@<replaceable>attribute</replaceable> != "<replaceable>string</replaceable>"</term>
+<listitem>
+<para>Selects the element if its <replaceable>attribute</replaceable>
+is <emphasis>not</emphasis> equal to <replaceable>string</replaceable>.
+For example, <userinput>@label != "chapter"</userinput>
+specifies an element that has a label attribute that does <emphasis>not</emphasis>
+have the value "chapter". A space must precede and follow the <userinput>!=</userinput>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+This example specifies a title element that has a label attribute
+with the value "chapter":
+</para>
+<programlisting>
+&lt;Path> * title &lt;Select>@label == "chapter"&lt;/Select>
+&lt;/Path>
+</programlisting>
+<note>
+<para>
+The Information Manager does not support selection on a wildcard. For example:
+<userinput>&lt;Path> * &lt;Select>@label == "Chapter" &lt;/Select>&lt;/Path></userinput> is not supported.
+</para>
+</note>
+</sect2>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="zqw3nlcmsaznuzs">Element Hierarchies and DTINFO.Section</title>
+<para>
+For style sheets, the element hierarchy defined by the source
+DTD is not necessarily the only element hierarchy that requires
+formatting. Each element to which the <systemitem>DTINFO.Section</systemitem>
+Architectural Form is applied constitutes the root of a separate
+element hierarchy you must address. Thus, the element paths in the
+figure <link linkend="n1mievocfe0hp2ol">Simple Document Hierarchy</link>
+are true if <systemitem>DTINFO.Section</systemitem>
+is applied only to the Chapter element.
+</para>
+<para>
+However, if <systemitem>DTINFO.Section</systemitem>
+were applied to both Chapter and Section, then the
+minimum unique path for the Paragraph
+elements contained in Section
+elements would be:
+</para>
+<programlisting>
+&lt;Path> Section Paragraph
+&lt;/Path>
+</programlisting>
+<para>
+Likewise, for Paragraph elements contained in Chapter
+elements, the path would be:
+</para>
+<programlisting>
+&lt;Path> Chapter Paragraph
+&lt;/Path>
+</programlisting>
+</sect2>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="pgqaykbbgsg24ak">Understanding Inheritance</title>
+<para>
+Some style sheet features are inherited from a containing
+parent element. As the short example style sheet below illustrates,
+child elements will display the inheritable formatting characteristics
+of the parent until the style sheet specifies different formatting
+characteristics for either the parent or the child. If the style
+features for the parent are changed, then all of its child elements
+inherit the same changes.
+</para>
+<para>
+The example style sheet shows <systemitem>Path</systemitem>
+statements for the elements SECT1, SECT1 TITLE, and PARA. Note that
+<systemitem>Font</systemitem>, <systemitem>Family</systemitem>,
+and <systemitem>Margin</systemitem> are set in the SECT1
+element and are inherited by the other elements (SECT1 TITLE and
+PARA) that are contained by SECT1. In the second <systemitem>Path</systemitem>
+statement, the font size and weight values are reset to 18-point
+medium for all SECT1 TITLE elements. These new values are not inherited
+by the PARA element because PARA is a child of SECT1, not of SECT1
+TITLE.
+</para>
+<example>
+<title id="vpgq.occ50hp2ol">Example Short Style Sheet</title>
+<literallayout>
+&lt;STYLESHEET Name=General>
+
+&lt;path>
+SECT1 &lt;/path>
+&lt;Online>
+   &lt;Font Fallback=sans Weight=medium Slant=roman Size=14>
+   &lt;Family Name=helvetica Charset=iso8859-1>
+   &lt;Margin Left=20 Right=20 Top=30 Bottom=30>
+&lt;/Online>
+
+&lt;path> SECT1 TITLE &lt;/path>
+&lt;Online>
+   &lt;Font  Weight=bold  Size=18> 
+&lt;/Online>
+
+&lt;path>
+PARA &lt;/path>
+&lt;Online>
+   &lt;Linebreak both>
+   &lt;Layout  ASpace=6  BSpace=6> 
+&lt;/Online>
+
+&lt;/STYLESHEET>
+
+</literallayout></example>
+<para>
+The inherited style features are:
+</para>
+<itemizedlist>
+<listitem>
+<para><link linkend="rrn5xmc0gwwa0yk">Font</link></para>
+</listitem>
+<listitem>
+<para><link linkend="ujpipbbc3h9x3cs">HighLight</link></para>
+</listitem>
+<listitem>
+<para><link linkend="djpipbbc3h9x3cs">Ignore</link></para>
+</listitem>
+<listitem>
+<para><link linkend="jjpipbbc3h9x3cs">Layout</link></para>
+</listitem>
+<listitem>
+<para><link linkend="xjpipbbc3h9x3cs">Margin</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n4kpipbbc3h9x3cs">Medium</link></para>
+</listitem>
+</itemizedlist>
+
+<para>
+The style features that are not inherited are:
+</para>
+<itemizedlist>
+<listitem>
+<para><link linkend="dq2emncz70hp2ol">Border</link></para>
+</listitem>
+<listitem>
+<para><link linkend="yrddmncb70hp2ol">Cell</link></para>
+</listitem>
+<listitem>
+<para><link linkend="qjpipbbc3h9x3cs">ColFormat</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n0jpipbbc3h9x3cs">LineBreak</link>
+</para>
+</listitem>
+<listitem>
+<para><link linkend="r74dmncp70hp2ol">PageBreak</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n4llcmnc770hp2ol">Position</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n9kpipbbc3h9x3cs">Prefix and Suffix</link></para>
+</listitem>
+<listitem>
+<para><link linkend="w9jdmnch70hp2ol">Row</link></para>
+</listitem>
+<listitem>
+<para><link linkend="n0sodmncn70hp2ol">Table</link></para>
+</listitem>
+<listitem>
+<para>TGroup</para>
+</listitem>
+</itemizedlist>
+
+
+</sect1>
+</chapter>

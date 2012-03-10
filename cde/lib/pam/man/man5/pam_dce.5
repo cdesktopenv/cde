@@ -1,0 +1,146 @@
+.\" $XConsortium: pam_dce.5 /main/5 1996/10/29 15:41:52 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam_dce 5 "19 Jan 1996"
+.SH NAME
+pam_dce \- authentication, account, and password management PAM functions for DCE
+.SH SYNOPSIS
+.LP
+.B /usr/lib/security/pam_dce.so.1
+.P
+.LP
+.SH DESCRIPTION
+.IX "pam_dce" "" "\fLpam_dce\fP \(em authentication, account, and password management for DCE"
+.PP
+The DCE PAM module allows for integration of DCE into the system entry services
+(such as
+.BR login )
+through the
+.BR pam.conf (4)
+file.
+The DCE service module for PAM consists of
+three components:
+authentication, account management, and password management.
+All three components are supported through the same loadable library,
+.BR /usr/lib/security/pam_dce.so.1 .
+.SH DCE Authentication Module
+The DCE authentication component
+provides functions to verify the identity of a user
+(\f3pam_sm_authenticate\f1(3)),
+and to initialize DCE credentials
+(\f3pam_sm_setcred\f1(3)).
+The DCE implementation of the
+.BR pam_sm_authenticate (3) 
+function compares the user entered password with the password from the DCE Security
+Service (i.e., the DCE Registry). If the passwords match, the user is 
+authenticated and obtains DCE credentials.
+The following options may be passed to the DCE Authentication module:
+.RS
+.IP debug 15
+Syslog debugging information at the LOG_DEBUG level.
+.IP nowarn 15
+Turns off warning messages about not being able to acquire DCE credentials.
+.IP use_first_pass 15
+Use the user's  initial password (entered when the user is authenticated to the
+first authentication module in the stack) to authenticate with DCE.
+If the passwords do not match, or if this is the first authentication module in the 
+stack, quit and do not prompt the user for a password. It is
+recommended that this option only be used if the DCE authentication 
+module is designated as
+.I optional
+in the
+.B pam.conf
+configuration file. 
+.IP try_first_pass 15
+Use the user's  initial password (entered when the user is authenticated to the
+first authentication module in the PAM stack) to authenticate with DCE.  If the
+passwords do not match, or if this is the first authentication module in the 
+stack, prompt the user for a password. 
+.IP use_mapped_pass 15
+This option will attempt to retrieve the "onc_dce_passwd" attribute from
+the user's XFN context and use the user's initial password to decrypt
+the DCE password stored in this attribute. If the DCE password stored in
+this attribute is incorrect, then quit and do not prompt the user for a
+password. It is recommended that this option only be used if the DCE
+authentication module is designated as
+.I optional.
+.IP try_mapped_pass 15
+Similar to 
+.B use_mapped_pass
+with two exceptions. If the DCE password is incorrect,
+prompt for it. Once a valid DCE password is entered, encrypt it
+using the initial (first) password and store the encrypted value in the
+"onc_dce_passwd" attribute in the user's XFN context.
+.PP
+Note that both
+.B use_mapped_pass 
+and
+.B try_mapped_pass
+require that the UNIX authentication module (see
+.BR pam_unix (5))
+occurs before the DCE
+authentication module. This to ensure that the user's secure RPC credentials
+(for XFN/NIS+) have already been acquired.
+.RE
+
+If the user's DCE account has expired then an 
+error will be returned from
+.BR pam_sm_authenticate (3).
+.PP
+In order to authenticate the user to the DCE security service
+.BR pam_sm_authenticate (3)
+calls 
+.BR sec_login_setup_identity (3)
+followed by
+.BR sec_login_valid_and_cert_ident (3).
+.PP
+.BR pam_sm_setcred (3) 
+calls the function
+.BR sec_login_set_context (3)
+to set the DCE credentials after they have been validated by
+.BR pam_sm_authenticate .
+.SH DCE Account Management Module
+The DCE account management component
+provides a function to perform account management
+(\f3pam_sm_acct_mgmt\f1(3)).
+The DCE implementation of the
+.BR pam_sm_acct_mgmt (3)
+function retrieves the user's account and password expiration information from
+the DCE Security Server and verifies that the user's account and password
+have not expired.
+The following options may be passed to the DCE account module:
+.RS
+.IP allow_expired_passwd 20
+Allows a user with an expired password to login.
+.IP debug 20
+Syslog debugging information at the LOG_DEBUG level.
+.IP nowarn 20
+Turns off the warning messages displayed when a user's account and/or
+password are going to expire.
+.RE
+.PP
+.BR pam_sm_acct_mgmt (3) 
+calls the function
+.BR sec_login_inquire_net_info (3)
+to retrieve information about when a user's account and/or password is
+going to expire.
+.SH DCE Password Management Module
+The DCE password management component
+provides a function to change passwords
+(\f3pam_sm_chauthtok\f1(3)).
+The following option may be passwd to the DCE account module:
+.RS
+.IP debug 15
+Syslog debugging information at the LOG_DEBUG level.
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR sec_login_setup_identity (3),
+.BR sec_login_valid_and_cert_ident (3),
+.BR sec_login_set_context (3),
+.BR sec_login_inquire_net_info (3),
+.BR pam.conf (4),
+.BR pam_unix (5)

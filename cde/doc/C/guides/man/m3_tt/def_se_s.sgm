@@ -1,0 +1,131 @@
+<!-- $XConsortium: def_se_s.sgm /main/6 1996/09/08 20:12:01 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN66.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN66.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_default_session_set</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_default_session_set</Function></RefName>
+<RefPurpose>set the current default session identifier
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: def_se_s.sgm /main/6 1996/09/08 20:12:01 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>tt_default_session_set</Function></FuncDef>
+<ParamDef>const char *<Parameter>sessid</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_default_session_set</Function> function
+sets the current default session identifier.
+</Para>
+<Para>The ToolTalk service uses the initial user session as the default session and
+supports one session per
+procid.
+The application can make this call before it
+calls
+&cdeman.tt.open; to specify the session to which it wants to connect.
+</Para>
+<Para>The
+<Emphasis>sessid</Emphasis> argument is a pointer to the unique identifier
+for the session in which the procid is interested.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_default_session_set</Function> function returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The current default process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_SESSION</Term>
+<ListItem>
+<Para>The specified ToolTalk session is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>To change to another opened session, the application must use the
+<Function>tt_default_procid_set</Function> function.
+</Para>
+<Para>To join other sessions, the procid must first set the new session as the
+default session, and then initialize and register with the ToolTalk service.
+The calls required must be in the following order:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing><Function>tt_default_session_set</Function>
+<Function>tt_open</Function></ProgramListing>
+</InformalExample>
+<Para>The
+&cdeman.tt.open; may create another ToolTalk procid, the connection to which is
+identified by a procid.
+Only one ToolTalk session per procid is allowed.
+(However, multiple procids are allowed in a client.)
+There are no API calls to determine to which session a particular
+procid
+is connected.
+If it is important for the application to know the session
+to which it is connected, it must make the following calls in the indicated
+order:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing><Function>tt_open</Function>
+<Function>tt_default_session</Function></ProgramListing>
+</InformalExample>
+<Para>The application can then store the information by indexing it by the
+procid
+returned by the
+&cdeman.tt.open; call.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.open;, &cdeman.tt.default.procid;, &cdeman.tt.default.session;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

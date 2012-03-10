@@ -1,0 +1,3619 @@
+<!-- $XConsortium: appa.sgm /main/10 1996/10/30 15:15:26 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Appendix Id="TTUG.MsgTk.div.1">
+<Title Id="TTUG.MsgTk.mkr.1">The Messaging Toolkit</Title>
+<Para>The ToolTalk Messaging Toolkit is a higher-level interface of the ToolTalk API.
+It provides common definitions and conventions to easily integrate basic
+ToolTalk messages and functionality into an application for optimum
+inter&hyphen;operability with other applications that follow the same message
+protocols.</Para>
+<Para>Although most of the messages in the ToolTalk Messaging Toolkit are the
+messages in the standard ToolTalk message sets, the functions of the Messaging
+Toolkit transparently take care of several tasks that would otherwise need to be
+coded separately. For example, the<IndexTerm>
+<Primary>ttdt_file_join</Primary>
+</IndexTerm>
+<Filename>ttdt_file_join</Filename> function will register a
+pattern to observe Deleted, Reverted, Moved, and Saved notices for the
+specified file in the specified scope; it also invokes a callback message.</Para>
+<Sect1 Id="TTUG.MsgTk.div.2">
+<Title>General Description of the ToolTalk Messaging Toolkit</Title>
+<Para>Inter&hyphen;operability is an important theme if independently developed
+applications are to work together. The messages in the toolkit have been agreed
+upon by developers of inter&hyphen;operating applications; the protocols form a small,
+well&hyphen;defined interface that maximizes application autonomy.</Para>
+<Para>The ToolTalk Messaging Toolkit plays a key role in application inter&hyphen;operability
+and offers complete support for messaging. The message protocol specification
+includes the set of messages and how applications should behave when they
+receive the messages. These messages can be retrofitted to any existing
+application to leverage the functionality of the application. You can easily add
+these messages to existing applications to send, receive, and use shared
+information.</Para>
+<Para>Tools that follow the ToolTalk messaging conventions will not use the same
+ToolTalk syntax for different semantics, nor will tools fail to talk to each other
+because they use different ToolTalk syntax for identical semantics. If these
+protocols are observed, cooperating applications can be modified, even
+replaced, without affecting one another.</Para>
+<Para>Most of the messages in the Messaging Toolkit are the messages in the
+standard ToolTalk message sets. For detailed descriptions of the standard
+ToolTalk message sets, see the <Emphasis>ToolTalk Reference Manual</Emphasis>.
+<!--Original XRef content: 'Table&numsp;A&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.2"> lists the
+functions described in this chapter that partly comprise the ToolTalk
+Messaging Toolkit.</Para>
+<Table Id="TTUG.MsgTk.tbl.1" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.2">ToolTalk Messaging Toolkit Functions</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="2.5 in">
+<ColSpec Colname="2" Colwidth="2.5 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Function</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>ttdt_close</Command></Para></Entry>
+<Entry><Para><Emphasis>Destroys a ToolTalk communication
+endpoint</Emphasis></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_file_event</Command></Para></Entry>
+<Entry><Para>Announces an event about a file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_file_join</Command></Para></Entry>
+<Entry><Para>Registers to observe ToolTalk events
+about a file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_file_notice</Command></Para></Entry>
+<Entry><Para>Creates and sends a standard ToolTalk
+notice about a file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_file_quit</Command></Para></Entry>
+<Entry><Para>Unregisters interest in ToolTalk events
+about a file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>ttdt_file_request</Filename></Para></Entry>
+<Entry><Para>Creates and sends a standard ToolTalk
+request about a file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_Get_Modified</Command></Para></Entry>
+<Entry><Para>Asks if any ToolTalk client has changes
+pending on a file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_message_accept</Command></Para></Entry>
+<Entry><Para>Accepts the responsibility for handling a
+ToolTalk request</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_open</Command></Para></Entry>
+<Entry><Para>Creates a ToolTalk communication
+endpoint</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_Revert</Command></Para></Entry>
+<Entry><Para>Requests that a ToolTalk client revert to
+the last saved version of a file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_Save</Command></Para></Entry>
+<Entry><Para>Requests that a ToolTalk client save a file</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_sender_imprint_on</Command></Para></Entry>
+<Entry><Para>Causes a tool to emulate the behavior
+and characteristics of the specified
+ToolTalk tool</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_session_join</Command></Para></Entry>
+<Entry><Para>Joins a ToolTalk session and registers
+patterns and default callbacks for many
+standard desktop messages</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_session_quit</Command></Para></Entry>
+<Entry><Para>Unregisters any patterns and default
+callbacks registered when session joined,
+and quits the ToolTalk session</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttdt_subcontract_manage</Command></Para></Entry>
+<Entry><Para>Manages outstanding requests</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>ttmedia_Deposit</Filename></Para></Entry>
+<Entry><Para>Sends a Deposit request to checkpoint a
+document</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttmedia_load</Command></Para></Entry>
+<Entry><Para>Creates and sends a Media Exchange
+request to display, edit, or compose a
+document</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>ttmedia_load_reply</Filename></Para></Entry>
+<Entry><Para>Replies to a Display, Edit, or Compose
+request</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ttmedia_ptype_declare</Command></Para></Entry>
+<Entry><Para>Declares the ptype of a Media Exchange
+media editor</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_block_while</Filename></Para></Entry>
+<Entry><Para>Blocks the program while awaiting a
+condition such as a reply</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_message_abandon</Filename></Para></Entry>
+<Entry><Para>Fails or rejects a message, then destroys it</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>tttk_message_create</Command></Para></Entry>
+<Entry><Para>Creates a message that conforms to
+messaging conventions</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_message_fail</Filename></Para></Entry>
+<Entry><Para>Fails a message</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_message_receive</Filename></Para></Entry>
+<Entry><Para>Retrieves next ToolTalk message</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_message_reject</Filename></Para></Entry>
+<Entry><Para>Rejects a message</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_op_string</Filename></Para></Entry>
+<Entry><Para>Returns a string for the operation</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>tttk_string_op</Filename></Para></Entry>
+<Entry><Para>Returns the operation for the string</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>tttk_Xt_input_handler</Command></Para></Entry>
+<Entry><Para>Processes ToolTalk events for Xt clients</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect1>
+<Sect1 Id="TTUG.MsgTk.div.3">
+<Title>Toolkit Conventions</Title>
+<Para>Most of the messaging conventions for the toolkit consist of descriptions of the
+standard ToolTalk message sets. This section describes conventions not related
+to any particular standard message set.</Para>
+<Table Id="TTUG.MsgTk.tbl.2" Frame="Topbot">
+<Title>Messaging Toolkit Conventions</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.5 in">
+<ColSpec Colname="2" Colwidth="5.5 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Field</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>fileAttrib</Para></Entry>
+<Entry><Para>Indicates whether the file attribute of the message can or needs to be set. The ToolTalk service
+allows each message to refer to a file, and has a mechanism (called &ldquo;file-scoping&rdquo;) for
+delivering messages to clients that are &ldquo;interested in&rdquo; the named file.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>opName</Para></Entry>
+<Entry><Para>The name of the operation or event (also called &ldquo;op&rdquo;). It is important that different tools use
+the same opName to mean the same thing. Unless a message is a standard one, its opName
+must be unique; for example, prefix the opName with <Filename>Company_Product</Filename> (such as
+<Symbol Role="Variable">Acme_HoarkTool_Hoark_My_Frammistat</Symbol>).</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>requiredArgs</Para></Entry>
+<Entry><Para>Arguments that must always be included in the message.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>optionalArgs</Para></Entry>
+<Entry><Para>Extra arguments that may be included in a message. Any optional arguments in a message
+must be in the specified order and must follow the required arguments.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>vtype argumentName</Para></Entry>
+<Entry><Para>A description of a particular argument. A vtype is a programmer-defined string that describes
+what kind of data a message argument contains. The ToolTalk service uses vtypes only for
+matching sent message instances with registered message patterns. Every vtype should by
+convention map to a single, well-known data type.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect1>
+<Sect1 Id="TTUG.MsgTk.div.4">
+<Title>Using the Messaging Toolkit When Writing Applications</Title>
+<Para>To use the toolkit, include the<IndexTerm>
+<Primary>ToolTalk messaging toolkit header file</Primary>
+</IndexTerm><IndexTerm>
+<Primary>files</Primary>
+<Secondary>ToolTalk messaging toolkit header</Secondary>
+</IndexTerm>
+ToolTalk Messaging Toolkit header file:</Para>
+<ProgramListing>#include &lt;Tt/tttk.h></ProgramListing>
+</Sect1>
+<Sect1 Id="TTUG.MsgTk.div.5">
+<Title>The ToolTalk Messaging Toolkit</Title>
+<Para>This section contains a description of functions that are part of the ToolTalk
+Messaging Toolkit.</Para>
+<Example Id="TTUG.MsgTk.tbl.3">
+<Title><IndexTerm>
+<Primary>ttdt_close</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_close</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_close</Secondary>
+</IndexTerm>ttdt_close</Title>
+<ProgramListing>Tt_status     ttdt_close(   const char *     procid,
+                            const char *     new_procid,
+                            int              sendStopped );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_close</Filename> function destroys a ToolTalk communication endpoint. This
+function calls the<IndexTerm>
+<Primary>ToolTalk functions</Primary>
+<Secondary>tt_close</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>tt_close function</Primary>
+</IndexTerm>
+ToolTalk function <Filename>tt_close</Filename>.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the value of <Command>procid</Command> is <Command>!= 0</Command>, this function calls</Para>
+</ListItem>
+</ItemizedList>
+<programlisting><IndexTerm><Primary>tt_default_procid_set( procid )</Primary></IndexTerm>tt_default_procid_set(  procid  )</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the value of <Filename>new_procid</Filename> is <Command>!= 0</Command>, this function calls</Para>
+</ListItem>
+</ItemizedList>
+<programlisting><IndexTerm><Primary>tt_default_procid_set( new_procid )</Primary></IndexTerm>tt_default_procid_set(  new_procid )</ProgramListing>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the <Command>sendStopped</Command> parameter is set, this function sends a<IndexTerm>
+<Primary>Stopped notice</Primary>
+</IndexTerm>
+Stopped notice.</Para>
+</ListItem>
+</ItemizedList>
+<Para>The <Filename>ttdt_close</Filename> function can return any error returned by the ToolTalk
+functions<IndexTerm>
+<Primary>tt_default_procid_set function</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk functions</Primary>
+<Secondary>tt_default_procid_set</Secondary>
+</IndexTerm>
+<Filename>tt_default_procid_set</Filename> and <Filename>tt_close</Filename>. If the Sending notice
+fails, no errors are propagated.</Para>
+<Example Id="TTUG.MsgTk.tbl.4">
+<Title><IndexTerm>
+<Primary>ttdt_file_event</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_file_event</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_file_event</Secondary>
+</IndexTerm>ttdt_file_event</Title>
+<ProgramListing>Tt_status    ttdt_file_event( Tt_message     context,
+                              Tttk_op        event,
+                              Tt_pattern *   patterns,
+                              int            send );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_file_event</Filename> function uses the ToolTalk service to announce an
+event about a file. This function creates and, optionally, sends a ToolTalk notice
+that announces an event pertaining to a specified file. This file is indicated in
+the path name that was passed to the<IndexTerm>
+<Primary>ttdt_file_join</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_file_join</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_file_join</Secondary>
+</IndexTerm>
+<Filename>ttdt_file_join</Filename> function when the
+<Command>patterns</Command> were created.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;3'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.3"> describes the effect of the value of the <Symbol Role="Variable">event</Symbol> parameter on the
+announcement made.</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="TTUG.MsgTk.tbl.5" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.3">Effect of event Parameter</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.70041 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Event Announced</Literal></Para></Entry>
+<Entry><Para><Literal>Announcement</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TTDT_MODIFIED</Primary>
+</IndexTerm>TTDT_MODIFIED</Filename></Para></Entry>
+<Entry><Para>Registers in the scope passed to the <Filename>ttdt_file_join</Filename>
+function to announce the event to interested tools that handle<IndexTerm>
+<Primary>Get_Modified request</Primary>
+</IndexTerm>
+Get_Modified,<IndexTerm>
+<Primary>Save request</Primary>
+</IndexTerm>
+Save, and<IndexTerm>
+<Primary>Revert request</Primary>
+</IndexTerm>
+Revert requests.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TTDT_SAVED</Primary>
+</IndexTerm>TTDT_SAVED,<IndexTerm>
+<Primary>TTDT_REVERTED</Primary>
+</IndexTerm>
+TTDT_REVERTED</Filename></Para></Entry>
+<Entry><Para>Unregisters handler patterns for Get_Modified, Save, and
+Revert requests.</Para><Para>If the <Command>send</Command> parameter is set, this function sends a<IndexTerm>
+<Primary>Saved notice</Primary>
+</IndexTerm>
+Saved or<IndexTerm>
+<Primary>Reverted notice</Primary>
+</IndexTerm>
+Reverted notice, respectively, in the scope.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the <Command>send</Command> parameter is set, this function sends the<IndexTerm>
+<Primary>Modified notice</Primary>
+</IndexTerm>
+Modified notice in the
+scope.</Para>
+</ListItem>
+<ListItem>
+<Para>If the <Command>context</Command> parameter is a value other than zero, messages created by
+this routine inherit all contexts whose slotname begins with<IndexTerm>
+<Primary>ENV_</Primary>
+</IndexTerm>
+<Filename>ENV_</Filename>.</Para>
+</ListItem>
+</ItemizedList>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;4'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.4"> lists the possible errors that can be returned by this function.</Para>
+<Table Id="TTUG.MsgTk.tbl.6" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.4">Possible Errors Returned by ttdt_file_event</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.61706 in">
+<ColSpec Colname="2" Colwidth="3.41271 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_EINVAL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_EINVAL</Secondary>
+</IndexTerm>TT_DESKTOP_EINVAL</Filename></Para></Entry>
+<Entry><Para>The event notice was invalid.
+Valid event notices are <Filename>TTDT_MODIFIED</Filename>, <Filename>TTD_TSAVED</Filename>,
+and <Filename>TTDT_REVERTED</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>The <Command>patterns</Command> parameter was null.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service has received the maximum amount
+of active messages (2000) it can properly handle.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk
+service tries to restart ttsession if it is not running. This
+error indicates that the ToolTalk service is either not
+installed or not installed correctly.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.7">
+<Title><IndexTerm>
+<Primary>ttdt_file_join</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_file_join</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_file_join</Secondary>
+</IndexTerm>ttdt_file_join</Title>
+<ProgramListing>Tt_message  ( *Ttdt_file_cb) (  Tt_message     msg,
+                                Tttk_op        op,
+                                char *         pathname,
+                                void *         clientdata,
+                                int            same_euid_egid,
+                                int            same_procid );
+
+Tt_pattern * ttdt_file_join(    const char *   pathname,
+                                Tt_scope          the_scope,
+                                int               join,
+                                Ttdt_file_cb       cb,
+                                void *             clientdata );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_file_join</Filename> function registers to observe ToolTalk events on the
+specified file. It registers in the scope to observe<IndexTerm>
+<Primary>Deleted notice</Primary>
+</IndexTerm>
+Deleted,<IndexTerm>
+<Primary>Modified notice</Primary>
+</IndexTerm>
+Modified,<IndexTerm>
+<Primary>Reverted notice</Primary>
+</IndexTerm>
+Reverted,<IndexTerm>
+<Primary>Moved notice</Primary>
+</IndexTerm>
+Moved, and<IndexTerm>
+<Primary>Saved notice</Primary>
+</IndexTerm>
+Saved notices.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>The callback message argument<IndexTerm>
+<Primary>Ttdt_file_cb</Primary>
+</IndexTerm>
+<Filename>Ttdt_file_cb</Filename> takes the parameters listed
+in
+<!--Original XRef content: 'Table&numsp;A&hyphen;5'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.5">.</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="TTUG.MsgTk.tbl.8" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.5">Parameters taken by Ttdt_file_cb</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.73148 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Parameter</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>message</Command></Para></Entry>
+<Entry><Para>The message being sent.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>op</Command></Para></Entry>
+<Entry><Para>The operation being requested.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>pathname</Command></Para></Entry>
+<Entry><Para>The path name of the file to which the message pertains. This
+copy can be freed with the ToolTalk function<IndexTerm>
+<Primary>tt_free</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk functions</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm>
+<Filename>tt_free</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>clientdata</Command></Para></Entry>
+<Entry><Para>The client data contained in the message.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>same_euid_egid</Filename></Para></Entry>
+<Entry><Para>A flag that identifies the sender; if this value is true, the sender
+can be trusted.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>same_procid</Filename></Para></Entry>
+<Entry><Para>A flag that identifies the sender; if this value is true, the sender
+is the same procid as the receiver.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the value of <Filename>the_scope</Filename> parameter is zero (that is,<IndexTerm>
+<Primary>TT_SCOPE_NONE</Primary>
+</IndexTerm>
+<Filename>TT_SCOPE_NONE</Filename>), the
+file scope is set to the default (<IndexTerm>
+<Primary>TT_BOTH</Primary>
+</IndexTerm>
+<Filename>TT_BOTH</Filename>); however, if, for example, the
+ToolTalk database server <Filename>rpc.ttdbserver</Filename> is not installed on the file server
+that owns <Command>pathname</Command>, the file scope is set to<IndexTerm>
+<Primary>TT_FILE_IN_SESSION</Primary>
+</IndexTerm>
+<Filename>TT_FILE_IN_SESSION</Filename>.</Para>
+<Para>The <Filename>ttdt_file_join</Filename> function associates the value of <Filename>the_scope</Filename> and a
+copy of <Command>pathname</Command> with the <Filename>Tt_patterns</Filename> returned to allow the
+<Filename>ttdt_file_quit</Filename> function to access the patterns. The caller can modify or
+free <Command>pathname</Command> after the <Filename>ttdt_file_join</Filename> call returns.</Para>
+</ListItem>
+<ListItem>
+<Para>If the value of the <Command>join</Command> parameter is true, this function calls</Para>
+</ListItem>
+</ItemizedList>
+<programlisting><IndexTerm><Primary>tt_file_join( pathname )</Primary></IndexTerm>tt_file_join(   pathname   )</ProgramListing>
+<Para>This function returns a null-terminated array of <Filename>Tt_pattern</Filename>. Use the<IndexTerm>
+<Primary>ttdt_file_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_file_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_file_quit</Secondary>
+</IndexTerm>
+<Filename>ttdt_file_quit</Filename> function to destroy the array. If an error is returned, the
+returned array is an error pointer that can be decoded with<IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm>
+<Filename>tt_ptr_error</Filename>.
+<!--Original XRef content: 'Table&numsp;A&hyphen;6'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.6"> is a list of the possible errors returned by the <Filename>ttdt_file_join</Filename>
+function.</Para>
+<Table Id="TTUG.MsgTk.tbl.9" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.6">Possible Errors Returned by ttdt_file_join</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.74074 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk service tries
+to restart ttsession if it is not running. This error indicates that
+the ToolTalk service is either not installed or not installed
+correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service could not access the ToolTalk database
+needed for this operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service did not find the specified ToolTalk
+database in the expected place.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PATH</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PATH</Secondary>
+</IndexTerm>TT_ERR_PATH</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service was not able to read a directory in the
+specified file path name.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough memory available to perform the
+operation.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.10">
+<Title><IndexTerm>
+<Primary>ttdt_file_notice</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_file_notice</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_file_notice</Secondary>
+</IndexTerm>ttdt_file_notice</Title>
+<ProgramListing>Tt_message   ttdt_file_notice(     Tt_message     context,
+                                   Tttk_op        op,
+                                   Tt_scope       scope,
+                                   const char *   pathname,
+                                   int            send_and_destroy );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_file_notice</Filename> function creates and, optionally, sends a standard
+ToolTalk notice about a file. Use this function to create the following standard
+file notices:<IndexTerm>
+<Primary>Created notice</Primary>
+</IndexTerm>
+Created,<IndexTerm>
+<Primary>Deleted notice</Primary>
+</IndexTerm>
+Deleted,<IndexTerm>
+<Primary>Moved notice</Primary>
+</IndexTerm>
+Moved,<IndexTerm>
+<Primary>Reverted notice</Primary>
+</IndexTerm>
+Reverted,<IndexTerm>
+<Primary>Saved notice</Primary>
+</IndexTerm>
+Saved, and<IndexTerm>
+<Primary>Modified notice</Primary>
+</IndexTerm>
+Modified.</Para>
+<Note>
+<Para>The<IndexTerm>
+<Primary>ttdt_file_event</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_file_event</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_file_event</Secondary>
+</IndexTerm>
+<Filename>ttdt_file_event</Filename> function is a higher-level interface than the
+<Filename>ttdt_file_notice</Filename> function and is the preferred method to send all notices
+except the Moved notice.</Para>
+</Note>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the <Command>context</Command> parameter is a value other than zero, messages created by
+this routine inherit all contexts whose slotname begins with <Filename>ENV_</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>This function creates a notice with the specified <Symbol Role="Variable">op</Symbol> and <Emphasis>scope</Emphasis> parameters,
+and sets its file attribute to <Command>pathname</Command> parameter.</Para>
+</ListItem>
+<ListItem>
+<Para>If the <Filename>send_and_destroy</Filename> parameter is set, this function sends the message
+and then destroys it.</Para>
+<Para>If the value of the <Filename>send_and_destroy</Filename> parameter is false, the created
+message is returned; if the value of the <Filename>send_and_destroy</Filename> parameter is
+true, zero is returned.</Para>
+</ListItem>
+</ItemizedList>
+<Para>If an error occurs, an error pointer is returned. Use <Filename>tt_ptr_error</Filename> to find out
+the <Filename>Tt_status</Filename>.
+<!--Original XRef content: 'Table&numsp;A&hyphen;7'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.7"> describes possible errors returned by this function.</Para>
+<Table Id="TTUG.MsgTk.tbl.11" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.7">Possible Errors Returned by ttdt_file_notice</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.55754 in">
+<ColSpec Colname="2" Colwidth="3.42263 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk
+service tries to restart ttsession if it is not running. This
+error indicates that the ToolTalk service is either not
+installed or not installed correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough memory available to perform the
+operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service has received the maximum amount
+of active messages (2000) it can properly handle.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service could not access the ToolTalk
+database needed for this operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service did not find the specified ToolTalk
+database in the expected place.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_EINVAL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_EINVAL</Secondary>
+</IndexTerm>TT_DESKTOP_EINVAL</Filename></Para></Entry>
+<Entry><Para>The operation was moved, and the value of the
+<Filename>send_and_destroy</Filename> parameter was true.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>The path name was null, or was a ToolTalk error pointer.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.12">
+<Title><IndexTerm>
+<Primary>ttdt_file_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_file_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_file_quit</Secondary>
+</IndexTerm>ttdt_file_quit</Title>
+<ProgramListing>Tt_status    ttdt_file_quit( Tt_pattern *  patterns,
+                             int           quit );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_file_quit</Filename> function unregisters interest in ToolTalk events about a
+file. This function destroys patterns. If the <Command>quit</Command> parameter is set, this function
+calls</Para>
+<programlisting><IndexTerm><Primary>tt_file_quit( pathname )</Primary></IndexTerm>tt_file_quit( pathname )</ProgramListing>
+<Para>Use this function to unregister interest in the path name that was passed to the<IndexTerm>
+<Primary>ttdt_file_join</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_file_join</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_file_join</Secondary>
+</IndexTerm>
+<Filename>ttdt_file_join</Filename> function when <Emphasis>patterns</Emphasis> was created.
+<!--Original XRef content: 'Table&numsp;A&hyphen;8'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.9"> lists the
+possible errors returned by this function.</Para>
+<Table Id="TTUG.MsgTk.tbl.13" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.8">Possible Errors Returned by ttdt_file_quit</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.73017 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk service tries
+to restart ttsession if it is not running. This error indicates that
+the ToolTalk service is either not installed or not installed
+correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service could not access the ToolTalk database
+needed for this operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service did not find the specified ToolTalk
+database in the expected place.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Command></Para></Entry>
+<Entry><Para>The patterns were null or otherwise invalid.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.14">
+<Title><IndexTerm>
+<Primary>ttdt_file_request</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_file_request</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_file_request</Secondary>
+</IndexTerm>ttdt_file_request</Title>
+<ProgramListing>Tt_message        ttdt_file_request( Tt_message           context,
+                                     Tttk_op              op,
+                                     Tt_scope             scope,
+                                     const char           pathname,
+                                     Ttdt_file_cb         cb,
+                                     void                 client_data,
+                                     int                  send_and_destroy );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_file_request</Filename> function creates, and optionally sends, any
+standard Desktop file&hyphen;scoped request (such as Get_Modified, Save, and
+Revert).</Para>
+<Note>
+<Para>This function is a lower-level interface than the
+<Filename>ttdt_Get_Modified</Filename>,<IndexTerm>
+<Primary>tdt_Get_Modified</Primary>
+</IndexTerm>
+<Filename>ttdt_Save</Filename>,<IndexTerm>
+<Primary>ttdt_Save</Primary>
+</IndexTerm>
+and <Filename>ttdt_Revert</Filename><IndexTerm>
+<Primary>ttdt_Revert</Primary>
+</IndexTerm>
+functions, which create and send the request
+and then block on its reply.</Para>
+</Note>
+<Para>The <Filename>ttdt_file_request</Filename> function creates a request with the specified <Symbol Role="Variable">op</Symbol> and
+<Symbol Role="Variable">scope</Symbol>, and sets its file attribute to <Symbol Role="Variable">pathname</Symbol>. Per Desktop messaging
+conventions, an unset Tt_mode argument of <Filename>TT_IN</Filename> and the vtype <Command>File</Command> is
+added to the request; and if the specified operation is<IndexTerm>
+<Primary>TTDT_GET_MODIFIED</Primary>
+</IndexTerm>
+<Filename>TTDT_GET_MODIFIED</Filename>,
+an unset Tt_mode argument of <Filename>TT_OUT</Filename> and the vtype <Command>Boolean</Command> is also added
+to the request.</Para>
+<Para>If <Symbol Role="Variable">context</Symbol> is not zero, the request created by this routine inherits from
+<Symbol Role="Variable">context</Symbol> all contexts whose slotname are prefixed with <Filename>ENV_</Filename>.</Para>
+<Para>This function installs <Emphasis>cb</Emphasis> as a message callback for the created request, and
+ensures that client data will be passed into the callback. If <Emphasis>send</Emphasis> is true, this
+function sends the request before returning the handle to it.</Para>
+<Para>This function returns the created Tt_message when successful. If an error
+occurs, an error pointer is returned. Use <Filename>tt_ptr_error</Filename> to find out the
+Tt_status.
+<!--Original XRef content: 'Table&numsp;A&hyphen;8'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.8"> lists the possible errors returned by this function.</Para>
+<Table Id="TTUG.MsgTk.tbl.15" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.9">Possible Errors Returned by ttdt_file_request</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.40046 in">
+<ColSpec Colname="2" Colwidth="3.55656 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk service
+tries to restart ttsession if it is not running. This error
+indicates that the ToolTalk service is either not installed or
+not installed correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough available memory to perform the
+operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service has received the maximum amount of
+active messages (2000) it can properly handle.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service could not access the ToolTalk database
+needed for this operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service did not find the specified ToolTalk
+database in the expected place.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Command></Para></Entry>
+<Entry><Para>The path name was null or otherwise invalid.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.16">
+<Title><IndexTerm>
+<Primary>ttdt_Get_Modified</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_Get_Modified</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_Get_Modified</Secondary>
+</IndexTerm>ttdt_Get_Modified</Title>
+<ProgramListing>int          ttdt_Get_Modified(   Tt_message      context,
+                                  const char *    pathname,
+                                  Tt_scope        the_scope,
+                                  XtAppContext    app2run,
+                                  int             ms_timeout );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_Get_Modified</Filename> function asks if any ToolTalk client has changes
+pending on a file. This function sends a<IndexTerm>
+<Primary>Get_Modified request</Primary>
+</IndexTerm>
+Get_Modified request and waits for a
+reply.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the <Symbol Role="Variable">context</Symbol> parameter is a value other than zero, messages created by
+this routine inherit all contexts whose slotname begins with <Filename>ENV_</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>The Get_Modified request asks if any ToolTalk client has changes pending
+on <Symbol Role="Variable">pathname</Symbol> that it intends to make persistent.</Para>
+</ListItem>
+<ListItem>
+<Para>The <Emphasis>the_scope</Emphasis> parameter indicates the scope in which the Get_Modified
+request is sent. If the value of this parameter is zero (that is,<IndexTerm>
+<Primary>TT_SCOPE_NONE</Primary>
+</IndexTerm>
+<Filename>TT_SCOPE_NONE</Filename>), the file scope is set to the default (<IndexTerm>
+<Primary>TT_BOTH</Primary>
+</IndexTerm><Filename>TT_BOTH</Filename>); however, if,
+for example, the ToolTalk database server <Filename>rpc.ttdbserver</Filename> is not installed
+on the file server that owns <Symbol Role="Variable">pathname</Symbol>, the file scope is set to<IndexTerm>
+<Primary>TT_FILE_IN_SESSION</Primary>
+</IndexTerm>
+<Filename>TT_FILE_IN_SESSION</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>The <Emphasis>app2run</Emphasis> and <Emphasis>ms_timeout</Emphasis> parameters are passed to the<IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm>
+<Filename>tttk_block_while</Filename> function to block on the reply to the Get_Modified
+request sent by this function.</Para>
+</ListItem>
+</ItemizedList>
+<Para>If the Get_Modified request receives an affirmative reply within the specified
+time out, the <Filename>ttdt_Get_Modified</Filename> function returns non-zero; otherwise, it
+returns zero. This call does not return any errors.</Para>
+<Example Id="TTUG.MsgTk.tbl.17">
+<Title><IndexTerm>
+<Primary>ttdt_message_accept</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ttdt_message_receive</Primary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_message_accept</Secondary>
+</IndexTerm>ttdt_message_accept</Title>
+<ProgramListing>Tt_pattern *     ttdt_message_accept(     Tt_message         contract,
+                                          Ttdt_contract_cb   cb,
+                                          void *             clientdata,
+                                          Widget             shell,
+                                          int                accept,
+                                          int                sendStatus );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_message_accept</Filename> function accepts a contract to handle a ToolTalk
+request. A tool calls this function when it wants to accept responsibility for
+handling (that is, failing or rejecting) a request.</Para>
+<Para>A<IndexTerm>
+<Primary>Ttdt_contract_cb argument</Primary>
+</IndexTerm>
+<StructName Role="typedef">Ttdt_contract_cb</StructName> argument takes the parameters listed in
+<!--Original XRef content: 'Table&numsp;A&hyphen;10'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.10">.</Para>
+<Table Id="TTUG.MsgTk.tbl.18" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.10">Parameters Taken by the Ttdt_contract_cb Argument</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.61707 in">
+<ColSpec Colname="2" Colwidth="3.37302 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Parameter</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>Tt_message msg</Command></Para></Entry>
+<Entry><Para>The request in the sent state.
+The client program must either fail, reject, or reply to
+the message.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tttk_op op</Command></Para></Entry>
+<Entry><Para>The operation of the incoming request.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Widget shell</Command></Para></Entry>
+<Entry><Para>The shell passed to the <Filename>ttdt_message_accept</Filename>
+function.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>void *clientdata</Command></Para></Entry>
+<Entry><Para>The client data passed to the <Filename>ttdt_message_accept</Filename>
+function.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tt_message contract</Command></Para></Entry>
+<Entry><Para>The contract passed to the <Filename>ttdt_message_accept</Filename>
+function.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>If the callback processes the message <Emphasis>msg</Emphasis> successfully, it returns zero;
+otherwise, it returns a <Filename>tt_error_pointer</Filename> cast to <Filename>Tt_message</Filename>.</Para>
+<Para>If the callback does not consume the message <Emphasis>msg</Emphasis>, it returns the message and
+passes the <Filename>TT_CALLBACK_CONTINUE</Filename> routine down the call stack to offer the
+message to other callbacks, or to return it to the <Filename>tt_message_receive</Filename> call.</Para>
+<Para>The <Filename>ttdt_message_accept</Filename> function registers in the default session for the
+handler&hyphen;addressed requests described in
+<!--Original XRef content: 'Table&numsp;A&hyphen;11'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.11">.</Para>
+<Table Id="TTUG.MsgTk.tbl.19" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.11">Requests for which ttdt_message_accept Registers</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.0 in">
+<ColSpec Colname="2" Colwidth="6.00926 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Request</Literal></Para></Entry>
+<Entry><Para><Literal>How Request Is Handled</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Get_Geometry request</Primary>
+</IndexTerm>Get_Geometr
+y,<IndexTerm>
+<Primary>Set_Geometry request</Primary>
+</IndexTerm>
+Set_Geometr
+y</Command></Para></Entry>
+<Entry><Para>If the <Symbol Role="Variable">shell</Symbol> parameter is not null, these requests are handled transparently; if the <Symbol Role="Variable">shell</Symbol> parameter is
+null and the <Emphasis>cb</Emphasis> parameter is not null, these requests are passed to the callback routine; otherwise, these
+requests fail with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Get_Iconified request</Primary>
+</IndexTerm>Get_Iconifi
+ed,<IndexTerm>
+<Primary>Set_Iconified request</Primary>
+</IndexTerm>
+Set_Iconifi
+ed</Command></Para></Entry>
+<Entry><Para>If the <Symbol Role="Variable">shell</Symbol> parameter is not null, these requests are handled transparently; if the <Symbol Role="Variable">shell</Symbol> parameter is
+null and the <Emphasis>cb</Emphasis> parameter is not null, these requests are passed to the callback routine; otherwise, these
+requests fail with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Get_Mapped request</Primary>
+</IndexTerm>Get_Mapped,<IndexTerm>
+<Primary>Set_Mapped request</Primary>
+</IndexTerm>
+Set_Mapped</Command></Para></Entry>
+<Entry><Para>If the <Symbol Role="Variable">shell</Symbol> parameter is not null, these requests are handled transparently; if the <Symbol Role="Variable">shell</Symbol> parameter is
+null and the <Emphasis>cb</Emphasis> parameter is not null, these requests are passed to the callback routine; otherwise, these
+requests fail with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Raise request</Primary>
+</IndexTerm>Raise</Command></Para></Entry>
+<Entry><Para>If the <Symbol Role="Variable">shell</Symbol> parameter is not null, this request is handled transparently; if the <Symbol Role="Variable">shell</Symbol> parameter is null
+and the <Emphasis>cb</Emphasis> parameter is not null, these requests are passed to the callback routine; otherwise, these
+requests fail with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Lower request</Primary>
+</IndexTerm>Lower</Command></Para></Entry>
+<Entry><Para>If the <Symbol Role="Variable">shell</Symbol> parameter is not null, this request is handled transparently; if the <Symbol Role="Variable">shell</Symbol> parameter is null
+and the <Emphasis>cb</Emphasis> parameter is not null, these requests are passed to the callback routine; otherwise, these
+requests fail with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Get_XInfo</Command>,<IndexTerm>
+<Primary>Get_XInfo request</Primary>
+</IndexTerm>
+<Command>Set_XInfo</Command><IndexTerm>
+<Primary>Set_XInfo request</Primary>
+</IndexTerm></Para></Entry>
+<Entry><Para>If the <Symbol Role="Variable">shell</Symbol> parameter is not null, these requests are handled transparently; if the <Symbol Role="Variable">shell</Symbol> parameter is
+null and the <Emphasis>cb</Emphasis> parameter is not null, these requests are passed to the callback routine; otherwise, these
+requests fail with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Pause request</Primary>
+</IndexTerm>Pause</Command></Para></Entry>
+<Entry><Para>If the <Emphasis>cb</Emphasis> parameter is not null, this request is passed to the callback routine; otherwise, it fails with the
+error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Resume request</Primary>
+</IndexTerm>Resume</Command></Para></Entry>
+<Entry><Para>If the <Emphasis>cb</Emphasis> parameter is not null, this request is passed to the callback routine; otherwise, it fails with the
+error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Quit request</Primary>
+</IndexTerm>Quit</Command></Para></Entry>
+<Entry><Para>If the <Emphasis>cb</Emphasis> parameter is not null, this request is passed to the callback routine; otherwise, it fails with the
+error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Get_Status request</Primary>
+</IndexTerm>Get_Status</Filename></Para></Entry>
+<Entry><Para>If the <Emphasis>cb</Emphasis> parameter is not null, this request is passed to the callback routine; otherwise, it fails with the
+error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>If the <Emphasis>contract</Emphasis> argument has a<IndexTerm>
+<Primary>TT_WRN_START_MESSAGE</Primary>
+</IndexTerm>
+<Filename>TT_WRN_START_MESSAGE</Filename> message status,
+the message caused the tool to be started.</Para>
+<Note>
+<Para>The started tool should join any scopes it wants to serve before
+accepting the contract so that it will receive any other messages already
+dispatched to its ptype; otherwise, the tool should undeclare its ptype while it
+is busy. If the tool does not join any scopes, the dispatched messages will cause
+other instances of the ptype to be started.</Para>
+</Note>
+<Para>If the <Emphasis>accept</Emphasis> argument is true, the <Filename>ttdt_message_accept</Filename> function calls</Para>
+<programlisting><IndexTerm><Primary>tt_message_accept( contract )</Primary></IndexTerm>
+tt_message_accept(   contract   )</ProgramListing>
+<Para>If the <Emphasis>sendStatus</Emphasis> argument is true, the <Filename>ttdt_message_accept</Filename> function
+sends a Status notice to the requestor, using the parameters (if any) passed to
+the<IndexTerm>
+<Primary>ttdt_open</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ttdt_open</Primary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_open</Secondary>
+</IndexTerm>
+<Filename>ttdt_open</Filename> function.</Para>
+<Para>This function returns a null-terminated array of <Filename>Tt_pattern</Filename>. Use the<IndexTerm>
+<Primary>tttk_patterns_destroy</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_patterns_destroy</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_patterns_destroy</Secondary>
+</IndexTerm>
+<Filename>tttk_patterns_destroy</Filename> function to destroy the array. If an error is
+returned, the returned array is an error pointer that can be decoded with<IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm>
+<Filename>tt_ptr_error</Filename>.
+<!--Original XRef content: 'Table&numsp;A&hyphen;12'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.12"> is a list of the possible errors returned by the
+<Filename>ttdt_message_accept</Filename> function.</Para>
+<Table Id="TTUG.MsgTk.tbl.20" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.12">Possible Errors Returned by ttdt_message_accept</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.73017 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Returned Error</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk service tries
+to restart ttsession if it is not running. This error indicates that
+the ToolTalk service is either not installed or not installed
+correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>The pointer passed does not point at an object of the correct
+type for this operation. For example, the pointer may point to
+an integer when a character string is needed.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_UNIMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_UNIMP</Secondary>
+</IndexTerm>TT_ERR_UNIMP</Command></Para></Entry>
+<Entry><Para>The ttsession for the default session is a version (1.0 or 1.0.1)
+that does not support the <Filename>tt_message_accept</Filename> function.</Para><Para><Literal>Note:</Literal> If the contract argument has a <Filename>TT_WRN_START_MESSAGE</Filename>
+message status, messages to the tool's ptype will remain blocked
+until the contract is rejected, replied to, or failed.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.21">
+<Title><IndexTerm>
+<Primary>ttdt_open</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_open</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_open</Secondary>
+</IndexTerm>ttdt_open</Title>
+<ProgramListing>char *        ttdt_open(    int *          ttfd,
+                            const char *   toolname,
+                            const char *   vendor,
+                            const char *   version,
+                            int            sendStarted );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_open</Filename> function creates a ToolTalk communication endpoint. This
+function calls<IndexTerm>
+<Primary>tt_open function</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk functions</Primary>
+<Secondary>tt_open</Secondary>
+</IndexTerm>
+<Filename>tt_open</Filename> and<IndexTerm>
+<Primary>tt_fd</Primary>
+</IndexTerm>
+<Filename>tt_fd</Filename> functions. The <Filename>ttdt_open</Filename> function
+associates <Emphasis>toolname</Emphasis>, <Emphasis>vendor</Emphasis>, and <Symbol Role="Variable">version</Symbol> with the created procid. It
+initializes the new procid's default contexts from<IndexTerm>
+<Primary>environ(5)</Primary>
+</IndexTerm>
+<Filename MoreInfo="RefEntry">environ(5)</Filename>. If the
+<Emphasis>sendStarted</Emphasis> argument is set, this function sends a<IndexTerm>
+<Primary>Started notice</Primary>
+</IndexTerm>
+Started notice.</Para>
+<Para>The <Filename>ttdt_open</Filename> function returns the created procid in a string that can be
+freed with the<IndexTerm>
+<Primary>tt_free function</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk functions</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm>
+<Filename>tt_free</Filename> function.</Para>
+<Para>This function can return any error returned by the <Filename>tt_open</Filename> and <Filename>tt_fd</Filename>
+functions. If the Started notice fails, errors are not propagated.</Para>
+<Example Id="TTUG.MsgTk.tbl.22">
+<Title><IndexTerm>
+<Primary>ttdt_Revert</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_Revert</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_Revert</Secondary>
+</IndexTerm>ttdt_Revert</Title>
+<ProgramListing>Tt_status    ttdt_Revert( Tt_message       context,
+                          const char *    pathname,
+                          Tt_scope        the_scope,
+                          XtAppContext    app2run,
+                          int             ms_timeout );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_Revert</Filename> function requests a ToolTalk client to revert a file. It sends a<IndexTerm>
+<Primary>Revert request</Primary>
+</IndexTerm>
+Revert request in <Emphasis>the_scope</Emphasis> and waits for a reply. The Revert request asks
+the handling ToolTalk client to discard any changes pending on <Emphasis>pathname.</Emphasis></Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the <Symbol Role="Variable">context</Symbol> parameter is a value other than zero, messages created by
+this routine inherit all contexts whose slotname begins with <Filename>ENV_</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>If the value of the <Emphasis>the_scope</Emphasis> parameter is zero (that is,<IndexTerm>
+<Primary>TT_SCOPE_NONE</Primary>
+</IndexTerm>
+<Filename>TT_SCOPE_NONE</Filename>),
+the file scope is set to the default (<IndexTerm>
+<Primary>TT_BOTH</Primary>
+</IndexTerm>
+<Filename>TT_BOTH</Filename>); however, if, for example, the
+ToolTalk database server rpc.ttdbserver is not installed on the file server that
+owns <Symbol Role="Variable">pathname</Symbol>, the file scope is set to<IndexTerm>
+<Primary>TT_FILE_IN_SESSION</Primary>
+</IndexTerm>
+<Filename>TT_FILE_IN_SESSION</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>The <Emphasis>app2run</Emphasis> and <Emphasis>ms_timeout</Emphasis> parameters are passed to the<IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm>
+<Filename>tttk_block_while</Filename> function to block on the reply to the Revert request
+sent by this function.</Para>
+</ListItem>
+</ItemizedList>
+<Para>If the request receives an affirmative reply within the indicated timeout, the
+<Filename>ttdt_Revert</Filename> function returns <Filename>TT_OK</Filename>; otherwise, it returns either the
+<Filename><IndexTerm>
+<Primary>tt_message_status</Primary>
+</IndexTerm>tt_message_status</Filename> of the failure reply, or one of the errors listed in
+<!--Original XRef content: 'Table&numsp;A&hyphen;13'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.13">.</Para>
+<Table Id="TTUG.MsgTk.tbl.23" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.13">Possible Errors Returned by ttdt_Revert</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.73611 in">
+<ColSpec Colname="2" Colwidth="3.23414 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk
+service tries to restart ttsession if it is not running.
+This error indicates that the ToolTalk service is either
+not installed or not installed correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or
+invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough memory available to perform the
+operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service has received the maximum
+amount of active messages (2000) it can properly
+handle.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service could not access the ToolTalk
+database needed for this operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service did not find the specified
+ToolTalk database in the expected place.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETIMEOUT</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ETIMEOUT</Secondary>
+</IndexTerm>TT_DESKTOP_ETIMEOUT</Filename></Para></Entry>
+<Entry><Para>No reply was received before the allotted timeout.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETPROTO</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_EPROTO</Secondary>
+</IndexTerm>TT_DESKTOP_EPROTO</Filename></Para></Entry>
+<Entry><Para>The request was failed; however, the handler set the
+tt_message_status of the failure reply to TT_OK
+instead of a specific error status.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>Path name was null, or was a ToolTalk error pointer.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.24">
+<Title><IndexTerm>
+<Primary>ttdt_Save</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_Save</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_Save</Secondary>
+</IndexTerm>ttdt_Save</Title>
+<ProgramListing>Tt_status    ttdt_Save( Tt_message     context,
+                        const char *   pathname,
+                        Tt_scope    the_scope,
+                        XtAppContext     app2run,
+                        int            ms_timeout );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_Save</Filename> function requests a ToolTalk client to save a file. It sends a<IndexTerm>
+<Primary>Save request</Primary>
+</IndexTerm>
+Save request in <Emphasis>the_scope</Emphasis> and waits for a reply. The Save request asks the
+handling ToolTalk client to discard any changes pending on <Emphasis>pathname.</Emphasis></Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If the <Symbol Role="Variable">context</Symbol> parameter is a value other than zero, messages created by
+this routine inherit all contexts whose slotname begins with <Filename>ENV_</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>If the value of the <Emphasis>the_scope</Emphasis> parameter is zero (that is,<IndexTerm>
+<Primary>TT_SCOPE_NONE</Primary>
+</IndexTerm>
+<Filename>TT_SCOPE_NONE</Filename>),
+the file scope is set to the default (<IndexTerm>
+<Primary>TT_BOTH</Primary>
+</IndexTerm>
+<Filename>TT_BOTH</Filename>); however, if, for example, the
+ToolTalk database server <Filename>rpc.ttdbserver</Filename> is not installed on the file server
+that owns <Symbol Role="Variable">pathname</Symbol>, the file scope is set to<IndexTerm>
+<Primary>TT_FILE_IN_SESSION</Primary>
+</IndexTerm>
+<Filename>TT_FILE_IN_SESSION</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>The <Emphasis>app2run</Emphasis> and <Emphasis>ms_timeout</Emphasis> parameters are passed to the<IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm>
+<Filename>tttk_block_while</Filename> function to block on the reply to the Save request sent
+by this function.</Para>
+</ListItem>
+</ItemizedList>
+<Para>If the request receives an affirmative reply within the indicated timeout, the
+<Filename>ttdt_Save</Filename> function returns <Filename>TT_OK</Filename>; otherwise, it returns either the
+<Filename><IndexTerm>
+<Primary>tt_message_status</Primary>
+</IndexTerm>tt_message_status</Filename> of the failure reply, or one of the errors listed in
+<!--Original XRef content: 'Table&numsp;A&hyphen;14'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.14">.</Para>
+<Table Id="TTUG.MsgTk.tbl.25" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.14">Possible Returns of the ttdt_Save function</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.73611 in">
+<ColSpec Colname="2" Colwidth="3.23414 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk
+service tries to restart ttsession if it is not running.
+This error indicates that the ToolTalk service is either
+not installed or not installed correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or
+invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough memory available to perform the
+operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service has received the maximum
+amount of active messages (2000) it can properly
+handle.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service could not access the ToolTalk
+database needed for this operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service did not find the specified
+ToolTalk database in the expected place.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETIMEOUT</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ETIMEOUT</Secondary>
+</IndexTerm>TT_DESKTOP_ETIMEOUT</Filename></Para></Entry>
+<Entry><Para>No reply was received before the allotted timeout.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETPROTO</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_EPROTO</Secondary>
+</IndexTerm>TT_DESKTOP_EPROTO</Filename></Para></Entry>
+<Entry><Para>The request was failed; however, the handler set the
+tt_message_status of the failure reply to TT_OK
+instead of a specific error status.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>Path name was null, or was a ToolTalk error pointer.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.26">
+<Title><IndexTerm>
+<Primary>ttdt_sender_imprint_on</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_sender_imprint_on</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_sender_imprint_on</Secondary>
+</IndexTerm>ttdt_sender_imprint_on</Title>
+<ProgramListing>Tt_status    ttdt_sender_imprint_on(  const char *   handler,
+                                      Tt_message     contract,
+                                      char **        display,
+                                      int *          width,
+                                      int *          height,
+                                      int *          xoffset,
+                                      int *          yoffset,
+                                      XtAppContext   app2run,
+                                      int            ms_timeout );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_sender_imprint_on</Filename> function causes the calling tool (&ldquo;ToolB&rdquo;) to
+adopt the behavior and certain characteristics of another tool (&ldquo;ToolA&rdquo;). ToolB
+adopts ToolA's X11 display, locale, and current working directory; it also learns
+ToolA's X11 geometry so that it can position itself appropriately.</Para>
+<Para>If the <Symbol Role="Variable">display</Symbol> parameter is null, the<IndexTerm>
+<Primary>$DISPLAY</Primary>
+</IndexTerm><IndexTerm>
+<Primary>environment variables</Primary>
+<Secondary>$DISPLAY</Secondary>
+</IndexTerm>
+environment variable <Filename>$DISPLAY</Filename> is set to
+ToolA's display; otherwise, ToolA's display is returned in this parameter. The
+returned value is a string that can be freed with the<IndexTerm>
+<Primary>ToolTalk functions</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>tt_free function</Primary>
+</IndexTerm>
+ToolTalk <Filename>tt_free</Filename>
+function.</Para>
+<Para>This function sends a<IndexTerm>
+<Primary>Get_Geometry request</Primary>
+</IndexTerm>
+Get_Geometry request to ToolA. If ToolA does not return
+a value for any or all of the geometry parameters:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>If a value for the <Symbol Role="Variable">width</Symbol> parameter is not returned, it is set to <Filename>-1</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>If a value for the <Symbol Role="Variable">height</Symbol> parameter is not returned, it is set to <Filename>-1</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>If a value for the <Emphasis>xoffset</Emphasis> parameter is not returned, it is set to <Filename>INT_MAX</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>If a value for the <Symbol Role="Variable">yoffset</Symbol> parameter is not returned, it is set to <Filename>INT_MAX</Filename>.</Para>
+</ListItem>
+</ItemizedList>
+<Para>If the <Symbol Role="Variable">width</Symbol>, <Symbol Role="Variable">height</Symbol>, <Symbol Role="Variable">xoffset</Symbol>, and <Symbol Role="Variable">yoffset</Symbol> parameters in the
+<Filename>ttdt_sender_imprint_on</Filename> function are all set to null, a<IndexTerm>
+<Primary>Get_Geometry request</Primary>
+</IndexTerm>
+Get_Geometry
+request is not sent to ToolA.</Para>
+<Para>The <Emphasis>app2run</Emphasis> and <Emphasis>ms_timeout</Emphasis> parameters are passed to the<IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm>
+<Filename>tttk_block_while</Filename> function to block on the replies to the Get_Geometry
+request sent by this function.</Para>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;15'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.15"> lists the possible errors that can be returned by this function.</Para>
+<Table Id="TTUG.MsgTk.tbl.27" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.15">Possible Errors Returned by the ttdt_sender_imprint_on</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.8254 in">
+<ColSpec Colname="2" Colwidth="3.16469 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_DESKTOP_ETIMEDOUT</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ETIMEOUT</Secondary>
+</IndexTerm>TT_DESKTOP_ETIMEDOUT</Command></Para></Entry>
+<Entry><Para>One or more of the sent requests did not complete
+before the allotted timeout.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk
+service tries to restart ttsession if it is not running.
+This error indicates that the ToolTalk service is either
+not installed or not installed correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or
+invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough memory available to perform
+the operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service has received the maximum
+amount of active messages (2000) it can properly
+handle.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.28">
+<Title><IndexTerm>
+<Primary>ttdt_session_join</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_session_join</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_session_join</Secondary>
+</IndexTerm>ttdt_session_join</Title>
+<ProgramListing>Tt_message   ( *Ttdt_contract_cb)       (  Tt_message      msg,
+                                           void *          clientdata
+                                           Tt_message       contract );
+
+Tt_pattern * ttdt_session_join( const char *        sessid,
+                                Ttdt_session_cb     cb,
+                                Widget              shell,
+                                void *              clientdata,
+                                int                 join );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_session_join</Filename> function joins a ToolTalk session as a &ldquo;good
+desktop citizen&rdquo;; that is, it registers patterns and default callbacks for many
+standard desktop message interfaces when it joins the session <Emphasis>sessid</Emphasis>.
+<!--Original XRef content: 'Table&numsp;A&hyphen;16'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.16"> lists the message interfaces for which this function currently
+registers.</Para>
+<Table Id="TTUG.MsgTk.tbl.29" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.16">Standard Messages for which the ttdt_session_join Registers</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="5.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Request</Literal></Para></Entry>
+<Entry><Para><Literal>How Message Is Handled</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Environment request</Primary>
+</IndexTerm>Get_Environment,<IndexTerm>
+<Primary>Set_Environment request</Primary>
+</IndexTerm>
+Set_Environment</Para></Entry>
+<Entry><Para>These messages are handled transparently.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Locale request</Primary>
+</IndexTerm>Get_Locale,<IndexTerm>
+<Primary>Set_Locale request</Primary>
+</IndexTerm>
+Set_Locale</Para></Entry>
+<Entry><Para>These messages are handled transparently.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Situation request</Primary>
+</IndexTerm>Get_Situation,<IndexTerm>
+<Primary>Set_Situation request</Primary>
+</IndexTerm>
+Set_Situation</Para></Entry>
+<Entry><Para>These messages are handled transparently.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Signal request</Primary>
+</IndexTerm>Signal</Para></Entry>
+<Entry><Para>This message is handled transparently.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Sysinfo request</Primary>
+</IndexTerm>Get_Sysinfo</Para></Entry>
+<Entry><Para>This message is handled transparently.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Geometry request</Primary>
+</IndexTerm>Get_Geometry,<IndexTerm>
+<Primary>Set_Geometry request</Primary>
+</IndexTerm>
+Set_Geometry</Para></Entry>
+<Entry><Para>If the value of the <Symbol Role="Variable">shell</Symbol> parameter is not null and the shell is a realized <Emphasis>mappedWhenManaged
+applicationShellWidget</Emphasis>, these messages are handled transparently; if the shell is not a
+<Emphasis>mappedWhenManaged applicationShellWidget</Emphasis>, these messages fail with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>Get_Iconified request</Primary>
+</IndexTerm>Get_Iconified,<IndexTerm>
+<Primary>Get_Iconified request</Primary>
+</IndexTerm>
+Get_Iconified</Para></Entry>
+<Entry><Para>If the value of the <Symbol Role="Variable">shell</Symbol> parameter is not null and the shell is a realized <Emphasis>mappedWhenManaged
+applicationShellWidget</Emphasis>, these messages are handled transparently; if the shell is not a
+<Emphasis>mappedWhenManaged applicationShellWidget</Emphasis>, these messages fail with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Get_Mapped request</Primary>
+</IndexTerm>Get_Mapped,<IndexTerm>
+<Primary>Set_Mapped request</Primary>
+</IndexTerm>
+Set_Mapped</Command></Para></Entry>
+<Entry><Para>If the value of the <Symbol Role="Variable">shell</Symbol> parameter is not null and the shell is a realized <Emphasis>mappedWhenManaged
+applicationShellWidget</Emphasis>, these messages are handled transparently; if the shell is not a
+<Emphasis>mappedWhenManaged applicationShellWidget</Emphasis>, these messages fail with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Raise request</Primary>
+</IndexTerm>Raise</Command></Para></Entry>
+<Entry><Para>If the value of the <Symbol Role="Variable">shell</Symbol> parameter is not null and the shell is a realized <Emphasis>mappedWhenManaged</Emphasis>
+<Emphasis>applicationShellWidget</Emphasis>, this message is handled transparently; if the shell is not a
+<Emphasis>mappedWhenManaged applicationShellWidget</Emphasis>, this message fails with the error
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Lower request</Primary>
+</IndexTerm>Lower</Command></Para></Entry>
+<Entry><Para>If the value of the <Symbol Role="Variable">shell</Symbol> parameter is not null and the shell is a realized <Emphasis>mappedWhenManaged</Emphasis>
+<Emphasis>applicationShellWidget</Emphasis>, this message is handled transparently; if the shell is not a
+<Emphasis>mappedWhenManaged applicationShellWidget</Emphasis>, this message fails with the error
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Get_XInfo request</Primary>
+</IndexTerm>Get_XInfo</Filename></Para></Entry>
+<Entry><Para>If the value of the <Symbol Role="Variable">shell</Symbol> parameter is not null, this message is handled transparently; otherwise,
+this message fails with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+<Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Set_XInfo request</Primary>
+</IndexTerm>Set_XInfo</Filename></Para></Entry>
+<Entry><Para>If the value of the <Symbol Role="Variable">shell</Symbol> parameter is not null and the shell is a realized <Emphasis>mappedWhenManaged
+applicationShellWidget</Emphasis>, this message is handled transparently; if the shell is not a
+<Emphasis>mappedWhenManaged applicationShellWidget</Emphasis>, this message fails with the error
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Pause request</Primary>
+</IndexTerm>Pause</Command></Para></Entry>
+<Entry><Para>If the <Emphasis>cb</Emphasis> parameter is not null, this message is passed to the callback; the cb parameter is null, this
+message fails with the error <Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Resume request</Primary>
+</IndexTerm>Resume</Command></Para></Entry>
+<Entry><Para>If the <Emphasis>cb</Emphasis> parameter is not null, this message is passed to the callback; the <Emphasis>cb</Emphasis> parameter is null, this
+message fails with the error<IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>
+TT_DESKTOP_ENOTSUP.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>Quit request</Primary>
+</IndexTerm>Quit</Command></Para></Entry>
+<Entry><Para>If the <Emphasis>cb</Emphasis> parameter is not null, this message is passed to the callback; the <Emphasis>cb</Emphasis> parameter is null, this
+message fails with the error <Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Get_Status request</Primary>
+</IndexTerm>Get_Status</Filename></Para></Entry>
+<Entry><Para>If the <Emphasis>cb</Emphasis> parameter is not null, this message is passed to the callback; the <Emphasis>cb</Emphasis> parameter is null, this
+message fails with the error <Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>Do_Command request</Primary>
+</IndexTerm>Do_Command</Filename></Para></Entry>
+<Entry><Para>If the <Emphasis>cb</Emphasis> parameter is not null, this message is passed to the callback; the <Emphasis>cb</Emphasis> parameter is null, this
+message fails with the error <SystemItem Class="Constant"><IndexTerm>
+<Primary>TT_DESKTOP_ENOTSUP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ENOTSUP</Secondary>
+</IndexTerm>TT_DESKTOP_ENOTSUP</SystemItem>.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>If the <Emphasis>sessid</Emphasis> parameter is null, the default session is joined.</Para>
+<Para>If the <Emphasis>join</Emphasis> parameter is set, the specified session is joined.</Para>
+<Para>A<IndexTerm>
+<Primary>ttdt_contract_cb</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_contract_cb</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_contract_cb</Secondary>
+</IndexTerm>
+<Filename>Ttdt_contract_cb</Filename> message takes the parameters described in
+<!--Original XRef content: 'Table&numsp;A&hyphen;17'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.17">.
+If the callback does not consume the message, it returns the message; if it
+consumes the message, it returns either zero or a error pointer cast to
+<Filename>Tt_message</Filename>.</Para>
+<Table Id="TTUG.MsgTk.tbl.30" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.17">Parameters taken by Ttdt_session_cb</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.5 in">
+<ColSpec Colname="2" Colwidth="3.5 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Parameter</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>Tt_message</Filename> <Command>msg</Command></Para></Entry>
+<Entry><Para>The request in the sent state.
+The client program must either fail, reject, or reply to the
+message.</Para><Para><Literal>Note</Literal>: Destroy the message <Emphasis>msg</Emphasis> after it is processed.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>void *</Command><Command>clientdata</Command></Para></Entry>
+<Entry><Para>The clientdata passed to either the <Filename>ttdt_session_join</Filename>
+or <Filename>ttdt_message_accept</Filename> function.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Tt_message</Filename> <Command>contract</Command></Para></Entry>
+<Entry><Para>The contract passed to the <Filename>ttdt_message_accept</Filename>
+function. If the callback is installed by the
+<Filename>ttdt_session_join</Filename> function, the value for the
+<Emphasis>contract</Emphasis> parameter is always zero.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>The <Filename>ttdt_session_join</Filename> function returns a null-terminated array of
+<Filename>Tt_pattern</Filename>, which can be passed to the<IndexTerm>
+<Primary>ttdt_session_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_session_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_session_quit</Secondary>
+</IndexTerm>
+<Filename>ttdt_session_quit</Filename> function to be
+destroyed. If an error occurs, the returned array that is an error pointer. Use
+<Filename><IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm>tt_ptr_error</Filename> to find the <Filename>Tt_status</Filename>.
+<!--Original XRef content: 'Table&numsp;A&hyphen;18'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.18"> lists the possible errors
+returned.</Para>
+<Table Id="TTUG.MsgTk.tbl.31" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.18">Possible Errors Returned by the ttdt_session_join</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk service tries
+to restart ttsession if it is not running. This error indicates that
+the ToolTalk service is either not installed or not installed
+correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_SESSION</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_SESSION</Secondary>
+</IndexTerm>TT_ERR_SESSION</Para></Entry>
+<Entry><Para>An out&hyphen;of&hyphen;date or invalid ToolTalk session was specified.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Para></Entry>
+<Entry><Para>The pointer passed does not point at an object of the correct
+type for this operation. For example, the pointer may point to
+an integer when a character string is needed.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Para></Entry>
+<Entry><Para>There is not enough memory available to perform the
+operation.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.32">
+<Title><IndexTerm>
+<Primary>ttdt_session_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_session_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_session_quit</Secondary>
+</IndexTerm>ttdt_session_quit</Title>
+<ProgramListing>Tt_status    ttdt_session_quit( const char *     sessid,
+                                Tt_pattern *     sess_pats,
+                                int              quit );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_session_quit</Filename> function quits a ToolTalk session as a &ldquo;good
+desktop citizen&rdquo;; that is, it unregisters all the patterns and default callback it
+registered when it joined the session.</Para>
+<Para>This function destroys all patterns in <Emphasis>sess_pats</Emphasis>. If the <Symbol Role="Variable">quit</Symbol> parameter is set,
+it quits the session <Emphasis>sessid</Emphasis>; if the <Emphasis>sessid</Emphasis> parameter is null, it quits the default
+session.</Para>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;19'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.19"> lists the errors that can be returned by this function.</Para>
+<Table Id="TTUG.MsgTk.tbl.33" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.19">Possible Errors Returned by the ttdt_session_quit</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk service tries
+to restart ttsession if it is not running. This error indicates that
+the ToolTalk service is either not installed or not installed
+correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_SESSION</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_SESSION</Secondary>
+</IndexTerm>TT_ERR_SESSION</Filename></Para></Entry>
+<Entry><Para>An out&hyphen;of&hyphen;date or invalid ToolTalk session was specified.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>The pointer passed does not point at an object of the correct
+type for this operation. For example, the pointer may point to
+an integer when a character string is needed.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.34">
+<Title><IndexTerm>
+<Primary>ttdt_subcontract_manage</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_subcontract_manage</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_subcontract_manage</Secondary>
+</IndexTerm>ttdt_subcontract_manage</Title>
+<ProgramListing>Tt_pattern * ttdt_subcontract_manage(  Tt_message         subcontract,
+                                       Ttdt_contract_cb   cb,
+                                       Widget             shell,
+                                       void *             clientdata );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttdt_subcontract_manage</Filename> function manages an outstanding request. It
+allows the requesting tool to manage the standard Desktop interactions with
+the tool that is handling the request. This function registers in the default
+session for <Filename>TT_HANDLER</Filename>-addressed<IndexTerm>
+<Primary>Get_Geometry request</Primary>
+</IndexTerm>
+Get_Geometry and<IndexTerm>
+<Primary>Get_XInfo request</Primary>
+</IndexTerm>
+Get_XInfo requests,
+and<IndexTerm>
+<Primary>Status notice</Primary>
+</IndexTerm>
+Status notices.</Para>
+<Para>If the <Symbol Role="Variable">shell</Symbol> parameter is null, the request or notice is passed to the <Emphasis>cb</Emphasis>
+parameter; otherwise, the request is handled transparently.</Para>
+<Para>The <Filename>ttdt_subcontract_manage</Filename> function returns a null-terminated array of
+Tt_pattern, which can be passed to the<IndexTerm>
+<Primary>ttdt_session_quit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_session_quit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_session_quit</Secondary>
+</IndexTerm>
+<Filename>ttdt_session_quit</Filename> function to be
+destroyed. If an error occurs, the returned array that is an error pointer. Use
+<Filename><IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm>tt_ptr_error</Filename> to find the <Filename>Tt_status</Filename>.
+<!--Original XRef content: 'Table&numsp;A&hyphen;20'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.20"> lists the possible errors
+returned.</Para>
+<Table Id="TTUG.MsgTk.tbl.35" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.20">Possible Errors Returned by the ttdt_subcontract_manage</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.72025 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough memory available to perform the
+operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk service tries
+to restart ttsession if it is not running. This error indicates that
+the ToolTalk service is either not installed or not installed
+correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>The <Emphasis>subcontract</Emphasis> parameter was not a valid <Filename>Tt_message</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command><IndexTerm>
+<Primary>TT_ERR_EINVAL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_EINVAL</Secondary>
+</IndexTerm>TT_ERR_EINVAL</Command></Para></Entry>
+<Entry><Para>Both the <Symbol Role="Variable">shell</Symbol> and <Emphasis>cb</Emphasis> parameters were null.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.36">
+<Title><IndexTerm>
+<Primary>ttmedia_Deposit</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttmedia_Deposit</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttmedia_Deposit</Secondary>
+</IndexTerm>ttmedia_Deposit</Title>
+<ProgramListing>Tt_status   ttmedia_Deposit(     Tt_message              load_contract,
+                                 const char *            buffer_id,
+                                 const char *            media_type,
+                                 const unsigned char *   new_contents,
+                                 int                     new_len,
+                                 const char *            pathname,
+                                 XtAppContext            app2run,
+                                 int                     ms_timeout );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttmedia_Deposit</Filename> function sends a Deposit request to checkpoint a
+document that was the subject of a Media Exchange load_contract request such
+as Edit, Compose, or Open.</Para>
+<Para>This function creates and sends a Deposit request and returns the success or
+failure of that request.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Emphasis>load_contract</Emphasis> is the request that caused this editor to load the document</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>buffer_id</Emphasis> is the id of the buffer this editor created if the document was
+loaded by an Open request</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>media_type</Emphasis> is the vtype of the <Emphasis>contents</Emphasis> argument of the sent request</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>new_contents</Emphasis> and new_len are the values for the <Emphasis>contents</Emphasis> argument</Para>
+</ListItem>
+</ItemizedList>
+<Para>After the request is sent, <Emphasis>app2run</Emphasis> and <Emphasis>ms_timeout</Emphasis> are passed to the
+<Filename>tttk_block_while</Filename> function to wait for the reply.</Para>
+<Table Id="TTUG.MsgTk.tbl.37" Frame="Topbot">
+<Title>Possible Errors Returned by the ttmedia_Deposit</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.5619 in">
+<ColSpec Colname="2" Colwidth="3.43056 in">
+<THead>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk
+service tries to restart ttsession if it is not running. This
+error indicates that the ToolTalk service is either not
+installed or not installed correctly.</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough available memory to perform the
+operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service has received the maximum amount
+of active messages (2000) it can properly handle.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBAVAIL</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBAVAIL</Secondary>
+</IndexTerm>TT_ERR_DBAVAIL</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service could not access the ToolTalk
+database needed for this operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_DBEXIST</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_DBEXIST</Secondary>
+</IndexTerm>TT_ERR_DBEXIST</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service did not find the specified ToolTalk
+database in the expected place.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_DESKTOP_ETIMEOUT</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP_ETIMEOUT</Secondary>
+</IndexTerm>TT_DESKTOP_ETIMEOUT</Filename></Para></Entry>
+<Entry><Para>No reply was received before the allotted timeout.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>Path name was null, or was a ToolTalk error pointer.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.38">
+<Title><IndexTerm>
+<Primary>ttmedia_load</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttmedia_load</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttmedia_load</Secondary>
+</IndexTerm>ttmedia_load</Title>
+<ProgramListing>Tt_message   (*Ttmedia_load_msg_cb) (  Tt_message         msg,
+                                       void *             clientdata,
+                                       Tttk_op            op,
+                                       unsigned char *    contents,
+                                       int                len,
+                                       char *             file  );
+
+Tt_message   ttmedia_load( Tt_message             context,
+                           Ttmedia_load_msg_cb    cb,
+                           void *                 clientdata,
+                           Tttk_op                op,
+                           const char *           media_type,
+                           const unsigned char *  contents,
+                           int                    len,
+                           const char *           file,
+                           const char *           docname,
+                           int                    send );
+</ProgramListing>
+</Example>
+<Para>The <Command>ttmedia_load function</Command> creates and, optionally, sends a Media
+Exchange request to display, edit, or compose a document. This function
+creates and sends<IndexTerm>
+<Primary>Display request</Primary>
+</IndexTerm>
+Display,<IndexTerm>
+<Primary>Edit request</Primary>
+</IndexTerm>
+Edit, or<IndexTerm>
+<Primary>Compose request</Primary>
+</IndexTerm>
+Compose requests.</Para>
+<Note>
+<Para>Use the<IndexTerm>
+<Primary>ttdt_subcontract_manage</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttdt_subcontract_manage</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttdt_subcontract_manage</Secondary>
+</IndexTerm>
+<Filename>ttdt_subcontract_manage</Filename> function immediately after
+sending the request created by this message to manage the standard
+interactions with the handler of the request.</Para>
+</Note>
+<Para>If value of the <Symbol Role="Variable">context</Symbol> argument is not zero, messages created by this routine
+inherit all contexts whose slotname begins with<IndexTerm>
+<Primary>ENV_</Primary>
+</IndexTerm>
+<Filename>ENV_</Filename>.</Para>
+<Para>The <Emphasis>clientdata</Emphasis> argument is passed to the <Emphasis>cb</Emphasis> argument when the reply is
+received, or when intermediate versions of the document are checkpointed
+through<IndexTerm>
+<Primary>Deposit request</Primary>
+</IndexTerm>
+Deposit requests.</Para>
+<Para>The <Symbol Role="Variable">op</Symbol> argument must be either<IndexTerm>
+<Primary>TTME_DISPLAY</Primary>
+</IndexTerm>
+<Filename>TTME_DISPLAY</Filename>,<IndexTerm>
+<Primary>TTME_EDIT</Primary>
+</IndexTerm>
+<Filename>TTME_EDIT</Filename>, or
+<Filename><IndexTerm>
+<Primary>TTME_COMPOSE</Primary>
+</IndexTerm>TTME_COMPOSE</Filename>.</Para>
+<Para>The <Emphasis>media_type</Emphasis> argument names the data format of the document. This
+argument usually determines which application is chosen to handle the
+request.</Para>
+<Para>The <Emphasis>contents</Emphasis> and <Emphasis>len</Emphasis> arguments specify the document. If the value of both
+of these arguments is zero and the value of the <Symbol Role="Variable">file</Symbol> argument is not zero, the
+document is assumed to be contained in the specified file.</Para>
+<Para>If the <Emphasis>docname</Emphasis> argument is not null, it is used as the title of the document.</Para>
+<Para>If the <Emphasis>send</Emphasis> argument is true, the message is sent before it is returned.</Para>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;22'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.21"> lists the parameters taken by a<IndexTerm>
+<Primary>Ttmedia_load_msg_cb message</Primary>
+</IndexTerm>
+<Filename>Ttmedia_load_msg_cb</Filename> message.</Para>
+<Table Id="TTUG.MsgTk.tbl.39" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.21">Parameters Taken by the Ttmedia_load_msg_cb</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.54661 in">
+<ColSpec Colname="2" Colwidth="3.45339 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Parameter</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>Tt_message msg</Command></Para></Entry>
+<Entry><Para>The reply to the request, or a<IndexTerm>
+<Primary>Deposit request</Primary>
+</IndexTerm>
+Deposit request with a
+<Emphasis>messageID</Emphasis> argument that names the <Filename>t<IndexTerm>
+<Primary>t_message_id</Primary>
+</IndexTerm>
+t_message_id</Filename> of
+the load request. If the value of this parameter is a Deposit
+request, the client program must either fail or reply to the
+request.</Para><Para><Literal>Note</Literal>: Destroy the message <Emphasis>msg</Emphasis> after it is processed.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tttk_op op</Command></Para></Entry>
+<Entry><Para>The operation of the message (either<IndexTerm>
+<Primary>TTME_DEPOSIT</Primary>
+</IndexTerm>
+<Filename>TTME_DEPOSIT</Filename> or
+the operation passed to the<IndexTerm>
+<Primary>ttmedia_load</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttmedia_load</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttmedia_load</Secondary>
+</IndexTerm>
+<Filename>ttmedia_load</Filename> message).</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>unsigned char *
+contents
+int len
+char *file</Command></Para></Entry>
+<Entry><Para>The contents of the arriving document. If the <Emphasis>len</Emphasis>
+argument is zero, the document is contained in the
+specified file. If the <Emphasis>contents</Emphasis> or <Symbol Role="Variable">file</Symbol> arguments are
+non-null, use the ToolTalk function<IndexTerm>
+<Primary>tt_free function</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk functions</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm>
+<Filename>tt_free</Filename> to free them.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>void *clientdata</Command></Para></Entry>
+<Entry><Para>The client data passed to the<IndexTerm>
+<Primary>ttmedia_load</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttmedia_load</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttmedia_load</Secondary>
+</IndexTerm>
+<Filename>ttmedia_load</Filename> message.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>If the message is processed successfully, the callback returns zero; if the
+processing results in an error, the callback returns an error pointer cast to
+<Filename>Tt_message</Filename>.</Para>
+<Para>If the callback does not consume the message <Emphasis>msg</Emphasis>, it returns the message and
+the toolkit passes the <Filename>TT_CALLBACK_CONTINUE</Filename> routine down the call stack to
+offer the message to other callbacks, or to return it to the
+<Filename>tt_message_receive</Filename> call.</Para>
+<Para>Upon completion, the <Filename>ttmedia_load</Filename> function returns the request it was
+asked to build. If an error occurs, this function returns an error pointer. Use
+<Filename><IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm>tt_ptr_error</Filename> to find the <Filename>Tt_status</Filename>.
+<!--Original XRef content: 'Table&numsp;A&hyphen;23'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.22"> lists the possible errors
+returned.</Para>
+<Table Id="TTUG.MsgTk.tbl.40" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.22">Possible Errors Returned by the ttmedia_load</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.60714 in">
+<ColSpec Colname="2" Colwidth="3.39286 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk
+service tries to restart ttsession if it is not running. This
+error indicates that the ToolTalk service is either not
+installed or not installed correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough memory available to perform the
+operation.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_OVERFLOW</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_OVERFLOW</Secondary>
+</IndexTerm>TT_ERR_OVERFLOW</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service has received the maximum amount
+of active messages (2000) it can properly handle.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.41">
+<Title><IndexTerm>
+<Primary>ttmedia_load_reply</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttmedia_load_reply</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttmedia_load_reply</Secondary>
+</IndexTerm>ttmedia_load_reply</Title>
+<ProgramListing>Tt_message    ttmedia_load_reply   (   Tt_message             contract,
+                                       const unsigned char *  new_contents,
+                                       int                    new_len,
+                                       int                    reply_and_destroy );
+</ProgramListing>
+</Example>
+<Para>Use the <Filename>ttmedia_load_reply</Filename> function to reply to a Media Exchange request
+to display, edit, or compose a document.</Para>
+<Para>If both the <Emphasis>new_contents</Emphasis> and <Emphasis>new_len</Emphasis> arguments are non-zero, their value
+is used to set the new contents of the document in the appropriate output
+argument of the <Emphasis>contract</Emphasis> argument. If the <Emphasis>reply_and_destroy</Emphasis> argument
+is true, a reply is made to the <Emphasis>contract</Emphasis> argument and then the message is
+destroyed.</Para>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;24'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.23"> lists the possible errors returned.</Para>
+<Table Id="TTUG.MsgTk.tbl.42" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.23">Possible Errors Returned by the ttmedia_load_reply</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.60714 in">
+<ColSpec Colname="2" Colwidth="3.39286 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk
+service tries to restart ttsession if it is not running. This
+error indicates that the ToolTalk service is either not
+installed or not installed correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NUM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NUM</Secondary>
+</IndexTerm>TT_ERR_NUM</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOTHANDLER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOTHANDLER</Secondary>
+</IndexTerm>TT_ERR_NOTHANDLER</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.43">
+<Title><IndexTerm>
+<Primary>ttmedia_ptype_declare</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>ttmedia_ptype_declare</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>ttmedia_ptype_declare</Secondary>
+</IndexTerm>ttmedia_ptype_declare</Title>
+<ProgramListing>Tt_message   (*Ttmedia_load_pat_cb) (  Tt_message         msg,
+                                       void *             clientdata,
+                                       Tttk_op            op,
+                                       Tt_status          diagnosis,
+                                       unsigned char *    contents,
+                                       int                len,
+                                       char *             file,
+                                       char *             docname );
+
+Tt_status    ttmedia_ptype_declare( const char *            ptype,
+                                    int                     base_opnum,
+                                    Ttmedia_load_pat_cb     cb,
+                                    void *                  clientdata,
+                                    int                     declare );
+</ProgramListing>
+</Example>
+<Para>The <Filename>ttmedia_ptype_declare</Filename> function declares the ptype of a Media
+Exchange media editor. This function initializes an editor that implements the
+Media Exchange message interface for a particular media type.</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>It calls the <Emphasis>cb</Emphasis> argument when the editor is asked to edit a document of the
+kind supported by <Emphasis>ptype</Emphasis>.</Para>
+</ListItem>
+<ListItem>
+<Para>It installs a toolkit-internal operation number (<Emphasis>opnum</Emphasis>) callback on a series of
+signatures that the ptype is assumed to contain. The toolkit-internal opnum
+callback passes <Emphasis>clientdata</Emphasis> to the <Emphasis>cb</Emphasis> argument when a request is received
+that matches one of these signatures. The opnums start at <Emphasis>base_opnum</Emphasis>,
+which must be zero or a multiple of 1000.</Para>
+</ListItem>
+<ListItem>
+<Para>If the <Emphasis>declare</Emphasis> argument is true, it calls</Para>
+</ListItem>
+</ItemizedList>
+<programlisting><IndexTerm><Primary>tt_ptype_declare( ptype )</Primary></IndexTerm>
+tt_ptype_declare(   ptype  )</ProgramListing>
+<Para>If the ptype implements several different media types, the
+<Filename>ttmedia_ptype_declare</Filename> function can be called multiple times. Each call
+must have a different <Emphasis>base_opnum</Emphasis> value.</Para>
+<Note>
+<Para>The <Filename>ttmedia_ptype_declare</Filename> function can be called multiple times;
+however, the <Emphasis>declare</Emphasis> argument can &ldquo;true&rdquo; only once.</Para>
+</Note>
+<Para><!--Original XRef content: 'Table&numsp;A&hyphen;25'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.24"> lists the parameters taken by a<IndexTerm>
+<Primary>Ttmedia_load_pat_cb message</Primary>
+</IndexTerm>
+<Filename>Ttmedia_load_pat_cb</Filename> message.</Para>
+<Table Id="TTUG.MsgTk.tbl.44" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.24">Parameters Taken by Ttmedia_load_pat_cb</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.75926 in">
+<ColSpec Colname="2" Colwidth="3.24074 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Parameter</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>Tt_message msg</Command></Para></Entry>
+<Entry><Para>The request sent. The client program must either fail,
+reject, or reply to the request.</Para></Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tttk_op op</Command></Para></Entry>
+<Entry><Para>The operation of the incoming request (either<IndexTerm>
+<Primary>TTME_COMPOSE</Primary>
+</IndexTerm>
+<Filename>TTME_COMPOSE</Filename>,<IndexTerm>
+<Primary>TTME_EDIT</Primary>
+</IndexTerm>
+<Filename>TTME_EDIT</Filename>, or <Filename><IndexTerm>
+<Primary>TTME_DISPLAY</Primary>
+</IndexTerm>TTME_DISPLAY</Filename>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>Tt_status diagnosis</Command></Para></Entry>
+<Entry><Para>The error code with which the toolkit recommends the
+request should be failed (for example,
+<Filename><IndexTerm>
+<Primary>TT_DESKTOP_ENODATA</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_DESKTOP</Secondary>
+</IndexTerm>TT_DESKTOP_ENODATA</Filename>). If the diagnosis is not <Filename>TT_OK</Filename>
+and the callback routine returns the message <Emphasis>msg</Emphasis>, the
+toolkit fails the message <Emphasis>msg</Emphasis> and destroys it.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>unsigned char *
+contents
+int len
+char *file</Command></Para></Entry>
+<Entry><Para>The contents of the arriving document. If the <Emphasis>len</Emphasis>
+argument is zero, the document is contained in
+specified file. If value of the <Emphasis>contents</Emphasis> or <Symbol Role="Variable">file</Symbol>
+arguments is non-null, use the ToolTalk function<IndexTerm>
+<Primary>tt_free function</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ToolTalk functions</Primary>
+<Secondary>tt_free</Secondary>
+</IndexTerm>
+tt_free to free them.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>char * docname</Command></Para></Entry>
+<Entry><Para>The name of the document, if any.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>void * clientdata</Command></Para></Entry>
+<Entry><Para>The client data passed to the
+<Filename>ttmedia_ptype_declare</Filename> message.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>If the message is processed successfully, the callback returns zero; if the
+processing results in an error, the callback returns an error pointer cast to
+<Filename>Tt_message</Filename>.</Para>
+<Para>If the callback does not consume the message <Emphasis>msg</Emphasis> and the value of the
+<Emphasis>diagnosis</Emphasis> argument is not <Filename>TT_OK</Filename>, it returns the message and the toolkit
+passes the <Filename>TT_CALLBACK_CONTINUE</Filename> routine down the call stack to offer the
+message to other callbacks, or to return it to the <Filename>tt_message_receive</Filename> call.</Para>
+<Para>If an error occurs, this function returns one of the errors listed in
+<!--Original XRef content: 'Table&numsp;A&hyphen;26'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.25">.</Para>
+<Table Id="TTUG.MsgTk.tbl.45" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.25">Possible Errors Returned by the ttmedia_ptype_declare</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk service tries
+to restart ttsession if it is not running. This error indicates that
+the ToolTalk service is either not installed or not installed
+correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PTYPE</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PTYPE</Secondary>
+</IndexTerm>TT_ERR_PTYPE</Filename></Para></Entry>
+<Entry><Para>The ToolTalk service could not locate the specified ptype.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>The pointer passed does not point at an object of the correct
+type for this operation. For example, the pointer may point to
+an integer when a character string is needed.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.46">
+<Title><IndexTerm>
+<Primary>tttk_block_while</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_block_while</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_block_while</Secondary>
+</IndexTerm>tttk_block_while</Title>
+<ProgramListing>Tt_status    tttk_block_while( const int *  blocked,
+                               int          ms_timeout );
+</ProgramListing>
+</Example>
+<Para>The <Command>tttk_block_while</Command> function blocks the program while it awaits a reply
+for the <Emphasis>ms_timout</Emphasis> time.</Para>
+<Example Id="TTUG.MsgTk.tbl.47">
+<Title><IndexTerm>
+<Primary>tttk_message_abandon</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_message_abandon</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_message_abandon</Secondary>
+</IndexTerm>tttk_message_abandon</Title>
+<ProgramListing>Tt_status   tttk_message_abandon     ( Tt_message     msg );
+</ProgramListing>
+</Example>
+<Para>The <Filename>tttk_message_abandon</Filename> function abandons the request, and then
+destroys it.</Para>
+<Note>
+<Para>A program should abandon a message when it does not understand the
+message and wants to dispose of it.</Para>
+</Note>
+<Para>If an error occurs, this function returns one of the errors listed in
+<!--Original XRef content: 'Table&numsp;A&hyphen;27'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.26">.</Para>
+<Table Id="TTUG.MsgTk.tbl.48" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.26">Possible Errors Returned by the tttk_message_abandon</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.75 in">
+<ColSpec Colname="2" Colwidth="3.25 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk
+service tries to restart ttsession if it is not running. This
+error indicates that the ToolTalk service is either not
+installed or not installed correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_POINTER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_POINTER</Secondary>
+</IndexTerm>TT_ERR_POINTER</Filename></Para></Entry>
+<Entry><Para>The pointer passed does not point at an object of the
+correct type for this operation. For example, the
+pointer may point to an integer when a character
+string is needed.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOTHANDLER</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOTHANDLER</Secondary>
+</IndexTerm>TT_ERR_NOTHANDLER</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.49">
+<Title><IndexTerm>
+<Primary>tttk_message_create</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_message_create</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_message_create</Secondary>
+</IndexTerm>tttk_message_create</Title>
+<ProgramListing>Tt_message   tttk_message_create( Tt_message             context,
+                                  Tt_class               the_class,
+                                  Tt_scope               the_scope,
+                                  const char *           handler,
+                                  const char *           op,
+                                  Tt_message_callback    callback );
+</ProgramListing>
+</Example>
+<Para>The <Filename>tttk_message_create</Filename> function creates a message that conforms to the
+conventions. This function provides a simple way to create a message that
+propagates inherited contexts from one message to another.</Para>
+<Para>The <Filename>tttk_message_create</Filename> function creates a message and copies onto it all
+the context slots from <Symbol Role="Variable">context</Symbol> whose slotname begins with <Filename>ENV_</Filename>. The created
+message is given a <Filename>Tt_class</Filename> value of <Emphasis>the_class</Emphasis> and a <Filename>Tt_scope</Filename> value of
+<Emphasis>the_scope</Emphasis>.</Para>
+<Para>If the <Emphasis>handler</Emphasis> parameter is null, the message is given a <Filename>Tt_address</Filename> of
+<Filename><IndexTerm>
+<Primary>TT_PROCEDURE</Primary>
+</IndexTerm>TT_PROCEDURE</Filename>; otherwise, the message is <Filename>TT_HANDLER</Filename>&hyphen;addressed to that
+procid.</Para>
+<Para>If the <Symbol Role="Variable">op</Symbol> argument is not null, the message's <Symbol Role="Variable">op</Symbol> argument is set to that value.</Para>
+<Para>If the callback argument is not null, it is added to the message as a message
+callback.</Para>
+<Para>If successful, the <Filename>tttk_message_create</Filename> function returns the created
+<Filename>Tt_message</Filename>, which can be modified, sent, and destroyed in the same way as
+any other <Filename>Tt_message</Filename>.</Para>
+<Para>If an error occurs, an error pointer is returned. Use<IndexTerm>
+<Primary>tt_ptr_error</Primary>
+</IndexTerm>
+<Filename>tt_ptr_error</Filename> to find the
+<Filename>Tt_status</Filename>.
+<!--Original XRef content: 'Table&numsp;A&hyphen;28'--><XRef Role="CodeOrFigureOrTable" Linkend="TTUG.MsgTk.mkr.27"> lists the possible errors returned.</Para>
+<Table Id="TTUG.MsgTk.tbl.50" Frame="Topbot">
+<Title Id="TTUG.MsgTk.mkr.27">Possible Errors Returned by the tttk_message_create</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75926 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Error Returned</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>TT_ERR_NOMP</Filename></Para></Entry>
+<Entry><Para>The ttsession process is not available. The ToolTalk service tries
+to restart ttsession if it is not running. This error indicates that
+the ToolTalk service is either not installed or not installed
+correctly.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_PROCID</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_PROCID</Secondary>
+</IndexTerm>TT_ERR_PROCID</Filename></Para></Entry>
+<Entry><Para>The process identifier specified is out of date or invalid.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename><IndexTerm>
+<Primary>TT_ERR_NOMEM</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMEM</Secondary>
+</IndexTerm>TT_ERR_NOMEM</Filename></Para></Entry>
+<Entry><Para>There is not enough memory available to perform the
+operation.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Example Id="TTUG.MsgTk.tbl.51">
+<Title><IndexTerm>
+<Primary>tttk_message_destroy</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_message_destroy</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_message_destroy</Secondary>
+</IndexTerm>tttk_message_destroy</Title>
+<ProgramListing>Tt_status   tttk_message_destroy ( Tt_message    msg );
+</ProgramListing>
+</Example>
+<Para>The <Filename>tttk_message_destroy</Filename> function destroys any message that conforms to
+the conventions.</Para>
+<Note>
+<Para>This message can be used in place of the<IndexTerm>
+<Primary>tt_message_destroy message</Primary>
+</IndexTerm>
+<Filename>tt_message_destroy</Filename>
+message.</Para>
+</Note>
+<Para>The <Filename>tttk_message_destroy</Filename> function destroys any patterns that may have
+been stored on the message by the <Filename>ttdt_message_accept</Filename> or
+<Filename>ttdt_subcontract_manage</Filename> functions and then passes the message <Emphasis>msg</Emphasis> to
+the <Filename>tt_message_destroy</Filename> function.</Para>
+<Para>This function returns the value returned by the <Filename>tt_message_destroy</Filename>
+function.</Para>
+<Example Id="TTUG.MsgTk.tbl.52">
+<Title><IndexTerm>
+<Primary>tttk_message_fail</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_message_fail</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_message_fail</Secondary>
+</IndexTerm>tttk_message_fail</Title>
+<ProgramListing>Tt_status    tttk_message_fail( Tt_message     msg,
+                                Tt_status      status,
+                                const char *   status_string,
+                                int            destroy );
+</ProgramListing>
+</Example>
+<Para>The <Filename>tttk_mesage_fail</Filename> function fails the message <Emphasis>msg</Emphasis> and then destroys it.</Para>
+<Note>
+<Para>A program should abandon a message when it does not understand the
+message and wants to dispose of it.</Para>
+</Note>
+<Para>A message whose state is <Filename>TT_SENT</Filename> can be failed. If the message is a
+handler&hyphen;addressed message, or if it has a tt_message_status of
+<Filename><IndexTerm>
+<Primary>TT_WRN_START_MESSAGE</Primary>
+</IndexTerm>TT_WRN_START_MESSAGE</Filename>, it can be failed.</Para>
+<Para>This function returns <Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para>
+<Example Id="TTUG.MsgTk.tbl.53">
+<Title><IndexTerm>
+<Primary>tttk_message_receive</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_message_receive</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_message_receive</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>tttk_message_receive</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_message_receive</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_message_receive</Secondary>
+</IndexTerm>tttk_message_receive</Title>
+<ProgramListing>Tt_status    tttk_message_receive( const char* procid );
+</ProgramListing>
+</Example>
+<Para>The <Filename>tttk_message_receive</Filename> function calls the<IndexTerm>
+<Primary>tt_message_receive</Primary>
+</IndexTerm>
+<Filename>tt_message_receive</Filename>
+function to retrieve the next ToolTalk message.</Para>
+<Para>If <ComputerOutput>procid</ComputerOutput> != 0, this function calls</Para>
+<ProgramListing>tt_default_procid_set( procid )</ProgramListing>
+<Example Id="TTUG.MsgTk.tbl.54">
+<Title><IndexTerm>
+<Primary>tttk_message_reject</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_message_reject</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_message_reject</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>tttk_message_reject</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_message_reject</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_message_reject</Secondary>
+</IndexTerm>tttk_message_reject</Title>
+<ProgramListing>Tt_status    tttk_message_reject( Tt_message      msg,
+                                  Tt_status       status,
+                                  const char*     status_string,
+                                  int             destroy );
+</ProgramListing>
+</Example>
+<Para>The <Filename>tttk_message_reject</Filename> function rejects the message <Emphasis>msg</Emphasis> and then
+destroys it.</Para>
+<Note>
+<Para>A program should abandon a message when it does not understand the
+message and wants to dispose of it.</Para>
+</Note>
+<Para>A message whose state is <Filename>TT_SENT</Filename> can be rejected. If the message is <Symbol Role="Variable">not</Symbol> a
+handler&hyphen;addressed message, or if it has a tt_message_status other than
+<Filename><IndexTerm>
+<Primary>TT_WRN_START_MESSAGE</Primary>
+</IndexTerm>TT_WRN_START_MESSAGE</Filename>, it can be rejected.</Para>
+<Para>This function returns <Filename>TT_DESKTOP_ENOTSUP</Filename>.</Para>
+<Example Id="TTUG.MsgTk.tbl.55">
+<Title><IndexTerm>
+<Primary>tttk_op_string</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_op_string</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_op_string</Secondary>
+</IndexTerm>tttk_op_string</Title>
+<ProgramListing>char         *tttk_op_string(    Tttk_op     op);
+</ProgramListing>
+</Example>
+<Para>The <Filename>tttk_op_string</Filename> function returns string for the operation <Symbol Role="Variable">op</Symbol> if
+successful; otherwise, this function returns zero.</Para>
+<Note>
+<Para>Use the <Filename>tt_free</Filename> function to free the string returned.</Para>
+</Note>
+<ProgramListing>Tttk_op   tttk_string_op(     const char *    opstring );</ProgramListing>
+<Para>The <Filename>tttk_string_op</Filename> function returns a string containg the operation for the
+specified string. On error, this function returns <Filename>TTDT_OP_NONE</Filename>.</Para>
+<Example Id="TTUG.MsgTk.tbl.56">
+<Title><IndexTerm>
+<Primary>tttk_Xt_input_handler</Primary>
+</IndexTerm><IndexTerm>
+<Primary>message sets</Primary>
+<Secondary>toolkit</Secondary>
+<Tertiary>tttk_Xt_input_handler</Tertiary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit messages</Primary>
+<Secondary>tttk_Xt_input_handler</Secondary>
+</IndexTerm>tttk_Xt_input_handler</Title>
+<ProgramListing>void         tttk_Xt_input_handler(   XtPointer     procid,
+                                      int *         source,
+                                      XtInputId *   id );
+</ProgramListing>
+</Example>
+<Para>The <Filename>tttk_Xt_input_handler</Filename> function processes ToolTalk events for Xt
+clients. Use this function as your Xt input handler unless you expect some
+messages not to be consumed by callbacks.</Para>
+<Para>This function passes the <Emphasis>procid</Emphasis> argument to the<IndexTerm>
+<Primary>tttk_message_receive function</Primary>
+</IndexTerm>
+<Filename>tttk_message_receive</Filename>
+function and passes any returned message (that is, messages that are not
+consumed by callbacks) to the <Filename><IndexTerm>
+<Primary>tttk_message_abandon</Primary>
+</IndexTerm>tttk_message_abandon</Filename> function.</Para>
+<Para>If this function returns the error<IndexTerm>
+<Primary>TT_ERR_NOMP</Primary>
+</IndexTerm><IndexTerm>
+<Primary>error messages</Primary>
+<Secondary>TT_ERR_NOMP</Secondary>
+</IndexTerm>
+<Filename>TT_ERR_NOMP</Filename>, the <Filename>tttk_Xt_input_handler</Filename>
+function will pass the <Emphasis>id</Emphasis> parameter to the<IndexTerm>
+<Primary>XtRemoveInput functio</Primary>
+</IndexTerm>
+<Command>XtRemoveInput</Command> function.</Para>
+</Sect1>
+</Appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 05:02:32-->

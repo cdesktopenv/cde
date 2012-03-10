@@ -1,0 +1,131 @@
+<!-- $XConsortium: h_netf_f.sgm /main/7 1996/09/08 20:12:52 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN79.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN79.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_host_netfile_file</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_host_netfile_file</Function></RefName>
+<RefPurpose>map between canonical and local pathnames on a remote host
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: h_netf_f.sgm /main/7 1996/09/08 20:12:52 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>char <Function>*tt_host_netfile_file</Function></FuncDef>
+<ParamDef>const char *<Parameter>host</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>netfilename</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_host_netfile_file</Function> function performs a conversion equivalent to that of the
+&cdeman.tt.netfile.file; function, but performs it on a remote host.
+</Para>
+<Para>The
+<Symbol Role="Variable">host</Symbol> argument
+is the host on which the file resides.
+The
+<Emphasis>netfilename</Emphasis> argument is a copy of a null-terminated string returned by
+&cdeman.tt.netfile.file; or
+&cdeman.tt.host.netfile.file;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_host_netfile_file</Function> function returns
+a freshly allocated
+null-terminated string of unspecified format, which can be passed to
+&cdeman.tt.host.netfile.file;; otherwise, it returns an error pointer.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned pointer:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_ERR_DBAVAIL</Term>
+<ListItem>
+<Para>The ToolTalk database server
+could not be reached on
+<Symbol Role="Variable">host</Symbol>, perhaps because the host is unavailable or
+cannot be reached through the network.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBEXIST</Term>
+<ListItem>
+<Para>The ToolTalk database server
+is not properly installed on
+<Symbol Role="Variable">host</Symbol>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NETFILE</Term>
+<ListItem>
+<Para>The
+<Emphasis>netfilename</Emphasis> is not a valid netfilename.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_UNIMP</Term>
+<ListItem>
+<Para>The ToolTalk database server
+contacted is of a version that does not support
+<Function>tt_host_netfile_file</Function>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.tt.file.netfile;, &cdeman.tt.netfile.file;, &cdeman.tt.host.file.netfile; and
+&cdeman.tt.host.netfile.file; functions allow an
+application to determine a path valid on remote hosts,
+perhaps for purposes of constructing a command string valid for remote
+execution on that host.
+By composing the two calls, paths for files not accessible from the
+current host can be constructed.
+For example, if path
+<Filename>/sample/file</Filename> is valid on host A, a program
+running on host B can use
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>tt_host_netfile_file("C", tt_host_file_netfile("A", "/sample/file"))
+</ProgramListing>
+</InformalExample>
+<Para>to determine a path to the same file valid on host C, if such a
+path is possible.
+</Para>
+<Para>Allocated strings should be freed using either
+&cdeman.tt.free; or
+&cdeman.tt.release;.</Para>
+<Para>The
+&cdeman.tt.open; function need not be called before
+<Function>tt_host_netfile_file</Function>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.file.netfile;, &cdeman.tt.netfile.file;, &cdeman.tt.host.file.netfile;, &cdeman.tt.open;, &cdeman.tt.free;, &cdeman.tt.release;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

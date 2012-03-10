@@ -1,0 +1,697 @@
+m_comment
+  comcon:comcon {
+/* $XConsortium: context.dat /main/3 1995/07/17 19:56:40 lehors $ */
+/*
+              Copyright 1986 Tandem Computers Incorporated.
+This product and information is proprietary of Tandem Computers Incorporated.
+                   Copyright 1986, 1987, 1988, 1989 Hewlett-Packard Co.
+
+Context.dat defines the state transitions for program PARSER.
+*/
+         }
+
+  prlgdecl:prlgdecl,
+  pdecl:pdecl,
+  decl:decl,
+  mapname:mapname,
+  endmap:endmap,
+  entname:entname,
+  entval:entval,
+  dupent:dupent,
+  typedentval:typedentval,
+  typedupent:typedupent,
+  entend:entend {m_readcomments() ;}
+  ;
+
+m_mdo
+  prolog:prlgdecl
+  preamble:pdecl
+  datacon:decl
+  elcon:decl
+  netdatacon:decl
+  netelcon:decl
+  poundcdata:decl
+  netcdata:decl
+  ;
+
+m_mdc
+  entend:prolog
+  prlgerror:prolog
+  prlgdecl:prolog
+  perror:preamble
+  pdecl:preamble
+  endmap:start
+  decl:start
+  derror:start
+  ;
+
+m_usemap
+  decl:mapname
+  ;
+
+m_addmap
+  decl:amapname {
+            if (m_conform) m_mberr1("%s not provided in IS 8879",
+				    m_addmap) ;
+            }
+  ;
+
+m_empty
+  mapname:endmap {m_setmap(1, TRUE) ;}
+  amapname:endmap {m_setmap(1, FALSE) ;}
+  ;
+
+m_entkw
+  prlgdecl:entname
+  pdecl:perror { m_error("Entities must be defined in helptag.ent"); }
+  ;
+
+m_entst
+  entval:typedentval {if (m_entity) m_entity->type = M_STARTTAG ;}
+  dupent:typedupent {m_eduptype(M_STARTTAG) ;}
+  ;
+
+m_entet
+  entval:typedentval {if (m_entity) m_entity->type = M_ENDTAG ;}
+  dupent:typedupent {m_eduptype(M_ENDTAG) ;}
+  ;
+
+m_entcdata
+  entval:typedentval {if (m_entity) m_entity->type = M_CDATAENT ;}
+  dupent:typedupent {m_eduptype(M_CDATAENT) ;}
+  ;
+
+m_entsdata
+  entval:typedentval {if (m_entity) m_entity->type = M_SDATA ;}
+  dupent:typedupent {m_eduptype(M_SDATA) ;}
+  ;
+
+m_entsystem
+  entval:typedentval {if (m_entity) m_entity->type = M_SYSTEM ;}
+  dupent:typedupent {m_eduptype(M_SYSTEM) ;}
+  ;
+
+m_entmd
+  entval:typedentval {if (m_entity) m_entity->type = M_MD ;}
+  dupent:typedupent {m_eduptype(M_MD) ;}
+  ;
+
+m_entpi
+  entval:typedentval {if (m_entity) m_entity->type = M_PI ;}
+  dupent:typedupent {m_eduptype(M_PI) ;}
+  ;
+
+m_stago
+  datacon:selement,
+  elcon:selement,
+  netdatacon:selement,
+  netelcon:selement,
+  poundcdata:selement,
+  netcdata:selement {m_scannet = FALSE ;}
+
+  eelement:selement {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_etcomplete() ;
+            }
+  selement:selement {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stcomplete() ;
+            }
+  attname:selement {
+            m_stcomplete() ;
+            }
+  needvi:selement {
+            m_attvonly(m_saveatt) ;
+            m_stcomplete() ;
+            }
+  etagend:selement {m_etcomplete() ;}
+  ;
+
+m_etago
+  elcon:eelement
+  datacon:eelement
+  netelcon:eelement
+  netdatacon:eelement
+  poundcdata:eelement
+  netcdata:eelement
+  cdatael:eelement
+  rcdatael:eelement
+  netelcdata:eelement
+  netrcdata:eelement
+
+  eelement:eelement {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_etcomplete() ;
+            }
+  selement:eelement {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stcomplete() ;
+            }
+  attname:eelement {m_stcomplete() ;}
+  needvi:eelement {
+            m_attvonly(m_saveatt) ;
+            m_stcomplete() ;
+            }
+  etagend:eelement {m_etcomplete() ;}
+  ;
+
+m_pio
+  datacon:procint
+  elcon:procint
+  netdatacon:procint
+  netelcon:procint
+  selement:procint {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stcomplete() ;
+            }
+  eelement:procint {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_etcomplete() ;
+            }
+  poundcdata:procint
+  netcdata:procint
+  attname:procint {m_stcomplete() ;}
+  needvi:procint {
+            m_attvonly(m_saveatt) ;
+            m_stcomplete() ;
+            }
+  etagend:procint {m_etcomplete() ;}
+  ;
+
+m_tagc
+  eelement:start {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stacktop->holdre = FALSE ;
+            m_etcomplete() ;
+            }
+  selement:start {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stcomplete() ;
+            }
+  attname:start {m_stcomplete() ;}
+  etagend:start {m_etcomplete() ;}
+  needvi:start {
+            m_attvonly(m_saveatt) ;
+            m_stcomplete() ;
+            }
+  ;
+
+m_pic
+  procint:start {
+            m_pi[m_pilen] = M_EOS ;
+            m_piaction(m_pi, NULL, M_NULLVAL) ;
+            m_pilen = 0 ;
+            }
+  pierror:start
+  ;
+
+m_vi
+  needvi:attval {m_findatt() ;}
+  ;
+
+m_lit
+  attname:litcon
+  attval:litcon
+  litcon:litcon
+  ;
+
+m_litdelim
+  entval:litent,
+  typedentval:litent,
+  dupent:dlitent,
+  typedupent:dlitent {m_entclen = 0 ;}
+
+  litent:entend,
+  elitent:entend {
+            if (m_entity) {
+              m_entcontent[m_entclen] = M_EOS ;
+              m_entity->content =
+                (M_WCHAR *) m_malloc(m_entclen + 1, "entity content") ;
+              w_strcpy(m_entity->content, m_entcontent) ;
+              }
+            }
+
+  dlitent:entend,
+  edlitent:entend {
+            m_entcontent[m_entclen] = M_EOS ;
+            if (w_strcmp(m_entity->content, m_entcontent))
+              m_err1("Redefinition of entity %s ignored", m_entity->name) ;
+            }
+  ;
+
+m_lita
+  attname:litacon
+  attval:litacon
+  litacon:litacon
+  ;
+
+m_litadelim
+  entval:litaent,
+  typedentval:litaent,
+  dupent:dlitaent,
+  typedupent:dlitaent {m_entclen = 0 ;}
+
+  litaent:entend,
+  elitaent:entend {
+            if (m_entity) {
+              m_entcontent[m_entclen] = M_EOS ;
+              m_entity->content =
+                (M_WCHAR *) m_malloc(m_entclen + 1, "entity content") ;
+              w_strcpy(m_entity->content, m_entcontent) ;
+              }
+            }
+
+  dlitaent:entend,
+  edlitaent:entend {
+            m_entcontent[m_entclen] = M_EOS ;
+            if (w_strcmp(m_entity->content, m_entcontent))
+              m_err1("Redefinition of entity %s ignored", m_entity->name) ;
+            }
+  ;
+
+m_cro
+  litcon:litcon
+  litacon:litacon
+
+  poundcdata:poundcdata
+  netcdata:netcdata
+
+  elcon:poundcdata
+  netelcon:netcdata
+
+  rcdatael:rcdatael
+  netrcdata:netrcdata
+  ;
+
+m_litrs
+  litcon:litcon
+  litacon:litacon
+
+  poundcdata:poundcdata
+  netcdata:netcdata
+
+  elcon:elcon
+  netelcon:netelcon
+  ;
+
+m_litscr
+  litcon:litcon
+  litacon:litacon
+
+  poundcdata:poundcdata
+  netcdata:netcdata
+
+  elcon:elcon
+  netelcon:netelcon
+  ;
+
+m_litre
+  litcon:litcon
+  litacon:litacon
+
+  poundcdata:poundcdata
+  netcdata:netcdata
+
+  elcon:elcon
+  netelcon:netelcon
+  ;
+
+m_litecr
+  litcon:litcon
+  litacon:litacon
+
+  poundcdata:poundcdata
+  netcdata:netcdata
+
+  elcon:elcon
+  netelcon:netelcon
+  ;
+
+m_litspace
+  litcon:litcon
+  litacon:litacon
+
+  poundcdata:poundcdata
+  netcdata:netcdata
+
+  elcon:elcon
+  netelcon:netelcon
+  ;
+
+m_litcspace
+  litcon:litcon
+  litacon:litacon
+
+  poundcdata:poundcdata
+  netcdata:netcdata
+
+  elcon:elcon
+  netelcon:netelcon
+  ;
+
+m_littab
+  litcon:litcon
+  litacon:litacon
+
+  poundcdata:poundcdata
+  netcdata:netcdata
+
+  elcon:elcon
+  netelcon:netelcon
+  ;
+
+m_litctab
+  litcon:litcon
+  litacon:litacon
+
+  poundcdata:poundcdata
+  netcdata:netcdata
+
+  elcon:elcon
+  netelcon:netelcon
+  ;
+
+m_ero
+  rcdatael:rcdatael
+  netrcdata:netrcdata
+  poundcdata:poundcdata
+  netcdata:netcdata
+  datacon:datacon
+  elcon:elcon
+  netdatacon:netdatacon
+  netelcon:netelcon
+  prolog:prolog
+  preamble:preamble
+  litcon:litcon
+  litacon:litacon
+  entinlit:entinlit
+  ;
+
+m_refc
+  entref:entref
+  ;
+
+m_net
+  netdatacon:start,
+  netelcon:start,
+  netcdata:start,
+  netelcdata:start,
+  netrcdata:start {m_nullendtag() ;}
+  selement:start {
+            m_scannet = TRUE ;
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stcomplete() ;
+            }
+  attname:start {
+            m_scannet = TRUE ;
+            m_stcomplete() ;
+            }
+  needvi:start {
+            m_scannet = TRUE ;
+            m_attvonly(m_saveatt) ;
+            m_stcomplete() ;
+            }
+  ;
+
+
+m_endfile
+  datacon:datacon
+  elcon:elcon
+  netdatacon:netdatacon
+  netelcon:netelcon
+  poundcdata:poundcdata
+  netcdata:netcdata
+  prolog:prolog
+  preamble:preamble {
+            m_startdoc() ;
+            if (! m_state[2].final) m_error("Empty document") ;
+            }
+  rcdatael:rcdatael
+  netrcdata:netrcdata
+  rcnewent:rcnewent
+  cdatael:cdatael
+  netelcdata:netelcdata
+  eelement:start {
+            if (! m_wholetag)
+              m_mberr1("Missing %s in end-tag", m_tagc) ;
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stacktop->holdre = FALSE ;
+            m_etcomplete() ;
+            }
+  selement:start {
+            if (! m_wholetag)
+              m_mberr1("Missing %s in start-tag", m_tagc) ;
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stcomplete() ;
+            }
+  attname:start {
+            if (! m_wholetag)
+              m_mberr1("Invalid parameter or missing %s", m_tagc) ;
+            m_stcomplete() ;
+            }
+  etagend:start {
+            if (! m_wholetag)
+              m_mberr1("Missing %s delimiter in end-tag", m_tagc) ;
+            m_etcomplete() ;
+            }
+  needvi:start {
+            if (! m_wholetag)
+              m_mberr1("Invalid parameter or missing %s", m_tagc) ;
+            m_attvonly(m_saveatt) ;
+            m_stcomplete() ;
+            }
+  attval:start {
+            if (! m_wholetag)
+              m_mberr1("Invalid parameter or missing %s", m_tagc) ;
+            m_err1("Expecting value for %s",
+		   &m_pname[m_parameter[m_ppsave - 1].paramname]) ;
+            m_stcomplete() ;
+            }
+  ;
+
+m_name
+  mapname:endmap {m_ckmap(m_name, TRUE) ;}
+  amapname:endmap {m_ckmap(m_name, FALSE) ;}
+  entname:entval {
+            m_ntrent(m_name) ;
+            if (! m_entity) m_curcon = PRLGERROR ;
+            }
+  selement:attname {
+            {
+              int i ;
+
+              if (m_scanel = m_eltname()) {
+                for (i = 0 ; i < m_element[m_scanel - 1].parcount ; i++)
+                  m_poccur[i] = 0 ;
+                }
+              else m_curcon = START ;
+              }
+            }
+  eelement:etagend {
+            if (m_scanel = m_eltname()) m_stacktop->holdre = FALSE ;
+            else
+              if (m_element[m_stacktop->element - 1].content == M_CDATA ||
+                  m_element[m_stacktop->element - 1].content == M_RCDATA) {
+                m_ckend(m_stacktop->element, FALSE) ;
+                m_curcon = START ;
+                }
+            else m_curcon = START ;
+            }
+  attname:needvi {if (m_validinpar(m_name))
+		    w_strcpy(m_saveatt, m_name) ;}
+  attval:attname {m_attval(m_name) ;}
+  needvi:needvi {
+            m_attvonly(m_saveatt) ;
+            if (m_validinpar(m_name))
+	      w_strcpy(m_saveatt, m_name) ;
+            }
+  ;
+
+m_text
+  litcon:litcon
+  litacon:litacon
+  entinlit:entinlit
+
+  litent:litent {m_longent(ELITENT) ;}
+  litaent:litaent {m_longent(ELITAENT) ;}
+  dlitent:dlitent {m_longent(EDLITENT) ;}
+  dlitaent:dlitaent {m_longent(EDLITAENT) ;}
+
+  elitent:elitent
+  elitaent:elitaent
+  edlitent:edlitent
+  edlitaent:edlitaent
+
+  prlgerror:prlgerror
+  perror:perror
+  derror:derror
+
+  prlgdecl:prlgerror,
+  pdecl:perror,
+  decl:derror {m_error("Invalid markup declaration") ;}
+
+  rcdatael:rcdatael,
+  netrcdata:netrcdata,
+  rcnewent:rcnewent,
+  cdatael:cdatael,
+  netelcdata:netelcdata,
+  poundcdata:poundcdata,
+  netcdata:netcdata {m_textaction(m_scanval) ;}
+
+  procint:procint {
+            m_pi[m_pilen++] = m_scanval ;
+            if (m_pilen > M_PILEN) {
+              m_error("Processing instruction too long") ;
+              m_pi[m_pilen - 1] = M_EOS ;
+              m_piaction(m_pi, NULL, M_NULLVAL) ;
+              m_curcon = PIERROR ;
+              m_pilen = 0 ;
+              }
+            }
+
+  pierror:pierror
+
+  datacon:poundcdata,
+  netdatacon:netcdata {m_strtcdata(m_scanval) ;}
+  ;
+
+m_blackspace
+  elcon:poundcdata,
+  netelcon:netcdata {m_strtcdata(m_scanval) ;}
+
+  preamble:start {
+            m_ungetachar((int) m_scanval, M_NORMAL, TRUE) ;
+            m_startdoc() ;
+            }
+
+  prolog:prlgerror
+	{
+	m_error("Only entities and comments are allowed in helptag.ent");
+	}
+
+  prlgerror:prlgerror
+
+  amapname:derror,
+  mapname:derror,
+  endmap:derror {m_error("Invalid usemap declaration") ;}
+
+  typedentval:prlgerror,
+  entname:prlgerror,
+  entval:prlgerror,
+  typedupent:prlgerror,
+  dupent:prlgerror
+	{
+	m_error("Invalid ENTITY declaration") ;
+	if (m_entity)
+	    {
+	    m_entcontent[m_entclen] = M_EOS ;
+	    m_entity->content =
+		(M_WCHAR *) m_malloc(m_entclen + 1, "entity content") ;
+	    w_strcpy(m_entity->content, m_entcontent) ;
+	    }
+	}
+
+  entend:prlgerror
+	{
+	m_error("Unexpected characters within ENTITY declaration") ;
+	if (m_entity)
+	    {
+	    m_entcontent[m_entclen] = M_EOS ;
+	    m_entity->content =
+		(M_WCHAR *) m_malloc(m_entclen + 1, "entity content") ;
+	    w_strcpy(m_entity->content, m_entcontent) ;
+	    }
+	}
+
+  selement:poundcdata {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_strtcdata(m_scanval) ;
+            }
+  eelement:poundcdata {
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_etcomplete() ;
+            m_strtcdata(m_scanval) ;
+            }
+  ;
+
+m_literal
+  attname:attname {m_attvonly(m_literal) ;}
+  attval:attname {m_attval(m_literal) ;}
+  ;
+
+m_entityend
+  eelement:start {
+            if (! m_wholetag)
+              m_mberr1("Missing %s in entity containing end-tag", m_tagc) ;
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stacktop->holdre = FALSE ;
+            m_etcomplete() ;
+            }
+  selement:start {
+            if (! m_wholetag)
+              m_mberr1("Missing %s in entity containing start-tag", m_tagc) ;
+            if (! m_stacktop->oldtop)
+              m_scanel = m_arc[m_state[0].first - 1].label ;
+            else m_scanel = m_stacktop->element ;
+            m_stcomplete() ;
+            }
+  attname:start {
+            if (! m_wholetag)
+		m_mberr1(
+	    "Invalid parameter or missing %s in entity containing start-tag",
+			 m_tagc) ;
+            m_stcomplete() ;
+            }
+  etagend:start {
+            if (! m_wholetag)
+              m_mberr1("Missing %s in entity containing end-tag", m_tagc) ;
+            m_etcomplete() ;
+            }
+  needvi:start {
+            if (! m_wholetag)
+		m_mberr1(
+	    "Invalid parameter or missing %s in entity containing start-tag",
+			 m_tagc) ;
+            m_attvonly(m_saveatt) ;
+            m_stcomplete() ;
+            }
+  attval:start {
+            if (! m_wholetag)
+		m_mberr1(
+           "Invalid parameter or missing %s in entity containing start-tag", 
+                         m_tagc) ;
+            m_err1("Expecting value for %s",
+		   &m_pname[m_parameter[m_ppsave - 1].paramname]) ;
+            m_stcomplete() ;
+            }
+  ;
+
+

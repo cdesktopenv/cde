@@ -1,0 +1,43 @@
+/* XPM */
+/* $XConsortium: Dtsectprevi.m.pm /main/2 1996/07/23 12:22:25 drk $ */
+static char * Dtsectprevi_m_pm[] = {
+/* width height ncolors cpp [x_hot y_hot] */
+"32 32 4 1 0 0",
+/* colors */
+" 	s background	m black	c #949494949494",
+".	s iconGray2	m white	c #bdbdbdbdbdbd",
+"X	s iconGray4	m white	c #949494949494",
+"o	s iconGray6	m black	c #636363636363",
+/* pixels */
+"    ..................          ",
+"    .XXXXXXXXXXXXXXXX.o         ",
+"    .XXXXXXXXXXXXXXXXo.o        ",
+"    .XXXXXXXXXXXXXXXX.o.o       ",
+"    .XXXXXXXXXXXXXXXXo.o.o      ",
+"    .XXXXXXXXXXXXXXXX.o.o.o     ",
+"    .XXXXXXXXXXXXXXXXo.o.o.o    ",
+"    .XXXXXXXXXXXXXXXXoooooooo   ",
+"    .XXXXXXXXXXXXXXXXXooooooo   ",
+"    .XXXXXXXXXXXoXXXXXXXXXXXoo  ",
+"    .XXXXXXXXXXoX.XXXXXXXXXXoo  ",
+"    .XXXXXXXXXoXXX.XXXXXXXXXoo  ",
+"    .XXXXXXXXoXXXXX.XXXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXoXXXXXXXXX.XXXXXXoo  ",
+"    .XXXXXoXXXXXXXXXXX.XXXXXoo  ",
+"    .XXXXoXXXXXXXXXXXXX.XXXXoo  ",
+"    .XXXoooooXXXXXXX.....XXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXXoXXXXXXX.XXXXXXXoo  ",
+"    .XXXXXXX.........XXXXXXXoo  ",
+"    .XXXXXXXXXXXXXXXXXXXXXXXoo  ",
+"    .XXXXXXXXXXXXXXXXXXXXXXXoo  ",
+"    .XXXXXXXXXXXXXXXXXXXXXXXoo  ",
+"    .XXXXXXXXXXXXXXXXXXXXXXXoo  ",
+"    .ooooooooooooooooooooooooo  ",
+"      oooooooooooooooooooooooo  "};

@@ -1,0 +1,144 @@
+#! /usr/local/bin/perl
+
+eval "exec /usr/local/bin/perl -S $0 $*"
+    if $running_under_some_shell;
+
+################################################################################
+#
+# File:         ListTheTree <source tree>
+# RCS:          $XConsortium: ListTheTree /main/3 1995/10/30 13:43:24 rswiston $
+# Author:       Jim Andreas Hewlett-Packard, OSSD-CV
+# Created:      1/15/92
+# Modified by:  Marc Ayotte Hewlett-Packard, OSSD-CV (perlizer)
+# Language:     N/A
+# Package:      N/A
+# Status:       CDE distributed
+#
+# (c) Copyright 1993, Hewlett-Packard Company, all rights reserved.
+#
+# Description:  This file does 2 things:
+#               1) List the source tree's structure.
+#                  This structure is placed into the source tree's
+#                  directory as :TreeListing.
+#               2) Creates a listing of all of the files locked in the
+#                  source tree and places it in :TreeListing.locks.
+################################################################################
+
+if ($ARGV[0]) {
+	$TREE = $ARGV[0];
+	#
+	# if not / relative get pwd path
+	#
+	if ($TREE !~ m%^\/%) {
+		print STDERR "	Must be a / related path e.g -> /foo.  Sorry!\n";
+		exit 1;
+	}
+}
+else {
+	die "	USAGE ListTheTree <source directory>\n";
+}
+
+# put /usr/local/bin in the path for Rcslocks
+$ENV{'PATH'} = "/x/cdesrc/admin/bin:/usr/local/bin:$ENV{'PATH'}";
+
+if (! chdir("$TREE")) {
+	die "	ERROR -> Couldn't change directory to $TREE.\n";
+}
+
+######################
+# get the tree listing
+######################
+system ("find . -print > :TreeListing.new");
+unlink(":TreeListing");
+if (! rename(":TreeListing.new",":TreeListing")) {
+	print "	WARNING -> couldn't mv  :TreeListing.new to :TreeListing.\n";
+}
+
+
+###################################
+# find the locked files in the tree
+###################################
+unlink(":TreeListing.locks.new");
+open(NLOCK,">>$TREE/:TreeListing.locks.new");
+print NLOCK "List of locked files in $TREE\n\n";
+@dirs=(`find . -type d -print`);
+
+foreach $dir (@dirs) {
+	undef(@rcsLocks);
+	chop($dir);
+	if (chdir("$dir")) {
+		@rcsLocks = (`Rcslocks -v`);
+		# only list directory if there are locks
+		if (@rcsLocks) {
+			print NLOCK "$dir\n";
+			while (@rcsLocks) {
+				$lock = shift(@rcsLocks);
+				print NLOCK "   $lock";
+			}
+			print NLOCK "\n";
+		}
+	}
+	else {
+		print "	WARNING -> could not cd to ${TREE}/${dir}\n";
+		print "	$!\n";
+	}
+    	chdir("$TREE");
+}
+
+unlink("$TREE/:TreeListing.locks");
+rename("$TREE/:TreeListing.locks.new","$TREE/:TreeListing.locks");
+
+
+#
+# get changes from last listing
+# check file $TREE/changestamp
+#
+$cstamp = "${TREE}/changestamp";
+if ( -f "${TREE}/changestamp" ) {
+	$laststamp = `cat $cstamp`;
+	chop $laststamp;
+}
+else {
+	$date = `date +%y%m%d`;
+	chop $date;
+	$laststamp = "${date}0001";
+	$dip = `echo "$laststamp" >$cstamp`;
+	$date = `date +%m%d0001`;
+	chop $date;
+	system "touch $date $cstamp";
+}
+$curstamp = `date +%y%m%d%H%M`;
+chop $curstamp;
+
+unlink("$TREE/:TreeListing.changes.new");
+open(NCHANGE,">>$TREE/:TreeListing.changes.new");
+print NCHANGE "List of changed files in $TREE\n\n";
+@allfiles=(`find . -follow -name "*,v" -newer $cstamp -print`);
+foreach $file (@allfiles) {
+	chop $file;
+	if (open($RCSFILE,"$file")) {
+		NEXTLINE:
+		while ($line = <$RCSFILE>) {
+			chop $line;
+			if ($line !~ m%^date%) {
+				next NEXTLINE;
+			}
+			else {
+				$lastdate = $line;
+				$author = $line;
+				$lastdate =~ s%^.* (\d+\.\d+\.\d+\.\d+\.\d+).*$%\1%;
+				$lastdate =~ s%\.%%g;
+				if ($lastdate > $laststamp) {
+					$author =~ s%^.*author (.*); .*;$%\1%;
+					print NCHANGE "$file <-> $author\n";
+				}
+			}
+		}
+		close($RCSFILE);
+	}
+}
+
+$dip = `echo "$curstamp" >$cstamp`;
+
+unlink("$TREE/:TreeListing.changes");
+rename("$TREE/:TreeListing.changes.new","$TREE/:TreeListing.changes");

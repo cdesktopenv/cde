@@ -1,0 +1,508 @@
+<!-- $XConsortium: ch04.sgm /main/15 1996/10/22 14:42:40 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.CrHV.div.1">
+<title id="HRDC.CrHV.mkr.1">Processing and Displaying a Help Volume</title>
+<para>This chapter shows you how to process your marked-up help files to create
+an online format that you view using the Help System. It also describes how
+to make your help volume accessible from the desktop Front Panel Help Viewer.
+</para>
+<informaltable id="HRDC.CrHV.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating Run-Time Help Files89'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.2"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Create a Run-Time Help Volume89'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.3"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Viewing a Help Volume92'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.6"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display a Help Volume92'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.7"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Adding Your Help to the Index Volume94'--><xref
+role="JumpText" linkend="HRDC.CrHV.mkr.8"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Printing Help Topics98'--><xref role="JumpText"
+linkend="HRDC.CrHV.mkr.13"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Testing Your Help99'--><xref role="JumpText"
+linkend="HRDC.CrHV.mkr.15"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<sect1 id="HRDC.CrHV.div.2">
+<title>Overview</title>
+<para>Before a help volume can be displayed, you must create a run-time help
+file by processing your files with the DocBook software. Run-time files use
+an online presentation format called <emphasis>Semantic Delivery Language</emphasis> (SDL). An<filename>.sdl</filename> file extension identifies a
+run-time help file.</para>
+<para>The utility <command>dtdocbook</command> takes documents conforming
+to the DocBook 2.2.1 DTD subelement Part and produces documents conforming
+to the SDL 1.2 DTD, which can serve as input to the DtHelp viewer.</para>
+<para>During translation, several items are precomputed to speed run-time
+display of the document. These items include: the table of contents, the keyword
+index, resolution of cross-references, and labeling of ordered lists. The
+SDL conforming document produced by the translation is compressed by default.
+</para>
+<graphic id="HRDC.CrHV.igrph.1" entityref="HRDC.CrHV.fig.1"></graphic>
+<para>The Help System defines desktop actions and data types for help-specific
+files. This lets you easily process and view a run-time help file from the
+desktop.</para>
+<sect2 id="HRDC.CrHV.div.3">
+<title>DocBook Software</title>
+<para>The DocBook software can be invoked automatically by double-clicking
+a help source file in File Manager or by running the <command>dtdocbook</command>
+command manually in a terminal window.</para>
+<para><command>dtdocbook</command> does two significant tasks:</para>
+<orderedlist><listitem><para>The DocBook <emphasis>parser</emphasis> converts
+your marked-up files into an internal format (Semantic Delivery Language)
+understood by the Help System. If you've made any markup errors, the errors
+are reported in a file named <symbol role="Variable">volume</symbol><filename>.log</filename>.</para>
+</listitem><listitem><para>If there are no parser errors, the master help
+volume file (<symbol role="Variable">volume</symbol><filename>.sdl</filename>)
+is created.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="HRDC.CrHV.div.4">
+<title>Viewing Your Volume</title>
+<para>After processing your source files with DocBook, your help volume is
+ready to be displayed. You can display it by double-clicking the <symbol role="Variable">volume</symbol><filename>.sdl</filename> file icon in File
+Manager, or use the <command>dthelpview</command> command in a terminal window.
+</para>
+<graphic id="HRDC.CrHV.igrph.2" entityref="HRDC.CrHV.fig.2"></graphic>
+<para>If you have written help for an application and the application is ready
+to use, you can display your help by running the application and asking for
+help.</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrHV.div.5">
+<title id="HRDC.CrHV.mkr.2">Creating Run-Time Help Files</title>
+<para>When you run <command>dtdocbook</command>, it reads your <symbol role="Variable">volume</symbol><filename>.sgm</filename> file and any additional source files
+that are included using entities. It also validates graphics file names.</para>
+<para>Be sure the <command>/usr/dt/bin/dtdocbook</command> command is in your
+search path. (If you're not sure how to do this, ask your system administrator.)
+</para>
+<sect2 id="hrdc.crhv.div.6" role="Procedure">
+<title id="hrdc.crhv.mkr.3">To Create a Run-Time Help Volume</title>
+<orderedlist><listitem><para>Open File Manager and change to the directory
+where your <symbol role="Variable">volume</symbol><filename>.sgm</filename>
+file is located.</para>
+<graphic id="hrdc.crhv.igrph.3" entityref="HRDC.CrHV.fig.3"></graphic>
+</listitem><listitem><para>Select the file icon.</para>
+</listitem><listitem><para>Choose Compile from the File Manager Selected menu.
+</para>
+<para>The <symbol role="Variable">volume</symbol><filename>.sgm</filename>
+file is processed and creates a <symbol role="Variable">volume</symbol><filename>.sdl</filename> file and a <symbol role="Variable">volume</symbol><filename>.log</filename> file.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="HRDC.CrHV.div.7">
+<title>DocBook Output</title>
+<para>DocBook takes the file <symbol role="Variable">volume</symbol><filename>.sgm</filename> as its input and outputs several files:</para>
+<itemizedlist><listitem><para>Most importantly, the final output file, a
+run-time help volume, named <symbol role="Variable">volume</symbol><filename>.sdl</filename>.</para>
+</listitem><listitem><para>If any errors occurred during processing, they
+are reported in an error file named <symbol role="Variable">volume</symbol><filename>.log</filename>, typically removed after use.</para>
+</listitem></itemizedlist>
+<para>The <symbol role="Variable">volume</symbol><filename>.sdl</filename>
+file is not created until the source file is without errors.</para>
+<para>The <symbol role="Variable">volume</symbol><filename>.sdl</filename>,
+file, plus your graphics files, are read by the Help System to display help
+topics.</para>
+<para>The run-time help file has the same base name as your <symbol role="Variable">volume</symbol><filename>.sgm</filename> file. For example, if your source
+file is named <filename>Librarian.sgm</filename>, then the help volume name
+is <filename>Librarian.sdl</filename>.</para>
+<para>The <command>dtdocbook</command> utility accepts a single file as an
+argument. If the file name ends in the characters &ldquo;<filename>.sgm</filename>&rdquo;,
+those characters are assumed to be the file name extension and are removed
+to create the file base names for all intermediate files and for the final
+output file.</para>
+<para>When the <command>dtdocbook -c</command> or the <command>dtdocbook -d</command> option is specified to request compression or decompression of
+an existing SDL file, the input file name will end in the characters &ldquo;<filename>.sdl</filename>&rdquo;. Again, those characters are assumed to be the file
+name extension and are removed to create the file base names for all intermediate
+files and for the final output file.</para>
+<para>If the <command>-c</command> option is specified and the file is already
+compressed, the file will be decompressed and recompressed. This action is
+useful as a means to verify the integrity of a compressed SDL file.</para>
+<para>If the <command>-d</command> is specified and the file is already decompressed,
+the file will be re-parsed, all precomputations will be performed, and the
+file will be re-written. This action is useful as a means to verify the integrity
+of an SDL file. It is also useful for forcing a recomputation of the table
+of contents, including byte offsets to individual help topics, when such recomputation
+is made necessary, for example, by editing the SDL file directly.</para>
+<para>The final output file name extension will always be &ldquo;<filename>.sdl</filename>&rdquo;, unless the <command>dtdocbook -o</command> option
+is specified, in which case the <symbol role="Variable">filename</symbol>
+argument to <command>dtdocbook -o</command> will be used as given as the output
+file name.</para>
+<caution>
+<para>Never rename a run-time help file or graphics file after running <command>dtdocbook</command>. The information stored in the <symbol role="Variable">volume</symbol><filename>.sdl</filename> file depends on the original names.
+If you rename your <symbol role="Variable">volume</symbol><filename>.sgm</filename>
+file or any of your graphic files, be sure to rerun <command>dtdocbook</command>.
+</para>
+</caution>
+</sect2>
+<sect2 id="HRDC.CrHV.div.8" role="Procedure">
+<title>To Run the dtdocbook Command Manually</title>
+<itemizedlist><listitem><para>Run the <command>dtdocbook</command> command
+as follows:</para>
+<para><command>dtdocbook</command> <symbol>options</symbol> <symbol>volume</symbol></para>
+<para>Observe that <symbol>options</symbol> are entered before the <symbol>volume</symbol> name. <xref role="SecTitleAndPageNum" linkend="HRDC.CmdS.mkr.2">
+lists all available options.</para>
+</listitem></itemizedlist>
+<sect3 id="HRDC.CrHV.div.9">
+<title>Examples of Command Options.sgm</title>
+<para>The following command processes a help volume named <filename>MyVolume</filename>:</para>
+<programlisting>dtdocbook MyVolume</programlisting>
+<para>Using the <command>-r</command> option removes all files previously
+generated by processing a source file of <filename>MyVolume.sgm</filename>:
+</para>
+<programlisting>dtdocbook -r MyVolume.sgm</programlisting>
+<para>The following command processes the source file named <filename>MyVolume.sgm</filename> and leaves the result in the file named <filename>Other_File.sdl</filename>::</para>
+<programlisting>dtdocbook -o Other_File.sdl MyVolume.sgm</programlisting>
+<para>Using the <command>-v</command> option causes the progress of the processing
+to be displayed on your screen:</para>
+<programlisting>dtdocbook -v MyVolume</programlisting>
+</sect3>
+<sect3 id="HRDC.CrHV.div.11">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="ChapNumAndTitle"
+linkend="HRDC.Inst.mkr.1"> explains which help files are included in your
+application installation package.</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.CrHV.div.12" role="Procedure">
+<title id="HRDC.CrHV.mkr.5">To Review and Correct Parser Errors</title>
+<para>The primary source of error messages will be the SGML parser. Most of
+them will be SGML syntax error messages, and a few will be of the "file not
+found" variety.</para>
+<para>The two passes of the translation process that takes the source file
+from SGML to SDL will also generate syntax error messages and "file not found"
+messages, but to a lesser degree. The second of the two passes will issue
+error messages rarely, since all the syntax and context will have been checked
+by then.</para>
+<para>After running <command>dtdocbook</command>, look at the contents of
+the <symbol role="Variable">volume</symbol><filename>.log</filename> file
+(where <symbol role="Variable">volume</symbol> is the base name of your <symbol role="Variable">volume</symbol><filename>.sgm</filename> file).</para>
+<para>It is quite possible for a single, simple error to produce several error
+messages, because the error may cause the parser to lose track of the intended
+context, making it impossible to interpret subsequent markup properly.</para>
+<sect3 id="HRDC.CrHV.div.13">
+<title>Common Errors</title>
+<para>Most processing errors result from these common mistakes:</para>
+<itemizedlist><listitem><para>Omitting an end tag</para>
+</listitem><listitem><para>Using an incorrect entity name</para>
+</listitem><listitem><para>Referring to an invalid element ID</para>
+</listitem></itemizedlist>
+<para>Omitting an end tag for an element is a common mistake. <emphasis>Virtually
+all DocBook elements require end tags.</emphasis> Check your markup when you
+have nested one structurally complex element within another, such as a figure
+within a list.</para>
+<para>Errors can also be introduced by using an incorrect entity name. In
+most instances, it is simply a misspelled word. In other cases, an entity
+name may have been changed, but cross-references to the original name were
+overlooked. When you change an entity name, remember to search your source
+file (or files) for all instances of the entity name.</para>
+<para>Errors can also be introduced by changing the ID assigned to an element,
+since this affects any cross-reference or link to that topic. When you change
+an ID, remember to search your source file (or files) for all instances of
+that ID.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrHV.div.14">
+<title id="HRDC.CrHV.mkr.6">Viewing a Help Volume</title>
+<para>The Help Viewer can be used to display any help volume. It supports
+all DocBook hyperlinks but not application-defined links (because it cannot
+know how your links are to be interpreted).</para>
+<para>If you are writing application help and your application is ready to
+use, you can also view your help by running your application, then requesting
+help just as a user would.</para>
+<sect2 id="HRDC.CrHV.div.15" role="Procedure">
+<title id="HRDC.CrHV.mkr.7">To Display a Help Volume</title>
+<orderedlist><listitem><para>Open File Manager and change to the directory
+where the <symbol role="Variable">volume</symbol><filename>.sdl</filename>
+file is located.</para>
+</listitem><listitem><para>Double-click its icon.</para>
+<para>The default action displays the file using the Help Viewer.</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.CrHV.div.16" role="Procedure">
+<title>To Run the dthelpview Command Manually</title>
+<itemizedlist><listitem><para>If the <symbol role="Variable">volume</symbol><filename>.sdl</filename> file for the volume you want to display is either in the current
+directory or has been registered, execute this command:</para>
+<para><command>dthelpview -helpVolume <symbol role="Variable">volume</symbol><filename>.sdl</filename></command></para>
+<para><emphasis>Or,</emphasis> if the <symbol role="Variable">volume</symbol><filename>.sdl</filename> is in another directory (and hasn't been registered), execute
+this command:</para>
+<para><command>dthelpview -helpVolume /<symbol>full-path</symbol>/ <symbol>volume</symbol>.sdl</command></para>
+</listitem></itemizedlist>
+<para>The <command>-helpVolume</command> parameter can be shortened to <command>-h</command> in any of these commands.</para>
+</sect3>
+<sect3 id="HRDC.CrHV.div.17">
+<title>Example</title>
+<para>Suppose you have just edited your help volume. First, process it with
+the DocBook software:</para>
+<programlisting>dtdocbook MyVolume.sgm</programlisting>
+<para>If no errors occurred, you could then display it with this command:
+</para>
+<programlisting>dthelpview -h MyVolume.sdl</programlisting>
+</sect3>
+<sect3 id="HRDC.CrHV.div.18">
+<title>See Also</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.Inst.mkr.9"></para>
+</listitem></itemizedlist>
+</sect3>
+<sect3 id="HRDC.CrHV.div.19">
+<title>Example: A Personal Help Directory</title>
+<para>During a project, you may want to access the help volume you are developing,
+but not expose it to all users on your system. For example, suppose your
+working directory is <filename>/projects/help</filename> and your help volume
+is named <filename>Myvolume</filename>.</para>
+<para>First, create the personal help directory in your home directory where
+you can register the volume:</para>
+<programlisting>mkdir -p $HOME/.dt/help/C</programlisting>
+<para>Now create a symbolic link to the <filename>Myvolume.sdl</filename>
+file (which is created by the DocBook software):</para>
+<programlisting>ln -s /projects/help/Myvolume.sdl $HOME/.dt/help/C/Myvolume.sdl
+</programlisting>
+<para>You can now display the volume with the following command (regardless
+of your current directory) because the<filename>.dt/help/C</filename> directory
+within your home directory is one of the first places the Help System looks
+for help volumes.</para>
+<programlisting>dthelpview -helpVolume Myvolume.sdl</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrHV.div.20">
+<title id="HRDC.CrHV.mkr.8">Adding Your Help to the Index Volume</title>
+<para>The desktop provides a special help volume called the index volume that
+lists help volumes available on your system. The index volume is displayed
+by clicking the Help Viewer control in the Front Panel.</para>
+<para>You can view assorted help volumes directly from the index volume. This
+allows access to application-specific help without starting the application.
+If you are writing standalone help, this is the only way for users to get
+to your help.</para>
+<figure>
+<title id="HRDC.CrHV.mkr.9">Index help volume displaying help families</title>
+<graphic id="HRDC.CrHV.grph.1" entityref="HRDC.CrHV.fig.4"></graphic>
+</figure>
+<para>To make your help volume available in the index volume, you create a
+help family file. When your application is registered on the desktop, the
+presence of a family file causes the help volume to be included in the index
+volume.</para>
+<sect2 id="HRDC.CrHV.div.21">
+<title id="HRDC.CrHV.mkr.10">Index Volume</title>
+<para>A desktop utility creates and updates the index volume. When a user
+clicks on the Front Panel Help Viewer for the first time, the utility is automatically
+run. It identifies help volumes and help family files that are located in
+the help search path directories. It creates a file called <filename>index.hv</filename> in the user's <filename>HomeDirectory/.dt/help/$DTUSERSESSION</filename> directory. After its initial creation, the volume is updated only
+if changes have occurred.</para>
+<para>To manually update the index volume, refer to <xref role="SecTitleAndPageNum"
+linkend="HRDC.CmdS.mkr.5">.</para>
+<para>Any help volume listed in the index volume can be viewed by selecting
+the volume title. Because you can display and navigate through different volumes,
+the index help window includes an additional button, called Top Level.You
+can use this button to return to the index list after displaying one or more
+volumes.</para>
+</sect2>
+<sect2 id="HRDC.CrHV.div.22">
+<title>Help Family File</title>
+<para>The desktop utility examines help family files to identify which help
+volumes are gathered into the index volume. <xref role="CodeOrFigureOrTable"
+linkend="HRDC.CrHV.mkr.9"> on <xref role="PageNum" linkend="HRDC.CrHV.mkr.9">
+shows two help families, Common Desktop Environment and Overview and Basic
+Desktop Skills, listed in the index volume. Each family file consists of
+one or more related help volumes. For example, the Common Desktop Environment
+family includes different volumes that describe the desktop.</para>
+<para>Refer to the Advanced User's and System Administrator's Guide for a
+detailed explanation of how an application and its help files are installed
+on the desktop.</para>
+</sect2>
+<sect2 id="HRDC.CrHV.div.23" role="Procedure">
+<title id="HRDC.CrHV.mkr.11">To Create a Help Family</title>
+<orderedlist><listitem><para>Pick a file name that is unique to your product.
+Use the<filename>.hf</filename> extension to identify the file as a <emphasis>help family</emphasis>.</para>
+<para><filename><symbol>family</symbol>.hf</filename></para>
+</listitem><listitem><para>Enter the following lines into the file:</para>
+<programlisting>*.charSet:           <symbol>character-set</symbol>
+*.title:        <symbol>family title</symbol>
+*.bitmap:       <symbol>icon file</symbol>
+*.abstract:     <symbol>family abstract</symbol>
+*.volumes:      <symbol>volume volume volume ...</symbol></programlisting>
+<para>Where <symbol>character-set</symbol> specifies the character set used
+by the <symbol>family title</symbol> and <symbol>family abstract</symbol>
+strings. <xref role="SecTitleAndPageNum" linkend="HRDC.Lang.mkr.11"> for a
+list of supported character sets. The <symbol>family title</symbol> and <symbol>family abstract</symbol> should not contain any DocBook markup; this file
+is <emphasis>not</emphasis> processed with the DocBook software.</para>
+<para>The <symbol>icon file</symbol> is optional. If you provide one, the
+path you use to specify the location of the file should be a complete path
+name. If you do not provide an icon, do not include the <filename>*.bitmap</filename> resource in your family file.</para>
+<para>The list of <symbol>volume</symbol> names identifies which volumes belong
+to the family. The volumes will be listed in the order they appear on this
+line. A volume may be listed in more than one family.</para>
+<para>If any of the values occupy more than one line, end each line &mdash;
+except the last &mdash; with a backslash (<filename>\</filename>).</para>
+<para>Any line in the file that begins with an <filename>!</filename> (exclamation
+mark) is a comment line and is ignored.</para>
+</listitem><listitem><para>When you prepare your final product, you should
+install your <symbol>family</symbol><filename>.hf</filename> file with the
+rest of your help files. When the desktop integration script, (<command>dtappintegrate</command>) is run, it creates the symbolic links to your family file.</para>
+<para>The <citetitle>Advanced User's and System Administrator's Guide</citetitle>
+describes how to run the <command>dtappintegrate</command> script.</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.CrHV.div.24">
+<title>Example</title>
+<para>Here's an example of a family file for the desktop's online help.</para>
+<programlisting>*.charSet:      ISO-8859-1
+*.title:        Common Desktop Environment
+*.bitmap:       /usr/dt/appconfig/help/C/graphics/cdelogo.pm
+*.abstract:     Overview and Basic Desktop Skills \
+                * File Manager and the Desktop \
+                * Front Panel \
+                * Application Manager \
+                * Style Manager \
+                * Text Editor \
+                * Mailer
+*.volumes: Intromgr.sdl Filemgr.sdl FPanel.sdl
+           Appmanager.sdl Stylemgr.sdl
+           Textedit.sdl Mailer.sdl
+
+</programlisting>
+<para>The help family file actually included with the desktop software may
+not exactly match this example.</para>
+</sect3>
+<sect3 id="HRDC.CrHV.div.25">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="SecTitleAndPageNum"
+linkend="HRDC.Lang.mkr.5"> for a list of supported character set names</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="hrdc.crhv.div.26" role="Procedure">
+<title id="hrdc.crhv.mkr.12">To Display the Index Volume</title>
+<orderedlist><listitem><para>Choose the Help Viewer control from the desktop's
+Front Panel.</para>
+<graphic id="hrdc.crhv.igrph.4" entityref="HRDC.CrHV.fig.5"></graphic>
+</listitem><listitem><para>Scroll the help window to view the help families
+available on your system.</para>
+</listitem><listitem><para>If desired, display a volume by selecting the help
+family title.</para>
+</listitem></orderedlist>
+<note>
+<para>To view help information about the Help System, choose the title Common
+Desktop Environment and then Desktop Help System.</para>
+</note>
+<sect3 id="hrdc.crhv.div.27" role="Procedure">
+<title>To Display the Index Volume Manually</title>
+<itemizedlist><listitem><para>Run the <command>dthelpview</command> command
+as follows:</para>
+<programlisting>dthelpview -helpVolume index</programlisting>
+</listitem></itemizedlist>
+</sect3>
+<sect3 id="hrdc.crhv.div.28">
+<title>See Also</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="hrdc.cmds.mkr.4">
+lists <command>dthelpview</command> command line.</para>
+</listitem><listitem><para><command>dthelpgen</command>(1) man page</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrHV.div.29">
+<title id="HRDC.CrHV.mkr.13">Printing Help Topics<indexterm><primary>printing</primary><secondary>help topics</secondary></indexterm></title>
+<para>After displaying your help volume, you can print help topics. Using
+the Print dialog box shown in <!--Original XRef content: 'Figure&numsp;4&hyphen;2'--><xref
+role="CodeOrFigureOrTable" linkend="HRDC.CrHV.mkr.14"> you can print an individual
+topic, a table of contents and index information, or the entire help volume.
+Printed output omits graphics.</para>
+<figure>
+<title id="HRDC.CrHV.mkr.14">Help print dialog box</title>
+<graphic id="HRDC.CrHV.grph.2" entityref="HRDC.CrHV.fig.6"></graphic>
+</figure>
+</sect1>
+<sect1 id="HRDC.CrHV.div.30">
+<title id="HRDC.CrHV.mkr.15">Testing Your Help</title> <indexterm><primary>testing</primary><secondary>help</secondary></indexterm><indexterm><primary>validating hyperlinks</primary></indexterm><indexterm><primary>hyperlink</primary><secondary>validating hyperlinks</secondary></indexterm><indexterm>
+<primary>verifying application entry points</primary></indexterm><indexterm>
+<primary>application entry points, verifying</primary></indexterm><indexterm>
+<primary>entry points in application, verifying</primary></indexterm><indexterm>
+<primary>points, entry, verifying in application</primary></indexterm><indexterm>
+<primary>testing</primary><secondary>graphics on various displays</secondary>
+</indexterm><indexterm><primary>graphics, testing on various displays</primary>
+</indexterm><indexterm><primary>displays, testing graphics on various</primary>
+</indexterm>
+<para>Testing your help volume is as important as testing any software product.
+Here are some tips to help you plan your testing.</para>
+<sect2 id="HRDC.CrHV.div.31">
+<title>Validating Hyperlinks</title>
+<itemizedlist remap="Bullet1"><listitem><para>Display your help volume and
+try every hyperlink. Any underlined text (solid or dashed underlines) is a
+hyperlink. Also, test any graphics that are hyperlinks. Graphic hyperlinks
+use an open-cornered border (dashed or solid) around the image as a hyperlink
+cue.</para>
+</listitem><listitem><para>If you are writing application-specific help and
+you have included any <command>JumpNewView</command>, <command>Man</command>,
+or <command>AppDefined</command> links, you must test these links from your
+application. Testing such links using <command>dthelpview</command> does not
+ensure that the links will operate correctly from within your application.
+</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.CrHV.div.32">
+<title>Verifying Entry Points</title>
+<para>If you are writing application-specific help that uses IDs to access
+particular help topics, there are two ways to verify that the IDs have been
+properly established within the help volume:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Run your application and request
+help just as a user will, trying each of the entry points. This also verifies
+that the application is using the correct IDs.</para>
+</listitem><listitem><para>If your application is not ready to use (still
+under development), you can test each ID by running <command>dthelpview</command>
+for each ID:</para>
+<programlisting>dthelpview -helpVolume <symbol role="Variable">volume.sdl</symbol> -locationId <symbol role="Variable">id</symbol></programlisting>
+<para>Where <symbol role="Variable">id</symbol> is the location ID that you
+want to test. If <command>dthelpview</command> displays the correct topic,
+then the ID is okay.</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.CrHV.div.33">
+<title>Checking Index Entries</title>
+<para>Users search or browse a help volume index to find help topics. Examine
+your index entries carefully to eliminate any vague terms or duplicate entries.
+Also select each index entry to verify that the topic displayed is the most
+appropriate information.</para>
+</sect2>
+<sect2 id="HRDC.CrHV.div.34">
+<title>Testing Graphics</title>
+<itemizedlist remap="Bullet1"><listitem><para>Physically run your application
+on various displays to verify that the graphics are acceptable on color,
+grayscale, and monochrome displays.</para>
+</listitem><listitem><para>You can also simulate other displays by changing
+the number of colors used by the desktop. To do so, open Style Manager, choose
+Number Of Colors, and select a different color option.</para>
+</listitem></itemizedlist>
+<sect3 id="HRDC.CrHV.div.36">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><!--Original XRef content: '&ldquo;Generating
+a Index Help Volume (dthelpgen)&rdquo; on page&numsp;193'--><xref role="SecTitleAndPageNum"
+linkend="HRDC.CmdS.mkr.5"></para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1><?Pub Caret1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->

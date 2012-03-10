@@ -1,0 +1,116 @@
+<!-- $XConsortium: DtWsm.sgm /main/10 1996/09/08 20:00:25 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDEMX.XCSA.MAN80.rsml.1">]]><![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN80.rsml.1">]]><refmeta>
+<refentrytitle>Dt/Wsm.h</refentrytitle><manvolnum>file formats</manvolnum>
+</refmeta><refnamediv><refname><Filename>Dt/Wsm.h</Filename></refname><refpurpose>
+workspace manager definitions</refpurpose></refnamediv><!-- CDE Common Source
+Format, Version 1.0.0--><!-- *************************************************************************--><!--
+**  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company--><!-- **  (c)
+Copyright 1993, 1994, 1995 International Business Machines Corp.--><!-- **
+ (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.--><!-- **  (c) Copyright
+1993, 1994, 1995 Novell, Inc.--><!-- *************************************************************************--><refsynopsisdiv>
+<synopsis>#include &lt;Dt/Wsm.h></synopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <filename role="Header">Dt/Wsm.h</filename> header defines structures
+and function prototypes for workspace management services.</para>
+<para>The <structname role="typedef">DtWsmWorkspaceInfo</structname> structure
+contains at least the following members:</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.10in">
+<colspec align="left" colwidth="143*">
+<colspec align="left" colwidth="150*">
+<colspec align="left" colwidth="210*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>Atom</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>workspace</computeroutput></entry>
+<entry align="left" valign="top">X atom name for the workspace</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>unsigned long</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>bg</computeroutput></entry>
+<entry align="left" valign="top">Backdrop background pixel</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>unsigned long</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>fg</computeroutput></entry>
+<entry align="left" valign="top">Backdrop foreground pixel</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Atom</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>backdropName</computeroutput></entry>
+<entry align="left" valign="top">X atom name for backdrop</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>int</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>colorSetId</computeroutput></entry>
+<entry align="left" valign="top">Number of color set used</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>char</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>*pchTitle</computeroutput></entry>
+<entry align="left" valign="top">Title of workspace</entry></row>
+<row>
+<entry align="left" valign="top"><computeroutput>Window</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>backdropWindow</computeroutput></entry>
+<entry align="left" valign="top">The backdrop window for the current workspace</entry></row></tbody></tgroup></informaltable>
+<para>The <structname role="typedef">DtWsmCBContext</structname> structure
+is opaque. Workspace management functions that add callbacks to uniquely identify
+callback functions for later removal, return the <structname role="typedef">DtWsmCBContext</structname> structure.</para>
+<para>The header defines the following <structname role="typedef">DtWsmWsReason</structname> constants:</para>
+<informalexample remap="indent">
+<programlisting>DtWSM_REASON_ADD
+DtWSM_REASON_DELETE
+DtWSM_REASON_BACKDROP
+DtWSM_REASON_TITLE
+DtWSM_REASON_CURRENT</programlisting>
+</informalexample>
+<para>The header defines the following functions:</para>
+<synopsis>DtWsmCBContext
+DtWsmAddCurrentWorkspaceCallback(Widget <symbol role="Variable">widget</symbol>,
+        DtWsmWsChangeProc <emphasis>ws_change</emphasis>,
+        Pointer <symbol role="Variable">client_data</symbol>);</synopsis>
+<synopsis>void DtWsmAddWorkspaceFunctions(Display *<symbol role="Variable">display</symbol>,
+        Window <symbol role="Variable">window</symbol>);</synopsis>
+<synopsis>void DtWsmRemoveWorkspaceFunctions(Display *<symbol role="Variable">display</symbol>,
+        Window <symbol role="Variable">window</symbol>);</synopsis>
+<synopsis>DtWsmCBContext
+DtWsmAddWorkspaceModifiedCallback(Widget <symbol role="Variable">widget</symbol>,
+        DtWsmWsModifiedProc <emphasis>ws_change</emphasis>,
+        Pointer <symbol role="Variable">client_data</symbol>);</synopsis>
+<synopsis>void DtWsmRemoveWorkspaceCallback(DtWsmCBContext <symbol role="Variable">context</symbol>);</synopsis>
+<synopsis>void DtWsmFreeWorkspaceInfo(DtWsmWorkspaceInfo *<emphasis>pWsInfo</emphasis>);</synopsis>
+<synopsis>Status DtWsmGetCurrentBackdropWindows(Display *<symbol role="Variable">display</symbol>,
+        Window <symbol role="Variable">root</symbol>);</synopsis>
+<synopsis>Status DtWsmGetCurrentWorkspace(Display *<symbol role="Variable">display</symbol>,
+        Window <symbol role="Variable">root</symbol>,
+        Atom *<emphasis>paWorkspace</emphasis>);</synopsis>
+<synopsis>Status DtWsmSetCurrentWorkspace(Widget <symbol role="Variable">widget</symbol>,
+        Atom <emphasis>aWorkspace</emphasis>);</synopsis>
+<synopsis>Status DtWsmGetWorkspaceInfo(Display *<symbol role="Variable">display</symbol>,
+        Window <symbol role="Variable">root</symbol>,
+        Atom <emphasis>aWorkspace</emphasis>,
+        DtWsmWorkspaceInfo **<emphasis>ppWsInfo</emphasis>);</synopsis>
+<synopsis>Status DtWsmGetWorkspaceList(Display *<symbol role="Variable">display</symbol>,
+        Window <symbol role="Variable">root</symbol>,
+        Atom **<emphasis>ppaWorkspaces</emphasis>,
+        int *<emphasis>pNumWs</emphasis>);</synopsis>
+<synopsis>Status DtWsmGetWorkspacesOccupied(Display *<symbol role="Variable">display</symbol>,
+        Window <symbol role="Variable">window</symbol>,
+        Atom **<emphasis>ppaWorkspace</emphasis>,
+        int *<emphasis>pNumWs</emphasis>);</synopsis>
+<synopsis>void DtWsmSetWorkspacesOccupied(Display *<symbol role="Variable">display</symbol>,
+        Window <symbol role="Variable">window</symbol>,
+        Atom *<emphasis>paWorkspaces</emphasis>,
+        int <emphasis>numWs</emphasis>);</synopsis>
+<synopsis>void DtWsmOccupyAllWorkspaces(Display *<symbol role="Variable">display</symbol>,
+        Window <symbol role="Variable">window</symbol>);</synopsis>
+</refsect1><![ %CDE.C.CDE; [<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtWsmAddCurrentWorkspaceCallback;, &cdeman.DtWsmAddWorkspaceFunctions;, &cdeman.DtWsmAddWorkspaceModifiedCallback;, &cdeman.DtWsmFreeWorkspaceInfo;, &cdeman.DtWsmGetCurrentBackdropWindow;, &cdeman.DtWsmGetCurrentWorkspace;, &cdeman.DtWsmGetWorkspaceInfo;, &cdeman.DtWsmGetWorkspaceList;, &cdeman.DtWsmGetWorkspacesOccupied;, &cdeman.DtWsmOccupyAllWorkspaces;, &cdeman.DtWsmRemoveWorkspaceCallback;, &cdeman.DtWsmRemoveWorkspaceFunctions;, &cdeman.DtWsmSetCurrentWorkspace;, &cdeman.DtWsmSetWorkspacesOccupied;.</para>
+</refsect1>]]></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->
+<?Pub *0000036327>

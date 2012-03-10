@@ -1,0 +1,43 @@
+XCOMM  $XConsortium: Imakefile /main/5 1996/05/14 10:36:35 barstow $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		DtCmP
+#define LibHeaders	NO
+#define LibInstall	NO
+ 
+INCLUDES = -I. -I$(CSASRC)
+
+OSMAJORVERSION = OSMajorVersion
+OSMINORVERSION = OSMinorVersion
+
+DEFINES = -DRFC_MIME -DLINE_COUNT -DV2 -DOW_I18N -DSVR4 \
+	-DREL="$(OSMAJORVERSION)$(OSMINORVERSION)" \
+	-DRELMAJOR="$(OSMAJORVERSION)" -DRELMINOR="$(OSMINORVERSION)"
+
+
+#ifdef SunArchitecture
+XCOMM Uncomment to build using Federated Naming Services.  To activate
+XCOMM you must set the UseFNS resource to True before running dtcm.
+XCOMM #define UseFNS
+
+# ifdef UseFNS
+   EXTRA_DEFINES = -DFNS -DSunOS=$(OSMAJORVERSION)$(OSMINORVERSION)
+# else
+   EXTRA_DEFINES = -DSunOS=$(OSMAJORVERSION)$(OSMINORVERSION)
+# endif
+ EXTRA_CCOPTIONS = -xstrconst -Xc -v
+#endif
+
+SRCS =	cm_tty.c	cmfns.c		dtfns.c \
+	getdate.c	props.c		resource.c \
+	timeops.c	util.c
+
+OBJS =	cm_tty.o	cmfns.o		dtfns.o \
+	getdate.o	props.o		resource.o \
+	timeops.o	util.o
+
+#include <Library.tmpl>
+
+DependTarget()

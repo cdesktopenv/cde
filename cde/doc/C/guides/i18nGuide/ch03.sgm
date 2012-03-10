@@ -1,0 +1,906 @@
+<!-- $XConsortium: ch03.sgm /main/14 1996/10/30 14:31:59 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="IPG.distr.div.1">
+<title id="IPG.distr.mkr.1"><indexterm><primary>distributed internationalization
+guidelines</primary></indexterm>Internationalization and Distributed Networks</title>
+<para>This chapter discusses tasks related to internationalization and distributed
+networks.</para>
+<para id="IPG.distr.mkr.2"></para>
+<sect1 id="IPG.distr.div.2">
+<title id="IPG.distr.mkr.3">Interchange Concepts</title>
+<para>This section describes the way 8-bit<indexterm><primary>basic interchange
+in a network</primary></indexterm> user names and 8-bit data can be<indexterm>
+<primary>networks</primary></indexterm> communicated on a network for communications
+utilities, such as ftp, mail, or interclient communication between the desktop
+clients.</para>
+<para>There are three primary<indexterm><primary>networks</primary></indexterm> considerations
+for communicating data:<literal><indexterm><primary>interfaces</primary><secondary>for network communications</secondary></indexterm></literal></para>
+<itemizedlist remap="Bullet1"><listitem><para>Sender's code set and the receiver's
+code set.</para>
+</listitem><listitem><para>Whether the communications protocol allows 8-bit
+data or is limited to 7-bit coded data (for example, the Japanese JUNET passes
+Japanese Industrial Standard (JIS) coded data over 7-bit protocols).</para>
+</listitem><listitem><para>Type of interchange encoding available, per protocol
+rules. The actual conversion needed is dependent on the specific protocol
+used.</para>
+</listitem></itemizedlist>
+<para>If the remote<indexterm><primary>code sets</primary><secondary>network
+remote host</secondary></indexterm> host uses the same code set as the local
+host, the following is true:</para>
+<itemizedlist remap="Bullet1"><listitem><para>If the protocol allows 8-bit
+data, no conversions are needed.</para>
+</listitem><listitem><para>If the protocol allows only 7-bit data, a method
+is needed to map the 8-bit code points to 7-bit ASCII values. This could
+be accomplished using the <command>iconv</command> framework and one of the
+following types of 7-bit encoded methods:</para>
+<itemizedlist remap="Bullet2"><listitem><para>Map 8-bit data as specified
+in the POSIX.2 specification for uuencode and uudecode algorithms.</para>
+</listitem><listitem><para>Optionally, the 8-bit data may be mapped to a 7-bit
+interchange encoding as defined by the protocol; for example, 7-bit ISO2022
+in Xlib or base64 in Multipurpose Internet Message Extensions (MIME).</para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para>If the remote<indexterm><primary>code sets</primary><secondary>network
+local hosts</secondary></indexterm> host's code set is different from that
+of the local host, the following two cases may apply. The conversion needed
+is dependent on the specific protocol used.</para>
+<itemizedlist remap="Bullet1"><listitem><para>If the protocol allows 8-bit
+data, the protocol will need to specify which side does the <command>iconv</command> conversion and to specify the encoding on the wire. In some protocols,
+an 8-bit interchange encoding is recommended that is capable of encoding
+all possible code sets and identifying character repertoire.</para>
+</listitem><listitem><para>If the protocol allows only 7-bit data, a 7-bit
+interchange encoding is needed, as is the identifying character repertoire.
+</para>
+</listitem></itemizedlist>
+<sect2 id="IPG.distr.div.3">
+<title>iconv<indexterm><primary>iconv</primary><secondary>interface</secondary>
+</indexterm> Interface</title>
+<para>In a network environment, the code sets of the communicating systems
+and the protocols of communication determine the transformation of user-specified
+data so that it can be sent to the remote system in a meaningful way. The
+user data (not user names) may need to be transformed from the sender's code
+set to the receiver's code set, or 8-bit data may need to be transformed
+into a 7-bit form to conform to protocols. A uniform interface is needed
+to accomplish this.</para>
+<para>In the following examples, using the <command>iconv</command> interface
+is illustrated by explaining how to use <filename>iconv_open()</filename>, <filename>iconv(),</filename> and <filename>iconv_close()</filename>. To do the conversion, <filename>iconv_open()</filename> must be followed by <filename>iconv()</filename>.
+The terms <emphasis>7-bit interchange</emphasis> and <emphasis>8-bit interchange</emphasis> are used to refer to any interchange encoding used for 7-bit
+and 8-bit data, respectively.</para>
+<sect3 id="IPG.distr.div.4">
+<title>Sender and Receiver Use the Same Code Sets:</title>
+<itemizedlist remap="Bullet1"><listitem><para>If the protocol allows 8-bit
+data, use 8-bit data because the same code set is being used. No conversion
+is needed.</para>
+</listitem><listitem><para>If the protocol allows only 7-bit data, use <computeroutput>iconv</computeroutput>:</para>
+<itemizedlist remap="Bullet2"><listitem><para>Sender</para>
+<programlisting>cd = iconv_open(locale_codeset, uuencoded);</programlisting>
+</listitem><listitem><para>Receiver</para>
+<programlisting>cd = iconv_open(&ldquo;uucode&rdquo;, locale_codeset);</programlisting>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<sect4 id="ipg.distr.div.5">
+<title>Sender and Receiver Use Different Code Sets:</title>
+<itemizedlist remap="Bullet1"><listitem><para>If the protocol allows 8-bit
+data:</para>
+<itemizedlist remap="Bullet2"><listitem><para>Sender</para>
+<programlisting>cd = iconv_open(locale_codeset,<symbol role="Variable">8-bitinterchange</symbol>);</programlisting>
+</listitem><listitem><para>Receiver</para>
+<programlisting>cd = iconv_open(<symbol role="Variable">8-bitinterchange</symbol>, locale_codeset);</programlisting>
+</listitem></itemizedlist>
+</listitem><listitem><para>If the protocol allows only 7-bit data, do the
+following:</para>
+<itemizedlist remap="Bullet2"><listitem><para>Sender</para>
+<programlisting>cd = iconv_open(locale_codeset, <symbol role="Variable">7-bitinterchange</symbol>);</programlisting>
+</listitem><listitem><para>Receiver</para>
+<programlisting>cd = iconv_open(<symbol role="Variable">7-bitinterchange</symbol>, locale_codeset);</programlisting>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para>The <computeroutput>locale_codeset</computeroutput> refers to the code
+set being used locally by the application. Note that while the <computeroutput>nl_langinfo(CODESET)</computeroutput> function may be used to obtain the
+code set associated with the current locale, it is implementation-dependent
+whether any conversion names match the return from the <computeroutput>nl_langinfo(CODESET)</computeroutput> function.</para>
+<para>The Table 3-1 outlines how <command>iconv</command> can be used to perform conversions for various conditions. Specific
+protocols may dictate other conversions needed.</para>
+<para><emphasis>Using iconv to Perform Conversion</emphasis></para>
+<informaltable id="ipg.distr.itbl.2">
+<tgroup cols="5" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="0.93in">
+<colspec colname="col2" colwidth="0.97in">
+<colspec colname="col3" colwidth="0.97in">
+<colspec colname="col4" colwidth="1.05in">
+<colspec colname="col5" colwidth="1.10in">
+<spanspec nameend="col3" namest="col2" spanname="2to3">
+<spanspec nameend="col5" namest="col4" spanname="4to5">
+<spanspec nameend="col5" namest="col1" spanname="1to5">
+<tbody>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" spanname="2to3" valign="top"><para><literal>Communication
+with system using the same code set (for example, XYZ)</literal></para></entry>
+<entry align="left" spanname="4to5" valign="top"><para><literal>Communication
+with system using different code sets or receiver's code set is unknown</literal></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>Conversion to Use</literal></para></entry>
+<entry align="left" valign="top"><para><literal>7-bit Protocol</literal></para></entry>
+<entry align="left" valign="top"><para><literal>8-bit Protocol</literal></para></entry>
+<entry align="left" valign="top"><para><literal>7-bit Protocol</literal></para></entry>
+<entry align="left" valign="top"><para><literal>8-bit Protocol</literal></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>code XYZ</para></entry>
+<entry align="left" valign="top"><para>Invalid</para></entry>
+<entry align="left" valign="top"><para>Best Choice</para></entry>
+<entry align="left" valign="top"><para>Invalid</para></entry>
+<entry align="left" valign="top"><para>Invalid if remote code set is unknown
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>7-bit Interchange ISO2022</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>Best Choice</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>8-bit Interchange ISO2022 ISO 10646
+</para></entry>
+<entry align="left" valign="top"><para>Invalid <superscript>1</superscript></para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>Invalid</para></entry>
+<entry align="left" valign="top"><para>Best Choice</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>7-bit Untagged quoted- printable
+uucode</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>Requires code set identification
+</para></entry>
+<entry align="left" valign="top"><para>Requires code set identification
+</para></entry></row>
+<row rowsep="0">
+<entry align="left" valign="top"><para>8-bit Untagged base64</para></entry>
+<entry align="left" valign="top"><para>Invalid</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>Requires code set identification
+</para></entry>
+<entry align="left" valign="top"><para>Requires code set identification
+</para></entry></row>
+<row>
+<entry align="left" spanname="1to5" valign="top"><para><footnoteref linkend="ipg.distr.fn.10"></footnoteref><footnote
+id="ipg.distr.fn.10"><para><superscript>1</superscript>Invalid means the interchange
+encoding should not be used for the choice of code set and type of protocol.
+</para>
+</footnote></para></entry></row></tbody></tgroup></informaltable>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="IPG.distr.div.6">
+<title>Stateful and Stateless<indexterm><primary>code sets</primary><secondary>stateful encodings</secondary></indexterm> Conversions</title>
+<para>Code<indexterm><primary>code sets</primary><secondary>stateless encodings</secondary></indexterm> sets can be classified into two categories: stateful
+encodings and stateless encodings.</para>
+<sect3 id="IPG.distr.div.7">
+<title><indexterm><primary>stateful and stateless encodings, conversion of</primary></indexterm>Stateful Encodings</title>
+<para>Stateful encoding uses sequences of control codes, such as shift-in/shift-out,
+to change character sets associated with specific code values.</para>
+<para>For instance, under compound text, the control sequence &ldquo;ESC$(B&rdquo;
+can be used to indicate the start of Japanese 16-bit data in a data stream
+of characters, and &ldquo;ESC(B&rdquo; can be used to indicate the end of
+this double-byte character data and the start of 8-bit ASCII data. Under
+this stateful encoding, the bit value 0x43 could not be interpreted without
+knowing the shift state. The EBCDIC Asian code sets use shift-in/shift-out
+controls to swap between double- and single- byte encodings, respectively.
+</para>
+<para>Converters that are written to do the conversion of stateful encodings
+to other code sets tend to be a little complex due to the extra processing
+needed.</para>
+</sect3>
+<sect3 id="IPG.distr.div.8">
+<title><indexterm><primary>conversions</primary><secondary>stateless encodings</secondary></indexterm>Stateless Encodings</title>
+<para>Stateless code sets are those that can be classified as one of two types:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>Single-byte code sets, such
+as the ISO8859 family</para>
+</listitem><listitem><para>Multibyte code sets, such as PC codes for Japanese
+and Shift-JIS (SJIS)</para>
+</listitem></itemizedlist>
+<para>The term <emphasis>multibyte code sets</emphasis> is also used to refer
+to any code set that needs one or more bytes to encode a character; multibyte
+code sets are considered stateless.</para>
+<note>
+<para>Conversions are meaningful only if the code sets represent the same
+character set.</para>
+</note>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="IPG.distr.div.9">
+<title id="IPG.distr.mkr.4">Simple Text Basic Interchange</title>
+<para>When a<indexterm><primary>conversions</primary><secondary>stateful
+code sets</secondary></indexterm><indexterm><primary>conversions</primary>
+<secondary>simple text</secondary></indexterm> program communicates data to
+another program residing on a remote host, a need may arise for conversion
+of data from the code set of the source machine to that of the receiver.
+For example, this happens when a PC system using PC codes needs to communicate
+with a workstation using an International Organization for Standardization/Extended
+UNIX Code (ISO/EUC) encoding. Another example occurs when a program obtains
+data in one code set but has to display this data in another code set. To
+support these conversions, a standard program interface is provided based
+on the XPG4 <filename>iconv()</filename> function definitions.</para>
+<para>All components doing code set conversion should use the <command>iconv</command> functions as their interface to conversions. Systems are expected
+to provide a wide variety of conversions, as well as a mechanism to customize
+the default set of conversions.</para>
+<sect2 id="IPG.distr.div.10">
+<title>iconv Conversion Functions<indexterm><primary>iconv</primary><secondary>text conversion functions</secondary></indexterm></title>
+<para>The<indexterm><primary>conversions</primary><secondary>iconv text</secondary></indexterm> common method of conversions from one code set to
+another is through a table-driven method. In some cases, these tables may
+be too large, hence an algorithmic method may be more desirable. To accommodate
+such diverse requirements, a framework is defined in XPG4 for code set conversions.
+In this framework, to convert from one code set to another, open a converter,
+perform the conversions, and close the converter. The <command>iconv</command> functions
+are <filename>iconv_open()</filename>, <filename>iconv()</filename>, and <filename>iconv_close()</filename>.</para>
+<para>Code set converters are brought under the framework of the <filename>iconv_open()</filename>, <filename>iconv()</filename>, and <filename>iconv_close()</filename> set of functions. With these functions, it is possible to provide
+and to use several different types of converters. Applications can call these
+functions to convert<indexterm><primary>simple text conversion functions</primary></indexterm> characters in one code set into characters in another
+code set. With the advent of the <command>iconv</command> framework, converters
+can be provided in a uniform manner. The access and use of these converters
+is being standardized under X/Open XPG4.</para>
+</sect2>
+<sect2 id="ipg.distr.div.11">
+<title>X Interclient (ICCCM) Conversion<indexterm><primary>X interclient
+(ICCCM) conversion functions</primary></indexterm> Functions</title>
+<para>Xlib<indexterm><primary>conversions</primary><secondary>Xlib</secondary>
+</indexterm> provides the following functions for doing conversions.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="214*">
+<colspec align="left" colwidth="314*">
+<thead>
+<row><entry align="left" valign="bottom"><para>X ICCCM Multibyte Functions
+</para></entry><entry align="left" valign="bottom"><para>ICCCM Wide Character
+Functions</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>XmbTextPropertyToTextList()</para></entry>
+<entry align="left" valign="top"><para>XwcTextPropertyToTextList()</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmbTextListToTextProperty()</para></entry>
+<entry align="left" valign="top"><para>XwcTextListToTextProperty()</para></entry>
+</row></tbody></tgroup></informaltable>
+
+<note>
+<para>The <computeroutput>Motif</computeroutput> library does provide the <filename>XmCvtXmStringToCT()</filename> and
+<filename>XmCvtCtToXmString()</filename> functions; however,
+these are not recommended because there are some hardcoded assumptions about
+certain XmString tags. For example, if the tag is <computeroutput>bold</computeroutput>, <filename>XmCvtXmStringToCT()</filename> is
+implementation-dependent. Across various platforms, the behavior of this function
+cannot be guaranteed in all international regions.</para></note>
+</sect2>
+<sect2 id="IPG.distr.div.12">
+<title>Window Titles</title>
+<para>The standard way for<indexterm><primary>titles for windows</primary>
+</indexterm> setting titles is to use resources. But for applications that
+set the titles of their windows directly, a localized title must be sent
+to the Window Manager. Use the <command>XCompoundTextStyle</command> encoding
+defined in <command>XICCEncodingStyle</command>, as well as the following
+guidelines:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Compound<indexterm><primary>guidelines for window titles</primary></indexterm> text can be created either
+by <computeroutput>XmbTextListToTextProperty()</computeroutput> or <computeroutput>XwcTextListToTextProperty()</computeroutput>.</para>
+</listitem><listitem><para>Localized titles can be displayed using the <computeroutput>XmNtitle</computeroutput> and <computeroutput>XmNtitleEncoding</computeroutput>
+resources of the <computeroutput>WMShell</computeroutput> widget. Localized
+icon names can be displayed using the <computeroutput>XmNiconName</computeroutput>
+and <computeroutput>XmNiconNameEncoding</computeroutput> resources of the <computeroutput>TopLevelShell</computeroutput> widget.</para>
+</listitem><listitem><para>Localized titles of dialog boxes can also be displayed
+using the <computeroutput>XmNdialogTitle</computeroutput> resource of the <computeroutput>XmBulletinBoard</computeroutput> widget.</para>
+</listitem><listitem><para>Window Manager should have an appropriate fontlist
+for displaying localized strings.</para>
+</listitem></itemizedlist>
+<para>Following is an example<indexterm><primary>examples of displaying
+localized title and icon name</primary></indexterm> of displaying a localized
+title and icon name. Compound text is made from the compound string in this
+example.</para>
+<programlisting>include        &lt;nl_types.h>
+Widget         toplevel;
+Arg            al[10];
+int            ac;
+XTextProperty  title;
+char           *localized_string;
+nl_catd        fd;
+
+XtSetLanguageProc( NULL, NULL, NULL );
+fd = catopen( &ldquo;my_prog&rdquo;, 0 );
+localized_string = catgets(fd, set_num, mes_num, &ldquo;<symbol>defaulttitle</symbol>&rdquo;);
+XmbTextListToTextProperty( XtDisplay(toplevel), &amp;localized_string,
+       1, XCompoundTextStyle, &amp;title);
+ac = 0;
+XtSetArg(al[ac], XmNtitle, title.value); ac++;
+XtSetArg(al[ac], XmNtitleEncoding, title.encoding); ac++;
+XtSetValues(toplevel, al, ac);</programlisting>
+<para>If you are using a window rather than widgets, the <computeroutput>XmbSetWMProperties()</computeroutput> function automatically converts a localized
+string into the proper <computeroutput>XICCEncodingStyle</computeroutput>.
+</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.distr.div.13">
+<title id="IPG.distr.mkr.5">Mail Basic Interchange</title>
+<para>In general, electronic mail (email) strategy has been one of turning
+email into a canonical, labeled format as opposed to optimizing a message
+given knowledge of the receiver's locale. This means that in the email world,
+you should always assume that the receiver <emphasis>may</emphasis> be in
+a different locale. In the desktop world, the default email transport is
+Simple Mail Transfer Protocol (SMTP), which only supports 7-bit transmission
+channels.</para>
+<para>With this understanding, the email strategy for the desktop is as follows:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>The sending agents, by default
+(unless instructed otherwise by the user), converts a body part into a <emphasis>standard</emphasis> format for the sending transmission channel and labels
+the body part with the character encoding used.</para>
+</listitem><listitem><para>The receiving agent looks at the body part to see
+if it can support the character encoding; if it can, it converts it into
+the local character set.</para>
+</listitem></itemizedlist>
+<para>In addition, because the MIME format is used for messages, any 8-bit
+to 7-bit transformations are done using the built-in MIME transport encodings
+(base64 or quoted-printable). See the Request for Comments (RFC) 1521 MIME
+standard specification.</para>
+</sect1>
+<sect1 id="IPG.distr.div.14">
+<title id="IPG.distr.mkr.6">Encodings and Code Sets</title>
+<para>To<indexterm><primary>encodings</primary></indexterm> understand code
+sets, it is necessary to first understand character sets. A <emphasis>character
+set</emphasis> is a collection of predefined characters based on the specific
+needs of one or more languages without regard to the encoding values used
+to represent the characters. The choice of which code set to use depends
+on the user's data processing requirements. A particular character set can
+be encoded using different encoding schemes. For example, the ASCII character
+set defines the set of characters found in the English language. The Japanese
+Industrial Standard (JIS) character set defines the set of characters used
+in the Japanese language. Both the English and Japanese character sets can
+be encoded using different code sets.</para>
+<para>The ISO2022 standard defines a coded character set as a group of precise
+rules that defines a character set and the one-to-one relationship between
+each character and its bit pattern. A code set defines the bit patterns that
+the system uses to identify characters.</para>
+<para>A<indexterm><primary>code page</primary></indexterm> code page is similar
+to a code set with the limitation that a code-page specification is based
+on a 16-column by 16-row matrix. The intersection of each column and row
+defines a coded character.</para>
+<sect2 id="IPG.distr.div.15">
+<title><indexterm><primary>code sets</primary><secondary>strategy</secondary>
+</indexterm>Code Set Strategy</title>
+<para>The common open software environment code set support is based on International
+Organization for Standardization (ISO) and industry-standard code sets providing
+industry-standard code sets that satisfy the data processing needs of users.
+</para>
+<para>Each locale in the system defines which code set it uses and how the
+characters within the code set are manipulated. Because multiple locales
+can be installed on the system, multiple code sets can be used by different
+users on the system. While the system can be configured with locales using
+different code sets, all system utilities assume that the system is running
+under a single code set.</para>
+<para>Most commands have no knowledge of the underlying code set being used
+by the locale. The knowledge of code sets is hidden by the code-set-independent
+library subroutines (Internationalization libraries), which pass information
+to the code-set-dependent subroutines.</para>
+<para>Because many programs rely on ASCII, all code sets include the 7-bit
+ASCII code set as a proper subset. Because the 7-bit ASCII code set is common
+to all supported code sets, its characters are sometimes referred to as the <emphasis>portable</emphasis> character set.</para>
+<para>The 7-bit ASCII code set is based on the ISO646 definition and contains
+the control characters, punctuation characters, digits (0-9), and the English
+alphabet in uppercase and lowercase.</para>
+</sect2>
+<sect2 id="IPG.distr.div.16">
+<title><indexterm><primary>code sets</primary><secondary>structure</secondary>
+</indexterm>Code Set Structure</title>
+<para>Each code set is divided into two principle areas:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Graphic Left (GL) Columns 0-7
+</para>
+</listitem><listitem><para>Graphic Right (GR) Columns 8-F</para>
+</listitem></itemizedlist>
+<para>The first two columns of each code set are reserved by ISO standards
+for control characters. The terms C0 and C1 are used to denote the control
+characters for the Graphic Left and Graphic Right areas, respectively.</para>
+<note>
+<para>The PC code sets use the C1 control area to encode graphic characters.
+</para>
+</note>
+<para>The remaining six columns are used to encode graphic characters (see
+<!--Original XRef content: 'Table&numsp;3&hyphen;2
+on page&numsp;65'--><xref role="CodeOrFigOrTabAndPNum" linkend="IPG.distr.mkr.7">).
+Graphic characters are considered to be printable characters, while the control
+characters are used by devices and applications to indicate some special
+function</para>
+<para><emphasis id="IPG.distr.mkr.7">Code Set Overview</emphasis></para>
+<graphic id="IPG.distr.igrph.1" entityref="IPG.distr.fig.1"></graphic>
+<sect3 id="IPG.distr.div.17">
+<title>Control Characters</title>
+<para>Based on the ISO<indexterm><primary>code sets</primary><secondary>control characters</secondary></indexterm> definition, a control character
+initiates, modifies, or stops a control operation. A control character is
+not a graphic character, but can have graphic representation in some instances.
+The control characters in the ISO646- IRV character set are present in all
+supported code sets, and the encoded values of the C0 control characters
+are consistent throughout the code sets.</para>
+</sect3>
+<sect3 id="IPG.distr.div.18">
+<title>Graphic Characters</title>
+<para>Each<indexterm><primary>code sets</primary><secondary>graphic characters</secondary></indexterm> code set can be considered to be divided into one
+or more character sets, such that each character is given a unique coded
+value. The ISO standard reserves six columns for encoding characters and
+does not allow graphic characters to be encoded in the control character
+columns.</para>
+</sect3>
+<sect3 id="IPG.distr.div.19">
+<title>Single-Byte Code Sets</title>
+<para>Code sets<indexterm><primary>code sets</primary><secondary>single-byte</secondary></indexterm> that use all 8 bits of a byte can support European,
+Middle Eastern, and other alphabetic languages. Such code sets are called
+single-byte code sets. This provides a limit of encoding 191 characters,
+not including control characters.</para>
+</sect3>
+<sect3 id="IPG.distr.div.20">
+<title>Multibyte Code Sets<indexterm><primary>code sets</primary><secondary>multibyte</secondary></indexterm></title>
+<para>The term <emphasis>multibyte code sets</emphasis> is used to refer to
+all possible code sets regardless of the number of bytes needed to encode
+any specific character. Because the operating system should be capable of
+supporting any number of bits to encode a character, a multibyte code set
+may contain characters that are encoded with 8, 16, 32, or more bits. Even
+single-byte code sets are considered to be multibyte code sets.</para>
+</sect3>
+<sect3 id="IPG.distr.div.21">
+<title>Extended UNIX Code (EUC)<indexterm><primary>code sets</primary><secondary>extended UNIX code (EUC)</secondary></indexterm> Code Set</title>
+<para>The EUC code set uses control characters to identify characters in some
+of the character sets. The encoding rules are based on the ISO2022 definition
+for the encoding of 7-bit and 8-bit data. The EUC code set uses control characters
+to separate some of the character sets.</para>
+<para>The term EUC denotes these general encoding rules. A code set based
+on EUC conforms to the EUC encoding rules but also identifies the specific
+character sets associated with the specific instances. For example, eucJP
+for Japanese refers to the encoding of the JIS characters according to the
+EUC encoding rules.</para>
+<para>The first set (CS0) always contains an ISO646 character set. All of
+the other sets must have the most-significant bit (MSB) set to 1, and they
+can use any number of bytes to encode the characters. In addition, all characters
+within a set must have:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Same number of bytes to encode
+all characters</para>
+</listitem><listitem><para>Same column display width (number of columns on
+a fixed-width terminal)</para>
+</listitem></itemizedlist>
+<para>Each character in the third set (CS2) is always preceded with the control
+character SS2 (single-shift 2, 0x8e). Code sets that conform to EUC do not
+use the SS2 control character other than to identify the third set.</para>
+<para>Each character in the fourth set (CS3) is always preceded with the control
+character SS3 (single-shift 3, 0x8f). Code sets that conform to EUC do not
+use the SS3 control character other than to identify the fourth set.</para>
+</sect3>
+</sect2>
+<sect2 id="IPG.distr.div.22">
+<title>ISO EUC Code Sets</title>
+<para>The following<indexterm><primary>code sets</primary><secondary>ISO
+EUC</secondary></indexterm> code sets<indexterm><primary>ISO EUC code set</primary></indexterm> are based on definitions set by the International Organization
+for Standardization (ISO).</para>
+<itemizedlist remap="Bullet1"><listitem><para>ISO646-IRV</para>
+</listitem><listitem><para>ISO8859-1</para>
+</listitem><listitem><para>ISO8859-x</para>
+</listitem><listitem><para>eucJP</para>
+</listitem><listitem><para>eucTW</para>
+</listitem><listitem><para>eucKR</para>
+</listitem></itemizedlist>
+<sect3 id="IPG.distr.div.23">
+<title>ISO646-IRV</title>
+<para>The<indexterm><primary>ISO646-IRV code set</primary></indexterm> ISO646-IRV
+code set<indexterm><primary>code sets</primary><secondary>ISO646-IRV, description</secondary></indexterm> defines the code set used for information processing
+based on a 7-bit encoding. The character set associated with this code set
+is derived from the ASCII characters.</para>
+</sect3>
+<sect3 id="IPG.distr.div.24">
+<title>ISO8859-1</title>
+<para>ISO8859-1<indexterm><primary>ISO8859-1 code set</primary></indexterm><indexterm>
+<primary>code sets</primary><secondary>ISO8859-1, description</secondary>
+</indexterm> encoding is a single-byte encoding that is based on and is compatible
+with other ISO, American National Standards Institute (ANSI), and European
+Computer Manufacturer's Association (ECMA) code extension techniques. The
+ISO8859 encoding defines a family of code sets with each member containing
+its own unique character sets. The 7-bit ASCII code set is a proper subset
+of each of the code sets in the ISO8859 family.</para>
+<para>The ISO8859-1 code set is called the ISO Latin-1 code set and consists
+of two character sets:</para>
+<itemizedlist remap="Bullet1"><listitem><para>ISO646-IRV Graphic Left, 7-bit
+ASCII character set</para>
+</listitem><listitem><para>ISO8859-1 Graphic Right (Latin) character set</para>
+</listitem></itemizedlist>
+<para>These character sets combined include the characters necessary for Western
+European languages such as Danish, Dutch, English, Finnish, French, German,
+Icelandic, Italian, Norwegian, Portuguese, Spanish, and Swedish.</para>
+<para>While the ASCII code set defines an order for the English alphabet,
+the Graphic Right (GR) characters are not ordered according to any specific
+language. The language-specific ordering is defined by the locale.</para>
+</sect3>
+<sect3 id="IPG.distr.div.25">
+<title>Other ISO8859<indexterm><primary>code sets</primary><secondary>ISO8859,
+list of other</secondary></indexterm> Code Sets</title>
+<para>This section lists the<indexterm><primary>ISO8859, other significant
+code sets</primary></indexterm> other significant ISO8859 code sets. Each code
+set includes the ASCII character set plus its own unique characters.</para>
+<sect4 id="IPG.distr.div.26">
+<title>ISO8859-2</title>
+<para>Latin alphabet, No. 2, Eastern Europe</para>
+<itemizedlist remap="Bullet1"><listitem><para>Albanian</para>
+</listitem><listitem><para>Czechoslovakian</para>
+</listitem><listitem><para>English</para>
+</listitem><listitem><para>German</para>
+</listitem><listitem><para>Hungarian</para>
+</listitem><listitem><para>Polish</para>
+</listitem><listitem><para>Rumanian</para>
+</listitem><listitem><para>Serbo-Croatian</para>
+</listitem><listitem><para>Slovak</para>
+</listitem><listitem><para>Slovene</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.27">
+<title>ISO8859-5</title>
+<para>Latin/Cyrillic alphabet</para>
+<itemizedlist remap="Bullet1"><listitem><para>Bulgarian</para>
+</listitem><listitem><para>Byelorussian</para>
+</listitem><listitem><para>English</para>
+</listitem><listitem><para>Macedonian</para>
+</listitem><listitem><para>Russian</para>
+</listitem><listitem><para>Ukrainian</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.28">
+<title>ISO8859-6</title>
+<para>Latin/Arabic alphabet</para>
+<itemizedlist remap="Bullet1"><listitem><para>English</para>
+</listitem><listitem><para>Arabic</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.29">
+<title>ISO8859-7</title>
+<para>Latin/Greek alphabet</para>
+<itemizedlist remap="Bullet1"><listitem><para>English</para>
+</listitem><listitem><para>Greek</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.30">
+<title>ISO8859-8</title>
+<para>Latin/Hebrew alphabet</para>
+<itemizedlist remap="Bullet1"><listitem><para>English</para>
+</listitem><listitem><para>Hebrew</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.31">
+<title>ISO8859-9</title>
+<para>Latin/Turkish alphabet</para>
+<itemizedlist remap="Bullet1"><listitem><para>Danish</para>
+</listitem><listitem><para>Dutch</para>
+</listitem><listitem><para>English</para>
+</listitem><listitem><para>Finnish</para>
+</listitem><listitem><para>French</para>
+</listitem><listitem><para>German</para>
+</listitem><listitem><para>Irish</para>
+</listitem><listitem><para>Italian</para>
+</listitem><listitem><para>Norwegian</para>
+</listitem><listitem><para>Portuguese</para>
+</listitem><listitem><para>Spanish</para>
+</listitem><listitem><para>Swedish</para>
+</listitem><listitem><para>Turkish</para>
+</listitem></itemizedlist>
+</sect4>
+</sect3>
+<sect3 id="IPG.distr.div.32">
+<title>eucJP</title>
+<para id="IPG.distr.mkr.8">The<indexterm><primary>eucJP code set</primary>
+</indexterm> EUC<indexterm><primary>code sets</primary><secondary>eucJP,
+description</secondary></indexterm> for Japanese consists of single-byte and
+multibyte characters (2 and 3 bytes). The encoding conforms to ISO2022 and
+is based on JIS and EUC definitions, see <!--Original XRef content: ''--><xref
+role="CodeOrFigureOrTable" linkend="IPG.distr.mkr.8">.</para>
+<table id="IPG.distr.tbl.2" frame="Topbot">
+<title>Encoding for eucJP</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colwidth="1.01in">
+<colspec colwidth="1.19in">
+<colspec colwidth="1.50in">
+<colspec colwidth="1.59in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><Literal>CS</Literal></para></entry>
+<entry align="left" valign="top"><para><literal>Encoding</literal></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><literal>Character Set</literal></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>cs0</para></entry>
+<entry align="left" valign="top"><para>0xxxxxxx</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>ASCII</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>cs1</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>JIS X0208-1990</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>cs2</para></entry>
+<entry align="left" valign="top"><para>0x8E</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>JIS X0201-1976</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>cs3</para></entry>
+<entry align="left" valign="top"><para>0x8F</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx 1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>JIS X0212-1990</para></entry></row>
+</tbody></tgroup></table>
+<sect4 id="IPG.distr.div.33">
+<title>JIS X0208-1990</title>
+<para>A code of the Japanese graphic character set for information interchange
+(1990 version) that contains 147 special characters, 10 numeric digits, 83
+Hiragana characters, 86 Katakana characters, 52 Latin characters, 48 Greek
+characters, 66 Cyrillic characters, 32 line-drawing elements, and 6355 Kanji
+characters.</para>
+</sect4>
+<sect4 id="IPG.distr.div.34">
+<title><emphasis role="Lead-in">JIS X0201</emphasis></title>
+<para>A code for information interchange that contains 63 Katakana characters.
+</para>
+</sect4>
+<sect4 id="IPG.distr.div.35">
+<title><emphasis role="Lead-in">JIS X0212-1990</emphasis></title>
+<para>A code of the supplementary Japanese graphic character set for information
+interchange (1990 version) that contains 21 additional special characters,
+21 additional Greek characters, 26 additional Cyrillic characters, 27 additional
+Latin characters, 171 Latin characters with diacritical marks, and 5801
+additional Kanji characters.</para>
+</sect4>
+</sect3>
+<sect3 id="IPG.distr.div.36">
+<title>eucTW</title>
+<para id="IPG.distr.mkr.9">The EUC<indexterm><primary>code sets</primary>
+<secondary>eucTW, description</secondary></indexterm> for<indexterm><primary>eucTW code set</primary></indexterm> Traditional Chinese is an encoding consisting
+of characters that contain single-byte and multibyte (2 and 4 bytes) characters.
+The EUC encoding conforms to ISO2022 and is based on the Chinese National
+Standard (CNS) as defined by the Republic of China and the EUC definition,
+see <!--Original XRef content: 'Table&numsp;3&hyphen;4'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.distr.mkr.10">.</para>
+<table id="IPG.distr.tbl.3" frame="Topbot">
+<title id="IPG.distr.mkr.10">Encoding for eucTW</title>
+<tgroup cols="5" colsep="0" rowsep="0">
+<colspec colwidth="0.51in">
+<colspec colwidth="1.05in">
+<colspec colwidth="0.91in">
+<colspec colwidth="1.04in">
+<colspec colwidth="2.31in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><Literal>CS</Literal></para></entry>
+<entry align="left" valign="top"><para><literal>Encoding</literal></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><literal>Character Set</literal></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>cs0</para></entry>
+<entry align="left" valign="top"><para>0xxxxxxx</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>ASCII</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>cs1</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>CNS 11643.1992 - plane 1</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>cs2</para></entry>
+<entry align="left" valign="top"><para>0x8EA2</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>CNS 11643.1992 - plane 2</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>cs3</para></entry>
+<entry align="left" valign="top"><para>0x8EA3</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>CNS 11643.1992 - plane 3</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>0x8EB0</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>CNS 11643.1992 - Plane 16</para></entry>
+</row></tbody></tgroup></table>
+<para>CNS 11643-1992 defines 16 planes for the Chinese Standard Interchange
+Code, each plane can support up to 8836 characters (94x94). Currently, only
+planes 1 through 7 have characters assigned. <!--Original XRef content:
+'Table&numsp;3&hyphen;5'--><xref role="CodeOrFigureOrTable" linkend="IPG.distr.mkr.11"><indexterm>
+<primary>CNS character definitions</primary></indexterm> shows the 16 planes
+of the CNS 11643-1992 standard.</para>
+<table id="IPG.distr.tbl.4" frame="Topbot">
+<title id="IPG.distr.mkr.11">16 Planes of the CNS 11643-1992 Standard</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="0.67in">
+<colspec colwidth="1.83in">
+<colspec colwidth="1.08in">
+<colspec colname="col4" colwidth="2.02in">
+<spanspec nameend="col4" namest="col1" spanname="1to4">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Plane</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Definition</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal># of Character</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>EUC Encoding</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>1</para></entry>
+<entry align="left" valign="top"><para>Most frequently used</para></entry>
+<entry align="left" valign="top"><para>6085</para></entry>
+<entry align="left" valign="top"><para>A1A1-FDCB</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para>Secondary frequently</para></entry>
+<entry align="left" valign="top"><para>7650</para></entry>
+<entry align="left" valign="top"><para>8EA2 A1A1 - 8EA2 F2C4</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>3</para></entry>
+<entry align="left" valign="top"><para>Exec.Yuen EDP <superscript>1</superscript>
+center</para></entry>
+<entry align="left" valign="top"><para>6148</para></entry>
+<entry align="left" valign="top"><para>8EA3 A1A1 - 8EA3 E2C6</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>4</para></entry>
+<entry align="left" valign="top"><para>RIS<superscript>2</superscript>, Vendor
+defined</para></entry>
+<entry align="left" valign="top"><para>7298</para></entry>
+<entry align="left" valign="top"><para>8EA4 A1A1 - 8EA4 EEDC</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>5</para></entry>
+<entry align="left" valign="top"><para>Rarely used by MOE<superscript>3</superscript></para></entry>
+<entry align="left" valign="top"><para>8603</para></entry>
+<entry align="left" valign="top"><para>8EA5 A1A1 - 8EA5 FCD1</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>6</para></entry>
+<entry align="left" valign="top"><para>Variation char set 1 by MOE</para></entry>
+<entry align="left" valign="top"><para>6388</para></entry>
+<entry align="left" valign="top"><para>8EA6 A1A1 - 8EA6 E4FA</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>7</para></entry>
+<entry align="left" valign="top"><para>Variation char set 2 by MOE</para></entry>
+<entry align="left" valign="top"><para>6539</para></entry>
+<entry align="left" valign="top"><para>8EA7 A1A1 - 8EA7 E6D5</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>8</para></entry>
+<entry align="left" valign="top"><para>Undefined</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EA8 A1A1 - 8EA8 FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>9</para></entry>
+<entry align="left" valign="top"><para>Undefined</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EA9 A1A1 - 8EA9 FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>10</para></entry>
+<entry align="left" valign="top"><para>Undefined</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAA A1A1 - 8EAA FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>11</para></entry>
+<entry align="left" valign="top"><para>Undefined</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAB A1A1 - 8EAB FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>12</para></entry>
+<entry align="left" valign="top"><para>User Defined Character (UDC)</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAC A1A1 - 8EAC FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>13</para></entry>
+<entry align="left" valign="top"><para>UDC</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAD A1A1 - 9EAD FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>14</para></entry>
+<entry align="left" valign="top"><para>UDC</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAE A1A1 - 8EAE FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>15</para></entry>
+<entry align="left" valign="top"><para>UDC</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAF A1A1 - 8EAF FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>16</para></entry>
+<entry align="left" valign="top"><para>UDC</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EB0 A1A1 - 8EB0 FEFE</para></entry>
+</row>
+<row>
+<entry align="left" spanname="1to4" valign="top"><para><superscript>1</superscript>
+EDP: Center of Directorate, General of Budget, Accounting, and Statistics
+</para></entry></row>
+<row>
+<entry align="left" spanname="1to4" valign="top"><para><superscript>2</superscript>
+RIS: Residence Information System</para></entry></row>
+<row>
+<entry align="left" spanname="1to4" valign="top"><para><superscript>3</superscript>
+MOE: Ministry of Education</para></entry></row></tbody></tgroup></table>
+</sect3>
+<sect3 id="IPG.distr.div.37">
+<title>eucKR</title>
+<para>The EUC<indexterm><primary>code sets</primary><secondary>eucKR, description</secondary></indexterm> for Korean is<indexterm><primary>eucKR code set</primary></indexterm> an encoding consisting of single-byte and multibyte
+characters (shown in <!--Original XRef content: 'Table&numsp;3&hyphen;6'--><xref
+role="CodeOrFigureOrTable" linkend="IPG.distr.mkr.12">). The encoding conforms
+to ISO2022 and is based on Korean Standard Code (KSC) set and EUC definitions.
+</para>
+<table id="IPG.distr.tbl.5" frame="Topbot">
+<title id="IPG.distr.mkr.12">Encoding for eucKR.</title>
+<tgroup cols="4">
+<colspec colname="1" colwidth="1.24132 in">
+<colspec colname="2" colwidth="1.24132 in">
+<colspec colname="3" colwidth="1.24132 in">
+<colspec colname="4" colwidth="1.24132 in">
+<thead>
+<row><entry><para><Literal>CS</Literal></para></entry><entry><para><literal>Encoding</literal></para></entry><entry></entry><entry><para><literal>Character
+Set</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>cs0</para></entry>
+<entry><para>0xxxxxxx</para></entry>
+<entry></entry>
+<entry><para>ASCII</para></entry></row>
+<row>
+<entry><para>cs1</para></entry>
+<entry><para>1xxxxxxx</para></entry>
+<entry><para>1xxxxxxx</para></entry>
+<entry><para>KS C 5601-1992</para></entry></row>
+<row>
+<entry><para>cs2</para></entry>
+<entry></entry>
+<entry></entry>
+<entry><para>Not used</para></entry></row>
+<row>
+<entry><para>cs3</para></entry>
+<entry></entry>
+<entry></entry>
+<entry><para>Not used</para></entry></row></tbody></tgroup></table>
+<para>KSC 5601-1992 (code of the Korean character set for information interchange,
+1992 version) contains 432 special characters, 30 Arabic and Roman numeral
+characters, 94 Hangul alphabet characters, 52 Roman characters, 48 Greek
+characters, 27 Latin characters, 169 Japanese characters, 66 Russian characters,
+68 line-drawing elements, 2344 precomposed Hangul characters, and 4888 Hanja
+characters.</para>
+<para>The Hangul characters represent the sounds of the Korean words. Each
+Hangul character is composed of from one to three of the Hangul elementary
+phonetic signs: an initial consonant (if any), a vowel, and a final consonant
+(if any). Many Korean words can also be written with Traditional Chinese
+characters (called Hanja in Korean). In traditional times, Korean texts were
+generally written in a mixture of Hangul and Hanja: Hanja for the main words
+(nouns, verbs, modifiers) and Hangul for the particles and grammatical inflections.
+In recent times, most Korean texts are written purely in Hangul, although
+personal names may still appear written with Hanja.</para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->
+

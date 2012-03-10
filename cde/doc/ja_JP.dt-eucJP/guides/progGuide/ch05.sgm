@@ -1,0 +1,1638 @@
+<!-- $XConsortium: ch05.sgm /main/6 1996/09/08 19:36:42 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="PG.dndPG.div.1">
+<Title Id="PG.dndPG.mkr.1">ドラッグ＆ドロップとの統合</Title>
+<Para>この章では、ドラッグ＆ドロップ・ユーザ・モデルと共通デスクトップ環境の
+ドラッグ＆ドロップ簡易アプリケーション・プログラム・インタフェース
+(API)を説明し、ドラッグ＆ドロップの使い方を説明します。</Para>
+<InformalTable Id="PG.dndPG.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Summary33'-->
+<XRef Role="JumpText" Linkend="PG.dndPG.mkr.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Drag-and-Drop User Model35'-->
+<XRef Role="JumpText" Linkend="PG.dndPG.mkr.6"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Drag-and-Drop Convenience API45'-->
+<XRef Role="JumpText" Linkend="PG.dndPG.mkr.13"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Drag-and-Drop Transaction47'-->
+<XRef Role="JumpText" Linkend="PG.dndPG.mkr.14"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Integration Action Plan50'-->
+<XRef Role="JumpText" Linkend="PG.dndPG.mkr.17"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'API Overview51'-->
+<XRef Role="JumpText" Linkend="PG.dndPG.mkr.18"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How Drag Sources Are Used53'-->
+<XRef Role="JumpText" Linkend="PG.dndPG.mkr.21"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How Drop Zones Are Used56'-->
+<XRef Role="JumpText" Linkend="PG.dndPG.mkr.22"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="PG.dndPG.div.2">
+<Title Id="PG.dndPG.mkr.2">要約</Title>
+<Para>共通デスクトップ環境には、あらゆるデスクトップを通じて操作に一貫性のある便利なドラッグ＆ドロップを提供するために、
+Motifに基づくドラッグ＆ドロップのためのアプリケーション・プログラム・インタフェース
+(API)があります。
+共通デスクトップ環境のドラッグ＆ドロップAPIは、開発者によるドラッグ＆ドロップの実現をより簡単にします。
+ドラッグ＆ドロップを使うと、ユーザは画面上のオブジェクトをグラブし、ディスプレイ上をドラッグし、他のオブジェクトの上にドロップするという直接操作によって、データの転送を実行することができます。
+</Para>
+<Para>テキスト、ファイル、バッファは、共通デスクトップ環境のドラッグ＆ドロップAPIで使われるデータの３つのカテゴリです。
+この文脈の<Emphasis>テキスト</Emphasis>は、入力フィールドのテキストのように、ユーザの目に見えるテキストとして定義されます。<Symbol Role="Variable">ファイル</Symbol>は、
+ファイル・システム内にあるデータのコンテナです。
+各ファイルは、その内容を記述する形式を持ちます。<Emphasis>バッファ</Emphasis>は、
+メモリに含まれるデータです。
+各バッファも,その内容を記述する形式を持ちます。
+</Para>
+<Sect2 Id="PG.dndPG.div.3">
+<Title Id="PG.dndPG.mkr.3">ライブラリとヘッダ・ファイル</Title>
+<Para>ドラッグ＆ドロップを使用するには、<Command>DtSvc</Command>ライブラリをリンクする必要があります。
+ヘッダ・ファイルは<ComputerOutput>Dt/Dnd.h</ComputerOutput>です。</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.4">
+<Title Id="PG.dndPG.mkr.4">デモ・プログラム</Title>
+<Para>ドラッグ＆ドロップの例が入っているデモ・プログラムが<Filename>/usr/dt/examples/dtdnd</Filename>にあります。</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.5">
+<Title Id="PG.dndPG.mkr.5">ドラッグ＆ドロップの使い方</Title>
+<Sect3 Id="PG.dndPG.div.6" Role="Procedure">
+<Title>ドラッグ＆ドロップと統合するには</Title>
+<Para>ドラッグ＆ドロップとアプリケーションを統合するには、次の手順に従います。</Para>
+<OrderedList>
+<ListItem>
+<Para><ComputerOutput>Dt/Dnd.h</ComputerOutput>を組み込みます。
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>ヘッダ・ファイル</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ヘッダ・ファイル</Primary>
+<Secondary>ドラッグ＆ドロップ</Secondary>
+</IndexTerm></Para>
+</ListItem>
+<ListItem>
+<Para><ComputerOutput>libDtsvc</ComputerOutput>をリンクします。
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>ライブラリ</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ライブラリ</Primary>
+<Secondary>ドラッグ＆ドロップ</Secondary>
+</IndexTerm></Para>
+</ListItem>
+<ListItem>
+<Para>受信側として</Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtDndDropRegister</Command>を使用して、ドロップ領域を登録します。</Para>
+</ListItem>
+<ListItem>
+<Para>オプションとして、ドロップ・アニメーションのコールバックを書くこともできます。</Para>
+</ListItem>
+<ListItem>
+<Para>転送コールバックを書きます。</Para>
+</ListItem>
+<ListItem>
+<Para>送信側として</Para>
+</ListItem>
+<ListItem>
+<Para>ユーザ・アクションを認識し（おそらく変換テーブルの変更が必要）、<Command>DtDndDragStart</Command>を呼び出します。</Para>
+</ListItem>
+<ListItem>
+<Para>変換コールバックを書きます。</Para>
+</ListItem>
+<ListItem>
+<Para>ドラッグ終了コールバックを書きます。</Para>
+</ListItem>
+</OrderedList>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.7">
+<Title Id="PG.dndPG.mkr.6">ドラッグ＆ドロップ・
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>ユーザ・モデル</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ユーザ・モデル</Primary>
+<Secondary>ドラッグ＆ドロップ</Secondary>
+</IndexTerm>ユーザ・モデル</Title>
+<Para>この節では、デスクトップのほかの部分に矛盾せずに、ユーザの期待に反しないアプリケーションが設計できるように、ドラッグ＆ドロップの基本となるユーザ・モデルを説明します。
+</Para>
+<Para>ドラッグ＆ドロップの詳細と、ドラッグ＆ドロップ要素の外観に関するガイドラインについては、<Emphasis>CDE/Motif スタイルガイドおよび認証チェックリスト</Emphasis>を参照してください。
+</Para>
+<Para>ドラッグ＆ドロップがデスクトップ上のすべてのアプリケーションで使うことができれば、
+システムはユーザにとってより予測可能なものとなり、したがって、より使いやすく覚えやすくなります。
+ユーザは、すでに知っている技術を使うことによって、自分が学んだことをより多くのアプリケーションに応用できます。
+また、ユーザの多くはメニューを使うよりもドラッグ＆ドロップを好みます。
+</Para>
+<Para>この章では、ユーザが何かをドロップできる場所を説明するために、<Emphasis>ドロップ領域</Emphasis>という用語を使います。
+ドロップ領域は、通常コントロールまたはグラフィック・アイコンによって表されます。たとえば、ごみ箱アイコンや入力フィールドのグラフィックです。
+ドロップ領域を表す矩形の領域を説明するには、<Emphasis>ドロップ・ターゲット</Emphasis>という用語を使います。</Para>
+<Sect2 Id="PG.dndPG.div.8">
+<Title>ドラッグ＆ドロップ機能</Title>
+<Para>ドラッグ＆ドロップ機能があれば、ユーザはアイコンとして表されたオブジェクトを選択し、操作することができます。
+</Para>
+<Note>
+<Para>ドラッグ＆ドロップは、アプリケーション内でサポートされている他のユーザ・インタフェース・コントロールを通して使用できる機能のアクセラレータです。
+ただし、すべてのユーザがドラッグ＆ドロップを利用できるわけではありません。
+基本的な操作は、ドラッグ＆ドロップ以外にもサポート方法を用意してください。
+アプリケーションがドラッグ＆ドロップを通してサポートする基本的な機能は、メニュー、ボタン、またはダイアログ・ボックスによってもサポートしなければなりません。
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.9">
+<Title>ドラッグ・アイコン
+<IndexTerm>
+<Primary>ドラッグ・アイコン</Primary>
+</IndexTerm><IndexTerm>
+<Primary>アイコン</Primary>
+<Secondary>ドラッグ</Secondary>
+</IndexTerm></Title>
+<Para>ユーザがドラッグ＆ドロップを使用してアイコンを選択し、操作するときには、ドラッグされる項目を表すグラフィック・アイコンは、選択からドラッグ＆ドロップの終了まで一貫していることをユーザは期待します。
+ユーザがファイル・マネージャの
+メッセージ・アイコンを選択してドラッグを開始した場合には、ドラッグ・アイコンの元の部分は、そのメッセージ・アイコンによって表されます。
+この種の一貫性を提供することによって、ドラッグ＆ドロップはユーザにとってより予測可能なものになります。
+転送先アプリケーションがアイコンを使用する場合、示されるアイコンは、ほとんどの場合、選択され、ドラッグ＆ドロップされたアイコンと同じでなければなりません。
+ただし、この動作はすべてのアプリケーションで常に適切であるとは限りません。
+テキストのドラッグは例外です。選択されたテキストをドラッグする代わりに、テキスト・ドラッグ・アイコンが使われます。
+</Para>
+<Para>転送先と転送元の両方のアプリケーションが、
+ドラッグ・アイコンの外観を指定します。
+アプリケーションが一貫した適切なドラッグ・アイコンを持つようにするのは、開発者の責任です。
+ドラッグ＆ドロップ・ライブラリはデフォルトのアイコンを提供しますが、各アプリケーションのために開発者が独自のアイコンを指定するとよいでしょう。
+アイコンとそのアイコンによって表される型データを関連づけるためには、データ型データベースを使わなければならない場合が多いでしょう。<!--Original XRef content: 'Chapter&numsp;9,
+&xd2;Accessing the Data-Typing Database'-->
+<XRef Role="ChapNumAndTitle" Linkend="PG.datat.mkr.1">を参照してください。</Para>
+<Para>ユーザがアイコンを選択せずにドラッグを開始するときには、関連するドラッグ・アイコンを提供しなければなりません。
+たとえば、アポイントエディタでは、ユーザはスクロール・リストからアポイントを選択できますが、アイコンが表示される場合と表示されない場合があります。
+ソース・インジケータとしてアポイント・アイコンを使用しなければなりません。
+転送先アプリケーション(たとえば、ファイル・マネージャ)は、同じアポイント・アイコンを表示しなければなりません。
+</Para>
+<Sect3 Id="PG.dndPG.div.10">
+<Title>ドラッグ・アイコンの各部
+<IndexTerm>
+<Primary>ドラッグ・アイコン</Primary>
+</IndexTerm><IndexTerm>
+<Primary>アイコン</Primary>
+<Secondary>ドラッグ</Secondary>
+</IndexTerm></Title>
+<Para>ドラッグ・アイコンがドロップ領域の上に来ると、<Emphasis>ドラッグオーバ</Emphasis>・フィードバックを提供するために外観が変化します。
+</Para>
+<Para>ドラッグ・アイコンには次の３つの
+部分があり、その組み合わせによってドラッグオーバ・フィードバックを提供します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>状態インジケータ</Para>
+</ListItem>
+<ListItem>
+<Para>操作インジケータ</Para>
+</ListItem>
+<ListItem>
+<Para>ソース・インジケータ</Para>
+</ListItem>
+</ItemizedList>
+<Para><IndexTerm>
+<Primary>ドラッグ・アイコン</Primary>
+<Secondary>状態インジケータ</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>インジケータ、ドラッグ・アイコン</Primary>
+</IndexTerm><Emphasis>状態インジケータ</Emphasis>は、有効または無効ドロップ領域インジケータと組み合わされて、位置付けのために使われるポインタです。
+有効状態インジケータは、矢印ポインタです。
+このポインタにはホット・スポットがあるので、ユーザは予測可能な方法で位置付けることができます。
+無効状態インジケータは、円と斜線の組み合わせであり、ユーザが無効なドロップ領域にカーソルを置いたときに表示されます。
+</Para>
+<Para><Emphasis><IndexTerm>
+<Primary>操作インジケータ、ドラッグ・アイコン</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ・アイコン</Primary>
+<Secondary>操作インジケータ</Secondary>
+</IndexTerm>操作インジケータ</Emphasis>は、ドラッグ時に行われる操作（移動、コピー、またはリンク）に関するフィードバックをユーザに与えます。
+ほとんどのドラッグは移動なので、ユーザがより頻度の少ないコピーまたはリンク操作を実行するときには、追加のフィードバックが与えられます。
+</Para>
+<Note>
+<Para>操作フィードバックは、状態フィードバックとソース・フィードバックの手前に表示されます。
+この動作は、Motifのドラッグ＆ドロップ動作と一致しています。</Para>
+</Note>
+<Para>ユーザは、<!--Original XRef content: 'Table&numsp;5&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.7">に示されている特定のキーを押しながらドラッグすることによって、ドラッグ操作（移動、コピー、またはリンク）を選ぶことができます。</Para>
+<Table Id="PG.dndPG.tbl.1" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.7">ドラッグ操作を変更するためのキー</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75398 in">
+<THead>
+<Row>
+<Entry><Para><Literal>修飾キー</Literal></Para></Entry>
+<Entry><Para><Literal>操作</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>[Shift]</Para></Entry>
+<Entry><Para>移動</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>[Control]</Para></Entry>
+<Entry><Para>コピー</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>[Control]+[Shift]</Para></Entry>
+<Entry><Para>リンク</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>ファイル・マネージャの読みとり専用ウィンドウの場合のように、転送元アプリケーションがコピーを強制することもあります。
+ユーザが操作を選んだとき、
+ドロップ領域がその操作と一致しなければ、ドロップを行うことはできません。
+一致しない場合には、ドロップ領域は無効です。言い換えると、ユーザが[Control]キーを押すことでコピーを選び、ドラッグ・アイコンをごみ箱アイコンへドラッグした場合には、ごみ箱へのコピーは許されないので、ドラッグ・アイコンはごみ箱アイコンを無効なドロップ領域として表示しなければならず、ドロップは失敗します。
+</Para>
+<Para><Emphasis><IndexTerm>
+<Primary>ソース・インジケータ、ドラッグ・アイコン</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ・アイコン</Primary>
+<Secondary>ソース・インジケータ</Secondary>
+</IndexTerm>ソース・インジケータ</Emphasis> は、選択（すなわち、ドラッグされている項目）を表します。
+ソース・インジケータは、選択が１つの項目を表すか、それとも複数の項目を表すかによって、また、選択が表す項目の種類によって変化します。<!--Original XRef content: 'Table&numsp;5&hyphen;2'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.8">は、
+共通デスクトップ環境でのデフォルトのソース・インジケータを示します。
+これらのソース・インジケータは共通デスクトップ環境の
+ドラッグ＆ドロップ簡易APIを使用すると、自動的に生成されます。これらのアイコンは、正確な画面描写ではなく、おおよその形を表したものです。
+</Para>
+<Table Id="PG.dndPG.tbl.2" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.8">ドラッグ・アイコンの種類
+<IndexTerm>
+<Primary>ドラッグ・アイコン</Primary>
+<Secondary>ドラッグ・アイコンの表</Secondary>
+</IndexTerm></Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="2.03125 in">
+<ColSpec Colname="2" Colwidth="1.0 in">
+<ColSpec Colname="3" Colwidth="1.0 in">
+<ColSpec Colname="4" Colwidth="1.0 in">
+<THead>
+<Row>
+<Entry><Para><Literal>ドラッグ・アイコン</Literal></Para></Entry>
+<Entry><Para><Literal>
+</Literal>選択されたテキスト</Para></Entry>
+<Entry><Para><Literal>単一選択
+</Literal></Para></Entry>
+<Entry><Para><Literal>複数選択
+</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>有効な移動</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.1" Id="PG.dndPG.igrph.1"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.2" Id="PG.dndPG.igrph.2"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.3" Id="PG.dndPG.igrph.3"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>有効なコピー</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.4" Id="PG.dndPG.igrph.4"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.5" Id="PG.dndPG.igrph.5"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.6" Id="PG.dndPG.igrph.6"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>有効なリンク</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.7" Id="PG.dndPG.igrph.7"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.8" Id="PG.dndPG.igrph.8"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.9" Id="PG.dndPG.igrph.9"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>無効な移動</Para><Para>None</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.10" Id="PG.dndPG.igrph.10"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.11" Id="PG.dndPG.igrph.11"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.12" Id="PG.dndPG.igrph.12"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>無効なコピー</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.13" Id="PG.dndPG.igrph.13"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.14" Id="PG.dndPG.igrph.14"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.15" Id="PG.dndPG.igrph.15"></Graphic></Entry>
+</Row>
+<Row>
+<Entry><Para>無効なリンク</Para></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.16" Id="PG.dndPG.igrph.16"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.17" Id="PG.dndPG.igrph.17"></Graphic></Entry>
+<Entry><Graphic Entityref="PG.dndPG.fig.18" Id="PG.dndPG.igrph.18"></Graphic></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect3>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.11">
+<Title>ウィンドウ内部からのドラッグ
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>ウィンドウ内部</Secondary>
+</IndexTerm></Title>
+<Para>ときには、アプリケーションはダイアログ・ボックスまたはウィンドウ内部からのドラッグを可能にする必要があります。
+カレンダのアポイントエディタには、アポイントのスクロール・リストとアポイントを編集するための入力領域があります。
+ユーザは、スクロール・リストからアポイントをドラッグできますが、アポイント入力領域からもドラッグできなければなりません。
+ユーザが入力領域からドラッグできるのは、アポイントがまだカレンダに挿入されていないときです（たとえば、申し込まれたミーティングの時間を入力したが、カレンダに挿入していないとき）。
+</Para>
+<Para>ドラッグできる項目には、アイコン・グラフィックを関連付ける必要があります。
+ダイアログ・ボックスのアイコン・グラフィックは、ドラッグされる情報に隣接する適切な領域に置きます。
+ダイアログ・ボックスまたはウィンドウの右上隅が、望ましいデフォルトの位置です。
+このアイコンは何かをドラッグできることをユーザに知らせるものであり、使われるグラフィックは、ドラッグ・アイコンに使われる<Emphasis>グラフィック</Emphasis>と同じにして、一貫性を持たせます。
+アイコンは３２×３２ピクセルでなければならず、ファイル・マネージャが使用するアイコンと同様のラベルがなければなりません。
+詳しくは、<Emphasis>CDE/Motif スタイルガイドおよび認証チェックリスト
+</Emphasis>のドラッグ＆ドロップの章を参照してください。
+</Para>
+<Note>
+<Para>ドラッグが可能なのは、選択できるコンポーネントまたは項目を持つヒューマン・インタフェース要素からだけです。
+ボタンまたはメニューのラベルなど、静的なラベルからのドラッグはできません。
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.12">
+<Title>視覚的なフィードバック
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>視覚的なフィードバック</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ＆ドロップの視覚的なフィードバック</Primary>
+</IndexTerm></Title>
+<Para>以下の節では、ドロップ領域フィードバックとドラッグ＆ドロップの遷移効果を説明します。
+</Para>
+<Sect3 Id="PG.dndPG.div.13">
+<Title>ドロップ領域フィードバック
+<IndexTerm>
+<Primary>ドロップ領域フィードバック</Primary>
+</IndexTerm><IndexTerm>
+<Primary>フィードバック</Primary>
+<Secondary>ドロップ領域</Secondary>
+</IndexTerm></Title>
+<Para>デフォルトのドロップ領域フィードバックを<Emphasis>ドラッグアンダ</Emphasis>といい、領域を囲む実線、ドロップ領域を囲む斜角
+の付いた浮き出した表面かくぼんだ表面、またはドロップ領域の上に描かれたピックスマップで表されます。
+</Para>
+</Sect3>
+<Sect3 Id="PG.dndPG.div.14">
+<Title>遷移効果
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>遷移効果</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ＆ドロップ
+の遷移効果</Primary>
+</IndexTerm></Title>
+<Para>遷移効果は、ドロップが成功したか
+失敗したかをユーザに知らせます。
+<Emphasis>メルト</Emphasis>と<Emphasis>スナップバック</Emphasis>という２つの遷移効果があります。</Para>
+<Para>メルトは、ユーザがドラッグ・アイコンを有効なドロップ領域にドロップしたときに発生します。
+ユーザがドラッグ・アイコンを有効なドロップ領域にドロップすると、ドラッグ・アイコンはドロップ領域に溶けてなくなります。
+ドラッグ・アイコンは、転送先アプリケーションにふさわしいアイコンに置き換えられます。
+フロントパネルのプリンタは,メルト効果以外にはなにも示しません。
+開いているファイル・マネージャ・ウィンドウは、適切なアイコンを表示することもあります。
+</Para>
+<Para>アイコンがドロップされても、メルト効果が直ちに起こらないこともあります。
+転送が完了するまで、それが位置していた場所にアイコンが表示されています。
+転送中は、転送先のカーソルをビジー状態に設定してください。
+転送が完了するまで、ユーザはアイコンを動かしたり、選択することはできません。
+ビジー・カーソルによって、転送中であることをユーザに知らせます。
+</Para>
+<Para>スナップバックは、ドロップが失敗したときに発生します。
+ドロップの失敗には、２通りあります。
+ユーザが無効なドロップ領域にドラッグ・アイコンをドロップした場合には、
+ドラッグ・アイコンは転送元アプリケーションへ戻ります（スナップバックします）。
+ドロップが発生したら、転送元と転送先のアプリケーションはデータを転送しなければなりません。データ転送が失敗した場合には、ドラッグ・アイコンはスナップバックし、転送先アプリケーションは失敗したことをユーザに通知し、ドロップが失敗した理由を示さなければなりません。
+</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.15">
+<Title>ドラッグ＆ドロップの転送元（ソース）
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>転送元と転送先</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ＆ドロップの転送元</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ＆ドロップの転送先</Primary>
+</IndexTerm></Title>
+<Para>ドラッグ＆ドロップの転送元の動作が理解できるように、
+<!--Original XRef content: 'Table&numsp;5&hyphen;3'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.9">に、
+選択されたテキスト、ファイル、バッファのドラッグ・ソースにできる主なデスクトップ・コンポーネントを示します。
+</Para>
+<Table Id="PG.dndPG.tbl.3" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.9">ドラッグ・ソースにできるデスクトップ・コンポー
+ネント</Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="2.00397 in">
+<ColSpec Colname="2" Colwidth="1.25 in">
+<ColSpec Colname="3" Colwidth="0.49603 in">
+<ColSpec Colname="4" Colwidth="1.25 in">
+<THead>
+<Row>
+<Entry><Para><Literal>ドラッグ・ソース</Literal></Para></Entry>
+<Entry><Para><Literal>選択されたテキスト</Literal></Para></Entry>
+<Entry><Para><Literal>ファイル</Literal></Para></Entry>
+<Entry><Para><Literal>バッファ</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>テキスト・フィールド(Motif)*</Para></Entry>
+<Entry><Para>選択されたテキスト</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>テキスト・エディタ：メイン・ウィンドウ</Para></Entry>
+<Entry><Para>選択されたテキスト</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>端末エミュレータ：メイン・ウィンドウ</Para></Entry>
+<Entry><Para>選択されたテキス</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ファイル・マネージャ：フォルダ・ウィンドウ</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>ファイル</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ファイル・マネージャ：ごみ箱ウィンドウ</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>ファイル</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>メール：メッセージ・リスト</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>メールメッセージ形式のメッセージ
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>メール：アタッチメント・リスト</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>アタッチメント形式のアタッチメント
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>カレンダ：アポイントエディタ</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>アポイント形式のアポイント
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>Motifテキスト・フィールドの転送元が選択したアプリケーションは、テキストをドラッグします。</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.16">
+<Title>ドラッグ＆ドロップの転送先</Title>
+<Para>次のデスクトップのコンポーネントは、ドロップ先になります。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>エディタ</Para>
+</ListItem>
+<ListItem>
+<Para>ファイル・マネージャ</Para>
+</ListItem>
+<ListItem>
+<Para>フロントパネル</Para>
+</ListItem>
+</ItemizedList>
+<Para>各コンポーネントは、選択されたテキスト、ファイル、およびバッファのドロップを受け入れます
+テキスト・ドロップ転送先のほとんどは、Motifライブラリによって自動的に提供されます。
+ファイルまたはバッファ・データのドロップ先がドロップを受け入れるためには、プログラムを追加しなければなりません。
+</Para>
+<Para>ユーザがファイルからデータをドロップして、そのファイルが何らかの方法で変更されたときには、ファイルの元の保持者へ変更を書き戻すことができます。
+この動作を<Emphasis>セーブバック</Emphasis>といいます。
+ただし、データがバッファからドロップされたときには、データは元のファイルに関する情報を持ちません。
+つまり、データの元の保持者がないので、バッファからのデータ
+に加えられた変更を書き戻すことはできません。
+この動作を<Emphasis>セーブバックなし</Emphasis>といいます。</Para>
+<Para>たとえば、メール・プログラムはドラッグ＆ドロップを利用して、メール・アタッチメントをエディタにエクスポートすることができます。
+アタッチメントがバッファとしてエクスポートされた（セーブバックがない）場合、エディタでメール・プログラム内の元のアタッチメントを変更する手段はありません。
+したがって、エディタはアタッチメントの変更済みの版を新しいファイルに保存するしかありません。
+</Para>
+<Para>メール・アタッチメントはすでに別々のファイルではない（メール・フォルダ・ファイルに埋め込まれている）ので、バッファとしてエクスポートされるだけで、ほかのエディタによって保存することはできません。
+</Para>
+<Para>アタッチメントがファイルとしてエクスポートされた（セーブバックがある）場合には、エディタは変更済みのものを同じファイルに保存します。
+</Para>
+<Para><!--Original XRef content: 'Table&numsp;5&hyphen;4'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.12">は、
+テキスト・エディタ、アイコン・エディタ、カレンダ、メール・プログラム、アプリケーションビルダなどのエディタ型コンポーネントへの選択されたテキスト、ファイル、およびバッファのドロップを示します。
+</Para>
+<Table Id="PG.dndPG.tbl.4" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.10">エディタのドロップ先</Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="1.41865 in">
+<ColSpec Colname="2" Colwidth="0.76389 in">
+<ColSpec Colname="3" Colwidth="1.40873 in">
+<ColSpec Colname="4" Colwidth="1.40873 in">
+<THead>
+<Row>
+<Entry><Para><Literal>ドロップ先</Literal></Para></Entry>
+<Entry><Para><Literal>選択されたテキスト
+</Literal></Para></Entry>
+<Entry><Para><Literal>ファイル</Literal></Para></Entry>
+<Entry><Para><Literal>バッファ</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>テキスト・エディタ：メイン・ウィンドウ
+</Para></Entry>
+<Entry><Para>挿入</Para></Entry>
+<Entry><Para>挿入</Para></Entry>
+<Entry><Para>挿入</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>端末エミュレータ：メイン・ウィンドウ
+</Para></Entry>
+<Entry><Para>挿入</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アイコン・エディタ：メイン・ウィンドウ
+</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>読み込み（ファイルがアイコン形式の場合）、
+セーブバックあり</Para></Entry>
+<Entry><Para>読み専用で読み込み（データがアイコン形式の場合）、
+セーブバックなし</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>メール・プログラム：メッセージ・リスト</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>追加（ファイルがメール形式の場合）
+</Para></Entry>
+<Entry><Para>追加（データがメール形式の場合）
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>メール・プログラム：メール作成</Para></Entry>
+<Entry><Para>挿入</Para></Entry>
+<Entry><Para>挿入</Para></Entry>
+<Entry><Para>挿入</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>メール・プログラム：アタッチメント・リスト
+</Para></Entry>
+<Entry><Para>接続</Para></Entry>
+<Entry><Para>接続</Para></Entry>
+<Entry><Para>接続</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>カレンダ：メイン・ウィンドウ
+</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>アポイントをスケジュール（ファイルがアポイント形式の場合）
+</Para></Entry>
+<Entry><Para>アポイントをスケジュール（データがアポイント形式の場合）
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>カレンダ：
+アポイントエディタ</Para></Entry>
+<Entry><Para>テキスト・フィールドに挿入
+</Para></Entry>
+<Entry><Para>アポイント・フィールドに記入（ファイルがアポイント形式の場合）
+</Para></Entry>
+<Entry><Para>アポイント・フィールドに記入（データがアポイント形式の場合）
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アプリケーションビルダ</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>読み込み（ファイルがBIXまたはBIL形式の場合）、
+セーブバックあり</Para></Entry>
+<Entry><Para>読み専用で読み込み（データがBIP形式の場合）、
+セーブバックなし</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para><!--Original XRef content: 'Table&numsp;5&hyphen;4'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.10">は、
+ファイル・マネージャ内のファイルおよびフォルダ・アイコンへの選択されたテキスト、ファイル、およびバッファへのドロップを示します。</Para>
+<Table Id="PG.dndPG.tbl.5" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.11">ファイル・マネージャのドロップ先</Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="0.99206 in">
+<ColSpec Colname="2" Colwidth="1.34921 in">
+<ColSpec Colname="3" Colwidth="1.2996 in">
+<ColSpec Colname="4" Colwidth="1.35913 in">
+<THead>
+<Row>
+<Entry><Para><Literal>ドロップ先
+</Literal></Para></Entry>
+<Entry><Para><Literal>選択されたテ
+キスト</Literal></Para></Entry>
+<Entry><Para><Literal>ファイル</Literal></Para></Entry>
+<Entry><Para><Literal>バッファ</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>ファイル・アイコン</Para></Entry>
+<Entry><Para>ターゲット・ファイルとドロップされたテキストに対してドロップ・アクションを呼び出す（ファイルがテキストのドロップを受け入れ、ドロップされたテキストが適切な形式の場合）、
+セーブバックなし/コピーなし。</Para></Entry>
+<Entry><Para>ターゲット・ファイルとドロップされたファイルに対してドロッ
+プ・アクションを呼び出す（ファイルがファイルのドロップを受け入れ、ドロップされた
+ファイルが適切な形式の場合）、
+セーブバックあり。</Para></Entry>
+<Entry><Para>ターゲット・ファイルとドロップされたデータ
+に対してドロップ・アク
+ションを呼び出す（ファイルがデータのドロップを受け入れ、ドロップされたデータ
+が適切な形式の場合）、
+セーブバックなし/コピーなし。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>フォルダ・アイコン</Para></Entry>
+<Entry><Para>テキストをフォルダ内の新しいファイルに「名称未設定」という名前で挿入する。
+</Para></Entry>
+<Entry><Para>ファイルをフォルダにコピー/移動する。
+</Para></Entry>
+<Entry><Para>データをフォルダ内の新しいファイルに指定された名前（指定された場合）で挿入する。名前が指定されなかった場合には、「名称未設定」という名前で
+挿入する。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アクション・アイコン</Para></Entry>
+<Entry><Para>テキストに対してアクションを呼び出す（適切な形式であり、テキストのドロップを受け入れる場合）。
+セーブバックなし。</Para></Entry>
+<Entry><Para>ファイルに対してアクションを呼び出す（適切な形式であり、ファイルの 
+ドロップを受け入れる場合）。
+セーブバックあり。</Para></Entry>
+<Entry><Para>データに対してアクションを呼び出す（適切な形式であり、データの 
+ドロップを受け入れる場合）。
+セーブバックなし。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>メール・コンテナ・アイコン
+</Para></Entry>
+<Entry><Para>メールボックスに追加する（テキストがメール形式の場合）。
+</Para></Entry>
+<Entry><Para>メールボックスに追加する（ファイルがメール形式の場合）。
+</Para></Entry>
+<Entry><Para>メールボックスに追加する（データがメール形式の場合）。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para><!--Original XRef content: 'Table&numsp;5&hyphen;4'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.11">は、フロントパネルのアクション・アイコンへの選択されたテキスト、ファイル、およびバッファへのドロップを示します。
+</Para>
+<Table Id="PG.dndPG.tbl.6" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.12">フロントパネルのドロップ先
+</Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="0.99206 in">
+<ColSpec Colname="2" Colwidth="1.34921 in">
+<ColSpec Colname="3" Colwidth="1.2996 in">
+<ColSpec Colname="4" Colwidth="1.35913 in">
+<THead>
+<Row>
+<Entry><Para><Literal>ドロップ先
+</Literal></Para></Entry>
+<Entry><Para><Literal>選択されたテキスト</Literal></Para></Entry>
+<Entry><Para><Literal>ファイル</Literal></Para></Entry>
+<Entry><Para><Literal>バッファ</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>テキスト・エディタ</Para></Entry>
+<Entry><Para>読み専用で読み込む。
+セーブバックなし。</Para></Entry>
+<Entry><Para>読み込む。セーブバックあり。</Para></Entry>
+<Entry><Para>読み専用で読み込む。
+セーブバックなし。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>カレンダ</Para></Entry>
+<Entry><Para>アポイントをスケジュールする（テキストがアポイント形式の場合）。
+</Para></Entry>
+<Entry><Para>アポイントをスケジュールする（ファイルがアポイント形式の場合）。
+</Para></Entry>
+<Entry><Para>アポイントをスケジュールする（データがアポイント形式の場合）。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>メール</Para></Entry>
+<Entry><Para>テキストを接続して、メッセージを作成する。
+</Para></Entry>
+<Entry><Para>ファイルを接続して、メッセージを作成する。
+</Para></Entry>
+<Entry><Para>データを接続して、メッセージを作成する。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>プリンタ</Para></Entry>
+<Entry><Para>テキストを印刷する
+（印刷方法がテキストに対して有効な場合）。
+</Para></Entry>
+<Entry><Para>ファイルの内容を印刷する
+（印刷方法がファイル形式に対して有効な場合）。
+</Para></Entry>
+<Entry><Para>データを印刷する
+（印刷方法がデータの形式に対して有効な場合）。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ごみ箱</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>ファイルをごみ箱に移動する。
+</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>サブパネル：アイコンのインストール
+</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+<Entry><Para>アイコンをインストールする。
+</Para></Entry>
+<Entry><Para>N/A</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>サブパネル：アクション
+</Para></Entry>
+<Entry><Para>ファイル・マネージャと同じ
+</Para></Entry>
+<Entry><Para>ファイル・マネージャと同じ
+</Para></Entry>
+<Entry><Para>ファイル・マネージャと同じ
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>サブパネル：実行形式
+</Para></Entry>
+<Entry><Para>ファイル・マネージャと同じ
+</Para></Entry>
+<Entry><Para>ファイル・マネージャと同じ
+</Para></Entry>
+<Entry><Para>ファイル・マネージャと同じ
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>ユーザに対するドラッグ＆ドロップの表示方法の詳細とガイドラインについては、<Emphasis> CDE/Motif スタイルガイドおよび認証チェックリスト</Emphasis>を参照してください。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.17">
+<Title Id="PG.dndPG.mkr.13">ドラッグ＆ドロップ簡易API
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>API &lt;$startrange></Secondary>
+</IndexTerm><IndexTerm>
+<Primary>API</Primary>
+<Secondary>ドラッグ＆ドロップ &lt;$startrange></Secondary>
+</IndexTerm></Title>
+<Para>共通デスクトップ環境は、デスクトップ内の一貫性と相互運用を促進し、開発者による
+ドラッグ＆ドロップの実現を容易にするために、ドラッグ＆ドロップ簡易APIを提供します。
+</Para>
+<Para>ドラッグ＆ドロップのための既存のMotifのAPIは、トランザクションの中の転送元と転送先アプリケーションの連絡を達成するための合理的な機能を提供します。
+データ転送のためのフレームワークを提供しますが、
+実際のデータ転送の詳細はアプリケーションに依存します。
+デスクトップ内のアプリケーション間の真の一貫性と相互運用のためには、
+すべてのアプリケーションが同じ
+データ転送プロトコルを使わなければなりません。
+共通デスクトップ環境のドラッグ＆ドロップ簡易
+APIは、共通のデータ転送ルーチンを提供します。
+</Para>
+<Sect2 Id="PG.dndPG.div.18">
+<Title>開発者が簡単に使用できる</Title>
+<Para>ドラッグ＆ドロップのための既存のMotifのAPIは非常に柔軟性がありますが、
+その分、未熟な開発者にとっては使いにくい点もあります。
+共通デスクトップ環境のドラッグ＆ドロップ簡易APIは、次のサービスを提供する簡易関数を備えることによって、より簡単で使いやすいAPIになっています。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>ドラッグ・アイコンの構成と外観を管理します。
+Motifのドラッグ・アイコンを構成するデフォルトのソース、状態、及び操作アイコンのグラフィックが用意されています。
+これらのアイコンの組み合わせによって、ドラッグされているデータの型をチェックします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>ドロップのアニメーションを可能にします。
+ドロップが完了したときに呼び出されるアニメーション・プロシージャを定義することができます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>テキスト、
+ファイル、及びバッファ転送のためのX ウィンドウ・システムの標準セレクション・ターゲットを使用して、データ転送を提供します。
+このデータ転送は、標準のターゲットを直接使用する他のアプリケーションとの相互運用を可能にします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>二重登録を提供します。
+テキスト・ウイジェットをテキスト以外のデータのためのドロップ領域として登録でき、その場合でも、テキストのドロップを受け入れる機能には変わりません。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.19">
+<Title>ポリシーの確立
+</Title>
+<Para>ドラッグ＆ドロップAPIは、次の3つの分野のポリシーを確立します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>共通ターゲット。使用可能な場合には、<Emphasis>クライアント間通信規約マニュアル
+</Emphasis>(ICCCM)によって定義された既存のセレクション・
+ターゲットが使われます。</Para>
+</ListItem>
+<ListItem>
+<Para>データ転送プロトコル。
+APIは、データ転送の詳細を隠し、
+データを単純なデータ構造体の形で
+アプリケーションに提示します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>デフォルトのドラッグ・アイコン。デフォルトのドラッグ・アイコンは、それらを受け入れることができるアプリケーションのために用意されています。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.20">
+<Title>共通の機能性の提供
+</Title>
+<Para>ドラッグ＆ドロップAPIは、 次の分野での共通の機能性を提供します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>テキスト、ファイル名、およびバッファとしてのデータ転送をサポートします。</Para>
+</ListItem>
+<ListItem>
+<Para>データ転送フレームワークによって、新しい組み込みプロトコルの追加をサポートします。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.21">
+<Title>既存のMotif APIの応用
+</Title>
+<Para>ドラッグ＆ドロップのためのAPIは、新しいドラッグ＆ドロップ・サブシステムを作るのではなく、既存のMotif APIを使用しています。
+また、共通のデータ転送プロトコルが選ばれているので、使用可能な場合には、
+アプリケーションは新しいAPIをグローバルに使用しなくても、選択プロトコル・レベルで相互運用できます。
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>API &lt;$endrange></Secondary>
+</IndexTerm><IndexTerm>
+<Primary>API</Primary>
+<Secondary>ドラッグ＆ドロップ &lt;$endrange></Secondary>
+</IndexTerm></Para>
+<Para>テキストとファイルの転送は、既存のプロトコルを使用します。
+バッファ転送は、新しいプロトコルを使用します。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.22">
+<Title Id="PG.dndPG.mkr.14">ドラッグ＆ドロップ処理
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>処理</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>処理、ドラッグ＆ドロップ</Primary>
+</IndexTerm></Title>
+<Para><!--Original XRef content: 'Figure&numsp;5&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.15">に、基本的なドラッグ＆ドロップ処理の実行例を示します。
+破線のボックスは、基本的な処理を示します。
+実線のボックスは、オプションの変化と操作を示します。</Para>
+<Figure>
+<Title Id="PG.dndPG.mkr.15">基本的なドラッグ＆ドロップ処理</Title>
+<Graphic Entityref="PG.dndPG.fig.19" Id="PG.dndPG.grph.1"></Graphic>
+</Figure>
+<Figure>
+<Title Id="PG.dndPG.mkr.16"> オプションのドラッグ＆ドロップの変化と操作</Title>
+<Graphic Entityref="PG.dndPG.fig.20" Id="PG.dndPG.grph.2"></Graphic>
+</Figure>
+<Para><!--Original XRef content: 'Figure&numsp;5&hyphen;2'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.16">は、オプションのドラッグ＆ドロップの変化と操作を示します。
+</Para>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.23">
+<Title Id="PG.dndPG.mkr.17">統合アクション・プラン
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>実現プラン</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ＆ドロップの実現プラン</Primary>
+</IndexTerm></Title>
+<Para>この節では、アプリケーションと
+共通デスクトップ環境 1.0のドラッグ＆ドロップとの統合のためのアクション・プランを提案します。
+</Para>
+<Sect2 Id="PG.dndPG.div.24">
+<Title>ドラッグ＆ドロップAPIとサンプル・コードの検討</Title>
+<Para>この章の説明と<Emphasis>Common Desktop Environment: Programmer's Reference</Emphasis>の関連する節の説明を読んで、 
+ドラッグ＆ドロップAPIを理解してください。
+APIの基本的な理解ができたら、ドラッグ＆ドロップのデモ・プログラム<Filename>/usr/dt/examples/dtdnd</Filename>のソースコードを見てください。
+このコードは、さまざまなAPIの使い方の例を提供しています。
+これらの例によって、アプリケーションで
+ドラッグ＆ドロップをサポートするために書かなければならないコードの性質と量が、理解できます。
+アクションとデータ型APIの理解にも役立ちます。
+</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.25">
+<Title>可能なドロップ領域についてのアプリケーションの検討
+</Title>
+<Para>アプリケーションがドラッグ＆ドロップの処理を通して受け入れるデータの型を決めます。
+たとえば、ビットマップ・エディタを作成する場合には、ファイルのドロップをサポートしたいことがあります。
+アプリケーションにドロップできるデータの型を決めたら、
+ドロップ領域になるウィジェットを決めます。
+ビットマップ・エディタの例の場合には、ビットマップ編集領域を、アプリケーション上でファイルをドロップできる唯一の場所として決定できます。
+この場合、<Filename>DtDndDropRegister()</Filename>を使用して、この領域を表すウィジェット
+を登録し、適切なコールバックを提供します。
+</Para>
+<Para>ファイル名のドロップの処理は最も簡単なので、ファイル名のドロップの実現から始めてください。
+この手法をマスターすると、簡単にテキストとバッファのドロップの実現に進むことができます。
+</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.26">
+<Title>可能なドラッグ・ソースに関するアプリケーションの検討
+</Title>
+<Para>アプリケーションがドラッグ＆ドロップの処理の転送元として許可するデータの型を決めます。
+ビットマップ・エディタの例の場合、カット＆ペーストのアクセラレータとして、現在のビットマップ選択を含んでいるビットマップ・エディタをドラッグ・ソースにしたいことがあります。
+アプリケーションからドラッグできるデータ型を決めたら、ドラッグ・ソースになるウィジェットを決めます。
+ビットマップ・エディタの例の場合、強調表示されているビットマップ選択を含んでいるビットマップ編集領域がドラッグ・ソースの役目を果たすと決定できます。
+この場合、この領域を表しているウィジェットがドラッグ・ソースになります。
+</Para>
+<Para>アプリケーションに最もふさわしい、または特有のバッファのドラッグの実現から始めてください。
+また、アプリケーションの複数起動間の簡単なデータ転送を可能にするために、アプリケーションにバッファをドロップする機能を追加する必要がある場合もあります。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.27">
+<Title Id="PG.dndPG.mkr.18">APIの概要 
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>APIの概要</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>API</Primary>
+<Secondary>ドラッグ＆ドロップの概要</Secondary>
+</IndexTerm></Title>
+<Para>この節では、ドラッグ＆ドロップのアプリケーション・プログラム・インタフェース(API)の概要を説明します。
+</Para>
+<Sect2 Id="PG.dndPG.div.28">
+<Title>DtSvcライブラリとヘッダ・ファイル 
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>ヘッダ・ファイル</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ヘッダ・ファイル</Primary>
+<Secondary>ドラッグ＆ドロップ</Secondary>
+</IndexTerm></Title>
+<Para>ドラッグ＆ドロップ機能は、デスクトップ・サービス・ライブラリ<Command>DtSvc</Command>で実現されます。
+ドラッグ＆ドロップAPIにアクセスするには、ヘッダ・ファイル<Filename>&lt;Dt/Dnd.h></Filename>を
+組み込み、<Filename>-lDtSvc</Filename>をつけてリンクします。
+</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.29">
+<Title>関数
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>関数</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>関数</Primary>
+<Secondary>ドラッグ＆ドロップ</Secondary>
+</IndexTerm></Title>
+<Para>APIには４つの関数呼び出しがあり、ヘッダ・ファイル<Filename>Dnd.h</Filename>の中で
+宣言されています。
+これらの関数について、以下の段落で概説します。
+詳しくは、後の節で説明します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>DtDndDragStart()</Filename>は、ユーザ・アクションに応答して、ドラッグを開始します。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtDndCreateSourceIcon()</Filename>は、<Filename>DtDndDragStart()</Filename>で使用するソース・アイコンを作成します。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtDndDropRegister()</Filename>は、ウィジェットをドロップ領域として登録します。
+ドロップ領域の登録は、通常はウィジェットが作成された直後に行われますが、いつ行ってもかまいません。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtDndDropUnregister()</Filename>は、以前に登録したウィジェトの登録を解除します。
+ドロップ領域は、通常は破壊される直前に登録解除されますが、登録後であればいつ登録解除してもかまいません。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.30">
+<Title>DtDndContext構造体
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>構造体</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>構造体、ドラッグ＆ドロップ</Primary>
+</IndexTerm></Title>
+<Para>データ転送を処理するためには、<Command>DtDndContext</Command>データ構造体を使用します。
+この構造体には、転送プロトコルのためのフィールド、転送される項目の数、および転送されるデータ項目の配列が入ります。
+この構造体の構文の詳細については、<Filename>DtDndDragStart</Filename>(3)および<Filename>DtDndDropRegister</Filename>(3)を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.31">
+<Title>プロトコル
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>プロトコル</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>プロトコル</Primary>
+<Secondary>ドラッグ＆ドロップ</Secondary>
+</IndexTerm></Title>
+<Para>プロトコルは、転送データの型をAPIに知らせるために使われます。
+定義済みプロトコルを<!--Original XRef content: 'Table&numsp;5&hyphen;7'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.19">に示します。</Para>
+<Table Id="PG.dndPG.tbl.7" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.19">定義済みプロトコル</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="2.07063 in">
+<ColSpec Colname="2" Colwidth="2.94013 in">
+<THead>
+<Row>
+<Entry><Para><Literal>プロトコル</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>DtDND_TEXT_TRANSFER</Filename></Para></Entry>
+<Entry><Para>テキスト転送。コンパウンド・テキスト。（Motifは、テキスト転送のためにコンパウンド・テキスト・ターゲットを使用します。）
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>DtDND_FILENAME_TRANSFER</Filename></Para></Entry>
+<Entry><Para>ファイル名転送。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>DtDND_BUFFER_TRANSFER</Filename></Para></Entry>
+<Entry><Para>メモリ・バッファ。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.32">
+<Title>操作
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>操作
+</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>操作</Primary>
+<Secondary>ドラッグ＆ドロップ</Secondary>
+</IndexTerm></Title>
+<Para><!--Original XRef content: 'Table&numsp;5&hyphen;8'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.20">に示すように、ドラッグ・ソースとドロップ領域は３つの方法のうち
+の１つで、データを転送することができます。</Para>
+<Table Id="PG.dndPG.tbl.8" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.20">データ転送操作</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>操作</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>XmDROP_MOVE</Filename></Para></Entry>
+<Entry><Para>データを移動します。（コピーしてから削除します。）
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>XmDROP_COPY</Filename></Para></Entry>
+<Entry><Para>データをコピーします。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>XmDROP_LINK</Filename></Para></Entry>
+<Entry><Para>データへのリンクを含みます。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.33">
+<Title Id="PG.dndPG.mkr.21">ドラッグ・ソースの使い方</Title>
+<Para>この節では、ドラッグ・ソースの使い方を説明します。</Para>
+<Sect2 Id="PG.dndPG.div.34">
+<Title>ドラッグの開始
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>ドラッグの開始</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ＆ドロップ操作の開始</Primary>
+</IndexTerm></Title>
+<Para>ドラッグは、２つの方法のどちらかで開始されます。
+１つは、ユーザは<Command>Btransfer</Command>（中央マウス・ボタン）を押すことで、ドラッグを開始できます。
+ボタンが押されるとすぐに、ドラッグが開始されます。
+もう１つは、ユーザは<Command>Bselect</Command>（左マウス・ボタン）を押しながらカーソルを動かすことによって、
+ドラッグを開始できます。
+ユーザがマウスを特定の距離だけ動かすと、ドラッグが開始されます。
+この距離をドラッグしきい値といい、ピクセル単位で示されます。<Command>Bselect</Command>のデフォルトのドラッグしきい値は、
+１０ピクセルです。<Command>Btransfer</Command>の
+ドラッグしきい値は０です。
+ドラッグしきい値がないので、ポインタが動かされるとすぐに、ドラッグが開始されます。
+Motifスクロール・テキスト・リストおよびテキスト・ウィジェットは、<Command>Btransfer</Command>と<Command>Bselect</Command>によって、
+テキスト・ドラッグするための
+ドラッグ・ソースとして自動的に登録されます。
+</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.35">
+<Title>リストまたはアイコンからのドラッグ
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>Btransferの使用</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Btransferとドラッグ＆ドロップ</Primary>
+</IndexTerm></Title>
+<Para>ドラッグ・ソースとして使用できる２つの一般的なインタフェース・オブジェクトがあります。
+すなわち、リストとアイコンです。
+Motifリスト・ウィジェットは、自動的にテキスト・ドラッグの転送元を示します。
+他の種類のドラッグが必要な場合、それはデフォルトのウィジェット変換を新しい<Command>Bntl</Command>と<Filename>Btn2</Filename>変換で
+無効にすることによって行われます。
+Motifには、アイコン・ウィジェットはありませんが、
+描画領域がアイコンのコンテナとしてよく使われます。
+この場合、ドラッグを開始するために<Filename>Btn1Motion</Filename>の
+イベント・ハンドラが使われます。
+詳しいコーディング例については、<Filename>/usr/dt/examples/dtdnd</Filename>のサンプル・コードを参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.36">
+<Title>ドラッグしきい値</Title>
+<Para><Command>Bselect</Command>を使用してドラッグを開始するときには、
+ウィジェット・イベント・ハンドラまたは変換手順は、ドラッグを開始する前に
+１０ピクセルのドラッグしきい値を適用しなければなりません。<Command>Btransfer</Command>には、
+しきい値はないので、直ちにドッラグが開始されます。
+</Para>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.37">
+<Title>BtransferまたはBadjust</Title>
+<Para>スタイル・マネージャのマウス（ボタン）の使い方として<Filename>Btn2</Filename>（中央マウス・ボタン）が、
+<Command>Btransfer</Command>として機能するか、または<Command>Badjus
+t</Command>として機能するかを制御する設定があります。
+この設定は、リソース名<Filename>enableBtn1Transfer</Filename>として格納されます。
+１の設定は、<Filename>Btn2</Filename>が<Command>Badjust</Command>であり、選択を調整することを示します。
+その他の値の設定は、<Filename>Btn2</Filename>が<Command>Btransfer</Command>であり、
+ドラッグを開始することを意味します。
+<Filename>Btn1</Filename>（左マウス・ボタン）は、常にドラッグを開始します。
+</Para>
+<Para>次の例は、<Filename>Btn2</Filename>が、<Command>Btransfer</Command>で
+あるか、<Command>Badjust</Command>であるかを決める方法を示しています。
+</Para>
+<ProgramListing>Display* display;
+int adjust;
+
+XtVaGetValues ((Widget)XmGetXmDisplay(display,
+ &ldquo;enableBtn1Transfer&rdquo;, &amp;adjust,
+ NULL);
+
+if (adjust == 1)
+    /* Btn2 is adjust */
+else
+      /* Btn2 is transfer */
+</ProgramListing>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.38">
+<Title>ドラッグの開始
+<IndexTerm>
+<Primary>ドラッグの開始</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>ドラッグの開始</Secondary>
+</IndexTerm></Title>
+<Para>共通デスクトップ環境1.0アプリケーションは、<Filename>DtDndDragStart()</Filename>を
+呼び出すことによってドラッグを開始します。
+この関数は、ドラッグを開始するためにデスクトップ特有の
+準備を行い、<Filename>XmDragStart()</Filename>を呼び出します。
+<Filename>DtDndDragStart()</Filename>関数の形式とパラメータの使用方法を、
+次に示します。
+</Para>
+<ProgramListing>Widget
+DtDndDragStart(
+ Widget    dragSource,
+ XEvent     *event,
+ DtDndProtocol    protocol,
+ Cardinal    numItems,
+ unsigned char    operations,
+ XtCallbackList  convertCallback,
+ XtCallbackList  dragFinishCallback
+ ArgList    argList,
+ Cardinal    argCount)</ProgramListing>
+<MsgSet>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>Widget dragSource</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>ドラッグを始めたイベントを受け取るウィジェット。
+</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>XEvent *event</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>ドラッグ開始の契機となったボタン・プレスまたはボタン・モーションのイベント。</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>DtDndProtocol protocol</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>データ転送のために使用するプロトコル。
+プロトコルは、次の１つにすることができます。
+</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para><Filename>DtDND_TEXT_TRANSFER
+
+ DtDND_FILENAME_TRANSFER
+
+ DtDND_BUFFER_TRANSFER</Filename></Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>Cardinal numItems</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>ドラッグされる項目の数を指定します。
+</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>unsigned char operations</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para><Command>dragSource</Command>によってサポートされるオプションを指定します。
+オプションは、<Filename>XmDROP_MOVE</Filename>、<Filename>XmDROP_COPY</Filename>、および<Filename>XmDROP_LINK</Filename>です。
+ドラッグ・ソースは、これらの操作の任意の組み合わせをサポートすることができます。
+操作の組み合わせを指定するには、orを使います。
+たとえば、移動とコピーを操作をサポートする
+には、<Command>XmDROP_MOVE | XmDROP_COPY</Command>と指定します。</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>XtCallbackList convertCallback</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>このコールバックは、ドロップが開始され、
+ドロップ領域がドラッグ・ソースからデータを要求したときに呼び出されます。
+<Command>convertCallback</Command>については、次の節で詳しく説明します。
+</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>XtCallbackList dragFinishCallback</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>このコールバックは、ドラッグ＆ドロップ・トランザクションが完了したときに呼び出されます。<Command>dragFinishCallback</Command>は、<Filename>dragMotionHandler()</Filename>を
+リセットして、ドラッグ＆ドロップ・トランザクション時にドラッグ・ソースに
+よって割り当てられたメモリを解放します。
+</Para>
+</MsgExplan>
+</MsgEntry>
+</MsgSet>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.39">
+<Title>変換コールバックの使い方
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>変換コールバック</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>変換コールバック、ドラッグ＆ドロップ</Primary>
+</IndexTerm></Title>
+<Para>変換コールバックは、ドロップが発生すると、ドロップ領域にデータを提供します。
+変換コールバックの最初のアクションは、<Command>callData</Command>中の
+reasonフィールドの確認です。
+reasonが<Filename>DtCR_CONVERT_DATA</Filename>
+または<Filename>DtCR_CONVERT_DELETE</Filename>でない場合には、
+直ちに戻さなければなりません。
+そうでない場合には、データの変換を続けます。
+たとえば、ファイル名の変換を処理する場合には、内部のデータ構造体から該当するファイル名を
+検索して、ファイル・データ・オブジェクトにコピーします。
+ドラッグ・ソースが移動操作をサポートしている場合には、<Command>DELETE</Command>ターゲットの
+変換をサポートする必要があります。
+すなわち、reasonが<Filename>DtCR_CONVERT_DELETE</Filename>で<Command>convertCallback</Command>が
+呼ばれた場合には、移動されたデータに対して適切な削除アクションを実行します。
+ファイル転送の場合には、ファイルを削除します。
+次に、ファイル名の変換と削除を処理する簡単な<Command>convertCallback</Command>を示します。
+</Para>
+<ProgramListing>void
+convertFileCallback(
+ Widget dragContext,
+ XtPointer clientData,
+ XtPointer callData)
+{
+ DtDndConvertCallbackStruct *convertInfo =
+
+ (DtDndConvertCallbackStruct*) callData;
+ char  *fileName = (char *) clientData;
+
+ if (convertInfo->reason == DtCR_DND_CONVERT_DATA) {
+  convertInfo->dragData->data.files[0]=
+    XtNewString(fileName);
+ } else if (convertInfo->reason == DtCR_DND_CONVERT_DELETE) {
+  deleteFile(fileName);
+ } else {
+  convertInfo->status = DtDND_FAILURE;
+ }
+}</ProgramListing>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.dndPG.div.40">
+<Title Id="PG.dndPG.mkr.22">ドロップ領域の使い方
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>ドロップ領域</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ドロップ領域</Primary>
+</IndexTerm></Title>
+<Para>この節では、ドロップ領域の使い方を説明します。</Para>
+<Sect2 Id="PG.dndPG.div.41">
+<Title>ドロップ領域の登録
+<IndexTerm>
+<Primary>ドロップ領域</Primary>
+<Secondary>登録</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ドロップ領域の登録</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>ドロップ領域の登録</Secondary>
+</IndexTerm></Title>
+<Para>一般に、ドロップ領域はドロップ領域になるウィジェットが作成された直後に登録します。<Symbol Role="Variable">モード付き</Symbol>ドロップ領域にしたい場合には、
+ユーザがその上にドロップできるようにするにはウィジェットをドロップ領域として登録し、
+ユーザがその上にドロップできないようにするには登録解除します。
+</Para>
+<Para>Motifテキスト・ウィジェットは作成されたときに、テキスト用のドロップ領域として自動的に登録されます。
+二重登録が可能です。
+テキスト・ウィジェットが、テキストだけでなく、ファイル名など他のデータのドロップも受け入れるようにしたい場合には、テキスト・ウィジェットをファイル用の
+ドロップ領域としても登録できます。
+Motifによって提供されるテキスト・ドロップ機能は変わりません。
+ファイル名（または他のデータ型）のドロップに対する機能は、その上に重ねられます。
+</Para>
+<Para>ウィジェットをドロップ領域として登録するには、<Filename>DtDndDropRegister()</Filename>関数を
+使います。
+この関数は、必要に応じて二重登録を処理し、デスクトップに特有の準備を行い、<Filename>XmDropSiteRegister()</Filename>を
+呼び出します。<Filename>DtDndDropRegister()</Filename>関数の
+形式とパラメータの使用方法は、次のとおりです。
+</Para>
+<ProgramListing>void DtDndDropRegister(
+ Widget dropSite,
+ DtDndProtocol protocols;
+ unsigned char operations;
+ XtCallbackList transferCallback;
+ ArgList argList;
+ Cardinal argCount)</ProgramListing>
+<MsgSet>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>Widget dropSite</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>ドロップ領域として登録されるウィジェット。</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>DtDndProtocol protocols</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>ドロップ領域が使用できるデータ転送プロトコルのリストを指定します。
+複数のプロトコルの使用を指定するには、ORとプロトコルの値を使います。</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>unsigned char operations</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>ドロップ領域によってサポートされる操作。
+ドロップ領域は、目的の操作の組み合わせに対してORを使用することによって、<Filename>XmDROP_MOVE</Filename>、<Filename>XmDROP_COPY</Filename>、
+および<Filename>XmDROP_LINK</Filename>の任意の組み合わせを
+サポートすることができます。</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>XtCallbackList transferCallback</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>この関数は、ドロップ領域にドロップされたデータを受け入れます。
+転送コールバックについては、次の節で詳しく説明します。
+</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>ArgList argList</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para>オプションの引き数リストを指定します。</Para>
+</MsgExplan>
+</MsgEntry>
+<MsgEntry>
+<Msg>
+<MsgMain>
+<MsgText>
+<Para>Cardinal argCount</Para>
+</MsgText>
+</MsgMain>
+</Msg>
+<MsgExplan>
+<Para><Emphasis>argList</Emphasis>内の引き数の数を指定します。</Para>
+</MsgExplan>
+</MsgEntry>
+</MsgSet>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.42">
+<Title>転送コールバックの使い方
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>転送コールバック</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>転送コールバック、ドラッグ＆ドロップ</Primary>
+</IndexTerm></Title>
+<Para>転送コールバックは、ドロップが発生したときにドラッグ・ソースからデータを受け入れます。
+転送コールバックの最初のアクションは、<Command>callData</Command>の中のreasonフィールドの
+確認です。
+reasonが<Filename>DtCR_DND_TRANSFER_DATA</Filename>でない場合には、直ちに戻さなければなりません。
+そうでない場合には、型とreasonの中で指定された操作に基づいて、
+データ転送を続けます。
+たとえば、ファイルのコピーを処理している場合には、データ構造からファイル名を検索し、
+ファイルを開き、その内容をコピーします。
+ドロップ領域が複数のデータ型をサポートしている場合には、
+各データ型の転送を適切にサポートする必要があります。
+</Para>
+<Para>次に、テキストとファイル名のデータ型のコピーをサポートするドロップ領域を描画するための簡単な転送コールバックの例を示します。
+</Para>
+<ProgramListing>void
+ TransferCallback(
+ Widget widget,
+ XtPointer clientData,
+ XtPointer callData)
+{
+    DtDndTransferCallbackStruct *transferInfo =
+  (DtDndTransferCallbackStruct*) callData;
+    int ii;
+    DtDndcontext * dropData = transferInfo->dropData;
+  return;
+    switch dropData->protocol {
+ case DtDND_FILENAME_TRANSFER:
+  for (ii=0; ii &lt; dropData->numItems; ii++) {
+   drawTheString(dropData->data, strings[ii]);
+  }
+  break;
+ case DtDND_TEXT_TRANSFER:
+  for (ii=0; ii&lt;dropData->numItems; ii++){
+  drawTheFile(dropData->data.files[ii]);
+  }
+        break;
+ default:
+  transferInfo->status = DtDND_FAILURE;
+    }
+}</ProgramListing>
+</Sect2>
+<Sect2 Id="PG.dndPG.div.43">
+<Title>データ型の使い方
+<IndexTerm>
+<Primary>ドラッグ＆ドロップ</Primary>
+<Secondary>データ型</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>データ型</Primary>
+<Secondary>ドラッグ＆ドロップ</Secondary>
+</IndexTerm></Title>
+<Para>バッファのドロップを受け入れるアプリケーションでは、
+ドロップされたデータをその型に基づいた異なる方法で処理したいことがあります。
+データ型を判断するには、データ型APIを使います。
+重要なデータ型関数呼び出しは、<Filename>DtDtsBufferToDataType()</Filename>と<Filename>DtDtsBufferToAttributeValue()</Filename>です。
+前者はデータのデータ属性を返し、後者は指定されたデータ属性の値を返します。
+ドラッグ＆ドロップに役立つ属性を、<!--Original XRef content: 'Table&numsp;5&hyphen;9'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.dndPG.mkr.23">に示します。</Para>
+<Table Id="PG.dndPG.tbl.9" Frame="Topbot">
+<Title Id="PG.dndPG.mkr.23">データ型属性</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>属性</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>ICON</Command></Para></Entry>
+<Entry><Para>このデータに対して使用するアイコンのパス。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MEDIA</Command></Para></Entry>
+<Entry><Para>このデータに対するメッセージ提携メディア名。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>詳しくは、
+<!--Original XRef content: 'Chapter&numsp;9, &xd2;Accessing the Data-Typing Database'-->
+<XRef Role="ChapNumAndTitle" Linkend="PG.datat.mkr.1">を参照してください。</Para>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->

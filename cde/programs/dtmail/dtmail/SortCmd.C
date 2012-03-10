@@ -1,0 +1,55 @@
+/* $TOG: SortCmd.C /main/8 1998/10/22 19:57:10 mgreess $ */
+#include "SortCmd.hh"
+#include <stdlib.h>
+#include <unistd.h>
+#include "RoamApp.h"
+#include "MailMsg.h"
+#include "MotifCmds.h"
+#include "MsgHndArray.hh"
+
+SortCmd::SortCmd( 
+    char *name, 
+    char *label,
+    int active, 
+    RoamMenuWindow *window,
+    enum sortBy sortstyle 
+    ) : ToggleButtonCmd ( name, label, active, FALSE, XmONE_OF_MANY_ROUND )
+{
+	// initialize the internal state
+	_sortparent = window;
+	_sortstyle = sortstyle;
+	_sorter = new Sort ();
+}
+
+void
+SortCmd::doit()
+{
+	MsgScrollingList	*displayList;
+	DtMail::MailBox		*mbox;
+	int			current_msg;
+
+    	theRoamApp.busyAllWindows(GETMSG(DT_catd, 1, 219, "Sorting..."));
+
+	// Get Mailbox
+	mbox = _sortparent->mailbox();
+
+	// Get array of message handles from scrolling list
+	displayList = _sortparent->list();
+
+        MsgHndArray *selected_messages = displayList->selected();
+
+	// Sort array of message handles
+	current_msg = _sorter->sortMessages (displayList, mbox, _sortstyle);
+
+	// The array of message handles is sorted. Now we need to update
+	// the display preserving the state of the selected messages.
+        displayList->updateListItems(current_msg, FALSE, selected_messages);
+
+        delete selected_messages;
+
+
+	_sortparent->last_sorted_by(_sortstyle);
+	_sortparent->message_summary();
+
+        theRoamApp.unbusyAllWindows();
+}

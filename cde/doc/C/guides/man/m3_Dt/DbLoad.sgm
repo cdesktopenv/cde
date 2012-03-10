@@ -1,0 +1,97 @@
+<!-- $XConsortium: DbLoad.sgm /main/8 1996/09/08 20:02:35 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN22.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN22.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtDbLoad</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtDbLoad</Function></RefName>
+<RefPurpose>load actions and data types database
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Dt/Action.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>DtDbLoad</Function></FuncDef>
+<void>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtDbLoad</Function> function loads the actions and data types database
+into the application.
+When the function returns, the database has been loaded.
+<![ %CDE.C.XO; [See
+<XRef Linkend="XCDI.M4DTS.anch.1" Role="3">for the general syntax and location of the actions
+and data types database.)
+]]></Para>
+<Para><![ %CDE.C.CDE; [An environment variable determines the set of directories to be searched.
+The
+<Function>DtDbLoad</Function> function loads all actions and data types
+defined in files with a
+<Filename>.dt</Filename> suffix located in these directories.
+</Para>
+<Para>The directory search path is based on the value of the
+<SystemItem Class="EnvironVar">DTDATABASESEARCHPATH</SystemItem> environment variable and internal defaults.
+<SystemItem Class="EnvironVar">DTDATABASESEARCHPATH</SystemItem> contains a comma-separated list of directories
+in <Literal>[</Literal><Symbol Role="Variable">host</Symbol><Literal>:]/</Literal><Emphasis>path</Emphasis> format.
+The application must call
+<Function>DtDbLoad</Function> before calling
+any of the routines that query either the action or data type databases.
+If called multiple times, the old databases are freed before the new
+ones are created.
+]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>The
+<Function>DtDbLoad</Function> function returns no value.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>If this function is used in a long-lived application, the application
+must dynamically reload the databases when they are modified.
+To do this, the client must register to receive notification whenever the
+actions and data types database needs to be modified.
+It is up to the application to recall
+<Function>DtDbLoad</Function> after receiving notification.
+This is done with a call to
+&cdeman.DtDbReloadNotify;.</Para>
+<Para>If errors are encountered when reading the database files, error messages are
+written to the user's errorlog file (<Filename>$HOME/.dt/errorlog</Filename>).
+Records containing errors are not incorporated into the internal database.
+<!--There are no error returns available to the application
+because, while errors may occur loading some of those
+files, this does not necessarily mean that the application should fail.
+Errors typically affect only a single record in the database.
+The application can continue processing and
+error messages will be emitted when the data in the database is
+actually used.
+.br
+--></Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Action.h;, &cdeman.DtDbReloadNotify;, <![ %CDE.C.CDE; [&cdeman.dtdtfile;. ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.M4DTS.anch.1" Role="3">. ]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

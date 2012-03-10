@@ -1,0 +1,100 @@
+.\" $XConsortium: pam_authenticate.3 /main/5 1996/10/29 15:18:17 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.\" Don't forget to enter .IX index entries for each function.
+.nr X
+.TH pam_authenticate 3 "9 Jan 1996"
+.SH NAME
+pam_authenticate
+\- perform authentication within the PAM framework
+.SH SYNOPSIS
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+.ft
+.fi
+.LP
+.BI "int pam_authenticate(pam_handle_t *" "pamh" ,
+.BI "int " "flags");
+.SH DESCRIPTION
+.IX "pam_authenticate" "" "\fLpam_authenticate\fP \(em request authentication"
+.B pam_authenticate(\|)
+is called to authenticate the current user.
+The user is usually required to enter
+a password or similar authentication token depending upon
+the authentication service configured within the system.
+The user in question should have been specified by a prior call to
+.B pam_start(\|)
+or
+.BR pam_set_item(\|) .
+The following flags may be set in the
+.IR flags
+field:
+.RS
+.IP PAM_SILENT 35
+Authentication service should not generate any messages
+.IP PAM_DISALLOW_NULL_AUTHTOK 35
+The authentication service should return PAM_AUTH_ERROR
+if the user has a null authentication token
+.RE
+.SH NOTES
+.PP
+In the case of authentication failures due to an incorrect username
+or password, it is the responsibility of the application to retry
+.B pam_authenticate(\|)
+and to maintain the retry count.
+An authentication service module may implement an
+internal retry count and return an error
+PAM_MAXTRIES
+if the module does not want the application to retry.
+.LP
+If the PAM framework can not load the authentication module, then
+it will return PAM_ABORT.
+This indicates a serious failure and that
+the application should not attempt to retry the authentication.
+.LP
+For security reasons,
+the location of authentication failures is hidden from the user.  
+Thus, if several authentication services are stacked and a single
+service fails,
+.B pam_authenticate(\|)
+requires that the user re-authenticate to all the services.
+.LP
+A null authentication token in the authentication database will
+result in successful authentication unless
+.SM PAM_DISALLOW_NULL_AUTHTOK
+was specified.
+In such cases, there will not be any prompting
+for the user to enter an authentication token.
+.SH "RETURN VALUES"
+.PP
+Upon successful completion, PAM_SUCCESS is returned.
+In addition to the error return values described in
+.BR pam (3),
+the following values may be returned:
+.RS
+.IP PAM_AUTH_ERR 29
+Authentication failure
+.IP PAM_CRED_INSUFFICIENT 29
+Can not access authentication data due to insufficient credentials
+.IP PAM_AUTHINFO_UNAVAIL 29
+Underlying authentication service can not retrieve authentication information
+.IP PAM_USER_UNKNOWN 29
+User not known to the underlying authentication module
+.IP PAM_MAXTRIES
+An authentication service has maintained a retry count which
+has been reached. No further retries should be attempted.
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR pam_start (3),
+.BR pam_open_session (3),
+.BR pam_setcred (3)

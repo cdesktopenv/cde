@@ -1,0 +1,34 @@
+# $XConsortium: Makefile.shipped /main/6 1996/05/13 12:03:47 drk $
+# %%  (c) Copyright 1993, 1994 Hewlett-Packard Company			
+# %%  (c) Copyright 1993, 1994 International Business Machines Corp.	
+# %%  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+# %%  (c) Copyright 1993, 1994 Novell, Inc. 				
+
+
+OPENWINHOME=/usr/openwin
+MOTIFHOME=/usr/dt
+
+CFLAGS += -g
+CPPFLAGS += -I$(OPENWINHOME)/include
+LDFLAGS += -L$(OPENWINHOME)/lib 
+LDLIBS += -lxview -lolgx -ltt -lX
+DEMO_DIR = demo
+
+.KEEP_STATE:
+
+DEMO_SOURCE_DIRS = edit_demo ttsample
+
+all:	$(DEMO_SOURCE_DIRS)
+
+edit_demo: FRC
+	cd edit_demo; ${MAKE}; cd ..
+
+ttsample: FRC
+	cd ttsample; ${MAKE}; cd ..
+
+clean:	FRC
+	cd edit_demo; ${MAKE} -i clean; cd ..; \
+	cd ttsample;  ${MAKE} -i clean; cd ..; \
+
+FRC:
+	

@@ -1,0 +1,69 @@
+################################################################################
+#
+# RCS:          $XConsortium: cron_example /main/3 1995/10/30 13:43:46 rswiston $
+# Author:       Marc Ayotte, Hewlett-Packard OSSD-CV
+# Created:      Tue Jun 29 10:12:15 PDT 1993
+# Language:     N/A
+# Package:      N/A
+# Status:       CDE 
+#
+# (c) Copyright 1993, Hewlett-Packard Company, all rights reserved.
+#
+# Description:  This file is an example cron script which triggers
+#    builds and does normal tree maintenance. The various functions
+#    are delimited by the letters #[A-Z]).
+#    A) fnrclone can leave 2 files each time it executes:
+#       The file ${HOME}/fnrclone/log.hhmmss and script.hhmmss.
+#       These files can pile up and they are cleaned out by the cleanfnr
+#       script. 
+#       NOTE: In the very near future this will not be the default
+#       operation for fnrclone and this may  no longer be necessary.
+#    B) By default, master_build puts its log files in the 
+#       /x/logs/build/MMDD/${buildtreename} directory. The
+#       cleanLogs script trims these directories.
+#    C) The script ListTheTree creates a listing of all of the files in
+#       a tree and puts the list under the name :TreeListing in the top
+#       of the tree.
+#    D) An example of building the /x/cde_hp700_90 tree on the
+#       machine that is doing cron.
+#    E) An example of building the /x/cde_hp700d_90(debug) tree on a 
+#       remote machine using remsh.
+################################################################################
+#A) clean ${HOME}/fnrclone directory
+4 11 * * * /x/cdesrc/admin/BuildTools/master_build/cleanfnr 1>/users/marca/xbuild/cleanfnr.log 2>&1
+
+#B) clean excess build logs in /x/logs/build
+4 19 * * * /x/cdesrc/admin/BuildTools/master_build/cleanLogs 1>/x/logs/cronlogs/cleanLogs.log 2>&1
+
+#C) create a listing of the files in a tree and put into top of the tree.
+#   this also creates a listing of locked files
+10 12 * * * /x/cdesrc/admin/BuildTools/master_build/ListTheTree /x/cdesrc 1>/x/logs/cronlogs/ListTheTreecdesrc.log 2>&1
+
+#D) build the hp tree putting the log files in the default location.
+#   the source tree is /x/cdesrc; the build tree is /x/cde_hp700_90.
+#   This entry will first do an fnrclone -s /x/cdesrc /x/cde_hp700_90
+#      to sync up the build tree's links to the source (-clone s).
+#      The log and error files from the clone will go into
+#      /x/logs/build/mmdd/cde_hp700_90/clonelog.HHMMSS
+#      /x/logs/build/mmdd/cde_hp700_90/cloneerr.HHMMSS
+#   It uses -c to do all of the normal imake functions:
+#     make -i Makefile; make -i Makefiles;make -i includes;make -i
+#     depend and make -i.
+#     The log files for make -i will go in
+#     /x/logs/build/mmdd/cde_hp700_90/make.HHMMSS.
+#     The log files for all other operations will go in
+#     /x/logs/build/mmdd/cde_hp700_90/allmake.HHMMSS.
+#   The second entry uses -w to "clean the tree": remove all .o's, .a's, 
+#     executables etc.  Normally we make clean once a week on Saturday night.
+#   The -cl option will remove symbolic links to nowhere.
+#   The -m option will mail notification to someone when the build
+#     is complete.
+############ cde_hp700_90 - LOCAL ##############
+6 22 * * 0,1,2,3,4,5 /x/cdesrc/admin/BuildTools/master_build/master_build -src /x/cdesrc -build /x/cde_hp700_90 -clone s -cl -c -m buildwatch@hpcvlx 1>/x/logs/cronlogs/r5s700.log 2>&1
+6 22 * * 6 /x/cdesrc/admin/BuildTools/master_build/master_build -src /x/cdesrc -build /x/cde_hp700_90 -clone s -cl -c -w -m buildwatch@hpcvlx 1>/x/logs/cronlogs/r5s700.log 2>&1
+
+
+#E) build the debug tree on hpcvusj
+############ cde_hp700d_90 - HPCVUSJ ##############
+10 22 * * 0,1,2,3,4,5 /x/cdesrc/admin/BuildTools/master_build/remote_build hpcvusj -src /x/cdesrc -build /x/cde_hp700d_90 -clone s -cl -c -m buildwatch@hpcvlx 1>/x/logs/cronlogs/r5s700.log 2>&1
+10 22 * * 6 /x/cdesrc/admin/BuildTools/master_build/remote_build hpcvusj  -src /x/cdesrc -build /x/cde_hp700d_90 -clone s -cl -c -w -m buildwatch@hpcvlx 1>/x/logs/cronlogs/r5s700.log 2>&1

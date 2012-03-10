@@ -1,0 +1,516 @@
+<!-- $XConsortium: ch03.sgm /main/8 1996/09/08 19:46:03 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="DKSUG.adv.div.1">
+<title id="DKSUG.adv.mkr.1">Advanced Topics</title>
+<para>Now that you have the basic information about <command>dtksh</command>,
+this chapter introduces you to more advanced topics.</para>
+<sect1 id="DKSUG.adv.div.2">
+<title>Using Context Variables</title>
+<para><command>dtksh</command> has a number of variables that provide context
+to certain aspects of an application.</para>
+<sect2 id="DKSUG.adv.div.3">
+<title>Event Handler Context Variables<indexterm><primary>context variable</primary><secondary>event handler</secondary></indexterm><indexterm><primary>event handler</primary></indexterm></title>
+<para>An application registers event handlers with a widget to specify an
+action to occur when one of the specified events occurs. The action can
+be any arbitrary <command>dtksh</command> command line. For example:</para>
+<programlisting>XtAddEventHandler $W &ldquo;Button2MotionMask&ldquo; false &ldquo;ActivateProc&ldquo;
+XtAddEventHandler $W &ldquo;ButtonPressMask|ButtonReleaseMask&ldquo; \
+      false &ldquo;echo action&ldquo;</programlisting>
+<para>Two environment variables are defined to provide context to the event
+handler:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="5.64in">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="365*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>EH_WIDGET</para></entry>
+<entry align="left" valign="top"><para>Set to the ID of the widget for which
+the event handler is registered.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>EH_EVENT</para></entry>
+<entry align="left" valign="top"><para>Set to the address of the <command>XEvent</command> which triggered the event handler.</para></entry></row>
+</tbody></tgroup></informaltable>
+<para>Access to the fields within the <command>XEvent</command> structure
+is shown in the following example:</para>
+<programlisting>if [ ${EH_EVENT.TYPE} = &ldquo;ButtonPress&ldquo; ]; then
+   echo &ldquo;X = &ldquo;${EH_EVENT.XBUTTON.X}
+   echo &ldquo;Y = &ldquo;${EH_EVENT.XBUTTON.Y}
+elif [ ${EH_EVENT.TYPE} = &ldquo;KeyPress&ldquo; ]; then
+   echo &ldquo;X = &ldquo;${EH_EVENT.XKEY.X}
+   echo &ldquo;Y = &ldquo;${EH_EVENT.XKEY.Y}
+fi</programlisting>
+</sect2>
+<sect2 id="dksug.adv.div.4">
+<title>Translation Context Variables<indexterm><primary>context variable</primary>
+<secondary>translation</secondary></indexterm><indexterm><primary>translation</primary></indexterm></title>
+<para>The Xt Intrinsics provides for event translations to be registered for
+a widget. Context for event translation is provided in the same way it is
+provided for event handlers. The two variables defined for translation commands
+are:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.04in">
+<colspec align="left" colwidth="196*">
+<colspec align="left" colwidth="302*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>TRANSLATION_WIDGET</para></entry>
+<entry align="left" valign="top"><para>Set to the widget handle for the widget
+for which the translation is registered.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>TRANSLATION_EVENT</para></entry>
+<entry align="left" valign="top"><para>Set to the address of the <command>XEvent</command> that triggered the translation.</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Dot-notation provides access to the fields of the event:</para>
+<programlisting>echo &ldquo;Event type = &ldquo;${TRANSLATION_EVENT.TYPE}
+echo &ldquo;Display = &ldquo;${TRANSLATION_EVENT.XANY.DISPLAY}</programlisting>
+</sect2>
+<sect2 id="DKSUG.adv.div.5">
+<title>Workspace Callback Context Variables<indexterm><primary>context variable</primary><secondary>workspace callback</secondary></indexterm><indexterm>
+<primary>workspace callback</primary></indexterm><indexterm><primary>callback</primary><secondary>workspace</secondary></indexterm></title>
+<para>An application has the ability to register a callback function that
+is invoked whenever the user changes to a new workspace. When the callback
+is invoked, two special environment variables are set, and can be accessed
+by the shell callback code:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.00in">
+<colspec align="left" colwidth="144*">
+<colspec align="left" colwidth="351*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>CB_WIDGET</para></entry>
+<entry align="left" valign="top"><para>Set to the ID for the widget that is
+invoking the callback.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>CB_CALL_DATA</para></entry>
+<entry align="left" valign="top"><para>Set to the X atom that uniquely identifies
+the new workspace. This can be converted to its string representation,
+using the <command>XmGetAtomName</command> command.</para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="DKSUG.adv.div.6">
+<title>Input Context Variables<indexterm><primary>context variable</primary>
+<secondary>input</secondary></indexterm><indexterm><primary>input context
+variable</primary></indexterm></title>
+<para>The Xt Intrinsics provides the <command><indexterm><primary>XtAddInput</primary></indexterm>XtAddInput</command> facility, which allows an application
+to register interest in any data available from a particular file descriptor.
+When programming in C, the application provides a handler function, which
+is invoked when input is available. It is up to the handler to read the
+data from the input source and to handle character escaping and line continuations.
+</para>
+<para><command>dtksh</command> also supports the <command><indexterm><primary>XtAddInput</primary></indexterm>XtAddInput</command> facility, but takes it
+a step further and makes it easier for shell programmers to use. By default,
+when a shell script registers interest in a file descriptor, <command>dtksh</command> invokes the shell script's input handler only when a complete
+line of text has been received. A complete line of text is defined as a
+line terminated either by an unescaped newline character or by the end of
+the file. The input handler is also called if no data is available and the
+end of the file has been reached. The handler can then use <command><indexterm>
+<primary>XtRemoveInput</primary></indexterm>XtRemoveInput</command> to remove
+the input source and to close the file descriptor. The advantage of this
+default behavior is that input handlers need not be concerned with escape
+processing or with handling line continuations. The disadvantage is that
+it assumes that all of the input is line-oriented and contains no binary
+information.</para>
+<para><command>dtksh</command> also supports a &ldquo;raw&rdquo;<indexterm>
+<primary>input mode</primary></indexterm> input mode if the input source contains
+binary information or if the input handler wants to read the data from the
+input source directly. In raw mode, <command>dtksh</command> does not read
+any of the data from the input source. Whenever <command>dtksh</command>
+is notified that input is available on the input source, it invokes the shell
+script's input handler. It is then the handler's responsibility to read
+the incoming data, perform any required buffering and escape processing,
+and detect when the end of the file has been reached (so that the input source
+can be removed and the file descriptor closed). This mode seldom needs to
+be used by a <command>dtksh</command> script.</para>
+<para>Whether the input handler has been configured to operate in the default
+mode or in raw mode, <command>dtksh</command> sets up several environment
+variables before calling the shell script's input handler. These environment
+variables provide the input handler with everything needed to handle the
+incoming data. The environment variables are:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.09in">
+<colspec align="left" colwidth="140*">
+<colspec align="left" colwidth="362*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_LINE</filename></para></entry>
+<entry align="left" valign="top"><para>If operating in the default mode, this
+variable contains the next complete line of input available from the input
+source. If <filename>INPUT_EOF</filename> is true, then there is no data
+in this buffer. If operating in raw mode, then this variable always contains
+an empty string.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_EOF</filename></para></entry>
+<entry align="left" valign="top"><para>If operating in the default mode, this
+variable is set to false anytime <filename>INPUT_LINE</filename> contains
+data, and it is set to true when the end of file is reached. When the end
+of file is reached, the shell script's input handler should unregister the
+input source and close the file descriptor. If operating in raw mode, this
+variable is always set to false.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_SOURCE</filename></para></entry>
+<entry align="left" valign="top"><para>This indicates the file descriptor
+for which input is available. If operating in raw mode, this file descriptor
+is used to obtain the pending input. The file descriptor is also used to
+close the input source, when no longer needed.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>INPUT_ID</filename></para></entry>
+<entry align="left" valign="top"><para>This indicates the ID returned by <command>XtAddInput</command>, when the input source was originally registered. This
+information is needed to remove the input source with <command>XtRemoveInput</command>.</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="DKSUG.adv.div.7">
+<title>Accessing Event Subfields<indexterm><primary>event subfield</primary>
+</indexterm></title>
+<para>The <command>XEvent</command> structure has many different configurations,
+based on the event's type. <command>dtksh</command> provides access only
+to the most frequently used <command>XEvents</command>. Any of the other
+standard <command>XEvents</command> can be accessed using the event type <command>XANY</command>, followed by any of the subfields defined by the <command>XANY</command> event structure, which includes the following subfields:</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>${TRANSLATION_EVENT.XANY.TYPE}</filename></para>
+</listitem><listitem><para><filename>${TRANSLATION_EVENT.XANY.SERIAL}</filename></para>
+</listitem><listitem><para><filename>${TRANSLATION_EVENT.XANY.SEND_EVENT}</filename></para>
+</listitem><listitem><para><command>${TRANSLATION_EVENT.XANY.DISPLAY}</command></para>
+</listitem><listitem><para><filename>${TRANSLATION_EVENT.XANY.WINDOW}</filename></para>
+</listitem></itemizedlist>
+<para><command>dtksh</command> supports full access to all of the event fields
+for the following event types:</para>
+<itemizedlist remap="Bullet1"><listitem><para><command>XANY</command></para>
+</listitem><listitem><para><command>XBUTTON</command></para>
+</listitem><listitem><para><command>XEXPOSE</command></para>
+</listitem><listitem><para><command>XNOEXPOSE</command></para>
+</listitem><listitem><para><command>XGRAPHICSEXPOSE</command></para>
+</listitem><listitem><para><command>XKEY</command></para>
+</listitem><listitem><para><command>XMOTION</command></para>
+</listitem></itemizedlist>
+<para>The following examples show how the subfields for the preceding event
+types can be accessed:</para>
+<programlisting>${TRANSLATION_EVENT.XBUTTON.X}
+$(CB_CALL_DATA.EVENT.XKEY.STATE}
+${EH_EVENT.XGRAPHICSEXPOSE.WIDTH}</programlisting>
+</sect1>
+<sect1 id="DKSUG.adv.div.8">
+<title>Responding to a Window Manager Close Notice</title>
+<para>When the user selects<indexterm><primary>window manager close notice</primary></indexterm> Close from the Window Manager menu for an application,
+the application is terminated unless it has arranged to &ldquo;catch&rdquo;
+the Close notification. If the application does not catch the notification,
+then multiple windows managed by the application all disappear and application
+data may be left in an undesirable state. To avoid this, <command>dtksh</command> provides for catching and handling the Close notification. The
+application must:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Define a procedure to handle
+the Close notification</para>
+</listitem><listitem><para>Request notification when Close is selected</para>
+</listitem><listitem><para>Override the response, so the application is not
+shut down</para>
+</listitem></itemizedlist>
+<para>The following code illustrates this processing.</para>
+<programlisting># This is the `callback' invoked when the user selects
+# the `Close' menu item
+WMCallback()
+{
+echo &ldquo;User has selected the Close menu item&ldquo;
+}
+# Create the toplevel application shell
+XtInitialize TOPLEVEL test Dtksh $0 &ldquo;$@&ldquo;
+XtDisplay DISPLAY $TOPLEVEL
+
+# Request notification when the user selects the `Close'
+# menu item
+XmInternAtom DELETE_ATOM $DISPLAY &ldquo;WM_DELETE_WINDOW&ldquo; false
+XmAddWMProtocolCallback $TOPLEVEL $DELETE_ATOM &ldquo;WMCallback&ldquo;
+
+# Ask Motif to not automatically close down your
+# application window
+XtSetValues $TOPLEVEL deleteResponse:DO_NOTHING</programlisting>
+</sect1>
+<sect1 id="DKSUG.adv.div.9">
+<title>Responding to a Session Manager Save State Notice<indexterm><primary>session manager save state notice</primary></indexterm></title>
+<para>Session Manager allows applications to save their current state when
+the user terminates the current session, so that when the user later restarts
+the session, an application can return to the state it was in. In <command>dtksh</command>, this is accomplished by setting up a handler in a similar
+way of handling a Close notification. If a handler is not set up, the application
+has to be restarted manually in the new session, and the application does
+not retain any state.</para>
+<para>To set up a handler to save the current state, the application must:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>Define functions to save the
+state at the end of the session and to restore it on startup</para>
+</listitem><listitem><para>Register interest in the Session Manager notification
+</para>
+</listitem><listitem><para>Register the function to save the state</para>
+</listitem><listitem><para>At startup, determine whether the saved state should
+be restored</para>
+</listitem></itemizedlist>
+<para>The following code illustrates this process.</para>
+<programlisting>#! /usr/dt/bin/dtksh
+# Function invoked when the session is being ended by the user
+SessionCallback()
+{
+   # Get the name of the file into which we should save our
+   # session information
+   if DtSessionSavePath $TOPLEVEL PATH SAVEFILE; then
+      exec 9>$PATH
+
+      # Save off whether we are currently in an iconified state
+      if DtShellIsIconified $TOPLEVEL; then
+         print -u9 `Iconified'
+      else
+         print -u9 `Deiconified'
+      fi
+
+      # Save off the list of workspaces we currently reside in
+      if DtWsmGetWorkspacesOccupied $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+            $(XtWindow &ldquo;-&ldquo; $TOPLEVEL) \
+            CURRENT_WS_LIST;
+      then
+         # Map the comma-separated list of atoms into
+         # their string representation
+         oldIFS=$IFS
+         IFS=&ldquo;,&ldquo;
+         for item in $CURRENT_WS_LIST;
+         do
+            XmGetAtomName NAME $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+               $item
+            print -u9 $NAME
+         done
+         IFS=$oldIFS
+      fi
+
+      exec 9&lt;&amp;-
+
+      # Let the session manager know how to invoke us when
+      # the session is restored
+      DtSetStartupCommand $TOPLEVEL \
+         &ldquo;/usr/dt/contrib/dtksh/SessionTest $SAVEFILE&ldquo;
+   else
+      echo &ldquo;DtSessionSavePath FAILED!!&ldquo;
+      exit -3
+   fi
+}
+
+# Function invoked during a restore session; restores the
+# application to its previous state
+RestoreSession()
+{
+   # Retrieve the path where our session file resides
+   if DtSessionRestorePath $TOPLEVEL PATH $1; then
+      exec 9&lt;$PATH
+      read -u9 ICONIFY
+
+      # Extract and restore our iconified state
+      case $ICONIFY in
+         Iconified) DtSetIconifyHint $TOPLEVEL True;;
+         *) DtSetIconifyHint $TOPLEVEL False;
+       esac
+
+      # Extract the list of workspaces we belong in, convert
+      # them to atoms, and ask the Workspace Manager to relocate
+      # us to those workspaces
+      WS_LIST=&ldquo;&ldquo;
+      while read -u9 NAME
+      do
+         XmInternAtom ATOM $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+               $NAME False
+         if [ ${#WS_LIST} -gt 0 ]; then
+            WS_LIST=$WS_LIST,$ATOM
+         else
+            WS_LIST=$ATOM
+         fi
+      done
+
+      DtWsmSetWorkspacesOccupied $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+            $(XtWindow &ldquo;-&ldquo; $TOPLEVEL) $WS_LIST
+
+      exec 9&lt;&amp;-
+    else
+      echo &ldquo;DtSessionRestorePath FAILED!!&ldquo;
+      exit -3
+   fi
+}
+################## Create the Main UI #######################
+XtInitialize TOPLEVEL wmProtTest Dtksh $0 &ldquo;$@&ldquo;
+XtCreateManagedWidget DA da XmDrawingArea $TOPLEVEL \
+                      height:200 width:200
+XmInternAtom SAVE_SESSION_ATOM $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) \
+      &ldquo;WM_SAVE_YOURSELF&ldquo; False
+
+# If a command-line argument was supplied, then treat it as the
+# name of the session file
+if (( $# > 0))
+then
+   # Restore to the state specified in the passed-in session file
+   XtSetValues $TOPLEVEL mappedWhenManaged:False
+   XtRealizeWidget $TOPLEVEL
+   XSync $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) False
+   RestoreSession $1
+   XtSetValues $TOPLEVEL mappedWhenManaged:True
+   XtPopup $TOPLEVEL GrabNone
+else
+   # This is not a session restore, so come up in the default state
+   XtRealizeWidget $TOPLEVEL
+   XSync $(XtDisplay &ldquo;-&ldquo; $TOPLEVEL) False
+fi
+
+# Register the fact that we are interested in participating in
+# session management
+XmAddWMProtocols $TOPLEVEL $SAVE_SESSION_ATOM
+XmAddWMProtocolCallback $TOPLEVEL $SAVE_SESSION_ATOM \
+         SessionCallback
+
+XtMainLoop</programlisting>
+</sect1>
+<sect1 id="DKSUG.adv.div.10">
+<title>Cooperating with Workspace Manager<indexterm><primary>workspace management</primary></indexterm></title>
+<para><command>dtksh</command> provides access to all of the major Workspace
+Manager functions of the Dt libraries, including functions for querying and
+setting the set of workspaces with which an application is associated; for
+querying the list of all workspaces; for querying and setting the current
+workspace; and for requesting that an application be notified any time the
+user changes to a different workspace.</para>
+<para>From a user's perspective, workspaces are identified by a set of names,
+but from the Workspace Manager's standpoint, workspaces are identified by
+X atoms. Whenever the shell script asks for a list of workspace identifiers,
+a string of X atoms is returned. If more than one X atom is present, then
+the list is comma-separated. The Workspace Manager expects that the shell
+script uses the same format when passing workspace identifiers back to
+it. During a given session, it is safe for the shell script to work with
+the X atoms, since they remain constant over the lifetime of the session.
+However, as was shown in the Session Manager shell script example in the
+previous section, if the shell script is going to save and restore workspace
+identifiers, the identifiers must be converted from their X atom representation
+to a string before they are saved. Then, when the session is restored, the
+shell script needs to remap the names into X atoms before passing the information
+on to the Workspace Manager. Mapping between X atoms and strings, and between
+strings and X atoms, is accomplished using the following two commands:</para>
+<itemizedlist remap="Bullet1"><listitem><para><command>XmInternAtom ATOM $DISPLAY
+$WORKSPACE_NAME false</command></para>
+</listitem><listitem><para><command>XmGetAtomName NAME $DISPLAY $ATOM</command></para>
+</listitem></itemizedlist>
+<para>Specific <command>dtksh</command> commands for dealing with workspace
+management are documented in &ldquo;Built-in libDt Session Management Commands&rdquo;
+in Appendix A.</para>
+</sect1>
+<sect1 id="DKSUG.adv.div.11">
+<title>Creating Localized Shell Scripts<indexterm><primary>localized script</primary></indexterm><indexterm><primary>script</primary><secondary>localized</secondary></indexterm></title>
+<para><command>dtksh</command> scripts are internationalized and then localized
+in a process similar to C applications. All strings that may be presented
+to the user are identified in the script. A post-processor extracts the strings
+from the script and, from them, builds a catalogue, which can then be translated
+to any desired locale. When the script executes, the current locale determines
+which message catalog is searched for strings to display. When a string is
+to be presented, it is identified by a message-set ID (corresponding to the
+catalog) and a message number within the set. These values determine what
+text the user sees. The following code illustrates the process:</para>
+<programlisting># Attempt to open our message catalog
+catopen MSG_CAT_ID &ldquo;myCatalog.cat&ldquo;
+
+# The localized button label is in set 1, and is message # 2
+XtCreatePushButton OK $PARENT ok \
+  labelString:$(catgets $MSG_CAT_ID 1 2 &ldquo;OK&ldquo;)
+
+# The localized button label is in set 1, and is message #3
+XtCreatePushButton CANCEL $PARENT cancel \
+  labelString:$(catgets $MSG_CAT_ID 1 3 &ldquo;Cancel&ldquo;)
+
+# Close the message catalog, when no longer needed
+catclose $MSG_CAT_ID</programlisting>
+<para>It is important to note that the file descriptor returned by <command>catopen</command> must be closed using <command>catclose</command> and not
+by using the kshell <command>exec</command> command.</para>
+</sect1>
+<sect1 id="DKSUG.adv.div.12">
+<title>Using dtksh to Access X Drawing Functions<indexterm><primary>drawing
+functions</primary></indexterm></title>
+<para><command>dtksh</command> commands include standard Xlib drawing functions
+to draw lines, points, segments, rectangles, arcs, and polygons. In the standard
+C programming environment, these functions take a graphics context (GC) as
+an argument, in addition to the drawing data. In <command>dtksh</command>
+drawing functions, a collection of GC options are specified in the parameter
+list to the command.</para>
+<para>By default, the drawing commands create a GC that is used for that specific
+command and then discarded. If the script specifies the <filename>-gc</filename>
+option, the name of a graphics context object can be passed to the command.
+This GC is used in interpreting the command, and the variable is updated
+with any modifications to the GC performed by the command.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.54in">
+<colspec align="left" colwidth="201*">
+<colspec align="left" colwidth="338*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>-gc</filename> &lt;<symbol role="Variable">GC</symbol>></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">&lt;GC></symbol>
+is the name of an environment variable which has not yet been initialized
+or which has been left holding a graphic context by a previous drawing
+command. If this option is specified, then it must be the first GC option
+specified.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>-foreground</filename> &lt;<symbol role="Variable">color</symbol>></para></entry>
+<entry align="left" valign="top"><para>The foreground color, which may be
+either the name of a color or a pixel number.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>-background</filename> &lt;<symbol role="Variable">color</symbol>></para></entry>
+<entry align="left" valign="top"><para>The background color, which may be
+either the name of a color or a pixel number.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>-font</filename> &lt;<symbol role="Variable">font name</symbol>></para></entry>
+<entry align="left" valign="top"><para>The name of the font to be used.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>-line_width</filename> &lt;<symbol role="Variable">number</symbol>></para></entry>
+<entry align="left" valign="top"><para>The line width to be used during drawing.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>-function</filename> &lt;<symbol role="Variable">drawing function</symbol>></para></entry>
+<entry align="left" valign="top"><para>The drawing function, which can be
+<command>xor, or, clear, and, copy, noop, nor, nand, set, invert, equiv,
+andReverse, orReverse,</command> or <command>copyInverted</command>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>-line_style</filename> &lt;<symbol role="Variable">style</symbol>></para></entry>
+<entry align="left" valign="top"><para>The line style, which can be any of
+the following: <command>LineSolid</command>, <command>LineDoubleDash</command>,
+or <command>LineOnOffDash</command>.</para></entry></row></tbody></tgroup>
+</informaltable>
+</sect1>
+<sect1 id="DKSUG.adv.div.13">
+<title>Setting Widget Translations<indexterm><primary>translation</primary>
+</indexterm><indexterm><primary>widget</primary><secondary>translations</secondary>
+</indexterm></title>
+<para><command>dtksh</command> provides mechanisms for augmenting, overriding,
+and removing widget translations, much as in the C programming environment.
+In C, an application installs a set of translation action procedures, which
+can then be attached to specific sequences of events (translations are composed
+of an event sequence and the associated action procedure). Translations within <command>dtksh</command> are handled in a similar fashion, except only a single action
+procedure is available. This action procedure, named <filename>ksh_eval</filename>,
+interprets any parameters passed to it as <command>dtksh</command> commands
+and evaluates them when the translation is triggered. The following shell
+script segment gives an example of how translations can be used:</para>
+<programlisting>BtnDownProcedure()
+{
+   echo &ldquo;Button Down event occurred in button &ldquo;$1
+}
+XtCreateManagedWidget BUTTON1 button1 XmPushButton $PARENT \
+      labelString:&ldquo;Button 1&ldquo; \
+      translations:'#augment
+            &lt;EnterNotify>:ksh_eval(&ldquo;echo Button1 entered&ldquo;)
+            &lt;Btn1Down>:ksh_eval(&ldquo;BtnDownProcedure 1&ldquo;)'
+XtCreateManagedWidget BUTTON2 button2 XmPushButton $PARENT \
+      labelString:&ldquo;Button 2&ldquo;
+XtOverrideTranslations $BUTTON2 \
+            '#override
+            &lt;Btn1Down>:ksh_eval(&ldquo;BtnDownProcedure 2&ldquo;)'</programlisting>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000029103>

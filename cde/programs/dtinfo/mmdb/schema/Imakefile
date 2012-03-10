@@ -1,0 +1,55 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 16:00:07 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = -DPORTABLE_DB
+INCLUDES = -I$(DTMMDBSRC)/schema -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES) -I$(DTMMDBSRC)/misc
+
+LinkSourceFile(agent_desc.C,$(DTMMDBSRC)/schema)
+LinkSourceFile(container_desc.C,$(DTMMDBSRC)/schema)
+LinkSourceFile(desc.C,$(DTMMDBSRC)/schema)
+LinkSourceFile(index_desc.C,$(DTMMDBSRC)/schema)
+LinkSourceFile(inv_desc.C,$(DTMMDBSRC)/schema)
+LinkSourceFile(object_dict.C,$(DTMMDBSRC)/schema)
+LinkSourceFile(store_desc.C,$(DTMMDBSRC)/schema)
+LinkSourceFile(stored_object_desc.C,$(DTMMDBSRC)/schema)
+
+NORMAL_SRCS = \
+	agent_desc.C	container_desc.C	desc.C \
+	index_desc.C	inv_desc.C		object_dict.C \
+	store_desc.C	stored_object_desc.C
+
+LinkSourceFile(sheet.C,$(DTMMDBSRC)/schema)
+LinkSourceFile(token.C,$(DTMMDBSRC)/schema)
+
+PARSER_SRCS = sheet.C token.C
+
+SRCS = $(NORMAL_SRCS)       $(PARSER_SRCS)
+OBJS = $(NORMAL_SRCS:.C=.o) $(PARSER_SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

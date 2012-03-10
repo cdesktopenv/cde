@@ -1,0 +1,139 @@
+<!-- $XConsortium: dtsrlngf.sgm /main/6 1996/09/08 20:19:57 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.INFO.dtsrlangfiles">]]>
+<RefMeta>
+<RefEntryTitle>dtsrlangfiles</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName>dtsrlangfiles</RefName>
+<RefPurpose>
+Describes the formats of DtSearch language files
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Synopsis>
+<Symbol Role="Variable">dbname</Symbol>.stp
+<filename>deu.stp</filename>
+<filename>eng.stp</filename>
+<filename>esp.stp</filename>
+<filename>fra.stp</filename>
+<filename>ita.stp</filename>
+<Symbol Role="Variable">dbname</Symbol>.inc
+<Symbol Role="Variable">dbname</Symbol>.knj
+<filename>jpn.knj</filename>
+<filename>eng.sfx</filename>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The parsing of text into words in a particular language often
+requires comparison with lists of specific words in that language.
+These lists are maintained on external language files which are used by
+both the offline database build programs and the online search API.
+Language files mandatory for a particular database must be located
+in the same directory as the other database files.
+</Para>
+<Para>The base file names of language files are used to identify
+the language or database to which they apply.
+The initialization functions look first for database specific
+language files, using the 1- to 8- character database name
+as the base file name. Secondly the functions look for
+generic files by language base name. Required language files
+are provided for supported languages with generic base names.
+A developer may edit the generic language file and rename it
+to apply to a particular database.
+</Para>
+<Para>Different types of language files are distinguished by different
+file name extensions.
+</para>
+<refsect2>
+<Title>Stop Lists (.stp)</Title>
+<para>The file name extension <.stp> is used to identify stop lists.
+Stop lists are used to prevent indexing frequently occurring
+but semantically unimportant words in a language.
+Examples include common prepositions, indefinite articles,
+and nonlinguistic character strings.
+Stop lists are mandatory for supported European languages.
+If a database specific stop list file is not found,
+the generic language file must be available in the same
+directory as the other database files.
+</Para>
+<Para>Database specific stop lists are optional for Japanese.
+</para>
+</refsect2>
+<refsect2>
+<Title>Include Lists (.inc)</Title>
+<para>The file name extension <.inc> is used to identify include lists.
+Words found in an include list file are forcibly indexed
+even if they would otherwise be discarded. Include lists
+take precedence over stop lists. Include list files
+are always optional; no generic language defaults are provided.
+</para>
+</refsect2>
+<refsect2>
+<Title>Kanji Compounds List (.knj)</Title>
+<para>The file name extension <.knj> is used to identify indexable
+lists of compound kanji words (that is, substrings of kanji characters
+that are indexed both as individual words of one character,
+and as a compound word). Currently they apply only to
+databases for the specific Japanese Language
+<systemitem class="constant">DtSrLaJPN2</systemitem>.
+</Para>
+<Para>The kanji compounds file is optional. If no database
+specific knj file is found, the Japanese language initialization
+function will try to open the generic <filename>jpn.knj</filename> file.
+If the generic file is also not found,
+kanji compounding will not be performed.
+</para>
+</refsect2>
+<refsect2>
+<Title>Language Files Format</Title>
+<para>Each line of a language file represents one word. The word must begin in
+column one and ends at the first ASCII whitespace character or the ASCII
+linefeed character (<literal>\n</literal>, 0x0A) that terminates the
+line. Any other text on the line after the first word token is discarded
+as a comment. Lines that begin with '#', '$', '*', or '!' in column one
+are discarded in their entirety as comments. Blank lines (that is, hose
+that contain only the terminating linefeed), are also discarded.
+</Para>
+<Para>The word lists in language files are loaded into memory
+at initialization and thereafter referenced internally.
+The most efficient processing occurs when the files are
+maintained in frequency order (that is, when the most frequently
+occurring words in the language are the first words in the file).
+Alternatively, if the frequency of occurrence of the words
+is not known, it is recommended that the word order
+in the file be randomized.
+</para>
+</refsect2>
+<refsect2>
+<Title>English Suffixes File</Title>
+<para>Stemming of English words is accomplished with the Paice stemming
+algorithm. This heuristic algorithm removes common suffixes
+in a recurrent manner, and conflates words into a representation
+of their etymological root. The suffixes are maintained in
+<filename>eng.sfx</filename>
+and loaded into memory at initialization. The suffixes file
+is mandatory for English language databases and is not editable;
+a copy of it must be found in the same directory as every
+English language database.
+</para>
+</refsect2>
+</refsect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtsrcreate;,
+&cdeman.dtsrindex;,
+&cdeman.DtSrAPI;,
+&cdeman.dtsrdbfiles;,
+&cdeman.DtSearch;
+</Para>
+</RefSect1>
+</RefEntry>

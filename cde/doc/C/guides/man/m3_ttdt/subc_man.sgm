@@ -1,0 +1,130 @@
+<!-- $XConsortium: subc_man.sgm /main/5 1996/08/30 14:32:35 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN268.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN268.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttdt_subcontract_manage</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttdt_subcontract_manage</Function></RefName>
+<RefPurpose>manage an outstanding request
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: subc_man.sgm /main/5 1996/08/30 14:32:35 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_pattern <Function>*ttdt_subcontract_manage</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>subcontract</Parameter></ParamDef>
+<ParamDef>Ttdt_contract_cb <Parameter>cb</Parameter></ParamDef>
+<ParamDef>Widget <Parameter>shell</Parameter></ParamDef>
+<ParamDef>void *<Parameter>clientdata</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttdt_subcontract_manage</Function> function
+allows a requester to manage the standard Desktop interactions
+with the tool that is handling the request.
+The
+<Function>ttdt_subcontract_manage</Function> function registers in the default session for
+<SystemItem Class="Constant">TT_HANDLER</SystemItem>-addressed requests
+<Symbol Role="Message">Get_Geometry</Symbol> and
+<Symbol Role="Message">Get_XInfo</Symbol>, and
+<Symbol Role="Message">Status</Symbol> notices.
+</Para>
+<Para>If
+<Symbol Role="Variable">shell</Symbol> is not
+<SystemItem Class="Constant">NULL</SystemItem>, the ToolTalk service
+handles the
+<Symbol Role="Message">Get_Geometry</Symbol> and
+<Symbol Role="Message">Get_XInfo</Symbol> notices transparently;
+otherwise, it passes them to
+<Emphasis>cb</Emphasis>. The
+<Symbol Role="Message">Status</Symbol> notice is always passed to the callback.
+</Para>
+<Para>See
+&cdeman.ttdt.session.join; for a description of a
+<StructName Role="typedef">Ttdt_contract_cb</StructName> callback.
+</Para>
+<Para>If
+<Emphasis>subcontract</Emphasis> is destroyed by
+<Function>tttk_message_destroy</Function>, then the patterns will also be destroyed;
+otherwise, the caller
+is responsible for iterating over the array and destroying each pattern.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttdt_subcontract_manage</Function> function
+returns a null-terminated array of
+<StructName Role="typedef">Tt_pattern</StructName>, and associates this array with
+<Emphasis>subcontract</Emphasis>; otherwise, it returns an error pointer.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned handle:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_DESKTOP_EINVAL</Term>
+<ListItem>
+<Para>Both the
+<Symbol Role="Variable">shell</Symbol> and
+<Emphasis>cb</Emphasis> arguments were
+<SystemItem Class="Constant">NULL</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMEM</Term>
+<ListItem>
+<Para>There is insufficient memory available to perform the function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The
+<Emphasis>subcontract</Emphasis> argument was not a valid
+<StructName Role="typedef">Tt_message</StructName>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The specified process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttdt.session.join;, &cdeman.tttk.message.destroy;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

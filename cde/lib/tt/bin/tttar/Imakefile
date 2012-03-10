@@ -1,0 +1,45 @@
+XCOMM $XConsortium: Imakefile /main/11 1996/05/08 09:28:48 drk $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+#include <Threads.tmpl>
+
+#include "../../tooltalk.tmpl"
+
+DEFINES = 
+INCLUDES = -I. -I../../lib 
+
+DEPLIBS         = ../../slib/libstt.a TtClientDepLibs ../../mini_isam/libisam.a
+LOCAL_LIBRARIES = ../../slib/libstt.a TtClientLibs    ../../mini_isam/libisam.a
+SYS_LIBRARIES   =
+
+#ifdef TtClientExtraLibs
+EXTRA_LIBRARIES = TtClientExtraLibs
+#endif
+
+
+SRCS = \
+        tttar.C \
+        archiver.C \
+        tttar_utils.C \
+        tttar_api.C \
+        tttar_spec.C \
+        tttar_file_utils.C \
+        tttar_string_map.C
+
+OBJS = \
+        tttar.o \
+        archiver.o \
+        tttar_utils.o \
+        tttar_api.o \
+        tttar_spec.o \
+        tttar_file_utils.o \
+        tttar_string_map.o
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(tttar)
+
+SpecialCplusplusObjectRule(archiver,archiver,$(TT_VERSION_DEFINE))

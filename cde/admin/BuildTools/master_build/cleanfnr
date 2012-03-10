@@ -1,0 +1,23 @@
+#! /bin/sh
+# This script cleans the fnrclone, etc directories.
+
+for DIRS in `echo "fnrclone fnrnolink fnrnoRCS"`
+do
+	CURRENT=$HOME/$DIRS
+	if [ -d $CURRENT ];then
+		echo ""
+		echo "In $CURRENT"
+		cd $CURRENT
+		LOGS=`ls -rt`
+		set -- $LOGS
+
+		#check to see if you have at least 10 log and script files
+		while [ $# -gt 20 ]
+		do
+			echo $1 
+			rm -rf $1 || echo "could not delete $1"
+			shift
+		done	
+	fi
+	echo ""
+done

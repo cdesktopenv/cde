@@ -1,0 +1,246 @@
+#! /bin/ksh
+########
+#  Product: CDE
+#  Fileset: CDE-SHLIBS
+#  configure
+#  $XConsortium: configShlibs /main/5 1996/06/13 15:47:42 drk $
+########
+#
+# (c) Copyright 1996 Digital Equipment Corporation.
+# (c) Copyright 1995,1996 Hewlett-Packard Company.
+# (c) Copyright 1996 International Business Machines Corp.
+# (c) Copyright 1996 Sun Microsystems, Inc.
+# (c) Copyright 1996 Novell, Inc. 
+# (c) Copyright 1996 FUJITSU LIMITED.
+# (c) Copyright 1996 Hitachi.
+#
+########
+
+PROG_NAME=$0
+
+CreateOneLink()
+{
+   if [ -f $1.$2 ]; then
+	rm -f $1
+	ln -s $1.$2 $1
+   else
+      echo "$PROG_NAME: $1.$2 does not exist."
+      echo "    A symbolic link for this shared library will NOT be created."
+   fi
+}
+
+CreateSymLinks()
+{
+   if [ -d /usr/dt/lib ]; then
+	
+	cd /usr/dt/lib
+
+	CreateOneLink libDtHelp.sl	2.1
+	CreateOneLink libDtPrint.sl	2.1
+	CreateOneLink libDtMrm.sl	2.1
+	CreateOneLink libDtSvc.sl	2.1
+	CreateOneLink libDtWidget.sl	2.1
+	CreateOneLink libDtTerm.sl	2.1
+	CreateOneLink libtt.sl		2.1
+	CreateOneLink libcsa.sl		2.1
+	CreateOneLink libDtSearch.sl	2.1
+	CreateOneLink libDtMmdb.sl	2.1
+
+   else
+      echo "$PROG_NAME: /usr/dt/lib does not exist. Symbolic"
+      echo "   links for the shared libraries will NOT be created."
+   fi
+}
+
+VerifyInstalledFiles()
+{
+    echo "Status   mode    owner   group   filename"
+    echo "-----------------------------------------"
+#	  exists  correct correct correct  /usr/dt/foo1
+#	  MISSING  WRONG   WRONG   WRONG   /usr/dt/foo2
+#        exists    the link is correct    /usr/dt/link
+
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	set -A tokens $SRC
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  if [ -f ${tokens[0]} ]
+	  then
+	    echo "exists  \c"
+	  else
+	    echo "MISSING or REMOVED               \c"
+	    echo "${tokens[0]}"
+	    continue
+	  fi
+	elif [ "${tokens[3]}" = "sym_link" ]
+	then
+	  if [ -L ${tokens[0]} ]
+	  then
+	    echo "exists  \c"
+	  else
+	    echo "MISSING or REMOVED               \c"
+	    echo "${tokens[0]}"
+	    continue
+	  fi
+	fi
+
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  touch /tmp/config-test
+	  chmod ${tokens[1]} /tmp/config-test
+	  tmpperms=`ls -l /tmp/config-test | awk '{print $1}'`
+	  realperms=`ls -l ${tokens[0]} | awk '{print $1}'`
+
+	  if [ "$tmpperms" = "$realperms" ]
+	  then
+	    echo "correct \c"
+	  else
+	    echo " WRONG  \c"
+	  fi
+
+	  owner=`ls -l ${tokens[0]} | awk '{print $3}'`
+
+	  if [ "$owner" = "${tokens[4]}" ]
+	  then
+	    echo "correct \c"
+	  else
+	    echo " WRONG  \c"
+	  fi
+
+	  group=`ls -l ${tokens[0]} | awk '{print $4}'`
+
+	  if [ "$group" = "${tokens[5]}" ]
+	  then
+	    echo "correct  \c"
+	  else
+	    echo " WRONG   \c"
+	  fi
+	elif [ "${tokens[3]}" = "sym_link" ]
+	then
+	  linkto=`ls -l ${tokens[0]} | awk '{print $11}'`
+	  if [ "${tokens[2]}" = "$linkto" ]
+	  then
+	    echo "  the link is correct    \c"
+	  else
+	    echo "  the link is WRONG      \c"
+	  fi
+	fi
+	echo "${tokens[0]}"
+      fi
+    done <<-EOF
+/usr 0555  directory bin bin ------ 378 cde_dt
+/usr/dt 0555  directory bin bin ------ 378 cde_dt
+/usr/dt/lib 0555  directory bin bin ------ 378 cde_dt
+/usr/dt/lib/libDtHelp.sl 0555 lib/DtHelp/libDtHelp.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtPrint.sl 0555 lib/DtPrint/libDtPrint.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtMrm.sl 0555 lib/DtMrm/libDtMrm.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtSvc.sl 0555 lib/DtSvc/libDtSvc.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtWidget.sl 0555 lib/DtWidget/libDtWidget.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtTerm.sl 0555 lib/DtTerm/libDtTerm.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libtt.sl 0555 lib/tt/lib/libtt.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libcsa.sl 0555 lib/csa/libcsa.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtSearch.sl 0555 lib/DtSearch/libDtSearch.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtMmdb.sl 0555 lib/DtMmdb/libDtMmdb.sl file bin bin di---- 378 cde_dt
+	EOF
+}
+
+ShowSize()
+{
+    typeset -i total;
+    let total=0
+
+    echo "Size\t\tfilename"
+    echo "-----------------------------------------"
+
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	set -A tokens $SRC
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  if [ -f ${tokens[0]} ]
+	  then
+	    filesize=`ls -l ${tokens[0]} | awk '{print $5}'`
+	    echo "$filesize\t\t\c"
+	    echo "${tokens[0]}"
+	    let total=total+filesize
+	  fi
+	fi
+      fi
+    done <<-EOF
+/usr 0555  directory bin bin ------ 378 cde_dt
+/usr/dt 0555  directory bin bin ------ 378 cde_dt
+/usr/dt/lib 0555  directory bin bin ------ 378 cde_dt
+/usr/dt/lib/libDtHelp.sl 0555 lib/DtHelp/libDtHelp.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtPrint.sl 0555 lib/DtPrint/libDtPrint.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtMrm.sl 0555 lib/DtMrm/libDtMrm.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtSvc.sl 0555 lib/DtSvc/libDtSvc.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtWidget.sl 0555 lib/DtWidget/libDtWidget.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtTerm.sl 0555 lib/DtTerm/libDtTerm.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libtt.sl 0555 lib/tt/lib/libtt.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libcsa.sl 0555 lib/csa/libcsa.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtSearch.sl 0555 lib/DtSearch/libDtSearch.sl file bin bin di---- 378 cde_dt
+/usr/dt/lib/libDtMmdb.sl 0555 lib/DtMmdb/libDtMmdb.sl file bin bin di---- 378 cde_dt
+	EOF
+    echo "Total fileset size is $total"
+}
+HandleOption()
+{
+  while [ $# -ne 0 ]; do
+    case $1 in
+        -e) OPERATION="configure"
+            shift;
+            ;;
+	-d) OPERATION="deconfigure"
+	    shift;
+	    ;;
+	-v) OPERATION="verify"
+	    shift;
+	    ;;
+	-s) OPERATION="size"
+	    shift;
+	    ;;
+    esac
+  done
+}
+
+#################################################################
+#
+# Main Body
+#
+#################################################################
+PRODUCT=CDE
+FILESET=CDE-SHLIBS
+retval=0
+
+  HandleOption $*
+
+  if [ "$OPERATION" = "configure" ]
+  then
+
+    echo "Configuring for CDE-SHLIBS"
+
+    CreateSymLinks
+
+  elif [ "$OPERATION" = "deconfigure" ]
+  then
+
+    echo "de-Configuring CDE-SHLIBS NOT supported!"
+
+  elif [ "$OPERATION" = "verify" ]
+  then
+
+    VerifyInstalledFiles
+
+  elif [ "$OPERATION" = "size" ]
+  then
+
+    ShowSize
+
+  fi
+
+  return $retval

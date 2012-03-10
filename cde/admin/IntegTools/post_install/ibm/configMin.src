@@ -1,0 +1,265 @@
+XCOMM! /bin/ksh
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM  @(#) $XConsortium: configMin.src /main/7 1996/04/23 10:35:44 drk $
+
+XCOMM AIX cpp does not honor the usual requirement that preprocessor
+XCOMM directives must begin in column one, so we must do more quoting.
+#define HASH #
+
+SERVICES=/etc/services
+INETD=/etc/inetd.conf
+
+AdddtspcToInetserv()
+{
+DTSPCD=CDE_INSTALLATION_TOP/bin/dtspcd
+
+
+XCOMM
+XCOMM check for existence of /etc/services
+XCOMM
+
+    if [ ! -f $SERVICES ]	# highly unlikely
+    then
+	echo "" >$SERVICES
+    fi
+
+XCOMM
+XCOMM check for existence of /etc/inetd.conf
+XCOMM
+
+    if [ ! -f $INETD ]		# highly unlikely
+    then
+	echo "" >$INETD
+    fi
+
+#ifdef _POWER
+
+     /usr/sbin/chservices -a -v dtspc -p tcp -n 6112      1>/dev/null 2>/dev/null
+     if [ $? -ne 0 ]
+     then
+         exit 1
+     fi
+
+     /usr/sbin/chsubserver -a -v dtspc -t stream -p tcp -w nowait -u root \
+		-g $DTSPCD -r inetd $DTSPCD         1>/dev/null 2>/dev/null
+     if [ $? -ne 0 ]
+     then
+         exit 1
+     fi
+
+#else
+
+XCOMM
+XCOMM Check if the server exists in the /etc/services file.
+XCOMM
+
+    rc=`inetserv -s -S -v dtspc -p tcp 1>/dev/null 2>/dev/null;echo $?`
+    
+    if [ "$rc" -ne "0" ]
+    then
+XCOMM
+XCOMM Add entry into /etc/services file
+XCOMM
+         inetserv -a -S -v dtspc -p tcp -n 6112
+    fi
+
+
+XCOMM
+XCOMM Check if the server exists in the /etc/inetd.conf file.
+XCOMM
+    rc=`inetserv -s -I -v dtspc -p tcp 1>/dev/null 2>/dev/null;echo $?`
+
+    if [ "$rc" -ne "0" ]
+    then
+         inetserv -a -I -v dtspc -p tcp -t stream -w nowait -U root \
+             -r $DTSPCD -R $DTSPCD 1>/dev/null 2>/dev/null
+    fi
+
+
+XCOMM
+XCOMM remove legacy entries like "dtspcd" if exist
+XCOMM
+
+    rc=`inetserv -s -S -v dtspcd -p tcp 1>/dev/null 2>/dev/null;echo $?`
+
+    if [ "$rc" = "0" ]
+    then
+	 inetserv -D -S -v dtspcd -p tcp
+    fi
+#endif
+}
+
+CheckFordtspcService()
+{
+
+#ifdef _POWER
+    rc=`grep "dtspc" $SERVICES | cut -c1 | grep -xv "#" \
+           1>/dev/null 2>/dev/null;echo $?`
+#else
+    rc=`inetserv -s -S -v dtspc -p tcp 1>/dev/null 2>/dev/null;echo $?`
+#endif
+    return $rc
+}
+
+RemovedtspcFromInetserv()
+{
+DTSPCD=CDE_INSTALLATION_TOP/bin/dtspcd
+
+#ifdef _POWER
+
+     /usr/sbin/chservices -d -v dtspc -p tcp -n 6112          1>/dev/null   2>/dev/null
+     if [ $? -ne 0 ]
+     then
+         exit 1
+     fi
+
+     /usr/sbin/chsubserver -d -v dtspc -t stream -p tcp -w nowait -u root \
+                -g $DTSPCD -r inetd $DTSPCD         1>/dev/null   2>/dev/null
+     if [ $? -ne 0 ]
+     then
+         exit 1
+     fi
+
+#else
+XCOMM
+XCOMM Check if the server exists in the /etc/services file.
+XCOMM
+
+    rc=`inetserv -s -S -v dtspc -p tcp 1>/dev/null 2>/dev/null;echo $?`
+
+    if [ "$rc" = "0" ]
+    then
+         inetserv -D -S -v dtspc -p tcp 2>/dev/null 1>/dev/null
+    fi
+
+XCOMM
+XCOMM remove legacy entries like "dtspcd" if exist
+XCOMM
+
+    rc=`inetserv -s -S -v dtspcd -p tcp 1>/dev/null 2>/dev/null;echo $?`
+
+    if [ "$rc" = "0" ]
+    then
+         inetserv -D -S -v dtspcd -p tcp
+    fi
+#endif
+
+}
+
+StopDaemon()
+{
+    ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+    if [ -s /tmp/tmppsout ]
+    then
+        awk '{print "kill " $2}' /tmp/tmppsout | /bin/ksh 1>/dev/null
+        sleep 2
+        ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+        if [ -s /tmp/tmppsout ]
+        then
+            awk '{print "kill -TERM " $2}' /tmp/tmppsout | /bin/ksh 1>/dev/null
+            sleep 2
+            ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+            if [ -s /tmp/tmppsout ]
+            then
+                awk '{print "kill -9 " $2}' /tmp/tmppsout | /bin/ksh 1>/dev/null
+                sleep 2
+            fi
+        fi
+    fi
+    rm -f /tmp/tmppsout
+}
+
+
+
+HandleOption()
+{
+  while [ $# -ne 0 ]; do
+    case $1 in
+        -e) DO_CONFIGURATION="yes"
+            shift;
+            ;;
+	-d) DO_CONFIGURATION="no"
+	    shift;
+	    ;;
+    esac
+  done
+}
+
+XCOMM #################################################################
+XCOMM
+XCOMM Main body
+XCOMM
+XCOMM #################################################################
+
+PRODUCT=CDE
+FILESET=CDE-MIN
+DO_CONFIGURATION=""
+retval=0
+
+#ifndef _POWER
+XCOMM
+XCOMM refresh the inetserv object class with the latest 
+XCOMM entries from /etc/inetd.conf and /etc/services files
+XCOMM
+
+  inetexp
+
+  StopDaemon "dtspcd"
+#endif
+
+  HandleOption $*
+
+  if [ "$DO_CONFIGURATION" = "yes" ]
+  then
+
+#ifndef	_POWER
+XCOMM
+XCOMM  create the /var/dt/tmp directory for the dtspcd
+XCOMM
+
+    if [ ! -d CDE_LOGFILES_TOP/tmp ]
+    then
+	mkdir -p CDE_LOGFILES_TOP/tmp
+    fi
+#endif
+
+    CheckFordtspcService
+    rc=$?
+    if [ "$rc" -eq "0" ]
+    then
+        echo "\n dtspc is already enabled...\n"
+        exit 0
+    fi
+    AdddtspcToInetserv
+
+#ifndef _POWER
+XCOMM
+XCOMM  update inetd
+XCOMM
+
+    inetimp
+    refresh -s inetd
+#endif
+
+  elif [ "$DO_CONFIGURATION" = "no" ]
+  then
+
+    CheckFordtspcService
+    rc=$?
+    if [ "$rc" = "0" ]
+    then
+        RemovedtspcFromInetserv
+    else
+        echo "\n dtspc is already disabled...\n"
+        exit 0
+    fi
+
+#ifndef	_POWER
+XCOMM
+XCOMM  update inetd
+XCOMM
+    inetimp
+    refresh -s inetd
+#endif
+
+  fi

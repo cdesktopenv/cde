@@ -1,0 +1,54 @@
+<!--TEST6.GML: Test short references; 4 errors. -->
+<!doctype gdoc [
+  <!entity     nqtag  starttag "nestedq">
+  <!entity     enqtag endtag   "nestedq">
+  <!entity     qtag   starttag "q">
+  <!entity     eqtag  endtag   "q">
+  <!entity     ptag   starttag "p">
+  <!shortref   qset   '"'      eqtag "'"          nqtag>
+  <!shortref   nqset  '"'      qtag  "'"          enqtag>
+  <!shortref   pset   '"'      qtag  "&#rs;&#re;" ptag>
+  <!shortref badmap "&#rE" qtag "&#Re;" eqtag 99 ptag -- bad definition -->
+
+  <!entity   r      "R: "><!entity s CDATA "S: ">
+  <!shortref records "&#RS" r "&#rs;B" s>
+
+  <!entity   endtag  endtag '' >
+  <!shortref endtag  "&#RE;"   endtag >
+
+  <!element gdoc    - - (p)+ +(ie)>
+  <!element p       o o (q|#PCDATA)*>
+  <!element q       o o (#PCDATA|nestedq)*>
+  <!element nestedq o o (#PCDATA|q)*>
+  <!element ie      o o (#PCDATA)>
+
+  <!usemap pset    p>
+  <!usemap qset    q>
+  <!usemap nqset   nestedq>
+  <!usemap endtag  (p|ie)>
+]>
+<gdoc/
+
+abc "quote" def
+<ie>index entry
+
+abc "quote2" def
+<ie>index entry
+ghi jkl mno
+
+
+a "quoted" string
+another
+
+"quoted string with 'nested and "inner" nested' quotes"
+
+string
+<!usemap records>
+record
+record
+ sub-record
+ sub-record
+record
+ sub-record
+record<!usemap #empty>
+/

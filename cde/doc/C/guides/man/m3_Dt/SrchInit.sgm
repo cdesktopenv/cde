@@ -1,0 +1,212 @@
+<!-- $XConsortium: dtsrinit.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchInit">]]>
+<refmeta><refentrytitle>DtSearchInit</refentrytitle>
+<manvolnum>library call</manvolnum></refmeta>
+<refnamediv>
+<refname><function>DtSearchInit</function></refname>
+<refpurpose>Initialize
+the DtSearch online API for subsequent calls</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/Search.h></funcsynopsisinfo>
+<funcdef>int <function>DtSearchInit</function></funcdef>
+<paramdef>void <parameter>*argv0</parameter></paramdef>
+<paramdef>char <parameter>*userid</parameter></paramdef>
+<paramdef>long <parameter>switches</parameter></paramdef>
+<paramdef>char <parameter>*ocf_file</parameter></paramdef>
+<paramdef>FILE <parameter>*err_file</parameter></paramdef>
+<paramdef>char <parameter>***dbnames</parameter></paramdef>
+<paramdef>int <parameter>*dbcount</parameter></paramdef>
+</funcsynopsis></refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para><function>DtSearchInit</function> opens databases and other files and
+initializes the search engine API for subsequent requests. It must be
+the first online DtSearch function called.
+</para>
+<para><function>DtSearchInit</function> may be called only once, although
+<function>DtSrReinit</function> may be called at any time after
+<function>DtSearchInit</function>.
+</para>
+<para>If this function fails, the caller should display the MessageList returned
+and exit; no subsequent requests will be possible.
+</para>
+</refsect1>
+<refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">argv0</symbol></term>
+<listitem>
+<para>Specifies the program name to be assembled into usage, error, and debug
+messages from the API. It is intended to be the value of
+<symbol role="Variable">argv[0]</symbol> from <literal>main</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">userid</symbol></term>
+<listitem>
+<para>Specifies a 1- to 8-character name to use for log messages to distinguish between
+users and applications where multiple copies of the engine are running.
+</para>
+<para>If NULL, the first 8 characters of the <systemitem class="environvar">LOGNAME</systemitem> environment variable are used.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">switches</symbol></term>
+<listitem>
+<para>Specifies a set of bit switches used principally to enable printing debugging
+statements and controlling <function>signal</function> registration.
+</para>
+<variablelist>
+<varlistentry><term><Symbol>DtSrInNOLOCALE</Symbol></term>
+<listitem>
+<para>Do not execute <function>setlocale</function> within <function>DtSearchInit</function>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtSrInSIGNAL</Symbol></term>
+<listitem>
+<para>Register DtSearch abort signal handlers.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtSrInENAB_NOHUP</Symbol></term>
+<listitem>
+<para>Reenable NOHUP for offline background programs. This is also the normal
+action unless <Symbol>DtSrInSIGNAL</Symbol> has been specified, in
+which case normal action is to abort on <Symbol>SIGHUP</Symbol>
+signal.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtSrInIDEBUG</Symbol></term>
+<listitem>
+<para>Writes initialization trace messages
+to <symbol role="Variable">err_file</symbol>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtSrInSDEBUG</Symbol></term>
+<listitem>
+<para>Writes query and search trace messages
+to <symbol role="Variable">err_file</symbol>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtSrInRDEBUG</Symbol></term>
+<listitem>
+<para>Writes document retrieval trace messages
+to <symbol role="Variable">err_file</symbol>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtSrInANY_DEBUG</Symbol></term>
+<listitem>
+<para>Equivalent to (<Symbol>DtSrInIDEBUG</Symbol> | <Symbol>DtSrInSDEBUG</Symbol> |<Symbol>DtSrInRDEBUG</Symbol>)
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtSrInRDWR</Symbol></term>
+<listitem>
+<para>Opens database files for both read
+and write. The default is read-only.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>For example, to enable trace statements only for search and retrieval
+operations, pass <symbol role="Variable">switches</symbol> as (<Symbol>DtSrInSDEBUG</Symbol> | <Symbol>DtSrInRDEBUG</Symbol>). Pass zero for <symbol role="Variable">switches</symbol> for most normal API operations.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">ocf_file</symbol></term>
+<listitem>
+<para>Specifies the fully qualified path and base file name of the API ocf configuration
+file. If NULL, the initialization function looks for an <filename>ocf</filename>
+file with a base name of either <filename>dtsearch.ocf</filename> or
+<filename>austext.ocf</filename> in the directory specified by the <systemitem class="environvar">DTSROCFPATH</systemitem> environment variable, in the current working directory,
+or in the HOME directory, in that order. See &cdeman.dtsrocffile; for the format
+of an ocf file.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">err_file</symbol></term>
+<listitem>
+<para>Specifies a pointer to a previously opened text stream file where the API will write
+fatal error and debug trace messages. The normal value passed for
+<symbol role="Variable">err_file</symbol> is NULL, in which case such messages will
+be written to <filename>stderr</filename>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">dbnames</symbol></term>
+<listitem>
+<para>Specifies an address where a pointer to an array of static database name string
+pointers will be placed. Each string identifies a single database successfully
+opened by this function.
+</para>
+<para>A database name string from this array will be used in most later API
+function calls.</para>
+<para>The <symbol role="Variable">dbn</symbol> member in
+<structname>DtSrResult</structname> is an index into this array.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">dbcount</symbol></term>
+<listitem>
+<para>Specifies a pointer to the <StructName Role="typedef">int</StructName> where the size of the
+<symbol role="Variable">dbnames</symbol> array will be stored.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para><function>DtSearchInit</function> returns <systemitem class="constant">DtSrOK</systemitem>, and possible messages on the
+MessageList, if the API is successfully initialized. It returns
+<systemitem class="constant">DtSrFAIL</systemitem> and messages on the
+MessageList if the API cannot be successfully initialized.
+</para>
+</refsect1><refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<variablelist>
+<varlistentry><term><systemitem class="environvar">LOGNAME</systemitem></term>
+<listitem>
+<para>First 8 characters are used for <symbol role="Variable">userid</symbol>
+if that argument is not passed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">DTSROCFPATH</systemitem></term>
+<listitem>
+<para>Specifies a directory where the API
+configuration <filename>ocf</filename> file may be located. Used in lieu
+of specifying the <symbol role="Variable">ocf_file</symbol> argument.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="environvar">HOME</systemitem></term>
+<listitem>
+<para>Specifies an alternative directory
+in which to look for the ocf file if the <symbol role="Variable">ocf_file</symbol>
+argument is not passed, if the <systemitem class="environvar">DTSROCFPATH</systemitem> environment variable is not specified, or if the ocf file is
+not found either in the <systemitem class="environvar">DTSROCFPATH</systemitem>
+directory or in the current working directory.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtSrAPI;,
+&cdeman.DtSearchReinit;,
+&cdeman.DtSearchGetMessages;,
+&cdeman.dtsrocffile;,
+&cdeman.DtSearch;
+</para>
+</refsect1></refentry>

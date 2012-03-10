@@ -1,0 +1,859 @@
+<!-- $XConsortium: ch10.sgm /main/4 1996/10/11 09:24:36 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="infoapg.div.10">
+<title id="nWGeMZBc9og24aK">設計様式の利用</title>
+<indexterm><primary>文書型定義 (DTD)</primary>
+<secondary>〜への設計様式の適用</secondary></indexterm>
+<para>
+SGML ドキュメントは、特定の文書型定義 (DTD) に準拠します。インフォメーション・マネージャに文書型定義で定義された要素の処理方法を理解させるには、文書型定義の基本的な要素に属性を適用します。これらの属性は、インフォメーション・マネージャの設計様式に対応します。これらは、インフォメーション・マネージャが解釈し、ドキュメントからオンラインのライブラリを構築するセマンティクスです。
+</para>
+<note>
+<para>
+この節の例は、DocBook DTD のバージョン 2.2.1 のものです。
+</para>
+</note>
+<para>
+インフォメーション・マネージャの設計様式は、インフォメーション・マネージャにおけるドキュメントの編成モデルに基づいています。インフォメーション・マネージャは、インフォメーション・ライブラリをグループ化して、そのタイトルがハイパーテキスト目次になっているセクションのブックを含むブックケースにします。これには、表やグラフィックのような特定の要素へのアクセスが含まれます。
+</para>
+<para>
+ブックケース、ブック、セクション、タイトル、リンク、表、およびグラフィックは、ブラウザがインフォメーションを管理するために識別しなければならない重要な要素の例です。インフォメーション・マネージャは、このような種類のインフォメーションのそれぞれに対応する設計様式を提供します。インフォメーション・マネージャでこれらを識別するには、文書型定義に対応する設計様式を適用します。特に、識別したい属性をもつ各要素に、属性を追加します。文書型定義の保守を容易にするには、インフォメーション・マネージャによって提供されるパラメータ・エンティティ参照を使用します。
+</para>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="VyBTVcBfQJ9X3cS">パラメータ・エンティティ参照の使用</title>
+<para>
+インフォメーション・マネージャは、インフォメーション・マネージャ設計様式を使用する簡易な（そして推奨の）方法として、パラメータ・エンティティ参照を提供します。インフォメーション・マネージャ設計様式のエンティティ名は、<filename>/usr/dt/infolib/&lt;lang>/SGML/dtinfo.af</filename> に格納されています。完全な属性を入力するのではなく、属性リストでパラメータ・エンティティ参照を使用することによって、文書型定義への変更を最少限にして、インフォメーション・マネージャの最新の機能を利用することができます。次に、例を示します。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+完全な属性を適用するには、次のようにします。
+</para>
+<literallayout>
+&lt;!ELEMENT caption - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST caption
+        %commonatts;
+
+        DTINFO.TITLE CDATA #FIXED &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+</listitem>
+<listitem>
+<para>
+パラメータ・エンティティ参照を使用するには、次のようにします。
+</para>
+<literallayout>
+&lt;!ELEMENT caption - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST caption
+        %commonatts;
+
+        %DTINFO.Title; &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+</listitem>
+</itemizedlist>
+<para>
+文書型定義の編集の詳細については、
+<link linkend="EzilaaBwXng24aK">「設計様式の適用」</link>
+<link linkend="fyBTVcBfQJ9X3cS">「DTINFO 設計様式の記述」</link> を参照してください。
+</para>
+</sect1>
+<!--)))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="fyBTVcBfQJ9X3cS">DTINFO 設計様式の記述</title>
+<para>
+設計様式の記述は、記述された設計様式と連携して共通に使用される関連様式を識別します。関連様式は、その対応する属性名を使用して、マニュアル中で識別されます。この節では、以下に示すことを説明します。
+</para>
+<itemizedlist>
+<listitem><para><link linkend="orilaaBwXng24aK">「セクション様式」</link></para>
+</listitem>
+<listitem><para><link linkend="KtilaaBwXng24aK">「値様式」</link></para>
+</listitem>
+<listitem><para><link linkend="fsilaaBwXng24aK">「スコープ様式」</link></para>
+</listitem>
+<listitem><para><link linkend="nyilaaBwXng24aK">「ハイパーテキスト様式」</link></para>
+</listitem>
+<listitem><para><link linkend="draW.aB80og24aK">「スタイル様式」</link></para>
+</listitem>
+</itemizedlist>
+<para>
+目次、ブックケース規定、およびスクラッチのスタイル・シートの作成は容易ですが、既存のブックケース、スタイル・シート、および目次の文書型定義に、インフォメーション・マネージャの設計様式を適用することができます。詳細については、ブックケース様式、スタイル・シート様式、および <link linkend="S3CTVcBfQJ9X3cS">「目次の設計様式」</link> を参照してください。
+</para>
+<note>
+<para>
+これらの設計様式は、ほとんどの <command>dtinfogen</command> のサブコマンドの使用前に、適用しなければなりません。
+</para>
+</note>
+<!--)))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="QnDu4iB6dmg24aK">値の理解</title>
+<para>
+データ値をとるインフォメーション・マネージャ設計様式では、単純な機能言語が、要素内容、属性値、およびリテラルの連携を形成する機構を提供します。引き数は、表 <link linkend="UtilaaBwXng24aK">「値の作成の構文」</link> で定義されています。
+</para>
+<table>
+<Title id="UtilaaBwXng24aK">値の作成の構文</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="156*">
+<colspec colwidth="372*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>構文</literal></entry>
+<entry align="left" valign="top"><literal>意味</literal>
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">attr()</entry>
+<entry align="left" valign="top">attr() は引き数として使用される属性名の値を返します。IMPLIED 属性は、空の文字列を返します。attr() は、現在の要素についてのみ参照します。
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">concat()</entry>
+<entry align="left" valign="top">concat() は、文字列の引き数（リテラル、要素内容、属性値、または他の機能の値）を連結します。
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">firstof()</entry>
+<entry align="left" valign="top">firstof() は、その引き数中の最初の空でない文字列を返します。これは、その引き数によって定義される可能性の順序から値を選択します。
+</entry>
+</row>
+<row>
+<entry align="left" valign="top"><replaceable>要素名</replaceable>
+</entry>
+<entry align="left" valign="top"><replaceable>要素名</replaceable>は、現在の要素の内容モデルのメンバである要素の名前を、値として使用します。
+</entry>
+</row>
+<row>
+<entry align="left" valign="top"><replaceable>リテラル文字列</replaceable>
+</entry>
+<entry align="left" valign="top"><replaceable>リテラル文字列</replaceable>は、リテラル文字列指定するために、引用符  '...' または "..." のいずれかを使用します。
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">#CONTENT</entry>
+<entry align="left" valign="top">#CONTENT は、現在の要素内容のすべてを値として使用します。
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<note>
+<para>
+表で説明されている構文を組み合わせて、値を作成することができます。また、必要に応じて、リテラル文字列を追加することもできます。
+</para>
+</note>
+<para>
+次に、設計様式で値を指定する例を示します。
+</para>
+<literallayout>
+DTINFO.Title  CDATA             #FIXED
+                                    "concat( attr(Label), RefTitle, ManVolNum )"
+DTINFO.Graphic  CDATA           #FIXED
+                                  "firstof( attr(Fileref), attr(Other), #CONTENT )"
+</literallayout>
+</sect2>
+<!-- ))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) -->
+<sect2>
+<title id="orilaaBwXng24aK">セクション様式</title>
+<indexterm><primary>設計様式</primary>
+<secondary>セクション様式</secondary></indexterm>
+<para>
+インフォメーション・マネージャに、SGML ファイルの構造を理解させるには、セクション設計様式を適用しなければなりません。様式の値の使用と意味は、その様式の型に依存します。たとえば、章のタイトルに指定されると、値はハイパーテキスト目次に表示されます。<systemitem>DTINFO.Graphic</systemitem> では、値はグラフィック・データを含むファイルの名前です。これらの関係性は、表 <link linkend="GiaW.aB80og24aK">「様式の値の意味」</link> で説明しています。
+</para>
+<table>
+<title id="GiaW.aB80og24aK">様式の値の意味</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="160*">
+<colspec colwidth="368*">
+<tbody>
+<row>
+<entry align="left" valign="top"><literal>セクション様式</literal></entry>
+<entry align="left" valign="top"><literal>値様式の意味、適用時</literal>
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.Section</entry>
+<entry align="left" valign="top">セクションの値は、インフォメーション・マネージャの表示ウィンドウに表示されるものです。デフォルト値は #CONTENT です。
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.Title</entry>
+<entry align="left" valign="top">DTINFO.Section のタイトルの値は、インフォメーション・マネージャのブック・リストに表示されます。
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.Graphic</entry>
+<entry align="left" valign="top">グラフィックの値は、グラフィック・データを含むファイル名です。この値は、エンティティ参照からも引き出されます。
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.Ignore</entry>
+<entry align="left" valign="top">この情報は、データベースあるいは 全テキスト索引 (FulText Index) に格納されません。（したがって表示されません。）
+</entry>
+</row>
+<row>
+<entry align="left" valign="top">DTINFO.ShortTitle</entry>
+<entry align="left" valign="top">短縮タイトルの値は、表示ウィンドウにおいて、タイトルの一部分が切り詰められるところで使用されます。
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<variablelist>
+<varlistentry>
+<term><systemitem>DTINFO.Section</systemitem></term>
+<listitem>
+<para>
+<systemitem>DTINFO.Section</systemitem> 様式を、章のようなインフォメーションの一部分を分離するコンテナ要素に適用します。<systemitem>DTINFO.Section</systemitem> を使用して、インフォメーション・マネージャの表示ウィンドウに、インフォメーションの単位として、どの要素を表示するかを定義します。<command>dtinfogen</command> は、<systemitem>DTINFO.Section</systemitem> を使用して、階層構造を引き出すことができます。
+</para>
+<para>
+エンティテ名: <systemitem>DTINFO.Section</systemitem>
+</para>
+<para>
+属性テンプレート:
+<systemitem>DTINFO.Section CDATA FIXED &ldquo;#CONTENT&rdquo;</systemitem>
+</para>
+<para>
+関連様式:
+<systemitem>DTINFO.ID</systemitem> (必須), <systemitem>DTINFO.Scope</systemitem>, <systemitem>DTINFO.ShortTitle</systemitem>, <systemitem>DTINFO.Style</systemitem>, <systemitem>DTINFO.Title</systemitem> (必須), <systemitem>DTINFO.Value</systemitem></para>
+<para>
+例:
+</para>
+<literallayout>
+&lt;!ELEMENT Preface - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;)) >
+&lt;!ATTLIST Preface
+        %commonatts;
+
+        %DTINFO.Section;            &ldquo;#CONTENT&rdquo;
+        %DTINFO.Style;              &ldquo;sty1&rdquo;
+        %DTINFO.Title;              &ldquo;#CONTENT&rdquo;
+        %DTINFO.ID;                 &ldquo;attr(id)&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem>DTINFO.Title</systemitem></term>
+<listitem>
+<para>
+通常は、章のタイトル、ヘッダ、キャプション、図のタイトル、表のタイトル、および例のタイトルなど、どのようなタイトルであっても <systemitem>DTINFO.Title</systemitem> を適用します。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.Title</systemitem>
+</para>
+<para>
+属性テンプレート: <systemitem>DTINFO.Title CDATA #FIXED</systemitem>
+</para>
+<para>
+関連様式: <systemitem>DTINFO.Scope</systemitem>, <systemitem>DTINFO.Value</systemitem></para>
+<para>
+例:
+</para>
+<literallayout>
+&lt;!ELEMENT RefMeta - - (RefEntryTitle, ManVolNum?,RefMiscInfo*) >
+&lt;!ATTLIST RefMeta
+        %commonatts;
+
+        %DTINFO.Title;          #&ldquo;CONTENT&rdquo;
+        %DTINFO.Value;          &ldquo;concat( RefEntryTitle, ManVolNum)&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>DTINFO.ShortTitle</systemitem></term>
+<listitem>
+<para>
+既存の文書型定義にタイトルの省略形があれば、その要素に <systemitem>DTINFO.ShortTitle</systemitem> を適用します。この要素の内容は、決して表示ウィンドウに表示されませんが、ダイアログのリスト項目として現われる可能性があります。内容は、全テキスト索引 (FulText Index) に現われません。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.ShortTitle</systemitem></para>
+<para>
+属性テンプレート: <systemitem>DTINFO.ShortTitle CDATA #FIXED</systemitem></para>
+<para>
+関連様式: <systemitem>DTINFO.Value</systemitem></para>
+<para>
+例:
+</para>
+<literallayout>
+&lt;!ELEMENT TitleAbbrev - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST TitleAbbrev
+        %commonatts;
+
+        %DTINFO.ShortTitle;  &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>DTINFO.Graphic</systemitem></term>
+<listitem>
+<para>
+グラフィック、数学の式、またはある種の表を指示する要素に <systemitem>DTINFO.Graphic</systemitem> を適用します。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.Graphic</systemitem></para>
+<para>
+属性テンプレート: <systemitem>DTINFO.Graphic CDATA #FIXED</systemitem></para>
+<para>
+関連様式: <systemitem>DTINFO.Scope</systemitem>, <systemitem>DTINFO.ID</systemitem>.</para>
+<para>
+例:
+</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref   ENTITY   #IMPLIED
+        Fileref     CDATA    #IMPLIED
+        Format      NOTATION
+                    %notationtypes; #IMPLIED
+        Id          ID       #IMPLIED
+
+        %DTINFO.Graphic; &ldquo;#CONTENT&rdquo;
+        %DTINFO.ID;      &ldquo;:attr( ID )&rdquo;
+        %DTINFO.Scope.Graphic;
+></literallayout>
+</listitem>
+</varlistentry>
+<!-- ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((-->
+<VARLISTENTRY>
+<Term><SystemItem>DTINFO.Table</SystemItem></Term>
+<listitem>
+<para>
+<comment>We may not support DTINFO.Table - so it may be commented
+out in future documentation.</comment>
+CALS の表モデルにしたがって、SGML でエンコードされた表を指示する要素は、<SystemItem>DTINFO.Table</SystemItem> 属性を受け付けるべきです。そうでなければ、<SystemItem>DTINFO.Graphic</SystemItem> を受け付けるべきです。
+</para>
+<para>
+エンティティ名: <SystemItem>DTINFO.Table</SystemItem></para>
+<para>
+属性テンプレート: <SystemItem>DTINFO.Table CDATA #FIXED</SystemItem></para>
+<para>
+関連様式: <SystemItem>Scope.Table</SystemItem></para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT InformalTable - - ((%tblcontent.gp;)) -(Table|InformalTable)&gt;
+&lt;!ATTLIST InformalTable
+        %commonatts;
+
+        Colsep   %yesorno;                          #IMPLIED
+        Frame    (Top|Bottom|Topbot|All|Sides|None) #IMPLIED
+        Orient   (Port | Land)                      #IMPLIED
+        Pgwide   %yesorno;                          #IMPLIED
+        Rowsep   %yesorno;                          #IMPLIED
+        Tabstyle NMTOKEN                            #IMPLIED
+
+        %DTINFO.Table;      &ldquo;#CONTENT&rdquo;
+        %DTINFO.Scope.Table;
+&gt;
+</LITERALLAYOUT>
+</ListItem>
+</VarListEntry>
+<varlistentry>
+<term><systemitem>DTINFO.Ignore</systemitem></term>
+<listitem>
+<para>
+表示したくないインフォメーションを含む要素に <systemitem>DTINFO.Ignore</systemitem> を適用します。要素に有用なハイパーテキスト・インフォメーションがある場合は、構築過程において使用されます。たとえば、<systemitem>DTINFO.Value</systemitem> を指定して、ハイパーテキストの値を作成することができます。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.Ignore</systemitem></para>
+<para>
+属性テンプレート: <systemitem>DTINFO.Ignore CDATA #FIXED</systemitem></para>
+<para>
+関連様式: <systemitem>DTINFO.Value</systemitem></para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT InternalComment - - ((%inlinechar.gp;)+)>
+&lt;!ATTLIST InternalComment
+        %DTINFO.Ignore; &ldquo;#CONTENT&rdquo;
+        %DTINFO.Value;          &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect2>
+<title id="KtilaaBwXng24aK">値様式</title>
+<indexterm><primary>設計様式</primary>
+<secondary>セクションの値様式</secondary></indexterm>
+<para>
+<systemitem>DTINFO.Value</systemitem> 様式は、設計様式の戻り値を定義します。<systemitem>DTINFO.Value</systemitem> は、最上位の要素への値を返します。たとえば、要素 <replaceable>foo</replaceable> が内容モデル <replaceable>a?</replaceable>、<replaceable>b</replaceable> をもち、<replaceable>foo</replaceable> は設計様式 <systemitem>DTINFO.Title firstof &ldquo;(a,b)&rdquo;</systemitem> を使用する、と仮定しましょう。<replaceable>a</replaceable> の値は、その <systemitem>Label</systemitem> 属性とその内容を連結することによって形成されます。この形成は、<systemitem>DTINFO.Value</systemitem> を使用して処理し、<replaceable>foo</replaceable> に与えることができます。
+</para>
+<para>
+値設計様式は、以下のとおりです。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>DTINFO.Value</systemitem></term>
+<listitem>
+<para>
+<systemitem>DTINFO.Value</systemitem> 属性は、設計様式の戻り値を指定します。<systemitem>DTINFO.Value</systemitem> の値は、値として使用されるストリームを作成する機能言語です。値は、暗黙の連結の様式をとります。引き数は、表 <link linkend="UtilaaBwXng24aK">「値の作成の構文」</link> で定義しています。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.Value</systemitem></para>
+<para>
+属性テンプレート: <systemitem>DTINFO.Value CDATA #FIXED &ldquo; <replaceable>Value</replaceable>&rdquo;</systemitem></para>
+<para>
+関連様式: すべてのセクション様式</para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT RefMeta - - (RefEntryTitle, ManVolNum?,RefMiscInfo*) >
+&lt;!ATTLIST RefMeta
+        %commonatts;
+
+        %DTINFO.Title;
+        %DTINFO.Value; &ldquo;concat( RefEntryTitle,'(`,
+ManVolNum,')')&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="fsilaaBwXng24aK">スコープ様式</title>
+<indexterm><primary>設計様式</primary>
+<secondary>スコープ様式</secondary></indexterm>
+<para>
+インフォメーション・マネージャでは、ユーザが検索の範囲を定義することができます。どのブックを検索範囲に含めるかブラウザに指示したり、ブック、テキスト本体、例、索引、グラフィック、表、タイトル、またはそれらの組み合わせから成るすべてのコンポーネントの検索可否を指定したりすることができます。スコープ設計様式は、インフォメーション・マネージャの検索範囲に、どの要素を含めるかを決定します。たとえば、全テキスト索引 (FulText Index) 内で、どのスコープ情報に索引を付与するかを決定します。スコープは、<systemitem>DTINFO.Scope</systemitem> が適用される要素内に含まれるどのような要素にも適用されます。
+</para>
+<para>
+スコープ様式を要素に適用するには、<systemitem>DTINFO.Scope</systemitem> 属性を５種類の値のいずれかで適用します。要素にスコープ様式を適用しない場合、データはデフォルトのスコープ <systemitem>Body Text</systemitem> をもちます。
+</para>
+<para>
+<systemitem>DTINFO.Scope</systemitem> として指定可能な値は、Example、Graphic、Index、Table および Title であり、次に示すエンティティによって表現されます。
+</para>
+<variablelist>
+<varlistentry><term><systemitem>DTINFO.Scope.Example</systemitem></term>
+<listitem>
+<para>
+<systemitem>DTINFO.Scope</systemitem> 属性を、値 <systemitem>Example</systemitem> で、例をその一部とする検索範囲に含めたいデータをもつ要素に適用します。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.Scope.Example</systemitem></para>
+<para>
+属性テンプレート: <systemitem>DTINFO.Scope Name #FIXED Example</systemitem></para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT Example - - (Title, TitleAbbrev?, (%para.gp; |
+                        %list.gp; | %object.gp;)+) >
+&lt;!ATTLIST Example
+        %commonatts;
+        Label  CDATA  #IMPLIED
+
+        %DTINFO.Scope.Example;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>DTINFO.Scope.Graphic</systemitem></term>
+<listitem>
+<para>
+<systemitem>DTINFO.Scope</systemitem> 属性を、値 <systemitem>Graphic</systemitem> で、グラフィックをその一部とする検索範囲に含めたい要素に適用します。この設計様式により、あるグラフィック型の内部に含まれるどのような文字列も、検索による抽出および索引付けが可能になります。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.Scope.Graphic</systemitem></para>
+<para>
+属性テンプレート: <systemitem>DTINFO.Scope Name #FIXED Graphic</systemitem></para>
+<para>
+関連様式: <systemitem>DTINFO.Graphic</systemitem>, <systemitem>DTINFO.ID</systemitem>, <systemitem>DTINFO.Value</systemitem></para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref   ENTITY               #IMPLIED
+        Fileref      CDATA               #IMPLIED
+        Format      NOTATION
+                         %notationtypes  #IMPLIED
+        Id                 ID                   #IMPLIED
+
+        %DTINFO.Graphic;
+        %DTINFO.ID;             &ldquo;attr( Id )&rdquo;
+        %DTINFO.Scope.Graphic;
+        %DTINFO.Value;          &ldquo;attr( Fileref )&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem>DTINFO.Scope.Index</systemitem></term>
+<listitem>
+<para>
+<systemitem>DTINFO.Scope</systemitem> 属性を、値 <systemitem>Index</systemitem> で、索引をその一部とする検索範囲に含めたい要素に適用します。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.Scope.Index</systemitem></para>
+<para>
+属性テンプレート: <systemitem>DTINFO.Scope Name #FIXED Index</systemitem></para>
+<para>
+関連様式: <systemitem>DTINFO.Section</systemitem></para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT (SetIndex | Index) - - (DocInfo?, (Title,
+                       TitleAbbrev?)?, (%component.gp;)*, (IndexDiv+ |
+                       IndexEntry+)) >
+&lt;!ATTLIST (SetIndex | Index)
+        %commonatts;
+
+        %DTINFO.Section;
+        DTINFO.Scope.Index;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem>DTINFO.Scope.Table</systemitem></term>
+<listitem>
+<para>
+<systemitem>
+DTINFO.Scope</systemitem> 属性を、値 <systemitem>Table</systemitem> で、表をその一部とする検索範囲に含めたい要素に適用します。この設計様式により、CALS SGML の表モデル内部のどのような文字列にも検索のための索引付けが行われます。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.Scope.Table</systemitem>
+</para>
+<para>
+属性テンプレート: <systemitem>DTINFO.Scope Name #FIXED Table</systemitem>
+</para>
+<para>
+関連様式: <systemitem>DTINFO.Table</systemitem></para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT InformalTable - - ((%tblcontent.gp;)) -(Table|InformalTable)>
+&lt;!ATTLIST InformalTable
+        %commonatts;
+        Colsep       %yesorno;                          #IMPLIED
+        Frame        (Top|Bottom|Topbot|All|Sides|None) #IMPLIED
+        Orient      (Port | Land)                       #IMPLIED
+        Pgwide      %yesorno;                           #IMPLIED
+        Rowsep    %yesorno;                             #IMPLIED
+        Tabstyle    NMTOKEN                             #IMPLIED
+
+        %DTINFO.Table;
+        %DTINFO.Scope.Table;
+></literallayout>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem>DTINFO.Scope.Title</systemitem></term>
+<listitem>
+<para>
+<systemitem>DTINFO.Scope</systemitem> 属性を、値 <systemitem>Title</systemitem> で、タイトルをその一部とする検索範囲に含めたい要素に適用します。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.Scope.Title</systemitem></para>
+<para>
+属性テンプレート: <systemitem>DTINFO.Scope Name #FIXED Title</systemitem></para>
+<para>
+関連様式: <systemitem>DTINFO.Title</systemitem>,
+<systemitem>DTINFO.Value</systemitem></para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT RefMeta - - (RefEntryTitle, ManVolNum?, RefMiscInfo*) >
+&lt;!ATTLIST RefMeta
+        %commonatts;
+
+        %DTINFO.Title;
+        %DTINFO.Scope.Title;
+        %DTINFO.Value; &ldquo;concat( RefEntryTitle, ManVolNum)&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<!--)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="nyilaaBwXng24aK">ハイパーテキスト様式</title>
+<indexterm><primary>設計様式</primary>
+<secondary>ロケーション様式</secondary></indexterm>
+<para>
+ハイパーテキスト設計様式に対応する属性は、<systemitem>DTINFO.ID</systemitem> と <systemitem>DTINFO.IDREF</systemitem> です。これらの属性への値の設定については、表 <link linkend="UtilaaBwXng24aK">「値の作成の構文」</link> を参照してください。
+</para>
+<note>
+<para>
+SGML 参照の具体的な構文は、<systemitem>DTINFO.ID</systemitem> と <systemitem>DTINFO.IDREF</systemitem> の値が、1024文字を超えてはならず、英数字で始まらなければならない、と規定しています。
+</para>
+</note>
+<variablelist>
+<varlistentry><term><systemitem>DTINFO.ID</systemitem></term>
+<listitem>
+<para>
+<systemitem>DTINFO.ID</systemitem> 属性を、リンク先を指定する要素に適用します。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.ID</systemitem></para>
+<para>
+属性テンプレート: <systemitem>DTINFO.ID CDATA #FIXED &ldquo;<replaceable>Value</replaceable>&rdquo;</systemitem></para>
+<para>
+関連様式: すべて</para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT Anchor - O EMPTY >
+!ATTLIST Anchor
+        Id              ID              #REQUIRED
+        Pagenum         CDATA           #IMPLIED
+        Remap           CDATA           #IMPLIED
+        Role            CDATA           #IMPLIED
+        XRefLabel       CDATA           #IMPLIED
+
+        %DTINFO.ID;                     &ldquo;attr( Id )&rdquo;
+>
+</literallayout>
+<note>
+<para>
+各 <systemitem>DTINFO.ID</systemitem> の値は一意でなければなりません。
+</para>
+</note>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem>DTINFO.IDREF</systemitem></term>
+<listitem>
+<para>
+<systemitem>DTINFO.IDREF</systemitem> 属性を、<systemitem>DTINFO.IDREF</systemitem> の値として指定された位置へ移動するためのホット・スポットとして使用されるデータを含む要素に適用します。
+</para>
+<para>
+エンティティ名: <systemitem>DTINFO.IDREF</systemitem>
+</para>
+<para>
+属性テンプレート: <systemitem>DTINFO.IDREF CDATA #FIXED &ldquo;<replaceable>Value</replaceable>&rdquo;</systemitem></para>
+<para>
+関連様式: すべて</para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT Link - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST Link
+        Endterm         IDREF           #IMPLIED
+        Linkend         IDREF           #REQUIRED
+        Type            CDATA           #IMPLIED
+
+        %DTINFO.IDREF; &ldquo;attr( Linkend )&rdquo;
+>
+</literallayout>
+<note>
+<para>
+<systemitem>DTINFO.IDREF</systemitem> の値は、既存の <systemitem>DTINFO.ID</systemitem> の値にすべきです。
+</para>
+</note>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect2>
+<title id="draW.aB80og24aK">スタイル様式</title>
+<indexterm><primary>設計様式</primary>
+<secondary>スタイル様式</secondary></indexterm>
+<para>
+スタイル設計様式に対応する属性は、以下のとおりです。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem>DTINFO.Style</systemitem></term>
+<listitem>
+<para>
+インフォメーション・マネージャ設計様式、<systemitem>DTINFO.Style</systemitem> を、すでに構造様式 <systemitem>DTINFO.Section</systemitem> を適用し、その継承されたスタイル・シートを上書きしたい要素に適用します。
+<systemitem>DTINFO.Style</systemitem> は、<systemitem>DTINFO</systemitem> 設計様式である <systemitem>Bookcase</systemitem>、<systemitem>Book</systemitem> および <systemitem>DTINFO.Section</systemitem> の要素にのみ使用することができます。
+</para>
+<para>
+<systemitem>DTINFO.Style</systemitem> の値は、スタイル・シートの名前（スタイル・シートの <systemitem>DTINFO.ID</systemitem> 設計様式の値）であり、ブックケース規定ドキュメントで指定されたスタイル・シートとして解決されなければなりません。スタイル・シートは、それらが新規のスタイル・シートで上書きされない限り、すべての副次的なセクションによって継承されなければなりません。
+</para>
+<note>
+<para>
+<systemitem>DTINFO.Style</systemitem> の内容はスタイル・シート名のIDと一致する文字列（要素ではない）であるため、<userinput>%DTINFO.Style; &ldquo;&lsquo;sty1&rsquo;&rdquo;</userinput> または様式 <userinput>%DTINFO.Style &ldquo;concat(&lsquo;sty1&rsquo;)&rdquo;</userinput> のように、２回引用符で囲まなければなりません。
+</para>
+</note>
+<para>
+エンティティ名: <systemitem>DTINFO.Style</systemitem>
+</para>
+<para>
+属性テンプレート:
+<systemitem>DTINFO.Style CDATA #FIXED &ldquo;<replaceable>Value</replaceable>&rdquo;</systemitem></para>
+<para>
+関連様式: <systemitem>DTINFO.Section</systemitem></para>
+<para>
+例:</para>
+<literallayout>
+&lt;!ELEMENT Preface - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;)) >
+&lt;!ATTLIST Preface
+        %commonatts;
+
+        %DTINFO.Section;
+        %DTINFO.Style;  &ldquo;&lsquo;sty1&rsquo;&rdquo;
+>
+</literallayout>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+</sect1>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="EzilaaBwXng24aK">設計様式の適用</title>
+<indexterm><primary>設計様式</primary>
+<secondary>既存の文書型定義への適用</secondary></indexterm>
+<para>
+ここで説明する手続きによって、文書型定義に設計様式を適用します。文書型定義の要素に設計様式を適用する時期については、<link linkend="fyBTVcBfQJ9X3cS">「DTINFO 設計様式の記述」</link> を参照してください。
+</para>
+<note>
+<para>
+設計様式の属性の適用は、ドキュメント・インスタンスを無効にするわけではなく、ドキュメント・インスタンスの修正も必要としません。
+</para>
+</note>
+<orderedlist>
+<listitem>
+<para>
+文書型定義の先頭で、エンティティ宣言を追加し、インフォメーション・マネージャ設計様式のステートメントを使用します。
+</para>
+<literallayout>
+&lt;!ENTITY % DOCBOOK PUBLIC
+ &ldquo;-//Common Desktop Environment//ENTITIES DtInfo Architectural Forms//EN&rdquo;
+>
+%DOCBOOK;
+</literallayout>
+</listitem>
+<listitem>
+<para>
+文書型定義を解析し、何を表示したいのかを理解します。
+</para>
+</listitem>
+<listitem>
+<para>
+コンテナ要素およびそれぞれに対応する <link linkend="orilaaBwXng24aK">「セクション様式」</link> を識別します。たとえば、図のキャプションの要素は、<systemitem>Title</systemitem> 様式に対応します。
+</para>
+</listitem>
+<listitem>
+<para>
+修正している要素の属性リストにおいて、パラメータ・エンティティ参照または完全な属性を入力します。
+</para>
+<para>
+パラメータ・エンティティ参照を使用します。
+</para>
+<literallayout>
+&lt;!ELEMENT caption - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST caption
+        %commonatts;
+
+        %DTINFO.Title; &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+<para>
+To use the complete attribute:
+</para>
+<literallayout>
+&lt;!ELEMENT caption - - ((%inlinechar.gp;)+) >
+&lt;!ATTLIST caption
+        %commonatts;
+
+        DTINFO.Title CDATA #FIXED &ldquo;#CONTENT&rdquo;
+>
+</literallayout>
+<note>
+<para>
+設計様式のなかには、関連する様式を必須とするものがあります。たとえば、<systemitem>DTINFO.Section</systemitem> 様式には、<systemitem>DTINFO.Title</systemitem> と <systemitem>DTINFO.ID</systemitem> が必須です。詳細については、<link linkend="fyBTVcBfQJ9X3cS">「DTINFO 設計様式の記述」</link> を参照してください。
+</para>
+</note>
+</listitem>
+<listitem>
+<para>
+対象とする要素について、<link linkend="nyilaaBwXng24aK">「ハイパーテキスト様式」</link> を適用するかどうかを決定します。
+</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref       ENTITY          #IMPLIED
+        Fileref         CDATA           #IMPLIED
+        Format          NOTATION
+                        %notationtypes  #IMPLIED
+        Id              ID              #IMPLIED
+
+        %DTINFO.Graphic;
+        %DTINFO.ID;                     &ldquo;attr( Id )&rdquo;
+>
+</literallayout>
+<note>
+<para>
+最低限、
+<systemitem>DTINFO.Section</systemitem>、
+<systemitem>DTINFO.Title</systemitem>、および
+<systemitem>DTINFO.ID</systemitem> 様式
+を適用した後、ブックケースを構築することができます。
+</para>
+</note>
+</listitem>
+<listitem>
+<para>
+対象とする要素について、<link linkend="KtilaaBwXng24aK">「データ様式」</link> を適用するかどうかを決定します。
+</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref       ENTITY          #IMPLIED
+        Fileref         CDATA           #IMPLIED
+        Format          NOTATION
+                        %notationtypes  #IMPLIED
+        Id              ID              #IMPLIED
+
+        %DTINFO.Graphic;
+        %DTINFO.ID;                     &ldquo;attr( Id )&rdquo;
+        %DTINFO.Value;                  &ldquo;attr( Fileref )&rdquo;
+>
+</literallayout>
+</listitem>
+<listitem>
+<para>
+対象とする要素について、<link linkend="fsilaaBwXng24aK">「スコープ様式」</link> を適用するかどうかを決定します。
+</para>
+<literallayout>
+&lt;!ELEMENT Graphic - - CDATA>
+&lt;!ATTLIST Graphic
+        Entityref       ENTITY          #IMPLIED
+        Fileref         CDATA           #IMPLIED
+        Format          NOTATION
+                        %notationtypes  #IMPLIED
+        Id              ID              #IMPLIED
+
+        %DTINFO.Graphic;
+        %DTINFO.Scope.Graphic;
+        %DTINFO.ID;                 &ldquo;attr( Id )&rdquo;
+        %DTINFO.Value;              &ldquo;attr( Fileref )&rdquo;
+>
+</literallayout>
+</listitem>
+<listitem>
+<para>
+<systemitem>DTINFO.Section</systemitem> 設計様式を適用した要素について、このセクションによって継承されたものではないスタイル・シートを使用するかどうかを決定します。別のスタイル・シートを使用するには、<link linkend="draW.aB80og24aK">「スタイル様式」</link> を適用します。
+</para>
+<literallayout>
+&lt;!ELEMENT Preface - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;)) >
+&lt;!ATTLIST Preface
+        %commonatts;
+
+        %DTINFO.Section;
+        %DTINFO.Style;     &ldquo;sty1&rdquo;
+>
+</literallayout>
+</listitem>
+<listitem>
+<para>
+設計様式を必要とする各要素について、手順４から７を繰り返します。
+</para>
+</listitem>
+</orderedlist>
+</sect1>
+</chapter>

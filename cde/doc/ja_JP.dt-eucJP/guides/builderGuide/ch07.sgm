@@ -1,0 +1,414 @@
+<!-- $XConsortium: ch07.sgm /main/5 1996/09/08 19:48:47 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="ABUG.group.div.1">
+<title id="ABUG.group.mkr.1">オブジェクトのグループ化と接続</title>
+<para>テキストの変更(国際化対応による変更も含みます)およびウィンドウのサイズ変更にかかわらず、
+調和した間隔とサイズの関係を確実に保ためには、コントロール・オブジェクトをグルー
+プ化し、オブジェクトどうしを接続する必要があります。</para>
+<para>この章では、動的なレイアウト動作のためにオブジェクトを接続する方法を説明します。</para>
+<informaltable id="ABUG.group.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Grouping Objects90'--><xref role="JumpText" linkend="ABUG.group.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Create a Group90'--><xref role="JumpText" linkend="ABUG.group.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Edit Group Properties91'--><xref role="JumpText" linkend="ABUG.group.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Ungroup Objects in an Interface92'--><xref role="JumpText" linkend="ABUG.group.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Create a Border around an Object93'--><xref role="JumpText" linkend="ABUG.group.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Attaching Objects93'--><xref role="JumpText" linkend="ABUG.group.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Attachments Editor94'--><xref role="JumpText" linkend="ABUG.group.mkr.8"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Attach Objects in an Interface99'--><xref role="JumpText" linkend="ABUG.group.mkr.9"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Attachment Example: Custom Dialog100'--><xref role="JumpText" linkend="ABUG.group.mkr.10"></para></entry></row></tbody>
+</tgroup></informaltable>
+<para><indexterm><primary>オブジェクト</primary><secondary>1つの手続きでグループかおよび接続を行う</secondary></indexterm><indexterm><primary>接続</primary><secondary>オブジェクト</secondary></indexterm> <indexterm><primary>オブジェクトのグループ化と接続</primary></indexterm> </para>
+<sect1 id="ABUG.group.div.2">
+<title id="ABUG.group.mkr.2">オブジェクトのグループ化</title>
+<para><emphasis>グループ</emphasis>は単体として処理することができるオブジェクトの集合です。
+グループ内にオブジェクトを配置すると、グループは個々のオブジェクトの位置関係を
+維持しながら移動することができます。 グループは動的なレイアウトでオブジェクトを配
+置するため、グループ内のオブジェクトのサイズが変更しても、グループ内のオブジェクトの
+間隔と配置は維持されます。</para>
+<para>エディタの詳細とその要素については、<!--Original XRef content: '&xd2;Group Property Editor&xd3; on page&numsp;144'--><xref role="SecTitleAndPageNum" linkend="ABUG.apRPE.mkr.6">を参照してください。</para>
+<sect2 id="ABUG.group.div.3" role="Procedure">
+<title id="ABUG.group.mkr.3">グループを作成するには<indexterm>
+<primary>グループ</primary><secondary>作成</secondary></indexterm><indexterm>
+<primary>作成</primary><secondary>グループ</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>グループの一部にしたいコントロール・オブジェクトを選択します。</para>
+<para>インタフェースまたはオブジェクトのどちらかで、オブジェクトを選択できます。最も
+使用しやすい方法で、オブジェクトを選択してください。操作方法は、
+<!--Original XRef content: '&xd2;To Select Control Objects in the Interface or the Browser&xd3; on page&numsp;24'--><xref role="SecTitleAndPageNum" linkend="ABUG.layo.mkr.6">を参照してください。</para>
+</listitem>
+<listitem><para>[レイアウト]メニューまたはポップアップ・メニュー(ウィンドウ・インタフェースまた
+はモジュール・ブラウザ上にカーソルを置き、マウス・ボタン3を押すと表示されます)
+から、[グループ化]を選択します。</para>
+<para>インタフェースでは、矩形のボックスがグループの周りに描画されます。これはグループ化
+が選択されたことを示します。[レイアウト]またはポップアップ・メニューで[グループ
+化解除]がアクティブになっています。[グループ化解除]は、グループ化が選択されたと
+きのみアクティブになります。</para>
+<para>モジュール・ブラウザでは、新規オブジェクトが表示および選択されます。
+このオブジェクトは、「group」(または グループ内に他のグループが存在し
+ているときは「group2」など)と呼ばれます。グループ・オブジェクトは
+グループを構成するオブジェクトの親になります。グループのメンバは、独立して移動
+することはできません。グループ内のオブジェクトを移動すると、グループ全体が移動
+します。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.group.div.4" role="Procedure">
+<title id="ABUG.group.mkr.4">グループ属性を編集するには<indexterm>
+<primary>グループ</primary><secondary>属性の編集&lt;$startrange></secondary></indexterm><indexterm><primary>編集</primary><secondary>グループ属性&lt;$startrange></secondary></indexterm></title>
+<para>水平または垂直方向の整列およびオブジェクト間の間隔などのグループ属性はグループ属性エディタで設定します。<indexterm><primary>グループ属性エディタ&lt;$startrange></primary></indexterm><indexterm><primary>属性エディタ</primary><secondary>グループ&lt;$startrange></secondary></indexterm></para>
+<orderedlist><listitem><para>インタフェースまたはモジュール・ブラウザでグループをダブルクリックします。</para>
+<para>属性エディタでグループが選択されています。
+インタフェースでは、グループを選択して<emphasis>グループ・メンバ間</emphasis>の間隔でクリック
+しなければなりません。</para>
+<para>別の方法として、主ウィンドウの[エディタ]メニューから[グループ]を選択することに
+よってグループ属性エディタを表示できます。[エディタ]メニューから[グループ]を選択
+するのは、[オブジェクト型]として[グループ]を選択している属性エディタで[ティアオフ]をクリックするのと同じことです。</para>
+</listitem><listitem><para>必要であれば、[グループ・オブジェクト]リストから編集するグループを選択します。 </para>
+</listitem><listitem><para>必要であれば、グループの新規名を入力します。<indexterm>
+<primary>グループ</primary><secondary>名前付け</secondary></indexterm> <indexterm>
+<primary>名前付け</primary><secondary>グループ</secondary></indexterm></para>
+</listitem><listitem><para>完成したインタフェースで、グループにボーダを持たせるには、ボーダ枠のスタイルを
+選択します。(デフォルトではボーダはつきません。)<indexterm>
+<primary>グループ</primary><secondary>ボーダ枠のスタイルを設定</secondary>
+</indexterm><indexterm><primary>ボーダ</primary><secondary>グループのボーダ枠のスタイルを設定
+</secondary></indexterm><indexterm><primary>設定</primary>
+<secondary>グループのボーダ枠のスタイル</secondary></indexterm></para>
+<para>[ボーダ枠]の選択肢は、[外側のシャドウ]、[内側のシャドウ]、[外側エッチング]、
+[内側エッチング]、そして[なし]です。</para>
+</listitem><listitem><para>[レイアウト型]を選択します。</para>
+<para>選択肢は、そのまま、垂直、水平、そして行と列です。</para>
+<para>[垂直揃え]と[水平揃え]オプション・メニューのどちらかまたは両方がアクティブになり
+ます。アクティブになるメニューは、[レイアウト型]の選択に依存します。 行と列を
+選択すると[行数]および[列数]ラジオ・ボタンもアクティブになります。</para>
+</listitem><listitem><para>[行数]または[列数]を指定します。([レイアウト型]として行と列を選択した場合)</para>
+<para>行数を指定すると、列数は自動的に決定されます。列数を指定すると、行数が自動的に
+決定されます。</para>
+</listitem><listitem><para>垂直方向の整列方法を選択します。([レイアウト型]として[垂直]または[行と列]を選択した場合)</para>
+<para>選択肢は、オブジェクトの左端揃え(デフォルト)、コロン/ラベル揃え、オブジェクトの
+中央揃え、オブジェクトの右端揃えです。</para>
+</listitem><listitem><para>垂直方向の間隔を指定します。([レイアウト型]として[垂直]または[行と列]を選択した場合)</para>
+<para>値はピクセル単位で、デフォルトは10ピクセルです。</para>
+</listitem><listitem><para>水平方向の整列方法を選択します。([レイアウト型]として[水平]または[行と列]を選択した場合)</para>
+<para>選択肢は、オブジェクトの上端揃え(デフォルト)、オブジェクトの中央揃え、オブジェク
+トの下端揃えです。</para>
+</listitem><listitem><para>水平方向の間隔を指定します。([レイアウト型]として水平または行と列を選択した場合)</para>
+<para>値はピクセル単位で、デフォルトは10ピクセルです。</para>
+</listitem><listitem><para>アプリケーションを開いたときに、グループ内のオブジェクトを表示したくないときは、
+[表示]を選択解除します。</para>
+</listitem><listitem><para>アプリケーションを開いたときに、グループ内のオブジェクトをアクティブにしたくない
+ときは、[アクティブ]を選択解除します。</para>
+</listitem><listitem><para>[了解]または[適用をクリックし、変更内容を適用します。<indexterm>
+<primary>グループ属性エディタ&lt;;$endrange></primary></indexterm><indexterm><primary>属性エディタ</primary><secondary>グループ&lt;$endrange></secondary></indexterm></para>
+<para><indexterm><primary>編集</primary><secondary>グループ属性&lt;$endrange></secondary>
+</indexterm>[了解]をクリックすると、属性エディタまたはグループ属性エディタが終了します。<indexterm><primary>グループ</primary>
+<secondary>編集エディタ&lt;>$endrange></secondary></indexterm></para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.group.div.5" role="Procedure">
+<title id="ABUG.group.mkr.5">インタフェースで、オブジェクトのグループ化を解除するには<indexterm>
+<primary>オブジェクトのグループ化解除</primary></indexterm>
+<indexterm><primary>グループ</primary><secondary>解除する</secondary></indexterm></title>
+<orderedlist><listitem><para>モジュール・ブラウザまたはインタフェースでグループを選択します。</para>
+<para>オブジェクトでは、グループ内のオブジェクト間をクリックして、グループを選択します。
+グループが選択されると、2つ以上のオブジェクトのまわりにボックスが表示されます。</para>
+<para>インタフェースで、グループを選択できないとき、または多くのグループを持つインタ
+フェースで正しいグループを選択したいときは、モジュール・ブラウザを開きます。
+モジュール・ブラウザでは、グループの名前によってグループが示されています。
+モジュール・ブラウザで選択したグループは、インタフェースでも選択されます。</para>
+</listitem><listitem><para>[レイアウト]メニューまたはポップアップ・メニュー(インタフェース・ウィンドウ上に
+カーソルを置き、マウス・ボタン3を押すと表示されます。)から[グループ化解除]を選択
+します。</para>
+<para>オブジェクトがグループの一部でなくなります。オブジェクトを選択して、他のオブジェクトとは無関係に独立して移動することができます。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.group.div.6" role="Procedure">
+<title id="ABUG.group.mkr.6">オブジェクトの周りにボーダを作成するには<indexterm>
+<primary>ボーダ</primary><secondary>単一オブジェクトに作成</secondary></indexterm><indexterm>
+<primary>オブジェクト</primary><secondary>ボーダを作成</secondary></indexterm><indexterm>
+<primary>作成</primary><secondary>オブジェクト上のボーダ</secondary></indexterm>
+</title>
+<para>グループ化機能は、ラベルなどの個々のオブジェクトのまわりにボーダを作成するのに
+使用します。</para>
+<orderedlist><listitem><para>インタフェースでオブジェクトを選択します。</para>
+</listitem><listitem><para>インタフェースのポップアップ・メニューから[グループ化]を選択します。</para>
+<para>オブジェクトがグループに入ります。</para>
+</listitem><listitem><para>グループ属性エディタを表示します。</para>
+</listitem><listitem><para>まわりにボーダをつけたいグループを選択します。</para>
+<para>モジュール・ブラウザでグループをダブルクリックすると、選択したグループをもつ
+グループ属性エディタが表示されます。</para>
+</listitem><listitem><para>オブジェクトに追加したい[ボーダ枠]のスタイルを選択します。</para>
+</listitem><listitem><para>[了解]をクリックして、変更内容を適用しグループ属性エディタを終了します。</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.group.div.7">
+<title id="ABUG.group.mkr.7">オブジェクトの接続</title>
+<para><indexterm><primary>アタッチメント</primary></indexterm>アタッチメント(およびアタッチメントに基づく
+グループ)は、インタフェースでオブジェクトの動的なレイアウト動作を確立します。
+動的なレイアウト動作は、サイズ変更において、オブジェクトが調和した関係を確実に
+維持するようにします。アタッチメントは、国際化対応のアプリケーションが多くのロケールで適切に使用できるようにします。</para>
+<para>デフォルトで、すべての子オブジェクトの左上端は、親オブジェクトの左上端に接続され
+ます。したがって、メイン・ウィンドウ上にドロップしたコントロール区画の左上端は、
+メイン・ウィンドウの左上端に接続されます。同様に、コントロール区画にドロップした
+ボタンはコントロール区画に接続されます。</para>
+<para>親オブジェクトを上または左方向にサイズ変更すると、子オブジェクトは親オブジェクト
+とともに移動し、親オブジェクトの左上端からの距離を保ちます。</para>
+<para>区画オブジェクトがその親の上端または左端にドロップされると、上端または左端の
+オフセットが0で接続されます。区画オブジェクトがその親の左上端から右下に離れた
+位置にドロップされると、正のオフセットになります。</para>
+<para>区画オブジェクトを親オブジェクトに重なるように、右下端からサイズ変更すると、親
+オブジェクトの右下端に接続します。</para>
+<sect2 id="ABUG.group.div.8">
+<title id="ABUG.group.mkr.8">アタッチメント・エディタ</title>
+<para>アタッチメント・エディタは、レイアウトのために、オブジェクトを他のオブジェクトと接続するのに使用します。アタッチメント・エディタについて、以下に説明します。</para>
+<graphic id="ABUG.group.igrph.1" entityref="ABUG.group.fig.1"></graphic>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="136*">
+<colspec align="left" colwidth="392*">
+<tbody>
+<row>
+<entry><para>オブジェクト型</para></entry>
+<entry><para>アタッチメントしたいオブジェクトの型を選択するオプション・メニューです。
+いくつかのオブジェクト(カスタム・ダイアログ、ファイル選択ダイアログ、メイン・
+ウィンドウ)は親をもたないので、これらはメニューには含まれていません。</para></entry></row>
+<row>
+<entry><para>オブジェクト </para></entry>
+<entry><para>アタッチしたいオブジェクトを選択するスクロール・リストです。</para></entry></row>
+<row>
+<entry><para>親</para></entry>
+<entry><para>オブジェクトの親を示すテキスト・フィールドです。</para></entry></row>
+<row>
+<entry><para>子</para></entry>
+<entry><para>親オブジェクトの子をリストしているスクロール・リストです。</para></entry></row>
+<row>
+<entry><para>親アタッチメント/子のアタッチメント</para></entry>
+<entry><para>選択したオブジェクトの親のアタッチメント、または選択したオブジェクトの子のアタッチメントを表示するためのラジオ・ボタンです。
+<?Pub _newline>いくつかのオブジェクト(描画領域区画、端末区画、テキスト区画)は、子オブジェクトを
+持たず、メイン・ウィンドウまたはカスタム・ダイアログの子になることがあります。
+したがって、[親アタッチメント]と[子のアタッチメント]のどちらもアクティブではあり
+ません。その区画が、他の区画の子であるとき、または階層化された区画であるときは、
+[親アタッチメント]がアクティブになります。</para></entry></row>
+<row>
+<entry><para>接続先</para></entry>
+<entry><para>選択したオブジェクトのアタッチメントの型とオブジェクトの接続先を選択するオプション
+・メニューです。選択したオブジェクトとその親オブジェクト、または兄弟(同じ親を
+もつ別のオブジェクト)からのオフセット(ピクセル単位)、または親オブジェクトからの
+パーセンテージのオフセットを指定するテキストフィールドも含んでいます。
+<?Pub _newline>[接続先]の下にあるオプション・メニューは接続先にする兄弟オブジェ
+クトを指定するもので、兄弟オブジェクトへのアタッチメント(2つの小さな四角)のとき
+のみアクティブになります。[オフセット]テキスト・フィールドは、絶対(ピクセル
+単位)のアタッチメントのときのみアクティブになります。[パーセント]テキスト・
+フィールドは、パーセントテージのアタッチメントのときのみアクティブになります。
+<?Pub _newline>選択したオブジェクトは、4つの可能なアタッチメントの中央に表示されます。
+アタッチメントは、上から始めて時計回りに、選択したオブジェクトの上端、選択した
+オブジェクトの右端、選択したオブジェクトの下端、選択したオブジェクトの左端に
+なっています。
+<?Pub _newline>上端および左端アタッチメントについて、以下に説明します。
+デフォルトでは、オブジェクトは、親オブジェクトの上端と左端に接続します。選択した
+オブジェクト(4つの[接続先]ボックスの中央にあるオブジェクト)は、<emphasis>コントロールする
+</emphasis>オブジェクトです。このコントロールするオブジェクトを移動すると、ピクセルまたは
+パーセントのオフセットが変更します。接続したオブジェクトを移動した後、[リセット]
+をクリックして現在の値を確認してください。
+<?Pub _newline>接続した親オブジェクトをサイズ変更すると、その子オブジェクトは、親オブジェクト
+からのピクセルまたはパーセントのオフセットを維持します。子オブジェクトを移動する
+とオフセットは変わります。
+<?Pub _newline>選択したオブジェクトは兄弟オブジェクトを持たないときは、兄弟オブジェクトへの
+アタッチメントを示すアイコン(2つの小さな四角)はアクティブではありません。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.2" entityref="ABUG.group.fig.2">
+</inlinegraphic></para></entry>
+<entry><para>小さな四角の上端からその周囲のボックスの上端へ上がっている線は、
+選択したオブジェクトの上端の、その親オブジェクトの上端に対する絶対
+(ピクセル・オフセット)アタッチメントを表しています。</para></entry>
+</row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.3" entityref="ABUG.group.fig.3">
+</inlinegraphic></para></entry>
+<entry><para>小さな四角の上端からその周囲のボックスの下端に下がっている線は、
+選択したオブジェクトの上端の、その親オブジェクトの下端に対する絶対
+(ピクセル・オフセット)アタッチメントを表しています。
+この値は、負の値です。Y座標は上がるにつれて正になり、下がるにつれて
+負になります。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.4" entityref="ABUG.group.fig.4">
+</inlinegraphic></para></entry>
+<entry><para>垂直線で接続された2つの垂直方向に揃った四角は、選択した
+オブジェクトの上端の、その兄弟オブジェクトの下端に対する絶対(ピクセル・オフ
+セット)アタッチメントを表しています。選択したオブジェクトを移動すると
+オフセットが変更します。選択したオブジェクトの上端が、兄弟オブジェクトの下端の
+上にあるとき、この値は負の値になります。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.5" entityref="ABUG.group.fig.5">
+</inlinegraphic></para></entry>
+<entry><para>上端の中心部への水平線で接続された2つの水平方向に揃った四角は、
+選択したオブジェクトの垂直方向の中心部の、その兄弟オブジェクトの垂直方向の
+中心部に対する絶対(ピクセル・オフセット)アタッチメントを表しています。
+選択したオブジェクトを移動するとオフセットが変更します。
+選択したオブジェクト中心部が、兄弟オブジェクトの中心部の上にあるとき、
+この値は負の値になります。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.6" entityref="ABUG.group.fig.6">
+</inlinegraphic></para></entry>
+<entry><para>双方向の矢印とパーセント記号が上にある四角は、 選択した
+オブジェクトの上端の、その親オブジェクトの上端に対するパーセントの
+オフセット・アタッチメントを表しています。
+選択したオブジェクトを移動するとオフセットが変更します。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.7" entityref="ABUG.group.fig.7">
+</inlinegraphic></para></entry>
+<entry><para>パーセント記号が上にあり、四角の中心線と周囲のボックスの
+上端との間に双方向の矢印がある四角は、選択したオブジェクトの中心線の、
+その親オブジェクトの上端に対するパーセントのオフセット・アタッチメントを
+表しています。
+選択したオブジェクトを移動するとオフセットが変更します。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.8" entityref="ABUG.group.fig.8">
+</inlinegraphic></para></entry>
+<entry><para>内側に対角線がある円は、端(上、左、下、右)から他のオブジェクト
+へのアタッチメントがないことを表しています。
+デフォルトでは、ドロップしたオブジェクトには、右端または下端のアタッチメント
+はありません。</para></entry></row>
+</tbody></tgroup>
+</informaltable>
+<note>
+<para>選択したオブジェクトの下端に対するアタッチメントの説明は、上端のアタッチメントの
+説明と相関関係にあります。下端のアタッチメントの説明は、上記の説明の「上」を
+「下」に、そして「下」を「上」に置き換えてたものに
+なります。通常は、上端と左端のアタッチメントのみを指定します。</para>
+</note>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="356*">
+<tbody>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.9" entityref="ABUG.group.fig.9">
+</inlinegraphic></para></entry>
+<entry><para>周囲のボックスの左端から小さな四角の右端への水平線は、
+選択したオブジェクトの右端の、その親オブジェクトの左端に対する
+絶対(ピクセル・オフセット)アタッチメントを表しています。
+選択したオブジェクトを移動するとオフセットが変更します。</para></entry>
+</row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.10" entityref="ABUG.group.fig.10">
+</inlinegraphic></para></entry>
+<entry><para>周囲のボックスの右端から小さな四角の左端への水平線は、
+選択したオブジェクトの左端の、その親オブジェクトの右端に対する
+絶対(ピクセル・オフセット)アタッチメントを表しています。
+選択したオブジェクトを移動するとオフセットが変更します。この値は、負の値です。
+X座標は左に対して正、右に対しては負になります。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.11" entityref="ABUG.group.fig.11">
+</inlinegraphic></para></entry>
+<entry><para>水平線で接続されたつの水平方向に揃った四角は、選択した
+オブジェクトの左端の、その兄弟オブジェクトの右端に対する絶対
+(ピクセル・オフセット)アタッチメントを表しています。
+選択したオブジェクトを移動するとオフセットが変更します。
+選択したオブジェクトの左端が、兄弟オブジェクトの右端の左にあるとき、
+この値は負の値になります。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.12" entityref="ABUG.group.fig.12">
+</inlinegraphic></para></entry>
+<entry><para>左端の中心部への垂直線で接続された2つの垂直方向に揃った四角は、
+選択したオブジェクトの水平方向の中心部の、その兄弟オブジェクトの水平方向の
+中心部に対する絶対(ピクセル・オフセット)アタッチメントを表しています。
+選択したオブジェクトを移動するとオフセットが変更します。
+選択したオブジェクトが兄弟オブジェクトをもたないときは、このアイコンは
+アクティブではありません。
+選択したオブジェクト中心部が、兄弟オブジェクトの中心部の左にあるとき、
+この値は負の値になります。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.13" entityref="ABUG.group.fig.13">
+</inlinegraphic></para></entry>
+<entry><para>パーセント記号が上にある双方向の矢印をもつ四角は、選択した
+オブジェクトの左端の、その親オブジェクトの左端に対するパーセントの
+オフセット・アタッチメントを表しています。
+選択したオブジェクトを移動するとオフセットが変更します。</para></entry></row>
+<row>
+<entry><para><inlinegraphic id="ABUG.group.igrph.14" entityref="ABUG.group.fig.14">
+</inlinegraphic></para></entry>
+<entry><para>パーセント記号が左にあり、四角の中心線と周囲のボックス部
+の左端との間に双方向の矢印がある四角は、選択したオブジェクトの中心線の、
+その親オブジェクトの左端に対するパーセントのオフセット・アタッチメントを
+表しています。
+選択したオブジェクトを移動するとオフセットが変更します。</para></entry></row>
+</tbody></tgroup></informaltable>
+<note>
+<para>選択したオブジェクトの右端に対するアタッチメントの説明は、左端のアタッチメントの
+説明と相関関係にあります。右端のアタッチメントの説明は、上記の説明の「左」を
+「右」に、そして「右」を「左」に置き換えてたものに
+なります。通常は、上端と左端のアタッチメントのみを指定します。</para>
+</note>
+</sect2>
+<sect2 id="ABUG.group.div.9" role="Procedure">
+<title id="ABUG.group.mkr.9">インタフェースでオブジェクトを接続するには<indexterm>
+<primary>オブジェクト</primary><secondary>接続 &lt;$startrange></secondary>
+</indexterm><indexterm><primary>接続</primary>
+<secondary>オブジェクト &lt;$startrange></secondary>
+</indexterm></title>
+<para>アタッチメント・エディタとその要素の説明は、<!--Original XRef content: '&xd2;Attachments Editor&xd3; on page&numsp;94'--><xref role="SecTitleAndPageNum" linkend="ABUG.group.mkr.8">を参照してください。</para>
+<orderedlist>
+<listitem><para>アプリケーション・ビルダの主ウィンドウの[エディタ]メニューから[アタッチメント]
+を選択し、アタッチメント・エディタを表示します。</para>
+<para>アタッチメント・エディタは、属性エディタで[アタッチメント]ボタンをクリックするか、
+またはインタフェースまたはモジュール・ブラウザのポップアップ・メニューから
+[アタッチメント]を選択することによって、表示できます。<indexterm>
+<primary>アタッチメント・エディタ</primary></indexterm><indexterm>
+<primary>エディタ</primary><secondary>アタッチメント・エディタ</secondary></indexterm></para>
+</listitem><listitem><para>親オブジェクトまたは兄弟オブジェクトに接続したいオブジェクトの型を選択します。</para>
+</listitem>
+<listitem><para>接続したいオブジェクトを選択します。</para>
+</listitem><listitem><para>アタッチメントの型を指定します。</para>
+<para>1つの小さな四角をもつアイコンを選択すると、子オブジェクトから親オブジェクトへの
+アタッチメントになります。2つの小さな四角をもつアイコンを選択すると、兄弟オブ
+ジェクトへのアタッチメントになります。アタッチメントの型の詳細は、<!--Original XRef content: '&xd2;Attachments Editor&xd3; on page&numsp;94'--><xref role="SecTitleAndPageNum" linkend="ABUG.group.mkr.8">を参照してください。</para>
+<para>アタッチメントを行うとき、選択したオブジェクト(4つの[接続先]ボックスの中央にある
+オブジェクト)がコントロールするオブジェクトです。このオブジェクトは親オブジェク
+トや兄弟オブジェクトの影響を受けずに移動できます。オフセット値またはパーセント
+値は、2つのオブジェクト間で変更された関係を反映するために、変更されます。
+</para>
+<para>一方、他のオブジェクト(選択したオブジェクトが接続されているオブジェクト)を移動する
+と、選択したオブジェクトは、他のオブジェクトとの関係を保ちながら移動します。</para>
+<para>アタッチメント・エディタで変更内容が留意される前に、インタフェースでオブジェクトを移動後、必ず[リセット]をクリックします。</para>
+</listitem>
+<listitem><para>[了解]または[適用]をクリックして、変更内容を適用します。</para>
+<para><indexterm><primary>オブジェクト</primary><secondary>接続 &lt;$endrange></secondary></indexterm>[了解]をクリックすると、アタッチメント・エディタが終了します。<indexterm><primary>接続</primary><secondary>オブジェクト &lt;$endrange></secondary></indexterm></para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.group.div.10">
+<title id="ABUG.group.mkr.10">アタッチメント例: カスタム・ダイアログ</title>
+<para>アプリケーション・ビルダのカスタム・ダイアログ・オブジェクトをドラッグ＆ドロップ
+して、アタッチメントの例を参照します。カスタム・ダイアログの一番下にある各ボタン
+は、それらを囲っているダイアログ・パネルの上端と両サイドに接続されています。
+ボタンは、パネルの上端から5ピクセルの位置に接続され、パネルの左端からは一定のパーセンテージ(ボタン1の左端は10%、右端は30%。ボタン2の左端は40%、右端は60%。
+ボタン3の左端は70%、右端は90%。)で接続されています。</para>
+<para>ボタン1の左端は、パネルの左端からパネル幅の10%分だけ離れています。ボタン1の右端は、
+パネルの右端からパネル幅の30%分だけ離れています。ボタン1は、常にパネル幅の20％分の
+幅になります。
+ボタン2の左端はパネルの左端から40%分、右端はパネルの左端から60%分だけ離れています。
+ボタン3の左端はパネルの左端から70%分、右端はパネルの左端から90%分だけ離れています。</para>
+<para>3つのボタンはパネルの拡大および縮小に合わせて、拡大したり縮小したりします。
+ボタンとパネルの距離は、常に、パネル幅の10%分になります。</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:11:44-->
+<?Pub *0000034230>

@@ -1,0 +1,712 @@
+<!-- $XConsortium: ch01.sgm /main/12 1996/10/22 12:20:04 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.Intro.div.1">
+<title id="HRDC.Intro.mkr.1">Introducing the Help System</title>
+<para>This chapter introduces the Help System and briefly describes the user
+interface. It shows how help information is organized, outlines how to create
+and process help modules, and discusses the collaborative role of authors
+and developers in the design and creation of application help.</para>
+<informaltable id="HRDC.Intro.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Developer's Toolkit2'--><xref role="JumpText"
+linkend="HRDC.Intro.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Overview of Online Help2'--><xref
+role="JumpText" linkend="HRDC.Intro.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Help Information Model3'--><xref
+role="JumpText" linkend="HRDC.Intro.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Help User Interface5'--><xref role="JumpText"
+linkend="HRDC.Intro.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Help Topic Organization11'--><xref
+role="JumpText" linkend="HRDC.Intro.mkr.14"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'The Author's Job14'--><xref role="JumpText"
+linkend="HRDC.Intro.mkr.18"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Programmer's Job19'--><xref role="JumpText"
+linkend="HRDC.Intro.mkr.27"></para></entry></row></tbody></tgroup></informaltable>
+<para><indexterm><primary>introduction to Help System</primary></indexterm><indexterm>
+<primary>CDE Help System, introduction to</primary></indexterm></para>
+<sect1 id="HRDC.Intro.div.2">
+<title id="HRDC.Intro.mkr.2">Introduction to the Help System</title>
+<para>The Help System provides a complete set of tools to develop online help
+for application software. It enables authors to write online help that includes
+graphics and text formatting, hyperlinks, and communication with the application.
+</para>
+<para>The Help System also provides a programmer's toolkit for integrating
+online help into an application. The Help System application program interface
+supplies two specialized help dialogs and supporting routines that are used
+to display, navigate, search, and print online help modules.</para>
+<sect2 id="HRDC.Intro.div.3">
+<title id="HRDC.Intro.mkr.3">Developer's Toolkit</title>
+<para>The Help System Developer's Toolkit contains tools to write, process,
+and view online help and contains an application programming library.</para>
+<sect3 id="HRDC.Intro.div.4">
+<title>For Authors</title>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>DocBook markup language</emphasis> &mdash;a set of tags used in text files to mark organization and
+content of your online help.</para>
+</listitem><listitem><para><emphasis>DocBook software</emphasis>&mdash;a set
+of software tools for converting the DocBook files you write into run-time
+help files.</para>
+</listitem><listitem><para><emphasis>Helpview application</emphasis>&mdash;a
+viewer program for displaying your online help so you can read and interact
+with it just as your audience will.</para>
+</listitem></itemizedlist>
+<para>Refer to <!--Original XRef content: 'Chapter&numsp;2, &ldquo;Organizing
+and Writing a Help Volume'--><xref role="ChapNumAndTitle" linkend="HRDC.OrgH.mkr.1">,
+to learn more about creating and processing online help.</para>
+<sect4 id="HRDC.Intro.div.5">
+<title>For Application Developers</title>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>DtHelp programming
+library</emphasis>&mdash;an application program interface (API) for integrating
+help windows into your application.</para>
+</listitem><listitem><para><emphasis>A sample program</emphasis>&mdash;a simple
+example that shows how to integrate the Help System into a Motif application
+(see <!--Original XRef content: 'page&numsp;19'--><xref role="PageNum" linkend="HRDC.Intro.mkr.28">).
+</para>
+</listitem></itemizedlist>
+<para>Chapters 9 through 13 discuss the application programming library.</para>
+</sect4>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Intro.div.6">
+<title id="HRDC.Intro.mkr.4">Overview of Online Help</title>
+<para>It's virtually impossible&mdash;and certainly impractical&mdash;for
+anyone to learn and remember <emphasis>everything</emphasis> there is to
+know about the computer hardware and software they use to do their job. Nearly
+every computer user needs help at one time or another.</para>
+<para>Online help, unlike a printed manual, has the power of the computer
+at its disposal. Most importantly, this power makes it possible to adapt
+the information to the user's current context. <emphasis>Context-sensitive</emphasis> help provides just enough help to get the user back on task. In
+developing your online help, remember that users need different types of help
+at different times. By anticipating users' questions, you can design your
+application help to respond in a logical and intuitive manner.</para>
+</sect1>
+<sect1 id="HRDC.Intro.div.7">
+<title id="HRDC.Intro.mkr.5">Help Information Model<indexterm><primary>information model, help</primary></indexterm><indexterm><primary>model, help
+information</primary></indexterm></title>
+<para>There are two general styles of online help:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>Application help</emphasis>,
+whose primary role is to be an integrated part of a Motif application.<indexterm>
+<primary>Motif</primary></indexterm><indexterm><primary>Motif</primary>
+</indexterm></para>
+</listitem><listitem><para><emphasis>Standalone help</emphasis>, whose primary
+role is to provide online access to task, reference, or tutorial information,
+independent of any application software.<indexterm><primary>standalone help</primary></indexterm></para>
+</listitem></itemizedlist>
+<para>If you are developing online help for an application, you may choose
+to organize the information exclusively for access within the application.
+Or, you may design the information such that it can be browsed without the
+application present, as in standalone help.</para>
+<sect2 id="HRDC.Intro.div.8">
+<title>Part of the Application</title>
+<para>Help promotes a high degree of integration between the application and
+its online help. From the user's perspective, the help is part of the application.
+This approach minimizes the perceived &ldquo;distance&rdquo; away from the
+application that the user must travel to get help.</para>
+<para>Staying close to the application makes users more comfortable with online
+help and gets them back on task as quickly as possible.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.9">
+<title id="HRDC.Intro.mkr.6">Types of Help<indexterm><primary>getting help</primary></indexterm><indexterm><primary>help, how users get</primary></indexterm></title>
+<para>Online help can be divided into three general categories:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>Automatic help</emphasis>&mdash;The
+application determines when help is needed and what to present. This is sometimes
+called system-initiated help.</para>
+</listitem><listitem><para><emphasis>Semiautomatic help</emphasis>&mdash;The
+user decides when help is needed, but the system determines what to present.
+Semiautomatic help is initiated by a user's gesture or request for help,
+such as pressing F1. The system's response is called context-sensitive help
+because it considers the user's current context in deciding what information
+to display.</para>
+</listitem><listitem><para><emphasis>Manual help</emphasis>&mdash;The user
+requests specific information, such as from a Help menu.</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.Intro.div.10">
+<title>How Users Get Help</title>
+<para>A user can request help in several ways. Most applications provide a
+Help menu and Help key as well as Help buttons in dialog boxes.</para>
+<sect3 id="HRDC.Intro.div.11">
+<title>Help Key</title>
+<para>Within most applications, the primary way for a user to request help
+is by pressing the <emphasis>help key</emphasis>. In recent years, the F1
+function key has become a defacto standard help key for many workstation
+and personal computer products.</para>
+<para>The Style Guide and Certification Checklist recommends the use of F1
+as the help key, and the Motif programmer's toolkit even provides some
+built-in behavior to make it easier to implement the help key in Motif
+applications.</para>
+<para>Some computers provide a Help key on the keyboard.</para>
+</sect3>
+<sect3 id="HRDC.Intro.div.12">
+<title>Help Menu</title>
+<para>The Help menu is a common way to provide access to help information.
+Motif applications provide a Help menu, which is right-justified in the
+menu bar. The <citetitle>Style Guide and Certification Checklist</citetitle>
+makes recommendations regarding the commands contained in a Help menu.</para>
+<figure>
+<title>Application Help menu</title>
+<graphic id="HRDC.Intro.grph.1" entityref="HRDC.Intro.fig.1"></graphic>
+</figure>
+</sect3>
+<sect3 id="HRDC.Intro.div.13">
+<title>Help Buttons</title>
+<para>Many dialog boxes also provide a Help button to get help on the dialog.
+The <citetitle>Style Guide and Certification Checklist</citetitle> recommends
+that choosing the Help button in a dialog box be equivalent to pressing the
+Help key while using that dialog. Exceptions should be made for complex dialogs,
+where help on individual controls within the dialog box is appropriate.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Intro.div.14">
+<title id="HRDC.Intro.mkr.7">Help User Interface<indexterm><primary>overview</primary><secondary>Help graphical user interface</secondary></indexterm></title>
+<para>This section is an overview of the graphical interface provided by the
+Help System. For a detailed description of Help features and capabilities,
+refer to the <citetitle>User's Guide</citetitle>; or, to view the corresponding
+online help, you can open the desktop Front Panel Help Viewer (see <!--Original
+XRef content:
+'&ldquo;To Display the Help Index Volume&rdquo--><!--r; on
+page&numsp;97'--><xref role="SecTitleAndPageNum" linkend="hrdc.crhv.mkr.12">).
+Then choose, Common Desktop Environment and Desktop Help System.</para>
+<para>While using an application, a user can request help by pressing the
+Help key or by selecting the application's Help menu. In addition, applications
+integrating the Help System can be installed so that their respective help
+modules are accessible from the desktop Help Viewer. This enables a user
+to browse help information supplied by different applications without having
+to run each application.</para>
+<sect2 id="HRDC.Intro.div.15">
+<title>Help Windows</title>
+<para>When a user requests help, the Help System displays a help window. There
+are two types of help windows: general help and quick help. A general help
+window has a menu bar, topic tree, and a topic display area. The topic tree
+lists help topics that a user can choose. The lower portion of the window&mdash;the
+topic display area&mdash;displays the selected topic.</para>
+<para>A quick help window is a streamlined help window. It has only a topic
+display area and one or more dialog buttons. Quick help windows are often
+used for short, self-contained information such as a definition.</para>
+<figure>
+<title>General help and quick help window</title>
+<graphic id="HRDC.Intro.grph.2" entityref="HRDC.Intro.fig.2"></graphic>
+</figure>
+</sect2>
+<sect2 id="HRDC.Intro.div.16">
+<title>Hyperlinks</title>
+<para>Help topics often contain hyperlinks that &ldquo;jump&rdquo; to related
+help information. Both text and graphics can be used as hyperlinks. <!--Original
+XRef content: 'Figure&numsp;1&hyphen;3 on page&numsp;7'--><xref role="CodeOrFigOrTabAndPNum"
+linkend="HRDC.Intro.mkr.8"> shows formatting styles used to identify hyperlinks.
+</para>
+<para><indexterm><primary>hyperlink</primary><secondary>display formats</secondary>
+</indexterm>Solid or dashed underscores identify words or phrases that are
+hyperlinks. The solid underscore, or standard hyperlink, is most common.
+When the hyperlink is selected, the related topic is displayed. An author
+designates whether the hyperlink topic is displayed in the current help window
+or a new window. The dashed underscore represents a definition link. When
+selected, the related topic is displayed in a quick help window. A gray, open-corner
+box (dashed or solid line) designates a graphic hyperlink.</para>
+<figure>
+<title id="HRDC.Intro.mkr.8">Formats for graphic and text hyperlinks</title>
+<graphic id="HRDC.Intro.grph.3" entityref="HRDC.Intro.fig.3"></graphic>
+</figure>
+</sect2>
+<sect2 id="HRDC.Intro.div.17">
+<title>Help Navigation<indexterm><primary>topic tree</primary><secondary>selecting topic</secondary></indexterm></title>
+<para>The topic tree<indexterm><primary>topic tree</primary><secondary>in
+general help dialog</secondary></indexterm> shown in <!--Original XRef content:
+'Figure&numsp;1&hyphen;4'--><xref role="CodeOrFigureOrTable" linkend="HRDC.Intro.mkr.9">
+is an outline of topics in the current help volume. The first topic at the
+top of the list is the <emphasis>home topic,</emphasis> or beginning of the
+help volume. An arrow (&filig;) points to the current topic and shows the
+user's location in the help volume.</para>
+<figure>
+<title id="HRDC.Intro.mkr.9">Topic tree in a general help dialog box</title>
+<graphic id="HRDC.Intro.grph.4" entityref="HRDC.Intro.fig.4"></graphic>
+</figure>
+<para>To display a help topic, a user selects a title in the topic tree or
+a hyperlink within the topic display area. The user can browse the outline
+of topics by scrolling the list and then select any topic. Navigation commands
+enable the user to return to previous topics or to the beginning of the help
+volume.</para>
+<sect3 id="HRDC.Intro.div.18">
+<title>Help Navigation Buttons<indexterm><primary>navigation, help buttons</primary></indexterm></title>
+<para><indexterm><primary>buttons, navigation</primary></indexterm>The general
+help dialog includes three dialog buttons: Backtrack, History, and Index.
+These features are also available as menu selections.</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>Backtrack</emphasis>
+&mdash; returns to the previous topic. To retrace topics visited, press Backtrack
+repeatedly until the desired topic is displayed.</para>
+</listitem><listitem><para><emphasis>History</emphasis> &mdash; displays the <emphasis>History</emphasis> dialog box. This dialog box lists the help volumes and
+topics that have been visited. To return to any topic in the list, select
+its title.</para>
+</listitem><listitem><para><emphasis>Index</emphasis> &mdash; displays the <emphasis>Index Search</emphasis> dialog box. This dialog lists
+all the words and phrases that the author has marked as index entries. Selecting
+an index entry, then one of the topics where the entry occurs, displays that
+topic in the general help dialog. <!--Original XRef content: ''--><xref role="CodeOrFigureOrTable"
+linkend="HRDC.Intro.mkr.10"></para>
+</listitem></itemizedlist>
+<para>When using the Help Viewer from the desktop Front Panel, the general
+help dialog includes an additional dialog button called Top Level. After
+exploring different help volumes, a user can select this button to return
+to the top-level of the desktop index help volume.</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.Intro.div.19">
+<title>Help Menus</title>
+<para><indexterm><primary>home topic</primary><secondary>menu command</secondary>
+</indexterm>A general help dialog menu bar has five menus: File, Edit, Search,
+Navigate, and Help. The Search and Navigate menus contain commands for the
+index and navigation buttons described previously. In addition, the Navigate
+menu has a Home Topic command that returns to the beginning of the help volume.
+The remaining menus provide these features:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>File menu</emphasis> &mdash;
+duplicates a help window, prints a help topic or the current help volume,
+or closes the help window.</para>
+<indexterm><primary>menu</primary><secondary>File</secondary></indexterm>
+<indexterm><primary>menu</primary><secondary>Edit</secondary></indexterm>
+<indexterm><primary>menu</primary><secondary>Help</secondary></indexterm>
+<indexterm><primary>menu</primary><secondary>Navigate</secondary></indexterm>
+</listitem><listitem><para><emphasis>Edit menu</emphasis> &mdash; copies text
+from the help window to another application.</para>
+</listitem><listitem><para><emphasis>Help menu &mdash;</emphasis> provides
+help information that describes features of the help dialogs and how to use
+them.</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.Intro.div.20">
+<title id="HRDC.Intro.mkr.10">Help Index</title>
+<para><indexterm><primary>index</primary><secondary>Index search dialog index</secondary></indexterm>A help volume has an index of important words and
+phrases that the user can search to find help topics on a subject. A user
+can browse or search the index of the current volume, selected volumes, or
+all help volumes available on the system. Regular expressions such as * (asterisk)
+and ? (question mark) can be used to search for topics. To view the corresponding
+help topic, the user selects the index entry.</para>
+<figure>
+<title id="HRDC.Intro.mkr.11">Index search dialog box</title>
+<graphic id="HRDC.Intro.grph.5" entityref="HRDC.Intro.fig.5"></graphic>
+</figure>
+<para>Because the help index can be large even for a single volume, index
+entries can be expanded or contracted. A prefix notation, either a + (plus)
+or - (minus) sign, is used to show whether an index entry is expanded or
+contracted. A minus sign indicates that all of the entries are displayed,
+whereas a plus sign indicates that the entry can be expanded to show additional
+index entries.</para>
+<para>In <!--Original XRef content: 'Figure&numsp;1&hyphen;6 on page&numsp;10'--><xref
+role="CodeOrFigOrTabAndPNum" linkend="HRDC.Intro.mkr.12">, the -36 prefix
+means there are 36 index entries displayed. The +3 notation identifies contracted
+entries. Selecting a contracted entry causes the list to expand, and the
++ sign changes to a - sign. The last index entry shown in the figure has
+been expanded in this manner.</para>
+<figure>
+<title id="HRDC.Intro.mkr.12">Index entry prefix notation</title>
+<graphic id="HRDC.Intro.grph.6" entityref="HRDC.Intro.fig.6"></graphic>
+</figure>
+</sect2>
+<sect2 id="HRDC.Intro.div.21">
+<title>Printing from Help<indexterm><primary>printing</primary><secondary>help information</secondary></indexterm></title>
+<figure>
+<title id="HRDC.Intro.mkr.13">Print dialog box</title>
+<graphic id="HRDC.Intro.grph.7" entityref="HRDC.Intro.fig.7"></graphic>
+</figure>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Intro.div.22">
+<title id="HRDC.Intro.mkr.14">Help Topic Organization<indexterm><primary>help</primary><secondary>topic organization</secondary></indexterm></title>
+<para>An author organizes help information into a logical framework. Most
+times, but not always, this results in an outline, or a hierarchy of topics.
+The topic hierarchy in <!--Original XRef content: 'Figure&numsp;1&hyphen;8'--><xref
+role="CodeOrFigureOrTable" linkend="HRDC.Intro.mkr.15"> consists of a main
+level, three sections, and subordinate topics. Although Help has been optimized
+for information that is organized in a hierarchy, you are free to create
+any kind of organization you want.</para>
+<figure>
+<title id="HRDC.Intro.mkr.15">Hierarchy of topics</title>
+<graphic id="HRDC.Intro.grph.8" entityref="HRDC.Intro.fig.8"></graphic>
+</figure>
+<sect2 id="HRDC.Intro.div.23">
+<title>Help Topic<indexterm><primary>topic</primary><secondary>defined</secondary>
+</indexterm><indexterm><primary>help topic</primary><secondary>defined</secondary></indexterm></title>
+<para id="HRDC.Intro.mkr.16">A <emphasis>help topic</emphasis> is a unit of
+information identified with a unique ID. A set of tags provided by the Help
+System is used to mark help topics and create a structural framework. The
+Help Viewer, which is part of the Help System, is able to directly access
+and display a help topic.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.24">
+<title><indexterm><primary>help volume</primary><secondary>defined</secondary>
+</indexterm><indexterm><primary>volume</primary><secondary>defined</secondary>
+</indexterm>Help Volume<indexterm><primary>volume</primary><secondary>as
+collection of topics</secondary></indexterm><indexterm><primary>topic</primary>
+<secondary>volume as collection of</secondary></indexterm></title>
+<para>A <emphasis>help volume</emphasis> is a collection of topics that describe
+an application or a particular subject. If you are developing application
+help, typically there's one help volume per application. However, for complex
+applications, or a collection of related applications, you might develop
+several help volumes.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.25">
+<title><indexterm><primary>help family</primary><secondary>defined</secondary>
+</indexterm>Help Family<indexterm><primary>family</primary><secondary>definition
+of</secondary></indexterm><indexterm><primary>group of related volumes, family
+as</primary></indexterm><indexterm><primary>related volumes, family as group
+of</primary></indexterm><indexterm><primary>volume</primary><secondary>family
+of volumes</secondary></indexterm></title>
+<para>Often, software is available as a set of related applications known
+as a <emphasis>product family</emphasis>. For example, a set of office productivity
+applications may include a word processor, a spreadsheet application, and
+a drawing program. Because each application may have its own help volume,
+it may be desirable to group the related help volumes in a <emphasis>help
+family.</emphasis> A help family can include a single help volume or several
+volumes.</para>
+<para>Assembling your help volumes into a help family is optional. It is required
+only if you want your help available for browsing within a <emphasis>help
+browser</emphasis> such as the Help Viewer in the Front Panel.</para>
+<para>Refer to <!--Original XRef content: '&ldquo;To Create a Help Family&rdquo;
+on page&numsp;95'--><xref role="SecTitleAndPageNum" linkend="HRDC.CrHV.mkr.11">
+for a description of help family files and how they are used.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.26">
+<title>Help Index Volume<indexterm><primary>volume</primary><secondary>desktop
+index volume</secondary></indexterm><indexterm><primary>help index</primary>
+</indexterm><indexterm><primary>help index volume</primary><secondary>defined</secondary></indexterm></title>
+<para>The desktop provides a special help volume called the <emphasis>index</emphasis> volume that lists help installed on your system. Clicking the
+Help Viewer control in the Front Panel displays the index volume shown in
+<!--Original XRef content: 'Figure&numsp;1&hyphen;9'--><xref role="CodeOrFigureOrTable"
+linkend="HRDC.Intro.mkr.17"> on <!--Original XRef content: 'page&numsp;13'--><xref
+role="PageNum" linkend="HRDC.Intro.mkr.17">.</para>
+<para>It lists help families (underlined titles) and any volumes that are
+members of the help family.</para>
+<figure>
+<title id="HRDC.Intro.mkr.17">Index help volume</title>
+<graphic id="HRDC.Intro.grph.9" entityref="HRDC.Intro.fig.9"></graphic>
+</figure>
+<para>The index volume allows access to application-specific help without
+using the application. Or, if you are writing standalone help, this is the
+only way for users to get to your help. Even if you have only a single help
+volume, it must belong to a help family to be browsable using the Help Viewer.
+</para>
+<para><!--Original XRef content: '&ldquo;Adding Your Help to the Browser
+Volume&rdquo; on page&numsp;94'--><xref role="SecTitleAndPageNum" linkend="HRDC.CrHV.mkr.8">
+describes how to create a family file and what you need to do to make your
+help volume accessible from the index volume.</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Intro.div.27">
+<title id="HRDC.Intro.mkr.18">The Author's Job<indexterm><primary>author</primary><secondary>responsibilities</secondary></indexterm><indexterm>
+<primary>job of author</primary></indexterm><indexterm><primary>responsibility</primary><secondary>author</secondary></indexterm></title>
+<para>Writing online help differs from writing printed manuals, so it is important
+to understand who you are writing for, how the information is accessed, and
+how the information fits into an application.</para>
+<sect2 id="HRDC.Intro.div.28">
+<title>Objectives for Online Help<indexterm><primary>goals for online help</primary></indexterm><indexterm><primary>online help</primary><secondary>objectives</secondary></indexterm></title>
+<para>The two most important objectives for designing quality online help
+are:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>Get the user back
+on task as quickly and successfully as possible.</emphasis></para>
+</listitem><listitem><para><emphasis>Educate the user to prevent future need
+for assistance</emphasis>.</para>
+</listitem></itemizedlist>
+<para>Applying these objectives will help you make decisions regarding what
+type of help is best and what amount of detail is needed.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.29">
+<title id="HRDC.Intro.mkr.19">Know Your Audience<indexterm><primary>audience</primary><secondary>knowing</secondary></indexterm></title>
+<para>Just as with any writing, to do a good job, you must know your audience
+and understand what they require from the information you are writing. Most
+importantly, with online help, you need to know the tasks they are attempting
+and the problems they may encounter.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.30">
+<title id="HRDC.Intro.mkr.20">Consider How Your Help Is Accessed<indexterm>
+<primary>help</primary><secondary>types of access</secondary></indexterm><indexterm>
+<primary>application help</primary></indexterm></title>
+<para>It is just as important to understand how users will access your help
+as it is to identify your audience correctly.</para>
+<sect3 id="HRDC.Intro.div.31">
+<title>Application Help</title>
+<para>If you are writing help for an application, you need to decide which
+topics are browsable and which topics are available from the application
+as <emphasis>context-sensitive help</emphasis>. A topic is browsable if you
+can navigate to it using the topic tree or hyperlinks. Topics designed exclusively
+for context-sensitive help might not be browsable because the only way to
+display the topic may be from within a particular context in the application.
+</para>
+<para>You must also decide if you want your application's help volume to be <emphasis>registered</emphasis>. Registered help volumes can be displayed by other applications
+(such as the Help Viewer), making the information more widely accessible.
+If another help volume contains hyperlinks to topics in your help volume,
+your help volume must be registered.</para>
+<para>See <!--Original XRef content: '&ldquo;Registering Your Application
+and Its Help&rdquo; on page&numsp;247'--><xref role="SecTitleAndPageNum"
+linkend="HRDC.Inst.mkr.9"> for information about installing and registering
+your application.</para>
+</sect3>
+<sect3 id="HRDC.Intro.div.32">
+<title>Standalone Help Volumes<indexterm><primary>standalone help</primary>
+</indexterm><indexterm><primary>volume</primary><secondary>standalone help</secondary></indexterm></title>
+<para>If you are writing a standalone help volume (a help volume not associated
+with an application), you may choose to do things differently.</para>
+<para>First, you must provide a path for users to get to all the topics you've
+written. That is, every topic must be browsable through at least one hyperlink.
+Also, because there's no application associated with your help, you must
+rely on a help viewer (such as Help Viewer) to display your help volume.</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.Intro.div.33">
+<title>Evaluate How to Present Help</title>
+<para>An application can incorporate different types of help. It is important
+to evaluate what kind of help is best suited for your application. For example,
+the same help information may be presented in a variety of ways. Some choices
+include key features, a tutorial, examples, task instructions, shortcuts,
+troubleshooting, reference information, glossary of terms, or referral to
+hard copy or other online documentation. A help volume often combines different
+presentations.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.34">
+<title id="HRDC.Intro.mkr.21">Collaborate with the Application Programmer<indexterm>
+<primary>author</primary><secondary>collaboration with application programmer</secondary></indexterm><indexterm><primary>application programmer, collaborating
+with</primary></indexterm><indexterm><primary>programmer, application</primary>
+<secondary>collaborating with</secondary></indexterm></title>
+<para>If you are writing application help, you should work closely with the
+application programmer. The degree to which the Help System is integrated
+into an application is a design decision that you make collectively.</para>
+<para>If an application and its help have very loose ties, there may be only
+a handful of topics that the application is able to display directly. This
+is easier to implement.</para>
+<para>In contrast, the application could provide specific help for nearly
+every situation in the application. This requires more work, but benefits
+the user if done well.</para>
+<para>It's up to you and your project team to determine the right level of
+help integration for your project.</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Intro.div.35">
+<title id="HRDC.Intro.mkr.22">Author's Workflow<indexterm><primary>author</primary><secondary>workflow</secondary></indexterm></title>
+<para>After designing your help, you create and process help topics to produce
+a help volume. Your focus as an author is on these key tasks:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Write help topics</para>
+</listitem><listitem><para>Create run-time help files</para>
+</listitem><listitem><para>View the help volume</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.Intro.div.36">
+<title id="HRDC.Intro.mkr.23">Write Help Topics with DocBook</title>
+<para>Online help is written in ordinary text files. You use special codes,
+or <symbol role="Variable">tags</symbol>, to markup <symbol role="Variable">elements</symbol> within the information. The tags form a markup language
+called DocBook.</para>
+<para>The DocBook markup language defines a hierarchy of <symbol role="Variable">elements</symbol> that define high-level elements, such as chapters, sections,
+and subsections, and low-level elements such as paragraphs, lists, and emphasized
+words.</para>
+<para><!--Original XRef content: '&ldquo;General Markup Guidelines&rdquo;
+on page&numsp;28'--><xref role="SecTitleAndPageNum" linkend="HRDC.OrgH.mkr.4">
+gives a brief description of using markup.</para>
+<sect3 id="HRDC.Intro.div.38">
+<title id="HRDC.Intro.mkr.24">Formal Markup<indexterm><primary>formal markup</primary><secondary>defined</secondary></indexterm><indexterm><primary>markup</primary><secondary>formal (SGML)</secondary></indexterm><indexterm>
+<primary>structured editor</primary></indexterm><indexterm><primary>editor,
+structured</primary></indexterm></title>
+<para><emphasis><indexterm><primary>markup language</primary><secondary>formal
+markup, SGML-compliant</secondary></indexterm>Formal markup</emphasis> is
+a Standard Generalized Markup Language (SGML) that an author can use to create
+fully compliant SGML help topics. It requires start and end tags for <emphasis>all</emphasis> elements. Additionally, the structure of each element must
+be explicitly tagged. Therefore, the number of tags increases significantly
+using formal markup. Although an author can enter formal markup using a standard
+editor, a structured editor is recommended.</para>
+<sect4 id="HRDC.Intro.div.39">
+<title>Structured Editors</title>
+<para>New tools, called structured editors, are becoming available in response
+to the need to create SGML markup efficiently. Typically, a structured editor
+provides a context-sensitive menu. That is, the elements that appear in the
+menu dynamically change based on the location of the cursor in the document.
+</para>
+<para>For example, if you are entering a list, then the menu contains only
+elements that are valid within the context of a list element. This built-in
+&ldquo;intelligence&rdquo; allows an author to create markup easily.</para>
+<para>When an author chooses an element, such as section, title, or list,
+the editor generates the corresponding start, end, and any intermediate structural
+tags. For example, when an author selects a chapter element, the editor automatically
+inserts the intermediate tags required by this element. The author simply
+types the chapter title. Viewing the generated tags is optional; authors can
+suppress the tags.</para>
+</sect4>
+<sect4 id="HRDC.Intro.div.40">
+<title>Using Formal Markup</title>
+<para>Before you use formal markup, first read the chapters in <citetitle>P<?Pub Caret1>art 2 - The Author's Job</citetitle> to become familiar with
+the set of DocBook elements.</para>
+<para><!--Original XRef content: ''--><xref role="Blank" linkend="HRDC.Sgml.mkr.1"> <!--Original
+XRef content: 'Chapter&numsp;8, &ldquo;Reading the DocBook Document Type
+Definition'--><xref role="ChapNumAndTitle" linkend="HRDC.Sgml.mkr.1"> explains
+key components of the Document Type Definition (DTD) and shows you how to
+create formal markup. The complete DocBook Document Type Definition appears
+in the <citetitle>Guide to the DocBook DTD</citetitle>.</para>
+<note>
+<para>The Developer's Kit includes the DocBook Document Type Definition. The
+file is located in the <filename>/usr/dt/dthelp/dtdocbook/SGML/docbook.dtd</filename> directory and is named <filename>DocBook.dtd</filename>.</para>
+</note>
+</sect4>
+</sect3>
+<sect3 id="HRDC.Intro.div.41">
+<title>See Also</title>
+<itemizedlist><listitem><para>The <citetitle>Guide to the DocBook DTD</citetitle>
+gives a detailed description of each major tag listed in alphabetical order.
+</para>
+</listitem><listitem><para><!--Original XRef content: 'Chapter&numsp;8, &ldquo;Reading
+the DocBook Document Type Definition'--><xref role="ChapNumAndTitle" linkend="HRDC.Sgml.mkr.1">
+describes formal markup.</para>
+</listitem><listitem><para><filename moreinfo="RefEntry">docbook.dtd(4)</filename> man page</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.Intro.div.42">
+<title>Think Structure, Not Format</title>
+<para>If you are familiar with other publishing systems, you may be accustomed
+to formatting information as you like to see it. Authoring with DocBook requires
+you to think about structure and content, not format.</para>
+<para>As you write, you use tags to mark certain types of information. When
+you do so, you are identifying <emphasis>what</emphasis> the information is,
+but not how it should be formatted.</para>
+<para>For instance, to refer to a book title, include markup like this:</para>
+<programlisting>&lt;CiteTitle>System Administrator's Reference Guide&lt;/CiteTitle>
+</programlisting>
+<para>This abstraction separates structure and content from format, which
+allows the same information to be used by other systems and perhaps formatted
+differently. For instance, Help displays book titles using an italic font.
+However, on another system an italic font may not be available, so the formatter
+could decide that book titles are underlined.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.43">
+<title id="HRDC.Intro.mkr.25">Create Run-Time Help Files<indexterm><primary>creating</primary><secondary>run-time help files</secondary></indexterm><indexterm>
+<primary>run-time files</primary><secondary>creating</secondary></indexterm><indexterm>
+<primary>files, run-time help</primary><secondary>creating</secondary></indexterm></title>
+<para>The text files you write must be &ldquo;compiled&rdquo; using the DocBook
+software to create <emphasis>run-time help files</emphasis>. It's the run-time
+help files that are accessed when the user requests help. Run-time files
+use the Semantic Delivery Language (SDL) format. This delivery language is
+based on an SGML document type definition designed expressly for online information
+delivery.<indexterm><primary>Semantic Delivery Language (SDL)</primary></indexterm><indexterm>
+<primary>SDL (Semantic Delivery Language)</primary></indexterm></para>
+<para>The Help System defines desktop actions and data types for help-specific
+files. This lets you easily create a run-time file from your desktop by selecting
+the icon of a help source file and choosing a menu command that processes
+the file.<indexterm><primary>help</primary><secondary>actions</secondary>
+</indexterm><indexterm><primary>actions, help</primary></indexterm><indexterm>
+<primary>help</primary><secondary>data types</secondary></indexterm><indexterm>
+<primary>data types, help</primary></indexterm> A <filename>.sdl</filename>
+extension is used to identify run-time help files. If any errors occurred
+during processing, they are reported in an error file ( <symbol role="Variable">volume</symbol><filename>.log</filename>).</para>
+<para>Refer to <!--Original XRef content: '&ldquo;Creating Run-Time Help
+Files&rdquo; on page&numsp;89'--><xref role="SecTitleAndPageNum" linkend="HRDC.CrHV.mkr.2">
+for complete instructions to create a run-time help file. For general information
+about desktop actions and data types, refer to the <citetitle>Advanced User's
+and System Administrator's Guide</citetitle>.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.44">
+<title id="HRDC.Intro.mkr.26">Review Help as the User Will See It<indexterm>
+<primary>reviewing</primary><secondary>help as user will see it</secondary>
+</indexterm><indexterm><primary>user'</primary></indexterm><indexterm><primary>s perspective, seeing help from</primary></indexterm><indexterm><primary>perspective, seeing help from user'</primary></indexterm><indexterm><primary>&sigma;</primary></indexterm></title>
+<para>During the authoring process, you will need to display your help so
+you can interact with it just as your audience will. To display a help volume
+from the desktop, double-click the file icon of the run-time help volume (<symbol role="variable">volume</symbol>.<filename>sdl</filename>). Or, you can also
+display any help topic using the <command>dthelpview</command> command. <!--Original
+XRef content: 'Chapter&numsp;4, &ldquo;Processing and Displaying
+a Help Volume'--><xref role="ChapNumAndTitle" linkend="HRDC.CrHV.mkr.1">,
+describes both methods.</para>
+<para>If you are writing application help, and the Help System has been integrated
+into your application, you can view your help by running the application
+and making help requests just as the user will.</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Intro.div.45">
+<title id="HRDC.Intro.mkr.27">Programmer's Job<indexterm><primary>programmer,
+application</primary><secondary>responsibility</secondary></indexterm><indexterm>
+<primary>responsibility</primary><secondary>programmer</secondary></indexterm></title>
+<para>As a programmer, you add code into your application so that when a user
+requests context-sensitive help, the application displays help information
+that is relevant to what the application is doing at that time.</para>
+<note>
+<para id="HRDC.Intro.mkr.28">The<filename>/usr/dt/share/examples/dthelp</filename>
+directory contains source code for a sample program called <command>dthelpdemo</command>. It demonstrates how to add help dialogs to a Motif application.<indexterm>
+<primary>sample application, integrated help</primary></indexterm></para>
+</note>
+<sect2 id="HRDC.Intro.div.46">
+<title id="HRDC.Intro.mkr.29">Consider How Your Help Is Accessed</title>
+<para>Providing useful information to the user requires considering the following:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>What confusing situation commonly
+arise? Specific help in these situations can save users lots of time.</para>
+</listitem><listitem><para>Why is the user asking for help now instead of
+earlier or later? If there are several steps in a process and the user is
+not at the first step, branch to information that is specific to the step
+being done. This is more helpful than displaying the same information at each
+step. If the user is at the first step, make available both detailed information
+about the first step and an overview of all the steps.</para>
+</listitem><listitem><para>Is the user requesting context-specific help or
+just browsing the help information? If it is context-specific, supply information
+that's relevant to the task now being done.</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.Intro.div.47">
+<title id="HRDC.Intro.mkr.30">Collaborate with the Help Author</title>
+<para>Close collaboration with the online help author is needed because the
+author needs to know how each context-specific topic is reached and the programmer
+needs to know what is explained in each context-specific topic. Without such
+coordination, the user may see irrelevant, ambiguous, or misleading information.
+</para>
+<para>Collaboration makes the best use of the programmer's understanding of
+the application and the author's understanding of how to best communicate
+relevant information to the user.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.48">
+<title>Identify Help Entry Points</title>
+<para>An application provides online help by establishing help <emphasis>entry points</emphasis>. Entry points are defined in the application and associated
+with specific help topics. Each of the ways that a user can request help&mdash;the
+Help key, button, or menu&mdash;represent entry points. For example, consider
+an application with a Print dialog box that has a Help button. The author
+writes a help topic that describes the contents of the dialog box and supplies
+you with the ID of the topic. You can then associate the ID of the help topic
+with the Help button using a callback routine.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.49">
+<title id="HRDC.Intro.mkr.31">Create and Manage Help Dialogs</title>
+<para>The Help System application program interface is designed especially
+for use with Motif applications. Specifically, Help extends the Motif
+widget set by providing two new widget classes (plus convenience functions
+to manipulate them):</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>General help dialog</emphasis>, which provides a help window that includes a menu bar and a topic
+tree, in addition to a help topic display area.</para>
+</listitem><listitem><para><emphasis>Quick help dialog</emphasis>, which provides
+a simple help window with a topic display area and a few dialog buttons.</para>
+</listitem></itemizedlist>
+<para>You can use either or both of these types of help windows within your
+application. Once the application is compiled (with the Help library), the
+help windows become part of the application.</para>
+<para><!--Original XRef content: 'Chapter&numsp;9, &ldquo;Creating and Managing
+Help Dialog Boxes'--><xref role="ChapNumAndTitle" linkend="HRDC.CrDia.mkr.1">,
+describes the general help and quick help dialog boxes.</para>
+</sect2>
+<sect2 id="HRDC.Intro.div.50">
+<title>Package and Distribute Help</title>
+<para>Your product package includes both the run-time help file ( <symbol role="variable">volume</symbol>.<filename>sdl</filename>) and its graphics files. Additionally,
+you can provide a help family file that enables your volume to be viewed using
+the Front Panel Help Viewer.</para>
+<para>If the help volume uses execution links, you should collaborate with
+the author to include the appropriate execution link resources in your application's
+application defaults file. <!--Original XRef content: 'Chapter&numsp;13, &ldquo;Preparing
+an Installation Package'--><xref role="ChapNumAndTitle" linkend="HRDC.Inst.mkr.1">,
+discusses which help files are delivered with your application.</para>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub *0000050603>

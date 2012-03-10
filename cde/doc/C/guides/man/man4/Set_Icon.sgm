@@ -1,0 +1,111 @@
+<!-- $XConsortium: Set_Icon.sgm /main/6 1996/09/08 20:15:43 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN309.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN309.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Set_Iconified</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Set_Iconified</Symbol></RefName>
+<RefPurpose>set a tool's iconic state
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Set_Icon.sgm /main/6 1996/09/08 20:15:43 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>Set_Iconified(in boolean <Emphasis>iconic</Emphasis>
+        [in messageID <Emphasis>commission</Emphasis>]);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Set_Iconified</Symbol> request
+sets the iconic state of the optionally specified
+window, or of the window primarily associated with the handling
+procid (if no window is specified).
+</Para>
+<Para>The
+<Emphasis>iconic</Emphasis> argument
+is a Boolean value indicating whether the specified window is (to be)
+iconified.
+</Para>
+<Para>The
+<Emphasis>commission</Emphasis> argument
+is the ID of the ongoing request, if any, that resulted in the creation
+of the window(s) in question.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttdt.session.join;, and
+&cdeman.ttdt.message.accept;, functions can be used by Xt applications to register for,
+and transparently process, the
+<Symbol Role="Message">Set_Iconified</Symbol> request.
+</Para>
+<Para>If the handler does not map window-system windows one-to-one to
+commissions or procids, then it may interpret ``iconic state'' liberally.
+For example, consider a
+<Symbol Role="Message">Display</Symbol> request on an
+<Literal>ISO_Latin_1</Literal> file, handled by a
+<Command>gnuemacs</Command> instance that then devotes an
+<Command>emacs</Command> ``window'' to the file.
+``Windows'' in
+<Command>gnuemacs</Command> are not separate X11 windows, and are not separately iconifiable.
+However, a
+<Symbol Role="Message">Set_Iconified</Symbol> request issued with respect to the ongoing
+<Symbol Role="Message">Display</Symbol> request could be liberally interpreted by
+<Command>gnuemacs</Command> to mean it should
+minimize the screen real estate devoted to the operation, perhaps by
+``burying'' the buffer or dividing its window's real estate among
+neighboring windows.
+And, if the
+<Symbol Role="Message">Display</Symbol> request happens to be the only thing
+<Command>emacs</Command> is working on at the
+moment, it could instead take a literal interpretation, and actually
+iconify itself.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The
+<Symbol Role="Message">Set_Iconified</Symbol> request can be sent as in the following example:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message msg = tttk_message_create(0, TT_REQUEST, TT_SESSION,
+                        the_recipient_procid, TTDT_SET_ICONIFIED,
+                        my_callback);
+tt_message_iarg_add(msg, TT_IN, Tttk_boolean, 1);
+tt_message_send(msg);
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<![ %CDE.C.CDE; [
+<RefSect1>
+<Title>WARNINGS</Title>
+<Para><Symbol Role="Message">Set_Iconified</Symbol> can also be sent as a multicast notice, as an
+<Emphasis>edict</Emphasis> to all tools in the scope of the message.
+The consequences of doing so can be severe and unexpected.
+</Para>
+</RefSect1>
+]]>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.tt.message.iarg.add;, &cdeman.tt.message.send;, &cdeman.ttdt.message.accept;, &cdeman.ttdt.session.join;; <Symbol Role="Message">Get_Iconified</Symbol> request.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

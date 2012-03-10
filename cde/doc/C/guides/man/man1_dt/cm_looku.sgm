@@ -1,0 +1,354 @@
+<!-- $XConsortium: cm_looku.sgm /main/10 1996/09/08 19:50:48 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN4.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN4.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>dtcm_lookup</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dtcm_lookup</Command></RefName>
+<RefPurpose>look up appointments from the calendar database
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dtcm_lookup</Command>
+<Arg Choice="opt">&minus;c&numsp;<Replaceable>calendar</Replaceable></Arg>
+<Arg Choice="opt">&minus;d&numsp;<Replaceable>date</Replaceable></Arg>
+<Arg Choice="opt">&minus;v&numsp;<Replaceable>view</Replaceable></Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Command>dtcm_lookup</Command> utility is non-GUI interface to the &str-XZ; calendar and appointment services,
+used to look up appointments from the calendar
+<![ %CDE.C.CDE; [database via the RPC daemon
+&cdeman.rpc.cmsd;. ]]><![ %CDE.C.XO; [database.
+]]>Each component of the calendar entry is specified using one
+of the command-line options.
+The current list of appointments for the specified date
+(see the
+<Literal>&minus;d</Literal> and
+<Literal>&minus;v</Literal> options) is displayed.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<![ %CDE.C.XO; [
+<Para>The
+<Command>dtcm_lookup</Command> utility supports the &str-Zu;.
+</Para>
+]]>
+<Para>The following options are available:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>&minus;c&numsp;</Literal><Emphasis>calendar</Emphasis></Term>
+<ListItem>
+<Para>Specify the name of the target calendar.
+Calendar names
+<![ %CDE.C.XO; [are implementation-dependent, but
+]]>typically take the form
+<Emphasis>user</Emphasis>@ <Emphasis>hostname</Emphasis>, where
+<Emphasis>user</Emphasis> is a user's login name and
+<Emphasis>hostname</Emphasis> is the host machine name.
+<![ %CDE.C.CDE; [An example is
+<Literal>felix@cat</Literal>. ]]>If no target calendar is specified,
+the calendar defaults to
+the current user at the current host machine.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;d&numsp;</Literal><Emphasis>date</Emphasis></Term>
+<ListItem>
+<Para>Specify the date for the look up query.
+The
+<Emphasis>date</Emphasis> is specified using the form
+<Symbol Role="Variable">mm</Symbol>/ <Emphasis>dd</Emphasis>/ <Emphasis>yy</Emphasis>, where
+<Symbol Role="Variable">mm</Symbol>, <Emphasis>dd</Emphasis> and
+<Emphasis>yy</Emphasis> are the two-digit month, day and year modulo 100, respectively.
+<![ %CDE.C.CDE; [Certain other references such as
+``today,'' ``Tuesday,'' ``tomorrow,'' etc.
+are correctly calculated.
+]]>If no date is specified,
+<Emphasis>date</Emphasis> defaults to today's date.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;v&numsp;</Literal><Emphasis>view</Emphasis></Term>
+<ListItem>
+<Para>Specify the view span of appointments to display.
+The
+<Emphasis>view</Emphasis> option-argument can be:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>day</Literal></Term>
+<ListItem>
+<Para>Display all appointments for the given date (see
+<Literal>&minus;d</Literal> option).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>week</Literal></Term>
+<ListItem>
+<Para>Display the full week that contains the given date,
+starting with Sunday.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>month</Literal></Term>
+<ListItem>
+<Para>Display the entire month that contains the given date.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<![ %CDE.C.CDE; [
+<Para>If the
+<Emphasis>view</Emphasis> option-argument is not specified, the viewing range defaults to the view
+range specified by the user's
+<Command>dtcm</Command> options sheet.
+If the user has
+not specified a range in his or her options sheet, it defaults to the
+<Literal>day</Literal> value.
+</Para>
+]]>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>OPERANDS</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>STDIN</Title>
+<Para>Not used.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>INPUT FILES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLES</Title>
+<Para>The following environment variables affect the execution of
+<Command>dtcm_lookup</Command>:</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">LANG</SystemItem></Term>
+<ListItem>
+<Para>Provide a default value for the internationalization variables
+that are unset or null.
+If
+<SystemItem Class="EnvironVar">LANG</SystemItem> is unset or null, the corresponding value from the
+implementation-specific default locale will be used.
+If any of the internationalization variables contains an invalid setting, the
+utility behaves as if none of the variables had been defined.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>LC_ALL</Emphasis></Term>
+<ListItem>
+<Para>If set to a non-empty string value,
+override the values of all the other internationalization variables.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>LC_MESSAGES</Emphasis></Term>
+<ListItem>
+<Para>Determine the locale that is used to affect
+the format and contents of diagnostic
+messages written to standard error
+and informative messages written to standard output.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">NLSPATH</SystemItem></Term>
+<ListItem>
+<Para>Determine the location of message catalogues
+for the processing of
+<Emphasis>LC_MESSAGES</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RESOURCES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ASYNCHRONOUS EVENTS</Title>
+<![ %CDE.C.XO; [
+<Para>Default.
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>The
+<Command>dtcm_lookup</Command> utility takes the standard action for all signals.
+</Para>
+]]>
+</RefSect1>
+<RefSect1>
+<Title>STDOUT</Title>
+<Para>The standard output contains the list of appointments
+for the specified view
+<![ %CDE.C.CDE; [span.
+]]><![ %CDE.C.XO; [span, in an unspecified format.
+]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>STDERR</Title>
+<Para>Used only for diagnostic messages.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OUTPUT FILES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXTENDED DESCRIPTION</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXIT STATUS</Title>
+<Para>The following exit values are returned:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<Para>Successful completion.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>>0</Term>
+<ListItem>
+<Para>An error occurred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>CONSEQUENCES OF ERRORS</Title>
+<Para>Default.
+</Para></RefSect1>
+<![ %CDE.C.CDE; [<RefSect1>
+<Title>FILES</Title>
+<Para><Filename>/usr/spool/calendar/callog.username</Filename>,
+<Filename>/usr/dt/bin/rpc.cmsd</Filename></Para>
+</RefSect1>]]>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<![ %CDE.C.XO; [
+<Para>None.
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>The simplest form of
+<Command>dtcm_lookup</Command> has no arguments:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_lookup
+Appointments for Tuesday March 29, 1994:
+        1) Appointment
+        2) 10:30am-10:45am Morning Tea
+        3) 2:00pm-3:00pm Staff meeting
+        4) 4:30pm-5:00pm Phone home
+</ProgramListing>
+</InformalExample>
+<Para>To look up entries for a specific date:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_lookup &minus;d 03/29/94
+Appointments for Wednesday March 30, 1994:
+        1) 11:00am-12:00pm Appointment
+        2) 11:30am-12:30pm Group Lunch
+        3) 4:00pm-5:00pm Tech Interview
+</ProgramListing>
+</InformalExample>
+<Para>To look up entries from a specific target calendar:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_lookup &minus;c felix@cat
+Appointments for Tuesday March 29, 1994:
+        1) Appointment
+        2) 10:15am-10:30am Coffee
+        3) 11:15am-11:30am Doughnuts
+        4) 2:00pm-2:15pm Coffee
+        5) 3:30pm-3:45pm Snack
+        6) 4:30pm-4:45pm Coffee
+</ProgramListing>
+</InformalExample>
+<Para>To look up an entire week's appointments:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>dtcm_lookup &minus;v week
+Appointments for Sunday March 27, 1994:
+        1) 6:00am-5:00pm Hiking
+Appointments for Monday March 28, 1994:
+        1) 11:00am-11:30am Sync with East Coast
+        2) 4:00pm-4:15pm Confirm flight
+Appointments for Tuesday March 29, 1994:
+        1) Appointment
+        2) 10:15am-10:30am Coffee
+        3) 11:15am-11:30am Doughnuts
+        4) 2:00pm-2:15pm Coffee
+        5) 3:30pm-3:45pm Snack
+        6) 4:30pm-4:45pm Coffee
+Appointments for Wednesday March 30, 1994:
+        1) 11:00am-11:15am Appointment
+        2) 11:30am-12:30pm Group Lunch
+        3) 4:00pm-5:00pm Tech Interview
+Appointments for Friday April 1, 1994:
+        1) Documentation
+        2) 10:00am-11:00am Staff meeting
+Appointments for Saturday April 2, 1994:
+        1) 9:00am-11:00am Raquetball with Debbie
+</ProgramListing>
+</InformalExample>
+<Para>Notice that Thursday does not appear, since there were no appointments
+on that day.
+</Para>
+]]>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para><![ %CDE.C.CDE; [&cdeman.rpc.cmsd;, &cdeman.dtcm;, ]]>&cdeman.dtcm.insert;, &cdeman.dtcm.delete;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

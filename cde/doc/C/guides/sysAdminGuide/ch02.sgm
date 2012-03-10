@@ -1,0 +1,896 @@
+<!-- $XConsortium: ch02.sgm /main/10 1996/09/08 19:32:24 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.SesMg.div.1">
+<Title Id="SAG.SesMg.mkr.1">Configuring Session Manager</Title>
+<Para>Session Manager is responsible for starting the desktop and automatically
+saving and restoring running applications, colors, fonts, mouse behavior, audio
+volume, and keyboard click.</Para>
+<Para>Using Session Manager, you can:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Customize the initial session for all desktop users</Para>
+</ListItem>
+<ListItem>
+<Para>Customize the environment and resources for all desktop users</Para>
+</ListItem>
+<ListItem>
+<Para>Change the session startup message</Para>
+</ListItem>
+<ListItem>
+<Para>Change parameters for session startup tools and daemons</Para>
+</ListItem>
+<ListItem>
+<Para>Customize desktop color usage for all users</Para>
+</ListItem>
+</ItemizedList>
+<InformalTable Id="SAG.SesMg.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.125 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'What Is a Session?23'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Starting a Session25'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.7"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'When a Session Starts25'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.8"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Additional Session Startup Customizations32'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.21"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Session Manager Files and Directories37'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.32"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="SAG.SesMg.div.2">
+<Title Id="SAG.SesMg.mkr.2">What Is a Session?<IndexTerm><Primary>Session Manager</Primary><Secondary>introduction</Secondary></IndexTerm><IndexTerm><Primary>session</Primary><Secondary>definition</Secondary></IndexTerm></Title>
+<Para>A session is the collection of applications, settings, and resources present on
+the user's desktop. Session management is a set of conventions and protocols
+that enables Session Manager to save and restore a user's session. A user is able
+to log into the system and be presented with the same set of running
+applications, settings, and resources as were present when the user logged off.
+When a user logs into the desktop for the first time, a
+default initial session is
+loaded. Afterward, Session Manager supports the notion of a
+current and a home session.<IndexTerm><Primary>session</Primary><Secondary>default</Secondary></IndexTerm><IndexTerm><Primary>current session</Primary></IndexTerm><IndexTerm><Primary>session</Primary><Secondary>current</Secondary></IndexTerm><IndexTerm><Primary>session</Primary><Secondary>home</Secondary></IndexTerm><IndexTerm><Primary>home session</Primary></IndexTerm>
+</Para>
+<Sect2 Id="SAG.SesMg.div.3">
+<Title>The Initial Session<IndexTerm><Primary>session</Primary><Secondary>default</Secondary></IndexTerm><IndexTerm><Primary>session</Primary><Secondary>initial</Secondary></IndexTerm></Title>
+<Para>When a user logs into the desktop for the first time, Session Manager will
+generate the user's initial session using system default values. By default, the
+File Manager and Information Manager will start. The Information Manager displays
+introductory information about the CDE desktop.
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.4">
+<Title>Current Session<IndexTerm><Primary>session</Primary><Secondary>current</Secondary></IndexTerm><IndexTerm><Primary>current session</Primary></IndexTerm></Title>
+<Para>The user's running session is always considered the current session, whether
+restored upon login from a saved home session, a saved current session, or the
+system default initial session. Based on the user's Style Manager Startup
+settings, when the user exits the session, Session Manager automatically saves
+the current session. When the user next logs in to the desktop, Session
+Manager restarts the previously saved current session, meaning that the
+desktop will be restored to the same state as when the user last logged out.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.5">
+<Title>Home Session<IndexTerm><Primary>session</Primary><Secondary>home</Secondary></IndexTerm><IndexTerm><Primary>home session</Primary></IndexTerm></Title>
+<Para>You can also have the desktop restored to the same state every time the user
+logs in, regardless of its state when the user logged out. The user can save the
+state of the current session and then, using the Style Manager Startup settings,
+have Session Manager start that session every time the user logs in.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.6">
+<Title>Display-Specific Sessions<IndexTerm><Primary>session</Primary><Secondary>display-specific</Secondary></IndexTerm></Title>
+<Para>To run a specific session for a specific display, a user can create a display-
+specific session. To do this, the user can copy the
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions</Filename> directory to <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol>, where
+<Symbol Role="Variable">display</Symbol> is the real, unqualified host name (for example, <Filename>pablo:0</Filename> is valid,
+<Filename>pablo.gato.com:0</Filename> or <Filename>unix:0</Filename> is not). When the user logs in on display
+<Filename>pablo:0</Filename>, Session Manager will start that display-specific session.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.SesMg.div.7">
+<Title Id="SAG.SesMg.mkr.3">Starting a Session<IndexTerm><Primary>session</Primary><Secondary>starting</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>starting</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>See also, session</Secondary></IndexTerm></Title>
+<Para>Session Manager is started through <Filename>/usr/dt/bin/<IndexTerm>
+<Primary>Xsession file</Primary>
+<Secondary>starting Session Manager</Secondary>
+</IndexTerm>
+Xsession</Filename>. When the user
+logs in using the Login Manager, <Command>Xsession</Command> is started by default.</Para>
+<Para>Optionally, the user can log in using the traditional character mode<IndexTerm>
+<Primary>getty</Primary>
+</IndexTerm>
+(<Command>getty</Command>)
+login, and start Session Manager manually using tools that start an X server,
+such as <Command>xinit</Command>. For example: <Command>xinit /usr/dt/bin/Xsession</Command>.</Para>
+</Sect1>
+<Sect1 Id="SAG.SesMg.div.8">
+<Title Id="SAG.SesMg.mkr.4">When a Session Starts</Title>
+<Para>When Session Manager is started, it goes through the following steps to start
+the user's session:</Para>
+<OrderedList>
+<ListItem>
+<Para>Sources the <Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm>
+<Primary>.dtprofile file</Primary>
+<Secondary>sourcing in</Secondary>
+</IndexTerm>/.dtprofile</Filename> script</Para>
+</ListItem>
+<ListItem>
+<Para>Sources the <Filename><IndexTerm>
+<Primary>Xsession.d directory</Primary>
+</IndexTerm>Xsession.d</Filename> scripts</Para>
+</ListItem>
+<ListItem>
+<Para>Displays a<IndexTerm>
+<Primary>Session Manager</Primary>
+<Secondary>welcome message</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>welcome message</Primary>
+<Secondary>displaying</Secondary>
+</IndexTerm>
+welcome message</Para>
+</ListItem>
+<ListItem>
+<Para>Sets up<IndexTerm>
+<Primary>desktop search paths</Primary>
+</IndexTerm>
+desktop search paths</Para>
+</ListItem>
+<ListItem>
+<Para>Gathers available applications</Para>
+</ListItem>
+<ListItem>
+<Para>Optionally sources <Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm>
+<Primary>.profile file[profile file]</Primary>
+</IndexTerm>/.profile</Filename> or <Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm>
+<Primary>.login file[login file]</Primary>
+</IndexTerm>/.login</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>Starts the<IndexTerm>
+<Primary>ToolTalk</Primary>
+<Secondary>messaging daemon</Secondary>
+</IndexTerm>
+ToolTalk<Superscript>&reg;</Superscript> messaging daemon</Para>
+</ListItem>
+<ListItem>
+<Para>Loads<IndexTerm>
+<Primary>session</Primary>
+<Secondary>resources</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>resources</Primary>
+<Secondary>session</Secondary>
+</IndexTerm>
+session resources</Para>
+</ListItem>
+<ListItem>
+<Para>Starts the<IndexTerm>
+<Primary>color server</Primary>
+</IndexTerm>
+color server</Para>
+</ListItem>
+<ListItem>
+<Para>Starts the<IndexTerm>
+<Primary>Workspace Manager</Primary>
+<Secondary>starting</Secondary>
+</IndexTerm>
+Workspace Manager</Para>
+</ListItem>
+<ListItem>
+<Para>Starts the session<IndexTerm>
+<Primary>applications</Primary>
+<Secondary>starting at login</Secondary>
+</IndexTerm>
+applications</Para>
+</ListItem>
+</OrderedList>
+<Para>The following sections describe the steps listed above.</Para>
+<Sect2 Id="SAG.SesMg.div.9">
+<Title>Sourcing the .dtprofile Script<IndexTerm><Primary>.dtprofile file</Primary><Secondary>sourcing in</Secondary></IndexTerm></Title>
+<Para>At session startup, the <Command><IndexTerm>
+<Primary>Xsession file</Primary>
+</IndexTerm>Xsession</Command> script sources the user's
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm>
+<Primary>environment variables</Primary>
+<Secondary>in .dtprofile</Secondary>
+</IndexTerm>/.dtprofile</Filename> script. The <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> script is a
+<Filename>/bin/sh</Filename> or <Filename>/bin/ksh</Filename> script that enables users to set up<IndexTerm>
+<Primary>environment variables</Primary>
+<Secondary>in .dtprofile</Secondary>
+</IndexTerm>
+environment
+variables for their sessions. For more information on setting up environment
+variables, see
+<!--Original XRef content: '&xd2;Additional Session Startup Customizations&xd3; on page&numsp;32'--><XRef Role="HeadingAndPage" Linkend="SAG.SesMg.div.21">.</Para>
+<Para>If the <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> script does not exist, such as when a user is
+logging into the desktop for the first time, <Command>Xsession</Command> will copy the desktop
+default <Filename>sys.dtprofile</Filename> to<IndexTerm>
+<Primary>shell</Primary>
+<Secondary>personal customization</Secondary>
+</IndexTerm>
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm>
+<Primary>.dtprofile file</Primary>
+<Secondary>creating</Secondary>
+</IndexTerm>/.dtprofile</Filename>.</Para>
+<Para><IndexTerm>
+<Primary>environment variables</Primary>
+<Secondary>default</Secondary>
+</IndexTerm>The desktop default is <Filename>/usr/dt/config/sys.dtprofile</Filename><IndexTerm>
+<Primary>sys.dtprofile file</Primary>
+</IndexTerm>. To customize the<IndexTerm>
+<Primary>shell</Primary>
+<Secondary>system-wide customization</Secondary>
+</IndexTerm>
+<Filename>sys.dtprofile</Filename> script, copy <Filename>sys.dtprofile</Filename> from <Filename>/usr/dt/config</Filename> to
+<Filename>/etc/dt/config</Filename> and edit the new file.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.10">
+<Title Id="SAG.SesMg.mkr.5">Sourcing Xsession.d Scripts<IndexTerm><Primary>Xsession.d directory</Primary><Secondary>scripts in</Secondary></IndexTerm></Title>
+<Para>After sourcing the <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> script, the <Command>Xsession</Command> script
+sources the <Filename>Xsession.d</Filename> scripts. These scripts are used to set up additional
+environment variables and start optional daemons for the user's session. The
+default <Filename>Xsession.d</Filename> scripts are:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="139*">
+<colspec colwidth="389*">
+<TBody>
+<Row>
+<Entry><Para><Filename>0010.dtpaths</Filename></Para></Entry>
+<Entry><Para>Documents customizable desktop search paths</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>0020.dtims</Filename></Para></Entry>
+<Entry><Para>Starts optional input method server</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>0030.dttmpdir</Filename></Para></Entry>
+<Entry><Para>Creates per-user, per-session temporary directory</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>0040.xmbind</Filename></Para></Entry>
+<Entry><Para>Sets up <Filename>$XMBINDDIR</Filename> to desktop default</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>There may be additional vendor-specific scripts in <Filename>Xsession.d</Filename>.</Para>
+<Para><Command>Xsession</Command> first sources all files in the <Filename>/usr/dt/config/Xsession.d</Filename>
+directory, followed by those in the <Command>/etc/dt/config/Xsession.d</Command> directory.</Para>
+<Para>The desktop default <Filename>Xsession.d</Filename> scripts are located in the
+<Filename>/usr/dt/config/Xsession.d</Filename> directory. To customize an <Filename>Xsession.d</Filename>
+script, copy the script from <Filename>/usr/dt/config/Xsession.d</Filename> to
+<Filename>/etc/dt/config/Xsession.d</Filename> and edit the new file. You must have execute
+permission to perform this task.<IndexTerm><Primary>Xsession.d directory</Primary><Secondary>customizing</Secondary></IndexTerm>
+</Para>
+<Para>Also, to have <Command>Xsession</Command> automatically source a script of your own, copy it to
+<Filename>/etc/dt/config/Xsession.d</Filename>.<IndexTerm><Primary>Xsession file</Primary><Secondary>system-wide customization</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>system-wide customization</Secondary></IndexTerm>
+</Para>
+<Note>
+<Para>When you modify or create an <Filename>Xsession.d</Filename> script, make sure that any
+foreground commands you issue are of short duration, as the time taken by the
+command will directly affect session startup time. If a foreground command
+does not exit, the session startup will hang. Commands run in an <Filename>Xsession.d</Filename>
+script that you want to remain running for the duration of the session should
+be run in the background.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.11">
+<Title><IndexTerm><Primary>welcome message</Primary><Secondary>displaying</Secondary></IndexTerm>Displaying the Welcome Message</Title>
+<Para>After sourcing <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> and the <Filename>Xsession.d</Filename> scripts,
+<Command>Xsession</Command> displays a welcome message that covers the screen. You can
+customize the welcome message displayed, or turn off the message entirely.
+The <Command>dthello</Command> client is used to display the message.</Para>
+<Para><IndexTerm>
+<Primary>welcome message</Primary>
+<Secondary>customizing</Secondary>
+</IndexTerm>To alter the message text, change the <Command>dthello</Command> options by modifying the
+<Filename>dtstart_hello[0]</Filename> variable.</Para>
+<Para>To change <Filename>dtstart_hello[0],</Filename> create an <Filename>/etc/dt/config/Xsession.d</Filename>
+script that sets the new value. To display the message of the day for all users,
+create an executable <Command>sh</Command> or <Command>ksh</Command> script, for example
+<Filename>/etc/dt/config/Xsession.d/</Filename><Emphasis>myvars</Emphasis><Filename>,</Filename> and set <Filename>dtstart_hello[0]</Filename> as
+follows:</Para>
+<ProgramListing>dtstart_hello[0]=&ldquo;/usr/dt/bin/dthello -file /etc/motd &amp;&ldquo;</ProgramListing>
+<Para>Similarly, users can change the welcome message for their sessions by setting
+<Filename>dtstart_hello[0]</Filename> in <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename>.</Para>
+<Para>To turn off the welcome message, set <ComputerOutput>dtstart_hello[0]=</ComputerOutput>&ldquo; &ldquo;<ComputerOutput>.</ComputerOutput></Para>
+<Para>For more information about <Command>dthello</Command>, see the <Command>dthello</Command> man page.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.12">
+<Title>Setting Up the Desktop Search Paths<IndexTerm><Primary>Session Manager</Primary><Secondary>setting search paths</Secondary></IndexTerm><IndexTerm><Primary>search paths</Primary><Secondary>set by Session Manager</Secondary></IndexTerm></Title>
+<Para>The desktop search paths are created at login by <Command><IndexTerm>
+<Primary>dtsearchpath</Primary>
+</IndexTerm>dtsearchpath</Command>. There are
+two categories of environment variables used by <Command>dtsearchpath</Command>:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="126*">
+<colspec colwidth="402*">
+<TBody>
+<Row>
+<Entry><Para>Input Variables</Para></Entry>
+<Entry><Para>System-wide and personal environment variables
+whose values are set by the system administrator or
+end user.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Output Variables</Para></Entry>
+<Entry><Para>Variables created and assigned values by
+<Command>dtsearchpath</Command>. The value of each variable is the
+search path for the desktop session.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>To alter the command-line options of <Command>dtsearchpath</Command>, modify the
+<Filename>dtstart_searchpath</Filename> variable. To change the <Command><IndexTerm>
+<Primary>dtstart_searchpath variable</Primary>
+</IndexTerm>dtstart_searchpath</Command>
+variable for all users, create an executable <Command>sh</Command> or <Command>ksh</Command> script (for example
+<Filename>/etc/dt/config/Xsession.d/</Filename><Emphasis>myvars</Emphasis>), and set <Filename>dtstart_searchpath</Filename> as
+follows:</Para>
+<ProgramListing>dtstart_searchpath=&ldquo;/usr/dt/bin/dtsearchpath&ldquo;</ProgramListing>
+<Para>Users can similarly change the <Command>dtsearchpath</Command> options for their own sessions
+only by setting <Filename>dtstart_searchpath</Filename> in <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename>.</Para>
+<Para>For more information about <Command>dtsearchpath</Command>, see
+<!--Original XRef content: 'Chapter&numsp;7, &xd2;Desktop Search
+Paths'--><XRef Role="ChapNumAndTitle" Linkend="SAG.Datab.div.1">.
+For more information about <Command>dtsearchpath</Command> options, see the
+<Command>dtsearchpath</Command> man page.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.13">
+<Title>Gathering Available Applications</Title>
+<Para>The next step after setting up the desktop search paths is to gather available
+applications, using <Command>dtappgather</Command>. To alter the command-line options of<IndexTerm>
+<Primary>Application Manager</Primary>
+<Secondary>gathering applications</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Session Manager</Primary>
+<Secondary>gathering applications</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>applications</Primary>
+<Secondary>gathered by Session Manager</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>dtappgather</Primary>
+</IndexTerm>
+<Command>dtappgather</Command>, modify the <Filename>dtstart_appgather</Filename> variable. To change the <Command><IndexTerm>
+<Primary>dtstart_appgather variable</Primary>
+</IndexTerm>dtstart_appgather</Command> variable for all users, create an executable <Command>sh</Command> or <Command>ksh</Command>
+script (for example <Filename>/etc/dt/config/Xsession.d/</Filename><Emphasis>myvars</Emphasis>), and set
+<Filename>dtstart_appgather</Filename> as follows:</Para>
+<ProgramListing>dtstart_appgather=&ldquo;/usr/dt/bin/dtappgather &amp;&ldquo;</ProgramListing>
+<Para>Users can similarly change the <Command>dtappgather</Command> options for their own sessions
+only by setting <Filename>dtstart_appgather</Filename> in <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename>.</Para>
+<Para>For more information about <Command>dtappgather</Command> options, see the <Command>dtappgather</Command> <Filename>(4)</Filename>
+man page.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.14">
+<Title Id="SAG.SesMg.mkr.6">Optionally Sourcing the .profile or .login Script<IndexTerm><Primary>environment variables</Primary><Secondary>sourcing in .login or .profile</Secondary></IndexTerm><IndexTerm><Primary>shell</Primary><Secondary>sourcing in .profile or .login</Secondary></IndexTerm><IndexTerm><Primary>.profile file</Primary><Secondary>sourcing in</Secondary></IndexTerm><IndexTerm><Primary>.login file</Primary><Secondary>sourcing in</Secondary></IndexTerm></Title>
+<Para><Command>Xsession</Command> is able to source a user's traditional <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.profile</Filename> or
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.login</Filename> scripts. By default this capability is disabled. To tell
+<Command>Xsession</Command> to source the <Filename>.profile</Filename> or <Filename>.login</Filename> script, set <Command><IndexTerm>
+<Primary>DTSOURCEPROFILE variable</Primary>
+</IndexTerm>DTSOURCEPROFILE</Command>
+to <Command>true</Command>.</Para>
+<Para>To change <Command>DTSOURCEPROFILE</Command> for all users, create an
+<Filename>/etc/dt/config/Xsession.d</Filename> script that sets the new value. To set
+<Command>DTSOURCEPROFILE</Command> to <Command>true</Command> for all users, create an executable <Command>sh</Command> or <Command>ksh</Command>
+script, for example <Filename>/etc/dt/config/Xsession.d/</Filename><Emphasis>myvars,</Emphasis> and set
+<Command>DTSOURCEPROFILE</Command> as follows:</Para>
+<ProgramListing>DTSOURCEPROFILE=true</ProgramListing>
+<Para>Users can similarly change <Command>DTSOURCEPROFILE</Command> for their own sessions by
+setting <Command>DTSOURCEPROFILE</Command> to <Command>true</Command> in <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename>.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.15">
+<Title>Starting the ToolTalk Messaging Daemon<IndexTerm><Primary>ToolTalk</Primary><Secondary>messaging daemon</Secondary></IndexTerm></Title>
+<Para>The ToolTalk messaging daemon, <Command>ttsession</Command>, enables independent
+applications to communicate with each other without having direct knowledge
+of each other. Applications create and send ToolTalk messages to communicate
+with each other. <Command>ttsession</Command> communicates on the network to deliver
+messages.</Para>
+<Para>To alter the command-line options of <Command><IndexTerm>
+<Primary>ttsession</Primary>
+<Secondary>starting</Secondary>
+</IndexTerm>ttsession</Command>, modify the
+<Filename>dtstart_ttsession</Filename> variable. To change the <Command><IndexTerm>
+<Primary>dtstart_ttsession variable</Primary>
+</IndexTerm>dtstart_ttsession</Command> variable
+for all users, create an executable <Command>sh</Command> or <Command>ksh</Command> script (for example
+<Filename>/etc/dt/config/Xsession.d/</Filename><Symbol Role="Variable">myvars</Symbol>), and set <Filename>dtstart_ttsession</Filename> as
+follows:</Para>
+<ProgramListing>dtstart_ttsession=&ldquo;/usr/dt/bin/ttsession -s&ldquo;</ProgramListing>
+<Para>Users can similarly change the <Command>ttsession</Command> options for their own sessions by
+setting <Filename>dtstart_ttsession</Filename> in <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename>.</Para>
+<Para>For more information about <Command>ttsession</Command> options, see the <Command>ttsession</Command> man
+page. For more information on <Command>ttsession</Command>, see <Emphasis>Getting Started Using ToolTalk
+Messaging</Emphasis>.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.16">
+<Title>Starting the Session Manager Client<IndexTerm><Primary>Session Manager</Primary><Secondary>client</Secondary></IndexTerm></Title>
+<Para>At this point, <Command>Xsession</Command> starts <Filename>/usr/dt/bin/dtsession</Filename>, which continues
+the session startup process.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.17">
+<Title Id="SAG.SesMg.mkr.7">Loading the Session Resources<IndexTerm><Primary>Session Manager</Primary><Secondary>loading resources</Secondary></IndexTerm><IndexTerm><Primary>resources</Primary><Secondary>loading</Secondary></IndexTerm></Title>
+<Para>Session Manager uses the X server <Command>RESOURCE_MANAGER</Command> property to make
+desktop resources available to all applications. Session Manager loads the
+<Filename>RESOURCE_MANAGER</Filename> by:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Loading the system default resources</Para>
+</ListItem>
+<ListItem>
+<Para>Merging any system-wide resources specified by the system administrator.</Para>
+</ListItem>
+<ListItem>
+<Para>Merging any user-specified resources</Para>
+</ListItem>
+</ItemizedList>
+<Para>The desktop default resources can be found in
+<Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename><IndexTerm>
+<Primary>sys.resources file</Primary>
+</IndexTerm><IndexTerm>
+<Primary>resources</Primary>
+<Secondary>default desktop</Secondary>
+</IndexTerm>/sys.resources</Filename>. These resources will be made
+available to each user's session via the <Filename>RESOURCE_MANAGER</Filename> property. This file
+should not be edited, as it is overwritten upon subsequent desktop
+installations.</Para>
+<Para>You can augment the system default resources by creating
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename><IndexTerm>
+<Primary>sys.resources file</Primary>
+</IndexTerm>/sys.resources</Filename>. In this file, you can override
+default resources or specify additional resources for all desktop users. Since
+this file is merged into the desktop default resources during session startup,
+only new or updated resource specifications should be placed in this file.
+Resources specified in this file will be made available to each user's session
+through the <Filename>RESOURCE_MANAGER</Filename> property. Resources specified in this file take
+precedence over those specified in the desktop default resource file.</Para>
+<Para>Users can augment the desktop default and system-wide resources using their
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> file. Resources specified in this file will be made
+available to that user's session through the <Filename>RESOURCE_MANAGER</Filename> property.
+Resources specified in this file take precedence over those specified in the
+desktop default or system administrator resource files.</Para>
+<Note>
+<Para>The X Toolkit Intrinsics utility specifies that it will load resources for an
+application from either <Filename><IndexTerm>
+<Primary>RESOURCE_MANAGER property</Primary>
+</IndexTerm>RESOURCE_MANAGER</Filename> or from <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename>, but not both. Ordinarily, this would mean that
+the user's <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefault</Filename>s file would be ignored. However, Session
+Manager accommodates <Symbol Role="Variable">HomeDirectory</Symbol>/<Filename><IndexTerm>
+<Primary>.Xdefaults file[Xdefaults file]</Primary>
+</IndexTerm>.Xdefaults</Filename> by merging it into the
+<Filename>RESOURCE_MANAGER</Filename> at session startup as described above. If a user changes
+<Symbol Role="Variable">HomeDirectory</Symbol>/<Filename>.Xdefaults</Filename>, the changes will not be visible to new
+applications until the user invokes the Reload Resources action. The<IndexTerm>
+<Primary>Reload Resources action</Primary>
+</IndexTerm>
+Reload
+Resources action will instruct Session Manager to reload the
+<Filename>RESOURCE_MANAGER</Filename> with the default, system-wide, and user-specified
+resources. This makes changes to the system-wide and personal resource files
+available to applications.</Para>
+</Note>
+<Para>For more information see:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Setting Application Resources&xd3; on page&numsp;256'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.2"></Para>
+</ListItem>
+<ListItem>
+<Para>The <Filename>dtresourcesfile(4)</Filename>man page</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.18">
+<Title>Starting the Color Server<IndexTerm><Primary>color server</Primary><Secondary>starting</Secondary></IndexTerm></Title>
+<Para>Session Manager serves as the<IndexTerm>
+<Primary>color server</Primary>
+<Secondary>resources</Secondary>
+</IndexTerm>
+color server for the desktop and provides the
+following set of <Command>dtsession</Command> resources that can be used to configure it.</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.73in">
+<colspec colwidth="4.11in">
+<TBody>
+<Row>
+<Entry><Para><Command>foregroundColor</Command><IndexTerm><Primary>foregroundColor resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Controls whether a pixel is allocated for the foreground
+color</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>dynamicColor</Command><IndexTerm><Primary>dynamicColor resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Specifies whether read-only colors are allocated</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>shadowPixmaps</Command><IndexTerm><Primary>shadowPixmaps resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Specifies whether colors are allocated for top shadow
+or bottom shadow</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>colorUse</Command><IndexTerm><Primary>colorUse resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Limits color allocation</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>writeXrdbColors</Command><IndexTerm><Primary>writeXrdbColors resource</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Specifies whether the <Filename>*background</Filename> and
+<Filename>*foreground</Filename> resources are placed in the resource
+database</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>You can set color server resources for all users by creating
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> and specifying the color server
+resources in that file.</Para>
+<Para>Users can similarly set color server resources for their own sessions by
+specifying color server resources in <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename>.</Para>
+<Para>For more information about setting color server resources, see
+<!--Original XRef content: '&xd2;Administering
+Colors&xd3; on page&numsp;265'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.18">.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.19">
+<Title>Starting Workspace Manager<IndexTerm><Primary>Workspace Manager</Primary><Secondary>starting</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>starting Workspace Manager</Secondary></IndexTerm></Title>
+<Para>Session Manager is responsible for starting Workspace Manager. By default
+<Filename>/usr/dt/bin/<IndexTerm>
+<Primary>Workspace Manager</Primary>
+<Secondary>starting</Secondary>
+</IndexTerm>dtwm</Filename> is started. An alternate window manager can be specified
+with the <Command><IndexTerm>
+<Primary>wmStartupCommand resource</Primary>
+</IndexTerm><IndexTerm>
+<Primary>Window Manager</Primary>
+<Secondary>changing</Secondary>
+</IndexTerm>wmStartupCommand</Command> resource.</Para>
+<Para>You can specify an alternate window manager for all users by creating
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> and specifying the full path
+name and options for the window manager with the
+<Filename>Dtsession*wmStartupCommand</Filename> resource in that file.</Para>
+<Para>Users can similarly specify an alternate window manager for their own
+sessions only by specifying the <Filename>Dtsession*wmStartupCommand</Filename> resource in
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename>.</Para>
+<Para>For more information about the Window Manager, see
+<!--Original XRef content: 'Chapter&numsp;14,
+&xd2;Customizing the Workspace Manager'--><XRef Role="ChapNumAndTitle" Linkend="SAG.WMCnf.div.1">.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.20">
+<Title>Starting the Session Applications<IndexTerm><Primary>applications</Primary><Secondary>starting at login</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>starting applications</Secondary></IndexTerm></Title>
+<Para>At session startup, Session Manager will restart any applications that were
+saved as part of the session. The system default set of applications to be
+restored as part of the user's initial session can be found in
+<Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename>.
+This file should not be edited as it
+will be unconditionally overwritten upon subsequent desktop installations.</Para>
+<Para>For more information, see the <Filename MoreInfo="RefEntry">dtsessionfile(4)</Filename>
+and <Filename MoreInfo="RefEntry">dtsessiondb(4)</Filename> man pages.<IndexTerm><Primary>sys.session file</Primary></IndexTerm>
+</Para>
+<Para>A system administrator can replace the set of applications that are started as
+part of the user's initial session by copying
+<Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename> to
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename> and modifying the latter file.
+Unlike the resource files, this file will be used as a complete replacement for
+the desktop default file, so you can make a copy of the system default file and
+make any necessary modifications.<IndexTerm><Primary>Session Manager</Primary><Secondary>customizing application startup</Secondary></IndexTerm>
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.SesMg.div.21">
+<Title Id="SAG.SesMg.mkr.8">Additional Session Startup Customizations</Title>
+<Para>This section covers:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Setting environment variables</Para>
+</ListItem>
+<ListItem>
+<Para>Setting resources</Para>
+</ListItem>
+<ListItem>
+<Para>Using display-dependent sessions</Para>
+</ListItem>
+<ListItem>
+<Para>Running scripts at login</Para>
+</ListItem>
+<ListItem>
+<Para>Recovering a back-up session</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.SesMg.div.22" Role="Procedure">
+<Title Id="SAG.SesMg.mkr.9">To Set Environment Variables<IndexTerm><Primary>environment variables</Primary><Secondary>setting</Secondary></IndexTerm><IndexTerm><Primary>variables</Primary><Secondary>environment, See environment variables</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para><IndexTerm>
+<Primary>environment variables</Primary>
+<Secondary>system-wide</Secondary>
+</IndexTerm>To set system-wide environment variables, create a file in the
+<Filename>/etc/dt/config/Xsession.d</Filename><IndexTerm>
+<Primary>Xsession.d directory</Primary>
+</IndexTerm>
+directory that sets and<IndexTerm>
+<Primary>environment variables</Primary>
+<Secondary>exporting</Secondary>
+</IndexTerm>
+exports the
+variable.</Para>
+<Para>For example, if you create an executable <Command>sh</Command> or <Command>ksh</Command> script,
+<Filename>/etc/dt/config/Xsession.d/</Filename><Symbol Role="Variable">myvars,</Symbol></Para>
+<Para>containing:</Para>
+<programlisting>export MYVARIABLE=&ldquo;<Symbol Role="Variable">value</Symbol>&ldquo;</programlisting>
+<Para>then the variable <Command>MYVARIABLE</Command> will be set in each user's environment at the
+next login.</Para>
+</ListItem>
+<ListItem>
+<Para><IndexTerm>
+<Primary>environment variables</Primary>
+<Secondary>personal</Secondary>
+</IndexTerm>To set personal environment variables, set the variable in
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm>
+<Primary>.dtprofile file</Primary>
+<Secondary>setting environment variables in</Secondary>
+</IndexTerm>/.dtprofile</Filename>.</Para>
+<Para>For example:</Para>
+<programlisting>export MYVARIABLE=&ldquo;<Symbol Role="Variable">value</Symbol>&ldquo;</programlisting>
+<Para>sets the variable <Command>MYVARIABLE</Command> in each user's environment at the next login.</Para>
+</ListItem>
+</OrderedList>
+<Note>
+<Para>Session Manager does not automatically read the <Filename><IndexTerm>
+<Primary>.profile file</Primary>
+<Secondary>not read by Login Manager</Secondary>
+</IndexTerm>.profile</Filename> or <Filename><IndexTerm>
+<Primary>.login file</Primary>
+<Secondary>not read by Login Manager</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>&lt;$nopage>shell</Primary>
+<Secondary>See also environment variables, .profile, .login, .dtprofile</Secondary>
+</IndexTerm>.login</Filename>
+file. However, it can be configured to use these files; see
+<!--Original XRef content: '&xd2;Optionally Sourcing
+the .profile or .login Script&xd3; on page&numsp;28'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.SesMg.mkr.6">.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.23" Role="Procedure">
+<Title>To Set Resources<IndexTerm><Primary>resources</Primary><Secondary>setting</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>To set system-wide resources, add the resources to the file
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename>.
+(You may have to create the file.)<IndexTerm><Primary>sys.resources file</Primary></IndexTerm>
+</Para>
+<Note>
+<Para><Filename>.<IndexTerm>
+<Primary>.dtprofile file</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>
+dtprofile</Filename> only supports <Filename>/bin/sh</Filename> or <Filename>/bin/ksh</Filename> syntax.</Para>
+</Note>
+<Para>For example, if in <Filename>/etc/dt/config/C/sys.resources</Filename> you specify:</Para>
+<ProgramListing>AnApplication*resource: <Symbol Role="Variable">value</Symbol></ProgramListing>
+<Para>then the resource <Filename>AnApplication*resource</Filename> will be set in each user's
+<Filename>RESOURCE_MANAGER</Filename> property at the next login.<IndexTerm><Primary>RESOURCE_MANAGER property</Primary></IndexTerm>
+</Para>
+</ListItem>
+<ListItem>
+<Para>To set personal resources, add the resources to the file
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename>.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.24" Role="Procedure">
+<Title>To Set Display-Specific Resources<IndexTerm><Primary>display-specific resources</Primary></IndexTerm><IndexTerm><Primary>resources</Primary><Secondary>display-specific</Secondary></IndexTerm></Title>
+<Para>You can set display-specific resources for all desktop users on the system. Also,
+users can set display-specific resources limited to their own session. This
+enables you to specify resources depending upon which display the user uses
+to log in to the desktop.</Para>
+<OrderedList>
+<ListItem>
+<Para>To set display-specific resources for all desktop users on the system, create
+the file <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> that specifies the
+display-specific resources.</Para>
+</ListItem>
+<ListItem>
+<Para>To set personal display-specific resources, specify the resource in
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename>.</Para>
+</ListItem>
+</OrderedList>
+<Para>You delimit these resources by enclosing them in <Command><IndexTerm>
+<Primary>cpp statements</Primary>
+</IndexTerm>cpp</Command> conditional statements.
+A <Filename><IndexTerm>
+<Primary>DISPLAY_displayname macro</Primary>
+</IndexTerm>DISPLAY_</Filename><Emphasis>displayname</Emphasis> macro is defined depending upon the value of the
+<Filename>$DISPLAY</Filename> variable. This is done by converting all. (period) and: (colon)
+characters to _ (underscores), stripping off any screen specification, and finally
+prefixing <Filename>DISPLAY_</Filename> to the result.</Para>
+<Para>For example, a <Filename>$DISPLAY</Filename> of <Filename>:0</Filename> would be <Filename>DISPLAY_0</Filename>, and a <Filename>$DISPLAY</Filename> of
+<Filename>blanco.gato.com:0.0</Filename> would be <Filename>DISPLAY_blanco_gato_com_0</Filename>. The
+resulting value can be used as part of a <Command>cpp</Command> test in a session resource file. For
+example, if in <Filename>/etc/dt/config/C/sys.resources</Filename> you specify:</Para>
+<programlisting>Myapp*resource: value
+#ifdef DISPLAY_blanco_gato_com_0
+Myapp*resource: specialvalue1
+#endif
+#ifdef DISPLAY_pablo_gato_com_0
+Myapp*resource: specialvalue2
+#endif
+</ProgramListing>
+<Para>the resource <Filename>MyApp*resource</Filename> will be set in <Filename>RESOURCE_MANAGER</Filename> to
+<Filename>specialvalue1</Filename> when the user logs in on display <Filename>blanco.gato.com:0</Filename>;
+<Filename>specialvalue2</Filename> when the user logs in on <Filename>pablo.gato.com:0;</Filename> and <Command>value</Command>
+when the user logs in on another display.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.25" Role="Procedure">
+<Title>To Change Applications for the Initial Session<IndexTerm><Primary>session</Primary><Secondary>first</Secondary></IndexTerm></Title>
+<Para>You can specify alternate applications to start as part of a user's initial session.</Para>
+<OrderedList>
+<ListItem>
+<Para>Copy <Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename> to
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session.</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>Modify the new <Filename><IndexTerm>
+<Primary>sys.session file</Primary>
+</IndexTerm>sys.session</Filename> file.</Para>
+<Para>Each entry in <Filename>sys.session</Filename> appears as:</Para>
+<programlisting>dtsmcmd -cmd <Replaceable Remap="Emphasis">command_and_options</Replaceable><IndexTerm>
+<Primary>dtsmcmd command</Primary>
+</IndexTerm></programlisting>
+<Para>To start an additional application as part of a user's initial session, specify a
+new <Filename>sys.session</Filename> entry with a full path name. For example, to start
+<Filename>/usr/bin/X11/xclock</Filename> as part of a user's initial session, add an <Command>xclock</Command>
+entry to <Filename>/etc/dt/config/C/sys.resources</Filename>:</Para>
+<programlisting>#
+# Start up xclock...
+#
+dtsmcmd -cmd &ldquo;/usr/bin/X11/xclock -digital&ldquo;
+</Programlisting>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.26" Role="Procedure">
+<Title>To Set Up a Display-Specific Session<IndexTerm><Primary>session</Primary><Secondary>display-specific</Secondary></IndexTerm><IndexTerm><Primary>display-specific session</Primary></IndexTerm></Title>
+<Para>A user can set up a display-specific session to tune a session to a particular
+display.</Para>
+<OrderedList>
+<ListItem>
+<Para>Copy the <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/<IndexTerm>
+<Primary>sessions directory</Primary>
+</IndexTerm>
+sessions</Filename> directory to
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol> where <Symbol Role="Variable">display</Symbol> is the real, unqualified host name
+(<Filename>pablo:0</Filename> is valid, <Filename>pablo.gato.com:0</Filename> or <Filename>unix:0</Filename> is not).</Para>
+</ListItem>
+</OrderedList>
+<Para>For example, to create a display-specific session for display
+<Filename>pablo.gato.com:0</Filename>:</Para>
+<ProgramListing>cp -r <Symbol Role="Variable">HomeDirectory</Symbol>/.dt/sessions <Symbol Role="Variable">HomeDirectory</Symbol>/.dt/pablo:0</ProgramListing>
+<Para>When the user next logs in on display <Filename>pablo.gato.com:0</Filename>, the Session
+Manager will start that display-specific session.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.27">
+<Title>Executing Additional Commands at Session Startup and Logout</Title>
+<Para>Users can specify that additional commands be started when they log in to
+their desktop sessions. This is useful for setting up X settings that are not saved
+by Session Manager. For example, the user can use <Command>xsetroot</Command> to customize the
+root (workspace) pointer. Another use would be to start applications that are
+unable to be saved and restored by Session Manager. If an application will not
+restart when the session is restored, the user can start the client using this
+method.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.28" Role="Procedure">
+<Title>To Execute Additional Commands at Session Startup<IndexTerm><Primary>Session Manager</Primary><Secondary>executing additional commands</Secondary></IndexTerm><IndexTerm><Primary>session</Primary><Secondary>executing commands at startup</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Create the file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/sessionetc</Filename>
+containing the commands.<IndexTerm><Primary>sessionetc file</Primary></IndexTerm>
+</Para>
+<Para>Generally this file is a script and must have execute permission. Processes
+started in <Command>sessionetc</Command> should be run in the background.</Para>
+</ListItem>
+</OrderedList>
+<Note>
+<Para>Do not use <Command>sessionetc</Command> to start clients that are automatically restored
+by Session Manager. Doing so can cause multiple copies of the application to
+be started. You may not be able to see the copies immediately because the
+windows may be stacked on top of one another.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.29" Role="Procedure">
+<Title>To Execute Additional Commands at Logout<IndexTerm><Primary>session</Primary><Secondary>executing commands at logout</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>executing commands at logout</Secondary></IndexTerm></Title>
+<Para>A companion file to <Command>sessionetc</Command> is <Command><IndexTerm>
+<Primary>sessionexit file</Primary>
+</IndexTerm>sessionexit</Command>. Use <Command>sessionexit</Command> to
+perform some operation at session exit that is not handled by Session Manager.</Para>
+<OrderedList>
+<ListItem>
+<Para>Create the file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/sessionexit</Filename>.
+</Para>
+<Para>Like <Command>sessionetc</Command>, this file is usually a script with execute permission.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.30" Role="Procedure">
+<Title>To Recover a Session from Backup<IndexTerm><Primary>session</Primary><Secondary>recovering</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>backing up sessions</Secondary></IndexTerm><IndexTerm><Primary>session</Primary><Secondary>backup</Secondary></IndexTerm></Title>
+<Para>When Session Manager saves a session, the session information is stored in the
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions</Filename> directory or in the <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol>
+directory if using a display-specific session. In these directories, Session
+Manager creates a subdirectory named <Command>current</Command> or <Command>home</Command> to store information
+for the respective current or home session. Before the session information is
+stored, Session Manager makes a backup of the prior session with that name
+and stores it in <Filename><IndexTerm>
+<Primary>current.old directory</Primary>
+</IndexTerm>current.old</Filename> or <Filename><IndexTerm>
+<Primary>home.old directory</Primary>
+</IndexTerm>home.old</Filename>.</Para>
+<OrderedList>
+<ListItem>
+<Para>Log in using the Failsafe Session or Command Line Login from the login
+screen.</Para>
+</ListItem>
+<ListItem>
+<Para>Copy the backup session directory to the active name. For example, to
+recover the backup home session:</Para>
+</ListItem>
+</OrderedList>
+<ProgramListing>cp -r <Symbol Role="Variable">HomeDirectory</Symbol>/.dt/sessions/home.old <Symbol Role="Variable">HomeDirectory</Symbol>/.dt/sessions/home</ProgramListing>
+<Para>Display-specific sessions can be recovered in the same manner.</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.31" Role="Procedure">
+<Title>To Investigate Session Startup Problems<IndexTerm><Primary>Session Manager</Primary><Secondary>error log</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>troubleshooting</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Check the file <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/startlog</Filename>.<IndexTerm><Primary>startlog file</Primary></IndexTerm><IndexTerm><Primary>session</Primary><Secondary>logging errors</Secondary></IndexTerm>
+</Para>
+<Para>The <Filename>startlog</Filename> file will contain the output (<command>stderr</command>)
+from applications started by the Session Manager (on the Session Manager's host).
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.SesMg.div.32">
+<Title Id="SAG.SesMg.mkr.10">Session Manager Files and Directories<IndexTerm><Primary>configuration files</Primary><Secondary>Session Manager</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>files</Secondary></IndexTerm><IndexTerm><Primary>Session Manager</Primary><Secondary>directories</Secondary></IndexTerm></Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>/usr/dt/bin/Xsession</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/config/Xsession.d/*</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/bin/dtsession</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/bin/dtsession_res</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/current</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/home</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol><Filename>/current</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol>/<Command>home</Command></Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

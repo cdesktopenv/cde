@@ -1,0 +1,171 @@
+.\" $XConsortium: sfdisc.3 /main/2 1996/10/29 15:10:58 drk $
+.de L		\" literal font
+.ft 5
+.it 1 }N
+.if !\\$1 \&\\$1 \\$2 \\$3 \\$4 \\$5 \\$6
+..
+.de LR
+.}S 5 1 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de LI
+.}S 5 3 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de RL
+.}S 1 5 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de EX		\" start example
+.ta 1i 2i 3i 4i 5i 6i
+.PP
+.RS 
+.PD 0
+.ft 5
+.nf
+..
+.de EE		\" end example
+.fi
+.ft
+.PD
+.RE
+.PP
+..
+.TH SFDISC 3
+.SH NAME
+sfdisc \- some common sfio disciplines
+.SH SYNOPSIS
+.EX
+#include <sfdisc.h>
+
+typedef int (*Sf_key_lookup_t)(void* \fIhandle\fP, const char* \fIname\fP, const char* \fIop\fP, int \fIcc\fP, char** str_\fIptr\fP, long* num_\fIptr\fP);
+typedef char* (*Sf_key_convert_t)(void* \fIhandle\fP, const char* \fIname\fP, const char* \fIop\fP, int \fIcc\fP, char* str_\fIvalue\fP, long num_\fIvalue\fP);
+
+int    sfkeyprintf(Sfio_t* \fIsp\fP, void* \fIhandle\fP, const char* \fIformat\fP, Sf_key_lookup_t \fIlookup\fP, Sf_key_convert_t \fIconvert\fP);
+
+int    sflowio(Sfio_t* \fIsp\fP);
+.EE
+.SH DESCRIPTION
+.L sfkeyprintf
+provides support for
+.IR sfio (3)
+.LI %( keyword [[:;=] op ])
+printf formatting.
+Rather than getting format values from the next argument, the
+.L "%(...)"
+style gets the format value by doing a lookup on
+.LR keyword .
+Output is written to the 
+.IR sfio (3)
+stream 
+.I sp
+under control of the
+.L printf
+format string
+.IR format .
+.I handle
+is a user supplied pointer that is passed untouched to
+the user supplied routines
+.I lookup 
+and 
+.IR convert .
+.PP
+.I lookup
+determines the value for
+.I name
+with optional information
+.I op
+and places the value either in
+.I *str_ptr
+or
+.IR *num_ptr .
+.I cc
+is the
+.L printf
+conversion character
+(e.g., 
+.LR "'s'" ,
+.LR "'d'" ,
+etc.) and may provide a hint to the
+.I name
+lookup.
+.PP
+.I convert
+is called when an format unknown conversion character
+.I cc
+is encountered.
+.I name
+is the keyword name from the format specification,
+.I op
+is the optional operation string,
+.L 0
+if not specified,
+.I str_value
+is its string value,
+.L 0
+if it is not a string,
+and
+.I num_value
+is the numeric value if
+.IR "str_value == 0" .
+.I convert
+returns a pointer to the converted string,
+.L 0
+on error.
+.PP
+.L sfkeyprintf
+supplies two operations:
+.TP
+\f5:case:\fIpattern\d1\u\fP:\fIformat\d1\u\fP:...:\fIpattern\dn\u\fP:\fIformat\dn\u\fR
+.L case
+matches the string value of
+.L keyword
+against
+.I pattern\d1\u
+through
+.IR pattern\dn\u .
+using
+.IR strmatch (3) .
+.I format\di\u
+corresponding to the first matching pattern
+.I pattern\di\u
+from the left is pushed back on to the 
+.L sfkeyprintf
+format input.
+If nothing matches then nothing is output to
+.IR sp .
+Any delimiter may appear after
+.LR case .
+.TP
+\f5:edit:\fIold\fP:\fInew\fP:\fIflags\fP[:...]
+Performs an
+.IR ed (1)-style
+substitution on the string value of
+.IR keyword .
+Multiple sets of
+.I old,new,flags
+may be specified; they are applied in order from left to right.
+In addition to the
+.I flags
+supported by
+.IR ed (3)
+are
+.L l
+that converts the substituted value to lower case and
+.L u
+that converts the substituted value to upper case.
+Any delimiter may appear after
+.LR edit .
+.PP
+.L sfslowio
+pushes an
+.IR sfio (3)
+discipline onto the stream
+.I sp
+that makes the stream interruptable.
+Read or write operations on
+.I sp
+fail with 
+.I errno
+set to
+.L EINTR
+when interrupted.
+.SH "SEE ALSO"
+sfio(3)

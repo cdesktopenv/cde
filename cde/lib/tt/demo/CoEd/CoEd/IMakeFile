@@ -1,0 +1,47 @@
+# %%  (c) Copyright 1993, 1994 Hewlett-Packard Company			
+# %%  (c) Copyright 1993, 1994 International Business Machines Corp.	
+# %%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			
+# %%  (c) Copyright 1993, 1994 Novell, Inc. 				
+# %%  $XConsortium: IMakeFile /main/3 1995/10/20 17:04:55 rswiston $ 			 				
+#ifdef HideFromImake
+ #
+ # IMakeFile 1.7	17 Nov 1994
+ #
+ # This preamble turns this imakefile into a shell script which will
+ # create/update this directory's makefile when invoked as follows:
+ # % sh IMakeFile [[GNU]MakeFile]
+ #
+IMAKEDIR=../../../imake; export IMAKEDIR
+exec make -f $IMAKEDIR/Boot.mk ${1+"$@"}
+#endif HideFromImake
+
+TT_DIR	= ../../..
+
+include $(TT_DIR)/Make.macros
+
+.KEEP_STATE:
+
+default: all
+
+All:: $(MAKEFILE)s all
+all: DynamicDebugProg(CoEd)
+
+CoEd_SOURCES.C = CoEdTextBuffer.C CoEditor.C CoEd.C
+
+RUN_PATH		= -R /tt/proto/lib:/usr/dt/lib:$(OPENWINHOME)/lib:/opt/SUNWspro/lib
+
+ProgramDynamicOptimized(CoEd)
+ProgramDynamicDebug(CoEd)
+SourceHygiene(CoEd)
+
+SaberProg(CoEd)
+
+AppendVal(CPPFLAGS,-I../../../proto/include -I/usr/dt/include -I$(OPENWINHOME)/include -I../libCoEd)
+
+AppendVal(LDFLAGS,-L../../../proto/lib -L/usr/dt/lib -L$(OPENWINHOME)/lib -L../libCoEd/$(OEUVRE)/pdc/O)
+
+#AppendVal(LDLIBS,-ltt-g -lXm -lXt -lX11 -Bstatic -lCoEd -Bdynamic)
+AppendVal(LDLIBS,-ltt -lXm -lXt -lX11 -Bstatic -lCoEd -Bdynamic)
+loc_LDLIBS_SunOS4	= -lce -lX -lI18N -ldl
+loc_LDLIBS_SunOS5	= -lnsl -lsocket -lintl -lgen
+AppendVal(LDLIBS,$(loc_LDLIBS_$(OS)))

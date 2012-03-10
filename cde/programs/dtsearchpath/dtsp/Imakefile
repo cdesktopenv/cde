@@ -1,0 +1,45 @@
+XCOMM $TOG: Imakefile /main/15 1998/08/05 13:21:49 mgreess $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+INCLUDES = -I. -I../libCliSrv
+
+LOCAL_LIBRARIES = ../libCliSrv/libCliSrv.a $(TTLIB) $(XTOOLLIB) $(XLIB)
+DEPLIBS = ../libCliSrv/libCliSrv.a $(DEPTTLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+SYS_LIBRARIES = DtClientSysLibs DtClientExtraLibs
+
+#ifdef SunArchitecture
+EXTRA_DEFINES = -DIOSTREAMSWORKS
+#endif
+
+#ifdef RsArchitecture
+EXTRA_DEFINES = -DIOSTREAMSWORKS
+#endif
+
+SRCS = \
+	AppSearchPath.C \
+	DbSearchPath.C \
+	HelpSearchPath.C \
+	IconSearchPath.C \
+	InfoLibSearchPath.C \
+	ManSearchPath.C \
+	Options.C \
+	SearchPath.C \
+	dtsearchpath.C
+
+OBJS = \
+	AppSearchPath.o \
+	DbSearchPath.o \
+	HelpSearchPath.o \
+	IconSearchPath.o \
+	InfoLibSearchPath.o \
+	ManSearchPath.o \
+	Options.o \
+	SearchPath.o \
+	dtsearchpath.o
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(dtsp)

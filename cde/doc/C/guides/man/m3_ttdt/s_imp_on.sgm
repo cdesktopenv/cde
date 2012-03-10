@@ -1,0 +1,175 @@
+<!-- $XConsortium: s_imp_on.sgm /main/5 1996/08/30 14:31:03 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN265.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN265.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttdt_sender_imprint_on</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttdt_sender_imprint_on</Function></RefName>
+<RefPurpose>act like a child of the specified tool
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: s_imp_on.sgm /main/5 1996/08/30 14:31:03 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>ttdt_sender_imprint_on</Function></FuncDef>
+<ParamDef>const char *<Parameter>handler</Parameter></ParamDef>
+<ParamDef>Tt_message <Parameter>contract</Parameter></ParamDef>
+<ParamDef>char **<Parameter>display</Parameter></ParamDef>
+<ParamDef>int *<Parameter>width</Parameter></ParamDef>
+<ParamDef>int *<Parameter>height</Parameter></ParamDef>
+<ParamDef>int *<Parameter>xoffset</Parameter></ParamDef>
+<ParamDef>int *<Parameter>yoffset</Parameter></ParamDef>
+<ParamDef>XtAppContext <Parameter>app2run</Parameter></ParamDef>
+<ParamDef>int <Parameter>ms_timeout</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttdt_sender_imprint_on</Function> function
+is used to make the calling tool act equivalently to a child of
+another specified tool.
+The calling tool adopts the other
+tool's X11 display, locale, and current working directory.
+It also learns the other tool's X11 geometry, so that it may
+position itself appropriately.
+</Para>
+<Para>If the
+<Emphasis>handler</Emphasis> argument is non-
+<SystemItem Class="Constant">NULL</SystemItem>, the requests are addressed to that procid using
+<SystemItem Class="Constant">TT_HANDLER</SystemItem>. If
+<Emphasis>handler</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem> and the
+<Emphasis>contract</Emphasis> argument is non-
+<SystemItem Class="Constant">NULL</SystemItem>, the requests are addressed to the
+&cdeman.tt.message.sender; of the contract, using
+<SystemItem Class="Constant">TT_HANDLER</SystemItem>.</Para>
+<Para>The
+<Emphasis>contract</Emphasis> argument is passed to
+&cdeman.tttk.message.create; as the
+<Symbol Role="Variable">context</Symbol> argument.
+</Para>
+<Para>If the
+<Symbol Role="Variable">display</Symbol> argument is not
+<SystemItem Class="Constant">NULL</SystemItem>, <Function>ttdt_sender_imprint_on</Function> returns the other tool's display in
+<Symbol Role="Variable">*display</Symbol>. If
+<Symbol Role="Variable">display</Symbol> is
+<SystemItem Class="Constant">NULL</SystemItem>, <Function>ttdt_sender_imprint_on</Function> sets the
+<SystemItem Class="EnvironVar">DISPLAY</SystemItem> environment variable to the other tool's display.
+</Para>
+<Para>If each of the
+<Symbol Role="Variable">width</Symbol>, <Symbol Role="Variable">height</Symbol>, <Symbol Role="Variable">xoffset</Symbol>, and
+<Symbol Role="Variable">yoffset</Symbol> arguments are
+<SystemItem Class="Constant">NULL</SystemItem>, then
+<Function>ttdt_sender_imprint_on</Function> does not send the other tool a
+<Symbol Role="Message">Get_Geometry</Symbol> request.
+</Para>
+<Para>The
+<Function>ttdt_sender_imprint_on</Function> function
+passes the
+<Emphasis>app2run</Emphasis> and
+<Emphasis>ms_timeout</Emphasis> arguments to
+&cdeman.tttk.block.while;, blocking on the replies to the requests it sends.
+</Para>
+<Para>If the
+<Symbol Role="Variable">display</Symbol> argument is not
+<SystemItem Class="Constant">NULL</SystemItem>, <Function>ttdt_sender_imprint_on</Function> sets
+<Symbol Role="Variable">*display</Symbol> to a string that can be freed with
+<Function>tt_free</Function>.</Para>
+<Para>If for some reason no width or height is returned by the other tool,
+<Function>ttdt_sender_imprint_on</Function> sets
+<Symbol Role="Variable">*width</Symbol> or
+<Symbol Role="Variable">*height</Symbol> to &minus;1.
+If no positional information is returned,
+<Function>ttdt_sender_imprint_on</Function> sets
+<Emphasis>*xoffset</Emphasis> and
+<Emphasis>*yoffset</Emphasis> to {INT_MAX}.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttdt_sender_imprint_on</Function> function returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_ETIMEDOUT</Term>
+<ListItem>
+<Para>One or more of the sent requests did not complete within
+<Emphasis>ms_timeout</Emphasis> milliseconds.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMEM</Term>
+<ListItem>
+<Para>There is insufficient memory available to perform the function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_OVERFLOW</Term>
+<ListItem>
+<Para>The ToolTalk service has more active messages than it can handle.
+(The maximum number of active messages is
+implementation specific, but is at least 2000.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The specified process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>If both the
+<Emphasis>handler</Emphasis> and
+<Emphasis>contract</Emphasis> are zero, the requests are addressed to no tool in
+particular, using
+<SystemItem Class="Constant">TT_PROCEDURE</SystemItem>; this is not recommended.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.tt.free;, &cdeman.tt.message.sender;, &cdeman.tttk.block.while;, &cdeman.tttk.message.create;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

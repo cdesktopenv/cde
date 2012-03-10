@@ -1,0 +1,162 @@
+XCOMM Imakefile for installing the SGML-related files
+
+DECL_FILES= \
+	dtinfo.decl
+
+DTD_FILES= \
+	dtinfoBook.dtd \
+	dtinfoStyle.dtd \
+	dtinfoTOC.dtd \
+	docbook.dtd
+
+ENTITY_FILES= \
+	dtinfo.af \
+	catalog \
+	hal.gml \
+	iso-catalog  \
+	iso-amsa.gml \
+	iso-amsb.gml \
+	iso-amsc.gml \
+	iso-amsn.gml \
+	iso-amso.gml \
+	iso-amsr.gml \
+	iso-box.gml  \
+	iso-cyr1.gml \
+	iso-cyr2.gml \
+	iso-dia.gml  \
+	iso-grk1.gml \
+	iso-grk2.gml \
+	iso-grk3.gml \
+	iso-grk4.gml \
+	iso-lat1.gml \
+	iso-lat2.gml \
+	iso-mfrk.gml \
+	iso-mopf.gml \
+	iso-mscr.gml \
+	iso-num.gml  \
+	iso-pub.gml  \
+	iso-tech.gml 
+
+MISC_FILES= \
+	styprolog.sgml
+
+ALL_FILES= $(DECL_FILES) $(DTD_FILES) $(ENTITY_FILES) $(MISC_FILES)
+
+InstallMultipleDest(install_buildtools,$(ALL_FILES),$(INSTALL_INFOLIB_DIR)/C/SGML)
+
+depend::
+
+#if !UseNSGMLS
+
+XCOMM symlinks used by dtinfogen when run from the build tree
+XCOMM really ugly but will do the trick if sgmls is used...
+
+includes:: clean_symlinks
+	$(LN) dtinfoBook.dtd "-%%Common_Desktop_Environment%%DTD_DtInfo_Bookcase_Description%%EN"
+	$(LN) dtinfoStyle.dtd "-%%Common_Desktop_Environment%%DTD_DtInfo_Style_Sheet%%EN"
+	$(LN) dtinfoTOC.dtd "-%%Common_Desktop_Environment%%DTD_DtInfo_Table_of_Contents%%EN"
+	$(LN) dtinfo.af "-%%Common_Desktop_Environment%%ENTITIES_DtInfo_Architectural_Forms%%EN"
+	$(LN) proxy.ss "-%%Common_Desktop_Environment%%ENTITIES_Dtinfo_SS_Localization%%EN"
+	$(LN) iso-catalog "-%%Common_Desktop_Environment%%ENTITIES_ISO_Catalog%%EN"
+	$(LN) docbook.dtd "-%%HaL_and_O'Reilly%%DTD_DocBook%%EN"
+	$(LN) iso-lat1.gml "ISO_8879:1986%%ENTITIES_Added_Latin_1%%EN"
+	$(LN) iso-lat2.gml "ISO_8879:1986%%ENTITIES_Added_Latin_2%%EN"
+	$(LN) iso-amsa.gml "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Arrow_Relations%%EN"
+	$(LN) iso-amsb.gml "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Binary_Operators%%EN"
+	$(LN) iso-amsc.gml "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Delimiters%%EN"
+	$(LN) iso-amsn.gml "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Negated_Relations%%EN"
+	$(LN) iso-amso.gml "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Ordinary%%EN"
+	$(LN) iso-amsr.gml "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Relations%%EN"
+	$(LN) iso-grk4.gml "ISO_8879:1986%%ENTITIES_Alternative_Greek_Symbols%%EN"
+	$(LN) iso-box.gml "ISO_8879:1986%%ENTITIES_Box_and_Line_Drawing%%EN"
+	$(LN) iso-dia.gml "ISO_8879:1986%%ENTITIES_Diacritical_Marks%%EN"
+	$(LN) iso-tech.gml "ISO_8879:1986%%ENTITIES_General_Technical%%EN"
+	$(LN) iso-grk1.gml "ISO_8879:1986%%ENTITIES_Greek_Letters%%EN"
+	$(LN) iso-grk3.gml "ISO_8879:1986%%ENTITIES_Greek_Symbols%%EN"
+	$(LN) iso-grk2.gml "ISO_8879:1986%%ENTITIES_Monotoniko_Greek%%EN"
+	$(LN) iso-cyr2.gml "ISO_8879:1986%%ENTITIES_Non-Russian_Cyrillic%%EN"
+	$(LN) iso-num.gml "ISO_8879:1986%%ENTITIES_Numeric_and_Special_Graphic%%EN"
+	$(LN) iso-pub.gml "ISO_8879:1986%%ENTITIES_Publishing%%EN"
+	$(LN) iso-cyr1.gml "ISO_8879:1986%%ENTITIES_Russian_Cyrillic%%EN"
+	$(LN) iso-mfrk.gml "ISO_9573-13:1991%%ENTITIES_Math_Alphabets:_Fraktur_%%EN"
+	$(LN) iso-mopf.gml "ISO_9573-13:1991%%ENTITIES_Math_Alphabets:_Open_Face_%%EN"
+	$(LN) iso-mscr.gml "ISO_9573-13:1991%%ENTITIES_Math_Alphabets:_Script_%%EN"
+	$(LN) iso-lat1.gml "ISO_8879-1986%%ENTITIES_Added_Latin_1%%EN"
+	$(LN) iso-lat2.gml "ISO_8879-1986%%ENTITIES_Added_Latin_2%%EN"
+	$(LN) iso-amsa.gml "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Arrow_Relations%%EN"
+	$(LN) iso-amsb.gml "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Binary_Operators%%EN"
+	$(LN) iso-amsc.gml "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Delimiters%%EN"
+	$(LN) iso-amsn.gml "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Negated_Relations%%EN"
+	$(LN) iso-amso.gml "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Ordinary%%EN"
+	$(LN) iso-amsr.gml "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Relations%%EN"
+	$(LN) iso-grk4.gml "ISO_8879-1986%%ENTITIES_Alternative_Greek_Symbols%%EN"
+	$(LN) iso-box.gml "ISO_8879-1986%%ENTITIES_Box_and_Line_Drawing%%EN"
+	$(LN) iso-dia.gml "ISO_8879-1986%%ENTITIES_Diacritical_Marks%%EN"
+	$(LN) iso-tech.gml "ISO_8879-1986%%ENTITIES_General_Technical%%EN"
+	$(LN) iso-grk1.gml "ISO_8879-1986%%ENTITIES_Greek_Letters%%EN"
+	$(LN) iso-grk3.gml "ISO_8879-1986%%ENTITIES_Greek_Symbols%%EN"
+	$(LN) iso-grk2.gml "ISO_8879-1986%%ENTITIES_Monotoniko_Greek%%EN"
+	$(LN) iso-cyr2.gml "ISO_8879-1986%%ENTITIES_Non-Russian_Cyrillic%%EN"
+	$(LN) iso-num.gml "ISO_8879-1986%%ENTITIES_Numeric_and_Special_Graphic%%EN"
+	$(LN) iso-pub.gml "ISO_8879-1986%%ENTITIES_Publishing%%EN"
+	$(LN) iso-cyr1.gml "ISO_8879-1986%%ENTITIES_Russian_Cyrillic%%EN"
+	$(LN) iso-mfrk.gml "ISO_9573-13-1991%%ENTITIES_Math_Alphabets:_Fraktur_%%EN"
+	$(LN) iso-mopf.gml "ISO_9573-13-1991%%ENTITIES_Math_Alphabets:_Open_Face_%%EN"
+	$(LN) iso-mscr.gml "ISO_9573-13-1991%%ENTITIES_Math_Alphabets:_Script_%%EN"
+
+clean_symlinks::
+	$(RM) -- "-%%Common_Desktop_Environment%%DTD_DtInfo_Bookcase_Description%%EN"
+	$(RM) -- "-%%Common_Desktop_Environment%%DTD_DtInfo_Style_Sheet%%EN"
+	$(RM) -- "-%%Common_Desktop_Environment%%DTD_DtInfo_Table_of_Contents%%EN"
+	$(RM) -- "-%%Common_Desktop_Environment%%ENTITIES_DtInfo_Architectural_Forms%%EN"
+	$(RM) -- "-%%Common_Desktop_Environment%%ENTITIES_Dtinfo_SS_Localization%%EN"
+	$(RM) -- "-%%Common_Desktop_Environment%%ENTITIES_ISO_Catalog%%EN"
+	$(RM) -- "-%%HaL_and_O'Reilly%%DTD_DocBook%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Added_Latin_1%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Added_Latin_2%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Arrow_Relations%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Binary_Operators%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Delimiters%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Negated_Relations%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Ordinary%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Added_Math_Symbols:_Relations%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Alternative_Greek_Symbols%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Box_and_Line_Drawing%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Diacritical_Marks%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_General_Technical%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Greek_Letters%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Greek_Symbols%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Monotoniko_Greek%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Non-Russian_Cyrillic%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Numeric_and_Special_Graphic%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Publishing%%EN"
+	$(RM) "ISO_8879:1986%%ENTITIES_Russian_Cyrillic%%EN"
+	$(RM) "ISO_9573-13:1991%%ENTITIES_Math_Alphabets:_Fraktur_%%EN"
+	$(RM) "ISO_9573-13:1991%%ENTITIES_Math_Alphabets:_Open_Face_%%EN"
+	$(RM) "ISO_9573-13:1991%%ENTITIES_Math_Alphabets:_Script_%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Added_Latin_1%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Added_Latin_2%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Arrow_Relations%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Binary_Operators%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Delimiters%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Negated_Relations%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Ordinary%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Added_Math_Symbols:_Relations%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Alternative_Greek_Symbols%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Box_and_Line_Drawing%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Diacritical_Marks%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_General_Technical%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Greek_Letters%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Greek_Symbols%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Monotoniko_Greek%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Non-Russian_Cyrillic%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Numeric_and_Special_Graphic%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Publishing%%EN"
+	$(RM) "ISO_8879-1986%%ENTITIES_Russian_Cyrillic%%EN"
+	$(RM) "ISO_9573-13-1991%%ENTITIES_Math_Alphabets:_Fraktur_%%EN"
+	$(RM) "ISO_9573-13-1991%%ENTITIES_Math_Alphabets:_Open_Face_%%EN"
+	$(RM) "ISO_9573-13-1991%%ENTITIES_Math_Alphabets:_Script_%%EN"
+
+clean:: clean_symlinks
+
+#endif /* !UseNSGMLS */

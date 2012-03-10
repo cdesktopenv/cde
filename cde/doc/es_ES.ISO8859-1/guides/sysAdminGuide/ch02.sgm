@@ -1,0 +1,793 @@
+<!-- $XConsortium: ch02.sgm /main/10 1996/12/20 20:19:49 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.SesMg.div.1">
+<title id="SAG.SesMg.mkr.1">Configuraci&oacute;n del Gestor de sesiones</title>
+<para>El Gestor de sesiones es el encargado de iniciar el escritorio y de
+guardar y restaurar autom&aacute;ticamente las aplicaciones en ejecuci&oacute;n,
+los colores, los fonts, el comportamiento del rat&oacute;n, el volumen de
+audio y la sonorizaci&oacute;n de teclado.</para>
+<para>Mediante la utilizaci&oacute;n del Gestor de Sesiones, se puede:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Personalizar la sesi&oacute;n inicial para todos los usuarios
+del escritorio</para>
+</listitem>
+<listitem><para>Personalizar el entorno y los recursos para todos los usuarios
+del escritorio</para>
+</listitem>
+<listitem><para>Cambiar el mensaje de arranque de sesi&oacute;n</para>
+</listitem>
+<listitem><para>Cambiar par&aacute;metros para daemons y herramientas de arranque
+de sesi&oacute;n</para>
+</listitem>
+<listitem>
+<informaltable id="SAG.SesMg.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.125 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'What Is a Session?23'--><xref role="JumpText"
+linkend="SAG.SesMg.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Starting a Session25'--><xref role="JumpText"
+linkend="SAG.SesMg.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'When a Session Starts25'--><xref
+role="JumpText" linkend="SAG.SesMg.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Additional Session Startup Customizations32'--><xref
+role="JumpText" linkend="SAG.SesMg.mkr.8"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Session Manager Files and Directories37'--><xref
+role="JumpText" linkend="SAG.SesMg.mkr.10"></para></entry></row></tbody></tgroup>
+</informaltable>
+<para>Personalizar la utilizaci&oacute;n de colores de escritorio para todos
+los usuarios</para>
+</listitem>
+</itemizedlist>
+<sect1 id="SAG.SesMg.div.2">
+<title id="SAG.SesMg.mkr.2">&iquest;Qu&eacute; es una sesi&oacute;n?<indexterm>
+<primary>Gestor de sesiones</primary><secondary>introducci&oacute;n</secondary>
+</indexterm><indexterm><primary>sesi&oacute;n</primary><secondary>definici&oacute;n</secondary></indexterm></title>
+<para>Una sesi&oacute;n es un grupo de aplicaciones, configuraciones y recursos
+existentes en el escritorio del usuario. La gesti&oacute;n de sesiones es
+un conjunto de convenios y protocolos que permite al Gestor de sesiones guardar
+y restaurar la sesi&oacute;n de un usuario. Un usuario puede iniciar la sesi&oacute;n
+en el sistema y tener ante &eacute;l el mismo conjunto de aplicaciones, configuraciones
+y recursos en ejecuci&oacute;n que exist&iacute;a cuando dicho usuario finaliz&oacute;
+la sesi&oacute;n. Cuando un usuario inicia la sesi&oacute;n en el escritorio
+por primera vez, se carga una sesi&oacute;n inicial predeterminada<indexterm>
+<primary>sesi&oacute;n</primary><secondary>predeterminada</secondary></indexterm>.
+Posteriormente, el Gestor de sesiones soporta la noci&oacute;n de<indexterm>
+<primary>sesi&oacute;n actual</primary></indexterm><indexterm><primary>sesi&oacute;n</primary><secondary>actual</secondary></indexterm> sesi&oacute;n actual y
+de<indexterm><primary>sesi&oacute;n</primary><secondary>de inicio</secondary>
+</indexterm><indexterm><primary>sesi&oacute;n de inicio</primary></indexterm> sesi&oacute;n
+de inicio.</para>
+<sect2 id="SAG.SesMg.div.3">
+<title>La sesi&oacute;n inicial<indexterm><primary>sesi&oacute;n</primary>
+<secondary>predeterminada</secondary></indexterm><indexterm><primary>sesi&oacute;n</primary><secondary>inicial</secondary></indexterm></title>
+<para>Cuando un usuario inicie la sesi&oacute;n en el escritorio por primera
+vez, el Gestor de sesiones generar&aacute; la sesi&oacute;n inicial del usuario
+utilizando los valores predeterminados del sistema. Como valor predeterminado,
+se iniciar&aacute;n el Gestor de archivos y la Introducci&oacute;n al escritorio,
+un volumen de ayudas.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.4">
+<title>Sesi&oacute;n actual<indexterm><primary>sesi&oacute;n</primary><secondary>actual</secondary></indexterm><indexterm><primary>sesi&oacute;n actual</primary>
+</indexterm></title>
+<para>Se considera como sesi&oacute;n actual la sesi&oacute;n en ejecuci&oacute;n
+del usuario, ya sea restaurada al iniciar la sesi&oacute;n desde una sesi&oacute;n
+de inicio guardada, una sesi&oacute;n actual guardada o la sesi&oacute;n inicial
+predeterminada del sistema. Cuando el usuario sale de la sesi&oacute;n, el
+Gestor de sesiones guarda autom&aacute;ticamente la sesi&oacute;n actual,
+bas&aacute;ndose en la configuraci&oacute;n del Arranque del Gestor de estilos
+del usuario. La siguiente vez que el usuario inicia la sesi&oacute;n en el
+escritorio, el Gestor de sesiones reinicia la sesi&oacute;n actual previamente
+guardada, lo que significa que el escritorio se restaurar&aacute; al mismo
+estado en que se encontraba cuando el usuario finaliz&oacute; la sesi&oacute;n
+por &uacute;ltima vez.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.5">
+<title>Sesi&oacute;n de inicio<indexterm><primary>sesi&oacute;n</primary>
+<secondary>de inicio</secondary></indexterm><indexterm><primary>sesi&oacute;n
+de inicio</primary></indexterm></title>
+<para>Tambi&eacute;n se puede restaurar el escritorio al mismo estado cada
+vez que el usuario inicia la sesi&oacute;n, independientemente de cu&aacute;l
+fuera su estado cuando el usuario finaliz&oacute; la sesi&oacute;n. El usuario
+puede guardar el estado de la sesi&oacute;n actual y luego, mediante la utilizaci&oacute;n
+de la configuraci&oacute;n del Arranque del Gestor de estilos, hacer que el
+Gestor de sesiones inicie dicha sesi&oacute;n cada vez que el usuario inicia
+la sesi&oacute;n.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.6">
+<title>Sesiones espec&iacute;ficas de pantalla<indexterm><primary>sesi&oacute;n</primary><secondary>espec&iacute;fica de pantalla</secondary></indexterm></title>
+<para>Para ejecutar una sesi&oacute;n espec&iacute;fica para una pantalla
+espec&iacute;fica, un usuario puede crear una sesi&oacute;n espec&iacute;fica
+de pantalla. Para ello, el usuario puede copiar el directorio <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/sessions</filename> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/</filename><symbol role="Variable">pantalla</symbol>, donde <symbol role="Variable">pantalla</symbol> es el nombre
+de host real incompleto (por ejemplo, <filename>pablo:0</filename> es v&aacute;lido, <filename>pablo.gato.com:0</filename> o <filename>unix:0</filename> no lo son). Cuando
+el usuario inicie la sesi&oacute;n en una pantalla <filename>pablo:0</filename>,
+el Gestor de sesiones iniciar&aacute; la sesi&oacute;n espec&iacute;fica de
+dicha pantalla.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.SesMg.div.7">
+<title id="SAG.SesMg.mkr.3">Inicio de una sesi&oacute;n<indexterm><primary>sesi&oacute;n</primary><secondary>iniciar</secondary></indexterm><indexterm>
+<primary>Gestor de sesiones</primary><secondary>iniciar</secondary></indexterm><indexterm>
+<primary>&lt;$nopage>Gestor de sesiones</primary><secondary>V&eacute;ase tambi&eacute;n,
+sesi&oacute;n[Gestor de sesiones</secondary><tertiary>aaa]</tertiary></indexterm></title>
+<para>El Gestor de sesiones se inicia a trav&eacute;s de <filename>/usr/dt/bin/Xsession</filename>.<indexterm><primary>Xsession, archivo</primary><secondary>iniciar
+Gestor de sesiones</secondary></indexterm> Cuando el usuario inicia la sesi&oacute;n
+utilizando el Gestor de Inicio de Sesi&oacute;n, se inicia <command>Xsession</command> como valor predeterminado.</para>
+<para>Opcionalmente, el usuario puede iniciar la sesi&oacute;n utilizando
+el inicio de sesi&oacute;n tradicional en modo de caracteres<indexterm>
+<primary>getty</primary></indexterm> (<command>getty</command>), e iniciar
+manualmente el Gestor de sesiones utilizando herramientas que inicie un servidor
+de X, como por ejemplo <command>xinit</command>. Por ejemplo:<command>xinit
+/usr/dt/bin/Xsession</command>.</para>
+</sect1>
+<sect1 id="SAG.SesMg.div.8">
+<title id="SAG.SesMg.mkr.4">Cu&aacute;ndo se inicia una sesi&oacute;n</title>
+<para>Cuando se inicia el Gestor de sesiones, &eacute;ste pasa por los siguientes
+pasos para iniciar la sesi&oacute;n del usuario:</para>
+<orderedlist>
+<listitem><para>Toma como fuente el script <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename></para>
+<para><indexterm><primary>.dtprofile, archivo</primary><secondary>tomar como
+fuente[dtprofile, archivo</secondary><tertiary>fuen</tertiary></indexterm></para>
+</listitem>
+<listitem><para>Toma como fuente los scripts <filename>Xsession.d</filename><indexterm>
+<primary>Xsession.d, directorio</primary></indexterm></para>
+</listitem>
+<listitem><para>Muestra un<indexterm><primary>Gestor de sesiones</primary>
+<secondary>mensaje de bienvenida</secondary></indexterm><indexterm><primary>mensaje de bienvenida</primary><secondary>mostrar</secondary></indexterm> mensaje
+de bienvenida</para>
+</listitem>
+<listitem><para>Define<indexterm><primary>rutas de b&uacute;squeda del escritorio</primary></indexterm> rutas de b&uacute;squeda del escritorio</para>
+</listitem>
+<listitem><para>Re&uacute;ne las aplicaciones disponibles</para>
+</listitem>
+<listitem><para>Opcionalmente toma como fuente <symbol role="Variable">DirectorioInicio</symbol><filename>/.profile</filename><indexterm><primary>.profile, archivo[archivo
+profile]</primary></indexterm> o <symbol role="Variable">DirectorioInicio</symbol><filename>/.login</filename><indexterm><primary>.login, archivo[archivo
+login]</primary></indexterm></para>
+</listitem>
+<listitem><para>Inicia el<indexterm><primary>ToolTalk</primary><secondary>daemon de mensajes</secondary></indexterm> daemon de mensajes ToolTalk<superscript>
+&reg;</superscript></para>
+</listitem>
+<listitem><para>Carga<indexterm><primary>sesi&oacute;n</primary><secondary>recursos</secondary></indexterm><indexterm><primary>recursos</primary><secondary>sesi&oacute;n</secondary></indexterm> los recursos de la sesi&oacute;n</para>
+</listitem>
+<listitem><para>Inicia el<indexterm><primary>servidor de colores</primary>
+</indexterm> servidor de colores</para>
+</listitem>
+<listitem><para>Inicia el<indexterm><primary>Gestor de espacio de trabajo</primary><secondary>iniciar</secondary></indexterm> Gestor de espacio de trabajo
+</para>
+</listitem>
+<listitem><para>Inicia las<indexterm><primary>aplicaciones</primary><secondary>iniciar al iniciar la sesi&oacute;n</secondary></indexterm> aplicaciones de
+la sesi&oacute;n</para>
+</listitem>
+</orderedlist>
+<para>Las secciones siguientes describen los pasos listados anteriormente.
+</para>
+<sect2 id="SAG.SesMg.div.9">
+<title>C&oacute;mo se toma como fuente el<indexterm><primary>.dtprofile,
+archivo</primary><secondary>tomar como fuente[dtprofile, archivo</secondary>
+<tertiary>fu]</tertiary></indexterm> script .dtprofile</title>
+<para>Cuando se arranca una sesi&oacute;n, el script <command><indexterm>
+<primary>Xsession, archivo</primary></indexterm>Xsession</command> toma como
+fuente el script <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>.<indexterm><primary>variables de entorno</primary>
+<secondary>en .dtprofile[variables de entorno</secondary><tertiary>dtpr]</tertiary>
+</indexterm> El script <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename> es un script <filename>/bin/sh</filename> o <filename>/bin/ksh</filename> que permite a los usuarios definir<indexterm><primary>variables de entorno</primary><secondary>en .dtprofile</secondary></indexterm> variables
+de entorno para las sesiones. Para obtener m&aacute;s informaci&oacute;n sobre
+c&oacute;mo definir variables de entorno, consulte la secci&oacute;n <!--Original
+XRef content: '&rdquo;Additional Session Startup Customizations&rdquo; on
+page&numsp;32'--><xref role="HeadingAndPage" linkend="SAG.SesMg.mkr.8">.</para>
+<para>Si el script <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename> no existe, como sucede, por ejemplo, cuando un usuario
+est&aacute; iniciando la sesi&oacute;n en el escritorio por primera vez, <command>Xsession</command> copiar&aacute; el valor predeterminado del escritorio <filename>sys.dtprofile</filename> en<indexterm><primary>shell</primary><secondary>personalizaci&oacute;n personal</secondary></indexterm> <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>.<indexterm><primary>.dtprofile, archivo</primary><secondary>crear[dtprofile, archivo</secondary>
+<tertiary>cre]</tertiary></indexterm></para>
+<para><indexterm><primary>variables de entorno</primary><secondary>valor predeterminado</secondary></indexterm>El valor predeterminado del escritorio es <filename>/usr/dt/config/sys.dtprofile</filename>.<indexterm><primary>sys.dtprofile,
+archivo</primary></indexterm> Para personalizar el<indexterm><primary>shell</primary><secondary>personalizaci&oacute;n accesible en el sistema</secondary>
+</indexterm> script <filename>sys.dtprofile</filename>, copie <filename>sys.dtprofile</filename> de <filename>/usr/dt/config</filename> a <filename>/etc/dt/config</filename> y edite el nuevo archivo.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.10">
+<title id="SAG.SesMg.mkr.5">C&oacute;mo se toman como fuente<indexterm><primary>Xsession.d, directorio</primary><secondary>scripts en</secondary></indexterm> los
+scripts Xsession.d</title>
+<para>Despu&eacute;s de tomar como fuente el script <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>, el script <command>Xsession</command> toma como fuente los scripts <filename>Xsession.d</filename>.
+Estos scripts se utilizan para definir variables de entorno adicionales e
+iniciar daemons opcionales para la sesi&oacute;n del usuario. Los scripts <filename>Xsession.d</filename> predeterminados son:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="161*">
+<colspec colwidth="367*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>0010.dtpaths</command></para></entry>
+<entry align="left" valign="top"><para>Documenta las rutas de b&uacute;squeda
+de escritorio personalizables</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>0020.dtims</command></para></entry>
+<entry align="left" valign="top"><para>Inicia el servidor de m&eacute;todo
+de entrada opcional</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>0030.dttmpdir</command></para></entry>
+<entry align="left" valign="top"><para>Crea el directorio temporal por usuario
+y por sesi&oacute;n</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>0040.xmbind</command></para></entry>
+<entry align="left" valign="top"><para>Define <filename>$XMBINDDIR</filename>
+como valor predeterminado del escritorio</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>Puede que existan scripts adicionales espec&iacute;ficos de proveedor
+en <filename>Xsession.d</filename>.</para>
+<para><command>Xsession</command> toma primero como fuente todos los archivos
+del directorio <filename>/usr/dt/config/Xsession.d</filename>, seguidos de
+los del directorio<filename>/etc/dt/config/Xsession.d</filename>.</para>
+<para>Los scripts <filename><indexterm><primary>Xsession.d, directorio</primary>
+<secondary>personalizar</secondary></indexterm>Xsession.d</filename> predeterminados
+del escritorio est&aacute;n ubicados en el directorio <filename>/usr/dt/config/Xsession.d</filename>. Para personalizar un script <filename>Xsession.d</filename>,
+c&oacute;pielo de <filename>/usr/dt/config/Xsession.d</filename> a <filename>/etc/dt/config/Xsession.d</filename> y edite el nuevo archivo. Para realizar
+esta tarea deber&aacute; tener permiso de ejecuci&oacute;n.</para>
+<para><indexterm><primary>Xsession, archivo</primary><secondary>personalizaci&oacute;n
+accesible en el sistema</secondary></indexterm><indexterm><primary>Gestor
+de sesiones</primary><secondary>personalizaci&oacute;n accesible en el sistema</secondary></indexterm>Asimismo, para que <command>Xsession</command> tome
+autom&aacute;ticamente como fuente un script que le pertenece a usted, c&oacute;pielo
+en <filename>/etc/dt/config/Xsession.d</filename>.</para>
+<note>
+<para>Cuando modifique o cree un script <filename>Xsession.d</filename>, aseg&uacute;rese
+de que los mandatos en primer plano que emita sean de corta duraci&oacute;n,
+dado que el tiempo empleado por el mandato afectar&aacute; directamente al
+tiempo de arranque de la sesi&oacute;n. Si no existe ning&uacute;n mandato
+de primer plano, el arranque de sesi&oacute;n estar&aacute; en suspenso.
+Los mandatos ejecutados en un script <filename>Xsession.d</filename> que se
+desea que siga ejecut&aacute;ndose durante la sesi&oacute;n deben ejecutarse
+de fondo.</para>
+</note>
+</sect2>
+<sect2 id="SAG.SesMg.div.11">
+<title><indexterm><primary>mensaje de bienvenida</primary><secondary>mostrar</secondary></indexterm>C&oacute;mo mostrar el mensaje de bienvenida</title>
+<para>Despu&eacute;s de tomar como fuente <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename> y los scripts <filename>Xsession.d</filename>, <command>Xsession</command> muestra un mensaje de bienvenida
+que ocupa la pantalla. Se puede personalizar el mensaje de bienvenida mostrado
+o desactivar el mensaje por completo. Se utiliza el cliente <command>dthello</command> para mostrar el mensaje.</para>
+<para><indexterm><primary>mensaje de bienvenida</primary><secondary>personalizar</secondary></indexterm>Para modificar el texto del mensaje, cambie las opciones
+de <command>dthello</command> modificando la variable <filename>dtstart_hello[0]</filename>. \n</para>
+<para>Para cambiar <filename>dtstart_hello[0]</filename>, cree un script <filename>/etc/dt/config/Xsession.d</filename> que establezca el nuevo valor. Para mostrar
+el mensaje del d&iacute;a para todos los usuarios, cree un script ejecutable <command>sh</command> o <command>ksh</command>, por ejemplo <filename>/etc/dt/config/Xsession.d/</filename><symbol>mivars</symbol> y establezca <filename>dtstart_hello[0]</filename> del siguiente modo:</para>
+<programlisting>dtstart_hello[0]="/usr/dt/bin/dthello -file /etc/motd &amp;"
+</programlisting>
+<para>Del mismo modo, los usuarios pueden cambiar el mensaje de bienvenida
+para las sesiones estableciendo <filename>dtstart_hello[0]</filename> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>.
+</para>
+<para>Para desactivar el mensaje de bienvenida, establezca <programlisting>
+dtstart_hello[0]=" ".</programlisting></para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre <command>dthello</command>,
+consulte la p&aacute;gina de manual <command>dthello</command>.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.12">
+<title><indexterm><primary>Gestor de sesiones</primary><secondary>establecer
+rutas de b&uacute;squeda</secondary></indexterm><indexterm><primary>rutas
+de b&uacute;squeda</primary><secondary>establecidas por el Gestor de sesiones</secondary></indexterm>Definici&oacute;n de las rutas de b&uacute;squeda
+del escritorio</title>
+<para>Las rutas de b&uacute;squeda del escritorio las crea <command><indexterm>
+<primary>dtsearchpath</primary></indexterm>dtsearchpath</command> en el inicio
+de sesi&oacute;n. Existen dos categor&iacute;as de variables de entorno utilizadas
+por <command>dtsearchpath</command>:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="170*">
+<colspec colwidth="358*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Variables de entrada</para></entry>
+<entry align="left" valign="top"><para>Variables de entorno personales y accesibles
+en el sistema cuyos valores establece el administrador del sistema o el usuario
+final.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Variables de salida</para></entry>
+<entry align="left" valign="top"><para>Valores de variables creados y asignados
+por <command>dtsearchpath</command>. El valor de cada variable es la ruta
+de b&uacute;squeda para la sesi&oacute;n de escritorio.</para></entry></row>
+</tbody></tgroup></informaltable>
+<para>Para modificar las opciones de la l&iacute;nea de mandatos de <command>dtsearchpath</command>, modifique la variable <systemitem>dtstart_searchpath</systemitem>. Para cambiar la variable<command>dtstart_searchpath</command><indexterm>
+<primary>dtstart_searchpath, variable</primary></indexterm> para todos los
+usuarios, cree un script ejecutable <command>sh</command> o <command>ksh</command>
+(por ejemplo <filename>/etc/dt/config/Xsession.d/</filename><symbol>mivars</symbol>) y establezca <systemitem>dtstart_searchpath</systemitem> del siguiente
+modo:</para>
+<programlisting>dtstart_searchpath=&rdquo;/usr/dt/bin/dtsearchpath&rdquo;
+</programlisting>
+<para>Los usuarios pueden cambiar del mismo modo las opciones de <command>dtsearchpath</command> solamente para sus propias sesiones estableciendo <filename>dtstart_searchpath</filename> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre <command>dtsearchpath</command>, vea el <!--Original XRef content: 'Chapter&numsp;7, &rdquo;Desktop
+Search Paths'--><xref role="ChapNumAndTitle" linkend="SAG.Datab.mkr.1">. Para
+obtener m&aacute;s informaci&oacute;n sobre las opciones de <command>dtsearchpath</command>, consulte la p&aacute;gina de manual <command>dtsearchpath</command>.
+</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.13">
+<title>C&oacute;mo reunir las aplicaciones disponibles</title>
+<para>El siguiente paso despu&eacute;s de establecer las rutas de b&uacute;squeda
+del escritorio consiste en reunir las aplicaciones disponibles, utilizando
+<command>dtappgather</command>. Para modificar las opciones de la l&iacute;nea
+de mandatos de<indexterm><primary>Gestor de aplicaciones</primary><secondary>reunir aplicaciones</secondary></indexterm><indexterm><primary>Gestor de
+sesiones</primary><secondary>reunir aplicaciones</secondary></indexterm><indexterm>
+<primary>aplicaciones</primary><secondary>reunidas por el Gestor de sesiones</secondary></indexterm><indexterm><primary>dtappgather</primary></indexterm> <command>dtappgather</command>, modifique la variable <systemitem>dtstart_appgather</systemitem>. Para cambiar la variable<systemitem>dtstart_appgather</systemitem><indexterm>
+<primary>dtstart_appgather, variable</primary></indexterm> para todos los
+usuarios, cree un script ejecutable <command>sh</command> o <command>ksh</command>
+(por ejemplo <filename>/etc/dt/config/Xsession.d/</filename><emphasis>mivars</emphasis>) y establezca <systemitem>dtstart_appgather</systemitem> del siguiente
+modo:</para>
+<programlisting>dtstart_appgather="/usr/dt/bin/dtappgather &amp;"</programlisting>
+<para>Del mismo modo, los usuarios pueden cambiar las opciones de <command>dtappgather</command> solamente para sus propias sesiones estableciendo <systemitem>dtstart_appgather</systemitem> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre las opciones de <command>dtappgather</command>, consulte la p&aacute;gina de manual <command>dtappgather(4)</command>.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.14">
+<title id="SAG.SesMg.mkr.6"><indexterm><primary>variables de entorno</primary>
+<secondary>tomar como fuente .login o .profile</secondary></indexterm>C&oacute;mo
+tomar opcionalmente como fuente el script .profile o .login<indexterm><primary>shell</primary><secondary>tomar como fuente .profile o .login</secondary>
+</indexterm><indexterm><primary>.profile, archivo</primary><secondary>toma
+como fuente[profile, archivo</secondary><tertiary>fue]</tertiary></indexterm><indexterm>
+<primary>.login, archivo</primary><secondary>tomar como fuente[login, archivo</secondary><tertiary>fue]</tertiary></indexterm></title>
+<para><command>Xsession</command> puede tomar como fuente los scripts tradicionales
+de un usuario <symbol role="Variable">DirectorioInicio</symbol><filename>/.profile</filename> o <symbol role="Variable">DirectorioInicio</symbol><filename>/.login</filename>. Como valor predeterminado, esta posibilidad est&aacute;
+inhabilitada. Para indicar a <command>Xsession</command> que tome como fuente
+el script <filename>.profile</filename> o <filename>.login</filename>, establezca <systemitem>DTSOURCEPROFILE</systemitem><indexterm><primary>DTSOURCEPROFILE, variable</primary></indexterm> en <command>true</command>.</para>
+<para>Para cambiar <systemitem>DTSOURCEPROFILE</systemitem> para todos los
+usuarios, cree un script <filename>/etc/dt/config/Xsession.d</filename> que
+establezca el nuevo valor. Para establecer <systemitem>DTSOURCEPROFILE</systemitem>
+en <command>true</command> para todos los usuarios, cree un script ejecutable <command>sh</command> o <command>ksh</command>, por ejemplo <filename>/etc/dt/config/Xsession.d/</filename><symbol>mivars</symbol>, y establezca <systemitem>DTSOURCEPROFILE</systemitem> del siguiente modo:</para>
+<programlisting>DTSOURCEPROFILE=true</programlisting>
+<para>Del mismo modo, los usuarios pueden cambiar <systemitem>DTSOURCEPROFILE</systemitem> para sus propias sesiones estableciendo <systemitem>DTSOURCEPROFILE</systemitem> en <command>true</command> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.15">
+<title>Inicio del<indexterm><primary>ToolTalk</primary><secondary>daemon
+de mensajes</secondary></indexterm> daemon de mensajes de ToolTalk</title>
+<para>El daemon de mensajes ToolTalk, <command>ttsession</command>, permite
+que las aplicaciones independientes se comuniquen entre s&iacute; sin conocerse
+directamente. Las aplicaciones crean y env&iacute;an mensajes de ToolTalk
+para comunicarse entre s&iacute;. <command>ttsession</command> se comunica
+en la red para entregar los mensajes.</para>
+<para>Para modificar las opciones de la l&iacute;nea de mandatos de <command><indexterm>
+<primary>ttsession</primary><secondary>iniciar</secondary></indexterm>ttsession</command>, modifique la variable <systemitem>dtstart_ttsession</systemitem>.
+Para cambiar la variable<systemitem>dtstart_ttsession</systemitem><indexterm>
+<primary>dtstart_ttsession, variable</primary></indexterm> para todos los usuarios,
+cree un script ejecutable <command>sh</command> o <command>ksh</command> (por
+ejemplo <filename>/etc/dt/config/Xsession.d/</filename><symbol role="Variable">mivars</symbol>) y establezca <systemitem>dtstart_ttsession</systemitem>
+del siguiente modo:</para>
+<programlisting>dtstart_ttsession=&rdquo;/usr/dt/bin/ttsession -s"&rdquo;
+</programlisting>
+<para>Del mismo modo los usuarios pueden cambiar las opciones de <command>ttsession</command> para sus propias sesiones estableciendo <systemitem>dtstart_ttsession</systemitem> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre las opciones de <command>ttsession</command>, consulte la p&aacute;gina de manual <command>ttsession</command>. Para obtener m&aacute;s informaci&oacute;n sobre <command>ttsession</command>, consulte <citetitle>Getting Started Using ToolTalk Messaging</citetitle>.
+</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.16">
+<title><indexterm><primary>Gestor de sesiones</primary><secondary>cliente</secondary></indexterm>Inicio del cliente del Gestor de sesiones</title>
+<para>Al llegar a este punto, <command>Xsession</command> inicia <filename>/usr/dt/bin/dtsession</filename>, que contin&uacute;a el proceso de arranque
+de sesi&oacute;n.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.17">
+<title id="SAG.SesMg.mkr.7">Carga de los recursos de sesi&oacute;n<indexterm>
+<primary>Gestor de sesiones</primary><secondary>cargar recursos</secondary>
+</indexterm><indexterm><primary>recursos</primary><secondary>cargar</secondary>
+</indexterm></title>
+<para>El Gestor de sesiones utiliza la propiedad del servidor de X <command>RESOURCE_MANAGER</command> para dejar disponibles los recursos de escritorio
+para todas las aplicaciones. El Gestor de sesiones carga el <filename>RESOURCE_MANAGER</filename>:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Cargando los recursos predeterminados del sistema</para>
+</listitem>
+<listitem><para>Fusionando los recursos accesibles en el sistema especificados
+por el administrador del sistema.</para>
+</listitem>
+<listitem><para>Fusionando los recursos especificados por el usuario</para>
+</listitem>
+</itemizedlist>
+<para>Los recursos predeterminados del escritorio pueden encontrarse en <filename>/usr/dt/config/</filename><symbol role="Variable">idioma</symbol><filename>/sys.resources</filename>.<indexterm><primary>sys.resources, archivo</primary>
+</indexterm><indexterm><primary>recursos</primary><secondary>predeterminados
+del escritorio</secondary></indexterm> Estos recursos quedar&aacute;n disponibles
+para cada sesi&oacute;n del usuario mediante la propiedad <filename>RESOURCE_MANAGER</filename>. Este archivo no debe editarse, dado que queda sobreescrito al
+realizar instalaciones de escritorio posteriores.</para>
+<para>Se pueden aumentar los recursos predeterminados del sistema creando
+<filename>/etc/dt/config/<symbol>idioma</symbol>/sys.resources</filename>.<indexterm>
+<primary>sys.resources, archivo</primary></indexterm> En este archivo, se pueden
+pasar por alto los recursos predeterminados o especificar recursos adicionales
+para todos los usuarios del escritorio. Dado que, durante el arranque de la
+sesi&oacute;n, este archivo se fusiona en los recursos predeterminados del
+escritorio, s&oacute;lo deben ponerse en &eacute;l especificaciones de recursos
+nuevas o actualizadas. Los recursos especificados en este archivo quedar&aacute;n
+disponibles para cada sesi&oacute;n del usuario a trav&eacute;s de la propiedad <filename>RESOURCE_MANAGER</filename>. Los recursos especificados en este archivo tienen
+prioridad sobre aqu&eacute;llos especificados en el archivo de recursos predeterminados
+del escritorio.</para>
+<para>Los usuarios pueden aumentar los recursos accesibles en el sistema y
+predeterminados del escritorio utilizando el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.Xdefaults</filename>. Los recursos especificados
+en este archivo quedar&aacute;n disponibles para la sesi&oacute;n de dicho
+usuario por medio de la propiedad <filename>RESOURCE_MANAGER</filename>. Los
+recursos especificados en este archivo tienen prioridad sobre aqu&eacute;llos
+especificados en los archivos de recursos del administrador del sistema o
+predeterminados del escritorio.</para>
+<note>
+<para>La utilidad Intrinsics del Kit de utilidades de X especifica que cargar&aacute;
+recursos para una aplicaci&oacute;n de <filename><indexterm><primary>RESOURCE_MANAGER,
+propiedad</primary></indexterm>RESOURCE_MANAGER</filename> o de <symbol role="Variable">DirectorioInicio</symbol><filename>/.Xdefaults</filename>, pero no de ambos.
+Normalmente esto significar&iacute;a que el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.Xdefault</filename> del usuario se ignorar&iacute;a.
+Sin embargo, el Gestor de sesiones da cabida a <symbol role="Variable">DirectorioInicio</symbol>/<filename><indexterm><primary>.Xdefaults, archivo[Xdefaults, archivo]</primary></indexterm>.Xdefaults</filename> fusion&aacute;ndolo en el <filename>RESOURCE_MANAGER</filename> en el arranque de sesi&oacute;n descrito anteriormente.
+Si un usuario cambia <symbol role="Variable">DirectorioInicio</symbol>/<filename>.Xdefaults</filename>, los cambios no estar&aacute;n visibles para las nuevas
+aplicaciones hasta que el usuario invoque la acci&oacute;n Recargar recursos.
+La<indexterm><primary>Recargar recursos, acci&oacute;n</primary></indexterm> acci&oacute;n
+Recargar recursos indicar&aacute; al Gestor de sesiones que vuelva a cargar
+el <filename>RESOURCE_MANAGER</filename> con los recursos predeterminados,
+accesibles en el sistema y especificados por el usuario. Esto hace que los
+cambios en los archivos recursos personales y accesibles en el sistema est&eacute;n
+disponibles para las aplicaciones.</para>
+</note>
+<para>Para obtener m&aacute;s informaci&oacute;n, consulte:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><!--Original XRef content: '&rdquo;Setting Application Resources&rdquo;
+on page&numsp;256'--><xref role="SecTitleAndPageNum" linkend="SAG.FACol.mkr.2"></para>
+</listitem>
+<listitem><para>La p&aacute;gina de manual <filename>dtresourcesfile(4)</filename></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.SesMg.div.18">
+<title>Inicio del servidor de colores<indexterm><primary>servidor de colores</primary><secondary>inicio</secondary></indexterm></title>
+<para>El Gestor de sesiones sirve como<indexterm><primary>servidor de colores</primary><secondary>recursos</secondary></indexterm> servidor de colores para
+el escritorio y proporciona el siguiente conjunto de recursos de <command>dtsession</command> que se pueden utilizar para configurarlo.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="209*">
+<colspec colwidth="319*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>foregroundColor</systemitem></para><para><indexterm><primary>foregroundColor, recurso</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>Controla si se ha asignado un pixel
+para el color de primer plano</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>dynamicColor</systemitem></para><indexterm>
+<primary>dynamicColor, recurso</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Especifica si se han asignado colores
+de s&oacute;lo lectura</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>shadowPixmaps</systemitem></para><indexterm>
+<primary>shadowPixmaps, recurso</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Especifica si se han asignado colores
+para sombra superior o sombra inferior</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>colorUse</systemitem></para><indexterm>
+<primary>colorUse, recurso</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Limita la asignaci&oacute;n de colores
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>writeXrdbColors</systemitem></para><indexterm>
+<primary>writeXrdbColors, recurso</primary></indexterm></entry>
+<entry align="left" valign="top"><para>Especifica si los recursos <systemitem>*background</systemitem> y <systemitem>*foreground</systemitem> est&aacute;n
+colocados en la base de datos de recursos</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>Se pueden establecer los recursos del servidor de colores para todos
+los usuarios creando <filename>/etc/dt/config/</filename><symbol>idioma</symbol><filename>/sys.resources</filename> y especificando los recursos del servidor de colores
+en dicho archivo.</para>
+<para>De la misma forma los usuarios pueden establecer recursos del servidor
+de colores para sus propias sesiones especific&aacute;ndolos en <symbol role="Variable">DirectorioInicio</symbol><filename>/.Xdefaults</filename>.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre c&oacute;mo establecer
+los recursos del servidor de colores, consulte el apartado <!--Original XRef
+content: '&rdquo;Administering Colors&rdquo; on page&numsp;265'--><xref role="SecTitleAndPageNum"
+linkend="SAG.FACol.mkr.9">.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.19">
+<title><indexterm><primary>Gestor de espacios de trabajo</primary><secondary>iniciar</secondary></indexterm><indexterm><primary>Gestor de sesiones</primary>
+<secondary>iniciar el Gestor de espacios de trabajo</secondary></indexterm>Inicio
+del Gestor de espacios de trabajo</title>
+<para>El Gestor de sesiones es el encargado de iniciar el Gestor de espacios
+de trabajo. Como valor predeterminado se inicia <filename>/usr/dt/bin/dtwm</filename>.<indexterm><primary>Gestor de espacio de trabajo</primary><secondary>iniciar</secondary></indexterm> Se puede especificar un gestor de ventanas
+alternativo con el recurso <systemitem>wmStartupCommand</systemitem>.<indexterm>
+<primary>wmStartupCommand, recurso</primary></indexterm><indexterm><primary>Gestor de ventanas</primary><secondary>cambiar</secondary></indexterm></para>
+<para>Se puede especificar un gestor de ventanas alternativo para todos los
+usuarios creando <filename>/etc/dt/config/</filename><symbol>idioma</symbol><filename>/sys.resources</filename> y especificando el nombre de ruta completo y las
+opciones para el gestor de ventanas con el recurso <systemitem>Dtsession*wmStartupCommand</systemitem> en dicho archivo.</para>
+<para>Del mismo modo, los usuarios pueden especificar un gestor de ventanas
+alternativo s&oacute;lo para sus propias sesiones especificando el recurso <systemitem>Dtsession*wmStartupCommand</systemitem> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.Xdefaults</filename>.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre el Gestor de ventanas,
+consulte el <!--Original XRef content: 'Chapter&numsp;14, &rdquo;Customizing
+the Workspace Manager'--><xref role="ChapNumAndTitle" linkend="SAG.WMCnf.mkr.1">.
+</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.20">
+<title>Inicio de las aplicaciones de sesi&oacute;n<indexterm><primary>aplicaciones</primary><secondary>iniciar al iniciar la sesi&oacute;n</secondary></indexterm><indexterm>
+<primary>Gestor de sesiones</primary><secondary>iniciar aplicaciones</secondary>
+</indexterm></title>
+<para>Al arrancar la sesi&oacute;n, el Gestor de sesiones rearranca las aplicaciones
+que se han guardado como parte de la sesi&oacute;n. El conjunto de aplicaciones
+predeterminado del sistema que se debe restaurar como parte de la sesi&oacute;n
+inicial del usuario se encuentra en <filename>/usr/dt/config/</filename><symbol role="Variable">idioma</symbol><filename>/ sys.session</filename>.<indexterm>
+<primary>sys.session, archivo</primary></indexterm> Este archivo no debe editarse
+dado que se sobreescribir&aacute; incondicionalmente al realizar las instalaciones
+de escritorio posteriores.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n, consulte la p&aacute;gina
+de manual <filename moreinfo="RefEntry">dtsessionfile(4)</filename>.</para>
+<para><indexterm><primary>Gestor de sesiones</primary><secondary>personalizar
+arranque de aplicaciones</secondary></indexterm>Un administrador de sistema
+puede sustituir el conjunto de aplicaciones que se inician como parte de la
+sesi&oacute;n inicial del usuario copiando <filename>/usr/dt/config/</filename><symbol role="Variable">idioma</symbol><filename>/sys.session</filename> en <filename>/etc/dt/config/</filename><symbol role="Variable">idioma</symbol><filename>/sys.session</filename> y modificando este &uacute;ltimo archivo. A diferencia
+de los archivos de recursos, este archivo se utilizar&aacute; como sustituci&oacute;n
+completa para el archivo predeterminado del escritorio, de modo que se puede
+hacer una copia del archivo predeterminado del sistema y realizar las modificaciones
+necesarias.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.SesMg.div.21">
+<title id="SAG.SesMg.mkr.8">Personalizaciones adicionales de arranque de sesi&oacute;n</title>
+<para>Esta secci&oacute;n incluye:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>La definici&oacute;n de las variables de entorno</para>
+</listitem>
+<listitem><para>La definici&oacute;n de recursos</para>
+</listitem>
+<listitem><para>La utilizaci&oacute;n de sesiones dependientes de la configuraci&oacute;n
+gr&aacute;fica</para>
+</listitem>
+<listitem><para>La ejecuci&oacute;n de scripts al iniciar la sesi&oacute;n
+</para>
+</listitem>
+<listitem><para>La recuperaci&oacute;n de una sesi&oacute;n de copia de seguridad
+</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.SesMg.div.22" role="Procedure">
+<title id="SAG.SesMg.mkr.9"><indexterm><primary>variables de entorno</primary>
+<secondary>establecer</secondary></indexterm><indexterm><primary>entorno</primary><secondary>variables, Vea variables de entorno&lt;$nopage></secondary>
+</indexterm>Establecer variables de entorno</title>
+<itemizedlist>
+<listitem><para><indexterm><primary>variables de entorno</primary><secondary>accesibles en el sistema</secondary></indexterm>Para establecer variables
+de entorno accesibles en el sistema, cree un archivo en el directorio <filename>/etc/dt/config/Xsession.d</filename><indexterm><primary>Xsession.d</primary>
+</indexterm> que establezca y<indexterm><primary>variables de entorno</primary>
+<secondary>exportar</secondary></indexterm> exporte la variable.</para>
+<para>Por ejemplo, si crea un script ejecutable <command>ksh</command>, <filename>/etc/dt/config/Xsession.d/</filename><symbol role="Variable">mivars,</symbol></para>
+<para>que contiene:</para>
+<programlisting remap="CodeIndent1">export MYVARIABLE="<symbol role="Variable">valor</symbol>"</programlisting>
+<para>la variable <systemitem>MYVARIABLE</systemitem> se establecer&aacute;
+en el entorno de cada usuario en el siguiente inicio de sesi&oacute;n.</para>
+</listitem>
+<listitem><para><indexterm><primary>variables de entorno</primary><secondary>personales</secondary></indexterm>Para establecer variables de entorno personales,
+establezca la variable en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename>.<indexterm><primary>.dtprofile, archivo</primary>
+<secondary>establecer variables de entorno en[dtprofile, archivo</secondary>
+<tertiary>establecer</tertiary></indexterm></para>
+<para>Por ejemplo:</para>
+<programlisting remap="CodeIndent1">export MYVARIABLE="<symbol role="Variable">valor</symbol>"</programlisting>
+<para>establece la variable <systemitem>MYVARIABLE</systemitem> en el entorno
+de cada usuario en el siguiente inicio de sesi&oacute;n.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>El Gestor de sesiones no lee autom&aacute;ticamente el archivo <filename>.profile</filename><indexterm><primary>.profile, archivo</primary><secondary>no le&iacute;do por el Gestor de inicio de sesi&oacute;n[profile, archivo</secondary><tertiary>no]</tertiary></indexterm> o <filename>.login</filename>.<indexterm>
+<primary>.login, archivo</primary><secondary>no le&iacute;do por el Gestor
+de inicio de sesi&oacute;n[login, archivo</secondary><tertiary>no]</tertiary>
+</indexterm><indexterm><primary>&lt;$nopage>shell</primary><secondary>Vea
+tambi&eacute;n variables de entorno, .profile, .login, .dtprofile[shell</secondary>
+<tertiary>aaa]</tertiary></indexterm> Sin embargo, puede configurarse para
+utilizar estos archivos; consulte la secci&oacute;n <!--Original XRef content:
+'&rdquo;Optionally Sourcing the .profile or .login Script&rdquo; on page&numsp;28'--><xref
+role="SecTitleAndPageNum" linkend="SAG.SesMg.mkr.6">.</para>
+</note>
+</sect2>
+<sect2 id="SAG.SesMg.div.23" role="Procedure">
+<title>Establecer recursos<indexterm><primary>recursos</primary><secondary>establecer</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Para establecer recursos accesibles en el sistema, a&ntilde;ada
+los recursos al archivo <filename>/etc/dt/config/</filename><symbol role="Variable">idioma</symbol><filename>/sys.resources</filename>. (Es posible que tenga
+que crear el archivo).<indexterm><primary>sys.resources, archivo</primary>
+</indexterm></para>
+</listitem>
+</itemizedlist>
+<note>
+<para><filename>.dtprofile</filename><indexterm><primary>.dtprofile, archivo</primary><secondary>sintaxis[dtprofile, archivo</secondary><tertiary>sin]</tertiary></indexterm> s&oacute;lo soporta la sintaxis <filename>/bin/sh</filename> o <filename>/bin/ksh</filename>.</para>
+</note>
+<para>Por ejemplo, si en <filename>/etc/dt/config/C/sys.resources</filename>
+especifica:</para>
+<programlisting>AnApplication*resource: <symbol role="Variable">valor</symbol></programlisting>
+<para>el recurso <systemitem>AnApplication*resource</systemitem> se establecer&aacute;
+en la propiedad <filename><indexterm><primary>RESOURCE_MANAGER, propiedad</primary></indexterm>RESOURCE_MANAGER</filename> de cada usuario en el siguiente
+inicio de sesi&oacute;n.</para>
+<itemizedlist>
+<listitem><para>Para establecer recursos personales, a&ntilde;ada los recursos
+al archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.Xdefaults</filename>.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.SesMg.div.24" role="Procedure">
+<title>Establecer recurso espec&iacute;fico de pantalla<indexterm><primary>recurso espec&iacute;fico de pantalla</primary></indexterm><indexterm><primary>recursos</primary><secondary>espec&iacute;ficos de pantalla</secondary></indexterm></title>
+<para>Se pueden establecer recursos espec&iacute;ficos de pantalla para todos
+los usuarios de escritorio del sistema. Asimismo, los usuarios pueden establecer
+recursos espec&iacute;ficos de pantalla limitados a su propia sesi&oacute;n.
+Esto permite especificar recursos en funci&oacute;n de la pantalla que el
+usuario utilice para iniciar la sesi&oacute;n en el escritorio.</para>
+<itemizedlist>
+<listitem><para>Para establecer recursos espec&iacute;ficos de pantalla para
+todos los usuarios de escritorio del sistema, cree el archivo <filename>/etc/dt/config/</filename><symbol role="Variable">idioma</symbol><filename>/sys.resources</filename> que especifique los recursos espec&iacute;ficos de pantalla.</para>
+</listitem>
+<listitem><para>Para establecer recursos personales espec&iacute;ficos de
+pantalla, especifique el recurso en <symbol role="Variable">DirectorioInicio</symbol><filename>/.Xdefaults</filename>.</para>
+</listitem>
+</itemizedlist>
+<para>Delimite estos recursos incluy&eacute;ndolos entre sentencias condicionales
+<command>cpp</command>.<indexterm><primary>cpp, sentencias</primary></indexterm>
+Se define una macro <filename><indexterm><primary>DISPLAY_nombrepantalla
+macro</primary></indexterm>DISPLAY_</filename><symbol>nombrepantalla</symbol>
+en funci&oacute;n del valor de la variable <filename>$DISPLAY</filename>.
+Esto se realiza convirtiendo todos los caracteres . (punto) y : (dos puntos)
+en _ (subrayado), desmembrando cualquier especificaci&oacute;n de pantalla
+y finalmente poniendo <filename>DISPLAY_</filename> como prefijo en el resultado.
+</para>
+<para>Por ejemplo, un <filename>$DISPLAY</filename> de <filename>:0</filename>
+ser&iacute;a <filename>DISPLAY_0</filename> y un <filename>$DISPLAY</filename>
+de <filename>blanco.gato.com:0.0</filename> ser&iacute;a <filename>DISPLAY_blanco_gato_com_0</filename>. El valor resultante puede utilizarse como parte de una prueba
+de <command>cpp</command> en un archivo de recursos de sesi&oacute;n. Por
+ejemplo, si en <filename>/etc/dt/config/C/sys.resources</filename> se especifica:
+</para>
+<programlisting>Myapp*resource: valor
+#ifdef DISPLAY_blanco_gato_com_0
+Myapp*resource: valorespecial1
+#endif
+
+#ifdef DISPLAY_pablo_gato_com_0
+Myapp*resource: valorespecial2
+#endif</programlisting>
+<para>el recurso <filename>MyApp*resource</filename> se establecer&aacute;
+en <filename>RESOURCE_MANAGER</filename> en <filename>valorespecial1</filename>
+cuando el usuario inicie la sesi&oacute;n en la pantalla <filename>blanco.gato.com:0</filename>; en <filename>valorespecial2</filename> cuando el usuario inicie
+la sesi&oacute;n en <filename>pablo.gato.com:0</filename> y en <command>valor</command> cuando el usuario inicie la sesi&oacute;n en otra pantalla.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.25" role="Procedure">
+<title>Cambiar aplicaciones para la sesi&oacute;n inicial<indexterm><primary>sesi&oacute;n</primary><secondary>primera</secondary></indexterm></title>
+<para>Se pueden especificar aplicaciones alternativas para iniciarlas como
+parte de la sesi&oacute;n inicial de un usuario.</para>
+<orderedlist>
+<listitem><para>Copie <filename>/usr/dt/config/</filename><symbol role="Variable">idioma</symbol><filename>/sys.session</filename> en <filename>/etc/dt/config/</filename><symbol role="Variable">idioma</symbol><filename>/sys.session.</filename></para>
+</listitem>
+<listitem><para>Modifique el nuevo archivo <filename><indexterm><primary>sys.session, archivo</primary></indexterm>sys.session</filename>.</para>
+<para>Cada entrada de <filename>sys.session</filename> aparece como:</para>
+<para remap="CodeIndent1"><command>dtsmcmd -cmd</command> <symbol remap="Emphasis">mandato_y_opciones</symbol></para>
+<para>Para iniciar una aplicaci&oacute;n adicional como parte de la sesi&oacute;n
+inicial de un usuario, especifique una nueva entrada <filename>sys.session</filename> con un nombre de ruta completo. Por ejemplo, para iniciar <filename>/usr/bin/X11/xclock</filename> como parte de la sesi&oacute;n inicial de un
+usuario, a&ntilde;ada una entrada <command>xclock</command> a <filename>/etc/dt/config/C/sys.session</filename>:</para>
+<programlisting remap="CodeIndent1">#
+# Start up xclock..
+#
+dtsmcmd -cmd "/usr/bin/X11/xclock -digital"</programlisting>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.SesMg.div.26" role="Procedure">
+<title>Definir una sesi&oacute;n espec&iacute;fica de pantalla<indexterm>
+<primary>sesi&oacute;n</primary><secondary>espec&iacute;fica de pantalla</secondary>
+</indexterm><indexterm><primary>sesi&oacute;n espec&iacute;fica de pantalla</primary></indexterm></title>
+<para>Un usuario puede definir una sesi&oacute;n espec&iacute;fica de pantalla
+para adaptar una sesi&oacute;n a una pantalla determinada.</para>
+<itemizedlist>
+<listitem><para>Copie el directorio <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/sessions</filename><indexterm><primary>sessions,
+directorio</primary></indexterm> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/</filename><symbol role="Variable">pantalla</symbol>
+donde <symbol role="Variable">pantalla</symbol> es el nombre real de host
+no completo (<filename>pablo:0</filename> es v&aacute;lido, <filename>pablo.gato.com:0</filename> o <filename>unix:0</filename> no lo son).</para>
+</listitem>
+</itemizedlist>
+<para>Por ejemplo, para crear una sesi&oacute;n espec&iacute;fica de pantalla
+para la pantalla <filename>pablo.gato.com:0</filename>:</para>
+<programlisting>cp -r DirectorioInicio/.dt/sessions DirectorioInicio/.dt/pablo:0
+</programlisting>
+<para>La pr&oacute;xima vez que el usuario inicie la sesi&oacute;n en la pantalla
+<filename>pablo.gato.com:0</filename>, el Gestor de sesiones iniciar&aacute;
+la sesi&oacute;n espec&iacute;fica de dicha pantalla.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.27">
+<title>Ejecuci&oacute;n de mandatos adicionales en el arranque de sesi&oacute;n
+y el fin de sesi&oacute;n</title>
+<para>Los usuarios pueden especificar que se inicien mandatos adicionales
+al iniciar la sesi&oacute;n en las sesiones de escritorio. Esto resulta &uacute;til
+para definir la configuraci&oacute;n de X que el Gestor de sesiones no ha
+guardado. Por ejemplo, el usuario puede utilizar <command>xsetroot</command>
+para personalizar el puntero (espacio de trabajo) root. Otro uso ser&iacute;a
+iniciar aplicaciones que el Gestor de sesiones no puede guardar ni restaurar.
+Si una aplicaci&oacute;n no se reinicia cuando se restaura la sesi&oacute;n,
+el usuario puede iniciar el cliente utilizando este m&eacute;todo.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.28" role="Procedure">
+<title><indexterm><primary>Gestor de sesiones</primary><secondary>ejecutar
+mandatos adicionales</secondary></indexterm><indexterm><primary>sesi&oacute;n</primary><secondary>ejecutar mandatos en el arranque</secondary></indexterm>Ejecutar
+mandatos adicionales en el arranque de sesi&oacute;n</title>
+<itemizedlist>
+<listitem><para>Cree el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/sessions/sessionetc</filename><indexterm><primary>sessionetc, archivo</primary></indexterm> que contiene los mandatos.</para>
+<para>Generalmente este archivo es un script y debe tener permiso de ejecuci&oacute;n.
+Los procesos iniciados en <command>sessionetc</command> deben ejecutarse
+de fondo.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>No utilice <command>sessionetc</command> para iniciar clientes que el
+Gestor de sesiones restaura autom&aacute;ticamente. Su utilizaci&oacute;n
+puede hacer que se inicien varias copias de la aplicaci&oacute;n. Es posible
+que no pueda ver las copias inmediatamente porque las ventanas pueden estar
+colocadas una encima de otra.</para>
+</note>
+</sect2>
+<sect2 id="SAG.SesMg.div.29" role="Procedure">
+<title>Ejecutar mandatos adicionales en el fin de sesi&oacute;n<indexterm>
+<primary>sesi&oacute;n</primary><secondary>ejecutar mandatos en el fin de
+sesi&oacute;n</secondary></indexterm><indexterm><primary>Gestor de sesiones</primary><secondary>ejecutar mandatos en el fin de sesi&oacute;n</secondary>
+</indexterm></title>
+<para>Un archivo parecido a <command>sessionetc</command> es <command><indexterm>
+<primary>sessionexit, archivo</primary></indexterm>sessionexit</command>.
+Utilice <command>sessionexit</command> para realizar alguna operaci&oacute;n
+en la salida de sesi&oacute;n que el Gestor de sesiones no maneje.</para>
+<itemizedlist>
+<listitem><para>Cree el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/sessions/sessionexit</filename>.</para>
+<para>Al igual que <command>sessionetc</command>, este archivo es generalmente
+un script con permiso de ejecuci&oacute;n.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.SesMg.div.30" role="Procedure">
+<title>Recuperar una sesi&oacute;n de la copia de seguridad<indexterm><primary>sesi&oacute;n</primary><secondary>recuperar</secondary></indexterm><indexterm>
+<primary>Gestor de sesiones</primary><secondary>hacer copia de seguridad
+de sesiones</secondary></indexterm><indexterm><primary>sesi&oacute;n</primary>
+<secondary>copia de seguridad</secondary></indexterm></title>
+<para>Cuando el Gestor de sesiones guarda una sesi&oacute;n, la informaci&oacute;n
+de la sesi&oacute;n se almacena en el directorio <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/sessions</filename> o en el directorio
+<symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/</filename><symbol>pantalla</symbol> si se utiliza una sesi&oacute;n espec&iacute;fica de pantalla.
+En estos directorios, el Gestor de sesiones crea un subdirectorio llamado <filename>current</filename> o <filename>home</filename> para almacenar la informaci&oacute;n
+para la sesi&oacute;n actual o inicial respectiva. Antes de que se almacene
+la informaci&oacute;n de la sesi&oacute;n, el Gestor de sesiones hace una
+copia de seguridad de la sesi&oacute;n anterior con dicho nombre y la almacena
+en <filename><indexterm><primary>current.old, directorio</primary></indexterm>current.old</filename> o <filename><indexterm><primary>home.old, directorio</primary>
+</indexterm>home.old</filename>.</para>
+<orderedlist>
+<listitem><para>Inicie la sesi&oacute;n utilizando la Sesi&oacute;n de seguridad
+o el Inicio de sesi&oacute;n l&iacute;nea de mandatos de la pantalla de inicio
+de sesi&oacute;n.</para>
+</listitem>
+<listitem><para>Copie el directorio de la sesi&oacute;n de copia de seguridad
+en el nombre activo. Por ejemplo, para recuperar la sesi&oacute;n de inicio
+de copia de seguridad:</para>
+</listitem>
+</orderedlist>
+<programlisting>cp -r <symbol role="Variable">DirectorioInicio</symbol>/.dt/sessions/home.old <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/sessions/home</filename></programlisting>
+<para>Las sesiones espec&iacute;ficas de pantalla puede recuperarse del mismo
+modo.</para>
+</sect2>
+<sect2 id="SAG.SesMg.div.31" role="Procedure">
+<title><indexterm><primary>Gestor de sesiones</primary><secondary>registro
+de errores</secondary></indexterm>Investigar problemas de arranque de sesi&oacute;n<indexterm>
+<primary>Gestor de sesiones</primary><secondary>resoluci&oacute;n de problemas</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Compruebe el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/startlog</filename>.<indexterm><primary>startlog,
+archivo</primary></indexterm><indexterm><primary>sesi&oacute;n</primary>
+<secondary>registrar errores</secondary></indexterm></para>
+<para>El archivo <filename>startlog</filename> contendr&aacute; la salida
+de datos (<?Pub Caret><command>stderr</command>) de las aplicaciones que ha
+activado el Gestor de Sesiones (en el anfitri&oacute;n del Gestor de Sesiones).
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.SesMg.div.32">
+<title id="SAG.SesMg.mkr.10">Archivos y directorios del Gestor de sesiones<indexterm>
+<primary>archivos de configuraci&oacute;n</primary><secondary>Gestor de sesiones</secondary></indexterm><indexterm><primary>Gestor de sesiones</primary>
+<secondary>archivos</secondary></indexterm><indexterm><primary>Gestor de
+sesiones</primary><secondary>directorios</secondary></indexterm></title>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>/usr/dt/bin/Xsession</filename></para>
+</listitem>
+<listitem><para><filename>/usr/dt/config/Xsession.d/*</filename></para>
+</listitem>
+<listitem><para><filename>/usr/dt/bin/dtsession</filename></para>
+</listitem>
+<listitem><para><filename>/usr/dt/bin/dtsession_res</filename></para>
+</listitem>
+<listitem><para><symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/sessions/current</filename></para>
+</listitem>
+<listitem><para><symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/sessions/home</filename></para>
+</listitem>
+<listitem><para><symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/</filename><symbol>pantalla</symbol><filename>/current</filename></para>
+</listitem>
+<listitem><para><symbol role="Variable">DirectorioInicio</symbol><filename>/.dt/</filename><symbol>pantalla</symbol>/<command>home</command></para>
+</listitem>
+</itemizedlist>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 14:35:19-->
+<?Pub *0000062419>

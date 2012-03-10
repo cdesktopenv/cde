@@ -1,0 +1,1413 @@
+
+//       $XConsortium: attch_ed.bil /main/3 1995/11/06 17:19:13 rswiston $
+//
+// @(#)attch_ed.bil	1.3 18 Jul 1994
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module attch_ed
+(
+
+:element attch_ed_dialog
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Attachments Editor"
+	:resizable		:true
+	:visible		:false
+	:default-button		apply_button
+	:help-button		help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABAttachmentsEditor"
+	:help-text		"The Attachments Editor is used to examine and edit interobject attachments.  It allows relative attachment relationships to be specified on an object-by-object basis."
+	:children		(
+		objlist_panel
+		attachments_panel
+		dialog_button_panel
+	)
+)
+:element objlist_panel
+(
+	:type			:container
+	:container-type		:relative
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		obj_type_opmenu
+		objlist
+		objlist_label
+	)
+)
+:element obj_type_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			41
+	:y			8
+	:label-type		:string
+	:label			"Object Type:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:point 0 41)
+	:children		(
+		obj_type_opmenu_Button_item
+	)
+)
+:element obj_type_opmenu_Button_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Button"
+	:active			:true
+	:selected		:true
+)
+:element objlist
+(
+	:type			:list
+	:x			131
+	:y			52
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge objlist_label 0)
+	:east-attachment	(:grid-line 70 0)
+	:west-attachment	(:grid-line 18 4)
+)
+:element objlist_label
+(
+	:type			:label
+	:x			64
+	:y			52
+	:label-type		:string
+	:label			"Objects:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj obj_type_opmenu 5)
+	:east-attachment	(:grid-line 18 0)
+)
+:element attachments_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			142
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:obj objlist_panel 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		childrenlist
+		children_list_label
+		parent_obj_name_label
+		parent_obj_name
+		attach_grp
+		parent_attach_button
+		child_attach_button
+	)
+)
+:element childrenlist
+(
+	:type			:list
+	:x			129
+	:y			48
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge children_list_label 0)
+	:east-attachment	(:grid-line 70 0)
+	:west-attachment	(:grid-line 18 4)
+)
+:element children_list_label
+(
+	:type			:label
+	:x			62
+	:y			48
+	:label-type		:string
+	:label			"Children:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj parent_obj_name_label 10)
+	:east-attachment	(:grid-line 18 0)
+)
+:element parent_obj_name_label
+(
+	:type			:label
+	:x			73
+	:y			12
+	:label-type		:string
+	:label			"Parent:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 18 0)
+)
+:element parent_obj_name
+(
+	:type			:label
+	:x			129
+	:y			12
+	:label-type		:string
+	:label			"parent obj"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge parent_obj_name_label 0)
+	:east-attachment	(:grid-line 70 0)
+	:west-attachment	(:grid-line 18 0)
+)
+:element attach_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			0
+	:y			130
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:obj childrenlist 10)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		attach_obj_grp
+		top_attach_cb
+		bottom_attach_cb
+		top_grp
+		right_grp
+		left_attach_cb
+		bottom_grp
+		left_grp
+	)
+)
+:element attach_obj_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			272
+	:y			143
+	:group-type		:column
+	:column-alignment	:vcenter
+	:voffset		8
+	:vattach_type		:obj
+	:border-frame		:shadow-out
+	:north-attachment	(:center-grid-line 50 0)
+	:west-attachment	(:center-grid-line 50 0)
+	:children		(
+		obj_label
+		checkbox
+	)
+)
+:element obj_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Object1"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element checkbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Resizeable:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:false
+	:visible		:true
+	:children		(
+		checkbox_Width_item
+		checkbox_Height_item
+	)
+)
+:element checkbox_Width_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Width"
+	:active			:true
+	:selected		:true
+)
+:element checkbox_Height_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Height"
+	:active			:true
+	:selected		:false
+)
+:element top_attach_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			6
+	:y			6
+	:width			3
+	:height			111
+	:bg-color		"white"
+	:fg-color		"white"
+	:visible		:true
+	:north-attachment	(:obj-edge top_grp 0)
+	:south-attachment	(:obj-edge top_grp 0)
+	:west-attachment	(:point 0 6)
+)
+:element bottom_attach_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			6
+	:y			312
+	:width			3
+	:height			111
+	:bg-color		"white"
+	:fg-color		"white"
+	:visible		:true
+	:north-attachment	(:obj-edge bottom_grp 0)
+	:south-attachment	(:obj-edge bottom_grp 0)
+	:west-attachment	(:point 0 6)
+)
+:element top_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			258
+	:y			0
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		10
+	:hattach_type		:obj
+	:border-frame		:etched-out
+	:south-attachment	(:obj attach_obj_grp 30)
+	:west-attachment	(:center-grid-line 50 0)
+	:children		(
+		top_attach
+		top_obj_offset_grp
+	)
+)
+:element top_attach
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		top_attach_bitmaps_attach_top_form_xbm_item
+		top_attach_bitmaps_attach_top_opposite_form_xbm_item
+		top_attach_bitmaps_attach_top_widget_xbm_item
+		top_attach_bitmaps_attach_top_opposite_widget_xbm_item
+		top_attach_bitmaps_attach_top_position_xbm_item
+		top_attach_bitmaps_attach_top_center_position_xbm_item
+		top_attach_bitmaps_attach_none_xbm_item
+	)
+)
+:element top_attach_bitmaps_attach_top_form_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABatf.m"
+	:active			:true
+	:selected		:true
+)
+:element top_attach_bitmaps_attach_top_opposite_form_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABatF.m"
+	:active			:true
+	:selected		:false
+)
+:element top_attach_bitmaps_attach_top_widget_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABatw.m"
+	:active			:true
+	:selected		:false
+)
+:element top_attach_bitmaps_attach_top_opposite_widget_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABatW.m"
+	:active			:true
+	:selected		:false
+)
+:element top_attach_bitmaps_attach_top_position_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABatp.m"
+	:active			:true
+	:selected		:false
+)
+:element top_attach_bitmaps_attach_top_center_position_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABatc.m"
+	:active			:true
+	:selected		:false
+)
+:element top_attach_bitmaps_attach_none_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABa0.m"
+	:active			:true
+	:selected		:false
+)
+:element top_obj_offset_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:group-type		:column
+	:column-alignment	:left
+	:voffset		1
+	:vattach_type		:obj
+	:border-frame		:none
+	:children		(
+		top_attach_to_label
+		top_attach_objmenu
+		top_offset
+		top_position
+	)
+)
+:element top_attach_to_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Attach To:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element top_attach_objmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		top_attach_objmenu_Object1_item
+	)
+)
+:element top_attach_objmenu_Object1_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Object1"
+	:active			:true
+	:selected		:true
+)
+:element top_offset
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Offset:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element top_position
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Percentage:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element right_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			478
+	:y			135
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		3
+	:hattach_type		:obj
+	:border-frame		:etched-out
+	:north-attachment	(:center-grid-line 50 0)
+	:west-attachment	(:obj attach_obj_grp 30)
+	:children		(
+		right_attach
+		right_obj_offset_grp
+	)
+)
+:element right_attach
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		right_attach_bitmaps_attach_right_form_xbm_item
+		right_attach_bitmaps_attach_right_opposite_form_xbm_item
+		right_attach_bitmaps_attach_right_widget_xbm_item
+		right_attach_bitmaps_attach_right_opposite_widget_xbm_item
+		right_attach_bitmaps_attach_right_position_xbm_item
+		right_attach_bitmaps_attach_right_center_position_xbm_item
+		right_attach_bitmaps_attach_none_xbm_item
+	)
+)
+:element right_attach_bitmaps_attach_right_form_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABarf.m"
+	:active			:true
+	:selected		:true
+)
+:element right_attach_bitmaps_attach_right_opposite_form_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABarF.m"
+	:active			:true
+	:selected		:false
+)
+:element right_attach_bitmaps_attach_right_widget_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABarw.m"
+	:active			:true
+	:selected		:false
+)
+:element right_attach_bitmaps_attach_right_opposite_widget_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABarW.m"
+	:active			:true
+	:selected		:false
+)
+:element right_attach_bitmaps_attach_right_position_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABarp.m"
+	:active			:true
+	:selected		:false
+)
+:element right_attach_bitmaps_attach_right_center_position_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABalc.m"
+	:active			:true
+	:selected		:false
+)
+:element right_attach_bitmaps_attach_none_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABa0.m"
+	:active			:true
+	:selected		:false
+)
+:element right_obj_offset_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:group-type		:column
+	:column-alignment	:left
+	:voffset		1
+	:vattach_type		:obj
+	:border-frame		:none
+	:children		(
+		right_attach_to_label
+		right_attach_objmenu
+		right_offset
+		right_position
+	)
+)
+:element right_attach_to_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Attach To:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element right_attach_objmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		right_attach_objmenu_Object1_item
+	)
+)
+:element right_attach_objmenu_Object1_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Object1"
+	:active			:true
+	:selected		:true
+)
+:element right_offset
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Offset:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element right_position
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Percentage:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element left_attach_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			6
+	:y			160
+	:width			3
+	:height			111
+	:bg-color		"white"
+	:fg-color		"white"
+	:visible		:true
+	:north-attachment	(:obj-edge left_grp 0)
+	:south-attachment	(:obj-edge left_grp 0)
+	:west-attachment	(:point 0 6)
+)
+:element bottom_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			239
+	:y			268
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		3
+	:hattach_type		:grid-line
+	:border-frame		:etched-out
+	:north-attachment	(:obj attach_obj_grp 30)
+	:west-attachment	(:center-grid-line 50 0)
+	:children		(
+		bottom_attach
+		bottom_obj_offset_grp
+	)
+)
+:element bottom_attach
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		bottom_attach_bitmaps_attach_bottom_form_xbm_item
+		bottom_attach_bitmaps_attach_bottom_opposite_form_xbm_item
+		bottom_attach_bitmaps_attach_bottom_widget_xbm_item
+		bottom_attach_bitmaps_attach_bottom_opposite_widget_xbm_item
+		bottom_attach_bitmaps_attach_bottom_position_xbm_item
+		bottom_attach_bitmaps_attach_bottom_center_position_xbm_item
+		bottom_attach_bitmaps_attach_none_xbm_item
+	)
+)
+:element bottom_attach_bitmaps_attach_bottom_form_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABabf.m"
+	:active			:true
+	:selected		:true
+)
+:element bottom_attach_bitmaps_attach_bottom_opposite_form_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABabF.m"
+	:active			:true
+	:selected		:false
+)
+:element bottom_attach_bitmaps_attach_bottom_widget_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABabw.m"
+	:active			:true
+	:selected		:false
+)
+:element bottom_attach_bitmaps_attach_bottom_opposite_widget_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABabW.m"
+	:active			:true
+	:selected		:false
+)
+:element bottom_attach_bitmaps_attach_bottom_position_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABabp.m"
+	:active			:true
+	:selected		:false
+)
+:element bottom_attach_bitmaps_attach_bottom_center_position_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABatc.m"
+	:active			:true
+	:selected		:false
+)
+:element bottom_attach_bitmaps_attach_none_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABa0.m"
+	:active			:true
+	:selected		:false
+)
+:element bottom_obj_offset_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:group-type		:column
+	:column-alignment	:left
+	:voffset		1
+	:vattach_type		:grid-line
+	:border-frame		:none
+	:children		(
+		bottom_attach_to_label
+		bottom_attach_objmenu
+		bottom_offset
+		bottom_position
+	)
+)
+:element bottom_attach_to_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Attach To:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element bottom_attach_objmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		bottom_attach_objmenu_Object1_item
+	)
+)
+:element bottom_attach_objmenu_Object1_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Object1"
+	:active			:true
+	:selected		:true
+)
+:element bottom_offset
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Offset:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element bottom_position
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Percentage:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element left_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			28
+	:y			134
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		3
+	:hattach_type		:obj
+	:border-frame		:etched-out
+	:north-attachment	(:center-grid-line 50 0)
+	:east-attachment	(:obj attach_obj_grp 30)
+	:children		(
+		left_obj_offset_grp
+		left_attach
+	)
+)
+:element left_obj_offset_grp
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:group-type		:column
+	:column-alignment	:left
+	:voffset		1
+	:vattach_type		:obj
+	:border-frame		:none
+	:children		(
+		left_attach_to_label
+		left_attach_objmenu
+		left_offset
+		left_position
+	)
+)
+:element left_attach_to_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Attach To:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element left_attach_objmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		left_attach_objmenu_Object1_item
+	)
+)
+:element left_attach_objmenu_Object1_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Object1"
+	:active			:true
+	:selected		:true
+)
+:element left_offset
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Offset:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element left_position
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Percentage:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element left_attach
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		left_attach_bitmaps_attach_left_form_xbm_item
+		left_attach_bitmaps_attach_left_opposite_form_xbm_item
+		left_attach_bitmaps_attach_left_widget_xbm_item
+		left_attach_bitmaps_attach_left_opposite_widget_xbm_item
+		left_attach_bitmaps_attach_left_position_xbm_item
+		left_attach_bitmaps_attach_left_center_position_xbm_item
+		left_attach_bitmaps_attach_none_xbm_item
+	)
+)
+:element left_attach_bitmaps_attach_left_form_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABalf.m"
+	:active			:true
+	:selected		:true
+)
+:element left_attach_bitmaps_attach_left_opposite_form_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABalF.m"
+	:active			:true
+	:selected		:false
+)
+:element left_attach_bitmaps_attach_left_widget_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABalw.m"
+	:active			:true
+	:selected		:false
+)
+:element left_attach_bitmaps_attach_left_opposite_widget_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABalW.m"
+	:active			:true
+	:selected		:false
+)
+:element left_attach_bitmaps_attach_left_position_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABalp.m"
+	:active			:true
+	:selected		:false
+)
+:element left_attach_bitmaps_attach_left_center_position_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABalc.m"
+	:active			:true
+	:selected		:false
+)
+:element left_attach_bitmaps_attach_none_xbm_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:graphic
+	:label			"DtABa0.m"
+	:active			:true
+	:selected		:false
+)
+:element parent_attach_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			552
+	:y			17
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Parent attachments..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge parent_obj_name_label 0)
+	:west-attachment	(:obj-edge child_attach_button 0)
+)
+:element child_attach_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			550
+	:y			48
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Attachments in child..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge childrenlist 0)
+	:west-attachment	(:obj childrenlist 30)
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			40
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		apply_button
+		reset_button
+		help_button
+		ok_button
+		cancel_button
+	)
+)
+:element apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			75
+	:y			2
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element reset_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:element ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			33
+	:y			8
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 19 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			474
+	:y			2
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element wrn_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"Apply Changes"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+)
+:element grp_member_wrn
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action2-label		"Continue"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action2-button
+)
+:connection
+(
+	:from			apply_button
+	:when			:activate
+	:action-type		:call-function
+	:action			attch_ed_applyCB
+)
+:connection
+(
+	:from			reset_button
+	:when			:activate
+	:action-type		:call-function
+	:action			attch_ed_resetCB
+)
+:connection
+(
+	:from			help_button
+	:when			:activate
+	:action-type		:call-function
+	:action			attch_ed_helpCB
+)
+:connection
+(
+	:from			ok_button
+	:when			:activate
+	:action-type		:call-function
+	:action			attch_ed_okCB
+)
+:connection
+(
+	:from			cancel_button
+	:when			:activate
+	:action-type		:call-function
+	:action			attch_ed_cancelCB
+)
+:connection
+(
+	:from			top_attach_bitmaps_attach_top_form_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			top_attach_type_changed
+)
+:connection
+(
+	:from			top_attach_bitmaps_attach_top_opposite_form_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			top_attach_type_changed
+)
+:connection
+(
+	:from			top_attach_bitmaps_attach_top_widget_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			top_attach_type_changed
+)
+:connection
+(
+	:from			top_attach_bitmaps_attach_top_opposite_widget_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			top_attach_type_changed
+)
+:connection
+(
+	:from			top_attach_bitmaps_attach_top_position_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			top_attach_type_changed
+)
+:connection
+(
+	:from			top_attach_bitmaps_attach_top_center_position_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			top_attach_type_changed
+)
+:connection
+(
+	:from			top_attach_bitmaps_attach_none_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			top_attach_type_changed
+)
+:connection
+(
+	:from			right_attach_bitmaps_attach_right_form_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			right_attach_type_changed
+)
+:connection
+(
+	:from			right_attach_bitmaps_attach_right_opposite_form_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			right_attach_type_changed
+)
+:connection
+(
+	:from			right_attach_bitmaps_attach_right_widget_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			right_attach_type_changed
+)
+:connection
+(
+	:from			right_attach_bitmaps_attach_right_opposite_widget_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			right_attach_type_changed
+)
+:connection
+(
+	:from			right_attach_bitmaps_attach_right_position_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			right_attach_type_changed
+)
+:connection
+(
+	:from			right_attach_bitmaps_attach_right_center_position_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			right_attach_type_changed
+)
+:connection
+(
+	:from			bottom_attach_bitmaps_attach_bottom_form_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			bottom_attach_type_changed
+)
+:connection
+(
+	:from			bottom_attach_bitmaps_attach_bottom_opposite_form_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			bottom_attach_type_changed
+)
+:connection
+(
+	:from			bottom_attach_bitmaps_attach_bottom_widget_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			bottom_attach_type_changed
+)
+:connection
+(
+	:from			bottom_attach_bitmaps_attach_bottom_opposite_widget_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			bottom_attach_type_changed
+)
+:connection
+(
+	:from			bottom_attach_bitmaps_attach_bottom_position_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			bottom_attach_type_changed
+)
+:connection
+(
+	:from			bottom_attach_bitmaps_attach_bottom_center_position_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			bottom_attach_type_changed
+)
+:connection
+(
+	:from			left_attach_bitmaps_attach_left_form_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			left_attach_type_changed
+)
+:connection
+(
+	:from			left_attach_bitmaps_attach_left_opposite_form_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			left_attach_type_changed
+)
+:connection
+(
+	:from			left_attach_bitmaps_attach_left_widget_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			left_attach_type_changed
+)
+:connection
+(
+	:from			left_attach_bitmaps_attach_left_opposite_widget_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			left_attach_type_changed
+)
+:connection
+(
+	:from			left_attach_bitmaps_attach_left_position_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			left_attach_type_changed
+)
+:connection
+(
+	:from			left_attach_bitmaps_attach_left_center_position_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			left_attach_type_changed
+)
+:connection
+(
+	:from			left_attach_bitmaps_attach_none_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			left_attach_type_changed
+)
+:connection
+(
+	:from			parent_attach_button
+	:when			:activate
+	:action-type		:call-function
+	:action			parent_attachCB
+)
+:connection
+(
+	:from			child_attach_button
+	:when			:activate
+	:action-type		:call-function
+	:action			child_attachCB
+)
+:connection
+(
+	:from			bottom_attach_bitmaps_attach_none_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			bottom_attach_type_changed
+)
+:connection
+(
+	:from			right_attach_bitmaps_attach_none_xbm_item
+	:when			:activate
+	:action-type		:call-function
+	:action			right_attach_type_changed
+)
+)

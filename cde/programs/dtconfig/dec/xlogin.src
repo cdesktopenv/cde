@@ -1,0 +1,165 @@
+XCOMM!/sbin/sh
+XCOMM $XConsortium: xlogin.src /main/3 1996/04/23 12:11:45 drk $
+XCOMM *****************************************************************
+XCOMM *                                                               *
+XCOMM *    Copyright (c) Digital Equipment Corporation, 1991, 1995    *
+XCOMM *                                                               *
+XCOMM *   All Rights Reserved.  Unpublished rights  reserved  under   *
+XCOMM *   the copyright laws of the United States.                    *
+XCOMM *                                                               *
+XCOMM *   The software contained on this media  is  proprietary  to   *
+XCOMM *   and  embodies  the  confidential  technology  of  Digital   *
+XCOMM *   Equipment Corporation.  Possession, use,  duplication  or   *
+XCOMM *   dissemination of the software and media is authorized only  *
+XCOMM *   pursuant to a valid written license from Digital Equipment  *
+XCOMM *   Corporation.                                                *
+XCOMM *                                                               *
+XCOMM *   RESTRICTED RIGHTS LEGEND   Use, duplication, or disclosure  *
+XCOMM *   by the U.S. Government is subject to restrictions  as  set  *
+XCOMM *   forth in Subparagraph (c)(1)(ii)  of  DFARS  252.227-7013,  *
+XCOMM *   or  in  FAR 52.227-19, as applicable.                       *
+XCOMM *                                                               *
+XCOMM *****************************************************************
+#define HASH #
+
+StartDisplayManager() {
+
+$X_DISPLAY_MANAGER -daemon $CONFIG_OPTION
+XCOMM
+XCOMM If X is started from a console login, kill the console login, but only if
+XCOMM there is a local graphics display and the graphics console (not serial
+XCOMM console) is in use.
+XCOMM
+if [ x$HASDISPLAYS != x0 -a x$GENERIC_CONS = x0 ]; then
+    CONS=`tty`
+    PPID=`ps -fp $$ | grep -v PID | awk '{print $3}'`
+    if [ "$PPID" != "1" -a "$CONS" = "/dev/console" ]; then
+	kill -kill $PPID
+    fi
+fi
+}
+
+
+StopDisplayManager() {
+
+PIDFILE=`grep pid $CONFIGFILE | cut -d':' -f2`
+if [ -r $PIDFILE ] && ( ps `cat $PIDFILE` > /dev/null ); then
+	kill `cat $PIDFILE`
+else
+    HASH kill it anyway
+    PIDLIST=`ps ax | egrep '/usr/bin/X11/xdm|/bin/dtlogin' | egrep -v 'grep' | awk 
+'{print $1}'`
+    if [ -n "$PIDLIST" ]; then
+	kill $PIDLIST
+    else
+        PIDLIST=`ps ax | egrep 'dtlogin|xdm' | egrep -v 'grep|sbin' | awk '{print $1}'`
+        if [ -n "$PIDLIST" ]; then
+	     kill $PIDLIST
+        else
+           echo "$0 WARNING: X login manager does not appear to be running."
+        fi
+    fi
+fi
+}
+
+
+
+XCOMM
+XCOMM Script execution starts here.
+XCOMM
+PATH=/sbin:/usr/sbin:/usr/bin
+export PATH
+
+DTLOGIN=CDE_INSTALLATION_TOP/bin/dtlogin
+DTCONFIGFILE=CDE_INSTALLATION_TOP/config/Xconfig
+DTSERVERSFILE=CDE_INSTALLATION_TOP/config/Xservers
+
+XCOMM
+XCOMM Read configuration for login manager choice
+XCOMM
+XCOMM default login manager is CDE's dtlogin
+
+TMP=`rcmgr get XLOGIN`
+
+if [ "$TMP" = "" ]; then
+    echo "$0 WARNING: rc.config does not specify XLOGIN, defaulting to cde."
+    XLOGIN=cde
+else
+    XLOGIN=$TMP
+fi
+
+
+XCOMM
+XCOMM Pick default values for X_DISPLAY_MANAGER and CONFIGFILE
+XCOMM
+HASDISPLAYS=`/usr/sbin/sizer -wu`
+GENERIC_CONS=`/usr/sbin/sizer -wc`
+
+if [ $XLOGIN = cde ]; then
+    X_DISPLAY_MANAGER=$DTLOGIN
+    HASH
+    HASH Do use the config option.
+    HASH
+    CONFIGFILE=$DTCONFIGFILE
+    CONFIG_OPTION="-config $DTCONFIGFILE"
+    if [ x$HASDISPLAYS = x0 -o x$GENERIC_CONS = x2 ]; then
+	EXT=nc
+    else
+	EXT=con
+    fi
+    if [ -e $DTCONFIGFILE.$EXT  ]; then
+	ln -s -f $DTCONFIGFILE.$EXT $DTCONFIGFILE
+    else
+	echo "$0 WARNING: $DTCONFIGFILE.$EXT not found."
+    fi
+    if [ -e $DTSERVERSFILE.$EXT ]; then
+	ln -s -f $DTSERVERSFILE.$EXT $DTSERVERSFILE
+    else
+	echo "$0 WARNING: $DTSERVERSFILE.$EXT not found."
+    fi
+elif [ $XLOGIN = xdm ]; then
+    X_DISPLAY_MANAGER=/usr/bin/X11/xdm
+    HASH
+    HASH Only specify a config file for xdm.
+    HASH
+    if [ x$HASDISPLAYS = x0 -o x$GENERIC_CONS = x2 ]; then
+	CONFIGFILE=/usr/var/X11/xdm/xdm-config.fs
+    else
+	CONFIGFILE=/usr/var/X11/xdm/xdm-config
+    fi
+    if [ -s $CONFIGFILE ]; then
+	CONFIG_OPTION="-config $CONFIGFILE"
+    else
+	CONFIG_OPTION=""
+	echo "$0 WARNING: $XLOGIN Display manager config file $CONFIGFILE not readable."
+    fi
+else
+    echo "$0 ERROR: $XLOGIN is not supported. Please check /etc/rc.config file"
+    exit
+fi
+
+XCOMM If the login manager is not installed, complain and exit.
+XCOMM
+if [ ! -x $X_DISPLAY_MANAGER ]; then
+    echo "$0 ERROR: $X_DISPLAY_MANAGER not executable"
+    exit
+fi
+
+
+XCOMM
+XCOMM Control X Display Manager
+XCOMM
+case $1 in
+'restart')
+	StopDisplayManager
+	sleep 8
+	StartDisplayManager
+	;;
+
+'start')
+	StartDisplayManager
+        ;;
+'stop')
+	StopDisplayManager
+        ;;
+esac

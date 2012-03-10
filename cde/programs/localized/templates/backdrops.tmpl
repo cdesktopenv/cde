@@ -1,0 +1,24 @@
+XCOMM $XConsortium: backdrops.tmpl /main/2 1996/04/21 19:54:57 drk $
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+#ifdef RsArchitecture
+SHELL=/bin/ksh
+#endif
+
+OBJS = desc.$(SOURCE_LANG)
+
+DtstyleDescRule(desc.$(SOURCE_LANG),Backdrops)
+
+LinkFile(Backdrops.nls,$(CDESRC)/dtstyle/Backdrops)
+
+depend::
+
+clean::
+	$(RM) $(OBJS)
+	for i in *.nls; do \
+		[ -z $$i ] && continue; \
+		[ -h $$i ] && $(RM) $$i; \
+	done; true;

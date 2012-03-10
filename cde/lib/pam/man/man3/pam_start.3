@@ -1,0 +1,223 @@
+.\" $XConsortium: pam_start.3 /main/5 1996/10/29 15:20:32 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.\" Don't forget to enter .IX index entries for each function.
+.nr X
+.TH pam_start 3 "9 Jan 1996"
+.SH NAME
+pam_start, pam_end
+\- authentication transaction routines for PAM
+.SH SYNOPSIS
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+.ft
+.fi
+.LP
+.BI "int pam_start(const char *" "service" ,
+.BI "const char *" "user" ,
+.BI "const struct pam_conv *" "pam_conv" ,
+.BI "pam_handle_t " "**pamh");
+.LP
+.BI "int pam_end(pam_handle_t *" "pamh" ,
+.BI "int" " status" );
+.SH DESCRIPTION
+.IX "pam_start" "" "\fLpam_start\fP \(em initiate authentication transaction"
+.B pam_start(\|)
+is called to initiate an authentication transaction.
+.B pam_start(\|)
+takes as arguments the name of the current service,
+.IR service,
+the name of the user to be authenticated,
+.IR user,
+the address of the conversation structure,
+.IR pam_conv,
+and the address of a variable to be assigned the authentication handle,
+.IR pamh.
+Upon successful completion, 
+.IR pamh
+will refer to a
+.SM PAM
+handle for use with subsequent calls to the authentication library.
+.LP
+The pam_conv structure,
+.IR pam_conv,
+contains the address of the conversation function provided by the
+application.  The underlying
+.SM PAM
+service module invokes this function
+to output information to and retrieve input from the user.
+The
+.IR pam_conv
+structure has the following entries:
+.RS
+.PP
+.nf
+.ft 3
+struct pam_conv {
+        int     (\(**conv)();		/* Conversation function */
+        void    \(**appdata_ptr;	/* Application data */
+};
+.ft 1
+.fi
+.RE
+	where
+.RS
+.PP
+.nf
+.ft 3
+        int conv(int num_msg,
+                const struct pam_message **msg, struct pam_response **resp,
+                void *appdata_ptr);
+.ft 1
+.fi
+.RE
+.LP
+The function
+.B conv(\|)
+is called by a service module to hold a
+.SM PAM
+conversation with the application or user.
+For window applications, the application can create a new
+pop-up window to be used by the interaction.
+.PP
+The parameter
+.IR num_msg
+is the number of messages associated with the call.
+The parameter
+.IR msg
+is a pointer to an array of length
+.IR num_msg
+of the
+.IR pam_message
+structure.
+.PP
+The structure
+.IR pam_message
+is used to pass prompt, error message, or any text
+information from the authentication service to the application or user.
+It is the responsibility of the
+.SM PAM
+service modules to localize the messages.
+The memory used by
+.IR pam_message
+has to be allocated and freed by the PAM modules.
+The
+.IR pam_message
+structure has the following entries:
+.RS
+.PP
+.nf
+.ft 3
+struct pam_message{
+        int     msg_style;
+        char    \(**msg;
+};
+.ft 1
+.fi
+.RE
+.PP
+The message style,
+.IR msg_style,
+can be set to one of the following values:
+.RS
+.PP
+.nf
+.ft 1
+.IP PAM_PROMPT_ECHO_OFF 26
+prompt user, disabling echoing of response
+.IP PAM_PROMPT_ECHO_ON 26
+prompt user, enabling echoing of response
+.IP PAM_ERROR_MSG 26
+print error message
+.IP PAM_TEXT_INFO 26
+print general text information
+.\"};
+.ft 1
+.fi
+.RE
+.PP
+The maximum size of the message and the response string is
+PAM_MAX_MSG_SIZE defined in
+.BR <security/pam.appl.h> .
+.PP
+The structure
+.I pam_response
+is used by the authentication service to get the user's response back from
+the application or user.
+The storage used by
+.I pam_response
+has to be allocated by the application and freed by the PAM modules.
+The
+.I pam_response
+structure has the following entries:
+.RS
+.PP
+.nf
+.ft 3
+struct pam_response{
+        char    \(**resp;
+        int     resp_retcode;	/* currently not used, should be set to 0 */
+};
+.ft 1
+.fi
+.RE
+.LP
+It is the responsibility of the conversation function
+to strip off newline characters for
+.SM PAM_PROMPT_ECHO_OFF
+and
+.SM PAM_PROMPT_ECHO_ON
+message styles, and to add
+newline characters (if appropriate) for
+.SM PAM_ERROR_MSG
+and
+.SM PAM_TEXT_INFO
+message styles.
+.PP
+.I appdata_ptr
+is an application data pointer which is passed by the application
+to the PAM service modules.
+Since the PAM modules pass it back through the conversation function,
+the applications can use this pointer to point to any application-specific
+data.
+.LP
+.B pam_end(\|)
+is called to terminate the authentication transaction identified
+by 
+.I pamh
+and to free any
+storage area allocated by the authentication module.
+The argument,
+.IR status ,
+is passed to the
+.I cleanup(|\)
+function stored within the pam handle, and is used to determine
+what module specific state must be purged.  A cleanup function
+is attached to the handle by the underlying
+.SM PAM
+modules through a call to
+.BR pam_set_item (3)
+to free module specific data.
+.SH "RETURN VALUES"
+.PP
+Refer to
+.BR pam (3)
+for information on error related return values.
+.SH "SEE ALSO"
+.BR pam_authenticate (3),
+.BR pam_set_item (3),
+.BR pam_acct_mgmt (3),
+.BR pam_open_session (3),
+.BR pam_setcred (3),
+.BR pam_chauthtok (3),
+.BR pam_strerror (3),
+.BR pam (3)

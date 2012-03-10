@@ -1,0 +1,602 @@
+<chapter id="PG.info.div.1">
+<title id="PG.info.mkr.1">インフォメーション・マネージャの統合</title>
+<indexterm><primary>インフォメーション・マネージャの統合</primary>
+<secondary>一般情報</secondary></indexterm>
+<indexterm><primary>オンライン・ヘルプ統合</primary>
+<secondary>一般情報</secondary></indexterm>
+<indexterm><primary>dtinfo</primary>
+<secondary>一般情報</secondary></indexterm>
+<para>CDEユーザは、<literal>dtinfo</literal>機能を使用して、グラフィックやハイパーテキスト・リンクを含む、大量のSGML形式のオンライン・マニュアルを検索したり、ブラウズできます。
+それらをインフォメーション・ライブラリといいます。
+インフォメーション・ライブラリは、ブック・ケースの集まりであり、各ブック・ケースは、ブックの集まりです。</para>
+<para>インフォメーション・マネージャは、複数の場所から、CDEデスクトップ上で使用できます。
+ユーザの初期セッションの一部として、セッション・マネージャが
+<literal>dtinfo</literal>を自動的に開始します。
+インフォメーション・ライブラリは、DtInfoLibオブジェクトとして、ファイル・マネージャからデスクトップ上で使用できます。
+<literal>dtinfo</literal>アプリケーションはフロントパネルから直接実行できます。また、<literal>アプリケーション・マネージャ</literal>にある
+<literal>デスクトップアプリケーション</literal>アプリケーション・グループの
+<literal>インフォメーション・マネージャ</literal>アクションからも実行できます。</para>
+<para>CDEアプリケーションは、<literal>dtinfo</literal>ブラウザを統合し、インフォメーション・ライブラリをアクセス可能にするために、小型のAPIを呼び出します。
+もし<literal>dtinfo</literal>があなたのアプリケーション環境に適応しなければ、
+dtinfoデータベース・エンジンAPIを使用して、それを拡張するか、あなた自信のブラウザと置き換えることができます。
+次は、dtinfo機能の一般的な論議です。
+なお、この章では、<literal>dtinfo</literal>APIと
+<literal>dtinfo</literal>データベース・エンジンAPIを説明します。</para>
+<sect1 id="PG.info.div.2">
+<title id="PG.info.mkr.2">サーバ・アーキテクチャの構造</title>
+<indexterm><primary>dtinfo</primary>
+<secondary>サーバ・アーキテクチャの構造</secondary></indexterm>
+<para>CDEでのインフォメーション管理は、サーバ・アーキテクチャに基づきます。
+つまり、CDEデスクトップ・セッション中はいつでも、<literal>dtinfo</literal>のメイン・ブック・リスト・ウインドウのインスタンスが一つだけ正常に表示できます。
+ユーザまたはアプリケーションがセッション中に、新しいドキュメント・ライブラリとの接続を要求したときは、インスタンスによって、オンライン・マニュアルの編成や検索に力をつぎ込み、システムのレスポンス・タイムは最小限にするように取り扱われます。</para>
+<para>ただし、<literal>dtinfo</literal>インスタンスが現在動作中で、そのホストからはアクセスできないinfolibに対して、ユーザまたはアプリケーションがアクセスを要求したときは、例外が起きます。
+このような場合、デスクトップ・メカニズムは、要求されたインフォメーション・ライブラリとのアクセスを持つホスト上に、<literal>dtinfo</literal>の新しいインスタンスを自動的に起動します。
+また、現在実行中の<literal>dtinfo</literal>プロセスが使用しているロケールとは異なるロケール中のinfolibに対して、ユーザまたはアプリケーションがアクセスを要求したときも、同様なことが起きます。
+この場合、デスクトップ・メカニズムは、同じホスト上に異なるロケールで
+<literal>dtinfo</literal>の新しいインスタンスを起動します。
+二つの条件が重なると、要求されたロケールのインフォメーション・ライブラリとのアクセスを持つホスト上に新しい<literal>dtinfo</literal>のインスタンスを起動します。</para>
+<para>コマンド行で<literal>dtinfo</literal>を起動すると、複数のインスタンスが、指定されたホスト上に指定されたロケールで作成できます。
+通常、ToolTalk メカニズムは、一つのインスタンスだけがデスクトップ上を実行中であると保証しますが、この場合、<literal>dtinfo</literal>は保証を期待できません。</para>
+</sect1>
+<sect1 id="PG.info.div.3">
+<title id="PG.info.mkr.3">検索パス</title>
+<indexterm><primary>dtinfo</primary>
+<secondary>検索パス</secondary></indexterm>
+<indexterm><primary>dtinfo</primary>
+<secondary>環境変数</secondary></indexterm>
+<para>環境変数<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>と
+<systemitem class="environvar">DTINFOLIBDEFAULT</systemitem>は、組み込み時に、
+<command>dtsearchpath</command>によって定義されます。
+infolib検索パスは、あなたのシステムに登録されているはずのインフォメーション・ライブラリを、指定された位置で、デスクトップに検索させます。</para>
+<sect2 id="PG.info.div.4">
+<title id="PG.info.mkr.4">デフォルトのInfolib検索パス</title>
+<para>デフォルトのinfolib検索パスは、システム共通の位置および組み込みの位置を持っています。</para>
+<itemizedlist>
+<listitem>
+<para>システム共通の位置 - <literal>/etc/dt/infolib/%L/%I.dti</literal></para>
+</listitem>
+<listitem>
+<para>組み込みの位置 - <literal>/usr/dt/infolib/%L/%I.dti</literal></para>
+</listitem>
+</itemizedlist>
+<para>デフォルトの言語は、Cです。
+<systemitem class="environvar">DTINFOLIBDEFAULT</systemitem>の値は、%Iに置き換えられます。
+<systemitem class="environvar">DTINFOLIBDEFAULT</systemitem>の初期値は、
+<literal>cde</literal>です。</para>
+</sect2>
+<sect2 id="PG.info.div.5">
+<title id="PG.info.mkr.5">
+アプリケーション検索パスが、Infolib検索パスに、どう影響するか</title>
+<para>アプリケーション検索パスに位置が追加された場合、infolib検索パスにinfolibサブディレクトリが自動的に追加されます。
+たとえば、アプリケーション・サーバ<literal>hosta:</literal>がアプリケーション検索パスに追加された場合、infolib検索パスには、
+<literal>hosta:/etc/dt/infolib/%L</literal>が自動的に追加されます。</para>
+</sect2>
+<sect2 id="PG.info.div.6">
+<title id="PG.info.mkr.6">Infolib検索パス環境変数</title>
+<para>infolib検索パスは、組み込みの位置と以下の入力変数から組み立てられます。</para>
+<itemizedlist>
+<listitem>
+<para><systemitem class="environvar">DTSPSYSINFOLIB</systemitem>
+- システム共通infolib検索パス入力変数</para>
+</listitem>
+<listitem>
+<para><systemitem class="environvar">DTSPUSERINFOLIB</systemitem>
+- 個人用infolib検索パス入力変数</para>
+</listitem>
+</itemizedlist>
+<para>これらの入力変数を使用して、アプリケーション検索パス以外の位置を指定できます。
+組み立てられたデータベース検索パスは、
+<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>出力変数で指定できます。</para>
+</sect2>
+<sect2 id="PG.info.div.7">
+<title id="PG.info.mkr.7">Infolib検索パス入力変数の構文</title>
+<para><systemitem class="environvar">DTSPSYSINFOLIB</SYSTEMITEM>変数と
+<systemitem class="environvar">DTSPUSERINFOLIB</systemitem>変数の構文は、次のとおりです。</para>
+<para><symbol role="variable">VARIABLE</symbol> <literal>=</literal> <symbol role="variable">位置 [,位置...]</symbol>
+</para>
+<para>ここで<symbol role="variable">位置</symbol>には、
+ローカル(セッション・サーバ)システムのディレクトリである
+<Filename>/</Filename><symbol role="variable">パス</symbol>を指定することもできます。
+この構文で、ローカル・ディレクトリを追加して下さい。
+別のシステムの位置を指定するには、そのネットワーク・ファイル名、たとえば、
+<Filename>/nfs/servera/projects/infolib</Filename>を使用します。</para>
+</sect2>
+<sect2 id="PG.info.div.8">
+<title id="PG.info.mkr.8">Infolib検索パスの組み立て方</title>
+<para>infolib 検索パスの値
+(<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>)は、以下の位置を組み立てて作成されます(使用頻度が高いものから順に表示してあります)。</para>
+<itemizedlist>
+<listitem>
+<para><systemitem class="environvar">DTSPUSERINFOLIB</systemitem>変数で指定された位置</para>
+</listitem>
+<listitem>
+<para><systemitem class="environvar">DTSPUSERAPPHOSTS</systemitem>変数から引き出された位置</para>
+</listitem>
+<listitem>
+<para>デフォルトの位置は、<literal>/etc/dt/infolib/%L/%I.dti</literal>です。</para>
+</listitem>
+<listitem>
+<para><systemitem class="environvar">DTSPSYSINFOLIB</systemitem>変数で指定された位置</para>
+</listitem>
+<listitem>
+<para><systemitem class="environvar">DTSPSYSAPPHOSTS</systemitem>変数から引き出された位置</para>
+</listitem>
+<listitem>
+<para><literal>/usr/dt/infolib/%L/%I.dti</literal></para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="PG.info.div.9">
+<title id="PG.info.mkr.9">ワークスペース管理</title>
+<indexterm><primary>dtinfo</primary>
+<secondary>ワークスペース管理</secondary></indexterm>
+<para>接続要求時に、ワークスペース中で実行されていても、ブラウザは、ワークスペース対応に予定の動作を行ないます。
+ウインドウは、次のルールにしたがってワークスペースにマップされます。</para>
+<itemizedlist>
+<listitem>
+<para>主ウインドウが新しいワークスペースにマップされると、関連するすべての副ウインドウも新しいワークスペースにマップされます。</para>
+</listitem>
+<listitem>
+<para>副ウインドウが新しいワークスペースにマップされると、関連する主ウインドウとそれに関連するすべての副ウインドウも新しいワークスペースにマップされます。</para>
+</listitem>
+<listitem>
+<para>主ウインドウが新しいワークスペースにマップされると、アプリケーションに関連するその他の主ウインドウは、現在のワークスペースに残ります。</para>
+</listitem>
+</itemizedlist>
+<para>ブラウザ・ウインドウが現在のワークスペースにマップされると、
+<function>DtInfo_LoadInfoLib</function>と
+<function>DtInfo_ShowInfoAtLoc</function>のメッセージが出力されます。
+ユーザは、また、<literal>dtwm</literal>メニューを通じて、新しいワークスペースにアプリケーション・ウインドウをマップすることができます。</para>
+</sect1>
+<sect1 id="PG.info.div.10">
+<title id="PG.info.mkr.10">アプリケーション・リンケージ</title>
+<indexterm><primary>dtinfo</primary>
+<secondary>アプリケーション・リンケージ</secondary></indexterm>
+<para>アプリケーションは、<literal>dtinfo</literal>を起動して、特定のオンライン・マニュアルを表示する手段として用意されています。
+<literal>dtinfo</literal> 外部APIは、一つには、情報の表示やナビゲーションを管理したり、自動的に行なうアプリケーションとして使用されます。</para>
+<para>(<function>DtShowInfoAtLoc</function>アクションの明示的なロケータ値を使用して)アプリケーションから、<literal>dtinfo</literal>に接続すると、すでに未表示の状態になっているブラウザを表示することができます。
+このため、次に示す状態は変化します。</para>
+<itemizedlist>
+<listitem>
+<para>ブラウザが<function>DtLoadInfoLib</function>アクションを使用してアクセスするとき、ただ一つのinfolibパスだけを指定できます。
+その場合、新しくロードされたinfolibのブックケースを含む、最初の
+<literal>dtinfo</literal>(ブックリスト)ウインドウだけが表示されます。</para>
+</listitem>
+<listitem>
+<para><literal>dtinfo</literal>は、ワークスペース中でアクティブですが、ブック・リスト・ウインドウおよび/またはブラウザは、アイコン化されます。</para>
+<itemizedlist>
+<listitem>
+<para>ブック・リスト・ウインドウおよびくくりつけられたブラウザのウインドウは、アイコン化されたままです。
+くくりつけられていないブラウザのウインドウがない(アイコン化されている、いないに
+かかわらず)場合には、新しいブラウザのウインドウが現われ、要求されたトピックが表示されます。</para>
+</listitem>
+<listitem>
+<para>アイコン化されたブラウザのウインドウがくくりつけられていないときは、それがマップされ、以前のトピックは要求されたトピックに取って代わられます。</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<para>デスクトップと<literal>dtinfo</literal>インスタンスは、
+あるホスト(<literal>host1</literal>)上の、
+あるロケール(<literal>locale1</literal>)で起動されましたが、
+<literal>dtinfo</literal>を使用するアプリケーションは、同一セッション中は、異なるホスト(<literal>host2</literal>)上および/または異なるロケール
+(<literal>locale1</literal>)で、リモート・シェルから起動されます。</para>
+<itemizedlist>
+<listitem>
+<para>アプリケーションからの要求は、現在のセッション中のすべての<literal>dtinfo</literal>プロセスで、処理できるかどうか、検査されます。
+たとえば、<literal>dtinfo</literal>プロセスで要求を受け入れることは、それが同じロケールで動作中でなければならず、しかも、指定されたインフォメーション・ライブラリにアクセスできなければならないということです。</para>
+</listitem>
+<listitem>
+<para>そのようなプロセスが存在しないときは、ブラウザの独立したコピーは
+<literal>locale2</literal>の
+<literal>host2</literal>上で起動されます。
+オリジナル・メッセージは、処理のために新しいインスタンスに送られます。</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="PG.info.div.11">
+<title id="PG.info.mkr.11">ToolTalkメッセージ</title>
+<indexterm><primary>dtinfo</primary>
+<secondary>ToolTalkメッセージ</secondary></indexterm>
+<para><literal>dtinfo</literal>コマンドは、次のメッセージを取扱うためToolTalkに登録します。</para>
+<itemizedlist>
+<listitem>
+<para><function>DtInfo_LoadInfoLib</function> 
+(配信範囲<Symbol>TT_SESSION</Symbol>)</para>
+</listitem>
+<listitem>
+<para><function>DtInfo_ShowInfoAtLoc</function> 
+(配信範囲<Symbol>TT_SESSION</Symbol>)</para>
+</listitem>
+</itemizedlist>
+<para><literal>dtinfo</literal>インスタンスは、次のメッセージを監視します。</para>
+<itemizedlist>
+<listitem>
+<para><function>DtInfo_Quit</function> 
+(配信範囲<Symbol>TT_SESSION</Symbol>)
+</para>
+</listitem>
+</itemizedlist>
+<para>インフォメーション管理システムは、ToolTalkの要求を取扱うことのできる、現在有効な<literal>dtinfo</literal>プロセスがない場合には、<literal>dtinfo</literal>プロセスを開始するために使用される、ptypeの"DtInfo"も定義します。</para>
+</sect1>
+<sect1 id="PG.info.div.12">
+<title id="PG.info.mkr.12">一般化されたロケータの書式</title>
+<indexterm><primary>dtinfo</primary>
+<secondary>インフォメーション・ロケータの書式</secondary></indexterm>
+<para>外部ナビゲーションで参照できる一連のドキュメントとしてinfolibをアドレス付
+けする目的で、一般化されたロケータの書式がアプリケーションおよびエンドユーザ用に
+定義されています。
+このメカニズムは、<Symbol>DtInfoLib</Symbol>レベルで作業するよりも、ずっと正確です。
+このメカニズムは、それ自身のオンライン・マニュアルをしっかりと統合したいアプリケーションで、アクション・システム中でまたはコマンド行からの特定のセクションの印刷用に使用されます。</para>
+<para>BNFが定義する一般化されたロケータの書式の構文を次に示します。</para>
+<programlisting>&lt;GLF&gt; ::= &lt;MMDB&gt; | &lt;ULV&gt; | &lt;URI&gt;
+&lt;MMDB&gt; ::= mmdb:  &lt;IBL&gt; | &lt;IB&gt; | &lt;IL&gt; | &lt;INFOLIB&gt; | &lt;BL&gt; | &lt;BOOKCASE&gt; |
+           &lt;LOCATOR&gt;
+&lt;IBL&gt; ::= &lt;INFOLIB&gt; &amp; &lt;BOOKCASE&gt; &amp; &lt;LOCATOR&gt;
+&lt;IB&gt; ::= &lt;INFOLIB&gt; &amp; &lt;BOOKCASE&gt;
+&lt;IL&gt; ::= &lt;INFOLIB&gt; &amp; &lt;LOCATOR&gt;
+&lt;BL&gt; ::= &lt;BOOKCASE&gt; &amp; &lt;LOCATOR&gt;
+&lt;INFOLIB&gt; ::= INFOLIB= &lt;NAME&gt;
+&lt;BOOKCASE&gt; ::= BOOKCASE= &lt;NAME&gt;
+&lt;LOCATOR&gt; ::= LOCATOR= &lt;ULV&gt; &lt;NAME&gt;
+&lt;ULV&gt; ::= uuid_ | xsm_ | isbn_
+&lt;NAME&gt; ::= &lt;CHAR&gt; { &lt;CHAR&gt;)
+&lt;CHAR&gt; ::= a-z | A-Z | 0-9 | &lt;SPECIAL_CHAR&gt;
+&lt;SPECIAL_CHAR&gt; ::= everything but ":" and "&amp;"
+&lt;URI&gt; ::= Uniform Resource Identifier (as defined by the Web Consortium)
+</programlisting>
+<para>上記のように、<literal>uuid</literal> (DCE-style Universal Unique ID用)、
+<literal>xsm</literal> (XSession Manager style Unique ID用)、および
+<literal>isbn</literal> (ISBN - International Standard Book Number用)などを含む、ロケータの書式を識別するための予約語がいくつかあります。
+このうち、<literal>xsm</literal>は直接、実行例でサポートしてあります。</para>
+</sect1>
+<sect1 id="PG.info.div.13">
+<title id="PG.info.mkr.13">DtInfo APIの概要</title>
+<indexterm><primary>dtinfo</primary>
+<secondary>API</secondary></indexterm>
+<para>つぎはデスクトップ・インフォメーション・マネージャAPIの概要です。</para>
+<variablelist>
+<varlistentry><term><function>DtInfoLib</function></term>
+<listitem>
+<para><function>DtInfoLib</function>は、インフォメーション・マネージャを介してアクセスできる、ドキュメントの一連のブックケースを表す、デスクトップ・オブジェクトです。
+DtInfoLibのデータ基準とデータ属性は、デスクトップ機能で使用するために、識別されます。
+それらはCDE組み込みデータ型の一部です。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtInfoShowTopic</function></term>
+<listitem>
+<para>これは、ある特定の位置でユーザがインフォメーションの本文にアクセスできるようにするために、アプリケーションによる呼び出しが可能なC言語のAPIと呼ぶものです。
+位置としては、ブックケースの先頭から特定のトピックまで、またはブックケース内のセクションまでのどこにあっても識別することが可能です。
+また、セクション内のターゲットも可能です。
+これには、データの構築において、外部的に一意なリンクIDが与えられています。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtActionInvoke</function></term>
+<listitem>
+<para>この機能は、<function>dtinfo</function>下の指定されたトピックを、デスクトップ・アプリケーションから使用可能なCDEデスクトップ・アクションAPIを使って、表示します。
+<function>dtinfo</function>を起動するか、または、<function>dtinfo</function>と接続します。
+アンカー・ポイントは最上位のブックケースと同じくらい広範囲か、または、特定のトピック(セクション)と同じくらい詳細です。
+また、セクション内のターゲットも可能です。
+これには、データの構築において、外部的に一意なリンクIDが与えられています。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>Browse</function></term>
+<listitem>
+<para>infolib用<function>Browse</function>は
+<function>DtLoadInfoLib</function>アクションをリマップします。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>Open</function></term>
+<listitem>
+<para><function>Open</function>アクションは、
+関連する<function>DtInfoLib</function>オブジェクトのための
+<function>DtLoadInfoLib</function>の起動に使用されます。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtShowInfoAtLoc</function></term>
+<listitem>
+<para><function>DtShowInfoAtLoc</function>アクションは、infolibの特定のポイントに表示するために、ブラウザのToolTalkメッセージを分散させます。
+クライアント・アプリケーションは、このアクションを起動して、
+<function>dtinfo</function>に、特定のデータ・セクションまたはトピックを表示させます。
+ブラウザが実行中でなければ、ブラウザを起動させます。
+これは、<literal>-sect</literal>オプション指定の
+<command>dtinfo</command>コマンドを、コマンド行から起動するのと対応します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtLoadInfoLib</function></term>
+<listitem>
+<para><function>DtLoadInfoLib</function>アクションは、特定の、infolibをロードするために、ToolTalkメッセージを分散させます。
+クライアント・アプリケーションは、このアクションを起動して、
+<function>dtinfo</function>に、特定のインフォメーション・ライブラリをロードさせることができます。
+ブラウザが実行中でなければ、ブラウザを起動させます。
+これは、<literal>-l</literal>オプション指定の
+<command>dtinfo</command>コマンドを、コマンド行から起動するのと対応します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtInfo_LoadInfoLib</function></term>
+<listitem>
+<para><function>DtInfo_LoadInfoLib</function>ToolTalk操作は、
+指定されたinfolibのロードに使用されます。
+クライアント・アプリケーションは、この要求を送ることで、
+<function>dtinfo</function>に、特定のインフォメーション・ライブラリをロードさせることができます。
+ブラウザが実行中でなければ、ブラウザを起動させます。
+これは、<literal>-l</literal>オプション指定の
+<command>dtinfo</command>コマンドを、コマンド行から起動するのと対応します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtInfo_ShowInfoAtLoc</function></term>
+<listitem>
+<para>クライアント・アプリケーションは、このプロセス宛てToolTalkメッセージを送ることで、<function>dtinfo</function>に、特定のデータ・セクションまたはトピックを表示させます。
+ブラウザが実行中でなければ、ToolTalkはブラウザを起動させます。
+これは、<literal>-sect</literal>オプション指定の
+<command>dtinfo</command>コマンドを、コマンド行から起動することに対応します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtInfo_Quit</function></term>
+<listitem>
+<para>これは、<function>dtinfo</function>の状態にだけ関心のあるオブザーバーのための、プロセス宛てToolTalkメッセージです。
+ブラウザはそれが正常に終了した時、このメッセージを表示します。
+セッション単位のデスクトップの終了時には、このメッセージは表示されません。</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+<sect1 id="PG.info.div.14">
+<title id="PG.info.mkr.14">DtInfoデータベース・エンジンAPIの概要</title>
+<indexterm><primary>dtinfo</primary>
+<secondary>データベース・エンジンAPI</secondary></indexterm>
+<para>本節では、DtInfoデータベース・エンジンのアプリケーション・プログラミング・インタフェースの要約を述べます。
+DtInfoデータベース・エンジンは、DtInfo用オンライン・マニュアル・データへのアクセスを格納したり提供したりします。</para>
+<sect2 id="PG.info.div.15">
+<title id="PG.info.mkr.15">機能</title>
+<variablelist>
+<varlistentry><term><function>DtMmdbInit</function></term>
+<listitem>
+<para>アクセス・サービスを提供するデータベース・エンジンを用意して下さい。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbQuit</function></term>
+<listitem>
+<para>データベース・エンジンに割り当てられたメモリ・リソースを解放し、サービスの中止をエンジンに要請して下さい。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbOpenInfoLib</function></term>
+<listitem>
+<para>infolib記述子を獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbInfoLibGetInfo</function></term>
+<listitem>
+<para>infolibについての、記述情報を取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbInfoLibFreeInfo</function></term>
+<listitem>
+<para>infolib構造に配置された空き領域を解放します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbCloseInfoLib</function></term>
+<listitem>
+<para>これ以上infolibが必要ないことを表記します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGetBookCaseByName</function></term>
+<listitem>
+<para>名前で識別されたブックケースの記述子を獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGetBookCaseByIndex</function></term>
+<listitem>
+<para>索引で識別されたブックケースの記述子を獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGetBookCaseByLoc</function></term>
+<listitem>
+<para>位置で識別されたブックケースの記述子を獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGetBookCaseByLocs</function></term>
+<listitem>
+<para>ブックケース記述子のリストを獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookCaseGetInfo</function></term>
+<listitem>
+<para>ブックケースについての情報を取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookCaseFreeInfo</function></term>
+<listitem>
+<para>ブックケース情報構造に配置された空き領域を解放します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetLoc</function></term>
+<listitem>
+<para>セクションのロケータを取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetLongTitle</function></term>
+<listitem>
+<para>セクションの識別子が与えられたとき、セクションの長いタイトルを返します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetShortTitle</function></term>
+<listitem>
+<para>セクションの短いタイトルを取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetData</function></term>
+<listitem>
+<para>セクションのデータを取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetDataSize</function></term>
+<listitem>
+<para>セクションのデータのバイト数を取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetTocLoc</function></term>
+<listitem>
+<para>セクションの識別子が与えられたとき、そのTOCセクションのロケータを取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetBookId</function></term>
+<listitem>
+<para>セクションの識別子が与えられたとき、このセクションが現われるブックの 
+DtInfoデータベース・オブジェクト識別子を取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbSectionGetStyleSheetId</function></term>
+<listitem>
+<para>セクションの識別子が与えられたとき、このセクションに適用可能なスタイルシートのDtInfoデータベース・オブジェクト識別子を取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbTocGetParentId</function></term>
+<listitem>
+<para>このセクションの親であるセクションの、DtInfoデータベース・オブジェクト識別子を取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbTocGetChildIds</function></term>
+<listitem>
+<para>子セクションのDtInfoデータベース・オブジェクト識別子のリストを取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbTocGetNumOfChildren</function></term>
+<listitem>
+<para>子セクションの数を取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbLocatorGetSectionLoc</function></term>
+<listitem>
+<para>セクション内の構成要素のロケータが与えられた時、セクションのロケータを取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbLocatorGetSectionObjectId</function></term>
+<listitem>
+<para>セクション内の構成要素のロケータが与えられた時、セクションのDtInfoデータベース・オブジェクト識別子を取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGraphicGetData</function></term>
+<listitem>
+<para>グラフィック・オブジェクトのデータを取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbGraphicGetInfo</function></term>
+<listitem>
+<para>グラフィック・オブジェクトの情報を取得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbStylesheetGetName</function></term>
+<listitem>
+<para>スタイルシート・オブジェクトの名前を獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbStylesheetGetData</function></term>
+<listitem>
+<para>スタイルシート・オブジェクトのデータを獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetTocObjectId</function></term>
+<listitem>
+<para>TOCセクションのロケータを獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetShortTitle</function></term>
+<listitem>
+<para>ブックの短いタイトルを獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetLongTitle</function></term>
+<listitem>
+<para>ブックの長いタイトルを獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetSeqNum</function></term>
+<listitem>
+<para>ブックの一連番号を獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetLicense</function></term>
+<listitem>
+<para>ブックのライセンス項目を獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbBookGetTabList</function></term>
+<listitem>
+<para>ブックのタブ設定されたセクションのリストを獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbDlpGetPrevSectionId</function></term>
+<listitem>
+<para>このセクションの識別子が与えられた時、前のセクションのDtInfoデータベース・オブジェクト識別子を獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbDlpGetNextSectionId</function></term>
+<listitem>
+<para>次のセクションのDtInfoデータベース・オブジェクト識別子を獲得します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbFreeHandle</function></term>
+<listitem>
+<para>DtMmdbHandleで使用されたメモリ・リソースを解放します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbFreeHandleList</function></term>
+<listitem>
+<para>DtMmdbHandleによって使用されたメモリ・リソースを、そのハンドラに使用されたメモリ・リソースとともに解放します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtMmdbFreeGraphicInfo</function></term>
+<listitem>
+<para>DtMmdbGraphicInfo構造で使用されたメモリを解放します。</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+<sect2 id="PG.info.div.16">
+<title id="PG.info.mkr.16">データ構造</title>
+<indexterm><primary>dtinfo</primary>
+<secondary>データベース・エンジンのデータ構造</secondary></indexterm>
+<variablelist>
+<varlistentry><term><structname role="typedef">DtMmdbInfoLib</structname></term>
+<listitem>
+<para>インフォメーション・ライブラリ(infolib)に関する情報を含んでいます。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><structname role="typedef">DtMmdbBookCase</structname></term>
+<listitem>
+<para>ブックケースに関する情報を含んでいます。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><structname role="typedef">DtMmdbHandle</structname></term>
+<listitem>
+<para>DtInfoオブジェクトの識別子に関する情報を含んでいます。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><structname role="typedef">DtMmdbInfoRequest</structname></term>
+<listitem>
+<para>DtInfoデータベース・エンジンから情報を取得する要求を記述します。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><structname role="typedef">DtMmdbGraphicInfo</structname></term>
+<listitem>
+<para>グラフィック・オブジェクトの各種機能を記述します。</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+</sect1>
+</chapter>
+
+
+<!-- $XConsortium: ch11.sgm /main/5 1996/09/08 19:37:42 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->

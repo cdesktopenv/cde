@@ -1,0 +1,12 @@
+#! /bin/sh
+
+unset SGML_PATH
+sgmls="../sgmls -gerdu"
+rast="../rast"
+
+for file
+do
+	$sgmls -c cap/$file $file >out/$file 2>err/$file
+	test -f cap/$file || touch cap/$file
+	$rast <out/$file >rast/$file
+done

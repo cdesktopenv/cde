@@ -1,0 +1,162 @@
+.\" *                                                                      *
+.\" * (c) Copyright 1993, 1994 Hewlett-Packard Company                     *
+.\" * (c) Copyright 1993, 1994 International Business Machines Corp.       *
+.\" * (c) Copyright 1993, 1994 Sun Microsystems, Inc.                      *
+.\" * (c) Copyright 1993, 1994 Novell, Inc.                                *
+.\" *
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\"
+.\" $XConsortium: dthello.man /main/3 1995/11/02 08:55:09 rswiston $
+.\"
+.\" (c)1992 Hewlett-Packard Company
+.\"
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.TH DTHELLO 1 
+.ds ]W HP DT 3.0 (7/92)
+.SH NAME
+\fBdthello - startup transition program for HP DT\fP
+.P
+\fBdtcolor - transition program and color server for HP DT Lite\fP
+.sp 1
+.SH SYNOPSIS
+.B dthello
+[options]
+.br
+.B dtcolor
+[options]
+.PP  
+.SH DESCRIPTION
+\fIDthello\fP is a client that provides a transitory visual during 
+the startup of the Hewlett-Packard Visual User Environment (HP DT). 
+\fIDthello\fP is designed to cover the interval between login 
+(see \fBdtlogin(1)\fP) and the start up of the window manager 
+(see \fBdtwm(1)\fP).
+.PP  
+\fIDthello\fP covers the screen with a window and displays a boxed
+message.
+The message consists of two parts: The first
+part is a short welcome string.  This string may contain literal
+and new-line characters. The second
+part is the content of one or more (up to five) files. 
+Each line of text from these two parts is left-justified 
+against the boxed outline.
+.PP  
+\fIDtcolor\fP is used in HP DT Lite in place of \fIdthello\fR.
+\fIDtcolor\fR offers the same
+command line options, resources,
+and behavior \fIexcept\fR that after
+initialization, the \fIdtcolor\fR process puts itself in the
+background and continues running for the duration of the HP DT Lite
+session as a color server.  In HP DT Regular, the color server code 
+is built into the session manager
+(\fIdtsession\fP), so that the \fIdtcolor\fR
+daemon needs to run only in HP DT Lite sessions.  
+Because \fIdtcolor\fR offers a strict superset of \fIdthello\fR
+functionality,
+all comments about \fIdthello\fR apply equally to \fIdtcolor\fR.
+.PP  
+The default font for \fIdthello\fR
+is chosen in a device-dependent way, depending
+on the screen resolution of the display, whether high resolution
+(\fIe.g.\fR, 1280x1024), medium resolution (\fIe.g.\fR, 1024x768), or
+low resolution (\fIe.g.\fR, 640x480).
+.PP  
+\fIDthello\fP will display only a ``reasonable'' number of lines of
+text. It
+does not scroll or try to prevent the text from getting clipped if the
+text does not fit on the screen.  If the line length is too long,
+then \fIdthello\fR will not draw the encompassing box, and
+will instead
+align the text flush against the left edge of the screen.
+.PP  
+\fIDthello\fP is designed to be invoked just after login. The 
+script file
+that contains the default invocation of \fIdthello\fR is 
+\fI/usr/dt/config/Xsession\fR.
+.PP  
+.SH OPTIONS
+.TP 8
+.BI \-display " display_name"
+This option names the display on which to run.
+The default display is taken from the DISPLAY environment variable.
+.TP 8
+.BI \-bground " background_color"
+This option specifies the background color of the window.
+The default value is "black" for B&W and screens with limited color
+(16 or less) and "cornflowerblue" for screens with more 
+colors (more than 16). 
+The background color can also be specified by
+setting the \fBvbackground\fR (class \fBVbackground\fR) resource.
+.TP 8
+.BI \-fground " foreground_color"
+This option specifies the foreground color (for the text).
+The default value is "white."
+The foreground color can also be specified by
+setting the \fBvforeground\fR (class \fBVforeground\fR) resource.
+.TP 8
+.BI \-file " file_name"
+This option specifies a file from which to read message text. This option may
+appear up to five times to include text from five different
+files.  
+If no file option is specified (the
+default), the file \fI/etc/copyright\fR is displayed.
+The \fBfile\fR (class \fBFile\fR) resource is recognized, but only one file
+can be specified this way.
+.TP 8
+.BI \-font " font_name"
+This option specifies the font to use with which to render the text string.
+The default values are \fIsystem23\fR for high resolution displays,
+\fIsystem19\fR for medium resolution displays, and \fIsystem16\fR
+for low resolution displays.
+The equivalent resource is \fBvfont\fR (class \fBVfont\fR).
+.TP 8
+.BI \-string " text_string"
+This option specifies the message text to display.
+Messages with embedded spaces must be quoted. Literal
+new-line characters can be embedded in the text string to specify line
+breaks. Each line will be left-justified on the screen.
+The default text is:
+.sp
+Starting the
+.br
+Common Desktop Environment
+.sp
+The message text can also be specified with the \fBstring\fR (class
+\fBString\fR) resource.
+.TP 8
+.BI \-timeout " num_seconds"
+This option specifies the timeout value in seconds.
+\fIDthello\fP sets a timer and then waits for the \fBReparentNotify\fP event
+that signals that the window manager is up. If the timer expires,
+\fIdthello\fP stops waiting on the window manager and terminates
+immediately. The default value is 240 seconds. The equivalent resource
+is \fBtimeout\fR (class \fBTimeout\fR).
+.PP  
+.SH ENVIRONMENT
+\fIDthello\fP uses the DISPLAY environment variable.
+.PP  
+.SH WARNINGS
+Lines that contain non-printable characters (such as the
+tab character) may not display as expected.
+.PP  
+.SH COPYRIGHT
+(c) Copyright 1990, 1991, 1992 by Hewlett-Packard Company.
+.br
+(c) Copyright 1993, 1994 Hewlett-Packard Company 
+.br
+(c) Copyright 1993, 1994 International Business Machines Corp.
+.br
+(c) Copyright 1993, 1994 Sun Microsystems, Inc. 
+.br
+(c) Copyright 1993, 1994 Novell, Inc.
+.PP  
+.SH AUTHOR
+\fIDthello\fP and \fIdtcolor\fR were developed by HP.
+.PP  
+.SH FILES
+/usr/lib/X11/dt/Dtlogin/Xsession
+.br
+/etc/copyright
+.PP  
+.SH SEE ALSO
+dtlite(1), dtlogin(1), dtwm(1).

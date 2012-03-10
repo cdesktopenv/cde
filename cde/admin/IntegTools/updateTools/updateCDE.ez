@@ -1,0 +1,92 @@
+#!/bin/ksh
+#
+#  updateCDE.ez
+#
+#  Author:
+#
+#  This script invokes the updateCDE script to do the actual work.  
+#  updateCDE.ez passes the path for the source tree to updateCDE and 
+#  thus to installCDE.
+#
+#  Usage:  updateCDE.ez -p <platform: hp|hpsh|ibm|sun>
+#      or  updateCDE.ez -p <platform> [-t <tarball destination directory>]
+#
+#  Example:  updateCDE.ez -p hp
+#            updateCDE.ez -p hp -t /x/cde.save.tar
+
+USAGE="Usage: updateCDE.ez -p <platform: hp|hpsh|ibm|sun> [-t <tarball location>]"
+PLATFORM=""
+TARBALL="no"
+PASS_THRUS=""
+
+  while [ $# -ne 0 ]; do
+    case $1 in
+        -p) echo "get the platform"
+            shift;
+            [ $# -ne 0 ] || {
+                echo $USAGE
+                exit 1;
+            }
+            PLATFORM=$1
+            shift;
+            ;;
+        -t) echo "Where to put the tarball if "
+            shift;
+            [ $# -ne 0 ] || {
+                echo $USAGE
+                exit 1;
+            }
+            TARBALL="yes"
+            TARBALL_LOCATION=$1
+            shift;
+            ;;
+	*)  PASS_THRUS="$PASS_THRUS $1"
+	    shift;
+	    ;;
+    esac
+  done
+
+  if [ "$PLATFORM" = "" ]
+  then
+    echo $USAGE
+    exit 1
+  fi
+
+  UPDATE=admin/IntegTools/updateTools/updateCDE
+
+  case $PLATFORM in
+    hp) if [ "$TARBALL" = "yes" ]
+        then
+          /x/cde_hp700_90/$UPDATE -s /x/cde_hp700_90 -t $TARBALL_LOCATION \
+				$PASS_THRUS
+        else
+          echo "/x/cde_hp700_90/$UPDATE -s /x/cde_hp700_90 $PASS_THRUS"
+          /x/cde_hp700_90/$UPDATE -s /x/cde_hp700_90 $PASS_THRUS
+        fi
+	;;
+    hpsh) if [ "$TARBALL" = "yes" ]
+        then
+          /x/cde_hp700_sh_90/$UPDATE -s /x/cde_hp700_sh_90 -t $TARBALL_LOCATION \
+				$PASS_THRUS
+        else
+          echo "/x/cde_hp700_sh_90/$UPDATE -s /x/cde_hp700_sh_90 $PASS_THRUS"
+          /x/cde_hp700_sh_90/$UPDATE -s /x/cde_hp700_sh_90 $PASS_THRUS
+        fi
+	;;
+   sun)	if [ "$TARBALL" = "yes" ]
+        then
+          /x/cde_sun_52/$UPDATE -s /x/cde_sun_52 -t $TARBALL_LOCATION \
+				$PASS_THRUS
+        else
+          /x/cde_sun_52/$UPDATE -s /x/cde_sun_52 $PASS_THRUS
+        fi
+	;;
+   ibm)	if [ "$TARBALL" = "yes" ]
+        then
+          /x/cde_aix_32/$UPDATE -s /x/cde_aix_32 -t $TARBALL_LOCATION \
+				$PASS_THRUS
+        else
+          /x/cde_aix_32/$UPDATE -s /x/cde_aix_32 $PASS_THRUS
+        fi
+	;;
+  esac

@@ -1,0 +1,697 @@
+XCOMM!/bin/ksh
+XCOMM $XConsortium: dtprintegrate.src /main/5 1996/04/23 12:02:04 drk $
+XCOMM ####################################################################
+XCOMM ##  File:              dtprintegrate
+XCOMM ##
+XCOMM ##  Default Location:  /usr/dt/bin/dtprintegrate
+XCOMM ##
+XCOMM ##  Purpose:           Set up the desktop configuration files for 
+XCOMM ##                     the desktop components.
+XCOMM ##
+XCOMM ##  Description:       This script is invoked as a means to create the
+XCOMM ##                     desktop configuration files for newly installed
+XCOMM ##                     printers on a given host.
+XCOMM ##
+XCOMM ##  Invoked by:        System administrators, either by hand or by means
+XCOMM ##                     of the printer installation script.
+XCOMM ##
+XCOMM ##  Product:           @(#)Common Desktop Environment 1.0
+XCOMM ##          
+XCOMM ##                     (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM ##                     (c) Copyright 1993, 1994 International Business 
+XCOMM ##			    Machines Corp.
+XCOMM ##                     (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM ##
+XCOMM ##
+XCOMM ##  Note:              Please do not modify this file.
+XCOMM ##                     Later product updates will overwrite this file.
+XCOMM ##
+XCOMM ####################################################################
+#define HASH #
+
+XCOMM #################################################################
+XCOMM ##  Internal Globals
+XCOMM ##
+XCOMM ##  Set default values.
+XCOMM ##
+COMMAND_NAME=dtprintegrate
+
+ACTION_STUB_FILE=/usr/dt/appconfig/appmanager/C/Desktop_Apps/Dtcalc
+
+base_icon_name="Fpprnt"
+
+XCOMM
+XCOMM Return codes
+XCOMM
+SUCCESS=0
+USAGE_ERR=1
+CREATE_ERR=2
+NO_WRITE_ERR=3
+
+XCOMM #################################################################
+XCOMM ##  Initialize()
+XCOMM ##
+XCOMM ##         Do upfront processing.
+XCOMM ##
+XCOMM #################################################################
+Initialize()
+{
+    if (( ${#LANG} ))
+    then
+        if [[ $LANG != C ]]
+        then
+            non_default_lang=1
+        fi
+    fi
+
+    HASH
+    HASH Location for Print action files...
+    HASH
+    DEFAULT_FOLDER=/etc/dt/appconfig/appmanager/C/Printers
+    DTPRINTERFOLDER=${DTPRINTERFOLDER:-$DEFAULT_FOLDER}
+ 
+    if (( ${#DTUSERPRINTERFOLDER} ))
+    then
+            DTPRINTERFOLDER="$DTUSERPRINTERFOLDER"
+    fi
+
+    if [ ! -d $DTPRINTERFOLDER ]
+    then
+	mkdir -p $DTPRINTERFOLDER > /dev/null  2>/dev/null
+    fi
+
+    HASH
+    HASH Location for Print definition (*.dt) files...
+    HASH
+    DEFAULT_FOLDER=/etc/dt/appconfig/types/C
+    DTPRINTACTIONFOLDER=${DTPRINTACTIONFOLDER:-$DEFAULT_FOLDER}
+
+    if [ ! -d $DTPRINTACTIONFOLDER ]
+    then
+	mkdir -p $DTPRINTACTIONFOLDER > /dev/null  2>/dev/null
+    fi
+
+    HASH
+    HASH Search path for printer icons...
+    HASH
+    DEFAULT_PATH=.,$HOME/.dt/icons,/usr/dt/appconfig/icons/C
+    DTPRINTICONPATH=${DTPRINTICONPATH:-$DEFAULT_PATH}
+
+    HASH
+    HASH Location for printer icons...
+    HASH
+    DEFAULT_FOLDER=/etc/dt/appconfig/icons/C
+    DTPRINTERICONFOLDER=${DTPRINTERICONFOLDER:-$DEFAULT_FOLDER}
+
+    HASH
+    HASH Other...
+    HASH
+    database_file=${printer_name}.dt
+
+    databasefile_path=$DTPRINTACTIONFOLDER/$database_file
+
+    action_file=${printer_name}_Print
+
+    action_path=$DTPRINTERFOLDER/$action_file
+}
+
+XCOMM #################################################################
+XCOMM ##  CheckOptions()
+XCOMM ##
+XCOMM ##         Check the options supplied in the command line 
+XCOMM ##	    interface
+XCOMM ##
+XCOMM #################################################################
+CheckOptions()
+{
+	if (( $printer_flag == "0" ))
+	HASH
+	HASH  We require a printer specification
+	HASH
+	then
+	    PrintUsage
+	    Exit $USAGE_ERR
+	fi
+}
+
+XCOMM #################################################################
+XCOMM ##  AddHelpFileContents
+XCOMM ##
+XCOMM ##         Add the contents of the help file to $1
+XCOMM ##
+XCOMM #################################################################
+AddHelpFileContents()
+{
+    if [[ ! -r $help_file || ! -s $help_file ]]
+    then
+	    print ""
+	    print "	Sorry--Unable to read the help file: "
+	    print "		\"$help_file\"."
+	    print ""
+	    failure_flag=1
+	    if (( $verbose_flag ))
+	    then
+		PrintEndLog
+	    fi
+	    Exit $CREATE_ERR
+    fi
+    echo "	DESCRIPTION		\\" >> $databasefile_path
+
+    exec 8< $help_file
+
+    while read -u8 this_line
+    do
+	print $this_line " \\" >> $databasefile_path 
+    done
+    print "**" >> $databasefile_path 
+
+    exec 8<&-
+}
+
+XCOMM #################################################################
+XCOMM ##  MakeDatabaseFile()
+XCOMM ##
+XCOMM ##         Make the *.dt file for the printer
+XCOMM ##
+XCOMM #################################################################
+MakeDatabaseFile()
+{
+
+	touch $databasefile_path > /dev/null 2>/dev/null
+
+	chmod +w $databasefile_path > /dev/null 2>/dev/null
+
+	if [[ ! -f $databasefile_path  || ! -w $databasefile_path ]]
+	then
+		failure_flag=1
+		PrintCreateError "$DTPRINTACTIONFOLDER" "$database_file"
+		if (( $verbose_flag ))
+		then
+		    PrintEndLog
+		fi
+		Exit $CREATE_ERR
+	fi
+
+        HASH
+	HASH First, write the preamble for this *.dt file
+	HASH
+	(
+	echo "################################################################"
+	echo "# "
+	echo "#   Actions and Datatypes for Printer \"$printer_name\""
+	echo "# "
+	echo "#   Common Desktop Environment 1.0"
+	echo "# "
+	echo "#   This file created by the \"dtprintegrate\" utility."
+	echo "# "
+	echo "#   Date of integration: `date`. "
+	echo "# "
+	echo "################################################################"
+	echo " "
+	) > $databasefile_path
+
+        HASH
+	HASH Now, create the Print action for the printer
+	HASH
+
+	(
+	echo "ACTION ${printer_name}_Print"
+	echo "{"
+        echo "        ARG_TYPE                *"
+        echo "        LABEL                   $printer_name"
+        echo "        ICON                    ${base_icon_name}"
+        echo "        TYPE                    COMMAND"
+        echo "        WINDOW_TYPE             NO_STDIO"
+	if (( destination_flag ))
+	then
+            echo "        EXEC_STRING             env LPDEST=$destination \\"
+	else
+            echo "        EXEC_STRING             env LPDEST=$printer_name \\"
+	fi
+
+	echo "				/usr/dt/bin/dtaction Print %(File)Arg_1%"
+	) >> $databasefile_path
+
+	if (( $help_flag ))
+	then
+	    echo "	DESCRIPTION		$help_text" >> $databasefile_path
+        elif (( $helpfile_flag ))
+	then
+	    AddHelpFileContents $databasefile_path
+	fi
+
+	echo "}" >> $databasefile_path
+
+        HASH
+	HASH Next, create the print manager action for the printer
+	HASH
+	(
+	echo ""
+	echo "ACTION ${printer_name}_Print"
+	echo "{"
+	echo "	ARG_COUNT		0"
+	echo "	TYPE			COMMAND"
+	echo "	WINDOW_TYPE		NO_STDIO"
+	if (( destination_flag ))
+	then
+	    echo "	EXEC_STRING		env LPDEST=$destination \\"
+	else
+	    echo "	EXEC_STRING		env LPDEST=$printer_name \\"
+	fi
+	echo "				/usr/dt/bin/dtaction Dtqueueinfo"
+	echo "}"
+	) >> $databasefile_path
+}
+
+XCOMM #################################################################
+XCOMM ##
+XCOMM ##  TraversePath()
+XCOMM ##
+XCOMM ## 	Parse a given search path, using comma (,) and colon (:) as
+XCOMM ##     delimiters.  Pass each path element to another
+XCOMM ##     function.
+XCOMM ##
+XCOMM #################################################################
+TraversePath ()
+{
+  gotahost=0
+  typeset -i path=0 
+  IFSsave=$IFS
+  search_path=$1
+  dir_function=$2
+
+  if [[ -n "$search_path" && -n "$dir_function" ]]; then
+	 HASH
+	 HASH  look for colon and comma delimiters
+	 HASH
+         IFS=':,'
+         set -A dir_array $search_path
+         while ((path<=${#dir_array[*]}-1)) ;do
+                 $dir_function ${dir_array[$path]}
+                 path=path+1
+         done
+  else return
+  fi
+  IFS=$IFSsave
+}
+
+XCOMM #################################################################
+XCOMM ##
+XCOMM ##  GetIconBaseName()
+XCOMM ##
+XCOMM ## 	Given a file name of the form "base.l.bm" where size
+XCOMM ##     can be ".l", ".m", ".s.", or ".t" and visual type can be 
+XCOMM ##     ".bm" or ".pm", set $base_icon_name to just the base.
+XCOMM ##
+XCOMM #################################################################
+GetIconBaseName()
+{
+  base_icon_name=`basename $1 .bm`
+  base_icon_name=`basename $base_icon_name .pm`
+  base_icon_name=`basename $base_icon_name .l`
+  base_icon_name=`basename $base_icon_name .m`
+  base_icon_name=`basename $base_icon_name .s`
+  base_icon_name=`basename $base_icon_name .t`
+}
+
+XCOMM #################################################################
+XCOMM ##
+XCOMM ##  DoTheActualIconCopy()
+XCOMM ##
+XCOMM ##     Once we've determined the base name, and we've got the
+XCOMM ##     source icon directory ($1), then copy all the icons
+XCOMM ##     with the same base name into the destination $DTPRINTERICONFOLDER.
+XCOMM ##
+XCOMM #################################################################
+DoTheActualIconCopy()
+{
+  for i in $1/${base_icon_name}.*
+  do
+     if [ -f $i ]
+     then
+	 simple_icon_name=${i##*/}
+
+	 if [ -f $DTPRINTERICONFOLDER/$simple_icon_name ]
+	 then
+	     mv -f $DTPRINTERICONFOLDER/$simple_icon_name $DTPRINTERICONFOLDER/#$simple_icon_name
+	 fi
+
+	 cp $i $DTPRINTERICONFOLDER
+
+	 if (( $verbose_flag ))
+	    then
+		print "	Copied icon file $i "
+		print "	to $DTPRINTERICONFOLDER."
+	    fi
+     fi
+  done
+}
+
+XCOMM #################################################################
+XCOMM ##  CopyIconFiles()
+XCOMM ##
+XCOMM ##         Given $icon_name, get its base name, ensure that
+XCOMM ##         the destination icon folder exists, and march down
+XCOMM ##         the icon path, looking for matching icons, and copying
+XCOMM ##         them to the destination folder.
+XCOMM ##
+XCOMM #################################################################
+CopyIconFiles()
+{
+
+GetIconBaseName $icon_name
+
+touch $DTPRINTERICONFOLDER/$icon_name.install > /dev/null 2>/dev/null
+
+if [[ ! -f $DTPRINTERICONFOLDER/$icon_name.install ]]
+then
+	failure_flag=1
+	PrintCreateError "$DTPRINTERICONFOLDER" "$DTPRINTERICONFOLDER/$icon_name.*"
+	if (( $verbose_flag ))
+	then
+	    PrintEndLog
+	fi
+	Exit $CREATE_ERR
+fi
+
+rm -f $DTPRINTERICONFOLDER/$icon_name.install 
+
+TraversePath "$DTPRINTICONPATH" DoTheActualIconCopy
+
+XCOMM ##  install default icon if none found above. ###
+
+}
+
+XCOMM #################################################################
+XCOMM ##  MakeActionFile()
+XCOMM ##
+XCOMM ##         Make the Action file for the printer in the
+XCOMM ##         $DTPRINTERFOLDER
+XCOMM ##
+XCOMM #################################################################
+MakeActionFile()
+{
+
+	touch $action_path > /dev/null 2>/dev/null
+
+	chmod +x $action_path > /dev/null 2>/dev/null
+
+	if [[ ! -f $action_path  || ! -x $action_path ]]
+	then
+		failure_flag=1
+		PrintCreateError "$DTPRINTERFOLDER" "$action_file"
+		if (( $verbose_flag ))
+		then
+		    PrintEndLog
+		fi
+		Exit $CREATE_ERR
+	fi
+
+	if [ -x $ACTION_STUB_FILE ]
+	then
+
+		cp $ACTION_STUB_FILE "$action_path"
+	else
+		failure_flag=1
+		PrintCreateError "$DTPRINTERFOLDER" "$action_file"
+		if (( $verbose_flag ))
+		then
+		    PrintEndLog
+		fi
+		Exit $CREATE_ERR
+	fi
+}
+
+XCOMM #################################################################
+XCOMM ##  PrintStartLog()
+XCOMM ##
+XCOMM ##         Print the start of the log
+XCOMM ##
+XCOMM #################################################################
+PrintStartLog() {
+    print "$COMMAND_NAME..."
+    print ""
+}
+
+XCOMM #################################################################
+XCOMM ##  PrintEndLog()
+XCOMM ##
+XCOMM ##         Print the values of the variables.
+XCOMM ##
+XCOMM #################################################################
+PrintEndLog() {
+    print "	DTPRINTACTIONFOLDER  ==  $DTPRINTACTIONFOLDER"
+    print ""
+    print "	DTPRINTERFOLDER ==       $DTPRINTERFOLDER"
+    print ""
+    if (( $failure_flag == 0 )) && (( $unintegrate_flag == 0))
+    then
+	print "	Created one database file,"
+	print "	    \"$databasefile_path\","
+	print "	and one action file, "
+	print "	    \"$action_path\"."
+	print ""
+    fi
+    if (( $failure_flag ==0 ))
+    then
+        print "...successfully completed."
+    else
+        print "...completed UNsuccesfully."
+    fi
+    print ""
+}
+
+XCOMM #################################################################
+XCOMM ##  PrintCreateError()
+XCOMM ##
+XCOMM ##        Print an error message
+XCOMM ##
+XCOMM #################################################################
+PrintCreateError() {
+    print ""
+    print "	Sorry--Unable to create the file \"$2\" under subdirectory"
+    print "	\"$1\"."
+    print ""
+    failure_flag=1
+}
+
+XCOMM #################################################################
+XCOMM ##  PrintUsage()
+XCOMM ##
+XCOMM ##        Print a usage message.
+XCOMM ##
+XCOMM #################################################################
+PrintUsage() {
+    print ""
+    print "Usage: $COMMAND_NAME [-d <destination>] [-i <icon_name>]"
+    print "                     [-h <help_text> | -f <help_file>]"
+    print "                     [-r] [-u] [-v] printer_name"
+    print "       where:"
+    print "       <destination>  specifies print destination known to the print"
+    print "       <icon_name>    specifies the icon to use to represent the printer"
+    print "       <help_text>    specifies the help text for the printer"
+    print "       <help_file>    specifies the help file for the printer"
+    print "       -r             forces reloading of the action database"
+    print "       -u             unintegrates the printer"
+    print "       -v             directs verbose messages to standard out"
+    print "       printer_name   specifies the printer name"
+    print ""
+    print "       All parameters except \"<printer_name>\" are optional."
+    print ""
+}
+
+XCOMM #################################################################
+XCOMM ##  ReloadActions()
+XCOMM ##
+XCOMM ##
+XCOMM #################################################################
+ReloadActions() {
+        HASH
+	HASH Shorten forms like "host:0.0" to "host"
+	HASH
+	display_host=${DISPLAY%:*}
+	display_host=${display_host%%.*}
+
+        HASH
+	HASH Shorten forms like "host.dom.com" to "host"
+	HASH
+	session_host=`uname -n`
+	session_host=${session_host%%.*}
+
+	if (( reloadactions_flag ))
+	then
+	HASH
+	HASH  User wants to force reloading actions
+	HASH
+		if [[ -x /usr/dt/bin/dtaction  &&  -n "$DISPLAY" ]]
+		then
+			/usr/dt/bin/dtaction ReloadActions
+		fi
+	elif [[ "$display_host" = "$session_host" ]]
+	HASH
+	HASH  Our session server is running on the desktop
+	HASH
+	then
+		if [ -x /usr/dt/bin/dtaction ]
+		then
+			/usr/dt/bin/dtaction ReloadActions
+		fi
+	elif [[ -z "$display_host" && -n "$DISPLAY" ]]
+	then
+	HASH
+	HASH  Covers the case in which the simple value ":0.0" is our $DISPLAY
+	HASH
+		if [ -x /usr/dt/bin/dtaction ]
+		then
+			/usr/dt/bin/dtaction ReloadActions
+		fi
+	fi
+}
+
+XCOMM #################################################################
+XCOMM ##  UnintegratePrinter()
+XCOMM ##
+XCOMM ##
+XCOMM #################################################################
+UnintegratePrinter() {
+
+    if [[ -f $action_path ]]
+    then
+	rm -fr $action_path
+	if (( verbose_flag ))
+	then
+	    print "	Removed one action file: "
+	    print "	    \"$action_path\"."
+	fi
+    fi
+
+    if [[ -f $databasefile_path ]]
+    then
+	rm -fr $databasefile_path
+	if (( verbose_flag ))
+	then
+	    print "	Removed one database file:"
+	    print "	    \"$databasefile_path\"."
+	    print ""
+	fi
+    fi
+
+}
+
+XCOMM #################################################################
+XCOMM ##  Exit()
+XCOMM ##
+XCOMM ##
+XCOMM #################################################################
+Exit() {
+        exit $1
+}
+
+XCOMM #################################################################
+XCOMM ##  Main()
+XCOMM ##
+XCOMM ##         Set up and call the routines
+XCOMM ##
+XCOMM #################################################################
+
+printer_name=""
+printer_flag=0
+help_flag=0
+helpfile_flag=0
+icon_flag=0
+language_flag=0
+verbose_flag=0
+unintegrate_flag=0
+failure_flag=0
+destination_flag=0
+destination=""
+reloadactions_flag=0
+
+while getopts d:f:h:i:ruv argument
+do
+    case $argument in
+	    d)  destination=$OPTARG
+		destination_flag=1
+		HASH print the destination name is $destination.
+		;;
+	    f)  help_file=$OPTARG
+		helpfile_flag=1
+		;;
+	    h)  help_text=$OPTARG
+		help_flag=1
+                ;;
+	    i)  icon_name=$OPTARG
+		icon_flag=1
+                ;;
+            r)  reloadactions_flag=1
+                ;;
+            u)  unintegrate_flag=1
+                ;;
+            v)  verbose_flag=1
+                ;;
+            \?) 
+		PrintUsage
+                Exit 1
+                ;;
+    esac
+done
+
+((shift_positions = OPTIND - 1))
+
+if (( $shift_positions < $# ))
+then
+XCOMM
+XCOMM We have at least one remaining non-switch command line argument
+XCOMM
+	shift $shift_positions
+	HASH
+	HASH We assume that any remaining arguments constitute the 
+	HASH filename.
+	HASH At some later point, may want to parse a list of filenames.
+	HASH
+	printer_name=$*
+	printer_flag=1
+fi
+
+XCOMM
+XCOMM  Time to get to work.
+XCOMM
+Initialize
+
+if (( $verbose_flag ))
+then
+	PrintStartLog
+fi
+
+CheckOptions
+
+if (( $unintegrate_flag ))
+then
+
+    UnintegratePrinter
+
+else
+
+    if (( $icon_flag ))
+    then
+	CopyIconFiles
+	HASH Doing so will set the $base_icon_name for inclusion in the
+	HASH filetypes action definition
+    fi
+
+    MakeDatabaseFile
+
+    MakeActionFile
+
+    ReloadActions
+
+fi
+
+if (( $verbose_flag ))
+then
+	PrintEndLog
+fi
+
+Exit 0
+
+XCOMM #########################         eof       ##############################

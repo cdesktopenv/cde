@@ -1,0 +1,89 @@
+
+#
+#	$XConsortium: Makefile.install /main/3 1995/11/06 18:49:08 rswiston $
+#
+#  %W% %G%	cde_app_builder/src/libAButil
+#
+# 	RESTRICTED CONFIDENTIAL INFORMATION:
+#	
+#	The information in this document is subject to special
+#	restrictions in a confidential disclosure agreement between
+#	HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+#	document outside HP, IBM, Sun, USL, SCO, or Univel without
+#	Sun's specific written approval.  This document and all copies
+#	and derivative works thereof must be returned or destroyed at
+#	Sun's request.
+#
+#	Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+#
+#
+
+SOURCES.c = \
+	guide.c \
+	gio.c \
+	gio_path.c \
+	guide_actions.c
+
+SOURCES.h = \
+	guide.h \
+	gio.h \
+	guide_actions.h
+
+SOURCES = \
+	$(SOURCES.G) \
+	$(SOURCES.h) \
+	$(SOURCES.c)
+
+TARGETS.c = \
+	$(SOURCES.G:%.G=%_ui.c) \
+	$(STUBS.G:%.G=%_stubs.c)
+
+TARGETS.h = \
+	$(SOURCES.G:%.G=%_ui.h) \
+	$(SOURCES.l:%.l=%.h) \
+	$(SOURCES.y:%.y=%.h)
+
+TARGETS = \
+	$(TARGETS.h) \
+	$(TARGETS.c)
+
+OBJECTS = \
+	$(SOURCES.c:%.c=%.o) \
+	$(TARGETS.c:%.c=%.o)
+
+LIBRARY = libguide.a
+
+PROJECTDIR = $(GUIDEHOME)
+DESTDIR = $(PROJECTDIR)
+
+# Compiler flags.
+
+CPPFLAGS += -I$(PROJECTDIR)/src/libguide -I$(OPENWINHOME)/include
+
+# Make information.
+
+.KEEP_STATE:
+.PRECIOUS: $(LIBRARY)
+
+# Standard targets.
+
+all:	 $(SOURCES) $(TARGETS) $(LIBRARY) $(PROGRAM)
+objects: $(SOURCES.c) $(TARGETS.c) $(TARGETS.h) $(OBJECTS)
+sources: $(SOURCES)
+targets: $(SOURCES) $(TARGETS)
+
+$(LIBRARY): $(LIBRARY)($(OBJECTS))
+	ar rv $@ $?
+	rm -f $?
+
+$(LIBRARY)(%.o): %.c
+	$(COMPILE.c) $< $(OUTPUT_OPTION)
+
+install: all
+	@-sccs check
+	/usr/ucb/install -d $(DESTDIR)/lib
+	/usr/ucb/install -m 664 $(LIBRARY) $(DESTDIR)/lib
+	(cd $(DESTDIR)/lib ; chmod 444 $(LIBRARY))
+
+clean:
+	$(RM) $(TARGETS) $(OBJECTS) $(SOURCES.G:%.G=%_stubs.c) core

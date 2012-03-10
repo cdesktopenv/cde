@@ -1,0 +1,254 @@
+<!-- $XConsortium: ch08.sgm /main/12 1996/09/08 19:40:25 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.CrDia.div.1">
+<title id="HRDC.CrDia.mkr.1">ヘルプ・ダイアログ・ボックスの作成と管理</title>
+<para>この章では、ヘルプ・ダイアログ・ウィジェットとその作成方法を説明します。
+</para>
+<informaltable id="HRDC.CrDia.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Help Dialog Boxes207'--><xref role="JumpText"
+linkend="HRDC.CrDia.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'General Help Dialog208'--><xref role="JumpText"
+linkend="HRDC.CrDia.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Create a General Help Dialog209'--><xref
+role="JumpText" linkend="HRDC.CrDia.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Quick Help Dialog211'--><xref role="JumpText"
+linkend="HRDC.CrDia.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Create a Quick Help Dialog211'--><xref
+role="JumpText" linkend="HRDC.CrDia.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Summary of Application Program Interface214'--><xref
+role="JumpText" linkend="HRDC.CrDia.mkr.8"></para></entry></row></tbody></tgroup>
+</informaltable>
+<sect1 id="HRDC.CrDia.div.2">
+<title id="HRDC.CrDia.mkr.2">ヘルプ・ダイアログ・ボックス</title>
+<indexterm><primary>作成</primary><secondary>ヘルプ・ダイアログ・ボックス</secondary>
+</indexterm><indexterm><primary>ヘルプ・ダイアログ・ボックスの管理</primary></indexterm><indexterm><primary>ダイアログ・ボックス</primary><secondary>作成と管理</secondary></indexterm><indexterm><primary>ダイアログ・ボックス</primary><secondary>簡易ヘルプ</secondary></indexterm><indexterm><primary>ダイアログ・ボックス</primary>
+<secondary>一般ヘルプ</secondary></indexterm><indexterm><primary>一般ヘルプ・ダイアログ・ボックス</primary><secondary>機能</secondary></indexterm>
+<para>ヘルプ・システムは、アプリケーション・プログラマに対して、ヘルプ・ダイアログ・ボックスをすべての Motif アプリケーションに追加するプログラミング・ライブラリを提供します。ライブラリは、２種類のダイアログ・ボックスを提供します。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>一般ヘルプ・ダイアログ</emphasis> には、メニューバー、トピック・ツリー、ヘルプ・トピック表示領域があります。トピック・ツリーには、ヘルプ・ボリュームのトピックとサブトピックが表示されます。ユーザは、表示するトピックを選択したり、使用可能なトピックをブラウズしたり、トピックがヘルプ・ボリュームのどこにあるかをみつけるために、トピック・ツリーを使用します。
+</para>
+</listitem><listitem><para><emphasis>簡易ヘルプ・ダイアログ</emphasis> には、トピック表示領域と、下部にひとつ以上のダイアログ・ボタンがあります。
+</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.CrDia.div.3">
+<title>標準の Xt パラダイム<indexterm><primary>ウィジェット・クラス</primary>
+</indexterm><indexterm><primary>クラス、ダイアログ・ウィジェット</primary></indexterm></title>
+<para><indexterm><primary>ウィジェット・リソース</primary></indexterm><indexterm>
+<primary>リソース</primary><secondary>ヘルプ・ダイアログ・ボックス</secondary></indexterm>
+プログラミングの観点からみると、ユーザは、アプリケーション内の他の Motif ウィジェットと対話するのと同じようにヘルプ・ダイアログと対話します。２種類のヘルプ・ダイアログ・ボックスは、２つの新しいウィジェット・クラス（<classname>DtHelpDialog</classname> と <classname>DtHelpQuickDialog</classname>）として定義されます。
+</para>
+<para>ボリューム名、トピックIDなどのヘルプ・ウィンドウの属性のほとんどは、ウィジェット・リソースとして処理されます。たとえば、新しいトピックを表示するには、<systemitem class="resource">DtNhelpVolume</systemitem>、<systemitem class="resource">DtNlocationId</systemitem>、および <systemitem class="resource">DtNhelpType</systemitem> の各リソースを設定するために <function>XtSetValues()</function> の呼び出しを実行するだけです。詳細については、<!--Original XRef content: '&ldquo;Displaying Help Topics&rdquo; on page&numsp;216'--><xref role="SecTitleAndPageNum" linkend="HRDC.HReq.mkr.3"> を参照してください。
+</para>
+<note>
+<para>ヘルプ・システムをアプリケーションに統合するには、Ｃプログラミング言語、Motif プログラマーズ・ツールキット、Xt イントリンシクス・ツールキットに関する実用的な知識が必要です。
+</para>
+</note>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrDia.div.4">
+<title id="HRDC.CrDia.mkr.3">一般ヘルプ・ダイアログ</title>
+<para>一般ヘルプ・ダイアログには、トピック・ツリーとトピック表示領域の２つの表示領域があります。トピック・ツリーは、スクロール可能なヘルプ・トピックのリストを提供しています。常にホーム・トピックのタイトルが１番目の項目になります。ユーザがタイトルを選択すると、そのタイトルに矢印 (→) が付き、そのヘルプ情報がトピック表示領域に表示されます。
+<!--Original XRef content: 'Figure&numsp;9&hyphen;1 on page&numsp;209'--><xref role="CodeOrFigOrTabAndPNum" linkend="hrdc.crdia.mkr.4"> に、一般ヘルプ・ウィンドウのトピック・ツリーとトピック表示領域を示します。現在のトピック「パレットを選択するには」が表示されています。
+</para>
+<para>一般ヘルプ・ダイアログには、[前のトピックへ]、[ヒストリ]、[索引] の３つのダイアログ・ボタンがあります。これらのコマンドは、ヘルプ・メニューでも使用できます。ヘルプ・ダイアログとグラフィカル・ユーザ・インタフェースの概要については、
+<!--Original XRef content: '&ldquo;Help User Interface&rdquo; on page&numsp;5'--><xref role="SecTitleAndPageNum" linkend="HRDC.Intro.mkr.7"> を参照してください。
+</para>
+<para><indexterm><primary>一般ヘルプ・ダイアログ・ボックス</primary><secondary>機能</secondary></indexterm><indexterm><primary>一般ヘルプ・ダイアログ・ボックス</primary><secondary>ダイアログ・ボタン</secondary></indexterm><indexterm><primary>ダイアログ・ボックス</primary><secondary>一般ヘルプ</secondary></indexterm></para>
+<figure>
+<title id="HRDC.CrDia.mkr.4">一般ヘルプ・ダイアログ</title>
+<graphic id="HRDC.CrDia.grph.1" entityref="HRDC.CrDia.fig.1"></graphic>
+</figure>
+<sect2 id="HRDC.CrDia.div.5" role="Procedure">
+<title id="HRDC.CrDia.mkr.5">一般ヘルプ・ダイアログを作成するには
+<indexterm><primary>作成</primary><secondary>一般ヘルプ・ダイアログ・ボックス</secondary></indexterm><indexterm>
+<primary>一般ヘルプ・ダイアログ・ボックス</primary><secondary>作成</secondary></indexterm><indexterm><primary>ダイアログ・ボックス</primary><secondary>一般ヘルプの作成</secondary></indexterm></title>
+<orderedlist><listitem><para>適切なヘッダ・ファイルを指定します。
+</para>
+<programlisting>#include &lt;Help.h>
+#include &lt;HelpDialog.h></programlisting>
+</listitem><listitem><para>一般ヘルプ・ダイアログ・ウィジェットのインスタンスを作成します。
+</para>
+<para><function moreinfo="RefEntry">DtCreateHelpDialog()</function> 簡易関数を使用します。
+</para>
+<para><emphasis>または</emphasis> <function moreinfo="RefEntry">XtCreateManagedWidget()</function> 関数を使用します。
+</para>
+</listitem><listitem><para>ダイアログ内で発生するハイパーリンク・イベントを処理するためのコールバックを追加します。（詳細については、<xref role="SecTitleAndPageNum" linkend="HRDC.DiaEv.mkr.3"> を参照してください。）</para>
+</listitem><listitem><para>[閉じる]コマンドを処理するための<emphasis>クローズ・コールバック</emphasis>を追加します。
+</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.CrDia.div.6">
+<title>例</title>
+<para>次のコード・セグメントは、簡易関数を使用して一般ヘルプ・ダイアログを（<symbol role="Variable">parent</symbol> の子として）作成します。ダイアログは管理されていません。ヘルプが要求された時点で、アプリケーションによって管理されます。
+</para>
+<programlisting>Widget   mainHelpDialog, moreButton, helpButton;
+ac = 0;
+XtSetArg (al[ac], XmNtitle,  "My Application - Help");  ac++;
+XtSetArg (al[ac], DtNhelpVolume,  "My Help Volume");  ac++;
+XtSetArg (al[ac], DtNlocationId,  "Getting Started");  ac++;
+XtSetArg (al[ac], DtNhelpType,  "DtHELP_TYPE_TOPIC");  ac++;
+mainHelpDialog =
+  DtCreateHelpDialog (parent, "mainHelpDialog", al, ac);</programlisting>
+<para>次の２つの呼び出しは、ダイアログにハイパーリンクとクローズ・コールバックを追加します。関数 <function>HyperlinkCB()</function> と <function>CloseHelpCB()</function> は、ここには示されていないアプリケーションの別の場所で宣言しています。
+</para>
+<programlisting>XtAddCallback (mainHelpDialog, DtNhyperLinkCallback,
+                        HyperlinkCB, (XtPointer)NULL);
+XtAddCallback (mainHelpDialog, DtNcloseCallback,
+               CloseHelpCB, (XtPointer)NULL);</programlisting>
+</sect3>
+<sect3 id="HRDC.CrDia.div.7">
+<title>関連項目</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.H4Hlp.mkr.1"></para>
+</listitem><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.DiaEv.mkr.7">
+</para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtCreateHelpDialog</filename>(3) マニュアル・ページ</para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtHelpDialog</filename>(3) マニュアル・ページ</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrDia.div.8">
+<title id="HRDC.CrDia.mkr.6">簡易ヘルプ・ダイアログ</title>
+<para><indexterm><primary>簡易ヘルプ・ダイアログ・ボックス</primary><secondary>ボタン</secondary></indexterm>
+簡易ヘルプ・ダイアログ・ボックスは、オンライン・ヘルプの第一目標である<emphasis>ユーザができるだけ早く、また正常に作業に戻れること</emphasis>が実現できるように設計されています。このシンプルなユーザ・インタフェースによって、ユーザは情報に集中しつづけることができます。ダイアログの情報は、ユーザが読んだ後に消してしまっても作業が続けられるように、有用なものでなければなりません。
+</para>
+<figure>
+<title>４つの標準ボタンを備えた簡易ヘルプ・ダイアログ</title>
+<graphic id="HRDC.CrDia.grph.2" entityref="HRDC.CrDia.fig.2"></graphic>
+</figure>
+<para>簡易ヘルプ・ダイアログには５つのボタンがあり、そのうち４つが管理されています。残りのダイアログ・ボタンは構成可能なので、このボタンは希望に合わせて使用することができます。しかし、その目的としては、次の２つの方法のどちらかでヘルプへのパスを提供することです。
+</para>
+<itemizedlist><listitem><para>ユーザがより詳細な情報を探せるようにします。この場合、デフォルトのボタン・ラベル ([詳細]) が適切です。これは<emphasis>段階的な表示</emphasis>と呼ばれます。
+</para>
+</listitem><listitem><para>アプリケーションのヘルプ・ボリュームを通常どおりブラウズするために、一般ヘルプ・ダイアログを開けるようにします。この場合、<literal>[ブラウズ&hellip;]</literal> がもっとも適切なボタン・ラベルになります。
+</para>
+</listitem></itemizedlist>
+<para>開発者用ツールキットには、簡易関数 <function>DtHelpQuickDialogGetChild()</function> が含まれています。この関数は、どの簡易ヘルプ・ダイアログ・ボタンにも対応するウィジェットIDを決定します。
+</para>
+<sect2 id="HRDC.CrDia.div.9" role="Procedure">
+<title id="HRDC.CrDia.mkr.7">簡易ヘルプ・ダイアログを作成するには</title>
+<orderedlist><listitem><para>適切なヘッダ・ファイルを指定します。</para>
+<programlisting>#include &lt;Help.h>
+#include &lt;HelpQuickD.h></programlisting>
+</listitem><listitem><para>簡易ヘルプ・ダイアログ・ウィジェットのインスタンスを作成します。
+</para>
+<itemizedlist><listitem><para><function moreinfo="refentry">DtCreateHelpQuickDialog()</function> 簡易関数を使用します。</para>
+</listitem><listitem><para><emphasis>または</emphasis> <function moreinfo="refentry">XtCreateManagedWidget()</function> 関数を使用します。</para>
+</listitem></itemizedlist>
+</listitem><listitem><para>ダイアログ内で発生するハイパーリンク・イベントを処理するためのコールバックを追加します（詳細については、<xref role="SecTitleAndPageNum" linkend="HRDC.DiaEv.mkr.3"> を参照してください）。</para>
+</listitem><listitem><para>[了解] ボタンを処理するための<emphasis>クローズ・コールバック</emphasis>を追加します。
+</para>
+</listitem><listitem><para>使用したいダイアログ・ボタンを構成します。
+</para>
+<itemizedlist><listitem><para>アプリケーション定義のボタンを使用するには、それを管理して起動コールバックを追加します。
+</para>
+</listitem><listitem><para>印刷を許可しないようにするには、[印刷]ボタンの管理を解除します。
+</para>
+</listitem><listitem><para>ユーザが「ヘルプの使い方」を使用できるように、[ヘルプ]ボタンを管理し、ダイアログに<emphasis>ヘルプ・コールバック</emphasis>を追加します。
+</para>
+</listitem></itemizedlist>
+</listitem></orderedlist>
+<sect3 id="HRDC.CrDia.div.10">
+<title>例</title>
+<para>次のコード・セグメントは、簡易関数を使用して簡易ヘルプ・ダイアログを（<symbol>parent</symbol> の子として）作成します。ダイアログは管理されていません。ヘルプが要求された時点で、アプリケーションの別の場所で管理されます。この例では、アプリケーション定義のボタンが使用可能になっており、ヘルプをさらに要求するために使用しています。
+</para>
+<programlisting>Widget   quickHelpDialog, moreButton, helpButton;
+ac = 0;
+XtSetArg (al[ac], XmNtitle,  "My Application - Help");  ac++;
+XtSetArg (al[ac], DtNhelpVolume,  "My Help Volume");  ac++;
+XtSetArg (al[ac], DtNlocationId,  "Getting Started");  ac++;
+XtSetArg (al[ac], DtNhelpType,  "DtHELP;_TYPE_TOPIC"); ac++;
+
+quickHelpDialog =
+  DtCreateHelpQuickDialog (<symbol>parent</symbol>, "quickHelpDialog", al, ac);
+
+</programlisting>
+<para>次の２つの呼び出しは、ダイアログにハイパーリンクとクローズ・コールバックを追加します。関数 <function>HyperlinkCB()</function> と <function>CloseHelpCB()</function> は、この例には示されていないアプリケーションの別の場所で宣言されています。
+</para>
+<programlisting>XtAddCallback (quickHelpDialog, DtNhyperLinkCallback,
+               HyperlinkCB, (XtPointer)NULL);
+XtAddCallback (quickHelpDialog, DtNcloseCallback,
+               CloseHelpCB, (XtPointer)NULL);
+
+</programlisting>
+<para>ここで、アプリケーション定義のボタンが管理され、アプリケーションの <function>MoreHelpCB()</function> 関数を起動する起動コールバックが割り当てられます。
+</para>
+<programlisting>moreButton = DtHelpQuickDialogGetChild (quickHelpDialog,
+                             DT_HELP_QUICK_MORE_BUTTON);
+XtManageChild (moreButton);
+XtAddCallback (moreButton, XmNactivateCallback,
+               MoreHelpCB, (XtPointer)NULL);
+
+</programlisting>
+<para>「ヘルプの使い方」を提供するために、ダイアログの[ヘルプ]ボタンが管理され、ダイアログにヘルプ・コールバックが追加されます。
+</para>
+<programlisting>helpButton = DtHelpQuickDialogGetChild (quickHelpDialog,
+                             DT_HELP_QUICK_HELP_BUTTON);
+XtManageChild (helpButton);
+XtAddCallback (quickHelpDialog,DtNhelpCallback,
+               HelpRequestCB, USING_HELP);
+
+</programlisting>
+<para>他の Motif ダイアログと同じように、簡易ヘルプ・ダイアログにヘルプ・コールバックを追加すると、[F1]キーと[ヘルプ]ボタンのどちらからでも簡易ヘルプ・ダイアログを使用することができます。
+</para>
+</sect3>
+<sect3 id="HRDC.CrDia.div.11">
+<title>関連項目</title>
+<itemizedlist><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.DiaEv.mkr.7"></para>
+</listitem><listitem><para><xref role="ChapNumAndTitle" linkend="HRDC.H4Hlp.mkr.1"></para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtCreateHelpQuickDialog</filename>(3) マニュアル・ページ</para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtHelpQuickDialog</filename>(3) マニュアル・ページ</para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtHelpQuickDialogGetChild</filename>(3) マニュアル・ページ</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.CrDia.div.12">
+<title id="HRDC.CrDia.mkr.8">アプリケーション・プログラム・インタフェースの要約</title>
+<para>ヘルプ・システムに関連するマニュアル・ページは次のとおりです。</para>
+<itemizedlist><listitem><para>ダイアログの作成と操作のための関数
+</para>
+<itemizedlist><listitem><para><filename>DtHelp(5)</filename></para>
+</listitem><listitem><para><filename>DtHelpDialog(5)</filename></para>
+</listitem><listitem><para><filename>DtHelpQuickD(5)</filename></para>
+</listitem><listitem><para><function>DtCreateHelpDialog()</function></para>
+</listitem><listitem><para><function>DtCreateHelpQUickDialog()</function></para>
+</listitem><listitem><para><function>DtHelpQuickDialogGetChild()</function></para>
+</listitem></itemizedlist>
+</listitem><listitem><para>項目ヘルプ・モードの実現のための関数</para>
+<itemizedlist><listitem><para><function>DtHelpReturnSelectedWidgetId()</function></para>
+</listitem></itemizedlist>
+</listitem><listitem><para>ヘルプ・ライブラリにメッセージ・カタログを指定するための関数
+</para>
+<itemizedlist><listitem><para><function>DtHelpSetCatalogName()</function></para>
+</listitem></itemizedlist>
+</listitem><listitem><para>ヘルプ・ボリュームの作成および表示のためのアプリケーションとアクション
+</para>
+<itemizedlist><listitem><para><filename>dtdocbook</filename>(1)</para>
+</listitem><listitem><para><filename>dthelpview</filename>(1)</para>
+</listitem><listitem><para><filename>dthelpgen</filename>(1)</para>
+</listitem><listitem><para><filename>dthelpaction(5)</filename></para>
+</listitem><listitem><para><filename>dtmanaction(5)</filename></para>
+</listitem></itemizedlist>
+</listitem><listitem><para>文書型定義</para>
+<itemizedlist><listitem><para><filename>dtdocbookdtd(4)</filename></para>
+</listitem><listitem><para><filename>dtsdldtd(4)</filename></para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->

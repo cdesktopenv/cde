@@ -1,0 +1,51 @@
+/*
+ * $XConsortium: WXmMainWindow.h /main/3 1996/06/11 17:00:47 cde-hal $
+ *
+ * Copyright (c) 1991 HaL Computer Systems, Inc.  All rights reserved.
+ * UNPUBLISHED -- rights reserved under the Copyright Laws of the United
+ * States.  Use of a copyright notice is precautionary only and does not
+ * imply publication or disclosure.
+ * 
+ * This software contains confidential information and trade secrets of HaL
+ * Computer Systems, Inc.  Use, disclosure, or reproduction is prohibited
+ * without the prior express written permission of HaL Computer Systems, Inc.
+ * 
+ *                         RESTRICTED RIGHTS LEGEND
+ * Use, duplication, or disclosure by the Government is subject to
+ * restrictions as set forth in subparagraph (c)(l)(ii) of the Rights in
+ * Technical Data and Computer Software clause at DFARS 252.227-7013.
+ *                        HaL Computer Systems, Inc.
+ *                  1315 Dell Avenue, Campbell, CA  95008
+ * 
+ */
+
+// This code is automatically generated in -*- C++ -*-
+#ifndef WXmMainWindow_h
+#define WXmMainWindow_h
+
+#include "WXmScrolledWindow.h"
+#include <Xm/MainW.h>
+
+class WXmMainWindow : public WXmScrolledWindow {
+public :
+   DEFINE_INIT (WXmMainWindow, WXmScrolledWindow, xmMainWindowWidgetClass)
+inline	Widget	Sep1 () const	{ return XmMainWindowSep1 (widget); }
+inline	Widget	Sep2 ()	const	{ return XmMainWindowSep2 (widget); }
+inline	void	SetAreas (Widget mb, Widget c, Widget hsb, Widget vsb, Widget w) const
+				{ XmMainWindowSetAreas (widget, mb, c, hsb, vsb, w); }
+	DEFINE_GETTER_SETTER (CommandWindow,Widget,"commandWindow")
+	DEFINE_GETTER_SETTER (MenuBar,Widget,"menuBar")
+	DEFINE_GETTER_SETTER (MessageWindow,Widget,"messageWindow")
+	DEFINE_GETTER_SETTER (MainWindowMarginWidth,short,"mainWindowMarginWidth")
+	DEFINE_GETTER_SETTER (MainWindowMarginHeight,short,"mainWindowMarginHeight")
+	DEFINE_GETTER_SETTER (ShowSeparator,Boolean,"showSeparator")
+};
+
+#define	NULLWXmMainWindow		WXmMainWindow((Widget)0)
+
+class CXmMainWindow : public CXmScrolledWindow {
+public :
+   DEFINE_CINIT(CXmMainWindow, CXmScrolledWindow, xmMainWindowWidgetClass)
+};
+
+#endif  // WXmMainWindow_h

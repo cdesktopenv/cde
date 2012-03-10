@@ -1,0 +1,114 @@
+.\" $XConsortium: pam_sm_setcred.3 /main/5 1996/10/29 15:20:23 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam_sm_setcred 3 "9 Jan 1996"
+.SH NAME
+pam_sm_setcred \- Service provider implementation for pam_setcred
+.SH SYNOPSIS
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+#include <security/pam_modules.h>
+.ft
+.fi
+.LP
+.BI "int pam_sm_setcred(pam_handle_t " "*pamh" ,
+.BI "int " "flags" ,
+.BI "int " "argc",
+.BI "const char **" "argv" );
+.SH DESCRIPTION
+.IX "pam_setcred" "" "\fLpam_setcred\fP \(em request setting credentials"
+In response to a call to
+.BR pam_set_cred (3),
+the PAM framework calls
+.B pam_sm_setcred(\|)
+from the modules listed in the
+.BR pam.conf (4)
+file.  The authentication provider supplies the back-end functionality for
+this interface function.
+.PP
+.B pam_sm_setcred(\|)
+is called to set the credentials of the current user
+associated with the authentication handle,
+.IR pamh.
+The following flags may be set in the
+.IR flags
+field.  Note that the first four flags are mutually exclusive:
+.RS
+.IP "PAM_CRED_ESTABLISH" 26
+Set user credentials for the authentication service
+.IP "PAM_CRED_DELETE" 26
+Delete user credentials associated with the authentication service
+.IP "PAM_CRED_REINITIALIZE" 26
+Reinitialize user credentials
+.IP "PAM_CRED_REFRESH" 26
+Extend lifetime of user credentials
+.IP "PAM_SILENT" 26
+Authentication service should not generate messages
+.RE
+.PP
+If none of these flags are set, PAM_CRED_ESTABLISH is used as
+the default.
+.PP
+The
+.I argc
+argument
+represents the number of module options passed in from the configuration file
+.BR pam.conf (4).
+.I argv
+specifies the module options, which are interpreted and processed
+by the authentication service.  If an unknown option is passed to the 
+module, an error should be logged and the option ignored.
+.LP
+If the PAM_SILENT flag is not set, then
+.B pam_sm_setcred(\|)
+should print any failure status from the corresponding 
+.B pam_sm_authenticate(\|)
+function using the conversation function.
+.PP
+The authentication status (success or reason for failure)
+is saved as module-specific state in the authentication
+handle by the authentication module.
+The status should be retreived using
+.BR pam_get_data(\|) ,
+and used to determine if user credentials should be set.
+.SH NOTES
+.PP
+.B pam_sm_setcred(\|)
+is passed the same module options that are used by
+.BR pam_sm_authenticate(\|) .
+.SH "RETURN VALUES"
+.PP
+Upon successful completion, PAM_SUCCESS should be returned.
+The following values may also be returned upon error:
+.RS
+.IP PAM_CRED_UNAVAIL 25
+Underlying authentication service can not retrieve user credentials
+.IP PAM_CRED_EXPIRED 25
+User credentials have expired
+.IP PAM_USER_UNKNOWN 25
+User unknown to the authentication service
+.IP PAM_CRED_ERR 25
+Failure in setting user credentials
+.IP PAM_IGNORE 25
+Ignore underlying authentication module regardless of whether the
+control flag is
+.I required, optional
+or 
+.I sufficient
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR pam_authenticate (3),
+.BR pam_setcred (3),
+.BR pam_sm_authenticate (3),
+.BR pam.conf (4)

@@ -1,0 +1,62 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/08/21 15:59:58 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+DEFINES  = -DPORTABLE_DB
+INCLUDES = -I$(DTMMBDSRC)/object -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES)
+
+LinkSourceFile(composite.C,$(DTMMDBSRC)/object)
+LinkSourceFile(compressed_pstring.C,$(DTMMDBSRC)/object)
+LinkSourceFile(cset.C,$(DTMMDBSRC)/object)
+LinkSourceFile(dl_list.C,$(DTMMDBSRC)/object)
+LinkSourceFile(dl_list_cell.C,$(DTMMDBSRC)/object)
+LinkSourceFile(handler.C,$(DTMMDBSRC)/object)
+LinkSourceFile(integer.C,$(DTMMDBSRC)/object)
+LinkSourceFile(long_pstring.C,$(DTMMDBSRC)/object)
+LinkSourceFile(oid.C,$(DTMMDBSRC)/object)
+LinkSourceFile(oid_list.C,$(DTMMDBSRC)/object)
+LinkSourceFile(oid_t.C,$(DTMMDBSRC)/object)
+LinkSourceFile(primitive.C,$(DTMMDBSRC)/object)
+LinkSourceFile(pstring.C,$(DTMMDBSRC)/object)
+LinkSourceFile(random_gen.C,$(DTMMDBSRC)/object)
+LinkSourceFile(root.C,$(DTMMDBSRC)/object)
+LinkSourceFile(short_list.C,$(DTMMDBSRC)/object)
+LinkSourceFile(tuple.C,$(DTMMDBSRC)/object)
+
+SRCS =	composite.C	compressed_pstring.C \
+	cset.C		dl_list.C \
+	dl_list_cell.C	handler.C \
+	integer.C	long_pstring.C \
+	oid.C		oid_list.C \
+	oid_t.C		primitive.C \
+	pstring.C	random_gen.C \
+	root.C		short_list.C \
+	tuple.C
+OBJS = $(SRCS:.C=.o) 
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

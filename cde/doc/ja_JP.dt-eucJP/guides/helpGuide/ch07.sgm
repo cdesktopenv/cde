@@ -1,0 +1,391 @@
+<!-- $XConsortium: ch07.sgm /main/13 1996/09/08 19:40:15 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.Sgml.div.1">
+<title id="HRDC.Sgml.mkr.1">DocBook 文書型定義の読み方</title>
+<para>この章では、DocBook 2.2.1 文書型定義 (DTD) の読み方と、Standard Generalized Markup Language (SGML) に完全に準拠したヘルプ・ファイルを作成するための DTD の使用方法について説明します。
+</para>
+<informaltable id="HRDC.Sgml.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'DocBook 1.3 DTD196'--><xref role="JumpText"
+linkend="HRDC.Sgml.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'DTD Components196'--><xref role="JumpText"
+linkend="HRDC.Sgml.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Element Declarations196'--><xref
+role="JumpText" linkend="HRDC.Sgml.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Element Declaration Keywords198'--><xref
+role="JumpText" linkend="HRDC.Sgml.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Attribute List Declarations199'--><xref
+role="JumpText" linkend="HRDC.Sgml.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Formal Markup199'--><xref role="JumpText"
+linkend="HRDC.Sgml.mkr.7"></para></entry></row></tbody></tgroup></informaltable>
+<sect1 id="HRDC.Sgml.div.2">
+<title>文書型定義</title>
+<para><emphasis>文書型定義</emphasis> (DTD) は、構造化された（または階層のある）ドキュメントを作成するための要素のセットを定義します。DTD は各要素の形式を指定し、ドキュメント内での要素の使用方法を決定します。
+</para>
+<sect2 id="HRDC.Sgml.div.3">
+<title id="HRDC.Sgml.mkr.2">DocBook 2.1 DTD</title>
+<para>The DocBook 2.2.1 DTD タグ・セットとその関連規則は、正規マークアップとして参照されます。DTD は Standard Generalized Markup Language (SGML) ISO 規定 8879:1986 に準拠しています。つまり、SGML 準拠のヘルプ・ファイルを作成するために、正規マークアップを使用できます。
+</para>
+<para>付録 A には、完全な DTD 仕様が掲載されています。DTD は、開発者用ツールキットでも使用できます。DTD は、<filename>/usr/dt/dthelp/dtdocbook/SGML</filename> ディレクトリにあり、名前は <filename>DocBook.dtd</filename> です。
+</para>
+<sect3 id="HRDC.Sgml.div.4">
+<title>関連項目</title>
+<itemizedlist><listitem><para><filename>dtdocbookdtd(4)</filename> マニュアル・ページ
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Sgml.div.5">
+<title id="HRDC.Sgml.mkr.3">DTD コンポーネント</title>
+<para>DTD は、これまでの章で説明した DocBook の各要素を定義します。この節では、いくつかの重要な用語を紹介し、要素記述の構文の読み方を説明します。DTD の各セクションを完全に説明するものではありません。
+</para>
+<sect2 id="HRDC.Sgml.div.6">
+<title id="HRDC.Sgml.mkr.4">要素宣言</title>
+<para>DocBook DTD は、各要素を<emphasis>要素宣言</emphasis>で定義します。宣言には、要素を説明する詳細な記述、それに必要なコンポーネント、指定できる要素またはできない要素を使用します。要素には、<emphasis>属性宣言</emphasis>で定義された特性もあります。特性についての詳細は、次の <xref role="SecTitleAndPageNum" linkend="HRDC.Sgml.mkr.6"> で説明します。</para>
+<para>要素宣言、属性宣言いずれにおいても、DocBook DTD は、要素や属性のグループ化を表現するエンティティに代わるエンティティの拡張的な利用を行います。（DTD では、これらのエンティティ宣言は、要素宣言および属性宣言に優先します。）
+</para>
+<para>たとえば、DTD は、ID、Lang (言語）、Remap、Role、または XRefLabel のように、非常に多くの DocBook 要素がもつ共通属性のグループに代わる "%commonatts;" 参照のあるエンティティを宣言します。別の例では、DTD は、ItemizedList、OrderedList、SegmentedList、VariableList などに代わる "%list.gp;" 参照のあるエンティティを宣言します。
+</para>
+<para>要素宣言の形式は次のとおりです。</para>
+<programlisting>&lt;!ELEMENT <symbol>element_type minimization (content model)</symbol>></programlisting>
+<para>形式の説明を次に示します。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="116*">
+<colspec align="left" colwidth="412*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol>element_type</symbol></para></entry>
+<entry align="left" valign="top"><para>要素名を指定します。これはタグ名としても使用されます。たとえば、要素型 Title のタグは &lt;Title> です。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>minimization</symbol></para></entry>
+<entry align="left" valign="top"><para>開始タグまたは終了タグが必要かどうかを示す２文字のエントリです。１番目の文字は開始タグを表します。２番目の文字は終了タグを表します。その２文字の間には、ひとつの空白が入ります。文字 <literal>O</literal> は、そのタグがオプションであることを意味します。<literal>-</literal>（マイナス記号）は、タグが必要であることを意味します。</para><para>たとえば、<literal>- -</literal> というエントリは、その要素には開始タグと終了タグの両方が必要である、という意味になります。DocBook 2.2.1 の DTD では、ほとんどすべての要素に開始タグと終了タグが必要です。
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol>content model</symbol></para></entry>
+<entry align="left" valign="top"><para>要素型に含められる必要な要素およびオプションの要素のリストを指定します。要素のシーケンスと、適用可能であれば、要素を指定できる回数を定義します。また、疑問の要素内に含むことができない要素も指定します。
+</para></entry></row></tbody></tgroup></informaltable>
+<para>content model は、次の記述を使用します。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="106*">
+<colspec align="left" colwidth="422*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><literal>|</literal></para></entry>
+<entry align="left" valign="top"><para>縦棒は、「または」を意味します。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>+</literal></para></entry>
+<entry align="left" valign="top"><para>要素名の後のプラス記号は、その要素が少くとも１回は現われなければならないこと、および繰り返しが可能であることを意味します。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>*</literal></para></entry>
+<entry align="left" valign="top"><para>要素名の後のアスタリスクは、その要素が０回あるいは何回でも現われることを意味します。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>?</literal></para></entry>
+<entry align="left" valign="top"><para>要素名の後の疑問符は、その要素が０回または１回現われることを意味します。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>,</para></entry>
+<entry align="left" valign="top"><para>コンマはシーケンスを説明します。すなわち、コンマの前の要素型に、コンマの後に指定された要素が続かなければなりません。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>+</literal> (<symbol>element_
+type(s)</symbol>)</para></entry>
+<entry align="left" valign="top"><para><literal>+</literal> (プラス記号) は、リストされたまたは括弧で囲まれた要素が、要素型の内部か、それを含む要素の内部で使用できることを示します。これを取り込みと呼びます。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>-</literal> (<symbol>element_
+type(s)</symbol>)</para></entry>
+<entry align="left" valign="top"><para><literal>-</literal> (マイナス記号) は、リストされたまたは括弧で囲まれた要素が、要素型の内部か、それを含む要素の内部で使用できないことを示します。これを排他と呼びます。
+</para></entry></row></tbody></tgroup></informaltable>
+<sect3 id="HRDC.Sgml.div.7">
+<title>例</title>
+<para>各例は、要素宣言とその意味するところを示しています。
+</para>
+<itemizedlist><listitem><para>次の例は、Appendix 要素に、開始タグと終了タグの両方が必須であることを宣言しています。さらに、その後に必須の Title が続く オプションの DocInfo 要素、その後にエンティティ参照 "%sect.gp;"（名前としては、Sect1 およびそれに許されるサブコンポーネント）によって参照されるひとつまたは複数の要素が続くオプションの TitleAbbref を含むことができることを示しています。また、エンティティ参照 "%ubiq.gp;"（名前としては、IndexTerms）によって参照される要素が、Appendix またはそのサブコンポーネントの内部に取り込むことができることも宣言しています。
+</para>
+<programlisting>&lt;:!ELEMENT Appendix - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;))  +(%ubiq.gp;) >
+</programlisting>
+</listitem><listitem><para>次の例は、OrderedList 要素に開始タグと終了タグの両方が必須であること、および少くともひとつの ListItem を含まなければならないこと、を宣言しています。
+</para>
+<programlisting>&lt;!ELEMENT OrderedList - - (ListItem+) ></programlisting>
+</listitem><listitem><para>次の例は、ListItem 要素に開始タグと終了タグの両方が必須であること、他の要素の間に Paragraph、List、および Table を含むエンティティ参照 "%component.gp;" によって参照される要素のグループを少くともひとつ含まなければならないこと、を宣言しています。
+</para>
+<programlisting>&lt;!ELEMENT ListItem - - ((%component.gp;)+) ></programlisting>
+</listitem><listitem><para>次の例は、Sect1 要素に開始タグと終了タグの両方が必須であることを宣言しています。さらに、Sect1 が、必須の Title とオプションの TitleAbbrev をもつことを宣言しています。次に、Sect1 が０個またはひとつ以上の ToC、LoT、Index、Glossary、および Bibliography（これらは、エンティティ参照 "%nav.gp;" によって参照される要素です）をもつことを宣言しています。それから、Sect1 要素が、エンティティ要素 "%component.gp;" によって参照される要素のグループを、少くともひとつ含まなければならないことを宣言しています。これは、他の要素の間に Paragraph、List、および Table を含み、これらの後には、オプションで０個またはひとつ以上の Sect2 や RefEntry が続きます。
+</para>
+<programlisting>&lt;!ELEMENT Sect1 - - (Title, TitleAbbrev?, (%nav.gp;)*, (((%component.gp;)+, (RefEntry* | Sect2*)) | RefEntry+ | Sect2+), (%nav.gp;)*)  +(%ubiq.gp;) >
+</programlisting>
+</listitem><listitem><para>次の例は、InformalTalbe 要素に、開始タグと終了タグの両方が必須であることを宣言しています。さらに、InformalTalbe が、ひとつまたは複数の Graphic または TGroup（これはエンティティ参照 "%tblcontent.gp;" によって参照される文字列の意味です）を含まなければならないことを宣言しています。また、InformalTable 要素が、Talbe や別の InformalTalbe を含むことができないことを宣言しています。
+</para>
+<programlisting>&lt;!ELEMENT InformalTable - - ((%tblcontent.gp;)) -(Table|InformalTable)>
+</programlisting>
+</listitem><listitem><para>次の例は、TGroup 要素には、開始タグが必須で終了タグは必須ではないこと、０個またはひとつ以上の ColSpec、０個またはひとつ以上の spanSpec、０個またはひとつ以上の THead、０個またはひとつの TFoot、および必須の TBody という要素を、この順序で含むことができること、を宣言しています。
+</para>
+<programlisting>&lt;!ELEMENT TGroup - O (ColSpec*, SpanSpec*, THead?, TFoot?, TBody) >
+</programlisting>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.Sgml.div.8">
+<title id="HRDC.Sgml.mkr.5">要素宣言のキーワード</title>
+<para>要素の中には、要素宣言の中に、要素のデータ内容を説明するキーワードを含むものがあります。DTD には、<computeroutput>EMPTY</computeroutput>、<computeroutput>CDATA</computeroutput>、および <computeroutput>#PCDATA</computeroutput> という３つのキーワードがあります。
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="110*">
+<colspec align="left" colwidth="418*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput>EMPTY</computeroutput></para></entry>
+<entry align="left" valign="top"><para>要素が、オンライン情報で表示されるデータ内容をもたないことを指定します。
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>CDATA</computeroutput></para></entry>
+<entry align="left" valign="top"><para>「文字データ」を表します。つまり、その要素のデータ内容は、マークアップとして認識されません。
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>#PCDATA</computeroutput></para></entry>
+<entry align="left" valign="top"><para>「構文解析された文字データ」を表します。つまり、そのデータ内容にはヘルプ・システムのパーサが解釈するテキストとマークアップ文字の両方が含まれます。
+</para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="HRDC.Sgml.div.9">
+<title id="HRDC.Sgml.mkr.6">属性リスト宣言</title>
+<para>属性リストは、要素をより詳しく説明する追加の属性を宣言します。属性リスト宣言の形式は次のとおりです。
+</para>
+<programlisting>&lt;!ATTLIST <symbol>element_type attribute_values default_value</symbol>></programlisting>
+<sect3 id="HRDC.Sgml.div.7a">
+<title>例</title>
+<para>次の各例は、属性リスト宣言を示し、それが意味するところを説明しています。
+</para>
+<itemizedlist><listitem><para>次の属性リスト宣言は、要素 Para が共通の属性をもち、それらにデフォルト値がないことを意味しています。
+</para>
+<programlisting>&lt;!ATTLIST Para       %commonatts;    ></programlisting>
+</listitem><listitem><para>次の属性リスト宣言は、要素 Sect1 が共通の属性、および Label 属性と Renderas 属性をもつことを意味しています。Label 属性は、その値として「文字データ」をとり、そのデフォルト値は #IMPLIED です。Renderas 属性（これは Sect1 がどのように表示されるかを決定します）は、値 Sect2、Sect3、Sect4 および Sect5 をとることができます。たとえば、Renderas="Sect2" ならば、Sect1 は Sect2 と同じ形式で表示されます。
+</para>
+<programlisting>&lt;!ATTLIST Sect1
+                %commonatts;
+                Label           CDATA           #IMPLIED
+                Renderas        (Sect2 | Sect3 | Sect4 | Sect5)         #IMPLIED         ></programlisting>
+</listitem><listitem><para>次の属性リスト宣言は、要素 TFoot が共通の属性をもち、デフォルト値がなく、値として "Top"、"Middle"、および "Bottom" をとる（"Top" がデフォルト値）VAlign 属性をもつことを意味しています。
+</para>
+<programlisting>&lt;!ATTLIST TFoot
+                %commonatts;
+                VAlign          (Top | Middle | Bottom) "Top"   ></programlisting>
+</listitem><listitem><para>次の属性リスト宣言は、要素 OrderedList が共通の属性をもち、デフォルト値がなく、他にいくつかの属性をもつことを意味しています。
+</para>
+<para>Numeration 属性は、OrderedList 中の ListItem にどのように数字が割りふられるかを決定します。これは、値として、"Arabic"（アラビア数字）、"Upperalpha"（大文字の英字）、"Loweralpha"（小文字の英字）、"Upperroman"（大文字のローマ数字）、"Lowerroman"（小文字のローマ数字）のいずれかをとります。
+</para>
+<para>InheritNum 属性は、別の OrderedList に埋め込まれた OrderedList への数字の割りふりが、含むリストの数字の割りふりに埋め込まれる（別のリストの項目２に埋め込まれているリストの項目に、2a、2b、2c のように数字が割り付けられる）かどうかを決定します。InheritNum は、値として、"Inherit" および "Ignore"（デフォルト値）をとります。
+</para>
+<para>Continuation 属性は、OrderedList への数字の割りふりが先行する OrderedList の数字の割りふりを続行するか、新規に開始するかを決定します。これは、値として、"Continues" および "Restarts"（デフォルト値）をとります。
+</para>
+<programlisting>&lt;!ATTLIST OrderedList
+     %commonatts;
+     Numeration    (Arabic|Uperalpha|Loweralpha|Uperroman|Lowerroman)
+                                           #IMPLIED
+     InheritNum    (Inherit|Ignore)  Ignore
+     Continuation  (Continues|Restarts)   Restarts
+></programlisting>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Sgml.div.10">
+<title id="HRDC.Sgml.mkr.7">正規マークアップ</title>
+<para>基本的な要素のセットを習得した後は、構造化エディタの使用が、正規マークアップ作成の最良の方法です。構造化エディタでは、メニューから要素を選択することによって、正規マークアップを作成します。操作に応じて、構造化エディタは、各要素に必要なすべてのタグを生成します。さらに、構造化エディタは、作成された構造フレームワークが文書型定義に準拠するかどうか検証します。
+</para>
+<sect2 id="HRDC.Sgml.div.11">
+<title id="HRDC.Sgml.mkr.8">正規マークアップの注意点</title>
+<para>DocBook は、正規マークアップ言語です。ほとんどすべての要素に、開始タグと終了タグが必須です。開始タグが <symbol>&lt;ElementName></symbol> ならば、終了タグは / (順スラッシュ) が終了タグとしてのマークになる <symbol>&lt;/ElementName></symbol> という形式になります。
+</para>
+<para>正規マークアップでは、各要素、そのコンポーネント部分、およびそれが含む要素は、明示的にタグが付けられなければなりません。たとえば、次に示すのは、２つのエントリを含む Table 中の Row のためのスキーマにしたがった正規マークアップです。（この例および他のマークアップ例では読みやすくするために、タグの字下げを行っています。字下げは、実際のマークアップでは必須ではありません。）
+</para>
+<programlisting>&lt;row>
+        &lt;entry align="left" valign="top">
+                &lt;para><symbol>contents of first entry</symbol>&lt;/para>
+        &lt;/entry>
+        &lt;entry align="left"valign="top">
+                &lt;para><symbol>contents of second entry</symbol>&lt;/para>
+        &lt;/entry>
+&lt;row>
+</programlisting>
+<para>Row のサブコンポーネント、Entry と Para が、おのおのそれ自身の開始タグと終了タグをもっていることに注意してください。
+</para>
+</sect2>
+<sect2 id="HRDC.Sgml.div.13">
+<title id="HRDC.Sgml.mkr.9">要素の明確な階層</title>
+<para>DTD 中の各要素宣言は、要素をどのようにそしてどこで使用することができるかを管理する規則のセットになります。要素は、さらに別の要素を含むことが可能な別の要素を含むため、文書は要素の階層になります。トップレベルでは、Part 要素が、ヘルプ・ボリューム中の他のすべての要素のコンテナになります。
+</para>
+<para>ヘルプ・トピックを作成するために、どのマークアップが必要なのかを決定するために、DocBook マークアップ言語を管理する規則に慣れる必要があります。
+</para>
+<para>マークアップ言語を学ぶひとつの方法は、使用を必要とするコンポーネントの要素宣言を学習することです。たとえば、章を作成するとしましょう。まず、次にリストされている Chapter の宣言をみてください。
+</para>
+<programlisting>&lt;!ELEMENT Chapter - - (DocInfo?, Title, TitleAbbrev?, (%sect1.gp;), (Index |
+                Glossary | Bibliography)*) +(%ubiq.gp;) ></programlisting>
+<para>これは、Chapter が DocInfo コンポーネントをもつことを宣言しています。次に、それがどのように構築されるかをみるために、DocInfo の宣言をみてください。
+</para>
+<programlisting>&lt;!ELEMENT DocInfo - - (Title, TitleAbbrev?, Subtitle?, AuthorGroup+, Abstract*, RevHistory?, LegalNotice*) -(%ubiq.gp;) >
+</programlisting>
+<para>これは、DocInfo に、少くともひとつの Title とひとつまたは複数の AuthorGroup が必須であり、オプションでさまざまな他の要素を含むことができることを宣言しています。次に、それらがどのように構築されるかをみるために、Title 要素と AuthorGroup 要素の宣言をチェックします。
+</para>
+<programlisting>&lt;!ELEMENT Title - - ((%inlinechar.gp;)+) >
+&lt;!ELEMENT AuthorGroup - - ((Author | Editor | Collab | CorpAuthor |
+                OtherCredit)+) >
+
+</programlisting>
+<para>この方法で、Chapter のすべてのサブコンポーネントおよびサブコンポーネントのすべてのサブコンポーネントについて、もっとも内側の要素まで調査し、それらがどのように機能するかを習得するまで続けることによって、Chapter の構築方法を学ぶことができます。
+</para>
+<para>しかしながら、幸いにも、構造化エディタを使用すれば、DTD およびマークアップのタグの形式について設計者が知らなければならないことを最小化できます。構造化エディタのアプリケーションは、DTD を「読み込み」、その多くが中間的な構造タグである各要素に必須のタグを作成します。
+</para>
+<sect3 id="HRDC.Sgml.div.14">
+<title>例</title>
+<para>次の正規マークアップの例は、デスクトップのテキスト・エディタのヘルプ・ボリュームからの抜粋です。関連するオンライン情報を表示するには、フロントパネルで[ヘルプ・ビューア]を選択します。「デスクトップの紹介」を選択し、リストされたボリュームの中から「テキスト・エディタのヘルプ」を選択します。テキスト・エディタ・ボリュームで「テキスト・エディタの使い方」を選択し、次に「既存のドキュメントを開くには」を選択します。
+</para>
+<para>テキストと関連する要素タグを読みやすくするために、この例では、字下げと余分な空白を使用しています。実際のマークアップでは、字下げと余分な空白の使用が、必ずしも必要ではないことを忘れないでください。
+</para>
+<programlisting>&lt;sect2 id=&ldquo;TOOPENANEXISTINGDOCUMENT&rdquo;>
+        &lt;title>既存のドキュメントを開くには&lt;/title>
+&lt;para>テキスト・エディタまたはファイル・マネージャを使用して既存のファイルを開くことができます。&lt;/para>
+
+&lt;IndexTerm>&lt;primary>ドキュメント      &lt;secondary>開く&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;IndexTerm>&lt;primary>開く
+        &lt;secondary>既存のドキュメント&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;para>テキスト・エディタで既存のドキュメントを開くには&lt;/para>
+
+&lt;OrderedList>
+&lt;ListItem>
+        &lt;para> [ファイル]メニューから[開く]を選択します。&lt;/para>
+        &lt;para> ファイル選択ダイアログ・ボックスに、システムのファイルとフォルダの一覧が表示されます。表示されたドキュメントの一覧をブラウズしたり、システムの別のファイルをみるために、別のフォルダに変更することができます。&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+        &lt;para> [ファイル]リストから開きたいドキュメントを選択するか、[ファイルを開く]フィールドにファイル名を入力します。&lt;/para>
+        &lt;para>&lt;emphasis>あるいは&lt;/emphasis> ドキュメントが現在のフォルダにない場合は、まず目的のドキュメントがあるフォルダに変更します。次に[フォルダ]リストから名前を選択するか、入力域かフォルダ名フィールドに変更したいフォルダのパス名を入力します。&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+        &lt;para> リターン・キーを押すか、[了解]をクリックします。&lt;/para>
+&lt;/ListItem>
+
+&lt;/OrderedList>
+
+&lt;graphic id="some-graphic-id"        entityref="some-graphic-entity">&lt;/graphic>
+
+&lt;para>ファイル・マネージャで既存のドキュメントを開くには&lt;/para>
+
+&lt;IndexTerm>&lt;primary>開く
+        &lt;secondary>ファイル・マネージャでドキュメントを〜&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;IndexTerm>&lt;primary>document
+        &lt;secondary>ファイル・マネージャで開く&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;IndexTerm>&lt;primary>ファイル・マネージャ
+        &lt;secondary>ドキュメントを開く&lt;/secondary>
+&lt;/primary>&lt;/IndexTerm>
+
+&lt;OrderedList>
+
+&lt;ListItem>
+        &lt;para>ファイル・マネージャ・ウィンドウで、ドキュメントのファイル・アイコンを表示します。&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+&lt;para> 次のうちの<emphasis>ひとつを</emphasis>実行します。&lt;/para>
+&lt;InformalList>
+
+&lt;ListItem>
+&lt;para>ドキュメントのファイル・アイコンをダブルクリックします。&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+&lt;para>ドキュメントを選択し、[選択]メニューから[開く]を選択します。&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+&lt;para>ドキュメントをフロントパネルのテキスト・エディタのコントロールにドラッグします。&lt;/para>
+&lt;/ListItem>
+
+&lt;/InformalList>
+&lt;/ListItem>
+
+&lt;/OrderedList>
+
+&lt;sect3>
+        &lt;title>See Also&lt;/title>
+
+&lt;InformalList>
+
+&lt;ListItem>
+        &lt;para>&lt;xref linkend="some-sect-id" endterm="some-sects-title-id">&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+        &lt;para>&lt;xref linkend="another-sect-id" endterm="another-sects-title-id">&lt;/para>
+&lt;/ListItem>
+
+&lt;ListItem>
+        &lt;para>&lt;xref linkend="some-other-sect-id" endterm="some-other-sects-title-id">&lt;/para>
+&lt;/ListItem>
+
+&lt;/InformalList>
+
+&lt;sect3>
+&lt;sect2>
+
+</programlisting>
+</sect3>
+</sect2>
+<sect2 id="HRDC.Sgml.div.15">
+<title id="HRDC.Sgml.mkr.10">ファイル・エンティティ宣言</title>
+<para>正規マークアップでファイル・エンティティを宣言するには、次の形式を使用します。
+</para>
+<programlisting>&lt;!entity <symbol>entityname</symbol>  SYSTEM " <symbol>filename</symbol>"></programlisting>
+<para><symbol>entityname</symbol> はエンティティ名で、<symbol>filename</symbol> はファイル名です。キーワード <computeroutput>SYSTEM</computeroutput> は必須です。</para>
+<sect3 id="HRDC.Sgml.div.16">
+<title>例</title>
+<para>次の例は、３つのテキスト・から成り、グラフィック・イメージをひとつ含むヘルプ・ボリュームのエンティティ宣言です。
+</para>
+<programlisting>
+&lt;!entity <symbol>MetaInformation</symbol> SYSTEM "<symbol>metainfo</symbol>">
+
+&lt;!entity <symbol>BasicTasks</symbol> SYSTEM "<symbol>basics</symbol>">
+
+&lt;!entity <symbol>AdvancedFeatures</symbol> SYSTEM "<symbol>advanced</symbol>">
+
+&lt;!entity <symbol>process_diagram</symbol> SYSTEM "<symbol>process.tif</symbol>">
+
+</programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->

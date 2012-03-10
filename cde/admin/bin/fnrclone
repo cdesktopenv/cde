@@ -1,0 +1,140 @@
+#! /bin/sh
+
+# This shell script runs findnewrcs on a clone tree.
+
+# Usage
+DoUsage()
+{
+	cat << dernier
+Usage: fnrclone [-OPTIONS] <source> <destination>   
+	where OPTIONS are:
+        [-c (checkout any new versions of files from RCS)]
+        [-s (create a script & log file in $HOME/fnrclone and
+	    execute the script)]
+        [-n (leave actual files, not symbolic links)]
+	[-f <logfile name> (create a log file of changes)]
+	[-d (descend symbolically linked directories)]
+	[-S (do not follow symbolic links for files)
+        [-O (do not check out files, Only create symbolic links for existing files)
+	[-C (process SCCS directories[usually they are ignored])
+        [-u Usage message]
+NOTE: the default is make symbolic links and don't check out newer
+      revisions of files, just shadow the source. If the RCS directory is 
+      accessible, check out any brand new files as real files. If the
+      RCS directory is not accessible (remote exchange), do NOT check out
+      any brand new files.
+dernier
+}
+			
+		
+if [ $# -lt 2 ] ; then
+	DoUsage
+	exit 1
+fi
+
+DEF_s="L"
+DEF_X="X"
+LINKOPT="l"
+ACTUAL=
+#Parse the options
+set -- `getopt csSCOdnuf: $*`
+while [ $# -gt 0 ]
+do
+	case $1 in
+		-n) LINKOPT= ;shift;;
+		-s) DEF_X=;shift;;
+		-S) DEF_S=s;shift;;
+		-c) DEF_s=;shift;;
+		-C) DEF_C=C;shift;;
+		-O) DEF_O=O;shift;;
+		-u) DoUsage;shift;;
+		-f) LOG=$2;shift 2;;
+		-d) ACTUAL="${ACTUAL}f";shift;;
+		--) shift;;
+		-*) DoUsage;shift;;
+		 *) SRC=$1;DEST=$2;shift 2;;
+	esac
+done
+
+OPTS="${DEF_X}${DEF_s}${DEF_S}${DEF_C}${DEF_O}${ACTUAL}${LINKOPT}miA"
+
+#
+# get the system from uname -s
+#
+SYSTEM=`uname -s`
+RELEASE=`uname -r`
+MACHINE=`uname -m`
+
+Findnewrcs="findnewrcs.${SYSTEM}"
+if [ "$SYSTEM" = "HP-UX" ];then
+	# 700's
+	M700=`echo $MACHINE | fgrep '/7' 2>/dev/null` 
+	M800=`echo $MACHINE | fgrep '/8' 2>/dev/null`
+	R100=`echo $RELEASE | fgrep '10.' 2>/dev/null` 
+	R90=`echo $RELEASE | fgrep '9.' 2>/dev/null` 
+	R80=`echo $RELEASE | fgrep '8.' 2>/dev/null` 
+	R70=`echo $RELEASE | fgrep '7.' 2>/dev/null` 
+	if [ "$M700" ]; then
+		if [ "$R100" ];then
+			Findnewrcs="findnewrcs.700.100"
+		elif [ "$R80" ];then
+			Findnewrcs="findnewrcs.700.807"
+		fi
+	elif [ "$M800" ]; then
+		if [ "$R100" ];then
+			Findnewrcs="findnewrcs.800.100"
+		elif [ "$R90" ];then
+			Findnewrcs="findnewrcs.800.90"
+		elif [ "$R80" ];then
+			Findnewrcs="findnewrcs.800.80"
+		else
+			Findnewrcs="findnewrcs.800.70"
+		fi
+	else
+		if [ "$R90" ];then
+			Findnewrcs="findnewrcs.300.90"
+		elif [ "$R80" ];then
+			Findnewrcs="findnewrcs.300.80"
+		fi
+	fi
+fi
+			
+if [ "$SYSTEM" = "SunOS" ];then
+
+  if [ "$MACHINE" = "i86pc" ];then
+    Findnewrcs="findnewrcs.UNIX_SV"
+  elif [ "$MACHINE" = "prep" ];then
+    Findnewrcs="findnewrcs.SunOS_PPC"
+  else
+    Findnewrcs="findnewrcs.SunOS"
+  fi
+
+fi
+
+#
+# make an old style script
+#
+FNR_BINDIR=`dirname $0`
+if [ ! "$DEF_X" ];then
+	DATE=`date +%H%M%S`
+	FNR_DIR=/$HOME/fnrclone
+	[ ! -d $FNR_DIR ] && mkdir $FNR_DIR
+	FNR_SCRIPT=$FNR_DIR/script$DATE
+	FNR_LOG=$FNR_DIR/log$DATE
+	$FNR_BINDIR/$Findnewrcs -S${SRC} -W${DEST} -${OPTS} > $FNR_SCRIPT 2> $FNR_LOG
+	chmod 777 $FNR_SCRIPT
+	chmod 777 $FNR_LOG
+	$FNR_SCRIPT
+	echo "`basename $0`: script is in $FNR_SCRIPT, logfile is $FNR_LOG"
+	if [ "$LOG" ];then
+		cat $FNR_LOG > $LOG
+		echo "logfile is also in $LOG"
+	fi
+else # execute without a script
+	if [ "$LOG" ];then
+		$FNR_BINDIR/$Findnewrcs -S${SRC} -W${DEST} -${OPTS} 2> $LOG
+	else 
+		$FNR_BINDIR/$Findnewrcs -S${SRC} -W${DEST} -${OPTS}
+	fi
+fi
+

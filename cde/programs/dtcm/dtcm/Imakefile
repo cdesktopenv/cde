@@ -1,0 +1,119 @@
+XCOMM $TOG: Imakefile /main/19 1998/04/09 11:46:13 mgreess $
+
+#include <Threads.tmpl>
+
+       INCLUDES = -I. -I$(CSASRC) -I../libDtCmP -I$(DTHELPSRC)
+  SYS_LIBRARIES = -lm $(ICONVSYSLIB)
+       DTCMPLIB = ../libDtCmP/libDtCmP.a
+
+        DEPLIBS = $(DEPCSALIB) DepDtClientLibs
+LOCAL_LIBRARIES = ../libDtCmP/libDtCmP.a $(CSALIB) DtClientLibs
+  SYS_LIBRARIES = DtClientSysLibs DtClientExtraLibs
+
+ OSMAJORVERSION = OSMajorVersion
+ OSMINORVERSION = OSMinorVersion
+        DEFINES = -DSVR4 -DREL="$(OSMAJORVERSION)$(OSMINORVERSION)" \
+	-DRELMAJOR="$(OSMAJORVERSION)" -DRELMINOR="$(OSMINORVERSION)" \
+	$(ICONV_INBUF_DEFINE)
+
+#if defined(RsArchitecture) || defined(USLArchitecture) || defined(UXPArchitecture) || defined(LinuxArchitecture)
+TTY_LIBRARIES = $(LOCAL_LIBRARIES) 
+#elif defined(AlphaArchitecture)
+TTY_LIBRARIES = $(DTCMPLIB) $(CSALIB) $(DTSVCLIB) $(XTOOLLIB) $(XLIB)
+#else
+TTY_LIBRARIES = $(DTCMPLIB) $(CSALIB) $(DTSVCLIB)
+#endif
+
+#ifdef RsArchitecture
+EXTRA_LIBRARIES	= -lrpcsvc -lPW -ldiag
+#endif
+
+#ifdef HPArchitecture
+EXTRA_LIBRARIES	= -lrpcsvc -lV3
+#endif
+
+#ifdef SunArchitecture
+XCOMM Uncomment to build using Federated Naming Services.  To activate
+XCOMM you must set the UseFNS resource to True before runnin dtcm.
+XCOMM #define UseFNS
+
+#ifdef UseFNS
+EXTRA_DEFINES = -DFNS -DPOSIX_THREADS -DSunOS=$(OSMAJORVERSION)$(OSMINORVERSION)
+#else
+EXTRA_DEFINES = -DSunOS=$(OSMAJORVERSION)$(OSMINORVERSION)
+#endif
+
+EXTRA_CCOPTIONS = -xstrconst -Xc -v
+EXTRA_LIBRARIES = $(FNS_EXTRA_LIBS)
+#endif
+
+PROG1 = dtcm
+SRCS1 =	MonthPanel.c	RFCMIME.c	about.c \
+	alarm.c		blist.c		browser.c \
+	calendarA.c	cm_i18n.c	cmtt.c \
+	datefield.c	dayglance.c	deskset.c \
+	dnd.c		dssw.c		editor.c \
+	find.c		fns.c		font.c \
+	format.c	goto.c		graphics.c \
+	group_editor.c	help.c		i18nxlate.c \
+	icon.c		md5.c		misc.c \
+	monthglance.c	namesvc.c	print.c \
+	props.c		props_pu.c	reminders.c \
+	rfp.c		select.c	session.c \
+	submit.c	tempbr.c	timezone.c \
+	todo.c		weekglance.c	x_graphics.c \
+	yearglance.c
+OBJS1 = \
+	MonthPanel.o	RFCMIME.o	about.o \
+	alarm.o		blist.o		browser.o \
+	calendarA.o	cm_i18n.o	cmtt.o  \
+	datefield.o	dayglance.o	deskset.o \
+	dnd.o		dssw.o		editor.o \
+	find.o		fns.o		font.o  \
+	format.o	goto.o		graphics.o \
+	group_editor.o	help.o		i18nxlate.o \
+	icon.o		md5.o		misc.o  \
+	monthglance.o	namesvc.o	print.o \
+	props.o		props_pu.o	reminders.o \
+	rfp.o		select.o	session.o \
+	submit.o	tempbr.o	timezone.o \
+	todo.o		weekglance.o	x_graphics.o \
+	yearglance.o
+
+PROG2 = dtcm_delete
+SRCS2 = cm_delete.c
+OBJS2 = cm_delete.o
+
+PROG3 = dtcm_insert
+SRCS3 = cm_insert.c
+OBJS3 = cm_insert.o
+
+PROG4 = dtcm_lookup
+SRCS4 = cm_lookup.c
+OBJS4 = cm_lookup.o
+
+PROG5 = dtcm_editor
+SRCS5 = datefield.c	deskset.c	dssw.c \
+	dtcm_editor.c	help.c		misc.c \
+	reminders.c	rfp.c
+OBJS5 = datefield.o	deskset.o 	dssw.o \
+	dtcm_editor.o	help.o		misc.o \
+	reminders.o	rfp.o
+
+PROGRAMS = $(PROG1) $(PROG2) $(PROG3) $(PROG4) $(PROG5)
+
+ICONS = \
+	busy.icon		cmgr.icon \
+	cmgrmask.icon		compose.icon \
+	compose.mask.icon	contract_xbm \
+	drag_mask_xbm		drag_xbm \
+	expand_xbm		icon_pixmap_xbm \
+	postup_xbm		xm_error_xbm \
+	xm_information_xbm	xm_question_xbm \
+	xm_warning_xbm
+
+ComplexProgramTarget_1($(PROG1),$(LOCAL_LIBRARIES),)
+ComplexProgramTarget_2($(PROG2),$(TTY_LIBRARIES),)
+ComplexProgramTarget_3($(PROG3),$(TTY_LIBRARIES),)
+ComplexProgramTarget_4($(PROG4),$(TTY_LIBRARIES),)
+ComplexProgramTarget_5($(PROG5),$(LOCAL_LIBRARIES),)

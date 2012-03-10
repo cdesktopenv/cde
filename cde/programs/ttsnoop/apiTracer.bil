@@ -1,0 +1,117 @@
+// $XConsortium: apiTracer.bil /main/2 1996/11/11 11:56:43 drk $
+:bil-version	1 0
+:module apiTracer
+(
+
+:element tracer
+(
+	:type			:dialog
+	:x			673
+	:y			233
+	:width			887
+	:height			319
+	:bg-color		"white"
+	:label			"tt_trace_control"
+	:resizable		:true
+	:visible		:false
+	:help-button		helpButton
+	:children		(
+		tracePane
+		dialog_button_panel
+	)
+)
+:element tracePane
+(
+	:type			:term-pane
+	:x			0
+	:y			0
+	:border-frame		:shadow-in
+	:num-rows		24
+	:num-columns		123
+	:vscrollbar		:always
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj tracer 0)
+	:east-attachment	(:obj tracer 0)
+	:west-attachment	(:point 0 0)
+	:help-text		"tt_trace_control(3)\ntttracefile(4)\n"
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			887
+	:height			48
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		closeButton
+		cancelButton
+		helpButton
+	)
+)
+:element closeButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Close"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 30 0)
+	:west-attachment	(:grid-line 10 0)
+)
+:element cancelButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Stop"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 60 0)
+	:west-attachment	(:grid-line 40 0)
+	:help-text		"tt_trace_control(3)\n"
+)
+:element helpButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 90 0)
+	:west-attachment	(:grid-line 70 0)
+)
+:connection
+(
+	:from			closeButton
+	:to			tracer
+	:when			:activate
+	:action-type		:builtin
+	:action			:hide
+	:arg-type		:void
+)
+:connection
+(
+	:from			cancelButton
+	:when			:activate
+	:action-type		:call-function
+	:action			stopApiTracing
+)
+:connection
+(
+	:from			helpButton
+	:when			:activate
+	:action-type		:call-function
+	:action			helpApiTracing
+)
+)

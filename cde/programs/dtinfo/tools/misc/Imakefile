@@ -1,0 +1,24 @@
+XCOMM $XConsortium: Imakefile /main/7 1996/08/21 15:56:17 drk $
+
+XCOMM These tools are used during "make includes".
+includes:: all
+
+NormalLibraryObjectRule()
+AllTarget(dfiles)
+NormalProgramTarget(dfiles,dfiles.o,,,)
+AllTarget(pmaker)
+NormalProgramTarget(pmaker,pmaker.o,,,)
+
+#ifdef RegenParserFiles
+SimpleCPlusPlusLexTarget(msgsets)
+#else
+msgsets.o : msgsets.C
+	CplusObjectCompile($(_NOOP_))
+#endif
+SimpleCPlusPlusProgram(msgsets,msgsets.o,)
+
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+SRCS = dfiles.c pmaker.c msgsets.C
+
+DependTarget()

@@ -1,0 +1,146 @@
+<!-- $XConsortium: Concepts.sgm /main/5 1996/12/18 02:23:45 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<!-- Help volume: Loginmgr -->
+<!-- File name:   Concepts -->
+<Chapter Id="Concepts">
+<Title>ログイン・マネージャの概念</Title>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HLGMGR.CNCP.item.1">
+<Para> <XRef Linkend="SessionsSI"></Para>
+</ListItem>
+<ListItem Id="HLGMGR.CNCP.item.2">
+<Para> <XRef Linkend="StartOtherTypesSessionsSI"></Para>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="SessionsSI">
+<Title>デスクトップ・セッションの紹介</Title>
+<IndexTerm>
+<Primary>開始: デスクトップ・セッション</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>デスクトップ・セッションへのログイン</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>デスクトップ: セッションの開始</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>セッション: デスクトップの開始</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>使い方: ホーム・セッション</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>ホーム・セッション: 定義</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>現在の定義セッション</Primary>
+</IndexTerm>
+<Para>セッションは、デスクトップ上に表示されるアプリケーション、設定、およびリソースの集合です。
+デスクトップ・セッションは、ログイン時からログアウト時までです。
+ログイン・マネージャが作成するログイン画面は、デスクトップへのゲートウェイです。
+ログイン画面は、ユーザがユーザ ID とパスワードを入力する場所です。</Para>
+<Para>ログイン画面の [オプション] メニューは、オプションを表示します。
+デスクトップ・セッションの実行に加えて、復旧セッションを選択できます。
+また、セッションの言語を選択できます。</Para>
+<Para>ログイン・マネージャがユーザのユーザ ID とパスワードを認証後、セッション・マネージャが起動されます。
+セッション管理は、共通デスクトップ環境のセッション・マネージャのような、特別なセッションで保存および復元できる命名規則とプロトコルの集合です。
+ユーザがシステムにログインすると、ログアウト時点で表示されていた実行中のアプリケーション、設定およびリソースと同じセットが表示されます。
+セッション・マネージャは、以下を保存および復元します。</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HLGMGR.CNCP.item.3">
+<Para> 設定の外観と動作&emdash; フォント、カラー、マウス設定など。</Para>
+</ListItem>
+<ListItem Id="HLGMGR.CNCP.item.4">
+<Para> 実行中のウィンドウ・アプリケーション&emdash; ファイル・マネージャとテキスト・エディタ・ウィンドウなど。
+  ある種の型のアプリケーションは、セッション・マネージャでは、保存および復元できません。
+  たとえば、ユーザが <ComputerOutput>vi</ComputerOutput> エディタを端末エミュレータ・ウィンドウのコマンド行で起動した場合には、セッション・マネージャは、編集セッションを復元できません。</Para>
+</ListItem>
+</ItemizedList>
+<Para>ユーザが初めてデスクトップにログインすると、デフォルトの初期セッションが読み込まれます。
+以後は、セッション・マネージャが、現在のセッションおよびホーム・セッションの概念をサポートします。</Para>
+<Procedure>
+<Title>初期セッション</Title>
+<Step>
+<Para>ユーザが初めてデスクトップにログインした時に、セッション・マネージャは、ユーザの初期セッションをシステムのデフォルト値を使用して作成します。
+デフォルトでは、ファイル・マネージャと、共通デスクトップ環境の紹介が自動的に起動されます。
+
+</Para>
+</Step>
+</Procedure>
+<Procedure>
+<Title>現在のセッション</Title>
+<Step>
+<Para>通常、デスクトップはセッション情報をログアウト時に保存して、その情報を次回のセッションを開始する際に使用します。
+セッション中にアプリケーションを起動または中止した場合、または、スタイル・マネージャを使用してシステムの外観と動作を変更した場合には、変更内容は次回のセッションから反映されます。</Para>
+<Para>実行中のセッションは、保存したホーム・セッションからログイン時に復元されたか、現在のセッションを保存したか、それともシステムのデフォルト初期セッションであるかにかかわらず、常に <GlossTerm>現在のセッション</GlossTerm> と見なされます。
+セッションを終了する時には、スタイル・マネージャの起動設定に基づき、セッション・マネージャが自動的に現在のセッションを保存します。
+デスクトップに次回にログインする時は、前に保存した現在のセッションが復元されます。これは、デスクトップが、最後にログアウトした時点と同じ状態に復元されるという意味です。</Para>
+</Step>
+</Procedure>
+<Procedure>
+<Title>ホーム・セッション</Title>
+<Step>
+<Para>デスクトップは、<GlossTerm>ホーム・セッション</GlossTerm> も提供します。ホーム・セッションは、ユーザが明示的に保存するセッションです。
+これは、ユーザの現在のセッションのある時点のスナップショットを取るのに似ています。
+一度ホーム・セッションを保存すると、次回のログイン時に、デスクトップが現在のセッションの代わりにホーム・セッションを復元するように指定できます。</Para>
+<Para>以下の使い方を参照してください。</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HLGMGR.CNCP.item.5">
+<Para> <XRef Linkend="ToSaveHomeSessionTA"></Para>
+</ListItem>
+<ListItem Id="HLGMGR.CNCP.item.6">
+<Para> <XRef Linkend="ToRestoreHomeSessionTA"></Para>
+</ListItem>
+<ListItem Id="HLGMGR.CNCP.item.7">
+<Para> <XRef Linkend="ToDecideOnSessionAtLogout"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+</Sect1>
+<Sect1 Id="StartOtherTypesSessionsSI">
+<Title>他のログイン方法</Title>
+<IndexTerm>
+<Primary>セッション: 通常以外のタイプ</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>開始: 復旧セッション</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>開始: コマンド行ログイン・モード・セッション</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>復旧セッション: 開始</Primary>
+</IndexTerm>
+<IndexTerm>
+<Primary>コマンド行ログイン・モード: セッションの開始</Primary>
+</IndexTerm>
+<Para>通常のデスクトップ・セッションに加えて、追加のタイプのセッションがあります。
+</Para>
+<VariableList>
+<VarListEntry>
+<Term> 復旧セッション </Term>
+<ListItem>
+<Para> 復旧セッションは、端末エミュレータ・ウィンドウとウィンドウ・マネージャを提供します。
+	これは、他のデスクトップ・セッションにログインする前にいくつかのコマンドを実行するのに役立ちます。
+	(<XRef Linkend="ToLoginToFailsafeTA">を参照してください。)</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term> コマンド行ログイン </Term>
+<ListItem>
+<Para> コマンド行ログインでは、一時的にデスクトップを離れて、システムのコンソールに対して作業することができます。
+	(<XRef Linkend="ToEnterCommandLineLoginTA">を参照してください。)</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- EOF: Concepts -->
+</Sect1>
+</Chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 16:39:31-->

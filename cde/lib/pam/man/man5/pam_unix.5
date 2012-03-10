@@ -1,0 +1,206 @@
+.\" $XConsortium: pam_unix.5 /main/5 1996/10/29 15:42:45 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam_unix 5 "19 Jan 1996"
+.SH NAME
+pam_unix \- authentication, account, session, and password management PAM modules for UNIX
+.SH SYNOPSIS
+.LP
+.B /usr/lib/security/pam_unix.so.1
+.LP
+.SH DESCRIPTION
+.IX "pam_unix" "" "\fLpam_unix\fP \(em authentication, account, session and password management for UNIX"
+.PP
+The UNIX service module for PAM,
+.BR /usr/lib/security/pam_unix.so.1 ,
+provides functionality for all four
+PAM modules: authentication, account management, session management
+and password management.
+The
+.B pam_unix.so.1
+ module is a shared object
+that can be dynamically loaded to provide
+the necessary functionality upon demand.
+Its path is specified in the
+.SM PAM
+configuration file.
+.SH Unix Authentication Module
+The UNIX authentication component
+provides functions to verify the identity of a user,
+(\f3pam_sm_authenticate(\|)\f1)
+and to set user specific credentials
+(\f3pam_sm_setcred(\|)\f1).
+.B pam_sm_authenticate(\|) 
+compares the user entered password with the password from UNIX password
+database.  If the passwords match, the user is authenticated.
+If the user also has secure
+.SM RPC
+credentials and the secure
+.SM RPC
+password is the same as the
+.SM UNIX
+password, then the secure
+.SM RPC
+credentials are also obtained.
+.LP
+The following options may be passed to the UNIX service module:
+.RS
+.IP debug 15
+.BR syslog (3)
+debugging information at LOG_DEBUG level
+.IP nowarn 15
+turn off warning messages
+.IP use_first_pass 15
+It compares the password in the password database with the user's initial
+password (entered when the user authenticated to the first authentication
+module in the stack).  If the passwords do not match, or if no password
+has been entered,
+quit and do not prompt the user for a password.  This option should
+only be used if the authentication service is designated as
+.I optional
+in the
+.B pam.conf
+configuration file.
+.IP try_first_pass 15
+It compares the password in the password database with the user's initial
+password (entered when the user authenticated to the first authentication
+module in the stack).  If the passwords do not match, or if no password
+has been entered,
+prompt the user for a password.
+.RE
+.LP
+When prompting for the current password, the UNIX authentication
+module will use the prompt, "password:" unless one of
+the following scenarios occur:
+.RS 6
+.TP 5
+1.
+The option try_first_pass is specified and the password entered for the
+first module in the stack fails for the
+.SM UNIX
+module.
+.TP
+2.
+The option try_first_pass is not specified,
+and the earlier authentication modules listed in the
+.B pam.conf
+file have prompted the user for the password.
+.RE
+.LP
+In these two cases, the UNIX authentication module will use
+the prompt "UNIX password:".
+.LP
+The
+.B pam_sm_setcred(\|)
+function sets user specific credentials.
+If the user had secure
+.SM RPC
+credentials, but the secure
+.SM RPC
+password was not the same as the
+.SM UNIX password,
+then a warning message is printed.
+If the user wants to get secure
+.SM RPC
+credentials, then
+.BR keylogin (1)
+needs to be run.
+.SH Unix Account Management Module
+The UNIX account management component
+provides a function to perform account management
+(\f3pam_sm_acct_mgmt\f1()).
+The function
+retrieves the user's password entry from the UNIX password database
+and verifies that the user's account and password
+have not expired.
+The following options may be passed in to the UNIX service module:
+.RS
+.IP debug 15
+.BR syslog (3)
+debugging information at LOG_DEBUG level
+.IP nowarn 15
+turn off warning messages
+.RE
+.SH Unix Session Management Module
+The UNIX session management component
+provides functions to initiate
+(\f3pam_sm_open_session(\|)\f1)
+and terminate
+(\f3pam_sm_close_session(\|)\f1)
+UNIX sessions.
+For UNIX ,
+.B pam_open_session
+updates the
+.B /var/adm/lastlog
+file.
+The account management module reads this file to 
+determine the previous time the user logged in.
+The following options may be passed in to the UNIX service module:
+.RS
+.IP debug 15
+.BR syslog (3)
+debugging information at LOG_DEBUG level
+.IP nowarn 15
+turn off warning messages
+.RE
+.LP
+.B pam_close_session
+is a NULL function.
+.SH Unix Password Management Module
+The UNIX password management component
+provides a function to change passwords
+(\f3pam_sm_chauthtok(\|)\f1)
+in the UNIX password database.
+This module must be
+.I required
+in
+.B pam.conf.
+It can not be
+.I optional
+or
+.I sufficient.
+The following options may be passed in to the UNIX service module:
+.RS
+.IP debug 15
+.BR syslog (3)
+debugging information at LOG_DEBUG level
+.IP nowarn 15
+turn off warning messages
+.IP use_first_pass 15
+It compares the password in the password database with the user's old
+password (entered to the first password module in the stack).
+If the passwords do not match, or if no password has been entered,
+quit and do not prompt the user for the old password.  It also attempts
+to use the new password (entered to the first password module in the stack)
+as the new password for this module.  If the new password fails,
+quit and do not prompt the user for a new password.
+.IP try_first_pass 15
+It compares the password in the password database with the user's old
+password (entered to the first password module in the stack).
+If the passwords do not match, or if no password has been entered,
+prompt the user for the old password.  It also attempts
+to use the new password (entered to the first password module in the stack)
+as the new password for this module.  If the new password fails,
+prompt the user for a new password.
+.RE
+.LP
+If the user's password has expired, the UNIX account module saves
+this information in the authentication handle using
+.BR pam_set_data(\|) ,
+with a unique name,
+SUNW_UNIX_AUTHOK_DATA.
+The UNIX password module retrieves this information
+from the authentication handle using
+.B pam_get_data(\|)
+to determine whether or not to force the
+user to update their password.
+.SH "SEE ALSO"
+.BR keylogin (1),
+.BR pam (3),
+.BR pam_authenticate (3),
+.BR pam_setcred (3),
+.BR syslog (3),
+.BR pam.conf (4)

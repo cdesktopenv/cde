@@ -1,0 +1,58 @@
+XCOMM $XConsortium: Imakefile /main/8 1996/10/09 14:10:48 drk $
+
+       INCLUDES = -I. -I$(DTINCLUDESRC) 
+LOCAL_INCLUDES  = -I$(TOP)/lib/
+LOCAL_LIBRARIES = $(SYNLIB) $(XEXT) $(XLIB)
+SYS_LIBRARIES = -lm
+
+
+EXTRA_DEFINES = -DLOG -DSYNLIB
+
+XCOMMifdef HPArchitecture
+EXTRA_DEFINES = -DLOG -DSYNLIB
+#endif
+#if defined(HPOSFArchitecture)
+#endif
+
+#if defined(ApolloArchitecture)
+EXTRA_DEFINES = -Dapollo -D_CMDINV
+#if defined(SHLIB)
+   LOCAL_LIBRARIES = -A inlib,$(XLIB)
+#endif
+#endif
+
+#if defined(SunArchitecture)
+SYS_LIBRARIES = -lm -ldl -lgen -lC
+#endif
+
+#if defined(USLArchitecture)
+SYS_LIBRARIES = -lm -ldl -lgen
+#endif
+
+#if defined(UXPArchitecture)
+SYS_LIBRARIES = -lm -ldl -lgen
+#endif
+
+SRCS = synfunc.c \
+       esclib.c \
+       qalib.c
+       
+OBJS = synfunc.o \
+       esclib.o \
+       qalib.o
+
+NormalLibraryObjectRule()
+
+
+NormalLibraryTarget(termtest,$(OBJS))
+
+
+saber_src: $(SRCS) 
+	XCOMM setopt load_flags $(CFLAGS)
+        XCOMM load $(SRCS) $(LOCAL_LIBRARIES)
+
+unsaber_src:
+        XCOMM unload $(SRCS)
+
+
+

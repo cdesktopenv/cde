@@ -1,0 +1,23 @@
+XCOMM $TOG: Imakefile /main/5 1997/03/05 11:10:37 damon $
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+/* due to split-VOB setup, force help to come last in make Makefiles */
+SUBDIRS = guides m-guides help
+BSUBDIRS = help guides m-guides
+
+XCOMM work around local clearcase vobs setup
+MakeDirectories(all,help-sdl cde.dti)
+
+XCOMM We need to build Motif documentation as part of CDE
+MakeDirectories(Makefiles,m-guides)
+Makefiles::
+	$(RM) m-guides/?*; \
+	cd m-guides; \
+	$(LN) ../$(MDOCSRC)/ja_JP.dt-eucJP/guides/?* .; \
+	cd ..
+
+MakeSubdirs($(BSUBDIRS))
+
+clean::
+	$(RM) -r help-sdl cde.dti

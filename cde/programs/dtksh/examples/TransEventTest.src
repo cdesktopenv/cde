@@ -1,0 +1,80 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: TransEventTest.src /main/3 1996/04/23 20:19:07 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script verifies that the augment and override
+XCOMM  capabilities for translations work as expected.  Since augmenting
+XCOMM  a translation does not replace an existing translation, the first
+XCOMM  pushbutton should only use our button3 translation.  Since overriding
+XCOMM  a translation replaces an existing translation, the second pushbutton
+XCOMM  should use both our Enter and button1 translations.
+XCOMM 
+XCOMM  It also demonstrates access to the TRANSLATION_EVENT convenience
+XCOMM  environment variable.
+XCOMM 
+
+XCOMM  EnterNotify handler
+Enter()
+{
+   echo EnterNotify
+   echo "Event = "${TRANSLATION_EVENT}
+   echo "Event.type = "${TRANSLATION_EVENT.TYPE}
+   echo "Event.xany.window = "${TRANSLATION_EVENT.XANY.WINDOW}
+}
+
+XCOMM  ButtonDown handler; $1 indicates which button
+BtnDown()
+{
+   echo "ButtonDown ("$1")"
+   echo "Event = "${TRANSLATION_EVENT}
+   echo "Event.type = "${TRANSLATION_EVENT.TYPE}
+   echo "Event.xany.window = "${TRANSLATION_EVENT.XANY.WINDOW}
+   echo "Event.xbutton.x = "${TRANSLATION_EVENT.XBUTTON.X}
+   echo "Event.xbutton.y = "${TRANSLATION_EVENT.XBUTTON.Y}
+}
+
+XCOMM  Default activate callback for the pushbuttons; should only get called
+XCOMM  for the first pushbutton (augmented one).
+Activate()
+{
+   echo "Activate ("$1")"
+}
+
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL transEventTest TransEventTest "$0" "$@"
+XtSetValues $TOPLEVEL allowShellResize:True
+
+XtCreateManagedWidget RC rc XmRowColumn $TOPLEVEL \
+         orientation:HORIZONTAL \
+         numColumns:2 \
+         packing:PACK_COLUMN 
+
+XtCreateManagedWidget PB1 pb1 XmPushButton $RC \
+	labelString:"Augmented Button" \
+	translations:'#augment
+	 	<EnterNotify>:ksh_eval("Enter") 
+ 		<Btn1Down>:ksh_eval("BtnDown 1")
+ 		<Btn3Down>:ksh_eval("BtnDown 3")'
+XtAddCallback $PB1 activateCallback "Activate 1"
+
+XtCreateManagedWidget PB2 pb2 XmPushButton $RC \
+	labelString:"Overridden Button" \
+	translations:'#override
+	 	<EnterNotify>:ksh_eval("Enter") 
+		<Btn1Down>:ksh_eval("BtnDown 1")'
+XtAddCallback $PB2 activateCallback "Activate 2"
+
+XtRealizeWidget $TOPLEVEL
+
+XtMainLoop

@@ -1,0 +1,156 @@
+<!-- $XConsortium: InfoShow.sgm /main/2 1996/09/20 11:10:27 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.INFO.showtopic">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.INFO.showtopic">]]>
+
+<RefMeta>
+<RefEntryTitle>DtInfoShowTopic</RefEntryTitle>
+<ManVolNum>API</ManVolNum>
+</RefMeta>
+
+<RefNameDiv>
+<RefName><Function>DtInfoShowTopic</Function></RefName>
+<RefPurpose>provide the user access to a local information corpus at a specific location
+</RefPurpose>
+</RefNameDiv>
+
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Info.h>
+</FuncSynopsisInfo>
+<FuncDef>DtIfnoShowStatus <Function>DtInfoShowTopic</Function></FuncDef>
+<ParamDef>const char <Parameter>*info_lib</Parameter></ParamDef>
+<ParamDef>const char <Parameter>*locator</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+
+<RefSect1>
+<Title>DESCRIPTION</Title>
+
+<para>
+By invoking <Function>DtInfoShowTopic</Function>, a client application requests that dtinfo display a 
+particular section of data, or topic. <Function>DtInfoShowTopic</Function> sends a ToolTalk message 
+to any active dtinfo process that can access the 
+requested information in the current locale.  The browser is started if it is not already running. This 
+corresponds to invoking the <command>dtinfo</command> command with the <option>-sect</option> option from the command line.
+</para>
+<para>
+The locator parameter must be a valid, resolvable location in the specified or default infolib for dtinfo to 
+display the location.  Unfortunately, there is no way to determine this from the calling application as 
+<function>DtInfoShowTopic</function> will return an ok status as long as the message has been delivered to dtinfo.  In the 
+case of an invalid locator, dtinfo will still map to the current workspace of the invoking application and 
+display an error dialog.
+</para>
+<para>
+This API is implemented in the Desktop Services library, <literal>DtSvc</literal>. To access the DtShowInfoTopic 
+API, include the header file <filename>Dt/Info.h</filename> and link with <literal>-lDtSvc</literal>.
+</para>
+</RefSect1>
+
+<refsect1>
+<Title>ARGUMENTS</Title>
+<VariableList>
+<VarListEntry>
+<Term><symbol role="Variable">*info_lib</symbol></Term>
+<ListItem>
+<Para>
+Specifies a file path, relative or absolute, to an information library. If 
+<symbol role="Variable">info_lib</symbol> is NULL, the browser displays the default information library(s).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><symbol role="Variable">*locator</symbol></Term>
+<ListItem>
+<Para>
+Specifies the information library section in generalized locator format.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">DtINFO_SHOW_OK</SystemItem></Term>
+<ListItem>
+<Para>
+ToolTalk request succesfully sent.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">DtINFO_SHOW_BAD_LOCATOR</SystemItem></Term>
+<ListItem>
+<Para>
+The locator argument is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">DtINFO_SHOW_TT_OPEN_FAIL</SystemItem></Term>
+<ListItem>
+<Para>
+Call to <function>tt_open()</function> failed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">DtINFO_SHOW_MSG_CREATE_FAIL</SystemItem></Term>
+<ListItem>
+<Para>
+Call to <function>tt_message_create()</function> failed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">DtINFO_SHOW_MSG_SEND_FAIL</SystemItem></Term>
+<ListItem>
+<Para>
+Call to <function>tt_message_send()</function> failed.
+</Para>
+</ListItem>
+</VarListEntry>
+</variablelist>
+</RefSect1>
+
+<refsect1>
+<title>ENVIRONMENT</title>
+<variablelist>
+<VarListEntry>
+<Term><SystemItem Class="environvar">DTINFOLIBSEARCHPATH</SystemItem></Term>
+<ListItem>
+<Para>
+Search path environment variable for locating information libraries on 
+local and remote mounted systems.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="environvar">DTINFOLIBDEFAULT</SystemItem></Term>
+<ListItem>
+<Para>
+Specifies the name of the default information library(s) to load if the 
+locator argument is NULL. Multiple information libraries can be 
+specified by a comma separated list.
+</Para>
+</ListItem>
+</VarListEntry>
+</variablelist>
+</RefSect1>
+
+</RefEntry>
+
+
+
+
+

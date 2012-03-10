@@ -1,0 +1,773 @@
+#
+# @(#)magic (AT&T Bell Laboratories) 08/11/95
+#
+# magic number database for the file command
+#
+# the tab separated fields are:
+#
+#	[op]offset	type	[mask]operator	description
+#
+#	+		previous fields must match, current optional
+#	&		previous and current fields must match
+#	{		start nesting block
+#	}		end nesting block
+#	s{		function declaration and call
+#	}		function return
+#	s()		function call
+#
+#	offset		byte offset for magic number test or (@offset) expr
+#			or file meta-data from { atime blocks ctime fstype
+#			gid mode mtime name nlink size uid }
+#	type		{ byte short long quad date edit match date }
+#	mask		optional &number before operator
+#	operator	comparison operator { < <= > >= != == (default) }
+#	description	file description for magic number match
+#
+# numeric values may be decimal, octal, or hex
+# the description string may have one printf format spec for the
+# matched magic number
+#
+
+0	string		VOL1
+&24	string		POSIX		posix archive
+
+0	short		070707		binary cpio archive
+0	string		070707		cpio archive
++76	edit		%!PAX!C!\([^!]*\).*%\1%	, compressed, version %s
++76	edit		%!PAX!D!\([^!]*\).*%\1%	, delta, version %s
++76	string		DELTA!!!	, delta, version 88
++76	match		!(*!*)		, [ %s ... ]
+0	string		070701		System V asc cpio archive
++110	string		*		, [ %s ... ]
+0	string		070702		System V aschk cpio archive
++110	string		*		, [ %s ... ]
+0	long		0177555		System III ar archive
+0	short		0177545		pdp11 ar archive
+0	long		0x04034b50	zip archive
++2	byte		>0		, version %d
+&3	byte		*		.%d
+0	long		0x0d010b05	make object
+o{
++4	byte		<037		(version %ld)
++4	edit		%.*\(../../..\).*%\1%	, version %s
+}
+0	long		0177535		make object, old magic
+o()
+0	long		0x0b130800	ksh binary script
++4	byte		*		, version %ld
+0	string		vkda		delta
++4	byte		>0		(version %ld)
+0	long		0x08091800
++32	string		*		%s
++0	byte		*		hashed index
++4	long		>0		, %d records
++8	long		>0		, %d max
++12	date		>0		, stamp %s
+0	string		\1S\1B\1C\1S	sbcs delta
+0	long		0100554		apl workspace
+0	short		017037		packed data
+0	string		<ar>		System V 1.0 ar archive
+0	string		!<arch>\n/	ar library
++68	long		0x020b0619	, hp s800 relocatable
+0	string		!<arch>\n__.SYMDEF	ar library, ranlib
+0	string		!<arch>\n__________E	ar library, hybrid
+0	string		!<arch>\n_______[0-9_][0-9_][0-9_]E[BL]E[BL]_	ar library, hybrid
+o{
++22	byte		'X'		, out of date
++20	byte		'U'		, ucode members
++21	byte		>='A'		, %c-endian members
++19	byte		>='A'		, %c-endian hash
+}
+0	string		!<arch>\n________64E	ar library, 64 bit hybrid
+o()
+0	string		!<arch>		ar archive
+0	string		<aiaff>\n	aix ar library
+20	short		0xa7dc		zoo archive
+&22	short		0xfdc4
++32	byte		*		, version %ld
++33	byte		*		.%ld
+
+0	long		0x080456
+{
+85	byte		<10		sun
++85	byte		<3		m680%d0
++85	byte		3		sparc
++85	byte		>3		*unknown*
+}
++85	byte		*		core dump
++128	string		*		from `%s'
++132	string		*		from `%s'
+0	long		050632		core dump
+0	long		&0xfff00000==0xe8c00000	Alliant core dump
++160	string		*		from `%s'
+0	long		0xdeadadb0	sgi core dump
++16	string		*		from `%s'
+
+0	long		0x02100106	hp pa-risc object
+0	long		0x02100107	hp pa-risc executable
+o{
++(@144)	long		0x054ef630	, dynamically linked
++96	long		>0		, not stripped
+}
+0	long		0x02100108	hp pa-risc executable, shared
+o()
+0	long		0x0210010b	hp pa-risc executable, demand-load
+o()
+
+0	long		0x020b0106	hp s800 object
+0	long		0x020b0107	hp s800 executable
+o()
+0	long		0x020b0108	hp s800 executable, shared
+o()
+0	long		0x020b010b	hp s800 executable, demand-load
+o()
+0	long		0x0210010e	hp pa-risc shared library
+o()
+
+0	long		0x0210010d	hp pa-risc shared library
+o{
++96	long		>0		, not stripped
+}
+0	long		0x020b010d	hp s800 shared library
+o()
+0	long		0x020b010e	hp s800 shared library
+o()
+
+0	long		0x02080108	hp s500 executable, pure
+o{
++16	long		>0		, version %ld
+}
+0	long		0x02080107	hp s500 executable
+o()
+0	long		0x02080106	hp s500 executable, relocatable
+o()
+0	long		0x020c0108	hp s200 executable, pure
+o{
++36	long		>0		, not stripped
++4	short		>0		, version %ld
+}
+0	long		0x020c0107	hp s200 executable
+o()
+0	long		0x020c010b	hp s200 executable, demand-load
+o()
+0	long		0x020a0108	hp s200 2.x executable, pure
+o()
+0	long		0x020a0107	hp s200 2.x executable
+o()
+0	long		0x020c0106	hp s200 executable, relocatable
++4	short		>0		, version %ld
+0	long		0x0208ff65	hp s500 old archive
+0	long		0x020cff65	hp s200 old archive
+0	long		0x020aff65	hp s200 old archive
+0	short		0x8000		hp lif file
+0	long		0x020c010c	hp compiled Lisp
+0	long		0x4da7eee8	hp windows font
++8	char		>0		, version %ld
+
+0	long		0x50900107	pyramid 90x executable
+o{
++0	long		&0x7=0x3	, paged
++0	long		&0x8		, pure
++16	long		>0		, not stripped
+}
+0	long		0x50900108	pyramid 90x object
+0	long		0x5090010b	pyramid 90x executable
+o()
+
+0	long		0x000001EB	plan9 386 executable
+0	long		0x00000107	plan9 68020 executable
+&mode	long		&0111!=0
+0	long		0x00000197	plan9 hobbit executable
+0	long		0x00000407	plan9 mips executable
+0	long		0x000002AB	plan9 sparc executable
+
+0	long		0x7E004501	plan9 386 object
+0	long		0x4D013201	plan9 68020 object
+0	long		0x430D013C	plan9 hobbit object
+0	long		0x3A11013C	plan9 mips object
+0	long		0x7410013C	plan9 sparc object
+
+0	long		&0x0030FFFF==0x00000064	linux 386
+&0	long		&0x000F0000>0
++20	long		&0xEFDFFFFF==0	executable
++20	long		&0xEFDFFFFF!=0	shared library
++0	long		0x01080064	, pure
++0	long		0x010B0064	, paged
++0	long		0x00CC0064	, paged, no page 0
+{
+20	long		&0xEFDFFFFF==0
+&16	long		>0		, not stripped
+}
+216	long		0421		linux core dump
+
+0	long		0x00cc0064	linux 386 kernel code
++size	long		<600000		, compressed
+510	short		0xaa55		linux 386 kernel image
++size	long		<600000		, compressed
+0	long		0x03010410	minix 386 executable
+0	long		0x000186a3	minix 386 object
+
+0	long		0314		bsd 386 executable, paged, no page 0
++16	long		>0		, not stripped
+0	long		0407		bsd 386 executable
+&mode	long		&0111!=0
++16	long		>0		, not stripped
+0	long		0407		bsd-or-linux 386 object
+0	long		0410		bsd 386 executable, pure
++16	long		>0		, not stripped
+0	long		0413		bsd 386 executable, paged
++16	long		>0		, not stripped
+
+n{
++0	long		<=0		[architecture=%ld]
++0	long		1		[vax]
++0	long		2		[romp]
++0	long		3		[architecture=%ld]
++0	long		4		[ns32032]
++0	long		5		[ns32332]
++0	long		6		[m68k]
++0	long		7		[i386]
++0	long		8		[mips]
++0	long		9		[ns32532]
++0	long		10		[architecture=%ld]
++0	long		11		[hp pa-risc]
++0	long		12		[acorn]
++0	long		13		[m88k]
++0	long		14		[sparc]
++0	long		15		[i860-big]
++0	long		16		[i860]
++0	long		17		[rs6000]
++0	long		18		[powerPC]
++0	long		>=19		[architecture=%ld]
++8	long		magic()
+}
+0	long		0xcafebabe	fat
++4	long		loop(n,8,20)
+0	long		0xfeedface	mach-o
++4	long		<=0		architecture=%ld
++4	long		1		vax
++4	long		2		romp
++4	long		3		architecture=%ld
++4	long		4		ns32032
++4	long		5		ns32332
++4	long		6		m68k
++4	long		7		i386
++4	long		8		mips
++4	long		9		ns32532
++4	long		10		architecture=%ld
++4	long		11		hp pa-risc
++4	long		12		acorn
++4	long		13		m88k
++4	long		14		sparc
++4	long		15		i860-big
++4	long		16		i860
++4	long		17		rs6000
++4	long		18		powerPC
++4	long		>=19		architecture=%ld
++12	long		<=0		filetype=%ld
+{
+12	long		1		relocatable
+&mode	long		&0111!=0
+}
+{
+12	long		1		object
+&mode	long		&0111==0
+}
++12	long		2		executable
++12	long		3		shared library
++12	long		4		core
++12	long		5		preload executable
++12	long		>=6		filetype=%ld
+
+2	short		0407
+m{
+1	byte		<10		sun
++1	byte		<3		m680%d0
++1	byte		3		sparc
++1	byte		>3		*unknown*
+}
++0	byte		!=0xffffffff	object
+2	short		0410
+m()
++0	byte		!=0xffffffff	executable, pure
+o{
+{
+0	byte		&0200
+&20	long		>=0x2000	, dynamically linked
+}
++16	long		>0		, not stripped
+}
+2	short		0413
+m()
+{
+0	byte		&0200
+&20	long		<0x2000		shared library
+}
++0	byte		!=0xffffffff	executable, paged
+o()
+
+0	short		0420		Alliant virtual executable
++16	long		>0		, not stripped
+o{
++2	short		&0x0001		, 68020 only
++2	short		&0x0002		, vector instructions
++2	short		&0x0008		, IP only
++2	short		&0x0010		, CE only
++2	short		&0x0020		, common library
++2	short		&0x0200		, no complex
+}
+0	short		0421		Alliant object
++16	long		0		, no symbols
+o()
+
+0	short		0x01df		aix RISC
+{
+18	short		&0x0002		executable
++18	short		&0x1000		, dynamically linked
++18	short		&0x2000		, shared
++12	long		>0		, not stripped
+}
++18	short		&0x0002==0	object
+0	short		0x0103		aix RT executable
++2	byte		0x50		, pure
++28	long		>0		, not stripped
++6	short		>0		, version %ld
+0	short		0x0104		aix shared library
+0	short		0x0105		aix ctab data
+0	short		0xfe04		aix structured file
+
+0	short		0401		unix-rt ldp
+0	short		0405		old overlay
+0	short		0437		pdp11 kernel overlay
+
+0	short		0407		System III executable
+o{
++16	long		>0		, not stripped
++2	short		>0		, version %ld
+}
+0	short		0410		System III executable, pure
+o()
+0	short		0411		System III executable, separate I&D
+o()
+
+0	long		0407		vax object
+0	long		0410		vax executable, pure
+o{
++16	long		>0		, not stripped
+}
+0	long		0413		vax executable, paged
+o()
+
+0	short		0413		vax executable, pure
++8	short		>0		, not stripped
++15	byte		>0		, version %ld
+
+0	short		0570		vax
+o{
+{
+16	short		>0		executable
++12	long		>0		, not stripped
++22	short		>0		, version %ld
+}
++16	short		0		object
+}
+0	short		0575		vax
+o()
+0	short		0502		basic-16
+o()
+0	short		0503		basic-16 (TV)
+o()
+0	short		0510		x86
+o()
+0	short		0511		x86 (TV)
+o()
+0	short		0550		3b20
+o()
+0	short		0551		3b20d (TV)
+o()
+
+0	long		0x464c457f	elf
+&5	byte		1
+o{
++18	short		0		machine=UNKNOWN
++18	short		1		3b
++18	short		2		sparc
++18	short		3		i386
++18	short		4		m68k
++18	short		5		m88k
++18	short		6		i486
++18	short		7		i860
++18	short		8		mips
++18	short		9		amdahl
++18	short		>9		machine=%ld
++16	short		0		type=UNKNOWN
++16	short		1		object
++16	short		2		executable
++16	short		3		shared library
+{
+16	short		4		core dump
++(@28+@42H*@44H+104)	string		*		from `%s'
+}
++16	short		>4		type=%ld
++4	byte		0		, 16-bit
++4	byte		1		, 32-bit
++4	byte		2		, 64-bit
++5	byte		1		, little-endian
++36	long		1		, mau
++20	long		>1		, version %ld
+{
+16	short		2
++52	long		&02		, dynamically linked
+}
+}
+
+0	long		0x7f454c46	elf
+&5	byte		2
+o()
+
+0	short		0560		3b
+{
+16	short		>0		executable
++12	long		>0		, not stripped
+}
++16	short		0		object
++18	short		&010000		, paging 3b2/300
++18	short		&020000		, 32100
++18	short		&040000		, mau
+{
+16	short		>0
++20	short		0443		, shared library
++20	short		0410		, swapped
++20	short		0413		, paged
++22	short		>0		, version %ld
+}
+0	short		0561		3b (TV)
+{
+16	short		>0		executable
++12	long		>0		, not stripped
+}
++16	short		0		object
++18	short		&020000		, 32100 required
++18	short		&040000		, mau hardware required
+
+0	short		0512		iAPX 286 small model (COFF)
+o{
+{
+16	short		>0		executable
++12	long		>0		, not stripped
+}
++16	short		0		object
+{
+16	short		>0
+&22	short		>0		, version %ld
+}
+}
+0	short		0522		iAPX 286 large model (COFF)
+o()
+
+0	short		0514		iAPX 386
+o{
+{
+16	short		>0		executable
++12	long		>0		, not stripped
+}
++16	short		0		object
+{
+16	short		>0
+&22	short		>0		, version %ld
+}
+}
+0	short		0524		iAPX 386
+o()
+
+0	short		0520		m68k
+{
+16	short		>0		executable
++12	long		>0		, not stripped
+}
++16	short		0		object
+{
+16	short		>0
++20	short		0410		, pure
++20	short		0413		, paged
++22	short		>0		, version %ld
+}
+
+0	short		0521		m68k executable, shared
+o{
++12	long		>0		, not stripped
+}
+0	short		0522		m68k executable, shared, paged
+o()
+
+0	short		0530		u370 5.2/5.0
+o{
+{
+18	short		&01		executable
++0	short		&01==0		, pure
++12	long		>0		, not stripped
+}
++18	short		&01==0		object
++18	byte		&0x40		, BIG
++49	byte		&0xf!=0		, pre-XA
+{
+18	short		&01
++22	short		>0		, version %ld
+}
+}
+0	short		0531		amdahl 5.2
+o()
+0	short		0534		amdahl 5.2
+o()
+0	short		0535		u370 5.2
+o()
+
+0	short		0700		ncr tower32
+o{
++18	short		&0040000	68000
++18	short		&0040000==0	68020
++18	short		&0020000	\b+68881
+{
+18	short		&0000001==0	object
++22	short		>0		, version %ld
+}
+{
+18	short		&0001		executable
++20	short		0413		, paged
++20	short		0443		shared library
++20	short		0410		, pure, swapped
++20	short		0407		, swapped
++12	long		>0		, not stripped
+}
+}
+0	short		0720		ncr towe32r/600
+o()
+0	short		0740		ncr tower32/800
+o()
+0	short		0610		ncr tower/XP rel 2
+o()
+0	short		0615		ncr tower/XP rel 2
+o()
+0	short		0620		ncr tower/XP rel 3
+o()
+0	short		0625		ncr tower/XP rel 3
+o()
+0	short		0630		ncr tower32/600/400
+o()
+0	short		0640		ncr tower32/800
++18	short		&00040000	compatible
+o()
+0	short		0645		ncr tower32/800 68010
+o()
+
+0	short		0457		DG MV pure executable
++40	long		>0		, not stripped
++2	short		>0		, version %ld
+0	short		0460		DG MV object
++2	short		>0		, version %ld
+0	short		0541		m88k pure executable
++12	long		>0		, not stripped
++22	short		>0		, version %ld
+0	short		0555		m88k object
++22	short		>0		, version %ld
+
+0	short		&0xfffd==0x0160	mips
+{
+18	short		&02		executable
++20	short		0410		, pure
++20	short		0413		, paged
++20	short		0443		, shared library
++8	long		!=0		, not stripped
+}
++18	short		&02==0		object
+o{
++0	short		&0x2		, little-endian
++22	byte		*		, version %ld
++23	byte		*		.%ld
+}
+0	short		&0xfffd==0x180	mips ucode
+o()
+
+0	short		0603		alpha
+{
+22	short		&02
+&22	short		&030000!=020000	executable
++24	short		0410		, pure
++24	short		0413		, paged
++22	short		&020000		, dynamically linked
++16	long		!=0		, not stripped
+}
++22	short		&030000==020000	shared library
+{
+22	short		&030002==0
++24	short		0407		object
+}
++27	byte		*		, version %ld
++26	byte		*		.%ld
+
+0	short		0432		compiled terminfo entry
+0	short		0433		curses screen image
+0	short		0434		curses screen image
+
+257	string		ustar		ustar archive
+o{
+&99	byte		0
+&106	byte		040
+&107	byte		0
+&114	byte		040
+&115	byte		0
++0	string		*		, [ %s ... ]
+}
+99	byte		0		tar archive
+o()
+
+0	long		0x02f78301
++16	string		TeX		TeX dvi output
+
+0	byte		0201		shell history
+&1	byte		<07		version %d
+
+0	byte		1
+&1	byte		0150
+&2	match		[0-9][0-9][0-9][0-9][0-9]	sccs
+
+0	short		0x5a4d		dos executable, EXE
+o{
++24	short		0x40		, extended
++54	byte		1		, os/2
++54	byte		2		, windows
++(@60)	short		0x3357		, win386 linear
++(@60)	short		0x584c		, os/2 32 linear
++(@60)	short		0x454c		, windows VxD linear
++(@60)	short		0x4550		, win32 portable
++50	string		PKWARE		, self extracting zip
++36	string		LHA's		, self extracting lha
++233	string		PKSFX2		, self extracting zip
+}
+0	short		0x5a4c		dos executable, EXE
+o()
+0	string		PMCC		windows GRP
+369	string		MICROSOFT	windows PIF
+0	long		0xffffffff	dos device driver
+&name	match		*.(SYS|sys)
+0	string		LZ		dos builtin
+0	byte		0xe9		dos executable, COM
+0	byte		0xeb		dos executable, COM
+0	byte		0xf0		dos library
+0	byte		0x80		dos object, OMF
+
+0	match		x[ ]T[ ]	troff output
+&4	string		*		for %s
+0	string		%!		postscript input
+{
+2	string		PS-Adobe-	, conforming
++11	match		+([0-9]).+([0-9])	, version %s
+}
+0	string		@document(	imagen input
+
+0	string		.snd		audio data
++12	long		1		, 8-bit u-law
++12	long		2		, 8-bit linear PCM
++12	long		3		, 16-bit linear PCM
++12	long		4		, 24-bit linear PCM
++12	long		5		, 32-bit linear PCM
++12	long		6		, 32-bit floating point
++12	long		7		, 64-bit floating point
++20	long		1		, mono
++20	long		2		, stereo
++20	long		4		, quad
++16	long		*		, %ld Hz
+
+0	string		;vdb;		vdb archive
++5	string		*		, %s
+
+0	string		#pragma pp:checkpoint	preprocessor checkpoint
++22	edit		%"\([^"]*\)".*%\1%	, version %s
+
+#
+# from the net
+#
+
+1	string		# This is a shell archive.	shar archive
+81	string		# This is a shell archive.	shar archive
+
+0	short		017635		compressed data
+{
+2	byte		&0200
+&2	byte		&037>0		, %d bits
+}
+0	short		017436		packed data
+0	short		0116437		compressed data
++2	byte		&0200		, blocked
++2	byte		&037>0		, with %d bits
+
+0	short		0x1f8b		gzip compressed data
++9	byte		0		, dos
++9	byte		1		, amiga
++9	byte		2		, vms
++9	byte		3		, unix
++9	byte		5		, atari
++9	byte		6		, os/2
++9	byte		7		, mac
++9	byte		10		, tops/20
++9	byte		11		, win/32
++2	byte		<8		, reserved
++2	byte		8		, deflate
++3	byte		&0x1		, ascii
++3	byte		&0x2		, continuation
++3	byte		&0x4		, extra field
++3	byte		&0x8		, original name
++3	byte		&0x10		, comment
++3	byte		&0x20		, encrypted
++8	byte		2		, max compression
++8	byte		4		, max speed
++4	ledate		>0		, %s
+
+0	string		begin\040[0-9]	uuencoded data
+0	string		\377\330\377\340	JPEG image
+0	string		GIF		GIF image
++3	string		*		, version %s
+{
+6	beshort		>0		, %d
+&8	beshort		>0		x %d
+}
++10	byte		&0x40		, interlaced
++10	byte		*		, 2^(%d+1) colors
+0	short		0x4d4d		TIFF image, big-endian
++2	short		>0		, version %d
+0	short		0x4949		TIFF image, little-endian
++2	short		>0		, version %d
+0	short		000732		sgi imagelib image
++6	short		*		, %d
++8	short		*		x %d
+0	string		<MakerFile	frame maker file
+
+0	short		0x9900			pgp key public ring
+0	short		0x9501			pgp key security ring
+0	short		0x9500			pgp key security ring
+0	string		-----BEGIN\040PGP	pgp armored data
++15	string		PUBLIC\040KEY\040BLOCK- , public key blocK
++15	string		MESSAGE-		, message
++15	string		SIGNED\040MESSAGE-	, signed message
++15	string		PGP\040SIGNATURE-	, signature
+
+0	string		Core			osf unknown core dump
+&name	match		core*
++24	string		*			from `%s'
+
+0	match		(BABYL|From|Received|Return-Path|To)?(:)[ ]	mail message
+
+#
+# local additions
+#
+
+0	long		0x020c0f0b	BLOK stream
+0	match		info mam	mam program
+
+#
+# last chance
+#
+
+name	match		*.(o|obj)	unknown object
+name	match		core		unknown core dump
+name	match		core.*		unknown core dump

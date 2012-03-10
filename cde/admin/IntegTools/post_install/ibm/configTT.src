@@ -1,0 +1,291 @@
+XCOMM! /bin/ksh
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM  @(#) $XConsortium: configTT.src /main/5 1996/04/23 10:36:05 drk $
+
+XCOMM AIX cpp does not honor the usual requirement that preprocessor
+XCOMM directives must begin in column one, so we must do more quoting.
+#define HASH #
+
+INETD=/etc/inetd.conf
+
+CheckForttinInetd()
+{
+#ifdef _POWER
+    grep "ttdbserverd" $INETD > /dev/null 2>&1 && sed "/ttdbserverd/d" $INETD > /tmp/configTT.$$ && mv /tmp/configTT.$$ $INETD
+    rc=`grep "ttdbserver" $INETD | cut -c1 | grep -xv "#" \
+           1>/dev/null 2>/dev/null;echo $?`
+#else
+    rc=`inetserv -s -I -v ttdbserver -p tcp 1>/dev/null 2>/dev/null;echo $?`
+#endif
+    return $rc
+
+}
+
+
+XCOMM
+XCOMM Checks if portmap daemon is already running; if not
+XCOMM starts the portmap daemon.
+XCOMM
+CheckPortmap()
+{
+    ps -ef | fgrep portmap | grep -v grep 2>/dev/null 1>/dev/null
+    if [ $? -ne 0 ]
+    then
+       startsrc -s portmap
+    fi
+}
+StopDaemon()
+{
+    ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+    if [ -s /tmp/tmppsout ]
+    then
+        awk '{print "kill " $2}' /tmp/tmppsout | /bin/ksh 1>/dev/null
+        sleep 2
+        ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+        if [ -s /tmp/tmppsout ]
+        then
+            awk '{print "kill -TERM " $2}' /tmp/tmppsout | /bin/ksh 1>/dev/null
+            sleep 2
+            ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+            if [ -s /tmp/tmppsout ]
+            then
+                awk '{print "kill -9 " $2}' /tmp/tmppsout | /bin/ksh 1>/dev/null
+                sleep 2
+            fi
+        fi
+    fi
+    rm -f /tmp/tmppsout
+}
+
+FixEtcRpc()
+{
+XCOMM
+XCOMM now check to see if the proper entry is in /etc/rpc
+XCOMM
+
+    RPCFILE=/etc/rpc
+    TMPFILE=/tmp/etc-rpc
+
+    if [ ! -f $RPCFILE ]
+    then
+	HASH if the file doesn't exist (highly unlikely), make one
+	HASH with the proper entry
+	HASH
+
+	echo "ttdbserver     100083  tooltalk" >$RPCFILE
+
+    else
+	HASH
+	HASH check to see if the entry is already there
+	HASH
+    	grep "ttdbserverd" $RPCFILE > /dev/null 2>&1 && sed "/ttdbserverd/d" $RPCFILE > /tmp/configTTrpc.$$ && mv /tmp/configTTrpc.$$ $RPCFILE
+
+	awk '{if ($1 == "ttdbserver" && $2 == "100083")
+		print $0 > "/tmp/etc-rpc-already-there"
+	     }' $RPCFILE >/dev/null
+
+	if [ ! -f /tmp/etc-rpc-already-there ]
+	then
+	HASH
+	HASH if it isn't, check to see if either term already
+	HASH exists. If either one does they need to be commented
+	HASH out.
+
+	    awk '{if (($1 == "ttdbserver" && $2 != "100083") ||
+		      ($2 == "100083" && $1 != "ttdbserver"))
+			print "#cde " $0;
+		  else
+			print $0
+		 }' $RPCFILE >$TMPFILE
+
+	    echo "ttdbserver     100083  tooltalk" >>$TMPFILE
+	    mv $TMPFILE $RPCFILE
+
+	else
+	    rm /tmp/etc-rpc-already-there
+	fi
+    fi
+}
+
+UnfixEtcRpc()
+{
+FILE="/etc/rpc"
+TMPFILE="/tmp/etc-rpc"
+
+    awk '{if ($1 == "ttdbserver" && $2 == "100083")
+		;
+    	  else if ($1 == "ttdbserverd" && $2 == "100083")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+
+    awk '{if ($1 == "#cde") {
+		$1 = $2
+		$2 = ""
+	     }
+	  print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+}
+
+RemovettFromInetserv()
+{
+TTDB=CDE_INSTALLATION_TOP/bin/rpc.ttdbserver
+
+#ifdef _POWER
+    /usr/sbin/chsubserver -d -v ttdbserver -t sunrpc_tcp -p tcp -w wait -u root \
+		-g $TTDB -r inetd rpc.ttdbserver 100083 1  \
+						   1>/dev/null 2>/dev/null
+    grep -v "#ttdbserver" $INETD >/tmp/configTT.$$ && cp /tmp/configTT.$$ $INETD
+
+#else
+
+    inetserv -D -I -v ttdbserver -p tcp 2>/dev/null 1>/dev/null
+
+#endif
+
+    if [ "$?" -ne "0" ]
+    then
+        exit 1
+    fi
+
+}
+
+AddttToInetserv()
+{
+INETD=/etc/inetd.conf
+TTDB=CDE_INSTALLATION_TOP/bin/rpc.ttdbserver
+
+XCOMM
+XCOMM check for existence of /etc/inetd.conf
+XCOMM
+
+    if [ ! -f $INETD ]		# highly unlikely
+    then
+        echo "" >$INETD
+    fi
+
+
+#ifdef _POWER
+
+    /usr/sbin/chsubserver -a -v ttdbserver -t sunrpc_tcp -p tcp -w wait -u root \
+                -g $TTDB -r inetd rpc.ttdbserver 100083 1   \
+					    1>/dev/null  2>/dev/null
+    if [ "$?" -ne "0" ]
+    then
+        exit 1
+    fi
+
+#else
+
+XCOMM
+XCOMM Check if the server exists in the /etc/inetd.conf file.
+XCOMM
+    rc=`inetserv -s -I -v ttdbserver -p tcp 1>/dev/null 2>/dev/null;echo $?`
+
+    if [ "$rc" -ne "0" ]
+    then
+         inetserv  -a -S -v ttdbserver -p tcp -n 111
+         rc=$?
+         if [ "$rc" -eq "0" ]
+         then
+            inetserv -a -I -v ttdbserver -p tcp -t sunrpc_tcp -w wait -U root \
+                -r $TTDB -R "rpc.ttdbserver 100083 1"
+            if [ "$?" = "1" ]
+            then
+               exit 1
+            fi
+         else
+	    echo "Cannot add entries to inetd.conf..."
+            exit 1
+         fi
+    fi
+
+#endif
+}
+
+HandleOption()
+{
+  while [ $# -ne 0 ]; do
+    case $1 in
+        -e) DO_CONFIGURATION="yes"
+            shift;
+            ;;
+	-d) DO_CONFIGURATION="no"
+	    shift;
+	    ;;
+    esac
+  done
+}
+
+XCOMM ##################################################################
+XCOMM
+XCOMM Main Body
+XCOMM
+XCOMM ##################################################################
+DO_CONFIGURATION=""
+PRODUCT=CDE
+FILESET=CDE-TT
+retval=0
+
+#ifndef	_POWER
+  StopDaemon "rpc.ttdbserver"
+#endif
+
+  HandleOption $*
+
+  if [ "$DO_CONFIGURATION" = "yes" ]
+  then
+
+    FixEtcRpc
+
+#ifndef	_POWER
+    CheckPortmap
+#endif
+
+    CheckForttinInetd
+    rc=$?
+    if [ "$rc" = "0" ]
+    then
+	RemovettFromInetserv
+    fi
+
+    AddttToInetserv
+
+  elif [ "$DO_CONFIGURATION" = "no" ]
+  then
+
+    UnfixEtcRpc
+
+#ifndef	_POWER
+    CheckPortmap
+#endif
+
+    CheckForttinInetd
+    rc=$?
+    if [ "$rc" = "0" ]
+    then
+        RemovettFromInetserv
+    else
+        echo "\nToolTalk is already disabled..\n"
+        exit 0
+    fi
+
+  fi
+
+#ifndef _POWER
+  if [ "$DO_CONFIGURATION" != "" ]
+  then
+
+XCOMM	After adding ToolTalk to the inetd service list the inet
+XCOMM	daemon needs to reread its configuration.
+
+    inetimp
+    refresh -s inetd
+
+  fi
+#endif

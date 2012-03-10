@@ -1,0 +1,258 @@
+
+//       $XConsortium: revolv.bil /main/3 1995/11/06 17:49:32 rswiston $
+//
+// @(#)revolv.bil	1.14 14 Feb 1995
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module revolv
+(
+
+:element prop_dialog
+(
+	:type			:dialog
+	:width			459
+	:height			733
+	:label			"Revolving Property Editor"
+	:resizable		:true
+	:visible		:false
+	:help-button		help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABPropsEditor"
+	:help-text		"A Property Editor allows individual object attributes to be examined or altered.\n"
+	:children		(
+		objlist_panel
+		attrs_ctrlpanel
+		activate_panel
+	)
+)
+:element objlist_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj prop_dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		objlist
+		objlist_label2
+		objtype_opmenu
+		tearoff_button
+		objtype_label
+	)
+)
+:element objlist
+(
+	:type			:list
+	:x			145
+	:y			38
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj objtype_opmenu 4)
+	:south-attachment	(:point 0 4)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:grid-line 32 0)
+)
+:element objlist_label2
+(
+	:type			:label
+	:x			70
+	:y			39
+	:label-type		:string
+	:label			"Objects:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge objlist 0)
+	:east-attachment	(:grid-line 30 0)
+	:west-attachment	(:grid-line 0 0)
+)
+:element objtype_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			145
+	:y			3
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:west-attachment	(:grid-line 30 0)
+	:children		(
+		objtype_opmenu_object_type_item
+	)
+)
+:element objtype_opmenu_object_type_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"** object type **"
+	:active			:true
+	:selected		:true
+)
+:element tearoff_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			329
+	:y			7
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Tear-off..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 7)
+	:east-attachment	(:point 0 20)
+)
+:element objtype_label
+(
+	:type			:label
+	:x			40
+	:y			8
+	:label-type		:string
+	:label			"Object Type:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 8)
+	:east-attachment	(:grid-line 30 0)
+	:west-attachment	(:grid-line 0 0)
+)
+:element attrs_ctrlpanel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			113
+	:width			455
+	:height			586
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:obj objlist_panel 0)
+	:south-attachment	(:obj prop_dialog 0)
+	:east-attachment	(:obj prop_dialog 0)
+	:west-attachment	(:point 0 0)
+)
+:element activate_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		ok_button
+		apply_button
+		reset_button
+		cancel_button
+		help_button
+	)
+)
+:element ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 19 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element reset_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:element prop_pend_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"Apply Changes"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+)
+:element wrn_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+)
+)

@@ -1,0 +1,751 @@
+#!/bin/ksh
+#
+# build_summary
+#
+########################################################################
+#set -x
+
+##########################################################################
+#
+# Script setup:  THIS NEEDS TO BE FIRST
+#
+SCRIPTS_DIR="`dirname $0`"
+PROG_NAME="`basename $0`"
+if [ "" = "$SCRIPTS_DIR" ]; then
+	SCRIPTS_DIR=/project/dt/scripts
+fi
+if [ ! -f $SCRIPTS_DIR/script_setup.ksh ]; then
+    print -u2 "$PROG_NAME:  File '$SCRIPTS_DIR/script_setup.ksh' NOT found!"
+    print -u2 "$PROG_NAME:  Exiting ..."
+    exit 1
+fi
+. $SCRIPTS_DIR/script_setup.ksh
+
+##########################################################################
+##########################################################################
+#
+# Script specific global variables
+#
+##########################################################################
+##########################################################################
+
+COMPONENTS_FILES=""
+COMPONENTS="all"
+DEBUG="False"
+SUMMARY_FILES=""
+NOT_DONE_SUMMARY_FILES=""
+PRINT_ERRORS="5"
+
+
+usage ()
+{
+    cat <<eof
+USAGE: $PROG_NAME
+	[{-c | -components_file} <file>]
+	        # Specifies a file containing a list of components to
+	        # be extracted.  Multiple -c flags can be specified.
+	[{-e | -errors} <number>]
+	        # Specifies the number of errors shown for each
+	        # component in the components files.  Defaults to all.
+	[-h | -? | -help]
+	        # Print usage and exit
+	[{-l | -log_path} <path>]
+	[{-m | -mail | -mail_list} <user_name(s)>]
+	[{-pn | -project_name} <project_name>]
+		# The default is CDE.  This impacts the Subject field
+		# when email is sent.  Use "-pn X11" to get "X11" in
+		# the Subject field.
+	{-s | -summary_file} <file>
+		# Specifies a summary report from a build_world.
+	        # $PROG_NAME accepts multiple -f flags.
+eof
+}
+
+
+##########################################################################
+#
+# FUNCTION:  is_complete_build <summary_file>
+#	
+#	Returns 0 if the build is complete.
+#	Returns 1 if the build is not complete
+#
+is_complete_build ()
+{
+    typeset SUMMARY_FILE LCMPL
+
+    SUMMARY_FILE=$1
+
+    LCMPL=`grep "$BTAG_CMPL" $SUMMARY_FILE | tail -1`
+    if [ -z "$LCMPL" ]; then
+	return 1
+    fi
+}
+
+
+###############################################################################
+#
+# FUNCTION:  print_build_start_end ()
+#
+#    ViewName       StartTime                   BuildStatus
+#    --------       ---------                   -----------
+#    cde-dec        STARTED: Sun Jan 16, 23:34  FINISHED: Mon Jan 17, 23:34
+#    cde-hp         STARTED: Sun Jan 16, 23:34  BUILDING: making all in ...
+#    cde-ibm        STARTED: Sun Jan 16, 23:34  FINISHED: Mon Jan 17, 23:34
+#    cde-sco        STARTED: Sun Jan 16, 23:34  FINISHED: Mon Jan 17, 23:34
+#    cde-sgi        STARTED: Sun Jan 16, 23:34  FINISHED: Mon Jan 17, 23:34
+#    cde-sun        STARTED: Sun Jan 16, 23:34  FINISHED: Mon Jan 17, 23:34
+#
+###############################################################################
+
+print_build_start_end ()
+{
+    typeset CMPL LOGD PRJT DATE VIEW
+    typeset AWK_START_END_SUMMARY
+
+    AWK_START_END_SUMMARY='{printf("%-12s %-28s %-28s\n", $1,$2,$3)}'
+
+    echo "ViewName StartTime BuildStatus" | awk "$AWK_START_END_SUMMARY"
+    echo "-------- --------- -----------" | awk "$AWK_START_END_SUMMARY"
+
+    for r in $SUMMARY_FILES
+    do
+        VIEW=`grep "$BTAG_VIEW" $r | head -1 | awk '{printf("%s", $NF)}'`
+        DATE=`grep "$BTAG_DATE" $r | head -1 | awk '{printf("%s", $NF)}' FS=+`
+
+        is_complete_build $r
+        if [ $? -eq 0 ]; then
+            CMPL=`grep "$BTAG_CMPL" $r | tail -1 |
+			awk '{printf("%s", $NF)}' FS=+`
+            echo "$VIEW|STARTED: $DATE|FINISHED: $CMPL" | \
+	      awk "$AWK_START_END_SUMMARY" FS="|"
+        else
+            LOGD=`grep "$BTAG_LOGD" $r | head -1 | awk '{printf("%s", $NF)}'`
+            PRJT=`grep "$BTAG_PRJT" $r | tail -1 | awk '{printf("%s", $NF)}'`
+	    LOGF=$LOGD/$PRJT.log
+	    if [ -f $LOGF ]; then
+                CMPL=`$EXTRACT_MSG -m $BUILD_MSGS -l $LOGF | tail -1`
+	    else
+                CMPL=""
+	    fi
+            echo "$VIEW|STARTED: $DATE|BUILDING: $CMPL" | \
+	      awk "$AWK_START_END_SUMMARY" FS="|"
+        fi
+
+    done
+    print -u1
+}
+
+
+###############################################################################
+#
+# FUNCTION:  print_build_parameters ()
+#
+#    ViewName       Type   ConfigSpec       Platfm Projects
+#    --------       ----   ----------       ------ --------        
+#    cde-dec        clean  cde-next.cs      dec    x11,motif,cde
+#    cde-hp         clean  cde-next.cs      hp     x11,motif,cde
+#    cde-ibm        clean  cde-next.cs      ibm    x11,motif,cde
+#    cde-sco        clean  cde-next.cs      sco    x11,motif,cde
+#    cde-sgi        clean  cde-next.cs      sgi    x11,motif,cde
+#    cde-sun        clean  cde-next.cs      sun    x11,motif,cde
+#
+#    ViewName       LogDirectory
+#    --------       ------------
+#    cde-dec        /project/dt/logs/build/cde-dec/LATEST -> ./Jan.17.12:24:36
+#    cde-hp         /project/dt/logs/build/cde-hp/LATEST -> ./Jan.17.12:24:36
+#    cde-ibm        /project/dt/logs/build/cde-ibm/LATEST -> ./Jan.17.12:24:36
+#    cde-sco        /project/dt/logs/build/cde-sco/LATEST -> ./Jan.17.12:24:36
+#    cde-sgi        /project/dt/logs/build/cde-sgi/LATEST -> ./Jan.17.12:24:36
+#    cde-sun        /project/dt/logs/build/cde-sun/LATEST -> ./Jan.17.12:24:36
+#
+###############################################################################
+
+print_build_parameters ()
+{
+    typeset CMPL CSPS LOGD PRJT PTFM STRT TYPE VIEW
+    typeset AWK_LOG_SUMMARY AWK_BUILD_SUMMARY
+
+    AWK_LOG_SUMMARY='{printf("%-12s %-48s\n", $1,$2)}'
+    AWK_BUILD_SUMMARY='{printf("%-12s %-6s %-16s %-14s %-16s\n",$1,$2,$3,$4,$5)}'
+
+    #
+    # Section 1:  Type/ConfigSpec/Platform/Projects
+    #
+    echo "ViewName Type ConfigSpec Platfm Projects" | awk "$AWK_BUILD_SUMMARY"
+    echo "-------- ---- ---------- ------ --------" | awk "$AWK_BUILD_SUMMARY"
+
+    for r in $SUMMARY_FILES
+    do
+        CSPC=`grep "$BTAG_CFGS" $r | head -1 | awk '{printf("%s", $NF)}'`
+        PRJT=`grep "$BTAG_PRJT" $r | awk '{printf("%s ", $NF)}'`
+        PTFM=`grep "$BTAG_PTFM" $r | head -1 | awk '{printf("%s", $NF)}'`
+        TYPE=`grep "$BTAG_TYPE" $r | head -1 | awk '{printf("%s", $NF)}'`
+        if [ "incremental" = "$TYPE" ]; then
+            TYPE="incrmt"
+        fi
+        VIEW=`grep "$BTAG_VIEW" $r | head -1 | awk '{printf("%s", $NF)}'`
+
+        echo "$VIEW|$TYPE|$CSPC|$PTFM|$PRJT" | awk "$AWK_BUILD_SUMMARY" FS="|"
+    done
+    print -u1
+
+    #
+    # Section 2:  LogDirectory
+    #
+    echo "ViewName LogDirectory" | awk "$AWK_LOG_SUMMARY"
+    echo "-------- ------------" | awk "$AWK_LOG_SUMMARY"
+
+    for r in $SUMMARY_FILES
+    do
+        LOGD=`grep "$BTAG_LOGD" $r | head -1 | awk '{printf("%s", $NF)}'`
+        if [ -L $LOGD ]; then
+	    LOGD=`ls -l $LOGD | awk '{printf("%s %s %s", $9, $10, $11)}'`
+        fi
+        VIEW=`grep "$BTAG_VIEW" $r | head -1 | awk '{printf("%s", $NF)}'`
+
+        echo "$VIEW|$LOGD" | awk "$AWK_LOG_SUMMARY" FS="|"
+    done
+}
+
+
+###############################################################################
+#
+# FUNCTION: print_error_and_warning_summaries_by_project ()
+#
+#
+# Project        x11          motif        cde          cdedoc       cde-test
+# ViewName       Errrs Warns  Errrs Warns  Errrs Warns  Errrs Warns  Errrs Warns
+# --------       ----- -----  ----- -----  ----- -----  ----- -----  ----- -----
+# build-dec-cde      0     0      0     0      0   554    DNR   DNR    DNR   DNR
+# build-hp-cde       0     0      0     0      0   554    DNR   DNR    DNR   DNR
+# build-ibm-cde      0     0      0     0      0   554    DNR   DNR    DNR   DNR
+# build-sco-cde      0     0      0     0      0   554    DNR   DNR    DNR   DNR
+# build-sgi-cde      0     0      0     0    DNR   DNR    DNR   DNR    DNR   DNR
+# build-sun-cde      0     0      0     0      0   554    DNR   DNR    DNR   DNR
+#
+###############################################################################
+
+print_error_and_warning_summaries_by_project ()
+{
+  BLANKS="   "
+  PROJ_CDE="cde"
+  PROJ_CDD="cdedoc"
+  PROJ_CDT="cde-test"
+  PROJ_MTF="motif"
+  PROJ_X11="x11"
+  AWK_PROJ_HEADER='{printf("%-12s %-12s %-12s %-12s %-12s %-12s\n",$1,$2,$3,$4,$5,$6)}'
+  AWK_PROJ_VIEWNAME='{printf("%-12s ", $1)}'
+  AWK_PROJ_SUMMARY='{printf("%5s %5s  ", $1, $2)}'
+
+  #
+  # Print the header for this section
+  #
+  echo "Project $PROJ_X11 $PROJ_MTF $PROJ_CDE $PROJ_CDD $PROJ_CDT"|awk "$AWK_PROJ_HEADER"
+
+  echo "ViewName" | awk "$AWK_PROJ_VIEWNAME"
+  for p in $PROJ_X11 $PROJ_MTF $PROJ_CDE $PROJ_CDD $PROJ_CDT
+  do
+    echo "Errrs Warns" | awk "$AWK_PROJ_SUMMARY"
+  done
+  print -u1
+
+  echo "--------" | awk "$AWK_PROJ_VIEWNAME"
+  for p in $PROJ_X11 $PROJ_MTF $PROJ_CDE $PROJ_CDD $PROJ_CDT
+  do
+    echo "----- -----" | awk "$AWK_PROJ_SUMMARY"
+  done
+  print -u1
+
+  #
+  # Print the error and warning summaries for each view.
+  #
+  for r in $SUMMARY_FILES
+  do
+    #
+    # Print the view name.
+    #
+    VIEW=`grep "$BTAG_VIEW" $r | head -1 | awk '{printf("%s", $NF)}'`
+    echo "$VIEW" | awk "$AWK_PROJ_VIEWNAME"
+
+    #
+    # Print the error and warn totals for each project.
+    #
+    for p in $PROJ_X11 $PROJ_MTF $PROJ_CDE $PROJ_CDD $PROJ_CDT
+    do
+	ERRRS=`grep "^$p " $r | tail -1 | awk '{print $2}'`
+	WARNS=`grep "^$p " $r | tail -1 | awk '{print $4}'`
+
+	if [ -z "$ERRRS" ] -a [ -z "$WARNS" ]
+	then
+            echo "DNR DNR" | awk "$AWK_PROJ_SUMMARY"
+	else
+            echo "$ERRRS $WARNS" | awk "$AWK_PROJ_SUMMARY"
+	fi
+    done
+
+    #
+    # Print a newline.
+    #
+    print -u1
+
+  done
+}
+
+
+###############################################################################
+#
+# FUNCTION: print_error_summaries_by_component ()
+#
+#
+#	Component                         DEC    HP   IBM   SCO   SGI   SUN
+#       ---------                       ----- ----- ----- ----- ----- -----
+#	cde/admin                           0     0     0     0     0     5
+#	cde/lib/DtHelp                      5     3     1     0     0     0
+#	cde/programs/dtwm                  10     3     5     0     0     0
+#
+#	cde-test/doc			  133    22     1     0    45     0
+#
+###############################################################################
+
+print_error_summaries_by_component ()
+{
+  AWK_COMP_NAME='{printf("%-32s ", $1)}'
+  AWK_COMP_ERROR='{printf("%5s ", $1)}'
+
+  let num_errors=0
+
+  #
+  # Find the per component errors.
+  #
+  for f in $COMPONENTS_FILES
+  do
+
+    # 
+    # Extract the project name from the name of the components file.
+    # Assumes the components files are named <project>.components.
+    #
+    p=`basename $f | awk '{ print $1 }' FS='.'`
+
+    for c in `cat $f`
+    do
+	#
+	# Collect the errors for the current component from the report
+	# summary files and put them in an array.
+	#
+        let i=0
+	FOUND="False"
+        for r in $SUMMARY_FILES
+        do
+            ERRORS[i]=`grep "$p/$c " $r | tail -1 | awk '{print $2}'`
+
+	    #
+	    # The search may have succeeded but the component may
+	    # only have warnings and no errors.  If this is true,
+	    # then this component should not be added to the error
+	    # list
+	    #
+	    if [ ! -z "`echo ${ERRORS[i]}`" ]; then
+                if [ "`echo ${ERRORS[i]}`" != "0" ]; then
+			FOUND="True"
+		fi
+	    fi
+
+	    let i=i+1
+        done
+
+	#
+	# If the component doesn't show up anywhere ignore it.
+	#
+        if [ -z "`echo ${ERRORS[*]}`"  -o "False" = "$FOUND" ]
+        then
+	    continue
+        fi
+
+	let num_errors=num_errors+1
+
+	if [ num_errors -eq 1 ]; then
+	    #
+	    # Print the header for this section
+	    #
+	    echo "Component" | awk "$AWK_COMP_NAME"
+	    for r in $SUMMARY_FILES
+	    do
+	       PTFM=`grep "$BTAG_PTFM" $r | head -1 | awk '{printf("%s", $NF)}'`
+	       echo "$PTFM" | awk "$AWK_COMP_ERROR"
+	    done
+	    print -u1
+
+	    echo "---------" | awk "$AWK_COMP_NAME"
+	    for r in $SUMMARY_FILES
+	    do
+	      echo "-----" | awk "$AWK_COMP_ERROR"
+	    done
+	    print -u1
+	fi
+
+	#
+	# Print the component name including the project it belongs to.
+	#
+        echo "$p/$c" | awk "$AWK_COMP_NAME"
+
+	#
+	# Print the errors for this component.
+	#
+        for r in $SUMMARY_FILES
+        do
+            ERRRS=`grep "$p/$c " $r | tail -1 | awk '{print $2}'`
+            if [ -z "$ERRRS" ]
+            then
+                is_complete_build $r
+                if [ $? -eq 0 ]; then
+                    ERRRS="0"
+                else
+                    ERRRS="DNR"
+                fi
+            fi
+            echo "$ERRRS" | awk "$AWK_COMP_ERROR"
+        done
+
+	#
+	# Print a newline.
+	#
+        print -u1
+    done
+  done
+
+  if [ $num_errors -eq 0 ]; then
+      print -u1 "NO errors were found."
+  fi
+}
+
+
+###############################################################################
+#
+# FUNCTION: print_error_listings_by_component ()
+#
+#       -------------------------------------------------------------------
+#	- <component-name>
+#       -------------------------------------------------------------------
+#	make all in <component-name>...
+#	  error 1
+#	  error 2
+#	make all in <component-name>/subdir...
+#	  error 3
+#	  error 4
+#
+###############################################################################
+print_error_listings_by_component ()
+{
+    let num_errors=0
+
+    for f in $COMPONENTS_FILES
+    do
+
+        # 
+        # Extract the project name from the name of the components file.
+        # Assumes the components files are named <project>.components.
+        #
+        p=`basename $f | awk '{ print $1 }' FS='.'`
+
+        for c in `cat $f`
+        do
+            #
+            # Collect the errors for the current component from the
+            # report summary files and put them in an array.
+            #
+            let i=0
+	    FOUND="False"
+            for r in $SUMMARY_FILES
+            do
+                ERRORS[i]=`grep "$p/$c " $r | tail -1 | awk '{print $2}'`
+
+	        #
+	        # The search may have succeeded but the component may
+	        # only have warnings and no errors.  If this is true,
+	        # then this component should not be added to the error
+	        # list
+	        #
+	        if [ ! -z "`echo ${ERRORS[i]}`" ]; then
+                    if [ "`echo ${ERRORS[i]}`" != "0" ]; then
+			FOUND="True"
+		    fi
+	        fi
+
+    	        let i=i+1
+            done
+    
+            #
+            # If the component doesn't show up anywhere ignore it.
+            #
+            if [ -z "`echo ${ERRORS[*]}`" -o "False" = "$FOUND" ]
+            then
+    	        continue
+            fi
+
+	    let num_errors=num_errors+1
+    
+            #
+            # Print the component name including the project it belongs to.
+            #
+            COMP=`echo $c | tr "/" ","`
+            print -u1 "+++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+            print -u1 "+  COMPONENT:  $p/$COMP"
+            print -u1 "+++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+            print -u1
+           
+    
+    	    #
+    	    # Print the errors for this component.
+    	    #
+            for r in $SUMMARY_FILES
+            do
+                LOGD=`grep "$BTAG_LOGD" $r | head -1 |
+			awk '{printf("%s", $NF)}'`
+                VIEW=`grep "$BTAG_VIEW" $r | head -1 |
+			awk '{printf("%s", $NF)}'`
+
+                ERR_FILE=$LOGD/$p/$COMP.err
+                if [ -f "$ERR_FILE" ]
+                then
+                    print -u1 "+"
+                    print -u1 "+ View:  $VIEW"
+                    print -u1 "+ Error File:  $ERR_FILE"
+                    print -u1 "+"
+    		    print -u1
+    		    head -$PRINT_ERRORS $ERR_FILE
+    		    print -u1
+                fi
+            done
+    
+    	    #
+    	    # Print a newline.
+    	    #
+            print -u1
+        done
+    done
+
+    if [ num_errors -eq 0 ]; then
+        print -u1 "NO errors were found."
+    fi
+}
+
+
+#############################################################################
+#
+# Do command-line processing
+#
+while [ $# -gt 0 ]; do
+    case $1 in
+
+	-debug)
+	    DEBUG="True"
+	    shift 1 ;;
+
+	-c | -components_file)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    COMPONENTS_FILES="$COMPONENTS_FILES $2"
+	    shift 2 ;;
+
+	-e | -errors)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    PRINT_ERRORS="$2"
+	    shift 2 ;;
+
+	-h | "-?" | -help)
+	    usage $PROG_NAME
+	    do_exit 1 ;;
+
+	-l | -log_path )
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    LOG_PATH=$2
+	    shift 2 ;;
+
+	-m | -mail | -mail_list)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    MAIL_LIST=$2
+	    shift 2 ;;
+
+	-pn | -project_name)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    # Change the value of SUBJECT_BUILD_SUMMARY
+	    SUBJECT_BUILD_SUMMARY="${2}: Build Summary"
+	    shift 2 ;;
+
+	-s | -summary_file)
+	    if [ $# -lt 2 ]; then
+		print -u2 "$PROG_NAME:  $1 option missing value; exiting ..."
+		do_exit 1
+	    fi
+	    SUMMARY_FILES="$SUMMARY_FILES $2"
+	    shift 2 ;;
+
+	*)
+	    print -u2 "$PROG_NAME:  invalid option $1; exiting ..."
+	    do_exit 1 ;;
+    esac
+done
+
+
+#############################################################################
+#
+# Check to make sure that the command-line parameters make sense.
+#
+for f in $COMPONENTS_FILES
+do
+    if [ ! -f $f ]
+    then
+        print -u2 "$PROG_NAME:  Component file \"$f\" does not exist."
+        print -u2 "$PROG_NAME:  exiting ..."
+        do_exit 1
+    fi
+done
+
+if [ -z "$SUMMARY_FILES" ]
+then
+    print -u2 "$PROG_NAME:  No report summaries specified; exiting ..."
+    do_exit 1
+fi
+
+
+#############################################################################
+#
+# Determine which builds never started or never completed.
+#
+NOT_AVAILABLE_SUMMARY_FILES=""
+AVAILABLE_SUMMARY_FILES=""
+for r in $SUMMARY_FILES
+do
+    if [ ! -f $r ]; then
+	if [ -z "$NOT_AVAILABLE_SUMMARY_FILES" ]; then
+	    NOT_AVAILABLE_SUMMARY_FILES="$r"
+	else
+	    NOT_AVAILABLE_SUMMARY_FILES="$NOT_AVAILABLE_SUMMARY_FILES $r"
+	fi
+    else
+	if [ -z "$AVAILABLE_SUMMARY_FILES" ]; then
+	    AVAILABLE_SUMMARY_FILES="$r"
+	else
+	    AVAILABLE_SUMMARY_FILES="$AVAILABLE_SUMMARY_FILES $r"
+	fi
+    fi
+done
+SUMMARY_FILES="$AVAILABLE_SUMMARY_FILES"
+
+#
+# Redirect output
+#
+EXECUTIVE_SUMMARY_LOG=/tmp/$PROG_NAME.execsum.$$
+if [ "$DEBUG" = "False" ]; then
+    do_register_temporary_file $EXECUTIVE_SUMMARY_LOG
+    touch $EXECUTIVE_SUMMARY_LOG
+
+    exec 9>&1
+    exec > $EXECUTIVE_SUMMARY_LOG
+fi
+
+#############################################################################
+#
+# Header information
+#
+
+DATE=`date "$BTAG_DFMT"`
+print -u1 "              BUILD SUMMARY FOR:  $DATE"
+print -u1 "              +++++++++++++++++++++++++++++++++++++"
+print -u1
+
+for r in $NOT_AVAILABLE_SUMMARY_FILES
+do
+    print -u1 "Missing build summary:  $r\n"
+done
+
+print -u1
+print_error_and_warning_summaries_by_project
+print -u1
+print_build_start_end
+
+print -u1
+print -u1
+print -u1 "                         BUILD PARAMETERS"
+print -u1 "                         ++++++++++++++++"
+print -u1
+print -u1
+
+print_build_parameters
+
+print -u1
+print -u1
+print -u1 "                   ERROR SUMMARIES BY COMPONENT"
+print -u1 "                   ++++++++++++++++++++++++++++"
+print -u1
+print -u1
+
+print_error_summaries_by_component
+
+
+#############################################################################
+#
+# Find the per component errors.
+#
+if [ $PRINT_ERRORS -gt 0 ]; then
+
+    print -u1
+    print -u1
+    print -u1 "                   ERROR LISTINGS BY COMPONENT"
+    print -u1 "                   +++++++++++++++++++++++++++"
+    print -u1
+    print -u1
+
+    print_error_listings_by_component
+    
+fi
+
+
+##########################################################################
+#
+# Complete the build summary and mail it, save it, or dump it to stdout
+#
+if [ "" != "$MAIL_LIST" ]; then
+    mailx -s "$SUBJECT_BUILD_SUMMARY (`date $SUBJECT_DATE`) [Report #${REPORT_NUM}]" "$MAIL_LIST" < $EXECUTIVE_SUMMARY_LOG
+fi
+
+if [ "" != "$LOG_PATH" ]; then
+    cp $EXECUTIVE_SUMMARY_LOG $LOG_PATH
+fi
+
+if [ "$DEBUG" = "False" -a "" = "$MAIL_LIST" -a "" = "$LOG_PATH" ]; then
+    exec >&9
+    cat $EXECUTIVE_SUMMARY_LOG
+fi
+
+for r in $SUMMARY_FILES
+do
+    is_complete_build $r
+    if [ $? -ne 0 ]; then
+        #
+        # Clean up temporary files and exit
+        #
+	do_exit 1
+    fi
+done
+
+
+#############################################################################
+#
+# Clean up temporary files and exit
+#
+do_exit 0

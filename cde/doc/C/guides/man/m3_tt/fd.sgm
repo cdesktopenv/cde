@@ -1,0 +1,106 @@
+<!-- $XConsortium: fd.sgm /main/5 1996/08/30 12:45:42 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN69.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN69.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_fd</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_fd</Function></RefName>
+<RefPurpose>return a file descriptor
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: fd.sgm /main/5 1996/08/30 12:45:42 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>int <Function>tt_fd</Function></FuncDef>
+<void>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_fd</Function> function
+returns a file descriptor.
+The returned file descriptor alerts the process that a message has
+arrived for the default
+procid
+in the default session.
+</Para>
+<Para>File descriptors are either active or inactive.
+When the file descriptor becomes
+active, the process must call
+&cdeman.tt.message.receive; to receive the message.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_fd</Function> function returns the file descriptor for the current
+procid.
+The application can use
+&cdeman.tt.int.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned integer:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The current default process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_SESSION</Term>
+<ListItem>
+<Para>The specified ToolTalk session is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application must have a separate file descriptor for each
+procid.
+To get an
+associated file descriptor, the application should use
+<Function>tt_fd</Function> each time it calls
+&cdeman.tt.open;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.open;, &cdeman.tt.int.error;, &cdeman.tt.message.receive;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

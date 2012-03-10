@@ -1,0 +1,363 @@
+<!-- $XConsortium: Concepts.sgm /main/13 1996/12/24 10:17:51 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<!-- Help volume: Filemgr  -->
+<!-- File name:   Concepts -->
+<chapter id="concepts">
+<title>Gestionnaire de fichiers - Concepts</title>
+<para>Pour une meilleure compréhension du Gestionnaire de fichiers,
+reportez-vous aux rubriques suivantes:</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.1"><para><xref linkend="thehierarchicalfilesystemsi"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.2"><para><xref linkend="pathconcepts"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.3"><para><xref linkend="fileownershipandsecuritysi"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.4"><para><xref linkend="desktopintro"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.5"><para><xref linkend="matchingpatterns"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.6"><para><xref linkend="iconbrowser"></para>
+</listitem>
+</itemizedlist>
+<sect1 id="thehierarchicalfilesystemsi">
+<title>Système de fichiers hiérarchique</title>
+<indexterm><primary>Système de fichiers hiérarchique</primary>
+</indexterm><indexterm><primary>Fichier</primary><secondary>système hiérarchique</secondary></indexterm><indexterm><primary>Définition </primary><secondary>fichier</secondary></indexterm>
+<para>Si vous débutez en informatique, la notion de système
+de fichiers hiérarchique ne vous est peut-être pas familière.
+Cette rubrique décrit les composants de base de ce type de système
+de fichiers.</para>
+<procedure>
+<title>Qu'est-ce qu'un fichier ?</title>
+<step><para>Un <emphasis>fichier</emphasis> est un conteneur renfermant des
+informations. Les fichiers que vous utilisez contiennent des données
+dans un format particulier&emdash;un document, une feuille de calcul, un graphique.
+Le format correspond à la façon dont les données sont
+disposées dans le fichier; il est indiqué par le type de données
+du fichier.</para>
+<para>Lorsque l'un des modes de visualisation des icônes du Gestionnaire
+de fichiers est activé, vous pouvez identifier le type de données
+d'un fichier grâce à l'icône utilisée pour le représenter.
+Chaque type de données est associé à une icône
+différente.</para>
+<para>Les programmes d'application gèrent un nombre limité de
+formats. Par exemple, un éditeur de documents ne peut pas lire une
+feuille de calcul. Le Bureau vous aide à reconnaître les différents
+types de fichiers grâce à une base de données de <glossterm>type de données</glossterm>. Le type de données identifie les
+fichiers d'un format particulier et les associe aux applications correspondantes.
+Lorsque vous cliquez deux fois sur un fichier, le Bureau lance automatiquement
+l'application qui prend en charge son type de données.</para>
+<para>La longueur maximale autorisée pour le nom d'un fichier varie
+d'un système à l'autre. Certains n'admettent pas une longueur
+supérieure à 14 caractères. Si nécessaire, consultez
+l'administrateur système.</para>
+</step>
+</procedure>
+<procedure>
+<title>Qu'est-ce qu'un dossier ?</title>
+<indexterm><primary>Définition: dossier</primary></indexterm>
+<step><para>Un <emphasis>dossier</emphasis> est un conteneur de fichiers,
+semblable au dossier utilisé dans une armoire de rangement. En fait,
+le Gestionnaire de fichiers utilise une icône particulière pour
+représenter un dossier. Un dossier peut contenir des <emphasis>sous-dossiers</emphasis>. Les dossiers et sous-dossiers permettent de créer plusieurs
+niveaux d'organisation formant une hiérarchie (dans d'autres contextes,
+les dossiers sont souvent appelés répertoires).</para>
+<para>Si vous représentiez la structure hiérarchique d'un dossier
+sous forme de schéma, en traçant des lignes entre les sous-dossiers
+et leurs dossiers pères, votre dessin ressemblerait à un arbre
+renversé (d'où le terme arborescence, souvent utilisé
+pour faire référence à la hiérarchie des dossiers).
+</para>
+<para>Dans un dossier, chaque nom de fichier doit être unique. Cependant,
+les fichiers stockés dans des dossiers différents peuvent porter
+le même nom.</para>
+<para>Lorsque vous naviguez entre des dossiers, votre emplacement à
+un moment donné est appelé <emphasis>dossier courant</emphasis>.
+</para>
+</step>
+</procedure>
+<procedure>
+<title>Qu'est-ce qu'un chemin d'accès ?</title>
+<indexterm><primary>Définition: chemin d'accès</primary></indexterm>
+<indexterm><primary>Chemin d'accès</primary><secondary>définition </secondary></indexterm>
+<step><para>L'emplacement d'un fichier est souvent indiqué par la liste
+des dossiers et des sous-dossiers qui permettent d'y accéder; cette
+liste est appelée <emphasis>chemin d'accès</emphasis> (pour
+plus de détails, reportez-vous à <xref linkend="pathconcepts">).
+Un chemin est visible à deux endroits du Gestionnaire de fichiers.
+Premièrement, dans le chemin icônique, sous la forme d'une chaîne
+de dossiers. Deuxièmement, sous forme de chaîne de caractères,
+sur la ligne de chemin de texte située au-dessus de la zone de visualisation.
+</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="pathconcepts">
+<title>Noms de chemins d'accès</title>
+<para>Le chemin d'accès à un objet permet d'indiquer l'emplacement
+de celui-ci dans le système de fichiers. Il existe trois façons
+d'indiquer un chemin: chemin absolu, chemin relatif et chemin complet.</para>
+<procedure>
+<title>Chemins absolus</title>
+<step><para>Un chemin est <emphasis>absolu</emphasis> lorsqu'il commence à
+partir du <emphasis>dossier racine</emphasis>. Le dossier racine (en anglais
+: <emphasis>root</emphasis>) est le dossier de plus haut niveau dans l'arborescence.
+Si un chemin commence par une barre oblique (<computeroutput>/</computeroutput>),
+il s'agit d'un chemin absolu. L'exemple suivant indique le chemin d'accès
+absolu du fichier <computeroutput>lettre</computeroutput>:</para>
+<programlisting>/usr/dt/config/lettre</programlisting>
+</step>
+</procedure>
+<procedure>
+<title>Chemins relatifs</title>
+<step><para>Un chemin <emphasis>relatif</emphasis> décrit l'emplacement
+d'un fichier ou d'un dossier par rapport au dossier courant. Si vous vous
+trouvez dans un dossier et que vous voulez descendre dans l'arborescence,
+vous n'avez pas besoin d'indiquer le chemin complet; il vous suffit de taper
+le chemin, en commençant par le nom du dossier suivant de l'arborescence.
+Lorsqu'un chemin ne commence pas par une barre oblique, il s'agit d'un chemin
+relatif. Par exemple, si le dossier courant est <computeroutput>/usr/dt</computeroutput>,
+et que vous souhaitez accéder au dossier "/usr/dt/config/lettres",
+utilisez le chemin relatif suivant:</para>
+<programlisting>config/lettres</programlisting>
+<indexterm><primary>.. (dossier parent)</primary></indexterm>
+<para>Deux noms de dossiers spéciaux peuvent être utiles lorsque
+vous indiquez des chemins relatifs. Le dossier dont l'extension commence par
+"." représente le dossier courant. Le dossier dont l'extension commence
+par ".." représente le dossier <emphasis>parent</emphasis>&emdash;
+c'est-à-dire le dossier situé un niveau au-dessus dans la hiérarchie.
+Par exemple, si le dossier courant est <computeroutput>/usr/dt/config/panels</computeroutput>, le chemin relatif du fichier <computeroutput>sys.dtwmrc</computeroutput> est:</para>
+<programlisting>../sys.dtwmrc</programlisting>
+<para>En effet, le fichier se trouve dans le dossier <computeroutput>/usr/dt/config</computeroutput>, un niveau au-dessus du dossier courant.</para>
+<!-- Do we need the following section if Remote Systems is out? **********-->
+<!--************************************************** <procedure>The Network
+Path  Both the absolute and relative path names are by the operating system
+as well as by the desktop.  The network path is a special path used only by
+certain applications in the desktop.  It includes the name of the system containing
+the file system.  Here is an example of a network path.  The name of the system
+is ``mysystem'':          <ex>mysystem:/usr/dt/config/sys.dtwmrc<\ex> ******************************-->
+<!--****************************** -->
+</step>
+</procedure>
+<procedure>
+<title>Voir aussi</title>
+<step>
+<itemizedlist role="tight" mark="&bull;">
+<listitem id="hfmgr.cncp.item.7"><para><xref linkend="tochangetoanotherdirectoryta"> <!--
+* <xref ToSpecifyRemotePath> --></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.8"><para><xref linkend="tofindafilebynameta"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.9"><para><xref linkend="tofindafilebycontentsta"></para>
+</listitem>
+</itemizedlist>
+</step>
+</procedure>
+</sect1>
+<sect1 id="fileownershipandsecuritysi">
+<title>Propriété et sécurité des objets</title>
+<para>Trois groupes d'utilisateurs peuvent accéder aux objets: <emphasis>le propriétaire</emphasis>, <emphasis>le groupe</emphasis> et <emphasis>les autres</emphasis> utilisateurs. Les droits d'accès sont de trois
+types: <emphasis>lecture</emphasis>, <emphasis>écriture</emphasis>
+et <emphasis>exécution</emphasis>.</para>
+<procedure>
+<title>Qui peut accéder aux objets ?</title>
+<step><para>Les trois catégories d'utilisateurs de base sont:</para>
+<variablelist>
+<varlistentry><term><glossterm role="nogloss">Propriétaire</glossterm></term>
+<listitem>
+<para>Il s'agit du créateur du fichier.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Groupe</glossterm></term>
+<listitem>
+<para>Plusieurs utilisateurs qui ont été regroupés par
+l'administrateur système. Par exemple, les membres d'un même
+service peuvent appartenir au même groupe.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Autre</glossterm></term>
+<listitem>
+<para>Tous les autres utilisateurs du système.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</step>
+</procedure>
+<procedure>
+<title>Quels sont les différents droits d'accès ?</title>
+<step><para>Les droits d'accès à un fichier définissent
+les autorisations attribuées au propriétaire, aux membres du
+groupe et aux autres utilisateurs.</para>
+<variablelist>
+<varlistentry><term><glossterm role="nogloss">Droit d'accès en lecture</glossterm></term>
+<listitem>
+<para>Permet de copier ou de visualiser le contenu de l'objet.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Droit d'accès en écriture</glossterm></term>
+<listitem>
+<para>Permet de modifier le contenu de l'objet ou de le supprimer.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Droit d'accès en exécution</glossterm></term>
+<listitem>
+<para>Permet d'<emphasis>exécuter</emphasis> un fichier (fichiers exécutables,
+scripts et actions). Dans le cas d'un dossier, permet d'exécuter des
+commandes, des scripts et des actions.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Vous pouvez visualiser et modifier les droits d'accès aux fichiers
+ou aux dossiers à partir du Gestionnaire de fichiers. Reportez-vous
+à <xref linkend="tochangeanobjectsownerta"> et <xref linkend="tochangeanobjectspermissionsta">.
+</para>
+</step>
+</procedure>
+<procedure>
+<title>Exemples</title>
+<step><para>Pour rendre un dossier confidentiel:</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.10"><para>Modifiez la propriété
+du dossier, en vous octroyant (propriétaire), les droits d'accès
+en lecture, écriture et exécution, et en n'attribuant aucune
+autorisation au groupe et aux autres utilisateurs. Ceci signifie que seuls
+le propriétaire (vous) et l'utilisateur root peuvent visualiser le
+contenu du dossier.</para>
+</listitem>
+</itemizedlist>
+<para>Pour permettre à tous les utilisateurs d'accéder à
+un objet que vous avez créé, tout en le protégeant contre
+une éventuelle suppression:</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.11"><para>Modifiez la propriété
+du fichier en attribuant les droits d'accès en lecture et en exécution
+au propriétaire, au groupe et aux autres utilisateurs. N'attribuez
+à personne le droit d'accès en écriture.</para>
+</listitem>
+</itemizedlist>
+</step>
+</procedure>
+<procedure>
+<title>Droits d'accès par défaut</title>
+<step><para>Les droits d'accès par défaut définis lors
+de la création d'un fichier ou d'un dossier peuvent être modifiés
+par l'administrateur système. Pour les visualiser, créez un
+fichier ou un dossier, puis sélectionnez l'option Modifier les droits
+d'accès dans le menu Sélectionné(s).</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="desktopintro">
+<title>Faciliter l'accès aux objets - Introduction &newline; Objets
+de l'espace de travail</title>
+<indexterm><primary>Objets de l'espace de travail</primary></indexterm><indexterm>
+<primary>Espace de travail</primary><secondary>objets</secondary></indexterm>
+<para>Le Gestionnaire de fichiers permet de visualiser tous les objets du
+système de fichiers. Cependant, ceux-ci sont uniquement visibles lorsque
+vous visualisez le dossier dans lequel ils se trouvent.</para>
+<para>Pour faciliter l'accès à un objet, vous pouvez le placer
+directement sur le fond de l'espace de travail. L'espace de travail est la
+zone sur laquelle les fenêtres sont affichées (reportez-vous
+à <xref linkend="toputanobjectonthedesktopta">). Tout objet placé
+sur cette zone est appelé <emphasis>objet de l'espace de travail</emphasis>.
+</para>
+<para>Placer un objet sur l'espace de travail ne modifie pas le fichier ou
+le dossier d'origine. En fait, l'icône qui apparaît sur le Bureau
+représente simplement un raccourci (lien) pour accéder au fichier
+ou dossier réel. Toute action effectuée sur l'objet de l'espace
+de travail est en fait appliquée au fichier ou au dossier qu'il représente.
+</para>
+<procedure>
+<title>Afficher des objets sur les espaces de travail</title>
+<step><para>Lorsque vous placez un objet sur l'espace de travail, il apparaît
+uniquement dans l'espace courant. Si vous souhaitez le voir apparaître
+dans d'autres espaces, activez ces espaces pour l'y placer.</para>
+</step>
+</procedure>
+<procedure>
+<title>Utiliser des objets de l'espace de travail</title>
+<step><para>Utilisez les objets de l'espace de travail exactement comme ceux
+des fenêtres du Gestionnaire de fichiers ou d'applications. Pour exécuter
+une action par défaut sur un objet, cliquez deux fois sur son icône
+sur le Bureau.</para>
+<para>A chaque objet de l'espace de travail est associé un menu instantané
+contenant des options et des actions. Pour afficher ce menu à l'aide
+de la souris, amenez le pointeur sur l'icône, appuyez sur le bouton
+3 de la souris et maintenez-le enfoncé. Pour l'afficher par l'intermédiaire
+du clavier, appuyez sur Alt+Tab jusqu'à ce que l'icône soit mise
+en évidence et appuyez sur Maj+F10.</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="matchingpatterns">
+<title>Formes de correspondance utilisées pour la recherche de fichiers</title>
+<indexterm><primary>Correspondance des caractères génériques </primary></indexterm>
+<para>Lorsque vous indiquez un nom de fichier ou de dossier, vous pouvez taper
+des caractères génériques tels que l'astérisque
+(<computeroutput>*</computeroutput>) et le point d'interrogation ( <computeroutput>?</computeroutput>). <computeroutput>*</computeroutput> correspond à
+une chaîne de zéro ou plusieurs caractères et <computeroutput>?</computeroutput>, à un caractère unique.</para>
+<procedure>
+<title>Exemples</title>
+<step>
+<variablelist><?Pub Caret>
+<varlistentry><term><computeroutput>ba*</computeroutput></term>
+<listitem>
+<para>Correspond à tous les noms commençant par la chaîne <computeroutput>ba</computeroutput>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>ba?</computeroutput></term>
+<listitem>
+<para>Correspond à tous les noms de trois lettres commençant
+par la chaîne <computeroutput>ba</computeroutput>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>*.vf</computeroutput></term>
+<listitem>
+<para>Correspond à tous les fichiers dont l'extension est <computeroutput>.vf</computeroutput>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>*.???</computeroutput></term>
+<listitem>
+<para>Correspond à tous les fichiers dont l'extension comporte trois
+caractères et commence par un point.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>Le nom et le contenu du fichier peuvent être indiqués à
+l'aide de la syntaxe d'expressions régulières utilisée
+par la commande "find" (pour plus de détails, reportez-vous à
+la page de manuel "find").</para>
+</note>
+</step>
+</procedure>
+</sect1>
+<sect1 id="iconbrowser">
+<title>Visualiser des icônes à l'aide du Gestionnaire de fichiers</title>
+<para>Les fichiers dont le nom se termine par <computeroutput>.pm</computeroutput>
+ou <computeroutput>.bm</computeroutput> contiennent des images, utilisées
+par le Gestionnaire de fichiers lorsqu'il crée des icônes. Par
+défaut, vous devez ouvrir ces fichiers pour visualiser les icônes
+qu'ils contiennent. Si vous activez la visualisation d'icônes, le Gestionnaire
+de fichiers définit l'icône de chaque fichier en fonction du
+dessin contenu dans le fichier.</para>
+<para>Pour savoir comment reconfigurer le Gestionnaire de fichiers pour la
+visualisation d'icônes, reportez-vous à:</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.12"><para><xref linkend="toenableiconbrowsingta"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.13"><para><xref linkend="todisableiconbrowsingta"></para>
+</listitem>
+</itemizedlist>
+<!-- EOF: Concepts -->
+</sect1>
+</chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 18:24:20-->
+<?Pub *0000023057>

@@ -1,0 +1,108 @@
+/*
+ * $XConsortium: user_base.h /main/4 1996/06/11 17:31:14 cde-hal $
+ *
+ * Copyright (c) 1992 HAL Computer Systems International, Ltd.
+ * All rights reserved.  Unpublished -- rights reserved under
+ * the Copyright Laws of the United States.  USE OF A COPYRIGHT
+ * NOTICE IS PRECAUTIONARY ONLY AND DOES NOT IMPLY PUBLICATION
+ * OR DISCLOSURE.
+ * 
+ * THIS SOFTWARE CONTAINS CONFIDENTIAL INFORMATION AND TRADE
+ * SECRETS OF HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.  USE,
+ * DISCLOSURE, OR REPRODUCTION IS PROHIBITED WITHOUT THE
+ * PRIOR EXPRESS WRITTEN PERMISSION OF HAL COMPUTER SYSTEMS
+ * INTERNATIONAL, LTD.
+ * 
+ *                         RESTRICTED RIGHTS LEGEND
+ * Use, duplication, or disclosure by the Government is subject
+ * to the restrictions as set forth in subparagraph (c)(l)(ii)
+ * of the Rights in Technical Data and Computer Software clause
+ * at DFARS 252.227-7013.
+ *
+ *          HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.
+ *                  1315 Dell Avenue
+ *                  Campbell, CA  95008
+ * 
+ */
+
+
+#ifndef _user_base_h
+#define _user_base_h 1
+
+#include "utility/funcs.h"
+#include "utility/rw_lock.h"
+#include "api/utility.h"
+#include "api/base.h"
+#include "api/transaction.h"
+#include "object/oid_list.h"
+#include "oliasdb/olias_consts.h"
+
+/*************************************/
+// The user_base class
+/*************************************/
+
+class user_base : public base
+{
+
+public:
+   enum rw_flag_t { READ, WRITE };
+   enum checking_status_t { SUCC,
+                            NO_BASE,
+                            FAIL,
+/*
+                            NO_READ_PERMISSION,
+                            NO_WRITE_PERMISSION,
+*/
+                            CREATE_LOCKFILE_FAIL,
+                            RLOCK_FAIL,
+                            WLOCK_FAIL
+                          };
+
+   checking_status_t open_status() { return checking_status ; }
+
+   user_base( const char* base_dir, 
+             const char* base_name, 
+             const char* base_desc,
+             const char* spec_path,
+             rw_flag_t = user_base::READ
+            );
+   user_base(const char* spec_path, rw_flag_t = user_base::READ);
+   virtual ~user_base();
+
+   Boolean define();
+   rw_flag_t rw_mode() { return rw_flag; };
+
+   transaction& trans() { return ubase_trans; };
+
+protected:
+   void _init();
+
+   user_base::checking_status_t check_mode();
+   user_base::checking_status_t check_lock();
+
+   void clean_up();
+
+
+protected:
+   ostream* backup_file;
+   rw_flag_t rw_flag;
+   checking_status_t checking_status;
+
+   char atomic_lock_path[PATHSIZ];
+   char write_lock_path[PATHSIZ];
+   char ai_path[PATHSIZ];
+   int offset;
+
+   desc* first_desc_ptr;
+   const char* spec_name;
+
+   transaction ubase_trans;
+
+   object_dict *f_obj_dict;
+};
+
+typedef user_base* user_basePtr;
+
+extern user_basePtr default_user_base;
+
+#endif

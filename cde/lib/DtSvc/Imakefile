@@ -1,0 +1,135 @@
+XCOMM $TOG: Imakefile /main/16 1998/08/10 18:02:14 mgreess $
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+SUBDIRS = include DtUtil1 DtUtil2 DtEncap DtCodelibs DtXpm
+DONES = DtUtil1/DONE DtUtil2/DONE DtEncap/DONE DtCodelibs/DONE DtXpm/DONE
+EXTRALIBRARYDEPS = $(DONES)
+
+MakeSubdirs($(SUBDIRS))
+ForceSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+#define DoNormalLib	NormalLibDtSvc
+#define DoSharedLib	SharedLibDtSvc
+#define DoDebugLib	DebugLibDtSvc
+#define DoProfileLib	ProfileLibDtSvc
+#define LibName		DtSvc
+#define SoRev		SODTSVCREV
+#define LibHeaders	NO
+#define CplusplusSource	YES
+
+#include <Threads.tmpl>
+
+#ifndef DtSvcDefines
+# define DtSvcDefines	-DXK_MISCELLANY -DMULTIBYTE
+#endif
+DEFINES = DtSvcDefines
+
+INCLUDES = -I.
+
+#ifdef SharedDtSvcReqs
+#ifdef SunArchitecture
+REQUIREDLIBS = SharedDtSvcReqs -L/opt/SUNWspro/SC4.0/lib -Bstatic -lC
+SHLIBLDFLAGS = -G
+#else
+REQUIREDLIBS = SharedDtSvcReqs
+#endif
+#endif
+
+
+#ifdef AlphaArchitecture
+EXTRA_SRCS = svc_init.c
+EXTRA_OBJS = svc_init.o
+#endif
+
+#if defined(SunArchitecture)
+DTUTIL2_EXTRA_OBJS = DtUtil2/SunDtHelp.o
+#endif
+
+
+/* NOTE!!!
+ * All .o's are built in the subdirectories.  
+ * Each .o must have a listing in *OBJS macros below.
+ */
+DTUTIL1_OBJS1 = \
+	DtUtil1/Action.o 	DtUtil1/ActionTt.o \
+	DtUtil1/ActionFind.o 	DtUtil1/ActionDb.o \
+	DtUtil1/ActionUtil.o 	DtUtil1/CmdSpc.o \
+	DtUtil1/CmdMain.o 	DtUtil1/CmdProcess.o \
+	DtUtil1/CmdUtilityP.o 	DtUtil1/DbReader.o \
+	DtUtil1/DbUtil.o 	DtUtil1/Dnd.o \
+	DtUtil1/DndDrag.o 	DtUtil1/DndDrop.o \
+	DtUtil1/DndIcon.o 	DtUtil1/DndBuff.o \
+	DtUtil1/DndFile.o 	DtUtil1/DndText.o \
+	DtUtil1/Dt.o		DtUtil1/Dts.o \
+	DtUtil1/DtsDb.o 	DtUtil1/DtsSort.o \
+	DtUtil1/DbLoad.o 	DtUtil1/DtsInit.o \
+	DtUtil1/DtHash.o 	DtUtil1/intarray.o \
+	DtUtil1/inttab.o 	DtUtil1/strtab.o \
+	DtUtil1/MMDb.o		DtUtil1/DtsMM.o \
+	DtUtil1/GetMwmW.o 	DtUtil1/GetVWmHint.o \
+	DtUtil1/Qualify.o 	DtUtil1/Saver.o \
+	DtUtil1/SetVWmHint.o 	DtUtil1/SmComm.o \
+	DtUtil1/SmUtil.o 	DtUtil1/WmAddDelWs.o \
+	DtUtil1/WmBackWin.o 	DtUtil1/WmChBackD.o \
+	DtUtil1/WmGWsInfo.o 	DtUtil1/WmGWsList.o \
+	DtUtil1/WmMarquee.o 	DtUtil1/WmRestart.o \
+	DtUtil1/WmRmWsFcn.o 	DtUtil1/WmSetTitle.o \
+	DtUtil1/WmSetWs.o 	DtUtil1/WmWsCallB.o \
+	DtUtil1/WmWsHints.o 	DtUtil1/WmWsOccupy.o
+
+DTUTIL2_OBJS = \
+	$(DTUTIL2_EXTRA_OBJS) \
+	DtUtil2/ChkpntClient.o 	DtUtil2/ChkpntListen.o \
+	DtUtil2/DtEnvMap.o 	DtUtil2/DtNlUtils.o \
+	DtUtil2/EnvControl.o 	DtUtil2/FileUtil.o \
+	DtUtil2/GetDispRes.o 	DtUtil2/GetMessage.o \
+	DtUtil2/HourGlass.o 	DtUtil2/SharedProcs.o \
+	DtUtil2/SmCreateDirs.o 	DtUtil2/UErrNoBMS.o \
+	DtUtil2/Utility.o 	DtUtil2/ActIndicator.o \
+	DtUtil2/CmdUtility.o 	DtUtil2/DtGetMessage.o \
+	DtUtil2/DtUtil.o 	DtUtil2/GetEmbed.o \
+	DtUtil2/Hash.o		DtUtil2/PrintXErr.o \
+	DtUtil2/XmWrap.o 	DtUtil2/addToRes.o \
+	DtUtil2/lock.o		DtUtil2/SvcTT.o \
+	DtUtil2/MsgCat.o 	DtUtil2/MsgLog.o \
+	DtUtil2/Info.o		DtUtil2/LocaleXlate.o \
+	DtUtil2/XlationSvc.o
+
+DTCODELIBS_OBJS3 = \
+	DtCodelibs/buf.o 	DtCodelibs/filegen.o \
+	DtCodelibs/mbschr.o 	DtCodelibs/pathcollapse.o \
+	DtCodelibs/privbuf.o 	DtCodelibs/shellscan.o \
+	DtCodelibs/strcase.o 	DtCodelibs/strend.o \
+	DtCodelibs/strhash.o 	DtCodelibs/stringio.o \
+	DtCodelibs/strtokx.o 	DtCodelibs/strwcmp.o
+
+DTENCAP_OBJS4 = \
+	DtEncap/MemoryMgr.o 	DtEncap/SbEvent.o \
+	DtEncap/Symbolic.o 	DtEncap/bmsglob.o \
+	DtEncap/connect.o 	DtEncap/local.o \
+	DtEncap/nls.o		DtEncap/noio.o \
+	DtEncap/pathwexp.o 	DtEncap/pipe.o \
+	DtEncap/pty.o		DtEncap/remote.o \
+	DtEncap/sbstdinc.o 	DtEncap/scoop.o \
+	DtEncap/spc-env.o 	DtEncap/spc-error.o \
+	DtEncap/spc-exec.o 	DtEncap/spc-net.o \
+	DtEncap/spc-obj.o 	DtEncap/spc-proto.o \
+	DtEncap/spc-sm.o 	DtEncap/spc-termio.o \
+	DtEncap/spc-util.o 	DtEncap/spc-xt.o \
+	DtEncap/spc.o		DtEncap/stringbuf.o \
+	DtEncap/usersig.o
+
+DTXPM_OBJS5 = \
+	DtXpm/xpm.o
+
+
+SRCS = version.c $(EXTRA_SRCS)
+OBJS = version.o $(EXTRA_OBJS) \
+	$(DTUTIL1_OBJS1) $(DTUTIL1_OBJS2) $(DTUTIL2_OBJS) \
+	$(DTCODELIBS_OBJS3) $(DTENCAP_OBJS4) $(DTXPM_OBJS5)
+
+#include <Library.tmpl>
+
+DependTarget()

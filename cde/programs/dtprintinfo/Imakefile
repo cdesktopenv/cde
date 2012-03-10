@@ -1,0 +1,94 @@
+XCOMM $TOG: Imakefile /main/21 1998/08/25 12:58:41 mgreess $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+SUBDIRS = util libUI objects UI
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+DTPRINTINFO_GEN = \
+ dtprintinfo_cat.h \
+ dtprintinfo_msg.h \
+ dtprintinfo.msg
+
+all:: $(DTPRINTINFO_GEN)
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+INCLUDES = -I. -I./UI -I./libUI -I./util -I./libUI/MotifUI \
+	-I./objects -I./objects/PrintObj
+
+DEPLIBS = ./libUI/MotifUI/libMotifUI.a ./util/libUtil.a \
+	./UI/libDtPrintinfo.a ./objects/PrintObj/libPrintObj.a \
+	$(DEPDTHELPLIB) $(DEPDTWIDGETLIB) $(DEPDTSVCLIB) $(DEPTTLIB) \
+	$(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB)
+
+#ifdef SunArchitecture
+LOCAL_LIBRARIES = ./UI/libDtPrintinfo.a ./util/libUtil.a \
+	./libUI/MotifUI/libMotifUI.a ./objects/PrintObj/libPrintObj.a \
+	$(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) \
+	$(XPLIB) $(XLIB)
+#else
+LOCAL_LIBRARIES = ./UI/libDtPrintinfo.a ./util/libUtil.a \
+	./libUI/MotifUI/libMotifUI.a ./objects/PrintObj/libPrintObj.a \
+	$(DTHELPLIB) $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) $(XMLIB) \
+	$(XTOOLLIB) $(XPLIB) $(XLIB)
+#endif /* SunArchitecture */
+
+SYS_LIBRARIES = DtClientSysLibs DtClientExtraLibs
+
+AWK = awk
+
+#ifdef SunArchitecture
+AWK = nawk
+#endif
+
+#ifdef RsArchitecture
+DEFINES = -DHAS_EXCEPTIONS
+#endif
+
+#ifdef USLArchitecture
+AWK = nawk
+#endif
+
+#ifdef UXPArchitecture
+AWK = nawk
+#endif
+
+#ifdef AlphaArchitecture
+DEFINES = -D_TOOLTALK
+#endif
+
+/* special processing for message files */
+SYM2NUM_CMD = ./sym2num
+
+SRCS = DtPrintinfo.C
+OBJS = libUI/BaseUI.o objects/BaseObj.o DtPrintinfo.o
+PROGRAM = dtprintinfo
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(dtprintinfo)
+
+dtprintinfo_msg.h dtprintinfo.msg: dtprintinfo.msg.src
+	rm -f dtprintinfo_msg.h dtprintinfo.msg
+	$(SYM2NUM_CMD) dtprintinfo dtprintinfo.msg.src> dtprintinfo.msg
+
+dtprintinfo_cat.h: dtprintinfo.msg.src
+	rm -f dtprintinfo_cat.h
+	${AWK} -f msg.awk dtprintinfo.msg.src > dtprintinfo_cat.h
+
+includes:: dtprintinfo_cat.h dtprintinfo_msg.h
+
+depend:: dtprintinfo_cat.h dtprintinfo_msg.h
+
+clean::
+	$(RM) *.map $(DTPRINTINFO_GEN)

@@ -1,0 +1,368 @@
+<!-- $XConsortium: Concepts.sgm /main/12 1996/12/21 12:09:25 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<!-- Help volume: Filemgr  -->
+<!-- File name:   Concepts -->
+<chapter id="concepts">
+<title>Nozioni generali sulla Gestione di file</title>
+<para>Le sezioni seguenti contengono alcune nozioni generali sul funzionamento
+della Gestione di file.</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.1"><para><xref linkend="thehierarchicalfilesystemsi"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.2"><para><xref linkend="pathconcepts"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.3"><para><xref linkend="fileownershipandsecuritysi"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.4"><para><xref linkend="desktopintro"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.5"><para><xref linkend="matchingpatterns"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.6"><para><xref linkend="iconbrowser"></para>
+</listitem>
+</itemizedlist>
+<sect1 id="thehierarchicalfilesystemsi">
+<title>File system gerarchico</title>
+<indexterm><primary>gerarchia di file system</primary></indexterm><indexterm>
+<primary>file system, gerarchia</primary></indexterm><indexterm><primary>file: definizione</primary></indexterm>
+<para>Il concetto di file system gerarchico può essere poco chiaro
+per chi ha scarsa familiarità con i computer. Questa sezione descrive
+i componenti base del file system gerarchico.</para>
+<procedure>
+<title>Cos'è un file?</title>
+<step><para>Un <symbol role="Variable">file</symbol> è un contenitore
+di informazioni, solitamente dati, organizzati in un formato particolare &emdash;
+si può trattare di un documento, di un foglio elettronico, di un diagramma,
+ecc. Il formato è il modo specifico in cui i dati sono organizzati
+all'interno del file, e può essere definito come il tipo di dati del
+file.</para>
+<para>Quando la Gestione di file è in una delle modalità di
+visualizzazione ad icone, il tipo di dati di un file può essere identificato
+dall'icona che lo rappresenta.
+Ogni tipo di dati è infatti associato a un'icona diversa.</para>
+<para>La maggior parte delle applicazioni riconosce un numero limitato di
+tipi di dati. Ad esempio, un editor di testo non potrà leggere il file
+di un foglio elettronico. Il desktop aiuta a distinguere i vari tipi di file
+usando un database dei <glossterm>tipi di dati</glossterm>. Ogni tipo di dati
+identifica i file di un determinato formato e li associa alle applicazioni
+appropriate. In genere, facendo doppio clic su un file il desktop avvia automaticamente
+l'applicazione appropriata per il tipo di dati contenuto nel file.</para>
+<para>La lunghezza massima del nome di un file varia da sistema a sistema.
+Alcuni sistemi operativi non accettano nomi più lunghi di 14 caratteri.
+Per informazioni specifiche, rivolgersi all'amministratore di sistema.</para>
+</step>
+</procedure>
+<procedure>
+<title>Cos'è una cartella?</title>
+<indexterm><primary>cartella: definizione</primary></indexterm>
+<step><para>Una <emphasis>cartella</emphasis> è un contenitore di file.
+La sua funzione è ben rappresentata dall'icona, che ha la forma di
+cassetto d'archivio. Ogni cartella può contenere altre cartelle, denominate <emphasis>cartelle secondarie</emphasis>. Le cartelle e le cartelle secondarie vengono
+solitamente organizzate in più livelli, formando una struttura gerarchica.
+(In altri contesti, le cartelle vengono spesso chiamate directory.)</para>
+<para>Se si provasse a disegnare una gerarchia di cartelle con tutte le cartelle
+secondarie al di sotto della rispettiva cartella di appartenenza (la cartella
+principale o precedente) e a tracciare una linea tra ogni cartella e quella
+superiore, l'immagine risultante assomiglierebbe ad un albero capovolto. Per
+questa ragione, la gerarchia delle cartelle viene spesso chiamata <emphasis>albero</emphasis> delle cartelle.</para>
+<para>All'interno di ogni cartella, ogni file deve avere un nome unico. Questa
+regola non si applica ai file contenuti in cartelle differenti.</para>
+<para>Negli spostamenti da una cartella all'altra, la posizione corrente viene
+definita come <emphasis>cartella corrente</emphasis>.</para>
+</step>
+</procedure>
+<procedure>
+<title>Cos'è un percorso?</title>
+<indexterm><primary>percorso: definizione</primary></indexterm>
+<step><para>La posizione di un file viene spesso specificata elencando i nomi
+delle cartelle e delle cartelle secondarie che portano a quella posizione &emdash;
+questo elenco viene chiamato <emphasis>percorso</emphasis>.
+(Vedere <xref linkend="pathconcepts">.) Nella Gestione di file, il percorso
+di un file è indicato in due modi: come sequenza di cartelle nella
+rappresentazione ad icone, e in forma di testo nella riga al di sopra dell'area
+di visualizzazione.</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="pathconcepts">
+<title>Tipi di percorso e nomi dei percorsi</title>
+<para>Il percorso di un oggetto specifica la posizione di quell'oggetto nel
+file system. Esistono tre modi per specificare tale posizione: il percorso
+assoluto, il percorso relativo e il percorso completo.</para>
+<procedure>
+<title>Percorso assoluto</title>
+<step><para>Un percorso si dice <emphasis>assoluto</emphasis> quando inizia
+dalla <emphasis>cartella radice</emphasis>, cioè dalla cartella situata
+più in alto nella struttura gerarchica. Se un percorso inizia con una
+barra (<computeroutput>/</computeroutput>), si tratta di un percorso assoluto
+specificato a partire dalla cartella radice. Ad esempio, il percorso seguente
+è il percorso assoluto del file <computeroutput>lettera</computeroutput>:
+</para>
+<programlisting>/usr/dt/config/lettera</programlisting>
+</step>
+</procedure>
+<procedure>
+<title>Percorso relativo</title>
+<step><para>Un percorso si dice <emphasis>relativo</emphasis> quando descrive
+la posizione del file o della cartella in relazione alla cartella corrente.
+Se ci si trova in una cartella e si desidera spostarsi a un livello inferiore
+della gerarchia, non occorre digitare l'intero percorso. È sufficiente
+specificare la parte che inizia con la cartella successiva a quella corrente.
+Se un percorso non inizia con una barra, significa che si tratta di un percorso
+relativo. Ad esempio, se la cartella corrente è <computeroutput>/usr/dt</computeroutput> e si desidera spostarsi nella cartella ''/usr/dt/config/lettere'',
+si potrà utilizzare il seguente percorso relativo:</para>
+<programlisting>config/lettere</programlisting>
+<indexterm><primary>.. (livello superiore)</primary></indexterm>
+<para>Nello specificare i percorsi relativi possono essere utili due nomi
+speciali.
+La cartella <computeroutput>.</computeroutput> (detta anche "punto") rappresenta
+la cartella corrente. La cartella <computeroutput>..</computeroutput> (detta
+anche "punto-punto") rappresenta la cartella <emphasis>precedente</emphasis> &emdash;
+cioè la cartella di livello superiore nella gerarchia. Ad esempio,
+se la cartella corrente è <computeroutput>/usr/dt/config/panels</computeroutput>,
+il percorso relativo del file <computeroutput>sys.dtwmrc</computeroutput>,
+che si trova nella cartella <computeroutput>/usr/dt/config</computeroutput>,
+un livello più in alto rispetto alla cartella corrente, sarà:
+</para>
+<programlisting>../sys.dtwmrc</programlisting>
+<!-- Do we need the following section if Remote Systems is out?
+**********-->
+<!--**************************************************
+<procedure>Il perco-->
+<!--rso di rete
+ 
+Il percorso assoluto e quello relativo vengono utilizzat-->
+<!--i sia dal sistema operativo che dal desktop.  Il percorso di rete è un-->
+<!-- percorso speciale usato solo da certe applicazioni del desktop. Inclu-->
+<!--de il nome del sistema che contiene il file system.
+ 
+Il seguente è un-->
+<!-- esempio di percorso di rete. Il nome del sistema è ``miosistema'':
+ 
+-->
+<!--        <ex>miosistema:/usr/dt/config/sys.dtwmrc<\ex>
+****************-->
+<!--********************************************
+-->
+
+</step>
+</procedure>
+<procedure>
+<title>Vedere anche</title>
+<step>
+<itemizedlist role="tight" mark="&bull;">
+<listitem id="hfmgr.cncp.item.7"><para><xref linkend="tochangetoanotherdirectoryta">
+<!-- * <xref ToSpecifyRemotePath> --></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.8"><para><xref linkend="tofindafilebynameta"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.9"><para><xref linkend="tofindafilebycontentsta"></para>
+</listitem>
+</itemizedlist>
+</step>
+</procedure>
+</sect1>
+<sect1 id="fileownershipandsecuritysi">
+<title>Proprietà e sicurezza degli oggetti</title>
+<para>Gli oggetti del desktop sono accessibili a tre gruppi di utenti: <emphasis>proprietario</emphasis>, <emphasis>gruppo</emphasis> e <emphasis>altri</emphasis>.
+Si distinguono inoltre tre funzioni di accesso: <emphasis>lettura</emphasis>, <emphasis>scrittura</emphasis> ed <emphasis>esecuzione</emphasis>.</para>
+<procedure>
+<title>Chi può accedere agli oggetti?</title>
+<step><para>Le tre classi fondamentali di utenti sono:</para>
+<variablelist>
+<varlistentry><term><glossterm role="nogloss">Proprietario</glossterm></term>
+<listitem>
+<para>Generalmente la persona che ha creato il file.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Gruppo</glossterm></term>
+<listitem>
+<para>Insieme di utenti raggruppati dall'amministratore di sistema. Ad esempio,
+un gruppo può essere formato dai membri di un dipartimento.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Altri</glossterm></term>
+<listitem>
+<para>Tutti gli altri utenti del sistema.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</step>
+</procedure>
+<procedure>
+<title>Quali sono i tipi di accesso?</title>
+<step><para>Le autorizzazioni di accesso ad un file specificano il modo in
+cui il proprietario, i membri del gruppo e gli altri utenti possono operare
+su quel file.</para>
+<variablelist>
+<varlistentry><term><glossterm role="nogloss">Autorizzazione di lettura</glossterm></term>
+<listitem>
+<para>Concede l'accesso per copiare o visualizzare il contenuto dell'oggetto.<?Pub Caret></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Autorizzazione di scrittura</glossterm></term>
+<listitem>
+<para>Permette di modificare il contenuto dell'oggetto o di cancellarlo.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Autorizzazione di esecuzione</glossterm></term>
+<listitem>
+<para>Nel caso dei file, permette di <emphasis>eseguire</emphasis> il file
+a cui si riferisce (si applica ai file eseguibili, agli script e alle azioni).
+Nel caso delle cartelle, permette di accedere alla cartella in oggetto per
+eseguire comandi, script ed azioni all'interno di
+quella cartella.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>La Gestione di file consente di visualizzare e modificare le autorizzazioni
+di accesso ai file e alle cartelle. Vedere <xref linkend="tochangeanobjectsownerta">
+e <xref linkend="tochangeanobjectspermissionsta">.</para>
+</step>
+</procedure>
+<procedure>
+<title>Esempi</title>
+<step><para>Per rendere riservato l'accesso a una cartella:</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.10"><para>Cambiare le autorizzazioni della cartella
+assegnando a se stessi (ovvero al proprietario)
+le autorizzazioni di lettura, scrittura ed esecuzione, e non assegnando alcuna
+autorizzazione al gruppo e agli altri utenti. In questo modo, il contenuto
+della
+cartella potrà essere visualizzato solo dal proprietario e dal superutente.
+</para>
+</listitem>
+</itemizedlist>
+<para>Per abilitare tutti gli utenti ad accedere a un oggetto di cui si è
+proprietari, proteggendolo allo stesso tempo da una sovrascrittura accidentale:
+</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.11"><para>Cambiare le autorizzazioni del file
+assegnando le autorizzazioni di lettura ed esecuzione al proprietario, al
+gruppo e agli altri utenti. Non assegnare ad alcun utente l'autorizzazione
+di scrittura.</para>
+</listitem>
+</itemizedlist>
+</step>
+</procedure>
+<procedure>
+<title>Autorizzazioni predefinite</title>
+<step><para>Le autorizzazioni predefinite adottate quando si crea un nuovo
+file o una nuova cartella possono essere modificate dall'amministratore di
+sistema. Per determinare quali sono le autorizzazioni predefinite correnti,
+creare un nuovo file o una nuova cartella, quindi scegliere Modificare autorizzazioni
+dal menu Selezioni per visualizzare le autorizzazioni predefinite.</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="desktopintro">
+<title>Facilitare l'accesso agli oggetti - Introduzione &newline; agli oggetti
+dello spazio di lavoro</title>
+<indexterm><primary>oggetti dello spazio di lavoro</primary></indexterm><indexterm>
+<primary>spazio di lavoro: oggetti</primary></indexterm>
+<para>La Gestione di file permette di visualizzare tutti gli oggetti contenuti
+nel file system. Tuttavia, un oggetto è visibile solo quando si sta
+visualizzando la cartella che lo contiene.</para>
+<para>Per rendere più semplice l'accesso a un oggetto, è possibile
+collocarlo direttamente nello spazio di lavoro. Lo spazio di lavoro è
+l'area o superficie su cui vengono visualizzate le finestre. (Vedere <xref
+linkend="toputanobjectonthedesktopta">.) Gli oggetti che si trovano in questa
+posizione vengono chiamati <emphasis>oggetti dello spazio di lavoro</emphasis>.
+</para>
+<para>La collocazione nello spazio di lavoro non altera il file o la cartella
+originale. In realtà, l'icona che compare sul desktop è solo
+una scorciatoia (un collegamento) per accedere al file o alla cartella reale.
+Tutte le operazioni eseguite su un oggetto dello spazio di lavoro vengono
+eseguite in realtà sul file o sulla cartella che quell'oggetto rappresenta.
+</para>
+<procedure>
+<title>Visualizzazione degli oggetti in un unico spazio di lavoro</title>
+<step><para>Quando si colloca un oggetto nello spazio di lavoro, esso compare
+solo nello spazio di lavoro corrente. Se si desidera che l'oggetto compaia
+in altri spazi di lavoro, occorre spostarsi in tali spazi di lavoro e collocare
+l'oggetto sullo sfondo.</para>
+</step>
+</procedure>
+<procedure>
+<title>Uso degli oggetti dello spazio di lavoro</title>
+<step><para>Gli oggetti dello spazio di lavoro possono essere usati esattamente
+come nelle finestre della Gestione di file o della Gestione di applicazioni.
+Per eseguire l'azione predefinita di un oggetto, fare doppio clic sulla sua
+icona sul desktop.</para>
+<para>Ad ogni oggetto dello spazio di lavoro è associato un menu a
+scomparsa contenente comandi ed azioni relativi all'oggetto. Per visualizzare
+il menu a scomparsa associato a un oggetto dello spazio di lavoro usando il
+mouse, puntare sull'icona dell'oggetto e premere il pulsante del mouse 3.
+Per visualizzare il menu usando la tastiera, premere Alt+Tab fino a quando
+l'icona appare evidenziata, quindi premere Shift+F10.</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="matchingpatterns">
+<title>Caratteri speciali per indicare i nomi dei file</title>
+<indexterm><primary>caratteri speciali, uso</primary></indexterm><indexterm>
+<primary>ricerca con caratteri speciali</primary></indexterm>
+<para>Per specificare il nome di un file o di una cartella si possono usare
+caratteri speciali come l'asterisco (<computeroutput>*</computeroutput>) e
+il punto interrogativo (<computeroutput>?</computeroutput>). Il carattere <computeroutput>*</computeroutput> corrisponde a qualsiasi stringa di zero o più caratteri,
+mentre il simbolo <computeroutput>?</computeroutput> corrisponde a un qualsiasi
+carattere singolo.</para>
+<procedure>
+<title>Esempi</title>
+<step>
+<variablelist>
+<varlistentry><term><computeroutput>ba*</computeroutput></term>
+<listitem>
+<para>Corrisponde a tutti i nomi che iniziano con la stringa <computeroutput>ba</computeroutput></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>ba?</computeroutput></term>
+<listitem>
+<para>Corrisponde a tutti i nomi di tre lettere che iniziano con la stringa <computeroutput>ba</computeroutput></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>*.vf</computeroutput></term>
+<listitem>
+<para>Corrisponde a tutti i nomi che terminano con l'estensione <computeroutput>.vf</computeroutput></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>*.???</computeroutput></term>
+<listitem>
+<para>Corrisponde a tutti i nomi che hanno un'estensione di tre lettere dopo
+il punto</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>Il nome e il contenuto di un file possono essere specificati usando
+le stesse espressioni regolari accettate dal comando <computeroutput>find</computeroutput>. (Per maggiori informazioni, vedere la pagina di spiegazioni
+relativa a <computeroutput>find (1)</computeroutput>.)</para>
+</note>
+</step>
+</procedure>
+</sect1>
+<sect1 id="iconbrowser">
+<title>Uso della Gestione di file come browser di icone</title>
+<para>I file con estensione <computeroutput>.pm</computeroutput> o <computeroutput>.bm</computeroutput> contengono l'immagine di un'icona. Si tratta delle immagini
+utilizzate dalla Gestione di file per creare le icone. Nell'impostazione predefinita,
+per vedere queste immagini occorre aprire i file che le contengono. Tuttavia,
+abilitando il browser delle icone, tali immagini verranno visualizzate al
+posto delle icone dei rispettivi file.</para>
+<para>Per informazioni su come riconfigurare la consultazione delle icone
+nella Gestione di file, vedere:</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.12"><para><xref linkend="toenableiconbrowsingta"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.13"><para><xref linkend="todisableiconbrowsingta"></para>
+</listitem>
+</itemizedlist>
+<!-- EOF: Concepts -->
+</sect1>
+</chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 21:16:21-->
+<?Pub *0000021861>

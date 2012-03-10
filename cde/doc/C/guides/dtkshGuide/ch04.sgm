@@ -1,0 +1,352 @@
+<!-- $XConsortium: ch04.sgm /main/7 1996/09/08 19:46:13 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="DKSUG.scr2.div.1">
+<title>A Complex Script<indexterm><primary>script, complex</primary></indexterm></title>
+<para>This chapter describes a much more complex script than that described
+in Chapter 2. Because of its length, the entire script is listed in Appendix
+C. Remember that this guide is not a tutorial on KornShell programming.
+If you are not familiar with KornShell programming, you should obtain a
+book on the subject and have it handy for reference.</para>
+<sect1 id="DKSUG.scr2.div.2">
+<title>Using script_find</title>
+<para>The script,<indexterm><primary>script_find</primary></indexterm> <filename>script_find</filename>, demonstrates how you can use <command>dtksh</command>
+to provide a graphical interface to the <command>find</command> command.
+<filename>script_find</filename> produces a window within which you can
+specify parameters for the <command>find</command> command. To fully understand
+the script, you should be familiar with the <command>find</command> command
+and you should have its man page available. A number of the toggle button
+menu choices in the window produced by <filename>script_find</filename> require
+some knowledge of the <command>find</command> command.</para>
+<para>The script's window allows you to specify a search directory and a file
+name. Other options allow you to place restrictions on the type of file
+system to search and the file type on which to match. Figure 4-1 shows the
+script's window.</para>
+<figure>
+<title>Window for script_find</title>
+<graphic id="DKSUG.scr2.grph.1" entityref="DKSUG.scr2.fig.1"></graphic>
+</figure>
+<para>Enter the search directory and file name you're looking for in the text
+fields at the top of the window. In addition, select any applicable choice
+(or choices) from the five toggle buttons. You can further restrict the
+search with the option menus. When you have made all the necessary selections,
+click OK. If all is well, a window appears shortly thereafter and displays
+the results of the <command>find</command> operation. An error dialog appears
+if you don't specify a search directory or file name, or if the specified
+search directory is invalid. For example, suppose you want to find a file
+called <filename>two_letter_calls</filename>, and you think it resides somewhere
+in the directory <filename>/users/dlm</filename>. When you enter the directory
+in the Search Directory text field, you inadvertently type
+<filename>/users/dln</filename> instead of /<filename>users/dlm</filename>. When you click OK
+or Apply, <filename>script_find</filename> can't find the directory <filename>/users/dln</filename>, so it creates the error dialog to notify you of this.
+</para>
+<figure>
+<title>script_find error dialog</title>
+<graphic id="DKSUG.scr2.grph.2" entityref="DKSUG.scr2.fig.2"></graphic>
+</figure>
+<para>When you correct the mistake, <filename>script_find</filename> then
+executes properly and creates a <command>dtterm</command> window within which
+it displays the complete path of the file you requested, providing that the
+file is found.</para>
+<figure>
+<title>Window showing complete path</title>
+<graphic id="DKSUG.scr2.grph.3" entityref="DKSUG.scr2.fig.3"></graphic>
+</figure>
+<para>If <filename>script_find</filename> cannot find the file in the specified
+directory, nothing appears in the <command>dtterm</command> window.</para>
+</sect1>
+<sect1 id="DKSUG.scr2.div.3">
+<title>Analyzing script_find</title>
+<para>The structure of <filename>script_find</filename> is similar to a C
+program: some functions and callbacks appear first, followed by the main
+script.</para>
+<para>The first two lines of the script are important, and should be included
+in every <command>dtksh</command> script you write:</para>
+<programlisting>#! /usr/dt/bin/dtksh
+. /usr/dt/lib/dtksh/DtFunc.dtsh</programlisting>
+<para>The first line executes the <command>dtksh</command> system and the
+second loads the <command>dtksh</command> convenience functions. The second
+line wasn't used in the scripts described in Chapter 2 because those scripts
+did not use any <command>dtksh</command> convenience functions.</para>
+<sect2 id="DKSUG.scr2.div.4">
+<title>Functions and Callbacks<indexterm><primary>callback</primary><secondary>script_find</secondary></indexterm></title>
+<para><filename>script_find</filename> has the following functions and callbacks:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>PostErrorDialog()</filename></para>
+</listitem><listitem><para><filename>OkCallback()</filename></para>
+</listitem><listitem><para>LoadStickyValues()</para>
+</listitem><listitem><para><filename>EvalCmd()</filename></para>
+</listitem><listitem><para><filename>RetrieveAndSaveCurrentValues()</filename></para>
+</listitem></itemizedlist>
+<sect3 id="DKSUG.scr2.div.5">
+<title>PostErrorDialog()</title>
+<para>This function is called when an error is detected, such as when the
+user enters an invalid directory. The function calls the convenience function
+<filename><indexterm><primary>DtkshDisplayErrorDialog</primary></indexterm>DtkshDisplayErrorDialog()</filename> which displays a dialog box whose title is Find Error and whose
+message is contained in the variable $1, which is passed from the calling
+location.</para>
+<programlisting>dialogPostErrorDialog()
+{
+     DtDisplayErrorDialog &ldquo;Find Error&rdquo; &ldquo;$1&rdquo; \
+     DIALOG_PRIMARY_APPLICATION_MODAL
+}</programlisting>
+<para>The last parameter, <computeroutput>DIALOG_PRIMARY_APPLICATION_MODAL</computeroutput>, tells <command>dtksh</command> to create a dialog that
+must be responded to before any other interaction can occur.</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.6">
+<title>OkCallback()</title>
+<para><filename>OkCallback()</filename> is called when either the OK or Apply
+button on the main <filename>script_find</filename> window is pressed. If
+the OK button is pressed, the script_find window is unmanaged. For either
+Apply or OK, the input search directory is validated; if it is invalid, then <filename>OkCallback()</filename> calls <filename>PostErrorDialog()</filename>. If
+it is valid, checks are made on the status of the toggle buttons on the <filename>script_find</filename> window and corresponding adjustments are made to the
+variable <filename>$CMD</filename>. This variable contains the entire command
+that is ultimately executed.</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.7">
+<title>LoadStickyValues()</title>
+<para>This function is called from the main program after the window has been
+created and managed. It loads all the values from the most recent execution
+of the script. These values are saved in a file called
+<filename>Find.sticky</filename> by the function <filename>RetrieveandSaveCurrentValues()</filename>.
+</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.8">
+<title>EvalCmd()</title>
+<para><filename>EvalCmd()</filename> is used by <filename>LoadStickyValues()</filename>
+to evaluate each line in <filename>Find.sticky</filename> as
+a <command>dtksh</command> command. The following is a list of a <filename>Find.sticky</filename> file:</para>
+<programlisting>XmTextSetString $SD &ldquo;/users/dlm&rdquo;<indexterm>
+<primary>XmTextSetString</primary></indexterm>
+XmTextFieldSetInsertionPosition $SD 10<indexterm><primary>XmTextFieldSetInsertionPosition</primary></indexterm>
+XmTextSetString $FNP &ldquo;two_letter_calls&rdquo;<indexterm><primary>XmTextSetString</primary></indexterm>
+XmTextFieldSetInsertionPosition $FNP 16<indexterm><primary>XmTextFieldSetInsertionPosition</primary></indexterm>
+XtSetValues $FSTYPE menuHistory:$NODIR<indexterm><primary>XtSetValues</primary>
+</indexterm>
+XtSetValues $FILETYPE menuHistory:$NOTYPE<indexterm><primary>XtSetValues</primary>
+</indexterm>
+XmToggleButtonSetState $T2 true false<indexterm><primary>XmToggleButtonSetState</primary></indexterm>
+XmToggleButtonSetState $T4 true false<indexterm><primary>XmToggleButtonSetState</primary></indexterm></programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.9">
+<title>RetrievAndSaveCurrentValues()</title>
+<para><filename>RetrieveAndSaveCurrentValues()</filename> retrieves the current
+settings and values of the widgets in the <filename>script_find</filename>
+window and saves them in the file <filename>Find.sticky</filename>. <filename>Find.sticky</filename> is then used by <filename>LoadStickyValues()</filename>
+the next time the script is executed.</para>
+</sect3>
+</sect2>
+<sect2 id="DKSUG.scr2.div.10">
+<title>Main Script</title>
+<para>The remainder of the script is the equivalent of <filename>Main()</filename>
+in a C program. It initializes the Xt Intrinsics and creates all the widgets
+used in the <filename>script_find</filename> window. The <command>set -f</command> in the first line tells <command>dtksh</command> to suppress expansion
+of wildcard characters in path names. This is necessary so that the <command>find</command> command can perform this expansion.</para>
+<para>The <filename>script_find</filename> window (see Figure 4-4) consists
+of a Form widget with four areas. The areas are marked by Separator widgets,
+and each area has several widgets, all of which are children of the Form.
+</para>
+<figure>
+<title>Widgets in script_find window</title>
+<graphic id="DKSUG.scr2.grph.4" entityref="DKSUG.scr2.fig.4"></graphic>
+</figure>
+<para>The widgets are created in sequence by area, from top to bottom.</para>
+<sect3 id="DKSUG.scr2.div.11">
+<title>Initialize</title>
+<para>Initialize is accomplished by the Xt Intrinsics function <command>XtInitialize</command>:</para>
+<programlisting>XtInitialize TOPLEVEL find Dtksh $0 &ldquo;${@:-}&rdquo;<indexterm>
+<primary>XtInitialize</primary></indexterm></programlisting>
+<para>This creates a top-level shell that serves as the parent of a Form widget,
+which is created next.</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.12">
+<title>Create a Form Widget<indexterm><primary>widget</primary><secondary>form</secondary></indexterm><indexterm><primary>create form widget</primary>
+</indexterm></title>
+<para>A Form widget is used as the main parent widget. Form is a Manager
+widget that allows you to place constraints on its children. Most of the
+widgets in the main <filename>script_find</filename> window are children
+of the Form. The description of the creation of the rest of the widgets
+is separated into the four areas of the window (see Figure 4-4).</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.13">
+<title>First Area</title>
+<para>The first area consists of two Label widgets, two TextField widgets,
+and a Separator widget that separates the first and second areas.</para>
+<figure>
+<title>First area of <filename>script_find</filename> Window</title>
+<graphic id="DKSUG.scr2.grph.5" entityref="DKSUG.scr2.fig.5"></graphic>
+</figure>
+<para>The following code segment creates and positions the first Label widget
+and positions it within the Form using the <command>DtkshAnchorTop</command>
+and <command>DtkshAnchorLeft</command> convenience functions:</para>
+<programlisting>XtCreateManagedWidget SDLABEL sdlabel XmLabel $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+  labelString:&rdquo;Search Directory:&rdquo; \
+  $(DtkshAnchorTop 12) \
+  $(DtkshAnchorLeft 10)</programlisting>
+<para>The following code segment creates and positions the first TextField
+widget. Note that it is positioned in relation to both the Form and the
+Label widget.</para>
+<programlisting>XtCreateManagedWidget SD sd XmText $FORM \<indexterm><primary>XtCreateManagedWidget</primary></indexterm>
+  columns:30 \
+  value:&rdquo;.&rdquo; \
+  $(DtkshAnchorTop 6) \
+  $(DtkshRightOf $SDLABEL 10) \
+  $(DtkshAnchorRight 10) \
+  navigationType:EXCLUSIVE_TAB_GROUP
+XmTextFieldSetInsertionPosition $SD 1<indexterm><primary>XmTextFieldSetInsertionPosition</primary></indexterm></programlisting>
+<para>The remaining Label widget and TextField widget are created in the same
+manner.</para>
+<para>The Separator widget is created as a child of the Form widget and positioned
+under the second TextField widget.<indexterm><primary>widget</primary><secondary>separator</secondary></indexterm><indexterm><primary>create separator widget</primary></indexterm></para>
+<programlisting>XtCreateManagedWidget SEP sep XmSeparator $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+  separatorType:SINGLE_DASHED_LINE \
+  $(DtkshUnder $FNP 10) \
+  $(DtkshSpanWidth)</programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.14">
+<title>Second Area</title>
+<para>The second area consists of a RowColumn widget, five ToggleButton gadgets,
+and another Separator widget.</para>
+<figure>
+<title>Second Area of <filename>script_find</filename> Window</title>
+<graphic id="DKSUG.scr2.grph.6" entityref="DKSUG.scr2.fig.6"></graphic>
+</figure>
+<para>A gadget is a widget that relies on its parent for many of its attributes,
+thus saving memory resources.</para>
+<para>The RowColumn widget is created as a child of the Form widget, and
+positioned directly under the Separator widget created in the first area.
+</para>
+<programlisting>XtCreateManagedWidget RC rc XmRowColumn $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+       orientation:HORIZONTAL \
+       numColumns:3 \
+       packing:PACK_COLUMN \
+  $(DtkshUnder $SEP 10) \
+  $(DtkshSpanWidth 10 10) \
+  navigationType:EXCLUSIVE_TAB_GROUP</programlisting>
+<para>The five ToggleButton gadgets are created as children of the RowColumn
+using the convenience function <command>DtkshAddButtons</command>:</para>
+<programlisting>DtkshAddButtons -w $RC XmToggleButtonGadget \<indexterm><primary>DtkshAddButtons</primary></indexterm>
+  T1 &ldquo;Cross Mount Points&rdquo;           &ldquo;&ldquo;\
+  T2 &ldquo;Print Matching Filenames&rdquo;     &ldquo;&ldquo;\
+  T3 &ldquo;Search Hidden Subdirectories&rdquo; &ldquo;&ldquo;\
+  T4 &ldquo;Follow Symbolic Links&rdquo;        &ldquo;&ldquo;\
+  T5 &ldquo;Descend Subdirectories First&rdquo; &ldquo;&ldquo;</programlisting>
+<para>Another Separator is then created to separate the second and third areas.
+Note that this Separator widget ID is called <filename>SEP2</filename>.
+</para>
+<programlisting>XtCreateManagedWidget SEP2 sep XmSeparator $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+ separatorType:SINGLE_DASHED_LINE \
+ $(DtkshUnder $RC 10) \
+ $(DtkshSpanWidth)</programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.15">
+<title>Third Area</title>
+<para>The third area consists of two option menus and another Separator widget.
+</para>
+<figure>
+<title>Third area of <filename>script_find</filename> Window</title>
+<graphic id="DKSUG.scr2.grph.7" entityref="DKSUG.scr2.fig.7"></graphic>
+</figure>
+<para>The Option Menus are pull-down menus. When the user clicks the option
+menu button, a menu pane with a number of choices appears. The user drags
+the pointer to the appropriate choice and releases the mouse button. The
+menu pane disappears and the option menu button label displays the new choice.<indexterm>
+<primary>menu, create</primary></indexterm><indexterm><primary>create menu</primary></indexterm></para>
+<para>The first option menu menu pane consists of a number of push button
+gadgets, representing various restrictions that can be imposed upon the <command>find</command> command:</para>
+<programlisting>XmCreatePulldownMenu PANE $FORM pane <indexterm><primary>XmCreatePulldownMenu</primary></indexterm>
+DtkshAddButtons -w $PANE XmPushButtonGadget \<indexterm><primary>DtkshAddButtons</primary></indexterm>
+  NODIR &ldquo;no restrictions&rdquo; &ldquo;&ldquo;\
+  NFS   &ldquo;nfs&rdquo;             &ldquo;&ldquo;\
+  CDFS  &ldquo;cdfs&rdquo;            &ldquo;&ldquo;\
+  HFS   &ldquo;hfs&rdquo;             &ldquo;&ldquo;
+Next, the Option Menu button itself is created and managed, with the
+menu pane just created (<filename>$PANE</filename>) identified as a <command>subMenuId</command>:
+XmCreateOptionMenu FSTYPE $FORM fstype \<indexterm><primary>XmCreateOptionMenu</primary></indexterm>
+       labelString:&rdquo;Restrict Search To File System Type:&rdquo; \
+       menuHistory:$NODIR \
+       subMenuId:$PANE \
+  $(DtkshUnder $SEP2 20) \
+  $(DtkshSpanWidth 10 10) \
+  navigationType:EXCLUSIVE_TAB_GROUP
+XtManageChild $FSTYPE<indexterm><primary>XtManageChild</primary></indexterm></programlisting>
+<para>The second option menu button is created in the same manner. It provides
+further restrictions on the <command>find</command> command.</para>
+<para>The third separator is created in the same manner as the other separators.
+</para>
+</sect3>
+<sect3 id="DKSUG.scr2.div.16">
+<title>Fourth Area</title>
+<para>The fourth area consists of four push button widgets, all children of
+the Form widget.</para>
+<graphic id="DKSUG.scr2.igrph.1" entityref="DKSUG.scr2.fig.8"></graphic>
+<para>The four push buttons are used as follows:</para>
+<itemizedlist remap="Bullet1"><listitem><para>OK executes the <command>find</command> command with the parameters input in the <filename>script_find</filename>
+window and removes the <filename>script_find</filename> window.
+</para>
+</listitem><listitem><para>Apply executes the <command>find</command> command
+with the parameters input in the <filename>script_find</filename> window
+but does not remove the <filename>script_find</filename> window.</para>
+</listitem><listitem><para>Close terminates <filename>script_find</filename>
+without executing the <command>find</command> command.</para>
+</listitem><listitem><para><command>Help</command> creates a dialog box with
+information on the use of <filename>script_find</filename>.</para>
+</listitem></itemizedlist>
+<para>The push buttons are created and positioned in much the same manner
+as any of the other widgets, although they are each labeled differently.
+The following code segment shows how the OK push button is created:</para>
+<programlisting>XtCreateManagedWidget OK ok XmPushButton $FORM \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+       labelString:&rdquo;Ok&rdquo; \
+  $(DtkshUnder $SEP3 10) \
+  $(DtkshFloatLeft 4) \
+  $(DtkshFloatRight 24) \
+  $(DtkshAnchorBottom 10)
+XtAddCallback $OK activateCallback &ldquo;OkCallback&rdquo;<indexterm><primary>XtAddCallback</primary></indexterm></programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.17">
+<title>Set Operating Parameters</title>
+<para><command>XtSetValues</command> is used to set some initial operating
+parameters:</para>
+<programlisting>XtSetValues $FORM \<indexterm><primary>XtSetValues</primary>
+</indexterm>
+  initialFocus:$SD \
+  defaultButton:$OK \
+  cancelButton:$CLOSE \
+  navigationType:EXCLUSIVE_TAB_GROUP</programlisting>
+<itemizedlist remap="Bullet1"><listitem><para>Initial focus is set to the
+first TextField widget in the first area.</para>
+</listitem><listitem><para>Default button is set to the OK push button in
+the fourth area.</para>
+</listitem><listitem><para>Cancel button is set to the Close button in the
+fourth area.</para>
+</listitem><listitem><para>Navigation type is set to <computeroutput>EXCLUSIVE_TAB_GROUP.</computeroutput></para>
+</listitem></itemizedlist>
+<para>The following line configures the TextField widgets so that pressing
+the return key does not activate the default button within the Form. See
+the description of <computeroutput>EXCLUSIVE_TAB_GROUP</computeroutput> in
+Appendix B for more information on its use.</para>
+<programlisting>DtkshSetReturnKeyControls $SD $FNP $FORM $OK</programlisting>
+</sect3>
+<sect3 id="DKSUG.scr2.div.18">
+<title>Realize and Loop</title>
+<para>The last three lines of the script load the previous values of the <filename>script_find</filename> window, realize the top-level widget, and then enter
+a loop waiting for user input.</para>
+<programlisting>LoadStickyValues
+XtRealizeWidget $TOPLEVEL<indexterm><primary>XtRealizeWidget</primary></indexterm>
+XtMainLoop<indexterm><primary>XtMainLoop</primary></indexterm><?Pub Caret></programlisting>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub *0000021832>

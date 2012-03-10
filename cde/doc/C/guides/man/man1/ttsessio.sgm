@@ -1,0 +1,527 @@
+<!-- $XConsortium: ttsessio.sgm /main/7 1996/09/08 20:21:08 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN6.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN6.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttsession</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>ttsession</Command></RefName>
+<RefPurpose>the ToolTalk message server
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: ttsessio.sgm /main/7 1996/09/08 20:21:08 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>ttsession</Command>
+<Arg Choice="opt">&minus;hNpsStv</Arg>
+<Group>
+<Arg>&minus;E</Arg>
+<Arg>&minus;X</Arg>
+</Group>
+<Arg Choice="opt">&minus;a&ensp;<Replaceable>level</Replaceable></Arg>
+<Arg Choice="opt">&minus;d&ensp;<Replaceable>display</Replaceable></Arg>
+<Group>
+<Arg>&minus;c&ensp;</Arg>
+<Arg Choice="opt"><Replaceable>command</Replaceable></Arg>
+</Group>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Command>ttsession</Command> utility
+is the ToolTalk message server.
+This background process must be running
+before any messages can be sent or received.
+Each message server defines a
+<Emphasis>session</Emphasis>.</Para>
+<Para>The message server has no user interface and typically runs in the
+background, started either by the user's
+<Filename>.xinitrc</Filename> file or automatically
+by any program that needs to send or receive a message.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<![ %CDE.C.XO; [
+<Para>The
+<Command>ttsession</Command> utility supports the &str-Zu;, except that the
+<Literal>&minus;c</Literal> option has an optional option-argument,
+which treats all of the following command-line arguments
+as a string to be passed to another shell invocation.
+</Para>
+]]>
+<Para>The following options are available:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>&minus;a&numsp;</Literal><Symbol Role="Variable">level</Symbol></Term>
+<ListItem>
+<Para>Set the server authentication level.
+The following
+<Symbol Role="Variable">level</Symbol> string values are supported:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>unix</Literal></Term>
+<ListItem>
+<Para>The sender and receiver must have the same user ID.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>des</Literal></Term>
+<ListItem>
+<Para>The underlying RPC calls use
+<SystemItem Class="Constant">AUTH_DES</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;c&numsp;[</Literal><Symbol Role="Variable">command</Symbol><Literal>]</Literal></Term>
+<ListItem>
+<Para>Start a process tree session and run the given command.
+The
+<Command>ttsession</Command> utility sets the environment variable
+<SystemItem Class="Constant">TT_SESSION</SystemItem> to the name of this session.
+Any process started with this variable in the environment
+defaults to being in this session.
+If
+<Symbol Role="Variable">command</Symbol> is omitted,
+<Command>ttsession</Command> invokes the shell named by the
+<SystemItem Class="EnvironVar">SHELL</SystemItem> environment variable.
+Everything after
+<Literal>&minus;c</Literal> on the command line is used as the command to be executed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;d&numsp;</Literal><Symbol Role="Variable">display</Symbol></Term>
+<ListItem>
+<Para>Specify an X Windows display.
+The ToolTalk session will consist of those applications
+displaying on the named display.
+The default display is identified by the
+<SystemItem Class="EnvironVar">DISPLAY</SystemItem> environment variable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;E</Literal></Term>
+<ListItem>
+<Para>Read in the types from the Classing Engine database.
+If neither
+<Literal>&minus;E</Literal> nor
+<Literal>&minus;X</Literal> is given,
+<Literal>&minus;X</Literal> is assumed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;h</Literal></Term>
+<ListItem>
+<Para>Write a help message to standard error that
+describes the command syntax of
+<Command>ttsession</Command>, and exit.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;N</Literal></Term>
+<ListItem>
+<Para>Maximize the number of clients allowed to connect to (in other words, open
+procids in) this session by attempting to raise the limit of
+open file descriptors.
+The precise number of clients is system-dependent;
+on some systems this option may have no effect.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;p</Literal></Term>
+<ListItem>
+<Para>Write the name of a new process tree session to standard output, and then
+fork a background instance of
+<Command>ttsession</Command> to manage this new session.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;s</Literal></Term>
+<ListItem>
+<Para>Silent.
+Do not write any warning messages to standard error.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;S</Literal></Term>
+<ListItem>
+<Para>Do not fork a background instance to manage the
+<Command>ttsession</Command> session.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;t</Literal></Term>
+<ListItem>
+<Para>Turn on trace mode.
+See
+<Literal>ASYNCHRONOUS EVENTS</Literal> for how to turn tracing on and off during execution.
+Tracing displays the state of a message when it is first seen by
+<Command>ttsession</Command>. The lifetime of the message is then shown by showing the result of
+matching the message against type signatures (dispatch stage) and then
+showing the result of matching the message against any registered
+message patterns (delivery stage).
+Any attempt to send the message to
+a given process is also shown together with the success of that attempt.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;v</Literal></Term>
+<ListItem>
+<Para>Write the version number to standard output and exit.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;X</Literal></Term>
+<ListItem>
+<Para>Read in the types from the following XDR format databases:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>$HOME/.tt/types.xdr
+<![ %CDE.C.XO; [&lt;<Emphasis>implementation-specific system and network databases</Emphasis>>
+]]><![ %CDE.C.CDE; [/etc/tt/types.xdr
+$OPENWINHOME/etc/tt/types.xdr
+]]>/usr/dt/appconfig/tttypes/types.xdr
+</ProgramListing>
+</InformalExample>
+<Para>The databases are listed order of decreasing precedence.
+Entries in
+<Filename>$HOME/.tt/types.xdr</Filename> override any like entries in the databases
+lower in the list, and so forth.
+</Para>
+<Para>These locations can be overridden by setting the
+<Emphasis>TTPATH</Emphasis> environment variable.
+See
+<Literal>ENVIRONMENT VARIABLES</Literal>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>OPERANDS</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>STDIN</Title>
+<Para>Not used.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>INPUT FILES</Title>
+<Para>The XDR format databases listed by the
+<Literal>&minus;X</Literal> option are serialized ToolTalk data structures of
+an unspecified format, except that it is the same
+as the format of
+&cdeman.tt.type.comp; output files.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLES</Title>
+<Para>The following environment variables affect the execution of
+<Command>ttsession</Command>:</Para>
+<VariableList>
+<![ %CDE.C.CDE; [
+<VarListEntry>
+<Term><Emphasis>CEPATH</Emphasis></Term>
+<ListItem>
+<Para>In Classing Engine mode, this variable tells the Classing Engine
+where to find the databases that contain ToolTalk types.
+See
+<Command>ce_db_build</Command>(1).</Para>
+</ListItem>
+</VarListEntry>
+]]>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">DISPLAY</SystemItem></Term>
+<ListItem>
+<Para>If
+<SystemItem Class="Constant">TT_SESSION</SystemItem> is not set and
+<SystemItem Class="EnvironVar">DISPLAY</SystemItem> is set, then the value of
+<SystemItem Class="EnvironVar">DISPLAY</SystemItem> will be used by all ToolTalk clients to identify the
+<Command>ttsession</Command> process serving their X display.
+If no such process is running, the ToolTalk
+service will auto-start one.
+</Para>
+<Para>If
+<Command>ttsession</Command> is run with the
+<Literal>&minus;d</Literal> option and
+<SystemItem Class="EnvironVar">DISPLAY</SystemItem> is not set,
+<Command>ttsession</Command> sets
+<SystemItem Class="EnvironVar">DISPLAY</SystemItem> to be the value of the
+<Literal>&minus;d</Literal> option for itself and all processes it forks.
+This helps ToolTalk clients to find the right X display when
+they are auto-started by
+<Command>ttsession</Command>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">LANG</SystemItem></Term>
+<ListItem>
+<Para>Provide a default value for the internationalization variables
+that are unset or null.
+If
+<SystemItem Class="EnvironVar">LANG</SystemItem> is unset or null, the corresponding value from the
+implementation-specific default locale will be used.
+If any of the internationalization variables contains an invalid setting, the
+utility behaves as if none of the variables had been defined.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>LC_ALL</Emphasis></Term>
+<ListItem>
+<Para>If set to a non-empty string value,
+override the values of all the other internationalization variables.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>LC_MESSAGES</Emphasis></Term>
+<ListItem>
+<Para>Determine the locale that is used to affect
+the format and contents of diagnostic
+messages written to standard error
+and informative messages written to standard output.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">NLSPATH</SystemItem></Term>
+<ListItem>
+<Para>Determine the location of message catalogues
+for the processing of
+<Emphasis>LC_MESSAGES</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>TT_ARG_TRACE_WIDTH</Emphasis></Term>
+<ListItem>
+<Para>Specify the number of bytes of argument and context values to write when
+in trace mode.
+The default is to print the first 40 bytes.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>TTPATH</Emphasis></Term>
+<ListItem>
+<![ %CDE.C.CDE; [
+<Para>In XDR mode, a
+</Para>
+]]>
+<![ %CDE.C.XO; [
+<Para>A
+</Para>
+]]>
+<Para>colon-separated list of directories that tells ToolTalk
+where to find the ToolTalk types databases.
+The format of this variable is:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing><Emphasis>userDir</Emphasis>[:<Emphasis>systemDir</Emphasis>[:<Emphasis>networkDir</Emphasis>]]
+</ProgramListing>
+</InformalExample>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>TTSESSION_CMD</Emphasis></Term>
+<ListItem>
+<Para>Specify the shell command to be used by all ToolTalk clients
+for auto-starting
+<Command>ttsession</Command>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<Command>ttsession</Command> utility creates the following variable when it invokes another process:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">TT_FILE</SystemItem></Term>
+<ListItem>
+<Para>When
+<Command>ttsession</Command> invokes a tool to receive a message, it copies the file attribute
+(if any) of the message into this variable, formatted in the same
+manner as returned by the
+&cdeman.tt.message.file; function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">TT_SESSION</SystemItem></Term>
+<ListItem>
+<Para>The
+<Command>ttsession</Command> utility uses this variable to communicate its session ID to the tools that
+it starts.
+The format of the variable is implementation specific.
+If this variable is set, the ToolTalk client library uses its
+value as the default session ID.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>TT_TOKEN</Emphasis></Term>
+<ListItem>
+<Para>Inform the ToolTalk client library that it has been invoked by
+<Command>ttsession</Command>, so that the client can confirm to
+<Command>ttsession</Command> that it started successfully.
+The format of the variable is implementation specific.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A tool started by
+<Command>ttsession</Command> must ensure that the
+<SystemItem Class="Constant">TT_SESSION</SystemItem> and
+<Emphasis>TT_TOKEN</Emphasis> are present in the environment of any processes it invokes.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RESOURCES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ASYNCHRONOUS EVENTS</Title>
+<Para>The
+<Command>ttsession</Command> utility reacts to two signals.
+If it receives the
+<SystemItem Class="Constant">SIGUSR1</SystemItem> signal, it toggles trace mode on or off (see the
+<Literal>&minus;t</Literal> option).
+If it receives the
+<SystemItem Class="Constant">SIGUSR2</SystemItem> signal, it rereads the types file.
+The
+<Command>ttsession</Command> utility takes the standard action for all other signals.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>STDOUT</Title>
+<Para>When the
+<Literal>&minus;v</Literal> option is used,
+<Command>ttsession</Command> writes the version number in an unspecified format.
+When
+<Literal>&minus;p</Literal> is used,
+<Command>ttsession</Command> writes the name of a new process tree session.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>STDERR</Title>
+<Para>Used only for diagnostic messages and the help message written by the
+<Literal>&minus;h</Literal> option.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OUTPUT FILES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXTENDED DESCRIPTION</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXIT STATUS</Title>
+<Para>When the
+<Literal>&minus;c</Literal> child process exits,
+<Command>ttsession</Command> exits with the status of the exited child.
+Otherwise, the following exit values are returned:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<Para>Normal termination.
+Without the
+<Literal>&minus;c</Literal> or
+<Literal>&minus;S</Literal> options, a zero exit status means
+<Command>ttsession</Command> has successfully forked an instance of itself that has begun
+serving the session.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>1</Term>
+<ListItem>
+<Para>Abnormal termination.
+The
+<Command>ttsession</Command> utility was given invalid command line options, was interrupted by
+<SystemItem Class="Constant">SIGINT</SystemItem>, or encountered some internal error.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>2</Term>
+<ListItem>
+<Para>Collision.
+Another
+<Command>ttsession</Command> was found to be serving the session already.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>CONSEQUENCES OF ERRORS</Title>
+<![ %CDE.C.XO; [
+<Para>Default.
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>The
+<Command>ttsession</Command> utility takes the standard action for all signals.
+</Para>
+]]>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>Since everything after
+<Literal>&minus;c</Literal> on the command line is used as the command to be executed,
+<Literal>&minus;c</Literal> should be the last option.
+</Para>
+<Para>Tracing is helpful for seeing how messages are
+dispatched and delivered, but the output may be voluminous.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.tt.type.comp;, &cdeman.tt.message.file;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

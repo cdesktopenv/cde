@@ -1,0 +1,735 @@
+<!-- $XConsortium: ch02.sgm /main/2 1996/12/17 06:26:45 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.SesMg.div.1">
+<Title Id="SAG.SesMg.mkr.1">セッション・マネージャの構成</Title>
+<Para>
+セッション・マネージャは、デスクトップを起動し、実行中のアプリケーション、カラー、フォント、マウス動作、音量、およびキーボード・クリックを自動的に保存および復元します。
+</Para>
+<Para>セッション・マネージャを使用して、次のことを実行できます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>すべてのデスクトップ・ユーザの初期セッションをカスタマイズする</Para>
+</ListItem>
+<ListItem>
+<Para>すべてのデスクトップ・ユーザの環境およびリソースをカスタマイズする</Para>
+</ListItem>
+<ListItem>
+<Para>セッション起動メッセージを変更する</Para>
+</ListItem>
+<ListItem>
+<Para>セッション起動ツールとデーモンのパラメータを変更する</Para>
+</ListItem>
+<ListItem>
+<Para>すべてのユーザのデスクトップ・カラーの使用方法をカスタマイズする</Para>
+</ListItem>
+</ItemizedList>
+<InformalTable Id="SAG.SesMg.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.125 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'What Is a Session?23'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Starting a Session25'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.7"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'When a Session Starts25'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.8"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Additional Session Startup Customizations32'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.21"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Session Manager Files and Directories37'--><XRef Role="JumpText" Linkend="SAG.SesMg.div.32"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="SAG.SesMg.div.2">
+<Title Id="SAG.SesMg.mkr.2">セッションとは？<IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>概要</Secondary></IndexTerm><IndexTerm><Primary>セッション</Primary><Secondary>定義</Secondary></IndexTerm></Title>
+<Para>
+セッションとは、ユーザのデスクトップに存在するアプリケーション、設定、およびリソースの集まりです。セッションの管理は、セッション・マネージャによるセッションの保存および復元を可能にする規約とプロトコルのセットです。システムにログインすると、前回ログオフした時に提供されていたのと同じ実行中のアプリケーション、設定、およびリソースのセットを得ることができます。デスクトップに最初にログインした時は、デフォルトの初期セッションが読み込まれます。その後、セッション・マネージャは現在のセッションとホーム・セッションの概念をサポートします。
+<IndexTerm><Primary>セッション</Primary><Secondary>デフォルト</Secondary></IndexTerm><IndexTerm><Primary>現在のセッション</Primary></IndexTerm><IndexTerm><Primary>セッション</Primary><Secondary>現在の</Secondary></IndexTerm><IndexTerm><Primary>セッション</Primary><Secondary>ホーム</Secondary></IndexTerm><IndexTerm><Primary>ホーム・セッション</Primary></IndexTerm>
+</Para>
+<Sect2 Id="SAG.SesMg.div.3">
+<Title>初期セッション<IndexTerm><Primary>セッション</Primary><Secondary>デフォルト</Secondary></IndexTerm><IndexTerm><Primary>セッション</Primary><Secondary>初期</Secondary></IndexTerm></Title>
+<Para>
+デスクトップに最初にログインしたとき、セッション・マネージャはシステムのデフォルト値を使用して初期セッションを作成します。デフォルトでは、ファイル・マネージャ、およびインフォメーション・マネージャが起動されます。インフォメーション・マネージャは、共通デスクトップ環境 (CDE) のデスクトップの紹介画面を表示します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.4">
+<Title>現在のセッション<IndexTerm><Primary>セッション</Primary><Secondary>現在の</Secondary></IndexTerm><IndexTerm><Primary>現在のセッション</Primary></IndexTerm></Title>
+<Para>
+保存済みのホーム・セッション、保存済みの現在のセッション、またはシステム・デフォルトの初期セッションからログイン時に復元されたものかどうかにかかわらず、実行中のセッションは常に現在のセッションと見なされます。スタイル・マネージャの[起動]設定に基づき、セッションを終了すると、セッション・マネージャは現在のセッションを自動的に保存します。もう一度デスクトップにログインすると、セッション・マネージャは前に保存した現在のセッションを再起動します。これは、最後にログアウトしたときと同じ状態にデスクトップが復元されることを意味します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.5">
+<Title>ホーム・セッション<IndexTerm><Primary>セッション</Primary><Secondary>ホーム</Secondary></IndexTerm><IndexTerm><Primary>ホーム・セッション</Primary></IndexTerm></Title>
+<Para>
+ログアウトしたときの状態に関係なく、ログインするたびにデスクトップを同じ状態に復元させることもできます。現在のセッションの状態を保存し、その後スタイル・マネージャの[起動]設定を使用して、ユーザがログインするたびにセッション・マネージャにそのセッションを起動させることができます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.6">
+<Title>ディスプレイに固有のセッション<IndexTerm><Primary>セッション</Primary><Secondary>ディスプレイに固有の</Secondary></IndexTerm></Title>
+<Para>
+特定のディスプレイに対して固有のセッションを実行するために、ディスプレイに固有のセッションを作成できます。作成するために、ユーザは <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions</Filename> ディレクトリを <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol> にコピーできます。この場合、<Symbol Role="Variable">display</Symbol> は実際に存在する修飾されていないホスト名です（たとえば、<Filename>pablo:0</Filename> は有効で、<Filename>pablo.gato.com:0</Filename> や <Filename>unix:0</Filename> は無効です）。ユーザがディスプレイ <Filename>pablo:0</Filename> にログインすると、セッション・マネージャはそのディスプレイに固有のセッションを起動します。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.SesMg.div.7">
+<Title Id="SAG.SesMg.mkr.3">セッションの起動<IndexTerm><Primary>セッション</Primary><Secondary>起動</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>起動</Secondary></IndexTerm><IndexTerm><Primary>セッッション・マネージャ</Primary><Secondary>「セッション」も参照してください</Secondary></IndexTerm></Title>
+<Para>
+セッション・マネージャは、<Filename>/usr/dt/bin/<IndexTerm><Primary>Xsession ファイル</Primary><Secondary>セッション・マネージャの起動</Secondary></IndexTerm>Xsession</Filename> によって起動されます。ログイン・マネージャを使用してログインすると、<Command>Xsession</Command> がデフォルトとして起動されます。
+</Para>
+<Para>
+オプションとして、従来のキャラクタ・モード<IndexTerm><Primary>getty</Primary></IndexTerm>(<Command>getty</Command>)・ログインを使用してログインし、<Command>xinit</Command> などのＸサーバを起動するツールを使用してセッション・マネージャを手動で起動できます。たとえば、<Command>xinit /usr/dt/bin/Xsession</Command> のように指定します。
+</Para>
+</Sect1>
+<Sect1 Id="SAG.SesMg.div.8">
+<Title Id="SAG.SesMg.mkr.4">セッションの起動処理</Title>
+<Para>
+セッション・マネージャは起動すると、次の手順にしたがってセッションを起動します。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm><Primary>.dtprofile ファイル</Primary><Secondary>〜の参照</Secondary></IndexTerm>/.dtprofile</Filename> スクリプトを参照します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Filename><IndexTerm><Primary>Xsession.d directory</Primary></IndexTerm>Xsession.d</Filename> スクリプトを参照します。</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>ウェルカム・メッセージ</Secondary></IndexTerm><IndexTerm><Primary>ウェルカム・メッセージ</Primary><Secondary>表示</Secondary></IndexTerm>ウェルカム・メッセージを表示します。</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>デスクトップ検索パス</Primary></IndexTerm>デスクトップ検索パスを設定します。</Para>
+</ListItem>
+<ListItem>
+<Para>
+使用可能なアプリケーションを集めます。</Para>
+</ListItem>
+<ListItem>
+<Para>
+オプションとして <Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm><Primary>.profile file[profile file]</Primary></IndexTerm>/.profile</Filename> または <Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm><Primary>.login ファイル [ログイン・ファイル]</Primary></IndexTerm>/.login</Filename> を参照します。</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>ToolTalk</Primary><Secondary>メッセージ・デーモン</Secondary></IndexTerm>ToolTalk<Superscript>&reg;</Superscript> メッセージ・デーモンを起動します。</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>セッション</Primary><Secondary>リソース</Secondary></IndexTerm><IndexTerm><Primary>リソース</Primary><Secondary>セッション</Secondary></IndexTerm> セッション・リソースを読み込みます。</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>カラー・サーバ</Primary></IndexTerm>カラー・サーバを起動します。</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>ワークスペース・マネージャ</Primary><Secondary>起動</Secondary></IndexTerm>ワークスペース・マネージャを起動します。</Para>
+</ListItem>
+<ListItem>
+<Para>
+セッション・<IndexTerm><Primary>アプリケーション</Primary><Secondary>ログイン時の起動</Secondary></IndexTerm>アプリケーションを起動します。</Para>
+</ListItem>
+</OrderedList>
+<Para>
+次節では上記の手順について説明します。
+</Para>
+<Sect2 Id="SAG.SesMg.div.9">
+<Title>.dtprofile スクリプトの参照<IndexTerm><Primary>.dtprofile ファイル</Primary><Secondary>〜の参照</Secondary></IndexTerm></Title>
+<Para>
+セッションの起動時に、<Command><IndexTerm><Primary>Xsession ファイル</Primary></IndexTerm>Xsession</Command> スクリプトは、<Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm><Primary>環境変数</Primary><Secondary>.dtprofile の</Secondary></IndexTerm>/.dtprofile</Filename> スクリプトを参照します。<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> スクリプトは、セッションに対して<IndexTerm><Primary>環境変数</Primary><Secondary>.dtprofile の</Secondary></IndexTerm>環境変数を設定できる <Filename>/bin/sh</Filename> か <Filename>/bin/ksh</Filename> スクリプトです。環境変数の設定についての詳細は、<!--Original XRef content: '&xd2;Additional Session Startup Customizations&xd3; on page&numsp;32'--><XRef Role="HeadingAndPage" Linkend="SAG.SesMg.div.21"> を参照してください。
+</Para>
+<Para>
+デスクトップに最初にログインしたときなど <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> スクリプトが存在しない場合、<Command>Xsession</Command> はデスクトップのデフォルトの <Filename>sys.dtprofile</Filename> を<IndexTerm><Primary>シェル</Primary><Secondary>個人的なカスタマイズ</Secondary></IndexTerm><Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm><Primary>.dtprofile ファイル</Primary><Secondary>作成</Secondary></IndexTerm>/.dtprofile</Filename> にコピーします。
+</Para>
+<Para>
+<IndexTerm><Primary>環境変数</Primary><Secondary>デフォルト</Secondary></IndexTerm>デスクトップのデフォルトは、<Filename>/usr/dt/config/sys.dtprofile</Filename><IndexTerm><Primary>sys.dtprofile file</Primary></IndexTerm> です。<IndexTerm><Primary>シェル</Primary><Secondary>システム共通のカスタマイズ</Secondary></IndexTerm><Filename>sys.dtprofile</Filename> スクリプトをカスタマイズするには、<Filename>sys.dtprofile</Filename> を <Filename>/usr/dt/config</Filename> から <Filename>/etc/dt/config</Filename> にコピーし、新規ファイルを編集します。</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.10">
+<Title Id="SAG.SesMg.mkr.5">Xsession.d スクリプトの参照<IndexTerm><Primary>Xsession.d ディレクトリ</Primary><Secondary>〜のスクリプト</Secondary></IndexTerm></Title>
+<Para>
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> スクリプトを参照した後で、<Command>Xsession</Command> スクリプトは <Filename>Xsession.d</Filename> スクリプトを参照します。これらのスクリプトは追加する環境変数を設定し、ユーザのセッションに対して任意のデーモンを起動するために使用されます。デフォルトの <Filename>Xsession.d</Filename> スクリプトは次のとおりです。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="139*">
+<colspec colwidth="389*">
+<TBody>
+<Row>
+<Entry><Para><Filename>0010.dtpaths</Filename></Para></Entry>
+<Entry><Para>
+カスタマイズ可能なデスクトップ検索パスを文書化します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>0020.dtims</Filename></Para></Entry>
+<Entry><Para>
+任意の入力メソッド・サーバを起動します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>0030.dttmpdir</Filename></Para></Entry>
+<Entry><Para>
+ユーザごと、セッションごとに一時的ディレクトリを作成します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>0040.xmbind</Filename></Para></Entry>
+<Entry><Para>
+デスクトップ・デフォルトに <Filename>$XMBINDDIR</Filename> を設定します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+<Filename>Xsession.d</Filename> には追加されたベンダ固有のスクリプトがあることもあります。
+</Para>
+<Para>
+<Command>Xsession</Command> は最初に、<Filename>/usr/dt/config/Xsession.d</Filename> ディレクトリにあるすべてのファイルを参照し、続いて <Command>/etc/dt/config/Xsession.d</Command> ディレクトリにあるファイルを参照します。
+</Para>
+<Para>
+デスクトップのデフォルトの <Filename>Xsession.d</Filename> スクリプトは、<Filename>/usr/dt/config/Xsession.d</Filename> ディレクトリに位置付けられます。<Filename>Xsession.d</Filename> スクリプトをカスタマイズするには、スクリプトを <Filename>/usr/dt/config/Xsession.d</Filename> から <Filename>/etc/dt/config/Xsession.d</Filename> にコピーし、新規ファイルを編集します。この作業を実行するには、実行権を持っていなければなりません。
+<IndexTerm><Primary>Xsession.d ディレクトリ</Primary><Secondary>カスタマイズ</Secondary></IndexTerm>
+</Para>
+<Para>
+また、<Command>Xsession</Command> がユーザ独自のスクリプトを自動的に参照するには、そのスクリプトを <Filename>/etc/dt/config/Xsession.d</Filename><IndexTerm><Primary>Xsession ファイル</Primary><Secondary>システム共通のカスタマイズ</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>システム共通のカスタマイズ</Secondary></IndexTerm> にコピーします。
+</Para>
+<Note>
+<Para>
+<Filename>Xsession.d</Filename> スクリプトを変更または作成する場合、コマンドの所要時間はセッションの起動時間に直接影響を与えるため、発行したフォアグラウンド・コマンドが短期のものであることを確認します。フォアグラウンド・コマンドが終了していないセッションの起動はハングアップします。セッションの継続中に実行を続行したい <Filename>Xsession.d</Filename> スクリプトで実行されるコマンドは、バックグラウンドで実行されます。
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.11">
+<Title><IndexTerm><Primary>ウェルカム・メッセージ</Primary><Secondary>表示</Secondary></IndexTerm>ウェルカム・メッセージの表示</Title>
+<Para>
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> スクリプトと <Filename>Xsession.d</Filename> スクリプトを参照した後、<Command>Xsession</Command> は画面をカバーするウェルカム・メッセージを表示します。表示されるウェルカム・メッセージは、カスタマイズしたり、メッセージを完全にオフにすることができます。<Command>dthello</Command> クライアントはメッセージを表示するのに使用します。
+</Para>
+<Para>
+<IndexTerm><Primary>ウェルカム・メッセージ</Primary><Secondary>カスタマイズ</Secondary></IndexTerm>メッセージ・テキストを変更するには、<Filename>dtstart_hello[0]</Filename> 変数を変更することにより <Command>dthello</Command> オプションを変更します。
+</Para>
+<Para>
+<Filename>dtstart_hello[0]</Filename> を変更するには、新しい値を設定する <Filename>/etc/dt/config/Xsession.d</Filename> スクリプトを作成します。すべてのユーザにその日のメッセージを表示するには、実行可能な <Command>sh</Command> または <Command>ksh</Command> スクリプト（たとえば、<Filename>/etc/dt/config/Xsession.d/</Filename><Emphasis>myvars</Emphasis> を作成し、<Filename>dtstart_hello[0]</Filename> を次のように設定します。
+</Para>
+<ProgramListing>dtstart_hello[0]=&ldquo;/usr/dt/bin/dthello -file /etc/motd &amp;&ldquo;</ProgramListing>
+<Para>
+同様に、ユーザは <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> に <Filename>dtstart_hello[0]</Filename> を設定することにより、それらのセッションのウェルカム・メッセージを変更できます。
+</Para>
+<Para>
+ウェルカム・メッセージをオフにするには、<ComputerOutput>dtstart_hello[0]=</ComputerOutput>&ldquo; &ldquo; を設定します。
+</Para>
+<Para>
+<Command>dthello</Command> の詳細については、<Command>dthello</Command> のマニュアル・ページを参照してください。</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.12">
+<Title>デスクトップ検索パスの設定<IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>検索パスの設定</Secondary></IndexTerm><IndexTerm><Primary>検索パス</Primary><Secondary>セッション・マネージャによる設定</Secondary></IndexTerm></Title>
+<Para>
+デスクトップ検索パスは <Command><IndexTerm><Primary>dtsearchpath</Primary></IndexTerm>dtsearchpath</Command> によって、ログイン時に作成されます。<Command>dtsearchpath</Command> によって使用される環境変数のカテゴリには２種類あります。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="126*">
+<colspec colwidth="402*">
+<TBody>
+<Row>
+<Entry><Para>入力変数</Para></Entry>
+<Entry><Para>
+値がシステム管理者かエンド・ユーザによって設定されるシステム共通環境変数と個人用環境変数。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>出力変数</Para></Entry>
+<Entry><Para>
+<Command>dtsearchpath</Command> によって作成され、値が割り当てられた変数。各変数の値はデスクトップ・セッションの検索パスです。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+<Command>dtsearchpath</Command> のコマンド行オプションを変更するには、<Filename>dtstart_searchpath</Filename> 変数を変更します。すべてのユーザの <Command><IndexTerm><Primary>dtstart_searchpath variable</Primary></IndexTerm>dtstart_searchpath</Command> 変数を変更するには、実行可能な <Command>sh</Command> または <Command>ksh</Command> スクリプト（たとえば、<Filename>/etc/dt/config/Xsession.d/</Filename><Emphasis>myvars</Emphasis>）を作成し、<Filename>dtstart_searchpath</Filename> を次のように設定します。
+</Para>
+<ProgramListing>dtstart_searchpath=&ldquo;/usr/dt/bin/dtsearchpath&ldquo;</ProgramListing>
+<Para>
+同様に、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> に <Filename>dtstart_searchpath</Filename> を設定することによってのみユーザのセッションの <Command>dtsearchpath</Command> オプションを変更できます。
+</Para>
+<Para>
+<Command>dtsearchpath</Command> の詳細については、
+<!--Original XRef content: 'Chapter&numsp;7, &xd2;Desktop Search Paths'--><XRef Role="ChapNumAndTitle" Linkend="SAG.Datab.div.1"> を参照してください。
+<Command>dtsearchpath</Command> オプションの詳細については、<Command>dtsearchpath</Command> のマニュアル・ページを参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.13">
+<Title>使用可能なアプリケーションの収集</Title>
+<Para>
+デスクトップ検索パスの設定の次の手順は、<Command>dtappgather</Command> を使用して使用可能なアプリケーションを収集することです。<IndexTerm><Primary>アプリケーション・マネージャ</Primary><Secondary>アプリケーションの収集</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>アプリケーションの収集</Secondary></IndexTerm><IndexTerm><Primary>アプリケーション</Primary><Secondary>セッション・マネージャによる収集</Secondary></IndexTerm><IndexTerm><Primary>dtappgather</Primary></IndexTerm><Command>dtappgather</Command> のコマンド行オプションを変更するには、<Filename>dtstart_appgather</Filename> 変数を変更します。すべてのユーザの <Command><IndexTerm><Primary>dtstart_appgather 変数</Primary></IndexTerm>dtstart_appgather</Command> を変更するには、実行可能な <Command>sh</Command> または <Command>ksh</Command> スクリプト（たとえば、<Filename>/etc/dt/config/Xsession.d/</Filename><Emphasis>myvars</Emphasis>）を作成し、<Filename>dtstart_appgather</Filename> を次のように設定します。
+</Para>
+<ProgramListing>dtstart_appgather=&ldquo;/usr/dt/bin/dtappgather &amp;&ldquo;</ProgramListing>
+<Para>
+同様に、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> に <Filename>dtstart_appgather</Filename> を設定することによってのみユーザのセッションの <Command>dtappgather</Command> オプションを変更できます。
+</Para>
+<Para>
+<Command>dtappgather</Command> オプションの詳細については、<Command>dtappgather</Command> <Filename>(4)</Filename> のマニュアル・ページを参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.14">
+<Title Id="SAG.SesMg.mkr.6">オプションとしての .profile または .login スクリプトの参照<IndexTerm><Primary>環境変数</Primary><Secondary>.login または .profile の参照</Secondary></IndexTerm><IndexTerm><Primary>シェル</Primary><Secondary>.profile または .login の参照</Secondary></IndexTerm><IndexTerm><Primary>.profile ファイル</Primary><Secondary>〜の参照</Secondary></IndexTerm><IndexTerm><Primary>.login ファイル</Primary><Secondary>〜の参照</Secondary></IndexTerm></Title>
+<Para>
+<Command>Xsession</Command> は、従来の <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.profile</Filename> スクリプトまたは <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.login</Filename> スクリプトを参照できます。デフォルトではこの機能は使用できません。<Command>Xsession</Command> に <Filename>.profile</Filename> スクリプトまたは <Filename>.login</Filename> スクリプトを参照するように通知するには、<Command><IndexTerm><Primary>DTSOURCEPROFILE 変数</Primary></IndexTerm>DTSOURCEPROFILE</Command> に <Command>true</Command> を設定します。
+</Para>
+<Para>
+すべてのユーザの <Command>DTSOURCEPROFILE</Command> を変更するには、新しい値を設定する <Filename>/etc/dt/config/Xsession.d</Filename> スクリプトを作成します。すべてのユーザに対して <Command>DTSOURCEPROFILE</Command> に <Command>true</Command> を設定するには、実行可能な <Command>sh</Command> または <Command>ksh</Command> スクリプト（たとえば、<Filename>/etc/dt/config/Xsession.d/</Filename><Emphasis>myvars,</Emphasis>）を作成し、<Command>DTSOURCEPROFILE</Command> を次のように設定します。
+</Para>
+<ProgramListing>DTSOURCEPROFILE=true</ProgramListing>
+<Para>
+同様に、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> で <Command>DTSOURCEPROFILE</Command> に <Command>true</Command> を設定することによって、ユーザのセッションの <Command>DTSOURCEPROFILE</Command> を変更できます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.15">
+<Title>ToolTalk メッセージ・デーモンの起動<IndexTerm><Primary>ToolTalk</Primary><Secondary>メッセージ・デーモン</Secondary></IndexTerm></Title>
+<Para>
+ToolTalk メッセージ・デーモンの <Command>ttsession</Command> により、互いに依存しないアプリケーションはお互いについて直接認識していなくても交信することができます。アプリケーションは、お互いに交信できるように ToolTalk メッセージを作成して送信します。<Command>ttsession</Command> はネットワーク上で交信し、メッセージを配信します。
+</Para>
+<Para>
+<Command><IndexTerm><Primary>ttsession</Primary><Secondary>起動</Secondary></IndexTerm>ttsession</Command> のコマンド行オプションを変更するには、<Filename>dtstart_ttsession</Filename> 変数を変更します。すべてのユーザの <Command><IndexTerm><Primary>dtstart_ttsession 変数</Primary></IndexTerm>dtstart_ttsession</Command> 変数を変更するには、実行可能な <Command>sh</Command> または <Command>ksh</Command> スクリプトを（たとえば、<Filename>/etc/dt/config/Xsession.d/</Filename><Symbol Role="Variable">myvars</Symbol>）を作成し、<Filename>dtstart_ttsession</Filename> を次のように設定します。
+</Para>
+<ProgramListing>dtstart_ttsession=&ldquo;/usr/dt/bin/ttsession -s&ldquo;</ProgramListing>
+<Para>
+同様に、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> に <Filename>dtstart_ttsession</Filename> を設定することによってユーザのセッションの <Command>ttsession</Command> オプションを変更できます。
+</Para>
+<Para>
+<Command>ttsession</Command> オプションの詳細については、<Command>ttsession</Command> のマニュアル・ページを参照してください。<Command>ttsession</Command> の詳細については、<Emphasis>Getting Started Using ToolTalk Messaging</Emphasis> を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.16">
+<Title>セッション・マネージャ・クライアントの起動<IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>クライアント</Secondary></IndexTerm></Title>
+<Para>
+この時点で、<Command>Xsession</Command> は <Filename>/usr/dt/bin/dtsession</Filename> を起動し、セッション起動プロセスを続行します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.17">
+<Title Id="SAG.SesMg.mkr.7">セッション・リソースの読み込み<IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>リソースの読み込み</Secondary></IndexTerm><IndexTerm><Primary>リソース</Primary><Secondary>読み込み</Secondary></IndexTerm></Title>
+<Para>
+セッション・マネージャはＸサーバの <Command>RESOURCE_MANAGER</Command> 属性を使用して、デスクトップ・リソースをすべてのアプリケーションに対して使用可能にします。次の手順を実行することにより、セッション・マネージャは <Filename>RESOURCE_MANAGER</Filename> を読み込みます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>システムのデフォルト・リソースを読み込む</Para>
+</ListItem>
+<ListItem>
+<Para>システム管理者によって指定されたシステム共通リソースをマージする</Para>
+</ListItem>
+<ListItem>
+<Para>ユーザ指定のリソースをマージする</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+デスクトップのデフォルト・リソースは <Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename><IndexTerm><Primary>sys.resources ファイル</Primary></IndexTerm><IndexTerm><Primary>リソース</Primary><Secondary>デフォルト・デスクトップ</Secondary></IndexTerm>/sys.resources</Filename> にあります。これらのリソースは、<Filename>RESOURCE_MANAGER</Filename> 属性を介して各ユーザ・セッションに対して使用可能にされます。このファイルはその後のデスクトップのインストール時に上書きされてしまうので、編集しないでください。
+</Para>
+<Para>
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename><IndexTerm><Primary>sys.resources ファイル</Primary></IndexTerm>/sys.resources</Filename> を作成することによって、システムのデフォルト・リソースを引き数にすることができます。このファイルでは、デフォルト・リソースを無効にしたり、すべてのデスクトップのユーザに対して追加のリソースを指定できます。このファイルは、セッションの起動中にデスクトップのデフォルト・リソースにマージされるため、新規のまたは更新されたリソースの指定だけをこのファイルに格納してください。このファイルに指定されたリソースは、<Filename>RESOURCE_MANAGER</Filename> 属性を介して各ユーザのセッションに対して使用可能になります。このファイルに指定されたリソースは、デスクトップのデフォルト・リソース・ファイルで指定されたものよりも優先されます。
+</Para>
+<Para>
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> ファイルを使用して、デスクトップのデフォルト・リソースおよびシステム共通リソースを増やすことができます。このファイルに指定されたリソースは、<Filename>RESOURCE_MANAGER</Filename> 属性を介してユーザのセッションに対して使用可能にされます。このファイルに指定されたリソースは、デスクトップのデフォルト・リソース・ファイルまたはシステム管理者のリソース・ファイルで指定されたものよりも優先されます。
+</Para>
+<Note>
+<Para>
+Ｘツールキット・イントリンシクス・ユーティリティは、<Filename><IndexTerm><Primary>RESOURCE_MANAGER 属性</Primary></IndexTerm>RESOURCE_MANAGER</Filename> か <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> のどちらかからアプリケーションのリソースを読み込むように指定します。通常、これはユーザの <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> ファイルが無視されることを意味します。しかし、セッション・マネージャは上述のように、セッションの起動時に <Symbol Role="Variable">HomeDirectory</Symbol>/<Filename><IndexTerm><Primary>.Xdefaults ファイル [Xdefaults ファイル]</Primary></IndexTerm>.Xdefaults</Filename> を <Filename>RESOURCE_MANAGER</Filename> にマージすることにより、それを格納します。
+<Symbol Role="Variable">HomeDirectory</Symbol>/<Filename>.Xdefaults</Filename> を変更する場合、<IndexTerm><Primary>[リソースの再読込み]アクション</Primary></IndexTerm>[リソースの再読込み]アクションを起動するまで新規アプリケーションはこの変更を表示できません。[リソースの再読込み]アクションは、デフォルト・リソース、システム共通リソース、およびユーザ指定のリソースで <Filename>RESOURCE_MANAGER</Filename> を再読み込みするようにセッション・マネージャに通知します。これにより、システム共通リソース・ファイルと個人用リソース・ファイルをアプリケーションが使用できるように変更されます。
+</Para>
+</Note>
+<Para>詳細については次を参照してください。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><!--Original XRef content: '&xd2;Setting Application Resources&xd3; on page&numsp;256'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.2"></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>dtresourcesfile(4)</Filename> のマニュアル・ページ</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.18">
+<Title>カラー・サーバの起動<IndexTerm><Primary>カラー・サーバ</Primary><Secondary>起動</Secondary></IndexTerm></Title>
+<Para>
+セッション・マネージャは、デスクトップの
+<IndexTerm><Primary>カラー・サーバ</Primary><Secondary>リソース</Secondary></IndexTerm>
+カラー・サーバとして機能し、そのサーバを構成するのに使用できる次のような <Command>dtsession</Command> リソースのセットを提供します。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.73in">
+<colspec colwidth="4.11in">
+<TBody>
+<Row>
+<Entry><Para><Command>foregroundColor</Command><IndexTerm><Primary>foregroundColor リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+フォアグラウンド・カラーにピクセルを割り当てるかどうかを制御する。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>dynamicColor</Command><IndexTerm><Primary>dynamicColor リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+読み込み専用カラーを割り当てるかどうかを指定する。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>shadowPixmaps</Command><IndexTerm><Primary>shadowPixmaps リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+トップ・シャドウまたはボトム・シャドウにカラーを割り当てるかどうかを指定する。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>colorUse</Command><IndexTerm><Primary>colorUse リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+カラーの割り当てを制限する。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>writeXrdbColors</Command><IndexTerm><Primary>writeXrdbColors リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+<Filename>*background</Filename> リソースと <Filename>*foreground</Filename> リソースをリソース・データベースに格納するかどうかを指定する。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> を作成し、そのファイルの中にカラー・サーバを指定して、すべてのユーザに対してカラー・サーバのリソースを設定できます。
+</Para>
+<Para>
+同様に、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> にカラー・サーバのリソースを指定することによって、ユーザのセッションに対してのカラー・サーバのリソースを設定できます。
+</Para>
+<Para>
+カラー・サーバのリソース設定の詳細については、
+<!--Original XRef content: '&xd2;Administering Colors&xd3; on page&numsp;265'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.18"> を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.19">
+<Title>ワークスペース・マネージャの起動<IndexTerm><Primary>ワークスペース・マネージャ</Primary><Secondary>起動</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>ワークスペース・マネージャの起動</Secondary></IndexTerm></Title>
+<Para>
+セッション・マネージャは、ワークスペース・マネージャを起動します。デフォルトでは、<Filename>/usr/dt/bin/<IndexTerm><Primary>ワークスペース・マネージャ</Primary><Secondary>起動</Secondary></IndexTerm>dtwm</Filename> が起動されます。<Command><IndexTerm><Primary>wmStartupCommand リソース</Primary></IndexTerm><IndexTerm><Primary>ウィンドウ・マネージャ</Primary><Secondary>変更</Secondary></IndexTerm>wmStartupCommand</Command> リソースを使用すると、代わりのウィンドウ・マネージャを指定できます。
+</Para>
+<Para>
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> を作成し、そのファイルにある <Filename>Dtsession*wmStartupCommand</Filename> リソースで絶対パス名とウィンドウ・マネージャのオプションを指定して、すべてのユーザのための代わりのウィンドウ・マネージャを指定できます。
+</Para>
+<Para>
+同様に、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> に <Filename>Dtsession*wmStartupCommand</Filename> リソースを指定することによって、ユーザのセッションのための代わりのウィンドウ・マネージャを指定できます。
+</Para>
+<Para>
+ウィンドウ・マネージャの詳細については、
+<!--Original XRef content: 'Chapter&numsp;14, &xd2;Customizing the Workspace Manager'--><XRef Role="ChapNumAndTitle" Linkend="SAG.WMCnf.div.1"> を参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.20">
+<Title>セッション・アプリケーションの起動<IndexTerm><Primary>アプリケーション</Primary><Secondary>ログイン時の起動</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>アプリケーションの起動</Secondary></IndexTerm></Title>
+<Para>
+セッションの起動時に、セッション・マネージャはセッションの一部として保存されたアアプリケーションを再起動します。ユーザの初期セッションの一部として復元されるアプリケーション・システムのデフォルトのセットは、<Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename> にあります。このファイルは、その後のデスクトップのインストール時に必ず上書きされるため、編集しないでください。
+</Para>
+<Para>
+詳細については、<Filename MoreInfo="RefEntry">dtsessionfile(4)</Filename> および <Filename MoreInfo="RefEntry">dtsessiondb(4)</Filename> のマニュアル・ページを参照してください。
+<IndexTerm><Primary>sys.session ファイル</Primary></IndexTerm>
+</Para>
+<Para>
+システム管理者は <Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename> を <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename> にコピーし、コピーしたファイルを変更することにより、ユーザの初期セッションの一部として起動されるアプリケーションのセットを置き換えることができます。リソース・ファイルとは異なり、このファイルはデスクトップのデフォルト・ファイルを完全に置き換えたものとして使用されるため、システムのデフォルト・ファイルのコピーを作成し、必要な変更を行うことができます。
+<IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>アプリケーション起動のカスタマイズ</Secondary></IndexTerm>
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.SesMg.div.21">
+<Title Id="SAG.SesMg.mkr.8">その他のセッション起動のカスタマイズ</Title>
+<Para>この節では次のことについて説明します。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>環境変数の設定</Para>
+</ListItem>
+<ListItem>
+<Para>リソースの設定</Para>
+</ListItem>
+<ListItem>
+<Para>ディスプレイに依存するセッションの使用</Para>
+</ListItem>
+<ListItem>
+<Para>ログイン時のスクリプトの実行</Para>
+</ListItem>
+<ListItem>
+<Para>バックアップ・セッションの復元</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.SesMg.div.22" Role="Procedure">
+<Title Id="SAG.SesMg.mkr.9">環境変数を設定するには<IndexTerm><Primary>環境変数</Primary><Secondary>設定</Secondary></IndexTerm><IndexTerm><Primary>変数</Primary><Secondary>環境、「環境変数」を参照してください</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+<IndexTerm><Primary>環境変数</Primary><Secondary>システム共通</Secondary></IndexTerm>
+システム共通環境変数を設定するには、変数を設定して
+<IndexTerm><Primary>環境変数</Primary><Secondary>エクスポート</Secondary></IndexTerm>
+エクスポートする
+<Filename>/etc/dt/config/Xsession.d</Filename><IndexTerm><Primary>Xsession.d ディレクトリ</Primary></IndexTerm> ディレクトリにファイルを作成します。
+</Para>
+<Para>
+たとえば、実行可能な <Command>sh</Command> または <Command>ksh</Command> スクリプトである <Filename>/etc/dt/config/Xsession.d/</Filename><Symbol Role="Variable">myvars</Symbol> を作成すると、次の行が含まれています。
+</Para>
+<programlisting>export MYVARIABLE=&ldquo;<Symbol Role="Variable">value</Symbol>&ldquo;</programlisting>
+<Para>
+変数 <Command>MYVARIABLE</Command> は、次のログイン時に各ユーザの環境に設定されます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm><Primary>環境変数</Primary><Secondary>個人用</Secondary></IndexTerm>
+個人用環境変数を設定するには、<Symbol Role="Variable">HomeDirectory</Symbol><Filename><IndexTerm><Primary>.dtprofile ファイル</Primary><Secondary>〜の環境変数の設定</Secondary></IndexTerm>/.dtprofile</Filename> に変数を指定します。
+</Para>
+<Para>たとえば、次の行により、変数 <Command>MYVARIABLE</Command> は次のログイン時に各ユーザの環境に設定されます。
+</Para>
+<programlisting>export MYVARIABLE=&ldquo;<Symbol Role="Variable">value</Symbol>&ldquo;</programlisting>
+</ListItem>
+</OrderedList>
+<Note>
+<Para>
+セッション・マネージャは、<Filename><IndexTerm><Primary>.profile ファイル</Primary><Secondary>ログイン・マネージャによって読み込まれない</Secondary></IndexTerm>.profile</Filename> または <Filename><IndexTerm><Primary>.login ファイル</Primary><Secondary>ログイン・マネージャによって読み込まれない</Secondary></IndexTerm><IndexTerm><Primary>&lt;$nopage>シェル</Primary><Secondary>「環境変数」、「.profile」、「.login」、「.dtprofile」も参照してください</Secondary></IndexTerm>.login</Filename> ファイルを自動的には読み込みません。しかし、これらのファイルを使用するために構成することはできます。
+<!--Original XRef content: '&xd2;Optionally Sourcing the .profile or .login Script&xd3; on page&numsp;28'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.SesMg.mkr.6"> を参照してください。
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.23" Role="Procedure">
+<Title>リソースを設定するには<IndexTerm><Primary>リソース</Primary><Secondary>設定</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+システム共通リソースを設定するには、<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> ファイルにリソースを追加します（ファイルを作成しなければならないかもしれません）。
+<IndexTerm><Primary>sys.resources ファイル</Primary></IndexTerm>
+</Para>
+<Note>
+<Para>
+<Filename>
+<IndexTerm><Primary>.dtprofile ファイル</Primary><Secondary>構文</Secondary></IndexTerm>
+.dtprofile</Filename> は <Filename>/bin/sh</Filename> または <Filename>/bin/ksh</Filename> 構文だけをサポートします。
+</Para>
+</Note>
+<Para>
+たとえば、<Filename>/etc/dt/config/C/sys.resources</Filename> に次の行を指定すると、リソース <Filename>AnApplication*resource</Filename> は次のログイン時に各ユーザの <Filename>RESOURCE_MANAGER</Filename> 属性に設定されます。
+<IndexTerm><Primary>RESOURCE_MANAGER 属性</Primary></IndexTerm>
+</Para>
+<ProgramListing>AnApplication*resource: <Symbol Role="Variable">value</Symbol></ProgramListing>
+</ListItem>
+<ListItem>
+<Para>
+個人用リソースを設定するには、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> ファイルにリソースを追加します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.24" Role="Procedure">
+<Title>ディスプレイ固有のリソースを設定するには<IndexTerm><Primary>ディスプレイ固有のリソース</Primary></IndexTerm><IndexTerm><Primary>リソース</Primary><Secondary>ディスプレイ固有</Secondary></IndexTerm></Title>
+<Para>
+システム上のすべてのデスクトップ・ユーザに対してディスプレイに固有のリソースを設定できます。また、ユーザのセッションに制限されたディスプレイに固有のリソースを設定できます。この設定により、ユーザがデスクトップにログインするディスプレイに応じてリソースを指定することができるようになります。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+システム上のすべてのデスクトップ・ユーザのディスプレイに固有のリソースを設定するには、ディスプレイに固有のリソースを指定する <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> ファイルを作成します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+個人用ディスプレイに固有のリソースを設定するには、<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> ファイルにリソースを設定します。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+<Command><IndexTerm><Primary>cpp statements</Primary></IndexTerm>cpp</Command> 条件文でこれらのリソースを囲むことにより、リソースを区切ります。<Filename><IndexTerm><Primary>DISPLAY_displayname マクロ</Primary></IndexTerm>DISPLAY_</Filename><Emphasis>displayname</Emphasis> マクロが <Filename>$DISPLAY</Filename> 変数の値に応じて定義されます。これは、すべての . (ビリオド) と : (コロン) 文字を _ (下線文字) に変換し、画面の指定を取り除き、最後に <Filename>DISPLAY_</Filename> という接頭辞をその結果に付けることによって行われます。
+</Para>
+<Para>
+たとえば <Filename>:0</Filename> の <Filename>$DISPLAY</Filename> は <Filename>DISPLAY_0</Filename> になり、<Filename>blanco.gato.com:0.0</Filename> の <Filename>$DISPLAY</Filename> は <Filename>DISPLAY_blanco_gato_com_0</Filename> になります。結果の値は、セッションのリソース・ファイルの <Command>cpp</Command> テストの一部として使用できます。たとえば、<Filename>/etc/dt/config/C/sys.resources</Filename> では、次のように指定します。
+</Para>
+<programlisting>Myapp*resource: value
+#ifdef DISPLAY_blanco_gato_com_0
+Myapp*resource: specialvalue1
+#endif
+#ifdef DISPLAY_pablo_gato_com_0
+Myapp*resource: specialvalue2
+#endif
+</ProgramListing>
+<Para>
+この場合、リソース <Filename>MyApp*resource</Filename> は、ディスプレイ <Filename>blanco.gato.com:0</Filename> にログインするときは <Filename>specialvalue1</Filename> に対して、<Filename>pablo.gato.com:0</Filename> にログインするときは <Filename>specialvalue2</Filename> に対して、別のディスプレイにログインするときは <Command>value</Command> に対して、それぞれ <Filename>RESOURCE_MANAGER</Filename> に設定されます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.25" Role="Procedure">
+<Title>初期セッションのアプリケーションを変更するには<IndexTerm><Primary>セッション</Primary><Secondary>初期</Secondary></IndexTerm></Title>
+<Para>
+ユーザの初期セッションの一部として起動する代わりのアプリケーションを指定できます。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+<Filename>/usr/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename> を <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.session</Filename> にコピーします。 
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+新規の <Filename><IndexTerm><Primary>sys.session ファイル</Primary></IndexTerm>sys.session</Filename> ファイルを変更します。
+</Para>
+<Para>
+<Filename>sys.session</Filename> にある各エントリは次のように表示されます。
+</Para>
+<programlisting>dtsmcmd -cmd <Replaceable Remap="Emphasis">command_and_options</Replaceable>
+<IndexTerm><Primary>dtsmcmd コマンド</Primary></IndexTerm>
+</programlisting>
+<Para>
+ユーザの初期セッションの一部として追加のアプリケーションを起動するには、絶対パス名で新しい <Filename>sys.session</Filename> エントリを指定します。たとえば、ユーザの初期セッションの一部として <Filename>/usr/bin/X11/xclock</Filename> を起動するには <Command>xclock</Command> エントリを <Filename>/etc/dt/config/C/sys.resources</Filename> に追加します。
+</Para>
+<programlisting>#
+# Start up xclock...
+#
+dtsmcmd -cmd &ldquo;/usr/bin/X11/xclock -digital&ldquo;
+</Programlisting>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.26" Role="Procedure">
+<Title>ディスプレイ固有のセッションを設定するには<IndexTerm><Primary>セッション</Primary><Secondary>ディスプレイ固有</Secondary></IndexTerm><IndexTerm><Primary>ディスプレイ固有のセッション</Primary></IndexTerm></Title>
+<Para>
+特定のディスプレイに合わせてセッションを調節するように、ディスプレイに固有のセッションを設定できます。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/<IndexTerm><Primary>セッション・ディレクトリ</Primary></IndexTerm>sessions</Filename> ディレクトリを <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol> にコピーします。この場合、<Symbol Role="Variable">display</Symbol> は実際に存在する修飾していないホスト名です（<Filename>pablo:0</Filename> は有効で、<Filename>pablo.gato.com:0</Filename> や <Filename>unix:0</Filename> は無効です）。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+たとえば、ディスプレイ <Filename>pablo.gato.com:0</Filename> のディスプレイに固有のセッションを作成するには、次のように指定します。
+</Para>
+<ProgramListing>cp -r <Symbol Role="Variable">HomeDirectory</Symbol>/.dt/sessions <Symbol Role="Variable">HomeDirectory</Symbol>/.dt/pablo:0</ProgramListing>
+<Para>
+ディスプレイ <Filename>pablo.gato.com:0</Filename> に次にログインしたときには、セッション・マネージャはそのディスプレイに固有のセッションを起動します。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.27">
+<Title>セッションの起動時とログアウト時の追加コマンドの実行</Title>
+<Para>
+デスクトップ・セッションにログインしたときに、追加コマンドが起動されるように指定できます。これは、セッション・マネージャが保存しないＸの設定を行う場合に有用です。たとえば、ユーザは <Command>xsetroot</Command> を使用してルート（ワークスペース）・ポインタをカスタマイズできます。また、もうひとつの使用方法としては、セッション・マネージャによって保存および復元することができないアプリケーションを起動することです。セッションが復元されたときにアプリケーションが再起動しない場合、ユーザはこの方法を使用してクライアントを起動できます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.28" Role="Procedure">
+<Title>セッションの起動時に追加コマンドを実行するには<IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>追加コマンドの実行</Secondary></IndexTerm><IndexTerm><Primary>セッション</Primary><Secondary>起動時のコマンド実行</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+コマンドが入っている <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/sessionetc</Filename> ファイルを作成します。
+<IndexTerm><Primary>sessionetc ファイル</Primary></IndexTerm>
+</Para>
+<Para>
+一般的にこのファイルはスクリプトで、実行権を持っていなければなりません。<Command>sessionetc</Command> で起動されるプロセスは、バックグラウンドで実行されなければなりません。
+</Para>
+</ListItem>
+</OrderedList>
+<Note>
+<Para>
+セッション・マネージャによって自動的に復元されるクライアントを起動するために <Command>sessionetc</Command> を使用しないでください。使用すると、複数のアプリケーションのコピーが起動されてしまいます。ウィンドウは、もうひとつのウィンドウの上部に重なることがあるので、コピーをすぐに見つけられない可能性があります。
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.29" Role="Procedure">
+<Title>ログアウト時に追加コマンドを実行するには<IndexTerm><Primary>セッション</Primary><Secondary>ログアウト時のコマンド実行</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>ログアウト時のコマンド実行</Secondary></IndexTerm></Title>
+<Para>
+<Command>sessionetc</Command> に付属したファイルは <Command><IndexTerm><Primary>sessionexit ファイル</Primary></IndexTerm>sessionexit</Command> です。セッション・マネージャが処理しないセッション終了時のオペレーションのいくつかを実行するには、<Command>sessionexit</Command> を使用します。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+ファイル <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/sessionexit</Filename> を作成します。
+</Para>
+<Para>
+<Command>sessionetc</Command> と同様に、このファイルは通常は実行権を持っているスクリプトです。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.30" Role="Procedure">
+<Title>バックアップからセッションを復元するには<IndexTerm><Primary>セッション</Primary><Secondary>復元</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>セッションのバックアップ</Secondary></IndexTerm><IndexTerm><Primary>セッション</Primary><Secondary>バックアップ</Secondary></IndexTerm></Title>
+<Para>
+セッション・マネージャがセッションを保存すると、ディスプレイに固有のセッションを使用している場合は、セッション情報が <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions</Filename> ディレクトリか <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol> ディレクトリに保存されます。現在のセッションまたはホーム・セッションそれぞれに関する情報を格納するために、セッション・マネージャは <Command>current</Command> または <Command>home</Command> という名前のサブディレクトリをこれらのディレクトリに作成します。セッション情報が格納される前に、セッション・マネージャはその名前で以前のセッションのバックアップを作成し、<Filename><IndexTerm><Primary>current.old ディレクトリ</Primary></IndexTerm>current.old</Filename> または <Filename><IndexTerm><Primary>home.old ディレクトリ</Primary></IndexTerm>home.old</Filename> に格納します。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+ログイン画面から[復旧セッション]か[コマンド行ログイン]を使用してログインします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+バックアップのセッション・ディレクトリを有効な名前にコピーします。たとえば、バックアップのホーム・セッションを復元するためには次のようにします。
+</Para>
+</ListItem>
+</OrderedList>
+<ProgramListing>cp -r <Symbol Role="Variable">HomeDirectory</Symbol>/.dt/sessions/home.old <Symbol Role="Variable">HomeDirectory</Symbol>/.dt/sessions/home</ProgramListing>
+<Para>
+ディスプレイに固有のセッションも同じ方法で復元できます。
+</Para>
+</Sect2>
+<Sect2 Id="SAG.SesMg.div.31" Role="Procedure">
+<Title>セッションの起動に関する問題を調べるには<IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>エラー・ログ</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>トラブルシュート</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/startlog</Filename> ファイルをチェックします。
+<IndexTerm><Primary>startlog ファイル</Primary></IndexTerm><IndexTerm><Primary>セッション</Primary><Secondary>エラーのログ採取</Secondary></IndexTerm>
+</Para>
+<Para>
+<Filename>startlog</Filename> ファイルには、セッション・マネージャから（セッション・マネージャのホスト上で）起動されたアプリケーションからの出力 (<command>stderr</command>) が格納されます。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.SesMg.div.32">
+<Title Id="SAG.SesMg.mkr.10">セッション・マネージャのファイルとディレクトリ<IndexTerm><Primary>構成ファイル</Primary><Secondary>セッション・マネージャ</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>ファイル</Secondary></IndexTerm><IndexTerm><Primary>セッション・マネージャ</Primary><Secondary>ディレクトリ</Secondary></IndexTerm></Title>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>/usr/dt/bin/Xsession</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/config/Xsession.d/*</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/bin/dtsession</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/bin/dtsession_res</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/current</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/sessions/home</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol><Filename>/current</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/</Filename><Symbol Role="Variable">display</Symbol>/<Command>home</Command></Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

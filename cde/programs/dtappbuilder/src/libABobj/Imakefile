@@ -1,0 +1,116 @@
+XCOMM $XConsortium: Imakefile /main/8 1996/10/09 14:03:41 drk $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		ABobj
+#define LibHeaders	NO
+#define LibInstall	NO
+
+#include "../ab.tmpl"
+#include "../ab.rules"
+
+    INCLUDES = -I. -I$(ABINCLUDES)
+
+    LINTLIBS = $(LINTXLIB) $(LINTXTOOL)
+
+     DEFINES =
+
+SOURCES.h.shipped =
+
+SOURCES.h.shared =\
+	obj.h \
+	obj_list.h \
+	obj_notify.h \
+	trav.h
+
+SOURCES.h.unshared = \
+	objP.h \
+	obj_names_listP.h \
+	obj_notifyP.h \
+	obj_utils.h \
+	travP.h
+
+SRCS = \
+	obj.c \
+	obj_action.c \
+	obj_alloc.c \
+	obj_fields.c \
+	obj_geometry.c \
+	obj_init.c \
+	obj_isa.c \
+	obj_names_list.c \
+	obj_list.c \
+	obj_lists.c \
+	obj_notify.c \
+	obj_release.c \
+	obj_scoped.c \
+	obj_select.c \
+	obj_tree.c \
+	obj_utils.c \
+	trav.c \
+	travP.c \
+	trav_public.c \
+	trav_safe.c
+
+OBJS = \
+	obj.o \
+	obj_action.o \
+	obj_alloc.o \
+	obj_fields.o \
+	obj_geometry.o \
+	obj_init.o \
+	obj_isa.o \
+	obj_list.o \
+	obj_lists.o \
+	obj_names_list.o \
+	obj_notify.o \
+	obj_release.o \
+	obj_scoped.o \
+	obj_select.o \
+	obj_tree.o \
+	obj_utils.o \
+	trav.o \
+	travP.o \
+	trav_public.o \
+	trav_safe.o
+
+  SYS_LIBRARIES = -lm
+
+#ifdef RsArchitecture
+SYS_LIBRARIES = -lm -liconv
+#endif
+
+#ifdef	SunArchitecture
+SYS_LIBRARIES = -lm -ldl -lgen 
+WAITTARGET = .WAIT
+#endif	/* SunArchitecture */
+
+       LINTLIBS = $(XINPUTLIB) $(DTHELPLIB) $(DTSVCLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+LOCAL_LIBRARIES = $(XINPUTLIB) $(DTHELPLIB) $(DTSVCLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+
+#include <Library.tmpl>
+
+PROGRAMS = test test_notify
+
+SRCS2 = test.c
+OBJS2 = test.o
+DEPLIBS2 = ../libAButil/libAButil.a libABobj.a
+ComplexProgramTarget_2(test,$(DEPLIB2),$(SYS_LIBRARIES))
+
+SRCS3 = test_notify.c
+OBJS3 = test_notify.o
+DEPLIBS3 = ../libAButil/libAButil.a libABobj.a
+ComplexProgramTarget_3(test_notify,$(DEPLIBS3),$(SYS_LIBRARIES))
+
+DependTarget3($(SRCS),$(SRCS2),$(SRCS3))
+
+clean::
+	RemoveFiles($(PROGRAMS))
+
+LinkFileList(shared_includes,$(SOURCES.h.shared),../include/ab_private,../../libABobj)
+
+includes:: shared_includes $(WAITTARGET)
+sdtgilcvt: libABobj.a
+dtcodegen: libABobj.a
+

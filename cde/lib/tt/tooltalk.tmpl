@@ -1,0 +1,48 @@
+/* This file is imbedded near the top of  every ToolTalk Imakefile. */
+/* It contains definitions and redefinitions that are common to all */
+/* of ToolTalk but which aren't referred to anywhere else in the    */
+/* build. */
+
+/* TT_VERSION defines the version string which is imbedded in all the */
+/* binaries and shipped libraries. */
+
+TT_VERSION = "CDE Version 2.1.30"
+TT_VERSION_DEFINE = -DTT_VERSION_STRING=\"$(TT_VERSION)\"
+
+
+#ifdef SunArchitecture
+/* TTLIB_AND_MAYBE_XLIB is overridden on architectures where libtt does */
+/* not need XLIB (because it's dlopen'ed.) */
+TTLIB_AND_MAYBE_XLIB = $(TTLIB)
+DEPTTLIB_AND_MAYBE_XLIB = $(DEPTTLIB)
+#endif
+
+
+/* put EXTRA_DEFINES and EXTRA_INCLUDES below */
+#ifdef SunArchitecture
+LAST_LOAD_FLAGS = -Bstatic -lC -Bdynamic -lm -lc -Bstatic
+#endif
+
+#ifdef RsArchitecture
+EXTRA_DEFINES=-D_ALL_SOURCE -DPOSIX_DRAFT7_THREADS
+#endif
+
+#ifdef SunArchitecture
+/* Only need to rebuild message catalog source on one platform. */
+all::
+
+%.msg:	%
+	ttgenmsg -d $@ $(TT_DIR)/SUNW_TOOLTALK.sets $<
+
+%/msgs:	always_rebuild
+	(cd $*; make $(@F))
+
+msgs:	$$(SRCS:%=%.msg) $$(SUBDIRS:%=%/msgs)
+	$(RM) $@
+	touch $@
+	for file in $(SRCS:%=%.msg) $(SUBDIRS:%=%/msgs) /dev/null; do \
+		if grep set $$file > /dev/null; then cat $$file >> $@; fi; \
+	done
+
+always_rebuild:
+#endif

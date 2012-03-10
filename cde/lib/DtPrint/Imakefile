@@ -1,0 +1,49 @@
+XCOMM $XConsortium: Imakefile /main/11 1996/10/31 02:09:04 cde-hp $
+#define DoNormalLib	NormalLibDtPrint
+#define DoSharedLib	SharedLibDtPrint
+#define DoDebugLib	DebugLibDtPrint
+#define DoProfileLib	ProfileLibDtPrint
+#define LibName		DtPrint
+#define SoRev		SODTPRINTREV
+#define IncSubdir	Dt
+
+#ifndef DtPrintDefines
+# define DtPrintDefines		-DXK_MISCELLANY -DMULTIBYTE -DI18N_MSG
+#endif
+DEFINES = DtPrintDefines
+INCLUDES = -I.
+
+#ifdef SharedDtPrintReqs
+REQUIREDLIBS = SharedDtPrintReqs
+#endif
+
+HEADERS = \
+	PrintMsgsP.h \
+	PrintDlgMgrP.h \
+	Print.h \
+	PrintI.h \
+	PrintOptionsP.h \
+	PrintSetupBP.h \
+	PsubDefProcI.h \
+	PsubUtilI.h \
+	dtpdmd.h
+
+SRCS = \
+	PrintMsgs.c \
+	PrintDlgMgr.c \
+	PrintOptions.c \
+	PrintSetupB.c \
+	PsubDefProc.c \
+	PsubUtil.c
+
+OBJS = \
+	PrintMsgs.o \
+	PrintDlgMgr.o \
+	PrintOptions.o \
+	PrintSetupB.o \
+	PsubDefProc.o \
+	PsubUtil.o
+
+#include <Library.tmpl>
+
+DependTarget()

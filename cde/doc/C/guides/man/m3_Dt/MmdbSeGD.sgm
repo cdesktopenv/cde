@@ -1,0 +1,70 @@
+<!-- $XConsortium: MmdbSeGD.sgm /main/5 1996/09/08 20:08:49 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.INFO.DtMmdbSectionGetData">]]><refmeta><refentrytitle>
+DtMmdbSectionGetData</refentrytitle><manvolnum>library call</manvolnum></refmeta><refnamediv>
+<refname><function>DtMmdbSectionGetData</function></refname><refpurpose>obtains
+the data for a section</refpurpose></refnamediv><refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;DtMmdb.h></funcsynopsisinfo>
+<funcdef>const char* <function>DtMmdbSectionGetData</function></funcdef>
+<paramdef>DtMmdbInfoRequest* <parameter>request</parameter></paramdef>
+<paramdef>unsigned int* <parameter>length</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtMmdbSectionGetData</function> function
+returns the data for the specified section. Do not use the
+<function>free</function> function on the returned pointer. Table lookup is
+involved if the section identifier is specified by the
+<symbol role="Variable">locator_ptr</symbol> field.
+</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">request</symbol></term>
+<listitem>
+<para>Specifies the bookcase in the bookcase descriptor field and
+either the section's Database Engine identifier (in the
+<symbol role="Variable">primary_oid</symbol> field) or the
+section's logical identifier (in the <symbol role="Variable">locator_ptr</symbol>
+field). If both of these fields have a value,
+<function>DtMmdbSectionGetData</function> ignores the
+<symbol role="Variable">locator_ptr</symbol> value.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">length</symbol></term>
+<listitem>
+<para>Specifies the variable to receive the length of the
+returned data, if the returned pointer to the data is not NULL.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>If <function>DtMmdbSectionGetData</function> completes
+successfully, it returns a pointer to a NULL-terminated data string.
+If it fails, it returns a NULL pointer.
+</para>
+</refsect1><refsect1>
+<title>EXAMPLE</title>
+<para>The following shows how a <function>DtMmdbSectionGetData</function> call
+might be coded.</para>
+<informalexample>
+<programlisting>DtMmdbInfoRequest request;
+/* fill the request */
+DtMmdbSectionGetData(&amp;request, 0);
+</programlisting>
+</informalexample>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>TO BE SUPPLIED
+</para>
+</refsect1></refentry>

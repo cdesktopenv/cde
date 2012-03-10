@@ -1,0 +1,83 @@
+<!-- $XConsortium: dtsrrein.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchReinit">]]>
+<refmeta><refentrytitle>DtSearchReinit</refentrytitle>
+<manvolnum>library call</manvolnum>
+</refmeta>
+<refnamediv>
+<refname><function>DtSearchReinit</function></refname>
+<refpurpose>Reinitialize the DtSearch online API
+</refpurpose></refnamediv><refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/Search.h></funcsynopsisinfo>
+<funcdef>int <function>DtSearchReinit</function></funcdef>
+<paramdef>char <parameter>***dbnames</parameter></paramdef>
+<paramdef>int <parameter>*dbcount</parameter></paramdef>
+</funcsynopsis></refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para><function>DtSearchReinit</function> closes and reopens databases and
+other files as necessary, and reinitializes the search engine API.
+</para>
+<para>It is typically used after either databases or the ocf file have been externally
+changed to force the search engine to reinitialize itself, and to acquire
+the new database names if any.
+</para>
+<para>It can also be used after any function returns
+<systemitem class="constant">DtSrREINIT</systemitem> to acquire
+the new database names.
+</para>
+</refsect1>
+<refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">dbnames</symbol></term>
+<listitem>
+<para>Specifies the address where a pointer to an array of static database
+name string pointers will be placed. The
+<symbol role="Variable">dbnames</symbol> pointer from a previous
+<function>DtSearchInit</function> or <function>DtSearchReinit</function>
+may no longer be valid. Each string identifies a single successfully
+opened database.
+</para>
+<para>A database name string from this array is required for most other API
+function calls. The <symbol role="Variable">dbn</symbol> member in
+<structname>DtSrResult</structname> is an index into this array.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">dbcount</symbol></term>
+<listitem>
+<para>Specifies a pointer where the size of the
+<symbol role="Variable">dbnames</symbol> array will be stored.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<para><function>DtSearchReinit</function> returns <systemitem class="constant">DtSrOK</systemitem> and the current
+<symbol role="Variable">dbnames</symbol> array if the reinitialization was
+successful or if reinitialization was not necessary.
+</para>
+<para>It returns <systemitem class="constant">DtSrERROR</systemitem> and
+messages on the MessageList on any other condition.
+</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtSrAPI;,
+&cdeman.DtSearchInit;,
+&cdeman.DtSearchGetMessages;,
+&cdeman.dtsrocffile;,
+&cdeman.DtSearch;
+</para>
+</refsect1></refentry>
+
+

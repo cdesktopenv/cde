@@ -1,0 +1,197 @@
+<!-- $XConsortium: srhan.sgm /main/7 1996/09/08 19:56:38 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![%CDE.C.CDE; [<refentry id="CDE.SEARCH.dtsrhan">]]>
+<refmeta><refentrytitle>dtsrhan</refentrytitle><manvolnum>user
+cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtsrhan</command></refname><refpurpose>Create
+a DtSearch fzk file</refpurpose></refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis> <command>dtsrhan</command> <arg
+choice="opt">&minus;m</arg> <arg choice="opt">&minus;oo</arg> <arg
+choice="opt">&minus;oa</arg> <arg
+choice="opt">&minus;w<replaceable>screensz</replaceable></arg> <arg
+choice="plain"><replaceable>hanfile</replaceable></arg> <arg
+choice="plain"><replaceable>textfile</replaceable></arg> <arg
+choice="opt"><replaceable>fzkfile</replaceable></arg> </cmdsynopsis>
+</refsynopsisdiv>
+<refsect1> <title>DESCRIPTION</title>
+<para><command>dtsrhan</command> is a filter utility that creates a correctly
+formatted fzk file from a file of unformatted input text documents using
+a user-written profile called a han file. The han file identifies
+specific data fields in the input text from which the fzk fields can be
+generated.
+</para>
+<para><command>dtsrhan</command> makes a single
+forward pass through the text file. Its profiling ability is limited to
+line number, column number, and simple string pattern matching. It is
+usable only for ASCII text input files and ASCII fzk output files;
+nonASCII languages are not supported.
+</para>
+<para><command>dtsrhan</command> is a convenience utility only; its use is
+optional. Canonical fzk files for input to <function>dtsrload</function>
+and <function>dtsrindex</function> may be generated in any other
+desirable way.
+</para>
+</refsect1>
+<refsect1> <title>OPTIONS</title>
+<para>The following options are available:</para> <note>
+<para>If an
+option takes a value, the value must be directly appended to the option
+name without white space.</para> </note>
+<variablelist>
+<varlistentry><term><literal>&minus;m</literal></term>
+<listitem>
+<para>Switches off all messages except error messages.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;oo</literal></term>
+<listitem>
+<para>Overwrite preexisting fzk file. If this option and the
+<literal>&minus;oa</literal> option are omitted and the output fzk file
+already exists, <command>dtsrhan</command> prompts for which option to
+use.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;oa</literal></term>
+<listitem>
+<para>Append new output to preexisting fzk file. If this option and the
+<literal>&minus;oo</literal> option are omitted and the output fzk file
+already exists, <command>dtsrhan</command> prompts for which option to
+use.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;w</literal><symbol role="Variable">screensz</symbol></term>
+<listitem>
+<para>Sets the
+target screen width to <symbol role="Variable">screensz</symbol>
+characters. <command>dtsrhan</command> wraps long text lines at the
+nearest whitespace to ensure that no text line in the fzk file is longer
+than <symbol role="Variable">screensz</symbol> characters. This option
+is typically used to ensure that output lines are not wider than the
+anticipated end user screen width. The default value is 79.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>OPERANDS</title>
+<para><command>dtsrhan</command> takes the
+following operands:</para>
+<variablelist>
+<varlistentry><term><symbol role="Variable">hanfile</symbol></term>
+<listitem>
+<para>Specifies the
+name of the profile han file. If the base file name does not include an
+extension, <command>dtsrhan</command> assumes an extension of
+<Filename>.han</Filename>. The argument may include a fully qualified path
+prefix or a prefix relative to the current working directory. See
+&cdeman.dtsrhanfile; for the format of a han file.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">textfile</symbol></term>
+<listitem>
+<para>Specifies the
+name of the input text file. <command>dtsrhan</command> does not assume
+any extension.
+</para>
+<para>The input file may contain text that will
+be mapped to a single database object or document, or it may contain
+multiple documents separated by the end-of-record markers specified in
+the han file. No assumptions are made concerning the format of the input
+file other than the fact that it consists of ASCII text with line feeds
+at reasonable lengths.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">fzkfile</symbol></term>
+<listitem>
+<para>Specifies the name of the output fzk file. If this
+option is omitted, <command>dtsrhan</command> constructs the fzk file
+name from the name of the input file, including the path prefix if any,
+with an <Filename>.fzk</Filename> suffix appended. See
+&cdeman.dtsrfzkfiles; for the format of a fzk file.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>None.</para>
+</refsect1>
+<refsect1> <title>RESOURCES</title>
+<para>None.</para>
+</refsect1>
+<refsect1> <title>ACTIONS/MESSAGES</title>
+<para>None.</para>
+</refsect1>
+<refsect1> <title>RETURN VALUES</title>
+<para>The return
+values are as follows:</para>
+<variablelist>
+<varlistentry><term>0</term>
+<listitem>
+<para><command>dtsrhan</command> completed successfully.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>non-zero</term>
+<listitem>
+<para><command>dtsrhan</command> encountered an error.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para><command>dtsrhan</command> reads the specified text file and the
+specified han file, and writes to the specified fzk file.
+</para>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>Convert the documents in the ASCII text file
+<filename>docs.txt</filename> to an fzk file named
+<filename>docs.fzk</filename> using the profile
+<filename>myprofile.han</filename>, all in the current working
+directory.
+</para>
+<programlisting>
+dtsrhan myprofile docs.txt
+</programlisting>
+<para>Convert the documents in the ASCII text file <filename>myin</filename> in the
+current working directory, to an fzk file named <filename>myout.fzk</filename>
+in the <filename>fzkdir</filename> subdirectory of the current working directory,
+using the han file located at <filename>/u/dtsearch/mypro.han3</filename>.
+If <filename>myout.fzk</filename> already exists, the fzk records for the document(s)
+in <filename>myin</filename> will be appended to it.
+If any lines in <filename>myin</filename> have more than 132 characters, they will
+be wrapped at the nearest whitespace less than 132 characters.
+</para>
+<programlisting>
+dtsrhan -oa -w132 /u/dtsearch/mypro.han3 myin fzkdir/myout
+</programlisting>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtsrload;,
+&cdeman.dtsrindex;,
+&cdeman.dtsrfzkfiles;,
+&cdeman.dtsrhanfile;,
+&cdeman.DtSearch;
+</para>
+</refsect1>
+</refentry>

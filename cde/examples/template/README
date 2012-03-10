@@ -1,0 +1,118 @@
+/* $XConsortium: README /main/3 1996/07/15 14:05:55 drk $ */
+The Template Application
+------------------------
+This is a template Dt application. It illustrates how to write
+a simple application integrated with the Dt desktop.
+
+The application provides a simple airbrush drawing facility using
+Motif. It defines a new file type '*.template' which contains a list
+of x, y coordinates for the drawn points. The application and data
+format favor simplicity over performance, and could obviously
+be improved.
+
+Actions
+-------
+A set of actions are provided to allow integration into the Dt desktop:
+
+	TemplateNew (labeled New) - to create a new Template data file.
+	TemplateOpen (labeled Open) - to open an existing Template data file.
+	TemplatePrint (labeled Print) - to Print a Template data file.
+
+Datatypes
+---------
+The template data file is described by the datatype TemplateData, defined
+in C/template.dt
+
+Icons
+-----
+A minimal set of icons are provided to integrate with the Dt desktop. The
+application group icons, window manager icon, Action icons and data file
+icons are identical. In a more sophisticated application, these would
+most likely be similar, but visually differentiated in some way.
+
+Help
+----
+A simple help file is provided. This can be displayed from within the
+application using the Help viewer widget (by selecting 'Overview' in the
+'Help' menu. It can also be view using the dthelpview tool.
+
+Message Catalog
+---------------
+All user-visible text in the application is loaded from the message catalog
+template.cat.
+
+Example file
+------------
+As recommended in the Programmer's Guide, an example.template file is
+provided.
+
+App-defaults file
+-----------------
+The app-defaults file 'Template' contains resources to set the initial
+size of the application window.
+
+The Application Package
+-----------------------
+The Makefile provided will build the application binary ("templatebin") and
+associated files. It then copies these into the newly created application
+package directory hierarchy ("template"). The ./dt/ subdirectory hierarchy
+is a Dt standard and is described in the Programmer's Guide. The other
+directories (bin, app-defaults, msg) are not standard directories and may
+vary for your application and installation script.
+
+The binary templatebin will function on its own, however to fully install
+the application and integrate with the Dt desktop you will need to write a
+platform-specific installation script.  The installation script will
+typically need to be run with root privileges.
+
+This script should be written to ensure that the binary, app-defaults and
+message catalog get installed correctly on your target system, and are
+available in the appropriate user or system search paths.
+
+This script should also install the ToolTalk ptype into the system by
+running the command 'tt_type_comp -d system template.ptype'.
+
+    NOTE: There is a bug in the system that may prevent tt_type_comp from
+    notifying an existing desktop session that new types have been added.
+    The symptom of this bug will be that the application will fail with the
+    following error message:
+
+	templatebin: ttmedia_ptype_declare failed
+
+    If this occurs, a workaround is to send SIGUSR2 to the running ttsession
+    process, like so:
+
+	$ /usr/bin/ps -e | grep ttsess
+	  7850 console  0:08 ttsessio
+	$ kill -USR2 7850
+
+    This will cause ttsession to reread its types files.  See ttsession(1)
+    for further information.  An alternative workaround is to logout from
+    the desktop and restart.
+If you choose to test the templatebin binary before integrating it with
+the Dt desktop, you will need to set the following (this assumes you
+have built out of /usr/dt/examples/template):
+
+  export XMICONBMSEARCHPATH=$XMICONBMSEARCHPATH:/usr/dt/examples/template/template/dt/appconfig/icons/C/%B:
+
+  export XMICONSEARCHPATH=$XMICONSEARCHPATH:/usr/dt/examples/template/template/dt/appconfig/icons/C/%B:
+
+  export DTHELPSEARCHPATH=$DTHELPSEARCHPATH:/usr/dt/examples/template/template/dt/appconfig/help/C/%H.sdl:
+
+The installation script should be written to ensure that the bin, app-defaults
+and message catalog get installed correctly on your target system, and
+
+The final step of the installation script should be to execute
+'dtappintegrate -s template'.  This will ensure that the desktop
+files under the ./dt/ subdirectory are installed correctly and
+inserted into the appropriate Dt system and user paths.
+
+Localization
+------------
+The application is ready for localization. This directory contains
+the non-localizable portions of the application.
+
+The ./C/ directory contains the localizable portions of the application
+in US English. Some or all of these files should be translated and
+placed in a separate locale-specific directory.
+

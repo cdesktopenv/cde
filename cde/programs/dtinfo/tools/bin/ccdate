@@ -1,0 +1,29 @@
+#!/usr/tools/bin/perl
+# Script to convert and compare datestrings in the form of dd-Mmm-yy.hh.mm.ss
+
+%monthnum = (
+        Jan, 0, Feb, 1, Mar, 2, Apr, 3, May, 4, Jun, 5,
+        Jul, 6, Aug, 7, Sep, 8, Oct, 9, Nov, 10, Dec, 11
+);
+$firstp = &cvtdate(@ARGV[0]);
+$secondp = &cvtdate(@ARGV[1]);
+exit ( $firstp cmp $secondp );
+
+#Convert dd-Mmm-yy.hh:mm:ss
+sub cvtdate {
+local($str) = @_;
+$str =~ /^(\d\d)-([a-zA-Z]{3})-(\d\d).(\d\d):(\d\d):(\d\d)$/;
+$mon = $monthnum{$2};
+$mday = $1; $year = $3;
+$hour = $4; $min = $5; $sec = $6;
+if ( $mon <= 9 ) {
+   $mon = "0".$mon; 
+}
+if ( $year <= 50) {
+   $year = $year + 2000; }
+else {
+   $year = $year + 1900; 
+}
+$date = "$year$mon$mday";
+return ($date);
+}

@@ -1,0 +1,181 @@
+<!-- $XConsortium: ch04.sgm /main/7 1996/09/08 19:46:50 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="RDMAP.port.div.1">
+<title id="RDMAP.port.mkr.1">移植性と保守性</title>
+<para>この章は、移植性の高いアプリケーションを書くため、およびアプリケーションが
+共通デスクトップ環境の今後のリリースに対して互換性があることを保証するための
+情報について説明します。</para>
+<informaltable id="RDMAP.port.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Portability Issues37'--><xref role="JumpText"
+linkend="RDMAP.port.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Common Desktop Environment Motif
+Widget Binary Compatibility Guidelines40'--><xref role="JumpText" linkend="RDMAP.port.mkr.4"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="RDMAP.port.div.2">
+<title id="RDMAP.port.mkr.2">移植性の問題
+<indexterm><primary>移植性の問題 &lt;$startrange></primary></indexterm>
+</title>
+<para>この節では、共通デスクトップ環境をサポートする、異なるプラットフォーム間
+でのアプリケーションの移植性に関する問題を説明します。</para>
+<sect2 id="RDMAP.port.div.3">
+<title id="RDMAP.port.mkr.3">規格<indexterm><primary>規格 &lt;$startrange></primary>
+</indexterm></title>
+<para>アプリケーションを共通デスクトップ環境に準拠させるには、
+<indexterm><primary>Motif 2.1</primary></indexterm>
+Motif 2.1、<indexterm><primary>ANSI-C</primary></indexterm>ANSI-C、
+<indexterm><primary>X11R6.2</primary></indexterm>X11R6.2規格に従わなければ
+なりません。Ｃ＋＋でアプリケーションを開発している場合は、Ｃ＋＋バージョン
+2.0以降を使用してください。共通デスクトップ環境のアプリケーションを作成する
+とき、POSIXなどのほかの規格に固執することはありません。デスクトップの
+アプリケーション・プログラム・インタフェース(API)を使用するアプリケーションは、
+他の共通デスクトップ環境プラットフォームへ移植できます。しかし、POSIXを使用
+するとソフトウェアの移植性が拡張されます。</para>
+<para>ここで言う<indexterm><primary>POSIX</primary></indexterm>POSIX規格は、
+IEEE Std 1003.1-1990、<emphasis>IEEE Standard for Information
+Technology&mdash;Portable Operating System Interface (POSIX)&mdash;Part 1:
+System Application Program Interface (API) [C Language],</emphasis> ISBN
+1-55937-061-0を指します。</para>
+<para>またMotif 2.1規格は、IEEE Std 1295、<emphasis>Standard for Information 
+Technology&mdash;X Window System Graphical User Interface&mdash;Modular
+Toolkit Environment</emphasis><indexterm><primary>規格 &lt;$endrange></primary>
+</indexterm>を指します。</para>
+<para>上記の２点の注文については、
+<!--Original XRef content: '&xd2;Related Books&xd3; on page&numsp;xv'--><xref
+role="SecTitleAndPageNum" linkend="RDMAP.pref.mkr.2">を参照してください。</para>
+</sect2>
+<sect2 id="RDMAP.port.div.4">
+<title>Makefile<indexterm><primary>makefile &lt;$startrange></primary></indexterm>
+</title>
+<para>X11など、共通デスクトップ環境が依存しているライブラリは、プラットフォーム
+が異なれば別の場所にインストールされていることがよくあります。これを解決する
+には、プラットフォーム固有のリファレンスを取り込むか、各プラットフォーム別の
+makefileを書いてください。</para>
+<para>また、<command>make</command>プログラムの機能はプラットフォームによって
+異なります。アプリケーションに対してmakefileを１つだけしか書かないのであれば、
+プログラムの移動先であるプラットフォームが使用している共有の
+<command>make</command>機能を使用してください。プラットフォーム固有の
+<command>make</command>機能は使用しないでください。</para>
+<para>デスクトップと統合するのに、共通デスクトップ環境では、定義された定数
+(<filename>-D</filename>パラメータなど)を追加する必要はありません。POSIXなど
+の規格に従う場合は、規格固有のフラグを追加してコンパイルする必要があります。
+特殊なコンパイラ要件があるかどうかについては、規格のドキュメントを参照してくだ
+さい。</para>
+<para><filename>/usr/dt/examples</filename>の各サブディレクトリには、異なる
+プラットフォーム用のmakefileの例が入っています。これらのmakefileは、システム
+の相違点を考慮しています。特に、一般的なmakefileの例については、
+<filename>/usr/dt/examples/dtdts</filename><command>ディレクトリ</command>
+を参照してください。</para>
+<sect3 id="RDMAP.port.div.5">
+<title>コンパイル・オプション</title>
+<para>アプリケーションがデスクトップの<command>include</command>ファイルを検索
+できるようにするには、次の行を各makefileのコンパイル行に追加してください。</para>
+<programlisting>-I/usr/dt/include</programlisting>
+</sect3>
+<sect3 id="RDMAP.port.div.6">
+<title>リンク・オプション</title>
+<para>アプリケーションがデスクトップ・ライブラリを参照できるようにするには、
+次の行を各makefileのリンク行に追加してください。</para>
+<programlisting>-L/usr/dt/lib -l&lt;<symbol role="Variable">libname1</symbol>> -l&lt;<symbol role="Variable">libname2</symbol>>...</programlisting>
+<para><symbol role="Variable">libname1</symbol>、
+<symbol role="Variable">libname2</symbol>はアプリケーションが参照するライブラリ
+の名前です。<indexterm><primary>makefile &lt;$endrange></primary>
+</indexterm>デスクトップ・ライブラリ名は必要なだけ指定することができます。
+次に例を示します。</para>
+<programlisting>-L/usr/dt/lib -lDtSvc -ltt -lXm</programlisting>
+<para>このように指定すると、アプリケーションはデスクトップ・サービス、ToolTalk
+メッセージ・システム、Motif 2.1ライブラリを参照します。</para>
+</sect3>
+</sect2>
+<sect2 id="RDMAP.port.div.7">
+<title>ファイル命名規則<indexterm><primary>ファイル命名規則</primary></indexterm>
+<indexterm><primary>命名規則</primary><secondary>ファイル</secondary></indexterm>
+</title>
+<para>アプリケーション・ファイル名とアプリケーションが生成するファイルの名前は、
+１４文字以内にしてください。そうすれば、長いファイル名をサポートしていない
+プラットフォームに移植できるようになります。この制限を持つプラットフォームが
+いくつかあります。</para>
+<para>エンド・ユーザが生成するファイル名には、この制限は当てはまりません。</para>
+</sect2>
+<sect2 id="RDMAP.port.div.8">
+<title>ディスプレイ・サポート<indexterm><primary>ディスプレイ・サポート</primary>
+</indexterm></title>
+<para>アプリケーションは、次のようなディスプレイ・オプションと構成をサポート
+する必要があります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>モノクロ・ディスプレイ
+（白黒アイコンを含む）</para>
+</listitem><listitem><para>カラー・ディスプレイ（カラー・アイコンを含む）</para>
+</listitem><listitem><para><indexterm><primary>VGA</primary></indexterm>
+VGA(640x480 - アプリケーション・ウィンドウまたはフォント・サイズが完全に
+画面に適合するようにサイズを調整する）のような小さい画面</para>
+</listitem></itemizedlist>
+<para>カラー・アイコンを作成するために
+<indexterm><primary>アイコン・エディタ</primary></indexterm>
+アイコン・エディタを使用すると、より容易にアプリケーションが他のデスクトップ・
+アプリケーションとカラーを共有することができます。これにより、
+<indexterm><primary>疑似カラー・ディスプレイ</primary></indexterm>
+疑似カラー・ディスプレイで実行するときにカラー・セルの浪費を防ぎます。
+<literal><indexterm><primary>移植性の問題 &lt;$endrange></primary>
+</indexterm></literal></para>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.port.div.9">
+<title id="RDMAP.port.mkr.4">共通デスクトップ環境のMotifウィジェット・バイナリ
+の互換性のガイドライン<indexterm><primary>ガイドライン</primary>
+<secondary>共通デスクトップ環境のMotifウィジェット・バイナリの互換性</secondary>
+</indexterm><indexterm><primary>互換性</primary>
+<secondary>共通デスクトップ環境ウィジェットのガイドライン</secondary></indexterm>
+<indexterm><primary>ウィジェット</primary>
+<secondary>互換性のガイドライン &lt;$startrange></secondary>
+</indexterm></title>
+<para>すでにサブクラス化したウィジェットのデータ構造体のサイズに依存する標準
+Xt APIを使用して実装しているウィジェット・サブクラスは、Motifまたは共通デスク
+トップ環境の新バージョンとの互換性がない可能性があります。Motifの新バージョン
+のスーパークラスに新規フィールドが追加されている可能性があるからです。たとえば
+Motif 2.0の<command>XmManager</command>および<command>XmPrimitive</command>
+クラスに新規フィールドが追加されています。</para>
+<para>サブクラスは、ウィジェット・インスタンスの開始アドレスに関連して指定され
+たインスタンス・フィールドに対するコンパイルされたリファレンスを持つので、
+非互換が起こります。スーパークラス・インスタンス構造体を拡張したウィジェットを
+持つ新しいMotifライブラリをインストールした場合に、コンパイルされた
+リファレンスは間違ったメモリの場所を指します。</para>
+<para>このような問題を避けるため、Motifにはリソースを定義する機能と、インスタンス
+および、ウィジェットの全構造体の代わりにウィジェットの<command>部分</command>
+構造体の先頭（アドレス）に関連する制約構造体にあるすべてのフィールドを参照
+できるようにするウィジェット・フィールドへアクセスする機能があります
+（ウィジェットの全構造体は、スーパークラス部分構造体を含みます）。ウィジェット・
+クラスを最初に初期化したとき、この機能はこれらの関連するリファレンスを実行時
+に解決します。そのため、現在リンクされているMotifライブラリから読み取る、
+ウィジェットのスーパークラス・インスタンス構造体のサイズを計算に入れます。</para>
+<note>
+<para>サブクラス化を実装する場合、アプリケーションと共通デスクトップ環境の
+今後のリリースとのバイナリ互換可能なものにするには、<emphasis>必ず</emphasis>
+Motifリファレンスの解決機能を使用してください。</para>
+</note>
+<para>このMotif機能に関する詳細については、Motif 2.1の
+<filename>XmResolvePartOffsets(3x)</filename>および
+<filename>XmResolveAllPartOffsets(3x)</filename>のマニュアル・ページと、
+<emphasis>Motifプログラマーズ・リファレンス</emphasis>を参照してください。
+ソースコード例は<filename>/usr/dt/examples/motif/dogs</filename>にあります。
+<literal><indexterm><primary>ガイドライン</primary>
+<secondary>共通デスクトップ環境のMotifウィジェット・バイナリの互換性</secondary>
+</indexterm>
+<indexterm><primary>互換性</primary>
+<secondary>共通デスクトップ環境ウィジェットのガイドライン</secondary></indexterm>
+<indexterm><primary>ウィジェット</primary>
+<secondary>互換性のガイドライン &lt;$endrange></secondary></indexterm>
+</literal></para>
+</sect1>
+</chapter><?Pub Caret>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:30:53-->
+<?Pub *0000011964>

@@ -1,0 +1,248 @@
+<!-- $XConsortium: ch09.sgm /main/7 1996/09/08 19:49:04 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="ABUG.codeg.div.1">
+<title id="ABUG.codeg.mkr.1">コードの生成とアプリケーションの構築</title>
+<para>この章では、コード・ジェネレータと、コード・ジェネレータの使用したコードの生成、
+生成コードへのユーザコードの追加、アプリケーションのMake、コンパイルしたアプリケ
+ーションの実行について説明します。コード・ジェネレータ・ウィンドウとその要素の説明は、
+<!--Original XRef content: '&xd2;Code Generator Window&xd3;on page&numsp;130'--><xref role="SecTitleAndPageNum" linkend="ABUG.apWDB.mkr.9">を参照してください。</para>
+<informaltable id="ABUG.codeg.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Making and Running an Application107'--><xref role="JumpText" linkend="ABUG.codeg.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Set Code Generator Options109'--><xref role="JumpText" linkend="ABUG.codeg.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Set Environment Options110'--><xref
+role="JumpText" linkend="ABUG.codeg.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Adding User Code to Generated Code112'--><xref role="JumpText" linkend="ABUG.codeg.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Generate Code from the Command
+Line111'--><xref role="JumpText" linkend="ABUG.codeg.mkr.5"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="ABUG.codeg.div.2">
+<title id="ABUG.codeg.mkr.2">アプリケーションのMakeと実行</title>
+<para>2つのシナリオを以下で説明します。1つめのシナリオは、1ステップで、アプリケーション
+の構築と実行を行います。2つめのシナリオは、別々のステップで、コードの生成、コード
+のコンパイル、およびアプリケーションの実行を行います。</para>
+<para>どちらの場合も、保存していないプロジェクトを変更すると、ダイアログ・ボックスが
+表示され、コード生成の処理を取消すか、またはプロジェクトの保存するの選択を、ユーザに
+要求します。プロジェクトに保存する選択を行ったとき、以前に保存をしたことがない
+場合は、プロジェクトを保存する場所を指定する必要があります。</para>
+<sect2 id="ABUG.codeg.div.3" role="Procedure">
+<title>1ステップでMakeおよび実行をするには
+</title>
+<orderedlist><listitem><para><indexterm><primary>アプリケーション</primary><secondary>1ステップで構築および実行</secondary></indexterm><indexterm><primary>アプリケーションの実行</primary><secondary>1ステップで</secondary></indexterm>アプリケーション・ビルダの主ウィンドウの[ファイル]メニューから[コード・ジェネレータ]
+を選択します。</para>
+<para>コード・ジェネレータが表示されます。<indexterm><primary>コード・ジェネレータ</primary></indexterm></para>
+</listitem>
+<listitem><para>[Make & 実行]をクリックし、コードの生成、アプリケーションの構築および実行を行います。</para>
+<para>プロジェクトを保存し、すべてが正常にいくと、コード・ジェネレータの一番上にある
+出力区画に多くのメッセージが表示されます。最後のメッセージは、「Running: ./[<emphasis>projectname</emphasis>] (実行中: ./[<emphasis>プロジェクト名</emphasis>])」
+です。このメッセージが表示されるとアプリケーションが実行されます。</para>
+<para>少なくとも、アプリケーション・ビルダの主ウィンドウは表示されています。アプリケーション
+の起動時に表示しないように設定したウィンドウは、隠されます。ユーザが選んだ、
+ユーザ・コードを必要としない機能に基づいて、アプリケーションは、様々な処理
+(メニュー表示、接続のテスト、アイテム・ヘルプ表示など)を行います。</para>
+</listitem>
+</orderedlist>
+<note>
+<para>最終的には、アプリケーションを完成するには、コードを記述しなければなりません。
+たとえば、接続エディタで指定する[関数呼び出し]コールバックは、置き換えなくては
+なりません。詳細は、<!--Original XRef content: '&xd2;Adding User Code to Generated Code&xd3; on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">を参照してください。</para>
+</note>
+</sect2>
+<sect2 id="ABUG.codeg.div.4" role="Procedure">
+<title>コード作成、Make、および実行を別々に行うには</title>
+<orderedlist><listitem><para>[コードの生成]をクリックして、現在のプロジェクトのコードを生成します。<indexterm><primary>アプリケーション</primary><secondary>コードの生成</secondary></indexterm><indexterm><primary>アプリケーションのコードの生成</primary></indexterm></para>
+<para>コード・ジェネレータが起動されると、コード・ジェネレータ・ウィンドウの一番上の
+出力区画にメッセージが表示されます。最後に出力されるメッセージは、「Completed 
+successfully.(正常に完了しました。)」です。
+Makefile、プロジェクト・ファイル、モジュール・ファイル、および2つの<filename>dtb_utils</filename>ファイル
+を含む多くのファイルが生成されます。コード・ジェネレータ・ウィンドウの一番下に
+ある端末区画で、生成されたファイルを見ることができます。</para>
+</listitem><listitem><para>[Make]をクリックして、アプリケーションを構築します。<indexterm><primary>アプリケーション</primary><secondary>構築</secondary></indexterm><indexterm><primary>アプリケーションの構築</primary></indexterm></para>
+<para>アプリケーションがコンパイルされたとき、多くのメッセージが、出力区画に表示され
+ます。最後に出力されるメッセージは、「Completed successfully.(正常に完了しました。)」です。
+オブジェクト・ファイル、実行形式のアプリケーション・ファイルを含む数個のファイル
+が生成され、これらのファイルには、ユーザがプロジェクトにつけた名前がついています。</para>
+</listitem><listitem><para>[実行]をクリックして、アプリケーションを実行します。 <indexterm><primary>アプリケーション</primary><secondary>実行</secondary></indexterm><indexterm><primary>アプリケーションの実行</primary></indexterm></para>
+<para>コマンド行で実行形式のファイルを入力したときのように、アプリケーションが起動します。</para>
+</listitem><listitem><para>[中止]をクリックすると、アプリケーションが終了します。 <indexterm><primary>アプリケーション</primary><secondary>終了</secondary></indexterm><indexterm><primary>終了</primary><secondary>アプリケーション</secondary></indexterm></para>
+<para>これでアプリケーションは終了し、ウィンドウが閉じます。また、[中止]をクリックして、
+コード・ジェネレータ、またはコード・ジェネレータ・ウィンドウで起動した <command>make</command>操作も
+終了できます。 </para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="ABUG.codeg.div.5" role="Procedure">
+<title id="ABUG.codeg.mkr.3">コード・ジェネレータのオプションを設定するには<indexterm><primary>コード・ジェネレータのオプション</primary></indexterm><indexterm><primary>コード・ジェネレータ</primary><secondary>オプション</secondary></indexterm><indexterm><primary>設定</primary><secondary>コード・ジェネレータのオプション</secondary></indexterm></title>
+<para>生成されるコード、またはその他のコード・ジェネレータ機能を決定するには、次のようにします。</para>
+<orderedlist><listitem><para>アプリケーション・ビルダの主ウィンドウの[ファイル]メニューから[コード・ジェネレータ]を
+選択します。</para>
+</listitem><listitem><para>[オプション]メニューから[ジェネレータ]を選択すると、コード・ジェネレータ・オプション
+・ダイアログ・ボックスが表示されます。</para>
+</listitem><listitem><para>[コードの生成対象]オプション([プロジェクト全体]、[メインのみ]、
+[特定のモジュールのみ]、[特定のモジュールとメイン])の1つを選択します。</para>
+<para>[特定のモジュールのみ]、または[特定のモジュールとメイン]を選択すると、モジュールが
+アクティブになります。コードを生成したいモジュールの名前を、リストからクリックします。</para>
+</listitem><listitem><para>手作業で編集したコードを生成コードにマージしたくないときは、[マージ禁止]をクリック
+します。</para>
+<note>
+<para>ユーザ・コードを破棄したくない場合は、[マージ禁止]をクリックしてはいけません。 </para>
+</note>
+</listitem>
+<listitem><para>必要であれば、メッセージを通知するオプションを選択します。</para>
+<para>選択肢は、[正常メッセージの通知]、[サイレントで]、[冗長で]です。</para>
+</listitem><listitem><para>必要であれば、[Make 引き数]を入力します。</para>
+<para>[Make]または[Make&実行]をクリックしたときに、これらの変数は取り込まれます。</para>
+</listitem><listitem><para>必要であれば、[実行時引き数]を入力します。</para>
+<para>[実行]または[Make&実行]をクリックしたときに、これらの変数は取り込まれます。</para>
+</listitem><listitem><para>[デフォルト設定にリセット]をクリックすると、すべてのフィールドにデフォルト値を設定ます。 </para>
+</listitem><listitem><para>[了解]または[適用]をクリックして変更を行います。</para>
+<para>[了解]をクリックすると、オプション・ダイアログ・ボックスが終了します。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.codeg.div.6" role="Procedure">
+<title id="ABUG.codeg.mkr.4">環境オプションを設定するには<indexterm><primary>コード・ジェネレータの環境オプション</primary></indexterm><indexterm><primary>設定</primary><secondary>環境オプション</secondary></indexterm></title>
+<orderedlist><listitem><para>アプリケーション・ビルダの主ウィンドウの[ファイル]メニューから[コード・ジェネレータ]
+を選択し、コード・ジェネレータ・ウィンドウを表示します。</para>
+</listitem><listitem><para>[オプション]メニューから[環境]を選択して、環境オプション・ダイアログ・ボックスを表示します。</para>
+</listitem><listitem><para>[変数名]テキスト・フィールドに変数を入力します。</para>
+<para>たとえば、<command>PATH</command>環境変数を変更するとします。</para>
+</listitem><listitem><para>[取得]をクリックして、[変数名]に変数の現在の値を表示します。</para>
+<para>変数の値が、[値]区画に表示されます。</para>
+</listitem><listitem><para>[値]を変更して、[設定]をクリックし、変数の値を変更します。</para>
+<para>この変更は、アプリケーション・ビルダのセッションのみに適用されます。</para>
+</listitem><listitem><para>[リセット]をクリックすると、[値]がアプリケーション・ビルダのセッション外の値にリセット
+されます。</para>
+</listitem><listitem><para>[キャンセル]をクリックして、ダイアログ・ボックスを終了します。</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.codeg.div.7" role="Procedure">
+<title id="ABUG.codeg.mkr.5">コマンド行からコードを生成するには</title>
+<para>コマンド行からアプリケーション・ビルダのコードを生成するには、<command>dtcodegen</command>を実行します。使用方法は以下のとおりです。</para>
+<para>使用方法: <command>dtcodegen</command> [<symbol role="Variable">options
+</symbol>] [<symbol role="Variable">project-file</symbol>] [<symbol role="Variable">
+module-file</symbol> [<symbol role="Variable">module-file</symbol>] ...]</para>
+<para>コードは、コマンド行で指定した各モジュール、またはプロジェクト内のすべてのモジュール
+に対して生成されます。モジュールを指定しないと、プロジェクトのすべてのモジュールに対して
+生成されます。プロジェクトファイルが指定されていないときは、指定したモジュールを
+含むプロジェクトが、現在のディレクトリから検索されます。</para>
+<para>拡張子<filename>.bip</filename>を持つファイルはBILプロジェクト・ファイルとみなされ、
+拡張子<filename>.bix</filename>をもつファイルはカプセル化されたBILファイルとしてみなされます。
+拡張子<filename>.bil</filename>をもつファイルは、BILモジュール・ファイルとみなされます。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colname="col1" colwidth="169*">
+<colspec align="left" colname="col2" colwidth="359*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<thead>
+<row><entry align="left" spanname="1to2" valign="bottom"><para>オプション(* はデフォルト、+ はプロジェクト・ファイルを持たないデフォルト)</para></entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry><para><command>-help (-h)</command></para></entry>
+<entry><para>ヘルプ・メッセージを表示します。</para></entry></row>
+<row>
+<entry><para><filename>-main</filename></para></entry>
+<entry><para>main()を含むファイルを記述します。</para></entry></row>
+<row>
+<entry><para><filename>-changed</filename></para></entry>
+<entry><para>変更されたファイルのみを生成します。</para></entry></row>
+<row>
+<entry><para><command>* -merge</command></para></entry>
+<entry><para>生成された_stubs.cファイルと以前のバージョンをマージします。</para></entry>
+</row>
+<row>
+<entry><para><filename>-nomerge</filename></para></entry>
+<entry><para>既存および新規stubsファイルをマージしません。</para></entry></row>
+<row>
+<entry><para><command>* -project (-p)</command></para></entry>
+<entry><para>コードの生成対象となるプロジェクトを指定します。</para></entry></row>
+<row>
+<entry><para><command>-noproject (-np)</command></para></entry>
+<entry><para>プロジェクトの設定にデフォルトを使用し、プロジェクト・ファイルを無視します。</para></entry>
+</row>
+<row>
+<entry><para><command>+ -showall</command></para></entry>
+<entry><para>アプリケーションが起動時にすべてのウィンドウを表示(マップ)します。</para></entry>
+</row>
+<row>
+<entry><para><command>* -noshowall</command></para></entry>
+<entry><para>アプリケーションが初期に表示するように指定したウィンドウを表示(マップ)します。</para></entry></row>
+<row>
+<entry><para><command>-silent (-s)</command></para></entry>
+<entry><para>サイレント・モードです。メッセージは記述されません。</para></entry></row>
+<row>
+<entry><para><command>-verbose (-v)</command></para></entry>
+<entry><para>冗長モードです。詳細な経過メッセージを出力します。</para></entry></row>
+</tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="ABUG.codeg.div.8">
+<title id="ABUG.codeg.mkr.6">生成コードへのユーザ・コードの追加</title>
+<para>コード・ジェネレータの[コードの生成]をクリックするか、またはコマンド行から
+<command>dtcodegen</command>を実行してインタフェースのコードを生成すると、プロジェクト・フォルダに
+多数のプロジェクトが作成されます。たとえば、プロジェクトが 「test」という名で、
+「mod1」という名の1つのモジュールを持っている場合は、以下のファイルが生成されます。</para>
+<itemizedlist remap="Bullet1"><listitem><para><command>Makefile</command>
+(他のプラットフォームのMakefilesを含めます)</para>
+</listitem><listitem><para><filename>dtb_utils.c</filename></para>
+</listitem><listitem><para><filename>dtb_utils.h</filename></para>
+</listitem><listitem><para><filename>mod1.bil</filename> (モジュール・ファイル)</para>
+</listitem><listitem><para><filename>mod1_stubs.c</filename></para>
+</listitem><listitem><para><filename>mod1_ui.c</filename></para>
+</listitem><listitem><para><filename>mod1_ui.h</filename></para>
+</listitem><listitem><para><filename>test.bip</filename> (プロジェクト・ファイル)</para>
+</listitem><listitem><para><filename>test.c</filename></para>
+</listitem><listitem><para><filename>test.h</filename></para>
+</listitem><listitem><para><command>Test</command> (リソース・ファイル)</para>
+</listitem></itemizedlist>
+<para>接続エディタで[関数呼び出し]または[実行コード]接続を行うと、これらの接続は、生成
+コードに反映されます。生成コード内で、ユーザによって修正可能なすべての領域には、
+次のような形式のコメントがつきます。</para>
+<programlisting>/* DTB_USER_CODE START */
+/* DTB_USER_CODE_END */
+</programlisting>
+<para>STARTとENDコメントの間の領域は、「ユーザ・セグメント」とみなされます。
+任意のテキスト(Cのコードではないものであっても)ユーザ・セグメント内に追加する
+ことができます。コード・ジェネレータは、このコードを、次期以降のすべてのバージョン
+で保持します。各ユーザ・セグメントは、そのセグメントに追加されるべきコード型、
+またはセグメントが実行されるときのアプリケーションの状態を促すコメントではじまり
+ます。これらの提示は、純粋な情報であって、無視されることがあります。</para>
+<para>アプリケーション・ビルダとコード・ジェネレータのどちらも、追加されたコードが正当な
+Cコードであることを確かめることはできません。検証することはできません。変更した
+ファイルが、ユーザのコンパイラで満足な処理がなされるかどうかは、ユーザの責任になります。</para>
+<para>手作業で編集したすべてのコードを破棄するには、コード・ジェネレータ・ウィンドウの
+オプション・ダイアログから[マージ禁止]を選択するか、または<command>dtcodegen</command>を<filename>-nomerge</filename>
+オプションをつけて実行します。これは、多くの作業が失われる可能性があるので、非常に
+注意して行うべきです。</para>
+<para>どんな環境においても、生成されたコメントを修正すべきではありません。生成された
+コメントが修正されると、コード生成に失敗し、結果ファイルがコンパイルできない可能性
+があります。そのような誤りからの復旧を助けるために、<filename>.BAK</filename>拡張子を
+持つバックアップ・ファイルが現在のディレクトリに保存されます。</para>
+<para>ユーザ・コード・セグメントはコード内の重要な箇所にあり、生成されたアプリケーション
+のカスタマイズを容易にします。<filename>main()</filename>に関連するすべてのコード
+とアプリケーション全体のデータ及び構造体は、&lt;<emphasis>projectname</emphasis>><filename>.h</filename>と&lt;<emphasis>projectname</emphasis>><filename>.c</filename>で
+定義されています。これらのファイルでは、フィールドがアプリケーションのXtリソース
+・データ構造体に追加され、開発者が定義した新しいデータ型と変数が追加されます。
+そしてアプリケーションの起動の手続きが修正されます。</para>
+<para>各&lt;<emphasis>modulename</emphasis>><filename>_stubs.c</filename>ファイルは、生成された接続の効果を修正するユーザ・セグメントを
+含んでいます。ユーザ・コードは、自動生成されたコードの実行前と後に追加されます。</para>
+<para>さらに、各ファイルの始まりには、カスタム・ヘッダまたは著作権表示を追加するのに
+使用できるユーザ・セグメントがあります。</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:11:44-->
+<?Pub *0000022158>

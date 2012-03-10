@@ -1,0 +1,85 @@
+<!-- $XConsortium: dtsrvald.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchValidDateStri">]]>
+<refmeta>
+<refentrytitle>DtSearchValidDateString</refentrytitle>
+<manvolnum>library call</manvolnum></refmeta>
+<refnamediv>
+<refname><function>DtSearchValidDateString</function>
+</refname>
+<refpurpose>Validate and convert a user date string
+</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Dt/Search.h></funcsynopsisinfo>
+<funcdef>DtSrObjdate <function>DtSearchValidDateString</function></funcdef>
+<paramdef>char *<parameter>date_string</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para><function>DtSearchValidDateString</function> validates a DtSearch date
+string, as might have been entered by a user in a free form text field,
+and converts it into a valid <structname role="typedef">DtSrObjdate</structname>.
+</para>
+<para>Since an invalid date string format returns a distinctive <structname role="typedef">DtSrObjdate</structname>, this function may also be used as
+a boolean test for string validity.
+</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">date_string</symbol></term>
+<listitem>
+<para>Specifies the date string to be validated and converted.
+</para>
+<para>The format for a valid date string is "[<emphasis>yyyy</emphasis>
+[<emphasis>mm</emphasis> [<emphasis>dd</emphasis>]]", one, two, or three
+ASCII numeric tokens separated by one or more nonnumeric chars
+(whitespace, slashes, etc). The integer <emphasis>yyyy</emphasis>
+represents a Gregorian calendar year number in the range 1990 to 5995
+inclusive. If <emphasis>yyyy</emphasis> is less than 1900, 1900 is added
+to it. The integer <emphasis>mm</emphasis> is a Gregorian calendar month
+number in the range 1 to 12 inclusive. The integer
+<emphasis>dd</emphasis> is a Gregorian calendar day number in the range
+1 to 31 inclusive.
+</para>
+<para>If only two tokens are in the string, they are presumed to be
+<emphasis>yyyy</emphasis> and <emphasis>mm</emphasis>, and
+<emphasis>dd</emphasis> is presumed to be to 1.
+</para>
+<para>If only one token is in the string, it is presumed to be
+<emphasis>yyyy</emphasis>, and both <emphasis>mm</emphasis>
+and <emphasis>dd</emphasis> are presumed to be 1.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<para><function>DtSearchValidDateString</function> returns zero (a valid
+<structname role="typedef">DtSrObjdate</structname>) if
+<symbol role="Variable">date_string</symbol> is NULL or empty.
+</para>
+<para>It returns a correctly formatted <structname role="typedef">DtSrObjdate</structname> on successful parse and
+conversion.
+</para>
+<para>It returns -1 and a message on the MessageList if
+<symbol role="Variable">date_string</symbol> is invalid.
+</para>
+</refsect1>
+<refsect1>
+<Title>SEE ALSO</Title>
+<para>&cdeman.DtSrAPI;,
+&cdeman.DtSearchQuery;,
+&cdeman.dtsrfzkfiles;,
+&cdeman.DtSearch;
+</para>
+</refsect1></refentry>
+

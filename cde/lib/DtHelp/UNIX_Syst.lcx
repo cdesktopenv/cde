@@ -1,0 +1,543 @@
+!
+!  (c) Copyright 1993, 1994 Hewlett-Packard Company
+!  (c) Copyright 1993, 1994 International Business Machines Corp.
+!  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+!  (c) Copyright 1993, 1994 Novell, Inc.
+!
+!!!!!!!!!!!!!! UNIX_System_V Locale-Related Translations !!!!!!!!!!!!!!
+! File:			UNIX_Syst.lcx
+! Default location:	/usr/dt/config/svc/UNIX_Syst.lcx
+! Purpose:
+!    Define the UNIX_System_V (FUJITSU UXP/DS) specific set of locale-related translations.
+! Description:
+!    This file contains the set of all locale-related translations
+!    that  can occur during _DtLcxXlateOpToStd() and _DtLcxStdToOp()
+!    calls on UNIX_System_V platforms. Note that platform-specific tables may
+!    include more than one translation to and from CDE standard
+!    strings if they can be distinguished by version, operation, or
+!    pattern matching.
+!
+!    It is important that additional CDE standard strings only
+!    be created by the CDE owner of the _DtLcx translation service
+!    and NOT be created by an individual vendor or user.  This be because
+!    the purpose of adopting a set of CDE standard strings is to 
+!    support interoperability across platforms.  If individual vendors 
+!    add their own "standard" strings and these strings are not
+!    known on other platforms, then the goal of interoperability
+!    will be defeated.
+!
+!    If you feel that a new CDE standard string is needed,
+!    contact your CDE representative/vendor with a specific
+!    proposal and justification and have them forward it to
+!    the owner of the CDE _DtLcx service.
+!
+!    Note that it is allowed for vendors and users to add new
+!    operations for which translations are specified and which
+!    utilize the standard strings.  If the operations are of
+!    general utility, please bring them to the attention of
+!    your CDE representative/vendor for forwarding to the
+!    _DtLcx owner.
+! Invoked by:
+!    This table is used by the _DtLcx translation service
+! Product:	@(#)Cde1
+! Revision:	$XConsortium: UNIX_Syst.lcx /main/2 1996/08/25 02:01:38 cde-fuj $
+! Defects:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!! translation specification syntax !!!!!!!!!!!!!!!!!!!
+! Introductory fields:
+! ====================
+! The _DtLcx translation specifications have a fixed number of
+! introductory fields followed by a several standard value
+! fields and the operation-specific value.
+! The introductory fields are:
+!  <platform>.<version range>.<operation(s)>.<kind>
+!
+! Platform generally is the same string as uname(1) -s.
+! Version range utilizes normalized version numbers that 
+!   are acquired using the 'version' translations.
+! Operations are one or more comma-separated strings that
+!   uniquely identify the operation associated with the
+!   operation-specific value.  This string is specified
+!   as part of the request for a translation.
+!
+! Kinds of translations allow the mechanism to support several modes
+!   of operation, each useful for different purposes.  When
+!   reading or writing a specification, pay particular attention
+!   to the kind of specification, as this guides the usage of it.
+!
+! Specification kinds:
+!  .=. means a valid bi-directional translation requiring the op-value 
+!      in the translation specification to exactly match the op-value of 
+!      the call to _DtLcxXlateOpToStd(), e.g. foo matches only foo
+!  .~. means a valid bi-directional translation requiring the op-value 
+!      in the translation specification to match the beginning of the
+!      op-value of the call to _DtLcxXlateOpToStd(), e.g. foo matches 
+!      foo@bar.  This is often useful, e.g. for operation-specific
+!      locale strings that may also contain modifier suffixes.
+!  .>. means only from standard to op-specific (generally a 
+!      compatibility translation, meaning on op-specific value 
+!      that will work for the standard, although that is not 
+!      the straight mapping)
+!  .<. means only from op-specific to standard (generally a
+!      regex in the op-value which is used to map a class of
+!      op values to a standard value)
+!  .0. means that translation is not supported and if a translation
+!      request matches the specification, the request will fail.
+!      Because there is no way to turn off a translation marked
+!      with .0. once it is specified, the preferred method of
+!      indicating that a translation is not supported --at the moment--
+!      is just to comment out the translation rather than use .0.
+!
+! Standard values:
+! ================
+! _DtLcx defines the order of the standard values in the
+! translations it utilizes.  All translation specifications
+! must adhere to this order.
+!    <std lang_terr>.<std codeset>.<std modifier>
+! In CDE 1.0, no modifiers are standardized and that
+! portion of the table is unspecified.  This means
+! that no CDE standard modifiers are available across
+! platforms.  Operations that use only the <std codeset>
+! should specify the wildcard character ("?") for the 
+! <std lang_terr> value.
+!
+! Operation-specific value:
+! =========================
+! The operation-specific value is a string that is used
+! according to the kind of translation.  The syntax is
+!      : <op-string>
+! or   :  "<op-string>", if it contains white space
+! 
+! Filling in the table of translations:
+! =====================================
+! The person preparing the translation table should know 
+! the minimum version of the target platform that is
+! be supported.  For example, assume that we must
+! complete the table for all versions 9.00 and higher.
+! 
+! The objective is then to provide two sets of translations:
+! a full set of translations from CDE standard locales to
+! valid platform locales, and a full set of translations
+! from valid platform locales to some or all CDE standard
+! locales.  
+! 
+! Translations from CDE standard locales to valid platform
+! locales must use the .~. .=. or .>. mappings.  When there 
+! is a 1:1 mapping between a CDE locale and a platform locale, 
+! use the .~. or .=. mapping.  See the comment below to 
+! decide which to use.  When there is no 1:1 mapping between 
+! CDE locale and platform locale, use the .>. mapping.  This 
+! provides a valid translation from the CDE locale to the 
+! best-suitable platform locale, but never translates from 
+! that platform locale to the CDE locale.
+! 
+! Translations from every platform locale to the appropriate 
+! CDE locale must use the .~. .=. or .<. mappings.
+! When there is a 1:1 mapping between a platform locale and
+! a CDE standard locale, use the .~. or .=. mapping.  See the
+! comment below to decide which to use.  If there is a 1:1
+! mapping, but the platform locale pattern uses a regular
+! expression, or if more than one platform locale can 
+! be translated to one CDE standard locale, the .<. mapping must 
+! be used.  
+! 
+! If no appropriate CDE standard locale can be found, you have 
+! identified the need for a new CDE standard locale.  Refer to 
+! the instructions at the head of this file for how to go about 
+! registering a new CDE standard locale.  You should not create 
+! a new "standard" locale (the left hand side of the translation 
+! specification) without registering it with CDE, because this 
+! will hinder the free exchange of information across locales 
+! and platforms.
+! 
+! The .=. and .~. mappings are similar.  The difference is
+! that the .=. mapping requires an exact string match between
+! the platform locale and the string provided to the
+! translation routine.  Generally speaking, this mapping
+! is risky unless exact matchings can be guaranteed in
+! all DtLcx clients for the particular operation in question.
+! The .~. mapping is to be preferred, but the .=. translation
+! is useful in limited situations, where similar strings may
+! occur.
+! 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+! uncomment this resource to debug/test translation
+!*debugDtXlate:  True
+
+!!!!!!!!!!!!!!!! UNIX_System_V (FUJITSU UXP/DS) Version Identificaton !!!!!!!!!!!!!!!!!
+! These translations are used by the _DtXlateGetXlateEnv()
+! call to determine the version number to use.
+!
+! To understand the translation, realize that the
+! operation-specific regexp(5) pattern on the right
+! hand side is matched against the strings returned
+! by uname(2).  The best match determines the "normalized"
+! version number of the platform, which should range from 
+! 001 and up.  By convention, major release numbers
+! map to centuries and minor release numbers to within
+! the century.
+!
+! To determine the string that the regular expression on the
+! right hand side is matching against, use uname(1) and run
+! 'uname -r' and 'uname -v' and note the strings.  During execution,
+! the strings returned by this command are retrieved and
+! concatenated "rv"--in that order, no extra spaces.
+! This is the string that the pattern must match.
+!
+! Sometimes this string may not be intuitive.  For example,
+! note that AIX 3.2 returns 2 for 'uname -r' and 3 for 'uname -v'.
+! So the pattern string must be 23, not 32.  Do not go by
+! the order of 'uname -rv' or 'uname -vr', as that is not used.
+!!!
+UNIX_System_V.?.version.<.420:   ".*"		!! any UXP/DS V20 System V 4.2.0
+
+
+!!!!!!!!!!!!!!!! UNIX_System_V (FUJITSU UXP/DS) specific setlocale translations !!!!!!!!!!!!!!!!!!!
+! These translations are for the string returned by the
+! getlocale() or setlocale(LC_xxx,NULL) operations, but not
+! setlocale(LC_ALL,NULL) operation.
+!
+! It provides translations from Sun operation-specific
+! to CDE standard strings and back again.
+!
+! Some language,territory combinations have the following comments:
+!  (1) These ISO territory names may be subject to change
+!      However, their CDE names will continue to be supported
+!  (2) No ISO "territory" name exists for the Arabic-speaking regions of the
+!      world as a whole.  Vendors have sometimes supplied their own.
+!      Those names, when conformant to the ISO model, will be adopted for CDE.
+!
+!Platform Operation Lang_Terr           Op-Value		Language,Territory           Who has
+!---     ---------   ----- 		--------		------------------           -------
+!   Version      Kind      Codeset
+!   ----           -       ---------
+
+! setlocales Compliance
+UNIX_System_V.420+.setlocale.=.C.ISO-8859-1:     C               ! setlocales compliance           ,IBM, HP, Sun       , USL, UXP
+UNIX_System_V.420+.setlocale.~.POSIX.ISO-8859-1: POSIX           ! setlocales compliance           ,IBM, HP, Sun       , USL, UXP
+
+! W European/Americas, Latin 1 codeset
+! UNIX_System_V.420+.setlocale.>.da_DK.ISO-8859-1:	de         	! Danish, Denmark            XoJIG,IBM, HP,           , USL ("da")
+! UNIX_System_V.420+.setlocale.>.de_AT.ISO-8859-1:	de         	! German,Austria             XoJIG,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.de_CH.ISO-8859-1:	de         	! German,Switzerland         XoJIG,IBM,   ,           , USL        
+! UNIX_System_V.420+.setlocale.~.de_DE.ISO-8859-1:	de         	! German, Germany            XoJIG,IBM, HP, Sun ("de"), USL ("de")
+! UNIX_System_V.420+.setlocale.>.en_AU.ISO-8859-1:	en         	! English,Australia               ,   ,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.en_AU.ISO-8859-1:	en_US         	! English,Australia               ,   ,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.en_CA.ISO-8859-1:	en         	! English,Canada             XoJIG,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.en_CA.ISO-8859-1:	en_US         	! English,Canada             XoJIG,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.en_DK.ISO-8859-1:	en         	! English, Denmark           XoJIG,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.en_DK.ISO-8859-1:	en_US         	! English, Denmark           XoJIG,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.en_GB.ISO-8859-1:	en         	! English, U.K.              XoJIG,IBM, HP,           , USL ("en")
+! UNIX_System_V.420+.setlocale.>.en_GB.ISO-8859-1:	en_US         	! English, U.K.              XoJIG,IBM, HP,           , USL ("en")
+! UNIX_System_V.420+.setlocale.>.en_JP.ISO-8859-1:	en         	! English, Japan             XoJIG,IBM,   ,           , 
+! UNIX_System_V.420+.setlocale.>.en_JP.ISO-8859-1:	en_US         	! English, Japan             XoJIG,IBM,   ,           , 
+! UNIX_System_V.420+.setlocale.>.en_IE.ISO-8859-1:	en         	! English, Ireland           XoJIG,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.en_IE.ISO-8859-1:	en_US         	! English, Ireland           XoJIG,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.en_MY.ISO-8859-1:	en         	! English,Malaysia                ,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.en_MY.ISO-8859-1:	en_US         	! English,Malaysia                ,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.en_NZ.ISO-8859-1:	en         	! English,New Zealand             ,   ,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.en_NZ.ISO-8859-1:	en_US         	! English,New Zealand             ,   ,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.en_KR.ISO-8859-1:	en         	! English,Korea                   ,   ,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.en_KR.ISO-8859-1:	en_US         	! English,Korea                   ,   ,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.en_TW.ISO-8859-1:	en         	! English,Taiwan                  ,   ,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.en_TW.ISO-8859-1:	en_US         	! English,Taiwan                  ,   ,   ,           , USL
+! UNIX_System_V.420+.setlocale.~.en_US.ISO-8859-1:	en         	! English, USA               XoJIG,IBM, HP,           , USL
+! UNIX_System_V.420+.setlocale.~.en_US.ISO-8859-1:	en_US         	! English, USA               XoJIG,IBM, HP,           , USL
+
+! UNIX_System_V.420+.setlocale.>.es_AR.ISO-8859-1:	es         	! Spanish, Argentina              ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.~.es_AR.ISO-8859-1:	es_AR         	! Spanish, Argentina              ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.>.es_BO.ISO-8859-1:	es         	! Spanish, Bolivia                ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.~.es_BO.ISO-8859-1:	es_BO         	! Spanish, Bolivia                ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.>.es_CL.ISO-8859-1:	es         	! Spanish, Chile                  ,   ,   , Sun       , USL
+! UNIX_System_V.420+.setlocale.~.es_CL.ISO-8859-1:	es_CL         	! Spanish, Chile                  ,   ,   , Sun       , USL
+! UNIX_System_V.420+.setlocale.>.es_CO.ISO-8859-1:	es         	! Spanish, Columbia               ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.~.es_CO.ISO-8859-1:	es_CO         	! Spanish, Columbia               ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.>.es_CR.ISO-8859-1:	es         	! Spanish, Costa Rica             ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.~.es_CR.ISO-8859-1:	es_CR         	! Spanish, Costa Rica             ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.>.es_EC.ISO-8859-1:	es         	! Spanish, Ecuador                ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.~.es_EC.ISO-8859-1:	es_EC         	! Spanish, Ecuador                ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.~.es_ES.ISO-8859-1:	es         	! Spanish, Spain             XoJIG,IBM, HP, Sun       , USL
+
+! UNIX_System_V.420+.setlocale.>.es_GT.ISO-8859-1:	es         	! Spanish, Guatemala              ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.~.es_GT.ISO-8859-1:	es_GT         	! Spanish, Guatemala              ,   ,   , Sun
+
+! UNIX_System_V.420+.setlocale.>.es_MX.ISO-8859-1:	es         	! Spanish, Mexico                 ,   ,   , Sun       , USL
+! UNIX_System_V.420+.setlocale.~.es_MX.ISO-8859-1:	es_MX         	! Spanish, Mexico                 ,   ,   , Sun       , USL
+! UNIX_System_V.420+.setlocale.>.es_PE.ISO-8859-1:	es         	! Spanish, Peru                   ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.~.es_PE.ISO-8859-1:	es_PE         	! Spanish, Peru                   ,   ,   , Sun
+
+! UNIX_System_V.420+.setlocale.>.es_UY.ISO-8859-1:	es         	! Spanish, Uruguay                ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.~.es_UY.ISO-8859-1:	es_UY         	! Spanish, Uruguay                ,   ,   , Sun
+! UNIX_System_V.420+.setlocale.>.es_VE.ISO-8859-1:	es         	! Spanish, Venezuela              ,   ,   , Sun       , USL
+! UNIX_System_V.420+.setlocale.~.es_VE.ISO-8859-1:	es_VE         	! Spanish, Venezuela              ,   ,   , Sun       , USL
+! UNIX_System_V.420+.setlocale.>.et_EE.ISO-8859-1:			! Estonian, Estonia          XoJIG, 
+! UNIX_System_V.420+.setlocale.>.fi_FI.ISO-8859-1:			! Finnish, Finland           XoJIG,IBM, HP,           , USL ("fi")
+! UNIX_System_V.420+.setlocale.>.fo_FO.ISO-8859-1:			! Faroese, Faeroe Island     XoJIG,
+! UNIX_System_V.420+.setlocale.>.fr_BE.ISO-8859-1:	fr         	! French,Belgium             XoJIG,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.>.fr_CA.ISO-8859-1:	fr         	! French, Canada             XoJIG,IBM, HP,           , USL
+! UNIX_System_V.420+.setlocale.>.fr_CH.ISO-8859-1:	fr         	! French, Switzerland        XoJIG,IBM,   ,           , USL
+! UNIX_System_V.420+.setlocale.~.fr_FR.ISO-8859-1:	fr         	! French, France             XoJIG,IBM, HP, Sun ("fr"), USL ("fr")
+! UNIX_System_V.420+.setlocale.>.is_IS.ISO-8859-1:			! Icelandic, Iceland         XoJIG,IBM, HP,           , USL ("is")
+! UNIX_System_V.420+.setlocale.>.it_CH.ISO-8859-1:	it         	! Italian,Switzerland             ,   ,   ,           , USL        
+! UNIX_System_V.420+.setlocale.~.it_IT.ISO-8859-1:	it         	! Italian, Italy             XoJIG,IBM, HP, Sun ("it"), USL ("it")
+! UNIX_System_V.420+.setlocale.>.kl_GL.ISO-8859-1:			! Greenlandic, Greenland     XoJIG,
+! UNIX_System_V.420+.setlocale.>.lt_LT.ISO-8859-1:			! Lithuanian, Lithuania      XoJIG,
+! UNIX_System_V.420+.setlocale.>.lv_LV.ISO-8859-1:			! Latvian, Latvia            XoJIG,
+! UNIX_System_V.420+.setlocale.>.nl_BE.ISO-8859-1:	ge         	! Dutch, Belgium             XoJIG,IBM,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.nl_BE.ISO-8859-1:	nl_BE         	! Dutch, Belgium             XoJIG,IBM,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.nl_NL.ISO-8859-1:	ge         	! Dutch, The Netherlands     XoJIG,IBM, HP,           , USL ("nl")
+! UNIX_System_V.420+.setlocale.>.nl_NL.ISO-8859-1:	nl         	! Dutch, The Netherlands     XoJIG,IBM, HP,           , USL ("nl")
+! UNIX_System_V.420+.setlocale.>.no_NO.ISO-8859-1:	ge         	! Norwegian, Norway          XoJIG,IBM, HP,           , USL ("no")
+! UNIX_System_V.420+.setlocale.>.no_NO.ISO-8859-1:	no         	! Norwegian, Norway          XoJIG,IBM, HP,           , USL ("no")
+
+! UNIX_System_V.420+.setlocale.>.pt_BR.ISO-8859-1:	es         	! Portuguese,Brazil               ,   ,   ,           , USL
+! UNIX_System_V.420+.setlocale.>.pt_BR.ISO-8859-1:	pt         	! Portuguese,Brazil               ,   ,   ,           , USL
+
+! UNIX_System_V.420+.setlocale.>.pt_PT.ISO-8859-1:	pt         	! Portuguese, Portugal       XoJIG,IBM, HP,           , USL
+! UNIX_System_V.420+.setlocale.>.sv_FI.ISO-8859-1:	sv         	! Swedish, Finland           XoJIG,
+! UNIX_System_V.420+.setlocale.~.sv_SE.ISO-8859-1:	sv         	! Swedish, Sweden            XoJIG,IBM, HP, Sun ("sv"), USL ("sv") 
+
+! E European 
+! UNIX_System_V.420+.setlocale.>.cs_CS.ISO-8859-2: 	cs        		! Czech(1)                        ,IBM, HP
+! UNIX_System_V.420+.setlocale.>.hr_HR.ISO-8859-2:				! Croatian, Croatia               ,IBM
+! UNIX_System_V.420+.setlocale.>.hu_HU.ISO-8859-2:	hu        			! Hungarian, Hungry          XoJIG,IBM, HP
+! UNIX_System_V.420+.setlocale.>.pl_PL.ISO-8859-2:	pl        			! Polish, Poland             XoJIG,IBM, HP 
+! UNIX_System_V.420+.setlocale.>.ro_RO.ISO-8859-2:				! Rumanian, Romania          XoJIG,IBM, HP
+! UNIX_System_V.420+.setlocale.>.sh_YU.ISO-8859-2:				! Serbocroatian, Yugoslavia(1)    ,IBM, HP 
+! UNIX_System_V.420+.setlocale.>.sl_CS.ISO-8859-2:				! Slovenian                       ,   , HP
+! UNIX_System_V.420+.setlocale.>.si_SI.ISO-8859-2: 			! Slovenian                       ,IBM, 
+! UNIX_System_V.420+.setlocale.>.sk_SK.ISO-8859-2: 			! Slovak                          ,IBM
+
+! Cyrillic 
+! UNIX_System_V.420+.setlocale.>.bg_BG.ISO-8859-5:				! Bulgarian, Bulgaria             ,IBM, HP
+! UNIX_System_V.420+.setlocale.>.mk_MK.ISO-8859-5: 			! Macedonian                      ,IBM
+! UNIX_System_V.420+.setlocale.>.ru_RU.ISO-8859-5:	ru        			! Russian(1)                      ,IBM, 
+! UNIX_System_V.420+.setlocale.>.ru_SU.ISO-8859-5:				! Russian(1)                      ,   , HP
+! UNIX_System_V.420+.setlocale.>.sp_YU.ISO-8859-5: 			! Serbian,Yugoslavia(1)           ,IBM
+
+! Arabic 
+! UNIX_System_V.420+.setlocale.>.ar_DZ.ISO-8859-6:				! Arabic(2)                       ,   , HP
+! UNIX_System_V.420+.setlocale.>.ar_SA.ISO-8859-6:				! Arabic(2)                       ,   , HP
+
+! Hebrew 
+! UNIX_System_V.420+.setlocale.>.iw_IL.ISO-8859-8:				! Hebrew, Israel                  ,IBM, HP
+
+! Greek 
+! UNIX_System_V.420+.setlocale.>.el_GR.ISO-8859-7:				! Greek, Greece                   ,IBM, HP
+
+! Turkish 
+! UNIX_System_V.420+.setlocale.>.tr_TR.ISO-8859-9:				! Turkish, Turkey                 ,IBM, HP
+
+! East Asia 
+UNIX_System_V.420+.setlocale.~.ja_JP.EUC-JP:	ja_JP			! Japanese, Japan                 ,IBM, HP, Sun ("ja"), USL, UXP
+UNIX_System_V.420+.setlocale.=.ja_JP.EUC-JP:	ja_JP.U90		! Japanese, Japan                 ,IBM, HP, Sun ("ja"), USL, UXP
+UNIX_System_V.420+.setlocale.=.ja_JP.SJIS:	ja_JP.SJIS		! Japanese, Japan                 ,IBM, HP, Sun ("ja"), USL, UXP
+! UNIX_System_V.420+.setlocale.~.ko_KR.EUC-KR:	ko			! Korean, Korea                   ,IBM, HP, Sun ("ko"), USL
+! UNIX_System_V.420+.setlocale.~.zh_CN.EUC-CN:	zh			! Chinese, China                  ,IBM,   , Sun ("zh"), USL
+! UNIX_System_V.420.setlocale.~.zh_TW.EUC-TW:	zh_TW			! Chinese, Taiwan                 ,IBM, HP, Sun       , USL
+! UNIX_System_V.420+.setlocale.~.zh_TW.EUC-TW:	zh_TW			! Chinese, Taiwan                 ,IBM, HP, Sun       , USL
+! UNIX_System_V.420+.setlocale.>.zh_CN.HP-15CN:	zh			! Chinese, China                  ,   , HP
+! UNIX_System_V.420+.setlocale.0.zh_TW.HP-BIG5:		 		! Chinese, Taiwan                 ,   , HP,           , 
+! UNIX_System_V.420+.setlocale.>.zh_TW.HP-CCDC:				! Chinese, Taiwan                 ,   , HP,           , 
+! UNIX_System_V.420+.setlocale.>.ja_JP.HP-SJIS:     				! Japanese, Japan aka japanese 15 ,   , HP,
+! UNIX_System_V.420+.setlocale.>.ja_JP.HP-KANA8:  				! Japanese, Japan ,   , HP,           ,
+
+! Thai 
+! UNIX_System_V.420+.setlocale.>.th_TH.TIS-620:				! Thai, Thailand                  ,IBM, HP
+
+! codesets supported for iconv(1); iconv(3) & nl_langinfo not supported
+UNIX_System_V.420+.iconv1,iconv3.=.?.ISO-8859-1:     ISO-8859-1
+! UNIX_System_V.420+.iconv1,iconv3.=.?.ISO-8859-2:     ISO8859-2
+! UNIX_System_V.420+.iconv1,iconv3.=.?.ISO-8859-5:     ISO8859-5
+! UNIX_System_V.420+.iconv1,iconv3.=.?.ISO-8859-6:     ISO8859-6
+! UNIX_System_V.420+.iconv1,iconv3.=.?.ISO-8859-7:     ISO8859-7
+! UNIX_System_V.420+.iconv1,iconv3.=.?.ISO-8859-8:     ISO8859-8
+! UNIX_System_V.420+.iconv1,iconv3.=.?.ISO-8859-9:     ISO8859-9
+! UNIX_System_V.420+.iconv1,iconv3.=.?.EUC-KR:         IBM-eucKR
+UNIX_System_V.420+.iconv1,iconv3.=.?.EUC-JP:         eucJP
+UNIX_System_V.420+.iconv1,iconv3.~.ja_JP.SJIS:       SJIS
+! UNIX_System_V.420+.iconv1,iconv3.=.?.EUC-TW:         IBM-eucTW
+! UNIX_System_V.420+.iconv1,iconv3.=.?.EUC-CN:         IBM-eucCN
+! UNIX_System_V.420+.iconv1,iconv3.>.?.HP-15CN:        IBM-eucCN
+! UNIX_System_V.420+.iconv1,iconv3.=.?.IBM-437:        IBM-437
+! UNIX_System_V.420+.iconv1,iconv3.=.?.IBM-850:        IBM-850
+! UNIX_System_V.420+.iconv1,iconv3.=.?.IBM-856:        IBM-856
+! UNIX_System_V.420+.iconv1,iconv3.=.?.IBM-932:        IBM-932
+! UNIX_System_V.420+.iconv1,iconv3.>.?.HP-SJIS:        IBM-932
+! UNIX_System_V.420+.iconv1,iconv3.=.?.IBM-1046:       IBM-1046
+! UNIX_System_V.420+.iconv1,iconv3.=.?.UTF-8:          UTF-8           
+UNIX_System_V.420+.iconv1,iconv3.>.?.ISO-2022-JP:    ISO-2022-JP
+! UNIX_System_V.420+.iconv1,iconv3.>.?.ISO-2022-KR:                         fold7
+! UNIX_System_V.420+.iconv1,iconv3.>.?.ISO-2022-TW:                         fold7
+! UNIX_System_V.420+.iconv1,iconv3.>.?.ISO-2022-CN:                         fold7
+! UNIX_System_V.420+.iconv1,iconv3.>.?.HP-BIG5:                         big5
+! UNIX_System_V.420+.iconv1,iconv3.>.?.TIS-620:                         TIS-620
+
+! codesets not supported by UNIX_System_V iconv(1)
+! UNIX_System_V.?.iconv1,iconv3.~.?.ISO-8859-2:
+! UNIX_System_V.?.iconv1,iconv3.~.?.ISO-8859-5:
+! UNIX_System_V.?.iconv1,iconv3.~.?.ISO-8859-6:
+! UNIX_System_V.?.iconv1,iconv3.~.?.ISO-8859-7:
+! UNIX_System_V.?.iconv1,iconv3.~.?.ISO-8859-8:
+! UNIX_System_V.?.iconv1,iconv3.~.?.ISO-8859-9:
+! UNIX_System_V.?.iconv1,iconv3.~.?.IBM-437:
+! UNIX_System_V.?.iconv1,iconv3.~.?.IBM-850:
+! UNIX_System_V.?.iconv1,iconv3.~.?.IBM-856:
+! UNIX_System_V.?.iconv1,iconv3.~.?.IBM-1046:
+! UNIX_System_V.?.iconv1,iconv3.~.?.HP-ARABIC8:
+! UNIX_System_V.?.iconv1,iconv3.~.?.HP-GREEK8:
+! UNIX_System_V.?.iconv1,iconv3.~.?.HP-HEBREW8
+! UNIX_System_V.?.iconv1,iconv3.~.?.HP-ROMAN8:
+! UNIX_System_V.?.iconv1,iconv3.~.?.HP-TURKISH8:
+! UNIX_System_V.?.iconv1,iconv3.~.?.TIS-620:
+! UNIX_System_V.?.iconv1,iconv3.~.?.HP-KANA8:
+! UNIX_System_V.?.iconv1,iconv3.~.?.HP-CCDC:
+! UNIX_System_V.?.iconv1,iconv3.~.?.UCS-2:
+
+! multibyte codesets 
+! This translation provides an alternative to a call to
+! using setlocale() and MB_CUR_MAX to determine this.
+! UNIX_System_V.420+.multibyte.=.?.EUC-KR:	2
+UNIX_System_V.420+.multibyte.=.?.EUC-JP:	2
+UNIX_System_V.420+.multibyte.=.?.SJIS:		2
+! UNIX_System_V.420+.multibyte.=.?.EUC-TW:	4
+! UNIX_System_V.420+.multibyte.=.?.EUC-CN:	2
+! UNIX_System_V.?.multibyte.~.?.HP-SJIS:	2
+! UNIX_System_V.?.multibyte.~.?.IBM-932:	2
+! UNIX_System_V.?.multibyte.~.?.HP-CCDC:	2
+! UNIX_System_V.?.multibyte.~.?.HP-BIG5:	2
+! UNIX_System_V.?.multibyte.~.?.TIS-620:	2
+! UNIX_System_V.?.multibyte.~.?.HP-15CN:	2
+
+
+! Translations from predefined CCDF-locales to CDE Standard Locales
+! UNIX_System_V.?.ccdf.=.?.HP-ROMAN8:    	hp-roman8
+! UNIX_System_V.?.ccdf.=.?.ISO-8859-1:	iso8859-1
+! UNIX_System_V.?.ccdf.=.ko_KR.EUC-KR:	hp-korean15
+! UNIX_System_V.?.ccdf.=.ja_JP.HP-SJIS:	hp-japanese15
+! UNIX_System_V.?.ccdf.=.?.DT-SYMBOL-1:	symbol        !!! standard Dt symbol font
+
+! These CDE standard locales may have CCDF-locales, but they are defined by localizers
+! UNIX_System_V.?.ccdf.=.ar_SA.HP-ARABIC8:	arabic8
+! UNIX_System_V.?.ccdf.=.el_GR.HP-GREEK8:	greek8
+! UNIX_System_V.?.ccdf.=.iw_IL.HP-HEBREW8:	hebrew8
+! UNIX_System_V.?.ccdf.=.tr_TR.HP-TURKISH8:	turkish8
+! UNIX_System_V.?.ccdf.<.ja_JP.HP-SJIS:		sjis
+! UNIX_System_V.?.ccdf.=.ja_JP.HP-KANA8:	kana8
+! UNIX_System_V.?.ccdf.<.ja_JP.EUC-JP:		ujis
+! UNIX_System_V.?.ccdf.=.zh_CN.HP-CCDC:		roc15		
+
+
+! Codesets that require multibyte parsing to avoid confusion with shell special chars
+! Sun doesn't have these codesets
+! UNIX_System_V.?.dtkshSpecialParse.=.ja_JP.HP-SJIS:	True
+! UNIX_System_V.?.dtkshSpecialParse.=.ja_JP.IBM-932:	True
+! UNIX_System_V.?.dtkshSpecialParse.=.zh_TW.HP-BIG5:	True
+! UNIX_System_V.?.dtkshSpecialParse.=.zh_TW.HP-CCDC:	True
+! UNIX_System_V.?.dtkshSpecialParse.=.zh_TW.EUC-TW:	True
+
+
+!! When content is exchanged with other platforms, the interchange codeset
+!! may be different that the codeset used locally.  In CDE1, these translations
+!! are used by dtmail, but other clients may use the same translations
+!! in the future.  For example, to improve interoperability of 8-bit mail,
+!! the mail messages of users working in codesets such as HP-ROMAN8 or IBM-850 
+!! are translated to the interchangeCodeset (in this case, ISO-8859-1) before 
+!! they are sent.  Similarly, the mail of Japanese users is translated to ISO-2022-JP
+!! before it is sent.
+UNIX_System_V.420+.interchangeCodeset.~.?.ISO-8859-1:	ISO-8859-1	! ISO Latin 1
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-ROMAN8:	ISO-8859-1	! HP Roman8 
+! UNIX_System_V.?.interchangeCodeset.>.?.IBM-437:	ISO-8859-1	! PC (US)
+! UNIX_System_V.?.interchangeCodeset.>.?.IBM-850:	ISO-8859-1	! PC (Multi-lingual)
+! UNIX_System_V.?.interchangeCodeset.~.?.ISO-8859-2:	ISO-8859-2	! ISO Latin 2
+! UNIX_System_V.?.interchangeCodeset.~.?.ISO-8859-5:	ISO-8859-5	! ISO Latin/Cyrillic
+! UNIX_System_V.?.interchangeCodeset.~.?.ISO-8859-6:	ISO-8859-6	! ISO Latin/Arabic
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-ARABIC8:	ISO-8859-6	! HP Arabic8
+! UNIX_System_V.?.interchangeCodeset.>.?.IBM-1046:	ISO-8859-6	! PC Arabic Code Set
+! UNIX_System_V.?.interchangeCodeset.~.?.ISO-8859-8:	ISO-8859-8	! ISO Latin/Hebrew
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-HEBREW8:	ISO-8859-8	! HP Hebrew8
+! UNIX_System_V.?.interchangeCodeset.>.?.IBM-856:	ISO-8859-7	! PC Hebrew
+! UNIX_System_V.?.interchangeCodeset.~.?.ISO-8859-7:	ISO-8859-7	! ISO Latin/Greek
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-GREEK8:	ISO-8859-7	! HP Greek8
+! UNIX_System_V.?.interchangeCodeset.~.?.ISO-8859-9:	ISO-8859-9	! ISO Latin 5
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-TURKISH8:	ISO-8859-9	! HP Turkish8
+UNIX_System_V.420+.interchangeCodeset.~.?.EUC-JP:	ISO-2022-JP	! Japanese EUC
+! Add the following line -- hack to see if "japanese" works
+UNIX_System_V.420+.interchangeCodeset.=.?.EUC-JP:	ISO-2022-JP	! Japanese EUC
+UNIX_System_V.420+.interchangeCodeset.~.?.ja_JP.SJIS:	ja_JP.SJIS	! Japanese EUC
+UNIX_System_V.420+.interchangeCodeset.~.?.ISO-2022-JP:	ISO-2022-JP	! Japanese EUC
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-SJIS:	ISO-2022-JP	! HP Japanese Shift JIS
+! UNIX_System_V.?.interchangeCodeset.>.?.IBM-932:	ISO-2022-JP	! PC Japanese Shift JIS
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-KANA8:	ISO-2022-JP	! HP Japanese Katakana8
+! UNIX_System_V.?.interchangeCodeset.~.?.EUC-KR:		ISO-2022-KR	! Korean EUC
+! UNIX_System_V.?.interchangeCodeset.~.?.EUC-CN:		ISO-2022-CN	! China Chinese EUC
+! UNIX_System_V.?.interchangeCodeset.~.?.EUC-TW:		ISO-2022-TW	! Taiwan Chinese EUC
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-BIG5:	ISO-2022-TW	! HP Big5 Chinese
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-CCDC:	ISO-2022-TW	! HP CCDC Chinese 
+! UNIX_System_V.?.interchangeCodeset.>.?.HP-15CN:	ISO-2022-CN 	! HP Chinese EUC
+! UNIX_System_V.?.interchangeCodeset.~.?.TIS-620:		TIS-620		! Thai
+! UNIX_System_V.?.interchangeCodeset.>.?.UCS-2:		UTF-8		! Unicode
+! UNIX_System_V.?.interchangeCodeset.~.?.UTF-8:		UTF-8		! multibyte Unicode
+
+!! Codeset identifiers for use with MIME messages.  The .~. translations
+!! are used by dtmail and adhere to the MIME standard, RFC 1521.
+!! Note that the MIME standard states that codeset identifiers are
+!! case-insensitive.  The operation-specific values on the right-hand-side
+!! of the translations below, however, ARE case sensitive.  Before
+!! doing a OpToStd translation, first convert the MIME codeset identifier
+!! to uppercase.  Alternatively, one could provide lower-case versions
+!! of the translations (right-hand-side only should be in lower-case).
+UNIX_System_V.?.mime.~.?.ISO-8859-1:      ISO-8859-1      ! ISO Latin 1
+UNIX_System_V.?.mime.~.?.HP-ROMAN8:       X-HP-ROMAN8     ! HP Roman8 
+UNIX_System_V.?.mime.~.?.IBM-437:         X-IBM-437       ! PC (US)
+UNIX_System_V.?.mime.~.?.IBM-850:         X-IBM-850       ! PC (Multi-lingual)
+UNIX_System_V.?.mime.~.?.ISO-8859-2:      ISO-8859-2      ! ISO Latin 2
+UNIX_System_V.?.mime.~.?.ISO-8859-5:      ISO-8859-5      ! ISO Latin/Cyrillic
+UNIX_System_V.?.mime.~.?.ISO-8859-6:      ISO-8859-6      ! ISO Latin/Arabic
+UNIX_System_V.?.mime.~.?.HP-ARABIC8:      X-HP-ARABIC8    ! HP Arabic8
+UNIX_System_V.?.mime.~.?.IBM-1046:        X-IBM-1046      ! PC Arabic Code Set
+UNIX_System_V.?.mime.~.?.ISO-8859-8:      ISO-8859-8      ! ISO Latin/Hebrew
+UNIX_System_V.?.mime.~.?.HP-HEBREW8:      X-HP-HEBREW8    ! HP Hebrew8
+UNIX_System_V.?.mime.~.?.IBM-856:         X-IBM-856       ! PC Hebrew
+UNIX_System_V.?.mime.~.?.ISO-8859-7:      ISO-8859-7      ! ISO Latin/Greek
+UNIX_System_V.?.mime.~.?.HP-GREEK8:       X-HP-GREEK8     ! HP Greek8
+UNIX_System_V.?.mime.~.?.ISO-8859-9:      ISO-8859-9      ! ISO Latin 5
+UNIX_System_V.?.mime.~.?.HP-TURKISH8:     X-HP-TURKISH8   ! HP Turkish8
+UNIX_System_V.?.mime.~.?.EUC-JP:          X-EUC-JP        ! Japanese EUC
+UNIX_System_V.?.mime.~.?.ISO-2022-JP:     ISO-2022-JP     ! Japanese JIS with 7-bit encoding per ISO-2022-JP
+UNIX_System_V.?.mime.~.?.HP-SJIS:         X-HP-SJIS       ! HP Japanese Shift JIS
+UNIX_System_V.?.mime.~.?.IBM-932:         X-IBM-932       ! PC Japanese Shift JIS
+UNIX_System_V.?.mime.~.?.HP-KANA8:        X-HP-KANA8      ! HP Japanese Katakana8
+UNIX_System_V.?.mime.~.?.EUC-KR:          X-EUC-KR        ! Korean EUC
+UNIX_System_V.?.mime.~.?.ISO-2022-KR:     ISO-2022-KR     ! Korean with 7-bit encoding per ISO-2022-KR
+UNIX_System_V.?.mime.~.?.EUC-CN:          X-EUC-CN        ! China Chinese EUC
+UNIX_System_V.?.mime.~.?.ISO-2022-CN:     ISO-2022-CN     ! China Chinese with 7-bit encoding per ISO-2022-CN
+UNIX_System_V.?.mime.~.?.HP-15CN:         X-HP-15CN       ! HP China Chinese EUC
+UNIX_System_V.?.mime.~.?.EUC-TW:          X-EUC-TW        ! Taiwan Chinese EUC
+UNIX_System_V.?.mime.~.?.ISO-2022-TW:     ISO-2022-TW     ! Taiwan Chinese with 7-bit encoding per ISO-2022-TW
+UNIX_System_V.?.mime.~.?.HP-BIG5:         X-HP-BIG5       ! HP Big5 Taiwan Chinese
+UNIX_System_V.?.mime.~.?.HP-CCDC:         X-HP-CCDC       ! HP CCDC Taiwan Chinese 
+UNIX_System_V.?.mime.~.?.TIS-620:         X-TIS-620       ! Thai
+UNIX_System_V.?.mime.~.?.UCS-2:           X-UCS-2         ! Unicode; group 0, plane 0 of ISO-10646
+UNIX_System_V.?.mime.~.?.UCS-4:           X-UCS-4         ! ISO-10646
+UNIX_System_V.?.mime.~.?.UTF-7:           X-UTF-7         ! multibyte encoding of Unicode 
+UNIX_System_V.?.mime.~.?.UTF-8:           X-UTF-8         ! multibyte encoding of Unicode 
+UNIX_System_V.?.mime.~.?.UTF-16:          X-UTF-16        ! multibyte encoding of Unicode 
+
+!! If other mailers are using other codeset identifiers in their MIME
+!! messages, dtmail will not be able to process them correctly. 
+!! To correct this, additional .<. translations for these identifiers 
+!! can be added to a <platform>.lcx file in the /etc/dt/config/svc 
+!! or $HOME/.dt/config/svc directories.  Such translations should read:
+!! <platform>.100+.mime.<.?.<CDE std codeset>: <mailer identifier for the codeset>
+!!
+!! ***NEVER*** use a .~. translation, such as we use above, as this could
+!! cause dtmail to send unexpected identifier strings by overriding the
+!! above definition.  Further, never use .=. or .>. translations.
+!!
+!! These two identifiers are in common usage, as they derive from RFC1521.
+UNIX_System_V.?.mime.<.?.ISO-8859-1:      us-ascii        ! ISO Latin 1
+UNIX_System_V.?.mime.<.?.ISO-8859-1:      US-ASCII        ! ISO Latin 1
+

@@ -1,0 +1,267 @@
+#! /bin/ksh
+
+##############################################################################
+#
+#	convertVf
+#
+#	This shell script converts the VUE 3.0 filetypes database files (*.vf)
+#	to the CDE 1.0 datatypes database files (*.dt).  This script is a
+#	filter, this allows the user to select the input and output file names.
+#	To be recognized as a CDE 1.0 desktop datatypes file the output file
+#	name must be of the form: "*.dt"
+#
+#	The transformations applied to the input are:
+#	1) change a number of strings; 
+#	2) enclose type/action definitions in brackets;
+#	3) remove "END" lines; 
+#	4) break up FILETYPES definitions into DATA_CRITERIA  and 
+#	   DATA_ATTRIBUTES definitions.
+#	5) escape special characters which appear in NAME_PATTERNS
+#	   (PATH_PATTERNS) with a backslash. (e.g. '!')
+#	6) Replace LARGE and SMALL ICON references with a single ICON 
+#	   reference, while possibly removing size-related suffixes from
+#	   the icon name string. (e.g foo.l --> foo )
+#	7) Convert TYPE MAP <action> lines to
+#	   TYPE MAP
+#	   MAP_ACTION  <action>
+#	
+#	Usage:	convertvf < file.vf > file.dt
+#
+##############################################################################
+
+typeset USAGE="Usage: $(basename $0) < file.vf > file.dt"
+
+
+###############################################################################
+#
+# changeStrings()
+#	This function invokes sed to search and replace a number of
+#	strings which have been changed between the Vue3.0 ".vf"
+#	files and the CDE 1.0 ".dt" files.
+#
+###############################################################################
+
+changeStrings() {
+
+# NOTE:
+# LARGE_ICON definitions are retained and converted to their ICON equivalents
+# SMALL_ICON definitions are discarded.
+#
+
+sed '
+	s/Filetype/DataType/g
+	s/filetype/DataType/g
+	s/%FileName%/%name%/g
+	s/%PathName%/%dir%/g
+	s/PATH-PATTERN/PATH_PATTERN/
+	s/FILETYPE/DATA_CRITERIA/
+	s/FILE-PATTERN/NAME_PATTERN/
+	s/ARG-TYPES/ARG_TYPE/
+	s/ARG-COUNT/ARG_COUNT/
+	s/WINDOW-TYPE/WINDOW_TYPE/
+	s/EXEC-STRING/EXEC_STRING/
+	s/EXEC-HOST/EXEC_HOST/
+	s/NO-STDIO/NO_STDIO/
+	s/PERM-TERMINAL/PERM_TERMINAL/
+	s/SHELL-TERMINAL/SHELL_TERMINAL/
+	s/OUTPUT-ONLY/PERM_TERMINAL/
+	s/SHARED-OUTPUT/PERM_TERMINAL/
+	s/\([^_]\)ATTRIBUTES\([^_]\)/\1PROPERTIES\2/
+	s/RELOAD-TYPES-DB/RELOAD_TYPES_DB/
+	s/MSG-TOOL/DT_SVC/
+	s/MSG-COMMAND/DT_REQUEST_NAME/
+	s/L-ICON/ICON/
+	s/LARGE_ICON/ICON/
+	s/L-INSTANCE-ICON/INSTANCE_ICON/
+	s/LARGE_INSTANCE_ICON/INSTANCE_ICON/
+	s/MSG-DATA/DT_ARG0_VALUE/
+	/S-ICON/d
+	/SMALL_ICON/d
+	/S-INSTANCE-ICON/d
+	/SMALL_INSTANCE_ICON/d
+	/^[ 	]*set[ 	]/s/\(.*\)\.[lms]\.bm/\1/
+	/ICON/s/\(.*\)\.[lms]\.bm/\1/
+' $*
+
+}
+
+###############################################################################
+#
+# replaceFileTypes()
+#	This function invokes awk to replace FILETYPE definitions with
+#	DATA_CRITERIA and DATA_ATTRIBUTES definitions.  It places brackets
+#	around the definitions, instead of using "END" to mark the end of
+#	a definition.
+#
+###############################################################################
+
+replaceFileTypes() {
+
+awk '
+	function printCrit( array )
+	{
+		
+		if ( names[TypeName] )
+			print "DATA_CRITERIA", TypeName names[TypeName];
+		else
+			print "DATA_CRITERIA", TypeName
+
+		print "{"
+		print "	DATA_ATTRIBUTES_NAME",TypeName
+		for (c in array) {
+			print array[c];
+			delete array[c];
+		}
+		print "}"
+		
+	}
+	function printAtt( array )
+	{
+		print "DATA_ATTRIBUTES",TypeName;
+		print "{"
+		for (c in array) {
+			print array[c];
+			delete array[c];
+		}
+		print "}"
+		
+	}
+	BEGIN {
+		criteria[1] = "NAME_PATTERN";
+		criteria[2] = "PATH_PATTERN";
+		criteria[3] = "CONTENT";
+		criteria[4] = "MODE";
+		criteria[5] = "LINK_PATH";
+		criteria[6] = "LINK_NAME";
+		criteria[7] = "DATA_ATTRIBUTES_NAME";
+
+		critMax = 7;
+
+		gettingLines = 0;
+	}
+
+	#
+	# Special treatment CRITERIA/ATTRIBUTE Fields
+	#
+	$1 == "NAME_PATTERN"  {
+		#
+		# escape special syntax chars in name patterns 
+		#
+		if ( $2 ~ /!/) {
+			gsub(/!/,"\\!")	
+		}
+	}
+
+	$1 == "ICON" || $1 == "INSTANCE_ICON" {
+		if ( $2 ~ /.l/ ) {
+			sub(/\.l$/,"",$0);
+		}		
+	}
+
+
+	$1 == "DATA_CRITERIA" {
+		TypeName = $2;
+		names[$2]++;
+		gettingLines = 1;
+		next;
+	}
+
+
+	#
+	# Special treatment ACTION FIELDS
+	#
+	$1 == "TYPE" && $2 == "MAP" && NF == 3 {
+		print "	" $1 "	" $2
+		print "	MAP_ACTION	" $3 
+		next;
+	}
+
+	#
+	# TYPE MESSAGE actions were not publically exposed  so there should
+	# not be many message actions to translate. Here we make some 
+	# assumptions about the message action.
+	#
+	# Only the ReloadActions broadcast message becomes a DT_NOTIFY message.
+        # Assume all other messages turn into DT_REQUESTs.
+	#
+	$1 == "TYPE" && $2 == "MESSAGE" {
+                if ( ActionName == "ReloadActions" )
+			print "	TYPE	DT_NOTIFY"
+		else
+			print "	TYPE	DT_REQUEST"
+		next;
+	}
+
+        $1 == "DT_REQUEST_NAME" && ActionName == "ReloadActions" {
+		print	"	DT_NOTIFY_NAME		"  $2
+		next
+	}
+
+	$1 == "ACTION" {
+                ActionName = $2
+		print $0
+		print "{"
+		next;
+	}
+
+	(($1 == "END") || ($1 == "}"))  && gettingLines  {
+		gettingLines = 0;
+
+		if ( names[TypeName] == 1 )
+			printAtt(newAtt);
+		printCrit(newCrit);
+		next;
+
+	}
+
+	$1 == "END" {
+		print "}"
+		next;
+	}
+
+	$1 == "{"  {
+		# do not print any brackets -- we will
+		# supply any that are necessary
+		next;
+	}
+
+	gettingLines == 1 {
+		for ( i = 1; i <= critMax; i++ ) {
+			# compare to criteria strings
+			if ( $1 == criteria[i] ) {
+				tmp = $1;
+				newCrit[$1] =  $0
+				while ( substr($0,length($0),1) == "\\" ) {
+					getline;
+					newCrit[tmp] = newCrit[tmp] "\n" $0;
+				}
+				next;
+			}
+		}
+		#
+		# If we have not found it yet it must be an
+		# attribute.	
+		#
+		tmp = $1
+		newAtt[tmp] = $0;
+		while ( substr($0,length($0),1) == "\\" ) {
+			getline;
+			newAtt[tmp] = newAtt[tmp] "\n" $0;
+		}
+		next;
+	}
+
+	gettingLines == 0 { print $0 }
+
+	' $*
+}
+
+
+###############################################################################
+
+[ $# -eq 0 ] || {
+	echo $USAGE;
+	exit 1;
+}
+
+changeStrings $i | replaceFileTypes 

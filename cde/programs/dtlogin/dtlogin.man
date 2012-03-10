@@ -1,0 +1,1067 @@
+.\" $XConsortium: dtlogin.man /main/2 1995/07/17 10:51:24 drk $
+.\" *                                                                      *
+.\" * (c) Copyright 1993, 1994 Hewlett-Packard Company                     *
+.\" * (c) Copyright 1993, 1994 International Business Machines Corp.       *
+.\" * (c) Copyright 1993, 1994 Sun Microsystems, Inc.                      *
+.\" * (c) Copyright 1993, 1994 Novell, Inc.                                *
+.\" *
+.TH DTLOGIN 1X
+.ds ]W HP DT 3.0 (6/92)
+.SH NAME
+\fBdtlogin \(em The HP DT Login Manager.\fP
+.sp 1
+.SH SYNOPSIS
+.B dtlogin
+[-config \fIconfiguration_file\fP]
+[-daemon]
+[-debug \fIdebug_level\fP]
+[-error \fIerror_log_file\fP]
+[-nodaemon]
+[-resources \fIresource_file\fP]
+[-server \fIserver_entry\fP]
+[-session \fIsession_program\fP]
+.sp 1
+.SH DESCRIPTION
+.PP
+.I Dtlogin
+manages a collection of X displays, both local and possibly remote.
+The emergence of X terminals guided the design of several parts of this system,
+along with the development of the X Consortium standard XDMCP (
+\fIX Display Manager Control Protocol\fP).
+.I Dtlogin
+provides services similar to those provided by \fIinit\fP(1M),
+\fIgetty\fP(1M) and \fIlogin\fP(1) on character terminals:  prompting
+for login and password, authenticating the user, and running a ``session.''
+.PP
+A ``session'' is defined by the lifetime of a particular process; in the
+traditional character-based terminal world, it is the user's login shell
+process.
+In the HP DT
+context, it is the HP DT Session Manager.
+This is because
+in a windowing
+environment, a user's login shell process does not necessarily have any
+terminal-like interface with which to connect.
+.PP
+If the HP DT Session Manager is not used, the typical
+.I dtlogin
+substitute is either a window manager with an exit option, or a
+terminal emulator running a shell, where the lifetime of the
+terminal emulator is the lifetime of the shell process
+that it is running; 
+thus reducing the X session to an emulation of the
+character-based terminal session.
+.PP
+When the session is terminated,
+.I dtlogin
+resets the X server and (optionally) restarts the whole process.
+.PP
+Because
+.I dtlogin
+provides the first interface that users see, it is designed to be
+simple to use and easy to customize to the needs of a particular site.
+.PP
+.sp 1
+.SH OPTIONS
+.PP
+All options, except \fB-config\fP,
+specify values that can also be specified in the configuration file
+as resources.
+Typically, customization is done via the configuration file
+rather than command line options.
+The options are most useful for debugging and one-shot tests.
+.IP "\fB-config\fP \fIconfiguration_file\fP"
+Specifies a resource file that specifies the remaining configuration
+parameters.  If no file is specified and the file
+\fI/usr/dt/config/Xconfig\fP exists,
+.I dtlogin
+uses it.
+.IP "\fB-daemon\fP"
+Specifies ``true'' as the value for the \fBdaemonMode\fP
+resource.  This makes
+.I dtlogin
+close all file descriptors, disassociate the controlling terminal and put
+itself in the background when it first starts up (just like the host
+of other daemons).
+.IP "\fB-debug\fP \fIdebug_level\fP"
+Specifies the numeric value for the \fBdebugLevel\fP
+resource.  A non-zero value causes
+.I dtlogin
+to print debugging statements to the terminal; it also disables the
+\fBdaemonMode\fP resource, forcing
+.I dtlogin
+to run synchronously.
+.IP "\fB-error\fP \fIerror_log_file\fP"
+Specifies the value for the \fBerrorLogFile\fP resource.
+This file contains errors from
+.I dtlogin
+as well as anything written to \fIstderr\fP by the various scripts and programs
+run during the progress of the session.
+.IP "\fB-nodaemon\fP"
+Specifies ``false'' as the value for the \fBdaemonMode\fP
+resource.
+.IP "\fB-resources\fP \fIresource_file\fP"
+Specifies the value for the \fBresources\fP resource.  This file
+is loaded using \fIxrdb (1)\fP to specify configuration parameters for the
+authentication screen.
+.IP "\fB-server\fP \fIserver_entry\fP"
+Specifies the value for the \fBservers\fP resource.
+See \fBservers\fP below for more detail.
+.IP "\fB-udpPort\fP \fIport_number\fP"
+Specifies the value for the \fBrequestPort\fP resource.  This
+sets the port-number that \fIdtlogin\fR monitors for XDMCP requests.
+Since XDMCP
+uses the registered well-known udp port 177, this resource should probably
+not be changed except for debugging.
+.IP "\fB-session\fP \fIsession_program\fP"
+Specifies the value for the \fBsession\fP resource.  This
+indicates the program to run when the user has logged in as the session.
+.sp 1
+.SH "CONTROLLING THE SERVER"
+.I Dtlogin
+controls local servers using POSIX signals.  SIGHUP is expected to reset the
+server, closing all client connections and performing other clean up
+duties.  SIGTERM is expected to terminate the server.  If these signals do
+not perform the expected actions,
+the resources \fBresetSignal\fP and \fBtermSignal\fP 
+can specify alternate signals.
+.PP
+To control remote servers not using XDMCP,
+.I dtlogin
+searches the window hierarchy on the display and uses the KillClient
+protocol request
+in an attempt to clean up the terminal for the next session.  This
+may not actually kill all of the clients, since only those that have created
+windows are noticed.  XDMCP provides a more sure mechanism; when
+.I dtlogin
+closes its initial connection, the session is over and the terminal is
+required to close all other connections.
+.sp 1
+.SH "CONTROLLING DTLOGIN"
+.PP
+.I Dtlogin
+responds to two signals: SIGHUP and SIGTERM.  When sent a SIGHUP,
+.I dtlogin
+rereads the configuration file and the file specified by the
+\fBservers\fP resource and determines whether entries have been added
+or removed.  If a new entry has been added,
+.I dtlogin
+starts a session on the associated display.  Entries that have been removed
+are disabled immediately, meaning that any session in progress is
+terminated without notice, and no new session is started.
+.PP
+When sent a SIGTERM,
+.I dtlogin
+terminates all sessions in progress and exits.  This can be used when
+shutting down the system.
+.\".PP
+.\".I Dtlogin
+.\"attempts to mark the various sub-processes for ps(1) by editing the
+.\"command line argument list in place.  Because dtlogin can't allocate additional
+.\"space for this task, it is useful to start dtlogin with a reasonably long
+.\"command line (15 to 20 characters should be enough).  Each process that is
+.\"servicing a display is marked "-<Display-Name>".
+.sp 1
+.SH ENVIRONMENT
+\fIDtlogin\fP invokes the user's session with the following default
+environment:
+.nf
+.ta .5i 2i
+
+	DISPLAY	is set to the associated display name
+	EDITOR	is set to /usr/dt/bin/dtpad
+	HOME	is set to the home directory of the user
+	KBD_LANG	is set to the value of LANG for applicable languages
+	LANG	is set to the current NLS language (if any)
+	LC_ALL	is set to the current NLS language (if any)
+	LC_MESSAGES	is set to the current NLS language (if any)
+	LOGNAME	is set to the user name
+	MAIL	is set to /usr/mail/$USER
+	PATH	is set to the value of the \fBuserPath\fP resource
+	USER	is set to the user name
+	SHELL	is set to the user's default shell (from /etc/passwd)
+	TERM	is set to xterm
+	TZ	is set to the value of the \fBtimeZone\fP resource or system default
+	XAUTHORITY	may be set to an authority file
+.fi
+.PP
+Three methods are available to modify or add to this list depending on the
+desired scope of the resulting environment variable.
+
+The \fBenvironment\fP resource is available in the \fIdtlogin\fR
+configuration file to allow
+setting of environment variables on a global or per-display basis.
+Variables specified by this method are available to both the display's
+X server process
+and the user's session and override any default settings.
+The resource accepts a string of <name>=<value> pairs separated by at
+least one space
+or tab. 
+The values specified must be constants because no shell is used to parse the
+string.
+See the \fBResources\fP section below for details on setting this resource.
+.sp
+For example:
+.nf
+.ta .5i 2i
+
+	Dtlogin*environment:	SB_DISPLAY_ADDR=0xB00000 \\
+	                     	WMSHMSPC=0x200000
+.fi
+.sp 1
+Note: The environment variables LANG and TZ have their own 
+dedicated resources 
+in the configuration file and should not be set via \fBenvironment\fR.
+.sp 1
+Environment variables that require processing by a shell or are
+dependent on the value of another environment variable can be specified
+in the startup script \fIXsession\fR. These variables are loaded into
+the environment of all users on the display, but not to the X server process.
+They override any previous settings of the same variable.
+The \fIXsession\fR script accepts ksh syntax for setting environment
+variables.
+.sp 1
+For example.
+.nf
+.ta .5i 3i
+
+	MAIL=/usr/mail/$USER
+.fi
+.sp 1
+Finally, personal environment variables can be set on a per-user basis
+in the script file $HOME/\fI.dtprofile\fP.
+\fIDtlogin\fP accepts either sh, ksh, or csh syntax for the commands 
+in this file.
+The commands should only be those that set environment variables, not any
+that perform terminal I/O, excepting \fItset(1)\fP or \fIstty(1)\fP.
+If the first line of \fI.dtprofile\fP is #!/bin/sh, #!/bin/ksh, or
+#!/bin/csh, \fIdtlogin\fP uses the appropriate shell to
+parse \fI.dtprofile\fP.
+Otherwise, the user's default shell ($SHELL) is used.
+.\".PP
+.\"To ease maintenance, the user may wish to replace complementary environment
+.\"setting commands in $HOME/\fI.profile\fP ( $HOME/\fI.login\fP ) with the
+.\"single command ". $HOME/\fI.dtprofile\fP" (source $HOME/\fI.dtprofile\fP).
+.sp 1
+.SH INTERNATIONALIZATION
+All labels and messages are localizable. 
+The message catalog \fIdtlogin.cat\fP contains the localized
+representations of the default labels and messages. 
+\fIDtlogin\fP reads the appropriate message catalog indicated by the
+\fBLANG\fP environment variable and displays the localized strings.
+An option on the authentication screen allows the user to override the
+default language for the subsequent session.
+If the authentication screen has been localized for the selected language,
+it is redisplayed in that language;
+otherwise, it is displayed in the default language.
+In either case, the \fBLANG\fP environment variable is set
+appropriately for the resulting session.
+.PP
+The resource \fBlanguage\fP is available in the \fIdtlogin\fP configuration
+file to change the default language for a display.
+.PP
+The resource \fBlanguagelist\fP is also available in the \fIdtlogin\fP configuration
+file to override the default set of languages displayed on the 
+authentication screen.
+.sp 1
+.SH RESOURCES
+The actions of
+.I dtlogin
+can be controlled through the use of various configuration files, which
+are in the
+X resource format.
+Some resources control the behavior of \fIdtlogin\fR in general, some can
+be specified for a particular display, and others control the appearance of
+the authentication screen.
+The general and display-specific resources are specified in the 
+configuration file named by
+the \fB-config\fR command line option.
+All resources should be prepended with the application name \fBDtlogin\fR.
+.sp 1
+.TS
+center;
+cB sss
+lB lB lB lB 
+l l l l. 
+Dtlogin General Resource Set
+Name	Class	Type	Default
+_
+accessFile	AccessFile	String	NULL
+autoRescan	AutoRescan	Boolean	True
+daemonMode	DaemonMode	Boolean	False
+debugLevel	DebugLevel	Int	0
+errorLogFile	ErrorLogFile	String	NULL
+errorLogSize	ErrorLogSize	Int	50
+keyFile	KeyFile	String	/usr/dt/config/Xkeys
+lockPidFile	LockPidFile	Boolean	True
+pidFile	PidFile	String	NULL
+authDir	AuthDir	String	/usr/dt/config
+removeDomainname	RemoveDomainname	Boolean	True
+requestPort	RequestPort	Int	177
+servers	Servers	String	:0 Local local /usr/bin/X11/X :0
+sysParmsFile	SysParmsFile	String	/etc/src.sh
+timeZone	TimeZone	String	MST7MDT
+wakeupInterval	WakeupInterval	Int	10
+.TE
+.sp 1
+The \fIdtlogin\fP general resources are not display-specific and
+are applied to all displays where appropriate.
+.sp 1
+.IP "\fBaccessFile\fP"
+To prevent unauthorized XDMCP service 
+this file contains a database of hostnames which are
+allowed direct access to this machine.
+The format of this file is described
+in the section
+.B "Xdmcp Access Control."
+.IP "\fBauthDir\fP"
+This is a directory name that
+.I dtlogin
+uses to temporarily store authorization files for displays using XDMCP.
+.IP "\fBautoRescan\fP"
+This boolean controls whether
+.I dtlogin
+rescans the configuration file and server file after a session terminates
+and the files have changed. You can force
+.I dtlogin
+to reread these files by sending a SIGHUP to the main process.
+.IP "\fBdaemonMode\fP"
+.I Dtlogin
+can make itself into an unassociated daemon process.  This is
+accomplished by forking and leaving the parent process to exit, then closing
+file descriptors and releasing the controlling terminal.  This is inconvenient
+when attempting to debug
+.I dtlogin.
+Setting this resource to "false" disables \fBdaemonMode\fP.
+.sp 1
+If 
+.I dtlogin
+is started from /etc/inittab, it should not be run in daemon mode.
+Otherwise the \fIinit\fP process will think it has terminated and will
+attempt to restart it.
+.IP "\fBdebugLevel\fP"
+A non-zero value specified for this integer resource enables
+debugging information to be printed.  It also disables daemon mode, which
+redirects the information into the bit-bucket.  Specifying a non-zero
+debug level also allows non-root users to run
+.I dtlogin, 
+which is not normally useful.
+.IP "\fBerrorLogFile\fP"
+Error output is normally directed at the system console.  To redirect it, 
+set this resource to any file name. 
+This file also contains any output directed to stderr
+by \fIXstartup, Xsession \fPand \fIXreset\fP, so it contains descriptions
+of problems in those scripts as well.
+.IP "\fBerrorLogSize\fP"
+This resource specifies the maximum size of the error log file in kilobytes.
+When the limit is reached, \fIdtlogin\fP will delete the oldest entries in the
+file until the file size is reduced to 75% of the maximum.
+.IP "\fBkeyFile\fP"
+XDM-AUTHENTICATION-1 style XDMCP authentication requires that a private key
+be shared between
+.I dtlogin
+and the terminal.  This resource specifies the file containing those
+values.  Each entry in the file consists of a display name and the shared
+key.  By default,
+.I dtlogin
+does not include support for XDM-AUTHENTICATION-1 because it requires DES, which
+is not generally distributable.
+.IP "\fBlockPidFile\fP"
+This is the resource that controls whether
+.I dtlogin
+uses file locking to prevent multiple logins.
+.IP "\fBpidFile\fP"
+The filename specified is created to contain an ASCII
+representation of the process-id of the main \fIdtlogin\fP process.  This is
+quite useful when reinitializing the system.
+.I Dtlogin
+also uses file locking to attempt to prevent more than one daemon running on
+the same machine.
+.IP "\fBremoveDomainname\fP"
+When computing the display name for XDMCP clients, the resolver 
+typically creates a fully qualified host name for the terminal.  As this is
+sometimes confusing,
+.I dtlogin
+removes the domain name portion of the host name if it is the same as the
+domain name for the local host when this variable is set.
+.IP "\fBrequestPort\fP"
+This indicates the UDP port number that
+.I dtlogin
+uses to listen for incoming XDMCP requests.  Unless you need to debug the
+system, leave this with its default value.
+.IP "\fBservers\fP"
+This resource either specifies a file name full of server entries, one per
+line (if the value starts with a slash), or a single server entry.  Each
+entry indicates a display that should constantly be managed and that is
+not using XDMCP.  Each entry consists of at least three parts:  a display
+name, a display class, a display type, and (for local servers) a command
+line to start the server.  A typical entry for local display number 0 is:
+.nf
+
+  :0 Local local@console /usr/bin/X11/X :0
+
+.fi
+The display types are:
+.ta .5i
+.nf
+
+local		a local display, i.e. one that has a server program to run
+foreign		a remote display, i.e. one that has no server program to run
+
+.fi
+.IP
+The display name must be something that can be passed in the \fB-display\fP
+option to any X program.  This string is used in the display-specific
+resources to specify the particular display, so be careful to match the
+names (e.g., use ":0 local /usr/bin/X11/X :0" instead of "localhost:0 local
+/usr/bin/X11/X :0" if your other resources are specified as
+"Dtlogin._0.session").  The display class portion is also used in the
+display-specific resources as the class portion of the resource.  This is
+useful if you have a large collection of similar displays (a group of
+X terminals, for example) and want to set resources for groups of them.  When using
+XDMCP, the display is required to specify the display class, so perhaps your
+X terminal documentation describes a reasonably standard display class
+string for your device.
+.sp1
+On local bitmaps, the user may choose a "No Windows" option via the login
+screen, which temporarily suspends the X-server and presents
+the traditional character "login:" prompt.
+The user can then log in and perform non-X related tasks.
+When the user finishes and logs out, the X-server is restarted, and
+the login screen is redisplayed.
+.sp1
+In order to support "No Windows" mode, the display must have an associated 
+Internal Terminal Emulator (\fBITE\fP) device.
+By default,
+.I dtlogin
+associates the \fBITE\fP device "console" (/dev/console) with display ":0".
+If your configuration does not match this default, specify "@<device>" for
+the display(s) with an associated \fBITE\fP and "@none" for all other displays
+listed in the \fBservers\fP file.
+.IP "\fBsysParmsFile\fP"
+This resource specifies a file containing shell commands, one of which sets
+the timezone environment variable (TZ) for the system.
+If the timezone is set via the shell syntax, "TZ=", \fIdtlogin\fP can
+use this information to set the timezone for the user session.
+.IP "\fBtimeZone\fP"
+This resource specifies the local time zone for \fIdtlogin\fR.
+It is loaded into the environment of \fIdtlogin\fR as the value of 
+the variable \fBTZ\fR and inherited by all subsequent sessions.
+.sp 1
+Some systems maintain a configuration file that contains the timezone
+setting (ex. /etc/src.sh).
+See the resource \fBsysParmsFile\fP.
+.IP "\fBwakeupInterval\fP"
+If the user selects "No Windows" mode from the login screen, \fIdtlogin\fP
+terminates the X-server and allows the traditional character-based login
+prompt, "login:" to become visible.
+If the user does not log in within 2 * \fBwakeupInterval\fP seconds, the
+X-server is restarted.  Once the user has logged in, \fIdtlogin\fP checks
+every \fBwakeupInterval\fP seconds to see if the user has logged out.  If
+so, the X-server is restarted and the login screen is redisplayed.
+.sp 2
+.TS
+center;
+cB sss
+lB lB lB lB 
+l l l l. 
+Dtlogin Display Resource Set
+Name	Class	Type	Default
+_
+authorize	Authorize	Boolean	False
+authName	AuthName	String	MIT-MAGIC-COOKIE-1
+authFile	AuthFile	String	/usr/dt/config/auth-server
+cpp	Cpp	String	/lib/cpp
+environment	Environment	String	NULL
+failsafeClient	FailsafeClient	String	/usr/bin/X11/xterm
+grabServer	GrabServer	Boolean	True
+grabTimeout	GrabTimeout	Int	3 sec.
+language	Language	String	NULL
+languageList	LanguageList	String	NULL
+openDelay	OpenDelay	Int	5 sec.
+openRepeat	OpenRepeat	Int	5 sec.
+openTimeout	OpenTimeout	Int	30 sec.
+pingInterval	PingInterval	Int	5 min.
+pingTimeout	PingTimeout	Int	5 min.
+reset	Reset	String	NULL
+resetForAuth	ResetForAuth	Boolean	False
+resetSignal	Signal	Int	1 (SIGHUP)
+resources	Resources	String	NULL
+session	Session	String	NULL
+startAttempts	StartAttempts	Int	4
+startup	Startup	String	NULL
+systemPath	SystemPath	String	/usr/bin/X11:/bin:/usr/bin:/etc
+systemShell	SystemShell	String	/bin/sh
+terminateServer	TerminateServer	Boolean	False
+termSignal	Signal	Int	15 (SIGTERM)
+userAuthDir	UserAuthDir	String	/tmp
+userPath	UserPath	String	/usr/bin/X11:/bin:/usr/bin:/usr/contrib/bin:/usr/local/bin
+dtlite	Dtlite	Boolean	False
+xrdb	Xrdb	String	/usr/bin/X11/xrdb
+.TE
+.sp 1
+.PP
+\fIDtlogin\fR display resources can be specified for all displays or for
+a particular display.
+To specify a particular display,
+the display name is inserted into the resource name between
+``Dtlogin'' and the final resource name segment.
+For example, \fBDtlogin.expo_0.startup\fP is the name of the 
+resource defining the startup shell file on the ``expo:0'' display.
+The resource
+manager separates the name of the resource from its value with colons, and
+separates resource name parts with dots, so
+.I dtlogin
+uses underscores for the dots and colons when generating the resource
+name.
+.sp
+Resources can also be specified for a class of displays by inserting the
+class name instead of a display name.
+A display that is not managed by XDMCP can have its class affiliation
+specified in the file referenced by the \fBservers\fR resource.
+A display using XDMCP supplies its class affiliation as part of the
+XDMCP packet.
+.sp 2
+.IP "\fBauthorize\fP"
+\fBauthorize\fP is a boolean resource that controls whether
+.I dtlogin
+generates and uses authorization for the server connections.  (See 
+\fBauthName\fP.)
+.IP "\fBauthName\fP"
+If \fBauthorize\fP is used, \fBauthName\fP specifies the type of
+authorization to be used.
+Currently,
+.I dtlogin
+supports only MIT-MAGIC-COOKIE-1 authorization,
+XDM-AUTHORIZATION-1
+could be supported, but DES is not generally distributable.  XDMCP
+connections state which authorization types are supported dynamically, so
+\fBauthName\fP is ignored in this case.  
+.\"When \fBauthorize\fP is set for a
+.\"display and authorization is not available, the user is informed by having a
+.\"different message displayed in the login widget.
+(See \fBauthorize\fP.)
+.IP "\fBauthFile\fP"
+This file is used to communicate the authorization data from \fIdtlogin\fP to
+the server, using the \fI-auth\fP server command line option.  It should be
+kept in a write-protected directory to prevent its erasure, which would
+disable the authorization mechanism in the server.
+.IP "\fBcpp\fP"
+This specifies the name of the C preprocessor that is used by xrdb.
+.IP "\fBenvironment\fP"
+This resource can contain a set of <name>=<value> pairs separated by a space
+or tab.
+Each item is loaded into the environment of the server and session.
+See the \fBEnvironment\fR section for details.
+.IP "\fBfailsafeClient\fP"
+If the default session fails to execute,
+.I dtlogin
+falls back to this program.  This program is executed with no
+arguments, but executes using the same environment variables as
+the session would have had.  (See \fBThe Xsession File\fP below.)
+.IP "\fBgrabServer\fP (See \fBgrabTimeout\fP.)"
+.IP "\fBgrabTimeout\fP"
+To improve security,
+.I dtlogin
+grabs the server and keyboard while reading the name and password.  The
+\fBgrabServer\fP resource specifies if the server should be held while
+the name and password is read.  When FALSE, the server is ungrabbed
+after the keyboard grab succeeds; otherwise, the server is grabbed until just
+before the session begins.  The \fBgrabTimeout\fP resource specifies
+the maximum time
+.I dtlogin
+will wait for the grab to succeed.  The grab may fail if some other
+client has the server grabbed, or possibly if the network latencies
+are very high.   The \fBgrabTimeout\fP resource has a default of
+3 seconds; be cautious when using this resource, since a user
+can be deceived by a look-alike window on the display.  If the grab fails,
+.I dtlogin
+kills and restarts the server (if possible) and session.
+.sp 1
+Some X-terminals cannot display their configuration screens while the server
+is grabbed. 
+Setting \fBgrabServer\fP to false will allow the screens to be displayed,
+but opens the possibility that a user's login name can be stolen by copying
+the contents of the login screen.
+Since the keyboard is still grabbed and the password is not echoed, the
+password cannot be stolen.
+.IP "\fBlanguage\fP"
+This resource specifies the default setting for the \fBLANG\fR environment
+variable.
+If the \fIdtlogin\fR screen is localized for that
+language, it is displayed appropriately; otherwise, it is displayed
+in the language "C".
+The user may temporarily override this setting via an option on the login
+screen.
+When the subsequent session terminates, the \fBLANG\fR variable 
+reverts to this setting.
+.IP "\fBlanguageList\fP"
+This resource allows the user to override the default set of languages
+displayed in the "Language" menu of the login screen.
+It is useful if the set of languages actually used on a particular display
+is smaller than the set installed on the system.
+The resource value is a list of valid values for the \fBLANG\fP environment
+variable.
+Language values should be separated by one or more spaces or tabs.
+.IP "\fBopenDelay\fP  (See \fBstartAttempts\fP.)"
+.IP "\fBopenRepeat\fP  (See \fBstartAttempts\fP.)"
+.IP "\fBopenTimeout\fP  (See \fBstartAttempts\fP.)"
+.IP "\fBpingInterval\fP (See \fBpingTimeout\fP.)"
+.IP "\fBpingTimeout\fP"
+To discover when remote displays disappear,
+.I dtlogin
+occasionally "pings" them, using an X connection and sending XSync
+requests.  \fBpingInterval\fP specifies the time (in minutes) between 
+successive ping attempts, and \fBpingTimeout\fP specifies the maximum
+wait time (in
+minutes) for the terminal to respond to the request.  If the
+terminal does not respond, the session is terminated.
+.I Dtlogin
+does not ping local displays.  Although it may seem harmless, it is
+undesirable when the workstation session is terminated as a result of the
+server hanging for NFS service and not responding to the ping.
+.IP "\fBreset\fP"
+This specifies a program that is run (as root) after the session terminates.
+By default no program is run.
+The conventional name is \fIXreset\fP.  See
+\fBThe Xreset File\fP below.
+.IP "\fBresetForAuth\fP"
+The original implementation of authorization in the sample server reread the
+authorization file at server reset time, instead of when checking the
+initial connection.  Since
+.I dtlogin
+generates the authorization information just before connecting to the
+display, an old server does not get current authorization information.
+This resource causes
+.I dtlogin
+to send SIGHUP to the server after setting up the file, causing an
+additional server reset to occur, during which time the new authorization
+information is read.
+.IP "\fBresetSignal\fP"
+This resource specifies the signal 
+.I dtlogin
+sends to reset the server.
+See the section \fBControlling The Server\fP
+.IP "\fBresources\fP"
+This resource specifies the name of the file to be loaded by \fIxrdb (1)\fP
+as the resource data-base onto the root window of screen 0 of the display.
+This resource data base is loaded just before the authentication procedure
+is started, so it can control the appearance of the "login" window.  See the
+section below on the authentication screen, which describes the various
+resources that are appropriate to place in this file.  There is no
+default value for this resource, but the conventional name is \fIXresources\fP.
+See \fBAuthentication Screen Resources\fP below.
+.IP "\fBsession\fP"
+This specifies the session to be executed (not running as root).
+By default, \fI/usr/bin/X11/xterm\fP is
+run.  The conventional name is \fIXsession\fP.  See \fBThe Xsession File\fP
+below.
+.IP "\fBstartAttempts\fP"
+Four numeric resources control the behavior of
+.I dtlogin
+when attempting to open reluctant servers:  \fBopenDelay\fP,
+\fBopenRepeat\fP, \fBopenTimeout\fP, and \fBstartAttempts\fP.
+\fBopenDelay\fP is the duration (in seconds) between successive attempts;
+\fBopenRepeat\fP is the number of attempts to make; \fBopenTimeout\fP is
+the amount of time to wait while actually attempting the opening (i.e.,
+the maximum time spent in the \fIconnect\fP (2) syscall); and
+\fBstartAttempts\fP is the number of times the entire process occurs before
+giving up on the server.  After \fBopenRepeat\fP attempts have been made,
+or if \fBopenTimeout\fP seconds elapse in any particular attempt,
+.I dtlogin
+terminates and restarts the server, attempting to connect again.  This
+process is repeated \fBstartAttempts\fP time, at which point the display is
+declared dead and disabled.  (See \fBopenDelay\fP, \fBopenRepeat\fP,
+and \fBopenTimeout\fP.)
+.IP "\fBstartup\fP"
+This specifies a program that is run (as root) after the authentication
+process succeeds.  By default, no program is run.  The conventional name for a
+file used here is \fIXstartup\fP.  See the \fBXstartup\fP section below.
+.IP "\fBsystemPath\fP"
+.I Dtlogin
+sets the PATH environment variable for the startup and reset scripts to the
+value of this resource. Note the
+conspicuous absence of "." from this entry.  This is a good practice to
+follow for root; it avoids many system penetration
+schemes.
+.IP "\fBsystemShell\fP"
+.I Dtlogin
+sets the SHELL environment variable for the startup and reset scripts to the
+value of this resource. 
+.IP "\fBterminateServer\fP"
+This boolean resource specifies whether the X server should be terminated
+when a session terminates (instead of resetting it). 
+This option can be
+used if the server tends to grow without bound over
+time in order to limit
+the amount of time the server is run continuously. 
+.IP "\fBtermSignal\fP"
+This resource specifies the signal 
+.I dtlogin
+sends to terminate the server.
+See the section \fBControlling The Server\fP
+.IP "\fBuserAuthDir\fP"
+When
+.I dtlogin
+cannot write to the usual user authorization file ($HOME/.Xauthority),
+it creates a unique file name in this directory and points the environment
+variable XAUTHORITY at the created file.
+.IP "\fBuserPath\fP"
+.I Dtlogin
+sets the PATH environment variable for the session to this value.  It should
+be a colon-separated list of directories; see \fIsh(1)\fP for a full
+description.
+.IP "\fBdtlite\fP"
+Setting this resource to "True" restricts the display to only allowing
+fail-safe or DT Lite sessions.
+The "HP DT Session" selection is disabled.
+.IP "\fBxrdb\fP"
+Specifies the program used to load the resources.
+.sp 1
+.SH "AUTHENTICATION SCREEN RESOURCES"
+The authentication screen reads a name-password pair
+from the keyboard.
+As this is a Motif toolkit client, colors, fonts and
+some layout options can be controlled with resources.
+Resources for this screen
+should be put into the file named by the
+\fBresources\fP resource.
+.sp 1
+The default logo on the authentication screen may be replaced 
+with a bitmap of the
+user's choice.
+The following resources are available in addition to the standard Motif set
+in order to control positioning of the logo and the drop shadow.
+The resources should be prefaced with the string \fBDtlogin*logo*\fR
+when specified.
+.sp1
+.TS
+center;
+cB sss
+lB lB lB lB 
+l l l l. 
+Logo Resource Set
+Name	Class	Type	Default
+_
+bitmapFile	BitmapFile	String	NULL
+dropShadowBackground	DropShadowBackground	Pixel	dynamic
+dropShadowForeground	DropShadowForeground	Pixel	dynamic
+dropShadowBackgroundPixmap	DropShadowBackgroundPixmap	String	dynamic
+dropShadowThickness	DropShadowThickness	Int	dynamic
+verticalOffset	VerticalOffset	Int	dynamic
+x	X	Position	-1
+y	X	Position	-1
+.TE
+.sp 1
+.\".RS
+.IP "\fBbitmapFile\fP"
+Specifies the absolute path name to the bitmap file to be used for the logo.
+.IP "\fBdropShadowBackground\fP"
+Specifes the background color for the drop shadow.
+.IP "\fBdropShadowForeground\fP"
+Specifes the foreground color for the drop shadow.
+.IP "\fBdropShadowBackgroundPixmap\fP"
+Specifes the pixmap to be used for the drop shadow.
+This can either be a built-in Motif pixmap or the absolute path name to
+a bitmap to be used as the tile for the drop shadow.
+.IP "\fBdropShadowThickness\fP"
+Specifes the thickness of the drop shadow in units of pixels.
+.IP "\fBverticalOffset\fP"
+Specifes the percentage of the logo to be positioned vertically off the main
+matte.
+By default the logo is centered horizontally and positioned vertically by
+this amount above the matte.
+This resource is ignored if \fBy\fR is specified.
+.IP "\fBx\fP"
+Specifes the \fIx\fR origin for the logo in units of pixels.
+This resource overrides the default horizontal centering of the logo.
+.IP "\fBy\fP"
+Specifes the \fIy\fR origin for the logo in units of pixels.
+This resource overrides the default vertical positioning of the logo.
+.RE
+.sp2
+The default welcome message on the authentication screen may also be replaced 
+with a message of the user's choice.
+The following resources are available
+to control content and positioning of the welcome message.
+The resources should be prefaced with the string \fBDtlogin*greeting*\fR
+when specified.
+.sp 1
+.TS
+center;
+cB sss
+lB lB lB lB 
+l l l l. 
+Greeting Resource Set
+Name	Class	Type	Default
+_
+alignment	Alignment	char	ALIGNMENT_CENTER
+background	Background	Pixel	dynamic
+foreground	Foreground	Pixel	dynamic
+fontList	FontList	FontList	dynamic
+labelString	String	String	Welcome to %LocalHost%
+x	X	Position	dynamic
+y	X	Position	dynamic
+.TE
+.sp 1
+.\".RS
+.IP "\fBalignment\fP"
+Specifies the alignment of text in the welcome message. Possible values
+are ALIGNMENT_BEGINNING, ALIGNMENT_CENTER, and ALIGNMENT_END.
+.IP "\fBbackground\fP"
+Specifes the background color for the welcome message.
+.IP "\fBforeground\fP"
+Specifes the foreground color for the welcome message.
+.IP "\fBfontList\fP"
+Specifes the font to use for the welcome message.
+.IP "\fBlabelString\fP"
+Specifes the text to use in the welcome message.
+Multiple lines can be specified by including newline characters, "\\n",
+in the text. If the token %LocalHost% is included in the text, it will
+be replaced with the name of the host providing login service.
+.IP "\fBx\fP"
+Specifes the \fIx\fR origin for the welcome message in units of pixels.
+By default the welcome message is centered horizontally in the login matte.
+While in the matte it is clipped to the matte boundaries. If it is
+positioned outside the matte, it may extend to the screen boundaries.
+.IP "\fBy\fP"
+Specifes the \fIy\fR origin for the welcome message in units of pixels.
+By default the message is positioned slightly above the login area of the
+login matte.
+.RE
+.sp 1
+.SH "XDMCP ACCESS CONTROL"
+.PP
+The database file specified by the \fBDtlogin.accessFile\fP resource
+provides information which
+.I dtlogin
+uses to control access from displays requesting XDMCP service.  This file
+contains entries which control the response to
+Direct and Broadcast queries.
+.PP
+The format of an entry is either a host name or a
+pattern.
+A pattern is distinguished from a host name by the inclusion of
+one or more meta characters (`*' matches any sequence of 0 or more
+characters, and `?' matches any single character) which are compared against
+the host name of the display device.
+If the entry is a host name, all comparisons are done using
+network addresses, so any name which converts to the correct network address
+may be used.
+For patterns, only canonical host names are used
+in the comparison, so ensure that you do not attempt to match
+aliases.
+Preceding either a host name or a pattern with a `!' character
+causes hosts which
+match that entry to be excluded.
+.PP
+When checking access for a particular display host, each entry is scanned in
+turn and the first matching entry determines the response.
+.PP
+Blank lines are ignored, `#' is treated as a comment
+delimiter causing the rest of that line to be ignored,
+and `\e\fInewline\fP'
+causes the newline to be ignored, allowing indirect host lists to span
+multiple lines.
+.PP
+Here is an example Xaccess file:
+.LP
+.ta 2i 4i
+.nf
+#
+# Xaccess \- XDMCP access control file
+#
+
+!xtra.lcs.mit.edu	# disallow direct/broadcast service for xtra
+bambi.ogi.edu	# allow access from this particular display
+*.lcs.mit.edu	# allow access from any display in LCS
+.fi
+.sp1
+If XDMCP access is granted, a temporary file may be created in the
+\fBauthDir\fR directory which contains authorization information for the
+X-terminal. 
+It is deleted when the session starts.
+.sp 1
+.SH "SESSION STARTUP"
+.PP
+Three files are provided to assist in session startup.
+They can be replaced by other mechanisms via \fIdtlogin\fP resources.
+.SH "The Xstartup File"
+.PP
+This file is typically a shell script.  It is run as "root" and should be
+very careful about security.  This is the place to put commands that
+display the message of the day or do other system-level functions on
+behalf of the user.
+Various environment variables are set for the use of this script:
+.nf
+.ta .5i 2i
+
+	DISPLAY	is set to the associated display name
+	HOME	is set to the home directory of the user
+	PATH	is set to the value of the \fBsystemPath\fP resource
+	USER	is set to the user name
+	SHELL	is set to the value of the \fBsystemShell\fP resource
+.\"	XAUTHORITY	may be set to an authority file
+
+.fi
+.PP
+No arguments of any kind are passed to the script.
+.I Dtlogin
+waits until this script exits before starting the user session.  If the
+exit value of this script is non-zero,
+.I dtlogin
+discontinues the session immediately and starts another authentication
+cycle.
+.SH "The Xsession File"
+.PP
+This script reads in the user's personal environment from
+$HOME/\fI.dtprofile\fP
+and then invokes the desired session manager.
+It is run with
+the permissions of the authorized user, and has several environment variables
+pre-set.
+See the \fBEnvironment\fP section for a list of the pre-set variables.
+.\".PP
+.\"\fIXsession\fP tries three types of startup mechanisms.
+.\"By default, the HP DT Session Manager \fIdtsession\fP, is invoked 
+.\"if it is installed and executable.
+.\"Otherwise, \fIXsession\fP looks for
+.\"the file $HOME/\fI.xsession\fP.
+.\"This is the startup mechanism used by the MIT client \fIXDM\fP and
+.\"contains commands to invoke clients for the user's session.
+.\"If \fI.xsession\fP does not exist, \fIXsession\fP looks for the file
+.\"$HOME/\fI.x11start\fP. 
+.\"If found, \fIXsession\fP runs the program \fIxinit\fP and pass this file
+.\"as an argument.
+.\".PP
+.\"Failing to find any of these files, \fIXsession\fP starts the Motif
+.\"window manager and a single hpterm client.
+.SH "The Xreset File"
+.PP
+Symmetrical with \fIXstartup\fP, this script is run after the user session has
+terminated.  Run as root, it should probably contain commands that undo
+the effects of commands in \fIXstartup\fP, such as
+unmounting directories from file servers.  The collection of environment
+variables that were passed to \fIXstartup\fP are also
+given to \fIXreset\fP.
+.sp 1
+.SH "TYPICAL USAGE"
+.PP
+.I Dtlogin
+is designed to operate in a wide variety of environments.
+The following setup is a good place to start, but may not be "typical"
+in many environments.
+.PP
+First off, the
+.I dtlogin
+configuration file should be set up.  A good thing to do is to
+make a directory (ex. \fI/usr/dt/config\fP)
+that contains all of the relevant
+files.  Here is a typical configuration file, which could be
+named \fIXconfig\fP :
+.nf
+
+.ta .5i 2i
+
+	Dtlogin.errorLogFile:	/usr/dt/config/Xerrors
+	Dtlogin.pidFile:	/usr/dt/config/Xpid
+	Dtlogin.accessFile:	/usr/dt/config/Xaccess
+	Dtlogin.servers:	/usr/dt/config/Xservers
+
+	Dtlogin*resources:	/usr/dt/config/Xresources
+	Dtlogin*startup:	/usr/dt/config/Xstartup
+	Dtlogin*session:	/usr/dt/config/Xsession
+	Dtlogin*reset:	/usr/dt/config/Xreset
+.fi
+.PP
+As you can see, this file simply contains references to other files.  Note
+that some of the resources are specified with ``*'' separating the
+components.  These resources can be made unique for each different display,
+by replacing the ``*'' with the display-name.
+See the \fBResources\fP section for a complete discussion.
+.PP
+The first file \fI/usr/dt/config/Xservers\fP contains the list of displays to
+manage.  Most workstations have only one display, numbered 0, so the file
+looks like this:
+.nf
+.ta .5i
+
+	:0 Local local /usr/bin/X11/X :0
+
+.fi
+.PP
+This keeps \fI/usr/bin/X11/X\fP running on this display and
+manage a continuous cycle of sessions.
+.PP
+The file \fI/usr/dt/config/Xerrors\fP contains error messages from
+.I dtlogin
+and anything output to stderr by \fIXstartup, Xsession or Xreset\fP.  When
+you have trouble getting
+.I dtlogin
+working, check this file to see if
+.I dtlogin
+has any clues to the trouble.
+.I Xerrors
+can become quite large and should be trimmed periodically.
+.PP
+The next configuration entry, \fI/usr/dt/config/Xresources\fP, is loaded onto
+the display as a resource database using \fIxrdb (1)\fP.  As the authentication
+screen reads this database before starting up, it usually contains
+parameters for that screen.
+.sp 3
+.SH "SOME OTHER POSSIBILITIES"
+.PP
+You can also use
+.I dtlogin
+to run a single session at a time
+by specifying the server on the command
+line:
+.nf
+.ta .5i
+
+	dtlogin -server ":0 HP-TVRX local /usr/bin/X11/X :0"
+
+.fi
+.PP
+If you have an X terminal that supports the XDMCP protocol, an
+entry for that terminal in \fIXservers\fR is not required.
+If you have a file server and all X terminals support XDMCP, then
+\fIXservers\fR would contain no entries.
+.PP
+Configurations may contain combinations of
+local servers, X terminals without XDMCP, and X terminals
+with XDCMP.
+.sp 1
+.SH COPYRIGHT
+Copyright 1988, Massachusetts Institute of Technology
+.br
+(c) Copyright 1993, 1994 Hewlett-Packard Company
+.br
+(c) Copyright 1993, 1994 International Business Machines Corp.
+.br
+(c) Copyright 1993, 1994 Sun Microsystems, Inc.
+.br
+(c) Copyright 1993, 1994 Novell, Inc.
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.sp1
+.SH AUTHOR
+.I Dtlogin
+is based on the MIT client \fIXDM\fR, authored by Keith Packard.
+.sp1
+.SH ORIGIN
+Massachusetts Institute of Technology
+.br
+Hewlett-Packard Company
+.br
+International Business Machines Corp.
+.br
+Sun Microsystems, Inc.
+.br
+Novell, Inc.
+.sp1
+.SH "SEE ALSO"
+\fBconnect(2)\fP, \fBlogin(1)\fP, \fBgetty(1M)\fP, \fBsh(1)\fP,
+\fBstty(1)\fP, \fBtset(1)\fP, \fBX(1)\fP, 
+\fBxinit(1M)\fP, \fBxrdb(1)\fP, and \fBXDMCP\fP.
+.br

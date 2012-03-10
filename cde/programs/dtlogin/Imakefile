@@ -1,0 +1,493 @@
+XCOMM $TOG: Imakefile /main/21 1999/03/01 18:26:06 mgreess $
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = config $(XDMSUBDIRS) $(BLSSUBDIRS) $(AFSSUBDIRS)
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+#if InstallXdmConfig 
+   XDMCONFIGDIR = XdmConfigurationSubdirectory
+     XDMSUBDIRS = $(XDMCONFIGDIR) bootxutil
+#endif
+
+/* please list any new dtlogin headers for use by krb and rgy */
+HEADERS = dm.h vg.h vglogo.h vgmsg.h vgproto.h
+
+#if HasXdmAuth
+DESDEFS = -DHASDES -DHASXDMAUTH -DSILLYEXPORTRULE
+DESOBJS = xdmauth.o
+DESSRCS = xdmauth.c
+#else
+#if HasDESLibrary
+DESDEFS = -DHASDES
+DESOBJS = xdmauth.o
+DESSRCS = xdmauth.c
+#else
+DESDEFS = 
+DESOBJS =
+DESSRCS = 
+#endif
+#endif
+
+#ifndef UsePamLibrary
+# define UsePamLibrary	NO
+#endif
+
+#if UsePamLibrary
+PAM_SRCS = pam_svc.c
+PAM_OBJS = pam_svc.o
+PAM_LIB = -lpam
+#else
+PAM_SRCS =
+PAM_OBJS =
+PAM_LIB =
+#endif
+
+#ifdef SunArchitecture 
+SOLARIS_SRCS = solaris.c
+SOLARIS_OBJS = solaris.o
+#else
+SOLARIS_SRCS =
+SOLARIS_OBJS =
+#endif
+
+#if defined(SunArchitecture) && !UsePamLibrary
+PAM_LIB = -lauth
+#endif
+
+         XDMDIR = $(CDE_LOGFILES_TOP)
+
+/******************  DTLOGIN ARCHIVE SECTION *****************
+   A better long-term solution is a dtgreet subdirectory since dtgreet
+   is built with shared libraries.
+   dtlogin is always built archived in HP because of 
+   its importance for user startup. DEPLIBS needs to be explicitly set
+   because default is null DEPLIBS for shared libraries.
+   Does this need to be ifdef'd hp? */
+/* Defaults */
+LOGINDEPXMULIB = $(DEPXMULIB)
+LOGINXMULIB = $(XMULIB)
+LOGINDEPXLIB = $(DEPXLIB)
+LOGINXLIB = $(XLIB)
+
+#ifdef HPArchitecture
+#  if (! defined(UseInstalled)) && (! defined(UseMitLibrariesFromSystemOnly))
+#    ifdef SHLIB
+LOGINDEPXMULIB = $(XMUSRC)/libXmu.a
+LOGINXMULIB = $(LOGINDEPXMULIB)
+LOGINDEPXLIB = $(XLIBSRC)/libX11.a
+LOGINXLIB = $(LOGINDEPXLIB)
+/* This is really a kludge !! */
+LOGINLDOPTIONS = -Wl,-a archive
+#    endif
+#  endif
+#  if OSMajorVersion >= 10
+SYS_LIBRARIES = -lsec
+#  endif
+#endif
+
+#if defined(SunArchitecture)
+/* note: libcmd.a is a Sun static private lib for login related work. 
+ *       It should come before $(PAM_LIB) in link line, at least when compiled
+ * 	 on Solaris 2.4 and run on Solaris 2.5.  In Solaris 2.4 some of 
+ *       libcmd.a functions are also in libauth.so.  But on Solaris 2.5 
+ *       these Sun private functions have been removed from libauth.so. */
+SYS_LIBRARIES = -lm -ldl -lgen -lresolv -lC -lbsm -lcmd -lauth $(PAM_LIB)
+
+
+#  if UsePamLibrary
+   EXTRA_DEFINES = -DPAM
+#  else
+   EXTRA_DEFINES = -DSUNAUTH
+#  endif
+#endif
+
+#if defined(USLArchitecture)
+SYS_LIBRARIES = -lm -ldl -lgen -lresolv
+#endif
+
+#if defined(UXPArchitecture)
+SYS_LIBRARIES = -lm -ldl -lgen -lresolv
+#endif
+
+#if defined(RsArchitecture)
+SYS_LIBRARIES = -ls
+#endif
+
+#ifdef AlphaArchitecture
+SYS_LIBRARIES = -lm -lXdmcp
+#endif
+
+#ifdef LinuxArchitecture
+SYS_LIBRARIES = -lm -lcrypt
+#endif
+
+/**************************************************************************
+ *
+ *  Source and object modules
+ *
+ *    SRCS1 = Dtlogin sources
+ *    OBJS1 = Dtlogin objects
+ *
+ *    SRCS2 = Dtgreet sources
+ *    OBJS2 = Dtgreet objects
+ *
+ *    SRCS3 = Dtchooser sources
+ *    OBJS3 - Dtchooser objects
+ *
+ **************************************************************************/
+
+          PROG1 = dtlogin
+
+          SRCS1 = access.c account.c auth.c genauth.c daemon.c dm.c \
+                  dpylist.c error.c file.c mitauth.c protodpy.c policy.c \
+                  reset.c resource.c server.c session.c socket.c util.c \
+                  verify.c version.c apollo.c sysauth.c fontpath.c $(DESSRCS) \
+		  qualify.c usl_ptty.c choose.c netaddr.c xdmcp.c \
+		  $(PAM_SRCS) $(SOLARIS_SRCS)
+
+          OBJS1 = access.o account.o auth.o genauth.o daemon.o dm.o \
+                  dpylist.o error.o file.o mitauth.o protodpy.o policy.o \
+                  reset.o resource.o server.o session.o socket.o util.o \
+                  verify.o version.o apollo.o sysauth.o fontpath.o $(DESOBJS) \
+		  qualify.o usl_ptty.o choose.o netaddr.o xdmcp.o \
+		  $(PAM_OBJS) $(SOLARIS_OBJS) 
+
+          PROG2 = dtgreet
+#ifdef AlphaArchitecture
+          SRCS2 = vgcallback.c vglogo.c vgmain.c vgutil.c \
+                  vgversion.c vgapollo.c vglang.c vgsiaform.c
+          OBJS2 = vgcallback.o vglogo.o vgmain.o vgutil.o \
+                  vgversion.o vgapollo.o vglang.o vgsiaform.o
+#else
+          SRCS2 = vgcallback.c vglogo.c vgmain.c vgutil.c \
+                  vgversion.c vgapollo.c vglang.c
+          OBJS2 = vgcallback.o vglogo.o vgmain.o vgutil.o \
+                  vgversion.o vgapollo.o vglang.o
+#endif
+
+          PROG3 = dtchooser
+          SRCS3 = chooser.c dtchooser.c vglogo.c vgutil.c \
+		  vgcallback.c vglang.c
+          OBJS3 = chooser.o dtchooser.o vglogo.o vgutil.o \
+		  vgcallback.o vglang.o
+
+       PROGRAMS = $(PROG1) $(PROG2) $(PROG3)
+
+/**************************************************************************
+ *
+ *  Defines
+ *
+ **************************************************************************/
+
+#if defined (SunArchitecture)
+  NATIVEXBINDIR = /usr/openwin/bin
+#else
+  NATIVEXBINDIR = /usr/bin/X11
+#endif
+
+        SIGDEFS = $(SIGNAL_DEFINES)
+
+        XBINDIR = $(XPROJECTROOT)/bin
+ OSMAJORVERSION = OSMajorVersion
+ OSMINORVERSION = OSMinorVersion
+     DTDEFINES = $(DESDEFS) ConnectionFlags \
+		  -DBINDIR=\"$(XBINDIR)\" -DXDMDIR=\"$(XDMDIR)\" $(SIGDEFS) \
+                  -DOSMAJORVERSION=$(OSMAJORVERSION) \
+                  -DOSMINORVERSION=$(OSMINORVERSION) \
+                  -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
+                  -DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\"
+
+#if defined (HPArchitecture)
+        DEFINES = $(DTDEFINES) -D_XPG2 -DAUDIT -DBYPASSLOGIN ServerExtraDefines
+#elif defined (RsArchitecture)
+        DEFINES = $(DTDEFINES) -D_ILS_MACROS -DBSD44SOCKETS \
+		  -D__NetBSD__ -DENABLE_DYNAMIC_LANGLIST
+#elif defined (AlphaArchitecture)
+        DEFINES = $(DTDEFINES) -DXDMCP -DSIA
+#else
+        DEFINES = $(DTDEFINES) -D_NO_PROTO
+#endif
+
+XCOMM
+XCOMM Special definitions for compiling default resources; these parameters
+XCOMM should be set in util/imake.includes/site.def or the appropriate .macros
+XCOMM file in that directory.  The lack of initial spaces is to prevent imake
+XCOMM from accidently turning the lines into rules by putting a leading tab.
+XCOMM
+XCOMM Do NOT change these lines!
+XCOMM
+DEF_SERVER = $(XBINDIR)/X
+DEF_USER_PATH = DefaultUserPath:/usr/ccs/bin:$(NATIVEXBINDIR):$(XBINDIR)
+DEF_SYSTEM_PATH = DefaultSystemPath:$(NATIVEXBINDIR):$(XBINDIR)
+BOURNE_SHELL = DefaultSystemShell
+CPP_PROGRAM = CppCmd
+DEF_BM_PATH = /etc/dt/appconfig/icons/%L/%B%M.bm:/etc/dt/appconfig/icons/%L/%B%M.pm:/etc/dt/appconfig/icons/%L/%B:/etc/dt/appconfig/icons/C/%B%M.bm:/etc/dt/appconfig/icons/C/%B%M.pm:/etc/dt/appconfig/icons/C/%B:/usr/dt/appconfig/icons/%L/%B%M.bm:/usr/dt/appconfig/icons/%L/%B%M.pm:/usr/dt/appconfig/icons/%L/%B:/usr/dt/appconfig/icons/C/%B%M.bm:/usr/dt/appconfig/icons/C/%B%M.pm:/usr/dt/appconfig/icons/C/%B
+DEF_PM_PATH=/etc/dt/appconfig/icons/%L/%B%M.pm:/etc/dt/appconfig/icons/%L/%B%M.bm:/etc/dt/appconfig/icons/%L/%B:/etc/dt/appconfig/icons/C/%B%M.pm:/etc/dt/appconfig/icons/C/%B%M.bm:/etc/dt/appconfig/icons/C/%B:/usr/dt/appconfig/icons/%L/%B%M.pm:/usr/dt/appconfig/icons/%L/%B%M.bm:/usr/dt/appconfig/icons/%L/%B:/usr/dt/appconfig/icons/C/%B%M.pm:/usr/dt/appconfig/icons/C/%B%M.bm:/usr/dt/appconfig/icons/C/%B
+
+RES_DEFINES = '-DDEF_SERVER_LINE=":0 Local local $(DEF_SERVER) :0"' \
+                  '-DXRDB_PROGRAM="$(XBINDIR)/xrdb"' \
+                  '-DDEF_USER_PATH="$(DEF_USER_PATH)"' \
+                  '-DDEF_SYSTEM_PATH="$(DEF_SYSTEM_PATH)"' \
+                  '-DDEF_FAILSAFE_CLIENT="$(XBINDIR)/xterm"' \
+                  '-DDEF_AUTH_FILE="$(XDMDIR)/auth-server"' \
+                  '-DDEF_AUTH_DIR="$(XDMDIR)"' \
+                  '-DCPP_PROGRAM="$(CPP_PROGRAM)"' \
+		  '-DDEF_PM_SEARCH_PATH="$(DEF_PM_PATH)"' \
+                  '-DDEF_BM_SEARCH_PATH="$(DEF_BM_PATH)"'
+
+XCOMM
+XCOMM These -D flags had to be taken out of the RES_DEFINES macro in order
+XCOMM to get around a buffer limitation in the Sun C compiler code generation
+XCOMM phase.  The code generation phase creates a temporary assembler file
+XCOMM containing the command line to the compiler and all the .ident pragmas.
+XCOMM With resent changes to the Imakefile, the command line had gotten so
+XCOMM long that it exceeded an internal buffer length resulting in errors in
+XCOMM the generated assembler code.  The EXTRA_RES_DEFINES were extracted
+XCOMM from the RES_DEFINES macro in order to shorten the command line on
+XCOMM the Sun platform.  These particular -D flags were chosen as the
+XCOMM least likely to change or be system dependent.
+XCOMM
+#ifdef SunArchitecture 
+EXTRA_RES_DEFINES =
+#else
+EXTRA_RES_DEFINES = \
+                  '-DDEF_SESSION="$(CDE_INSTALLATION_TOP)/bin/Xsession"' \
+                  '-DDEF_SYSTEM_SHELL="$(BOURNE_SHELL)"' \
+                  '-DDEF_CHOOSER="$(CDE_INSTALLATION_TOP)/bin/dtchooser"' \
+                  '-DDEF_XDM_CONFIG="Xconfig"'
+#endif
+
+
+
+/**************************************************************************
+ *
+ *  Libraries
+ *
+ *    BASE_LIBS1 = dtlogin base libraries
+ *    BASE_LIBS2 = dtgreet base libraries
+ *
+ **************************************************************************/
+
+
+    DEPLIBS1 = $(DEPXAUTHLIB) $(DEPXDMCPLIB) $(LOGINDEPXMULIB) $(LOGINDEPXLIB)
+    DEPLIBS2  = $(DEPDTWIDGETLIB) $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXMLIB)  \
+	        $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB)
+    DEPLIBS3 = $(DEPXDMCPLIB) $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB)
+
+    BASE_LIBS1  = $(XAUTHLIB) $(LOGINXMULIB) $(XDMCPLIB) $(LOGINXLIB)
+    BASE_LIBS2  = $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) $(XMLIB) \
+		  $(XTOOLLIB) $(XPLIB) $(XLIB)
+    BASE_LIBS3  = $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) $(XDMCPLIB) $(XMLIB) \
+		  $(XTOOLLIB) $(XPLIB) $(XLIB)
+
+    LOCAL_LIBRARIES1 = $(BASE_LIBS1) $(IAFSYSLIB)
+    LOCAL_LIBRARIES2 = $(BASE_LIBS2)
+    LOCAL_LIBRARIES3 = $(BASE_LIBS3)
+
+
+/* USL needs to resolve all Xt symbols invoked by Xmu at shared
+ * library link time.
+ * Likewise for the BMS references from libDt for vuegreet.
+ */
+#if defined(USLArchitecture)
+# if HasSharedLibraries
+    BASE_LIBS1  = $(XAUTHLIB) $(LOGINXMULIB) $(XDMCPLIB) $(XTOOLLIB) \
+		  $(LOGINXLIB)
+    BASE_LIBS2  = $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) \
+		  $(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB)
+# endif
+#endif
+
+#if defined(UXPArchitecture)
+# if HasSharedLibraries
+    BASE_LIBS1  = $(XAUTHLIB) $(LOGINXMULIB) $(XDMCPLIB) $(XTOOLLIB) \
+		  $(LOGINXLIB)
+    BASE_LIBS2  = $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) \
+		  $(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB)
+# endif
+#endif
+
+
+
+/**************************************************************************
+ *
+ *  Extra things for the HP-UX BLS version
+ *
+ **************************************************************************/
+
+#ifndef BLS
+# ifdef HPArchitecture
+#  if (OSMajorVersion == 8) && (OSMinorVersion == 8)
+#    define BLS
+#  endif
+# endif
+#endif
+
+#ifdef BLS
+        BLSSUBDIRS = bls
+         BLSLIBSRC = ./bls
+    EXTRA_DEFINES = -UAUDIT -D_NO_PROTO
+     EXTRA_CFLAGS = -Wp,-H256000
+  EXTRA_LIBRARIES = $(BLSLIBSRC)/libbls.a -lsec ExtraLibraries
+  STD_CPP_DEFINES = -DSYSV  -DBLS
+#endif
+
+
+
+/**************************************************************************
+ *
+ *  Extra things for the Kerberos/AFS version (dtlogin.krb)
+ *
+ **************************************************************************/
+
+#ifdef USE_KRB
+
+     AFSSUBDIRS = afs
+
+      KRBLIBSRC = $(LIBSRC)/krb
+      DEPKRBLIB = $(KRBLIBSRC)/libkrb.a
+         KRBLIB = $(DEPKRBLIB)
+
+      DESLIBSRC = $(LIBSRC)/des
+      DEPDESLIB = $(DESLIBSRC)/libdes.a
+         DESLIB = $(DEPDESLIB)
+
+  KRBINCLUDESRC = $(KRBLIBSRC)/include
+      AFSLIBSRC = ./afs
+  AFSINCLUDESRC = $(AFSLIBSRC)
+ EXTRA_INCLUDES = -I$(KRBINCLUDESRC) -I$(AFSINCLUDESRC)
+  EXTRA_DEFINES = -D__KERBEROS -D__AFS
+
+LOCAL_LIBRARIES1 = $(BASE_LIBS1)  \
+                   $(KRBLIB) \
+		   $(IAFSYSLIB) \
+                   $(AFSLIBSRC)/libafsutil.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/libdes.a
+
+LOCAL_LIBRARIES2 = $(BASE_LIBS2) \
+                   $(KRBLIB) \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/libkauth.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/libprot.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/libubik.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/libauth.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/librxkad.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/libsys.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/libdes.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/librx.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/liblwp.a \
+                   $(AFSLIBSRC)/$(VENDOR)/$(HARDWARE)/libcom_err.a \
+                   $(AFSLIBSRC)/libafsutil.a \
+                   -lBSD
+#endif
+
+
+
+/**************************************************************************
+ *
+ *  Extra things for the Passwd Etc. version (dtlogin.rgy)
+ *
+ **************************************************************************/
+
+#ifdef USE_RGY
+     EXTRA_INCLUDES = -I$(RGYINCLUDESRC)
+      EXTRA_DEFINES = -D__PASSWD_ETC +e
+    EXTRA_LIBRARIES = $(RGYLIB) $(NCKLIB) -lndbm -lBSD ExtraLibraries
+#endif
+
+
+
+/**************************************************************************
+ *
+ *  Extra things for Dtge 
+ *
+ *    HIDDEN_SYMBOLS1 = dtlogin hidden symbols
+ *    HIDDEN_SYMBOLS2 = dtgreet hidden symbols
+ *
+ **************************************************************************/
+
+#ifdef HPArchitecture
+#  ifdef __hp9000s300
+
+      HIDDEN_SYMBOLS1 = -h _main -h _BecomeDaemon -h _GetHourGlass \
+                        -h _Verify
+      HIDDEN_SYMBOLS2 = -h _main -h _LogError  -h _PingServer
+
+#  else
+
+      HIDDEN_SYMBOLS1 = -h main -h BecomeDaemon -h GetHourGlass \
+                        -h Verify 
+      HIDDEN_SYMBOLS2 = -h main -h LogError  -h PingServer
+
+#  endif
+#endif
+
+
+
+/**************************************************************************
+ *
+ *  Rules
+ *
+ **************************************************************************/
+
+#if defined(USE_KRB) || defined(USE_RGY)
+includes::
+	@for i in $(SRCS1) $(SRCS2) $(HEADERS); do \
+	$(RM) $$i; \
+	echo "linking $(DTLOGINSRC)/$$i to $$i";\
+	ln -f -s $(DTLOGINSRC)/$$i .; \
+	done
+#endif
+
+
+ComplexProgramTarget_1($(PROG1),$(LOCAL_LIBRARIES1), $(LOGINLDOPTIONS))
+ComplexProgramTarget_2($(PROG2),$(LOCAL_LIBRARIES2), /**/)
+ComplexProgramTarget_3($(PROG3),$(LOCAL_LIBRARIES3), /**/)
+
+#ifdef __ppc
+/* Problem with "-O" in dtgreet ... wrong size login widget. */
+/* Override "-O" (xO2) with "-xO1". */
+vgutil.o:
+	$(RM) $@
+	$(CC) -c $(CFLAGS) -xO1 $(_NOOP_) $*.c
+#endif
+
+SpecialObjectRule(resource.o, $(ICONFIGFILES), $(EXTRA_RES_DEFINES) $(RES_DEFINES) $(CCINLIBS))
+#ifdef HPArchitecture
+#ifndef DEBUGTREE
+SpecialObjectRule(session.o,,+O1 $(CCINLIBS))
+#endif
+#endif
+
+#if !defined(USE_KRB) && !defined(USE_RGY)
+
+LOCAL_CPP_DEFINES = -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP) \
+                    -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
+                    -DCDE_LOGFILES_TOP=$(CDE_LOGFILES_TOP)
+
+#endif /* USE_KRB && USE_RGY */
+
+#if InstallXdmConfig 
+MakeDirectories(install,$(XDMDIR))
+#endif
+
+/*
+ * Don't install; let people read the instructions about putting in the
+ * abort-display() resource:
+ */
+#ifdef comment
+InstallProgramWithFlags(xdmshell,$(XBINDIR), /**/)
+#endif
+
+#if !defined(USE_KRB) && !defined(USE_RGY)
+/***** For dtge make a client_OBJS.o using client_main.o ******/
+/***** This implies the existence of client_main.c       ******/
+# ifdef BuildHugeObject
+#  if defined (HPArchitecture) && ! defined (BLS)
+SpecialRelocatableTarget(dtlogin,$(HIDDEN_SYMBOLS1),$(OBJS1))
+SpecialRelocatableTarget(dtgreet,$(HIDDEN_SYMBOLS2),$(OBJS2))
+#  endif
+# endif
+#endif

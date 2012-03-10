@@ -1,0 +1,1514 @@
+<!-- $XConsortium: ch15.sgm /main/2 1996/12/17 06:28:49 cde-hit $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.FACol.div.1">
+<Title Id="SAG.FACol.mkr.1">アプリケーションのリソース、フォント、カラーの処理</Title>
+<Para>
+スタイル・マネージャを使用するか、追加のフォントやカラーのリソースをカスタマイズすることによって、ディスプレイに対していろいろなカラーやフォントを選択することができます。この章では、フォントとカラーのリソースをカスタマイズする方法について説明します。
+</Para>
+<Para>
+また、この章では、デスクトップ・テキスト・エディタ (<Command>dtpad</Command>) やメール・プログラム (<Command>dtmail</Command>) などの <Command>DtEditor</Command> ウィジェット・アプリケーションのスタイル変換方法、これらの変換と競合する <Command>DtEditor</Command> ウィジェット・アプリケーション・メニュー・アクセラレータに代わるものを指定する方法についても説明します。
+<IndexTerm><Primary>UNIX のキー割り当て</Primary></IndexTerm>
+</Para>
+<InformalTable Id="SAG.FACol.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Setting Application Resources256'--><XRef Role="JumpText" Linkend="SAG.FACol.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Defining UNIX Bindings257'--><XRef Role="JumpText" Linkend="SAG.FACol.div.6"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Administering Fonts261'--><XRef Role="JumpText" Linkend="SAG.FACol.div.10"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Administering Colors265'--><XRef Role="JumpText" Linkend="SAG.FACol.div.18"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Setting Shadow Thicknesses for Application Windows273'--><XRef Role="JumpText" Linkend="SAG.FACol.div.30"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>.</Para>
+<Sect1 Id="SAG.FACol.div.2">
+<Title Id="SAG.FACol.mkr.2">アプリケーション・リソースの設定<IndexTerm><Primary>アプリケーション・リソース、「リソース」を参照してください&lt;$nopage></Primary></IndexTerm><IndexTerm><Primary>リソース</Primary><Secondary>設定</Secondary></IndexTerm></Title>
+<Para>
+アプリケーションはリソースを使用して、外観と動作を設定します。たとえば、スタイル・マネージャ (<ComputerOutput>dtstyle</ComputerOutput>) が提供するリソースにより、カラー・パレットに関する情報が入っているファイルをシステムが検索する場所を指定できます。
+</Para>
+<ProgramListing>dtstyle*paletteDirectories: /usr/dt/palettes/C \ <Emphasis>HomeDirectory</Emphasis>/.dt/palettes</ProgramListing>
+<Para>
+デスクトップ・アプリケーションの app-default ファイルは、<Filename>/usr/dt/app-defaults/</Filename><Symbol Role="Variable">language</Symbol> ディレクトリにあります。
+<IndexTerm><Primary>リソース</Primary><Secondary>app-defaults</Secondary></IndexTerm><IndexTerm><Primary>app-defaults</Primary><Secondary>デスクトップ・アプリケーション</Secondary></IndexTerm>
+</Para>
+<Sect2 Id="SAG.FACol.div.3" Role="Procedure">
+<Title>システム共通リソースを設定するには<IndexTerm><Primary>リソース</Primary><Secondary>システム共通</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+リソースをファイル <Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/<IndexTerm><Primary>sys.resources ファイル</Primary></IndexTerm><IndexTerm><Primary>Ｘリソース、「リソース」を参照してください&lt;$nopage></Primary></IndexTerm>sys.resources</Filename> に追加します（ファイルを作成しなければならない場合もあります）。
+</Para>
+<Para>
+たとえば、<Filename>/etc/dt/config/C/sys.resources</Filename> に次のように指定します。
+</Para>
+<programlisting>AnApplication*resource: <Symbol Role="Variable">value</Symbol></programlisting>
+<Para>
+この場合、リソース <Filename>AnApplication*resource</Filename> が次のログイン時に各ユーザの RESOURCE_MANAGER 属性に設定されます。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.4" Role="Procedure">
+<Title>個人用リソースを設定するには<IndexTerm><Primary>リソース</Primary><Secondary>個人用</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+リソースをファイル <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> に追加します。
+<IndexTerm><Primary>.Xdefaults ファイル [Xdefaults file]</Primary></IndexTerm>
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[デスクトップツール]アプリケーション・グループにある[リソースの再読込み]をダブルクリックします。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.5">
+<Title>デスクトップがリソースを読み込む方法</Title>
+<Para>
+リソースは、セッション・マネージャによってセッションの起動時に読み込まれます。セッション・マネージャがリソースを RESOURCE_MANAGER に読み込む方法の詳細については、
+<!--Original XRef content: '&xd2;Loading the Session Resources&xd3; on page&numsp;29'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.SesMg.mkr.7"> を参照してください。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FACol.div.6">
+<Title Id="SAG.FACol.mkr.3">UNIX 割り当ての定義<IndexTerm><Primary>UNIX キー割り当て</Primary></IndexTerm><IndexTerm><Primary>EMACS スタイル変換</Primary></IndexTerm><IndexTerm><Primary>DtEditor、〜のスタイル変換</Primary></IndexTerm></Title>
+<Para>
+デフォルトでは UNIX 割り当ては可能ではありません。
+</Para>
+<Sect2 Id="SAG.FACol.div.7" Role="Procedure">
+<Title>EMACS スタイル変換を指定するには<IndexTerm><Primary>EMACS 変換</Primary></IndexTerm></Title>
+<Para>
+次のように指定します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+デスクトップのテキスト (<Command>dtpad</Command>) やメール・プログラム (<Command>dtmail</Command>) などの <Command>DtEditor</Command> ウィジェット・アプリケーションの EMACS スタイル変換
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+これらの変換と競合する <Command>DtEditor</Command> ウィジェット・アプリケーション・メニュー・アクセラレータに代わるもの
+</Para>
+</ListItem>
+</ItemizedList>
+<OrderedList>
+<ListItem>
+<Para>
+次の行を <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> ファイルに追加します。
+</Para>
+<Para><Command>#include &ldquo;/usr/dt/app-defaults/</Command><Symbol Role="Variable">language</Symbol><Filename>/UNIXbindings&rdquo;</Filename></Para>
+<Para>
+<Symbol Role="Variable">language</Symbol> は、LANG 環境変数の値です。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+セッションを再起動します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.8" Role="Procedure">
+<Title>EMACS スタイル変換を変更するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+ファイル <Filename>/usr/dt/app-defaults/</Filename><Symbol Role="Variable">language</Symbol><Filename>/UNIXbindings</Filename> の内容を <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.Xdefaults</Filename> に挿入します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>.Xdefaults</Filename> ファイルで割り当てを編集します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+編集を終了したらセッションを再起動します。
+</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.9">
+<Title>UNIXbindings ファイルが提供する UNIX 割り当て<IndexTerm><Primary>UNIXbindings ファイル</Primary></IndexTerm></Title>
+<Para>
+<Filename>/usr/dt/app-defaults/</Filename><Symbol Role="Variable">language</Symbol><Filename>/UNIXbindings</Filename> ファイルは、次の割り当てを行います。
+</Para>
+<Note>
+<Para>
+UNIX 割り当てが可能なときには[Delete]キーは直前の文字を削除し、[Shift]+[Delete]キーは次の割り当てを行います。すべてのベンダがこれらのキーを提供しているわけではないことに注意してください。別のキー割り当てについては、各ベンダのマニュアルを参照してください。
+</Para>
+</Note>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<!--Original XRef content: 'Table&numsp;15&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.1"> は、<Command>dtpad</Command> が無効にする UNIX 割り当てと競合するメニュー・アクセラレータとアクセラレータ・テキストのリストです。
+</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="SAG.FACol.tbl.1" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.4"><Command>dtpad</Command> が無効にするメニューするアクセラレータとアクセラレータ・テキスト</Title>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="4.09in">
+<colspec colwidth="1.54in">
+<THead>
+<Row>
+<Entry><Para><Literal>メニュー・アクセラレータとアクセラレータ・テキスト</Literal></Para></Entry>
+<Entry><Para><Literal>無効キー</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>Dtpad*fileMenu.print.acceleratorText:</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*fileMenu.print.accelerator:</Filename></Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.undo.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Ctrl+_</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.undo.accelerator:</Filename></Para></Entry>
+<Entry><Para>Ctrl&lt;Key>_</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.paste.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Shift+Insert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.paste.accelerator:</Filename></Para></Entry>
+<Entry><Para>Shift&lt;Key>osfInsert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.selectAll.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Ctrl+/</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtpad*editMenu.selectAll.accelerator:</Filename></Para></Entry>
+<Entry><Para>Ctrl&lt;Key>/</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<!--Original XRef content: 'Table&numsp;15&hyphen;2'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.2"> は、UNIX 割り当てと競合するメニュー・アクセラレータとアクセラレータ・テキストの <Command>dtmail</Command> メール作成ウィンドウの無効キーのリストです。
+</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="SAG.FACol.tbl.2" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.5"><Command>dtmail</Command> メール作成ウィンドウの無効キー</Title>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="6.04in">
+<colspec colwidth="1.54in">
+<THead>
+<Row>
+<Entry><Para><Literal>メニュー・アクセラレータとアクセラレータ・テキスト</Literal></Para></Entry>
+<Entry><Para><Literal>無効キー</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Undo.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Ctrl+_</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Undo.accelerator:</Filename></Para></Entry>
+<Entry><Para>Ctrl&lt;Key>_</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Paste.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Shift+Insert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Paste.accelerator:</Filename></Para></Entry>
+<Entry><Para>Shift&lt;Key>osfInsert</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Find/Change.acceleratorText:</Filename></Para></Entry>
+<Entry><Para>Ctrl+S</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>Dtmail*ComposeDialog*menubar*Edit.Find/Change.accelerator:</Filename></Para></Entry>
+<Entry><Para>Ctrl&lt;Key>s</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+次の変換は、(GNU スタイル) EMACS コントロールとメタ・キー割り当て、および追加の割り当てを提供します。適切な場合は、[Shift]キーを通常の割り当てと組み合わせて使用し、操作方向を逆にすることもできます。たとえば、[Ctrl]+[F]キーは通常１文字前に移動するので、[Ctrl]+[Shift]+[F]キーは１文字後にカーソルを移動します。
+</Para>
+<Para>
+追加の割り当ては次のとおりです。
+</Para>
+<VariableList Role="LabList">
+<VarListEntry>
+<Term>Ctrl+comma</Term>
+<ListItem>
+<Para>1 語後ろ (backward-word)</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+Shift+comma</Term>
+<ListItem>
+<Para>1 語前 (forward-word)</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+period</Term>
+<ListItem>
+<Para>1 語前 (forward-word)</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+Shift+period</Term>
+<ListItem>
+<Para>1 語後ろ (backward-word)</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+Return</Term>
+<ListItem>
+<Para>ファイルの最後 (end-of-file)</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Ctrl+Shift+Return</Term>
+<ListItem>
+<Para>ファイルの最初 (beginning-of-file)</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>
+GNU EMACS は、[Delete]キーに対して、delete-next-character() ではなく delete-previous-character() を割り当てます。[Meta]+[F]キーは通常は[ファイル]メニューのニーモニックのため、forward-word() への割り当ては無視されます。forward-word の割り当てのうち、ひとつを使用します（たとえば、[Ctrl]+[period]）。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<!--Original XRef content: 'Table&numsp;15&hyphen;3'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.3"> は、<Filename>DtEditor.text</Filename> 変換のリストです。</Para>
+</ListItem>
+</ItemizedList>
+<Table Id="SAG.FACol.tbl.3" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.6"><Filename>DtEditor.text</Filename> 変換</Title>
+<TGroup Cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.38in">
+<colspec colwidth="1.32in">
+<colspec colwidth="2.13in">
+<THead>
+<Row>
+<Entry><Para><Literal>修飾キー</literal></Para></Entry>
+<Entry><Para><Literal>キー</Literal></Para></Entry>
+<Entry><Para><Literal>アクション・ルーチン</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>a:</Para></Entry>
+<Entry><Para>beginning-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>a:</Para></Entry>
+<Entry><Para>end-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>backward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>forward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>backward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m ~s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m s</Para></Entry>
+<Entry><Para>&lt;Key>b:</Para></Entry>
+<Entry><Para>forward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>d:</Para></Entry>
+<Entry><Para>delete-next-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>d:</Para></Entry>
+<Entry><Para>delete-previous-
+character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m ~s</Para></Entry>
+<Entry><Para>&lt;Key>d:</Para></Entry>
+<Entry><Para>kill-next-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m s</Para></Entry>
+<Entry><Para>&lt;Key>d:</Para></Entry>
+<Entry><Para>kill-previous-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>e:</Para></Entry>
+<Entry><Para>end-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>e:</Para></Entry>
+<Entry><Para>beginning-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>f:</Para></Entry>
+<Entry><Para>forward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>f:</Para></Entry>
+<Entry><Para>backward-character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m ~s</Para></Entry>
+<Entry><Para>&lt;Key>f:</Para></Entry>
+<Entry><Para>forward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m s</Para></Entry>
+<Entry><Para>&lt;Key>f:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>j:</Para></Entry>
+<Entry><Para>newline-and-indent()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>k:</Para></Entry>
+<Entry><Para>kill-to-end-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>k:</Para></Entry>
+<Entry><Para>kill-to-start-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>l:</Para></Entry>
+<Entry><Para>redraw-display()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>m:</Para></Entry>
+<Entry><Para>newline()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>n:</Para></Entry>
+<Entry><Para>process-up()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>n:</Para></Entry>
+<Entry><Para>process-down()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>o:</Para></Entry>
+<Entry><Para>newline-and-backup()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>p:</Para></Entry>
+<Entry><Para>process-up()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>p:</Para></Entry>
+<Entry><Para>process-down()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>u:</Para></Entry>
+<Entry><Para>kill-to-start-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>u:</Para></Entry>
+<Entry><Para>kill-to-end-of-line()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>v:</Para></Entry>
+<Entry><Para>next-page()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>v:</Para></Entry>
+<Entry><Para>previous-page()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m ~s</Para></Entry>
+<Entry><Para>&lt;Key>v:</Para></Entry>
+<Entry><Para>previous-page()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m s</Para></Entry>
+<Entry><Para>&lt;Key>v:</Para></Entry>
+<Entry><Para>next-page()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c</Para></Entry>
+<Entry><Para>&lt;Key>w:</Para></Entry>
+<Entry><Para>kill-selection()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>y:</Para></Entry>
+<Entry><Para>unkill()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m</Para></Entry>
+<Entry><Para>&lt;Key>]:</Para></Entry>
+<Entry><Para>forward-paragraph()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m</Para></Entry>
+<Entry><Para>&lt;Key>[:</Para></Entry>
+<Entry><Para>backward-paragraph()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>comma:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>comma:</Para></Entry>
+<Entry><Para>forward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m</Para></Entry>
+<Entry><Para>&lt;Key>\\&lt;:</Para></Entry>
+<Entry><Para>beginning-of-file()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>period:</Para></Entry>
+<Entry><Para>forward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>period:</Para></Entry>
+<Entry><Para>backward-word()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>m</Para></Entry>
+<Entry><Para>&lt;Key>\\>:</Para></Entry>
+<Entry><Para>end-of-file()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c ~s</Para></Entry>
+<Entry><Para>&lt;Key>Return:</Para></Entry>
+<Entry><Para>end-of-file()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>c s</Para></Entry>
+<Entry><Para>&lt;Key>Return:</Para></Entry>
+<Entry><Para>beginning-of-file()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>~c ~s ~m ~a</Para></Entry>
+<Entry><Para>&lt;Key>osfDelete:</Para></Entry>
+<Entry><Para>delete-previous-
+character()\n\</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>~c s ~m ~a</Para></Entry>
+<Entry><Para>&lt;Key>osfDelete:</Para></Entry>
+<Entry><Para>delete-next-character()</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FACol.div.10">
+<Title Id="SAG.FACol.mkr.7">フォントの管理<IndexTerm><Primary>2</Primary></IndexTerm><IndexTerm><Primary>フォント</Primary><Secondary>管理</Secondary></IndexTerm></Title>
+<Para>
+スタイル・マネージャの[フォント]ダイアログ・ボックスを使用して、すべてのアプリケーションに対して希望のフォント・サイズを選択できます。コマンド行でフォントを指定するか、次のことを行ってリソースを使用することもできます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+個々のアプリケーションにフォント・リソースを設定する
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+[フォント]ダイアログ・ボックスによって異なるフォントを使用するように割り当てる
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>
+<Symbol Role="Variable">フォント</Symbol> は、テキスト文字列が印刷または表示される型のスタイルです。デスクトップには、異なるスタイルやサイズのさまざまな種類のフォントが入っています。
+</Para>
+<Para>
+<Emphasis>ビットマップ・フォント</Emphasis>
+<IndexTerm><Primary>フォント</Primary><Secondary>ビットマップの</Secondary></IndexTerm><IndexTerm><Primary>フォント</Primary><Secondary>ビットマップの</Secondary></IndexTerm>
+は、ドットのマトリックスから成ります。（デフォルトでは、スタイル・マネージャはビットマップ・フォントだけを構成します。）フォントは、完全にひとつのファイルに格納されます。多くのファイルには、いろいろなサイズ、スラント、線の太さが入っている必要があります。
+</Para>
+<Para>
+フォントは、リソースの値およびコマンドのパラメータとして指定されます。XLFD 名（Ｘ論理フォント記述名）は、希望のフォントを要求するための方法です。システムは、指定された記述ともっともよく一致するフォントを探し出します。
+<IndexTerm><Primary>フォント</Primary><Secondary>XLFD (Ｘ論理フォント記述）</Secondary></IndexTerm><IndexTerm><Primary>XLFD（Ｘ論理フォント記述）</Primary></IndexTerm>
+</Para>
+<Sect2 Id="SAG.FACol.div.11">
+<Title>デスクトップ・フォント・リソースの設定<IndexTerm><Primary>リソース</Primary><Secondary>フォント</Secondary></IndexTerm><IndexTerm><Primary>フォント</Primary><Secondary>リソース、設定</Secondary></IndexTerm></Title>
+<Para>
+スタイル・マネージャの[フォント]ダイアログ・ボックスにより、テキストのエントリをラベルなどに対してフォントを（７種類のサイズまで）設定できます。
+</Para>
+<Sect3 Id="SAG.FACol.div.12">
+<Title>[フォント]ダイアログ・ボックスが設定するリソース<IndexTerm><Primary>フォント]ダイアログ・ボックス</Primary></IndexTerm></Title>
+<Para>
+フォントが選択されると、次のリソースが RESOURCE_MANAGER 属性に書き込まれます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+<ComputerOutput>SystemFont</ComputerOutput> は、メニュー・バー、メニュー区画、プッシュ・ボタン、トグル・ボタン、ラベルなどのシステム領域に使用します。次のリソースは <ComputerOutput>SystemFont</ComputerOutput> によって設定されます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="106*">
+<colspec colwidth="422*">
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput>*FontList</ComputerOutput></Para></Entry>
+<Entry><Para>
+デスクトップのクライアントと、Motif ツールキットを使用して作成されたその他のクライアントのシステム領域に表示されます。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>
+<Command>UserFont</Command> は、ウィンドウに入力するテキストに使用します。次のリソースが <ComputerOutput>UserFont</ComputerOutput> によって設定されます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="205*">
+<colspec colwidth="323*">
+<TBody>
+<Row>
+<Entry><Para><Filename>*Font</Filename><IndexTerm><Primary>Font リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Ｘアプリケーションの以前のバージョンをサポートします。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>*FontSet</Filename><IndexTerm><Primary>FontSet リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>一次設定です。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>*XmText*FontList</ComputerOutput><IndexTerm><Primary>XmText*FontList リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>テキスト・エントリ・ボックスに表示されます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>*XmTextField*FontList</ComputerOutput><IndexTerm><Primary>XmTextField*FontList リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>テキスト・エントリ・ボックスに表示されます。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.13">
+<Title>[フォント]ダイアログ・ボックスが使用するリソース</Title>
+<Para>
+[フォント]ダイアログ・ボックスでの各選択に対して使用されるフォントは、<Filename>/usr/dt/app-defaults/Dtstyle</Filename> リソース・ファイルで指定します。最高７種類までのサイズを指定できます。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="146*">
+<colspec colwidth="382*">
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput>NumFonts</ComputerOutput><IndexTerm><Primary>NumFonts リソース</Primary></IndexTerm><IndexTerm><Primary>フォント</Primary><Secondary>スタイル・マネージャにおける〜の数</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+[フォント]ダイアログ・ボックスにあるフォント・サイズの数
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>SystemFont[1-7]</ComputerOutput><IndexTerm><Primary>フォント</Primary><Secondary>システム、スタイル・マネージャの</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+<ComputerOutput>SystemFont</ComputerOutput> の[フォント]ダイアログ・ボックス選択に特定フォントを割り当てる、最高７種類までのリソース
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>UserFont[1-7]</ComputerOutput><IndexTerm><Primary>フォント</Primary><Secondary>ユーザ、スタイル・マネージャの</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>
+<ComputerOutput>UserFont</ComputerOutput> の[フォント]ダイアログ・ボックス選択に特定フォントを割り当てる、最高７種類までのリソース
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Note>
+<Para>
+これらのリソースのデフォルト・フォントは、さまざまなディスプレイで読み込み可能なように設定されています。アプリケーション用の特定フォントがほしい場合は、これらのデスクトップ・フォントを変更するよりもアプリケーションのフォント・リソースでフォントを設定します。
+</Para>
+</Note>
+<Para>
+アプリケーション・フォントの詳細については、<Command>DtStdAppFontNames</Command> (<Filename>5</Filename>) と <Command>DtStdInterfaceFontNames</Command> (<Filename>5</Filename>) のマニュアル・ページを参照してください。
+</Para>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.14" Role="Procedure">
+<Title>使用可能なフォントを表示するには<IndexTerm><Primary>フォント</Primary><Secondary>使用可能な〜の表示</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>
+次の行を入力します。
+</Para>
+<programlisting>xlsfonts [-<Symbol Role="Variable">options</Symbol>] [-fn <Symbol Role="Variable">pattern</Symbol>]
+<IndexTerm><Primary>xlsfonts コマンド</Primary></IndexTerm></programlisting>
+<Para>
+システムで使用できる XLFD 名とフォント別名が表示されます。ビットマップ・フォントは、14個の XLFD フィールドの全部の値を示します。スケーラブル・タイプフェースは、 <Symbol Role="Variable">PixelSize</Symbol>、<Symbol Role="Variable">PointSize</Symbol>、<Symbol Role="Variable">ResolutionX</Symbol>、および <Symbol Role="Variable">ResolutionY</Symbol> の位置にあるゼロを示します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+特定フォントをチェックするには、<Command>xlsfonts</Command> のパターン一致機能を使用します。ワイルドカードを使用して、一致させるつもりがないパターンの一部を置き換えます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Command>xlsfonts</Command> が <Command>dt</Command> で始まるフォント名を表示しない場合は、フォント・パスにデスクトップ・フォントが入っていません。デスクトップ・フォントを使用可能なフォントに入れるには次のコマンドを入力します。
+</Para>
+<programlisting>xset +fp <Symbol Role="Variable">directory name</Symbol></programlisting>
+<Para>
+<Symbol Role="Variable">directory name</Symbol> は、デスクトップ・フォントが入っているディレクトリです。セッション起動によって設定されるデフォルトの位置は、<Filename>/usr/dt/config/xfonts/</Filename><Symbol Role="Variable">language</Symbol> です。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+追加情報については、次を参照してください。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>xset</Command> と <Filename MoreInfo="RefEntry">xlsfonts</Filename> のマニュアル・ページには、使用可能なオプションのリストがあります。</Para>
+</ListItem>
+<ListItem>
+<Para><Emphasis>Using the X Window System</Emphasis> では、フォント別名と <Command>xset</Command> クライアントについて説明しています。</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.15" Role="Procedure">
+<Title>コマンド行でフォントを指定するには</Title>
+<OrderedList>
+<ListItem>
+<Para>
+<Filename>-xrm</Filename> コマンド行オプションを使用して、特定クライアントのフォント・リソースを指定します。たとえば、次のようになります。
+</Para>
+</ListItem>
+</OrderedList>
+<ProgramListing><Symbol Role="Variable">application name</Symbol> -xrm &ldquo;*bitstream-charter-medium-r-normal-8-88-75-75-p-45-iso8859-1&rdquo;</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.16">
+<Title>Ｘ論理フォント記述 (XLFD)<IndexTerm><Primary>フォント</Primary><Secondary>Ｘ論理フォント記述</Secondary></IndexTerm></Title>
+<Para>
+フォントは、ダッシュ (-) で区切られた14個の異なる特性をリストすることによって指定されます。これは、Ｘ論理フォント記述 (XLFD) と呼ばれます。ある場合には、リストにある属性はワイルドカード「* 」に、属性内の文字はワイルドカード「?」にそれぞれ置き換えることができます。
+<!--Original XRef content: 'Table&numsp;15&hyphen;4'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.4"> は、フォント属性文字列指定のリストです。
+</Para>
+<Para>
+属性文字列指定の形式は次のとおりです。
+<IndexTerm><Primary>フォント</Primary><Secondary>属性文字列の指定</Secondary></IndexTerm>
+</Para>
+<Para>&ldquo;-<Symbol Role="Variable">Foundry</Symbol>-<Symbol Role="Variable">FamilyName</Symbol>-<Symbol Role="Variable">WeightName</Symbol>-
+<?Pub _newline><Symbol Role="Variable">Slant</Symbol>-<Symbol Role="Variable">SetwidthName</Symbol>-<Symbol Role="Variable">AddStyleName</Symbol>-<Symbol Role="Variable">PixelSize</Symbol>-
+<?Pub _newline><Symbol Role="Variable">PointSize</Symbol>-<Symbol Role="Variable">ResolutionX</Symbol>-<Symbol Role="Variable">ResolutionY</Symbol>-<Symbol Role="Variable">Spacing</Symbol>-
+<?Pub _newline><Symbol Role="Variable">AverageWidth</Symbol>-<Symbol Role="Variable">CharSetRegistry</Symbol>-<Symbol Role="Variable">CharSetCoding</Symbol>&rdquo;</Para>
+<Table Id="SAG.FACol.tbl.4" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.8">フォント属性文字列の指定</Title>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.65in">
+<colspec colwidth="3.98in">
+<THead>
+<Row>
+<Entry><Para><Literal>属性文字列</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">Foundry</Symbol></Para></Entry>
+<Entry><Para>フォント作成者を識別する文字列</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">FamilyName</Symbol></Para></Entry>
+<Entry><Para>フォントの商標登録名を識別する文字列</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">WeightName</Symbol></Para></Entry>
+<Entry><Para>ボールドなどのフォントの相対的な線の太さを指定する文字列</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Slant</Para></Entry>
+<Entry><Para>スラントの方向を記述するコード</Para><Para>R (ローマン&ndash;スラントなし)</Para><Para>I (イタリック&ndash;右スラント)</Para><Para>O (オブリック&ndash;右スラント)</Para><Para>RI (リバース・イタリック&ndash;左スラント)</Para><Para>RO (リバース・オブリック&ndash;左スラント)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">SetwidthName</Symbol></Para></Entry>
+<Entry><Para>圧縮または拡張などの幅について記述する文字列</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">AddStyleName</Symbol></Para></Entry>
+<Entry><Para>フォントを識別するためだけに必要な追加情報を提供する文字列</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">PixelSize</Symbol></Para></Entry>
+<Entry><Para>全角のＭが入る正方形（エム・スクエア)のサイズをピクセル単位で指定する整数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">PointSize</Symbol></Para></Entry>
+<Entry><Para>全角のＭが入る正方形（エム・スクエア）のサイズを0.1ポイント単位で指定する文字列</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">ResolutionX</Symbol></Para></Entry>
+<Entry><Para>水平解像度をピクセル単位で指定する整数pixels</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">ResolutionY</Symbol></Para></Entry>
+<Entry><Para>垂直解像度をピクセル単位で指定する整数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">Spacing</Symbol></Para></Entry>
+<Entry><Para>ユニット間の間隔を指定するコード</Para><Para><ComputerOutput>M</ComputerOutput> (モノスペース--固定幅)</Para><Para><ComputerOutput>P</ComputerOutput> (プロポーショナル・スペース--可変幅)</Para><Para><ComputerOutput>C</ComputerOutput> (キャラクタ・セル)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">AverageWidth</Symbol></Para></Entry>
+<Entry><Para>1/10ピクセル単位で平均幅を指定する整数</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">CharSetRegistry</Symbol></Para></Entry>
+<Entry><Para>フォントのエンコーディングを登録した登録権限を識別する文字列</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">CharSetEncoding</Symbol></Para></Entry>
+<Entry><Para>指定した登録の文字セットを識別する文字列</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Sect3 Id="SAG.FACol.div.17">
+<Title>例</Title>
+<Para>
+次のＸ論理フォント記述名は、ISO8859-1 標準エンコーディングをサポートする Bitstream によって作成された <ComputerOutput>charter</ComputerOutput> という名前のフォントについて説明します。
+</Para>
+<ProgramListing>-bitstream-charter-medium-r-normal--8-80-75-75-p-45-iso8859-1</ProgramListing>
+<Para>
+これは、ミディアム・ウェイトで、特別にはスラントしておらず、通常の幅です。フォントはプロポーショナルで、そのサイズは8ピクセルまたは8.0ポイントの全角のＭが入る（エム・スクエア）です。水平解像度と垂直解像度は、両方とも75ピクセルです。文字幅の平均は45 1/10ピクセルまたは4.5ピクセルです。
+</Para>
+<Para>
+これらの文字列の一部は、ワイルドカードで置き換えることができます。システムは指定した部分と一致する最初に見つけたフォントを使用します。
+</Para>
+<Para>
+8ピクセルの <ComputerOutput>charter</ComputerOutput> フォントを希望する場合は、次のように指定します。
+</Para>
+<ProgramListing>*-charter-*-*-*-*-8-*</ProgramListing>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FACol.div.18">
+<Title Id="SAG.FACol.mkr.9">カラーの管理<IndexTerm><Primary>カラー</Primary><Secondary>管理</Secondary></IndexTerm></Title>
+<Para>
+この節では次のことを説明します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>スタイル・マネージャがディスプレイ・カラーを設定する方法</Para>
+</ListItem>
+<ListItem>
+<Para>デスクトップ・カラーの使用を管理するためにスタイル・マネージャが使用するリソース</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.FACol.div.19">
+<Title>カラー・パレット<IndexTerm><Primary>パレット</Primary></IndexTerm><IndexTerm><Primary>カラーパレット</Primary></IndexTerm><IndexTerm><Primary>カラー</Primary><Secondary>パレット</Secondary></IndexTerm></Title>
+<Para>
+パレットは、カラー・セットのグループから成ります。現在のパレットのカラー・セットは、スタイル・マネージャの[カラー]ダイアログ・ボックスに表示されます。
+</Para>
+<Para>
+各パレットにひとつのファイルが存在します。<ComputerOutput>paletteDirectories</ComputerOutput> リソースは、パレット・ファイルが入っているディレクトリを指定します。デフォルトでは、このリソースには次のものが入っています。
+<IndexTerm><Primary>カラー・セット</Primary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>組み込みパレット: <Filename>/usr/dt/palettes</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>システム共通パレット: <Filename>/etc/dt/palettes</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>個人用パレット: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/palettes</Filename></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.20">
+<Title>カラー・セット<IndexTerm><Primary>カラー・セット</Primary></IndexTerm><IndexTerm><Primary>カラー</Primary><Secondary>カラーセット</Secondary></IndexTerm></Title>
+<Para>
+現在のパレットに設定されている各カラーは、スタイル・マネージャの[カラー]ダイアログ・ボックスにあるカラー・ボタンによって表されます。各カラーは、1から8までのカラー・セットIDによって識別します。
+</Para>
+<Figure>
+<Title>HIGH_COLOR のためのカラー・セットID値</Title>
+<Graphic Entityref="SAG.FACol.fig.1" Id="SAG.FACol.grph.1"></Graphic>
+</Figure>
+<Para>
+<IndexTerm><Primary>カラー</Primary><Secondary>リソース</Secondary></IndexTerm>
+各カラー・セットは、最高５色までのカラーで構成されます。各カラー・ボタンはカラー・セットのバックグラウンド・カラーを表示します。各カラー・セットにある５つのカラーは、次のディスプレイ・コンポーネント・リソースを表します。
+<IndexTerm><Primary>カラー</Primary><Secondary>カラー・セット</Secondary></IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm><Primary>foreground リソース</Primary>
+</IndexTerm>foreground</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アプリケーション・ウィンドウまたはウィンドウ枠のフォアグラウンドです。通常は黒か白です。一般的にウィンドウやタイトル内のテキストに使用します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm>
+<Primary>background リソース</Primary>
+</IndexTerm>background</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アプリケーション・ウィンドウまたはウィンドウ枠のバックグラウンドです。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm>
+<Primary>topShadowColor リソース</Primary>
+</IndexTerm>topShadowColor</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アプリケーション・コントロール（プッシュ・ボタンなど）とウィンドウ枠の上部と左部の射影のカラーです。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm>
+<Primary>bottomShadowColor リソース</Primary>
+</IndexTerm>bottomShadowColor</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アプリケーション・コントロールとウィンドウ枠の下部と右部の射影のカラーです。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput><IndexTerm>
+<Primary>selectColor リソース</Primary>
+</IndexTerm>selectColor</ComputerOutput></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>アクティブなトグルやボタンなど、特定コントロールのアクティブな状態を示すカラーです。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+各パレットが使用するカラー・セットの数は、<ComputerOutput>colorUse</ComputerOutput> リソースによって決まりますが、スタイル・マネージャの[使用する色の数]ダイアログ・ボックスを使用して設定することができます。
+</Para>
+<Sect3 Id="SAG.FACol.div.21">
+<Title>カラー値の設定<IndexTerm><Primary>カラー</Primary><Secondary>値</Secondary></IndexTerm></Title>
+<Para>
+スタイル・マネージャは、そのパレット・ファイルにカラー情報を書き込むときに
+<IndexTerm><Primary>RGB 値</Primary></IndexTerm> RGB 値を使用します。RGB 数の構文は次のとおりです。
+</Para>
+<ProgramListing>#<Symbol Role="Variable">RedGreenBlue</Symbol></ProgramListing>
+<Para>
+<Symbol Role="Variable">Red</Symbol>、<Symbol Role="Variable">Green</Symbol>、および <Symbol Role="Variable">Blue</Symbol> はそれぞれ1桁から4桁の16進数で、使用するカラーの量を示します。カラーのそれぞれの桁数は同じでなければなりません。したがって、有効カラー値は、3、6、9、12桁のいずれかの16進数から成ります。
+</Para>
+<Para>
+たとえば、白は次のどの方法でも指定することができます。
+</Para>
+<programlisting>#fff
+#ffffff
+#fffffffff
+#fffffffffffff
+<IndexTerm><Primary>スタイル・マネージャ</Primary><Secondary>カラー指定のための使用</Secondary></IndexTerm><IndexTerm><Primary>RGB カラー値</Primary></IndexTerm>
+</ProgramListing>
+<Para>
+カラー・リソースを直接設定する場合、カラー名か RGB 値のどちらかを使用することができます。ファイル <Filename>/usr/lib/X11/
+<IndexTerm><Primary>rgb.txt ファイル</Primary></IndexTerm>
+rgb.txt</Filename> には、名前が付いたカラーのすべてがリストされています。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.22">
+<Title>カラー・セットをリソースにマップする方法<IndexTerm><Primary>カラー・セット</Primary><Secondary>ディスプレイ要素へのマッピング</Secondary></IndexTerm></Title>
+<Para>
+デスクトップはリソースを介してさまざまなディスプレイ要素にカラー・セットをマップし、次のような割り当てを行います。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="195*">
+<colspec colwidth="333*">
+<THead>
+<Row>
+<Entry><Para>リソース</Para></Entry>
+<Entry><Para>ディスプレイ要素</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput>activeColorSetId</ComputerOutput><IndexTerm><Primary>activeColorSetId リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>アクティブなウィンドウ枠のカラー<IndexTerm><Primary>カラー</Primary><Secondary>アクティブなウィンドウ枠</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>inactiveColorSetId</ComputerOutput><IndexTerm><Primary>inactiveFrameColorId リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>アクティブでないウィンドウ枠のカラー<IndexTerm><Primary>カラー</Primary><Secondary>アクティブでないウィンドウ枠のカラー</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>textColorSetId</ComputerOutput><IndexTerm><Primary>textColorSetId リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>テキスト・エントリ領域<IndexTerm><Primary>カラー</Primary><Secondary>テキスト・エントリ領域</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>primaryColorSetId</ComputerOutput><IndexTerm><Primary>primaryColorSetId リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>アプリケーションのメイン・バックグラウンド領域<IndexTerm><Primary>colors</Primary><Secondary>アプリケーション・ウィンドウ</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>secondaryColorSetId</ComputerOutput><IndexTerm><Primary>secondaryColorSetId リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>アプリケーションのメニュー・バー、メニュー、およびダイアログ・ボックス</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+これらのリソースは、カラー・セットIDを値として取ります。カラー・セットIDでディスプレイ要素に配色を指定すると、新しいパレットがスタイル・マネージャで選択されるときに要素を新しい配色へと動的に変更できます。
+</Para>
+<Para>
+個々のアプリケーションに対して、これらのリソースを使用できます。たとえば、次の行は、原色に8カラー・セットを使用することにより、すべての <Command>dtterm</Command> ウィンドウを視覚的にグループ化する方法を示します。
+</Para>
+<programlisting>dtterm*primaryColorSetId:  8
+</ProgramListing>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.23">
+<Title>デフォルトのカラー・セット割り当て<IndexTerm><Primary>カラー・セット</Primary><Secondary>デフォルト</Secondary></IndexTerm><IndexTerm><Primary>カラー</Primary><Secondary>デフォルト</Secondary></IndexTerm></Title>
+<Para>
+ディスプレイ要素に使用されるカラー・セットIDは、スタイル・マネージャのカラーの数の設定に対応します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+High color (8 カラー・セット)&mdash;スタイル・マネージャで[デスクトップにもっと多くの色数を割り当てる]を設定した場合
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="93*">
+<colspec colwidth="435*">
+<THead>
+<Row>
+<Entry><Para>カラー・セットID</Para></Entry>
+<Entry><Para>ディスプレイ要素</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>1</Para></Entry>
+<Entry><Para>アクティブなウィンドウ枠のカラー</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>2</Para></Entry>
+<Entry><Para>アクティブでないウィンドウ枠のカラー</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>3</Para></Entry>
+<Entry><Para>未使用（デフォルト）</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>4</Para></Entry>
+<Entry><Para>テキスト・エントリ領域</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>5</Para></Entry>
+<Entry><Para>アプリケーションのメイン・バックグラウンド領域</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>6</Para></Entry>
+<Entry><Para>アプリケーションのメニュー・バー、メニュー、およびダイアログ・ボックス</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>7</Para></Entry>
+<Entry><Para>デフォルトでは未使用</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>8</Para></Entry>
+<Entry><Para>フロントパネルのバックグラウンド</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>
+Medium color (4 カラー・セット)&mdash;スタイル・マネージャで[アプリケーションにもっと多くの色数を割り当てる]を設定した場合
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="93*">
+<colspec colwidth="435*">
+<THead>
+<Row>
+<Entry><Para>カラー・セットID</Para></Entry>
+<Entry><Para>ディスプレイ要素</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><ComputerOutput>1</ComputerOutput></Para></Entry>
+<Entry><Para>アクティブなウィンドウ枠のカラー</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>2</ComputerOutput></Para></Entry>
+<Entry><Para>アクティブでないウィンドウ枠のカラー</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>3</ComputerOutput></Para></Entry>
+<Entry><Para>アプリケーションとフロントパネルのバックグラウンド・カラー</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><ComputerOutput>4</ComputerOutput></Para></Entry>
+<Entry><Para>テキスト・エントリ領域</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+<ListItem>
+<Para>
+Low color (2 カラー・セット)&mdash;スタイル・マネージャで[アプリケーションに最大限度の色数を割り当てる]を設定した場合
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="93*">
+<colspec colwidth="435*">
+<THead>
+<Row>
+<Entry><Para>カラー・セットID</Para></Entry>
+<Entry><Para>ディスプレイ要素</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>1</Para></Entry>
+<Entry><Para>アクティブなウィンドウ枠、ワークスペース選択ボタン</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>2</Para></Entry>
+<Entry><Para>他のすべてのディスプレイ要素</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.24">
+<Title>スタイル・マネージャによるカラーのコントロール<IndexTerm><Primary>カラー</Primary><Secondary>コントロール、スタイル・マネージャによる</Secondary></IndexTerm></Title>
+<Para>
+スタイル・マネージャを介してデスクトップ・アプリケーションやその他の連携アプリケーションのカラーを動的に変更することができます。スタイル・マネージャが設定するフォアグラウンド・カラーとバックグラウンド・カラーは、非連携アプリケーションに対して使用可能です。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>
+スタイル・マネージャのカラー変更に反応するクライアントの場合、クライアントはデスクトップの Motif ライブラリを必ず使用してください。他のツールキットで作成されたクライアントは、スタイル・マネージャの変更に応じて動的にカラーを変更することはできません。これらのクライアントに対するカラーの変更は、クライアントが再起動されるまでは有効ではありません。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+クライアントに適用される特定のカラー・リソースは他にありません。これには、ユーザ
+指定のリソース、app-defaults、およびアプリケーションに組み込まれるリソースが含まれます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+クライアントは <Command><IndexTerm><Primary>primaryColorSetId リソース</Primary></IndexTerm>primaryColorSetId</Command> リソースと <Command><IndexTerm><Primary>secondaryColorSetId リソース</Primary></IndexTerm>secondaryColorSetId</Command> リソースを指定して、デスクトップ・パレット内の特定のカラーを使用することができます。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.FACol.div.25">
+<Title>スタイル・マネージャが使用するカラーの数<IndexTerm><Primary>カラー</Primary><Secondary>使用される数</Secondary></IndexTerm></Title>
+<Para>
+スタイル・マネージャが使用するカラーの数は、次のリソースの値に依存します。
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="155*">
+<colspec colwidth="373*">
+<TBody>
+<Row>
+<Entry><Para><Command>colorUse</Command><IndexTerm><Primary>colorUse リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>デスクトップが使用するカラーの数を設定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>shadowPixmaps</Command></Para></Entry>
+<Entry><Para>２つのシャドウ・カラーをピックスマップと置き換えるようにデスクトップに指示します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>foregroundColor</Command></Para></Entry>
+<Entry><Para>フォアグラウンド・カラーを動的に変更するかどうかを指定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>dynamicColor</Command><IndexTerm><Primary>dynamicColor リソース</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>パレットを切り替えるときにアプリケーションがカラーを変更するかどうかをコントロールします。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+<!--Original XRef content: 'Table&numsp;15&hyphen;5'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.FACol.tbl.5"> は、デスクトップが割り当てるカラーの最大数をリストします。
+<IndexTerm><Primary>ディスプレイ・カラー</Primary><Secondary>割り当てられる最大数</Secondary></IndexTerm><IndexTerm><Primary>カラー</Primary><Secondary>割り当てられる最大数</Secondary></IndexTerm>
+</Para>
+<Table Id="SAG.FACol.tbl.5" Frame="Topbot">
+<Title Id="SAG.FACol.mkr.10">デスクトップ・カラーの数</Title>
+<TGroup Cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.49in">
+<colspec colwidth="1.08in">
+<colspec colwidth="2.59in">
+<THead>
+<Row>
+<Entry><Para><Symbol Role="Message">ディスプレイ</Symbol></Para></Entry>
+<Entry><Para><Literal>カラーの最大数</Literal></Para></Entry>
+<Entry><Para><Literal>内訳</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>B_W</Para></Entry>
+<Entry><Para>2</Para></Entry>
+<Entry><Para>黒と白</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>LOW_COLOR</Para></Entry>
+<Entry><Para>12</Para></Entry>
+<Entry><Para>
+２カラー・セット×５カラー＋(黒と白)
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>MEDIUM_COLOR</Para></Entry>
+<Entry><Para>22</Para></Entry>
+<Entry><Para>
+４カラー・セット×５カラー＋(黒と白)
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>HIGH_COLOR</Para></Entry>
+<Entry><Para>42</Para></Entry>
+<Entry><Para>
+８カラー・セット×５カラー＋(黒と白)
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>
+カラーの最大数を決定するには次のようにします。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+パレット内のカラー・セットの数と各カラー・セット内のカラーの数を掛けます。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+2 (黒と白の分) を加えます。
+</Para>
+</ListItem>
+</OrderedList>
+<Para>
+しかし、次の設定により、パレット内に10色のカラー（つまり、４カラー・セット×各セット(<ComputerOutput>background</ComputerOutput>と<ComputerOutput>selectColor</ComputerOutput>)内の２色のカラー＋(黒と白)）だけをもつことになります。
+</Para>
+<programlisting>*colorUse: MEDIUM_COLOR
+*shadowPixmaps:  True
+*foregroundColor: White
+</ProgramListing>
+<Note>
+<Para>
+マルチカラー・アイコンは、さらに14色のカラーを使用します。
+</Para>
+</Note>
+<Sect3 Id="SAG.FACol.div.26">
+<Title>colorUse リソース<IndexTerm><Primary>colorUse リソース</Primary></IndexTerm><IndexTerm><Primary>リソース</Primary><Secondary>colorUse</Secondary></IndexTerm><IndexTerm><Primary>colorUse リソース</Primary></IndexTerm></Title>
+<Para>
+<Command>colorUse</Command> リソースのデフォルト値は MEDIUM_COLOR です。このリソースの値はパレットで使用するカラーの数に影響を与えます。他のリソースは、シャドウを作成するために使用されるカラーの数に影響を与えます。また、<ComputerOutput>colorUse</ComputerOutput> リソースの値は、マルチカラー・アイコンの使用にも影響を与えます。
+<IndexTerm><Primary>HIGH_COLOR</Primary></IndexTerm><IndexTerm><Primary>MEDIUM_COLOR</Primary></IndexTerm><IndexTerm><Primary>LOW_COLOR</Primary></IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.55in">
+<colspec colwidth="3.95in">
+<THead>
+<Row>
+<Entry><Para>値</Para></Entry>
+<Entry><Para>説明</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>B_W</Para></Entry>
+<Entry><Para>[白黒]スタイル・マネージャ設定
+<?Pub _newline>1から3までのカラー区画で表示
+<?Pub _newline>カラー・セットの数: 2
+<?Pub _newline>カラーの最大数: 2
+<?Pub _newline>カラーのデフォルト数: 2
+<?Pub _newline>マルチカラー・アイコンなし</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>LOW_COLOR</Para></Entry>
+<Entry><Para>[アプリケーションに最大限度の色数を割り当てる]スタイル・マネージャ設定
+<?Pub _newline>4から5までのカラー区画で表示
+<?Pub _newline>カラー・セットの数: 2
+<?Pub _newline>カラーの最大数: 12
+<?Pub _newline>カラーのデフォルト数: 12
+<?Pub _newline>マルチカラー・アイコンなし</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>MEDIUM_COLOR</Para></Entry>
+<Entry><Para>[アプリケーションにもっと多くの色数を割り当てる]スタイル・マネージャ設定
+<?Pub _newline>6のカラー区画で表示
+<?Pub _newline>カラー・セットの数: 4
+<?Pub _newline>カラーの最大数: 22
+<?Pub _newline>カラーのデフォルト数: 22
+<?Pub _newline>マルチカラー・アイコンあり</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>HIGH_COLOR</Para></Entry>
+<Entry><Para>[デスクトップにもっと多くの色数を割り当てる]スタイル・マネージャ設定
+<?Pub _newline>7以上のカラー区画で表示
+<?Pub _newline>カラー・セットの数: 8
+<?Pub _newline>カラーの最大数: 42
+<?Pub _newline>カラーのデフォルト数: 42
+<?Pub _newline>マルチカラー・アイコンあり</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>デフォルト</Para></Entry>
+<Entry><Para>デスクトップは、そのディスプレイに対して正確な値を選択します。（色数が多いディスプレイでデスクトップが使用するカラーの数を減らすには、デフォルトの <Command>colorUse</Command> リソースに MEDIUM_COLOR を設定します。）
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.27">
+<Title>shadowPixmaps リソース<IndexTerm><Primary>shadowPixmaps リソース</Primary></IndexTerm><IndexTerm><Primary>shadowPixmaps リソース</Primary></IndexTerm><IndexTerm><Primary>リソース</Primary><Secondary>shadowPixmaps</Secondary></IndexTerm></Title>
+<Para>
+<ComputerOutput>shadowPixmaps</ComputerOutput> リソースは、デスクトップに２つのシャドウ・カラーをピックスマップに置き換えるよう指示します。これらのピックスマップは、黒または白とバックグラウンド・カラーを混合して、上部か下部のシャドウ値のシミュレーションを行います。この方法は、カラー・セルをシャドウ・カラーに割り当てる必要がないため、必要なカラー数から２が引かれます。
+<IndexTerm><Primary>カラー</Primary><Secondary>shadowPixmaps リソースによる陰影の作成</Secondary></IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="63*">
+<colspec colwidth="465*">
+<THead>
+<Row>
+<Entry><Para>値</Para></Entry>
+<Entry><Para>説明</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>True</Para></Entry>
+<Entry><Para>デスクトップは <ComputerOutput>topShadowPixmap</ComputerOutput> と <ComputerOutput>bottomShadowPixmap</ComputerOutput> を作成して、シャドウ・カラーの代わりに使用します。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>False</Para></Entry>
+<Entry><Para>パレットの <ComputerOutput>topShadowColor</ComputerOutput> と <ComputerOutput>bottomShadowColor</ComputerOutput> を使用します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+<ComputerOutput>shadowPixmaps</ComputerOutput> のデフォルト値は、もっている <ComputerOutput>colorUse</ComputerOutput> リソースとディスプレイをサポートするハードウェアに依存します。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.28">
+<Title>foregroundColor リソース<IndexTerm><Primary>foregroundColor リソース</Primary></IndexTerm><IndexTerm><Primary>カラー</Primary><Secondary>フォアグラウンドの指定</Secondary></IndexTerm></Title>
+<Para>
+<ComputerOutput>foregroundColor</ComputerOutput> リソースは、パレットでフォアグラウンドを設定する方法を指定します。
+<IndexTerm><Primary>foregroundColor リソース</Primary></IndexTerm><IndexTerm><Primary>リソース</Primary><Secondary>foregroundColor</Secondary></IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="65*">
+<colspec colwidth="463*">
+<THead>
+<Row>
+<Entry><Para>設定</Para></Entry>
+<Entry><Para>結果</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>White</Para></Entry>
+<Entry><Para>フォアグラウンドに白を設定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Black</Para></Entry>
+<Entry><Para>フォアグラウンドに黒を設定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Dynamic</Para></Entry>
+<Entry><Para>(デフォルト) フォアグラウンドに、<ComputerOutput>background</ComputerOutput> の値に応じて、黒か白を動的に設定します。たとえば、黄色のバックグラウンドで白い文字を使用すると読みにくいので、システムは黒を選択します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+<ComputerOutput>foregroundColor</ComputerOutput> に Black か White を設定する場合、カラー・セット内のカラーの数が１減りますが、フォアグラウンドがバックグラウンド・カラーの変更に応じて変更されることはありません。
+</Para>
+<Para>
+<ComputerOutput>colorUse</ComputerOutput> の値が B_W の場合以外、<ComputerOutput>foregroundColor</ComputerOutput> のデフォルト値は、Dyanmic です。
+</Para>
+</Sect3>
+<Sect3 Id="SAG.FACol.div.29">
+<Title>dynamicColor リソース<IndexTerm><Primary>dynamicColor リソース</Primary></IndexTerm><IndexTerm><Primary>dynamicColor リソース</Primary></IndexTerm></Title>
+<Para>
+<ComputerOutput>dynamicColor</ComputerOutput> リソースは、アプリケーションがカラーを動的に変更するかどうか、つまりパレットを切り替えるときにクライアントがカラーを変更するかどうかをコントロールします。
+<IndexTerm><Primary>カラー</Primary><Secondary>コントロール、dynamicColor リソースによる</Secondary></IndexTerm>
+</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="63*">
+<colspec colwidth="465*">
+<THead>
+<Row>
+<Entry><Para>値</Para></Entry>
+<Entry><Para>説明</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>True</Para></Entry>
+<Entry><Para>クライアントは新しいパレットが選択されるとカラーを動的に変更します。これがデフォルト値です。
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>False</Para></Entry>
+<Entry><Para>クライアントはカラーを動的に変更しません。新しいパレットが選択されると、クライアントはセッションの再起動時に新しいカラーを使用します。
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>
+<ComputerOutput>dynamicColor</ComputerOutput> リソースの値が True の場合、同じカラーに見えたとしても、カラーを動的に変更できるクライアントではなく、カラーを動的に変更できないクライアント（非 Motif クライアント）が、カラー・マップに異なるセルを割り当てます。
+</Para>
+<Note>
+<Para>
+すべてのクライアントは同じカラー・セルを共有するので、<ComputerOutput>dynamicColor</ComputerOutput> に False を設定すると、デスクトップで使用したカラーの数だけ減少します。
+</Para>
+</Note>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.FACol.div.30">
+<Title Id="SAG.FACol.mkr.11">アプリケーション・ウィンドウのシャドウの濃さの設定<IndexTerm><Primary>リソース</Primary><Secondary>ウィンドウのシャドウの濃さ</Secondary></IndexTerm><IndexTerm><Primary>シャドウの濃さ、ウィンドウ</Primary></IndexTerm></Title>
+<Para>
+デスクトップは、ボタンのシャドウやフォーカス強調表示などのように、アプリケーション・ウィンドウにあるコンポーネントの1ピクセルのデフォルトのシャドウの濃さを定義します。Motif 1.2 (およびそれ以降) のアプリケーションはこのリソース値を使用します。他のアプリケーションは、このリソース値を取得しないので、ディスプレイには異なる状態で表示されます。
+</Para>
+<Para>
+シャドウの濃さを非 Motif 1.2 (およびそれ以降) アプリケーションの1ピクセルに設定するには、次のようにします。
+</Para>
+<OrderedList>
+<ListItem>
+<Para>
+root でログインします。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> ファイルを作成します。
+</Para>
+</ListItem>
+<ListItem>
+<Para>
+<Filename>/etc/dt/config/</Filename><Symbol Role="Variable">language</Symbol><Filename>/sys.resources</Filename> にアプリケーション固有のリソースを次のように指定します。
+</Para>
+<programlisting><Symbol Role="Variable">application_class_name</Symbol>*XmCascadeButton*shadowThickness: 1</programlisting>
+</ListItem>
+</OrderedList>
+<Para>
+システムのデフォルト・リソースを無効にする方法、およびすべてのデスクトップ・ユーザに追加リソースを指定する方法の詳細については、
+<!--Original XRef content: '&xd2;Loading the Session Resources&xd3; on page&numsp;27'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.SesMg.mkr.7"> を参照してください。
+</Para>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

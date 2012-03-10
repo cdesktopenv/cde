@@ -1,0 +1,348 @@
+.\" $XConsortium: pam.conf.4 /main/5 1996/10/29 15:41:38 drk $
+.\" @(#)pam.conf.4 1.1 95/06/05 SMI; from SVr4
+'\" macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.\"
+.nr X
+.TH pam.conf 4 "19 Jan 1996"
+.SH NAME
+pam.conf \- configuration file for pluggable authentication modules
+.SH SYNOPSIS
+.B /etc/pam.conf
+.SH DESCRIPTION
+.IX "pam.conf" "" "\fLpam.conf\fP \(em configuration file for pluggable authentication modules"
+.PP
+.B pam.conf
+is the configuration file for the Pluggable Authentication Module architecture, or
+.SM PAM.
+A
+.SM PAM
+module provides functionality for one or more of four possible services:
+authentication, account management, session management, and
+password management.
+An authentication service module provides
+functionality to authenticate a user and 
+set up user credentials.
+A account management module provides
+functionality to determine if the current 
+user's account is valid.
+This includes checking for password and account expiration, 
+as well as verifying access hour restrictions.
+A session management module provides functionality
+to set up and terminate login sessions.
+A password management module provides functionality to change a user's 
+authentication token or password.
+Each of the four service modules can be implemented as a shared library 
+object which can be referenced in the
+.B pam.conf
+configuration file.
+.SH Simplified PAM.CONF configuration file
+The
+.B pam.conf
+file contains a listing of services.  Each service is paired with a 
+corresponding service module.  When a service is requested, its 
+associated module is invoked.  Each entry has the following format:
+.IP
+.I <service_name> <module_type> <control_flag> <module_path> <options>
+.LP
+Below is an example of the
+.B pam.conf
+configuration file with support for authentication, account management,
+and session management modules.
+
+.nf
+.RS
+.ta .7in +.8in +.8in +2.2in
+login	  auth     required     /usr/lib/security/pam_unix.so.1   debug
+login	  session  required     /usr/lib/security/pam_unix.so.1
+login	  account  required     /usr/lib/security/pam_unix.so.1
+telnet	  session  required     /usr/lib/security/pam_unix.so.1
+other	  auth	   required     /usr/lib/security/pam_unix.so.1
+other	  passwd   required     /usr/lib/security/pam_unix.so.1
+.RE
+.fi
+.ft 1
+
+The
+.I service_name
+denotes the service (for example,
+.BR login ,
+.BR dtlogin ,
+or
+.BR rlogin ).
+The keyword,
+.IR other ,
+indicates the module all other applications which have not
+been specified should use.  The
+.I other
+keyword can also be used if all services of the same
+.I module_type
+have the same requirements.  In the example above, since all of the services use
+the same session module, they could have been replace by
+a single
+.I other
+line.
+.LP
+\fImodule_type\fP denotes the service module type:
+authentication (\fIauth\fP),
+account management (\fIaccount\fP),
+session management (\fIsession\fP), or
+password management (\fIpassword\fP).
+.LP
+The
+\fIcontrol_flag\fP field determines the behavior of stacking, and will be 
+discussed in more detail below.
+.LP
+The
+\fImodule_path\fP field specifies the pathname to a shared library object
+which implements the service functionality.
+If the pathname is not absolute, it is assumed to be relative
+to
+.B /usr/lib/security.
+.LP
+The \fIoptions\fP field is used by the
+.SM PAM
+framework layer to pass module specific options to the modules.  It is
+up to the module to parse and interpret the options.  This field can
+be used by the modules to turn on debugging or to pass any module
+specific parameters such as a TIMEOUT value.  It can also be used to
+support unified login.  The options supported by
+the modules are documented in their respective manual pages.  For example,
+.BR pam_unix (5)
+lists the options accepted by the UNIX module.
+.LP
+.SH Integrating Multiple Authentication Services With Stacking
+When a service_name of the same
+.I module_type
+is defined more than once, the service is said to be
+.I stacked.
+Each module referenced in the
+.I module_path
+for that service is then processed in the order that it occurs 
+in the configuration file.
+The
+.I control_flag
+field specifies the continuation and failure semantics of the modules,
+and may be
+.IR required ,
+.IR optional ,
+or
+.IR sufficient .
+.LP
+The PAM framework processes each service module in the stack.
+If all
+.I required
+modules in the stack succeed, then success is returned
+.RI ( optional
+and
+.I sufficient
+error values are ignored).  If one or more
+.I required
+modules fail, then the error value from the first
+.I required
+module that failed is returned.
+.LP
+If none of the service modules in the stack are designated as
+.I required,
+then the PAM framework requires that at least one
+.I optional
+or
+.I sufficient
+module succeed.  If all fail then the
+error value from the first service module in the stack is returned.
+.LP
+The only exception to the above is caused by the
+.I sufficient
+flag.  If a service module that is designated as
+.I sufficient
+succeeds, then the
+.SM PAM
+framework immediately returns success
+to the application (all subsequent services modules,
+even 
+.I required
+ones, in the stack are
+ignored), given that all prior
+.I required
+modules had also succeeded.  If a prior
+.I required
+module failed, then the error value from that module is returned.
+.LP
+If a module does not exist or can not be opened,
+then the
+.B pam.conf
+entry is ignored and an error will be logged through
+.BR syslog (3)
+at the LOG_CRIT level.
+
+Below is a sample configuration file that stacks the
+.B login,
+.B dtlogin,
+and
+.B rlogin
+services.
+
+.nf
+.RS
+login    auth    required      /usr/lib/security/pam_unix.so.1   debug
+login    auth    optional      /usr/lib/security/pam_inhouse.so.1
+dtlogin  auth    required      /usr/lib/security/pam_unix.so.1   debug
+dtlogin  auth    optional      /usr/lib/security/pam_inhouse.so.1
+rlogin   auth    sufficient    /usr/lib/security/pam_rhosts_auth.so.1
+rlogin   auth    required      /usr/lib/security/pam_unix.so.1
+.RE
+.fi
+.ft 1
+
+In the case of
+.B login,
+the user is authenticated by the UNIX and inhouse authentication modules.  The
+.I required
+keyword for
+.I control_flag
+requires that the user be allowed to login only if the user is authenticated
+by the UNIX service module. 
+Inhouse authentication is optional by 
+virtue of the
+.I optional
+keyword in the
+.I control_flag
+field.  The user can still log in even if inhouse authentication fails.
+
+In the case of
+.BR rlogin ,
+the
+.I sufficient
+keyword for
+.I control_flag
+specifies that if the
+.I rhosts
+authentication check succeeds, then PAM should return success to 
+.B rlogin
+and
+.B rlogin
+should not prompt the user for a password.
+The UNIX authentication module (the next module in the stack)
+will only be invoked if the
+.I rhosts
+check fails.  This gives the system administrator the flexibility to determine
+if
+.I rhosts
+alone is sufficient enough to authenticate a remote user.
+.LP
+Some modules may return PAM_IGNORE in certain situations.
+In these cases the 
+.SM PAM
+framework ignores the entire entry in
+.B pam.conf
+regardless of whether or not it is 
+.IR required ,
+.I optional
+or
+.IR sufficient .
+.SH NOTES
+If an error is found in an entry due to invalid
+.IR service_name ,
+.IR module_type ,
+or
+.IR control_flag ,
+then the entry is ignored.
+If there are no valid entries for the given
+.I module_type,
+the
+.SM PAM
+framework returns an error to the application.
+.LP
+.SH EXAMPLES
+.PP
+The following is a sample pam.conf configuration file.  Lines that begin
+with the
+.I #
+symbol are treated as comments, and therefore ignored.
+.PP
+.nf
+#
+# PAM configuration
+#
+# Authentication management for login service is stacked.
+# Both UNIX and inhouse authentication functions are invoked.
+login   auth     required     /usr/lib/security/pam_unix.so.1
+login   auth     required     /usr/lib/security/pam_inhouse.so.1  try_first_pass
+dtlogin auth     required     /usr/lib/security/pam_unix.so.1
+dtlogin auth     required     /usr/lib/security/pam_inhouse.so.1  try_first_pass
+#
+# Authentication management for rlogin service is stacked.
+# If the rhost check succeeds, do not continue
+rlogin  auth     sufficient   /usr/lib/security/pam_rhosts_auth.so.1
+rlogin  auth     required     /usr/lib/security/pam_unix.so.1
+#
+# Other services use UNIX authentication 
+other   auth     required     /usr/lib/security/pam_unix.so.1
+#
+# Account management for login service is stacked.
+# UNIX account management is required; inhouse account management is optional
+login   account  required     /usr/lib/security/pam_unix.so.1
+login   account  optional     /usr/lib/security/pam_inhouse.so.1
+dtlogin account  required     /usr/lib/security/pam_unix.so.1
+dtlogin account  optional     /usr/lib/security/pam_inhouse.so.1
+other   account  required     /usr/lib/security/pam_unix.so.1
+#
+# Session management
+other   session  required     /usr/lib/security/pam_unix.so.1
+#
+# Password management
+other   password required     /usr/lib/security/pam_unix.so.1
+.fi
+.ft 1
+
+.SH Utilities and files
+A list of utilities that are known to use
+.SM PAM
+include:
+.BR login ,
+.BR passwd ,
+.BR su ,
+.BR dtlogin ,
+.BR rlogind ,
+.BR rshd ,
+.BR telnetd ,
+.BR ftpd ,
+.BR rpc.rexd ,
+.BR uucpd ,
+.BR init ,
+.BR sac ,
+and
+.BR ttymon .
+.LP
+The PAM configuration file does not dictate either the name or the
+location of the service specific modules.  The convention, however, is the
+following: 
+.LP
+.TP
+.B /usr/lib/security/pam_<service_name>_<module_name>.so.x
+implements various function of specific authentication services.
+.LP
+.TP
+.PD 0
+.B /etc/pam.conf
+configuration file
+.TP
+.B /usr/lib/libpam.so.1
+implements the PAM framework library
+.sp 1n
+.SH "SEE ALSO"
+.BR dtlogin (1),
+.BR init (1)
+.BR in.ftpd (1M),
+.BR in.rexd (1M),
+.BR in.rshd (1M),
+.BR in.rlogind (1M),
+.BR in.telnetd (1M),
+.BR in.uucpd (1),
+.BR login (1),
+.BR passwd (1),
+.BR sac (1M),
+.BR su (1M),
+.BR ttymon (1M),
+.BR pam (3)

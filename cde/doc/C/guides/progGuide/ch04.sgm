@@ -1,0 +1,158 @@
+<!-- $XConsortium: ch04.sgm /main/5 1996/09/08 19:36:34 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="PG.smgr.div.1">
+<Title Id="PG.smgr.mkr.1">Integrating with Session Manager</Title>
+<Para>Session Manager saves information about the Desktop environment and the
+applications running when the user logs out (of the current session) or when
+the user saves the environment (in a home session). For an application to be
+saved as part of the current session or the home session and then restarted as
+part of the next session, it must participate in the X Inter-Client
+Communication Conventions Manual (ICCCM) 1.1 Session Management
+Protocol. This chapter outlines how Session Manager saves and restores
+sessions and details the steps necessary for an application to participate in
+session management.</Para>
+<InformalTable Id="PG.smgr.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How Session Manager Saves Sessions and Applications27'--><XRef Role="JumpText" Linkend="PG.smgr.mkr.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How to Program the Application for Session Management28'--><XRef Role="JumpText" Linkend="PG.smgr.mkr.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'How Session Manager Restores a Session30'--><XRef Role="JumpText" Linkend="PG.smgr.mkr.4"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="PG.smgr.div.2">
+<Title Id="PG.smgr.mkr.2">How Session Manager Saves Sessions and Applications</Title>
+<Para>When you exit a session or when you save a Home session, Session Manager:</Para>
+<OrderedList>
+<ListItem>
+<Para>Saves the selected resource settings and X server settings</Para>
+</ListItem>
+<ListItem>
+<Para>Allows each application to save its state and waits for the save to be
+completed</Para>
+</ListItem>
+<ListItem>
+<Para>Obtains the command line required to restart the application</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="PG.smgr.div.3">
+<Title Id="PG.smgr.mkr.3">How to Program the Application for Session Management</Title>
+<Sect2 Id="PG.smgr.div.4">
+<Title>Setting the Program Environment</Title>
+<Para>This section describes the programming steps necessary for an application to
+be saved as part of the integration process.</Para>
+<Para>Follow these steps to set the program environment:</Para>
+<OrderedList>
+<ListItem>
+<Para>Include the following header files:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>Xm/Xm.h</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>Xm/Protocols.h</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>Dt/Session.h</Filename></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Link with <Command>libXm</Command> and <Command>libDtSvc</Command>.</Para>
+</ListItem>
+<ListItem>
+<Para>Initialize the toolkit and create a top-level widget.</Para>
+</ListItem>
+</OrderedList>
+<Sect3 Id="PG.smgr.div.5">
+<Title>Setting the WM_SAVE_YOURSELF Atom</Title>
+<Para>Use the Motif <Filename>XmAddWMProtocol()</Filename> function to set the <Filename>WM_SAVE_YOURSELF</Filename>
+atom on the <ComputerOutput>WM_PROTOCOLS</ComputerOutput> property for the top-level window of your
+application, as shown in the following example.</Para>
+<ProgramListing>Atom XaWmSaveYourself;
+
+Display *dsp;
+
+
+
+dsp = XtDisplay(toplevel);
+
+XaWmSaveYourself =
+
+XmInternAtom(dsp, &rdquo;WM_SAVE_YOURSELF&rdquo;, False);
+
+XmAddWMProtocols(toplevel, &amp;XaWmSaveYourself, 1);</ProgramListing>
+<Note>
+<Para>Do not set the <ComputerOutput>WM_SAVE_YOURSELF</ComputerOutput> atom for more than one window.</Para>
+</Note>
+</Sect3>
+<Sect3 Id="PG.smgr.div.6">
+<Title>Prepare to Receive the WM_SAVE_YOURSELF Message</Title>
+<Para>Use the Motif <Filename>XmAddWMProtocolCallback()</Filename> function to establish a callback
+procedure to be called when the application receives a <Filename>WM_SAVE_YOURSELF</Filename>
+client message:</Para>
+<ProgramListing>XmAddWMProtocolCallback(toplevel, XaWmSaveYourself,
+SaveYourselfProc,
+   toplevel);</ProgramListing>
+</Sect3>
+<Sect3 Id="PG.smgr.div.7">
+<Title>Processing the WM_SAVE_YOURSELF Message</Title>
+<Para>When Session Manager sends a <Filename>WM_SAVE_YOURSELF</Filename> client message to this
+sample application's top-level window, the <Filename>SaveYourselfProc()</Filename> callback
+procedure is called. Use thecallback to save the application's state. The
+application can save its state by any means you want, but cannot interact with
+the user during the save.</Para>
+<Para>Session Manager provides the <Filename>DtSessionSavePath()</Filename> function as a way to
+return a full path name and a base file name to use for saving the application's
+state.</Para>
+</Sect3>
+<Sect3 Id="PG.smgr.div.8">
+<Title>Setting the WM_COMMAND Property</Title>
+<Para>After the application has finished processing the <Filename>WM_SAVE_YOURSELF</Filename>
+message, either by saving its state or ignoring the message, the application
+must set the <Filename>WM_COMMAND</Filename> property on its top-level window to tell Session
+Manager that the save operation is complete.</Para>
+<Para>Use the Xlib <Filename>XsetCommand()</Filename> function to set the <Filename>WM_COMMAND</Filename> property on the
+application's top-level window. Setting this property lets Session Manager
+know that the application has finished processing the <Filename>WM_SAVE_YOURSELF</Filename>
+message and gives Session Manager the command line it needs to restart the
+application.</Para>
+<Para><Filename>XsetCommand()</Filename> accepts an array of command-line arguments. If the
+application uses the <Filename>DtSessionSavePath()</Filename> function as part of the save
+process, <Filename>XsetCommand()</Filename> needs an additional command-line argument: <Command>&hyphen;session</Command> <Symbol Role="Variable">basename</Symbol>, where <Symbol Role="Variable">basename</Symbol> is the base file name returned by
+<Filename>DtSessionSavePath()</Filename>.</Para>
+</Sect3>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.smgr.div.9">
+<Title Id="PG.smgr.mkr.4">How Session Manager Restores a Session</Title>
+<Para>Session Manager restores a session by:</Para>
+<OrderedList>
+<ListItem>
+<Para>Restoring the resource database and server settings</Para>
+</ListItem>
+<ListItem>
+<Para>Restarting applications using the saved command lines</Para>
+</ListItem>
+</OrderedList>
+<Para>If the application used <Filename>DtSessionSavePath()</Filename> to find a path for its saved
+state, the application can pass the base file name from the <Filename>-session</Filename> argument
+to the <Filename>DtSessionRestorePath()</Filename> function to find the full path name of its
+saved-state file.</Para>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->

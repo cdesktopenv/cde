@@ -1,0 +1,231 @@
+/* $XConsortium: README /main/2 1996/07/15 14:04:15 drk $ */
+
+This directory contains the sources of the Dog widget, the Square widget,
+and the dogs demo.
+
+DOG WIDGET
+----------
+The Dog widget demonstrates how to subclass a primitive widget which
+will remain binary compatible with future versions of Motif. It uses
+XmResolvePartOffsets(), and associated macros, and implements all
+the recommendations in the XmResolvePartOffsets manpage.
+
+The Dog widget is a subclass of XmPrimitive. It can bark and wag its
+tail. If you want more exotic tricks - feel free to subclass it, or
+replace up.bm, down.bm and bark.bm with more interesting bitmaps.
+
+It has the following resources:
+
+	DogNwagTime - time in milliseconds between each wag.
+	DogNbarkTime - time in milliseconds the bark graphic is displayed.
+	DogNbarkCallback - callback called by the bark action.
+
+It has the following translations:
+
+	osfActivate/Return/Space/MB1 = Bark
+	W/MB2 = Wag tail.
+	S/Shift-MB2 = Stop wagging tail.
+	osfHelp = Help
+
+SQUARE WIDGET
+-------------
+The Square widget demonstrates how to subclass a constraint widget which
+will remain binary compatible with future versions of Motif. It uses
+XmResolveAllPartOffsets(), and associated macros, and implements all
+the recommendations in the XmResolveAllPartOffsets manpage.
+
+The Square Widget is a subclass of XmBulletinBoard. It forces its children
+to be square using a constraint resource.
+
+It has one resource:
+
+	SquareNmajorDimension - determines which dimension will be used
+				for the new size of the child. Values are
+				SquareWIDTH or SquareHEIGHT.
+	
+It has one constraint resource:
+
+	SquareNmakeSquare -	determines whether the child is forced
+				to be square or set to its preferred size.
+
+
+DOGS DEMO
+---------
+The dogs demo uses the Dog and Square widgets. It illustrates how
+to incorporate new widgets into UIL source, using the user_defined
+function.
+
+It allows you to dynamically change the DogNwagTime and SquareNmakeSquare
+resources.
+
+If you have a machine with any sound generation features at all, you may
+want to change the bark callback to something better than XBell().
+
+
+ADDITIONAL INFORMATION ON THE MOTIF BINARY COMPATIBILITY MECHANISM
+------------------------------------------------------------------
+
+Why is it needed?:
+	Motif custom widget subclasses compiled against Motif 1.2 may
+	not be binary compatible with future major releases of Motif, and
+	will cause fatal errors when used. To fix the problem the widget will
+	need to be recompiled against the new version of Motif.
+
+	The incompatibility will occur because a subclass must contain
+	compiled-in references to its instance fields which will be
+	specified relative to the start address of the widget instance.
+	When a new Motif library is installed in which the widget's
+	superclass instance structures have been extended, the compiled-in
+	references will point to the wrong memory location, and general
+	chaos will ensue.
+
+The solution:
+	Motif provides a solution to this problem in the form of a new
+	mechanism for defining resources and accessing widget fields.
+
+	The mechanism allows all references to fields in the instance and
+	constraint structures to be specified relative to the start of the
+	widget *part* structure instead of the overall widget structures
+	(which include the superclass part structures.) The mechanism resolves
+	these relative references at runtime when the widget class is
+	first initialized. This involves factoring in the true size of
+	the widget's superclass instance structures read from the currently-
+	linked Motif library.
+
+Converting a Widget To Use The Motif Widget Binary Compatibility Mechanism
+--------------------------------------------------------------------------
+
+The guidelines for converting a widget to use the mechanism illustrate
+each stage with examples from a hypothetical widget named 'XmpNew'.
+
+The mechanism requires changes only to the widget's source file and
+not to any public header file.
+
+For additional information, see the Motif 1.2 man pages for
+XmResolvePartOffsets() and XmResolveAllPartOffsets().
+
+Edit your widget source file and proceed through the file, implementing
+these guidelines:
+
+1)  Provide a clear indication that the widget uses the Motif widget
+    binary compatibility mechanism. The Motif changes are not part of the
+    standard Xt widget-writing  specification, and may be confusing
+    to the future maintainers of the widget. Add the following comment
+    near the start of the file and tag each change in the file with
+    a brief comment:
+
+	/*
+	 * The XmpNew widget is rigged with the Motif widget binary compatibility
+	 * mechanism. All Motif-specific changes for this mechanism are preceded
+	 * by a comment including the string "MotifBc".
+	 *
+	 * For a description of the Motif widget binary compatibility mechanism,
+	 * see the reference manual entry on XmResolveAllPartOffsets().
+ 	 *
+ 	 */
+
+2)  Define an index value for your class. The value should be one
+    greater than the predefined index for your widget's superclass:
+
+    For a subclass of XmPrimitive:	
+
+	#define XmpNewIndex (XmPrimitiveIndex + 1)
+
+    For a subclass of XmManager:	
+
+	#define XmpNewIndex (XmManagerIndex + 1)
+
+3)  Define variables to hold the dynamic offset tables. They
+    should be statically defined, but global to the widget source
+    file:
+
+	static XmOffsetPtr ipot; /* Instance part offset table */
+
+    For subclasses of XmManager, you also need:
+
+	static XmOffsetPtr cpot; /* Constraint part offset table */
+
+4)  Define macros to provide access to your widget's fields:
+
+    For all widget instance fields:
+
+	#define MarginWidth(w) XmField(w,ipot,XmpNew,margin_width,Dimension)
+
+    For all widget constraint fields:
+
+	#define ChildType(w) \
+        		XmConstraintField(w,cpot,XmpNew,child_type,unsigned char)
+
+    (The last parameter is the data type of the instance or constraint field.)
+
+5)  Modify the definition of all widget resources, synthetic resources,
+    constraint resources and synthetic constraint resources to use dynamic
+    offset calculation macros:
+
+    Change the type of widget resource lists and constraint resource
+    lists from:
+	XtResource foo[] = { };
+    to:
+	XmPartResource foo[] = { };
+
+    Change all widget resource and synthetic resource offset entries from:
+	XtOffsetOf( struct _XmpNewRec, new.margin_width)
+    to:
+	XmPartOffset(XmpNew,margin_width)
+
+    Change all widget constraint resource and synthetic constraint resource
+    offset entries from:
+	XtOffsetOf( struct _XmpNewConstraintRec, new.child_type),
+    to:
+	XmConstraintPartOffset(XmpNew,child_type)
+
+6)  In the widget class record change the widget 'size' and 'constraint_size'
+    fields to be the size of the widget part structure, not the size
+    of the entire widget structure:
+
+    Change the Core class 'size' field from:
+	sizeof(XmpNewWidgetRec)    /* widget size */
+    to:
+	sizeof(XmpNewWidgetPart),  /* widget size */
+
+    Change the Constraint class 'constraint_size' field from:
+	sizeof(XmpNewConstraintRec),    /* constraint_size */
+    to:
+	sizeof(XmpNewConstraintPart),   /* constraint_size */
+
+7)  Change the Core class 'version' field to disable version checking:
+	XtVersion,           /* version */
+    becomes:
+	XtVersionDontCheck   /* version */
+
+8)  In the widget's ClassInitialize method, add the call which will
+    resolve the part-relative references:
+
+    For a subclass of XmPrimitive:	
+	XmResolvePartOffsets(xmpNewWidgetClass, &ipot);
+
+    For a subclass of XmManager:	
+	XmResolveAllPartOffsets(xmpNewWidgetClass, &ipot, &cpot);
+
+9)  Ensure that references to all instance and constraint fields in the
+    widget source use the macros defined in (4) above. There must be no direct
+    access to these fields.
+
+    Superclass instance and constraint fields can still be accessed normally,
+    however, to keep the widget source readable and consistent it is
+    recommended that macros are also defined and used for those fields. e.g
+
+	#define Width(w) ((w)->core.width)
+	#define NumChildren(w) ((w)->composite.num_children)
+	#define ShadowThickness(w) ((w)->manager.shadow_thickness)
+
+10) Test the results. The easiest way to do this is go to the lib/Xm
+    directory, add some new fields to PrimitiveP.h and ManagerP.h, and rebuild
+    the libXm library. Test your widget with this new library (without
+    recompiling the widget source!) 
+
+
+
+----- End Included Message -----
+
+

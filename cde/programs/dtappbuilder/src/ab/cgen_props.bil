@@ -1,0 +1,596 @@
+//       $XConsortium: cgen_props.bil /main/3 1995/11/06 17:22:46 rswiston $
+//
+// @(#)cgen_props.bil	1.6 14 Jun 1994
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module cgen_props
+(
+
+:element cgen_props_dlg
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Code Generator Options"
+	:resizable		:true
+	:visible		:false
+	:default-button		dialog_apply_button
+	:help-button		dialog_help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABCodeGenOptionsDialog"
+	:help-text		"This dialog allows control of the way in which the code generator will run when it is executed from the Code Generator Window."
+	:children		(
+		ctrl_panel
+		dialog_button_panel
+	)
+)
+:element ctrl_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj cgen_props_dlg 0)
+	:east-attachment	(:obj cgen_props_dlg 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		proj_group
+		cgen_flags_radiobox
+		module_list
+		cgen_label
+		defaults_button
+		options_group
+	)
+)
+:element proj_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			10
+	:y			10
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 10)
+	:east-attachment	(:point 0 10)
+	:west-attachment	(:point 0 10)
+	:children		(
+		proj_label
+		proj_name
+	)
+)
+:element proj_label
+(
+	:type			:label
+	:x			0
+	:y			0
+	:label-type		:string
+	:label			"Project:"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element proj_name
+(
+	:type			:label
+	:x			72
+	:y			0
+	:label-type		:string
+	:label			"                                       "
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 10)
+	:west-attachment	(:obj proj_label 5)
+)
+:element cgen_flags_radiobox
+(
+	:type			:choice
+	:choice-type		:exclusive
+	:x			10
+	:y			45
+	:label-type		:string
+	:label			"Generate Code For:"
+	:label-position		:north
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj proj_group 10)
+	:east-attachment	(:point 0 10)
+	:west-attachment	(:point 0 10)
+	:children		(
+		cgen_flags_radiobox_Entire_Project_item
+		cgen_flags_radiobox_Main_Only_item
+		cgen_flags_radiobox_Specific_Modules_Only_item
+		cgen_flags_radiobox_Specific_Modules_and_Main_item
+	)
+)
+:element cgen_flags_radiobox_Entire_Project_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Entire Project"
+	:active			:true
+	:selected		:true
+)
+:element cgen_flags_radiobox_Main_Only_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Main Only"
+	:active			:true
+	:selected		:false
+)
+:element cgen_flags_radiobox_Specific_Modules_Only_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Specific Modules Only"
+	:active			:true
+	:selected		:false
+)
+:element cgen_flags_radiobox_Specific_Modules_and_Main_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Specific Modules and Main"
+	:active			:true
+	:selected		:false
+)
+:element module_list
+(
+	:type			:list
+	:x			40
+	:y			185
+	:selection-mode		:multiple
+	:selection-required	:false
+	:num-rows		4
+	:active			:false
+	:visible		:true
+	:north-attachment	(:obj cgen_flags_radiobox 5)
+	:south-attachment	(:obj cgen_label 5)
+	:east-attachment	(:point 0 10)
+	:west-attachment	(:point 0 40)
+)
+:element cgen_label
+(
+	:type			:label
+	:x			10
+	:y			275
+	:label-type		:string
+	:label			"When code is generated:"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:south-attachment	(:obj options_group 5)
+	:east-attachment	(:point 0 10)
+	:west-attachment	(:point 0 10)
+)
+:element defaults_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset to Defaults"
+	:active			:true
+	:visible		:true
+	:south-attachment	(:point 0 10)
+	:east-attachment	(:point 0 25)
+)
+:element options_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			10
+	:y			268
+	:group-type		:ignore
+	:border-frame		:none
+	:south-attachment	(:obj defaults_button 10)
+	:east-attachment	(:point 0 25)
+	:west-attachment	(:point 0 10)
+	:children		(
+		options_left
+		options_right
+	)
+)
+:element options_left
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			0
+	:y			0
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		merge_checkbox
+		arg_labels
+	)
+)
+:element merge_checkbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:x			5
+	:y			0
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 5)
+	:children		(
+		merge_checkbox_Don_t_Merge_item
+	)
+)
+:element merge_checkbox_Don_t_Merge_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Don't Merge"
+	:active			:true
+	:selected		:false
+)
+:element arg_labels
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			0
+	:y			47
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		10
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj merge_checkbox 15)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		make_label
+		run_time_label
+	)
+)
+:element make_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Make Arguments:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+)
+:element run_time_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Run Time Arguments:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+)
+:element options_right
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			131
+	:y			0
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:obj options_left 1)
+	:children		(
+		make_textf
+		run_time_textf
+		verbosity_opmenu
+	)
+)
+:element make_textf
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			5
+	:y			46
+	:num-columns		26
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj verbosity_opmenu 15)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element run_time_textf
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			6
+	:y			73
+	:num-columns		26
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj make_textf 2)
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element verbosity_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			0
+	:y			0
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:children		(
+		verbosity_opmenu_Report_Normal_Messages_item
+		verbosity_opmenu_Be_Silent_item
+		verbosity_opmenu_Be_Verbose_item
+	)
+)
+:element verbosity_opmenu_Report_Normal_Messages_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Report Normal Messages"
+	:active			:true
+	:selected		:true
+)
+:element verbosity_opmenu_Be_Silent_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Be Silent"
+	:active			:true
+	:selected		:false
+)
+:element verbosity_opmenu_Be_Verbose_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Be Verbose"
+	:active			:true
+	:selected		:false
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		dialog_ok_button
+		dialog_apply_button
+		dialog_reset_button
+		dialog_cancel_button
+		dialog_help_button
+	)
+)
+:element dialog_ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 19 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element dialog_apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element dialog_reset_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element dialog_cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element dialog_help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:grid-line 5 0)
+	:south-attachment	(:grid-line 95 0)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:element no_sel_mod_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"No modules selected."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"You must select at least one module for which to \ngenerate code."
+)
+:connection
+(
+	:from			cgen_flags_radiobox_Entire_Project_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			cgenP_set_gen_projCB
+)
+:connection
+(
+	:from			cgen_flags_radiobox_Main_Only_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			cgenP_set_gen_mainCB
+)
+:connection
+(
+	:from			cgen_flags_radiobox_Specific_Modules_Only_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			cgenP_set_gen_specificCB
+)
+:connection
+(
+	:from			cgen_flags_radiobox_Specific_Modules_and_Main_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			cgenP_set_gen_specific_and_mainCB
+)
+:connection
+(
+	:from			verbosity_opmenu_Report_Normal_Messages_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_set_normal_verbosityCB
+)
+:connection
+(
+	:from			verbosity_opmenu_Be_Silent_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_set_silent_verbosityCB
+)
+:connection
+(
+	:from			verbosity_opmenu_Be_Verbose_item
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_set_verbose_verbosityCB
+)
+:connection
+(
+	:from			defaults_button
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_reset_default_propsCB
+)
+:connection
+(
+	:from			dialog_apply_button
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_apply_propsCB
+)
+:connection
+(
+	:from			dialog_ok_button
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_ok_propsCB
+)
+:connection
+(
+	:from			dialog_reset_button
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_reset_propsCB
+)
+:connection
+(
+	:from			module_list
+	:when			:after-create
+	:action-type		:call-function
+	:action			cgenP_add_update_list_cb
+)
+:connection
+(
+	:from			dialog_cancel_button
+	:when			:activate
+	:action-type		:call-function
+	:action			cgenP_cancel_propsCB
+)
+)

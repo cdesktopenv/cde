@@ -1,0 +1,48 @@
+/* $XConsortium: Imakefile /main/4 1996/04/21 19:13:14 drk $
+ *
+ * (c) Copyright 1996 Digital Equipment Corporation.
+ * (c) Copyright 1996 Hewlett-Packard Company.
+ * (c) Copyright 1996 International Business Machines Corp.
+ * (c) Copyright 1995,1996 Sun Microsystems, Inc.
+ * (c) Copyright 1996 Novell, Inc. 
+ * (c) Copyright 1996 FUJITSU LIMITED.
+ * (c) Copyright 1996 Hitachi.
+ */
+
+#define DoNormalLib	NormalLibPam
+#define DoSharedLib	SharedLibPam
+#define DoDebugLib	DebugLibPam
+#define DoProfileLib	ProfileLibPam
+#define LibName		pam_dce
+#define SoRev		SOPAMREV
+#define LibHeaders	NO
+
+#include <Threads.tmpl>
+
+SRCS = \
+	dce_authenticate.c \
+        dce_setcred.c \
+        dce_acct_mgmt.c \
+        dce_password.c \
+        dce_session.c \
+        utils.c \
+        xfn_mapping.c
+
+OBJS =  \
+	dce_authenticate.o \
+        dce_setcred.o \
+        dce_acct_mgmt.o \
+        dce_password.o \
+        dce_session.o \
+        utils.o \
+        xfn_mapping.o
+
+#ifdef SharedPamDceAuthReqs
+REQUIREDLIBS = SharedPamDceAuthReqs
+#endif
+
+INCLUDES = -I../../libpam
+
+#include <Library.tmpl>
+
+DependTarget()

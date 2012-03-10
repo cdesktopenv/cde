@@ -1,0 +1,229 @@
+<!-- $XConsortium: load.sgm /main/6 1996/09/08 20:22:56 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN270.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN270.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttmedia_load</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttmedia_load</Function></RefName>
+<RefPurpose>send a Display, Edit or Compose request
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: load.sgm /main/6 1996/09/08 20:22:56 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_message <Function>ttmedia_load</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>context</Parameter></ParamDef>
+<ParamDef>Ttmedia_load_msg_cb <Parameter>cb</Parameter></ParamDef>
+<ParamDef>void *<Parameter>clientdata</Parameter></ParamDef>
+<ParamDef>Tttk_op <Parameter>op</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>media_type</Parameter></ParamDef>
+<ParamDef>const unsigned char *<Parameter>contents</Parameter></ParamDef>
+<ParamDef>int <Parameter>len</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>file</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>docname</Parameter></ParamDef>
+<ParamDef>int <Parameter>send</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttmedia_load</Function> function
+is used to create and optionally send a Media Exchange request
+to display, edit or compose a document.
+</Para>
+<Para>The
+<Emphasis>cb</Emphasis> argument will be passed
+<Emphasis>clientdata</Emphasis> when the reply is received, or when intermediate versions
+of the document are checkpointed through
+<Symbol Role="Message">Deposit</Symbol> requests.
+The
+<Symbol Role="Variable">op</Symbol> argument must be one of
+<SystemItem Class="Constant">TTME_DISPLAY</SystemItem>, <SystemItem Class="Constant">TTME_EDIT</SystemItem> or
+<SystemItem Class="Constant">TTME_COMPOSE</SystemItem>. The
+<Emphasis>media_type</Emphasis> argument names the data format of the document, and is usually the
+primary determinant of which application will be chosen to
+handle the request.
+The
+<Emphasis>contents</Emphasis> and
+<Emphasis>len</Emphasis> arguments specify the document; if they are
+<SystemItem Class="Constant">NULL</SystemItem> and zero, respectively, and
+<Symbol Role="Variable">file</Symbol> is not
+<SystemItem Class="Constant">NULL</SystemItem>, then the document is assumed to be contained in
+<Symbol Role="Variable">file</Symbol>. If
+<Emphasis>docname</Emphasis> is not
+<SystemItem Class="Constant">NULL</SystemItem>, then
+<Function>ttmedia_load</Function> uses it as the title of the document.
+If
+<Emphasis>send</Emphasis> is True, the message is sent before being returned.
+</Para>
+<Para>The
+<Symbol Role="Variable">context</Symbol> argument describes the environment to use.
+If
+<Symbol Role="Variable">context</Symbol> is not zero, messages created by
+<Function>ttmedia_load</Function> inherit from
+<Symbol Role="Variable">context</Symbol> all contexts whose slotname begins with the characters
+<SystemItem Class="Constant">ENV_</SystemItem>.</Para>
+<Para>The
+<StructName Role="typedef">Ttmedia_load_msg_cb</StructName> argument is a callback defined as:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message (*Ttmedia_load_msg_cb)(Tt_message <Emphasis>msg</Emphasis>,
+        void *<Emphasis>clientdata</Emphasis>),
+        Tttk_op <Symbol Role="Variable">op</Symbol>,
+        unsigned char *<Emphasis>contents</Emphasis>,
+        int <Emphasis>len</Emphasis>,
+        char *<Symbol Role="Variable">file</Symbol>);
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Emphasis>msg</Emphasis> argument is the
+reply to the load request, or a
+<Symbol Role="Message">Deposit</Symbol> request with a
+<Emphasis>messageID</Emphasis> argument naming the identifier (see
+&cdeman.tt.message.id;) of the load request.
+In the latter case, the client
+program becomes responsible for either failing or replying
+to the request.
+In either case,
+<Emphasis>msg</Emphasis> should be destroyed after being processed.
+</Para>
+<Para>The
+<Symbol Role="Variable">op</Symbol> argument is the
+op of
+<Emphasis>msg</Emphasis>. It must be either
+<SystemItem Class="Constant">TTME_DEPOSIT</SystemItem> or the
+<Symbol Role="Variable">op</Symbol> passed to
+&cdeman.ttmedia.load;.</Para>
+<Para>The
+<Emphasis>contents</Emphasis>, <Emphasis>len</Emphasis> and
+<Symbol Role="Variable">file</Symbol> arguments represent the
+contents of the arriving document.
+If
+<Emphasis>len</Emphasis> is zero, then the document is contained in
+<Symbol Role="Variable">file</Symbol>. If
+<Emphasis>contents</Emphasis> or
+<Symbol Role="Variable">file</Symbol> are non-
+<SystemItem Class="Constant">NULL</SystemItem>, they can be freed using
+<Function>tt_free</Function>.</Para>
+<Para>The
+<Emphasis>clientdata</Emphasis> argument is the
+<Emphasis>clientdata</Emphasis> passed to
+<Function>ttmedia_load</Function>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttmedia_load</Function> function returns the request it was asked to build;
+otherwise, it returns an error pointer.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned handle:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_ERR_NOMEM</Term>
+<ListItem>
+<Para>There is insufficient memory available to perform the function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_OVERFLOW</Term>
+<ListItem>
+<Para>The ToolTalk service has more active messages than it can handle.
+(The maximum number of active messages is
+implementation specific, but is at least 2000.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The specified process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>After the request created by
+<Function>ttmedia_load</Function> is sent, the application will probably want to use
+<Function>ttdt_subcontract_manage</Function> immediately afterwards to manage the standard interactions with the
+handler of the request.
+</Para>
+<Para>A
+<StructName Role="typedef">Ttmedia_load_msg_cb</StructName> callback should return
+<SystemItem Class="Constant">NULL</SystemItem> if it processes
+<Emphasis>msg</Emphasis> successfully, or a
+<Function>tt_error_pointer</Function> cast to
+<StructName Role="typedef">Tt_message</StructName> if processing results in an error.
+It should return the
+<Emphasis>msg</Emphasis> if it does not consume it, in which case
+the ToolTalk service
+will pass
+<SystemItem Class="Constant">TT_CALLBACK_CONTINUE</SystemItem> down the call stack, so that
+<Emphasis>msg</Emphasis> will be offered to other callbacks or (more likely) be returned
+from
+&cdeman.tt.message.receive;. Applications will rarely want
+<Emphasis>msg</Emphasis> to get processed by other callbacks or in the main event loop.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>This is the typical algorithm of a
+<StructName Role="typedef">Ttmedia_load_msg_cb</StructName>:</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message
+myLoadMsgCB(Tt_message  msg,
+        void           *clientData,
+        Tttk_op         op,
+        unsigned char  *contents,
+        int             len,
+        char           *file)
+{
+        if (len > 0) {
+                /* Replace data with len bytes in contents */
+        } else if (file != 0) {
+                /* Replace data with data read from file */
+        }
+        if (op == TTME_DEPOSIT) {
+                tt_message_reply(msg);
+        }
+        tttk_message_destroy(msg);
+        return 0;
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttmedia.load.reply;, &cdeman.ttmedia.ptype.declare;, &cdeman.ttmedia.Deposit;, &cdeman.tt.free;, &cdeman.tt.message.receive;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

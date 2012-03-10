@@ -1,0 +1,90 @@
+.\" $XConsortium: strmatch.3 /main/2 1996/10/29 15:13:19 drk $
+.de L		\" literal font
+.ft 5
+.it 1 }N
+.if !\\$1 \&\\$1 \\$2 \\$3 \\$4 \\$5 \\$6
+..
+.de LR
+.}S 5 1 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de RL
+.}S 1 5 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de EX		\" start example
+.ta 1i 2i 3i 4i 5i 6i
+.PP
+.RS 
+.PD 0
+.ft 5
+.nf
+..
+.de EE		\" end example
+.fi
+.ft
+.PD
+.RE
+.PP
+..
+.TH STRMATCH 3
+.SH NAME
+strmatch \- match shell file patterns
+.SH SYNOPSIS
+.L "int strmatch(char* s, char* p)"
+.br
+.L "char* submatch(char* s, char* p, int m)"
+.SH DESCRIPTION
+.I strmatch
+compares the string
+.I s
+with the shell pattern
+.I p
+and returns 1 for match and 0 otherwise.
+.I submatch
+does a leading substring match of the shell pattern
+.I p
+with the string
+.IR s .
+If
+.I m
+is 0 then the match is minimal, otherwise a maximal match is done.
+A pointer to the first character after the matched substring is returned,
+.I 0
+if there is no match.
+.PP
+Except for
+.I &
+and
+.IR ! ,
+each shell pattern has an equivalent 
+.IR egrep (1)
+construct.
+.EX
+	\fBsh pattern	egrep RE	description\fP
+	*		.*		0 or more chars
+	?		.		any single char
+	[.]		[.]		char class
+	[!.]		[^.]		negated char class
+	*(.)		(.)*		0 or more of
+	+(.)		(.)+		1 or more of
+	?(.)		(.)?		0 or 1 of
+	(.)		(.)		1 of
+	@(.)		(.)		1 of
+	a|b		a|b		a or b
+	a&b				a and b
+	!(.)				none of
+.EE
+.L \e
+is used to escape *, ?, (, |, &, ), [, and \e
+outside of [...].
+.SH "SEE ALSO"
+grep(1)
+.SH BUGS
+An unbalanced
+.L )
+terminates the top level pattern.
+.br
+Nested
+.L &
+and
+.L !
+constructs are non-intuitive and are computationally intensive.

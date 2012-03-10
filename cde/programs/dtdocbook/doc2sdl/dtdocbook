@@ -1,0 +1,476 @@
+#!/bin/ksh
+
+# get the name of this command for errors, warnings and messages
+command_name=`basename $0`
+
+
+# initialize the variables that get set by options
+typeset -i compress=0
+typeset -i decompress=0
+typeset -i help=0
+typeset -i log=0
+mapfiles=""
+catfiles=""
+outname=""
+typeset -i remove=0
+typeset -i uncompressed=0
+typeset -i verbose=0
+typeset -i debug=0
+
+
+# We use this string a couple of different places.
+c_and_d="Compress (-c) and decompress (-d)"
+
+
+# Create a funtion to call on fatal error before we know about file
+# names.
+function fatal {
+    echo "$command_name fatal error:"
+    echo "    $1"
+    exit 1
+}
+
+
+# Create a funtion to call on fatal error merging any error files.
+function fatalError {
+    echo "$command_name fatal error:"
+    echo "    $1"
+    if [[ -a $basename.out.err ]]; then
+	cat $basename.out.err >> $basename.log
+	rm -f $basename.out.err
+    fi
+    exit 1
+}
+
+
+# Create a function to call for warnings.
+function warn {
+    echo "$command_name warning:"
+    echo "    $1"
+}
+
+
+# Process the options.
+while 
+    getopts ":cdg:hlm:o:rs:t:uvxH:I:L:S:" opt
+do
+    case $opt in
+	(c) compress=1;;
+	(d) decompress=1;;
+	(g) if [[ "$catfiles" = "" ]] then
+		catfiles="m $OPTARG"
+	    else
+		catfiles="$catfiles -m $OPTARG"
+	    fi;;
+	(h) help=1;;
+	(i) info_dir="$OPTARG";;
+	(l) log=1;;
+	(m) mapfiles="$mapfiles $OPTARG";;
+	(o) oname="$OPTARG"
+	    if [[ $oname = -* ]] then
+		warn "Output file name (-o $oname) begins with a \"-\""
+	    fi;;
+	(r) remove=1;;
+	(s) sgml_dir="$OPTARG";;
+	(t) dbk_lib="$OPTARG";;
+	(u) uncompressed=1;;
+	(v) verbose=1;;
+	(x) debug=1;;
+	# undocumented options to be used at build time
+	(H) helptag2="$OPTARG";;
+	(I) instant="$OPTARG";;
+	(L) x_locale="$OPTARG";;
+	(S) sgmls="$OPTARG";;
+
+	(?) fatal "Unknown option: -$OPTARG";;
+    esac
+done
+
+dbk_lib="${dbk_lib:-/usr/dt/dthelp/dtdocbook}"  # if no -t, use installed dir
+sgml_dir="${sgml_dir:-${dbk_lib}}"              # if no -s, use -t
+info_dir="${info_dir:-/usr/dt/infolib}"         # if no -i, use installed dir
+sgml_cat="${sgml_dir}/SGML"
+if [[ ${#sgmls} -eq 0 ]] then                  # if no -S, use installed one
+    if [[ -x ${info_dir}/etc/nsgmls ]] then
+        sgmls="${info_dir}/etc/nsgmls"
+    else
+        sgmls="${info_dir}/etc/sgmls"
+    fi
+fi
+sgmls="${sgmls:-${info_dir}/etc/sgmls}"         # if no -S, use installed one
+instant="${instant:-${dbk_lib}/instant}"        # if no -I, use installed one
+x_locale="${x_locale:-${dbk_lib}/xlate_locale}" # if no -L, use installed one
+helptag2="${helptag2:-dthelp_htag2}"            # if no -H, use one in PATH
+
+# Set the environment variables for instant(1) to find its files
+export TPT_LIB="${dbk_lib}"
+export LOCALE_DIR="${dbk_lib}/$($x_locale)"
+
+# Determine whether we are using sgmls or nsgmls
+parser=`basename $sgmls`
+
+# If running sgmls, set the environment variable for sgmls(1) to find
+# its files; if running nsgmls (or anything besides sgmls), set the
+# environment variable for finding the default catalog - also, if we
+# are running sgmls, delete any -g options since sgmls doesn't support
+# catalogs
+if ([[ "$parser" = sgmls ]]) then
+    export SGML_PATH="${sgml_cat}/%P:${sgml_cat}/%S:%S"
+    catfiles=""
+elif ([[ "$SGML_CATALOG_FILES" = "" ]]) then
+	export SGML_CATALOG_FILES="${sgml_cat}/catalog"
+    else
+	export SGML_CATALOG_FILES="${SGML_CATALOG_FILES}:${sgml_cat}/catalog"
+fi
+
+# Set the environment variable to be picked up inside instant(1) when it
+# goes to call Tcl.
+export DBKTCL_DIR="${dbk_lib}/"
+
+
+# The user asked for help, give it and exit.
+if (( $help )); then
+    echo "$command_name [options] <file>"
+    echo "options:"
+    echo "    -c         compress an existing SDL file"
+    echo "    -d         decompress an existing SDL file"
+    echo "    -g         specify additional catalog file (repeatable)"
+    echo "    -h         emit this message"
+    echo "    -l         leave <basename>.log in current directory"
+    echo "    -m <maps>  add <maps> to list of SDATA or CMAP files"
+    echo "    -o <file>  use <file> as the output file name"
+    echo "    -r         remove leftover intermediate files"
+    echo "    -s <dir>   docbook.sgml is in <dir>"
+    echo "    -t <dir>   read translation specs, etc., from <dir>"
+    echo "    -u         do not compress during translation"
+    echo "    -v         verbose"
+    echo "    -x         leave intermediate files, for debugging"
+    exit 0
+fi
+
+
+# Check for too many input files or none.
+if (( $OPTIND < $# )); then
+    fatal "Too many names after the options, should only be input file name"
+elif (( $OPTIND > $# )); then
+    fatal "No input file name specified"
+fi
+
+
+# Get the name of the input file.
+iname=`eval echo \\\${\$OPTIND}`
+
+# Check for mutually exclusive options.
+if (( $compress && $decompress )); then
+    fatal "$c_and_d are mutually exclusive."
+fi
+
+
+# Get the basename and directory of the input file.
+basename=`basename $iname`
+dirname=`dirname $iname`
+
+
+# Look for an extension on the input file, if it's .sgm (or .sdl for
+# -c and -d), use it as is, else add the proper extension.
+if [[ $basename != *.* ]] then
+    if (( $compress || $decompress )); then
+	iname=$iname.sdl
+    else
+	iname=$iname.sgm
+    fi
+else
+    iname=$dirname/$basename
+    set -A basearray `echo $basename | tr "." " "`
+    basename=${basearray[0]}
+    length=${#basearray[*]}
+    if (( length = $length - 1 )); then
+	if (( $compress || $decompress )); then
+	    if [[ ${basearray[$length]} = "sgm" ]] then
+		fatal "$c_and_d take .sdl as an extension, not .sgm"
+	    elif [[  ${basearray[$length]} = "sdl" ]] then
+		unset basearray[$length]
+	    else
+		iname=$iname.sdl
+	    fi
+	else
+	    if [[ ${basearray[$length]} = "sdl" ]] then
+		fatal "Use .sgm or no extension, not .sdl"
+	    elif [[  ${basearray[$length]} = "sgm" ]] then
+		unset basearray[$length]
+	    else
+		iname=$iname.sgm
+	    fi
+	fi
+	unset basearray[0]
+	for i in ${basearray[*]}
+	do
+	    basename=$basename.$i
+	done
+    fi
+fi
+
+
+# If no output file was specified, use <basename>.sdl.
+if [[ $oname = "" ]] then
+    oname=$basename.sdl
+fi
+
+
+# Did the user ask to only remove old files (i.e., "clean")?  If so,
+# do it and exit.
+if (( $remove )); then
+    if (( $verbose )); then
+	echo "rm -f $basename.esis"
+    fi
+    rm -f $basename.esis
+    if (( $verbose )); then
+	echo "rm -f $basename.out.sdl"
+    fi
+    rm -f $basename.out.sdl
+    if (( $verbose )); then
+	echo "rm -f $basename.out.snb"
+    fi
+    rm -f $basename.out.snb
+    if (( $verbose )); then
+	echo "rm -f $basename.log"
+    fi
+    rm -f $basename.log
+    if (( $verbose )); then
+	echo "rm -f $basename.out.err"
+    fi
+    rm -f $basename.out.err
+    if (( $verbose )); then
+	echo "rm -f $oname"
+    fi
+    rm -f $oname
+    exit 0
+fi
+
+# make sure the error files are clean
+if (( $verbose )); then
+    echo "rm -f $basename.log"
+fi
+rm -f $basename.log
+if (( $? )); then
+    fatal "Could not remove $basename.log - permissions?"
+fi
+if (( $verbose )); then
+    echo "rm -f $basename.out.err"
+fi
+rm -f $basename.out.err
+if (( $? )); then
+    fatal "Could not remove $basename.out.err - permissions?"
+fi
+
+
+# Did the user ask for only compression an existing .sdl file?
+# If so, do it and exit with the return code of dthelp_htag2.
+if (( $compress )); then
+    if (( $verbose )); then
+        echo $helptag2 -c $iname
+	$helptag2 -c $iname
+	exit $?
+    fi
+    $helptag2 -c $iname 2>/dev/null
+    exit $?
+fi
+
+
+# Did the user ask for only decompression an existing .sdl file?
+# If so, do it and exit with the return code of dthelp_htag2.
+if (( $decompress )); then
+    if (( $verbose )); then
+        echo $helptag2 -d $iname
+	$helptag2 -d $iname
+	exit $?
+    fi
+    $helptag2 -d $iname 2>/dev/null
+    exit $?
+fi
+
+
+# If we get here, we really want to process a .sgm file.  First run
+# sgmls(1) on it.
+if [[ -a $basename.esis ]] then
+    if (( $verbose )); then
+	echo rm $basename.esis
+    fi
+    rm $basename.esis
+    if (( $? )); then
+	fatalError "Could not remove $basename.esis - permissions?"
+    fi
+fi
+if (( $verbose )); then
+    echo "${sgmls} -deglru$catfiles ${sgml_dir}/docbook.sgml $iname > $basename.esis"
+    ${sgmls} -deglru$catfiles ${sgml_dir}/docbook.sgml $iname > $basename.esis
+    if (( $? )); then
+	if (( !$debug )); then
+	    echo "rm -f $basename.esis"
+	    rm -f $basename.esis
+	fi
+	fatalError "Error processing $iname by $parser"
+    fi
+else
+    ${sgmls} -deglru$catfiles ${sgml_dir}/docbook.sgml $iname \
+				      > $basename.esis 2> $basename.log
+    if (( $? )); then
+	if (( !$debug )); then
+	    rm -f $basename.esis
+	fi
+	fatalError "Error processing $iname by $parser"
+    fi
+fi
+
+
+# The sgmls(1) run succeeded.  Run instant(1) on the result to create
+# an unenhanced .sdl file (e.g., no LOIDS yet).
+if [[ -a $basename.out.sdl ]] then
+    if (( $verbose )); then
+	echo rm -f $basename.out.sdl
+    fi
+    rm -f $basename.out.sdl
+    if (( $? )); then
+	fatalError "Could not remove $basename.out.sdl - permissions?"
+    fi
+    if (( $verbose )); then
+	echo rm -f $basename.out.snb
+    fi
+    rm -f $basename.out.snb
+    if (( $? )); then
+	fatalError "Could not remove $basename.out.snb - permissions?"
+    fi
+fi
+if (( $verbose )); then
+    echo "${instant} -o $basename.out.sdl \\\\"
+    if [[ $mapfiles != "" ]] then
+	echo "        $mapfiles \\\\"
+    fi
+    echo "        -c docbook.cmap \\\\"
+    echo "        -t docbook.ts \\\\"
+    echo "        $basename.esis"
+    ${instant} -o $basename.out.sdl  \
+	$mapfiles                 \
+        -c docbook.cmap \
+	-t docbook.ts   \
+	$basename.esis
+    status=$?
+    if ([[ $status -eq 255 ]]) then
+	warn "Warning(s) processing $basename.esis by instant"
+    elif ([[ $status -eq 1 ]]) then
+	if (( !$debug )); then
+	    echo "rm -f $basename.esis"
+	    rm -f $basename.esis
+	    echo "rm -f $basename.out.sdl"
+	    rm -f $basename.out.sdl
+	    echo "rm -f $basename.out.snb"
+	    rm -f $basename.out.snb
+	fi
+	fatalError "Error processing $basename.esis by instant"
+    fi
+else
+    ${instant} -o $basename.out.sdl  \
+	$mapfiles                 \
+	-c docbook.cmap \
+	-t docbook.ts   \
+	$basename.esis 2> $basename.log
+    status=$?
+    if ([[ $status -eq 255 ]]) then
+	warn "Warning(s) processing $basename.esis by instant"
+    elif ([[ $status -eq 1 ]]) then
+	if (( !$debug )); then
+	    rm -f $basename.esis
+	    rm -f $basename.out.sdl
+	    rm -f $basename.out.snb
+	fi
+	fatalError "Error processing $basename.esis by instant"
+    fi
+fi
+if (( !$debug )); then
+    if (( $verbose )); then
+	echo "rm -f $basename.esis"
+    fi
+    rm -f $basename.esis
+fi
+
+
+# The run of instant(1) succeeded. Run dthelp_htag2(1) to create the
+# generated elements (e.g., the list of ids or LOIDS), incorporate the 
+# table of semantics and styles (TOSS) and do the compression, if
+# requested.
+if (( $uncompressed )); then
+    flags=-ot
+else
+    flags=-otc
+fi
+if [[ -a $oname ]] then
+    if (( $verbose )); then
+	echo rm $oname
+    fi
+    rm $oname
+    if (( $? )); then
+	fatalError "Could not remove $oname - permissions?"
+    fi
+fi
+if (( $verbose )); then
+    echo "$helptag2 $flags $basename.out.sdl $oname"
+    $helptag2 $flags $basename.out.sdl $oname
+    if (( $? )); then
+	if (( !$debug )); then
+	    echo "rm -f $basename.out.sdl"
+	    rm -f $basename.out.sdl
+	    echo "rm -f $basename.out.snb"
+	    rm -f $basename.out.snb
+	    echo "rm -f $oname"
+	    rm -f $oname
+	fi
+	fatalError "Error processing $basename.out.sdl by $helptag2"
+    fi
+else
+    $helptag2 $flags $basename.out.sdl $oname 2>/dev/null
+    if (( $? )); then
+	if (( !$debug )); then
+	    rm -f $basename.out.sdl
+	    rm -f $basename.out.snb
+	    rm -f $oname
+	fi
+	fatalError "Error processing $basename.out.sdl by $helptag2"
+    fi
+fi
+if (( !$debug )); then
+    if (( $verbose )); then
+	echo "rm -f $basename.out.sdl"
+    fi
+    rm -f $basename.out.sdl
+    if (( $verbose )); then
+	echo "rm -f $basename.out.snb"
+    fi
+    rm -f $basename.out.snb
+fi
+
+
+# If we get here, all went well - we know the .log files are writable.
+if (( !$debug )); then
+    if (( $verbose )); then
+	echo "cat $basename.out.err >> $basename.log"
+    fi
+    cat $basename.out.err >> $basename.log
+    if (( $verbose )); then
+	echo "rm -f $basename.out.err"
+    fi
+    rm -f $basename.out.err
+fi
+
+# if we're not in debug mode and the log file wasn't requested, remove it
+if (( !$debug & !$log )); then
+    if (( $verbose )); then
+	echo "rm -f $basename.log"
+    fi
+    rm -f $basename.log
+fi
+
+if (( $verbose )); then
+    echo "$command_name successfully processed $iname"
+fi
+
+exit 0

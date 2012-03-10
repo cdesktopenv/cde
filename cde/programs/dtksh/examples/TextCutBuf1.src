@@ -1,0 +1,114 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: TextCutBuf1.src /main/3 1996/04/23 20:18:52 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates how the Text cut, copy and paste
+XCOMM  facilities work.
+XCOMM 
+
+XCOMM  Pushbutton Callback: cut the currently select text
+Cut()
+{
+   if XmTextCut $TEXT $(XtLastTimestampProcessed "-" $(XtDisplay "-" $TEXT)); 
+   then
+      echo "Cut occurred"
+   else
+      echo "No primary selection"
+   fi
+}
+
+XCOMM  Pushbutton Callback: copy the currently select text
+Copy()
+{
+   if XmTextCopy $TEXT $(XtLastTimestampProcessed "-" $(XtDisplay "-" $TEXT)); 
+   then
+      echo "Copy occurred"
+   else
+      echo "No primary selection"
+   fi
+}
+
+XCOMM  Pushbutton Callback: clear the text selection
+ClearSelection()
+{
+   XmTextClearSelection $TEXT $(XtLastTimestampProcessed "-" $(XtDisplay "-" $TEXT))
+}
+
+XCOMM  Pushbutton Callback: paste the cut buffer at the current insertion position
+Paste()
+{
+   if XmTextPaste $TEXT; then
+      echo "Paste occurred"
+   else
+      echo "No primary selection"
+   fi
+}
+
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL textCutBuf1 TextCutBuf1 "$0" "$@"
+XtSetValues $TOPLEVEL allowShellResize:True
+
+XtCreateManagedWidget FORM form XmForm $TOPLEVEL \
+
+XtCreateManagedWidget TEXT text XmText $FORM \
+	topAttachment:ATTACH_FORM \
+	topOffset:10 \
+	leftAttachment:ATTACH_FORM \
+	leftOffset:10 \
+	rightAttachment:ATTACH_FORM \
+	rightOffset:10 \
+	columns:40 \
+	value:"This is the default string"
+
+XtCreateManagedWidget TEXT2 text2 XmText $FORM \
+	topAttachment:ATTACH_WIDGET \
+	topWidget:$TEXT \
+	topOffset:10 \
+	leftAttachment:ATTACH_FORM \
+	leftOffset:10 \
+	rightAttachment:ATTACH_FORM \
+	rightOffset:10 \
+	bottomAttachment:ATTACH_FORM \
+	bottomOffset:10 \
+	columns:40 \
+	editable:False
+
+XtRealizeWidget $TOPLEVEL
+
+XtCreateApplicationShell TOPLEVEL2 textCutBuf1a TopLevelShell
+
+XtCreateManagedWidget RC rc XmRowColumn $TOPLEVEL2 \
+         orientation:HORIZONTAL \
+         numColumns:2 \
+         packing:PACK_COLUMN 
+
+XtCreateManagedWidget PB1 pb1 XmPushButton $RC \
+	labelString:"Cut Selection"
+XtAddCallback $PB1 activateCallback "Cut"
+
+XtCreateManagedWidget PB2 pb2 XmPushButton $RC \
+	labelString:"Copy Selection"
+XtAddCallback $PB2 activateCallback "Copy"
+
+XtCreateManagedWidget PB3 pb3 XmPushButton $RC \
+	labelString:"Paste"
+XtAddCallback $PB3 activateCallback "Paste"
+
+XtCreateManagedWidget PB4 pb4 XmPushButton $RC \
+	labelString:"Clear Selection"
+XtAddCallback $PB4 activateCallback "ClearSelection"
+
+XtRealizeWidget $TOPLEVEL2
+
+XtMainLoop

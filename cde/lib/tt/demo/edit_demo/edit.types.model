@@ -1,0 +1,39 @@
+/*
+ *
+ * edit.types
+ *
+ * Copyright (c) 1990 by Sun Microsystems, Inc.
+ */
+
+/* 
+ * This files shows the ptype and otype definitions used by edit.c
+ */
+#include "Sun_EditDemo_opnums.h"
+
+ptype Sun_EditDemo {
+	  start	TOOLTALK_DEMO_DIR "/edit";
+	 handle:
+	  /* edit file named in message, start editor if necessary */
+	  file_in_session Sun_EditDemo_edit(void)
+					=> start opnum=SUN_EDITDEMO_EDIT;
+
+	  /* tell editor viewing file in message to save file */
+	  file_in_session Sun_EditDemo_save(void)
+					=> opnum=SUN_EDITDEMO_SAVE;
+
+	  /* save file named in message to new filename */
+	  file_in_session Sun_EditDemo_save_as(in string new_filename)
+					=> opnum=SUN_EDITDEMO_SAVE_AS;
+
+	  /* bring down editor viewing file in message */
+	  file_in_session Sun_EditDemo_close(void)
+					=> opnum=SUN_EDITDEMO_CLOSE;
+};
+
+
+otype Sun_EditDemo_object {
+	 handle:
+	  /* hilite object given by objid, starts an editor if necessary */
+	  hilite_obj(in string objid)
+		=> Sun_EditDemo file_in_session start opnum=SUN_EDITDEMO_HILITE_OBJ;
+};

@@ -1,0 +1,190 @@
+<!-- $XConsortium: ch03.sgm /main/8 1996/09/08 19:36:25 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="PG.msgs.div.1">
+<title id="PG.msgs.mkr.1">アプリケーションからのメッセージの表示とログ採取</title>
+<para>アプリケーションを実行しているユーザは、メッセージ・フッタ、エラー・ダイアログ、または警告ダイアログにメッセージが表示され、適宜詳しい説明がオンラインヘルプにあることを期待します。
+環境によっては、ユーザにとって表示する必要のないメッセージがログされることもあります。
+共通デスクトップ環境のアプリケーションは、エラー・メッセージと警告を表示しログ採取するための共通モデルに従います。
+</para>
+<informaltable id="PG.msgs.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'How to Present Error Messages23'--><xref
+role="JumpText" linkend="PG.msgs.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Information to Present in Error Dialogs24'--><xref
+role="JumpText" linkend="PG.msgs.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Linking Message Dialogs to Online
+Help24'--><xref role="JumpText" linkend="PG.msgs.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Recovery Routines25'--><xref role="JumpText"
+linkend="PG.msgs.mkr.5"></para></entry></row>
+</tbody></tgroup></informaltable>
+<sect1 id="PG.msgs.div.2">
+<title id="pg.msgs.mkr.2">エラー・メッセージの表示方法
+<indexterm><primary>エラー・メッセージ</primary><secondary>表示</secondary></indexterm></title>
+<para>メッセージ・テキストの処理方法のために、ダイアログ、フッタ、または別のユーザ・インタフェースのどこかに表示しないと、ユーザはアプリケーションからのメッセージを見ることができません。
+</para>
+<para>CDEでは、そのようなメッセージは、通常のユーザが定期的に調べることのないログ・ファイルに出力されます。
+警告、メッセージ、及びエラー条件を表示する場所を決めるときには、次の規則に従ってください。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>情報を示すメッセージの場合は、
+</emphasis>アプリケーションのメッセージ・フッタにテキストを表示します。
+たとえば、「MyDocファイルがコピーされました」のようになります。
+</para>
+</listitem><listitem><para><emphasis>エラーまたは重大な警告についてのメッセージの場合は
+</emphasis>（ユーザにとって重要な操作が失敗した場合のトラブルなど）、
+エラー・ダイアログまたは警告ダイアログに表示します。</para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="PG.msgs.div.3">
+<title id="PG.msgs.mkr.3">エラー・ダイアログに表示する情報</title>
+<para>優れたエラー・ダイアログまたは警告ダイアログでは次の情報を表示します。
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>なにが起きたか(ユーザの視点から)</para>
+</listitem><listitem><para>原因（ユーザが現在の作業と環境に関連づけて理解できるような簡単な表現で）
+</para>
+</listitem><listitem><para>問題の解決方法</para>
+</listitem></itemizedlist>
+<para>４、５行のエラー・ダイアログで説明できない場合には、ダイアログに[ヘルプ]ボタンを追加して、それをアプリケーションのヘルプ・ボリューム内のトピックにリンクすることを検討してください。
+</para>
+<para>メッセージの作成の詳細については、
+<emphasis>共通デスクトップ環境 国際化対応プログラマーズ・ガイド</emphasis>を
+参照してください。</para>
+</sect1>
+<sect1 id="pg.msgs.div.4">
+<title id="pg.msgs.mkr.4">メッセージ・ダイアログとオンライン・ヘルプのリンク</title>
+<para>追加の背景情報が必要な場合や、４、５行のダイアログではエラーを十分に説明できない場合には、オンライン・ヘルプにリンクするボタンを追加することができます。
+</para>
+<para>ダイアログのオンライン・ヘルプの追加、簡単な作業でできます。
+特定なダイアログをオンライン・ヘルプの候補として決めたら、次のようにします。
+</para>
+<orderedlist><listitem><para>エラー・ヘルプに対して固有なIDを選びます。</para>
+<para>このIDがオンライン・ヘルプ・テキストへのリンクとなります。
+IDは、６４文字以下でなければなりません。たとえば、
+ <filename>DiskSpaceError</filename>のようになります。</para>
+</listitem><listitem><para>ダイアログを作成して、ヘルプ・コールバックを追加します。
+</para>
+<para>エラー・メッセージに対しては<command>XmCreateErrorDialog</command>簡易関数を、警告に対しては
+<command>XmCreateWarningDialog</command>簡易関数を使用して、次のようにヘルプ・コールバックを追加します。
+</para>
+<programlisting>XtAddCallback(dialog, XmNhelpCallback, <replaceable remap="Emphasis">helpfn</replaceable>, &ldquo;<replaceable remap="Emphasis">ID</replaceable>&rdquo;);</programlisting>
+<para>この例では、<emphasis>helpfn</emphasis>はヘルプ・ダイアログを管理するために作成したヘルプ関数であり、文字列「<emphasis>ID</emphasis>」はエラー・メッセージに対して選んだIDです(たとえば<filename>DiskSpaceError</filename>)。ヘルプ関数では、<command>XmNlocationId</command>リソースを<emphasis>ID</emphasis>の値に設定します。<filename>/usr/dt/examples/dthelp</filename>デイレクトリに、このようなヘルプ関数の設定例があります。
+</para>
+<para>ヘルプ・ダイアログ・ウィジットの作成と管理の詳細については、
+<emphasis>共通デスクトップ環境　ヘルプ・システム 設計者およびプログラマのためのガイド</emphasis>を参照してください。</para>
+</listitem><listitem><para>エラー・メッセージに対応するヘルプ・セクションを書きます。
+</para>
+<para>ヘルプ・ボリュームの「メッセージ」の章に、メッセージの説明を書きます。
+ヘルプのソース・ファイルでは、メッセージごとにセクションを設けなければならず、セクションの始めのID=属性は、コードの中でエラーに対して選んだIDと一致しなければなりません。
+</para>
+<para>たとえば、<command>s1</command>セクション見出しでは、IDは<computeroutput>DiskSpaceError</computeroutput>です。</para>
+<para>次の見出しは、ユーザのシステムに十分なデイスク領域がないときに、「ファイルをセーブできません」というエラー・メッセージを表示します。
+</para>
+<programlisting>&lt;s1 ID=DiskSpaceError>Could Not Save File &lt;\s1></programlisting>
+<para>
+ 規則によって、セクションの見出しのテキストはエラー・ダイアログと一対一に対応しなければならないので注意してください。</para>
+</listitem><listitem><para>ヘルプ・ファイルを再作成します。</para>
+<para>エラー・メッセージに対する新しいヘルプ・セクションは、ヘルプ・ファイルを再作成して
+(<command>dthelptag</command>プログラムを使用して)、アプリケーションを再コンパイルするとすぐにアクティブになります。
+</para>
+</listitem></orderedlist>
+<para>オンライン・ヘルプの記述と作成の詳細については、<emphasis>共通デスクトップ環境　ヘルプ・システム 設計者およびプログラマのためのガイド</emphasis>を参照してください。
+</para>
+</sect1>
+<sect1 id="PG.msgs.div.5">
+<title id="PG.msgs.mkr.5">回復処理ルーチン</title>
+<para>エラー条件のための回復処理ルーチンがある場合には、ダイアログに[再実行]
+ボタンを追加することを検討してください。
+たとえば、システムのディスク領域が不足しているためにファイルをコピーできなかった場合、ダイアログに[再コピー]オプションがあれば、ユーザはディスク領域やアクセス権の問題を訂正してから、そのオプションを選ぶことができます。
+</para>
+</sect1>
+<sect1 id="PG.msgs.div.6">
+<title id="PG.msgs.mkr.6">メッセージ・ログ採取の使用</title>
+<indexterm><primary>エラー・メッセージ</primary><secondary>ログ採取</secondary></indexterm>
+<indexterm><primary>メッセージ・ログ採取</primary><secondary>一般的な情報</secondary></indexterm>
+<para>メッセージ・ログ採取・サービスはCDEアプリケーションのメッセージのログを取ります。
+このサービスは、
+ユーザやシステム管理者が問題を診断するために使用できるメッセージの位置を提供します。
+デスクトップ環境では、アプリケーションは<literal>ファイル・マネージャ</literal>または<literal>フロント・パネル</literal>を経て
+(シェルからの直接呼び出しに対抗するものとして)開始します。
+アプリケーションが重要な情報を<literal>stderr</literal>に書く場合に、その情報が失われることがあります。
+ですから、ユーザがその情報をログ内で見つけられるように、アプリケーションはCDEメッセージ・ログ採取・サービスを使用しなければなりません。
+ユーザ・インタフェースを持たないライブラリやアプリケーションも、メッセージのログを取るためにこのサービスを使用します。
+このようなアプリケーションは、システム・コンソールや<literal>stderr</literal>に出力する代わりに、メッセージ・ログ採取・サービスを使用しなければなりません。
+</para>
+<para>メッセージ・ログ採取・サービスは、次の型のメッセージをサポートします。
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>情報：　ユーザが警告を受ける必要のない情報メッセージ（たとえば、ステータス情報など）。ユーザにとっては、この型のメッセージは見なくてもよいかもしれません。
+</para></listitem>
+<listitem><para>標準エラー出力：　アプリケーションが、子プロセスから<literal>stderr</literal>のログを取る必要がある場合は、その<literal>stderr</literal>は、Stderrメッセージ型としてログ採取されなければなりません。たとえば、<literal>dtexec</literal>プログラムは、このメッセージ型を
+ログを取るメッセージを識別するために使用します(コマンド型のアクションからの<literal>stderr</literal>)。
+</para></listitem>
+<listitem><para>デバッグ：　アプリケーションからのデバッグ・メッセージ
+(たとえば、<literal>-debug</literal>コマンド行オプションが使われたときに出力されるメッセージ
+)は、デバッグ型メッセージとしてログ採取されなければなりません。
+</para></listitem>
+<listitem><para>警告：　アプリケーション・プログラムを終了させるほど重大なエラーではない場合です。
+</para></listitem>
+<listitem><para>エラー：　プログラムを終了させなくてはならないほど致命的なエラーの場合です。
+</para></listitem>
+</itemizedlist>
+<para>ユーザ・インタフェースを持たないデモン型のアプリケーション（たとえば、<literal>inetd</literal>によって開始される低レベル・サービスなど）は、
+CDEメッセージ・ログ採取・サービスよりもシステムのsyslogサービスを使う方が向いています。
+</para>
+<sect2 id="PG.msgs.div.7">
+<Title>ログ項目の書式</title>
+<indexterm><primary>メッセージ・ログ採取</primary><secondary>ログ項目の書式</secondary></indexterm>
+<para>メッセージ・ログの項目と書式を次に示します。
+</para>
+<para><literal>***</literal> <symbol role="Variable">msgtype_string</symbol> <literal>(</literal><symbol role="Variable">msg_type</symbol><literal>):</literal> <symbol role="Variable">program_name</symbol><literal>: PID</literal> <symbol role="Variable">proc_id</symbol><literal>:</literal> <symbol role="Variable">date</symbol>
+</para>
+<para><symbol role="Variable">_text</symbol>
+</para>
+<para><literal>*** [</literal><symbol role="Variable">bytes_output</symbol><literal>]</literal>
+</para>
+<para>たとえば
+</para>
+<programlisting>*** WARNING(3): fontview: PID 12312: Thu Jun 13 16:51:51 1995
+The specified font 'fixed' could not be loaded.
+*** [109]
+
+</programlisting>
+<Para>日付の後に改行、テキストの後に改行、そしてバイト数の後に２行改行（空白行が各ログ項目を分けます）
+型の文字列と日付指定は、現在のロケールのメッセージ・カタログから検索されなければなりません。
+ログを取るためにメッセージを配置することは、アプリケーションの責任です。
+</para>
+</sect2>
+<sect2 id="PG.msgs.div.8">
+<title>メッセージ・ログ採取API</title>
+<para>メッセージ・ログ採取APIには、次の機能があります。
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><function>DtMsgLogMessage</function>：　メッセージ・ログにメッセージのログを取る。
+<indexterm><primary>DtMsgLogMessage</primary></indexterm>
+</para></listitem>
+<listitem><para><function>DtMsgLogSetHandler</function>:　アプリケーションが<function>DtMsgLogMessage</function>を呼び出したときに呼び込まれる代替メッセージ・ログ採取ハンドラを組み込む。
+この機能はオプションで、デフォルトのメッセージ・ログ採取ハンドラを取り消すときだけ使用します。
+<indexterm><primary>DtMsgLogSetHandler</primary></indexterm>
+</para>
+</listitem>
+<listitem><para><function>DtMsgLogOpenFile</function>：　メッセージ・ログ・ファイルを開きます。
+<indexterm><primary>DtMsgLogOpenFile</primary></indexterm>
+</para></listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->
+

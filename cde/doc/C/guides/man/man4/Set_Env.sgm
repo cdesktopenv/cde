@@ -1,0 +1,92 @@
+<!-- $XConsortium: Set_Env.sgm /main/6 1996/09/08 20:15:27 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN307.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN307.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Set_Environment</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Set_Environment</Symbol></RefName>
+<RefPurpose>set a tool's environment
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Set_Env.sgm /main/6 1996/09/08 20:15:27 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>Set_Environment(in string <Symbol Role="Variable">variable</Symbol>,
+        in string <Symbol Role="Variable">value</Symbol>
+        [...]);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Set_Environment</Symbol> request
+replaces the value of the indicated environment variable(s).
+</Para>
+<Para>The
+<Symbol Role="Variable">variable</Symbol> argument
+is the name of the environment variable to set.
+</Para>
+<Para>The
+<Symbol Role="Variable">value</Symbol> argument
+is the value of the environment variable.
+If this argument is unset (in other words, has a
+value of
+<Literal>(char *)0</Literal>), then the
+variable should be removed from the environment.
+It is not
+an error for the variable not to have existed in the first place.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttdt.session.join;, function can be used to register for,
+and transparently process, the
+<Symbol Role="Message">Set_Environment</Symbol> request.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The
+<Symbol Role="Message">Set_Environment</Symbol> request can be sent as in the following example:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message msg = tttk_message_create(0, TT_REQUEST, TT_SESSION,
+                        the_recipient_procid, TTDT_SET_ENVIRONMENT,
+                        my_callback);
+tt_message_arg_add(msg, TT_IN, Tttk_string, "PATH");
+tt_message_arg_add(msg, TT_IN, Tttk_string, "/bin:/usr/ucb");
+tt_message_send(msg);
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<![ %CDE.C.CDE; [
+<RefSect1>
+<Title>WARNINGS</Title>
+<Para><Symbol Role="Message">Set_Environment</Symbol> can also be sent as a multicast notice, as an
+<Emphasis>edict</Emphasis> to all tools in the scope of the message.
+The consequences of doing so can be severe and unexpected.
+</Para>
+</RefSect1>
+]]>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.tt.message.arg.add;, &cdeman.tt.message.send;, &cdeman.ttdt.session.join;; <Symbol Role="Message">Get_Environment</Symbol> request.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

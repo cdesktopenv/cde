@@ -1,0 +1,647 @@
+<!-- $XConsortium: ch03.sgm /main/8 1996/08/31 15:13:39 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="IPG.distr.div.1">
+<title id="IPG.distr.mkr.1"><indexterm><primary>分散国際化についてのガイドライン</primary></indexterm>国際化と分散ネットワーク</title>
+<para>この章では、国際化と分散ネットワークに関連する作業について説明します。</para>
+<para id="IPG.distr.mkr.2"></para>
+<sect1 id="IPG.distr.div.2">
+<title id="IPG.distr.mkr.3">変換の概念</title>
+<para>この節では、8ビットの<indexterm><primary>ネットワークにおける基本的な変換</primary></indexterm> ユーザ名および8ビット・データを、ftp、mail、デスクトップ・クライアントのクライアント間通信などの通信ユーティリティによって、ネットワーク上で<indexterm><primary>ネットワーク</primary></indexterm> 通信する方法について説明します。</para>
+<para>データを通信するに際して、まず３つの<indexterm><primary>ネットワーク</primary></indexterm> 考慮すべき点があります。<literal><indexterm><primary>インタフェース</primary><secondary>ネットワーク通信のインタフェース</secondary></indexterm></literal></para>
+<itemizedlist remap="Bullet1"><listitem><para>送信側のコード・セットと受信側のコード・セット</para>
+</listitem><listitem><para>通信プロトコルが8ビット・データを許可するか、それとも、7ビット・コード・データに限定されているか。（たとえば、日本のJUNETはJIS（日本工業規格）コードのデータを7ビット・プロトコルで通信します。）</para>
+</listitem><listitem><para>プロトコル規則ごとの使用可能な変換エンコードの型。実際に必要な変換は使用される特定のプロトコルに依存します。</para>
+</listitem></itemizedlist>
+<para>リモート<indexterm><primary>コード・セット</primary><secondary>ネットワーク・リモート・ホストのコードセット</secondary></indexterm> ホストがローカル・ホストと同じコード・セットを使用している場合は、次の事項が真となります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>プロトコルが8ビット・データを許可する場合、変換は必要ありません。</para>
+</listitem><listitem><para>プロトコルが7ビット・データしか許可しない場合、8ビット・コード・ポイントを7ビットASCII値にマップする必要があります。これは、<command>iconv</command>フレームワークと次の7ビット・エンコード方法のうちのひとつを使用して達成することができます。</para>
+<itemizedlist remap="Bullet2"><listitem><para>8ビット・データを、POSIX.2仕様のuuencodeおよびuudecodeアルゴリズムに指定されている通りにマップする。</para>
+</listitem><listitem><para>任意で、8ビット・データがプロトコルに定義されている7ビット変換エンコードにマップされる。たとえば、Xlibの7ビットISO2022やMIME - 多目的メール（Multipurpose Internet Message Extensions）のbase64があります。</para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para>リモート<indexterm><primary>コード・セット</primary><secondary>ネットワーク・ローカル・ホストのコード・セット</secondary></indexterm> ホストのコード・セットがローカル・ホストのコード・セットと異なる場合は、次の２つ事項が適用されます。必要な変換は使用される特定のプロトコルに依存します。</para>
+<itemizedlist remap="Bullet1"><listitem><para>プロトコルが8ビット・データを許可する場合、プロトコルは、どちら側が<command>iconv</command>変換を行なうかを指定し、回線上でのエンコードを指定する必要があります。プロトコルによっては、可能なすべてのコード・セットをエンコードし、文字レパートリーを識別することができる8ビット変換エンコードをおすすめします。</para>
+</listitem><listitem><para>プロトコルが7ビット・データしか許可しない場合、文字レパートリーを識別する7ビット変換エンコードが必要です。</para>
+</listitem></itemizedlist>
+<sect2 id="IPG.distr.div.3">
+<title>iconv<indexterm><primary>iconv</primary><secondary>iconvインタフェース</secondary></indexterm> インタフェース</title>
+<para>ネットワーク環境では、通信中のシステムのコード・セットと通信プロトコルによって、ユーザが指定したデータが意味のある方法でリモート・システムに送信されるように、データの変換方法が決定されます。ユーザのデータ（ユーザ名ではありません）を送信側のコード・セットから受信側のコード・セットに変換したり、プロトコルに準拠するよう8ビット・データを7ビット形式に変換したりする必要があります。これを達成するには一様なインタフェースが必要です。</para>
+<para>次の例は、<filename>iconv_open()</filename>、<filename>iconv()</filename> および<filename>iconv_close()</filename>の使い方を説明し、<command>iconv</command>インタフェースの使用方法を示しています。変換を行なうためには、<filename>iconv_open()</filename>の後に<filename>iconv()</filename>を続ける必要があります。
+<emphasis>7ビット変換</emphasis>および<emphasis>8ビット変換</emphasis>という用語はそれぞれ、7ビット・データの変換エンコードと8ビット・データの変換エンコードを指すために使用されます。</para>
+<sect3 id="IPG.distr.div.4">
+<title>送信側と受信側が同じコード・セットを使用している場合</title>
+<itemizedlist remap="Bullet1"><listitem><para>プロトコルが8ビット・データを許可している場合は、同じコード・セットが使用されているので8ビット・データを使用します。変換は必要ありません。</para>
+</listitem><listitem><para>プロトコルが7ビット・データしか許可しない場合は、<computeroutput>iconv</computeroutput>を使用します。</para>
+<itemizedlist remap="Bullet2"><listitem><para>送信側</para>
+<programlisting>cd = iconv_open(locale_codeset, uuencoded);</programlisting>
+</listitem><listitem><para>受信側</para>
+<programlisting>cd = iconv_open(&ldquo;uucode&rdquo;, locale_codeset);</programlisting>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<sect4 id="ipg.distr.div.5">
+<title>送信側と受信側が異なるコード・セットを使用している場合</title>
+<itemizedlist remap="Bullet1"><listitem><para>プロトコルが8ビット・データを許可する場合</para>
+<itemizedlist remap="Bullet2"><listitem><para>送信側</para>
+<programlisting>cd = iconv_open(locale_codeset,<symbol role="Variable">8-bitinterchange</symbol>);</programlisting>
+</listitem><listitem><para>受信側</para>
+<programlisting>cd = iconv_open(<symbol role="Variable">8-bitinterchange</symbol>, locale_codeset);</programlisting>
+</listitem></itemizedlist>
+</listitem><listitem><para>プロトコルが7ビット・データしか許可しない場合は、次のようにします。</para>
+<itemizedlist remap="Bullet2"><listitem><para>送信側</para>
+<programlisting>cd = iconv_open(locale_codeset, <symbol role="Variable">7-bitinterchange</symbol>);</programlisting>
+</listitem><listitem><para>受信側</para>
+<programlisting>cd = iconv_open(<symbol role="Variable">7-bitinterchange</symbol>, locale_codeset);</programlisting>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para><computeroutput>locale_codeset</computeroutput>はアプリケーションがローカルに使用しているコード・セットを参照します。<computeroutput>nl_langinfo(CODESET)</computeroutput>関数を使用して現在のロケールに関連付けられたコード・セットを取得することができますが、変換名が <computeroutput>nl_langinfo(CODESET)</computeroutput>関数からの戻り値と一致するかどうかはインプリメンテーションに依存します。</para>
+<para>表3-1に、さまざまな条件で変換を実行するための<command>iconv</command>の使用方法を示します。プロトコルによっては他の変換が必要な場合もあります。</para>
+<para><emphasis>変換を実行するためのiconvの使用方法</emphasis></para>
+<informaltable id="ipg.distr.itbl.2">
+<tgroup cols="5" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="0.93in">
+<colspec colname="col2" colwidth="0.97in">
+<colspec colname="col3" colwidth="0.97in">
+<colspec colname="col4" colwidth="1.05in">
+<colspec colname="col5" colwidth="1.10in">
+<spanspec nameend="col3" namest="col2" spanname="2to3">
+<spanspec nameend="col5" namest="col4" spanname="4to5">
+<spanspec nameend="col5" namest="col1" spanname="1to5">
+<tbody>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" spanname="2to3" valign="top"><para><literal>同じコード・セットを使用するシステムとの通信（例: XYZ）</literal></para></entry>
+<entry align="left" spanname="4to5" valign="top"><para><literal>異なったコード・セットを使用するシステムとの通信、または、受信側のコード・セットが不明</literal></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><literal>使用する変換</literal></para></entry>
+<entry align="left" valign="top"><para><literal>7ビット・プロトコル</literal></para></entry>
+<entry align="left" valign="top"><para><literal>8ビット・プロトコル</literal></para></entry>
+<entry align="left" valign="top"><para><literal>7ビット・プロトコル</literal></para></entry>
+<entry align="left" valign="top"><para><literal>8ビット・プロトコル</literal></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>コード XYZ</para></entry>
+<entry align="left" valign="top"><para>無効</para></entry>
+<entry align="left" valign="top"><para>最適</para></entry>
+<entry align="left" valign="top"><para>無効</para></entry>
+<entry align="left" valign="top"><para>リモート・コード・セットが不明の場合は無効
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>7ビット変換 ISO2022</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>最適</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>8ビット変換 ISO2022 ISO 10646
+</para></entry>
+<entry align="left" valign="top"><para>Invalid <superscript>1</superscript></para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>無効</para></entry>
+<entry align="left" valign="top"><para>最適</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>7ビット タグなし 引用符付き 印刷可能なuucode</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>コード・セットの識別が必要
+</para></entry>
+<entry align="left" valign="top"><para>コード・セットの識別が必要
+</para></entry></row>
+<row rowsep="0">
+<entry align="left" valign="top"><para>8ビット タグなし base64</para></entry>
+<entry align="left" valign="top"><para>無効</para></entry>
+<entry align="left" valign="top"><para>OK</para></entry>
+<entry align="left" valign="top"><para>コード・セットの識別が必要
+</para></entry>
+<entry align="left" valign="top"><para>コード・セットの識別が必要
+</para></entry></row>
+<row>
+<entry align="left" spanname="1to5" valign="top"><para><footnoteref linkend="ipg.distr.fn.10"></footnoteref><footnote
+id="ipg.distr.fn.10"><para><superscript>1</superscript>無効とは、選択したコード・セットとプロトコルの型には変換エンコードは使用すべきではないという意味です。</para>
+</footnote></para></entry></row></tbody></tgroup></informaltable>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="IPG.distr.div.6">
+<title>状態をもつ変換と状態をもたない変換<indexterm><primary>コード・セット</primary><secondary>状態をもつエンコードのコード・セット</secondary></indexterm></title>
+<para>コード<indexterm><primary>コード・セット</primary><secondary>状態をもたないエンコードのコード・セット</secondary></indexterm> セットは、状態をもつエンコードと状態をもたないエンコードの２つのカテゴリに分類することができます。</para>
+<sect3 id="IPG.distr.div.7">
+<title><indexterm><primary>状態をもつエンコードと状態をもたないエンコードの変換</primary></indexterm> 状態をもつエンコードの変換</title>
+<para>状態をもつエンコードは、シフトイン／シフトアウトなどの制御コードのシーケンスを使用して特定のコード値に関連付けられたキャラクタ・セットを変換します。</para>
+<para>たとえば、コンパウンド・テキストでは、文字のデータ・ストリームで日本語の16ビット・データの開始を示すのに制御シーケンス「ESC$(B」を使用することができます。また、このダブルバイト文字データの終了と8ビットASCIIデータの開始を示すのに、「ESC(B」を使用することができます。この状態をもつエンコードでは、ビット値0x43はシフト状態が不明の場合は解釈できません。EBCDICアジア・コード・セットは、シフトイン／シフトアウト制御を、それぞれ、ダブルバイトとシングルバイトのエンコードの間を切り換えるのに使用します。</para>
+<para>別のコード・セットへの状態をもつエンコードの変換を実行するために記述されるコンバータは、特別な処理が必要なため少し複雑になる傾向があります。</para>
+</sect3>
+<sect3 id="IPG.distr.div.8">
+<title><indexterm><primary>変換</primary><secondary>状態をもたないエンコードの変換</secondary></indexterm> 状態をもたないエンコードの変換</title>
+<para>状態をもたないコード・セットは次の２つの型に分類することができます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>シングルバイト・コード・セット（ISO8859ファミリ等）</para>
+</listitem><listitem><para>マルチバイト・コード・セット（日本語用PCコードやShft-JIS(SJIS)など）</para>
+</listitem></itemizedlist>
+<para><emphasis>マルチバイト・コード・セット</emphasis>という用語は、1文字をエンコードするのにひとつ以上のバイトを必要とするコード・セットを指すのにも使用されます。マルチバイト・コード・セットは状態をもたないとみなされます。</para>
+<note>
+<para>コード・セットが同じキャラクタ・セットを表す場合のみ、変換は意味をもちます。</para>
+</note>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="IPG.distr.div.9">
+<title id="IPG.distr.mkr.4">シンプル・テキストの基本的な変換</title>
+<para><indexterm><primary>変換</primary><secondary>状態をもつコード・セットの変換</secondary></indexterm><indexterm><primary>変換</primary><secondary>シンプル・テキストの変換</secondary></indexterm> プログラムがリモート・ホストにある別のプログラムにデータを通信する時には、元のマシンのコード・セットから受信側のコード・セットにデータを変換する必要性があります。
+たとえば、PCコードを使用しているPCシステムが、ISO/EUC（国際標準化機構／拡張UNIXコード）エンコードを使用しているワークステーションと通信する必要がある場合などです。また、プログラムがデータを取得したコード・セットとは別のコード・セットでそのデータを表示しなければならない場合も同様です。これらの変換をサポートするために、標準プログラム・インタフェースがXPG4 <filename>iconv()</filename>関数定義に基づいて提供されています。</para>
+<para>コード・セット変換を行なっているすべてのコンポーネントは、変換のインタフェースとして<command>iconv</command>を使用しなければなりません。システムは変換のデフォルト・セットをカスタマイズする機構だけでなく、広範囲の変換を提供することが期待されます。</para>
+<sect2 id="IPG.distr.div.10">
+<title>iconv変換関数<indexterm><primary>iconv</primary><secondary>iconvのテキスト変換関数</secondary></indexterm></title>
+<para>あるコード・セットから別のコード・セットへ変換するための<indexterm><primary>変換</primary><secondary>iconvのテキスト変換</secondary></indexterm> 共通の方法は、テーブルを使用する方法です。テーブルが大きすぎる場合は、アルゴリズムによる方法が望ましいでしょう。さまざまな要求を満たすため、XPG4にコード・セット変換のフレームワークが定義されています。このフレームワークでは、ひとつのコード・セットから別のコード・セットに変換するために、コンバータを開き、変換を実行し、コンバータを閉じます。<command>iconv</command>関数には、<filename>iconv_open()</filename>、<filename>iconv()</filename>、<filename>iconv_close()</filename>があります。</para>
+<para>コード・セット・コンバータは、<filename>iconv_open()</filename>、<filename>iconv()</filename>、<filename>iconv_close()</filename>の関数セットのフレームワークの下にあります。これらの関数によって、いくつかの型の異なったコンバータを提供し使用することができます。アプリケーションはこれらの関数を呼び出し、あるコード・セットの文字を別のコード・セットの文字に変換<indexterm><primary>シンプル・テキスト変換関数</primary></indexterm> します。<command>iconv</command>フレームワークにより、コンバータは一様の形式で提供されます。これらのコンバータのアクセスはX/Open XPG4下で標準化されています。</para>
+</sect2>
+<sect2 id="ipg.distr.div.11">
+<title>Xクライアント間（ICCCM）変換<indexterm><primary>Xクライアント間（ICCCM）変換関数</primary></indexterm> 関数</title>
+<para>Xlibは、<indexterm><primary>変換</primary><secondary>Xlibにおける変換</secondary></indexterm> 変換用に次の関数を提供します。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="214*">
+<colspec align="left" colwidth="314*">
+<thead>
+<row><entry align="left" valign="bottom"><para>X ICCCMマルチバイト関数
+</para></entry><entry align="left" valign="bottom"><para>ICCCMワイド・キャラクタ関数</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>XmbTextPropertyToTextList()</para></entry>
+<entry align="left" valign="top"><para>XwcTextPropertyToTextList()</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmbTextListToTextProperty()</para></entry>
+<entry align="left" valign="top"><para>XwcTextListToTextProperty()</para></entry>
+</row></tbody></tgroup></informaltable>
+<note>
+<para><computeroutput>Motif</computeroutput>ライブラリは、<filename>XmCvtXmStringToCT()</filename>関数と<filename>XmCvtCtToXmString()</filename>関数を提供しますが、特定のXmStringタグではハードコードされた前提条件があるためおすすめできません。たとえば、タグが <computeroutput>bold</computeroutput>の場合、<filename>XmCvtXmStringToCT()</filename>はインプリメンテーションに依存します。さまざまなプラットフォームに渡って、この関数の動作を世界中すべての地域で保証することはできません。</para></note>
+</sect2>
+<sect2 id="IPG.distr.div.12">
+<title>ウィンドウ・タイトル</title>
+<para>タイトルを設定する<indexterm><primary>ウィンドウのタイトル</primary>
+</indexterm> 一般的な方法はリソースを使うことです。しかし、ウィンドウのタイトルを直接設定するアプリケーションの場合、ローカライズされたタイトルをウィンドウ・マネージャに送信しなければなりません。次のガイドラインの他に<command>XICCEncodingStyle</command>に定義された<command>XCompoundTextStyle</command>エンコードを使用してください。</para>
+<itemizedlist remap="Bullet1"><listitem><para>コンパウンド<indexterm><primary>ウィンドウ・タイトルのガイドライン</primary></indexterm> テキストは、 <computeroutput>XmbTextListToTextProperty()</computeroutput>、もしくは、<computeroutput>XwcTextListToTextProperty()</computeroutput>のいずれかにより作成することができます。</para>
+</listitem><listitem><para>ローカライズされたテキストは<computeroutput>WMShell</computeroutput>ウィジェットの<computeroutput>XmNtitle</computeroutput>リソース、および、<computeroutput>XmNtitleEncoding</computeroutput>リソースを使用して表示することができます。ローカライズされたアイコン名は<computeroutput>TopLevelShell</computeroutput>ウィジェットの <computeroutput>XmNiconName</computeroutput>リソース、および、<computeroutput>XmNiconNameEncoding</computeroutput>リソースを使用して表示することができます。</para>
+</listitem><listitem><para>ダイアログ・ボックスのローカライズされたタイトルは<computeroutput>XmBulletinBoard</computeroutput>ウィジェットの<computeroutput>XmNdialogTitle</computeroutput>リソースを使用して表示することができます。</para>
+</listitem><listitem><para>ウィンドウ・マネージャはローカライズされた文字列を表示するのに適切なフォント・リストをもっている必要があります。</para>
+</listitem></itemizedlist>
+<para>次にローカライズされたタイトルとアイコン名を表示する例<indexterm><primary>ローカライズされたタイトルとアイコン名の例</primary></indexterm> を示します。この例では、コンパウンド・テキストはコンパウンド・ストリングから作成されます。</para>
+<programlisting>include        &lt;nl_types.h>
+Widget         toplevel;
+Arg            al[10];
+int            ac;
+XTextProperty  title;
+char           *localized_string;
+nl_catd        fd;
+
+XtSetLanguageProc( NULL, NULL, NULL );
+fd = catopen( &ldquo;my_prog&rdquo;, 0 );
+localized_string = catgets(fd, set_num, mes_num, &ldquo;<symbol>defaulttitle</symbol>&rdquo;);
+XmbTextListToTextProperty( XtDisplay(toplevel), &amp;localized_string,
+       1, XCompoundTextStyle, &amp;title);
+ac = 0;
+XtSetArg(al[ac], XmNtitle, title.value); ac++;
+XtSetArg(al[ac], XmNtitleEncoding, title.encoding); ac++;
+XtSetValues(toplevel, al, ac);</programlisting>
+<para>ウィジェットではなく、ウィンドウを使用している場合は、 <computeroutput>XmbSetWMProperties()</computeroutput>関数が、ローカライズされた文字列を適切な<computeroutput>XICCEncodingStyle</computeroutput>に自動的に変換します。</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.distr.div.13">
+<title id="IPG.distr.mkr.5">メールの基本的な変換</title>
+<para>一般的に、電子メール（email）のストラテジーは、メッセージを受信側のロケールの与えられた情報に最適化するものではなく、電子メールを正規のラベル付け形式にするものです。これは、電子メールの世界では、受信者が異なったロケールにいる<emphasis>可能性</emphasis>を常に仮定しなければならないことを意味しています。デスクトップの世界では、デフォルトの電子メール転送はSMTP（Simple Mail Transfer Protocol）です。SMPTは7ビット転送チャネルしかサポートしません。</para>
+<para>これをふまえた上で、デスクトップの電子メールのストラテジーには次のような点が挙げられます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>送信側は、デフォルトでは（ユーザが別の手順を指示しなければ）、本文の部分を送信側の転送チャネルの<emphasis>標準</emphasis>形式に変換し、本文の部分に使用される文字エンコードでラベル付けします。 </para>
+</listitem><listitem><para>受信側は、本文の部分を見て文字エンコードをサポートできるかどうかを調べます。サポートできる場合は、本文をローカルのキャラクタ・セットに変換します。</para>
+</listitem></itemizedlist>
+<para>さらに、メッセージにMIME形式が使用されているため、8ビットから7ビットへの変換は組み込みのMIME転送エンコード（base64、または、引用符付き 印刷可能な形式）を使用して実行されます。RFC（Request for Comments）1521 MIME標準仕様を参照してください。</para>
+</sect1>
+<sect1 id="IPG.distr.div.14">
+<title id="IPG.distr.mkr.6">エンコードとコード・セット</title>
+<para>コード・セットを<indexterm><primary>エンコード</primary></indexterm> 理解するためには、まずキャラクタ・セットを理解することが必要です。<emphasis>キャラクタ・セット</emphasis>は、文字の表示に使用するエンコード値を考慮することなく、ひとつ以上の言語の特定の必要性に基づいてあらかじめ定義された文字の集合です。どのコード・セットを使用するかという選択は、ユーザのデータ処理要求条件に依存します。個々のキャラクタ・セットは異なったエンコード・スキーマを使用してエンコードされます。たとえば、ASCIIキャラクタ・セットは英語の文字のセットを定義します。JIS（日本工業規格）のキャラクタ・セットは日本語で使用される文字のセットを定義します。英語のキャラクタ・セットも日本語のキャラクタ・セットも、異なったコード・セットを使用してエンコードされます。</para>
+<para>ISO2022規格は、コード化されたキャラクタ・セットを、キャラクタ・セット、および、各文字とそのビット・パターンの１対１の関係を定義する正確な規則の集まりとして定義します。コード・セットはシステムが文字を識別するために使用するビット・パターンを定義します。</para>
+<para><indexterm><primary>コード・ページ</primary></indexterm> コード・ページはコード・セットに似ていますが、コード・ページ仕様は16列×16行のマトリックスに基づくという制限があります。各列と行の交わりがコード化された文字を定義します。</para>
+<sect2 id="IPG.distr.div.15">
+<title><indexterm><primary>コード・セット</primary><secondary>コード・セットのストラテジー</secondary></indexterm> コード・セットのストラテジー</title>
+<para>共通オープン・ソフトウェア環境のコード・セット・サポートは、ISO（国際標準化機構）と、ユーザのデータ処理の必要性を満たす業界標準のコード・セットを提供する業界標準コード・セットに基づいています。</para>
+<para>システムにおける各ロケールは、どのコード・セットを使用し、コード・セット内の文字がどのように処理されるかを定義します。システムに複数のロケールをインストールすることができるので、複数のコード・セットをシステム上の異なったユーザが使用することができます。異なったコード・セットを使用する複数のロケールでシステムが構成されることができる一方で、すべてのシステム・ユーティリティはシステムは単一コード・セットで動作していると仮定します。</para>
+<para>ほとんどのコマンドはロケールが使用している下層のコード・セットについては何も認識しません。コード・セットの情報はコード・セットに依存しないライブラリ・サブルーチン（国際化対応ライブラリ）によって隠されており、コード・セットに依存しないライブラリ・サブルーチンは、コード・セットに依存するサブルーチンに情報を渡します。</para>
+<para>多くのプログラムがASCIIに依存しているので、すべてのコード・セットは、7ビットASCIIコード・セットを適正なサブセットとして含んでいます。7ビットASCIIコード・セットはサポートされたすべてのコード・セットに共通しているため、その文字は<emphasis>可搬性のある</emphasis>キャラクタ・セットとして参照されることもあります。</para>
+<para>7ビットASCIIコード・セットはISO646定義に基づいており、制御文字、特殊文字、数字（0-9）、大文字と小文字の英語アルファベットを含んでいます。</para>
+</sect2>
+<sect2 id="IPG.distr.div.16">
+<title><indexterm><primary>コード・セット</primary><secondary>コード・セット構造</secondary></indexterm> コード・セット構造</title>
+<para>各コード・セットは次の２つの主な領域に分けられます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>GL 0-7列
+</para>
+</listitem><listitem><para>GR 8-F列</para>
+</listitem></itemizedlist>
+<para>各コード・セットの最初の２列は、制御文字用にISO規格によって確保されています。C0とC1は、それぞれ、GLとGRの領域用の制御文字を表すのに使用されます。</para>
+<note>
+<para>PCコード・セットはC1制御領域を使用してグラフィック文字をエンコードします。</para>
+</note>
+<para>残りの６列はグラフィック文字をエンコードするのに使用されます。（<!--Original XRef content: 'Table&numsp;3&hyphen;2 on page&numsp;65'--><xref role="CodeOrFigOrTabAndPNum" linkend="IPG.distr.mkr.7">を参照してください。）
+グラフィック文字は印刷可能な文字とみなされ、制御文字はデバイスとアプリケーションによってある特定の機能を指すために使用されます。</para>
+<para><emphasis id="IPG.distr.mkr.7">コード・セットの概要</emphasis></para>
+<graphic id="IPG.distr.igrph.1" entityref="IPG.distr.fig.1"></graphic>
+<sect3 id="IPG.distr.div.17">
+<title>制御文字</title>
+<para>ISO<indexterm><primary>コード・セット</primary><secondary>コード・セットの制御文字</secondary></indexterm> 定義に基づいて、制御文字は、制御操作を開始、変更、停止します。制御文字はグラフィック文字ではありませんが、場合によってはグラフィック表現をもつことができます。ISO646-IRVキャラクタ・セットの制御文字はサポートされたコード・セットすべてに存在し、C0制御文字のエンコードされた値はコード・セットを通して一貫しています。</para>
+</sect3>
+<sect3 id="IPG.distr.div.18">
+<title>グラフィック文字</title>
+<para>各<indexterm><primary>コード・セット</primary><secondary>コード・セットのグラフィック文字</secondary></indexterm> コード・セットは、各文字が固有のコード化された値をもつように、ひとつ以上のキャラクタ・セットに分かれるとみなされます。 ISO規格はエンコード文字用に６列を確保し、グラフィック文字を制御文字でエンコードすることを許可しません。</para>
+</sect3>
+<sect3 id="IPG.distr.div.19">
+<title>シングルバイト・コード・セット</title>
+<para>1バイト中の8ビットをすべて使用するコード・セット<indexterm><primary>コード・セット</primary><secondary>シングルバイト・コード・セット</secondary></indexterm> は、ヨーロッパ、中東、その他のアルファベット言語をサポートすることができます。このようなコード・セットはシングルバイト・コード・セットと呼ばれます。これは、制御文字を含まず、エンコードを191文字までに制限します。</para>
+</sect3>
+<sect3 id="IPG.distr.div.20">
+<title>マルチバイト・コード・セット<indexterm><primary>コード・セット</primary><secondary>マルチバイト・コード・セット</secondary></indexterm></title>
+<para><emphasis>マルチバイト・コード・セット</emphasis>という用語は、特定の文字をエンコードするのに必要なバイト数にかかわりなく、可能なすべてのコード・セットを指します。オペレーティング・システムは１文字をエンコードするのに何ビットでもサポートすることができるため、マルチバイト・コード・セットは、8、16、32、もしくはそれ以上のビットでエンコードされた文字を含むことができます。シングルバイト・コード・セットもマルチバイト・コード・セットとみなされます。</para>
+</sect3>
+<sect3 id="IPG.distr.div.21">
+<title>EUC（拡張UNIXコード）<indexterm><primary>コード・セット</primary><secondary>EUC（拡張UNIXコード）コード・セット</secondary></indexterm> コード・セット</title>
+<para>EUCコード・セットは、一部のキャラクタ・セットの中では文字を識別するのに制御文字を使用します。エンコード規則は、ISO2022の7ビット・データおよび8ビット・データのエンコードに関する定義に基づいています。EUCコード・セットは一部のキャラクタ・セットを区切るのに制御文字を使用します。</para>
+<para>EUCという用語は、そのような一般的なエンコード規則を表します。EUCに基づいたコード・セットはEUCエンコード規則に準拠しますが、特定の場合に関連付けられた特定のキャラクタ・セットも識別します。たとえば、日本語用eucJPはEUCエンコード規則に従ったJIS文字のエンコードを指します。</para>
+<para>最初のセット（CS0）には常に、ISO646キャラクタ・セットが含まれます。その他のセットはすべて、最上位のビット（MSB）を1に設定しなければならず、文字をエンコードするのに何バイトでも使用することができます。さらに、１セット内のすべての文字は次の項目を満たしていなければなりません。</para>
+<itemizedlist remap="Bullet1"><listitem><para>すべての文字をエンコードするのに同じバイト数を使用する。</para>
+</listitem><listitem><para>列表示幅（固定幅の端末での列数）が同じである。</para>
+</listitem></itemizedlist>
+<para>３番目のセット（CS2）の各文字の前には、常に、制御文字SS2（シングルシフト2, 0x8e）が付きます。EUCに準拠するコード・セットは３番目のセットを識別する目的以外では制御文字SS2を使用しません。</para>
+<para>４番目のセット（CS3）の各文字の前には、常に、制御文字SS3（シングルシフト3, 0x8f）が付きます。EUCに準拠するコード・セットは４番目のセットを識別する目的以外では制御文字SS3を使用しません。</para>
+</sect3>
+</sect2>
+<sect2 id="IPG.distr.div.22">
+<title>ISO EUCコード・セット</title>
+<para>次の<indexterm><primary>コード・セット</primary><secondary>ISO EUCコード・セット</secondary></indexterm> コード・セット<indexterm><primary>ISO EUCコード・セット</primary></indexterm> はISO（国際標準化機構）により設定された定義に基づいています。</para>
+<itemizedlist remap="Bullet1"><listitem><para>ISO646-IRV</para>
+</listitem><listitem><para>ISO8859-1</para>
+</listitem><listitem><para>ISO8859-x</para>
+</listitem><listitem><para>eucJP</para>
+</listitem><listitem><para>eucTW</para>
+</listitem><listitem><para>eucKR</para>
+</listitem></itemizedlist>
+<sect3 id="IPG.distr.div.23">
+<title>ISO646-IRV</title>
+<para><indexterm><primary>ISO646-IRVコード・セット</primary></indexterm> ISO646-IRVコード・セット<indexterm><primary>コード・セット</primary><secondary>ISO646-IRVコード・セットの詳細</secondary></indexterm> は、7ビット・エンコードに基づく情報の処理に使用されるコード・セットを定義します。このコード・セットに関連付けられたキャラクタ・セットはASCII文字から得られます。</para>
+</sect3>
+<sect3 id="IPG.distr.div.24">
+<title>ISO8859-1</title>
+<para> <indexterm><primary>ISO8859-1コード・セット</primary></indexterm>ISO8859-1<indexterm>
+<primary>コード・セット</primary><secondary>ISO8859-1コード・セットの詳細 </secondary></indexterm> エンコードは、その他のISO、ANSI（米国規格協会）、ECMA（European Computer Manufacturer's Association）のコード拡張技術に基づいており、それらと互換性のあるシングルバイトのエンコードです。ISO8859エンコードは、各メンバが固有のキャラクタ・セットをもつコード・セットのファミリを定義します。7ビットASCIIコード・セットはISO8859ファミリの各コード・セットの適切なサブセットです。</para>
+<para>ISO8859-1コード・セットは、ISO Latin-1コード・セットと呼ばれ、次の２つのキャラクタ・セットから成ります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>ISO646-IRV GL、7ビットASCIIキャラクタ・セット</para>
+</listitem><listitem><para>ISO8859-1 GR（ラテン）キャラクタセット</para>
+</listitem></itemizedlist>
+<para>これらの組合わされたキャラクタ・セットは、デンマーク語、オランダ語、英語、フィンランド語、フランス語、ドイツ語、アイスランド語、イタリア語、ノルウェー語、ポルトガル語、スペイン語、スウェーデン語などの西ヨーロッパの言語に必要な文字を含んでいます。</para>
+<para>ASCIIコード・セットが英語のアルファベットの順番を定義するのに対し、GR文字は特定のどの言語によっても順序付けられません。言語特定の順序はロケールによって定義されます。</para>
+</sect3>
+<sect3 id="IPG.distr.div.25">
+<title>その他のISO8859 <indexterm><primary>コード・セット</primary><secondary>その他のISO8859コード・セットのリスト</secondary></indexterm> コード・セット</title>
+<para>この節では、<indexterm><primary>その他の重要なISO8859コード・セット</primary></indexterm> その他の重要なISO8859コード・セットをリストします。各コード・セットは、ASCIIキャラクタ・セットとそのコード・セット固有の文字を含んでいます。</para>
+<sect4 id="IPG.distr.div.26">
+<title>ISO8859-2</title>
+<para>ラテン・アルファベット、No. 2、東ヨーロッパ</para>
+<itemizedlist remap="Bullet1"><listitem><para>アルバニア語</para>
+</listitem><listitem><para>チェコスロバキア語</para>
+</listitem><listitem><para>英語</para>
+</listitem><listitem><para>ドイツ語</para>
+</listitem><listitem><para>ハンガリー語</para>
+</listitem><listitem><para>ポーランド語</para>
+</listitem><listitem><para>ルーマニア語</para>
+</listitem><listitem><para>セルビア-クロアチア語</para>
+</listitem><listitem><para>スロバキア語</para>
+</listitem><listitem><para>スロベニア語</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.27">
+<title>ISO8859-5</title>
+<para>ラテン／キリル・アルファベット</para>
+<itemizedlist remap="Bullet1"><listitem><para>ブルガリア語</para>
+</listitem><listitem><para>ベロルシア語</para>
+</listitem><listitem><para>英語</para>
+</listitem><listitem><para>マケドニア語</para>
+</listitem><listitem><para>ロシア語</para>
+</listitem><listitem><para>ウクライナ語</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.28">
+<title>ISO8859-6</title>
+<para>ラテン／アラビア・アルファベット </para>
+<itemizedlist remap="Bullet1"><listitem><para>英語</para>
+</listitem><listitem><para>アラビア語</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.29">
+<title>ISO8859-7</title>
+<para>ラテン／ギリシャ・アルファベット</para>
+<itemizedlist remap="Bullet1"><listitem><para>英語</para>
+</listitem><listitem><para>ギリシャ語</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.30">
+<title>ISO8859-8</title>
+<para>ラテン／ヘブライ・アルファベット</para>
+<itemizedlist remap="Bullet1"><listitem><para>英語</para>
+</listitem><listitem><para>ヘブライ語</para>
+</listitem></itemizedlist>
+</sect4>
+<sect4 id="IPG.distr.div.31">
+<title>ISO8859-9</title>
+<para>ラテン／トルコ・アルファベット</para>
+<itemizedlist remap="Bullet1"><listitem><para>デンマーク語</para>
+</listitem><listitem><para>オランダ語</para>
+</listitem><listitem><para>英語</para>
+</listitem><listitem><para>フィンランド語</para>
+</listitem><listitem><para>フランス語</para>
+</listitem><listitem><para>ドイツ語</para>
+</listitem><listitem><para>アイルランド語</para>
+</listitem><listitem><para>イタリア語</para>
+</listitem><listitem><para>ノルウェー語</para>
+</listitem><listitem><para>ポルトガル語</para>
+</listitem><listitem><para>スペイン語</para>
+</listitem><listitem><para>スウェーデン語</para>
+</listitem><listitem><para>トルコ語</para>
+</listitem></itemizedlist>
+</sect4>
+</sect3>
+<sect3 id="IPG.distr.div.32">
+<title>eucJP</title>
+<para id="IPG.distr.mkr.8"><indexterm><primary>eucJPコード・セット</primary>
+</indexterm> 日本語用EUC<indexterm><primary>コード・セット</primary><secondary>eucJPコード・セットの詳細</secondary></indexterm> は、シングルバイト文字とマルチバイト文字（2バイトと3バイト）から成ります。エンコードは ISO2022に準拠し、JISおよびEUCの定義に基づいています。 <!--Original XRef content: ''--><xref role="CodeOrFigureOrTable" linkend="IPG.distr.mkr.8">を参照してください。</para>
+<table id="IPG.distr.tbl.2" frame="Topbot">
+<title> eucJPのエンコード</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colwidth="1.01in">
+<colspec colwidth="1.19in">
+<colspec colwidth="1.50in">
+<colspec colwidth="1.59in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><Literal>CS</Literal></para></entry>
+<entry align="left" valign="top"><para><literal>Encoding</literal></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><literal>Character Set</literal></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>cs0</para></entry>
+<entry align="left" valign="top"><para>0xxxxxxx</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>ASCII</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>cs1</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>JIS X0208-1990</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>cs2</para></entry>
+<entry align="left" valign="top"><para>0x8E</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>JIS X0201-1976</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>cs3</para></entry>
+<entry align="left" valign="top"><para>0x8F</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx 1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>JIS X0212-1990</para></entry></row>
+</tbody></tgroup></table>
+<sect4 id="IPG.distr.div.33">
+<title>JIS X0208-1990</title>
+<para>情報変換用の日本語グラフィック文字セットのコード（1990年度版）です。この中には、147個の特殊文字、10個の数字、83個のひらがな文字、86個のカタカナ文字、52個のラテン文字、48個のギリシャ文字、66個のキリル文字、32個の線描画要素、6355個の漢字が含まれます。</para>
+</sect4>
+<sect4 id="IPG.distr.div.34">
+<title><emphasis role="Lead-in">JIS X0201</emphasis></title>
+<para>63個のカタナカを含む情報変換用のコードです。</para>
+</sect4>
+<sect4 id="IPG.distr.div.35">
+<title><emphasis role="Lead-in">JIS X0212-1990</emphasis></title>
+<para>情報変換用の日本語グラフィック文字セットの補助コード（1990年度版）です。これには、追加の特殊文字が21個、追加のギリシャ文字が21個、追加のキリル文字が26個、追加のラテン文字が27個、発音区別符号のついたラテン文字が171個、追加の漢字が5801個含まれます。</para>
+</sect4>
+</sect3>
+<sect3 id="IPG.distr.div.36">
+<title>eucTW</title>
+<para id="IPG.distr.mkr.9"> 
+<indexterm><primary>eucTWコード・セット</primary></indexterm>繁体字用のEUC<indexterm><primary>コード・セット</primary><secondary>eucTWコード・セットの詳細</secondary></indexterm> は、シングルバイト文字とマルチバイト文字（2バイトと4バイト）を含む文字から構成されるエンコードです。EUCエンコードはISO2022に準拠し、中華民国とEUC定義によって定義される通り、CNS（Chinese National Standard）に基づいています。<!--Original XRef content: 'Table&numsp;3&hyphen;4'--><xref role="CodeOrFigureOrTable" 
+linkend="IPG.distr.mkr.10">を参照してください。</para>
+<table id="IPG.distr.tbl.3" frame="Topbot">
+<title id="IPG.distr.mkr.10">eucTWのエンコード</title>
+<tgroup cols="5" colsep="0" rowsep="0">
+<colspec colwidth="0.51in">
+<colspec colwidth="1.05in">
+<colspec colwidth="0.91in">
+<colspec colwidth="1.04in">
+<colspec colwidth="2.31in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><Literal>CS</Literal></para></entry>
+<entry align="left" valign="top"><para><literal>エンコード</literal></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><literal>キャラクタ・セット</literal></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>cs0</para></entry>
+<entry align="left" valign="top"><para>0xxxxxxx</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>ASCII</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>cs1</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>CNS 11643.1992 - plane 1</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>cs2</para></entry>
+<entry align="left" valign="top"><para>0x8EA2</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>CNS 11643.1992 - plane 2</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>cs3</para></entry>
+<entry align="left" valign="top"><para>0x8EA3</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>CNS 11643.1992 - plane 3</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>0x8EB0</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>1xxxxxxx</para></entry>
+<entry align="left" valign="top"><para>CNS 11643.1992 - Plane 16</para></entry>
+</row></tbody></tgroup></table>
+<para>CNS 11643-1992は、中国標準変換コード（Chinese Standard Interchange Code）用に16面を定義しており、各面は8836文字（94x94）までサポートすることができます。現在は、1面から7面だけが文字を割り当てられています。<!--Original XRef content:
+'Table&numsp;3&hyphen;5'--><xref role="CodeOrFigureOrTable" linkend="IPG.distr.mkr.11"><indexterm><primary>CNS文字定義</primary></indexterm> は、CNS 11643-1992規格の16面を示しています。</para>
+<table id="IPG.distr.tbl.4" frame="Topbot">
+<title id="IPG.distr.mkr.11">CNS 11643-1992規格の16面</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="0.67in">
+<colspec colwidth="1.83in">
+<colspec colwidth="1.08in">
+<colspec colname="col4" colwidth="2.02in">
+<spanspec nameend="col4" namest="col1" spanname="1to4">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>面</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>定義</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>文字数</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>EUCエンコード</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>1</para></entry>
+<entry align="left" valign="top"><para>最も多く使用される</para></entry>
+<entry align="left" valign="top"><para>6085</para></entry>
+<entry align="left" valign="top"><para>A1A1-FDCB</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para>2番目に多く使用される</para></entry>
+<entry align="left" valign="top"><para>7650</para></entry>
+<entry align="left" valign="top"><para>8EA2 A1A1 - 8EA2 F2C4</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>3</para></entry>
+<entry align="left" valign="top"><para>Exec、Yuen EDP <superscript>1</superscript>
+センター</para></entry>
+<entry align="left" valign="top"><para>6148</para></entry>
+<entry align="left" valign="top"><para>8EA3 A1A1 - 8EA3 E2C6</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>4</para></entry>
+<entry align="left" valign="top"><para>RIS<superscript>2</superscript>、ベンダー定義</para></entry>
+<entry align="left" valign="top"><para>7298</para></entry>
+<entry align="left" valign="top"><para>8EA4 A1A1 - 8EA4 EEDC</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>5</para></entry>
+<entry align="left" valign="top"><para>MOEにより使用されることはめったにない<superscript>3</superscript></para></entry>
+<entry align="left" valign="top"><para>8603</para></entry>
+<entry align="left" valign="top"><para>8EA5 A1A1 - 8EA5 FCD1</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>6</para></entry>
+<entry align="left" valign="top"><para>MOEによる変形キャラクタ・セット1</para></entry>
+<entry align="left" valign="top"><para>6388</para></entry>
+<entry align="left" valign="top"><para>8EA6 A1A1 - 8EA6 E4FA</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>7</para></entry>
+<entry align="left" valign="top"><para>MOEによる変形キャラクタ・セット2</para></entry>
+<entry align="left" valign="top"><para>6539</para></entry>
+<entry align="left" valign="top"><para>8EA7 A1A1 - 8EA7 E6D5</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>8</para></entry>
+<entry align="left" valign="top"><para>未定義</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EA8 A1A1 - 8EA8 FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>9</para></entry>
+<entry align="left" valign="top"><para>未定義</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EA9 A1A1 - 8EA9 FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>10</para></entry>
+<entry align="left" valign="top"><para>未定義</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAA A1A1 - 8EAA FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>11</para></entry>
+<entry align="left" valign="top"><para>未定義</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAB A1A1 - 8EAB FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>12</para></entry>
+<entry align="left" valign="top"><para>ユーザ定義文字（UDC）</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAC A1A1 - 8EAC FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>13</para></entry>
+<entry align="left" valign="top"><para>UDC</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAD A1A1 - 9EAD FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>14</para></entry>
+<entry align="left" valign="top"><para>UDC</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAE A1A1 - 8EAE FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>15</para></entry>
+<entry align="left" valign="top"><para>UDC</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EAF A1A1 - 8EAF FEFE</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>16</para></entry>
+<entry align="left" valign="top"><para>UDC</para></entry>
+<entry align="left" valign="top"><para>0</para></entry>
+<entry align="left" valign="top"><para>8EB0 A1A1 - 8EB0 FEFE</para></entry>
+</row>
+<row>
+<entry align="left" spanname="1to4" valign="top"><para><superscript>1</superscript>
+EDP: 予算、会計、統計の中央理事会（Center of Directorate, General of Budget, Accounting, and Stistics）
+</para></entry></row>
+<row>
+<entry align="left" spanname="1to4" valign="top"><para><superscript>2</superscript>
+RIS: 居住地情報システム（Residence Information System）</para></entry></row>
+<row>
+<entry align="left" spanname="1to4" valign="top"><para><superscript>3</superscript>
+MOE: 文部省（Ministry of Education）
+</para></entry></row></tbody></tgroup></table>
+</sect3>
+<sect3 id="IPG.distr.div.37">
+<title>eucKR</title>
+<para>韓国語用EUC<indexterm><primary>コード・セット</primary><secondary>eucKRコード・セットの詳細</secondary></indexterm>は、<indexterm><primary>eucKRコード・セット</primary></indexterm> は、シングルバイト文字とマルチバイト文字から成るエンコードです（<!--Original XRef content: 'Table&numsp;3&hyphen;6'--><xref
+role="CodeOrFigureOrTable" linkend="IPG.distr.mkr.12">を参照）。エンコードはISO2022に準拠し、韓国語標準コード（Korean Standard Code）セットとEUC定義に基づきます。</para>
+<table id="IPG.distr.tbl.5" frame="Topbot">
+<title id="IPG.distr.mkr.12">eucKRのエンコード</title>
+<tgroup cols="4">
+<colspec colname="1" colwidth="1.24132 in">
+<colspec colname="2" colwidth="1.24132 in">
+<colspec colname="3" colwidth="1.24132 in">
+<colspec colname="4" colwidth="1.24132 in">
+<thead>
+<row><entry><para><Literal>CS</Literal></para></entry><entry><para><literal>エンコード</literal></para></entry><entry></entry><entry><para><literal>キャラクタ・セット</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>cs0</para></entry>
+<entry><para>0xxxxxxx</para></entry>
+<entry></entry>
+<entry><para>ASCII</para></entry></row>
+<row>
+<entry><para>cs1</para></entry>
+<entry><para>1xxxxxxx</para></entry>
+<entry><para>1xxxxxxx</para></entry>
+<entry><para>KS C 5601-1992</para></entry></row>
+<row>
+<entry><para>cs2</para></entry>
+<entry></entry>
+<entry></entry>
+<entry><para>使用されていない</para></entry></row>
+<row>
+<entry><para>cs3</para></entry>
+<entry></entry>
+<entry></entry>
+<entry><para>使用されていない</para></entry></row></tbody></tgroup></table>
+<para>KSC 5601-1992（1992年度版 情報変換用韓国語キャラクタ・セットのコード）には、特殊文字が432個、アラビア数字およびローマ数字が30個、ハングル・アルファベット文字が94個、ローマ文字が52個、ギリシャ文字が48個、ラテン文字が27個、日本語の文字が169個、ロシア文字が66個、線描画要素が68個、あらかじめ作成されたハングル文字が2344個、ハンジャ文字が4888個含まれます。</para>
+<para>ハングル文字は韓国語の単語の音を表します。ひとつのハングル文字は、１個から３個のハングル基本音声記号から構成されます（最初の子音（もしあれば）、母音、最後の子音（もしあれば））。多くの韓国語の単語は、繁体字（韓国ではハンジャと呼ばれています）でも記述することができます。伝統的には、韓国語のテキストは一般的にハングルとハンジャの混合（名詞、動詞、修飾語句という主となる単語にはハンジャ、不変化詞と文法的語尾変化にはハングルを使用）で記述されていました。最近は、人名ではまだハンジャが使用されていることもありますが、ほとんどの韓国語のテキストはすべてハングルで記述されています。</para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->
+

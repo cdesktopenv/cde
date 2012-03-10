@@ -1,0 +1,140 @@
+XCOMM $XConsortium: Imakefile /main/13 1996/08/20 15:21:22 rws $
+#define IHaveSubdirs
+#define PassCDebugFlags /**/
+
+SUBDIRS = raima
+EXTRALIBRARYDEPS = raima/DONE
+
+#ifdef AlphaArchitecture
+EXTRA_DEFINES = -DBYTE_SWAP -D_OSF_SOURCE
+#endif
+
+#ifdef USLArchitecture
+EXTRA_DEFINES = -DBYTE_SWAP
+#endif
+
+MakeSubdirs($(SUBDIRS))
+ForceSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+#define DoNormalLib	NormalLibDtSearch
+#define DoSharedLib	SharedLibDtSearch
+#define DoDebugLib	DebugLibDtSearch
+#define DoProfileLib	ProfileLibDtSearch
+#define LibName		DtSearch
+#define SoRev		SODTSEARCHREV
+#define IncSubdir	Dt
+
+#ifndef DtSearchDefines
+# define DtSearchDefines	-DI18N_MSG -DXK_MISCELLANY -DMULTIBYTE
+#endif
+DEFINES = DtSearchDefines
+INCLUDES = -I. -I./raima
+YFLAGS = -d
+
+
+#ifdef SharedDtSearchReqs
+REQUIREDLIBS = SharedDtSearchReqs
+#endif
+
+HEADERS = \
+	Search.h \
+	SearchE.h \
+	SearchP.h \
+	boolpars.h \
+	boolyac.h \
+	dberr.h \
+	dproto.h
+
+SRCS = \
+        apndext.c               ausdopen.c              ausexit.c \
+        bmstrstr.c              boolpars.c              boolsrch.c \
+        boolyac.c               cuslang.c               dbchange.c \
+        dberr.c                 delspace.c              dtoe.c \
+        dtoeinit.c              dtsrapi.c               dtsrdbrec.c \
+        dtsrjoint.c             dtsrswab.c \
+        dtsrutil.c              dtsrve.c \
+        endslash.c              fileman.c               globals.c \
+        hdecode.c               hencode.c               hilite.c \
+        iscompat.c              isduprec.c              jpn.c \
+        lang.c                  langmap.c               msgs.c \
+        msgutil.c               objdate.c               ocf.c \
+        opendblk.c              ophuf.c                 readchar.c \
+        strupr.c                userint.c               vedelete.c \
+        vestatis.c              vstfunct.c
+
+OBJS1 = \
+        apndext.o               ausdopen.o              ausexit.o \
+        bmstrstr.o              boolpars.o              boolsrch.o \
+        boolyac.o               cuslang.o               dbchange.o \
+        dberr.o                 delspace.o              dtoe.o \
+        dtoeinit.o              dtsrapi.o               dtsrdbrec.o \
+        dtsrjoint.o             dtsrswab.o \
+        dtsrutil.o              dtsrve.o \
+        endslash.o              fileman.o               globals.o \
+        hdecode.o               hencode.o               hilite.o \
+        iscompat.o              isduprec.o              jpn.o \
+        lang.o                  langmap.o               msgs.o \
+        msgutil.o               objdate.o               ocf.o \
+        opendblk.o              ophuf.o                 readchar.o \
+        strupr.o                userint.o               vedelete.o \
+        vestatis.o              vstfunct.o
+
+RAIMA_OBJS = \
+        raima/alloc.o                   raima/cmstat.o \
+        raima/cmtype.o                  raima/connect.o \
+        raima/costat.o                  raima/cotype.o \
+        raima/crget.o                   raima/crread.o \
+        raima/crset.o                   raima/crstat.o \
+        raima/crtype.o                  raima/crwrite.o \
+        raima/csmget.o                  raima/csmread.o \
+        raima/csmset.o                  raima/csmwrite.o \
+        raima/csoget.o                  raima/csoread.o \
+        raima/csoset.o                  raima/csowrite.o \
+        raima/csstat.o                  raima/ctscm.o \
+        raima/ctsco.o                   raima/ctscr.o \
+        raima/dbacode.o                 raima/dbdpath.o \
+        raima/dbfpath.o                 raima/dblfcns.o \
+        raima/dbswab.o \
+        raima/dbuserid.o                raima/delete.o \
+        raima/destroy.o                 raima/dio.o \
+        raima/discon.o                  raima/disdel.o \
+        raima/fillnew.o                 raima/findco.o \
+        raima/findfm.o                  raima/findlm.o \
+        raima/findnm.o                  raima/findpm.o \
+        raima/gtscm.o                   raima/gtsco.o \
+        raima/gtscr.o                   raima/gtscs.o \
+        raima/initial.o                 raima/inittab.o \
+        raima/ismember.o                raima/isowner.o \
+        raima/keydel.o                  raima/keyexist.o \
+        raima/keyfcns.o                 raima/keyfind.o \
+        raima/keyfrst.o                 raima/keylast.o \
+        raima/keynext.o                 raima/keyprev.o \
+        raima/keystore.o                raima/libfcns.o \
+        raima/makenew.o                 raima/mapchar.o \
+        raima/members.o                 raima/netunix.o \
+        raima/oflag.o                   raima/opens.o \
+        raima/options.o                 raima/pathfcns.o \
+        raima/recfcns.o                 raima/recfrst.o \
+        raima/reclast.o                 raima/recnext.o \
+        raima/recprev.o                 raima/recread.o \
+        raima/recset.o                  raima/recstat.o \
+        raima/recwrite.o                raima/renfile.o \
+        raima/rwcurr.o                  raima/setdb.o \
+        raima/setmm.o                   raima/setmo.o \
+        raima/setmr.o                   raima/setom.o \
+        raima/setoo.o                   raima/setor.o \
+        raima/setrm.o                   raima/setro.o \
+        raima/startup.o                 raima/stscm.o \
+        raima/stsco.o                   raima/stscr.o \
+        raima/stscs.o                   raima/utscm.o \
+        raima/utsco.o                   raima/utscr.o \
+        raima/utscs.o
+
+OBJS = $(OBJS1) $(RAIMA_OBJS)
+
+YaccFile(boolyac,$(YFLAGS))
+
+#include <Library.tmpl>
+
+DependTarget()

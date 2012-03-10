@@ -1,0 +1,88 @@
+XCOMM $XConsortium: Imakefile /main/4 1996/05/09 17:32:04 drk $
+/* helptag Imakefile */
+
+ARCCMD = arc u
+UNARCCMD = arc x
+ARCDELCMD = arc d
+
+.SUFFIXES : .e .arc .c .h .t
+
+HELPTAG       = ..
+HELPTAGSRC    = $(HELPTAG)/helptag
+HELPPARSERSRC = $(HELPTAG)/parser
+HELPELTDEFSRC = $(HELPTAG)/eltdef
+HELPDTDFILE   = $(HELPTAGSRC)/hptag.dtd
+HELPUTILSRC   = $(HELPTAG)/util
+HELPBUILDSRC  = $(HELPTAG)/build
+HELPUTILLIB   = $(HELPTAG)/util/libutil.a
+HELPIFFILE    = $(HELPTAGSRC)/help.if
+
+INCLUDES =  -I. -I$(HELPUTILSRC) -I$(HELPPARSERSRC) -I$(HELPELTDEFSRC)
+
+ELTHDRS = $(HELPUTILSRC)/entdef.h $(HELPUTILSRC)/entext.h
+
+XCOMM PARSEHDRS are header files used by many parser routines
+PARSEHDRS = $(HELPUTILSRC)/basic.h $(HELPUTILSRC)/trie.h \
+        $(HELPUTILSRC)/common.h $(HELPUTILSRC)/dtddef.h \
+        $(HELPUTILSRC)/dtdext.h $(HELPUTILSRC)/sparse.h \
+        parser.h proto.h
+
+APPLHDRS = $(PARSEHDRS) $(ELTHDRS) \
+        $(HELPUTILSRC)/version.h \
+        $(HELPTAGSRC)/global.h $(HELPTAGSRC)/charconv.h \
+	$(HELPTAGSRC)/roman8.h $(HELPTAGSRC)/fproto.h \
+        ../parser/pval.h ../parser/globdec.h ../parser/signonx.h \
+        ../parser/userinc.h
+
+SRCS =  custom.c default.c \
+	help.c make.c option.c out.c special.c xref.c
+
+OBJS =  custom.o default.o \
+	help.o make.o option.o out.o special.o xref.o
+
+TOBJS =  custom.t default.t \
+	help.t make.t option.t out.t special.t xref.t
+
+LOCAL_LIBRARIES = $(HELPUTILLIB)
+
+/* Don't use shared libs for hp */
+#ifdef HPArchitecture
+#if OSMajorVersion > 7
+EXTRA_LOAD_FLAGS = -Wl,-a archive
+#endif
+#endif
+
+all:: $(TOBJS)
+
+$(TOBJS):: $(OBJS)
+
+.o.t:
+	$(RM) $*.t
+	$(CP) $*.o $*.t
+
+NormalLibraryObjectRule()
+
+htag: $(HELPPARSERSRC)/parser
+	$(RM) htag
+	$(CP) (HELPPARSERSRC)/parser htag
+
+clean::
+	$(RM) *.t
+	$(RM) htag
+
+
+DependTarget()
+
+arcappl archptag :
+	if exist hptag.arc $(CP) hptag.arc hptag.old 
+	$(ARCCMD) hptag.arc *.c *.h linkcmd.dos linkcmd.unx $(HELPDTDFILE) \
+	tex.if makefile makefile.doc make.ini delim.*
+
+unarcappl unarchptag :
+	$(UNARCCMD) hptag.arc
+
+tags ::
+	etags -t *.c *.h *.if
+
+etags ::
+	etags -t *.c *.h *.if

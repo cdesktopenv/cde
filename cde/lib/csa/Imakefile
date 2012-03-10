@@ -1,0 +1,130 @@
+XCOMM $TOG: Imakefile /main/4 1998/03/19 19:01:27 mgreess $
+#define DoNormalLib	NormalLibCsa
+#define DoSharedLib	SharedLibCsa
+#define DoDebugLib	DebugLibCsa
+#define DoProfileLib	ProfileLibCsa
+#define LibName		csa
+#define SoRev		SOCSAREV
+#define IncSubdir	csa
+#define HasSharedData	NO
+
+#include <Threads.tmpl>
+
+INCLUDES = -I.
+
+OSMAJORVERSION = OSMajorVersion
+OSMINORVERSION = OSMinorVersion
+
+DEFINES = -DRFC_MIME -DLINE_COUNT -DV2 -DOW_I18N -DSVR4 \
+	-DREL="$(OSMAJORVERSION)$(OSMINORVERSION)" \
+	-DRELMAJOR="$(OSMAJORVERSION)" -DRELMINOR="$(OSMINORVERSION)"
+
+#ifdef SharedCsaReqs
+REQUIREDLIBS = SharedCsaReqs
+#endif
+
+#ifdef SunArchitecture
+  EXTRA_DEFINES = -xstrconst -v -DSunOS=$(OSMAJORVERSION)$(OSMINORVERSION)
+  SHLIBLDFLAGS = -G -z text -z defs
+#endif
+
+#ifdef HPArchitecture
+  EXTRA_DEFINES = -DHPUX
+#endif
+
+HEADERS = csa.h
+
+GENERATED_SRCS = agent_xdr.c cm_clnt.c reparser.c reparser.h \
+	rtable2_clnt.c rtable2_xdr.c rtable3_clnt.c rtable3_xdr.c \
+	rtable4_clnt.c rtable4_xdr.c
+
+all::
+
+includes:: $(GENERATED_SRCS)
+
+depend:: $(GENERATED_SRCS)
+
+SRCS =	agent.c		agent_xdr.c	api.c \
+	appt4.c		attr.c		calendar.c \
+	cm_clnt.c	cmcbxdr.c	cmsdata.c \
+	cmxdr.c		connection.c	convert2-4.c \
+	convert3-4.c	convert4-2.c	convert4-3.c \
+	convert4-5.c	convert5-4.c	debug.c \
+	entry.c		free.c		hash.c \
+	iso8601.c	laccess.c	lutil.c \
+	match.c		nametbl.c	refree.c \
+	reparser.y	rescan.c	rpccalls.c \
+	rtable2_clnt.c	rtable2_xdr.c	rtable3_clnt.c \
+	rtable3_xdr.c	rtable4_clnt.c	rtable4_xdr.c \
+	table.c		updateattrs.c	xtclient.c \
+	ansi_c.c
+
+OBJS =	agent.o		agent_xdr.o	api.o \
+	appt4.o		attr.o		calendar.o \
+	cm_clnt.o	cmcbxdr.o	cmsdata.o \
+	cmxdr.o		connection.o	convert2-4.o \
+	convert3-4.o	convert4-2.o	convert4-3.o \
+	convert4-5.o	convert5-4.o	debug.o \
+	entry.o		free.o		hash.o \
+	iso8601.o	laccess.o	lutil.o \
+	match.o		nametbl.o	refree.o \
+	reparser.o	rescan.o	rpccalls.o \
+	rtable2_clnt.o	rtable2_xdr.o	rtable3_clnt.o \
+	rtable3_xdr.o	rtable4_clnt.o	rtable4_xdr.o \
+	table.o		updateattrs.o	xtclient.o \
+	ansi_c.o
+
+#include <Library.tmpl>
+
+includes:: agent.h
+
+DependTarget()
+ 
+.SUFFIXES: .y
+
+.y.c:
+	$(YACC) -d $(YFLAGS) $<
+	sed -e s/yyparse/_DtCm_rule_parser/g -e s/yy/_DtCm_yy/g y.tab.c > $*.c
+	sed s/yy/_DtCm_yy/g y.tab.h > $*.h
+	$(RM) y.tab.c y.tab.h
+
+reparser.o:	reparser.c
+
+rtable2_clnt.c rtable3_clnt.c rtable4_clnt.c cm_clnt.c:
+	$(RM) $@
+	cat EUSinclude > $@
+	rpcgen -l $(@:_clnt.c=.x) | sed -f namechange1.sed | sed -f namechange2.sed >> $@
+
+rtable2_xdr.c rtable3_xdr.c rtable4_xdr.c agent_xdr.c:
+	$(RM) $@
+	cat EUSinclude > $(@:.x=_xdr.c)
+	rpcgen -c $(@:_xdr.c=.x) | sed -f namechange1.sed | sed -f namechange2.sed >> $(@:.x=_xdr.c)
+
+rtable4_clnt.c rtable4_xdr.c: rtable4.h namechange1.sed namechange2.sed
+rtable3_clnt.c rtable3_xdr.c: rtable3.h namechange1.sed namechange2.sed
+rtable2_clnt.c rtable2_xdr.c: rtable3.h namechange1.sed namechange2.sed
+agent_xdr.c agent.c: agent.h
+
+#ifdef LinuxArchitecture
+EXTRASED=sed -e 's/update_failed.*=.*1,.*/update_failed = 1/g' |
+#else
+EXTRASED=
+#endif
+
+agent.h:
+	$(RM) $@
+	cat agent.wrapbegin > agent.h
+	rpcgen -h agent.x | $(EXTRASED) \
+	  sed -f namechange1.sed | \
+	  sed -f namechange2.sed >> agent.h
+	cat agent.wrapend >> agent.h
+
+.SUFFIXES: .x
+
+clean::
+	$(RM) agent.h agent_xdr.c \
+	$(RM) cm_clnt.c \
+	reparser.c reparser.h \
+	rtable2_clnt.c rtable2_xdr.c \
+	rtable3_clnt.c rtable3_xdr.c \
+	rtable4_clnt.c rtable4_xdr.c

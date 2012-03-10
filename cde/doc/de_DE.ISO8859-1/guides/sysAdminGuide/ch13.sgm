@@ -1,0 +1,1628 @@
+<!-- $XConsortium: ch13.sgm /main/11 1996/12/21 18:26:30 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.FrPC.div.1">
+<title id="SAG.FrPC.mkr.1">Erweiterte Anpassung des Bedienfeldes<indexterm>
+<primary>Bedienfeld</primary><secondary>Anpassung</secondary></indexterm></title>
+<para>Der Benutzer kann das Bedienfeld &uuml;ber dessen Men&uuml;s und das
+Bedienelement 'Symbol installieren' in den Bedientafeln anpassen.</para>
+<para>In diesem Kapitel wird die Anpassung des Bedienfeldes durch das Erstellen
+und Bearbeiten von Konfigurationsdateien behandelt.</para>
+<informaltable id="SAG.FrPC.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Bedienfeldkonfigurationsdateien234'--><xref
+role="JumpText" linkend="SAG.FrPC.mkr.3"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Benutzerschnittstellenanpassungen
+verwalten236'--><xref role="JumpText" linkend="SAG.FrPC.mkr.5"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Organisation
+der Bedienfelddefinition238'--><xref role="JumpText" linkend="SAG.FrPC.mkr.6"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Hauptanzeige
+&auml;ndern242'--><xref role="JumpText" linkend="SAG.FrPC.mkr.9"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Bedientafeln
+erstellen und &auml;ndern247'--><xref role="JumpText" linkend="SAG.FrPC.mkr.13"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Bedienelemente
+im Bedienfeld definieren251'--><xref role="JumpText" linkend="SAG.FrPC.mkr.15"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Arbeitsbereichsumschalter
+anpassen260'--><xref role="JumpText" linkend="SAG.FrPC.mkr.20"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Allgemeine
+Bedienfeldkonfiguration261'--><xref role="JumpText" linkend="SAG.FrPC.mkr.22"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="SAG.FrPC.div.2">
+<title>Weiterf&uuml;hrende Informationen</title>
+<itemizedlist remap="Bullet1">
+<listitem><para id="SAG.FrPC.mkr.2">Referenzinformationen zu Bedienelementen
+im Bedienfeld und der Konfiguration des Bedienfeldes k&ouml;nnen der Hilfeseite <filename moreinfo="RefEntry">dtfpfile(4X)</filename> entnommen werden.</para>
+</listitem>
+<listitem><para>Referenzinformationen zum Arbeitsbereichsmanager k&ouml;nnen
+der Hilfeseite <filename>dtwm(1)</filename> und <filename>dtwmrc(4)</filename>
+entnommen werden.</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.FrPC.div.3">
+<title id="SAG.FrPC.mkr.3">Bedienfeldkonfigurationsdateien<indexterm><primary>Konfigurationsdateien</primary><secondary>Bedienfeld</secondary></indexterm><indexterm>
+<primary>Bedienfeld</primary><secondary>Konfigurationsdateien</secondary>
+</indexterm></title>
+<para>Das Bedienfeld wird in einer Datenbank mit Konfigurationsdateien definiert.
+</para>
+<para>&Uuml;ber diese Konfigurationsdateien kann das Bedienfeld angepa&szlig;t
+werden. Bestimmte &Auml;nderungen k&ouml;nnen nur durch Bearbeitung der Konfigurationsdatei
+durchgef&uuml;hrt werden. Dazu geh&ouml;ren</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>das Hinzuf&uuml;gen eines neuen Bedienelements im Hauptbedienfeld.
+</para>
+</listitem>
+<listitem><para>das Hinzuf&uuml;gen spezieller Bedienelemente, wie zum Beispiel
+Client-Fenster.</para>
+</listitem>
+<listitem><para>das &Auml;ndern bestimmter Standardverhaltensweisen, zum Beispiel,
+ob die Bedienelemente im Bedienfeld durch einfaches Klicken oder durch Doppelklicken
+aktiviert werden.</para>
+</listitem>
+</itemizedlist>
+<para>Um dem Benutzer einen m&ouml;glichst gro&szlig;en Spielraum bei der
+Konfiguration des Bedienfelds zu lassen, k&ouml;nnen die Konfigurationsdateien
+f&uuml;r einen einzelnen Benutzer definiert (pers&ouml;nlich), f&uuml;r das
+System definiert (systemweit) oder auf anderen Systemen gespeichert sein.
+</para>
+<para>Das Bedienfeld wird durch den Arbeitsbereichsmanager erstellt und verwaltet.
+</para>
+<sect2 id="SAG.FrPC.div.4">
+<title>Standardkonfigurationsdatei des Bedienfeldes</title>
+<para>Das Standardbedienfeld wird in der Bedienfeldkonfigurationsdatei <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename><indexterm><primary>dtwm.fp Datei</primary></indexterm> definiert.
+</para>
+<para>Diese Datei sollte nicht ge&auml;ndert werden.</para>
+</sect2>
+<sect2 id="SAG.FrPC.div.5">
+<title>Suchpfad f&uuml;r Bedienfeldkonfigurationsdateien<indexterm><primary>Suchpfade</primary><secondary>Bedienfelddefinitionen</secondary></indexterm><indexterm>
+<primary>Bedienfeld</primary><secondary>Suchpfad</secondary></indexterm></title>
+<para>Die Bedienfelddefinition kann auf beliebig viele Dateien im lokalen
+oder in anderen Systemen verteilt sein.</para>
+<para><indexterm><primary>Bedienfeld</primary><secondary>Namenskonvention
+f&uuml;r Dateien</secondary></indexterm>Dateien, die das Bedienfeld definieren,
+m&uuml;ssen folgenden Anforderungen entsprechen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Der Dateiname mu&szlig; die Erweiterung <filename>.fp</filename>
+tragen, z. B., <filename>mail.fp</filename>.</para>
+</listitem>
+<listitem><para>Die Datei mu&szlig; sich im Datenbanksuchpfad f&uuml;r Aktionen
+befinden.</para>
+</listitem>
+</itemizedlist>
+<para>Der Standarddatenbanksuchpfad f&uuml;r Aktionen enth&auml;lt folgende
+Verzeichnisse, die in der hier aufgef&uuml;hrten Reihenfolge durchsucht werden:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="3.25in">
+<colspec colwidth="2.74in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para></entry>
+<entry align="left" valign="top">Pers&ouml;nliche Anpassungen</entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para></entry>
+<entry align="left" valign="top"><para>Systemweite Anpassungen</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para></entry>
+<entry align="left" valign="top"><para>Integriertes Bedienfeld und Bedienelemente
+</para></entry></row></tbody></tgroup></informaltable>
+<para>Um pers&ouml;nliche Anpassungen, die &uuml;ber die Benutzerschnittstelle
+durchgef&uuml;hrt wurden, zu speichern,</para>
+<para>wird ein zus&auml;tzliches Verzeichnis, <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/fp_dynamic</filename><indexterm><primary>fp_dynamic
+Verzeichnis</primary></indexterm><indexterm><primary>Bedienfeld</primary>
+<secondary>dynamische Anpassungen</secondary></indexterm> angelegt. Dieses
+Verzeichnis nicht f&uuml;r manuelle Anpassungen verwenden.</para>
+<para>Der Datenbanksuchpfad f&uuml;r Aktionen enth&auml;lt m&ouml;glicherweise
+zus&auml;tzliche Verzeichnisse, die das System f&uuml;r das Netzwerk konfigurieren.
+Insbesondere werden zus&auml;tzliche Positionen auf anderen Systemen hinzugef&uuml;gt,
+wenn das System f&uuml;r den Zugriff auf einen Anwendungs-Server konfiguriert
+wird. Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef
+content: '&ldquo;Datenbanksuchpfad (Aktionen/Datentypen)&rdquo; auf Seite&numsp;134'--><xref
+role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.12"> entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.FrPC.div.6">
+<title id="SAG.FrPC.mkr.4">Wie das Bedienfeld assembliert wird: Vorrangregeln<indexterm>
+<primary>Bedienfeld</primary><secondary>Vorrangregeln beim Assemblieren</secondary>
+</indexterm><indexterm><primary>Vorrangregeln</primary><secondary>Bedienfeld
+assemblieren</secondary></indexterm></title>
+<para>Das Bedienfeld wird aus allen Konfigurationsdateien im Datenbanksuchpfad
+f&uuml;r Aktionen assembliert.</para>
+<para>Kommt es zu einem Konflikt zwischen Komponenten der Definition, bestimmen
+Vorrangregeln, welche Definition verwendet wird. Zwei Komponenten geraten
+in Konflikt miteinander, wenn</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>sie denselben Bedienelementnamen, <filename>CONTAINER_NAME</filename> und <command>CONTAINER_TYPE</command> haben</para>
+</listitem>
+<listitem><para>oder f&uuml;r sie dieselbe Position definiert ist (zwar unterschiedliche
+Namen, aber derselbe <filename>CONTAINER_NAME</filename>, <filename>CONTAINER_TYPE</filename> und <filename>POSITION_HINTS</filename>).</para>
+</listitem>
+</itemizedlist>
+<para>F&uuml;r das Bedienfeld gelten folgende Vorrangregeln:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Haben Komponenten denselben Bedienelementnamen, Container-Namen
+und -typ, wird die Komponente verwendet, die zuerst gelesen wird.</para>
+<para>Enthalten beispielsweise sowohl ein systemweites als auch ein integriertes
+Bedienelement die folgenden Felder, sind aber ansonsten unterschiedlich,
+</para>
+<programlisting>CONTROL TextEditor
+{ 
+   CONTAINER_TYPE   BOX 
+   CONTAINER_NAME   Top
+   &hellip;
+}</programlisting>
+<para>hat das systemweite Bedienelement Vorrang.</para>
+</listitem>
+<listitem><para>Konkurrieren zwei Komponenten f&uuml;r dieselbe Position,
+werden sie in der Reihenfolge gesetzt, in der sie gelesen werden.</para>
+<para>Erstellt ein Benutzer beispielsweise ein neues pers&ouml;nliches Bedienelement
+f&uuml;r das Hauptbedienfeld (<filename>CONTAINER_TYPE</filename> BOX und <filename>CONTAINER_NAME</filename> Top) und ordnet ihm <filename>POSITION_HINTS</filename>
+5 zu, schiebt das pers&ouml;nliche Bedienelement das integrierte Bedienelement
+und alle anderen Bedienelemente mit h&ouml;heren Positionsnummern um eine
+Position nach rechts.</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Wird ein Bedienelement ge&auml;ndert, indem eine neue systemweite oder
+pers&ouml;nliche Version davon erstellt wird, mu&szlig; in der neuen Bedienelementdefinition
+derselbe Bedienelementname, <filename>CONTAINER_NAME</filename>, und <filename>CONTAINER_TYPE</filename> angegeben werden. Sonst wird das neue Bedienelement
+dem existierenden Bedienelement hinzugef&uuml;gt.</para>
+</note>
+</sect2>
+<sect2 id="SAG.FrPC.div.7">
+<title>Dynamisch erstellte Bedienfelddateien<indexterm><primary>Bedienfeld</primary><secondary>dynamische Anpassungen</secondary></indexterm></title>
+<para>Pa&szlig;t der Benutzer das Bedienfeld &uuml;ber das Bedienelement 'Symbol
+installieren' und Men&uuml;s an, werden Dateien in das Verzeichnis <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/fp_dynamic</filename> geschrieben.</para>
+<para>Das Bedienfeld erstellt eine zus&auml;tzliche Datei, <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/sessions/dtwmfp.session</filename>,<indexterm>
+<primary>dtwmfp.session Datei</primary></indexterm> in der der Status des
+angepa&szlig;ten Bedienfeldes f&uuml;r jede Session gesichert und wiederhergestellt
+wird.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.FrPC.div.8">
+<title id="SAG.FrPC.mkr.5">Benutzerschnittstellenanpassungen verwalten</title>
+<para>&Uuml;ber die Men&uuml;s der Bedienelemente und die Bedienelemente 'Symbol
+installieren' kann der Benutzer das Bedienfeld weitreichend anpassen.</para>
+<para>Im folgenden Abschnitt wird beschrieben, wie</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>bestimmte pers&ouml;nliche Anpassungen ausgeschlossen werden.
+Beispielsweise kann ausgeschlossen werden, da&szlig; ein Benutzer ein Bedienelement
+l&ouml;scht.</para>
+</listitem>
+<listitem><para>pers&ouml;nliche Anpassungen widerrufen werden. Beispielsweise
+kann ein Benutzer die Wiederherstellung eines versehentlich gel&ouml;schten
+Bedienelements anfordern.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.FrPC.div.9" role="Procedure">
+<title>Pers&ouml;nliche Anpassungen ausschlie&szlig;en<indexterm><primary>Bedienfeld</primary><secondary>pers&ouml;nliche Anpassungen</secondary></indexterm><indexterm>
+<primary>Bedienfeld</primary><secondary>Bedienelement</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Handelt es sich bei dem Bedienelement um ein integriertes
+Bedienelement, die Definition aus <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename> in <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">name</symbol>.fp</filename> kopieren.</para>
+</listitem>
+<listitem><para>Die folgende Zeile zur Bedienelementdefinition hinzuf&uuml;gen:
+</para>
+<programlisting>LOCKED   True</programlisting>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.FrPC.div.10" role="Procedure">
+<!--TRANSLATORS: When translating the following paragraphs refer to Chapter
+13 of the German CDE 1.0 Sysadmin Guide (hard copy). You can probably reuse
+some of the translation that is already there.-->
+<title>Gel&ouml;schte Bedienelemente oder gel&ouml;schte Bedientafeln wiederherstellen<indexterm>
+<primary>Bedientafel</primary><secondary>gel&ouml;schte Bedientafel wiederherstellen</secondary></indexterm><indexterm><primary>Bedienelement</primary><secondary>wiederherstellen</secondary></indexterm></title>
+<para>Die Aktion 'Bedienfeld wiederherstellen'<indexterm><primary>Bedienfeld
+wiederherstellen, Aktion</primary></indexterm> in der Gruppe von Anwendungen
+'Desktop-Werkzeuge'<indexterm><primary>Bedienelement</primary><secondary>pers&ouml;nliche Anpassungen ausschlie&szlig;en</secondary></indexterm><indexterm>
+<primary>LOCKED Feld</primary></indexterm> entfernt alle Bedienfeldanpassungen,
+die &uuml;ber die Benutzerschnittstelle durchgef&uuml;hrt wurden. Benutzer
+k&ouml;nnen mit dieser Aktion alle pers&ouml;nlichen Anpassungen, die sie
+&uuml;ber die Men&uuml;s des Bedienfeldes erstellt haben, entfernen.</para>
+<para>Auf folgende Art und Weise ein einzelnes Bedienelement wiederherstellen:
+</para>
+<itemizedlist>
+<listitem><para>Im Verzeichnis <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/fp_dynamic</filename> die Datei entfernen, die
+erstellt wurde, als das Bedienelement vom Benutzer gel&ouml;scht wurde. Das
+Bedienelement tr&auml;gt denselben Namen wie das urspr&uuml;nglich gel&ouml;schte.
+</para>
+<para>Wurde beispielsweise das Bedienelement Symboleditor gel&ouml;scht, enth&auml;lt
+eine Datei im Verzeichnis <filename>fp_dynamic</filename> folgenden Eintrag:
+</para>
+<programlisting>CONTROL IconEditor
+{
+   &hellip; 
+   DELETE   True
+}</programlisting>
+<indexterm><primary>DELETE, Feld</primary></indexterm></listitem>
+</itemizedlist>
+<para>Wird eine Bedientafel gel&ouml;scht, wird eine separate dynamische Datei
+f&uuml;r die Bedientafel und f&uuml;r jedes Bedienelement in der Bedientafel
+erstellt.</para>
+<para>F&uuml;r weitere Informationen zu diesem Thema, siehe<!--XRef content:
+'Modifying the Main Panel'--><xref role="JumpText" linkend="SAG.FrPC.div.11"></para>
+</sect2>
+</sect1>
+<sect1 id="SAG.FrPC.div.11">
+<title id="SAG.FrPC.mkr.6">Organisation der Bedienfelddefinition<indexterm>
+<primary>Bedienfeld</primary><secondary>Organisation der Definition</secondary>
+</indexterm></title>
+<para>Das Bedienfeld wird durch Assemblierung der Definitionen seiner Komponenten
+aufgebaut. F&uuml;r jede dieser Komponenten ist eine bestimmte Syntax erforderlich,
+die definiert, wo im Bedienfeld die Komponente steht, wie sie aussieht und
+wie sie sich verh&auml;lt.</para>
+<sect2 id="SAG.FrPC.div.12">
+<title id="SAG.FrPC.mkr.7">Bedienfeldkomponenten<indexterm><primary>Bedienfeld</primary><secondary>Komponenten</secondary></indexterm></title>
+<figure>
+<title>Bedienfeldkomponenten</title>
+<graphic id="SAG.FrPC.grph.1" entityref="SAG.FrPC.fig.1"></graphic>
+</figure>
+<para>Das Bedienfeld ist folgenderma&szlig;en aufgebaut:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Das Bedienfeld (<filename><indexterm><primary>PANEL definition</primary></indexterm>PANEL)</filename> ist der Container der obersten Ebene,
+das &uuml;bergeordnete Verzeichnis, des gesamten Bedienfeldes.</para>
+</listitem>
+<listitem><para>Das <command>PANEL</command> ist ein Container f&uuml;r ein
+oder mehrere Felder (<command>BOX</command>en).</para>
+</listitem>
+<listitem><para>Eine <command><indexterm><primary>BOX Definition</primary>
+</indexterm>BOX</command> ist ein Container f&uuml;r ein oder mehrere Bedienelemente
+(<command>CONTROL</command>s).</para>
+</listitem>
+</itemizedlist>
+<para>Es gibt zwei spezielle Typen von Containern:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Eine Bedientafel (<filename><indexterm><primary>SUBPANEL Definition</primary></indexterm>SUBPANEL)</filename> ist einem bestimmten Bedienelement
+zugeordnet (das Bedienelement ist der Container f&uuml;r die Bedientafel).
+Bedientafeln &ouml;ffnen sich von dem Bedienelement, dem sie zugeordnet sind,
+nach oben.</para>
+</listitem>
+<listitem><para>Der Arbeitsbereichsumschalter<indexterm><primary>Arbeitsbereichsumschalter</primary><secondary>Definition</secondary></indexterm> (<filename>SWITCH)</filename> enth&auml;lt die Tasten zum Wechseln der Arbeitsbereiche sowie
+zus&auml;tzliche Bedienelemente.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.FrPC.div.13">
+<title id="SAG.FrPC.mkr.8">Allgemeine Syntax der Bedienfelddefinition<indexterm>
+<primary>Bedienfeld</primary><secondary>Syntax</secondary></indexterm></title>
+<para>Jede Komponente im Bedienfeld wird einzeln definiert. Dabei wird folgende
+Syntax verwendet:</para>
+<programlisting>COMPONENT name
+{
+   KEYWORD wert
+   KEYWORD wert
+   &hellip;
+}</programlisting>
+<para>Einige Schl&uuml;sselw&ouml;rter sind erforderlich, andere sind wahlfrei.
+Weitere Informationen k&ouml;nnen der Hilfeseite <filename moreinfo="RefEntry">dtfpfile(4X</filename>) entnommen werden.</para>
+<sect3 id="SAG.FrPC.div.14">
+<title>Bedienfelddefinition (PANEL)<indexterm><primary>PANEL Definition</primary>
+<secondary>Syntax</secondary></indexterm></title>
+<para><command>PANEL</command> ist die Komponente der obersten Ebene. Die
+Definition enth&auml;lt</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>den Bedienfeldnamen</para>
+</listitem>
+<listitem><para>Felder, die das allgemeine Erscheinungsbild und das Verhalten
+des gesamten Bedienfeldes beschreiben.</para>
+</listitem>
+</itemizedlist>
+<programlisting>PANEL bedienfeld_name
+{
+   KEYWORD  wert
+   KEYWORD  wert
+ &hellip;
+}</programlisting>
+<para>Der Parameter <symbol>bedienfeld_name</symbol> ist ein eindeutiger Name
+f&uuml;r das Bedienfeld. Der Standardname ist &ldquo;FrontPanel.&rdquo;</para>
+</sect3>
+<sect3 id="SAG.FrPC.div.15">
+<title>Felddefinitionen (BOX)<indexterm><primary>BOX Definition</primary>
+<secondary>Syntax</secondary></indexterm></title>
+<para>Eine Definition f&uuml;r <command>BOX</command> beschreibt</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>den Namen der <command>BOX</command></para>
+</listitem>
+<listitem><para>in welchem Bedienfeld (<filename>PANEL)</filename> sich das
+Feld befindet (<filename><indexterm><primary>CONTAINER_NAME Feld</primary>
+</indexterm>CONTAINER_NAME</filename>)</para>
+</listitem>
+<listitem><para>die Position des Feldes im Bedienfeld (<filename>POSITION_HINTS</filename> )</para>
+</listitem>
+<listitem><para>Felder, die das allgemeine Erscheinungsbild und das Verhalten
+des gesamten Feldes beschreiben</para>
+</listitem>
+</itemizedlist>
+<programlisting>BOX feld_name
+{
+   CONTAINER_NAME  bedienfeld_name
+   POSITION_HINTS  position
+   KEYWORD         wert
+   KEYWORD         wert
+   &hellip;
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.16">
+<title>Bedienelementdefinitionen (CONTROL)<indexterm><primary>CONTROL Definition,
+Syntax</primary></indexterm></title>
+<para>Eine Definition f&uuml;r <command>CONTROL</command> beschreibt</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>den Namen des Bedienelements (<filename>CONTROL)</filename></para>
+</listitem>
+<listitem><para>ob es sich bei dem Bedienelement um ein Feld, eine Bedientafel
+oder den Arbeitsbereichsumschalter handelt (<filename><indexterm><primary>CONTAINER_TYPE Feld</primary></indexterm>CONTAINER_TYPE</filename>)</para>
+</listitem>
+<listitem><para>in welchem/r Feld, Bedientafel oder Arbeitsbereichsumschalter
+sich das Bedienelement befindet (<filename><indexterm><primary>CONTAINER_NAME
+Feld</primary></indexterm>CONTAINER_NAME</filename>)</para>
+</listitem>
+<listitem><para>die Position des Bedienelements im Feld (<filename>POSITION_HINTS</filename> ).</para>
+</listitem>
+<listitem><para>Felder, die das allgemeine Erscheinungsbild und das Verhalten
+des Bedienelements beschreiben</para>
+</listitem>
+</itemizedlist>
+<programlisting>CONTROL bedienelement_name
+{
+   CONTAINER_TYPE     BOX oder SUBPANEL oder SWITCH
+   CONTAINER_NAME     feld_name oder bedientafel_name oder schalter_name
+   TYPE               bedienelement_typ
+   POSITION_HINTS     position
+   KEYWORD            wert
+   KEYWORD            wert
+   &hellip;
+}</programlisting>
+<indexterm><primary>Bedientafel</primary><secondary>Definition</secondary>
+</indexterm><indexterm><primary>Bedientafel</primary><secondary>Syntax</secondary>
+</indexterm></sect3>
+<sect3 id="SAG.FrPC.div.17">
+<title>Bedientafeldefinitionen (SUBPANEL)<indexterm><primary>Bedientafel</primary><secondary>Syntax</secondary></indexterm></title>
+<para>Eine Definition f&uuml;r <command>SUBPANEL</command> beschreibt</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>den Namen der Bedientafel (<filename>SUBPANEL)</filename></para>
+</listitem>
+<listitem><para>den Namen des Bedienelements, dem die Bedientafel zugeordnet
+ist<indexterm><primary>Bedientafel</primary><secondary>Container</secondary>
+</indexterm> (<filename><indexterm><primary>CONTAINER_NAME field</primary>
+</indexterm>CONTAINER_NAME</filename>)</para>
+</listitem>
+<listitem><para>Felder, die das spezifische Erscheinungsbild und Verhalten
+der Bedientafel beschreiben</para>
+</listitem>
+</itemizedlist>
+<programlisting>SUBPANEL bedientafel_name
+{
+   CONTAINER_NAME   bedienelement_name
+   KEYWORD          wert
+   KEYWORD          wert
+   &hellip;
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.18">
+<title>Arbeitsbereichsumschalterdefinition (SWITCH)<indexterm><primary>SWITCH
+Definition</primary></indexterm><indexterm><primary>Arbeitsbereichsumschalter</primary><secondary>Syntax der Definition</secondary></indexterm></title>
+<para>Die Definition f&uuml;r <command>SWITCH</command> beschreibt</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>den Namen des Arbeitsbereichsumschalters</para>
+</listitem>
+<listitem><para>in welchem Feld sich der Arbeitsbereichsumschalter befindet
+(<filename><indexterm><primary>CONTAINER_NAME, Feld</primary></indexterm>CONTAINER_NAME</filename> )</para>
+</listitem>
+<listitem><para>die Position des Arbeitsbereichsumschalters innerhalb des
+Feldes (<filename>POSITION_HINTS</filename>)</para>
+</listitem>
+<listitem><para>Felder, die das Erscheinungsbild und Verhalten des Arbeitsbereichsumschalters
+beschreiben</para>
+</listitem>
+</itemizedlist>
+<programlisting>SWITCH schalter_name
+{
+   CONTAINER_NAME  feld_name
+   POSITION_HINTS  position
+   KEYWORD         wert
+   KEYWORD         wert
+   &hellip;
+}</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.FrPC.div.19">
+<title id="SAG.FrPC.mkr.9">Hauptanzeige &auml;ndern<indexterm><primary>Bedienfeld</primary><secondary>&auml;ndern</secondary></indexterm></title>
+<para>Bei der Hauptanzeige handelt es sich um das Bedienfeldfenster ohne die
+Bedientafeln.</para>
+<figure>
+<title>Container der Hauptanzeige</title>
+<graphic id="SAG.FrPC.grph.2" entityref="SAG.FrPC.fig.2"></graphic>
+</figure>
+<para>Folgende &Auml;nderungen k&ouml;nnen vorgenommen werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Hinzuf&uuml;gen oder Entfernen von Bedienelementen</para>
+</listitem>
+<listitem><para>Austauschen der Positionen von Bedienelementen</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.FrPC.div.20" role="Procedure">
+<title id="SAG.FrPC.mkr.10">Bedienelemente der Hauptanzeige hinzuf&uuml;gen<indexterm>
+<primary>Bedienelement</primary><secondary>der Hauptanzeige hinzuf&uuml;gen</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Eine Bedienfeldkonfigurationsdatei erstellen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/*.fp</filename></para>
+</listitem>
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/*.fp</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Das Bedienelement in der Datei definieren.</para>
+<para>Mit den Feldern <filename>CONTAINER_NAME</filename> und <filename>CONTAINER_TYPE</filename> den Container f&uuml;r das Bedienelement spezifizieren:</para>
+<programlisting>CONTAINER_NAME   Top
+CONTAINER_TYPE   BOX</programlisting>
+<para>Mit <filename>POSITION_HINTS</filename> die Position von links nach
+rechts f&uuml;r das Bedienelement angeben. Da Anpassungen Vorrang vor integrierten
+Bedienelementen haben, schiebt das neue Bedienelement das bereits vorhandene
+Bedienelement um eine Position nach rechts.</para>
+</listitem>
+<listitem><para>Die Konfigurationsdatei sichern.</para>
+</listitem>
+<listitem><para>Ein Symbol f&uuml;r das Bedienelement im Bedienfeld erstellen.
+</para>
+<para>N&auml;here Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Symbol angeben, das von einem Bedienelement verwendet
+werden soll&rdquo; auf Seite&numsp;246'--><xref role="SecTitleAndPageNum"
+linkend="SAG.CrAct.mkr.10"> entnommen werden.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+<para>Beispielsweise stellt die folgende Bedienelementdefinition in der Datei
+<filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/audio.fp</filename> ein Bedienelement f&uuml;r eine Audio-Anwendung zwischen die Bedienelemente
+f&uuml;r Uhr und Kalender.</para>
+<programlisting>CONTROL AudioApplication
+{
+ TYPE             icon
+ CONTAINER_NAME   Top
+ CONTAINER_TYPE   BOX
+ ICON             AudioApp
+ POSITION_HINTS   2
+ PUSH_ACTION      StartAudioApplication
+ PUSH_RECALL      true
+}</programlisting>
+</sect2>
+<sect2 id="SAG.FrPC.div.21" role="Procedure">
+<title id="SAG.FrPC.mkr.11">Bedienelemente entfernen<indexterm><primary>Bedienelement</primary><secondary>von Bedienfeld entfernen</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Eine Bedienfeldkonfigurationsdatei erstellen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">name</symbol>.fp</filename></para>
+</listitem>
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/</filename><symbol role="Variable">name</symbol><filename>.fp</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Die Definition des Bedienelements, das gel&ouml;scht werden
+soll, in die neue Datei kopieren.</para>
+<para>Handelt es sich um ein integriertes Bedienelement, befindet sich die
+Definition in <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp.</filename></para>
+<para>Es ist nicht notwendig, die gesamte Definition zu kopieren. Die Felder
+<filename>CONTAINER_NAME</filename> und <command>CONTAINER_TYPE</command>m&uuml;ssen
+jedoch auf jeden Fall kopiert werden.</para>
+</listitem>
+<listitem><para>Das Feld <command>DELETE</command> der Definition hinzuf&uuml;gen:
+</para>
+<para remap="CodeIndent1"><computeroutput>DELETE True</computeroutput></para>
+</listitem>
+<listitem><para>Die Konfigurationsdatei sichern.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+<para>Beispielsweise entfernt die folgende Bedienelementdefinition in der
+Datei <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/TrashCan.fp</filename> das Bedienelement 'Papierkorb'
+aus dem Bedienfeld.</para>
+<programlisting>CONTROL Trash
+{
+   CONTAINER_NAME  Top
+   CONTAINER_TYPE  BOX
+   DELETE          True
+}</programlisting>
+</sect2>
+<sect2 id="SAG.FrPC.div.22" role="Procedure">
+<title>Bedienelemente &auml;ndern<indexterm><primary>Bedienelement</primary>
+<secondary>&auml;ndern</secondary></indexterm></title>
+<para>Zum &Auml;ndern einer Bedienelementdefinition, zum Beispiel eines Symbolbildes,
+die folgende Prozedur verwenden.</para>
+<orderedlist>
+<listitem><para>Die gesamte Bedienelementdefinition aus <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename>
+in folgende Dateien kopieren:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">name</symbol>.fp</filename></para>
+</listitem>
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/</filename><symbol role="Variable">name</symbol><filename>.fp</filename>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Das Feld, das ge&auml;ndert werden soll, bearbeiten. Es k&ouml;nnen
+auch zus&auml;tzliche Felder hinzugef&uuml;gt werden.</para>
+</listitem>
+<listitem><para>Die Datei sichern.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.FrPC.div.23" role="Procedure">
+<title>Positionen von Bedienelementen austauschen<indexterm><primary>Bedienelement</primary><secondary>Positionen von Bedienelementen austauschen</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Die Bedienelementdefinitionen der Bedienelemente, deren Positionen
+ge&auml;ndert werden sollen, von <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename> in folgende
+Dateien kopieren:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>systemweit:<filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">name</symbol>.fp</filename></para>
+</listitem>
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/</filename><symbol role="Variable">name</symbol><filename>.fp</filename>.</para>
+<para>Die gesamte Bedienelementdefinition f&uuml;r jedes Bedienelement, das
+verschoben werden soll, kopieren.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Die Werte der Felder <filename><indexterm><primary>POSITION_HINTS
+Feld</primary></indexterm>POSITION_HINTS</filename> der Bedienelementdefinitionen
+austauschen.</para>
+</listitem>
+<listitem><para>Die Datei sichern.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+<para>Beispielsweise tauschen die folgenden Definitionen in einer Datei <filename>/etc/dt/appconfig/types/C/MailHelp.fp</filename> die Positionen der Bedienelemente
+f&uuml;r Post und Hilfemanager aus und sperren diese gegen pers&ouml;nliche
+&Auml;nderungen einzelner Benutzer.</para>
+<programlisting>CONTROL Mail
+{
+   POSITION_HINTS  12
+   LOCKED          True
+   &hellip;der rest der definition des bedienelements
+}
+
+CONTROL Help
+{
+   POSITION_HINTS  5
+   LOCKED          True
+   &hellip;der rest der definition des bedienelements
+}</programlisting>
+</sect2>
+<sect2 id="SAG.FrPC.div.24" role="Procedure">
+<title>Ein Bedienelement im Bedienfeld ersetzen<indexterm><primary>Bedienelement</primary><secondary>ersetzen</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Eine weitere Bedienelementdefinition mit denselben Parametern
+erstellen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para><symbol role="Variable">bedienelement_name</symbol></para>
+</listitem>
+<listitem><para><filename><indexterm><primary>CONTAINER_NAME, Feld</primary>
+</indexterm>CONTAINER_NAME</filename> Wert</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<para>Beispielsweise sind die beiden folgenden Bedienelemente in zwei verschiedenen
+Konfigurationsdateien definiert. Die Bedienelemente haben denselben Bedienelementnamen
+und Container-Namen und werden daher als dasselbe Bedienelement betrachtet.
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Definition in <filename>/etc/dt/appconfig/types/C/SysControls.fp</filename>:</para>
+<programlisting>Control ImportantApplication
+{ 
+   CONTAINER_NAME   Top 
+   CONTAINER_TYPE   BOX 
+   POSITION_HINTS   2
+   &hellip;</programlisting>
+</listitem>
+<listitem><para>Definition in <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/MyControls.fp</filename>:</para>
+<programlisting>Control ImportantApplication
+{ 
+   CONTAINER_NAME   Top 
+   CONTAINER_TYPE   BOX 
+   POSITION_HINTS   6
+   &hellip;</programlisting>
+</listitem>
+</itemizedlist>
+<para>Das pers&ouml;nliche Bedienelement hat Vorrang, so da&szlig; das Bedienelement
+an die Position 6 gestellt wird.</para>
+</sect2>
+<sect2 id="SAG.FrPC.div.25">
+<title id="SAG.FrPC.mkr.12">Symbol angeben, das von einem Bedienelement verwendet
+werden soll<indexterm><primary>Bedienelement</primary><secondary>Erscheinungsbild</secondary></indexterm><indexterm><primary>Bedienelement</primary><secondary>Symbol</secondary></indexterm><indexterm><primary>Symbole</primary><secondary>Bedienfeld</secondary></indexterm></title>
+<para>Das Feld <command><indexterm><primary>ICON Feld</primary><secondary>im Bedienfeld</secondary></indexterm>ICON</command> der Bedienelementdefinition
+definiert, welches Symbolbild f&uuml;r das Bedienelement verwendet wird.</para>
+<para>Der Wert f&uuml;r das Feld <command>ICON</command> kann auf die folgenden
+Weisen angegeben werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>durch den Dateinamen ohne Pfad</para>
+<para>Der Dateiname ohne Pfad ist der Name der Datei, die das Symbolbild enth&auml;lt,
+ohne die Dateinamenerweiterungen f&uuml;r Gr&ouml;&szlig;e (<filename>m</filename>
+und <filename>t</filename>) und Abbildtyp (<filename>bm</filename> und <filename>pm</filename>). Beispielsweise lautet bei den Dateien mit den Namen <filename>MyGame.l.pm</filename> und <filename>MyGame.m.pm</filename> der Dateiname
+ohne Pfad <filename>MyGame</filename>.</para>
+<para>Wird der Dateiname ohne Pfad verwendet, m&uuml;ssen sich die Symboldateien
+in einem Verzeichnis im Symbolsuchpfad befinden:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>pers&ouml;nliche Symbole: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>systemweite Symbole: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>durch einen absoluten Pfad zu der Symboldatei, einschlie&szlig;lich
+des vollst&auml;ndigen Dateinamens</para>
+<para>Der absolute Pfad sollte nur verwendet werden, wenn sich die Symboldatei
+nicht im Symbolsuchpfad befindet.</para>
+</listitem>
+</itemizedlist>
+<para>Die Gr&ouml;&szlig;e des Symbols richtet sich nach der Position des
+Bedienelements:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.22in">
+<colspec colwidth="4.77in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Position</para></entry><entry
+align="left" valign="bottom"><para>Gr&ouml;&szlig;e</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Hauptanzeige</para></entry>
+<entry align="left" valign="top"><para>48 x 48 Pixel (<symbol role="Variable">name</symbol><filename>.l.pm</filename> oder <symbol role="Variable">name</symbol><filename>.l.bm</filename>)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Bedientafel</para></entry>
+<entry align="left" valign="top"><para>32 x 32 Pixel (<symbol role="Variable">name</symbol><filename>.m.pm</filename> oder <symbol role="Variable">name</symbol><filename>.m.bm</filename>)</para></entry></row></tbody></tgroup>
+</informaltable>
+<para>Die Symboldatei in eine der folgenden Positionen stellen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>pers&ouml;nliche Symbole: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>systemweite Symbole: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.FrPC.div.26">
+<title id="SAG.FrPC.mkr.13">Bedientafeln erstellen und &auml;ndern<indexterm>
+<primary>Bedientafel</primary><secondary>erstellen</secondary></indexterm><indexterm>
+<primary>Bedientafel</primary><secondary>&auml;ndern</secondary></indexterm></title>
+<para>Der Benutzer kann Bedientafeln &uuml;ber die Men&uuml;s des Bedienfeldes
+erstellen und &auml;ndern.</para>
+<para>Im folgenden Abschnitt wird erl&auml;utert, wie durch &Auml;nderung
+der Bedienfeldkonfigurationsdateien eine systemweite Anpassung erreicht wird.
+</para>
+<para>Eine Bedientafel ist einem Bedienelement in der Hauptanzeige zugeordnet.
+</para>
+<figure>
+<title>Der Container einer Bedientafel ist das Bedienelement, dem sie zugeordnet
+ist.</title>
+<graphic id="SAG.FrPC.grph.3" entityref="SAG.FrPC.fig.3"></graphic>
+</figure>
+<para><indexterm><primary>Bedientafel</primary><secondary>Zuordnung mit Hauptanzeige</secondary></indexterm>Die Zuordnung erfolgt &uuml;ber die Bedientafeldefinition.
+Im Feld <filename>CONTAINER_NAME</filename> wird angegeben, welchem Bedienelement
+die Bedientafel zugeordnet ist.</para>
+<programlisting>CONTROL bedienelement_name
+{
+   &hellip;
+}
+
+SUBPANEL bedientafel_name
+{
+   CONTAINER_NAME  bedienelement_name
+   &hellip;
+}</programlisting>
+<sect2 id="SAG.FrPC.div.27" role="Procedure">
+<title>Neue systemweite Bedientafeln erstellen<indexterm><primary>Bedientafel</primary><secondary>systemweite Anpassung</secondary></indexterm><indexterm>
+<primary>Bedientafel</primary><secondary>neu erstellen</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Den <symbol role="Variable">bedienelement_name</symbol> des
+Bedienelements in der Hauptanzeige feststellen, dem die Bedientafel zugeordnet
+werden soll.</para>
+<para>Handelt es sich bei dem Bedienelement um eines der integrierten Bedienelemente,
+befindet sich die Definition in <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename>.</para>
+</listitem>
+<listitem><para>Eine neue Datei <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/*.fp</filename> erstellen.</para>
+</listitem>
+<listitem><para>Die Bedientafel definieren:</para>
+<programlisting>SUBPANEL bedientafel_name
+{ 
+   CONTAINER_NAME  bedienelement_name 
+   TITLE           wert 
+   KEYWORD         wert
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Die neue Konfigurationsdatei sichern.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.FrPC.div.28">
+<title>Integrierte Bedientafeln anpassen<indexterm><primary>Bedientafel</primary>
+<secondary>integrierte Bedientafeln anpassen</secondary></indexterm></title>
+<para>Es k&ouml;nnen allgemeine Merkmale (wie zum Beispiel der Titel) sowie
+der Inhalt der integrierten Bedientafeln ge&auml;ndert werden.</para>
+<sect3 id="SAG.FrPC.div.29" role="Procedure">
+<title>Allgemeine Merkmale einer integrierten Bedientafel &auml;ndern</title>
+<orderedlist>
+<listitem><para>Eine neue Bedienfeldkonfigurationsdatei erstellen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">name</symbol>.fp</filename></para>
+</listitem>
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/</filename><symbol role="Variable">name</symbol><filename>.fp</filename>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Die gesamte Standardbedientafeldefinition (<filename>SUBPANEL)</filename> aus der Datei <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename> in die neue
+Datei kopieren:</para>
+<programlisting>SUBPANEL bedientafel_name
+{
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Die Bedientafeldefinition &auml;ndern.</para>
+</listitem>
+<listitem><para>Die neue Konfigurationsdatei sichern.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+<para>Wird beispielsweise die folgende Definition in die Datei<filename>/users/janice/.dt/types/PerApps.fp</filename> gestellt, wird dadurch der Name der Bedientafel Pers&ouml;nliche
+Anwendungen ge&auml;ndert:</para>
+<programlisting>SUBPANEL PersAppsSubpanel
+{
+ CONTAINER_NAME  TextEditor
+ TITLE           anwendungen von Janice
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.30" role="Procedure">
+<title>Systemweite Bedienelemente einer integrierten Bedientafel hinzuf&uuml;gen</title>
+<orderedlist>
+<listitem><para>Eine Bedienfeldkonfigurationsdatei <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/<symbol role="Variable">name</symbol>.fp</filename> erstellen.</para>
+</listitem>
+<listitem><para>Das systemweite Bedienelement in der Datei definieren.</para>
+<para>Mit den Feldern <filename>CONTAINER_NAME</filename> und <filename>CONTAINER_TYPE</filename> den Container f&uuml;r das Bedienelement angeben:</para>
+<programlisting>CONTROL bedienelement_name
+{ 
+   CONTAINER_NAME   bedientafel_name 
+   CONTAINER_TYPE   SUBPANEL
+   &hellip;
+}</programlisting>
+<para>Weitere Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Bedienelemente im Bedienfeld definieren&rdquo; auf Seite&numsp;251'--><xref
+role="SecTitleAndPageNum" linkend="SAG.FrPC.mkr.15"> entnommen werden.</para>
+</listitem>
+<listitem><para>Die Konfigurationsdatei sichern.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+<para>Beispielsweise f&uuml;gt das folgende Bedienelement, das in einer neuen
+Datei <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/DigitalClock.fp</filename> definiert ist, die Anwendung Digitaluhr (in der Gruppe von Anwendungen
+'Desktop- Werkzeuge') der Bedientafel 'Pers&ouml;nliche Anwendungen' f&uuml;r
+alle Benutzer hinzu.</para>
+<programlisting>CONTROL DigitalClockControl
+{
+   TYPE             icon
+   CONTAINER_NAME   PerAppsSubpanel
+   CONTAINER_TYPE   SUBPANEL
+   ICON             Dtdgclk
+   PUSH_ACTION      DigitalClock
+   PUSH_RECALL      True
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.31" role="Procedure">
+<title>Bedienelemente aus einer integrierten Bedientafel entfernen</title>
+<itemizedlist>
+<listitem><para>Dieselbe Prozedur wie zum Entfernen eines Bedienelements aus
+der Hauptanzeige verwenden. Weitere Infomationen hierzu k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Bedienelemente entfernen&rdquo; auf Seite&numsp;243'--><xref
+role="SecTitleAndPageNum" linkend="SAG.FrPC.mkr.11"> entnommen werden.</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="SAG.FrPC.div.32" role="Procedure">
+<title id="SAG.FrPC.mkr.14">Bedienelement 'Symbol installieren' entfernen</title>
+<itemizedlist>
+<listitem><para>Das folgende Feld der Bedientafeldefinition hinzuf&uuml;gen:
+</para>
+<programlisting remap="CodeIndent1">CONTROL_INSTALL   False</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.FrPC.div.33" role="Procedure">
+<title>Automatisches Schlie&szlig;en von Bedientafeln &auml;ndern<indexterm>
+<primary>Bedientafel</primary><secondary>automatisches Schlie&szlig;en &auml;ndern</secondary></indexterm></title>
+<para>Standardm&auml;&szlig;ig werden Bedientafeln geschlossen, wenn der Benutzer
+ein Bedienelement ausw&auml;hlt, es sei denn, der Benutzer hat die Bedientafel
+aus ihrer urspr&uuml;nglichen Position verschoben.</para>
+<para>Das Bedienfeld kann so konfiguriert werden, da&szlig; Bedientafeln ge&ouml;ffnet
+bleiben, bis der Benutzer sie explizit schlie&szlig;t.</para>
+<orderedlist>
+<listitem><para>Eine neue Bedienfeldkonfigurationsdatei erstellen:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/*.fp</filename></para>
+</listitem>
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/*.fp</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Die Standarddefinition f&uuml;r <command>PANEL</command> aus
+der Datei <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol>/<filename>dtwm.fp</filename> in die neue Datei kopieren:
+</para>
+<programlisting>PANEL FrontPanel
+{
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Das folgende Feld zu der Definition f&uuml;r <command>PANEL</command> hinzuf&uuml;gen:</para>
+<programlisting remap="CodeIndent1">SUBPANEL_UNPOST   False</programlisting>
+</listitem>
+<listitem><para>Die neue Konfigurationsdatei sichern.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.FrPC.div.34">
+<title id="SAG.FrPC.mkr.15">Bedienelemente im Bedienfeld definieren<indexterm>
+<primary>Bedienelement</primary><secondary>definieren</secondary></indexterm></title>
+<para>Der Benutzer kann pers&ouml;nliche Bedienelemente erstellen, indem er
+Symbole an die Bedienelemente 'Symbol installieren' &uuml;bergibt.</para>
+<para>Dadurch wird die Anpassung zwar wesentlich vereinfacht, aber ein Teil
+der Funktionalit&auml;t der Bedienelemente im Bedienfeld geht verloren. Beispielsweise
+kann ein Bedienelement, das mit dem Bedienelement 'Symbol installieren' erstellt
+wurde</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>keine Animation zur Verf&uuml;gung stellen</para>
+</listitem>
+<listitem><para>kein Client-Fenster anzeigen</para>
+</listitem>
+<listitem><para>nicht bei Auftreten eines Ereignisses das Erscheinungsbild
+&auml;ndern (beispielsweise beim Empfangen von Post)</para>
+</listitem>
+</itemizedlist>
+<para>Im folgenden Abschnitt wird beschrieben, wie Bedienelemente im Bedienfeld
+manuell erstellt werden.</para>
+<para>Referenzinformationen zur Syntax von Bedienelementen im Bedienfeld k&ouml;nnen
+der Hilfeseite <filename moreinfo="RefEntry">dtfpfile(4X)</filename> entnommen
+werden.</para>
+<sect2 id="SAG.FrPC.div.35">
+<title>Definitionen f&uuml;r ein Bedienelement im Bedienfeld</title>
+<para>Eine Definition eines Bedienelements im Bedienfeld hat folgende Struktur:
+</para>
+<programlisting>CONTROL bedienelement_name
+{
+   TYPE             control_type
+   CONTAINER_NAME   wert
+   CONTAINER_TYPE   wert
+   andere felder zur definition von erscheinungsbild und verhalten
+}</programlisting>
+</sect2>
+<sect2 id="SAG.FrPC.div.36">
+<title>Bedienelementtypen<indexterm><primary>Bedienelement</primary><secondary>Typen</secondary></indexterm></title>
+<para>Das Feld <command><indexterm><primary>TYPE Feld</primary></indexterm>TYPE</command> in der Bedienelementdefinition gibt das grundlegende Verhalten
+des Bedienelements an.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.96in">
+<colspec colwidth="4.03in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Bedienelementtyp</para></entry>
+<entry align="left" valign="bottom"><para>Bedienelementverhalten</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>icon Bedienelement</primary></indexterm>icon</command></para></entry>
+<entry align="left" valign="top"><para>(Standard). Das Bedienelement f&uuml;hrt
+eine angegebene Aktion aus, wenn der Benutzer das Bedienelement doppelklickt
+oder dem Bedienelement eine Datei &uuml;bergibt.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>Abstand
+zwischen Bedienelementen regeln</primary></indexterm>blank</command></para></entry>
+<entry align="left" valign="top">Platzhalter, mit dem der Abstand zwischen
+Bedienelementen geregelt werden kann.</entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>Betriebsanzeige</primary></indexterm>busy</command></para></entry>
+<entry align="left" valign="top"><para>Betriebsanzeige. Das Bedienelement
+blinkt (schaltet zwischen Bildschirmen hin und her), wenn eine Aktion aufgerufen
+wird.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>Client-Fenster
+im Bedienfeld</primary></indexterm>client</command></para></entry>
+<entry align="left" valign="top"><para>Ein Client-Fenster im Bedienfeld.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>Uhr</primary>
+</indexterm>clock</command></para></entry>
+<entry align="left" valign="top"><para>Uhr.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>Bedienelementverhalten</primary></indexterm>date</command></para></entry>
+<entry align="left" valign="top"><para>Zeigt das aktuelle Datum an.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>Dateisteuerung</primary></indexterm>file</command></para></entry>
+<entry align="left" valign="top"><para>Stellt eine Datei dar. Durch Auswahl
+des Bedienelements wird die Standardaktion f&uuml;r die Datei ausgef&uuml;hrt.
+</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.FrPC.div.37" role="Procedure">
+<title>Neue Bedienelemente erstellen<indexterm><primary>Bedienelement</primary>
+<secondary>erstellen</secondary></indexterm></title>
+<para>Im folgenden Abschnitt wird die Vorgehensweise bei der Definition eines
+Bedienelements beschrieben und erl&auml;utert, wie verschiedene Bedienelementtypen
+erstellt werden.</para>
+<orderedlist>
+<listitem><para>Soll das Bedienelement &uuml;ber die Aktionen <filename>PUSH_ACTION</filename> und/oder <command>DROP_ACTION</command> verf&uuml;gen, die entsprechenden
+Aktionsdefinitionen erstellen. Hierbei handelt es sich um die Aktionen, die
+ausgef&uuml;hrt werden, wenn der Benutzer das Bedienelement anklickt oder
+ihm eine Datei &uuml;bergibt.</para>
+</listitem>
+<listitem><para>Die Symbolbilddateien f&uuml;r das Bedienelement erstellen.
+</para>
+<para>Informationen zu Symbolgr&ouml;&szlig;en, -namen und -positionen k&ouml;nnen
+dem Abschnitt <!--Original XRef content: '&ldquo;Symbolbilddateien&rdquo;
+auf Seite&numsp;224'--><xref role="SecTitleAndPageNum" linkend="SAG.CrIcn.mkr.3">
+entnommen werden.</para>
+</listitem>
+<listitem><para>Eine neue Bedienfeldkonfigurationsdatei erstellen in:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>systemweit: <filename>/etc/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/*.fp</filename></para>
+</listitem>
+<listitem><para>pers&ouml;nlich: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/*.fp</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Die Bedienelementdefinition der Datei hinzuf&uuml;gen.</para>
+</listitem>
+<listitem><para>Die Datei sichern.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+<sect3 id="SAG.FrPC.div.38">
+<title id="SAG.FrPC.mkr.16">Bedienelement erstellen, das bei Anklicken eine
+Aktion ausf&uuml;hrt</title>
+<para>Folgende Felder verwenden, um das Verhalten des Bedienelements zu definieren:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>TYPE</command>: Auf <command>icon</command> setzen
+</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>PUSH_ACTION Feld</primary></indexterm>PUSH_ACTION:</filename> Gibt den Namen der Aktion an, die ausgef&uuml;hrt werden soll
+</para>
+</listitem>
+</itemizedlist>
+<para>Beispielsweise f&uuml;hrt das folgende Bedienelement, das in die Bedientafel
+'Pers&ouml;nliche Anwendungen' gestellt wird, ein Spiel aus, das der Benutzer
+am System installiert hat.</para>
+<programlisting>CONTROL Ball
+{
+   TYPE           icon
+   CONTAINER_NAME PersAppsSubpanel
+   CONTAINER_TYPE SUBPANEL
+   ICON           ball
+   PUSH_ACTION    RunBallGame
+   HELP_STRING    "Dieses Bedienelement ausw&auml;hlen, um Ball zu spielen."
+}</programlisting>
+<para>Das folgende Bedienelement wird in die obere linke Ecke des Arbeitsbereichsumschalters
+gestellt. Es startet eine Aktion mit dem Namen 'CutDisp'.</para>
+<programlisting>CONTROL StartCutDisp
+{
+   TYPE            icon
+   CONTAINER_NAME  Switch
+   CONTAINER_TYPE  SWITCH
+   POSITION_HINTS  first
+   ICON            cutdisp
+   HELP_STRING     "Dieses Bedienelement ausw&auml;hlen, um cutdisp auszuf&uuml;hren."
+   PUSH_ACTION     CutDisp
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.39">
+<title>Bedienelement erstellen, das eine Datei &ouml;ffnet<indexterm><primary>Bedienelement</primary><secondary>zum &Ouml;ffnen einer Datei</secondary>
+</indexterm></title>
+<para>Folgende Felder verwenden, um das Verhalten des Bedienelements zu definieren:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>TYPE</command>: Auf <command>file</command> setzen
+</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>FILE_NAME Feld</primary></indexterm>FILE_NAME:</filename> Gibt den Pfad der Datei an, die ge&ouml;ffnet werden soll.</para>
+</listitem>
+<listitem><para><filename>PUSH_ACTION:</filename> Auf <command>Open</command>
+setzen</para>
+</listitem>
+</itemizedlist>
+<para>Eine Aktion '&Ouml;ffnen' mu&szlig; f&uuml;r den Datentyp der Datei
+definiert sein.</para>
+<para>Beispielsweise wird das folgende Bedienelement ganz rechts in die Hauptanzeige
+gestellt. Es startet den Texteditor mit der Datendatei <filename>/users/ellen/PhoneList.txt</filename>. Die Aktion '&Ouml;ffnen' f&uuml;r Dateien des Typs <filename>*.txt</filename> ist Bestandteil der Standarddatenbank f&uuml;r Aktionen.
+</para>
+<programlisting>CONTROL EditPhoneList
+{
+   TYPE            file
+   FILE_NAME       /users/ellen/PhoneList.txt
+   CONTAINER_NAME  Top
+   CONTAINER_TYPE  BOX
+   POSITION_HINTS  last
+   ICON            PhoneBook
+   HELP_STRING     "Dieses Bedienelement zeigt Ellens Telefonliste"
+   PUSH_ACTION     Open
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.40">
+<title id="SAG.FrPC.mkr.17">Bedienelement erstellen, das als &Uuml;bergabebereich
+fungiert<indexterm><primary>&Uuml;bergabebereich</primary><secondary>Bedienfeldsteuerung</secondary></indexterm><indexterm><primary>Bedienfeld</primary><secondary>Bedienelement als &Uuml;bergabebereich</secondary></indexterm><indexterm>
+<primary>Bedienelement</primary><secondary>&Uuml;bergabebereich</secondary>
+</indexterm></title>
+<para>Im Feld <filename><indexterm><primary>DROP_ACTION Feld</primary></indexterm>DROP_ACTION</filename> die Aktion angeben, die ausgef&uuml;hrt wird, wenn der Benutzer
+eine Datei an das Bedienelement &uuml;bergibt. Die Aktion mu&szlig; ein Dateiargument
+akzeptieren k&ouml;nnen.</para>
+<para>H&auml;ufig enth&auml;lt eine Bedienelementdefinition sowohl ein Feld <filename>PUSH_ACTION</filename> als auch ein Feld <command>DROP_ACTION</command>. Dieselbe
+Aktion kann sowohl f&uuml;r &Uuml;bergabe als auch f&uuml;r Anklicken verwendet
+werden.</para>
+<para>Beispielsweise f&uuml;hrt das folgende Bedienelement in der Bedientafel
+'Pers&ouml;nliche Anwendungen' den X-Client <command>xwud</command> aus, der
+ein Dateiargument ben&ouml;tigt.</para>
+<programlisting>CONTROL Run_xwud
+{
+   CONTAINER_NAME   PerAppsSubpanel
+   CONTAINER_TYPE   SUBPANEL
+   POSITION_HINTS   2
+   ICON             XwudImage
+   PUSH_ACTION      RunXwud
+   DROP_ACTION      RunXwud
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.41">
+<title id="SAG.FrPC.mkr.18">Bedienelement erstellen, das eine Datei &uuml;berwacht<indexterm>
+<primary>Bedienelement</primary><secondary>Datei &uuml;berwachen</secondary>
+</indexterm></title>
+<para>Folgende Felder verwenden, um das Verhalten des Bedienelements zu definieren:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>TYPE</command>: Einen der folgenden Werte eingeben:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.01in">
+<colspec colwidth="4.98in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>icon type
+Bedienelement</primary></indexterm>icon</command></para></entry>
+<entry align="left" valign="top"><para>Diesen Typ verwenden, wenn <filename>PUSH_ACTION</filename> und/oder <command>DROP_ACTION</command> f&uuml;r das
+Bedienelement angegeben werden soll.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>Dateitypbedienelement</primary></indexterm>file</command></para></entry>
+<entry align="left" valign="top">Diesen Typ verwenden, wenn das Bedienelement
+sich nach der Auswahl wie die Datei verhalten soll, wenn das Symbol der Datei
+im Dateimanager doppelgeklickt wird.</entry></row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para><command>ICON</command> und <command><indexterm><primary>ALTERNATE_ICON Feld</primary></indexterm>ALTERNATE_ICON:</command> Beschreiben
+die Bilder, mit denen der urspr&uuml;ngliche und der ge&auml;nderte Status
+der &uuml;berwachten Datei angegeben wird.</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>MONITOR_TYPE Feld</primary>
+</indexterm>MONITOR_TYPE</filename>: Beschreibt die Bedingungen, unter denen
+ein Bild sich &auml;ndert. Einen der folgenden Werte verwenden:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.02in">
+<colspec colwidth="4.99in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>mail</command></para></entry>
+<entry align="left" valign="top"><para>Das Bedienelement &auml;ndert sein
+Erscheinungsbild, wenn der Datei Informationen hinzugef&uuml;gt werden.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>file</command></para></entry>
+<entry align="left" valign="top"><para>Das Bedienelement &auml;ndert sich,
+wenn der angegebenen Datei Informationen hinzugef&uuml;gt werden.</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para><filename>FILE_NAME<indexterm><primary>FILE_NAME Feld</primary>
+</indexterm></filename>: Gibt die zu &uuml;berwachende Datei an.</para>
+</listitem>
+</itemizedlist>
+<para>Beispielsweise sucht das folgende Bedienelement eine Datei <command>meetings</command><emphasis>,</emphasis> die mit einem anonymen ftp auf das
+System &uuml;bertragen werden soll. Das Bedienelement wird an erster Position
+in die Bedientafel 'Pers&ouml;nliche Anwendungen' gestellt.</para>
+<programlisting>CONTROL MonitorCalendar
+{
+   TYPE            file
+   CONTAINER_NAME  PersAppsSubpanel
+   CONTAINER_TYPE  SUBPANEL
+   POSITION_HINTS  first
+   FILE_NAME       /users/ftp/meetings
+   MONITOR_TYPE    file
+   ICON            meetingsno
+   ALTERNATE_ICON  meetingsyes
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.42">
+<title id="SAG.FrPC.mkr.19">Bedienelement zum Umschalten erstellen<indexterm>
+<primary>Bedienelement</primary><secondary>zum Umschalten</secondary></indexterm></title>
+<para>Ein Bedienelement zum Umschalten pr&uuml;ft, ob der Proze&szlig;, der
+von <command>PUSH_ACTION</command> gestartet wurde, bereits ausgef&uuml;hrt
+wird. Wenn der Proze&szlig; nicht ausgef&uuml;hrt wird, wird <filename>PUSH_ACTION</filename> ausgef&uuml;hrt. Wenn der Proze&szlig; bereits ausgef&uuml;hrt
+wird, erh&auml;lt das Fenster die oberste Ebene im Fensterstapel des aktuellen
+Arbeitsbereichs.</para>
+<para>Folgende Felder verwenden, um das Verhalten des Bedienelements zu definieren:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>PUSH_RECALL</filename>: Auf <command>True</command>
+setzen.</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>CLIENT_NAME Feld</primary></indexterm>CLIENT_NAME</filename>: Gibt den Namen des Clients an das Bedienelement.</para>
+<para>Der Wert von <filename>CLIENT_NAME</filename> mu&szlig; mit der ersten
+Zeichenfolge (<symbol role="Variable">res_name</symbol>) der Eigenschaft WM_CLASS
+&uuml;bereinstimmen. Informationen dazu k&ouml;nnen der Hilfeseite <filename>xprop(1)</filename> entnommen werden.</para>
+</listitem>
+<listitem><para><command>PUSH_ACTION</command>: Beschreibt die Aktion 'Ausf&uuml;hren',
+wenn der Benutzer auf das Bedienelement klickt.</para>
+</listitem>
+</itemizedlist>
+<para>Beispielsweise f&uuml;hrt das folgende Bedienelement eine Anwendung
+mit der Aktion MyEditor einmalig aus:</para>
+<programlisting>CONTROL MyEditor
+{
+   TYPE             icon
+   CONTAINER_NAME   Top
+   CONTAINER_TYPE   BOX
+   POSITION_HINTS   15
+   PUSH_RECALL      True
+   CLIENT_NAME      BestEditor
+   PUSH_ACTION      StartMyEditor
+   ICON             MyEd
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.43" role="Procedure">
+<title>Clientfensterbedienelement erstellen<indexterm><primary>Bedienfeld</primary><secondary>Client</secondary></indexterm><indexterm><primary>Clients</primary><secondary>Fenster in Bedienfeld</secondary></indexterm><indexterm>
+<primary>Bedienelement</primary><secondary>Client</secondary></indexterm></title>
+<para>Ein Clientfensterbedienelement ist ein Anwendungsfenster im Bedienfeld.
+Beispielsweise kann durch das Erstellen eines <command>xload</command> Clientfensterbedienelements
+eine Systemauslastungsanzeige in das Bedienfeld gestellt werden.</para>
+<orderedlist>
+<listitem><para>Das Bedienelement definieren.</para>
+<para>Folgende Felder verwenden, um das Verhalten des Bedienelements zu definieren:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para><command>TYPE</command>: Auf <command>client</command> setzen.
+</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>CLIENT_NAME Feld</primary></indexterm>CLIENT_NAME</filename>: Gibt den Client an, der gestartet werden soll.</para>
+<para>Der Wert von <filename>CLIENT_NAME</filename> mu&szlig; mit der ersten
+Zeichenfolge (<symbol role="Variable">res_name</symbol>) der Eigenschaft WM_CLASS
+&uuml;bereinstimmen. Informationen dazu k&ouml;nnen der Hilfeseite <filename>xprop(1)</filename> entnommen werden.</para>
+</listitem>
+<listitem><para><filename><indexterm><primary>CLIENT_GEOMETRY Feld</primary>
+</indexterm>CLIENT_GEOMETRY</filename>: Gibt in Pixel die Gr&ouml;&szlig;e
+des Bedienfeldfensters f&uuml;r den Benutzer an.</para>
+<para>Die Hilfeseite <filename>xwininfo(1)</filename> beschreibt, wie man
+die Gr&ouml;&szlig;e eines Fensters in Pixel erh&auml;lt.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+<listitem><para>Den Client aus einer Terminal-Emulatorbefehlszeile starten.
+</para>
+</listitem>
+</orderedlist>
+<para>Beispielsweise zeigt das folgende Bedienelement eine Auslastung von
+30 x 20 Pixel.</para>
+<programlisting>CONTROL LoadMeter
+{
+   TYPE client
+   CONTAINER_NAME   Top
+   CONTAINER_TYPE   BOX
+   CLIENT_NAME      xload
+   CLIENT_GEOMETRY  30x20
+}</programlisting>
+<para>Wenn der Client zwischen Sessions nicht gespeichert und wiederhergestellt
+wird, kann das Bedienelement so konfiguriert werden, da&szlig; es den Client
+startet, wenn es vom Benutzer angeklickt wird. Beispielsweise kann das Bedienelement
+zur Systemauslastung so konfiguriert werden, da&szlig; xload gestartet wird
+durch Hinzuf&uuml;gen der folgenden Zeile in der Definition</para>
+<programlisting>PUSH_ACTION  StartXload</programlisting>
+<para>und dem Erstellen dieser Aktion.</para>
+<programlisting>ACTION StartXload
+{
+   WINDOW_TYPE   NO_STDIO
+   EXEC_STRING   /usr/contrib/bin/X11/xload
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.44" role="Procedure">
+<title>Bedienelement animieren<indexterm><primary>Bedienelement</primary>
+<secondary>Animation</secondary></indexterm><indexterm><primary>Animation
+f&uuml;r Bedienfeld</primary></indexterm><indexterm><primary>Bedienfeld</primary>
+<secondary>Animation</secondary></indexterm></title>
+<para>Eine Animationsfolge kann hinzugef&uuml;gt werden, die ausgef&uuml;hrt
+wird, wenn der Benutzer das Bedienelement anw&auml;hlt oder ihm ein Objekt
+&uuml;bergibt.</para>
+<para>F&uuml;r eine Animationsfolge mu&szlig; ein Bedienelement folgende Eigenschaften
+besitzen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Vom Typ <command>icon</command>sein</para>
+</listitem>
+<listitem><para>&Uuml;ber <command>PUSH_ACTION</command> oder <command>DROP_ACTION</command> verf&uuml;gen</para>
+<orderedlist>
+<listitem><para>Die Animationsfolge mit der Komponente <command><indexterm>
+<primary>ANIMATION Definition</primary></indexterm>ANIMATION</command> angeben:
+</para>
+<programlisting>ANIMATION animation_name
+{ 
+ ANIMATION symbol_bild  [verz&ouml;gerung] 
+ ANIMATION symbol_bild  [verz&ouml;gerung] 
+   &hellip;
+}</programlisting>
+<para>wobei <symbol role="Variable">verz&ouml;gerung</symbol> die Zeitverz&ouml;gerung
+in Millisekunden zwischen der Animation von Symbolen angibt.</para>
+</listitem>
+<listitem><para>Die Felder <command><indexterm><primary>PUSH_ANIMATION Feld</primary></indexterm>PUSH_ANIMATION</command> und/oder <command><indexterm>
+<primary>DROP_ANIMATION Feld</primary></indexterm>DROP_ANIMATION</command>
+der Bedienelementdefinition hinzuf&uuml;gen. Der Wert ist der Name der Folge
+<command>ANIMATION</command>.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</itemizedlist>
+<para>Beispielsweise animieren die folgenden Zeilen ein Bedienelement, das
+die Anwendung BestEditor startet. Die Zeitverz&ouml;gerung zwischen Symbolen
+betr&auml;gt 300 Millisekunden. In diesem Beispiel wird angenommen, da&szlig;
+die Symboldateien <filename>frame1</filename>, <filename>frame2</filename>
+usw. erstellt wurden.</para>
+<programlisting>CONTROL BestEditor
+{
+   &hellip;
+   PUSH_ANIMATION BestEdAnimation
+   &hellip;
+}
+
+ANIMATION BestEdAnimation
+{
+ ANIMATION frame1    300
+ ANIMATION frame2
+   &hellip;
+}</programlisting>
+</sect3>
+<sect3 id="SAG.FrPC.div.45">
+<title>Kontexthilfe f&uuml;r Bedienelemente des Bedienfeldes</title>
+<para>Es gibt zwei M&ouml;glichkeiten der Kontexthilfe f&uuml;r ein Bedienelement:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Eine Hilfezeichenfolge in der Bedienelementdefinition.</para>
+<para>Die Hilfezeichenfolge wird in der Hilfeanzeige angezeigt, wenn der Benutzer
+Kontexthilfe f&uuml;r das Bedienelement aufruft. Die Hilfezeichenfolge kann
+keine Formatierungen (z.B. Kopfzeilen) oder Verweise enthalten.</para>
+<para>Die Hilfezeichenfolge in der Bedienelementdefinition angeben:</para>
+<para remap="CodeIndent1"><programlisting>HELP_STRING   hilfe_zeichenfolge
+</programlisting><indexterm><primary>HELP_STRING Feld</primary></indexterm></para>
+</listitem>
+<listitem><para>Ein Hilfethema in einem registrierten Hilfeband:</para>
+<para>Ein Hilfethema sind zusammengefa&szlig;te Informationen mit den vollen
+M&ouml;glichkeiten des Hilfesystems. Um ein Hilfethema zu verfassen, ist
+der Help Developers Kit des Desktops erforderlich.</para>
+<para>Den Hilfeband und Kennummer des Themas in der Bedienelementdefinition
+angeben.</para>
+<programlisting>HELP_VOLUME   hilfeband_name 
+HELP_TOPIC    thema_kennummer</programlisting>
+<indexterm><primary>HELP_VOLUME Feld</primary></indexterm></listitem>
+<indexterm><primary>HELP_TOPIC Feld</primary></indexterm></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.FrPC.div.46">
+<title id="SAG.FrPC.mkr.20">Arbeitsbereichsumschalter anpassen</title>
+<para>Es gibt verschiedene M&ouml;glichkeiten, den Arbeitsbereichsumschalter
+anzupassen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Anzahl der Arbeitsbereiche &auml;ndern</para>
+</listitem>
+<listitem><para>Anordnung des Schalters &auml;ndern</para>
+</listitem>
+<listitem><para>Bedienelemente im Schalter &auml;ndern</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.FrPC.div.47" role="Procedure">
+<title id="SAG.FrPC.mkr.21">Standardanzahl der Arbeitsbereiche &auml;ndern</title>
+<itemizedlist>
+<listitem><para>Die folgende Arbeitsbereichsmanagerressource &auml;ndern:
+</para>
+<para remap="CodeIndent1"><systemitem>Dtwm*workspaceCount</systemitem>: <symbol role="Variable">n</symbol></para>
+</listitem>
+</itemizedlist>
+<para>Mehr Informationen k&ouml;nnen dem Abschnitt &ldquo;Die Anzahl von Arbeitspl&auml;tzen
+auf einer systemweiten Basis&rdquo; auf Seite 244 entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.FrPC.div.48" role="Procedure">
+<title>Anzahl der Schalterzeilen &auml;ndern</title>
+<itemizedlist>
+<listitem><para>Das Feld <filename><indexterm><primary>NUMBER_OF_ROWS Feld</primary></indexterm>NUMBER_OF_ROWS</filename> in der <command>SWITCH</command>
+Definition &auml;ndern.</para>
+</listitem>
+</itemizedlist>
+<para>Beispielsweise definiert die folgende Definition einen Schalter mit
+drei Zeilen.</para>
+<programlisting>SWITCH Switch
+{
+   CONTAINER_NAME  feld_name
+   NUMBER_OF_ROWS  3
+   &hellip;
+}</programlisting>
+</sect2>
+<sect2 id="SAG.FrPC.div.49" role="Procedure">
+<title>Bedienelemente im Arbeitsbereichsumschalter &auml;ndern oder hinzuf&uuml;gen</title>
+<orderedlist>
+<listitem><para>Eine Bedienfeldkonfigurationsdatei mit der Bedienelementdefinition
+erstellen.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Das Bedienelement angeben, das im Schalter angezeigt werden
+soll:</para>
+<programlisting>CONTAINER_NAME   Switch
+CONTAINER_TYPE   SWITCH</programlisting>
+</listitem>
+<listitem><para>Die Position im Schalter angeben:</para>
+<programlisting>POSITION_HINTS   n</programlisting>
+<para>wobei <symbol role="Variable">n</symbol> eine ganze Zahl ist. Die Positionen
+werden durchnumeriert von links nach rechts und von oben nach unten. (Beim
+standardm&auml;&szlig;ig eingestellten Schalter mit zwei Zeilen sind dies
+die Positionen 1 bis 4.)</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Das Symbol f&uuml;r das Bedienelement erstellen. Die empfohlene
+Gr&ouml;&szlig;e betr&auml;gt 16 auf 16 Pixel.</para>
+</listitem>
+</orderedlist>
+<para>Beispielsweise stellt das folgende Bedienelement ein Bedienelement f&uuml;r
+Terminalfenster in den Schalter.</para>
+<programlisting>CONTROL SwitchTerminal
+{
+   TYPE             icon
+   CONTAINER_NAME   Switch
+   CONTAINER_TYPE   SWITCH
+   POSITION_HINTS   3
+   ICON             Fpterm
+   LABEL            Terminal
+   PUSH_ACTION      Dtterm
+   HELP_TOPIC       FPOnItemTerm
+   HELP_VOLUME      FPanel
+}</programlisting>
+<para>Das Bedienelement verwendet ein integriertes Symbol und dasselbe Hilfethema,
+das von dem Bedienelement f&uuml;r Terminalfenster und der Bedientafel Pers&ouml;nliche
+Anwendungen benutzt wird.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.FrPC.div.50">
+<title id="SAG.FrPC.mkr.22">Allgemeine Bedienfeldkonfiguration</title>
+<para>Die PANEL Syntax des Bedienfelds erm&ouml;glicht:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Position des Bedienfeldes &auml;ndern</para>
+</listitem>
+<listitem><para>Aussehen des Fensters &auml;ndern</para>
+</listitem>
+<listitem><para>Allgemeines Erscheinungsbild und Verhalten von Bedienelementen
+einstellen.</para>
+</listitem>
+</itemizedlist>
+<para>Die Standardbeschreibung von <command>PANEL</command> befindet sich
+in der Datei <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename>.</para>
+<para>Zus&auml;tzliche Informationen k&ouml;nnen der Hilfeseite <filename moreinfo="RefEntry">dtfpfile(4X)</filename> entnommen werden.</para>
+<sect2 id="SAG.FrPC.div.51">
+<title>Allgemeine Schritte</title>
+<orderedlist>
+<listitem><para>Eine neue Bedienfeldkonfigurationsdatei erstellen in: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol>
+oder <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename>.</para>
+</listitem>
+<listitem><para>Die Standardbeschreibung von <command>PANEL</command> aus
+der Datei <filename>/usr/dt/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename> in die neue Datei kopieren.</para>
+</listitem>
+<listitem><para>Die <command>PANEL</command> Beschreibung bearbeiten.</para>
+</listitem>
+</orderedlist>
+<para>Die neue <command>PANEL</command> Beschreibung hat Vorrang vor der Standardbeschreibung.
+</para>
+</sect2>
+<sect2 id="SAG.FrPC.div.52" role="Procedure">
+<title>Standardposition des Bedienfeldes &auml;ndern<indexterm><primary>Bedienfeld</primary><secondary>Position</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Mit dem Feld <filename><indexterm><primary>PANEL_GEOMETRY
+Feld</primary></indexterm>PANEL_GEOMETRY</filename> in der Definition f&uuml;r <command>PANEL</command> die Position angeben.</para>
+<para>Das folgende Bedienfeld ist zum Beispiel in der oberen rechten Ecke.
+</para>
+<programlisting>PANEL SpecialFrontPanel
+{ 
+   PANEL_GEOMETRY      -1+1
+   &hellip;
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.FrPC.div.53" role="Procedure">
+<title>Bezeichnungen f&uuml;r Bedienelemente in der Hauptanzeige erstellen<indexterm>
+<primary>Bezeichnungen</primary><secondary>Bedienelemente des Bedienfeldes</secondary></indexterm><indexterm><primary>Bedienfeld</primary></indexterm><indexterm>
+<primary>Bezeichnungen f&uuml;r Bedienelemente</primary></indexterm><indexterm>
+<primary>Bedienelement</primary><secondary>bezeichnen</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Die folgende Zeile der Definition f&uuml;r <command>PANEL</command> hinzuf&uuml;gen:</para>
+<programlisting>DISPLAY_CONTROL_LABELS   True</programlisting>
+</listitem>
+<listitem><para>Jedem Bedienelement ein Feld <command>LABEL</command> hinzuf&uuml;gen.
+</para>
+</listitem>
+</orderedlist>
+<para>Der <symbol role="Variable">bedienelement_name</symbol> wird verwendet,
+wenn kein <command>LABEL</command> angegeben wird.</para>
+</sect2>
+<sect2 id="SAG.FrPC.div.54" role="Procedure">
+<title>Klickverhalten von Bedienelementen &auml;ndern</title>
+<itemizedlist>
+<listitem><para>Mit dem Feld <filename><indexterm><primary>CONTROL_BEHAVIOR
+Feld</primary></indexterm>CONTROL_BEHAVIOR</filename> in der Definition f&uuml;r <command>PANEL</command> angeben, wie der Benutzer die <command>PUSH_ACTION</command>
+eines Bedienelements ausf&uuml;hrt. Es gibt folgende Werte f&uuml;r das Feld:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.74in">
+<colspec colwidth="4.22in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>single_click</filename></para></entry>
+<entry align="left" valign="top">Der Benutzer klickt das Bedienelement an,
+um <command>PUSH_ACTION</command> auszuf&uuml;hren.</entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>double_click</filename></para></entry>
+<entry align="left" valign="top">Der Benutzer doppelklickt das Bedienelement,
+um <command>PUSH_ACTION</command> auszuf&uuml;hren.</entry></row></tbody>
+</tgroup></informaltable>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.FrPC.div.55" role="Procedure">
+<title>V&ouml;llig neue Bedienfelder erstellen<indexterm><primary>Bedienfeld</primary><secondary>neu erstellen</secondary></indexterm></title>
+<para>Das Erstellen eines neuen Bedienfeldes kann von Vorteil sein, wenn umfangreiche
+&Auml;nderungen gemacht werden sollen.</para>
+<para>Um nicht mit den integrierten Bedienfeldkomponenten in Konflikt zu geraten,
+sollte ein v&ouml;llig neues Bedienfeld neue Namen f&uuml;r das PANEL und
+andere Container verwenden.</para>
+<orderedlist>
+<listitem><para>Die <command>PANEL</command> Komponente mit einem eindeutigen
+Namen f&uuml;r das neue Bedienfeld erstellen.</para>
+<programlisting>PANEL bedienfeld_name
+{ 
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Die neuen Felder und Bedienelemente mit den neuen Container-Namen
+erstellen.</para>
+<para>Wenn existierende Komponenten benutzt werden sollen, m&uuml;ssen ihre
+Definitionen kopiert und der Wert von <filename>CONTAINER_NAME</filename>
+ge&auml;ndert werden.</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.FrPC.div.56">
+<title>Beispiel f&uuml;r die Erstellung eines pers&ouml;nlichen Bedienfeldes
+mit drei Zeilen</title>
+<para>Das folgende Beispiel &auml;ndert das Standardbedienfeld, so da&szlig;
+die Bedienelemente in drei Zeilen organisiert werden.</para>
+<orderedlist>
+<listitem><para>Die Datei <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename> in die Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/MyFrontPanel.fp</filename>. kopieren. Der Datei Schreibzugriff geben.</para>
+<para>Diese Datei wird zum Erstellen des neuen Bedienfeldes bearbeitet.</para>
+</listitem>
+<listitem><para>Den Namen des Bedienfeldes &auml;ndern:</para>
+<programlisting>PANEL NewFrontPanel</programlisting>
+</listitem>
+<listitem><para>Den Namen des Feldes Top &auml;ndern und den Container-Namen
+bearbeiten:</para>
+<programlisting>BOX NewFrontPanelTop
+{ 
+   CONTAINER_NAME  NewFrontPanel 
+   POSITION_HINTS  first
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Felddefinitionen f&uuml;r die mittlere und untere Zeile hinzuf&uuml;gen:
+</para>
+<programlisting>BOX NewFrontPanelMiddle
+{ 
+   CONTAINER_NAME   NewFrontPanel 
+   POSITION_HINTS   second
+}
+BOX NewFrontPanelBottom
+{ 
+   CONTAINER_NAME   NewFrontPanel 
+   POSITION_HINTS   second
+}</programlisting>
+</listitem>
+<listitem><para>Den <filename>CONTAINER_NAME</filename> der folgenden Bedienelemente
+zu <command>NewFrontPanelTop</command> &auml;ndern:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Clock</para>
+</listitem>
+<listitem><para>Date</para>
+</listitem>
+<listitem><para>Home</para>
+</listitem>
+<listitem><para>TextEditor</para>
+</listitem>
+<listitem><para>Mail</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Den <filename>CONTAINER_NAME</filename> der folgenden Bedienelemente
+zu <command>NewFrontPanelBottom</command> &auml;ndern:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Printer</para>
+</listitem>
+<listitem><para>Style</para>
+</listitem>
+<listitem><para>Applications</para>
+</listitem>
+<listitem><para>Help</para>
+</listitem>
+<listitem><para>Trash</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Den <filename>CONTAINER_NAME</filename> des Arbeitsbereichsschalters
+zu <command>NewFrontPanelMiddle</command> &auml;ndern.</para>
+</listitem>
+<listitem><para>Die Ressource einstellen:</para>
+<para remap="CodeIndent1"><systemitem>Dtwm*frontPanel*name</systemitem>: NewFrontPanel
+</para>
+</listitem>
+<listitem><para>'Arbeitsbereichsmanager neu starten' im Arbeitsbereichsmen&uuml;
+ausw&auml;hlen.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+<?Pub *0000087338>

@@ -1,0 +1,129 @@
+<!-- $XConsortium: Deposit.sgm /main/5 1996/08/30 14:45:29 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN282.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN282.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Deposit</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Deposit</Symbol></RefName>
+<RefPurpose>save a document to its backing store
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Deposit.sgm /main/5 1996/08/30 14:45:29 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>[<Symbol Role="Variable">file</Symbol>] Deposit(in <Emphasis>mediaType contents</Emphasis>
+        [in messageID <Emphasis>commission</Emphasis>]);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Deposit</Symbol> request saves a document to its backing store.
+This request is different from the
+<Symbol Role="Message">Save</Symbol> request in that the requester (not the handler) has the data to be saved.
+</Para>
+<Para>The
+<Emphasis>contents</Emphasis> argument
+is the contents of the document.
+If this argument is unset
+(in other words, has a value of
+<Literal>(char *)0</Literal>), then the contents of the document are in
+the file named in the message's
+<Symbol Role="Variable">file</Symbol> attribute.
+The data type
+(<Emphasis>mediaType</Emphasis>) of the
+<Emphasis>contents</Emphasis> argument should be
+<Literal>string</Literal>, unless nulls are valid in the given media type,
+in which case the data type must be
+<Literal>bytes</Literal>.</Para>
+<Para>The
+<Emphasis>commission</Emphasis> argument contains the message ID of the
+<Symbol Role="Message">Edit</Symbol> request that caused the creation of this buffer.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttmedia.load; function can be used to register for,
+and help process, this message.
+</Para>
+<Para>This message can be sent with the
+&cdeman.ttmedia.Deposit; function.
+</Para>
+<Para>The
+<Symbol Role="Message">Deposit</Symbol> request is useful for cases where the user may perform
+an intermediate save of modifications to a document that is the subject of an
+<Symbol Role="Message">Edit</Symbol> or
+<Symbol Role="Message">Display</Symbol> request in progress.
+In the latter case, the
+<Symbol Role="Message">Deposit</Symbol> may fail on a
+<SystemItem Class="Constant">TT_DESKTOP_EACCES</SystemItem> error if the handler does not allow updates to the document being displayed.
+</Para>
+<Para>Handlers receiving this request should reply before deleting
+any file named in the message's
+<Symbol Role="Variable">file</Symbol> attribute,
+but this is optional
+and applications should not rely on this.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The ToolTalk service may return one of the following errors
+in processing the
+<Symbol Role="Message">Deposit</Symbol> request:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_DESKTOP_EACCES</Term>
+<ListItem>
+<Para>The document is read-only.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_ENOENT</Term>
+<ListItem>
+<Para>The file that was alleged to contain the document does not exist.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_ENODATA</Term>
+<ListItem>
+<Para>The in-mode
+<Emphasis>contents</Emphasis> argument had no value and the
+<Symbol Role="Variable">file</Symbol> attribute
+of the message was not set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_MEDIA_ERR_FORMAT</Term>
+<ListItem>
+<Para>The document is not a valid instance of the media type.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.ttmedia.load;, &cdeman.ttmedia.Deposit;; <Emphasis>Intro</Emphasis>, <Symbol Role="Message">Display</Symbol>, <Symbol Role="Message">Edit</Symbol>, <Symbol Role="Message">Status</Symbol> requests.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

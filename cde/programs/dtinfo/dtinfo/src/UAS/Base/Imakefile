@@ -1,0 +1,26 @@
+XCOMM $XConsortium: Imakefile /main/7 1996/08/21 15:44:17 drk $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+MAKEFILEDEPS=Classlist.mk
+
+LIBNAME=Base
+LIBDIR=../lib
+
+INCLUDES=-I. -I.. -I../.. -I../Support $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES)
+
+make_libfiles($(LIBNAME),)
+
+#include "Classlist.mk"
+
+make_msgs($(LIBNAME), $(MSGS))
+
+OBJS=$(SRCS:.C=.o)
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#else
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+#endif
+
+DependTarget()

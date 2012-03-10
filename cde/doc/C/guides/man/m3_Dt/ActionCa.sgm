@@ -1,0 +1,254 @@
+<!-- $XConsortium: ActionCa.sgm /main/10 1996/09/08 20:02:03 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN8.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN8.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtActionCallbackProc</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><StructName Role="typedef">DtActionCallbackProc</StructName></RefName>
+<RefPurpose>notify application that the status of an application has changed
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<Synopsis>#include &lt;Dt/Action.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Filename Role="Header">Dt/Action.h</Filename> header defines the
+<Function>DtActionCallbackProc</Function> callback prototype as follows:
+</Para>
+<Synopsis>typedef void (*DtActionCallbackProc)(DtActionInvocationID <Emphasis>id</Emphasis>,
+        XtPointer <Symbol Role="Variable">client_data</Symbol>,
+        DtActionArg *<Symbol Role="Variable">args</Symbol>,
+        int <Emphasis>argCount</Emphasis>,
+        DtActionStatus <Symbol Role="Variable">status</Symbol>);
+</Synopsis>
+<Para>If registered when invoking an action with
+&cdeman.DtActionInvoke;, a
+<Function>DtActionCallbackProc</Function> procedure is called
+whenever an action has a status update, such as action termination.
+Depending on
+<Symbol Role="Variable">status</Symbol>, modified action arguments may be returned using
+<Symbol Role="Variable">args</Symbol>.</Para>
+<Para>The
+<Emphasis>id</Emphasis> argument specifies an invocation ID as returned by
+&cdeman.DtActionInvoke;.</Para>
+<Para>The
+<Symbol Role="Variable">client_data</Symbol> argument specifies the client data that was
+registered with
+&cdeman.DtActionInvoke;.</Para>
+<Para>The
+<Symbol Role="Variable">args</Symbol> argument is an array of updated action argument structures, if there are any.
+Individual arguments have their
+<Emphasis>argClass</Emphasis> set to one of the standard argument classes, or
+<SystemItem Class="Constant">DtACTION_NULLARG</SystemItem>, to indicate that the current
+status update is not providing an update for the given argument.
+If the object has been removed (for example, dropped on the trash), the
+return
+<Emphasis>argClass</Emphasis> is set to
+<SystemItem Class="Constant">DtACTION_NULLARG</SystemItem> to indicate that it no longer exists.
+</Para>
+<Para>The
+<Symbol Role="Variable">args</Symbol> array has been allocated by
+<Function>XtMalloc</Function>(3), as have any of the
+<StructName Role="typedef">char*</StructName> or
+<StructName Role="typedef">void*</StructName> elements contained in each of the
+<Symbol Role="Variable">args</Symbol>. The application is responsible for calling
+<Function>XtFree</Function>(3) on all elements contained in each of the
+<Symbol Role="Variable">args</Symbol>, and then calling
+<Function>XtFree</Function>(3) on
+<Symbol Role="Variable">args</Symbol>.</Para>
+<Para>The
+<Emphasis>argCount</Emphasis> argument specifies the total number of arguments
+in
+<Symbol Role="Variable">args</Symbol>. This number equals the number of arguments originally provided to
+&cdeman.DtActionInvoke;</Para>
+<Para>The
+<Symbol Role="Variable">n</Symbol>th argument in the original action
+argument array corresponds to the
+<Symbol Role="Variable">n</Symbol>th argument in an updated action argument array.
+</Para>
+<Para>The
+<Symbol Role="Variable">status</Symbol> argument specifies the purpose of the status update.
+The status codes listed here and in
+&cdeman.Dt.Action.h;, may be returned in a
+<Function>DtActionCallbackProc</Function>:</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtACTION_INVOKED</Term>
+<ListItem>
+<Para>The corresponding
+&cdeman.DtActionInvoke; which is asynchronous and does not block when starting actions,
+has finished starting the requested actions.
+For all
+&cdeman.DtActionInvoke; calls that include a
+<Function>DtactionCallbackProc</Function>, this status code is guaranteed to be returned.
+When returned, no additional prompts for data will appear
+from the action service.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtACTION_DONE</Term>
+<ListItem>
+<Para>The actions that were the result of the original
+&cdeman.DtActionInvoke; call have terminated normally.
+Once this status value is returned, all registered callbacks are invalidated,
+and
+<Emphasis>id</Emphasis> can no longer be used in subsequent action service calls.
+Returned
+<Symbol Role="Variable">args</Symbol> data may accompany the
+<SystemItem Class="Constant">DtACTION_DONE</SystemItem> status code.
+For all
+&cdeman.DtActionInvoke; calls that include a
+<Function>DtActionCallbackProc</Function>, this status code or an equivalent status code (for example,
+<SystemItem Class="Constant">DtACTION_CANCELED</SystemItem> or
+<SystemItem Class="Constant">DtACTION_FAILED</SystemItem>) is guaranteed to be returned.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtACTION_CANCELED</Term>
+<ListItem>
+<Para>The actions that were the result of the original
+&cdeman.DtActionInvoke; call were canceled and have terminated normally.
+Once this status value is returned, all registered callbacks are
+invalidated, and
+<Emphasis>id</Emphasis> can no longer be used in subsequent
+action service calls.
+No
+<Symbol Role="Variable">args</Symbol> data will accompany the
+<SystemItem Class="Constant">DtACTION_CANCELED</SystemItem> status code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtACTION_FAILED</Term>
+<ListItem>
+<Para>An error occured and a normal termination is no longer possible.
+The action service may have failed to start the
+action or lost contact with and abandoned the action.
+Once this status value is returned, an error dialog may be
+posted by the action service, all registered callbacks are
+invalidated, and
+<Emphasis>id</Emphasis> can no longer be used in subsequent action service calls.
+No
+<Symbol Role="Variable">args</Symbol> data will accompany the
+<SystemItem Class="Constant">DtACTION_FAILED</SystemItem> status code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtACTION_STATUS_UPDATE</Term>
+<ListItem>
+<Para>The actions associated with
+<Emphasis>id</Emphasis> have generated a status update, such as returning modified
+<Symbol Role="Variable">args</Symbol>. Updates occur in several ways.
+</Para>
+<Para>If several actions were started from a single
+&cdeman.DtActionInvoke;, then as each individual action terminates, a
+<SystemItem Class="Constant">DtACTION_STATUS_UPDATE</SystemItem> with return
+<Symbol Role="Variable">args</Symbol> is returned, and when the final action
+terminates, a
+<SystemItem Class="Constant">DtACTION_DONE</SystemItem> or equivalent status code is returned, possibly with return arguments.
+</Para>
+<Para>Other actions may have the capability to generate updates
+(for example, Tooltalk-based actions doing a Media Exchange
+Deposit (Request)).
+</Para>
+<Para>In most cases, a
+<StructName Role="typedef">DtActionArg</StructName> argument array accompanying a
+<SystemItem Class="Constant">DtACTION_STATUS_UPDATE</SystemItem> only has updated data for a few of the arguments; the remaining arguments
+are set to
+<SystemItem Class="Constant">DtACTION_NULLARG</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following shows how a
+<Function>DtActionCallbackProc</Function> might be coded.
+</Para>
+<InformalExample>
+<ProgramListing>DtActionCallbackProc myCallback(
+     DtActionInvocationID id,
+     XtPointer client_data,
+     DtActionArg *actionArgPtr,
+     int actionArgCount,
+     DtActionStatus status);
+{
+     extern DtActionArg *myUpdatedArgs; /* global hook for new data */
+     extern int myDoneFlag; /* global done flag */
+     switch (status) {
+          case DtACTION_INVOKED:
+               /*
+                * All the arguments to the original DtActionInvoke
+                * have been consumed by actions, and the actions have
+                * been started.  Among other things, we will not see
+                * any more prompts for user input.
+                */
+               break;
+          case DtACTION_DONE:
+               myUpdatedArgs = (DtActionArg *) actionArgPtr;
+               myDoneFlag = TRUE;
+               break;
+          case DtACTION_CANCELED:
+          case DtACTION_FAILED:
+               if ((actionArgCount != 0) &amp;&amp; actionArgPtr) {
+                    /*
+                     * If not a normal shutdown, throw away returned
+                     * information.
+                     */
+                    for (i=0; i &lt; actionArgCount; i++) {
+                         if (actionArgPtr[i].argClass == DtACTION_FILE) {
+                              XtFree(actionArgPtr[i].u.file.name);
+                         } else if (actionArgPtr[i].argClass ==
+                                    DtACTION_BUFFER) {
+                              XtFree(actionArgPtr[i].u.buffer.bp);
+                              XtFree(actionArgPtr[i].u.buffer.type);
+                              XtFree(actionArgPtr[i].u.buffer.name);
+                         }
+                    }
+                    XtFree(actionArgPtr);
+               }
+               myUpdatedArgs = (DtActionArg *) NULL;
+               myDoneFlag = FALSE;
+               break;
+          case DtACTION_STATUS_UPDATE:
+               myUpdatedArgs = (DtActionArg *) actionArgPtr;
+               myDoneFlag = FALSE;
+               break;
+          default:
+               /* ignore */
+               break;
+     }
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Action.h;, &cdeman.DtDbLoad;, &cdeman.DtActionLabel;, &cdeman.DtActionDescription;, &cdeman.DtActionExists;, &cdeman.DtActionInvoke;, <![ %CDE.C.CDE; [<Function>XtMalloc</Function>(3), <Function>XtFree</Function>(3), &cdeman.dtdtfile;. ]]><![ %CDE.C.XO; [<Function>XtMalloc</Function>(3), <Function>XtFree</Function>(3) in the &str-Zt;;
+<XRef Linkend="XCDI.ACTI.anch.3" Role="2">. ]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

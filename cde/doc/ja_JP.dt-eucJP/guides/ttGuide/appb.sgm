@@ -1,0 +1,306 @@
+<!-- $XConsortium: appb.sgm /main/6 1996/08/25 15:16:07 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Appendix Id="TTUG.BrCast.div.1">
+<Title Id="TTUG.BrCast.mkr.1">broadcastデモンストレーション・プログラム
+</Title>
+<indexterm><primary>broadcastデモ・プログラム</primary></indexterm>
+<indexterm><primary>プログラム例</primary></indexterm>
+<Para>この付録には、ToolTalkデモ・プログラム、<literal>broadcast</literal>
+のためのソース・コードがあります。このソース・コードは、ファイル
+<filename>/usr/dt/examples/tt/broadcast.c</filename>の中にもあります。デモ・プログ
+ラムの目的は、一部のToolTalk APIの使用方法を示すことです。このプログラムの主な機能
+を以下に示します。
+</para>
+<itemizedlist>
+<listitem>
+<para>パターンの作成と登録
+</para>
+</listitem>
+<listitem>
+<para>通知メッセージの作成と送信（自分自身への）
+</para>
+</listitem>
+<listitem>
+<para>メッセージの受信
+</para>
+</listitem>
+</itemizedlist>
+<Sect1 Id="TTUG.BrCast.div.2">
+<title>broadcast.c プログラム一覧</title>
+<programlisting>
+/*
+ * (c) Copyright 1995 Digital Equipment Corporation.
+ * (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+ * (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+ * (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+ * (c) Copyright 1993, 1994, 1995 Novell, Inc.
+ * (c) Copyright 1995 FUJITSU LIMITED.
+ * (c) Copyright 1995 Hitachi.
+ *
+ * $XConsortium: appb.sgm /main/6 1996/08/25 15:16:07 rws $
+ *
+ * broadcast - dynamic pattern and procedural notification example
+ *
+ */
+
+#include &lt;stdio.h&gt;
+#include &lt;sys/param.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;string.h&gt;
+#include &lt;Xm/XmAll.h&gt;
+#include &lt;Tt/tt_c.h&gt;
+
+Widget toplevel, base_frame, controls, slider, gauge, button;
+char *my_procid;
+
+void	broadcast_value();
+void	receive_tt_message();
+void	create_ui_components();
+
+
+void
+main(argc, argv)
+	int		argc;
+	char		**argv;
+{
+	int ttfd;
+	Tt_pattern pat;
+	XtAppContext app;
+
+	/*
+	 * Initialize Motif and create ui components
+	 */
+	toplevel = XtVaAppInitialize(&amp;app, "ttsample1", NULL, 0,
+					&amp;argc, argv, NULL, NULL);
+	XtVaSetValues(toplevel, XmNtitle, "ToolTalk Sample 1", 0);
+	create_ui_components();
+
+	/*
+	 * Initialize ToolTalk, using the initial default session, and
+	 * obtain the file descriptor that will become active whenever
+	 * ToolTalk has a message for this process.
+	 */
+
+	my_procid = tt_open();
+	ttfd = tt_fd();
+
+	/*
+	 * Arrange for Motif to call receive_tt_message when the ToolTalk
+	 * file descriptor becomes active.
+	 */
+
+	XtAppAddInput(app, ttfd, (XtPointer) XtInputReadMask,
+                      receive_tt_message, 0);
+
+	/*
+	 * Create and register a pattern so ToolTalk knows we are interested
+	 * in "ttsample1_value" messages within the session we join.
+	 */
+
+	pat = tt_pattern_create();
+	tt_pattern_category_set(pat, TT_OBSERVE);
+	tt_pattern_scope_add(pat, TT_SESSION);
+	tt_pattern_op_add(pat, "ttsample1_value");
+	tt_pattern_register(pat);
+
+	/*
+	 * Join the default session
+	 */
+
+	tt_session_join(tt_default_session());
+
+	/*
+	 * Turn control over to Motif.
+	 */
+	XtRealizeWidget(toplevel);
+	XtAppMainLoop(app);
+	
+	/*
+	 * Before leaving, allow ToolTalk to clean up.
+	 */
+	tt_close();
+
+	exit(0);
+}
+
+
+/*
+ * When the button is pressed, broadcast the new slider value.
+ */
+void
+broadcast_value(widget, client_data, call_data)
+	Widget widget;
+	XtPointer client_data, call_data;
+{
+	int slider_value;
+	Tt_message msg_out;
+
+	/*
+	 * Create and send a ToolTalk notice message
+	 * ttsample1_value(in int &lt;new value)
+	 */
+
+	XtVaGetValues(slider, XmNvalue, &amp;slider_value, 0);
+	slider_value++;
+	XtVaSetValues(slider, XmNvalue, slider_value, 0);
+
+	msg_out = tt_pnotice_create(TT_SESSION, "ttsample1_value");
+	tt_message_arg_add(msg_out, TT_IN, "integer", NULL);
+	tt_message_arg_ival_set(msg_out, 0, slider_value);
+	tt_message_send(msg_out);
+
+	/*
+	 * Since this message is a notice, we don't expect a reply, so
+	 * there's no reason to keep a handle for the message.
+	 */
+
+	tt_message_destroy(msg_out);
+}
+
+/*
+ * When a ToolTalk message is available, receive it; if it's a
+ * ttsample1_value message, update the gauge with the new value.
+ */
+void
+receive_tt_message(client_data, fid, id)
+XtPointer client_data;
+int *fid;
+XtInputId *id;
+{
+	Tt_message msg_in;
+	int mark;
+	int val_in;
+	char *op;
+	Tt_status err;
+
+	msg_in = tt_message_receive();
+
+	/*
+	 * It's possible that the file descriptor would become active
+	 * even though ToolTalk doesn't really have a message for us.
+	 * The returned message handle is NULL in this case.
+	 */
+
+	if (msg_in == NULL) return;
+
+
+	/*
+	 * Get a storage mark so we can easily free all the data
+	 * ToolTalk returns to us.
+	 */
+
+	mark = tt_mark();
+
+	op = tt_message_op(msg_in);
+	err = tt_ptr_error(op);
+	if (err &gt; TT_WRN_LAST) {
+		printf( "tt_message_op(): %s\n", tt_status_message(err));
+	} else if (op != 0) {
+		if (0==strcmp("ttsample1_value", tt_message_op(msg_in))) {
+			tt_message_arg_ival(msg_in, 0, &amp;val_in);
+			XtVaSetValues(gauge, XmNvalue, val_in, 0);
+		}
+	}
+
+	tt_message_destroy(msg_in);
+	tt_release(mark);
+	return;
+}
+	
+/*
+ * Straight Motif calls for creating the ui elements.  No
+ * ToolTalk-specific code here.
+ */
+void
+create_ui_components()
+{
+	int decor;
+	Widget glabel, slabel;
+	XmString label;
+
+	base_frame = XtVaCreateManagedWidget("base_frame",
+                xmMainWindowWidgetClass, toplevel,
+                XmNwidth,                250,
+                XmNheight,               175,
+                0);
+	XtVaGetValues(base_frame, XmNmwmDecorations, &amp;decor, 0);
+	decor &amp;= ~MWM_DECOR_RESIZEH;
+	XtVaSetValues(base_frame, XmNmwmDecorations, &amp;decor, 0);
+
+	controls = XtVaCreateManagedWidget("controls",
+                xmFormWidgetClass, base_frame, NULL, 0, 0);
+
+	slabel = XtVaCreateManagedWidget("Send:",
+                xmLabelWidgetClass, controls,
+                XmNleftAttachment,  XmATTACH_WIDGET,
+                XmNtopAttachment,   XmATTACH_WIDGET,
+                XmNtopWidget,       controls,
+		XmNtopOffset,	    10,
+		XmNleftOffset,	    5,
+                0);
+        slider = XtVaCreateManagedWidget("slider",
+                xmScaleWidgetClass, controls,
+                XmNleftAttachment,  XmATTACH_WIDGET,
+                XmNleftWidget,      controls,
+		XmNleftOffset,	    10,
+                XmNtopAttachment,   XmATTACH_WIDGET,
+                XmNtopWidget,       slabel,
+                XmNscaleWidth,      225,
+                XmNscaleHeight,     18,
+                XmNminimum,         0,
+                XmNmaximum,         25,
+                XmNorientation,     XmHORIZONTAL,
+                XmNshowValue,       TRUE,
+                0);
+
+	glabel = XtVaCreateManagedWidget("Received:",
+                xmLabelWidgetClass, controls,
+                XmNleftAttachment,  XmATTACH_WIDGET,
+                XmNtopAttachment,   XmATTACH_WIDGET,
+		XmNleftOffset,	    5,
+                XmNtopWidget,       slider,
+                0);
+	gauge = XtVaCreateManagedWidget("gauge",
+                xmScaleWidgetClass, controls,
+                XmNleftAttachment,  XmATTACH_WIDGET,
+                XmNleftWidget,      controls,
+		XmNleftOffset,	    10,
+                XmNtopAttachment,   XmATTACH_WIDGET,
+                XmNtopWidget,       glabel,
+                XmNorientation,     XmHORIZONTAL,
+                XmNscaleWidth,      225,
+                XmNscaleHeight,     18,
+                XmNminimum,         0,
+                XmNmaximum,         25,
+                XmNshowValue,       TRUE,
+                0);
+
+	label = XmStringCreateSimple("Broadcast");
+	button = XtVaCreateManagedWidget("button",
+                xmPushButtonWidgetClass, controls,
+                XmNtopWidget,		gauge,
+                XmNtopAttachment,	XmATTACH_WIDGET,
+		XmNtopOffset,		5,
+		XmNleftOffset,		75,
+		XmNleftWidget,		controls,
+                XmNleftAttachment,      XmATTACH_WIDGET,
+		XmNbottomOffset,	5,
+                XmNlabelString, label,
+                0);
+	XmStringFree(label);
+	XtAddCallback(button, XmNactivateCallback, broadcast_value, 0);
+}
+
+
+
+
+</programlisting>
+</Sect1>
+</Appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 05:02:32-->

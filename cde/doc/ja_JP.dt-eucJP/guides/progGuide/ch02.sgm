@@ -1,0 +1,412 @@
+<!-- $XConsortium: ch02.sgm /main/5 1996/09/08 19:36:17 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="PG.fonts.div.1">
+<Title Id="PG.fonts.mkr.1">フォントの統合</Title>
+<Para>アプリケーションは、X 端末で、またはネットワークを介してリモート・ワークステーションで使用できます。
+このような状況では、ユーザのX ディスプレイをX ウィンドウ・サーバから使用できるフォントは、アプリケーションのデフォルトとは異なることもあり、使用できないフォントもあります。
+</Para>
+<Para>CDEによって定義されたインタフェース標準フォント名は、すべての
+CDE準拠システムで使えるように保証されています。
+これらの名前は、実際のフォントを表すわけではありません。
+その代わりに、各システム・ベンダが使用できるフォントの中で最も適したフォントにマップする別名です。
+アプリケーションの中でこれらのフォント名だけを使用する場合には、CDE準拠システムで最もよく適合したフォントを使うことができます。</Para>
+<Para>インタフェース標準フォント名は、すべての
+ロケールで使用できることが保証されています。
+標準アプリケーション・フォント名のほうは、ISO Latin ロケールだけで使用できます。
+詳しくは、<Command>DtStdInterfaceFontNames</Command>と<Command>DtStdAppFontNames</Command>を参照してください。</Para>
+<InformalTable Id="PG.fonts.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Standard Interface Fonts18'--><XRef Role="JumpText" Linkend="PG.fonts.mkr.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Using Fonts in CDE Configuration Files20'--><XRef Role="JumpText" Linkend="PG.fonts.mkr.4"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Standard Application Fonts21'--><XRef Role="JumpText" Linkend="PG.fonts.mkr.5"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="PG.fonts.div.2">
+<Title Id="PG.fonts.mkr.2">インタフェース標準フォント
+</Title>
+<Sect2 Id="PG.fonts.div.3">
+<Title>デフォルトのフォント名
+<IndexTerm>
+<Primary>フォント名</Primary>
+<Secondary>インタフェース標準</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>インタフェース標準フォント名</Primary>
+</IndexTerm><IndexTerm>
+<Primary>フォント名、デフォルト</Primary>
+</IndexTerm><IndexTerm>
+<Primary>デフォルトのフォント名</Primary>
+</IndexTerm></Title>
+<Para>インタフェース標準フォント名のセットは、<!--Original XRef content: 'Table&numsp;2&hyphen;2'--><XRef Role="CodeOrFigureOrTable" Linkend="PG.fonts.mkr.6">に示されているXLFDフィールド名の値によって定義されます。</Para>
+<Table Id="PG.fonts.tbl.1" Frame="Topbot">
+<Title Id="PG.fonts.mkr.3">インタフェース標準フォント名のフィールド名の値</Title>
+<TGroup Cols="3">
+<ColSpec Colname="1" Colwidth="1.125 in">
+<ColSpec Colname="2" Colwidth="1.5 in">
+<ColSpec Colname="3" Colwidth="2.25 in">
+<THead>
+<Row>
+<Entry><Para><Literal>フィールド</Literal></Para></Entry>
+<Entry><Para><Literal>値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>FOUNDRY</Command></Para></Entry>
+<Entry><Para><Command>dt</Command></Para></Entry>
+<Entry><Para>CDE名</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>FAMILY_NAME</Filename></Para></Entry>
+<Entry><Para><Command>interface system</Command>
+または<Command>interface user</Command></Para></Entry>
+<Entry><Para>CDEインタフェース標準フォント名</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>WEIGHT_NAME</Filename></Para></Entry>
+<Entry><Para><Command>medium</Command>または<Command>bold</Command></Para></Entry>
+<Entry><Para>フォントの線の太さ</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>SLANT</Command></Para></Entry>
+<Entry><Para><Command>r</Command></Para></Entry>
+<Entry><Para>ローマン</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>SET_WIDTH</Filename></Para></Entry>
+<Entry><Para><Command>normal</Command></Para></Entry>
+<Entry><Para>通常設定幅</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>SPACING</Para></Entry>
+<Entry><Para>pまたはm</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>ADD_STYLE</Filename></Para></Entry>
+<Entry><Para>「サイズ・ヒント」
+</Para><Para><Command>sans</Command>または<Command>serif</Command></Para></Entry>
+<Entry><Para>xxsからxxlまでのプロポーショナルまたは固定幅の値</Para><Para>sansはsans serifフォント。serifはserifフォント</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>PIXEL_SIZE</Filename></Para></Entry>
+<Entry><Para>プラットホーム依存</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>POINT_SIZE</Filename></Para></Entry>
+<Entry><Para>プラットホーム依存</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>RESOLUTION_X</Filename></Para></Entry>
+<Entry><Para>プラットホーム依存</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>RESOLUTION_Y</Filename></Para></Entry>
+<Entry><Para>プラットホーム依存</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>AVERAGE_WIDTH</Filename></Para></Entry>
+<Entry><Para><Command>m</Command></Para><Para>p</Para></Entry>
+<Entry><Para>ユーザ・フォントに対する固定幅</Para><Para>システム・フォントに対するプロポーショナル</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>NUMERIC FIELD</Command></Para></Entry>
+<Entry><Para>プラットホーム依存</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>CHAR_SET_REGI
+STRY</Filename></Para></Entry>
+<Entry><Para>ロケール依存</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ENCODING</Command></Para></Entry>
+<Entry><Para>ロケール依存</Para></Entry>
+<Entry></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+</Sect2>
+<Sect2 Id="PG.fonts.div.4">
+<Title>インタフェース標準フォントのポイント・サイズ</Title>
+<Para>３つのスタイルそれぞれに対する７種類のポイント・サイズ名は
+<Filename>ADD_STYLE_NAME</Filename>フィールドに指定します。
+名前と一致するフォントのXLFDパターンは、数値としてのサイズではなく、サイズ名に一致します。
+インタフェース・フォントの正確なサイズがサイズ名より重要ではないことと、各システムで使用されるインタフェース・フォントの実装上の相違から、各システム間の共通値としてのポイント・サイズを保証できないことから、これらのサイズ名は使用されます。
+</Para>
+<Para>７種類のサイズ名を次に示します。</Para>
+<ProgramListing>xxs  extra extra small
+xs  extra small
+s  small
+m  medium
+l  large
+xl  extra large
+xxl  extra extra large</ProgramListing>
+<Para>サイズ名の目的は、CDEを実行するいろいろなサイズや解明度のモニタに表示するのに十分なフォントを用意することと、ユーザにとって読みやすいボタン・ラベルやウィンドウ・タイトルの範囲をGUIで実現することです。
+最小サイズxxsと最大サイズxxlは、一般的なディスプレイX端末上で、CDEデスクトップの表示と操作を行うために適当なサイズを意図したものです。これらは、判読が難しいほど精緻な印刷物やヘッドライン・サイズ型のディスプレイまで、考慮した
+ものではありません。
+</Para>
+</Sect2>
+<Sect2 Id="PG.fonts.div.5">
+<Title>インタフェース標準フォント名のパターン</Title>
+<Para>このような値を使用すると、XLFDパターンの</Para>
+<ProgramListing>-dt-interface*-*</ProgramListing>
+<Para>は、論理的にXCDEインタフェース標準フォント名のセットのすべてと一致します。(どの特定のXサーバ動作も意味しないことに注意してください。)</Para>
+<Para>たとえば、Westernロケールでは、21のCDEインタフェース標準フォント名のセットのすべては、次のように表現できます。
+</Para>
+<ProgramListing>-dt-interface system-medium-r-normal-*-*-*-*-*-*-*-iso8859-1
+-dt-interface user-medium-r-normal-*-*-*-*-*-m-*-iso8859-1
+-dt-interface user-bold-r-normal-*-*-*-*-*-m-*-iso8859-1</ProgramListing>
+<Para>７種類のシステム・フォント・サイズに対する<Filename>app-defaults</Filename>ファイル内のパターンの全セットを、次のように表すことができます。
+</Para>
+<ProgramListing>-dt-interface system-medium-r-normal-xxs*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-xs*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-s*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-m*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-l*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-xl*-*-*-*-*-*-*-iso8859-1
+-dt-interface system-medium-r-normal-xxl*-*-*-*-*-*-*-iso8859-1</ProgramListing>
+<Para>これらのパターンは、リソース内で使用できますし、すべてのCDE準拠システム上のiso Latin-1 ロケールに対する
+インタフェース標準名のすべてに一致するはずです。
+詳しくは、<Filename>DtStdInterfaceFontNames(5)</Filename>を参照してください。</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.fonts.div.6">
+<Title Id="PG.fonts.mkr.4">CDE構成ファイルでのフォントの
+<IndexTerm>
+<Primary>フォント</Primary>
+<Secondary>構成ファイルでのフォント</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>構成ファイル</Primary>
+<Secondary>フォント</Secondary>
+</IndexTerm>
+使用</Title>
+<Para>CDEは、すべてのプラットホーム上のCDEで動作するアプリケーションで使用できる一般的なアプリケーション・フォント名のセットを、いくつかのサイズにおいて指定します。
+各CDEベンダは、標準フォント名のセットを使用可能なフォントにマップします。
+既存のフォントへのフォント名のマッピングは、ベンダによって異なります。</Para>
+<Para><Filename>app-defaults</Filename>ファイルの中で標準アプリケーション・フォント名を使用すると、すべてのCDEプラットホームで単一の<Filename>app-defaults</Filename>
+ファイルを使用することができます。
+<IndexTerm>
+<Primary>&lt;Filename>app-defaults&lt;Default Para Font>ファイル</Primary>
+</IndexTerm>
+標準フォント名を使用しない場合には、各CDEプラットホーム上の各アプリケーションごとに別の
+<ComputerOutput>app-defaults</ComputerOutput>ファイルをそれぞれ提供しなければなりません。
+</Para>
+<Para>すべてのCDEシステムは、13の標準アプリケーション・フォント名のセットを、少なくとも６サイズで提供します。
+これは、１２の一般的なデザインと変形スタイル
+(serifおよびsans serif)、および記号フォントを表します。
+これらの標準名に加えて、特定のCDEプラットホームに対応して標準名がマップされるフォント名が提供されます。
+また、追加の４つの標準フォント名(固定幅フォント内にserifとsans serifの両方のデザインを可能にします)がCDEプラットホーム・ベンダによって提供されることもあります。
+</Para>
+<Para>これら１３のフォント名は、<IndexTerm><Primary>ISO 8859-1 文字セット</Primary></IndexTerm><IndexTerm><Primary>文字セット ISO 8859-1</Primary></IndexTerm>
+ISO 8859-1の文字セットを使用するロケールのために、
+CDEプラットホームの中に用意されています。他のロケールでの標準フォント名の使用については、<Emphasis>共通デスクトップ環境　国際化対応プログラマーズ・ガイド</Emphasis>を参照してください。</Para>
+</Sect1>
+<Sect1 Id="PG.fonts.div.7">
+<Title Id="PG.fonts.mkr.5">標準アプリケーション・フォント</Title>
+<Sect2 Id="PG.fonts.div.8">
+<Title>デフォルトのフォント名<IndexTerm>
+<Primary>フォント名、デフォルト</Primary>
+</IndexTerm><IndexTerm>
+<Primary>デフォルトのフォント名</Primary>
+</IndexTerm></Title>
+<Para>デフォルトの標準アプリケーション・フォント名のセットは、
+<!--Original XRef content: 'Table&numsp;2&hyphen;2'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.fonts.mkr.3">に示されているXLFD
+フィールド名の値によって定義されます。</Para>
+<Table Id="PG.fonts.tbl.2" Frame="Topbot">
+<Title Id="PG.fonts.mkr.6">標準アプリケーション・フォント名に対するフィールド名の値</Title>
+<TGroup Cols="3">
+<ColSpec Colname="1" Colwidth="1.5 in">
+<ColSpec Colname="2" Colwidth="1.125 in">
+<ColSpec Colname="3" Colwidth="2.375 in">
+<THead>
+<Row>
+<Entry><Para><Literal>フィールド</Literal></Para></Entry>
+<Entry><Para><Literal>値</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>FOUNDRY</Command></Para></Entry>
+<Entry><Para><Command>dt</Command></Para></Entry>
+<Entry><Para>CDE名</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>FAMILY_NAME</Filename></Para></Entry>
+<Entry><Para><Command>application</Command></Para></Entry>
+<Entry><Para>CDE標準アプリケーション・フォント名</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>WEIGHT_NAME</Filename></Para></Entry>
+<Entry><Para><Command>medium</Command>または<Command>bold</Command></Para></Entry>
+<Entry><Para>フォントの線の太さ</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>SLANT</Command></Para></Entry>
+<Entry><Para><Command>r</Command></Para><Para><Command>i</Command></Para></Entry>
+<Entry><Para>ローマン</Para><Para>イタリック</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>SET_WIDTH</Filename></Para></Entry>
+<Entry><Para><Command>normal</Command></Para></Entry>
+<Entry><Para>通常設定幅</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>ADD_STYLE</Filename></Para></Entry>
+<Entry><Para><Command>sans</Command></Para><Para><Command>serif</Command></Para></Entry>
+<Entry><Para>sans serifフォント</Para><Para>serifフォント</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>PIXEL_SIZE</Filename></Para></Entry>
+<Entry><Para><Filename>*</Filename></Para></Entry>
+<Entry><Para>プラットフォーム依存</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>POINT_SIZE</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">pointsize</Symbol></Para></Entry>
+<Entry><Para>要求されたフォントのポイント・サイズ</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>RESOLUTION_X</Filename></Para></Entry>
+<Entry><Para><Filename>*</Filename></Para></Entry>
+<Entry><Para>プラットホーム依存</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>RESOLUTION_Y</Filename></Para></Entry>
+<Entry><Para><Filename>*</Filename></Para></Entry>
+<Entry><Para>プラットホーム依存</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>AVERAGE_WIDTH</Filename></Para></Entry>
+<Entry><Para><Command>p</Command></Para><Para><Command>m</Command></Para></Entry>
+<Entry><Para>プロポーショナル</Para><Para>固定幅</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>NUMERIC FIELD</Command></Para></Entry>
+<Entry><Para><Filename>*</Filename></Para></Entry>
+<Entry><Para>プラットホーム依存</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>CHAR_SET_REGISTRY</Filename></Para></Entry>
+<Entry><Para><Filename>iso8859-1</Filename></Para></Entry>
+<Entry><Para>規格作成組織</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ENCODING</Command></Para></Entry>
+<Entry><Para><Filename>1</Filename></Para></Entry>
+<Entry><Para>文字セット番号</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>.</Para>
+<Para>標準名は、X Windows XLFDフォント命名スキーマに従って使用することができます。
+プラットホーム依存フィールドに対して適切なワイルドカードで正しく指定すれば、CDEフォント名は、有効な、対応するプラットホーム依存フォントを確実に開きます。
+Xlibの<ComputerOutput>XListFont</ComputerOutput>関数の呼び出しから返される<Command>XLFD</Command>名は、すべてのCDEプラットホーム上で同じであるとは限りません。
+</Para>
+<Para>このような値を使うと、次のXLFDパターンは特定のプラットホーム上のCDE標準アプリケーション・フォント名のセットのすべてと一致します。</Para>
+<ProgramListing>-dt-application-*</ProgramListing>
+<Para>次のパターンは、CDEのボールドのプロポーショナルスペース・フォント(serifとsan sserifの両方)に一致します。</Para>
+<ProgramListing>-dt-application-bold-*-*-*-*-*-*-*-p-*-*-*-</ProgramListing>
+<Para>
+また、次のパターンは、固定幅フォントに一致します（serifまたはsan serif、あるいは両方)。
+</Para>
+<ProgramListing>-dt-application-*-*-*-*-*-*-*-*-m-*-*-*-</ProgramListing>
+<Para>CDE標準アプリケーション
+・フォント名のセットのすべては、次のように表すことができます。
+</Para>
+<ProgramListing>-dt-application-bold-i-normal-serif-*-*-*-*-p-*-iso8859-1
+-dt-application-bold-r-normal-serif-*-*-*-*-p-*-iso8859-1
+-dt-application-medium-i-normal-serif-*-*-*-*-p-*-iso8859-1
+-dt-application-medium-r-normal-serif-*-*-*-*-p-*-iso8859-1
+-dt-application-bold-i-normal-sans-*-*-*-*-p-*-iso8859-1
+-dt-application-bold-r-normal-sans-*-*-*-*-p-*-iso8859-1
+-dt-application-medium-i-normal-sans-*-*-*-*-p-*-iso8859-1
+-dt-application-medium-r-normal-sans-*-*-*-*-p-*-iso8859-1
+-dt-application-bold-i-normal-*-*-*-*-*-m-*-iso8859-1
+-dt-application-bold-r-normal-*-*-*-*-*-m-*-iso8859-1
+-dt-application-medium-i-normal-*-*-*-*-*-m-*-iso8859-1
+-dt-application-medium-r-normal-*-*-*-*-*-m-*-iso8859-1
+-dt-application-medium-r-normal-*-*-*-*-*-p-*-dtsymbol-1</ProgramListing>
+</Sect2>
+<Sect2 Id="PG.fonts.div.9">
+<Title Id="PG.fonts.mkr.7">標準アプリケーション・フォントの
+<IndexTerm>
+<Primary>フォントのポイント・サイズ</Primary>
+</IndexTerm><IndexTerm>
+<Primary>ポイント・サイズ</Primary>
+</IndexTerm>ポイント・サイズ</Title>
+<Para>それぞれの標準アプリケーション・フォント名で使用できるポイント・サイズの完全なセットは、ベンダのCDEプラットホームで出荷されるフォントのセットによって決まります(ビットマップ・フォントのみかビットマップ・フォントとスケーラブル・アウトライン・フォントの両方)。
+すべてのCDEプラットホーム上で使用できる必要最低限のサイズのセットは、X11R5のデフォルトの、マッピングを構成するビットマップ・フォントの標準サイズ(８、１０、１２、１４、１８、２４)に対応します。
+</Para>
+<Para>たとえば、単純な固定幅フォントの６サイズの全セットを次のパターンによって表すことができます。
+</Para>
+<ProgramListing>-dt-application-medium-r-normal-*-80-*-*-*-m-*-iso8859-1
+-dt-application-medium-r-normal-*-100-*-*-*-m-*-iso8859-1
+-dt-application-medium-r-normal-*-120-*-*-*-m-*-iso8859-1
+-dt-application-medium-r-normal-*-140-*-*-*-m-*-iso8859-1
+-dt-application-medium-r-normal-*-180-*-*-*-m-*-iso8859-1
+-dt-application-medium-r-normal-*-240-*-*-*-m-*-iso8859-1</ProgramListing>
+<Para>これらのパターンは、CDEプラットホーム上の対応する標準フォント名に一致しますが、<Command>POINTSIZE</Command>以外の数値フィールドはプラットッホームによって異なる場合があります。
+またベンダが標準名を実装する方法によって、一致するフォントはserifかsan serifのどちらかになります。
+</Para>
+</Sect2>
+<Sect2 Id="PG.fonts.div.10">
+<Title Id="PG.fonts.mkr.8">app-defaultsファイル内の標準アプリケーション・フォント名
+<IndexTerm>
+<Primary>フォント名</Primary>
+<Secondary>標準アプリケーション・フォント</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>標準アプリケーション・フォント名</Primary>
+</IndexTerm></Title>
+<Para>一つの<ComputerOutput>app-defaults</ComputerOutput>ファイルを作成してアプリケーションのフォント・リソースを指定し、それをすべてのCDEプラットホームで使用することができます。
+定義される標準名の部分はどのベンダのプラットホームでも同じなので、<ComputerOutput>app-defaults</ComputerOutput>ファイルの中のリソース指定でこれらの値を指定することができます。ただし、その他のフィールド(<Filename>PIXEL_SIZE</Filename>、<Filename>RESOLUTION_X</Filename>、<Filename>RESOLUTION_Y</Filename>、および<Filename>AVERAGE_WIDTH</Filename>)
+は、プラットホームによって異なることがあるので、ワイルドカードを使用しなければなりません。
+たとえば、<Command>appOne</Command>という名前のアプリケーションが必要とするデフォルトのリソースを指定するには、次のようにします。</Para>
+<ProgramListing>appOne*headFont: -dt-application-bold-r-normal-sans-*-140-*-*-p-*-iso8859-1
+appOne*linkFont: -dt-application-bold-i-normal-sans-*-100-*-*-p-*-iso8859-1</ProgramListing>
+<Para>もう一つの例として、あるベンダのプラットホーム上で動作する<Command>appTwo</Command>は、見出しとハイパーテキスト・リンクのために２つのフォント・リソースを定義すると仮定します。
+<Command>appTwo</Command>は、１４ポイントのボールドのserifフォント
+(Lucidabright bold)と１２ポイントのボールドかつイタリックのsan serifフォント
+(Lucida bold-italic)を使用します。
+その場合、<Filename>app-defaults</Filename>ファイル内のフォント定義を、
+</Para>
+<ProgramListing>apptwo*headingFont: -b&amp;h-lucidabright-bold-r-normal--20-140-100-100-p-127-iso8859-1
+apptwo*linkFont:    -b&amp;h-lucida-bold-i-normal-sans-17-120-100-100-p-96-iso8859-1</ProgramListing>
+<Para>から</Para>
+<ProgramListing>apptwo*headingFont: -dt-application-bold-r-normal-serif-*-140-*-*-p-*-iso8859-1
+apptwo*linkFont:    -dt-application-bold-i-normal-sans-*-120-*-*-p-*-iso8859-1</ProgramListing>
+<Para>に変更します。ほかのCDEプラットホーム上のフォント名がわからなくても、
+CDE標準アプリケーション・フォント名で指定されたプラットホームに独立したパターンは、各プラットホーム上の適切なフォントを示します。
+</Para>
+<Para>リソース定義の中で、<Filename>*</Filename>ワイルドカードを使用して示したように作成します。
+ポイント・サイズ以外の数値フィールドにワイルドカードを適応することによって、フォントの正確なピクセル・サイズまたは平均の幅が少々違っても、リソースがすべてのプラットホーム上のCDEフォントに必ず一致するようにできます。
+</Para>
+<Para>詳細については、<Emphasis>Common Desktop Environment Programmer's Reference</Emphasis>と<Command>DtStdAppFontNames(5)</Command>を参照してください。</Para>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->

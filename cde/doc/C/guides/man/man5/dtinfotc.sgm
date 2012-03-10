@@ -1,0 +1,176 @@
+<!-- $XConsortium: dtinfotc.sgm /main/5 1996/08/30 13:55:31 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.INFO.dtinfoTOC.dtd">]]>
+<RefMeta>
+<RefEntryTitle>
+dtinfoTOC.dtd
+</RefEntryTitle>
+<ManVolNum>file formats</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><filename>dtinfoTOC.dtd</filename></RefName>
+<RefPurpose><command>dtinfo</command>
+table of contents document type
+definition
+</RefPurpose>
+</RefNameDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>This is the document type definition for tables of contents under
+<command>dtinfo</command>. You can also find an ASCII file of the
+<filename>dtinfoTOC.dtd</filename> in
+<filename>/usr/dt/infolib/%L/SGML/dtinfoTOC.dtd</filename>.
+</para>
+<para>The table of contents DTD is defined as follows:
+</para>
+<LITERALLAYOUT>&lt;!ENTITY % commonatts &ldquo;
+
+        Lang        CDATA        &num;IMPLIED
+
+        Remap        CDATA        &num;IMPLIED
+
+        Role        CDATA        &num;IMPLIED
+
+        XRefLabel    CDATA        &num;IMPLIED
+
+&ldquo; &gt;
+
+&lt;!--
+ Formal Public Identifier (FPI):
+ -//X Consortium//DTD DTINFO Table of Contents//EN
+ --&gt;
+
+
+          &lt;!-- DTINFO Architectural Forms --&gt;
+
+&lt;!ENTITY % OLAF PUBLIC
+ &ldquo;-//X Consortium//ENTITIES DTINFO Architectural Forms//EN&rdquo;
+&gt;
+%OLAF;
+
+&lt;!ENTITY % userphrase.gp &ldquo;&ldquo; &gt;
+
+&lt;!ENTITY % inlinechar.gp &ldquo;&num;PCDATA %userphrase.gp;&rdquo; &gt;
+
+
+&lt;!ELEMENT TOC - - ( Title, TitleAbbrev?, TOCfront*, (TOCpart+ | TOCchap+), TOCback*) &gt;
+&lt;!ATTLIST TOC
+            Id        ID        &num;REQUIRED
+
+            %DTINFO.TOC;
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+&gt;
+
+&lt;!ELEMENT Title - - ( (%inlinechar.gp;)+) &gt;
+&lt;!ATTLIST Title
+            Id        ID        &num;IMPLIED
+
+            %DTINFO.Title;                &ldquo;&num;CONTENT&rdquo;
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+            %DTINFO.Scope.Title;
+&gt;
+
+&lt;!ELEMENT TitleAbbrev - - ( (%inlinechar.gp;)+) &gt;
+&lt;!ATTLIST TitleAbbrev
+            Id        ID        &num;IMPLIED
+
+            %DTINFO.ShortTitle;                &ldquo;&num;CONTENT&rdquo;
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+&gt;
+
+&lt;!ELEMENT TOCfront - - ( (%inlinechar.gp;)+) &gt;
+&lt;!ATTLIST TOCfront
+            Id        ID        &num;IMPLIED
+
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+&gt;
+
+&lt;!ELEMENT TOCentry - - ( (%inlinechar.gp;)+) &gt;
+&lt;!ATTLIST TOCentry
+            Id        ID        &num;IMPLIED
+            Linkend        CDATA        &num;REQUIRED
+            Pagenum        CDATA        &num;IMPLIED
+
+ %DTINFO.ID; &ldquo;attr( Id )&rdquo;
+ %DTINFO.IDREF; &ldquo;attr( Linkend )&rdquo;
+&gt;
+
+&lt;!ELEMENT TOCpart - - ( TOCentry+, TOCchap*) &gt;
+&lt;!ATTLIST TOCpart
+            Id        ID        &num;IMPLIED
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+            %DTINFO.TOCEntry;
+&gt;
+
+&lt;!ELEMENT TOCchap - - ( TOCentry+, TOClevel1*) &gt;
+&lt;!ATTLIST TOCchap
+            Id        ID        &num;IMPLIED
+
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+            %DTINFO.TOCEntry;
+&gt;
+
+&lt;!ELEMENT TOClevel1 - - ( TOCentry+, TOClevel2*) &gt;
+&lt;!ATTLIST TOClevel1
+            Id        ID        &num;IMPLIED
+
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+            %DTINFO.TOCEntry;
+&gt;
+
+&lt;!ELEMENT TOClevel2 - - ( TOCentry+, TOClevel3*) &gt;
+&lt;!ATTLIST TOClevel2
+            Id        ID        &num;IMPLIED
+
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+            %DTINFO.TOCEntry;
+
+&gt;
+
+&lt;!ELEMENT TOClevel3 - - ( TOCentry+, TOClevel4*) &gt;
+&lt;!ATTLIST TOClevel3
+            Id        ID        &num;IMPLIED
+
+            %DTINFO.ID;            &ldquo;attr( Id )&rdquo;
+            %DTINFO.TOCEntry;
+&gt;
+
+&lt;!ELEMENT TOClevel4 - - ( TOCentry+, TOClevel5*) &gt;
+&lt;!ATTLIST TOClevel4
+            Id        ID        &num;IMPLIED
+
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+            %DTINFO.TOCEntry;
+&gt;
+
+&lt;!ELEMENT TOClevel5 - - ( TOCentry+) &gt;
+&lt;!ATTLIST TOClevel5
+            Id        ID        &num;IMPLIED
+
+            %DTINFO.ID;                &ldquo;attr( Id )&rdquo;
+            %DTINFO.TOCEntry;
+&gt;
+
+&lt;!ELEMENT TOCback - - ( (%inlinechar.gp;)+) &gt;
+&lt;!ATTLIST TOCback
+            Id        ID        &num;IMPLIED
+
+ %DTINFO.ID; &ldquo;attr( Id )&rdquo;
+&gt;
+</LITERALLAYOUT>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtinfo;,
+&cdeman.dtinfogen;,
+&cdeman.dtinfoBook.dtd;,
+&cdeman.dtinfoStyle.dtd;
+</Para>
+</RefSect1>
+</RefEntry>

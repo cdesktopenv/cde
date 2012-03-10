@@ -1,0 +1,810 @@
+<!-- $XConsortium: ch06.sgm /main/10 1996/09/08 19:46:58 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="RDMAP.recin.div.1">
+<title id="RDMAP.recin.mkr.1">Recommended Integration</title>
+<para>The<indexterm><primary>recommended integration &lt;$startrange></primary></indexterm><indexterm><primary>levels of
+integration</primary><secondary>recommended &lt;$startrange></secondary></indexterm><indexterm><primary>integration</primary><secondary>recommended &lt;$startrange></secondary></indexterm> Common Desktop Environment contains
+components and guidelines to use so that your application will integrate
+well with other applications on the desktop. This chapter provides an overview
+of each recommended component and guideline that you should use to enhance
+your application's level of consistency with the desktop.</para>
+<informaltable id="RDMAP.recin.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Help System46'--><xref role="JumpText"
+linkend="RDMAP.recin.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'ToolTalk Messaging Service47'--><xref
+role="JumpText" linkend="RDMAP.recin.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Session Manager50'--><xref role="JumpText"
+linkend="RDMAP.recin.mkr.9"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Drag and Drop52'--><xref role="JumpText"
+linkend="RDMAP.recin.mkr.10"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Internationalization54'--><xref role="JumpText"
+linkend="RDMAP.recin.mkr.11"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Standard Font Names55'--><xref role="JumpText"
+linkend="RDMAP.recin.mkr.12"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Displaying Error Messages from Your
+Application57'--><xref role="JumpText" linkend="RDMAP.recin.mkr.13"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para>Printing ??
+</para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'User Customization Issues59'--><xref
+role="JumpText" linkend="RDMAP.recin.mkr.14"></para></entry></row></tbody>
+</tgroup></informaltable>
+<note>
+<para>In addition to incorporating the components and following the guidelines
+in this section, you should also follow the basic integration steps outlined
+in <!--Original XRef content: 'Chapter&numsp;5, &xd2;Basic Application Integration'--><xref
+role="ChapNumAndTitle" linkend="RDMAP.BIntg.mkr.1">.</para>
+</note>
+<para>For more information on recommended integration, see the <emphasis>Programmer's Guide</emphasis>.</para>
+<sect1 id="RDMAP.recin.div.2">
+<title id="RDMAP.recin.mkr.2">Help System</title>
+<para>The Common Desktop Environment Help system is a complete system for
+developing and displaying online help for application software. It enables
+authors to write online help that includes rich graphics and text formatting,
+hyperlinks, and access to the Help system from within the application. The
+Help system provides a programmer's toolkit for integrating the help facilities
+into an application.</para>
+<para>Creating and integrating online help into an application can be done
+as a collaborative project. Developers design and implement how an application
+responds to a user's request for help. Authors organize and write the actual
+help information that is displayed.</para>
+<para>The Help system includes support for authors and programmers.</para>
+<sect2 id="RDMAP.recin.div.3">
+<title>For Authors<indexterm><primary>Help system</primary><secondary>authors,
+for</secondary></indexterm></title>
+<itemizedlist remap="Bullet1"><listitem><para>Common Desktop Environment HelpTag
+markup language&mdash;a set of <symbol role="Variable">tags</symbol> used
+in text files to mark organization and content of online help<indexterm><primary>HelpTag</primary></indexterm><indexterm><primary>Help system</primary><secondary>Help Tag</secondary></indexterm></para>
+</listitem><listitem><para>Common Desktop Environment HelpTag software&mdash;a
+set of software tools for converting HelpTag files into run-time help files
+</para>
+</listitem><listitem><para>Common Desktop Environment Helpview application&mdash;a
+viewer program for displaying online help</para>
+</listitem></itemizedlist>
+<para>Authors create help topics using the Help tag set and follow Structured
+Generalized Markup Language (SGML) tagging conventions. SGML markup is the
+primary data format. When compiled, the run-time distribution format is SGML-compliant.<indexterm>
+<primary>Standard Generalized Markup Language (SGML)</primary></indexterm><indexterm>
+<primary>Help system</primary><secondary>SGML</secondary></indexterm></para>
+<para>The Help system also supports non-SGML formats such as UNIX man pages,
+text files, and text strings.<indexterm><primary>UNIX</primary></indexterm><indexterm>
+<primary>Help system</primary><secondary>UNIX man pages</secondary></indexterm>
+</para>
+<sect3 id="RDMAP.recin.div.4">
+<title>For Programmers<indexterm><primary>Help system</primary><secondary>programmers, for</secondary></indexterm></title>
+<itemizedlist remap="Bullet1"><listitem><para><command>DtHelp</command> programming
+library&mdash;Application program interface (API) for creating and integrating
+help windows into your application</para>
+</listitem><listitem><para><command>DtHelp</command><indexterm><primary>widget</primary><secondary>Help system</secondary></indexterm> widgets&mdash; <command>DtHelpDialog</command> and <command>DtHelpQuickDialog</command> widgets to
+create help dialog boxes and quick help dialog boxes (these are also part
+of the Help library)</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="RDMAP.recin.div.5">
+<title><indexterm><primary>Help system</primary><secondary>library and header
+files</secondary></indexterm>Library and Header Files</title>
+<para>The Help library, <command>libDtHelp</command>, provides support for
+creating and managing help dialogs based on Motif. The <command>libDtHelp</command> header files are:</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>Dt/Help.h</filename></para>
+</listitem><listitem><para><filename>Dt/HelpDialog.h</filename></para>
+</listitem><listitem><para><filename>Dt/HelpQuickD.h</filename></para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="RDMAP.recin.div.6">
+<title>Demo Programs<indexterm><primary>Help system</primary><secondary>demo
+programs</secondary></indexterm><indexterm><primary>demo programs</primary>
+</indexterm></title>
+<para>You can find the Help system demos in <filename>/usr/dt/examples/dthelp</filename>. Read the <command>README</command> file for detailed information
+on the demos.</para>
+<sect3 id="RDMAP.recin.div.7">
+<title>Related Documentation</title>
+<para>For more information on the Help system, see the relevant man pages
+and the <emphasis>Help System Author's and Programmer's Guide</emphasis>.
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.recin.div.8">
+<title id="RDMAP.recin.mkr.3">ToolTalk Messaging Service</title>
+<para>The Common Desktop Environment defines two standard ToolTalk protocols
+known as <emphasis><indexterm><primary>message sets</primary></indexterm><indexterm>
+<primary>ToolTalk Messaging Service</primary><secondary>message sets</secondary>
+</indexterm>message sets</emphasis>. A message set contains a number of messages
+that can be exchanged between a sender and a handler process. These message
+are grouped together because they describe related requests and notices.
+The sender and recipient can be within the same process or on different hosts.
+Message sets have associated utility functions that enable you to concentrate
+on the semantics of the protocol without getting too involved in low-level
+details. Some message set functions enable you to easily defer to default
+behavior.</para>
+<para>The <emphasis>desktop message set</emphasis> encompasses three areas:<indexterm>
+<primary>desktop message set</primary></indexterm><indexterm><primary>ToolTalk
+Messaging Service</primary><secondary>desktop message set</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>Windowing behavior</para>
+</listitem><listitem><para>File access and short-term file lifecycle control
+</para>
+</listitem><listitem><para>Application extension languages</para>
+</listitem></itemizedlist>
+<para>See <!--Original XRef content: '&xd2;Handle Desktop'--><xref role="SectionTitle"
+linkend="RDMAP.recin.mkr.4"> and <!--Original XRef content: '&xd2;Send
+Desktop'--><xref role="SectionTitle" linkend="RDMAP.recin.mkr.5">
+for information on windowing behavior. See <!--Original XRef content: '&xd2;Desktop
+File'--><xref role="SectionTitle" linkend="RDMAP.recin.mkr.8"> for
+information on file access and short-term file lifecycle control. Implementing
+the <filename>Do_Command</filename> request is specific to the application's
+extension language and is not assisted by the ToolTalk Messaging Service.
+</para>
+<para>The <emphasis><indexterm><primary>media message set</primary></indexterm><indexterm>
+<primary>ToolTalk Messaging Service</primary><secondary>media message set</secondary></indexterm>media message set</emphasis> enables an application
+to be a container for arbitrary media or to be a media player and editor
+that can be driven from such a container. The media message set enables a
+container application to compose, display, edit, and print a document of
+an arbitrary media type, without understanding anything about the format
+of that media type. The ToolTalk Messaging Service routes a container's requests
+to the user's preferred tool for the given media type and operation. This
+includes routing the request to an already-running instance of the tool,
+if that instance can best handle the request. See <!--Original XRef content:
+'&xd2;Send Media'--><xref role="SectionTitle" linkend="RDMAP.recin.mkr.7">
+and <!--Original XRef content: '&xd2;Handle Media&xd3; on page&numsp;49'--><xref
+role="SecTitleAndPageNum" linkend="RDMAP.recin.mkr.6">.</para>
+<para>The ToolTalk Messaging Service provides support for these message sets:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para id="RDMAP.recin.mkr.4">Handle
+Desktop</para>
+<para>Handling desktop requests is the most basic level of messaging integration.
+Any application that sends ToolTalk messages, either through calling
+<filename>tt_message_send()</filename> or <filename>DtActionInvoke()</filename>, should
+handle the desktop requests. This enables other applications to set or query
+things such as your application's current directory, iconic state, and
+<filename>$DISPLAY</filename>. For further information, see the man pages for
+<filename>ttdt_open()</filename>, <filename>ttdt_session_join()</filename>,
+<filename>ttdt_session_quit()</filename>, and <filename>ttdt_close()</filename>.</para>
+</listitem><listitem><para id="RDMAP.recin.mkr.5">Send Desktop</para>
+<para>When an application is started by <command>ttsession</command> to handle
+some ToolTalk request, it is a child of <command>ttsession</command> rather
+than of the request sender. The application will usually be started on the
+same X display session as the sender, but not necessarily on the same X11
+screen or in the same current directory context. If the application is implemented
+as a server process, it may already be displaying on a particular screen
+or in a particular directory context.</para>
+<para>Using desktop requests, a handling application can inherit from the
+sender attributes that might otherwise be inherited through command-line
+invocation. Use the desktop message set in this way to reset the handler's
+locale, current working directory, and even <filename>$DISPLAY</filename>.
+This enables a carefully coded receiving application to come up on the same
+X11 screen as the sender. A request handler can also find out the request
+sender's current directory and window geometry. Knowing the window geometry
+enables the request handler's window to avoid obscuring the request sender's
+window, if possible. For more information, see the <filename>ttdt_sender_imprint_on()</filename> man page.</para>
+</listitem><listitem><para id="RDMAP.recin.mkr.6">Handle Media</para>
+<para>The ToolTalk Messaging Service enables an editor to easily handle the
+standard media requests for the media types for which the editor is responsible.
+For further information, see the man pages for <filename>ttmedia_ptype_declare()</filename>, <filename>ttdt_message_accept()</filename>, <filename>ttmedia_load_reply()</filename>, and <filename>ttmedia_Deposit()</filename>.</para>
+</listitem><listitem><para id="RDMAP.recin.mkr.7">Send Media</para>
+<para>The ToolTalk Messaging Service enables a container to easily send media
+requests and manage the subsequent document updates sent back by the handler.
+In those cases in which the container doesn't engage in any ongoing ToolTalk
+dialog with a media handler, use the actions API instead of directly using
+these ToolTalk APIs. Equivalent actions (Open and Print) represent a higher
+level of abstraction that supports the equivalent of ToolTalk and non- ToolTalk
+aware media handlers.For further information, see the man pages for
+<filename>ttmedia_load()</filename> and <filename>ttdt_subcontract_manage()</filename>.
+Note that, in most cases, a container application should perform operations
+on objects using <filename>DtActionInvoke()</filename> instead of
+<filename>ttmedia_load()</filename>. See the <emphasis>ToolTalk Messaging Overview</emphasis> for a description of how ToolTalk applications can be driven
+using actions.</para>
+</listitem><listitem><para id="RDMAP.recin.mkr.8">Desktop File</para>
+<para>The ToolTalk Messaging Service makes it easy to send and receive the
+desktop messages about files. These messages enable applications to coordinate
+access to files. For further information, see the man pages for
+<filename>ttdt_file_join()</filename>, <filename>ttdt_file_quit()</filename>,
+<filename>ttdt_file_event()</filename>, <filename>ttdt_Get_Modified()</filename>,
+<filename>ttdt_Save()</filename>, and <filename>ttdt_Revert()</filename>.</para>
+</listitem></itemizedlist>
+<para>Examples of applications that already use the ToolTalk Messaging Service
+include the Common Desktop Environment Icon Editor, Mailer, Text Editor,
+and Calendar. Other parts of the Common Desktop Environment use the ToolTalk
+Messaging Service indirectly by defining actions that send messages.</para>
+<sect2 id="RDMAP.recin.div.9">
+<title>Library and Header Files<indexterm><primary>ToolTalk Messaging Service</primary><secondary>library and header files</secondary></indexterm></title>
+<para>The ToolTalk messaging library is called <command>libtt</command>. The <command>libtt</command> header files are:</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>Tt/tt_c.h</filename></para>
+</listitem><listitem><para><filename>Tt/tttk.h</filename></para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="RDMAP.recin.div.10">
+<title>Demo Programs<indexterm><primary>ToolTalk Messaging Service</primary>
+<secondary>demo programs</secondary></indexterm><indexterm><primary>demo
+programs</primary></indexterm></title>
+<para>You can find the ToolTalk Messaging Service demos in <filename>/usr/dt/examples/tt</filename>. Read the <command>README</command> file for detailed information
+on the demos.</para>
+<sect3 id="RDMAP.recin.div.11">
+<title>Related Documentation</title>
+<para>For more information on the ToolTalk Messaging Service, see the relevant
+man pages and the <emphasis>ToolTalk Messaging</emphasis> <emphasis>Overview</emphasis>.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.recin.div.12">
+<title id="RDMAP.recin.mkr.9">Session Manager</title>
+<para>Session Manager supports the ICCCM 1.1 <filename><indexterm><primary>WM_COMMAND</primary></indexterm><indexterm><primary>Session Manager</primary>
+<secondary>WM_COMMAND</secondary></indexterm>WM_COMMAND</filename> and <filename><indexterm>
+<primary>WM_SAVE_YOURSELF</primary></indexterm><indexterm><primary>Session
+Manager</primary><secondary>WM_SAVE_YOURSELF</secondary></indexterm>WM_SAVE_YOURSELF</filename><indexterm><primary>protocols</primary><secondary>WM_COMMAND</secondary></indexterm><indexterm><primary>protocols</primary><secondary>WM_SAVE_YOURSELF</secondary></indexterm> protocols, which permit:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Your application to save state
+information at logout</para>
+</listitem><listitem><para>Session Manager to restart your application at
+login</para>
+</listitem></itemizedlist>
+<para>Session Manager also provides an API to assist your application in saving
+and restoring its state at logout and login.</para>
+<para>Session Manager is responsible for restarting applications at login.
+To do this, your application must tell Session Manager what command and command-line
+options are required to restart it. Use Xlib's <filename>XSetCommand()</filename>
+to set the <filename>WM_COMMAND</filename> property on your application's
+top-level window.</para>
+<para>When Session Manager saves a session, such as at logout, your application
+might need to save some state information so it can be restored to a similar
+state. Session Manager can optionally notify your application that the session
+is being saved. Your application must inform Session Manager that it wants
+such notification. It does this by registering the <filename>WM_SAVE_YOURSELF</filename> protocol with its top-level window <filename>WM_PROTOCOLS</filename>
+property and setting up a callback procedure to handle the notification.
+To do this, use the <filename><indexterm><primary>XmAddWMProtocols()</primary>
+</indexterm><indexterm><primary>Session Manager</primary><secondary>XmAddWMProtocols()</secondary></indexterm>XmAddWMProtocols()</filename> and <filename><indexterm>
+<primary>XmAddWMProtocolsCallback()</primary></indexterm><indexterm><primary>Session Manager</primary><secondary>XmAddWMProtocolsCallback()</secondary>
+</indexterm>XmAddWMProtocolsCallback()</filename> functions. Your application
+should not interact with the user in any way when processing the
+<filename>WM_SAVE_YOURSELF</filename> callback. (For example, it should not display
+a Save As dialog box.) It must set the <filename>WM_COMMAND</filename> property
+on its top-level window to notify Session Manager that it is done saving
+its state.</para>
+<para>To enable your application to save state information, use the <filename><indexterm>
+<primary>DtSessionSavePath()</primary></indexterm><indexterm><primary>Session
+Manager</primary><secondary>DtSessionSavePath()</secondary></indexterm>DtSessionSavePath()</filename> function to obtain the full path name of a file in which this
+information can be saved. At session restore time, use the <filename><indexterm>
+<primary>DtSessionRestorePath()</primary></indexterm><indexterm><primary>Session Manager</primary><secondary>DtSessionRestorePath()</secondary></indexterm>DtSessionRestorePath()</filename> function to obtain the full path name of the state file your
+application uses to restore its state.</para>
+<para>The Common Desktop Environment<indexterm><primary>Workspace Manager</primary></indexterm> Workspace Manager is responsible for restoring an application's
+main top-level window (containing the <filename>WM_COMMAND</filename>) property
+to the proper workspace, geometry, and icon state. If an application has
+multiple top-level windows, it is the application's responsibility to restore
+the states of the other top-level windows. Refer to <!--Original XRef content:
+'&xd2;Workspace Manager&xd3; on page&numsp;70'--><xref role="SecTitleAndPageNum"
+linkend="RDMAP.optin.mkr.5"> for additional information.</para>
+<sect2 id="RDMAP.recin.div.13">
+<title>Library and Header Files<indexterm><primary>Session Manager</primary>
+<secondary>library and header files</secondary></indexterm></title>
+<para>The Desktop Services library, <command>libDtSvc</command>, provides
+access to many desktop APIs, including the one for session management. Include
+the <filename>Dt/Dt.h</filename> and <filename>Dt/Session.h</filename> header
+files to access the Session Manager API.</para>
+<note>
+<para>If your application uses any of the Session Manager APIs, it must first
+initialize the <command>libDtSvc</command> library by calling either <filename><indexterm>
+<primary>DtInitialize()</primary></indexterm>DtInitialize()</filename> or
+<filename><indexterm><primary>DtAppInitialize()</primary></indexterm>DtAppInitialize()</filename>. Refer to the <filename>DtInitialize</filename>(3) or
+<filename>DtAppInitialize</filename>(3) man page for more information.</para>
+</note>
+</sect2>
+<sect2 id="RDMAP.recin.div.14">
+<title>Demo Programs<indexterm><primary>Session Manager</primary><secondary>demo programs</secondary></indexterm><indexterm><primary>demo programs</primary>
+</indexterm></title>
+<para>You can find the Session Manager demos in <filename>/usr/dt/examples/dtsession</filename>. Read the <command>README</command> file for detailed information
+on the demos.</para>
+<sect3 id="RDMAP.recin.div.15">
+<title>Related Documentation</title>
+<para>For more information on Session Manager, see the relevant man pages
+and the <emphasis>Programmer's Guide</emphasis>.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.recin.div.16">
+<title id="RDMAP.recin.mkr.10">Drag and Drop</title>
+<para>The Common Desktop Environment provides a drag-and-drop API, that is
+layered on top of the Motif 2.1 drag-and-drop API, to provide convenient,
+consistent, and interoperable drag and drop across the desktop. The Common
+Desktop Environment drag-and-drop API makes it easier for developers to
+implement drag and drop. With drag and drop, users can manipulate objects
+on the screen directly by grabbing them, dragging them around the display,
+and dropping them on other objects to change the object's location or perform
+a data transfer.</para>
+<para>Motif 2.1 drag and drop provides low-level drag-and-drop mechanisms;
+Common Desktop Environment drag and drop incorporates policies for those
+mechanisms.<indexterm><primary>drag and drop</primary><secondary>and Motif
+2.1 drag and drop</secondary></indexterm></para>
+<para>Common Desktop Environment drag and drop consists of an API and protocols
+to simplify the interface to Motif drag and drop. It implements policies
+such as the buffer transfer protocol and the drag cursors' appearances. Use
+the Common Desktop Environment drag-and-drop API, with its built-in policies,
+to ensure interoperability through consistency. Common Desktop Environment
+drag-and-drop policies are compatible with standard Motif 2.1 drag-and-drop
+protocols for text and file name transfers.</para>
+<para>Common Desktop Environment drag and drop uses the X selection mechanism
+to transfer data. Suitable targets exist and are registered with the X Consortium.
+Two desktop applications can agree to transfer data through the text, file
+name, or data transfer protocols.</para>
+<para>The existing Motif 2.1 API for drag and drop is flexible and, therefore,
+is somewhat difficult for nonexpert developers to use. The Common Desktop
+Environment drag-and-drop API provides some convenience functions that result
+in an API that is simpler and easier to use:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Manages the configuration and
+appearance of drag icons.</para>
+<para>Common Desktop Environment drag and drop provides graphics for the
+default source, state, and operation icons that compose the drag icon in
+Motif 2.1.</para>
+</listitem><listitem><para>Defines a buffer transfer protocol.</para>
+<para>Motif 2.1 drag and drop defines protocols for file name and text string
+only.</para>
+</listitem><listitem><para>Enables animation upon drop.</para>
+<para>The drop zone can define an animation procedure that is called when
+the drop completes.</para>
+</listitem><listitem><para>Provides enumeration of targets for <command>TEXT</command> and <filename>FILE_NAME</filename> transfers.</para>
+</listitem><listitem><para>Provides dual registration.</para>
+<para>You can register a text widget as a drop zone for data other than text,
+while preserving the ability to accept text drops.</para>
+</listitem><listitem><para>Provides prioritized drop formats.</para>
+<para>The order in which you specify protocols for the drop zone indicates
+the relative priority of the protocols desired.</para>
+</listitem></itemizedlist>
+<sect2 id="RDMAP.recin.div.17">
+<title>Library and Header Files<indexterm><primary>drag and drop</primary>
+<secondary>library and header files</secondary></indexterm></title>
+<para>The Desktop Services library, <command>libDtSvc</command>, provides
+access to many desktop APIs, including that for drag and drop. Include the
+<filename>Dt/Dt.h</filename> and <filename>Dt/Dnd.h</filename> header files to access
+the drag-and-drop API.</para>
+<note>
+<para>If your application uses any of the drag-and-drop APIs, it must first
+initialize the <command>libDtSvc</command> library by calling either <filename><indexterm>
+<primary>DtInitialize()</primary></indexterm>DtInitialize()</filename> or
+<filename><indexterm><primary>DtAppInitialize()</primary></indexterm>DtAppInitialize()</filename>. Refer to the <filename>DtInitialize</filename>(3) or
+<filename>DtAppInitialize</filename>(3) man page for more information.</para>
+</note>
+</sect2>
+<sect2 id="RDMAP.recin.div.18">
+<title>Demo Programs<indexterm><primary>drag and drop</primary><secondary>demo programs</secondary></indexterm></title>
+<para>You can find the drag-and-drop demos in <filename>/usr/dt/examples/dtdnd</filename>. Read the <command>README</command> file for detailed information
+on the demos.</para>
+<sect3 id="RDMAP.recin.div.19">
+<title>Related Documentation</title>
+<para>For more information on Common Desktop Environment drag and drop, see
+the relevant man pages and the <emphasis>Programmer's Guide</emphasis>.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.recin.div.20">
+<title id="RDMAP.recin.mkr.11">Internationalization</title>
+<para>The Common Desktop Environment is internationalized to support single-byte
+and multibyte locales. Developers can write internationalized applications
+that can be easily localized to run on any Common Desktop Environment platform.<indexterm>
+<primary>guidelines</primary><secondary>internationalization &lt;$startrange></secondary></indexterm><indexterm>
+<primary>single-byte locales</primary></indexterm><indexterm><primary>locales</primary><secondary>single-byte</secondary></indexterm><indexterm><primary>internationalization</primary><secondary>single-byte locales</secondary>
+</indexterm><indexterm><primary>multibyte locales</primary></indexterm><indexterm>
+<primary>locales</primary><secondary>multibyte</secondary></indexterm><indexterm>
+<primary>internationalization</primary><secondary>multibyte locales</secondary>
+</indexterm></para>
+<para>Common Desktop Environment applications (both source and binary) can
+be localized into regional languages and territories, and across multiple
+vendors and hardware platforms:<indexterm><primary>locales</primary><secondary>applications can be localized into</secondary></indexterm><indexterm><primary>internationalization</primary><secondary>locales</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>Latin American</para>
+</listitem><listitem><para>Western European</para>
+</listitem><listitem><para>Japanese</para>
+</listitem><listitem><para>Korean</para>
+</listitem><listitem><para>Chinese (Traditional and Simplified)</para>
+</listitem></itemizedlist>
+<para>The Common Desktop Environment takes advantage of internationalization
+features in these standards:<indexterm><primary>standards</primary><secondary>internationalization</secondary></indexterm><indexterm><primary>internationalization</primary><secondary>standards</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>IEEE 1003.2-1992 (<indexterm>
+<primary>POSIX</primary></indexterm> POSIX.2 Annex B)</para>
+</listitem><listitem><para>X Window System, Version 11 Release 6.2 (Locales
+and Internationalization Text Functions)<indexterm><primary>X11R6.2</primary>
+</indexterm></para>
+</listitem><listitem><para>Motif 2.1 (Internationalizing and Localizing Motif
+clients)<indexterm><primary>Motif 2.1</primary></indexterm></para>
+</listitem></itemizedlist>
+<para>If you intend to internationalize your application, you must ensure
+that it supports input and output of multibyte characters. CDE supports
+vertical writing, which is useful for rendering some Asian
+languages. Also, make sure
+that message catalogs are used and code can be fully localized.</para>
+<sect2 id="RDMAP.recin.div.21">
+<title>Demo Programs<indexterm><primary>internationalization</primary><secondary>demo programs</secondary></indexterm><indexterm><primary>demo programs</primary>
+</indexterm></title>
+<para>The drawing program demo in <filename>/usr/dt/examples/template</filename>
+is internationalized. Read the <command>README</command> file for detailed
+information on this demo.</para>
+<sect3 id="RDMAP.recin.div.22">
+<title>Related Documentation</title>
+<para>For more information on Common Desktop Environment internationalization,
+see the development environment component man pages and the <emphasis>Internationalization
+Programmer's Guid</emphasis><emphasis>e</emphasis>.<indexterm><primary>guidelines</primary><secondary>internationalization &lt;$endrange></secondary></indexterm></para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.recin.div.23">
+<title id="RDMAP.recin.mkr.12">Standard Font Names</title>
+<para>The standard font names defined by the Common Desktop Environment are
+guaranteed to be available on all Common Desktop Environment-compliant systems.
+These names do not specify actual fonts. Instead, they are aliases that each
+system vendor maps to the vendor's best available fonts. If you use only
+these font names in your application, you can be sure of getting the closest
+matching font on any Common Desktop Environment-compliant system. These
+comprise a set of X Window System font names you can use for the most common
+categories of type designs and styles.<indexterm><primary>fonts</primary>
+<secondary>standard font names</secondary></indexterm><indexterm><primary>guidelines</primary><secondary>font use &lt;$startrange></secondary></indexterm></para>
+<para>The standard font names are mapped to different fonts on different Common
+Desktop Environment platforms, typically using the X font alias mechanism.
+This eliminates the problem of having to select from a varying set of fonts
+on different platforms. It also enables you to make use of the default set
+of fonts on a particular vendor's Common Desktop Environment implementation.
+</para>
+<para>The Common Desktop Environment defines two types of standard fonts:
+application fonts and interface fonts. Use the application fonts for output
+produced by your application. Motif widgets and the desktop use interface
+fonts; do <symbol role="Variable">not</symbol> change their default fonts.<indexterm>
+<primary>interface fonts</primary></indexterm><indexterm><primary>fonts</primary><secondary>interface</secondary></indexterm></para>
+<sect2 id="RDMAP.recin.div.24">
+<title>Application Fonts<indexterm><primary>application fonts &lt;$startrange></primary></indexterm><indexterm>
+<primary>fonts</primary><secondary>application &lt;$startrange></secondary></indexterm></title>
+<para>At least six point sizes are available on all Common Desktop Environment
+platforms for each font associated with a Standard Font Name: 8, 10, 12,
+14, 18, and 24. XLFD font descriptions for Common Desktop Environment fonts
+look like:</para>
+<programlisting><filename>-dt-application-*</filename></programlisting>
+<para>when used where such patterns are valid.</para>
+<para>Two of the most common design variations in fonts used to display text
+are the presence or absence of serifs and the choice between proportional
+or regularly spaced (monospaced) characters. Combining these two design variations
+yields four generic font designs:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Serif proportionally spaced
+</para>
+</listitem><listitem><para>Sans serif proportionally spaced</para>
+</listitem><listitem><para>Serif monospaced</para>
+</listitem><listitem><para>Sans serif monospaced</para>
+</listitem></itemizedlist>
+<para>Common examples of each of these four designs (in corresponding order)
+are:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Times Roman</para>
+</listitem><listitem><para>Helvetica</para>
+</listitem><listitem><para>Courier</para>
+</listitem><listitem><para>Lucida Typewriter</para>
+</listitem></itemizedlist>
+<para>Each of these designs for text fonts typically come in four styles (combinations
+of weight and slant):</para>
+<itemizedlist remap="Bullet1"><listitem><para>Plain</para>
+</listitem><listitem><para>Bold</para>
+</listitem><listitem><para>Italic</para>
+</listitem><listitem><para>Bold-italic</para>
+</listitem></itemizedlist>
+<para>The four styles of each of the four design variations yield 16 generic
+font variations. These 16 generic fonts are among the most commonly used
+in general desktop computing. For example, Times Roman, Helvetica, and Courier,
+each in the four style variations, along with the Symbol font, constitute
+the <emphasis>Adobe&reg; 13</emphasis>&mdash;the minimum set of fonts built
+into all PostScript printers.</para>
+<para>Your application might not require an exact font family or name, but
+will need to use, for example, a monospaced font, a sans serif font, or a
+serif font. You do not have to know the exact font names present on a particular
+Common Desktop Environment platform. The Common Desktop Environment standard
+fonts default to the vendor's selection of the best font of a particular
+design on the vendor's platform.</para>
+<para>Specify the<indexterm><primary>XLFD font names</primary></indexterm><indexterm>
+<primary>fonts</primary><secondary>XLFD</secondary></indexterm><indexterm>
+<primary>standard font names</primary><secondary>XLFD font names</secondary>
+</indexterm> XLFD font names for the standard application fonts your application
+needs as font resource values in the application's <filename><indexterm><primary>app-defaults file</primary></indexterm><indexterm><primary>standard font
+names</primary><secondary>app-defaults file</secondary></indexterm>app-defaults</filename> file. If you do not use these font names, you might need to supply
+a different <computeroutput>app-defaults</computeroutput> file for each application
+on each Common Desktop Environment platform<literal><indexterm><primary>application fonts &lt;$endrange></primary></indexterm><indexterm><primary>fonts</primary><secondary>application &lt;$endrange></secondary></indexterm></literal>.
+</para>
+</sect2>
+<sect2 id="RDMAP.recin.div.25">
+<title>Interface Fonts<indexterm><primary>interface fonts</primary></indexterm><indexterm>
+<primary>fonts</primary><secondary>interface</secondary></indexterm><indexterm>
+<primary>standard font names</primary><secondary>interface fonts</secondary>
+</indexterm></title>
+<para>Interface fonts are the small set of finely optimized fonts that define
+the look of the desktop on a particular platform. These fonts cleanly and
+quickly convey small amounts of information, such as that appearing in window
+titles, buttons, menus, and text fields.</para>
+<para>The desktop and the Motif toolkit widgets use interface fonts. Do not
+use these fonts directly within your application windows.</para>
+<para>The standard interface font names are different from the standard application
+font names. They, like the application font names, are mapped to different
+fonts on different Common Desktop Environment platforms. Interface fonts
+come in three styles:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>System</emphasis>&mdash;Read-only
+text (used for limited amounts of text, for example, on menus, buttons, and
+labels)</para>
+</listitem><listitem><para><emphasis>User</emphasis>&mdash;Text the end user
+enters, or text appearing in objects built from <command>XmText</command>-type
+and <command>DtTerm</command>-type widgets</para>
+</listitem><listitem><para><emphasis>User bold</emphasis>&mdash;Like the User
+font, but in bold</para>
+</listitem></itemizedlist>
+<para>Each style comes in seven sizes. Using the<indexterm><primary>Style
+Manager</primary></indexterm><indexterm><primary>fonts</primary><secondary>interface</secondary><tertiary>and the Style Manager</tertiary></indexterm> Style
+Manager, users can choose the size of interface fonts they want on their
+desktop.</para>
+</sect2>
+<sect2 id="RDMAP.recin.div.26">
+<title>Demo Programs<indexterm><primary>standard font names</primary><secondary>demo programs</secondary></indexterm></title>
+<para>The drawing program demo in <filename>/usr/dt/examples/template</filename>
+does not specify any of its own interface fonts. It serves as an example
+of how the Common Desktop Environment Motif interface fonts appear. However,
+this demo does not take advantage of application fonts.</para>
+<sect3 id="RDMAP.recin.div.27">
+<title>Related Documentation</title>
+<para>For more information on standard fonts, see the relevant man pages&mdash;particularly
+<filename>DtStdAppFontNames(5)</filename> and <filename>DtStdInterfaceFontNames(5)</filename> for the list of XLFD font names&mdash;and the <emphasis>Programmer's
+Guid</emphasis><emphasis>e</emphasis>.<indexterm><primary>XLFD font names</primary></indexterm><indexterm><primary>fonts</primary><secondary>XLFD</secondary></indexterm><indexterm><primary>fonts</primary><secondary>standard
+font names</secondary></indexterm><indexterm><primary>guidelines</primary>
+<secondary>font use &lt;$endrange></secondary></indexterm></para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.recin.div.28">
+<title id="rdmap.recin.mkr.13">Displaying Error Messages from Your Application<indexterm>
+<primary>error messages</primary><secondary>displaying</secondary></indexterm><indexterm>
+<primary>guidelines</primary><secondary>error message display &lt;$startrange></secondary></indexterm></title>
+<para>Applications in the Common Desktop Environment follow a common model
+for presenting error messages and warnings. Users running your application
+expect messages to be displayed in message footers, error dialog boxes, or
+warning dialog boxes, with further explanations available in online help,
+when appropriate.</para>
+<para>This section outlines conventions for displaying error messages in your
+application. Because of the way message text is handled, it is important
+to follow these error presentation guidelines precisely. For example, casual
+users who start your application from the Front Panel never see messages
+that you send to standard error or standard out. In the Common Desktop Environment,
+such messages are directed to log files (<filename>$HOME/.dt/*log</filename>)
+that many users do not routinely examine or know about.</para>
+<sect2 id="RDMAP.recin.div.29">
+<title>How to Present Error Messages<indexterm><primary>error messages</primary>
+<secondary>how to display</secondary></indexterm></title>
+<para>Follow these rules when deciding where to tell users about warnings,
+messages, and error conditions:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>If this message is
+informational,</emphasis> display the text in the message footer of the application.
+(<emphasis>Example:</emphasis> &ldquo;<command>MyDoc</command> file copied.&rdquo;)
+</para>
+</listitem><listitem><para><emphasis>If this message is about an error or
+serious warning</emphasis>&mdash;a problem where an operation important to
+the user has failed&mdash;display an error dialog box or warning dialog box.
+</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="RDMAP.recin.div.30">
+<title>What Information to Present in Error Dialogs<indexterm><primary>error
+messages</primary><secondary>information to present in error dialogs</secondary>
+</indexterm></title>
+<para>A good error dialog or warning dialog gives a user the following information:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>What happened (from the user's
+point of view)</para>
+</listitem><listitem><para>Why it happened, in simple language</para>
+</listitem><listitem><para>How to fix the problem</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="RDMAP.recin.div.31">
+<title>Linking Message Dialogs to Online Help<indexterm><primary>error messages</primary><secondary>linking message dialogs to online help</secondary></indexterm></title>
+<para>In cases where additional background information is required, or where
+it takes more than four or five lines of a dialog to completely explain an
+error, add a button that links the user to the appropriate section of online
+help.</para>
+<sect3 id="RDMAP.recin.div.32">
+<title>Related Documentation</title>
+<para>For details on displaying error messages in your application and linking
+message dialogs to online help, see the <emphasis>Programmer's Guide</emphasis> .<indexterm>
+<primary>error messages</primary><secondary>displaying</secondary></indexterm><indexterm>
+<primary>guidelines</primary><secondary>error message display &lt;$endrange></secondary></indexterm></para>
+</sect3>
+</sect2>
+<sect2 id="RDMAP.recin.div.32a">
+<title>Using Message Logging</title>
+<indexterm><primary>error messages</primary><secondary>logging</secondary></indexterm>
+<para>The message logging service logs messages
+for CDE applications. This service
+provides a central location for messages
+that users and system administrators
+can consult to diagnose problems.
+</para>
+<para>The message logging service supports
+several message types: Informational,
+Stderr, Debug, Warning, and Error. In addition
+to logging messages, the
+API supports the use of alternative
+message logging handlers and the ability
+to open message log files.
+</para>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.recin.div.32b">
+<title>Printing</title>
+<indexterm><primary>printing</primary></indexterm>
+<para>The CDE printing facility is for use primarily by applications
+that perform X printing, but is sufficiently generalized for
+use by any CDE application. The application user typically prints files through a set of dialogs
+that are invoked when the user selects (for example) the application's
+pull-down menu for printing a file.
+</para>
+<para>Two facilities for supporting printing are available to the application
+developer:
+</para>
+<itemizedlist>
+<listitem>
+<para>The DtPrint convenience functions &mdash These provide the user dialogs for
+setting print options. This facility also establishes and maintains print connections,
+initiates printing, and maintains the print setup data.
+</para>
+</listitem>
+<listitem>
+<para>The Print Dialog Manager &mdash This process is separate from the X Print Server
+and X Printing Application; it provides printer- and spooler-specific setup
+dialogs.
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="RDMAP.recin.div.33">
+<title id="RDMAP.recin.mkr.14">User Customization Issues<indexterm><primary>user customization issues</primary></indexterm><indexterm><primary>customization</primary><secondary>user issues &lt;$startrange></secondary></indexterm></title>
+<para>This section presents guidelines to follow when designing your application's
+user interface.</para>
+<sect2 id="RDMAP.recin.div.34">
+<title>Color Use<indexterm><primary>user customization issues</primary><secondary>color use</secondary></indexterm><indexterm><primary>color use and user
+customization</primary></indexterm><indexterm><primary>guidelines</primary>
+<secondary>color use</secondary></indexterm></title>
+<para>When you design your application's user interface, do not specify color
+settings that override the default color scheme that the Common Desktop
+Environment provides for Motif and desktop widgets. For application-defined
+colors, use the following colors to promote sharing with other desktop applications:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>Black</para>
+</listitem><listitem><para>White</para>
+</listitem><listitem><para>Red</para>
+</listitem><listitem><para>Green</para>
+</listitem><listitem><para>Blue</para>
+</listitem><listitem><para>Yellow</para>
+</listitem><listitem><para>Cyan</para>
+</listitem><listitem><para>Magenta</para>
+</listitem><listitem><para>Gray (eight shades: #de, #bd, #ab, #94, #73, #63,
+#42, and #21)</para>
+</listitem></itemizedlist>
+<para>In most cases, you should not specify colors, so that your application
+uses the colors chosen by the end user in the desktop Style Manager.</para>
+</sect2>
+<sect2 id="RDMAP.recin.div.35">
+<title>Font Use<indexterm><primary>user customization issues</primary><secondary>font use</secondary></indexterm><indexterm><primary>fonts</primary><secondary>user customization issues</secondary></indexterm><indexterm><primary>guidelines</primary><secondary>font use</secondary></indexterm></title>
+<para>For your Motif widgets, use the fonts supplied by the Common Desktop
+Environment so that your application's windows look like other desktop client
+windows and so that users can change the size of these fonts using the Style
+Manager. If you override the supplied fonts by changing the Motif <computeroutput>fontList</computeroutput> resource specifications, then you must provide
+additional functionality if you want users to be able to customize the fonts
+in your application.</para>
+<para>Use the fonts from the Common Desktop Environment standard application
+font names to specify&mdash;in your <computeroutput><indexterm><primary>app-defaults file</primary></indexterm>app-defaults</computeroutput> file&mdash;resources
+you use within your application (aside from the ones Motif uses for its widgets).
+This ensures that your application finds the appropriate fonts on all Common
+Desktop Environment platforms, which makes your application more portable
+across such platforms. For more information, see <!--Original XRef content:
+'&xd2;Standard Font Names&xd3; on page&numsp;55'--><xref role="SecTitleAndPageNum"
+linkend="RDMAP.recin.mkr.12">.</para>
+<note>
+<para>The<indexterm><primary>Style Manager</primary></indexterm> Style Manager
+only controls fonts for applications written using Motif version 2.1 or later.
+It will <symbol role="Variable">not</symbol> supply correct fonts for Motif
+1.1 (or earlier) applications. These applications must specify their own
+fonts in the <filename>app-defaults</filename> file.</para>
+</note>
+</sect2>
+<sect2 id="RDMAP.recin.div.36">
+<title>Accessibility<indexterm><primary>user customization issues</primary>
+<secondary>accessibility &lt;$startrange></secondary></indexterm><indexterm><primary>guidelines</primary>
+<secondary>accessibility &lt;$startrange></secondary></indexterm></title>
+<para>This section provides guidelines for making software applications accessible
+to people with disabilities.</para>
+<sect3 id="RDMAP.recin.div.37">
+<title>Physical Disabilities<indexterm><primary>accessibility</primary><secondary>physical disabilities</secondary></indexterm><indexterm><primary>physical
+disabilities and user customization</primary></indexterm><indexterm><primary>disabilities and user customization</primary><secondary>physical</secondary>
+</indexterm></title>
+<para>Provide keyboard access to all application features, such as those usually
+accessible through menus or drag and drop, to enable people with physical
+disabilities to more easily use your application.</para>
+</sect3>
+<sect3 id="RDMAP.recin.div.38">
+<title>Visual Disabilities<indexterm><primary>accessibility</primary><secondary>visual disabilities</secondary></indexterm><indexterm><primary>visual disabilities
+and user customization</primary></indexterm><indexterm><primary>disabilities
+and user customization</primary><secondary>visual</secondary></indexterm></title>
+<para>Follow these guidelines to make your application more accessible to
+people with visual disabilities:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Do not hardcode application
+colors.</para>
+</listitem><listitem><para>Do not hardcode graphic attributes such as line,
+border, and shadow thickness. These attributes should scale with font size.
+</para>
+</listitem><listitem><para>Do not hardcode font sizes and styles.</para>
+</listitem><listitem><para>Provide descriptive names for all widgets. In particular,
+include descriptive names <emphasis>in your application code</emphasis> for
+widgets that do not display labels on the screen; for example, palette items
+or icons. This often enables screen-reading software to provide descriptive
+information to blind users.</para>
+</listitem></itemizedlist>
+</sect3>
+<sect3 id="RDMAP.recin.div.39">
+<title>Hearing Disabilities<indexterm><primary>accessibility</primary><secondary>hearing disabilities</secondary></indexterm><indexterm><primary>hearing disabilities
+and user customization</primary></indexterm><indexterm><primary>disabilities
+and user customization</primary><secondary>hearing</secondary></indexterm></title>
+<para>Follow these guidelines to make your application more accessible to
+people with hearing disabilities:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Never assume that an end user
+will hear an audible notification.</para>
+</listitem><listitem><para>Where appropriate, allow end users to choose between
+audible or visual cues.</para>
+</listitem><listitem><para>Do not overuse or rely exclusively on audible cues.
+</para>
+</listitem><listitem><para>Enable end users to configure frequency and volume
+of audible cues.</para>
+</listitem></itemizedlist>
+</sect3>
+<sect3 id="RDMAP.recin.div.40">
+<title>Language, Cognitive, and Other Disabilities<indexterm><primary>accessibility</primary><secondary>language, cognitive, and other disabilities</secondary>
+</indexterm><indexterm><primary>language disabilities and user customization</primary></indexterm><indexterm><primary>disabilities and user customization</primary><secondary>language, cognitive, and other</secondary></indexterm></title>
+<para>The access guidelines outlined for visual, hearing, and physical disabilities
+typically benefit end users with cognitive, language, and other disabilities.
+In addition to those guidelines, include tear-off menus and user-configurable
+menus for important application features whenever possible.<indexterm>
+<primary>user customization issues</primary><secondary>accessibility &lt;$endrange></secondary></indexterm><indexterm>
+<primary>guidelines</primary><secondary>accessibility &lt;$endrange></secondary></indexterm></para>
+</sect3>
+</sect2>
+<sect2 id="RDMAP.recin.div.41">
+<title>Mouse Double-Click Speed<indexterm><primary>mouse double-click speed</primary></indexterm><indexterm><primary>guidelines</primary><secondary>mouse double-click speed</secondary></indexterm><indexterm><primary>user
+customization issues</primary><secondary>mouse double-click speed</secondary>
+</indexterm></title>
+<para>For the end user to experience consistency across applications, you
+should not hardcode double-click durations into your application or <filename><indexterm>
+<primary>app-defaults file</primary></indexterm>app-defaults</filename> files.
+This way, when the user changes the double-click time in the<indexterm>
+<primary>Style Manager</primary></indexterm> Style Manager, your application
+responds along with the other desktop applications.</para>
+</sect2>
+<sect2 id="RDMAP.recin.div.42">
+<title>Demo Programs<indexterm><primary>user customization issues</primary>
+<secondary>demo program</secondary></indexterm></title>
+<para>The drawing program demo in <filename>/usr/dt/examples/template</filename>
+uses the Common Desktop Environment's default colors and fonts. This enables
+the user to customize the colors and fonts in this program by using the Style
+Manager. Read the <command>README</command> file for detailed information
+on this demo.</para>
+<sect3 id="RDMAP.recin.div.43">
+<title>Related Documentation</title>
+<para>For more information on user customization issues, see the <emphasis>Style Guide and Certification Checklist</emphasis>.<indexterm><primary>customization</primary><secondary>user issues &lt;$endrange></secondary></indexterm><indexterm><primary>recommended integration &lt;$endrange></primary></indexterm><indexterm>
+<primary>levels of integration</primary><secondary>recommended &lt;$endrange></secondary></indexterm><indexterm>
+<primary>integration</primary><secondary>recommended &lt;$endrange></secondary></indexterm></para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:30:53-->
+<?Pub *0000053768>

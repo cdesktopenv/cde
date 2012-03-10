@@ -1,0 +1,38 @@
+XCOMM $XConsortium: Imakefile /main/14 1996/05/08 09:27:35 drk $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+#include <Threads.tmpl>
+
+#include "../../tooltalk.tmpl"
+
+DEFINES =
+INCLUDES = -I. -I../../slib -I../../lib -I../../mini_isam
+
+DEPLIBS         = ../../slib/libstt.a TtClientDepLibs ../../mini_isam/libisam.a
+LOCAL_LIBRARIES = ../../slib/libstt.a TtClientLibs    ../../mini_isam/libisam.a
+SYS_LIBRARIES   =
+
+#ifdef TtClientExtraLibs
+EXTRA_LIBRARIES = TtClientExtraLibs
+#endif
+
+
+SRCS =  binkey.C        binkey_utils.C  common.C \
+        options.C       options_tt.C    prop.C \
+        prop_utils.C    spec.C          spec_repair.C \
+        spec_utils.C    ttdbck.C
+
+OBJS =  binkey.o        binkey_utils.o  common.o \
+        options.o       options_tt.o    prop.o \
+        prop_utils.o    spec.o          spec_repair.o \
+        spec_utils.o    ttdbck.o
+
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(ttdbck)
+
+SpecialCplusplusObjectRule(options,options,$(TT_VERSION_DEFINE))

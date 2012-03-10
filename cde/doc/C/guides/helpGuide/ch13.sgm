@@ -1,0 +1,560 @@
+<!-- $XConsortium: ch13.sgm /main/9 1996/08/26 10:45:59 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.Lang.div.1">
+<title id="HRDC.Lang.mkr.1">Native Language Support</title>
+<para id="HRDC.Lang.mkr.2">This chapter identifies files used by the Help
+System that require modification when a help volume is provided in multiple
+languages.</para>
+<informaltable id="HRDC.Lang.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Internationalized Online Help253'--><xref
+role="JumpText" linkend="HRDC.Lang.mkr.3"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Character Sets and Multibyte Characters254'--><xref
+role="JumpText" linkend="HRDC.Lang.mkr.5"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'DtHelp Message Catalog258'--><xref
+role="JumpText" linkend="HRDC.Lang.mkr.8"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'LANG Environment Variable259'--><xref
+role="JumpText" linkend="HRDC.Lang.mkr.9"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Understanding Font Schemes260'--><xref
+role="JumpText" linkend="HRDC.Lang.mkr.11"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating a Formatting Table263'--><xref
+role="JumpText" linkend="HRDC.Lang.mkr.14"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Displaying a Localized Help Volume265'--><xref
+role="JumpText" linkend="HRDC.Lang.mkr.17"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Preparing Online Help for International
+Audiences265'--><xref role="JumpText" linkend="HRDC.Lang.mkr.18"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<sect1 id="HRDC.Lang.div.2">
+<title id="HRDC.Lang.mkr.3">Internationalized Online Help</title>
+<para>If your product is intended for an international audience, then providing
+online help in the user's native language is important. The Help System supports
+the authoring and displaying of online help in virtually any language.</para>
+<para>When you process a help volume to create run-time help files, the DocBook
+software must be told what language and character set you used to author your
+files. The language and character set information is also used to determine
+the proper fonts for displaying the help volume.</para>
+</sect1>
+<sect1 id="HRDC.Lang.div.3">
+<title id="HRDC.Lang.mkr.4">Internationalization Factors</title>
+<para>Several factors, which are explained in the following section, contribute
+to providing effective online help in the user's native language.</para>
+<sect2 id="HRDC.Lang.div.4">
+<title id="HRDC.Lang.mkr.5">Character Sets</title>
+<para>A <emphasis>character set</emphasis> determines how a computer's internal
+character codes (numbers) are mapped to recognizable characters. In most languages,
+single-byte characters are sufficient for representing an entire character
+set. However, there are some languages that use thousands of characters. These
+languages require two, three, or four bytes to represent each character uniquely.
+</para>
+<para>Character sets supported by the Help System are listed in <xref role="CodeOrFigureOrTable"
+linkend="HRDC.Lang.mkr.6">. However, some characters sets may not exist on
+all platforms.</para>
+<table id="HRDC.Lang.tbl.1">
+<title id="HRDC.Lang.mkr.6">Common Desktop Environment Character Sets</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.17in">
+<colspec colname="col2" colwidth="1.99in">
+<colspec colwidth="2.07in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Language</para></entry><entry
+align="left" valign="bottom"><para>Character Set Name</para></entry><entry
+align="left" valign="bottom"><para>Description</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Western Europe and Americas</para></entry>
+<entry align="left" valign="top"><para>ISO-8859-1</para></entry>
+<entry align="left" valign="top"><para>ISO Latin 1</para></entry>
+</row>
+<row>
+<entry align="left" colname="col2" valign="top">HP-ROMAN8</entry>
+<entry align="left" valign="top">HP Roman</entry>
+</row>
+<row>
+<entry align="left" colname="col2" valign="top">IBM-850</entry>
+<entry align="left" valign="top">PC Multilingual</entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Central Europe</para></entry>
+<entry align="left" valign="top"><para>ISO-8859-2</para></entry>
+<entry align="left" valign="top"><para>ISO Latin 2</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Cyrillic</para></entry>
+<entry align="left" valign="top"><para>ISO-8859-5</para></entry>
+<entry align="left" valign="top"><para>ISO Latin/Cyrillic</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Arabic</para></entry>
+<entry align="left" valign="top"><para>ISO-8859-6</para></entry>
+<entry align="left" valign="top"><para>ISO Latin/Arabic</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>HP-ARABIC8</para></entry>
+<entry align="left" valign="top"><para>HP Arabic8</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>IBM-1046</para></entry>
+<entry align="left" valign="top"><para>PC Arabic</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Hebrew</para></entry>
+<entry align="left" valign="top"><para>ISO-8859-8</para></entry>
+<entry align="left" valign="top"><para>ISO Latin/Hebrew</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>HP-HEBREW8</para></entry>
+<entry align="left" valign="top"><para>HP Hebrew8</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>IBM-856</para></entry>
+<entry align="left" valign="top"><para>PC Hebrew</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Greek</para></entry>
+<entry align="left" valign="top"><para>ISO-8859-7</para></entry>
+<entry align="left" valign="top"><para>ISO Latin/Greek</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>HP GREEK8</para></entry>
+<entry align="left" valign="top"><para>HP Greek8</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Turkish</para></entry>
+<entry align="left" valign="top"><para>ISO-8859-9</para></entry>
+<entry align="left" valign="top"><para>ISO Latin 5</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>HP-TURKISH8</para></entry>
+<entry align="left" valign="top"><para>HP Turkish8</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Japanese</para></entry>
+<entry align="left" valign="top"><para>EUC-JP</para></entry>
+<entry align="left" valign="top"><para>Japanese EUC (JISX0201, JISX0208, JISX0212)
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>HP-SJIS</para></entry>
+<entry align="left" valign="top"><para>HP Japanese Shift JIS</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>HP-KANA8</para></entry>
+<entry align="left" valign="top"><para>HP Japanese Katakana8 (JISX0201 1976)
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>IBM-932</para></entry>
+<entry align="left" valign="top"><para>PC Japanese Shift JIS</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Korean</para></entry>
+<entry align="left" valign="top"><para>EUC-KR</para></entry>
+<entry align="left" valign="top"><para>Korean EUC</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Chinese</para></entry>
+<entry align="left" valign="top"><para>EUC-CN</para></entry>
+<entry align="left" valign="top"><para>Simplified Chinese EUC (China) (GB2312)
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>EUC-TW</para></entry>
+<entry align="left" valign="top"><para>Traditional Chinese EUC (Taiwan) (CNS
+11643.*)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>HP-BIG5</para></entry>
+<entry align="left" valign="top"><para>HP Traditional Chinese Big5</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>HP-CCDC</para></entry>
+<entry align="left" valign="top"><para>HP Traditional Chinese CCDC</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>HP-15CN</para></entry>
+<entry align="left" valign="top"><para>HP Traditional Chinese EUC</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Thai</para></entry>
+<entry align="left" valign="top"><para>TIS-620</para></entry>
+<entry align="left" valign="top"><para>Thai</para></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>When writing DocBook files, you may use multibyte characters for any
+help text, but the DocBook markup itself (tag names, entity names, IDs, and
+so on) must be entered using eight-bit characters.</para>
+</sect2>
+<sect2 id="HRDC.Lang.div.8">
+<title>DocBook Software</title>
+<para>When you process a help volume to create run-time help files, the DocBook
+software must be told what language and character set you used to author your
+files. The language and character set information is used to determine the
+proper fonts for displaying help topics. If you do not specify a language
+and character set, DocBook assumes the default, which is English and ISO-8859-1.
+</para>
+<para>The language and character set can be defined in the <systemitem class="environvar">LANG</systemitem> environmental variable, or by using the Lang attribute of
+Part.</para>
+<note>
+<para>When writing DocBook files, you may use multibyte characters for any
+help text. However, the DocBook markup itself (tag names, entity names, IDs,
+and so on) must be entered using eight-bit characters.</para>
+</note>
+</sect2>
+<sect2 id="HRDC.Lang.div.9">
+<title id="HRDC.Lang.mkr.8">DtHelp</title>
+<para>The menus, buttons, and labels that appear in help dialogs should also
+be displayed in the user's native language. To enable this, Help dialogs read
+such strings from a <emphasis>message catalog</emphasis> named <filename>DtHelp.cat</filename>. The message catalog source file,
+<filename>DtHelp.msg</filename>, contains strings for menus, buttons, and messages. If the language
+you need is not supplied, you must translate the sample message catalog
+(<filename>/usr/dt/dthelp/nls/C/DtHelp.msg</filename>) and then use the <command>gencat</command> command to create the run-time message catalog file. See <xref
+role="SecTitleAndPageNum" linkend="HRDC.Lang.mkr.16"> for instructions.</para>
+<para>Refer to your system documentation to determine the correct directory
+where your new message catalog should be installed.</para>
+</sect2>
+<sect2 id="HRDC.Lang.div.10">
+<title id="HRDC.Lang.mkr.9">LANG Environment Variable</title>
+<para>The user's <systemitem class="environvar">LANG</systemitem> environment
+variable is important for two reasons:</para>
+<itemizedlist><listitem><para>The value of <systemitem class="environvar">LANG</systemitem> is used to locate the correct help volume.</para>
+</listitem><listitem><para>When a help topic is displayed, the correct fonts
+and formatting rules are chosen based on the user's <systemitem class="environvar">LANG</systemitem> variable. This is especially important for Asian languages
+that have word-wrap rules that are more sophisticated than European and American
+languages.</para>
+</listitem></itemizedlist>
+<sect3 id="HRDC.Lang.div.11">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><citetitle>Internationalization
+Programmer's Guide</citetitle></para>
+</listitem><listitem><para>NLS documentation for your computer's operating
+system or programmer's kit</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.Lang.div.13">
+<title>Formatting Tables</title>
+<para>A multibyte language, such as Japanese or Chinese, requires a <emphasis>formatting table</emphasis>. This table specifies a list of characters that
+cannot start a line and those characters that cannot end a line. When help
+files are processed, the formatting table ensures that lines wrap correctly. <xref
+role="SecTitleAndPageNum" linkend="HRDC.Lang.mkr.14"> explains how to create
+a new table or edit the sample table provided in the Help Developer's Kit.
+</para>
+</sect2>
+<sect2 id="HRDC.Lang.div.14">
+<title>Font Schemes</title>
+<para>One of the primary functions of the DocBook software is to convert your
+marked-up files into a run-time format that the Help System understands. Text
+is formatted by specifying particular attributes such as type family, size,
+slant, and weight. A <emphasis>font scheme</emphasis> is simply a name, like
+an alias, that the Help System uses to assign fonts to DocBook elements such
+as heads, procedures, lists, and so forth. It provides a way to map a group
+of text attributes used by the Help System with specific fonts.</para>
+<para>Applications that use the standard Common Desktop Environment fonts
+do not need to define additional font resources. If your application relies
+on a different set of fonts, you must create and add a font scheme to your
+application.</para>
+<sect3 id="HRDC.Lang.div.15">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><filename moreinfo="RefEntry">DtStdInterfaceFontNames(5)</filename> man page</para>
+</listitem><listitem><para><filename moreinfo="RefEntry">DtStdAppFontNames
+(5)</filename> man page</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Lang.div.16">
+<title id="HRDC.Lang.mkr.11">Understanding Font Schemes</title>
+<para>When you write a help volume using the DocBook markup language, you
+don't specify the fonts and sizes of the text. When you run the DocBook software,
+the elements that you've entered are formatted into run-time help files that
+include text attributes.</para>
+<para>A <emphasis>font scheme</emphasis> maps text attributes to actual font
+specifications. For example, if a help topic is formatted using a bold, sans
+serif typeface, the font scheme identifies which Common Desktop Environment
+standard font or X font is actually used to display the text.</para>
+<para>One of the primary uses of font schemes is to provide a choice of font
+sizes. The DocBook software formats the body of most topics as 10-point text.
+However, because the actual display font is determined by the font scheme
+being used, all 10-point text could be specified to use a 14-point font.</para>
+<sect2 id="HRDC.Lang.div.17">
+<title id="HRDC.Lang.mkr.12">Font Resources</title>
+<para>Each font scheme is actually a set of X resources. These resources are
+read by the application displaying the help. If you want to change the font
+scheme, you can set font resources in your application's application defaults
+file.</para>
+<para>Each resource within a font scheme has this general form:</para>
+<para>*<symbol role="Variable">pitch</symbol>.<symbol role="Variable">size</symbol>.<symbol role="Variable">slant</symbol>. <symbol role="Variable">weight</symbol>.<symbol role="Variable">style</symbol>. <symbol role="Variable">lang</symbol>.<symbol role="Variable">char-set</symbol>: <symbol role="Variable">font specification</symbol></para>
+<para>Where:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="116*">
+<colspec align="left" colwidth="412*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">pitch</symbol></para></entry>
+<entry align="left" valign="top"><para>Specifies the horizontal spacing of
+characters. This field should be either <command>p</command> (proportional)
+or <command>m</command> (monospace).</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">size</symbol></para></entry>
+<entry align="left" valign="top"><para>Specifies the height of the desired
+font. For help files formatted with DocBook, this value should be <symbol>6</symbol>, <symbol>8</symbol>, <symbol>10</symbol>, <symbol>12</symbol>,
+or <symbol>14</symbol>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">slant</symbol></para></entry>
+<entry align="left" valign="top"><para>Specifies the slant of the desired
+font. Usually this field is either <command>roman</command> for upright letters
+or <command>italic</command> for slanted letters</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">weight</symbol></para></entry>
+<entry align="left" valign="top"><para>Specifies the weight of the desired
+font. Usually this field is either <command>medium</command> or <command>bold</command>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">style</symbol></para></entry>
+<entry align="left" valign="top"><para>Specifies the general style of the
+desired font. For help files formatted with DocBook, this value should be
+either <symbol>serif</symbol> or <symbol>sans_serif</symbol>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">lang</symbol></para></entry>
+<entry align="left" valign="top"><para>Specifies that volumes compiled using
+this language should use these fonts. Usually the entry uses an * (asterisk)
+so that all volumes using the specified <symbol role="Variable">char_set</symbol>
+will use these fonts.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">char-set</symbol></para></entry>
+<entry align="left" valign="top"><para>Specifies the character set used to
+author the help text. This value must match the character set that was specified
+when DocBook was run. The default is <symbol>ISO-8859-1</symbol>. Some special
+characters are displayed using a <command>symbol</command> character set.
+</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>An * (asterisk) can be used in a field to specify a font that has any
+value of that particular attribute. For instance, the symbol set (for special
+characters and special symbols) distinguishes a unique font based only on
+size and character set.</para>
+<para>Its font resources appear like this within a font scheme:</para>
+<programlisting>*.6.*.*.*.*.DT-SYMBOL-1:  -adobe-symbol-medium-r-normal-*-*-60-*-*-
+p-*-adobe-fontspecific
+*.8.*.*.*.*.DT-SYMBOL-1:  -adobe-symbol-medium-r-normal-*-*-80-*-*-
+p-*-adobe-fontspecific
+*.10.*.*.*.*.DT-SYMBOL-1: -adobe-symbol-medium-r-normal-*-*-100-*-
+*-p-*-adobe-fontspecific
+*.12.*.*.*.*.DT-SYMBOL-1: -adobe-symbol-medium-r-normal-*-*-120-*-
+*-p-*-adobe-fontspecific
+*.14.*.*.*.*.DT-SYMBOL-1: -adobe-symbol-medium-r-normal-*-*-140-*-
+*-p-*-adobe-fontspecific</programlisting>
+<para>The <symbol>char-set</symbol> field is the only field that cannot use
+the * (asterisk).</para>
+<para>To display multibyte languages, such as Japanese or Korean, font resources
+must be specified using a font set. A font set is actually a group of fonts.
+A resource entry for a font set is similar to a single font, except that a
+, (comma) separates multiple font names and the specification ends with a
+: (colon). Here is an example of a fully specified font resource for a Japanese
+font set.</para>
+<programlisting>bridge-gothic-medium-r-normal--18-180-75-75-c-80-jisx0201.1976-0,
+bridge-gothic-medium-r-normal--18-180-75-75-c-160-jisx0208.1983-0,
+bridge-gothic-medium-r-normal--18-180-75-75-c-160-jisx0212.1990-0:</programlisting>
+<para>You can also specify fonts for a multibyte language by providing a minimal
+XLFD font specification and allowing the system to supply the character set
+value to produce a font set.</para>
+<programlisting>*.12.roman.medium.*.ja_JP.EUC-JP: -*-*-*-*-*-*-*-120-*-*-*-*-*-*:
+</programlisting>
+<para>When specifying a font set, remember to end the specification with a
+: (colon). This instructs the Help System to load a set of fonts to display
+the information. Font sets are used to display multibyte languages. For volumes
+containing single-byte information, use the standard font specification.</para>
+<sect3 id="HRDC.Lang.div.18">
+<title>Sample Font Schemes</title>
+<para>The <filename>/usr/dt/dthelp/fontschemes</filename> directory contains
+four font schemes:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="165*">
+<colspec align="left" colwidth="363*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput>fontDef.fns</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Default fonts used by the Help System
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>fontLarge.fns</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Example of a larger font</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>fontMulti.fns</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Example of a multi-byte font</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>fontX11.fns</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Example of standard X11 fonts</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</sect3>
+</sect2>
+<sect2 id="HRDC.Lang.div.19" role="Procedure">
+<title id="HRDC.Lang.mkr.13">To Choose a Font Scheme</title>
+<para>Edit the application-defaults file for the application that displays
+the online help. Replace the current font resources (if any) with the new
+scheme.</para>
+<para>If you are making this change just for yourself, copy the application-defaults
+file into your home directory before editing it.</para>
+<sect3 id="HRDC.Lang.div.20">
+<title>Example</title>
+<para>To use a larger size font (in the help dialogs) of a personal application
+named <filename>DtStopWatch</filename>, perform these steps:</para>
+<para>Change to your home directory:</para>
+<programlisting>cd</programlisting>
+<para>Then copy the <filename>DtStopWatch</filename> application-defaults
+file and make it writable:</para>
+<programlisting>cp /usr/dt/app-defaults/C/DtStopWatch.
+chmod u+w DtStopWatch</programlisting>
+<para>Edit the <filename>DtStopWatch</filename>file to add the largest scheme
+(<filename>fontLarge.fns</filename>. Go to the end of the file, and insert
+the contents of this file:</para>
+<para><filename>/usr/dt/dthelp/fontschemes/fontLarge.fns</filename></para><?Pub Caret>
+<para>Save your new <filename>DtStopWatch</filename> file.</para>
+<para>Start the <filename>DtStopWatch</filename> application, select Help,
+and verify that help topics are displayed using the new font scheme.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Lang.div.21">
+<title id="HRDC.Lang.mkr.14">Creating a Formatting Table</title>
+<para>A multibyte language, such as Japanese or Chinese, requires a <emphasis>formatting table</emphasis>. This table contains three message sets. The first
+set consists of characters that cannot start a line; the second set lists
+any characters that cannot end a line; and the third set indicates how to
+handle newline characters that occur between a single-byte and a multibyte
+character.</para>
+<para>A formatting table is an ASCII file whose file name must end with a
+<filename>.msg</filename> extension. <xref role="CodeOrFigureOrTable" linkend="HRDC.Lang.mkr.15">
+shows an excerpt from a formatting table for Simplified Chinese.</para>
+<figure>
+<title id="HRDC.Lang.mkr.15">Sample formatting table</title>
+<graphic id="HRDC.Lang.grph.1" entityref="HRDC.Lang.fig.1"></graphic>
+</figure>
+<para>Any line that begins with a $ (dollar sign) followed by a space is a
+comment.</para>
+<sect2 id="HRDC.Lang.div.22">
+<title>Sample Formatting Table</title>
+<para>A sample formatting table for a multibyte character set is located in
+the <filename>/usr/dt/dthelp/nls/zh_CN.dt-eucCN</filename>directory and is
+named <filename>fmt_tbl.msg.</filename></para>
+<para>The sample table can be modified by adding or removing characters. To
+edit the formatting table, use an editor capable of composing characters in
+the language you have chosen for the help information. If you intend to create
+help information using a multibyte language, you need to create a formatting
+table.</para>
+</sect2>
+<sect2 id="HRDC.Lang.div.23" role="Procedure">
+<title id="HRDC.Lang.mkr.16">To Create a Message Catalog</title>
+<para>If you translate the <filename>DtHelp.msg</filename> file, create a
+new formatting table, or modify the sample table (<filename>fmt_tbl.msg</filename>),
+you must update the message catalog used by the Help System.</para>
+<para>Use this command syntax to generate the catalog file:</para>
+<para><command>gencat</command> <symbol>file</symbol><filename>.cat</filename> <symbol>file</symbol><filename>.msg</filename></para>
+<para>Message catalogs for the standard desktop applications are located in
+the <filename>/usr/dt/lib/nls/msg/</filename><symbol>lang</symbol> directory.
+To install a message catalog, refer to your operating system documentation
+for guidelines.</para>
+<sect3 id="HRDC.Lang.div.24">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><command>gencat</command>(1)
+man page</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Lang.div.25">
+<title id="HRDC.Lang.mkr.17">Displaying a Localized Help Volume</title>
+<para>To view a help volume created for a locale different from your current
+system, you must set your <systemitem class="environvar">LANG</systemitem>
+environment variable to match the help volume. The value of the <systemitem class="environvar">LANG</systemitem> environment variable is platform-specific.
+If you are not familiar with this variable, check with your system administrator
+for the correct value and procedure to set your environment.</para>
+</sect1>
+<sect1 id="HRDC.Lang.div.26">
+<title id="HRDC.Lang.mkr.18">Preparing Online Help for International Audiences</title>
+<para>The following checklist summarizes the questions you should answer when
+providing online help for international audiences.</para>
+<itemizedlist remap="Bullet1"><listitem><para>Are help topics written with
+an international audience in mind?</para>
+</listitem><listitem><para>Was the DocBook software run using the correct <systemitem class="environvar">LANG</systemitem> setting? If you author in another character
+set, you may have to translate the <filename>DtHelp.msg</filename> message
+catalog file and provide a font scheme that supports the new character set.
+</para>
+</listitem><listitem><para>Within your DocBook markup, are all tag names,
+entity names, and IDs entered using an eight-bit character set, even if the
+help text uses multibyte characters?</para>
+</listitem><listitem><para>When the user's <systemitem class="environvar">LANG</systemitem> environment variable is set to the correct language, are
+the help files installed so they are found and displayed appropriately?</para>
+</listitem><listitem><para>If you have integrated the Help System into an
+application, have you properly set the locale using the <function>XtSetLanguageProc()</function> function?</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.Lang.div.27">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="HeadingAndPage"
+linkend="HRDC.Inst.mkr.11"></para>
+</listitem><listitem><para><command>XtSetLanguageProc</command>(3) man page
+</para>
+</listitem><listitem><para><command>gencat</command>(1) man page</para>
+</listitem><listitem><para>NLS documentation for your computer's operating
+system or programmer's kit</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->

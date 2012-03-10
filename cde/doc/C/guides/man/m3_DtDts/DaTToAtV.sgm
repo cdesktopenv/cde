@@ -1,0 +1,124 @@
+<!-- $XConsortium: DaTToAtV.sgm /main/6 1996/09/08 20:21:27 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN34.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN34.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtDtsDataTypeToAttributeValue</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtDtsDataTypeToAttributeValue</Function></RefName>
+<RefPurpose>get an attribute value for a specified data type
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Dts.h>
+</FuncSynopsisInfo>
+<FuncDef>char <Function>*DtDtsDataTypeToAttributeValue</Function></FuncDef>
+<ParamDef>const char *<Parameter>datatype</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>attr_name</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>opt_name</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtDtsDataTypeToAttributeValue</Function> returns an attribute value for the specified data type name.
+</Para>
+<Para>The
+<Emphasis>datatype</Emphasis> argument is a pointer to a data type name string.
+</Para>
+<Para>The
+<Emphasis>attr_name</Emphasis> argument is a name of the attribute.
+</Para>
+<Para>The
+<Emphasis>opt_name</Emphasis> argument can be used to specify a name to be associated with the
+data type.
+If the
+<Emphasis>opt_name</Emphasis> argument is not
+<SystemItem Class="Constant">NULL</SystemItem>, it is used as a pseudo file name in typing;
+otherwise, certain attributes may be returned as
+<SystemItem Class="Constant">NULL</SystemItem> because the filename components could not be determined.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtDtsDataTypeToAttributeValue</Function> function returns a pointer to a data attribute value string, or
+<SystemItem Class="Constant">NULL</SystemItem> if no value could be determined.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application should use the
+&cdeman.DtDtsFreeAttributeValue; function to release the memory for the returned value.
+</Para>
+<Para>The
+<Emphasis>opt_name</Emphasis> argument is useful when the attribute being returned
+contains a modifier string that depends on having
+a file name included.
+For example, if the
+<SystemItem Class="Constant">INSTANCE_ICON</SystemItem> attribute had the value
+<Literal>%name%.icon</Literal>, <Emphasis>opt_name</Emphasis> would be used to derive the
+<Literal>%name%</Literal> portion of the attribute value.
+See
+<![ %CDE.C.CDE; [&cdeman.dtdtsfile;. ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.M4DTS.anch.6" Role="4">. ]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following takes a list of files as arguments
+and determines the description and actions for each file:
+</Para>
+<InformalExample>
+<ProgramListing>#include &lt;Dt/Dts.h>
+#define ATTRIBUTE1      "DESCRIPTION"
+#define ATTRIBUTE2      "ACTIONS"
+main (int argc, char **argv)
+{
+        char    *attribute;
+        char    *datatype;
+        /* load data types database */
+        DtDtsLoadDataTypes();
+        argv++;
+        while (*argv) {
+                /* get data type file file */
+                datatype = DtDtsFileToDataType(*argv);
+                /* get first attribute for datatype */
+                attribute = DtDtsDataTypeToAttributeValue(datatype,
+                                        ATTRIBUTE1, *argv);
+                if (attribute)
+                        printf("%s for file %s is %s&bsol;n",
+                                ATTRIBUTE1, *argv, attribute);
+                /* get second attribute for datatype */
+                attribute = DtDtsDataTypeToAttributeValue(datatype,
+                                        ATTRIBUTE2, NULL);
+                if (attribute)
+                        printf("%s for file %s is %s&bsol;n",
+                                ATTRIBUTE2, *argv, attribute);
+                argv++;
+        }
+        DtDtsRelease();
+        exit(0);
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para><Filename Role="Header">Dt/Dts.h</Filename>, &cdeman.DtDtsFileToDataType;, &cdeman.DtDtsLoadDataTypes;, &cdeman.DtDtsRelease;, &cdeman.DtDtsFreeAttributeValue;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

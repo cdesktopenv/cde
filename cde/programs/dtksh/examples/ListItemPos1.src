@@ -1,0 +1,71 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: ListItemPos1.src /main/3 1996/04/23 20:18:21 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates how to create a list widget, and
+XCOMM  verifies that the XmListItemPos command operates correctly.  The list
+XCOMM  contains multiple items with the label "item4"; XmListItemPos will
+XCOMM  return the position of the first occurrence.  By selecting the push
+XCOMM  button labeled "Delete First Item", you can delete the first item
+XCOMM  labeled "item4"; the next call to XmListItemPos should now return
+XCOMM  the position of the next item labeled "item4".
+XCOMM 
+
+XCOMM  Pushbutton Callback: prints the position occupied by the first occurrence
+XCOMM                       of the "item4" label.
+GetItemPosition()
+{
+   XmListItemPos POS $LIST "item4"
+   echo "First position for item4 is: "$POS
+}
+
+XCOMM  Pushbutton Callback: deletes the first item in the list.
+DelFirstItem()
+{
+   XmListDeletePos $LIST 1
+}
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL listItemPos1 ListItemPos1 "$0" "$@"
+XtSetValues $TOPLEVEL allowShellResize:True
+
+XmCreateScrolledList LIST $TOPLEVEL list \
+	itemCount:11 \
+	items:"item4,item2,item4,item3,item5,item6,item7,item8,item9,item4,item11" \
+	visibleItemCount:15 \
+	listSizePolicy:VARIABLE
+XtSetValues $LIST \
+	selectedItemCount:3 \
+	selectedItems:"item2,item4,item6"
+XtManageChild $LIST
+
+XtRealizeWidget $TOPLEVEL
+
+XtCreateApplicationShell TOPLEVEL2 ListItemPos1a TopLevelShell
+
+XtCreateManagedWidget RC rc XmRowColumn $TOPLEVEL2 \
+         orientation:HORIZONTAL \
+         numColumns:2 \
+         packing:PACK_COLUMN 
+
+XtCreateManagedWidget PB1 pb1 XmPushButton $RC \
+	labelString:"Get Position Of item4"
+XtAddCallback $PB1 activateCallback "GetItemPosition"
+
+XtCreateManagedWidget PB2 pb2 XmPushButton $RC \
+	labelString:"Delete First Item"
+XtAddCallback $PB2 activateCallback "DelFirstItem"
+
+XtRealizeWidget $TOPLEVEL2
+
+XtMainLoop

@@ -1,0 +1,83 @@
+.\" $XConsortium: dtexec.man /main/2 1995/07/17 10:50:37 drk $
+.\" *************************************************************************
+.\" **
+.\" ** (c) Copyright 1993,1994 Hewlett-Packard Company 
+.\" **      All Rights Reserved.
+.\" **
+.\" ** (c) Copyright 1993,1994 International Business Machines Corp. 
+.\" **      All Rights Reserved.
+.\" **  
+.\" ** (c) Copyright 1993,1994 Sun Microsystems, Inc.
+.\" **      All Rights Reserved.
+.\" **
+.\" *************************************************************************
+.TH dtexec 1X "17 Jan 1994"
+.BH "17 Jan 1994"
+.\"---
+.SH NAME
+\fBdtexec\fP \(em A "wrapper" program for command lines to 
+control when the command exits. 
+.sp 1
+.SH SYNOPSIS
+.B dtexec <open_option> <command_line>
+.nf
+.in 10
+.fi
+.sp 1
+.SH DESCRIPTION
+Dtexec is used by the Common Desktop Environment (CDE) when
+executing terminal-based actions.  Its'
+purpose is to keep the terminal window
+open after the command terminates in
+the following circumstances:
+.sp 1
+.in 10
+- If the action is of type PERM-TERMINAL.
+.sp 1
+.in 10
+- If the action is of type TERMINAL and
+the command "quickly" exits, which
+indicates that an error occurred.
+.P
+The "open_option" arguments are:
+.sp 1
+.in 10
+1. "-1" - Keep the window open when
+"command_line" terminates.
+.sp 1
+2. "0" - Unmap the terminal window after
+"command_line" terminates.
+.sp 1
+3. "n" - Keep the terminal window mapped if 
+"command_line" terminates within "n" seconds of 
+starting.  The default value is "3" seconds.  To
+change the default, set the component's "waitTime"
+or "WaitTime" resource.  For example, to change
+the CDE File Manager to wait "5" seconds, 
+set the following resource: "Dtfile*waitTime: 5".
+Dtexec does not have any resources.
+.P
+Dtexec's default path is "/usr/dt/bin".  
+To change this
+location, set the component's "dtexecPath" or
+"DtexecPath" resource.  For example, to change
+the CDE File Manager's dtexec path to
+"/usr/local/bin", set the following resource: 
+"Dtfile*dtexecPath: /usr/local/bin".
+
+.sp 1
+.SH RETURN VALUE
+\fBdtexec\fP returns 0 if successful; otherwise it returns 1.
+Successful return from dtexec implies system resources were available
+to fork and exec the requested command, not that the requested command
+itself executed successfully.
+.SH NOTES
+.PP
+This program is not normally invoked directly by application
+programs.  Normally an application program will link with the
+Desktop Services Library (DtSvc) which will then invoke \fBdtexec\fP
+as needed.
+.PP
+As mentioned above, an application program can set its
+\fIwaitTime\fP and \fIDtexecPath\fP resources to affect the behavior
+of DtSvc library invocations of \fIdtexec\fP.

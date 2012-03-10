@@ -1,0 +1,91 @@
+/*
+ * $XConsortium: ostring.h /main/3 1996/06/11 17:38:12 cde-hal $
+ *
+ * Copyright (c) 1992 HaL Computer Systems, Inc.  All rights reserved.
+ * UNPUBLISHED -- rights reserved under the Copyright Laws of the United
+ * States.  Use of a copyright notice is precautionary only and does not
+ * imply publication or disclosure.
+ * 
+ * This software contains confidential information and trade secrets of HaL
+ * Computer Systems, Inc.  Use, disclosure, or reproduction is prohibited
+ * without the prior express written permission of HaL Computer Systems, Inc.
+ * 
+ *                         RESTRICTED RIGHTS LEGEND
+ * Use, duplication, or disclosure by the Government is subject to
+ * restrictions as set forth in subparagraph (c)(l)(ii) of the Rights in
+ * Technical Data and Computer Software clause at DFARS 252.227-7013.
+ *                        HaL Computer Systems, Inc.
+ *                  1315 Dell Avenue, Campbell, CA  95008
+ * 
+ */
+
+
+#ifndef _ostring_h
+#define _ostring_h 1
+
+#include "utility/funcs.h"
+
+class ostring {
+
+public:
+   ostring();
+   ostring(const int chunk_size);
+   ostring(char* str, const int str_sz = -1); // -1 means take strlen(str)
+   ostring(const ostring&);
+   virtual ~ostring() { delete v_p; };
+
+// length of the string
+   int size() const { return v_sz; };                
+// length of the allocated chunk
+   int alloc_size() const { return v_allo_sz; };     
+
+   ostring& operator +(ostring&);   // merge of two strings
+   int substr(ostring&);            // substring matching
+   
+// set string to content x
+   Boolean set(const char* x) { return set(x, strlen(x)); };        
+
+   Boolean set(const char* x, int i); // set string to content x with length i
+   Boolean append(const char* x, int l); // append a string x of length i
+   Boolean update(const char* x, int l, int offset); // update a substring x of length i at 'offset'. offset + l should be sz
+     
+//set alloc_sz to at least new_alloc_sz bytes
+// pre_zero = true -> zero new space before copy old content over
+   Boolean expand(const int, Boolean pre_zero = false); 
+
+   void reset() { v_sz = 0; };
+   void set_size(const int s) { v_sz = s; v_p[v_sz] = 0; };
+
+   char* get() const { return v_p; }; // get char pointer p
+
+   char* acquire() ; // return what is pointed at by p and reset 
+                    // alloc_sz, sz, and p to 0;
+
+// append x to this and return this.  
+   ostring* operator+= (ostring* x); 
+
+// concate all ostring arguments (ostring* 's) to this and return this.
+   ostring* concate_with(...); 
+
+   Boolean string_LS(ostring&) const;
+   Boolean string_EQ(ostring&) const;
+
+   friend ostream& operator <<(ostream&, const ostring&);
+   friend istream& operator >>(istream&, ostring&);
+
+protected:
+   char *v_p;      // memory chunk pointer
+   int v_sz;       // string size
+   int v_allo_sz;  // allocated memory chunk size
+
+#ifdef C_API
+   static char* input_buf;
+
+   friend void initialize_MMDB();
+   friend void quit_MMDB();
+#else
+   static char input_buf[LBUFSIZ];
+#endif
+};
+
+#endif

@@ -1,0 +1,482 @@
+<!-- $XConsortium: ch01.sgm /main/7 1996/09/08 19:45:34 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="DKSUG.Intro.div.1">
+<title id="DKSUG.Intro.mkr.1">デスクトップKornShellの紹介</title>
+<para>デスクトップ KornShell(<command>ldtksh<indexterm><primary>dtksh</primary>
+<secondary>定義</secondary></indexterm></command>)は、ほとんどの既存のXtやMotif&trade;関数に簡単にアクセスするための手段をもつ
+kshellスクリプトを提供します。<command>dtksh</command>は、<filename>ksh-93</filename><indexterm>
+<primary>dtksh</primary><secondary>ksh-93との関係</secondary></indexterm><indexterm><primary>ksh-93</primary>
+</indexterm>を基にしています。
+<command>dtksh</command>は、シェル・プログラマにとって有効なツールおよびコマンドのセットを
+提供しており、標準的なkshellプログラミング・コマンドのセットをサポートしています。</para>
+<para><command>dtksh</command>は、<filename>ksh-93</filename>が提供しているすべての機能およびコマンドを
+サポートしています。 <command>dtksh</command>は、<command>libDt</command>関数の数多くの選択、ウィジェット関連の
+ほとんどのMotif関数、Xtイントリンシクスの多数のサブセット、Xlib関数の少数の
+サブセットをサポートしています。サポートされている関数のすべてのリストは、付録Aに
+記載されています。<indexterm><primary>サポート関数</primary></indexterm><indexterm>
+<primary>関数</primary><secondary>サポート関数</secondary></indexterm></para>
+<sect1 id="DKSUG.Intro.div.2">
+<title>デスクトップKornShellでMotifアプリケーションを作成するには</title>
+<para>この節では、<command>dtksh</command>を使って、Motifアプリケーションを作成する方法<indexterm><primary>Motifアプリケーション</primary></indexterm><indexterm>
+<primary>>Motifアプリケーション</primary></indexterm>を説明します。
+<command>dtksh</command>をうまく使用するには、 Xlib、Xtイントリンシクス、Motifウィジェット、
+およびKornShellプログラミングの経験は必要です。Cプログラミング言語について知っていることも役に
+立ちます。これらを熟知していないときは、適切なドキュメントを参照して
+ください。これらのシステムを熟知している場合も、適切なマニュアル・ページに
+アクセスし、参照してください。</para>
+<para>システムには、以下のようなライブラリがあります。<indexterm><primary>必要なライブラリ</primary></indexterm><indexterm><primary>必要なライブラリ</primary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para><command>libDtHelp</command></para>
+</listitem><listitem><para><command>libDtSvc</command></para>
+</listitem><listitem><para><command>libX11</command></para>
+</listitem><listitem><para><command>libXm</command></para>
+</listitem><listitem><para><command>libXt</command></para>
+</listitem><listitem><para><command>libtt</command></para>
+</listitem></itemizedlist>
+<sect2 id="DKSUG.Intro.div.3">
+<title>リソース<indexterm><primary>リソース</primary></indexterm></title>
+<para>リソースはサイズ、位置、またはカラーなどの属性を定義するのに使用するウィジェット
+の変数です。通常、各ウィジェットがもつリソースは、自身のリソースにより高いレベル
+のウィジェットから引き継ぐリソースを加えたものです。Xtイントリンシクス
+およびMotifリソース名は接頭辞(<command>XtN</command>または<command>XmN</command>)の後にベース名が続く構成に
+成っています。
+ベース名の最初の文字は、<emphasis>常に</emphasis>小文字です。ベース名内の後続の単語の最初の文字は、
+<emphasis>常に</emphasis>大文字です。<command>dtksh</command>スクリプトのリソース名は、接頭辞を
+削除して、残ったベース名を使用します。
+例えば<command>XmNtopShadowColor</command>は<command>topShadowColor</command>になります。</para>
+<para>いくつかのXtおよびMotifコマンドは、シェル・スクリプトがリソースとそのiリソース値のペアを表す
+パラメータの変数を渡せます。<indexterm>
+<primary>パラメータの変数</primary>
+</indexterm>これは、引数のリストが、対応するXtまたはMotifのC言語の関数に渡される
+のに似ています。例えば、コマンドのいくつかを使用してウィジェットを作成し、
+<command>XtSetValues</command>コマンドを追加します。<command>dtksh</command>で、リソースは次の構文をもつ
+文字列で指定されます。</para>
+<programlisting>resource:<symbol role="Variable">value</symbol></programlisting>
+
+<para><symbol role="Variable">resource</symbol>はリソース名、<symbol role="Variable">value</symbol>はリソースに割り当てられた値です。
+<command>dtksh</command>は、適切な内部表現に<symbol role="Variable">value</symbol>文字列を自動的に変換します。例えば次のとおりです。
+</para>
+<programlisting>XtSetValues $WIDGET height:100 width:200 resizePolicy:RESIZE_ANY
+XmCreateLabel LABEL $PARENT myLabel labelString:&rdquo;Close Dialog&rdquo;
+</programlisting>
+<para><command><indexterm><primary>XtGetValues</primary></indexterm>XtGetValues</command>を使用してウィジェットのリソース値を検索するとき、戻り値は、環境変数にi置かれます。
+したがって、<command>dtksh</command>版の<command>XtGetValues</command>は、
+名前と値のペアではなく、名前と(環境)変数のペアを使用します(Xtイントリンシクスと異なります)。
+例えば、次のとおりです。
+</para>
+<programlisting>XtGetValues $WIDGET height:HEIGHT resizePolicy:POLICY
+             sensitive:SENSITIVE
+echo $HEIGHT
+echo $POLICY
+echo $SENSITIVE</programlisting>
+<para>前述の<command>dtksh</command>セグメントは、次のような出力を行います。
+</para>
+<programlisting>100
+RESIZE ANY
+TRUE</programlisting>
+<para>文字テーブルおよびビット・マスクを含むあるタイプのリソース値は、特別な表現に
+なります。例えば、リスト・ウィジェットは、文字テーブルに、<command>items</command>および
+<command>selectedItems</command>の両方を指定できます。<command>dtksh</command>で、文字テーブルは、カンマで区切られた文字列のリストで表現されます。これ
+は、Motifが文字テーブルを取り扱う方法と似ています。
+文字テーブルを返すリソースを<command>XtGetValues<indexterm><primary>XtGetValues</primary>
+</indexterm></command>で問い合わせたとき、
+その結果の値はカンマで区切られた文字列のセットになります。
+</para>
+<para>ビット・マスク値で渡されるリソースは、マスク値を|(バー)文字で区切られた様々な
+マスク値から成る文字列として指定します。ビット・マスクを返すリソースを問い合わせ
+たとき、戻り値は、|文字で区切られたビットを表現した文字列になります。例えば、
+<command>VendorShell</command>ウィジェット・クラスの<command><indexterm><primary>mwmFunctions</primary></indexterm><indexterm><primary>VendorShell</primary></indexterm>mwmFunctions</command>リソースを設定するには次のコマンドを使用します。</para>
+<programlisting>XtSetValues mwmFunctions: MWM_FUNC_ALL|MWM_FUNC_RESIZE</programlisting>
+</sect2>
+<sect2 id="DKSUG.Intro.div.4">
+<title>サポートしていないリソース<indexterm><primary>サポートしていないリソース</primary>
+</indexterm><indexterm><primary>リソース</primary><secondary>サポートしていないリソース</secondary></indexterm></title>
+<para><command>dtksh</command>は、ほとんどのMotifリソースをサポートしています。次のリストは、サポート
+していないリソースです。 *(アスタリスク)のついたリソースは、<command>XtSetValues</command>を使用して
+ウィジェットを作成できますが、 <command><indexterm><primary>XtGetValues</primary></indexterm>XtGetValues</command>を使用して検索すること
+はできません。</para>
+<itemizedlist remap="Bullet1"><listitem><para>すべてのウィジェットおよびガジェットのクラス:
+</para>
+<itemizedlist remap="Bullet2"><listitem><para>任意のfontlistリソース *</para>
+</listitem><listitem><para>任意のpixmapリソース *</para>
+</listitem></itemizedlist>
+</listitem><listitem><para>コンポジット:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>insertPosition</command></para>
+</listitem><listitem><para><command>children</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para>コア:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>accelerators</command></para>
+</listitem><listitem><para><command>translations</command> *</para>
+</listitem><listitem><para><command>colormap</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>XmText</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>selectionArray</command></para>
+</listitem><listitem><para><command>selectionArrayCount</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>アプリケーション・シェル</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>argv</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>WMShell</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>iconWindow</command></para>
+</listitem><listitem><para><command>windowGroup</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>シェル</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>createPopupChildrenProc</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>XmSelectionBox</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>textAccelerators</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>マネージャ</command>、<command>プリミティブ</command>、および<command>ガジェット</command>サブクラス:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>userData</command></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><command>XmFileSelectionBox</command>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><command>dirSearchProc</command></para>
+</listitem><listitem><para><command>fileSearchProc</command></para>
+</listitem><listitem><para><command>qualifySearchDataProc</command></para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="DKSUG.Intro.div.5">
+<title>dtksh app-defaultsファイル<indexterm><primary>app-defaultsファイル</primary>
+</indexterm></title>
+<para><command>dtksh</command>の<filename>app-defaults</filename>ファイルは、<command>Dtksh</command><indexterm><primary>Dtksh app-defaultsファイル</primary></indexterm>という名前で、次のパス表示を基づいた位置にあります。</para>
+<programlisting>/usr/dt/app-defaults/&lt;LANG></programlisting>
+<para>この<filename>app-defaults</filename>ファイルにある情報は、標準的な<command>Dt</command>ベースの<filename>app-defaults</filename>ファイルに
+含まれているもののみです。<command>dtksh</command>の<filename>app-defaults</filename>ファイルのリストは次のとおりです。</para>
+<programlisting>#include &ldquo;Dt&ldquo;</programlisting>
+<para><command>Dt</command>ファイルは、 <computeroutput>/usr/dt/app-defaults/&lt;LANG></computeroutput>にあり、次のようなリストで示されています。</para>
+<programlisting>*foregroundThreshold: 70
+!###
+!#
+!#  Help system specific resources
+!#
+!###
+
+!#
+!# Display Area Colors
+!#
+!#   These resources set the colors for the display area (where
+!#   actual help text is displayed). The resources are complex
+!#   because they have to override the standard color resources
+!#   in all cases.
+!#
+*XmDialogShell.DtHelpDialog*DisplayArea.background: White
+*XmDialogShell*XmDialogShell.DtHelpDialog*DisplayArea.background:
+White
+*XmDialogShell.DtHelpDialog*DisplayArea.foreground: Black
+*XmDialogShell*XmDialogShell.DtHelpDialog*DisplayArea.foreground:
+Black
+
+!#
+!# Menu Accelerators
+!#
+!#   The following resources establish keyboard accelerators
+!#   for the most frequently accessed menu commands.
+!#
+
+*DtHelpDialogWidget*searchMenu.keyword.acceleratorText: Ctrl+I
+*DtHelpDialogWidget*searchMenu.keyword.accelerator: Ctrl&lt;Key>i
+*DtHelpDialogWidget*navigateMenu.backTrack.acceleratorText: Ctrl+B
+*DtHelpDialogWidget*navigateMenu.backTrack.accelerator: Ctrl&lt;Key>b
+*DtHelpDialogWidget*navigateMenu.homeTopic.acceleratorText: Ctrl+H
+*DtHelpDialogWidget*navigateMenu.homeTopic.accelerator: Ctrl&lt;Key>h
+*DtHelpDialogWidget*fileMenu.close.acceleratorText:   Alt+F4
+*DtHelpDialogWidget*fileMenu.close.accelerator: Alt&lt;Key>f4</programlisting>
+</sect2>
+<sect2 id="DKSUG.Intro.div.6">
+<title>変数の値<indexterm><primary>変数の値</primary></indexterm></title>
+<para>この節は、<command>dtksh</command><filename>app-defaults</filename>ファイルの変数の値の型について説明します。</para>
+<sect3 id="DKSUG.Intro.div.7">
+<title>定義値<indexterm><primary>定義値</primary></indexterm></title>
+<para>X、XtおよびMotifに対するインタフェースのCバインディングは、文字列ではない値
+(ヘッダ・ファイルで定義されている)を多く含んでいます。このような値の一般的な形式
+は、 <command>Xt</command>または<command>Xm</command>接頭辞の後に、説明的な名前が続く形式に
+なっています。例えば、フォーム・ウィジェットの子の制約値の1つに<filename>XmATTACH_FORM</filename>が
+あります。接頭辞を取り去ることによって、Motifデフォルト・ファイルで指定するのと
+同等の値を、<command>dtksh</command>に指定できます。</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>XmDIALOG_COMMAND_TEXT</filename>
+は、<filename>DIALOG_COMMAND_TEXT</filename>になります。</para>
+</listitem><listitem><para><filename>XtATTACH_FORM</filename>
+は、<filename>ATTACH_FORM</filename>になります。</para>
+</listitem></itemizedlist>
+</sect3>
+<sect3 id="DKSUG.Intro.div.8">
+<title>ブール値<indexterm><primary>ブール値</primary></indexterm></title>
+<para><command>dtksh</command>コマンドのパラメータとしてTrueまたはFalseを使用してブール値を指定できます。
+大文字、小文字は関係ありません。
+結果は、trueまたはfalse(すべて小文字が使用されます。)のいずれかが返されます。
+</para>
+</sect3>
+</sect2>
+<sect2 id="DKSUG.Intro.div.9">
+<title>戻り値<indexterm><primary>戻り値</primary></indexterm></title>
+<para><command>dtksh</command>のグラフィカル・コマンドは、対応するC関数の定義に基づいて、4つのカテゴリの
+１つに分類されています。</para>
+<orderedlist><listitem><para>関数はvoidで、値を返しません。
+例:<filename>XtMapWidget()</filename></para>
+</listitem><listitem><para>関数はvoidですが、関連するパラメータを通して1つ以上の値を返します。
+例:<filename>XmGetColors()</filename></para>
+</listitem><listitem><para>関数はブール値以外の値を返します。
+例:<filename>XtCreateManagedWidget()</filename></para>
+</listitem><listitem><para>関数はブール値を返します。
+例: <filename>XtIsSensitive()</filename></para>
+</listitem></orderedlist>
+<sect3 id="DKSUG.Intro.div.10">
+<title>カテゴリ1<indexterm><primary>戻り値</primary><secondary>カテゴリ1</secondary></indexterm></title>
+<para><command>dtksh</command><indexterm><primary>カテゴリ1</primary>
+</indexterm>のカテゴリ1のコマンドは、対応するC関数の呼び出しシーケンスに従います。パラメータの
+数や順序は、関数の標準的なマニュアルを参照して決定してください。
+例:</para>
+<programlisting>XtMapWidget $FORM
+</programlisting>
+</sect3>
+<sect3 id="DKSUG.Intro.div.11">
+<title>カテゴリ2<indexterm><primary>戻り値</primary><secondary>カテゴリ2</secondary></indexterm></title>
+<para><command>dtksh</command><indexterm><primary>カテゴリ2</primary></indexterm>のカテゴリ2のコマンドもまた、通常、対応するC関数の呼び出しシーケンスに従います。値を返す
+ポインタを渡すかわりに環境変数で値を返します。
+例:</para>
+<programlisting>XmGetColors $FORM $BG FOREGROUND TOPSHADOW BOTTOMSHADOW SELECT
+echo &ldquo;Foreground color = &ldquo; $FOREGROUND</programlisting>
+</sect3>
+<sect3 id="DKSUG.Intro.div.12">
+<title>カテゴリ3<indexterm><primary>戻り値</primary><secondary>カテゴリ3</secondary></indexterm></title>
+<para><command>dtksh</command><indexterm><primary>カテゴリ3</primary>
+</indexterm>のコマカテゴリ3のコマンドは、対応するC関数とは少し異なります。C関数は、プロシージャ
+呼び出しの値としてその値を返しますが、<command>dtksh</command>コマンドはパラメータの追加を要求
+します。このパラメータは、戻り値が置かれる環境変数の名前です。常に最初のパラメータ
+になります。
+例:</para>
+<programlisting>XmTextGetString TEXT_VALUE $TEXT_WIDGET
+echo &ldquo;The value of the text field is &ldquo;$TEXT_VALUE</programlisting>
+</sect3>
+<sect3 id="DKSUG.Intro.div.13">
+<title>カテゴリ4<indexterm><primary>戻り値</primary><secondary>カテゴリ4
+</secondary></indexterm></title>
+<para><command>dtksh</command><indexterm><primary>カテゴリ4</primary>
+</indexterm>のカテゴリ4のコマンドは、C関数と同様の条件式で使用できる値を返します。
+C関数が関連する値を通して(カテゴリ2と同様です)戻り値を返すと、 <command>dtksh</command>コマンド、対応
+するパラメータの変数名を使用します。
+例:</para>
+<programlisting>if XmIsTraversable $PUSH_BUTTON; then
+echo &ldquo;The pushbutton is traversable&rdquo;
+else
+echo &ldquo;The pushbutton is not traversable&rdquo;
+fi</programlisting>
+<para>一般に、カテゴリ3コマンドで記述したものを除いて、コマンドに渡されるパラメータの
+順番や型は、対応するC関数に渡されるものと一致します。</para>
+</sect3>
+</sect2>
+<sect2 id="DKSUG.Intro.div.14">
+<title>直接戻り値<indexterm><primary>戻り値</primary><secondary>直接戻り値</secondary></indexterm><indexterm><primary>直接戻り値</primary></indexterm></title>
+<para>多くの<indexterm><primary>カテゴリ3</primary></indexterm>カテゴリ3のコマンドは、コマンドの最初のパラメータで指定した環境変数を
+使って、1つの値を返します(これらの特別なコマンドの最初のパラメータの名前は
+<symbol role="Variable">variable</symbol>です)。この戻り値が、直接、式で使用されるときは、特別な環境変数
+ldquor;-&ldquor;を変数名の代わりに使用することがあります。戻り値が返される
+環境変数の名前が&ldquor;-&ldquor;であるとき、<command>dtksh</command>は、コマンドの値と
+して結果を返します。これにより、シェル・スクリプトはコマンド呼び出しを別の
+コマンド呼び出しに含めることができます。この機能は、1つの値を返すコマンドに
+のみ働き、その値は最初のパラメータに返されます。
+例:</para>
+<programlisting>XtDisplay DISPLAY $FORM
+XSync $DISPLAY true</programlisting>
+<para>上記は、次のように、同等の状態に置き換えることができます。</para>
+<programlisting>XSync $(XtDisplay &ldquo;-&ldquo; $FORM) true</programlisting>
+<para><filename>$DISPLAY</filename>のリファレンスには、<command>XtDisplay</command>が返す値に置き換えられます。</para>
+<para>これは、ウィジェットを作成するコマンド、複数の値を返すコマンド、最初のパラメータ
+が名前のない変数であるコマンドを除くすべてのカテゴリ3のコマンドで有効です。
+環境変数名として&ldquor;-&ldquor;を受け入れないコマンドを以下に示します。</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>XtInitialize()</filename></para>
+</listitem><listitem><para><filename>XtCreateApplicationShell()</filename></para>
+</listitem><listitem><para><filename>XtCreatePopupShell()</filename></para>
+</listitem><listitem><para><filename>XtCreateManagedWidget()</filename></para>
+</listitem><listitem><para><filename>XtCreateWidget()</filename></para>
+</listitem><listitem><para>次の形式のすべてのコマンド:</para>
+<programlisting>XmCreate...()</programlisting>
+</listitem><listitem><para>次の形式のほとんどのコマンド:</para>
+<programlisting>tt_...()</programlisting>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="DKSUG.Intro.div.15">
+<title>Xtイントリンシクスの初期化<indexterm><primary>Xtイントリンシクス</primary>
+<secondary>初期化</secondary></indexterm><indexterm><primary>Xtイントリンシクスの初期化</primary></indexterm></title>
+<para><command>dtksh</command>スクリプトは、Xlib、Xt、Motifまたは<command>libDt</command>コマンドを
+呼び出す前に、Xtイントリンシクスを初期化しなければなりません。
+Xtイントリンシクスの初期化は、<command><indexterm><primary>XtInitialize</primary></indexterm>XtInitialize</command>コマンドで行います。このコマンドは、
+アプリケーション・シェル・ウィジェットを返します。ウィジェットIDを返す
+<command>dtksh</command>のコマンドのすべてがそうであるように、<command>XtInitialize</command>コマンドは、最初の引き数である
+環境変数にウィジェットIDを返します。例えば、次のコマンドを実行します。</para>
+<programlisting>XtInitialize TOPLEVEL myShellName Dtksh $0 &ldquo;$@&rdquo;
+</programlisting>
+<para>環境変数<command>TOPLEVEL</command>にウィジェットIDが返されます。</para>
+<para><command>dtksh</command>はデフォルトの<filename>app-defaults</filename>ファイルを提供します。このファイルは、
+<command>XtInitialize</command>を呼び出しに、<command>Dtksh</command>ファイルを指定したとき、使用されます。
+<filename>app-defaults</filename>ファイルは<command>Dt</command>アプリケーションのデフォルト値の標準セットを
+含んでいます。そのため、<command>dtksh</command>アプリケーションは、他の<command>Dt</command>アプリケーションとの
+外見と調和します。</para>
+<sect2 id="DKSUG.Intro.div.16">
+<title>ウィジェットの作成<indexterm><primary>ウィジェット</primary><secondary>作成</secondary></indexterm><indexterm><primary>ウィジェットの作成</primary></indexterm></title>
+<para>ウィジェットを作成するのに使用できるコマンドを以下に示します。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="235*">
+<colspec align="left" colwidth="221*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>XtCreateWidget</command><indexterm>
+<primary>XtCreateWidget</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>管理されないウィジェットを作成します。</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>XtCreateManagedWidget</command><indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>管理されるウィジェットを作成します。</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>XtCreateApplicationShell</command><indexterm>
+<primary>XtCreateApplicationShell</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>アプリケーション・シェルを作成します。</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>XtCreatePopupShell</command><indexterm>
+<primary>XtCreatePopupShell</primary></indexterm></para></entry>
+<entry align="left" valign="top"><para>ポップアップ・シェルを作成します。</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>XmCreate</command>&lt; <emphasis>widgettypes</emphasis>></para></entry>
+<entry align="left" valign="top"><para>管理されないウィジェットを作成します。</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>これらのコマンドのそれぞれに、従わなければならない特別な形式をがあります。
+例えば、トップレベル・ウィジェットの子として、管理されないプッシュ・ボタンを
+作成したいとします。<command>XtCreateWidget</command>または<command>XmCreatePushButton</command>のどちらかを使用して
+作成できます。これらのコマンドの形式は次のとおりです。</para>
+<itemizedlist remap="Bullet1"><listitem><para><computeroutput>XtCreateWidget</computeroutput> <emphasis>variable name widgetclass $parent [resource:value
+...]</emphasis><indexterm><primary>XtCreateWidget</primary></indexterm></para>
+</listitem><listitem><para><computeroutput>XmCreatePushButton</computeroutput> <emphasis>variable $parent name [resource:value ...]</emphasis><indexterm><primary>XmCreatePushButton</primary></indexterm></para>
+</listitem></itemizedlist>
+<para>プッシュ・ボタン・ウィジェットを作成する実際のコマンドは次のとおりです。</para>
+<programlisting>XtCreateWidget BUTTON button XmPushButton $TOPLEVEL
+XmCreatePushButton BUTTON $TOPLEVEL button</programlisting>
+<para>上記のそれぞれのコマンドは、同じ動作で管理されないプッシュ・ボタンを作成します。
+リソース値は設定されていません。プッシュ・ボタンのバック・グラウンドのカラーを
+赤、フォア・グラウンドのカラーを黒にしたいとします。リソース値のは次の方法で
+設定します。</para>
+<programlisting>XtCreateWidget BUTTON button XmPushButton $TOPLEVEL \
+background:Red \
+foreground:Black
+XmCreatePushButton BUTTON $TOPLEVEL button\
+background:Red \
+foreground:Black</programlisting>
+<para>ウィジェットを作成するすべてのC関数は、<indexterm><primary>ウィジェット</primary><secondary>操作</secondary></indexterm><indexterm><primary>操作</primary></indexterm>ウィジェットIDまたはIDを返します。対応する
+<command>dtksh</command>コマンドは、ウィジェットIDと同じ環境変数を設定します。
+これらはカテゴリ3のコマンドのため、最初の引き数はウィジェットIDを返す環境変数
+の名前です。ウィジェットIDは、<command>dtksh</command>を使用して実際のウィジェット
+・ポインタにアクセスするためのASCII文字列です。次のコマンドの両方で、新規
+フォーム・ウィジェットを作成できます。どちらの場合でも、新規フォーム・ウィジェット
+のウィジェットIDが環境変数<command>FORM</command>に返されます。</para>
+<itemizedlist remap="Bullet1"><listitem><para><command>XtCreateManagedWidget
+FORM name XmForm $PARENT</command><indexterm><primary>XtCreateManagedWidget</primary></indexterm></para>
+</listitem><listitem><para><command>XmCreateForm FORM $PARENT name</command><indexterm>
+<primary>XmCreateForm</primary></indexterm></para>
+</listitem></itemizedlist>
+<para>これらのコマンドのどちらかを実行後、<filename>$FORM</filename>を使用して新規
+フォーム・ウィジェットを参照できます。例えば、次のコマンドで、新規
+フォーム・ウィジェット内にラベル・ウィジェットを作成できます。</para>
+<programlisting>XmCreateLabel LABEL $FORM name\
+labelString:&rdquo;Hi Mom&rdquo; \
+CH_FORM \
+leftAttachment:ATTACH_FORM<indexterm><primary>XmCreateLabel</primary></indexterm></programlisting>
+<note>
+<para>NULLウィジェットを指定する必要がある場合に使用する、NULLと呼ばれる特別なウィジェットIDがあります。します。例えば、フォーム・ウィジェット
+のリソース<command>defaultButton</command>を無効にするには、次のコマンドを使用
+します。
+<command>XtSetValues</command><command> $FORM defaultButton:NULL</command></para>
+</note>
+</sect2>
+</sect1>
+<sect1 id="DKSUG.Intro.div.17">
+<title>コールバックの使用<indexterm><primary>コールバック</primary></indexterm></title>
+<para>コールバックは、１つのイベントまたは複数のイベントの組合せが生じたときに実行する
+プッシュ・ボタン関数またはプロシージャです。例えば、コールバックは、プッシュ・
+ボタンを&ldquor;押した&rdquor;ときに、期待する結果をだすために使用します。
+<command>dtksh</command>シェル・スクリプトで、特定のコールバックがウィジェットに呼び出されるためのコマンドを割り当てるのは容易です。
+そのコマンドは、ブロックされたコマンドの文字列または呼び出すシェル関数の名前で
+あり、単純なものです。</para>
+<sect2 id="DKSUG.Intro.div.18">
+<title>コールバックの登録<indexterm><primary>コールバック</primary><secondary>登録</secondary></indexterm><indexterm><primary>コールバックの登録</primary>
+</indexterm></title>
+<para>アプリケーションは、関連のある状態を指定するウィジェット、その状態になった
+ときに生じるアクションを指定するウィジェットでコールバックを登録します。
+コールバックは、<command><indexterm<primary>XtAddCallback</primary></indexterm>XtAddCallback</command>を使用して登録します。
+アクションは任意の有効な<command>dtksh</command>コマンドになります。例えば次のとおりです。</para>
+<programlisting>XtAddCallback $WIDGET activateCallback &ldquo;ActivateProc&rdquo;
+
+XtAddCallback $WIDGET activateCallback \
+              &ldquo;XtSetSensitive $BUTTON false&rdquo;
+</programlisting>
+</sect2>
+<sect2 id="DKSUG.Intro.div.19">
+<title>コールバックにデータを渡す<indexterm><primary>コールバック</primary><secondary>コールバックにデータを渡す</secondary></indexterm></title>
+<para>コールバックには、コンテキスト情報を渡す必要があります。コンテキスト情報は、呼び出しまでの条件
+を決定します。Cプロシージャの場合、この情報は、一般的には <command>callData</command>構造体に渡さ
+れます。例えば、<command>valueChangedCallback</command>を呼び出すスケール・ウィジェットは次の構造体を<command>callData</command>に渡します。</para>
+<programlisting>typedef struct {
+ int reason;
+ XEvent event;
+ int value;
+}XmScaleCallbackStruct;</programlisting>
+<para>Cアプリケーションのコールバックは次のようになります。</para>
+<programlisting>if (scaleCallData->reason == XmCR_VALUE_CHANGED)
+{
+  eventType = scaleCallData->event->type;
+  display = scaleCallData->event->xany.display;
+}</programlisting>
+
+<para>同様に、コールバックが<command>dtksh</command>で呼び出されたとき、コールバック・コマンドが実行される前に次の
+環境変数が設定されます。</para>
+<programlisting>CB_WIDGET</programlisting>
+<para>これは、コールバックを呼び出しているウィジェットのウィジェットIDに設定されます。</para>
+<programlisting>CB_CALL_DATA</programlisting>
+<para>これは、コールバックに対してウィジュットによって渡される<command>callData</command>構造体のアドレスに設定さ
+れます。</para>
+<para><filename><indexterm><primary>CB_CALL_DATA</primary></indexterm>CB_CALL_DATA</filename>環境変数は構造体へのポインタのを表しており、そのフィールドへの
+アクセスには、Cのアクセスと同様の構文を使用します。
+入れ子式の環境変数が定義され、その構造体のフィールドと同様に名前(すべて大文字
+です)がつけられます。構造体の要素の内容を示すのには、ドットが使用されます。
+したがって、スケール・ウィジェットが提供する<command>callData</command>にアクセス
+する上記のCコードは、次のように翻訳されます。</para>
+<programlisting>if [ ${CB_CALL_DATA.REASON} = &ldquo;CR_VALUE_CHANGED&rdquo; ]; then
+ eventType=${CB_CALL_DATA.EVENT.TYPE}
+ display=${CB_CALL_DATA.EVENT.XANY.DISPLAY}
+fi</programlisting>
+<para>同じことが、<command>callData</command>構造体内のイベント構造体にもいえます。</para>
+<para>ほとんどのコールバック構造体に対して、シェルスクリプトは、特定のコールバック
+構造体に定義されている任意のフィールドを、先に説明した技法を使用して参照する
+ことができます。ほとんどの場合、シェル・スクリプトは、これらの構造体内のフィールド
+の値を変更できません。この例外は、<command>XmTextVerifyCallbackStruct</command>です。これは、テキスト
+ウィジェットの<command>losingFocusCallback</command>、<command>modifyVerifyCallback</command>、および<command>motionVerifyCallback</command>
+で有効です。
+<command>dtksh</command>は、Motifによってサポートされている範囲で、この構造体内のフィールドを変更を
+サポートしています。コールバック構造体の次のフィールドは、変更可能です。</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>CB_CALL_DATA.DOIT</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.STARTPOS</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.PTR</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.LENGTH</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.FORMAT</filename></para>
+</listitem></itemizedlist>
+<para>上記のフィールドは次のように変更できます。</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>CB_CALL_DATA.DOIT=&rdquo;false&rdquo;</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.PTR=&rdquo;*&rdquo;</filename></para>
+</listitem><listitem><para><filename>CB_CALL_DATA.TEXT.LENGTH=1</filename></para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000033871>

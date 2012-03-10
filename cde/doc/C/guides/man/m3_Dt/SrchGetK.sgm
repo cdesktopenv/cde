@@ -1,0 +1,80 @@
+<!-- $XConsortium: dtsrgkey.sgm 1996 -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.SEARCH.DtSearchGetKeytypes">]]>
+<refmeta>
+<refentrytitle>
+DtSearchGetKeytypes
+</refentrytitle>
+<manvolnum>library call</manvolnum>
+</refmeta>
+<refnamediv>
+<refname><function>DtSearchGetKeytypes</function></refname>
+<refpurpose>Access the Keytypes array for a DtSearch database</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Dt/Search.h></FuncSynopsisInfo>
+<FuncDef>int <Function>DtSearchGetKeytypes</Function></FuncDef>
+<ParamDef>char <Parameter>*dbname</Parameter></ParamDef>
+<ParamDef>int <Parameter>*ktcount</Parameter></ParamDef>
+<ParamDef>DtSrKeytype <Parameter>**keytypes</Parameter></ParamDef>
+</FuncSynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtSearchGetKeytypes</function> function returns a pointer
+to the keytypes array of the specified database. The caller may modify
+the <symbol role="Variable">is_selected</symbol> member of any
+DtSrKeytype but should not alter any other member values.
+</para>
+<para>This function may be called anytime after <function>DtSearchInit</function>.</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">dbname</symbol></term>
+<listitem>
+<para>Specifies for which database the keytypes are requested. It is any one
+of the database name strings from the array returned from
+<function>DtSearchInit</function> or
+<function>DtSearchReinit</function>. If <symbol role="Variable">dbname</symbol>
+is NULL, the first database name string
+in the array is used.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">ktcount</symbol></term>
+<listitem>
+<para>Specifies the address of the integer where the keytypes array size will be stored.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">keytypes</symbol></term>
+<listitem>
+<para>Specifies the address where pointer to keytypes array will be stored.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>Returns <systemitem class="constant">DtSrOK</systemitem> and keytypes
+pointer and size.
+</para>
+<para>Any API function can also return <systemitem class="constant">DtSrREINIT</systemitem> or the return codes for fatal
+engine errors, as well as messages on the MessageList, at any time.
+</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.dtsrcreate;,
+&cdeman.DtSearchQuery;,
+&cdeman.DtSrAPI;,
+&cdeman.DtSearch;
+</para>
+</refsect1>
+</refentry>

@@ -1,0 +1,322 @@
+<!-- $XConsortium: appa.sgm /main/8 1996/08/25 15:11:35 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<appendix id="IPG.msgs.div.1">
+<title id="IPG.msgs.mkr.1">メッセージ・ガイドライン</title>
+<para>この付録の情報を参照して、簡単に国際化できるメッセージを作成してください。</para>
+<informaltable id="IPG.msgs.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Refer to the information in this
+appendix to write messages that are easily internationlized.127'--><xref
+role="JumpText" linkend="IPG.msgs.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Cause and Recovery Information128'--><xref
+role="JumpText" linkend="IPG.msgs.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Comment Lines for Translators128'--><xref
+role="JumpText" linkend="IPG.msgs.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Writing Style129'--><xref role="JumpText"
+linkend="IPG.msgs.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Usage Statements131'--><xref role="JumpText"
+linkend="IPG.msgs.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Regular Expression Standard Messages134'--><xref
+role="JumpText" linkend="IPG.msgs.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Sample Messages135'--><xref role="JumpText"
+linkend="IPG.msgs.mkr.8"></para></entry></row></tbody></tgroup>
+</informaltable>
+<para id="IPG.msgs.mkr.2"></para>
+<sect1 id="IPG.msgs.div.2">
+<title>ファイル命名<indexterm><primary>ファイル、命名規約</primary></indexterm> 規約</title>
+<para>この節では、ユーザ・メッセージのファイルに名前を付ける際の規約<indexterm><primary>メッセージ</primary><secondary>メッセージのファイル命名規約</secondary></indexterm> について説明します。通常、メッセージ・ソース・ファイルには接尾辞<computeroutput>.msg</computeroutput>が付き、生成されるメッセージ・カタログには接尾辞<computeroutput>.cat</computeroutput>が付きます。その他にもメッセージ関連のファイルが存在する場合があります。ファイルがこれらの接尾辞をもつためには、次の条件を満たしている必要があります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>X/Open準拠である。</para>
+</listitem><listitem><para><computeroutput>gencat</computeroutput>コマンドを使用して<computeroutput>*.cat</computeroutput>ファイルになる。</para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.msgs.div.3">
+<title id="IPG.msgs.mkr.3">原因と回復<indexterm><primary>メッセージ</primary><secondary>メッセージにおける原因と回復情報</secondary></indexterm> 情報</title>
+<para>何が起こったのか、また、その状況を修復するために何ができるかを、可能な限りユーザに正確に説明します。</para>
+<para><command>Bad arg</command>というメッセージはあまり役に立ちませんが、次のメッセージなら、コマンドを機能させるためには何をすればよいかを正確にユーザに伝えることができます。</para>
+<programlisting>Do not specify more than 2 files on the command line</programlisting>
+<para>同様に、<command>Line too long</command>というメッセージはユーザに回復情報を伝えていませんが、次のメッセージなら、もっと明確な回復情報をユーザに提供することができます。</para>
+<programlisting>Line cannot exceed 20 characters</programlisting>
+<para>提供されているエラー・メッセージにもっと詳しい回復情報が必要な場合は、オンライン情報やヘルプの適切な場所に追加してください。</para>
+<para>元のメッセージと書き直したメッセージの例については、<!--Original XRef content: '&xd2;Sample Messages&xd3; on page&numsp;135'--><xref
+role="SecTitleAndPageNum" linkend="IPG.msgs.mkr.8">を参照してください。</para>
+</sect1>
+<sect1 id="IPG.msgs.div.4">
+<title id="IPG.msgs.mkr.4">翻訳者のためのコメント行</title>
+<para>メッセージ<indexterm><primary>メッセージ</primary><secondary>メッセージにおける翻訳者のためのコメント行</secondary></indexterm> ソース・ファイルには、翻訳の過程で翻訳者に役立つコメントをいれておきます。これらのコメントは生成されるメッセージ・カタログの一部分ではありません。コメントはC言語でのプログラムのドキュメント化の助けとなるコメントに似ています。ドル記号のあとに空白がひとつ続くと、翻訳ツールと<computeroutput>gencat</computeroutput>により、コメントとして解釈されます。次にメッセージ・ソース・ファイルのコメント行の例を示します。</para>
+<programlisting>$ This is a comment</programlisting>
+<para>コメント行を使用して、翻訳者や作成者に<emphasis>%s</emphasis>、<emphasis>%c</emphasis>、<emphasis>%d</emphasis>などの変数が何を表すかを伝えます。たとえば、その変数が、ユーザ、ファイル、ディレクトリ、フラグなどを参照するかどうかを注意書きします。</para>
+<para>コメント行はメッセージ・カタログの最後ではなく、コメントが参照するメッセージのすぐ下に置いてください。セット全体に関する包括的なコメントは、ソース・ファイル内の$set指示子のすぐ下に置きます。</para>
+<para>メッセージ・カタログ内の使用しなくなったメッセージはコメント行に指定してください。</para>
+</sect1>
+<sect1 id="IPG.msgs.div.5">
+<title>プログラミング書式<indexterm><primary>メッセージ</primary><secondary>メッセージのプログラミング書式</secondary></indexterm></title>
+<para>メッセージのプログラミング書式については、次のリストを参照してください。</para>
+<itemizedlist remap="Bullet1"><listitem><para>メッセージを文節単位で構成しないでください。適切な時に完全なメッセージが出されるように、プログラム内でフラグその他の手段を使用して情報を渡してください。 </para>
+</listitem><listitem><para>既存のメッセージの<emphasis>%s</emphasis>文字列の変数として、ハードコードされた英語のテキストを使用しないでください。これはメッセージの構文でもあり翻訳できません。</para>
+</listitem><listitem><para>文の最初の語は大文字にして、文や句の最後にはピリオドを使用してください。</para>
+</listitem><listitem><para>メッセージの最後の行を\n（バックスラッシュと小文字のn。改行を表わします）で終わらせてください。これは、メッセージが1行の場合にもあてはまります。</para>
+</listitem><listitem><para>メッセージの2行目以降の行は<computeroutput>\t</computeroutput>（バックスラッシュと小文字のt。タブを表わします）で始めてください。</para>
+</listitem><listitem><para>その他の行はすべて<computeroutput>\n\</computeroutput>（バックスラッシュ、小文字のn、バックスラッシュ。改行を表わします）で終わらせてください。</para>
+</listitem><listitem><para>何らかの理由でメッセージが改行で終わらない場合は、作成者にコメントでその旨を知らせておきます。</para>
+</listitem><listitem><para>各メッセージの前に、そのメッセージを呼び出したコマンド名とコロンを付けます。エラー・メッセージの場合はコマンド名の前にコンポーネント番号を付けます。コマンド名がメッセージ内にある場合は、次の例のように表示されます。</para>
+<programlisting>>OPIE &ldquo;foo: Opening the file.&rdquo;
+</programlisting>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.msgs.div.6">
+<title id="IPG.msgs.mkr.5">記述スタイル</title>
+<para>次の記述スタイルについてのガイドラインには、用語、句読法、叙法、態、時制、大文字使用、その他の語法に関する項目が含まれています。<indexterm><primary>メッセージ</primary><secondary>メッセージの記述スタイル</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>文形式を使用します。1行1文のメッセージが望ましいです。</para>
+</listitem><listitem><para>あいまいさをなくす必要がある場合は、冠詞（<emphasis>a</emphasis>、<emphasis>an</emphasis>、<emphasis>the</emphasis>）を付けます。</para>
+</listitem><listitem><para>文の最初の文字は大文字にし、文の最後にはピリオドを使用します。</para>
+</listitem><listitem><para>現在形を使用します。メッセージに未来形を使用しないでください。たとえば、次のような文を使用し、</para>
+<para remap="CodeIndent1"><computeroutput>The foo command displays a calendar.</computeroutput></para>
+<para>次のような文は使用しないでください。</para>
+<para remap="CodeIndent1"><computeroutput>The foo command will display a calendar.</computeroutput></para>
+</listitem><listitem><para>メッセージに一人称（<emphasis>I</emphasis>または<emphasis>we</emphasis>）を使用しないでください。</para>
+</listitem><listitem><para>二人称の使用を避けてください。</para>
+<para>ヘルプおよび対話型テキスト以外では、<emphasis>you</emphasis>という語は使用しないでください。</para>
+</listitem><listitem><para>能動態を使用します。次の例の1行目は元のメッセージ、2行目はより望ましい表現です。</para>
+<para remap="CodeIndent1"><computeroutput>MYNUM &ldquo;Month and year must
+be entered as numbers.&rdquo;MYNUM &ldquo;foo: 7777-222 Enter month and year
+as numbers.\n&rdquo;</computeroutput></para>
+<para>7777-222はメッセージIDです。</para>
+</listitem><listitem><para>命令法（コマンド句）と能動態の動詞を使用します。たとえば、<emphasis>specify</emphasis>、<emphasis>use</emphasis>、<emphasis>check</emphasis>、<emphasis>choose</emphasis>、<emphasis>wait</emphasis>
+などです。</para>
+</listitem><listitem><para>メッセージは肯定的な表現にします。次の例の1行目は元のメッセージ、2行目はより望ましい表現です。</para>
+<para remap="CodeIndent1"><computeroutput>BADL &ldquo;Don't use the f option
+more than once.&rdquo;BADL &ldquo;foo: 7777-009 Use the -f flag only once.\n&rdquo;</computeroutput></para>
+</listitem><listitem><para>名詞を動詞として使用しないでください。辞書に示されている文法の範疇内で語を使用します。ある語が辞書に名詞としてしか示されていない場合に、それを動詞として使用しないでください。たとえば、<emphasis>solution</emphasis> a problem（または、<emphasis>architect</emphasis> a system）のようには使用しないでください。
+</para>
+</listitem><listitem><para>接頭辞や接尾辞を使用しないでください。翻訳者が、<emphasis>re-</emphasis>、<emphasis>un-</emphasis>、<emphasis>in-</emphasis>、<emphasis>non-</emphasis>で始まる語を理解できない可能性があり、接頭辞や接尾辞を使用しているメッセージは翻訳されると意図した意味をもたなくなるかもしれません。しかし、接頭辞が一般的に使用されている語の一部分に完全になっている場合は例外です。<emphasis>previous</emphasis>や<emphasis>premature</emphasis>は使用できます。 <emphasis>nonexistent,</emphasis>は使用できません。</para>
+</listitem><listitem><para>複数形は使用しないでください。<emphasis>error(s)</emphasis>のように括弧を使って単数形と複数形を示す表現はしないでください。これは翻訳することができません。単数形と複数形を示す必要がある場合は、<emphasis>error or errors</emphasis>と記述してください。単数形か複数形かどちらが要求されてるのかによって2つの異なったメッセージが出されるようにコードを作成するのがよりよい方法です。</para>
+</listitem><listitem><para>短縮形を使用しないでください。何かシステムにできないことを示すには、<emphasis>cannot</emphasis>という語を使用してください。 </para>
+</listitem><listitem><para>引用符を使用しないでください。単一引用符も二重引用符も同様です。たとえば、<emphasis>%s</emphasis>、<emphasis>%c</emphasis>、<emphasis>%d</emphasis>などの変数や、コマンドに引用符を使用しないでください。ユーザが引用符を文字通りに入力するものと受け取る可能性があります。</para>
+</listitem><listitem><para>行の終わりで語をハイフンで結ばないでください。</para>
+</listitem><listitem><para>標準的な強調表示の方法を使用しないでください。また、その他の強調表示の方法の代わりに単語の先頭あるいはすべての文字を大文字にしたりしないでください。</para>
+</listitem><listitem><para><emphasis>and/or</emphasis>を使用しないでください。この構文は他言語では存在しません。通常、必ずしも両方を必要とはしない場合は、<emphasis>or</emphasis>を使用するのが適当です。</para>
+</listitem><listitem><para>24時間制を使用してください。<emphasis>a.m.</emphasis>や<emphasis>p.m.</emphasis>を使って時間を指定しないでください。たとえば、<emphasis>1:00 p.m.</emphasis>は<emphasis>13:00</emphasis>と記述します。</para>
+</listitem><listitem><para>頭文字による略記は避けてください。頭文字による略記は、略記の方が略さずに書いたものよりよく知られている場合のみ使用してください。略記を複数形にする場合は、小文字の<symbol role="Variable">s</symbol>をアポストロフィなしで付けます。使用する前にそれが商標でないことを確認してください。</para>
+</listitem><listitem><para>一般向けではない用語は避けてください。たとえば、<emphasis>abort</emphasis>、<emphasis>argument</emphasis>、<emphasis>execute</emphasis>などです。プロジェクト用語集を参照してください。</para>
+</listitem><listitem><para>意味のある用語を維持してください。メッセージが意味をなし、翻訳可能であるようにする一方、元のメッセージ・テキストをできる限り保ってください。</para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.msgs.div.7">
+<title id="IPG.msgs.mkr.6">使用方法の説明文</title>
+<para><indexterm><primary>メッセージ</primary><secondary>メッセージにおける使用方法の説明文</secondary></indexterm> 使用方法の説明文は、コマンド行に有効でないフラグが少なくともひとつ含まれている場合に、コマンドによって生成されます。フラグに関連付けられたデータがない場合や正しくない場合には、使用方法の説明文は使用してはなりません。そのような場合には、その問題に固有のエラー・メッセージが使用されます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>使用方法の説明文にはコマンド・シンタクスを示します。たとえば、<computeroutput>del</computeroutput>コマンドの使用方法の説明文は次のようなものです。</para>
+<para remap="CodeIndent1"><computeroutput>Usage: del {File ...|-}</computeroutput></para>
+</listitem><listitem><para>コマンドの目的を定義する節は削除してください。</para>
+</listitem><listitem><para>使用方法の説明文で使用する場合のみ、<emphasis>File、Directory、String、Number</emphasis>などの語（パラメータ）の最初の文字を大文字にします。</para>
+</listitem><listitem><para>コマンド行でパラメータを省略形にしないでください。経験のあるユーザにとっては<emphasis>Num</emphasis>が<emphasis>Number</emphasis>を意味することは明らかですが、正しく翻訳されるように省略せずに記述してください。</para>
+</listitem><listitem><para><indexterm><primary>使用方法の説明文、区切り文字</primary></indexterm> 使用方法の説明文では、区切り文字は次のものだけを使用してください。</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="356*">
+<thead>
+<row><entry><para>区切り文字</para></entry>
+<entry><para>説明</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry><para>[]</para></entry>
+<entry><para>パラメータはオプションです。</para></entry></row>
+<row>
+<entry><para>{ }</para></entry>
+<entry><para>パラメータの選択肢が複数ありますが、そのうちのひとつが必要です。（下記のテキストを参照）</para></entry></row>
+<row>
+<entry><para>|</para></entry>
+<entry><para>パラメータをひとつだけ選択してください。[a|b]は、<emphasis>a</emphasis>か<emphasis>b</emphasis>のどちらかを選択するか、<emphasis>a</emphasis>も<emphasis>b</emphasis>もどちらも選択しなくてよいことを意味します。{a|b}は、<emphasis>a</emphasis>または<emphasis>b</emphasis>のどちらかを選択しなければならないことを意味します。</para></entry></row>
+<row>
+<entry><para>..</para></entry>
+<entry><para>コマンド行でパラメータを繰り返すことができます。（この記号の前に空白がひとつ入ることに注意）</para></entry></row>
+<row>
+<entry><para>-</para></entry>
+<entry><para>標準入力</para></entry></row></tbody></tgroup></informaltable>
+</listitem><listitem><para>使用方法の説明文のパラメータは角括弧や中括弧を必要としません。もし必要で、それしか選択肢がない場合は、次のようになります。</para>
+<para remap="CodeIndent1"><computeroutput>banner String</computeroutput></para>
+</listitem><listitem><para>使用方法の説明文では、コマンド行内で分けなければならないフラグの間に空白を入れます。たとえば次のようにします。</para>
+<para remap="CodeIndent1"><computeroutput>unget [-n] [-rSID] [-s] {File|-}</computeroutput></para>
+</listitem><listitem><para>区切りの空白なしで複数のフラグを一緒に使用できる場合は、コマンド行内で空白でフラグを分けないでください。次に例を示します。</para>
+<para remap="CodeIndent1"><computeroutput>wc [-cwl] {File ...|-}</computeroutput></para>
+</listitem><listitem><para>コマンド行でのフラグの順序に特に意味がない場合は、フラグをアルファベット順に並べます。大文字と小文字が混在する場合は、小文字を先に置きます。</para>
+<para remap="CodeIndent1"><computeroutput>get -aAijlmM</computeroutput></para>
+</listitem><listitem><para>使用方法の説明文には長くて次行にわたっているものがあります。使用方法の説明文の行をどこで終了させるかはよく考えて決定してください。次の例は、<computeroutput>get</computeroutput>コマンドについての古い型の使用方法の説明文です。</para>
+<para remap="CodeIndent1"><computeroutput>Usage: get [-e|-k] [-cCutoff] [-iList]
+[-rSID] [-wString] [xList] [-b] [-gmnpst] [-l[p]] File ... Retrieves a specified
+version of a Source Code Control System (SCCS) file.</computeroutput></para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.msgs.div.8">
+<title>標準メッセージ</title>
+<para><indexterm><primary>メッセージ</primary><secondary>メッセージの句読法と表現ガイドライン</secondary></indexterm> POSIX.2ドキュメントに定義されている標準エラーをもつコマンドがあります。あてはまる場合は、POSIX.2に設定されているガイドラインに従ってください。</para>
+<itemizedlist remap="Bullet1"><listitem><para>ユーザにキーボード上のキーを選択させるために、<computeroutput>Press the ------ key</computeroutput>と告げます。それが特殊キーの場合も同様です（<computeroutput>Press Ctrl-D</computeroutput>など）。</para>
+</listitem><listitem><para>システムに負荷がかかりすぎる場合を除いて、ユーザに<computeroutput>Try again</computeroutput> <computeroutput>later</computeroutput>と告げる必要はありません。それは、メッセージから明らかであるべきです。</para>
+</listitem><listitem><para>メッセージ・テキストを記述する場合、コマンド行のテキストを表わすには<emphasis>parameter</emphasis>（パラメータ）という語を使用し、数字データを表わすには<emphasis>value</emphasis>（値）という語を使用します。</para>
+</listitem><listitem><para> <emphasis>command option</emphasis>（コマンド・オプション）という語ではなく<emphasis>flag</emphasis>（フラグ）という語を使用します。</para>
+</listitem><listitem><para>カンマを使用して値を1000分の1単位で区切らないでください。</para>
+</listitem><listitem><para>1,000ではなく、1000とします。</para>
+</listitem><listitem><para>メッセージをアスタリスクで強調する場合、メッセージの最初に2つのアスタリスクを、メッセージの最後に2つのアスタリスクを使用してください。</para>
+<para remap="CodeIndent1"><computeroutput>** Total **</computeroutput></para>
+</listitem><listitem><para><emphasis>log in</emphasis>（ログインする）と<emphasis>log off</emphasis>（ログオフする）は動詞として使用してください。</para>
+<para remap="CodeIndent1"><computeroutput>Log in to the system; enter the
+data; then log off.</computeroutput></para>
+</listitem><listitem><para><emphasis>user name</emphasis>（ユーザ名）、<emphasis>group name</emphasis>（グループ名）、<emphasis>login</emphasis>（ログイン）は名詞として使用してください。</para>
+<para remap="CodeIndent1"><computeroutput>The user name is sam. The group
+name is staff. The login directory is /u/sam.</computeroutput></para>
+</listitem><listitem><para>ユーザ番号とグループ番号は、ユーザ名とグループに関連付けられた番号を参照します。</para>
+</listitem><listitem><para> <emphasis>superuser</emphasis>（スーパーユーザ）という用語を使用しないでください。
+<emphasis>root user</emphasis>（root ユーザ）がすべての特権を持っているとは限りません。</para>
+</listitem><listitem><para>パラメータをもつコマンドを示すには<emphasis>command string</emphasis>（コマンド文字列）という語を使用してください。</para>
+</listitem><listitem><para>多くの同じメッセージが頻繁に出てきます。<indexterm><primary>メッセージ</primary><secondary>メッセージのオプション</secondary></indexterm> 表A-1に、古いメッセージに代わる新しい標準メッセージをリストします。</para>
+</listitem></itemizedlist>
+<table id="IPG.msgs.tbl.1" frame="Topbot">
+<title>新しい標準メッセージ</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="3.85in">
+<colspec colwidth="2.52in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>使用すべき標準メッセージ</literal></para></entry><entry align="left" valign="bottom"><para><literal>使用すべきでないメッセージ</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput>Cannot find or open
+the file</computeroutput>.</para></entry>
+<entry align="left" valign="top"><para><computeroutput>Can't open filename</computeroutput>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>Cannot find or access
+the file</computeroutput>.</para></entry>
+<entry align="left" valign="top"><para>Can't access</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>The syntax of a parameter
+is not valid</computeroutput>.</para></entry>
+<entry align="left" valign="top"><para>syntax error</para></entry></row></tbody>
+</tgroup></table>
+</sect1>
+<sect1 id="IPG.msgs.div.9">
+<title id="IPG.msgs.mkr.7">正規表現の標準メッセージ</title>
+<para>表A-2に、正規表現の標準エラー・メッセージを、各正規表現のエラーに関連付けられたメッセージ番号と共にリストします。</para>
+<table id="IPG.msgs.tbl.2" frame="Topbot">
+<title>正規表現の標準メッセージ</title>
+<tgroup cols="3">
+<colspec colname="1" colwidth="0.7338 in">
+<colspec colname="2" colwidth="2.36492 in">
+<colspec colname="3" colwidth="1.89039 in">
+<tbody>
+<row>
+<entry><para><literal>番号</literal></para></entry>
+<entry><para><literal>使用すべき標準メッセージ</literal></para></entry>
+<entry><para><literal>使用すべきでないメッセージ</literal></para></entry></row>
+<row>
+<entry><para>11</para></entry>
+<entry><para>Specify a range end point that is less than 256.</para></entry>
+<entry><para>Range end point too large.</para></entry></row>
+<row>
+<entry><para>16</para></entry>
+<entry><para>The character or characters between \{ and \} must be numeric.
+</para></entry>
+<entry><para>Bad number.</para></entry></row>
+<row>
+<entry><para>25</para></entry>
+<entry><para> <computeroutput>Specify a \digit between 1 and 9 that is not
+greater than the number of subpatterns.</computeroutput></para></entry>
+<entry><para><computeroutput>\digit out of range</computeroutput>.</para></entry>
+</row>
+<row>
+<entry><para>36</para></entry>
+<entry><para>A delimiter is not correct or is missing.</para></entry>
+<entry><para>Illegal or missing delimiter.</para></entry></row>
+<row>
+<entry><para>41</para></entry>
+<entry><para><computeroutput>There is no remembered search string</computeroutput>.
+</para></entry>
+<entry><para>No remembered search string.</para></entry></row>
+<row>
+<entry><para>42</para></entry>
+<entry><para>There is a missing \( or \).</para></entry>
+<entry><para>\(\) imbalance.</para></entry></row>
+<row>
+<entry><para>43</para></entry>
+<entry><para>Do not use \( more than 9 times.</para></entry>
+<entry><para><computeroutput>Too many \(</computeroutput>.</para></entry>
+</row>
+<row>
+<entry><para>44</para></entry>
+<entry><para>Do not specify more than 2 numbers between \{ and \}.</para></entry>
+<entry><para>More than two numbers given in \{ and \}.</para></entry></row>
+<row>
+<entry><para>45</para></entry>
+<entry><para>An opening \{ must have a closing \}.</para></entry>
+<entry><para>} expected after \.</para></entry></row>
+<row>
+<entry><para>46</para></entry>
+<entry><para>The first number cannot exceed the second number between \{
+and \}.</para></entry>
+<entry><para>First number exceeds second in \{ and \}.</para></entry></row>
+<row>
+<entry><para>48</para></entry>
+<entry><para>Specify a valid end point to the range.</para></entry>
+<entry><para>Invalid end point in range expression.</para></entry></row>
+<row>
+<entry><para>49</para></entry>
+<entry><para>For each [ there must be a ].</para></entry>
+<entry><para><computeroutput>[ ] imbalance</computeroutput>.</para></entry>
+</row>
+<row>
+<entry><para>50</para></entry>
+<entry><para>The regular expression is too large for internal memory storage.
+Simplify the regular expression.</para></entry>
+<entry><para><computeroutput>Regular expression overflow</computeroutput>.
+</para></entry></row></tbody></tgroup></table>
+</sect1>
+<sect1 id="IPG.msgs.div.10">
+<title id="IPG.msgs.mkr.8">Sample Messages</title>
+<para>以下に、元のメッセージと書き直したメッセージの例<indexterm><primary>メッセージ</primary><secondary>メッセージの例</secondary></indexterm> を示します。元のメッセージそれぞれの下に書き直したメッセージがあります。</para>
+<programlisting>AFLGKEYLTRS &ldquo;Too Many -a Keyletters (Ad9)&rdquo;
+
+AFLGKEYLTRS &ldquo;foo: 7777-007 Use the -a flag less than 11 times.\n&rdquo;
+FLGTWICE &ldquo;Flag %c Twice (Ad4)&rdquo;
+
+FLGTWICE &ldquo;foo: 7777-004 Use the %c header flag once.\n&rdquo;
+ESTAT &ldquo;can't access %s.\n&rdquo;
+
+ESTAT &ldquo;foo: 7777-031 Cannot find or access %s.\n&rdquo;
+EMODE &ldquo;foo: invalid mode\n&rdquo;
+
+EMODE &ldquo;foo: 7777-033 A mode flag or value is not correct.\n&rdquo;
+DNORG &ldquo;-d has no argument (ad1)&rdquo;
+
+DNORG &ldquo;foo: 7777-001 Specify a parameter after the -d flag.\n&rdquo;
+FLOORRNG &ldquo;floor out of range (ad23)&rdquo;
+
+FLOORRNG &ldquo;foo: 7777-021 Specify a floor value greater than 0\n\
+
+\tand less than 10000.\n&ldquo;
+AFLGARG &ldquo;bad -a argument (ad8)&rdquo;
+
+AFLGARG &ldquo;foo: 7777-006 Specify a user name, group name, or\n\
+
+\tgroup number after the -a flag.\n&ldquo;
+BADLISTFMT &ldquo;bad list format (ad27)&rdquo;
+
+BADLISTFMT &ldquo;foo: 7777-025 Use numeric version and release\
+\tnumbers.\n&rdquo;</programlisting>
+</sect1>
+</appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->

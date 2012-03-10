@@ -1,0 +1,540 @@
+<!-- $XConsortium: ch08.sgm /main/10 1996/12/21 18:26:11 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.IntAc.div.1">
+<title id="SAG.IntAc.mkr.1">Einf&uuml;hrung in Aktionen und Datentypen</title>
+<para><indexterm><primary>Aktionen</primary><secondary>Einf&uuml;hrung</secondary>
+</indexterm><indexterm><primary>Datentypen</primary><secondary>Einf&uuml;hrung</secondary></indexterm>Bei <emphasis>Aktionen</emphasis> und <emphasis>Datentypen</emphasis> handelt es sich um wichtige Komponenten bei der Integrierung von
+Anwendungen auf dem Desktop. Sie stellen eine M&ouml;glichkeit zur Verf&uuml;gung,
+eine Benutzerschnittstelle zum Starten von Anwendungen und zum Bearbeiten
+von deren Datendateien zu benutzen.</para>
+<informaltable id="SAG.IntAc.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Einf&uuml;hrung in Aktionen142'--><xref
+role="JumpText" linkend="SAG.IntAc.mkr.2"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Einf&uuml;hrung in Datentypen150'--><xref
+role="JumpText" linkend="SAG.IntAc.mkr.5"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>In diesem Kapitel wird das Konzept von Aktionen und Datentypen erl&auml;utert.
+Es wird beschrieben,</para>
+<itemizedlist remap="Bullet1"><listitem><para>warum es g&uuml;nstig ist, Aktionen
+und Datentypen f&uuml;r Anwendungen zu erstellen.</para>
+</listitem><listitem><para>welche Beziehung zwischen Aktionen und Datentypen
+besteht.</para>
+</listitem><listitem><para>in welcher Beziehung Aktionen und Datentypen zum
+Drucken &uuml;ber das Desktop stehen.</para>
+</listitem></itemizedlist>
+<sect1 id="SAG.IntAc.div.2">
+<title>Weiterf&uuml;hrende Informationen</title>
+<para>Die Verfahren und Regeln f&uuml;r das Erstellen von Aktionen und Datentypen
+werden in diesem Handbuch in drei Kapiteln behandelt:</para>
+<itemizedlist remap="Bullet1"><listitem><para>In <!--Original XRef content:
+'Kapitel&numsp;9'--><xref role="ChapterNumber" linkend="SAG.dtCrA.mkr.1">
+wird erl&auml;utert, wie Aktionen und Datentypen mit der Desktop- Anwendung
+'Aktion erstellen' erstellt werden.</para>
+<para>Mit 'Aktion erstellen' k&ouml;nnen Aktionen und Datentypen f&uuml;r
+die meisten Anwendungen erstellt werden, ohne da&szlig; der Benutzer die Syntaxregeln
+f&uuml;r deren Definitionen lernen mu&szlig;.</para>
+</listitem><listitem><para>In <!--Original XRef content: 'Kapitel&numsp;10'--><xref
+role="ChapterNumber" linkend="SAG.CrAct.mkr.1"> und <!--Original XRef content:
+'Kapitel&numsp;11'--><xref role="ChapterNumber" linkend="SAG.CrDT.mkr.1">
+wird erl&auml;utert, wie Aktionen und Datentypen manuell erstellt werden,
+indem Konfigurationsdateien erstellt und bearbeitet werden.</para>
+<para>Wenn der Benutzer erweiterte Funktionen verwenden m&ouml;chte, die durch
+'Aktion erstellen' nicht unterst&uuml;tzt werden, ist es notwendig, da&szlig;
+er Aktionen und Datentypen manuell erstellt.</para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="SAG.IntAc.div.3">
+<title id="SAG.IntAc.mkr.2">Einf&uuml;hrung in Aktionen<indexterm><primary>Aktionen</primary><secondary>Einf&uuml;hrung</secondary></indexterm></title>
+<para>Bei Aktionen handelt es sich um Instruktionen, mit denen Desktop-Aufgaben
+wie die Ausf&uuml;hrung von Anwendungen und das &Ouml;ffnen von Datendateien
+automatisiert werden. Aktionen funktionieren &auml;hnlich wie Anwendungsmakros
+oder Programmierfunktionen. Jede Aktion verf&uuml;gt &uuml;ber einen Namen,
+der f&uuml;r die Ausf&uuml;hrung der Aktion verwendet wird.</para>
+<para>Sobald eine Aktion definiert wird, kann sie dazu verwendet werden, die
+Desktop-Benutzerschnittstelle anzupassen, so da&szlig; Aufgaben einfacher
+ausgef&uuml;hrt werden k&ouml;nnen. Das Desktop verf&uuml;gt &uuml;ber Benutzerschnittstellenkomponenten
+wie zum Beispiel Symbole, um Bedienelemente im Bedienfeld und Men&uuml;elemente
+f&uuml;r Aktionen zur Verf&uuml;gung zu stellen.</para>
+<figure>
+<title>Verwendungsm&ouml;glichkeiten f&uuml;r Aktionen</title>
+<graphic id="SAG.IntAc.grph.1" entityref="SAG.IntAc.fig.1"></graphic>
+</figure>
+<para>Beispielsweise enth&auml;lt die Gruppe von Anwendungen 'Desktop_Werkzeuge'
+im Anwendungsmanager Symbole, &uuml;ber die verschiedene Dienstprogramme
+gestartet werden.</para>
+<figure>
+<title>Symbole f&uuml;r Aktionen in der Gruppe von Anwendungen Desktop_Werkzeuge</title>
+<graphic id="SAG.IntAc.grph.2" entityref="SAG.IntAc.fig.2"></graphic>
+</figure>
+<para>Jedes dieser Symbole f&uuml;hrt eine Aktion aus, wenn auf diesem Symbol
+doppelt geklickt wird. Das folgende Beispiel zeigt einen Teil der Definition
+der Aktion, die ausgef&uuml;hrt wird, wenn der Benutzer auf dem Symbol mit
+der Bezeichnung Xwd Display doppelt klickt. Die Aktion ist in der Konfigurationsdatei
+<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/xclients.dt</filename> definiert.</para>
+<programlisting>ACTION Xwud
+{
+   LABEL         Xwd Display
+   TYPE          COMMAND
+   EXEC_STRING   /usr/bin/X11/xwud -noclick -in \
+                 %(File)Arg_1&ldquo;Xwd File To Display:"%
+   &hellip;
+}</programlisting>
+<para>Der Befehl im Feld <command>EXEC_STRING</command> der Aktion wird ausgef&uuml;hrt,
+wenn der Benutzer dieses Symbol doppelklickt.</para>
+<para><indexterm><primary>Aktionen</primary><secondary>Bedienfeld</secondary>
+</indexterm><indexterm><primary>Bedienfeld</primary><secondary>Verwendung
+von Aktionen</secondary></indexterm>Das Bedienfeld verwendet ebenfalls Aktionen.
+Das folgende Beispiel zeigt einen Teil der Definition des Bedienelements mit
+der Bezeichnung 'Terminal' in der Bedientafel 'Pers&ouml;nliche Anwendungen'.
+Das Bedienelement ist in der Konfigurationsdatei <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtwm.fp</filename>
+definiert.</para>
+<programlisting>CONTROL Term
+{
+   ICON          Fpterm
+   LABEL         Terminal
+   PUSH_ACTION   Dtterm
+   &hellip;
+}</programlisting>
+<para>Das Feld <command>PUSH_ACTION</command> gibt an, welche Aktion ausgef&uuml;hrt
+werden soll, wenn der Benutzer das Bedienelement anklickt. In diesem Fall
+handelt es sich um eine Aktion mit dem Namen Dtterm.</para>
+<para><indexterm><primary>Aktionen</primary><secondary>verwendet in Men&uuml;</secondary></indexterm><indexterm><primary>Men&uuml;</primary><secondary>Verwendung von Aktionen</secondary></indexterm>Daneben werden Aktionen h&auml;ufig
+in Men&uuml;s verwendet. Datendateien verwenden normalerweise Aktionen in
+ihrem Men&uuml; 'Ausgew&auml;hlt' im Dateimanager. Zum Beispiel verf&uuml;gen
+XWD-Dateien (Dateien, deren Namen die Erweiterung<filename>.xwd</filename>
+oder<filename>.wd</filename> haben) &uuml;ber eine Aktion '&Ouml;ffnen', die
+das Anzeigenbild anzeigt, indem die Aktion 'Xwud' ausgef&uuml;hrt wird.</para>
+<figure>
+<title>Aktion "&Ouml;ffnen" f&uuml;r Dateien des Datentyps XWD</title>
+<graphic id="SAG.IntAc.grph.3" entityref="SAG.IntAc.fig.3"></graphic>
+</figure>
+<para>Die Aktionen im<indexterm><primary>Ausgew&auml;hlt Men&uuml;</primary>
+</indexterm> Men&uuml; 'Ausgew&auml;hlt' werden in der Datentypdefinition f&uuml;r
+XWD-Dateien angegeben. Die Definition befindet sich in der Konfigurationsdatei <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/xclients.dt.</filename></para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+   ACTIONS  Open,Print
+   ICON     Dtxwd
+   &hellip;
+}</programlisting>
+<para>Der Datentyp XWD und die zugeh&ouml;rigen Aktionen '&Ouml;ffnen' und
+'Drucken' werden im Abschnitt <!--Original XRef content: '&ldquo;Wie Datentypen
+Datendateien mit Aktionen verbinden&rdquo; auf Seite&numsp;152'--><xref role="SecTitleAndPageNum"
+linkend="SAG.IntAc.mkr.6"> erl&auml;utert.</para>
+<sect2 id="SAG.IntAc.div.4">
+<title><indexterm><primary>Aktionen</primary><secondary>Symbole f&uuml;r Anwendungen
+erstellen</secondary></indexterm><indexterm><primary>Anwendungen</primary>
+<secondary>Symbole erstellen</secondary></indexterm><indexterm><primary>Symbole</primary><secondary>f&uuml;r Anwendungen</secondary></indexterm>Wie
+Aktionen Symbole f&uuml;r Anwendungen erstellen</title>
+<para>Als Beispiel soll das Symbol Xwd Display in der Gruppe von Anwendungen
+Desktop_Werkzeuge betrachtet werden. Wird auf diesem Symbol doppelt geklickt,
+wird der X-Client <command>xwud</command> ausgef&uuml;hrt. Dennoch stellt
+dieses Symbol nicht direkt die ausf&uuml;hrbare Datei <filename>/usr/bin/X11/xwud</filename> dar.</para>
+<para>Das Symbol Xwd Display wird in der Gruppe von Anwendungen angezeigt,
+weil in diesem Verzeichnis eine Datei mit dem Namen <command>Xwud</command>
+steht (siehe <!--Original XRef content: 'Abbildung&numsp;8&hyphen;4'--><xref
+role="CodeOrFigureOrTable" linkend="SAG.IntAc.mkr.3">). Diese Datei stellt
+eine zugrundeliegende Aktion mit demselben Namen, n&auml;mlich Xwud dar. In
+der Aktionsdefinition ist der Aktionsname der Name, der nach dem Schl&uuml;sselwort <command>ACTION</command> angegeben ist:</para>
+<programlisting>ACTION Xwud
+{
+   LABEL         Xwd Display
+   TYPE          COMMAND
+   WINDOW_TYPE   NO_STDIO
+   EXEC_STRING   /usr/bin/X11/xwud -noclick -in \
+                 %(File)Arg_1"Xwd Datei anzeigen:"%
+   DESCRIPTION   Die Xwd-Anzeige (Xwud) "Aktion Xwd-Anzeige" zeigt\
+                 eine xwd-Datei, die mit der Aktion "Xws Capture" (Xwd)\
+                 erstellt wurde. Es wird der Befehl "xwud" verwendet.
+}</programlisting>
+<para><indexterm><primary>Aktionsdatei</primary><secondary>Definition</secondary>
+</indexterm>Die Datei wird als <emphasis>Aktionsdatei</emphasis> bezeichnet,
+weil sie eine Aktion darstellt. Eine Datei ist eine Aktionsdatei, wenn es
+sich um eine ausf&uuml;hrbare Datei mit demselben Namen wie eine Aktion handelt.
+Das zugeh&ouml;rige Symbol im Anwendungsmanager (oder im Dateimanager) wird<indexterm>
+<primary>Aktionssymbol</primary></indexterm> <emphasis>Aktionssymbol</emphasis>
+oder<indexterm><primary>Anwendungssymbol</primary><secondary>erstellen</secondary>
+</indexterm> <emphasis>Anwendungssymbol</emphasis> genannt, weil durch Doppelklicken
+auf diesem Symbol eine Anwendung gestartet wird.</para>
+<figure>
+<title id="SAG.IntAc.mkr.3">Anwendungs-(Aktions-)symbol, das eine Aktionsdatei
+darstellt</title>
+<graphic id="SAG.IntAc.grph.4" entityref="SAG.IntAc.fig.4"></graphic>
+</figure>
+<para>Stellt der Anwendungsmanager eine ausf&uuml;hrbare Datei fest, durchsucht
+er die Datenbank nach Aktionen, um festzustellen, ob Aktionen vorhanden sind,
+deren Namen dem Dateinamen entsprechen. Wird eine Entsprechung gefunden,
+wei&szlig; der Anwendungsmanager, da&szlig; es sich bei der Datei um eine
+Aktionsdatei handelt.</para>
+<para><indexterm><primary>Aktionsdatei</primary><secondary>Inhalt</secondary>
+</indexterm>Der Inhalt der Aktionsdatei ist irrelevant. Aktionsdateien enthalten
+normalerweise Kommentare mit der Beschreibung ihrer Desktop-Funktionen.</para>
+<note>
+<para>Bei einer <emphasis>Aktionsdatei</emphasis> handelt es sich nicht um
+eine <emphasis>Definitionsdatei f&uuml;r Aktionen</emphasis>. Die <emphasis>Aktionsdatei</emphasis> ist eine Datei mit demselben Namen wie die Aktion.
+Sie wird verwendet, um das <emphasis>Anwendungssymbol</emphasis> im Dateimanager
+oder im Anwendungsmanager zu erstellen. Die <emphasis>Definitionsdatei f&uuml;r
+Aktionen</emphasis> ist die Datei mit dem Namen <symbol role="Variable">name</symbol><filename>.dt</filename>, die die Definition der Aktion enth&auml;lt.
+</para>
+</note>
+<para>Sobald das Desktop festgestellt hat, da&szlig; es sich bei einer Datei
+um eine Aktionsdatei handelt, wird die zugrundeliegende Aktionsdefinition
+verwendet, um das Erscheinungsbild und das Verhalten der Aktionsdatei zu
+definieren.</para>
+<itemizedlist remap="Bullet1"><listitem><para>Im Feld <command>EXEC_STRING</command> wird das Verhalten des Anwendungssymbols angegeben. Im Fall des
+Symbols Xwd Display wird im Feld <command>EXEC_STRING</command> angegeben,
+da&szlig; das Aktionssymbol den X-Client <command>xwud</command> mit bestimmten
+Befehlszeilenargumenten ausf&uuml;hrt.</para>
+</listitem><listitem><para>Im Feld <command>LABEL</command> wird die Bezeichnung
+f&uuml;r das Anwendungssymbol angegeben.</para>
+</listitem><listitem><para>Im Feld <command>DESCRIPTION</command> wird der
+Text angegeben, der angezeigt wird, wenn der Benutzer die Kontexthilfe aufruft.
+</para>
+</listitem><listitem><para>Das Anwendungssymbol Xwud verwendet das Standardsymbolbild
+f&uuml;r Aktionen, da die Aktionsdefinition kein Feld <command>ICON</command>
+enth&auml;lt, in dem ein anderes Abbild definiert ist.</para>
+<para>Im Gegensatz dazu verwendet das Symbol mit der Bezeichnung Compress
+File ein anderes Symbolbild, da die zugrundeliegende Aktionsdefinition ein
+Feld <command>ICON</command> enth&auml;lt:</para>
+<para>Beispiel:</para>
+<programlisting>ACTION Compress
+{
+   LABEL   Datei komprimieren
+   ICON    Dtcmprs
+   &hellip;
+}</programlisting>
+</listitem></itemizedlist>
+<figure>
+<title>Symbolbild, das durch das Feld ICON in der Aktionsdefinition angegeben
+wird</title>
+<graphic id="SAG.IntAc.grph.5" entityref="SAG.IntAc.fig.5"></graphic>
+</figure>
+<para>Die Aktion Xwud wird als <emphasis>Befehlsaktion</emphasis> bezeichnet,
+da ihre Definition den auszuf&uuml;hrenden Befehl (<command>EXEC_STRING</command>)
+enth&auml;lt. Das Feld <command>TYPE</command> in der Aktionsdefinition definiert
+den Aktionstyp.</para>
+<para>Zun&auml;chst wird das Symbol Xwd Display in der Gruppe von Anwendungen
+Desktop_Werkzeuge angezeigt. Der Benutzer kann jedoch zus&auml;tzliche Exemplare
+des Aktionssymbols in jedem Verzeichnis erstellen, f&uuml;r das er Schreibberechtigung
+hat. Solange die Aktionsdefinition f&uuml;r Xwud Bestandteil der Datenbank
+ist, wird jede ausf&uuml;hrbare Datei mit dem Namen <command>Xwud</command>,
+die der Benutzer erstellt, eine Aktionsdatei sein, die diese Aktion darstellt,
+und das zugeh&ouml;rige Symbol im Dateimanager oder Anwendungsmanager kann
+verwendet werden, um die Aktion auszuf&uuml;hren.</para>
+</sect2>
+<sect2 id="SAG.IntAc.div.5">
+<title id="SAG.IntAc.mkr.4">Wie Aktionen Datendateien als<indexterm><primary>Aktionen</primary><secondary>Dateiargumente</secondary></indexterm><indexterm>
+<primary>Argumente</primary><secondary>von Aktionen</secondary></indexterm> Argumente
+verwenden</title>
+<para>Ein<indexterm><primary>Argumente</primary><secondary>von Aktionen</secondary>
+</indexterm> <emphasis>Argument</emphasis> ist das Objekt, normalerweise eine<indexterm>
+<primary>Dateiargument</primary><secondary>verwendet in Aktionen</secondary>
+</indexterm> Datei, an dem der Befehl ausgef&uuml;hrt wird. Aktionen k&ouml;nnen
+so definiert werden, da&szlig; sie Dateiargumente akzeptieren.</para>
+<para>Beispielsweise gibt das Feld <command>EXEC_STRING</command> der Aktion
+Xwud an, da&szlig; ein Dateiargument erforderlich ist:</para>
+<programlisting>EXEC_STRING        /usr/bin/X11/xwud -noclick -in \
+                   %(File)Arg_1&ldquo;Xwd Datei anzeigen:"%</programlisting>
+<para>Der Term <command>Arg</command> steht f&uuml;r das Wort <symbol role="Variable">Argument.</symbol> Die Syntax<indexterm><primary>Arg_1 Syntax</primary></indexterm> <filename>Arg_1</filename> bedeutet das erste Argument, und <filename>(File)</filename>
+bedeutet, da&szlig; die Aktion dieses Argument als eine Datei behandelt.
+</para>
+<para><indexterm><primary>Anwendungssymbol</primary><secondary>&uuml;bergebene
+Dateien</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>&uuml;bergebene Dateien akzeptieren</secondary></indexterm><indexterm><primary>Anwendungssymbol</primary><secondary>doppelklicken</secondary></indexterm>Die
+einfachste Weise, in der ein Benutzer ein Dateiargument zur Verf&uuml;gung
+stellen kann, besteht darin, eine Datendatei dem Anwendungssymbol zu &uuml;bergeben.
+Das Desktop stellt den Pfad der &uuml;bergebenen Datei fest und setzt diesen
+in der Befehlszeile anstelle des Texts zwischen den Symbolen <computeroutput>% (%(File)Arg_1&ldquo;Xwd Datei anzeigen:&rdquo;%)</computeroutput>. Dann
+wird folgender Befehl ausgef&uuml;hrt:</para>
+<programlisting>/usr/bin/X11/xwud -noclick -in datei_pfad</programlisting>
+<para>Wenn der Benutzer auf dem Anwendungssymbol doppelt klickt, stellt das
+Desktop im Feld <command>EXEC_STRING</command> fest, da&szlig; ein Dateiargument
+erforderlich ist, und zeigt ein Dialogfenster an, in dem der Benutzer aufgefordert
+wird, einen Dateinamen oder Pfad einzugeben. Im Fall der Aktion Xwud lautet
+die Aufforderung:</para>
+<programlisting>Xwd Datei anzeigen:</programlisting>
+<para>Der Dateiname oder Pfad, den der Benutzer eingibt, wird als Dateiargument
+verwendet.</para>
+</sect2>
+<sect2 id="SAG.IntAc.div.6">
+<title>Zus&auml;tzliche Verwendung f&uuml;r Aktionen<indexterm><primary>Aktionen</primary><secondary>Verwendungen</secondary></indexterm></title>
+<para>Zus&auml;tzlich zum Starten von Anwendungen werden Aktionen im gesamten
+Desktop verwendet, um Funktionalit&auml;t in folgenden Bereichen herzustellen:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>im Bedienfeld</para>
+<para>Die Definition f&uuml;r ein Bedienelement im Bedienfeld enth&auml;lt
+Felder, in denen die Aktion angegeben wird, die ausgef&uuml;hrt wird, wenn
+der Benutzer das Bedienelement anklickt oder dem Bedienelement eine Datei
+&uuml;bergibt. Weitere Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Bedienelemente im Bedienfeld definieren&rdquo; auf
+Seite&numsp;251'--><xref role="SecTitleAndPageNum" linkend="SAG.FrPC.mkr.15"><indexterm><primary>Aktionen</primary><secondary>Verwendungen</secondary>
+</indexterm>
+entnommen werden.</para>
+</listitem><listitem><para>in Men&uuml;s</para>
+<para>Die Syntax von Fenstermen&uuml;- und Arbeitsbereichsmen&uuml;definitionen
+erm&ouml;glicht dem Benutzer, die Aktion anzugeben, die &uuml;ber ein Men&uuml;element
+ausgef&uuml;hrt wird. Weitere Informationen hierzu k&ouml;nnen dem Abschnitt
+<!--Original XRef content: '&ldquo;Arbeitsbereichsmanagermen&uuml;s&rdquo;
+auf Seite&numsp;271'--><xref role="SecTitleAndPageNum" linkend="SAG.WMCnf.mkr.6">
+und der Hilfeseite <filename moreinfo="RefEntry">dtwmrc(4)</filename> entnommen
+werden.</para>
+</listitem><listitem><para>bei der Kommunikation zwischen Anwendungen</para>
+<para>Eine Anwendung kann so eingerichtet werden, da&szlig; sie mit einem
+speziellen Typ von Aktion, n&auml;mlich ToolTalk message (<command>TT_MSG</command>), Informationen sendet und empf&auml;ngt. <command>TT_MSG-</command>
+Aktionen werden in der Entwicklerumgebungsdokumentation f&uuml;r das Desktop
+beschrieben.</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.IntAc.div.7">
+<title id="SAG.IntAc.mkr.5">Einf&uuml;hrung in Datentypen<indexterm><primary>Datentypen</primary><secondary>Einf&uuml;hrung</secondary></indexterm></title>
+<para>Erstellt der Benutzer eine neue Datendatei, kann das Erscheinungsbild
+und das Verhalten des Symbols der Datei im Dateimanager je nach dem Typ der
+Datendatei sehr unterschiedlich sein. Diese F&auml;higkeit, ein angepa&szlig;tes
+Erscheinungsbild und angepa&szlig;tes Verhalten f&uuml;r Dateien und Verzeichnisse
+zu erstellen, wird &uuml;ber den Datentypmechanismus des Desktops zur Verf&uuml;gung
+gestellt.</para>
+<sect2 id="SAG.IntAc.div.8">
+<title><indexterm><primary>Aktion erstellen</primary><secondary>Datentyp erstellen</secondary></indexterm><indexterm><primary>Datentypen</primary><secondary>mit Aktion erstellt</secondary></indexterm>Was ist ein Datentyp?</title>
+<para>Bei einem Datentyp handelt es sich um ein Konstrukt, das innerhalb der
+Desktop-Datenbank definiert ist. Das folgende Beispiel zeigt die Definition
+des Datentyps XWD. Die Definition befindet sich in der Konfigurationsdatei
+<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/xclients.dt</filename>.</para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+   ACTIONS         Open,Print
+   ICON            Dtxwd
+   NAME_TEMPLATE   %s.xwd
+   MIME_TYPE       application/octet-stream
+   SUNV3_TYPE      xwd-file
+   DESCRIPTION     Diese Datei enth&auml;lt ein Grafikbild im Format XWD.\
+                   Diese Dateien werden erstellt, wenn mit der Aktion\
+                   "XwdCapture" Bilder von Fensterausschnitten gemacht\
+                   werden. Der Datentyp wird XWD genannt. XWD-Dateinamen\
+                   enden mit ".xwd" oder ".wd".
+}
+DATA_CRITERIA XWD1
+{
+   DATA_ATTRIBUTES_NAME   XWD
+   MODE                   f
+   NAME_PATTERN           *.xwd
+}
+DATA_CRITERIA XWD2
+{
+   DATA_ATTRIBUTES_NAME   XWD
+   MODE                   f
+   NAME_PATTERN           *.wd
+}</programlisting>
+<para>Jede Datentypdefinition besteht aus zwei Teilen:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="197*">
+<colspec colwidth="331*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>DATA_ATTRIBUTES</filename></para></entry>
+<entry align="left" valign="top"><para>beschreibt das Erscheinungsbild und
+das Verhalten des Datentyps.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>DATA_CRITERIA</filename></para></entry>
+<entry align="left" valign="top"><para>gibt an, nach welchen Regeln (Name
+oder Inhalt) eine Datei diesem Datentyp zugerechnet wird.</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>Das Feld <filename>DATA_ATTRIBUTES_NAME</filename> verbindet die Kriterien
+mit den Attributen.</para>
+<para>Einem <filename>DATA_ATTRIBUTE</filename> k&ouml;nnen mehrere <filename>DATA_CRITERIA</filename> zugeordnet sein. Beispielsweise sind f&uuml;r den
+Datentyp XWD zwei verschiedene Namenskriterien (<filename>NAME_PATTERN</filename>)
+definiert, n&auml;mlich Namen, die in <filename>.xwd</filename> oder in <filename>.wd</filename> enden.</para>
+</sect2>
+<sect2 id="SAG.IntAc.div.9">
+<title id="SAG.IntAc.mkr.6"><indexterm><primary>Datentypen</primary><secondary>Aktionen</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>Datentypen</secondary></indexterm>Wie Datentypen Datendateien mit Aktionen
+verbinden</title>
+<para>Als Beispiel soll der Datentyp XWD betrachtet werden. Der Benutzer erstellt
+eine Datei mit dem Datentyp XWD, indem er der Datei eine der zwei Dateinamenerweiterungen <filename>.xwd</filename> oder<filename>.wd</filename> gibt. Das Desktop verwendet den
+Dateinamen als das <emphasis>Kriterium</emphasis>, nach dem es eine Datei
+einem Datentyp zuordnet.</para>
+<para>Der Datentyp XWD stellt f&uuml;r jede Datei dieses Datentyps folgendes
+zur Verf&uuml;gung:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Ein eindeutiges Symbol, das
+Benutzern hilft, die Datendateien zu erkennen.</para>
+</listitem><listitem><para>Kontexthilfe mit Informationen &uuml;ber den Datentyp.
+</para>
+</listitem><listitem><para>Ein angepa&szlig;tes Men&uuml; 'Ausgew&auml;hlt'
+im Dateimanager, das die Aktionen '&Ouml;ffnen' und 'Drucken' enth&auml;lt.
+Die Aktion '&Ouml;ffnen' f&uuml;r XWD-Dateien f&uuml;hrt die Aktion Xwud aus.
+</para>
+</listitem></itemizedlist>
+<sect3 id="SAG.IntAc.div.10">
+<title>Aktionen &uuml;ber das Men&uuml; "Ausgew&auml;hlt" ausf&uuml;hren<indexterm>
+<primary>Ausgew&auml;hlt Men&uuml;</primary></indexterm></title>
+<para>Das Men&uuml; 'Ausgew&auml;hlt' im Dateimanager ist nur aktiv, wenn
+eine Datei oder ein Verzeichnis ausgew&auml;hlt ist. Die Befehle, die unten
+im Men&uuml; 'Ausgew&auml;hlt' angezeigt werden, sind abh&auml;ngig vom Datentyp.
+Wird beispielsweise eine XWD-Datei ausgew&auml;hlt, enth&auml;lt das Men&uuml;
+'Ausgew&auml;hlt' die Elemente '&Ouml;ffnen' und 'Drucken'.</para>
+<para>Das Feld <command>ACTIONS</command> in der Datentypdefinition gibt an,
+welche Befehle im Men&uuml; 'Ausgew&auml;hlt' des Datentyps unten angef&uuml;gt
+werden.</para>
+<programlisting>DATA_ATTRIBUTES XWD
+{ 
+   ACTIONS  Open,Print
+   &hellip;
+}</programlisting>
+<para><indexterm><primary>Ausgew&auml;hlt Men&uuml;</primary></indexterm>Der
+Inhalt des Men&uuml;s 'Ausgew&auml;hlt' ist abh&auml;ngig vom Datentyp. Aber
+viele verschiedene Datentypen stellen eine Aktion '&Ouml;ffnen' zur Verf&uuml;gung.
+Wird eine Datei dieses bestimmten Datentyps im Dateimanager ausgew&auml;hlt
+und das Men&uuml; 'Ausgew&auml;hlt' angezeigt, wird im Men&uuml; der Befehl
+'&Ouml;ffnen' angezeigt.</para>
+<figure>
+<title>Das Men&uuml; "Ausgew&auml;hlt" f&uuml;r eine XWD-Datei</title>
+<graphic id="SAG.IntAc.grph.6" entityref="SAG.IntAc.fig.6"></graphic>
+</figure>
+<para>Die<indexterm><primary>&Ouml;ffnen Aktion</primary></indexterm> Aktion
+'&Ouml;ffnen' f&uuml;hrt normalerweise die der Datendatei zugeh&ouml;rige
+Anwendung aus. Beispielsweise wird durch das &Ouml;ffnen einer XWD-Datei
+die Aktion Xwud ausgef&uuml;hrt, die wiederum den X-Client <command>xwud</command>
+ausf&uuml;hrt, um das Anzeigeabbild anzuzeigen. Das hei&szlig;t, bei dem Datentyp
+XWD ist die Aktion '&Ouml;ffnen' synonym mit der Aktion Xwud. Ebenso wird
+durch das &Ouml;ffnen einer Datei vom Datentyp TEXTFILE der Texteditor und
+durch das &Ouml;ffnen einer Bitmap- oder Pixmap-Datei der Symboleditor ausgef&uuml;hrt.
+</para>
+<para>Die M&ouml;glichkeit, verschiedene Aktionen '&Ouml;ffnen' zu erstellen,
+die unterschiedlich verwendet werden, basiert auf zwei Merkmalen von Aktionsdefinitionen:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><indexterm><primary>Aktionen</primary><secondary>zuordnen</secondary></indexterm><indexterm><primary>Zuordnungsaktionen</primary></indexterm>Aktionszuordnung</para>
+<para>Die Aktionszuordnung erm&ouml;glicht dem Benutzer, eine Aktion zu erstellen,
+die eine andere Aktion ausf&uuml;hrt, anstatt einen Befehl direkt auszuf&uuml;hren.
+Beispielsweise kann eine Aktion '&Ouml;ffnen' erstellt werden, die die Aktion
+Xwud zuordnet (ausf&uuml;hrt).</para>
+</listitem><listitem><para><indexterm><primary>Aktionen</primary><secondary>Datentypeinschr&auml;nkungen</secondary></indexterm>Datentypeinschr&auml;nkungen
+f&uuml;r eine Aktion</para>
+<para>Aktionsdefinitionen k&ouml;nnen ein Feld <command>ARG_TYPE</command>
+enthalten, das die Aktion auf bestimmte Datentypen begrenzt. Beispielsweise
+kann angegeben werden, da&szlig; die Aktion '&Ouml;ffnen', die die Aktion
+Xwud zuordnet, nur auf Dateien des Datentyps XWD angewendet wird.</para>
+</listitem></itemizedlist>
+<para>Das folgende Beispiel zeigt die Definition der Aktion, die die Aktion
+'&Ouml;ffnen' f&uuml;r den Datentyp XWD der Aktion Xwud zuordnet. Sie befindet
+sich in der Datenbankkonfigurationsdatei
+<filename>/usr/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/xclients.dt</filename>:</para>
+<programlisting>ACTION Open
+{
+   LABEL        &Ouml;ffnen
+   ARG_TYPE     XWD
+   TYPE         MAP
+   MAP_ACTION   Xwud
+}</programlisting>
+<para>In dem Feld <command>TYPE</command> wird angegeben, da&szlig; es sich
+um eine Zuordnungsaktion (map) handelt. Das Feld <command>MAP_ACTION</command>
+gibt an, da&szlig; diese Aktion die Aktion Xwud ausf&uuml;hrt. Das Feld <command>ARG_TYPE</command> gibt an, da&szlig; diese Aktion nur auf Dateien vom Datentyp
+XWD angewendet wird.</para>
+<para>Hierzu zum Vergleich die Definition der Aktion '&Ouml;ffnen' in der
+Datenbankdatei <filename>/usr/dt/appconfig/types/<symbol role="Variable">sprache</symbol>/dt.dt</filename>:</para>
+<programlisting>ACTION Open
+{
+   LABEL        &Ouml;ffnen
+   ARG_TYPE     BM
+   TYPE         MAP
+   MAP_ACTION   Dticon
+}</programlisting>
+<para>Diese Definition bezieht sich auf Dateien des Datentyps (<command>ARG_TYPE</command>) BM (Bitmap-Dateien). Die Definition ordnet die Aktion '&Ouml;ffnen'
+der Aktion Dticon zu, die den Symbol-Editor ausf&uuml;hrt.</para>
+</sect3>
+<sect3 id="SAG.IntAc.div.11">
+<title><indexterm><primary>Datentypen</primary><secondary>Verhalten bei Doppelklicken</secondary></indexterm>Verhalten des Datentyps bei Doppelklicken definieren</title>
+<para>Das Verhalten des Datentyps bei Doppelklicken wird durch den ersten
+Eintrag im Feld <command>ACTIONS</command> bestimmt. Beispielsweise wird beim
+Datentyp XWD durch Doppelklicken die Aktion '&Ouml;ffnen' ausgef&uuml;hrt,
+die ihrerseits die Aktion Xwud ausf&uuml;hrt.</para>
+</sect3>
+<sect3 id="SAG.IntAc.div.12">
+<title>Eine Datendatei an ein Aktionssymbol &uuml;bergeben</title>
+<para>&Uuml;bergibt der Benutzer eine Datendatei an ein Aktionssymbol, f&uuml;hrt
+das System die Aktion aus und verwendet diese Datendatei als das Argument
+f&uuml;r die Aktion. (Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original
+XRef content: '&ldquo;Wie Aktionen Datendateien als Argumente verwenden&rdquo;
+auf Seite&numsp;149'--><xref role="SecTitleAndPageNum" linkend="SAG.IntAc.mkr.4">
+entnommen werden.)</para>
+<para>Wird beispielsweise eine XWD-Datendatei an ein Symbol Xwd Display &uuml;bergeben,
+wird die Aktion Xwud ausgef&uuml;hrt und das Datendateiargument verwendet.
+Dadurch wird der X-Client <command>xwud</command> mit dieser Datendatei ausgef&uuml;hrt.
+</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.IntAc.div.13">
+<title><indexterm><primary>Datentypen</primary><secondary>drucken</secondary>
+</indexterm><indexterm><primary>Drucken</primary><secondary>konfigurieren
+f&uuml;r Datentyp</secondary></indexterm>Drucken &uuml;ber das Desktop f&uuml;r
+einen Datentyp einrichten</title>
+<para>&Uuml;ber das Desktop bestehen folgende M&ouml;glichkeiten, eine Datendatei
+zu drucken:</para>
+<itemizedlist remap="Bullet1"><listitem><para>&uuml;ber den Befehl 'Drucken'
+(falls verf&uuml;gbar) im Men&uuml; 'Ausgew&auml;hlt' des Dateimanagers.</para>
+</listitem><listitem><para>durch das &Uuml;bergeben einer Datendatei an einen
+Desktop- Drucker&uuml;bergabebereich (das Druckersymbol im Bedienfeld oder
+ein Druckersymbol im Druckmanager).</para>
+</listitem></itemizedlist>
+<para>Zus&auml;tzlich zum Drucken &uuml;ber das Desktop stellen viele Anwendungen
+noch eine M&ouml;glichkeit zur Verf&uuml;gung, von innerhalb der Anwendung
+zu drucken.</para>
+<para>Beim Drucken &uuml;ber Desktop werden Aktionen mit dem Namen 'Drucken'
+verwendet. Bei 'Drucken' handelt es sich, wie bei '&Ouml;ffnen', um einen
+Aktionsnamen, der f&uuml;r viele verschiedene Datentypen verwendet wird.
+Aus diesem Grund werden bei den Aktionen 'Drucken' die Aktionszuordnung und
+das Feld <command>ARG_TYPE</command> verwendet, um das Drucken f&uuml;r jeden
+einzelnen Datentyp anzupassen.</para>
+<para>Als Beispiel soll die Aktion 'Drucken' f&uuml;r den Datentyp XWD betrachtet
+werden. Die Definition befindet sich im Verzeichnis<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/xclients.dt</filename>:</para>
+<programlisting>ACTION Print
+{
+   LABEL        Drucken
+   ARG_TYPE     XWD
+   TYPE         MAP
+   MAP_ACTION   NoPrint
+}</programlisting>
+<para>Diese Aktion 'Drucken', die sich speziell auf XWD-Dateien bezieht, ist
+einer Aktion 'NoPrint' zugeordnet. Bei der Aktion NoPrint handelt es sich
+um eine spezielle Aktion, die in <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dt.dt</filename> definiert ist.
+Die Aktion<indexterm><primary>NoPrint Aktion</primary></indexterm> 'NoPrint'
+zeigt ein Dialogfenster an, das dem Benutzer mitteilt, da&szlig; dieser Datentyp
+nicht gedruckt werden kann.</para>
+<para>Hierzu zum Vergleich die Aktion 'Drucken' f&uuml;r PCL-Dateien:</para>
+<programlisting>ACTION Print
+{
+   LABEL       Drucken
+   ARG_TYPE    PCL
+   TYPE        MAP
+   MAP_ACTION  PrintRaw
+}</programlisting>
+<para>Die Aktion 'PrintRaw'<?Pub Caret>, die in der Konfigurationsdatei <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/print.dt</filename> definiert ist, enth&auml;lt die Befehlszeile zum Drucken
+von PCL-Dateien.</para>
+<programlisting>ACTION PrintRaw
+{
+   TYPE          COMMAND
+   WINDOW_TYPE   NO_STDIO
+   EXEC_STRING   /usr/dt/bin/dtlp -w %(File)Arg_1%
+}</programlisting>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+

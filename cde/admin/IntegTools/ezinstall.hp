@@ -1,0 +1,91 @@
+#!/bin/ksh
+
+echo ""
+echo "ezinstall.hp is a very plain, very vanilla, very simple installation"
+echo "script that installs the CDE Desktop and executes a set of config-"
+echo "uration scripts. It assumes that you have set aside ample space - "
+echo "about 46 Mb - for installation."
+echo ""
+echo "The Desktop is installed into the directory /usr/dt. This is the"
+echo "logical top of CDE. If you wish to change the physical location"
+echo "of the files, set up a symbolic link between /usr/dt and the actual"
+echo "location. E.g., if you wish to physically locate the CDE files in"
+echo "/bigdisk/opt, do a 'ln -s /bigdisk/opt /usr/dt' before executing the"
+echo "ezinstall.hp script."
+echo ""
+echo "Okay?"
+echo ""
+
+read response
+
+if [ `/usr/bin/whoami` != "root" ]
+then
+     echo ""
+     echo "You must be root to run this script"
+     echo ""
+     exit 1
+fi
+
+if [ "$1" = "" -o "$2" = "" ]
+then
+  echo "Usage: ezinstall <the compressed tar of dt> <the tar of the scripts>"
+  echo "                 [ -clean ]"
+  exit 1
+fi
+
+ztar=$1
+star=$2
+
+#
+# have to install in /usr/dt
+#
+# clean it first
+#
+
+if [ "$3" = "-clean" ]
+then
+  rm -rf /usr/dt/*
+  rm -rf /var/dt/*
+fi
+
+if [ "$1" != "skip" ]
+then
+  compress -d <$ztar | tar xvf -
+fi
+
+#
+# place the scripts in /tmp/ez
+#
+
+mkdir /tmp/ez
+echo "$PWD: copying $star to /tmp/ez"
+cp $star /tmp/ez
+
+cd /tmp/ez
+tarfile=${star##*/}
+tar xvf $tarfile
+
+#
+# execute each of the scripts
+#
+
+for i in config* hp/config*
+do
+  if [ -f $i ]
+  then
+    if [ ! -x $i ]
+    then
+      chmod 555 $i
+    fi
+    echo "executing $i script"
+    ./$i
+  fi
+done
+
+cd /tmp
+rm -rf /tmp/ez
+
+echo ""
+echo "All done!"
+echo "type /usr/dt/bin/dtlogin to start CDE"
+echo ""

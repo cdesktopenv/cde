@@ -1,0 +1,1345 @@
+<!-- $XConsortium: ch05.sgm /main/10 1996/12/20 20:20:11 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.ClSrv.div.1">
+<title id="SAG.ClSrv.mkr.1">Configuraci&oacute;n del escritorio en una red</title>
+<para><indexterm><primary>&lt;$nopage>red</primary><secondary>Vea tambi&eacute;n
+servidores[red aaa]</secondary></indexterm>El escritorio est&aacute; dise&ntilde;ado
+para trabajar sin problemas en un entorno de red compleja. La arquitectura
+del escritorio permite a los administradores de sistema distribuir recursos
+de sistema en toda la red, que incluyen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Aplicaciones.</para>
+</listitem>
+<listitem><para>Archivos de datos para aplicaciones.</para>
+</listitem>
+<listitem><para>Servicios de sesi&oacute;n de escritorio (aplicaciones de
+escritorio, como por ejemplo el Gestor de inicio de sesi&oacute;n y el Gestor
+de archivos).</para>
+</listitem>
+<listitem><para>Servicios de ayuda. Los archivos de datos de ayuda se pueden
+poner en un servidor de ayuda central.</para>
+<informaltable id="SAG.ClSrv.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Overview
+of Desktop Networking86'--><xref role="JumpText" linkend="SAG.ClSrv.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'General
+Steps for Configuring Desktop Networking90'--><xref role="JumpText" linkend="SAG.ClSrv.mkr.5"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Configuring
+Base Operating System Networking for the Desktop90'--><xref role="JumpText"
+linkend="SAG.ClSrv.mkr.6"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Configuring
+Desktop Clients and Servers93'--><xref role="JumpText" linkend="SAG.ClSrv.mkr.9"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Administering
+Application Services99'--><xref role="JumpText" linkend="SAG.ClSrv.mkr.15"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</listitem>
+</itemizedlist>
+<sect1 id="SAG.ClSrv.div.2">
+<title id="SAG.ClSrv.mkr.2">Visi&oacute;n general de la funci&oacute;n de
+red de escritorio<indexterm><primary>funci&oacute;n de red</primary><secondary>visi&oacute;n general</secondary></indexterm><indexterm><primary>configuraci&oacute;n
+cliente-servidor, Vea funci&oacute;n de red&lt;$nopage></primary></indexterm></title>
+<para>El sistema operativo proporciona diversos servicios de red, incluidos
+los sistemas de archivos distribuidos y la ejecuci&oacute;n remota. Los servidores
+de X proporcionan posibilidades adicionales de la funci&oacute;n de red, incluidos
+el acceso a pantallas remotas y los servicios de seguridad.</para>
+<para>Adem&aacute;s de estas caracter&iacute;sticas de red, el escritorio
+coloca una interfaz de usuario. Los objetivos de esta interfaz y de su arquitectura
+subyacente son hacer que los sistemas de red sean:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>M&aacute;s f&aacute;ciles de usar. Los usuarios pueden ejecutar
+aplicaciones y acceder a archivos de datos sin preocuparse de d&oacute;nde
+est&aacute;n ubicados en la red las aplicaciones y los datos.</para>
+</listitem>
+<listitem><para>M&aacute;s f&aacute;ciles de administrar. El escritorio proporciona
+herramientas de integraci&oacute;n de aplicaciones y rutas de b&uacute;squeda
+en la red que facilitan la localizaci&oacute;n de datos y aplicaciones remotas
+por parte de los sistemas. Adem&aacute;s, el proceso de correlaci&oacute;n
+de nombres de archivo del escritorio facilita la administraci&oacute;n de
+redes complejas que contienen numerosos servidores.</para>
+</listitem>
+<listitem><para>Flexibles. Mientras que las caracter&iacute;sticas de administraci&oacute;n
+del escritorio se han dise&ntilde;ado para determinadas situaciones de red
+comunes, el escritorio puede dar cabida a muchas otras configuraciones de
+red personalizadas.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.ClSrv.div.3">
+<title>Tipos de servicios de red del escritorio<indexterm><primary>red</primary>
+<secondary>tipos de servicios</secondary></indexterm></title>
+<para>La funci&oacute;n de red permite que un usuario sentado delante de una
+pantalla determinada acceda a diversos servicios de sistema distribuidos entre
+otros sistemas, tales como:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>La sesi&oacute;n de escritorio y sus aplicaciones (por ejemplo,
+el Gestor de espacios de trabajo y el Gestor de archivos)</para>
+</listitem>
+<listitem><para>Otras aplicaciones</para>
+</listitem>
+<listitem><para>Archivos de datos</para>
+</listitem>
+</itemizedlist>
+<para>En la terminolog&iacute;a de la funci&oacute;n de red se utiliza el
+t&eacute;rmino<indexterm><primary>servidores</primary><secondary>definici&oacute;n</secondary></indexterm> <emphasis>servidor</emphasis> para describir un sistema
+que proporciona servicios de sistema a uno o m&aacute;s sistemas. Cuando
+un sistema recibe servicios de un servidor, se denomina<indexterm><primary>clientes</primary><secondary>definici&oacute;n</secondary></indexterm> <emphasis>cliente</emphasis> de dicho servidor.</para>
+<para>En una red compleja, un sistema puede utilizar servicios ubicados en
+diversos sistemas de toda la red. Adem&aacute;s, un sistema puede actuar como
+un determinado tipo de servidor (por ejemplo, servidor de sesi&oacute;n) y
+tambi&eacute;n puede ser cliente (por ejemplo, de un servidor de aplicaciones).
+</para>
+</sect2>
+<sect2 id="SAG.ClSrv.div.4">
+<title>Situaciones de red caracter&iacute;sticas</title>
+<para>Desde la perspectiva del escritorio, una configuraci&oacute;n de red
+caracter&iacute;stica puede contener una combinaci&oacute;n de estos componentes
+principales:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="228*">
+<colspec colwidth="228*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Pantallas</para></entry>
+<entry align="left" valign="top"><para>Donde se ejecuta el servidor de X</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>servidores</primary>
+<secondary>sesi&oacute;n</secondary></indexterm><indexterm><primary>servidores</primary><secondary>inicio de sesi&oacute;n</secondary></indexterm>Servidores
+de inicio de sesi&oacute;n/sesi&oacute;n</para></entry>
+<entry align="left" valign="top"><para>Donde se ejecutan las aplicaciones
+de escritorio (Gestor de inicio de sesi&oacute;n, Gestor de espacios de trabajo,
+etc.)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>servidores</primary>
+<secondary>aplicaci&oacute;n</secondary></indexterm><indexterm><primary>servidores de aplicaciones</primary><secondary>definici&oacute;n</secondary>
+</indexterm>Servidores de aplicaciones</para></entry>
+<entry align="left" valign="top"><para>Donde se ejecutan otras aplicaciones
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>servidores</primary>
+<secondary>archivo</secondary></indexterm><indexterm><primary>servidores
+de archivos</primary></indexterm>Servidores de archivos</para></entry>
+<entry align="left" valign="top"><para>Donde est&aacute;n ubicados los datos
+utilizados por las aplicaciones</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>Una de las configuraciones de red m&aacute;s comunes incluye sistemas
+que acceden a un servidor de aplicaciones. La <!--Original XRef content:
+'Figure&numsp;5&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="SAG.ClSrv.mkr.3">
+ilustra una estaci&oacute;n de trabajo que utiliza un servidor de aplicaciones.
+El servidor de X y la sesi&oacute;n de escritorio se est&aacute;n ejecutando
+en la estaci&oacute;n de trabajo.</para>
+<figure>
+<title id="SAG.ClSrv.mkr.3">Los servidores de aplicaciones proporcionan servicios
+a la sesi&oacute;n de escritorio</title>
+<graphic id="SAG.ClSrv.grph.1" entityref="SAG.ClSrv.fig.1"></graphic>
+</figure>
+<para>Las redes tambi&eacute;n utilizan con frecuencia<indexterm><primary>servidores de archivos</primary></indexterm> servidores de archivos para almacenar
+grandes cantidades de datos. Estos datos pueden utilizarlos las aplicaciones
+que se ejecutan en un servidor de aplicaciones o las aplicaciones de escritorio
+(por ejemplo, el Gestor de archivos necesita acceder a los archivos de datos
+para mostrarlos en la ventana Gestor de archivos).</para>
+<figure>
+<title>Los servidores de archivos proporcionan datos a los servidores de aplicaciones
+y a los servidores de sesiones</title>
+<graphic id="SAG.ClSrv.grph.2" entityref="SAG.ClSrv.fig.2"></graphic>
+</figure>
+<para><indexterm><primary>terminales de X</primary><secondary>obtener servicios
+de sesi&oacute;n</secondary></indexterm>Las terminales de X ejecutan el servidor
+de X y obtienen servicios de sesiones de escritorio de otro sistema.</para>
+<figure>
+<title>Las terminales de X obtienen servicios de sesiones de otro servidor
+de sesiones</title>
+<graphic id="SAG.ClSrv.grph.3" entityref="SAG.ClSrv.fig.3"></graphic>
+</figure>
+</sect2>
+<sect2 id="SAG.ClSrv.div.5">
+<title>Otras situaciones de red</title>
+<para>El escritorio es flexible y puede soportar configuraciones de red m&aacute;s
+complejas. Esto normalmente implica que deben dejarse disponibles diversos
+servicios para los servidores de aplicaciones, adem&aacute;s de los servidores
+de archivos.</para>
+<figure>
+<title>Los servicios necesarios para un servidor de aplicaciones de escritorio
+pueden estar distribuidos</title>
+<graphic id="SAG.ClSrv.grph.4" entityref="SAG.ClSrv.fig.4"></graphic>
+</figure>
+</sect2>
+<sect2 id="SAG.ClSrv.div.6">
+<title id="SAG.ClSrv.mkr.4"><indexterm><primary>servidores</primary><secondary>tipos</secondary></indexterm>Resumen&mdash;Tipos de servidores</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="162*">
+<colspec colwidth="366*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Pantalla</para></entry>
+<entry align="left" valign="top"><para>Sistema que ejecuta el servidor de
+X.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Servidor de inicio de sesi&oacute;n
+y de sesiones</para></entry>
+<entry align="left" valign="top"><para>Sistema que ejecuta la sesi&oacute;n
+de escritorio (Gestor de inicio de sesi&oacute;n, Gestor de sesiones, Gestor
+de ventanas, Gestor de archivos, etc.)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Servidor de aplicaciones</para></entry>
+<entry align="left" valign="top"><para>Sistema en el que se ejecuta una aplicaci&oacute;n.
+Tambi&eacute;n se denomina <emphasis>host de ejecuci&oacute;n</emphasis>.
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Servidor de archivos</para></entry>
+<entry align="left" valign="top"><para>Sistema en el que se almacenan los
+archivos de datos para las aplicaciones</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>servidores</primary>
+<secondary>ayuda</secondary></indexterm><indexterm><primary>servidores de
+ayuda</primary></indexterm>Servidor de ayuda</para></entry>
+<entry align="left" valign="top"><para>Sistema en el que se almacenan los
+archivos de datos de ayuda</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>servidores de acciones,
+Vea servidores de bases de datos&lt;$nopage></primary></indexterm><indexterm>
+<primary>servidores de bases de datos</primary></indexterm>Servidor de bases
+de datos (acciones)</para></entry>
+<entry align="left" valign="top"><para>Sistema en el que se almacenan los
+archivos que contienen las definiciones de acciones y de tipos de datos</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>servidores</primary>
+<secondary>icono</secondary></indexterm><indexterm><primary>servidores de
+iconos</primary></indexterm>Servidor de iconos</para></entry>
+<entry align="left" valign="top"><para>Sistema en el que se almacenan los
+archivos de iconos</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>La red puede incluir servidores adicionales, tales como un servidor
+de contrase&ntilde;as, un servidor de correo, un servidor de v&iacute;deo,
+etc.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.ClSrv.div.7">
+<title id="SAG.ClSrv.mkr.5">Pasos generales para configurar la funci&oacute;n
+de red de escritorio<indexterm><primary>funci&oacute;n de red</primary><secondary>pasos generales de configuraci&oacute;n</secondary></indexterm></title>
+<para>Existen tres pasos generales para configurar la funci&oacute;n de red
+de escritorio:</para>
+<orderedlist>
+<listitem><para>Configurar los servicios b&aacute;sicos de red del sistema
+operativo.</para>
+<para>Son los servicios de la funci&oacute;n de red proporcionados por el
+sistema operativo del que depende el escritorio. Consulte la secci&oacute;n
+<!--Original XRef content: '&rdquo;Configuring Base Operating System Networking
+for the Desktop&rdquo; on page&numsp;90'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.6">.</para>
+</listitem>
+<listitem><para>Instalar y configurar los servicios y el software de la funci&oacute;n
+de red de escritorio.</para>
+<para>Son los servicios necesarios para el escritorio, independientemente
+del tipo de sistema cliente o servidor que se est&eacute; configurando. Consulte
+la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring Desktop Clients
+and Servers&rdquo; on page&numsp;93'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.9">.
+</para>
+</listitem>
+<listitem><para>Configurar el tipo de servidor o de cliente en particular.
+</para>
+<para>Por ejemplo, si se configura un servidor de aplicaciones ser&aacute;
+necesario realizar unos pasos diferentes de los que se deben realizar para
+configurar un servidor de archivos. Consulte la secci&oacute;n <!--Original
+XRef content: '&rdquo;Administering Application Services&rdquo; on page&numsp;99'--><xref
+role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.15">.</para>
+</listitem>
+</orderedlist>
+</sect1>
+<sect1 id="SAG.ClSrv.div.8">
+<title id="SAG.ClSrv.mkr.6">Configuraci&oacute;n de la funci&oacute;n de red
+b&aacute;sica del sistema operativo para el escritorio<indexterm><primary>funci&oacute;n de red</primary><secondary>configuraci&oacute;n b&aacute;sica</secondary></indexterm></title>
+<para>El escritorio requiere la siguiente configuraci&oacute;n b&aacute;sica
+de la funci&oacute;n de red:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Los usuarios deben tener una cuenta de inicio de sesi&oacute;n
+en el servidor de sesiones y en cada sistema que proporcione servicios de
+escritorio al servidor de sesiones. El usuario debe tener los mismos ID de
+usuario e ID de grupo en todos los sistemas clientes y servidores.</para>
+</listitem>
+<listitem><para>Los sistemas deben tener acceso a los sistemas de archivos
+remotos que contienen datos utilizados por la sesi&oacute;n y otras aplicaciones.
+</para>
+</listitem>
+<listitem><para>El controlador de spool de impresi&oacute;n <command>lp</command>
+debe estar configurado para acceder a impresoras remotas.</para>
+</listitem>
+<listitem><para><command>sendmail</command> debe estar configurado para servicios
+de correo.</para>
+</listitem>
+<listitem><para>Debe definirse la autorizaci&oacute;n de X.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.ClSrv.div.9">
+<title>C&oacute;mo proporcionar cuentas de inicio de sesi&oacute;n a los usuarios<indexterm>
+<primary>cuentas de inicio de sesi&oacute;n</primary></indexterm></title>
+<para>Esta secci&oacute;n describe los requisitos de las cuentas de inicio
+de sesi&oacute;n para la funci&oacute;n de red de escritorio.</para>
+<sect3 id="SAG.ClSrv.div.10">
+<title>C&oacute;mo proporcionar cuentas de inicio de sesi&oacute;n</title>
+<para>Los usuarios deben tener una cuenta de inicio de sesi&oacute;n en:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Todos los sistemas que proporcionan servicios al escritorio,
+incluidos los servidores de aplicaciones, los servidores de archivos y los
+sistemas que proporcionan impresoras de red.</para>
+</listitem>
+<listitem><para>Todos los servidores de sesiones a los que puede acceder el
+usuario. En general, los servidores de sesiones se utilizan con terminales
+de X.</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="SAG.ClSrv.div.11">
+<title>C&oacute;mo proporcionar un ID de usuario y un ID grupo coherentes</title>
+<para>Los usuarios de UNIX se identifican mediante un nombre de inicio de
+sesi&oacute;n y un<indexterm><primary>UID</primary></indexterm><indexterm>
+<primary>ID de usuario</primary></indexterm> ID de usuario num&eacute;rico
+(UID). En una red de escritorio, el usuario debe tener el mismo nombre de
+inicio de sesi&oacute;n y el mismo UID en todos los sistemas clientes y servidores.
+</para>
+<para>Los usuarios de UNIX tambi&eacute;n se asignan a uno o m&aacute;s grupos
+de inicio de sesi&oacute;n. Cada grupo tiene un nombre de grupo y un ID de
+grupo num&eacute;rico<indexterm><primary>GID</primary></indexterm><indexterm>
+<primary>ID de grupo</primary></indexterm> (GID). En una red de escritorio,
+todos los sistemas deben utilizar nombres de grupo e ID de grupo coherentes.
+</para>
+<para>Para obtener m&aacute;s informaci&oacute;n, consulte la p&aacute;gina
+de manual <filename moreinfo="RefEntry">id(1)</filename> o <filename moreinfo="RefEntry">id(1M)</filename>.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.ClSrv.div.12">
+<title id="SAG.ClSrv.mkr.7">Configuraci&oacute;n del acceso a sistemas de
+archivos distribuidos<indexterm><primary>archivos</primary><secondary>acceso
+a distribuidos</secondary></indexterm></title>
+<para>El escritorio utiliza<indexterm><primary>compartimiento de archivos</primary></indexterm><indexterm><primary>NFS</primary></indexterm><indexterm>
+<primary>archivos</primary><secondary>acceso remoto</secondary></indexterm> NFS<superscript>
+&reg;</superscript> para compartir archivos entre sistemas. El usuario deber&aacute;
+identificar todos los sistemas de archivos de la red que contienen archivos
+compartidos y asegurarse de que est&aacute;n correctamente<indexterm><primary>archivos</primary><secondary>montar</secondary></indexterm> montados en todos
+los sistemas apropiados.</para>
+<para>Normalmente se deber&aacute; proporcionar el siguiente acceso a archivos
+remotos:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>El<indexterm><primary>directorio de inicio del usuario</primary>
+<secondary>compartido</secondary></indexterm> directorio de inicio del usuario
+debe compartirse entre todos los sistemas clientes y servidores del escritorio.
+Esto es necesario porque:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>El directorio de inicio del usuario contiene archivos de datos
+a los que deben acceder aplicaciones en sistemas remotos. Por ejemplo, las
+aplicaciones que utilizan archivos de datos utilizan con frecuencia el directorio
+de inicio del usuario como ubicaci&oacute;n predeterminada del archivo de
+datos.</para>
+</listitem>
+<listitem><para><indexterm><primary>directorio de autentificaci&oacute;n</primary>
+</indexterm><indexterm><primary>dtspcd</primary><secondary>directorio de
+autentificaci&oacute;n</secondary></indexterm>El directorio de inicio del
+usuario es el directorio de autentificaci&oacute;n <command>dtspcd</command>
+predeterminado. Para obtener m&aacute;s informaci&oacute;n sobre el <command>dtspcd</command>, consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+the Subprocess Control Daemon&rdquo; on page&numsp;97'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.13">.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Si los usuarios necesitan acceder a archivos de datos que
+no est&aacute;n en su directorio de inicio, estos archivos de datos deben
+estar compartidos entre todos los sistemas clientes y servidores del escritorio
+que operan en los archivos de datos.</para>
+</listitem>
+<listitem><para>Los directorios de instalaci&oacute;n y configuraci&oacute;n
+del escritorio (<filename>/usr/dt</filename> y <filename>/etc/dt</filename>)
+deben estar compartidos entre todos los sistemas clientes y servidores del
+escritorio de modo que todas las aplicaciones del usuario accedan a los mismos
+archivos de configuraci&oacute;n de escritorio.</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.ClSrv.div.13">
+<title><indexterm><primary>directorio de inicio del usuario</primary><secondary>de red</secondary></indexterm>C&oacute;mo proporcionar un directorio de inicio
+de red</title>
+<para>Una red de escritorio funciona con m&aacute;s eficacia cuando los usuarios
+tienen un solo directorio de inicio que est&aacute; compartido entre todos
+los sistemas clientes y servidores de la red.</para>
+<para>Un directorio de inicio de red permite a los usuarios utilizar diferentes
+sistemas de la red sin perder las personalizaciones y configuraciones personales.
+Esto es debido a que las personalizaciones personales y la informaci&oacute;n
+necesaria para restaurar la sesi&oacute;n anterior se guardan en subdirectorios
+del directorio de inicio.</para>
+<para>Un directorio de inicio com&uacute;n tambi&eacute;n es necesario para:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>El mecanismo de autorizaciones predeterminado de X. Consulte
+la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring X Authorization&rdquo;
+on page&numsp;93'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.8">.
+</para>
+</listitem>
+<listitem><para>El daemon de control del subproceso de escritorio, que est&aacute;
+implicado en la ejecuci&oacute;n de aplicaciones remotas, debe poder grabar
+en el directorio de inicio del usuario.</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="SAG.ClSrv.div.14">
+<title><indexterm><primary>archivos</primary><secondary>coherencia de nombres</secondary></indexterm><indexterm><primary>coherencia de nombres de archivos</primary></indexterm>Coherencia de nombres de archivos</title>
+<para>La red se deber&aacute; configurar de tal forma que los usuarios puedan
+acceder a sus archivos de datos desde todos los sistemas utilizando el mismo
+nombre. Esto se conoce como <emphasis>coherencia de nombres de archivos</emphasis>
+y normalmente se logra creando los<indexterm><primary>enlaces simb&oacute;licos</primary><secondary>coherencia de nombres de archivos</secondary></indexterm> enlaces
+simb&oacute;licos apropiados. Por ejemplo, puede configurar cada sistema de
+forma que el directorio de inicio de cada usuario est&eacute; disponible como <filename>/users/</filename><symbol role="Variable">nombre_inicio conexi&oacute;n</symbol>
+creando un enlace simb&oacute;lico a la ubicaci&oacute;n de montaje real del
+directorio.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.ClSrv.div.15">
+<title>Configuraci&oacute;n del acceso a impresoras remotas<indexterm><primary>impresoras</primary><secondary>remotas, acceso</secondary></indexterm></title>
+<para>El escritorio utiliza el<indexterm><primary>controlador de spool de
+impresi&oacute;n lp</primary></indexterm> controlador de spool de impresi&oacute;n <command>lp</command> para acceder a impresoras locales o remotas. Consulte la p&aacute;gina
+de manual <filename moreinfo="RefEntry">lpadmin(1M)</filename> para obtener
+informaci&oacute;n sobre c&oacute;mo configurar el controlador de spool <command>lp</command>.</para>
+<para><indexterm><primary>impresi&oacute;n</primary><secondary>probar</secondary>
+</indexterm>Antes de intentar imprimir utilizando la interfaz gr&aacute;fica
+del escritorio, deber&aacute; probar si puede imprimir correctamente en todas
+las impresoras utilizando el mandato<indexterm><primary>lp, mandato</primary>
+</indexterm> <command>lp</command>.</para>
+<para><indexterm><primary>impresoras</primary><secondary>nombres de dispositivos</secondary></indexterm>Se recomienda utilizar nombres de dispositivos de
+impresi&oacute;n coherentes. Por ejemplo, si una impresora determinada se
+conoce como <filename>Postscript1</filename> en el sistema al que est&aacute;
+directamente conectada, todos los otros sistemas que acceden a la impresora
+de forma remota deber&aacute; utilizar tambi&eacute;n el nombre <filename>Postscript1</filename>.</para>
+</sect2>
+<sect2 id="SAG.ClSrv.div.16">
+<title><indexterm><primary>correo electr&oacute;nico, configurar</primary>
+</indexterm><indexterm><primary>funci&oacute;n de red</primary><secondary>correo electr&oacute;nico</secondary></indexterm>Configuraci&oacute;n del
+correo electr&oacute;nico</title>
+<para>La aplicaci&oacute;n de correo del escritorio utiliza <command>sendmail</command> para entregar correo entre sistemas. Consulte la p&aacute;gina
+de manual<indexterm><primary>sendmail</primary></indexterm> <filename moreinfo="RefEntry">sendmail(1M)</filename> para obtener m&aacute;s informaci&oacute;n sobre c&oacute;mo
+configurar la conectividad del correo.</para>
+<para>Antes de intentar enviar o recibir correo desde el escritorio, deber&aacute;
+probar si puede enviarlo y recibirlo correctamente utilizando el mandato<indexterm>
+<primary>mailx</primary></indexterm> <command>mailx</command>.</para>
+</sect2>
+<sect2 id="SAG.ClSrv.div.17">
+<title id="SAG.ClSrv.mkr.8">Configuraci&oacute;n de la autorizaci&oacute;n
+de X<indexterm><primary>X, autorizaci&oacute;n</primary></indexterm><indexterm>
+<primary>autorizaci&oacute;n de X</primary></indexterm><indexterm><primary>funci&oacute;n de red</primary><secondary>autorizaci&oacute;n de X</secondary>
+</indexterm></title>
+<para>El escritorio utiliza el mecanismo predeterminado X para autorizar que
+las aplicaciones remotas (clientes de X) accedan a una pantalla local. El
+procedimiento m&aacute;s f&aacute;cil para configurar esto consiste en proporcionar
+un directorio de inicio de red para cada usuario. Esto asegura que se cumplan
+los siguientes requisitos:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>El usuario debe tener permiso de lectura y escritura para
+el archivo <symbol role="Variable">DirectorioInicio</symbol><filename>/.Xauthority</filename>.</para>
+</listitem>
+<listitem><para>El archivo <filename>.Xauthority</filename> en un servidor
+de aplicaciones debe contener el &ldquo;magic cookie&rdquo; para la pantalla
+en la que se ejecutar&aacute; la aplicaci&oacute;n.</para>
+</listitem>
+</itemizedlist>
+<para>Para obtener m&aacute;s informaci&oacute;n, consulte las p&aacute;ginas
+de manual <filename moreinfo="RefEntry">X(1)</filename> o <filename moreinfo="RefEntry">xauth(1)</filename>.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.ClSrv.div.18">
+<title id="SAG.ClSrv.mkr.9">Configuraci&oacute;n de los clientes y los servidores
+del escritorio<indexterm><primary>clientes</primary><secondary>del servidor,
+configuraci&oacute;n</secondary></indexterm><indexterm><primary>servidores</primary><secondary>configuraci&oacute;n</secondary></indexterm><indexterm>
+<primary>creaci&oacute;n de redes</primary><secondary>configuraci&oacute;n
+de clientes y servidores</secondary></indexterm></title>
+<para>Esta secci&oacute;n describe los requisitos de configuraci&oacute;n
+de red espec&iacute;ficos del escritorio&mdash;es decir, dichas posibilidades
+las proporciona el escritorio en lugar del sistema operativo base.</para>
+<para>Esta secci&oacute;n se divide en dos partes:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Configuraci&oacute;n de los servicios de inicio de sesi&oacute;n
+y de sesi&oacute;n.</para>
+</listitem>
+<listitem><para>Configuraci&oacute;n de los servicios requeridos por aplicaciones
+los datos de &eacute;stas. Ello incluye servidores de aplicaciones, bases
+de datos, iconos, archivos y de ayuda, y los clientes de &eacute;stos.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.ClSrv.div.19">
+<title>Configuraci&oacute;n de servicios de inicio de sesi&oacute;n y de<indexterm>
+<primary>servidores de sesi&oacute;n, v&eacute;ase servidores de inicio de
+sesi&oacute;n&lt;$nopage></primary></indexterm> sesi&oacute;n<indexterm>
+<primary>servidores de inicio de sesi&oacute;n</primary><secondary>configuraci&oacute;n</secondary></indexterm></title>
+<para>Un servidor de inicio de sesi&oacute;n/sesiones es un sistema que proporciona
+servicios de escritorio (Gestor de inicio de sesi&oacute;n, Gestor de sesiones,
+Gestor de archivos, Gestor de ventanas, etc.) a una pantalla o a un servidor
+X.</para>
+<para><indexterm><primary>servidores</primary><secondary>sesi&oacute;n</secondary>
+</indexterm><indexterm><primary>terminales X</primary></indexterm><indexterm>
+<primary>servidores</primary><secondary>inicio de sesi&oacute;n</secondary>
+</indexterm>Normalmente, un servidor de sesiones proporciona servicios a terminales
+de X. Sin embargo, se puede definir una configuraci&oacute;n de red que concentre
+los servicios de sesi&oacute;n en uno o m&aacute;s servidores a los que accedan
+estaciones de trabajo y terminales de X.</para>
+<para>El Gestor de inicio de sesi&oacute;n es un componente del escritorio
+responsable de proporcionar servicios de inicio de sesi&oacute;n a otras pantallas.
+Una vez que el usuario ha iniciado la sesi&oacute;n, se inicia el Gestor de
+sesiones para el usuario.</para>
+<para>Para obtener informaci&oacute;n sobre c&oacute;mo configurar servidores
+de inicio de sesi&oacute;n/sesiones y terminales de X, consulte la secci&oacute;n
+<!--Original XRef content: '&rdquo;Displaying a Login Screen on a Network
+Display&rdquo; on page&numsp;6'--><xref role="SecTitleAndPageNum" linkend="SAG.LogMg.mkr.6">.
+</para>
+</sect2>
+<sect2 id="SAG.ClSrv.div.19a">
+<title>Configuraci&oacute;n de servidores de m&eacute;todo de introducci&oacute;n
+de datos<indexterm><primary>servidores de m&eacute;todo de introducci&oacute;n
+de datos</primary><secondary>configuraci&oacute;n</secondary></indexterm></title>
+<para>El servidor de m&eacute;todo de introducci&oacute;n de datos (Input
+Method Server, IMS) se activa mediante el mandato <command>dtimsstart</command>. <command>dtimsstart</command> y generalmente se invoca autom&aacute;ticamente durante
+el inicio de la Xsession (conexi&oacute;n del usuario) mediante la rutina <filename>/usr/dt/config/Xsession.d/0020.dtims</filename>.</para><?Pub Caret>
+<para>Dependiendo del lugar, variables de entorno, archivos de configuraci&oacute;n
+y opciones de l&iacute;nea de mandatos seleccionados actualmente, <command>dtimsstart</command> pondr&aacute; en pantalla una ventana de selecci&oacute;n
+desde la que el usuario podr&aacute; seleccionar el IMS a utilizar. Desde
+la ventana de selecci&oacute;n el usuario tambi&eacute;n podr&aacute; solicitar
+la activaci&oacute;n de un IMS en un sistema remoto. En este caso, <command>dtimsstart</command>:</para>
+<itemizedlist>
+<listitem><para>Ejecuta la operaci&oacute;n <literal>DtImsGetRemoteConf</literal>
+para obtener informaci&oacute;n acerca de IMS registrados en el sistema remoto
+especificado</para>
+</listitem>
+<listitem><para>Lista los IMS registrados en la ventana de selecci&oacute;n
+</para>
+</listitem>
+<listitem><para>Ejecuta la operaci&oacute;n <literal>DtImsRunRemoteIms</literal>
+para activar el IMS seleccionado por el usuario en el sistema remoto</para>
+</listitem>
+</itemizedlist>
+<para>Durante la b&uacute;squeda de IMS en un sistema remoto, <command>dtimsstart</command> obtiene solamente IMS registrados. Para estar registrado en un
+sistema (local o remoto), un IMS debe:</para>
+<itemizedlist>
+<listitem><para>Estar definido en el archivo de anotaciones del lugar actual.
+Cada lugar cuenta con su propio archivo de anotaciones que lista los IMS que
+soporta dicho lugar. El archivo de anotaciones del lugar est&aacute; ubicado
+en <filename>/usr/dt/config/ims/&lt;nombre_del_lugar></filename>.</para>
+</listitem>
+<listitem><para>Contar con su propio archivo de anotaciones en el sistema.
+El archivo de anotaciones del IMS describe los atributos del IMS. Los atributos
+incluyen protocolos soportados, el nombre del servidor en el que se ejecuta
+el IMS, opciones de la l&iacute;nea de mandatos del IMS y una anotaci&oacute;n
+que indica si el IMS puede ejecutarse de forma remota. Los archivos de anotaciones
+de IMS se encuentran en <filename>/usr/dt/config/ims/&lt;nombre_del_ims></filename>.
+</para>
+</listitem>
+</itemizedlist>
+<para>Para obtener descripciones de formatos de archivo y ejemplos de los
+mismos, refi&eacute;rase a la p&aacute;gina del manual <command>dtimsstart</command>.</para>
+<para>Para definir los anfitriones en los que se pueden encontrar IMS, podr&aacute;
+configurar el recurso de aplicaci&oacute;n <literal>imServerHosts</literal>.
+Este recurso (que utiliza el Gestor de Estilos para identificar IMS para que
+el usuario pueda seleccionarlos) contiene una lista de anfitriones separados
+por comas. Por ejemplo:</para>
+<programlisting>*imServerHosts: xylo,expo</programlisting>
+</sect2>
+<sect2 id="SAG.ClSrv.div.20">
+<title>Configuraci&oacute;n de otros servicios relacionados con la aplicaci&oacute;n</title>
+<para>Esta secci&oacute;n incluye los requisitos de la funci&oacute;n de red
+comunes al escritorio:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>servidores de aplicaciones</primary><secondary>configurar</secondary></indexterm><indexterm><primary>servidores</primary>
+<secondary>aplicaci&oacute;n</secondary></indexterm>Servidores de aplicaciones
+</para>
+</listitem>
+<listitem><para><indexterm><primary>servidores de bases de datos</primary>
+<secondary>configurar</secondary></indexterm><indexterm><primary>servidores</primary><secondary>base de datos</secondary></indexterm>Servidores de bases
+de datos</para>
+</listitem>
+<listitem><para><indexterm><primary>servidores de iconos</primary><secondary>configurar</secondary></indexterm><indexterm><primary>servidores</primary>
+<secondary>icono</secondary></indexterm>Servidores de iconos</para>
+</listitem>
+<listitem><para><indexterm><primary>servidores de ayuda</primary><secondary>configurar</secondary></indexterm><indexterm><primary>servidores</primary>
+<secondary>ayuda</secondary></indexterm>Servidores de ayuda</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.ClSrv.div.21" role="Procedure">
+<title id="SAG.ClSrv.mkr.10">Configurar clientes y servidores del escritorio</title>
+<orderedlist>
+<listitem><para>Proporcione las configuraciones de red del sistema operativo
+necesarias para el escritorio.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+Base Operating System Netw--><!--orking for the Desktop&rdquo; on page&numsp;90'--><xref
+role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.6">.</para>
+</listitem>
+<listitem><para><indexterm><primary>archivos</primary><secondary>necesarios
+para la funci&oacute;n de red</secondary></indexterm><indexterm><primary>funci&oacute;n de red</primary><secondary>archivos necesarios para</secondary>
+</indexterm>Instale el escritorio o conjunto m&iacute;nimo de archivos:</para>
+<para>Debe instalar:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>La totalidad de conjuntos de archivos de ejecuci&oacute;n
+del Common Desktop Environment</para>
+</listitem>
+<listitem><para><emphasis>O bien</emphasis>, estos conjuntos de archivos:<indexterm>
+<primary>CDE-MIN, archivos</primary></indexterm><indexterm><primary>CDE-TT,
+archivos</primary></indexterm> CDE-MIN y CDE-TT</para>
+</listitem>
+</itemizedlist>
+<note>
+<para>Los conjuntos de archivos y la instalaci&oacute;n pueden variar de un
+proveedor a otro.</para>
+</note>
+</listitem>
+<listitem><para>Configure el sistema para el daemon del servidor de bases
+de datos de nombres de archivo de ToolTalk<indexterm><primary>servidor de
+bases de datos nombres de archivo</primary></indexterm> <command><indexterm>
+<primary>rpc.ttdbserver</primary></indexterm> rpc.ttdbserver.</command></para>
+<para>Esto debe suceder autom&aacute;ticamente cuando se instala el escritorio.
+Para obtener m&aacute;s informaci&oacute;n, consulte la secci&oacute;n <!--Original
+XRef content: '&rdquo;Configuring the ToolTalk Database Serv--><!--er&rdquo;
+on page&numsp;98'--><xref role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.14">.
+</para>
+</listitem>
+<listitem><para>Instale y configure el daemon de control de subprocesos (<command><indexterm>
+<primary>dtspcd</primary></indexterm>dtspcd</command>).</para>
+<para>Esto debe suceder autom&aacute;ticamente cuando se instala el escritorio.
+Para obtener m&aacute;s informaci&oacute;n, consulte la secci&oacute;n <!--Original
+XRef content: '&rdquo;Configuring the Subprocess Control Dae--><!--mon&rdquo;
+on page&numsp;97'--><xref role="SecTitleAndPageNum" linkend="sag.clsrv.mkr.13">.
+</para>
+</listitem>
+<listitem><para><indexterm><primary>archivos</primary><secondary>datos remotos</secondary></indexterm>Monte todos los datos remotos necesarios.</para>
+<para>Se considera que los datos son &ldquo;remotos&rdquo; cuando est&aacute;n
+ubicados en un sistema distinto del sistema en el que se est&aacute; ejecutando
+la aplicaci&oacute;n que utiliza los datos.</para>
+<para>Por ejemplo:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Si una aplicaci&oacute;n utiliza datos ubicados en un servidor
+de archivos, &eacute;ste deber&aacute; montar esos archivos.</para>
+</listitem>
+<listitem><para>Si los iconos del Gestor de archivos est&aacute;n ubicados
+en un servidor de iconos, el servidor de sesiones debe montar dichos archivos.
+</para>
+</listitem>
+<listitem><para>Si la red utiliza un servidor de ayuda para los archivos de
+ayuda de escritorio, el servidor de sesiones y todos los servidores de aplicaciones
+deben montar los datos de ayuda.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre los puntos de montaje,
+consulte el siguiente apartado, <!--Original XRef content: '&rdquo;Configuring
+the Mount Point for Remote--><!-- File Systems'--><xref role="SectionTitle"
+linkend="sag.clsrv.mkr.11">.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect3>
+<sect3 id="SAG.ClSrv.div.22">
+<title id="SAG.ClSrv.mkr.11">Configuraci&oacute;n del punto de montaje para
+sistemas de archivos remotos<indexterm><primary>archivos</primary><secondary>punto de montaje para archivos remotos</secondary></indexterm></title>
+<para><indexterm><primary>nombre de archivo</primary><secondary>establecer
+correspondencia</secondary></indexterm>Cuando el escritorio pasa nombres de
+archivos de un sistema a otro, debe transformar dichos nombres de archivo
+en nombres que tengan sentido en el sistema de destino, o <emphasis>establecer
+una correspondencia</emphasis> entre dichos nombres. Este establecimiento
+de correspondencia es necesario porque puede que un archivo est&eacute; montado
+en ubicaciones distintas en los diferentes sistemas y, por consiguiente, se
+tenga que acceder a &eacute;l utilizando nombres diferentes. Por ejemplo,
+se puede acceder al archivo /<filename>projects/big</filename> en <command>sysA</command> como <filename>/net/sysA/projects/big</filename> en <command>sysB</command>.</para>
+<sect4 id="SAG.ClSrv.div.23">
+<title>Requisitos para el establecimiento de correspondencia de los nombres
+de archivo</title>
+<para>Para realizar correctamente esta correspondencia de nombres de archivos,
+debe ser cierta una de las siguientes condiciones:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Se utiliza el mandato <command>mount</command> para montar
+est&aacute;ticamente sistemas de archivos. Estos tipos de montajes est&aacute;ticos
+se configuran normalmente en un archivo tal como <filename>/etc/checklist</filename>, <filename>/etc/mnttab</filename> o <filename>/etc/filesystems</filename>.</para>
+<para>Para que el establecimiento de correspondencia de nombres de archivos
+funcione correctamente entre sistemas, los montajes de sistemas de archivos
+deben utilizar nombres de host coherentes. Si un host se conoce por varios
+nombres (por ejemplo alias, o si el host tiene m&aacute;s de una direcci&oacute;n
+de <systemitem>LAN</systemitem> que se conoce por nombres diferentes), deber&aacute;
+utilizar el mismo nombre y el mismo formato de nombre para todos los montajes.
+</para>
+</listitem>
+<listitem><para><emphasis>O</emphasis> se utiliza el montaje autom&aacute;tico
+para montar sistemas de archivos en el punto de montaje predeterminado <filename>/net</filename>.</para>
+</listitem>
+<listitem><para><emphasis>O</emphasis>,<indexterm><primary>montaje autom&aacute;tico</primary></indexterm> se utiliza el montaje autom&aacute;tico para montar
+sistemas de archivos en una ubicaci&oacute;n distinta de <filename>/net</filename>
+y se establece la variable de entorno <systemitem>DTMOUNTPOINT</systemitem>
+para indicar el punto de montaje. Consulte el apartado siguiente, <!--Original
+XRef content: '&rdquo;Setting a Value for DTMOUNTPOINT'--><xref role="SectionTitle"
+linkend="SAG.ClSrv.mkr.12">.</para>
+</listitem>
+</itemizedlist>
+<para>Para obtener informaci&oacute;n sobre el montaje autom&aacute;tico,
+consulte la p&aacute;gina de manual <filename moreinfo="RefEntry">automount(1M)</filename>.</para>
+</sect4>
+<sect4 id="SAG.ClSrv.div.24">
+<title id="SAG.ClSrv.mkr.12">Establecimiento de un valor para<indexterm>
+<primary>DTMOUNTPOINT, variable</primary><secondary>establecer</secondary>
+</indexterm> DTMOUNTPOINT</title>
+<para><indexterm><primary>DTMOUNTPOINT, variable</primary><secondary>procesos
+que utilizan</secondary></indexterm>Deber&aacute; establecer la variable <systemitem>DTMOUNTPOINT</systemitem> si las dos condiciones siguientes son ciertas:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Se utiliza el montaje autom&aacute;tico para montar sistemas
+de archivos.</para>
+</listitem>
+<listitem><para><emphasis>Y</emphasis> los sistemas de archivos remotos se
+montan en una ubicaci&oacute;n distinta de <filename>/net</filename>.</para>
+</listitem>
+</itemizedlist>
+<para><indexterm><primary>DTMOUNTPOINT, variable</primary><secondary>procesos
+que requieren</secondary></indexterm>Debe establecerse <systemitem>DTMOUNTPOINT</systemitem> para procesos, que incluyen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Procesos de escritorio del usuario que se inician autom&aacute;ticamente
+cuando el usuario inicia la sesi&oacute;n, como por ejemplo el Gestor de espacios
+de trabajo (<command>dtwm</command>) y el Gestor de archivos (<command>dtfile</command> )</para>
+</listitem>
+<listitem><para>Procesos de sistema, tales como <command>rpc.ttdbserver</command><indexterm>
+<primary>rpc.ttdbserver</primary></indexterm> y <command>dtspcd</command> que
+se inician mediante mecanismos tales como <command>inetd</command></para>
+</listitem>
+<listitem><para>Aplicaciones iniciadas por el escritorio en sistemas locales
+o remotos</para>
+</listitem>
+<listitem><para>Aplicaciones iniciadas por el usuario desde una l&iacute;nea
+de mandatos del shell</para>
+</listitem>
+</itemizedlist>
+<para>Para establecer <systemitem>DTMOUNTPOINT</systemitem> para todos estos
+procesos:</para>
+<orderedlist>
+<listitem><para>Edite el archivo <filename>/etc/inetd.conf</filename>:<indexterm>
+<primary>inetd.conf</primary></indexterm></para>
+<orderedlist>
+<listitem><para>Busque la entrada <command>dtspcd</command><indexterm><primary>dtspcd</primary></indexterm> y a&ntilde;ada:</para>
+<para remap="CodeIndent2"><command>-mount_point <symbol role="Variable">punto_montaje</symbol> </command></para>
+</listitem>
+<listitem><para>Busque la entrada <command>rpc.ttdbserver</command> y a&ntilde;ada:
+</para>
+<para remap="CodeIndent2"><command>-m <symbol role="Variable">punto_montaje</symbol> </command></para>
+<para>Por ejemplo, si se est&aacute; utilizando el montaje autom&aacute;tico
+con el punto de montaje de <command>/nfs</command>, las entradas de <filename>/etc/inetd.conf</filename> son:</para>
+<programlisting>dtspc stream tcp nowait root /usr/dt/bin/dtspcd /usr/dt/bin/dtspcd -mount_point /nfs
+rpc stream tcp wait root /usr/dt/bin/rpc.ttdbserver 100083 1 rpc.ttdbserver -m /nfs
+</programlisting>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem><para>Realice en el sistema el procedimiento que vuelve a leer <filename>/etc/inetd.conf</filename>. Para obtener m&aacute;s informaci&oacute;n, consulte
+la p&aacute;gina de manual <filename moreinfo="refentry">inetd(1M)</filename>.
+</para>
+</listitem>
+<listitem><para><indexterm><primary>DTMOUNTPOINT, variable</primary><secondary>heredada por los usuarios</secondary></indexterm>Establezca <systemitem>DTMOUNTPOINT</systemitem> de forma tal que los inicios de sesi&oacute;n de usuario hereden
+sus valores.</para>
+<para>Esto puede realizarse estableciendo la variable en <filename>/etc/dt/config/Xsession.d</filename>. Para obtener m&aacute;s informaci&oacute;n sobre c&oacute;mo
+establecer variables de entorno, consulte la secci&oacute;n <!--Original
+XRef content: '&rdquo;To Set
+Environment Variables&rdquo; --><!--on page&numsp;32'--><xref role="SecTitleAndPageNum"
+linkend="sag.sesmg.mkr.9">.</para>
+</listitem>
+</orderedlist>
+</sect4>
+</sect3>
+<sect3 id="SAG.ClSrv.div.25">
+<title id="SAG.ClSrv.mkr.13">Configuraci&oacute;n del daemon de control de
+subprocesos</title>
+<para>El escritorio<indexterm><primary>servicio de control subprocesos, Vea
+SPC&lt;$nopage></primary></indexterm> de control de subprocesos (<indexterm>
+<primary>SPC</primary></indexterm> SPC) proporciona ejecuci&oacute;n de mandatos
+de cliente/servidor.</para>
+<para>El escritorio<indexterm><primary>daemon de control de subprocesos,
+Vea dtspcd&lt;$nopage></primary></indexterm> utiliza el daemon de control de
+subprocesos de escritorio (<command><indexterm><primary>dtspcd</primary></indexterm>dtspcd</command>) para ejecutar aplicaciones remotas. Es un daemon <command>inet</command> que acepta peticiones procedentes de clientes remotos de ejecuci&oacute;n
+de mandatos. Para obtener m&aacute;s informaci&oacute;n sobre c&oacute;mo
+configurar daemons <command>inet</command>, consulte la p&aacute;gina de manual <filename moreinfo="RefEntry">inetd.conf(1M)</filename>.</para>
+<para>La biblioteca de invocaci&oacute;n de acciones de escritorio utiliza
+el servicio SPC para invocar acciones remotas.</para>
+<sect4 id="SAG.ClSrv.div.26">
+<title>Configurar<indexterm><primary>dtspcd</primary><secondary>configurar</secondary></indexterm> dtspcd</title>
+<orderedlist>
+<listitem><para>Confirme que <command>dtspc</command> est&eacute; registrado
+correctamente en <filename>/etc/services</filename> y <filename>/etc/inetd.conf</filename>. Consulte la p&aacute;gina de manual <filename moreinfo="RefEntry">dtspcd(1M)</filename>.</para>
+</listitem>
+<listitem><para>S&oacute;lo HP-UX: Aseg&uacute;rese de que <filename>/usr/adm/inetd.sec</filename> est&eacute; configurado correctamente. Consulte la p&aacute;gina
+de manual <filename moreinfo="RefEntry"><indexterm><primary>inetd.sec</primary>
+</indexterm>inetd.sec(4)</filename>.</para>
+</listitem>
+</orderedlist>
+</sect4>
+<sect4 id="SAG.ClSrv.div.27">
+<title><indexterm><primary>SPC</primary><secondary>seguridad</secondary></indexterm>Seguridad
+de SPC</title>
+<para>La autentificaci&oacute;n del servicio de control de subprocesos se
+basa en la autentificaci&oacute;n del sistema de archivos. El <command>dtspcd</command> debe tener acceso a un <emphasis>directorio de autentificaci&oacute;n</emphasis> que tambi&eacute;n montan todos los sistemas clientes del SPC.
+</para>
+<para>Como valor predeterminado, el directorio de autentificaci&oacute;n <command><indexterm>
+<primary>dtspcd</primary><secondary>directorio de autentificaci&oacute;n</secondary>
+</indexterm><indexterm><primary>directorio de autentificaci&oacute;n</primary>
+</indexterm> dtspcd</command> es el directorio de inicio del usuario. Sin embargo,
+se puede configurar el <command>dtspcd</command> para utilizar una ubicaci&oacute;n
+diferente estableciendo la opci&oacute;n <command>-auth_dir</command> en el
+directorio <filename>/etc/inetd.conf</filename>. Para obtener m&aacute;s informaci&oacute;n,
+consulte la p&aacute;gina de manual <filename>dtspcd(1M)</filename>.</para>
+<para>Dado que la autentificaci&oacute;n del SPC se basa en la autentificaci&oacute;n
+del sistema de archivos, el servicio SPC es tan seguro como el sistema de
+archivos distribuidos. Si est&aacute; utilizando el escritorio en una red
+en la que no se f&iacute;a del sistema de archivos distribuidos, es aconsejable
+inhabilitar el <command>dtspcd</command>. Para inhabilitar el <command>dtspcd</command>, comente la entrada <command>dtspc</command> en <filename>/etc/services</filename>.</para>
+</sect4>
+</sect3>
+<sect3 id="SAG.ClSrv.div.28">
+<title><indexterm><primary>variables de entorno</primary><secondary>ejecuci&oacute;n
+remota</secondary></indexterm>Configuraci&oacute;n de variables de entorno
+para ejecuci&oacute;n remota</title>
+<para>Cuando el escritorio utiliza una acci&oacute;n para iniciar una aplicaci&oacute;n
+en un sistema remoto, las variables de entorno del usuario se copian en el
+sistema remoto y se ponen en el entorno de la aplicaci&oacute;n.</para>
+<para>Como valor predeterminado, algunas de las variables de entorno se modifican
+antes de copiarse en el sistema remoto. Puede configurar el componente de
+invocaci&oacute;n de acciones y el servicio de control de subprocesos del
+escritorio para realizar un proceso adicional de las variables de entorno
+antes de que las variables se pongan en el entorno de la aplicaci&oacute;n.
+</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre la configuraci&oacute;n
+predeterminada y sobre c&oacute;mo modificarla, consulte las p&aacute;ginas
+de manual <filename>dtactionfile(4)</filename> y <filename>dtspcdenv(4)</filename>.
+</para>
+</sect3>
+<sect3 id="SAG.ClSrv.div.29">
+<title id="SAG.ClSrv.mkr.14">Configuraci&oacute;n del<indexterm><primary>ToolTalk</primary><secondary>Servidor de bases de datos, Vea rpc.ttdbserver&lt;$nopage></secondary></indexterm> Servidor de bases de datos de ToolTalk</title>
+<para>Un componente de ToolTalk es el servidor de bases de datos de ToolTalk,
+<filename>/usr/dt/bin/rpc.ttdbserver</filename>.</para>
+<para>El servidor de bases de datos de ToolTalk lo utiliza el servicio de
+mensajes de ToolTalk y se emplea para establecer correspondencias de nombres
+de archivos. Normalmente se registra en <filename>/etc/inetd.conf</filename>
+cuando se instala el escritorio y no necesita ninguna configuraci&oacute;n
+adicional.</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre el servidor de bases
+de datos de ToolTalk y sus opciones de configuraci&oacute;n, consulte la p&aacute;gina
+de manual <filename>rpc.ttdbserver(1M)</filename>.</para>
+</sect3>
+<sect3 id="SAG.ClSrv.div.30">
+<title>Configuraci&oacute;n del<indexterm><primary>Servidor de mensajes de
+ToolTalk, Vea ttsession&lt;$nopage></primary></indexterm> servidor de mensajes
+de ToolTalk</title>
+<para>El servidor de mensajes de ToolTalk es <command><indexterm><primary>ttsession</primary></indexterm>ttsession</command>. Como valor predeterminado,
+no necesita ninguna configuraci&oacute;n; el script <command>Xession</command>
+lo inicia durante el inicio de sesi&oacute;n.</para>
+<para>Consulte la p&aacute;gina de manual <command>ttsession</command> para
+obtener m&aacute;s informaci&oacute;n sobre el servidor de mensajes de ToolTalk
+y sus opciones de configuraci&oacute;n.</para>
+</sect3>
+<sect3 id="SAG.ClSrv.div.31">
+<title>Configuraci&oacute;n del<indexterm><primary>Agenda, daemon</primary>
+</indexterm> daemon de Agenda</title>
+<para>Un componente de la aplicaci&oacute;n Agenda es el daemon de Agenda
+<filename><indexterm><primary>rpc.cmsd</primary></indexterm>rpc.cmsd</filename>.
+Normalmente se registra en <filename>/etc/inetd.conf</filename> cuando se
+instala el escritorio y no necesita ninguna configuraci&oacute;n adicional.
+</para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre el daemon de Agenda
+y sus opciones de configuraci&oacute;n, consulte la p&aacute;gina de manual
+<filename>rpc.cmsd</filename><filename moreinfo="RefEntry">(1)</filename>.
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.ClSrv.div.32">
+<title id="SAG.ClSrv.mkr.15">Administraci&oacute;n de los servicios de aplicaci&oacute;n<indexterm>
+<primary>servidores de aplicaciones</primary><secondary>administrar</secondary>
+</indexterm></title>
+<para>Esta secci&oacute;n incluye los requisitos de configuraci&oacute;n espec&iacute;ficos
+para:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Los servidores de aplicaciones y sus clientes</para>
+</listitem>
+<listitem><para>Los servidores de escritorio que proporcionan servicios especiales
+(servidores de bases de datos, servidores de iconos y servidores de ayuda)
+</para>
+</listitem>
+</itemizedlist>
+<para>Tambi&eacute;n incluye los requisitos de la funci&oacute;n de red para
+dos configuraciones especiales para aplicaciones de red:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Hosts de ejecuci&oacute;n remota</para>
+</listitem>
+<listitem><para>Aplicaciones que se ejecutan a trav&eacute;s de montajes de
+sistemas de archivos</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.ClSrv.div.33">
+<title>Variables de entorno de rutas de b&uacute;squeda</title>
+<para>El escritorio utiliza un conjunto de variables de entorno para especificar
+la ruta de b&uacute;squeda utilizada para buscar los archivos de configuraci&oacute;n
+de escritorio de la aplicaci&oacute;n, como por ejemplo la base de datos de
+acciones y de tipos de datos, los archivos de ayuda y los archivos de iconos.
+</para>
+<para>Para obtener informaci&oacute;n sobre c&oacute;mo utilizar las variables
+de entorno de rutas de b&uacute;squeda, consulte el <!--Original XRef content:
+'Chapter&numsp;7, &rdquo;Desktop Search Paths'--><xref role="ChapNumAndTitle"
+linkend="SAG.Datab.mkr.1"> o la p&aacute;gina de manual <filename moreinfo="RefEntry">dtenvvar(5)</filename>.</para>
+</sect2>
+<sect2 id="SAG.ClSrv.div.34">
+<title>Configuraci&oacute;n de un servidor de aplicaciones y de sus clientes<indexterm>
+<primary>ejecuci&oacute;n remota</primary><secondary>configurar servidor de
+aplicaciones</secondary></indexterm></title>
+<para>En la configuraci&oacute;n est&aacute;ndar del servidor de aplicaciones,
+&eacute;ste contiene todos los archivos binarios y de configuraci&oacute;n
+asociados con la aplicaci&oacute;n, incluidos:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>El(Los) ejecutable(s) de la aplicaci&oacute;n</para>
+</listitem>
+<listitem><para>Archivos de configuraci&oacute;n de aplicaci&oacute;n est&aacute;ndar,
+tales como los archivos app-defaults, cat&aacute;logos de mensajes y bibliotecas
+compartidas para dicha aplicaci&oacute;n.</para>
+</listitem>
+<listitem><para>Archivos de configuraci&oacute;n de escritorio:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Archivos de definiciones de tipos de datos y de acciones</para>
+</listitem>
+<listitem><para>Archivos de im&aacute;genes de iconos</para>
+</listitem>
+<listitem><para>Archivos de datos de ayuda del escritorio</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<figure>
+<title><indexterm><primary>servidores de aplicaciones</primary><secondary>configuraci&oacute;n est&aacute;ndar</secondary></indexterm>Configuraci&oacute;n
+est&aacute;ndar del servidor de aplicaciones</title>
+<graphic id="SAG.ClSrv.grph.5" entityref="SAG.ClSrv.fig.5"></graphic>
+</figure>
+<sect3 id="SAG.ClSrv.div.35" role="Procedure">
+<title>Configurar un servidor de aplicaciones<indexterm><primary>servidor
+de aplicaciones</primary><secondary>configurar</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Proporcione las configuraciones de red del sistema operativo
+necesarias para el escritorio.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+Base Operating System Networking for the Desktop&rdquo; on
+page&numsp;90'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.6">.
+</para>
+</listitem>
+<listitem><para>Proporcione la configuraci&oacute;n general de escritorio
+necesaria para los servidores.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;To Configure
+Desktop Clients and Servers&rdquo; on page&numsp;94'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Instale las aplicaciones.</para>
+</listitem>
+<listitem><para>Si una aplicaci&oacute;n no se registra autom&aacute;ticamente,
+se deber&aacute; realizar el procedimiento de registro.</para>
+<para>Consulte el <!--Original XRef content: 'Chapter&numsp;4, &rdquo;Registering
+an Application'--><xref role="ChapNumAndTitle" linkend="SAG.regap.mkr.1">.
+</para>
+</listitem>
+</orderedlist>
+</sect3>
+<sect3 id="SAG.ClSrv.div.36" role="Procedure">
+<title>Configurar el cliente de un servidor de aplicaciones<indexterm><primary>servidores de aplicaciones</primary><secondary>cliente de</secondary></indexterm><indexterm>
+<primary>servidores de aplicaciones</primary><secondary>configurar cliente
+de</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Proporcione las configuraciones de red del sistema operativo
+necesarias para el escritorio.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+Base Operating System Networking for the Desktop&rdquo; on
+page&numsp;90'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.6">.
+</para>
+</listitem>
+<listitem><para>Proporcione la configuraci&oacute;n general de escritorio
+necesaria para los clientes.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;To Configure
+Desktop Clients and Servers&rdquo; on page&numsp;94'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.10">.</para>
+</listitem>
+<listitem><para>A&ntilde;ada el servidor de aplicaciones a la ruta de b&uacute;squeda
+de la aplicaci&oacute;n de forma que sea accesible en el sistema o personal:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="105*">
+<colspec colwidth="423*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Accesible en el sistema</para></entry>
+<entry align="left" valign="top"><para>Establezca y exporte la variable <systemitem>DTSPSYSAPPHOSTS</systemitem><indexterm><primary>DTSPSYSAPPHOSTS, variable</primary></indexterm> en <filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Personal</para></entry>
+<entry align="left" valign="top"><para>Establezca y exporte la<indexterm>
+<primary>DTSPUSERAPPHOSTS, variable</primary></indexterm> variable <systemitem>DTSPUSERAPPHOSTS</systemitem> en <symbol role="Variable">DirectorioInicio</symbol><filename>/.dtprofile</filename></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</listitem>
+</orderedlist>
+<para>Por ejemplo, la l&iacute;nea siguiente en <filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename> a&ntilde;ade un sistema con el nombre de host <command>SysAAA</command> y <command>SysBBB</command> a la ruta de b&uacute;squeda de la
+aplicaci&oacute;n:</para>
+<programlisting>DTSPSYSAPPHOSTS=SysAAA:,SysBBB:</programlisting>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre c&oacute;mo establecer
+la ruta de b&uacute;squeda de aplicaciones, consulte las secciones:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><!--Original XRef content: '&rdquo;Application
+Search Path&rdquo; on page&numsp;116'--><xref role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.8"></para>
+</listitem>
+<listitem><para><!--Original XRef content: '&rdquo;Setting the
+Value of a Search Path&rdquo; on page&numsp;115'--><xref role="SecTitleAndPageNum"
+linkend="SAG.Datab.mkr.6"></para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.ClSrv.div.37">
+<title id="SAG.ClSrv.mkr.16">Configuraci&oacute;n de los servicios de la base
+de datos, de iconos y de ayuda<indexterm><primary>servidores de iconos</primary>
+<secondary>configurar</secondary></indexterm><indexterm><primary>configurar</primary><secondary>servidores de bases de datos</secondary><tertiary>configurar</tertiary></indexterm><indexterm><primary>servidores de bases de datos</primary>
+<secondary>configurar</secondary></indexterm><indexterm><primary>servidores</primary><secondary>acciones</secondary></indexterm><indexterm><primary>servidores</primary><secondary>tipos de datos</secondary></indexterm><indexterm>
+<primary>servidores</primary><secondary>acciones</secondary></indexterm><indexterm>
+<primary>servidores</primary><secondary>tipos de datos</secondary></indexterm><indexterm>
+<primary>tipos de datos</primary><secondary>servidores para</secondary></indexterm><indexterm>
+<primary>acciones</primary><secondary>servidores para</secondary></indexterm></title>
+<para>En general, las definiciones de acciones y de tipos de datos, los iconos
+y los archivos de datos de ayuda asociados con una aplicaci&oacute;n se instalan
+en el mismo sistema que la aplicaci&oacute;n.</para>
+<para>Por ejemplo, examinemos la configuraci&oacute;n caracter&iacute;stica
+de los archivos de datos de ayuda:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Los archivos de ayuda para el Gestor de archivos est&aacute;n
+normalmente ubicados en el servidor de sesiones. El escritorio los encuentra
+porque la ruta de b&uacute;squeda de ayuda busca autom&aacute;ticamente en
+las ubicaciones correctas del servidor de sesiones.</para>
+</listitem>
+<listitem><para>Los archivos de ayuda para otras aplicaciones est&aacute;n
+normalmente ubicados en el mismo servidor de aplicaciones que la aplicaci&oacute;n.
+El servidor de sesiones los encuentra porque al modificar la ruta de b&uacute;squeda
+de aplicaciones se modifica autom&aacute;ticamente la ruta de b&uacute;squeda
+de ayuda.</para>
+</listitem>
+</itemizedlist>
+<para>Pueden producirse situaciones en las que desee poner datos de la base
+de datos (acciones y tipos de datos), de ayuda o de iconos en alg&uacute;n
+otro lugar de la red. Por ejemplo, si la red utiliza varios servidores de
+sesiones, es recomendable crear un servidor de ayuda en el que est&eacute;n
+almacenados todos los archivos de datos de ayuda para las aplicaciones de
+escritorio (Gestor de archivos, Gestor de estilos, etc.). Esto ahorra espacio
+en disco porque no es necesario que los archivos de ayuda est&eacute;n duplicados
+en cada servidor de sesiones.</para>
+<sect3 id="SAG.ClSrv.div.38" role="Procedure">
+<title id="SAG.ClSrv.mkr.17">Crear un servidor de bases de datos, de ayuda
+o de iconos<indexterm><primary>servidores de bases de datos</primary><secondary>crear</secondary></indexterm><indexterm><primary>servidores de iconos</primary>
+<secondary>crear</secondary></indexterm><indexterm><primary>servidores de
+ayuda</primary><secondary>crear</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Proporcione las configuraciones de red del sistema operativo
+necesarias para el escritorio.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+Base Operating System Networking for the Desktop&rdquo; on
+page&numsp;90'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.6">.
+</para>
+</listitem>
+<listitem><para>Proporcione la configuraci&oacute;n general de escritorio
+necesaria para los clientes.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;To Configure
+Desktop Clients and Servers&rdquo; on page&numsp;94'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.10">.</para>
+</listitem>
+<listitem><para id="SAG.ClSrv.mkr.18">Instale los archivos de la base de datos,
+de ayuda o de iconos.</para>
+<para>Los archivos pueden ubicarse en cualquier lugar del sistema. Sin embargo,
+puede que sea m&aacute;s f&aacute;cil utilizar las ubicaciones siguientes,
+puesto que &eacute;stos son los directorios en los que se realiza autom&aacute;ticamente
+la b&uacute;squeda cuando un sistema se ha designado como servidor de aplicaciones.
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Archivos de bases de datos: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para>Archivos de ayuda: <filename>/etc/dt/appconfig/help/</filename><symbol role="Variable">idioma</symbol></para>
+</listitem>
+<listitem><para>Archivos de iconos: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">idioma</symbol></para>
+<para>Si est&aacute; definiendo un servidor de bases de datos, se deber&aacute;n
+escribir las acciones para especificar d&oacute;nde se ejecutar&aacute;n
+los mandatos (<filename>EXEC_STRING</filename>). Consulte la secci&oacute;n
+<!--Original XRef content: '&rdquo;Specifying a Remote
+Execution Host&rdquo; on page&numsp;104'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.19">.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect3>
+<sect3 id="SAG.ClSrv.div.39" role="Procedure">
+<title>Configurar el servidor de sesiones para buscar un servidor de bases
+de datos, de iconos o de ayuda<indexterm><primary>servidores de ayuda</primary>
+<secondary>cliente de</secondary></indexterm><indexterm><primary>servidores
+de iconos</primary><secondary>cliente de</secondary></indexterm><indexterm>
+<primary>servidores de bases de datos</primary><secondary>cliente de</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Proporcione las configuraciones de red del sistema operativo
+necesarias para el escritorio.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+Base Operating System Networking for the Desktop&rdquo; on
+page&numsp;90'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.6">.
+</para>
+</listitem>
+<listitem><para>Proporcione la configuraci&oacute;n general de escritorio
+necesaria para los clientes.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;To Configure
+Desktop Clients and Servers&rdquo; on page&numsp;94'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.10">.</para>
+</listitem>
+<listitem><para>A&ntilde;ada el servidor de bases de datos, de iconos o de
+ayuda a la ruta de b&uacute;squeda apropiada.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Si ha puesto los archivos de datos en las ubicaciones especificadas
+en el <!--Original XRef content: 'Step&numsp;3'--><xref role="Step" linkend="SAG.ClSrv.mkr.18">
+de la secci&oacute;n <!--Original
+XRef content: '&rdquo;To
+Create a Database, Help, or Icon Server'--><xref role="SectionTitle" linkend="SAG.ClSrv.mkr.17">,
+puede modificar la ruta de b&uacute;squeda de aplicaciones.</para>
+</listitem>
+<listitem><para>Si ha puesto los archivos de datos en otras ubicaciones, deber&aacute;
+modificar la ruta de b&uacute;squeda espec&iacute;fica.</para>
+<para>Por ejemplo, si ha puesto los archivos de ayuda en el directorio <filename>/etc/dt/help</filename> en el sistema <command>SysCCC</command>, deber&aacute;
+a&ntilde;adir la siguiente l&iacute;nea a <filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename>:</para>
+<para remap="CodeIndent2"><programlisting>DTSPSYSHELP=/net/SysCCC/etc/dt/help
+</programlisting></para>
+<para>Para obtener m&aacute;s informaci&oacute;n sobre c&oacute;mo establecer
+rutas de b&uacute;squeda, consulte las secciones:</para>
+</listitem>
+<listitem><para><!--Original XRef content: '&rdquo;Database (Action/Data
+Types) Search Path&rdquo; on page&numsp;120'--><xref role="SecTitleAndPageNum"
+linkend="SAG.Datab.mkr.12"></para>
+</listitem>
+<listitem><para><!--Original XRef content: '&rdquo;Icon Search
+Path&rdquo; on page&numsp;122'--><xref role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.13"></para>
+</listitem>
+<listitem><para><!--Original XRef content: '&rdquo;Help Search
+Path&rdquo; on page&numsp;123'--><xref role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.14"></para>
+</listitem>
+<listitem><para><!--Original XRef content: '&rdquo;Setting the
+Value of a Search Path&rdquo; on page&numsp;115'--><xref role="SecTitleAndPageNum"
+linkend="SAG.Datab.mkr.6"></para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.ClSrv.div.40">
+<title>Configuraciones especiales de aplicaciones de red</title>
+<para>Esta secci&oacute;n describe c&oacute;mo configurar sistemas para ejecutar
+aplicaciones:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>En otro lugar que no sea el sistema que contiene la acci&oacute;n
+(en un host de ejecuci&oacute;n remota)</para>
+</listitem>
+<listitem><para>Localmente en montajes de sistemas de archivos</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.ClSrv.div.41">
+<title id="SAG.ClSrv.mkr.19">Especificaci&oacute;n de un host de ejecuci&oacute;n
+remota<indexterm><primary>ejecuci&oacute;n remota</primary><secondary>con
+acci&oacute;n remota desde la aplicaci&oacute;n</secondary></indexterm></title>
+<para>En la configuraci&oacute;n del servidor de aplicaciones caracter&iacute;stica,
+la definici&oacute;n de acciones est&aacute; ubicada en el mismo sistema
+que el ejecutable de la aplicaci&oacute;n. Sin embargo,<indexterm><primary>acciones</primary><secondary>que se ejecutan en aplicaciones remotas</secondary>
+</indexterm> se pueden escribir acciones para ejecutar mandatos en otros sistemas.
+En esta configuraci&oacute;n, el sistema que contiene la aplicaci&oacute;n
+se denomina <emphasis><indexterm><primary>host de ejecuci&oacute;n</primary>
+<secondary>especificar</secondary></indexterm>host de ejecuci&oacute;n</emphasis>.<indexterm>
+<primary>EXEC_HOST, Vea host de ejecuci&oacute;n&lt;$nopage></primary></indexterm></para>
+<para>La definici&oacute;n de acci&oacute;n puede estar ubicada en el servidor
+de sesiones o en un sistema que proporcione servicios de acciones y de tipos
+de datos al servidor de sesiones (que se denomina<emphasis><indexterm><primary>servidores de bases de datos</primary></indexterm><indexterm><primary>host
+de bases de datos</primary></indexterm> servidor de bases de datos</emphasis>
+o <emphasis>host de bases de datos</emphasis>).</para>
+<para>Las definiciones de acciones utilizan el campo <filename>EXEC_HOST</filename>
+para especificar d&oacute;nde deben ejecutarse los mandatos (<filename>EXEC_STRING</filename> ). Por ejemplo, la siguiente definici&oacute;n de acci&oacute;n
+especifica que se debe ejecutar un cliente <command>xload</command> en un
+sistema cuyo nombre de host es <command>SysDDD</command>:</para>
+<programlisting>ACTION XloadSysDDD
+{
+   TYPE      COMMAND
+   EXEC_HOST SysDDD
+}</programlisting>
+<para>Si el campo <filename><indexterm><primary>EXEC_HOST, campo</primary>
+<secondary>m&uacute;ltiples valores</secondary></indexterm>EXEC_HOST</filename>
+especifica m&aacute;s de un nombre de host, el escritorio intenta ejecutar
+en orden <filename>EXEC_STRING</filename> en cada host hasta que encuentra
+uno que puede ejecutar la acci&oacute;n. Por ejemplo, el siguiente campo <filename>EXEC_HOST</filename> especifica que la acci&oacute;n debe intentar ejecutar
+primero el <filename>EXEC_STRING</filename> en <command>SysDDD</command> y,
+si esto falla, intentarlo en <command>SysEEE</command>.</para>
+<programlisting> EXEC_HOST SysDDD,SysEEE</programlisting>
+<para>Si el campo <filename><indexterm><primary>EXEC_HOST, campo</primary>
+<secondary>valor predeterminado</secondary></indexterm>EXEC_HOST</filename>
+no se establece para una acci&oacute;n, toma como valor predeterminado el
+valor <filename>%DatabaseHost%</filename>. El valor de <filename>%DatabaseHost%</filename> se obtiene de la ruta de b&uacute;squeda de bases de datos.</para>
+<para>Por ejemplo, supongamos que se ha modificado la ruta de b&uacute;squeda
+de bases de datos a&ntilde;adiendo la siguiente l&iacute;nea a <filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename>:<indexterm><primary>ruta
+de b&uacute;squeda de bases de datos</primary><secondary>efecto en EXEC_HOST</secondary></indexterm><indexterm><primary>DTSPSYSDATABASEHOSTS, variable</primary><secondary>efecto en el campo EXEC_HOST</secondary></indexterm><indexterm>
+<primary>EXEC_HOST</primary><secondary>afectado por la ruta de b&uacute;squeda
+de bases de datos</secondary></indexterm></para>
+<programlisting>DTSPSYSDATABASEHOSTS=SysAAA:,/net/SysBBB/etc/dt/appconfig/types/C
+</programlisting>
+<para><command>SysAAA</command> se especifica utilizando la sintaxis calificada
+para el host &mdash;<filename>SysAAA:</filename>. Si se encuentra una definici&oacute;n
+de acci&oacute;n que utiliza este elemento en la ruta de b&uacute;squeda,
+el host de la base de datos se establece en <command>SysAAA</command>. Sin
+embargo, si se encuentra una acci&oacute;n que utiliza la parte <filename>/net/SysBBB&hellip;</filename> de la ruta de b&uacute;squeda, el host de la
+base de datos se establece en el sistema local porque la sintaxis no incluye
+el calificador del host.</para>
+<sect4 id="SAG.ClSrv.div.42">
+<title><indexterm><primary>host de ejecuci&oacute;n</primary><secondary>configurar</secondary></indexterm>Configurar el host de ejecuci&oacute;n remota</title>
+<orderedlist>
+<listitem><para>Proporcione las configuraciones de red del sistema operativo
+necesarias para el escritorio.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+Base Operating System Networking for the Desktop&rdquo; on
+page&numsp;90'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.6">.
+</para>
+</listitem>
+<listitem><para>Proporcione la configuraci&oacute;n general de escritorio
+necesaria para los servidores.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;To Configure
+Desktop Clients and Servers&rdquo; on page&numsp;94'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Aseg&uacute;rese de que las aplicaciones est&eacute;n instaladas
+y configuradas correctamente para la ejecuci&oacute;n local.</para>
+</listitem>
+</orderedlist>
+</sect4>
+<sect4 id="SAG.ClSrv.div.43">
+<title>Configurar el sistema que contiene la definici&oacute;n de acci&oacute;n</title>
+<orderedlist>
+<listitem><para>Proporcione las configuraciones de red del sistema operativo
+necesarias para el escritorio.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+Base Operating System Networking for the Desktop&rdquo; on
+page&numsp;90'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.6">.
+</para>
+</listitem>
+<listitem><para>Proporcione la configuraci&oacute;n general de escritorio
+necesaria para los servidores.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;To Configure
+Desktop Clients and Servers&rdquo; on page&numsp;94'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Cree e instale las definiciones de acciones y los grupos de
+aplicaciones.</para>
+<para>Consulte las secciones <!--Original XRef content: '&rdquo;Creating
+Actions that Run Applications on Remote Systems&rdquo; on
+page&numsp;177'--><xref role="SecTitleAndPageNum" linkend="SAG.CrAct.mkr.32">
+y <!--Original XRef content: '&rdquo;Creating and Administering General
+Application Groups&rdquo; on
+page&numsp;45'--><xref role="SecTitleAndPageNum" linkend="SAG.CnfAM.mkr.10">.
+</para>
+</listitem>
+</orderedlist>
+</sect4>
+<sect4 id="SAG.ClSrv.div.44">
+<title>Configurar el servidor de sesiones</title>
+<orderedlist>
+<listitem><para>Proporcione las configuraciones de red del sistema operativo
+necesarias para el escritorio.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Configuring
+Base Operating System Networking for the Desktop&rdquo; on
+page&numsp;90'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.6">.
+</para>
+</listitem>
+<listitem><para>Proporcione la configuraci&oacute;n general de escritorio
+necesaria para los clientes.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;To Configure
+Desktop Clients and Servers&rdquo; on page&numsp;94'--><xref role="SecTitleAndPageNum"
+linkend="SAG.ClSrv.mkr.10">.</para>
+</listitem>
+<listitem><para>Modifique la ruta de b&uacute;squeda de acciones para que
+incluya el host de la base de datos.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Database
+(Action/Data Types) Search Path&rdquo; on page&numsp;120'--><xref role="SecTitleAndPageNum"
+linkend="SAG.Datab.mkr.12">.</para>
+</listitem>
+<listitem><para>Modifique la ruta de b&uacute;squeda de la aplicaci&oacute;n
+para que incluya el host de ejecuci&oacute;n.</para>
+<para>Consulte la secci&oacute;n <!--Original XRef content: '&rdquo;Application
+Search Path&rdquo; on page&numsp;116'--><xref role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.8">.
+</para>
+</listitem>
+</orderedlist>
+</sect4>
+</sect3>
+<sect3 id="SAG.ClSrv.div.45">
+<title><indexterm><primary>montajes,ejecutar aplicaciones entre</primary>
+</indexterm><indexterm><primary>aplicaciones</primary><secondary>ejecutar
+localmente entre montajes</secondary></indexterm><indexterm><primary>funci&oacute;n
+de red</primary><secondary>ejecutar aplicaciones entre montajes</secondary>
+</indexterm>Ejecutar aplicaciones localmente</title>
+<para>La configuraci&oacute;n est&aacute;ndar del servidor de aplicaciones
+ejecuta aplicaciones en el servidor de aplicaciones. En algunos casos es deseable
+que la aplicaci&oacute;n est&eacute; instalada en un sistema remoto pero que
+se ejecute localmente en el servidor de sesiones.</para>
+<figure>
+<title>Ejecuci&oacute;n entre puntos de montaje</title>
+<graphic id="SAG.ClSrv.grph.6" entityref="SAG.ClSrv.fig.6"></graphic>
+</figure>
+<sect4 id="SAG.ClSrv.div.46">
+<title>Configurar el servidor de aplicaciones</title>
+<para>No se requiere ninguna configuraci&oacute;n especial.</para>
+</sect4>
+<sect4 id="SAG.ClSrv.div.47">
+<title>Configurar el servidor de sesiones</title>
+<itemizedlist>
+<listitem><para>Modifique la ruta de b&uacute;squeda de aplicaciones. Utilice
+la ruta local absoluta a la aplicaci&oacute;n.</para>
+</listitem>
+</itemizedlist>
+<para>Por ejemplo, se puede utilizar la siguiente definici&oacute;n de variable
+para buscar una aplicaci&oacute;n registrada en <command>sysAAA</command>:
+</para>
+<programlisting>DTSPSYSAPPHOSTS=/net/SysAAA/etc/dt/appconfig/appmanager/C
+</programlisting>
+<para>El servidor de sesiones debe poder acceder a los archivos de configuraci&oacute;n
+de la aplicaci&oacute;n, tales como los archivos app-defaults, los cat&aacute;logos
+de mensajes y las bibliotecas compartidas.</para>
+</sect4>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 14:35:19-->
+<?Pub *0000082240>

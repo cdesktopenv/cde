@@ -1,0 +1,428 @@
+<!-- $XConsortium: ch02.sgm /main/10 1996/09/08 19:46:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="RDMAP.consi.div.1">
+<title id="RDMAP.consi.mkr.1">Development Environment Considerations</title>
+<para>This chapter discusses general information you should know before starting
+to use the Common Desktop Environment application program interfaces (APIs).
+</para>
+<para>Before you integrate your application into the desktop, you should have
+a basic understanding of how the desktop works. Install the Common Desktop
+Environment on your platform and familiarize yourself with its features.
+For an introduction to the desktop, see the <emphasis>User's Guide</emphasis>
+or the <emphasis>Desktop Introduction</emphasis> online help volume.</para>
+<informaltable id="RDMAP.consi.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Common Desktop Environment Characteristics24'--><xref
+role="JumpText" linkend="RDMAP.consi.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Underlying Foundations25'--><xref
+role="JumpText" linkend="RDMAP.consi.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Running Existing Applications26'--><xref
+role="JumpText" linkend="RDMAP.consi.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Libraries and Header Files27'--><xref
+role="JumpText" linkend="RDMAP.consi.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Demo Programs27'--><xref role="JumpText"
+linkend="RDMAP.consi.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Man Pages27'--><xref role="JumpText"
+linkend="RDMAP.consi.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Development Environment Directory
+Structure28'--><xref role="JumpText" linkend="RDMAP.consi.mkr.8"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="RDMAP.consi.div.2">
+<title id="RDMAP.consi.mkr.2">Common Desktop Environment Characteristics</title>
+<para>The Common Desktop Environment provides a productive and comfortable
+desktop environment for UNIX users. As you develop your application, keep
+in mind the experience that the Common Desktop Environment delivers to its
+users. Develop your application with the following<indexterm><primary>guidelines</primary><secondary>application development</secondary></indexterm><indexterm>
+<primary>goals for desktop look and feel</primary></indexterm><indexterm>
+<primary>application development</primary><secondary>guidelines &lt;$startrange></secondary></indexterm> characteristics
+in mind, to help make it a powerful, consistent, and predictable part of
+the Common Desktop Environment:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Hide the complexities of UNIX.<indexterm>
+<primary>UNIX</primary></indexterm></para>
+<para>Because the Common Desktop Environment targets end users as its primary
+customers, providing an application that hides UNIX as much as possible is
+a key ingredient to a successful product.</para>
+</listitem><listitem><para>Provide a common look and feel.<indexterm><primary>look and feel</primary></indexterm></para>
+<para>Successful applications in the Common Desktop Environment share look-
+and-feel characteristics with other applications on the desktop. Follow the
+style and other guidelines (such as the Common Desktop Environment standard
+font names) so that your application encompasses the Common Desktop Environment
+Motif look and feel.</para>
+</listitem><listitem><para>Make applications easy to use.<indexterm><primary>ease of use</primary></indexterm></para>
+<para>Provide an easily readable default font size, and provide keyboard
+accelerators for mouse-oriented actions. Use the desktop online help component
+to integrate a complete Help system into your application. Basic computer
+interaction styles should be consistent across platforms wherever possible.
+</para>
+</listitem><listitem><para>Take advantage of desktop integration services.<indexterm>
+<primary>desktop</primary><secondary>integration services</secondary></indexterm><indexterm>
+<primary>integration</primary><secondary>services, desktop</secondary></indexterm><indexterm>
+<primary>services, desktop integration</primary></indexterm></para>
+<para>The Common Desktop Environment provides a set of desktop integration
+services that enable applications to be well-integrated into the desktop.
+Users benefit because they do not have to know whether an application is
+running on a local machine or somewhere on the network, or which toolkit
+(if any) was used to write the application they are running. Provide mechanisms
+in your application that enable it to be launched from the desktop and to
+communicate with other Common Desktop Environment applications. Use the online
+Help system to provide users with quick information. Use drag and drop to
+provide users with a more predictable way to use their systems.</para>
+</listitem><listitem><para>Design for individual and cultural differences.
+</para>
+<para>By following the Common Desktop Environment conventions and policies,
+your application will naturally provide for smooth, consistent, and appropriate
+customization of:<indexterm><primary>customization</primary><secondary>of
+desktop</secondary></indexterm><indexterm><primary>desktop</primary><secondary>customization</secondary></indexterm></para>
+<itemizedlist remap="Bullet2"><listitem><para>Fonts</para>
+</listitem><listitem><para>Color</para>
+</listitem><listitem><para>Keyboard and mouse bindings</para>
+</listitem><listitem><para>Locale-specific configuration files</para>
+<para>For more about locale-specific configuration files, see the localization
+section of the <emphasis>Advanced User's and System Administration Guide</emphasis> .<indexterm><primary>guidelines</primary><secondary>for application
+development</secondary></indexterm><indexterm><primary>goals for desktop
+look and feel</primary></indexterm><indexterm><primary>application development</primary><secondary>guidelines &lt;$endrange></secondary></indexterm></para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="RDMAP.consi.div.3">
+<title id="RDMAP.consi.mkr.3">Underlying Foundations</title>
+<para>To compile an application that uses the desktop APIs, you need:<indexterm>
+<primary>compiling</primary><secondary>an application</secondary></indexterm><indexterm>
+<primary>software requirements, for application development</primary></indexterm><indexterm>
+<primary>requirements (software), for application development</primary></indexterm><indexterm>
+<primary>application development</primary><secondary>required software</secondary>
+</indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>Common Desktop Environment header
+files and libraries</para>
+</listitem><listitem><para>X11R6.2 or later header files and libraries<indexterm>
+<primary>X11R6.2</primary></indexterm></para>
+</listitem><listitem><para>ANSI C compiler; or C++ compiler, version 2.0 or
+later, if you are developing a C++ application<indexterm><primary>compilers,
+used for application development</primary></indexterm><indexterm><primary>ANSI C</primary></indexterm><indexterm><primary>C++</primary></indexterm></para>
+</listitem></itemizedlist>
+<para>The resulting binary file must be run in an environment in which matching
+libraries are installed. The run-time libraries are in <filename>/usr/dt/lib</filename>, and they include the directories listed in <!--Original XRef
+content: 'Table&numsp;2&hyphen;2 on page&numsp;28'--><xref role="CodeOrFigOrTabAndPNum"
+linkend="RDMAP.consi.mkr.9">.</para>
+<para>To run properly, Common Desktop Environment-based applications require
+an environment in which some files from the following run-time directories
+are installed:<indexterm><primary>run-time</primary><secondary>directories,
+and running applications</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>/etc/dt/*</filename></para>
+</listitem><listitem><para><filename>/var/dt/*</filename></para>
+</listitem><listitem><para>The following subdirectories of <filename>/usr/dt</filename>:</para>
+<itemizedlist remap="Bullet2"><listitem><para><filename>app-defaults</filename></para>
+</listitem><listitem><para><command>appconfig</command></para>
+</listitem><listitem><para><command>bin</command></para>
+</listitem><listitem><para><command>dthelp</command></para>
+</listitem><listitem><para><command>lib</command></para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para>Your application should depend on only those run-time files <emphasis>explicitly</emphasis> mentioned in the X/Open XCDE standard. It should <symbol role="Variable">not</symbol> depend on files not mentioned in the standard;
+for example, <filename>/usr/dt/appconfig/icons</filename>. If you build such
+dependencies into your application, it should be robust enough to run in
+an environment in which such files are missing or have changed.</para>
+<para>For a listing of the minimum run-time environment required to run a
+Common Desktop Environment application, see the <filename>dtfilsys(5)</filename>
+man page.</para>
+<para>The run-time environment includes Common Desktop Environment Motif,
+which is Motif 1.2.3 with bug fixes and enhancements.
+For more information on the Common Desktop Environment run-time environment,
+see the run-time documentation set.<indexterm><primary>run-time</primary>
+<secondary>environment</secondary></indexterm></para>
+</sect1>
+<sect1 id="RDMAP.consi.div.4">
+<title id="RDMAP.consi.mkr.4">Running Existing Applications<indexterm><primary>applications, running existing</primary></indexterm><indexterm><primary>existing applications, and Common Desktop Environment</primary></indexterm></title>
+<para>Existing<indexterm><primary>X-based applications</primary></indexterm> X
+Window System-based applications that are not compiled with any Common Desktop
+Environment libraries run under the desktop window manager (<command>dtwm</command>) similarly to the way they run under the Motif window manager:
+they still work. The level of interoperability with the Common Desktop Environment
+follows these guidelines.</para>
+<table id="rdmap.consi.tbl.1" frame="topbot">
+<title>Interoperability of Existing X-Based Applications with the Common
+Desktop Environment</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="3.35in">
+<colspec align="left" colwidth="2.92in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Characteristics of
+Existing X-based Applications</literal></para></entry><entry align="left"
+valign="bottom"><para><literal>Interoperability Status with Desktop</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Motif 1.2 (and later) drag and drop
+(using preregister protocol)</para></entry>
+<entry align="left" valign="top"><para>Yes</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Motif 1.2 (and later) drag and drop
+(using dynamic protocol)</para></entry>
+<entry align="left" valign="top"><para>No<footnoteref linkend="rdmap.consi.fn.10"></footnoteref> <footnote
+id="rdmap.consi.fn.10"><para>This is a Motif 1.2 drag-and-drop dynamic protocol
+interoperability problem, and it is <symbol role="Variable">not</symbol> due
+to the Common Desktop Environment.</para>
+</footnote></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Cut and paste (all applications)</para></entry>
+<entry align="left" valign="top"><para>Yes</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>OPEN LOOK drag and drop</para></entry>
+<entry align="left" valign="top"><para>Yes (except multiple-item drag and
+drop)<footnoteref linkend="rdmap.consi.fn.11"></footnoteref> <footnote id="rdmap.consi.fn.11">
+<para>This is implemented through a protocol translation mechanism in the
+drop site database manager (<command>dsdm</command>).</para>
+</footnote></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ToolTalk Media Exchange and Desktop
+protocols</para></entry>
+<entry align="left" valign="top"><para>Yes</para></entry></row></tbody></tgroup>
+</table>
+<para>If you want to recompile and relink an existing Motif application with
+the Common Desktop Environment Motif shared libraries, the application must
+be compatible with Motif 1.2.<indexterm><primary>Motif 1.2</primary></indexterm></para>
+</sect1>
+<sect1 id="RDMAP.consi.div.5">
+<title id="RDMAP.consi.mkr.5">Libraries and Header Files<indexterm><primary>libraries, development environment</primary></indexterm><indexterm><primary>header files, development environment</primary></indexterm></title>
+<para>Compile Common Desktop Environment applications against X11R6.2 header
+files and libraries, which reside in vendor-specific locations. <!--Original
+XRef content: 'Table&numsp;2&hyphen;2 on
+page&numsp;28'--><xref role="CodeOrFigOrTabAndPNum" linkend="RDMAP.consi.mkr.9">
+lists the locations of all development environment libraries and header files,
+as subdirectories of <filename>/usr/dt</filename>.</para>
+</sect1>
+<sect1 id="RDMAP.consi.div.6">
+<title id="RDMAP.consi.mkr.6">Demo Programs<indexterm><primary>demo programs</primary></indexterm><indexterm><primary>sample programs</primary></indexterm><indexterm>
+<primary>example programs</primary></indexterm><indexterm><primary>programs,
+demo</primary></indexterm></title>
+<para>The <filename>/usr/dt/examples</filename> subdirectories contain source
+code for development environment component demos, as well as a <emphasis>template</emphasis> application. See <!--Original XRef content: 'Table&numsp;2&hyphen;2
+
+on page&numsp;28'--><xref role="CodeOrFigOrTabAndPNum" linkend="RDMAP.consi.mkr.9">
+for a listing of all demo subdirectories.</para>
+<para>Each demo subdirectory contains source files for one or more demo programs,
+along with makefiles for the programs. It also contains a <command>README</command> file that describes the demos.</para>
+<para>The demo whose source is in the <command>template</command> subdirectory
+is a simple drawing program. This demo illustrates the basic structure of
+a Common Desktop Environment application that is integrated with the desktop.
+It is internationalized and contains all localized components in a separate
+subdirectory. You can use the drawing program source as a template for your
+application.</para>
+</sect1>
+<sect1 id="RDMAP.consi.div.7">
+<title id="RDMAP.consi.mkr.7">Man Pages</title>
+<para>The Common Desktop Environment man pages reside in <filename>/usr/dt/man</filename>. To view them using either the <filename>man()</filename> command
+or the desktop man page viewer, you must add <filename>/usr/dt/man</filename>
+to the <command>MANPATH</command> environment variable. For example, in your <filename>~/.dtprofile</filename> file, set:</para>
+<programlisting>MANPATH = $MANPATH:/usr/dt/man</programlisting>
+<para>For a listing of the <filename>/usr/dt/man</filename> subdirectories
+and contents, see <!--Original XRef content: 'Table&numsp;2&hyphen;2'--><xref
+role="CodeOrFigureOrTable" linkend="RDMAP.consi.mkr.9">. For more information
+on the <filename>man()</filename> command, see the <filename>man</filename>(1)
+man page.</para>
+</sect1>
+<sect1 id="RDMAP.consi.div.8">
+<title id="RDMAP.consi.mkr.8">Development Environment Directory Structure<indexterm>
+<primary>directory structure &lt;$startrange></primary></indexterm></title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;2'--><xref role="CodeOrFigureOrTable"
+linkend="RDMAP.consi.mkr.9"> lists the top-level directories in the development
+environment directory structure and lists their subdirectories. (All of the
+top-level directory names are prefixed by <filename>/usr/dt</filename>.)
+</para>
+<table id="rdmap.consi.tbl.2" frame="topbot">
+<title id="rdmap.consi.mkr.9">Development Environment Directories in /usr/dt</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.22in">
+<colspec colwidth="1.71in">
+<colspec colwidth="4.13in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Directory</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Subdirectory</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Contents</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>examples</command></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>Subdirectories that contain source
+code for development environment component demo programs</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>README file</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtaction</para></entry>
+<entry align="left" valign="top"><para>Action invocation API demos</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtbuilder</para></entry>
+<entry align="left" valign="top"><para>Application Builder examples</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtcalendar</para></entry>
+<entry align="left" valign="top"><para>Calendar API demos</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtdnd</para></entry>
+<entry align="left" valign="top"><para>Drag-and-drop API demos</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtdts</para></entry>
+<entry align="left" valign="top"><para>Data-typing API demos</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dthelp</para></entry>
+<entry align="left" valign="top"><para>Help API demos</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtksh</para></entry>
+<entry align="left" valign="top"><para><command>dtksh</command> example scripts
+</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtsession</para></entry>
+<entry align="left" valign="top"><para>Session Manager API demos</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtterm</para></entry>
+<entry align="left" valign="top"><para>Terminal Emulator widget API demos
+</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtwidget</para></entry>
+<entry align="left" valign="top"><para>Common Desktop Environment Motif widgets
+demos</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>dtwsm</para></entry>
+<entry align="left" valign="top"><para>Workspace Manager API demos</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>template</para></entry>
+<entry align="left" valign="top"><para>Template Common Desktop Environment
+application</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif</para></entry>
+<entry align="left" valign="top"><para>Motif 1.2 API demos</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif/clipboard</para></entry>
+<entry align="left" valign="top"><para><command>XmClipboard</command> API
+demo</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif/dogs</para></entry>
+<entry align="left" valign="top"><para>Widget binary compatibility mechanism
+demo</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif/draganddrop</para></entry>
+<entry align="left" valign="top"><para>Motif 1.2 drag-and-drop API demo</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>motif/periodic</para></entry>
+<entry align="left" valign="top"><para>Motif widgets demo</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>tt</para></entry>
+<entry align="left" valign="top"><para>ToolTalk Messaging Service demos</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>include<indexterm><primary>header files</primary></indexterm></command></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>Development environment library header
+files</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>csa</para></entry>
+<entry align="left" valign="top"><para>Calendar header files</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>Dt</command></para></entry>
+<entry align="left" valign="top"><para>Header files for <command>DtSvc</command>, <command>DtWidget</command>, <command>DtHelp</command>, and</para><para><command>DtTerm</command></para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>Mrm</command></para></entry>
+<entry align="left" valign="top"><para>Motif 1.2 resource manager header files
+</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>Tt</command></para></entry>
+<entry align="left" valign="top"><para>ToolTalk Messaging Service header files
+</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>Xm</command></para></entry>
+<entry align="left" valign="top"><para>Motif 1.2 toolkit header files</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><command>uil</command></para></entry>
+<entry align="left" valign="top"><para>Motif 1.2-callable UIL compiler header
+files</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>lib</command><indexterm><primary>libraries, development environment</primary></indexterm></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>Library files for <command>libcsa</command>
+(Calendar),</para><para><command>libDtHelp</command> (Help system),</para><para><command>libDtSvc</command> (actions, data typing, drag and drop, Session Manager,
+Workspace Manager),</para><para><command>libDtTerm</command> (Terminal Emulator),
+</para><para><command>libDtWidget</command> (Common Desktop Environment Motif
+control and editor widgets),</para><para><command>libMrm</command> (Motif
+1.2 resource manager),</para><para><command>libUil</command> (Motif 1.2-callable
+UIL compiler),</para><para><command>libXm</command> (Motif 1.2 toolkit),
+</para><para><command>libtt</command> (ToolTalk)</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>man<indexterm><primary>man
+pages</primary></indexterm></command></para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>Development environment man pages</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><filename>man1</filename></para></entry>
+<entry align="left" valign="top"><para>Client and utility man pages</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><filename>man3</filename></para></entry>
+<entry align="left" valign="top"><para>API man pages</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><filename>man4</filename></para></entry>
+<entry align="left" valign="top"><para>Data formats</para></entry></row>
+<row>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><filename>man5</filename></para></entry>
+<entry align="left" valign="top"><para>Header file and action man pages<literal><indexterm>
+<primary>directory structure &lt;$endrange></primary></indexterm></literal></para></entry></row></tbody></tgroup><?Pub Caret>
+</table>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:30:53-->
+<?Pub *0000026382>

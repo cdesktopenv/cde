@@ -1,0 +1,62 @@
+.\" $XConsortium: pam_rhosts_auth.5 /main/4 1996/10/29 15:42:24 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam_rhosts_auth 5 "19 Jan 1996"
+.SH NAME
+pam_rhosts_auth \- authentication management PAM modules using ruserok()
+.SH SYNOPSIS
+.LP
+.B /usr/lib/security/pam_rhosts_auth.so.1
+.LP
+.SH DESCRIPTION
+.IX "pam_rhosts_auth" "" "\fLpam_rhosts_auth\fP \(em authentication management using ruserok()"
+.PP
+The rhosts PAM module, 
+.BR /usr/lib/security/pam_rhosts_auth.so.1 ,
+authenticates a user via the
+.B rlogin
+authentication protocol.
+Only
+.B pam_sm_authenticate(\|)
+is implemented within this module.
+.B pam_sm_authenticate(\|)
+uses the
+.BR ruserok (3)
+library funtion to authenticate the
+.B rlogin
+or
+.B rsh
+user.
+.B pam_sm_setcred(\|)
+is a null function.
+.PP
+.B /usr/lib/security/pam_rhosts_auth.so.1
+is designed to be stacked on top of 
+the
+.B /usr/lib/security/pam_unix.so.1
+module
+for both the
+.B rlogin
+and
+.B rsh
+services.
+This module is normally configured as
+.I sufficient
+so that subsequent
+authentication is performed only on failure of
+.BR pam_sm_authenticate(\|) .
+The following option may be passed in to this service module:
+.RS
+.IP debug 15
+.B syslog(3)
+debugging information at LOG_DEBUG level
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR pam_authenticate (3),
+.BR ruserok (3),
+.BR syslog (3),
+.BR pam.conf (4)

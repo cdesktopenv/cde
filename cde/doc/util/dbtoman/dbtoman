@@ -1,0 +1,129 @@
+#!/bin/sh
+# $XConsortium: dbtoman /main/6 1996/09/15 18:58:15 rws $
+#############################################################################
+#
+#	dbtoman
+#
+#############################################################################
+# 
+# Copyright (c) 1996 X Consortium
+# Copyright (c) 1996 Dalrymple Consulting
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+# X CONSORTIUM OR DALRYMPLE CONSULTING BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+# 
+# Except as contained in this notice, the names of the X Consortium and
+# Dalrymple Consulting shall not be used in advertising or otherwise to
+# promote the sale, use or other dealings in this Software without prior
+# written authorization.
+# 
+
+trap "rm -f /tmp/dtm.$$.psinc /tmp/dtm.$$.out1 /tmp/dtm.$$.out2" 0 1 2 3 4 5 6 7 8 10 12 15
+
+CDETOP=${CDETOP:-/proj/cde}
+SGML=$CDETOP/programs/dtdocbook/doc2sdl/SGML
+TPT_LIB=$CDETOP/doc/util/dbtoman/transpec
+export TPT_LIB
+
+PARSER=$CDETOP/programs/nsgmls/nsgmls
+if [ -x $PARSER ]
+then
+PARSER_OPTS="-g -oline -wno-idref"
+SGML_CATALOG_FILES="$SGML/catalog"
+export SGML_CATALOG_FILES
+else
+PARSER=$CDETOP/programs/dtdocbook/sgmls/sgmls
+PARSER_OPTS="-gl"
+SGML_PATH="$SGML/%P:$SGML/%S:%S"
+export SGML_PATH
+fi
+INSTANT=$CDETOP/doc/util/dbtoman/instant/instant
+INSTANT_OPT=-d
+
+DECL=$CDETOP/programs/dtdocbook/doc2sdl/docbook.sgml
+
+NROFF=
+
+if [ $# -gt 0 -a $1 = "-c" ]
+then
+	NROFF="| tbl | nroff -man"
+	shift
+fi
+if [ $# -eq 3 ]
+then	DCLFILE=$1
+	REFFILE=$2
+	MANFILE=$3
+else	echo "usage:  dbtoman [-c] dcl-file ref-src-file man-dst-file"
+	exit 1
+fi
+
+cat > /tmp/dtm.$$.psinc <<\!
+'\" t
+!
+
+grep '<\!-- $''XConsortium: ' $REFFILE | sed -e 's/<\!-- $''XConsortium:/...\\"/g' -e 's/ -->//g' >> /tmp/dtm.$$.psinc
+
+cat >> /tmp/dtm.$$.psinc <<\!
+.de P!
+.fl
+\!!1 setgray
+.fl
+\\&.\"
+.fl
+\!!0 setgray
+.fl			\" force out current output buffer
+\!!save /psv exch def currentpoint translate 0 0 moveto
+\!!/showpage{}def
+.fl			\" prolog
+.sy sed -e 's/^/!/' \\$1\" bring in postscript file
+\!!psv restore
+.
+.de pF
+.ie     \\*(f1 .ds f1 \\n(.f
+.el .ie \\*(f2 .ds f2 \\n(.f
+.el .ie \\*(f3 .ds f3 \\n(.f
+.el .ie \\*(f4 .ds f4 \\n(.f
+.el .tm ? font overflow
+.ft \\$1
+..
+.de fP
+.ie     !\\*(f4 \{\
+.	ft \\*(f4
+.	ds f4\"
+'	br \}
+.el .ie !\\*(f3 \{\
+.	ft \\*(f3
+.	ds f3\"
+'	br \}
+.el .ie !\\*(f2 \{\
+.	ft \\*(f2
+.	ds f2\"
+'	br \}
+.el .ie !\\*(f1 \{\
+.	ft \\*(f1
+.	ds f1\"
+'	br \}
+.el .tm ? font underflow
+..
+.ds f1\"
+.ds f2\"
+.ds f3\"
+.ds f4\"
+!
+
+cat $DECL $DCLFILE $REFFILE | sed -e 's/<\!\[[ ]*\%CDE\.C\.CDE;[ ]*\[<[rR]ef[eE]ntry [iI]d="[^"]*">\]\]>/<refentry>/g' | $PARSER $PARSER_OPTS | $INSTANT $INSTANT_OPT -croff.cmap -sroff.sdata -tdocbook-to-man.ts > /tmp/dtm.$$.out1 && eval cat /tmp/dtm.$$.psinc /tmp/dtm.$$.out1 $NROFF > /tmp/dtm.$$.out2 && cp /tmp/dtm.$$.out2 $MANFILE

@@ -1,0 +1,169 @@
+// $XConsortium: ttChooser.bil /main/2 1996/11/11 11:59:29 drk $
+:bil-version	1 0
+:module ttChooser
+(
+
+:element chooser
+(
+	:type			:dialog
+	:x			58
+	:y			506
+	:width			477
+	:height			196
+	:bg-color		"white"
+	:label			"tt_message_handler_set"
+	:resizable		:true
+	:visible		:false
+	:default-button		chooserOkButton
+	:help-button		chooserHelpButton
+	:children		(
+		chooserPane
+		dialog_button_panel2
+	)
+)
+:element chooserPane
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:width			473
+	:height			192
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj chooser 0)
+	:east-attachment	(:obj chooser 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		chooserList
+		chooserText
+	)
+)
+:element chooserList
+(
+	:type			:list
+	:x			20
+	:y			10
+	:width			433
+	:label-type		:string
+	:label			"Tt_messages"
+	:label-position		:north
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 10)
+	:east-attachment	(:point 0 20)
+	:west-attachment	(:point 0 20)
+)
+:element chooserText
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			20
+	:y			131
+	:label-type		:string
+	:label			"Tt_message:"
+	:label-position		:west
+	:num-columns		42
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj chooserList 10)
+	:east-attachment	(:point 0 20)
+	:west-attachment	(:point 0 20)
+)
+:element dialog_button_panel2
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			477
+	:height			48
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		chooserOkButton
+		chooserCancelButton
+		chooserHelpButton
+	)
+)
+:element chooserOkButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Destroy"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 30 0)
+	:west-attachment	(:grid-line 10 0)
+)
+:element chooserCancelButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 60 0)
+	:west-attachment	(:grid-line 40 0)
+)
+:element chooserHelpButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 90 0)
+	:west-attachment	(:grid-line 70 0)
+)
+:connection
+(
+	:from			chooserCancelButton
+	:to			chooser
+	:when			:activate
+	:action-type		:builtin
+	:action			:hide
+	:arg-type		:void
+)
+:connection
+(
+	:from			chooserList
+	:when			:item-selected
+	:action-type		:call-function
+	:action			choiceSelected
+)
+:connection
+(
+	:from			chooserOkButton
+	:when			:activate
+	:action-type		:call-function
+	:action			choiceOkayed
+)
+:connection
+(
+	:from			chooserList
+	:when			:double-click
+	:action-type		:call-function
+	:action			choiceOkayed
+)
+:connection
+(
+	:from			chooserHelpButton
+	:when			:activate
+	:action-type		:call-function
+	:action			ttChooserHelp
+)
+)

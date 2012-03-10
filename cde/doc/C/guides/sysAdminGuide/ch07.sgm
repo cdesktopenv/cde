@@ -1,0 +1,1118 @@
+<!-- $XConsortium: ch07.sgm /main/7 1996/09/08 19:33:14 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.Datab.div.1">
+<Title Id="SAG.Datab.mkr.1">Desktop Search Paths</Title>
+<Para>The desktop uses search paths to locate applications and their associated
+desktop files.<IndexTerm><Primary>help search path</Primary><Secondary>See also search path</Secondary></IndexTerm><IndexTerm><Primary>actions</Primary><Secondary>search path, See database search path</Secondary></IndexTerm>
+</Para>
+<InformalTable Id="SAG.Datab.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Desktop Search Paths and Their Environment Variables114'--><XRef Role="JumpText" Linkend="SAG.Datab.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Setting the Value of a Search Path115'--><XRef Role="JumpText" Linkend="SAG.Datab.div.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Application Search Path116'--><XRef Role="JumpText" Linkend="SAG.Datab.div.7"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Database (Action/Data Types) Search Path120'--><XRef Role="JumpText" Linkend="SAG.Datab.div.14"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Icon Search Path122'--><XRef Role="JumpText" Linkend="SAG.Datab.div.20"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Help Search Path123'--><XRef Role="JumpText" Linkend="SAG.Datab.div.26"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Localized Search Paths125'--><XRef Role="JumpText" Linkend="SAG.Datab.div.32"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><IndexTerm>
+<Primary>search paths</Primary>
+<Secondary>defined by desktop</Secondary>
+</IndexTerm>The desktop provides five search paths, described in
+<!--Original XRef content: 'Table&numsp;7&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.Datab.tbl.1">.</Para>
+<Table Id="SAG.Datab.tbl.1" Frame="Topbot">
+<Title Id="SAG.Datab.mkr.2">Desktop Search Paths</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="3.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Search Path</Literal></Para></Entry>
+<Entry><Para><Literal>Description</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Applications</Para></Entry>
+<Entry><Para>Used to locate applications. Application Manager uses the
+application search path to dynamically populate its top level
+when a user logs in.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Database</Para></Entry>
+<Entry><Para>Used to specify additional locations for action and data type
+definition files (<Filename>*.dt</Filename> files) and Front Panel files (<Filename>*.fp</Filename> files).</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Icons</Para></Entry>
+<Entry><Para>Used to specify additional locations for icons.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Infolib</Para></Entry>
+<Entry><Para>Used to specify additional locations for information libraries.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Help data</Para></Entry>
+<Entry><Para>Used to specify additional locations for desktop help data.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>The search paths can include both local and remote directories. Thus, the
+search paths play an important role in the networking architecture of the
+desktop. For example, a system finds applications on an application server
+because that application server is listed in the application search path.</Para>
+<Para>When a search path includes a remote location, you must configure remote file
+access to the location. For more information, see
+<!--Original XRef content: '&xd2;Configuring Distributed File
+System Access&xd3; on page&numsp;91'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.7">.</Para>
+<Sect1 Id="SAG.Datab.div.2">
+<Title Id="SAG.Datab.mkr.3">Desktop Search Paths and Their Environment Variables</Title>
+<Para>The desktop search paths are created at login by the desktop utility
+<Command>dtsearchpath</Command>. The <Command>dtsearchpath</Command> utility uses a combination of
+environment variables and built-in locations to create the search paths.</Para>
+<Para><IndexTerm>
+<Primary>search paths</Primary>
+<Secondary>input variables</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>input variables</Primary>
+</IndexTerm>The environment variables that <Command>dtsearchpath</Command> reads are called <Emphasis>input variables</Emphasis>.
+These are variables set by the system administrator or end user. The input
+variables use the naming convention <Filename>DTSP*</Filename>.</Para>
+<Para>When <Command>dtsearchpath</Command> runs at login time, it assembles the values assigned to
+these variables, adds built-in locations, and creates values for
+<Emphasis>output variables</Emphasis>.
+There is an output variable for each search path.<IndexTerm><Primary>search paths</Primary><Secondary>output variables</Secondary></IndexTerm><IndexTerm><Primary>output variables</Primary></IndexTerm>
+</Para>
+<Table Id="SAG.Datab.tbl.2" Frame="Topbot">
+<Title>Desktop Search Path Environment Variables<IndexTerm><Primary>search paths</Primary><Secondary>environment variables</Secondary></IndexTerm><IndexTerm><Primary>environment variables</Primary><Secondary>search path</Secondary></IndexTerm></Title>
+<TGroup Cols="4">
+<ColSpec Colname="1" Colwidth="1.125 in">
+<ColSpec Colname="2" Colwidth="2.0 in">
+<ColSpec Colname="3" Colwidth="1.875 in">
+<ColSpec Colname="4" Colwidth="1.75 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Search Path For:</Literal></Para></Entry>
+<Entry><Para><Literal>Output Environment Variable</Literal></Para></Entry>
+<Entry><Para><Literal>System-Wide Input Variable</Literal></Para></Entry>
+<Entry><Para><Literal>Personal Input Variable</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Applications</Para></Entry>
+<Entry><Para><IndexTerm>
+<Primary>DTAPPSEARCHPATH variable</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>DTAPPSEARCHPATH variable</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>DTAPPSEARCHPATH</Para></Entry>
+<Entry><Para><IndexTerm>
+<Primary>DTSPSYSAPPHOSTS variable</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>DTSPSYSAPPHOSTS</Para></Entry>
+<Entry><Para><IndexTerm>
+<Primary>DTSPUSERAPPHOSTS variable</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>DTSPUSERAPPHOSTS</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Footnote Id="SAG.Datab.fn.9">
+<Para>Actions, data types, and Front Panel definitions</Para>
+</Footnote></Para><Para Id="SAG.Datab.mkr.4"><FootnoteRef Linkend="SAG.Datab.fn.9"></FootnoteRef>Datatabase</Para></Entry>
+<Entry><Para><IndexTerm>
+<Primary>DTDATABASESEARCHPATH variable</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>DTDATABASESEARCHPATH</Para></Entry>
+<Entry><Para><IndexTerm>
+<Primary>DTSPSYSDATABASEHOSTS variable</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>DTSPSYSDATABASEHOSTS</Para></Entry>
+<Entry><Para><IndexTerm>
+<Primary>DTSPUSERDATABASEHOSTS variable</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>DTSPUSERDATABASEHOSTS</Para></Entry>
+</Row>
+<Row>
+<Entry><Para Id="SAG.Datab.mkr.5">Icons</Para></Entry>
+<Entry><Para>XMICONSEARCHPATH, XMICONBMSEARCHPATH<IndexTerm><Primary>XMICONSEARCHPATH variable</Primary><Secondary>definition</Secondary></IndexTerm><IndexTerm><Primary>XMICONBMSEARCHPATH variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPSYSICON<IndexTerm><Primary>DTSPSYSICON variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPUSERICON<IndexTerm><Primary>DTSPUSERICON variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para Id="SAG.Datab.mkr.5a">Infolibs</Para></Entry>
+<Entry><Para>DTINFOLIBSEARCHPATH<IndexTerm><Primary>DTINFOLIBSEARCHPATH variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPSYSINFOLIB<IndexTerm><Primary>DTSPSYSINFOLIB variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPUSERINFOLIB<IndexTerm><Primary>DTSPUSERINFOLIB variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Help data</Para></Entry>
+<Entry><Para>DTHELPSEARCHPATH<IndexTerm><Primary>DTHELPSEARCHPATH variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPSYSHELP<IndexTerm><Primary>DTSPSYSHELP variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>DTSPUSERHELP<IndexTerm><Primary>DTSPUSERHELP variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>Components use the values of the output variables. For example, Application
+Manager uses the value of the application search path (DTAPPSEARCHPATH)
+to locate application groups.</Para>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.3">
+<Title Id="SAG.Datab.mkr.6">Setting the Value of a Search Path<IndexTerm><Primary>search paths</Primary><Secondary>setting</Secondary></IndexTerm></Title>
+<Para>You can modify the search paths on a system-wide or personal basis.
+Modifications are done by setting values for the system-wide or personal input
+variables. Any modifications you make are added to the built-in search path
+locations.</Para>
+<Sect2 Id="SAG.Datab.div.4" Role="Procedure">
+<Title Id="SAG.Datab.mkr.7">To See the Current Value for a Search Path (Output Variable)<IndexTerm><Primary>search paths</Primary><Secondary>current value</Secondary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Use the <Command>dtsearchpath</Command> command to display the current values for the
+search paths:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>To obtain the value for the current (login) user, execute:</Para>
+<programlisting>dtsearchpath -v<IndexTerm>
+<Primary>dtsearchpath</Primary>
+</IndexTerm></programlisting>
+</ListItem>
+<ListItem>
+<Para>To obtain the value for a different user, execute:</Para>
+<programlisting>dtsearchpath -u <Symbol Role="Variable">user</Symbol></programlisting>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Para>Search path values include these variables:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="0.72in">
+<colspec colwidth="5.30in">
+<TBody>
+<Row>
+<Entry><Para>&percnt;I<IndexTerm><Primary>&percnt;I</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Used in DTINFOLIBSEARCHPATH. The name of the default information library.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>&percnt;H<IndexTerm><Primary>&percnt;H</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Used in DTHELPSEARCHPATH. The help volume name.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>&percnt;B<IndexTerm><Primary>&percnt;B</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Used in XMICONSEARCHPATH. The base name of an icon file.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>&percnt;M<IndexTerm><Primary>&percnt;M</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Used in XMICONSEARCHPATH. The size of the icon file (<Filename>.l</Filename>, <Filename>.m</Filename>, <Filename>.s</Filename>,
+<Filename>.t</Filename>)</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>&percnt;L</Filename><IndexTerm><Primary>&percnt;L</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Value of the LANG environment variable.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.5" Role="Procedure">
+<Title>To Make Personal Modifications to a Search Path</Title>
+<OrderedList>
+<ListItem>
+<Para>Open <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dtprofile</Filename> for editing.</Para>
+</ListItem>
+<ListItem>
+<Para>Add or edit a line defining a value for the personal input variable.</Para>
+<Para>For example, the following line adds a location to the user's personal
+application search path:</Para>
+<programlisting>DTSPUSERAPPHOSTS=/projects1/editors</programlisting>
+</ListItem>
+<ListItem>
+<Para>To make the change take effect, log out and back in.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.6" Role="Procedure">
+<Title>To Make System-Wide Modifications to a Search Path</Title>
+<OrderedList>
+<ListItem>
+<Para>Log in as root.</Para>
+</ListItem>
+<ListItem>
+<Para>If the file /<Filename>etc/dt/config/Xsession.d/0010.dtpaths</Filename> doesn't exist,
+create it by copying <Filename>/usr/dt/config/Xsession.d/0010.dtpaths</Filename>.</Para>
+</ListItem>
+<ListItem>
+<Para>Open /<Filename>etc/dt/Xsession.d/0010.paths</Filename> for editing. Add or edit a line
+defining a value for the system-wide input variable.</Para>
+<Para>For example, the following line adds a location to the system-wide help
+search path:</Para>
+<programlisting>DTSPSYSHELP=/applications/helpdata</programlisting>
+</ListItem>
+<ListItem>
+<Para>Inform all users on the system that they must log out and back in for the
+change to take effect.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.7">
+<Title Id="SAG.Datab.mkr.8">Application Search Path<IndexTerm><Primary>application search path</Primary><Secondary>definition</Secondary></IndexTerm><IndexTerm><Primary>search paths</Primary><Secondary>applications</Secondary></IndexTerm></Title>
+<Para>The application search path is the primary search path used by the desktop to
+locate applications on the local system and on application servers throughout
+the network.</Para>
+<Para>When locations are added to the application search path, the other search paths
+(database, icon, and help) are automatically updated to reflect the
+corresponding locations for that data; thus, the application search path
+provides relatively simple administration for applications and their desktop
+configuration files. See
+<!--Original XRef content: '&xd2;How the Application Search Path Affects the Database,
+Icon, and Help Search Paths&xd3; on page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.13">.</Para>
+<Sect2 Id="SAG.Datab.div.8">
+<Title Id="SAG.Datab.mkr.9">Default Application Search Path<IndexTerm><Primary>application search path</Primary><Secondary>default</Secondary></IndexTerm></Title>
+<Para>The default application search path includes personal, system-wide, and built-
+in locations. The default <Symbol Role="Variable">language</Symbol> is <Command>C</Command>.</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="143*">
+<colspec colwidth="385*">
+<TBody>
+<Row>
+<Entry><Para>Personal location</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/appmanager</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>System-wide location</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">languag</Symbol>e</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Built-in location</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">languag</Symbol>e</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.9">
+<Title>Application Search Path Environment Variables<IndexTerm><Primary>environment variables</Primary><Secondary>application search path</Secondary></IndexTerm><IndexTerm><Primary>application search path</Primary><Secondary>environment variables</Secondary></IndexTerm></Title>
+<Para>The application search path is assembled from the built-in locations and the
+following input variables:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="168*">
+<colspec colwidth="360*">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSAPPHOSTS</Para></Entry>
+<Entry><Para>System-wide application search path input variable</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERAPPHOSTS</Para></Entry>
+<Entry><Para>Personal application search path input variable</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The assembled search path is specified by the output variable<IndexTerm>
+<Primary>DTAPPSEARCHPATH variable</Primary>
+<Secondary>assembling</Secondary>
+</IndexTerm>
+DTAPPSEARCHPATH.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.10">
+<Title>Syntax for the Application Search Path Input Variables<IndexTerm><Primary>application search path</Primary><Secondary>syntax</Secondary></IndexTerm></Title>
+<Para>The syntax for the variables<IndexTerm>
+<Primary>DTSPSYSAPPHOSTS variable</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>
+DTSPSYSAPPHOSTS and<IndexTerm>
+<Primary>DTSPUSERAPPHOSTS variable</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>
+DTSPUSERAPPHOSTS
+is:</Para>
+<ProgramListing><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]</ProgramListing>
+<Para>where <Symbol Role="Variable">location</Symbol> can have the syntax:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.13in">
+<colspec colwidth="4.89in">
+<TBody>
+<Row>
+<Entry><Para>/<Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>Specifies a directory on the local (session server) system. Use
+this syntax to add a local directory.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">hostname</Symbol><Filename>:</Filename></Para></Entry>
+<Entry><Para>Specifies the system-wide directory
+<Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol> on system
+<Symbol Role="Variable">hostname</Symbol>. Use this syntax to add an application server.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">hostname</Symbol><Filename>:/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>Specifies a directory on the remote system <Symbol Role="Variable">hostname</Symbol>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>localhost:</Filename></Para></Entry>
+<Entry><Para>The local system-wide location. This keyword is used
+to alter the precedence of the local system-wide
+location. See
+<!--Original XRef content: '&xd2;Changing the Precedence of the System-
+Wide Local Location&xd3; on page&numsp;118'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.div.12">.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.11">
+<Title>How the Value of the Application Search Path Is Assembled<IndexTerm><Primary>application search path</Primary><Secondary>assembling</Secondary></IndexTerm></Title>
+<Para>The value of the application search path (<IndexTerm>
+<Primary>DTAPPSEARCHPATH variable</Primary>
+<Secondary>assembling</Secondary>
+</IndexTerm>
+DTAPPSEARCHPATH) is created by
+assembling the following locations, listed in order of precedence:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Locations specified using the DTSPUSERAPPHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para>The default personal location: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/appmanager</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>The default location: <Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">languag</Symbol><?X-setsize 9.0 pt>e</Para>
+</ListItem>
+<ListItem>
+<Para>Locations specified using the DTSPSYSAPPHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">languag</Symbol>e</Para>
+</ListItem>
+</ItemizedList>
+<Para>The syntax:</Para>
+<ProgramListing><Symbol Role="Variable">hostname</Symbol><Filename>:</Filename></ProgramListing>
+<Para>is expanded to specify the directory <Filename>/etc/dt/appconfig/appmanager</Filename> on
+system <Symbol Role="Variable">hostname</Symbol>.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.12">
+<Title Id="SAG.Datab.mkr.10">Changing the Precedence of the System-Wide Local Location<IndexTerm><Primary>application search path</Primary><Secondary>modifying precedence</Secondary></IndexTerm></Title>
+<Para>By default, the local system-wide location
+(<Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol>) has precedence over remote
+locations. Thus, local application groups have precedence over remote groups
+with the same name. For example, if both the local and remote systems have
+Printer application groups
+(<Filename>/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol><Filename>/Printers</Filename>), the local group is
+used.</Para>
+<Para>The application search path input variables provide syntax for specifying the
+precedence of the local system-wide application groups:</Para>
+<ProgramListing>localhost:</ProgramListing>
+<Para>For example, suppose your system must access application servers <Command>SysA</Command>,
+<Command>SysB</Command>, and <Command>SysC</Command>, and you want the system-wide application groups on <Command>SysB</Command> to
+have precedence over any local groups with the same name.</Para>
+<Para>The following value for DTSPSYSAPPHOSTS creates this behavior:</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=SysB:,localhost:,SysA:,SysC:</ProgramListing>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.13">
+<Title Id="SAG.Datab.mkr.11">How the Application Search Path Affects the Database, Icon, Infolib, and Help Search Paths<IndexTerm><Primary>icon search path</Primary><Secondary>related to application search path</Secondary></IndexTerm><IndexTerm><Primary>database search path</Primary><Secondary>related to application search path</Secondary></IndexTerm><IndexTerm><Primary>help search path</Primary><Secondary>related to application search path</Secondary></IndexTerm></Title>
+<Para>Additions to the application search path automatically add corresponding
+locations to the database, icon, infolib, and help search paths. This provides the ability
+to add an application server to a search path by setting only the application
+search path input variable.</Para>
+<Para>For example, if you set DTSPSYSAPPHOSTS as follows:</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=servera:</ProgramListing>
+<Para>then the following search paths are affected:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="108*">
+<colspec colwidth="420*">
+<THead>
+<Row>
+<Entry><Para>Search Path</Para></Entry>
+<Entry><Para>Directory Added to Search Path</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Applications</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/appconfig/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Database</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Icon</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Infolib</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/infolib/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Help</Para></Entry>
+<Entry><Para><Filename>servera:/etc/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Similarly, if you set DTSPSYSAPPHOSTS as follows:</Para>
+<ProgramListing>DTSPSYSAPPHOSTS=/projects1/apps</ProgramListing>
+<Para>then the following search paths are affected:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="93*">
+<colspec colwidth="435*">
+<THead>
+<Row>
+<Entry><Para>Search Path</Para></Entry>
+<Entry><Para>Directory Added to Search Path</Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>Applications</Para></Entry>
+<Entry><Para><Filename>/projects1/apps/appmanager/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Database</Para></Entry>
+<Entry><Para>/<Filename>projects1/apps/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Icon</Para></Entry>
+<Entry><Para>/<Filename>projects1/apps/icons/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Infolib</Para></Entry>
+<Entry><Para>/<Filename>projects1/apps/infolib/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Help</Para></Entry>
+<Entry><Para>/<Filename>projects1/apps/help/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.14">
+<Title Id="SAG.Datab.mkr.12">Database (Action/Data Types) Search Path<IndexTerm><Primary>action search path, See database search path</Primary></IndexTerm><IndexTerm><Primary>data types</Primary><Secondary>search path, See database search path</Secondary></IndexTerm><IndexTerm><Primary>database search path</Primary><Secondary>See also search path</Secondary></IndexTerm><IndexTerm><Primary>database search path</Primary></IndexTerm></Title>
+<Para>The database search path directs the desktop to search specified locations for
+files containing:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Action and data type definitions (<Filename>*.dt</Filename> files)</Para>
+</ListItem>
+<ListItem>
+<Para>Front Panel definitions (<Filename>*.fp</Filename> files).</Para>
+</ListItem>
+</ItemizedList>
+<Para>You may need to modify the database search path when you create a database
+server, or when you add a local location for database files.</Para>
+<Sect2 Id="SAG.Datab.div.15">
+<Title>Default Database Search Path<IndexTerm><Primary>database search path</Primary><Secondary>default</Secondary></IndexTerm></Title>
+<Para>The default database search path includes personal, system-wide, and built-in
+locations. The default <Symbol Role="Variable">language</Symbol> is <Filename>C.</Filename></Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="153*">
+<colspec colwidth="375*">
+<TBody>
+<Row>
+<Entry><Para>Personal location</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>System-wide location</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Built-in location</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.16">
+<Title>How the Application Search Path Affects the Database Search Path<IndexTerm><Primary>database search path</Primary><Secondary>related to application search path</Secondary></IndexTerm></Title>
+<Para>When a location is added to the application search path, the appropriate
+database subdirectory is automatically added to the database search path (see
+<!--Original XRef content: '&xd2;How the Application Search Path Affects the
+Database, Icon, Infolib, and Help Search
+Paths&xd3; on page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.11">).</Para>
+<Para>For example, if the application server <Filename>hosta:</Filename> is added to the application
+search path, the directory <Filename>hosta:/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol> is
+automatically added to the database search path.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.17">
+<Title>Database Search Path Environment Variables<IndexTerm><Primary>environment variables</Primary><Secondary>database search path</Secondary></IndexTerm><IndexTerm><Primary>database search path</Primary><Secondary>environment variables</Secondary></IndexTerm></Title>
+<Para>The database search path is assembled from the built-in locations and the
+following input variables:</Para>
+<InformalTable>
+<TGroup Cols="2">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSDATABASEHOSTS<IndexTerm><Primary>DTSPSYSDATABASEHOSTS variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>System-wide database search path input
+variable</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERDATABASEHOSTS<IndexTerm><Primary>DTSPUSERDATABASEHOSTS variable</Primary><Secondary>definition</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Personal database search path input variable</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Use these input variables to specify locations outside the application search
+path.</Para>
+<Para>The assembled database search path is specified by the output variable<IndexTerm>
+<Primary>DTDATABASESEARCHPATH variable</Primary>
+<Secondary>assembling</Secondary>
+</IndexTerm>
+DTDATABASESEARCHPATH.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.18">
+<Title>Syntax for the Database Search Path Input Variables<IndexTerm><Primary>database search path</Primary><Secondary>syntax</Secondary></IndexTerm></Title>
+<Para>The syntax for the variables<IndexTerm>
+<Primary>DTSPSYSDATABASEHOSTS variable</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>
+DTSPSYSDATABASEHOSTS and<IndexTerm>
+<Primary>DTSPUSERDATABASEHOSTS variable</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>
+DTSPUSERDATABASEHOSTS is:</Para>
+<ProgramListing><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]</ProgramListing>
+<Para>where <Symbol Role="Variable">location</Symbol> can have the syntax:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.07in">
+<colspec colwidth="4.91in">
+<TBody>
+<Row>
+<Entry><Para><Filename>/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>Specifies a directory on the local (session server) system. Use
+this syntax to add a local directory.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">hostname</Symbol><Filename>:</Filename></Para></Entry>
+<Entry><Para>Specifies the system-wide directory
+<Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">language</Symbol> on system <Symbol Role="Variable">hostname</Symbol>.</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">hostname</Symbol><Filename>:/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>Specifies a directory on the remote system <Symbol Role="Variable">hostname</Symbol>.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.19">
+<Title>How the Database Search Path Is Assembled<IndexTerm><Primary>database search path</Primary><Secondary>assembling</Secondary></IndexTerm></Title>
+<Para>The value of the database search path (<IndexTerm>
+<Primary>DTDATABASESEARCHPATH variable</Primary>
+<Secondary>assembling</Secondary>
+</IndexTerm>
+DTDATABASESEARCHPATH) is
+created by assembling the following locations, listed in order of precedence:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Locations specified using the DTSPUSERDATABASEHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para>Locations derived from the DTSPUSERAPPHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para>The default personal location: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>The default location: <Filename>/etc/dt/appconfig/types/</Filename><Symbol Role="Variable">languag</Symbol><?X-setsize 9.0 pt>e</Para>
+</ListItem>
+<ListItem>
+<Para>Locations specified using the DTSPSYSDATABASEHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para>Locations derived from the DTSPSYSAPPHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/appconfig/types/</Filename><Symbol Role="Variable">languag</Symbol>e</Para>
+</ListItem>
+</ItemizedList>
+<Para>The syntax:</Para>
+<ProgramListing><Symbol Role="Variable">hostname</Symbol><Filename>:</Filename></ProgramListing>
+<Para>is expanded to specify the directory <Filename>/etc/dt/appconfig/types</Filename> on system
+<Symbol Role="Variable">hostname</Symbol>.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.20">
+<Title Id="SAG.Datab.mkr.13">Icon Search Path<IndexTerm><Primary>icon search path</Primary></IndexTerm></Title>
+<Para>The icon search path directs the desktop to search specified locations for files
+containing bitmap and pixmap image files used by the desktop.</Para>
+<Sect2 Id="SAG.Datab.div.21">
+<Title>Default Icon Search Path<IndexTerm><Primary>icon search path</Primary><Secondary>default</Secondary></IndexTerm></Title>
+<Para>The default icon search path includes personal, system-wide, and built-in
+locations. The default <Symbol Role="Variable">language</Symbol> is <Filename>C.</Filename></Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="157*">
+<colspec colwidth="371*">
+<TBody>
+<Row>
+<Entry><Para>Personal location</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>System-wide location</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Built-in location</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.22">
+<Title>How the Application Search Path Affects the Icon Search Path<IndexTerm><Primary>icon search path</Primary><Secondary>related to application search path</Secondary></IndexTerm></Title>
+<Para>When a location is added to the application search path, the appropriate icon
+subdirectory is automatically added to the icon search path (see
+<!--Original XRef content: '&xd2;How the
+Application Search Path Affects the Database, Icon, Infolib, and Help Search Paths&xd3; on
+page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.11">).</Para>
+<Para>For example, if the application server <Filename>hosta:</Filename> is added to the application
+search path, the directory <Filename>hosta:/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol> is
+automatically added to the icon search path.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.23">
+<Title>Icon Search Path Environment Variables<IndexTerm><Primary>environment variables</Primary><Secondary>bitmap search path</Secondary></IndexTerm><IndexTerm><Primary>environment variables</Primary><Secondary>pixmap search path</Secondary></IndexTerm><IndexTerm><Primary>environment variables</Primary><Secondary>icon search path</Secondary></IndexTerm><IndexTerm><Primary>icon search path</Primary><Secondary>environment variables</Secondary></IndexTerm></Title>
+<Para>The icon search path is assembled from the built-in locations and the
+following input variables:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="142*">
+<colspec colwidth="386*">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSICON</Para></Entry>
+<Entry><Para>System-wide icon search path input variable</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERICON</Para></Entry>
+<Entry><Para>Personal icon search path input variable</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Use these input variables to specify locations outside the application search
+path.</Para>
+<Para>The assembled icon search path is specified by two output variables:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="208*">
+<colspec colwidth="320*">
+<TBody>
+<Row>
+<Entry><Para>XMICONSEARCHPATH<IndexTerm><Primary>XMICONSEARCHPATH variable</Primary><Secondary>usage</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Used by color displays</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>XMICONBMSEARCHPATH<IndexTerm><Primary>XMICONBMSEARCHPATH variable</Primary><Secondary>usage</Secondary></IndexTerm>
+</Para></Entry>
+<Entry><Para>Used by monochrome displays</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.24">
+<Title>Syntax for the Icon Search Path Input Variables<IndexTerm><Primary>icon search path</Primary><Secondary>syntax of</Secondary></IndexTerm></Title>
+<Para>The syntax for the variables<IndexTerm>
+<Primary>DTSPSYSICON variable</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>
+DTSPSYSICON and<IndexTerm>
+<Primary>DTSPUSERICON variable</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>
+DTSPUSERICON is:</Para>
+<ProgramListing><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]</ProgramListing>
+<Para>where <Symbol Role="Variable">location</Symbol> can have the syntax:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="1">
+<colspec colwidth="68*">
+<colspec colwidth="460*">
+<TBody>
+<Row>
+<Entry><Para><Filename>/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>Specifies a directory on the local (session server) system. Use
+this syntax to add a local directory.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>To specify a location on another system, use its network file name&mdash;for
+example, <Filename>/nfs/servera/projects/icons</Filename>.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.25">
+<Title>How the Icon Search Path Is Assembled<IndexTerm><Primary>icon search path</Primary><Secondary>assembling</Secondary></IndexTerm></Title>
+<Para>The value of the icon search path (<IndexTerm>
+<Primary>XMICONSEARCHPATH variable</Primary>
+<Secondary>assembling</Secondary>
+</IndexTerm>XMICONSEARCHPATH and<IndexTerm>
+<Primary>XMICONBMSEARCHPATH variable</Primary>
+<Secondary>assembling</Secondary>
+</IndexTerm>
+XMICONBMSEARCHPATH) is created by assembling the following locations,
+listed in order of precedence:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Locations specified using the DTSPUSERICON variable</Para>
+</ListItem>
+<ListItem>
+<Para>Locations derived from the DTSPUSERAPPHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para>The default personal location: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>The default location: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">languag</Symbol><?X-setsize 9.0 pt>e</Para>
+</ListItem>
+<ListItem>
+<Para>Locations specified using the DTSPSYSICON variable</Para>
+</ListItem>
+<ListItem>
+<Para>Locations derived from the DTSPSYSAPPHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/appconfig/icons/</Filename><Symbol Role="Variable">languag</Symbol>e</Para>
+</ListItem>
+</ItemizedList>
+<Para>The color and monochrome search paths differ only in the precedence given to
+pixmap and bitmaps. The XMICONSEARCHPATH variables lists pixmaps
+before bitmaps; XMICONBMSEARCPATH lists bitmaps before pixmaps.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.20a">
+<Title Id="SAG.Datab.mkr.13a">Infolib Search Path<IndexTerm><Primary>infolib search path</Primary></IndexTerm></Title>
+<Para>The infolib search path directs the desktop to search specified locations for
+information libraries that will be registered on your system.
+</Para>
+<para>The <systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>
+and <systemitem class="environvar">DTINFOLIBDEFAULT</systemitem>
+environment variables are defined at installation time by the
+<command>dtsearchpath</command> utility.
+</para>
+<Sect2 Id="SAG.Datab.div.21a">
+<Title>Default Infolib Search Path<IndexTerm><Primary>infolib search path</Primary><Secondary>default</Secondary></IndexTerm></Title>
+<Para>The default infolib search path includes system-wide and built-in
+locations. The default <Symbol Role="Variable">language</Symbol> is <Filename>C.</Filename></Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="157*">
+<colspec colwidth="371*">
+<TBody>
+<Row>
+<Entry><Para>System-wide location</Para></Entry>
+<Entry><Para><Filename>/etc/dt/infolib/</Filename><Symbol Role="Variable">%L/%I</Symbol>.dti</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Built-in location</Para></Entry>
+<Entry><Para><Filename>/usr/dt/infolib/</Filename><Symbol Role="Variable">%L/%I</Symbol>.dti</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<para>The value of <systemitem class="environvar">DTINFOLIBDEFAULT</systemitem> is
+substituted for <Symbol Role="Variable">%I</Symbol>.
+The default value of <systemitem class="environvar">DTINFOLIBDEFAULT</systemitem>
+is <literal>cde</literal>.
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.22a">
+<Title>How the Application Search Path Affects the infolib Search Path<IndexTerm><Primary>infolib search path</Primary><Secondary>related to application search path</Secondary></IndexTerm></Title>
+<Para>When a location is added to the application search path, the appropriate infolib
+subdirectory is automatically added to the infolib search path (see
+<!--Original XRef content: '&xd2;How the
+Application Search Path Affects the Database, Icon, Infolib, and Help Search Paths&xd3; on
+page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.11">).</Para>
+<Para>For example, if the application server <Filename>hosta:</Filename> is added to the application
+search path, the directory
+<Filename>hosta:/etc/dt/infolib/</Filename><Symbol Role="Variable">%L</Symbol> is
+automatically added to the infolib search path.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.23a">
+<Title>infolib Search Path Environment Variables<IndexTerm><Primary>environment variables</Primary><Secondary>infolib search path</Secondary></IndexTerm><IndexTerm><Primary>infolib search path</Primary><Secondary>environment variables</Secondary></IndexTerm></Title>
+<Para>The infolib search path is assembled from the built-in locations and the
+following input variables:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="142*">
+<colspec colwidth="386*">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSINFOLIB</Para></Entry>
+<Entry><Para>System-wide infolib search path input variable</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERINFOLIB</Para></Entry>
+<Entry><Para>Personal infolib search path input variable</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Use these input variables to specify locations outside the application search
+path.</Para>
+<Para>The assembled infolib search path is specified by the output variable
+<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>.
+</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.24a">
+<Title>Syntax for the infolib Search Path Input Variables<IndexTerm><Primary>infolib search path</Primary><Secondary>syntax of</Secondary></IndexTerm></Title>
+<Para>The syntax for the variables
+<systemitem class="environvar">DTSPSYSINFOLIB</systemitem> and
+<systemitem class="environvar">DTSPUSERINFOLIB</systemitem> is:<IndexTerm><Primary>DTSPSYSINFOLIB variable</Primary><Secondary>syntax</Secondary></IndexTerm><IndexTerm><Primary>DTSPUSERINFOLIB variable</Primary><Secondary>syntax</Secondary></IndexTerm>
+</Para>
+<programlisting><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]
+</ProgramListing>
+<Para>where <Symbol Role="Variable">location</Symbol> can have the syntax:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="1">
+<colspec colwidth="68*">
+<colspec colwidth="460*">
+<TBody>
+<Row>
+<Entry><Para><Filename>/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>Specifies a directory on the local (session server) system. Use
+this syntax to add a local directory.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>To specify a location on another system, use its network file name&mdash;for
+example, <Filename>/nfs/servera/projects/infolib</Filename>.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.25a">
+<Title>How the infolib Search Path Is Assembled<IndexTerm><Primary>infolib search path</Primary><Secondary>assembling</Secondary></IndexTerm></Title>
+<Para>The value of the infolib search path (<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>)
+is created by assembling the following locations,
+listed in order of precedence:<IndexTerm><Primary>XMinfolibSEARCHPATH variable</Primary><Secondary>assembling</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Locations specified using the
+<systemitem class="environvar">DTSPUSERINFOLIB</systemitem>
+variable</Para>
+</ListItem>
+<ListItem>
+<Para>Locations derived from the
+<systemitem class="environvar">DTSPUSERAPPHOSTS</systemitem>
+variable</Para>
+</ListItem>
+<ListItem>
+<Para>The default location:
+<Filename>/etc/dt/infolib/</Filename><Symbol Role="Variable">%L/%I</Symbol><Filename>.dti</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para>Locations specified using the
+<systemitem class="environvar">DTSPSYSINFOLIB</systemitem> variable</Para>
+</ListItem>
+<ListItem>
+<Para>Locations derived from the
+<systemitem class="environvar">DTSPSYSAPPHOSTS</systemitem>
+variable</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/infolib/</Filename><Symbol Role="Variable">%L/%I</Symbol><Filename>.dti</Filename>
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.26">
+<Title Id="SAG.Datab.mkr.14">Help Search Path<IndexTerm><Primary>help search path</Primary></IndexTerm><IndexTerm><Primary>search paths</Primary><Secondary>help</Secondary></IndexTerm></Title>
+<Para>The help search path directs the desktop to search specified locations for files
+containing help information that will be registered on your system.</Para>
+<Sect2 Id="SAG.Datab.div.27">
+<Title>Default Help Search Path<IndexTerm><Primary>help search path</Primary><Secondary>default</Secondary></IndexTerm><IndexTerm><Primary>help search path</Primary><Secondary>default</Secondary></IndexTerm></Title>
+<Para>The default help search path includes personal, system-wide, and built-in
+locations. The default <Symbol Role="Variable">language</Symbol> is <Filename>C.</Filename></Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="146*">
+<colspec colwidth="382*">
+<TBody>
+<Row>
+<Entry><Para>Personal location</Para></Entry>
+<Entry><Para><Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/help</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>System-wide location</Para></Entry>
+<Entry><Para><Filename>/etc/dt/appconfig/.dt/help/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Built-in location</Para></Entry>
+<Entry><Para><Filename>/usr/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.28">
+<Title>How the Application Search Path Affects the Help Search Path<IndexTerm><Primary>help search path</Primary><Secondary>related to application search path</Secondary></IndexTerm></Title>
+<Para>When a location is added to the application search path, the appropriate help
+subdirectory is automatically added to the help search path (see
+<!--Original XRef content: '&xd2;How the
+Application Search Path Affects the Database, Icon, Infolib, and Help Search Paths&xd3; on
+page&numsp;119'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.11">).</Para>
+<Para>For example, if the application server <Filename>hosta:</Filename> is added to the application
+search path, the directory <Filename>hosta:/etc/dt/appconfig/help/</Filename><Symbol Role="Variable">language</Symbol> is
+automatically added to the help search path.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.29">
+<Title>Help Search Path Environment Variables<IndexTerm><Primary>environment variables</Primary><Secondary>help search path</Secondary></IndexTerm><IndexTerm><Primary>help search path</Primary><Secondary>environment variables</Secondary></IndexTerm></Title>
+<Para>The help search path is assembled from the built-in locations and the following
+input variables:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="140*">
+<colspec colwidth="388*">
+<TBody>
+<Row>
+<Entry><Para>DTSPSYSHELP<IndexTerm><Primary>DTSPSYSHELP variable</Primary></IndexTerm>
+</Para></Entry>
+<Entry><Para>System-wide help search path input variable</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DTSPUSERHELP</Para></Entry>
+<Entry><Para>Personal help search path input variable</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Use these input variables to specify locations outside the application search
+path.</Para>
+<Para>The assembled help search path is specified by the output variable
+DTHELPSEARCHPATH.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.30">
+<Title>Syntax for the Help Search Path Input Variables<IndexTerm><Primary>help search path</Primary><Secondary>syntax</Secondary></IndexTerm></Title>
+<Para>The syntax for the variables<IndexTerm>
+<Primary>DTSPSYSHELP variable</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>
+DTSPSYSHELP and<IndexTerm>
+<Primary>DTSPUSERHELP variable</Primary>
+<Secondary>syntax</Secondary>
+</IndexTerm>
+DTSPUSERHELP is:</Para>
+<ProgramListing><Symbol Role="Variable">VARIABLE</Symbol>=<Symbol Role="Variable">location</Symbol> [,<Symbol Role="Variable">location</Symbol>...]</ProgramListing>
+<Para>where <Symbol Role="Variable">location</Symbol> can have the syntax:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="1">
+<colspec colwidth="53*">
+<colspec colwidth="475*">
+<TBody>
+<Row>
+<Entry><Para><Filename>/</Filename><Symbol Role="Variable">path</Symbol></Para></Entry>
+<Entry><Para>Specifies a directory on the local (session server) system. Use
+this syntax to add a local directory.</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>To specify a location on another system, use its network file name&mdash;for
+example, <Filename>/nfs/servera/projects/help</Filename>.</Para>
+</Sect2>
+<Sect2 Id="SAG.Datab.div.31">
+<Title>How the Help Search Path Is Assembled<IndexTerm><Primary>help search path</Primary><Secondary>assembly</Secondary></IndexTerm></Title>
+<Para>The value of the help search path (DTHELPSEARCHPATH) is created by
+assembling the following locations, listed in order of precedence:<IndexTerm><Primary>DTHELPSEARCHPATH variable</Primary><Secondary>assembling</Secondary></IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Locations specified using the DTSPUSERHELP variable</Para>
+</ListItem>
+<ListItem>
+<Para>Locations derived from the DTSPUSERAPPHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para>The default personal location: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/help</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>The default location: <Filename>/etc/dt/appconfig/help/</Filename><Symbol Role="Variable">languag</Symbol><?X-setsize 9.0 pt>e</Para>
+</ListItem>
+<ListItem>
+<Para>Locations specified using the DTSPSYSHELP variable</Para>
+</ListItem>
+<ListItem>
+<Para>Locations derived from the DTSPSYSAPPHOSTS variable</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/dt/appconfig/help/</Filename><Symbol Role="Variable">languag</Symbol>e</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.Datab.div.32">
+<Title Id="SAG.Datab.mkr.15">Localized Search Paths<IndexTerm><Primary>search paths</Primary><Secondary>localized</Secondary></IndexTerm><IndexTerm><Primary>application search path</Primary><Secondary>localized</Secondary></IndexTerm></Title>
+<Para>The output variables include entries for both localized and default (<Command>C</Command>)
+locations.</Para>
+<Para>For example, the default application search path is:</Para>
+<ProgramListing><Symbol Role="Variable">HomeDirectory</Symbol>/.dt/appmanager
+/etc/dt/appconfig/appmanager/<Symbol Role="Variable">language</Symbol>
+/etc/dt/appconfig/appmanager/C
+/usr/dt/appconfig/appmanager/<Symbol Role="Variable">language</Symbol>
+/usr/dt/appconfig/appmanager/C
+</ProgramListing>
+<Para>where <Symbol Role="Variable">language</Symbol> is the value of the LANG environment variable.</Para>
+<Para>For each scope (system-wide and built-in), the language-specific location has
+precedence over the default location.</Para>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

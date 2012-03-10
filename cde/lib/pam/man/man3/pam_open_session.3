@@ -1,0 +1,106 @@
+.\" $XConsortium: pam_open_session.3 /main/5 1996/10/29 15:18:42 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam_open_session 3 "9 Jan 1996"
+.SH NAME
+pam_open_session, pam_close_session \- perform PAM session creation and
+termination operations
+.SH SYNOPSIS
+.LP
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.nf
+.ft 3
+#include <security/pam_appl.h>
+.ft
+.fi
+.LP
+.BI "int pam_open_session(pam_handle_t " "*pamh" ,
+.BI "int " "flags");
+.LP
+.BI "int pam_close_session(pam_handle_t " "*pamh" ,
+.BI "int " "flags");
+.SH DESCRIPTION
+.IX "pam_open_session" "" "\fLpam_open_session\fP \(em request authentication"
+.B pam_open_session(\|)
+is called after a user has been successfully authenticated (refer to
+.BR pam_authenticate (3)
+and
+.BR pam_acct_mgmt (3))
+and is used to notify the session modules that a new session 
+has been initiated.  All programs that use the 
+.BR pam (3) 
+library should invoke
+.B pam_open_session(\|)
+when beginning a new session.
+Upon termination of this activity,
+.B pam_close_session(\|) 
+should be invoked to inform
+.BR pam (3) 
+that the
+session has terminated.
+.LP
+The 
+.I pamh
+argument
+is an authentication handle obtained by a prior call to
+.B pam_start(\|).
+The following flag may be set in the
+.I flags
+field for
+.B pam_open_session(\|)
+and
+.BR pam_close_session(\|) :
+.RS
+.IP PAM_SILENT 16
+The session service should not generate any messages
+.RE
+.SH NOTES
+In many instances, the
+.B pam_open_session(\|)
+and
+.B pam_close_session(\|)
+calls may be made by different processes.
+For example, in UNIX the
+.B login
+process opens a session, while the
+.B init
+process closes
+the session.  In this case,
+UTMP/WTMP entries may be used to link the call to
+.B pam_close_session(\|)
+with an earlier call to
+.BR pam_open_session(\|) .
+This is possible because
+UTMP/WTMP entries are uniquely identified by a combination of attributes,
+including the user login name and device name, which are accessible
+through the PAM handle,
+.I pamh.
+The call to
+.B pam_open_session(\|)
+should precede UTMP/WTMP entry management and the call to
+.B pam_close_session(\|)
+should follow UTMP/WTMP exit management.
+.PP
+.SH "RETURN VALUES"
+.PP
+Upon successful completion, PAM_SUCCESS is returned.  In addition to the
+return values defined in
+.BR pam (3),
+the following value may be returned on error:
+.RS
+.IP PAM_SESSION_ERR 22
+Can not make/remove an entry for the specified session
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR pam_start (3),
+.BR pam_authenticate (3),
+.BR pam_acct_mgmt (3),
+.BR getutxent (3C)

@@ -1,0 +1,465 @@
+XCOMM $TOG: Imakefile /main/13 1998/04/06 13:38:18 mgreess $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#include <Library.tmpl>
+
+#ifdef AlphaArchitecture
+
+/*
+ * The OSF 3.2 compiler has a bug which prevents the use of
+ * template class destructors (see Vector.c)
+ */
+#if OSMajorVersion < 4
+CXX_COMPILER_BUG_OPTION	= -DSP_TEMPLATE_DESTRUCTOR_COMPILER_BUG
+#else
+CXX_COMPILER_BUG_OPTION	=
+#endif
+
+/*
+ * put cpp directives here rather than in CXXDEFINES because
+ * for some reason the CXXDEFINES aren't passed to the link phase
+ * but they are needed there to instantiate templates
+ */
+CXXOPTIONS = \
+  -DSP_VOLATILE= -DSP_CONST= $(CXX_COMPILER_BUG_OPTION) \
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST
+
+/*
+ * Flags passed into compile step when doing manual template instantiation.
+ */
+CXXTEMPLATEFLAGS = -ptf
+
+M4 = /bin/m4
+#endif
+
+#ifdef SCOArchitecture
+/* put cpp directives here rather than in CXXDEFINES because
+ * for some reason the CXXDEFINES aren't passed to the link phase
+ * but they are needed there to instantiate templates
+ */
+CXXOPTIONS = \
+  -DSP_VOLATILE= -DSP_CONST= \
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST
+
+/*
+ * Flags passed into compile step when doing manual template instantiation.
+ */
+CXXTEMPLATEFLAGS =
+
+M4 = /bin/m4
+#endif
+
+#ifdef HPArchitecture
+/*
+ * make null pointer use invalid
+ *
+ * also, put cpp directives here rather than in CXXDEFINES because
+ * for some reason the CXXDEFINES aren't passed to the link phase
+ * but they are needed there to instantiate templates
+ */
+CXXOPTIONS = +a1 -z \
+  -DSP_VOLATILE= -DSP_CONST= \
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_ANSI_CLASS_INST
+EXTRA_INCLUDES = -I/opt/CC/include/CC
+
+/*
+ * Flags passed into compile step when doing manual template instantiation.
+ */
+CXXTEMPLATEFLAGS =
+
+/*
+ * using /usr/lib/libC.a on HPUX cause nsgmls to core dump.
+ * use the default.
+ */
+STLIBCENV =
+
+M4 = /bin/m4
+#endif
+
+#ifdef LinuxArchitecture
+
+/*
+ * put cpp directives here rather than in CXXDEFINES because
+ * for some reason the CXXDEFINES aren't passed to the link phase
+ * but they are needed there to instantiate templates
+ */
+CXXOPTIONS = \
+  -DSP_VOLATILE= -DSP_CONST= \
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST
+
+/*
+ * Flags passed into compile step when doing manual template instantiation.
+ */
+CXXTEMPLATEFLAGS = -ptf
+
+M4 = /usr/bin/m4
+#endif
+
+#if defined(RsArchitecture)
+/* put cpp directives here rather than in CXXDEFINES because
+ * for some reason the CXXDEFINES aren't passed to the link phase
+ * but they are needed there to instantiate templates
+ */
+CXXOPTIONS = \
+  -DSP_VOLATILE=volatile -DSP_CONST=const \
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST
+
+/*
+ * Flags passed into compile step when doing manual template instantiation.
+ */
+CXXTEMPLATEFLAGS =
+
+M4 = /bin/m4
+#endif
+
+#if defined(SunArchitecture)
+/* put cpp directives here rather than in CXXDEFINES because
+ * for some reason the CXXDEFINES aren't passed to the link phase
+ * but they are needed there to instantiate templates
+ */
+CXXOPTIONS = \
+  -DSP_VOLATILE= -DSP_CONST= \
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_ANSI_CLASS_INST
+EXTRA_INCLUDES = -I/opt/SUNWspro/SC2.0.1/include/CC
+
+/*
+ * Flags passed into compile step when doing manual template instantiation.
+ */
+CXXTEMPLATEFLAGS =
+
+M4 = /usr/ccs/bin/m4
+#endif /* SunArchitecture */
+
+#if defined(USLArchitecture)
+/* put cpp directives here rather than in CXXDEFINES because
+ * for some reason the CXXDEFINES aren't passed to the link phase
+ * but they are needed there to instantiate templates
+ */
+CXXOPTIONS = \
+  -DSP_VOLATILE= -DSP_CONST= \
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST
+
+/*
+ * Flags passed into compile step when doing manual template instantiation.
+ */
+CXXTEMPLATEFLAGS =
+
+M4 = /bin/m4
+#endif
+
+#if defined(UXPArchitecture)
+/* put cpp directives here rather than in CXXDEFINES because
+ * for some reason the CXXDEFINES aren't passed to the link phase
+ * but they are needed there to instantiate templates
+ */
+CXXOPTIONS = \
+  -DSP_VOLATILE= -DSP_CONST= \
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST
+
+/*
+ * Flags passed into compile step when doing manual template instantiation.
+ */
+CXXTEMPLATEFLAGS = -pta
+
+M4 = /usr/ccs/bin/m4
+#endif
+
+.SUFFIXES: .m4
+.m4.C:
+	rm -f $@
+	$(M4) instmac.m4 $< >$@
+
+PROGRAMS=nsgmls
+
+
+INSTALLFLAGS = $(INSTINCFLAGS)
+
+SRCS =                           \
+    Allocator.C                  \
+    ArcEngine.C                  \
+    Attribute.C                  \
+    CharsetDecl.C                \
+    CharsetInfo.C                \
+    CharsetRegistry.C            \
+    CmdLineApp.C                 \
+    CodingSystem.C               \
+    ConsoleOutput.C              \
+    ContentState.C               \
+    ContentToken.C               \
+    DescriptorManager.C          \
+    Dtd.C                        \
+    EUCJPCodingSystem.C          \
+    ElementType.C                \
+    Entity.C                     \
+    EntityApp.C                  \
+    EntityCatalog.C              \
+    EntityDecl.C                 \
+    EntityManager.C              \
+    ErrnoMessageArg.C            \
+    ErrorCountEventHandler.C     \
+    Event.C                      \
+    EventGenerator.C             \
+    ExtendEntityManager.C        \
+    ExternalId.C                 \
+    Fixed2CodingSystem.C         \
+    GenericEventHandler.C        \
+    Group.C                      \
+    Hash.C                       \
+    IListBase.C                  \
+    ISO8859InputCodingSystem.C   \
+    Id.C                         \
+    IdentityCodingSystem.C       \
+    InputSource.C                \
+    InternalInputSource.C        \
+    Link.C                       \
+    LinkProcess.C                \
+    LiteralStorage.C             \
+    Location.C                   \
+    Lpd.C                        \
+    Markup.C                     \
+    Message.C                    \
+    MessageArg.C                 \
+    MessageEventHandler.C        \
+    MessageReporter.C            \
+    MessageTable.C               \
+    ModeInfo.C                   \
+    Notation.C                   \
+    NumericCharRefOrigin.C       \
+    OffsetOrderedList.C          \
+    OpenElement.C                \
+    OutputCharStream.C           \
+    OutputState.C                \
+    Parser.C                     \
+    Param.C                      \
+    ParserApp.C                  \
+    ParserEventGeneratorKit.C    \
+    ParserOptions.C              \
+    ParserState.C                \
+    Partition.C                  \
+    PosixStorage.C               \
+    RastEventHandler.C           \
+    Recognizer.C                 \
+    RewindStorageObject.C        \
+    SGMLApplication.C            \
+    SJISCodingSystem.C           \
+    SOEntityCatalog.C            \
+    Sd.C                         \
+    SdText.C                     \
+    SearchResultMessageArg.C     \
+    SgmlParser.C                 \
+    SgmlsEventHandler.C          \
+    ShortReferenceMap.C          \
+    StdioStorage.C               \
+    StorageManager.C             \
+    StringSet.C                  \
+    StringVectorMessageArg.C     \
+    Syntax.C                     \
+    Text.C                       \
+    TokenMessageArg.C            \
+    TranslateInputCodingSystem.C \
+    TrieBuilder.C                \
+    TypeId.C                     \
+    URLStorage.C                 \
+    UTF8CodingSystem.C           \
+    Undo.C                       \
+    UnicodeCodingSystem.C        \
+    UnivCharsetDesc.C            \
+    assert.C                     \
+    nsgmls.C                     \
+    parseAttribute.C             \
+    parseCommon.C                \
+    parseDecl.C                  \
+    parseInstance.C              \
+    parseMode.C                  \
+    parseParam.C                 \
+    parseSd.C                    \
+    splib.C                      \
+    $(GENERATED_SRCS)
+
+GENERATED_SRCS = 		 \
+    app_inst.C                   \
+    arc_inst.C                   \
+    entmgr_inst.C                \
+    nsgmls_inst.C                \
+    parser_inst.C                \
+    xentmgr_inst.C
+
+EXTRA_SRCS = \
+    CopyOwner.C                  \
+    HashTable.C                  \
+    HashTableItemBase.C          \
+    IQueue.C                     \
+    ISet.C                       \
+    List.C                       \
+    NCVector.C                   \
+    Options.C                    \
+    Owner.C                      \
+    OwnerTable.C                 \
+    ParserMessages.C             \
+    PointerTable.C               \
+    Ptr.C                        \
+    RangeMap.C                   \
+    StringOf.C                   \
+    SubstTable.C                 \
+    Vector.C                     \
+    XcharMap.C
+
+OBJS =                           \
+    Allocator.o                  \
+    ArcEngine.o                  \
+    Attribute.o                  \
+    CharsetDecl.o                \
+    CharsetInfo.o                \
+    CharsetRegistry.o            \
+    CmdLineApp.o                 \
+    CodingSystem.o               \
+    ConsoleOutput.o              \
+    ContentState.o               \
+    ContentToken.o               \
+    DescriptorManager.o          \
+    Dtd.o                        \
+    EUCJPCodingSystem.o          \
+    ElementType.o                \
+    Entity.o                     \
+    EntityApp.o                  \
+    EntityCatalog.o              \
+    EntityDecl.o                 \
+    EntityManager.o              \
+    ErrnoMessageArg.o            \
+    ErrorCountEventHandler.o     \
+    Event.o                      \
+    EventGenerator.o             \
+    ExtendEntityManager.o        \
+    ExternalId.o                 \
+    Fixed2CodingSystem.o         \
+    GenericEventHandler.o        \
+    Group.o                      \
+    Hash.o                       \
+    IListBase.o                  \
+    ISO8859InputCodingSystem.o   \
+    Id.o                         \
+    IdentityCodingSystem.o       \
+    InputSource.o                \
+    InternalInputSource.o        \
+    Link.o                       \
+    LinkProcess.o                \
+    LiteralStorage.o             \
+    Location.o                   \
+    Lpd.o                        \
+    Markup.o                     \
+    Message.o                    \
+    MessageArg.o                 \
+    MessageEventHandler.o        \
+    MessageReporter.o            \
+    MessageTable.o               \
+    ModeInfo.o                   \
+    Notation.o                   \
+    NumericCharRefOrigin.o       \
+    OffsetOrderedList.o          \
+    OpenElement.o                \
+    OutputCharStream.o           \
+    OutputState.o                \
+    Param.o                      \
+    Parser.o                     \
+    ParserApp.o                  \
+    ParserEventGeneratorKit.o    \
+    ParserOptions.o              \
+    ParserState.o                \
+    Partition.o                  \
+    PosixStorage.o               \
+    RastEventHandler.o           \
+    Recognizer.o                 \
+    RewindStorageObject.o        \
+    SGMLApplication.o            \
+    SJISCodingSystem.o           \
+    SOEntityCatalog.o            \
+    Sd.o                         \
+    SdText.o                     \
+    SearchResultMessageArg.o     \
+    SgmlParser.o                 \
+    SgmlsEventHandler.o          \
+    ShortReferenceMap.o          \
+    StdioStorage.o               \
+    StorageManager.o             \
+    StringSet.o                  \
+    StringVectorMessageArg.o     \
+    Syntax.o                     \
+    Text.o                       \
+    TokenMessageArg.o            \
+    TranslateInputCodingSystem.o \
+    TrieBuilder.o                \
+    TypeId.o                     \
+    URLStorage.o                 \
+    UTF8CodingSystem.o           \
+    Undo.o                       \
+    UnicodeCodingSystem.o        \
+    UnivCharsetDesc.o            \
+    assert.o                     \
+    nsgmls.o                     \
+    parseAttribute.o             \
+    parseCommon.o                \
+    parseDecl.o                  \
+    parseInstance.o              \
+    parseMode.o                  \
+    parseParam.o                 \
+    parseSd.o                    \
+    splib.o                      \
+    $(GENERATED_OBJS)
+
+GENERATED_OBJS = 		 \
+    app_inst.o                   \
+    arc_inst.o                   \
+    entmgr_inst.o                \
+    nsgmls_inst.o                \
+    parser_inst.o                \
+    xentmgr_inst.o
+
+EXTRA_OBJS = \
+    CopyOwner.o                  \
+    HashTable.o                  \
+    HashTableItemBase.o          \
+    IQueue.o                     \
+    ISet.o                       \
+    List.o                       \
+    NCVector.o                   \
+    Options.o                    \
+    Owner.o                      \
+    OwnerTable.o                 \
+    ParserMessages.o             \
+    PointerTable.o               \
+    Ptr.o                        \
+    RangeMap.o                   \
+    StringOf.o                   \
+    SubstTable.o                 \
+    Vector.o                     \
+    XcharMap.o
+
+#ifdef HPArchitecture
+SpecialCplusplusObjectRule(Parser,Parser,+T)
+#endif
+
+SpecialCplusplusObjectRule(app_inst,app_inst,$(CXXTEMPLATEFLAGS))
+SpecialCplusplusObjectRule(arc_inst,arc_inst,$(CXXTEMPLATEFLAGS))
+SpecialCplusplusObjectRule(entmgr_inst,entmgr_inst,$(CXXTEMPLATEFLAGS))
+SpecialCplusplusObjectRule(nsgmls_inst,nsgmls_inst,$(CXXTEMPLATEFLAGS))
+SpecialCplusplusObjectRule(parser_inst,parser_inst,$(CXXTEMPLATEFLAGS))
+SpecialCplusplusObjectRule(xentmgr_inst,xentmgr_inst,$(CXXTEMPLATEFLAGS))
+
+NormalCplusplusObjectRule()
+ComplexCplusplusProgramTarget($(PROGRAMS))
+
+/* make sure the template repository is cleaned */
+clean::
+	rm -rf ptrepository
+	rm -f $(GENERATED_SRCS)
+
+/*
+ * Required to build .o files from .m4 files on Alpha
+ */
+app_inst.C:	app_inst.m4
+arc_inst.C:	arc_inst.m4
+entmgr_inst.C:	entmgr_inst.m4
+nsgmls_inst.C:	nsgmls_inst.m4
+parser_inst.C:	parser_inst.m4
+xentmgr_inst.C:	xentmgr_inst.m4

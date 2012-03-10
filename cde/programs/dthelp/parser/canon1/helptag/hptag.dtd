@@ -1,0 +1,434 @@
+--  HP Tag Document-Type Definition
+    Copyright (c) Hewlett-Packard Company, 1987-1994
+    Version 1.23  (2/1/94)-Canonical SGML only
+    $XConsortium: hptag.dtd /main/2 1996/11/07 11:55:24 drk $
+--
+-- Entity to read in user defined entities --
+<!ENTITY USER-DEFINED-ENTITIES SYSTEM>
+
+--  Standard pre-defined HP Tag Entities --
+  -- Math symbols --
+<!ENTITY minus SDATA > -- Minus sign --
+<!ENTITY pm SDATA > -- Plus or minus sign --
+<!ENTITY div SDATA > -- Division sign --
+<!ENTITY times SDATA > -- Multiplication sign --
+<!ENTITY leq SDATA >  -- Less than or equals sign --
+<!ENTITY geq SDATA >  -- Greater than or equals sign --
+<!ENTITY neq SDATA >  -- Not equals sign --
+
+  -- Special typographical symbols --
+<!ENTITY copy SDATA >
+<!ENTITY reg SDATA >
+<!ENTITY tm SDATA >
+<!ENTITY ellipsis SDATA >
+<!ENTITY pellipsis SDATA >
+<!ENTITY vellipsis SDATA >
+<!ENTITY a.m. SDATA >
+<!ENTITY p.m. SDATA >
+<!ENTITY minutes SDATA >
+<!ENTITY seconds SDATA >
+<!ENTITY deg SDATA >
+<!ENTITY squote SDATA >   -- Single quote, non-directional --
+<!ENTITY dquote SDATA >   -- Double quote, non-directional --
+<!ENTITY endash SDATA >
+<!ENTITY emdash SDATA >
+<!ENTITY vblank SDATA >  -- Visible blank for syntax descriptions --
+<!ENTITY cents SDATA >
+<!ENTITY sterling SDATA > -- Pound sterling --
+<!ENTITY m-d- PI >     -- Discretionary hyphen --
+<!ENTITY space SDATA > -- Unescaped significant space (for <ex>) --
+<!ENTITY sigspace SDATA > -- Significant space --
+<!ENTITY sigdash SDATA > -- Significant dash (hyphen) --
+<!ENTITY empty SDATA "">
+
+  -- Special technical symbols --
+<!ENTITY micro SDATA >
+<!ENTITY ohm SDATA >
+
+  -- Keycap arrows --
+<!ENTITY up SDATA >
+<!ENTITY down SDATA >
+<!ENTITY left SDATA >
+<!ENTITY right SDATA >
+<!ENTITY home SDATA >
+<!ENTITY back SDATA >
+
+  -- Miscellaneous entities --
+<!ENTITY date SDATA >
+<!ENTITY time SDATA >
+<!ENTITY halfspace SDATA >
+
+  -- Entities for MARKUP delimiters --
+<!ENTITY m-backslash CDATA "\">
+<!ENTITY m-slash CDATA "/">
+<!ENTITY m-lt CDATA "<">
+<!ENTITY m-and CDATA "&">
+
+  -- For localizable "special characters" head in
+     automatically generated index --
+<!ENTITY m-specchar SDATA>
+
+<!SHORTREF text>
+    "&\" -> &m-backslash,
+    "&/" -> &m-slash,
+    "&<" -> &m-lt,
+    "&&" -> &m-and,
+    "-?" -> &m-d-
+    ;
+
+helpvolume -> (metainfo?, hometopic?,
+	      (chapter* | (s1*, rsect*)), message?, glossary?)
+  <EXCEPT> +(memo | idx )
+  <USEMAP text>
+  ;
+
+hometopic -> (chaphead, text?)
+  ;
+
+otherhead -> (head, text?)
+  ;
+
+memo -> CDATA      -- A writer's note to self or reviewer --
+  ;
+
+link -> (partext)
+  <EXCEPT> -(link | xref)
+  <PARAM>
+    hyperlink CDATA,
+    type (JUMP | JUMPNEWVIEW | DEFINITION | EXECUTE | APPDEFINED | MAN),
+    description CDATA
+  ;
+
+location -> (partext?)
+  <PARAM>
+    id ID #REQUIRED
+  ;
+
+--  Front matter  --
+metainfo -> (idsection, abstract?, otherfront*)
+  <EXCEPT> -(footnote)
+  ;
+
+idsection -> (title, copyright?)
+  ;
+
+title -> (partext)
+  <EXCEPT> -(memo | location | idx)
+  ;
+
+copyright -> (text)
+  <EXCEPT> -(memo | location | idx)
+  ;
+
+abstract -> (head?, text?, frontsub*)
+  ;
+
+otherfront -> (head?, text?, frontsub*)
+  <PARAM>
+    id ID,
+  ;
+
+frontsub -> (head?, text)
+  ;
+
+chapter -> (chaphead, text?, (s1*, rsect*))
+  ;
+
+<!PARAM chapter s1 s2 s3 s4 s5 s6 s7 s8 s9>
+  id ID
+  ;
+
+s1 -> (chaphead, text?, s2*, rsect*)
+  ;
+
+s2 -> (chaphead, text?, s3*, rsect*)
+  ;
+
+s3 -> (chaphead, text?, s4*, rsect*)
+  ;
+
+s4 -> (chaphead, text?, s5*, rsect*)
+  ;
+
+s5 -> (chaphead, text?, s6*, rsect*)
+  ;
+
+s6 -> (chaphead, text?, s7*, rsect*)
+  ;
+
+s7 -> (chaphead, text?, s8*, rsect*)
+  ;
+
+s8 -> (chaphead, text?, s9*, rsect*)
+  ;
+
+s9 -> (chaphead, text?)
+  ;
+
+procedure -> (chaphead, text?)
+  <EXCEPT> -(procedure)
+  ;
+
+rsect -> (chaphead, text?, rsub*)
+  <PARAM>
+    id ID,
+  ;
+
+rsub -> (chaphead, text?)
+  ;
+
+chaphead -> (head, abbrev?)
+  <EXCEPT> -(memo | location | idx | footnote)
+  ;
+
+head -> (partext)
+  <EXCEPT> -(memo | location | idx)
+  ;
+
+abbrev -> (partext)
+  <EXCEPT> -(footnote)
+  ;
+
+--  TEXT  --
+text -> (p  | note | caution   | warning   | lablist | list    | vex  |
+	 ex | esc  | otherhead | procedure | syntax  | figure  | image)*
+  ;
+
+<!PARAM p image>
+  indent (INDENT),
+  gentity ENTITY,
+  gposition (LEFT | RIGHT),
+  ghyperlink CDATA,
+  glinktype (JUMP | JUMPNEWVIEW | DEFINITION | EXECUTE | APPDEFINED | MAN),
+  gdescription CDATA,
+  id ID
+  ;
+
+p -> (head?, partext)
+  <EXCEPT> +(newline)
+    ;
+
+newline -> EMPTY
+  ;
+
+image -> (head?, partext)
+  <EXCEPT> -(footnote)
+  ;
+  
+(note | caution | warning) -> (head?, text)
+  <EXCEPT> -(note | caution | warning | footnote)
+  ;
+
+list -> (head?, item +)
+  <PARAM>
+    type (ORDER | BULLET | PLAIN | MILSPEC | CHECK) #IMPLIED,
+    ordertype (UALPHA | LALPHA | ARABIC | UROMAN | LROMAN) #IMPLIED,
+    spacing (TIGHT | LOOSE) #IMPLIED,
+    continue (CONTINUE)
+  ;
+
+item -> (text)
+  <PARAM>
+    id ID
+  ;
+
+lablist -> (head?, labheads?, lablistitem +)
+  <PARAM>
+    longlabel (WRAP | NOWRAP) #IMPLIED,
+    spacing (TIGHT | LOOSE) #IMPLIED
+  ;
+
+labheads -> (labh, labhtext)
+  <EXCEPT> -(memo | location | idx)
+  ;
+
+labh -> (partext)
+  ;
+
+labhtext -> (partext)
+  ;
+
+lablistitem -> (label, text)
+  ;
+
+label -> (partext)
+  ;
+
+ex -> (head?, (exampleseg, annotation?)+)
+  <EXCEPT> -(ex | vex | note | caution | warning | syntax | footnote)
+  <PARAM>
+    notes (SIDE | STACK) #IMPLIED,
+    lines (NUMBER | NONUMBER) #IMPLIED,
+    textsize (NORMAL | SMALLER | SMALLEST) #IMPLIED,
+  ;
+
+exampleseg -> (partext)
+  <EXCEPT> +(lineno)
+  ;
+
+lineno -> EMPTY
+  <PARAM> id ID #REQUIRED
+  ;
+
+annotation -> (partext?)
+  <EXCEPT> +(newline)
+  ;
+
+vex -> CDATA
+  <PARAM>
+    lines (NUMBER | NONUMBER) #IMPLIED,
+    textsize (NORMAL | SMALLER | SMALLEST) #IMPLIED,
+  ;
+
+syntax -> (head?, synel)
+  ;
+
+synel -> (#PCDATA | esc | var | keycap | optblock | reqblock)+
+  ;
+
+optblock -> (synel)
+  ;
+
+reqblock -> (synel)
+  ;
+
+footnote -> (p +)
+  <EXCEPT> -(footnote)
+  ;
+
+idx -> (indexprimary, indexsub?)
+  <EXCEPT> -(term | footnote | location | idx)
+  ;
+
+indexprimary -> (partext, sort?)
+  ;
+
+indexsub -> (partext, sort?)
+  ;
+
+sort -> (#PCDATA | esc)+
+  ;
+
+graphic -> EMPTY
+  <PARAM>
+    id ID,
+    entity ENTITY,
+  ;
+
+figure -> (caption?)
+  <EXCEPT> -(figure, graphic)
+  <PARAM>
+    number NUMBER #IMPLIED,
+    tonumber (NUMBER | NONUMBER) #IMPLIED,
+    id ID,
+    entity ENTITY,
+    figpos (LEFT | CENTER | RIGHT) #IMPLIED,
+    cappos (CAPLEFT | CAPCENTER | CAPRIGHT) #IMPLIED,
+    ghyperlink CDATA,
+    glinktype (JUMP | JUMPNEWVIEW | DEFINITION | EXECUTE | APPDEFINED | MAN),
+    gdescription CDATA
+  ;
+
+caption -> (partext, abbrev?)
+  <EXCEPT> -(memo | location | idx)
+  ;
+
+-- Included text elements --
+-- If modifying definition of "partext", check exclusions to "term" --
+partext -> (#PCDATA  | acro   | emph  | computer | graphic | term  |
+	    var      | circle | quote | keycap   | user    | super |
+	    sub      | book   | xref  | footnote | esc     | link  |
+	    location | newline)*
+  ;
+
+acro -> (#PCDATA | esc | super | sub)*
+  ;
+
+esc -> CDATA
+  ;
+
+emph -> (partext)
+  ;
+
+computer -> (#PCDATA | quote | keycap | var | user |
+	     super | sub | esc)*
+  ;
+
+user -> (#PCDATA | keycap | var | super | sub | esc)*
+  ;
+
+term -> (partext)
+  <EXCEPT>
+    -(emph | computer | term | var | quote | user | book | footnote )
+  <PARAM>
+    base CDATA,
+    gloss (GLOSS | NOGLOSS)
+  ;
+
+quote -> (partext)
+  ;
+
+keycap -> (#PCDATA | super | sub | esc)+
+  ;
+
+super -> (#PCDATA)
+  ;
+
+sub -> (#PCDATA)
+  ;
+
+var -> (#PCDATA | sub | super | esc)+
+  ;
+
+circle -> (#PCDATA)
+  ;
+
+book -> (partext)
+  <EXCEPT> -(book)
+  ;
+
+xref -> EMPTY
+  <PARAM>
+    id IDREF #REQUIRED
+  ;
+
+-- Stuff following the chapters:  error messages, and glossary --
+  -- Error Messages --
+message -> (chaphead?, text?, (msg + | msgsub +))
+  <PARAM>
+    include CDATA,
+    exclude CDATA
+  ;
+
+msgsub -> (chaphead, text?, msg +)
+  <PARAM>
+    include CDATA,
+    exclude CDATA
+  ;
+
+msg -> (msgnum?, msgtext, explain?)
+  ;
+
+msgnum -> (#PCDATA | esc)+
+  ;
+
+msgtext -> (partext)
+  <EXCEPT> +(newline)
+  ;
+
+explain -> (text)
+  ;
+
+  -- Glossary --
+glossary -> (text?, glossent +)
+  ;
+
+glossent -> (dterm, definition)
+  ;
+
+dterm -> (partext)
+  <EXCEPT> -(term)
+  ;
+
+definition -> (text)
+  ;

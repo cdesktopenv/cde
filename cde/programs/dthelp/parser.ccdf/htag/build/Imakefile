@@ -1,0 +1,83 @@
+XCOMM $XConsortium: Imakefile /main/3 1995/11/08 11:11:08 rswiston $
+/* build Imakefile */
+
+ARCCMD = arc u
+UNARCCMD = arc x
+ARCDELCMD = arc d
+
+HELPTAG       = ..
+HELPTAGSRC    = $(HELPTAG)/helptag
+HELPPARSERSRC = $(HELPTAG)/parser
+HELPELTDEFSRC = $(HELPTAG)/eltdef
+HELPDTDFILE   = $(HELPTAGSRC)/hptag.dtd
+HELPUTILSRC   = $(HELPTAG)/util
+HELPBUILDSRC  = $(HELPTAG)/build
+HELPUTILLIB   = $(HELPTAG)/util/libutil.a
+
+INCLUDES = -I. -I$(HELPUTILSRC)
+
+SRCS = \
+	build.c buildutl.c eltree.c except.c fsa.c out.c param.c \
+	scan.c sref.c tree.c
+
+OBJS = \
+	build.o buildutl.o eltree.o except.o fsa.o out.o param.o \
+	scan.o sref.o tree.o
+
+CHPRODS = context.h delim.h
+CCPRODS = case.c
+
+BHPRODS = arc.h dtd.h entity.h
+BCPRODS =
+
+CTRASH  = error delim.dat
+BTRASH  = error template
+
+CPRODS  = $(CHPRODS) $(CCPRODS)
+BPRODS  = $(BHPRODS) $(BCPRODS)
+TRASH   = error delim.dat template
+
+PRODUCTS = $(CPRODS) $(BPRODS)
+
+LOCAL_LIBRARIES = $(HELPUTILLIB)
+
+/* Don't use shared libs for hp */
+#ifdef HPArchitecture
+#if OSMajorVersion > 7
+EXTRA_LOAD_FLAGS = -Wl,-a archive
+#endif
+#endif
+
+all:: $(PRODUCTS)
+
+$(BPRODS): build $(HELPDTDFILE)
+        $(RM) $(BPRODS) $(BTRASH)
+	./build < $(HELPDTDFILE)
+
+NormalLibraryObjectRule()
+NormalProgramTarget(build,$(OBJS),delim.h $(LOCAL_LIBRARIES),$(LOCAL_LIBRARIES),)
+
+$(CPRODS):  $(HELPUTILSRC)/context $(HELPTAGSRC)/delim.bld context.dat
+	$(RM) $(CPRODS) $(CTRASH)
+	/* get application-specific delim.dat */
+	$(CP) $(HELPTAGSRC)/delim.bld delim.dat
+	$(HELPUTILSRC)/context sparse
+
+$(HELPUTILSRC)/context:
+	cd $(HELPUTILSRC); make context
+
+
+arc package :
+        if exist util.arc $(CP) build.arc old.arc
+        $(ARCCMD) util.arc *.c *.h makefile
+
+unarc dearc :
+        $(UNARCCMD) util.arc
+
+clean::
+	$(RM) $(PRODUCTS) $(TRASH)
+
+depend:: $(SRCS)
+DependTarget()
+
+includes:: $(PRODUCTS)

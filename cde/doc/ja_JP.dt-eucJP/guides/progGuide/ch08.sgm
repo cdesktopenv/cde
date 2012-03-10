@@ -1,0 +1,698 @@
+<!-- $XConsortium: ch08.sgm /main/8 1996/09/08 19:37:13 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="PG.aIII.div.1">
+<Title Id="PG.aIII.mkr.1">アプリケーションからのアクションの
+実行</Title>
+<Para Id="PG.aIII.mkr.2">アプリケーションが拡張性のある一連のデータ型を管理する場合には、アクションの実行によりデータ型を直接実行しなければなりません。
+この章では、アプリケーションからアクションを実行する方法について説明します。
+アクションの実行方法を示すサンプル・プログラムも示します。</Para>
+<Para>アクションとアクションの作成の詳細については、
+<IndexTerm>
+<Primary>アクション</Primary>
+</IndexTerm>
+<IndexTerm><Primary>アクション</Primary>
+<Secondary>アプリケーションからのアクションの実行</Secondary>
+</IndexTerm>このマニュアルの
+<!--Original XRef content: 'Chapter&numsp;9,
+&xd2;Accessing the Data-Typing Database'-->
+<XRef Role="ChapNumAndTitle" Linkend="PG.datat.mkr.1">と、
+<Emphasis>共通デスクトップ環境 上級ユーザおよびシステム管理者ガイド</Emphasis>の次の章を参照してください。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>「アクションおよびデータ型の概要」</Para>
+</ListItem>
+<ListItem>
+<Para>「アクション作成ツールを使ったアクションとデータ型の作成」</Para>
+</ListItem>
+<ListItem>
+<Para>「手動によるアクションの作成」</Para>
+</ListItem>
+<ListItem>
+<Para>「手動によるデータ型の作成」</Para>
+<InformalTable Id="PG.aIII.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Mechanisms for Invoking Actions from an Application110'-->
+<XRef Role="JumpText" Linkend="PG.aIII.mkr.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Types of Actions111'-->
+<XRef Role="JumpText" Linkend="PG.aIII.mkr.4"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Action Invocation API112'-->
+<XRef Role="JumpText" Linkend="PG.aIII.mkr.5"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Related Information112'-->
+<XRef Role="JumpText" Linkend="PG.aIII.mkr.6"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'actions.c Example Program113'-->
+<XRef Role="JumpText" Linkend="PG.aIII.mkr.7"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Listing for actions.c118'-->
+<XRef Role="JumpText" Linkend="PG.aIII.mkr.18"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+<Sect1 Id="PG.aIII.div.2">
+<Title Id="PG.aIII.mkr.3">アプリケーションからアクションを実行する方法</Title>
+<Para>デスクトップ・サービス・ライブラリによってエクスポートされたアクション実行APIは、アプリケーションから別のアプリケーションを実行したり、操作を実行するための方法の1つです。
+その他の方法として、次のものがあります。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>fork/exec</Filename>システム・コール</Para>
+</ListItem>
+<ListItem>
+<Para>ToolTalkメッセージ</Para>
+</ListItem>
+</ItemizedList>
+<Para>これらの方法は、それぞれ利点と制約があるので、具体的な状況を評価して、どちらが適切かを判断しなければなりません。</Para>
+<Para><IndexTerm>
+<Primary>アクション</Primary>
+<Secondary>アクションの利点</Secondary>
+</IndexTerm>アクション実行APIの利点は、次のとおりです。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>アクションは、従来の
+コマンド行アプリケーション(すなわち、<Command>COMMAND</Command>アクション)と 
+ToolTalkアプリケーション(すなわち、<Filename>TT_MSG</Filename>アクション)の両方をカプセル化することができます。
+アクションを実行するアプリケーションは、コマンドがフォークされたのか、それともメッセージが送られたのかを知る必要はありません。</Para>
+</ListItem>
+<ListItem>
+<Para>アクションは、多様性を持ち、デスクトップのデータ型機構と統合されます。
+このことは、[開く]や[印刷]などのアクションは、与えられる引き数の型に基づいて異なる動作をするが、動作の違いは、アクションを呼び出すアプリケーションに対して透過されることです。</Para>
+</ListItem>
+<ListItem>
+<Para>アクションは、アプリケーション開発者、システム統合者、システム管理者、およびエンド・ユーザに対して、構成の大きな可能性を提供します。
+これらのユーザは、アクション・データベースを編集して、アクションの実行方法の定義を変更することができます。</Para>
+</ListItem>
+<ListItem>
+<Para>アクションは、分散環境でも有効です。アプリケーションが
+<Filename>fork/exec</Filename>により別のアプリケーションを直接実行する場合には、両方のアプリケーションが同じシステム上で実行できなければなりません。
+それに対して、アクション実行APIは、アクション・データベース内の情報に基づいて、どのシステム上で<Command>COMMAND</Command>アクションを実行するかを判断します。</Para>
+</ListItem>
+<ListItem>
+<Para>アクションによって、デスクトップの動作と常に一貫性のあるアプリケーションの動作が可能になります。
+これは、デスクトップのコンポーネントがユーザのデータ・ファイルを操作するとき、アクションを使用することで対話するからです。</Para>
+</ListItem>
+</ItemizedList>
+<Para>アクション実行 API の欠点は、戻り値機能が制限されている実行方法であることであり、実行されたアクション・ハンドラとの対話機能がないことです。
+これらの機能が必要な場合には、<Command>fork/exec/pipes</Command>を使用できます。ただし、CDEで望ましいプロセス間通信の方法は、一般化されたクライアント/サーバ・パラダイムを持つToolTalkです。</Para>
+<Para>実行について説明します。
+アプリケーションがいくつかの異なる形式(テキストとグラフィック)のデータ・ファイルを管理すると仮定し、これらのファイルの編集と表示の手段をユーザに提供する必要があると仮定します。
+アクションを使用せずにこれを実現するには、次の方法の一つを使用することになります。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename><IndexTerm>
+<Primary>fork/exec</Primary>
+</IndexTerm>fork/exec</Filename> を使用して、適切なエディタを起動し、ユーザがエディタの名前を指定するための何らかの方法(環境変数など)を考えてください。
+このアプローチには次のような制約があります。</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>システム・コールによりサブプロセスを実行し、その結果のシグナルを監視する複雑なコードを書かなければなりません。</Para>
+</ListItem>
+<ListItem>
+<Para>アプリケーションと同じシステム上で使用できるエディタが必要であり、システム管理者は、<Command>rsh</Command>などの機能を使用する複雑な構成を提供しなければなりません。</Para>
+</ListItem>
+<ListItem>
+<Para>システム管理者とユーザは、アプリケーションの固有の構成モデルを学び、管理しなければなりません。</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>
+<IndexTerm>
+<Primary>ToolTalk</Primary>
+</IndexTerm>メッセージを使用して、編集や表示などの操作をデータに対して実行することを要求します。
+このアプローチには、すべてのデータ型に対して使用可能なToolTalk形式のエディタが必要であるという制約があります。</Para>
+</ListItem>
+</ItemizedList>
+<Para>アクションによりこれを実現するには、バッファまたはデータ・ファイルに対して[開く]アクションを実行するだけです。
+アクション実行APIはアクション・データベースに基づいて、送信する適切なメッセージまたは実行するコマンドを判断し、一時ファイルの作成か削除、また必要なシグナルの取り込みなどすべての詳細を処理します。
+</Para>
+</Sect1>
+<Sect1 Id="PG.aIII.div.3">
+<Title Id="PG.aIII.mkr.4"><IndexTerm>
+<Primary>アクション</Primary>
+<Secondary>アクションの型</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>2</Primary>
+</IndexTerm><IndexTerm>
+<Primary>2</Primary>
+</IndexTerm><IndexTerm>
+<Primary>アクション</Primary>
+<Secondary>アクションの型</Secondary>
+</IndexTerm>アクションの型</Title>
+<Para>アクションのアプリケーション・プログラム・インタフェース(API)は、どの種類のアクションに対しても機能します。
+デスクトップでのアクションの種類は、次のとおりです。</Para>
+<InformalTable>
+<TGroup Cols="2">
+<TBody>
+<Row>
+<Entry><Para>コマンド・アクション</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>実行するコマンド行を指定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>ToolTalk アクション</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>送信するToolTalkメッセージを指定します。
+メッセージは、適切なアプリケーションによって受信されます。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>マップ・アクション</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>特定の動作を定義する代わりに、別のアクションを参照します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>詳しくは、<Emphasis>共通デスクトップ環境 上級ユーザおよびシステム管理者ガイド</Emphasis>の「アクションおよびデータ型の概要」を参照して下さい。</Para>
+</Sect1>
+<Sect1 Id="PG.aIII.div.4">
+<Title Id="PG.aIII.mkr.5"><IndexTerm>
+<Primary>アクション実行ライブラリ</Primary>
+</IndexTerm>アクション実行 API</Title>
+<Para>アクション実行APIは、デスクトップ・サービス・ライブラリからエクスポートされて、次のような多数のタスクを実行する関数を提供します。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>アクションおよびデータ型定義のデータベースを初期化し、読み込みます。
+アクションを実行するためには、その前にデータベースが<Emphasis>読み込まれていなければなりません。</Emphasis></Para>
+</ListItem>
+<ListItem>
+<Para>データベースに問い合わせます。指定されたアクション、またはそれに関連付けられたアイコン・イメージ、ラベル、または記述が存在するかどうかを判断する関数があります。</Para>
+</ListItem>
+<ListItem>
+<Para>アクションを実行します。
+アプリケーションは、ファイルまたはバッファ引き数をアクションに渡すことができます。</Para>
+</ListItem>
+<ListItem>
+<Para>アクション・ステータスを受け取り、引き数を返すコールバックを登録します。</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="PG.aIII.div.5">
+<Title Id="PG.aIII.mkr.6">関連情報</Title>
+<Para>アクション・コマンド、関数およびデータ形式の詳細については、次のマニュアル・ページを参照して下さい。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>dtaction</Filename>(1)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>dtactionfile(4)</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtActionCallbackProc</Filename>(3)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtActionDescription</Filename>(3)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtActionExists</Filename>(3)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtActionIcon</Filename>(3)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtActionInvoke</Filename>(3)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtActionLabel</Filename>(3)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtActionQuit</Filename>(3)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtActionQuitType</Filename>(3)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtActionStUpCb</Filename>(3)</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>dtexec</Filename>(1)</Para>
+</ListItem>
+</ItemizedList>
+</Sect1>
+<Sect1 Id="PG.aIII.div.6">
+<Title Id="PG.aIII.mkr.7"><IndexTerm>
+<Primary>アクション</Primary>
+<Secondary>プログラム例</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>アクション</Primary>
+<Secondary>プログラム例</Secondary>
+</IndexTerm>actions.c プログラム例</Title>
+<Para>この節では、簡単なプログラム例<Filename>actions.c</Filename>について説明します。
+<Filename>actions.c</Filename>の完全なリストは、この章の終りにあります。</Para>
+<Sect2 Id="PG.aIII.div.7">
+<Title>アクションおよびデータ型データベースの読み込み</Title>
+<Para>アプリケーションがアクションを実行するためには、そのまえに、<Emphasis>デスクトップ・サービス・ライブラリ(アクション実行 API を含む)を初期化して、アクションおよびデータ型定義のデータベースを読み込まなければなりません。</Emphasis></Para>
+</Sect2>
+<Sect2 Id="PG.aIII.div.8" Role="Procedure">
+<Title>デスクトップ・サービス・ライブラリを初期化するには</Title>
+<OrderedList>
+<ListItem>
+<Para>デスクトップ・サービス・ライブラリを初期化するには<Filename><IndexTerm>
+<Primary>DtInitialize</Primary>
+</IndexTerm>DtInitialize()</Filename>関数を使用します。</Para>
+<programlisting>DtInitialize(*<Symbol Role="Variable">display</Symbol>,<Symbol Role="Variable">widget</Symbol>,*<Symbol Role="Variable">name</Symbol>,*<Symbol Role="Variable">tool_class</Symbol>)</programlisting>
+<Para><Filename>DtInitialize()</Filename>は、デフォルトのイントリンシクス関数<Command>XtAppContext</Command>を使用します。
+API は、アプリケーションが<Symbol Role="Variable">app_context</Symbol>を指定しなければならないときに使用する追加の関数
+<Filename><IndexTerm><Primary>DtAppInitialize</Primary>
+</IndexTerm>DtAppInitialize()</Filename>を提供します。:</Para>
+<programlisting>DtAppInitialize(<Symbol Role="Variable">app_context</Symbol>,*<Symbol Role="Variable">display</Symbol>,<Symbol Role="Variable">widget</Symbol>,*<Symbol Role="Variable">name</Symbol>, <Symbol Role="Variable">tool_class</Symbol>)</programlisting>
+</ListItem>
+</OrderedList>
+<Sect3 Id="PG.aIII.div.9">
+<Title>DtInitialize() の例</Title>
+<Para>次のコードの一部分は、
+プログラム例<Filename>actions.c</Filename>の中で
+<Filename>DtInitialize()</Filename>がどのように使用されているかを示しています。</Para>
+<ProgramListing>if (DtInitialize(XtDisplay(shell), shell, argv[0],ApplicationClass)==False) {
+    /* DtInitialize() has already logged an appropriate error msg */
+    exit(1);
+}</ProgramListing>
+</Sect3>
+</Sect2>
+<Sect2 Id="PG.aIII.div.10" Role="Procedure">
+<Title>アクションおよびデータ型データベースを読み込むには</Title>
+<OrderedList>
+<ListItem>
+<Para>アクションおよびデータ型データベースを読み込むには、<Filename><IndexTerm>
+<Primary>DtDbLoad</Primary>
+</IndexTerm>DtDbLoad()</Filename>関数を使用します。</Para>
+<programlisting>DtDbLoad(void)</programlisting>
+<Para><Filename>DtDbLoad()</Filename>は、アクションおよびデータ型データベースを読み込みます。
+この関数は、データベースファイルを検索するディレクトリのセット(データベース検索パス)を判断して、データベース内で見つかった<Filename>*.dt</Filename>ファイルを読み込みます。
+ディレクトリ検索パスは、<Command>DTDATABASESEARCHPATH</Command>環境変数と内部のデフォルト値に基づきます。</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="PG.aIII.div.11" Role="Procedure">
+<Title Id="PG.aIII.mkr.8">再読み込みイベントの通知を要求するには</Title>
+<Para>長時間実行中のアプリケーションの中でDtDbLoad()を使用する場合には、データベースが変更されたときには、動的に再読み込みしなければなりません。</Para>
+<OrderedList>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtDbReloadNotify</Primary>
+</IndexTerm>DtDbReloadNotify()</Command>関数を使用して、再読み込みイベントの通知を要求します。</Para>
+</ListItem>
+</OrderedList>
+<ProgramListing>/* Notice changes to the database without needing to restart
+
+  application */
+
+ DtDbReloadNotify(DbReloadCallbackProc, callback_proc,
+
+  XTPointer, client_data);
+</ProgramListing>
+<OrderedList>
+<ListItem>
+<Para>次のことを実行するコールバックを指定します。</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>アプリケーションによって保持されている、キャッシュされたデータベース情報を破棄する。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DtDbLoad()</Filename>関数を再びコールする。</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Para><Emphasis>C</Emphasis><Symbol Role="Variable">allback_proc</Symbol>は、アプリケーションが保持している、キャッシュされたデータベース情報をクリーンアップしてから、<Filename>DtDbLoad()</Filename>を呼び出します。
+<Emphasis>Client_data</Emphasis>を使用して、追加のクライアント情報をコールバック・ルーチンに渡すことができます。</Para>
+</Sect2>
+<Sect2 Id="PG.aIII.div.12">
+<Title Id="PG.aIII.mkr.9">アクション・データベースのチェック</Title>
+<Para>アプリケーションは、アクションのアイコンまたはラベルを表示する必要がある場合には、データベースにアクセスします。
+また、アクションを実行する前にアプリケーションは、その存在をチェックできます。
+データベース内のアクションは、アクション名によって識別されます。</Para>
+<ProgramListing>ACTION <Symbol Role="Variable">action_name</symbol>
+{
+
+  &hellip;
+
+}</ProgramListing>
+<Para>例えば、[電卓]アクション定義は次のとおりです。</Para>
+<ProgramListing>ACTION Dtcalc
+
+{
+
+        LABEL    電卓
+
+        ICON      Dtcalc
+
+        ARG_COUNT      0
+
+        TYPE            COMMAND
+
+        WINDOW_TYPE      NO_STDIO
+
+        EXEC_STRING      /usr/dt/bin/dtcalc
+
+        DESCRIPTION      電卓(Dtcalc)アクションは、デスクトップ電卓 \ アプリケー                         ションを起動します。
+
+}</ProgramListing>
+<Para>[電卓]アクションのアクション名はDtcalcです。</Para>
+<Para>実行形式ファイルがデータベース内のアクション名と一致するファイル名を持つときには、そのファイルはアクション・ファイルです。
+すなわち、基本のアクションの表現です。
+そのファイルのアイコンとラベルに関する情報は、データベースに格納されます。</Para>
+</Sect2>
+<Sect2 Id="PG.aIII.div.13" Role="Procedure">
+<Title>指定されたアクション定義が存在するかどうかを判断するには</Title>
+<OrderedList>
+<ListItem>
+<Para>指定されたアクション定義が存在するかどうかを判断するには、<Filename><IndexTerm>
+<Primary>DtActionExists</Primary>
+</IndexTerm><IndexTerm>
+<Primary>アクション</Primary>
+<Secondary>アクションのアイコンイメージ</Secondary>
+</IndexTerm>DtActionExists()</Filename>関数を使用します。</Para>
+<programlisting>DtActionExists(*<Symbol Role="Variable">name</Symbol>)</programlisting>
+<Para><Filename>DtActionExists()</Filename>は、
+指定された<Symbol Role="Variable">名前</Symbol>がデータベース内のアクションの名前に一致するかどうかをチェックします。
+この関数は、<Symbol Role="Variable">名前</Symbol>がアクション名に一致する場合にはTrueを返し、その名前のアクションが見つからない場合にはFalseを返します。</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+<Sect2 Id="PG.aIII.div.14" Role="Procedure">
+<Title Id="PG.aIII.mkr.10">指定されたアクションのアイコン・イメージ情報を取り出すには</Title>
+<OrderedList>
+<ListItem>
+<Para>アイコン・イメージ情報を取り出すには、
+<Filename Id="PG.aIII.mkr.11">DtActionIcon()</Filename>関数を使用します。</Para>
+<programlisting>DtActionIcon(char *<Symbol Role="Variable">action_name</Symbol>)</programlisting>
+</ListItem>
+</OrderedList>
+<Para>アクション定義は、アクションを表すために使われるアイコン・イメージを定義のICONフィールドで指定します。</Para>
+<ProgramListing>ACTION <Symbol Role="Variable">action_name</Symbol>
+{
+
+   ICON  <Symbol Role="Variable">icon_image_base_name</symbol>
+   &hellip;
+
+}</ProgramListing>
+<Para><Filename>DtActionIcon()</Filename>は、アイコン・イメージ・フィールドの値にある文字列を返します。
+アクション定義にアイコン・フィールドがない場合には、この関数はデフォルトのアクション・アイコン・イメージの値<Command>Dtactn</Command>を返します。</Para>
+<Para>次に、使用したいアイコンとサイズの位置を決めます。
+アイコンには4つのサイズがあり、ビットマップまたはピックスマップ形式で扱えます。たとえば、[電卓]のアクション定義からアイコン・ファイルのベース名を見つけることができます。
+次に、そのベース名と<!--Original XRef content: 'Table&numsp;8&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.aIII.mkr.13">の情報の組み合わせと、すべてのアイコンの格納情報から、目的のアイコン・ファイルを見つけだせます。</Para>
+<Para Id="PG.aIII.mkr.12">[電卓]アクションのアイコン名は
+<Command>Dtcalc</Command>ですが、これはファイル名全体ではありません。
+アイコン・ファイル名はアイコンのサイズに基づきます。
+<!--Original XRef content: 'Table&numsp;8&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.aIII.mkr.13">は、デスクトップ・アイコンのサイズとファイル名の命名規則を示します。</Para>
+<Table Id="PG.aIII.tbl.1" Frame="Topbot">
+<Title Id="PG.aIII.mkr.13">アイコンのサイズとファイル名</Title>
+<TGroup Cols="3">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="1.25 in">
+<ColSpec Colname="3" Colwidth="1.375 in">
+<THead>
+<Row>
+<Entry><Para><Literal>アイコンのサイズ</Literal></Para></Entry>
+<Entry><Para><Literal>ビットマップ名</Literal></Para></Entry>
+<Entry><Para><Literal>ピックスマップ名</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>16 × 16 (極小)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>24 × 24 (小)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.s.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.s.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>32 × 32 (中)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>48 × 48 (大)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.pm</Filename></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Note>
+<Para>デスクトップ・アイコン・ファイルの詳細については、<Emphasis>共通デスクトップ環境 上級ユーザおよびシステム管理者ガイド</Emphasis>の「デスクトップのアイコンの作成」を参照してください。</Para>
+</Note>
+<Para>ビットマップの場合、マスクとして使われる追加のファイルがあり、そのファイルの拡張子<Filename>_m.bm</Filename>で終わります。
+したがって、各サイズのアイコンに対して合計3個のファイルがあります。
+次に、電卓のアイコン・ファイルを示します。</Para>
+<ProgramListing>Dtcalc.t.bm
+
+Dtcalc.t.pm
+
+Dtcalc.t_m.bm
+
+Dtcalc.m.bm
+
+Dtcalc.m.pm
+
+Dtcalc.m_m.bm
+
+Dtcalc.l.bm
+
+Dtcalc.l.pm
+
+Dtcalc.l_m.bm</ProgramListing>
+<Note>
+<Para>電卓には小型アイコン(<Filename>Dtcalc.s.bm</Filename>, <Filename>Dtcalc.s.pm</Filename>,<Filename>Dtcalc.s_m.bm</Filename>)がない点に注意してください。</Para>
+</Note>
+<Para><Filename Id="PG.aIII.mkr.14">DtActionIcon()</Filename>はベース名だけを返します。
+電卓の場合は<Command>Dtcalc</Command>です。
+種類(ピックスマップまたはビットマップ)とサイズ(極小、小、中、大)を選んで、使用可能な拡張子をベース名に追加してください。
+また、ファイルがどこにあるかを知っておいてください。</Para>
+</Sect2>
+<Sect2 Id="PG.aIII.div.15" Role="Procedure">
+<Title>アクションのローカライズ・ラベルを取り出すには</Title>
+<OrderedList>
+<ListItem>
+<Para>アクションのローカライズ・ラベルを取り出すには、
+<Command Id="PG.aIII.mkr.15"> DtActionLabel()</Command>関数を使用します。</Para>
+<programlisting>char *DtActionLabel(char *<Symbol Role="Variable">actionName</Symbol>)</programlisting>
+</ListItem>
+</OrderedList>
+<Para>アクション定義にはラベルを入れることができます。
+ラベルは、<Emphasis>label_text</Emphasis>フィールドを使用して定義されます。</Para>
+<ProgramListing>ACTION <Symbol Role="Variable">action_name</symbol>
+{
+
+   LABEL <Symbol Role="Variable">label_text</symbol>
+   &hellip;
+
+}</ProgramListing>
+<Para>このラベルは、グラフィック・コンポーネント(ファイル・マネージャやアプリケーション・マネージャなど)中でアクションのアイコンにラベルを付けるために使用されます。
+アクション定義に<Emphasis>label_text</Emphasis>フィールドがない場合には、
+<Symbol Role="Variable">action_name</Symbol>が使用されます。</Para>
+<Para><Emphasis>label_text</Emphasis>文字列の値は、エンドユーザがアクションを見分けられるように、すべてのインタフェース・コンポーネントによって使用されなければなりません。
+</Para>
+<Para><Filename>DtActionLabel()</Filename>関数は、
+<Symbol Role="Variable">actionName</Symbol>という名前のアクションのアクション定義の中の<Emphasis>label_text</Emphasis>フィールドの値を返します。
+<Emphasis>label_text</Emphasis>フィールドがない場合には、この関数は<Symbol Role="Variable">actionName</Symbol>を返します。</Para>
+</Sect2>
+<Sect2 Id="PG.aIII.div.16">
+<Title Id="PG.aIII.mkr.16">アクションの実行</Title>
+<Para>アプリケーションがデスクトップ・サービス・ライブラリを初期化した後は、アクションを実行することができます。</Para>
+</Sect2>
+<Sect2 Id="PG.aIII.div.17" Role="Procedure">
+<Title>アクションを実行するには</Title>
+<OrderedList>
+<ListItem>
+<Para>アクションを実行するには
+<Command Id="PG.aIII.mkr.17"> DtActionInvoke</Command>関数を使用します。</Para>
+<programlisting>DtActionInvokeID (<Symbol Role="Variable">widget</Symbol>, <Symbol Role="Variable">action</Symbol>, <Symbol Role="Variable">args</Symbol>, <Symbol Role="Variable">argCount</Symbol>, <Symbol Role="Variable">termOpts, execHost,</Symbol>
+                       <Symbol Role="Variable">contexDir</Symbol>, <Symbol Role="Variable">useIndicator</Symbol>, <Symbol Role="Variable">statusUpdateCb</Symbol>, <Symbol Role="Variable">client_data</Symbol>)</programlisting>
+</ListItem>
+</OrderedList>
+<Para><Filename>DtActionInvoke()</Filename>は、アクション・データベースから、指定されたアクション名に一致するエントリを探して、指定されたクラス、型、およびカウントの引数を受け入れます。
+アクションを実行する前に、アプリケーションはデータベースを初期化し、読み込まなければならないので注意してください。</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.aIII.div.18">
+<Title Id="PG.aIII.mkr.18">actions.cのリスト</Title>
+<ProgramListing>/*
+ * (c) Copyright 1993, 1994 Hewlett-Packard Company
+ * (c) Copyright 1993, 1994 International Business Machines Corp.
+ * (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+ * (c) Copyright 1993, 1994 Novell, Inc.
+ */
+
+#include &lt;Xm/XmAll.h>
+#include &lt;Dt/Dt.h>
+#include &lt;Dt/Action.h>
+
+#define ApplicationClass &ldquo;Dtaction&ldquo;
+
+static Widget shell;
+static XtAppContext appContext;
+static Widget actionText;
+static Widget fileText;
+
+static void CreateWidgets(Widget);
+static void InvokeActionCb(Widget, XtPointer, XtPointer);
+static void InvokeAction(char*, char*);
+static void DbReloadProc(XtPointer);
+
+void main(int argc, char **argv)
+{
+    Arg args[20];
+    int n=0;
+    int numArgs = 0;
+
+    shell = XtAppInitialize(&amp;appContext, ApplicationClass, NULL, 0,
+
+        &amp;argc, argv, NULL, args, n);
+
+    CreateWidgets(shell);
+
+ if (DtInitialize(XtDisplay(shell), shell, argv[0],
+
+  ApplicationClass)==False) {
+        /* DtInitialize() has already logged an appropriate error msg */
+        exit(-1);
+    }
+
+    /* Load the filetype/action databases */
+    DtDbLoad();
+
+    /* Notice changes to the database without needing to restart application */
+    DtDbReloadNotify(DbReloadProc, NULL);
+
+    XtRealizeWidget(shell);
+    XmProcessTraversal(actionText, XmTRAVERSE_CURRENT);
+
+    XtAppMainLoop(appContext);
+}
+
+static void CreateWidgets(Widget shell)
+{
+    Widget messageBox, workArea, w;
+    Arg args[20];
+    int n;
+    XmString labelString;
+
+    labelString = XmStringCreateLocalized(&ldquo;Invoke&ldquo;);
+
+    n = 0;
+    XtSetArg(args[n], XmNdialogType, XmDIALOG_TEMPLATE); n++;
+    XtSetArg(args[n], XmNokLabelString, labelString); n++;
+    messageBox = XmCreateMessageBox(shell, &ldquo;messageBox&ldquo;, args, n);
+    XtManageChild(messageBox);
+    XmStringFree(labelString);
+    XtAddCallback(messageBox, XmNokCallback, InvokeActionCb, NULL);
+
+ n = 0;
+    XtSetArg(args[n], XmNorientation, XmVERTICAL); n++;
+    XtSetArg(args[n], XmNpacking, XmPACK_COLUMN); n++;
+    XtSetArg(args[n], XmNnumColumns, 2); n++;
+    XtSetArg(args[n], XmNentryAlignment, XmALIGNMENT_END); n++;
+    workArea = XmCreateWorkArea(messageBox, &ldquo;workArea&ldquo;, args, n);
+    XtManageChild(workArea);
+
+    labelString = XmStringCreateLocalized(&ldquo;Invoke Action:&ldquo;);
+    n = 0;
+    XtSetArg(args[n], XmNlabelString, labelString); n++;
+    w = XmCreateLabel(workArea, &ldquo;actionLabel&ldquo;, args, n);
+    XtManageChild(w);
+    XmStringFree(labelString);
+
+    labelString = XmStringCreateLocalized(&ldquo;On File:&ldquo;);
+    n = 0;
+    XtSetArg(args[n], XmNlabelString, labelString); n++;
+    w = XmCreateLabel(workArea, &ldquo;fileLabel&ldquo;, args, n);
+    XtManageChild(w);
+    XmStringFree(labelString);
+
+    n = 0;
+    XtSetArg(args[n], XmNcolumns, 12); n++;
+    actionText = XmCreateTextField(workArea, &ldquo;actionText&ldquo;, args, n);
+    XtManageChild(actionText);
+
+    n = 0;
+    XtSetArg(args[n], XmNcolumns, 12); n++;
+    fileText = XmCreateTextField(workArea, &ldquo;fileText&ldquo;, args, n);
+    XtManageChild(fileText);
+}
+
+static void DbReloadProc(XtPointer cd)
+{
+    /* Pick up any dynamic changes to the database files */
+    DtDbLoad();
+}
+
+static void InvokeActionCb(Widget w, XtPointer cd, XtPointer cb)
+{
+    char *action;
+    char *file;
+
+    action = XmTextFieldGetString(actionText);
+
+    if (action == NULL) return;
+    if (strlen(action) == 0) {
+        XtFree(action);
+        return;
+    }
+
+    file = XmTextFieldGetString(fileText);
+
+    InvokeAction(action, file);
+
+    XtFree(action);
+    XtFree(file);
+
+    XmTextFieldSetString(actionText, &ldquo;&ldquo;);
+    XmTextFieldSetString(fileText, &ldquo;&ldquo;);
+
+    XmProcessTraversal(actionText, XmTRAVERSE_CURRENT);
+}
+
+static void InvokeAction(char *action, char *file)
+{
+    DtActionArg *ap = NULL;
+
+int nap = 0;
+    DtActionInvocationID actionId;
+
+    /* If a file was specified, build the file argument list */
+
+printf(&ldquo;&percnt;s(&percnt;s)\n&ldquo;,action,file);
+    if (file != NULL &amp;&amp; strlen(file) != 0) {
+        ap = (DtActionArg*) XtCalloc(1, sizeof(DtActionArg));
+        ap[0].argClass = DtACTION_FILE;
+        ap[0].u.file.name = file;
+        nap = 1;
+    }
+
+    /* Invoke the specified action */
+
+
+ actionId = DtActionInvoke(shell,action,ap,nap,NULL,NULL,NULL,True,NULL,NULL);
+}
+</ProgramListing>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->

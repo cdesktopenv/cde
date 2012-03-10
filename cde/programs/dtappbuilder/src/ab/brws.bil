@@ -1,0 +1,642 @@
+
+//       $XConsortium: brws.bil /main/3 1995/11/06 17:20:14 rswiston $
+//
+// @(#)brws.bil	1.17 13 Apr 1995
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module brws
+(
+
+:element mainwindow
+(
+	:type			:base-window
+	:width			487
+	:height			688
+	:icon-label		"Module Browser"
+	:label			"Module Browser"
+	:resizable		:true
+	:visible		:false
+	:iconic			:false
+	:children		(
+		menubar
+		ctrl_panel
+		ctrl_panel1
+	)
+)
+:element menubar
+(
+	:type			:container
+	:container-type		:menu-bar
+	:active			:true
+	:children		(
+		menubar_Edit_item
+		menubar_View_item
+		menubar_Help_item
+	)
+)
+:element menubar_Edit_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Edit"
+	:is-help-item		:false
+	:mnemonic		"E"
+	:menu			edit_pulldown
+	:active			:true
+)
+:element menubar_View_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"View"
+	:is-help-item		:false
+	:mnemonic		"V"
+	:menu			view_pulldown
+	:active			:true
+)
+:element menubar_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Help"
+	:is-help-item		:true
+	:mnemonic		"H"
+	:menu			help_pulldown
+	:active			:true
+)
+:element ctrl_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:width			487
+	:height			38
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj mainwindow 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		group
+	)
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			9
+	:y			5
+	:group-type		:row
+	:row-alignment		:left
+	:hoffset		10
+	:hattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:point 0 9)
+	:children		(
+		module_label
+		module_name
+	)
+)
+:element module_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Module:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element module_name
+(
+	:type			:label
+	:label-type		:string
+	:label			"                                     "
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+)
+:element ctrl_panel1
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			37
+	:width			487
+	:height			651
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 37)
+	:south-attachment	(:obj mainwindow 0)
+	:east-attachment	(:obj mainwindow 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		toplevel_drawarea
+		detailed_drawarea
+	)
+)
+:element toplevel_drawarea
+(
+	:type			:drawing-area
+	:x			0
+	:y			0
+	:width			487
+	:height			114
+	:drawarea-width		482
+	:drawarea-height	114
+	:border-frame		:none
+	:hscrollbar		:always
+	:vscrollbar		:always
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj ctrl_panel1 0)
+	:west-attachment	(:point 0 0)
+)
+:element detailed_drawarea
+(
+	:type			:drawing-area
+	:x			0
+	:y			113
+	:width			487
+	:height			538
+	:drawarea-width		496
+	:drawarea-height	533
+	:border-frame		:none
+	:hscrollbar		:always
+	:vscrollbar		:always
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 113)
+	:south-attachment	(:obj ctrl_panel1 0)
+	:east-attachment	(:obj ctrl_panel1 0)
+	:west-attachment	(:point 0 0)
+)
+:element edit_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		edit_pulldown_Undo_item
+		edit_pulldown_Cut_item
+		edit_pulldown_Copy_item
+		edit_pulldown_Paste_item
+		edit_pulldown_Delete_item
+		edit_pulldown_separator1_item
+		edit_pulldown_Close_item
+	)
+)
+:element edit_pulldown_Undo_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Undo"
+	:mnemonic		"U"
+	:active			:true
+)
+:element edit_pulldown_Cut_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Cut"
+	:mnemonic		"u"
+	:active			:true
+)
+:element edit_pulldown_Copy_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Copy"
+	:mnemonic		"C"
+	:active			:true
+)
+:element edit_pulldown_Paste_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Paste"
+	:mnemonic		"P"
+	:active			:true
+)
+:element edit_pulldown_Delete_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Delete"
+	:mnemonic		"D"
+	:active			:true
+)
+:element edit_pulldown_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element edit_pulldown_Close_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Close"
+	:mnemonic		"C"
+	:active			:true
+)
+:element view_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		view_pulldown_Horizontal_item
+		view_pulldown_Hide_Object_Glyph_item
+		view_pulldown_Show_Object_Type_item
+		view_pulldown_Hide_Object_Name_item
+		view_pulldown_Collapse_item
+		view_pulldown_Expand_item
+		view_pulldown_Expand_All_item
+		view_pulldown_Module_item
+		view_pulldown_Find_item
+		view_pulldown_Tear_Off_Browser_item
+	)
+)
+:element view_pulldown_Horizontal_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Horizontal"
+	:active			:true
+)
+:element view_pulldown_Hide_Object_Glyph_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Hide Object Glyph"
+	:active			:true
+)
+:element view_pulldown_Show_Object_Type_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Show Object Type"
+	:active			:true
+)
+:element view_pulldown_Hide_Object_Name_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Hide Object Name"
+	:active			:true
+)
+:element view_pulldown_Collapse_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Collapse"
+	:mnemonic		"C"
+	:active			:true
+)
+:element view_pulldown_Expand_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Expand"
+	:mnemonic		"E"
+	:active			:true
+)
+:element view_pulldown_Expand_All_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Expand All"
+	:active			:true
+)
+:element view_pulldown_Module_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Module"
+	:menu			view_module_pulldown
+	:active			:true
+)
+:element view_pulldown_Find_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Find..."
+	:active			:true
+)
+:element view_pulldown_Tear_Off_Browser_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Tear Off Browser..."
+	:active			:true
+)
+:element help_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		help_pulldown_Overview_item
+		help_pulldown_separator1_item
+		help_pulldown_Tasks_item
+		help_pulldown_Reference_item
+		help_pulldown_separator4_item
+		help_pulldown_On_Item_item
+		help_pulldown_separator2_item
+		help_pulldown_Using_Help_item
+		help_pulldown_separator3_item
+		help_pulldown_About_Application_Builder_item
+	)
+)
+:element help_pulldown_Overview_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Overview..."
+	:mnemonic		"v"
+	:active			:true
+)
+:element help_pulldown_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_Tasks_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Tasks..."
+	:mnemonic		"T"
+	:active			:true
+)
+:element help_pulldown_Reference_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Reference..."
+	:mnemonic		"R"
+	:active			:true
+)
+:element help_pulldown_separator4_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_On_Item_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"On Item"
+	:mnemonic		"O"
+	:active			:true
+)
+:element help_pulldown_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_Using_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Using Help..."
+	:mnemonic		"U"
+	:active			:true
+)
+:element help_pulldown_separator3_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_About_Application_Builder_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"About Application Builder..."
+	:mnemonic		"A"
+	:active			:true
+)
+:element view_module_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+)
+:connection
+(
+	:from			view_pulldown_Horizontal_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_orientation
+)
+:connection
+(
+	:from			view_pulldown_Hide_Object_Glyph_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_obj_glyph
+)
+:connection
+(
+	:from			view_pulldown_Show_Object_Type_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_obj_class
+)
+:connection
+(
+	:from			view_pulldown_Hide_Object_Name_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_obj_name
+)
+:connection
+(
+	:from			view_pulldown_Find_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_find
+)
+:connection
+(
+	:from			edit_pulldown_Undo_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_undo
+)
+:connection
+(
+	:from			edit_pulldown_Cut_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_cut
+)
+:connection
+(
+	:from			edit_pulldown_Copy_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_copy
+)
+:connection
+(
+	:from			edit_pulldown_Paste_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_paste
+)
+:connection
+(
+	:from			edit_pulldown_Delete_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_delete
+)
+:connection
+(
+	:from			toplevel_drawarea
+	:when			:repaint-needed
+	:action-type		:call-function
+	:action			brwsP_toplevel_repaint
+)
+:connection
+(
+	:from			detailed_drawarea
+	:when			:repaint-needed
+	:action-type		:call-function
+	:action			brwsP_detailed_repaint
+)
+:connection
+(
+	:from			detailed_drawarea
+	:when			:resize
+	:action-type		:call-function
+	:action			brwsP_detailed_resize
+)
+:connection
+(
+	:from			view_pulldown_Collapse_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_collapse
+)
+:connection
+(
+	:from			view_pulldown_Expand_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_expand
+)
+:connection
+(
+	:from			view_pulldown_Expand_All_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_expandAll
+)
+:connection
+(
+	:from			view_pulldown_Tear_Off_Browser_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_tear_off
+)
+:connection
+(
+	:from			help_pulldown_Overview_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABBrowser"
+)
+:connection
+(
+	:from			help_pulldown_Tasks_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABBrowser"
+)
+:connection
+(
+	:from			help_pulldown_Reference_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABBrowser"
+)
+:connection
+(
+	:from			help_pulldown_Using_Help_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"Help4Help"
+	:help-location		"_hometopic"
+)
+:connection
+(
+	:from			help_pulldown_On_Item_item
+	:when			:activate
+	:action-type		:on-item-help
+)
+:connection
+(
+	:from			edit_pulldown_Close_item
+	:when			:activate
+	:action-type		:call-function
+	:action			brwsP_close
+)
+)

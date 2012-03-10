@@ -1,0 +1,426 @@
+<!-- $XConsortium: Concepts.sgm /main/13 1996/12/21 12:03:09 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<!-- Help volume: Filemgr  -->
+<!-- File name:   Concepts -->
+<chapter id="concepts">
+<title>Dateimanager - Konzepte</title>
+<para>Die folgenden Abschnitte enthalten Informationen zur genaueren Kenntnis
+des Dateimanagers.</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.1"><para><xref linkend="thehierarchicalfilesystemsi"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.2"><para><xref linkend="pathconcepts"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.3"><para><xref linkend="fileownershipandsecuritysi"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.4"><para><xref linkend="desktopintro"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.5"><para><xref linkend="matchingpatterns"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.6"><para><xref linkend="iconbrowser"></para>
+</listitem>
+</itemizedlist>
+<sect1 id="thehierarchicalfilesystemsi">
+<title>Hierarchisches Dateisystem</title>
+<indexterm><primary>Hierarchisches Dateisystem</primary></indexterm><indexterm>
+<primary>Dateisystem, hierarchisch</primary></indexterm><indexterm><primary>Definition: Datei</primary></indexterm>
+<para>Für Benutzer, die mit Computern nicht vertraut sind, ist das Konzept
+eines hierarchischen Dateisystems möglicherweise neu. Die folgenden Abschnitte
+enthalten eine Beschreibung der grundlegenden Komponenten eines hierarchischen
+Dateisystems.</para>
+<procedure>
+<title>Was ist eine Datei?</title>
+<step><para>Eine <emphasis>Datei</emphasis> ist ein Behälter mit Informationen.
+Die meisten Dateien enthalten Informationen (Daten) eines bestimmten Formats&emdash;ein
+Dokument, ein Arbeitsblatt oder eine Grafik. Das Format ist die Art und
+Weise, in der die Daten innerhalb der Datei angeordnet sind. Das Format
+einer Datei wird auch als der Datentyp der Datei bezeichnet.</para>
+<para>Befindet sich der Dateimanager in einem der Modi für die Symbolanzeige,
+ist der Datentyp einer Datei am Symbol, das die Datei darstellt, zu erkennen.
+Für jeden Datentyp gibt es ein bestimmtes Symbol.</para>
+<para>Die meisten Anwendungsprogramme können nur eine begrenzte Anzahl
+von
+Datentypen verarbeiten. So kann ein Dokumenteditor beispielsweise
+in der Regel keine Arbeitsblattdatei lesen. Das Desktop
+unterstützt den Benutzer mit Hilfe einer Datenbank für
+"data types"Datentypen dabei, verschiedene Dateitypen zu
+unterscheiden. Durch den Datentyp werden Dateien mit einem bestimmten
+Format identifiziert und den entsprechenden Anwendungen zugeordnet.
+Wird auf eine Datei doppelt geklickt, startet das Desktop in den meisten
+Fällen automatisch die Anwendung, die den Datentyp dieser Datei verarbeiten
+kann.</para>
+<para>Die maximal zulässige Größe eines Dateinamens ist von
+System zu System
+unterschiedlich. Bei manchen Betriebssystemen dürfen Dateinamen maximal
+14 Zeichen lang sein. Falls erforderlich, den Systemadministrator
+informieren.</para>
+</step>
+</procedure>
+<procedure>
+<title>Was ist ein Ordner?</title>
+<indexterm><primary>Definition: Ordner</primary></indexterm>
+<step><para>Ein <emphasis>Ordner</emphasis> ist ein Behälter für
+Dateien, ähnlich einem Ordner in einem
+Aktenschrank. Aus diesem Grund verwendet der Dateimanager einen Aktenordner
+als Symbol für einen Ordner. Ein Ordner kann weitere Ordner enthalten;
+diese werden auch als <emphasis>Unterordner</emphasis> bezeichnet. Mit Ordnern
+und Unterordnern
+können mehrere hierarchisch angeordnete Organisationsebenen erstellt
+werden.
+(In anderem Zusammenhang werden Ordner häufig auch als Verzeichnisse
+bezeichnet.)</para>
+<para>Würde die Ordnerhierarchie so aufgezeichnet, daß jeder Unterordner
+unterhalb des Ordners steht, in dem er enthalten ist (dem
+übergeordneten Ordner) und jeder Ordner mit dem jeweils übergeordneten
+Ordner durch eine Linie verbunden ist, würde ein umgekehrter Baum entstehen.
+Aus diesem Grund wird eine Ordnerhierarchie auch als <emphasis>Ordnerbaum</emphasis>
+bezeichnet.</para>
+<para>Innerhalb eines einzelnen Ordners muß jede Datei einen eindeutigen
+Namen
+haben. Dateien in unterschiedlichen Ordnern können den gleichen Namen
+haben.</para>
+<para>Beim Navigieren von Ordner zu Ordner wird die aktuelle Position als
+<emphasis>aktueller Ordner</emphasis> bezeichnet.</para>
+</step>
+</procedure>
+<procedure>
+<title>Was ist ein Pfad?</title>
+<indexterm><primary>Definition: Pfad</primary></indexterm><indexterm><primary>Pfad: Definition</primary></indexterm>
+<step><para>Die Position einer Datei wird oft dadurch angegeben, daß
+die Namen der Ordner
+und Unterordner aufgelistet werden, über die die Datei aufgerufen wird.
+Diese Liste wird als <emphasis>Pfad</emphasis> bezeichnet (siehe <xref linkend="pathconcepts">).
+Der Pfad einer Datei wird im Dateimanager an zwei Stellen angezeigt:
+zum einen im grafischen Pfad als Abfolge von Ordnersymbolen,
+zum anderen in Textform in der Pfadzeile oberhalb des Anzeigebereichs.</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="pathconcepts">
+<title>Pfade und Pfadnamen</title>
+<para>Der Pfad eines Objekts gibt an, an welcher Position im Dateisystem
+sich das Objekt befindet. Er kann auf drei Arten angegeben werden:
+als absoluter Pfad, als relativer Pfad und als vollständig qualifizierter
+Pfad.</para>
+<procedure>
+<title>Absolute Pfade</title>
+<step><para>Ein <emphasis>absoluter Pfad</emphasis> beginnt beim <emphasis>Stammordner</emphasis>. Der Stammordner ist
+der oberste Ordner des hierarchischen Ordnerbaums. Beginnt ein Pfad mit
+einem Schrägstrich (<computeroutput>/</computeroutput>), handelt es sich
+um einen absoluten Pfad, der
+vom Stammordner aus angegeben wird. So ist beispielsweise der folgende Pfad
+der absolute Pfad für die Datei <computeroutput>Brief</computeroutput>:
+</para>
+<programlisting>/usr/dt/config/Brief</programlisting>
+</step>
+</procedure>
+<procedure>
+<title>Relative Pfade</title>
+<step><para>Ein <emphasis>relativer Pfad</emphasis> gibt die Position einer
+Datei oder eines Ordners
+relativ zum aktuellen Ordner an. Befindet sich der Benutzer in einem Ordner
+und möchte innerhalb des Ordnerbaums auf eine untergeordnete Ebene
+wechseln, muß nicht der volle Pfadname eingegeben werden. Es genügt,
+wenn
+der Teil des Pfades eingegeben wird, der mit dem Namen des nächsten Ordners
+im Pfad beginnt. Ein Pfad, der nicht mit einem Schrägstrich beginnt,
+ist
+ein relativer Pfad. Ist der aktuelle Ordner beispielsweise
+<computeroutput>/usr/dt</computeroutput>, und soll ''/usr/dt/config/Briefe''
+zum aktuellen Ordner werden,
+lautet der zu verwendende relative Pfad:</para>
+<programlisting>config/Briefe</programlisting>
+<indexterm><primary>.. (übergeordneter Ordner)</primary></indexterm>
+<para>Bei der Angabe von relativen Pfaden sind zwei spezielle Ordnernamen
+von Nutzen. Der Ordner <computeroutput>.</computeroutput> (durch einen Punkt
+dargestellt) steht für den
+aktuellen Ordner. Der Ordner <computeroutput>..</computeroutput> (durch zwei
+Punkte dargestellt) steht
+für den <emphasis>übergeordneten</emphasis> Ordner &emdash;dieser
+befindet sich in
+der Ordnerhierarchie auf der nächsthöheren Ebene. Ist der aktuelle
+Ordner
+beispielsweise <computeroutput>/usr/dt/config/panels</computeroutput>, lautet
+der relative Pfad für
+die Datei <computeroutput>sys.dtwmrc</computeroutput> wie folgt:</para>
+<programlisting>../sys.dtwmrc</programlisting>
+<para>Erklärung: Diese Datei befindet sich im Ordner <computeroutput>/usr/dt/config</computeroutput>, d. h.
+eine Ebene über dem aktuellen Ordner.</para>
+<!-- Do we need the following section if Remote Systems is out?
+**********-->
+<!--**************************************************
+<procedure>The Netw-->
+<!--ork Path
+
+Both the absolute and relative path names are by the operati-->
+<!--ng system as
+well as by the desktop.  The network path is a special pa-->
+<!--th used only by
+certain applications in the desktop.  It includes the -->
+<!--name of the system
+containing the file system.
+
+Here is an example of -->
+<!--a network path.  The name of the system is
+``mysystem'':
+
+        <ex>-->
+<!--mysystem:/usr/dt/config/sys.dtwmrc<\ex>
+******************************-->
+<!--******************************
+-->
+
+</step>
+</procedure>
+<procedure>
+<title>Siehe auch</title>
+<step>
+<itemizedlist role="tight" mark="&bull;">
+<listitem id="hfmgr.cncp.item.7"><para><xref linkend="tochangetoanotherdirectoryta"> <!--
+* <xref ToSpecifyRemotePath> --></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.8"><para><xref linkend="tofindafilebynameta"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.9"><para><xref linkend="tofindafilebycontentsta"></para>
+</listitem>
+</itemizedlist>
+</step>
+</procedure>
+</sect1>
+<sect1 id="fileownershipandsecuritysi">
+<title>Eigentumsrechte für Objekte / Sicherheit</title>
+<para>Drei Gruppen von Benutzern können auf Objekte zugreifen: <emphasis>Eigentümer</emphasis>, <emphasis>Gruppe</emphasis> und <emphasis>Alle</emphasis>. Der Zugriff wird in drei Funktionen unterteilt: <emphasis>Leseberechtigung</emphasis>, <emphasis>Schreibberechtigung</emphasis> und <emphasis>Ausführungsberechtigung</emphasis>.</para>
+<procedure>
+<title>Wer hat Zugriff?</title>
+<step><para>Die drei Hauptbenutzerklassen sind:</para>
+<variablelist>
+<varlistentry><term><glossterm role="nogloss">Eigentümer</glossterm></term>
+<listitem>
+<para>Gewöhnlich die Person, die die Datei erstellt hat.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Gruppe</glossterm></term>
+<listitem>
+<para>Mehrere Benutzer, die vom Systemadministrator in einer Gruppe zusammengefaßt
+wurden. So könnten beispielsweise die Mitarbeiter einer Abteilung derselben
+Gruppe angehören.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Alle</glossterm></term>
+<listitem>
+<para>Alle anderen Benutzer auf dem System.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</step>
+</procedure>
+<procedure>
+<title>Art des Zugriffs</title>
+<step><para>Durch das Zugriffsrecht für eine Datei wird angegeben, auf
+welche Weise der Eigentümer, Mitglieder der Gruppe und andere Benutzer
+auf diese Datei zugreifen können.</para>
+<variablelist>
+<varlistentry><term><glossterm role="nogloss">Leseberechtigung</glossterm></term>
+<listitem>
+<para>Ermöglicht den Zugriff zum Kopieren oder Lesen des Inhalts eines
+Objektes.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Schreibberechtigung</glossterm></term>
+<listitem>
+<para>Ermöglicht den Zugriff zum Ändern des Objektinhalts sowie
+zum Entfernen des Objekts.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Ausführungsberechtigung</glossterm></term>
+<listitem>
+<para>Datei: Ermöglicht den Zugriff zum <emphasis>Ausführen</emphasis>
+der Datei (ausführbare Dateien, Prozeduren und Aktionen); Ordner: Ermöglicht
+den Zugriff zum Ausführen von Befehlen, Prozeduren und Aktionen innerhalb
+dieses Ordners.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Mit dem Dateimanager ist das Anzeigen und Ändern der Zugriffsrechte
+für Dateien und Ordner möglich. Siehe auch <xref linkend="tochangeanobjectsownerta">und <xref
+linkend="tochangeanobjectspermissionsta">.</para>
+</step>
+</procedure>
+<procedure>
+<title>Beispiele</title>
+<step><para>Um aus einem Ordner einen privaten Ordner zu machen, wie folgt
+vorgehen:</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.10"><para>Die Eigenschaften eines Ordners folgendermaßen
+ändern: Der Eigentümer
+erteilt lediglich sich selbst Lese-, Schreib- und Ausführungsberechtigung,
+jedoch der Gruppe und den anderen Benutzern keine Berechtigungen.
+Das bedeutet, daß nur der Eigentümer selbst und der Benutzer 'root'
+den
+Inhalt des Ordners anzeigen können.</para>
+</listitem>
+</itemizedlist>
+<para>Um ein erstelltes Objekt für die Verwendung durch alle Benutzer
+zur Verfügung
+zu stellen, es jedoch vor versehentlichem Überschreiben zu schützen,
+wie
+folgt vorgehen:</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.11"><para>Die Eigenschaften der Datei so ändern,
+daß Eigentümer, Gruppe und
+andere Benutzer Lese- und Ausführungsberechtigung erhalten. Keine
+Schreibberechtigung erteilen.</para>
+</listitem>
+</itemizedlist>
+</step>
+</procedure>
+<procedure>
+<title>Standardzugriffsrechte</title>
+<step><para>Die Standardzugriffsrechte, die beim Erstellen einer neuen Datei
+oder eines
+neuen Ordners verwendet werden, können vom Systemadministrator geändert
+werden. Um festzustellen, wie die aktuellen Standardwerte lauten, eine neue
+Datei bzw. einen neuen Ordner erstellen und anschließend 'Zugriffsrechte
+ändern' im Menü 'Ausgewählt' auswählen, um die Standardzugriffsrechte
+anzuzeigen.</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="desktopintro">
+<title>Vereinfachen des Zugriffs auf Objekte - Einführung von Arbeitsbereichsobjekten</title>
+<indexterm><primary>Arbeitsbereichsobjekte</primary></indexterm><indexterm>
+<primary>Arbeitsbereich: Objekte</primary></indexterm>
+<para>Der Dateimanager bietet die Möglichkeit, alle Objekte des Dateisystems
+anzuzeigen. Das Objekt wird jedoch nur dann angezeigt, wenn auch der
+Ordner, in dem es enthalten ist, angezeigt wird.</para>
+<para>Um den Zugriff auf das Objekt zu erleichtern, kann es direkt auf das
+Hintergrundmuster des Arbeitsbereichs gestellt werden.
+Der Arbeitsbereich ist der Teil der Anzeigenoberfläche, in den das Fenster
+gestellt wird. (Siehe auch <xref linkend="toputanobjectonthedesktopta">.)
+Wird ein
+Objekt in diesen Bereich gestellt, wird es als <emphasis>Arbeitsbereichsobjekt</emphasis>
+bezeichnet.</para>
+<para>Wird ein Objekt in den Arbeitsbereich gestellt, ändert sich die
+ursprüngliche
+Datei bzw. der ursprüngliche Ordner nicht. Tatsächlich ist das Symbol,
+das
+auf dem Desktop angezeigt wird, nur eine verkürzte Zugriffsmöglichkeit
+(ein Verweis) auf die eigentliche Datei bzw. den eigentlichen Ordner. Alle
+Operationen, die für das Arbeitsbereichsobjekt ausgeführt werden,
+werden
+eigentlich für die Datei oder den Ordner ausgeführt, für die
+bzw. den es
+steht.</para>
+<procedure>
+<title>Arbeitsbereichsobjekte für einen einzigen Arbeitsbereich</title>
+<step><para>Wird ein Objekt in den Arbeitsbereich gestellt, wird es nur im
+aktuellen
+Arbeitsbereich angezeigt. Soll das Objekt auch in anderen Arbeitsbereichen
+angezeigt werden, muß zu diesen Arbeitsbereichen umgeschaltet und das
+Objekt
+hineingestellt werden.</para>
+</step>
+</procedure>
+<procedure>
+<title>Verwendung von Arbeitsbereichsobjekten</title>
+<step><para>Arbeitsbereichsobjekte werden auf die gleiche Weise verwendet
+wie die Objekte
+innerhalb des Dateimanager- oder Anwendungsmanagerfensters. Um die
+Standardaktion für ein Objekt auszuführen, doppelt auf das zugehörige
+Symbol auf dem Desktop klicken.</para>
+<para>Jedes Arbeitsbereichsobjekt verfügt darüber hinaus über
+ein temporär
+eingeblendetes Menü, das Befehle und Aktionen für das Objekt enthält.
+Um das
+Menü für ein Arbeitsbereichsobjekt mit Hilfe der Maus anzuzeigen,
+den
+Mauszeiger auf das Symbol stellen und anschließend die Maustaste 3 drücken
+und gedrückt halten. Um das Menü mit Hilfe der Tastatur anzuzeigen,
+die Tastenkombination Alt+Tabulatortaste drücken, bis das Symbol hervorgehoben
+ist, und anschließend die Tastenkombination Umschalttaste+F10 drücken.
+</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="matchingpatterns">
+<title>Platzhalterzeichen für die Suche nach Dateien</title>
+<indexterm><primary>Platzhalterzeichen, Übereinstimmung</primary></indexterm>
+<indexterm><primary>Übereinstimmung, Platzhalterzeichen</primary></indexterm>
+<para>Wird ein Datei- oder Ordnername angegeben, können Platzhalterzeichen,
+wie beispielsweise ein Stern (<computeroutput>*</computeroutput>) oder ein
+Fragezeichen (<computeroutput>?</computeroutput>) verwendet
+werden. <computeroutput>*</computeroutput> steht für eine beliebige Zeichenfolge
+aus null oder mehreren
+Zeichen; <computeroutput>?</computeroutput> steht für ein beliebiges
+einzelnes Zeichen.</para>
+<procedure>
+<title>Beispiele</title>
+<step>
+<variablelist>
+<varlistentry><term><computeroutput>ba*</computeroutput></term>
+<listitem>
+<para>Entspricht allen Namen, die mit der Zeichenfolge <computeroutput>ba</computeroutput> beginnen.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>ba?</computeroutput></term>
+<listitem>
+<para>Entspricht allen dreistelligen Namen, die mit der Zeichenfolge <computeroutput>ba</computeroutput>
+beginnen.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>*.vf</computeroutput></term>
+<listitem>
+<para>Entspricht allen Namen, die mit der Erweiterung <computeroutput>.vf</computeroutput> enden.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>*.???</computeroutput></term>
+<listitem>
+<para>Entspricht allen Namen, die über eine dreistellige, durch einen
+Punkt
+abgetrennte Erweiterung verfügen.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>Für die Angabe von Dateiname und Inhalt kann dieselbe Syntax für
+reguläre
+Ausdrücke verwendet werden, die auch für den Befehl <computeroutput>find</computeroutput> zulässig ist.
+(Die elektronische Handbuchseite <computeroutput>find (1)</computeroutput>
+enthält weitere Informationen
+hierzu.)</para>
+</note>
+</step>
+</procedure>
+</sect1>
+<sect1 id="iconbrowser">
+<title>Verwendung des Dateimanagers für die Anzeige in Symbolen</title>
+<para>Dateien, deren Name auf
+<computeroutput>.pm</computeroutput> oder <computeroutput>.bm</computeroutput>
+endet, enthalten
+Symbolzeichnungen. Diese verwendet der Dateimanager für die Symbolerstellung.
+Standardmäßig müssen diese Dateien geöffnet werden, um
+die darin
+enthaltenen Zeichnungen anzeigen zu können. Wird die Anzeige in Symbolen
+aktiviert, zeigt der Dateimanager für jede dieser Dateien das Symbol
+an, dessen
+Symbolzeichnung in der entsprechenden Datei gespeichert ist.</para>
+<para>Informationen zur Rekonfiguration des Dateimanagers
+für die Anzeige in Symbolen sind in den folgenden Abschnitten enthalten:
+</para>
+<itemizedlist mark="&bull;">
+<listitem id="hfmgr.cncp.item.12"><para><xref linkend="toenableiconbrowsingta"></para>
+</listitem>
+<listitem id="hfmgr.cncp.item.13"><para><xref linkend="todisableiconbrowsingta"></para>
+</listitem>
+</itemizedlist>
+<!-- EOF: Concepts -->
+</sect1>
+</chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 17:16:58-->
+<?Pub *0000022845>

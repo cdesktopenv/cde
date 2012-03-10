@@ -1,0 +1,91 @@
+<!-- $XConsortium: thr_proc.sgm /main/7 1996/09/08 20:13:27 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.TT.ttthreadprocid">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.TT.ttthreadprocid">]]>
+<RefMeta>
+<RefEntryTitle>tt_thread_procid</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_thread_procid</Function></RefName>
+<RefPurpose>
+identify the default process for the currently active thread
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>char *<Function>tt_thread_procid</Function></FuncDef>
+<ParamDef></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_thread_procid</Function> function
+returns the current default procid for the currently-active thread.
+</para>
+<para>If there is no default procid set for the thread, then the process
+default procid is returned.
+</para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<para>None.
+</para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_thread_procid</Function> function returns
+the pointer to a character string that uniquely identifies the default
+process for the currently active thread. The application can use
+<function>tt_ptr_error</function> to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned pointer:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><systemitem class="constant">TT_OK</systemitem></Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><systemitem class="constant">TT_ERR_NOMP</systemitem></Term>
+<ListItem>
+<Para>The <command>ttsession</command> process is not running
+and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><systemitem class="constant">TT_ERR_PROCID</systemitem></Term>
+<ListItem>
+<Para>The current default process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application should use <function>tt_free</function>
+to free any data stored in the address returned by the ToolTalk API.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;,
+&cdeman.tt.free;,
+&cdeman.tt.ptr.error;
+</Para>
+</RefSect1>
+</RefEntry>

@@ -1,0 +1,89 @@
+.\" $XConsortium: spawnveg.3 /main/2 1996/10/29 15:11:17 drk $
+.de L		\" literal font
+.ft 5
+.it 1 }N
+.if !\\$1 \&\\$1 \\$2 \\$3 \\$4 \\$5 \\$6
+..
+.de LR
+.}S 5 1 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de LI
+.}S 5 3 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de RL
+.}S 1 5 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de EX		\" start example
+.ta 1i 2i 3i 4i 5i 6i
+.PP
+.RS 
+.PD 0
+.ft 5
+.nf
+..
+.de EE		\" end example
+.fi
+.ft
+.PD
+.RE
+.PP
+..
+.TH SPAWNVEG 3
+.SH NAME
+spawnveg \- process spawn with process group and session control
+.SH SYNOPSIS
+.L "#include <ast.h>"
+.sp
+.L "int spawnveg(const char* command, char** argv, char** envv, pid_t pgid);"
+.SH DESCRIPTION
+.L spwanveg
+combines
+.IR fork (2),
+.IR exec (2),
+.IR setpgid (2)
+and
+.IR setsid (2)
+into a single call.
+.PP
+.LR command ,
+.L argv
+and
+.L envv
+are as in
+.IR execve (2).
+.L pgid
+controls the new process group and session:
+.TP
+.L <0
+The new process becomes a session leader.
+is called in the child context.
+.TP
+.L 0
+The new process is in the callers process group.
+.TP
+.L 1
+The new process becomes a process group leader.
+.TP
+.L >1
+The new process joins the process group
+.IR pgid .
+.SH COMMENTS
+It is possible to code all process creation (except for
+.IR vfork (2)
+hack like in
+.IR csh (1))
+using
+.LR spawnveg .
+The
+.IR proc (3)
+routines and
+.IR ksh (1)
+do this on systems that don't support
+.IR fork (2).
+This makes porting to NT and Windows a snap: a simple
+.IR iffe (1)
+probe provides a 
+.L spawnveg
+implementation using the NT or Windows process primitives.
+.SH "SEE ALSO"
+fork(2), exec(2), setpgid(2), setsid(2), spawnve(2)

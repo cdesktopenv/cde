@@ -1,0 +1,385 @@
+<!-- $XConsortium: ch06.sgm /main/5 1996/09/08 19:36:52 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="PG.wsmgr.div.1">
+<Title Id="PG.wsmgr.mkr.1">ワークスペース・マネージャとの統合
+</Title>
+<Para>
+<IndexTerm>
+<Primary>ワークスペース・マネージャ</Primary>
+<Secondary>ワークスペース・マネージャとの統合</Secondary>
+</IndexTerm>ワークスペース・マネージャは、デスクトップの複数のワークスペース環境の中でアプリケーションがウィンドウを管理するための手段を提供します。
+アプリケーションは、ワークスペース・マネージャと通信することによって
+、おもに４つのタスクを実行することができます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>アプリケーションのウィンドウを１つ以上のワークスペースに置く。
+</Para>
+</ListItem>
+<ListItem>
+<Para>アプリケーションのウィンドウが位置するワークスペースを識別する。
+</Para>
+</ListItem>
+<ListItem>
+<Para>アプリケーションのウィンドウが別のワークスペースに移動するのを防止する。</Para>
+</ListItem>
+<ListItem>
+<Para>ユーザが別のワークスペースに切り替えるなど、ワークスペースに対する変更を監視する。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>通常セッション・マネージャはプログラマに干渉されることなく、アプリケーションのメイン・ウィンドウを正しいワークスペースに取り出します。
+ただし、アプリケーションが複数のトップレベル・ウィンドウを持つ場合には、ワークスペース・マネージャのAPIを使用してウィンドウの位置を特定し、このデータをセッション状態の一部として保存しなければなりません。
+</Para>
+<Para>セッション間のアプリケーション関連情報の保存についての詳細は、<!--Original XRef content: 'Chapter&numsp;4, &xd2;Integrating with Session Manager'-->
+<XRef Role="ChapNumAndTitle" Linkend="PG.smgr.mkr.1">を参照してください。
+</Para>
+<InformalTable Id="PG.wsmgr.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Communicating with the Workspace Manager64'-->
+<XRef Role="JumpText" Linkend="PG.wsmgr.mkr.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Placing an Application Window in Workspaces64'-->
+<XRef Role="JumpText" Linkend="PG.wsmgr.mkr.3"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Identifying Workspaces Containing the Application Windows65'-->
+<XRef Role="JumpText" Linkend="PG.wsmgr.mkr.4"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Preventing Application Movement Among Workspaces66'-->
+<XRef Role="JumpText" Linkend="PG.wsmgr.mkr.5"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Monitoring Workspace Changes67'-->
+<XRef Role="JumpText" Linkend="PG.wsmgr.mkr.6"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="PG.wsmgr.div.2">
+<Title Id="PG.wsmgr.mkr.2">ワークスペース・マネージャとの
+<IndexTerm>
+<Primary>ワークスペース・マネージャ</Primary>
+<Secondary>ワークスペース・マネージャとの通信</Secondary>
+</IndexTerm>通信</Title>
+<Para>アプリケーションは、デスクトップが提供する
+関数を使用して、ワークスペース・マネージャと通信します。
+これらの関数を使用すると、ワークスペースの管理に関するさまざまなタスクをすばやく簡単に実行できます。
+次に、これらの関数のリストを示します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>DtWsmAddCurrentWorkspaceCallback</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmAddWorkspaceFunctions</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmAddWorkspaceModifiedCallback</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmFreeWorkspaceInfo</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetCurrentBackdropWindows</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetCurrentWorkspace</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetWorkspaceInfo</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetWorkspaceList</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmGetWorkspacesOccupied</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmOccupyAllWorkspaces</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmRemoveWorkspaceCallback</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmRemoveWorkspaceFunctions</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmSetCurrentWorkspace</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtWsmSetWorkspacesOccupied</Command></Para>
+</ListItem>
+</ItemizedList>
+<Para>２つのデモ・プログラム(<Filename>occupy.c</Filename>と<Filename>wsinfo.c</Filename>)のコードの一部分が、これらの関数の使用方法を示しています。<Command>occupy.c、wsinfo.c</Command>、
+およびいくつかのブランドのワークステーションのmakefileをリストしたものが、
+ディレクトリ<Filename>/usr/dt/examples/dtwsm</Filename>にあります。
+各関数の詳細については、該当するマニュアル・ページを参照してください。
+</Para>
+</Sect1>
+<Sect1 Id="PG.wsmgr.div.3">
+<Title Id="PG.wsmgr.mkr.3">アプリケーション・ウィンドウを
+<IndexTerm>
+<Primary>ワークスペース</Primary>
+<Secondary>アプリケーション・ウィンドウをワークスペースに置く</Secondary>
+</IndexTerm>ワークスペースに置く</Title>
+<Para>アプリケーションは、ウィンドウを任意のまたは全部の既存のワークスペースに置くことができます。<Command>DtWsmOccupyAllWorkspaces</Command>は、現在定義されているすべてのワークスペースにウィンドウを置きます。
+一方、<Command>DtWsmSetWorkspacesOccupied</Command>は、
+関数に渡されたリストの中で指定されているすべてのワークスペースに
+ウィンドウを置きます。
+</Para>
+<Sect2 Id="PG.wsmgr.div.4" Role="Procedure">
+<Title>アプリケーション・ウィンドウをすべてのワークスペースに置くには
+</Title>
+<OrderedList>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmOccupyAllWorkspaces</Primary>
+</IndexTerm>DtWsmOccupyAllWorkspaces</Command>を使用します。</Para>
+<Para><Filename>occupy.c</Filename>では、[すべてのワークスペースに配置]プッシュ・ボタンのコールバック<Command>allWsCB</Command>が、
+この関数を呼び出します。</Para>
+<ProgramListing>DtWsmOccupyAllWorkspaces (XtDisplay(toplevel),
+                          XtWindow(toplevel));</ProgramListing>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>XtDisplay(toplevel)</Filename>は、Xのディスプレイです。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>XtWindow(toplevel)</Filename>は、すべてのワークスペースに置かれるウィンドウです。</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Para>この関数に関する詳細は、<Command>DtWsmOccupyAllWorkspaces</Command>のマニュアル・ページを参照してください。
+</Para>
+</Sect2>
+<Sect2 Id="PG.wsmgr.div.5" Role="Procedure">
+<Title>アプリケーション・ウィンドウを指定されたワークスペースに置くには
+</Title>
+<OrderedList>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmSetWorkspacesOccupied</Primary>
+</IndexTerm>DtWsmSetWorkspacesOccupied</Command>を使用します。</Para>
+<Para><Filename>occupy.c</Filename>では、[配置するワークスペース]プッシュ・ボタンのコールバック<Command>setCB</Command>が、この関数を呼び出します。</Para>
+<ProgramListing>DtWsmSetWorkSpacesOccupied (XtDisplay(toplevel),
+                            XtWindow(toplevel), paWsSet, numSet);</ProgramListing>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>XtDisplay(toplevel)</Filename>は、Xのディスプレイです。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>XtWindow(toplevel)</Filename>は、ワークスペースに置かれるウィンドウです。</Para>
+</ListItem>
+<ListItem>
+<Para><Command>paWsSet</Command>は、Xのアトムに変換されたワークスペース名のリストを指すポインタです。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Command>numSet</Command>は、リスト内のワークスペースの番号です。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Para>この関数についての詳細は、<Command>DtWsmSetWorkspacesOccupied</Command>のマニュアル・ページを参照してください。</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.wsmgr.div.6">
+<Title Id="PG.wsmgr.mkr.4">アプリケーション・ウィンドウがあるワークスペースの
+<IndexTerm>
+<Primary>ワークスペース</Primary>
+<Secondary>識別</Secondary>
+</IndexTerm>識別</Title>
+<Para>関数<Command>DtWsmGetWorkspacesOccupied</Command>は、指定されたアプリケーション・ウィンドウがあるワークスペースのリストを返します。<Filename>occupy.c</Filename>では、
+プロシージャ<Command>ShowWorkspaceOccupancy</Command>がこの関数を呼び出します。
+この呼び出しの結果に基づいて、<Command>ShowWorkspaceOccupancy</Command>は
+ワークスペースを表すトグル・ボタンの外観を変更します。
+アプリケーション・ウィンドウがあるワークスペースの各トグル・ボタンには、チェック・マークが表示されます。
+</Para>
+<Sect2 Id="PG.wsmgr.div.7" Role="Procedure">
+<Title>アプリケーション・ウィンドウがあるワークスペースを識別するには</Title>
+<OrderedList>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmGetWorkspacesOccupied</Primary>
+</IndexTerm>DtWsmGetWorkspacesOccupied</Command>を使用します。</Para>
+</ListItem>
+</OrderedList>
+<ProgramListing>rval = DtWsmGetWorkspacesOccupied(XtDisplay(toplevel)
+             XtWindow(toplevel), &amp;paWsIn, &amp;numWsIn);</ProgramListing>
+<Para><Filename>where:</Filename></Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>XtDisplay(toplevel)</Filename>は、Xのディスプレイです。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>XtWindow(toplevel)</Filename>は、ワークスペースで検索されるウィンドウです。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Command>paWsIn</Command>は、Xのアトムに変換されたワークスペース名のリストを指すポインタのアドレスです。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Command>numWsIn</Command>は、リスト内のワークスペースの番号を表す整数のアドレスです。
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>この呼び出しの後、ループがセットされ、ワークスペースのリスト（<Command>DtWsmGetWorkspaceList</Command>によって
+プロシージャ<Command>SetUpWorkspaceButtons</Command>内で検索された）と、
+アプリケーション・ウィンドウが検索されたワークスペースのリストとを比較します。
+各トグル・ボタンがアプリケーション・ウィンドウがあるワークスペースを表す場合には、
+トグル・ボタン・リソース <Command>XmNset</Command>にTrueが設定されます。
+</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.wsmgr.div.8">
+<Title Id="PG.wsmgr.mkr.5">ワークスペース間の
+<IndexTerm>
+<Primary>ワークスペース</Primary>
+<Secondary>アプリケーションの移動防止</Secondary>
+</IndexTerm>アプリケーションの移動防止</Title>
+<Para>関数<Command><IndexTerm>
+<Primary>DtWsmRemoveWorkspaceFunctions</Primary>
+</IndexTerm>DtWsmRemoveWorkspaceFunctions</Command>は、アプリケーションに対して次のことを防止します。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>他のワークスペースへの切り替え</Para>
+</ListItem>
+<ListItem>
+<Para>すべてのワークスペースの占有</Para>
+</ListItem>
+<ListItem>
+<Para>現在のワークスペースからの削除</Para>
+</ListItem>
+</ItemizedList>
+<Para><Command>DtWsmRemoveWorkspaceFunctions</Command>が上記のことを行う場合は、
+デスクトップ・ワークスペース・マネージャ (<Command>dtwm</Command>)のウィンドウ・メニューの一部分をアクティブにしないようにします。
+<Command>dtwm</Command>はアプリケーションのトップレベル・ウィンドウを管理するときにワークスペース情報をチェックするだけなので、
+アプリケーションはトップレベル・ウィンドウがマップされる前に<Command>DtWsmRemoveWorkspaceFunctions</Command>を
+呼び出さなければなりません。
+アプリケーションのトップレベル・ウィンドウが管理された後で<Command>DtWsmRemoveWorkspaceFunctions</Command>を
+呼び出す必要がある場合には、
+最初にXlib関数<Command>XWithdrawWindow</Command>を
+呼び出してから<Filename>DtWsmRemoveWorkspaceFunctions</Filename>を呼び出し、
+次に<Command>XMapWindow</Command>を呼び出してトップレベル・ウィンドウを再マップしなければなりません。
+</Para>
+<Sect2 Id="PG.wsmgr.div.9" Role="Procedure">
+<Title>別のワークスペースへの移動を防止するには</Title>
+<OrderedList>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmRemoveWorkspaceFunctions</Primary>
+</IndexTerm>DtWsmRemoveWorkspaceFunctions</Command>を使用します。</Para>
+<ProgramListing>DtWsmRemoveWorkspaceFunctions(XtDisplay(toplevel),
+                              XtWindow(toplevel));</ProgramListing>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Filename>XtDisplay(toplevel)</Filename>は、Xのディスプレイです。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>XtWindow(toplevel)</Filename>は、ワークスペースの移動を防止するウィンドウです。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.wsmgr.div.10">
+<Title Id="PG.wsmgr.mkr.6">ワークスペースの
+<IndexTerm>
+<Primary>ワークスペース</Primary>
+<Secondary>変更の監視</Secondary>
+</IndexTerm>変更の監視</Title>
+<Para>次の関数の１つまたは両方を使用して、ワークスペースの変更を監視することができます。
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmAddCurrentWorkspceCallback</Primary>
+</IndexTerm>DtWsmAddCurrentWorkspaceCallback</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmWorkspaceModifiedCallback</Primary>
+</IndexTerm>DtWsmWorkspaceModifiedCallback</Command></Para>
+</ListItem>
+</ItemizedList>
+<Para><Command>DtWsmAddCurrentWorkspaceCallback</Command>は、ワークスペース・マネージャが
+新しいワークスペースに切り替えられたときに必ず呼び出される
+アプリケーション・コールバックを登録します。
+詳細は、<Filename>DtWsmAddCurrentWorkspaceCallback</Filename>(3)のマニュアル・ページを参照してください。
+</Para>
+<Para><Command>DtWsmWorkspaceModifiedCallback</Command>は、ワークスペースが追加、削除、または変更されたときに必ず呼び出される
+アプリケーション・コールバックを登録します。
+詳細は、<Filename>DtWsmWorkspaceModifiedCallback</Filename>(3) のマニュアル・ページを参照してください。</Para>
+<Sect2 Id="PG.wsmgr.div.11" Role="Procedure">
+<Title>ワークスペースの切り替えを監視するには</Title>
+<OrderedList>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmAddCurrentWorkspaceCallback</Primary>
+</IndexTerm>DtWsmAddCurrentWorkspaceCallback</Command>を使用します。</Para>
+</ListItem>
+</OrderedList>
+<Para>デモ・プログラム<Filename>wsinfo.c</Filename>では、この関数はトップレベル・ウィジェットが実体化された後で呼び出されます。
+</Para>
+<ProgramListing>DtWsmAddCurrentWorkspaceCallback (toplevel, wschangecb, NULL);</ProgramListing>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Command>toplevel</Command>は、アプリケーションのトップレベル ・ウィジェットです。</Para>
+</ListItem>
+<ListItem>
+<Para><Command>wschangecb</Command>は、呼び出される関数の名前です。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Command>NULL</Command>は、コールバックに渡されるクライアント・データのパラメータです。
+この場合、データは渡されません。
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="PG.wsmgr.div.12" Role="Procedure">
+<Title>他のワークスペースの変更を監視するには
+</Title>
+<OrderedList>
+<ListItem>
+<Para><Command><IndexTerm>
+<Primary>DtWsmWorkspaceModifiedCallback</Primary>
+</IndexTerm>DtWsmWorkspaceModifiedCallback</Command>を使用します。</Para>
+<ProgramListing>DtWsmWorkspaceModifiedCallback (toplevel, wschangecb, NULL);</ProgramListing>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para><Command>toplevel</Command>は、アプリケーションのトップレベル・ウィジェットです。</Para>
+</ListItem>
+<ListItem>
+<Para><Command>wschangecb</Command>は、呼び出される関数の名前です。
+</Para>
+</ListItem>
+<ListItem>
+<Para><Command>NULL</Command>は、コールバックに渡されるクライアント・データのパラメータです。
+この場合、データは渡されません。
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->

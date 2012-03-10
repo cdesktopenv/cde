@@ -1,0 +1,1908 @@
+:
+# @(#)shipout (gsf@research.att.com) 07/17/95
+#
+# shipout [ options ... ] [ name ... ] [ tool ... ]
+#
+# ship software to recipient using system|user info in $SHIPINFO
+#
+# options -- + turns the corresponding option off
+#
+#	-b		ship bases with deltas
+#	-c		don't generate tool closure
+#	-d		don't ship deltas
+#	-i		list info on specified recipient(s) only
+#	-k		mark recipient(s) as having received tool(s)
+#	-l file		list of people to ship to
+#	-m		don't send shipment manifest mail message
+#	-n		show but don't execute
+#	-o		set shipment ownership to shipper
+#	-p name		next argument is a recipient to ship to
+#	-s		don't send shipment support files
+#	-t		don't execute but show total shipment
+#	-u [[yy]mm]dd	ignore db info for date pattern
+#	-v yymmdd	override current date stamp
+#	-w		shipment suitable for www
+#	-x format	pax output format and compression
+#	-C files	add to default crate file list
+#	-D secs		delay in seconds between sends
+#	-F		force db override
+#	-S files	add to default support file list
+#
+# name -- recipient address
+#
+#	machine!user		uucp address
+#	host:directory		rcp address
+#	*%[beta.]bin[.arch]	compressed cpio binary archive in Z/*[.arch]
+#	*%ftp			sh script with ftp get's on stdout
+#	*%[beta.]lib[.arch]	compressed cpio binary archive in Z/*[.arch]
+#	*%list			shipment file list on stdout
+#	*%pull			sh script with datakit pull's on stdout
+#	*%push			sh script with datakit push's on stdout
+#	*%[beta.]src		compressed cpio src archive in Z/*
+#
+# the message file is evaluated by the shell and the following variables
+# are predefined by ship:
+#
+#	f			list of expanded file names
+#	name			name of shipee
+#
+
+umask 02
+PATH=:$PATH
+
+SHIPSLOG=${SHIPSLOG:-shipslog}
+SHIPINFO=${SHIPINFO:-$SHIPSLOG/info}
+SHIPFILES="README shipin shipout"
+SHIPAUX="shipiffe.sh shipop.c shipproto.c"
+SHIPMENT=*[0-9][0-9][0-9][0-9][0-9][0-9]
+SHIPPER=${SHIPPER:-${USER:-${LOGNAME:-${HOME##*/}}}}
+SHIPSPOOL=${SHIPSPOOL:-/usr/spool/uucppublic}
+SHIPORG=${SHIPORG:-"Software and Systems Research"}
+SHIPLOGO=${SHIPLOGO:-"http://www1126.research.att.com/logos/attbllogo.gif align=middle"}
+SHIPMM2HTML=${SHIPMM2HTML:-mm2html}
+CRATEFILES="copyright items message promo release report"
+TMP=${TMPDIR:=/tmp}/ship$$
+FROMSYS=$( (uname -n || hostname || cat /etc/whoami) 2>/dev/null )
+
+test -f shipinit && . ./shipinit
+
+function errexit
+{
+	# print out an error message on unit 2 and exit
+	print -u2 - "$command: $@"
+	exit 1
+}
+
+function warning
+{
+	print -u2 - "$command: warning: $@"
+}
+
+function cleanup # exitcode
+{
+	trap - EXIT INT TERM
+	db_done
+	rm -f $TMP.?
+	exit $1
+}
+
+db_access=
+db_data=
+db_disable=
+db_key_base=
+db_key_delta=
+db_pid=
+db_status=
+
+#
+# send request to dbm server
+# status returned in db_status
+# data returned in db_data
+#
+
+function db_request # op args ...
+{
+	print -p "$@"
+	read -p db_status db_data
+	case $db_debug in
+	?*)	print -u2 DB: "$@": $db_status $db_data ;;
+	esac
+	case $db_status in
+	I)	return 0 ;;
+	E)	print -u2 $logfile: $db_data; return 1 ;;
+	*)	return 1 ;;
+	esac
+}
+
+#
+# initialize db
+#
+
+function db_init # machine user
+{
+	typeset log=$logfile machine=$1 user=$2 i j l
+
+	case $db_disable in
+	?*)	return 0 ;;
+	esac
+	case $db_debug in
+	grep)	db_access=grep ;;
+	esac
+	case $db_access in
+	"")	case $log in
+		"")	ifs=$IFS
+			IFS=:
+			set -- $PATH
+			IFS=$ifs
+			for i
+			do	case $i in
+				*/bin)	i=${i%/bin}
+					for j in /share/ /
+					do	l=${i}${j}lib/ship/log
+						if	test -f $l.dir -a -r $l.dir -a -w $l.dir
+						then	log=$l
+							break 2
+						fi
+					done
+					;;
+				esac
+			done
+			case $log in
+			"")	log=$SHIPSLOG/log ;;
+			esac
+			;;
+		esac
+		case $log in
+		/*)	;;
+		*)	log=$PWD/$log ;;
+		esac
+		db_access=grep
+		if	cs </dev/null >/dev/null 2>&1
+		then	cs -i /dev/tcp/share/dbm/group=ship |&
+			db_pid=$!
+			if	db_request version
+			then	db_request open $log w || errexit $log: cannot access log
+				db_access=dbm
+				logfile=$log
+			fi
+		fi
+		;;
+	esac
+	case $db_debug in
+	?*)	print -u2 DB: init: access=$db_access logfile=$logfile ;;
+	esac
+	case $db_access in
+	dbm)	first_time=0
+		db_check - $machine $user shipin "*" base || first_time=1
+		;;
+	grep)	typeset -L2 dir=$machine
+		case $logfile in
+		?*)	mv $logfile $SHIPSLOG/.tmp.
+			sort -r < $SHIPSLOG/.tmp. | sort -m -u +0 -1 > $logfile
+			rm -f $SHIPSLOG/.tmp.
+			;;
+		esac
+		logfile=$SHIPSLOG/$dir/$machine/$user
+		if	test  "" = "$force" -a -r "$logfile"
+		then	first_time=0
+		else	first_time=1
+			case $noexec in
+			"")	if	test ! -d "$SHIPSLOG/$dir"
+				then	mkdir "$SHIPSLOG/$dir" || logfile=$SHIPSLOG/log
+				fi
+				if	test ! -d "$SHIPSLOG/$dir/$machine"
+				then	mkdir "$SHIPSLOG/$dir/$machine" || logfile=$SHIPSLOG/log
+				fi
+				;;
+			esac
+		fi
+		;;
+	esac
+}
+
+#
+# end db interaction
+#
+
+function db_done #
+{
+	case $db_disable in
+	?*)	return 0 ;;
+	esac
+	case $noexec in
+	"")	case $db_access in
+		dbm)	db_request close
+			db_request quit
+			kill $db_pid
+			;;
+		grep)	case $logfile in
+			?*)	mv $logfile $SHIPSLOG/.tmp.
+				sort -r < $SHIPSLOG/.tmp. | sort -m -u +0 -1 > $logfile
+				rm -f $SHIPSLOG/.tmp.
+				;;
+			esac
+			;;
+		esac
+		;;
+	esac
+}
+
+#
+# check if < machine user tool version type > was sent
+#
+
+function db_check # [ - ] machine user tool version type
+{
+	typeset k key ks sav x nocheck=
+
+	case $db_disable:$first_time:$force in
+	1:*:*|*:1:*|*:*:1)	return 1 ;;
+	esac
+	case $1 in
+	-)	shift; nocheck=1 ;;
+	esac
+	typeset a=$1!$2 n=$3 v=$4 t=$5 m
+	case $5 in
+	"*")	ks="base delta" ;;
+	base)	ks=base ;;
+	*)	ks=delta ;;
+	esac
+	for k in $ks
+	do	key=$a,$n,$k
+		eval sav=\$db_key_$k
+		case $key in
+		$sav)	eval set -- \$db_val_$k
+			;;
+		*)	case $db_access in
+			dbm)	if	db_request get $key
+				then	set -- $db_data
+				else	continue
+				fi
+				;;
+			grep)	set -- $(grep "^$key" $logfile)
+				case $# in
+				0)	continue ;;
+				esac
+				shift
+				;;
+			esac
+			eval db_key_$k='$key' db_val_$k='$*'
+			;;
+		esac
+		case $1/$2 in
+		$v/$t)	case $undo in
+			"")	;;
+			*)	case $nocheck in
+				"")	case $3 in
+					$undo)	continue ;;
+					esac
+					;;
+				esac
+				;;
+			esac
+			case $v in
+			"*")	return 0 ;;
+			esac
+			;;
+		*)	case "$v" in
+			"*")	return 0 ;;
+			esac
+			continue
+			;;
+		esac
+		if	test -d $n
+		then	m=$(shipop time $n/$1/$2)
+		else	m=$(shipop time $n)
+		fi
+		case $6 in
+		""|$m)	return 0 ;;
+		*)	return 1 ;;
+		esac
+	done
+	return 1
+}
+
+#
+# note that < machine user tool version type > was sent
+#
+
+function db_note # machine user tool version type name
+{
+	typeset k v m
+
+	case $db_disable in
+	?*)	return 0 ;;
+	esac
+	case $5 in
+	base)	k=base ;;
+	*)	k=delta ;;
+	esac
+	if	test -d $3
+	then	m=$(shipop time $3/$4/$5)
+	else	m=$(shipop time $3)
+	fi
+	v="$1!$2,$3,$k $4 $5 $date $SHIPPER $6 $m"
+	case $db_access in
+	dbm)	db_request put $v ;;
+	grep)	print $v >> $logfile ;;
+	esac
+}
+
+#
+# output SHIPMENT stamp for file [current date]
+#
+
+function shipstamp # file
+{
+	typeset -Z2 day month
+	typeset -R2 year
+	integer mon Jan=1 Feb=2 Mar=3 Apr=4 May=5 Jun=6 \
+		Jul=7 Aug=8 Sep=9 Oct=10 Nov=11 Dec=12
+	case $# in
+	0)	set -- $(date)
+		shift 1
+		;;
+	*)	set -- $(ls -ld $1 2>/dev/null)
+		while	:
+		do	case $# in
+			[01])	break ;;
+			esac
+			case $1 in
+			Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
+				case $2 in
+				[1-9]|[0-3][0-9])
+					case $3 in
+					[0-9]*)	break ;;
+					esac
+					;;
+				esac
+				;;
+					
+			esac
+			shift
+		done
+		;;
+	esac
+	mon=$1
+	day=$2
+	month=$mon
+	case $3 in
+	*:*:*)	year=$5
+		;;
+	*:*)	set -- $(date)
+		year=$6
+		if	(($mon > $2))
+		then	let year=year-1
+		fi
+		;;
+	*)	year=$3
+		;;
+	esac
+	print $year$month$day
+}
+
+#
+# prepare $tool for shipping
+#
+
+function package # tool [blocks]
+{
+	typeset tool=$1
+	integer package_blocks=${2-20}
+	integer package_chunk=package_blocks*8*1024
+	integer size i=0 skip=0
+	typeset -RZ3 suffix
+	typeset fsize
+
+	if	test $tool.000 -nt $tool
+	then	return 0
+	fi
+	fsize=$(wc -c $tool)
+	size=${fsize%$tool}
+	if	((size <= package_chunk))
+	then	return 1
+	fi
+	print packaging $tool
+	rm -f $tool.???
+	while	(( size > 0))
+	do	suffix=$i
+		dd if=$tool of=$tool.$suffix bs=8k skip=$skip count=$package_blocks 2> /dev/null
+		let i=i+1 skip=skip+package_blocks size=size-package_chunk
+	done
+	set -- $tool.???
+	case $1 in
+	*.\?\?\?)	errexit "$tool: cannot package" ;;
+	esac
+	return 0
+}
+
+function gencontrol # tool
+{
+	typeset tool=${1%/*}
+	typeset format=${1#$tool/}
+	typeset init
+	typeset parts
+
+	if	test -f $1
+	then	if	package $1
+		then	parts='.???'
+		else	parts=''
+		fi
+	else	# $SHIPFILES
+		print - "cp $date.$SHIPPER/${tool%/*} \$INSTALLROOT/ship" >> $TMP.u
+		return
+	fi
+	tooldir=${tool%%/*}
+	{
+		print - "if	test ! -f \$INSTALLROOT/ship/$tooldir/items"
+		set -- $tool/$format$parts
+		case $# in
+		1)	print - "then	if	test -f $tool/$format$parts"
+			prefix="then"
+			;;
+		*)	print - "then	_unspool_nope=
+	for i in $*
+	do	if	test ! -f \$i
+		then	_unspool_nope=1
+			break
+		fi
+	done
+	case \$_unspool_nope in"
+			prefix='"")'
+			;;
+		esac
+		case $format in
+		base|delete)	init= ;;
+		*)		init=$basetoo ;;
+		esac
+		case $init in
+		"")	print - "	$prefix	if	test ! -d \$INSTALLROOT/ship/$tooldir
+		then	mkdir \$INSTALLROOT/ship/$tooldir
+		fi
+		rm -rf \$INSTALLROOT/ship/$tool
+		mkdir \$INSTALLROOT/ship/$tool"
+			prefix=
+			;;
+		esac
+		print - "	$prefix	cat $tool/$format$parts > \$INSTALLROOT/ship/$tool/$format"
+		print - "		rm -f $tool/$format$parts"
+		case $init in
+		"")	for i in $CRATEFILES
+			do	if	test -s $tool/$i
+				then	print - "		echo \"$(cat $tool/$i 2>/dev/null)\" > \$INSTALLROOT/ship/$tool/$i"
+				elif	test -f $tool/$i
+				then	print - "		: > \$INSTALLROOT/ship/$tool/$i"
+				fi
+			done
+			if	test "" != "$www"
+			then	owner=
+			else	if	test "" = "$shipper" -a -s $tool/owner
+				then	owner=$(<$tool/owner)
+				else	owner=$SHIPPER
+				fi
+				case ${TOSYS##*!} in
+				${owner%%!*})	owner=${TOSYS%!*}!$owner ;;
+				*)		owner=$TOSYS!$owner ;;
+				esac
+			fi
+			print - "		echo \"$owner\" > \$INSTALLROOT/ship/$tool/owner"
+			;;
+		esac
+		case $# in
+		1)	print - "	fi"
+			;;
+		*)	print - "		;;
+	esac"
+			;;
+		esac
+		print - "fi"
+	 } >> $TMP.u
+}
+
+function instructions # first
+{
+	integer item=0 first=$1
+	typeset tool pack packages omit main
+
+	case $first in
+	0)	print "
+As a repeat recipient:"
+		case $redo in
+		1)	print "
+($((item=item+1))) This shipment includes an update to the installation support tools.
+    Any tools that failed to build previously will be attempted again."
+			;;
+		esac
+		;;
+	1)	print "
+As a first time recipient:"
+		;;
+	esac
+
+	print "
+($((item=item+1))) Wait for a \\\`copy succeeded' message from uucp for the file:
+
+	\$user/$FROMSYS/$date.$SHIPPER/manifest"
+
+	print "
+($((item=item+1))) For safety do not run as root.  If you are not running as \$user then:
+
+	RECIPIENT=\$user
+	export RECIPIENT"
+
+	packages=$(for tool in "${ship_list[@]}"
+	do	tool=${tool%%/*}
+		if	test -f $tool/Mamfile
+		then	sed -e '/^setv PACKAGE/!d' -e 's/^setv /	/' -e 's/ /=/' -e 's/\$/\\&/g' $tool/Mamfile
+		fi
+	done | sort -t= -u +0 -1)
+	case $packages in
+	?*)	omit=
+		for tool in "${ship_list[@]}"
+		do	case $tool in
+			lib*)	tool=${tool%%/*}
+				tool=${tool#lib}
+				case $omit in
+				"")	omit="$tool" ;;
+				*)	omit="$omit|$tool" ;;
+				esac
+				;;
+			esac
+		done
+		case $omit in
+		?*)	main=$(echo "$packages" | egrep "PACKAGE_($omit)[=_]" | sed -e 's/^	PACKAGE_\([^_=]*\).*/\1/' | sort -u)
+			packages=$(echo "$packages" | egrep -v "PACKAGE_($omit)[=_]")
+			;;
+		esac
+	esac
+
+	case $first in
+	0)	print "
+($((item=item+1))) Name the directory under which previous shipments were installed:
+
+	INSTALLROOT=<shipment-root-directory>"
+		;;
+	1)	case $main in
+		""|*"
+"*)	main= ;;
+		*)	main="
+    A good final installation directory name would be /usr/add-on/$main." ;;
+		esac
+		print "
+($((item=item+1))) Create a shipment root directory under which all source and binaries
+    will be generated.  This should not be a final installation directory.$main
+
+	INSTALLROOT=<shipment-root-directory>
+	test -d \\\$INSTALLROOT || mkdir \\\$INSTALLROOT
+	cd \\\$INSTALLROOT
+	test -d ship || mkdir ship"
+		;;
+	esac
+
+	print "
+($((item=item+1))) If $uuspool/\$user/$FROMSYS was copied to \\\$SPOOLROOT then:
+
+	SHIPSPOOL=\\\$SPOOLROOT
+	export SHIPSPOOL"
+
+	print "
+($((item=item+1))) If your system has att and bsd/ucb universes then in general the tools
+    will have more functionality when built in the bsd/ucb universe.  The
+    exception is on solaris where /usr/ucb/cc is fubar.  Set cc by:
+
+	CC='hackcc -systype bsd43' CCFLAGS='-g'  # just an example #
+	export CC CCFLAGS"
+
+	case $packages in
+	?*)	print "
+($((item=item+1))) This shipment refers to some installation dependent software packages.
+    Redefine and export any of the following definitions that are incorrect:
+
+$packages"
+		;;
+	esac
+
+	print "
+($((item=item+1))) Execute the following commands to unpack and install the shipment:
+
+	cd \\\$INSTALLROOT"
+	case $first in
+	1)	print "\
+	cp \\\${SHIPSPOOL-$uuspool/\$user/$FROMSYS}/$date.$SHIPPER/shipin ship/shipin
+	chmod 0755 ship/shipin"
+		;;
+	esac
+	print "\
+	nohup ksh ship/shipin &"
+
+	print "
+($((item=item+1))) Use shipout within \\\$INSTALLROOT/ship to ship to other machines.
+    \\\$INSTALLROOT/ship/README contains more detailed information."
+
+}
+
+function buildscript # machine user
+{
+	# create mscript to execute as a . script
+	typeset tool format
+	integer delta=0 first=1 no_shipin
+	mscript=$TMP.s tfile=$TMP.f
+	case $message in
+	?*)	{
+		print "cat > $tfile <<!EOF!"
+		print "Subject: software shipment"
+		if	test -f ship.body
+		then	print
+			cat ship.body
+		else	f=${name#*,}
+			l=${name%,*}
+			case $f in
+			$l)	;;
+			*)	print "\
+
+Dear ${name#*,} ${name%,*}:" ;;
+			esac
+			if	test -f ship.head
+			then	cat ship.head
+				print
+			fi
+			if	db_check $1 $2 shipin "*" base
+			then	no_shipin=0
+			else	no_shipin=1
+			fi
+			instructions $((first_time||no_shipin))
+		fi
+		print
+		typeset -L n='tool           ' d='release     '
+		t='type'
+		print "\
+This distribution contains:
+
+	$n$d$t"
+		n=----
+		d=-------
+		t=----
+		print "\
+	$n$d$t"
+		for tool in "${ship_list[@]}"
+		do	format=${tool##*/}
+			tool=${tool%/$format}
+			test -r $tool && eval _notes_${tool%%/*}=0
+			n=${tool%%/*}
+			d=${tool##*/}
+			case $format in
+			base|delete)
+				t=$format
+				;;
+			$SHIPMENT)
+				if	pax -f $tool/$format -z - 2>/dev/null | egrep 'DELTA!!!|!PAX!D!' >/dev/null
+				then	t="$format delta" delta=1
+				else	t="$format patch"
+				fi
+				;;
+			*)	errexit "$format: invalid format"
+				;;
+			esac
+			print "	$n$d$t"
+		done
+		print
+		if	((delta))
+		then	print "\
+Unpacking delta shipments requires the new pax command.
+"
+		fi
+		for tool in "${ship_list[@]}"
+		do	if	test ! -r $tool
+			then	continue
+			fi
+			format=${tool##*/}
+			tool=${tool%/$format}
+			if	test -s "$tool/message"
+			then	item=${tool%%/*}
+				eval x='$'_notes_$item
+				case $x in
+				0)	print "\
+$item notes:
+"
+					eval _notes_$item=1
+					;;
+				1)	if	cmp -s "$tool/message" "$item/$format/message"
+					then	continue
+					fi
+					;;
+				esac
+				cat "$tool/message"
+				print
+			fi
+		done
+		if	test -f ship.tail
+		then	cat ship.tail
+		elif	test -f $HOME/.signature
+		then	cat $HOME/.signature
+		fi
+		print  '!EOF!'
+		case $noexec in
+		"")	print 'mail $mail < $tfile'
+			;;
+		*)	print 'print "mail $mail <<!EOF!"'
+			print "cat $tfile"
+			print  'echo !EOF!'
+			;;
+		esac
+		} > $mscript
+		;;
+	esac
+}
+
+function tosys # machine
+{
+	# construct return mail address
+	typeset i IFS=!
+	TOSYS=
+	for i in $@
+	do	case $i in
+		%*)	;;
+		*)	TOSYS=$i!$TOSYS ;;
+		esac
+	done
+	case $TOSYS in
+	$FROMSYS!) TOSYS= ;;
+	esac
+	TOSYS=$TOSYS$FROMSYS
+}
+
+function genshiplist # machine user mail
+{
+	typeset tool file x n v t need_pax= missing=
+	integer i=0 j=0
+
+	lclfiles= rmtfiles=
+	db_init $1 $2
+	db_check - $1 $2 pax "*" base || need_pax=1
+	machine=$1
+	user=$2
+	mail=$3
+	unset ship_list redo
+	for file in $SHIPFILES
+	do	v=$(shipstamp $file)
+		if	db_check $machine $user $file $v base
+		then	continue
+		fi
+		ship_list[i]=$file/$v/base
+		i=i+1
+		case " $SHIPAUX " in
+		*" $file "*)	redo=1 ;;
+		esac
+	done
+	j=i
+	for tool in "${tool_list[@]}"
+	do	n=${tool%%/*}
+		case $need_pax in
+		"")	eval t=\$type_$n
+			case $t in
+			pax)	continue ;;
+			esac
+			;;
+		esac
+		v=${tool#*/}
+		v=${v%/*}
+		t=${tool##*/}
+		case $tool in
+		*/*/$SHIPMENT)
+			if      db_check $machine $user $n $t "*"
+			then    case $basetoo in
+				"")	case $noexec in
+					"")	db_note $machine $user $n $t base $name ;;
+					esac
+					;;
+				?*)	if	db_check $machine $user $n $v base
+					then	:
+					elif	test -f $n/$v/base
+					then	ship_list[i]=$n/$v/base
+						i=i+1
+					else	print -u2 "$n/$v/base: missing base archive"
+						missing=1
+					fi
+					;;
+				esac
+			elif	test -f "$n/$v/base"
+			then	if	db_check $machine $user $n $v base
+				then	:
+				else	ship_list[i]=$n/$v/base
+					i=i+1
+				fi
+				case $basetoo in
+				"")	continue ;;
+				esac
+			elif	test -f $n/$t/base
+			then	ship_list[i]=$n/$t/base
+				i=i+1
+			else	print -u2 "$n/$t/base: missing base archive"
+				missing=1
+			fi
+			;;
+		esac
+		if	db_check $machine $user $n $v $t
+		then	:
+		else	ship_list[i]=$tool
+			eval clean_$n=
+			i=i+1
+		fi
+	done
+	case $missing in
+	?*)	exit 1 ;;
+	esac
+	if	((j>=i))
+	then	case $redo in
+		"")	case $total in
+			"")	print -u2 "$mail is up to date" ;;
+			*)	print -u2 "\\n$mail: up to date" ;;
+			esac
+			return 0
+			;;
+		esac
+	else	case $mark in
+		?*)	case $user:$noexec in
+			?*:)	for tool in "${ship_list[@]}"
+				do	x=${tool#*/}
+					x=${x%/*}
+					db_note $machine $user ${tool%%/*} $x ${tool##*/} $name
+				done
+				;;
+			esac
+			return 0
+			;;
+		esac
+	fi
+	case $total in
+	?*)	print -u2 "\\n$mail:"
+		PS3=''
+		select i in ${ship_list[*]}
+		do	:
+		done </dev/null
+		return 0
+		;;
+	esac
+	return 1
+}
+
+function sendcontrol # machine user
+{
+	# $transport the control file to <user> on given <machine>
+	case $transport in
+	uucp)	typeset dest=$1!$uupublic/$2/$FROMSYS/$date.$SHIPPER
+		print "$rmtfiles
+$date.$SHIPPER/unspool
+$date.$SHIPPER/manifest" > $TMP.m
+		print uucp -r -C $TMP.u $dest/unspool
+		case $noexec in
+		"")	uucp -r -C $TMP.u $dest/unspool ;;
+		esac
+		case $SHIPID in
+		?*)	print $date.$SHIPPER/id >> $TMP.m
+			id="$SHIPPER	SEAL	$(date)	$1!$2"
+			print "$1!$SHIPID $id" > $TMP.i
+			print uucp -r -C $TMP.i $dest/id
+			case $noexec in
+			"")	uucp -r -C $TMP.i $dest/id ;;
+			esac
+			case $noexec in
+			"")	print "$id\\t$(shipop seal $lclfiles $TMP.u $TMP.m $TMP.i)" >> $SHIPSLOG/seals
+				;;
+			esac
+			;;
+		esac
+		print uucp -r -C -m -n"$2" $TMP.m $dest/manifest
+		case $noexec in
+		"")	uucp -r -C -m -n"$2" $TMP.m $dest/manifest ;;
+		esac
+		;;
+	uuto)	print uuto -m $TMP.u $1!$2
+		case $noexec in
+		"")	uuto -m $TMP.u $1!$2 ;;
+		esac
+		;;
+	esac
+	case $noexec in
+	?*)	case $SHIPID in
+		?*)	print "ID:"
+			cat $TMP.i
+			;;
+		esac
+		print "MANIFEST:"
+		cat $TMP.m
+		print "UNSPOOL:"
+		cat $TMP.u
+		;;
+	esac
+}
+
+function doship #
+{
+	# ship the files
+	typeset i j tool file
+	integer d
+	case "$info" in
+	?*)	fixedname=${name%% *}
+		print "$fixedname $address $phone $mail $company $project $transport"
+		return
+	esac
+	user=${mail##*!} machine=${mail%!*}
+	user=${user%%@*} machine=${machine#*@}
+	target=$machine!~/$user/$FROMSYS
+	uuspool=$SHIPSPOOL
+	case $transport in
+	uucp)	uupublic='~'
+		;;
+	uuto)	uuspool=$uuspoool/receive
+		uupublic=$uuspool
+		print -u2 $transport: transport not supported for $user
+		return
+		;;
+	*)	print -u2 $transport: unknown transport for $user
+		return
+		;;
+	esac
+	if	genshiplist $machine $user $mail
+	then	return
+	fi
+	tosys $machine
+	> $TMP.u
+	for i in "${ship_list[@]}"
+	do	gencontrol "$i"
+	done
+	case $redo in
+	?*)	for i in $tools
+		do	print - "for i in \$INSTALLROOT/ship/${i%/*}/*"
+			print - "do	if	test -d \$i -a ! -f \$i/BUILT"
+			print - "	then	rm -f \$i/[BEU]*"
+			print - "	fi"
+			print - "done"
+		done >> $TMP.u
+		;;
+	esac
+	buildscript $machine $user
+	dtime=0
+	for tool in "${ship_list[@]}"
+	do	for i in $tool.???
+		do	case $i in
+			*.\?\?\?|*.000)
+				d=25
+				if	test -f $tool.001
+				then	j=$i
+				elif	test -f $tool
+				then	i=$tool j=$tool
+				else	# here for $SHIPFILES
+					i=${tool%%/*}; j=$date.$SHIPPER/$i
+				fi;;
+			*)	j=$i d=50;;
+			esac
+			dfile=$target/$j
+			if	test -f "$i"
+			then	lclfiles="$lclfiles $i"
+				case $rmtfiles in
+				"")	rmtfiles=$j
+					;;
+				*)	rmtfiles="$rmtfiles
+$j"
+					;;
+				esac
+				print	uucp -r $nocopy $PWD/"$i" "$dfile"
+				case $noexec in
+				"")	uucp -r $nocopy $PWD/"$i" "$dfile"
+					dtime=dtime+d
+					;;
+				esac
+			fi
+		done
+		i=${tool#*/}
+		i=${i%/*}
+		case $noexec in
+		"")	db_note $machine $user ${tool%%/*} $i ${tool##*/} $name ;;
+		esac
+	done
+	if	test -r $mscript
+	then	. $mscript
+	fi
+	sendcontrol $machine $user
+}
+
+function dosend # recipient open
+{
+	# lookup <recipient> in database and transport software to them
+	# if <open> is given, the database is re-opened
+	addr=$1
+	db_disable=
+	case $addr in
+	*%beta.*|*%bin*|*%ftp|*%lib*|*%list|*%pull|*%push|*%src)
+		db_disable=1
+		mail=$addr
+		transport=${addr##*'%'}
+		machine=%$transport
+		user=${addr%"$machine"}
+		case $transport in
+		beta.*)	beta=$SHIPPER transport=${transport#beta.} ;;
+		*)	beta= ;;
+		esac
+		case $transport in
+		bin*|lib*|src)
+			dir=ship
+			out=${user:-${transport%%.*}}
+			view=
+			case $transport in
+			bin)	arch=${PWD%/ship}
+				case $arch in
+				*/arch/*)
+					a=${arch##*/}
+					;;
+				*)	a=${HOSTTYPE:-$(hostinfo type)}
+					;;
+				esac
+				out=$out.$a
+				type="$a binary"
+				type_H=".I $a
+.B binary"
+				;;
+			bin.*)	arch=${transport#bin.}
+				out=$out.$arch
+				transport=bin
+				type="$arch binary"
+				type_H=".I $arch
+.B binary"
+				view=1
+				;;
+			lib)	arch=${PWD%/ship}
+				case $arch in
+				*/arch/*)
+					a=${arch##*/}
+					;;
+				*)	a=${HOSTTYPE:-$(hostinfo type)}
+					;;
+				esac
+				out=$out.$a
+				type="$a binary and library"
+				type_H=".I $a
+.B binary
+and
+.B library"
+				;;
+			lib.*)	arch=${transport#lib.}
+				out=$out.$arch
+				transport=lib
+				type="$arch binary and library"
+				type_H=".I $arch
+.B binary
+and
+.B library"
+				view=1
+				;;
+			*)	arch=..
+				type="source"
+				type_H=".B source"
+				;;
+			esac
+			ccprobe=
+			case $view in
+			?*)	case $PWD in
+				*/arch/*)
+					arch=${PWD%/arch/*}/arch/$arch
+					export INSTALLROOT=$arch
+					vpath $arch ${PWD%/arch/*} 2>/dev/null
+					export VPATH=$arch:${PWD%/arch/*}
+					for f in $arch/lib/probe/C/make/[!p]*bincc $arch/lib/probe/C/make/[!p]*cc $arch/lib/probe/C/make/[!p]*
+					do	if	test -f $f
+						then	ccprobe=CC.PROBE=$f
+							break
+						fi
+					done
+					;;
+				esac
+				;;
+			esac
+			MAKE=$(whence nmake)
+			;;
+		*)	dir=. 
+			;;
+		esac
+		;;
+	*:*)	transport=rcp
+		mail=$1
+		host=${addr%:*}
+		dir=${addr#*:}
+		case $host in
+		*@*)	user=${host%@*}
+			host=${host#*@}
+			;;
+		*)	user=${dir%%/*}
+			case $user in
+			'~'*)	user=${user#~} ;;
+			*)	user=$SHIPPER ;;
+			esac
+			;;
+		esac
+		machine=$host
+		;;
+	*!*)	name=${1##*!} transport=uucp
+		;;
+	*@*)	name=${1%%@*} transport=uucp
+		;;
+	*)	transport=db
+		;;
+	esac
+	case $transport in
+	uucp)	address= phone= mail=$1 project=
+		doship
+		return 1
+		;;
+	db)	typeset -l given match
+		case $shipinfo_test in
+		"")	if	test ! -f "$SHIPINFO"
+			then	errexit "$SHIPINFO: cannot find information file"
+			fi
+			shipinfo_test=1
+			;;
+		esac
+		case $2 in
+		?*)	exec 3< $SHIPINFO ;;
+		esac
+		given=$1
+		while IFS=: read -ru3 name address phone mail company project unused transport comments
+		do	match=$name
+			case $match in
+			\#*)		;;
+			$given*)	doship
+					return 1
+					;;
+			esac
+		done
+		;;
+	*)	typeset d i p s
+		if	genshiplist $machine $user $mail
+		then	return 1
+		fi
+		tosys $machine
+		case $transport in
+		ftp)	ftp_address=$(cs -a addr $FROMSYS 2>/dev/null || print - $FROMSYS) ;;
+		esac
+		exec 9>&1
+		case $transport in
+		bin|lib);;
+		*)	case $transport in
+			list|push|src)
+				;;
+			*)	print - "umask 02"
+				;;
+			esac
+			case $transport in
+			ftp)	print - 'case $INSTALLROOT in'
+				print - '?*)	if	test -d $INSTALLROOT'
+				print - '	then	cd $INSTALLROOT'
+				print - '	else	echo "$0: $INSTALLROOT: invalid INSTALLROOT" >&2'
+				print - '		exit 1'
+				print - '	fi'
+				print - '	;;'
+				print - 'esac'
+				print - 'if	test ! -d ship'
+				print - 'then	mkdir ship || exit 1'
+				print - 'fi'
+				print - 'cd ship'
+				print - 'if	test -r "$HOME/.netrc" && grep -c "machine[ 	]*'$ftp_address'[ 	]*" "$HOME/.netrc"'
+				print - 'then	:'
+				print - 'else	echo "machine '$ftp_address' login anonymous password '$user'" >> "$HOME/.netrc"'
+				print - '	chmod 0600 "$HOME/.netrc"'
+				print - 'fi'
+				;;
+			esac
+			for i in "${ship_list[@]}"
+			do	if	test -f $i
+				then	d=$i/file
+					p=${d%%/*}
+					s=${d#${p}/}
+					t=$p
+					while 	test "$s" != file
+					do	if	test "" != "$p"
+						then	case $transport in
+							list|src)
+								print - "$dir/$p"
+								;;
+							push)	;;
+							*)	print - "if	test ! -d $dir/$p"
+								print - "then	mkdir $dir/$p"
+								print - "fi"
+								;;
+							esac
+						fi
+						p=${p}/${s%%/*}
+						s=${d#${p}/}
+					done
+					i=${i%/*}
+					for f in $CRATEFILES
+					do	if	test -s $i/$f
+						then	case $transport in
+							list|push|src)
+								print - "$dir/$i/$f"
+								;;
+							*)	print - "echo \"$(cat $i/$f 2>/dev/null)\" > $dir/$i/$f"
+								;;
+							esac
+						elif	test -f $i/$f
+						then	case $transport in
+							list|push|src)
+								print - "$dir/$i/$f"
+								;;
+
+							*)	print - "> $dir/$i/$f"
+								;;
+							esac
+						fi
+					done
+					case $transport in
+					list|push|src)
+						if	test "" = "$www" -a -s $i/owner
+						then	print - "$dir/$i/owner"
+						fi
+						;;
+					*)	if	test "" != "$www"
+						then	owner=
+						else	if	test "" = "$shipper" -a -s $i/owner
+							then	owner=$(<$i/owner)
+							else	owner=$SHIPPER
+							fi
+							case ${TOSYS##*!} in
+							${owner%%!*})	owner=${TOSYS%!*}!$owner ;;
+							*)		owner=$TOSYS!$owner ;;
+							esac
+						fi
+						print - "echo \"$owner\" > $dir/$i/owner"
+						;;
+					esac
+				fi
+			done
+			case $transport in
+			list|push|src)
+				;;
+			*)	print - "rm -f $dir/ship.$date"
+				;;
+			esac
+			case $transport in
+			ftp)	print - '${FTP-ftp} $FTP_ADDRESS <<!!!'
+				print - 'user anonymous'
+				print - 'type image'
+				print - 'cd $FTP_INSTALLROOT/ship'
+				;;
+			esac
+			;;
+		esac | case $transport:$noexec in
+		bin:|lib:|src:)
+			exec 1>$TMP.f
+			cat
+			test -d Z || mkdir Z
+			;;
+		bin:*|lib:*|src:*)
+			print - "(cd $arch; pax -w $paxformat) > Z/$out.Z <<!!!"
+			cat
+			;;
+		ftp:*)	print - ': get shipment from remote ftp host'
+			print - 'case $# in'
+			print - '0|1|2)	;;'
+			print - '*)	echo "Usage: $0 [ftp-address [remote-INSTALLROOT]]" >&2; exit 1 ;;'
+			print - 'esac'
+			print - 'FTP_ADDRESS=${1-'$ftp_address'}'
+			print - 'FTP_INSTALLROOT=${2-.}'
+			cat
+			;;
+		list:*)	cat
+			;;
+		pull:*)	print - ': pull shipment from remote dk host'
+			print - 'case $# in'
+			print - '1|2)	;;'
+			print - '*)	echo "Usage: $0 dk-address [remote-INSTALLROOT]" >&2; exit 1 ;;'
+			print - 'esac'
+			print - 'DK_ADDRESS=$1'
+			print - 'DK_INSTALLROOT=${2-.}'
+			cat
+			;;
+		push:*)	print - ': push shipment to remote dk host'
+			print - 'case $# in'
+			print - '1|2)	;;'
+			print - '*)	echo "Usage: $0 dk-address [remote-INSTALLROOT]" >&2; exit 1 ;;'
+			print - 'esac'
+			print - 'push $1 - ${2:+$2/}ship <<"!!!"'
+			cat
+			;;
+		*:)	cat > $TMP.r
+			rcp $TMP.r $host:$dir/ship.$date || exit
+			rm -f $TMP.r
+			case $rsh in
+			"")	for i in rcmd remsh
+				do	if	($i $host date) >/dev/null 2>&1
+					then	rsh=$i
+						break
+					fi
+				done
+				case $rsh in
+				"") rsh=rsh ;;
+				esac
+				;;
+			esac
+			$rsh $host sh $dir/ship.$date || exit
+			;;
+		*)	print - "cat '"
+			cat
+			print - "' > ship.$date"
+			print - "rcp ship.$date $host:$dir"
+			print - "rm ship.$date"
+			print - "rsh $host sh $dir/ship.$date"
+			;;
+		esac
+		chmod=
+		items=
+		pwd=.
+		skip=
+		for tool in "${ship_list[@]}"
+		do	if	test ! -f $tool
+			then	i=${tool%%/*}
+			else	i=$tool
+			fi
+			dfile=$mail/$i
+			if	test -f "$i"
+			then	case $transport in
+				bin|lib)case $i in
+					*/*)	case $i in
+						$tool)	i=${i%/*}
+							i=${i%/*}
+							case $i in
+							$skip)	;;
+							*)	(
+								cd $arch
+								r=$PWD
+								case $i in
+								lib*)	cd src/lib/$i ;;
+								*)	cd src/cmd/$i ;;
+								esac
+								list=list.ship
+								case $transport in
+								bin)	list=$list.$transport ;;
+								esac
+								INSTALLROOT=$r $MAKE -o 'accept noexec mismatch reread silent' $list $ccprobe
+								)
+								;;
+							esac
+							;;
+						esac
+						;;
+					README|shipout)
+						print - "ship/$i"
+						skip=${tool%%/*}
+						;;
+					*)	skip=${tool%%/*}
+						;;
+					esac
+					;;
+				ftp)	case $i in
+					*/*)	t=${i%/*} ;;
+					*)	t=. ;;
+					esac
+					case $t in
+					$pwd)	;;
+					*)	print - cd '$FTP_INSTALLROOT'/ship/${i%/*}
+						case $pwd in
+						.)	print - lcd $t ;;
+						*)	print - lcd ../../$t ;;
+						esac
+						pwd=$t
+						;;
+					esac
+					print - get ${i##*/}
+					test -x $i && chmod="$chmod $i"
+					;;
+				list|push)
+					print - "$i"
+					;;
+				pull)	case $i in
+					*/*)	t=${i%/*} ;;
+					*)	t=. ;;
+					esac
+					print - echo pull '$DK_ADDRESS' '$DK_INSTALLROOT'/ship/$i $t
+					print - pull '$DK_ADDRESS' '$DK_INSTALLROOT'/ship/$i $t
+					;;
+				rcp)	print	rcp "$i" "$dfile"
+					case $noexec in
+					"")	rcp "$i" "$dfile" || exit ;;
+					esac
+					;;
+				src)	print - "ship/$i"
+					case $i in
+					*/*)	;;
+					*)	skip=${tool%%/*} ;;
+					esac
+					;;
+				esac
+			fi
+			i=${tool#*/}
+			i=${i%/*}
+			case $user:$noexec in
+			?*:)	db_note $machine $user ${tool%%/*} $i ${tool##*/} $name ;;
+			esac
+			i=${tool%%/*}
+			case $i in
+			$skip)	;;
+			*)	skip=$i
+				items="$items $i"
+				;;
+			esac
+		done
+		exec 1>&9 9>&-
+		case $transport:$noexec in
+		bin:|lib:|src:)
+			test "" != "$www" && {
+			case $type in
+			[aehiouAEHIOU]*)
+				a=an
+				;;
+			*)	a=a
+				;;
+			esac
+			print - ".TL - - \"$SHIPORG\" \"$SHIPLOGO\"
+Software Shipment Contents
+This is $a
+$type_H
+shipment of
+.IR $out ."
+			if	test -f ship.${out%%.*}.promo
+			then	print - ".P"
+				cat ship.${out%%.*}.promo
+				print - ".P"
+			fi
+			print - "The shipment contains:
+.EX"
+			case $transport in
+			bin)	ls -Cd $(ls -d $items 2>/dev/null | grep -v '^lib') 2>/dev/null ;;
+			*)	ls -Cd $items 2>/dev/null ;;
+			esac
+			print - ".EE"
+			hit=" "
+			for tool in "${ship_list[@]}"
+			do	tool=${tool%/*}
+				case $hit in
+				*" $tool "*)
+					;;
+				*)	hit="$hit$tool "
+					if	test -f $tool/promo
+					then	promo=1
+						cat $tool/promo
+					else	promo=
+					fi
+					if	test -f $tool/release
+					then	case $promo in
+						"")	print - ".H 1 ${tool%/*}"
+							;;
+						esac
+						print - ".P"
+						print - ".DS"
+						cat $tool/release
+						print - ".DE"
+					fi
+					;;
+				esac
+			done
+			print - ".H 1
+If you have problems send mail to
+.I advsoft@attmail.att.com
+with
+.I $out
+in the subject field."
+			} | $SHIPMM2HTML >Z/$out.H
+			{
+			print - "#"
+			print - "# the following ${beta:+beta }$type shipment"
+			print - "# of $out has been sent"
+			case $beta in
+			?*)	print - "# this beta shipment may only be interface compatible with itself"
+				print - "# other shipments will be reconciled after beta testing"
+				;;
+			esac
+			print - "#"
+			case $transport in
+			bin)	ls -Cd $(ls -d $items 2>/dev/null | grep -v '^lib') 2>/dev/null ;;
+			*)	ls -Cd $items 2>/dev/null ;;
+			esac | sed 's/^/#   /'
+			print - "#"
+			print - "# to install:"
+			print - "#"
+			print - "INSTALLROOT=<installation-root-dir>${beta:+/beta.$beta}"
+			print - "SHIPMENT=<shipment-.Z-file>"
+			print - "cd \$INSTALLROOT"
+			print - "$paxuncompress \$SHIPMENT | $paxunformat"
+			case $transport in
+			bin|lib)(cd $arch; ls -ld $(<$TMP.f) 2>/dev/null) > $TMP.s
+				for f in $(sed -e '/^-..s..s/!d' -e 's/.* //' $TMP.s)
+				do	set x $(cd $arch; ls -ld $f 2>/dev/null)
+					n=$#
+					g=$5
+					set x $(cd $arch; ls -ldg $f 2>/dev/null)
+					n1=$#
+					g1=$5
+					if      test $n -lt $n1
+					then    g=$g1
+					fi
+					print - "chgrp $g $f || echo ship: $f would be more efficient if owned by group $g >&2"
+				done
+				sed -e '/^-..s/!d' -e 's/^-..s..s.* /chmod ug+s /' -e 's/^-..s.* /chmod u+s /' $TMP.s
+				rm $TMP.s
+				for f in $items
+				do	test -f $f/binary && cat $f/binary
+				done
+				;;
+			src)	print - "nohup ksh ship/shipin &"
+				;;
+			esac
+			print - "#"
+			print - "# to use:"
+			print - "#"
+			print - "export LD_LIBRARY_PATH=\$INSTALLROOT/lib\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}"
+			print - "export PATH=\$INSTALLROOT/bin:\$PATH"
+			print - "export FPATH=\$INSTALLROOT/fun\${FPATH:+:\$FPATH}"
+			} >Z/$out.M
+			case $transport in
+			bin)	(cd $arch; sort -u $TMP.f | egrep -v '^(include/.*|lib/lib.*\.a)$' |  pax -Lw $paxformat; rm $TMP.f) > Z/$out.Z ;;
+			*)	(cd $arch; sort -u $TMP.f | pax -Lw $paxformat; rm $TMP.f) > Z/$out.Z ;;
+			esac
+			;;
+		bin:*|ftp:*|lib:*|push:*|src:*)
+			case $transport in
+			ftp)	print - 'quit' ;;
+			esac
+			print - '!!!'
+			case $chmod in
+			?*)	print - "chmod +x$chmod" ;;
+			esac
+			;;
+		esac
+		return 1
+		;;
+	esac
+	print -u2 "$command: address for $1 not found"
+	return 1
+}
+
+function closure # tools
+{
+	tools=
+	for tool
+	do	if	test ! -d $tool
+		then	case $original in
+			*" ${tool%/*} "*|*" $tool "*)	warning "${tool%/*}: invalid tool" ;;
+			esac
+		else	case $tool in
+			*/?*)	release=${tool#*/}
+				tool=${tool#*/}
+				;;
+			*)	eval items=\"\$items_$item\"
+				case $items in
+				"")	release= ;;
+				*)	eval release=\$release_$tool ;;
+				esac
+				;;
+			esac
+			eval release_${tool%/*}=$release
+			tools="$tools $tool"
+		fi
+	done
+	set -- $tools
+	#
+	# now generate the closure of the top level tools and releases
+	#
+	tools=
+	for tool
+	do	old=
+		new=$tool
+		while :
+		do	case $new in
+			$old)	break
+			esac
+			dup=
+			for item in $new
+			do	# we assume items_* not in environment
+				eval items=\"\$items_$item\"
+				case $items in
+				"")	eval release=\$release_$item
+					case $release in
+					"")	set -- $item/$SHIPMENT
+						shift $#-1
+						case $1 in
+						"$item/$SHIPMENT") continue ;;
+						esac
+						release=${1#*/}
+						eval release_$item=$release
+					esac
+					if	test ! -f $item/$release/items
+					then	if	test ! -f $item/$release/delete
+						then	continue
+						fi
+						items=$item
+					else	case $closure in
+						"")	items=$item ;;
+						*)	items=$(<$item/$release/items)" $item" ;;
+						esac
+					fi
+					eval items_$item=\"$items\"
+					;;
+				esac
+				dup="$dup $items"
+			done
+			old=$new
+			new=
+			for item in $dup
+			do	eval seen_$item=
+			done
+			for item in $dup
+			do	eval seen=\$seen_$item
+				case $seen in
+				"")	eval seen_$item=1
+					new="$new $item"
+				esac
+			done
+		done
+		tools="$tools $new"
+	done
+}
+
+function undup # tools
+{
+	tools=
+	for item
+	do	eval seen_$item=
+	done
+	for item
+	do	eval seen=\$seen_$item
+		case $seen in
+		"")	eval seen_$item=1
+			tools="$tools $item"
+		esac
+	done
+}
+
+command=$0
+integer dtime=0 i=0 nrecipient=0 first_time=1 delay=0
+info= mark= list= logfile= message=1 nocopy= noexec= format=$SHIPMENT
+shipinfo_test= force= shipper= closure=1 undo= date= basetoo= www=
+paxformat= paxunformat= paxcompress= paxuncompress=
+while	:
+do	case	$1 in
+	-b)	basetoo=1 ;;
+	+b)	basetoo= ;;
+	-c)	closure= ;;
+	+c)	closure=1 ;;
+	-d)	format=base ;;
+	+d)	format=$SHIPMENT ;;
+	-i)	info=1 delay=0 ;;
+	-k)	mark=1 delay=0 ;;
+	-l)	shift; list=$1 ;;
+	+l)	list= ;;
+	-m)	message= ;;
+	+m)	message=1 ;;
+	-n)	noexec=1 delay=0 ;;
+	+n)	noexec= ;;
+	-o)	shipper=1 ;;
+	+o)	shipper= ;;
+	-p)	shift; recipient_list[nrecipient]=$1; nrecipient=nrecipient+1 ;;
+	+p)	recipient= ;;
+	-s)	SHIPFILES= ;;
+	-t)	total=1 noexec=1 delay=0 ;;
+	-u)	shift; undo=$1 ;;
+	+u)	undo= ;;
+	-v)	shift; date=$1 ;;
+	-w)	www=1 ;;
+	+w)	www= ;;
+	-x)	shift
+		case $1 in
+		compress|gzip)
+			paxcompress=$1
+			;;
+		*)	paxformat=$1
+			;;
+		esac
+		;;
+	-C)	shift; CRATEFILES="$CRATEFILES $1" ;;
+	-D)	shift;	delay=$1 ;;
+	+D)	delay=0 ;;
+	-F)	force=1 ;;
+	+F)	force= ;;
+	-L)	shift; logfile=$1 ;;
+	-S)	shift; SHIPFILES="$SHIPFILES $1" ;;
+	*[,:!%@]*)recipient_list[nrecipient]=$1;nrecipient=nrecipient+1 ;;
+	--)	shift; break ;;
+	-*|+*)	print -u2 "Usage: $command [-bcdikmnostfF] [-l recipient-list] [-p recipient] [-u [[yy]mm]dd] [-v yymmdd] [-x format] [-C crate-file] [-D delay] [-S support-file] [recipient ...] [tool ...]"; exit 2 ;;
+	*)	break ;;
+	esac
+	shift
+done
+case $www in
+?*)	case $paxformat in
+	"")	paxformat=tar ;;
+	esac
+	case $paxcompress in
+	"")	paxcompress=gzip ;;
+	esac
+	;;
+esac
+case $paxcompress in
+""|compress)
+	paxcompress=compress
+	paxuncompress="zcat <"
+	;;
+gzip)	paxuncompress="(gunzip || zcat) <"
+	;;
+esac
+case $paxformat in
+"")	paxformat=cpio ;;
+esac
+case $paxformat in
+cpio)	paxunformat="cpio -icdvmu" ;;
+tar)	paxunformat="tar xvf -" ;;
+*)	paxunformat="pax -rv" ;;
+esac
+case $paxformat in
+?*)	paxformat="-x $paxformat" ;;
+esac
+case $paxcompress in
+?*)	paxformat="-x $paxcompress $paxformat" ;;
+esac
+case $date in
+$SHIPMENT)	;;
+*)		date=$(shipstamp) ;;
+esac
+($SHIPMM2HTML) >/dev/null 2>&1 || SHIPMM2HTML=cat
+case $info in
+"")	if	test 0 = "$nrecipient" -a ! -f "$list"
+	then	errexit "no recipient(s)"
+	fi
+	trap 'cleanup $?' EXIT INT TERM
+	#
+	# generate the tools list
+	#
+	original=" $* "
+	case $# in
+	0)	tools=
+		for tool in *
+		do	set -- $tool/$SHIPMENT
+			case $1 in
+			"$tool/$SHIPMENT")	;;
+			*)		tools="$tools $tool" ;;
+			esac
+		done
+		case $tools in
+		"")	errexit "no tools" ;;
+		esac
+		set -- $tools
+		;;
+	esac
+	closure $*
+	case $tools in
+	"")	errexit "no 'items' file(s)" ;;
+	esac
+	tools_usr=$tools
+	tools_pax=
+	case $closure:$format:$SHIPFILES in
+	:*|*:|*:base:*|*:delete:*)
+		;;
+	*)	set -- pax/$SHIPMENT
+		case $1 in
+		"$tool/$SHIPMENT")
+			;;
+		*)	closure pax
+			tools_pax=$tools
+			;;
+		esac
+		;;
+	esac
+	undup $tools_pax $tools_usr
+	set -- $tools
+	for tool in $tools_pax
+	do	eval type_$tool=pax
+	done
+	for tool in $tools_usr
+	do	eval type_$tool=usr
+	done
+	set -- $tools
+	for tool
+	do	eval tool=$tool/\$release_$tool
+		item=
+		for f in delete "$format" base
+		do	set -- $tool/$f
+			if	test -f "$1"
+			then	item=${1##*/}
+				break
+			fi
+		done
+		case $item in
+		"")	if	test ! -d ${tool%/*}
+			then	case $original in
+				*" ${tool%/*} "*|*" $tool "*)	warning "${tool%/*}: invalid tool" ;;
+				esac
+				continue
+			fi
+			case $format in
+			base)	set -- $tool/$SHIPMENT
+				if	test -f "$1"
+				then	eval release_${tool%/*}=${1##*/}
+					tool=${tool%/*}/${1##*/}
+					item=base
+					warning "${tool}: latest base not crated"
+				else	warning "${tool}: base not crated"
+					continue
+				fi
+				;;
+			*)	continue
+				;;
+			esac
+			;;
+		esac
+		case $format in
+		"$SHIPMENT"|$item)
+			tool=$tool/$item
+			;;
+		*)	tool=${tool%/*}/$item/base
+			if	test ! -f $tool
+			then	errexit "${tool%/*}: $item base not crated"
+			fi
+			;;
+		esac
+		tool_list[i]=$tool;i=i+1
+	done
+	;;
+*)	typeset -lL16 fixedname
+	typeset -L9 address project
+	typeset -R12 phone
+	typeset -L21 mail
+	typeset -L11 company
+	;;
+esac
+if	test ! -d $SHIPSLOG
+then	mkdir $SHIPSLOG || errexit "$SHIPSLOG: cannot create log directory"
+fi
+
+SHIPID=$FROMSYS!$SHIPPER
+case $SHIPFILES in
+?*)	SHIPFILES="$SHIPFILES $SHIPAUX"
+	for file in $SHIPFILES
+	do	if	test ! -r $file
+		then	print -u2 "$file: cannot read"; exit 1
+		fi
+	done
+	;;
+esac
+while	:
+do	case $undo in
+	""|??????*)	break ;;
+	*)		undo="?$undo" ;;
+	esac
+done
+nocopy=${nocopy+-c}
+flag=1
+case $list in
+"")	set -s -- "${recipient_list[@]}"
+	;;
+?*)	if	test ! -r "$list"
+	then	errexit "$list: cannot read"
+	else	set -s -- "${recipient_list[@]}" $(sed -e '/^#/d' -e 's/[: 	].*//' $list)
+	fi
+	;;
+esac
+for recipient
+do	if	((dtime))
+	then	sleep $dtime
+	fi
+	if	dosend "$recipient" $flag
+	then	flag=
+		case $noexec$info in
+		"")	print "$name" >> ${tool%/*}/list ;;
+		esac
+	else	flag=1
+	fi
+	if	((delay > dtime))
+	then	dtime=delay
+	fi
+done
+exit 0

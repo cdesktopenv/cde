@@ -1,0 +1,660 @@
+<!-- $XConsortium: ch03.sgm /main/11 1996/12/21 18:56:09 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.CnfAM.div.1">
+<title id="SAG.CnfAM.mkr.1">Ajout et gestion d'applications</title>
+<para><indexterm><primary>Gestionnaire d'applications</primary><secondary>description</secondary></indexterm>Le Gestionnaire d'applications contient
+les programmes du Bureau accessibles &agrave; l'utilisateur.</para>
+<informaltable id="SAG.CnfAM.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.13in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Structure
+du Gestionnaire d'applications44'--><xref role="JumpText" linkend="SAG.CnfAM.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Ajout d'applications
+au Gestionnaire d'applications47'--><xref role="JumpText" linkend="SAG.CnfAM.mkr.6"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Création
+et administration de groupes d'applications généraux50'--><xref role="JumpText"
+linkend="SAG.CnfAM.mkr.10"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Modification
+du chemin de recherche des applications51'--><xref role="JumpText" linkend="SAG.CnfAM.mkr.11"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Administration
+du Gestionnaire d'applications53'--><xref role="JumpText" linkend="SAG.CnfAM.mkr.13"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Modification
+de l'éditeur de texte et de l'émulateur de terminal53'--><xref role="JumpText"
+linkend="SAG.CnfAM.mkr.14"></para></entry></row></tbody></tgroup></informaltable>
+<sect1 id="SAG.CnfAM.div.2">
+<title id="SAG.CnfAM.mkr.2">Structure du Gestionnaire d'applications</title>
+<para>Le niveau sup&eacute;rieur du Gestionnaire d'applications contient g&eacute;n&eacute;ralement
+des r&eacute;pertoires, appel&eacute;s<indexterm><primary>Groupes d'applications</primary><secondary>d&eacute;finition</secondary></indexterm> <emphasis>groupes
+d'applications</emphasis>.</para>
+<figure>
+<title>Groupes d'applications</title>
+<graphic id="SAG.CnfAM.grph.1" entityref="SAG.CnfAM.fig.1"></graphic>
+</figure>
+<para>Les emplacements des groupes d'applications peuvent &ecirc;tre locaux
+ou distribu&eacute;s sur le r&eacute;seau.</para>
+<sect2 id="SAG.CnfAM.div.3">
+<title>R&eacute;pertoire du Gestionnaire d'applications<indexterm><primary>Gestionnaire d'applications</primary><secondary>emplacement du r&eacute;pertoire</secondary></indexterm></title>
+<para>Le Gestionnaire d'applications se situe dans le r&eacute;pertoire <filename>/var/dt/appconfig/appmanager/<symbol role="Variable">nom_connexion</symbol>-<symbol role="Variable">nom_h&ocirc;te</symbol>-<symbol role="Variable">&eacute;cran</symbol></filename>, cr&eacute;&eacute; dynamiquement &agrave; chaque connexion.
+</para>
+<para>Par exemple, si l'utilisateur <command>isa</command> se connecte &agrave;
+partir de l'&eacute;cran <filename>abcd:0</filename>, le r&eacute;pertoire <filename>/var/dt/appconfig/appmanager/isa-abcd-0</filename> est cr&eacute;&eacute;
+dans le Gestionnaire d'applications.</para>
+</sect2>
+<sect2 id="SAG.CnfAM.div.4">
+<title id="SAG.CnfAM.mkr.3">Recherche et regroupement des applications<indexterm>
+<primary>Applications</primary><secondary>regroupement</secondary></indexterm><indexterm>
+<primary>Gestionnaire d'applications</primary><secondary>regroupement des
+applications</secondary></indexterm><indexterm><primary>Groupes d'applications</primary><secondary>regroupement</secondary></indexterm></title>
+<para>Le Gestionnaire d'applications rassemble des groupes d'applications
+locaux et &eacute;loign&eacute;s, situ&eacute;s dans des r&eacute;pertoires
+faisant partie du<indexterm><primary>Chemin de recherche</primary><secondary>applications</secondary><tertiary>regroupement des applications</tertiary>
+</indexterm> chemin de recherche des applications.</para>
+<para>Le chemin de recherche par d&eacute;faut contient les r&eacute;pertoires
+suivants:<indexterm><primary>Applications</primary><secondary>chemin de
+recherche</secondary></indexterm><indexterm><primary>Chemin de recherche</primary><secondary>applications</secondary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="135*">
+<colspec colwidth="321*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Etendue</para></entry><entry
+align="left" valign="bottom"><para>Emplacement</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Int&eacute;gr&eacute;</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">langue</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Syst&egrave;me</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">langue</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Personnel</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.dt/appmanager</filename></para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Pour permettre la cr&eacute;ation du niveau sup&eacute;rieur du Gestionnaire
+d'applications, des liens sont &eacute;tablis, lors de la connexion, entre
+les groupes d'applications (r&eacute;pertoires) situ&eacute;s dans les r&eacute;pertoires
+du chemin de recherche des applications et le r&eacute;pertoire du Gestionnaire
+d'applications, <filename>/var/dt/appconfig/appmanager/<symbol role="Variable">nom_connexion</symbol>-<symbol role="Variable">nom_h&ocirc;te</symbol>-<symbol role="Variable">&eacute;cran</symbol></filename>. Cette op&eacute;ration est
+effectu&eacute;e par l'utilitaire<indexterm><primary>dtappgather</primary>
+</indexterm> <command>dtappgather</command>, lanc&eacute; automatiquement par
+le Gestionnaire de connexion une fois l'utilisateur connect&eacute;.</para>
+<para>Par exemple, le groupe d'applications suivant est int&eacute;gr&eacute;
+au Bureau:</para>
+<programlisting>/usr/dt/appconfig/appmanager/<symbol role="Variable">langue</symbol>/Desktop_Tools</programlisting>
+<para>Lors de la connexion, un<indexterm><primary>Gestionnaire d'applications</primary><secondary>liens symboliques</secondary></indexterm> lien symbolique
+est cr&eacute;&eacute; vers:</para>
+<programlisting>/var/dt/appconfig/appmanager/<symbol role="Variable">nom_connexion</symbol>-<symbol role="Variable">nom_h&ocirc;te</symbol>-<symbol role="Variable">&eacute;cran</symbol>/Desktop_Tools</programlisting>
+<para>Le chemin de recherche des applications peut comporter des r&eacute;pertoires
+&eacute;loign&eacute;s. Ainsi, les groupes d'applications situ&eacute;s sur
+le r&eacute;seau sont accessibles. Pour plus de d&eacute;tails, reportez-vous
+&agrave; la section <!--Original XRef content: '&rdquo;Ajout d'un serveur
+d'applications au chemin de recherche&rdquo;, page&numsp;52'--><xref role="SecTitleAndPageNum"
+linkend="SAG.CnfAM.mkr.12">.</para>
+</sect2>
+<sect2 id="SAG.CnfAM.div.5">
+<title>R&egrave;gles de priorit&eacute; appliqu&eacute;es lors du regroupement
+des applications<indexterm><primary>Gestionnaire d'applications</primary>
+<secondary>r&egrave;gles de priorit&eacute;</secondary></indexterm><indexterm>
+<primary>Groupes d'applications</primary><secondary>priorit&eacute;</secondary>
+</indexterm></title>
+<para>Lorsque des groupes d'applications existent en plusieurs exemplaires
+dans le chemin de recherche, les groupes personnels sont prioritaires par
+rapport aux groupes syst&egrave;me, et ces derniers sont prioritaires par
+rapport aux groupes int&eacute;gr&eacute;s. Par exemple, si <filename>/usr/dt/appconfig/appmanager/C/Desktop_Tools</filename> et <filename>/etc/dt/appconfig/appmanager/C/Desktop_Tools</filename>
+existent, le groupe d'applications situ&eacute; sous <filename>/etc</filename>
+sera utilis&eacute;.</para>
+</sect2>
+<sect2 id="SAG.CnfAM.div.6">
+<title>Groupes d'applications fournis avec le Bureau par d&eacute;faut<indexterm>
+<primary>Groupes d'applications</primary><secondary>par d&eacute;faut</secondary>
+</indexterm></title>
+<para>Avant personnalisation, le Bureau contient les groupes d'applications
+ci-apr&egrave;s.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Applications_Bureau (Desktop_Apps)</para>
+</listitem>
+<listitem><para>Outils_Bureau (Desktop_Tools)</para>
+</listitem>
+<listitem><para>Informations (Information)</para>
+</listitem>
+<listitem><para>Administration_syst&egrave;me (System_Admin)</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.7">
+<title>Exemple de regroupement d'applications<indexterm><primary>Applications</primary><secondary>regroupement</secondary></indexterm></title>
+<para>La <!--Original XRef content: 'Figure&numsp;3&hyphen;2'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.CnfAM.mkr.4"> montre une fen&ecirc;tre du Gestionnaire d'applications
+contenant plusieurs groupes d'applications. Le <!--Original XRef content:
+'Tableau&numsp;3&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="SAG.CnfAM.mkr.5">
+indique les r&eacute;pertoires &agrave; partir desquels ils ont &eacute;t&eacute;
+extraits.</para>
+<figure>
+<title id="SAG.CnfAM.mkr.4">Fen&ecirc;tre type du Gestionnaire d'applications</title>
+<graphic id="SAG.CnfAM.grph.2" entityref="SAG.CnfAM.fig.2"></graphic>
+</figure>
+<table id="SAG.CnfAM.tbl.1" frame="Topbot">
+<title id="SAG.CnfAM.mkr.5">Source des groupes d'applications ( <!--Original
+XRef content: 'Figure&numsp;3&hyphen;2'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.CnfAM.mkr.4">)</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.74in">
+<colspec colwidth="4.10in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Nom</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>R&eacute;pertoire source</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>App_CAO</para></entry>
+<entry align="left" valign="top"><para><filename>net/ApServA/etc/dt/appconfig/appmanager/C/App_CAO</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>App_dessin</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/C/App_dessin</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Applications_Bureau</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/C/Desktop_Apps</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Outils_Bureau</para></entry>
+<entry align="left" valign="top"><para>/<filename>usr/dt/appconfig/appmanager/C/Desktop_Tools</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Informations</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/C/Information</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Administration_syst&egrave;me</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/C/System_Admin</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Tableur</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">/</symbol><filename>users/anna/.dt/appmanager/Tableur</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Outils_Media</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/C/</filename>Outils_Media</para></entry></row></tbody></tgroup></table>
+<para>Si les groupes d'applications Informations ou Administration_syst&egrave;me
+sont personnalis&eacute;s, ils seront extraits de <filename>/etc/dt/appconfig/appmanager/C</filename>.</para>
+<para>Le groupe App_CAO est extrait car le syst&egrave;me <command>ApServA</command> a &eacute;t&eacute; ajout&eacute; au chemin de recherche des applications
+(voir la section <!--Original XRef content: '&rdquo;Ajout d'un serveur d'applications
+au chemin de recherche&rdquo;, page&numsp;52'--><xref role="SecTitleAndPageNum"
+linkend="SAG.CnfAM.mkr.12">). Tableur est un groupe d'applications personnel,
+disponible uniquement pour l'utilisateur <command>anna</command>.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.8">
+<title id="SAG.CnfAM.mkr.6">Ajout d'applications au Gestionnaire d'applications<indexterm>
+<primary>Applications</primary><secondary>ajout au Gestionnaire d'applications</secondary></indexterm><indexterm><primary>Gestionnaire d'applications</primary>
+<secondary>ajout d'applications</secondary></indexterm></title>
+<para>A toute application ajout&eacute;e au Gestionnaire d'applications correspond
+une ic&ocirc;ne de lancement dans un groupe d'applications.</para>
+<para>De nombreuses applications peuvent former un groupe d'applications,
+c'est-&agrave;-dire un r&eacute;pertoire situ&eacute; au niveau sup&eacute;rieur
+du Gestionnaire d'applications, contenant l'ic&ocirc;ne et les fichiers de
+l'application.</para>
+<para>Certaines applications ne disposent pas de leur propre groupe d'applications
+; dans ce cas, leur ic&ocirc;ne de lancement est situ&eacute;e dans un groupe
+d'applications g&eacute;n&eacute;ral. Par exemple, vous pouvez cr&eacute;er
+un groupe d'applications vide, le nommer &rdquo;Jeux&rdquo; et y installer
+vos programmes de ludiciel.</para>
+<sect2 id="SAG.CnfAM.div.9">
+<title>M&eacute;thodes d'ajout d'applications<indexterm><primary>Applications</primary><secondary>m&eacute;thodes d'ajout</secondary></indexterm></title>
+<para>Pour ajouter une application au Gestionnaire d'applications, vous pouvez
+:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>l'enregistrer,</para>
+</listitem>
+<listitem><para>ajouter une ic&ocirc;ne sans enregistrer l'application.</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.CnfAM.div.10">
+<title>Enregistrement d'une application<indexterm><primary>Enregistrement</primary><secondary>d&eacute;finition</secondary></indexterm></title>
+<para>L'enregistrement d'une application permet de l'int&eacute;grer compl&egrave;tement.
+</para>
+<para><indexterm><primary>Applications</primary><secondary>enregistrement</secondary></indexterm>Les caract&eacute;ristiques d'une application enregistr&eacute;e
+sont les suivantes:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>elle dispose de son propre groupe d'applications</para>
+</listitem>
+<listitem><para>ses fichiers de configuration sont rassembl&eacute;s en un
+emplacement unique, appel&eacute; <emphasis><indexterm><primary>Module d'enregistrement</primary></indexterm>module d'enregistrement</emphasis></para>
+</listitem>
+<listitem><para>elle peut &ecirc;tre associ&eacute;e &agrave; un volume d'aide
+enregistr&eacute;</para>
+</listitem>
+</itemizedlist>
+<para>Pour enregistrer une application, effectuez une des op&eacute;rations
+suivantes:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Si vous installez une application adapt&eacute;e au Bureau
+CDE, elle est enregistr&eacute;e automatiquement (voir la section <!--Original
+XRef content: '&rdquo;Ajout d'une application
+adaptée au Bureau CDE&rdquo;, page&numsp;49'--><xref role="SecTitleAndPageNum"
+linkend="SAG.CnfAM.mkr.7">).</para>
+</listitem>
+<listitem><para>Dans le cas d'une application existante, l'enregistrement
+peut &ecirc;tre effectu&eacute; &agrave; l'aide d'un module d'enregistrement
+(voir la section <!--Original XRef content: '&rdquo;Enregistrement d'une
+application existante ou non CDE&rdquo;, page&numsp;49'--><xref role="SecTitleAndPageNum"
+linkend="SAG.CnfAM.mkr.8">).</para>
+</listitem>
+</itemizedlist>
+<para>L'utilisation d'un module d'enregistrement facilite la gestion de l'application
+sur le Bureau. Le module est cr&eacute;&eacute; dans le syst&egrave;me de
+fichiers, &agrave; un emplacement diff&eacute;rent de celui utilis&eacute;
+pour les fichiers de configuration du Bureau.</para>
+</sect3>
+<sect3 id="SAG.CnfAM.div.11">
+<title>Ajout sans module d'enregistrement</title>
+<para>Utilisez cette m&eacute;thode si vous voulez que le Gestionnaire d'applications
+ne contienne que l'ic&ocirc;ne de lancement de l'application.</para>
+<para><indexterm><primary>Applications</primary><secondary>ajout sans enregistrement</secondary></indexterm>Les caract&eacute;ristiques d'une application ajout&eacute;e
+sans module d'enregistrement sont les suivantes:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>elle peut disposer de son propre groupe d'applications, mais
+son ic&ocirc;ne est g&eacute;n&eacute;ralement install&eacute;e dans un groupe
+existant</para>
+</listitem>
+<listitem><para>ses fichiers de configuration sont install&eacute;s dans des
+r&eacute;pertoires faisant partie des chemins de recherche du Bureau</para>
+</listitem>
+</itemizedlist>
+<para>Pour plus de d&eacute;tails, reportez-vous &agrave; la section <!--Original
+XRef content: '&rdquo;Ajout d'une icône d'application à un groupe d'applications
+existant&rdquo;, page&numsp;49'--><xref role="SecTitleAndPageNum" linkend="SAG.CnfAM.mkr.9">.
+</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.CnfAM.div.12" role="Procedure">
+<title id="SAG.CnfAM.mkr.7">Ajout d'une application adapt&eacute;e au Bureau
+CDE<indexterm><primary>Applications</primary><secondary>CDE</secondary></indexterm></title>
+<para>Une application adapt&eacute;e au Bureau CDE est enregistr&eacute;e
+automatiquement dans le Gestionnaire d'applications lors de son installation;
+ses ensembles de fichiers contiennent le module d'enregistrement requis par
+le Bureau.</para>
+<orderedlist>
+<listitem><para>Installez l'application en suivant les instructions correspondantes.
+</para>
+</listitem>
+<listitem><para>Une fois l'installation termin&eacute;e, cliquez deux fois
+sur Recharger applications dans le groupe d'applications Outils_Bureau.</para>
+</listitem>
+<listitem><para>V&eacute;rifiez l'installation:</para>
+<orderedlist>
+<listitem><para>Ouvrez le Gestionnaire d'applications et assurez-vous que
+le nouveau groupe d'applications y figure.</para>
+</listitem>
+<listitem><para>Pour lancer l'application, ouvrez le groupe d'applications
+et cliquez deux fois sur l'ic&ocirc;ne correspondante.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.13" role="Procedure">
+<title id="SAG.CnfAM.mkr.8">Enregistrement d'une application existante ou
+non CDE</title>
+<para>Utilisez cette m&eacute;thode pour int&eacute;grer compl&egrave;tement
+une application au Bureau.</para>
+<para>Le Bureau fournit un utilitaire, <command>dtappintegrate</command>,
+qui cr&eacute;e des liens entre les fichiers du module d'enregistrement et
+les r&eacute;pertoires du chemin de recherche.</para>
+<para>Pour plus de d&eacute;tails sur l'enregistrement sur le Bureau, reportez-vous
+au <!--Original XRef content: 'chapitre&numsp;4, &rdquo;Enregistrement d'une
+application&rdquo;'--><xref role="ChapNumAndTitle" linkend="SAG.RegAp.mkr.1">.
+</para>
+</sect2>
+<sect2 id="SAG.CnfAM.div.14" role="Procedure">
+<title id="SAG.CnfAM.mkr.9">Ajout d'une ic&ocirc;ne d'application &agrave;
+un groupe d'applications existant</title>
+<para>La proc&eacute;dure ci-dessous explique comment ajouter une ic&ocirc;ne
+d'application &agrave; un groupe d'applications existant.</para>
+<para>Par exemple, le Bureau contient le groupe d'applications Administration_syst&egrave;me,
+qui rassemble les applications et les scripts permettant de g&eacute;rer le
+syst&egrave;me. Vous pouvez faire en sorte de lancer un script fr&eacute;quemment
+utilis&eacute; en cliquant deux fois sur une ic&ocirc;ne de ce groupe d'applications.
+</para>
+<orderedlist>
+<listitem><para>A l'aide de Cr&eacute;er action, cr&eacute;ez une d&eacute;finition
+d'action pour l'application.</para>
+<para>Pour plus de d&eacute;tails sur cet utilitaire, reportez-vous au <!--Original
+XRef content: 'chapitre&numsp;9, &rdquo;Création d'actions et de types de
+données à l'aide de Créer action &rdquo;'--><xref role="ChapNumAndTitle" linkend="SAG.dtCrA.mkr.1">.
+</para>
+</listitem>
+<listitem><para>Dans le r&eacute;pertoire du groupe d'applications, cr&eacute;ez
+un fichier ex&eacute;cutable portant le m&ecirc;me nom que l'action. Le contenu
+de ce fichier n'a pas d'importance.</para>
+<para>Par exemple, si vous avez cr&eacute;&eacute; l'action &ldquo;Programme&rdquo;
+qui permet d'ex&eacute;cuter un utilitaire d'administration du syst&egrave;me,
+cr&eacute;ez le fichier ex&eacute;cutable <filename>/etc/dt/appconfig/appmanager/<symbol role="Variable">langue</symbol>/System_Admin/Programme</filename>.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.15">
+<title id="SAG.CnfAM.mkr.10">Cr&eacute;ation et administration de groupes
+d'applications g&eacute;n&eacute;raux<indexterm><primary>Groupes d'applications</primary><secondary>administration</secondary></indexterm></title>
+<para>Un groupe d'application (r&eacute;pertoire) g&eacute;n&eacute;ral n'est
+associ&eacute; &agrave; aucun produit particulier. Par exemple, Outils_Bureau
+est un groupe d'applications g&eacute;n&eacute;ral int&eacute;gr&eacute; contenant
+de nombreuses ic&ocirc;nes d'application ayant un rapport entre elles, mais
+ne faisant pas partie d'un m&ecirc;me produit.</para>
+<para>Vous pouvez cr&eacute;er des groupes d'applications g&eacute;n&eacute;raux
+suppl&eacute;mentaires. Vous pouvez, par exemple, d&eacute;finir un groupe
+appel&eacute; Jeux, dans lequel installer tous les programmes de ludiciel
+disponibles sur le syst&egrave;me.</para>
+<para>Un groupe d'applications g&eacute;n&eacute;ral peut &ecirc;tre syst&egrave;me
+ou personnel.</para>
+<sect2 id="SAG.CnfAM.div.16" role="Procedure">
+<title>Cr&eacute;ation d'un groupe d'applications g&eacute;n&eacute;ral syst&egrave;me<indexterm>
+<primary>Groupes d'applications</primary><secondary>syst&egrave;me</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Connectez-vous en tant qu'utilisateur root.</para>
+</listitem>
+<listitem><para>Cr&eacute;ez un sous-r&eacute;pertoire dans <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">langue</symbol>.</para>
+<para>Le nom de ce sous-r&eacute;pertoire deviendra celui du<indexterm><primary>Groupes d'applications</primary><secondary>noms</secondary></indexterm> groupe
+d'applications.</para>
+</listitem>
+<listitem><para>Cliquez deux fois sur Recharger applications, dans le groupe
+d'applications Outils_Bureau.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.17" role="Procedure">
+<title>Cr&eacute;ation d'un groupe d'applications g&eacute;n&eacute;ral personnel<indexterm>
+<primary>Groupes d'applications</primary><secondary>personnels</secondary>
+</indexterm><indexterm><primary>Groupes d'applications</primary><secondary>personnels</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Cr&eacute;ez un sous-r&eacute;pertoire dans <symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.dt/appmanager</filename>.</para>
+<para>Le nom de ce sous-r&eacute;pertoire deviendra celui du groupe d'applications.
+</para>
+</listitem>
+<listitem><para>Cliquez deux fois sur Recharger applications, dans le groupe
+d'applications Outils_Bureau.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.18" role="Procedure">
+<title>Personnalisation d'un groupe d'applications int&eacute;gr&eacute;<indexterm>
+<primary>Groupes d'applications</primary><secondary>personnalisation</secondary>
+</indexterm></title>
+<orderedlist>
+<listitem><para>Connectez-vous en tant qu'utilisateur root.</para>
+</listitem>
+<listitem><para>Si le groupe d'applications se trouve dans <filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">langue</symbol>, copiez-le dans <filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">langue</symbol>.
+</para>
+<para><indexterm><primary>Groupes d'applications</primary><secondary>Outils_Bureau</secondary></indexterm>Par exemple, pour copier le groupe d'applications
+Outils_Bureau, entrez la commande:</para>
+<programlisting remap="CodeIndent1">cp -r /usr/dt/appconfig/appmanager/C/Desktop_Tools /etc/dt/appconfig/appmanager/C
+</programlisting>
+<para>La copie sera prioritaire par rapport &agrave; l'original.</para>
+</listitem>
+<listitem><para>Apportez les modifications voulues; par exemple, vous pouvez
+ajouter des fichiers d'actions (fichiers ex&eacute;cutables portant le m&ecirc;me
+nom que les actions associ&eacute;es).</para>
+</listitem>
+<listitem><para>Pour mettre les modifications en oeuvre, d&eacute;connectez-vous,
+puis reconnectez-vous.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.19">
+<title id="SAG.CnfAM.mkr.11">Modification du chemin de recherche des applications<indexterm>
+<primary>Chemin de recherche</primary><secondary>applications</secondary>
+<tertiary>modification</tertiary></indexterm></title>
+<para>Cette op&eacute;ration a lieu lors de l'ajout d'un<indexterm><primary>Serveur</primary><secondary>d'applications</secondary><tertiary>ajout</tertiary>
+</indexterm> serveur d'applications au chemin de recherche. Dans ce cas, le
+Gestionnaire d'applications rassemble tous les groupes d'applications syst&egrave;me
+de ce serveur.</para>
+<para>Pour plus de d&eacute;tails, reportez-vous &agrave; la section <!--Original
+XRef content: '&rdquo;Chemin de recherche des applications&rdquo;, page&numsp;125'--><xref
+role="SecTitleAndPageNum" linkend="SAG.Datab.mkr.8">.</para>
+<sect2 id="SAG.CnfAM.div.20">
+<title>Chemin de recherche par d&eacute;faut<indexterm><primary>Chemin de
+recherche</primary><secondary>applications</secondary><tertiary>par d&eacute;faut</tertiary></indexterm></title>
+<para>Le chemin de recherche par d&eacute;faut contient les r&eacute;pertoires
+suivants:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="106*">
+<colspec colwidth="422*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Etendue</para></entry><entry
+align="left" valign="bottom"><para>R&eacute;pertoire</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Personnel</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.dt/appmanager</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Syst&egrave;me</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/appmanager/</filename><symbol role="Variable">langue</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Int&eacute;gr&eacute;</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/appmanager/</filename><symbol role="Variable">langue</symbol></para></entry></row></tbody>
+</tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.CnfAM.div.21">
+<title id="SAG.CnfAM.mkr.12">Ajout d'un serveur d'applications au chemin de
+recherche<indexterm><primary>Chemin de recherche</primary><secondary>applications</secondary><tertiary>modification</tertiary></indexterm></title>
+<para>Outre la modification du chemin de recherche des applications, vous
+devrez peut-&ecirc;tre effectuer certaines t&acirc;ches de configuration suppl&eacute;mentaires,
+pour permettre la communication avec le serveur d'applications. Pour plus
+de d&eacute;tails, reportez-vous &agrave; la section <!--Original XRef content:
+'&rdquo;Gestion des services d'applications&rdquo;, page&numsp;106'--><xref
+role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.15">.</para>
+<sect3 id="SAG.CnfAM.div.22" role="Procedure">
+<title>D&eacute;finition du chemin de recherche des applications<indexterm>
+<primary>Chemin de recherche</primary><secondary>applications</secondary>
+<tertiary>syst&egrave;me</tertiary></indexterm> syst&egrave;me</title>
+<orderedlist>
+<listitem><para>Connectez-vous en tant qu'utilisateur root.</para>
+</listitem>
+<listitem><para>Si le fichier <filename>/etc/dt/config/Xsession.d/0010.dtpaths</filename> n'existe pas, cr&eacute;ez-le en copiant <filename>/usr/dt/config/Xsession.d/0010.dtpaths</filename>.</para>
+</listitem>
+<listitem><para>Ouvrez /<filename>etc/dt/Xsession.d/0010.paths</filename>,
+puis ajoutez ou modifiez une ligne permettant de d&eacute;finir et d'exporter
+la variable <systemitem>DTSPSYSAPPHOSTS</systemitem><indexterm><primary>Variables</primary><secondary>d'environnement</secondary><tertiary>DTSPSYSAPPHOSTS</tertiary></indexterm>:</para>
+<programlisting remap="CodeIndent1">DTSPSYSAPPHOSTS=<symbol role="Variable">nom_h&ocirc;te</symbol>:[,nom_h&ocirc;te]</programlisting>
+<para>Par exemple, la ligne suivante permet d'ajouter le syst&egrave;me <command>ApServA</command> au chemin de recherche des applications:</para>
+<programlisting remap="CodeIndent1">DTSPSYSAPPHOSTS=ApServA:</programlisting>
+</listitem>
+<listitem><para>Pour que la modification soit prise en compte, les utilisateurs
+doivent se d&eacute;connecter, puis se reconnecter.</para>
+</listitem>
+</orderedlist>
+</sect3>
+<sect3 id="SAG.CnfAM.div.23" role="Procedure">
+<title>D&eacute;finition d'un<indexterm><primary>Chemin de recherche</primary>
+<secondary>applications</secondary><tertiary>personnel</tertiary></indexterm> chemin
+de recherche des applications personnel</title>
+<orderedlist>
+<listitem><para>Ouvrez le fichier <symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.dtprofile</filename>.</para>
+</listitem>
+<listitem><para>Ajoutez ou modifiez une ligne permettant de d&eacute;finir
+et d'exporter la variable <systemitem>DTSPUSERAPPHOSTS</systemitem><indexterm>
+<primary>Variables</primary><secondary>d'environnement</secondary><tertiary>DTSPUSERAPPHOSTS</tertiary></indexterm>:</para>
+<programlisting remap="CodeIndent1">DTSPUSERAPPHOSTS=<symbol role="Variable">nom_h&ocirc;te</symbol>:[,nom_h&ocirc;te]</programlisting>
+<para>Par exemple, la ligne suivante permet d'ajouter les syst&egrave;mes <command>ApServB</command> et <command>ApServC</command> au chemin de recherche des
+applications:</para>
+<programlisting remap="CodeIndent1">DTSPUSERAPPHOSTS=ApServB:,ApServC:</programlisting>
+</listitem>
+<listitem><para>D&eacute;connectez-vous, puis reconnectez-vous.</para>
+</listitem>
+</orderedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.24">
+<title id="SAG.CnfAM.mkr.13">Administration du Gestionnaire d'applications<indexterm>
+<primary>Gestionnaire d'applications</primary><secondary>administration</secondary>
+</indexterm></title>
+<para>Les t&acirc;ches d'administration du Gestionnaire d'applications comprennent
+:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>la suppression d'applications</para>
+</listitem>
+<listitem><para>la relecture de la base de donn&eacute;es des applications
+en cours de session</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.CnfAM.div.25" role="Procedure">
+<title>Suppression d'applications<indexterm><primary>Applications</primary>
+<secondary>annulation de l'enregistrement</secondary></indexterm><indexterm>
+<primary>Applications</primary><secondary>suppression</secondary></indexterm></title>
+<para>Lorsqu'une application a &eacute;t&eacute; enregistr&eacute;e &agrave;
+l'aide de <command>dtappintegrate</command>, vous pouvez &eacute;galement
+annuler son enregistrement &agrave; l'aide de cet utilitaire. Cette op&eacute;ration
+entra&icirc;ne la suppression du groupe de l'application du Gestionnaire d'applications.
+En outre, les actions, les ic&ocirc;nes, l'aide et les types de donn&eacute;es
+associ&eacute;s ne sont plus disponibles.</para>
+<orderedlist>
+<listitem><para>Connectez-vous en tant qu'utilisateur root.</para>
+</listitem>
+<listitem><para><indexterm><primary>dtappintegrate</primary><secondary>suppression
+d'une application</secondary></indexterm>Entrez la commande suivante:</para>
+<programlisting remap="CodeIndent1">dtappintegrate -s <symbol role="Variable">app_root</symbol> -u</programlisting>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CnfAM.div.26" role="Procedure">
+<title>Mise &agrave; jour du Gestionnaire d'applications en cours de session<indexterm>
+<primary>Gestionnaire d'applications</primary><secondary>mise &agrave; jout</secondary></indexterm></title>
+<para><indexterm><primary>Applications</primary><secondary>rechargement</secondary>
+</indexterm>Lorsque vous ajoutez des applications, vous devez recr&eacute;er
+le Gestionnaire d'applications pour qu'elles soient disponibles imm&eacute;diatement.
+</para>
+<itemizedlist>
+<listitem><para>Ouvrez le groupe d'applications Outils_Bureau et cliquez deux
+fois sur Recharger applications.</para>
+</listitem>
+</itemizedlist>
+<para>Cette action permet de mettre &agrave; jour le Gestionnaire d'applications
+lors de l'ajout d'applications &agrave; un serveur d'applications. Il se peut
+cependant que<indexterm><primary>Actions</primary><secondary>Recharger applications</secondary></indexterm> Recharger applications n'applique pas les suppressions
+&eacute;ventuelles ou les d&eacute;placements d'applications. Ce type de modification
+ne prend effet que lorsque l'utilisateur se d&eacute;connecte et se reconnecte
+successivement.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.CnfAM.div.27">
+<title id="SAG.CnfAM.mkr.14">Modification de l'&eacute;diteur de texte et
+de l'&eacute;mulateur de terminal<indexterm><primary>Editeur de texte</primary>
+<secondary>modification</secondary></indexterm><indexterm><primary>Emulateur
+de terminal</primary><secondary>modification</secondary></indexterm></title>
+<para>Pour lancer ces applications, s&eacute;lectionnez les objets de commande
+du Tableau de bord appropri&eacute;s ou cliquez deux fois sur leur ic&ocirc;ne
+dans le Gestionnaire d'applications.</para>
+<para>Les op&eacute;rations suivantes permettent &eacute;galement d'activer
+ces applications:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>L'&eacute;diteur de texte s'ouvre lorsque l'utilisateur s&eacute;lectionne
+un fichier de texte dans le Gestionnaire de fichiers, puis choisit l'option
+Ouvrir dans le menu S&eacute;lectionn&eacute;(s). L'&eacute;diteur de texte
+par d&eacute;faut est <command>dtpad</command>.</para>
+</listitem>
+<listitem><para>L'&eacute;mulateur de terminal est lanc&eacute; lorsque l'utilisateur
+s&eacute;lectionne Ouvrir terminal dans le menu Fichier du Gestionnaire de
+fichiers, ou lorsqu'une action ouvre une fen&ecirc;tre d'&eacute;mulation
+de terminal. L'&eacute;mulateur de terminal par d&eacute;faut est <command>dtterm</command>.</para>
+</listitem>
+</itemizedlist>
+<para>Dans les circonstances d&eacute;crites ci-dessus, vous pouvez configurer
+le Bureau de sorte qu'il utilise un &eacute;diteur de texte ou un &eacute;mulateur
+de terminal diff&eacute;rent.</para>
+<sect2 id="sag.cnfam.div.28" role="Procedure">
+<title>Modification de l'&eacute;diteur de texte et de l'&eacute;mulateur
+de terminal par d&eacute;faut</title>
+<orderedlist>
+<listitem><para>Pour que les modifications soient appliqu&eacute;es &agrave;
+tout le syst&egrave;me, connectez-vous en tant qu'utilisateur root.</para>
+</listitem>
+<listitem><para>Cr&eacute;ez une action correspondant au nouvel &eacute;diteur
+de texte ou au nouvel &eacute;mulateur de terminal.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Pour ce faire, vous pouvez utiliser l'action Cr&eacute;er
+action. La <!--Original XRef content: 'Figure&numsp;3&hyphen;3'--><xref role="CodeOrFigureOrTable"
+linkend="sag.cnfam.mkr.15"> montre un exemple dans lequel une application
+appel&eacute;e EditTexte est cr&eacute;&eacute;e. Pour plus de d&eacute;tails,
+reportez-vous au <!--Original XRef content: 'chapitre&numsp;9,
+&rdquo;Criation d'actions e--><!--t de types de donnies
+` l'aide de Crier action&rdquo;'--><xref role="ChapNumAndTitle" linkend="sag.dtcra.mkr.1">.
+</para>
+</listitem>
+</itemizedlist>
+<figure>
+<title id="sag.cnfam.mkr.15">Fen&ecirc;tre Cr&eacute;er une action</title>
+<graphic id="sag.cnfam.grph.3" entityref="SAG.CnfAM.fig.3"></graphic>
+</figure>
+<itemizedlist remap="Bullet2">
+<listitem><para>Vous pouvez &eacute;galement cr&eacute;er manuellement une
+d&eacute;finition d'action, en entrant par exemple:</para>
+<programlisting remap="CodeIndent2">ACTION EditTexte 
+{ 
+   LABEL        EditTexte 
+   TYPE         COMMAND 
+   WINDOW_TYPE  NO_STDIO 
+   EXEC_STRING  /usr/TP/bin/EditTexte %(Fichier)Arg_1% 
+   DESCRIPTION  Cliquez deux fois sur cette ic&ocirc;ne pour \ 
+                lancer l'application EditTexte. 
+}</programlisting>
+<para>Pour plus de d&eacute;tails sur cette op&eacute;ration, reportez-vous
+au <!--Original XRef content: 'chapitre&numsp;10,
+&rdquo;Criation manuelle d--><!--'actions&rdquo;'--><xref role="ChapNumAndTitle"
+linkend="sag.cract.mkr.1">.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Placez le fichier de configuration contenant la nouvelle action
+dans le r&eacute;pertoire appropri&eacute;:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Action syst&egrave;me: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">langue</symbol></para>
+</listitem>
+<listitem><para>Action personnelle: <symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.dt/types</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>S'il y a lieu, cr&eacute;ez le<indexterm><primary>Fichiers</primary><secondary>user-prefs.dt</secondary></indexterm> fichier <filename>user-prefs.dt</filename> en copiant <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">langue</symbol><filename>/user-prefs.dt</filename> dans l'un
+des r&eacute;pertoires suivants:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Fichier syst&egrave;me: <filename>/etc/dt/appconfig/types/<symbol role="Variable">langue</symbol></filename></para>
+</listitem>
+<listitem><para>Fichier personnel: <symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.dt/types</filename></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Editez l'action Editeur de texte ou Terminal dans le fichier <filename>user-prefs.dt</filename> syst&egrave;me ou personnel. Pour faire correspondre
+la nouvelle action et l'ancienne, modifiez la ligne <filename>MAP_ACTION</filename>.
+</para>
+<para>Par exemple, changez:</para>
+<programlisting remap="CodeIndent1">MAP_ACTION Dtpad</programlisting>
+<para>en:</para>
+<programlisting remap="CodeIndent1">MAP_ACTION EditTexte</programlisting>
+</listitem>
+<listitem><para>Sauvegardez le fichier <filename>user-prefs.dt</filename>.
+</para>
+</listitem>
+<listitem><para>Cliquez deux fois sur Recharger actions dans le groupe d'applications
+Outils_Bureau pour recharger la base de donn&eacute;es des actions.</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+</chapter><?Pub Caret>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 15:21:25-->
+<?Pub *0000043305>

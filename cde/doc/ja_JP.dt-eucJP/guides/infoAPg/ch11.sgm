@@ -1,0 +1,121 @@
+<!-- $XConsortium: ch11.sgm /main/4 1996/10/11 09:24:44 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="infoapg.div.11">
+<Title id="S3CTVcBfQJ9X3cS">目次の設計様式</Title>
+<IndexTerm><Primary>設計様式</Primary>
+<Secondary>目次</Secondary></IndexTerm>
+<Para>
+すでに SGML フォーマットの目次ドキュメント・インスタンスがある場合は、新規の目次を作成する必要はありません。代わりに、既存の目次の文書型定義の要素にインフォメーション・マネージャ設計様式を適用して、インフォメーション・マネージャに目次情報の処理方法を指示することができます。
+</Para>
+<Note>
+<Para>
+インフォメーション・マネージャの <Filename>dtinfoTOC.dtd</Filename> に準拠する SGML 目次作成の詳細については、<Link Linkend="n8aJ92dBIsI9X3cS">「目次の作成」</Link> を参照してください。
+</Para>
+</Note>
+<Para>
+次に示す属性を、既存の目次の文書型定義に追加することができます。
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem>DTINFO.TOC</SystemItem></Term>
+<ListItem>
+<Para>
+<SystemItem>DTINFO.TOC</SystemItem> を目次を指示する要素に適用します。
+</Para>
+<Para>
+エンティティ名: <SystemItem>DTINFO.TOC</SystemItem>
+</Para>
+<Para>
+属性テンプレート:
+<SystemItem>DTINFO.TOC CDATA #FIXED</SystemItem>
+</Para>
+<Para>
+関連様式:
+<SystemItem>DTINFO.Scope</SystemItem>
+<SystemItem>DTINFO.Value</SystemItem>
+<SystemItem>DTINFO.ID</SystemItem>
+</Para>
+<Para>
+例:
+</Para>
+<LiteralLayout>
+&lt;!ELEMENT TOC - - ( Title, TitleAbbrev?, TOCfront*,
+                        (TOCpart+ | TOCchap+), TOCback* ) &gt;
+&lt;!ATTLIST TOC
+        Id              ID      #REQUIRED
+
+        %DTINFO.TOC;            &ldquo;&num;CONTENT&rdquo;
+        %DTINFO.ID;             &ldquo;attr( Id )&rdquo;--&gt;
+&gt;
+</LiteralLayout>
+
+<Comment><SystemItem>DTINFO.TOCEntry</SystemItem></Comment>
+<Para>
+<SystemItem>DTINFO.TOCEntry</SystemItem> を、ブックの目次のエントリを指す要素に適用します。
+</Para>
+<Para>
+エンティティ名: <SystemItem>DTINFO.TOCEntry</SystemItem>
+</Para>
+<Para>
+属性名:
+<SystemItem>DTINFO.TOCEntry CDATA #FIXED</SystemItem>
+</Para>
+<Para>
+関連様式:
+<SystemItem>DTINFO.Scope</SystemItem>
+<SystemItem>DTINFO.Value</SystemItem>
+<SystemItem>DTINFO.ID</SystemItem>
+</Para>
+<Para>
+例:
+</Para>
+<LiteralLayout>
+&lt;!ELEMENT TOCpart - - ( TOCentry+, TOCchap* ) &gt;
+&lt;!ATTLIST TOCpart
+        Id              ID      #IMPLIED
+
+        %DTINFO.ID;             &ldquo;attr( Id )&rdquo;
+        %DTINFO.TOCEntry;       #CONTENT&rdquo;
+&gt;
+</LiteralLayout>
+<Comment><SystemItem>DTINFO.TOCLevel</SystemItem></Comment>
+<PARA>
+<SystemItem>DTINFO.TOCLevel</SystemItem> を、ブックの目次のエントリを指す要素に適用します。
+</PARA>
+<PARA>
+エンティティ名:
+<SystemItem>DTINFO.TOCLevel</SystemItem></PARA>
+<PARA>
+属性テンプレート:
+<SystemItem>DTINFO.TOCLevel CDATA &num;FIXED
+</SystemItem></PARA>
+<PARA>
+関連様式:
+<SystemItem>DTINFO.Scope</SystemItem>
+<SystemItem>DTINFO.Value</SystemItem>
+<SystemItem>DTINFO.ID</SystemItem>
+</PARA>
+<PARA>
+例:
+</PARA>
+<LITERALLAYOUT>
+&lt;!ELEMENT TOCpart - - ( TOCentry+, TOCchap* ) &gt;
+&lt;!ATTLIST TOCpart
+        Id              ID      #IMPLIED
+
+        %DTINFO.ID;             &ldquo;attr( Id )&rdquo;
+        %DTINFO.TOCLevel;
+&gt;
+</LiteralLayout>
+
+</ListItem>
+</VarListEntry>
+</VariableList>
+</Chapter>
+

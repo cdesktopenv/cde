@@ -1,0 +1,103 @@
+XCOMM site:  $TOG: site.def /main/23 1998/03/19 18:43:26 mgreess $
+
+/***************************************************************************
+ *                                                                         *
+ *		  X Consortium In-House Build Parameters                   *
+ *			Use at Your Own Risk				   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef SiteIConfigFiles
+# define SiteIConfigFiles $(IRULESRC)/host.def
+# define LocalConfigFiles host.def
+#endif
+
+#ifdef BeforeVendorCF
+
+# include <host.def>
+
+/* CDE uses a .C suffix for C++ source, not the default .cxx */
+# define CCsuf			C
+
+/* We will import x11 and Motif. */
+# define ImportX11		YES
+# define ImportMotif		YES
+
+# ifndef TopLevelProject
+#  define TopLevelProject	cde
+# endif
+
+/* On systems where cpp doesn't expand correctly macros in include directives
+ * the two following macros need to be defined directly (accordingly to the
+ * TopLevelProject macro defined above).
+ */
+# if defined(SunArchitecture) || defined(AIXArchitecture) \
+     || defined(USLArchitecture) || defined(UXPArchitecture)
+#  ifndef ProjectRulesFile
+#   define ProjectRulesFile	<cde.rules>
+#  endif
+#  ifndef ProjectTmplFile
+#   define ProjectTmplFile	<cde.tmpl>
+#  endif
+# endif
+
+# ifdef AlphaArchitecture
+#  define HasDECCplusplus	YES
+# endif
+
+# ifdef HPArchitecture
+#  define HasHPCplusplus	YES
+# endif
+
+# if defined(SGIArchitecture)
+#  define MipsN32Architecture	YES
+# endif
+
+# if defined(SunArchitecture)
+#  define HasSunCplusplus	YES
+# endif
+
+# if defined(UXPArchitecture) || defined(USLArchitecture) \
+     || defined(AIXArchitecture)
+#  define HasCplusplus		YES
+# endif
+
+#endif /* BeforeVendorCF */
+
+#ifdef AfterVendorCF
+
+# define X11ProjectRoot	/X11
+# define ProjectRoot	/usr/dt
+
+#ifdef SunArchitecture
+# define DtLocalesToBuild de_DE.ISO8859-1 es_ES.ISO8859-1 fr_FR.ISO8859-1 it_IT.ISO8859-1
+#endif
+
+#ifdef UXPArchitecture
+# define DtLocalesToBuild ja_JP.dt-eucJP
+#endif
+
+#ifdef SunArchitecture
+#define HasCodeCenter        YES
+#define HasTestCenter        YES
+#ifdef SparcArchitecture
+#define HasPurify        YES
+#endif
+#endif
+
+#ifdef HPArchitecture
+#define HasPurify        YES
+#endif
+
+#ifdef __hp9000s800
+#define HasCodeCenter        YES
+#define HasTestCenter        YES
+#endif
+
+#ifdef SGIArchitecture
+#if OSMajorVersion > 5
+#define HasPurify        YES
+#endif
+#endif
+
+#endif /* AfterVendorCF */

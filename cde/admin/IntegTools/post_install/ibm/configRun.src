@@ -1,0 +1,661 @@
+XCOMM! /bin/ksh
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM  @(#) $XConsortium: configRun.src /main/7 1996/10/18 16:25:57 drk $
+
+#define HASH #
+#define STAR *
+
+INETD=/etc/inetd.conf
+
+XCOMM
+XCOMM The "sm" object definitions for 410 are in /usr/lib/objrepos so
+XCOMM ODMDIR need to get set to the correct path name .
+XCOMM
+
+#ifdef _POWER
+ODMDIR=/usr/lib/objrepos
+#endif
+
+CreateAppConfigDirectory()
+{
+XCOMM
+XCOMM Create the APPCONFIG directory inside DT_CONFIG_TOP and create
+XCOMM all of its subdirectories
+XCOMM
+
+    cd $DT_CONFIG_TOP
+    if [ ! -d $APPCONFIG ]
+    then
+	mkdir $APPCONFIG
+    fi
+
+    cd $APPCONFIG
+
+    for i in $APPCONFIG_DIRS
+    do
+	if [ ! -d $i ]
+	then
+	    mkdir $i
+	fi
+	cd $i
+	HASH
+	HASH for each locale
+	HASH
+	for j in $DT_TOP/$APPCONFIG/$i/STAR
+	do
+	    if [ ! -d `basename $j` ]
+	    then
+		mkdir `basename $j`
+	    fi
+	done
+	cd ..
+    done
+
+}
+
+CheckFor24cmsdinInetd()
+{
+
+#ifdef _POWER
+    rc=`grep "cmsd" $INETD | grep "2-4" | cut -c1 | grep -xv "#" \
+		1>/dev/null 2>/dev/null; echo $?`
+#else
+    rc=`inetserv -s -I -v cmsd -p udp | grep "2-4" 1>/dev/null 2>/dev/null;\
+	echo $?`
+    
+#endif
+    return $rc
+}
+
+CheckForcmsdinInetd()
+{
+
+#ifdef _POWER
+    rc=`grep "cmsd" $INETD | cut -c1 | grep -xv "#" \
+           1>/dev/null 2>/dev/null;echo $?`
+#else
+    rc=`inetserv -s -I -v cmsd -p udp 1>/dev/null 2>/dev/null;echo $?`
+#endif
+    return $rc
+}
+
+#ifndef _POWER
+DeleteSmitStanzas()
+{
+   odmdelete -o sm_cmd_opt -q"id='sysuiinterface'"       1>/dev/null   2>/dev/null
+   odmdelete -o sm_cmd_hdr -q"id='dtconfig'"             1>/dev/null   2>/dev/null
+   odmdelete -o sm_menu_opt -q"next_id='dtconfig'"       1>/dev/null   2>/dev/null
+}
+#endif
+
+#ifndef _POWER
+AddSmitStanzas()
+{
+rc=`odmget -q"next_id='dtconfig'" sm_menu_opt | grep dtconfig 1>/dev/null 2>/dev/null;echo $?`
+if [ "$rc" -ne "0" ]
+then
+    cat << odm_stanzas | odmadd
+sm_menu_opt:
+   id_seq_num                = "200"
+   id                        = "system"
+   next_id                   = "dtconfig"
+   text                      = "Change System User Interface"
+   text_msg_file             = "dtsmit.cat"
+   text_msg_set              = 30
+   text_msg_id               = 1
+   next_type                 = "d"
+   alias                     = ""
+   help_msg_id               = ""
+   help_msg_loc              = ""
+   help_msg_base             = ""
+   help_msg_book             = ""
+
+sm_menu_opt:
+   id_seq_num                = "050"
+   id                        = "controls"
+   next_id                   = "dtconfig"
+   text                      = "Change System User Interface"
+   text_msg_file             = "dtsmit.cat"
+   text_msg_set              = 30
+   text_msg_id               = 1
+   next_type                 = "d"
+   alias                     = ""
+   help_msg_id               = ""
+   help_msg_loc              = ""
+   help_msg_base             = ""
+   help_msg_book             = ""
+odm_stanzas
+fi
+
+rc=`odmget -q"id='dtconfig'" sm_cmd_hdr | grep dtconfig 1>/dev/null 2>/dev/null;echo $?`
+if [ "$rc" -ne "0" ]
+then
+    cat << odm_stanzas | odmadd
+sm_cmd_hdr:
+   id = "dtconfig"
+   option_id = "sysuiinterface"
+   has_name_select = ""
+   name = "Select System User Interface"
+   name_msg_file = "dtsmit.cat"
+   name_msg_set = 40
+   name_msg_id = 1
+   cmd_to_exec = "/usr/dt/bin/dtconfig "
+   ask = ""
+   exec_mode = ""
+   ghost = ""
+   cmd_to_discover = ""
+   cmd_to_discover_postfix = ""
+   name_size = 0
+   value_size = 0
+   help_msg_id = ""
+   help_msg_loc = ""
+   help_msg_base = ""
+   help_msg_book = ""
+odm_stanzas
+fi
+
+rc=`odmget -q"id='sysuiinterface'" sm_cmd_opt | grep sysuiinterface 1>/dev/null 2>/dev/null;echo $?`
+if [ "$rc" -ne "0" ]
+then
+     cat << odm_stanzas | odmadd
+sm_cmd_opt:
+   id_seq_num = "020"
+   id = "sysuiinterface"
+   disc_field_name = ""
+   name = "Select System Login User Interface"
+   name_msg_file = "dtsmit.cat"
+   name_msg_set = 50
+   name_msg_id = 1
+   op_type = "r"
+   entry_type = ""
+   entry_size = 0
+   required = "y"
+   prefix = ""
+   cmd_to_list_mode = ""
+   cmd_to_list = ""
+   cmd_to_list_postfix = ""
+   multi_select = ""
+   value_index = 0
+   disp_values = "CDE environment,Command line"
+   values_msg_file = ""
+   values_msg_set = 0
+   values_msg_id = 0
+   aix_values = "-e,-d"
+   help_msg_id = ""
+   help_msg_loc = ""
+   help_msg_base = ""
+   help_msg_book = ""
+odm_stanzas
+fi
+
+}
+#endif
+
+XCOMM
+XCOMM Checks if portmap daemon is already running; if not
+XCOMM starts the portmap daemon.
+XCOMM
+
+CheckPortmap()
+{
+    ps -ef | fgrep portmap | grep -v grep 2>/dev/null 1>/dev/null
+    if [ $? -ne 0 ]
+    then
+       startsrc -s portmap
+    fi
+}
+
+StopDaemon()
+{
+    ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+    if [ -s /tmp/tmppsout ]
+    then
+        awk '{print "kill " $2}' /tmp/tmppsout | /bin/ksh 1>/dev/null
+        sleep 2
+        ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+        if [ -s /tmp/tmppsout ]
+        then
+            awk '{print "kill -TERM " $2}' /tmp/tmppsout | /bin/ksh 1>/dev/null
+            sleep 2
+            ps -ef | fgrep $1 | grep -v grep >/tmp/tmppsout
+            if [ -s /tmp/tmppsout ]
+            then
+                awk '{print "kill -9 " $2}' /tmp/tmppsout | /bin/ksh 1>/dev/null
+
+                sleep 2
+            fi
+        fi
+    fi
+    rm -f /tmp/tmppsout
+}
+
+FixEtcRpc()
+{
+XCOMM
+XCOMM now check to see if the proper entry is in /etc/rpc
+XCOMM
+
+    RPCFILE=/etc/rpc
+    TMPFILE=/tmp/etc-rpc
+
+    if [ ! -f $RPCFILE ]
+    then
+	HASH if the file doesn't exist (highly unlikely), make one
+	HASH with the proper entry
+	HASH
+
+	echo "cmsd     100068  dtcalendar" >$RPCFILE
+
+    else
+	HASH
+	HASH check to see if the entry is already there
+	HASH
+
+	awk '{if ($1 == "cmsd" && $2 == "100068")
+		print $0 > "/tmp/etc-rpc-already-there"
+	     }' $RPCFILE >/dev/null
+
+	if [ ! -f /tmp/etc-rpc-already-there ]
+	then
+	HASH
+	HASH if it isn't, check to see if either term already
+	HASH exists
+	HASH
+
+	    awk '{if ($1 == "cmsd" || $2 == "100068")
+			print $0 > "/tmp/etc-rpc-already-there"
+		 }' $RPCFILE >/dev/null
+
+	HASH
+	HASH if either one does they need to be commented out
+	HASH
+
+	    if [ ! -f /tmp/etc-rpc-already-there ]
+	    then
+	        echo "cmsd     100068  dtcalendar" >>$RPCFILE
+	    else
+		awk '{if ($1 == "cmsd" || $2 == "100068")
+			print "#cde " $0; 
+		      else 
+			print $0
+		     }' $RPCFILE >$TMPFILE
+
+	        echo "cmsd     100068  dtcalendar" >>/tmp/etc-rpc
+		mv $TMPFILE $RPCFILE
+		rm /tmp/etc-rpc-already-there
+	    fi
+	else
+	    rm /tmp/etc-rpc-already-there
+	fi
+    fi
+}
+
+UnfixEtcRpc()
+{
+FILE=/etc/rpc
+TMPFILE=/tmp/etc-rpc
+
+    awk '{if ($1 == "cmsd" && $2 == "100068")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+
+    awk '{if ($1 == "#cde" && ($2 == "cmsd" || $3 == "100068"))
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+}
+
+Remove24cmsdFromInetd()
+{
+
+CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
+
+#ifdef _POWER
+
+   /usr/sbin/chsubserver -d -v cmsd -t sunrpc_udp -p udp -w wait -u root \
+		-g $CMSD -r inetd cmsd 100068 2-4          1>/dev/null  2>/dev/null
+   grep -v "#cmsd" $INETD >/tmp/configRun.$$ && mv /tmp/configRun.$$ $INETD
+ 
+#else
+
+    inetserv -D -I -v cmsd -p udp 2>/dev/null 1>/dev/null
+
+#endif
+
+   if [ "$?" -ne "0" ]
+   then
+         exit 1
+   fi
+
+}
+
+RemovecmsdFromInetserv()
+{
+
+CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
+
+#ifdef _POWER
+
+   /usr/sbin/chsubserver -d -v cmsd -t sunrpc_udp -p udp -w wait -u root \
+		-g $CMSD -r inetd cmsd 100068 2-5          1>/dev/null  2>/dev/null
+
+   grep -v "#cmsd" $INETD >/tmp/configRun.$$ && mv /tmp/configRun.$$ $INETD
+ 
+#else
+
+    inetserv -D -I -v cmsd -p udp 2>/dev/null 1>/dev/null
+
+#endif
+
+   if [ "$?" -ne "0" ]
+   then
+         exit 1
+   fi
+
+}
+
+AddcmsdToInetserv()
+{
+CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
+
+XCOMM
+XCOMM check for existence of /etc/inetd.conf
+XCOMM
+
+    if [ ! -f $INETD ]		# highly unlikely
+    then
+        echo "" >$INETD
+    fi
+
+
+#ifdef _POWER
+
+   /usr/sbin/chsubserver -a -v cmsd -t sunrpc_udp -p udp -w wait -u root \
+                -g $CMSD -r inetd cmsd 100068 2-5        1>/dev/null  2>/dev/null
+
+   if [ "$?" -ne "0" ]
+   then
+         exit 1
+   fi
+
+
+#else
+XCOMM
+XCOMM Check if the server exists in the /etc/inetd.conf file.
+XCOMM
+    rc=`inetserv -s -I -v cmsd -p udp 1>/dev/null 2>/dev/null;echo $?`
+
+    if [ "$rc" -ne "0" ]
+    then
+	 inetserv -a -S -v cmsd -p udp -n 111 
+	 rc=$?
+         if [ "$rc" -eq "0" ]
+         then
+            inetserv -a -I -v cmsd -p udp -t sunrpc_udp -w wait -U root \
+                -r $CMSD -R "cmsd 100068 2-5"  
+            if [ "$?" = "1" ]
+            then
+               exit 1
+            fi
+        fi
+    fi
+#endif
+}
+
+HandleOption()
+{
+  while [ $# -ne 0 ]; do
+    case $1 in
+        -e) DO_CONFIGURATION="yes"
+            shift;
+            ;;
+	-d) DO_CONFIGURATION="no"
+	    shift;
+	    ;;
+    esac
+  done
+}
+
+LinkOtherIcons()
+{
+    while read SRC
+    do
+	rm -f $DT_TOP/$APPCONFIG/icons/C/F$SRC
+	ln -s $DT_TOP/$APPCONFIG/icons/C/$SRC $DT_TOP/$APPCONFIG/icons/C/F$SRC
+    done <<-EOF
+fphelp.t.pm
+help.t.pm
+paint.l.pm
+paint.m.pm
+paint.t.pm
+penpad.t.pm
+term.t.pm
+	EOF
+}
+
+ConfigurePrintersDir()
+{
+    cd $DT_TOP/$APPCONFIG/appmanager
+XCOMM
+XCOMM for each locale
+XCOMM
+    for i in *
+    do
+        if [ -d $i ]
+	then
+	    cd $i
+	HASH
+	HASH for each directory in the locale, check for a 
+	HASH localized version of the Printers directory
+	HASH and for the file lp_Print within that directory
+	HASH
+	    for j in *
+	    do
+	      if [ -f $j/$DEFAULT_PRINTER ]
+	      then
+
+		PRINTERS=$j
+
+		HASH make the equivalent directory in the configuration
+		HASH directory
+
+	        if [ ! -d $DT_CONFIG_TOP/$APPCONFIG/appmanager/$i ]
+	        then
+		    mkdir $DT_CONFIG_TOP/$APPCONFIG/appmanager/$i
+	        fi
+	        cd $DT_CONFIG_TOP/$APPCONFIG/appmanager/$i
+	        if [ ! -d $DT_CONFIG_TOP/$APPCONFIG/appmanager/$i/$PRINTERS ]
+	        then
+		    mkdir $DT_CONFIG_TOP/$APPCONFIG/appmanager/$i/$PRINTERS
+                fi
+	        cd $DT_CONFIG_TOP/$APPCONFIG/appmanager/$i/$PRINTERS
+
+		HASH now copy the file over from the installation dirctory
+		HASH if it is not already present.
+
+	        if [ ! -f $DEFAULT_PRINTER ]
+	        then
+		    cp $DT_TOP/$APPCONFIG/appmanager/$i/$PRINTERS/$DEFAULT_PRINTER .
+	        fi
+	        cd $DT_TOP/$APPCONFIG/appmanager/$i
+	      fi
+	    done
+	    cd $DT_TOP/$APPCONFIG/appmanager
+	fi
+    done
+}
+
+	   
+XCOMM ##########################################################################
+XCOMM
+XCOMM				Main Body
+XCOMM
+XCOMM ##########################################################################
+
+PRODUCT=CDE
+FILESET=CDE-RUN
+
+retval=0
+
+DT_TOP=/usr/dt
+DT_CONFIG_TOP=/etc/dt
+DT_TEMP_TOP=/var/dt
+DO_CONFIGURATION=""
+ROOT=/
+
+retval=0
+
+APPCONFIG=appconfig
+APPCONFIG_DIRS="appmanager help icons types"
+PRINTERS=""
+DEFAULT_PRINTER="DtPrint"
+
+#ifndef	_POWER
+  StopDaemon "rpc.cmsd"
+#endif
+
+  HandleOption $*
+
+  if [ "$DO_CONFIGURATION" = "yes" ]
+  then
+
+
+XCOMM
+XCOMM create the /var/dt directory
+XCOMM
+    if [ ! -d $DT_TEMP_TOP/$APPCONFIG/appmanager ]
+    then
+	mkdir -p $DT_TEMP_TOP/$APPCONFIG/appmanager
+    fi
+    cd $DT_TEMP_TOP
+    mv $APPCONFIG/appmanager .hidden-appmanager
+    chmod -R 755 * 2> /dev/null
+    chmod 755 .hidden-appmanager 2> /dev/null
+    chown -R bin * 2> /dev/null
+    chgrp -R bin * 2> /dev/null
+    mv .hidden-appmanager $APPCONFIG/appmanager
+    chmod 755 . 2> /dev/null
+    chown bin . 2> /dev/null
+    chgrp bin . 2> /dev/null
+
+XCOMM
+XCOMM create the /etc/dt and its config directory
+XCOMM
+    if [ ! -d $DT_CONFIG_TOP ]
+    then
+	mkdir -p $DT_CONFIG_TOP
+    fi
+    if [ ! -d $DT_CONFIG_TOP/config ]
+    then
+	mkdir -p $DT_CONFIG_TOP/config
+    fi
+
+    CreateAppConfigDirectory
+
+    ConfigurePrintersDir
+
+    env LANG=C /usr/dt/bin/dtprintinfo -populate
+
+XCOMM
+XCOMM Configure Xsession.d
+XCOMM
+
+    cd $DT_CONFIG_TOP/config
+    if [ ! -d Xsession.d ]
+    then
+	mkdir Xsession.d
+    fi
+
+    cd $DT_CONFIG_TOP
+    chmod -R 755 *
+
+    LinkOtherIcons
+
+#ifndef _POWER
+    AddSmitStanzas
+#endif
+
+    FixEtcRpc
+
+XCOMM After adding the Calendar Manager to the rpc service list the 
+XCOMM portmapper needs to be restarted.
+
+#ifndef	_POWER
+    CheckPortmap
+#endif
+
+    CheckFor24cmsdinInetd
+    rc=$?
+    if [ "$rc" = "0" ]
+    then
+	Remove24cmsdFromInetd
+#ifndef _POWER
+    	inetimp
+#endif
+    	refresh -s inetd
+
+    fi
+
+    CheckForcmsdinInetd
+    rc=$?
+    if [ "$rc" = "0" ]
+    then
+	RemovecmsdFromInetserv
+    fi
+    AddcmsdToInetserv
+
+
+#ifndef _POWER
+
+XCOMM	After adding the Calendar Manager to the inetd service list, the inet
+XCOMM	daemon needs to reread its configuration.
+
+    inetimp
+    refresh -s inetd
+#endif
+
+
+
+  elif [ "$DO_CONFIGURATION" = "no" ]
+  then
+
+#ifndef _POWER
+    DeleteSmitStanzas
+#endif
+
+    UnfixEtcRpc
+
+XCOMM After deleting the Calendar Manager to the rpc service list the 
+XCOMM portmapper needs to be restarted.
+
+#ifndef	_POWER
+    CheckPortmap
+#endif
+
+    CheckForcmsdinInetd
+    rc=$?
+    if [ "$rc" = "0" ]
+    then
+        RemovecmsdFromInetserv
+    else
+        echo "\ncmsd is already disabled..\n"
+        exit 0
+    fi
+
+
+#ifndef	_POWER
+XCOMM	After adding the Calendar Manager to the inetd service list, the inet
+XCOMM	daemon needs to reread its configuration.
+
+    inetimp
+    refresh -s inetd
+#endif
+
+  fi

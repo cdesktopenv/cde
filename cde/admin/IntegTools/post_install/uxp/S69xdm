@@ -1,0 +1,53 @@
+#!/bin/sh
+#
+# Start X Display Manager for CDE
+#
+XNETACCESS=on			#!@ Do not edit this line !@
+XWINHOME=/usr/X	export XWINHOME	#!@ (or your mount point) !@
+DTHOME=/usr/dt
+PATH=$PATH:$XWINHOME/bin:$DTHOME/bin export PATH	#!@ Do not edit this line !@
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DTHOME/lib:$XWINHOME/lib export LD_LIBRARY_PATH	#!@ Do not edit this line !@
+
+XUXP=/usr/X/bin/X
+XDMPROG="$DTHOME/bin/dtlogin"
+XDM="$XDMPROG -daemon"
+                                    # Installed by els.4.2 package instance
+XNLSPATH=$XWINHOME/lib/nls/elsXsi   # Installed by els.4.2 package instance
+XMODIFIERS=@im=Local                # Installed by els.4.2 package instance
+export XNLSPATH XMODIFIERS          # Installed by els.4.2 package instance
+
+KillProgram()
+{
+    if [ "$#" -ne 2 ]
+    then
+	echo "usage: KillProgram -signal program-name"
+    fi
+    SIGNAL=$1
+    PROGRAM=$2
+    /bin/ps -ef | grep "$2" | grep -v grep >/tmp/tmppsout
+    if test -s /tmp/tmppsout
+    then
+		awk "{print \"kill $1 \" \$2}" /tmp/tmppsout | /bin/ksh
+    fi
+    rm -f /tmp/tmppsout
+}
+
+case "$1" in
+  start)
+	if test -x $XDMPROG; then
+		if test -x $XUXP; then
+			rm -rf /var/dt/Xpid
+			exec $XDM
+		fi
+	fi
+        ;;
+
+  stop)
+	KillProgram -15 dtlogin
+        ;;
+
+  *)
+        echo "usage: S69xdm {start|stop}"
+        ;;
+esac
+

@@ -1,0 +1,1695 @@
+<!-- $XConsortium: ch10.sgm /main/12 1996/12/21 18:26:16 rws $ -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.CrAct.div.1">
+<title id="SAG.CrAct.mkr.1"><indexterm><primary>Aktionen</primary><secondary>manuell erstellen</secondary></indexterm>Aktionen manuell erstellen</title>
+<para>Es gibt zwei M&ouml;glichkeiten, Aktionen zu erstellen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>mit der Desktop-Anwendung &ldquo;Aktion erstellen&rdquo;</para>
+</listitem>
+<listitem><para>durch das manuelle Erstellen einer Aktionsdefinition</para>
+</listitem>
+</itemizedlist>
+<para>Um eine Aktion manuell zu erstellen, ist es erforderlich, eine Datenbankdatei
+zu bearbeiten. In diesem Kapitel wird beschrieben, wie Aktionsdefinitionen
+manuell erstellt werden.</para>
+<informaltable id="SAG.CrAct.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Gr&uuml;nde,
+eine Aktion manuell zu erstellen174'--><xref role="JumpText" linkend="SAG.CrAct.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Aktionen
+manuell erstellen: Allgemeine Schritte175'--><xref role="JumpText" linkend="SAG.CrAct.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Ausf&uuml;hrungszeile
+f&uuml;r eine Befehlsaktion erstellen185'--><xref role="JumpText" linkend="SAG.CrAct.mkr.13"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Fensterunterst&uuml;tzung
+und Terminal-Emulatoren f&uuml;r Befehlsaktionen192'--><xref role="JumpText"
+linkend="SAG.CrAct.mkr.24"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Aktionen
+auf bestimmte Argumente einschr&auml;nken194'--><xref role="JumpText" linkend="SAG.CrAct.mkr.29"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Aktionen
+erstellen, die Anwendungen auf fernen Systemen ausf&uuml;hren197'--><xref
+role="JumpText" linkend="SAG.CrAct.mkr.32"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Variablen
+in Definitionen f&uuml;r Aktionen und Datentypen verwenden199'--><xref role="JumpText"
+linkend="SAG.CrAct.mkr.34"></para></entry></row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Aktionen
+&uuml;ber eine Befehlszeile aufrufen200'--><xref role="JumpText" linkend="SAG.CrAct.mkr.37"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Sprachenabh&auml;ngige
+Aktionen erstellen202'--><xref role="JumpText" linkend="SAG.CrAct.mkr.39"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Aktionen
+f&uuml;r ToolTalk-Anwendungen erstellen203'--><xref role="JumpText" linkend="SAG.CrAct.mkr.40"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="SAG.CrAct.div.2">
+<title>Weiterf&uuml;hrende Informationen</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Eine Einf&uuml;hrung in Aktionen kann <!--Original XRef content:
+'Kapitel&numsp;8, </para>Einf&uuml;hrung
+in Aktionen und Datentypen'--><xref role="ChapNumAndTitle" linkend="SAG.IntAc.mkr.1">
+entnommen werden.</para>
+</listitem>
+<listitem><para>Informationen zur Verwendung von 'Aktion erstellen' k&ouml;nnen <!--Original
+XRef content: 'Kapitel&numsp;9, </para>Aktionen
+und Datentypen mit 'Aktion erstellen' erstellen'--><xref role="ChapNumAndTitle"
+linkend="SAG.dtCrA.mkr.1"> entnommen werden.</para>
+</listitem>
+<listitem><para>Referenzinformationen zu Aktionsdefinitionen k&ouml;nnen der
+Hilfeseite <filename>dtactionfile(4)</filename> entnommen werden.</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.CrAct.div.3">
+<title id="SAG.CrAct.mkr.2">Gr&uuml;nde, eine Aktion manuell zu erstellen</title>
+<para><indexterm><primary>Aktionen</primary><secondary>Typen</secondary></indexterm>Es
+gibt drei grundlegende Arten von Aktionen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>COMMAND</command></para>
+</listitem>
+<listitem><para><command>MAP</command></para>
+</listitem>
+<listitem><para><command>TT_MSG</command></para>
+</listitem>
+</itemizedlist>
+<para id="SAG.CrAct.mkr.3">Mit dem Werkzeug 'Aktion erstellen' k&ouml;nnen
+bestimmte Arten von Befehls- (<command>COMMAND</command>) und Zuordnungsaktionen
+( <command>MAP</command>) erstellt werden. Alle ToolTalk- Meldungsaktionen
+(<command>TT_MSG</command>) m&uuml;ssen manuell erstellt werden.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'</para>Einschr&auml;nkungen von 'Aktion erstellen'</para> auf Seite&numsp;158'--><xref
+role="SecTitleAndPageNum" linkend="SAG.dtCrA.mkr.3"> entnommen werden.</para>
+<sect2 id="SAG.CrAct.div.4">
+<title><indexterm><primary>COMMAND Aktion</primary></indexterm><indexterm>
+<primary>Aktionen</primary><secondary>COMMAND</secondary></indexterm>Befehlsaktionen</title>
+<para>Eine <emphasis>Befehlsaktion</emphasis> (COMMAND) f&uuml;hrt einen Befehl
+aus, der eine Anwendung oder ein Dienstprogramm startet, f&uuml;hrt eine Shell-Prozedur
+aus oder f&uuml;hrt einen Betriebssystembefehl aus. Die Definition der Aktion
+enth&auml;lt den auszuf&uuml;hrenden Befehl (<filename>EXEC_STRING</filename>).
+</para>
+<para>Das Werkzeug 'Aktion erstellen' kann verwendet werden, um die gebr&auml;uchlichsten
+Befehlsaktionen auszuf&uuml;hren. Aber es gibt Situationen, in denen die Aktion
+manuell erstellt werden mu&szlig;. Beispielsweise mu&szlig; eine Befehlsaktion
+manuell erstellt werden, wenn folgendes f&uuml;r die Aktion angegeben ist:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Mehrere Dateiargumente, mit einer anderen Eingabeaufforderung
+f&uuml;r jedes Argument.</para>
+</listitem>
+<listitem><para>Aktionsaufruf &mdash;die F&auml;higkeit von Aktionen, andere
+Aktionen aufzurufen.</para>
+</listitem>
+<listitem><para>Argumentanzahlabh&auml;ngiges Verhalten&mdash;die F&auml;higkeit,
+eine Aktion zu erstellen, die bei einer unterschiedlichen Anzahl von Dateiargumenten
+unterschiedliches Verhalten zeigt.</para>
+</listitem>
+<listitem><para>Ein Rechner f&uuml;r die Ausf&uuml;hrung auf fernen Systemen&mdash;die
+F&auml;higkeit, eine Anwendung auf einem anderen System als demjenigen, das
+die Aktionsdefinition enth&auml;lt, auszuf&uuml;hren.</para>
+</listitem>
+<listitem><para>Benutzer&auml;nderung&mdash;die F&auml;higkeit, die Aktion
+als ein anderer Benutzer auszuf&uuml;hren (zum Beispiel, sich als Benutzer
+`root' anzumelden und die Aktion als `root' auszuf&uuml;hren).</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.CrAct.div.5">
+<title><indexterm><primary>MAP Aktionen</primary><secondary>Definition</secondary>
+</indexterm>Zuordnungsaktionen<indexterm><primary>Aktionen</primary><secondary>Zuordnungen</secondary></indexterm></title>
+<para>Bei einer <emphasis>Zuordnungsaktion</emphasis> (MAP) handelt es sich
+um eine Aktion, die einer anderen Aktion zugeordnet wird, statt direkt einen
+Befehl oder eine ToolTalk- Meldung anzugeben.</para>
+<para>Die Zuordnung erm&ouml;glicht dem Benutzer, alternative Namen f&uuml;r
+Aktionen anzugeben. Beispielsweise startet eine integrierte Befehlsaktion
+mit dem Namen IconEditor den Symboleditor. Die Datenbank enth&auml;lt auch
+eine Aktion '&Ouml;ffnen', die in der Definition auf Bitmap- und Pixmap-Dateien
+eingeschr&auml;nkt ist (durch das Feld <command>ARG_TYPE</command>), die der
+Aktion IconEditor zugeordnet ist. Dadurch kann der Benutzer den Symboleditor
+starten, indem er eine Bitmap- oder Pixmap-Datei im Dateimanager ausw&auml;hlt
+und dann im Men&uuml; 'Ausgew&auml;hlt' die Option '&Ouml;ffnen' w&auml;hlt.
+</para>
+<para>'Aktion erstellen' stellt eine eingeschr&auml;nkte Zuordnungsfunktion
+f&uuml;r die Aktionen '&Ouml;ffnen' und 'Drucken' zur Verf&uuml;gung. Alle
+anderen Zuordnungsaktionen m&uuml;ssen manuell erstellt werden.</para>
+</sect2>
+<sect2 id="SAG.CrAct.div.6">
+<title><indexterm><primary>Aktionen</primary><secondary>TT_MSG</secondary>
+</indexterm>ToolTalk-Meldungsaktionen</title>
+<para>ToolTalk-Meldungsaktionen (<command>TT_MSG</command>) senden eine ToolTalk-Meldung.
+S&auml;mtliche ToolTalk-Meldungsaktionen m&uuml;ssen manuell erstellt werden.
+</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrAct.div.7">
+<title id="SAG.CrAct.mkr.4">Aktionen manuell erstellen: Allgemeine Schritte<indexterm>
+<primary>Aktionen</primary><secondary>manuell erstellen</secondary></indexterm></title>
+<para>In diesem Abschnitt wird erl&auml;utert, wie eine Konfigurationsdatei
+f&uuml;r eine Aktionsdefinition erstellt wird.</para>
+<sect2 id="SAG.CrAct.div.8">
+<title id="SAG.CrAct.mkr.5">Konfigurationsdateien f&uuml;r Aktionen<indexterm>
+<primary>Aktionen</primary><secondary>Konfigurationsdateien</secondary></indexterm><indexterm>
+<primary>Konfigurationsdateien</primary><secondary>Aktion</secondary></indexterm><indexterm>
+<primary>dt Dateien</primary></indexterm></title>
+<para>Konfigurationsdateien, die Aktionsdefinitionen enthalten, m&uuml;ssen
+folgenden Anforderungen entsprechen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die Dateien m&uuml;ssen die Namenskonvention<symbol role="Variable">name</symbol><filename>.dt</filename> einhalten.</para>
+</listitem>
+<listitem><para><indexterm><primary>Datenbanksuchpfad</primary></indexterm><indexterm>
+<primary>Suchpfade</primary><secondary>Aktionen</secondary></indexterm>Die
+Dateien m&uuml;ssen sich im Datenbanksuchpfad (f&uuml;r Aktionen und Datentypen)
+befinden. Der Standardpfad ist:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.76in">
+<colspec colwidth="4.25in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Pers&ouml;nliche Aktionen</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Systemweite Aktionen</para></entry>
+<entry align="left" valign="top"><para><filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Integrierte Aktionen</para></entry>
+<entry align="left" valign="top"><para><filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol>. Dieses Verzeichnis sollte
+nicht verwendet werden.</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+<para>Informationen zur &Auml;nderung des Suchpfads f&uuml;r Aktionen und
+Datentypen k&ouml;nnen dem Abschnitt <!--Original XRef content: '</para>Wert
+eines Suchpfads setzen</para> auf Seite&numsp;129'--><xref role="SecTitleAndPageNum"
+linkend="SAG.Datab.mkr.6"> entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.CrAct.div.9" role="Procedure">
+<title id="SAG.CrAct.mkr.6">Aktionen manuell erstellen<indexterm><primary>Aktionen</primary><secondary>manuel erstellen</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Eine bereits vorhandene Datenbankdatei &ouml;ffnen oder eine
+neue erstellen. Siehe hierzu den vorangegangenen Abschnitt <!--Original
+XRef content: '</para>Konfigurationsdateien f&uuml;r Aktionen'--><xref role="SectionTitle"
+linkend="SAG.CrAct.mkr.5">.</para>
+</listitem>
+<listitem><para>Die Aktionsdefinition mit folgender Syntax erstellen:</para>
+<programlisting>ACTION aktion_name
+{ 
+   TYPE  aktion_typ
+   aktion_feld
+   &hellip;
+}</programlisting>
+<para>wobei die Parameter folgende Bedeutung haben:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.26in">
+<colspec colwidth="3.74in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol>aktion_name</symbol></para><indexterm>
+<primary>Aktionen</primary><secondary>Name</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Name, mit dem die Aktion ausgef&uuml;hrt
+wird.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>aktion_typ</symbol></para><indexterm>
+<primary>Aktionen</primary><secondary>Typen</secondary></indexterm></entry>
+<entry align="left" valign="top"><para><command>COMMAND</command> (Standard), <command>MAP</command> oder <command>TT_MSG</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>aktion_feld</symbol></para><indexterm>
+<primary>Aktionen</primary><secondary>Felder</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Eines der erforderlichen oder wahlfreien
+Felder f&uuml;r diesen Aktionstyp. Alle Felder bestehen aus einem Schl&uuml;sselwort
+und einem Wert.</para><para>Viele der Aktionsfelder werden in diesem Kapitel
+behandelt. Weitere Informationen k&ouml;nnen der Hilfeseite <command>dtactionfile(4)</command> entnommen werden.</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>Die Datei sichern.</para>
+</listitem>
+<listitem><para>Soll das Aktionssymbol &uuml;ber ein eindeutiges Abbild verf&uuml;gen,
+die Symbole f&uuml;r die Aktion erstellen. Die Standardpositionen f&uuml;r
+Symbole sind:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Pers&ouml;nliche Symbole: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>Systemweite Symbole: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">sprache.</symbol> Der Standardwert f&uuml;r <symbol role="Variable">sprache</symbol> ist C.</para>
+<para>Weitere Informationen k&ouml;nnen dem Abschnitt <!--Original XRef content:
+'</para>Das von der Aktion verwendete Symbolbild angeben</para> auf Seite&numsp;181'--><xref
+role="SecTitleAndPageNum" linkend="SAG.FrPC.mkr.12"> entnommen werden.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>'Aktionen erneut laden' in der Gruppe von Anwendungen 'Desktop-Werkzeuge'
+doppelklicken.</para>
+</listitem>
+<listitem><para>Eine Aktionsdatei f&uuml;r die Aktion erstellen. Die Aktionsdatei
+erstellt ein Symbol im Dateimanager oder Anwendungsmanager, das die Aktion
+darstellt. (Dient die Aktion dazu, eine Anwendung zu starten, wird das Symbol
+als<indexterm><primary>Anwendungssymbol</primary></indexterm> <emphasis>Anwendungssymbol</emphasis> bezeichnet).</para>
+<para>Um die Aktionsdatei zu erstellen, mu&szlig; der Benutzer eine ausf&uuml;hrbare
+Datei mit demselben Namen wie <symbol>aktion_name</symbol> erstellen. Der
+Benutzer kann die Datei in jedes Verzeichnis stellen, f&uuml;r das er Schreibberechtigung
+hat. Es k&ouml;nnen beliebig viele Aktionsdateien erstellt werden.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CrAct.div.10">
+<title id="SAG.CrAct.mkr.7">Beispiel f&uuml;r das Erstellen einer Befehlsaktion<indexterm>
+<primary>COMMAND Aktion</primary><secondary>Beispiel</secondary></indexterm><indexterm>
+<primary>Aktionen</primary><secondary>Beispiel</secondary></indexterm></title>
+<para>Mit den folgenden Schritten wird eine pers&ouml;nliche Aktion erstellt,
+die eine Telefax-Anwendung auf einem fernen System AppServerA startet. Der
+Befehl zum Starten der Telefax-Anwendung lautet:</para>
+<para><command>/usr/fax/bin/faxcompose [dateiname]</command></para>
+<orderedlist>
+<listitem><para>Die Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/Fax.dt</filename> erstellen.</para>
+</listitem>
+<listitem><para>Die folgende Aktionsdefinition in die Datei einf&uuml;gen:
+</para>
+<programlisting>ACTION FaxComposer
+{ 
+   TYPE          COMMAND 
+   ICON          fax 
+   WINDOW_TYPE   NO_STDIO 
+   EXEC_STRING   /usr/fax/bin/faxcompose -c %Arg_1% 
+   EXEC_HOST     AppServerA 
+   DESCRIPTION   F&uuml;hrt ein Faxerstellungsprogramm aus
+}</programlisting>
+<para>Die Felder <command>WINDOW_TYPE</command> und <command>EXEC_STRING</command>
+beschreiben das Verhalten der Aktion.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.64in">
+<colspec colwidth="4.34in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>WINDOW_TYPE</command></para></entry>
+<entry align="left" valign="top"><para>Das Schl&uuml;sselwort <filename>NO_STDIO</filename> gibt an, da&szlig; die Aktion nicht in einem Terminal-Emulator-Fenster
+ausgef&uuml;hrt werden mu&szlig;.</para><para>Weitere Informationen hierzu
+k&ouml;nnen dem Abschnitt <xref role="SecTitleAndPageNum" linkend="sag.cract.mkr.25">
+entnommen werden.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>EXEC_STRING</command></para></entry>
+<entry align="left" valign="top"><para>Die Syntax <filename>%Arg_1%</filename>
+akzeptiert eine &uuml;bergebene Datei. Wird auf dem Aktionssymbol doppeltgeklickt,
+&ouml;ffnet die Aktion ein leeres Telefaxerstellungsfenster.</para><para>Weitere Informationen hierzu k&ouml;nnen dem Abschnitt <!--Original XRef content:
+--><xref role="SecTitleAndPageNum" linkend="sag.cract.mkr.13"> entnommen werden.
+</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>Die Datei sichern.</para>
+</listitem>
+<listitem><para>Mit dem Symboleditor folgende Symbolbilddateien im Verzeichnis <symbol>Standardverzeichnis</symbol><filename>/.dt/icons</filename> erstellen:</para>
+<itemizedlist>
+<listitem><para><filename>fax.m.pm</filename>, Gr&ouml;&szlig;e 32 auf 32
+Pixel</para>
+</listitem>
+<listitem><para><filename>fax.t.pm</filename>, Gr&ouml;&szlig;e 16 auf 16
+Pixel</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>'Aktionen erneut laden' in der Gruppe von Anwendungen 'Desktop-Werkzeuge'
+doppelklicken.</para>
+</listitem>
+<listitem><para>Eine ausf&uuml;hrbare Datei mit dem Namen <filename>FaxComposer</filename> in einem Verzeichnis, f&uuml;r das Schreibberechtigung besteht
+(zum Beispiel im Standardverzeichnis), erstellen.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CrAct.div.11">
+<title id="SAG.CrAct.mkr.8">Beispiel f&uuml;r das Erstellen einer Zuordnungsaktion<indexterm>
+<primary>Zuordnungsaktionen</primary><secondary>Beispiel</secondary></indexterm><indexterm>
+<primary>Aktionen</primary><secondary>Beispiel</secondary></indexterm></title>
+<para>Angenommen, die meisten Dateien, die der Benutzer telefaxt, werden mit
+Text Editor erstellt und sind vom Datentyp TEXTFILE (Dateien mit der Erweiterung
+<filename>*.txt</filename>):</para>
+<para>Mit folgenden Schritten wird ein Men&uuml;element 'Fax' zum Men&uuml;
+'Ausgew&auml;hlt' des Datentyps hinzugef&uuml;gt.</para>
+<orderedlist>
+<listitem><para>Die Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/Fax.dt</filename>, die im vorhergehenden Beispiel erstellt wurde,
+&ouml;ffnen.</para>
+</listitem>
+<listitem><para>Die folgende Zuordnungsaktionsdefinition der Datei hinzuf&uuml;gen:
+</para>
+<programlisting>ACTION Fax
+{
+   ARG_TYPE     TEXTFILE
+   TYPE         MAP
+   MAP_ACTION   FaxComposer
+}</programlisting>
+</listitem>
+<listitem><para>Die Datei sichern.</para>
+</listitem>
+<listitem><para>Die Definition f&uuml;r Datenattribute f&uuml;r TEXTFILE aus <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol><filename>/dtpad.dt</filename> in eine neue Datei <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types/textfile.dt</filename> kopieren. Die Aktion
+Fax zum Feld <command>ACTIONS</command> hinzuf&uuml;gen.</para>
+<programlisting>DATA_ATTRIBUTES TEXTFILE
+{ 
+   ACTIONS   Open,Print,Fax 
+   ICON      Dtpenpd
+   &hellip;
+}</programlisting>
+</listitem>
+<listitem><para>Die Datei sichern.</para>
+</listitem>
+<listitem><para>Den Anwendungsmanager &ouml;ffnen und 'Aktionen erneut laden'
+in der Gruppe von Anwendungen 'Desktop-Werkzeuge' doppelklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CrAct.div.12" role="Procedure">
+<title id="SAG.CrAct.mkr.9">Datenbank f&uuml;r Aktionen und Datentypen erneut
+laden<indexterm><primary>Datentypen</primary><secondary>erneut starten</secondary>
+</indexterm><indexterm><primary>Datentypen</primary><secondary>Aktionen erneut
+laden</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>erneut laden</secondary></indexterm><indexterm><primary>Datenbank</primary>
+<secondary>Aktionen erneut laden</secondary></indexterm><indexterm><primary>Aktionen erneut laden Aktion</primary></indexterm><indexterm><primary>Datenbank</primary><secondary>erneut laden</secondary></indexterm></title>
+<para>Damit neue oder bearbeitete Aktionsdefinitionen wirksam werden k&ouml;nnen,
+mu&szlig; das Desktop die Datenbank erneut lesen.</para>
+<itemizedlist>
+<listitem><para>Die Gruppe von Anwendungen 'Desktop-Werkzeuge' &ouml;ffnen
+und 'Aktionen erneut laden' doppelklicken.</para>
+</listitem>
+<listitem><para><symbol role="Variable">Oder</symbol>: folgenden Befehl ausf&uuml;hren:
+</para>
+<para remap="CodeIndent1"><command>dtaction ReloadActions</command></para>
+</listitem>
+</itemizedlist>
+<para>`<indexterm><primary>Reload Actions, Aktion</primary></indexterm> ReloadActions'
+ist der Name der Aktion, deren Symbol die Bezeichnung 'Aktionen erneut laden'
+tr&auml;gt.</para>
+<para>Die Aktionsdatenbank wird ebenfalls erneut gelesen, wenn der Benutzer
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>sich anmeldet</para>
+</listitem>
+<listitem><para>die Arbeitsbereichssteuerung erneut</para>
+</listitem>
+<listitem><para>eine Aktion im Fenster 'Aktion erstellen' durch Auswahl von
+'Speichern' im Men&uuml; 'Datei' sichert.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.CrAct.div.13">
+<title><indexterm><primary>Aktionssymbol</primary><secondary>erstellen</secondary>
+</indexterm><indexterm><primary>Anwendungssymbol</primary><secondary>erstellen</secondary></indexterm><indexterm><primary>Aktionsdatei</primary><secondary>erstellen</secondary></indexterm>Aktionsdateien (Symbole) f&uuml;r eine Aktion
+erstellen<indexterm><primary>Aktionen</primary><secondary>Dateien darstellen,
+siehe Aktionsdatei</secondary></indexterm><indexterm><primary>Aktionssymbol</primary></indexterm><indexterm><primary>Symbole</primary><secondary>Aktionssymbole</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>Symboldarstellung</secondary></indexterm></title>
+<para>Bei einer<indexterm><primary>Aktionsdatei</primary></indexterm> <emphasis>Aktionsdatei</emphasis> handelt es sich um eine sichtbare Darstellung der
+Aktion im Dateimanager oder Anwendungsmanager.</para>
+<figure>
+<title><emphasis>Aktionsdateien</emphasis> (auch <emphasis>Aktionssymbole</emphasis> oder <emphasis>Anwendungssymbole</emphasis> genannt) im Anwendungsmanager</title>
+<graphic id="SAG.CrAct.grph.1" entityref="SAG.CrAct.fig.1"></graphic>
+</figure>
+<para>Da das Symbol einer Aktionsdatei eine Aktion darstellt, wird es manchmal
+als <emphasis><indexterm><primary>Aktionssymbol</primary></indexterm>Aktionssymbol</emphasis> bezeichnet. Wird durch die zugrundeliegende Aktion eine Anwendung
+gestartet, wird das Aktionsdateisymbol als <emphasis>Anwendungssymbol</emphasis>
+bezeichnet.</para>
+<para>Durch Doppelklicken des Aktionssymbols wird die Aktion ausgef&uuml;hrt.
+Das Aktionssymbol kann auch als &Uuml;bergabebereich definiert sein.</para>
+<sect3 id="SAG.CrAct.div.14" role="Procedure">
+<title>Aktionsdateien (Aktionssymbol) erstellen</title>
+<itemizedlist>
+<listitem><para>Eine ausf&uuml;hrbare Datei mit demselben Namen wie dem<indexterm>
+<primary>Aktionen</primary><secondary>Name</secondary></indexterm> Aktionsnamen
+erstellen. Der Inhalt der Datei ist nicht wichtig.</para>
+</listitem>
+</itemizedlist>
+<para>Sieht die Aktionsdefinition beispielsweise folgenderma&szlig;en aus,
+</para>
+<programlisting>ACTION MyFavoriteApp
+{
+   EXEC_STRING   Mfa -file %Arg_1%
+   DESCRIPTION   Runs MyFavoriteApp
+   ICON          Mfapp
+}</programlisting>
+<para>dann handelt es sich bei der Aktionsdatei um eine ausf&uuml;hrbare Datei
+mit dem Namen <filename>MyFavoriteApp</filename>. Im Dateimanager und im Anwendungsmanager
+verwendet die Datei <filename>MyFavoriteApp</filename> das Symbolbild <filename>Mfapp.</filename><symbol role="Variable">gr&ouml;&szlig;e</symbol><filename>.</filename><symbol role="Variable">typ</symbol>. Durch Doppelklicken auf
+dem Symbol f&uuml;r <filename>MyFavoriteApp</filename> wird die Zeile EXEC_STRING
+der Aktion ausgef&uuml;hrt und der Inhalt des Felds<indexterm><primary>Hilfe</primary><secondary>Aktionsdatei</secondary></indexterm><indexterm><primary>DESCRIPTION, Feld</primary></indexterm> <command>DESCRIPTION</command> (F&uuml;hrt <command>MyFavoriteApp</command> aus) wird als Kontexthilfe des Symbols angezeigt.
+</para>
+</sect3>
+<sect3 id="SAG.CrAct.div.15">
+<title><indexterm><primary>Aktionen</primary><secondary>Bezeichnungen</secondary>
+</indexterm><indexterm><primary>Bezeichnungen</primary><secondary>Aktionen</secondary></indexterm><indexterm><primary>LABEL Aktionsfeld</primary></indexterm>Aktionsbezeichnungen</title>
+<para>Enth&auml;lt die Aktionsdefinition ein Feld <command>LABEL</command>,
+wird die Aktionsdatei im Dateimanager und im Anwendungsmanager mit der in
+diesem Feld angegebenen Bezeichnung versehen, statt mit dem Dateinamen (<symbol role="Variable">aktion_name</symbol>). Enth&auml;lt die Aktionsdefinition
+beispielsweise</para>
+<programlisting>ACTION MyFavoriteApp
+{
+   LABEL   Favorite Application
+   &hellip;
+}</programlisting>
+<para>dann erh&auml;lt das Aktionssymbol die Bezeichnung 'Favorite Application.'
+</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrAct.div.16">
+<title id="SAG.CrAct.mkr.10">Das von der Aktion verwendete Symbolbild angeben<indexterm>
+<primary>Aktionen</primary><secondary>Symbole</secondary></indexterm><indexterm>
+<primary>Symbole</primary><secondary>Aktionen</secondary></indexterm></title>
+<para>Im Feld <command>ICON</command> wird das f&uuml;r die Aktionssymbole
+der Aktion im Dateimanager und im Anwendungsmanager verwendete Symbol angegeben.
+</para>
+<para>Wird kein Symbol angegeben, verwendet das System die standardm&auml;&szlig;igen
+Aktionssymbolabbilddateien<indexterm><primary>Aktionen</primary><secondary>Standardsymbol</secondary></indexterm> <filename>/usr/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol><filename>/Dtactn.*</filename>.
+</para>
+<figure>
+<title>Standardaktionssymbolbild</title>
+<graphic id="SAG.CrAct.grph.2" entityref="SAG.CrAct.fig.2"></graphic>
+</figure>
+<para>Das Standardaktionssymbol kann ge&auml;ndert werden, indem folgende
+Ressource gesetzt wird:<indexterm><primary>actionIcon, Ressource</primary>
+</indexterm></para>
+<programlisting>*actionIcon: symbol_datei_name</programlisting>
+<para>wobei f&uuml;r <symbol role="Variable">symbol_datei_name</symbol> sowohl
+ein Dateiname ohne Pfad als auch ein absoluter Pfad verwendet werden kann.
+</para>
+<para>Als Wert f&uuml;r das Feld <command>ICON</command> k&ouml;nnen zwei
+verschiedene Namen eingegeben werden:<indexterm><primary>ICON Feld</primary>
+<secondary>erlaubte Werte</secondary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>ein Dateiname ohne Pfad</para>
+<para>Bei dem<indexterm><primary>Basisdateiname</primary></indexterm> Dateinamen
+ohne Pfad handelt es sich um den Namen der Datei, die das Symbolbild enth&auml;lt,
+ohne die Erweiterungen f&uuml;r Gr&ouml;&szlig;e (<filename>m</filename>und <filename>t</filename>) und Abbildtyp (<filename>bm</filename> und <filename>pm</filename>).
+Beispielsweise lautet bei Dateien mit den Namen <filename>GameIcon.m.pm</filename>
+und <filename>GameIcon.t.pm</filename> der Dateiname ohne Pfad <filename>GameIcon</filename>.</para>
+<para>Verwendet der Benutzer den Dateinamen ohne Pfad, m&uuml;ssen die Symboldateien
+in ein Verzeichnis im Symbolsuchpfad gestellt werden:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Pers&ouml;nliche Symbole: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/icons</filename></para>
+</listitem>
+<listitem><para>Systemweite Symbole: <filename>/etc/dt/appconfig/icons/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>ein absoluter Pfad zu der Symboldatei, einschlie&szlig;lich
+des vollst&auml;ndigen Dateinamens.</para>
+<para>Der absolute Pfad sollte nur verwendet werden, wenn die Symboldatei
+sich nicht im Symbolsuchpfad befindet. Befindet sich die Symboldatei <filename>GameIcon.m.pm</filename> im Verzeichnis <filename>/doc/projects</filename>,
+das nicht im Symbolsuchpfad steht, wird als Wert f&uuml;r das Feld <command>ICON</command> <filename>/doc/projects/GameIcon.m.pm</filename> eingegeben.
+</para>
+</listitem>
+</itemizedlist>
+<para><!--Original XRef content: 'Tabelle&numsp;10&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.CrAct.mkr.11"> enth&auml;lt zu erstellende Symbolgr&ouml;&szlig;en
+und die entsprechenden Dateinamen.</para>
+<table id="SAG.CrAct.tbl.1" frame="Topbot">
+<title id="SAG.CrAct.mkr.11">Symbolnamen und -gr&ouml;&szlig;en f&uuml;r Aktionssymbole</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.47in">
+<colspec colwidth="1.80in">
+<colspec colwidth="1.72in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Gr&ouml;&szlig;e in Pixel</para></entry>
+<entry align="left" valign="bottom"><para>Bitmap-Name</para></entry><entry
+align="left" valign="bottom"><para>Pixmap-Name</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>48 x 48</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.l.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.l.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>32 x 32</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.m.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.m.pm</filename></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>16 x 16</para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.t.bm</filename></para></entry>
+<entry align="left" valign="top"><para><symbol role="Variable">name</symbol><filename>.t.pm</filename></para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="SAG.CrAct.div.17" role="Procedure">
+<title>Eine bereits vorhandene Aktionsdefinition &auml;ndern<indexterm><primary>Aktionen</primary><secondary>bearbeiten</secondary></indexterm><indexterm>
+<primary>Aktionen</primary><secondary>&auml;ndern</secondary></indexterm><indexterm>
+<primary>Aktionen bearbeiten</primary></indexterm></title>
+<para>Alle auf dem System zur Verf&uuml;gung stehenden Aktionen, einschlie&szlig;lich
+der integrierten Aktionen, k&ouml;nnen ge&auml;ndert werden.</para>
+<note>
+<para>Bei der &Auml;nderung der Datenbank f&uuml;r integrierte Aktionen sollte
+vorsichtig vorgegangen werden. Die integrierten Aktionen sind genau auf die
+Desktop-Anwendungen abgestimmt.</para>
+</note>
+<orderedlist>
+<listitem><para>Die Position der Definition der zu &auml;ndernden Aktion feststellen.
+</para>
+<para>Die Standardpositionen f&uuml;r Aktionsdefinitionen sind:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Integrierte Aktionen: <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>Systemweite Aktionen: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>Pers&ouml;nliche Aktionen: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para>
+<para><indexterm><primary>Aktionen</primary><secondary>Suchpfad, siehe Datenbanksuchpfad</secondary></indexterm>F&uuml;r das System sind m&ouml;glicherweise weitere
+zus&auml;tzliche Positionen definiert. Um eine Liste der Positionen, die das
+System f&uuml;r Aktionen verwendet, anzuzeigen, folgenden Befehl ausf&uuml;hren:
+</para>
+<para remap="CodeIndent1"><command>dtsearchpath -v</command></para>
+<indexterm><primary>dtsearchpath</primary></indexterm>
+<para>Das System verwendet die unter<indexterm><primary>DTDATABASESEARCHPATH
+Variable</primary><secondary>Verwendung</secondary></indexterm> <systemitem>DTDATABASESEARCHPATH</systemitem> aufgelisteten Verzeichnisse.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Falls erforderlich, den Text der Aktionsdefinition in eine
+neue oder bereits vorhandene Datei in einem der folgenden Verzeichnisse kopieren:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Systemweite Aktionen: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>Pers&ouml;nliche Aktionen: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para>
+<para>Integrierte Aktionen m&uuml;ssen kopiert werden, da Dateien im Verzeichnis
+<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol> nicht bearbeitet werden sollten.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Die Aktionsdefinition bearbeiten. Anschlie&szlig;end die Datei
+sichern.</para>
+</listitem>
+<listitem><para>'Aktionen erneut laden' in der Gruppe von Anwendungen 'Desktop-
+Werkzeuge' doppelklicken.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.CrAct.div.18">
+<title id="SAG.CrAct.mkr.12">Vorrang bei Aktionsdefinitionen<indexterm><primary>Aktionen</primary><secondary>Vorrangregeln</secondary></indexterm><indexterm>
+<primary>Vorrang</primary><secondary>Aktionsdatenbankassemblierung</secondary>
+</indexterm></title>
+<para>Wenn der Benutzer eine Aktion aufruft, durchsucht das System die Datenbank
+nach einem &uuml;bereinstimmenden Aktionsnamen. Ist mehr als eine Aktion
+mit diesem Namen vorhanden, verwendet das System Vorrangregeln, um zu entscheiden,
+welche Aktion verwendet wird.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Werden keine anderen Vorrangregeln angewendet, wird der Vorrang
+auf der Grundlage der Position der Definition zugeordnet. In der folgenden
+Liste sind die Aktionen entsprechend ihrem Rang von hoch nach niedrig geordnet:
+</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Pers&ouml;nliche Aktionen (<symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename>)</para>
+</listitem>
+<listitem><para>Systemweite Aktionen (<filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol>)</para>
+</listitem>
+<listitem><para>Systemweite Aktionen an einem anderen Rechner (<symbol role="Variable">hostname</symbol>:<filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol>). Bei den fernen Rechnern, die durchsucht werden, handelt
+es sich um diejenigen, die im Anwendungssuchpfad aufgelistet sind.</para>
+</listitem>
+<listitem><para>Integrierte Aktionen (<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol>)</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><para>Innerhalb eines vorgegebenen Verzeichnisses werden die <filename>*.dt</filename>-Dateien in alphabetischer Reihenfolge gelesen.</para>
+</listitem>
+<listitem><para>Aktionen, die durch die Felder <filename><indexterm><primary>ARG_CLASS Feld</primary></indexterm>ARG_CLASS</filename>, <filename><indexterm>
+<primary>ARG_TYPE Feld</primary></indexterm>ARG_TYPE</filename>, <filename><indexterm>
+<primary>ARG_MODE Feld</primary></indexterm>ARG_MODE</filename> oder <filename><indexterm>
+<primary>ARG_COUNT Feld</primary></indexterm>ARG_COUNT</filename> eingeschr&auml;nkt
+sind, haben Vorrang vor nicht eingeschr&auml;nkten Aktionen. (Der Standardwert
+f&uuml;r diese vier Felder ist <filename>*</filename>.)</para>
+<para>Sind mehr als eine Einschr&auml;nkung vorhanden, lautet die Rangfolge
+von hoch nach niedrig:</para>
+<itemizedlist remap="Bullet2">
+<listitem><para><filename>ARG_CLASS</filename></para>
+</listitem>
+<listitem><para><filename>ARG_TYPE</filename></para>
+</listitem>
+<listitem><para><filename>ARG_MODE</filename></para>
+</listitem>
+<listitem><para><filename>ARG_COUNT</filename></para>
+<para>Ist mehr als ein eingeschr&auml;nktes Feld <filename>ARG_COUNT</filename>
+vorhanden, lautet die Rangfolge von hoch nach niedrig:</para>
+</listitem>
+<listitem><para>Spezifischer ganzzahliger Wert <symbol role="Variable">n</symbol></para>
+</listitem>
+<listitem><para>&lt;n</para>
+</listitem>
+<listitem><para>>n</para>
+</listitem>
+<listitem><para>*</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<para>Als Beispiel sollen die folgenden Abschnitte aus Aktionsdefinitionen
+betrachtet werden.</para>
+<programlisting>ACTION EditGraphics
+# EditGraphics-1
+{
+   ARG_TYPE   XWD
+   &hellip;
+}
+
+ACTION EditGraphics
+# EditGraphics-2
+{
+   ARG_COUNT  0
+   &hellip;
+}
+
+ACTION EditGraphics
+# EditGraphics-3
+{
+   ARG_TYPE   *
+   &hellip;
+}</programlisting>
+<para>Durch Doppelklicken des Aktionssymbols `EditGraphics' wird EditGraphics-2
+gestartet, da kein Argument angegeben ist und <filename>ARG_COUNT 0</filename>
+Vorrang hat. Wird ein Dateiargument vom Typ XWD angegeben, wird EditGraphics-1
+verwendet, weil hier XWD <command>ARG_TYPE</command> angegeben ist. F&uuml;r
+alle anderen Dateiargumente wird EditGraphics-3 verwendet.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrAct.div.19">
+<title id="SAG.CrAct.mkr.13">Ausf&uuml;hrungszeile f&uuml;r eine Befehlsaktion
+erstellen<indexterm><primary>Aktionen</primary><secondary>Ausf&uuml;hrungszeile</secondary></indexterm><indexterm><primary>Ausf&uuml;hrungszeile</primary>
+</indexterm><indexterm><primary>Befehlszeile f&uuml;r Aktionen</primary>
+</indexterm><indexterm><primary>COMMAND Aktion</primary><secondary>Ausf&uuml;hrungszeile</secondary></indexterm><indexterm><primary>EXEC_STRING Feld, siehe Ausf&uuml;hrungszeile</primary></indexterm></title>
+<para>F&uuml;r eine Befehlsaktion ( <command><indexterm><primary>COMMAND Aktion</primary><secondary>ben&ouml;tigte Felder</secondary></indexterm>COMMAND</command>) sind mindestens zwei Felder notwendig, <command>ACTION</command>
+und <command>EXEC_STRING</command>.</para>
+<programlisting>ACTION aktion_name
+{
+   EXEC_STRING  ausf&uuml;hrung_zeichenfolge
+}</programlisting>
+<para>Bei der Ausf&uuml;hrungszeile (<command>EXEC_STRING</command>) handelt
+es sich um den wichtigsten Teil einer Befehlsaktionsdefinition ( <command>COMMAND</command>). Die verwendete Syntax gleicht der Befehlszeile, die in
+einem Terminal-Fenster ausgef&uuml;hrt wird, enth&auml;lt aber zus&auml;tzliche
+Syntax f&uuml;r Datei- und Zeichenfolgenargumente.</para>
+<sect2 id="SAG.CrAct.div.20">
+<title><indexterm><primary>Ausf&uuml;hrungszeile</primary><secondary>allgemeine
+Merkmale</secondary></indexterm>Allgemeine Merkmale von Ausf&uuml;hrungszeilen</title>
+<para>Ausf&uuml;hrungszeilen k&ouml;nnen enthalten:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Dateiargumente und Parameter</para>
+</listitem>
+<listitem><para>Shell-Syntax</para>
+</listitem>
+<listitem><para>Absolute Pfade oder Namen ausf&uuml;hrbarer Dateien</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.CrAct.div.21">
+<title>Aktionsargumente<indexterm><primary>Aktionen</primary><secondary>Argumente</secondary></indexterm><indexterm><primary>Argumente</primary>
+<secondary>f&uuml;r Aktionen</secondary></indexterm></title>
+<para>Bei einem Argument handelt es sich um eine Information, die f&uuml;r
+die korrekte Ausf&uuml;hrung eines Befehls oder einer Anwendung erforderlich
+ist. Als Beispiel soll die Befehlszeile betrachtet werden, &uuml;ber die eine
+Datei im Text Editor ge&ouml;ffnet werden k&ouml;nnte:</para>
+<para><command>dtpad <symbol role="Variable">dateiname</symbol></command></para>
+<para>In diesem Befehl ist <symbol role="Variable">dateiname</symbol> ein
+Dateiargument des Befehls <command>dtpad</command>.</para>
+<para>Aktionen k&ouml;nnen, wie Anwendungen und Befehle, &uuml;ber Argumente
+verf&uuml;gen. Eine Befehlsaktion kann zwei verschiedene Arten von Daten verwenden:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Dateien</para>
+</listitem>
+<listitem><para>Zeichenfolgedaten</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="SAG.CrAct.div.22">
+<title>Shells in Ausf&uuml;hrungszeilen<indexterm><primary>Ausf&uuml;hrungszeile</primary><secondary>Shellsyntax</secondary></indexterm><indexterm><primary>Shell</primary><secondary>Syntax in Ausf&uuml;hrungszeile</secondary></indexterm> verwenden</title>
+<para>Die Ausf&uuml;hrungszeile wird direkt und nicht &uuml;ber eine Shell
+ausgef&uuml;hrt. Aber der Benutzer kann auch explizit eine Shell in der Ausf&uuml;hrungszeile
+aufrufen.</para>
+<para>Beispiel:</para>
+<programlisting>EXEC_STRING \
+         /bin/sh -c \
+         'tar -tvf %(File)Arg_1% 2>&amp;1 | \${PAGER:-more};\
+         echo "\\n*** Zum Schlie&szlig;en im Fenstermen&uuml; Schlie&szlig;en\
+         ausw&auml;hlen ***"'</programlisting>
+</sect3>
+<sect3 id="SAG.CrAct.div.23">
+<title>Name oder absoluter Pfad der ausf&uuml;hrbaren Datei<indexterm><primary>Ausf&uuml;hrungszeile</primary><secondary>ausf&uuml;hrbare Datei angeben</secondary>
+</indexterm></title>
+<para>Befindet sich die Anwendung in einem Verzeichnis, das in der Variablen<indexterm><primary>PATH Variable</primary></indexterm>
+PATH aufgelistet ist,
+kann der einfache, ausf&uuml;hrbare Name verwendet werden. Befindet sich die
+Anwendung in einem anderen Verzeichnis, mu&szlig; der<indexterm><primary>Ausf&uuml;hrungszeile</primary><secondary>absoluter Pfad</secondary></indexterm>
+absolute Pfad zu der ausf&uuml;hrbaren Datei verwendet werden.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrAct.div.24">
+<title id="SAG.CrAct.mkr.14">Aktionen ohne Argumente erstellen<indexterm>
+<primary>Ausf&uuml;hrungszeile</primary><secondary>ohne Argumente</secondary>
+</indexterm><indexterm><primary>Aktionen</primary><secondary>ohne Argumente</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>ohne Daten</secondary></indexterm></title>
+<para>Dieselbe Syntax f&uuml;r <command>EXEC_STRING</command> verwenden, mit
+der die Anwendung auch &uuml;ber die Befehlszeile gestartet wird.</para>
+<sect3 id="SAG.CrAct.div.25">
+<title>Beispiele</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Ausf&uuml;hrungszeile ist Teil einer Aktion,
+die den X-Client <command>xcutsel</command> startet.</para>
+<para remap="CodeIndent1"><command>EXEC_STRING xcutsel</command></para>
+</listitem>
+<listitem><para>Die folgende Ausf&uuml;hrungszeile startet den Client <command>xclock</command> mit einer Digitaluhr. Die Befehlszeile enth&auml;lt eine
+Befehlszeilenoption, aber es werden keine Argumente ben&ouml;tigt.</para>
+<para remap="CodeIndent1"><command>EXEC_STRING xclock -digital</command></para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrAct.div.26">
+<title id="SAG.CrAct.mkr.15">Aktionen erstellen, die &uuml;bergebene Dateien
+akzeptieren<indexterm><primary>Ausf&uuml;hrungszeile</primary><secondary>&uuml;bergebene Dateien</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>&uuml;bergebene Dateien akzeptieren</secondary></indexterm><indexterm>
+<primary>&Uuml;bergabebereich</primary><secondary>Aktionssymbol</secondary>
+</indexterm><indexterm><primary>&Uuml;bergebene Datei, Aktion akzeptiert</primary></indexterm></title>
+<para>Folgende Syntax f&uuml;r das Dateiargument verwenden:</para>
+<programlisting>%Arg_n%</programlisting>
+<indexterm><primary>Arg_n Syntax</primary></indexterm>
+<para>oder</para>
+<programlisting>%(File)Arg_n%</programlisting>
+<para><filename>(File)</filename> kann, mu&szlig; aber nicht angegeben werden,
+da von Argumenten f&uuml;r <filename>Arg_n</filename> (standardm&auml;&szlig;ig)
+angenommen wird, da&szlig; es sich um Dateien handelt. (Weitere Informationen
+zur Verwendung der Syntax <filename>%(String)Arg_n%</filename> k&ouml;nnen
+dem Abschnitt <!--Original XRef content: '</para>Dateiargumente
+als Zeichenfolge interpretieren</para> auf Seite&numsp;189'--><xref role="SecTitleAndPageNum"
+linkend="SAG.CrAct.mkr.19"> entnommen werden.)</para>
+<para>Diese Syntax erm&ouml;glicht dem Benutzer, ein Datendateiobjekt an das
+Aktionssymbol zu &uuml;bergeben und die Aktion mit diesem Dateiargument zu
+starten. Das <symbol role="Variable">n</symbol>te Argument wird in die Befehlszeile
+&uuml;bernommen. Bei der Datei kann es sich um eine lokale Datei oder um eine
+Datei in einem anderen System handeln.</para>
+<sect3 id="SAG.CrAct.div.27">
+<title>Beispiele</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Ausf&uuml;hrungszeile f&uuml;hrt <command>wc
+-w</command> aus und verwendet eine &uuml;bergebene Datei als den Parameter.
+</para>
+<para remap="CodeIndent1"><command>EXEC_STRING wc -w %Arg_1%</command></para>
+</listitem>
+<listitem><para>Das folgende Beispiel zeigt einen Teil einer Definition f&uuml;r
+eine Aktion, die nur f&uuml;r Verzeichnisargumente definiert ist. Wird ein
+Verzeichnis an das Aktionssymbol &uuml;bergeben, zeigt die Aktion eine Liste
+aller Dateien in dem Verzeichnis an, f&uuml;r die Lese-/Schreibberechtigung
+vorliegt.</para>
+<programlisting>ACTION Lesbare_Dateien_auflisten 
+{ 
+   ARG_TYPE      FOLDER 
+   EXEC_STRING   /bin/sh -c 'ls -l %Arg_1% | grep rw-'  
+   &hellip;
+}</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrAct.div.28">
+<title id="SAG.CrAct.mkr.16">Aktionen erstellen, die Dateiargumente anfordern<indexterm>
+<primary>Ausf&uuml;hrungszeile</primary><secondary>Datei anfordern</secondary>
+</indexterm><indexterm><primary>Aktionen</primary><secondary>Datei anfordern</secondary></indexterm><indexterm><primary>Argumente</primary><secondary>anfordern</secondary></indexterm><indexterm><primary>Aktionen anfordern</primary>
+</indexterm></title>
+<para>Folgende Syntax f&uuml;r das Dateiargument verwenden:</para>
+<programlisting>%(File)"prompt"%</programlisting>
+<para>Mit dieser Syntax wird eine Aktion erstellt, die eine Aufforderung,
+einen Dateinamen einzugeben, anzeigt, wenn der Benutzer auf dem Aktionssymbol
+doppeltklickt.</para>
+<para>Die folgende Ausf&uuml;hrungszeile zeigt beispielsweise ein Dialogfenster
+an, in dem der Benutzer aufgefordert wird, das Dateiargument des Befehls <command>wc -w</command> einzugeben:</para>
+<programlisting>EXEC_STRING wc -w %(File)"W&ouml;rter in Datei z&auml;hlen:"%
+</programlisting>
+</sect2>
+<sect2 id="SAG.CrAct.div.29">
+<title id="SAG.CrAct.mkr.17">Aktionen erstellen, die &uuml;bergebene Dateien
+akzeptieren oder anfordern<indexterm><primary>Aktionen</primary><secondary>&uuml;bergebene Datei akzeptieren oder anfordern</secondary></indexterm></title>
+<para>Folgende Syntax f&uuml;r das Dateiargument verwenden:</para>
+<programlisting>%Arg_n"prompt"%</programlisting>
+<para>oder</para>
+<programlisting>%(File)Arg_n"prompt"%</programlisting>
+<para>Mit dieser Syntax wird eine Aktion erstellt, die</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>eine &uuml;bergebene Datei als Dateiargument akzeptiert.</para>
+</listitem>
+<listitem><para>ein Dialogfenster anzeigt, in dem der Benutzer aufgefordert
+wird, einen Dateinamen einzugeben, wenn der Benutzer auf dem Aktionssymbol
+doppeltklickt.</para>
+</listitem>
+</itemizedlist>
+<para>Beispielsweise f&uuml;hrt die folgende Ausf&uuml;hrungszeile den Befehl <command>lp -oraw</command> an einer &uuml;bergebenen Datei aus. Wird die Aktion durch
+Doppelklicken auf dem Symbol gestartet, erscheint ein Dialogfenster mit der
+Aufforderung, den Dateinamen einzugeben.</para>
+<programlisting>EXEC_STRING lp -oraw %Arg_1"Datei drucken:"%</programlisting>
+</sect2>
+<sect2 id="SAG.CrAct.div.30">
+<title id="SAG.CrAct.mkr.18">Aktion erstellen, die Parameter anfordert<indexterm>
+<primary>Ausf&uuml;hrungszeile</primary><secondary>Zeichenfolge anfordern</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>Nicht-Datei Argumente</secondary></indexterm><indexterm><primary>Argumente</primary><secondary>Nicht-Datei</secondary></indexterm><indexterm><primary>Zeichenfolge-Aktionsargument</primary></indexterm><indexterm><primary>Aktionen</primary><secondary>Nicht-Datei Argumente</secondary></indexterm></title>
+<para>Folgende Syntax f&uuml;r den Parameter verwenden:</para>
+<programlisting>%"prompt"%</programlisting>
+<para>oder</para>
+<programlisting>%(String)"prompt"%</programlisting>
+<para>Die Angabe<filename>(String)</filename> ist optional, da Text in Anf&uuml;hrungszeichen
+standardm&auml;&szlig;ig als Zeichenfolge interpretiert wird. Mit dieser
+Syntax wird ein Dialogfenster angezeigt, das eine Aufforderung enth&auml;lt,
+einen Parameter einzugeben. Diese Syntax nicht verwenden, wenn ein Dateiname
+eingegeben werden mu&szlig;.</para>
+<para>Beispielsweise f&uuml;hrt die folgende Ausf&uuml;hrungszeile den Befehl <command>xwd</command> aus und fordert zur Eingabe eines Werts auf, der jedem Pixel
+hinzugef&uuml;gt werden soll:</para>
+<programlisting>EXEC_STRING xwd -add %"Wert hinzuf&uuml;gen:"% -out %Arg_1"Dateiname:"%
+</programlisting>
+</sect2>
+<sect2 id="SAG.CrAct.div.31">
+<title id="SAG.CrAct.mkr.19">Dateiargumente als Zeichenfolge interpretieren</title>
+<para>Folgende Syntax f&uuml;r das Dateiargument verwenden:</para>
+<programlisting>%(String)Arg_n%</programlisting>
+<para>Beispielsweise druckt folgende Ausf&uuml;hrungszeile mit dem Befehl <command>lp -t</command><symbol role="Variable">banner dateiname</symbol> eine Datei
+mit einem Deckblatt, das den Dateinamen enth&auml;lt.</para>
+<programlisting>EXEC_STRING lp -t%(String)Arg_1% %(File)Arg_1"Datei drucken:"%
+</programlisting>
+</sect2>
+<sect2 id="SAG.CrAct.div.32">
+<title id="SAG.CrAct.mkr.20">Shell-Funktionen in einer Aktion zur Verf&uuml;gung
+stellen<indexterm><primary>Aktionen</primary><secondary>Shells zur Verf&uuml;gung
+stellen</secondary></indexterm><indexterm><primary>Shells</primary><secondary>in Aktionen</secondary></indexterm><indexterm><primary>Shell</primary><secondary>in einer Aktion</secondary></indexterm></title>
+<para>Die Shell in der Ausf&uuml;hrungszeile angeben:</para>
+<programlisting>/bin/sh -c 'Befehl'
+/bin/ksh -c 'Befehl'
+/bin/csh -c 'Befehl'</programlisting>
+<sect3 id="SAG.CrAct.div.33">
+<title>Beispiele</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Ausf&uuml;hrungszeile zeigt eine Aktion, die
+mit Shell-Piping arbeitet:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING /bin/sh -c 'ps | lp'</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Ausf&uuml;hrungszeile ist komplexer. Ein Shell-Proze&szlig;
+ist erforderlich und ein Dateiargument wird akzeptiert:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING /bin/sh -c 'tbl %Arg_1"Hilfeseite:"% | troff -man'
+</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>F&uuml;r die folgende Ausf&uuml;hrungszeile ist es erforderlich,
+da&szlig; es sich bei dem Argument um eine komprimierte Datei handelt. Die
+Aktion dekomprimiert die Datei und druckt sie mit dem Befehl <command>lp -oraw</command>:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING  /bin/sh -c 'cat %Arg_1 "Datei drucken:"% | \
+             uncompress | lp -oraw'</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Ausf&uuml;hrungszeile startet eine Shell-Prozedur:
+</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING /usr/local/bin/StartGnuClient</programlisting>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrAct.div.34">
+<title>Befehlsaktionen mit mehreren Dateiargumenten erstellen<indexterm>
+<primary>Ausf&uuml;hrungszeile</primary><secondary>Argumente mit mehreren
+Dateien</secondary></indexterm><indexterm><primary>Argumente</primary><secondary>mehrere f&uuml;r Aktionen</secondary></indexterm></title>
+<para>Aktionen verarbeiten mehrere Dateiargumente auf drei verschiedene Weisen:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die Aktion kann wiederholt ausgef&uuml;hrt werden, jeweils
+einmal f&uuml;r jedes Argument. Enth&auml;lt eine Zeile <filename>EXEC_STRING</filename> ein einziges Dateiargument, und es werden mehrere Dateiargumente
+zur Verf&uuml;gung gestellt, indem mehrere Dateien an das Aktionssymbol &uuml;bergeben
+werden, wird die Aktion f&uuml;r jedes einzelne Dateiargument ausgef&uuml;hrt.
+</para>
+<para>Werden beispielsweise mehrere Dateiargumente an folgende Aktionsdefinition
+&uuml;bergeben:</para>
+<programlisting>ACTION DisplayScreenImage 
+{
+   EXEC_STRING   xwud -in %Arg_1%
+   &hellip;
+}</programlisting>
+<para>wird die Aktion DisplayScreenImage wiederholt ausgef&uuml;hrt.</para>
+</listitem>
+<listitem><para>Die Aktion kann zwei oder mehrere nicht austauschbare Dateiargumente
+verwenden. Beispielsweise erfordert</para>
+<para remap="CodeIndent1"><command>xsetroot -cursor <symbol role="Variable">zeigerdatei maskendatei</symbol></command></para>
+<para>zwei eindeutige Dateien in einer bestimmten Reihenfolge.</para>
+</listitem>
+<listitem><para>Die Aktion kann denselben Befehl sequentiell an jedem Dateiargument
+ausf&uuml;hren. Beispielsweise druckt</para>
+<para remap="CodeIndent1"><command>pr <symbol role="Variable">datei</symbol>
+[<symbol role="Variable">datei</symbol> &hellip;]</command></para>
+<para>eine oder mehrere Dateien in einem Druckjob.</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.CrAct.div.35">
+<title id="SAG.CrAct.mkr.21">Eine Aktion mit nicht austauschbaren Dateiargumenten
+erstellen<indexterm><primary>Aktionen</primary><secondary>nicht austauschbare
+Argumente</secondary></indexterm><indexterm><primary>Argumente</primary>
+<secondary>nicht austauschbar, f&uuml;r Aktionen</secondary></indexterm></title>
+<para>Eine der folgenden Syntaxkonventionen verwenden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Soll die Aktion zur Eingabe der Dateinamen auffordern, folgende
+Syntax f&uuml;r jedes Dateiargument verwenden:</para>
+<para remap="CodeIndent1"><command>%(File)'<symbol role="Variable">prompt</symbol>'%</command></para>
+<para>F&uuml;r jedes Argument eine andere Zeichenfolge <symbol role="Variable">prompt</symbol> verwenden.</para>
+<para>Beispielsweise fordert die folgende Ausf&uuml;hrungszeile zur Eingabe
+von zwei Dateinamen auf:</para>
+<programlisting>EXEC_STRING  xsetroot -cursor %(File)"Zeiger Bitmap:"% \
+             %(File)"Maske Bitmap:"%</programlisting>
+</listitem>
+<listitem><para>Damit &uuml;bergebene Dateien akzeptiert werden, folgende
+Syntax f&uuml;r jedes Dateiargument verwenden:</para>
+<para remap="CodeIndent1"><command><computeroutput>%Arg_n%</computeroutput></command></para>
+<para>wobei f&uuml;r jedes Argument verschiedene Werte <symbol role="Variable">n</symbol> verwendet werden. Zum Beispiel:</para>
+<para remap="CodeIndent1"><command>EXEC_STRING diff %Arg_1% %Arg_2%</command></para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="SAG.CrAct.div.36">
+<title id="SAG.CrAct.mkr.22">Aktionen mit austauschbaren Dateiargumenten erstellen<indexterm>
+<primary>Aktionen</primary><secondary>austauschbare Argumente</secondary>
+</indexterm><indexterm><primary>Argumente</primary><secondary>austauschbar
+f&uuml;r Aktion</secondary></indexterm></title>
+<para>Eine der folgenden Syntaxkonventionen verwenden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Um eine Aktion zu erstellen, die &uuml;bergebene Dateien akzeptiert
+und einen Befehl in der Form <symbol role="Variable">Befehl datei</symbol><subscript>
+1</subscript> <symbol role="Variable">datei</symbol><subscript>2</subscript>
+&hellip; absetzt, folgende Syntax f&uuml;r die Dateiargumente verwenden:</para>
+<para remap="CodeIndent1"><command>%Args%</command></para>
+</listitem>
+<listitem><para>Um eine Aktion zu erstellen, die mehrere &uuml;bergebene Dateien
+akzeptiert oder bei Doppelklicken eine Eingabeaufforderung anzeigt, in der
+zur Eingabe eines einzelnen Dateinamens aufgefordert wird, folgende Syntax
+f&uuml;r die Dateiargumente verwenden:</para>
+<para remap="CodeIndent1"><command>%Arg_1'<symbol role="Variable">prompt</symbol>'%
+%Args%</command></para>
+<para>Die Aktion setzt den Befehl in der Form <command>Befehl <symbol role="Variable">datei</symbol><subscript>1</subscript> <symbol role="Variable">datei</symbol><subscript>
+2</subscript></command> &hellip;. ab.</para>
+</listitem>
+</itemizedlist>
+<sect4 id="SAG.CrAct.div.37">
+<title>Beispiele</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Ausf&uuml;hrungszeile erstellt eine Aktion, die
+folgenden Befehl</para>
+</listitem>
+</itemizedlist>
+<para><command>pr <symbol role="Variable">datei</symbol><subscript>1</subscript> <symbol role="Variable">datei</symbol><subscript>2</subscript></command></para>
+<para>mit mehreren Dateiargumenten ausf&uuml;hrt:</para>
+<programlisting>EXEC_STRING pr %Args%</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Ausf&uuml;hrungszeile erstellt eine Aktion, &auml;hnlich
+dem vorhergehenden Beispiel, bei der jedoch eine Eingabeaufforderung angezeigt
+wird, wenn das Aktionssymbol angeklickt wird. (Keine Dateiargumente):</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING pr %Arg_1"Datei(en) drucken:"% %Args%</programlisting>
+</sect4>
+</sect3>
+<sect3 id="SAG.CrAct.div.38">
+<title id="SAG.CrAct.mkr.23">Aktionen f&uuml;r mehrere &uuml;bergebene Dateien
+erstellen<indexterm><primary>Aktionen</primary><secondary>mehrere &uuml;bergebene
+Dateien akzeptieren</secondary></indexterm></title>
+<para>Um mehrere &uuml;bergebene Dateiargumente zu akzeptieren und eine Befehlszeile
+in der Form</para>
+<programlisting>Befehl datei<subscript>1</subscript> datei<subscript>2</subscript> &hellip;
+</programlisting>
+<para>auszuf&uuml;hren, folgende Syntax verwenden:</para>
+<programlisting>%Args%</programlisting>
+<sect4 id="SAG.CrAct.div.39">
+<title>Beispiele</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Ausf&uuml;hrungszeile f&uuml;hrt eine Prozedur
+namens Checkout f&uuml;r mehrere Dateien aus:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING   /usr/local/bin/Checkout \
+              %Arg_1"Welche Datei entnehmen?"% %Args%</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>Die folgende Ausf&uuml;hrungszeile f&uuml;hrt <command>lp
+-oraw</command> mit mehreren Dateien aus:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_STRING lp -oraw %Arg_1"Datei drucken:"% %Args%</programlisting>
+</sect4>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrAct.div.40">
+<title id="SAG.CrAct.mkr.24">Fensterunterst&uuml;tzung und Terminal-Emulatoren
+f&uuml;r Befehlsaktionen<indexterm><primary>Aktionen</primary><secondary>Fensterunterst&uuml;tzung</secondary></indexterm><indexterm><primary>Terminal-Emulator</primary><secondary>f&uuml;r Aktionen</secondary></indexterm></title>
+<para>Befehlsaktionen unterst&uuml;tzen Fenster auf dem Desktop auf verschiedene
+Weise:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Verf&uuml;gt die Anwendung &uuml;ber ein eigenes Fenster,
+mu&szlig; beim Schreiben der Aktion keine zus&auml;tzliche Fensterunterst&uuml;tzung
+zur Verf&uuml;gung gestellt werden. Diese Option wird ebenfalls verwendet,
+wenn eine Aktion einen Befehl ausf&uuml;hrt, f&uuml;r den keine direkte Eingabe
+durch den Benutzer erforderlich ist und der keine Ausgabe hat.</para>
+</listitem>
+<listitem><para>Mu&szlig; die Anwendung in einem emulierten Terminalfenster
+ausgef&uuml;hrt werden, mu&szlig; die Aktion so geschrieben werden, da&szlig;
+zun&auml;chst ein Fenster ge&ouml;ffnet wird und dann die Anwendung ausgef&uuml;hrt
+wird. Verschiedene Terminal-Optionen stehen zur Verf&uuml;gung.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.CrAct.div.41">
+<title id="SAG.CrAct.mkr.25">Fensterunterst&uuml;tzung f&uuml;r die Aktion
+angeben</title>
+<para>Das Feld <filename>WINDOW_TYPE</filename> verwenden, um die Art von
+Fensterunterst&uuml;tzung anzugeben, die f&uuml;r die Aktion erforderlich
+ist.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.69in">
+<colspec colwidth="4.47in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>WINDOW_TYPE Feld</primary></indexterm>WINDOW_TYPE</para></entry>
+<entry align="left" valign="top"><para>Welche Fensterunterst&uuml;tzung steht
+zur Verf&uuml;gung?</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>NO_STDIO
+Fensterunterst&uuml;tzung</primary></indexterm>NO_STDIO</filename></para></entry>
+<entry align="left" valign="top"><para>Keine. <filename>NO_STDIO</filename>
+wird verwendet, wenn die Anwendung &uuml;ber ein eigenes Fenster verf&uuml;gt,
+oder wenn der Befehl keine sichtbare Ausgabe produziert.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>PERM_TERMINAL
+Fensterunterst&uuml;tzung</primary></indexterm>PERM_TERMINAL</filename></para></entry>
+<entry align="left" valign="top"><para>Permanentes emuliertes Terminalfenster.
+Die Aktion &ouml;ffnet ein Terminal-Fenster, das offen bleibt, bis es vom
+Benutzer explizit geschlossen wird. Der Benutzer kann in diesem Fenster Daten
+eingeben. Diesen Fenstertyp f&uuml;r Befehle verwenden, f&uuml;r die eine
+Eingabe erforderlich ist und die eine Ausgabe produzieren, anschlie&szlig;end
+das Fenster schlie&szlig;en (zum Beispiel f&uuml;r <command>ls</command> <symbol role="Variable">verzeichnis</symbol>).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command><indexterm><primary>TERMINAL
+Fensterunterst&uuml;tzung</primary></indexterm>TERMINAL</command></para></entry>
+<entry align="left" valign="top"><para>Tempor&auml;res emuliertes Terminalfenster.
+Die Aktion &ouml;ffnet ein Terminal-Fenster, das geschlossen wird, sobald
+der Befehl beendet ist. Diesen Fenstertyp f&uuml;r Befehle mit Gesamtanzeige
+verwenden (zum Beispiel f&uuml;r <command>vi</command>).</para></entry></row>
+</tbody></tgroup></informaltable>
+</sect2>
+<sect2 id="SAG.CrAct.div.42">
+<title id="SAG.CrAct.mkr.26">Befehlszeilenoptionen f&uuml;r den Terminal-Emulator
+angeben<indexterm><primary>Terminal-Emulator</primary><secondary>Befehlszeilenoptionen
+f&uuml;r Aktionen</secondary></indexterm><indexterm><primary>Aktionen</primary>
+<secondary>Terminaloptionen</secondary></indexterm></title>
+<para>Das Feld <filename>TERM_OPTS</filename> in der Aktionsdefinition verwenden,
+um Befehlszeilenoptionen f&uuml;r den Terminal-Emulator anzugeben.</para>
+<para>Beispielsweise fordert die folgende Aktion zur Angabe des ausf&uuml;hrenden
+Rechners auf:</para>
+<programlisting>ACTION OpenTermOnSystemUserChooses
+{
+   WINDOW_TYPE     PERM_TERMINAL
+   EXEC_HOST       %(String)"Fernes Terminal an:"%
+   TERM_OPTS       -title %(String)"Fenstertitel:"%
+   EXEC_STRING     $SHELL
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrAct.div.43">
+<title id="SAG.CrAct.mkr.27">Andere Standard-Terminal-Emulatoren angeben<indexterm>
+<primary>Terminal-Emulator</primary><secondary>Standard f&uuml;r Aktionen</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>Terminalunterst&uuml;tzung</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>Standardterminal</secondary></indexterm></title>
+<para>Der Standard-Terminal-Emulator f&uuml;r Aktionen ist <command>dtterm</command>. Der Benutzer kann auch einen anderen Terminal-Emulator w&auml;hlen.
+Der Standard-Terminal- Emulator wird verwendet, wenn f&uuml;r die Aktion kein
+anderer Terminal- Emulator explizit angegeben ist.</para>
+<para>Der Terminal-Emulator f&uuml;r Aktionen mu&szlig; &uuml;ber folgende
+Befehlszeilenoptionen verf&uuml;gen:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><command>-title</command> <symbol role="Variable">fenster_titel</symbol></para>
+</listitem>
+<listitem><para><command>-e</command> <symbol role="Variable">Befehl</symbol></para>
+</listitem>
+</itemizedlist>
+<para>Der Standard-Terminal-Emulator f&uuml;r Aktionen wird durch zwei Ressourcen
+bestimmt:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>localTerminal Ressource</primary></indexterm>Die
+Ressource <systemitem>localTerminal</systemitem> gibt den Terminal-Emulator
+an, der von lokalen Anwendungen verwendet wird.</para>
+<para remap="CodeIndent1"><command>*localTerminal: <symbol role="Variable">terminal</symbol></command></para>
+<para>Beispiel:</para>
+<para>*localTerminal: xterm</para>
+</listitem>
+<listitem><para id="SAG.CrAct.mkr.28">Die Ressource <systemitem>remoteTerminal</systemitem> gibt den Terminal-Emulator an, der von Anwendungen auf fernen
+Systemen verwendet wird.</para>
+</listitem>
+</itemizedlist>
+<programlisting>*remoteTerminal: host:terminal [,host:terminal&hellip;]</programlisting>
+<para>Beispiel:</para>
+<programlisting>*remoteTerminal: sysibm1:/usr/bin/xterm,syshp2:/usr/bin/yterm
+</programlisting>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrAct.div.44">
+<title id="SAG.CrAct.mkr.29"><indexterm><primary>Aktionen</primary><secondary>Argumente einschr&auml;nken</secondary></indexterm><indexterm><primary>Argumente</primary><secondary>einschr&auml;nken f&uuml;r Aktionen</secondary></indexterm>Aktionen
+auf bestimmte Argumente einschr&auml;nken</title>
+<para>Durch Einschr&auml;nkung einer Aktion auf einen bestimmten Argumenttyp
+wird eine Feinanpassung einer Aktion erzielt. Beispielsweise ist es sinnvoll,
+eine Aktion, die eine Anzeigefunktion f&uuml;r PostScript-Dateien aufruft,
+auf PostScript-Dateiargumente einzuschr&auml;nken. Ist eine solche Einschr&auml;nkung
+gesetzt, zeigt die Aktion eine Fehlermeldung an, wenn eine Datei angegeben
+wird, die nicht im PostScript-Format ist.</para>
+<para>Aktionen k&ouml;nnen auf der Grundlage folgender Merkmale eingeschr&auml;nkt
+werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>dem Datentyp des Dateiarguments.</para>
+</listitem>
+<listitem><para>der Anzahl der Dateiargumente. Zum Beispiel, keine Argumente
+im Gegensatz zu einem oder mehreren Argumenten. Dadurch wird unterschiedliches
+Verhalten bei &Uuml;bergabe und Doppelklicken bei einem Aktionssymbol bewirkt.
+</para>
+</listitem>
+<listitem><para>dem Schreib-/Lesemodus des Arguments.</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.CrAct.div.45">
+<title id="SAG.CrAct.mkr.30">Aktionen auf einen angegebenen Datentyp einschr&auml;nken<indexterm>
+<primary>Aktionen</primary><secondary>vom Datentyp eingeschr&auml;nkt</secondary>
+</indexterm><indexterm><primary>Datentypen</primary><secondary>einschr&auml;nkende
+Aktionen</secondary></indexterm></title>
+<para><indexterm><primary>ARG_TYPE Feld</primary></indexterm>Das Feld <command>ARG_TYPE</command> wird verwendet, um die Datentypen anzugeben, f&uuml;r die
+die Aktion g&uuml;ltig ist. Den Datenattributnamen verwenden.</para>
+<para>Es k&ouml;nnen mehrere Datentypen angegeben werden. Die Eintr&auml;ge
+mit Kommas voneinander trennen.</para>
+<para>In der folgenden Aktionsdefinition wird angenommen, ein Datentyp Gif
+wurde erstellt:</para>
+<programlisting>ACTION Open_Gif
+{
+   TYPE           COMMAND
+   LABEL          "Gif anzeigen"
+   WINDOW_TYPE    NO_STDIO
+   ARG_TYPE       Gif
+   ICON           xgif
+   DESCRIPTION    Zeigt Gif-Dateien an
+   EXEC_STRING    xgif
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrAct.div.46">
+<title>Aktionen auf der Grundlage der Argumentanzahl einschr&auml;nken<indexterm>
+<primary>Aktionen</primary><secondary>Argumentanzahl einschr&auml;nken</secondary>
+</indexterm><indexterm><primary>Argumente</primary><secondary>Anzahl f&uuml;r
+Aktionen</secondary></indexterm></title>
+<para><indexterm><primary>ARG_COUNT Feld</primary></indexterm>Das Feld <filename>ARG_COUNT</filename> wird verwendet, um die Anzahl der Argumente anzugeben,
+die die Aktion akzeptieren kann. G&uuml;ltige Werte sind:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="0.57in">
+<colspec colwidth="5.41in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>*</para></entry>
+<entry align="left" valign="top"><para>(Standard) Eine beliebige Anzahl von
+Argumenten. Andere Werte haben Vorrang vor *.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>n</para></entry>
+<entry align="left" valign="top"><para>Jede positive ganze Zahl, einschlie&szlig;lich
+0.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>>n</para></entry>
+<entry align="left" valign="top"><para>Mehr als <symbol role="Variable">n</symbol> Argumente.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>&lt;n</para></entry>
+<entry align="left" valign="top"><para>Weniger als <symbol role="Variable">n</symbol> Argumente.</para></entry></row></tbody></tgroup></informaltable>
+<para><command>ARG_COUNT</command> wird unter anderem verwendet, um unterschiedliches
+Aktionssymbolverhalten zu bewirken, je nachdem ob der Benutzer auf dem Symbol
+doppelt klickt oder eine Datei &uuml;bergibt. Weitere Informationen hierzu
+enth&auml;lt der n&auml;chste Abschnitt <!--Original XRef content: '</para>Unterschiedliches
+Verhalten bei Doppelklicken und &Uuml;bergabe zur Verf&uuml;gung stellen'--><xref
+role="SectionTitle" linkend="SAG.CrAct.mkr.31">.</para>
+</sect2>
+<sect2 id="SAG.CrAct.div.47" role="Procedure">
+<title id="SAG.CrAct.mkr.31">Unterschiedliches Verhalten bei Doppelklicken
+und &Uuml;bergabe zur Verf&uuml;gung stellen<indexterm><primary>Aktionen</primary><secondary>Verhalten bei Doppelklicken und &Uuml;bergabe</secondary>
+</indexterm><indexterm><primary>ARG_COUNT Feld</primary></indexterm></title>
+<para>Die folgende Prozedur wird verwendet, um eine Aktion zu erstellen, die
+eine &uuml;bergebene Datei akzeptiert, aber die nicht zur Angabe einer Datei
+auffordert, wenn auf dem Aktionssymbol doppeltgeklickt wird.</para>
+<orderedlist>
+<listitem><para>Eine Aktionsdefinition f&uuml;r die Funktionalit&auml;t f&uuml;r
+Doppelklicken erstellen.</para>
+<para>Im Feld <command>ARG_COUNT</command> 0 Argumente angeben. Die Syntax
+f&uuml;r <command>EXEC_STRING</command> verwenden, die kein &uuml;bergebenes
+Argument akzeptiert.</para>
+</listitem>
+<listitem><para>Eine zweite Aktionsdefinition f&uuml;r die Funktionalit&auml;t
+f&uuml;r &Uuml;bergabe erstellen.</para>
+<para>Im Feld <command>ARG_COUNT</command> >0 Argumente angeben. Eine Syntax
+f&uuml;r <command>EXEC_STRING</command> verwenden, die ein &uuml;bergebenes
+Argument akzeptiert.</para>
+</listitem>
+</orderedlist>
+<para>Angenommen, die folgenden zwei Befehlszeilen k&ouml;nnen verwendet werden,
+um einen Editor mit dem Namen <command>vedit</command> zu starten:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Um den Editor ohne Dateiargument zu starten:</para>
+<para remap="CodeIndent1"><command>vedit</command></para>
+</listitem>
+<listitem><para>Um den Editor mit einem Dateiargument, das als schreibgesch&uuml;tztes
+Dokument ge&ouml;ffnet wird, zu starten:</para>
+<para remap="CodeIndent1"><command>vedit -R <symbol role="Variable">dateiname</symbol> </command></para>
+</listitem>
+</itemizedlist>
+<para>Die folgenden zwei Aktionen stellen die Funktionalit&auml;t f&uuml;r
+&Uuml;bergabe und Doppelklicken f&uuml;r eine Aktion mit dem Namen Vedit zur
+Verf&uuml;gung. Die erste Aktion hat Vorrang, wenn die Datenbank nach einer
+Entsprechung durchsucht wird, da <command>ARG_COUNT 0</command> genauer spezifiziert
+ist als das implizierte <command>ARG_COUNT *</command> der Definition der
+Funktionalit&auml;t f&uuml;r &Uuml;bergabe.</para>
+<programlisting># Funktionalit&auml;t f&uuml;r Doppelklicken
+ACTION Vedit
+{
+   TYPE          COMMAND
+   ARG_COUNT     0
+   WINDOW_TYPE   PERM_TERMINAL
+   EXEC_STRING   vedit
+}
+
+# Funktionalit&auml;t f&uuml;r &Uuml;bergabe
+ACTION Vedit
+{
+   TYPE          COMMAND
+   WINDOW_TYPE   PERM_TERMINAL
+   EXEC_STRING   vedit -R %Arg_1%
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrAct.div.48">
+<title>Aktionen auf der Grundlage des Argumentmodus einschr&auml;nken</title>
+<para>Das Feld <filename>ARG_MODE</filename> wird verwendet, um den Schreib-/Lesemodus
+des Arguments anzugeben. G&uuml;ltige Werte sind:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="0.75in">
+<colspec colwidth="6.25in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>*</para></entry>
+<entry align="left" valign="top"><para>(Standard) Jeder Modus</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>!w</para></entry>
+<entry align="left" valign="top"><para>keine Schreibberechtigung</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>w</para></entry>
+<entry align="left" valign="top"><para>Schreibberechtigung</para></entry>
+</row></tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrAct.div.49">
+<title id="SAG.CrAct.mkr.32">Aktionen erstellen, die Anwendungen auf fernen
+Systemen ausf&uuml;hren<indexterm><primary>Aktionen</primary><secondary>ferne Anwendungen ausf&uuml;hren</secondary></indexterm><indexterm><primary>Ferne Ausf&uuml;hrung</primary><secondary>von Aktionen</secondary></indexterm></title>
+<para>Wenn von Aktionen und Ausf&uuml;hrung auf fernen Systemen die Rede ist,
+werden zwei Begriffe h&auml;ufig verwendet:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.98in">
+<colspec colwidth="3.99in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>Datenbank-Host</primary></indexterm>Datenbank-Rechner</para></entry>
+<entry align="left" valign="top"><para>Das System, das die Aktionsdefinition
+enth&auml;lt</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><indexterm><primary>Ausf&uuml;hrender
+Host</primary><secondary>Aktionen erstellen</secondary></indexterm>Ausf&uuml;hrender
+Rechner</para></entry>
+<entry align="left" valign="top"><para>Das System, auf dem die ausf&uuml;hrbare
+Datei ausgef&uuml;hrt wird</para></entry></row></tbody></tgroup></informaltable>
+<para>Meistens befinden sich Aktionen und deren Anwendungen auf demselben
+System. Da der ausf&uuml;hrende Rechner f&uuml;r eine Aktion standardm&auml;&szlig;ig
+der Datenbank-Rechner ist, ist eine spezielle Syntax nicht erforderlich.</para>
+<para>Handelt es sich jedoch bei ausf&uuml;hrendem Rechner und Datenbank-Rechner
+um verschiedene Rechner, mu&szlig; in der Aktionsdefinition angegeben werden,
+wo die Ausf&uuml;hrungszeile ausgef&uuml;hrt werden soll.</para>
+<para>Die F&auml;higkeit, die Position von Aktionen und Anwendungen in anderen
+Systemen festzustellen, ist Bestandteil der Client/Server-Architektur des
+Desktops. Weiterf&uuml;hrende Informationen zu Anwendungen im Netzwerk k&ouml;nnen
+dem Abschnitt <!--Original XRef content: '</para>Anwendungs-Services verwalten</para>
+auf Seite&numsp;111'--><xref role="SecTitleAndPageNum" linkend="SAG.ClSrv.mkr.15">
+entnommen werden.</para>
+<sect2 id="SAG.CrAct.div.50">
+<title id="SAG.CrAct.mkr.33">Aktionen erstellen, die Anwendungen an einem
+anderen Rechner ausf&uuml;hren<indexterm><primary>EXEC_HOST Feld</primary>
+</indexterm><indexterm><primary>DatabaseHost%</primary></indexterm><indexterm>
+<primary>LocalHost%</primary></indexterm><indexterm><primary>DisplayHost%</primary></indexterm><indexterm><primary>SessionHost%</primary></indexterm></title>
+<para><indexterm><primary>EXEC_HOST Feld</primary></indexterm><indexterm>
+<primary>Ausf&uuml;hrender Host</primary><secondary>angegeben vom EXEC_HOST
+Feld</secondary></indexterm>Das Feld <command>EXEC_HOST</command> in der Aktionsdefinition
+wird verwendet, um die Position der Anwendung anzugeben.</para>
+<para>G&uuml;ltige Werte f&uuml;r <command>EXEC_HOST</command> sind:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.72in">
+<colspec colwidth="4.26in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>Datenbank-Host
+Schl&uuml;sselwort</primary></indexterm>%DatabaseHost%</filename></para></entry>
+<entry align="left" valign="top"><para>Der Rechner, auf dem die Aktion definiert
+ist.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>%LocalHost%</filename></para></entry>
+<entry align="left" valign="top"><para>Der Rechner, auf dem die Aktion aufgerufen
+wird (der <emphasis>Session-Server</emphasis>).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>DisplayHost,
+Schl&uuml;sselwort</primary></indexterm>%DisplayHost%</filename></para></entry>
+<entry align="left" valign="top"><para>Der Rechner, auf dem der X-Server ausgef&uuml;hrt
+wird (nicht zul&auml;ssig f&uuml;r Xstations).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename><indexterm><primary>Session-Host
+Schl&uuml;sselwort</primary></indexterm>%SessionHost%</filename></para></entry>
+<entry align="left" valign="top"><para>Der Rechner, auf dem der steuernde
+Anmeldemanager ausgef&uuml;hrt wird.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">hostname</symbol></para></entry>
+<entry align="left" valign="top"><para>Der benannte Rechner. Dieser Wert wird
+in Umgebungen verwendet, in denen die Aktion immer auf einem bestimmten Rechner
+aufgerufen werden soll.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>%'<symbol role="Variable">prompt</symbol>'%
+</para></entry>
+<entry align="left" valign="top"><para>Fordert den Benutzer bei jedem Aufrufen
+des Befehls zur Eingabe des Rechnernamens auf.</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Der Standardwert ist <filename>%DatabaseHost%</filename>, <filename>%LocalHost%</filename>.<indexterm><primary>EXEC_HOST Feld</primary><secondary>Standardwert</secondary></indexterm> Daher versucht die Aktion, wenn das Feld <command>EXEC_HOST</command> &uuml;bergangen wird, zun&auml;chst, den Befehl auf dem
+Rechner auszuf&uuml;hren, der die Aktionsdefinition enth&auml;lt. Schl&auml;gt
+dies fehl, versucht die Aktion den Befehl auf dem Session-Server auszuf&uuml;hren.
+</para>
+<sect3 id="SAG.CrAct.div.51">
+<title>Beispiele</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Im folgenden Beispiel wird als Rechner <command>ddsyd</command>
+angegeben:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_HOST ddsyd</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>In diesem Beispiel wird der Benutzer aufgefordert, einen Rechnernamen
+einzugeben:</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_HOST %"Host enth&auml;lt Anwendung:"%</programlisting>
+<itemizedlist remap="Bullet1">
+<listitem><para>In diesem Beispiel wird angegeben, da&szlig; die Aktion zun&auml;chst
+versucht, die Anwendung auf dem Rechner, der die Aktionsdefinition enth&auml;lt,
+auszuf&uuml;hren. Schl&auml;gt dies fehl, wird die Aktion versuchen, die Anwendung
+auf dem Rechner <command>ddsyd</command> auszuf&uuml;hren.</para>
+</listitem>
+</itemizedlist>
+<programlisting>EXEC_HOST %DatabaseHost%, ddsyd</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrAct.div.52">
+<title id="SAG.CrAct.mkr.34">Variablen in Definitionen f&uuml;r Aktionen und
+Datentypen verwenden<indexterm><primary>Variable</primary><secondary>in Aktionsdefinitionen</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>Variable in Definition</secondary></indexterm><indexterm><primary>Datentypen</primary><secondary>Variable in Definition</secondary></indexterm></title>
+<para>In Definitionsdateien f&uuml;r Aktionen und Datentypen k&ouml;nnen
+Zeichenfolgevariablen und Umgebungsvariablen verwendet werden.</para>
+<sect2 id="SAG.CrAct.div.53">
+<title id="SAG.CrAct.mkr.35">Zeichenfolgevariablen in einer Aktion verwenden<indexterm>
+<primary>Zeichenfolgevariable in Aktionsdefinitionen</primary></indexterm><indexterm>
+<primary>Aktionen</primary><secondary>Zeichenfolgevariable</secondary></indexterm></title>
+<para>Eine Zeichenfolgevariablendefinition ist wirksam von der Position der
+Definition bis zum Ende der Datei. Es gibt keine globalen Zeichenfolgevariablen
+f&uuml;r die Datenbank.</para>
+<para>Existieren sowohl eine Zeichenfolgevariable als auch eine Umgebungsvariable
+mit demselben Namen, hat die Zeichenfolgevariable Vorrang.</para>
+<sect3 id="SAG.CrAct.div.54" role="Procedure">
+<title>Eine Zeichenfolgevariable definieren</title>
+<itemizedlist>
+<listitem><para>Folgende Syntax verwenden:</para>
+<para remap="CodeIndent1"><command>set <symbol role="Variable">variable_name</symbol>=<symbol role="Variable">wert</symbol></command></para>
+</listitem>
+</itemizedlist>
+<para>Variablennamen k&ouml;nnen jedes alphanumerische Zeichen sowie Unterstriche
+(_) enthalten. Jede Variablendefinition mu&szlig; sich auf einer eigenen
+Zeile befinden.</para>
+<para>Beispiel:</para>
+<programlisting>set Remote_Application_Server=sysapp
+set Remote_File_Server=sysdata</programlisting>
+</sect3>
+<sect3 id="SAG.CrAct.div.55" role="Procedure">
+<title>Auf eine Zeichenfolgevariable verweisen</title>
+<itemizedlist>
+<listitem><para>Folgende Syntax verwenden:</para>
+<para remap="CodeIndent1"><command>$[{]<symbol role="Variable">variable_name</symbol>[}]</command></para>
+</listitem>
+</itemizedlist>
+<para>Beispiel:</para>
+<programlisting>EXEC-HOST $Remote_Application_Server
+CWD /net/${Remote_File_Server}/doc/project</programlisting>
+</sect3>
+</sect2>
+<sect2 id="SAG.CrAct.div.56">
+<title id="SAG.CrAct.mkr.36">Umgebungsvariablen in Aktionen und Datentypen
+verwenden<indexterm><primary>Umgebungsvariable</primary><secondary>Aktionsdefinitionen</secondary></indexterm><indexterm><primary>Aktionen</primary><secondary>Umgebungsvariable</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Auf eine Umgebungsvariable mit folgender Syntax verweisen:
+</para>
+<para remap="CodeIndent1"><command>$[{]<symbol role="Variable">variable</symbol>[}].</command></para>
+</listitem>
+</itemizedlist>
+<para>Die Variable wird erweitert (durch ihren Wert ersetzt), wenn die Datenbank
+geladen wird. Existieren sowohl eine Zeichenfolgevariable als auch eine
+Umgebungsvariable mit demselben Namen, hat die Zeichenfolgevariable Vorrang.
+</para>
+<para>Beispielsweise druckt folgende Ausf&uuml;hrungszeile eine Datei mit
+einem Deckblatt, das den Namen der Datei enth&auml;lt:</para>
+<programlisting>EXEC-STRING lp -t$LOGNAME %(File)Arg_1%</programlisting>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrAct.div.57">
+<title id="SAG.CrAct.mkr.37">Aktionen &uuml;ber eine Befehlszeile aufrufen<indexterm>
+<primary>Aktionen</primary><secondary>andere Aktionen ausf&uuml;hren</secondary>
+</indexterm></title>
+<para>Das Desktop stellt den Befehl <command>dtaction</command> zur Verf&uuml;gung,
+mit dem Aktionen &uuml;ber eine Befehlszeile ausgef&uuml;hrt werden k&ouml;nnen.
+Mit <command>dtaction</command> k&ouml;nnen Aktionen von folgenden Positionen
+aus ausgef&uuml;hrt werden:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Prozeduren</para>
+</listitem>
+<listitem><para>anderen Aktionen</para>
+</listitem>
+<listitem><para>der Befehlszeile eines Terminal-Emulators</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.CrAct.div.58">
+<title>Syntax von dtaction<indexterm><primary>dtaction</primary><secondary>Syntax</secondary></indexterm></title>
+<para><command>dtaction [-user <symbol role="Variable">benutzer_name</symbol>]
+[-execHost <symbol role="Variable">hostname</symbol>] <symbol role="Variable">aktion_name</symbol> [<symbol role="Variable">argument</symbol> [<symbol role="Variable">argument</symbol>]&hellip;]</command></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="2.00in">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><command>-user</command> <symbol role="Variable">benutzer_name</symbol></para></entry>
+<entry align="left" valign="top"><para>Stellt die F&auml;higkeit zur Verf&uuml;gung,
+die Aktion als ein anderer Benutzer auszuf&uuml;hren. Wird <command>dtaction</command> von einem anderen als dem durch <symbol role="Variable">benutzer_name</symbol> angegebenen Benutzer aufgerufen, wird dieser zur Eingabe des Kennworts
+aufgefordert.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><command>-execHost</command> <symbol role="Variable">hostname</symbol></para></entry>
+<entry align="left" valign="top"><para>Nur f&uuml;r Befehlsaktionen. Hier
+wird der Rechner angegeben, auf dem der Befehl ausgef&uuml;hrt wird.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">argument</symbol></para></entry>
+<entry align="left" valign="top"><para>Argumente f&uuml;r die Aktion, normalerweise
+Dateiargumente.</para></entry></row></tbody></tgroup></informaltable>
+<para>Der Client <command>dtaction</command> verf&uuml;gt &uuml;ber weitere
+Befehlszeilenoptionen. Weitere Informationen hierzu k&ouml;nnen der Hilfeseite <filename moreinfo="RefEntry">dtaction(1)</filename> entnommen werden.</para>
+</sect2>
+<sect2 id="SAG.CrAct.div.59">
+<title>Aktionen erstellen, die andere Aktionen ausf&uuml;hren<indexterm>
+<primary>Aktionen</primary><secondary>andere Aktionen ausf&uuml;hren</secondary>
+</indexterm></title>
+<para>In der Zeile <filename>EXEC_STRING</filename> die Aktion <command>dtaction</command> verwenden.</para>
+<para>Beispielsweise verwendet die folgende Aktion eine integrierte Aktion
+mit dem Namen Spell (die Aktion tr&auml;gt im Anwendungsmanager die Bezeichnung
+``Check Spelling''). Die neue Aktion f&uuml;hrt den Text Editor und die Aktion
+Spell aus und zeigt Rechtschreibfehler in einem separaten Terminal-Emulator-
+Fenster an.</para>
+<programlisting>ACTION EditAndSpell
+{
+   WINDOW_TYPE   NO_STDIO
+   EXEC_STRING   /bin/sh -c 'dtaction Spell \
+                 %Arg_1"Datei:"%; dtpad %Arg_1%'
+}</programlisting>
+</sect2>
+<sect2 id="SAG.CrAct.div.60">
+<title id="SAG.CrAct.mkr.38">Aktionen erstellen, die als andere Benutzer ausgef&uuml;hrt
+werden<indexterm><primary>Aktionen</primary><secondary>als anderer Benutzer
+ausf&uuml;hren</secondary></indexterm><indexterm><primary>Benutzer, f&uuml;r
+Aktion &auml;ndern</primary></indexterm><indexterm><primary>dtaction</primary>
+<secondary>Benutzer &auml;ndern</secondary></indexterm></title>
+<para>In <command>EXEC_STRING</command>folgende Syntax verwenden:</para>
+<para><command>EXEC_STRING dtaction -user <symbol role="Variable">benutzer_name</symbol> <symbol role="Variable">aktion_name</symbol> [<symbol role="Variable">datei_argument</symbol>]</command></para>
+<para>Der neue Benutzer (<symbol role="Variable">benutzer_name</symbol>) mu&szlig;
+durch einen der folgenden Mechanismen Zugriff auf die Anzeige des Systems
+erhalten:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Leseberechtigung f&uuml;r die Datei <filename>.Xauthority</filename> des angemeldeten Benutzers</para>
+</listitem>
+<listitem><para><emphasis>Oder</emphasis>, xhost-Berechtigung</para>
+</listitem>
+</itemizedlist>
+<para>Die beiden folgenden Aktionen erm&ouml;glichen dem Benutzer, sich als
+Root anzumelden und eine Datei app-defaults zu bearbeiten.</para>
+<programlisting>ACTION AppDefaults
+{
+   WINDOW_TYPE    NO_STDIO
+   EXEC_STRING    /usr/dt/bin/dtaction -user root \
+                  EditAppDefaults %Arg_1"Datei:"%
+}
+ACTION EditAppDefaults
+{
+   WINDOW_TYPE    TERMINAL
+   EXEC_STRING    /bin/sh -c 'chmod +w %Arg_1%; \
+                  vi %Arg_1%; chmod -w %Arg_1%'
+}</programlisting>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrAct.div.61">
+<title id="SAG.CrAct.mkr.39">Sprachenabh&auml;ngige Aktionen erstellen<indexterm>
+<primary>Aktionen</primary><secondary>Positionen</secondary></indexterm><indexterm>
+<primary>Position</primary><secondary>Aktionen</secondary></indexterm></title>
+<para>Der Suchpfad f&uuml;r Datentypen enth&auml;lt sprachenabh&auml;ngige
+Positionen. Das Desktop verwendet den Wert <systemitem>LANG</systemitem>,
+um festzulegen, welche Positionen nach Datentypdefinitionen durchsucht werden
+sollen.</para>
+<sect2 id="SAG.CrAct.div.62">
+<title>Positionen f&uuml;r sprachenabh&auml;ngige Aktionen</title>
+<para>Sprachenabh&auml;ngige Aktionsdefinitionen m&uuml;ssen in die korrekten
+sprachenabh&auml;ngigen Verzeichnisse im Aktionssuchpfad gestellt werden.
+</para>
+<para>Der Standardsuchpfad ist:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pers&ouml;nliche Aktionen: <symbol role="Variable">Standardverzeichnis</symbol><filename>/.dt/types</filename></para>
+</listitem>
+<listitem><para>Systemweite Aktionen: <filename>/etc/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+<listitem><para>Integrierte Aktionen: <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">sprache</symbol></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.CrAct.div.63" role="Procedure">
+<title>Eine bereits vorhandene Aktion sprachenabh&auml;ngig einrichten<indexterm>
+<primary>Aktionen</primary><secondary>Bezeichnungen</secondary></indexterm><indexterm>
+<primary>Bezeichnungen</primary><secondary>Aktionen</secondary></indexterm><indexterm>
+<primary>Positionen</primary><secondary>Aktionsbezeichnung</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Eine Datei in dem entsprechenden sprachenabh&auml;ngigen Verzeichnis
+erstellen (zum Beispiel in <filename>/etc/dt/appconfig/types/japanese</filename>).
+</para>
+</listitem>
+<listitem><para>Die Aktionsdefinition in die sprachenabh&auml;ngige Konfigurationsdatei
+kopieren.</para>
+<para>Beispielsweise kann der Benutzer eine Aktionsdefinition aus</para>
+<para remap="CodeIndent1"><filename><symbol role="Variable">app_root</symbol>/dt/appconfig/types/C/<symbol role="Variable">datei</symbol>.dt</filename></para>
+<para>in folgende Datei kopieren:</para>
+<para remap="CodeIndent1"><filename><symbol role="Variable">app_root</symbol>/dt/appconfig/types/japanese/<symbol role="Variable">neuedatei</symbol>.dt</filename></para>
+</listitem>
+<listitem><para>Ein Feld <command>LABEL</command> hinzuf&uuml;gen oder ein
+bereits vorhandenes Feld <command>LABEL</command> &auml;ndern.</para>
+<programlisting>LABEL <symbol role="Variable">zeichenfolge</symbol></programlisting>
+<para>Anwendungsmanager und Dateimanager verwenden die f&uuml;r LABEL gesetzte
+Zeichenfolge, um das Symbol der Aktion zu identifizieren.</para>
+</listitem>
+<listitem><para>Die folgenden Felder in der Aktionsdefinition k&ouml;nnen
+sprachenabh&auml;ngig eingerichtet werden.</para>
+<itemizedlist remap="Bullet2">
+<listitem><para>Symbole sprachenabh&auml;ngig einrichten: <command>ICON</command></para>
+</listitem>
+<listitem><para>Kontexthilfe sprachenabh&auml;ngig einrichten: <command>DESCRIPTION</command></para>
+</listitem>
+<listitem><para>Eingabeaufforderungen sprachenabh&auml;ngig einrichten: jeder
+Text in Anf&uuml;hrungszeichen in der Zeile <command>EXEC_STRING</command></para>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.CrAct.div.64">
+<title id="SAG.CrAct.mkr.40">Aktionen f&uuml;r ToolTalk-Anwendungen erstellen<indexterm>
+<primary>TT_MSG Aktion</primary><secondary>erstellen</secondary></indexterm><indexterm>
+<primary>ToolTalk</primary><secondary>Anwendungen, Aktionen</secondary></indexterm><indexterm>
+<primary>ToolTalk</primary><secondary>Aktion, siehe TT_MSG Aktion</secondary>
+</indexterm></title>
+<note>
+<para>Folgende Informationen gelten nur f&uuml;r Anwendungen, die das Senden
+von Nachrichten mit ToolTalk unterst&uuml;tzen.</para>
+</note>
+<para>Mit dem Aktionstyp <filename>TT_MSG</filename> eine Aktion erstellen,
+die eine ToolTalk-Nachricht sendet.</para>
+<programlisting>ACTION aktion_name
+{
+   TYPE   TT_MSG
+   &hellip;
+}</programlisting>
+<sect2 id="sag.cract.div.65">
+<title>Felder 'addressing' und 'disposition'</title>
+<itemizedlist remap="Bullet1">
+<listitem><para>Das ToolTalk-Feld <command>addressing</command> ist immer
+auf <filename>TT_PROCEDURE</filename> gesetzt.</para>
+</listitem>
+<listitem><para>Das ToolTalk-Feld <command>disposition</command> wird standardm&auml;&szlig;ig
+auf die Spezifikation im statischen Nachrichtenmuster gesetzt.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.cract.div.66">
+<title>Nicht unterst&uuml;tzte Nachrichten</title>
+<para>Die folgenden Nachrichten werden nicht von Aktionen vom Typ <filename>TT_MSG</filename> unterst&uuml;tzt:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Objektbezogene Nachrichten in ToolTalk</para>
+</listitem>
+<listitem><para>Kontextargumente in Nachrichten</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="sag.cract.div.67">
+<title>Schl&uuml;sselw&ouml;rter f&uuml;r ToolTalk-Nachrichtenaktionen<indexterm>
+<primary>TT_MSG Aktion</primary><secondary>Schl&uuml;sselw&ouml;rter</secondary>
+</indexterm></title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.72in">
+<colspec colwidth="4.24in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Schl&uuml;sselwort</para></entry>
+<entry align="left" valign="bottom"><para>Verwendung</para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>TT_CLASS</filename></para></entry>
+<entry align="left" valign="top">Definiert den Wert des ToolTalk-Meldungsfelds <command>class</command>.</entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_SCOPE</filename></para></entry>
+<entry align="left" valign="top"><para>Definiert den Wert des ToolTalk-Meldungsfelds <command>scope</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_OPERATION</filename></para></entry>
+<entry align="left" valign="top"><para>Definiert den Wert des ToolTalk-Meldungsfelds <command>operation</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_FILE</filename></para></entry>
+<entry align="left" valign="top"><para>Definiert den Wert des ToolTalk-Meldungsfelds <command>file</command>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_ARGn_MODE</filename></para></entry>
+<entry align="left" valign="top"><para>Definiert den Wert des ToolTalk-Attributs <command>mode</command> f&uuml;r das <symbol role="Variable">n</symbol>te Meldungsargument.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_ARGn_VTYPE</filename></para></entry>
+<entry align="left" valign="top"><para>Definiert den Wert des ToolTalk-Attributs <command>vtype</command> des <symbol role="Variable">n</symbol>ten Meldungsarguments.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>TT_ARGn_VALUE</filename></para></entry>
+<entry align="left" valign="top"><para>Definiert den Wert des <symbol role="Variable">n</symbol>ten Meldungsarguments.</para></entry></row></tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 13:50:20-->
+<?Pub *0000101951>

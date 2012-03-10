@@ -1,0 +1,71 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/11/22 11:15:01 drk $
+#define DoNormalLib	NormalLibDtHelp
+#define DoSharedLib	SharedLibDtHelp
+#define DoDebugLib	DebugLibDtHelp
+#define DoProfileLib	ProfileLibDtHelp
+#define LibName		DtHelp
+#define SoRev		SODTHELPREV
+#define LibHeaders	NO
+#define LibCreate	NO
+#define LargePICTable	YES
+
+#include <Threads.tmpl>
+
+#if defined(LSBBitOrder) && LSBBitOrder
+BIT_ORDER_DEFINES = -DLSB_BIT_ORDER
+#endif
+
+INCLUDES = -I. -I..
+DEFINES = -DDTLIB -DXK_MISCELLANY $(LOCAL_DEFINES) \
+	  -DCDE_INSTALLATION_TOP='"$(CDE_INSTALLATION_TOP)"' \
+	  -DCDE_CONFIGURATION_TOP='"$(CDE_CONFIGURATION_TOP)"' \
+	  -DCDE_USER_TOP='"$(CDE_USER_TOP)"' \
+	  -DOSMAJORVERSION=OSMajorVersion \
+	  -DOSMINORVERSION=OSMinorVersion \
+	  $(ICONV_INBUF_DEFINE) $(BIT_ORDER_DEFINES)
+
+#ifdef SCOArchitecture
+/* ilscalesample.o breaks the MS loader.  Remove it for now */
+all:: ilscalesample.o libXvh.a
+#endif
+
+SRCS =  ilX.c                ilbigray.c           ilcodec.c \
+        ilcontext.c          ilconvert.c          ilcrop.c \
+        ildata.c             ildecompg3.c         ildecompg4.c \
+        ildecompjpeg.c       ildecomplzw.c        ildecomppackbits.c \
+        ildecompress.c       ildither.c           ilformat.c \
+        ilgraybi.c           ilimage.c            ilinvert.c \
+        iljpgdecode.c        iljpgdecodejif.c     iljpgdedct.c \
+        iljpgdehuff.c        iljpgutil.c          ilmap.c \
+        ilobject.c           ilpalette.c          ilpipe.c \
+        ilrwimage.c          ilscale.c            ilscalesample.c \
+        iltiff.c             iltiffread.c         iltruegray.c \
+        ilupsample.c         ilutiljpeg.c         ilycbcr.c
+
+/* WARNING!!!!
+ * Any .o's added to this list need to be added to IL_OBJS in the
+ * parent (DtHelp) Imakefile.
+ */
+OBJS =  ilX.o                ilbigray.o           ilcodec.o \
+        ilcontext.o          ilconvert.o          ilcrop.o \
+        ildata.o             ildecompg3.o         ildecompg4.o \
+        ildecompjpeg.o       ildecomplzw.o        ildecomppackbits.o \
+        ildecompress.o       ildither.o           ilformat.o \
+        ilgraybi.o           ilimage.o            ilinvert.o \
+        iljpgdecode.o        iljpgdecodejif.o     iljpgdedct.o \
+        iljpgdehuff.o        iljpgutil.o          ilmap.o \
+        ilobject.o           ilpalette.o          ilpipe.o \
+        ilrwimage.o          ilscale.o            ilscalesample.o \
+        iltiff.o             iltiffread.o         iltruegray.o \
+        ilupsample.o         ilutiljpeg.o         ilycbcr.o
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+/* MS Compiler bug, remove when we go to USL compiler */
+#ifdef SCOArchitecture
+SpecialFlagsObjectRule(iltiff,-Oi -DUSE_INLINE_CODE)
+#endif
+
+DependTarget()

@@ -1,0 +1,51 @@
+XCOMM $TOG: Imakefile /main/11 1999/02/26 11:29:47 mgreess $
+
+DEFINES = -DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\"	\
+	  -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\"
+INCLUDES = -I. -I$(DTHELPSRC)
+
+#ifdef HPArchitecture
+EXTRA_DEFINES = -D_XOPEN_SOURCE -D__hpux_8_0 -DFUNCPROTO
+#endif
+
+DEPLIBS = $(DEPDTHELPLIB) $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) $(XLIB)
+DEF_SYSTEM_PATH = DefaultSystemPath:X11ProjectRoot/bin
+
+#if defined(SunArchitecture)
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) \
+	$(XMLIB) $(XTOOLLIB) $(XLIB)
+SYS_LIBRARIES = -lm -ldl -lgen
+#endif
+
+#if defined(USLArchitecture)
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) \
+	$(XMLIB) $(XTOOLLIB) $(XLIB)
+SYS_LIBRARIES = -lm -lgen 
+#endif
+
+#if defined(LinuxArchitecture)
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) \
+	$(XMLIB) $(XTOOLLIB) $(XLIB)
+SYS_LIBRARIES = -lm
+#endif
+
+#if defined(UXPArchitecture)
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB) \
+	$(XMLIB) $(XTOOLLIB) $(XLIB)
+SYS_LIBRARIES = -lm -lgen 
+#endif
+
+SRCS = main.c spcd_event.c
+OBJS = main.o spcd_event.o
+
+ComplexProgramTarget(dtspcd)
+
+LOCAL_CPP_DEFINES = -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP) \
+                    -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
+                    -DCDE_LOGFILES_TOP=$(CDE_LOGFILES_TOP) \
+		    -DDEF_SYSTEM_PATH=$(DEF_SYSTEM_PATH)
+
+CppFileTarget(dtspcdenv,dtspcdenv.src,$(LOCAL_CPP_DEFINES),)
+
+AllTarget(dtspcdenv)

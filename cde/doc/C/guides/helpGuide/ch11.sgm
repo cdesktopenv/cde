@@ -1,0 +1,328 @@
+<!-- $XConsortium: ch11.sgm /main/10 1996/09/08 19:40:53 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.H4Hlp.div.1">
+<title id="HRDC.H4Hlp.mkr.1">Providing Help on Help</title>
+<para>This chapter explains how to incorporate a help volume into your application
+that describes the features of the Help System and how to use them. This
+help volume provides help on using the Help dialog boxes.</para>
+<informaltable id="HRDC.H4Hlp.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Accessing Help on Help in an Application236'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.2"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Set the helpOnHelpVolume Resource237'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.3"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Provide a Using Help Command237'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.4"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Display Help on Help238'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.5"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Writing Your Own Help on Help Volume239'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.6"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Copy the Help4Help Source Files241'--><xref
+role="JumpText" linkend="HRDC.H4Hlp.mkr.7"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<sect1 id="HRDC.H4Hlp.div.2">
+<title>Providing Help on Help</title>
+<para>Help on help tells users how to use the Help System. Specifically, it
+describes such tasks as using hyperlinks, navigating topics, using the index,
+and printing help topics. Normally, help on help is supplied as an individual
+help volume named Help4Help.</para>
+<para>The Help4Help volume and its source files are included in the Developer's
+Toolkit. You can use the default volume &ldquo;as is,&rdquo; or modify it
+for your application's design.</para>
+<sect2 id="HRDC.H4Hlp.div.3">
+<title>For Application Help</title>
+<para>If you are writing application-specific help, there are two ways to
+ensure that your application has help on help for its own help dialogs:</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>Rely on the desktop's
+help on help volume.</emphasis> For example, on workstations running the
+desktop, the standard Help4Help volume is installed.</para>
+</listitem><listitem><para><emphasis>Supply your own help on help volume.</emphasis> The DocBook source files for the Help4Help volume are provided
+in the <filename>/usr/dt/dthelp/help4help/C</filename> directory. You run
+DocBook in this directory to create the run-time help file. Graphics files
+used in the help on help volume are stored in the <filename>graphics</filename>
+subdirectory.</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.4">
+<title>For Standalone Help</title>
+<para>If you are writing standalone help, you are probably relying on the
+Helpview program already being installed and ready to use. If this is the
+case, you don't have to worry about help on help because Helpview accesses
+the standard Help4Help volume by default.</para>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.5">
+<title>How Help on Help Is Found</title>
+<para>Each application that uses the Help System (including Helpview) has
+a <systemitem class="resource">helpOnHelpVolume</systemitem> resource that
+identifies a help volume to be accessed for help on help topics. For Helpview,
+this resource is set as follows:</para>
+<programlisting>DtHelpview*helpOnHelpVolume:  Help4Help</programlisting>
+<para>If you provide your own help on help volume, be sure to give it a unique
+name so it doesn't conflict with another help on help volume that may be installed
+on the system.</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.H4Hlp.div.6">
+<title id="HRDC.H4Hlp.mkr.2">Accessing Help on Help in an Application</title>
+<para>Your application should do the following to support help on help:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Set the <systemitem class="resource">helpOnHelpVolume</systemitem> resource to identify the help volume you want
+to access.</para>
+</listitem><listitem><para>Add a <command>Using Help</command> command to
+the application's Help menu.</para>
+</listitem></itemizedlist>
+<sect2 id="HRDC.H4Hlp.div.7" role="Procedure">
+<title id="HRDC.H4Hlp.mkr.3">To Set the helpOnHelpVolume Resource</title>
+<orderedlist><listitem><para>Add a line to your application's application-defaults
+file like this:</para>
+<para><symbol role="Variable">App-class</symbol>* <systemitem class="resource">helpOnHelpVolume</systemitem>: <symbol role="Variable">volume</symbol></para>
+<para>Where <symbol role="Variable">App-class</symbol> is the application's
+class name and <symbol role="Variable">volume</symbol> is the name of the
+help on help volume you want to access.</para>
+<para><emphasis>Or,</emphasis> within your application, set the <systemitem class="resource">helpOnHelpVolume</systemitem> resource for each help dialog
+you create.</para>
+</listitem></orderedlist>
+<sect3 id="HRDC.H4Hlp.div.8">
+<title>Examples</title>
+<itemizedlist remap="Bullet1"><listitem><para>This line in <filename>dthelpview's</filename> application-defaults file (<command>DtHelpview</command>) specifies
+the help on help volume:</para>
+<programlisting>DtHelpview*helpOnHelpVolume:  Help4Help</programlisting>
+</listitem><listitem><para>To specify the help on help volume when creating
+a help dialog, add it to the argument list passed to the create function
+as shown here:</para>
+<programlisting>ac = 0;
+XtSetArg (al[ac], XmNtitle, "My Application - Help"); ac++;
+XtSetArg (al[ac], DtNhelpOnHelpVolume, "Help4Help"); ac++;
+helpDialog = DtCreateHelpDialog (parent, "helpDialog", al, ac);</programlisting>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.9" role="Procedure">
+<title id="HRDC.H4Hlp.mkr.4">To Provide a Using Help Command</title>
+<orderedlist><listitem><para>Add to your Help menu a button labeled <literal>Using Help</literal>. Also add the necessary activate callback to call your <function>HelpRequestCB()</function> function.</para>
+</listitem><listitem><para>Add support to your <function>HelpRequestCB()</function>
+function to display help on help. Specifically:</para>
+<itemizedlist><listitem><para>Create a quick help dialog.</para>
+</listitem><listitem><para>Set the dialog's title to Help On Help.</para>
+</listitem><listitem><para>Display the home topic of the help on help volume.
+</para>
+</listitem><listitem><para>Manage the quick help dialog.</para>
+</listitem></itemizedlist>
+</listitem></orderedlist>
+<sect3 id="HRDC.H4Hlp.div.10">
+<title>Example</title>
+<para>The following lines create a menu button labeled <literal>Using Help&hellip;</literal> that calls the <function>HelpRequestCB()</function> function.
+</para>
+<programlisting>/* <emphasis>Create the "Using Help ..." button.</emphasis> */
+labelStr = XmStringCreateLtoR ("Using Help ...",
+XmSTRING_DEFAULT_CHARSET);
+ac = 0;
+XtSetArg (al[ac], XmNlabelString, labelStr);     ac++;
+button = XmCreatePushButtonGadget (parent, "usingHelpButton", al,
+ac);
+   XtManageChild (button);
+   XmStringFree (labelStr);
+   /* <emphasis>Add a callback to the button.</emphasis> */
+   XtAddCallback (button,XmNactivateCallback,HelpRequestCB,
+   USING_HELP);</programlisting>
+<para><systemitem class="constant">USING_HELP</systemitem> is the client data
+passed to the <function>HelpRequestCB()</function> function when the menu
+button is chosen by the user. Presumably it has been defined somewhere in
+the application (perhaps in a <filename>Help.h</filename> file) as a unique
+integer:</para>
+<programlisting>#define USING_HELP  47</programlisting>
+<para>To see how the <function>HelpRequestCB()</function> function handles
+the <systemitem class="constant">USING_HELP</systemitem> case, see the example
+in the next section, &ldquo;To Display Help on Help.&rdquo;</para>
+</sect3>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.11" role="Procedure">
+<title id="HRDC.H4Hlp.mkr.5">To Display Help on Help</title>
+<orderedlist><listitem><para>Create a quick help dialog (or retrieve one from
+your cache).</para>
+</listitem><listitem><para>Display in the dialog the home topic of your help
+on help volume.</para>
+</listitem></orderedlist>
+<para>Help on help can be displayed in a general help window, but a quick
+help dialog is recommended because its user interface is simpler and less
+intimidating to the new users who commonly need help on help.</para>
+<sect3 id="HRDC.H4Hlp.div.12">
+<title>Example</title>
+<para>The following program segment is part of a <function>HelpRequestCB()</function> function. Presumably, the <systemitem class="constant">USING_HELP</systemitem> constant is passed to the function because the user chose Using
+Help from the application's Help menu or chose the Help button in a quick
+help dialog.</para>
+<para>This example assumes that the application never creates more than one
+Help On Help dialog and maintains its widget ID in a variable called <symbol role="Variable">onHelpDialog</symbol>.</para>
+<programlisting>case USING_HELP:
+   if (onHelpDialog == (Widget)NULL)
+     {
+        /* <emphasis>Get a quick help dialog for use as the "help on help" dialog.</emphasis> */
+        onHelpDialog = FetchHelpDialog (True);
+        if (onHelpDialog == (Widget)NULL)
+          /* <emphasis>We didn't get a dialog! Add your error handling code here.</emphasis> */
+     }
+   /* <emphasis>Set the proper volume and ID to display the home topic of the help on help volume. Also, set the dialog's title.</emphasis> */
+   ac = 0;   XtSetArg (al[ac], XmNtitle,  "Help On Help");     ac++;
+   XtSetArg (al[ac], XmNhelpType,   DT_HELP_TYPE_TOPIC); ac++;
+   XtSetArg (al[ac], XmNhelpVolume, "Help4Help");        ac++;
+   XtSetArg (al[ac], XmNlocationId, "_hometopic");       ac++;
+   XtSetValues (onHelpDialog, al, ac);
+   /* <emphasis>If the "help on help" dialog is already managed, it might be in another workspace, so unmanage it.</emphasis> */
+   if (XtIsManaged (onHelpDialog))
+     XtUnmanageChild (onHelpDialog);
+
+   /* <emphasis>Manage the "help on help" dialog.</emphasis> */
+   XtManageChild (onHelpDialog);
+
+   break;
+
+</programlisting>
+<para>To see how the rest of the <function>HelpRequestCB()</function> function
+might be structured, refer to the example in <xref role="SecTitleAndPageNum"
+linkend="HRDC.HReq.mkr.10">.</para>
+</sect3>
+<sect3 id="HRDC.H4Hlp.div.13">
+<title>See Also</title>
+<itemizedlist remap="Bullet1"><listitem><para><xref role="SecTitleAndPageNum"
+linkend="HRDC.CrDia.mkr.7"></para>
+</listitem><listitem><para><xref role="SecTitleAndPageNum" linkend="HRDC.HReq.mkr.5">
+</para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="HRDC.H4Hlp.div.14">
+<title id="HRDC.H4Hlp.mkr.6">Writing Your Own Help on Help Volume</title>
+<para>If you need to provide your own help on help volume, you should start
+with the existing Help4Help volume and then make the necessary changes. All
+the source files used to write the Help4Help volume are provided in the
+<filename>/usr/dt/dthelp/help4help/C</filename> directory.</para>
+<para>To prevent installation conflicts, name your help on help volume something
+other than Help4Help. Consider picking a name that is specific to your product.
+For example, if your application's help volume is Newapp, your help for help
+volume could be NewappH4H.</para>
+<sect2 id="HRDC.H4Hlp.div.15">
+<title>Required Entry Points</title>
+<para>To ensure that context-sensitive help within a help dialog operates
+correctly, you must provide the following entry points (IDs) within your help
+on help volume. (These are already included in the Help4Help source files.)
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="158*">
+<colspec align="left" colwidth="370*">
+<tbody>
+<row>
+<entry align="center" valign="top"><para>ID</para></entry>
+<entry align="center" valign="top"><para>Topic Description</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>_hometopic</command></para></entry>
+<entry align="left" valign="top"><para>Displays an introduction to using the
+help system. This topic is displayed when you choose Using Help from the general
+help dialog's Help menu, or when you press F1 in a quick help dialog. This
+ID is generated automatically for PartIntro, so do not try to specify it explicitly.
+</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>_copyright</command></para></entry>
+<entry align="left" valign="top"><para>Displays the copyright and version
+information for the help on help volume. This topic is displayed when you
+choose Version from the general help dialog's Help menu. This ID is generated
+automatically for LegalNotice, so do not try to specify it explicitly.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>history</command></para></entry>
+<entry align="left" valign="top"><para>Displays a topic that describes how
+to use the History dialog. This topic is displayed when you choose Help or
+press F1 within the History dialog.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>printing</command></para></entry>
+<entry align="left" valign="top"><para>Displays a topic describing how to
+use the Print dialog. This topic is displayed when you choose Help or press
+F1 within the Print dialog.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>index-search</command></para></entry>
+<entry align="left" valign="top"><para>Displays a topic describing how to
+use the Index Search dialog. This topic is displayed when you choose Help
+or press F1 within the Index Search dialog.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><command>volume-select</command></para></entry>
+<entry align="left" valign="top"><para>Displays a topic describing how to
+use the Search Volume Selection Dialog. This topic is displayed when you choose
+Help or press F1 within the Search Volume Selection Dialog.</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</sect2>
+<sect2 id="HRDC.H4Hlp.div.16" role="Procedure">
+<title id="HRDC.H4Hlp.mkr.7">To Copy the Help4Help Source Files</title>
+<orderedlist><listitem><para>Copy the entire <filename>/usr/dt/dthelp/help4help/C</filename> directory to a new working directory ( <symbol role="Variable">new-dir</symbol>) using a command like this:</para>
+<para><command>cp -r /usr/dt/dthelp/help4help/C <symbol role="Variable">new-dir</symbol></command></para>
+<para>This creates <symbol role="Variable">new-dir</symbol> and copies all
+the files and directories into it.</para>
+</listitem><listitem><para>To permit editing the files (which are copied as
+read only), change the permissions using a command like this:</para>
+<programlisting>chmod -R u+w <symbol role="Variable">new-dir</symbol></programlisting>
+</listitem></orderedlist>
+<para>The Help4Help volume uses these DocBook source files:</para>
+<itemizedlist><listitem><para><filename>MetaInfo.sgm</filename></para>
+</listitem><listitem><para><filename>Toc.sgm</filename></para>
+</listitem><listitem><para><filename>Tasks.sgm</filename></para>
+</listitem><listitem><para><filename>Home.sgm</filename></para>
+</listitem><listitem><para><filename>Concepts.sgm</filename></para>
+</listitem><listitem><para><filename>Ref.sgm</filename></para>
+</listitem><listitem><para><filename>Appendix.sgm</filename></para>
+</listitem></itemizedlist>
+<para>Graphics are stored in the <filename>graphics</filename> subdirectory.
+</para>
+<para>Be sure to rename the <filename>Help4Help.sgm</filename> file before
+running DocBook. Your help on help volume should have a unique name to prevent
+conflicts with other help on help volumes.</para>
+<sect3 id="HRDC.H4Hlp.div.17">
+<title>Example</title>
+<para>The following commands create a copy of the help on help volume and
+make its files writable. (Presumably the <filename>projects</filename> subdirectory
+already exists.)</para>
+<programlisting>cp -r /usr/dt/dthelp/help4help/C /users/dex/projects/NewHelp4Help
+chmod -R u+w /users/dex/projects/NewHelp4Help</programlisting>
+<para>To build a new version of the run-time help files, first ensure that
+the directory <filename>/usr/dt/bin</filename> is in your search path. Then
+change to the new directory, rename the <filename>Help4Help.sgm</filename>
+file, and run DocBook:</para>
+<programlisting>cd /users/dex/projects/NewHelp4Help
+mv Help4Help.sgm NewH4H.sgm
+dtDocBook NewH4H</programlisting>
+<para>When the DocBook software is done, you can display the new help on help
+volume using this command:</para>
+<para><command>dthelpview -helpVolume NewH4H</command></para><?Pub Caret>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->

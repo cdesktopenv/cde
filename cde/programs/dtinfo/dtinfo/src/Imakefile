@@ -1,0 +1,463 @@
+XCOMM $TOG: Imakefile /main/48 1998/08/10 15:52:48 mgreess $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+PROGRAM_NAME=dtinfo
+
+MAKEFILEDEPS=Classlist.mk
+
+#if defined(RsArchitecture) || defined(AIXArchitecture)
+LOCAL_LDFLAGS=-blibpath:/usr/dt/lib:/X11/lib:/usr/lib/threads:/usr/lib:/lib
+#endif
+
+#include "Classlist.mk"
+
+XCOMM Localizeable strings are in Messages.res
+XCOMM Any localizations are to a final assembled resource file
+XCOMM under the locale subdir. The localized help volume is under
+XCOMM locale subdir.
+XCOMM
+SUBDIRS=Widgets $(CLASSLIBS) Messages cgm
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+DependSubdirs($(SUBDIRS))
+
+#if defined(SVR4) && defined(i386)
+SYS_LIBRARIES=-L/usr/lib/X11/Metro/lib  -lnsl -lsocked -lgen
+#elif defined(RsArchitecture) || defined(AIXArchitecture)
+SYS_LIBRARIES=-lm -liconv /usr/lib/libpthreads.a -blibpath:/usr/dt/lib:/X11/lib:/usr/lib/threads:/usr/lib:/lib
+#elif defined(USLArchitecture)
+SYS_LIBRARIES=-lm -lfs
+#elif defined(HPArchitecture)
+SYS_LIBRARIES=$(DYNAMIC) -lm
+#else
+SYS_LIBRARIES=-lm
+#endif
+
+INCLUDES = -I. $(BROWSER_INCLUDES) $(MMDB_INCLUDES)
+
+OLIASNORMALLIBS= \
+           Agents/libAgents.a \
+           Other/libOther.a \
+           Basic/libBasic.a \
+           Preferences/libPreferences.a \
+           $(UAS_LIBS) \
+           Query/libQuery.a \
+           Graphics/libGraphics.a \
+           Managers/libManagers.a \
+           Support/libSupport.a \
+           Marks/libMarks.a \
+           OnlineRender/libOnlineRender.a \
+           OliasSearch/libOliasSearch.a \
+           Widgets/libWidgets.a \
+	   cgm/libcgm.a
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+OLIASTLIBS= \
+	   Agents/libAgentsT.a \
+	   Basic/libBasicT.a \
+	   Query/libQueryT.a \
+	   Graphics/libGraphicsT.a \
+	   Managers/libManagersT.a \
+	   Support/libSupportT.a \
+	   Marks/libMarksT.a \
+	   OnlineRender/libOnlineRenderT.a \
+	   OliasSearch/libOliasSearchT.a
+#endif
+OLIASLIBS= $(OLIASNORMALLIBS) $(OLIASTLIBS)
+
+#ifndef HPArchitecture
+# ifdef UseDlOpen
+DLLIB=-ldl
+# endif
+#endif
+
+OTHEROBJS=Support/InputNotifier.o
+
+#if defined(SunArchitecture) && (CplusplusCompilerMajorVersion > 3)
+  MMDBTEMPLATES=$(OLIAS)/mmdb/libMMDBTemplates.a
+  UAS_TEMPLATES=UAS/Base/libBaseT.a \
+                UAS/DtSR/libDtSRT.a \
+                UAS/MMDB/libMMDBT.a
+  UAS_LIBS=UAS/Base/libBase.a \
+           UAS/DtSR/libDtSR.a \
+           UAS/MMDB/libMMDB.a
+#else
+  MMDBTEMPLATES=
+  UAS_LIBS=UAS/libUAS.a
+#endif
+
+EXTRALIBS=$(STATIC) $(MMDBTEMPLATES)
+
+#ifdef DoLicenseManagement
+  FLEXLMLIBDIR=$(LICENSE_FROOT)/src
+  LICENSELIBS=$(LICENSE_L_LIBS) $(FLEXLMLIBDIR)/lmgr.a
+#else
+  LICENSELIBS=
+#endif
+
+#if !defined(UseWideChars) || !defined(SunArchitecture)
+  WCHAR_LIB=
+#elif (OSMajorVersion == 4)
+  WCHAR_LIB=$(STATIC) -L$(LIBRARY)/Xwchar/$(PLATFORM) -lXwchar
+#else
+  WCHAR_LIB=$(DYNAMIC) -lw
+#endif
+
+#ifdef UseQSearch
+SEARCH_LIB=$(QSEARCHLIBS)
+#elif defined(UseDtSearch)
+SEARCH_LIB=$(DTSEARCHLIBS)
+#else
+SEARCH_LIB=$(FULCRUMLIBS)
+#endif
+
+MMDB_DIR=../../mmdb
+
+#ifdef AIXArchitecture
+
+API_OBJS = \
+	$(MMDB_DIR)/api/base.o			$(MMDB_DIR)/api/info_base.o \
+	$(MMDB_DIR)/api/info_lib.o			$(MMDB_DIR)/api/smart_ptr.o \
+	$(MMDB_DIR)/api/transaction.o		$(MMDB_DIR)/api/utility.o
+
+BTREE_OBJS = \
+	$(MMDB_DIR)/btree/mmdb_btree.o
+
+#if !defined(AIXArchitecture)
+EXTRA_BTREE_BERKELEY_OBJS = $(MMDB_DIR)/btree_berkeley/memmove.o
+#endif
+
+BTREE_BERKELEY_OBJS = \
+	$(MMDB_DIR)/btree_berkeley/bt_close.o	$(MMDB_DIR)/btree_berkeley/bt_conv.o \
+	$(MMDB_DIR)/btree_berkeley/bt_debug.o	$(MMDB_DIR)/btree_berkeley/bt_delete.o \
+	$(MMDB_DIR)/btree_berkeley/bt_get.o		$(MMDB_DIR)/btree_berkeley/bt_open.o \
+	$(MMDB_DIR)/btree_berkeley/bt_overflow.o	$(MMDB_DIR)/btree_berkeley/bt_page.o \
+	$(MMDB_DIR)/btree_berkeley/bt_put.o		$(MMDB_DIR)/btree_berkeley/bt_search.o \
+	$(MMDB_DIR)/btree_berkeley/bt_seq.o		$(MMDB_DIR)/btree_berkeley/bt_split.o \
+	$(MMDB_DIR)/btree_berkeley/bt_stack.o	$(MMDB_DIR)/btree_berkeley/bt_utils.o \
+	$(MMDB_DIR)/btree_berkeley/mktemp.o		$(MMDB_DIR)/btree_berkeley/realloc.o \
+	$(MMDB_DIR)/btree_berkeley/snprintf.o	$(EXTRA_BTREE_BERKELEY_OBJS) \
+	$(MMDB_DIR)/btree_berkeley/mpool.o		$(MMDB_DIR)/btree_berkeley/db.o
+
+COMPRESSION_OBJS = \
+	$(MMDB_DIR)/compression/abs_agent.o		$(MMDB_DIR)/compression/zip.o \
+	$(MMDB_DIR)/compression/huffman.o		$(MMDB_DIR)/compression/trie.o \
+	$(MMDB_DIR)/compression/code.o		$(MMDB_DIR)/compression/lzss.o \
+	$(MMDB_DIR)/compression/sgml.o		$(MMDB_DIR)/compression/ps.o
+
+DISKHASH_OBJS = \
+	$(MMDB_DIR)/diskhash/disk_bucket.o		$(MMDB_DIR)/diskhash/bucket_array.o \
+	$(MMDB_DIR)/diskhash/disk_hash.o
+
+DSTR_OBJS = \
+	$(MMDB_DIR)/dstr/set.o			$(MMDB_DIR)/dstr/bset.o \
+	$(MMDB_DIR)/dstr/slist.o			$(MMDB_DIR)/dstr/dlist_cell.o \
+	$(MMDB_DIR)/dstr/dlist.o			$(MMDB_DIR)/dstr/heap.o \
+	$(MMDB_DIR)/dstr/void_ptr_array.o		$(MMDB_DIR)/dstr/void_ptr_stack.o \
+	$(MMDB_DIR)/dstr/memory_pool.o		$(MMDB_DIR)/dstr/dstr_test.o \
+	$(MMDB_DIR)/dstr/index_agent.o		$(MMDB_DIR)/dstr/token_stack.o \
+	$(MMDB_DIR)/dstr/slist_char_ptr_cell.o
+
+DTI_EXCS_OBJS = \
+	$(MMDB_DIR)/dti_excs/Jump_Environment.o	$(MMDB_DIR)/dti_excs/Exceptions.o \
+	$(MMDB_DIR)/dti_excs/Exception.o		$(MMDB_DIR)/dti_excs/Destructable.o \
+	$(MMDB_DIR)/dti_excs/terminate.o
+
+DYNHASH_OBJS = \
+	$(MMDB_DIR)/dynhash/data_t.o		$(MMDB_DIR)/dynhash/imp_bucket.o \
+	$(MMDB_DIR)/dynhash/imp_die.o
+
+HMPHF_OBJS = \
+	$(MMDB_DIR)/hmphf/buckets.o			$(MMDB_DIR)/hmphf/mphf_funcs.o \
+	$(MMDB_DIR)/hmphf/mphf_hash_table.o		$(MMDB_DIR)/hmphf/params.o \
+	$(MMDB_DIR)/hmphf/pattern.o			$(MMDB_DIR)/hmphf/sorter.o
+
+INDEX_OBJS = \
+	$(MMDB_DIR)/index/btree_index.o		$(MMDB_DIR)/index/dyn_disk_index.o \
+	$(MMDB_DIR)/index/dyn_index.o		$(MMDB_DIR)/index/dyn_memory_index.o \
+	$(MMDB_DIR)/index/fast_mphf.o		$(MMDB_DIR)/index/hash.o \
+	$(MMDB_DIR)/index/index.o			$(MMDB_DIR)/index/inv_lists.o \
+	$(MMDB_DIR)/index/mphf_index.o
+
+MGRS_OBJS = \
+	$(MMDB_DIR)/mgrs/managers.o			$(MMDB_DIR)/mgrs/misc.o \
+	$(MMDB_DIR)/mgrs/query_mgr.o		$(MMDB_DIR)/mgrs/template_mgr.o
+
+MISC_OBJS = \
+	$(MMDB_DIR)/misc/unique_id.o
+
+OBJECT_OBJS = \
+	$(MMDB_DIR)/object/composite.o		$(MMDB_DIR)/object/compressed_pstring.o \
+	$(MMDB_DIR)/object/cset.o			$(MMDB_DIR)/object/dl_list.o \
+	$(MMDB_DIR)/object/dl_list_cell.o		$(MMDB_DIR)/object/handler.o \
+	$(MMDB_DIR)/object/integer.o		$(MMDB_DIR)/object/long_pstring.o \
+	$(MMDB_DIR)/object/oid.o			$(MMDB_DIR)/object/oid_list.o \
+	$(MMDB_DIR)/object/oid_t.o			$(MMDB_DIR)/object/primitive.o \
+	$(MMDB_DIR)/object/pstring.o		$(MMDB_DIR)/object/random_gen.o \
+	$(MMDB_DIR)/object/root.o			$(MMDB_DIR)/object/short_list.o \
+	$(MMDB_DIR)/object/tuple.o
+
+OLIASDB_OBJS = \
+	$(MMDB_DIR)/oliasdb/asciiIn_filters.o 	$(MMDB_DIR)/oliasdb/collectionIterator.o \
+	$(MMDB_DIR)/oliasdb/dlp_hd.o 		$(MMDB_DIR)/oliasdb/dlp_test.o \
+	$(MMDB_DIR)/oliasdb/doc_hd.o 		$(MMDB_DIR)/oliasdb/doc_test.o \
+	$(MMDB_DIR)/oliasdb/graphic_hd.o 		$(MMDB_DIR)/oliasdb/graphic_test.o \
+	$(MMDB_DIR)/oliasdb/loc_test.o 		$(MMDB_DIR)/oliasdb/locator_hd.o \
+	$(MMDB_DIR)/oliasdb/mark.o 			$(MMDB_DIR)/oliasdb/mark_base.o  \
+	$(MMDB_DIR)/oliasdb/mark_test.o 		$(MMDB_DIR)/oliasdb/mmdb.o \
+	$(MMDB_DIR)/oliasdb/node_hd.o 		$(MMDB_DIR)/oliasdb/node_test.o \
+	$(MMDB_DIR)/oliasdb/olias_funcs.o 		$(MMDB_DIR)/oliasdb/olias_test.o \
+	$(MMDB_DIR)/oliasdb/stylesheet_hd.o 	$(MMDB_DIR)/oliasdb/stylesheet_test.o \
+	$(MMDB_DIR)/oliasdb/toc_hd.o 		$(MMDB_DIR)/oliasdb/toc_test.o \
+	$(MMDB_DIR)/oliasdb/user_base.o
+
+SCHEMA_OBJS = \
+	$(MMDB_DIR)/schema/desc.o			$(MMDB_DIR)/schema/store_desc.o \
+	$(MMDB_DIR)/schema/object_dict.o		$(MMDB_DIR)/schema/stored_object_desc.o \
+	$(MMDB_DIR)/schema/index_desc.o		$(MMDB_DIR)/schema/inv_desc.o \
+	$(MMDB_DIR)/schema/agent_desc.o		$(MMDB_DIR)/schema/container_desc.o \
+	$(MMDB_DIR)/schema/sheet.o			$(MMDB_DIR)/schema/token.o
+
+STORAGE_OBJS = \
+	$(MMDB_DIR)/storage/abs_storage.o		$(MMDB_DIR)/storage/chunks_index.o	\
+	$(MMDB_DIR)/storage/heap_comp_funcs.o	$(MMDB_DIR)/storage/lru.o \
+	$(MMDB_DIR)/storage/page.o			$(MMDB_DIR)/storage/page_cache.o \
+	$(MMDB_DIR)/storage/page_rep.o		$(MMDB_DIR)/storage/page_storage.o \
+	$(MMDB_DIR)/storage/rep_cell.o		$(MMDB_DIR)/storage/rep_policy.o \
+	$(MMDB_DIR)/storage/store_test.o		$(MMDB_DIR)/storage/unixf_storage.o \
+	$(MMDB_DIR)/storage/version.o		$(MMDB_DIR)/storage/vm_storage.o
+
+UTILITY_OBJS = \
+	$(MMDB_DIR)/utility/funcs.o			$(MMDB_DIR)/utility/ostring.o \
+	$(MMDB_DIR)/utility/pm_random.o		$(MMDB_DIR)/utility/atoi_pearson.o \
+	$(MMDB_DIR)/utility/xtime.o			$(MMDB_DIR)/utility/buffer.o \
+	$(MMDB_DIR)/utility/atoi_larson.o		$(MMDB_DIR)/utility/atomic_lock.o \
+	$(MMDB_DIR)/utility/rw_lock.o		$(MMDB_DIR)/utility/atoi_fast.o \
+	$(MMDB_DIR)/utility/filter.o		$(MMDB_DIR)/utility/mmdb_exception.o \
+	$(MMDB_DIR)/utility/randomize.o
+
+DTI_CC_OBJS = \
+	$(MMDB_DIR)/dti_cc/CC_Listbase.o		$(MMDB_DIR)/dti_cc/cc_exceptions.o \
+	$(MMDB_DIR)/dti_cc/CC_String.o		$(MMDB_DIR)/dti_cc/CC_Tokenizer.o \
+	$(MMDB_DIR)/dti_cc/CC_Stack.o		$(MMDB_DIR)/dti_cc/CC_Slist.o
+
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+EXTRA_HARDCOPY_OBJS = $(MMDB_DIR)/HardCopy/TemplatesAutoNumber.o
+#endif
+
+HARDCOPY_OBJS = \
+	$(MMDB_DIR)/HardCopy/FPset.o		$(MMDB_DIR)/HardCopy/HardCopyFP.o \
+	$(MMDB_DIR)/HardCopy/autoNumber.o		$(MMDB_DIR)/HardCopy/autoNumberFP.o \
+	$(EXTRA_HARDCOPY_OBJS)
+
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+EXTRA_STYLESHEET_OBJS = $(MMDB_DIR)/StyleSheet/SSTemplates.o
+#endif
+
+STYLESHEET_OBJS = \
+	$(MMDB_DIR)/StyleSheet/Attribute.o		$(MMDB_DIR)/StyleSheet/AttributeList.o \
+	$(MMDB_DIR)/StyleSheet/BitVector.o		$(MMDB_DIR)/StyleSheet/DocParser.o \
+	$(MMDB_DIR)/StyleSheet/Element.o		$(MMDB_DIR)/StyleSheet/Expression.o \
+	$(MMDB_DIR)/StyleSheet/Feature.o		$(MMDB_DIR)/StyleSheet/FeatureDefDictionary.o \
+	$(MMDB_DIR)/StyleSheet/FeatureSet.o		$(MMDB_DIR)/StyleSheet/FeatureValue.o \
+	$(MMDB_DIR)/StyleSheet/PathQualifier.o		$(MMDB_DIR)/StyleSheet/PathTable.o \
+	$(MMDB_DIR)/StyleSheet/Resolver.o		$(MMDB_DIR)/StyleSheet/ResolverStack.o \
+	$(MMDB_DIR)/StyleSheet/SSPath.o			$(MMDB_DIR)/StyleSheet/StyleSheet.o \
+	$(MMDB_DIR)/StyleSheet/StyleSheetExceptions.o \
+	$(MMDB_DIR)/StyleSheet/SymTab.o			$(MMDB_DIR)/StyleSheet/VariableTable.o \
+	$(MMDB_DIR)/StyleSheet/defParser.o		$(MMDB_DIR)/StyleSheet/defToken.o \
+	$(MMDB_DIR)/StyleSheet/style.o			$(MMDB_DIR)/StyleSheet/tokenStyle.o \
+	$(MMDB_DIR)/StyleSheet/RendererHCV.o	$(EXTRA_STYLESHEET_OBJS)
+
+MMDB_OBJS = $(HARDCOPY_OBJS) $(STYLESHEET_OBJS) $(DTI_CC_OBJS)
+
+ALL_MMDB_OBJS =	$(API_OBJS)		$(BTREE_OBJS) \
+	$(BTREE_BERKELEY_OBJS)	$(COMPRESSION_OBJS) \
+	$(DISKHASH_OBJS)	$(DSTR_OBJS) \
+	$(DTI_EXCS_OBJS) 	$(DYNHASH_OBJS) \
+	$(HMPHF_OBJS)		$(INDEX_OBJS) \
+	$(MGRS_OBJS)		$(MISC_OBJS) \
+	$(OBJECT_OBJS)		$(OLIASDB_OBJS) \
+	$(SCHEMA_OBJS)		$(STORAGE_OBJS) \
+	$(UTILITY_OBJS)		$(MMDB_OBJS)
+#endif
+
+#ifdef AIXArchitecture
+Libs=$(OTHEROBJS) $(OLIASLIBS) $(UAS_TEMPLATES) $(SEARCH_LIB) $(ALL_MMDB_OBJS) $(WWL_LIBS) $(WCHAR_LIB) $(MTF_LIBRARIES) $(DTHELP_LIBRARY) $(DTPRINTLIB) $(DTSVC_LIBRARY) $(TTLIB) $(X11_LIBRARIES) $(LICENSELIBS) $(EXTRALIBS)
+#else
+Libs=$(OTHEROBJS) $(OLIASLIBS) $(UAS_TEMPLATES) $(SEARCH_LIB) $(MMDB_LIBS) $(WWL_LIBS) $(WCHAR_LIB) $(MTF_LIBRARIES) $(DTHELP_LIBRARY) $(DTPRINTLIB) $(DTSVC_LIBRARY) $(TTLIB) $(X11_LIBRARIES) $(LICENSELIBS) $(EXTRALIBS)
+#endif
+
+SRCS = main.C
+
+OBJS = $(SRCS:.C=.o)
+
+XCOMM first rule
+all:: Prelude.h dfiles messages Dtinfo
+
+includes:: Prelude.h dfiles messages
+
+#if defined(HPArchitecture) ||defined (AIXArchitecture) || defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4) || defined(AlphaArchitecture) || defined(USLArchitecture)
+# ifndef Dont_Use_Templates_Repository
+#  define Dont_Use_Templates_Repository
+UAS_INCLUDES=-I./UAS/Base
+SUBDIR_TEMPL_INCLUDES=$(UAS_INCLUDES) $(DTSEARCH_INCLUDES) $(COMMON_CLASS_INCLUDES)
+# endif
+#endif
+ 
+#if defined(HPArchitecture)
+SpecialCPlusPlusObjectRule(Templates.o,,+pti all_tmpls $(SUBDIR_TEMPL_INCLUDES))
+#elif defined(USLArchitecture)
+SpecialCPlusPlusObjectRule(Templates.o,,+Tall $(SUBDIR_TEMPL_INCLUDES))
+SpecialCPlusPlusObjectRule(Templates2.o,,+Tall $(SUBDIR_TEMPL_INCLUDES))
+SpecialCPlusPlusObjectRule(Templates3.o,,+Tall $(SUBDIR_TEMPL_INCLUDES))
+#elif defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4) 
+SpecialCPlusPlusObjectRule(Templates.o,,+Tall_tmpls $(SUBDIR_TEMPL_INCLUDES))
+#elif defined(AlphaArchitecture) 
+SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
+SpecialCPlusPlusObjectRule(Templates2.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
+SpecialCPlusPlusObjectRule(Templates3.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
+#elif defined(AIXArchitecture) 
+SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
+SpecialCPlusPlusExpandRule(Templates..c,,-ptf -DMakeOperatorNewPublic)
+#elif defined(DoLicenseManagement)
+SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(LICENSE_L_INCLUDES))
+#else
+SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
+SpecialCPlusPlusExpandRule(Templates..c,,-ptf -DMakeOperatorNewPublic)
+#endif
+
+classlist:
+	@echo $(CLASSLIBS)
+
+
+makelibT(Query)
+makelib(Widgets)
+makelibT(Basic)
+makelibT(Graphics)
+makelib(Preferences)
+makelibT(Managers)
+makelib(Other)
+makelibT(Agents)
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+makelibsubsubdir(UAS,Base)
+makelibsubsubdir(UAS,DtSR)
+makelibsubsubdir(UAS,MMDB)
+#else
+makelib(UAS)
+#endif
+makelibT(Support)
+makelibT(Marks)
+makelibT(OnlineRender)
+makelibT(OliasSearch)
+makelib(cgm)
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+makelibTsubsubdir(UAS,Base)
+makelibTsubsubdir(UAS,DtSR)
+makelibTsubsubdir(UAS,MMDB)
+#endif
+
+
+#if defined(Dont_Use_Templates_Repository) && (defined(AlphaArchitecture) || defined(USLArchitecture))
+DEPLIBS=$(OLIASLIBS) $(UAS_TEMPLATES) $(OLIAS)/mmdb/libMMDB.a Templates.o Templates2.o Templates3.o
+LOCAL_LIBRARIES=$(Libs) Templates.o Templates2.o Templates3.o
+#elif defined (AIXArchitecture)
+DEPLIBS=$(OLIASLIBS) $(UAS_TEMPLATES) $(OLIAS)/mmdb/libMMDB.a Templates.o
+LOCAL_LIBRARIES=$(Libs) Templates.o
+#elif defined(Dont_Use_Templates_Repository)
+DEPLIBS=$(OLIASLIBS) $(UAS_TEMPLATES) $(OLIAS)/mmdb/libMMDB.a Templates.o
+LOCAL_LIBRARIES=$(Libs) Templates.o
+#else
+DEPLIBS=$(OLIASLIBS) $(UAS_TEMPLATES) $(OLIAS)/mmdb/libMMDB.a 
+LOCAL_LIBRARIES=$(Libs)
+#endif
+LOCAL_LDFLAGS=$(EXTRALIBDIRS)
+
+XCOMM Eventually could replace the following rule with r6 rule:
+XCOMM "ComplexCplusplusProgramTarget"
+XCOMM for the time being, i added the below hack - rCs
+
+#if defined(UXPArchitecture)
+PRE_LD = LD_RUN_PATH=/usr/dt/lib:/X11/lib
+#endif
+
+ComplexCPlusPlusProgram($(PROGRAM_NAME))
+
+RESFILES = Macros.res Strings.res \
+Messages.res \
+Query/QueryEditor.res \
+Agents/BookmarkEdit.res \
+Agents/MapAgent.res \
+Agents/MarkList.res \
+Agents/PrintPanelAgent.res \
+Agents/Preferences.res \
+Agents/SearchResultsAgent.res \
+Agents/NodeHistoryAgent.res \
+Agents/NodeWindowAgent.res \
+Agents/GraphicAgent.res \
+Query/QueryTermView.res
+
+XCOMM Only the English version of the resource file is generated from
+XCOMM .res files in the source tree. Other locales must copy this
+XCOMM instance and maintain the output. See src/locale/ja subdir.
+
+Dtinfo: Dtinfo.res $(RESFILES)
+	$(RM) Dtinfo
+	$(CPP) -C Dtinfo.res | $(TREERES) > Dtinfo
+
+includes:: Dtinfo
+
+clean::
+	$(RM) Dtinfo
+	$(RM) Prelude.h
+
+dfiles::
+	foreach_subdirs(dfiles, $(CLASSLIBS))
+
+#if defined(UXPArchitecture) || defined(USLArchitecture)
+GENCAT=gencat -m
+#else
+GENCAT=gencat
+#endif
+
+messages:: 
+	foreach_subdirs(messages, $(MSGS))
+	@echo "### Making msgs in src ###"
+	@$(RM) $(PROGRAM_NAME).msg.updated
+	@(messages=;	\
+		for i in $(MSGS) ; \
+		do \
+			messages="$$messages $$i/$$i.msg"; \
+		done; \
+		cat $$messages > $(PROGRAM_NAME).cpp )
+	$(CPP) -P -C $(PROGRAM_NAME)_msg.tmpl | $(TOOLS)/misc/msgsets > $(PROGRAM_NAME).msg.updated
+	@$(RM) $(PROGRAM_NAME).cpp
+
+clean::
+	RemoveFiles($(PROGRAM_NAME).cat $(PROGRAM_NAME).msg.updated)
+
+make_prelude($(CLASSLIBS), Classlist.mk)
+
+
+InstallProgram($(PROGRAM_NAME),$(INSTALL_PLATFORM_BIN_DIR))
+#ifdef HPArchitecture
+HPchatr($(DESTDIR)$(INSTALL_PLATFORM_BIN_DIR)/$(PROGRAM_NAME))
+#endif
+
+XCOMM Must add additional installs for any non-C localizations in build
+XCOMM tree, as available, for resource file, message cat, help vol., etc.
+InstallNonExecFile(Dtinfo,$(INSTALL_XRESOURCES_DIR)/C)
+#ifdef CdeDesktop
+XCOMM For now, leave name as Olias.hlp, until CDE DtHelp actually used,
+XCOMM since this is not an SDL volume, and really is help data for
+XCOMM olias temporarily in use for dtinfo
+XCOMM Install-Non-Exec-File(Dtinfo.sdl,$(INSTALL_HELP_DIR)/C)
+InstallNonExecFile(Olias.hlp,$(INSTALL_HELP_DIR)/C)
+#else
+InstallNonExecFile(Olias.hlp,$(INSTALL_HELP_DIR)/C)
+#endif
+InstallNonExecFile($(PROGRAM_NAME).cat,$(INSTALL_MSG_CAT_DIR)/C)
+
+DependTarget()

@@ -1,0 +1,800 @@
+<!-- $XConsortium: info.sgm /main/13 1996/10/30 11:38:13 cdedoc $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.INFO.dtinfo">]]>
+<RefMeta>
+<refentrytitle>dtinfo</refentrytitle>
+<manvolnum>user cmd</manvolnum></refmeta>
+<refnamediv>
+<refname><command>dtinfo</command></refname>
+<refpurpose>browse on-line information</refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtinfo</command>
+<arg choice="opt">&minus;help</arg>
+<arg choice="opt">&minus;l <replaceable>infolib</replaceable></arg>
+<arg choice="opt">&minus;sect <replaceable>section</replaceable>
+<arg choice="opt"><group choice="req" rep="repeat"><arg choice="plain">&minus;<replaceable>section</replaceable></arg>
+<arg choice="plain">,<replaceable>section</replaceable></arg>
+</group></arg></arg>
+<arg choice="opt">&minus;secondary</arg>
+<arg choice="opt">&minus;verbose</arg>
+<arg choice="opt">&minus;print</arg>
+<arg choice="opt">&minus;hierarchy</arg>
+<arg choice="opt">&minus;printer <replaceable>x_print_server</replaceable></arg>
+<arg choice="opt">&minus;copies <replaceable>number</replaceable></arg>
+<arg choice="opt">&minus;paperSize <replaceable>size</replaceable></arg>
+<arg choice="opt">&minus;s</arg>
+</cmdsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>dtinfo</command> command starts the desktop on-line
+information browser, also known as the CDE Information Manager.
+On-line information is typically packaged into an
+information library (infolib), which is a hierarchy of bookcases
+containing SGML books (see the &cdeman.dtinfogen; command).
+The browser offers an ability to view, search, and print on-line
+information with a high degree of control. Bookmarks and annotations may
+be attached at desired points for later recall.
+</para>
+
+<refsect2>
+<title>Generalized Locator Format</title>
+<para>The generalized locator format is used as an identifier for target
+information. The following format shows the fully specified case,
+although it is usually not required to
+uniquely identify sections:
+</para>
+<para><literal>mmdb:INFOLIB=</literal><symbol role="variable">ilib_path</symbol><literal>&amp;BOOKCASE=</literal><symbol role="variable">bc_name</symbol><literal>&amp;LOCATOR=</literal><symbol role="variable">locator</symbol>
+</para>
+<para>where <symbol role="variable">ilib_path</symbol> is the infolib's path on disk;
+<symbol role="variable">bc_name</symbol> is the name of the bookcase (an MMDB); and
+<symbol role="variable">locator</symbol> is the MMDB locator value.
+The locator itself must be a unique reference across
+document collections by the time an infolib's build process is complete.
+</para>
+<para>If just <Symbol>INFOLIB</Symbol> is present, the collection
+corresponding to the infolib is returned. To display at the beginning of
+a known bookcase, use the form:
+</para>
+<para><literal>mmdb:INFOLIB=</literal><symbol role="variable">ilib_path</symbol><literal>&amp;BOOKCASE=</literal><symbol role="variable">bc_name</symbol>
+</para>
+<para>Note, however, that bookcase names are less protected from change than
+locators, and should not be relied upon for other than dynamically
+verifiable bookcase targets.
+</para>
+<para>If a locator is not expected to be in the desktop default infolib,
+identify its infolib by including the full file path name for the
+information library (<symbol role="variable">ilib_path</symbol>). The most common
+form of reference is then either:
+</para>
+<para><literal>mmdb:INFOLIB=</literal><symbol role="variable">ilib_path</symbol><literal>&amp;LOCATOR=</literal><symbol role="variable">locator</symbol>
+</para>
+<para>or:
+</para>
+<para><literal>mmdb:LOCATOR=</literal><symbol role="variable">locator</symbol>
+</para>
+<para>If INFOLIB and BOOKCASE are omitted, a locator is looked up in all
+loaded information libraries. If no information libraries are currently
+loaded, the locator is looked up in the default information library(s)
+specified by <systemitem class="environvar">DTINFOLIBDEFAULT</systemitem>.
+For the <literal>-sect</literal> argument, the value(s) "locator" alone
+is sufficient to reach the desired section, if it occurs in the default infolib,
+or those indicated by <literal>-l</literal> arguments.
+</para>
+<refsect3>
+<title>Persistent User Settings</title>
+<para>A few characteristics are saved across browser sessions. These are
+bookmarks, annotations, named search scopes, and certain user
+preferences. All of these are saved on a locale-specific basis. Query
+history and browse history lists are provided, but are not persistent
+across sessions.
+</para>
+</refsect3>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para>The following options are available:
+</para>
+<variablelist>
+<varlistentry><term><literal>&minus;help</literal></term>
+<listitem>
+<para>Prints a summary of the command's syntax.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;l</literal> <symbol role="variable">infolib</symbol></term>
+<listitem>
+<para>Specifies an absolute file path or the filename of an information library.
+If an infolib's filename is specified, the search path specified by
+<systemitem class="environvar">DTINFOLIBSEARCHPATH</systemitem>
+is used to help locate the file. If the <literal>-l</literal> option
+is omitted, the browser displays the default information library(s)
+specified by <systemitem class="environvar">DTINFOLIBDEFAULT</systemitem>.
+This option can be specified more than once.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;secondary</literal></term>
+<listitem>
+<para>Starts a secondary instance of <command>dtinfo</command>. Secondary
+instances do not respond to <symbol>Dtinfo_ShowInfoAtLoc</symbol>
+and <symbol>Dtinfo_LoadInfoLib</symbol> ToolTalk messages.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;verbose</literal></term>
+<listitem>
+<para>Prints information on the terminal as the command runs, if
+<command>dtinfo</command> is started from the command line.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;sect</literal> <symbol role="variable">section</symbol>[{&minus;<symbol role="variable">section</symbol>|,<symbol role="variable">section</symbol>}&hellip;]</term>
+<listitem>
+<para>Specifies the infolib section or sections to either display
+or print. Sections can be specified in generalized locator format.
+</para>
+<para>To specify a range of sections, use the form:
+</para>
+<para><literal>&minus;sect</literal> <symbol role="variable">section</symbol><literal>-</literal><symbol role="variable">section</symbol>
+</para>
+<para>where the start and end sections are separated by the hyphen character.
+</para>
+<para>To specify a discontiguous list of sections, use the form:
+</para>
+<para><literal>&minus;sect</literal> <symbol role="variable">section</symbol>,<symbol role="variable">section</symbol>
+</para>
+<para>where the sections in the list are separated by the comma character.
+</para>
+<para>If the <literal>-print</literaL> option is specified, the sections are printed.
+Otherwise, <command>dtinfo</command> loads the specified infolib(s) and displays
+all the sections in separate browser windows.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;print</literal></term>
+<listitem>
+<para>Instructs <command>dtinfo</command> to print the locations specified
+with the <literal>-sect</literal> option. Printing of an entire infolib
+from the command line is disallowed. If a specified location is not at
+the top of a section, the section containing the location is printed.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<refsect2>
+<title>Print Control Options</title>
+<para>These options are valid only if the <literal>&minus;print</literal>
+option is also specified.
+</para>
+<variablelist>
+<varlistentry><term><literal>&minus;hierarchy</literal></term>
+<listitem>
+<para>Prints an entire specified section and all of its subsections. By
+default, only the specified section is printed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;printer</literal> <symbol role="variable">x_print_server</symbol></term>
+<listitem>
+<para>Specifies which X Print server to use. If this is not specified as a
+command-line option or resource, the value is taken from the
+environment.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;copies</literal> <symbol role="variable">number</symbol></term>
+<listitem>
+<para>Specifies how many copies to print. The default value is 1. This option
+is ignored when generating an output file.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;paperSize</literal> <symbol role="variable">size</symbol></term>
+<listitem>
+<para>Specifies a size of paper to which the output should be formatted. Valid
+sizes are <literal>iso-a4</literal>, <literal>iso-b4</literal>,
+<literal>na-letter</literal>, and <literal>na-legal</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;outputFile</literal> <symbol role="variable">filename</symbol></term>
+<listitem>
+<para>Specifies a file to hold the print-ready output. If this option is
+specified, no output is sent to the printer. If this
+option is specified, the <literal>-copies</literal> option is ignored.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;s</literal></term>
+<listitem>
+<para>Specifies silent printing. <command>dtinfo</command> does not write to
+either standard out or standard error, nor does it attempt to open any
+windows.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>PRINT FEATURES</title>
+<para>This section describes the features that affect printing with
+<command>dtinfo</command>.
+</para>
+<refsect2>
+<title>Page Numbers</title>
+<para>
+Pages are numbered relative to the print job. For example, if a
+section spans over four printed pages, the pages are numbered
+1-4. To get page numbers starting relative to the front of the book, it
+is necessary to print the entire contents of the book. When
+printing more than one book (a bookcase, for example) the page numbering
+is reset to page 1 at the start of each book. A section is determined
+to be a book if it is a Table of Contents.
+</para>
+<para>
+When specifying "what to print" all references are given in logical
+terms. You cannot specify a page range since this
+number has no real meaning until the document is rendered to a given
+page size. "What to print" is specified as a section or list of sections
+in generalized locator format. It is also possible to specify a range of
+sections.
+</para>
+</refsect2>
+<refsect2>
+<title>Table of Contents</title>
+<para>The table of contents can be printed as part of a book or as a separate
+section. When printed as part of a book, it is always printed last to
+allow the page number references to be calculated while the document is
+printing. When printed separately, the page numbers are not calculated.
+</para>
+</refsect2>
+<refsect2>
+<title>Image Scaling</title>
+<para>
+Dtinfo supports a number of graphic file formats: Tiff, XPM, XWD, GIF,
+JPEG, and CGM. Of all these formats, only CGM is a natural "scalable"
+format made of vectors and independent coordinates, much like
+PostScript. All the other graphic formats are specified in Dots Per Inch
+(DPI) and designed for a given resolution. Since most displays have a
+resolution of between 90/100 DPI and printers commonly have resolutions
+of 300/600 DPI, printed documents can end up with graphics 3 or 6 times
+smaller than their screen counterparts, especially when the surrounding
+fonts are scaled to match the screen size.
+</para>
+<para>To address this problem, <command>dtinfo</command> automatically scales
+a graphic according to the following formula:
+</para>
+<programlisting>
+printed_image_size= image_size * (resolution / 100 DPI)
+</programlisting>
+<para>During scaling it is important that the image not be scaled in excess of
+the hard page boundary. See "Hard Page Boundaries" for more detail.
+</para>
+</refsect2>
+<refsect2>
+<title>Hard Page Boundaries</title>
+<para>On-line documentation is often developed with little or no consideration
+for printability. As a result, on-line documents often have graphics or
+tables that exceed the hard-page boundaries of the printed media. The
+<command>dtinfo</command> command attempts to correct these problems
+during the layout-for-print process by a combination of page break
+insertions, rotation (landscape/portrait), and scalable objects.
+</para>
+<para>Graphic objects that are too wide for the page are scaled down to the
+page width.
+</para>
+<para>Graphic objects that are too tall for the remaining page height are
+started on the next page. If a graphic object is too tall for a single
+page it is scaled down to the page height.
+</para>
+<para>Table objects that are too wide for the page are started on the next
+page and rotated for landscape printing. If a table is still too large,
+it is scaled to the page height. Once the table has been printed, an
+additional page break is performed and the remainder of the printing
+resumes in the default page orientation. Space left in the current page
+layout is filled by flow-up of subsequent text.
+</para>
+</refsect2>
+<refsect2>
+<title>Hard Copy Page Style Rendering</title>
+<para><command>dtinfo</command> hard copy page-style rendering, with addition
+of headers and footers, page breaks, and numbering. For these
+characteristics, it is necessary to use print-specific style sheet
+features.
+</para>
+</refsect2>
+<refsect2>
+<title>Background Printing</title>
+<para><command>dtinfo</command> allows simultaneous browsing and multiple
+print requests to be active in parallel.
+</para>
+</refsect2>
+
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<refsect2>
+<title>XRM Resources</title>
+<para>The XRM resources understood by
+<command>dtinfo</command> are as follows:
+</para>
+<variablelist>
+<varlistentry><term><systemitem class="resource">BrowseGeometry</systemitem></term>
+<listitem>
+<para>Specifies the default size of reading windows in pixel dimensions, x by
+y. The default is <literal>500x630</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">BrowseLock</systemitem></term>
+<listitem>
+<para>Specifies whether the current reading window is automatically "pinned"
+when a new document display request is made (<literal>on</literal>) or
+not (<literal>off</literal>). If <literal>on</literal>, the new document
+appears in a new reading window. System resources utilized are often
+much higher in the <literal>on</literal> mode. The default is
+<literal>off</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">DisplayFirstHit</systemitem></term>
+<listitem>
+<para>Specifies whether the first document listed in the search results list
+is displayed automatically (<literal>true</literal>) or not
+(<literal>false</literal>). The default is <literal>false</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">FontScale</systemitem></term>
+<listitem>
+<para>Specifies the relative size to use for text in all reading windows,
+compared to the publisher-specified font size, where 0 means "per style
+sheet". Possible values are -2, -1, 0, 1, 2, 3, 4, and 5. Invalid values
+default to 0. A non-zero value is used by the browser to associate
+incrementally larger sizes of the same font, when possible. The default
+is <literal>0</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">MapAutoUpdate</systemitem></term>
+<listitem>
+<para>Specifies whether the graphical map (when visible) is automatically
+updated as the user moves to new documents (<literal>true</literal>) or
+not (<literal>false</literal>). The default is <literal>true</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">MapGeometry</systemitem></term>
+<listitem>
+<para>Specifies the default size of the graphical map window in pixel
+dimensions, x by y. The default is <literal>520x350</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">MaxSearchHits</systemitem></term>
+<listitem>
+<para>Specifies the maximum number of document titles to be displayed in the
+Search Results List window in fulfillment of a query. The entries in the
+search results list are ordered roughly by importance to the query, so a
+value here includes the most relevant results. The default is
+<literal>50</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">NodeHistSize</systemitem></term>
+<listitem>
+<para>Specifies the maximum number of document visits to be maintained in
+the browse history list. Duplicates are not displayed in the list, but
+re-visits change the list order by moving a previously viewed document
+to the top. The browse history is not saved across
+<command>dtinfo</command> sessions. The default is
+<literal>100</literal>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">SearchHistorySize</systemitem></term>
+<listitem>
+<para>Specifies the maximum number of previously performed queries to be
+maintained for the search history list. Using the search history list is
+a quick way to re-access the results of a prior query. The search
+history is not saved across <command>dtinfo</command> sessions. The
+default is <literal>50</literal>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Display Color Resources</title>
+<para>The following resources set colors for various <command>dtinfo</command>
+display features:
+</para>
+<variablelist>
+<varlistentry><term><systemitem class="resource">Dtinfo*display_area.background</systemitem></term>
+<listitem>
+<para>Specifies the background color for on-line document presentation. The
+user is cautioned to avoid choices of background color which match the
+color used for either hypertext links or search hits. The keyboard
+traversal highlight color should also be considered when setting this
+resource. There is no default.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">Dtinfo*display_area.foreground</systemitem></term>
+<listitem>
+<para>Specifies the foreground color for on-line document presentation (used
+for text not otherwise highlighted). The user is cautioned to avoid
+choices of foreground color which match the color used for either
+hypertext links or search hits. There is no default.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">Dtinfo*doc_list.background</systemitem></term>
+<listitem>
+<para>Specifies the background color for the infolib book list. There is no
+default.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">Dtinfo*doc_list.foreground</systemitem></term>
+<listitem>
+<para>Specifies the foreground color for the infolib book list.
+There is no default.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">Dtinfo.results*list.background</systemitem></term>
+<listitem>
+<para>Specifies the background color for the search results list.
+There is no default.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="resource">Dtinfo.results*list.foreground</systemitem></term>
+<listitem>
+<para>Specifies the foreground color for the search results list.
+There is no default.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Print-Related Resources</title>
+<para>For print-related resources, see "Descendants" and
+"Resources" in &cdeman.DtPrintSetupBox;.
+</para>
+</refsect2>
+
+</refsect1>
+<refsect1>
+<title>STDIN</title>
+<para>Not used.</para>
+</refsect1><refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>The following environment variables affect the execution of <command>dtinfo</command>:
+</para>
+<variablelist>
+<varlistentry><term><systemitem class="EnvironVar">DTINFOLIBSEARCHPATH</systemitem></term>
+<listitem>
+<para>Specifies the search path for locating information libraries on local
+and remote mounted systems.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">DTINFOLIBDEFAULT</systemitem></term>
+<listitem>
+<para>Specifies the name of the default information library(s) to load if the
+<literal>-l</literal> or <literal>-sect</literal> option is not
+specified. Multiple information libraries can be specified by a comma
+separated list. By default, <systemitem class="EnvironVar">DTINFOLIBDEFAULT</systemitem> is initialized
+to the CDE infolib cde.
+Note that <command>dtinfo</command> will not start if there is no infolib specified explicitly
+or by default. <systemitem class="EnvironVar">DTINFOLIBDEFAULT</systemitem> requires
+the definition of an applicable <systemitem class="EnvironVar">DTINFOLIBSEARCHPATH</systemitem>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">PDPRINTER</systemitem>,
+<systemitem class="EnvironVar">LPDEST</systemitem>,
+<systemitem class="EnvironVar">PRINTER</systemitem></term>
+<listitem>
+<para>Specify the name of the printer to use if the
+<literal>-printer</literal> option, <systemitem class="EnvironVar">XPRINTER</systemitem> environment variable,
+and <systemitem class="resource">XpPrinter</systemitem> resource
+are not specified. <command>dtinfo</command> checks <systemitem class="EnvironVar">PDPRINTER</systemitem> first, <systemitem class="EnvironVar">LPDEST</systemitem> next, and <systemitem class="EnvironVar">PRINTER</systemitem> last to obtain a printer name
+that can be used to generate an X Printer Specifier to use for the
+default X Printer shown in the Printer Name text field. The
+<symbol role="variable">host</symbol>:<symbol role="variable">display</symbol> portion of the
+specifier is obtained by checking if the X Server to which the client
+application is connected is an X Print Server managing printer
+<symbol role="variable">name</symbol>. If not, the list of X Print Servers specified
+in the <systemitem class="resource">XpServerList</systemitem>
+resource is queried, until the first X Printer with a matching printer
+name is found.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">XPRINTER</systemitem></term>
+<listitem>
+<para>Specifies the default destination X Printer Specifier for the
+<function>DtPrintSetupBox</function>. If the specifier is just a
+<symbol role="variable">printerName</symbol>, the
+<symbol role="variable">host</symbol>:<symbol role="variable">display</symbol> portion of the
+specifier is obtained by checking if the X Server to which the client
+application is connected is an X Print Server managing
+<symbol role="variable">printerName</symbol>. Otherwise, the first server in the
+<systemitem class="resource">XpServerList</systemitem> resource
+or the <systemitem class="EnvironVar">XPSERVERLIST</systemitem>
+environment variable that manages the printer will be used. If the
+:<symbol role="variable">display</symbol> number is omitted, :0 is assumed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">DTPRINTSILENT</systemitem></term>
+<listitem>
+<para>Specifies whether to display a Print dialog box if the
+<literal>-s</literal> option is not specified. When the variable is set
+to <literal>True</literal>, the Print dialog is not displayed. If the
+variable is not set, the dialog is displayed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="EnvironVar">XPDMDISPLAY</systemitem></term>
+<listitem>
+<para>Specifies whether an alternate X Print Server will be used to find the
+PDM_MANAGER selection. If the variable is not set, an alternate X Print
+Server will not be used.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para><command>dtinfo</command> registers with ToolTalk to handle the following ToolTalk requests:
+</para>
+<variablelist>
+<varlistentry><term><symbol role="Message">DtInfo_LoadInfoLib</symbol></term>
+<listitem>
+<para>Causes <command>dtinfo</command> to load the specified infolib or the
+default infolib, if none is specified.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Message">DtInfo_ShowInfoAtLoc</symbol></term>
+<listitem>
+<para>Causes <command>dtinfo</command> to display a particular section
+of data or topic.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Message">DtInfo_PrintInfoAtLoc</symbol></term>
+<listitem>
+<para>Routes print requests back to the requesting <command>dtinfo</command>
+process after the end-user drags one or more sections from the book list
+and drops them on the printer icon in the front panel.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Desktop actions invoking the browser are:
+</para>
+<variablelist>
+<varlistentry><term><Symbol>DtShowInfoAtLoc</Symbol></term>
+<listitem>
+<para>Sends a <symbol role="Message">DtInfo_ShowInfoAtLoc</symbol> message.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtLoadInfoLib</Symbol></term>
+<listitem>
+<para>Sends a <symbol role="Message">DtInfo_LoadInfoLib</symbol> message.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol>DtPrintInfoAtLoc</Symbol></Term>
+<listitem>
+<para>Sends a <symbol role="Message">DtInfo_PrintInfoAtLoc</symbol> message.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Use of any default desktop representations to start
+<command>dtinfo</command> from its icon or the icon of an infolib causes
+<command>dtinfo</command> to be invoked via the desktop action
+mechanism.
+</para>
+</refsect1>
+<refsect1>
+<title>STDOUT</title>
+<para>Not used.</para>
+</refsect1><refsect1>
+<title>STDERR</title>
+<para>Not used.</para>
+</refsect1><refsect1>
+<title>INPUT FILES</title>
+<para>For input, <command>dtinfo</command> accepts the file path,
+relative or absolute, for one or more information libraries.
+</para>
+</refsect1><refsect1>
+<title>OUTPUT FILES</title>
+<para>For output, <command>dtinfo</command> produces a file to hold
+print-ready output, if the <literal>&minus;outputFile</literal> and the
+<literal>&minus;print</literal> options are specified.
+</para>
+</refsect1><refsect1>
+<title>EXTENDED DESCRIPTION</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>A non-zero return value for <command>dtinfo</command> implies an error
+condition on start-up.
+</para>
+</refsect1>
+<refsect1>
+<title>ERRORS/WARNINGS</title>
+<refsect2>
+<title>Warning Messages</title>
+<variablelist>
+<varlistentry><term><literal>Warning: Illegal or missing paper size.</literal></term>
+<listitem>
+<para>This warning indicates an invalid value of the <systemitem class="resource">paperSize</systemitem> resource or
+<literal>-paperSize</literal> option. Correctly specify the option on
+the utility line or set a default resource value.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Warning: Illegal number of copies.</literal></term>
+<listitem>
+<para>This warning is displayed when both the <literal>-outputFile</literal>
+and <literal>-copies</literal> options are specified, and the number of
+copies is greater than 1.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Error Messages</title>
+<variablelist>
+<varlistentry><term><literal>Error: Unable to open x print server &lt;x_print_server></literal></term>
+<listitem>
+<para>This error indicates that the display specified by the printer resource
+or <literal>-printer</literal> option could not be opened.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Error: section not found.</literal></term>
+<listitem>
+<para>This error indicates that the specified section locator could not be
+found.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Error: invalid section specification &lt;section>.</literal></term>
+<listitem>
+<para>This error indicates that specified section locator was incorrectly formatted.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Error: printing of the entire infolib is not supported.</literal></term>
+<listitem>
+<para>Use the <literal>-sect</literal> option to identify the specific
+sections to print.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Error: unable to allocate memory for temporary file.</literal></term>
+<listitem>
+<para>This error indicates that the memory needed to create the temporary file
+name could not be allocated.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Error: unable to open temporary file.</literal></term>
+<listitem>
+<para>This error indicates that the temporary file could not be opened for
+writing.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>Start the browser and display the default information library:
+</para>
+<programlisting>% dtinfo</programlisting>
+<para>Start the browser with a library located at <filename>/cdrom/encyclopedia.dti</filename>:
+</para>
+<programlisting>% dtinfo -l /cdrom/encyclopedia.dti</programlisting>
+<para>Start the browser with a library from the search path:
+</para>
+<programlisting>% dtinfo -l encyclopedia</programlisting>
+<para>Start the browser with a specific section to display:
+</para>
+<programlisting>% dtinfo -sect mmdb:INFOLIB=encyclopedia&amp;LOCATOR=home_topic
+</programlisting>
+<para>or:
+</para>
+<programlisting>% dtinfo -sect INFOUG.SEARCH.DIV.5,INFOUG.SEARCH.DIV.22
+</programlisting>
+<para>An alternate form of the previous command:
+</para>
+<programlisting>% dtinfo -l /cdrom/encyclopedia.dti -sect mmdb:LOCATOR=home_topic
+</programlisting>
+<para>Print a specific section without starting <command>dtinfo</command>:
+</para>
+<programlisting>% dtinfo -print -sect INFOUG.NAVIGATE.DIV.3
+</programlisting>
+<para>Printing of an entire infolib is not supported from the command line:
+</para>
+<programlisting>
+% dtinfo -print -l /cdrom/encyclopedia.dti
+*** Error ***
+</programlisting>
+<para>Examples for the use of <command>dtinfo</command> directly:
+</para>
+<programlisting>
+% dtaction DtLoadInfoLib /usr/dt/infolib/C/cde.dti
+
+</programlisting>
+<programlisting>
+% dtaction DtShowInfoAtLoc /usr/dt/infolib/C/cde.dti GI.RGFBE.1698OL
+
+</programlisting>
+<para>
+If the infolib path environment variable is defined:
+</para>
+<programlisting>
+% dtaction DtShowInfoAtLoc cde INFOUG.GSTART.DIV.3
+</programlisting>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para>Command line start-up recognizes an infolib directory path (see
+&cdeman.DtMmdbInfoLibInfo;).
+The name of the directory and its contained files
+is used to ascertain whether it is a valid infolib.
+</para>
+<para>User-specific files for bookmarks and annotations are internally managed
+under the locale-specific directory
+<filename>$HOME/.dt/dtinfo/%L/marks/</filename>.
+</para>
+<para>User preferences, set via the Preferences dialog in an instance of
+<command>dtinfo</command>, and user-defined search scopes are saved in
+the generated file
+<filename>$HOME/.dt/dtinfo/%L/preferences</filename>.
+</para>
+<para>Application specific resources are defined in
+<filename>/usr/dt/app-defaults/%L/Dtinfo</filename>.
+</para>
+<para>Utility files and supporting data for dtinfo are found in the system location
+<filename>/usr/dt/infolib</filename>.
+</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<filename>Generalized Locator Format</filename>(4),
+&cdeman.dtinfogen;,
+&cdeman.DtPrintSetupBox;,
+&cdeman.DtInfo.LoadInfoLib;,
+&cdeman.DtInfo.ShowInfoAtLoc;,
+&cdeman.DtInfo.PrintInfoAtLoc;,
+&cdeman.dtinfoaction;,
+&cdeman.DtMmdbInfoLibInfo;
+</Para>
+</refsect1></refentry>

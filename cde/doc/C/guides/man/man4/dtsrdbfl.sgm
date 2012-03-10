@@ -1,0 +1,236 @@
+<!-- $XConsortium: dtsrdbfl.sgm /main/5 1996/08/30 15:13:01 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.INFO.dtsrdbfiles">]]>
+<RefMeta>
+<RefEntryTitle>dtsrdbfiles</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName>dtsrdbfiles</RefName>
+<RefPurpose>
+Describes the complete set of DtSearch database files
+</RefPurpose>
+</RefNameDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>Each DtSearch database consists of a set of core files
+that are created and maintained by the DtSearch offline build tools.
+Each database may also include a set of one or more language files
+that vary depending on the DtSearch language of the database.
+Some language files are part of the DtSearch package but
+may also be enhanced by the database developer.
+</para>
+<para>All database files for a single database must be located in the same
+directory. The directory is specified in the offline build tools by the
+optional path prefix in the <literal>&minus;d</literal><Symbol Role="Variable">dbname</Symbol> argument. The directory is specified for
+the online API by a <systemitem class="environvar">PATH</systemitem>
+configuration file (ocf file).
+</para>
+<refsect2>
+<Title>Core Files</Title>
+<Para>The base name of the core files is formed by appending a period and
+3-character name extension to the 1- to 8-character database name
+specified at creation time. Core files are binary and accessible only
+via DtSearch programs.
+</para>
+<para>The DtSearch core files are as follows:
+</para>
+<variablelist>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.dbe</term>
+<listitem>
+<para>Database dictionary file. Binary schema created by
+<command>dtsrcreate</command> from <filename>dtsearch.dbe</filename>.
+Never modified thereafter.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.k00</term>
+<listitem>
+<para>Main key file for database documents. Created and initialized by
+<command>dtsrcreate</command>, updated by <command>dtsrload</command>.
+Contains the b-tree of unique keys for each document.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.k01</term>
+<listitem>
+<para>Optional key file for database documents. Created and initialized by
+<command>dtsrcreate</command>. Contains the b-tree of optional keys for
+each document. Not currently used.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.d00</term>
+<listitem>
+<para>Documents header file. Created by <command>dtsrcreate</command>, updated
+by <command>dtsrload</command>. Contains the databases configuration
+status record and, for each document in the database, a header record
+and one or more abstract records.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.d01</term>
+<listitem>
+<para>Compressed text file. Created by <command>dtsrcreate</command>, but
+updated by <command>dtsrload</command> only for AusText type dataases.
+Repository of compressed text for each document.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.k21,
+<Symbol Role="Variable">dbname</Symbol>.k22,
+<Symbol Role="Variable">dbname</Symbol>.k23</term>
+<listitem>
+<para>Key files for words and stems. Created and initialized by
+<command>dtsrcreate</command>, updated by <command>dtsrindex</command>.
+Contains the b-tree of each word and stem indexed for the database. The
+k21 file finds "short" words, 1 to 15 bytes, in the d21 file. The k22
+file finds "long" words, 16 to 39 bytes, in the d22 file. The k23 file
+finds "huge" words, 40 to 133 bytes, in the d23 file. Long and huge word
+files may not be used depending on the database maximum word size
+specified at creation time.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.d21,
+<Symbol Role="Variable">dbname</Symbol>.d22,
+<Symbol Role="Variable">dbname</Symbol>.d23</term>
+<listitem>
+<para>Data files for words and stems. Created and initialized by
+<command>dtsrcreate</command>, updated by <command>dtsrindex</command>.
+For each word contains document counts, offset to inverted index (d99
+file), and storage recovery data. The d21 file contains short words, the
+d22 file contains long words, and the d23 file contains huge words. Long
+and huge word files may not be used depending on the database maximum
+word size specified at creation time.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<Title>Language Files</Title>
+<Para>Databases also need a set of files associated with the DtSearch language
+of the database. When looking for these files DtSearch will first look
+for a customized version applicable only to a database, and then look
+for the generic language version. Like core files, the base file name of
+a customized language file is formed by the database name and a 3
+character extension. The alternative generic language files are named
+with a language name and the same 3 character extension.
+</para>
+<para>Language files are mandatory or optional depending on the language.
+See &cdeman.dtsrlangfiles; for formats of language files.
+</para>
+<para>The DtSearch language-related files are as follows:
+</para>
+<variablelist>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.stp</term>
+<listitem>
+<para>Stop file. The supported stop files are:
+</para>
+<simplelist>
+<member>
+<filename>eng.stp</filename> &minus; for
+<systemitem class="constant">DtSrLaENG</systemitem> and
+<systemitem class="constant">DtSrLaENG2</systemitem>
+</member>
+<member>
+<filename>esp.stp</filename> &minus; for
+<systemitem class="constant">DtSrLaESP</systemitem>
+</member>
+<member>
+<filename>fra.stp</filename> &minus; for
+<systemitem class="constant">DtSrLaFRA</systemitem>
+</member>
+<member>
+<filename>deu.stp</filename> &minus; for
+<systemitem class="constant">DtSrLaDEU</systemitem>
+</member>
+<member>
+<filename>ita.stp</filename> &minus; for
+<systemitem class="constant">DtSrLaITA</systemitem>
+</member>
+</simplelist>
+<para>Stop lists are mandatory for European languages, and
+optional for other supported languages.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.inc</term>
+<listitem>
+<para>An include list is always optional for all supported languages.
+There are no generic versions of include lists.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><filename>eng.sfx</filename></term>
+<listitem>
+<para>For<systemitem class="constant">DtSrLaENG</systemitem> and
+<systemitem class="constant">DtSrLaENG2</systemitem>.
+and is not currently required for other supported languages.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><Symbol Role="Variable">dbname</Symbol>.knj</term>
+<listitem>
+<para><filename>jpn.knj</filename> for
+<systemitem class="constant">DtSrLaJPN2</systemitem>.
+A kanji compounds file is mandatory only for language number 7
+<systemitem class="constant">DtSrLaJPN2</systemitem>,
+a supported Japanese language.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<RefSect3>
+<Title>Examples</Title>
+<para>Files associated with a minimum
+<systemitem class="constant">DtSrLaENG</systemitem> database
+(English, ASCII) that uses no customized or optional files:
+</para>
+<programlisting>
+All core files plus <filename>eng.stp</filename>, <filename>eng.sfx</filename>.
+</programlisting>
+<para>Files for a <systemitem class="constant">DtSrLaITA</systemitem>
+database (Italian, ISO Latin-1)
+with enhanced stop list and an include list:
+</para>
+<programlisting>
+All core files plus <Symbol Role="Variable">dbname</Symbol>.stp, <Symbol Role="Variable">dbname</Symbol>.inc.
+</programlisting>
+<para>Files associated with a minimum <systemitem class="constant">DtSrLaJPN</systemitem>
+database
+(Japanese with full, automatic kanji compounding)
+that uses no customized or optional files:
+</para>
+<programlisting>
+Only core files.
+</programlisting>
+<para>Files for a <systemitem class="constant">DtSrLaJPN2</systemitem>
+database (Japanese with kanji compounds
+from a word list), with optional stop list for ASCII substrings:
+</para>
+<programlisting>
+All core files plus <Symbol Role="Variable">dbname</Symbol>.stp, <filename>jpn.knj</filename>.
+</programlisting>
+</refsect3>
+</refsect2>
+</refsect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtsrcreate;,
+&cdeman.dtsrload;,
+&cdeman.dtsrindex;,
+&cdeman.DtSrAPI;,
+&cdeman.dtsrlangfiles;,
+&cdeman.dtsrocffile;,
+&cdeman.DtSearch;
+</Para>
+</RefSect1>
+</RefEntry>

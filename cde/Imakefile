@@ -1,0 +1,148 @@
+XCOMM $TOG: Imakefile /main/22 1999/01/18 10:38:29 samborn $
+#define IHaveSubdirs
+#define PassCDebugFlags CDEBUGFLAGS="$(CDEBUGFLAGS)"
+
+CDE_RELEASE = 2.1.20
+
+SUBDIRS = config util logs include lib programs databases admin
+DOCSUBDIRS = config doc
+
+MakeSubdirs($(SUBDIRS))
+
+DependSubdirs($(SUBDIRS))
+
+#define IHaveSpecialMakefileTarget
+Makefile:: xmakefile
+ImakeDependency(xmakefile)
+xmakefile:: Imakefile
+	RMoveToBakFile(xmakefile)
+	$(IMAKE_CMD) -s xmakefile -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR)
+
+
+VerifyOS::
+	@echo ""
+	@echo Building on OSName.
+	@echo ""
+
+includes::
+	MakeDir($(BUILDINCDIR))
+
+XCOMM
+XCOMM Watch out!!!  Make sure you do make includes after removing X11....
+XCOMM
+clean::
+	$(RM) -r $(BUILDINCDIR)
+	$(RM) -r $(BUILDLIBDIR)
+
+      WORLDOPTS = -k
+      MAKE_OPTS = -f xmakefile
+
+XCOMM 
+XCOMM install; create the directories that we're going to need
+XCOMM 
+
+DIRS_TO_CREATE = $(USRLIBDIR) $(BINDIR) $(INCDIR) $(USRINCDIR) $(LIBDIR) $(XAPPLOADDIR)
+
+MakeDirectories(install, $(DIRS_TO_CREATE))
+
+XCOMM 
+XCOMM Everything builds everything in the SUBDIRS directories
+XCOMM 
+
+Everything::
+	@echo ""
+	@echo "Rebuilding Release $(CDE_RELEASE) of CDE"
+	@echo ""
+	@date
+	@echo ""
+	cd $(IMAKESRC) && if [ -f Makefile ]; then \
+	    $(MAKE) $(MFLAGS) BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \
+	else \
+	    $(MAKE) $(MFLAGS) -f Makefile.ini BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \
+	fi
+	-$(RM) xmakefile.bak; $(MV) xmakefile xmakefile.bak
+	$(MAKE) $(MFLAGS) -f xmakefile.bak xmakefile
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) Makefiles
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) Makefiles.doc
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) includes
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) includes.doc
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) depend
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) depend.doc
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) $(WORLDOPTS)
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) $(WORLDOPTS) all.doc
+	@echo ""
+	@date
+	@echo ""
+	@echo "Rebuild of Release $(CDE_RELEASE) of CDE complete."
+	@echo ""
+
+Everything.dev::
+	@echo ""
+	@echo "Rebuilding Release $(CDE_RELEASE) of CDE excluding DOC"
+	@echo ""
+	@date
+	@echo ""
+	cd $(IMAKESRC) && if [ -f Makefile ]; then \
+	    $(MAKE) $(MFLAGS) BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \
+	else \
+	    $(MAKE) $(MFLAGS) -f Makefile.ini BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \
+	fi
+	-$(RM) xmakefile.bak; $(MV) xmakefile xmakefile.bak
+	$(MAKE) $(MFLAGS) -f xmakefile.bak xmakefile
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) Makefiles
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) includes
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) depend
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) $(WORLDOPTS)
+	@echo ""
+	@date
+	@echo ""
+	@echo "Rebuild of Release $(CDE_RELEASE) of CDE excluding DOC complete."
+	@echo ""
+
+XCOMM clean out link tree looking for stuff that should get checked in
+dangerous_strip_clean::
+	make -k clean clean.doc
+	find . -type l -exec rm {} \;
+	find . \( \! \( -type d -o -name Makefile \) \) -print
+
+XCOMM special target to determine if the xmakefile exists. 
+XCOMM Works on both Unix and NMAKE.EXE
+xmakefile-exists::
+
+
+XCOMM 
+XCOMM Everything.doc builds everything in the DOCSUBDIRS directories
+XCOMM 
+
+Everything.doc::
+	@echo ""
+	@echo "Rebuilding Release $(CDE_RELEASE) of DOC"
+	@echo ""
+	@date
+	@echo ""
+	cd $(IMAKESRC) && if [ -f Makefile ]; then \
+	    $(MAKE) $(MFLAGS) BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \
+	else \
+	    $(MAKE) $(MFLAGS) -f Makefile.ini BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \
+	fi
+	-$(RM) xmakefile.bak; $(MV) xmakefile xmakefile.bak
+	$(MAKE) $(MFLAGS) -f xmakefile.bak xmakefile
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) Makefiles.doc
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) includes.doc
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) depend.doc
+	$(MAKE) $(MFLAGS) $(MAKE_OPTS) $(WORLDOPTS) all.doc
+	@echo ""
+	@date
+	@echo ""
+	@echo "Rebuild of Release $(CDE_RELEASE) of DOC complete."
+	@echo ""
+
+NamedTargetSubdirs(install.doc,$(DOCSUBDIRS),"installing",DESTDIR=$(DESTDIR),install)
+NamedTargetSubdirs(install.man.doc,$(DOCSUBDIRS),"installing man pages",DESTDIR=$(DESTDIR),install.man)
+InstallLinkKitSubdirs($(DOCSUBDIRS))
+NamedCleanSubdirs(clean.doc,$(DOCSUBDIRS))
+NamedTagSubdirs(tags.doc,$(DOCSUBDIRS))
+MakeMakeSubdirs($(DOCSUBDIRS),Makefiles.doc)
+NamedTargetSubdirs(includes.doc,$(DOCSUBDIRS),including,NullParameter,includes)
+NamedTargetSubdirs(depend.doc,$(DOCSUBDIRS),depending,NullParameter,depend)
+NamedMakeSubdirs(all.doc, $(DOCSUBDIRS))

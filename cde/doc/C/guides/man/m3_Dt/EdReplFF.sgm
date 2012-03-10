@@ -1,0 +1,182 @@
+<!-- $XConsortium: EdReplFF.sgm /main/5 1996/08/30 13:01:18 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN36.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN36.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtEditorReplaceFromFile</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtEditorReplaceFromFile</Function></RefName>
+<RefPurpose>replace a portion of the contents of a DtEditor widget with the contents of a file
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Editor.h>
+</FuncSynopsisInfo>
+<FuncDef>DtEditorErrorCode <Function>DtEditorReplaceFromFile</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>XmTextPosition <Parameter>startPos</Parameter></ParamDef>
+<ParamDef>XmTextPosition <Parameter>endPos</Parameter></ParamDef>
+<ParamDef>char *<Parameter>fileName</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtEditorReplaceFromFile</Function> function
+replaces part of the contents of a DtEditor widget
+with the contents of a file.
+All data following the start position
+and up to, but not including, the end position is replaced.
+If the start position and the end position are equal, the
+data is inserted after the end position.
+The character positions begin at zero and are numbered sequentially
+from the beginning of the text.
+After the replacement, the insertion cursor is positioned after the
+last character inserted.
+</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument specifies the DtEditor widget ID.
+</Para>
+<Para>The
+<Symbol Role="Variable">startPos</Symbol> argument specifies the starting character position of
+the portion to replace.
+The replacement begins
+at this character.
+</Para>
+<Para>The
+<Symbol Role="Variable">endPos</Symbol> argument specifies the ending character position of
+the portion to replace.
+The replacement ends
+before this character.
+</Para>
+<Para>The
+<Emphasis>fileName</Emphasis> argument is the pathname of the file
+relative to the local system.
+<![ %CDE.C.CDE; [</Para>
+<Para>For a complete definition of the DtEditor widget
+and its associated resources, see
+&cdeman.DtEditor;. ]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtEditorReplaceFromFile</Function> function returns one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_NO_ERRORS</Term>
+<ListItem>
+<Para>The file is readable and writable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_READ_ONLY_FILE</Term>
+<ListItem>
+<Para>The file is read only.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NULLS_REMOVED</Term>
+<ListItem>
+<Para>The file contained embedded
+<SystemItem Class="Constant">NULL</SystemItem> characters, which were removed.
+]]></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Otherwise, if it cannot insert the data into the DtEditor widget,
+the function
+returns one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_RANGE</Term>
+<ListItem>
+<Para>The
+<Symbol Role="Variable">startPos</Symbol> argument is greater than the
+<Symbol Role="Variable">endPos</Symbol> argument.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NONEXISTENT_FILE</Term>
+<ListItem>
+<Para>The file does not exist.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_DIRECTORY</Term>
+<ListItem>
+<Para>The file is a directory.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_CHAR_SPECIAL_FILE</Term>
+<ListItem>
+<Para>The file is a character-special device.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_BLOCK_MODE_FILE</Term>
+<ListItem>
+<Para>The file is a block-mode device.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NO_FILE_ACCESS</Term>
+<ListItem>
+<Para>The file cannot be accessed.
+<![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Not enough system memory is available to replace the data.
+]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_UNREADABLE_FILE</Term>
+<ListItem>
+<Para>The file is unreadable for an unspecified reason.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>If the data is in memory, rather than a disk file, the application should
+use
+&cdeman.DtEditorReplace;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Editor.h;, &cdeman.DtEditor;, &cdeman.DtEditorAppend;, &cdeman.DtEditorAppendFromFile;, &cdeman.DtEditorGetContents;, &cdeman.DtEditorInsert;, &cdeman.DtEditorInsertFromFile;, &cdeman.DtEditorReplace;, &cdeman.DtEditorSaveContentsToFile;, &cdeman.DtEditorSetContents;, &cdeman.DtEditorSetContentsFromFile;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

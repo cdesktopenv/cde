@@ -1,0 +1,141 @@
+<!-- $XConsortium: PrintRes.sgm /main/8 1996/08/31 14:58:59 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.XPRINT.DtPrintResetConnectio">]]>
+<![ %CDE.C.XO; [<refentry id="XCSA.XPRINT.DtPrintResetConnectio">]]>
+<refmeta><refentrytitle>
+DtPrintResetConnection
+</refentrytitle><manvolnum>library call</manvolnum></refmeta><refnamediv>
+<refname><function>DtPrintResetConnection</function></refname><refpurpose>
+resets the print display connection managed by a
+<function>DtPrintSetupBox</function>
+</refpurpose></refnamediv><refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;Print.h></funcsynopsisinfo>
+<funcdef>XtEnum <function>DtPrintResetConnection</function></funcdef>
+<paramdef>Widget <parameter>wid</parameter></paramdef>
+<paramdef>DtPrintResetConnectionMode <parameter>mode</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtPrintResetConnection</function> function
+is a convenience function provided by the
+<function>DtPrintSetupBox</function> widget that allows applications
+to direct the widget to stop managing the X print server connection.
+A <symbol role="Variable">mode</symbol> parameter is
+included in order to direct the widget to close the print connection by
+calling <function>XpDestroyPrintContext</function> and
+<function>XCloseDisplay</function> or to simply relinquish
+control of the connection without closing it.
+</para>
+<para><function>DtPrintResetConnection</function> is intended
+to be used by applications that fork
+a child process to perform the print rendering operation. Immediately
+after the fork is performed, the parent process will close its X print
+server connection, and retain its connection to the video X server. The
+forked child on the other hand will close its video X server connection
+and perform the rendering operation on the X print server connection.
+</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">wid</symbol></term>
+<listitem>
+<para>The <function>DtPrintSetupBox</function> widget ID.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">mode</symbol></term>
+<listitem>
+<para>Indicates whether <function>DtPrintResetConnection</function>
+should close the X print server
+connection, or simply cause the
+<function>DtPrintSetupBox</function> to cease managing the
+connection.
+</para>
+<para>Valid values are:
+</para>
+<variablelist>
+<varlistentry><term><systemitem class="constant">DtPRINT_CLOSE_CONNECTION</systemitem></term>
+<listitem>
+<para>Set by the parent process when the application forks a child to perform
+the print rendering. This will cause the
+<Symbol>DtNclosePrintDisplayCallback</Symbol>
+list set for the passed <function>DtPrintSetupBox</function> to be called.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="constant">DtPRINT_RELEASE_CONNECTION</systemitem></term>
+<listitem>
+<para>Set when the application wishes to destroy the
+<function>DtPrintSetupBox</function> widget
+instance and still perform print rendering using the X print server
+connection initiated by the widget. For example, the child process of an
+application that forks to perform print rendering will close the video
+display connection (thereby destroying the
+<function>DtPrintSetupBox</function> widget) prior
+to print rendering. No <function>DtPrintSetupBox</function>
+callbacks will be called as a result of this operation.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<variablelist>
+<varlistentry><term><systemitem class="constant">DtPRINT_SUCCESS</systemitem></term>
+<listitem>
+<para><function>DtPrintResetConnection</function> was successful.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="constant">DtPRINT_NO_CONNECTION</systemitem></term>
+<listitem>
+<para>An open X print server connection is not currently being
+managed by the <function>DtPrintSetupBox</function>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="constant">DtPRINT_BAD_PARM</systemitem></term>
+<listitem>
+<para>The value passed for
+<symbol role="Variable">wid</symbol> is NULL, or an invalid
+<symbol role="Variable">mode</symbol> was passed.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>ERRORS/WARNINGS</title>
+<para>None.</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>FILES</title>
+<para>None.
+</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.DtPrintSetupBox;</para>
+</refsect1></refentry>

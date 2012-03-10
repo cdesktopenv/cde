@@ -1,0 +1,95 @@
+<!-- $XConsortium: Set_Geom.sgm /main/7 1996/09/08 20:15:35 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN308.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN308.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Set_Geometry</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Set_Geometry</Symbol></RefName>
+<RefPurpose>set a tool's on-screen geometry
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Set_Geom.sgm /main/7 1996/09/08 20:15:35 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>Set_Geometry(inout width <Symbol Role="Variable">w</Symbol>,
+        inout height <Emphasis>h</Emphasis>,
+        inout xOffset <Symbol Role="Variable">x</Symbol>,
+        inout yOffset <Symbol Role="Variable">y</Symbol>
+        [in messageID <Emphasis>commission</Emphasis>]);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Set_Geometry</Symbol> request
+sets the on-screen geometry of the optionally specified
+window, or of the window primarily associated with the recipient
+procid (if no window is specified).
+</Para>
+<Para>The
+<Symbol Role="Variable">w</Symbol>, <Emphasis>h</Emphasis>, <Symbol Role="Variable">x</Symbol> and
+<Symbol Role="Variable">y</Symbol> arguments are integer geometry values, in pixels,
+representing width, height, x-coordinate and y-coordinate,
+respectively.
+Negative offset values
+are interpreted according to the
+<![ %CDE.C.CDE; [<Filename MoreInfo="RefEntry">X11</Filename>(7) man page.
+]]><![ %CDE.C.XO; [&str-Zl;.
+]]>If any of these arguments are unset, that part of the geometry need
+not be changed.
+The return values are the actual
+new values, in case they differ from the requested new values.
+</Para>
+<Para>The
+<Emphasis>commission</Emphasis> argument
+is the ID of the ongoing request, if any, that resulted in the creation
+of the window in question.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttdt.session.join;, and
+&cdeman.ttdt.message.accept;, functions can be used by Xt applications to register for,
+and transparently process, the
+<Symbol Role="Message">Set_Geometry</Symbol> request.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The
+<Symbol Role="Message">Set_Geometry</Symbol> request can be sent as in the following example:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message msg = tttk_message_create(0, TT_REQUEST, TT_SESSION,
+                        the_recipient_procid, TTDT_SET_GEOMETRY,
+                        my_callback);
+tt_message_iarg_add(msg, TT_INOUT, Tttk_width, 500);
+tt_message_iarg_add(msg, TT_INOUT, Tttk_height, 500);
+tt_message_arg_add(msg, TT_INOUT, Tttk_xoffset, 0); /* no value */
+tt_message_arg_add(msg, TT_INOUT, Tttk_yoffset, 0); /* no value */
+tt_message_send(msg);
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.tt.message.arg.add;, &cdeman.tt.message.iarg.add;, &cdeman.tt.message.send;, &cdeman.ttdt.message.accept;, &cdeman.ttdt.session.join;; <Symbol Role="Message">Get_Geometry</Symbol> request.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

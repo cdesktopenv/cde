@@ -1,0 +1,198 @@
+.\" $XConsortium: binstall.5 /main/3 1995/10/30 14:07:47 rswiston $
+.TH binstall 5 "" "" CDE
+.ds )H Common Desktop Environment
+.ds ]W January 1994
+.SH NAME
+binstall \- build environment installation mechanism administration
+.SH DESCRIPTION
+This man page describes the administration of the build environment
+installation mechanism on all architectures. 
+This mechanism was set up to allow developers to use alternative build
+environments (usually from some previous day's build) when build trees
+are unstable. It uses 
+.I imake
+configuration to extract libraries,
+headers, make configuration, and binaries from a build tree and installs
+them in a designated location. If
+.I installpath
+is the installation location, 
+.I make binstall
+will create the following directories under
+.IR installpath :
+.I include
+(and subdirectories), 
+.IR lib ,
+.IR bin ,
+.IR config ,
+and
+.IR util .
+The mechanism can also create any other needed directories under
+.IR installpath .
+These directories can then be accessed by a developer by pointing the
+.I TOP 
+of his Makefiles to
+.IR installpath . 
+Most components (including imake-oriented components not in any build
+tree) can then leverage the libraries, headers, etc. in the binstall
+path and build correctly.
+(See
+.IR binstall(1) ).
+A new pass has been added to 
+.I imake
+to accomodate installing build environments ->
+.I make
+.IR binstall .
+.TP 2
+New cpp macros for \fIbinstall\fR have been added to \fIconfig/cde/cdeImake.tmpl:
+.nf
+\fIBInstallCmd\fR  - location of standard make \fIinstall\fR command.
+               default -> /etc/install.
+\fIBInstallTop\fR  - destination location of installed build.
+               default -> /tmp/binstall.
+\fIBInstallDate\fR - suffix added to installed build path (See Examples).
+               default -> /**/ (nothing)
+.fi
+.TP 2
+New make macros for \fIbinstall\fR have been added to \fIconfig/cde/cdeImake.tmpl:
+.nf
+.I BINSTALL = BInstallCmd
+.I BINSTALLDATE = BInstallDate
+.I BINSTALLTOP = BInstallTop
+.I BINSTALLPATH = $(BINSTALLTOP)$(BINSTALLDATE)
+.I BINSTALL_LIBDIR = $(BINSTALLPATH)/lib
+	This macro is used by vendorLib.tmpl and Project.tmpl to set new
+	library paths when developer's use an installed build.
+.I BINSTALL_INCDIR = $(BINSTALLPATH)/include
+	This macro resets the default include paths to the installed
+	build location.
+.fi
+.TP 2
+New make rules for \fIbinstall\fR have been added to \fIconfig/cde/cde.rules :
+.nf
+NOTE: \fIdest\fR below refers to a subdirectory of \fI$BINSTALLPATH\fR.
+It is usually one of \fIlib, bin, \fRor \fIinclude.
+\fIBuildInstall(file,dest)\fR         - install \fIfile\fR to \fIdest\fR.
+\fIBuildMultipleInstall(list,dest)\fR - install \fIlist\fR to \fIdest\fR.
+\fINormalLibraryBuildInstall(libname,dest)\fR - install a .a to \fIdest\fR.
+\fISharedLibraryBuildInstall(libname,rev,dest)\fR - install shlib to \fIdest\fR.
+\fIDirectoryInstall(dir,dest)\fR      - install directory \fIdir\fR to \fIdest\fR.
+\fISharedLibraryBuildInstall\fR is defined in vendorLib.rules.
+The other rules are defined in \fIconfig/cde/cde.rules\fR.	
+.fi
+.P
+When a build environment is installed to a path, the 
+.I config 
+and 
+.I util 
+directories are copied to the installation path. The file 
+.I config/UseInstalledBuildtemplate
+is copied to the file
+.I config/treedefines
+in the install path
+.I config
+directory. This file sets the cpp macro
+.IR UseInstalledBuild .
+.I UseInstalledBuild
+will correctly point all library and header access requests to the
+install path when a developer resets the
+.I TOP
+of his Makefiles to the install path.
+.SH SETUP
+The install package path
+.I BINSTALLPATH
+is where the results of make binstall are stored. It is easiest to set
+this from the command-line or through the 
+.I master_build
+script. If you want a default action for make binstall,
+each build tree may
+set 
+.I BINSTALLTOP 
+and optionally 
+.I BINSTALLDATE 
+to an appropriate path.
+These 2 macros are easiest to set through their cpp macros 
+.I BInstallTop
+and 
+.IR BInstallDate .  
+It is recommended that 
+.I BInstallTop 
+be defined in the
+file 
+.IR config/BuildTree.name .  
+.I BINSTALLDATE 
+allows you to add another
+automatically generated addition to the path set by 
+.I BINSTALLTOP .  In
+.IR config/hp.cf , 
+.I BInstallDate 
+is defined to add 
+.I /mm_dd 
+to the 
+.IR BINSTALLTOP .  
+You may not want this to happen on your hp systems at other sites.
+Thus you should set 
+.I BInstallDate to either /**/ or whatever is
+appropriate for your site in 
+.I config/BuildTree.name 
+for your hp builds.
+.P
+Thus, you have a choice of defining 
+.I BInstallPath 
+for each tree by
+defining it in 
+.IR config/BuildTree.name .  
+If you don't define it there, you
+will either get the default 
+.I BInstallPath 
+for that architecture or the
+global default (/**/).  It is each vendor's responsibility to set
+.I BInstallDate 
+in their .cf file if they want to add something to the
+default package install path for each of their own builds. It is
+likewise their responsibility to turn off 
+.I BInstallDate 
+if they do not
+want to use this mechanism for other architectures that have turned it
+on.
+.P
+However, it is still easier to set the 
+.I BINSTALLPATH 
+from the command line using
+.I make 
+.IR BINSTALLPATH=somepath 
+or from the
+.I master_build
+script(See running 
+.I binstall
+below).
+.SH RUNNING BINSTALL
+Installing the build can be done in a number of ways:
+.nf
+1) running \fImake -k BINSTALLPATH=yourpath binstall\fR.
+2) running \fImake -k binstall\fR in a build tree.
+3) using the \fImaster_build\fR script with the following options:
+   \fI-ba <path>\fR (run \fImake binstall\fR and supply only the \fIBINSTALLTOP\fR
+               portion of the install path. \fIBINSTALLDATE\fR will be
+               automatically generated and will be added to
+               \fIBINSTALLTOP\fR as a subdirectory of the form \fI/mm_dd\fR.
+        e.g. -ba /binstall/cde_hp700_90 on Jan 3rd. will run
+             make -k BINSTALLPATH =/binstall/cde_hp700_90/01_03
+.SH FURTHER INFORMATION
+Access to binstall paths may vary for each vendor site. For information
+about the binstall paths available to developers, each site should
+create a man page of the form
+.I binstall_vendor.1
+in the 
+.I admin/man/man1 
+directory -> binstall_hp(1), binstall_sun(1), binstall_novell(1), binstall_ibm(1), etc..
+.SH AUTHOR
+The binstall mechanism
+was developed by Marc Ayotte,
+WTD-CV, Hewlett-Packard.
+.SH SEE ALSO
+master_build(1),
+binstall(1),
+binstall_hp(1),
+binstall_sun(1),
+binstall_novell(1),
+binstall_ibm(1).

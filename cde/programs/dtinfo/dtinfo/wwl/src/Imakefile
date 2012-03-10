@@ -1,0 +1,27 @@
+XCOMM $XConsortium: Imakefile /main/7 1996/08/21 15:49:34 drk $
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		WWL
+#define LibHeaders	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+INCLUDES = -I../include
+
+#ifdef SVR4
+DEFINES = -DSYSV -DSVR4 
+#endif
+
+SRCS =	WArgList.C	WCallback.C	WComposite.C \
+	WObject.C	WXmList.C 	WXmMenu.C \
+	WXmRadioBox.C	WXmString.C
+
+OBJS = $(SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+DependTarget()

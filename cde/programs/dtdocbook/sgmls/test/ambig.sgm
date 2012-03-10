@@ -1,0 +1,24 @@
+<!doctype doc [
+<!element doc - - any>
+<!element e1 - - ((a, b?), b) -- ambiguous -->
+<!element e2 - - (a*, b, a*)* -- ambiguous -->
+<!element e3 - - (a & b?) -- not ambiguous -->
+<!element e4 - - ((a , b?) | (b? , a)) -- ambiguous -->
+<!element e5 - - ((a*, b, a*) & c) -- not ambiguous -->
+<!element e6 - - (a*, (b? & c), a*) -- not ambiguous -->
+<!element e7 - - (a*, (b? & c?), a*) -- ambiguous -->
+<!element e8 - - (#pcdata, a, #pcdata)* -- ambiguous -->
+<!element e9 - - ((a & b), a) -- not ambiguous -->
+<!element e10 - - (a & (b, a?)) -- ambiguous -->
+<!element e11 - - (c & (a?, b, a?))* -- ambiguous -->
+<!element e12 - - ((a & b)+ , a) -- ambiguous -->
+<!element e13 - - ((a? & b), a) -- ambiguous -->
+<!entity % big "(a&b&c&d&e&f&g&h&i&j&k&l&m&n&o&p&q&r&s&t&u&v&w&x&y&z)">
+<!element e14 - - (%big; , %big;) -- not ambiguous -->
+<!element e15 - -
+          ((((((((((((((((a&b)&c)&d)&e)&f)&g)&h)&i)&j)&k)&l)&m)&n)&o)&p)&q)
+          -- not ambiguous -->
+<!element e16 - - (c & (a?, b, a?)) -- not ambiguous -->
+<!element %big; - - (#pcdata)>
+]>
+<doc></doc>

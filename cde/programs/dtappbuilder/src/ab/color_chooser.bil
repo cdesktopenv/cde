@@ -1,0 +1,179 @@
+//       $XConsortium: color_chooser.bil /main/3 1995/11/06 17:24:12 rswiston $
+//
+// @(#)color_chooser.bil	1.12 05 Feb 1995
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+//   color_chooser.bil - Module file for App Builder color chooser
+//
+:bil-version	1 0
+:module color_chooser
+(
+
+:element dialog
+(
+	:type			:dialog
+	:width			469
+	:height			312
+	:bg-color		"white"
+	:label			"Color Chooser"
+	:resizable		:true
+	:visible		:false
+	:help-button		help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABColorChooser"
+	:help-text		"The Color Chooser provides an interactive way to select a color for the foreground or background color attribute of an object."
+	:children		(
+		swatch_panel
+		ctrl_panel
+		dialog_button_panel
+	)
+)
+:element swatch_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:width			469
+	:height			281
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj ctrl_panel 0)
+	:east-attachment	(:obj dialog 0)
+	:west-attachment	(:point 0 0)
+)
+:element ctrl_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			214
+	:width			469
+	:height			31
+	:visible		:true
+	:border-frame		:none
+	:south-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		color_name_label
+		color_name
+	)
+)
+:element color_name_label
+(
+	:type			:label
+	:x			11
+	:y			12
+	:label-type		:string
+	:label			"Color Name:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:point 0 11)
+)
+:element color_name
+(
+	:type			:label
+	:x			118
+	:y			9
+	:label-type		:string
+	:label			"**color**"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:obj color_name_label 5)
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			469
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		ok_button
+		cancel_button
+		help_button
+	)
+)
+:element ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 30 0)
+	:west-attachment	(:grid-line 10 0)
+)
+:element cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 60 0)
+	:west-attachment	(:grid-line 40 0)
+)
+:element help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 90 0)
+	:west-attachment	(:grid-line 70 0)
+)
+:element message
+(
+	:type			:message
+	:message-type		:info
+	:label			"Color Chooser"
+	:message		"Color Chooser could not allocate all its standard colors.\n\nThis is probably because you are running other\napplications that have claimed all the available\ncells in your workstation's colormap.\nTo see more colors in Color Chooser, try quitting\nsome of those applications."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:false
+	:default-button		:action1-button
+)
+:connection
+(
+	:from			ok_button
+	:when			:activate
+	:action-type		:call-function
+	:action			applyCB
+)
+:connection
+(
+	:from			cancel_button
+	:when			:activate
+	:action-type		:call-function
+	:action			cancelCB
+)
+)

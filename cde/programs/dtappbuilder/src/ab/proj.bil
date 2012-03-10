@@ -1,0 +1,958 @@
+
+//       $XConsortium: proj.bil /main/3 1995/11/06 17:45:15 rswiston $
+//
+// @(#)proj.bil	1.2 03 Mar 1994
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+//	This was taken out as it was causing syntax errors:
+//:connection
+//(
+//    :from                          graphpane
+//    :when                          :repaint
+//    :action-type                   :call-function
+//    :action                        repaint_proc
+//    :arg-type                      :void
+//)
+
+:bil-version	1 0
+:module proj
+(
+
+:element proj_menubutton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		proj_menubutton_menu_Open_item
+		proj_menubutton_menu_New_item
+		proj_menubutton_menu_Save_item
+		proj_menubutton_menu_Save_As_item
+		proj_menubutton_menu_Close_Project_item
+		proj_menubutton_menu_separator1_item
+		proj_menubutton_menu_Close_item
+	)
+)
+:element proj_menubutton_menu_Open_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Open..."
+	:active			:true
+)
+:element proj_menubutton_menu_New_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"New..."
+	:active			:true
+)
+:element proj_menubutton_menu_Save_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Save"
+	:active			:true
+)
+:element proj_menubutton_menu_Save_As_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Save As..."
+	:line-style		:etched-out
+	:active			:true
+)
+:element proj_menubutton_menu_Close_Project_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Close Project"
+	:active			:true
+)
+:element proj_menubutton_menu_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element proj_menubutton_menu_Close_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Close"
+	:active			:true
+)
+:element mod_menubutton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		mod_menubutton_menu_New_item
+		mod_menubutton_menu_Save_item
+		mod_menubutton_menu_Save_As_item
+		mod_menubutton_menu_Show_item
+		mod_menubutton_menu_Hide_item
+		mod_menubutton_menu_Browse_item
+		mod_menubutton_menu_Import_item
+		mod_menubutton_menu_Export_item
+		mod_menubutton_menu_Remove_item
+	)
+)
+:element mod_menubutton_menu_New_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"New..."
+	:active			:true
+)
+:element mod_menubutton_menu_Save_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Save"
+	:active			:true
+)
+:element mod_menubutton_menu_Save_As_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Save As..."
+	:active			:true
+)
+:element mod_menubutton_menu_Show_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Show"
+	:active			:true
+)
+:element mod_menubutton_menu_Hide_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Hide"
+	:active			:true
+)
+:element mod_menubutton_menu_Browse_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Browse..."
+	:active			:true
+)
+:element mod_menubutton_menu_Import_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Import..."
+	:active			:true
+)
+:element mod_menubutton_menu_Export_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Export..."
+	:active			:true
+)
+:element mod_menubutton_menu_Remove_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Remove"
+	:active			:true
+)
+:element proj_main
+(
+	:type			:base-window
+	:bg-color		"white"
+	:icon-label		"Project Organizer"
+	:label			"Project Organizer"
+	:resizable		:true
+	:visible		:false
+	:iconic			:false
+	:children		(
+		menubar
+		path_panel
+		module_drawarea
+	)
+)
+:element menubar
+(
+	:type			:container
+	:container-type		:menu-bar
+	:active			:true
+	:children		(
+		menubar_Project_item
+		menubar_Module_item
+		menubar_Help_item
+	)
+)
+:element menubar_Project_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Project"
+	:is-help-item		:false
+	:mnemonic		"P"
+	:menu			proj_menubutton_menu
+	:active			:true
+)
+:element menubar_Module_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Module"
+	:is-help-item		:false
+	:mnemonic		"M"
+	:menu			mod_menubutton_menu
+	:active			:true
+)
+:element menubar_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Help"
+	:is-help-item		:true
+	:mnemonic		"H"
+	:menu			proj_help_menu
+	:active			:true
+)
+:element path_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj proj_main 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		proj_module_group
+	)
+)
+:element proj_module_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			8
+	:y			2
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		0
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:point 0 2)
+	:west-attachment	(:point 0 8)
+	:children		(
+		project_group
+		module_group
+	)
+)
+:element project_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:group-type		:row
+	:row-alignment		:top
+	:hoffset		0
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		project_label
+		project_path
+	)
+)
+:element project_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Project path:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element project_path
+(
+	:type			:label
+	:label-type		:string
+	:label			"          "
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+)
+:element module_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:group-type		:row
+	:row-alignment		:top
+	:hoffset		0
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		module_label
+		module_path
+	)
+)
+:element module_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Module path:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element module_path
+(
+	:type			:label
+	:label-type		:string
+	:label			"          "
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+)
+:element module_drawarea
+(
+	:type			:drawing-area
+	:x			0
+	:y			46
+	:width			419
+	:height			131
+	:drawarea-width		400
+	:drawarea-height	130
+	:border-frame		:none
+	:hscrollbar		:when-needed
+	:vscrollbar		:when-needed
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj path_panel 0)
+	:south-attachment	(:obj proj_main -1)
+	:east-attachment	(:obj proj_main -1)
+	:west-attachment	(:point 0 0)
+)
+:element proj_help_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		proj_help_menu_Overview_item
+		proj_help_menu_separator1_item
+		proj_help_menu_Tasks_item
+		proj_help_menu_Reference_item
+		proj_help_menu_separator2_item
+		proj_help_menu_On_Item_item
+		proj_help_menu_separator3_item
+		proj_help_menu_Using_Help_item
+		proj_help_menu_separator4_item
+		proj_help_menu_About_Application_Builder_item
+	)
+)
+:element proj_help_menu_Overview_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Overview..."
+	:mnemonic		"v"
+	:active			:true
+)
+:element proj_help_menu_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element proj_help_menu_Tasks_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Tasks..."
+	:mnemonic		"T"
+	:active			:true
+)
+:element proj_help_menu_Reference_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Reference..."
+	:mnemonic		"R"
+	:active			:true
+)
+:element proj_help_menu_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element proj_help_menu_On_Item_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"On Item"
+	:mnemonic		"O"
+	:active			:true
+)
+:element proj_help_menu_separator3_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element proj_help_menu_Using_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Using Help..."
+	:mnemonic		"U"
+	:active			:true
+)
+:element proj_help_menu_separator4_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element proj_help_menu_About_Application_Builder_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"About Application Builder..."
+	:mnemonic		"A"
+	:active			:true
+)
+:element vrfy_mod_name_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"A name was not entered for the module."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The Apply button of the Name Module dialog was\npressed when a name was not entered. Type in a\nname for the module and then click the Apply\nbutton."
+)
+:element vrfy_proj_name_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"A name was not entered for the project."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The Apply button of the Name Project dialog was\npressed when a name was not entered. Type in a\nname for the project and then click the Apply\nbutton."
+)
+:element vrfy_c_ident_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"Names must be composed of letters, digits, or underscore(_).\nThe first character must be a letter or an underscore."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"Object names are used by the code generator to\ncreate C identifier names. C identifiers must\nbe composed of letters, digits, or underscores.\nTherefore, object names in App Builder must also\nfollow that rule."
+)
+:element no_name_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"No file name entered."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"A file name must be specified in order to\ncontinue with this operation."
+)
+:element brws_mod_msg
+(
+	:type			:message
+	:message-type		:info
+	:label			"Application Builder"
+	:message		"Modules have to be shown before browsed."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"A module cannot be browsed if it is hidden."
+)
+:element create_proj_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"You have unsaved edits. Creating a new\nproject will discard your changes. Please confirm."
+	:action1-label		"Discard Changes"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"Changes, which have not been saved, have been\nmade to the currently loaded project. If you\ncreate a new project, those changes will be\nlost. You have the option of continuing with \nthe creation of a new project or cancelling the\noperation."
+)
+:element close_proj_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"You have unsaved edits. Closing the\nproject will discard your changes.\nPlease confirm."
+	:action1-label		"Discard Changes"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"Changes, which have not been saved, have been\nmade to the currently loaded project. If you\nclose the project, those changes will be lost.\nYou have the option of continuing with the close\noperation or cancelling it."
+)
+:element no_mem_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"No memory available."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"There isn't enough memory to initialize App Builder. Try quitting other applications and\nrestarting App Builder."
+)
+:element error_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+)
+:element wrn_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+)
+:element overwrite_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"Overwrite"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"A file already exists with the specified name.\nYou have the option of overwriting that file or\ncancelling the save or export operation and\nchoosing a different file name to save or export to."
+)
+:element save_proj_as_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"The project file name consists of a base and\nan extension (.bip). The base of the filename\nis used in the generated code and therefore\nmust be a valid C identifier. This means that\nthe base must be composed of letters,\ndigits, or underscores (_) only and it should\nbegin with a letter or an underscore."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The file name specified as the project file name\nmust be modified to follow the C identifier\nrules, which require that the name is composed\nof letters, digits, or underscores only, and\nthat the first character is a letter or an \nunderscore."
+)
+:element save_as_mod_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"The module file name consists of a base and\nan extension (.bil). The base of the filename\nis used in the generated code and therefore\nmust be a valid C identifier. This means that\nthe base must be composed of letters,\ndigits, or underscores (_) only and it should\nbegin with a letter or an underscore."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The file name specified as the module file name\nmust be modified to follow the C identifier\nrules, which require that the name is composed\nof letters, digits, or underscores only, and\nthat the first character is a letter or an \nunderscore."
+)
+:element open_proj_warn_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"You have unsaved edits. Opening a new\nproject will discard your changes.\nPlease Confirm."
+	:action1-label		"Discard Changes"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"Changes, which have not been saved, have been\nmade to the currently loaded project. If you\nopen another project, those changes will be lost.\nYou have the option of continuing with the open\noperation or cancelling it."
+)
+:element cmdline_load_file_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:false
+	:default-button		:action1-button
+)
+:element bix_save_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"Save"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The project was read in from an encapsulated (.bix) file. \n\nClick Save to save the project and modules in individual\nfiles, not as an encapsulated file.\n\nIf you want to save the project as an encapsulated file,\nfirst click Cancel. Then choose Save Project As from the\nFile menu and select Save As Encapsulated in the file\nselection dialog."
+)
+:element unique_name_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"A module with the specified name already exists\nin the project. Modules must have unique names\nwithin a project. Type another name for the\nmodule."
+)
+:element info_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+)
+:element del_mod_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"Discard Changes"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"Changes, which have not been saved, have been\nmade to the currently selected module(s). If you\nremove the module(s), those changes will be lost.\nYou have the option of continuing with the remove\noperation or cancelling it."
+)
+:element ld_as_bip_or_bil_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Application Builder"
+	:action1-label		"Project"
+	:action2-label		"Module"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"The data type for the buffer dropped onto App\nBuilder cannot be determined.\n\nClick Project to load the buffer as a project\n(.bip) file.\n\nClick Module to load the buffer as a module\n(.bil) file."
+)
+:connection
+(
+	:from			proj_menubutton_menu_Open_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_open_chooserCB
+)
+:connection
+(
+	:from			proj_menubutton_menu_New_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_new_proj_dlgCB
+)
+:connection
+(
+	:from			proj_menubutton_menu_Save_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_save_projCB
+)
+:connection
+(
+	:from			proj_menubutton_menu_Close_Project_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_close_projCB
+)
+:connection
+(
+	:from			mod_menubutton_menu_New_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_new_module_dlgCB
+)
+:connection
+(
+	:from			mod_menubutton_menu_Save_item
+	:when			:activate
+	:action-type		:call-function
+	:action			projP_save_mod_proc
+)
+:connection
+(
+	:from			mod_menubutton_menu_Save_As_item
+	:when			:activate
+	:action-type		:call-function
+	:action			projP_save_as_mod_proc
+)
+:connection
+(
+	:from			mod_menubutton_menu_Show_item
+	:when			:activate
+	:action-type		:call-function
+	:action			projP_show_proc
+)
+:connection
+(
+	:from			mod_menubutton_menu_Hide_item
+	:when			:activate
+	:action-type		:call-function
+	:action			projP_hide_proc
+)
+:connection
+(
+	:from			mod_menubutton_menu_Browse_item
+	:when			:activate
+	:action-type		:call-function
+	:action			projP_browse_proc
+)
+:connection
+(
+	:from			mod_menubutton_menu_Remove_item
+	:when			:activate
+	:action-type		:call-function
+	:action			projP_remove_proc
+)
+:connection
+(
+	:from			module_drawarea
+	:when			:repaint-needed
+	:action-type		:call-function
+	:action			projP_repaint
+)
+:connection
+(
+	:from			proj_menubutton_menu_Open_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			proj_menubutton_menu_New_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			proj_menubutton_menu_Save_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			proj_menubutton_menu_Save_As_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			proj_menubutton_menu_Close_Project_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			mod_menubutton_menu_New_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			mod_menubutton_menu_Save_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			mod_menubutton_menu_Save_As_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			mod_menubutton_menu_Show_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			mod_menubutton_menu_Hide_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			mod_menubutton_menu_Browse_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			mod_menubutton_menu_Remove_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			module_drawarea
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			proj_main
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			proj_menubutton_menu_Save_As_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_save_proj_as_chooserCB
+)
+:connection
+(
+	:from			mod_menubutton_menu_Import_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_import_chooserCB
+)
+:connection
+(
+	:from			mod_menubutton_menu_Export_item
+	:when			:activate
+	:action-type		:call-function
+	:action			projP_export_mod_proc
+)
+:connection
+(
+	:from			mod_menubutton_menu_Export_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			projP_set_userdata
+)
+:connection
+(
+	:from			proj_menubutton_menu_Close_item
+	:when			:activate
+	:action-type		:call-function
+	:action			close_proj_win
+)
+:connection
+(
+	:from			proj_help_menu_Overview_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABProjOrg"
+)
+:connection
+(
+	:from			proj_help_menu_Reference_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABProjOrg"
+)
+:connection
+(
+	:from			proj_help_menu_Tasks_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABManagingProject"
+)
+:connection
+(
+	:from			proj_help_menu_Using_Help_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"Help4Help"
+	:help-location		"_hometopic"
+)
+:connection
+(
+	:from			proj_help_menu_On_Item_item
+	:when			:activate
+	:action-type		:on-item-help
+)
+)

@@ -1,0 +1,21 @@
+hdr	locale,wchar
+lib	locale,localeconv,wcwidth,mbtowc,mblen,wctype,iswctype,iswblank
+cat{
+	#ifdef _hdr_locale
+	#   include	<locale.h>
+	#   ifdef _lib_localeconv
+		static struct lconv *lp;
+	#	define GETDECIMAL(x)  (((lp=localeconv()) && lp->decimal_point && *lp->decimal_point) ?  *lp->decimal_point : '.' )
+	#   else
+	#	define GETDECIMAL(x)	('.')
+	#   endif /* _lib_localeconv */
+	#else
+	#   define GETDECIMAL(x)	('.')
+	#   ifndef _lib_mblen
+	#	undef MULTIBYTE
+	#   endif /* _lib_mblen */
+	#   ifndef _lib_mbtowc
+	#	undef MULTIBYTE
+	#   endif /* _lib_mbtowc */
+	#endif /* _hdr_locale */
+}end

@@ -1,0 +1,89 @@
+There are 3 ways to specify debug flags.  The debug flag to set to force
+multibyte treatment of single byte locales is "m:1".  The format for the
+flags is the same for all 3 ways.  The string is of the format:
+
+    flags:bits
+
+where
+    
+    flags are in the range A-Z, a-z.
+    bits are in the range 0-99.
+
+It is possible to combine flags and bits by either specifying a range of
+the form:
+
+    [<flag1>]-[<flag2>]
+
+or separating individual flags or ranges by commas.
+
+It is possible to specify bits in the same fashion.  If no value bits
+are specified, all 100 bits are set.  If no flags are specfied, none
+are set.  Individual entries may be separated by spaces.  A few examples:
+
+    A-z:		sets all debug bits
+    A,c:		sets all 'A' and all 'c' debug bits
+    -:			sets all bits
+    t,a-c:0,1,20-30	sets bits 0, 1, and 20 through 30 for flags
+			t, a, b, and c
+    a:0 b:1 c:2		sets bit 0 for flag a, bit 1 for flag b, and
+			bit 2 for flag c
+
+Flags can be set via either:
+
+    - the -~ option
+    - the "*debugLevel" resource
+    - the "dttermDebugFlags" environment variable
+
+A few examples:
+
+    dttermDebugFlags=t:1 dtterm
+    dtterm -~ t:1
+    dtterm -xrm "*dttermLevel: t:1"
+
+If flag v:0 is set, the list of set debug flags will be dumped to
+stderr.  The current list of debug flags are rather disorganized.  In
+the future, the function DebugF() should be used, and bits > 0 with an
+attempt at trying to make some sort of sense.  The following list
+sepecfies all the current debug flags.  There is some overlap between
+different chunks of code with the same flag.  The current list of debug
+flags and bits are:
+
+	B:1	text buffer: verify text buffer before/after line moves
+	F:0	focus
+	F:1	focus and XmIM setting
+	P:0	TermParse.c functions
+	T:0	timestamps
+	b:0	scrollbar
+	c:0	selection
+	e:0	exposure
+	f:0	font / XFontStruct / XFontSet construction
+	f:10	force subprocess fork() failures specified by
+		$dttermDebugForkFailures
+	i:0	enable not yet implemented function warnings
+	i:0	pty input
+	i:0	server key press and release
+	l:0	linedraw font code
+	m:1	force multibyte mode
+	m:2	validate multibyte/wide char strings
+	n:0	terminal server not run in daemon mode
+	o:0	StartOrStopPtyInput()
+	o:0	StartOrStopPtyOutput()
+	o:0	pty output
+	p:0	print error on pty open failures
+	p:1	parser: call ParseTrap() on parse of specified char
+	p:2	ttyModes parsing
+	p:10	pty: allocation: cause allocation failure
+	p:20	property change events
+	q:0	pending text
+	s:0	selection
+	s:1	disable COMPOUND_TEXT   selection target
+	s:2	disable CS_OF_LOCALE    selection target
+	s:3	disable COMPOUND_STRING selection target
+	s:4	disable TEXT            selection target
+	s:5	disable XA_STRING       selection target
+	s:10	signal handler
+	t:0	cursor / scrolling code
+	t:0	text rendering
+	t:1	fill areas before rendering text
+	v:0	verbose listing of debug flags
+	w:0	terminal window width / height

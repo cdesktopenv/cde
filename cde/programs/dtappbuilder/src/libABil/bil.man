@@ -1,0 +1,696 @@
+.\" $XConsortium: bil.man /main/2 1995/07/17 10:50:18 drk $
+.\" *************************************************************************
+.\" **  (c) Copyright 1993, 1994 Hewlett-Packard Company
+.\" **  (c) Copyright 1993, 1994 International Business Machines Corp.
+.\" **  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+.\" **  (c) Copyright 1993, 1994 Novell, Inc.
+.\" *************************************************************************
+.\"--- The above copyrights must appear at the top of each man page.
+.\"---
+.\"--- ********  THIS IS THE SECTION 4 MAN PAGE TEMPLATE/STYLE GUIDE  *******
+.\"---
+.\"--- Substitute the appropriate text for items beginning and ending with `_'
+.\"--- (for example, _Title_ and _Name_). 
+.\"--- Be sure to use upper or lower case indicated for each item.
+.\"--- 
+.\"--- general style items:
+.\"--- 
+.\"--- Use Cde whenever you want CDE.  The scripts will then pick up the
+.\"--- correct trademark name for the X/Open version and use CDE for the man
+.\"--- page.
+.\"---
+.\"--- Always spell out standard input, output, and error.
+.\"--- 
+.\"--- Never use "print" unless you are describing literal printing 
+.\"--- operations; use "write to standard output [error]."
+.\"--- 
+.\"--- Be careful not to say "character" when you mean "byte."
+.\"--- 
+.\"--- Never change the case of a symbol such as a function name.  If it
+.\"--- starts lowercase, you cannot start a sentence with it.
+.\"--- 
+.\"--- Do not use the second person form of address or imperatives when
+.\"--- referring to the reader or application.
+.\"--- 
+.\"--- Avoid passive voice.
+.\"--- 
+.\"--- Call utilities utilities, not commands.  Utilities appear in italics.
+.\"--- Use the following macro with a second argument for the section number.
+.\"--- For example:   .Cm tt_session 1
+.\"--- There is no section number for same page usage.
+.\"--- 
+.\"--- If no information is appropriate under a heading, say None or Not used.
+.\"--- 
+.\"--- Variable list example:
+.\"--- .VL 12
+.\"--- .LI foo
+.\"--- text text text
+.\"--- .LI averylongtagneedsabreak
+.\"--- .br
+.\"--- text text text
+.\"--- .Lc R_OK
+.\"--- text text text
+.\"--- .LE
+.\"--- 
+.\"--- Bulleted list example:
+.\"--- .VL 3
+.\"--- .LI \(bu
+.\"--- text text text
+.\"--- .LI \(bu
+.\"--- text text text
+.\"--- .LE
+.\"--- 
+.\"--- Environment variables example:
+.\"--- Use italics and all uppercase. Do not prefix with a $ in regular text,
+.\"--- (only shell script examples)
+.\"--- .I SHELL
+.\"--- .IR LC_MESSAGES
+.\"--- .LI \f2LANG\fP  [.VL list version]
+.\"--- 
+.\"--- Pathnames example:
+.\"--- Use bold font
+.\"--- .B /etc/passwd
+.\"--- .BR \&.profile    [note the \& to protect leading dot]
+.\"--- .LI \f3/tmp\fP
+.\"---
+.\"---  Functions in SYNOPSIS example:
+.\"--- .SH SYNOPSIS
+.\"--- .yS
+.\"--- #include <Dt/Wsm.h>
+.\"--- .sp 0.5v
+.\"--- .ta \w'DtWsmCBContext DtWsmAddCurrentWorkspaceCallback('u
+.\"--- DtWsmCBContext DtWsmAddCurrentWorkspaceCallback(Widget \f2widget\fP,
+.\"--- 	DtWsmWsChangeProc \f2ws_change\fP,
+.\"--- 	Pointer \f2client_data\fP)
+.\"--- .sp 0.5v
+.\"--- .ta \w'typedef void (*DtWsmWsChangeProc)('u
+.\"--- typedef void (*DtWsmWsChangeProc)(Widget \f2widget\fP,
+.\"--- 	Atom \f2aWs\fP,
+.\"--- 	Pointer \f2client_data\fP)
+.\"--- .yE
+.\"---
+.\"--- Functions in TEXT example (bold for X/Open; use \- for minus):
+.\"--- .B \-x
+.\"--- .BR \-y ;
+.\"--- .BI \-f " makefile"   [note space]
+.\"--- \f3\(mif\ \fPmakefile\fP   [version of previous if you're breaking
+.\"---				    across two lines]
+.\"--- .LI \f3\-a\0\f2level\f1 [.VL version; note usage of \0 as an internal
+.\"--- 					space and the return to font 1]
+.\"---
+.\"--- Typographical Conventions
+.\"---
+.\"--- Use the following to denote font changes: italic = \f2, bold = \f3
+.\"--- regular font = \f1.  These are used in the common source and are 
+.\"--- translated by the sed scripts into the appropriate font needed for X/Open 
+.\"--- or the SI.
+.\"--- 
+.\"--- Bold font is used for options and commands, filenames, keywords and 
+.\"--- typenames.  It is also used to identify brackets surrounding optional 
+.\"--- items in syntax, [].
+.\"---
+.\"--- Italic strings are used for emphasis or to identify the first instance
+.\"--- of a word requiring definition.  Italic also denotes: variable names, 
+.\"--- which are also shown in capitals; commands or utilities; external 
+.\"--- variables; X Window System widgets; functions - these are shown as
+.\"--- follows: \f2name\fP(), name without parentheses are either external
+.\"--- variables or function family names.
+.\"---
+.\"--- Regular font is used for the names of constants and literals.
+.\"---
+.\"--- The notation <file.h> indicates a header file.
+.\"--- 
+.\"--- Names surrounded by braces, for example, {ARG_MAX}, represent symbolic
+.\"--- limits or configuration values that may be declared in appropriate
+.\"--- headers by means of the C #define construct.
+.\"---
+.\"--- Ellipses, . . . , are used to show that additional arguments are
+.\"--- optional.
+.\"--- 
+.\"--- Syntax and code examples are shown in fixed-width font.  Brackets 
+.\"--- shown in this font, [ ], are part of the syntax and do not indicate
+.\"--- optional items.
+.\"---
+.\"--- Variables within syntax statements are shown in italic fixed-width font.
+.\"---
+.\"---
+.\"--- Use the headings in the list below for Section 4 man pages in the order
+.\"--- listed.  Use only these listed main headings.
+.\"--- Headings use uppercase and are marked with the .SH macro.
+.\"--- If the heading is more than one word, you must put the entire heading
+.\"--- between quotes.
+.\"--- You may use headings other than those in the list when 
+.\"--- they help you organize the page; headings other than those in the list
+.\"--- are subordinate to the listed main headings. Place subordinate 
+.\"--- headings under the appropriate main heading.
+.\"--- Examples of subordinate headings are described under the
+.\"--- main headings in this template/style guide.
+.\"--- There should be only one function per man page.
+.\"--- 
+.\"--- REQUIRED Headings for Section 4 man pages:
+.\"--- NAME, SYNOPSIS, DESCRIPTION, "RETURN VALUE", EXAMPLES, 
+.\"--- "APPLICATION USAGE", "SEE ALSO"
+.\"---
+.\"----------------------------------------------------------------------------
+.\"--- .TH Macro
+.\"--- The .TH macro specifies information that applies to the man page as
+.\"--- a whole.
+.\"--- _Title_ is the name of the man page.  This should correspond to the
+.\"--- first word under the NAME heading.  _#_ specifies the manual section in 
+.\"--- which the page appears, where # is the number of the section.
+.\"---
+.\"--- .TH _Title _#_ 
+.TH BIL 4
+.\"---
+.\"----------------------------------------------------------------------------
+.\"--- NAME
+.\"--- Give the name of the entry and briefly state its purpose.
+.\"--- This section is used by cross-referencing programs.  Hence, do not
+.\"--- use any font changes or troff escape sequences in this section.
+.\"--- After the name, use one space, an em dash \(em, and then another space
+.\"--  before the summary.  
+.\"--- Do not start the summary sentence with a capital letter or use
+.\"--- any punctuation at the end.
+.\"--- The summary line must be on one line (it can wrap). The reason for this
+.\"--- is that some man page implementations build an index of man page values
+.\"--- by reading through and getting the single line that follows the .SH NAME
+.\"--- line.  The line doesn't have to fit on a terminal screen, but there
+.\"--- can be only one physical new line on the line.
+.\"--- Make the summary a simple declarative sentence. 
+.\"--- For example:
+.\"--- 
+.\"--- DtInitialize \(em initialize the Desktop Services library
+.\"---
+.SH Name
+BIL \(em Builder Interface Language for the Cde Application Builder
+.\"---
+.\"----------------------------------------------------------------------------
+.\"--- SYNOPSIS
+.\"--- This section summarizes the use of the entry being described
+.\"--- If it is necessary to include a header to use this interface,
+.\"--- the names of such headers are shown, for example:
+.\"---
+.\"--- #include <Dt.h>
+.\"--- 
+.\"--- Begin the synopsis with the .yS macro and end the synopsis with the
+.\"--- .yE macro.
+.\"--- Use the .sp 0.5v request where a blank line would appear in a program.
+.\"--- Use font 2 \f2 for substitutables.
+.\"--- Use .ta for tabs.
+.\"--- Do not use any spaces before or after parentheses.
+.\"--- If the function is too long to fit on a single output line, break it 
+.\"--- as in the example below.
+.\"--- Synopsis example:
+.\"--- 
+.\"--- .SH SYNOPSIS
+.\"--- .yS
+.\"--- #include <Dt.h>
+.\"--- need example
+.\"--- .yE
+.\"---
+.SH SYNOPSIS
+.yS
+.nf
+\f3:bil-version\fP \f2major minor\fP
+\f3:project\fP \f2project_name\fP
+\f3(\fP
+        \f2project_attributes\fP
+[\f3:connection\fP
+\f3(\fP
+        \f2connection_attributes\fP
+\f3)\fP]
+\f3)\fP
+.sp
+\f3:module\fP \f2module_name\fP
+\f3(\fP
+\f3:element\fP \f2element_name\fP
+\f3(\fP
+        \f2element_attributes\fP
+        [\f2children\fP]
+\f3)\fP
+[\f3:connection\fP
+\f3(\fP
+        \f2connection_attributes\fP
+\f3)\fP]
+\f3)\fP
+.fi
+.yE
+.\"---
+.\"----------------------------------------------------------------------------
+.\"--- DESCRIPTION
+.\"--- This section describes the functionality of the interface or header.
+.\"--- Begin the DESCRIPTION heading with a brief description of the  
+.\"--- component's default behavior.  
+.\"--- When writing, use active voice and make it clear who or what the
+.\"--- requirements are placed on.  For example:
+.\"--- 
+.\"--- Do not say:  When you are done with this implementation object, it should
+.\"--- be freed. (Who frees it, the programmer or the implementation?) 
+.\"--- 
+.\"--- Make the component the grammatical subject
+.\"--- of the first sentence; use the following wording; note that whenever
+.\"--- you use the function name, use the .Fn request and put it on 
+.\"--- a single line.  .Fn gets the correct font and puts in the trailing  
+.\"--- "( )" with the correct spacing. 
+.\"--- The 
+.\"--- .Fn function_name 
+.\"--- function . . . then use a present tense verb 
+.\"--- describing what the function does.  The first sentence is often a 
+.\"--- restatement of the NAME heading, possibly with more detail.  
+.\"--- 
+.\"--- For example:
+.\"--- 
+.\"--- The 
+.\"--- .Fn DtInitialize
+.\"--- function preforms the one-time initialization in the Desktop 
+.\"--- Services library. 
+.\"--- Applications must call 
+.\"--- .Fn DtInitialize
+.\"--- before calling any other Desktop Services library routine.
+.\"---
+.\"--- If you have arguments information, place it under this DESCRIPTION 
+.\"--- section as running text (not tables).
+.\"---
+.\"--- Use the .I request for arguments.  For example:
+.\"--- 
+.\"--- The difference between 
+.\"--- .Fn DtInitialize
+.\"--- and 
+.\"--- .Fn DtAppInitialize
+.\"--- is whether
+.\"--- .I appContext
+.\"--- is specified
+.\"--- .Fn DtInitialize
+.\"--- uses the default Intrinsic
+.\"--- .IR XtAppContext.
+.\"---
+.\"--- Code example:
+.\"--- 
+.\"--- .Cs I
+.\"--- if (ferror(stdin)) {
+.\"---         fprintf(stderr, "Read error on input file\n");
+.\"---         exit(1);
+.\"--- }
+.\"--- exit(0);
+.\"--- .Ce
+.\"--- 
+.SH DESCRIPTION
+BIL, the Builder Interface Language, is a specialized representation syntax
+designed to meet the intermediate storage requirements of the Cde
+Application Builder.
+It describes the overall attributes of the application (also known as a
+"project"), the modules that it contains, the elements that 
+comprise modules, and the behavioral relationships between objects 
+("connections").
+.P
+BIL is not a compiled language.
+It is read and written as data by the Cde Application Builder and its 
+associated code generator.
+Even so, the format of BIL is printable ASCII characters with a
+"human readable" nature, making it possible for users to examine 
+the contents of a BIL-formatted file and to process a BIL file 
+using simple ASCII string-oriented tools and techniques.
+.P
+Two distinct types of BIL files are recognized by the Cde Application
+Builder.
+One type is known as a
+.IR "project file" ,
+and is used to describe overall attributes of the project (application) 
+as well as identify the modules that comprise it.
+It will also contain any cross-module information, such as connections
+that bind together objects in different modules.
+.P
+A second type of BIL file exists for each module and is known as a
+.IR "module file" .
+It contains all module-specific information, including definition of
+the elements that comprise the module and connections that exist within
+it.
+.P
+BIL is structured in an object-oriented fashion.
+Objects are defined and named, and sets of parenthesis are used to
+enclose declarations of all the object's attributes. 
+Object types recognized by BIL include project, module, element
+and connection.
+.TP
+\f3:bil-version\fP \f2major minor\fP
+Version information is useful to the Cde Application Builder and 
+code generators in determining how to handle BIL files that may
+date from earlier releases.
+.TP
+\f3:project\fP \f2project_name\fP
+The 
+.B :project
+directive names the project (application). 
+It encloses a declaration of \f2project_attributes\fP
+as well as a list of any cross-module \f2connections\fP
+that may exist within the project.
+.TP
+\f3:module\fP \f2module_name\fP
+The 
+.B :module 
+directive names a module.
+It encloses a declaration of all \f2elements\fP that comprise the
+module as well as a list of any \f2connections\fP
+that may exist within the module.
+.TP
+\f3:element\fP \f2element_name\fP
+The 
+.B :element 
+directive names an element.
+It encloses a declaration of all \f2element_attributes\fP,
+including a list of any \f2children\fP that may be part of the
+element.
+.TP
+\f3:connection\fP
+The
+.B :connection
+directive names a connection and 
+specifies its attributes.
+It can occur as part of a 
+.I project 
+or a 
+.IR module .
+.TP
+\f3:children\fP
+The
+.B :children
+directive appears as an attribute of any
+element which contains ("parents") other
+elements.
+It encloses a list of all child elements,
+referencing each by its element name.
+.P
+Project, element and connection attributes take the form:
+.sp .5
+	\f3:\fP\f2attribute_name\fP        \f2attribute_value\fP
+.sp .5
+Where \f2attribute_name\fP is an attribute appropriate for the project,
+element or connection, and \f2attribute_value\fP is typed according to the
+attribute.  
+Attribute types include integer, string, object name, and keyword, where
+the keyword is one of a fixed list used by BIL to identify specific
+data values (e.g. :true, :none).
+Some attribute values are ordered N-tuples, in which case the
+complete set is enclosed in parentheses.
+.P
+Comments may be placed in a BIL file by starting a line with two slashes (//).
+Any comments that occur in a BIL file prior to the 
+.B :bil-version
+line will be preserved by the
+Cde Application Builder
+across successive updates to the file.
+Comments that occur after the
+.B :bil-version
+line will not be retained.
+.\"---
+.\"----------------------------------------------------------------------------
+.\"--- "RETURN VALUE"
+.\"--- This section indicates the possible return values, if any.
+.\"--- If the implementation can detect errors, "Successful completion" means
+.\"--- that no error has been detected during execution of the function.  If 
+.\"--- the implementation does detect an error, the error indicated.
+.\"--- For functions where no errors are defined, "Successful completion" 
+.\"--- means that if the implementation checks for errors, no error has been
+.\"--- detected.  If the implementation can detect errors, and an error is
+.\"--- detected, the indicated return value is returned and errno may be set.
+.\"--- Use .Cn on a single line to produce a constant font.  For example:
+.\"--- 
+.\"--- .SH "RETURN VALUE"
+.\"--- Upon successful completion,
+.\"--- .Fn data or file_ format_name
+.\"--- returns
+.\"--- .Cn TRUE
+.\"--- if such and such has been correctly initialized;
+.\"--- otherwise, it returns
+.\"--- .Cn FALSE
+.\"--- 
+.\"--- When writing, use active voice.  For example:
+.\"---
+.\"--- Do not say:  When such and such happens, minus one is returned.  
+.\"--- Do say:  When such and such happens, the foo function returns minus one.
+.\"--- 
+.SH "RETURN VALUE"
+None.
+.Cn 
+.\"----------------------------------------------------------------------------
+.\"--- ERRORS
+.\"--- Errors are shown under the RETURN VALUES heading.
+.\"---
+.\"----------------------------------------------------------------------------
+.\"--- EXAMPLES
+.\"--- This section gives examples of usage, where appropriate.
+.\"--- 
+.SH EXAMPLES
+.nf
+.ta 2i
+.P
+The following is an example of a project file:
+.sp
+.in +.5i
+:bil-version	1 0
+:project todotool
+(
+    :files	(main_window.bil task_dialog.bil)
+
+:connection
+(
+    :from	main_window.add_item_btn
+    :to	task_dialog.task_dialog
+    :when	:activate
+    :action-type	:builtin
+    :action	:show
+    :arg-type	:void
+)
+)
+.in -.5i
+.P
+A typical module file would contain:
+.sp
+.in +.5i
+:bil-version	1 0
+:module	task_dialog
+(
+
+:element	task_dialog
+(
+    :type	:dialog
+    :x	649
+    :y	499
+    :width	354
+    :height	57
+    :bg-color	"white"
+    :label	"Adding a New Task"
+    :resizable	:true
+    :has-footer	:false
+    :visible	:false
+    :children	(
+        ctrl_panel
+        activate_panel
+    )
+)
+:element	ctrl_panel
+(
+    :type	:container
+    :container-type	:relative
+    :x	0
+    :y	0
+    :width	354
+    :height	57
+    :visible	:true
+    :border-frame	:none
+    :north-attachment	(:obj task_dialog 0)
+    :south-attachment	(:obj task_dialog 0)
+    :east-attachment	(:obj task_dialog 0)
+    :west-attachment	(:point 0 0)
+    :children	(
+        task
+    )
+)
+:element	task
+(
+    :type	:text-field
+    :text-type	:alphanumeric
+    :x	28
+    :y	6
+    :width	-1
+    :height	-1
+    :border-frame	:none
+    :label-type	:string
+    :label	"Task:"
+    :label-position	:west
+    :num-columns	32
+    :max-length	80
+    :read-only	:false
+    :active	:true
+    :visible	:true
+    :north-attachment	(:point 0 6)
+    :south-attachment	(:none 0 0)
+    :east-attachment	(:none 0 0)
+    :west-attachment	(:point 0 28)
+)
+:element	activate_panel
+(
+    :type	:container
+    :container-type	:activate
+    :x	-1
+    :y	-1
+    :width	-1
+    :height	-1
+    :visible	:true
+    :border-frame	:etched-in
+    :children	(
+        ok_button
+        cancel_button
+        help_button
+    )
+)
+:element	ok_button
+(
+    :type	:button
+    :button-type	:push-button
+    :x	-1
+    :y	-1
+    :width	-1
+    :height	-1
+    :border-frame	:none
+    :label-type	:string
+    :label-alignment	:center
+    :label	"OK"
+    :active	:true
+    :visible	:true
+    :north-attachment	(:grid-line 5 0)
+    :south-attachment	(:grid-line 95 0)
+    :east-attachment	(:grid-line 30 0)
+    :west-attachment	(:grid-line 10 0)
+)
+:element	cancel_button
+(
+    :type	:button
+    :button-type	:push-button
+    :x	-1
+    :y	-1
+    :width	-1
+    :height	-1
+    :border-frame	:none
+    :label-type	:string
+    :label-alignment	:center
+    :label	"Cancel"
+    :active	:true
+    :visible	:true
+    :north-attachment	(:grid-line 5 0)
+    :south-attachment	(:grid-line 95 0)
+    :east-attachment	(:grid-line 60 0)
+    :west-attachment	(:grid-line 40 0)
+)
+:element	help_button
+(
+    :type	:button
+    :button-type	:push-button
+    :x	-1
+    :y	-1
+    :width	-1
+    :height	-1
+    :border-frame	:none
+    :label-type	:string
+    :label-alignment	:center
+    :label	"Help"
+    :active	:true
+    :visible	:true
+    :north-attachment	(:grid-line 5 0)
+    :south-attachment	(:grid-line 95 0)
+    :east-attachment	(:grid-line 90 0)
+    :west-attachment	(:grid-line 70 0)
+)
+:connection
+(
+    :from	ok_button
+    :to	task_dialog
+    :when	:activate
+    :action-type	:builtin
+    :action	:hide
+    :arg-type	:void
+)
+:connection
+(
+    :from	cancel_button
+    :to	task_dialog
+    :when	:activate
+    :action-type	:builtin
+    :action	:hide
+    :arg-type	:void
+)
+:connection
+(
+    :from	ok_button
+    :when	:create
+    :action-type	:call-function
+    :action	confirm_taskCB
+    :arg-type	:void
+)
+:connection
+(
+    :from	cancel_button
+    :when	:create
+    :action-type	:call-function
+    :action	cancel_taskCB
+    :arg-type	:void
+)
+)
+.in -.5i
+.fi
+.\"---need something here 
+.\"----------------------------------------------------------------------------
+.\"--- Internationalization (I18n)
+.\"--- If you are talking about a specific feature of the API, describe this 
+.\"--- topic under the DESCRIPTION heading.  If you are trying to give guidance
+.\"--- to programmers on things to look out for in I18n purposes, describe this
+.\"--- topic under the APPLICATION USAGE heading.
+.\"--- 
+.\"----------------------------------------------------------------------------
+.\"--- "APPLICATION USAGE"
+.\"--- This section gives warnings and advice to application writers
+.\"--- about the entry.
+.\"---
+.SH "APPLICATION USAGE"
+Applications and application developers typically do not work
+directly with BIL files, instead using them indirectly through
+the Cde Application Builder.
+It may, however, be useful for them to understand the layout and
+scope of BIL to satisfy particular application development needs
+(e.g. to add specialized comments to BIL files or to examine them
+to examine useful information (such as help text built-into a 
+application)).
+.\"--- 
+.\"----------------------------------------------------------------------------
+.\"--- "SEE ALSO"
+.\"--- This section gives references to related information.
+.\"--- For example:
+.\"--- 
+.\"--- .SH "SEE ALSO"
+.\"--- .Hd <header_file.h> 5, if needed
+.\"--- .Fn file_name include section number,
+.\"--- .Fn file_name include section number,
+.\"--- .Fn file_name include section number.
+.\"--- 
+.SH "SEE ALSO"
+.Cm dtbuilder 1
+.Cm dtcodegen 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

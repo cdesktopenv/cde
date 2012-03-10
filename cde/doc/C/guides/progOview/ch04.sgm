@@ -1,0 +1,158 @@
+<!-- $XConsortium: ch04.sgm /main/7 1996/09/08 19:46:50 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="RDMAP.port.div.1">
+<title id="RDMAP.port.mkr.1">Portability and Maintenance</title>
+<para>This chapter contains information you can use to write highly portable
+applications and use to ensure that your application will be compatible with
+future Common Desktop Environment releases.</para>
+<informaltable id="RDMAP.port.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Portability Issues37'--><xref role="JumpText"
+linkend="RDMAP.port.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Common Desktop Environment Motif
+Widget Binary Compatibility Guidelines40'--><xref role="JumpText" linkend="RDMAP.port.mkr.4"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="RDMAP.port.div.2">
+<title id="RDMAP.port.mkr.2">Portability Issues<indexterm><primary>portability
+issues &lt;$startrange></primary>
+</indexterm></title>
+<para>This section presents issues that might affect your application's portability
+between different platforms that support the Common Desktop Environment.
+</para>
+<sect2 id="RDMAP.port.div.3">
+<title id="RDMAP.port.mkr.3">Standards<indexterm><primary>standards &lt;$startrange></primary></indexterm></title>
+<para>To be Common Desktop Environment-compliant, your application must<indexterm>
+<primary>Motif 2.1</primary></indexterm> follow the Motif 2.1,<indexterm>
+<primary>ANSI C</primary></indexterm> ANSI-C, and<indexterm><primary>X11R6.2</primary></indexterm> X11R6.2 standards. If you are developing your application
+in C++, use C++ version 2.0 or later. No further assumptions are made that
+you adhere to any standards, such as POSIX, when you write a Common Desktop
+Environment application. Applications that use the desktop application program
+interfaces (APIs) will be portable to other Common Desktop Environment platforms.
+However, using POSIX can enhance your software's portability.</para>
+<para>The<indexterm><primary>POSIX</primary></indexterm> POSIX standard,
+IEEE Std 1003.1-1990, is entitled <emphasis>IEEE Standard for Information
+Technology&mdash;Portable Operating System Interface (POSIX)&mdash;Part 1:
+System Application Program Interface (API) [C Language],</emphasis> ISBN
+1-55937-061-0.</para>
+<para>The Motif 2.1 standard, IEEE Std 1295, is entitled <emphasis>Standard
+for Information Technology&mdash;X Window System Graphical User Interface&mdash;Modular
+Toolkit Environment.</emphasis><indexterm><primary>standards &lt;$endrange></primary></indexterm></para>
+<para>For information on ordering IEEE Std 1003.1-1990 and IEEE Std 1295,
+see <!--Original XRef content: '&xd2;Related Books&xd3; on page&numsp;xv'--><xref
+role="SecTitleAndPageNum" linkend="RDMAP.pref.mkr.2">.</para>
+</sect2>
+<sect2 id="RDMAP.port.div.4">
+<title>Makefiles<indexterm><primary>makefiles &lt;$startrange></primary></indexterm></title>
+<para>Certain libraries that the Common Desktop Environment depends on, for
+example X11, are likely to be installed in different locations on different
+platforms. Include platform-specific references to accommodate this or write
+a separate makefile for each platform.</para>
+<para>Also, the <command>make</command> program functionality can differ across
+platforms. If you want to write just one makefile for your application, use
+the common <command>make</command> functionality used by the platforms to
+which you want to port your program. Avoid platform-specific <command>make</command> features.</para>
+<para>The Common Desktop Environment requires no additional defined constants
+(<filename>-D</filename> parameters) to integrate with the desktop. If you
+do follow a standard, such as POSIX, you might need to compile with additional
+standard-specific flags. Read about the standard to find out if it includes
+special compiler considerations.</para>
+<para>Each subdirectory of <filename>/usr/dt/examples</filename> contains
+sample makefile source files for different platforms. These makefiles take
+into account system differences. In particular, see the <filename>/usr/dt/examples/dtdts</filename> <command>directory</command> for generic examples of makefiles.
+</para>
+<sect3 id="RDMAP.port.div.5">
+<title>Compile Options</title>
+<para>To enable your application to find the desktop <command>include</command>
+files, add:</para>
+<programlisting>-I/usr/dt/include</programlisting>
+<para>to each makefile's compile line.</para>
+</sect3>
+<sect3 id="RDMAP.port.div.6">
+<title>Link Options</title>
+<para>To enable your application to reference desktop libraries, add:</para>
+<programlisting>-L/usr/dt/lib -l&lt;<symbol role="Variable">libname1</symbol>> -l&lt;<symbol role="Variable">libname2</symbol>>...</programlisting>
+<para>to each makefile's link line, where <symbol role="Variable">libname1</symbol>, <symbol role="Variable">libname2</symbol> are the names of libraries
+your application needs to reference.<indexterm><primary>makefiles &lt;$endrange></primary>
+</indexterm> You can include as many desktop library names in this line as
+you want. For example:</para>
+<programlisting>-L/usr/dt/lib -lDtSvc -ltt -lXm</programlisting>
+<para>enables your application to reference the Desktop Services, ToolTalk
+Messaging System, and Motif 2.1 libraries.</para>
+</sect3>
+</sect2>
+<sect2 id="RDMAP.port.div.7">
+<title>File-Naming Conventions<indexterm><primary>file naming conventions</primary></indexterm><indexterm><primary>naming conventions</primary><secondary>file</secondary></indexterm></title>
+<para>You should limit your application file names, and the file names your
+application generates, to 14 characters. This will make your application
+portable to platforms that have this limitation. Some platforms can be configured
+to have this constraint.</para>
+<para>Do not place length limitations on file names that an end user generates.
+</para>
+</sect2>
+<sect2 id="RDMAP.port.div.8">
+<title>Display Support<indexterm><primary>display support</primary></indexterm></title>
+<para>Your application should support the following display options and configurations:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>Monochrome (including black-and-white
+icons)</para>
+</listitem><listitem><para>Color (including color icons)</para>
+</listitem><listitem><para>Small screens, such as<indexterm><primary>VGA</primary></indexterm> VGA (640x480&mdash;scale application window or font
+size to fit completely on the screen)</para>
+</listitem></itemizedlist>
+<para>If you use the<indexterm><primary>Icon Editor</primary></indexterm> Icon
+Editor to create color icons, your application will share colors with other
+desktop applications more readily. This helps conserve color cells when running
+on a<indexterm><primary>Pseudo Color display</primary></indexterm> Pseudo
+Color display.<literal><indexterm><primary>portability issues &lt;$endrange></primary></indexterm></literal></para>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.port.div.9">
+<title id="RDMAP.port.mkr.4">Common Desktop Environment Motif Widget Binary
+Compatibility Guidelines<indexterm><primary>guidelines</primary><secondary>Common Desktop Environment Motif widget binary compatibility</secondary>
+</indexterm><indexterm><primary>compatibility</primary><secondary>guidelines,
+for Common Desktop Environment widgets</secondary></indexterm><indexterm>
+<primary>widget</primary><secondary>compatibility guidelines &lt;$startrange></secondary></indexterm></title>
+<para>Any widget subclass that you implement using the standard Xt APIs that
+rely on the size of data structures of widgets from which you have subclassed
+might not be compatible with any new version of Motif or the Common Desktop
+Environment. The reason for this is that new fields may be added to the superclasses
+in the new version of Motif. An example is that new fields have been added
+to the <command>XmManager</command> and <command>XmPrimitive</command> classes
+in Motif 2.0.</para>
+<para>The incompatibility occurs because a subclass must contain compiled-in
+references to its instance fields that are specified relative to the start
+address of the widget instance. When you install a new Motif library for
+a widget whose superclass instance structure has been extended, the compiled-in
+references will point to the wrong memory location.</para>
+<para>To avoid this difficulty, Motif provides a mechanism for defining resources
+and accessing widget fields that allows you to reference all fields in the
+instance and constraint structures relative to the start of the widget <command>part</command> structure, instead of the overall widget structure. (The overall
+widget structure includes the superclass part structure.) The mechanism resolves
+these relative references at run time, when the widget class is first initialized.
+To resolve references, it factors in the size of the widget's superclass
+instance structure, which it reads from the currently linked Motif library.
+</para>
+<note>
+<para>If you implement subclassing, you <emphasis>must</emphasis> use the
+Motif reference- resolving mechanism if you want your application to be binary
+compatible with future releases of the Common Desktop Environment.</para>
+</note>
+<para>For details regarding this Motif mechanism, consult the Motif 2.1 <filename>XmResolvePartOffsets(3x)</filename> and <filename>XmResolveAllPartOffsets(3x)</filename> man pages and the <emphasis>Motif Programmer's Reference</emphasis>. You can find example source code in <filename>/usr/dt/examples/motif/dogs</filename><literal><indexterm><primary>guidelines</primary><secondary>Common
+Desktop Environment Motif widget binary compatibility</secondary></indexterm><indexterm>
+<primary>compatibility</primary><secondary>guidelines, for Common Desktop
+Environment widgets</secondary></indexterm><indexterm><primary>widget</primary>
+<secondary>compatibility guidelines &lt;$endrange></secondary></indexterm></literal>.</para>
+</sect1>
+</chapter><?Pub Caret>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:30:53-->
+<?Pub *0000011964>

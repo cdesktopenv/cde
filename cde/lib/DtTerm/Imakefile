@@ -1,0 +1,83 @@
+XCOMM $XConsortium: Imakefile /main/1 1996/04/21 19:20:55 drk $
+#define DoNormalLib	NormalLibDtTerm
+#define DoSharedLib	SharedLibDtTerm
+#define DoDebugLib	DebugLibDtTerm
+#define DoProfileLib	ProfileLibDtTerm
+#define LibName		DtTerm
+#define SoRev		SODTTERMREV
+#define LibHeaders	NO
+
+#include <Threads.tmpl>
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = TermPrim Term TermView
+EXTRALIBRARYDEPS = TermPrim/DONE Term/DONE TermView/DONE
+
+MakeSubdirs($(SUBDIRS))
+ForceSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+INCLUDES = -I. -I./TermPrim -I./Term -I./TermView
+
+#ifdef SharedDtTermReqs
+REQUIREDLIBS = SharedDtTermReqs
+#endif
+
+TERMPRIM_OBJS = \
+	TermPrim/TermPrim.o \
+	TermPrim/TermPrimAction.o \
+	TermPrim/TermPrimBuffer.o \
+	TermPrim/TermPrimBufferWc.o \
+	TermPrim/TermPrimCursor.o \
+	TermPrim/TermPrimDebug.o \
+	TermPrim/TermPrimFunction.o \
+	TermPrim/TermPrimGetPty.o \
+	TermPrim/TermPrimLineDraw.o \
+	TermPrim/TermPrimParse.o \
+	TermPrim/TermPrimParseTable.o \
+	TermPrim/TermPrimParser.o \
+	TermPrim/TermPrimPendingText.o \
+	TermPrim/TermPrimRender.o \
+	TermPrim/TermPrimRenderMb.o \
+	TermPrim/TermPrimRenderFont.o \
+	TermPrim/TermPrimRenderFontSet.o \
+	TermPrim/TermPrimRenderLineDraw.o \
+	TermPrim/TermPrimRepType.o \
+	TermPrim/TermPrimScroll.o \
+	TermPrim/TermPrimSelect.o \
+	TermPrim/TermPrimSetPty.o \
+	TermPrim/TermPrimSetUtmp.o \
+	TermPrim/TermPrimSubproc.o \
+	TermPrim/TermPrimUtil.o    \
+	TermPrim/TermPrimVersion.o \
+	TermPrim/TermPrimWMProtocols.o
+
+TERM_OBJS = \
+	Term/Term.o \
+	Term/TermAction.o \
+	Term/TermBuffer.o \
+	Term/TermColor.o \
+	Term/TermEnhance.o \
+	Term/TermFunction.o \
+	Term/TermFunctionKey.o \
+	Term/TermLineData.o \
+	Term/TermParse.o \
+	Term/TermParseTable.o \
+	Term/TermVersion.o
+
+TERMVIEW_OBJS = \
+	TermView/TermView.o \
+	TermView/TermViewMenu.o \
+	TermView/TermViewGlobalDialog.o \
+	TermView/TermViewTerminalDialog.o
+
+OBJS = \
+	$(TERMPRIM_OBJS) \
+	$(TERM_OBJS) \
+	$(TERMVIEW_OBJS)
+
+#include <Library.tmpl>
+
+DependTarget()

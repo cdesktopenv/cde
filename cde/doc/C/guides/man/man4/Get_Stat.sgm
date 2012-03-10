@@ -1,0 +1,105 @@
+<!-- $XConsortium: Get_Stat.sgm /main/6 1996/09/08 20:14:13 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN292.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN292.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Get_Status</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Get_Status</Symbol></RefName>
+<RefPurpose>retrieve a tool's current status
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Get_Stat.sgm /main/6 1996/09/08 20:14:13 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>Get_Status(out string <Symbol Role="Variable">status</Symbol>,
+        out string <Emphasis>vendor</Emphasis>,
+        out string <Emphasis>toolName</Emphasis>,
+        out string <Emphasis>toolVersion</Emphasis>
+        [in messageID <Emphasis>operation2Query</Emphasis>]);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Get_Status</Symbol> request
+retrieves the current status of a tool (or,
+optionally, of a specific operation being performed by a tool).
+</Para>
+<Para>The
+<Symbol Role="Variable">status</Symbol> argument
+is the status retrieved.
+</Para>
+<Para>The
+<Emphasis>vendor</Emphasis> argument
+is the name of the vendor of the handling tool.
+</Para>
+<Para>The
+<Emphasis>toolName</Emphasis> argument
+is the name of the handling tool.
+</Para>
+<Para>The
+<Emphasis>toolVersion</Emphasis> argument
+is the version of the handling tool.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONAL</Title>
+<Para>The
+<Emphasis>operation2Query</Emphasis> argument
+is the ID of the request that initiated the operation the
+status of which is being requested.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttdt.session.join;, and
+&cdeman.ttdt.message.accept;, functions can be used to register for, and
+help process, the
+<Symbol Role="Message">Get_Status</Symbol> request.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>After sending a
+<SystemItem Class="Constant">TT_REQUEST</SystemItem> and storing its handle in
+<StructName Role="typedef">Tt_message</StructName> <Emphasis>request_I_sent</Emphasis>, if the handler identifies itself with a
+<Symbol Role="Message">Status</Symbol> notice
+saved in
+<StructName Role="typedef">Tt_message</StructName> <Emphasis>status_msg_from_handler</Emphasis>, then the status of
+<Emphasis>request_I_sent</Emphasis> can be queried as in the following example:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Tt_message msg = tttk_message_create(0, TT_REQUEST, TT_SESSION,
+                tt_message_sender(status_msg_from_handler),
+                TTDT_GET_STATUS, my_callback);
+tt_message_arg_add(msg, TT_OUT, Tttk_string, 0);
+tt_message_arg_add(msg, TT_OUT, Tttk_string, 0);
+tt_message_arg_add(msg, TT_OUT, Tttk_string, 0);
+tt_message_arg_add(msg, TT_OUT, Tttk_string, 0);
+tt_message_arg_add(msg, TT_IN, Tttk_string,
+                        tt_message_id(request_I_sent));
+tt_message_send(msg);
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.tt.message.arg.add;, &cdeman.tt.message.id;, &cdeman.tt.message.send;, &cdeman.ttdt.message.accept;, &cdeman.tt.message.sender;, &cdeman.ttdt.session.join;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

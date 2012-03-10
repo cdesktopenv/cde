@@ -1,0 +1,77 @@
+#!/bin/ksh
+# 
+#  Shell script to use kfork to kill all the desktop clients prior to
+#   a clean install of new bits.
+#
+#  Author:  Jerrie Andreas    10/5/93
+#
+#  Usage:  No parameters,  called from updateDT
+
+
+PS_ALL_FLAG=-e
+export PS_ALL_FLAG 
+
+TOOL_DIR=/x/cdesrc/admin/IntegTools/updateTools
+export TOOL_DIR
+
+die_time=3
+
+files="
+	dtaction
+	dtappgather
+	dtappintegrate
+	dtcalc
+	dtcm
+	dtcopy
+	dtcreate
+	dterror
+	dtexec
+	dtfile
+	dtgreet
+	dthello
+	dthelpgen
+	dthelptag
+	dthelpview
+	dticon
+	dtksh
+	dtlogin
+	dtlpsetup
+	dtmail
+	dtmailconv
+	dtpad
+	dtprintegrate
+	dtqueueinfo
+	dtrc
+	dtscreen
+	dtsearchpath
+	dtsession
+	dtspcd
+	dtstyle
+	dtterm
+	dtwm
+	htag1
+	htag2
+	inetd
+	list_queue_jobs
+	list_queues
+	rpc.cmsd
+	rpc.ttdbserverd
+	tt_type_comp
+	ttcp
+	ttdbck
+	ttmv
+	ttrm
+	ttsession
+	ttsnoop
+	tttar
+	tttrace
+	uil
+	"
+
+for file in $files
+do
+	$TOOL_DIR/kfork $file  $die_time
+done
+
+
+

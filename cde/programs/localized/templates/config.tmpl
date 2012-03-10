@@ -1,0 +1,73 @@
+XCOMM $TOG: config.tmpl /main/6 1998/08/06 09:02:18 mgreess $
+
+#ifdef RsArchitecture
+SHELL=/bin/ksh
+#endif
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+OBJS1 =  \
+	sys.resources  \
+	sys.session  \
+	sys.font  \
+	sys.dtwmrc \
+	Xresources \
+	dtfile.config \
+	home.session \
+	current.session \
+	display.home.session \
+	display.current.session
+
+
+#ifdef SunArchitecture
+OBJS = $(OBJS1) Xresources.ow
+#else
+OBJS = $(OBJS1)
+#endif
+
+all:: $(OBJS)
+
+depend::
+
+LinkFile(sys.resources.nls,$(CDESRC)/dtsession/sys.resources)
+LinkFile(sys.session.nls,$(CDESRC)/dtsession/sys.session)
+LinkFile(sys.font.nls,$(CDESRC)/dtsession/sys.font)
+LinkFile(sys.dtwmrc.nls,$(CDESRC)/dtwm/sys.dtwmrc)
+LinkFile(Xresources.nls,$(CDESRC)/dtlogin/config/Xresources)
+#ifdef SunArchitecture
+LinkFile(Xresources.ow.nls,$(CDESRC)/dtlogin/config/Xresources.ow)
+#endif
+LinkFile(dtfile.config.nls,$(CDESRC)/dtfile/dtfile.config)
+LinkFile(home.session.nls,$(CDESRC)/dtlogin/config/home.session)
+LinkFile(current.session.nls,$(CDESRC)/dtlogin/config/current.session)
+LinkFile(display.home.session.nls,$(CDESRC)/dtlogin/config/display.home.session)
+LinkFile(display.current.session.nls,$(CDESRC)/dtlogin/config/display.current.session)
+
+LinkFile(home.session.tmsg,_common.session.tmsg)
+LinkFile(current.session.tmsg,_common.session.tmsg)
+LinkFile(display.home.session.tmsg,_common.session.tmsg)
+LinkFile(display.current.session.tmsg,_common.session.tmsg)
+
+DtstyleDescRule(sys.resources,sys.resources)
+DtstyleDescRule(sys.session,sys.session)
+DtstyleDescRule(sys.font,sys.font)
+DtstyleDescRule(sys.dtwmrc,sys.dtwmrc)
+DtstyleDescRule(Xresources,Xresources)
+#ifdef SunArchitecture
+DtstyleDescRule(Xresources.ow,Xresources.ow)
+#endif
+DtstyleDescRule(dtfile.config,dtfile.config)
+DtstyleDescRule(home.session,home.session)
+DtstyleDescRule(current.session,current.session)
+DtstyleDescRule(display.home.session,display.home.session)
+DtstyleDescRule(display.current.session,display.current.session)
+
+clean::
+	$(RM) $(OBJS)
+	for i in *.nls; do \
+		[ -z $$i ] && continue; \
+		[ -h $$i ] && $(RM) $$i; \
+	done; true; 
+

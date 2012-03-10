@@ -1,0 +1,30 @@
+XCOMM $XConsortium: Imakefile /main/16 1996/10/02 14:40:26 barstow $
+.SUFFIXES: .ptype .done
+
+LOCK_FILE = .tt_lock
+
+LOCALDEPFILES = \
+	dtfile.done \
+	dticon.done \
+	dtpad.done \
+	dtcm.done \
+	dtmail.done \
+	dtdbcache.done \
+	dtterm.done \
+	dtinfo.done \
+	dtinfo.done
+
+all:: types.xdr
+
+types.xdr: $(LOCALDEPFILES)
+
+TT_TYPE_COMP = $(CLIENTENVSETUP) $(TTSRC)/bin/tt_type_comp/tt_type_comp
+
+.ptype.done:
+	$(RM) $@
+	TTPATH=. $(TT_TYPE_COMP) -sd user -m $< && touch $@ ; $(RM) .tt_lock
+
+clean::
+	$(RM) *.done types.xdr $(LOCK_FILE)
+
+depend::

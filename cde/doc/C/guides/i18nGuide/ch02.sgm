@@ -1,0 +1,1429 @@
+<!-- $XConsortium: ch02.sgm /main/14 1996/10/30 14:15:59 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="IPG.deskt.div.1">
+<title id="IPG.deskt.mkr.1">Internationalization and the Common Desktop Environment</title>
+<para>Multiple environments may exist within a common open system for support
+of different national languages. Each of these national<indexterm><primary>locales</primary><secondary>definition</secondary></indexterm> environments
+is called a <emphasis>locale,</emphasis> which considers the language, its
+characters, fonts, and the customs used to input and format data. The Common
+Desktop Environment is fully internationalized such that any application
+can run using any locale installed in the system.</para>
+<sect1 id="IPG.deskt.div.2">
+<title id="IPG.deskt.mkr.2">Locale Management<indexterm><primary>locale management</primary><secondary>description</secondary></indexterm></title>
+<para>For the desktop, most single-display clients operate in a single locale
+that is determined at run time from the setting of the environment variable,
+which is usually $LANG. The Motif library (libXm) can only support a single
+locale that is used at the time each widget is instantiated.<indexterm>
+<primary>changing the locale</primary></indexterm> Changing the locale after
+the Motif library has been initialized may cause unpredictable behavior.</para>
+<para>All internationalized programs should<indexterm><primary>setting the
+locale</primary></indexterm> set the locale desired by the user as defined
+in the locale environment variables. For programs using the desktop toolkit,
+the programs call the <computeroutput>XtSetLanguageProc()</computeroutput>
+function prior to calling any toolkit initialization function; for example, <computeroutput>XtAppInitialize()</computeroutput>. This function does all of the initialization
+necessary prior to the toolkit initialization. For nondesktop programs, the
+programs call the <computeroutput>setlocale()</computeroutput> function to
+set the locale desired by the user at the beginning of the program.</para>
+<para><indexterm><primary>locales</primary><secondary>environment variables</secondary></indexterm>Locale environment variables (for example, <computeroutput>LC_ALL</computeroutput>, <computeroutput>LC_CTYPE</computeroutput>, and <computeroutput>LANG</computeroutput>) are used to control the environment. Users should
+be aware that the <computeroutput>LC_CTYPE</computeroutput> category of the
+locale is used by the X and Motif libraries to identify the locale- specific
+features used at run time. Yet, the <computeroutput>LC_MESSAGES</computeroutput>
+category is used by the message catalog services to load locale-specific
+text. Refer to <!--Original XRef content: '&xd2;Extracting
+Localized Text&xd3; on page&numsp;40'--><xref role="HeadingAndPage" linkend="IPG.deskt.mkr.13">
+for more information. Specifically, the fonts and input method loaded by
+the toolkit are determined by the setting of the <computeroutput>LC_CTYPE</computeroutput> category.</para>
+<para>String encoding (for example, ISO8859-1 or Extended UNIX Code (EUC),
+in an application's source code, resource files, and User Interface Language
+(UIL) files) should be the same as the code set of the locale where the application
+runs. If not, code conversion is required.</para>
+<para>All components are shipped as a single, worldwide executable and are
+required to support the R5 sample implementation set of locales: US, Western/Eastern
+Europe, Japan, Korea, China, and Taiwan.</para>
+<para>Applications should be written so that they are code-set-independent
+and include support for any multibyte code set.</para>
+<para>The following are the functions used for<indexterm><primary>locale
+management</primary><secondary>functions used</secondary></indexterm> locale
+management:</para>
+<itemizedlist remap="Bullet1"><listitem><para>XtSetLanguageProc()</para>
+</listitem><listitem><para>setlocale()</para>
+</listitem><listitem><para>XSupportsLocale()</para>
+</listitem><listitem><para>XSetLocaleModifiers()</para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.deskt.div.3">
+<title id="IPG.deskt.mkr.3"><indexterm><primary>font management</primary>
+<secondary>choosing correct fonts</secondary></indexterm>Font Management</title>
+<para>When rendering<indexterm><primary>fonts</primary><secondary>rendering
+for an X Windows client</secondary></indexterm> text in an X Windows<superscript>
+TM</superscript> client, at least two aspects are sensitive to internationalization:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>Obtaining the<indexterm><primary>text, obtaining localized</primary></indexterm> localized text itself</para>
+</listitem><listitem><para>Selecting the one or more fonts that contain all
+the glyphs needed to render the characters in the localized text.</para>
+</listitem></itemizedlist>
+<para><!--Original XRef content: '&xd2;Extracting Localized Text&xd3; on page&numsp;40'--><xref
+role="HeadingAndPage" linkend="IPG.deskt.mkr.13"> describes how to choose
+the correct fonts to render localized text.</para>
+<sect2 id="IPG.deskt.div.4">
+<title>Matching Fonts to Character Sets</title>
+<para>A font<indexterm><primary>fonts</primary><secondary>matching to character
+sets</secondary></indexterm> contains a set of glyphs used to render the characters
+of a<indexterm><primary>locales</primary><secondary>fonts for</secondary>
+</indexterm> locale. However, you may also want to do the following for a
+given locale:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Determine the fonts needed</para>
+</listitem><listitem><para>Specify the necessary fonts</para>
+</listitem><listitem><para>Determine the charset of a font in a resource file
+</para>
+</listitem><listitem><para>Choose multiple fonts per locale</para>
+</listitem></itemizedlist>
+<para>The last two fields of a font<indexterm><primary>X Logical Font Description
+(XLFD)</primary><secondary>identifying glyphs</secondary></indexterm> XFLD
+identify which<indexterm><primary>fonts</primary><secondary>glyphs contained
+in</secondary></indexterm> glyphs are contained in a font and which value
+is used to obtain a specific glyph from the set. These last two fields identify
+the encoding of the glyphs contained in the font.</para>
+<para>For example:</para>
+<programlisting>-adobe-courier-medium-r-normal--24-240-75-75-m-150-iso8859-1
+</programlisting>
+<para>The last two fields of this<indexterm><primary>X Logical Font Description
+(XLFD)</primary><secondary>name fields</secondary></indexterm> XLFD name are <computeroutput>iso8859</computeroutput> and <computeroutput>1</computeroutput>. These fields
+specify that the ISO8859-1 standard glyphs are contained in the font. Further,
+it specifies that the<indexterm><primary>fonts</primary><secondary>character
+code values</secondary></indexterm> character code values of the ISO8859-1
+standard are used to index the corresponding glyph for each character.</para>
+<para>The font charset used by the application to render data depends on the
+locale you select. Because the font charset of the data changes is based
+on the choice of locale, the font specification must not be hardcoded by
+the application. Instead, it should be placed in an <computeroutput>app-defaults</computeroutput> file, allowing localized versions of the<indexterm><primary>app-defaults file</primary></indexterm> <computeroutput>app-defaults</computeroutput>
+file to be created.</para>
+<para>Further, the font should be specified as a fontset. A <emphasis>fontset</emphasis> is an Xlib concept in which an XLFD is used to specify the fonts.
+The font charset fields of the XLFD are specified by the Xlib code that creates
+the fontset and fills in these fields based on the locale that the user has
+specified.</para>
+<para>For many languages (such as Japanese, Chinese, and Korean), multiple
+font charsets are combined to support single encoding. In these cases, multiple
+fonts must be opened to render the character data. Further, the data must
+be parsed into segments that correspond to each font, and in some cases,
+these segments must be transformed to convert the character values into glyphs
+indexes. The <computeroutput>XFontset</computeroutput>, which is a collection
+of all fonts necessary to render character data in a given locale, also deals
+with this set of problems. Further, a set of rendering and metric routines
+are provided that internally take care of breaking strings into character-set-consistent
+segments and transforming values into glyph indexes. These routines relieve
+the burden of the application developer, who needs only the user fontsets
+and the Xlib rendering and metric application program interfaces (APIs).
+</para>
+<para>For more information on matching fonts to character sets, refer to <Symbol>DtStdInterfaceFontNames</Symbol>(1,5). Also note that if your CDE
+provides the set of Standard Application Font Names, you can use a locale-independent
+resource.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.5">
+<title>Font Objects</title>
+<para>This section describes the following font objects:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Font sets</para>
+</listitem><listitem><para>Fonts</para>
+</listitem><listitem><para>Render tables</para>
+</listitem></itemizedlist>
+<sect3 id="IPG.deskt.div.6">
+<title>Font Sets</title>
+<para>Generally, all internationalized programs expecting to draw localized
+text using Xlib are required to use an <computeroutput>XmFontSet</computeroutput>
+for specifying the locale- dependent fonts. Specific fonts within a font set
+should be specified using XLFD naming conventions without the charset field
+specified. The resource name for an <computeroutput>XFontset</computeroutput>
+is <computeroutput>*fontSet</computeroutput>. Refer to <!--Original XRef
+content: '&xd2;Localized Resources&xd3; on
+page&numsp;45'--><xref role="HeadingAndPage" linkend="IPG.deskt.mkr.14"> for
+a list of font resources.</para>
+<para>Applications directly using Xlib to render text (as opposed to using <computeroutput>XmString</computeroutput> functions or widgets) may take advantage of the
+string-to-fontSet converter provided by Xt. For example, the following code
+fragment shows how to obtain a fontset when using Xt and when not using Xt:
+</para>
+<programlisting>/* pardon the double negative... means &ldquo;If using Xt...&rdquo; */
+#ifndef NO_XT
+typedef struct {
+     XFontSet fontset;
+     char *foo;
+} ApplicationData,  *ApplicationDataPtr;
+static XtResource my_resources[] = {
+   { XtNfontSet, XtCFontSet, XtRFontSet, sizeof (XFontSet),
+   XtOffset (ApplicationDataPtr, fontset), XtRString,
+   &ldquo;*-18-*&rdquo;}}
+#endif /* NO_XT */
+...
+#ifdef NO_XT
+fontset = XCreateFontSet (dpy, &ldquo;*-18-*&rdquo;, &amp;missing_charsets,
+   &amp;num_missing_charsets. &amp;default_string);
+if (num_missing_charsets > 0) {
+   (void) fprintf(stderr, &ldquo;&amp;s: missing charsets.\n&rdquo;,
+          program_name);
+   XFreeStringList(missing_charsets);
+}
+#else
+XtGetApplicationResources(toplevel, &amp;data, my_resources,
+    XtNumber(my_resources), NULL, 0);
+fontset = data.fontset;
+#endif /* NO_XT */</programlisting>
+</sect3>
+<sect3 id="IPG.deskt.div.7">
+<title>Fonts</title>
+<para>Internationalized programs<indexterm><primary>fonts</primary><secondary>limitations with internationalized programs</secondary></indexterm> should
+avoid using fonts directly, that is, <computeroutput>XFontStruct</computeroutput>,
+unless they are being used for a specific charset and a specific character
+set. Use of <computeroutput>XFontStruct</computeroutput> may be limiting if
+the server you are connecting to does not support the specific charsets needed
+by a locale. The resource name for an <computeroutput>XFontStruct</computeroutput>
+is <filename>*font</filename>.</para>
+</sect3>
+<sect3 id="IPG.deskt.div.8">
+<title>Render Tables</title>
+<para>For information on render tables, refer to &MotifProgGd;.</para>
+</sect3>
+</sect2>
+<sect2 id="IPG.deskt.div.9">
+<title>Font Set and Render Table Syntax</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;1'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.4"> shows the syntax for a<indexterm><primary>fonts</primary><secondary>syntax for a fontset</secondary></indexterm> font set
+and render table.</para>
+<table id="IPG.deskt.tbl.1" frame="Topbot">
+<title id="IPG.deskt.mkr.4">Font Set and Render Table Syntax</title>
+<tgroup cols="4">
+<colspec colname="1" colwidth="1.52 in">
+<colspec colname="2" colwidth="1.22791 in">
+<colspec colname="3" colwidth="0.93702 in">
+<colspec colname="4" colwidth="1.51726 in">
+<thead>
+<row><entry><para><literal>Resource Type</literal></para></entry><entry><para><literal>XLFD Separator</literal></para></entry><entry><para><literal>Terminator</literal></para></entry>
+<entry><para><literal>FontEntry Separator</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para><computeroutput>*fontSet:</computeroutput> (Xlib)</para></entry>
+<entry><para>comma</para></entry>
+<entry><para>None</para></entry>
+<entry><para>None</para></entry></row>
+<row>
+<entry><para><computeroutput>*renderTable:</computeroutput> (Motif)</para></entry>
+<entry><para>semicolon</para></entry>
+<entry><para>colon</para></entry>
+<entry><para>comma</para></entry></row></tbody></tgroup></table>
+<para>Here are some examples of<indexterm><primary>fonts</primary><secondary>resource specifications</secondary></indexterm> font resource specifications:
+</para>
+<programlisting><symbol>app_foo</symbol>*renderTable: -adobe-courier-medium-r-normal--24-240-75-75-m-\
+150-*:</programlisting>
+<para>The preceding renderTable specifies a fontset, consisting of one or
+more 24-point Adobe Courier fonts, as appropriate for the user's locale.
+</para>
+<programlisting><symbol>app_foo</symbol>*renderTable: -adobe-courier-medium-r-normal--18-*; *-gothic-\
+*-18-*:</programlisting>
+<para>This renderTable specifies a fontset consisting of an 18-point Courier
+font (if available) for some characters in the users data, and an 18-point
+Gothic font for the others.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.10">
+<title><indexterm><primary>font management</primary><secondary>listing of
+functions</secondary></indexterm>Font and Render Table Functions</title>
+<para>The following Xlib font management API functions are available:</para>
+<itemizedlist remap="Bullet1"><listitem><para>XCreateFontSet()</para>
+</listitem><listitem><para>XLocaleOfFontSet()</para>
+</listitem><listitem><para>XFontsOfFontSet()</para>
+</listitem><listitem><para>XBaseFontNameListOfFontSet()</para>
+</listitem><listitem><para>XFreeFontSet()</para>
+</listitem></itemizedlist>
+<para>The following Motif Render Table API functions are available:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>XmRenderTableAddRenditions()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableCopy()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableCvtFromProp()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableCvtToProp()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableFree()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableGetRendition()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableGetRenditions()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableGetTags()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableRemoveRenditions()</filename></para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="IPG.deskt.div.11">
+<title>Font Charsets</title>
+<para>To improve basic interchange,<indexterm><primary>fonts</primary><secondary>organization</secondary></indexterm> fonts are organized according to the standard
+X- Consortium font charsets.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.12">
+<title id="IPG.deskt.mkr.6">Default Font Set Per Language Group</title>
+<para>Selecting base font names of a font set associated with a developer's
+language is usually easy because the developer is familiar with the language
+and the set of fonts needed.</para>
+<para>Yet, when selecting the base font names of a font set for various locales,
+this task can be difficult because an XLFD font specification consists of
+15 fields. For localized usage, the following fields are critical for selecting
+font sets:</para>
+<itemizedlist remap="Bullet1"><listitem><para>FAMILY_NAME <symbol role="Variable">%F</symbol></para>
+</listitem><listitem><para>WEIGHT_NAME <symbol role="Variable">%W</symbol></para>
+</listitem><listitem><para>SLANT <symbol role="Variable">%S</symbol></para>
+</listitem><listitem><para>ADD_STYLE <symbol role="Variable">%A</symbol></para>
+</listitem><listitem><para>SPACING <symbol role="Variable">%SP</symbol></para>
+</listitem></itemizedlist>
+<para>This simplifies the number of fields, yet the possible values for each
+of these fields may vary per locale. The actual point size (POINT_SIZE) may
+vary across platforms.</para>
+<para>Throughout this documentation, the following convention should be used
+when specifying localized fonts:</para>
+<programlisting>-dt-<symbol role="Variable">%F</symbol>- <symbol role="Variable">%W</symbol>-<symbol role="Variable">%S</symbol>-normal- <symbol role="Variable">%A</symbol>-*-*-*-<symbol role="Variable">%SP</symbol>-*</programlisting>
+<para>The following describes the <symbol role="Variable">minimum</symbol>
+set of recommended values for each field to be used within the desktop for
+the critical fields when specifying font sets in resource (<filename>app-defaults</filename>) files.</para>
+<sect3 id="IPG.deskt.div.13">
+<title>Latin ISO8859-1 Fonts</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="157*">
+<colspec align="left" colwidth="371*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>`interface user' `interface system'
+`application'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r or i</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>sans or serif</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>p or m</para></entry></row></tbody>
+</tgroup></informaltable>
+</sect3>
+<sect3 id="IPG.deskt.div.14">
+<title>Other ISO8859 Fonts</title>
+<para>The same values defined for ISO8859-1 are recommended.</para>
+</sect3>
+<sect3 id="IPG.deskt.div.15">
+<title>JIS Japanese Font</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="159*">
+<colspec align="left" colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>interface user, interface system, application,
+Gothic or Mincho</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>*</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>m</para></entry></row></tbody></tgroup>
+</informaltable>
+</sect3>
+<sect3 id="IPG.deskt.div.16">
+<title>KSC Korean Font</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="157*">
+<colspec align="left" colwidth="371*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>interface user, interface system, application,
+Totum or Pathang</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>*</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>m</para></entry></row></tbody></tgroup>
+</informaltable>
+<note>
+<para>The FAMILY_NAME values may change depending on the official romanization
+of the two common font families in use. As background, Totum corresponds
+to fonts typically shipped as Gothic, Kodig, or Dotum; Pathang corresponds
+to fonts typically shipped as Myungo or Myeongjo.</para>
+</note>
+</sect3>
+<sect3 id="IPG.deskt.div.17">
+<title>CNS Traditional Chinese Font</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="158*">
+<colspec align="left" colwidth="370*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>interface user, interface system, application,
+Sung and Kai</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>*</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>m</para></entry></row></tbody></tgroup>
+</informaltable>
+</sect3>
+<sect3 id="IPG.deskt.div.18">
+<title>GB Simplified Chinese Font</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="161*">
+<colspec align="left" colwidth="367*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>interface user, interface system, application,
+Song and Kai</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>*</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>m</para></entry></row></tbody></tgroup>
+</informaltable>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.19">
+<title id="IPG.deskt.mkr.7"><indexterm><primary>localized text</primary><secondary>drawing simple</secondary></indexterm>Drawing Localized Text</title>
+<para>There are several mechanisms provided to render a localized string,
+depending on the Motif or Xlib library being used. The following discusses
+the interfaces that are recommended for internationalized applications. Yet,
+it is recommended that <emphasis>all</emphasis> localized data be externalized
+from the program using the simple text. For more information on this subject,
+refer to <emphasis>Xlib &mdash; C Language Interface</emphasis>.</para>
+<sect2 id="IPG.deskt.div.20">
+<title>Simple Text</title>
+<para>The following Xlib multibyte (<filename>char*</filename>) drawing functions
+are available for internationalization:</para>
+<itemizedlist remap="Bullet1"><listitem><para id="IPG.deskt.mkr.8">XmbDrawImageString()
+</para>
+</listitem><listitem><para>XmbDrawString()</para>
+</listitem><listitem><para>XmbDrawText()</para>
+</listitem></itemizedlist>
+<para>The following Xlib wide character (<filename>wchar_t*</filename>) drawing
+functions are available for internationalization:</para>
+<itemizedlist remap="Bullet1"><listitem><para>XwcDrawImageString()</para>
+</listitem><listitem><para>XwcDrawString()</para>
+</listitem><listitem><para>XwcDrawText()</para>
+</listitem></itemizedlist>
+<para>The following Xlib multibyte (<filename>char*</filename>) font metric
+functions are available for internationalization:</para>
+<itemizedlist remap="Bullet1"><listitem><para>XExtentsOfFontSet()</para>
+</listitem><listitem><para>XmbTextEscapement()</para>
+</listitem><listitem><para>XmbTextExtents()</para>
+</listitem><listitem><para>XmbTextPerCharExtents</para>
+</listitem></itemizedlist>
+<para>The following Xlib wide character (<filename>char_t*</filename>) font
+metric functions are available for internationalization:</para>
+<itemizedlist remap="Bullet1"><listitem><para>XExtentsOfFontSet()</para>
+</listitem><listitem><para>XwcTextEscapement()</para>
+</listitem><listitem><para>XwcTextExtents()</para>
+</listitem><listitem><para>XwcTextPerCharExtents</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="IPG.deskt.div.21">
+<title>XmString (Compound String)</title>
+<para>For the Motif library,<indexterm><primary>localized text</primary><secondary>drawing compound</secondary></indexterm> localized text should be inserted
+into XmString segments using <computeroutput>XmStringGenerate()</computeroutput>.
+The tag associated with localized text is <computeroutput>XmFONTLIST_DEFAULT_TAG</computeroutput>, which is used to match an entry in a render table.</para>
+<para>A localized string<indexterm><primary>localized text</primary><secondary>writing in resource files</secondary></indexterm> can be written in resource
+files<indexterm><primary>resource files</primary><secondary>writing a localized
+string</secondary></indexterm> because a compound string specified in resource
+files has a locale-encoded segment with <computeroutput>Xm_FONTLIST_DEFAULT_TAG</computeroutput>. For example, the
+<systemitem class="resource">renderTable</systemitem> resource in the following example
+is automatically associated with <computeroutput>XmFONTLIST_DEFAULT_TAG</computeroutput>.
+</para>
+<programlisting>labelString: Japanese string
+*renderTable:-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*:</programlisting>
+<para>The following set of <computeroutput>XmString</computeroutput><indexterm>
+<primary>XmString functions</primary></indexterm> functions is recommend for
+internationalization:</para>
+<itemizedlist remap="Bullet1"><listitem><para>XmStringCreateLocalized()</para>
+</listitem><listitem><para>XmStringDraw()</para>
+</listitem><listitem><para>XmStringDrawImage()</para>
+</listitem><listitem><para>XmStringDrawUnderline()</para>
+</listitem></itemizedlist>
+<para>The following set of <computeroutput>XmString</computeroutput><indexterm><primary>XmString
+functions</primary></indexterm> functions is <emphasis>not</emphasis> recommend for internationalization because it takes a direction
+that may not work with languages not covered:</para>
+<itemizedlist remap="Bullet1"><listitem><para>XmStringCreateLtoR()</para>
+</listitem><listitem><para>XmStringSegmentCreate()</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.22">
+<title id="IPG.deskt.mkr.9">Inputting Localized Text</title>
+<para>Input for<indexterm><primary>localized text</primary><secondary>input
+methods</secondary></indexterm> localized text is typically done by using either
+the local input method or the network-based input method.</para>
+<para>The <emphasis>local input method</emphasis> means that the input method
+is built in the Xlib. It is typically used for a language that can be composed
+using simple rules and that does not require language-specific features.
+The<indexterm><primary>network-based input method</primary></indexterm> <emphasis>network-based input method</emphasis> means that the actual input method
+is provided as separate servers, and Xlib communicates with them through
+the XIM protocol to do the language-specific composition.</para>
+<sect2 id="IPG.deskt.div.23">
+<title>Basic Prompts and Dialogs</title>
+<para>It is strongly<indexterm><primary>text input</primary><secondary>prompts and dialogs</secondary></indexterm> recommended that applications use
+the <computeroutput>Text</computeroutput> widget to do all text input.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.24">
+<title>Input<indexterm><primary>text input</primary><secondary>within a
+DrawingArea widget</secondary></indexterm> within a DrawingArea Widget</title>
+<para>Many applications do their own drawing within a widget based on input.
+To provide consistency within the desktop environment, <computeroutput>XmIm</computeroutput> functions are recommended because the style and geometry
+management needed for an input method is managed by the <computeroutput>VendorShell</computeroutput> widget class. The application need only worry
+about handling key events, focus, and communicating the current input location
+within the drawing area. Using these functions requires some basic knowledge
+of the underlying Xlib input method architecture, but a developer need only
+be concerned with the <computeroutput>XmIm</computeroutput> pieces of information.
+</para>
+</sect2>
+<sect2 id="IPG.deskt.div.25">
+<title>Application-Specific and Language-Specific Intermediate Feedbacks</title>
+<para>Some applications may need to<indexterm><primary>text input</primary>
+<secondary>intermediate feedback</secondary></indexterm> directly display
+intermediate feedback during preediting, such as when an application exceeds
+the functions supplied by Xlib. Examples of this include for PostScript<superscript>
+TM</superscript> rendering or using vertical writing.</para>
+<para>The core Xlib provides the common set of interfaces that allow an application
+to display intermediate feedback during preediting. By registering the application's
+callbacks and setting the preediting style to <computeroutput>XNPreeditCallbacks</computeroutput>, an application can get the intermediate preediting data
+from the input method and can draw whatever it needs. This means using the OnTheSpot
+input method style.</para>
+<para>Applications intended to do sophisticated language processing may recognize
+extensions within a specific XIM implementation and its input method engines.
+Such applications are on the leading edge and will require familiarity with
+details of the XIM functions.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.26">
+<title>Text and TextField Widget<indexterm><primary>XmText functions</primary>
+</indexterm></title>
+<para>For basic prompts and dialogs, the <computeroutput>Text</computeroutput>
+or <computeroutput>TextField</computeroutput> widget is recommended. Besides
+resources, all of the <computeroutput>XmTextField</computeroutput> and <computeroutput>XmText</computeroutput> functions are available for getting
+and for setting localized text inside a <computeroutput>Text[Field]</computeroutput>
+widget.</para>
+<para>Most <computeroutput>XmText</computeroutput> functions are based on
+the number of characters, <symbol role="Variable">not</symbol> on the number
+of bytes. For example, all <computeroutput>XmTextPosition()</computeroutput> function positions are character positions,
+not byte positions. The <computeroutput>XmTextGetMaxLength()</computeroutput>
+function returns the number of bytes. When in doubt, remember that positions
+are always in character units.</para>
+<para>The width of a <computeroutput>Text</computeroutput> or <computeroutput>TextField</computeroutput> widget is determined by the resource value of <computeroutput>XmNcolumns</computeroutput>. But, this value means the number of the widest
+characters in the font set, not the number of bytes or columns. For example,
+suppose that you have selected a variable-width font for the <computeroutput>Text</computeroutput> widget. The character <symbol role="Variable">i</symbol>
+may have a width of 1 pixel, while the character <emphasis>W</emphasis> may
+have a width of 7 pixels. When a value of 10 is set for <computeroutput>XmNcolumns</computeroutput>, this is considered a request to make the <computeroutput>Text</computeroutput> widget wide enough to be able to display at least 10
+characters. So the <computeroutput>Text</computeroutput> widget must use the
+width of the widest character to determine the pixel width of its core widget.
+With this example, it may be able to display 10 <emphasis>W</emphasis> characters
+in the widget, or 70 <emphasis>i</emphasis> characters. This structure for <computeroutput>XmNcolumns</computeroutput> may cause problems in locales whose code set is
+a multibyte and a multicolumn encoding. As such, this value should be set
+within a localized resource.</para>
+<para>The following section identifies the set of functions available for
+applications that are used to manage input methods. For applications that
+use the <computeroutput>Text</computeroutput> and <computeroutput>TextField</computeroutput> widgets, refer to <!--Original XRef content: '&xd2;Input
+Method (Keyboards)&xd3; on page&numsp;49'--><xref role="HeadingAndPage" linkend="IPG.deskt.mkr.20">.
+</para>
+</sect2>
+<sect2 id="IPG.deskt.div.27">
+<title>Character Input within Customized Widgets Not Using Text[Field]<indexterm>
+<primary>text input</primary><secondary>in applications without Text widget</secondary></indexterm> Widgets</title>
+<para>In some cases, an application may obtain character input from the user
+but does not use a <computeroutput>TextField</computeroutput> or <computeroutput>Text</computeroutput> widget to do so. For example, an application using
+a <computeroutput>DrawingArea</computeroutput> widget may allow the user to
+type in text directly into the DrawingArea. In this case, the application
+could use the Xlib XIM functions as described in later sections, or alternatively,
+the application may use the <computeroutput>XmIm</computeroutput> functions
+of Motif. The <computeroutput>XmIm</computeroutput> functions allow an
+application to connect to and interact with an input method with a minimum
+of code. Further, it allows the Motif <computeroutput>VendorShell</computeroutput>
+widget to take care of geometry management for the input method on the application's
+behalf. For more information on XmIm functions, refer to &MotifProgGd;.</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.31">
+<title id="IPG.deskt.mkr.13">Extracting Localized Text<indexterm><primary>localized text</primary><secondary>extracting</secondary></indexterm></title>
+<para>Although there are different<indexterm><primary>localized text</primary>
+<secondary>methods for establishing</secondary></indexterm> methods to localize
+an application, the general rule is that any language-dependent information
+is outside the application and is stored in separate directories identified
+by a locale name.</para>
+<para>This section describes how the user, the application developer, and
+the implementation combine to establish the language environment of the
+application. Two general approaches to localizing applications are also discussed.
+The following three methods can be used:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Resource files</para>
+</listitem><listitem><para>Message catalogs</para>
+</listitem><listitem><para>Private files</para>
+</listitem></itemizedlist>
+<sect2 id="IPG.deskt.div.32">
+<title>Resource Files</title>
+<para>This is the GUI toolkit mechanism for customizing all sorts of information
+about an application. The Intrinsic library (libXt) provides a sophisticated
+mechanism for merging the command-line options,<indexterm><primary>extracting
+localized text</primary><secondary>using resource files</secondary></indexterm> application-defined
+resources, and user-defined resources. Resource files can be used for extracting
+localized text. The difference between resource files and message catalogs
+is that the resource database is compiled each time it is loaded. As such,
+care should be taken when deciding which strings to place in resource files
+and which to place in message catalogs.</para>
+<para>Also note that the Motif library functions do not depend on the LC_MESSAGE
+category when specifying the location from which localized resources are
+loaded. Refer to the <filename moreinfo="RefEntry">XtSetLanguageProc()</filename>
+man page for more information.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.33">
+<title>Message Catalogs</title>
+<para>This is the traditional operating<indexterm><primary>extracting localized
+text</primary><secondary>using message catalogs</secondary></indexterm> system
+mechanism for accessing external databases containing localized text. These
+functions load a precompiled catalog file that is ready to be accessed. They
+also provide defaults within the actual program for cases when no catalogs
+may be found.</para>
+<para>The messaging support is based on both the XPG4 and System V Release
+4 (SVR4) interfaces for accessing message catalogs.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.34">
+<title>Private Files</title>
+<para>Private databases can be<indexterm><primary>extracting localized
+text</primary><secondary>using private files</secondary></indexterm> used by
+applications to provide generic, customized databases for more than just
+localization text. Usually, such databases do contain text. It is recommended
+that if the database is to be spread out over many files, some run-time indirect
+access of localized text be provided. Without this access, localization for
+the average user is a difficult effort. Generally, such private file formats
+are discouraged by groups doing localization. But problems are reduced if
+a tool is provided specifically for localization of text only.</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.35">
+<title>Message Guidelines<indexterm><primary>messages</primary><secondary>guidelines</secondary></indexterm></title>
+<para>Message guidelines foster consistent formatting of message and help<indexterm>
+<primary>help information guidelines</primary></indexterm> information. They
+also promote creation and maintenance of messages that can be easily understood
+by inexperienced English-speaking end users, as well as by inexperienced
+translators. Use these guidelines to create message files that are consistent
+in language and clear in meaning. Distribution of these guidelines enable
+programmers and writers to coordinate their message- writing efforts. Default
+messages, external message files, and planned delivery of translatable messages
+are required for each executable to fully implement international language
+support.</para>
+</sect1>
+<sect1 id="IPG.deskt.div.36">
+<title>Message Extraction Functions<indexterm><primary>messages</primary>
+<secondary>extraction functions</secondary><tertiary>requirements for internationalization</tertiary></indexterm></title>
+<para>One of the requirements of internationalizing programs (basic commands
+and utilities inclusive) is that the messages displayed on the output devices
+be in the language of the user. As these programs may be used in many countries
+(international locales), the messages must be translated into the various
+languages of these countries.</para>
+<para>There are three sets of message extraction functions in the desktop
+environment: XPG4 functions, Xlib functions, and DtMsgLog functions.</para>
+<sect2 id="IPG.deskt.div.37">
+<title>XPG4/Universal UNIX Messaging Functions<indexterm><primary>messages</primary><secondary>extraction functions</secondary><tertiary>XPG4 set</tertiary>
+</indexterm></title>
+<para>The XPG4 message facility consists of several components: message source
+files, catalog generation facilities, and programming interfaces. Following
+are the XPG4/Universal UNIX<superscript>TM</superscript> message functions:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>catopen()</para>
+</listitem><listitem><para>catgets()</para>
+</listitem><listitem><para>catclose()</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="IPG.deskt.div.38">
+<title>XPG4 Messaging<indexterm><primary>XPG4 messaging examples</primary>
+</indexterm> Examples</title>
+<para>There are three parts to this example which demonstrates how to retrieve
+a message from a catalog. The first part shows the message source file and
+the second part shows the method used to generate the catalog file. The third
+part shows an example program using this catalog.</para>
+<sect3 id="IPG.deskt.div.39">
+<title>Message Source File</title>
+<para>The message catalog can be specified as follows:</para>
+<programlisting>example.msg file:
+$quote &ldquo;
+$ every message catalog should have a beginning set number.
+$set 1 This is the set 1 of messages
+1 &ldquo;Hello world\n&rdquo;
+2 &ldquo;Good Morning\n&rdquo;
+3 &ldquo;example: 1000.220 Read permission is denied for the file
+%s.\n&rdquo;
+$set 2
+1 &ldquo;Howdy\n&rdquo;</programlisting>
+<sect4 id="IPG.deskt.div.40">
+<title>Generation of Catalog File</title>
+<para>This file is input to the <computeroutput>gencat</computeroutput> utility
+to generate the message catalog <computeroutput>example.cat</computeroutput>
+as follows:</para>
+<programlisting>gencat example.cat example.msg</programlisting>
+</sect4>
+<sect4 id="IPG.deskt.div.41">
+<title>Accessing the Catalog in a Program</title>
+<programlisting>#include &lt;locale.h>
+#include &lt;nl_types.h>
+char *MF_EXAMPLE = &ldquo;example.cat&rdquo;
+
+main()
+{
+  nl_catd catd;
+  int error;
+
+  (void)setlocale(LC_ALL, &ldquo;&rdquo;);
+
+  catd = catopen(MF_EXAMPLE, 0);
+     /* Get the message number 1 from the first set.*/
+
+  printf( catgets(catd,1,1,&ldquo;Hello world\n&rdquo;) );
+     /* Get the message number 1 from the second set.*/
+
+  printf( catgets(catd, 2, 1,&ldquo;Howdy\n&rdquo;) );
+     /* Display an error message.*/
+
+  printf( catgets(catd, 1, 4,&ldquo;example: 100.220
+     Permission is denied to read the file %s.\n&rdquo;),
+     MF_EXAMPLE);
+  catclose(catd);
+}</programlisting>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="IPG.deskt.div.42">
+<title>Xlib Messaging Functions</title>
+<para>The following Xlib messaging<indexterm><primary>messages</primary>
+<secondary>extraction functions</secondary><tertiary>Xlib set</tertiary></indexterm> functions
+provide a similar input/output (I/O) operation to the resources.</para>
+<itemizedlist remap="Bullet1"><listitem><para>XrmPutFileDatabase()</para>
+</listitem><listitem><para>XrmGetFileDatabase()</para>
+</listitem><listitem><para>XrmGetStringDatabase()</para>
+</listitem><listitem><para>XrmLocaleOfDatabase()</para>
+</listitem></itemizedlist>
+<para>They are described in <emphasis>X Window System, The Complete Reference
+to Xlib, Xprotocol, ICCCM, XLFD - X Version 11, Release 6</emphasis>.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.43">
+<title>Xlib Message and Resource<indexterm><primary>Xlib message/resource
+facilities</primary></indexterm> Facilities</title>
+<para>Part of internationalizing a system environment, toolkit-based application
+is not having any locale-specific data hardcoded within the application source.
+One common locale-specific item is messages (error and warning) returned
+by the application of the standard I/O.</para>
+<para>In general, for any error or warning messages to be displayed to the
+user through a system environment toolkit widget or gadget, externalize the
+messages through message catalogs.</para>
+<para>For dialog messages to be displayed through a toolkit component, externalize
+the messages through localized resource files. This is done in the same way
+as localizing resources, such as the <computeroutput>XmLabel</computeroutput>
+and <computeroutput>XmPushButton</computeroutput> classes' <computeroutput>XmNlabelString</computeroutput> resource or window titles.</para>
+<para>For example, if a warning message is to be displayed through an <computeroutput>XmMessageBox</computeroutput> widget class, the <computeroutput>XmNmessageString</computeroutput> resource cannot be hardcoded within the application source
+code. Instead, the value of this resource must be retrieved from a message
+catalog. For an internationalized application expected to run in different
+locales, a distinct localized catalog must exist for each of the locales
+to be supported. In this way, the application need not be rebuilt.</para>
+<para>Localized resource files can be put in the <filename>/usr/lib/X11/%L/appdefaults</filename> subdirectories, or they can be pointed to by the <computeroutput>XENVIRONMENT</computeroutput> environment variable. The <emphasis>%L</emphasis>
+variable is replaced with the name of the locale used at run time.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.43a">
+<title>Dt Messaging Functions</title>
+<indexterm><primary>messages</primary><secondary>DtMsgLogfunctions</secondary>
+</indexterm><indexterm><primary>Dt messaging functions</primary></indexterm>
+<para>The Dt messaging functions are <Filename MoreInfo="RefEntry">DtMsgLogMessage</Filename>(3), <Filename MoreInfo="RefEntry">DtMsgLogSetHandler</Filename>(3), and <Filename MoreInfo="RefEntry">DtMsgLogOpenFile</Filename>(3).
+For more information, refer to <emphasis>Common Desktop Environment: Programmer's
+Guide</emphasis></para>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.44">
+<title id="IPG.deskt.mkr.14"><indexterm><primary>localized resources</primary>
+</indexterm>Localized Resources</title>
+<para>This section describes which widget and<indexterm><primary>localized
+resources</primary><secondary>widget</secondary></indexterm> gadget<indexterm>
+<primary>localized resources</primary><secondary>gadget</secondary></indexterm>
+resources are<indexterm><primary>resources</primary><secondary>locale sensitive</secondary></indexterm> locale-sensitive. The information is organized by
+related functionality. For example, the first section describes those resources
+that are locale-sensitive for widgets used to display labels or to provide<indexterm><primary>button resources</primary></indexterm>
+push-button<indexterm>
+<primary>resources</primary><secondary>button</secondary></indexterm> functionality.
+</para>
+<sect2 id="IPG.deskt.div.45">
+<title>Labels and Buttons</title>
+<para><!--Original XRef content: ''--><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.15"> <!--Original
+XRef content: 'Table&numsp;2&hyphen;3'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.16"> lists the localized<indexterm><primary>resources</primary><secondary>used as labels</secondary></indexterm> resources that
+are used as labels. Many of them are of type <computeroutput>XmString</computeroutput>.
+The rest are of type color or char*. See the <emphasis>Motif Reference Manual</emphasis> for detailed
+descriptions of these resources. In each case, the application should not
+hardcode these resources. If resource values need to be specified by the
+application, it should be done with the <computeroutput>app-defaults</computeroutput>
+file, ensuring that the resource can be localized.</para>
+<para id="IPG.deskt.mkr.15">Only the widget class resources are listed here;
+subclasses of these widgets are not listed. For example, the <computeroutput>XmDrawnButton</computeroutput> widget class does not introduce any new resources
+that are localized. However, it is a subclass of the <computeroutput>XmLabelWidget</computeroutput> widget class; therefore, its accelerator resource, <computeroutput>acceleratorText</computeroutput> resource, and so on, are also localized and
+should not be hardcoded by an application.</para>
+<table id="IPG.deskt.tbl.3" frame="Topbot">
+<title id="IPG.deskt.mkr.16">Localized Resources</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="2.50in">
+<colspec colname="col2" colwidth="2.50in">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Widget Class</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Resource Name</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Core</para></entry>
+<entry align="left" valign="top"><para><footnote id="IPG.deskt.fn.13"><para>.</para>
+</footnote></para><para><footnoteref linkend="IPG.deskt.fn.13"></footnoteref>
+*background:<superscript>1</superscript></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmCommand</para></entry>
+<entry align="left" valign="top"><para>*command:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmCommand</para></entry>
+<entry align="left" valign="top"><para>*promptString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*dirListLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*dirTextLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*fileListLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*filterLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*noMatchString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*accelerator:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*acceleratorText:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*labelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*mnemonic:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*stringDirection:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmList</para></entry>
+<entry align="left" valign="top"><para>*stringDirection:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmManager</para></entry>
+<entry align="left" valign="top"><para>*stringDirection:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmMessageBox</para></entry>
+<entry align="left" valign="top"><para>*cancelLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmMessageBox</para></entry>
+<entry align="left" valign="top"><para>*helpLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmMessageBox</para></entry>
+<entry align="left" valign="top"><para>*messageString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmMessageBox</para></entry>
+<entry align="left" valign="top"><para>*okLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmPrimitive</para></entry>
+<entry align="left" valign="top"><para>*foreground:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmRowColumn</para></entry>
+<entry align="left" valign="top"><para>*labelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmRowColumn</para></entry>
+<entry align="left" valign="top"><para>*menuAccelerator:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmRowColumn</para></entry>
+<entry align="left" valign="top"><para>*mnemonic:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmRowColumn(SimpleMenu*)</para></entry>
+<entry align="left" valign="top"><para>*buttonAccelerators:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmScale</para></entry>
+<entry align="left" valign="top"><para>*titleString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*applyLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*cancelLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*helpLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*listLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*okLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*selectionLabelString:</para></entry>
+</row>
+<row rowsep="1">
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*textAccelerators:</para></entry></row>
+<row>
+<entry align="left" spanname="1to2" valign="top"><superscript>1</superscript>
+The foreground and background colors are not localized due to restrictions
+in the X protocol that require color names to be limited to the portable
+character set. Localized color names are left to applications to provide a
+localized database to map to a name encoded with the portable character set</entry></row></tbody></tgroup></table>
+<para>Note that the <computeroutput>XmRowColumn</computeroutput> widget has
+additional string resources that may be localized. These resources are listed
+in the <filename moreinfo="RefEntry">XmRowColumn</filename> man page, under
+the heading &ldquo;Simple Menu Creation Resource Set.&rdquo; As the title
+implies, these resources affect only <computeroutput>RowColumn</computeroutput>
+widgets created with the <computeroutput>XmCreateSimpleMenu()</computeroutput>
+function. The resources affected are: <systemitem>*buttonAccelerators</systemitem>, <systemitem>*buttonAcceleratorText</systemitem>, <systemitem>*buttonMnemonics</systemitem>, <systemitem>*optionLabel</systemitem>, and <systemitem>*optionMnemonic</systemitem>. These
+resources are not included in <!--Original XRef content: 'Table&numsp;2&hyphen;3'--><xref
+role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.16"> because they are rarely
+used and apply to RowColumn only when creating a simple menu.</para>
+</sect2>
+<sect2 id="IPG.deskt.div.46">
+<title><indexterm><primary>list resources</primary></indexterm>List Resources</title>
+<para>Several widgets allow applications to<indexterm><primary>resources</primary><secondary>for reading lists</secondary></indexterm> set or<indexterm><primary>resources</primary>
+<secondary>for setting lists</secondary></indexterm> read lists of items in the widget. <!--Original XRef
+content: 'Table&numsp;2&hyphen;4'--><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.17">
+shows which widgets allow this and the resources they use to set or read
+these lists. Because the list items may need to be localized, do not hardcode
+these lists. Rather, they should be set as resources in <computeroutput>app-defaults</computeroutput> files, allowing them to be localized. The type for each
+list is <computeroutput>XmStringList</computeroutput>.</para>
+<table id="IPG.deskt.tbl.4" frame="Topbot">
+<title id="IPG.deskt.mkr.17">Resources Used for Reading Lists</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>Widget Class</literal></para></entry><entry><para><literal>Resource Name</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>XmList</para></entry>
+<entry><para>*items:</para></entry></row>
+<row>
+<entry><para>XmList</para></entry>
+<entry><para>*selectedItems:</para></entry></row>
+<row>
+<entry><para>XmSelectionBox</para></entry>
+<entry><para>*listItems:</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.47">
+<title>Title</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;5'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.18"> lists<indexterm><primary>resources</primary>
+<secondary>for setting titles</secondary></indexterm> the<indexterm><primary>localized resources</primary>
+<secondary>titles and icon names</secondary></indexterm> resources used for
+setting titles and icon names. Normally, an application need only set the <systemitem>*title</systemitem>: and <systemitem>*iconName</systemitem>: resources. The
+encoding of each is automatically detected for clients doing proper locale
+management. All of these are of type <computeroutput>*char</computeroutput>
+or <computeroutput>XmString</computeroutput>.</para>
+<table id="IPG.deskt.tbl.5" frame="Topbot">
+<title id="IPG.deskt.mkr.18">Resources Used for Setting Titles and Icon Names</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="2.50in">
+<colspec colname="col2" colwidth="2.50in">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Widget Class</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Resource Name</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>TopLevelShell</para></entry>
+<entry align="left" valign="top"><para>*iconName:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>TopLevelShell</para></entry>
+<entry align="left" valign="top"><para>*iconNameEncoding:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>WmShell</para></entry>
+<entry align="left" valign="top"><para>*title:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WmShell</para></entry>
+<entry align="left" valign="top"><para>*titleEncoding:<superscript> 1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmBulletinBoard</para></entry>
+<entry align="left" valign="top"><para>*dialogTitle:</para></entry></row>
+<row>
+<entry align="left" spanname="1to2" valign="top"><para><footnote id="IPG.deskt.fn.16">
+<para><superscript>1</superscript>This resource should not be set by the application.
+If the application calls <computeroutput>XtSetLanguageProc</computeroutput>,
+the default value (None) of this resource will automatically be set, ensuring
+that localized text can be used for the title.</para>
+</footnote></para><para><footnoteref linkend="IPG.deskt.fn.16"></footnoteref>
+</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.48">
+<title>Text Widget</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;6'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.19"> lists the<indexterm><primary>text resources</primary></indexterm> <computeroutput>Text[Field]</computeroutput><indexterm>
+<primary>localized resources</primary><secondary>text</secondary></indexterm> resources
+that are locale-sensitive or about which the developer of an internationalized
+application should know.</para>
+<table id="IPG.deskt.tbl.6" frame="Topbot">
+<title id="IPG.deskt.mkr.19">Locale-Sensitive Text[Field] Resources</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="2.50in">
+<colspec colname="col2" colwidth="2.50in">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Widget Class</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Resource Name</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*textColumns:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*textString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*columns:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*modifyVerifyCallback:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*modifyVerifyCallbackWcs:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*value:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*valueWcs:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*columns:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*modifyVerifyCallback:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*modifyVerifyCallbackWcs:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*value:</para></entry></row>
+<row rowsep="1">
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*valueWcs:</para></entry></row>
+<row>
+<entry align="left" spanname="1to2" valign="top"><para><footnote id="IPG.deskt.fn.18">
+<para><superscript>1</superscript>The *columns resource specifies the initial
+width of the <computeroutput>Text[Field]</computeroutput> widget in terms
+of the number of characters to be displayed. In the case of a variable width
+font or in a locale where the size of a character varies significantly, a
+column is the amount of space required to display the widest character in
+that locale's character repertoire. For example, a column width of 10 guarantees
+that at least 10 characters of the current locale can be displayed; it is
+possible (likely) that more than that number of characters can be displayed
+in the allocated space.</para>
+</footnote></para><para><footnoteref linkend="IPG.deskt.fn.18"></footnoteref>
+</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.49">
+<title id="IPG.deskt.mkr.20">Input Method (Keyboards)</title>
+<para><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.21"> lists localized<indexterm><primary>localized resources</primary><secondary>customizing the
+input method</secondary></indexterm>
+resources for<indexterm><primary>customizing
+the input method</primary></indexterm> customizing the input method. These
+resources allow the user or the application to control the input method that
+will be used for the specified locale, the policy to follow when creating
+an input context (per shell or per individual widget), and the preedit style
+(if applicable and available) that will be used.</para>
+<table id="IPG.deskt.tbl.7" frame="Topbot">
+<title id="IPG.deskt.mkr.21">Localized Resources for Input Method Customization</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>Widget Class</literal></para></entry><entry><para><literal>Resource Name</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*inputMethod:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*preeditType:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*verifyPreedit:</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.49a">
+<title>Layout Direction</title>
+<para>The table that follows shows widgets that may use the <literal>*layoutDirection</literal> resource.</para>
+<table id="IPG.deskt.tbl.7a" frame="Topbot">
+<title id="IPG.deskt.mkr.21a">The layoutDirection Resource</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>Widget Class</literal></para></entry><entry><para><literal>Resource Name</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*layoutDirection:</para></entry></row>
+<row>
+<entry><para>XmGadget</para></entry>
+<entry><para>*layoutDirection:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*layoutDirection:</para></entry></row>
+<row>
+<entry><para>XmPrimitive</para></entry>
+<entry><para>*layoutDirection:</para></entry></row>
+<row>
+<entry><para>XmManager</para></entry>
+<entry><para>*layoutDirection:</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.50">
+<title>Pixmap (Icon) Resources</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;8'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.22"> lists pixmap resources. In some cases, a different
+pixmap may be needed for a given locale.</para>
+<table id="IPG.deskt.tbl.8" frame="Topbot">
+<title id="IPG.deskt.mkr.22">Pixmap Resources</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>Widget Class</literal></para></entry><entry><para><literal>Resource Name</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>Core</para></entry>
+<entry><para>*backgroundPixmap:</para></entry></row>
+<row>
+<entry><para>WMShell</para></entry>
+<entry><para>*iconPixmap:</para></entry></row>
+<row>
+<entry><para>XmContainers</para></entry>
+<entry><para>*collapsedStatePixmap: and *expandedStatePixmap:</para></entry></row>
+<row>
+<entry><para>XmDragIcon</para></entry>
+<entry><para>*pixmap:</para></entry></row>
+<row>
+<entry><para>XmDragIcon</para></entry>
+<entry><para>*mask:</para></entry></row>
+<row>
+<entry><para>XmDropSite</para></entry>
+<entry><para>*animation[Mask|Pixmap]:</para></entry></row>
+<row>
+<entry><para>XmGadget</para></entry>
+<entry><para>*backgroundPixmap:</para></entry></row>
+<row>
+<entry><para>XmLabel[Gadget]</para></entry>
+<entry><para>*labelInsensitivePixmap:</para></entry></row>
+<row>
+<entry><para>XmLabel[Gadget]</para></entry>
+<entry><para>*labelPixmap:</para></entry></row>
+<row>
+<entry><para>XmMessageBox</para></entry>
+<entry><para>*symbolPixmap:</para></entry></row>
+<row>
+<entry><para>XmPushButton[Gadget]</para></entry>
+<entry><para>*armPixmap:</para></entry></row>
+<row>
+<entry><para>XmToggleButton[Gadget]</para></entry>
+<entry><para>*selectInsensitivePixmap:</para></entry></row>
+<row>
+<entry><para>XmToggleButton[Gadget]</para></entry>
+<entry><para>*selectPixmap:</para></entry></row>
+<row>
+<entry><para>XmToggleButton[Gadget]</para></entry>
+<entry><para>*indeterminatePixmap:</para></entry></row>
+<row>
+<entry><para>XmIconPixmap</para></entry>
+<entry><para>*[large|small]IconPixmap:</para></entry></row>
+</tbody></tgroup></table>
+<para>For complete information on these resources, refer to &MotifProgGd;.
+</para>
+</sect2>
+<sect2 id="IPG.deskt.div.51">
+<title id="IPG.deskt.mkr.23">Font Resources</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;9'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.24"> lists the localized font resources. All <computeroutput>XmRenderTable</computeroutput> resources are of type <computeroutput>XmRenderTable</computeroutput>. In almost all cases, a fontset should be used when specifying
+a rendition table. The only exception is when displaying character data that
+does not appear in the character set of the user (for example, displaying
+math symbols or dingbats).</para>
+<table id="IPG.deskt.tbl.9" frame="Topbot">
+<title id="IPG.deskt.mkr.24">Localized Font Resources</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>Widget Class</literal></para></entry><entry><para><literal>Resource Name</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*buttonFontList:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*buttonRenderTable:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*defaultFontList:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*labelFontList:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*labelRenderTable:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*textFontList:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*textRenderTable:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*buttonFontList:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*buttonRenderTable:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*labelFontList:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*labelRenderTable:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*textFontList:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*textRenderTable:</para></entry></row>
+<row>
+<entry><para>XmComboBox</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmContainer</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmLabel[Gadget]</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmList</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*buttonFontList:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*defaultFontList:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*labelFontList:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmText</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmScale</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmTextField</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmIconGadget</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+</tbody></tgroup></table>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.52">
+<title id="IPG.deskt.mkr.25">Operating System Internationalized Functions</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;10'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.26"> lists the base<indexterm><primary>OS internationalized
+functions</primary></indexterm> operating system internationalized functions
+in a<indexterm><primary>common desktop environment</primary><secondary>functions found in</secondary></indexterm> common open software environment.
+</para>
+<para>Applications should perform proper locale management with the assumption
+that a locale may have from 1 to 4 bytes per coded character.</para>
+<table id="IPG.deskt.tbl.10" frame="Topbot">
+<title id="IPG.deskt.mkr.26">Base Operating System Internationalized Functions</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="1.59in">
+<colspec colwidth="1.00in">
+<colspec colwidth="1.00in">
+<colspec colname="col4" colwidth="1.40in">
+<spanspec nameend="col4" namest="col1" spanname="1to4">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Locale Management</literal></para></entry><entry align="left" valign="bottom"><para><literal>Single-byte</literal></para></entry><entry align="left" valign="bottom"><para><literal>Multibyte</literal></para></entry><entry align="left" valign="bottom"><para><literal>Wide Character</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Convert mb &lt;-> wc</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>mbtowc</para><para>mbstowcs</para></entry>
+<entry align="left" valign="top"><para>wctomb</para><para>wcstombs</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Classification</para></entry>
+<entry align="left" valign="top"><para>isalpha</para><para>is*</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>isalpha</para><para>isw*</para><para>wctype</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Case Mapping</para></entry>
+<entry align="left" valign="top"><para>tolower</para><para>toupper</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>towlower</para><para>towupper</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Format Miscellaneous</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>localeconv</para><para>nl_langinfo
+</para></entry>
+<entry align="left" valign="top"></entry></row>
+<row>
+<entry align="left" valign="top"><para>Format of Numeric</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>strtol</para><para>strtod</para></entry>
+<entry align="left" valign="top"><para>wcstol</para><para>wcstod</para><para>wcstoi</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Format Time/Monetary</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>strftime</para><para>strptime</para><para>strfmon</para></entry>
+<entry align="left" valign="top"><para>wcsftime</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>String Copy</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>strcat</para><para>strcpy</para><para>strncat</para><para>strncpy</para></entry>
+<entry align="left" valign="top"><para>wcscat</para><para>wcsncat</para><para>wcscpy</para><para>wcsncpy</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>String Collate</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>strcoll</para></entry>
+<entry align="left" valign="top"><para>wcscoll</para><para>wcsxfrm</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>String Misc</para></entry>
+<entry align="left" valign="top"><para>strlen</para></entry>
+<entry align="left" valign="top"><para>mblen</para></entry>
+<entry align="left" valign="top"><para>wcscmp</para><para>wcsncmp</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>String Search</para></entry>
+<entry align="left" valign="top"><para>strchr</para><para>strcspn</para><para>strpbrk</para><para>strrchr</para><para>strspn</para><para>strtok</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>wcschr</para><para>wcscspn</para><para>wcspbrk</para><para>wcsrchr</para><para>wcsspn</para><para>wcstok</para><para>wcswcs</para><para>wcscspn</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>I/O Display Width</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><computeroutput>wcwidth</computeroutput> <superscript>
+1</superscript></para><para>wcswidth</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>I/O Printf</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>printf</para><para>vprintf</para><para>sprintf</para><para>vsprint</para><para>fprintf</para><para>vfprint</para></entry>
+<entry align="left" valign="top"><para>printf</para><para>vprintf</para><para>sprintf</para><para>vsprint</para><para>frpintf</para><para>vfprint</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>I/O Scan</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>scanf</para><para>sscanf</para><para>fscanf</para></entry>
+<entry align="left" valign="top"><para>scanf</para><para>sscanf</para><para>fscanf</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>I/O Character</para></entry>
+<entry align="left" valign="top"><para>getc</para><para>gets</para><para>putc</para><para>puts</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>fgetwc</para><para>fgetws</para><para>fputwc</para><para>fputws</para><para>ungetwc</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Message</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>gettxt</para><para>catopen</para><para>catgets</para><para>catclose</para></entry>
+<entry align="left" valign="top"></entry></row>
+<row rowsep="1">
+<entry align="left" valign="top"><para>Convert Codeset</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>iconv_open</para><para>iconv</para><para>iconv_close</para></entry>
+<entry align="left" valign="top"></entry></row>
+<row>
+<entry align="left" spanname="1to4" valign="top"><para><footnote id="IPG.deskt.fn.22">
+<para><superscript>1</superscript>These functions are provided for applications
+using terminals. Graphical user interface (GUI) applications should not use
+these functions; instead, they should use font metric functions listed on
+<!--Original XRef content: 'page&numsp;31'--><xref role="PageNum" linkend="IPG.deskt.mkr.8">
+to determine spacing.</para>
+</footnote></para><para><footnoteref linkend="IPG.deskt.fn.22"></footnoteref></para></entry>
+</row></tbody></tgroup></table>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->

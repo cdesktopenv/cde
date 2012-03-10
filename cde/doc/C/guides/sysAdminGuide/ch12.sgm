@@ -1,0 +1,532 @@
+<!-- $XConsortium: ch12.sgm /main/9 1996/09/08 19:34:03 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="SAG.CrIcn.div.1">
+<Title Id="SAG.CrIcn.mkr.1">Creating Icons for the Desktop</Title>
+<Para Id="SAG.CrIcn.mkr.2">Desktop icons are associated with:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Action files and data types in File Manager and Application Manager</Para>
+</ListItem>
+<ListItem>
+<Para>Front Panel controls</Para>
+</ListItem>
+<ListItem>
+<Para>Minimized application windows</Para>
+</ListItem>
+<ListItem>
+<Para>Graphics used by applications such as palettes and toolbars</Para>
+</ListItem>
+<ListItem>
+<Para>Workspace backdrop</Para>
+<InformalTable Id="SAG.CrIcn.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Icon Image Files201'--><XRef Role="JumpText" Linkend="SAG.CrIcn.div.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Icon Associations204'--><XRef Role="JumpText" Linkend="SAG.CrIcn.div.8"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Icon Design Recommendations207'--><XRef Role="JumpText" Linkend="SAG.CrIcn.div.17"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</ItemizedList>
+<Note>
+<Para>The development environment documentation contains additional
+information about desktop icons. See Chapter 4, &ldquo;Visual Design,&rdquo; in the <Emphasis>Style
+Guide and Certification Checklist</Emphasis>.</Para>
+</Note>
+<Sect1 Id="SAG.CrIcn.div.2">
+<Title Id="SAG.CrIcn.mkr.3">Icon Image Files</Title>
+<Para>For the desktop to use an icon image, the icon image file must:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Be in the proper format.</Para>
+</ListItem>
+<ListItem>
+<Para>Use the proper file-naming conventions.</Para>
+</ListItem>
+<ListItem>
+<Para>Use the desktop size conventions.</Para>
+</ListItem>
+<ListItem>
+<Para>Be located in a directory along the icon search path.</Para>
+</ListItem>
+<ListItem>
+<Para>Be called by the desktop construct using the proper syntax. For example, if
+you create a new control for the Front Panel, use the <Command>ICON</Command> field in the Front
+Panel definition to specify the icon image to use for the control.</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.CrIcn.div.3">
+<Title>Icon File Formats<IndexTerm><Primary>icons</Primary><Secondary>search path, See icon search path&lt;$nopage></Secondary></IndexTerm><IndexTerm><Primary>icons</Primary><Secondary>servers, See icon servers&lt;nopage></Secondary></IndexTerm><IndexTerm><Primary>icons</Primary><Secondary>file formats</Secondary></IndexTerm><IndexTerm><Primary>bitmaps</Primary><Secondary>See also icons</Secondary></IndexTerm></Title>
+<Para>For a color display, use X pixmap (XPM) format icon files, which typically have
+a<Filename>.pm</Filename> suffix. Otherwise, use X bitmap (XBM) format files, which typically have
+a <Filename>.bm</Filename> suffix. If transparency is used in the pixmap file, a mask file (<Filename>_m.bm</Filename>) is
+generated when the <Filename>.bm</Filename> file is created. See
+<!--Original XRef content: '&xd2;Icon Search Path&xd3; on page&numsp;122'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.Datab.mkr.13"> for
+more information about how the desktop finds these files.</Para>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.4">
+<Title>Icon File Names<IndexTerm><Primary>icons</Primary><Secondary>file names</Secondary></IndexTerm><IndexTerm><Primary>file names, icon</Primary></IndexTerm></Title>
+<Para>Each icon and backdrop image is stored as a separate file. Typically, an icon is
+specified with the base part of its file name. For example, an icon might be
+referenced with the name <ComputerOutput>mail</ComputerOutput> when the file is actually stored as:<IndexTerm>
+<Primary>icons</Primary>
+<Secondary>how files are found</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>icons</Primary>
+<Secondary>naming conventions</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>.pm filename extension[pm filename]</Primary>
+</IndexTerm><IndexTerm>
+<Primary>.bm filename extension[bm filename]</Primary>
+</IndexTerm><IndexTerm>
+<Primary>bitmaps</Primary>
+<Secondary>how files are found</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>pixmaps</Primary>
+<Secondary>how files are found</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>2</Primary>
+</IndexTerm><IndexTerm>
+<Primary>images, See icons&lt;$nopage></Primary>
+</IndexTerm>
+</Para>
+<ProgramListing>/usr/dt/appconfig/icons/<Symbol Role="Variable">language</Symbol>/mail.l.pm</ProgramListing>
+<Para>The file-naming convention of adding suffixes helps group icons by size and
+type. Icon names for desktop components are in these general formats:</Para>
+<Para><Symbol Role="Variable">basename</Symbol><Filename>.</Filename><Symbol Role="Variable">size</Symbol><Filename>.</Filename><Symbol Role="Variable">format</Symbol></Para>
+<Para>Or</Para>
+<Para><Symbol Role="Variable">basename</Symbol><Filename>.</Filename><Symbol Role="Variable">format</Symbol></Para>
+<Para>where:</Para>
+<InformalTable>
+<TGroup Cols="2" colsep="0" rowsep="0">
+<colspec colwidth="78*">
+<colspec colwidth="450*">
+<TBody>
+<Row>
+<Entry><Para><Symbol Role="Variable">basename</Symbol></Para></Entry>
+<Entry><Para>The image base name used to reference the image</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">size</Symbol></Para></Entry>
+<Entry><Para>A letter indicating the size:
+<Command>l</Command> (large),
+<Command>m</Command> (medium),
+<Command>s</Command> (small),
+<Command>t</Command> (tiny)
+</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Symbol Role="Variable">format</Symbol></Para></Entry>
+<Entry><Para>File format:
+<Command>pm</Command> (pixmap),
+<Command>bm</Command> (bitmap)
+</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.5">
+<Title Id="SAG.CrIcn.mkr.4">Icon Size Conventions<IndexTerm><Primary>icons</Primary><Secondary>size conventions</Secondary></IndexTerm><IndexTerm><Primary>sizes of icons</Primary></IndexTerm></Title>
+<Para><IndexTerm>
+<Primary>bitmaps</Primary>
+<Secondary>naming conventions</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>pixmaps</Primary>
+<Secondary>naming conventions</Secondary>
+</IndexTerm><!--Original XRef content: 'Table&numsp;12&hyphen;1'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CrIcn.tbl.1"> shows the recommended pixel dimensions for desktop icons</Para>
+<Table Id="SAG.CrIcn.tbl.1" Frame="Topbot">
+<Title Id="SAG.CrIcn.mkr.5">Icon Sizes and File Names</Title>
+<TGroup Cols="3">
+<ColSpec Colname="1" Colwidth="1.25 in">
+<ColSpec Colname="2" Colwidth="1.25 in">
+<ColSpec Colname="3" Colwidth="1.375 in">
+<THead>
+<Row>
+<Entry><Para><Literal>Icon Size</Literal></Para></Entry>
+<Entry><Para><Literal>Bitmap Name</Literal></Para></Entry>
+<Entry><Para><Literal>Pixmap Name</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>16 by 16 (tiny)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.t.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>24 by 24 (small)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.s.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.s.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>32 by 32 (medium)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.m.pm</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>48 by 48 (large)</Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.bm</Filename></Para></Entry>
+<Entry><Para><Symbol Role="Variable">name</Symbol><Filename>.l.pm</Filename></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para Id="SAG.CrIcn.mkr.6">.</Para>
+<Para><!--Original XRef content: 'Table&numsp;12&hyphen;2'--><XRef Role="CodeOrFigureOrTable" Linkend="SAG.CrIcn.tbl.2"> shows the icon sizes used by the desktop components. In some
+cases, the size of the icon used depends on the display resolution.</Para>
+<Table Id="SAG.CrIcn.tbl.2" Frame="Topbot">
+<Title Id="SAG.CrIcn.mkr.7">Desktop Components and Their Icon Sizes</Title>
+<TGroup Cols="4" colsep="0" rowsep="0">
+<colspec colwidth="2.38in">
+<colspec colwidth="1.17in">
+<colspec colwidth="1.23in">
+<colspec colwidth="1.31in">
+<THead>
+<Row>
+<Entry><Para><Literal>Desktop Component</Literal></Para></Entry>
+<Entry><Para><Literal>High
+Resolution</Literal></Para></Entry>
+<Entry><Para><Literal>Medium
+Resolution</Literal></Para></Entry>
+<Entry><Para><Literal>Low
+Resolution</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para>File Manager and Application Manager
+(View by Name and Icon)</Para></Entry>
+<Entry><Para>medium</Para></Entry>
+<Entry><Para>medium</Para></Entry>
+<Entry><Para>medium</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>File Manager and Application Manager
+(View by Name and Small Icon)</Para></Entry>
+<Entry><Para>tiny</Para></Entry>
+<Entry><Para>tiny</Para></Entry>
+<Entry><Para>tiny</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Main Front Panel controls</Para></Entry>
+<Entry><Para>large</Para></Entry>
+<Entry><Para>large</Para></Entry>
+<Entry><Para>medium</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Front Panel subpanels</Para></Entry>
+<Entry><Para>medium</Para></Entry>
+<Entry><Para>medium</Para></Entry>
+<Entry><Para>tiny</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Front Panel switch controls</Para></Entry>
+<Entry><Para>small</Para></Entry>
+<Entry><Para>small</Para></Entry>
+<Entry><Para>tiny</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>Minimized windows</Para></Entry>
+<Entry><Para>large</Para></Entry>
+<Entry><Para>large</Para></Entry>
+<Entry><Para>medium</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>For example, if you specify an icon named <ComputerOutput>mail</ComputerOutput> for a data type, have a color
+display, and have set the File Manager preferences to small icons, the icon
+image used is <Filename>mail.t.pm</Filename>.</Para>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.6">
+<Title>Icon Search Path<IndexTerm><Primary>bitmaps</Primary><Secondary>search path</Secondary></IndexTerm><IndexTerm><Primary>bitmaps</Primary><Secondary>how files are found</Secondary></IndexTerm><IndexTerm><Primary>pixmaps</Primary><Secondary>search path</Secondary></IndexTerm><IndexTerm><Primary>pixmaps</Primary><Secondary>how files are found</Secondary></IndexTerm><IndexTerm><Primary>search paths</Primary><Secondary>icons</Secondary></IndexTerm></Title>
+<Para>The desktop finds an icon file, or image, by searching for the file in a list of
+directories. This list of directories, called the <Symbol Role="Variable">icon s</Symbol><Emphasis>earch path</Emphasis>, is determined by
+the value of several environment variables. Which variables are used and how
+they are put together to create the icon search path are discussed in
+<!--Original XRef content: '&xd2;Icon
+Search Path&xd3; on page&numsp;122'--><XRef Role="HeadingAndPage" Linkend="SAG.Datab.mkr.13">.</Para>
+<Para>The default search path is:</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Built-in icons: <Filename>/usr/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>System-wide icons: <Filename>/etc/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol></Para>
+</ListItem>
+<ListItem>
+<Para>Personal icons: <Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/icons</Filename></Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.7">
+<Title>Accessing Icons across the Network</Title>
+<Para>The desktop can access icons on remote systems. For information on creating
+an icon server, see
+<!--Original XRef content: '&xd2;Configuring Database, Icon, and Help Services&xd3; on
+page&numsp;101'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.ClSrv.mkr.16">.</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrIcn.div.8">
+<Title Id="SAG.CrIcn.mkr.8">Icon Associations</Title>
+<Para>To enable quicker object recognition, you can associate icons with:<IndexTerm>
+<Primary>icons</Primary>
+<Secondary>making associations</Secondary>
+</IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Actions and data types</Para>
+</ListItem>
+<ListItem>
+<Para>Controls in the Front Panel and subpanels</Para>
+</ListItem>
+<ListItem>
+<Para>Minimized application windows</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="SAG.CrIcn.div.9">
+<Title>Specifying Icon Files</Title>
+<Para>For icons used for actions, data types, and in the Front Panel or subpanels,
+specify only the base name of the icon (no suffixes). The correct suffixes are
+added automatically based on your display resolution, color support, and File
+Manager view options (such as By Small Icons).</Para>
+<Para>To override the search path, provide the complete path and name of the icon.</Para>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.10" Role="Procedure">
+<Title>To Associate an Icon with an Action or Data Type</Title>
+<OrderedList>
+<ListItem>
+<Para>Specify the icon using the <Command>ICON</Command> field.</Para>
+<Para>If you follow the appropriate naming conventions for icon files, specify only
+the base name of the icon. The correct icon will be displayed based on the
+resolution and color support of your display.<IndexTerm>
+<Primary>icons</Primary>
+<Secondary>associating with action or data type</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>actions</Primary>
+<Secondary>associating icon with</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>data types</Primary>
+<Secondary>associating icon with</Secondary>
+</IndexTerm>
+</Para>
+</ListItem>
+<ListItem>
+<Para>Create the following icon sizes:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Actions: large, medium, and tiny</Para>
+</ListItem>
+<ListItem>
+<Para>Data types: medium and tiny</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Sect3 Id="SAG.CrIcn.div.11">
+<Title>Example of an Action Definition</Title>
+<Para>The following example is an action definition for starting the Island Paint<Superscript>TM</Superscript>
+drawing tool. The icons <Filename>Ipaint.l</Filename> and <Filename>Ipaint.s</Filename> are associated with the
+action.</Para>
+<programlisting>ACTION      IslandPaintOpenDoc
+{
+ WINDOW_TYPE  NO-STDIO
+ ICON         Ipaint
+ EXEC_STRING  /usr/bin/IslandPaint &percnt;Arg_1&ldquo;File to open:&rdquo;&percnt;
+}
+</ProgramListing>
+<Para>If you are using color icons, the desktop first appends<Filename>.pm</Filename> when looking for the
+actual icon files. Otherwise (or if no match is found with<Filename>.pm</Filename>), the desktop
+appends<Filename>.bm</Filename>.</Para>
+<Sect4 Id="SAG.CrIcn.div.12">
+<Title>Example of Data Type Definition</Title>
+<Para>The following data type definition associates the icons <Filename>comprsd.l</Filename> and
+<Filename>comprsd.s</Filename> with compressed files:</Para>
+<programlisting>DATA_ATTRIBUTES     COMPRESSED
+{
+ ICON         comprsd
+ ACTIONS      Uncompress
+ DESCRIPTION  A COMPRESSED file has been compressed by the \
+              'compress' command to take up less space.
+}
+</ProgramListing>
+</Sect4>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.13" Role="Procedure">
+<Title>To Display an Icon in a Front Panel Control</Title>
+<OrderedList>
+<ListItem>
+<Para>Specify the image name using the <Command>ICON</Command> field.</Para>
+<Para>If the control monitors a file (<Filename>MONITOR_TYPE</Filename> is set to mail or file), use the
+<Command>ALTERNATE_ICON</Command> field to specify the icons used when the change is
+detected.<IndexTerm>
+<Primary>2</Primary>
+</IndexTerm><IndexTerm>
+<Primary>icons</Primary>
+<Secondary>Front Panel</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Front Panel</Primary>
+<Secondary>displaying icon in</Secondary>
+</IndexTerm>
+</Para>
+<Para>You can also provide animation for buttons and drop zone controls.</Para>
+</ListItem>
+<ListItem>
+<Para>Create the following icon sizes:</Para>
+<ItemizedList Remap="Bullet2">
+<ListItem>
+<Para>Main Panel and subpanels: large, medium, and tiny</Para>
+</ListItem>
+<ListItem>
+<Para>Workspace switch: small</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+<Sect3 Id="SAG.CrIcn.div.14">
+<Title>Example</Title>
+<Para>The following control changes appearance when a file named <Command>report</Command> is placed
+in the <Filename>/doc/ftp/pub/</Filename> directory. When the file is not there, the <Filename>NoReport.pm</Filename>
+icon is displayed; when the file is there, <Filename>Report.pm</Filename> is displayed.</Para>
+<programlisting>CONTROL MonitorReport
+{
+ CONTAINER_NAME  <Symbol Role="Variable">container_name</Symbol>
+ TYPE            ICON
+ MONITOR_TYPE    file
+ FILE_NAME       /doc/ftp/pub/report
+ ICON            NoReport
+ ALTERNATE_ICON  Report
+}
+</ProgramListing>
+</Sect3>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.15" Role="Procedure">
+<Title>To Associate an Icon with an Application Window</Title>
+<OrderedList>
+<ListItem>
+<Para>Set the <ComputerOutput>iconImage</ComputerOutput> resource for Workspace Manager as follows:<IndexTerm>
+<Primary>icons</Primary>
+<Secondary>associating with application window</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>application window, associating icon with</Primary>
+</IndexTerm>
+</Para>
+<Para><Filename>Dtwm*</Filename><Symbol Role="Variable">clientname</Symbol><Command>*iconImage:</Command> <Symbol Role="Variable">icon_file_name</Symbol></Para>
+<Para>To determine the correct value for <Symbol Role="Variable">clientname</Symbol>, open Application Manager
+and double-click Window Properties in the Desktop_Tools application
+group. When you select a window, its properties are listed. The<IndexTerm>
+<Primary>WM_CLASS property</Primary>
+</IndexTerm>
+WM_CLASS
+property displays the window's class name in quotes.</Para>
+<Para>For more information about setting resources, see
+<!--Original XRef content: '&xd2;Setting Application
+Resources&xd3; on page&numsp;256'--><XRef Role="SecTitleAndPageNum" Linkend="SAG.FACol.div.2">.</Para>
+</ListItem>
+<ListItem>
+<Para>Choose Restart Workspace Manager from the Workspace menu.</Para>
+</ListItem>
+</OrderedList>
+<Para>To verify that the icon has been recognized by Workspace Manager, minimize
+the window whose icon you are trying to modify.</Para>
+<Note>
+<Para>Some applications do not allow their default window icon to be
+overridden.</Para>
+</Note>
+</Sect2>
+<Sect2 Id="SAG.CrIcn.div.16" Role="Procedure">
+<Title>To Use File Manager as an Icon Browser<IndexTerm><Primary>icons</Primary><Secondary>browsing with File Manager</Secondary></IndexTerm><IndexTerm><Primary>icons</Primary><Secondary>using File Manager as icon browser</Secondary></IndexTerm><IndexTerm><Primary>File Manager, using as icon browser</Primary></IndexTerm><IndexTerm><Primary>browsing icons using File Manager</Primary></IndexTerm></Title>
+<OrderedList>
+<ListItem>
+<Para>Copy the file <Filename>/usr/dt/examples/types/</Filename><Symbol Role="Variable">language</Symbol><Filename>/IconBrowse.dt</Filename> to the
+<Symbol Role="Variable">HomeDirectory</Symbol><Filename>/.dt/types/Iconbrowse.dt</Filename> directory.</Para>
+</ListItem>
+<ListItem>
+<Para>Open Application Manager and double-click Reload Actions in the
+Desktop_Tools application group.</Para>
+</ListItem>
+</OrderedList>
+<Para>When you change to a directory that contains icons (<Filename>.bm</Filename> and<Filename>.pm</Filename> files), each
+icon is displayed next to its name. For example, if you change to the
+<Filename>/usr/dt/appconfig/icons/</Filename><Symbol Role="Variable">language</Symbol> directory, you will see many of the
+desktop icons.</Para>
+<Note>
+<Para>Enabling icon browsing on low-memory systems may cause File
+Manager to display directories more slowly.
+</para>
+<para>Images larger than 256 x 256 are not displayed in the default configuration.</Para>
+</Note>
+<Para>To disable icon browsing:</Para>
+<OrderedList>
+<ListItem>
+<Para>Remove your personal copy of the <Filename>IconBrowse.dt</Filename> file.</Para>
+</ListItem>
+<ListItem>
+<Para>Open Application Manager and double-click Reload Actions in the
+Desktop_Tools application group.</Para>
+</ListItem>
+</OrderedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="SAG.CrIcn.div.17">
+<Title Id="SAG.CrIcn.mkr.9">Icon Design Recommendations<IndexTerm><Primary>icons</Primary><Secondary>design recommendations</Secondary></IndexTerm></Title>
+<Para>Use a common theme among related icons. For example, if you are designing
+icons for an application, have purposeful similarities between the application's
+icon and icons for data files.</Para>
+<Para>Be sure the two-color version of any color icon you design is acceptable. If the
+icon is displayed on a monochrome or grayscale display (or if there are not
+enough colors available), the icon is automatically displayed in its two-color
+form.</Para>
+<Para>To conserve system color usage, try to limit icon color use to those provided by
+the desktop.(Icons created using Icon Editor will be use only desktop colors.)</Para>
+<Para>For the sizes used by the desktop components, see
+<!--Original XRef content: 'Table&numsp;12&hyphen;1, &xd2;Icon Sizes and
+File Names,&xd3; on page&numsp;203'--><XRef Role="TableAndPage" Linkend="SAG.CrIcn.mkr.5">.</Para>
+<Sect2 Id="SAG.CrIcn.div.18">
+<Title>Color Usage</Title>
+<Para>Desktop icons use a palette of 22 colors including:<IndexTerm>
+<Primary>color</Primary>
+<Secondary>usage in icons</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>icons</Primary>
+<Secondary>color usage</Secondary>
+</IndexTerm>
+</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>Eight static grays</Para>
+</ListItem>
+<ListItem>
+<Para>Eight static colors: red, blue, green, cyan, magenta, yellow, black, and white</Para>
+</ListItem>
+<ListItem>
+<Para>Six dynamic colors: foreground, background, top shadow, bottom shadow,
+select, and transparent</Para>
+</ListItem>
+</ItemizedList>
+<Para>This palette creates attractive, easy-to-read icons without overtaking color
+resources needed by other applications. Most icons provided with the desktop
+use grays accented with color.</Para>
+<Para>The transparent color is useful for creating icons that have the illusion of being
+nonrectangular because the color behind the icon shows through.</Para>
+</Sect2>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 06:16:56-->

@@ -1,0 +1,485 @@
+#! /bin/ksh
+########
+#  Product: CDE
+#  Fileset: CDE-MIN
+#  configure
+#  @(#) $XConsortium: configMin /main/1 1995/09/15 17:48:04 cde-hp $
+########
+#
+# (c) Copyright Hewlett-Packard Company, 1993
+#
+########
+
+
+
+PRODUCT=CDE
+FILESET=CDE-MIN
+DT_TEMP_TOP=/var/dt
+retval=0
+hostname=`hostname`
+DO_CONFIGURATION=""
+
+
+CreateVarDtDirectory()
+{
+    if [ -x /bin/getcontext ]
+    then
+	if [ `/bin/getcontext | awk '{print $1}'` != "standalone" ]
+	then
+	    base=${DT_TEMP_TOP%/*}
+	    if [ ! -d $base ]
+	    then
+		mkdir -p $base
+	    fi
+	    if [ ! -d $DT_TEMP_TOP ]
+	    then
+
+		exec 3< /etc/clusterconf
+		oldIFS=$IFS
+		IFS=:
+		CONTEXT=""
+		while read -u3 lanid node name id num1 num2
+		do
+		    if [ "$name" != "" ]
+		    then
+			CONTEXT="$CONTEXT -c $name"
+		    fi
+		done
+		IFS=$oldIFS
+		exec 3<&-
+
+		mkdir -p $DT_TEMP_TOP
+	        makecdf $CONTEXT $DT_TEMP_TOP
+	    fi
+	fi
+    fi
+}
+
+FixEtcServices()
+{
+FILE="/etc/services"
+TMPFILE="/tmp/etc-services"
+
+#
+# check for existence of /etc/services
+#
+
+    if [ ! -f $FILE ]	# highly unlikely
+    then
+	echo "" >$FILE
+    fi
+
+#
+# see if it already exists
+#
+
+    awk '{if ($1 == "dtspc")
+		print $0 > "/tmp/dtspc-already-there"
+	 }' $FILE >/dev/null
+
+    if [ ! -f /tmp/dtspc-already-there ]
+    then
+        echo "dtspc\t6112/tcp\t#subprocess control" >>$FILE
+    else
+	rm /tmp/dtspc-already-there
+    fi
+
+#
+# remove legacy entries like dtspcd
+#
+
+    awk '{if ($1 == "dtspcd" || $1 == "#dtspcd")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+
+}
+
+UnfixEtcServices()
+{
+FILE="/etc/services"
+TMPFILE="/tmp/etc-services"
+
+    awk '{if ($1 == "dtspc" && $2 == "6112/tcp")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+}
+
+FixInetdDotConf()
+{
+FILE="/etc/inetd.conf"
+TMPFILE="/tmp/inetd.conf.$$"
+
+#
+# check for existence of /etc/inetd.conf
+#
+
+    if [ ! -f $FILE ]	# highly unlikely
+    then
+	echo "" >$FILE
+    fi
+
+    awk '{if ($1 == "dtspc" || $1 == "dtspcd" || $1 == "#dtspcd")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $FILE $FILE.old
+    mv $TMPFILE $FILE
+
+    DTSPCD=/usr/dt/bin/dtspcd
+
+    echo "dtspc stream tcp nowait root $DTSPCD $DTSPCD -mount_point $DTMOUNTPOINT" >>$FILE
+}
+
+UnfixInetdDotConf()
+{
+FILE="/etc/inetd.conf"
+TMPFILE="/tmp/inetd.conf"
+
+    awk '{if ($1 == "dtspc")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+}
+
+FixInetdDotSec()
+{
+FILE="/usr/adm/inetd.sec"
+TMPFILE="/tmp/new-inetd.sec"
+
+#
+# check for existence of /usr/adm/inetd.sec
+#
+
+    if [ ! -f $FILE ]	# highly unlikely
+    then
+	echo "" >$FILE
+    fi
+
+#
+# remove legacy entries
+#
+
+    awk '{if ($1 == "dtspcd")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+
+#
+# see if it already exists
+#
+
+    awk '{if ($1 == "dtspc")
+		print $0 > "/tmp/dtspc-already-there"
+	 }' $FILE >/dev/null
+
+    if [ ! -f /tmp/dtspc-already-there ]
+    then
+        echo "dtspc\tallow\t127.0.0.1\t$hostname" >>$FILE
+    else
+	status=`grep -q $hostname /tmp/dtspc-already-there`
+	if [[ $status -ne 0 ]]
+	then
+	    cat /tmp/dtspc-already-there >> $FILE
+	    awk -v hname=$hostname \
+		'{if ($1 != "dtspc")
+			print $0;
+		  else
+			print $0 hname
+		}' $FILE > $TMPFILE
+
+	    mv $FILE ${FILE}.old
+	    mv $TMPFILE $FILE
+	fi
+	rm /tmp/dtspc-already-there
+    fi
+
+}
+
+UnfixInetdDotSec()
+{
+FILE="/usr/adm/inetd.sec"
+TMPFILE="/tmp/new-inetd.sec"
+
+    awk '{if ($1 == "dtspc")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+}
+
+RemoveMinFiles()
+{
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	rm -f $SRC
+	dirname=${SRC%/*}
+	if [ -d $dirname ]
+	then
+	  cd $dirname
+	  while [ "$dirname" != "$CDE_TOP" ]
+	  do
+	    cd ..
+	    rmdir ${dirname##*/} >/dev/null 2>/dev/null
+	    dirname=${dirname%/*}
+	  done
+	fi
+      fi
+    done <<-EOF
+/usr/dt/copyright
+/usr/dt/lib/dtksh/DtFuncs.dtsh
+/usr/dt/bin/dtspcd
+/usr/dt/bin/dtappintegrate
+/usr/dt/bin/dtksh
+/usr/dt/bin/suid_exec
+/usr/dt/app-defaults/C/Dtksh
+/usr/dt/config/dtspcdenv
+/usr/dt/bin/dtexec
+	EOF
+}
+
+VerifyInstalledFiles()
+{
+    echo "Status   mode    owner   group   filename"
+    echo "-----------------------------------------"
+#	  exists  correct correct correct  /usr/dt/foo1
+#	  MISSING  WRONG   WRONG   WRONG   /usr/dt/foo2
+#        exists    the link is correct    /usr/dt/link
+
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	set -A tokens $SRC
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  if [ -f ${tokens[0]} ]
+	  then
+	    echo "exists  \c"
+	  else
+	    echo "MISSING or REMOVED               \c"
+	    echo "${tokens[0]}"
+	    continue
+	  fi
+	elif [ "${tokens[3]}" = "sym_link" ]
+	then
+	  if [ -L ${tokens[0]} ]
+	  then
+	    echo "exists  \c"
+	  else
+	    echo "MISSING or REMOVED               \c"
+	    echo "${tokens[0]}"
+	    continue
+	  fi
+	fi
+
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  touch /tmp/config-test
+	  chmod ${tokens[1]} /tmp/config-test
+	  tmpperms=`ls -l /tmp/config-test | awk '{print $1}'`
+	  realperms=`ls -l ${tokens[0]} | awk '{print $1}'`
+
+	  if [ "$tmpperms" = "$realperms" ]
+	  then
+	    echo "correct \c"
+	  else
+	    echo " WRONG  \c"
+	  fi
+
+	  owner=`ls -l ${tokens[0]} | awk '{print $3}'`
+
+	  if [ "$owner" = "${tokens[4]}" ]
+	  then
+	    echo "correct \c"
+	  else
+	    echo " WRONG  \c"
+	  fi
+
+	  group=`ls -l ${tokens[0]} | awk '{print $4}'`
+
+	  if [ "$group" = "${tokens[5]}" ]
+	  then
+	    echo "correct  \c"
+	  else
+	    echo " WRONG   \c"
+	  fi
+	elif [ "${tokens[3]}" = "sym_link" ]
+	then
+	  linkto=`ls -l ${tokens[0]} | awk '{print $11}'`
+	  if [ "${tokens[2]}" = "$linkto" ]
+	  then
+	    echo "  the link is correct    \c"
+	  else
+	    echo "  the link is WRONG      \c"
+	  fi
+	fi
+	echo "${tokens[0]}"
+      fi
+    done <<-EOF
+/usr/dt/copyright 0444 copyright file bin bin di---- 378 cde_dt
+/usr/dt/lib/dtksh/DtFuncs.dtsh 0444 cde1/dtksh/DtFuncs.sh file bin bin di---- 378 cde_dt
+/usr/dt/bin/dtspcd 0555 cde1/dtspcd/dtspcd file bin bin di---- 378 cde_dt
+/usr/dt/bin/dtappintegrate 0555 cde1/dtappintegrate/dtappintegrate file bin bin di---- 378 cde_dt
+/usr/dt/bin/dtksh 0555 cde1/dtksh/dtksh file bin bin di---- 378 cde_dt
+/usr/dt/bin/suid_exec 0555 cde1/dtksh/ksh93/bin/suid_exec file root bin di---- 378 cde_dt
+/usr/dt/app-defaults/C/Dtksh 0444 cde1/dtksh/Dtksh file bin bin di---- 378 cde_dt
+/usr/dt/config/dtspcdenv 0444 cde1/dtspcd/dtspcdenv file bin bin di---- 378 cde_dt
+/usr/dt/bin/dtexec 0555 cde1/dtexec/dtexec file bin bin di---- 378 cde_dt
+	EOF
+}
+
+ShowSize()
+{
+    typeset -i total;
+    let total=0
+
+    echo "Size\t\tfilename"
+    echo "-----------------------------------------"
+
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	set -A tokens $SRC
+	if [ "${tokens[3]}" = "file" ]
+	then
+	  if [ -f ${tokens[0]} ]
+	  then
+	    filesize=`ls -l ${tokens[0]} | awk '{print $5}'`
+	    echo "$filesize\t\t\c"
+	    echo "${tokens[0]}"
+	    let total=total+filesize
+	  fi
+	fi
+      fi
+    done <<-EOF
+/usr/dt/copyright 0444 copyright file bin bin di---- 378 cde_dt
+/usr/dt/lib/dtksh/DtFuncs.dtsh 0444 cde1/dtksh/DtFuncs.sh file bin bin di---- 378 cde_dt
+/usr/dt/bin/dtspcd 0555 cde1/dtspcd/dtspcd file bin bin di---- 378 cde_dt
+/usr/dt/bin/dtappintegrate 0555 cde1/dtappintegrate/dtappintegrate file bin bin di---- 378 cde_dt
+/usr/dt/bin/dtksh 0555 cde1/dtksh/dtksh file bin bin di---- 378 cde_dt
+/usr/dt/bin/suid_exec 0555 cde1/dtksh/ksh93/bin/suid_exec file root bin di---- 378 cde_dt
+/usr/dt/app-defaults/C/Dtksh 0444 cde1/dtksh/Dtksh file bin bin di---- 378 cde_dt
+/usr/dt/config/dtspcdenv 0444 cde1/dtspcd/dtspcdenv file bin bin di---- 378 cde_dt
+/usr/dt/bin/dtexec 0555 cde1/dtexec/dtexec file bin bin di---- 378 cde_dt
+	EOF
+    echo "Total fileset size is $total"
+}
+HandleOption()
+{
+  while [ $# -ne 0 ]; do
+    case $1 in
+        -e) OPERATION="configure"
+            shift;
+            ;;
+	-d) OPERATION="deconfigure"
+	    shift;
+	    ;;
+	-v) OPERATION="verify"
+	    shift;
+	    ;;
+	-s) OPERATION="size"
+	    shift;
+	    ;;
+    esac
+  done
+}
+
+#####################################################################
+#
+# Main body
+#
+#####################################################################
+
+
+  HandleOption $*
+
+  if [ "$OPERATION" = "configure" ]
+  then
+    echo "Configuring for CDE-MIN"
+
+    FixEtcServices
+
+#
+# source in /etc/src.sh to get the DTMOUNTPOINT value
+#
+
+    . /etc/src.sh
+
+    FixInetdDotConf
+
+    FixInetdDotSec
+
+#
+# force inetd to reread its configuration file
+#
+
+    /etc/inetd -c
+
+#
+#  create the /var/dt/tmp directory for the dtspcd
+#
+
+    CreateVarDtDirectory
+
+    if [ ! -d /var/dt/tmp ]
+    then
+	mkdir -p /var/dt/tmp
+	chmod -R 755 /var/dt/tmp
+    fi
+
+    chmod 755 /usr/dt /etc/dt
+
+  elif [ "$OPERATION" = "deconfigure" ]
+  then
+    echo "de-Configuring CDE-MIN"
+
+    UnfixEtcServices
+
+    UnfixInetdDotConf
+
+    UnfixInetdDotSec
+
+#
+# force inetd to reread its configuration file
+#
+
+    /etc/inetd -c
+
+    RemoveMinFiles
+
+    VerifyInstalledFiles
+
+  elif [ "$OPERATION" = "verify" ]
+  then
+
+    VerifyInstalledFiles
+
+  elif [ "$OPERATION" = "size" ]
+  then
+
+    ShowSize
+
+  fi
+
+  return $retval

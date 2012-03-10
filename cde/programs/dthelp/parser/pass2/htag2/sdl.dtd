@@ -1,0 +1,547 @@
+--  SDL Document-Type Definition
+    Copyright (c) Hewlett-Packard Company, 1994
+    Version 1.0  (2/23/94)
+    $XConsortium: sdl.dtd /main/3 1996/11/07 11:55:55 drk $
+--
+
+<!ENTITY m-lt CDATA "&<">
+<!ENTITY m-and CDATA "&&">
+<!ENTITY m-nl STARTTAG "newline">
+
+<!SHORTREF sdldoc>
+  "&<" -> &m-lt,
+  "&&" -> &m-and,
+  ;
+
+<!SHORTREF p>
+  "&#RE;" -> &m-nl,
+  "&<" -> &m-lt,
+  "&&" -> &m-and,
+  ;
+
+sdldoc -> (vstruct, head*, snb?, virpage +)
+  <PARAM>
+    pub-id CDATA,
+    doc-id CDATA,
+    timestmp CDATA,
+    first-page CDATA,
+    product CDATA,
+    prodpn CDATA,
+    prodver CDATA,
+    license CDATA,
+    language CDATA,
+    charset CDATA,
+    author CDATA,
+    version CDATA,
+    sdldtd CDATA,
+    srcdtd CDATA,
+  <USEMAP sdldoc>
+  ;
+
+vstruct -> (loids, toss?, lophrases?, index?, rel-docs?, rel-file?, notes?)
+  <PARAM>
+    version CDATA,
+    doc-id CDATA,
+  ;
+
+virpage -> (head*, snb?, (block | form)*)
+  <PARAM>
+    id ID,
+    level NUMBER,
+    version CDATA,
+    language CDATA,
+    charset CDATA,
+    doc-id CDATA,
+    ssi CDATA,
+  ;
+
+snb -> (head?,
+       (graphic  | text     | audio   | video    | animate | crossdoc |
+	man-page | textfile | sys-cmd | callback | script  | switch) +)
+  <PARAM>
+    version CDATA,
+  ;
+
+block -> (head*, (p | cp)*)
+  <PARAM>
+    id ID,
+    level NUMBER,
+    version CDATA,
+    class (TABLE | CELL | LIST | ITEM | TEXT | UDEFFRMT),
+    language CDATA,
+    charset CDATA,
+    length NUMBER,
+    app (ALL | HELP | TUTORIAL | REF | SYS),
+    timing (SYNC | ASYNC),
+    SSI CDATA,
+  ;
+
+form -> (head*, ((fstyle, fdata) | (fdata, fstyle)))
+  <PARAM>
+    id ID,
+    level NUMBER,
+    version CDATA,
+    class (TABLE | CELL | LIST | ITEM | TEXT | UDEFFRMT),
+    language CDATA,
+    charset CDATA,
+    length NUMBER,
+    app (ALL | HELP | TUTORIAL | REF | SYS),
+    ssi CDATA,
+  ;
+
+fstyle -> (frowvec +)
+  <PARAM>
+    ncols NUMBER,
+  ;
+
+frowvec -> EMPTY
+  <PARAM>
+    hdr (YES | NO),
+    cells IDREFS,
+  ;
+
+fdata -> ((block | form)*)
+  ;
+
+p -> (head*, (#PCDATA | key | sphrase | rev | if | spc | snref |
+              anchor  | link) +)
+  <EXCEPT> +(newline)
+  <PARAM>
+    id ID,
+    version CDATA,
+    type (LITERAL | LINED | DYNAMIC),
+    ssi CDATA,
+  <USEMAP p>
+  ;
+
+newline -> EMPTY
+  ;
+
+cp -> CDATA
+  <PARAM>
+    id ID,
+    version CDATA,
+    type (LITERAL | LINED | DYNAMIC),
+    ssi CDATA,
+  ;
+
+head ->
+  (((#PCDATA | key | sphrase | rev | if | spc | snref | anchor | link)*),
+         subhead*)
+  <EXCEPT> +(newline)
+  <PARAM>
+    id ID,
+    version CDATA,
+    class (LABEL | HEAD | CAPTION | ANNOTATION | PHEAD | UDEFHEAD),
+    language CDATA,
+    charset CDATA,
+    type (LITERAL | LINED | DYNAMIC),
+    abbrev CDATA,
+    ssi CDATA,
+  <USEMAP p>
+  ;
+
+subhead ->
+  ((#PCDATA | key | sphrase | rev | if | spc | snref | anchor | link)*)
+  <EXCEPT> +(newline)
+  <PARAM>
+    id ID,
+    version CDATA,
+    class (LABEL | HEAD | CAPTION | ANNOTATION | PHEAD | UDEFHEAD),
+    language CDATA,
+    charset CDATA,
+    type (LITERAL | LINED | DYNAMIC),
+    abbrev CDATA,
+    ssi CDATA,
+  <USEMAP p>
+  ;
+
+anchor -> EMPTY
+  <PARAM>
+    id ID,
+  <USEMAP sdldoc>
+  ;
+
+link -> ((#PCDATA | key | sphrase | rev | if | spc | snref | anchor) +)
+  <EXCEPT> -(link) +(newline)
+  <PARAM>
+    rid IDREF,
+    button IDREF,
+    linkinfo CDATA,
+    descript CDATA,
+    window (CURRENT | NEW | POPUP),
+    traversal (RETURN | NORETURN),
+  <USEMAP p>
+  ;
+
+snref -> (refitem +, alttext?)
+  <EXCEPT> -(newline)
+  <PARAM>
+    id ID,
+  <USEMAP sdldoc>
+  ;
+
+refitem -> (head*)
+  <PARAM>
+    rid IDREF,
+    class (FIGURE | IN-LINE | BUTTON | ICON | UDEFGRAPH |
+	   TABLE  | CELL    | LIST   | ITEM | TEXT      | UDEFFRMT),
+    button IDREF,
+    ssi CDATA,
+  ;
+
+alttext -> CDATA
+  ;
+
+rev -> ((#PCDATA | key | sphrase | if | spc | snref | anchor | link)*)
+  <EXCEPT> -(rev) +(newline)
+  <USEMAP p>
+  ;
+
+key -> ((#PCDATA | key | sphrase | rev | if | spc | snref | anchor)*)
+  <EXCEPT> -(link) +(newline)
+  <PARAM>
+    charset CDATA,
+    class (ACRO     | BOOK     | EMPH      | JARGON  | L10N   |
+           NAME     | QUOTE    | PRODUCT   | TERMDEF | TERM   |
+	   MACH-IN  | MACH-OUT | MACH-CONT | PUB-LIT | UDEFKEY),
+    ssi CDATA,
+  <USEMAP p>
+  ;
+
+sphrase -> ((#PCDATA | spc)*)
+  <PARAM>
+    class (SUPER | SUB),
+    ssi CDATA,
+  <USEMAP sdldoc>
+  ;
+
+if -> (cond, then, else?)
+  <EXCEPT> -(newline)
+  <USEMAP sdldoc>
+  ;
+
+cond -> CDATA
+  <PARAM>
+    interp CDATA,
+  ;
+
+then -> 
+  ((#PCDATA | key | sphrase | rev | if | spc | snref | anchor | link)*)
+  <EXCEPT> +(newline)
+  <USEMAP p>
+  ;
+
+else ->
+  ((#PCDATA | key | sphrase | rev | if | spc | snref | anchor | link)*)
+  <EXCEPT> +(newline)
+  <USEMAP p>
+  ;
+
+spc -> EMPTY
+  <PARAM>
+    name CDATA,
+  <USEMAP sdldoc>
+  ;
+
+graphic -> EMPTY
+  <PARAM>
+    id ID,
+    format CDATA,
+    method IDREF,
+    xid CDATA,
+  ;
+
+text -> ((p | cp)*)
+  <PARAM>
+    id ID,
+    language CDATA,
+    charset CDATA,
+  ;
+
+audio -> EMPTY
+  <PARAM>
+    id ID,
+    format CDATA,
+    method IDREF,
+    xid CDATA,
+  ;
+
+video -> EMPTY
+  <PARAM>
+    id ID,
+    format CDATA,
+    method IDREF,
+    xid CDATA,
+  ;
+
+animate -> EMPTY
+  <PARAM>
+    id ID,
+    format CDATA,
+    method IDREF,
+    xid CDATA,
+  ;
+
+script -> CDATA
+  <PARAM>
+    id ID,
+    interp CDATA,
+  ;
+
+crossdoc -> EMPTY
+  <PARAM>
+    id ID,
+    xid CDATA,
+  ;
+
+man-page -> EMPTY
+  <PARAM>
+    id ID,
+    xid CDATA,
+  ;
+
+textfile -> EMPTY
+  <PARAM>
+    id ID,
+    xid CDATA,
+    offset CDATA,
+    format CDATA,
+  ;
+
+sys-cmd -> EMPTY
+  <PARAM>
+    id ID,
+    command CDATA,
+  ;
+
+callback -> EMPTY
+  <PARAM>
+    id ID,
+    data CDATA,
+  ;
+
+switch -> CDATA
+  <PARAM>
+    id ID,
+    interp CDATA,
+    branches IDREFS,
+  ;
+
+rel-docs -> EMPTY
+  ;
+
+rel-file -> EMPTY
+  ;
+
+notes -> EMPTY
+  ;
+
+loids -> (id*)
+  <PARAM>
+    count NUMBER
+  ;
+
+id -> EMPTY
+  <PARAM>
+    type (VIRPAGE | BLOCK  | FORM    | P        | CP       | HEAD     |
+	  SUBHEAD | ANCHOR | SWITCH  | SNREF    | GRAPHIC  | TEXT     |
+	  AUDIO   | VIDEO  | ANIMATE | CROSSDOC | MAN-PAGE | TEXTFILE |
+	  SYS-CMD | SCRIPT | CALLBACK),
+    rid IDREF,
+    rssi CDATA,
+    rlevel NUMBER,
+    offset NUMBER,
+  ;
+
+index -> (entry*)
+  <PARAM>
+    count NUMBER
+  ;
+
+entry -> (((#PCDATA | key | sphrase | rev | if | spc | snref)*), entry*)
+  <EXCEPT> +(newline)
+  <PARAM>
+    id ID,
+    main IDREFS,
+    locs IDREFS,
+    syns IDREFS,
+    sort CDATA,
+  <USEMAP p>
+  ;
+
+lophrases -> (phrase +)
+  <PARAM>
+    count NUMBER
+  ;
+
+phrase -> EMPTY
+  <PARAM>
+    text CDATA,
+  ;
+
+toss -> ((keystyle | headstyle | formstyle | frmtstyle | grphstyle)*)
+  <PARAM>
+    count NUMBER
+  ;
+
+keystyle -> EMPTY
+  <PARAM>
+    class (ACRO     | BOOK     | EMPH      | JARGON  | L10N   |
+           NAME     | QUOTE    | PRODUCT   | TERMDEF | TERM   |
+	   MACH-IN  | MACH-OUT | MACH-CONT | PUB-LIT | UDEFKEY),
+    ssi CDATA,
+    rlevel NUMBER,
+    phrase CDATA,
+    srch-wt NUMBER,
+    enter CDATA,
+    exit CDATA,
+    pointsz NUMBER,
+    set-width NUMBER,
+    color CDATA,
+    xlfd CDATA,
+    xlfdi CDATA,
+    xlfdb CDATA,
+    xlfdib CDATA,
+    typenam CDATA,
+    typenami CDATA,
+    typenamb CDATA,
+    typenamib CDATA,
+    style (SERIF | SANS-SERIF | SYMBOL),
+    spacing (MONOSPACE | PROPSPACE),
+    weight (MEDIUM | BOLD),
+    slant (ROMAN | ITALIC | REV-ITALIC),
+    special (UNDERLINE | STRIKEOUT | NONE),
+  ;
+
+headstyle -> EMPTY
+  <PARAM>
+    class (LABEL | HEAD | CAPTION | ANNOTATION | PHEAD | UDEFHEAD),
+    ssi CDATA,
+    rlevel NUMBER,
+    phrase CDATA,
+    srch-wt NUMBER,
+    orient (LEFT-ORIENT        | CENTER-ORIENT       | RIGHT-ORIENT |
+            LEFT-MARGIN-ORIENT | RIGHT-MARGIN-ORIENT |
+	    LEFT-CORNER-ORIENT | RIGHT-CORNER-ORIENT ),
+    vorient (TOP-VORIENT | BOTTOM-VORIENT | CENTER-VORIENT),
+    placement (OBJECT | PARENT),
+    headw CDATA,
+    stack (HORIZ | VERT),
+    flow (WRAP | NOWRAP | JOIN),
+    pointsz NUMBER,
+    set-width NUMBER,
+    color CDATA,
+    xlfd CDATA,
+    xlfdi CDATA,
+    xlfdb CDATA,
+    xlfdib CDATA,
+    typenam CDATA,
+    typenami CDATA,
+    typenamb CDATA,
+    typenamib CDATA,
+    style (SERIF | SANS-SERIF | SYMBOL),
+    spacing (MONOSPACE | PROPSPACE),
+    weight (MEDIUM | BOLD),
+    slant (ROMAN | ITALIC | REV-ITALIC),
+    special (UNDERLINE | STRIKEOUT | NONE),
+    l-margin NUMBER,
+    r-margin NUMBER,
+    t-margin NUMBER,
+    b-margin NUMBER,
+    border (NO-BORDER       | FULL-BORDER | HORIZONTAL-BORDER |
+	    VERTICAL-BORDER | TOP-BORDER  | BOTTOM-BORDER     |
+	    LEFT-BORDER     | RIGHT-BORDER),
+    vjust  (TOP-VJUST       | BOTTOM-VJUST | CENTER-VJUST),
+    justify (LEFT-JUSTIFY   | RIGHT-JUSTIFY  |
+	     CENTER-JUSTIFY | NUMERIC-JUSTIFY),
+  ;
+
+formstyle -> EMPTY
+  <PARAM>
+    class (TABLE | CELL | LIST | ITEM | TEXT | UDEFFRMT),
+    ssi CDATA,
+    rlevel NUMBER,
+    phrase CDATA,
+    srch-wt NUMBER,
+    colw CDATA,
+    colj CDATA,
+    pointsz NUMBER,
+    set-width NUMBER,
+    color CDATA,
+    xlfd CDATA,
+    xlfdi CDATA,
+    xlfdb CDATA,
+    xlfdib CDATA,
+    typenam CDATA,
+    typenami CDATA,
+    typenamb CDATA,
+    typenamib CDATA,
+    style (SERIF | SANS-SERIF | SYMBOL),
+    spacing (MONOSPACE | PROPSPACE),
+    weight (MEDIUM | BOLD),
+    slant (ROMAN | ITALIC | REV-ITALIC),
+    special (UNDERLINE | STRIKEOUT | NONE),
+    l-margin NUMBER,
+    r-margin NUMBER,
+    t-margin NUMBER,
+    b-margin NUMBER,
+    border (NO-BORDER       | FULL-BORDER | HORIZONTAL-BORDER |
+	    VERTICAL-BORDER | TOP-BORDER  | BOTTOM-BORDER     |
+	    LEFT-BORDER     | RIGHT-BORDER),
+    vjust (TOP-VJUST | BOTTOM-VJUST | CENTER-VJUST),
+  ;
+
+frmtstyle -> EMPTY
+  <PARAM>
+    class (TABLE | CELL | LIST | ITEM | TEXT | UDEFFRMT),
+    ssi CDATA,
+    rlevel NUMBER,
+    phrase CDATA,
+    f-margin CDATA,
+    srch-wt NUMBER,
+    pointsz NUMBER,
+    set-width NUMBER,
+    color CDATA,
+    xlfd CDATA,
+    xlfdi CDATA,
+    xlfdb CDATA,
+    xlfdib CDATA,
+    typenam CDATA,
+    typenami CDATA,
+    typenamb CDATA,
+    typenamib CDATA,
+    style (SERIF | SANS-SERIF | SYMBOL),
+    spacing (MONOSPACE | PROPSPACE),
+    weight (MEDIUM | BOLD),
+    slant (ROMAN | ITALIC | REV-ITALIC),
+    special (UNDERLINE | STRIKEOUT | NONE),
+    l-margin NUMBER,
+    r-margin NUMBER,
+    t-margin NUMBER,
+    b-margin NUMBER,
+    border (NO-BORDER       | FULL-BORDER | HORIZONTAL-BORDER |
+	    VERTICAL-BORDER | TOP-BORDER  | BOTTOM-BORDER     |
+	    LEFT-BORDER     | RIGHT-BORDER),
+    vjust (TOP-VJUST | BOTTOM-VJUST | CENTER-VJUST),
+    justify (LEFT-JUSTIFY   | RIGHT-JUSTIFY  |
+	     CENTER-JUSTIFY | NUMERIC-JUSTIFY),
+  ;
+
+grphstyle -> EMPTY
+  <PARAM>
+    class (FIGURE | IN-LINE | BUTTON | ICON | UDEFGRAPH),
+    ssi CDATA,
+    rlevel NUMBER,
+    phrase CDATA,
+    l-margin NUMBER,
+    r-margin NUMBER,
+    t-margin NUMBER,
+    b-margin NUMBER,
+    border (NO-BORDER       | FULL-BORDER | HORIZONTAL-BORDER |
+	    VERTICAL-BORDER | TOP-BORDER  | BOTTOM-BORDER     |
+	    LEFT-BORDER     | RIGHT-BORDER),
+    vjust (TOP-VJUST | BOTTOM-VJUST | CENTER-VJUST),
+    justify (LEFT-JUSTIFY   | RIGHT-JUSTIFY  |
+	     CENTER-JUSTIFY | NUMERIC-JUSTIFY),
+  ;

@@ -1,0 +1,49 @@
+XCOMM $TOG: Imakefile /main/9 1998/08/10 15:52:23 mgreess $
+LIBNAME=UAS
+
+#include "Classlist.mk"
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+DependSubdirs($(SUBDIRS))
+
+#ifdef UseDtSearch
+SEARCH_SUBDIR=DtSR
+#else
+SEARCH_SUBDIR=Fulcrum
+#endif
+
+SUBDIRS= \
+Base \
+MMDB \
+$(SEARCH_SUBDIR)
+
+make_libfiles($(LIBNAME),)
+
+makelibT(Base)
+makelibT(MMDB)
+makelibT($(SEARCH_SUBDIR))
+
+all:: libUAS.a
+
+messages:: $(LIBNAME).msg
+
+$(LIBNAME).msg :
+	foreach_subdirs(messages, $(MSGS))
+	@echo "### Making msgs in $(LIBNAME) ###"
+	@$(RM) $(LIBNAME).msg
+	@(messages=;			\
+		for i in $(MSGS) ; \
+		do \
+			messages="$$messages $$i/$$i.msg"; \
+		done; \
+		cat $$messages > $(LIBNAME).msg )
+
+clean::
+	RemoveFiles($(LIBNAME).msg)
+
+libUAS.a:: Base/libBase.a MMDB/libMMDB.a $(SEARCH_SUBDIR)/lib$(SEARCH_SUBDIR).a
+	$(RM) $@
+	$(LD) -r -o $@ Base/libBase.a MMDB/libMMDB.a $(SEARCH_SUBDIR)/lib$(SEARCH_SUBDIR).a
+

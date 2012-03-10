@@ -1,0 +1,164 @@
+<!-- $XConsortium: Print.sgm /main/6 1996/09/08 20:14:58 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN299.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN299.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Print</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Print</Symbol></RefName>
+<RefPurpose>print a document
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Print.sgm /main/6 1996/09/08 20:14:58 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>[<Symbol Role="Variable">file</Symbol>] Print(in <Emphasis>mediaType contents</Emphasis>,
+        in boolean <Emphasis>inquisitive</Emphasis>,
+        in boolean <Emphasis>covert</Emphasis>
+        [in title <Emphasis>docName</Emphasis>]);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Print</Symbol> request causes the handler to print a document.
+The handler must act as if the user had issued,
+(via the handler's user interface)
+either a ``Print One'' or ``Print...'' command,
+depending on the value of the
+<Emphasis>inquisitive</Emphasis> argument.
+</Para>
+<Para>The
+<Emphasis>contents</Emphasis> argument
+is the contents of the document.
+If this argument is unset
+(in other words, has a value of
+<Literal>(char *)0</Literal>), then the contents of the document are in
+the file named in the message's
+<Symbol Role="Variable">file</Symbol> attribute.
+The data type
+(<Emphasis>mediaType</Emphasis>) of the
+<Emphasis>contents</Emphasis> argument should be
+<Literal>string</Literal>, unless nulls are valid in the given media type,
+in which case the data type must be
+<Literal>bytes</Literal>.</Para>
+<Para>The
+<Emphasis>inquisitive</Emphasis> argument is a
+<Literal>boolean</Literal> value
+indicating whether the handler is allowed to block on user input
+while carrying out the request.
+However, even if
+<Emphasis>inquisitive</Emphasis> is True, the handler is not required to seek such input.
+</Para>
+<Para>The
+<Emphasis>covert</Emphasis> argument is a
+<Literal>boolean</Literal> value indicating whether the handler may make itself apparent to the user
+as it carries out the request.
+If False, the recipient need not make itself apparent.
+</Para>
+<Para>If both the
+<Emphasis>inquisitive</Emphasis> argument and the
+<Emphasis>covert</Emphasis> argument are True, the recipient should attempt to limit its presence
+to the minimum needed to receive any user input desired;
+for example, through iconification.
+</Para>
+<Para>The
+<Emphasis>docName</Emphasis> argument contains the name of the document.
+If the
+<Emphasis>docName</Emphasis> argument is absent and the
+<Symbol Role="Variable">file</Symbol> attribute is set,
+the file name is considered to be the title of the document.
+This string would be suitable for display in a window title bar, for example.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttmedia.ptype.declare; function can be used to register for,
+and help process, this message.
+</Para>
+<Para>This message can be sent with the
+&cdeman.ttmedia.load; function.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>To print a PostScript document, the application can send a request of the form:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Print(in PostScript <Emphasis>contents</Emphasis>,
+        in boolean <Emphasis>inquisitive</Emphasis>,
+        in boolean <Emphasis>covert</Emphasis>);
+</ProgramListing>
+</InformalExample>
+<Para>with a first argument whose value is a vector of bytes such as:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>%!&bsol;n/inch {72 mul} def...
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Literal>&bsol;n</Literal> in the example represents the newline character.
+The notation is the same as in the &str-Z3;.
+</Para>
+<Para>To print a PostScript document contained in a file,
+the application can send the
+<Symbol Role="Message">Print</Symbol> request as above,
+with the
+<Symbol Role="Variable">file</Symbol> attribute set to the relevant file
+and with the value of the first argument not set.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The ToolTalk service may return one of the following errors
+in processing the
+<Symbol Role="Message">Print</Symbol> request:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_DESKTOP_ENOENT</Term>
+<ListItem>
+<Para>The file that was alleged to contain the document does not exist.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_ENODATA</Term>
+<ListItem>
+<Para>The in-mode
+<Emphasis>contents</Emphasis> argument had no value and the
+<Symbol Role="Variable">file</Symbol> attribute
+of the message was not set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_MEDIA_ERR_FORMAT</Term>
+<ListItem>
+<Para>The document is not a valid instance of the media type.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.ttmedia.ptype.declare;, &cdeman.ttmedia.load;; <Emphasis>Intro</Emphasis>, <Symbol Role="Message">Status</Symbol> requests.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

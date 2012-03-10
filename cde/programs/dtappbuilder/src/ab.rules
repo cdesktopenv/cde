@@ -1,0 +1,70 @@
+/*
+ * $XConsortium: ab.rules /main/5 1996/05/30 10:54:06 drk $
+ *
+ * 	RESTRICTED CONFIDENTIAL INFORMATION:
+ *	
+ *	The information in this document is subject to special
+ *	restrictions in a confidential disclosure agreement between
+ *	HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+ *	document outside HP, IBM, Sun, USL, SCO, or Univel without
+ *	Sun's specific written approval.  This document and all copies
+ *	and derivative works thereof must be returned or destroyed at
+ *	Sun's request.
+ *
+ * (c) Copyright 1996 Digital Equipment Corporation.
+ * (c) Copyright 1996 Hewlett-Packard Company.
+ * (c) Copyright 1996 International Business Machines Corp.
+ * (c) Copyright 1993,1996 Sun Microsystems, Inc.
+ * (c) Copyright 1996 Novell, Inc. 
+ * (c) Copyright 1996 FUJITSU LIMITED.
+ * (c) Copyright 1996 Hitachi.
+ */
+
+/* 
+ * Rule to create a help volume using dthelptag
+ */
+#ifndef HelpVolumeTarget
+# define HelpVolumeTarget(volbasename,helpsrc,cmdopts,paropts)		@@\
+all:: volbasename.sdl							@@\
+									@@\
+volbasename.sdl:: helpsrc						@@\
+	$(CLIENTENVSETUP) \						@@\
+	HELPTAGPASS1=$(HELPTAGPASS1DEF) \				@@\
+	HELPTAGPASS2=$(HELPTAGPASS2DEF) \				@@\
+	sh $(HELPTAG) cmdopts volbasename paropts
+#endif /* HelpVolumeTarget */
+
+/*
+ * Rule to generate a message catalog using gencat
+ */
+#ifndef AbMessageCatalogTarget
+# define AbMessageCatalogTarget(catalogname)				@@\
+AllTarget(catalogname.cat)						@@\
+									@@\
+catalogname.cat:: $(SOURCES.msg)					@@\
+	$(GENCAT) catalogname.cat $(SOURCES.msg)
+#endif /* AbMessageCatalogTarget */
+
+/*
+ * Rule to generate module ui.c, ui.h, and stubs.c files
+ * Looks messy now - I can't figure out how to just ifdef out the
+ * $(UIFILE).c + $(UIFILE).h + $(STUBSFILE).c: $(PROJFILE).bip $(MODFILE).bil
+ * line.
+ */
+#ifdef SunArchitecture
+# ifndef BilTarget
+#  define BilTarget(module)	@@\
+Concat(module,_ui.c) + Concat(module,_ui.h) + Concat(module,_stubs.c): $(PROJFILE).bip Concat(module,.bil)	@@\
+	$(DTCODEGEN) -changed -merge -p $(PROJFILE).bip Concat(module,.bil)	@@\
+Concat(module,_ui).o: Concat(module,_ui.c) Concat(module,_ui.h) Concat(module,.bil)	@@\
+Concat(module,_stubs).o: Concat(module,_stubs.c) Concat(module,_ui.c) Concat(module,_ui.h) Concat(module,.bil)
+# endif /* BilTarget */
+#else
+# ifndef BilTarget
+#  define BilTarget(module)	@@\
+Concat(module,_ui.c) Concat(module,_ui.h) Concat(module,_stubs.c): $(PROJFILE).bip Concat(module,.bil)		@@\
+	$(DTCODEGEN) -changed -merge -p $(PROJFILE).bip Concat(module,.bil)	@@\
+Concat(module,_ui).o: Concat(module,_ui.c) Concat(module,_ui.h) Concat(module,.bil)	@@\
+Concat(module,_stubs).o: Concat(module,_stubs.c) Concat(module,_ui.c) Concat(module,_ui.h) Concat(module,.bil)
+# endif /* BilTarget */
+#endif /* SunArchitecture */

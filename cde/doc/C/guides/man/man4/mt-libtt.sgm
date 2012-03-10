@@ -1,0 +1,158 @@
+<!-- $XConsortium: mt-libtt.sgm /main/4 1996/08/30 15:17:54 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.TT.mt-libtt">]]>
+<RefMeta>
+<RefEntryTitle>mt-libtt-intro
+</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName>mt-libtt-intro</RefName>
+<RefPurpose>introduction to multi-thread safe ToolTalk library.
+</RefPurpose>
+</RefNameDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<para>To enable developers to write multithreaded applications, the <Filename Role="Header">Tt/tt_c.h</Filename> header defines the following features:
+</para>
+<programlisting>
+    typedef enum tt_feature {
+        _TT_FEATURE_MULTITHREADED = 1,  // Thread-safety
+        _TT_FEATURE_LAST                // Enum end marker
+    } Tt_feature;
+</programlisting>
+<para>Note that the <systemitem class="constant">TT_FEATURE_MULTITHREADED</systemitem>
+value is part of the <literal>libtt</literal> binary interface.
+</para>
+<para>These features are accessed by calling code with corresponding
+<literal>#define</literal> constants:
+</para>
+<programlisting>
+#define TT_FEATURE_MULTITHREADED _TT_FEATURE_MULTITHREADED
+</programlisting>
+<para>Developers can write multi-threaded applications for ToolTalk without
+managing locks around ToolTalk resources explicitly in application code.
+Note that threading inside ToolTalk is not supported.
+</para>
+<para>An extended version of the <filename>Xthreads.h</filename> thread API
+wrappers has been used so that multithreaded <filename>libtt</filename>
+is easily portable to various thread implementations.
+</para>
+<para>A process-wide lock is used to protect internal
+<filename>libtt</filename> resources. Because few applications spend a
+significant amount of their time in <filename>libtt</filename>, a more
+fine-grained locking approach is not required.
+</para>
+<para>A few ToolTalk global values, such as the default
+<literal>procid</literal> and the storage stack manipulated by the
+<function>tt_mark</function> and <function>tt_release</function> calls,
+must have a consistent state as seen by one thread across ToolTalk API
+calls. These global values have been made into thread-specific data. The calls
+described below are used to initialize this behavior and manipulate the new
+data. The other API calls have been modified to reference the
+thread-specific value instead of the process-wide value when a
+thread-specific value has been set for the current thread. If no
+thread-specific value has been set for the current thread, the
+process-wide value is used.
+</para>
+<para>The following ToolTalk API calls implement support for
+multithreaded <filename>libtt</filename>:
+</para>
+<VariableList>
+<VarListEntry>
+<Term><Function>tt_feature_enabled</Function></Term>
+<ListItem>
+<Para>Queries the ToolTalk service to see if a specified feature has been
+enabled. This allows <filename>libtt</filename> to determine if
+multithreaded execution has been enabled by the main program, and to
+modify its behavior accordingly.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>tt_feature_required</Function></Term>
+<ListItem>
+<Para>Declares a feature to be required by the calling code. If the feature is
+available, <Function>tt_feature_required</Function> enables it. If the
+feature requires the ToolTalk service to perform some initialization
+(for example, <systemitem class="constant">TT_FEATURE_MULTITHREADED</systemitem>), the
+initialization is performed in this call. Some features (such as
+<systemitem class="constant">TT_FEATURE_MULTITHREADED</systemitem>)
+require this call to be made before calling
+<function>tt_open</function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>tt_procid_session</Function></Term>
+<ListItem>
+<Para>Returns the identifier of the session in which a
+specified procid was opened.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>tt_thread_procid</Function></Term>
+<ListItem>
+<Para>Returns the current default procid for the currently-active thread.
+If there is no default procid set for the thread, then the process
+default procid is returned.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>tt_thread_procid_set</Function></Term>
+<ListItem>
+<Para>Sets the default procid for the currently active thread.
+The default procid is an implicit argument to most ToolTalk API calls.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>tt_thread_session</Function></Term>
+<ListItem>
+<Para>Retrieves the default session identifier for the currently active
+thread. If there is no default session set for the currently-active
+thread, then the process default session identifier is returned.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>tt_thread_session_set</Function></Term>
+<ListItem>
+<Para>Sets the default session identifier for the currently active thread. The
+ToolTalk service uses the initial user session as the default session
+and supports one session per procid. The application can make this call
+before it calls <function>tt_open</function> to specify which session it
+wants to connect to in the active thread.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<para>Note that since the multithreaded feature may not be available on all
+platforms, the <Function>tt_feature_enabled</Function> function is
+provided to query for the existence of the feature. The intent is that
+even platforms that do not enable the multithreaded feature should
+implement the thread-related calls, returning <systemitem class="constant">TT_ERR_UNIMP</systemitem>. This allows a run-time check
+without unresolved symbol problems.
+</para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;,
+&cdeman.tt.feature.enabled;,
+&cdeman.tt.feature.required;,
+&cdeman.tt.procid.session;,
+&cdeman.tt.thread.procid;,
+&cdeman.tt.thread.procid.set;,
+&cdeman.tt.thread.session;,
+&cdeman.tt.thread.session;
+</para>
+</RefSect1>
+</RefEntry>

@@ -1,0 +1,78 @@
+<!-- $XConsortium: MmdbBGTO.sgm /main/6 1996/09/08 20:05:25 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDE.INFO.DtMmdbBookGetTocObject">]]><refmeta><refentrytitle>
+DtMmdbBookGetTocObjectId</refentrytitle><manvolnum>library call</manvolnum></refmeta><refnamediv>
+<refname><function>DtMmdbBookGetTocObjectId</function></refname><refpurpose>obtains
+the locator of a book's TOC section</refpurpose></refnamediv><refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>#include &lt;DtMmdb.h></funcsynopsisinfo>
+<funcdef>DtMmdbHandle* <function>DtMmdbBookGetTocObjectId</function></funcdef>
+<paramdef>DtMmdbInfoRequest* <parameter>request</parameter></paramdef>
+</funcsynopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtMmdbBookGetTocObjectId</function> function
+returns the object identifier of the specified book's TOC section.
+Use the <function>DtMmdbFreeHandleList</function>
+function to release the memory when the object identifier is no
+longer needed. Table lookup is
+involved when the identifier is specified by either the
+<symbol role="Variable">primary_oid</symbol> or
+<symbol role="Variable">sequence_num</symbol> field.
+</para>
+</refsect1><refsect1>
+<title>ARGUMENTS</title>
+<variablelist>
+<varlistentry><term><symbol role="Variable">request</symbol></term>
+<listitem>
+<para>Specifies the bookcase in the bookcase descriptor field, as well
+as a valid value in the <symbol role="Variable">primary_oid</symbol>, the
+<symbol role="Variable">secondary_oid</symbol>, or the
+<symbol role="Variable">sequence_num</symbol> field.
+The <symbol role="Variable">primary_oid</symbol> represents the
+DtInfo Database object identifier of the TOC section; the
+<symbol role="Variable">secondary_oid</symbol> represents the
+object identifier of the book itself; and the
+<symbol role="Variable">sequence_num</symbol> represents
+the sequence number of the book within the bookcase (0 based).
+If more than one of these fields have a valid value, the
+order of precedence is:
+<symbol role="Variable">primary_oid</symbol>,
+<symbol role="Variable">secondary_oid</symbol>, and, last,
+<symbol role="Variable">sequence_num</symbol>.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>If <function>DtMmdbBookGetTocObjectId</function> completes
+successfully, it returns a pointer to the object identifier
+for the book's TOC section. If it fails, it returns a NULL pointer.
+</para>
+</refsect1><refsect1>
+<title>EXAMPLE</title>
+<para>The following shows how a <function>DtMmdbBookGetTocObjectId</function> call
+might be coded.</para>
+<informalexample>
+<programlisting>DtMmdbInfoRequest request;
+request.bookcase_descriptor = DtMmdbGetBookCase(myInfoLibPtr, "myBase");
+request.sequence_num = 1;
+DtMmdbBookGetTocObjectId(&amp;request);
+</programlisting>
+</informalexample>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>TO BE SUPPLIED.
+</para>
+<!--
+&cdeman.DtMmdbBookGetTabList;,
+&cdeman.DtMmdbBookGetTabList;
+-->
+</refsect1></refentry>

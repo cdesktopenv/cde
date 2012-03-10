@@ -1,0 +1,404 @@
+<!-- $XConsortium: appc.sgm /main/7 1996/09/08 19:45:21 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<appendix id="DKSUG.finds.div.1">
+<title>The script_find Script</title>
+<para>This appendix contains the complete listing of <filename>script_find</filename> described in Chapter 4, &ldquo;A Complex Script.&rdquo; The
+script executes a second script called <filename>Find.sticky</filename>,
+which is listed after<indexterm><primary>script_find</primary></indexterm> <filename>script_find</filename>. There is also a file called <filename>Find.help</filename>,
+which is a text file accessed when the user clicks the Help button on the
+main script window. See Chapter 4 for more information on this script.
+</para>
+<sect1 id="DKSUG.finds.div.2">
+<title>Listing for script_find</title>
+<programlisting>#! /usr/dt/bin/dtksh
+set -u
+
+. /usr/dt/lib/dtksh/DtFuncs.dtsh
+
+#
+# This sample shell script provides a graphical interface to the
+# `find' command. Each time it is executed, it will attempt to
+# restore the dialog to the last set of values entered by the user.
+# When the `find' command is initiated, the output will be displayed
+# in a dtterm window.
+#
+
+#
+# Post an# error dialog. The main application window is disabled
+# until the error dialog is unposted. The message to be displayed
+# in the # error dialog is passed in as $1
+#
+PostErrorDialog()
+{
+      DtDisplayErrorDialog &ldquo;Find Error&rdquo; &ldquo;$1&rdquo; \
+      DIALOG_PRIMARY_APPLICATION_MODAL
+}
+
+#
+# This is both the `Ok' and the `Apply' callback; in the case of the
+# `Ok' callback, it unposts the main application window, and then
+# exits, if the dialog contains valid information. For both `Ok' and
+# `Apply', the set of search directories is first validated; if any
+# of the paths are not valid, then an error dialog is posted.
+# Otherwise, the `find' process is started in a terminal window.
+#
+OkCallback()
+{
+   RetrieveAndSaveCurrentValues
+   if [ &ldquo;$SD_VAL&rdquo; = &ldquo;&ldquo; ]; then
+      PostErrorDialog &ldquo;You must specify a directory to search&rdquo;
+   else
+      for i in $SD_VAL; do
+         if  [ ! -d $i ]; then
+            MSG=&rdquo;The following search directory does not exist:
+
+            $i&rdquo;
+            PostErrorDialog &ldquo;$MSG&rdquo;
+            return 1
+         fi
+      done
+
+      if [ $CB_WIDGET = $OK ]; then
+         XtPopdown $TOPLEVEL
+      fi
+
+      CMD=&rdquo;/bin/find $SD_VAL&rdquo;
+      if [ ! &ldquo;$FNP_VAL&rdquo; = &ldquo;&ldquo; ]; then
+         CMD=$CMD&rdquo; -name $FNP_VAL&rdquo;
+      fi
+
+      if ! $(XmToggleButtonGetState $T1); then
+         CMD=$CMD&rdquo; -xdev&rdquo;
+      fi
+
+      if $(XmToggleButtonGetState $T3); then
+         CMD=$CMD&rdquo; -hidden&rdquo;
+      fi
+
+      if $(XmToggleButtonGetState $T4); then
+         CMD=$CMD&rdquo; -follow&rdquo;
+      fi
+
+      if $(XmToggleButtonGetState $T5); then
+         CMD=$CMD&rdquo; -depth&rdquo;
+      fi
+
+      case $FSTYPE_VAL in
+         $NFS)  CMD=$CMD&rdquo; -fsonly nfs&rdquo; ;;
+         $CDFS) CMD=$CMD&rdquo; -fsonly cdfs&rdquo; ;;
+         $HFS)  CMD=$CMD&rdquo; -fsonly hfs&rdquo; ;;
+         *) ;;
+      esac
+
+      case $FILETYPE_VAL in
+         $REGULAR)   CMD=$CMD&rdquo; -type f&rdquo; ;;
+         $DIRECTORY) CMD=$CMD&rdquo; -type d&rdquo; ;;
+         $BLOCK)     CMD=$CMD&rdquo; -type b&rdquo; ;;
+         $CHAR)      CMD=$CMD&rdquo; -type c&rdquo; ;;
+         $FIFO)      CMD=$CMD&rdquo; -type p&rdquo; ;;
+         $SYMLINK)   CMD=$CMD&rdquo; -type l&rdquo; ;;
+         $SOCKET)    CMD=$CMD&rdquo; -type s&rdquo; ;;
+         $NET)       CMD=$CMD&rdquo; -type n&rdquo; ;;
+         $MOUNT)     CMD=$CMD&rdquo; -type M&rdquo; ;;
+         $HIDDEN)    CMD=$CMD&rdquo; -type H&rdquo; ;;
+         *) ;;
+      esac
+
+      if $(XmToggleButtonGetState $T2); then
+         CMD=$CMD&rdquo; -print&rdquo;
+      fi
+
+      /usr/dt/bin/dtterm -title &ldquo;Find A File&rdquo; -e /usr/dt/bin/dtexec
+                                                 -open -1 $CMD &amp;
+
+      if [ $CB_WIDGET = $OK ]; then
+         exit 0
+      fi
+   fi
+}
+
+#
+# This function attempts to load in the previous dialog values.
+# Each line read from the file is then interpreted as a ksh command.
+#
+LoadStickyValues()
+{
+   if [ -r &ldquo;./Find.sticky&rdquo; ]; then
+      exec 6&lt; &ldquo;./Find.sticky&rdquo;
+      XtAddInput FID 6 &ldquo;EvalCmd&rdquo;
+   fi
+}
+
+#
+# This function is invoked for each line in the `sticky' values file.
+# It will evalutate each line as a dtksh command.
+#
+EvalCmd()
+{
+   if [ ${#INPUT_LINE} -gt 0 ]; then
+      eval &ldquo;$INPUT_LINE&rdquo;
+   fi
+
+   if [ &ldquo;$INPUT_EOF&rdquo; = `true' ]; then
+      XtRemoveInput $INPUT_ID
+      eval exec $INPUT_SOURCE'&lt;&amp;-'
+   fi
+}
+
+#
+# This function retrieves the current values, and then saves them
+# off into a file, so that they can be restored the next time the
+# dialog is displayed.  It is called anytime the user selects either
+# the &ldquo;Ok&rdquo; or &ldquo;Apply&rdquo; buttons.
+#
+RetrieveAndSaveCurrentValues()
+{
+   XmTextGetString SD_VAL $SD
+   XmTextGetString FNP_VAL $FNP
+   XtGetValues $FSTYPE menuHistory:FSTYPE_VAL
+   XtGetValues $FILETYPE menuHistory:FILETYPE_VAL
+
+   exec 3> &ldquo;./Find.sticky&rdquo;
+   if [ ! &ldquo;$SD_VAL&rdquo; = &ldquo;&ldquo; ]; then
+      print -u 3 &ldquo;XmTextSetString \$SD \&rdquo;$SD_VAL\&rdquo;&rdquo;
+      print -u 3 &ldquo;XmTextFieldSetInsertionPosition \$SD ${#SD_VAL}&rdquo;
+   fi
+   if [ ! &ldquo;$FNP_VAL&rdquo; = &ldquo;&ldquo; ]; then
+      print -u 3 &ldquo;XmTextSetString \$FNP \&rdquo;$FNP_VAL\&rdquo;&rdquo;
+      print -u 3 &ldquo;XmTextFieldSetInsertionPosition \$FNP ${#FNP_VAL}&rdquo;
+   fi
+
+   case $FSTYPE_VAL in
+      $NFS)  FST=&rdquo;\$NFS&rdquo; ;;
+      $CDFS) FST=&rdquo;\$CDFS&rdquo; ;;
+      $HFS)  FST=&rdquo;\$HFS&rdquo; ;;
+      *)     FST=&rdquo;\$NODIR&rdquo; ;;
+   esac
+   print -u 3 &ldquo;XtSetValues \$FSTYPE menuHistory:$FST&rdquo;
+
+   case $FILETYPE_VAL in
+      $REGULAR)   FT=&rdquo;\$REGULAR&rdquo; ;;
+      $DIRECTORY) FT=&rdquo;\$DIRECTORY&rdquo; ;;
+      $BLOCK)     FT=&rdquo;\$BLOCK&rdquo; ;;
+      $CHAR)      FT=&rdquo;\$CHAR&rdquo; ;;
+      $FIFO)      FT=&rdquo;\$FIFO&rdquo; ;;
+      $SYMLINK)   FT=&rdquo;\$SYMLINK&rdquo; ;;
+      $SOCKET)    FT=&rdquo;\$SOCKET&rdquo; ;;
+      $NET)       FT=&rdquo;\$NET&rdquo; ;;
+      $MOUNT)     FT=&rdquo;\$MOUNT&rdquo; ;;
+      $HIDDEN)    FT=&rdquo;\$HIDDEN&rdquo; ;;
+      *)          FT=&rdquo;\$NOTYPE&rdquo; ;;
+   esac
+   print -u 3 &ldquo;XtSetValues \$FILETYPE menuHistory:$FT&rdquo;
+
+   if $(XmToggleButtonGetState $T1); then
+      print -u 3 &ldquo;XmToggleButtonSetState \$T1 true false&rdquo;
+   fi
+
+   if $(XmToggleButtonGetState $T2); then
+      print -u 3 &ldquo;XmToggleButtonSetState \$T2 true false&rdquo;
+   fi
+
+   if $(XmToggleButtonGetState $T3); then
+      print -u 3 &ldquo;XmToggleButtonSetState \$T3 true false&rdquo;
+   fi
+
+   if $(XmToggleButtonGetState $T4); then
+      print -u 3 &ldquo;XmToggleButtonSetState \$T4 true false&rdquo;
+   fi
+
+   if $(XmToggleButtonGetState $T5); then
+      print -u 3 &ldquo;XmToggleButtonSetState \$T5 true false&rdquo;
+   fi
+
+   exec 3&lt;&amp;-
+}
+
+
+################ Create the Main UI ####################
+
+set -f
+XtInitialize TOPLEVEL find Dtksh $0 &ldquo;${@:-}&rdquo;
+XtSetValues $TOPLEVEL title:&rdquo;Find Files&rdquo;
+
+XtCreateManagedWidget FORM form XmForm $TOPLEVEL
+
+XtCreateManagedWidget SDLABEL sdlabel XmLabel $FORM \
+   labelString:&rdquo;Search Directory:&rdquo; \
+   $(DtkshAnchorTop 12) \
+   $(DtkshAnchorLeft 10)
+
+XtCreateManagedWidget SD sd XmText $FORM \
+   columns:30 \
+   value:&rdquo;.&rdquo; \
+   $(DtkshAnchorTop 6) \
+   $(DtkshRightOf $SDLABEL 10) \
+   $(DtkshAnchorRight 10) \
+   navigationType:EXCLUSIVE_TAB_GROUP
+XmTextFieldSetInsertionPosition $SD 1
+
+XtCreateManagedWidget FNPLABEL fnpabel XmLabel $FORM \
+   labelString:&rdquo;Filename Pattern:&rdquo; \
+   $(DtkshUnder $SDLABEL 24) \
+   $(DtkshAnchorLeft 10)
+
+XtCreateManagedWidget FNP fnp XmText $FORM \
+   columns:30 \
+   $(DtkshUnder $SD 8) \
+   $(DtkshRightOf $FNPLABEL 10) \
+   $(DtkshAnchorRight 10) \
+   navigationType:EXCLUSIVE_TAB_GROUP
+
+XtCreateManagedWidget SEP sep XmSeparator $FORM \
+   separatorType:SINGLE_DASHED_LINE \
+   $(DtkshUnder $FNP 10) \
+   $(DtkshSpanWidth)
+
+XtCreateManagedWidget RC rc XmRowColumn $FORM \
+        orientation:HORIZONTAL \
+        numColumns:3 \
+        packing:PACK_COLUMN \
+   $(DtkshUnder $SEP 10) \
+   $(DtkshSpanWidth 10 10) \
+   navigationType:EXCLUSIVE_TAB_GROUP
+
+DtkshAddButtons -w $RC XmToggleButtonGadget \
+   T1 &ldquo;Cross Mount Points&rdquo;           &ldquo;&ldquo;\
+   T2 &ldquo;Print Matching Filenames&rdquo;     &ldquo;&ldquo;\
+   T3 &ldquo;Search Hidden Subdirectories&rdquo; &ldquo;&ldquo;\
+   T4 &ldquo;Follow Symbolic Links&rdquo;        &ldquo;&ldquo;\
+   T5 &ldquo;Descend Subdirectories First&rdquo; &ldquo;&ldquo;
+
+XtCreateManagedWidget SEP2 sep XmSeparator $FORM \
+   separatorType:SINGLE_DASHED_LINE \
+   $(DtkshUnder $RC 10) \
+   $(DtkshSpanWidth)
+
+XmCreatePulldownMenu PANE $FORM pane
+DtkshAddButtons -w $PANE XmPushButtonGadget \
+   NODIR &ldquo;no restrictions&rdquo; &ldquo;&ldquo;\
+   NFS   &ldquo;nfs&rdquo;             &ldquo;&ldquo;\
+   CDFS  &ldquo;cdfs&rdquo;            &ldquo;&ldquo;\
+   HFS   &ldquo;hfs&rdquo;             &ldquo;&ldquo;
+
+XmCreateOptionMenu FSTYPE $FORM fstype \
+        labelString:&rdquo;Restrict Search To File System Type:&rdquo; \
+        menuHistory:$NODIR \
+        subMenuId:$PANE \
+   $(DtkshUnder $SEP2 20) \
+   $(DtkshSpanWidth 10 10) \
+   navigationType:EXCLUSIVE_TAB_GROUP
+XtManageChild $FSTYPE
+
+XmCreatePulldownMenu PANE2 $FORM pane2
+DtkshAddButtons -w $PANE2 XmPushButtonGadget \
+   NOTYPE    &ldquo;no restrictions&rdquo;   &ldquo;&ldquo;\
+   REGULAR   &ldquo;regular&rdquo;           &ldquo;&ldquo;\
+   DIRECTORY &ldquo;directory&rdquo;         &ldquo;&ldquo;\
+   BLOCK     &ldquo;block special&rdquo;     &ldquo;&ldquo;\
+   CHAR      &ldquo;character special&rdquo; &ldquo;&ldquo;\
+   FIFO      &ldquo;fifo&rdquo;              &ldquo;&ldquo;\
+   SYMLINK   &ldquo;symbolic link&rdquo;     &ldquo;&ldquo;\
+   SOCKET    &ldquo;socket&rdquo;            &ldquo;&ldquo;\
+   NET       &ldquo;network special&rdquo;   &ldquo;&ldquo;\
+   MOUNT     &ldquo;mount point&rdquo;       &ldquo;&ldquo;\
+   HIDDEN    &ldquo;hidden directory&rdquo;  &ldquo;&ldquo;
+
+XmCreateOptionMenu FILETYPE $FORM filetype \
+        labelString:&rdquo;Match Only Files Of Type:&rdquo; \
+        menuHistory:$NOTYPE \
+        subMenuId:$PANE2 \
+   $(DtkshUnder $FSTYPE 10) \
+   $(DtkshSpanWidth 10 10) \
+   navigationType:EXCLUSIVE_TAB_GROUP
+XtManageChild $FILETYPE
+XtSetValues $FILETYPE spacing:90
+
+XtCreateManagedWidget SEP3 sep3 XmSeparator $FORM \
+   $(DtkshUnder $FILETYPE 10) \
+   $(DtkshSpanWidth)
+
+XtCreateManagedWidget OK ok XmPushButton $FORM \
+        labelString:&rdquo;Ok&rdquo; \
+   $(DtkshUnder $SEP3 10) \
+   $(DtkshFloatLeft 4) \
+   $(DtkshFloatRight 24) \
+   $(DtkshAnchorBottom 10)
+XtAddCallback $OK activateCallback &ldquo;OkCallback&rdquo;
+
+XtCreateManagedWidget APPLY apply XmPushButton $FORM \
+        labelString:&rdquo;Apply&rdquo; \
+   $(DtkshUnder $SEP3 10) \
+   $(DtkshFloatLeft 28) \
+   $(DtkshFloatRight 48) \
+   $(DtkshAnchorBottom 10)
+XtAddCallback $APPLY activateCallback &ldquo;OkCallback&rdquo;
+
+XtCreateManagedWidget CLOSE close XmPushButton $FORM \
+        labelString:&rdquo;Close&rdquo; \
+   $(DtkshUnder $SEP3 10) \
+   $(DtkshFloatLeft 52) \
+   $(DtkshFloatRight 72) \
+   $(DtkshAnchorBottom 10)
+XtAddCallback $CLOSE activateCallback &ldquo;exit 1&rdquo;
+
+XtCreateManagedWidget HELP help XmPushButton $FORM \
+        labelString:&rdquo;Help&rdquo; \
+   $(DtkshUnder $SEP3 10) \
+   $(DtFloatLeft 76) \
+   $(DtkshFloatRight 96) \
+   $(DtkshAnchorBottom 10)
+XtAddCallback $HELP activateCallback \
+       &ldquo;DtkshDisplayQuickHelpDialog `Using The Find Command'
+HELP_TYPE_FILE \
+   `./Find.help' &ldquo;
+
+XtSetValues $FORM \
+   initialFocus:$SD \
+   defaultButton:$OK \
+   cancelButton:$CLOSE \
+   navigationType:EXCLUSIVE_TAB_GROUP
+
+DtkshSetReturnKeyControls $SD $FNP $FORM $OK
+LoadStickyValues
+
+XtRealizeWidget $TOPLEVEL
+XtMainLoop</programlisting>
+</sect1>
+<sect1 id="DKSUG.finds.div.3">
+<title>Find.sticky</title>
+<para>The following script,<indexterm><primary>Find.sticky</primary></indexterm> <filename>Find.sticky</filename> is executed by <filename>script_find</filename>. <filename>Find.sticky</filename> remembers the file and directory names used in the
+most recent execution of <filename>script_find</filename>.</para>
+<programlisting>XmTextSetString $SD &ldquo;/users/dlm&rdquo;
+XmTextFieldSetInsertionPosition $SD 10
+XmTextSetString $FNP &ldquo;elmbug&rdquo;
+XmTextFieldSetInsertionPosition $FNP 6
+XtSetValues $FSTYPE menuHistory:$NODIR
+XtSetValues $FILETYPE menuHistory:$DIRECTORY
+XmToggleButtonSetState $T1 true false
+XmToggleButtonSetState $T2 true false</programlisting>
+</sect1>
+<sect1 id="DKSUG.finds.div.4">
+<title>Find.help</title>
+<para><filename>Find.help</filename> is a text file that is displayed on screen
+when the user clicks the Help button in the main <filename>script_find</filename>
+window.</para>
+<programlisting>This dialog presents a graphical interface to the
+UNIX `find' command. The only required field is
+the name of the directory to be searched;
+all other fields are optional. Once the fields have
+been set to the desired values, you can use the
+`Ok' or `Apply' button to initiate the find operation.
+The results of the find operation are displayed
+in a dtterm terminal window.</programlisting>
+</sect1>
+</appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000015484>

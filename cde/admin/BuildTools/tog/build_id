@@ -1,0 +1,158 @@
+#!/bin/ksh
+#
+# build_id
+#
+########################################################################
+# set -x
+
+##########################################################################
+#
+# Script setup:  THIS NEEDS TO BE FIRST
+#
+SCRIPTS_DIR="`dirname $0`"
+if [ "" = "$SCRIPTS_DIR" ]; then
+	SCRIPTS_DIR=/project/dt/scripts
+fi
+
+##########################################################################
+##########################################################################
+#
+# Script specific global variables
+#
+##########################################################################
+##########################################################################
+PROG_NAME="$0"
+LOG_DIR="/project/dt/admin/mkid"
+LOG_FILE="cdeID"
+LOG_PATH=""
+
+DO_X_BUILD="False"
+DO_MOTIF_BUILD="False"
+DO_CDE_BUILD="False"
+DO_CDEDOC_BUILD="False"
+DO_CDETEST_BUILD="False"
+
+DO_DEBUG="False"
+
+##########################################################################
+
+usage ()
+{
+	cat <<eof
+USAGE: $1
+	[-e | -dev]     # Default: build x11, motif and cde
+	[-x | -x11]     # Build x11 only
+	[-m | -motif]   # Build motif only
+	[-c | -cde]     # Build cde only
+	[-t | -cdetest] # Build cde tests only
+	[-a | -all]     # Build x11, motif, cde, cdedoc and cdetest
+	[-debug]        # Debugging output
+	[{-ld | -log_dir} <dirpath>]
+		# Specify an alternate log directory.
+		# Default: $LOG_DIR
+	[{-lf | -log_file} <filename>]
+		# Specify an alternate log file relative to $LOG_DIR.
+		# Default: $LOG_FILE
+	[{-lp | -log_path} <path>]
+		# Specify an alternate log directory.
+		# Default: $LOG_DIR/$LOG_FILE
+	[-h | -? | -help]  # Print usage and exit
+eof
+}
+
+
+##########################################################################
+
+while [ $# -gt 0 ]; do
+	case $1 in
+		-e | -dev)		DO_X_BUILD="True"
+					DO_MOTIF_BUILD="True"
+					DO_CDE_BUILD="True"
+					shift 1 ;;
+
+		-x | -x11)		DO_X_BUILD="True"
+					shift 1 ;;
+
+		-m | -motif)		DO_MOTIF_BUILD="True"
+					shift 1 ;;
+
+		-c | -cde)		DO_CDE_BUILD="True"
+					shift 1 ;;
+
+		-t | -cdetest)		DO_CDETEST_BUILD="True";	
+					shift 1 ;;
+
+		-a | -all)		DO_X_BUILD="True"
+					DO_MOTIF_BUILD="True"
+					DO_CDE_BUILD="True"
+					DO_CDEDOC_BUILD="True"
+					DO_CDETEST_BUILD="True"
+					shift 1 ;;
+
+		-debug)			DO_DEBUG="True"
+					shift 1 ;;
+
+		-ld | -log_dir)		LOG_DIR=$2;		shift 2 ;;
+
+		-lf | -log_file)	LOG_FILE=$2;		shift 2 ;;
+
+		-lp | -log_path)	LOG_PATH=$2;		shift 2 ;;
+
+		-h | "-?" | -help | *) 	usage $PROG_NAME;
+					exit 1;
+	esac
+done
+
+
+##########################################################################
+#
+# Script setup:  Do this after the command line parsing to pick up
+#   an alternate setting of SCRIPTS_DIR
+#
+if [ ! -f $SCRIPTS_DIR/script_setup.ksh ]; then
+    print -u2 "$PRG:  File '$SCRIPTS_DIR/script_setup.ksh' NOT found!"
+    print -u2 "$PRG:  Exiting ..."
+    exit 1
+fi
+. $SCRIPTS_DIR/script_setup.ksh
+
+
+##########################################################################
+#
+# If no project was selected, then build the 'dev' projects
+#
+PROJECTS=""
+if [ "True" = $DO_X_BUILD ]; then
+    PROJECTS="$PROJECTS $X_TOP"
+fi
+
+if [ "True" = $DO_MOTIF_BUILD ]; then
+    PROJECTS="$PROJECTS $MOTIF_TOP"
+fi
+
+if [ "True" = $DO_CDE_BUILD ]; then
+    PROJECTS="$PROJECTS $CDE_TOP"
+fi
+
+if [ "True" = $DO_CDETEST_BUILD ]; then
+    PROJECTS="$PROJECTS $CDETEST_TOP"
+fi
+
+if [ -z "$PROJECTS" ]; then
+    PROJECTS="$X_TOP $MOTIF_TOP $CDE_TOP"
+fi
+
+##########################################################################
+#
+# Set the log path
+#
+if [ -z "$LOG_PATH" ]; then
+    LOG_PATH=$LOG_DIR/$LOG_PATH
+fi
+
+/usr/local/bin/mkid -o$LOG_PATH $PROJECTS
+
+#
+# Clean up temporary files and exit
+#
+do_exit 0

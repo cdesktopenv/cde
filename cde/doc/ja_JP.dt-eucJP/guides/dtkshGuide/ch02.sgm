@@ -1,0 +1,123 @@
+<!-- $XConsortium: ch02.sgm /main/7 1996/09/08 19:45:49 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="DKSUG.scr1.div.1">
+<title>スクリプト例<indexterm><primary>スクリプト</primary><secondary>スクリプト例</secondary></indexterm><indexterm><primary>スクリプト例</primary></indexterm></title>
+<para>この章は、1章で学んだ<command>dtksh</command>の使用方法を説明します。
+ここに記述されている2つの簡単なスクリプトは、独自のスクリプトを記述しはじめる際に、
+よい参考になります。</para>
+<sect1 id="DKSUG.scr1.div.2">
+<title>スクリプトの記述<indexterm><primary>スクリプト</primary><secondary>記述</secondary></indexterm></title>
+<para>このスクリプトは、プッシュ・ボタン・ウィジェットを置いたブリテン・ボード・ウィジェット
+を作成しています。スクリプトは、コールバックを含まない簡単なものです。2つめの
+スクリプトにはコールバックが含まれています。</para>
+<para>1つめのスクリプトは次のとおりです。</para>
+<programlisting>#!/usr/dt/bin/dtksh
+XtInitialize TOPLEVEL dttest1 Dtksh $0<indexterm><primary>XtInitialize</primary>
+</indexterm>
+XtSetValues $TOPLEVEL title:&ldquo;dttest1&rdquo;<indexterm><primary>XtSetValues</primary></indexterm>
+XtCreateManagedWidget BBOARD bboard XmBulletinBoard $TOPLEVEL \
+   resizePolicy:RESIZE_NONE height:150 width:250\
+   background:SkyBlue<indexterm><primary>XtCreateManagedWidget</primary></indexterm>
+XtCreateManagedWidget BUTTON pushbutton XmPushButton $BBOARD \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+   background:goldenrod \
+   foreground:MidnightBlue \
+   labelString:&rdquo;Push Here&rdquo; \
+   height:30 width:100 x:75 y:60 shadowThickness:3
+XtRealizeWidget $TOPLEVEL<indexterm><primary>XtRealizeWidget</primary></indexterm>XtMainLoop<indexterm>
+<primary>XtMainLoop</primary></indexterm></programlisting>
+<para>図2-1に1つめのスクリプトが生成するウィンドウを示します。</para>
+<figure>
+<title>dttestスクリプトのウィンドウ</title>
+<graphic id="DKSUG.scr1.grph.1" entityref="DKSUG.scr1.fig.1"></graphic>
+</figure>
+<para>スクリプトの1行めは次のとおりです。</para>
+<programlisting>#!/usr/dt/bin/dtksh</programlisting>
+<para>これは、標準的なシェルではなく、<filename>/usr/dt/bin/dtksh</filename>を使用してスクリプトを実行することを、
+オペレーティング・システムに指示します。</para>
+<para>次の行はXtイントリンシクスを初期化しています。<indexterm><primary>初期化</primary></indexterm></para>
+<para>XtInitialize TOPLEVEL dttest1 Dtksh $0</para>
+<para><indexterm><primary>トップレベル・ウィジェット</primary></indexterm><indexterm><primary>ウィジェット</primary><secondary>トップレベル・ウィジェット</secondary></indexterm>トップレベル・ウィジェットの名前は環境変数<filename>$TOPLEVEL</filename>に保存され、シェル・ウィジェット
+の名前は<filename>dttest1</filename>、アプリケーション・クラス名は<filename>Dtksh</filename>、そしてアプリケーション名は
+<command>dtksh</command>変数<filename>$0</filename>であることを表しています。</para>
+<para>次の行は、タイトル・リソースにスクリプト名を設定しています。</para>
+<programlisting>XtSetValues $TOPLEVEL title:&rdquo;dttest1&rdquo;</programlisting>
+<para>リソース名(タイトル)の終りにあるコロンとその値の間にスペースは入りません。
+スペースが入っていると、エラー・メッセージが表示されます。</para>
+<para>次の4行で、<indexterm><primary>ブリテン・ボード</primary></indexterm><indexterm><primary>ウィジェット</primary><secondary>ブリテン・ボード</secondary></indexterm>ブリテン・ボード・ウィジェットを作成し、いくつかのリソースを設定します。</para>
+<programlisting>XtCreateManagedWidget BBOARD bboard XmBbulletinBoard $TOPLEVEL \
+  resizePolicy:RESIZE_NONE \
+  background:SkyBlue\
+  height:150 width:250</programlisting>
+<para>ブリテン・ボード・ウィジェットのIDは環境変数<filename>$BBOARD</filename>に保存されます。
+ウィジェットの名前は<command>bboard</command>です。この名前は、Xtイントリンシクスで、外部の
+リソース・ファイルでリソースの値を設定する際に使用します。ウィジェット・クラスは、
+ <command>XmBulletinBoard</command>です。ブリテン・ボードの親ウィジェットは、環境変数<filename>$TOPLEVEL</filename>
+に登録されているウィジェットIDです。
+これは、最初の行の初期化コマンドで生成したトップレベル・ウィジェットです。行の
+終りにある\(バックスラッシュ)は、このコマンドが次の行に続いていることを、<command>dtksh</command>に指示しています。</para>
+<para>次の6行はブリテン・ボード・ウィジェットの子として<indexterm><primary>プッシュ・ボタン</primary></indexterm><indexterm><primary>ウィジェット</primary><secondary>ブリテン・ボード</secondary>プッシュ・ボタン・ウィジェット
+を作成し、いくつかのプッシュ・ボタンのリソースを設定します。</para>
+<programlisting>XtCreateManagedWidget BUTTON pushbutton XmPushButton $BBOARD \
+  background:goldenrod \
+  foreground:MidnightBlue \
+  labelString:&rdquo;Push Here&rdquo;\
+  height:30 width:100 x:75 y:60\
+  shadowThickness:3</programlisting>
+<para>これは、変数、名前、クラス、親が異なっていることを除いて、基本的には、ブリテン
+・ボードの作成に使用したプロシージャと同じです。</para>
+<para>次の行で、トップレベル・ウィジェットとそのすべての子を実現します。</para>
+<programlisting>XtRealizeWidget $TOPLEVEL<indexterm><primary>XtrealizeWidget</primary></indexterm></programlisting>
+<para>最後に、<indexterm><primary>XtMainLoop</primary></indexterm><command>XtMainLoop</command> コマンドが、ウィジェットのためのイベントのループ処理を
+開始します。 </para>
+<programlisting>XtMainLoop</programlisting>
+<para>このスクリプトで、ウィンドウがディスプレイに表示されます。ウィンドウ・マネージャで
+<command>[閉じる]</command>を選択するか、またはスクリプトを実行した端末ウィンドウで[CTRL]+[C]キーを
+押して、このスクリプトを終了するまで、ウィンドウは表示されたままの状態になります。</para>
+</sect1>
+<sect1 id="DKSUG.scr1.div.3">
+<title>コールバックの追加<indexterm><primary>コールバック</primary></indexterm></title>
+<para>プッシュ・ボタンが押されたときに、端末ウィンドウにメッセージを表示し、スクリプト
+が終了するプッシュ・ボタンの機能を提供するには、コールバックを追加する必要が
+あります。そして、このコールバックの存在をプッシュ・ボタンに指示する必要もあり
+ます。新規コードを追加したスクリプトは次のとおりです。</para>
+<programlisting>#!/usr/dt/bin/dtksh
+
+activateCB() {
+ echo &ldquo;Pushbutton activated; normal termination.&rdquo;
+ exit 0
+}
+
+XtInitialize TOPLEVEL dttest2 Dtksh $0
+XtSetValues $TOPLEVEL title:&rdquo;dttest2&rdquo;
+XtCreateManagedWidget BBOARD bboard XmBulletinBoard $TOPLEVEL \
+  resizePolicy:RESIZE_NONE \
+  background:SkyBlue \
+  height:150 width:250
+XtCreateManagedWidget BUTTON pushbutton XmPushButton $BBOARD \
+  background:goldenrod \
+  foreground:MidnightBlue \
+  labelString:&rdquo;Push Here&rdquo;\
+  height:30 width:100 x:75 y:60 shadowThickness:3
+
+XtAddCallback $BUTTON activateCallback activateCB
+XtRealizeWidget $TOPLEVEL
+XtMainLoop</programlisting>
+<para>コールバックは関数<filename>activateCB()</filename>です。通常、プッシュ・ボタン
+を作成した後、プッシュ・ボタンに対するコールバックを追加します。</para>
+<programlisting>XtAddCallback $BUTTON activateCallback activateCB</programlisting>
+<para>プッシュ・ボタンはコールバックを認識します。プッシュ・ボタンがクリックされたとき、
+<filename>activateCB()</filename>関数が実行され、&ldquor;<command>Pushbutton activated; normal termination.</command>&rdquor;
+というメッセージが、スクリプトを実行した端末ウィンドウに表示されます。スクリプトは、
+関数<command>exit 0</command>を呼び出すことによって、終了します。</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000009074>

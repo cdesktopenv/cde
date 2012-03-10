@@ -1,0 +1,293 @@
+<!-- $XConsortium: look_up.sgm /main/4 1996/08/30 15:37:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN66.rsml.1">
+<RefMeta>
+<RefEntryTitle>csa_look_up</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>csa_look_up</Function></RefName>
+<RefPurpose>Looks up calendar information
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- (c) Copyright 1994 X.400 API Association-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;xcsa.h>
+</FuncSynopsisInfo>
+<FuncDef>CSA_return_code <Function>csa_look_up</Function></FuncDef>
+<ParamDef>CSA_session_handle <Parameter>session</Parameter></ParamDef>
+<ParamDef>CSA_calendar_user *<Parameter>users</Parameter></ParamDef>
+<ParamDef>CSA_flags <Parameter>look_up_flags</Parameter></ParamDef>
+<ParamDef>CSA_uint32 *<Parameter>number_users</Parameter></ParamDef>
+<ParamDef>CSA_calendar_user **<Parameter>user_list</Parameter></ParamDef>
+<ParamDef>CSA_extension *<Parameter>look_up_extensions</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>csa_look_up</Function> function looks up calendar addressing information in the
+directory provided by the CSA calendaring service.
+It
+primarily is used to resolves a user's friendly name to a
+calendar address.
+</Para>
+<Para>Multiple addresses may be returned.
+An array of calendar
+user descriptors is allocated and returned containing fully
+resolved information about each entry.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<RefSect2>
+<Title>Session (Session Handle)</Title>
+<Para>Opaque session handle that represents a session with the
+calendaring service.
+</Para>
+<Para>Session handles are created by a logon function call and
+invalidated with a logoff function call.
+</Para>
+<Para>If the session handle is invalid, then the error
+<SystemItem Class="Constant">CSA_E_INVALID_SESSION_HANDLE</SystemItem> is returned.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Users(Calendar User)</Title>
+<Para>A pointer to a calendar user structure containing the
+user-friendly names whose calendar address is to be looked
+up.
+For name resolution, the name field in the structure
+contains the user name to be resolved.
+The user type can
+be set to provide information on desired resolution of the
+name.
+See the calendar user structure documentation for possible types.
+For displaying calendar user details, the calendar
+user structure must contain an entry that resolves to only
+one user.
+If not, the error
+<SystemItem Class="Constant">CSA_E_AMBIGUOUS_USER</SystemItem> will be returned.
+For both name resolution and displaying
+user details, all user structures except the first will be
+ignored.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Look Up Flags (Flags)</Title>
+<Para>Bit mask of flags.
+Unspecified flags should always be
+passed as 0.
+Undocumented flags are reserved.
+Flag
+settings include:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_LOOKUP_RESOLVE_PREFIX_SEARCH</Term>
+<ListItem>
+<Para>If set, the search method should be prefix.
+Prefix search
+means that all names matching the prefix string, beginning
+at the first character of the name, will be matched.
+If
+not set, the search method should be exact match.
+CSA
+implementations are required to support simple prefix
+searching.
+The availability of wild-card or substring
+searches is optional.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_LOOKUP_RESOLVE_IDENTITY</Term>
+<ListItem>
+<Para>If set, the function will return a user record for the
+identity of the user in the calendar system.
+If this
+cannot be uniquely determined, ambiguous name resolution
+will be carried out.
+This allows the application to find
+out the address of the current user.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Look Up Extensions (Extension)</Title>
+<Para>A pointer to an array of
+<StructName Role="typedef">CSA_extension</StructName> structures for this function.
+The array may contain both
+input extensions for providing additional information to
+the function and output extensions for receiving
+information from the function.
+A value of
+<SystemItem Class="Constant">NULL</SystemItem> indicates that the caller is not using any extensions.
+See the extensions structure for more information.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<RefSect2>
+<Title>Number Users (Uint32)</Title>
+<Para>A pointer to the number of elements
+<Emphasis>user_list.</Emphasis> If no names match the criteria, a value of zero is
+returned, and the error
+<SystemItem Class="Constant">CSA_E_USER_NOT_FOUND</SystemItem> is returned.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>User List (Calendar User)</Title>
+<Para>A pointer to an array of one or more calendar user
+structures allocated by
+&cdeman.csa.look.up;. The structure may then be used to fill in an attendee list
+structure.
+This pointer is allocated by the service, and
+should be freed with a single call to
+&cdeman.csa.free;.</Para>
+</RefSect2>
+<RefSect2>
+<Title>Look Up Extensions (Extension)</Title>
+<Para>If output extensions were passed to the function in the
+extensions list, the results from the service will be
+available in the extension.
+See the extensions structure for more information.
+Whether the function succeeded or
+not, and, if not, why.
+It may be success or one of the
+values listed under ERRORS below.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The
+<Function>csa_look_up</Function> function returns the following error values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_E_AMBIGUOUS_USER</Term>
+<ListItem>
+<Para>The calendar user's name is ambiguous; multiple matches have been found.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_FAILURE</Term>
+<ListItem>
+<Para>There was a general failure that does not
+fit the description of any other error code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Insufficient memory was available to complete the requested operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_DATA_EXT</Term>
+<ListItem>
+<Para>The data extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FLAG</Term>
+<ListItem>
+<Para>A flag value in the
+<Symbol Role="Variable">flags</Symbol> argument was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The function extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_PARAMETER</Term>
+<ListItem>
+<Para>A function parameter was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_SESSION_HANDLE</Term>
+<ListItem>
+<Para>The specified Session Handle is invalid or no longer valid
+(e.g., after logging off).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NOT_SUPPORTED</Term>
+<ListItem>
+<Para>The operation requested is not supported by this implementation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_SERVICE_UNAVAILABLE</Term>
+<ListItem>
+<Para>The requested calendar service is unavailable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_DATA_EXT</Term>
+<ListItem>
+<Para>The data extension requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FLAG</Term>
+<ListItem>
+<Para>The flag requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The specified function extension is not supported or
+<SystemItem Class="Constant">CSA_EXT_REQUIRED</SystemItem> is set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_USER_NOT_FOUND</Term>
+<ListItem>
+<Para>One or more of the specified calendar users were not found.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.csa.csa.h;, &cdeman.csa.add.calendar;, &cdeman.csa.add.entry;, &cdeman.csa.call.callbacks;, &cdeman.csa.delete.calendar;, &cdeman.csa.delete.entry;, &cdeman.csa.free;, &cdeman.csa.free.time.search;, &cdeman.csa.list.calendar.attributes;, &cdeman.csa.list.calendars;, &cdeman.csa.list.entries;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.logoff;, &cdeman.csa.logon;, &cdeman.csa.query.configuration;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.read.entry.attributes;, &cdeman.csa.read.next.reminder;, &cdeman.csa.register.callback;, <![ %CDE.C.XO; [&cdeman.csa.restore;, &cdeman.csa.save;, ]]>&cdeman.csa.unregister.callback;, &cdeman.csa.update.calendar.attributes;, &cdeman.csa.update.entry.attributes;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

@@ -1,0 +1,97 @@
+XCOMM $XConsortium: Imakefile /main/17 1996/07/23 17:10:41 drk $
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+SUBDIRS = util
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+DEFINES = $(ARCHITECTURE_DEFINES) -DSUN_TERMINAL_SERVER
+
+#ifdef	Build_HpVue
+EXTRA_DEFINES = -DBUILD_HPVUE -DHPVUE
+#endif	/* Build_HpVue */
+
+#ifdef SunArchitecture
+HELPLIB = $(DTSVCLIB) $(TTLIB)
+DEPHELPLIB = $(DEPDTSVCLIB) $(DEPTTLIB)
+#else
+HELPLIB = $(DTHELPLIB) $(DTSVCLIB) $(TTLIB)
+DEPHELPLIB = $(DEPDTHELPLIB) $(DEPDTSVCLIB) $(DEPTTLIB)
+#endif /* SunArchitecture */
+
+#ifdef	HPArchitecture
+USE_XHPLIB = $(XHPLIB)
+#endif	/* HPArchitecture */
+
+/* DEPLIBS contains the list of library depencies for a client.
+ * LOCAL_LIBRARIES contains the list of libraries on the link line.
+ * Generally, the dependency form of a library has DEP as a prefix.
+ * e.g. put $(XLIB) in LOCAL_LIBRARIES and $(DEPXLIB) in DEPLIBS.
+ * NOTE: if DEPLIBS is not set here, it is by default null and there
+ *       are no library dependencies for clients.
+ *       You cannot put -Llibpath into DEPLIBS. You must put actual
+ *       paths to the library.
+ */
+DEPLIBS = $(DEPDTTERMLIB) $(DEPARCHLIBS) $(DEPXINPUTLIB) $(DEPHELPLIB) \
+	$(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB) 
+LOCAL_LIBRARIES = $(DTTERMLIB) $(USE_XHPLIB) $(XINPUTLIB) $(HELPLIB) \
+	$(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB)
+SYS_LIBRARIES = DtClientSysLibs
+
+INCLUDES = -I. -I$(DTTERMSRC)/TermPrim -I$(DTTERMSRC)/Term -I$(DTTERMSRC)/TermView
+
+SRCS = \
+	DtTermLogit.c \
+	DtTermMain.c \
+	DtTermFallBackResources.c \
+	sunDtTermServer.c \
+	DtTermSyntax.c
+
+OBJS = \
+	DtTermLogit.o \
+	DtTermMain.o \
+	DtTermFallBackResources.o \
+	sunDtTermServer.o \
+	DtTermSyntax.o
+
+#ifdef	HPArchitecture
+ARCHLIBS = $(XHPLIB)
+#endif	/* HPArchitecture */
+
+
+       PROGRAMS = dtterm
+       LINTLIBS = $(USE_XHPLIB) $(XINPUTLIB) $(HELPLIB) \
+		  $(XPMLIB) $(XMLIB) $(XTOOLLIB) $(XLIB)
+
+#ifdef CdeTicDefines
+XCOMM Some systems support non-standard tic options.
+    TIC_DEFINES = CdeTicDefines
+#endif
+
+CppSourceFile(Dtterm.ad,Dtterm.ad.src,$(EXTRA_DEFINES),)
+CppFileTarget(DtTermFallBackResources.c.src,Dtterm.ad.src,$(EXTRA_DEFINES) -DFALLBACK_RESOURCES,)
+
+DtTermFallBackResources.c: DtTermFallBackResources.c.src
+	$(RM) $@
+	./mkfallbk < DtTermFallBackResources.c.src > $@
+includes:: DtTermFallBackResources.c
+depend:: DtTermFallBackResources.c
+clean::
+	$(RM) DtTermFallBackResources.c
+
+dtterm.ti: terminfoChecklist
+	$(RM) $@
+	CPP="$(CPP) $(TIC_DEFINES)" ./terminfoCreate < terminfoChecklist > $@
+includes:: dtterm.ti
+depend:: dtterm.ti
+all:: dtterm.ti
+clean::
+	$(RM) dtterm.ti
+
+ComplexProgramTarget(dtterm)

@@ -1,0 +1,51 @@
+XCOMM $XConsortium: Imakefile /main/4 1996/04/21 19:26:53 drk $
+XCOMM
+XCOMM 	RESTRICTED CONFIDENTIAL INFORMATION:
+XCOMM	
+XCOMM	The information in this document is subject to special
+XCOMM	restrictions in a confidential disclosure agreement between
+XCOMM	HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+XCOMM	document outside HP, IBM, Sun, USL, SCO, or Univel without
+XCOMM	Sun's specific written approval.  This document and all copies
+XCOMM	and derivative works thereof must be returned or destroyed at
+XCOMM	Sun's request.
+XCOMM
+XCOMM (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM (c) Copyright 1996 Hewlett-Packard Company.
+XCOMM (c) Copyright 1996 International Business Machines Corp.
+XCOMM (c) Copyright 1993,1996 Sun Microsystems, Inc.
+XCOMM (c) Copyright 1996 Novell, Inc. 
+XCOMM (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM (c) Copyright 1996 Hitachi.
+
+#ifdef SunArchitecture
+.NO_PARALLEL:				# don't build subdirs in parallel
+#endif
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = libAButil libABobj libABobjXm libABil abmf ab
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+dtbuilder::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in libAButil libABobj libABobjXm libABil ab ;\
+	do \
+	(cd $$i ; echo "making" dtbuilder "in $(CURRENT_DIR)/$$i..."; \
+	$(MAKE) $(MFLAGS) 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'FIRST_LIBPATH=$(FIRST_LIBPATH)' 'FIRST_INCLUDES=$(FIRST_INCLUDES)' dtbuilder); \
+	done
+
+dtcodegen::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in libAButil libABobj libABobjXm libABil abmf ;\
+	do \
+	(cd $$i ; echo "making" dtcodegen "in $(CURRENT_DIR)/$$i..."; \
+	$(MAKE) $(MFLAGS) 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'FIRST_LIBPATH=$(FIRST_LIBPATH)' 'FIRST_INCLUDES=$(FIRST_INCLUDES)' dtcodegen); \
+	done
+
+
+clean::
+	$(RM) -rf include

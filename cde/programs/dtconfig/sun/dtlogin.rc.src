@@ -1,0 +1,130 @@
+XCOMM!/bin/sh
+XCOMM $XConsortium: dtlogin.rc.src /main/5 1996/04/23 12:12:17 drk $
+XCOMM  (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM  (c) Copyright 1993,1994,1996 Hewlett-Packard Company.
+XCOMM  (c) Copyright 1993,1994,1996 International Business Machines Corp.
+XCOMM  (c) Copyright 1993,1994,1996 Sun Microsystems, Inc.
+XCOMM  (c) Copyright 1993,1994,1996 Novell, Inc. 
+XCOMM  (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM  (c) Copyright 1996 Hitachi.
+XCOMM
+XCOMM This version of the dtlogin.rc script can be used on the Solaris(TM) 
+XCOMM operating system to initiate CDE tasks such as starting the dtlogin 
+XCOMM process. 
+XCOMM
+XCOMM  Common Desktop Environment
+XCOMM
+XCOMM When placed in the /etc/rc2.d directory and named appropriately, such as 
+XCOMM "S99dtlogin", this script will automatically start the dtlogin window 
+XCOMM after the Solaris(TM) system boots to its multi-user level.
+XCOMM
+XCOMM This script is also called indirectly by the CDE dtconfig command.
+
+mode=$1
+
+usage_error() {
+      echo "  $0 start             (start dtlogin process)"
+      echo "  $0 stop              (stop dtlogin process)"
+      echo "  $0 reset             (reset dtlogin process)"
+      echo "  $0 update_printers   (update print actions)"
+      echo " "
+}
+
+if [ ! -d /usr/bin ]
+then			# /usr not mounted
+	exit 1
+fi
+
+set `/usr/bin/id`
+if [ $1 != "uid=0(root)" ]; then
+        echo "$0: must be run as root"
+        exit 1
+fi
+
+
+XCOMM update_printers() 
+XCOMM
+XCOMM Add print actions to workstation's database for all printer's known
+XCOMM to this workstation if action is not already present in the database.
+
+update_printers() {
+   if [ -x /usr/dt/bin/dtprintinfo ] ; then
+       	    /usr/dt/bin/dtprintinfo -populate
+   fi
+}
+
+XCOMM
+XCOMM Find login server pid from the process tree
+XCOMM
+login_server_pid()
+{
+  grep=/usr/bin/grep
+  ps=/usr/bin/ps
+  cut=/usr/bin/cut
+  awk=/usr/bin/awk
+
+XCOMM In following grep for "dtlogin" processes, explictly exclude any matches 
+XCOMM on this shell file named "dtlogin.rc"
+
+  $ps -u 0 -l | $grep -v dtlogin. | $grep dtlogin | $cut -c1-24 | $awk '{print $4 " " $5}' |
+  while read pid ppid; do
+    parent_login_ps=`$ps -p $ppid | $grep dtlogin`
+    if [ -z "$parent_login_ps" ]; then
+      echo "$pid"
+      break
+    fi
+  done
+}
+
+case "$mode" in
+
+'start')
+	update_printers
+
+	if [ -x CDE_INSTALLATION_TOP/bin/dtlogin ] ; then
+		CDE_INSTALLATION_TOP/bin/dtlogin &
+	fi
+	;;
+
+
+'stop') 	
+XCOMM       get dtlogin pid
+
+        dtlogin_pid=`login_server_pid`
+
+XCOMM       kill dtlogin process
+
+        if [ "$dtlogin_pid" != "" ] ; then
+             /usr/bin/kill $dtlogin_pid
+
+XCOMM           reset keyboard back to ascii mode
+
+            if [ -x /usr/openwin/bin/kbd_mode ] ; then
+                 /usr/openwin/bin/kbd_mode -a
+            fi
+        fi
+	;;
+
+'reset') 	
+XCOMM       get dtlogin pid
+
+        dtlogin_pid=`login_server_pid`
+
+XCOMM       reset dtlogin process
+
+        if [ "$dtlogin_pid" != "" ] ; then
+             /usr/bin/kill -HUP $dtlogin_pid
+        fi
+	;;
+
+'update_printers')	
+	update_printers
+	;;
+
+*)
+	usage_error
+	exit 1
+	;;
+esac
+
+exit 0

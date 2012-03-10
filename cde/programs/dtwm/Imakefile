@@ -1,0 +1,92 @@
+XCOMM $XConsortium: Imakefile /main/15 1996/09/14 15:25:18 drk $
+
+#if !HasVFork
+VFORK_DEFINE = -DPORT_NOVFORK
+#endif
+
+MWMDEFINES = $(VFORK_DEFINE) -DLARGECURSORS -DR2_COMPAT -DOPAQUE -DSHAPE \
+	-DUNMAP_ON_RESTART -DBATCH_DRAG_REQUESTS \
+	-DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
+	-DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\"
+
+DTWMDEFINES = -DWSM -DPANELIST
+
+DEFINES = $(MWMDEFINES) $(DTWMDEFINES) -DMULTIBYTE -DMINIMAL_DT
+
+DEPLIBS = DepDtClientLibs
+LOCAL_LIBRARIES = DtClientLibs
+SYS_LIBRARIES = DtClientSysLibs DtClientExtraLibs
+
+#if defined(HPArchitecture)
+EXTRA_DEFINES = -D_HPUX_SOURCE 
+#endif	/* HPArchitecture */	
+
+#if defined (SunArchitecture)
+/* The OpenWindows AllPlanes extension is not in vanilla X11R6. */
+EXTRA_CCOPTIONS = -xF
+dtwm := LOCAL_LDFLAGS = -M mapfile.reorder
+#endif
+ 
+SRCSXM = \
+        WmCDInfo.c      WmCDecor.c      WmCEvent.c \
+        WmCPlace.c      WmColormap.c    WmError.c \
+        WmEvent.c       WmFeedback.c    WmFunction.c \
+        WmGraphics.c    WmIDecor.c      WmIPlace.c \
+        WmIconBox.c     WmImage.c       WmInitWs.c \
+        WmKeyFocus.c    WmMain.c        WmManage.c \
+        WmMenu.c        WmProperty.c    WmProtocol.c \
+        WmResCvt.c      WmResParse.c    WmResource.c \
+        WmSignal.c      WmWinConf.c     WmWinInfo.c \
+        WmWinList.c     WmWinState.c    version.c
+
+SRCSDT = \
+        Button.c        Callback.c      Clock.c \
+        DataBaseLoad.c  PanelS.c        Parse.c \
+        PopupMenu.c     Session.c       UI.c \
+        WmBackdrop.c    WmFP.c          WmHelp.c \
+        WmIPC.c         WmOL.c          WmParse.c \
+        WmParseP.c      WmPresence.c    WmWrkspace.c \
+        WmXSMP.c
+
+OBJSXM = \
+        WmCDInfo.o      WmCDecor.o      WmCEvent.o \
+        WmCPlace.o      WmColormap.o    WmError.o \
+        WmEvent.o       WmFeedback.o    WmFunction.o \
+        WmGraphics.o    WmIDecor.o      WmIPlace.o \
+        WmIconBox.o     WmImage.o       WmInitWs.o \
+        WmKeyFocus.o    WmMain.o        WmManage.o \
+        WmMenu.o        WmProperty.o    WmProtocol.o \
+        WmResCvt.o      WmResParse.o    WmResource.o \
+        WmSignal.o      WmWinConf.o     WmWinInfo.o \
+        WmWinList.o     WmWinState.o    version.o
+
+OBJSDT = \
+        Button.o        Callback.o      Clock.o \
+        DataBaseLoad.o  PanelS.o        Parse.o \
+        PopupMenu.o     Session.o       UI.o \
+        WmBackdrop.o    WmFP.o          WmHelp.o \
+        WmIPC.o         WmOL.o          WmParse.o \
+        WmParseP.o      WmPresence.o    WmWrkspace.o \
+        WmXSMP.o
+
+SRCS1 = $(SRCSXM) $(SRCSDT)
+OBJS1 = $(OBJSXM) $(OBJSDT)
+
+SRCS2 = Print.c Parse.c DataBaseLoad.c WmParse.c Session.c
+OBJS2 = Print.o Parse.o DataBaseLoad.o WmParse.o Session.o
+
+PROGRAMS = dtwm dtfplist
+
+ComplexProgramTarget_1(dtwm,$(LOCAL_LIBRARIES),$(SYSTEM_LIBRARIES))
+ComplexProgramTarget_2(dtfplist,$(LOCAL_LIBRARIES),$(SYSTEM_LIBRARIES))
+
+
+CPP_TARGETS = Dtwm.defs sys.dtwmrc
+
+LOCAL_CPP_DEFINES = -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
+                    -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP)
+
+AllTarget($(CPP_TARGETS))
+
+CppSourceFile(Dtwm.defs,Dtwm.defs.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(sys.dtwmrc,sys.dtwmrc.src,$(LOCAL_CPP_DEFINES),)

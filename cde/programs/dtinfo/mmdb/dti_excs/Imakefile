@@ -1,0 +1,85 @@
+XCOMM $TOG: Imakefile /main/3 1997/09/05 11:32:58 samborn $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		MMDB
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+EXCEPTION_DEFINES  = -DHAS_TERMINATE
+#endif
+
+DEFINES  = -DCC_VERSION=30 -DCHECK_INITIALIZED $(EXCEPTION_DEFINES)
+INCLUDES = -I$(DTMMDBSRC)/dti_excs
+
+LinkSourceFile(Jump_Environment.C,$(DTMMDBSRC)/dti_excs)
+LinkSourceFile(Exceptions.C,$(DTMMDBSRC)/dti_excs)
+LinkSourceFile(Exception.C,$(DTMMDBSRC)/dti_excs)
+LinkSourceFile(Destructable.C,$(DTMMDBSRC)/dti_excs)
+LinkSourceFile(terminate.C,$(DTMMDBSRC)/dti_excs)
+
+BASE_SRCS = \
+	Jump_Environment.C	Exceptions.C	Exception.C \
+	Destructable.C		terminate.C
+
+SRCS = $(BASE_SRCS)
+OBJS = $(BASE_SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()
+
+#ifdef TEST
+tests: $(TESTS)
+
+CPlusPlusProgram(test0,test0.o,$(OBJS))
+CPlusPlusProgram(test1,test1.o,$(OBJS))
+CPlusPlusProgram(test2,test2.o,$(OBJS))
+CPlusPlusProgram(test3,test3.o,$(OBJS))
+CPlusPlusProgram(test4,test4.o,$(OBJS))
+CPlusPlusProgram(test5,test5.o,$(OBJS))
+CPlusPlusProgram(test6,test6.o,$(OBJS))
+CPlusPlusProgram(test7,test7.o,$(OBJS))
+CPlusPlusProgram(test8,test8.o,$(OBJS))
+CPlusPlusProgram(test9,test9.o,$(OBJS))
+CPlusPlusProgram(test10,test10.o,$(OBJS))
+CPlusPlusProgram(test11,test11.o,$(OBJS))
+CPlusPlusProgram(test12,test12.o,$(OBJS))
+CPlusPlusProgram(test13,test13.o,$(OBJS))
+CPlusPlusProgram(test14,test14.o,$(OBJS))
+CPlusPlusProgram(test15,test15.o,$(OBJS))
+CPlusPlusProgram(test16,test16.o,$(OBJS))
+CPlusPlusProgram(test17,test17.o,$(OBJS))
+CPlusPlusProgram(test18,test18.o,$(OBJS))
+CPlusPlusProgram(test19,test19.o,$(OBJS))
+CPlusPlusProgram(test20,test20.o,$(OBJS))
+CPlusPlusProgram(test21,test21.o,$(OBJS))
+CPlusPlusProgram(test22,test22.o,$(OBJS))
+CPlusPlusProgram(test23,test23.o,$(OBJS))
+CPlusPlusProgram(test24,test24.o,$(OBJS))
+CPlusPlusProgram(test25,test25.o,$(OBJS))
+CPlusPlusProgram(test26,test26.o,$(OBJS))
+CPlusPlusProgram(test27,test27.o,$(OBJS))
+CPlusPlusProgram(test28,test28.o,$(OBJS))
+CPlusPlusProgram(test29,test29.o,$(OBJS))
+#endif

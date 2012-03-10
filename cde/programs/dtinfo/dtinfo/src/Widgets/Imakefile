@@ -1,0 +1,32 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/08/21 15:45:28 drk $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+LIBNAME= Widgets
+LIBDIR = ../lib
+
+SRCS1= \
+Pixmap.c \
+Tree.c \
+Panner.c \
+Simple.c \
+Porthole.c \
+XawInitFake.c \
+TabButton.c \
+Restraint.c
+
+OBJS1 = $(SRCS1:.c=.o)
+
+SRCS2 = WXmOpButton.C
+OBJS2 = $(SRCS2:.C=.o)
+
+SRCS = $(SRCS1) $(SRCS2)
+OBJS = $(OBJS1) $(OBJS2)
+
+NormalLibraryObjectRule()
+
+INCLUDES=$(CDEINCLUDES) $(WWL_INCLUDES) $(EXCEPTIONS_INCLUDES)
+
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+
+DependTarget()

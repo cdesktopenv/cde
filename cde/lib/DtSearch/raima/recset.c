@@ -1,0 +1,83 @@
+/* $XConsortium: recset.c /main/2 1996/05/09 04:15:34 drk $ */
+/*
+ *   COMPONENT_NAME: austext
+ *
+ *   FUNCTIONS: d_recset
+ *
+ *   ORIGINS: 157
+ *
+ *   OBJECT CODE ONLY SOURCE MATERIALS
+ */
+/*-----------------------------------------------------------------------
+
+   recset.c - set record type and database address to current.
+
+   This function sets the current record type and database address to the
+   current record.  It is used in conjunction with d_recnext to then scan
+   forward from this point on.
+
+   AUTHOR:  R.S. Carlson
+   DATE:    21-Jun-88
+   PROJECT: db_VISTA 3.10 enhancements
+
+   Copyright (C) 1988 by Raima Corporation
+
+-----------------------------------------------------------------------*/
+
+/* ********************** EDIT HISTORY *******************************
+
+ SCR    DATE    INI                   DESCRIPTION
+----- --------- --- -----------------------------------------------------
+      04-Aug-88 RTK MULTI_TASK changes
+      18-Aug-88 RSC moved rn_type/dba to separate table
+
+*/
+
+/* ********************** INCLUDE FILES ****************************** */
+
+#include <stdio.h>
+#include "vista.h"
+#include "dbtype.h"
+
+/* ********************** GLOBAL VARIABLE DECLARATIONS *************** */
+/* ********************** GLOBAL FUNCTION DECLARATIONS *************** */
+/* ********************** EXTERNAL VARIABLE DECLARATIONS ************* */
+/* ********************** EXTERNAL FUNCTION DECLARATIONS ************* */
+/* ********************** LOCAL VARIABLE DECLARATIONS **************** */
+/* ********************** LOCAL FUNCTION DECLARATIONS **************** */
+
+/* ======================================================================
+   set record type and database address to current
+*/
+int d_recset( rec TASK_PARM DBN_PARM )
+int rec;			/* record type */
+TASK_DECL
+DBN_DECL
+{
+/*
+   RETURNS: db_status return code.
+   ASSUMES: nothing.
+*/
+   FILE_NO rfile;		/* file containing user specified rec */
+   FILE_NO fno;			/* file containing current record */
+   int rec_ndx;			/* Index into record table */
+   RECORD_ENTRY FAR *rec_ptr;	/* Pointer to record table */
+
+   DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_NOIO));
+
+   /* Check rec parameter user passed */
+   if (nrec_check(rec, &rec_ndx, (RECORD_ENTRY FAR * FAR *)&rec_ptr) != S_OKAY)
+      RETURN( db_status );
+   
+   /* Check to make sure current record is in this file */
+   rfile = (FILE_NO)(NUM2EXT(rec_ptr->rt_file, ft_offset));
+   fno = (FILE_NO)((curr_rec >> FILESHIFT) & FILEMASK);
+   if (fno != rfile)
+      RETURN( dberr (S_INVREC) );
+   
+   /* Everything is okay - save the type and database address */
+   RN_REF(rn_type) = rec - RECMARK;
+   RN_REF(rn_dba)  = curr_rec;
+   RETURN( db_status = S_OKAY );
+}
+/* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin recset.c */

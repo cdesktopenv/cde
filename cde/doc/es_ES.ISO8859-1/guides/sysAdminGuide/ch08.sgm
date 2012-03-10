@@ -1,0 +1,574 @@
+<!-- $XConsortium: ch08.sgm /main/10 1996/12/20 20:20:31 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.IntAc.div.1">
+<title id="SAG.IntAc.mkr.1">Introducci&oacute;n a las acciones y a los tipos
+de datos</title>
+<para><emphasis><indexterm><primary>acciones</primary><secondary>introducci&oacute;n</secondary></indexterm><indexterm><primary>tipos de datos</primary><secondary>introducci&oacute;n</secondary></indexterm> Las acciones</emphasis> y los <emphasis>tipos de datos</emphasis> son componentes completos para integrar aplicaciones
+en el escritorio. Proporcionan un modo de crear una interfaz de usuario para
+iniciar aplicaciones y manipular los archivos de datos de las mismas.</para>
+<informaltable id="SAG.IntAc.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Introduction
+To Actions128'--><xref role="JumpText" linkend="SAG.IntAc.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Introduction
+to Data Types135'--><xref role="JumpText" linkend="SAG.IntAc.mkr.5"></para></entry>
+</row></tbody></tgroup></informaltable>
+<para>Esta cap&iacute;tulo introduce los conceptos de acciones y tipos de
+datos. Describe:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Por qu&eacute; puede ser conveniente crear acciones y tipos
+de datos para las aplicaciones.</para>
+</listitem>
+<listitem><para>C&oacute;mo est&aacute;n relacionadas entre s&iacute; las
+acciones y los tipos de datos.</para>
+</listitem>
+<listitem><para>C&oacute;mo est&aacute;n relacionadas las acciones y los tipos
+de datos con la impresi&oacute;n del escritorio.</para>
+</listitem>
+</itemizedlist>
+<sect1 id="SAG.IntAc.div.2">
+<title>Consultas adicionales</title>
+<para>Los procedimientos y las reglas para crear acciones y tipos de datos
+se incluyen en tres cap&iacute;tulos de este manual.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>El <!--Original XRef content:
+'Chapter&numsp;9'--><xref role="ChapterNumber" linkend="SAG.dtCrA.mkr.1"> explica
+c&oacute;mo crear acciones y tipos de datos utilizando la aplicaci&oacute;n
+de escritorio Crear Acci&oacute;n.</para>
+<para>Se puede utilizar Crear Acci&oacute;n para crear acciones y tipos de
+datos para la mayor&iacute;a de aplicaciones sin tener que aprender las reglas
+de sintaxis para las definiciones.</para>
+</listitem>
+<listitem><para>El <!--Original XRef content: 'Chapter&numsp;10'--><xref role="ChapterNumber"
+linkend="SAG.CrAct.mkr.1"> y el <!--Original XRef content:
+'Chapter&numsp;11'--><xref role="ChapterNumber" linkend="SAG.CrDT.mkr.1">
+explican c&oacute;mo crear manualmente acciones y tipos de datos creando y
+editando los archivos de configuraci&oacute;n.</para>
+<para>Es necesario crear acciones y tipos de datos manualmente si desea utilizar
+caracter&iacute;sticas avanzadas no soportadas por Crear Acci&oacute;n.</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1 id="SAG.IntAc.div.3">
+<title id="SAG.IntAc.mkr.2">Introducci&oacute;n a las acciones<indexterm>
+<primary>acciones</primary><secondary>introducci&oacute;n</secondary></indexterm></title>
+<para>Las acciones son instrucciones escritas que automatizan las tareas
+de escritorio, tales como ejecuci&oacute;n de aplicaciones y apertura de archivos
+de datos. Las acciones funcionan de forma muy parecida a las macros de aplicaci&oacute;n
+o funciones de programaci&oacute;n. Cada acci&oacute;n tiene un nombre que
+se utiliza para ejecutar la acci&oacute;n.</para>
+<para>Una vez que haya definido una acci&oacute;n, &eacute;sta podr&aacute;
+utilizarse para adaptar la interfaz de usuario del escritorio de forma tal
+que sea m&aacute;s f&aacute;cil realizar las tareas. El escritorio proporciona
+la posibilidad de conectar los componentes de la interfaz de usuario, como
+por ejemplo los iconos, los controles del Panel Frontal y los elementos de
+men&uacute;, a las acciones.</para>
+<figure>
+<title>Usos para las acciones</title>
+<graphic id="SAG.IntAc.grph.1" entityref="SAG.IntAc.fig.1"></graphic>
+</figure>
+<para>Por ejemplo, el grupo de aplicaciones Herramientas_Escritorio del Gestor
+de aplicaciones contiene iconos que inician diversas utilidades.</para>
+<figure>
+<title>Iconos de acciones del grupo de aplicaciones Herramientas_Escritorio</title>
+<graphic id="SAG.IntAc.grph.2" entityref="SAG.IntAc.fig.2"></graphic>
+</figure>
+<para>Cada uno de estos iconos ejecuta una acci&oacute;n cuando se efect&uacute;a
+una doble pulsaci&oacute;n sobre &eacute;l. Por ejemplo, he aqu&iacute; una
+parte de la definici&oacute;n de la acci&oacute;n que se ejecuta cuando el
+usuario efect&uacute;a una doble pulsaci&oacute;n sobre el icono etiquetado
+Mostrar Xwd. La acci&oacute;n se define en el archivo de configuraci&oacute;n
+<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol><filename>/xclients.dt</filename>:</para>
+<programlisting>ACTION Xwud
+{
+   LABEL        Mostrar Xwd
+   TYPE         COMMAND
+   EXEC_STRING  /usr/bin/X11/xwud -noclick -in\
+                %(File)Arg_1&rdquo;Archivo Xwd a mostrar:&rdquo;%
+   &hellip;
+}</programlisting>
+<para>El mandato en el <filename>EXEC_STRING</filename> de la acci&oacute;n
+se ejecuta cuando el usuario efect&uacute;a una doble pulsaci&oacute;n sobre
+el icono.</para>
+<para><indexterm><primary>acciones</primary><secondary>utilizadas por el Panel
+Frontal</secondary></indexterm><indexterm><primary>Panel Frontal</primary>
+<secondary>utilizar acciones</secondary></indexterm>El Panel Frontal tambi&eacute;n
+utiliza acciones. Por ejemplo, he aqu&iacute; una parte de la definici&oacute;n
+del control etiquetado como Terminal en el subpanel Aplicaciones personales.
+El control se define en el archivo de configuraci&oacute;n <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol><filename>/dtwm.fp</filename>:
+</para>
+<programlisting>CONTROL Term
+{
+   ICON        Fpterm
+   LABEL       Terminal
+   PUSH_ACTION Dtterm
+   &hellip;
+}</programlisting>
+<para>El campo <filename>PUSH_ACTION</filename> especifica la acci&oacute;n
+que se debe ejecutar cuando el usuario pulse el bot&oacute;n sobre el control
+(en este caso, una acci&oacute;n llamada <command>Dtterm</command>).</para>
+<para><indexterm><primary>acciones</primary><secondary>utilizadas en men&uacute;s</secondary></indexterm><indexterm><primary>men&uacute;s</primary><secondary>utilizar acciones</secondary></indexterm>Otro uso com&uacute;n de las acciones
+es en los men&uacute;s. Los archivos de datos tienen normalmente acciones
+en su men&uacute; Seleccionado del Gestor de archivos. Por ejemplo, los archivos
+XWD (archivos con nombres que terminan por<filename>.xwd</filename> o <filename>.wd</filename>) tienen una acci&oacute;n Abrir que muestra la imagen de pantalla
+ejecutando la acci&oacute;n <command>Xwud</command>.</para>
+<figure>
+<title>Acci&oacute;n Abrir para archivos del tipo de datos XWD</title>
+<graphic id="SAG.IntAc.grph.3" entityref="SAG.IntAc.fig.3"></graphic>
+</figure>
+<para>Las acciones del<indexterm><primary>Seleccionado, men&uacute;</primary>
+</indexterm> men&uacute; Seleccionado se especifican en la definici&oacute;n
+del tipo de datos para los archivos XWD. La definici&oacute;n se encuentra
+en el archivo de configuraci&oacute;n <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol><filename>/xclients.dt.</filename></para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+   ACTIONS Open,Print
+   ICON    Dtxwd
+   &hellip;
+}</programlisting>
+<para>El tipo de datos XWD, as&iacute; como sus acciones asociadas Abrir e
+Imprimir, se explican en la secci&oacute;n <!--Original XRef content: '&rdquo;How
+Data Types Connect Data Files to Actions&rdquo; on page&numsp;136'--><xref
+role="SecTitleAndPageNum" linkend="SAG.IntAc.mkr.6">.</para>
+<sect2 id="SAG.IntAc.div.4">
+<title><indexterm><primary>acciones</primary><secondary>crear iconos para
+aplicaciones</secondary></indexterm><indexterm><primary>aplicaciones</primary>
+<secondary>crear iconos para</secondary></indexterm><indexterm><primary>iconos</primary><secondary>para aplicaciones</secondary></indexterm>C&oacute;mo
+las acciones crean iconos para las aplicaciones</title>
+<para>Examinemos el icono Mostrar Xwd del grupo de aplicaciones Herramientas_Escritorio.
+Si efect&uacute;a una doble pulsaci&oacute;n sobre este icono, se ejecutar&aacute;
+el cliente de X <command>xwud</command>. Sin embargo, este icono no representa
+directamente el ejecutable <command>xwud</command> real <filename>/usr/bin/X11/xwud</filename>.</para>
+<para>El icono etiquetado Mostrar Xwd aparece en el grupo de aplicaciones
+porque en dicho directorio existe un archivo llamado <filename>Xwud</filename>
+(vea la <!--Original XRef content: 'Figure&numsp;8&hyphen;4'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.IntAc.mkr.3">). Este archivo representa una acci&oacute;n subyacente
+con el mismo nombre &mdash;Xwud. En la definici&oacute;n de acci&oacute;n,
+el nombre de la acci&oacute;n es el nombre que sigue a la palabra clave <command>ACTION</command>:</para>
+<programlisting>ACTION Xwud
+{
+  LABEL        Mostrar Xwd
+  TYPE         COMMAND
+  WINDOW_TYPE  NO_STDIO
+  EXEC_STRING  /usr/bin/X11/xwud -noclick -in\
+               %(File)Arg_1&rdquo;Archivo Xwd a mostrar:&rdquo;%
+  DESCRIPTION  La acci&oacute;n MostrarXwd (Xwud) de Mostrar Xwd muestra \
+               un archivo xwd que se ha creado utilizando la acci&oacute;n \
+               (Xwd) Capturar Xwd. Utiliza el mandato xwud.
+}</programlisting>
+<para><indexterm><primary>archivo de acci&oacute;n</primary><secondary>definici&oacute;n</secondary></indexterm>El archivo se denomina <emphasis>archivo de acci&oacute;n</emphasis> porque representa una acci&oacute;n. Un archivo es un archivo
+de acci&oacute;n cuando es un archivo ejecutable con el mismo nombre que una
+acci&oacute;n. Su icono en el Gestor de aplicaciones (o el Gestor de archivos)
+se denomina<indexterm><primary>icono de acci&oacute;n</primary></indexterm> <emphasis>icono de acci&oacute;n</emphasis> o<indexterm><primary>icono de aplicaci&oacute;n</primary><secondary>crear</secondary></indexterm> <emphasis>icono de aplicaci&oacute;n</emphasis> porque, si se efect&uacute;a una doble pulsaci&oacute;n sobre
+&eacute;l, se inicia una aplicaci&oacute;n.</para>
+<figure>
+<title id="SAG.IntAc.mkr.3">Icono de aplicaci&oacute;n (acci&oacute;n) que
+representa un archivo de acci&oacute;n</title>
+<graphic id="SAG.IntAc.grph.4" entityref="SAG.IntAc.fig.4"></graphic>
+</figure>
+<para>Cuando el Gestor de aplicaciones detecta un archivo ejecutable, consulta
+la base de datos de acciones para ver si existen acciones cuyos nombres coincidan
+con el nombre de archivo. Si se encuentra una que coincide, el Gestor de aplicaciones
+sabe que el archivo es de acci&oacute;n.</para>
+<para><indexterm><primary>archivo de acci&oacute;n</primary><secondary>contenido</secondary></indexterm>El contenido del archivo de acci&oacute;n no es significativo;
+los archivos de acciones contienen normalmente comentarios que describen la
+funci&oacute;n de escritorio.</para>
+<note>
+<para>El <emphasis>archivo de acci&oacute;n</emphasis> no es lo mismo que
+el <emphasis>archivo de definici&oacute;n de acciones</emphasis>. El <emphasis>archivo de acci&oacute;n</emphasis> es un archivo que tiene el mismo nombre
+que la acci&oacute;n. Se utiliza para crear el <emphasis>icono de aplicaci&oacute;n</emphasis> en el Gestor de archivos o el Gestor de aplicaciones. El <emphasis>archivo de definici&oacute;n de acci&oacute;n</emphasis> es el archivo llamado
+<symbol role="Variable">nombre</symbol><filename>.dt</filename> que contiene
+la definici&oacute;n de la acci&oacute;n.</para>
+</note>
+<para>Cuando el escritorio ha determinado que un archivo es de acci&oacute;n,
+se utiliza la definici&oacute;n subyacente de la acci&oacute;n para definir
+el aspecto y el comportamiento del archivo de acci&oacute;n.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>El campo <filename>EXEC_STRING</filename> especifica el comportamiento
+del icono de la aplicaci&oacute;n. En el caso del icono Mostrar Xwd, <filename>EXEC_STRING</filename> especifica que el icono de acci&oacute;n ejecuta el
+cliente de X <command>xwud</command> con determinados argumentos de la l&iacute;nea
+de mandatos.</para>
+</listitem>
+<listitem><para>El campo <command>LABEL</command> especifica la etiqueta para
+el icono de la aplicaci&oacute;n.</para>
+</listitem>
+<listitem><para>El campo <command>DESCRIPTION</command> describe el texto
+mostrado cuando el usuario solicita Ayuda sobre el tema.</para>
+</listitem>
+<listitem><para>El icono de la aplicaci&oacute;n Xwud utiliza la imagen de
+icono predeterminada para las acciones porque la definici&oacute;n de acci&oacute;n
+no contiene ning&uacute;n campo <command>ICON</command> para especificar una
+imagen diferente.</para>
+<para>En cambio, el icono etiquetado como Comprimir archivo utiliza una imagen
+de icono diferente porque su definici&oacute;n de acci&oacute;n subyacente
+contiene un campo <command>ICON</command>:</para>
+<para>Por ejemplo:</para>
+<programlisting remap="CodeIndent1">ACTION Compress
+{
+   LABEL Comprimir
+   ICON Dtcmprs
+   &hellip;
+}</programlisting>
+</listitem>
+</itemizedlist>
+<figure>
+<title>Imagen de icono especificada por el campo ICON en la definici&oacute;n
+de acci&oacute;n</title>
+<graphic id="SAG.IntAc.grph.5" entityref="SAG.IntAc.fig.5"></graphic>
+</figure>
+<para>La acci&oacute;n <command>Xwud</command> se denomina una acci&oacute;n
+de <emphasis>mandato</emphasis> porque su definici&oacute;n contiene el mandato
+(<command>EXEC_STRING</command>) que se debe ejecutar. El campo <command>TYPE</command> de la definici&oacute;n de acci&oacute;n define el tipo de
+acci&oacute;n.</para>
+<para>Inicialmente, aparece el icono Mostrar Xwd en el grupo de aplicaciones
+Herramientas_Escritorio. Sin embargo, se pueden crear copias adicionales
+del icono de acci&oacute;n en cualquier directorio para el que se tenga permiso
+de escritura. Mientras la definici&oacute;n de acci&oacute;n Xwud forme parte
+de la base de datos, cualquier archivo ejecutable denominado <command>Xwud</command> creado ser&aacute; un archivo de acci&oacute;n que representa dicha
+acci&oacute;n y se podr&aacute; utilizar su icono en el Gestor de archivos
+o el Gestor de aplicaciones para ejecutar la acci&oacute;n.</para>
+</sect2>
+<sect2 id="SAG.IntAc.div.5">
+<title id="SAG.IntAc.mkr.4">C&oacute;mo las acciones utilizan archivos de datos
+como<indexterm><primary>acciones</primary><secondary>argumentos de archivo</secondary></indexterm><indexterm><primary>argumentos</primary><secondary>de acciones</secondary></indexterm> argumentos</title>
+<para>Un<indexterm><primary>argumentos</primary><secondary>de acciones</secondary>
+</indexterm> <emphasis>argumento</emphasis> de un mandato es el elemento, generalmente
+un<indexterm><primary>argumento de archivo</primary><secondary>utilizado
+en acciones</secondary></indexterm> archivo, sobre el que act&uacute;a el
+mandato. Se pueden escribir acciones para aceptar los argumentos del archivo.
+</para>
+<para>Por ejemplo, <command>EXEC_STRING</command> de la acci&oacute;n <command>Xwud</command> especifica que es necesario un argumento de archivo:</para>
+<programlisting>EXEC_STRING  /usr/bin/X11/xwud -noclick -in \
+        %(File)Arg_1"Archivo Xwd a mostrar:"%</programlisting>
+<para>El t&eacute;rmino <emphasis>Arg</emphasis> representa la palabra <symbol role="Variable">argumento.</symbol> La sintaxis<indexterm><primary>Arg_1,
+sintaxis</primary></indexterm> <filename>Arg_1</filename> significa el primer
+argumento y <filename>(File)</filename> significa que la acci&oacute;n trata
+dicho argumento como si fuera un archivo.</para>
+<para><indexterm><primary>icono de aplicaci&oacute;n</primary><secondary>archivos soltados</secondary></indexterm><indexterm><primary>acciones</primary>
+<secondary>aceptar archivos soltados</secondary></indexterm><indexterm><primary>icono de aplicaci&oacute;n</primary><secondary>efectuar una doble pulsaci&oacute;n
+sobre</secondary></indexterm>El procedimiento m&aacute;s f&aacute;cil para
+que el usuario proporcione un argumento de archivo consiste en soltar un archivo
+de datos sobre el icono de la aplicaci&oacute;n. El escritorio determina la
+ruta del archivo soltado y la pone en la l&iacute;nea de mandatos en lugar
+del texto situado entre los s&iacute;mbolos <filename>%</filename> (&rdquo;
+%(File)Arg_1&rdquo;Archivo Xwd a mostrar:&rdquo;%&rdquo;). De este modo, el
+mandato que se ejecuta es:</para>
+<para><command>/usr/bin/X11/xwud -noclick -in <symbol role="Variable">ruta_archivo</symbol></command></para>
+<para>Cuando el usuario efect&uacute;a una doble pulsaci&oacute;n sobre el
+icono de aplicaci&oacute;n, el escritorio determina a partir de <filename>EXEC_STRING</filename> que se necesita un argumento de archivo y muestra un
+cuadro de di&aacute;logo que solicita al usuario que entre un nombre de archivo
+o ruta. En el caso de la acci&oacute;n Xwud, el indicador de solicitud es:
+</para>
+<para><computeroutput>Archivo Xwd a mostrar:</computeroutput></para>
+<para>La ruta o el nombre de archivo proporcionado por el usuario se utiliza
+como argumento del archivo.</para>
+</sect2>
+<sect2 id="SAG.IntAc.div.6">
+<title>Usos adicionales de las acciones<indexterm><primary>acciones</primary>
+<secondary>usos</secondary></indexterm></title>
+<para>Adem&aacute;s de iniciar aplicaciones, las acciones se utilizan en todo
+el escritorio para crear funcionalidad en:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>El Panel Frontal.</para>
+<para>La definici&oacute;n de un control del Panel Frontal incluye campos
+que especifican la acci&oacute;n que se ejecuta cuando el usuario pulsa el
+bot&oacute;n sobre el control o suelta un archivo sobre &eacute;l. Para obtener
+m&aacute;s informaci&oacute;n, consulte la secci&oacute;n <!--Original
+XRef content: '&rdquo;Defining Front Panel Controls&rdquo; on page&numsp;228'--><xref
+role="SecTitleAndPageNum" linkend="SAG.FrPC.mkr.15">.</para>
+</listitem>
+<listitem><para>Men&uacute;s.</para>
+<para>La sintaxis para las definiciones de los men&uacute;s Ventana y Espacio
+de trabajo le permiten especificar la acci&oacute;n que deber&aacute; ejecutar
+un elemento de men&uacute;. Para obtener m&aacute;s informaci&oacute;n, consulte
+la secci&oacute;n <!--Original XRef content: '&rdquo;Workspace Manager Menus&rdquo;
+on page&numsp;246'--><xref role="SecTitleAndPageNum" linkend="SAG.WMCnf.mkr.8">
+y la p&aacute;gina de manual <filename moreinfo="RefEntry">dtwmrc(4)</filename>.
+</para>
+</listitem>
+<listitem><para>Comunicaciones entre aplicaciones.</para>
+<para>Una aplicaci&oacute;n puede estar dise&ntilde;ada para enviar y recibir
+informaci&oacute;n utilizando un tipo especial de acci&oacute;n llamada mensaje
+de ToolTalk (<command>TT_MSG</command>). Las acciones <command>TT_MSG</command>
+se describen en la documentaci&oacute;n del entorno de programador del escritorio.
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="SAG.IntAc.div.7">
+<title id="SAG.IntAc.mkr.5">Introducci&oacute;n a los tipos de datos<indexterm>
+<primary>tipos de datos</primary><secondary>introducci&oacute;n</secondary>
+</indexterm></title>
+<para>Cuando el usuario crea un nuevo archivo de datos, el aspecto y el comportamiento
+del icono del archivo en el Gestor de archivos var&iacute;a en funci&oacute;n
+del tipo de archivo de datos que el usuario haya creado. Esta capacidad para
+crear un aspecto y un comportamiento personalizados para los archivos y los
+directorios la proporciona el mecanismo de establecimiento de tipos de datos
+del escritorio.</para>
+<sect2 id="SAG.IntAc.div.8">
+<title><indexterm><primary>Crear Acci&oacute;n</primary><secondary>creaci&oacute;n
+de tipos de datos</secondary></indexterm><indexterm><primary>tipos de datos</primary><secondary>creados con Crear Acci&oacute;n</secondary></indexterm>&iquest;Qu&eacute;
+es un tipo de datos?</title>
+<para>Un tipo de datos es una estructura que se define dentro de la base de
+datos del escritorio. Por ejemplo, he aqu&iacute; la definici&oacute;n del
+tipo de datos XWD. La definici&oacute;n est&aacute; en el archivo de configuraci&oacute;n
+<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol><filename>/xclients.dt</filename>:</para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+   ACTIONS       Open,Print
+   ICON          Dtxwd
+   NAME_TEMPLATE %s.xwd
+   NAME_TYPE     application/octet-stream
+   SUNV3_TYPE    archivo xwd
+   DESCRIPTION   Este archivo contiene una imagen de gr&aacute;ficos con el \
+                 formato XWD.Estos archivos se crean generalmente tomando \
+                 instant&aacute;neas de ventanas que utilizan la acci&oacute;n \
+                 CapturarXwd. Su tipo de datos se denomina XWD. \
+                 Los archivos XWD tiene nombres que terminan \
+                 por '.xwd' o '.wd'.
+}
+DATA_CRITERIA XWD1
+{
+   DATA_ATTRIBUTES_NAME  XWD
+   MODE                  f
+   NAME_PATTERN          *.xwd
+}
+
+DATA_CRITERIA XWD2
+{
+   DATA_ATTRIBUTES_NAME  XWD
+   MODE                  f
+   NAME_PATTERN          *.wd
+}</programlisting>
+<para>Cada definici&oacute;n de tipo de datos consta de dos partes:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="192*">
+<colspec colwidth="336*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>DATA_ATTRIBUTES</filename></para></entry>
+<entry align="left" valign="top"><para>Describe el aspecto y el comportamiento
+del tipo de datos.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>DATA_CRITERIA</filename>
+</para></entry>
+<entry align="left" valign="top"><para>Especifica las reglas (denominaci&oacute;n
+o contenido) para clasificar un archivo como perteneciente a dicho tipo de
+datos.</para></entry></row></tbody></tgroup></informaltable>
+<para>El campo <filename>DATA_ATTRIBUTES_NAME</filename> conecta los criterios
+a los atributos.</para>
+<para>Pueden existir varios <filename>DATA_CRITERIA</filename> para un <filename>DATA_ATTRIBUTE</filename>. Por ejemplo, el tipo de datos XWD tiene dos criterios
+para especificar dos criterios de denominaci&oacute;n diferentes ( <filename>NAME_PATTERN</filename>): nombres que terminan por <filename>.xwd</filename>
+o <filename>.wd</filename>.</para>
+</sect2>
+<sect2 id="SAG.IntAc.div.9">
+<title id="SAG.IntAc.mkr.6"><indexterm><primary>tipos de datos</primary><secondary>relaci&oacute;n con las acciones</secondary></indexterm><indexterm><primary>acciones</primary><secondary>relaci&oacute;n con los tipos de datos</secondary>
+</indexterm>C&oacute;mo conectan los tipos de datos los archivos de datos
+con las acciones</title>
+<para>Examinemos el tipo de datos XWD. El usuario crea un archivo de tipo
+XWD proporcionando al archivo uno de los dos sufijos (extensiones) de nombre
+de archivo: <filename>.xwd</filename> o<filename>.wd</filename>. El escritorio
+utiliza el nombre de archivo como <emphasis>criterio</emphasis> para clasificar
+un archivo en un tipo determinado.</para>
+<para>El tipo de datos XWD proporciona a cada archivo de dicho tipo de datos:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Una imagen de icono exclusiva que ayuda a los usuarios a reconocer
+los archivos de datos.</para>
+</listitem>
+<listitem><para>Una Ayuda sobre el tema que informa sobre el tipo de datos.
+</para>
+</listitem>
+<listitem><para>Un men&uacute; personalizado Seleccionado en el Gestor de
+archivos que contiene las acciones Abrir e Imprimir. La acci&oacute;n Abrir
+para los archivos XWD ejecuta la acci&oacute;n Xwud.</para>
+</listitem>
+</itemizedlist>
+<sect3 id="SAG.IntAc.div.10">
+<title>Ejecuci&oacute;n de acciones desde el men&uacute; Seleccionado<indexterm>
+<primary>Seleccionado, men&uacute;</primary></indexterm></title>
+<para>El men&uacute; Seleccionado del Gestor de archivos s&oacute;lo est&aacute;
+activo cuando se selecciona un archivo o un directorio. Los mandatos que se
+encuentran en la parte inferior del men&uacute; Seleccionado dependen del
+tipo de datos. Por ejemplo, si se selecciona un archivo XWD, el men&uacute;
+Seleccionado incluye los elementos Abrir e Imprimir.</para>
+<para>El campo <command>ACTIONS</command> de la definici&oacute;n del tipo
+de datos especifica los mandatos a&ntilde;adidos en la parte inferior del
+men&uacute; Seleccionado del tipo de datos.</para>
+<programlisting>DATA_ATTRIBUTES XWD
+{
+   ACTIONS Open,Print
+   &hellip;
+}</programlisting>
+<para><indexterm><primary>Seleccionado, men&uacute;</primary></indexterm>El
+contenido del men&uacute; Seleccionado depende del tipo de datos. Sin embargo,
+muchos tipos de datos diferentes proporcionan una acci&oacute;n Abrir: es
+decir, cuando se selecciona un archivo de un tipo de datos determinado en
+el Gestor de archivos y se muestra el men&uacute; Seleccionado, se ve un mandato
+Abrir.</para>
+<figure>
+<title>Men&uacute; Seleccionado para un archivo XWD</title>
+<graphic id="SAG.IntAc.grph.6" entityref="SAG.IntAc.fig.6"></graphic>
+</figure>
+<para>La acci&oacute;n<indexterm><primary>Abrir, acci&oacute;n</primary>
+</indexterm> Abrir ejecuta normalmente la aplicaci&oacute;n con la que est&aacute;
+asociado el archivo de datos. Por ejemplo, si se abre un archivo XWD, se ejecuta
+la acci&oacute;n Xwud, que a su vez ejecuta el cliente de X xwud para mostrar
+la imagen de pantalla. En otras palabras, para el tipo de datos XWD, la acci&oacute;n
+Abrir es sin&oacute;nimo de la acci&oacute;n Xwud. Asimismo, si se abre un
+archivo cuyo tipo de datos es TEXTFILE, se ejecuta el Editor de textos, y
+si se abre un archivo BM (mapa de bits) o PM (mapa de pixels), se ejecuta
+el Editor de iconos.</para>
+<para>La capacidad de crear diversas acciones Abrir que realizan cosas diferentes
+utiliza dos caracter&iacute;sticas de las definiciones de acci&oacute;n:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><indexterm><primary>acciones</primary><secondary>establecer
+correspondencia</secondary></indexterm><indexterm><primary>acciones MAP</primary>
+</indexterm>Establecimiento de correspondencias de acciones.</para>
+<para>El establecimiento de correspondencias de acciones le permite crear
+una acci&oacute;n que ejecuta otra acci&oacute;n, en lugar de ejecutar directamente
+un mandato. Por ejemplo, puede crear una acci&oacute;n Abrir que establece
+una correspondencia con (es decir, la ejecuta) la acci&oacute;n Xwud.</para>
+</listitem>
+<listitem><para><indexterm><primary>acciones</primary><secondary>restringidas
+por el tipo de datos</secondary></indexterm>Restricciones de tipos de datos
+en una acci&oacute;n.</para>
+<para>Las definiciones de acci&oacute;n pueden incluir un campo <filename>ARG_TYPE</filename> que limita la acci&oacute;n a determinados tipos de datos.
+Por ejemplo, se puede especificar que la acci&oacute;n Abrir, que establece
+una correspondencia con la acci&oacute;n Xwud, se aplique s&oacute;lo a los
+archivos del tipo de datos XWD.</para>
+</listitem>
+</itemizedlist>
+<para>He aqu&iacute; la definici&oacute;n de la acci&oacute;n que establece
+una correspondencia entre la acci&oacute;n Abrir y la acci&oacute;n Xwud
+para el tipo de datos XWD. Est&aacute; ubicada en el archivo de configuraci&oacute;n
+de bases de datos <filename>/usr/dt/appconfig/types/<symbol role="Variable">idioma</symbol>/xclients.dt</filename>:
+</para>
+<programlisting>ACTION Open
+{
+   LABEL       Abrir
+   ARG_TYPE    XWD
+   TYPE        MAP
+   MAP_ACTION  Xwud
+}</programlisting>
+<para>El campo <command>TYPE</command> especifica que se trata de una acci&oacute;n
+de establecer correspondencias; el campo <filename>MAP_ACTION</filename> especifica
+que esta acci&oacute;n ejecuta la acci&oacute;n Xwud. El campo <filename>ARG_TYPE</filename> especifica que esta acci&oacute;n s&oacute;lo es aplicable
+a los archivos cuyo tipo de datos sea XWD.</para>
+<para>Compare la definici&oacute;n anterior de la acci&oacute;n Abrir con
+la definici&oacute;n siguiente, que aparece en el archivo de bases de datos
+<filename>/usr/dt/appconfig/types/<symbol role="Variable">idioma</symbol>/dt.dt</filename>:</para>
+<programlisting>ACTION Open
+{
+   LABEL       Abrir
+   ARG_TYPE    BM
+   TYPE        MAP
+   MAP_ACTION  Dticon
+}</programlisting>
+<para>Esta definici&oacute;n es aplicable a los archivos del tipo de datos
+(<filename>ARG_TYPE</filename>) BM (archivos de mapas de bits). La definici&oacute;n
+establece una correspondencia entre la acci&oacute;n Abrir y la acci&oacute;n
+Dticon, que ejecuta el Editor de iconos.</para>
+</sect3>
+<sect3 id="SAG.IntAc.div.11">
+<title><indexterm><primary>tipos de datos</primary><secondary>comportamiento
+al efectuar una doble pulsaci&oacute;n</secondary></indexterm>Definici&oacute;n
+del comportamiento del tipo de datos al efectuar una doble pulsaci&oacute;n</title>
+<para>El comportamiento del tipo de datos cuando se efect&uacute;a una doble
+pulsaci&oacute;n sobre &eacute;l se define mediante la primera entrada del
+campo <command>ACTIONS</command>. Por ejemplo, para el tipo de datos XWD,
+el comportamiento al efectuar una doble pulsaci&oacute;n sobre &eacute;l es
+ejecutar la acci&oacute;n Abrir, que a su vez ejecuta la acci&oacute;n Xwud.
+</para>
+</sect3>
+<sect3 id="SAG.IntAc.div.12">
+<title><indexterm><primary>tipos de datos</primary><secondary>comportamiento
+al soltarlos</secondary></indexterm>Soltar un archivo de datos sobre un icono
+de acci&oacute;n</title>
+<para>Cuando el usuario suelta un archivo de datos sobre un icono de acci&oacute;n,
+el sistema ejecuta la acci&oacute;n utilizando el archivo de datos como argumento
+para la acci&oacute;n (consulte la secci&oacute;n <!--Original
+XRef content: '&rdquo;How Actions Use Data
+Files as Arguments&rdquo; on page&numsp;133'--><xref role="SecTitleAndPageNum"
+linkend="SAG.IntAc.mkr.4">).</para>
+<para>Por ejemplo, cuando se suelta un archivo de datos XWD sobre el icono
+Mostrar Xwd, se ejecuta la acci&oacute;n Xwud utilizando el argumento del
+tipo de datos. Esto hace que se ejecute el cliente de X <command>xwud</command>
+con dicho tipo de datos.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.IntAc.div.13">
+<title><indexterm><primary>tipos de datos</primary><secondary>imprimir</secondary>
+</indexterm><indexterm><primary>impresi&oacute;n</primary><secondary>configurar
+para tipo de datos</secondary></indexterm>Creaci&oacute;n de la impresi&oacute;n
+del escritorio para un tipo de datos</title>
+<para>La impresi&oacute;n del escritorio proporciona estos procedimientos
+para imprimir un archivo de datos:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Utilizar el mandato Imprimir, si est&aacute; disponible, en
+el men&uacute; Seleccionado del Gestor de archivos.</para>
+</listitem>
+<listitem><para>Soltar un archivo de datos en una zona de soltar impresoras
+del escritorio (el control del Panel Frontal o un icono de impresora del
+Gestor de impresi&oacute;n).</para>
+</listitem>
+</itemizedlist>
+<para>Adem&aacute;s de la impresi&oacute;n del escritorio, muchas aplicaciones
+proporcionan un procedimiento para imprimir desde dentro de la aplicaci&oacute;n.
+</para>
+<para>La impresi&oacute;n del escritorio utiliza acciones llamadas Imprimir.
+Imprimir, al igual que Abrir, es un nombre de acci&oacute;n que se utiliza
+para muchos tipos de datos diferentes. Por consiguiente, las acciones Imprimir
+utilizan el establecimiento de correspondencias de acciones y el campo <filename>ARG_TYPE</filename> para personalizar la impresi&oacute;n para cada tipo de
+datos.</para>
+<para>Por ejemplo, he aqu&iacute; la acci&oacute;n Imprimir para el tipo de
+datos XWD. La definici&oacute;n se encuentra en <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol><filename>/xclients.dt</filename>:
+</para>
+<programlisting>ACTION Print
+{
+   LABEL      Imprimir
+   ARG_TYPE   XWD
+   TYPE       MAP
+   MAP_ACTION NoPrint
+}</programlisting>
+<para>Esta acci&oacute;n Imprimir, espec&iacute;fica de los archivos XWD,
+establece una correspondencia con una acci&oacute;n NoPrint. NoPrint es una
+acci&oacute;n especial definida en <filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol><filename>/dt.dt</filename>. La acci&oacute;n<indexterm>
+<primary>NoPrint, acci&oacute;n</primary></indexterm> NoPrint muestra un cuadro
+de di&aacute;logo que indica al usuario que este tipo de datos no se puede
+imprimir.</para>
+<para>Compare la acci&oacute;n Imprimir de XWD con la siguiente acci&oacute;n
+Imprimir para los archivos PCL:</para>
+<programlisting>ACTION Print
+   LABEL       Imprimir
+   ARG_TYPE    PCL
+   TYPE        MAP
+   MAP_ACTION  PrintRaw
+}</programlisting>
+<para>La acci&oacute;n PrintRaw, definida en el archivo de configuraci&oacute;n
+<filename>/usr/dt/appconfig/types/</filename><symbol role="Variable">idioma</symbol><filename>/print.dt</filename>, contiene la l&iacute;nea de mandatos
+para imprimir los archivos PCL.</para>
+<programlisting>ACTION PrintRaw
+{
+   TYPE         <?Pub Caret>COMMAND
+   WINDOW_TYPE  NO_STDIO
+   EXEC_STRING  /usr/dt/bin/dtlp -w %(File)Arg_1%
+}</programlisting>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 14:35:19-->
+<?Pub *0000037084>

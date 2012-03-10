@@ -1,0 +1,341 @@
+XCOMM ##########################################################################
+XCOMM 
+XCOMM     xclients.dt
+XCOMM 
+XCOMM     Actions and DataTypes for integrating X clients into the Common
+XCOMM     Desktop Environment (CDE).
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+XCOMM 
+XCOMM      $XConsortium: xclients.dt.src /main/5 1996/04/23 20:26:44 drk $
+XCOMM 
+XCOMM ##########################################################################
+#define HASH #
+set DtDbVersion=1.0
+
+XCOMM ##########################################################################
+XCOMM 
+%|nls-10-#HASH WARNING:...#|
+XCOMM 
+XCOMM ##########################################################################
+XCOMM ##################################################################
+XCOMM 
+%|nls-11-#HASH Data Attributes#|
+XCOMM 
+XCOMM ##################################################################
+DATA_ATTRIBUTES XWD
+{
+        ACTIONS         Open,Print
+        ICON            Dtxwd
+        NAME_TEMPLATE   %s.xwd
+        MIME_TYPE	application/octet-stream
+        SUNV3_TYPE      xwd-file
+        DESCRIPTION     %|nls-12001-#An XWD#|
+        TYPE_LABEL      %|nls-31098-#XWD#|
+}
+DATA_CRITERIA XWD1
+{
+        DATA_ATTRIBUTES_NAME XWD
+        MODE            f
+        NAME_PATTERN    *.xwd
+}
+DATA_CRITERIA XWD2
+{
+        DATA_ATTRIBUTES_NAME XWD
+        MODE            f
+        NAME_PATTERN    *.wd
+}
+ACTION Open
+{
+        LABEL           %|nls-1-Open|
+        ARG_TYPE        XWD
+        TYPE            MAP
+        MAP_ACTION      Xwud
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        XWD
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+ACTION Xwud
+{
+        LABEL		%|nls-12002-#Xwd Display#|
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+	EXEC_STRING	xwud -noclick -in \
+                              "%(File)Arg_1"%|nls-12003-#Xwd File To Display:#|"%"
+	DESCRIPTION	%|nls-12004-#The#|
+}
+
+XCOMM ##########################################################################
+XCOMM 
+%|nls-12-#HASH Actions#|
+XCOMM 
+XCOMM ##########################################################################
+ACTION Xrefresh
+{
+        LABEL		%|nls-12005-#Refresh Display#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     xrefresh
+	DESCRIPTION	%|nls-12006-#The#|
+}
+
+XCOMM ######
+
+ACTION Bitmap
+{
+        LABEL		%|nls-12007-#Edit Bitmap#|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	bitmap \
+				"%(File)Arg_1"%|nls-12008-#File To Open:#|"%"
+	DESCRIPTION	%|nls-12011-#The Edit Bitmap#|
+}
+ACTION Bitmap
+{
+        LABEL		%|nls-12007-#Edit Bitmap#|
+	ARG_COUNT	0	
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	bitmap \
+				-size %"%|nls-12009-#Width:#|"%x%"%|nls-12010-#Height:#|"% \
+				"%(File)Arg_1"%|nls-12008-#File To Open:#|"%"
+	DESCRIPTION	%|nls-12011-#The Edit Bitmap#|
+}
+
+XCOMM ######
+
+ACTION DttermConsole
+{
+        LABEL		%|nls-12012-#Terminal Console#|
+        ICON            Dtterm
+        ARG_COUNT	0
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     CDE_INSTALLATION_TOP/bin/dtterm -C -ls -name %|nls-12056-#Console#| -title %|nls-12056-#Console#|
+	DESCRIPTION	%|nls-12013-#The#|
+}
+
+XCOMM ######
+
+ACTION Xterm
+{
+        LABEL		%|nls-12014-#Xterm#|
+        ICON            Dtterm
+        ARG_COUNT	0
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	xterm
+	DESCRIPTION	%|nls-12015-#The#|
+}
+
+XCOMM ######
+
+ACTION DttermDtspcd
+{
+        LABEL		%|nls-12016-#Terminal Remote#|
+        ICON            Dtterm
+        ARG_COUNT	0
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_HOST	%"%|nls-12017-#Hostname:#|"%
+	EXEC_STRING	CDE_INSTALLATION_TOP/bin/dtterm
+	DESCRIPTION	%|nls-12018-#The#|
+}
+
+XCOMM ######
+
+ACTION XtermDtspcd
+{
+        LABEL		%|nls-12019-#Xterm Remote#|
+        ICON            Dtterm
+        ARG_COUNT	0
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_HOST	%"%|nls-12017-#Hostname:#|"%
+	EXEC_STRING	xterm
+	DESCRIPTION	%|nls-12020-#The#|
+}
+
+XCOMM ######
+
+ACTION DttermRlogin
+{
+        LABEL		%|nls-12021-#Terminal Rlogin#|
+        ICON            Dtterm
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     ksh -c 'export _title="%"%|nls-12017-#Hostname:#|"%"; \
+            /usr/dt/bin/dtterm -title "%|nls-12022-#\$_title#|" -e ksh -c \
+            "echo %|nls-12023-#Trying to#|; \
+            rlogin \$_title; sleep 5;";'
+	DESCRIPTION	%|nls-12024-#The#|
+}
+
+XCOMM ######
+
+ACTION XtermRlogin
+{
+        LABEL		%|nls-12025-#Xterm Rlogin#|
+        ICON            Dtterm
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     ksh -c 'export _title="%"%|nls-12017-#Hostname:#|"%"; \
+            xterm -title "%|nls-12026-#\$_title#|" -e ksh -c \
+            "echo %|nls-12023-#Trying to#|; \
+            rlogin \$_title; sleep 5;";'
+	DESCRIPTION	%|nls-12027-#The#|
+}
+
+XCOMM ######
+
+#ifdef __aix
+ACTION XclockDig
+{
+        LABEL		%|nls-12030-#Digital Clock#|
+        ARG_COUNT	0
+        ICON		Dtdgclk
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     xclock -digital -update 1
+        DESCRIPTION     %|nls-12031-#The#|
+}
+#else
+ACTION XclockDig
+{
+        LABEL		%|nls-12030-#Digital Clock#|
+        ARG_COUNT	0
+        ICON		Dtdgclk
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     xclock -name "%|nls-12030-#Digital Clock#|" \
+                                   -digital -update 1
+        DESCRIPTION     %|nls-12031-#The#|
+}
+#endif
+
+XCOMM ######
+
+ACTION Xload
+{
+        LABEL		%|nls-12032-#System Load#|
+        ARG_COUNT	0
+        ICON		Dtload
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     xload -name "%|nls-12055-#System Load|" \
+                             -geometry 250x150 -xrm '*primaryColorSetId: 5'
+        DESCRIPTION     %|nls-12033-#The#|
+}
+
+XCOMM ######
+
+ACTION Xwd
+{
+        LABEL		%|nls-12034-#Xwd Capture#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+	EXEC_STRING	xwd -out \
+                             %(File)"%|nls-12035-#Output File (<name>.xwd):#|"%
+	DESCRIPTION	%|nls-12036-#The#|
+}
+
+XCOMM ######
+
+ACTION Xclipboard
+{
+        LABEL		%|nls-12037-#Clipboard Contents#|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	xclipboard
+	DESCRIPTION	%|nls-12038-#The#|
+}
+
+XCOMM ######
+
+ACTION Xfd
+{
+        LABEL		%|nls-12039-#Font Preview#|
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	sh -c 'xfd -fn \
+                "%(String)Arg_1"%|nls-12040-#Font#|"%"; \
+	               if [ \$? -eq 1 ] ; then \
+                         /usr/dt/bin/dterror.ds \
+                          "%|nls-12041-#The font#|" \
+                          "%|nls-12042-#Font Name#|" \
+                          "%|nls-6-#OK#|" ; \
+	                fi'
+	DESCRIPTION	%|nls-12043-#The#|
+}
+
+XCOMM ######
+
+%|nls-12044-#The ListWinInfo ...#|
+ACTION Xwininfo
+{
+        LABEL		%|nls-12045-#Window Information#|
+        ARG_COUNT	0
+	TYPE		COMMAND
+	WINDOW_TYPE	PERM_TERMINAL
+	EXEC_STRING	sh -c 'xwininfo; \
+	    echo "%|nls-7-#Select#|"'
+	DESCRIPTION	%|nls-12046-#The#|
+}
+
+XCOMM ######
+
+ACTION Xprop
+{
+        LABEL           %|nls-12047-#Window Properties#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+            echo "%|nls-12048-#[When#|"; \
+            xprop | \${PAGER:-more}; \
+            echo "%|nls-7-#Select#|"'
+        DESCRIPTION     %|nls-12049-#The#|
+}
+
+XCOMM ######
+
+ACTION Xdpyinfo
+{
+        LABEL           %|nls-12050-#X Server...#|
+        ARG_COUNT	0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     \
+          sh -c ' \
+            xdpyinfo | \${PAGER:-more}; \
+            echo "%|nls-7-#Select#|"'
+        DESCRIPTION     %|nls-12051-#The#|
+}
+
+XCOMM ######
+
+ACTION Xlsfonts
+{
+        LABEL           %|nls-12052-#Font List#|
+        ARG_COUNT       0
+        TYPE            COMMAND
+        WINDOW_TYPE     PERM_TERMINAL
+        EXEC_STRING     sh -c ' \
+            echo "%|nls-12053-#[Looking for Fonts..#|"; \
+            xlsfonts | \${PAGER:-more}; \
+            echo "%|nls-7-#Select#|"'
+        DESCRIPTION     %|nls-12054-#The#|
+}
+
+XCOMM ######################## EOF ############################################

@@ -1,0 +1,679 @@
+<!-- $XConsortium: ch09.sgm /main/9 1996/12/20 20:43:29 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="UG.Print.div.1">
+<title id="UG.Print.mkr.1">Impression</title>
+<para>Le Bureau CDE fournit un moyen simple d'imprimer des fichiers, de rechercher
+et d'annuler des travaux d'impression, de consulter l'&eacute;tat des imprimantes
+et des travaux d'impression.</para>
+<informaltable id="UG.Print.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.00in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Votre imprimante
+par défaut191'--><xref role="JumpText" linkend="UG.Print.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Impression
+de fichiers192'--><xref role="JumpText" linkend="UG.Print.mkr.4"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Applications
+d'imprimantes197'--><xref role="JumpText" linkend="UG.Print.mkr.8"></para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<sect1 id="UG.Print.div.2">
+<title id="UG.Print.mkr.2">Votre imprimante par d&eacute;faut</title>
+<para><indexterm><primary>Imprimante par d&eacute;faut</primary><secondary>d&eacute;finition</secondary></indexterm>Votre syst&egrave;me peut disposer
+de plusieurs imprimantes accessibles. L'une d'entre elles sera d&eacute;sign&eacute;e
+comme l'imprimante <emphasis>par d&eacute;faut</emphasis>. Il s'agit de l'imprimante
+utilis&eacute;e automatiquement par le Bureau lorsque vous lancez un document
+&agrave; l'impression et que vous n'indiquez aucun nom d'imprimante. Lorsque
+vous ouvrez le Bureau pour la premi&egrave;re fois, l'imprimante par d&eacute;faut
+s'affiche dans le Tableau de bord.</para>
+<para>Pour afficher d'autres imprimantes que l'imprimante par d&eacute;faut
+dans le Tableau de bord, reportez-vous &agrave; la section <!--Original XRef
+content: '&ldquo;Modification de l'imprimante du Tableau de bord&ldquo;, page&numsp;203'--><xref
+role="SecTitleAndPageNum" linkend="UG.Print.mkr.9">.</para>
+<sect2 id="UG.Print.div.3" role="Procedure">
+<title>D&eacute;termination de l'imprimante par d&eacute;faut</title>
+<itemizedlist><listitem><para>Pour conna&icirc;tre le nom de l'imprimante
+par d&eacute;faut, cliquez deux fois sur l'ic&ocirc;ne Imprimante par d&eacute;faut
+du panneau secondaire Imprimantes personnelles dans le Tableau de bord.</para>
+<para>Cette op&eacute;ration lance l'application Travaux d'impression. Le
+nom situ&eacute; sous l'ic&ocirc;ne de l'imprimante correspond au nom de l'imprimante
+par d&eacute;faut.<indexterm><primary>Imprimante par d&eacute;faut</primary>
+<secondary>d&eacute;termination</secondary></indexterm></para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="UG.Print.div.4" role="Procedure">
+<title id="UG.Print.mkr.3">Modification de l'imprimante par d&eacute;faut</title>
+<para><indexterm><primary>Imprimante par d&eacute;faut</primary><secondary>modification</secondary></indexterm>Pour indiquer une autre imprimante comme
+imprimante par d&eacute;faut:</para>
+<orderedlist><listitem><para>Allez dans votre r&eacute;pertoire personnel
+et ouvrez le fichier <filename>.dtprofile</filename>.</para>
+</listitem><listitem><para>Ajoutez ou modifiez la ligne d&eacute;finissant
+la valeur de la variable d'environnement <systemitem>LPDEST</systemitem>:
+</para>
+<para remap="CodeIndent1"><systemitem>LPDEST</systemitem>=<symbol role="Variable">imprimante;</symbol><command>export</command> <systemitem>LPDEST</systemitem></para>
+<para>Si vous utilisez <command>csh</command>, la syntaxe est la suivante:
+</para>
+<para><command>setenv</command> <systemitem>LPDEST</systemitem> <symbol role="Variable">imprimante</symbol></para>
+</listitem></orderedlist>
+<note>
+<para>Cette modification prendra effet &agrave; la prochaine connexion.</para>
+</note>
+<para>Par exemple, la ligne suivante remplace l'imprimante par d&eacute;faut
+par celle dont le nom est <filename>laser3d</filename>.
+</para>
+<programlisting>LPDEST=laser3d; export LPDEST</programlisting>
+<para>Si vous utilisez <command>csh</command>, la syntaxe est la suivante
+:</para>
+<programlisting>setenv LPDEST laser3d</programlisting>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.5">
+<title id="UG.Print.mkr.4">Impression de fichiers</title>
+<para id="UG.Print.mkr.5">Le Bureau<indexterm><primary>Fichier</primary>
+<secondary>types de fichiers pour impression&lt;$startrange></secondary></indexterm><indexterm>
+<primary>Impression</primary><secondary>types de fichiers admis&lt;$startrange></secondary></indexterm> peut imprimer diff&eacute;rents types de fichiers
+comme indiqu&eacute; dans le <!--Original XRef content: 'Tableau&numsp;9&hyphen;1'--><xref
+role="CodeOrFigureOrTable" linkend="UG.Print.mkr.6">.</para>
+<table id="UG.Print.tbl.1" frame="Topbot">
+<title id="UG.Print.mkr.6">Types de donn&eacute;es pouvant &ecirc;tre imprim&eacute;s
+(configuration initiale)</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.01in">
+<colspec colwidth="3.38in">
+<colspec colwidth="2.46in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Type de do<?Pub Caret>nn&eacute;es</literal></para></entry><entry align="left" valign="bottom"><para><literal>Conditions requises</literal></para></entry><entry align="left" valign="bottom"><para><literal>Description</literal></para></entry></row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Fichier texte</para></entry>
+<entry align="left" valign="top"><para>Nom du fichier se terminant par <computeroutput>.txt</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Fichiers texte contenant du texte standard
+(ASCII)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>PostScript</para></entry>
+<entry align="left" valign="top"><para>Nom du fichier se terminant par <computeroutput>.ps,</computeroutput>ou son contenu est reconnu comme donn&eacute;es PostScript
+</para></entry>
+<entry align="left" valign="top"><para>Fichier PostScript</para><para>(exige
+une imprimante PostScript)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>PCL</para></entry>
+<entry align="left" valign="top"><para>Nom du fichier se terminant par <computeroutput>.pcl,</computeroutput> ou son contenu est reconnu comme donn&eacute;es PCL
+</para></entry>
+<entry align="left" valign="top"><para>Fichiers PCL</para><para>(requiert
+une imprimante PCL)</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Donn&eacute;es</para></entry>
+<entry align="left" valign="top"><para>Contient du texte</para></entry>
+<entry align="left" valign="top"><para>Le type de donn&eacute;es par d&eacute;faut
+attribu&eacute; &agrave; tous les fichiers contenant des donn&eacute;es ASCII
+ne correspondant pas &agrave; d'autres types de donn&eacute;es</para></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>Si des applications cr&eacute;ant d'autres types de fichiers sont install&eacute;es
+sur votre syst&egrave;me, l'administrateur syst&egrave;me peut leur ajouter
+des fonctions d'impression.<indexterm><primary>Fichier</primary><secondary>types de fichiers pour impression&lt;$endrange></secondary></indexterm><indexterm>
+<primary>Impression</primary><secondary>types de fichiers admis&lt;$endrange></secondary></indexterm></para>
+<note>
+<para>Assurez-vous que l'imprimante supporte l'impression de fichiers Postcript<superscript>
+TM</superscript> ou PCL avant d'essayer de les imprimer.</para>
+</note>
+<sect2 id="UG.Print.div.6">
+<title>Soumission d'un fichier &agrave; l'impression</title>
+<para>Plusieurs m&eacute;thodes permettent de soumettre un fichier &agrave;
+l'impression:</para>
+<itemizedlist remap="Bullet1"><listitem><para>&agrave; l'aide du Tableau de
+bord,</para>
+</listitem><listitem><para>&agrave; l'aide du Gestionnaire de fichiers,</para>
+</listitem><listitem><para>&agrave; l'aide du Gestionnaire d'impression,</para>
+</listitem><listitem><para>depuis une application.</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="UG.Print.div.7" role="Procedure">
+<title>Impression &agrave; partir du Tableau de bord</title>
+<orderedlist><listitem><para>Faites glisser un ou plusieurs fichiers du Gestionnaire
+de fichiers vers l'ic&ocirc;ne Imprimante du Tableau de bord ou vers une ic&ocirc;ne
+Imprimante du panneau secondaire Imprimantes personnelles.</para>
+<para><indexterm><primary>Impression</primary><secondary>Tableau de bord&lt;$startrange></secondary></indexterm>Le syst&egrave;me affiche alors une bo&icirc;te de
+dialogue Imprimer permettant d'indiquer les options d'impression. Une telle
+bo&icirc;te de dialogue appara&icirc;t pour chaque fichier pos&eacute; sur
+l'ic&ocirc;ne Imprimante.<indexterm><primary>Tableau de bord</primary><secondary>impression&lt;$startrange></secondary></indexterm></para>
+<graphic id="ug.print.igrph.1" entityref="UG.Print.fig.1"></graphic>
+<note>
+<para>L'imprimante pscolor ne s'affiche pas sur le syst&egrave;me. Elle est
+seulement incluse en tant qu'exemple d'imprimante ajout&eacute;e &agrave;
+un syst&egrave;me.</para>
+</note>
+</listitem><listitem><para><emphasis>Facultatif</emphasis>.Utilisez les zones
+de texte de la bo&icirc;te de dialogue Imprimer pour d&eacute;finir d'autres
+options d'impression. Reportez-vous &agrave; la section <!--Original XRef
+content: '&ldquo;Configuration des options d'impression--><!--&ldquo;, page&numsp;196'--><xref
+role="SecTitleAndPageNum" linkend="ug.print.mkr.7">.</para>
+</listitem><listitem><para>Cliquez sur OK dans la bo&icirc;te de dialogue
+Imprimer pour envoyer le travail &agrave; l'impression.<indexterm><primary>Tableau de bord</primary><secondary>impression&lt;$endrange></secondary></indexterm><indexterm>
+<primary>Impression</primary><secondary>Tableau de bord&lt;$endrange></secondary>
+</indexterm></para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.8" role="Procedure">
+<title>Impression &agrave; partir du Gestionnaire de fichiers</title>
+<orderedlist><listitem><para>S&eacute;lectionnez le fichier dans le Gestionnaire
+de fichiers.<indexterm><primary>Gestionnaire de fichiers</primary><secondary>impression</secondary></indexterm></para>
+</listitem><listitem><para>S&eacute;lectionnez Imprimer sur le menu S&eacute;lectionn&eacute;(s)
+ou le menu instantan&eacute; du fichier.</para>
+<para>Le syst&egrave;me affiche une bo&icirc;te de dialogue Imprimer permettant
+d'indiquer les diff&eacute;rentes options d'impression.</para>
+</listitem><listitem><para><emphasis>Facultatif</emphasis>. Utilisez les zones
+de texte de la bo&icirc;te de dialogue Imprimer pour d&eacute;finir d'autres
+options d'impression. Reportez-vous &agrave; la section <!--Original XRef
+content: '&ldquo;Configuration des options d'impression&ldquo;, page&numsp;196'--><xref
+role="SecTitleAndPageNum" linkend="UG.Print.mkr.7">.</para>
+</listitem><listitem><para>Cliquez sur OK dans la bo&icirc;te de dialogue
+Imprimer pour envoyer le travail &agrave; l'impression.<indexterm><primary>Impression</primary><secondary>Gestionnaire de fichiers</secondary></indexterm></para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.9" role="Procedure">
+<title>Impression &agrave; partir du Gestionnaire d'impression</title>
+<orderedlist><listitem><para>Lancez le Gestionnaire d'impression &agrave;
+partir du panneau secondaire Imprimantes personnelles.<indexterm><primary>Impression</primary><secondary>Gestionnaire d'impression</secondary></indexterm></para>
+</listitem><listitem><para>Faites glisser un fichier du Gestionnaire de fichiers
+vers une ic&ocirc;ne d'imprimante du Gestionnaire d'impression.<indexterm>
+<primary>Gestionnaire d'impression</primary><secondary>impression</secondary>
+</indexterm></para>
+<para>Dans le Gestionnaire d'impression, vous pouvez soumettre un document
+&agrave; l'impression en le posant sur une ic&ocirc;ne d'imprimante ou sur
+la zone de liste des travaux situ&eacute;e &agrave; droite de l'imprimante.
+</para>
+<note>
+<para>Si vous soumettez un travail &agrave; une imprimante qui ne fonctionne
+pas (alors qu'un indicateur vous le signale), celui-ci ne sera jamais imprim&eacute;
+bien qu'il apparaisse dans la liste des travaux.</para>
+</note>
+<para>Le syst&egrave;me affiche une bo&icirc;te de dialogue Imprimer permettant
+d'indiquer les diff&eacute;rentes options d'impression.</para>
+</listitem><listitem><para><emphasis>Facultatif</emphasis>. Utilisez les zones
+de texte de la bo&icirc;te de dialogue Imprimer pour d&eacute;finir d'autres
+options d'impression. Reportez-vous &agrave; la section <!--Original XRef
+content: '&ldquo;Configuration des options d'impression--><!--&ldquo;, page&numsp;196'--><xref
+role="SecTitleAndPageNum" linkend="ug.print.mkr.7">.</para>
+</listitem><listitem><para>Cliquez sur OK dans la bo&icirc;te de dialogue
+Imprimer pour envoyer le travail &agrave; l'impression.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.10">
+<title id="UG.Print.mkr.7">Configuration des options d'impression</title>
+<para><indexterm><primary>Bo&icirc;te de dialogue Imprimer&lt;$startrange></primary></indexterm>Le Bureau affiche la bo&icirc;te de dialogue Imprimer
+lorsque vous imprimez des fichiers texte, PCL, Postcript et de donn&eacute;es
+(reportez-vous au <!--Original XRef content: 'Tableau&numsp;9&hyphen;1, page&numsp;193'--><xref
+role="CodeOrFigOrTabAndPNum" linkend="UG.Print.mkr.6">).</para>
+<graphic id="UG.Print.igrph.2" entityref="UG.Print.fig.2"></graphic>
+<para>Lorsque des fichiers d'application tels que des documents d'un traitement
+de texte sont soumis &agrave; l'impression, leurs propres bo&icirc;tes de
+dialogue Imprimer peuvent s'afficher.</para>
+<para><indexterm><primary>Options</primary><secondary>impression</secondary>
+<tertiary>configuration</tertiary></indexterm><indexterm><primary>Impression</primary><secondary>configuration des options</secondary></indexterm>Utilisez
+la bo&icirc;te de dialogue Imprimer pour configurer ces options d'impression
+:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="131*">
+<colspec colwidth="397*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Imprimante</para></entry>
+<entry align="left" valign="top"><para>La destination du travail d'impression.
+La zone de texte affiche en premier l'imprimante sur laquelle vous avez pos&eacute;
+le fichier de donn&eacute;es. Dans cet exemple, le document est pos&eacute;
+sur l'imprimante<filename>lj4_n5</filename>.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Exemplaires</para></entry>
+<entry align="left" valign="top"><para>Le nombre de copies &agrave; imprimer.
+La valeur par d&eacute;faut est 1.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Titre de la page banni&egrave;re</para></entry>
+<entry align="left" valign="top"><para>Titre figurant sur la page banni&egrave;re.
+La page banni&egrave;re correspond &agrave; une feuille de papier imprim&eacute;e
+avant la premi&egrave;re page du document.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Imprimer les num&eacute;ros de page
+</para></entry>
+<entry align="left" valign="top"><para>Imprime les num&eacute;ros de page
+sur chaque page. Si vous s&eacute;lectionnez cette option, le Gestionnaire
+d'impression n'affichera pas le vrai nom du document. Le nom dans la liste
+des travaux sera STDIN:XXXXX, o&ugrave; XXXXX repr&eacute;sente un num&eacute;ro
+de 5 chiffres.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Options des commandes d'impression
+</para></entry>
+<entry align="left" valign="top"><para>Autres options modifiant l'impression.
+Pour plus de d&eacute;tails sur cette zone, reportez-vous &agrave; la section
+suivante.</para></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<sect3 id="UG.Print.div.11">
+<title>Options des commandes d'impression</title>
+<para><indexterm><primary>Impression</primary><secondary>commandes d'impression</secondary></indexterm><indexterm><primary>Commande</primary><secondary>impression</secondary><tertiary>&eacute;mission</tertiary></indexterm>Utilisez
+la zone de texte Options des commandes d'impression dans la bo&icirc;te de
+dialogue Imprimer pour d&eacute;finir d'autres options d'impression. Entrez
+l'indicateur de commande <command>lp</command> appropri&eacute; dans la zone
+de texte correspondant &agrave; l'option d'impression que vous souhaitez utiliser.
+Pour voir la liste des indicateurs de commande <command>lp</command>, entrez <command>man</command> <command>lp</command> dans une fen&ecirc;tre de terminal.</para>
+<para>Par exemple, l'un des indicateurs <command>lp</command> est <filename>-m</filename>. Cet indicateur signale l'envoi d'un message par le serveur
+d'impression &agrave; la fin de l'impression du document. Pour utiliser cet
+indicateur, tapez <filename>-m</filename> dans la zone Options des commandes
+d'impression de la bo&icirc;te de dialogue Imprimer. Puis, quand l'impression
+du document est termin&eacute;e, un message &eacute;mis par l'imprimante s'affiche
+dans votre bo&icirc;te de messages.<indexterm><primary>Bo&icirc;te de dialogue
+Imprimer&lt;$endrange></primary></indexterm></para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.12">
+<title id="UG.Print.mkr.8">Applications d'imprimantes</title>
+<para>Apr&egrave;s avoir soumis un travail &agrave; l'imprimante, vous pouvez
+utiliser le Gestionnaire d'impression ou l'application Travaux d'impression
+pour v&eacute;rifier l'&eacute;tat d'avancement des travaux. L'application
+Travaux d'impression vous renseigne sur les travaux en cours sur une imprimante.
+Le Gestionnaire d'impression liste chaque imprimante connect&eacute;e au syst&egrave;me.
+</para>
+<sect2 id="UG.Print.div.13">
+<title>Gestionnaire d'impression</title>
+<para><indexterm><primary>Gestionnaire d'impression</primary><secondary>fen&ecirc;tre</secondary></indexterm>La fen&ecirc;tre du Gestionnaire d'impression est
+affich&eacute;e ci-dessous. Pour savoir comment la modifier, reportez-vous
+&agrave; la section <!--Original XRef content: '&ldquo;Modification de l'affichage
+du Gestionnaire d'impression&ldquo;, page&numsp;205'--><xref role="SecTitleAndPageNum"
+linkend="UG.Print.mkr.11">.</para>
+<graphic id="UG.Print.igrph.3" entityref="UG.Print.fig.3"></graphic>
+<sect3 id="UG.Print.div.14" role="Procedure">
+<title>Lancement du Gestionnaire d'impression</title>
+<itemizedlist remap="Bullet1"><listitem><para>Cliquez sur l'ic&ocirc;ne Gestionnaire
+d'impression dans le panneau secondaire Imprimantes personnelles du Tableau
+de bord.<indexterm><primary>Gestionnaire d'impression</primary><secondary>lancement&lt;$startrange></secondary></indexterm><indexterm><primary>Lancement</primary><secondary>Gestionnaire d'impression&lt;$startrange></secondary>
+</indexterm></para>
+</listitem></itemizedlist>
+<graphic id="UG.Print.igrph.4" entityref="UG.Print.fig.4"></graphic>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>Ou</emphasis> cliquez
+deux fois sur l'ic&ocirc;ne Gestionnaire d'impression du groupe Applications_Bureau
+dans le Gestionnaire d'applications<indexterm><primary>Gestionnaire d'impression</primary><secondary>lancement&lt;$endrange></secondary></indexterm><indexterm>
+<primary>Lancement</primary><secondary>Gestionnaire d'impression &lt;$endrange></secondary></indexterm></para>
+</listitem></itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="UG.Print.div.15">
+<title>Application Travaux d'impression</title>
+<para><indexterm><primary>Travaux d'impression</primary></indexterm>L'application
+Travaux d'impression est l'application visible lorsque vous ouvrez une seule
+imprimante &agrave; partir du Tableau de bord. Il s'agit d'une version simplifi&eacute;e
+du Gestionnaire d'impression qui n'affiche qu'une imprimante et non toutes
+celles connect&eacute;es au syst&egrave;me. Les fonctions disponibles dans
+cette application fonctionnent de la m&ecirc;me fa&ccedil;on que dans le Gestionnaire
+d'impression.</para>
+<graphic id="UG.Print.igrph.5" entityref="UG.Print.fig.5"></graphic>
+<sect3 id="UG.Print.div.16" role="Procedure">
+<title>Lancement de l'application Travaux d'impression</title>
+<itemizedlist><listitem><para>Cliquez sur l'ic&ocirc;ne Imprimante du Tableau
+de bord.<indexterm><primary>Travaux d'impression</primary><secondary>lancement</secondary></indexterm><indexterm><primary>Lancement</primary><secondary>travaux d'impression</secondary></indexterm></para>
+</listitem></itemizedlist>
+<graphic id="UG.Print.igrph.6" entityref="UG.Print.fig.6"></graphic>
+<para>L'imprimante pscolor ne s'affiche dans la figure qu'en tant qu'exemple
+d'imprimante ajout&eacute;e au syst&egrave;me. Elle n'appara&icirc;tra pas
+sur le panneau secondaire.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.17">
+<title>Affichage des informations sur les travaux d'impression</title>
+<para><indexterm><primary>Travaux d'impression</primary><secondary>d&eacute;finition</secondary></indexterm>Les informations relatives aux travaux en attente
+d'impression s'affichent lorsque vous ouvrez une ic&ocirc;ne d'imprimante.
+Une zone situ&eacute;e &agrave; droite de l'ic&ocirc;ne d'imprimante affiche
+une ic&ocirc;ne pour chaque travail en attente, et en ligne, sa position,
+son nom et son propri&eacute;taire.</para>
+<sect2 id="UG.Print.div.18" role="Procedure">
+<title>Ouverture d'une ic&ocirc;ne Imprimante</title>
+<para><indexterm><primary>Travaux d'impression</primary><secondary>affichage</secondary></indexterm><indexterm><primary>Affichage</primary><secondary>travaux d'impression</secondary></indexterm>Trois m&eacute;thodes permettent
+d'ouvrir une ic&ocirc;ne Imprimante:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Cliquez sur le bouton Ouvrir
+situ&eacute; &agrave; gauche de l'ic&ocirc;ne Imprimante.</para>
+</listitem><listitem><para>S&eacute;lectionnez une imprimante, puis choisissez
+Ouvrir dans le menu S&eacute;lectionn&eacute;(s) ou dans le menu instantan&eacute;
+de l'imprimante. Ce menu s'affiche lorsque vous appuyez sur Maj+F10 ou sur
+le bouton droit de la souris.</para>
+</listitem><listitem><para>Cliquez deux fois sur l'ic&ocirc;ne Imprimante.
+</para>
+</listitem></itemizedlist>
+<note>
+<para>Le travail ne s'affiche pas dans la fen&ecirc;tre du Gestionnaire d'impression
+ou de l'application Travaux d'impression s'il n'existe aucun travail en attente
+lorsque vous envoyez le travail &agrave; l'imprimante.</para>
+</note>
+</sect2>
+<sect2 id="UG.Print.div.19" role="Procedure">
+<title>Fermeture d'une ic&ocirc;ne Imprimante</title>
+<para><indexterm><primary>Travaux d'impression</primary><secondary>masquage</secondary></indexterm><indexterm><primary>Masquage</primary><secondary>travaux en attente d'impression</secondary></indexterm>Fermez l'imprimante
+si vous ne souhaitez pas voir les travaux en attente pour cette imprimante.
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>Cliquez sur le bouton Fermer
+[-] situ&eacute; &agrave; gauche de l'ic&ocirc;ne Imprimante.</para>
+</listitem><listitem><para>S&eacute;lectionnez une imprimante, puis choisissez
+Fermer dans le menu S&eacute;lectionn&eacute;(s) ou dans le menu instantan&eacute;
+de l'imprimante. Ce menu s'affiche lorsque vous appuyez sur Maj+F10 ou sur
+le bouton droit de la souris.</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="UG.Print.div.20" role="Procedure">
+<title>Recherche d'un travail d'impression</title>
+<orderedlist><listitem><para>S&eacute;lectionnez Recherche dans le menu Imprimantes.<indexterm>
+<primary>Travaux d'impression</primary><secondary>recherche</secondary></indexterm><indexterm>
+<primary>Recherche</primary><secondary>travaux d'impression</secondary></indexterm></para>
+<para>Cette option est disponible dans le Gestionnaire d'impression, mais
+pas dans l'application Travaux d'impression.</para>
+</listitem><listitem><para>Entrez le nom du travail d'impression recherch&eacute;
+dans la zone Nom du travail.</para>
+<para>Par exemple, <command>cat</command> recherche tous les travaux dont
+le nom contient la cha&icirc;ne &ldquo;cat&rdquo;, tels que &ldquo;Cat&eacute;gorie&rdquo;
+et &ldquo;catalogue&rdquo;, sans faire la distinction majuscules/minuscules.
+</para>
+<para>Pour rechercher uniquement les travaux portant le nom &ldquo;cat&rdquo;,
+s&eacute;lectionnez Correspondance exacte.</para>
+<para>Pour rechercher des travaux en effectuant la distinction majuscules-
+minuscules, d&eacute;s&eacute;lectionnez Pas de distinction maj-min.</para>
+<note>
+<para>Cette option recherche uniquement les travaux d'impression dont vous
+&ecirc;tes le propri&eacute;taire. En revanche, elle effectue la recherche
+sur toutes les imprimantes, m&ecirc;me celles qui ne sont pas list&eacute;es.
+</para>
+</note>
+</listitem><listitem><para>Cliquez sur D&eacute;marrer recherche.</para>
+</listitem><listitem><para>Lorsque vous avez trouv&eacute; un travail, vous
+pouvez y acc&eacute;der directement dans le Gestionnaire d'impression ou l'annuler.
+Pour acc&eacute;der au travail, s&eacute;lectionnez-le et cliquez sur Aller
+&agrave;. Pour annuler le travail, s&eacute;lectionnez-le et cliquez sur Annuler
+travaux d'impression.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.21" role="Procedure">
+<title>Annulation d'un travail d'impression</title>
+<orderedlist><listitem><para>S&eacute;lectionnez un travail d'impression dans
+la fen&ecirc;tre du Gestionnaire d'impression ou de l'application Travaux
+d'impression.<indexterm><primary>Travaux d'impression</primary><secondary>annulation</secondary></indexterm><indexterm><primary>Annulation</primary>
+<secondary>travaux d'impression</secondary></indexterm></para>
+</listitem><listitem><para>Choisissez Annuler dans le menu S&eacute;lectionn&eacute;(s)
+ou dans le menu instantan&eacute; du travail d'impression. Ce menu s'affiche
+lorsque vous appuyez sur Maj+F10 ou sur le bouton droit de la souris.</para>
+</listitem><listitem><para>Cliquez sur Oui dans la bo&icirc;te de dialogue
+de confirmation.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.22">
+<title>Caract&eacute;ristiques des travaux d'impression</title>
+<itemizedlist remap="Bullet1"><listitem><para>nom du travail,</para>
+</listitem><listitem><para>propri&eacute;taire du travail,</para>
+</listitem><listitem><para>num&eacute;ro du travail,</para>
+</listitem><listitem><para>taille du travail,</para>
+</listitem><listitem><para>heure de soumission du travail,</para>
+</listitem><listitem><para>date de soumission du travail.</para>
+</listitem></itemizedlist>
+<note>
+<para>Le terme &ldquo;non disponible&rdquo; peut appara&icirc;tre dans certaines
+zones pour indiquer que le syst&egrave;me d'impression ne fournit pas ces
+informations.</para>
+</note>
+<graphic id="UG.Print.igrph.7" entityref="UG.Print.fig.7"></graphic>
+<sect3 id="UG.Print.div.23" role="Procedure">
+<title>Affichage des caract&eacute;ristiques des travaux d'impression</title>
+<orderedlist><listitem><para>S&eacute;lectionnez un travail d'impression.<indexterm>
+<primary>Travaux d'impression</primary><secondary>affichage des caract&eacute;ristiques</secondary></indexterm><indexterm><primary>Caract&eacute;ristiques</primary>
+<secondary>travaux d'impression</secondary></indexterm></para>
+</listitem><listitem><para>Choisissez Caract&eacute;ristiques dans le menu
+S&eacute;lectionn&eacute;(s) ou dans le menu instantan&eacute; du travail
+d'impression. Ce menu s'affiche lorsque vous appuyez sur Maj+F10 ou sur le
+bouton 3 de la souris.</para>
+<para>Les caract&eacute;ristiques s'affichent.</para>
+</listitem></orderedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.24">
+<title>Imprimantes et Tableau de bord</title>
+<para>L'imprimante affich&eacute;e dans le Tableau de bord est g&eacute;n&eacute;ralement
+l'imprimante par d&eacute;faut. Vous pouvez choisir une autre imprimante ou
+ajouter une imprimante au panneau secondaire Imprimantes personnelles.</para>
+<sect2 id="UG.Print.div.25" role="Procedure">
+<title id="UG.Print.mkr.9">Modification de l'imprimante du Tableau de bord</title>
+<note>
+<para>La proc&eacute;dure suivante ne modifie pas l'affectation de l'imprimante
+par d&eacute;faut. Pour savoir comment modifier l'imprimante par d&eacute;faut,
+reportez-vous &agrave; la section <!--Original XRef content: '&ldquo;Modification
+de l'imprimante par défaut&ldquo;, page&numsp;192'--><xref role="SecTitleAndPageNum"
+linkend="UG.Print.mkr.3">.</para>
+</note>
+<orderedlist><listitem><para>Ouvrez le panneau secondaire Imprimantes personnelles
+(en cliquant sur la fl&egrave;che situ&eacute;e au-dessus de l'ic&ocirc;ne
+Imprimante dans le Tableau de bord) et v&eacute;rifiez que l'ic&ocirc;ne de
+l'imprimante que vous souhaitez amener sur le Tableau de bord appara&icirc;t.<indexterm>
+<primary>Imprimante</primary><secondary>modification</secondary></indexterm><indexterm>
+<primary>Tableau de bord</primary><secondary>modification de l'imprimante</secondary></indexterm></para>
+<para>Si l'imprimante n'appara&icirc;t pas dans le panneau secondaire Imprimantes
+personnelles, ajoutez-la en suivant les &eacute;tapes de la section <!--Original
+XRef content: '&ldquo;Ajout d'une imprimante au panneau secondaire Imprimantes
+personnelles'--><xref role="SectionTitle" linkend="UG.Print.mkr.10">.</para>
+</listitem><listitem><para>Dans le panneau secondaire, placez le pointeur
+de la souris sur l'ic&ocirc;ne Imprimante &agrave; ajouter au Tableau de bord
+et s&eacute;lectionnez Placer dans Tableau principal dans le menu instantan&eacute;
+de l'ic&ocirc;ne. Ce menu s'affiche lorsque vous appuyez sur Maj+F10 ou sur
+le bouton droit de la souris.</para>
+<para>Pour v&eacute;rifier que l'imprimante a &eacute;t&eacute; modifi&eacute;e,
+cliquez deux fois sur l'ic&ocirc;ne Imprimante dans le Tableau de bord et
+v&eacute;rifiez le nom de l'ic&ocirc;ne qui appara&icirc;t dans la fen&ecirc;tre
+Travaux d'impression.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.26" role="Procedure">
+<title id="UG.Print.mkr.10">Ajout d'une imprimante au panneau secondaire Imprimantes
+personnelles</title>
+<orderedlist><listitem><para>Ouvrez le panneau secondaire Imprimantes personnelles
+(en appuyant sur la fl&egrave;che situ&eacute;e au-dessus de l'ic&ocirc;ne
+Imprimante du Tableau de bord).</para>
+</listitem><listitem><para>Lancez le Gestionnaire d'impression.</para>
+</listitem><listitem><para>Faites glisser une ic&ocirc;ne d'imprimante de
+la fen&ecirc;tre du Gestionnaire d'impression et posez-la sur Installer une
+ic&ocirc;ne, dans le panneau secondaire ouvert.</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.27">
+<title id="UG.Print.mkr.11">Modification de l'affichage du Gestionnaire d'impression</title>
+<para>Cette section explique omment modifier les param&egrave;tres d'affichage
+du Gestionnaire d'impression.</para>
+<sect2 id="UG.Print.div.28" role="Procedure">
+<title>Modification de l'affichage des imprimantes et des travaux d'impression</title>
+<orderedlist><listitem><para>Choisissez D&eacute;finir les options dans le
+menu Visualiser.<indexterm><primary>Imprimante</primary><secondary>affichage</secondary><tertiary>Gestionnaire d'impression</tertiary></indexterm><indexterm>
+<primary>Gestionnaire d'impression</primary><secondary>affichage des imprimantes</secondary></indexterm></para>
+</listitem><listitem><para>S&eacute;lectionnez le mode d'affichage des travaux
+d'impression:</para>
+<itemizedlist remap="Bullet2"><listitem><para>Grandes ic&ocirc;nes &ndash;
+Affiche les imprimantes et les travaux sous forme de grandes ic&ocirc;nes.
+</para>
+</listitem><listitem><para>Petites ic&ocirc;nes &ndash; Affiche les imprimantes
+et les travaux d'impression sous forme d'ic&ocirc;nes r&eacute;duites.</para>
+</listitem><listitem><para>Nom uniquement &ndash; Affiche les imprimantes
+et les travaux d'impression sous forme de texte uniquement.</para>
+</listitem><listitem><para>Informations &ndash; Affiche le propri&eacute;taire,
+la taille et le num&eacute;ro de chaque travail, ainsi que la date et l'heure
+auxquelles il a &eacute;t&eacute; soumis.</para>
+</listitem><listitem><para>Affichage libell&eacute;s &ndash; Affiche la description
+de chaque rang&eacute;e d'informations &agrave; gauche de la liste des travaux.<indexterm>
+<primary>Travaux d'impression</primary><secondary>affichage</secondary><tertiary>Gestionnaire d'impression</tertiary></indexterm><indexterm><primary>Gestionnaire
+d'impression</primary><secondary>affichage des travaux d'impression</secondary>
+</indexterm></para>
+</listitem></itemizedlist>
+<note>
+<para>Le terme &ldquo;non disponible&rdquo; peut appara&icirc;tre dans certaines
+zones pour indiquer que le serveur d'impression ne fournit pas ces informations.
+</para>
+</note>
+</listitem><listitem><para>Cliquez sur OK.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.29" role="Procedure">
+<title>Modification de la fr&eacute;quence des mises &agrave; jour</title>
+<orderedlist><listitem><para>Choisissez D&eacute;finir les options dans le
+menu Visualiser.</para>
+</listitem><listitem><para>&Agrave; l'aide de la jauge, indiquez la fr&eacute;quence
+&agrave; laquelle les imprimantes sont interrog&eacute;es sur leurs travaux
+d'impression. La valeur par d&eacute;faut est 30 secondes.</para>
+</listitem><listitem><para>Cliquez sur OK.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.30" role="Procedure">
+<title>S&eacute;lection des travaux d'impression &agrave; afficher</title>
+<orderedlist><listitem><para>Choisissez D&eacute;finir les options dans le
+menu Visualiser.<indexterm><primary>Gestionnaire d'impression</primary><secondary>s&eacute;lection du type des travaux</secondary></indexterm></para>
+</listitem><listitem><para>S&eacute;lectionnez les travaux &agrave; afficher
+:</para>
+<itemizedlist remap="Bullet2"><listitem><para>Travaux personnels uniquement
+&ndash; Affiche uniquement vos travaux d'impression</para>
+</listitem><listitem><para>Tous les travaux &ndash; Affiche tous les travaux
+d'impression.</para>
+</listitem></itemizedlist>
+</listitem><listitem><para>Cliquez sur OK.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.31" role="Procedure">
+<title>Affichage de la ligne de message du Gestionnaire d'impression</title>
+<orderedlist><listitem><para>Choisissez D&eacute;finir les options dans le
+menu Visualiser.</para>
+</listitem><listitem><para>S&eacute;lectionnez Ligne de message pour afficher
+une ligne de message en bas de la fen&ecirc;tre<indexterm><primary>Gestionnaire
+d'impression</primary><secondary>affichage d'une ligne de message</secondary>
+</indexterm><indexterm><primary>Affichage</primary><secondary>ligne de message</secondary><tertiary>Gestionnaire d'impression</tertiary></indexterm> du Gestionnaire
+d'impression.</para>
+<para>Cette ligne indique le nombre total des imprimantes install&eacute;es
+sur le syst&egrave;me et de celles actuellement masqu&eacute;es, ainsi que
+les dates de mise &agrave; jour des imprimantes.</para>
+</listitem><listitem><para>Cliquez sur OK.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.32" role="Procedure">
+<title>Affichage du signal d'erreur du Gestionnaire d'impression</title>
+<orderedlist><listitem><para>Choisissez D&eacute;finir les options dans le
+menu Visualiser.<indexterm><primary>Gestionnaire d'impression</primary><secondary>signal d'erreur</secondary></indexterm><indexterm><primary>Affichage</primary>
+<secondary>signal d'erreur</secondary><tertiary>Gestionnaire d'impression</tertiary></indexterm></para>
+</listitem><listitem><para>S&eacute;lectionnez Signal d'erreur pour afficher
+une ic&ocirc;ne Signal en regard des imprimantes pour lesquelles une erreur
+a &eacute;t&eacute; d&eacute;tect&eacute;e.</para>
+<para>Pour plus de d&eacute;tails sur l'incident, cliquez deux fois sur l'ic&ocirc;ne
+Signal.</para>
+</listitem><listitem><para>Cliquez sur OK.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.33" role="Procedure">
+<title>S&eacute;lection des imprimantes &agrave; afficher</title>
+<orderedlist><listitem><para>Choisissez Modifier la liste d'affichage dans
+le menu Visualiser.</para>
+<para>Les noms des imprimantes visibles dans la fen&ecirc;tre du Gestionnaire
+d'impression sont mis en &eacute;vidence.</para>
+</listitem><listitem><para>Cliquez sur une imprimante non mise en &eacute;vidence
+pour la rendre visible dans la fen&ecirc;tre du Gestionnaire d'impression.
+</para>
+<para>Cliquez sur une imprimante mise en &eacute;vidence pour la supprimer
+de la fen&ecirc;tre principale. Vous pouvez &eacute;galement utiliser Tout
+s&eacute;lectionner pour afficher toutes les imprimantes ou Tout d&eacute;s&eacute;lectionner
+pour masquer toutes les imprimantes.</para>
+</listitem><listitem><para>Cliquez sur OK.</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="UG.Print.div.34">
+<title>Caract&eacute;ristiques de l'imprimante</title>
+<para>Vous pouvez afficher les caract&eacute;ristiques suivantes:</para>
+<itemizedlist remap="Bullet1"><listitem><para>libell&eacute; d'ic&ocirc;ne,
+</para>
+</listitem><listitem><para>ic&ocirc;nes,</para>
+</listitem><listitem><para>description,</para>
+</listitem><listitem><para>file d'attente de l'imprimante,</para>
+</listitem><listitem><para>&eacute;tat de la file d'attente de l'imprimante,
+</para>
+</listitem><listitem><para>nom de l'unit&eacute;,</para>
+</listitem><listitem><para>&eacute;tat de l'unit&eacute;.</para>
+</listitem></itemizedlist>
+<sect2 id="UG.Print.div.35" role="Procedure">
+<title>Affichage des caract&eacute;ristiques d'une imprimante</title>
+<orderedlist><listitem><para>S&eacute;lectionnez une imprimante dans la fen&ecirc;tre
+du Gestionnaire d'impression ou de l'application Travaux d'impression.<indexterm>
+<primary>Imprimante</primary><secondary>affichage des caract&eacute;ristiques</secondary></indexterm><indexterm><primary>Affichage</primary><secondary>caract&eacute;ristiques d'une imprimante</secondary></indexterm></para>
+</listitem><listitem><para>Choisissez Caract&eacute;ristiques dans le menu
+S&eacute;lectionn&eacute;(s) ou dans le menu instantan&eacute; de l'imprimante.
+Ce menu s'affiche lorsque vous appuyez sur Maj+F10 ou sur le bouton droit
+de la
+souris.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.36" role="Procedure">
+<title>Modification d'une ic&ocirc;ne d'imprimante</title>
+<orderedlist><listitem><para>S&eacute;lectionnez une imprimante.<indexterm>
+<primary>Imprimante</primary><secondary>modification de l'ic&ocirc;ne</secondary>
+</indexterm><indexterm><primary>Ic&ocirc;nes</primary><secondary>modification
+pour une imprimante</secondary></indexterm><indexterm><primary>Modification</primary><secondary>ic&ocirc;ne d'imprimante</secondary></indexterm></para>
+</listitem><listitem><para>Choisissez Caract&eacute;ristiques dans le menu
+S&eacute;lectionn&eacute;(s) ou dans le menu instantan&eacute; de l'imprimante.
+Ce menu s'affiche lorsque vous appuyez sur Maj+F10 ou sur le bouton droit
+de la
+souris.</para>
+</listitem><listitem><para>Cliquez sur Rechercher ensemble.</para>
+</listitem><listitem><para>S&eacute;lectionnez l'ic&ocirc;ne que vous souhaitez
+utiliser.</para>
+<para>Si l'ic&ocirc;ne voulue n'est pas visible, s&eacute;lectionnez un autre
+dossier dans le menu Dossiers ic&ocirc;nes. Cette bo&icirc;te de dialogue
+affichera uniquement les ic&ocirc;nes existant dans les trois tailles.</para>
+</listitem><listitem><para>Lorsque vous avez fait votre choix, cliquez sur
+OK</para>
+</listitem><listitem><para>Cliquez sur OK dans la bo&icirc;te de dialogue
+Caract&eacute;ristiques.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="UG.Print.div.37" role="Procedure">
+<title>Modification du libell&eacute; d'une ic&ocirc;ne d'imprimante</title>
+<orderedlist><listitem><para>S&eacute;lectionnez une imprimante.<indexterm>
+<primary>Imprimante</primary><secondary>modification du libell&eacute;</secondary>
+</indexterm><indexterm><primary></primary></indexterm><indexterm><primary>Libell&eacute;s</primary><secondary>modification pour une imprimante</secondary>
+</indexterm><indexterm><primary>Modification</primary><secondary>libell&eacute;
+d'une imprimante</secondary></indexterm></para>
+</listitem><listitem><para>Choisissez Caract&eacute;ristiques dans le menu
+S&eacute;lectionn&eacute;(s) ou dans le menu instantan&eacute; de l'imprimante.
+Ce menu s'affiche lorsque vous appuyez sur Maj+F10 ou sur le bouton droit
+de la souris.</para>
+</listitem><listitem><para>Entrez le nouveau libell&eacute; de l'ic&ocirc;ne
+dans la zone Libell&eacute; d'ic&ocirc;ne.</para>
+</listitem><listitem><para>Cliquez sur OK.</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 15:44:23-->
+<?Pub *0000057156>

@@ -1,0 +1,342 @@
+<!-- $XConsortium: file_cop.sgm /main/6 1996/10/30 16:26:59 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMX.MAN12.rsml.1" Remap="">
+<RefMeta>
+<RefEntryTitle>dtfile_copy</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dtfile_copy</Command></RefName>
+<RefPurpose>the CDE File Manager copy utility
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dtfile_copy</Command>
+<Arg Choice="opt">options ...</Arg>
+<Arg>source_folder target_folder</Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The CDE File Manager copy utility is used to
+recursively copy folders and their contents, including subfolders. The
+utility's default action is to create a duplicate of the source_folder
+in the target_folder's location. Thus objects which exist in the target
+but not in the source are deleted, objects which exist in the source but
+not in the target are copied, and objects which exist in the target and
+in the source are replaced if they are different. The utility compares
+both timestamp and size of two objects to determine if they are
+identical.
+</Para>
+<Para>The copy utility is invoked by the File Manager whenever a user requests
+a folder be moved or copied. Its use is thus transparent to the user.
+However, it can also be explicitly invoked from a shell window. The
+utility has many options which can be used to modify its default
+behavior.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<Para>The following options are available from the command line:
+</Para>
+<RefSect2>
+<Title>-dontDoIt</Title>
+<Para>Write a description of the actions that would be performed to a dialog window,
+but do not modify any objects.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-keepNew</Title>
+<Para>If an object exists in the source and target folders, do not replace the
+target object if it is newer than the source object.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-keepOld</Title>
+<Para>If an object exists in the source and target folders, rename the
+existing target object by appending .old to the name before copying the
+source.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-dontDelete</Title>
+<Para>If an object exists in the target folder but not the source, do not
+delete the target object.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-dontAdd</Title>
+<Para>If an object exists in the source folder but not the target, do not copy
+the source file.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-dontReplace</Title>
+<Para>If an object exists in the source and target folders, do not replace the
+target object.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-dontRecur</Title>
+<Para>Process only the files in the source folder, do not process any
+subfolders.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-keepLinks</Title>
+<Para>If the target object is a symbolic link to the source object, retain the link
+instead of replacing the link by a copy of the source object.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-keepCopies</Title>
+<Para>If a source object is a symbolic link and the target object is a
+a copy of the object that the source link points at (i.e., has same
+size and timestamp), retain the target object instead of replacing
+it by a symbolic link.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-forceCopies</Title>
+<Para>If an object exists in the source and target folders, copy the source
+object even if the timestamps and sizes are equal.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-linkFolders</Title>
+<Para>If a folder exists in the source but not the target, create a symbolic link in
+the target pointing to the source instead of copying the source folder.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-linkFiles</Title>
+<Para>If a file exists in the source but not the target, create a symbolic link in the
+target pointing to the source instead of copying the source file.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-copyFolders</Title>
+<Para>If the source is a symbolic link to a folder, make a copy of the folder
+that the source link points at, instead of just copying the link.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-copyFiles</Title>
+<Para>If the source is a symbolic link to a file, makes a copy of the file
+that the source link points at, instead of just copying the link.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-copyTop</Title>
+<Para>If the target folder does not exist, create one.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-move</Title>
+<Para>Following a successful copy operation, remove the source folder.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-confirmReplace</Title>
+<Para>If an object exists in the source and target directories, display a
+dialog giving a choice of actions before proceeding.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-confirmErrors</Title>
+<Para>If an error occurs processing an object, display a dialog describing the
+error before proceeding.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-popDown</Title>
+<Para>Following a successful copy or move operation, automatically remove the
+dtfile_copy dialog after the interval specified by the delay option.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-delay</Title>
+<Para>The time, in microseconds, that the dtfile_copy dialog is displayed after a
+successful copy operation is completed.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-slow</Title>
+<Para>Pause for a preset time interval between each file operation.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<RefSect2>
+<Title>dtfile /u/aUser/FolderA /u/aUser/FolderA.backup</Title>
+<Para>The folder /u/aUser/FolderA.backup is made to be a duplicate of
+/u/aUser/FolderA. The name of each oject processed is written to a dialog window
+with an indication of the operation performed.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RESOURCES</Title>
+<programlisting>
+ <Literal>Name             Class            Type             Default</Literal>
+
+dontDoIt         DontDoIt         XmRBoolean       False
+keepNew          KeepNew          XmRBoolean       False
+keepOld          KeepOld          XmRBoolean       False
+dontDelete       DontDelete       XmRBoolean       False
+dontAdd          DontAdd          XmRBoolean       False
+dontReplace      DontReplace      XmRBoolean       False
+dontRecur        DontRecur        XmRBoolean       False
+keepLinks        KeepLinks        XmRBoolean       False
+keepCopies       KeepCopies       XmRBoolean       False
+forceCopies      ForceCopies      XmRBoolean       False
+linkFolders      LinkFolders      XmRBoolean       False
+linkFiles        LinkFiles        XmRBoolean       False
+copyFolders      CopyFolders      XmRBoolean       False
+copyFiles        CopyFiles        XmRBoolean       False
+copyTop          CopyTop          XmRBoolean       False
+move             move             XmRBoolean       False
+confirmReplace   ConfirmReplace   XmRBoolean       False
+confirmErrors    ConfirmErrors    XmRBoolean       False
+popDown          PopDown          XmRBoolean       False
+delay            Delay            XmRBoolean       False
+toggle           Toggle           XmRBoolean       True
+slow             Slow             XmRBoolean       False
+</programlisting>
+<RefSect2>
+<Title>Dtfile*dontDoIt:</Title>
+<Para>Write a description of the actions that would be performed to a dialog window,
+but do not modify any objects.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*keepNew:</Title>
+<Para>If an object exists in the source and target folders, do not replace the
+target object if it is newer than the source object.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*keepOld:</Title>
+<Para>If an object exists in the source and target folders, rename the
+existing target object by appending .old to the name before copying the
+source.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*dontDelete:</Title>
+<Para>If an object exists in the target folder but not the source, do not
+delete the target object.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*dontAdd:</Title>
+<Para>If an object exists in the source folder but not the target, do not copy
+the source file.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*dontReplace:</Title>
+<Para>If an object exists in the source and target folders, do not replace the
+target object.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*dontRecur:</Title>
+<Para>Process only the files in the source folder, do not process any
+subfolders.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*keepLinks:</Title>
+<Para>If the target object is a symbolic link to the source object, retain the link
+instead of replacing the link by a copy of the source object.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*keepCopies:</Title>
+<Para>If a source object is a symbolic link and the target object is a
+a copy of the object that the source link points at (i.e., has same
+size and timestamp), retain the target object instead of replacing
+it by a symbolic link.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*forceCopies:</Title>
+<Para>If an object exists in the source and target folders, copy the source
+object even if the timestamps and sizes are equal.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*linkFolders:</Title>
+<Para>If a folder exists in the source but not the target, create a symbolic link in
+the target pointing to the source instead of copying the source folder.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*linkFiles:</Title>
+<Para>If a file exists in the source but not the target, create a symbolic link in the
+target pointing to the source instead of copying the source file.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*copyFolders:</Title>
+<Para>If the source is a symbolic link to a folder, make a copy of the folder
+that the source link points at, instead of just copying the link.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*copyFiles:</Title>
+<Para>If the source is a symbolic link to a file, makes a copy of the file
+that the source link points at, instead of just copying the link.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*copyTop:</Title>
+<Para>If the target folder does not exist, create one.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*move:</Title>
+<Para>Following a successful copy operation, remove the source folder.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*confirmReplace:</Title>
+<Para>If an object exists in the source and target directories, display a
+dialog giving a choice of actions before proceeding.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*confirmErrors:</Title>
+<Para>If an error occurs processing an object, display a dialog describing the
+error before proceeding.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*popDown:</Title>
+<Para>Following a successful copy or move operation, automatically remove the
+dtfile_copy dialog after the interval specified by the delay option.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*delay:</Title>
+<Para>The time, in microseconds, that the dtfile_copy dialog is displayed after a
+successful copy operation is completed.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Dtfile*slow:</Title>
+<Para>Pause for a preset time interval between each file operation.
+</Para>
+</RefSect2>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

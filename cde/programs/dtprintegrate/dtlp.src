@@ -1,0 +1,1737 @@
+XCOMM!/usr/dt/bin/dtksh
+XCOMM $TOG: dtlp.src /main/17 1998/07/31 17:03:31 mgreess $
+XCOMM 
+XCOMM (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM (c) Copyright 1993-1996 Hewlett-Packard Company.
+XCOMM (c) Copyright 1993-1996 International Business Machines Corp.
+XCOMM (c) Copyright 1993-1996 Sun Microsystems, Inc.
+XCOMM (c) Copyright 1993-1996 Novell, Inc. 
+XCOMM (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM (c) Copyright 1996 Hitachi.
+
+#define HASH #
+
+XCOMM ###################################################################
+XCOMM
+XCOMM  File:              dtlp
+XCOMM
+XCOMM  Default Location:  /usr/dt/bin/dtlp
+XCOMM
+XCOMM  Purpose:           Set up print spooler options and print.
+XCOMM
+XCOMM  Description:       This shell script provides a graphical interface
+XCOMM                     for a print spooler dialog by default.   If 
+XCOMM                     DTPRINTSILENT is "true", however, then it processes
+XCOMM                     the file and directly invokes "lp".
+XCOMM
+XCOMM  Invoked by:        The default Print action or custom print actions.
+XCOMM
+XCOMM  Product:           @(#)Common Desktop Environment 1.0          
+XCOMM
+XCOMM  Note:              Please do not modify this file.
+XCOMM                     Later product updates will overwrite this file.
+XCOMM
+XCOMM ###################################################################
+set -u
+
+XCOMM #################################################################
+XCOMM
+XCOMM  Following are the environmental options we support
+XCOMM
+XCOMM #################################################################
+
+XCOMM LPDEST
+XCOMM DTPRINTCWD
+XCOMM DTPRINTFILEREMOVE
+XCOMM DTPRINTSILENT
+XCOMM DTPRINTTESTOUTPUT
+XCOMM DTPRINTUSERFILENAME
+
+XCOMM #################################################################
+XCOMM ##  Internal Globals
+XCOMM ##
+XCOMM ##  Actually, most variables in this script are global.
+XCOMM ##
+XCOMM ##  Most are defined in the Initialize() routine.
+XCOMM ##
+XCOMM #################################################################
+COMMAND_NAME=dtlp
+
+PATH=/bin:/usr/bin:/usr/ucb
+export PATH
+
+XCOMM
+XCOMM Exit/Return codes
+XCOMM
+CANCEL_EXIT=-1
+SUCCESS=0
+NO_PRINT_MESSAGE=1
+USAGE_EXIT=2
+NO_FILE_ERR=3
+NO_INIT_FILE_ERR=4
+NO_REGULAR_FILE_ERR=5
+NO_READABLE_FILE_ERR=6
+NO_DEFAULT_PRINTER=7
+PRINTER_DOES_NOT_EXIST=8
+PRINTER_NOT_ENABLED=9
+NO_PRINTER_AVAILABLE=10
+PRINTER_NOT_ACCEPT_REQ=11
+NOT_POS_INTEGER=12
+
+XCOMM
+XCOMM For string processing
+XCOMM
+DOUBLE_QUOTE=\"
+SINGLE_QUOTE=\'
+MINUS_T="-t"
+
+XCOMM #################################################################
+XCOMM ##  Initialize()
+XCOMM ##
+XCOMM ##         Set a number of key variables to their defaults.
+XCOMM ##
+XCOMM ##         Examples
+XCOMM ##         ----------------------
+XCOMM ##            File to print:                     Stdin
+XCOMM ##            Number of copies:                  1
+XCOMM ##            Print Command:                     lp
+XCOMM ##
+XCOMM #################################################################
+Initialize()
+{
+    typeset -u Uppercase_string
+
+    Uppercase_string=""
+
+    banner_title_flag=0
+    banner_title=""
+
+    copy_count_flag=0
+    copy_count=1
+
+    failure_flag=$SUCCESS
+
+    format_flag=0
+
+    other_options_flag=0
+    other_options=""
+
+    print_command_flag=0
+    print_command=lp
+
+    print_cwd_flag=0
+    print_cwd=""
+
+    HASH
+    HASH Assume print file is stdin, unless told otherwise...
+    HASH
+    print_file_flag=1
+    print_file="-"
+
+    print_page_allowed=1
+
+    print_man_flag=0
+    print_man=""
+
+    printer_name_flag=0
+    printer_name=""
+
+    print_raw_flag=0
+
+    remove_flag=0
+
+    send_mail_flag=false
+
+    silent_flag=0
+
+    test_flag=0
+    test_output_file=""
+
+    verbose_flag=0
+
+    user_filename_flag=0
+    user_filename=""
+
+    CAT_MESG_STRING=""
+
+    HASH
+    HASH directory for temporary files used by dtlp
+    HASH
+    DTLPDIR="$HOME/.dt/tmp"
+
+    if [ ! -d "$DTLPDIR" ]
+    then
+        mkdir -p "$DTLPDIR"
+    fi
+
+    LPOPTIONS=""
+
+    catopen CAT_ID $COMMAND_NAME
+
+    SetPreEnvironment
+
+}
+
+XCOMM #################################################################
+XCOMM ##  SetPreEnvironment()
+XCOMM ##
+XCOMM ##         Check the ENVIRONMENT values we care about, and
+XCOMM ##         set the corresponding internal variable values.
+XCOMM ##
+XCOMM #################################################################
+SetPreEnvironment()
+{
+    if (( ${#LPDEST} ))
+    then
+        printer_name=$LPDEST
+        printer_name_flag=1
+    fi
+
+    if (( ${#DTPRINTCWD} ))
+    then
+        print_cwd=$DTPRINTCWD
+        print_cwd_flag=1
+    fi
+
+    if (( ${#DTPRINTFILEREMOVE} ))
+    then
+        HASH check for True
+        Uppercase_string=$DTPRINTFILEREMOVE
+        if [[ "$Uppercase_string" = "TRUE" ]]
+        then
+            remove_flag=1
+        fi
+        Uppercase_string=""
+    fi
+
+    if (( ${#DTPRINTSILENT} ))
+    then
+        HASH check for True
+        Uppercase_string=$DTPRINTSILENT
+        if [[ "$Uppercase_string" = "TRUE" ]]
+        then
+            silent_flag=1
+        fi
+        Uppercase_string=""
+    fi
+
+    if (( ${#DTPRINTUSERFILENAME} ))
+    then
+        user_filename=$DTPRINTUSERFILENAME
+        user_filename_flag=1
+    fi
+
+    if (( ${#DTPRINTTESTOUTPUT} ))
+    then
+        test_output_file=$DTPRINTTESTOUTPUT
+        test_flag=1
+    fi
+
+}
+
+XCOMM #################################################################
+XCOMM ##  ReconcileOptions()
+XCOMM ##
+XCOMM ##       Arbitrate when there are two or more conflicting 
+XCOMM ##       print options.
+XCOMM ##
+XCOMM ##       The order of precedence is: -w > -a > -r.
+XCOMM ##
+XCOMM #################################################################
+ReconcileOptions()
+{
+    HASH
+    HASH The RAW option takes precedence over all others.
+    HASH
+    if (( $print_raw_flag ))
+    then
+        format_flag=0
+        print_man_flag=0
+        print_page_allowed=0
+
+    HASH
+    HASH Next, this MAN option comes into play
+    HASH
+    elif (( $print_man_flag ))
+    then
+        format_flag=0
+        print_page_allowed=0
+    fi
+
+}
+
+XCOMM #################################################################
+XCOMM ##  DoParameterCollectionSilent()
+XCOMM ##
+XCOMM ##       Collect the silent lp options, mimicking the GUI
+XCOMM ##       collection process.
+XCOMM ##
+XCOMM #################################################################
+DoParameterCollectionSilent()
+{
+    HASH printer_name has to be set at this point so no need to check
+    LPOPTIONS=-d${printer_name}
+
+    if (( $banner_title_flag ))
+    then
+        LPOPTIONS=${LPOPTIONS}" "${MINUS_T}${SINGLE_QUOTE}${banner_title}${SINGLE_QUOTE}
+    fi
+
+    if (( $copy_count_flag ))
+    then
+        LPOPTIONS=${LPOPTIONS}" -n${copy_count}"
+    fi
+
+    if (( $other_options_flag ))
+    then
+        LPOPTIONS=${LPOPTIONS}" ${other_options}"
+    fi
+
+    if [[ "$send_mail_flag" == "true" ]]
+    then
+        LPOPTIONS=${LPOPTIONS}" -m"
+    fi
+
+    if (( $verbose_flag ))
+    then
+        echo Print Command is $print_command and Options are $LPOPTIONS
+    fi
+
+}
+
+XCOMM #################################################################
+XCOMM ##  EchoDtlpSetupOptions()
+XCOMM ##
+XCOMM ##      Echo all the command settings.
+XCOMM ##	     If dtlp is run stand-alone, the invoker may redirect 
+XCOMM ##	     the test output to a log file. Under the test harness
+XCOMM ##	     this is done automatically by the "record" function.
+XCOMM ##
+XCOMM #################################################################
+EchoDtlpSetupOptions()
+{
+    if (( $remove_flag ))
+    then
+        echo Remove file flag is SET.
+    fi
+    if (( $print_man_flag ))
+    then
+        echo Manpage flag is SET.
+    fi
+    if (( $print_raw_flag ))
+    then
+        echo Raw print flag is SET.
+    fi
+    if (( $print_cwd_flag ))
+    then
+        echo Print working directory is $print_cwd.
+    fi
+    if (( $print_page_allowed ))
+    then
+        echo Page printing is allowed.
+    else
+        echo Page printing is NOT allowed.
+    fi
+    if (( $format_flag ))
+    then
+        echo Format flag is SET.
+    fi
+    if (( $silent_flag ))
+    then
+        echo Silent flag is SET.
+    fi
+    if (( $user_filename_flag ))
+    then
+        echo User-visible filename is \"$user_filename\".
+    fi
+    if (( $verbose_flag ))
+    then
+        echo Verbose flag is SET.
+    fi
+    if (( $other_options_flag ))
+    then
+        echo Other options include \"$other_options\".
+    fi
+    if [[ "$send_mail_flag" == "true" ]]
+    then
+        echo Send Mail flag is SET.
+    fi
+    echo Copies is set to $copy_count.
+}
+
+XCOMM #################################################################
+XCOMM ##  PrintIt()
+XCOMM ##
+XCOMM ##         Do the actual spooling, based on the value of LPOPTIONS.
+XCOMM ##
+XCOMM ##         If possible, log the results.
+XCOMM #################################################################
+PrintIt()
+{
+    if (( $print_cwd_flag )) && [[ (-d "$print_cwd") && (-x "$print_cwd") ]]
+    then
+        cd $print_cwd
+    fi
+
+    if (( $test_flag ))
+    then
+        HASH then don't do any printing--instead log the results
+        EchoDtlpSetupOptions
+        echo ""
+        echo "Command that will be invoked is..."
+        INVOKER='echo'
+    else
+        INVOKER='eval'
+    fi
+
+    if (( $print_raw_flag ))
+    then
+        HASH Nothing special is required for raw mode on this platform.
+        LPOPTIONS="${LPOPTIONS}"
+    fi
+
+    if (( $format_flag ))
+    then
+        HASH set page header
+        if (( $banner_title_flag ))
+        then
+            PAGEHEADER="$banner_title"
+        elif (( $user_filename_flag ))
+        then
+            PAGEHEADER="$user_filename"
+        else
+            PAGEHEADER="$print_file"
+        fi
+
+        $INVOKER "cat $print_file | pr -f -h '${PAGEHEADER}' | ${print_command} ${LPOPTIONS}"
+    elif (( $print_man_flag ))
+    then
+        $INVOKER "cat $print_file | tbl | nroff -man | col | ${print_command} ${LPOPTIONS}"
+
+    else
+        if [ "$print_file" = "-" ]
+        then
+            $INVOKER "cat $print_file | ${print_command} ${LPOPTIONS}"
+        else
+            $INVOKER "${print_command} -c ${LPOPTIONS} $print_file"
+       fi
+    fi
+}
+
+XCOMM #################################################################
+XCOMM ##  CleanUp()
+XCOMM ##
+XCOMM ##         End the show
+XCOMM #################################################################
+CleanUp()
+{
+    if (( $remove_flag )) && [[ "$print_file" != "-" ]]
+    then
+        rm -f $print_file >/dev/null 2>&1
+    fi
+
+    if (( $verbose_flag ))
+    then
+        PrintEndLog
+    fi
+}
+
+XCOMM #################################################################
+XCOMM ##
+XCOMM ##         Ensure that the supplied file name references a
+XCOMM ##         valid file. 
+XCOMM ##
+XCOMM ##         Returns true or false.
+XCOMM #################################################################
+CheckValidFile()
+{
+    if [[ "$1" == "-" ]]
+    then
+        return $SUCCESS
+    fi
+
+    HASH check whether file exists and is a regular file
+    if [[ ! -f "$1" ]] 
+    then
+        return $NO_REGULAR_FILE_ERR
+    fi
+
+    HASH check whether file is readable by the user  
+    if [[ ! -r "$1" ]]
+    then
+        return $NO_READABLE_FILE_ERR
+    fi
+    return $SUCCESS
+}
+
+XCOMM #################################################################
+XCOMM ##  CheckValidPrinter()
+XCOMM ##
+XCOMM ##         Ensure that the supplied printer name references a printer
+XCOMM ##         that exists and is enabled or a default printer exists,
+XCOMM ##         if no printer is specified.
+XCOMM ##
+XCOMM ##         Returns true or false.
+XCOMM #################################################################
+CheckValidPrinter()
+{
+    catgets CAT_MESG_STRING $CAT_ID 1 10 "Default"
+
+    if [[ "$printer_name" = "" ]]
+    then
+        printer_name=$CAT_MESG_STRING
+    fi
+
+    if [[ "$printer_name" = "$CAT_MESG_STRING" ]]
+    then
+        GetDefaultPrinter
+        if (( $failure_flag == $SUCCESS ))
+        then
+            printer_name=$default_printer
+        else
+            return $failure_flag
+        fi
+    fi
+
+    tmpfile=$DTLPDIR/$printer_name$$
+    LANG=C lpstat -p$printer_name > $tmpfile 2>&1
+    if [[ $? != $SUCCESS ]]
+    then
+        HASH printer does not exist
+        failure_flag=$PRINTER_DOES_NOT_EXIST
+        rm -f $tmpfile
+        return $failure_flag
+    else
+        grep disabled $tmpfile > /dev/null 2>&1
+        if [ $? -eq 0 ]
+        then
+            failure_flag=$PRINTER_NOT_ENABLED
+            rm -f $tmpfile
+            return $failure_flag
+        else
+            status=$DTLPDIR/status$$
+            LANG=C lpstat -a > $tmpfile 2>&1
+            grep $printer_name $tmpfile > $status 2>&1
+            grep "not accepting" $status > /dev/null 2>&1
+            if [ $? -eq 0 ]
+            then
+                failure_flag=$PRINTER_NOT_ACCEPT_REQ
+                rm -f $status
+                return $failure_flag
+            fi
+            rm -f $status
+        fi
+    fi
+    rm -f $tmpfile
+
+    failure_flag=$SUCCESS
+    return $failure_flag
+}
+
+XCOMM #################################################################
+XCOMM ##  GetDefaultPrinter()
+XCOMM ##
+XCOMM ##  Looks up the default printer destination.  Returns value of
+XCOMM ##  LPDEST if set; otherwise, checks if there is a system default
+XCOMM ##  printer destination.
+XCOMM ##
+XCOMM #################################################################
+GetDefaultPrinter()
+{
+#if defined(_AIX)
+    prfld=1
+    flddelim=' '
+#elif defined(__uxp__)
+    prfld=5
+    flddelim=':'
+#else
+    prfld=2
+    flddelim=':'
+#endif
+
+    default_printer=""
+    if (( ${#LPDEST} ))
+    then
+        default_printer=$LPDEST
+    else
+#if defined(_AIX)
+        t1="`LANG=C lpstat -d | head -3 | tail -1`"
+#else
+        t1="`LANG=C lpstat -d`"
+#endif
+        t2="`echo $t1 | cut -d' ' -f1`"
+        HASH
+        HASH "no system default destination" is expected if no default is defined;
+        HASH otherwise, "system default destination: <printer_name>" is expected.
+        HASH
+        if [[ "$t2" != "no" ]]
+        then
+            default_printer="`echo $t1 | cut -f$prfld -d"$flddelim"`"
+            HASH remove leading space
+            default_printer=${default_printer##+( )}
+        fi
+
+        if [[ "$default_printer" = "" ]]
+        then
+            failure_flag=$NO_DEFAULT_PRINTER
+            return $failure_flag
+        fi
+    fi
+    failure_flag=$SUCCESS
+    return $failure_flag
+}
+
+
+XCOMM #################################################################
+XCOMM ##  PrintStartLog()
+XCOMM ##
+XCOMM ##         Print the start of the log
+XCOMM ##
+XCOMM #################################################################
+PrintStartLog() {
+    print "$COMMAND_NAME..."
+    print ""
+}
+
+XCOMM #################################################################
+XCOMM ##  CheckIsPosInteger()
+XCOMM ##
+XCOMM ##  Checks whether a given value is a positive integer.
+XCOMM ##
+XCOMM #################################################################
+CheckIsPosInteger()
+{
+    val=$1
+    HASH Strip any leading or trailing spaces
+    val=${val##+( )}
+    val=${val%%+( )}
+
+    if [[ ${#val} && "$val" = +([0-9]) ]]
+    then
+        failure_flag=$SUCCESS
+    else
+        failure_flag=$NOT_POS_INTEGER
+    fi
+    return $failure_flag
+}
+
+XCOMM #################################################################
+XCOMM ##  GetErrorMessageString()
+XCOMM ##
+XCOMM ##  Looks up the appropriate error message based on the value of
+XCOMM ##  failure_flag.
+XCOMM ##
+XCOMM #################################################################
+GetErrorMessageString()
+{
+    catgets CAT_MESG_STRING $CAT_ID 1 130 "Sorry--Unable to print:"
+
+    if (( $user_filename_flag ))
+    then
+        CAT_MESG_STRING=${CAT_MESG_STRING}"  \"$user_filename\"."
+    else
+        CAT_MESG_STRING=${CAT_MESG_STRING}"  \"$print_file\"."
+    fi
+
+    case $failure_flag in
+      $NO_REGULAR_FILE_ERR)
+        catgets TEMP_MESG_STRING $CAT_ID 1 210 "That file is either not printable or it does not exist."
+        ;;
+      $NO_READABLE_FILE_ERR)
+        catgets TEMP_MESG_STRING $CAT_ID 1 134 "You don't have permission to read that file."
+        ;;
+      $NO_PRINTER_AVAILABLE)
+        catgets TEMP_MESG_STRING $CAT_ID 1 220 "There is either no printer defined for this system or no printer is enabled."
+        ;;
+      $PRINTER_DOES_NOT_EXIST)
+        catgets TEMP_MESG_STRING $CAT_ID 1 230 "The printer does not exist."
+        ;;
+      $PRINTER_NOT_ENABLED)
+        catgets TEMP_MESG_STRING $CAT_ID 1 240 "The printer is not enabled."
+        ;;
+      $NO_DEFAULT_PRINTER)
+        catgets TEMP_MESG_STRING $CAT_ID 1 250 "There is no default printer destination."
+        ;;
+      $PRINTER_NOT_ACCEPT_REQ)
+        catgets TEMP_MESG_STRING $CAT_ID 1 260 "The printer is currently not accepting requests."
+        ;;
+      $NOT_POS_INTEGER)
+        catgets TEMP_MESG_STRING $CAT_ID 1 270 "Number of copies must be a positive number."
+        ;;
+      *)
+        echo ""
+        ;;
+    esac
+
+    if (( $failure_flag == $NO_PRINTER_AVAILABLE ))
+    then
+    CAT_MESG_STRING="${TEMP_MESG_STRING}"
+    else
+    CAT_MESG_STRING="${CAT_MESG_STRING}""
+    ${TEMP_MESG_STRING}"
+    fi
+
+}
+
+XCOMM #################################################################
+XCOMM ##  DisplayErrorMessage()
+XCOMM ##
+XCOMM ##         We have detected an error. Write out a message to
+XCOMM ##         that effect.
+XCOMM ##
+XCOMM #################################################################
+DisplayErrorMessage()
+{
+    catgets CAT_MESG_STRING $CAT_ID 1 130 "Sorry--Unable to print:"
+
+    GetErrorMessageString
+
+    print ""
+    print `date`
+    print "${CAT_MESG_STRING}"
+    print ""
+}
+
+
+XCOMM #################################################################
+XCOMM ##  PrintEndLog()
+XCOMM ##
+XCOMM ##         Print the end of the log.
+XCOMM ##
+XCOMM #################################################################
+PrintEndLog() {
+    print ""
+    if (( $failure_flag == $SUCCESS ))
+    then
+        print "...successfully completed."
+    else
+        print "...completed unsuccessfully."
+    fi
+    print ""
+}
+
+XCOMM #################################################################
+XCOMM ##  PrintUsage()
+XCOMM ##
+XCOMM ##        Print a usage message.
+XCOMM ##
+XCOMM #################################################################
+PrintUsage() {
+    print ""
+    print "Usage: $COMMAND_NAME  [-b <banner_title>] [-d <printer_name>]"
+    print "             [-m <print_command>] [-n <copy_count>]"
+    print "             [-o <other_options>] [-u <user_filename>]"
+    print "             [-a] [-e] [-h] [-i] [-r] [-s] [-v] [-w]"
+    print "             <print_file>"
+    print "  where:"
+    print ""
+    print "  <banner_title>"
+    print "      Specifies the title to put on the banner page."
+    print ""
+    print "  <printer_name>"
+    print "      Specifies the printer name as known to the lp spooler."
+    print ""
+    print "  <print_command>"
+    print "      Specifies the command with which to invoke the printer."
+    print ""
+    print "  <copy_count>"
+    print "      Specifies the number of copies to print."
+    print ""
+    print "  <other_options>"
+    print "      Specifies the other print options."
+    print ""
+    print "  <user_filename>"
+    print "      Specifies the title of the file to display to the user."
+    print ""
+    print "  -a"
+    print "      Formats the file with "man" before printing."
+    print ""
+    print "  -e"
+    print "      Removes the file after printing."
+    print ""
+    print "  -h"
+    print "      Displays this help message."
+    print ""
+    print "  -i"
+    print "      Requests the spooler to sent mail to the user when the print job is completed."
+    print ""
+    print "  -r"
+    print "      Formats the file with "pr -f" before printing."
+    print ""
+    print "  -s"
+    print "      Prints silently (no dialog box)."
+    print ""
+    print "  -v"
+    print "      Directs verbose messages to standard output."
+    print ""
+    print "  -w"
+    print "      Prints the data raw (uninterpreted)."
+    print ""
+    print "  <print_file>"
+    print "      Specifies the name of file(s) to print."
+     
+}
+
+XCOMM #################################################################
+XCOMM ##  Exit()
+XCOMM ##
+XCOMM ##	All exits should go through this routine.
+XCOMM ##
+XCOMM #################################################################
+Exit()
+{
+    exit $1
+}
+
+XCOMM #################   GUI Callbacks  ####################
+
+XCOMM #################################################################
+XCOMM ##  PrintHelpCB()
+XCOMM ##
+XCOMM ## This is the callback for the Help button in the Print dialog;
+XCOMM ## it will post a help dialog.
+XCOMM ##
+XCOMM #################################################################
+PrintHelpCB()
+{
+    DtkshDisplayQuickHelpDialog "dtlp_help" HELP_TYPE_TOPIC \
+        "Printmgr" "dtlpPrintDialog"
+}
+
+XCOMM #################################################################
+XCOMM ##  DoParameterCollection()
+XCOMM ##
+XCOMM ##  Gathers and validates print options set using the command line
+XCOMM ##  and the Print dialog.
+XCOMM ##
+XCOMM #################################################################
+DoParameterCollection()
+{
+    catgets CAT_MESG_STRING $CAT_ID 1 10 "Default"
+
+    GetCurrentPrinterName
+    CheckValidPrinter
+    if (( $failure_flag != $SUCCESS ))
+    then
+        DisplayErrorMessageDialog
+        return $failure_flag
+    fi
+
+    if [[ ("$printer_name" != "") && "$printer_name" != "$CAT_MESG_STRING" ]] 
+    then
+        LPOPTIONS="-d"$printer_name
+    fi
+
+    HASH
+    HASH Get current value from textfield resource rather than from position
+    HASH resource because the user may have changed the value using the former
+    HASH instead of the up/down arrow.
+    HASH
+    HASH We must make sure the value is a positive integer in this case.
+    HASH
+    XtGetValues $COPIES_SB textField:COPIES_TF 
+    XmTextFieldGetString copy_val $COPIES_TF
+
+    CheckIsPosInteger $copy_val
+    if (( $failure_flag == $NOT_POS_INTEGER ))
+    then
+        DisplayErrorMessageDialog
+        return $failure_flag
+    else
+        copy_count=$copy_val
+    fi
+
+    HASH Strip any leading or trailing spaces
+    HASH This should be validated, to make sure it is a valid integer.
+    copy_count=${copy_count##+( )}
+    copy_count=${copy_count%%+( )}
+    if [ "$copy_count" != "" ] ; then
+        copy_count_flag=1
+        LPOPTIONS=${LPOPTIONS}" -n$copy_count"
+    fi
+
+    XmTextGetString banner_title $BANNER_TF
+
+    HASH Strip any leading or trailing spaces
+    banner_title=${banner_title##+( )}
+    banner_title=${banner_title%%+( )}
+    if [ "$banner_title" != "" ] ; then
+        banner_title_flag=1
+        LPOPTIONS=${LPOPTIONS}" "${MINUS_T}${SINGLE_QUOTE}${banner_title}${SINGLE_QUOTE}
+    fi
+
+    XmTextGetString other_options $OPTIONS_TF 
+
+    HASH Strip any leading or trailing spaces
+    other_options=${other_options##+( )}
+    other_options=${other_options%%+( )}
+    if  [ "$other_options" != "" ]
+    then
+        LPOPTIONS=${LPOPTIONS}" $other_options"
+    fi
+
+    XtGetValues $SEND_MAIL_BTN set:send_mail_flag
+
+    if [[ "$send_mail_flag" == "true" ]]
+    then
+        LPOPTIONS=${LPOPTIONS}" -m"
+    fi
+
+    if (( $verbose_flag ))
+    then
+        echo The LP options are \"${LPOPTIONS}\".
+    fi
+
+    return $SUCCESS
+}
+
+XCOMM #################################################################
+XCOMM ##  DestroyDialogs()
+XCOMM ##
+XCOMM ##  Destroys the Select Printer dialog, if it exists, and the
+XCOMM ##  Print dialog.
+XCOMM ##
+XCOMM #################################################################
+DestroyDialogs()
+{
+    if [[ "$SELECT_PRINTER_FORM" != "" ]]
+    then
+        XtDestroyWidget $(XtParent "-" $SELECT_PRINTER_FORM)
+    fi
+    XtDestroyWidget $(XtParent "-" $PDIALOG)
+}
+
+XCOMM #################################################################
+XCOMM ##  PrintCB()
+XCOMM ##
+XCOMM ##  Callback for the Print button in the Print dialog.  Submits
+XCOMM ##  print request to lp if all is well; otherwise, simply returns.
+XCOMM ##
+XCOMM #################################################################
+PrintCB()
+{
+    XSync $DISPLAY True
+
+    DoParameterCollection
+    if [ $? != $SUCCESS ]
+    then
+        return
+    fi
+    PrintIt
+    CleanUp
+    DestroyDialogs
+    Exit $failure_flag
+}
+
+XCOMM #################################################################
+XCOMM ##  PrintCancelCB()
+XCOMM ##
+XCOMM ## This is the callback for the Cancel button in the Print dialog.
+XCOMM ## It will send an empty string to stdout, and will then exit with
+XCOMM ## a value of -1.
+XCOMM ##
+XCOMM #################################################################
+PrintCancelCB()
+{
+    echo ""
+    DestroyDialogs
+    Exit $CANCEL_EXIT
+}
+
+XCOMM #################################################################
+XCOMM ##  UpdatePrinterDescription()
+XCOMM ##
+XCOMM ##  Updates Printer Description in the Print dialog.
+XCOMM ##
+XCOMM #################################################################
+UpdatePrinterDescription()
+{
+    CheckValidPrinter
+    if (( $failure_flag != $SUCCESS ))
+    then
+        XtSetValues $PRINTER_DESC_LABEL labelString:""
+        return
+    fi
+
+    GetPrinterInfo $printer_name
+    XtSetValues $PRINTER_DESC_LABEL labelString:"$printer_info"
+}
+
+XCOMM #################################################################
+XCOMM ##  SelectPrinterCB()
+XCOMM ##
+XCOMM ##  Callback for the Select Printer button in the Select Printer
+XCOMM ##  dialog.  Updates Printer Name and Description in the Print
+XCOMM ##  dialog and unmanages the Select Printer dialog.
+XCOMM ##
+XCOMM #################################################################
+SelectPrinterCB()
+{
+    XtSetValues $PRINTER_TF value:$selected_printer
+    printer_name=$selected_printer
+    UpdatePrinterDescription
+    XtUnmanageChild $SELECT_PRINTER_FORM
+}
+
+XCOMM #################################################################
+XCOMM ##  SelectPrinterHelpCB()
+XCOMM ##
+XCOMM ## This is the callback for the Help button in the Select Printer
+XCOMM ## dialog; it will post a help dialog.
+XCOMM ##
+XCOMM #################################################################
+SelectPrinterHelpCB()
+{
+    DtkshDisplayQuickHelpDialog "dtlp_help" HELP_TYPE_TOPIC \
+        "Printmgr" "dtlpSelectPrinterDialog"
+}
+
+XCOMM #################################################################
+XCOMM ##  ListSelectCB()
+XCOMM ##
+XCOMM ##  Callback for the items in the printer list in the Select Printer
+XCOMM ##  dialog.  Updates Printer Information when a printer is selected.
+XCOMM ##
+XCOMM #################################################################
+ListSelectCB()
+{
+    GetPrinterInfo ${CB_CALL_DATA.ITEM}
+    XtSetValues $INFO_TEXT value:"$printer_info"
+    selected_printer=${CB_CALL_DATA.ITEM}
+}
+
+XCOMM #################################################################
+XCOMM ##  ListDblSelectCB()
+XCOMM ##
+XCOMM ##  Callback for the double-clicks on the printer list items in the
+XCOMM ##  Select Printer dialog.  Simulates selection of the Select Printer
+XCOMM ##  button when a printer item is double-clicked on.
+XCOMM ##
+XCOMM #################################################################
+ListDblSelectCB()
+{
+    if [ ${CB_CALL_DATA.EVENT.TYPE} != KeyPress ]
+    then
+        XtCallCallbacks $SELECT_PRINTER_BTN activateCallback
+    fi
+}
+
+XCOMM #################################################################
+XCOMM ##  GetCurrentPrinterName()
+XCOMM ##
+XCOMM ##  Reads value of Printer Name textfield and strips off any
+XCOMM ##  leading and trailing spaces.
+XCOMM ##
+XCOMM #################################################################
+GetCurrentPrinterName()
+{
+    XmTextFieldGetString printer_name $PRINTER_TF 
+
+    HASH Strip any leading or trailing spaces
+    printer_name=${printer_name##+( )}
+    printer_name=${printer_name%%+( )}
+}
+
+XCOMM #################################################################
+XCOMM ##  GetAvailPrinters()
+XCOMM ##
+XCOMM ##  Gets the list of enabled printers.
+XCOMM ##
+XCOMM #################################################################
+GetAvailPrinters()
+{
+    typeset -i num_printers=0
+    printer_items=''
+    comma=''
+    HASH
+    HASH get a sorted list of all enabled printers
+    HASH
+    tmpfile=$DTLPDIR/printers$$
+
+#if defined(__osf__)
+    LANG=C lpstat -p | \
+	   awk -F":" \
+	     '/^.*:/ { PTRNAME = $1; QUEUING = 0 } \
+	      /^Queuing is enabled/ { QUEUING = 1 } \
+	      /^Printing is enabled/ {if (QUEUING == 1) print PTRNAME}' | \
+	   sort | uniq > $tmpfile 2>&1
+#elif defined(_AIX)
+    LANG=C lpstat -p | \
+           grep READY   | cut -f1 -d" " | \
+	   sort | uniq > $tmpfile 2>&1
+#elif defined(__uxp__)
+    LANG=C lpstat -p | \
+           grep enabled | cut -f4 -d" " | \
+	   sort | uniq > $tmpfile 2>&1
+#else
+    LANG=C lpstat -p | \
+           grep enabled | cut -f2 -d" " | \
+	   sort | uniq > $tmpfile 2>&1
+#endif
+
+    if [ -s "$tmpfile" ]
+    then
+    for i in `cat $tmpfile`
+    do
+        printer_items=`echo $printer_items$comma$i`
+        comma=','
+        ((num_printers=num_printers+1))
+    done
+    fi
+    rm -f $tmpfile
+}
+
+XCOMM #################################################################
+XCOMM ##  GetPrinterInfo()
+XCOMM ##
+XCOMM ##  Gets the printer description.
+XCOMM ##
+XCOMM #################################################################
+GetPrinterInfo()
+{
+#if defined(sun)
+    t1="$DTLPDIR/d1$$"
+    t2="$DTLPDIR/d2$$"
+
+    lpstat -p$1 > $t1 2>/dev/null
+    lpstat -p$1 -D > $t2 2>/dev/null
+    printer_info="`diff $t1 $t2 | sed -e '1d' -e 's/\(.*\)://'`"
+    rm -f $t1 $t2
+#else
+    printer_info=$1
+#endif
+}
+
+XCOMM #################################################################
+XCOMM ##  SelectPrinterProc()
+XCOMM ##
+XCOMM ##  This is called when the Select Printer... button in the Print
+XCOMM ##  dialog is selected.  It posts the Select Printer dialog.
+XCOMM ##
+XCOMM #################################################################
+SelectPrinterProc()
+{
+    if [[ "$SELECT_PRINTER_FORM" != "" ]]
+    then
+        HASH
+        HASH dialog already exists, update printer info. if necessary
+        HASH
+        GetCurrentPrinterName
+
+        HASH get index of printer in the list
+        XmListItemPos index $PRINTER_LIST $printer_name
+
+        HASH
+        HASH If printer is in the list, select it and display info. on it;
+        HASH otherwise, just re-manage the dialog.
+        HASH
+        if [[ $index > 0 ]]
+        then
+            GetPrinterInfo $printer_name
+            HASH
+            HASH display printer information and select the printer specified in
+            HASH the Printer Name textfield
+            HASH
+            XmTextSetString $INFO_TEXT "$printer_info"
+            XmListSelectItem $PRINTER_LIST $printer_name true
+            XmListSetPos $PRINTER_LIST $index
+        fi
+
+        XtManageChild $SELECT_PRINTER_FORM
+        return
+    fi
+
+    GetAvailPrinters
+
+    XmCreateFormDialog SELECT_PRINTER_FORM $TOPLEVEL form
+
+    catgets CAT_MESG_STRING $CAT_ID 1 180 "Select Printer"
+
+    XmInternAtom DEL_ATOM $DISPLAY WM_DELETE_WINDOW false
+    XmAddWMProtocolCallback $(XtParent "-" $SELECT_PRINTER_FORM) \
+        $DEL_ATOM SelectPrinterCancelCB
+
+    XtSetValues $(XtParent "-" $SELECT_PRINTER_FORM) \
+        title:"$CAT_MESG_STRING" \
+        allowShellResize:False \
+        deleteResponse:DO_NOTHING
+
+    XtSetValues $SELECT_PRINTER_FORM \
+        noResize:True \
+        autoUnmanage:False \
+        helpCallback:SelectPrinterHelpCB
+
+    XmCreateWorkArea WORK_AREA $SELECT_PRINTER_FORM work_area \
+        orientation:XmVERTICAL
+
+    XmCreateWorkArea LIST_RC $WORK_AREA list_rc orientation:XmHORIZONTAL
+
+    catgets CAT_MESG_STRING $CAT_ID 1 190 "Available Printers:"
+
+    XmCreateLabelGadget LIST_LABEL $LIST_RC list_label \
+        labelString:"$CAT_MESG_STRING"
+    XtManageChild $LIST_LABEL
+
+    XmCreateScrolledList PRINTER_LIST $LIST_RC printer_list \
+        selectionPolicy:XmSINGLE_SELECT \
+        singleSelectionCallback:ListSelectCB \
+        defaultActionCallback:ListDblSelectCB \
+        itemCount:$num_printers \
+        items:$printer_items \
+        visibleItemCount:5
+    XtManageChild $PRINTER_LIST
+
+    XmCreateWorkArea INFO_RC $WORK_AREA info_rc orientation:XmVERTICAL
+
+    catgets CAT_MESG_STRING $CAT_ID 1 200 "Printer Information:"
+
+    XmCreateLabelGadget INFO_LABEL $INFO_RC info_label \
+        labelString:"$CAT_MESG_STRING"
+    XtManageChild $INFO_LABEL
+
+    printer_info=""
+    XmCreateScrolledText INFO_TEXT $INFO_RC info_text \
+        editMode:XmMULTI_LINE_EDIT \
+        value:"$printer_info" \
+        rows:5 \
+        columns:80 \
+        wordWrap:True \
+        editable:False
+
+    XmCreateSeparator BTN_SEP $SELECT_PRINTER_FORM sep \
+        separatorType:XmSHADOW_ETCHED_IN \
+        $(DtkshUnder $WORK_AREA 4) \
+        $(DtkshSpanWidth)
+
+    catgets CAT_MESG_STRING $CAT_ID 1 180 "Select Printer"
+
+    XmCreatePushButtonGadget SELECT_PRINTER_BTN $SELECT_PRINTER_FORM \
+        ok_button \
+        labelString:"$CAT_MESG_STRING" \
+        $(DtkshUnder $BTN_SEP 5) \
+        $(DtkshFloatLeft 10) \
+        $(DtkshFloatRight 30) \
+        $(DtkshAnchorBottom 5) 
+
+    XtAddCallback $SELECT_PRINTER_BTN activateCallback "SelectPrinterCB"
+
+    catgets CAT_MESG_STRING $CAT_ID 1 110 "Cancel"
+
+    XmCreatePushButtonGadget CANCEL_BTN $SELECT_PRINTER_FORM cancel_button \
+        labelString:"$CAT_MESG_STRING" \
+        $(DtkshUnder $BTN_SEP 5) \
+        $(DtkshFloatLeft 40) \
+        $(DtkshFloatRight 60) \
+        $(DtkshAnchorBottom 5) 
+
+    XtAddCallback $CANCEL_BTN activateCallback "SelectPrinterCancelCB"
+
+    catgets CAT_MESG_STRING $CAT_ID 1 120 "Help"
+
+    XmCreatePushButtonGadget HELP_BTN $SELECT_PRINTER_FORM help_button \
+        labelString:"$CAT_MESG_STRING" \
+        $(DtkshUnder $BTN_SEP 5) \
+        $(DtkshFloatLeft 70) \
+        $(DtkshFloatRight 90) \
+        $(DtkshAnchorBottom 5) 
+
+    XtAddCallback $HELP_BTN activateCallback "SelectPrinterHelpCB"
+
+    XtSetValues $SELECT_PRINTER_FORM \
+        initialFocus:$SELECT_PRINTER_BTN \
+        defaultButton:$SELECT_PRINTER_BTN \
+        cancelButton:$CANCEL_BTN \
+        navigationType:EXCLUSIVE_TAB_GROUP
+
+    XtManageChild $BTN_SEP
+    XtManageChild $SELECT_PRINTER_BTN
+    XtManageChild $CANCEL_BTN
+    XtManageChild $HELP_BTN
+    XtManageChild $INFO_TEXT
+    XtManageChild $LIST_RC
+    XtManageChild $INFO_RC
+    XtManageChild $WORK_AREA
+    XtManageChild $SELECT_PRINTER_FORM
+
+    if (( $num_printers ))
+    then
+        GetCurrentPrinterName
+        CheckValidPrinter
+        if  (( $failure_flag == $SUCCESS ))
+        then
+            GetPrinterInfo $printer_name
+            HASH
+            HASH display printer information and select the printer specified in
+            HASH the Printer Name textfield
+            HASH
+            XmTextSetString $INFO_TEXT "$printer_info"
+            XmListSelectItem $PRINTER_LIST $printer_name true
+            XmListSetItem $PRINTER_LIST $printer_name
+        fi
+    else
+        HASH
+        HASH no available printer, desensitize Select Printer button in
+        HASH the Select Printer dialog
+        HASH
+        XtSetSensitive $SELECT_PRINTER_BTN false
+        failure_flag=$NO_PRINTER_AVAILABLE
+        DisplayErrorMessageDialog
+    fi
+}
+
+XCOMM #################################################################
+XCOMM ##  SelectPrinterCancelCB()
+XCOMM ##
+XCOMM ##  Callback for the Cancel button in Select Printer dialog.
+XCOMM ##  It simply unmanages the dialog.
+XCOMM ##
+XCOMM #################################################################
+SelectPrinterCancelCB()
+{
+    XtUnmanageChild $SELECT_PRINTER_FORM
+}
+
+XCOMM #################################################################
+XCOMM ##  PrinterNameFocusCB()
+XCOMM ##
+XCOMM ##  Focus callback for the Printer Name textfield to determine when
+XCOMM ##  a printer name is changed so that printer description is updated
+XCOMM ##  when the user changes the printer name in the Print dialog.
+XCOMM ##
+XCOMM #################################################################
+PrinterNameFocusCB()
+{
+    HASH If Printer Name textfield gained focus, save the current printer name.
+    HASH When it loses focus, compare the saved printer name with the new one
+    HASH to determine if the user has changed it.  If so, update the printer
+    HASH description.
+    if [ ${CB_CALL_DATA.REASON} = CR_FOCUS ]
+    then
+        GetCurrentPrinterName
+        old_printer=$printer_name 
+    else
+        if [ ${CB_CALL_DATA.REASON} = CR_LOSING_FOCUS ]
+        then
+            GetCurrentPrinterName
+            if [ "$old_printer" != "$printer_name" ]
+            then
+                UpdatePrinterDescription
+            fi
+        fi
+    fi
+}
+
+XCOMM #################################################################
+XCOMM ##  UseGui()
+XCOMM ##
+XCOMM ##  Creates the Print dialog and sets up the callbacks.
+XCOMM ##
+XCOMM #################################################################
+UseGui()
+{
+    catgets CAT_MESG_STRING $CAT_ID 1 10 "Default"
+
+    if (( $printer_name_flag ))
+    then
+        printer=$printer_name
+    else
+        GetDefaultPrinter
+        if (( $failure_flag == $SUCCESS ))
+        then
+            printer=$default_printer
+            printer_name=$default_printer
+        else
+            printer=$CAT_MESG_STRING
+        fi
+    fi
+
+    if [[ "$printer_name" != "" ]]
+    then
+        GetPrinterInfo $printer_name
+    else
+        printer_info=""
+    fi
+
+    DtCreatePrintSetupDialog PDIALOG $TOPLEVEL pdialog \
+        printCallback:PrintCB \
+        cancelCallback:PrintCancelCB \
+        helpCallback:PrintHelpCB \
+        selectPrinterProc:SelectPrinterProc \
+        workAreaLocation:DtWORK_AREA_TOP_AND_BOTTOM \
+        printSetupMode:DtPRINT_SETUP_PLAIN \
+        printDestination:DtPRINT_TO_PRINTER \
+        printerName:"$printer" \
+        description:"$printer_info"
+
+    catgets CAT_MESG_STRING $CAT_ID 1 20 "Print"
+
+    XmInternAtom DEL_ATOM $DISPLAY WM_DELETE_WINDOW false
+    XmAddWMProtocolCallback $(XtParent "-" $PDIALOG) $DEL_ATOM PrintCancelCB
+
+    XtSetValues $(XtParent "-" $PDIALOG) \
+       title:"$CAT_MESG_STRING" \
+       allowShellResize:False \
+       deleteResponse:DO_NOTHING
+
+    XtSetValues $PDIALOG autoUnmanage:False
+
+    XmCreateWorkArea FILE_NAME_RC $PDIALOG file_name_rc \
+        marginWidth:0 \
+        marginHeight:0 \
+        orientation:XmHORIZONTAL
+
+    catgets CAT_MESG_STRING $CAT_ID 1 170 "File Name(s): "
+
+    XmCreateLabel FILE_NAME_LABEL $FILE_NAME_RC file_name_label \
+        labelString:"$CAT_MESG_STRING"
+
+    if (( $user_filename_flag ))
+    then
+        LABEL_STRING="${user_filename}"
+    else
+        LABEL_STRING="${print_file}"
+    fi
+    XmCreateLabel FILE_NAME $FILE_NAME_RC file_name \
+        labelString:"$LABEL_STRING"
+
+    XtManageChild $FILE_NAME_RC
+    XtManageChild $FILE_NAME_LABEL
+    XtManageChild $FILE_NAME
+
+
+    HASH
+    HASH Unmanage unneeded widgets
+    HASH
+    XtNameToWidget TOP_SEP $PDIALOG "TopWorkAreaSeparator"
+    XtUnmanageChild $TOP_SEP
+
+    XtNameToWidget INFO_BTN $PDIALOG "Info"
+    XtUnmanageChild $INFO_BTN
+
+    XtNameToWidget SELECT_FILE_BTN $PDIALOG "SelectFile"
+    XtUnmanageChild $SELECT_FILE_BTN
+
+    XtNameToWidget SETUP_BTN $PDIALOG "Setup"
+    XtUnmanageChild $SETUP_BTN
+
+    DtCreatePDMJobSetup JOB $PDIALOG
+
+    HASH
+    HASH Get widget handles
+    HASH
+    XtNameToWidget PRINTER_COMBO $PDIALOG "Name"
+    XtNameToWidget PRINTER_TF $PRINTER_COMBO "Text"
+    XtNameToWidget PRINTER_DESC_LABEL $PDIALOG "Description"
+    XtNameToWidget COPIES_SB $PDIALOG "*Copies"
+    XtNameToWidget SEND_MAIL_CB $JOB "*SendMail"
+    XtNameToWidget BANNER_TF $JOB "*Banner"
+    XtNameToWidget OPTIONS_TF $JOB "*Options"
+    XtNameToWidget SEND_MAIL_BTN $SEND_MAIL_CB "button_0"
+    XtNameToWidget PRINT_BTN $PDIALOG "Print"
+    XtNameToWidget PRINT_CANCEL_BTN $PDIALOG "Cancel"
+
+    HASH
+    HASH move cursor to end of printer name
+    HASH
+    XtSetValues $PRINTER_TF cursorPosition:${#PRINTER}
+
+    HASH
+    HASH set focus callbacks to track printer name changes
+    HASH
+    XtAddCallback $PRINTER_TF focusCallback "PrinterNameFocusCB"
+    XtAddCallback $PRINTER_TF losingFocusCallback "PrinterNameFocusCB"
+
+    HASH
+    HASH initialize SELECT_PRINTER_FORM to be used in SelectPrinterProc
+    HASH to determine if the Select Printer dialog already exists.
+    HASH
+    SELECT_PRINTER_FORM=""
+
+    if (( $banner_title_flag ))
+    then
+        XtSetValues $BANNER_TF value:"$banner_title"
+    fi
+    if (( $other_options_flag ))
+    then
+        XtSetValues $OPTIONS_TF value:"$other_options"
+    fi
+
+    XtManageChild $PDIALOG
+
+    if (( $copy_count_flag ))
+    then
+        XtSetValues $COPIES_SB position:$copy_count 
+    fi
+
+    if [[ "$send_mail_flag" == "true" ]]
+    then
+        XtSetValues $SEND_MAIL_BTN set:true
+    fi
+
+    XtGetValues $COPIES_SB textField:COPIES_TF 
+
+    DtkshSetReturnKeyControls $PRINTER_TF $COPIES_TF $PDIALOG $PRINT_BTN
+    DtkshSetReturnKeyControls $COPIES_TF $BANNER_TF $PDIALOG $PRINT_BTN
+    DtkshSetReturnKeyControls $BANNER_TF $OPTIONS_TF $PDIALOG $PRINT_BTN
+
+    XtMainLoop
+
+}
+
+XCOMM #################################################################
+XCOMM ##  BadFileCB()
+XCOMM ##
+XCOMM ##  This is the callback for the OK button in the error message
+XCOMM ##  dialog and is used when the file to print is invalid. It will
+XCOMM ##  exit the program. 
+XCOMM ##
+XCOMM #################################################################
+BadFileCB()
+{
+    Exit $bad_file_flag
+}
+
+XCOMM #################################################################
+XCOMM ##  ErrorDialogCB()
+XCOMM ##
+XCOMM ##  This is the callback for the OK button in the error message
+XCOMM ##  dialog and is used for non-fatal error messages.  It simply
+XCOMM ##  destroys the message dialog.
+XCOMM ##
+XCOMM #################################################################
+ErrorDialogCB()
+{
+    XtDestroyWidget $INFORMATION
+}
+
+XCOMM #################################################################
+XCOMM ##  DisplayErrorMessageDialog()
+XCOMM ##
+XCOMM ##  We have detected an error.  Post a dialog to that effect.
+XCOMM ##
+XCOMM ##  Upon entry, check the failure_flag value for the proper
+XCOMM ##  message to print.
+XCOMM ##
+XCOMM #################################################################
+DisplayErrorMessageDialog()
+{
+    XmCreateErrorDialog INFORMATION $TOPLEVEL information
+
+    catgets CAT_MESG_STRING $CAT_ID 1 160 "Print Information"
+
+    XtSetValues $(XtParent "-" $INFORMATION) title:"$CAT_MESG_STRING"
+
+    GetErrorMessageString
+
+    if (($failure_flag == $NO_FILE_ERR )) ||
+      (( $failure_flag == $NO_REGULAR_FILE_ERR )) ||
+      (( $failure_flag == $NO_READABLE_FILE_ERR ))
+    then
+        bad_file_flag=$failure_flag
+        cb="BadFileCB"
+    else
+        cb="ErrorDialogCB"
+    fi
+
+    XtSetValues $INFORMATION \
+        okCallback:$cb \
+        messageString:"${CAT_MESG_STRING}" \
+        noResize:True \
+        defaultButtonType:DIALOG_OK_BUTTON \
+        dialogStyle:DIALOG_FULL_APPLICATION_MODAL \
+        messageAlignment:ALIGNMENT_CENTER 
+
+     XtUnmanageChild $(XmMessageBoxGetChild "-" $INFORMATION \
+        DIALOG_CANCEL_BUTTON)
+
+     XtUnmanageChild $(XmMessageBoxGetChild "-" $INFORMATION \
+        DIALOG_HELP_BUTTON)
+
+     XtManageChild $INFORMATION
+
+     XtMainLoop
+}
+
+
+XCOMM #################################################################
+XCOMM ##  Main()
+XCOMM ##
+XCOMM ##  Set up and call either the silent or the GUI routines.
+XCOMM ##
+XCOMM ##
+XCOMM #################################################################
+
+Initialize
+
+while getopts b:d:m:n:o:u:aehirsvw argument
+do
+    case $argument in
+    a) print_man_flag=1
+       ;;
+    b) banner_title=$OPTARG
+       banner_title_flag=1
+       ;;
+    d) printer_name=$OPTARG
+       printer_name_flag=1
+       ;;
+    e) remove_flag=1
+       ;;
+    h) PrintUsage
+       Exit $SUCCESS
+       ;;
+    i) send_mail_flag=true
+       ;;
+    m) print_command=$OPTARG
+       print_command_flag=1
+       ;;
+    n) copy_count=$OPTARG
+       copy_count_flag=1
+       ;;
+    o) other_options=$OPTARG
+       other_options_flag=1
+       ;;
+    r) format_flag=1
+       ;;
+    s) silent_flag=1
+       ;;
+    u) user_filename=$OPTARG
+       user_filename_flag=1
+       ;;
+    v) verbose_flag=1
+       ;;
+    w) print_raw_flag=1
+       ;;
+   \?) PrintUsage
+       Exit $USAGE_EXIT
+       ;;
+    esac
+done
+
+((shift_positions = OPTIND - 1))
+
+let npf=0
+
+if (( $shift_positions < $# ))
+then
+XCOMM
+XCOMM We have at least one remaining non-switch command line argument
+XCOMM
+    shift $shift_positions
+    HASH
+    HASH We assume that any remaining arguments constitute the filename.
+    HASH At some later point, may want to parse a list of filenames.
+    HASH
+    print_file=""
+    print_file_flag=1
+
+    while (($# > 0))
+    do
+	nw=`echo $1 | wc -w`
+	if ((nw > 1))
+	then
+	    file="\"$1\""
+	else
+	    file="$1"
+	fi
+
+        if [ "" = "$print_file" ]
+        then
+          print_file="$file"
+        else
+          print_file="$print_file $file"
+        fi
+        files[$npf]=$1
+        let npf=$npf+1
+        shift
+    done
+fi
+
+XCOMM
+XCOMM make sure copy_count is a positive integer
+XCOMM
+if (( $copy_count_flag ))
+then
+    CheckIsPosInteger $copy_count
+    if (( $failure_flag != $SUCCESS ))
+    then
+        DisplayErrorMessage
+        Exit $USAGE_EXIT
+    fi
+fi
+
+XCOMM
+XCOMM Make sure all these settings line up consistently.
+XCOMM
+ReconcileOptions
+
+if (( $verbose_flag ))
+then
+    PrintStartLog
+fi
+
+XCOMM
+XCOMM  Do we have enough information to do our job?
+XCOMM  This step may cause us to exit.
+XCOMM
+
+XCOMM
+XCOMM  Have we been given a valid file(s)?
+XCOMM
+let i=0
+while ((i < npf))
+do
+    CheckValidFile "${files[$i]}"
+    failure_flag=$?
+    if (( $failure_flag != $SUCCESS ))
+    then
+        print_file="\"${files[$i]}\""
+        break
+    fi
+    let i=i+1
+done
+
+if (( $silent_flag ))
+then
+    if (( $failure_flag == $SUCCESS ))
+    then
+        CheckValidPrinter
+        failure_flag=$?
+        if (( $failure_flag != $SUCCESS ))
+        then
+            DisplayErrorMessage
+            Exit $failure_flag
+        fi
+
+        DoParameterCollectionSilent
+        PrintIt
+        CleanUp
+        Exit $failure_flag
+    else
+        DisplayErrorMessage
+        Exit $failure_flag
+    fi
+else
+    if [[ -r "/usr/dt/lib/dtksh/DtFuncs.dtsh" ]]
+    then
+        . /usr/dt/lib/dtksh/DtFuncs.dtsh
+    else
+        failure_flag=1
+        echo Sorry--cannot find initialization file.
+        Exit $NO_INIT_FILE_ERR
+    fi
+
+    XtInitialize TOPLEVEL printerConfig Dtlp "${@:-}"
+    XtDisplay DISPLAY $TOPLEVEL
+
+    if (( $failure_flag == $SUCCESS ))
+    then
+        UseGui
+    else
+        DisplayErrorMessageDialog
+    fi
+fi
+
+XCOMM
+XCOMM  Never reached.
+XCOMM
+XCOMM ####################         eof       ##############################

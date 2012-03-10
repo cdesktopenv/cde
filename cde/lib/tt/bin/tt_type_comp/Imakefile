@@ -1,0 +1,37 @@
+XCOMM $XConsortium: Imakefile /main/14 1996/05/08 09:28:02 drk $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+#include <Threads.tmpl>
+
+#include "../../tooltalk.tmpl"
+
+DEFINES = 
+INCLUDES = -I../../lib -I../../slib 
+
+DEPLIBS         = ../../slib/libstt.a TtClientDepLibs
+LOCAL_LIBRARIES = ../../slib/libstt.a TtClientLibs
+SYS_LIBRARIES   =
+
+#ifdef TtClientExtraLibs
+EXTRA_LIBRARIES = TtClientExtraLibs
+#endif
+
+SRCS =	mp_type_comp.C        mp_types_table.C \
+	frozen.mp_types_lex.C frozen.mp_types_gram.C
+
+OBJS =  mp_type_comp.o        mp_types_table.o \
+	frozen.mp_types_lex.o frozen.mp_types_gram.o
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(tt_type_comp)
+
+SpecialCplusplusObjectRule(mp_type_comp,mp_type_comp,$(TT_VERSION_DEFINE))
+
+frozen.mp_types_lex.o: mp_types_gram.h
+
+LinkFile(mp_types_gram.h,frozen.mp_types_gram.h)
+

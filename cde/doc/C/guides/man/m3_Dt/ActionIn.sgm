@@ -1,0 +1,381 @@
+<!-- $XConsortium: ActionIn.sgm /main/10 1996/09/08 20:02:14 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDEMX.XCDI.MAN12.rsml.1">]]><![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN12.rsml.1">]]><refmeta>
+<refentrytitle>DtActionInvoke</refentrytitle><manvolnum>library call</manvolnum>
+</refmeta><refnamediv><refname><function>DtActionInvoke</function></refname>
+<refpurpose>invoke a &str-XZ; action</refpurpose></refnamediv><!-- CDE Common
+Source Format, Version 1.0.0--><!-- *************************************************************************--><!--
+**  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company--><!-- **  (c)
+Copyright 1993, 1994, 1995 International Business Machines Corp.--><!-- **
+ (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.--><!-- **  (c) Copyright
+1993, 1994, 1995 Novell, Inc.--><!-- *************************************************************************--><refsynopsisdiv>
+<funcsynopsis remap="ANSI">
+<funcsynopsisinfo>#include &lt;Dt/Action.h></funcsynopsisinfo>
+<funcdef>DtActionInvocationID <function>DtActionInvoke</function></funcdef>
+<paramdef>Widget <parameter>w</parameter></paramdef>
+<paramdef>char *<parameter>action</parameter></paramdef>
+<paramdef>DtActionArg *<parameter>args</parameter></paramdef>
+<paramdef>int <parameter>argCount</parameter></paramdef>
+<paramdef>char *<parameter>termOpts</parameter></paramdef>
+<paramdef>char *<parameter>execHost</parameter></paramdef>
+<paramdef>char *<parameter>contextDir</parameter></paramdef>
+<paramdef>int <parameter>useIndicator</parameter></paramdef>
+<paramdef>DtActionCallbackProc <parameter>statusUpdateCb</parameter></paramdef>
+<paramdef>XtPointer <parameter>client_data</parameter></paramdef>
+</funcsynopsis></refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <function>DtActionInvoke</function> function provides a way for
+applications to invoke desktop actions on file or buffer arguments. Applications
+can register a callback for receiving action-done status and return arguments.
+</para>
+<para>The actions and data types databases must be initialized and loaded
+(using &cdeman.DtInitialize; and &cdeman.DtDbLoad;)
+before <function>DtActionInvoke</function> can run successfully.</para>
+<para>The <symbol role="Variable">w</symbol> argument is a widget that becomes
+the parent of any dialogs or error messages resulting from action invocation.
+This widget should be a top-level application shell widget that continues
+to exist for the action's expected lifetime. This argument must have a non-<systemitem class="Constant">NULL</systemitem> value.</para>
+<para>The <symbol role="Variable">action</symbol> argument is the name of
+the action to be invoked. The action database may define more than one action
+with the same name. The action selected for a particular invocation depends
+on the class, type, and number of arguments provided (as described in <![ %CDE.C.CDE; [ &cdeman.dtactionfile;). ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">). ]]>This
+argument must have a non-<systemitem class="Constant">NULL</systemitem> value.
+</para>
+<para>The <symbol role="Variable">args</symbol> argument is an array of action
+argument structures containing information about the arguments for this action
+invocation. If there are no arguments, the value of <symbol role="Variable">args</symbol> must be <systemitem class="Constant">NULL</systemitem>. The
+items in this array are assigned to the option argument keywords referenced
+in the action definition (see <![ %CDE.C.CDE; [&cdeman.dtactionfile;). ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">). ]]>The
+<symbol role="Variable">n</symbol>th item is assigned to keyword %Arg_ <symbol role="Variable">n</symbol>%. For example, the second item is assigned to %Arg_<emphasis>2</emphasis>%.</para>
+<para>The <emphasis>argCount</emphasis> argument is the number of action arguments
+provided in the array <symbol role="Variable">args</symbol> references.</para>
+<para>The <emphasis>termOpts</emphasis> argument is a string providing special
+execution information for the terminal emulator used for <systemitem class="Constant">COMMAND</systemitem> actions of <systemitem class="Constant">WINDOW_TYPE</systemitem> <systemitem class="Constant">TERMINAL</systemitem> or <systemitem class="Constant">PERM_TERMINAL</systemitem>. (See <![ %CDE.C.CDE; [&cdeman.dtactionfile;). ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">). ]]>This
+string must be quoted if it contains embedded blanks. The application uses
+this string to pass on title, geometry, color and font information to the
+terminal emulator. This information must be in a form the expected terminal
+emulator recognizes. This argument can be <systemitem class="Constant">NULL</systemitem>.</para>
+<para>The <emphasis>execHost</emphasis> argument is a string identifying a
+preferred execution host for this action. The <emphasis>execHost</emphasis>
+specified here, supersedes the list of execution hosts defined in the action
+definition. If <emphasis>execHost</emphasis> is <systemitem class="Constant">NULL</systemitem>, the execution host for the action is obtained from the
+action definition as described in <![ %CDE.C.CDE; [&cdeman.dtactionfile;. ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">. ]]></para>
+<para>The <emphasis>contextDir</emphasis> argument is a string identifying
+a fallback working directory for the action. File name arguments are interpreted
+relative to this directory, which must reside in the local file name space
+(for example, <Filename>/usr/tmp</Filename> or <Filename>/net/hostb/tmp</Filename>).
+This value is only used if the action definition does not explicitly specify
+a working directory in the <systemitem class="Constant">CWD</systemitem> field
+of the action definition. If <emphasis>contextDir</emphasis> is <systemitem class="Constant">NULL</systemitem>, the current working directory of the action
+is obtained from the action definition, as described in <![ %CDE.C.CDE; [ &cdeman.dtactionfile;. ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">. ]]></para>
+<para>If the <emphasis>useIndicator</emphasis> flag is zero, <function>DtActionInvoke</function> does not provide any direct indication to the user that an action
+has been invoked. If the <emphasis>useIndicator</emphasis> flag is non-zero,
+the user is notified via some activity indicator (for example, a flashing
+light in the front panel) that an action has been invoked. This indication
+persists only until the invocation of the action completes (in other words,
+until the action begins running).</para>
+<para>The <emphasis>statusUpdateCb</emphasis> callback may be activated if
+the invoked actions have returnable status (for example, a <systemitem class="Constant">TT_MSG(TT_REQUEST)</systemitem> returning <systemitem class="Constant">DtACTION_DONE</systemitem> ). At a minimum, a <systemitem class="Constant">DtACTION_INVOKED</systemitem> status is returned when <function>DtActionInvoked</function>
+has finished processing and has completely invoked any resulting actions,
+and a <systemitem class="Constant">DtACTION_DONE</systemitem> or equivalent
+done status is returned when all actions terminate. If <emphasis>statusUpdateCb</emphasis> is set to <systemitem class="Constant">NULL</systemitem>, subsequent
+action status is not returned. (See &cdeman.Dt.Action.h;
+for a list of all <structname role="typedef">DtActionStatus</structname> codes,
+and see &cdeman.DtActionCallbackProc; for details on <emphasis>statusUpdateCb</emphasis> and a list of specific <structname role="typedef">DtActionStatus</structname> codes it can return.)</para>
+<para>The <symbol role="Variable">client_data</symbol> argument is optional
+data to be passed to the <emphasis>statusUpdateCb</emphasis> callback when
+invoked.</para>
+<para>The <function>DtActionInvoke</function> function searches the action
+database for an entry that matches the specified action name, and accepts
+arguments of the class, type and count provided.</para>
+<para>If <function>DtActionInvoke</function> finds a matching action, the
+supplied arguments are inserted into the indicated action fields. If any missing
+action arguments have an associated prompt string, then a dialog box prompts
+the user to supply the arguments; otherwise, missing arguments are ignored.
+If too many arguments are supplied to an action requiring more than a single
+argument, a warning dialog is posted, allowing the action to be cancelled
+or continued, ignoring the extra arguments. If too many arguments are supplied
+to an action requiring zero or one arguments, then that action is invoked
+once for each of the supplied arguments. Arguments in the <structname role="typedef">DtActionArg</structname> structure that may have been modified by the action
+are returned by the callback if a <emphasis>statusUpdateCb</emphasis> callback
+is provided. For <structname role="typedef">DtActionBuffer</structname> arguments,
+the writable flag acts as a hint that the buffer is allowed to be modified
+and returned.</para>
+<para>The <structname role="typedef">DtActionBuffer</structname> structure
+contains at least the following members:</para>
+<informaltable remap="center" orient="Port">
+<tgroup cols="3">
+<colspec align="Left" colname="1">
+<colspec align="Left" colname="2">
+<colspec align="Left" colname="3">
+<tbody>
+<row>
+<entry><computeroutput>void</computeroutput></entry>
+<entry><computeroutput>*bp</computeroutput></entry>
+<entry>location of buffer</entry></row>
+<row>
+<entry><computeroutput>int</computeroutput></entry>
+<entry><computeroutput>size</computeroutput></entry>
+<entry>size of buffer in bytes</entry></row>
+<row>
+<entry><computeroutput>char</computeroutput></entry>
+<entry><computeroutput>*type</computeroutput></entry>
+<entry>optional type of buffer</entry></row>
+<row>
+<entry><computeroutput>char</computeroutput></entry>
+<entry><computeroutput>*name</computeroutput></entry>
+<entry>optional name of buffer</entry></row>
+<row>
+<entry><computeroutput>Boolean</computeroutput></entry>
+<entry><computeroutput>writable</computeroutput></entry>
+<entry>action is allowed to modify and return the buffer</entry></row></tbody>
+</tgroup></informaltable>
+<para>The <structname role="typedef">DtActionFile</structname> structure contains
+at least the following member:</para>
+<informaltable remap="center" orient="Port">
+<tgroup cols="3">
+<colspec align="Left" colname="1">
+<colspec align="Left" colname="2">
+<colspec align="Left" colname="3">
+<tbody>
+<row>
+<entry><computeroutput>char</computeroutput></entry>
+<entry><computeroutput>*name</computeroutput></entry>
+<entry>name of file</entry></row></tbody></tgroup></informaltable>
+<para>The <structname role="typedef">DtActionArg</structname> structure contains
+at least the following members:</para>
+<informaltable remap="center" orient="Port">
+<tgroup cols="3">
+<colspec align="Left" colname="1">
+<colspec align="Left" colname="2">
+<colspec align="Left" colname="3">
+<tbody>
+<row>
+<entry><computeroutput>int</computeroutput></entry>
+<entry><computeroutput>argClass</computeroutput></entry>
+<entry>see argument class types ( <systemitem class="Constant">ARG_CLASS</systemitem>
+field)</entry></row>
+<row>
+<entry><computeroutput>DtActionFile</computeroutput></entry>
+<entry><computeroutput>u.file</computeroutput></entry>
+<entry>union to a DtActionFile structure</entry></row>
+<row>
+<entry><computeroutput>DtActionBuffer</computeroutput></entry>
+<entry><computeroutput>u.buffer</computeroutput></entry>
+<entry>union to a DtActionBuffer structure</entry></row></tbody></tgroup>
+</informaltable>
+<para>where <emphasis>argClass</emphasis> is <systemitem class="Constant">DtACTION_FILE</systemitem> or <systemitem class="Constant">DtACTION_BUFFER</systemitem>. The action service may set <emphasis>argClass</emphasis> to <systemitem class="Constant">DtACTION_NULLARG</systemitem> for action arguments returned
+by a <emphasis>statusUpdateCb</emphasis> to indicate that the argument is
+not being updated or has been removed. <systemitem class="Constant">DtACTION_NULLARG</systemitem> cannot be present in action arguments passed to <function>DtActionInvoke</function>.</para>
+<para>The <function>DtActionInvoke</function> function accepts a pointer to
+an array of <structname role="typedef">DtActionArg</structname> structures
+describing the objects to be provided as arguments to the action. The
+<symbol role="Variable">args</symbol> structure can be modified or freed after <function>DtActionInvoke</function> returns.</para>
+<para>A single call to <function>DtActionInvoke</function> may initiate several
+actions or messages. For example, if an action is given three files, but only
+needs one, three instances of the action are started, one for each file. As
+a result, a single returned <structname role="typedef">DtActionInvocationID</structname> may represent a group of running actions, and subsequent execution
+management services <![ %CDE.C.CDE; [(DtAction) ]]>calls operate on that group
+of actions.</para>
+<para>For <systemitem class="Constant">DtACTION_BUFFER</systemitem> arguments,
+the action service first tries to type the buffer <emphasis>*bp</emphasis>
+using the <symbol role="Variable">name</symbol> field (see <![ %CDE.C.CDE; [ &cdeman.dtdtsfile;). ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.DATAT.anch.3" Role="2">). ]]>The
+<symbol role="Variable">name</symbol> field would typically contain a value resembling
+a file name with an optional extension describing its type. If the
+<symbol role="Variable">name</symbol> field is <systemitem class="Constant">NULL</systemitem>,
+then the action service uses the type specified in the <symbol role="Variable">type</symbol> field. If the <symbol role="Variable">type</symbol> field is <systemitem class="Constant">NULL</systemitem>, then the action service types the buffer <emphasis>*bp</emphasis> by content (see <![ %CDE.C.CDE; [&cdeman.dtdtsfile;). ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.DATAT.anch.3" Role="2">). ]]>If
+the <symbol role="Variable">name</symbol> and <symbol role="Variable">type</symbol>
+fields are both non-<systemitem class="Constant">NULL</systemitem>,
+then the action service uses the <symbol role="Variable">name</symbol> field
+for typing and ignores the <symbol role="Variable">type</symbol> field. If
+the buffer pointer <emphasis>bp</emphasis> is <systemitem class="Constant">NULL</systemitem> or <symbol role="Variable">size</symbol> is equal to zero,
+a buffer with no contents is used in the resulting action. If returned, the
+buffer pointer <emphasis>bp</emphasis> is defined, and <symbol role="Variable">size</symbol> is equal to or greater than zero.</para>
+<para>When necessary, <systemitem class="Constant">DtACTION_BUFFER</systemitem>
+arguments are automatically converted to temporary files prior to actual action
+invocation, and reconverted back to buffers after action termination (this
+is transparent to the caller). If a non-<systemitem class="Constant">NULL</systemitem> <symbol role="Variable">name</symbol> field is given, it is
+used in the construction of the temporary file name (for example, <Filename>/myhome/.dt/tmp/name</Filename>). If the use of <symbol role="Variable">name</symbol>
+would cause a conflict with an existing file, or <symbol role="Variable">name</symbol> is <systemitem class="Constant">NULL</systemitem>, the action
+service generates a temporary file name. The permission bits on the temporary
+file are set according to the <emphasis>writable</emphasis> field and the <systemitem class="Constant">IS_EXECUTABLE</systemitem> attribute from the action service
+associated with the <symbol role="Variable">type</symbol> field.</para>
+<para>For <systemitem class="Constant">DtACTION_FILE</systemitem> arguments,
+<symbol role="Variable">name</symbol> is required.</para>
+<para>For <systemitem class="Constant">DtACTION_BUFFER</systemitem> arguments,
+<symbol role="Variable">name</symbol> cannot contain slash characters.</para>
+<para>Errors encountered are either displayed to the user in a dialog box
+or reported in the desktop errorlog file (<Filename>$HOME/.dt/errorlog</Filename>,
+unless configured otherwise).</para>
+</refsect1><refsect1><?Pub Caret1>
+<title>RESOURCES</title>
+<para>This section describes the X11 resources the <function>DtActionInvoke</function> function recognizes. The resource class string always begins with
+an upper-case letter. The corresponding resource name string begins with the
+lower case of the same letter. These resources can be defined for all clients
+using the Action Library API by specifying <literal>*resourceName: value</literal>. <![ %CDE.C.CDE; [For
+example, to set the terminal emulator to <command>xterm</command>(1) for all
+clients, the application can use <literal>*localTerminal: xterm</literal>.
+The resources can also be defined on a per client basis. For example, it can
+use <literal>Dtfile*localTerminal: xterm</literal> to set the terminal emulator
+to <command>xterm</command>(1) for the <command>dtfile</command> client only.
+(See <![ %CDE.C.CDE; [&cdeman.dtactionfile;). ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">). ]]>]]></para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colwidth="155*">
+<colspec align="left" colwidth="147*">
+<colspec align="left" colwidth="74*">
+<colspec align="left" colwidth="81*">
+<tbody>
+<row>
+<entry></entry>
+<entry align="center" valign="top"><literal>X11 Resources</literal></entry>
+</row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Value Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>localterminal</literal></entry>
+<entry align="left" valign="top"><literal>LocalTerminal</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">``Dtterm''</entry></row>
+<row>
+<entry align="left" valign="top"><literal>remoteTerminals</literal></entry>
+<entry align="left" valign="top"><literal>RemoteTerminals</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">``Dtterm''</entry></row>
+<row>
+<entry align="left" valign="top"><literal>waitTime</literal></entry>
+<entry align="left" valign="top"><literal>WaitTime</literal></entry>
+<entry align="left" valign="top"><literal>number</literal></entry>
+<entry align="left" valign="top">3</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><literal>LocalTerminal</literal></term>
+<listitem>
+<para>Defines an alternative local terminal emulator for Command actions of <systemitem class="Constant">WINDOW_TYPE</systemitem> <systemitem class="Constant">TERMINAL</systemitem> or <systemitem class="Constant">PERM_TERMINAL</systemitem> to
+use. The default terminal emulator is &cdeman.dtterm;.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>RemoteTerminals</literal></term>
+<listitem>
+<para>Defines a comma-separated list of host and terminal emulator pairs.
+When a remote <systemitem class="Constant">COMMAND</systemitem> action is
+executed on one of the hosts in the list, the terminal emulator associated
+with that host is used for that command. The list is passed to the terminal
+emulator using the <literal>&minus;e</literal> argument. (Thus, if another
+terminal emulator than <command>dtterm</command> is used, it must support
+the <literal>&minus;e</literal> argument. <![ %CDE.C.CDE; [See <command>xterm</command>(1). ]]></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>WaitTime</literal></term>
+<listitem>
+<para>Used to assign an alternative integer value, in seconds, to the threshold
+successful return time interval. If a <systemitem class="Constant">COMMAND</systemitem> action of <systemitem class="Constant">WINDOW_TYPE</systemitem> <systemitem class="Constant">TERMINAL</systemitem> fails, the terminal emulator may be
+unmapped before the user has a chance to read the standard error from the
+failed command. This resource provides a workaround to this problem. If a <systemitem class="Constant">TERMINAL</systemitem> window command exits before <literal>WaitTime</literal> seconds have elapsed, the terminal emulator window is forced
+to remain open, as if it were of <systemitem class="Constant">TYPE</systemitem> <systemitem class="Constant">PERM_TERMINAL</systemitem>. The default value of <literal>WaitTime</literal> is 3 seconds.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1><refsect1>
+<title>RETURN VALUE</title>
+<para>Upon successful completion, the <function>DtActionInvoke</function>
+function returns a <structname role="typedef">DtActionInvocationID</structname>.
+The ID can be used in subsequent execution management services <![ %CDE.C.CDE; [(DtAction) ]]>calls
+to manipulate the actions while they are running. <structname role="typedef">DtActionInvocationID</structname>s are only recycled after many have been
+generated.</para>
+</refsect1><refsect1>
+<title>APPLICATION USAGE</title>
+<para>The caller should allocate space for the array of structures describing
+the objects to be provided as arguments to the action. The caller can free
+the memory after <function>DtActionInvoke</function> returns.</para>
+<para>Since <function>DtActionInvoke</function> spawns subprocesses to start
+local actions, the caller should use <function>waitpid</function>(2) instead
+of <function>wait</function>(2) to distinguish between processes started by
+the action service and those the caller starts.</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>Given the following action definition:</para>
+<informalexample remap="indent">
+<programlisting>ACTION Edit
+{
+        LABEL           "Text Edit Action"
+        ARG_CLASS       BUFFER, FILE
+        ARG_TYPE        TEXT
+        TYPE            COMMAND
+        WINDOW_TYPE     TERMINAL
+        EXEC_STRING     "textedit %Args%"
+        DESCRIPTION     This action invokes the "textedit" command on
+                        an arbitrary number of arguments.  A terminal
+                        emulator is provided for this action's I/O.
+                        EXEC_HOST and CWD are not specified so the
+                        defaults are used for both quantities.
+}</programlisting>
+</informalexample>
+<para>The following call invokes the action
+<symbol role="Message">Edit</symbol> on the arguments
+<emphasis>aap</emphasis> supplies:</para>
+<informalexample remap="indent">
+<programlisting>        DtActionInvoke(w, "Edit", aap, 3, NULL, NULL, NULL, 1,
+                       myCallback, myClientData);</programlisting>
+</informalexample>
+<para>The working directory for the action defaults to the current working
+directory.
+The execution host is the default execution host.</para>
+<para>If the variable
+<emphasis>aap</emphasis> points to an array of
+<literal>ActionArg</literal> data structures
+containing the following information:</para>
+<informalexample remap="indent">
+<programlisting>{
+        argClass = DtACTION_FILE;
+        struct {
+            name="/myhome/file1.txt";
+        } file;
+}</programlisting>
+</informalexample>
+<informalexample remap="indent">
+<programlisting>{
+        argClass = DtACTION_FILE;
+        struct {
+            name="file2.txt";
+        } file;
+}</programlisting>
+</informalexample>
+<informalexample remap="indent">
+<programlisting>{
+        argClass = DtACTION_BUFFER;
+        struct {
+            bp=(void *) myEditBuffer;
+            size=lengthOfMyEditBuffer;
+            type=NULL;
+            name="Doc1.txt"
+            writable=TRUE;
+        } buffer;
+}</programlisting>
+</informalexample>
+<para>and the current working directory is
+<Filename>/cwd</Filename>, then the
+<symbol role="Message">Edit</symbol> action results in the execution string:
+</para>
+<informalexample remap="indent">
+<programlisting>textedit /myhome/file1.txt /cwd/file2.txt /myhome/.dt/tmp/Doc1.txt
+</programlisting>
+</informalexample>
+<para>When the action completes,
+<emphasis>myCallback</emphasis> is called and
+the callback returns the buffer argument.</para>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.Dt.Action.h;, <![ %CDE.C.CDE; [ <command>xterm</command>(1), <function>XtFree</function>(3), <function>XtMalloc</function>(3), ]]><![ %CDE.C.XO; [<Function>XtFree</Function>(3), <Function>XtMalloc</Function>(3) in the &str-Zt;;
+]]>&cdeman.DtDbLoad;, &cdeman.DtInitialize;, &cdeman.DtActionCallbackProc;, <![ %CDE.C.CDE; [&cdeman.dtactionfile;, &cdeman.dtdtfile;, &cdeman.dtdtsfile;. ]]><![ %CDE.C.XO; [<XRef Linkend="XCDI.ACTI.anch.3" Role="2">, <XRef Linkend="XCDI.M4DTS.anch.1" Role="3">, <XRef Linkend="XCDI.DATAT.anch.3" Role="2">. ]]></para>
+</refsect1></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->
+<?Pub *0000053895>

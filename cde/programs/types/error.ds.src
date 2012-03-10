@@ -1,0 +1,51 @@
+XCOMM! /usr/dt/bin/dtksh
+XCOMM  $XConsortium: error.ds.src /main/3 1996/04/23 17:35:47 drk $
+XCOMM #####################################################################
+XCOMM 
+XCOMM      dterror.ds
+XCOMM 
+XCOMM      This file is used by datatype definitions to
+XCOMM      output an error message. It uses dtksh.
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994 Novell, Inc.
+XCOMM 
+XCOMM 
+XCOMM #####################################################################
+
+XCOMM  When the OK button is pressed, lets exit out
+QuitCB()
+{
+   exit 0
+}
+
+XCOMM  When the Help button is pressed, map a help window.
+HelpCB()
+{
+    /usr/dt/bin/dthelpview -helpVolume Misctopic -locationId ConfigurePrintersSubpanelTA
+}
+
+XCOMM ################# Create the Main UI #################################
+XtInitialize TOPLEVEL ps_error PSError "$@"
+
+XmCreateErrorDialog MYDIALOG $TOPLEVEL mydialog messageString:"$(print $1)"
+
+XtSetValues $MYDIALOG dialogTitle:"$(print $2)" okLabelString:"$(print $3)"
+
+XtAddCallback $MYDIALOG okCallback QuitCB 
+
+XmMessageBoxGetChild CANCEL_BUTTON $MYDIALOG DIALOG_CANCEL_BUTTON
+XmMessageBoxGetChild HELP_BUTTON $MYDIALOG DIALOG_HELP_BUTTON
+
+XtUnmanageChild $CANCEL_BUTTON
+if [ "$#" == "4" ];then
+  XtAddCallback $MYDIALOG helpCallback HelpCB
+else
+  XtUnmanageChild $HELP_BUTTON
+fi
+
+XtManageChild $MYDIALOG
+
+XtMainLoop

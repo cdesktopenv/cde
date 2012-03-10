@@ -1,0 +1,1071 @@
+<!-- $XConsortium: dtwmrc.sgm /main/9 1996/09/08 20:20:14 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN88.rsml.1">
+<refmeta><refentrytitle>dtwmrc</refentrytitle><manvolnum>special file</manvolnum>
+</refmeta>
+<refnamediv><refname><filename>dtwmrc</filename></refname><refpurpose>the
+dtwm Window Manager Resource Description File</refpurpose></refnamediv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- **  (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994 Novell, Inc.-->
+<!-- **  (c) Copyright 1989,1990,1992,1993 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <literal>dtwmrc</literal> window manager is a supplementary resource
+file that controls much of the behavior of the CDE window manager <command>dtwm</command>. It contains descriptions of resources that cannot easily be
+written using standard X Window System, Version 11 resource syntax. The resource
+description file contains entries that are referred to by X resources in
+defaults files (for example, <Filename>/usr/dt/app-defaults/$LANG/Dtwm</Filename>)
+or in the <symbol role="Define">RESOURCE_MANAGER</symbol> property on the
+root window. For example, the resource description file enables you to specify
+different types of window menus; however, an X resource is used to specify
+which of these window menus the <command>dtwm</command> should use for a particular
+window. The specifications of the resource description file supported by the
+dtwm workspace manager are a strict superset of the specifications supported
+by the OSF Motif Window Manager (<literal>mwm 1.2.4</literal>). In other words,
+the <literal>system.mwmrc</literal> or <filename>$HOME/.mwmrc</filename> file
+that you've used for <command>mwm</command> is easily made usable by <command>dtwm</command>. To merge your personal mwm resource specifications into dtwm:
+</para>
+<itemizedlist>
+<listitem>
+<para>Copy either <Filename>/etc/dt/config/$LANG/sys.dtwmrc</Filename> or <Filename>/usr/dt/config/$LANG/sys.dtwmrc</Filename> to <Filename>$HOME/.dt/dtwmrc</Filename>.
+</para>
+</listitem>
+<listitem>
+<para>Use a text editor to move menu definitions, key bindings, and button
+bindings from your <Filename>.mwmrc</Filename> file to your <literal>dtwmrc</literal> file. To merge your key and button bindings, you'll need to augment
+the key and button bindings that are referenced by <command>dtwm</command>
+by default (refer to <literal>buttonBindings</literal> and <literal>keyBindings</literal> resources in the <command>dtwm</command> app-defaults file <Filename>/usr/dt/app-defaults/$LANG/Dtwm</Filename>). To replace the key or button
+bindings, you'll also need to modify your personal <literal>keyBindings</literal>
+and <literal>buttonBindings</literal> resources.</para>
+</listitem>
+<listitem>
+<para>Restart <command>dtwm</command>.</para>
+</listitem>
+</itemizedlist>
+<refsect2>
+<title>Location</title>
+<para>The workspace manager searches for one of the following resource description
+files, where <emphasis>$LANG</emphasis> is the value of the language environment
+on a per-user basis: <literal>$HOME/.dt/$LANG/dtwmrc $HOME/.dt/dtwmrc /etc/dt/config/$LANG/sys.dtwmrc
+/etc/dt/config/sys.dtwmrc /usr/dt/config/$LANG/sys.dtwmrc /usr/dt/config/sys.dtwmrc</literal> The first file found is the first used. If no file is found, a
+set of built-in specifications is used. A particular resource description
+file can be selected using the <symbol role="Variable">configFile</symbol>
+resource. The following shows how a different resource description file can
+be specified from the command line:</para>
+<informalexample remap="indent">
+<programlisting>/usr/dt/bin/dtwm -xrm "Dtwm*configFile: mydtwmrc"</programlisting>
+</informalexample>
+</refsect2>
+<refsect2>
+<title>Resource Types</title>
+<para>The following types of resources can be described in the dtwm resource
+description file:</para>
+<variablelist>
+<varlistentry><term><literal>Buttons</literal></term>
+<listitem>
+<para>Workspace manager functions can be bound (associated) with button events.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Keys</literal></term>
+<listitem>
+<para>Workspace manager functions can be bound (associated) with key press
+events.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>Menus</literal></term>
+<listitem>
+<para>Menu panes can be used for the window menu and other menus posted with
+key bindings and button bindings.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>DTWM RESOURCE DESCRIPTION FILE SYNTAX</title>
+<para>The <command>dtwm</command> resource description file is a standard
+text file that contains items of information separated by blanks, tabs, and
+new lines characters. Blank lines are ignored. Items or characters can be
+quoted to avoid special interpretation (for example, the comment character
+can be quoted to prevent it from being interpreted as the comment character).
+A quoted item can be contained in double quotes (<literal>" "</literal>).
+Single characters can be quoted by preceding them by the back-slash character
+(<literal>\</literal>), except for workspace names, which may contain no back-slash
+characters. If a line ends with a back-slash, the next line is considered
+a continuation of that line. All text from an unquoted <literal>#</literal>
+to the end of the line is regarded as a comment and is not interpreted as
+part of a resource description. If <literal>!</literal> is the first character
+in a line, the line is regarded as a comment.</para>
+<refsect2>
+<title>Workspace Manager Functions</title>
+<para>Workspace manager functions can be accessed with button and key bindings,
+and with workspace manager menus. Functions are indicated as part of the specifications
+for button and key binding sets, and menu panes. The function specification
+has the following syntax:</para>
+<informalexample remap="indent">
+<programlisting><literal>function</literal> = <literal>function_name</literal> [<literal>function_args</literal>]
+<literal>function_name</literal> = <literal>workspace manager function</literal>
+<literal>function_args</literal> = {<literal>quoted_item</literal> | <literal>unquoted_item</literal>}</programlisting>
+</informalexample>
+<para>The following functions are supported. If a function is specified that
+isn't one of the supported functions then it is interpreted by <command>dtwm</command> as <function>f.nop</function>.</para>
+<variablelist>
+<varlistentry><term><emphasis>f.action</emphasis></term>
+<listitem>
+<para>This function causes the specified <literal>action</literal> to be invoked
+by means of the message server.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.beep</function></term>
+<listitem>
+<para>This function causes a beep.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.circle_down</function> [ <symbol role="Variable">icon</symbol> | <symbol role="Variable">window</symbol>]</term>
+<listitem>
+<para>This function causes the window or icon that is on the top of the window
+stack to be put on the bottom of the window stack (so that it is no longer
+obscuring any other window or icon). This function affects only those windows
+and icons that are obscuring other windows and icons, or that are obscured
+by other windows and icons. Secondary windows (that is, transient windows)
+are restacked with their associated primary window. Secondary windows always
+stay on top of the associated primary window and there can be no other primary
+windows between the secondary windows and their primary window. If an
+<symbol role="Variable">icon</symbol> function argument is specified, then the function
+applies only to icons. If a <symbol role="Variable">window</symbol> function
+argument is specified then the function applies only to windows.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.circle_up</function> [ <symbol role="Variable">icon</symbol> | <symbol role="Variable">window</symbol>]</term>
+<listitem>
+<para>This function raises the window or icon on the bottom of the window
+stack (so that it is not obscured by any other windows). This function affects
+only those windows and icons that are obscuring other windows and icons, or
+that are obscured by other windows and icons. Secondary windows (that is,
+transient windows) are restacked with their associated primary window. If
+an <symbol role="Variable">icon</symbol> function argument is specified then
+the function applies only to icons. If an <symbol role="Variable">window</symbol>
+function argument is specified then the function applies only to windows.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.create_workspace</emphasis></term>
+<listitem>
+<para>This function creates a new workspace. The new workspace name is generated
+automatically and is of the form <literal>ws_</literal><literal>n</literal>
+where <literal>n</literal> is an integer.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.delete_workspace</emphasis></term>
+<listitem>
+<para>This function deletes the current workspace. Windows that reside only
+in this workspace will be moved to the next workspace. If the last workspace
+is being deleted, then windows will be moved to the first workspace.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.exec</function> <literal>command</literal>
+(or <emphasis>!</emphasis> <literal>command</literal>)</term>
+<listitem>
+<para>This function causes <symbol role="Variable">command</symbol> to be
+executed (using the value of the <emphasis>$MWMSHELL</emphasis> or <emphasis>$SHELL</emphasis> environment variable if set; otherwise, <Filename>/usr/bin/sh</Filename> ). The <emphasis>!</emphasis> notation can be used in place of the <function>f.exec</function> function name.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.focus_color</function></term>
+<listitem>
+<para>This function sets the colormap focus to a client window. If this function
+is done in a root context, then the default colormap (setup by the X Window
+System for the screen where <command>dtwm</command> is running) is installed
+and there is no specific client window colormap focus. This function is treated
+as <function>f.nop</function> if <emphasis>colormapFocusPolicy</emphasis>
+is not explicit.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.focus_key</function></term>
+<listitem>
+<para>This function sets the keyboard input focus to a client window or icon.
+This function is treated as <function>f.nop</function> if <emphasis>keyboardFocusPolicy</emphasis> is not explicit or the function is executed in a root context.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.goto_workspace</emphasis> <emphasis>workspace</emphasis></term>
+<listitem>
+<para>This function causes the workspace manager to switch to the workspace
+named by <emphasis>workspace</emphasis>. If no workspace exists by the specified
+name, then no action occurs. Note that adding and deleting workspaces dynamically
+and affect this function.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.help</emphasis> [<emphasis>topic</emphasis>
+[<emphasis>volume</emphasis>]]</term>
+<listitem>
+<para>This function displays help on the specified <emphasis>topic</emphasis>
+and <emphasis>volume</emphasis>. If no <emphasis>volume</emphasis> is given,
+then the workspace manager volume is assumed. If no <emphasis>topic</emphasis>
+is given, then help on the front panel is shown.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.help_mode</emphasis></term>
+<listitem>
+<para>This function causes the workspace manager to enter into help mode.
+In help mode, the pointer changes shape to indicate that the window manager
+is waiting for you to select a front panel control. Any help defined for the
+control is then shown in a help window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.kill</function></term>
+<listitem>
+<para>This function is used to close application windows. The actual processing
+that occurs depends on the protocols that the application observes. The application
+lists the protocols it observes in the <property>WM_PROTOCOLS</property> property
+on its top level window. If the application observes the <property>WM_DELETE_WINDOW</property> protocol, it is sent a message that requests the window be deleted.
+If the application observes both <property>WM_DELETE_WINDOW</property> and <property>WM_SAVE_YOURSELF</property>, it is sent one message requesting the window
+be deleted and another message advising it to save its state. If the application
+observes only the <property>WM_SAVE_YOURSELF</property>protocol <emphasis>,</emphasis> it is sent a message advising it to save its state. After a
+delay (specified by the resource <emphasis>quitTimeout</emphasis>), the application's
+connection to the X server is terminated. If the application observes neither
+of these protocols, its connection to the X server is terminated.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.lower</function>&ensp;[<emphasis>&minus;</emphasis> <literal>client</literal> | <symbol role="Variable">within</symbol>&ensp;| <emphasis>freeFamily</emphasis>]</term>
+<listitem>
+<para>This function lowers a primary window to the bottom of the global window
+stack (where it obscures no other window) and lowers the secondary window
+(transient window or dialog box) within the client family. The arguments to
+this function are mutually exclusive. The <symbol role="Variable">client</symbol>
+argument indicates the name or class of a client to lower. The name or class
+of a client appears in the <property>WM_CLASS</property> property on the
+client's top-level window. If the <symbol role="Variable">client</symbol>
+argument is not specified, the context that the function was invoked in indicates
+the window or icon to lower. Specifying <symbol role="Variable">within</symbol>
+lowers the secondary window within the family (staying above the parent) but
+does not lower the client family in the global window stack. Specifying <emphasis>freeFamily</emphasis> lowers the window to the bottom of the global windows
+stack from its local family stack.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.marquee_selection</emphasis></term>
+<listitem>
+<para>This function is only useful in conjunction with the CDE file manager
+(see &cdeman.dtfile;). It enables selection of file manager objects
+that have been placed on the root window. It must be bound to a button when
+used.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.maximize</function></term>
+<listitem>
+<para>This function causes a client window to be displayed with its maximum
+size. Refer to the <emphasis>maximumClientSize</emphasis>, <emphasis>maximumMaximumSize</emphasis>, and <emphasis>limitResize</emphasis> resources in &cdeman.dtwm;.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.menu</function> <symbol role="Variable">menu_name</symbol></term>
+<listitem>
+<para>This function associates a cascading (pull-right) menu with a menu
+pane entry or a menu with a button or key binding. The <symbol role="Variable">menu_name</symbol> function argument identifies the menu to be used.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.minimize</function></term>
+<listitem>
+<para>This function causes a client window to be minimized (iconified). When
+a window is minimized with no icon box in use, and if the <emphasis>lowerOnIconify</emphasis> resource has the value True (the default), the icon is placed
+on the bottom of the window stack (such that it obscures no other window).
+If an icon box is used, then the client's icon changes to its iconified form
+inside the icon box. Secondary windows (that is, transient windows) are minimized
+with their associated primary window. There is only one icon for a primary
+window and all its secondary windows.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.move</function></term>
+<listitem>
+<para>This function initiates an interactive move of a client window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.next_cmap</function></term>
+<listitem>
+<para>This function installs the next colormap in the list of colormaps for
+the window with the colormap focus.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.next_key</function> [ <symbol role="Variable">icon</symbol> | <symbol role="Variable">window</symbol> | <symbol role="Variable">transient</symbol>]</term>
+<listitem>
+<para>This function sets the keyboard input focus to the next window/icon
+in the set of windows/icons managed by the workspace manager (the ordering
+of this set is based on the stacking of windows on the screen). This function
+is treated as <function>f.nop</function> if <literal>keyboardFocusPolicy</literal>
+is not explicit. The keyboard input focus is only moved to windows that do
+not have an associated secondary window that is application modal. If the
+<symbol role="Variable">transient</symbol> argument is specified, then transient (secondary)
+windows are traversed (otherwise, if only <symbol role="Variable">window</symbol>
+is specified, traversal is done only to the last focused window in a transient
+group). If an <symbol role="Variable">icon</symbol> function argument is specified,
+then the function applies only to icons. If a <symbol role="Variable">window</symbol>
+function argument is specified, then the function applies only to
+windows.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.next_workspace</emphasis></term>
+<listitem>
+<para>This function causes the workspace manager to switch to the next workspace.
+If the last workspace is currently active, then this function will switch
+to the first workspace.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.nop</function></term>
+<listitem>
+<para>This function does nothing.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.normalize</function></term>
+<listitem>
+<para>This function causes a client window to be displayed with its normal
+size. Secondary windows (that is, transient windows) are placed in their normal
+state along with their associated primary window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.normalize_and_raise</function></term>
+<listitem>
+<para>This function causes a client window to be displayed with its normal
+size and raised to the top of the window stack. Secondary windows (that is,
+transient windows) are placed in their normal state along with their associated
+primary window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.occupy_all</emphasis></term>
+<listitem>
+<para>This function causes the associated window to be placed in all workspaces.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.pack_icons</function></term>
+<listitem>
+<para>This function is used to relayout icons (based on the layout policy
+being used) on the root window or in the icon box. In general this causes
+icons to be "packed" into the icon grid.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.pass_keys</function></term>
+<listitem>
+<para>This function is used to enable/disable (toggle) processing of key bindings
+for workspace manager functions. When it disables key binding processing all
+keys are passed on to the window with the keyboard input focus and no workspace
+manager functions are invoked. If the <function>f.pass_keys</function> function
+is invoked with a key binding to disable key binding processing the same key
+binding can be used to enable key binding processing.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.post_wmenu</function></term>
+<listitem>
+<para>This function is used to post the window menu. If a key is used to post
+the window menu and a window menu button is present, the window menu is automatically
+placed with its top-left corner at the bottom-left corner of the window menu
+button for the client window. If no window menu button is present, the window
+menu is placed at the top-left corner of the client window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.prev_cmap</function></term>
+<listitem>
+<para>This function installs the previous colormap in the list of colormaps
+for the window with the colormap focus.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.prev_key</function> [ <symbol role="Variable">icon</symbol> | <symbol role="Variable">window</symbol> | <symbol role="Variable">transient</symbol>]</term>
+<listitem>
+<para>This function sets the keyboard input focus to the previous window/icon
+in the set of windows/icons managed by the workspace manager (the ordering
+of this set is based on the stacking of windows on the screen). This function
+is treated as <function>f.nop</function> if <emphasis>keyboardFocusPolicy</emphasis> is not explicit. The keyboard input focus is only moved to windows
+that do not have an associated secondary window that is application modal.
+If the <symbol role="Variable">transient</symbol> argument is specified, then
+transient (secondary) windows are traversed (otherwise, if only <symbol role="Variable">window</symbol> is specified, traversal is done only to the last focused window
+in a transient group). If an <symbol role="Variable">icon</symbol> function
+argument is specified then the function applies only to icons. If an
+<symbol role="Variable">window</symbol> function argument is specified then the function
+applies only to windows.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.prev_workspace</emphasis></term>
+<listitem>
+<para>This function causes the workspace manager to switch to the previous
+workspace. If the first workspace is currently active, then this function
+switches to the last workspace.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.quit_mwm</function></term>
+<listitem>
+<para>This function terminates dtwm (but NOT the X window system).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.raise</function>&ensp;[<emphasis>&minus;</emphasis><symbol role="Variable">client</symbol> | <symbol role="Variable">within</symbol>
+| <emphasis>freeFamily</emphasis>]</term>
+<listitem>
+<para>This function raises a primary window to the top of the global window
+stack (where it is obscured by no other window) and raises the secondary window
+(transient window or dialog box) within the client family. The arguments to
+this function are mutually exclusive. The <symbol role="Variable">client</symbol>
+argument indicates the name or class of a client to lower. If the
+<symbol role="Variable">client</symbol> is not specified, the context that the function
+was invoked in indicates the window or icon to lower. Specifying <symbol role="Variable">within</symbol> raises the secondary window within the family but does not
+raise the client family in the global window stack. Specifying <emphasis>freeFamily</emphasis> raises the window to the top of its local family stack
+and raises the family to the top of the global window stack.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.raise_lower</function>&ensp;[ <symbol role="Variable">within</symbol> | <emphasis>freeFamily</emphasis>]</term>
+<listitem>
+<para>This function raises a primary window to the top of the global window
+stack if it is partially obscured by another window; otherwise, it lowers
+the window to the bottom of the window stack. The arguments to this function
+are mutually exclusive. Specifying <symbol role="Variable">within</symbol>
+raises a secondary window within the family (staying above the parent window),
+if it is partially obscured by another window in the application's family;
+otherwise, it lowers the window to the bottom of the family stack. It has
+no effect on the global window stacking order. Specifying <emphasis>freeFamily</emphasis> raises the window to the top of its local family stack, if obscured
+by another window, and raises the family to the top of the global window
+stack; otherwise, it lowers the window to the bottom of its local family stack
+and lowers the family to the bottom of the global window stack.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.refresh</function></term>
+<listitem>
+<para>This function causes all windows to be redrawn.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.refresh_win</function></term>
+<listitem>
+<para>This function causes a client window to be redrawn.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.remove</emphasis></term>
+<listitem>
+<para>This function causes a client window to be removed from the current
+workspace. If the client window exists only in this workspace, no action
+occurs.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.resize</function></term>
+<listitem>
+<para>This function initiates an interactive resize of a client window.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.restore</function></term>
+<listitem>
+<para>This function restores the previous state of an icon's associated window.
+If a maximized window is iconified, then <function>f.restore</function> restores
+it to its maximized state. If a normal window is iconified, then <function>f.restore</function> restores it to its normalized state.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.restore_and_raise</function></term>
+<listitem>
+<para>This function restores the previous state of an icon's associated window
+and raises the window to the top of the window stack. If a maximized window
+is iconified, then <function>f.restore_and_raise</function> restores it to
+its maximized state and raises it to the top of the window stack. If a normal
+window is iconified, then <function>f.restore_and_raise</function> restores
+it to its normalized state and raises it to the top of the window stack.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>2f.restart</term>
+<listitem>
+<para>This function causes dtwm to be restarted (effectively terminated and
+re-executed). Restart is necessary for <command>dtwm</command> to incorporate
+changes in both the <literal>dtwmrc</literal> file and X resources.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.screen</function>&ensp;[ <symbol role="Variable">next</symbol> | <symbol role="Variable">prev</symbol> | <symbol role="Variable">back</symbol> | <symbol role="Variable">screen_number</symbol>]</term>
+<listitem>
+<para>This function causes the pointer to be warp to a specific screen number
+or to the <symbol role="Variable">next</symbol>, <symbol role="Variable">previous</symbol>, or last visited (<symbol role="Variable">back</symbol>)
+screen. The arguments to this function are mutually exclusive. The
+<symbol role="Variable">screen_number</symbol> argument indicates the screen number
+that the pointer is to be warped. Screens are numbered starting from screen
+0. Specifying <symbol role="Variable">next</symbol> cause the pointer to warp
+to the next managed screen (skipping over any unmanaged screens). Specifying
+<symbol role="Variable">prev</symbol> cause the pointer to warp to the previous managed
+screen (skipping over any unmanaged screens). Specifying <symbol role="Variable">back</symbol> cause the pointer to warp to the last visited screen.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.send_msg</function> <symbol role="Variable">message_number</symbol></term>
+<listitem>
+<para>This function sends an <structname role="typedef">XClientMessageEvent</structname> of type <property>_MOTIF_WM_MESSAGES</property> with
+<symbol role="Variable">message_type</symbol> set to <symbol role="Variable">message_number</symbol>.
+The client message is sent only if <symbol role="Variable">message_number</symbol>
+is included in the client's <property>_MOTIF_WM_MESSAGES</property>
+property. A menu item label is grayed out if the menu item is used to do <function>f.send_msg</function> of a message that is not included in the client's <property>_MOTIF_WM_MESSAGES</property> property.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.separator</function></term>
+<listitem>
+<para>This function causes a menu separator to be put in the menu pane at
+the specified location (the label is ignored).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.set_behavior</function></term>
+<listitem>
+<para>This function causes the workspace manager to restart with the default
+behavior (if a custom behavior is configured) or a custom behavior (if a
+default behavior is configured). By default this is bound to <emphasis>Shift&ensp;Ctrl&ensp;Alt&ensp;&lt;Key>!</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>f.title</function></term>
+<listitem>
+<para>This function inserts a title in the menu pane at the specified location.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.toggle_frontpanel</emphasis></term>
+<listitem>
+<para>If the front panel is in the normal state, this function causes it to
+be minimized. If the front panel is minimized, this function will change it
+to the normal state.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.version</emphasis></term>
+<listitem>
+<para>This function causes the workspace manager to display its release version
+in a dialog box.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>f.workspace_presence</emphasis></term>
+<listitem>
+<para>This function displays the workspace presence (or "Occupy Workspace")
+dialog box. This dialog allows you to view and set the workspace in which
+a particular window resides. The root context is disallowed for this function.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Function Constraints</title>
+<para>Each function may be constrained as to which resource types can specify
+the function (for example, menu pane) and also what context the function
+can be used in (for example, the function is done to the selected client window).
+Function contexts are:</para>
+<variablelist>
+<varlistentry><term><symbol role="Variable">root</symbol></term>
+<listitem>
+<para>No client window or icon has been selected as an object for the function.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">window</symbol></term>
+<listitem>
+<para>A client window has been selected as an object for the function. This
+includes the window's title bar and frame. Some functions are applied only
+when the window is in its normalized state (for example, <function>f.maximize</function>) or its maximized state (for example, <function>f.normalize</function>).
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">icon</symbol></term>
+<listitem>
+<para>An icon has been selected as an object for the function.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>If a function is specified in a type of resource where it is not supported
+or is invoked in a context that does not apply then the function is treated
+as <function>f.nop</function>. The following table indicates the resource
+types and function contexts in which workspace manager functions apply.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.09in">
+<colspec align="left" colwidth="209*">
+<colspec align="left" colwidth="169*">
+<colspec align="left" colwidth="124*">
+<tbody>
+<row>
+<entry align="left" valign="top"><emphasis>Function</emphasis></entry>
+<entry align="left" valign="top">Contexts</entry>
+<entry align="left" valign="top">Resources</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.action</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.beep</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.circle_down</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.circle_up</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.create_workspace</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.delete_workspace</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.exec</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.focus_color</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.focus_key</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.goto_workspace</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.help</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.help_mode</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.kill</function></entry>
+<entry align="left" valign="top">icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.lower</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.marquee_selection</emphasis></entry>
+<entry align="left" valign="top">root</entry>
+<entry align="left" valign="top">button</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.maximize</function></entry>
+<entry align="left" valign="top">icon,window(normal)</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.menu</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.minimize</function></entry>
+<entry align="left" valign="top">window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.move</function></entry>
+<entry align="left" valign="top">icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.next_cmap</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.next_key</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.next_workspace</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.nop</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.normalize</function></entry>
+<entry align="left" valign="top">icon,window(maximized)</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.normalize_and_raise</function></entry>
+<entry align="left" valign="top">icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.occupy_all</emphasis></entry>
+<entry align="left" valign="top">icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.pack_icons</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.pass_keys</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.post_wmenu</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.prev_cmap</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.prev_key</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.prev_workspace</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.quit_dtwm</emphasis></entry>
+<entry align="left" valign="top">root</entry>
+<entry align="left" valign="top">button,key,menu (root only)</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.raise</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.raise_lower</function></entry>
+<entry align="left" valign="top">icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.refresh</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.refresh_win</function></entry>
+<entry align="left" valign="top">window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.remove</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.resize</function></entry>
+<entry align="left" valign="top">window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.restart</function></entry>
+<entry align="left" valign="top">root</entry>
+<entry align="left" valign="top">button,key,menu (root only)</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.restore</function></entry>
+<entry align="left" valign="top">icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.restore_and_raise</function></entry>
+<entry align="left" valign="top">icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.screen</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.send_msg</function></entry>
+<entry align="left" valign="top">icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.separator</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.set_behavior</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><function>f.title</function></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.toggle_frontpanel</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.version</emphasis></entry>
+<entry align="left" valign="top">root,icon,window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row>
+<row>
+<entry align="left" valign="top"><emphasis>f.workspace_presence</emphasis></entry>
+<entry align="left" valign="top">window</entry>
+<entry align="left" valign="top">button,key,menu</entry></row></tbody></tgroup>
+</informaltable>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>WORKSPACE MANAGER EVENT SPECIFICATION</title>
+<para>Events are indicated as part of the specifications for button and key
+binding sets, and menu panes. Button events have the following syntax:</para>
+<informalexample remap="indent">
+<programlisting><literal>button</literal> =~[<literal>modifier_list</literal> ]<emphasis>&lt;</emphasis><literal>button_event_name</literal> <emphasis>></emphasis>
+<literal>modifier_list</literal> =~<literal>modifier_name</literal> { <literal>modifier_name</literal>}</programlisting>
+</informalexample>
+<para>The following table indicates the values that can be used for <literal>modifier_name</literal>. Note that [Alt] and [Meta] can be used interchangably
+on some hardware.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="91*">
+<colspec align="left" colwidth="365*">
+<tbody>
+<row>
+<entry align="left" valign="top">Modifier</entry>
+<entry align="left" valign="top">Description</entry></row>
+<row>
+<entry align="left" valign="top">Ctrl</entry>
+<entry align="left" valign="top">Control Key</entry></row>
+<row>
+<entry align="left" valign="top">Shift</entry>
+<entry align="left" valign="top">Shift Key</entry></row>
+<row>
+<entry align="left" valign="top">Alt</entry>
+<entry align="left" valign="top">Alt Key</entry></row>
+<row>
+<entry align="left" valign="top">Meta</entry>
+<entry align="left" valign="top">Meta Key</entry></row>
+<row>
+<entry align="left" valign="top">Mod1</entry>
+<entry align="left" valign="top">Modifier1</entry></row>
+<row>
+<entry align="left" valign="top">Mod2</entry>
+<entry align="left" valign="top">Modifier2</entry></row>
+<row>
+<entry align="left" valign="top">Mod3</entry>
+<entry align="left" valign="top">Modifier3</entry></row>
+<row>
+<entry align="left" valign="top">Mod4</entry>
+<entry align="left" valign="top">Modifier4</entry></row>
+<row>
+<entry align="left" valign="top">Mod5</entry>
+<entry align="left" valign="top">Modifier5</entry></row></tbody></tgroup>
+</informaltable>
+<para>Locking modifiers are ignored when processing button and key bindings.
+The following table lists keys that are interpreted as locking modifiers.
+The X server may map some of these symbols to the Mod1 - Mod5 modifier keys.
+These keys may or may not be available on your hardware: Key Symbol Caps Lock
+Shift Lock Kana Lock Num Lock Scroll Lock The following table indicates the
+values that can be used for <literal>button_event_name</literal>.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="107*">
+<colspec align="left" colwidth="349*">
+<tbody>
+<row>
+<entry align="left" valign="top">Button</entry>
+<entry align="left" valign="top">Description</entry></row>
+<row>
+<entry align="left" valign="top">Btn1Down</entry>
+<entry align="left" valign="top">Button 1 Press</entry></row>
+<row>
+<entry align="left" valign="top">Btn1Up</entry>
+<entry align="left" valign="top">Button 1 Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn1Click</entry>
+<entry align="left" valign="top">Button 1 Press and Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn1Click2</entry>
+<entry align="left" valign="top">Button 1 Double Click</entry></row>
+<row>
+<entry align="left" valign="top">Btn2Down</entry>
+<entry align="left" valign="top">Button 2 Press</entry></row>
+<row>
+<entry align="left" valign="top">Btn2Up</entry>
+<entry align="left" valign="top">Button 2 Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn2Click</entry>
+<entry align="left" valign="top">Button 2 Press and Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn2Click2</entry>
+<entry align="left" valign="top">Button 2 Double Click</entry></row>
+<row>
+<entry align="left" valign="top">Btn3Down</entry>
+<entry align="left" valign="top">Button 3 Press</entry></row>
+<row>
+<entry align="left" valign="top">Btn3Up</entry>
+<entry align="left" valign="top">Button 3 Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn3Click</entry>
+<entry align="left" valign="top">Button 3 Press and Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn3Click2</entry>
+<entry align="left" valign="top">Button 3 Double Click</entry></row>
+<row>
+<entry align="left" valign="top">Btn4Down</entry>
+<entry align="left" valign="top">Button 4 Press</entry></row>
+<row>
+<entry align="left" valign="top">Btn4Up</entry>
+<entry align="left" valign="top">Button 4 Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn4Click</entry>
+<entry align="left" valign="top">Button 4 Press and Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn4Click2</entry>
+<entry align="left" valign="top">Button 4 Double Click</entry></row>
+<row>
+<entry align="left" valign="top">Btn5Down</entry>
+<entry align="left" valign="top">Button 5 Press</entry></row>
+<row>
+<entry align="left" valign="top">Btn5Up</entry>
+<entry align="left" valign="top">Button 5 Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn5Click</entry>
+<entry align="left" valign="top">Button 5 Press and Release</entry></row>
+<row>
+<entry align="left" valign="top">Btn5Click2</entry>
+<entry align="left" valign="top">Button 5 Double Click</entry></row></tbody>
+</tgroup></informaltable>
+<para>Key events that are used by the workspace manager for menu mnemonics
+and for binding to workspace manager functions are single key presses; key
+releases are ignored. Key events have the following syntax:</para>
+<informalexample remap="indent">
+<programlisting><literal>key</literal> =~[<literal>modifier_list</literal>] <keysym>Key</keysym><literal>key_name</literal>
+<literal>modifier_list</literal> =~<literal>modifier_name</literal> { <literal>modifier_name</literal>}</programlisting>
+</informalexample>
+<para>All modifiers specified are interpreted as being exclusive (this means
+that only the specified modifiers can be present when the key event occurs).
+Modifiers for keys are the same as those that apply to buttons. The <literal>key_name</literal> is an X11 keysym name. Keysym names can be found in the
+<filename>keysymdef.h</filename> file (remove the <symbol role="Define">XK_</symbol>
+prefix).</para>
+</refsect1>
+<refsect1>
+<title>BUTTON BINDINGS</title>
+<para>The <literal>buttonBindings</literal> resource value is the name of
+a set of button bindings that are used to configure workspace manager behavior.
+A workspace manager function can be done when a button press occurs with
+the pointer over a framed client window, an icon or the root window. The
+context for indicating where the button press applies is also the context
+for invoking the workspace manager function when the button press is done
+(significant for functions that are context sensitive). The button binding
+syntax is</para>
+<informalexample remap="indent">
+<programlisting><emphasis>Buttons</emphasis> <literal>bindings_set_name</literal>
+<emphasis>{</emphasis>
+    <literal>button</literal>    <literal>context</literal>    <literal>function</literal>
+    <literal>button</literal>    <literal>context</literal>    <literal>function</literal>
+    ...
+    <literal>button</literal>    <literal>context</literal>    <literal>function</literal>
+<emphasis>}</emphasis></programlisting>
+</informalexample>
+<para>The syntax for the <literal>context</literal> specification is: <literal>context</literal> = <literal>object</literal>[<emphasis>|</emphasis> <literal>context</literal>] <literal>object</literal> = <symbol role="Variable">root</symbol> | <symbol role="Variable">icon</symbol> | <symbol role="Variable">window</symbol> | <symbol role="Variable">title</symbol> | <symbol role="Variable">frame</symbol> | <symbol role="Variable">border</symbol> | <symbol role="Variable">app</symbol> The context specification indicates where the pointer must be
+for the button binding to be effective. For example, a context of
+<symbol role="Variable">window</symbol> indicates that the pointer must be over a
+client window or window management frame for the button binding to be effective.
+The <symbol role="Variable">frame</symbol> context is for the window management
+frame around a client window (including the border and titlebar), the
+<symbol role="Variable">border</symbol> context is for the border part of the window
+management frame (not including the titlebar), the <symbol role="Variable">title</symbol> context is for the title area of the window management frame,
+and the <symbol role="Variable">app</symbol> context is for the application
+window (not including the window management frame). If an <function>f.nop</function> function is specified for a button binding, the button binding
+is not done.</para>
+</refsect1>
+<refsect1>
+<title>KEY BINDINGS</title>
+<para>The <literal>keyBindings</literal> resource value is the name of a set
+of key bindings that are used to configure workspace manager behavior. A
+window manager function can be done when a particular key is pressed. The
+context in which the key binding applies is indicated in the key binding specification.
+The valid contexts are the same as those that apply to button bindings. The
+key binding syntax is:</para>
+<informalexample remap="indent">
+<programlisting><emphasis>Keys</emphasis> <literal>bindings_set_name</literal>
+<emphasis>{</emphasis>
+    <literal>key</literal>    <literal>context</literal>    <literal>function</literal>
+    <literal>key</literal>    <literal>context</literal>    <literal>function</literal>
+    ...
+    <literal>key</literal>    <literal>context</literal>    <literal>function</literal>
+<emphasis>}</emphasis></programlisting>
+</informalexample>
+<para>If an <function>f.nop</function> function is specified for a key binding,
+the key binding is not done. If an <function>f.post_wmenu</function> or <function>f.menu</function> function is bound to a key, <command>dtwm</command> automatically
+uses the same key for removing the menu from the screen after it has been
+popped up. The <literal>context</literal> specification syntax is the same
+as for button bindings with one addition. The context <emphasis>ifkey</emphasis>
+may be specified for binding keys that may not be available on all displays.
+If the key is not available and if <emphasis>ifkey</emphasis> is in the context,
+then reporting of the error message to the error log is suppressed. This feature
+is useful for networked, heterogeneous environments. For key bindings, the
+<symbol role="Variable">frame</symbol>, <symbol role="Variable">title</symbol>,
+<symbol role="Variable">border</symbol>, and <symbol role="Variable">app</symbol>
+contexts are equivalent to the <symbol role="Variable">window</symbol> context.
+The context for a key event is the window or icon that has the keyboard input
+focus (<symbol role="Variable">root</symbol> if no window or icon has the
+keyboard input focus).</para>
+</refsect1>
+<refsect1>
+<title>MENU PANES</title>
+<para>Menus can be popped up using the <function>f.post_wmenu</function> and <function>f.menu</function> workspace manager functions. The context for workspace manager
+functions that are done from a menu is <symbol role="Variable">root</symbol>,
+<symbol role="Variable">icon</symbol> or <symbol role="Variable">window</symbol> depending
+on how the menu was popped up. In the case of the <symbol role="Variable">window</symbol> menu or menus popped up with a key binding, the location of
+the keyboard input focus indicates the context. For menus popped up using
+a button binding, the context of the button binding is the context of the
+menu. The menu pane specification syntax is:</para>
+<informalexample remap="indent">
+<programlisting><emphasis>Menu</emphasis> <literal>menu_name</literal>
+<emphasis>{</emphasis>
+    <literal>label</literal>  [<literal>mnemonic</literal>]  [<literal>accelerator</literal> ]   <literal>function</literal>
+    <literal>label</literal>  [<literal>mnemonic</literal>]  [<literal>accelerator</literal> ]   <literal>function</literal>
+    ...
+    <literal>label</literal>  [<literal>mnemonic</literal>]  [<literal>accelerator</literal> ]   <literal>function</literal>
+<emphasis>}</emphasis></programlisting>
+</informalexample>
+<para>Each line in the <emphasis>Menu</emphasis> specification identifies
+the label for a menu item and the function to be done if the menu item is
+selected. Optionally a menu button mnemonic and a menu button keyboard accelerator
+may be specified. Mnemonics are functional only when the menu is posted and
+keyboard traversal applies. The <literal>label</literal> may be a string or
+a bitmap file. The label specification has the following syntax:</para>
+<informalexample remap="indent">
+<programlisting><literal>label</literal> = <literal>text</literal> | <literal>bitmap_file</literal>
+<literal>bitmap_file</literal> = <emphasis>@</emphasis><literal>file_name</literal>
+<literal>text</literal> = <literal>quoted_item</literal> | <literal>unquoted_item</literal></programlisting>
+</informalexample>
+<para>The string encoding for labels must be compatible with the menu font
+that is used. Labels are greyed out for menu items that do the <function>f.nop</function> function or an invalid function or a function that doesn't
+apply in the current context. A <literal>mnemonic</literal> specification
+has the following syntax:</para>
+<informalexample remap="indent">
+<programlisting><literal>mnemonic</literal> = <emphasis>_</emphasis> <literal>character</literal></programlisting>
+</informalexample>
+<para>The first matching <literal>character</literal> in the label is underlined.
+If there is no matching <literal>character</literal> in the label, no mnemonic
+is registered with the workspace manager for that label. Although the <literal>character</literal> must exactly match a character in the label, the mnemonic
+does not execute if any modifier (such as Shift) is pressed with the character
+key. The <literal>accelerator</literal> specification is a key event specification
+with the same syntax as is used for key bindings to workspace manager functions.
+</para>
+</refsect1>
+<refsect1>
+<title>INCLUDING FILES</title>
+<para>You may include other files into your dtwmrc file by using the
+<symbol role="Variable">include</symbol> construct. For example,</para>
+<informalexample remap="indent">
+<programlisting>INCLUDE
+{
+    /usr/local/shared/dtwm.menus
+    /home/kmt/personal/my.bindings
+}</programlisting>
+</informalexample>
+<para>causes the files named to be read in and interpreted in order as an
+additional part of the dtwmrc file. <emphasis>Include</emphasis> is a top-level
+construct. It cannot be nested inside another construct.</para>
+</refsect1>
+<refsect1>
+<title>WARNINGS</title>
+<para>Errors that occur during the processing of the resource description
+file are recorded in: <Filename>$HOME/.dt/errorlog</Filename>. Be sure to
+check this file if the appearance or behavior of <command>dtwm</command>
+is not what you expect.</para>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<para><literal>$HOME/.dt/$LANG/dtwmrc $HOME/.dt/dtwmrc /etc/dt/config/$LANG/sys.dtwmrc
+/etc/dt/config/sys.dtwmrc /usr/dt/config/$LANG/sys.dtwmrc /usr/dt/config/sys.dtwmrc
+$HOME/.dt/errorlog</literal></para>
+</refsect1>
+<refsect1>
+<title>RELATED INFORMATION</title>
+<para>&cdeman.dtwm;, &cdeman.mwm;, &cdeman.dtfile;, <Filename MoreInfo="RefEntry">X</Filename>(1). <?Pub Caret></para>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->
+<?Pub *0000086911>

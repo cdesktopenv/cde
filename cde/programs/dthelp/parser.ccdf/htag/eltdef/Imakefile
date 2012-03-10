@@ -1,0 +1,81 @@
+XCOMM $XConsortium: Imakefile /main/3 1995/11/08 11:13:29 rswiston $
+/* eltdef Imakefile */
+
+ARCCMD = arc u
+UNARCCMD = arc x
+ARCDELCMD = arc d
+
+HELPTAG       = ..
+HELPTAGSRC    = $(HELPTAG)/helptag
+HELPPARSERSRC = $(HELPTAG)/parser
+HELPELTDEFSRC = $(HELPTAG)/eltdef
+HELPDTDFILE   = $(HELPTAGSRC)/hptag.dtd
+HELPUTILSRC   = $(HELPTAG)/util
+HELPBUILDSRC  = $(HELPTAG)/build
+HELPUTILLIB   = $(HELPTAG)/util/libutil.a
+HELPIFFILE    = $(HELPTAGSRC)/help.if
+
+INCLUDES = -I. -I$(HELPUTILSRC) -I$(HELPBUILDSRC)
+
+SRCS   = eltdef.c eltutil.c entity.c scan.c
+
+OBJS   = eltdef.o eltutil.o entity.o scan.o
+
+CCPRODS = case.c
+ECPRODS = efile.c entfile.c pfile.c sfile.c stfile.c tfile.c
+
+CHPRODS = context.h delim.h
+EHPRODS = entity2.h globdec.h globdef.h if.h pval.h signon.h signonx.h
+
+CPRODS  = $(CCPRODS) $(CHPRODS)
+EPRODS  = $(ECPRODS) $(EHPRODS)
+
+CTRASH  = delim.dat error
+ETRASH  = estring.h error
+TRASH   = delim.dat estring.h error
+
+PRODUCTS = $(CPRODS) $(EPRODS)
+
+LOCAL_LIBRARIES = $(HELPUTILLIB)
+
+/* Don't use shared libs for hp */
+#ifdef HPArchitecture
+#if OSMajorVersion > 7
+EXTRA_LOAD_FLAGS = -Wl,-a archive
+#endif
+#endif
+
+all:: $(PRODUCTS)
+
+NormalLibraryObjectRule()
+NormalProgramTarget(eltdef,$(OBJS),delim.h $(LOCAL_LIBRARIES),$(LOCAL_LIBRARIES),)
+
+$(EPRODS): eltdef  $(HELPIFFILE)
+	$(RM) $(EPRODS) $(ETRASH)
+	./eltdef $(HELPIFFILE)
+
+$(CPRODS):  $(HELPUTILSRC)/context $(HELPTAGSRC)/delim.elt context.dat
+	$(RM) $(CPRODS) $(CTRASH)
+	/* get application-specific delim.dat */
+	$(CP) $(HELPTAGSRC)/delim.elt delim.dat
+	$(HELPUTILSRC)/context
+
+$(HELPUTILSRC)/context:
+	cd $(HELPUTILSRC); make context
+
+
+arc package :
+        if exist util.arc $(CP) build.arc old.arc
+        $(ARCCMD) util.arc *.c *.h makefile
+
+unarc dearc :
+        $(UNARCCMD) util.arc
+
+clean::
+	$(RM) $(PRODUCTS) $(TRASH)
+
+depend::
+
+includes:: $(PRODUCTS)
+
+DependTarget()

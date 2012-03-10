@@ -1,0 +1,263 @@
+<!-- $XConsortium: dtspcd.sgm /main/7 1996/09/23 14:38:34 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN39.rsml.1">
+<RefMeta>
+<RefEntryTitle>dtspcd</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dtspcd</Command></RefName>
+<RefPurpose>CDE Subprocess Control Service
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dtspcd</Command>
+<Arg Choice="opt">&minus;debug</Arg>
+<Arg Choice="opt">&minus;log</Arg>
+<Arg Choice="opt">&minus;auth_dir<Replaceable>directory</Replaceable></Arg>
+<Arg Choice="opt">&minus;timeout<Replaceable>num_minutes</Replaceable></Arg>
+<Arg Choice="opt">&minus;mount_point<Replaceable>mount_point</Replaceable></Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The daemon for the
+CDE Subprocess Control service,
+<Command>dtspcd</Command>, is not intended to be started directly by the user,
+rather it should be started automatically by the inetd
+daemon (see
+<filename moreinfo="RefEntry">inetd</filename>(1m)) in response to a CDE client
+requesting a process to be started on the daemon's host.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<VariableList>
+<VarListEntry>
+<Term><Literal>&minus;auth_dir</Literal> <Emphasis>directory</Emphasis></Term>
+<ListItem>
+<Para>The default authentication directory is the user's
+$HOME directory.
+This option allows the system
+administrator to use a different directory.
+Note that
+<Emphasis>directory</Emphasis> must be exported to hosts wishing
+to use the
+<Literal>dtspc</Literal> service.
+<Emphasis>directory</Emphasis> &minus; the name of the directory to use for authentication.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;timeout</Literal> <Emphasis>minutes</Emphasis></Term>
+<ListItem>
+<Para>By default, the dtspcd process will terminate if it does
+not have any activity (process start or process stop)
+for 10 minutes and
+<Command>dtspcd</Command> has no child processes running.
+To change the timeout, set
+<Emphasis>minutes</Emphasis> to the
+desired number of minutes.
+To force the daemon to not use a timer,
+set
+<Emphasis>minutes</Emphasis> to &minus;1.
+<Emphasis>minutes</Emphasis> &minus; the number of minutes for the timer.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;mount_point</Literal> <Emphasis>mount_point</Emphasis></Term>
+<ListItem>
+<Para>The file system's mount point is named
+<Emphasis>mount_point.</Emphasis> For example,
+<Emphasis>mount_point</Emphasis> could
+be "/net" or "/nfs".
+The daemon sets the
+environment variable
+<Emphasis>DTMOUNTPOINT</Emphasis> to the
+value of
+<Emphasis>mount_point</Emphasis>. This value
+of
+<Emphasis>DTMOUNTPOINT</Emphasis> will override all other
+definitions of
+<Emphasis>DTMOUNTPOINT</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;log</Literal></Term>
+<ListItem>
+<Para>This option turns on logging of status information
+to the file
+<Filename>/var/dt/tmp/DTSPCD.log</Filename>. The information logged
+includes the name of the client host, the client's
+username, error messages and the name of the file
+used for authentication.
+The default is to not do any logging.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;debug</Literal></Term>
+<ListItem>
+<Para>This option turns on logging of dtspc protocol
+to the file
+<Filename>/var/dt/tmp/DTSPCD.log.</Filename> The
+protocol information logged includes
+the name of the protocol and number of bytes
+in the request.
+The default is to not log the protocol.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>AUTHENTICATION</Title>
+<Para>When a CDE client attempts to connect to a
+<Command>dtspcd</Command> daemon,
+the client sends the daemon its username.
+The
+daemon uses the username to determine the user's
+home directory on the daemon's host.
+The home
+directory is used during authentication and it
+must be readable by the daemon and writable by
+the client.
+Therefore, the user's home directory
+on the daemon's host must be mounted to the client
+host.
+If the user's home directory is not readable
+and the
+<Literal>&minus;auth_dir</Literal> command line option is not used,
+the directory
+<Filename>/var/dt/tmp</Filename> will be used.
+</Para>
+<Para>To use a directory other than the user's home directory
+for authentication, use the
+<Literal>&minus;auth_dir</Literal> command
+line option.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>CONFIGURATION</Title>
+<Para>The
+<Command>dtspcd</Command> daemon is an Internet service that must
+be registered in the file
+<Filename>/etc/services</Filename> as follows:
+</Para>
+<ProgramListing>dtspc      6112/tcp
+</ProgramListing>
+<Para>and in the file
+<Filename>/etc/inetd.conf</Filename> as follows:
+</Para>
+<ProgramListing>dtspc  stream  tcp  nowait  root  /usr/dt/bin/dtspcd /usr/dt/bin/dtspcd
+</ProgramListing>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLE MANAGEMENT</Title>
+<Para>The CDE Subprocess Control service allows
+the user and system administrator to
+create files of environment variable
+definitions to be placed in the
+processes environment before a remote
+process is started.
+See &cdeman.dtspcdenv; for more information.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPERATING SYSTEM DEPENDENCIES</Title>
+<Para>On HP-UX, the file
+<Filename>/usr/adm/inetd.sec</Filename> may be used to
+control access to the
+<Command>dtspcd</Command> daemon.
+See
+<Filename MoreInfo="RefEntry">inetd.sec</Filename>(4) for more information.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term><Filename>/usr/dt/bin/dtspcd</Filename></Term>
+<ListItem>
+<Para>The CDE Subprocess Control daemon
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/etc/services</Filename></Term>
+<ListItem>
+<Para>The Internet service name data base
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/etc/inted.conf</Filename></Term>
+<ListItem>
+<Para>The inetd configuration file
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/etc/dt/config/dtspcdenv</Filename></Term>
+<ListItem>
+<Para>System-wide, locally defined environment variable
+definitions used when a process is executed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/usr/dt/config/dtspcdenv</Filename></Term>
+<ListItem>
+<Para>System-wide, installed environment variable definitions
+used when a process is executed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>$HOME/.dt/dtspcdenv</Filename></Term>
+<ListItem>
+<Para>User-specific environment variable definitions used
+when a process is executed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/var/dt/tmp/DTSPCD.log</Filename></Term>
+<ListItem>
+<Para>The dtspcd log file
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>DIAGNOSTICS</Title>
+<Para>Use the command line options
+<Literal>&minus;log</Literal> and
+<Literal>&minus;debug</Literal> (described above) to get diagnostic
+information.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para><filename moreinfo="RefEntry">inetd</filename>(1m), <Filename MoreInfo="RefEntry">services</Filename>(4), <Filename MoreInfo="RefEntry">inetd.conf</Filename>(4), &cdeman.dtspcdenv;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:05:27-->

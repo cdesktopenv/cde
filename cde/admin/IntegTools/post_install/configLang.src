@@ -1,0 +1,99 @@
+XCOMM!/bin/ksh
+XCOMM $XConsortium: configLang.src /main/3 1996/04/23 19:33:13 drk $
+
+ConfigureBackdropsForLang()
+{
+    if [ ! -d /etc/dt/backdrops/$thelang ]
+    then
+	mkdir -p /etc/dt/backdrops/$thelang
+    fi
+
+    typeset -L1 firstchar
+
+    exec 3< ${build_tree}/cde1/localized/${thelang}/backdrops/backdrops.msg
+
+    while read -u3 SRC
+    do
+	firstchar=$SRC
+	if [ "$SRC" != "" -a "$firstchar" != "!" ]
+	then
+	    set -A tokens $SRC
+	    if [ "${tokens[1]}" = "" ]
+	    then
+		ln -s /usr/dt/backdrops/C/${tokens[0]} \
+			/etc/dt/backdrops/$thelang/${tokens[0]}
+	    else
+		ln -s /usr/dt/backdrops/C/${tokens[0]} \
+			/etc/dt/backdrops/$thelang/${tokens[1]}
+	    fi
+	fi
+    done
+
+    exec 3<&-
+}
+
+ConfigurePalettesForLang()
+{
+    if [ ! -d /etc/dt/palettes/$thelang ]
+    then
+	mkdir -p /etc/dt/palettes/$thelang
+    fi
+
+    typeset -L1 firstchar
+
+    exec 3< ${build_tree}/cde1/localized/${thelang}/palettes/palettes.msg
+
+    while read -u3 SRC
+    do
+	firstchar=$SRC
+	if [ "$SRC" != "" -a "$firstchar" != "!" ]
+	then
+	    set -A tokens $SRC
+	    if [ "${tokens[1]}" = "" ]
+	    then
+		ln -s /usr/dt/palettes/C/${tokens[0]} \
+			/etc/dt/palettes/$thelang/${tokens[0]}
+	    else
+		ln -s /usr/dt/palettes/C/${tokens[0]} \
+			/etc/dt/palettes/$thelang/${tokens[1]}
+	    fi
+	fi
+    done
+
+    exec 3<&-
+}
+
+#include "option.func"
+
+XCOMM ##################################################################
+XCOMM 
+XCOMM  Main Body
+XCOMM 
+XCOMM ##################################################################
+
+    build_tree=$PWD
+    build_tree=${build_tree%/admin/IntegTools/post_install}
+
+    thelang=$2
+
+    if [ "$thelang" = "" -o "$thelang" = "-e" -o "$thelang" = "-d" ]
+    then
+	echo "Usage: configLang [ -e | -d ] <Lang>"
+	return 1
+    fi
+
+    HandleOption $*
+
+    if [ "$OPERATION" = "configure" ]
+    then
+
+	ConfigureBackdropsForLang
+	ConfigurePalettesForLang
+
+    elif [ "$OPERATION" = "deconfigure" ]
+    then
+
+	rm -rf /etc/dt/backdrops/$thelang
+	rm -rf /etc/dt/palettes/$thelang
+
+    fi

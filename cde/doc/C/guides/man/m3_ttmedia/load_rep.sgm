@@ -1,0 +1,117 @@
+<!-- $XConsortium: load_rep.sgm /main/5 1996/08/30 14:44:20 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN271.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN271.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttmedia_load_reply</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttmedia_load_reply</Function></RefName>
+<RefPurpose>reply to a Display, Edit or Compose request
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: load_rep.sgm /main/5 1996/08/30 14:44:20 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_message <Function>ttmedia_load_reply</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>contract</Parameter></ParamDef>
+<ParamDef>const unsigned char *<Parameter>new_contents</Parameter></ParamDef>
+<ParamDef>int <Parameter>new_len</Parameter></ParamDef>
+<ParamDef>int <Parameter>reply_and_destroy</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttmedia_load_reply</Function> function
+is used to reply to a Media Exchange request
+to display, edit or compose a document.
+The editor working on the request usually calls
+<Function>ttmedia_load_reply</Function> when the
+user has indicated in some way that he or
+she is finished viewing or modifying
+the document.
+</Para>
+<Para>If
+<Emphasis>new_contents</Emphasis> and
+<Emphasis>new_len</Emphasis> are non-
+<SystemItem Class="Constant">NULL</SystemItem> and non-zero, respectively,
+<Function>ttmedia_load_reply</Function> uses their values to set the new contents of
+the document back in the appropriate output argument of
+<Emphasis>contract</Emphasis>. If
+<Emphasis>reply_and_destroy</Emphasis> is True,
+<Function>ttmedia_load_reply</Function> replies to
+<Emphasis>contract</Emphasis> and then destroys it.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttmedia_load_reply</Function> function returns the created
+<StructName Role="typedef">Tt_message</StructName>; otherwise, it returns an error pointer.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned handle:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOTHANDLER</Term>
+<ListItem>
+<Para>This application is not the handler for this message.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NUM</Term>
+<ListItem>
+<Para>The integer value passed was invalid (out of range).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The specified process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>If
+<Emphasis>contract</Emphasis> is a
+<Symbol Role="Message">Display</Symbol> request, then
+<Emphasis>new_contents</Emphasis> and
+<Emphasis>new_len</Emphasis> should be zero.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttmedia.load;, &cdeman.ttmedia.ptype.declare;, &cdeman.ttmedia.Deposit;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

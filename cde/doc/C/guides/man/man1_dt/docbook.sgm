@@ -1,0 +1,252 @@
+<!-- $XConsortium: docbook.sgm /main/7 1996/10/22 12:17:02 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="cde.INFO.dtdocbook">]]>
+<refmeta><refentrytitle>dtdocbook</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtdocbook</command></refname><refpurpose>DocBook
+to SDL  translator</refpurpose></refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtdocbook</command><arg choice="opt">&minus;c</arg><arg choice="opt">&minus;d</arg><arg choice="opt">&minus;h</arg><arg choice="opt">&minus;m</arg>
+<arg choice="opt">&minus;o <replaceable>file</replaceable></arg><arg choice="opt">&minus;r</arg><arg choice="opt">&minus;s <replaceable>dir</replaceable></arg>
+<arg choice="opt">&minus;u</arg><arg choice="opt">&minus;v</arg><arg choice="opt">&minus;x</arg><arg><replaceable>file</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The <command>dtdocbook</command> command converts documents that conform
+to the DocBook 2.2.1 DTD (Document Type Definition) subelement PART to documents
+that conform to the SDL 1.2 DTD. The reason for translating DocBook documents
+to SDL is to make them readable by the the DtHelp viewer.</para>
+<para>The CDE documentation authoring environment produces documents that
+conform to the DocBook DTD Version 2.2.1. The CDE online documentation browser
+(<command>dtinfo</command>) accepts only documents in the DocBook DTD 2.2.1
+format. The CDE online help viewer (<command>DtHelp</command>) accepts only
+documents in the SDL DTD Version 1.2 format. Both DocBook and SDL are implementations
+of the SGML standard, ISO 8879:1986. <command>dtdocbook</command> translates
+document from one format to the other, making them suitable for use with
+the help viewer.</para>
+<para>During translation, several items are precomputed to accelerate run-time
+display of the resulting SDL document. These items include: the table of
+contents, the keyword index, cross-reference resolution, and the labeling
+of ordered lists. By default, <command>dtdocbook</command> also compresses
+the SDL document.</para>
+<para><command>dtdocbook</command> requires only the filename of the input
+file. Note that the input file can be either a DocBook document or an SDL
+document, depending on the operation you want <command>dtdocbook</command>
+to perform. If the file name ends in the characters <filename>.sgm</filename>
+or <filename>.sdl</filename>, <command>dtdocbook</command> assumes they are
+the file name extension removes them to create the base name for all intermediate
+files and for the final output file. If the file name does not end in the
+characters <filename>.sgm</filename> or <filename>.sdl</filename>, <command>dtdocbook</command> uses the file name as given for the base name. If you
+request either compression or decompression (<literal>&minus;c</literal>
+or <literal>&minus;d</literal> option) of an existing SDL file, the input
+file name extension will be <filename>.sdl</filename>. If you specify neither <literal>&minus;c</literal> nor <literal>&minus;d</literal>, the input file name extension
+must be <filename>.sgm</filename>. The output file name extension will always
+be <filename>.sdl</filename> unless you specify the <literal>&minus;o</literal>
+option, in which case <command>dtdocbook</command> will use the output filename
+that you specify.</para>
+<para>If you specify the <literal>&minus;c</literal> option and the file is
+already compressed, <command>dtdocbook</command> will decompress and recompress
+the file. This is a convenient way to verify the integrity of a compressed
+SDL file.</para>
+<para>If you specify the <literal>&minus;c</literal>
+option and the file is already decompressed,
+<command>dtdocbook</command> will re-parse the file,
+repeat all precomputations, and
+update the existing file. This is a convenient way
+to verify the integrity of an SDL
+file. It also allows you to force a recomputation
+of the table of contents to reflect edits
+made to the SDL file. You must recompute the table
+of contents because it consists
+of byte offsets to the individual help topics in the
+file.</para>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para>The following options are available:</para>
+<variablelist>
+<varlistentry><term><literal>&minus;c</literal></term>
+<listitem>
+<para>Compresses an existing SDL file. This option
+assumes an
+input file name extension of <filename>.sdl</filename>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;d</literal></term>
+<listitem>
+<para>Decompresses an existing SDL file. This option
+assumes an
+input file name extension of <filename>.sdl</filename>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;h</literal></term>
+<listitem>
+<para>Outputs a summary of the command and its options
+to standard output.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;m</literal></term>
+<listitem>
+<para>Adds additional SDATA and/or character mapping
+files.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;o</literal> <emphasis>file</emphasis></term>
+<listitem>
+<para>Uses the specified filename for the output file
+and does not add any file name extension.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;r</literal></term>
+<listitem>
+<para>Removes any intermediate files and the output
+file. If none exist,
+<command>dtdocbook</command> does not issue an error
+message.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;s</literal> <emphasis>dir</emphasis></term>
+<listitem>
+<para>Instructs <command>dtdocbook</command> to find the DocBook SGML declaration
+and associated files in the specified directory.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;u</literal></term>
+<listitem>
+<para>Turns off compression for the output file during translation.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;v</literal></term>
+<listitem>
+<para>Instructs <command>dtdocbook</command> to generate and display parser
+messages during processing (verbose mode).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>&minus;x</literal></term>
+<listitem>
+<para>Retains intermediate files when finished. This option is used primarily
+for debugging <command>dtdocbook</command> itself.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>OPERANDS</title>
+<para>The following operand is supported:</para>
+<variablelist>
+<varlistentry><term><symbol role="Variable">file</symbol></term>
+<listitem>
+<para>The document file to be input to <command>dtdocbook</command>. The
+file can be in either DocBook or SDL format, depending on which options you
+specify.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>EXIT STATUS</title>
+<variablelist remap="tight">
+<varlistentry><term>0</term>
+<listitem>
+<para>The input file was processed successfully.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>><?Pub Caret>1</term>
+<listitem>
+<para>The operation failed.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>ENVIRONMENT VARIABLES</title>
+<para><command>dtdocbook</command> references the <systemitem class="environvar">LANG</systemitem> variable to determine the language used for the input file's
+contents. <systemitem class="environvar">LANG</systemitem> can be overridden
+by the <Symbol>LANG</Symbol> attribute of the DocBook PART element.</para>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>ACTIONS/MESSAGES</title>
+<para>None.</para>
+</refsect1>
+<refsect1>
+<title>ERRORS/WARNINGS</title>
+<para><literal>TO BE SUPPLIED</literal></para>
+</refsect1>
+<refsect1>
+<title>FILES</title>
+<variablelist>
+<varlistentry><term><emphasis>file</emphasis>.sgm</term>
+<listitem>
+<para>The source file</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>file</emphasis>.idx</term>
+<listitem>
+<para>An intermediate file, typically removed after use</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>file</emphasis>.snb</term>
+<listitem>
+<para>An intermediate file, typically removed after
+use</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>file</emphasis>.sdl</term>
+<listitem>
+<para>the output file</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<variablelist>
+<varlistentry><term></term>
+<listitem>
+<para>Remove all files that resulted from previously
+processing
+the source file <literal>myFile.dbk</literal>:</para>
+<para>% <command>dtdocbook</command> <literal>-r myFile.dbk</literal></para>
+<para>or (without the .dbk extension)</para>
+<para>% <command>dtdocbook</command> <literal>-r myFile</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry><term></term>
+<listitem>
+<para>Process the file <literal>myFile.dbk</literal>:</para>
+<para>% <command>dtdocbook</command> <literal>myFile.dbk</literal></para>
+<para>or (without the .dbk extension)</para>
+<para>% <command>dtdocbook</command> <literal>myFile</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry><term></term>
+<listitem>
+<para>Process the file <literal>myFile.dbk</literal>
+and write the
+SDL output to <Filename>otherFile.sdl</Filename>:</para>
+<para>% <command>dtdocbook</command><literal>-o otherFile.sdl
+myFile.dbk</literal></para>
+<para>or (without the .dbk extension)</para>
+<para>% <command>dtdocbook</command><literal>-o otherFile.sdl
+myFile</literal></para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>TO BE SUPPLIED</para>
+</refsect1>
+</refentry>

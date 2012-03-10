@@ -1,0 +1,39 @@
+# this is a -ve test; change it to  a positive test; assumes path is
+# set to /users/vels/bin:/usr/bin/X11 (basic thing needed for executing
+# this test) ; if == /users/vels/bin:/usr/bin/X11 it has not executed 
+# login shell
+
+
+TESTDIR=.
+
+expect=${TESTDIR}/shell.emu
+actual=${TESTDIR}/shell.log
+errlog=${TESTDIR}/term.log
+
+path=$PATH
+
+path=$PATH
+echo "Path:"  >> ${errlog}
+echo ${path} >> ${errlog}
+
+if [ ${path} != "/users/vels/bin:/usr/bin/X11:/bin" ]
+then
+   echo "Test Failed - executed login shell" >> ${errlog}
+   echo "" >> ${errlog}
+else
+   echo "Did not execute login shell and test is success" >> ${errlog}
+   echo "" >> ${errlog}
+fi
+
+#addtional test
+
+#if cmp -s ${expect} ${actual}
+#then
+#   echo "Test success - executed emu_shellu as SHELL" >> ${errlog}
+#   echo "" >> ${errlog}
+#else
+#   echo "did not execute emu_shell as SHELL; and  test is failure" >> ${errlog}
+#   diff ${expect} ${actual} 2>>${errlog}
+#   echo "" >> ${errlog}
+#fi
+

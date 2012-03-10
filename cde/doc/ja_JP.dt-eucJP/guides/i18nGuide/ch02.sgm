@@ -1,0 +1,1080 @@
+<!-- $XConsortium: ch02.sgm /main/10 1996/08/31 15:13:28 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="IPG.deskt.div.1">
+<title id="IPG.deskt.mkr.1">国際化と共通デスクトップ環境</title>
+<para>さまざまの国の言語をサポートするために、ひとつの共通オープン・システム内に複数の環境が存在することがあります。このそれぞれの国<indexterm><primary>ロケール</primary><secondary>ロケールの定義</secondary></indexterm> 環境は、<emphasis>ロケール</emphasis>とよばれ、その言語、文字、フォント、データの入力と形式に使用される慣習を考慮します。共通デスクトップ環境は完全に国際化に対応しているので、どのようなアプリケーションでもシステムにインストールされているロケールを使用して実行することができます。</para>
+<sect1 id="IPG.deskt.div.2">
+<title id="IPG.deskt.mkr.2">ロケール管理<indexterm><primary>ロケール管理</primary><secondary>ロケール管理の詳細</secondary></indexterm></title>
+<para>デスクトップでは、大部分の単一ディスプレイのクライアントは、通常、実行時に$LANGという環境変数の設定で決定される単一ロケールで運用されます。Motifライブラリ（libXm）は、各ウィジェットがインストールされる時に使用される単一ロケールしかサポートしません。<indexterm><primary>ロケールの変更</primary></indexterm> Motifライブラリがインストールされた後にロケールを変更すると、動作が予測できなくなる可能性があります。</para>
+<para>国際化対応プログラムは、ユーザが希望し、ロケール環境変数で定義されているロケールを<indexterm><primary>ロケールの設定</primary></indexterm> 設定しなければなりません。デスクトップ・ツールキットを使用するプログラムの場合、プログラムはどのツールキット初期化関数（たとえば、<computeroutput>XtAppInitialize()</computeroutput>）よりも前に<computeroutput>XtSetLanguageProc()</computeroutput>関数を呼び出します。この関数はツールキット初期化の前に必要なすべての初期化を行います。非デスクトップ・プログラムの場合、プログラムは<computeroutput>setlocale()</computeroutput>関数を呼び出して、プログラムの開始時にユーザが希望するロケールを設定します。</para>
+<para><indexterm><primary>ロケール</primary><secondary>ロケール環境変数</secondary></indexterm>ロケール環境変数（たとえば、<computeroutput>LC_ALL</computeroutput>、<computeroutput>LC_CTYPE</computeroutput>、<computeroutput>LANG</computeroutput>）は環境を制御するのに使用されます。ロケールの<computeroutput>LC_CTYPE</computeroutput>カテゴリはXおよびMotifライブラリによって使用され、実行時に用いられるロケール固有の機能を識別します。しかし、 <computeroutput>LC_MESSAGES</computeroutput>カテゴリはメッセージ・カタログ・サービスにより使用されて、ロケール固有のテキストを読み込みます。詳しくは<!--Original XRef content: '&xd2;Extracting Localized Text&xd3; on page&numsp;40'--><xref role="HeadingAndPage" linkend="IPG.deskt.mkr.13">を参照してください。特に、ツールキットによって読み込まれるフォントと入力メソッドは、<computeroutput>LC_CTYPE</computeroutput>カテゴリの設定によって決定されます。</para>
+<para>文字列エンコード（たとえば、アプリケーションのソース・コード、リソース・ファイル、ユーザ・インタフェース言語（UIL）ファイルにおける、ISO8859-1や拡張UNIXコード（EUC））は、アプリケーションが実行されるロケールのコード・セットと同じでなければなりません。そうでない場合は、コード変換が必要となります。</para>
+<para>すべてのコンポーネントは、単一の、世界中で実行可能な形態で出荷され、ロケールのR5サンプル・インプリメンテーション・セット（米国、西／東ヨーロッパ、日本、韓国、中国、台湾）をサポートする必要があります。</para>
+<para>アプリケーションは、コード・セットに依存せず、すべてのマルチバイト・コード・セットをサポートするように記述しなければなりません。</para>
+<para>次に、<indexterm><primary>ロケール管理</primary><secondary>ロケール管理で使用される関数</secondary></indexterm> ロケール管理で使用される関数を挙げます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>XtSetLanguageProc()</para>
+</listitem><listitem><para>setlocale()</para>
+</listitem><listitem><para>XSupportsLocale()</para>
+</listitem><listitem><para>XSetLocaleModifiers()</para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.deskt.div.3">
+<title id="IPG.deskt.mkr.3"><indexterm><primary>フォント管理</primary><secondary>フォント管理の正しいフォントの選択</secondary></indexterm>フォント管理</title>
+<para> Xウィンドウ（X Windows<superscript>TM</superscript>）のクライアントに<indexterm><primary>フォント</primary><secondary>フォントのXウィンドウ・クライアントへの描画</secondary></indexterm> テキストを描画する時、少なくとも次の２つの事項が国際化に関係します。</para>
+<itemizedlist remap="Bullet1"><listitem><para><indexterm><primary>テキスト、ローカライズされたテキストの取得</primary></indexterm> ローカライズされたテキスト自体の取得</para>
+</listitem><listitem><para>ローカライズされたテキストの文字を描画するのに必要なすべてのグリフを含むひとつ以上のフォントの選択</para>
+</listitem></itemizedlist>
+<para><!--Original XRef content: '&xd2;Extracting Localized Text&xd3; on page&numsp;40'--><xref role="HeadingAndPage" linkend="IPG.deskt.mkr.13">で、ローカライズされたテキストを描画するための正しいフォントを選択する方法について説明しています。</para>
+<sect2 id="IPG.deskt.div.4">
+<title>フォントをキャラクタ・セットに一致させる</title>
+<para>フォント<indexterm><primary>フォント</primary><secondary>フォントをキャラクタ・セットに一致させる</secondary></indexterm> には、<indexterm><primary>ロケール</primary><secondary>ロケール用のフォント</secondary></indexterm> ロケールの文字を描画するのに使用されるグリフのセットが含まれています。しかし、指定されたロケールに対して次のようなことを行いたい場合もあります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>必要なフォントを決定する</para>
+</listitem><listitem><para>必要なフォントを指定する</para>
+</listitem><listitem><para>リソース・ファイルにおいてフォントのcharsetを決定する</para>
+</listitem><listitem><para>ひとつのロケールにつき複数のフォントを選択する</para>
+</listitem></itemizedlist>
+<para>フォント<indexterm><primary>X Logical Font Description(XLFD)</primary><secondary>XLFDのグリフ識別</secondary></indexterm> XFLD名の最後の２つのフィールドは、どの<indexterm><primary>フォント</primary><secondary>グリフが含まれているフォント</secondary></indexterm> グリフがフォントに含まれるか、および、どの値がセットから特定のグリフを取得するのに使用されるか、を識別します。この最後の２つのフィールドは、フォントに含まれるグリフのエンコードを識別するものです。</para>
+<para>たとえば、</para>
+<programlisting>-adobe-courier-medium-r-normal--24-240-75-75-m-150-iso8859-1
+</programlisting>
+<para>このXLFG名の最後の２つのフィールド<indexterm><primary>X Logical Font Description(XLFD)</primary><secondary>XLFD名フィールド</secondary></indexterm> は、<computeroutput>iso8859</computeroutput>と<computeroutput>1</computeroutput>です。これらのフィールドは、ISO8859-1標準のグリフがフォントに含まれるよう指定します。さらに、ISO8859-1標準の<indexterm><primary>フォント</primary><secondary>フォントのキャラクタ・コード値</secondary></indexterm> キャラクタ・コード値は、各文字に対応するグリフを索引付けるのに使用されます。</para>
+<para>データを描画するためにアプリケーションが使用するフォントは、ユーザが選択するロケールに依存します。データ変更のフォントcharsetはロケールの選択に基づいているため、フォント指定はアプリケーションによってハードコードされていてはなりません。ハードコードせずに、<computeroutput>app-defaults</computeroutput>ファイルでおこなって、<indexterm><primary>app-defaultsファイル</primary></indexterm> <computeroutput>app-defaults</computeroutput>ファイルのローカライズ版が作成されるようにします。</para>
+<para>さらに、フォントはフォント・セットとして指定されなければなりません。<emphasis>フォント・セット</emphasis>はXlibの概念で、フォント指定にXLFDを使用するというものです。XLFDのフォントcharsetフィールドは、Xlibコードによって指定されます。Xlibコードはフォント・セットを生成し、ユーザが指定したロケールに基づいてこれらのフィールドを埋めます。</para>
+<para>日本語、中国語、韓国語など多くの言語で、複数のフォントcharsetが組み合わされて単一のエンコードをサポートしています。このような場合、文字データを描画するためには複数のフォントをオープンしなければなりません。さらに、データは各フォントに対応するセグメントに分解されなければならず、場合によっては、文字値をグリフ・インデックスに変換するためにこれらのセグメントを変形しなければならないこともあります。 <computeroutput>XFontset</computeroutput>は、指定されたロケールで文字データを描画するのに必要なすべてのフォントの集合ですが、このような問題も扱います。さらに、描画とメトリック・ルーチンのセットを提供して、内部的に文字列をcharacter-set-consistentのセグメントに分解し、値をグリフ・インデックスに変換します。これらのルーチンによって、アプリケーション開発者の負荷は軽減されます。アプリケーション開発者が必要とするのは、ユーザのフォント・セットとXlib描画とメトリック・アプリケーション・プログラム・インタフェース（API）だけです。
+</para>
+<para>「フォントをキャラクタ・セットに一致させる」について詳しくは、 <Symbol>DtStdInterfaceFontNames</Symbol>(1,5)を参照してください。またCDEが、 Standard Application Font Namesのセットを提供している場合は、ロケールに依存しないリソースを使用することができます。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.5">
+<title>フォント・オブジェクト</title>
+<para>この節では、次のフォント・オブジェクトについて説明します。</para>
+<itemizedlist remap="Bullet1"><listitem><para>フォント・セット</para>
+</listitem><listitem><para>フォント</para>
+</listitem><listitem><para>レンダー・テーブル</para>
+</listitem></itemizedlist>
+<sect3 id="IPG.deskt.div.6">
+<title>フォント・セット</title>
+<para>一般に、Xlibを使用してローカライズされたテキストを描画するすべての国際化対応プログラムは、<computeroutput>XmFontSet</computeroutput>を使用してロケールに依存するフォントを指定しなければなりません。フォント・セットの中の特定フォントは、charsetフィールドを指定しないXLFD命名規則を使用して指定します。<computeroutput>XFontset</computeroutput>のリソース名は<computeroutput>*fontSet</computeroutput>です。フォント・リソースの一覧については、<!--Original Xref content: '&xd2;Localized Resources&xd3; on page&numsp;45'--><xref role="HeadingAndPage" linkend="IPG.deskt.mkr.14">を参照してください。</para>
+<para>テキストを描画するのに、（<computeroutput>XmString</computeroutput>関数やウィジェットを使用するのではなく）直接Xlibを使用するアプリケーションは、Xtが提供するstring-to-fontSetコンバータを利用します。たとえば、次の部分コードはXtを使用した場合と使用しない場合のフォント・セットの獲得方法を示しています。</para>
+<programlisting>/* pardon the double negative... means &ldquo;If using Xt...&rdquo; */
+#ifndef NO_XT
+typedef struct {
+     XFontSet fontset;
+     char *foo;
+} ApplicationData,  *ApplicationDataPtr;
+static XtResource my_resources[] = {
+   { XtNfontSet, XtCFontSet, XtRFontSet, sizeof (XFontSet),
+   XtOffset (ApplicationDataPtr, fontset), XtRString,
+   &ldquo;*-18-*&rdquo;}}
+#endif /* NO_XT */
+...
+#ifdef NO_XT
+fontset = XCreateFontSet (dpy, &ldquo;*-18-*&rdquo;, &amp;missing_charsets,
+   &amp;num_missing_charsets. &amp;default_string);
+if (num_missing_charsets > 0) {
+   (void) fprintf(stderr, &ldquo;&amp;s: missing charsets.\n&rdquo;,
+          program_name);
+   XFreeStringList(missing_charsets);
+}
+#else
+XtGetApplicationResources(toplevel, &amp;data, my_resources,
+    XtNumber(my_resources), NULL, 0);
+fontset = data.fontset;
+#endif /* NO_XT */</programlisting>
+</sect3>
+<sect3 id="IPG.deskt.div.7">
+<title>フォント</title>
+<para>国際化対応プログラム<indexterm><primary>フォント</primary><secondary>フォントに関する国際化対応プログラムの制限事項</secondary></indexterm> は、特定のcharsetと特定のキャラクタ・セットに対して使用する以外は、フォント、すなわち、<computeroutput>XFontStruct</computeroutput>を直接使用することは避けてください。接続しているサーバがロケールに必要な特定のcharsetをサポートしていない場合、<computeroutput>XFontStruct</computeroutput>の使用は制限されます。<computeroutput>XFontStruct</computeroutput>のリソース名は<filename>*font</filename>です。</para>
+</sect3>
+<sect3 id="IPG.deskt.div.8">
+<title>レンダー・テーブル</title>
+<para>レンダー・テーブルについては、「Motifプログラマーズ・ガイド」を参照してください。</para>
+</sect3>
+</sect2>
+<sect2 id="IPG.deskt.div.9">
+<title>フォント・セットおよびレンダー・テーブルのシンタクス</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.4">は、<indexterm><primary>フォント</primary><secondary>フォント・セットのシンタクス</secondary></indexterm> フォント・セットとレンダー・テーブルのシンタクスを示しています。</para>
+<table id="IPG.deskt.tbl.1" frame="Topbot">
+<title id="IPG.deskt.mkr.4">フォント・セットおよびレンダー・テーブルのシンタクス</title>
+<tgroup cols="4">
+<colspec colname="1" colwidth="1.52 in">
+<colspec colname="2" colwidth="1.22791 in">
+<colspec colname="3" colwidth="0.93702 in">
+<colspec colname="4" colwidth="1.51726 in">
+<thead>
+<row><entry><para><literal>リソース型</literal></para></entry><entry><para><literal>XLFDセパレータ</literal></para></entry><entry><para><literal>ターミネータ</literal></para></entry>
+<entry><para><literal>FontEntryセパレータ</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para><computeroutput>*fontSet:</computeroutput> (Xlib)</para></entry>
+<entry><para>コンマ</para></entry>
+<entry><para>なし</para></entry>
+<entry><para>なし</para></entry></row>
+<row>
+<entry><para><computeroutput>*renderTable:</computeroutput> (Motif)</para></entry>
+<entry><para>セミコロン</para></entry>
+<entry><para>コロン</para></entry>
+<entry><para>コンマ</para></entry></row></tbody></tgroup></table>
+<para>次に<indexterm><primary>フォント</primary><secondary>フォントのリソース指定</secondary></indexterm> フォントのリソース指定の例を示します。</para>
+<programlisting><symbol>app_foo</symbol>*renderTable: -adobe-courier-medium-r-normal--24-240-75-75-m-\ 150-*:</programlisting>
+<para>上記のレンダー・テーブルは、ユーザのロケールに適切なものとして、ひとつ以上の24ポイントAdobe Courierフォントから構成されるフォント・セットを指定しています。</para>
+<programlisting><symbol>app_foo</symbol>*renderTable: -adobe-courier-medium-r-normal--18-*; *-gothic-\
+*-18-*:</programlisting>
+<para>このレンダー・テーブルは、ユーザのデータのある文字に対しては18ポイントCourierフォント（使用可能ならば）から、ある文字に対しては18ポイントGothicフォントから構成されるフォント・セットを指定しています。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.10">
+<title><indexterm><primary>フォント管理</primary><secondary>フォント管理の関数リスト</secondary></indexterm>フォント関数とレンダー・テーブル関数</title>
+<para>次のXlibフォント管理API関数が使用できます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>XCreateFontSet()</para>
+</listitem><listitem><para>XLocaleOfFontSet()</para>
+</listitem><listitem><para>XFontsOfFontSet()</para>
+</listitem><listitem><para>XBaseFontNameListOfFontSet()</para>
+</listitem><listitem><para>XFreeFontSet()</para>
+</listitem></itemizedlist>
+<para>次のレンダー・テーブルAPI関数が使用できます。</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><filename>XmRenderTableAddRenditions()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableCopy()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableCvtFromProp()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableCvtToProp()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableFree()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableGetRendition()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableGetRenditions()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableGetTags()</filename></para>
+</listitem><listitem><para><filename>XmRenderTableRemoveRenditions()</filename></para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="IPG.deskt.div.11">
+<title>フォントcharset</title>
+<para>基本的な互換性を高めるため、<indexterm><primary>フォント</primary><secondary>フォントの構成</secondary></indexterm> フォントは、Xコンソーシアムの標準フォントの文字セットに従って構成されています。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.12">
+<title id="IPG.deskt.mkr.6">言語グループごとのデフォルトのフォント・セット</title>
+<para>通常、開発者が使用する言語と関連づけられたフォント・セットのベース・フォント名を選択することは簡単です。開発者はその言語と必要なフォントのセットのことをよく知っているからです。</para>
+<para>しかし、さまざまなロケールに対してフォント・セットのベース・フォント名を選択する場合は、XLFDフォント指定は15ものフィールドから成るため、作業は難しくなります。ローカライズされた使用では、フォント・セットの選択には次のフィールドが不可欠となります。</para>
+<itemizedlist remap="Bullet1"><listitem><para>FAMILY_NAME <symbol role="Variable">%F</symbol></para>
+</listitem><listitem><para>WEIGHT_NAME <symbol role="Variable">%W</symbol></para>
+</listitem><listitem><para>SLANT <symbol role="Variable">%S</symbol></para>
+</listitem><listitem><para>ADD_STYLE <symbol role="Variable">%A</symbol></para>
+</listitem><listitem><para>SPACING <symbol role="Variable">%SP</symbol></para>
+</listitem></itemizedlist>
+<para>これによりフィールドの数は簡約化されますが、各フィールドが取り得る値はロケールごとに変化します。実際のポイント・サイズ（POINT_SIZE）はプラットフォームによって変化します。</para>
+<para>このマニュアルでは、ローカライズされたフォントの指定には次の規約を使用します。</para>
+<programlisting>-dt-<symbol role="Variable">%F</symbol>- <symbol role="Variable">%W</symbol>-<symbol role="Variable">%S</symbol>-normal- <symbol role="Variable">%A</symbol>-*-*-*-<symbol role="Variable">%SP</symbol>-*</programlisting>
+<para>次に、リソース（<filename>app-defaults</filename>）ファイルでフォント・セットを指定する時に、デスクトップ内で必須フィールドとして使用される各フィールドにおすすめの値の<symbol role="Variable">最小</symbol>セットを示します。</para>
+<sect3 id="IPG.deskt.div.13">
+<title>Latin ISO8859-1 Fonts</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="157*">
+<colspec align="left" colwidth="371*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>`interface user' `interface system'
+`application'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r or i</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>sans or serif</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>p or m</para></entry></row></tbody>
+</tgroup></informaltable>
+</sect3>
+<sect3 id="IPG.deskt.div.14">
+<title>その他のISO8859フォント</title>
+<para>ISO8859-1に対して定義されているのと同じ値をおすすめします。</para>
+</sect3>
+<sect3 id="IPG.deskt.div.15">
+<title>JIS日本語フォント</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="159*">
+<colspec align="left" colwidth="369*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>interface user, interface system, application,
+Gothic or Mincho</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>*</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>m</para></entry></row></tbody></tgroup>
+</informaltable>
+</sect3>
+<sect3 id="IPG.deskt.div.16">
+<title>KSC韓国語フォント</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="157*">
+<colspec align="left" colwidth="371*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>interface user, interface system, application,
+Totum or Pathang</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>*</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>m</para></entry></row></tbody></tgroup>
+</informaltable>
+<note>
+<para> FAMILY_NAMEの値は、２つの共通フォント・ファミリの公式のローマ字表記のうち使用されているものによって変化します。バックグラウンドとしては、Totumは、Gothic、Kodig、または、Dotumとして通常出荷されるフォントに対応します。Pathangは、MyungoまたはMyeongjoとして通常出荷されるフォントに対応します。</para>
+</note>
+</sect3>
+<sect3 id="IPG.deskt.div.17">
+<title>CNS繁体字中国語フォント</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="158*">
+<colspec align="left" colwidth="370*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>interface user, interface system, application,
+Sung and Kai</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>*</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>m</para></entry></row></tbody></tgroup>
+</informaltable>
+</sect3>
+<sect3 id="IPG.deskt.div.18">
+<title>GB簡体字中国語フォント</title>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="161*">
+<colspec align="left" colwidth="367*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>FOUNDRY</para></entry>
+<entry align="left" valign="top"><para>`dt'</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>FAMILY_NAME</para></entry>
+<entry align="left" valign="top"><para>interface user, interface system, application,
+Song and Kai</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WEIGHT_NAME</para></entry>
+<entry align="left" valign="top"><para>medium or bold</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SLANT</para></entry>
+<entry align="left" valign="top"><para>r</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ADD_STYLE</para></entry>
+<entry align="left" valign="top"><para>*</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>SPACING</para></entry>
+<entry align="left" valign="top"><para>m</para></entry></row></tbody></tgroup>
+</informaltable>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.19">
+<title id="IPG.deskt.mkr.7"><indexterm><primary>ローカライズされたテキスト</primary><secondary>ローカライズされたテキストのシンプル・テキストの描画</secondary></indexterm>ローカライズされたテキストの描画</title>
+<para>Motifライブラリが使用されているか、Xlibライブラリが使用されているかによって、ローカライズされた文字列を描画するための機構がいくつか提供されています。次に、国際化対応のアプリケーションにおすすめのインタフェースを説明します。しかし、<emphasis>すべての</emphasis>ローカライズされたデータは、シンプル・テキストを使用するプログラムの外に置くことをおすすめします。詳しくは、<emphasis>XlibのC言語インタフェース</emphasis>を参照してください。</para>
+<sect2 id="IPG.deskt.div.20">
+<title>シンプル・テキスト</title>
+<para>次のXlibマルチバイト（<filename>char*</filename>）描画関数は国際化で使用できます。</para>
+<itemizedlist remap="Bullet1"><listitem><para id="IPG.deskt.mkr.8">XmbDrawImageString()
+</para>
+</listitem><listitem><para>XmbDrawString()</para>
+</listitem><listitem><para>XmbDrawText()</para>
+</listitem></itemizedlist>
+<para>次のXlibワイド・キャラクタ（<filename>wchar_t*</filename>）描画関数は国際化で使用できます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>XwcDrawImageString()</para>
+</listitem><listitem><para>XwcDrawString()</para>
+</listitem><listitem><para>XwcDrawText()</para>
+</listitem></itemizedlist>
+<para>次のXlibマルチバイト（<filename>char*</filename>）フォント・メトリック関数は国際化で使用できます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>XExtentsOfFontSet()</para>
+</listitem><listitem><para>XmbTextEscapement()</para>
+</listitem><listitem><para>XmbTextExtents()</para>
+</listitem><listitem><para>XmbTextPerCharExtents</para>
+</listitem></itemizedlist>
+<para>次のXlibワイド・キャラクタ（<filename>char_t*</filename>）フォント・メトリック関数は国際化で使用できます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>XExtentsOfFontSet()</para>
+</listitem><listitem><para>XwcTextEscapement()</para>
+</listitem><listitem><para>XwcTextExtents()</para>
+</listitem><listitem><para>XwcTextPerCharExtents</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="IPG.deskt.div.21">
+<title>XmString（コンパウンド・ストリング）</title>
+<para>Motifライブラリでは、<indexterm><primary>ローカライズされたテキスト</primary><secondary>ローカライズされたテキストのコンパウンド・ストリングの描画</secondary></indexterm> ローカライズされたテキストは<computeroutput>XmStringGenerate()</computeroutput>を使用してXmStringセグメントに挿入しなければなりません。ローカライズされたテキストに関連するタグは<computeroutput>XmFONTLIST_DEFAULT_TAG</computeroutput>で、これは、レンダー・テーブルのエントリに一致させるのに使用されます。</para>
+<para>ローカライズされた文字列<indexterm><primary>ローカライズされたテキスト</primary><secondary>ローカライズされたテキストのリソース・ファイルにおける記述</secondary></indexterm> は、リソース・ファイル<indexterm><primary>リソース・ファイル</primary><secondary>リソース・ファイルのローカライズされた文字列の記述</secondary></indexterm> に記述することができます。リソース・ファイルで指定されるコンパウンド・ストリングは<computeroutput>Xm_FONTLIST_DEFAULT_TAG</computeroutput>付きのロケールでエンコードされたセグメントをもつことができるからです。たとえば、次の例の<systemitem class="resource">renderTable</systemitem>リソースは、自動的に<computeroutput>XmFONTLIST_DEFAULT_TAG</computeroutput>と関連づけられます。</para>
+<programlisting>labelString: Japanese string
+*renderTable:-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*:</programlisting>
+<para>国際化には次の<computeroutput>XmString</computeroutput><indexterm><primary>XmString関数</primary></indexterm> 関数のセットをおすすめします。</para>
+<itemizedlist remap="Bullet1"><listitem><para>XmStringCreateLocalized()</para>
+</listitem><listitem><para>XmStringDraw()</para>
+</listitem><listitem><para>XmStringDrawImage()</para>
+</listitem><listitem><para>XmStringDrawUnderline()</para>
+</listitem></itemizedlist>
+<para>次のセットの<computeroutput>XmString</computeroutput><indexterm><primary>XmString関数</primary></indexterm> 関数は、カバーされていない言語では動作しない可能性のある指示をするため、国際化には<emphasis>おすすめできません。</emphasis></para>
+<itemizedlist remap="Bullet1"><listitem><para>XmStringCreateLtoR()</para>
+</listitem><listitem><para>XmStringSegmentCreate()</para>
+</listitem></itemizedlist>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.22">
+<title id="IPG.deskt.mkr.9">ローカライズされたテキストの入力</title>
+<para><indexterm><primary>ローカライズされたテキスト</primary><secondary>ローカライズされたテキストの入力メソッド</secondary></indexterm> ローカライズされたテキストの入力は通常、ローカル入力メソッド、または、ネットワークを使用する入力メソッドを使用して行われます。</para>
+<para> <emphasis>ローカル入力メソッド</emphasis>は、入力メソッドがXlibに組み込まれていることを意味します。通常、単純な規則で構成でき言語固有の機能を必要としない言語で使用します。<indexterm><primary>ネットワークを使用する入力メソッド</primary></indexterm> <emphasis>ネットワークを使用する入力メソッド</emphasis>は、実際の入力メソッドは分離したサーバで提供され、XlibはXIMプロトコルを通してサーバと通信して言語固有の構成を行なうことを意味します。</para>
+<sect2 id="IPG.deskt.div.23">
+<title>基本的なプロンプトとダイアログ</title>
+<para>アプリケーションが<computeroutput>Text</computeroutput>ウィジェットを使用してすべてのテキスト入力を行なうことを強く<indexterm><primary>テキスト入力</primary><secondary>テキスト入力のプロンプトとダイアログ</secondary></indexterm> おすすめします。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.24">
+<title><indexterm><primary>テキスト入力</primary><secondary>DrawingAreaウィジェット内の入力</secondary></indexterm> DrawingAreaウィジェット内の入力</title>
+<para>多くのアプリケーションは入力に基づくウィジェット内で描画を行います。デスクトップ環境内での一貫性を提供するために、<computeroutput>XmIm</computeroutput>関数をおすすめします。入力メソッドに必要なスタイル管理とジオメトリ管理が、<computeroutput>VendorShell</computeroutput>ウィジェット・クラスによって管理されるからです。アプリケーションに関係するのは、キー・イベント、フォーカス、描画領域内の現在の入力位置の通信だけです。これらの関数を使用するには下層のXlib入力メソッド機構の基本的な知識がいくらか必要ですが、開発者が考慮しなけらばならないのは、<computeroutput>XmIm</computeroutput>の情報だけです。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.25">
+<title>アプリケーション固有および言語固有の中間的なフィードバック</title>
+<para>アプリケーションの中には、<indexterm><primary>テキスト入力</primary><secondary>テキスト入力の中間的なフィードバック</secondary></indexterm> 前編集中の間接フィードバックを直接表示しなければならないものもあります。たとえば、アプリケーションがXlibが提供する機能の限度を超えるような場合などです。この例として、PostScript<superscript>TM</superscript>の描画や縦書きなどが挙げられます。</para>
+<para>コアXlibは、アプリケーションが前編集中に中間的なフィードバックを表示できるインタフェースの共通セットを提供します。アプリケーションのコールバックを登録して前編集スタイルを<computeroutput>XNPreeditCallbacks</computeroutput>に設定することにより、アプリケーションは入力メソッドから中間的な前編集中のデータを取得し、必要とするものをすべて描画することができます。これは、OnTheSpot入力メソッド・スタイルを使用することを意味します。</para>
+<para>複雑な言語処理を行なうアプリケーションには、特定のXIMインプリメンテーションとその入力メソッド・エンジンの中の拡張機能を認識するものがあります。そのようなアプリケーションは最先端のものでありXIM機能を詳細まで精通していることが要求されます。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.26">
+<title>TextウィジェットとTextFieldウィジェット<indexterm><primary>XmText関数</primary></indexterm></title>
+<para>基本的なプロンプトとダイアログには、<computeroutput>Text</computeroutput>ウィジェット、または、<computeroutput>TextField</computeroutput>ウィジェットをおすすめします。リソースの他に、すべての<computeroutput>XmTextField</computeroutput>関数と<computeroutput>XmText</computeroutput>関数が、<computeroutput>Text[Field]</computeroutput>ウィジェットの中でローカライズされたテキストを取得および設定するために使用することができます。</para>
+<para>大部分の<computeroutput>XmText</computeroutput>関数は、<symbol role="Variable">バイト数ではなく</symbol>、文字数に基づいています。たとえば、<computeroutput>XmTextPosition()</computeroutput>関数の位置はすべて、バイトの位置ではなく文字の位置です。
+<computeroutput>XmTextGetMaxLength()</computeroutput>関数はバイト数を返します。疑わしい場合、位置は常に文字単位であることを思い出してください。</para>
+<para><computeroutput>Text</computeroutput>ウィジェット、または、<computeroutput>TextField</computeroutput>ウィジェットの幅は、 <computeroutput>XmNcolumns</computeroutput>のリソース値で決定されます。しかし、この値はバイト数やカラム数ではなく、フォント・セットにおける最も幅の広い文字の数を意味するものです。たとえば、<computeroutput>Text</computeroutput>ウィジェットに可変幅のフォントを選択したとします。文字<symbol role="Variable">i</symbol>の幅は1ピクセルであるのに対し、文字<emphasis>W</emphasis>の幅は7ピクセルです。 <computeroutput>XmNcolumns</computeroutput>の値が10に設定された場合、これは、 <computeroutput>Text</computeroutput>ウィジェットを10文字以上表示できる幅にする要求とみなされます。したがって、<computeroutput>Text</computeroutput>ウィジェットは最も幅の広い文字の幅を使用して、そのcoreウィジェットのピクセル幅を決定しなければなりません。この例では、ウィジェットに、<emphasis>W</emphasis>文字なら10個、<emphasis>i</emphasis>文字なら70個表示することができます。
+<computeroutput>XmNcolumns</computeroutput>のこの構造は、コード・セットがマルチバイトでマルチカラム・エンコードのロケールの場合には、問題が発生する可能性があります。そのような場合は、この値をローカライズされたリソース内で設定してください。</para>
+<para>次の節では、入力メソッドの管理に使用されるアプリケーションで用いることができる関数のセットを示します。<computeroutput>Text</computeroutput>ウィジェットと<computeroutput>TextField</computeroutput>ウィジェットを使用するアプリケーションについては、<!--Original XRef content: '&xd2;Input Method (Keyboards)&xd3; on page&numsp;49'--><xref role="HeadingAndPage" linkend="IPG.deskt.mkr.20">を参照してください。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.27">
+<title>Text[Field]<indexterm><primary>テキスト入力</primary><secondary>Textウィジェットを使用しないアプリケーションでのテキスト入力</secondary></indexterm> ウィジェットを使用しないカスタマイズされたウィジェット内での文字入力ウィジェット</title>
+<para>アプリケーションが、ユーザからの文字入力を取得するけれども、そのために<computeroutput>TextField</computeroutput>ウィジェットも<computeroutput>Text</computeroutput>ウィジェットも使用しないという場合があります。たとえば、<computeroutput>DrawingArea</computeroutput>ウィジェットを使用するアプリケーションでは、ユーザは描画領域に直接テキストを入力することができます。このような場合、アプリケーションは、後節で説明するようにXlibのXIM機能を使用するか、Motifの<computeroutput>XmIm</computeroutput>機能を使用するかします。<computeroutput>XmIm</computeroutput>機能を使用すると、アプリケーションは最小のコードで入力メソッドと接続し操作することができます。さらに、Motif <computeroutput>VendorShell</computeroutput>ウィジェットは、アプリケーションに代わって、入力メソッドのジオメトリ管理を行なうことができるようになります。XmIm機能についてさらに詳しくは、「Motifプログラマーズ・ガイド」を参照してください。</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.31">
+<title id="IPG.deskt.mkr.13">ローカライズされたテキストの抽出<indexterm><primary>ローカライズされたテキスト</primary><secondary>ローカライズされたテキストの抽出</secondary></indexterm></title>
+<para>アプリケーションをローカライズするにはいくつかの<indexterm><primary>ローカライズされたテキスト</primary><secondary>ローカライズされたテキストを確立する方法</secondary></indexterm> 方法がありますが、一般的な規則は、言語に依存する情報はアプリケーションの外に置き、ロケール名で識別される別のディレクトリに保存するという方法です。</para>
+<para>この節では、アプリケーションの言語環境を確立するために、ユーザ、アプリケーション開発者、インプリメンテーションがどのように協力するかを説明します。アプリケーションをローカライズするための一般的な２つのアプローチについても説明します。
+次の３つの方法を使用することができます。</para>
+<itemizedlist remap="Bullet1"><listitem><para>リソース・ファイル</para>
+</listitem><listitem><para>メッセージ・カタログ</para>
+</listitem><listitem><para>プライベート・ファイル</para>
+</listitem></itemizedlist>
+<sect2 id="IPG.deskt.div.32">
+<title>リソース・ファイル</title>
+<para>リソース・ファイルは、アプリケーションに関するすべての種類の情報をカスタマイズするためのGUIツールキット機構です。イントリンシクスのライブラリ（libXt）は、コマンド行オプション、<indexterm><primary>ローカライズされたテキストの抽出</primary><secondary>ローカライズされたテキストの抽出におけるリソース・ファイルの使用</secondary></indexterm> アプリケーション定義のリソース、ユーザ定義のリソースをマージする複雑な機構を提供します。リソース・ファイルはローカライズされたテキストを抽出するのに使用することができます。リソース・ファイルとメッセージ・カタログの違いは、リソース・データベースは読み込まれる度にコンパイルされるという点です。したがって、どの文字列をリソースに置き、どの文字列をメッセージ・カタログに置くかは注意して決定してください。</para>
+<para>また、Motifライブラリ機能は、ローカライズされたリソースが読み込まれる位置を指定する際には、LC_MESSAGEカテゴリには依存しません。詳しくは、マニュアル・ページの<filename moreinfo="RefEntry">XtSetLanguageProc()</filename>を参照してください。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.33">
+<title>メッセージ・カタログ</title>
+<para>メッセージ・カタログは、ローカライズされたテキストを含む外部データベースにアクセスするための伝統的なオペレーティング<indexterm><primary>ローカライズされたテキストの抽出</primary><secondary>ローカライズされたテキストの抽出におけるメッセージ・カタログの使用</secondary></indexterm>・システムの機構です。これらの機能はあらかじめコンパイルされてアクセスの準備ができているカタログ・ファイルを読み込みます。また、カタログがみつからなかった場合のために、実際のプログラム内にデフォルトのメッセージも提供します。</para>
+<para>メッセージ機能サポートは、XPG4とSystem V Release4（SVR4）のメッセージ・カタログへのアクセスのインタフェースに基づいています。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.34">
+<title>プライベート・ファイル</title>
+<para>アプリケーションは、プライベート・データベース<indexterm><primary>ローカライズされたテキストの抽出</primary><secondary>ローカライズされたテキストの抽出におけるプライベート・ファイルの使用</secondary></indexterm> を使用して、単なるローカリゼーション・テキストだけでなく、一般的なカスタマイズされたデータベースを提供することができるようになります。このようなデータベースには、通常、テキストが含まれています。もしデータベースが多くのファイルに広がるようであれば、ローカライズされたテキストに実行時に間接的にアクセスできるなんらかの方法が提供されるようにすることをおすすめします。このアクセスがないと、平均的なユーザにとってローカリゼーションは困難になります。一般的に、このようなプライベート・ファイルの形式はローカリゼーションを行なう人々から支持されません。しかし、テキストのみのローカリゼーション専用にツールが提供されるならば、問題は少なくなります。</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.35">
+<title>メッセージ・ガイドライン<indexterm><primary>メッセージ</primary><secondary>メッセージのガイドライン</secondary></indexterm></title>
+<para>メッセージ・ガイドラインは、メッセージとヘルプ<indexterm><primary>ヘルプ情報ガイドライン</primary></indexterm> 情報を一貫性のある形式にするのに役立ちます。また、経験の少ない翻訳者ばかりでなく、英語に堪能でないエンド・ユーザにとっても理解しやすいメッセージを作成し管理することを促進します。これらのガイドラインを使用して、一貫性のある言葉で意味が明確なメッセージ・ファイルを作成してください。これらのガイドラインが分散することで、プログラマと作成者は、メッセージの記述に関して互いに整合性をとることができるようになります。国際化対応サポートを完全に実装するには、実行ファイルのそれぞれに対して、デフォルト・メッセージ、外部メッセージ・ファイル、および、翻訳可能なメッセージの計画的な配布が必要です。</para>
+</sect1>
+<sect1 id="IPG.deskt.div.36">
+<title>メッセージ抽出関数<indexterm><primary>メッセージ</primary>
+<secondary>メッセージ抽出関数</secondary><tertiary>メッセージ抽出関数の国際化の必要条件</tertiary></indexterm></title>
+<para>国際化対応プログラム（基本コマンドとユーティリティを含む）の必要条件のひとつは、メッセージがユーザが使用する言語で出力装置に表示されることです。国際化対応プログラムは多くの国（国際的ロケール）で使用されるので、メッセージはさまざまな言語に翻訳される必要があります。</para>
+<para>デスクトップ環境には、XPG4関数、Xlib関数、DtMsgLog関数の３セットのメッセージ抽出関数があります。</para>
+<sect2 id="IPG.deskt.div.37">
+<title>XPG4のユニバーサルUNIXメッセージ関数<indexterm><primary>メッセージ</primary><secondary>メッセージ抽出関数</secondary><tertiary>メッセージ抽出関数のXPG4セット</tertiary></indexterm></title>
+<para> XPG4メッセージ機能は、メッセージ・ソース・ファイル、カタログ生成機能、プログラミング・インタフェースから構成されています。次に、XPG4のユニバーサルUNIX<superscript>TM</superscript>メッセージ関数を示します。</para>
+<itemizedlist remap="Bullet1"><listitem><para>catopen()</para>
+</listitem><listitem><para>catgets()</para>
+</listitem><listitem><para>catclose()</para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="IPG.deskt.div.38">
+<title>XPG4メッセージ<indexterm><primary>XPG4メッセージ例</primary></indexterm> 例</title>
+<para>次の例は、カタログからメッセージを取り出す方法を示しており、３つの部分からなっています。第一の部分はメッセージ・ソース・ファイルを示しており、第二の部分はカタログ・ファイルの生成に使用される方法を示しています。第三の部分はこのカタログを使用するプログラム例です。</para>
+<sect3 id="IPG.deskt.div.39">
+<title>メッセージ・ソース・ファイル</title>
+<para>メッセージ・カタログは次のように指定することができます。</para>
+<programlisting>example.msg file:
+$quote &ldquo;
+$ every message catalog should have a beginning set number.
+$set 1 This is the set 1 of messages
+1 &ldquo;Hello world\n&rdquo;
+2 &ldquo;Good Morning\n&rdquo;
+3 &ldquo;example: 1000.220 Read permission is denied for the file
+%s.\n&rdquo;
+$set 2
+1 &ldquo;Howdy\n&rdquo;</programlisting>
+<sect4 id="IPG.deskt.div.40">
+<title>カタログ・ファイルの生成</title>
+<para>このファイルは、次のように<computeroutput>gencat</computeroutput>ユーティリティに入力してメッセージ・カタログ<computeroutput>example.cat</computeroutput>を生成します。</para>
+<programlisting>gencat example.cat example.msg</programlisting>
+</sect4>
+<sect4 id="IPG.deskt.div.41">
+<title>プログラム内のカタログへのアクセス</title>
+<programlisting>#include &lt;locale.h>
+#include &lt;nl_types.h>
+char *MF_EXAMPLE = &ldquo;example.cat&rdquo;
+
+main()
+{
+  nl_catd catd;
+  int error;
+
+  (void)setlocale(LC_ALL, &ldquo;&rdquo;);
+
+  catd = catopen(MF_EXAMPLE, 0);
+     /* Get the message number 1 from the first set.*/
+
+  printf( catgets(catd,1,1,&ldquo;Hello world\n&rdquo;) );
+     /* Get the message number 1 from the second set.*/
+
+  printf( catgets(catd, 2, 1,&ldquo;Howdy\n&rdquo;) );
+     /* Display an error message.*/
+
+  printf( catgets(catd, 1, 4,&ldquo;example: 100.220
+     Permission is denied to read the file %s.\n&rdquo;),
+     MF_EXAMPLE);
+  catclose(catd);
+}</programlisting>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="IPG.deskt.div.42">
+<title>Xlibメッセージ関数</title>
+<para>次のXlibメッセージ<indexterm><primary>メッセージ</primary><secondary>メッセージ抽出関数</secondary><tertiary>メッセージ抽出関数のXlibセット</tertiary></indexterm> 関数は、リソースに同じような入力／出力（I/O）操作を提供します。</para>
+<itemizedlist remap="Bullet1"><listitem><para>XrmPutFileDatabase()</para>
+</listitem><listitem><para>XrmGetFileDatabase()</para>
+</listitem><listitem><para>XrmGetStringDatabase()</para>
+</listitem><listitem><para>XrmLocaleOfDatabase()</para>
+</listitem></itemizedlist>
+<para>これらは、<emphasis>X Window System, The Complete Reference to Xlib, Xprotocol, ICCCM, XLFD - X Version 11, Release 6</emphasis>に説明されています。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.43">
+<title>Xlibメッセージおよびリソース<indexterm><primary>Xlibメッセージ／リソース機能</primary></indexterm> 機能</title>
+<para>システム環境の国際化の一部分、ツールキットを使用するアプリケーションは、アプリケーション・ソース内にハードコードされたロケール固有のデータをもっていません。ひとつの共通のロケール固有項目は、標準I/Oのアプリケーションによって返されるメッセージ（エラーと警告）です。</para>
+<para>一般に、システム環境ツールキット・ウィジェットまたはガジェットによってユーザに対して表示されるエラー・メッセージや警告メッセージは、メッセージ・カタログによってアプリケーションの外に置いてください。</para>
+<para>ツールキット・コンポーネントによって表示されるダイアログ・メッセージは、ローカライズされたリソース・ファイルによってアプリケーションの外に置いてください。これは、<computeroutput>XmLabel</computeroutput>および<computeroutput>XmPushButton</computeroutput>クラスの<computeroutput>XmNlabelString</computeroutput>リソースやウィンドウ・タイトルなどのリソースのローカライズと同じ方法です。</para>
+<para>たとえば、警告メッセージが<computeroutput>XmMessageBox</computeroutput>ウィジェット・クラスによって表示される場合は、<computeroutput>XmNmessageString</computeroutput>リソースはアプリケーションのソース・コード内にハードコードすることはできません。このリソースの値はメッセージ・カタログから取り出されなければなりません。異なったロケールで実行される国際化対応アプリケーションでは、サポートされるロケールのそれぞれに対して別々のローカライズされたカタログが存在しなければなりません。そうしておけば、アプリケーションは再構築する必要がなくなります。</para>
+<para>ローカライズされたリソース・ファイルは<filename>/usr/lib/X11/%L/appdefaults</filename>サブディレクトリに置くか、または、<computeroutput>XENVIRONMENT</computeroutput>環境変数によって指定することができます。<emphasis>%L</emphasis>変数は実行時に使用されるロケール名で置き換えられます。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.43a">
+<title>Dtメッセージ関数</title>
+<indexterm><primary>メッセージ</primary><secondary>メッセージのDtMsgLogfunctions</secondary></indexterm><indexterm><primary>Dtメッセージ関数</primary></indexterm>
+<para>Dtメッセージ関数は、 <Filename MoreInfo="RefEntry">DtMsgLogMessage</Filename>(3)、 <Filename MoreInfo="RefEntry">DtMsgLogSetHandler</Filename>(3)、<Filename MoreInfo="RefEntry">DtMsgLogOpenFile</Filename>(3)です。詳しくは、<emphasis>共通デスクトップ環境 プログラマーズ・ガイド</emphasis>を参照してください。</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.44">
+<title id="IPG.deskt.mkr.14"><indexterm><primary>ローカライズされたリソース</primary></indexterm>ローカライズされたリソース</title>
+<para>この節では、どのウィジェット<indexterm><primary>ローカライズされたリソース</primary><secondary>ローカライズされたリソースのウィジェット</secondary></indexterm> とガジェト<indexterm><primary>ローカライズされたリソース</primary><secondary>ローカライズされたリソースのガジェット</secondary></indexterm> のリソース<indexterm><primary>リソース</primary><secondary>リソースのロケール依存</secondary></indexterm> が、ロケール依存であるかを説明しています。情報は関連する機能別に構成されています。たとえば第一節では、ラベルを表示したり、<indexterm><primary>ボタン・リソース</primary></indexterm> プッシュ・ボタン<indexterm><primary>リソース</primary><secondary>リソースのボタン</secondary></indexterm> 機能を提供するために使用されるウィジェットに対してロケール依存であるリソースについて説明しています。</para>
+<sect2 id="IPG.deskt.div.45">
+<title>ラベルとボタン</title>
+<para><!--Original XRef content: ''--><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.15"> <!--Original
+XRef content: 'Table&numsp;2&hyphen;3'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.16">は、ラベルとして使用されるローカライズできる<indexterm><primary>リソース</primary><secondary>ラベルとして使用されるリソース</secondary></indexterm> リソースの一覧です。これらの多くは、 <computeroutput>XmString</computeroutput>型で、そうでないものは、color型またはchar*型です。これらのリソースについて詳しくは、<emphasis>Motifリファレンス・マニュアル</emphasis>を参照してください。どのような場合にも、アプリケーションはこれらのリソースをハードコードしてはいけません。リソース値をアプリケーションで指定する必要がある場合は、<computeroutput>app-defaults</computeroutput>ファイルで行い、リソースが確実にローカライズできるようにしておくべきです。</para>
+<para id="IPG.deskt.mkr.15">ここには、ウィジェット・クラスのリソースのみを示しており、ウィジェットのサブクラスはのせていません。たとえば、<computeroutput>XmDrawnButton</computeroutput>ウィジェット・クラスは、ローカライズされた新しいリソースを導入しませんが、これは<computeroutput>XmLabelWidget</computeroutput>ウィジェット・クラスのサブクラスです。したがって、そのアクセラレータ・リソース、 <computeroutput>acceleratorText</computeroutput>リソースなどもまたローカライズされ、アプリケーションでハードコードすべきではありません。</para>
+<table id="IPG.deskt.tbl.3" frame="Topbot">
+<title id="IPG.deskt.mkr.16">ローカライズできるリソース</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="2.50in">
+<colspec colname="col2" colwidth="2.50in">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>ウィジェット・クラス</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>リソース名</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Core</para></entry>
+<entry align="left" valign="top"><para><footnote id="IPG.deskt.fn.13"><para>.</para>
+</footnote></para><para><footnoteref linkend="IPG.deskt.fn.13"></footnoteref>
+*background:<superscript>1</superscript></para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmCommand</para></entry>
+<entry align="left" valign="top"><para>*command:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmCommand</para></entry>
+<entry align="left" valign="top"><para>*promptString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*dirListLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*dirTextLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*fileListLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*filterLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmFileSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*noMatchString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*accelerator:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*acceleratorText:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*labelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*mnemonic:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmLabel[Gadget]</para></entry>
+<entry align="left" valign="top"><para>*stringDirection:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmList</para></entry>
+<entry align="left" valign="top"><para>*stringDirection:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmManager</para></entry>
+<entry align="left" valign="top"><para>*stringDirection:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmMessageBox</para></entry>
+<entry align="left" valign="top"><para>*cancelLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmMessageBox</para></entry>
+<entry align="left" valign="top"><para>*helpLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmMessageBox</para></entry>
+<entry align="left" valign="top"><para>*messageString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmMessageBox</para></entry>
+<entry align="left" valign="top"><para>*okLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmPrimitive</para></entry>
+<entry align="left" valign="top"><para>*foreground:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmRowColumn</para></entry>
+<entry align="left" valign="top"><para>*labelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmRowColumn</para></entry>
+<entry align="left" valign="top"><para>*menuAccelerator:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmRowColumn</para></entry>
+<entry align="left" valign="top"><para>*mnemonic:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmRowColumn(SimpleMenu*)</para></entry>
+<entry align="left" valign="top"><para>*buttonAccelerators:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmScale</para></entry>
+<entry align="left" valign="top"><para>*titleString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*applyLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*cancelLabelString:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*helpLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*listLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*okLabelString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*selectionLabelString:</para></entry>
+</row>
+<row rowsep="1">
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*textAccelerators:</para></entry></row>
+<row>
+<entry align="left" spanname="1to2" valign="top"><superscript>1</superscript>
+カラー名は可搬的なキャラクタ・セットに限定するというXプロトコルの制限により、フォアグラウンド・カラーとバックグラウンド・カラーはローカライズされません。ローカライズされたカラー名はアプリケーションにゆだねられ、可搬的なキャラクタ・セットでエンコードされた名前にマップするためにローカライズされたデータベースが提供されます。</entry></row></tbody></tgroup></table>
+<para> <computeroutput>XmRowColumn</computeroutput>ウィジェットは、ローカライズできる別の文字列リソースをもちます。これらのリソースは、マニュアル・ページの<filename moreinfo="RefEntry">XmRowColumn</filename>の、見出しが、「シンプル・メニュー作成リソース・セット」の所にリストされています。タイトルが示すように、これらのリソースは、<computeroutput>XmCreateSimpleMenu()</computeroutput>関数で作成する<computeroutput>RowColumn</computeroutput>ウィジェットにしか影響を与えません。 影響があるリソースは、<systemitem>*buttonAccelerators</systemitem>、<systemitem>*buttonAcceleratorText</systemitem>、<systemitem>*buttonMnemonics</systemitem>、<systemitem>*optionLabel</systemitem>、<systemitem>*optionMnemonic</systemitem>です。これらのリソースはめったに使用されず、シンプル・メニューの作成時にRowColumnに適用されるだけなので、<!--Original XRef content: 'Table&numsp;2&hyphen;3'--><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.16">には含まれません。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.46">
+<title><indexterm><primary>リスト・リソース</primary></indexterm>リスト・リソース</title>
+<para>いくつかのウィジェットでは、アプリケーションはウィジェットの中の項目リストを、<indexterm><primary>リソース</primary><secondary>リスト設定のリソース</secondary></indexterm> 設定、または、<indexterm><primary>リソース</primary><secondary>リスト読み込みのリソース</secondary></indexterm> 読み込むことができます。 <!--Original Xref content: 'Table&numsp;2&hyphen;4'--><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.17">は、どのウィジェットでそれができるのかということと、これらのリストを設定または読み込むために使用するリソースを示しています。リストの項目はローカライズする必要がある可能性があるので、これらのリストをハードコードしないでください。それよりも、リソースとして<computeroutput>app-defaults</computeroutput>ファイルにおき、ローカライズできるようにしておくべきです。各リストの型は<computeroutput>XmStringList</computeroutput>です。</para>
+<table id="IPG.deskt.tbl.4" frame="Topbot">
+<title id="IPG.deskt.mkr.17">リストの読み込みに使用されるリソース</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>ウィジェット・クラス</literal></para></entry><entry><para><literal>リソース名</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>XmList</para></entry>
+<entry><para>*items:</para></entry></row>
+<row>
+<entry><para>XmList</para></entry>
+<entry><para>*selectedItems:</para></entry></row>
+<row>
+<entry><para>XmSelectionBox</para></entry>
+<entry><para>*listItems:</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.47">
+<title>タイトル</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;5'--><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.18">は、<indexterm><primary>リソース</primary><secondary>タイトル設定のリソース</secondary></indexterm><indexterm><primary>ローカライズできるリソース</primary><secondary>ローカライズできるリソースのタイトルとアイコン名</secondary></indexterm> タイトルとアイコン名の設定に使用されるリソースの一覧です。通常、アプリケーションが設定する必要があるのは、<systemitem>*title</systemitem>:リソースと<systemitem>*iconName</systemitem>:リソースだけです。各々のエンコードは、適当なロケール管理を行なっているクライアントでは自動的に検出されます。これらはすべて、<computeroutput>*char</computeroutput>型、もしくは、<computeroutput>XmString</computeroutput>型です。</para>
+<table id="IPG.deskt.tbl.5" frame="Topbot">
+<title id="IPG.deskt.mkr.18">タイトルおよびアイコン名の設定に使用されるリソース</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="2.50in">
+<colspec colname="col2" colwidth="2.50in">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>ウィジェット・クラス</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>リソース名</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>TopLevelShell</para></entry>
+<entry align="left" valign="top"><para>*iconName:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>TopLevelShell</para></entry>
+<entry align="left" valign="top"><para>*iconNameEncoding:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>WmShell</para></entry>
+<entry align="left" valign="top"><para>*title:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>WmShell</para></entry>
+<entry align="left" valign="top"><para>*titleEncoding:<superscript> 1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmBulletinBoard</para></entry>
+<entry align="left" valign="top"><para>*dialogTitle:</para></entry></row>
+<row>
+<entry align="left" spanname="1to2" valign="top"><para><footnote id="IPG.deskt.fn.16">
+<para><superscript>1</superscript>このリソースはアプリケーションが設定してはなりません。アプリケーションが<computeroutput>XtSetLanguageProc</computeroutput>を呼び出すと、このリソースのデフォルト値（None）が自動的に設定され、ローカライズされたテキストがタイトルに確実に使用できるようになります。</para>
+</footnote></para><para><footnoteref linkend="IPG.deskt.fn.16"></footnoteref>
+</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.48">
+<title>テキスト・ウィジェット</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;6'--><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.19">は、ロケール依存である、もしくは、国際化対応アプリケーションの開発者が知っているべき<indexterm><primary>テキスト・リソース</primary></indexterm> <computeroutput>Text[Field]</computeroutput><indexterm><primary>ローカライズできるリソース</primary><secondary>ローカライズできるリソースのテキスト</secondary></indexterm> リソースの一覧です。</para>
+<table id="IPG.deskt.tbl.6" frame="Topbot">
+<title id="IPG.deskt.mkr.19">ロケール依存のText[Field]リソース</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="2.50in">
+<colspec colname="col2" colwidth="2.50in">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>ウィジェット・クラス</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>リソース名</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*textColumns:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmSelectionBox</para></entry>
+<entry align="left" valign="top"><para>*textString:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*columns:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*modifyVerifyCallback:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*modifyVerifyCallbackWcs:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*value:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmText</para></entry>
+<entry align="left" valign="top"><para>*valueWcs:</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*columns:<superscript>1</superscript></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*modifyVerifyCallback:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*modifyVerifyCallbackWcs:</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*value:</para></entry></row>
+<row rowsep="1">
+<entry align="left" valign="top"><para>XmTextField</para></entry>
+<entry align="left" valign="top"><para>*valueWcs:</para></entry></row>
+<row>
+<entry align="left" spanname="1to2" valign="top"><para><footnote id="IPG.deskt.fn.18">
+<para><superscript>1</superscript>*columnsリソースは、表示される文字数によって<computeroutput>Text[Field]</computeroutput>ウィジェットの初期幅を指定します。 可変幅のフォントの場合や、文字のサイズが意味をもって変化するロケールの場合、カラムはそのロケールの文字レパートリーの中で最も幅が広い文字を表示するのに必要なスペース量となります。たとえば、カラム幅が10の場合、現在のロケールの少なくとも10文字が表示されることが保証されます。割り当てられたスペースに、その数以上の文字数を表示することも可能です。</para>
+</footnote></para><para><footnoteref linkend="IPG.deskt.fn.18"></footnoteref>
+</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.49">
+<title id="IPG.deskt.mkr.20">入力メソッド（キーボード）</title>
+<para><xref role="CodeOrFigureOrTable" linkend="IPG.deskt.mkr.21">に、入力メソッドの<indexterm><primary>入力メソッドのカスタマイズ</primary></indexterm> カスタマイズのためにローカライズできる<indexterm><primary>ローカライズできるリソース</primary><secondary>入力メソッドのカスタマイズのためにローカライズできるリソース</secondary></indexterm> リソースを示します。これらのリソースにより、ユーザやアプリケーションは、特定のロケールで使用される入力メソッド、（各シェルごと、または、個々のウィジェットごとの）入力コンテキスト生成時に従うべきポリシー、（適応可能で使用可能である場合）使用される前編集スタイル、を制御することができます。</para>
+<table id="IPG.deskt.tbl.7" frame="Topbot">
+<title id="IPG.deskt.mkr.21">入力メソッドのカスタマイズのためにローカライズできるリソース</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>ウィジェット・クラス</literal></para></entry><entry><para><literal>リソース名</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*inputMethod:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*preeditType:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*verifyPreedit:</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.49a">
+<title>配置方向</title>
+<para>次の表に<literal>*layoutDirection</literal>リソースを使用するウィジェットを示します。</para>
+<table id="IPG.deskt.tbl.7a" frame="Topbot">
+<title id="IPG.deskt.mkr.21a">配置方向リソース</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>ウィジェット・クラス</literal></para></entry><entry><para><literal>リソース名</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*layoutDirection:</para></entry></row>
+<row>
+<entry><para>XmGadget</para></entry>
+<entry><para>*layoutDirection:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*layoutDirection:</para></entry></row>
+<row>
+<entry><para>XmPrimitive</para></entry>
+<entry><para>*layoutDirection:</para></entry></row>
+<row>
+<entry><para>XmManager</para></entry>
+<entry><para>*layoutDirection:</para></entry></row></tbody></tgroup></table>
+</sect2>
+<sect2 id="IPG.deskt.div.50">
+<title>ピックスマップ（アイコン）・リソース</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;8'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.22">は、ピックスマップ・リソースの一覧です。指定されたロケールに対して異なったピックスマップが必要な場合もあります。</para>
+<table id="IPG.deskt.tbl.8" frame="Topbot">
+<title id="IPG.deskt.mkr.22">ピックスマップ・リソース</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>ウィジェット・クラス</literal></para></entry><entry><para><literal>リソース名</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>Core</para></entry>
+<entry><para>*backgroundPixmap:</para></entry></row>
+<row>
+<entry><para>WMShell</para></entry>
+<entry><para>*iconPixmap:</para></entry></row>
+<row>
+<entry><para>XmContainers</para></entry>
+<entry><para>*collapsedStatePixmap:、および、*expandedStatePixmap:</para></entry></row>
+<row>
+<entry><para>XmDragIcon</para></entry>
+<entry><para>*pixmap:</para></entry></row>
+<row>
+<entry><para>XmDragIcon</para></entry>
+<entry><para>*mask:</para></entry></row>
+<row>
+<entry><para>XmDropSite</para></entry>
+<entry><para>*animation[Mask|Pixmap]:</para></entry></row>
+<row>
+<entry><para>XmGadget</para></entry>
+<entry><para>*backgroundPixmap:</para></entry></row>
+<row>
+<entry><para>XmLabel[Gadget]</para></entry>
+<entry><para>*labelInsensitivePixmap:</para></entry></row>
+<row>
+<entry><para>XmLabel[Gadget]</para></entry>
+<entry><para>*labelPixmap:</para></entry></row>
+<row>
+<entry><para>XmMessageBox</para></entry>
+<entry><para>*symbolPixmap:</para></entry></row>
+<row>
+<entry><para>XmPushButton[Gadget]</para></entry>
+<entry><para>*armPixmap:</para></entry></row>
+<row>
+<entry><para>XmToggleButton[Gadget]</para></entry>
+<entry><para>*selectInsensitivePixmap:</para></entry></row>
+<row>
+<entry><para>XmToggleButton[Gadget]</para></entry>
+<entry><para>*selectPixmap:</para></entry></row>
+<row>
+<entry><para>XmToggleButton[Gadget]</para></entry>
+<entry><para>*indeterminatePixmap:</para></entry></row>
+<row>
+<entry><para>XmIconPixmap</para></entry>
+<entry><para>*[large|small]IconPixmap:</para></entry></row>
+</tbody></tgroup></table>
+<para>これらのリソースについて詳しくは、「Motifプログラマーズ・ガイド」を参照してください。</para>
+</sect2>
+<sect2 id="IPG.deskt.div.51">
+<title id="IPG.deskt.mkr.23">Font Resources</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;9'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.24">は、ローカライズできるフォント・リソースの一覧です。<computeroutput>XmRenderTable</computeroutput>リソースはすべて<computeroutput>XmRenderTable</computeroutput>型です。ほとんどすべての場合、レンディション・テーブルを指定する時には、フォント・セットが使用されます。唯一の例外は、ユーザのキャラクタ・セットに現れない文字データを表示する場合です（たとえば、数学の記号や読者の注意をひく記号の表示）。</para>
+<table id="IPG.deskt.tbl.9" frame="Topbot">
+<title id="IPG.deskt.mkr.24">ローカライズできるフォント・リソース</title>
+<tgroup cols="2">
+<colspec colname="1" colwidth="2.5 in">
+<colspec colname="2" colwidth="2.5 in">
+<thead>
+<row><entry><para><literal>ウィジェット・クラス</literal></para></entry><entry><para><literal>リソース名</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*buttonFontList:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*buttonRenderTable:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*defaultFontList:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*labelFontList:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*labelRenderTable:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*textFontList:</para></entry></row>
+<row>
+<entry><para>VendorShell</para></entry>
+<entry><para>*textRenderTable:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*buttonFontList:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*buttonRenderTable:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*labelFontList:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*labelRenderTable:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*textFontList:</para></entry></row>
+<row>
+<entry><para>XmBulletinBoard</para></entry>
+<entry><para>*textRenderTable:</para></entry></row>
+<row>
+<entry><para>XmComboBox</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmContainer</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmLabel[Gadget]</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmList</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*buttonFontList:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*defaultFontList:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*labelFontList:</para></entry></row>
+<row>
+<entry><para>XmMenuShell</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmText</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmScale</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmTextField</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+<row>
+<entry><para>XmIconGadget</para></entry>
+<entry><para>*renderTable:</para></entry></row>
+</tbody></tgroup></table>
+</sect2>
+</sect1>
+<sect1 id="IPG.deskt.div.52">
+<title id="IPG.deskt.mkr.25">オペレーティング・システム国際化対応関数</title>
+<para><!--Original XRef content: 'Table&numsp;2&hyphen;10'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.deskt.mkr.26">は、<indexterm><primary>共通デスクトップ環境</primary><secondary>共通デスクトップ環境の関数</secondary></indexterm> 共通デスクトップ環境の基本<indexterm><primary>OS国際化対応関数</primary></indexterm> オペレーティング・システム国際化対応関数の一覧です。</para>
+<para>アプリケーションは、ロケールでは1文字コード化するのに1から4バイト必要であると仮定して、適切なロケール管理を実行すべきです。</para>
+<table id="IPG.deskt.tbl.10" frame="Topbot">
+<title id="IPG.deskt.mkr.26">基本オペレーティング・システム国際化対応関数</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colname="col1" colwidth="1.59in">
+<colspec colwidth="1.00in">
+<colspec colwidth="1.00in">
+<colspec colname="col4" colwidth="1.40in">
+<spanspec nameend="col4" namest="col1" spanname="1to4">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>ロケール管理</literal></para></entry><entry align="left" valign="bottom"><para><literal>シングルバイト</literal></para></entry><entry align="left" valign="bottom"><para><literal>マルチバイト</literal></para></entry><entry align="left" valign="bottom"><para><literal>ワイド・キャラクタ</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>mb &lt;-> wc間の変換</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>mbtowc</para><para>mbstowcs</para></entry>
+<entry align="left" valign="top"><para>wctomb</para><para>wcstombs</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>分類</para></entry>
+<entry align="left" valign="top"><para>isalpha</para><para>is*</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>isalpha</para><para>isw*</para><para>wctype</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>ケース・マッピング</para></entry>
+<entry align="left" valign="top"><para>tolower</para><para>toupper</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>towlower</para><para>towupper</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>種々雑多な形式</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>localeconv</para><para>nl_langinfo
+</para></entry>
+<entry align="left" valign="top"></entry></row>
+<row>
+<entry align="left" valign="top"><para>数値の形式</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>strtol</para><para>strtod</para></entry>
+<entry align="left" valign="top"><para>wcstol</para><para>wcstod</para><para>wcstoi</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>時刻／通貨の形式</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>strftime</para><para>strptime</para><para>strfmon</para></entry>
+<entry align="left" valign="top"><para>wcsftime</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>文字列のコピー</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>strcat</para><para>strcpy</para><para>strncat</para><para>strncpy</para></entry>
+<entry align="left" valign="top"><para>wcscat</para><para>wcsncat</para><para>wcscpy</para><para>wcsncpy</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>文字列の照合</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>strcoll</para></entry>
+<entry align="left" valign="top"><para>wcscoll</para><para>wcsxfrm</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>文字列の操作</para></entry>
+<entry align="left" valign="top"><para>strlen</para></entry>
+<entry align="left" valign="top"><para>mblen</para></entry>
+<entry align="left" valign="top"><para>wcscmp</para><para>wcsncmp</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>文字列の検索</para></entry>
+<entry align="left" valign="top"><para>strchr</para><para>strcspn</para><para>strpbrk</para><para>strrchr</para><para>strspn</para><para>strtok</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>wcschr</para><para>wcscspn</para><para>wcspbrk</para><para>wcsrchr</para><para>wcsspn</para><para>wcstok</para><para>wcswcs</para><para>wcscspn</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>I/O表示幅</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para><computeroutput>wcwidth</computeroutput> <superscript>
+1</superscript></para><para>wcswidth</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>I/O出力</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>printf</para><para>vprintf</para><para>sprintf</para><para>vsprint</para><para>fprintf</para><para>vfprint</para></entry>
+<entry align="left" valign="top"><para>printf</para><para>vprintf</para><para>sprintf</para><para>vsprint</para><para>frpintf</para><para>vfprint</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>I/Oスキャン</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>scanf</para><para>sscanf</para><para>fscanf</para></entry>
+<entry align="left" valign="top"><para>scanf</para><para>sscanf</para><para>fscanf</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>I/O文字</para></entry>
+<entry align="left" valign="top"><para>getc</para><para>gets</para><para>putc</para><para>puts</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>fgetwc</para><para>fgetws</para><para>fputwc</para><para>fputws</para><para>ungetwc</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>メッセージ</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>gettxt</para><para>catopen</para><para>catgets</para><para>catclose</para></entry>
+<entry align="left" valign="top"></entry></row>
+<row rowsep="1">
+<entry align="left" valign="top"><para>コードセット変換</para></entry>
+<entry align="left" valign="top"></entry>
+<entry align="left" valign="top"><para>iconv_open</para><para>iconv</para><para>iconv_close</para></entry>
+<entry align="left" valign="top"></entry></row>
+<row>
+<entry align="left" spanname="1to4" valign="top"><para><footnote id="IPG.deskt.fn.22">
+<para><superscript>1</superscript>これらの関数は、端末を使用するアプリケーションに提供されます。グラフィカル・ユーザ・インタフェース（GUI）を使用するアプリケーションではこれらの関数を使わず、<!--Original XRef content: 'page&numsp;31'--><xref role="PageNum" linkend="IPG.deskt.mkr.8">にリストされているフォント・メトリック関数を使ってスペーシングを決定してください。</para>
+</footnote></para><para><footnoteref linkend="IPG.deskt.fn.22"></footnoteref></para></entry>
+</row></tbody></tgroup></table>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->

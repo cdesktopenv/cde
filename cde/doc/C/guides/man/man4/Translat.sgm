@@ -1,0 +1,156 @@
+<!-- $XConsortium: Translat.sgm /main/5 1996/09/08 20:16:44 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN317.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN317.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Translate</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Translate</Symbol></RefName>
+<RefPurpose>translate a document from one media type to another
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Translat.sgm /main/5 1996/09/08 20:16:44 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>[<Symbol Role="Variable">file</Symbol>] Translate(in <Emphasis>mediaType contents</Emphasis>,
+        out <Emphasis>mediaType output</Emphasis>,
+        in boolean <Emphasis>inquisitive</Emphasis>,
+        in boolean <Emphasis>covert</Emphasis>
+        [in messageID <Emphasis>counterfoil</Emphasis>]);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Translate</Symbol> request causes the handler to translate a document from one media type
+to another and return the translation.
+The translation must be the best possible representation of the document
+in the target media type,
+even if the resulting representation cannot be exactly translated
+back into the original document.
+</Para>
+<Para>The
+<Emphasis>contents</Emphasis> argument
+is the contents of the document.
+If this argument is unset
+(in other words, has a value of
+<Literal>(char *)0</Literal>), then the contents of the document are in
+the file named in the message's
+<Symbol Role="Variable">file</Symbol> attribute.
+The data type
+(<Emphasis>mediaType</Emphasis>) of the
+<Emphasis>contents</Emphasis> argument should be
+<Literal>string</Literal>, unless nulls are valid in the given media type,
+in which case the data type must be
+<Literal>bytes</Literal>.</Para>
+<Para>The
+<Emphasis>output</Emphasis> argument is the translation of the document.
+</Para>
+<Para>The
+<Emphasis>inquisitive</Emphasis> argument is a
+<Literal>boolean</Literal> value
+indicating whether the handler is allowed to block on user input
+while carrying out the request.
+However, even if
+<Emphasis>inquisitive</Emphasis> is True, the handler is not required to seek such input.
+</Para>
+<Para>The
+<Emphasis>covert</Emphasis> argument is a
+<Literal>boolean</Literal> value indicating whether the handler may make itself apparent to the user
+as it carries out the request.
+If False, the recipient need not make itself apparent.
+</Para>
+<Para>If both the
+<Emphasis>inquisitive</Emphasis> argument and the
+<Emphasis>covert</Emphasis> argument are True, the recipient should attempt to limit its presence
+to the minimum needed to receive any user input desired;
+for example, through iconification.
+</Para>
+<Para>The
+<Emphasis>counterfoil</Emphasis> argument is a unique string created by the message sender
+to give both sender and receiver a way to refer to this request
+in other correspondence.
+Typically this string is created by concatenating a process ID and a counter.
+This argument should be included
+if the sender anticipates a need to communicate with the handler
+about this request before it is completed; for example, to cancel it.
+When this argument is included,
+and the handler determines that an immediate reply is not possible,
+the handler must immediately send at least one
+<Symbol Role="Message">Status</Symbol> notice point-to-point back to the requester,
+so as to identify itself to the requester.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>To provide a speech-to-text service, a tool can handle requests of the form:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Translate(in Sun_Audio <Emphasis>contents</Emphasis>,
+        out ISO_Latin_1 <Emphasis>output</Emphasis>,
+        ...);
+</ProgramListing>
+</InformalExample>
+<Para>To provide an OCR (optical character recognition) service,
+a tool can handle requests of the form:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Translate(in GIF <Emphasis>contents</Emphasis>,
+        out ISO_Latin_1 <Emphasis>output</Emphasis>,
+        ...);
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The ToolTalk service may return one of the following errors
+in processing the
+<Symbol Role="Message">Translate</Symbol> request:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_DESKTOP_ENOENT</Term>
+<ListItem>
+<Para>The file that was alleged to contain the document does not exist.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_DESKTOP_ENODATA</Term>
+<ListItem>
+<Para>The in-mode
+<Emphasis>contents</Emphasis> argument had no value and the
+<Symbol Role="Variable">file</Symbol> attribute
+of the message was not set.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_MEDIA_ERR_FORMAT</Term>
+<ListItem>
+<Para>The document is not a valid instance of the media type.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para><Emphasis>Intro</Emphasis>, <Emphasis>Abstract</Emphasis>, <Emphasis>Interpret</Emphasis>, <Symbol Role="Message">Status</Symbol> requests.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

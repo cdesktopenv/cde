@@ -1,0 +1,24 @@
+#!/bin/sh
+
+## ChangeCaseTitle $SrcLibDir $BookCaseName $BookCaseTitle
+
+if [ $# -lt 3 ]; then
+   echo "(ERROR) Usage : ChangCaseTitle SrcLibDir BookCaseName BookCaseTitle"
+   exit 1
+fi
+
+SrcLibDir=$1
+BookCaseName=$2
+BookCaseTitle=$3
+MMDBMAP=bookcase.map
+
+## first grab the entry out from the $MMDBMAP ##
+awk ' BEGIN { FS="\t" }
+      { if ( $1 == BookCaseName && NR > 1 ) 
+           printf("%s\t%s\t%s\t%s\t%d\t%d\n", $1, BookCaseTitle, $3, $4, $5, $6);
+         else { print $0 }
+      }' BookCaseName=$BookCaseName BookCaseTitle="$BookCaseTitle" < $SrcLibDir/$MMDBMAP > $SrcLibDir/$MMDBMAP.$$
+
+mv $SrcLibDir/$MMDBMAP.$$ $SrcLibDir/$MMDBMAP
+
+exit $?

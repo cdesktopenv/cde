@@ -1,0 +1,34 @@
+XCOMM $XConsortium: Imakefile /main/5 1996/08/21 15:43:45 drk $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+MAKEFILEDEPS=Classlist.mk
+
+LIBNAME=Support
+LIBDIR=../lib
+
+INCLUDES=-I.. $(EXCEPTIONS_INCLUDES) $(UAS_INCLUDES)
+
+#include "Classlist.mk"
+
+OBJS=$(SRCS:.C=.o)
+OTHEROBJS=InputNotifier.o
+
+make_libfiles($(LIBNAME), $(CLASSES))
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+NotSoSimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR), $(OTHEROBJS))
+#else
+NotSoSimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR), $(OTHEROBJS))
+#endif
+
+tests: list_test message_test
+
+LOCAL_LIBRARIES = -lSupport $(EXCLIB)
+
+/*
+SimpleProgramTarget(list_test)
+SimpleProgramTarget(message_test)
+*/
+
+DependTarget()

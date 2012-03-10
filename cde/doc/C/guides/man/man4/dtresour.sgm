@@ -1,0 +1,123 @@
+<!-- $XConsortium: dtresour.sgm /main/9 1996/09/08 20:18:41 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMX.MAN83.rsml.1">
+<RefMeta>
+<RefEntryTitle>dtresourcesfile</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>dtresourcesfile</Filename></RefName>
+<RefPurpose>format and location of desktop resource files
+</RefPurpose>
+</RefNameDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The desktop default resources can be found in
+/usr/dt/config/$LANG/sys.resources.
+These resources will be
+made available to each user's session via the
+<Symbol Role="Define">RESOURCE_MANAGER</Symbol> property.
+This file should not be edited as it will be unconditionally
+overwritten upon subsequent desktop installations.
+</Para>
+<Para>A system administrator may augment the system default resources
+by creating
+<Filename>/etc/dt/config/$LANG/sys.resources</Filename>. In this file, a
+system administrator may override system default resources or
+specify additional resources.
+As this file is merged into the
+desktop default resources during session startup, it is preferrable
+that only new or updated resource specifications be placed in this
+file, rather than a copy being made of the desktop default resource
+file.
+Resources specified in this file will be made available to
+each user's session via the
+<Symbol Role="Define">RESOURCE_MANAGER</Symbol> property.
+Resources
+specified in this file take precedence over those specified in
+the desktop default resource file.
+</Para>
+<Para>A user may augment the desktop default and system administrator
+resources via their $HOME/.Xdefaults file.
+Resources specified in
+this file will be made available to only that user's session via
+the RESOURCE_MANAGER property.
+Resources specified in this file
+take precedence over those specified in the desktop default or
+system administrator resource files.
+</Para>
+<Para><Symbol Role="Define">NOTE</Symbol> <Literal>:</Literal> The X Toolkit Intrinsics specifies that it will load resources
+for an application from either
+<Symbol Role="Define">RESOURCE_MANAGER</Symbol> or from
+<Filename>$HOME/.Xdefaults</Filename>, but not both.
+Ordinarily, this would mean that
+the user's
+<Filename>$HOME/.Xdefaults</Filename> file would be ignored.
+However, the
+session manager accomodates
+<Filename>$HOME/.Xdefaults</Filename> by merging it into
+the
+<Symbol Role="Define">RESOURCE_MANAGER</Symbol> at session startup as described above.
+If
+a user changes the
+<Filename>$HOME/.Xdefaults</Filename>, the changes will not be
+visible to new applications until the user invokes the
+ReloadResources action.
+</Para>
+<Para>The ReloadResources action will instruct the session manager to
+reload the
+<Symbol Role="Define">RESOURCE_MANAGER</Symbol> with the system, system administrator
+and user specified resources.
+This is useful to make available to
+new applications changes made to system administrator or user
+specified resource files.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>FILE FORMAT</Title>
+<Para>The desktop resource files use X resource syntax.
+See
+<Filename MoreInfo="RefEntry">X</Filename>(1) for
+the precise syntax.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term><Filename>/usr/dt/config/$LANG/sys.resources</Filename></Term>
+<ListItem>
+<Para>The desktop default resources.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/etc/dt/config/$LANG/sys.resources</Filename></Term>
+<ListItem>
+<Para>System administrator specified resources.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>$HOME/.Xdefaults</Filename></Term>
+<ListItem>
+<Para>User specified resources.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtsession;, &cdeman.dtsessionaction;, <Filename MoreInfo="RefEntry">X</Filename>(1), <Literal>Xlib Resource Manager documentation</Literal>,
+<Literal>Xt resource documentation</Literal>.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

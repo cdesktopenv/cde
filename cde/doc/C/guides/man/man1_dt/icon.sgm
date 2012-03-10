@@ -1,0 +1,213 @@
+<!-- $XConsortium: icon.sgm /main/7 1996/09/08 19:53:31 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN24.rsml.1" Remap="">
+<RefMeta>
+<RefEntryTitle>dticon</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dticon</Command></RefName>
+<RefPurpose>the Common Desktop Environment Icon Editor
+</RefPurpose>
+</RefNameDiv>
+<!--- -->
+<!--     (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!--     (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<!--    (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!--    (c) Copyright 1993, 1994 Novell, Inc.-->
+<!--- -->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dticon</Command>
+<Arg Choice="opt">options</Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The Icon Editor provides the facilities that enable the user to create
+new icons or modify existing ones.
+</Para>
+<Para>The Icon Editor uses lines and geometric shape drawing tools in order
+to create new icons or modify existing ones. It support XPM and XBM
+formats. The Icon Editor, also is capable of grabbing images from the
+display and use them as bases for new icons.
+</Para>
+<Para>The Icon Editor, also, supports drag and drop, allowing the user to
+drag an icon file from the file manager onto the Icon Editor window or
+icon.
+</Para>
+<RefSect2>
+<Title>Key Supported Tasks</Title>
+<!--Start of RS / RE range-->
+<Para>- Modify size of window.
+</Para>
+<Para>- Modify location of window.
+</Para>
+<Para>- Iconify window.
+</Para>
+<Para>- Edit a new or existing icon.
+</Para>
+<Para>- Save the current icon
+</Para>
+<Para>- Undo the last operation.
+</Para>
+<Para>- Cut, copy, and paste areas within the Icon Editor drawing tablet.
+</Para>
+<Para>- Grab images from the display.
+</Para>
+<Para>- Rotate selected area.
+</Para>
+<Para>- Scale selected area.
+</Para>
+<Para>- Flip selected area right or left.
+</Para>
+<Para>- Resize icon.
+</Para>
+<Para>- Add a hot spot to the icon.
+</Para>
+<Para>- Delete a hot spot from icon.
+</Para>
+<Para>- Clear icon.
+</Para>
+<Para>- Overlay the icon drawing area with a visible grid.
+</Para>
+<Para>- Select icon format, XPM or XBM.
+</Para>
+<Para>- Alter the magnification factor for the drawing tablet.
+</Para>
+<!--End of RS / RE range-->
+<Para>The Icon Editor accepts all of the standard X Toolkit/Widget command
+line options. Additional application specific options are listed
+below.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<Para>The following options are available from the command line:
+</Para>
+<Para><Literal>&minus;f</Literal> <Emphasis>file</Emphasis></Para>
+<Para>This option takes a bitmap or pixmap file name.
+If the file ends in .pm or .xpm suffix, it will try reading it as an XPM
+file first. If it fails, it will try reading it as an XBM file.
+If the file ends in .bm or .xbm suffix, it will try reading it as an XBM
+file first. If it fails, it will try reading it as an XPM file.
+If the file doesn't match any of these suffixes, it will try reading it
+as an XPM file first. If it fails it will try reading it as an XBM file.
+</Para>
+<Para><Literal>&minus;x</Literal> <Emphasis>widthxheight</Emphasis></Para>
+<Para>This option specifies an initial geometry for the icon image. If a
+file is specified using the -f option, the size of that icon
+supersedes the geometry specified.
+</Para>
+<Para><Literal>&minus;session</Literal> <Emphasis>file</Emphasis></Para>
+<Para>This option takes the name of a session file as an additional
+parameter. The Icon Editor is invoked with the specified session file
+name. The session file is a file that was previously saved by the Icon
+Editor through a session shutdown. This option causes all other
+command line options to be ignored, as all settings are taken from the
+specified session file.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Exit values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<Para>Successful completion.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>>0</Term>
+<ListItem>
+<Para>Error condition occurred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<VariableList>
+<VarListEntry>
+<Term>dticon -x 24x32</Term>
+<ListItem>
+<Para>Starts the Icon Editor with an icon template
+of width 24 and height 32.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>dticon</Title>
+<Para>[Using Tooltalk to integrate dticon in your applications]
+Tooltalk makes it possible to use dticon from within your application.
+dticon supports the following Tooltalk messages: start, edit, quit.
+An application can construct a Tooltalk message, which will include a
+buffer containing the icon the application wishes to edit. The format
+of the message appears in dticon's ptype file( dticon.ptype). The buffer
+in the edit message is constructed to contain the icon contents of an XPM
+or an XBM icon file. In the case of an XBM icon containing transparent regions
+dticon generates two icon files, an XBM file containing the base icon(
+the icon without the transparent regions) and a mask file that indicates
+the transparent regions in the icon. The buffer in this case must include
+both icon files double buffered, the base icon first and then the mask, both
+in the same buffer.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>NOTE:</Term>
+<ListItem>
+<Para>An application may pass a buffer to dticon containing an XPM icon and
+get back a double buffer containing an XBM icon and its mask, and vise versa.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>Suggested</Title>
+<Para>- The Common Desktop Environment: ToolTalk Messaging Overview
+- The Common Desktop Environment: Programmer's Guide
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RESOURCES</Title>
+<VariableList>
+<VarListEntry>
+<Term>-useFileFilter</Term>
+<ListItem>
+<Para>This resource instructs the Icon Editor to use the file filter feature
+in OPEN and SAVE dialogs.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<Para>Files used by this component.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Filename>/.../dt/app-defaults/C/Dticon</Filename></Term>
+<ListItem>
+<Para>App-defaults file.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.3 08/21/95 21:30:04-->

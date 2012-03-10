@@ -1,0 +1,1502 @@
+// $XConsortium: ttsnoop.bil /main/2 1996/11/11 11:59:56 drk $
+:bil-version	1 0
+:module ttsnoop
+(
+
+:element ttsnoopWin
+(
+	:type			:base-window
+	:width			580
+	:height			257
+	:bg-color		"white"
+	:icon-file		"DtTtsnp.l"
+	:icon-mask-file		"DtTtsnp.l_m"
+	:label			"ttsnoop"
+	:resizable		:true
+	:visible		:true
+	:iconic			:false
+	:children		(
+		menubar
+		ttsnoopPane
+		ttsnoopWin_footer
+	)
+)
+:element menubar
+(
+	:type			:container
+	:container-type		:menu-bar
+	:active			:true
+	:children		(
+		menubar_Snoop_item
+		menubar_Message_item
+		menubar_Pattern_item
+		menubar_File_item
+		menubar_Session_item
+		menubar_Ptype_item
+		menubar_Types_item
+		menubar_Procid_item
+		menubar_libc_item
+		menubar_Help_item
+	)
+)
+:element menubar_Snoop_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Snoop"
+	:is-help-item		:false
+	:mnemonic		"n"
+	:menu			Snoop_menu
+	:active			:true
+)
+:element menubar_Message_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Message"
+	:is-help-item		:false
+	:mnemonic		"M"
+	:menu			Message_menu
+	:active			:true
+)
+:element menubar_Pattern_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Pattern"
+	:is-help-item		:false
+	:mnemonic		"P"
+	:menu			Pattern_menu
+	:active			:true
+)
+:element menubar_File_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"File"
+	:is-help-item		:false
+	:mnemonic		"F"
+	:menu			File_menu
+	:active			:true
+)
+:element menubar_Session_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Session"
+	:is-help-item		:false
+	:mnemonic		"S"
+	:menu			Session_menu
+	:active			:true
+)
+:element menubar_Ptype_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Ptype"
+	:is-help-item		:false
+	:mnemonic		"y"
+	:menu			Ptype_menu
+	:active			:true
+)
+:element menubar_Types_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Types"
+	:is-help-item		:false
+	:mnemonic		"T"
+	:menu			Types_menu
+	:active			:true
+)
+:element menubar_Procid_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Procid"
+	:is-help-item		:false
+	:mnemonic		"r"
+	:menu			Procid_menu
+	:active			:true
+)
+:element menubar_libc_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"libc"
+	:is-help-item		:false
+	:mnemonic		"l"
+	:menu			libc_menu
+	:active			:true
+)
+:element menubar_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Help"
+	:is-help-item		:true
+	:mnemonic		"H"
+	:menu			Help_menu
+	:active			:true
+)
+:element ttsnoopPane
+(
+	:type			:term-pane
+	:x			0
+	:y			0
+	:border-frame		:none
+	:num-rows		24
+	:num-columns		80
+	:vscrollbar		:always
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj ttsnoopWin 0)
+	:east-attachment	(:obj ttsnoopWin 0)
+	:west-attachment	(:point 0 0)
+	:help-text		"ttsnoop(1)\nDtTerm(3)\n"
+)
+:element ttsnoopWin_footer
+(
+	:type			:container
+	:container-type		:footer
+	:width			580
+	:height			28
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		ttsnoopWin_label
+	)
+)
+:element ttsnoopWin_label
+(
+	:type			:label
+	:x			1
+	:y			1
+	:label-type		:string
+	:label			"  "
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:point 0 1)
+)
+:element Snoop_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		Snoop_menu_Off_item
+		Snoop_menu_separator1_item
+		Snoop_menu_ttsession_item
+		Snoop_menu_libtt_item
+		Snoop_menu_separator2_item
+		Snoop_menu_Version_item
+	)
+)
+:element Snoop_menu_Off_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Off"
+	:active			:true
+)
+:element Snoop_menu_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Snoop_menu_ttsession_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"ttsession..."
+	:active			:true
+)
+:element Snoop_menu_libtt_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"libtt..."
+	:active			:true
+)
+:element Snoop_menu_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Snoop_menu_Version_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Version..."
+	:active			:true
+)
+:element Message_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		Message_menu_Create_item
+		Message_menu_Create_Standard_item
+		Message_menu_Open_item
+		Message_menu_Receive_item
+		Message_menu_Destroy_item
+	)
+)
+:element Message_menu_Create_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Create..."
+	:active			:true
+)
+:element Message_menu_Create_Standard_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Create Standard..."
+	:active			:true
+)
+:element Message_menu_Open_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Open..."
+	:active			:true
+)
+:element Message_menu_Receive_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Receive..."
+	:active			:true
+)
+:element Message_menu_Destroy_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Destroy..."
+	:active			:true
+)
+:element Pattern_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		Pattern_menu_Create_item
+		Pattern_menu_Open_item
+		Pattern_menu_Destroy_item
+	)
+)
+:element Pattern_menu_Create_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Create..."
+	:active			:true
+)
+:element Pattern_menu_Open_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Open..."
+	:active			:true
+)
+:element Pattern_menu_Destroy_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Destroy..."
+	:active			:true
+)
+:element File_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		File_menu_Join_item
+		File_menu_Quit_item
+		File_menu_separator1_item
+		File_menu_Default_item
+		File_menu_Set_Default_item
+		File_menu_Unset_Default_item
+		File_menu_separator5_item
+		File_menu_Desktop_Join_item
+		File_menu_Desktop_Quit_item
+		File_menu_separator2_item
+		File_menu_Saved_item
+		File_menu_Modified_item
+		File_menu_Reverted_item
+		File_menu_Moved_item
+		File_menu_Deleted_item
+		File_menu_separator3_item
+		File_menu_Get_Modified_item
+		File_menu_Save_item
+		File_menu_Revert_item
+		File_menu_separator4_item
+		File_menu_File_Netfile_item
+		File_menu_Netfile_File_item
+	)
+)
+:element File_menu_Join_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Join..."
+	:active			:true
+)
+:element File_menu_Quit_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Quit..."
+	:active			:true
+)
+:element File_menu_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element File_menu_Default_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Default"
+	:active			:true
+)
+:element File_menu_Set_Default_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Set Default..."
+	:active			:true
+)
+:element File_menu_Unset_Default_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Unset Default"
+	:active			:true
+)
+:element File_menu_separator5_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element File_menu_Desktop_Join_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Desktop Join..."
+	:active			:true
+)
+:element File_menu_Desktop_Quit_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Desktop Quit..."
+	:active			:true
+)
+:element File_menu_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element File_menu_Saved_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Saved..."
+	:active			:true
+)
+:element File_menu_Modified_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Modified..."
+	:active			:true
+)
+:element File_menu_Reverted_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Reverted..."
+	:active			:true
+)
+:element File_menu_Moved_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Moved..."
+	:active			:true
+)
+:element File_menu_Deleted_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Deleted..."
+	:active			:true
+)
+:element File_menu_separator3_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element File_menu_Get_Modified_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Get Modified..."
+	:active			:true
+)
+:element File_menu_Save_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Save..."
+	:active			:true
+)
+:element File_menu_Revert_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Revert..."
+	:active			:true
+)
+:element File_menu_separator4_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element File_menu_File_Netfile_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"File -> Netfile..."
+	:active			:true
+)
+:element File_menu_Netfile_File_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Netfile -> File..."
+	:active			:true
+)
+:element Session_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		Session_menu_Join_item
+		Session_menu_Quit_item
+		Session_menu_separator1_item
+		Session_menu_Default_item
+		Session_menu_Set_Default_item
+		Session_menu_separator2_item
+		Session_menu_Desktop_Join_item
+		Session_menu_Desktop_Quit_item
+	)
+)
+:element Session_menu_Join_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Join..."
+	:active			:true
+)
+:element Session_menu_Quit_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Quit..."
+	:active			:true
+)
+:element Session_menu_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Session_menu_Default_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Default"
+	:active			:true
+)
+:element Session_menu_Set_Default_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Set Default..."
+	:active			:true
+)
+:element Session_menu_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Session_menu_Desktop_Join_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Desktop Join..."
+	:active			:true
+)
+:element Session_menu_Desktop_Quit_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Desktop Quit..."
+	:active			:true
+)
+:element Ptype_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		Ptype_menu_Declare_item
+		Ptype_menu_Undeclare_item
+		Ptype_menu_separator1_item
+		Ptype_menu_Default_item
+		Ptype_menu_Set_Default_item
+		Ptype_menu_Exists_item
+		Ptype_menu_separator2_item
+		Ptype_menu_Media_Declare_item
+	)
+)
+:element Ptype_menu_Declare_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Declare..."
+	:active			:true
+)
+:element Ptype_menu_Undeclare_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Undeclare..."
+	:active			:true
+)
+:element Ptype_menu_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Ptype_menu_Default_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Default"
+	:active			:true
+)
+:element Ptype_menu_Set_Default_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Set Default..."
+	:active			:true
+)
+:element Ptype_menu_Exists_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Exists..."
+	:active			:true
+)
+:element Ptype_menu_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Ptype_menu_Media_Declare_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Media Declare..."
+	:active			:true
+)
+:element Types_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		Types_menu_Session_Types_Load_item
+		Types_menu_Session_Types_Reload_item
+		Types_menu_List_item
+		Types_menu_Dump_item
+		Types_menu_TT_MSG_Actions_item
+	)
+)
+:element Types_menu_Session_Types_Load_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Session Types Load..."
+	:active			:true
+)
+:element Types_menu_Session_Types_Reload_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Session Types Reload"
+	:active			:true
+)
+:element Types_menu_List_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"List..."
+	:active			:true
+)
+:element Types_menu_Dump_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Dump..."
+	:active			:true
+)
+:element Types_menu_TT_MSG_Actions_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"TT_MSG Actions..."
+	:active			:true
+)
+:element Procid_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		Procid_menu_Open_item
+		Procid_menu_Close_item
+		Procid_menu_separator3_item
+		Procid_menu_Desktop_Open_item
+		Procid_menu_Desktop_Close_item
+		Procid_menu_separator4_item
+		Procid_menu_Default_item
+		Procid_menu_Set_Default_item
+		Procid_menu_separator2_item
+		Procid_menu_Suspend_item
+		Procid_menu_Resume_item
+	)
+)
+:element Procid_menu_Open_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Open"
+	:active			:true
+)
+:element Procid_menu_Close_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Close"
+	:active			:true
+)
+:element Procid_menu_separator3_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Procid_menu_Desktop_Open_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Desktop Open"
+	:active			:true
+)
+:element Procid_menu_Desktop_Close_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Desktop Close..."
+	:active			:true
+)
+:element Procid_menu_separator4_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Procid_menu_Default_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Default"
+	:active			:true
+)
+:element Procid_menu_Set_Default_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Set Default..."
+	:active			:true
+)
+:element Procid_menu_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Procid_menu_Suspend_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Suspend..."
+	:active			:true
+)
+:element Procid_menu_Resume_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Resume..."
+	:active			:true
+)
+:element libc_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		libc_menu_system_item
+		libc_menu_chdir_item
+		libc_menu_putenv_item
+		libc_menu_pause_item
+		libc_menu_exit_item
+	)
+)
+:element libc_menu_system_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"system()..."
+	:active			:true
+)
+:element libc_menu_chdir_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"chdir()..."
+	:active			:true
+)
+:element libc_menu_putenv_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"putenv()..."
+	:active			:true
+)
+:element libc_menu_pause_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"pause()"
+	:active			:true
+)
+:element libc_menu_exit_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"exit()..."
+	:active			:true
+)
+:element Help_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		Help_menu_On_Item_item
+		Help_menu_separator1_item
+		Help_menu_ttsnoop_1_item
+		Help_menu_tttrace_1_item
+		Help_menu_ttsession_1_item
+		Help_menu_tt_type_comp_1_item
+		Help_menu_rpc_ttdbserverd_1m_item
+		Help_menu_tttracefile_4_item
+		Help_menu_tt_c_5_item
+		Help_menu_tttk_5_item
+		Help_menu_alt_soft_sys_tooltalk_item
+	)
+)
+:element Help_menu_On_Item_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"On Item"
+	:active			:true
+)
+:element Help_menu_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element Help_menu_ttsnoop_1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"ttsnoop(1)"
+	:active			:true
+)
+:element Help_menu_tttrace_1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"tttrace(1)"
+	:active			:true
+)
+:element Help_menu_ttsession_1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"ttsession(1)"
+	:active			:true
+)
+:element Help_menu_tt_type_comp_1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"tt_type_comp(1)"
+	:active			:true
+)
+:element Help_menu_rpc_ttdbserverd_1m_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"rpc.ttdbserverd(1m)"
+	:active			:true
+)
+:element Help_menu_tttracefile_4_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"tttracefile(4)"
+	:active			:true
+)
+:element Help_menu_tt_c_5_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"tt_c(5)"
+	:active			:true
+)
+:element Help_menu_tttk_5_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"tttk(5)"
+	:active			:true
+)
+:element Help_menu_alt_soft_sys_tooltalk_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"alt.soft-sys.tooltalk"
+	:active			:true
+)
+:connection
+(
+	:from			Snoop_menu_ttsession_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fork_tttrace
+)
+:connection
+(
+	:from			Snoop_menu_libtt_item
+	:when			:activate
+	:action-type		:call-function
+	:action			turnOnTracing
+)
+:connection
+(
+	:from			Message_menu_Create_item
+	:when			:activate
+	:action-type		:call-function
+	:action			createMessage
+)
+:connection
+(
+	:from			Message_menu_Receive_item
+	:when			:activate
+	:action-type		:call-function
+	:action			receiveMessage
+)
+:connection
+(
+	:from			Message_menu_Open_item
+	:when			:activate
+	:action-type		:call-function
+	:action			openMessage
+)
+:connection
+(
+	:from			Message_menu_Destroy_item
+	:when			:activate
+	:action-type		:call-function
+	:action			destroyMessage
+)
+:connection
+(
+	:from			Help_menu_ttsnoop_1_item
+	:when			:activate
+	:action-type		:call-function
+	:action			help_ttsnoop
+)
+:connection
+(
+	:from			Help_menu_tttrace_1_item
+	:when			:activate
+	:action-type		:call-function
+	:action			help_tttrace
+)
+:connection
+(
+	:from			Help_menu_ttsession_1_item
+	:when			:activate
+	:action-type		:call-function
+	:action			help_ttsession
+)
+:connection
+(
+	:from			Help_menu_tt_type_comp_1_item
+	:when			:activate
+	:action-type		:call-function
+	:action			help_tt_type_comp
+)
+:connection
+(
+	:from			Help_menu_rpc_ttdbserverd_1m_item
+	:when			:activate
+	:action-type		:call-function
+	:action			help_dbserver
+)
+:connection
+(
+	:from			Help_menu_tttracefile_4_item
+	:when			:activate
+	:action-type		:call-function
+	:action			help_tttracefile
+)
+:connection
+(
+	:from			Help_menu_tt_c_5_item
+	:when			:activate
+	:action-type		:call-function
+	:action			help_tt_c
+)
+:connection
+(
+	:from			Help_menu_tttk_5_item
+	:when			:activate
+	:action-type		:call-function
+	:action			help_tttk
+)
+:connection
+(
+	:from			Help_menu_alt_soft_sys_tooltalk_item
+	:when			:activate
+	:action-type		:call-function
+	:action			helpUsenet
+)
+:connection
+(
+	:from			Help_menu_On_Item_item
+	:when			:activate
+	:action-type		:on-item-help
+)
+:connection
+(
+	:from			Types_menu_Session_Types_Load_item
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionTypesLoad
+)
+:connection
+(
+	:from			Types_menu_Session_Types_Reload_item
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionTypesReload
+)
+:connection
+(
+	:from			Types_menu_Dump_item
+	:when			:activate
+	:action-type		:call-function
+	:action			dumpSource
+)
+:connection
+(
+	:from			Types_menu_List_item
+	:when			:activate
+	:action-type		:call-function
+	:action			typesEnumerate
+)
+:connection
+(
+	:from			Pattern_menu_Create_item
+	:when			:activate
+	:action-type		:call-function
+	:action			createPattern
+)
+:connection
+(
+	:from			Pattern_menu_Open_item
+	:when			:activate
+	:action-type		:call-function
+	:action			openPattern
+)
+:connection
+(
+	:from			Pattern_menu_Destroy_item
+	:when			:activate
+	:action-type		:call-function
+	:action			destroyPattern
+)
+:connection
+(
+	:from			Ptype_menu_Declare_item
+	:when			:activate
+	:action-type		:call-function
+	:action			ptypeDeclare
+)
+:connection
+(
+	:from			Ptype_menu_Media_Declare_item
+	:when			:activate
+	:action-type		:call-function
+	:action			mediaPtypeDeclare
+)
+:connection
+(
+	:from			Ptype_menu_Undeclare_item
+	:when			:activate
+	:action-type		:call-function
+	:action			ptypeUnDeclare
+)
+:connection
+(
+	:from			Ptype_menu_Set_Default_item
+	:when			:activate
+	:action-type		:call-function
+	:action			ptypeSetDefault
+)
+:connection
+(
+	:from			Ptype_menu_Exists_item
+	:when			:activate
+	:action-type		:call-function
+	:action			ptypeExists
+)
+:connection
+(
+	:from			libc_menu_system_item
+	:when			:activate
+	:action-type		:call-function
+	:action			libcSystem
+)
+:connection
+(
+	:from			libc_menu_chdir_item
+	:when			:activate
+	:action-type		:call-function
+	:action			libcChdir
+)
+:connection
+(
+	:from			libc_menu_putenv_item
+	:when			:activate
+	:action-type		:call-function
+	:action			libcPutenv
+)
+:connection
+(
+	:from			libc_menu_pause_item
+	:when			:activate
+	:action-type		:call-function
+	:action			libcPause
+)
+:connection
+(
+	:from			libc_menu_exit_item
+	:when			:activate
+	:action-type		:call-function
+	:action			libcExit
+)
+:connection
+(
+	:from			Types_menu_TT_MSG_Actions_item
+	:when			:activate
+	:action-type		:call-function
+	:action			msgActions
+)
+:connection
+(
+	:from			Session_menu_Join_item
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionJoin
+)
+:connection
+(
+	:from			Session_menu_Desktop_Join_item
+	:when			:activate
+	:action-type		:call-function
+	:action			dtSessionJoin
+)
+:connection
+(
+	:from			Session_menu_Quit_item
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionQuit
+)
+:connection
+(
+	:from			Session_menu_Set_Default_item
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionSetDefault
+)
+:connection
+(
+	:from			File_menu_Join_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileJoin
+)
+:connection
+(
+	:from			File_menu_Desktop_Join_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileDesktopJoin
+)
+:connection
+(
+	:from			File_menu_Quit_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileQuit
+)
+:connection
+(
+	:from			File_menu_Set_Default_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileSetDefault
+)
+:connection
+(
+	:from			File_menu_Unset_Default_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileUnSetDefault
+)
+:connection
+(
+	:from			File_menu_Saved_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileSaved
+)
+:connection
+(
+	:from			File_menu_Modified_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileModified
+)
+:connection
+(
+	:from			File_menu_Reverted_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileReverted
+)
+:connection
+(
+	:from			File_menu_Get_Modified_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileGetModified
+)
+:connection
+(
+	:from			File_menu_Save_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileSave
+)
+:connection
+(
+	:from			File_menu_Revert_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileRevert
+)
+:connection
+(
+	:from			File_menu_File_Netfile_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileNetfile
+)
+:connection
+(
+	:from			File_menu_Netfile_File_item
+	:when			:activate
+	:action-type		:call-function
+	:action			netfileFile
+)
+:connection
+(
+	:from			File_menu_Desktop_Quit_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileDesktopQuit
+)
+:connection
+(
+	:from			File_menu_Moved_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileMoved
+)
+:connection
+(
+	:from			File_menu_Deleted_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileDeleted
+)
+:connection
+(
+	:from			Session_menu_Desktop_Quit_item
+	:when			:activate
+	:action-type		:call-function
+	:action			dtSessionQuit
+)
+:connection
+(
+	:from			Procid_menu_Open_item
+	:when			:activate
+	:action-type		:call-function
+	:action			procidOpen
+)
+:connection
+(
+	:from			Procid_menu_Close_item
+	:when			:activate
+	:action-type		:call-function
+	:action			procidClose
+)
+:connection
+(
+	:from			Procid_menu_Set_Default_item
+	:when			:activate
+	:action-type		:call-function
+	:action			procidSetDefault
+)
+:connection
+(
+	:from			Procid_menu_Suspend_item
+	:when			:activate
+	:action-type		:call-function
+	:action			procidSuspend
+)
+:connection
+(
+	:from			Procid_menu_Resume_item
+	:when			:activate
+	:action-type		:call-function
+	:action			procidResume
+)
+:connection
+(
+	:from			Procid_menu_Desktop_Open_item
+	:when			:activate
+	:action-type		:call-function
+	:action			procidDtOpen
+)
+:connection
+(
+	:from			Procid_menu_Desktop_Close_item
+	:when			:activate
+	:action-type		:call-function
+	:action			procidDtClose
+)
+:connection
+(
+	:from			Procid_menu_Default_item
+	:when			:activate
+	:action-type		:call-function
+	:action			procidDefault
+)
+:connection
+(
+	:from			Ptype_menu_Default_item
+	:when			:activate
+	:action-type		:call-function
+	:action			ptypeDefault
+)
+:connection
+(
+	:from			Session_menu_Default_item
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionDefault
+)
+:connection
+(
+	:from			File_menu_Default_item
+	:when			:activate
+	:action-type		:call-function
+	:action			fileDefault
+)
+:connection
+(
+	:from			Snoop_menu_Off_item
+	:when			:activate
+	:action-type		:call-function
+	:action			toggleSnooping
+)
+:connection
+(
+	:from			Snoop_menu_Version_item
+	:when			:activate
+	:action-type		:call-function
+	:action			printVersion
+)
+:connection
+(
+	:from			Message_menu_Create_Standard_item
+	:when			:activate
+	:action-type		:call-function
+	:action			createStandardMessage
+)
+)

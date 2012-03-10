@@ -1,0 +1,65 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: TextFXYPos1.src /main/3 1996/04/23 20:19:01 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script verifies that the XmTextFieldPosToXY command
+XCOMM  functions correctly.
+XCOMM 
+
+XCOMM  Pushbutton Callback: exercise the Text functions
+RunTests()
+{
+XCOMM   This position should not be visible
+   if XmTextFieldPosToXY $TEXT 90 X Y; then
+      echo "Text position 90 is at point ("$X","$Y")"
+   else
+      echo "Text position 90 is not currently visible"
+   fi
+
+XCOMM   This position should be visible
+   if XmTextFieldPosToXY $TEXT 3 X Y; then
+      echo "Text position 3 is at point ("$X","$Y")"
+   else
+      echo "Text position 3 is not currently visible"
+   fi
+
+   XmTextFieldXYToPos POS $TEXT $X $Y
+   echo "At point ("$X","$Y") is character position "$POS
+}
+
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL textFXYPos1 TextFXYPos1 "$0" "$@"
+XtSetValues $TOPLEVEL allowShellResize:True
+
+XmCreateTextField TEXT $TOPLEVEL text \
+	columns:20 \
+	value:"line 1 line 2 line 3 line 4 line 5 line 6 line 7 line 8"
+XtManageChild $TEXT
+
+XtRealizeWidget $TOPLEVEL
+
+XtCreateApplicationShell TOPLEVEL2 textFXYPos1a TopLevelShell
+
+XtCreateManagedWidget RC rc XmRowColumn $TOPLEVEL2 \
+         orientation:HORIZONTAL \
+         numColumns:2 \
+         packing:PACK_COLUMN 
+
+XtCreateManagedWidget PB1 pb1 XmPushButton $RC \
+	labelString:"Run XY Position Tests"
+XtAddCallback $PB1 activateCallback "RunTests"
+
+XtRealizeWidget $TOPLEVEL2
+
+XtMainLoop

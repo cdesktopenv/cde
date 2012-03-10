@@ -1,0 +1,192 @@
+%!
+% $XConsortium: prolog.ps /main/3 1996/11/19 16:36:55 drk $
+% RESTRICTED CONFIDENTIAL INFORMATION:
+%
+% The information in this document is subject to special
+% restrictions in a confidential disclosure agreement between
+% HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+% document outside HP, IBM, Sun, USL, SCO, or Univel without
+% Sun's specific written approval.  This document and all copies
+% and derivative works thereof must be returned or destroyed at
+% Sun's request.
+%
+% Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+%
+% @(#)prolog.ps	1.11 93/05/19
+% Prolog for cmprint (Japanese EUC font definition )
+
+/RM-Mode false def
+
+/CodeSet3 { makecodeset3font } def
+
+/append { % str1 str2 => str3
+    1 index length dup 2 index length add string    % s1 s2 l1 s3 
+    dup 5 -1 roll 0 exch putinterval                % s2 l1 s3
+    dup 4 2 roll exch putinterval
+} bind def
+
+/HalfWidthMetrics {
+    CodeSet12 (-H) append findfont 1000 scalefont setfont
+    <2422> stringwidth pop
+    CodeSet0 findfont 1000 scalefont setfont
+    (a) stringwidth pop
+    2 mul div
+} bind def
+
+/makecodeset12 { % (fontname) => font true | false
+    dup (-H) append { systemdict /findfont get exec } stopped {
+	pop pop false
+    }{		    	    	    	    	% fontname font
+	dup /FontName get /Courier eq {
+	    pop pop false
+	}{
+	    /CodeSet12 3 -1 roll def (CodeSet12)	% font (CodeSet12)
+	    13 dict begin
+		/FontName 1 index def
+		/FMapType 5 def
+		/WMode 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		exch dup
+		/Encoding get	            % font Encoding
+		exch /FDepVector get	    % Encoding FDepVector
+
+		dup length dup 2 add array  % Enc FDep len array
+		dup 4 -1 roll		    % Enc len array array FDep
+		0 exch putinterval	    % Enc len array
+		dup 2 index
+		CodeSet12 (.Katakana) append findfont put
+		dup 2 index 1 add
+		CodeSet3 findfont put       % Enc len array
+		/FDepVector exch def exch   % len Enc
+
+		512 array 0 1 511 { % array index
+		    1 index exch 0 put
+		} for
+		0 1 3 index length 1 sub {	    % len Enc 512a id
+		    2 index 1 index get	    % len Enc 512a id enc
+		    exch 2 mul 1 add	    % len Enc 512a enc id'
+		    2 index exch 3 -1 roll put
+		} for exch pop	       	    % len 512a
+		dup 16#8e 16#80 sub 2 mul 1 add 3 index put
+		dup 16#8f 16#80 sub 2 mul 1 add 4 -1 roll 1 add put
+		/Encoding exch def
+
+		currentdict
+	    end
+	    definefont true
+	} ifelse
+    } ifelse
+} bind def
+
+/makeEUCfont { % (fontname) 12font => -
+    /CodeSet0 2 index def
+    (LC_) 2 index append    	% codeset0 font fotname
+    13 dict begin
+        /FontName 2 index def
+        /FMapType 4 def
+        /Encoding [ 0 1 ] def
+        /WMode 0 def
+        /FontType 0 def
+        /FontMatrix matrix def
+        /FDepVector [
+            5 -1 roll findfont	% font fontname /F [ font0
+	    RM-Mode {
+		[ HalfWidthMetrics 0 0 1 0 0 ] makefont
+	    } if
+	    5 -1 roll
+        ] def
+        currentdict
+    end
+    definefont 
+    pop
+} bind def
+
+/makecodeset3font { % - => /fontname
+    /NotDefCompFont FontDirectory 1 index known not {
+	dup 13 dict begin
+	    /FontName 1 index def
+	    /FontType 0 def
+	    /FMapType 2 def
+	    /Encoding [ 256 { 0 } repeat ] def
+	    /FontMatrix matrix def
+	    /FDepVector [ /NotDefFont findfont ] def
+	    currentdict
+	end
+	definefont pop
+    } if
+} def
+
+/makeFakefont { % (..) => -
+    (LC_) 1 index append exch findfont	% (LC_XX) font
+    dup length dict exch {		% (LC_XX) dict font
+	1 index /FID ne {		% (LC_XX) dict key val
+	    1 index /FontName eq {
+		exch pop 2 index exch
+	    } if
+	    2 index 3 1 roll put    	% (LC_XX) dict
+	}{
+	    pop pop
+	} ifelse
+    } forall
+    definefont pop
+} def
+
+%  define LC_Times-Roman for japanese locale
+%
+(Times-Roman) (Ryumin-Light) makecodeset12 {
+    makeEUCfont
+}{
+    makeFakefont
+} ifelse
+
+% LC_Times-Bold
+%
+(Times-Bold) (Ryumin-Light) makecodeset12 {
+    makeEUCfont
+}{
+    makeFakefont
+} ifelse
+
+% LC_Times-Italic
+%
+(Times-Italic) (Ryumin-Light) makecodeset12 {
+    makeEUCfont
+}{
+    makeFakefont
+} ifelse
+
+% LC_Helvetica
+%
+(Helvetica) (GothicBBB-Medium) makecodeset12  {
+    makeEUCfont
+}{
+    makeFakefont
+} ifelse
+
+% LC_Helvetica-Bold
+%
+(Helvetica-Bold) (GothicBBB-Medium) makecodeset12 {
+    makeEUCfont
+}{
+    makeFakefont
+} ifelse
+
+% LC_Helvetica-BoldOblique
+%
+(Helvetica-BoldOblique) (GothicBBB-Medium) makecodeset12 {
+    makeEUCfont
+}{
+    makeFakefont
+} ifelse
+
+% LC_Courier
+%
+/RM-Mode true def
+(Courier) (Ryumin-Light) makecodeset12 {
+    makeEUCfont
+}{
+    makeFakefont
+} ifelse
+/RM-Mode false def
+

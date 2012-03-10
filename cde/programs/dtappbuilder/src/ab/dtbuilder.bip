@@ -1,0 +1,88 @@
+//       $XConsortium: dtbuilder.bip /main/3 1995/11/06 17:28:23 rswiston $
+//
+// @(#)dtbuilder.bip	1.43 04 May 1995
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+//   dtbuilder.bip - Project file for 'dtbuilder'
+//
+
+:bil-version	1 0
+:project dtbuilder
+(
+	:files			(palette.bil about_box.bil brws.bil proj.bil conn.bil appfw.bil color_chooser.bil dnd_ed.bil help_ed.bil attch_ed.bil revolv.bil button.bil choice.bil combobox.bil cpanel.bil custdlg.bil drawp.bil group.bil label.bil list.bil mainwin.bil menu.bil menubar.bil scale.bil sep.bil spinbox.bil termp.bil textf.bil textp.bil cgen_win.bil cgen_props.bil cgen_env.bil fchooser.bil message_ed.bil panedwin_ed.bil)
+	:vendor			"SunSoft"
+	:version		"1.0"
+	:root-window		palette.ab_palette_main
+	:session-management	(
+		:sessioning-method :file
+	)
+	:tooltalk		(
+		:desktop-level	:none
+	)
+	:internationalization	(
+		:enabled	:true
+	)
+	:res-file-types		(:other-string)
+
+:connection
+(
+	:from			palette.help_pulldown_About_Application_Builder_item
+	:to			about_box.dialog
+	:when			:activate
+	:action-type		:builtin
+	:action			:show
+	:arg-type		:void
+)
+:connection
+(
+	:from			brws.help_pulldown_About_Application_Builder_item
+	:to			about_box.dialog
+	:when			:activate
+	:action-type		:builtin
+	:action			:show
+	:arg-type		:void
+)
+:connection
+(
+	:from			proj.proj_help_menu_About_Application_Builder_item
+	:to			about_box.dialog
+	:when			:activate
+	:action-type		:builtin
+	:action			:show
+	:arg-type		:void
+)
+:connection
+(
+	:from			:application
+	:when			:session-save
+	:action-type		:call-function
+	:action			Session_saveCB
+)
+:connection
+(
+	:from			:application
+	:when			:session-restore
+	:action-type		:call-function
+	:action			Session_restoreCB
+)
+:connection
+(
+	:from			cgen_win.help_pulldown_About_Application_Builder_item
+	:to			about_box.dialog
+	:when			:activate
+	:action-type		:builtin
+	:action			:show
+	:arg-type		:void
+)
+)

@@ -1,0 +1,20 @@
+<!-- This illustrates single pass idref validation.  Note that the
+error message gives the line number of the invalid idref not of the
+end of file, even though the error is detected at the end of the file.
+-->
+<!doctype doc [
+<!element doc o o (foo*)>
+<!element foo - o empty>
+<!attlist foo
+  id id #implied
+  idref idrefs #implied
+>  
+]>
+<foo id=x>
+<foo idref=y>
+<foo idref=x>
+<!-- This should get an error: there is no z id -->
+<foo idref=z>
+<foo id=y>
+<foo idref=y>
+<foo id=w>

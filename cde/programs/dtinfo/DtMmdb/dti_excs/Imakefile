@@ -1,0 +1,47 @@
+XCOMM $TOG: Imakefile /main/12 1997/09/05 11:29:53 samborn $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	NormalLibDtMmdb
+#define DoSharedLib	SharedLibDtMmdb
+#define DoDebugLib	DebugLibDtMmdb
+#define DoProfileLib	ProfileLibDtMmdb
+#define LibName		DtMmdb
+#define SoRev		SODTMMDBREV
+#define LibHeaders	NO
+#define LibCreate	NO
+#define LargePICTable	YES
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+EXCEPTION_DEFINES  = -DHAS_TERMINATE
+#endif
+
+DEFINES  = -DC_API -DCC_VERSION=30 -DCHECK_INITIALIZED $(EXCEPTION_DEFINES)
+
+BASE_SRCS = \
+	Jump_Environment.C	Exceptions.C	Exception.C \
+	Destructable.C		terminate.C
+
+C_API_SRCS = init.C
+
+SRCS = $(BASE_SRCS)       $(C_API_SRCS)
+OBJS = $(BASE_SRCS:.C=.o) $(C_API_SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

@@ -1,0 +1,49 @@
+/*
+ * $XConsortium: oliasP.h /main/4 1996/10/04 15:02:49 drk $
+ *
+ * Copyright (c) 1992 HaL Computer Systems, Inc.  All rights reserved.
+ * UNPUBLISHED -- rights reserved under the Copyright Laws of the United
+ * States.  Use of a copyright notice is precautionary only and does not
+ * imply publication or disclosure.
+ * 
+ * This software contains confidential information and trade secrets of HaL
+ * Computer Systems, Inc.  Use, disclosure, or reproduction is prohibited
+ * without the prior express written permission of HaL Computer Systems, Inc.
+ * 
+ *                         RESTRICTED RIGHTS LEGEND
+ * Use, duplication, or disclosure by the Government is subject to
+ * restrictions as set forth in subparagraph (c)(l)(ii) of the Rights in
+ * Technical Data and Computer Software clause at DFARS 252.227-7013.
+ *                        HaL Computer Systems, Inc.
+ *                  1315 Dell Avenue, Campbell, CA  95008
+ * 
+ */
+
+
+#ifndef _oliasP_h
+#define _oliasP_h
+
+#include "olias.h"
+
+#define OLIAS_PROTOCOL_VERSION  1
+
+#define OLIAS_WINDOW_ID_ATOM    "__OLIAS_WINDOW_ID"
+#define OLIAS_EVENT_ATOM        "__OLIAS_EVENT"
+#define OLIAS_REPLY_ATOM        "__OLIAS_REPLY"
+#define OLIAS_CLIENT_ATOM_FMT   "__OLIAS_CLIENT_0x%08lx"
+
+extern Atom _olias_window_id_atom;
+extern Atom _olias_event_atom;
+extern Atom _olias_reply_atom;
+extern Atom _olias_client_atom;
+
+extern void _olias_initialize (Widget toplevel);
+extern Boolean _olias_convert_event (Widget, Atom *, Atom *, Atom *,
+				     XtPointer *, unsigned long *, int *);
+void _olias_handle_reply (Widget w, XtPointer client_data,
+			  XEvent *event, Boolean *cont);
+
+#define ON_DEBUG(X)
+
+#endif /* _oliasP_h */
+/* DO NOT ADD ANY LINES AFTER THIS #endif */

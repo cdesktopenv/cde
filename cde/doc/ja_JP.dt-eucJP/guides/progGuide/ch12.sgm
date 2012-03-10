@@ -1,0 +1,306 @@
+<!-- $XConsortium: ch12.sgm /main/6 1996/09/08 19:37:51 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+
+<chapter id="PG.print.div.1">
+<title id="PG.print.mkr.1">CDE印刷のウィジェットとAPI</title>
+<para><indexterm><primary>印刷</primary>
+<secondary>一般情報</secondary></indexterm>
+CDEユーザは、一般的に、一連のダイアログを介してファイルをプリントします。
+最初のファイルはたとえばファイルをプリントするプルダウン・メニューを選択することで初期化されます。
+この章では、主にXプリントを行なうアプリケーションに使用されるCDEnextが提供するダイアログ・セットを示します。
+</para>
+<itemizedlist>
+<listitem>
+<para>初期プリント・ダイアログは、<function>DtPrintSetupBox</function>ウィジェットとして提供されます。
+このウィジェットは、一般的なプリント・オプションのセット、アプリケーションに固有なプリント・オプションのセット、および、プリント操作を開始したり、取り消したりする下部のコマンド・ボタンのセットからなっています。
+またそれは、プリント・ダイアログ・マネージャ(PDM)やヘルプ・ダイアログを伴います。
+</para>
+</listitem>
+<listitem>
+<para><function>DtPrinterSelectionDialog</function>でXプリンタを選択します。
+また、<function>DtPrintSetupBox</function>ウィジェットを介してアクセス可能です。</para>
+</listitem>
+<listitem>
+<para>追加のプリンタ情報獲得ダイアログである
+<function>DtPrinterInfoDialog</function>は、
+<function>DtPrintSetupBox</function>または
+<function>DtPrinterSelectionDialog</function>を介してアクセス可能です。
+</para>
+</listitem>
+</itemizedlist>
+<para>ユーザが、プリントするファイルを選択できる、ファイル選択ダイアログ
+(<function>DtPrintSetupBox</function>を介してアクセス可能)もあります。
+これらすべてのサブ・ダイアログは<function>DtPrintSetupBox</function>ウィジェットの一部と考えられるので、それらに外部APIはありません。
+</para>
+<para>しかし、<function>DtPrintSetupBox</function>は主にXプリントのために設計されています。
+またプリントするどのCDEnextアプリケーションでも使用できる、一般的なアプリケーション・プリント・ダイアログとして使用できるようにも、設計されています。
+<function>DtPrintSetupBox</function>はまた、追加プリンタやスプーラ固有のXプリント設定ダイアログを提供するプリント・ダイアログ・マネージャとの単純統合もできるように設計されています。
+</para>
+<para>本章の残りの節では、DtPrint簡易関数、DtPrintダイアログ・マネージャ、および印刷ウィジェットとヘルプの統合方法について示します。
+</para>
+<sect1 id="PG.print.div.2">
+<title id="PG.print.mkr.2">DtPrint関数</title>
+<indexterm><primary>印刷</primary>
+<secondary>dtprint関数</secondary></indexterm>
+<indexterm><primary>dtprint関数</primary></indexterm>
+<para>この節では、DtPrint関数の概要を述べます。
+<Filename>/proj/cde/examples/dtprint</Filename>ディレクトリに
+使用法を示したコード例があります。
+<variablelist>
+<varlistentry><term><function>DtPrintSetupBox</function></term>
+<listitem>
+<para><function>DtPrintSetupBox</function>はウィジェットで、アプリケーションからの印刷に先立って、各種オプション設定用に使用される典型的な初期ウインドウです。
+このウィジェットは、Xプリント・サービスを利用するアプリケーションが使用できるように主として設計されています。
+しかし、ウィジェット・インタフェースはまた、ほかの印刷方法を使っているアプリケーションでも使用できるよう柔軟に設計されてもいます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtCreatePrintSetupBox</function></term>
+<listitem>
+<para><function>DtCreatePrintSetupBox</function>は、
+<function>DtPrintSetupBox</function>ウィジェットの管理されていないインスタンスを作成し、そのウィジェットIDを返す簡易関数です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtCreatePrintSetupDialog</function></term>
+<listitem>
+<para><function>DtCreatePrintSetupDialog</function>は、
+<function>DtPrintSetupBox</function>ウィジェットを持つダイアログのインスタンスを作成し、<function>DtPrintSetupBox</function>ウィジェットのIDを返す簡易関数です。</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintFillSetupData</function></term>
+<listitem>
+<para><function>DtPrintFillSetupData</function>は、
+<function>DtPrintSetupBox</function>との直接的会話型以外の状況で(たとえば、ツールバー上の[簡易印刷]ボタンなど)、Xプリント・ジョブを初期化するためのXプリンタとの接続を獲得するために使用されます。
+このプリンタ接続情報は、既存の<function>DtPrintSetupBox</function>ウィジェットのインスタンスから獲得できます。
+また、もし<function>DtPrintSetupBox</function>ウィジェットのインスタンスが無効な場合、<function>DtPrintFillSetupData</function>では、新しいXプリンタとの接続を提供できます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintCopySetupData</function></term>
+<listitem>
+<para><function>DtPrintCopySetupData</function>は、
+<function>DtPrintSetupData</function>構造をコピーするために使用されます。
+ターゲットの要素は、ソースの対応する要素と異なっている場合だけ更新されます。
+割り当てられたメモリをポイントする要素について、
+<function>DtPrintCopySetupData</function>は、ターゲットの更新された要素に対して、新しいメモリを割り当てます。
+ターゲットの既存の要素は解放されます。
+<function>DtPrintSetupData</function>構造中のすべての要素は、
+<function>DtPrintFreeSetupData</function>を呼び出すことで解放できます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintFreeSetupData</function></term>
+<listitem>
+<para><function>DtPrintSetupData</function>構造の要素がポイントするメモリを解放します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintResetConnection</function></term>
+<listitem>
+<para><function>DtPrintResetConnection</function>は、
+<function>DtPrintSetupBox</function>ウィジェットが提供する簡易関数です。
+そのウィジェットは、アプリケーションがウィジェットに命じて、Xプリント・サーバ接続の管理を中止させることができます。
+モード・パラメタは、ウィジェットに命じてプリント接続をクローズしたり、それをクローズしないで単に接続の制御を放棄するために含まれます。
+</para>
+<para><function>DtPrintResetConnection</function>は、プリント処理を実行する子プロセスをフォークするアプリケーションで使用されることを意図しています。
+フォークを実行した直後、親プロセスはそのXプリント・サーバ接続をクローズし、ビデオXサーバとの接続を保存します。
+一方、フォークされた子はそのビデオXサーバとの接続をクローズし、Xプリント・サーバ接続でのプリント処理を実行します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrintSetupProc</function></term>
+<listitem>
+<para><function>DtPrintSetupProc</function>は、
+<function>DtPrintSetupBox</function>ウィジェットの手続きリソース用型定義です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><function>DtPrinterSelectionDialog</function></term>
+<listitem>
+<para><function>DtPrinterSelectionDialog</function>によって、クライアント・サーバ用の(サーバがXp拡張子をサポートしている場合に提供される)プリンタの完成したリストから、ユーザはXプリンタを選択することができます。
+加えて、<systemitem class="resource">XpServerList</systemitem>リソース、または、<systemitem class="environvar">XPSERVERLIST</systemitem>環境変数で示される各サーバも、同様に選択することができます。
+ユーザは、一般的に、一つのプリンタを選択し、[OK]ボタンを押して、選択されたプリンタを呼び出し側に返します。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect1>
+<sect1 id="PG.print.div.3">
+<title id="PG.print.mkr.3">プリント・ダイアログ・マネージャ</title>
+<indexterm><primary>印刷</primary>
+<secondary>プリント・ダイアログ・マネージャ</secondary></indexterm>
+<indexterm><primary>プリント・ダイアログ・マネージャ</primary></indexterm>
+<para>プリント・ダイアログ・マネージャ(PDM)は、Xプリント・サーバとXプリント・アプリケーションとを切り離します。
+それらは、プリンタ固有またはスプーラ固有のGUIを設定します。
+アプリケーションではそれらGUI自身を理解したり、表示したりできます。
+しかし、新しいPDMを提供することで新しいプリンタやスプーラをサポートできるように、PDMへのタスクの負荷を軽くすることをおすすめします。
+でなければ、すべてのアプリケーションを変更する必要があります。
+</para>
+<para>この節では、PDM選択プロトコルを使用する、PDMのCDEnext実装を説明します。
+CDEnext実装は、初期的にプロトコルと結びつけられている、プリント・ダイアログ・マネージャ・デーモン(PDMD)が、実行可能である(<command>dtpdmd</command>)ことが必要です。
+次に、アプリケーションに代わってどのPDMが必要か、また起動させるかを決定します。
+CDEnext内では、実行可能な<command>dtpdm</command>は汎用PDMであり、<command>dtpdmd</command>が起動できます。
+</para>
+<para>プリンタ・ベンダは、以下の手法の一つを選んで、新しいGUIを取り入れます。
+</para>
+<itemizedlist>
+<listitem>
+<para>PDM選択プロトコルに適合する、ベンダ自身のPDM実装を開発します。
+</para>
+</listitem>
+<listitem>
+<para><command>dtpdmd</command>で起動できるPDMを開発します。
+これは、おすすめの手法です。
+</para>
+</listitem>
+<listitem>
+<para>あるいは、新しく共用または動的なライブラリを、<command>dtpdmd</command>に統合します。
+これは、ベンダに依存する手法です。
+</para>
+</listitem>
+</itemizedlist>
+<para>実行可能な<command>dtpdm</command>は、いくつもの異なったプリンタにそれぞれ適合するダイアログを用意できるような、適当な汎用プリント・ダイアログ・マネージャを実装しています。
+しかし、HP DeskJet 1600Cに基づくPCL、と、Sun SPARCprinter 2に基づくPostscript、の二つの参照プリンタの要求には、特に調整されます。
+<command>dtpdm</command>は、プリンタ設定ダイアログ上に表示するオプションを、限られた量だけ自動的に構成するために、特定のプリンタの属性を使用します。
+<command>dtpdm</command>のジョブ設定ダイアログは、lpスプーラで使用するよう設計されています。
+</para>
+<para>実行可能な<command>dtpdmd</command>は、PDM起動メカニズムを実装しています。
+PDM選択プロトコルは、PDMの選択と起動という、二つの階層を持つメカニズムです。
+また、セキュリティ関係は、<command>dtpdmd</command>で処理されます。
+その結果、<command>dtpdmd</command>から呼び出されるPDMは、GUIを表示する最小で単一なタスクになります。
+</para>
+<sect2 id="PG.print.div.4">
+<title id="PG.print.mkr.4">Dtプリント・ダイアログ・マネージャ・デーモン：dtpdmd</title>
+<indexterm><primary>印刷</primary>
+<secondary>dtprintダイアログ・マネージャ・デーモン</secondary></indexterm>
+<indexterm><primary>dtpdmd</primary></indexterm>
+<para><command>dtpdmd</command>は、永続的なデーモン・プロセスで、PDMからのクライアントの要求を受け取り、ある検索ルールを使用し、それから、要求に応えるために適切なPDMを起動します。
+PDMが終了すると、制御は<command>dtpdmd</command>に戻ります。
+代わって、<command>dtpdmd</command>は、クライアントに最終的なステータスを示します。
+</para>
+<para><command>dtpdmd</command>は、PDMと通信するためにPDMD/PDMプロトコルを使用します。
+PDMに通信するには、標準化されたコマンド行を経由して行ないます。
+PDMから通信を受けるには、標準化された終了コードを経由して行ないます。
+</para>
+</sect2>
+<sect2 id="PG.print.div.5">
+<title id="PG.print.mkr.5">Dtプリント・ダイアログ・マネージャ</title>
+<indexterm><primary>印刷</primary>
+<secondary>dtprintダイアログ・マネージャ</secondary></indexterm>
+<indexterm><primary>dtpdm</primary></indexterm>
+<para>このダイアログ・マネージャは、プリント・サーバとは別のプロセスであり、
+印刷アプリケーションに代わって、プリンタ固有のGUIを提供します。
+アプリケーションの要求で、<command>dtpdm</command>は、プリンタ固有またはジョブ固有のオプションをユーザが設定できるよう、ユーザのディスプレイに、プリンタ固有のダイアログ・セットを表示します。
+設定ダイアログはアプリケーションの一部として現われるため、
+実際には<command>dtpdm</command>プログラムがアプリケーションに代わってこのダイアログを管理します。
+適用可能なメッセージ・カタログを持つすべてのロケール中に、ダイアログを提供することは可能です。
+</para>
+<para><command>dtpdm</command>は、<function>XmNotebook</function>ウィジェットを持つダイアログを表示します。
+このノートブック・ウィジェットには、二つのタブがあります。
+一つはプリンタ設定ボックス用、もう一つはジョブ設定ボックス用です。
+多様な印刷オプションが構成できるよう、それぞれのボックスは制御します。
+<command>dtpdm</command>ダイアログにはまた、三つのボタンがあります。
+ボタンのラベルは、[了解]、[取消し]、および、[ヘルプ]です。
+[了解]ボタンが起動されると、ダイアログは取り消され、新たに構成された印刷オプションを現在のプリント・コンテキストに(<function>XpSetAttributes</function>を経由して)設定します。
+[取消し]ボタンが起動されると、ダイアログは取り消され、プリント・コンテキストには何の変化もありません。
+</para>
+</sect2>
+</sect1>
+<sect1 id="PG.print.div.6">
+<title>CDE印刷ウィジェット用ヘルプ</title>
+<indexterm><primary>印刷</primary>
+<secondary>ヘルプの統合</secondary></indexterm>
+<para><function>DtPrintSetupBox</function>ウィジェットは、そのサブダイアログに対して、組み込みのサポートを提供します。
+つまり、これらのサブダイアログの一つで、ユーザが[ヘルプ]ボタンをクリックすると、関連するヘルプ・テキストを持つヘルプ・ダイアログを表示します。
+この目的のために使用されるヘルプ・ボリュームと位置IDは、次のとおりです。
+</para>
+<itemizedlist>
+<listitem>
+<para>プリンタ情報：HelpVolume = <literal>LibDtPrint</literal>, LocationId = <literal>PrinterInfo</literal>
+</para>
+</listitem>
+<listitem>
+<para>プリンタ選択：HelpVolume = <literal>LibDtPrint</literal>, LocationId = <literal>SelectPrinter</literal>
+</para>
+</listitem>
+<listitem>
+<para>ファイル選択：HelpVolume = <literal>LibDtPrint</literal>, LocationId = <literal>SelectFile</literal>
+</para>
+</listitem>
+</itemizedlist>
+<para>しかし、メイン・ダイアログに対しては、ユーザが[ヘルプ]ボタンを押しても、ヘルプ・ダイアログは自動的には表示されません。
+しかしながら、<function>DtPrintSetupBox</function>が提供するフックによって、アプリケーション・ライタは簡単に、一般的で、アプリケーションに固有なヘルプを供給できます。
+これらのフックには次のものがあります。
+</para>
+<itemizedlist>
+<listitem>
+<para>一般的な印刷オプション用で、一つまたは複数の位置IDを持つ、
+共有の<function>DtPrintSetupBox</function>ヘルプ・ボリューム。
+</para>
+</listitem>
+<listitem>
+<para>アプリケーションによって<function>DtPrintSetupBox</function>上にインストールされた、いくつかの<function>XmNhelpCallback</function>がコールされることを可能にする、<function>DtPrintSetupBox</function>[ヘルプ]ボタン上にインストールされた起動コールバック。
+</para>
+</listitem>
+</itemizedlist>
+<para><function>DtPrintSetupBox</function>用のヘルプをアプリケーションに統合するには、以下のようにして下さい。
+</para>
+<itemizedlist>
+<listitem>
+<para>トピックに関係したヘルプを含むヘルプ・ボリュームを指定してください。
+ここで、アプリケーション固有の印刷オプションがないことを確認すれば、
+<function>DtPrintSetupBox</function>で指定された共有のヘルプ・ボリュームだけで充分です。
+さもなければ、アプリケーションのヘルプ・ボリュームの作成者は、
+<function>DtPrintSetupBox</function>ボリュームとの内部的なリンクを指定する必要があります。
+たとえば、カレンダ・マネージャのヘルプ・ボリュームが次のようだとします。
+</para>
+<programlisting>
+
+       Calendar Print Setup Dialog Box
+       -------------------------------
+
+               <symbol role="variable">some graphic</symbol>
+
+       Report Type     Choose to print Day View, Week View, Month View, or
+                       Year View, plus Appointment List or To Do List.
+
+       From/To         The dates for which you want to print
+                       calendar data. With the From and To SpinBox,
+                       you can select ...
+       See Also:
+
+           * Generic Print options <symbol role="variable">link1</symbol>
+           * To Print Your Appointment List <symbol role="variable">link2</symbol>
+           * To Print Your To Do List <symbol role="variable">link3</symbol>
+
+
+</programlisting>
+<para>ここで<symbol role="variable">link1</symbol>は、
+共有の<function>DtPrintSetupBox</function>ヘルプ・ボリュームとのリンクです。
+</para>
+</listitem>
+<listitem>
+<para>印刷に関係するアプリケーションのヘルプ・ボリューム中での位置をマークする、位置IDのセットを定義してください。
+どこまで詳細にIDを作るか(たとえば、プリント設定ダイアログ用に一つ、プリント設定ダイアログ中の各プリント・オプション用に一つ、またはその他の編成用)を決定するのはユーザの責任です。
+位置IDが詳細になればなるほど、ヘルプはより特定されることになります。
+この場合の、ヘルプは、ヘルプを必要とする項目のユーザによる選択を可能にするヘルプ・システムをサポートする場合に表示されるものです。
+</para>
+</listitem>
+<listitem>
+<para><function>DtPrintSetupBox</function>の
+<systemitem class="resource">XmNhelpCallback</systemitem>リソースが追加されるコールバックを定義してください。
+このコールバックは、<systemitem class="resource">DtNhelpVolume</systemitem>および<systemitem class="resource">DtNlocationId</systemitem>リソースを適切に設定する、<function>DtHelpDialogWidget</function>または
+<function>DtHelpQuickDialogWidget</function>を表示できます。
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+</chapter>

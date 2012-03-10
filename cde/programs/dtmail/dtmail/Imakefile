@@ -1,0 +1,126 @@
+XCOMM $TOG: Imakefile /main/25 1998/02/17 15:18:16 mgreess $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+INCLUDES = -I. -I../include -I../include/MotifApp \
+	-I../include/utils -I../include/DtMail \
+	-I../libDtMail/RFC -I$(CDELIBSRC) -I$(DTHELPSRC)
+
+#ifndef DtMailDefines
+# define DtMailDefines
+#endif
+DEFINES = -DRELEASE_NOTES -DDTMAIL_TOOLTALK -DDTEDITOR DtMailDefines
+
+DEPLIBS = ../MotifApp/libMotifApp.a ../libDtMail/libDtMail.a DepDtClientLibs
+LOCAL_LIBRARIES = ../libDtMail/libDtMail.a ../MotifApp/libMotifApp.a DtClientLibs
+
+/* Sun needs the widechar library */
+#ifdef SunArchitecture
+SYS_LIBRARIES =	$(DYNLIBSYSLIB) $(ICONVSYSLIB) $(REGEXSYSLIB) -lw -lm
+#else
+SYS_LIBRARIES =	$(DYNLIBSYSLIB) $(ICONVSYSLIB) $(REGEXSYSLIB) -lm
+#endif
+
+
+#ifdef SunArchitecture
+# ifndef SUNPRODIR
+SUNPRO_DIR	=	/opt/SUNWspro
+# else
+SUNPRO_DIR	=	SUNPRODIR
+# endif
+
+C++LIBPATH	=	-L$(SUNPRO_DIR)/lib
+
+# ifdef USE_SPRO_V3
+SPRO_V3_OPTIONS =      -noex -USPRO_V2
+#  ifdef DEBUGTREE
+SPRO_V3_OPTIONS +=	-xsb
+#  endif /* DEBUGTREE */
+# else
+EXTRA_CCOPTIONS	+=	-DSPRO_V2
+# endif  /* USE_SPRO_V3 */
+
+EXTRA_C++OPTIONS =	-xF +w $(SPRO_V3_OPTIONS)
+EXTRA_CCOPTIONS =	-xF -xstrconst -Xa -v
+
+# ifdef USE_EDITRES
+EXTRA_LIBRARIES =	$(XMULIB) ExtraLibraries
+# endif
+#endif /* SunArchitecture */
+
+SRCS =	AliasListUiItem.C		AlternatesListUiItem.C \
+	AntiCheckBoxUiItem.C		AttachArea.C \
+	Attachment.C \
+	CheckBoxUiItem.C 		CheckForMailUiItem.C \
+	ComposeCmds.C			CustomListUiItem.C \
+	Dialog.C			DialogShell.C \
+	DmxMailbox.C			DmxMessage.C \
+	DmxPrintJob.C			DmxPrintOptions.C \
+	DmxPrintOutput.C		DmxPrintSetup.C \
+	DmxUtils.C			DtEditor.C \
+	DtMailEditor.C			DtMailGenDialog.C \
+	DtMailWDM.C			Editor.C \
+	EncryptedTextFieldUiItem.C	FindDialog.C \
+	Fonts.C				Icon.C \
+	IgnoreListUiItem.C		Image.C \
+	InboxTextFieldUiItem.C		IndexedOptionMenu.C \
+	IndexedOptionMenuUiItem.C	ListUiItem.C \
+	MailRcSource.C			MailRetrievalOptions.C \
+	MailSession.C \
+	MoveMenuListUiItem.C		MsgHndArray.C \
+	MsgScrollingList.C		NoOpCmd.C \
+	OptCmd.C			PasswordDialogManager.C \
+	PropUi.C			QueryDialogManager.C \
+	RoamApp.C			RoamCmds.C \
+	RoamInterruptibleCmd.C		RoamMenuWindow.C \
+	ScaleUiItem.C			SendMsgDialog.C \
+	Sort.C				SortCmd.C \
+	SpinBoxUiItem.C			StringTab.c \
+	TemplateListUiItem.C		TextFieldUiItem.C \
+	Undelete.C			ViewMsgDialog.C \
+	WMSaveSession.C			XmStrCollector.C \
+	XmTextEditor.C			XtArgCollector.C \
+	dtb_utils.C			options_stubs.C \
+	options_ui.C			options_util.C
+
+OBJS =	AliasListUiItem.o		AlternatesListUiItem.o \
+	AntiCheckBoxUiItem.o		AttachArea.o \
+	Attachment.o \
+	CheckBoxUiItem.o		CheckForMailUiItem.o \
+	ComposeCmds.o			CustomListUiItem.o \
+	Dialog.o			DialogShell.o \
+	DmxMailbox.o			DmxMessage.o \
+	DmxPrintJob.o			DmxPrintOptions.o \
+	DmxPrintOutput.o		DmxPrintSetup.o \
+	DmxUtils.o			DtEditor.o \
+	DtMailEditor.o			DtMailGenDialog.o \
+	DtMailWDM.o			Editor.o \
+	EncryptedTextFieldUiItem.o	FindDialog.o \
+	Fonts.o				Icon.o \
+	IgnoreListUiItem.o		Image.o	\
+	InboxTextFieldUiItem.o		IndexedOptionMenu.o \
+	IndexedOptionMenuUiItem.o	ListUiItem.o \
+	MailRcSource.o			MailRetrievalOptions.o \
+	MailSession.o \
+	MoveMenuListUiItem.o		MsgHndArray.o \
+	MsgScrollingList.o		NoOpCmd.o \
+	OptCmd.o			PasswordDialogManager.o \
+	PropUi.o			QueryDialogManager.o \
+	RoamApp.o			RoamCmds.o \
+	RoamInterruptibleCmd.o		RoamMenuWindow.o \
+	ScaleUiItem.o			SendMsgDialog.o \
+	Sort.o				SortCmd.o \
+	SpinBoxUiItem.o			StringTab.o \
+	TemplateListUiItem.o		TextFieldUiItem.o \
+	Undelete.o			ViewMsgDialog.o \
+	WMSaveSession.o			XmStrCollector.o \
+	XmTextEditor.o			XtArgCollector.o \
+	dtb_utils.o			options_stubs.o \
+	options_ui.o			options_util.o
+
+# Rules
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(dtmail)

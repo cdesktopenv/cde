@@ -1,0 +1,169 @@
+XCOMM!/bin/ksh
+
+XCOMM $XConsortium: dtloadresources.src /main/6 1996/04/23 18:51:41 drk $
+XCOMM   (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM   (c) Copyright 1993,1994,1996 Hewlett-Packard Company.
+XCOMM   (c) Copyright 1993,1994,1996 International Business Machines Corp.
+XCOMM   (c) Copyright 1993,1994,1996 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993,1994,1996 Novell, Inc. 
+XCOMM   (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM   (c) Copyright 1996 Hitachi.
+
+#define HASH #
+
+XCOMM ##########################################################################
+XCOMM #
+XCOMM #  File:              dtsession_res
+XCOMM #
+XCOMM #  Default Location:  /usr/dt/bin/dtsession_res
+XCOMM #
+XCOMM #  Purpose:           Load the RESOURCE_MANAGER with desktop resources
+XCOMM #
+XCOMM #  Description:       This script is invoked to load or reload the 
+XCOMM #                     RESOURCE_MANAGER from the desktop resource files.
+XCOMM #
+XCOMM #  Invoked by:        The desktop Session Manager at session startup, 
+XCOMM #                     or user by means of 'dtaction LoadResources'.
+XCOMM #                     This script should not be invoked directly.
+XCOMM #
+XCOMM #  Product:           @(#)Common Desktop Environment 1.0
+XCOMM #
+XCOMM #                     (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM #                     (c) Copyright 1993, 1994 International Business
+XCOMM #                         Machines Corp.
+XCOMM #                     (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM #                     (c) Copyright 1993, 1994 Unix System Labs, Inc., 
+XCOMM #                         a subsidiary of Novell, Inc.
+XCOMM #
+XCOMM #  Note:              Please do not modify this file.
+XCOMM #                     Later product updates will overwrite this file.
+XCOMM #
+XCOMM ##########################################################################
+
+Msg()
+{
+  HASH
+  HASH $1 - message catalog number
+  HASH $2 - fallback message text
+  HASH
+  echo "$2"
+  HASH dspmsg dtsession_res.cat -s 1 $1 "$2"
+}
+
+Usage()
+{
+  HASH
+  HASH $1 - message catalog number 
+  HASH
+  Msg 1 "dtsession_res -load|-merge [-system] [-xdefaults] [-file <name>]"
+  case $1 in
+    needArgs) Msg 2 "Option -load or -merge must be specified";;
+    xrdbOptDone) Msg 3 "Option -load or -merge already specified";;
+    needFile) Msg 4 "Missing <filename> after -file option";;
+    unknownArg) Msg 5 "Unknown option specified";;
+    HASH needOption);;		# this is the Usage statement above
+  esac
+  exit 1
+}
+
+
+XCOMM
+XCOMM Parse options
+XCOMM
+if [ $# -eq 0 ]; then
+  Usage needArgs
+fi
+
+#ifdef sun
+rOWsystem=$OPENWINHOME/lib/Xdefaults
+rOWdefaults=$HOME/.OWdefaults
+#endif
+
+rFactory=CDE_INSTALLATION_TOP/config/$LANG/sys.resources
+rFactoryC=CDE_INSTALLATION_TOP/config/C/sys.resources
+
+rCustom=CDE_CONFIGURATION_TOP/config/$LANG/sys.resources
+
+rXdefaults=$HOME/.Xdefaults
+
+xrdbOption=""
+resourceFiles=""
+
+while [ $# -gt 0 ]; do
+  case $1 in 
+    -load|-merge)
+      HASH
+      HASH xrdb option specified
+      HASH
+      if [ ! -z "$xrdbOption" ]; then
+        Usage xrdbOptDone
+      fi
+      xrdbOption=$1
+      ;;
+    -system)
+      HASH
+      HASH locate system resources
+      HASH
+#ifdef sun
+      if [ -r "$rOWsystem" ]; then
+        resourceFiles="$resourceFiles $rOWsystem"
+      fi
+#endif
+      if [ -r "$rFactory" ]; then
+        resourceFiles="$resourceFiles $rFactory"
+      elif [ -r "$rFactoryC" ]; then
+        resourceFiles="$resourceFiles $rFactoryC"
+      fi
+      HASH
+      HASH Locate customized system resources
+      HASH
+      if [ -r "$rCustom" ]; then
+        resourceFiles="$resourceFiles $rCustom"
+      fi
+      ;;
+    -xdefaults)
+      HASH
+      HASH Locate .Xdefaults
+      HASH
+      if [ -r "$rXdefaults" ]; then
+        resourceFiles="$resourceFiles $rXdefaults"
+      fi
+#ifdef sun
+      if [ -r "$rOWdefaults" ]; then
+        resourceFiles="$resourceFiles $rOWdefaults"
+      fi
+#endif
+      ;;
+    -file)
+      HASH
+      HASH Locate specified file
+      HASH
+      shift
+      if [ -z "$1" ]; then
+        Usage needFile
+      fi
+      if [ -r "$1" ]; then
+        resourceFiles="$resourceFiles $1"
+      fi
+      ;;
+    *) Usage unknownArg;;
+  esac
+  shift
+done
+
+if [ -z "$xrdbOption" ]; then
+  Usage needOption
+fi
+
+XCOMM converts ":0" to "0", but leaves "pablo:0" as is
+display=${DISPLAY##:}
+
+XCOMM converts "blanco.flexicat.com:0.0" to "blanco_flexicat_com_0"
+display=$(echo ${display%.*} | /usr/bin/tr ".:" "__") 
+
+(
+  echo "dtsession_res*files: $resourceFiles"
+  if [ ! -z "$resourceFiles" ]; then
+    cat $resourceFiles
+  fi
+) | XBINDIR/xrdb -quiet $xrdbOption -DDISPLAY_$display

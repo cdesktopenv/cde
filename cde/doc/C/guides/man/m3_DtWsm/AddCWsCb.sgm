@@ -1,0 +1,105 @@
+<!-- $XConsortium: AddCWsCb.sgm /main/6 1996/09/08 20:23:13 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN58.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN58.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtWsmAddCurrentWorkspaceCallback</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtWsmAddCurrentWorkspaceCallback</Function></RefName>
+<RefPurpose>add a callback to be called when the current workspace changes
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Wsm.h>
+</FuncSynopsisInfo>
+<FuncDef>DtWsmCBContext <Function>DtWsmAddCurrentWorkspaceCallback</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>DtWsmWsChangeProc <Parameter>ws_change</Parameter></ParamDef>
+<ParamDef>Pointer <Parameter>client_data</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtWsmAddCurrentWorkspaceCallback</Function> function registers an application function to be called when the
+<![ %CDE.C.XO; [workspace manager
+]]><![ %CDE.C.CDE; [&str-XZ;
+workspace manager,
+&cdeman.dtwm;, ]]>switches to a new workspace.
+</Para>
+<Para>The workspace manager sends the new current workspace name to the
+<StructName Role="typedef">DtWsmWsChangeProc</StructName> callback.
+</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument is a realized widget.
+</Para>
+<Para>The
+<Emphasis>ws_change</Emphasis> argument is the procedure to be called when the
+workspace changes.
+</Para>
+<Para>The
+<Symbol Role="Variable">client_data</Symbol> argument points to arbitrary client data to be
+passed back to
+<Emphasis>ws_change</Emphasis>.</Para>
+<Para>The
+header defines the
+<StructName Role="typedef">DtWsmWsChangeProc</StructName> callback prototype as follows:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>typedef void (*DtWsmWsChangeProc)(Widget <Symbol Role="Variable">widget</Symbol>,
+        Atom <Emphasis>aWorkspace</Emphasis>,
+        Pointer <Symbol Role="Variable">client_data</Symbol>);
+</ProgramListing>
+</InformalExample>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument is the ID of the widget to be registered with the callback.
+</Para>
+<Para>The
+<Emphasis>aWorkspace</Emphasis> argument is the name of the new current workspace
+(converted to an X atom).
+</Para>
+<Para>The
+<Symbol Role="Variable">client_data</Symbol> argument points to the client data to be
+registered with the callback.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtWsmAddCurrentWorkspaceCallback</Function> function returns a workspace callback registration context.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+<Function>DtWsmAddCurrentWorkspaceCallback</Function> function returns a registration context that the application
+must save in order to remove this callback later.
+<Function>DtWsmAddCurrentWorkspaceCallback</Function> requires a window; thus, a gadget is not acceptable for the
+<Symbol Role="Variable">widget</Symbol> argument.
+The
+&cdeman.DtWsmRemoveWorkspaceCallback; function needs a registration context to remove the callback.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Wsm.h;, <![ %CDE.C.CDE; [&cdeman.dtwm;, ]]>&cdeman.DtWsmRemoveWorkspaceCallback;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

@@ -1,0 +1,280 @@
+
+**********************************************************************
+NOTE: CDE/MOTIF IS LICENSED SOFTWARE.  SOURCE AND OBJECT CODE IS NOT
+TO BE DISTRIBUTED TO THIRD PARTIES EXCEPT AS PROVIDED BY THE TERMS OF
+YOUR LICENSE AGREEMENT.  PASSIVE DISTRIBUTION TO UNIDENTIFIED PARTIES,
+SUCH AS MAKING FILES AVAILABLE FOR UNRESTRICTED ELECTRONIC FILE
+TRANSFER, IS STRICTLY PROHIBITED BY THE LICENSE.
+
+THESE RESTRICTIONS APPLY TO ANY PARTY TO WHOM THE SOFTWARE HAS BEEN
+DISTRIBUTED.
+**********************************************************************
+
+THE PURPOSE OF THIS RELEASE
+
+	This is the third maintenance release for CDE and Motif 2.1.
+	It was designed to resolve as many defects as possible from the
+	project's defect database.  This maintenance release resolves 515
+	problem reports against CDE and Motif 2.1.20.
+
+
+	The Open Group encourages the reporting of all bugs found in CDE
+	and Motif regardless of the platform or hardware configuration in 
+	which the bug is found.  However, The Open Group will commit to 
+	accept (and repair according to priority) only those bugs that can 
+	be replicated on the current reference configurations.  
+
+
+DOWNLOAD INSTRUCTIONS
+
+	This section describes how to unload the release archives
+	available at this ftp site.
+
+	The CDE/Motif 2.1.30 release is provided as compressed tar archives.  
+
+
+  	README-2.1.30         - this file
+
+  	cde.tar.Z             - a compressed tar file of the 
+			        CDE 2.1.30 source code
+
+  	cde-test.tar.Z        - a compressed tar file of the 
+			        CDE 2.1.30 tests
+
+  	cde-test-misc.tar.Z   - a compressed tar file of 
+			        test results for CDE/Motif 2.1.30
+
+  	motif.tar.Z           - a compressed tar file of the 
+			        MOTIF 2.1.30 source code
+
+  	motif-test-misc.tar.Z - a compressed tar file of 
+			        test results for Motif 2.1.30
+
+
+	The CDE/Motif 2.1.30 release is in the form of a sparse tree; that 
+	is, it contains only files that have been modified in either CDE or 
+	Motif since the 2.1.20 release.  If you are a CDE licensee you will 
+	receive files for both CDE and Motif.  If you are a Motif-only 
+	licensee you will receive files just for Motif.
+
+	After ftp-ing the files to your machine, you should first uncompress
+	the compressed (*.Z) files with the command:
+	
+    		uncompress <filename>.Z
+	
+	Once the tar archives have been uncompressed, you can untar each
+	with the command:
+	
+    		tar xvf <filename>.tar
+	
+	This command will preserve the .tar file while unloading its contents
+	into your current working directory.  If you wish to list a table of
+	contents of the tar file before actually unloading it you can do so
+	with the command:
+	
+    		tar tvf <filename>.tar
+	
+
+INSTALLING THIS RELEASE
+
+	This release is made up of a "sparse tree" of files that have changed
+	since release 2.1.20. The new versions of the files should replace the
+	corresponding CDE or Motif 2.1.20 versions of the files in your source 
+	tree. 
+
+
+	After the release is unloaded, you can use, for example, cp -R command
+	to copy the sources from the current directory into your source tree.
+	This release creates several new files.  If you are using a symbolic
+	link tree, you will need to create new links for them.
+
+	Please see the Release Notes from 2.1 for instructions on building
+	a full release tree.
+	
+
+IMPORTANT CHANGES IN THIS RELEASE
+
+Defect Repair
+
+	This patch release resolves 515 problem reports against CDE and 
+	Motif 2.1.20.  Each of these defects were resolved in one of three
+	ways: fixed (problem was recreated and repaired), duplicate 
+	(problem was already reported and recorded in defect database), 
+	or canceled (problem could not be recreated in current code
+	base).  The breakdown by component and resolution type is:
+
+FIXED:		Total  370 
+
+	CDE Code:   95 	 	Motif Code:  91
+	CDE Doc:     1 	 	Motif Doc:    0
+	CDE Test:  110 	 	Motif Test:  73
+	--------------		---------------
+	Total:     206 		Total:      164 
+
+DUPLICATE:	Total  62 
+
+	CDE Code:   4 	 	Motif Code:  10
+	CDE Doc:    0 	 	Motif Doc:    0
+	CDE Test:  19 	 	Motif Test:  29
+	--------------		---------------
+	Total:     23 		Total:       39 
+
+CANCEL:		Total  83 
+
+	CDE Code:  18 	 	Motif Code:  30
+	CDE Doc:    0 	 	Motif Doc:    0
+	CDE Test:  13 	 	Motif Test:  22
+	--------------		---------------
+	Total:     31 		Total:       52 
+
+
+	For more information on the bugs resolved, see the file 
+	CLOSEDBUGS in this release.
+
+	As of the completion of this maintenance release there are no
+	open defects against the CDE and Motif code and tests that have a
+	priority of 1 or a severity of 1.
+
+Security
+	This release contains changes to address a number of security
+	vulnerabilities in CDE that were reported to CERT during 1999.
+	Those vulnerabilities are described in the CERT Advisory CA-99-11,
+	Four Vulnerabilities in the Common Desktop Environment.  A full
+	description can be found on the CERT Web site at
+	http://www.cert.org/advisories/CA-99-11-CDE.html.
+
+	A subset of those changes were released to the affected vendors
+	via the CERT working group formed to address the reported problems.
+	This release also includes additional changes to various CDE
+	desktop facilities to sense access violations and report them
+	to the user.
+
+BUG LISTS
+
+	In the release archive there are two files, OPENBUGS and 
+	CLOSEDBUGS, which contain, respectively, the list of all bugs 
+	from any version of CDE or Motif not yet closed, and all bugs 
+	from CDE or Motif fixed in this patch release.
+
+
+BUILDING MOTIF FOR YOUR SYSTEM
+
+	Since X11 is NOT being delivered as part of this release, there
+	are some minor changes in the build process for Motif with respect
+	to the build process described in the 2.1 Release Notes.
+
+	Replace step 2 under the Building Motif subsection of Section 3:
+
+	  2.  If you are building with imports (the default setup in site.def),
+	      construct the necessary links as follows:
+
+	      % cd $CDEBUILDDIR/motif
+	      % mkdir -p imports/x11
+	      % cd imports/x11
+	      % ln -s <X11_bin_directory> bin
+	      % ln -s <X11_includes_directory> includes
+	      % ln -s <X11_libs_directory> libs
+
+
+REFERENCE PLATFORMS
+
+	The Open Group has used a number of platforms during the
+	development of the 2.1.30 release.  However, the following
+	reference platforms are the only ones where the complete
+	test cycle was run.  Test results appear below.
+
+
+   CDE and Motif:
+	HP9000/7xx running HP-UX 10.20
+	Sun SPARCstation running Solaris 2.4
+		using the SC 4.0 C compiler and SC 4.1 C++ compilers
+
+	Note that the Validation Suite for Motif (VSM) was also run on a
+	Digital AlphaStation 200 running Digital UNIX 4.0D.  Results were
+	consistent with those on the reference platforms and are included
+	in the test results archives.
+
+   
+   Changes to X11R6.4:
+
+	CDE and Motif 2.1.30 have been built and tested upon a base of 
+	X11R6.4 patchlevel 3.  During the development of 2.1.20, a 
+	significant defect in the I18N code of X was discovered; if you have
+	not yet corrected this problem, you are advised to do so prior
+	to making use of 2.1.30.
+
+	The symptom is that when XMODIFIERS is not set, there is a possibility
+	of memory corruption.   It is recommended that the following patch 
+	be applied:
+
+	*** imInt.c@@/main/5       Sat May 30 21:04:36 1998
+	--- xc/lib/X11/imInt.c       Mon Aug 24 16:17:25 1998
+	***************
+	*** 1,4 ****
+	! /* $TOG: README-2.1.30 /main/1 1999/12/14 14:52:14 devobj $ */
+	  /******************************************************************
+	  
+	             Copyright 1992, 1993, 1994 by FUJITSU LIMITED
+	--- 1,4 ----
+	! /* $TOG: README-2.1.30 /main/1 1999/12/14 14:52:14 devobj $ */
+	  /******************************************************************
+	  
+	             Copyright 1992, 1993, 1994 by FUJITSU LIMITED
+	***************
+	*** 166,174 ****
+	  _XimMakeImName(lcd)
+	      XLCd         lcd;
+	  {
+	!     char* begin;
+	!     char* end;
+	!     char* ret;
+	      int       i = 0;
+	      char* ximmodifier = XIMMODIFIER;
+	  
+	--- 166,174 ----
+	  _XimMakeImName(lcd)
+	      XLCd         lcd;
+	  {
+	!     char* begin = NULL;
+	!     char* end = NULL;
+	!     char* ret = NULL;
+	      int       i = 0;
+	      char* ximmodifier = XIMMODIFIER;
+	  
+	***************
+	*** 182,189 ****
+	      }
+	      ret = Xmalloc(end - begin + 2);
+	      if (ret != NULL) {
+	!       (void)strncpy(ret, begin, end - begin + 1);
+	!       ret[end - begin + 1] = '\0';
+	      }
+	      return ret;
+	  }
+	--- 182,192 ----
+	      }
+	      ret = Xmalloc(end - begin + 2);
+	      if (ret != NULL) {
+	!       if (begin != NULL && end != NULL) {
+	!           (void)strncpy(ret, begin, end - begin + 1);
+	!           ret[end - begin + 1] = '\0';
+	!         }
+	!       else *ret = '\0';
+	      }
+	      return ret;
+	  }
+
+
+TEST RESULTS SUMMARY
+
+	Since this is a general availability release, it has undergone 
+	the full quality assurance cycle. The cycle includes running the
+	following test suites:
+
+		QATS - Motif Quality Assurance Test Suite
+		VSM 4.1  - Motif Validation Suite
+		CDE Regression Tests
+
+	The results of these test runs can be found in the release
+	archive under cde-test-misc/reports/cde-2.1.30 and
+	motif-test-misc/reports/cde-2.1.30.

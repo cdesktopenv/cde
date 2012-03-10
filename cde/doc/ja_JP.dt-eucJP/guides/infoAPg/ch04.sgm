@@ -1,0 +1,600 @@
+<!-- $XConsortium: ch04.sgm /main/4 1996/10/11 09:23:48 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="infoapg.div.4">
+<title id="fi1SgFBr-1698oL">インフォメーション・ライブラリの構築</title>
+<indexterm><primary>インフォメーション・ライブラリ</primary>
+<secondary>構築</secondary></indexterm>
+<para>
+この章では、SGML ドキュメントを検証してインフォメーション・マネージャでブラウズ可能なライブラリを構築するための <command>dtinfogen</command> サブコマンドの使用方法、およびブックケースのスタイル・シート情報を更新する方法について説明します。
+</para>
+<para>
+<command>dtinfogen validate</command> コマンドを使用して、SGML ブック・ドキュメントおよびブックケース規定を検証します。検証は、構築のための準備期間に有用です。
+<indexterm><primary>インフォメーション・マネージャ</primary>
+<secondary>コマンド</secondary>
+<tertiary>dtinfogen validate</tertiary></indexterm>
+</para>
+<para>
+<command>dtinfogen build</command> コマンドを使用して、SGML の検証実行はもとより、新規インフォメーション・ライブラリの構築、既存インフォメーション・ライブラリへのブックケース追加、および既存ライブラリの更新を行います。
+<indexterm><primary>インフォメーション・マネージャ</primary>
+<secondary>コマンド</secondary>
+<tertiary>dtinfogen build</tertiary></indexterm>
+</para>
+<para>
+インフォメーション・ライブラリを一度構築すれば、<command>dtinfogen update</command> コマンドを使用して、ライブラリに関連するスタイル・シート情報を更新することができます。これらの手続きは、次で説明しています。
+<indexterm><primary>インフォメーション・マネージャ</primary>
+<secondary>コマンド</secondary>
+<tertiary>dtinfogen update</tertiary></indexterm>
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<link linkend="KyEB2dBpuI9X3cS">「SGML ドキュメントの検証」</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="ki1SgFBr-1698oL">「ライブラリのブックケースの構築、追加、および置換」</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="WmNvZbBE6K9X3cS">「構築されたブックケースのスタイル・シートの更新」</link>
+</para>
+</listitem>
+</itemizedlist>
+<para>
+コマンドの構文およびこれらのコマンドの例については、<command>dtinfogen(1)</command> マニュアル・ページを参照してください。
+</para>
+<sect1>
+<title id="WxGm7JBlsoBt8oL">新規ライブラリ構築の前に</title>
+<indexterm><primary>インフォメーション・ライブラリ</primary>
+<secondary>構築</secondary><tertiary>前提条件</tertiary></indexterm>
+<para>
+インフォメーション・マネージャの新規インフォメーション・ライブラリを構築する前に、次に示すことを行う必要があります。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+外部エンティティ参照をユーザのシステム・ファイルにマップするときに使用されるメソッドを指定します。次のうちのいずれかで行うことができます。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+外部エンティティ参照の適切な環境変数を設定します。
+</para>
+</listitem>
+<listitem>
+<para>
+<command>dtinfogen build</command> コマンドの <option>-m</option> オプションを使用して、適切なカタログ・ファイルを指定します。
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<para>
+必要な SGML 準拠ドキュメントがすべて揃っているか確認します。これには、ブックケースの各ブックのための文書型定義、ハイパーテキスト目次、およびスタイル・シートが含まれます。<link linkend="ByGm7JBlsoBt8oL">「dtinfogen validate の実行」</link> で説明しているように、<command>dtinfogen validate</command> コマンドを使用して、SGML ドキュメントを検証することができます。
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="ki1SgFBr-1698oL">「ライブラリのブックケースの構築、追加、およぴ更新」</link> で説明しているように、<command>dtinfogen build</command> のオプションを理解します。
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((-->
+
+<sect1>
+<title id="n9yEB2dBpuI9X3cS">環境変数の設定</title>
+<indexterm><primary>環境変数</primary></indexterm>
+
+<para>
+ユーザが、<citetitle>SGML Open Technical Resolution 9401:1994</citetitle> の外部エンティティ参照に関する推奨を使用しているかどうかに依存して、以下の環境変数のひとつまたは両方を設定するか、<command>dtinfogen</command> コマンドの <option>-m</option> オプションを使用する必要があります。
+</para>
+<variablelist>
+<varlistentry>
+<term><systemitem class="environvar">SGML_CATALOG_FILES</systemitem></term>
+<listitem>
+<para>
+<citetitle>SGML Open Technical Resolution 9401:1994</citetitle> の外部エンティティ管理に関連する推奨にしたがっている場合は、この環境変数を設定してください。この環境変数の値は、SGML エンティティ宣言の一覧表記とファイル・マッピング識別子がある <filename>catalog</filename> または <filename>CATALOG</filename>（大文字、小文字どちらでも使用することができます）の位置を指定します。
+</para>
+<para>
+環境変数を設定しない場合は、適切な <command>dtinfogen</command> コマンドの <option>-m</option> オプションを使用して、パブリックな識別子とエンティティ名をシステム・ファイルにマップすることができます。
+詳細については、<filename>catalog(5)</filename> マニュアル・ページを参照してください。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><systemitem class="environvar">SGML_PATH</systemitem></term>
+<listitem>
+<para>
+外部エンティティ参照をシステム・ファイルにマップするときに、この環境変数を設定します。
+</para>
+<para>詳細については、<command>dtinfogen(5)</command> マニュアル・ページを参照してください。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>関連情報については、以下に示す文献を参照してください。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<citetitle>SGML Open Technical Resolution 9401:1994</citetitle>
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<!--((((((((((((((((((((((((((((((((((((((((((-->
+<sect1>
+<title id="KyEB2dBpuI9X3cS">SGML ドキュメントの検証</title>
+<indexterm><primary>SGML ドキュメント</primary>
+<secondary>検証</secondary></indexterm>
+<para>
+インフォメーション・ライブラリを構築する前に、適切な文書型定義にしたがっているか確認するために、SGML ドキュメントを検証しなければなりません。 </para>
+<para>
+<command>dtinfogen validate</command>
+<indexterm><primary>インフォメーション・マネージャ</primary>
+<secondary>コマンド</secondary>
+<tertiary>dtinfogen validate</tertiary></indexterm>
+コマンドを使用して、ブックケース規定、個別のドキュメント、および他の SGML 準拠ドキュメントの SGML 検証を行うことができます。検証過程において、<command>dtinfogen validate</command> は、次に示すことを実行します。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+SGML にしたがっていることを検証するために、入力ドキュメントの文書型定義をチェックします。
+</para>
+</listitem>
+<listitem>
+<para>
+入力ドキュメントの SGML マークアップが、ドキュメントの文書型定義で定義されているマークアップ言語と整合性があることを検証します。
+</para>
+</listitem>
+</itemizedlist>
+<para>
+無効なドキュメントを検出した場合には、<command>dtinfogen validate</command> プログラムによってエラー・メーセージが出力されます。インフォメーション・ライブラリを構築するときに使用されるファイルのエラーは、データが構築される前に、すべて修正されなければなりません。
+</para>
+<sect2>
+<title id="ByGm7JBlsoBt8oL">dtinfogen validate の実行</title>
+<indexterm><primary>インフォメーション・ライブラリ</primary>
+<secondary>ドキュメントの検証</secondary></indexterm>
+<para>
+次に示す例の基本的なコマンド行（これは、単一ブックケースのインフォメーション・ライブラリの検証を実行します）は、以下のとおりです。
+</para>
+<programlisting>
+<userinput>dtinfogen validate ch03.sgm ch04.sgm ch05.sgm</userinput>
+</programlisting>
+<para>以下に、引き数の説明を示します。</para>
+<para>
+<filename>ch03.sgm ch04.sgm ch05.sgm</filename>
+</para>
+<para>
+検証すべき SGML ドキュメントを指定します。<command>dtinfogen validate</command> コマンドは、いかなる有効な SGML 準拠ドキュメントに対しても実行することができます。
+</para>
+<para>
+ドキュメントが無効な場合は、エラー・メッセージが返されます。例のファイル <filename>ch05.sgm</filename> に対して返されたエラーの型の例を、次に示します。これには、不足あるいは無効のエンティティ宣言があります。
+</para>
+<programlisting>
+%:  <userinput>dtinfogen validate</userinput> 
+
+nsgmls:ch05.sgm:12:1:E: cannot open "hal.gml" (No such file or directory)
+nsgmls:ch05.sgm:20:1:E: general entity "tab" not defined and no default entity
+..............................
+..............................
+..............................
+dtinfogen: command failed: nsgmls -sg /usr/dt/infolib/C/SGML/dtinfo.decl ch05.sgm
+ch05.sgm
+</programlisting>
+</sect2>
+</sect1>
+
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((-->
+
+<sect1>
+<title id="ki1SgFBr-1698oL">ライブラリのブックケースの構築、追加、および置換</title>
+<indexterm><primary>インフォメーション・ライブラリ</primary>
+<secondary>構築</secondary>
+<tertiary>dtinfogen build</tertiary>
+</indexterm>
+<para>
+本節では、ブックケースの新規インフォメーション・ライブラリへの構築、既存のインフォメーション・ライブラリへのブックケースの追加、および既存のライブラリのインフォメーション・データベースの更新を行うための <command>dtinfogen build</command> コマンドの使用方法について説明します。
+<indexterm><primary>インフォメーション・マネージャ</primary>
+<secondary>コマンド</secondary><tertiary>dtinfogen build</tertiary>
+</indexterm>
+</para>
+
+<sect2>
+<title id="jI.RgFBe.1698oL">構築にあたって考慮すること</title>
+<indexterm><primary>インフォメーション・ライブラリ</primary>
+<secondary>構築にあたって考慮すること</secondary></indexterm>
+<para>
+ブックとブックケースをいくつでも含むすべてのサイズのインフォメーション・ライブラリを構築することができます。次に示すインフォメーション・ライブラリ（これに限られるわけではありません）を構築することができます。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+ひとつまたは複数のブックから成る単一のブックケース
+</para>
+</listitem>
+<listitem>
+<para>
+それぞれがひとつまたは複数のブックから成る複数のブックケース
+</para>
+</listitem>
+</itemizedlist>
+<para>
+インフォメーション・ライブラリを設計するときには、インフォメーション・マネージャにおけるその表現とユーザによるその表示を考慮しなければなりません。多くのユーザは、オンラインのマニュアルに慣れていないかもしれないからです。
+</para>
+<para>
+インフォメーションの構造とインフォメーションの検索機能は、オンラインのインフォメーション・ライブラリの設計にあたって、もっとも重要な要素の一部です。ユーザが、容易に、ブックの構造を下ったり、ブックケースのブックを設定できるようにしなければなりません。さらに、明確なハイパーテキスト・リンクと効果的な検索機構によって、望む情報をすばやく見つけることができるようにしなければなりません。
+</para>
+<sect3>
+<title id="SKUExiBLxJ9X3cS">ライブラリの構成</title>
+<para>
+インフォメーション・マネージャには、非常に強力な検索機能があります。しかしながら、ユーザのインフォメーション・ライブラリの構成は、検索過程の効果に影響します。
+</para>
+<para>
+一般に、インフォメーション・ライブラリのブックケースが少ければ少いほど、また、各ブックケースに含まれるブックが少ければ少いほど、構築過程の進捗は高速になります。また、このようなインフォメーション・ライブラリ構造は、すばやく、容易に更新することができます。
+</para>
+<para>
+残念ながら、ブックケース数が増加すると、情報に関してその内容を検索するブラウザ機能については、このようなライブラリ構造は非効果的になります。
+</para>
+<para>
+その一方、その内容が相対的に大量のブックを含む少量のブックケースから構成されるインフォメーション・ライブラリは、構築とその後の更新により長い時間を要するようになります。しかし、このようなライブラリ構造の検索時間は、顕著に短縮されます。
+</para>
+</sect3>
+<sect3>
+<title id="aKUExiBLxJ9X3cS">構築スペース</title>
+<para>
+インフォメーション・ライブラリを構築する前に、十分なスペースを構築過程が行われる適切な場所に確保しなければなりません。
+</para>
+<para>
+構築が完了すると、インフォメーション・ライブラリは、構築の元になったソースとほぼ同じ容量のスペースを占めます。しかしながら、構築過程そのものについては、一時的ファイルの記憶領域として、最大３倍の追加スペースが必要です。この追加スペースは、構築完了時に自動的に削除される一時的な構築スペースとして確保しなければなりません。一時的な構築スペースのデフォルトは、<filename>/usr/tmp</filename> に確保されます。
+</para>
+<para>
+<filename>/usr/tmp</filename> で使用可能なディスク・スペースが、元のドキュメント・ソースのサイズの３倍よりも小さい場合、<command>dtinfogen build</command> コマンドの <option>-T</option> オプションを使用して、一時的な構築ファイルのために別の場所を指定するか、 <systemitem class="environvar">TMPDIR</systemitem> 環境変数を設定しなければなりません。
+</para>
+<caution>
+<para>
+インフォメーション・マネージャの現在のバージョンには、ユーザが同じインフォメーション・ライブラリの構築や修正を同時に行うことを回避する同時使用のロック機構がありません。<command>dtinfogen build</command> コマンドを実行するときには、他の <command>dtinfogen</command> やインフォメーション・マネージャのプロセスが、インフォメーション・ライブラリにアクセスしないことを確認するため、事前に注意を払ってください。<command>dtinfogen</command> コマンドの同時使用は、インフォメーション・マネージャの失敗をもたらします。
+</para>
+</caution>
+</sect3>
+</sect2>
+</sect1>
+
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((((-->
+
+<sect1>
+<title id="n4Ofh7JBpooBt8oL">インフォメーション・ライブラリの編成</title>
+<para>
+インフォメーション・ライブラリを構築すると、ブラウザで表示可能なファイルが、図 <link linkend="n9Ofh7JBpooBt8oL">「構築ディレクトリ構造」</link> で示される構造で編成されます。
+</para>
+<figure>
+<title id="n9Ofh7JBpooBt8oL">構築ディレクトリ構造</title>
+<graphic id="gr58" entityref="infoapg.fig.5"></graphic>
+</figure>
+<sect2>
+<title id="zOfh7JBpooBt8oL">構築ディレクトリ構造</title>
+<indexterm><primary>インフォメーション・マネージャの構築ディレクトリ</primary>
+<secondary>ディレクトリ構造</secondary></indexterm>
+<para>
+構築ディレクトリ構造を、以下に示します。
+</para>
+<variablelist>
+<varlistentry>
+<term><replaceable>BC</replaceable><filename>.dbd</filename></term>
+<listitem>
+<para>
+このファイルは、ブックケース <replaceable>BC</replaceable> のためのドキュメント・データベースです。これには、すべてのコンパイルされたテキスト、グラフィック、および表のデータが含まれます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><replaceable>BC</replaceable><filename>.dbi</filename></term>
+<listitem>
+<para>
+このファイルには、ブックケース <replaceable>BC</replaceable> のための索引データが含まれます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><replaceable>BC</replaceable><filename>.sch</filename></term>
+<listitem>
+<para>
+このファイルには、データベースの構造が記述されています。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><filename>dtsearch</filename> directory</term>
+<listitem>
+<para>
+このディレクトリには、全文検索エンジンに関係するすべてのファイルが含まれます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><filename>bookcase.map</filename></term>
+<listitem>
+<para>
+このファイルは、ブックケースをライブラリ内に編成します。<command>dtinfogen admin</command> コマンドを使用して、このファイルを修正することができます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><replaceable>LIB</replaceable><filename>.oli</filename></term>
+<listitem>
+<para>
+<replaceable>LIB</replaceable> のために使用される文字列は、ライブラリにそのファイル名を与えます。
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+</sect1>
+
+<!--(((((((((((((((((((((((((((((((((((((((((((((((((-->
+
+<sect1>
+<title id="xXk7ubBtGL9X3cS">新規ライブラリの構築</title>
+<para>
+新規のインフォメーション・ライブラリ構築のための基本的な <command>dtinfogen build</command> コマンド行の例を、次に示します。
+</para>
+<programlisting>
+dtinfogen build <option>-T</option> <replaceable>/k1/local/daver/</replaceable> <option>-l</option> <replaceable>InfoLib1 DCE.bc INFOMGR.bc PROG.bc</replaceable>
+</programlisting>
+<para>
+各オプションの意味を、以下に示します。
+</para>
+<variablelist>
+<varlistentry>
+<term><option>-T</option> <replaceable>/k1/local/daver</replaceable></term>
+<listitem>
+<para>
+構築過程で生成される一時的なファイルが置かれる場所を指定します。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>-l</option> <replaceable>InfoLib1</replaceable></term>
+<listitem>
+<para>
+インフォメーション・ライブラリを含むディレクトリの名前を指定します。構築後、<filename>InfoLib1</filename> には、続くコマンド行の引き数で指定される３つのブックケースが含まれます。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><replaceable>DCE.bc INFOMGR.bc PROG.bc</replaceable></term>
+<listitem>
+<para>
+ブックケース規定ファイルのファイル名を指定します。各ブックケース規定には、構築されるひとつまたは複数のブックの名前が含まれます。コマンド行では、任意の数のブックケースのファイル名を指定することができます。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<command>dtinfogen build</command> コマンドは、ブックケース規定のそれぞれで指定されたドキュメントをブラウザで表示可能なフォーマットに変換し、それらを新規に作成されたインフォメーション・ライブラリのディレクトリ <filename>InfoLib1</filename> に置きます。
+</para>
+<para>
+３つのブックケースの名前を（それぞれのブックケースの BOOKCASENAME 要素で指定されるように）それぞれ <systemitem>DCE</systemitem>、<systemitem>INFOMGR</systemitem>、および <systemitem>PROG</systemitem>  とすると、<filename>InfoLib1</filename> ディレクトリ下に、ブックケースのディレクトリ <filename>DCE</filename>、<filename>INFOMGR</filename>、および <filename>PROG</filename> が生成されます。その一方、各ブックケースには、その BOOK 要素で指定されるドキュメント・データベース（ブック）が含まれます。
+</para>
+<para>
+図 <link linkend="wKUExiBLxJ9X3cS">「新規ライブラリの作成」</link> は、新規に構築される <filename>InfoLib1</filename> ライブラリを示しています。
+</para>
+<figure>
+<title id="wKUExiBLxJ9X3cS">新規ライブラリの作成</title>
+<graphic id="gr59" entityref="infoapg.fig.6"></graphic>
+</figure>
+</sect1>
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect1>
+<title id="n7Ktl2IBUXmBt8oL">既存ライブラリへのブックケース追加</title>
+<indexterm><primary>ブックケース</primary>
+<secondary>追加</secondary>
+<tertiary>dtinfogen build</tertiary></indexterm>
+<para>
+インフォメーション・マネージャの新規インフォメーション・ライブラリ作成に加えて、<command>dtinfogen build</command> を使用して、既存のインフォメーション・ライブラリにまだ構築されていないブックケースを追加することもできます。以下に示す例では、引き数 <option>-l</option>&nbsp;<replaceable>InfoLib1</replaceable> が、新規のインフォメーション・ライブラリではなく、既存のインフォメーション・ライブラリの名前であることを仮定しています。
+</para>
+<programlisting>
+dtinfogen build <option>-l</option> <replaceable>InfoLib1 ORA.bc</replaceable></programlisting>
+<para>
+以下に説明を示します。
+</para>
+<variablelist>
+<varlistentry>
+<term><option>-l</option> <replaceable>InfoLib1</replaceable></term>
+<listitem>
+<para>
+これは、既存のインフォメーション・ライブラリを含むディレクトリの名前です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><replaceable>ORA.bc</replaceable></term>
+<listitem>
+<para>
+これは、その内容を <filename>InfoLib1</filename> インフォメーション・ライブラリに追加するブックケース規定ファイルの名前です。コマンド行では、任意の数のブックケース規定名を指定することができます。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<command>dtinfogen build</command>
+これは、ブックケース規定ファイル <filename>ORA.bc</filename> のブック・ドキュメントを、ブラウザで表示可能なフォーマットに変換し、それらを既存のインフォメーション・ライブラリのディレクトリ <filename>InfoLib1</filename> に追加します。
+</para>
+<para>
+追加されるブックケースの名前を（その BOOKCASENAME 要素で指定されるように）<systemitem>ORA</systemitem> と仮定すると、<filename>InfoLib1</filename> ディレクトリには、ブックケースのディレクトリ <systemitem>DCE</systemitem>、<systemitem>INFOMGR</systemitem>、<systemitem>PROG</systemitem> および <systemitem>ORA</systemitem> が生成されます。
+</para>
+<para>
+図 <link linkend="bMUExiBLxJ9X3cS">「既存のライブラリへのブックケース追加」</link> は、更新された <filename>InfoLib1</filename> ライブラリを示しています。
+</para>
+<note>
+<para>
+追加されるブックケースは、インフォメーション・マネージャのブック・リスト中の既存のブックケースのリストの末尾に追加されます。<command>dtinfogen admin</command>
+コマンドを使用して、構築後にリストの再調整を行うことができます。
+<command>dtinfogen(1)</command> マニュアル・ページを参照してください。
+</para>
+</note>
+<figure>
+<title id="bMUExiBLxJ9X3cS">既存のライブラリへのブックケース追加</title>
+<graphic id="gr60" entityref="infoapg.fig.7"></graphic>
+</figure>
+</sect1>
+<!--))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+<sect1>
+<title id="pOUExiBLxJ9X3cS">既存のライブラリのブックケースの置換</title>
+<indexterm><primary>ブックケース</primary>
+<secondary>置換</secondary><tertiary>dtinfogen build</tertiary>
+</indexterm>
+<para>
+インフォメーション・ライブラリの作成および既存のライブラリへのブックケース追加に加えて、<command>dtinfogen build</command> コマンドで、ライブラリの指定されたブックケースを置換することもできます。以下に示す例では、<command>dtinfogen build</command> プロセスが、ブックケース <systemitem>INFOMGR</systemitem> および <systemitem>PROG</systemitem> の再構築と <filename>InfoLib1</filename> インフォメーション・ライブラリにある同じ名前の既存ブックケースの上書きを行うために使用されています。
+</para>
+<programlisting>
+dtinfogen build <option>-l</option> <replaceable>InfoLib1 INFOMGR.bc PROG.bc</replaceable></programlisting>
+<para>
+各オプションの説明を、以下に示します。
+</para>
+<variablelist>
+<varlistentry>
+<term><option>-l</option> <replaceable>InfoLib1</replaceable></term>
+<listitem>
+<para>
+これは、既存のインフォメーション・ライブラリがあるディレクトリの名前です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><replaceable>INFOMGR.bc PROG.bc</replaceable></term>
+<listitem>
+<para>
+これは、その内容で、インフォメーション・ライブラリ <filename>InfoLib1</filename> を更新するために再構築するブックケース規定ファイルのファイル名です。コマンド行では、任意の数のブックケース規定のファイル名を指定することができます。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<command>dtinfogen build</command> は、ブックケース規定ファイル <filename>INFOMGR.bc</filename> および <filename>PROG.bc</filename> のブックを再構築し、それらを既存のインフォメーション・ライブラリのディレクトリ <filename>InfoLib1</filename> に置きます。
+</para>
+<para>
+そのブックケース名が（それぞれの BOOKCASENAME 要素で指定されているように）<systemitem>INFOMGR</systemitem> および <systemitem>PROG</systemitem> である新規に構築されたブックケースは、同じ名前をもつ既存のブックケースを上書きします。
+</para>
+<para>
+図 <link linkend="n1PUExiBLxJ9X3cS">「既存ライブラリのブックケースの置換」</link> は、更新された <filename>InfoLib1</filename> ライブラリを示しています。
+</para>
+<figure>
+<title id="n1PUExiBLxJ9X3cS">既存ライブラリのブックケースの置換</title>
+<graphic id="gr61" entityref="infoapg.fig.8"></graphic>
+</figure>
+</sect1>
+<!--((((((((((((((((((((((((((((((((((((((((((((((((((((((((-->
+<sect1>
+<title id="WmNvZbBE6K9X3cS">構築されたブックケースのスタイル・シートの更新</title>
+<indexterm><primary>スタイル・シート</primary>
+<secondary>更新</secondary></indexterm>
+<indexterm><primary>インフォメーション・マネージャ</primary>
+<secondary>コマンド</secondary><tertiary>dtinfogen update</tertiary></indexterm>
+<para>
+インフォメーション・マネージャでは、そのデータベースを再構築せずに、既存のブックケースのフォーマット指定を変更することができます。この機能によって、異なる読者や製造要件に合致するように、フォーマット属性を変更しなければならないブックを処理するときに、柔軟な対処が可能になります。
+</para>
+<para>
+<command>dtinfogen update</command> コマンドを使用して、フォーマットを管理するスタイル・シート情報を更新することによって、既存のインフォメーション・ライブラリのブックの再フォーマットを行います。
+</para>
+<para>
+<command>dtinfogen update</command> によって、スタイル・シートを更新してその変更の結果をすばやく確認したり、あるスタイル・シートを別のものに置き換えて関連するドキュメントの再フォーマットをすばやく行うことができます。
+</para>
+<para>
+<command>dtinfogen update</command> を実行すると、スタイル・シートの変更によって影響を受けるドキュメントあるいはドキュメントのセクションのみが再フォーマットされます。
+</para>
+<para>
+<command>dtinfogen update</command> を実行して、インフォメーション・ライブラリのドキュメントを再フォーマットする前に、次のことを行います。
+</para>
+<itemizedlist>
+<listitem>
+<para>
+スタイル・シートに対して行った変更が有効なものであることを確認します。<command>dtinfogen update</command> コマンドは、更新過程において、スタイル・シートのファイルを検証します。
+</para>
+</listitem>
+<listitem>
+<para>
+<command>dtinfogen update</command> を実行するときに、外部エンティティ参照を処理するための適切な環境変数の設定、あるいは、<option>-m</option> オプションの使用による適切なカタログ・ファイルの指定を行います。
+</para>
+</listitem>
+</itemizedlist>
+<caution>
+<para>
+スタイル・シートを更新しているときには、インフォメーション・マネージャや <command>dtinfogen admin</command> プロセスを実行してはいけません。
+</para>
+</caution>
+<sect2>
+<title id="CDdVddBydG9X3cS">dtinfogen update の実行</title>
+<para>
+次に示す例の基本的なコマンド行は以下のとおりです。この例は、指定されたスタイル・シートを使用するドキュメントあるいはドキュメントのセクションを再フォーマットするものです。
+</para>
+<programlisting>
+dtinfogen update <option>-l</option> <replaceable>InfoLib1</replaceable> <option>-b</option> <replaceable>INFOMGR style1.sty</replaceable></programlisting>
+<para>各オプションの意味を、以下に示します。
+</para>
+<variablelist>
+<varlistentry>
+<term><option>-l</option> <replaceable>InfoLib1</replaceable></term>
+<listitem>
+<para>
+これは、既存のインフォメーション・ライブラリがあるディレクトリの名前です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>-b</option> <replaceable>INFOMGR</replaceable></term>
+<listitem>
+<para>
+これは、指定されたスタイル・シートで再フォーマットされるセクションを含むブックケースの名前（その BOOKCASENAME 要素で指定されているように）です。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><replaceable>style1.sty</replaceable></term>
+<listitem>
+<para>
+これは、<command>dtinfogen update</command> のプロセスにおいて、適用されるスタイル・シートのファイル名です。使用するスタイル・シートは、<link linkend="tgmdnkb6vm9x3cs">「インフォメーション・マネージャのスタイル・シートの理解」</link> で説明しているように <filename>StyleSheet.dtd</filename> に準拠していなければなりません。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+<command>dtinfogen update</command> のプロセスを実行した後、変更の効果を確認するために、インフォメーション・マネージャのブック・リスト・ウィンドウを使用してインフォメーション・ライブラリを開くことができます。
+</para>
+<para>
+関連情報については、以下を参照してください。
+</para>
+<itemizedlist>
+<listitem>
+<para><command>dtinfogen(1)</command> マニュアル・ページ</para>
+</listitem>
+<listitem>
+<para><link linkend="TcQg4bBSxI9X3cS">「ブックケース規定の作成」</link>
+</para>
+</listitem>
+<listitem>
+<para>
+<link linkend="j3fa6XBbiK9X3cS">「スタイル・シートの使用」</link></para>
+</listitem>
+<listitem>
+<para>
+<link linkend="tgmdnkb6vm9x3cs">「インフォメーション・マネージャのスタイル・シートの理解」</link>
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+</chapter>
+

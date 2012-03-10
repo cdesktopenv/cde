@@ -1,0 +1,103 @@
+XCOMM ##########################################################################
+XCOMM 
+XCOMM      dtpad.dt
+XCOMM 
+XCOMM      Actions used with the DT Text Editor (dtpad)
+XCOMM 
+XCOMM     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+XCOMM     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+XCOMM     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+XCOMM 
+XCOMM      $XConsortium: dtpad.dt.src /main/4 1996/04/23 17:35:35 drk $
+XCOMM 
+XCOMM ##########################################################################
+#define HASH #
+set DtDbVersion=1.0
+
+XCOMM ##########################################################################
+XCOMM 
+%|nls-10-#HASH WARNING:...#|
+XCOMM 
+XCOMM ##########################################################################
+
+XCOMM ##################################################################
+XCOMM 
+%|nls-11-#HASH Data Attributes#|
+XCOMM 
+XCOMM ##################################################################
+DATA_ATTRIBUTES TEXTFILE
+{
+        ACTIONS         Open,Print
+        ICON            Dtdata
+        IS_TEXT         true
+        NAME_TEMPLATE   %s.txt
+        MIME_TYPE	text/plain
+        SUNV3_TYPE      text
+        MEDIA           C_STRING
+        DESCRIPTION     %|nls-5001-#A#|
+        TYPE_LABEL      %|nls-31055-#TEXTFILE#|
+}
+DATA_CRITERIA TEXTFILE1
+{
+        DATA_ATTRIBUTES_NAME TEXTFILE
+        MODE            f&!x
+        NAME_PATTERN    *.txt
+}
+XCOMM ##################################################################
+XCOMM 
+%|nls-5006-#HASH WARNING WARNING#|
+XCOMM 
+XCOMM ##################################################################
+DATA_CRITERIA TEXTFILE2
+{
+        DATA_ATTRIBUTES_NAME TEXTFILE
+        MODE            f&!x
+        NAME_PATTERN    text
+}
+ACTION Print
+{
+        LABEL           %|nls-2-Print|
+        ARG_TYPE        TEXTFILE
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtlp "%Arg_1%"
+}
+
+XCOMM ##########################################################################
+XCOMM ##########################################################################
+XCOMM 
+%|nls-12-#HASH Actions#|
+XCOMM 
+XCOMM ##########################################################################
+XCOMM ####################
+XCOMM 
+%|nls-5002-# PRINT actions|
+XCOMM 
+XCOMM ####################
+XCOMM 
+%|nls-5005-# The|
+XCOMM 
+XCOMM ####################
+ACTION PRINT_DTPAD_TEMPFILE
+{
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING 	/usr/dt/bin/dtlp -u "%(String)Arg_2%" -e "%(File)Arg_1%"
+}
+
+XCOMM #####################
+XCOMM 
+%|nls-5003-# Editing|
+XCOMM 
+XCOMM #####################
+ACTION Dtpad
+{
+	LABEL		%|nls-5007-#Text Editor#|
+        ICON            Dtpenpd
+	TYPE		MAP
+	MAP_ACTION	DtTTMediaOpen
+	DESCRIPTION	%|nls-5008-#The#|
+}
+
+XCOMM ######################## EOF ############################################

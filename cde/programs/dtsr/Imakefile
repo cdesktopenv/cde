@@ -1,0 +1,82 @@
+# $XConsortium: Imakefile /main/12 1996/10/31 18:52:33 cde-ibm $
+#
+# (c) Copyright 1996 Digital Equipment Corporation.
+# (c) Copyright 1996 Hewlett-Packard Company.
+# (c) Copyright 1996 International Business Machines Corp.
+# (c) Copyright 1996 Sun Microsystems, Inc.
+# (c) Copyright 1996 Novell, Inc.
+# (c) Copyright 1996 FUJITSU LIMITED.
+# (c) Copyright 1996 Hitachi.
+#
+
+INCLUDES = -I. -I$(DTSEARCHSRC) -I$(DTSEARCHSRC)/raima
+DEFINES  = -DMAIN_PROGRAM
+
+#ifdef AlphaArchitecture
+EXTRA_DEFINES = -DBYTE_SWAP -D_XOPEN_SOURCE -D_OSF_SOURCE
+#endif
+
+#ifdef USLArchitecture
+EXTRA_DEFINES = -DBYTE_SWAP -D_XOPEN_SOURCE
+#endif
+
+#ifdef AIXArchitecture
+BYTE_SWAP_LIB = -lisode
+#else
+BYTE_SWAP_LIB =
+#endif
+
+DEP_LIBS = $(DEPXLIB) 
+
+LOCAL_LIBRARIES = $(DTSEARCHLIB)
+
+SYS_LIBRARIES   = -lc -lm
+
+PROGRAMS =  $(PROGRAM1) $(PROGRAM2) $(PROGRAM3) $(PROGRAM4) $(PROGRAM5) \
+	    $(PROGRAM6) $(PROGRAM7) $(PROGRAM9) $(PROGRAM10)
+
+PROGRAM1 =  dtsrcreate
+SRCS1   =  dtsrcreate.c
+OBJS1   =  dtsrcreate.o
+
+PROGRAM2 =  dtsrdbrec
+SRCS2   =  dtsrdbrec.c
+OBJS2   =  dtsrdbrec.o
+
+PROGRAM3 =  dtsrhan
+SRCS3   =  dtsrhan.c
+OBJS3   =  dtsrhan.o
+
+PROGRAM4 =  dtsrload
+SRCS4   =  dtsrload.c
+OBJS4   =  dtsrload.o
+
+PROGRAM5 =  dtsrindex
+SRCS5   =  dtsrindex.c
+OBJS5   =  dtsrindex.o
+
+PROGRAM6 =  dtsrdelete
+SRCS6   =  tomita.c
+OBJS6   =  tomita.o
+
+PROGRAM7 =  dtsrclean
+SRCS7   =  dtsrclean.c
+OBJS7   =  dtsrclean.o
+
+PROGRAM9 =  huffcode
+SRCS9  =  huffcode.c
+OBJS9  =  huffcode.o
+
+PROGRAM10 =  dtsrkdump
+SRCS10  =  dtsrkdump.c
+OBJS10  =  dtsrkdump.o
+
+ComplexProgramTarget_1($(PROGRAM1),$(LOCAL_LIBRARIES), /* */)
+ComplexProgramTarget_2($(PROGRAM2),$(LOCAL_LIBRARIES), /* */)
+ComplexProgramTarget_3($(PROGRAM3),$(LOCAL_LIBRARIES), /* */)
+ComplexProgramTarget_4($(PROGRAM4),$(LOCAL_LIBRARIES) $(BYTE_SWAP_LIB), /* */)
+ComplexProgramTarget_5($(PROGRAM5),$(LOCAL_LIBRARIES), /* */)
+ComplexProgramTarget_6($(PROGRAM6),$(LOCAL_LIBRARIES), /* */)
+ComplexProgramTarget_7($(PROGRAM7),$(LOCAL_LIBRARIES) $(BYTE_SWAP_LIB), /* */)
+ComplexProgramTarget_9($(PROGRAM9),$(LOCAL_LIBRARIES), /* */)
+ComplexProgramTarget_10($(PROGRAM10),$(LOCAL_LIBRARIES), /* */)

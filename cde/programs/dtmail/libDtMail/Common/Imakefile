@@ -1,0 +1,114 @@
+XCOMM $TOG: Imakefile /main/10 1998/11/09 18:30:37 mgreess $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		DtMail
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#include <Threads.tmpl>
+
+INCLUDES = -I. -I../../include -I../../include/utils -I$(CDELIBSRC)
+
+#if HasVFork
+VFORK_DEFINES = -DHAS_VFORK
+#else
+VFORK_DEFINES =
+#endif
+
+#if defined(DtMailDynamicLinking) && DtMailDynamicLinking
+DYNLIB_SRCS = DlDynamicLib.C
+DYNLIB_OBJS = DlDynamicLib.o
+DYNLIB_DEFINES = -DDL_DYNAMIC_LIBS
+#else
+DYNLIB_SRCS = NotDynamic.C
+DYNLIB_OBJS = NotDynamic.o
+DYNLIB_DEFINES = -DDL_NOT_DYNAMIC
+#endif
+
+#ifndef DtMailDefines
+# define DtMailDefines
+#endif
+
+#ifndef HPArchitecture
+MAILSERVER_DEFINES = -DUSE_SOCKSTREAM
+#endif
+
+DEFINES = $(VFORK_DEFINES) $(DYNLIB_DEFINES) $(MAILSERVER_DEFINES) DtMailDefines
+
+SRCS = \
+	$(DYNLIB_SRCS) \
+	APOPServer.C \
+	AUTOServer.C \
+	Buffer.C \
+	DetermineFileLocality.C \
+	DtMailBodyPart.C \
+	DtMailEnvelope.C \
+	DtMailError.C \
+	DtMailMailBox.C \
+	DtMailMessage.C \
+	DtMailRc.C \
+	DtMailServer.C \
+	DtMailTransport.C \
+	DtMailValuesBuiltin.C \
+	DtMailXtProc.C \
+	DtVirtArray.C \
+	DynamicLib.C \
+	FileShare.C \
+	HashTable.C \
+	IMAPServer.C \
+	IO.C \
+	LanguagePortability.C \
+	ObjectKey.C \
+	POP2Server.C \
+	POP3Server.C \
+	Process.C \
+	Session.C \
+	Threads.C \
+	md5.C \
+	str_utils.C
+
+/*
+ * NOTE: All changes here must be mirrored in ../Imakefile's COMMON_OBJS
+ */
+OBJS = \
+	$(DYNLIB_OBJS) \
+	APOPServer.o \
+	AUTOServer.o \
+	Buffer.o \
+	DetermineFileLocality.o \
+	DtMailBodyPart.o \
+	DtMailEnvelope.o \
+	DtMailError.o \
+	DtMailMailBox.o \
+	DtMailMessage.o \
+	DtMailRc.o \
+	DtMailServer.o \
+	DtMailTransport.o \
+	DtMailValuesBuiltin.o \
+	DtMailXtProc.o \
+	DtVirtArray.o \
+	DynamicLib.o \
+	FileShare.o \
+	HashTable.o \
+	IMAPServer.o \
+	IO.o \
+	LanguagePortability.o \
+	ObjectKey.o \
+	POP2Server.o \
+	POP3Server.o \
+	Process.o \
+	Session.o \
+	Threads.o \
+	md5.o \
+	str_utils.o
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

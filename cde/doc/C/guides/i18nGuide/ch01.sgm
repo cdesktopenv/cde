@@ -1,0 +1,716 @@
+<!-- $XConsortium: ch01.sgm /main/10 1996/09/08 19:38:50 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="IPG.intro.div.1">
+<title id="IPG.intro.mkr.1">Introduction to Internationalization</title>
+<para>Internationalization<indexterm><primary>internationalization</primary>
+<secondary>definition</secondary></indexterm> is the designing of computer
+systems and applications for users around the world. Such users have different
+languages and may have different requirements for the functionality and user
+interface of the systems they operate. In spite of these differences, users
+want to be able to implement enterprise-wide applications that run at their
+sites worldwide. These<indexterm><primary>application requirements</primary>
+</indexterm> applications must be able to <emphasis>interoperate</emphasis>
+across country boundaries, run on a variety of hardware configurations from
+multiple vendors, and be localized to meet local users' needs. This open,
+distributed computing environment is the reasoning behind<indexterm><primary>Common Desktop Environment</primary><secondary>description</secondary></indexterm> common
+open software environments. The internationalization technology identified
+within this specification provides these benefits to a global market.</para>
+<sect1 id="IPG.intro.div.2">
+<title id="IPG.intro.mkr.2">Overview of Internationalization</title>
+<para>Multiple environments may exist within a common open system for support
+of different national languages. Each of these national<indexterm><primary>locales</primary><secondary>definition</secondary></indexterm> environments
+is called a <emphasis>locale,</emphasis> which considers the language, its
+characters, fonts, and the customs used to input and format data. The Common
+Desktop Environment is fully internationalized such that any application
+can run using any locale installed in the system.</para>
+<para>A locale defines the behavior of a program at run time according to
+the language and cultural conventions of a user's geographical area. Throughout
+the system,<indexterm><primary>locales</primary><secondary>behavior</secondary>
+</indexterm> locales affect the following:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Encoding and processing of text
+data</para>
+</listitem><listitem><para>Identifying the language and encoding of resource
+files and their text values</para>
+</listitem><listitem><para>Rendering and layout of text strings</para>
+</listitem><listitem><para>Interchanging text that is used for interclient
+text communication</para>
+</listitem><listitem><para>Selecting the input method (which code set will
+be generated) and the processing of text data</para>
+</listitem><listitem><para>Encoding and decoding for interclient text communication
+</para>
+</listitem><listitem><para>Bitmap/icon files</para>
+</listitem><listitem><para>Actions and file types</para>
+</listitem><listitem><para>User Interface Definition (UID) files</para>
+</listitem></itemizedlist>
+<para>An internationalized application contains no code that is dependent
+on the user's locale, the characters needed to represent that locale, or
+any formats (such as date and currency) that the user expects to see and
+interact with. The desktop accomplishes this by separating language- and
+culture-dependent information from the application and saving it outside
+the application.</para>
+<para>Figure&numsp;1-1 shows the kinds of information that should be external
+to an application to simplify internationalization.</para>
+<figure>
+<title id="IPG.intro.mkr.3">Information external to the application</title>
+<graphic id="IPG.intro.grph.1" entityref="IPG.intro.fig.1"></graphic>
+</figure>
+<para>By keeping the language- and culture-dependent information separate
+from the application source code, the application does not need to be rewritten
+or recompiled to be marketed in different countries. Instead, the only requirement
+is for the external information to be localized to accommodate local language
+and customs.</para>
+<para>An internationalized application is also adaptable to the requirements
+of different native languages, local customs, and character-string encodings.
+The process of adapting the operation to a particular native language, local
+custom, or string encoding is called<indexterm><primary>localization</primary>
+<secondary>definition</secondary></indexterm> <emphasis>localization</emphasis>.
+A<indexterm><primary>internationalization</primary><secondary>goals of</secondary>
+</indexterm> goal of internationalization is to permit localization without
+program source modifications or recompilation.</para>
+<para>For a quick overview of internationalization, refer to <emphasis>X/Open
+CAE Specification System Interface Definition</emphasis>, Issue 4, X/Open
+Company Ltd., 1992, ISBN: 1- 872630-46-4.</para>
+<sect2 id="IPG.intro.div.3">
+<title>Current State of Internationalization</title>
+<para>Previously, the industry supplied many variants of internationalization
+from proprietary functions to the new set of standard functions published
+by X/Open. Also, there have been different levels of enabling, such as simple
+ASCII support, Latin/European support, Asian multibyte support, and Arabic/Hebrew
+bidirectional support.</para>
+<para>The interfaces defined<indexterm><primary>internationalization</primary>
+<secondary>supported languages</secondary></indexterm> within the X/Open specification
+are capable of supporting a large set of languages and territories,<indexterm>
+<primary>languages</primary></indexterm> including:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="4.29in">
+<colspec align="left" colwidth="123*">
+<colspec align="left" colwidth="285*">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Script</literal></para></entry>
+<entry align="left" valign="top">Description</entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Latin Language</para></entry>
+<entry align="left" valign="top"><para>Americas, Eastern/Western European
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Greek</para></entry>
+<entry align="left" valign="top"><para>Greece</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Turkish</para></entry>
+<entry align="left" valign="top"><para>Turkey</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>East Asia</para></entry>
+<entry align="left" valign="top"><para>Japanese, Korean, and Chinese</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Indic</para></entry>
+<entry align="left" valign="top"><para>Thai</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Bidirectional</para></entry>
+<entry align="left" valign="top"><para>Arabic and Hebrew</para></entry></row>
+</tbody></tgroup></informaltable>
+<para>Furthermore, the<indexterm><primary>Common Desktop Environment</primary>
+<secondary>goal of</secondary></indexterm> goal of the Common Desktop Environment
+is that localization of these technologies (translation of messages and documentation
+and other adaptation for local needs) be done in a consistent way, so that
+a supported user anywhere in the world will find the same <emphasis>common
+localized environment</emphasis> from vendor to vendor.<indexterm><primary>localization</primary><secondary>results of</secondary></indexterm> End users
+and administrators can expect a consistent set of localization features that
+provide a complete application environment for support of global software.
+</para>
+</sect2>
+<sect2 id="IPG.intro.div.4">
+<title id="IPG.intro.mkr.4">Internationalization Standards</title>
+<para><indexterm><primary>standards</primary></indexterm>Through the work
+of many companies, the functionality of the internationalization application
+program interface has been standardized over time to include additional requirements
+and languages, particularly those of East Asia. This work has been centered
+primarily in the Portable Operating System Interface for Computer Environments
+(POSIX) and<indexterm><primary>X/Open specifications</primary></indexterm> X/Open
+specifications. The original X/Open specification was published in the second
+edition of the <emphasis>X/Open Portability Guide</emphasis> (XPG2) and was
+based on the Native Language Support product released by Hewlett-Packard.
+The latest published X/Open internationalization standard is referred to
+as XPG4.</para>
+<para>It is important that each layer within the desktop use the proper set
+of<indexterm><primary>standards</primary></indexterm> standards interfaces
+defined for internationalization to ensure end users get a consistent, localized
+interface. The definition of a locale and the common open set of locale-dependent
+functions are based on the following<indexterm><primary>internationalization</primary><secondary>specifications</secondary></indexterm> specifications:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para><emphasis>X Window System, The
+Complete Reference to Xlib, Xprotocol, ICCCM, XLFD - X Version, Release 5</emphasis>, Digital Press, 1992, ISBN 1-55558-088-2.</para>
+</listitem><listitem><para><emphasis>ANSI/IEEE Standard Portable Operating
+System Interface for Computer Environments</emphasis>, IEEE.</para>
+</listitem><listitem><para><emphasis>OSF</emphasis>&trade; <emphasis>Motif
+1.2 Programmer' Reference, Revision 1.2</emphasis>, Open Software Foundation,
+Prentice Hall, 1992, ISBN 0-13-643115-1.</para>
+</listitem><listitem><para><emphasis>X/Open CAE Specification Commands and
+Utilities</emphasis>, Issue 4, X/Open Company Ltd., 1992, ISBN 1-872630-48-0.
+</para>
+</listitem></itemizedlist>
+<para><indexterm><primary>standard interfaces, benefit of using</primary>
+</indexterm>Within this environment, software developers can expect to develop <emphasis>worldwide applications</emphasis> that are portable, can interoperate across
+distributed systems (even from different vendors), and can meet the diverse
+language and cultural requirements of multinational users supported by the
+desktop standard locales.</para>
+</sect2>
+<sect2 id="IPG.intro.div.5">
+<title>Common Internationalization System</title>
+<para><!--Original XRef content: 'Figure&numsp;1&hyphen;2 on page&numsp;6'--><xref
+role="CodeOrFigOrTabAndPNum" linkend="IPG.intro.mkr.5"> shows a view of how<indexterm><primary>internationalization</primary><secondary>common system</secondary></indexterm>
+internationalization is pervasive across a specific
+single-host system. The goal is that the applications (<emphasis>clients</emphasis>)
+are built to be shipped worldwide for the set of locales supported in the
+underlying system. Using standard interfaces improves access to global markets
+and minimizes the amount of localization work needed by application developers.
+In addition, country representatives can be ensured of consistent localization
+within systems adhering to the principles of the desktop.</para>
+<figure>
+<title id="IPG.intro.mkr.5">Common internationalized system</title>
+<graphic id="IPG.intro.grph.2" entityref="IPG.intro.fig.2"></graphic>
+</figure>
+</sect2>
+</sect1>
+<sect1 id="IPG.intro.div.6">
+<title id="IPG.intro.mkr.6">Locales<indexterm><primary>Common Desktop Environment</primary><secondary>National Language Support</secondary><tertiary>using
+locales</tertiary></indexterm><indexterm><primary>Common Desktop Environment</primary><secondary>National Language Support</secondary><tertiary>setlocale
+function</tertiary></indexterm><indexterm><primary>setlocale function</primary>
+<secondary>for internationalization</secondary></indexterm></title>
+<para>Most single-display clients operate in a single locale that is determined
+at run time from the setting of the environment variable, which is usually <computeroutput>$LANG</computeroutput> or the <computeroutput>xnlLanguage</computeroutput>
+resource. Locale environment variables, such as <filename>LC_ALL</filename>,
+<computeroutput>LC_CTYPE</computeroutput>, and <computeroutput>LANG</computeroutput>,
+can be used to control the environment.
+</para>
+<para>The <computeroutput>LC_CTYPE</computeroutput> category of the locale
+is used by the environment to identify the locale-specific features used
+at run time. The fonts and input method loaded by the toolkit are determined
+by the <computeroutput>LC_CTYPE</computeroutput> category.</para>
+<para>Programs that are enabled for internationalization are expected to call
+the <computeroutput>XtSetLanguageProc()</computeroutput> function (which
+calls <computeroutput>setlocale()</computeroutput> by default) to set the
+locale desired by the user. None of the libraries call the <computeroutput>setlocale()</computeroutput> function to set the locale, so it is the responsibility
+of the application to call <computeroutput>XtSetLanguageProc()</computeroutput>
+with either a specific locale or some value loaded at run time. If applications
+are internationalized and do not use <computeroutput>XtSetLanguageProc()</computeroutput>, obtain the locale name from one of the following prioritized
+sources to pass it to the <computeroutput>setlocale()</computeroutput> function:</para>
+<itemizedlist remap="Bullet1"><listitem><para>A command-line option</para>
+</listitem><listitem><para>A resource</para>
+</listitem><listitem><para>The empty string (&ldquo; &rdquo;)</para>
+</listitem></itemizedlist>
+<para>The empty string makes the <computeroutput>setlocale()</computeroutput>
+function use the <filename>$LC_*</filename> and <computeroutput>$LANG</computeroutput>
+environment variables to determine locale settings. Specifically, setlocale
+(<computeroutput>LC_ALL</computeroutput>, &ldquo; &rdquo;) specifies that
+the locale should be checked and taken from environment variables in the
+order shown in Table 1-1 for the various locale categories.</para>
+<table id="IPG.intro.tbl.1" frame="Topbot">
+<title>Locale Categories</title>
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec colwidth="1.68in">
+<colspec colwidth="1.20in">
+<colspec colwidth="1.46in">
+<colspec colwidth="1.55in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Category</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>1st Env. Var.</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>2nd Env. Var.</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>3rd Env. Var.</literal></para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>LC_CTYPE:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_TYPE</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_COLLATE:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_COLLATE</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_TIME:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_TIME</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_NUMERIC:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_NUMERIC</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_MONETARY:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_MONETARY</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LC_MESSAGES:</para></entry>
+<entry align="left" valign="top"><para>LC_ALL</para></entry>
+<entry align="left" valign="top"><para>LC_MESSAGES</para></entry>
+<entry align="left" valign="top"><para>LANG</para></entry></row></tbody></tgroup>
+</table>
+<para>The toolkit already defines a standard command-line option ( <command>-lang</command>) and a resource (<systemitem>xnlLanguage</systemitem>). Also,
+the resource value can be set in the server <filename>RESOURCE_MANAGER</filename>,
+which may affect all clients that connect to that server.</para>
+</sect1>
+<sect1 id="IPG.intro.div.7">
+<title id="IPG.intro.mkr.7">Fonts, Font Sets, and Render Tables<indexterm>
+<primary>National Language Support</primary><secondary>understanding</secondary>
+<tertiary>fonts</tertiary></indexterm><indexterm><primary>National Language
+Support</primary><secondary>understanding</secondary><tertiary>font sets</tertiary>
+</indexterm><indexterm><primary>National Language Support</primary><secondary>font sets</secondary></indexterm><indexterm><primary>National Language Support</primary><secondary>fonts</secondary></indexterm><indexterm><primary>National
+Language Support</primary><secondary>understanding</secondary><tertiary>render
+tables</tertiary></indexterm><indexterm><primary>National Language Support</primary><secondary>render tables</secondary></indexterm></title>
+<para>All X clients use fonts for drawing text. The basic object used in drawing
+text is <command>XFontStruct</command>, which identifies the font that contains
+the images to be drawn.</para>
+<para>The desktop already supports fonts by way of the <computeroutput>XFontStruct</computeroutput> data structure defined by Xlib; yet, the encoding of the
+characters within the font must be known to an internationalized application.
+To communicate this information, the program expects that all fonts at the
+server are identified by an X Logical Font Description (XLFD) name. The XLFD
+name enables users to describe both the base characteristics and the charset
+(encoding of font glyphs). The term <symbol role="Variable">charset</symbol>
+is used to denote the encoding of glyphs within the font, while the term <emphasis>code set</emphasis> means the encoding of characters within the locale. The
+charset for a given font is determined by the CharSetRegistry and CharSetEncoding
+fields of the XLFD name. Text and symbols are drawn as defined by the codes
+in the fonts.</para>
+<para>A <emphasis>font set</emphasis> (for example, an <computeroutput>XFontSet</computeroutput> data structure defined by Xlib) is a collection of one
+or more fonts that enables all characters defined for a given locale to be
+drawn. Internationalized applications may be required to draw text encoded
+in the code sets of the locale where the value of an encoded character is
+not identical to the glyph index. Additionally, multiple fonts may be required
+to render all characters of the locale using one or more fonts whose encodings
+may be different than the code set of the locale. Since both code sets and
+charsets may vary from locale to locale, the concept of a font set is introduced
+through <computeroutput>XFontSet</computeroutput>.</para>
+<para>While fonts are identified by their XLFD name, font sets are identified
+by a list of XLFD names. The list can consist of one or more XLFD names with
+the exception that only the base characteristics are significant; the encoding
+of the desired fonts is determined from the locale. Any charsets specified
+in the XLFD base name list are ignored and users need only concentrate on
+specifying the base characteristics, such as point size, style, and weight.
+A font set is said to be <emphasis>locale-sensitive</emphasis> and is used
+to draw text that is encoded in the code set of the locale. Internationalized
+applications should use font sets instead of font structs to render text
+data.</para>
+<para>Render tables are collections of renditions that specify how text is
+to be rendered. They are summarized elsewhere in this section.</para>
+<sect2 id="IPG.intro.div.8">
+<title>Font Specification</title>
+<para>The <emphasis>font specification</emphasis> can be either an X Logical
+Function Description (XLFD) name or an alias for the XLFD name. For example,
+the following are valid font specifications for a 14-point font:</para>
+<programlisting>-dt-application-medium-r-normal-serif-*-*-*-*-p-*-iso8859-1
+</programlisting>
+<para>OR</para>
+<programlisting>-*-r-*-14-*iso8859-1</programlisting>
+</sect2>
+<sect2 id="IPG.intro.div.9">
+<title>Font Set Specification<indexterm><primary>font sets</primary><secondary>internationalizing</secondary></indexterm></title>
+<para>The <emphasis>font set specification</emphasis> is a list of names (XLFD
+names or their aliases) and is sometimes called a <emphasis>base name list</emphasis>. All names are separated by commas, with any blank spaces before
+or after the comma being ignored. Pattern-matching (wildcard) characters
+can be specified to help shorten XLFD names.</para>
+<para>Remember that a font set specification is determined by the locale that
+is running. For example, the ja_JP Japanese locale defines three fonts (character
+sets) necessary to display all of its characters; the following identifies
+the set of Gothic fonts needed.</para>
+<itemizedlist remap="Bullet1"><listitem><para>Example of full XLFD name list:
+</para>
+<programlisting>-dt-mincho-medium-r-normal--14-*-*-m-*-jisx0201.1976-0,-dt-mincho-medium-r-normal--28-*-*-*-m-*-jisx0208.1983-0:</programlisting>
+</listitem><listitem><para>Example of single XLFD pattern name:</para>
+<programlisting>-dt-*-medium-*-24-*-m-*:</programlisting>
+</listitem></itemizedlist>
+<para>The preceding two cases can be used with a Japanese locale as long as
+fonts exist that match the base name list.</para>
+</sect2>
+<sect2 id="IPG.intro.div.10">
+<title id="IPG.intro.mkr.8">Base Font Name List Specification<indexterm>
+<primary>font sets</primary><secondary>specifying base name list</secondary>
+</indexterm><indexterm><primary>National Language Support</primary><secondary>specifying</secondary><tertiary>base name list</tertiary></indexterm><indexterm>
+<primary>internationalization</primary><secondary>specifying base name lists</secondary></indexterm></title>
+<para>The <emphasis>base font name list</emphasis> is a list of base font
+names associated with a font set as defined by the locale. The base font
+names are in a comma-separated list and are assumed to be characters from
+the portable character set; otherwise, the result is undefined. Blank space
+immediately on either side of a separating comma is ignored.<indexterm>
+<primary>base font name list</primary></indexterm><indexterm><primary>base
+font name list</primary></indexterm></para>
+<para>Use of XLFD font names permits international applications to obtain
+the fonts needed for a variety of locales from a single locale-independent
+base font name. The single base font name specifies a family of fonts whose
+members are encoded in the various charsets needed by the locales of interest.<indexterm>
+<primary>X Logical Font Description (XLFD)</primary><secondary>font names
+for international locale</secondary></indexterm></para>
+<para>An XLFD base font name can explicitly name the font's charset needed
+for the locale. This enables the user to specify an exact font for use with
+a charset required by a locale, fully controlling the font selection.</para>
+<para>If a base font name is not an XLFD name, an attempt is made to obtain
+an XLFD name from the font properties for the font.</para>
+<para>The following algorithm is used to select the fonts that are used to
+display text with font sets.<indexterm><primary>font selection algorithm,
+displaying text with font sets</primary></indexterm><indexterm><primary>base font name list</primary></indexterm></para>
+<para>For each charset required by the locale, the base font name list is
+searched for the first of the following cases that names a set of fonts that
+exist at the server.</para>
+<itemizedlist remap="Bullet1"><listitem><para>The first XLFD-conforming base
+font name that specifies the required charset or a superset of the required
+charset in its CharSetRegistry and CharSetEncoding fields.</para>
+</listitem><listitem><para>The first set of one or more XLFD-conforming base
+font names that specify one or more charsets that can be remapped to support
+the required charset. The Xlib implementation can recognize various mappings
+from a required charset to one or more other charsets and use the fonts for
+those charsets. For example, JIS Roman is ASCII with the ~ (tilde) and \
+(backslash) characters replaced by the yen and overbar characters; Xlib can
+load an ISO8859-1 font to support this character set if a JIS Roman font
+is not available.</para>
+</listitem><listitem><para>The first XLFD-conforming font name, or the first
+non-XLFD font name for which an XLFD font name can be obtained, combined
+with the required charset (replacing the CharSetRegistry and CharSetEncoding
+fields in the XLFD font name). In the first instance, the implementation
+can use a charset that is a superset of the required charset.</para>
+</listitem><listitem><para>The first font name that can be mapped in some
+locale-dependent manner to one or more fonts that support imaging text in
+the charset.</para>
+</listitem></itemizedlist>
+<para>For example, assume a locale requires the following charsets:</para>
+<itemizedlist remap="Bullet1"><listitem><para>ISO8859-1</para>
+</listitem><listitem><para>JISX0208.1983</para>
+</listitem><listitem><para>JISX0201.1976</para>
+</listitem><listitem><para>GB2312-1980.0</para>
+</listitem></itemizedlist>
+<para>You can supply a base font name list that explicitly specifies the charsets,
+ensuring that specific fonts are used if they exist, as shown in the following
+example:</para>
+<programlisting>&ldquo;-dt-mincho-Medium-R-Normal-*-*-*-*-*-M-*-JISX0208.1983-0,\
+-dt-mincho-Medium-R-Normal-*-*-*-*-*-M- \
+*-JISX0201.jisx0201\.1976-1,\
+-dt-song-Medium-R-Normal-*-*-*-*-*-M-*-GB2312-1980.0,\
+-*-default-Bold-R-Normal-*-*-*-*-M-*-ISO8859-1&ldquo;</programlisting>
+<para>You can supply a base font name list that omits the charsets, which
+selects fonts for each required code set, as shown in the following example:
+</para>
+<programlisting>&ldquo;-dt-Fixed-Medium-R-Normal-*-*-*-*-*-M-*,\
+-dt-Fixed-Medium-R-Normal-*-*-*-*-*-M-*,\
+-dt-Fixed-Medium-R-Normal-*-*-*-*-*-M-*,\
+-*-Courier-Bold-R-Normal-*-*-*-*-M-*&rdquo;</programlisting>
+<para>Alternatively, the user can supply a single base font name that selects
+from all available fonts that meet certain minimum XLFD property requirements,
+as shown in the following example:</para>
+<programlisting>&ldquo;-*-*-*-R-Normal--*-*-*-*-*-M-*&rdquo;</programlisting>
+</sect2>
+<sect2 id="IPG.intro.div.12">
+<title>Render Tables<indexterm><primary>render tables</primary><secondary>internationalizing</secondary></indexterm></title>
+<para>A <emphasis>render table</emphasis> consists of one or more entries
+called <emphasis>renditions</emphasis>.<indexterm><primary>rendition</primary>
+</indexterm> Each rendition is tagged with a name that is used when drawing
+a compound string. For internationalized applications, renditions and render
+tables should be specified in resource files to ensure the independence of
+application binaries from the different needs of various locales. For detailed
+information about renditions and render tables, refer to &MotifProgGd;.</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.intro.div.13">
+<title id="IPG.intro.mkr.9">Text Drawing</title>
+<para>The desktop provides various functions for rendering localized text,
+including simple text, compound strings, and some widgets. These include
+functions within the Xlib and Motif libraries.</para>
+</sect1>
+<sect1 id="IPG.intro.div.14">
+<title id="IPG.intro.mkr.10">Input Methods<indexterm><primary>National Language
+Support</primary><secondary>entering input</secondary></indexterm><indexterm>
+<primary>National Language Support</primary><secondary>using input methods</secondary></indexterm><indexterm><primary>Common Desktop Environment</primary>
+<secondary>National Language Support</secondary><tertiary>input areas</tertiary>
+</indexterm><indexterm><primary>National Language Support</primary><secondary>input areas</secondary></indexterm><indexterm><primary>Common Desktop Environment</primary><secondary>input area</secondary><tertiary>details of</tertiary>
+</indexterm></title>
+<para>The Common Desktop Environment provides the ability to enter localized
+input for an internationalized application that is using the Motif Toolkit.
+Specifically, the <computeroutput>XmText[Field]</computeroutput> widgets
+are enabled to interface with input methods provided by each locale. In addition,
+the <computeroutput>dtterm</computeroutput> client is enabled to use input
+methods. For detailed information on input methods, refer to <citetitle>Motif
+Programmer's Guide</citetitle>.</para>
+<para>By default, each internationalized client that uses the Motif Toolkit
+uses the input method associated with a locale specified by the user. The
+<systemitem class="Resource">XmNinputMethod</systemitem> resource is provided
+as the input method portion of the
+locale modifiers to allow a user to specify any alternative
+input method.</para>
+<para>The user interface of the input method consists of several elements.
+The need for these areas is dependent on the input method being used. They
+are usually needed by input methods that require complex input processing
+and dialogs. See Figure&numsp;1-3 for an illustration of these areas.</para>
+<figure>
+<title id="IPG.intro.mkr.11">Example of VendorShell widget with auxiliary
+(Japanese)</title>
+<graphic id="IPG.intro.grph.3" entityref="IPG.intro.fig.3"></graphic>
+</figure>
+<para>The <classname>VendorShell</classname> may contain the <systemitem class="Resource">XmNinputPolicy</systemitem> resource.<indexterm><primary>VendorShell</primary>
+<secondary>input policy</secondary></indexterm> This dictates whether its
+children widgets share input contexts or not. When using a root window input
+method style,
+for example, the input context would probably be shared by several widgets, while in an off-the-spot
+input method style, the input context might be shared between more than one widget, although it might
+not. However, with an over-the-spot input method style, an input context would almost certainly
+belong to a single widget. The possible values of <systemitem class="Resource">XmNinputPolicy</systemitem> are <systemitem class="Constant">XmPER_WIDGET</systemitem>, which will provide a new input context for each widget, and <systemitem class="Constant">XmPER_SHELL</systemitem>, which will cause the children widgets
+of a common shell to share a single input context.
+</para>
+<sect2 id="IPG.intro.div.15">
+<title id="IPG.intro.mkr.12">Preedit Area<indexterm><primary>Common Desktop
+Environment</primary><secondary>input area</secondary><tertiary>preedit area</tertiary></indexterm><indexterm><primary>preedit areas</primary><secondary>description</secondary></indexterm><indexterm><primary>VendorShell widget
+class</primary><secondary>preedit area</secondary></indexterm><indexterm>
+<primary>preedit areas</primary><secondary>VendorShell widget class</secondary>
+</indexterm></title>
+<para>A preedit area is used to display the string being preedited. An input
+method can support the following modes of preediting: OffTheSpot, OnTheSpot (default)
+OverTheSpot, Root, and None.</para>
+<note>
+<para>A string that has been committed <emphasis>cannot</emphasis> be reconverted.
+The status of the string is moved from the preedit area to the location where
+the user is entering characters.<indexterm><primary>Japanese Input Method</primary><secondary>preediting, reconverted strings</secondary></indexterm></para>
+</note>
+<sect3 id="IPG.intro.div.16">
+<title>OffTheSpot<indexterm><primary>preedit areas</primary><secondary>Off &lt;#1e>The &lt;#1e>Spot mode</secondary></indexterm><indexterm><primary>Off &lt;#1e>The &lt;#1e> Spot mode, preedit area</primary></indexterm><indexterm><primary>modes of preediting</primary><secondary>OffTheSpot</secondary></indexterm></title>
+<para>In OffTheSpot mode preediting using an input method, the location of
+preediting is usually inside the application window
+on the right side
+of the status area as shown in <!--Original XRef content:
+'Figure&numsp;1&hyphen;4'--><xref role="CodeOrFigureOrTable" linkend="IPG.intro.mkr.13">.
+A Japanese input method is used for the example.</para>
+<figure>
+<title id="IPG.intro.mkr.13">Example of OffTheSpot preediting with the VendorShell
+widget (Japanese)</title>
+<graphic id="IPG.intro.grph.4" entityref="IPG.intro.fig.4"></graphic>
+</figure>
+<para>When preediting using an input method, the
+preedit string being preedited may be highlighted in some form depending
+on the input method.</para>
+<para>To use OffTheSpot mode, set the <systemitem>XmNpreeditType</systemitem>
+resource of the <computeroutput>VendorShell</computeroutput> widget either
+with the <computeroutput>XtSetValues()</computeroutput> function or with a
+resource file. The <systemitem>XmNpreeditType</systemitem> resource can also
+be set as the resource of a <computeroutput>TopLevelShell</computeroutput>, <computeroutput>ApplicationShell</computeroutput>, or <computeroutput>DialogShell</computeroutput>
+widget, all of which are subclasses of the <computeroutput>VendorShell</computeroutput>
+widget class.</para>
+</sect3>
+<sect3 id="IPG.intro.div.17">
+<title>OverTheSpot<indexterm><primary>preedit areas</primary><secondary>OverTheSpot mode</secondary></indexterm><indexterm><primary>preedit areas</primary><secondary>default mode</secondary></indexterm><indexterm><primary>OverTheSpot mode, preedit area</primary></indexterm><indexterm><primary>modes of preediting</primary><secondary>OverTheSpot</secondary></indexterm></title>
+<para>In OverTheSpot mode, the location of the preedit
+area is set to where the user is trying to enter characters (for example,
+the insert cursor position of the <computeroutput>Text</computeroutput> widget
+that has the current focus). The characters in a preedit area are displayed
+at the cursor position as an overlay window, and they can be highlighted
+depending on the input method.</para>
+<para>Although a preedit area may consist of multiple lines in OverTheSpot mode. The preedit area is always within the MainWindow area and
+cannot cross its edges in any direction.</para>
+<para>Keep in mind that although the preedit string under construction may
+be displayed as though it were part of the <computeroutput>Text</computeroutput>
+widget's text, it is not passed to the client and displayed in the underlying
+edit screen until preedit ends. See <!--Original XRef content: 'Figure&numsp;1&hyphen;5
+on page&numsp;17'--><xref role="CodeOrFigOrTabAndPNum" linkend="IPG.intro.mkr.14">
+for an illustration.</para>
+<para>To use OverTheSpot mode explicitly, set the <systemitem>XmNpreeditType</systemitem> resource of the <computeroutput>VendorShell</computeroutput>
+widget either with the <computeroutput>XtSetValues()</computeroutput> function
+or with a resource file. The <systemitem>XmNpreeditType</systemitem> resource
+can be set as the resource of a <computeroutput>TopLevelShell</computeroutput>, <computeroutput>ApplicationShell</computeroutput>, or <computeroutput>DialogShell</computeroutput>
+widget because these are subclasses of the <computeroutput>VendorShell</computeroutput>
+widget class.</para>
+<figure>
+<title id="IPG.intro.mkr.14">Example of OverTheSpot preediting with the VendorShell
+widget (Japanese)</title>
+<graphic id="IPG.intro.grph.5" entityref="IPG.intro.fig.5"></graphic>
+</figure>
+</sect3>
+<sect3 id="IPG.intro.div.17a">
+<title>OnTheSpot (Default)</title>
+<indexterm><primary>preedit areas</primary><secondary>OnTheSpot</secondary>
+</indexterm><indexterm><primary>OnTheSpot mode, preedit area</primary></indexterm><indexterm><primary>modes of preediting</primary><secondary>OnTheSpot</secondary>
+</indexterm>
+<para>In OnTheSpot mode, the preedit string is displayed in the text widget
+window. The preedit string is considered part of the text widget value, and
+its integrity can be ensured by the verify callbacks of the text widget (the
+verify callbacks are controlled by the
+<systemitem class="resource">verifyPreedit</systemitem> resource, which defaults
+to <literal>False</literal>).
+If the
+verify callbacks of the text widget do not accept any part of the preedit
+buffer, the preedit string is committed (for information on user actions that
+cause the preedit string to be committed, refer to &MotifProgGd;).</para>
+<para>When preediting using an input method, the
+preedit string being preedited may be highlighted in some form depending
+on the input method.</para>
+<para>To use OnTheSpot mode, set the <systemitem>XmNpreeditType</systemitem>
+resource of the <computeroutput>VendorShell</computeroutput> widget either
+with the <computeroutput>XtSetValues()</computeroutput> function or with a
+resource file. The <systemitem>XmNpreeditType</systemitem> resource can also
+be set as the resource of a <computeroutput>TopLevelShell,</computeroutput> <computeroutput>ApplicationShell</computeroutput>, or <computeroutput>DialogShell</computeroutput>
+widget, all of which are subclasses of the <computeroutput>VendorShell</computeroutput>
+widget class.</para>
+</sect3>
+<sect3 id="IPG.intro.div.18">
+<title>Root<indexterm><primary>preedit areas</primary><secondary>Root mode</secondary></indexterm><indexterm><primary>Root mode, preedit area</primary>
+</indexterm><indexterm><primary>modes of preediting</primary><secondary>Root</secondary></indexterm></title>
+<para>In Root mode, the preedit and status areas are located separate from
+the client's window. The Root mode behavior is similar to OffTheSpot. See
+<!--Original XRef content: 'Figure&numsp;1&hyphen;6'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.intro.mkr.15"> for an illustration.</para>
+<figure>
+<title id="IPG.intro.mkr.15">Example of Root preediting with the VendorShell
+widget (Japanese)</title>
+<graphic id="IPG.intro.grph.6" entityref="IPG.intro.fig.6"></graphic>
+</figure>
+</sect3>
+</sect2>
+<sect2 id="IPG.intro.div.19">
+<title id="IPG.intro.mkr.16">Status Area<indexterm><primary>Common Desktop
+Environment</primary><secondary>input area</secondary><tertiary>status area</tertiary></indexterm><indexterm><primary>status area</primary></indexterm><indexterm>
+<primary>VendorShell widget class</primary><secondary>status area</secondary>
+</indexterm></title>
+<para>A status area reports the input or keyboard status
+of the input method to the users. For OverTheSpot and OffTheSpot styles,
+the status area is located at the lower left corner of the VendorShell window.
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>If Root style, the status area
+is placed outside the client window.</para>
+</listitem><listitem><para>If the preedit style is OffTheSpot mode, the preedit
+area is displayed to the right of the status area.</para>
+</listitem></itemizedlist>
+<para>The <computeroutput>VendorShell</computeroutput> widget provides geometry
+management so that a status area is rearranged at the bottom corner of the
+VendorShell window.</para>
+</sect2>
+<sect2 id="IPG.intro.div.20">
+<title id="IPG.intro.mkr.17">Auxiliary Area<indexterm><primary>Common Desktop
+Environment</primary><secondary>input area</secondary><tertiary>auxiliary
+area</tertiary></indexterm><indexterm><primary>auxiliary area</primary></indexterm><indexterm>
+<primary>VendorShell widget class</primary><secondary>auxiliary area</secondary>
+</indexterm></title>
+<para>An auxiliary area helps the user with preediting. Depending on the particular
+input method, an auxiliary area can be created. The Japanese input method
+in <!--Original XRef content: 'Figure&numsp;1&hyphen;3 on page&numsp;14'--><xref
+role="CodeOrFigOrTabAndPNum" linkend="IPG.intro.mkr.11"> creates the following
+types of auxiliary areas:<indexterm><primary>auxiliary
+area</primary></indexterm><indexterm><primary>Japanese Input Method</primary>
+<secondary>auxiliary area</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>ZENKOUHO</para>
+</listitem><listitem><para>JIS NUMBER</para>
+</listitem><listitem><para>Switching conversion method</para>
+<itemizedlist remap="Bullet2"><listitem><para>SAKIYOMI-REN-BUNSETSU</para>
+</listitem><listitem><para>IKKATSU-REN-BUNSETSU</para>
+</listitem><listitem><para>TAN-BUNSETSU</para>
+</listitem><listitem><para>FUKUGOU-GO</para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="IPG.intro.div.22">
+<title id="IPG.intro.mkr.19">Focus Area<indexterm><primary>Common Desktop
+Environment</primary><secondary>input area</secondary><tertiary>focus area</tertiary></indexterm><indexterm><primary>focus area</primary></indexterm><indexterm>
+<primary>VendorShell widget class</primary><secondary>focus area</secondary>
+</indexterm><indexterm><primary>focus management</primary><secondary>focus
+area</secondary></indexterm><indexterm><primary>focus area</primary></indexterm></title>
+<para>A focus area is any descendant widget under the <computeroutput>VendorShell</computeroutput> widget subtree that currently has focus. The Motif application
+programmer using existing widgets does not need to worry about the focus area. The important information to remember is that only one widget
+can have input method processing at a time. The input method processing moves
+to the window (widget) that currently has the focus.</para>
+</sect2>
+<sect2 id="IPG.intro.div.22a">
+<title>Layout Direction</title>
+<indexterm><primary>layout direction</primary></indexterm>
+<para>Layout direction refers to the direction that is used to display visual
+elements such as widget children, widget components, and text (controlled
+by the <classname>VendorShell</classname> resource, <systemitem class="resource">XmNlayoutDirection</systemitem>). In general, this direction matches the direction
+that people use when reading or writing in a particular language. Languages
+such as English, French, German, and Swedish are read and written from left
+to right. Therefore, when users working in those languages enter characters
+from a computer keyboard, each new character is displayed to the right of
+the preceding one. These same users would also expect the layout of other
+visual elements to be displayed from left to right. For example, in a menu
+bar, the cascade buttons would be laid out from left to right so that a simple
+menu bar would position the "File" cascade button in the upper left corner,
+and the "Help" cascade button would appear in the upper right corner of the
+menu bar.</para>
+<para>Languages such as Arabic and Hebrew are read and written from right
+to left. To display text correctly in these languages on the screen, each
+successive character that a user enters must appear to the left of the preceding
+character. Using the example above for layout of other visual elements, these
+users would expect a menu bar to lay out cascade buttons from right to left.
+The result would typically position the "File" cascade button in the upper
+right corner and the "Help" cascade button in the upper left corner of the
+menu bar. For more information, on layout direction, refer to &MotifProgGd;.
+</para>
+</sect2>
+<sect2 id="IPG.intro.div.22b">
+<title>Vertical Writing</title>
+<indexterm><primary>vertical writing</primary></indexterm>
+<para>In some Asian languages, texts are drawn vertically. When the <classname>VendorShell</classname> resource <systemitem class="resource">XmNlayoutDirection</systemitem> is set to <systemitem class="constant">XmTOP_TO_BOTTOM</systemitem>,
+the vertical writing feature is enabled. In addition to drawing texts vertically,
+this feature adapts the text widget in other ways appropriate for the user.
+For example, when word wrapping is turned on, the text wraps from the bottom
+of one column to the top of the next column. For more information on vertical
+writing, refer to &MotifProgGd;.</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.intro.div.23">
+<title id="IPG.intro.mkr.20">Interclient Communications Conventions (ICCC)<indexterm>
+<primary>National Language Support</primary><secondary>internationalized ICCC</secondary></indexterm></title>
+<para>The Interclient Communications Conventions (ICCC) defines the mechanism
+used to pass text between clients. Because the system is capable of supporting
+multiple code sets, it may be possible that two applications that are communicating
+with each other are using different code sets. ICCC defines how these two
+clients agree on how the data is passed between them. If two clients have
+incompatible character sets (for example, Latin1 and Japanese (JIS)), some
+data may be lost when characters are transported.<indexterm><primary>libXm
+library</primary></indexterm> <computeroutput><indexterm><primary>dtterm command</primary><secondary>ICCC</secondary></indexterm></computeroutput></para>
+<para>However, if two clients have different code sets but compatible character
+sets, ICCC enables these clients to pass information with no data lost. If
+code sets of the two clients are not identical, CompoundText encoding is
+used as the interchange with the <computeroutput>COMPOUND_TEXT</computeroutput>
+atom used. If data being communicated involves only portable characters (7-bit,
+ASCII, and others) or the ISO8859-1 code set, the data is communicated as
+is with no conversion by way of the <computeroutput>XA_STRING</computeroutput>
+atom.</para>
+<para>Titles and icon names need to be communicated to the Window Manager
+using the <computeroutput>COMPOUND_TEXT</computeroutput> atom if nonportable
+characters are used; otherwise, the <computeroutput>XA_STRING</computeroutput>
+atom can be used.
+</para>
+<para>Motif, for example, uses its own atoms to transfer
+textual data:
+</para>
+<itemizedlist>
+<listitem>
+<para><literal>_MOTIF_COMPOUND_STRING</literal> transfers data in <Symbol>XmString</Symbol> format.
+</para>
+</listitem>
+<listitem>
+<para><literal>_MOTIF_RENDER_TABLE</literal> transfers the value of its render table
+as type <Symbol>STRING</Symbol>
+</para>
+</listitem>
+</itemizedlist>
+<para>For more information, refer to <citetitle>Motif Widget Writer's Guide</citetitle>.
+</para>
+<para>Any other encoding is limited
+to the ability to convert to the locale of the Window Manager. The Window
+Manager runs in a single locale and supports only titles and icon names that
+are convertible to the code set of the locale under which it is running.<indexterm>
+<primary>National Language Support</primary><secondary>Window Manager</secondary>
+<tertiary>communicating titles</tertiary></indexterm><indexterm><primary>National Language Support</primary><secondary>Window Manager</secondary><tertiary>communicating icon names</tertiary></indexterm><indexterm><primary>Window
+Manager</primary><secondary>communicating titles and icon names</secondary>
+</indexterm></para>
+<para>The Motif library and all desktop clients should follow these conventions.
+</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->
+

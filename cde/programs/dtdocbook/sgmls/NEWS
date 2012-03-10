@@ -1,0 +1,104 @@
+This file describes recent user-visible changes in sgmls.  Bug fixes
+are not described.  See the man pages for more details.
+
+Version 1.1
+===========
+
+The rast filter converts the output of sgmls to RAST format. See
+rast.man.
+
+There have been some changes to the output format: system and public
+identifiers for external entities and notations are specified using
+the new `s' and `p' commands; the filenames for external entities are
+specified using the new `f' command rather than being arguments to the
+`E' and `S' commands; the `\s' escape sequence is no longer generated;
+an `S' command is generated for an entity mentioned in a `{' command;
+RS characters are no longer stripped and are represented by `\012'.
+
+The -c option now takes an argument giving the name of the file to
+which the report of capacity calculations should be written.  The
+report is in RACT format.
+
+sgmls can now handle non-seekable devices (such as pipes).  If no
+filenames are specified on the command line, sgmls will read the
+document entity from standard input.  A filename of `-' can also be
+used to refer to standard input.
+
+The output format no longer distinguishes attributes whose declared
+value is ID, IDREF or IDREFS and uses the TOKEN keyword for these.
+(The ESIS does not distinguish these attributes.)
+
+The -a option is no longer allowed.
+
+Version 1.0
+===========
+
+Eight bit characters can be made name characters.
+
+Ambiguous content models are always detected.  The -a option is ignored.
+
+Version 0.8
+===========
+
+On Unix systems, the configure script can automatically generate
+config.h from unix.cfg.
+
+An APPINFO parameter in the SGML declaration other than NONE is output
+as a `#' command.
+
+sgmls has a -iNAME option which defines a parameter entity NAME with
+replacement text "INCLUDE".
+
+sgmls has a -u option that warns about undefined elements.
+
+In SGML_PATH, the public text designating sequence (escape sequence)
+is now accessed with %E rather than %S.  %S now gives the system
+identifier.  When a system identifier is supplied, SGML_PATH will be
+used to generate a filename only if SGML_PATH uses %S and the system
+identifier does not contain (semi-)colons.
+
+An accordance with Amendment 1 to ISO 8879:1986, in the SGML
+declaration `ISO 8879:1986' rather than `ISO 8879-1986' is required.
+
+With MS-DOS, errors can be redirected to a file using the -f option.
+
+Version 0.7
+===========
+
+More quantity limits can be changed.  In particular, GRPCNT, GRPLVL
+and GRPGTCNT can be increased up to 253; NAMELEN can be increased to
+239.  Names are now dynamically allocated (that is, the amount of
+memory used to store a name depends on the actual length of the name
+rather than on value specified for NAMELEN.)
+
+sgmlasp supports a -n option which disables upper-case substitution
+for names in replacement files.
+
+sgmls has a -p option which makes it parse only the prolog.
+
+The format of the I command has been changed: CDATA and SDATA entities
+are distinguished using a keyword rather than by surrounding SDATA
+entities with \|s.
+
+Version 0.6
+===========
+
+A concrete syntax can now be specified explicitly in the SGML
+declaration, and various parts of the reference concrete syntax can be
+changed, including some quantity limits.
+
+The treatment of notation identifiers and the syntax of the N output
+command have been changed.
+
+SUBDOC support works with MS-DOS.
+
+The -n option has been removed; references to subdocument entities are
+always resolved.
+
+It is no longer possible to change the implied SGML declaration using
+environment variables.  You must use an explicit SGML declaration
+instead.
+
+The V output command has been removed.
+
+sgmlsasp supports multiple replacement files.

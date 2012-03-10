@@ -1,0 +1,291 @@
+<!-- $XConsortium: ch09.sgm /main/7 1996/09/08 19:49:04 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="ABUG.codeg.div.1">
+<title id="ABUG.codeg.mkr.1">Generating Code and Building an Application</title>
+<para>This chapter describes the Code Generator and its use to generate code,
+add user code to generated code, make the application, and run the compiled
+application. See <!--Original XRef content: '&xd2;Code Generator Window&xd3;
+on page&numsp;130'--><xref role="SecTitleAndPageNum" linkend="ABUG.apWDB.mkr.9">
+for an illustration of the Code Generator window and descriptions of its
+elements.</para>
+<informaltable id="ABUG.codeg.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Making and Running an Application107'--><xref
+role="JumpText" linkend="ABUG.codeg.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Set Code Generator Options109'--><xref
+role="JumpText" linkend="ABUG.codeg.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Set Environment Options110'--><xref
+role="JumpText" linkend="ABUG.codeg.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Adding User Code to Generated Code112'--><xref
+role="JumpText" linkend="ABUG.codeg.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'To Generate Code from the Command
+Line111'--><xref role="JumpText" linkend="ABUG.codeg.mkr.5"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="ABUG.codeg.div.2">
+<title id="ABUG.codeg.mkr.2">Making and Running an Application</title>
+<para>Two scenarios are described below. In the first scenario, you build
+and run an application in one step. In the second scenario, you generate
+code, compile the code, and run the application in separate steps.</para>
+<para>In either case, if you have made changes to the project that have not
+been saved, a message dialog box will be displayed, telling you that you
+have unsaved edits and giving you the choice of cancelling the generate code
+process or saving the project. If you choose to save the project, you will
+have to specify where to save the project if it has not been saved before.
+</para>
+<sect2 id="ABUG.codeg.div.3" role="Procedure">
+<title>To Make and Run in One Step</title>
+<orderedlist><listitem><para><indexterm><primary>application</primary><secondary>building and running in one step</secondary></indexterm><indexterm><primary>running application</primary><secondary>in one step</secondary></indexterm>Choose
+Code Generator from the File menu of the App Builder primary window.</para>
+<para>The Code Generator is displayed.<indexterm><primary>Code Generator</primary></indexterm></para>
+</listitem>
+<listitem><para>Click Make &amp; Run to generate code, build the
+application, and run it.</para>
+<para>If you have saved the project and all goes well, a number of messages
+will be displayed in the output pane at the top of the Code Generator. The
+final message will be &ldquo;Running: ./[<emphasis>projectname</emphasis>]&rdquo;
+and the application will run.</para>
+<para>At the least, the application primary window will be displayed. Any
+windows whose visibility is not set to yes at application startup will be
+hidden. Depending on what functionality you included that does not require
+user code, the application might do a variety of things. Menus can be displayed,
+some connections can be tested, On Item help can be displayed, and so on.
+</para>
+</listitem>
+</orderedlist>
+<note>
+<para>Ultimately, you must write some code to complete the application. For
+example, any Call Function callbacks specified in the Connections Editor
+will have to be substituted for. See <!--Original XRef content: '&xd2;Adding
+User Code to Generated Code&xd3; on
+page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">
+for more information.</para>
+</note>
+</sect2>
+<sect2 id="ABUG.codeg.div.4" role="Procedure">
+<title>To Generate Code, Make, and Run Separately</title>
+<orderedlist><listitem><para>Click Generate Code to generate code for the
+current project.<indexterm><primary>application</primary><secondary>generating
+code for</secondary></indexterm><indexterm><primary>generating code for application</primary></indexterm></para>
+<para>As the code generator runs, messages are displayed in the output pane
+at the top of the Code Generator window. The final message should be &ldquo;Completed
+successfully.&rdquo; A number of files will be created, including Makefiles,
+project files, module files, and two <filename>dtb_utils</filename> files.
+You can look at the files in the term pane at the bottom of the Code Generator
+window.</para>
+</listitem><listitem><para>Click Make to build the application.<indexterm>
+<primary>application</primary><secondary>building</secondary></indexterm><indexterm>
+<primary>building application</primary></indexterm></para>
+<para>More messages will be displayed in the Output Pane as the application
+is compiled. The final message again should be &ldquo;Completed successfully.&rdquo;
+A few more files will be created, including object files and the executable
+application file, which has the name you gave the project.</para>
+</listitem><listitem><para>Click Run to run the application.<indexterm>
+<primary>application</primary><secondary>running</secondary></indexterm><indexterm>
+<primary>running application</primary></indexterm></para>
+<para>The application will be started&mdash;as if you had typed the name of
+the executable at the command line.</para>
+</listitem><listitem><para>Click Abort to quit the application.<indexterm>
+<primary>application</primary><secondary>quitting</secondary></indexterm><indexterm>
+<primary>quitting</primary><secondary>application</secondary></indexterm></para>
+<para>This will terminate the application, closing all windows. You can also
+click Abort to terminate code generation or <command>make</command> operations
+started in the Code Generator window.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="ABUG.codeg.div.5" role="Procedure">
+<title id="ABUG.codeg.mkr.3">To Set Code Generator Options<indexterm><primary>options, Code Generator</primary></indexterm><indexterm><primary>Code Generator</primary><secondary>options</secondary></indexterm><indexterm><primary>setting</primary><secondary>Code Generator options</secondary></indexterm></title>
+<para>To change the options that determine what code is generated and other
+Code Generator functions:</para>
+<orderedlist><listitem><para>Choose Code Generator from the File menu of the
+App Builder primary window to display the Code Generator window.</para>
+</listitem><listitem><para>Choose Generator from the Options menu to display
+the Code Generator Options dialog box.</para>
+</listitem><listitem><para>Select one of the Generate Code For options (Entire
+Project, Main Only, Specific Modules Only, Specific Modules and Main).</para>
+<para>If you select Specific Modules or Specific Modules and Main, the list
+of modules is active. Select the names of the modules you want to generate
+code for in the list.</para>
+</listitem><listitem><para>Click Don't Merge if you do not want your hand-edited
+code merged with the generated code.</para>
+<note>
+<para>Do not select Don't Merge unless you are sure you want to destroy the
+user code.</para>
+</note>
+</listitem>
+<listitem><para>Choose a different message reporting option if
+you wish.</para>
+<para>Choices are Report Normal Messages, Be Silent, and Be Verbose.</para>
+</listitem><listitem><para>Type Make Arguments, if appropriate.</para>
+<para>These arguments will be included when you click Make or Make &amp; Run.
+</para>
+</listitem><listitem><para>Type Run Time Arguments, if appropriate.</para>
+<para>These arguments will be included when you click Run or Make &amp; Run.
+</para>
+</listitem><listitem><para>Click Reset to Defaults to set all fields to their
+default values.</para>
+<para>Default values are Generate Code For Entire Project, Merge user code
+with generated code, and Report Normal Messages.</para>
+</listitem><listitem><para>Click OK or Apply to make the changes.</para>
+<para>The Options dialog box will be dismissed if you click OK.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.codeg.div.6" role="Procedure">
+<title id="ABUG.codeg.mkr.4">To Set Environment Options<indexterm><primary>environment options, Code Generator</primary></indexterm><indexterm><primary>setting</primary><secondary>environment options</secondary></indexterm></title>
+<orderedlist><listitem><para>Choose Code Generator from the File menu of the
+App Builder primary window to display the Code Generator window.</para>
+</listitem><listitem><para>Choose Environment from the Options menu to display
+the Environment Options dialog box.</para>
+</listitem><listitem><para>Type a variable in the Variable Name text field.
+</para>
+<para>You might want to change <command>PATH</command>, for instance.</para>
+</listitem><listitem><para>Click Get to display the current value for the
+variable in Variable Name.</para>
+<para>The value of the variable will be displayed in the Value pane.</para>
+</listitem><listitem><para>Make a change to Value and click Set to change
+the value of the variable.</para>
+<para>This change is made for this App Builder session only.</para>
+</listitem><listitem><para>Click Reset to reset Value to its value outside
+this session of App Builder.</para>
+</listitem><listitem><para>Click Cancel to dismiss the dialog box.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.codeg.div.7" role="Procedure">
+<title id="ABUG.codeg.mkr.5">To Generate Code from the Command Line</title>
+<para>To generate App Builder code from the command line, run <command>dtcodegen</command>. Usage is described below.</para>
+<para>Usage: <command>dtcodegen</command> [<symbol role="Variable">options</symbol>] [<symbol role="Variable">project-file</symbol>] [ <symbol role="Variable">module-file</symbol> [<symbol role="Variable">module-file</symbol>] ...]</para>
+<para>Code is generated for each module specified on the command line, or
+for all modules in the project, if no modules are specified. If no project
+file is specified, a project file containing the specified module(s) is searched
+for in the current directory.</para>
+<para>Files with extension <filename>.bip</filename> are assumend to be BIL
+project files, files with <filename>.bix</filename> extension are assumed
+to be encapsulated BIL files, and files with a <filename>.bil</filename>
+extension are assumed to be BIL module files.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colname="col1" colwidth="169*">
+<colspec align="left" colname="col2" colwidth="359*">
+<spanspec nameend="col2" namest="col1" spanname="1to2">
+<thead>
+<row><entry align="left" spanname="1to2" valign="bottom"><para>Options (* = default, + = default with no project
+file)</para></entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry><para><command>-help (-h)</command></para></entry>
+<entry><para>Print out this help message</para></entry></row>
+<row>
+<entry><para><filename>-main</filename></para></entry>
+<entry><para>Write file containing main()</para></entry></row>
+<row>
+<entry><para><filename>-changed</filename></para></entry>
+<entry><para>Only generate files that have changed</para></entry></row>
+<row>
+<entry><para><command>* -merge</command></para></entry>
+<entry><para>Merge generated _stubs.c files with previous version</para></entry>
+</row>
+<row>
+<entry><para><filename>-nomerge</filename></para></entry>
+<entry><para>Don't merge existing and new stubs file</para></entry></row>
+<row>
+<entry><para><command>* -project (-p)</command></para></entry>
+<entry><para>Specify a project to generate code for</para></entry></row>
+<row>
+<entry><para><command>-noproject (-np)</command></para></entry>
+<entry><para>Use default project settings, ignore project file</para></entry>
+</row>
+<row>
+<entry><para><command>+ -showall</command></para></entry>
+<entry><para>Application shows (maps) all windows at startup</para></entry>
+</row>
+<row>
+<entry><para><command>* -noshowall</command></para></entry>
+<entry><para>Application shows (maps) only initially-visible windows
+</para></entry></row>
+<row>
+<entry><para><command>-silent (-s)</command></para></entry>
+<entry><para>Silent mode, no messages written</para></entry></row>
+<row>
+<entry><para><command>-verbose (-v)</command></para></entry>
+<entry><para>Verbose mode, detailed progress messages</para></entry></row>
+</tbody></tgroup></informaltable>
+</sect2>
+</sect1>
+<sect1 id="ABUG.codeg.div.8">
+<title id="ABUG.codeg.mkr.6">Adding User Code to Generated Code</title>
+<para>When you generate code for the interface you have developed by clicking
+Generate Code in the Code Generator window or running <command>dtcodegen</command> from the command line, a number of files are generated in the
+project folder. If your project is called &ldquo;test&rdquo; and it has
+one module, called &ldquo;mod1,&rdquo; for instance, the following files
+will be created:</para>
+<itemizedlist remap="Bullet1"><listitem><para><command>Makefile</command>
+(plus Makefiles for other platforms)</para>
+</listitem><listitem><para><filename>dtb_utils.c</filename></para>
+</listitem><listitem><para><filename>dtb_utils.h</filename></para>
+</listitem><listitem><para><filename>mod1.bil</filename> (module file)</para>
+</listitem><listitem><para><filename>mod1_stubs.c</filename></para>
+</listitem><listitem><para><filename>mod1_ui.c</filename></para>
+</listitem><listitem><para><filename>mod1_ui.h</filename></para>
+</listitem><listitem><para><filename>test.bip</filename> (project file)</para>
+</listitem><listitem><para><filename>test.c</filename></para>
+</listitem><listitem><para><filename>test.h</filename></para>
+</listitem><listitem><para><command>Test</command> (resource file)</para>
+</listitem></itemizedlist>
+<para>If you have made Call Function or Execute Code connections in the Connections
+Editor, those connections will show up in the generated code. All of the
+areas of the generated code that my be modified by you are marked with comments
+of the form:</para>
+<programlisting>/* DTB_USER_CODE START */
+/* DTB_USER_CODE_END */
+</programlisting>
+<para>The area between the START and END comments are considered a &ldquo;user
+segment.&rdquo; Any text (even non-C code) may be added within a user segment,
+and the code generator will preserve this code in all future versions of
+the code. Each user segment begins with a comment that suggests what type
+of code should be added in that segment, or what state the application is
+in when that segment is executed. These suggestions are purely informational,
+and may be ignored.</para>
+<para>Neither App Builder nor the code generator verify that the code added
+by you is legal C code. It is your responsibility to ensure that any file
+you modify can be processed satisfactorily by your compiler.</para>
+<para>If you wish to destroy all of the hand-edited code, you must either
+explicitly select Don't Merge from the Options dialog of the Code Generator
+Window, or run <command>dtcodegen</command> with the <filename>-nomerge</filename>
+option. This should be done only with great caution, as large amounts of
+work may be lost.</para>
+<para>Under no circumstances should the generated comments be modified. If
+they are modified, code generation will fail, and the resulting file will
+very likely be uncompilable. A backup file, with the extension <filename>.BAK</filename>, is preserved in the current directory to help recover from
+such mistakes.</para>
+<para>The user code segments appear in strategic places in the code, to allow
+you a great deal of freedom in customizing the generated application. All
+code related to <filename>main()</filename> and application-wide data and
+structures are defined in &lt;<emphasis>projectname</emphasis>><filename>.h</filename> and &lt;<emphasis>projectname</emphasis>><filename>.c</filename>.
+In these files, fields may be added to the Xt resource data structure for
+the application, new developer-defined data types and variables may be added,
+and the application's startup procedures may be amended.</para>
+<para>Each &lt;<emphasis>modulename</emphasis>><filename>_stubs.c</filename>
+file contains user segments for modifying the effects of generated connections.
+Your code may be added both before and after the automatically-generated
+code is executed.</para>
+<para>In addition, each file contains a user segment at the top of each file
+that can be used to add a custom header or copyright notice.</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:11:44-->
+<?Pub *0000022158>

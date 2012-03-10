@@ -1,0 +1,224 @@
+XCOMM $TOG: Imakefile /main/18 1998/08/10 15:51:59 mgreess $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
+
+XCOMM This directory has the source for both C and C++ versions of this
+XCOMM library.  Only the C version is built as libDtMmdb.  Check in
+XCOMM .../programs/dtinfo/mmdb also to find out if files are really 
+XCOMM obsolete.
+MMDB_SUBDIRS = HardCopy StyleSheet dti_cc
+
+#ifdef SharedDtMmdbReqs
+#ifdef SunArchitecture
+REQUIREDLIBS = SharedDtMmdbReqs -L/opt/SUNWspro/SC4.0/lib -Bstatic -lC -Bdynamic
+SHLIBLDFLAGS = -G
+#else
+REQUIREDLIBS = SharedDtMmdbReqs
+#endif
+#endif
+
+SUBDIRS = \
+	api			btree \
+	btree_berkeley		compression \
+	diskhash		dstr \
+	dti_excs		dynhash \
+	hmphf			index \
+	mgrs			misc \
+	object			oliasdb \
+	schema			storage \
+	utility
+
+DONES = \
+	api/DONE		btree/DONE \
+	btree_berkeley/DONE	compression/DONE \
+	diskhash/DONE		dstr/DONE \
+	dti_excs/DONE		dynhash/DONE \
+	hmphf/DONE		index/DONE \
+	mgrs/DONE		misc/DONE \
+	object/DONE		oliasdb/DONE \
+	schema/DONE		storage/DONE \
+	utility/DONE
+
+EXTRALIBRARYDEPS = $(DONES)
+
+MakeSubdirs($(SUBDIRS))
+ForceSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+NamedTargetSubdirs(install_buildtools,$(SUBDIRS),\
+                   install_buildtools,,install_buildtools)
+
+
+#define DoNormalLib	NormalLibDtMmdb
+#define DoSharedLib	SharedLibDtMmdb
+#define DoDebugLib	DebugLibDtMmdb
+#define DoProfileLib	ProfileLibDtMmdb
+#define LibName		DtMmdb
+#define SoRev		SODTMMDBREV
+#define LibHeaders	NO
+#define LargePICTable	YES
+
+#define CplusplusSource	YES
+
+/*
+ * N.B.:  All .o's should be built in the subdirectories.
+ */
+
+API_OBJS = \
+	api/base.o		api/info_base.o 	api/info_lib.o	\
+	api/smart_ptr.o 	api/transaction.o	api/utility.o
+
+BTREE_OBJS = btree/mmdb_btree.o
+
+#if !defined(AIXArchitecture)
+EXTRA_BTREE_BERKELEY_OBJS = btree_berkeley/memmove.o
+#endif
+
+BTREE_BERKELEY_OBJS = \
+	btree_berkeley/bt_close.o	btree_berkeley/bt_conv.o \
+	btree_berkeley/bt_debug.o	btree_berkeley/bt_delete.o \
+	btree_berkeley/bt_get.o		btree_berkeley/bt_open.o \
+	btree_berkeley/bt_overflow.o	btree_berkeley/bt_page.o \
+	btree_berkeley/bt_put.o		btree_berkeley/bt_search.o \
+	btree_berkeley/bt_seq.o		btree_berkeley/bt_split.o \
+	btree_berkeley/bt_stack.o	btree_berkeley/bt_utils.o \
+	btree_berkeley/mktemp.o		btree_berkeley/realloc.o \
+	btree_berkeley/snprintf.o	$(EXTRA_BTREE_BERKELEY_OBJS) \
+	btree_berkeley/mpool.o		btree_berkeley/db.o
+
+COMPRESSION_OBJS = \
+	compression/abs_agent.o		compression/zip.o \
+	compression/huffman.o		compression/trie.o \
+	compression/code.o		compression/lzss.o \
+	compression/sgml.o		compression/ps.o
+
+DISKHASH_OBJS = \
+	diskhash/disk_bucket.o		diskhash/bucket_array.o \
+	diskhash/disk_hash.o
+
+DSTR_OBJS = \
+	dstr/set.o			dstr/bset.o \
+	dstr/slist.o			dstr/dlist_cell.o \
+	dstr/dlist.o			dstr/heap.o \
+	dstr/void_ptr_array.o		dstr/void_ptr_stack.o \
+	dstr/memory_pool.o		dstr/dstr_test.o \
+	dstr/index_agent.o		dstr/token_stack.o \
+	dstr/slist_char_ptr_cell.o
+
+DTI_EXCS_OBJS = \
+	dti_excs/Jump_Environment.o	dti_excs/Exceptions.o \
+	dti_excs/Exception.o		dti_excs/Destructable.o \
+	dti_excs/terminate.o		dti_excs/init.o
+
+DYNHASH_OBJS = dynhash/data_t.o dynhash/imp_bucket.o dynhash/imp_die.o
+
+HMPHF_OBJS = \
+	hmphf/buckets.o hmphf/mphf_funcs.o	hmphf/mphf_hash_table.o \
+	hmphf/params.o	hmphf/pattern.o		hmphf/sorter.o
+
+INDEX_OBJS = \
+	index/btree_index.o		index/dyn_disk_index.o \
+	index/dyn_index.o		index/dyn_memory_index.o \
+	index/fast_mphf.o		index/hash.o \
+	index/index.o			index/inv_lists.o \
+	index/mphf_index.o
+
+MGRS_OBJS = mgrs/managers.o mgrs/misc.o mgrs/query_mgr.o mgrs/template_mgr.o
+
+MISC_OBJS = misc/unique_id.o
+
+OBJECT_OBJS = \
+	object/composite.o	object/compressed_pstring.o \
+	object/cset.o		object/dl_list.o \
+	object/dl_list_cell.o	object/handler.o \
+	object/integer.o	object/long_pstring.o \
+	object/oid.o		object/oid_list.o \
+	object/oid_t.o		object/primitive.o \
+	object/pstring.o	object/random_gen.o \
+	object/root.o		object/short_list.o \
+	object/tuple.o
+
+OLIASDB_OBJS = \
+	oliasdb/asciiIn_filters.o 	oliasdb/collectionIterator.o \
+	oliasdb/dlp_hd.o 		oliasdb/dlp_test.o \
+	oliasdb/doc_hd.o 		oliasdb/doc_test.o \
+	oliasdb/graphic_hd.o 		oliasdb/graphic_test.o \
+	oliasdb/loc_test.o 		oliasdb/locator_hd.o \
+	oliasdb/mark.o 			oliasdb/mark_base.o  \
+	oliasdb/mark_test.o 		oliasdb/mmdb.o \
+	oliasdb/node_hd.o 		oliasdb/node_test.o \
+	oliasdb/olias_funcs.o 		oliasdb/olias_test.o \
+	oliasdb/stylesheet_hd.o 	oliasdb/stylesheet_test.o \
+	oliasdb/toc_hd.o 		oliasdb/toc_test.o \
+	oliasdb/user_base.o \
+	oliasdb/c_api_book.o		oliasdb/c_api_book_test.o \
+	oliasdb/c_api_bookcase.o	oliasdb/c_api_bookcase_test.o \
+	oliasdb/c_api_common.o \
+	oliasdb/c_api_dlp.o		oliasdb/c_api_dlp_test.o \
+	oliasdb/c_api_graphic.o		oliasdb/c_api_graphic_test.o \
+	oliasdb/c_api_infolib.o		oliasdb/c_api_infolib_test.o \
+	oliasdb/c_api_locator.o		oliasdb/c_api_locator_test.o \
+	oliasdb/c_api_pure_virtual.o \
+	oliasdb/c_api_section.o		oliasdb/c_api_section_test.o \
+	oliasdb/c_api_stylesheet.o	oliasdb/c_api_stylesheet_test.o \
+	oliasdb/c_api_toc.o		oliasdb/c_api_toc_test.o
+
+SCHEMA_OBJS = \
+	schema/desc.o			schema/store_desc.o \
+	schema/object_dict.o		schema/stored_object_desc.o \
+	schema/index_desc.o		schema/inv_desc.o \
+	schema/agent_desc.o		schema/container_desc.o \
+	schema/sheet.o			schema/token.o
+
+STORAGE_OBJS = \
+	storage/abs_storage.o		storage/chunks_index.o	\
+	storage/heap_comp_funcs.o	storage/lru.o \
+	storage/page.o			storage/page_cache.o \
+	storage/page_rep.o		storage/page_storage.o \
+	storage/rep_cell.o		storage/rep_policy.o \
+	storage/store_test.o		storage/unixf_storage.o \
+	storage/version.o		storage/vm_storage.o
+
+UTILITY_OBJS = \
+	utility/funcs.o			utility/ostring.o \
+	utility/pm_random.o		utility/atoi_pearson.o \
+	utility/xtime.o			utility/buffer.o \
+	utility/atoi_larson.o		utility/atomic_lock.o \
+	utility/rw_lock.o		utility/atoi_fast.o \
+	utility/filter.o		utility/mmdb_exception.o \
+	utility/randomize.o	\
+	utility/streambuf.o	utility/charbuf.o	utility/filebuf.o \
+	utility/strstream.o	utility/iostream.o	utility/fstream.o \
+	utility/stream.o	utility/ios.o
+
+
+OBJS =	$(API_OBJS)		$(BTREE_OBJS) \
+	$(BTREE_BERKELEY_OBJS)	$(COMPRESSION_OBJS) \
+	$(DISKHASH_OBJS)	$(DSTR_OBJS) \
+	$(DTI_EXCS_OBJS) 	$(DYNHASH_OBJS) \
+	$(HMPHF_OBJS)		$(INDEX_OBJS) \
+	$(MGRS_OBJS)		$(MISC_OBJS) \
+	$(OBJECT_OBJS)		$(OLIASDB_OBJS) \
+	$(SCHEMA_OBJS)		$(STORAGE_OBJS) \
+	$(UTILITY_OBJS)
+
+XCOMM All dependent libraries are shared, no need to tell the linker twice.
+STATIC =
+DYNAMIC =
+
+#include <Library.tmpl>
+
+DependTarget()

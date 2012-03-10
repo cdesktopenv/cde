@@ -1,0 +1,18 @@
+TESTDIR=.
+
+expect=${TESTDIR}/TermLog
+actual=${TESTDIR}/HptermLog*
+errlog=${TESTDIR}/term.log
+
+
+if cmp -s ${expect} ${actual}
+then
+   echo "Logfile created and test is success" >> ${errlog}
+   echo "" >> ${errlog}
+else
+   echo "Test Failed" >> ${errlog}
+   diff ${expect} ${actual} 2>>${errlog}
+   echo "" >> ${errlog}
+fi
+
+

@@ -1,0 +1,110 @@
+<!-- $XConsortium: feat_req.sgm /main/9 1996/09/08 20:12:26 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+
+
+<![%CDE.C.CDE;[<Refentry Id="CDEMX.XCDI.MAN69b.rsml.1">]]>
+<![%CDE.C.XO;[<Refentry Id="XCDI.MAN69b.rsml.1">]]>
+
+<RefMeta>
+<RefEntryTitle>tt_feature_required</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_feature_required</Function></RefName>
+<RefPurpose>declare a feature to be required by the calling program.
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>tt_feature_required</Function></FuncDef>
+<ParamDef>Tt_feature <Parameter>feature</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_feature_required</Function> function
+declares a feature to be required by the
+calling code. If the feature is available,
+<Function>tt_feature_required</Function> enables it.
+</para>
+<para>If the feature requires the ToolTalk service to perform
+some initialization (for example,
+<systemitem class="constant">TT_FEATURE_MULTITHREADED</systemitem>),
+the initialization is performed in this call. Some features
+(such as <systemitem class="constant">TT_FEATURE_MULTITHREADED</systemitem>)
+require this call to be made before calling
+<function>tt_open</function>.
+</para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<VariableList>
+<VarListEntry>
+<Term><symbol role="Variable">feature</symbol></Term>
+<ListItem>
+<Para>Specifies the feature to be required.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon completion, the
+<Function>tt_feature_required</Function> function returns
+the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry><Term><SystemItem Class="Constant">TT_OK</SystemItem></Term>
+<ListItem>
+<Para>The feature is available and has been enabled.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><Term><SystemItem Class="Constant">TT_ERR_TOOLATE</SystemItem></Term>
+<ListItem>
+<Para>The <Function>tt_feature_required</Function> call must be made
+prior to other calls that have already been made to the ToolTalk API.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><Term><SystemItem Class="Constant">TT_ERR_UNIMP</SystemItem></Term>
+<ListItem>
+<Para>The version of the ToolTalk library linked with the calling code does
+not support the indicated feature.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>To use the ToolTalk library in a multithreaded environment, an
+application would declare multithreading to be required before a call to
+<function>tt_open</function> or <function>ttdt_open</function>:
+</para>
+<programlisting>
+Tt_status ttstat;
+ttstat = tt_feature_required(TT_FEATURE_MULTITHREADED);
+tt_open();
+</programlisting>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;,
+&cdeman.tt.feature.enabled;,
+&cdeman.tt.open;,
+&cdeman.ttdt.open;
+</para>
+</RefSect1>
+</refentry>

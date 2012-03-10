@@ -1,0 +1,78 @@
+<!-- $XConsortium: appc.sgm /main/6 1996/09/08 19:35:15 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+
+<Title Id="TTUG.ttmt.mkr.1">Writing Thread-Safe ToolTalk Applications</Title>
+<indexterm><primary>thread-safe ToolTalk applications</primary><secondary>writing</secondary></indexterm>
+<Para>The multithread-safe ToolTalk
+library enables application developers to write
+multithreaded applications for ToolTalk without having to manage
+locks on ToolTalk resources explicitly in their application code.
+An extended version of the <Filename>Xthreads.h</Filename> thread API wrappers
+is used; therefore, multithreaded libtt should be readily
+portable to various thread implementations.
+</para>
+<para>To protect internal libtt resources, a process-wide lock is introduced and
+maintained. Unlike the case of window toolkits, few applications
+spend a significant amount of their time in libtt, so the added
+parallelism of more fine-grained locking techniques would not
+result in a perceptible performance improvement.
+</para>
+<para>A few ToolTalk global values, such as the default <literal>procid</literal> and the
+storage stack manipulated by the <function>tt_mark</function> and <function>tt_release</function> API
+calls, must have a consistent state as seen by one thread across
+ToolTalk API calls &mdash these values are made into thread-specific data.
+Additional API calls are introduced to initialize this behavior
+and manipulate the new data. When a thread-specific value has been
+set for the current thread, existing API calls are modified
+to reference the thread-specific values instead of the
+process-wide values. If no thread-specific value
+has been set for the current thread, then the process-wide value
+is used.
+</para>
+<para>The multithreaded feature may not be
+available on all platforms. For this reason, an API for querying for the
+existence of the feature is included in the library. The intent is
+that even platforms that do not enable the multithreaded
+feature should implement the new API calls, returning
+<Symbol>TT_ERR_UNIMP</Symbol> for the thread-specific ones; this
+allows application developers to do run-time checks without
+having to deal with the problem of unresolved symbols.
+</para>
+<para>Following is a summary of the API:
+</para>
+<itemizedlist>
+<listitem>
+<para><function>tt_feature_enabled</function> &mdash determine whether the specified feature has been enabled.<indexterm><primary>thread-safe ToolTalk applications</primary><secondary>tt_feature_enabled</secondary></indexterm><indexterm><primary>tt_feature_enabled function</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_feature_required</function> &mdash declare that the specified feature is required, and enable it if it is available.<indexterm><primary>thread-safe ToolTalk applications</primary><secondary>tt_feature_required</secondary></indexterm><indexterm><primary>tt_feature_required function</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_thread_session_set</function> &mdash set the default session for this thread.<indexterm><primary>thread-safe ToolTalk applications</primary><secondary>tt_thread_session_set</secondary></indexterm><indexterm><primary>tt_thread_session_set function</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_thread_session</function> &mdash fetch the default session for this thread.<indexterm><primary>thread-safe ToolTalk applications</primary><secondary>tt_thread_session</secondary></indexterm><indexterm><primary>tt_thread_session function</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_thread_procid_set</function> &mdash set the default process ID for this thread.<indexterm><primary>thread-safe ToolTalk applications</primary><secondary>tt_thread_procid_set</secondary></indexterm><indexterm><primary>tt_thread_procid_set function</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>tt_procid_session</function> &mdash return the session associated with the specified process ID.<indexterm><primary>thread-safe ToolTalk applications</primary><secondary>tt_procid_session</secondary></indexterm><indexterm><primary>tt_procid_session function</primary></indexterm>
+</para>
+</listitem>
+<listitem>
+<para><function>Tttt_c</function> &mdash typedefs and enums.<indexterm><primary>thread-safe ToolTalk applications</primary><secondary>Tttt_c</secondary></indexterm><indexterm><primary>Tttt_c typdef/enum declarations</primary></indexterm>
+</para>
+</listitem>
+</itemizedlist>

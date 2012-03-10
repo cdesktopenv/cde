@@ -1,0 +1,1095 @@
+// $XConsortium: patternProps.bil /main/2 1996/11/11 11:58:23 drk $
+:bil-version	1 0
+:module patternProps
+(
+
+:element patternProps
+(
+	:type			:dialog
+	:x			154
+	:y			188
+	:width			585
+	:height			327
+	:bg-color		"white"
+	:label			"Tt_pattern"
+	:resizable		:true
+	:visible		:false
+	:children		(
+		patternPane
+		patternActionPane
+		patternProps_footer
+	)
+)
+:element patternPane
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:width			581
+	:height			323
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj patternProps 0)
+	:east-attachment	(:obj patternProps 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		scopeButton
+		patternFileButton
+		patternSessionButton
+		patternCallbackAddButton
+		patternAddressButton
+		patternStateButton
+		patternClassButton
+		patternOpAddButton
+		separator
+		patternDispositionAddButton
+		patternAttributeAddButton
+		patternArgAddButton
+		patternText
+		categoryChoice
+	)
+)
+:element scopeButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			290
+	:y			14
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Scope"
+	:menu			scopeButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 10)
+	:west-attachment	(:grid-line 52 0)
+	:help-text		"tt_pattern_scope_add(3)\n"
+)
+:element patternFileButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			255
+	:y			52
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add File..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj scopeButton 13)
+	:west-attachment	(:grid-line 45 0)
+	:help-text		"tt_pattern_file_add(3)\n"
+)
+:element patternSessionButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			338
+	:y			52
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Session..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj scopeButton 13)
+	:west-attachment	(:grid-line 60 0)
+	:help-text		"tt_pattern_session_add(3)\n"
+)
+:element patternCallbackAddButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			28
+	:y			113
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Callback..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj separator 15)
+	:west-attachment	(:center-grid-line 14 0)
+	:help-text		"tt_pattern_callback_add(3)\n"
+)
+:element patternAddressButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			150
+	:y			111
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Address"
+	:menu			patternAddressButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj separator 13)
+	:west-attachment	(:center-grid-line 38 0)
+	:help-text		"tt_pattern_address_add(3)\n"
+)
+:element patternStateButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			123
+	:y			50
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add State"
+	:menu			patternStateButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj categoryChoice 10)
+	:west-attachment	(:obj patternClassButton 5)
+	:help-text		"tt_pattern_state_add(3)\n"
+)
+:element patternClassButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			10
+	:y			50
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Class"
+	:menu			patternClassButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj categoryChoice 10)
+	:west-attachment	(:point 0 10)
+	:help-text		"tt_pattern_class_add(3)\n"
+)
+:element patternOpAddButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			464
+	:y			16
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Op..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 15)
+	:east-attachment	(:point 0 20)
+	:help-text		"tt_pattern_op_add(3)\n"
+)
+:element separator
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			11
+	:y			91
+	:width			561
+	:height			4
+	:visible		:true
+	:north-attachment	(:obj patternStateButton 10)
+	:east-attachment	(:point 0 10)
+	:west-attachment	(:point 0 10)
+)
+:element patternDispositionAddButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			284
+	:y			111
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Disposition"
+	:menu			patternDispositionAddButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj separator 13)
+	:west-attachment	(:center-grid-line 64 0)
+	:help-text		"tt_pattern_disposition_add(3)\n"
+)
+:element patternAttributeAddButton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			442
+	:y			111
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add"
+	:menu			patternAttributeAddButton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj separator 13)
+	:west-attachment	(:center-grid-line 85 0)
+	:help-text		"tt_pattern_context_add(3)\ntt_pattern_otype_add(3)\ntt_pattern_object_add(3)\ntt_pattern_sender_ptype_add(3)\ntt_pattern_sender_add(3)\n"
+)
+:element patternArgAddButton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			457
+	:y			52
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Arg..."
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj scopeButton 12)
+	:east-attachment	(:point 0 20)
+	:help-text		"tt_pattern_arg_add(3)\ntt_pattern_barg_add(3)\ntt_pattern_iarg_add(3)\ntt_pattern_xarg_add(3)\n"
+)
+:element patternText
+(
+	:type			:text-pane
+	:text-type		:alphanumeric
+	:x			0
+	:y			153
+	:border-frame		:none
+	:num-rows		24
+	:num-columns		74
+	:hscrollbar		:never
+	:vscrollbar		:always
+	:word-wrap		:true
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj patternCallbackAddButton 15)
+	:south-attachment	(:obj patternPane 0)
+	:east-attachment	(:obj patternPane 0)
+	:west-attachment	(:point 0 0)
+	:help-text		"tt_pattern_print(3)\n"
+)
+:element categoryChoice
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			11
+	:y			10
+	:label-type		:string
+	:label			"Category:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 10)
+	:west-attachment	(:point 0 10)
+	:help-text		"tt_pattern_category(3)\ntt_pattern_category_set(3)\n"
+	:children		(
+		categoryChoice_UNDEFINED_item
+		categoryChoice_OBSERVE_item
+		categoryChoice_HANDLE_item
+		categoryChoice_HANDLE_PUSH_item
+		categoryChoice_HANDLE_ROTATE_item
+	)
+)
+:element categoryChoice_UNDEFINED_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"UNDEFINED"
+	:active			:true
+	:selected		:false
+)
+:element categoryChoice_OBSERVE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"OBSERVE"
+	:active			:true
+	:selected		:true
+)
+:element categoryChoice_HANDLE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"HANDLE"
+	:active			:true
+	:selected		:false
+)
+:element categoryChoice_HANDLE_PUSH_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"HANDLE_PUSH"
+	:active			:true
+	:selected		:false
+)
+:element categoryChoice_HANDLE_ROTATE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"HANDLE_ROTATE"
+	:active			:true
+	:selected		:false
+)
+:element patternActionPane
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			585
+	:height			48
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		registerButton
+		unregisterButton
+		patternDestroyButton
+		patternCloseButton
+		patternHelpButton
+	)
+)
+:element registerButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Register"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 21 0)
+	:west-attachment	(:grid-line 4 0)
+	:help-text		"tt_pattern_register(3)\n"
+)
+:element unregisterButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Unregister"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 40 0)
+	:west-attachment	(:grid-line 23 0)
+	:help-text		"tt_pattern_unregister(3)\n"
+)
+:element patternDestroyButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Destroy"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+	:help-text		"tt_pattern_destroy(3)\n"
+)
+:element patternCloseButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Close"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 78 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element patternHelpButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 97 0)
+	:west-attachment	(:grid-line 80 0)
+)
+:element patternProps_footer
+(
+	:type			:container
+	:container-type		:footer
+	:width			585
+	:height			28
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		patternProps_label
+	)
+)
+:element patternProps_label
+(
+	:type			:label
+	:x			1
+	:y			1
+	:label-type		:string
+	:label			"Tt_pattern"
+	:label-alignment	:left
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:point 0 1)
+)
+:element scopeButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		scopeButton_menu_SESSION_item
+		scopeButton_menu_FILE_item
+		scopeButton_menu_BOTH_item
+		scopeButton_menu_FILE_IN_SESSION_item
+	)
+)
+:element scopeButton_menu_SESSION_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"SESSION"
+	:active			:true
+)
+:element scopeButton_menu_FILE_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"FILE"
+	:active			:true
+)
+:element scopeButton_menu_BOTH_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"BOTH"
+	:active			:true
+)
+:element scopeButton_menu_FILE_IN_SESSION_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"FILE_IN_SESSION"
+	:active			:true
+)
+:element patternAddressButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		patternAddressButton_menu_PROCEDURE_item
+		patternAddressButton_menu_OBJECT_item
+		patternAddressButton_menu_HANDLER_item
+		patternAddressButton_menu_OTYPE_item
+	)
+)
+:element patternAddressButton_menu_PROCEDURE_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"PROCEDURE"
+	:active			:true
+)
+:element patternAddressButton_menu_OBJECT_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"OBJECT"
+	:active			:true
+)
+:element patternAddressButton_menu_HANDLER_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"HANDLER"
+	:active			:true
+)
+:element patternAddressButton_menu_OTYPE_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"OTYPE"
+	:active			:true
+)
+:element patternStateButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		patternStateButton_menu_CREATED_item
+		patternStateButton_menu_SENT_item
+		patternStateButton_menu_HANDLED_item
+		patternStateButton_menu_FAILED_item
+		patternStateButton_menu_QUEUED_item
+		patternStateButton_menu_STARTED_item
+		patternStateButton_menu_REJECTED_item
+		patternStateButton_menu_RETURNED_item
+		patternStateButton_menu_ACCEPTED_item
+		patternStateButton_menu_ABSTAINED_item
+	)
+)
+:element patternStateButton_menu_CREATED_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"CREATED"
+	:active			:true
+)
+:element patternStateButton_menu_SENT_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"SENT"
+	:active			:true
+)
+:element patternStateButton_menu_HANDLED_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"HANDLED"
+	:active			:true
+)
+:element patternStateButton_menu_FAILED_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"FAILED"
+	:active			:true
+)
+:element patternStateButton_menu_QUEUED_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"QUEUED"
+	:active			:true
+)
+:element patternStateButton_menu_STARTED_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"STARTED"
+	:active			:true
+)
+:element patternStateButton_menu_REJECTED_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"REJECTED"
+	:active			:true
+)
+:element patternStateButton_menu_RETURNED_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"RETURNED"
+	:active			:true
+)
+:element patternStateButton_menu_ACCEPTED_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"ACCEPTED"
+	:active			:true
+)
+:element patternStateButton_menu_ABSTAINED_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"ABSTAINED"
+	:active			:true
+)
+:element patternClassButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		patternClassButton_menu_NOTICE_item
+		patternClassButton_menu_REQUEST_item
+		patternClassButton_menu_OFFER_item
+	)
+)
+:element patternClassButton_menu_NOTICE_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"NOTICE"
+	:active			:true
+)
+:element patternClassButton_menu_REQUEST_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"REQUEST"
+	:active			:true
+)
+:element patternClassButton_menu_OFFER_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"OFFER"
+	:active			:true
+)
+:element patternDispositionAddButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		patternDispositionAddButton_menu_DISCARD_item
+		patternDispositionAddButton_menu_QUEUE_item
+		patternDispositionAddButton_menu_START_item
+	)
+)
+:element patternDispositionAddButton_menu_DISCARD_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"DISCARD"
+	:active			:true
+)
+:element patternDispositionAddButton_menu_QUEUE_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"QUEUE"
+	:active			:true
+)
+:element patternDispositionAddButton_menu_START_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"START"
+	:active			:true
+)
+:element patternAttributeAddButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		patternAttributeAddButton_menu_Context_item
+		patternAttributeAddButton_menu_Otype_item
+		patternAttributeAddButton_menu_Object_item
+		patternAttributeAddButton_menu_Sender_Ptype_item
+		patternAttributeAddButton_menu_Sender_item
+	)
+)
+:element patternAttributeAddButton_menu_Context_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Context..."
+	:active			:true
+)
+:element patternAttributeAddButton_menu_Otype_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Otype..."
+	:active			:true
+)
+:element patternAttributeAddButton_menu_Object_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Object..."
+	:active			:true
+)
+:element patternAttributeAddButton_menu_Sender_Ptype_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Sender Ptype.."
+	:active			:true
+)
+:element patternAttributeAddButton_menu_Sender_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Sender..."
+	:active			:true
+)
+:element categoryButton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		categoryButton_menu_OBSERVE_item
+		categoryButton_menu_HANDLE_item
+		categoryButton_menu_HANDLE_PUSH_item
+		categoryButton_menu_HANDLE_ROTATE_item
+	)
+)
+:element categoryButton_menu_OBSERVE_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"OBSERVE"
+	:active			:true
+)
+:element categoryButton_menu_HANDLE_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"HANDLE"
+	:active			:true
+)
+:element categoryButton_menu_HANDLE_PUSH_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"HANDLE_PUSH"
+	:active			:true
+)
+:element categoryButton_menu_HANDLE_ROTATE_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"HANDLE_ROTATE"
+	:active			:true
+)
+:connection
+(
+	:from			patternOpAddButton
+	:when			:activate
+	:action-type		:call-function
+	:action			patOpAdd
+)
+:connection
+(
+	:from			registerButton
+	:when			:activate
+	:action-type		:call-function
+	:action			patRegister
+)
+:connection
+(
+	:from			unregisterButton
+	:when			:activate
+	:action-type		:call-function
+	:action			patUnRegister
+)
+:connection
+(
+	:from			patternDestroyButton
+	:when			:activate
+	:action-type		:call-function
+	:action			patDestroy
+)
+:connection
+(
+	:from			patternCloseButton
+	:to			patternProps
+	:when			:activate
+	:action-type		:builtin
+	:action			:hide
+	:arg-type		:void
+)
+:connection
+(
+	:from			patternHelpButton
+	:when			:activate
+	:action-type		:call-function
+	:action			patHelp
+)
+:connection
+(
+	:from			scopeButton_menu_SESSION_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addScopeSession
+)
+:connection
+(
+	:from			scopeButton_menu_FILE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addScopeFile
+)
+:connection
+(
+	:from			scopeButton_menu_BOTH_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addScopeBoth
+)
+:connection
+(
+	:from			scopeButton_menu_FILE_IN_SESSION_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addScopeFileInSession
+)
+:connection
+(
+	:from			patternAddressButton_menu_PROCEDURE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addAddressPROCEDURE
+)
+:connection
+(
+	:from			patternAddressButton_menu_OBJECT_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addAddressOBJECT
+)
+:connection
+(
+	:from			patternAddressButton_menu_HANDLER_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addAddressHANDLER
+)
+:connection
+(
+	:from			patternAddressButton_menu_OTYPE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addAddressOTYPE
+)
+:connection
+(
+	:from			patternStateButton_menu_CREATED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateCREATED
+)
+:connection
+(
+	:from			patternStateButton_menu_SENT_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateSENT
+)
+:connection
+(
+	:from			patternStateButton_menu_HANDLED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateHANDLED
+)
+:connection
+(
+	:from			patternStateButton_menu_FAILED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateFAILED
+)
+:connection
+(
+	:from			patternStateButton_menu_QUEUED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateQUEUED
+)
+:connection
+(
+	:from			patternStateButton_menu_STARTED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateSTARTED
+)
+:connection
+(
+	:from			patternStateButton_menu_REJECTED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateREJECTED
+)
+:connection
+(
+	:from			patternStateButton_menu_RETURNED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateRETURNED
+)
+:connection
+(
+	:from			patternStateButton_menu_ACCEPTED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateACCEPTED
+)
+:connection
+(
+	:from			patternStateButton_menu_ABSTAINED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addStateABSTAINED
+)
+:connection
+(
+	:from			patternClassButton_menu_NOTICE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addClassNOTICE
+)
+:connection
+(
+	:from			patternClassButton_menu_REQUEST_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addClassREQUEST
+)
+:connection
+(
+	:from			patternClassButton_menu_OFFER_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addClassOFFER
+)
+:connection
+(
+	:from			patternDispositionAddButton_menu_DISCARD_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addDispositionDISCARD
+)
+:connection
+(
+	:from			patternDispositionAddButton_menu_QUEUE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addDispositionQUEUE
+)
+:connection
+(
+	:from			patternDispositionAddButton_menu_START_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addDispositionSTART
+)
+:connection
+(
+	:from			categoryChoice_UNDEFINED_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setCategoryUNDEFINED
+)
+:connection
+(
+	:from			categoryChoice_OBSERVE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setCategoryOBSERVE
+)
+:connection
+(
+	:from			categoryChoice_HANDLE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setCategoryHANDLE
+)
+:connection
+(
+	:from			categoryChoice_HANDLE_PUSH_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setCategoryHANDLE_PUSH
+)
+:connection
+(
+	:from			categoryChoice_HANDLE_ROTATE_item
+	:when			:activate
+	:action-type		:call-function
+	:action			setCategoryHANDLE_ROTATE
+)
+:connection
+(
+	:from			patternAttributeAddButton_menu_Context_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addContext
+)
+:connection
+(
+	:from			patternAttributeAddButton_menu_Otype_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addOtype
+)
+:connection
+(
+	:from			patternAttributeAddButton_menu_Object_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addObject
+)
+:connection
+(
+	:from			patternAttributeAddButton_menu_Sender_Ptype_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addSenderPtype
+)
+:connection
+(
+	:from			patternAttributeAddButton_menu_Sender_item
+	:when			:activate
+	:action-type		:call-function
+	:action			addSender
+)
+:connection
+(
+	:from			patternSessionButton
+	:when			:activate
+	:action-type		:call-function
+	:action			sessionAdd
+)
+:connection
+(
+	:from			patternFileButton
+	:when			:activate
+	:action-type		:call-function
+	:action			addFile
+)
+:connection
+(
+	:from			patternArgAddButton
+	:when			:activate
+	:action-type		:call-function
+	:action			addArg
+)
+:connection
+(
+	:from			patternCallbackAddButton
+	:when			:activate
+	:action-type		:call-function
+	:action			callbackAdd
+)
+)

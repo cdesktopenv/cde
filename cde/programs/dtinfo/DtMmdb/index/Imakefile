@@ -1,0 +1,41 @@
+XCOMM $XConsortium: Imakefile /main/9 1996/08/21 15:52:16 drk $
+
+XCOMM                         ** WARNING **
+XCOMM 
+XCOMM The files named here may appear in many different Imakefiles.
+XCOMM If you add or remove a file, be sure to update all locations.
+XCOMM It's unfortunate, but all this redundancy serves a purpose.
+XCOMM
+XCOMM Other possible locations are:
+XCOMM		.../lib/DtMmdb/Imakefile
+XCOMM		.../lib/DtMmdb/<subdir>/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/Imakefile
+XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
+
+#define DoNormalLib	NormalLibDtMmdb
+#define DoSharedLib	SharedLibDtMmdb
+#define DoDebugLib	DebugLibDtMmdb
+#define DoProfileLib	ProfileLibDtMmdb
+#define LibName		DtMmdb
+#define SoRev		SODTMMDBREV
+#define LibHeaders	NO
+#define LibCreate	NO
+#define LargePICTable	YES
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+XCOMM In DtMmdb we compile as C_API sources.
+DEFINES  = -DC_API -DPORTABLE_DB
+INCLUDES = -I.. $(EXCEPTIONS_INCLUDES)
+
+SRCS = 	btree_index.C		dyn_disk_index.C	dyn_index.C  \
+	dyn_memory_index.C	fast_mphf.C		hash.C \
+	index.C			inv_lists.C		mphf_index.C
+OBJS = $(SRCS:.C=.o)
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

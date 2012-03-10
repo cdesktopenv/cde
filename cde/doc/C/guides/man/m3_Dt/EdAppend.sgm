@@ -1,0 +1,167 @@
+<!-- $XConsortium: EdAppend.sgm /main/6 1996/09/08 20:03:03 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN14.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN14.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtEditorAppend</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtEditorAppend</Function></RefName>
+<RefPurpose>append data to a DtEditor widget
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- *************************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Editor.h>
+</FuncSynopsisInfo>
+<FuncDef>DtEditorErrorCode <Function>DtEditorAppend</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>DtEditorContentRec *<Parameter>data</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtEditorAppend</Function> function appends either a
+<SystemItem Class="Constant">NULL</SystemItem>-terminated string, wide character string or sized buffer
+after the last character in a DtEditor widget.
+The data is transferred to the DtEditor widget using a
+<StructName Role="typedef">DtEditorContentRec</StructName>, which indicates the
+type of data being transferred along with the actual data.
+After the data is appended, the insertion cursor is positioned at the
+new last character.
+</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument specifies the DtEditor widget ID.
+</Para>
+<Para>The
+<Symbol Role="Variable">data</Symbol> argument points to the data structure containing the data to append.
+<![ %CDE.C.CDE; [</Para>
+<Para>For a complete definition of the DtEditor widget
+and its associated resources, see
+&cdeman.DtEditor;. ]]></Para>
+<Para>For a complete definition of
+<StructName Role="typedef">DtEditorContentRec</StructName>, see
+&cdeman.Dt.Editor.h;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<![ %CDE.C.XO; [
+<Para>Upon successful completion, the
+<Function>DtEditorAppend</Function> function returns
+<SystemItem Class="Constant">DtEDITOR_NO_ERRORS</SystemItem>; otherwise, it returns one of the following values:
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>Upon successful completion, the
+<Function>DtEditorAppend</Function> function returns one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_NO_ERRORS</Term>
+<ListItem>
+<Para>The data was appended sucessfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NULLS_REMOVED</Term>
+<ListItem>
+<Para>NULL characters were found and removed from the data.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Otherwise, if
+the
+<Function>DtEditorAppend</Function> function
+cannot append the data into the DtEditor widget,
+it returns one of the following values:
+</Para>
+]]>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_TYPE</Term>
+<ListItem>
+<Para>The
+<Symbol Role="Variable">type</Symbol> field is unrecognized.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_ILLEGAL_SIZE</Term>
+<ListItem>
+<Para>The size of the buffer passed in is negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_NULL_ITEM</Term>
+<ListItem>
+<Para>The buffer is
+<SystemItem Class="Constant">NULL</SystemItem>. <![ %CDE.C.CDE; [</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Not enough system memory is available to append the data.
+]]></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The following code segment sets the contents of a DtEditor
+widget to ``The quick brown fox.''
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>Widget                  editor;
+DtEditorContentRec      cr;
+DtEditorErrorCode       status;
+char                    *sampleString1="The quick",
+                        *secondString2=" brown fox";
+cr.type = DtEDITOR_TEXT;
+cr.value.string = sampleString1;
+status = DtEditorSetContents(editor, &amp;cr);
+<![ %CDE.C.XO; [if (status != DtEDITOR_NO_ERRORS) {
+]]><![ %CDE.C.CDE; [if (status != DtEDITOR_NO_ERRORS &amp;&amp; status != DtEDITOR_NULLS_REMOVED) {
+]]>        printf("Unable to set the contents of the widget&bsol;n");
+} else {
+        cr.type = DtEDITOR_TEXT;
+        cr.value.string = sampleString2;
+        status = DtEditorAppend(editor, &amp;cr);
+        if (status != DtEDITOR_NO_ERRORS)
+                printf("Unable to append to the contents of the widget&bsol;n");
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>If the data is in a disk file, rather than in memory, the application should
+use
+&cdeman.DtEditorAppendFromFile;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Editor.h;, &cdeman.DtEditor;, &cdeman.DtEditorAppendFromFile;, &cdeman.DtEditorGetContents;, &cdeman.DtEditorInsert;, &cdeman.DtEditorInsertFromFile;, &cdeman.DtEditorReplace;, &cdeman.DtEditorReplaceFromFile;, &cdeman.DtEditorSaveContentsToFile;, &cdeman.DtEditorSetContents;, &cdeman.DtEditorSetContentsFromFile;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

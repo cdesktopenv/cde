@@ -1,0 +1,238 @@
+<!-- $XConsortium: appb.sgm /main/6 1996/08/25 15:09:01 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<appendix id="DKSUG.convf.div.1">
+<title>dtksh簡易関数<indexterm><primary>簡易関数</primary></indexterm></title>
+<para><command>dtksh</command>ユーティリティは、簡易関数のファイルを含んでいます。この関数は、
+シェル・プログラマにとって有益なシェル関数を含むシェル・スクリプトです。シェル
+関数は、シェル・プログラマが頻繁に行わなければならない操作を実行します。これらには
+ある種類のダイアログ(ヘルプ、エラー、警告など)を手早く作成する関数、いくつかの
+ボタンを容易に作成する関数、フォーム・ウィジェットの子に対する制約リソースを容易
+に作成する関数が含まれています。
+シェル・スクリプトの作成者はこれらの簡易関数を必ず使用する必要はありません。
+開発者がより短期間で、よりわかりやすいシェル・スクリプトを、より簡単に作成できる
+ように提供されています。</para>
+<para>シェル・スクリプトがこれらの関数にアクセスする前に、簡易関数を含んでいるファイルを
+取り込まなければなりません。簡易関数は、<filename>/usr/dt/scripts/DtFuncs.sh.</filename>ファイルに
+あります。シェル・スクリプトにそれらを取り込みには、次のように記述します。</para>
+<programlisting>. /usr/dt/lib/dtksh/DtFuncs.dtsh</programlisting>
+<sect1 id="DKSUG.convf.div.2">
+<title>DtkshAddButtons<indexterm><primary>DtkshAddButtons</primary></indexterm></title>
+<para><command>DtkshAddButtons</command>はコンポジット・ウィジェット内に同じ種類のボタンを1つ以上
+追加します。いくつかのボタンを、メニュー区画またはメニューバーに追加するために、
+最も頻繁に使用されます。</para>
+<para>使用方法は次のとおりです。</para>
+<programlisting>DtkshAddButtons parent widgetClass label1 callback1
+                [label2 callback2 ...]
+DtkshAddButtons [-w] parent widgetClass variable1 label1 callback1 \
+                [variable2 label2 callback2 ...]</programlisting>
+<para><filename>-w</filename>オプションは、作成する各ボタンのウィジェット・ハンドルを簡易関数が返すように
+指示します。ウィジェット・ハンドルは、指定した環境変数に返されます。<command>widgetClass</command>
+パラメータは、次のいずれかに設定できます。何も指定しなかった場合のデフォルトは
+<command>XmPushButtonGadget</command>です。</para>
+<itemizedlist remap="Bullet1"><listitem><para><command>XmPushButton</command></para>
+</listitem><listitem><para><command>XmPushButtonGadget</command></para>
+</listitem><listitem><para><command>XmToggleButton</command></para>
+</listitem><listitem><para><command>XmToggleButtonGadget</command></para>
+</listitem><listitem><para><command>XmCascadeButton</command></para>
+</listitem><listitem><para><command>XmCascadeButtonGadget</command></para>
+</listitem></itemizedlist>
+<para>次に例を示します。</para>
+<programlisting>DtkshAddButtons $MENU XmPushButtonGadget Open do_Open Save do_Save
+                Quit exit
+DtkshAddButtons -w $MENU XmPushButtonGadget B1 Open do_Open B2 Save
+                do_Save</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.3">
+<title>DtkshSetReturnKeyControls<indexterm><primary>DtkshSetReturnKeyControls</primary></indexterm></title>
+<para><command>DtkshSetReturnKeyControls</command>は、フォーム・ウィジェット内にテキスト・ウィジェットを
+作成し、リターン・キーがフォーム・ウィジェット内のデフォルト・ボタンを動作せず、
+フォーム・ウィジェット内の次のテキスト・ウィジェットにフォーカスが移動するように
+します。これは、一連のテキスト・ウィジェットを含むウィンドウがあり、最後の
+テキスト・ウィジェットにフォーカスがある間にユーザが改行キーを押すまで、デフォルト
+が動作しないようにする場合に便利です。</para>
+<para>使用方法は次のとおりです。</para>
+<programlisting>DtkshSetReturnKeyControls textWidget nextTextWidget formWidget
+                          defaultButton</programlisting>
+<para><symbol role="Variable">textWidget</symbol>パラメータは、改行キーが押されるとフォーカスが次の
+テキスト・ウィジェット(<symbol role="Variable">nextTextWidget</symbol>パラメータで指定したもの)に移動するように
+構成されたウィジェットを指定します。<symbol role="Variable">formWidget</symbol>パラメータは、デフォルト・ボタンを
+含み、2つのテキスト・ウィジェットの親になるフォーム・ウィジェットを指定します。
+<symbol role="Variable">defaultButton</symbol>パラメータは、フォーム・ウィジェット内でデフォルト・ボタンとして扱われるコンポーネントを指定します。</para>
+<para>次に例を示します。</para>
+<programlisting>DtkshSetReturnKeyControls $TEXT1 $TEXT2 $FORM $OK
+DtkshSetReturnKeyControls $TEXT2 $TEXT3 $FORM $OK</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.4">
+<title>DtkshUnder、DtkshOver、DtkshRightOf、DtkshLeftOf<indexterm><primary>DtkshUnder</primary></indexterm><indexterm><primary>DtkshOver</primary></indexterm><indexterm>
+<primary>DtkshRightOf</primary></indexterm><indexterm><primary>DtkshLeftOf</primary></indexterm></title>
+<para>これらの簡易関数は、フォーム・ウィジェットの制約条件のクラスの指定を簡易化します。
+コンポーネントを他のコンポーネントの端1つに接続する方法を提供します。
+これは<filename>ATTACH_WIDET</filename>制約条件を使用して実行されます。</para>
+<para>使用方法は次のとおりです。</para>
+<programlisting>DtkshUnder widgetId [offset]
+DtkshOver widgetId [offset]
+DtkshRightOf widgetId [offset]
+DtkshLeftOf widgetId [offset]</programlisting>
+<para><symbol role="Variable">widgetId</symbol>パラメータは、現在のコンポーネントを接続するコンポーネントを指定します。
+<symbol role="Variable">offset</symbol>値はオプションで、指定されていない場合のデフォルト値は0です。</para>
+<para>次に例を示します。</para>
+<programlisting>XtCreateManagedWidget BUTTON4 button4 XmPushButton $FORM \
+        labelString:&ldquo;Exit&ldquo; \
+        $(DtkshUnder $BUTTON2) \
+        $(DtkshRightOf $BUTTON3)</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.5">
+<title>DtkshFloatRight、DtkshFloatLeft、DtkshFloatTop、DtkshFloatBottom<indexterm>
+<primary>DtkshFloatRight</primary></indexterm><indexterm><primary>DtkshFloatLeft</primary></indexterm><indexterm><primary>DtkshFloatTop</primary></indexterm><indexterm>
+<primary>DtkshFloatBottom</primary></indexterm></title>
+<para>これらの簡易関数は、フォーム・ウィジェットの制約条件のクラスの指定を簡易化します。
+フォーム・ウィジェット内の他のコンポーネントに依存せずに、コンポーネントを配置
+する方法を提供します。フォーム・ウィジェットが伸縮しても、コンポーネントは
+フォーム・ウィジェット内の相対位置を維持します。コンポーネントに対して他の
+フォーム・ウィジェットの制約条件が指定されると、コンポーネントは伸縮します。
+これは<filename>ATTACH_POSITION</filename>制約条件を使用して実行されます。</para>
+<para>使用方法は次のとおりです。</para>
+<programlisting>DtkshFloatRight [position]
+DtkshFloatLeft [position]
+DtkshFloatTop [position]
+DtkshFloatBottom [position]</programlisting>
+<para>オプションの<symbol role="Variable">position</symbol>パラメータは、コンポーネントの指定した端を配置する
+相対位置を指定します。<symbol role="Variable">position</symbol>値はオプションで、
+指定されていない場合のデフォルトは0です。</para>
+<para>次に例を示します。</para>
+<programlisting>XtCreateManagedWidget BUTTON1 button1 XmPushButton $FORM \
+        labelString:&ldquo;Ok&ldquo; \
+        $(DtkshUnder $SEPARATOR) \
+        $(DtkshFloatLeft 10) \
+        $(DtkshFloatRight 40)</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.6">
+<title>DtkshAnchorRight、DtkshAnchorLeft、DtkshAnchorTop、DtkshAnchorBottom<indexterm>
+<primary>DtkshAnchorRight</primary></indexterm><indexterm><primary>DtkshAnchorLeft</primary></indexterm><indexterm><primary>DtkshAnchorTop</primary></indexterm><indexterm>
+<primary>DtkshAnchorBottom</primary></indexterm></title>
+<para>これらの簡易関数は、フォーム・ウィジェットの制約条件のクラスの指定を簡易化します。
+フォーム・ウィジェットを伸縮してもコンポーネントの位置が変更しないように、
+フォーム・ウィジェットの1つの端にコンポーネントを接続する方法を提供します。
+ただし、このコンポーネントに設定されている他のフォーム・ウィジェットの制約条件
+によっては、サイズの伸縮がまだ行われる場合があります。
+これは、<filename>ATTACH_FORM</filename>制約条件を使用して実行されます。</para>
+<para>使用方法を次に示します。</para>
+<programlisting>DtkshAnchorRight [offset]
+DtkshAnchorLeft [offset]
+DtkshAnchorTop [offset]
+DtkshAnchorBottom [offset]</programlisting>
+<para>オプションの<symbol role="Variable">offset</symbol>パラメータは、コンポーネントを配置するフォーム・ウィジェット
+の端からの距離を指定します。offsetが指定されていない場合は0を使用します。</para>
+<para>次に例を示します。</para>
+<programlisting>XtCreateManagedWidget BUTTON1 button1 XmPushButton $FORM \
+        labelString:&ldquo;Ok&ldquo; \
+        $(DtkshUnder $SEPARATOR) \
+        $(DtkshAnchorLeft 10) \
+        $(DtkshAnchorBottom 10)</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.7">
+<title>DtkshSpanWidthおよびDtkshSpanHeight<indexterm><primary>DtkshSpanWidth</primary></indexterm><indexterm><primary>DtkshSpanHeight</primary></indexterm></title>
+<para>これらの簡易関数は、フォーム・ウィジェットの制約条件のクラスの指定を簡易化します。
+フォーム・ウィジェットの高さまたは幅を最大に広げるように構成する方法を提供します。
+これは、フォーム・ウィジェットに、2つのコンポーネントの端(<command>DtSpanHeight</command>の上下、
+<command>DtSpanWidth</command>の左右)を接続することによって実行します。、
+通常、フォーム・ウィジェットがサイズ変更すると、コンポーネントも必ずサイズ変更します。
+<filename>ATTACH_FORM</filename>制約条件がすべてのアタッチメントで使用されます。</para>
+<para>使用方法は次のとおりです。</para>
+<programlisting>DtkshSpanWidth [leftOffset rightOffset]
+DtkshSpanHeight [topOffset bottomOffset]</programlisting>
+<para>オプションの<symbol role="Variable">offset</symbol>パラメータは、コンポーネントを配置するフォーム・ウィジェットの
+端からの距離を指定します。 offsetを指定しなかった場合のデフォルトは0です。</para>
+<para>次に例を示します。</para>
+<programlisting>XtCreateManagedWidget SEP sep XmSeparator $FORM \
+                      $(DtkshSpanWidth 1 1)</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.8">
+<title>DtkshDisplayInformationDialog、DtkshDisplayQuestionDialog、DtDisplayWarningDialog、
+DtkshDisplayWorkingDialog、DtkshDisplayErrorDialog<indexterm><primary>DtkshDisplayInformationDialog</primary></indexterm><indexterm><primary>DtkshDisplayQuestionDialog</primary></indexterm><indexterm><primary>DtDisplayWarningDialog</primary>
+</indexterm><indexterm><primary>DtkshDisplayWorkingDialog</primary></indexterm><indexterm>
+<primary>DtkshDisplayErrorDialog</primary></indexterm></title>
+<para>これらの簡易関数は、Motifフィードバック・ダイアログのそれぞれの単一インスタンスを
+作成します。要求したダイアログ型のインスタンスが既に存在している場合は、それを
+再利用します。ダイアログの親は、環境変数<filename>$TOPLEVEL</filename>から取得
+します。これは、シェル・スクリプトの呼び出しよって設定され、その後、変更されません。
+要求されたダイアログのハンドルは、次の環境変数のいずれかに返されます。</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>_DTKSH_ERROR_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_QUESTION_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_WORKING_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_WARNING_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_INFORMATION_DIALOG_HANDLE</filename></para>
+</listitem></itemizedlist>
+<note>
+<para>ダイアログのボタンに独自のコールバックを接続した場合、ダイアログを使用中に
+破棄しないでください。ダイアログの管理をやめないと、後で再使用されてしまいます。
+ダイアログの破棄が必要な場合は、関連する環境変数をクリアして、簡易関数が
+ダイアログを再使用しないようにしてください。</para>
+</note>
+<para>使用方法は次のとおりです。</para>
+<programlisting>DtkshDisplay&lt;<symbol role="Variable">name</symbol>>Dialog title message [okCallback closeCallback
+                        helpCallback dialogStyle]</programlisting>
+<para>[OK]([了解])ボタンは常に管理されていて、デフォルト時にはダイアログを管理しません。
+[Cancel]([取消し])および[Help]([ヘルプ])ボタンは、コールバックが提供されたときのみ管理されます。
+<symbol role="Variable">dialogStyle</symbol>パラメータは、関連するブリテン・ボード・リソースがサポートする
+標準のリソース設定のいずれかを受け入れます。</para>
+<para>次に例を示します。</para>
+<programlisting>DtkshDisplayErrorDialog &ldquo;Read Error&ldquo; &ldquo;Unable to read the file&ldquo;
+                 &ldquo;OkCallback&ldquo; \
+                 &ldquo;CancelCallback&ldquo; &ldquo;&ldquo; DIALOG_PRIMARY_APPLICATION_MODAL
+</programlisting>
+</sect1>
+<sect1 id="DKSUG.convf.div.9">
+<title>DtkshDisplayQuickHelpDialogおよびDtkshDisplayHelpDialog<indexterm><primary>DtkshDisplayQuickHelpDialog</primary></indexterm><indexterm><primary>DtkshDisplayHelpDialog</primary></indexterm></title>
+<para>これらの簡易関数は、ヘルプ・ダイアログのそれぞれの単一インスタンスを作成します。
+すでに、要求したヘルプ・ダイアログの型のインスタンスが存在している場合は、それを
+再使用します。ダイアログの親は、<filename>$TOPLEVEL</filename>環境変数から取得
+します。これは、シェル・スクリプトによって設定され、その後は変更されません。
+要求したダイアログのハンドルは、次の環境変数のいずれかを返します。</para>
+<itemizedlist remap="Bullet1"><listitem><para><filename>_DTKSH_HELP_DIALOG_HANDLE</filename></para>
+</listitem><listitem><para><filename>_DTKSH_QUICK_HELP_DIALOG_HANDLE</filename></para>
+</listitem></itemizedlist>
+<note>
+<para>ダイアログの破棄が必要な場合は、関連する環境変数をクリアし、簡易関数がダイアログを
+再使用しないようにしてください。</para>
+</note>
+<para>使用方法は次のおとおりです。</para>
+<programlisting>DtkshDisplay*HelpDialog title helpType helpInformation [locationId]
+</programlisting>
+<para>パラメータの意味は、<symbol role="Variable">helpType</symbol>パラメータに指定した値に依存します。
+意味は次のとおりです。</para>
+<itemizedlist remap="Bullet1"><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_TOPIC</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = ヘルプ・ボリューム名</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> = ヘルプ・トピック位置ID</para>
+</listitem></itemizedlist>
+</listitem><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_STRING</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = ヘルプ文字列</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> = &lt;未使用></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_DYNAMIC_STRING</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = ヘルプ文字列</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> = &lt;未使用></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_MAN_PAGE</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = マニュアル・ページ名</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> = &lt;未使用></para>
+</listitem></itemizedlist>
+</listitem><listitem><para><symbol role="Variable">helpType</symbol> = <filename>HELP_TYPE_FILE</filename></para>
+<itemizedlist remap="Bullet2"><listitem><para><symbol role="Variable">helpInformation</symbol> = ヘルプ・ファイル名</para>
+</listitem><listitem><para><symbol role="Variable">locationId</symbol> = &lt;未使用></para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para>Example:</para>
+<programlisting>DtkshDisplayHelpDialog &ldquo;Help On Dtksh&ldquo; HELP_TYPE_FILE
+                       &ldquo;helpFileName&ldquo;</programlisting>
+</sect1>
+</appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000017940>

@@ -1,0 +1,219 @@
+<!-- $XConsortium: ttdbserv.sgm /main/7 1996/12/06 18:09:14 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN45.rsml.1" Remap="">
+<RefMeta>
+<RefEntryTitle>ttdbserverd</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>ttdbserverd</Command></RefName>
+<RefPurpose>RPC-based ToolTalk database server
+</RefPurpose>
+</RefNameDiv>
+<!-- (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!--  (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!--  (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>rpc.ttdbserverd</Command>
+<Arg Choice="opt">&minus;G</Arg>
+<Arg Choice="opt">&minus;m <Replaceable>DTMOUNTPOINT_value</Replaceable></Arg>
+<Arg Choice="opt">&minus;n</Arg>
+<!--.RB [ -t \ level]-->
+<Arg Choice="opt">&minus;v</Arg>
+<Arg Choice="opt">&minus;?</Arg>
+<!-- This was disabled for release 1.0-->
+<!-- [-a authentication-level]-->
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Command>rpc.ttdbserverd</Command>
+manages ToolTalk objects created by
+&cdeman.tt.spec.create;,
+and handles certain queries related to the netfiles returned by
+&cdeman.tt.file.netfile;.
+One instance of
+<Command>rpc.ttdbserverd</Command>
+(normally started by 
+<Command>inetd</Command>)
+runs on each host that has a local filesystem.
+<Command>rpc.ttdbserverd</Command>
+serves four purposes:</Para>
+<OrderedList>
+<ListItem>
+<Para>Mapping a spec to its associated file and a file to its associated specs.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Mapping a spec to its properties.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Mapping a file to a list of sessions with clients having patterns
+registered in the scope of that file.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Answering netfile queries; see
+&cdeman.tt.file.netfile;
+and
+&cdeman.tt.host.file.netfile;.
+</Para>
+</ListItem>
+</OrderedList>
+<Para>For each filesystem that
+<Command>rpc.ttdbserverd</Command>
+needs to store information about, it creates a directory called
+<Filename>TT_DB</Filename> at the mountpoint of that file system.
+In that directory
+it creates the databases it needs to store its tables and indices.
+If the partition is not writable, then
+<Command>rpc.ttdbserverd</Command>
+can be told, via
+<Filename MoreInfo=RefEntry>partition_map</Filename>(4),
+to create the databases in another local partition.
+If
+<Command>rpc.ttdbserverd</Command>
+is not installed on a particular file server, ToolTalk can be
+told, via
+<Filename MoreInfo=RefEntry>hostname_map</Filename>(4),
+to manage that file server's partitions using the
+<Command>rpc.ttdbserverd</Command>
+on a different host.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<VariableList>
+<VarListEntry>
+<Term>&minus;G</Term>
+<ListItem>
+<Para>Perform garbage collection.
+This cleans up the <Filename>TT_DB</Filename> directories and the
+associated internal database files.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;m <Replaceable>DTMOUNTPOINT_value</Replaceable></Term>
+<ListItem>
+<Para>Sets the <SystemItem Class="EnvironVar">DTMOUNTPOINT</SystemItem>
+environment variable for
+<Command>rpc.ttdbserverd</Command>.
+If there is already an environment variable called
+<SystemItem Class="EnvironVar">DTMOUNTPOINT</SystemItem>, &minus;m
+will override it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;n</Term>
+<ListItem>
+<Para>Turn off permission checking.  Normally the protection of the file
+passed to
+&cdeman.tt.spec.create;
+determines who may read and write that spec.  This
+option disables this checking and allows anyone to read and write any
+spec.  This option should be used with caution.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;v</Term>
+<ListItem>
+<Para>Print out the version number.
+</Para>
+</ListItem>
+</VarListEntry>
+<!--.TP-->
+<!--.B \-t level-->
+<!--Turns on trace level, the valid level is between 1 to 10.-->
+<VarListEntry>
+<Term>&minus;?</Term>
+<ListItem>
+<Para>Prints out the command usage information.
+</Para>
+</ListItem>
+</VarListEntry>
+<!-- .TP-->
+<!-- .B \-a authentication-level-->
+<!-- Set the authentication level to either-->
+<!-- .I unix-->
+<!-- (the default), or to-->
+<!-- .I des-->
+<!-- which means to use secure RPC.-->
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT</Title>
+<VariableList>
+<VarListEntry>
+<Term>DTMOUNTPOINT</Term>
+<ListItem>
+<Para>If set, the value of this environment variable will be used in place
+of <Filename>/net</Filename> in pathnames constructed to answer
+&cdeman.tt.host.netfile.file;
+queries. This environment variable can also be set by using the &minus;m
+flag for <Command>rpc.ttdbserverd</Command>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_PARTITION_MAP</Term>
+<ListItem>
+<Para>If set, the value of this environment variable will be used
+in place of <Filename>/etc/tt/partition_map</Filename>.  See
+<Filename MoreInfo=RefEntry>partition_map</Filename>(4).
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term>TT_DB/*</Term>
+<ListItem>
+<Para>spec and session database files are kept in the TT_DB directory
+under each disk partition mount point.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>tt/hostname_map</Term>
+<ListItem>
+<Para>Host redirection map.  See
+<Filename MoreInfo=RefEntry>hostname_map</Filename>(4).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>/etc/tt/partition_map</Term>
+<ListItem>
+<Para>Partition redirection map.  See
+<Filename MoreInfo=RefEntry>partition_map</Filename>(4).
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.ttsession;,
+&cdeman.tt.file.netfile;,
+&cdeman.tt.host.file.netfile;,
+&cdeman.tt.spec.create;,
+<Filename MoreInfo=RefEntry>hostname_map</Filename>(4),
+<Filename MoreInfo=RefEntry>partition_map</Filename>(4)
+</Para>
+</RefSect1>
+</RefEntry>

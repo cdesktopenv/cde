@@ -1,0 +1,53 @@
+# $XConsortium: Makefile.sun /main/2 1996/05/13 11:53:03 drk $
+##########################################################################
+#
+#  Makefile for dtwidget examples (SUN)
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Novell, Inc.
+#
+##########################################################################
+
+CC		= cc
+RM		= rm -f
+
+PROGRAM1	= controls
+SOURCES1	= controls.c
+OBJECTS1	= controls.o
+
+PROGRAM2	= editor
+SOURCES2	= editor.c
+OBJECTS2	= editor.o
+
+DEFINES		= 
+CDEBUGFLAGS	= -O
+CFLAGS		= $(DEFINES) $(CDEBUGFLAGS)
+
+DTINCLUDE	= -I/usr/dt/include
+X11INCLUDE	= -I/usr/openwin/include
+
+INCLUDES	= $(DTINCLUDE) $(X11INCLUDE)
+
+DTLIBS		= -L/usr/dt/lib -lDtWidget -lXm
+X11LIBS		= -L/usr/openwin/lib -lXt -lX11
+SYSLIBS		= -ldl -lw -lgen
+
+LIBRARIES	= $(DTLIBS) $(X11LIBS) $(SYSLIBS)
+LDFLAGS		= -R/usr/dt/lib:/usr/openwin/lib
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM1) $(PROGRAM2)	
+
+$(PROGRAM1)::	$(OBJECTS1)
+	$(CC) -o $(PROGRAM1) $(LDFLAGS) $(OBJECTS1) $(LIBRARIES)
+
+$(PROGRAM2)::	$(OBJECTS2)
+	$(CC) -o $(PROGRAM2) $(LDFLAGS) $(OBJECTS2) $(LIBRARIES)
+
+clean::
+	$(RM) $(PROGRAM1) $(OBJECTS1)
+	$(RM) $(PROGRAM2) $(OBJECTS2)

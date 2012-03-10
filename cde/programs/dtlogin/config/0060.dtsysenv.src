@@ -1,0 +1,60 @@
+XCOMM !/usr/bin/ksh
+XCOMM ####################################################################
+XCOMM ##  File:              0060.srcsysenv
+XCOMM ##
+XCOMM ##  Default Location:  /usr/dt/config/Xsession.d/
+XCOMM ##
+XCOMM ##  Purpose:           Source system-defined environment variables
+XCOMM ##
+XCOMM ##  Description:
+XCOMM ##                     This script is invoked by means of the Xsession
+XCOMM ##                     file at user login.
+XCOMM ##
+XCOMM ##  Invoked by:        /usr/dt/bin/Xsession
+XCOMM ##
+XCOMM ##  $TOG: 0060.srcsysenv.src /main/1 1998/08/03 18:10:08 devobj $
+XCOMM ##
+XCOMM ##  (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM ##  (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM ##  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM ##  (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM ##  (c) Copyright 1993, 1994 Novell, Inc.
+XCOMM ##
+XCOMM ####################################################################
+
+XCOMM ##
+XCOMM ####################################################################
+
+#define HASH #
+
+HASH
+HASH Source TIMEZONE
+HASH
+TZ_FILE=/etc/TIMEZONE
+if [ -f $TZ_FILE -a -r $TZ_FILE ]; then
+        . $TZ_FILE
+fi
+unset TZ_FILE
+
+HASH
+HASH Source PATH - it does NOT set the variable so this
+HASH this script must take of it
+HASH
+PATH_FILE=/etc/PATH
+if [ -f $PATH_FILE -a -r $PATH_FILE ]; then
+        export PATH="$PATH:`cat $PATH_FILE`"
+fi
+unset PATH_FILE
+
+HASH
+HASH Source MANPATH - it does NOT set the variable so this
+HASH this script must take of it
+HASH
+MANPATH_FILE=/etc/MANPATH
+if [ -f $MANPATH_FILE -a -r $MANPATH_FILE ]; then
+        export MANPATH="$MANPATH:`cat $MANPATH_FILE`"
+fi
+unset MANPATH_FILE
+
+XCOMM #########################         eof       #####################
+

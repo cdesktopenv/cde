@@ -1,0 +1,131 @@
+<!-- $XConsortium: dtsessio.sgm /main/8 1996/09/08 20:19:21 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMX.MAN86.rsml.1">
+<RefMeta>
+<RefEntryTitle>dtsessionfile</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Filename>dtsessionfile</Filename></RefName>
+<RefPurpose>format and location of desktop session files
+</RefPurpose>
+</RefNameDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<note>
+<para>CDEnext session databases (<Filename>dtsession.db</Filename>)
+supersede CDE1.0 session databases.
+The CDEnext Session Manager can read CDE 1.0 session databases but not write
+to them. It will write only to CDEnext session databases.
+For more information see, &cdeman.dtsessiondb;.
+</para>
+</note>
+<Para>At session startup, the session manager will restart any applications
+that were saved as part of the session. The system default set of
+applications to be
+restored as part of the user's Initial Session can be found in
+/usr/dt/config/$LANG/sys.session. This file should not be edited as
+it will be unconditionally overwritten upon subsequent desktop
+installations.
+</Para>
+<Para>A system administrator may replace the set of applications that
+are restored as part of the user's Initial Session by creating
+a file named /etc/dt/config/$LANG/sys.session. Unlike the resource
+files, this file will be used as a complete replacement for the
+desktop default file, so it is valid to make a copy of the system
+default file and make any necessary modifications.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>FILE FORMAT</Title>
+<Para>A session file contains a line for each application to be started
+during a user's Initial Session. Empty lines or lines beginning with
+a "#" are ignored. Each application to be started should have a line
+in the session file of the form:
+</Para>
+<Para>dtsmcmd -cmd "application command line and options"
+</Para>
+<Para>For example, to start the file manager with options:
+</Para>
+<Para>dtsmcmd -cmd "/usr/dt/bin/dtfile -dir ~ -geometry +700+0"
+</Para>
+<Para>More specifically, a session file consists of one or
+more SessionLine's:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>SessionLine</Term>
+<ListItem>
+<Para>= Comment | SessionSpec | &lt;empty line>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Comment</Term>
+<ListItem>
+<Para>= "#" {&lt;any character except null or newline>}
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>SessionSpec</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>= "dtsmcmd -cmd " Quote CommandSpec Quote
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Quote</Term>
+<ListItem>
+<Para>= """
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CommandSpec</Term>
+<ListItem>
+<Para>= "&lt;application command line and options>"
+</Para>
+<Para>Elements separated by vertical bar (|) are alternatives.
+Curly braces ({...}) indicate zero or more repetitions of
+the enclosed elements. Quotes ("...") are
+used around literal characters.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term>/usr/dt/config/$LANG/sys.session</Term>
+<ListItem>
+<Para>The desktop default set of applications for the
+user's Initial Session.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>/etc/dt/config/$LANG/sys.session</Term>
+<ListItem>
+<Para>System administrator specified set of applications for
+the user's Initial Session.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtsession;</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

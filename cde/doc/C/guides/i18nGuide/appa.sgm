@@ -1,0 +1,443 @@
+<!-- $XConsortium: appa.sgm /main/10 1996/10/30 14:56:04 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<appendix id="IPG.msgs.div.1">
+<title id="IPG.msgs.mkr.1">Message Guidelines</title>
+<para>Refer to the information in this appendix to write messages that are
+easily internationlized.</para>
+<informaltable id="IPG.msgs.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Refer to the information in this
+appendix to write messages that are easily internationlized.127'--><xref
+role="JumpText" linkend="IPG.msgs.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Cause and Recovery Information128'--><xref
+role="JumpText" linkend="IPG.msgs.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Comment Lines for Translators128'--><xref
+role="JumpText" linkend="IPG.msgs.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Writing Style129'--><xref role="JumpText"
+linkend="IPG.msgs.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Usage Statements131'--><xref role="JumpText"
+linkend="IPG.msgs.mkr.6"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Regular Expression Standard Messages134'--><xref
+role="JumpText" linkend="IPG.msgs.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Sample Messages135'--><xref role="JumpText"
+linkend="IPG.msgs.mkr.8"></para></entry></row></tbody></tgroup>
+</informaltable>
+<para id="IPG.msgs.mkr.2"></para>
+<sect1 id="IPG.msgs.div.2">
+<title>File-Naming<indexterm><primary>file, naming conventions</primary>
+</indexterm> Conventions</title>
+<para>The conventions<indexterm><primary>messages</primary><secondary>file-naming
+conventions</secondary></indexterm> used in naming files with user messages
+are discussed here. Usually, the message source file has the suffix <computeroutput>.msg</computeroutput>; the generated message catalog has the suffix <computeroutput>.cat</computeroutput>. There may be other such files related to messages.
+The following criteria must be met for a file to have these suffixes:</para>
+<itemizedlist remap="Bullet1"><listitem><para>It is X/Open-compliant.</para>
+</listitem><listitem><para>It becomes a <computeroutput>*.cat</computeroutput>
+file through the use of the <computeroutput>gencat</computeroutput> command.
+</para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.msgs.div.3">
+<title id="IPG.msgs.mkr.3">Cause and Recovery<indexterm><primary>messages</primary><secondary>cause and recovery information</secondary></indexterm> Information</title>
+<para>Whenever possible, explain to users exactly what has happened and what
+they can do to remedy the situation.</para>
+<para>The message <command>Bad arg</command> is not very helpful. However,
+the following message tells users exactly what to do to make the command
+work:</para>
+<programlisting>Do not specify more than 2 files on the command line</programlisting>
+<para>Similarly, the message <command>Line too long</command> does not give
+users recovery information. However, the following message gives users more
+specific recovery information:</para>
+<programlisting>Line cannot exceed 20 characters</programlisting>
+<para>If detailed recovery information is necessary for a given error message,
+add it to the appropriate place in online information or help.</para>
+<para>See <!--Original XRef content: '&xd2;Sample Messages&xd3; on page&numsp;135'--><xref
+role="SecTitleAndPageNum" linkend="IPG.msgs.mkr.8"> for samples of original
+and rewritten messages.</para>
+</sect1>
+<sect1 id="IPG.msgs.div.4">
+<title id="IPG.msgs.mkr.4">Comment Lines for Translators</title>
+<para>A message<indexterm><primary>messages</primary><secondary>comment
+lines for translators</secondary></indexterm> source file should contain comments
+to help the translator in the process of translation. These comments will
+not be part of the message catalog generated. The comments are similar to
+C language comments to help document a program. A dollar sign ($) followed
+by a space will be interpreted by the translation tool and the <computeroutput>gencat</computeroutput> command as comments. The following is an example
+of a comment line in a message source file.</para>
+<programlisting>$ This is a comment</programlisting>
+<para>Use comment lines to tell translators and writers what variables, such
+as <emphasis>%s</emphasis>, <emphasis>%c</emphasis>, and <emphasis>%d,</emphasis>
+represent. For example, note whether the variable refers to such things as
+a user, file, directory, or flag.</para>
+<para>Place the comment line directly beneath the message to which it refers,
+rather than at the bottom of the message catalog. Global comments for an
+entire set can be placed directly below the $set directive in the source
+file.</para>
+<para>Specify in a comment line any messages within the message catalog that
+are obsolete.</para>
+</sect1>
+<sect1 id="IPG.msgs.div.5">
+<title>Programming Format<indexterm><primary>messages</primary><secondary>programming format</secondary></indexterm></title>
+<para>For the programming format of messages, see the following list.</para>
+<itemizedlist remap="Bullet1"><listitem><para>Do not construct messages from
+clauses. Use flags or other means within the program to pass information
+so that a complete message can be issued at the proper time.</para>
+</listitem><listitem><para>Do not use hardcoded English text as a variable
+for a <emphasis>%s</emphasis> string in an existing message. This is also
+the construction of messages and is not translatable.</para>
+</listitem><listitem><para>Capitalize the first word of the sentence, and
+use a period at the end of the sentence or phrase.</para>
+</listitem><listitem><para>End the last line of the message with
+(backslash followed by a lowercase n, indicating a new line). This also applies
+to one-line messages.</para>
+</listitem><listitem><para>Begin the second and remaining lines of a message
+with <computeroutput>\t</computeroutput> (backslash
+followed by a lowercase t, indicating a tab).</para>
+</listitem><listitem><para>End all other lines with <computeroutput>\n\</computeroutput>
+(backslash followed by a lowercase n, followed by another backslash, indicating
+a new line).</para>
+</listitem><listitem><para>If, for some reason, the message should not end
+with a new line, use a comment to tell the writers.</para>
+</listitem><listitem><para>Precede each message with the name of the command
+that called the message, followed by a colon. The command name should precede
+the component number in error messages. The command name is shown in the
+following example as it should appear in a message:</para>
+<programlisting>>OPIE &ldquo;foo: Opening the file.&rdquo;
+</programlisting>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.msgs.div.6">
+<title id="IPG.msgs.mkr.5">Writing Style</title>
+<para>The following guidelines on the writing style of messages include terminology,
+punctuation, mood, voice, tense, capitalization, and other usage questions.<indexterm>
+<primary>messages</primary><secondary>writing style in</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>Use sentence format. One-line
+and one-sentence messages are preferable.</para>
+</listitem><listitem><para>Add articles (<emphasis>a</emphasis>, <emphasis>an</emphasis>, <emphasis>the</emphasis>) when necessary to eliminate ambiguity.
+</para>
+</listitem><listitem><para>Capitalize the first word of the sentence and use
+a period at the end.</para>
+</listitem><listitem><para>Use the present tense. Do not allow future tense
+in a message. For example, use the sentence:</para>
+<para remap="CodeIndent1"><computeroutput>The foo command displays a calendar.</computeroutput></para>
+<para>Instead of:</para>
+<para remap="CodeIndent1"><computeroutput>The foo command will display a calendar.</computeroutput></para>
+</listitem><listitem><para>Do not use the first person (<emphasis>I</emphasis>
+or <emphasis>we</emphasis>) anywhere in messages.</para>
+</listitem><listitem><para>Avoid using the second person.</para>
+<para>Do not use the word <emphasis>you</emphasis> except in help and interactive
+text.</para>
+</listitem><listitem><para>Use active voice. The first line is the original
+message. The second line is the preferred wording.</para>
+<para remap="CodeIndent1"><computeroutput>MYNUM &ldquo;Month and year must
+be entered as numbers.&rdquo;MYNUM &ldquo;foo: 7777-222 Enter month and year
+as numbers.\n&rdquo;</computeroutput></para>
+<para>7777-222 is the message ID.</para>
+</listitem><listitem><para>Use the imperative mood (command phrase) and active
+verbs: <emphasis>specify</emphasis>, <emphasis>use</emphasis>, <emphasis>check</emphasis>, <emphasis>choose</emphasis>, and <emphasis>wait</emphasis>
+are examples.</para>
+</listitem><listitem><para>State messages in a positive tone. The first line
+is the original message. The second line is the preferred wording.</para>
+<para remap="CodeIndent1"><computeroutput>BADL &ldquo;Don't use the f option
+more than once.&rdquo;BADL &ldquo;foo: 7777-009 Use the -f flag only once.\n&rdquo;</computeroutput></para>
+</listitem><listitem><para>Do not use nouns as verbs. Use words only in the
+grammatical categories shown in the dictionary. If a word is shown only as
+a noun, do not use it as a verb. For example, do not <emphasis>solution</emphasis>
+a problem (or, for that matter, <emphasis>architect</emphasis> a system).
+</para>
+</listitem><listitem><para>Do not use prefixes or suffixes. Translators may
+not understand words beginning with <emphasis>re-</emphasis>, <emphasis>un-</emphasis>, <emphasis>in-</emphasis>, or <emphasis>non-</emphasis>, and
+the translations of messages that use these prefixes or suffixes may not
+have the meaning you intended. Exceptions to this rule occur when the prefix
+is an integral part of a commonly used word. The words <emphasis>previous</emphasis> and <emphasis>premature</emphasis> are acceptable; the word <emphasis>nonexistent,</emphasis> is not.</para>
+</listitem><listitem><para>Do not use plurals. Do not use parentheses to show
+singular or plural, as in <emphasis>error(s),</emphasis> which cannot be
+translated. If you must show singular and plural, write <emphasis>error or
+errors</emphasis>. A better way is to condition the code so that two different
+messages are issued depending on whether the singular or plural of a word
+is required.</para>
+</listitem><listitem><para>Do not use contractions. Use the single word <emphasis>cannot</emphasis> to denote something the system is unable to do.</para>
+</listitem><listitem><para>Do not use quotation marks. This includes both
+single and double quotation marks. For example, do not use quotation marks
+around variables such as <emphasis>%s</emphasis>, <emphasis>%c</emphasis>,
+and <emphasis>%d</emphasis> or around commands. Users may take the quotation
+marks literally.</para>
+</listitem><listitem><para>Do not hyphenate words at the end of lines.</para>
+</listitem><listitem><para>Do not use the standard highlighting guidelines
+in messages, and do not substitute initial or all caps for other highlighting
+practices.</para>
+</listitem><listitem><para>Do not use <emphasis>and/or</emphasis>. This construction
+does not exist in other languages. Usually it is better to say <emphasis>or</emphasis> to indicate that it is not necessary to do both.</para>
+</listitem><listitem><para>Use the 24-hour clock. Do not use <emphasis>a.m.</emphasis> or <emphasis>p.m.</emphasis> to specify time. For example, write <emphasis>1:00 p.m.</emphasis> as <emphasis>1300</emphasis>.</para>
+</listitem><listitem><para>Avoid acronyms. Only use acronyms that are better
+known to your audience than their spelled-out versions. To make a plural
+of an acronym, add a lowercase <symbol role="Variable">s</symbol>, without
+an apostrophe. Verify that it is not a trademark before using it.</para>
+</listitem><listitem><para>Avoid the &ldquo;no-no&rdquo; words. Examples are
+<emphasis>abort</emphasis>, <emphasis>argument</emphasis>,
+and <emphasis>execute</emphasis>. See the project glossary.</para>
+</listitem><listitem><para>Retain meaningful terminology. Keep as much of
+the original message text as possible while ensuring that the message is
+meaningful and translatable.</para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.msgs.div.7">
+<title id="IPG.msgs.mkr.6">Usage Statements</title>
+<para>The<indexterm><primary>messages</primary><secondary>usage statements
+in</secondary></indexterm> usage statement is generated by commands when at
+least one flag that is not valid has been included in the command line. The
+usage statement must not be used if only the data associated with a flag
+is missing or incorrect. If this occurs, an error message unique to the problem
+is used.</para>
+<itemizedlist remap="Bullet1"><listitem><para>Show the command syntax in the
+usage statement. For example, a possible usage statement for the <computeroutput>del</computeroutput> command reads:</para>
+<para remap="CodeIndent1"><computeroutput>Usage: del {File ...|-}</computeroutput></para>
+</listitem><listitem><para>Clauses defining the purpose of a command are to
+be removed.</para>
+</listitem><listitem><para>Capitalize the first letter of such words (parameters)
+as <emphasis>File, Directory, String, Number,</emphasis> and so on only when
+used in a usage statement.</para>
+</listitem><listitem><para>Do not abbreviate parameters on the command line.
+It may be perfectly obvious to experienced users that <emphasis>Num</emphasis>
+means <emphasis>Number</emphasis>, but spell it out to ensure correct translation.
+</para>
+</listitem><listitem><para><indexterm><primary>usage statements, delimiters</primary></indexterm>Use only the following delimiters in usage statements:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="356*">
+<thead>
+<row><entry><para>Delimiter</para></entry><entry><para>Description</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry><para>[]</para></entry>
+<entry><para>Parameter is optional.</para></entry></row>
+<row>
+<entry><para>{ }</para></entry>
+<entry><para>There is more than one parameter choice, but one of the parameters
+is required. (See the following text.)</para></entry></row>
+<row>
+<entry><para>|</para></entry>
+<entry><para>Choose one parameter only. [a|b] indicates that you can choose <emphasis>a</emphasis> or <emphasis>b</emphasis> or neither <emphasis>a</emphasis> nor <emphasis>b</emphasis>. {a|b} indicates that you must choose either <emphasis>a</emphasis>
+or <emphasis>b</emphasis>.</para></entry></row>
+<row>
+<entry><para>..</para></entry>
+<entry><para>Parameter can be repeated on the command line. (Note that there
+is a space before the ellipsis.)</para></entry></row>
+<row>
+<entry><para>-</para></entry>
+<entry><para>Standard input.</para></entry></row></tbody></tgroup></informaltable>
+</listitem><listitem><para>A usage statement parameter does not require square
+brackets or braces if it is required and is the only choice, as in the following:
+</para>
+<para remap="CodeIndent1"><computeroutput>banner String</computeroutput></para>
+</listitem><listitem><para>In usage statements, put a space between flags
+that must be separated on the command line. For example:</para>
+<para remap="CodeIndent1"><computeroutput>unget [-n] [-rSID] [-s] {File|-}</computeroutput></para>
+</listitem><listitem><para>If flags can be used together without a separating
+space, do not separate them with a space on the command line. For example:
+</para>
+<para remap="CodeIndent1"><computeroutput>wc [-cwl] {File ...|-}</computeroutput></para>
+</listitem><listitem><para>When the order of flags on the command line does
+not make a difference, put them in alphabetical order. If the case is mixed,
+put lowercase versions first:</para>
+<para remap="CodeIndent1"><computeroutput>get -aAijlmM</computeroutput></para>
+</listitem><listitem><para>Some usage statements can be long and involved.
+Use your best judgment to determine where you should end lines in the usage
+statement. The following example shows an old-style usage statement for the <computeroutput>get</computeroutput> command:</para>
+<para remap="CodeIndent1"><computeroutput>Usage: get [-e|-k] [-cCutoff] [-iList]
+[-rSID] [-wString] [xList] [-b] [-gmnpst] [-l[p]] File ... Retrieves a specified
+version of a Source Code Control System (SCCS) file.</computeroutput></para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="IPG.msgs.div.8">
+<title>Standard Messages</title>
+<para><indexterm><primary>messages</primary><secondary>punctuation and wording
+guidelines</secondary></indexterm>Certain commands have standard errors defined
+in POSIX.2 documentation. Follow the guidelines set up in POSIX.2, if applicable.
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>Tell the user to <computeroutput>Press the ------ key</computeroutput> to select
+a key on the keyboard, including the specific key to press (such as, <computeroutput>Press Ctrl-D</computeroutput>).</para>
+</listitem><listitem><para>Unless the system is overloaded, there is no need
+to tell the user to <computeroutput>Try again</computeroutput> <computeroutput>later</computeroutput>. That should be obvious from the
+message.</para>
+</listitem><listitem><para>When writing message text, use the word <emphasis>parameter</emphasis> to describe text on the command line; use the word
+<emphasis>value</emphasis> to indicate numeric data.</para>
+</listitem><listitem><para>Use the word <emphasis>flag</emphasis>
+rather than the words <emphasis>command option.</emphasis></para>
+</listitem><listitem><para>Do not use commas to set off the one-thousandth
+place in values.</para>
+</listitem><listitem><para>Do not use 1,000. Use 1000.</para>
+</listitem><listitem><para>If a message must be set off with an asterisk,
+use two asterisks at the beginning of the message and two asterisks at the
+end of the message.</para>
+<para remap="CodeIndent1"><computeroutput>** Total **</computeroutput></para>
+</listitem><listitem><para>Use <emphasis>log in</emphasis> and <emphasis>log off</emphasis> as verbs.</para>
+<para remap="CodeIndent1"><computeroutput>Log in to the system; enter the
+data; then log off.</computeroutput></para>
+</listitem><listitem><para>Use <emphasis>user name</emphasis>, <emphasis>group name</emphasis>, and <emphasis>login</emphasis> as nouns.</para>
+<para remap="CodeIndent1"><computeroutput>The user name is sam. The group
+name is staff. The login directory is /u/sam.</computeroutput></para>
+</listitem><listitem><para>User number and group number refer to the number
+associated with the user's name and group.</para>
+</listitem><listitem><para>Do not use the term <emphasis>superuser</emphasis>.
+The <emphasis>root user</emphasis> may not have all privileges.</para>
+</listitem><listitem><para>Use the words <emphasis>command string</emphasis>
+to describe the command with its parameters.</para>
+</listitem><listitem><para>Many of the same messages occur frequently.<indexterm>
+<primary>messages</primary><secondary>option</secondary></indexterm> Table
+A-1 lists the new standard message that replaces the old message.</para>
+</listitem></itemizedlist>
+<table id="IPG.msgs.tbl.1" frame="Topbot">
+<title>New Standard Messages</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="3.85in">
+<colspec colwidth="2.52in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Use the Following
+Standard Messages</literal></para></entry><entry align="left" valign="bottom"><para><literal>Instead of These Messages</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput>Cannot find or open
+the file</computeroutput>.</para></entry>
+<entry align="left" valign="top"><para><computeroutput>Can't open filename</computeroutput>.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>Cannot find or access
+the file</computeroutput>.</para></entry>
+<entry align="left" valign="top"><para>Can't access</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>The syntax of a parameter
+is not valid</computeroutput>.</para></entry>
+<entry align="left" valign="top"><para>syntax error</para></entry></row></tbody>
+</tgroup></table>
+</sect1>
+<sect1 id="IPG.msgs.div.9">
+<title id="IPG.msgs.mkr.7">Regular Expression Standard Messages</title>
+<para>Table A-2 lists the standard regular expression error messages, including
+the message number associated with each regular expression error:</para>
+<table id="IPG.msgs.tbl.2" frame="Topbot">
+<title>Regular Expression Standard Messages</title>
+<tgroup cols="3">
+<colspec colname="1" colwidth="0.7338 in">
+<colspec colname="2" colwidth="2.36492 in">
+<colspec colname="3" colwidth="1.89039 in">
+<tbody>
+<row>
+<entry><para><literal>Number</literal></para></entry>
+<entry><para><literal>Use These Standard Messages</literal></para></entry>
+<entry><para><literal>Instead of These Messages</literal></para></entry></row>
+<row>
+<entry><para>11</para></entry>
+<entry><para>Specify a range end point that is less than 256.</para></entry>
+<entry><para>Range end point too large.</para></entry></row>
+<row>
+<entry><para>16</para></entry>
+<entry><para>The character or characters between \{ and \} must be numeric.
+</para></entry>
+<entry><para>Bad number.</para></entry></row>
+<row>
+<entry><para>25</para></entry>
+<entry><para><computeroutput>Specify a \digit between 1 and 9 that is not
+greater than the number of subpatterns.</computeroutput></para></entry>
+<entry><para><computeroutput>\digit out of range</computeroutput>.</para></entry>
+</row>
+<row>
+<entry><para>36</para></entry>
+<entry><para>A delimiter is not correct or is missing.</para></entry>
+<entry><para>Illegal or missing delimiter.</para></entry></row>
+<row>
+<entry><para>41</para></entry>
+<entry><para><computeroutput>There is no remembered search string</computeroutput>.
+</para></entry>
+<entry><para>No remembered search string.</para></entry></row>
+<row>
+<entry><para>42</para></entry>
+<entry><para>There is a missing \( or \).</para></entry>
+<entry><para>\(\) imbalance.</para></entry></row>
+<row>
+<entry><para>43</para></entry>
+<entry><para>Do not use \( more than 9 times.</para></entry>
+<entry><para><computeroutput>Too many \(</computeroutput>.</para></entry>
+</row>
+<row>
+<entry><para>44</para></entry>
+<entry><para>Do not specify more than 2 numbers between \{ and \}.</para></entry>
+<entry><para>More than two numbers given in \{ and \}.</para></entry></row>
+<row>
+<entry><para>45</para></entry>
+<entry><para>An opening \{ must have a closing \}.</para></entry>
+<entry><para>} expected after \.</para></entry></row>
+<row>
+<entry><para>46</para></entry>
+<entry><para>The first number cannot exceed the second number between \{
+and \}.</para></entry>
+<entry><para>First number exceeds second in \{ and \}.</para></entry></row>
+<row>
+<entry><para>48</para></entry>
+<entry><para>Specify a valid end point to the range.</para></entry>
+<entry><para>Invalid end point in range expression.</para></entry></row>
+<row>
+<entry><para>49</para></entry>
+<entry><para>For each [ there must be a ].</para></entry>
+<entry><para><computeroutput>[ ] imbalance</computeroutput>.</para></entry>
+</row>
+<row>
+<entry><para>50</para></entry>
+<entry><para>The regular expression is too large for internal memory storage.
+Simplify the regular expression.</para></entry>
+<entry><para><computeroutput>Regular expression overflow</computeroutput>.
+</para></entry></row></tbody></tgroup></table>
+</sect1>
+<sect1 id="IPG.msgs.div.10">
+<title id="IPG.msgs.mkr.8">Sample Messages</title>
+<para>These are examples<indexterm><primary>messages</primary><secondary>samples</secondary></indexterm> of original messages and rewritten messages.
+The rewritten message follows each original message.</para>
+<programlisting>AFLGKEYLTRS &ldquo;Too Many -a Keyletters (Ad9)&rdquo;
+
+AFLGKEYLTRS &ldquo;foo: 7777-007 Use the -a flag less than 11 times.\n&rdquo;
+FLGTWICE &ldquo;Flag %c Twice (Ad4)&rdquo;
+
+FLGTWICE &ldquo;foo: 7777-004 Use the %c header flag once.\n&rdquo;
+ESTAT &ldquo;can't access %s.\n&rdquo;
+
+ESTAT &ldquo;foo: 7777-031 Cannot find or access %s.\n&rdquo;
+EMODE &ldquo;foo: invalid mode\n&rdquo;
+
+EMODE &ldquo;foo: 7777-033 A mode flag or value is not correct.\n&rdquo;
+DNORG &ldquo;-d has no argument (ad1)&rdquo;
+
+DNORG &ldquo;foo: 7777-001 Specify a parameter after the -d flag.\n&rdquo;
+FLOORRNG &ldquo;floor out of range (ad23)&rdquo;
+
+FLOORRNG &ldquo;foo: 7777-021 Specify a floor value greater than 0\n\
+
+\tand less than 10000.\n&ldquo;
+AFLGARG &ldquo;bad -a argument (ad8)&rdquo;
+
+AFLGARG &ldquo;foo: 7777-006 Specify a user name, group name, or\n\
+
+\tgroup number after the -a flag.\n&ldquo;
+BADLISTFMT &ldquo;bad list format (ad27)&rdquo;
+
+BADLISTFMT &ldquo;foo: 7777-025 Use numeric version and release\
+\tnumbers.\n&rdquo;</programlisting>
+</sect1>
+</appendix>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->

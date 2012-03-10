@@ -1,0 +1,72 @@
+<!doctype doc [
+<!element doc - - (e)*>
+<!element e - o (#pcdata)>
+<!notation n1 system>
+<!notation n2 system "sysid2">
+<!notation n3 public "-//dummy//NOTATION n3//EN">
+<!notation n4 public "-//dummy//NOTATION n4//EN" "sysid4">
+<!attlist e
+            a1 (foo | bar | baz) foo
+	    a2 notation (n1 | n2 | n3 | n4) #implied
+	    a3 cdata #implied
+            a4 entity #implied
+	    a5 id #implied
+	    a6 idref #implied
+            a7 name #implied
+	    a8 nmtoken #implied
+            a9 number #implied
+            a10 nutoken #implied
+	    a11 entities #implied
+            a12 idrefs #implied
+	    a13 names #implied
+	    a14 nmtokens #implied
+	    a15 numbers #implied
+	    a16 nutokens #implied
+>
+<!attlist #notation n1
+            a1 cdata #implied
+            a2 name #implied 
+            a3 names #implied
+>
+<!entity e1 cdata "e1 contents">
+<!entity e2 sdata "e2 contents">
+<!entity e3 system "e3.file1:e3.file2" cdata n1 [
+a1 = "a1 contents"  a2 = a2val a3 = "a3val1 a3val2"
+]>
+<!entity e4 system "e4.file" sdata n3>
+<!entity e5 system "e5.file" ndata n4>
+<!entity e6 system "memo.sgm" subdoc>
+<!entity e7 pi "e7 contents">
+]>
+<?a processing instruction before the document element>
+<doc>
+<?a processing instruction inside the document element>
+<e
+a1 = bar
+a2 = n2
+a3 = "a3: e1 = `&e1;' e2 = `&e2';"
+a4 = e1
+a5 = id1
+a6 = id2
+a7 = xyzzy
+a8 = .nmtoken
+a9 = 42
+a10 = 10pt
+a11 = "e1 e2 e3 e4 e5 e6"
+a12 = "id1 id2"
+a13 = "name1 name2"
+a14 = ".name1 .name2"
+a15 = "6 28"
+a16 = "10pt 12pt"
+>
+A null character &#0;. "Quoted". A backslash \.
+e1 = `&e1;'
+e2 = `&e2;'
+e3 = `&e3;'
+e5 = `&e5;'
+<e a5 = id2 a2 = n3>
+e6 = `&e6;'
+<e a5 = id3 a2 = n4 a6 = id1>
+e7 = `&e7;'
+</doc>
+<?a processing instruction after the document element>

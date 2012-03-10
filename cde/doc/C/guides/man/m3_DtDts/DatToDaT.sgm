@@ -1,0 +1,133 @@
+<!-- $XConsortium: DatToDaT.sgm /main/6 1996/09/08 20:21:36 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN30.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN30.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtDtsDataToDataType</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtDtsDataToDataType</Function></RefName>
+<RefPurpose>get the data type for a set of data
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Dts.h>
+</FuncSynopsisInfo>
+<FuncDef>char <Function>*DtDtsDataToDataType</Function></FuncDef>
+<ParamDef>const char *<Parameter>filepath</Parameter></ParamDef>
+<ParamDef>const void *<Parameter>buffer</Parameter></ParamDef>
+<ParamDef>const int <Parameter>size</Parameter></ParamDef>
+<ParamDef>const struct stat *<Parameter>stat_buff</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>link_path</Parameter></ParamDef>
+<ParamDef>const struct stat *<Parameter>link_stat_buff</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>opt_name</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtDtsDataToDataType</Function> function determines
+the data type of a set of data,
+based on the information given in the non-
+<SystemItem Class="Constant">NULL</SystemItem> pointer arguments to the function.
+The function gathers any additional information, if it is needed,
+to compensate for the
+<SystemItem Class="Constant">NULL</SystemItem> arguments.
+For example, if the
+<Emphasis>filepath</Emphasis> argument is given, but the
+<Emphasis>stat_buff</Emphasis> argument is
+<SystemItem Class="Constant">NULL</SystemItem> and a
+<Emphasis>stat_buff</Emphasis> value is required to determine the data type,
+<Function>DtDtsDataToDataType</Function> calls the
+<Function>stat</Function>(2) function to obtain the information.
+</Para>
+<Para>The
+<Emphasis>filepath</Emphasis> argument is the pathname of a file.
+</Para>
+<Para>The
+<Symbol Role="Variable">buffer</Symbol> argument
+is a pointer to the buffer of the data to be typed.
+</Para>
+<Para>The
+<Symbol Role="Variable">size</Symbol> argument
+is the size of the buffer in bytes.
+</Para>
+<Para>The
+<Emphasis>stat_buff</Emphasis> argument
+is the buffer returned from a
+<Function>stat</Function>(2) or
+<Function>fstat</Function>(3) call for use in typing.
+</Para>
+<Para>The
+<Emphasis>link_path</Emphasis> argument
+is the pathname of the target file pointed to by a symbolic link.
+</Para>
+<Para>The
+<Emphasis>link_stat_buff</Emphasis> argument
+is the buffer returned from an
+<Function>lstat</Function>(2) call for use in typing.
+</Para>
+<Para>The
+<Emphasis>opt_name</Emphasis> argument can be used to specify a name to be associated with the buffer.
+If the
+<Emphasis>opt_name</Emphasis> argument is not
+<SystemItem Class="Constant">NULL</SystemItem>, it is used as a pseudo file name in typing;
+otherwise, certain attributes may be returned as
+<SystemItem Class="Constant">NULL</SystemItem> because the filename components could not be determined.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtDtsDataToDataType</Function> function returns a pointer to a data type string, or
+<SystemItem Class="Constant">NULL</SystemItem> if no value could be determined.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+<Function>DtDtsDataToDataType</Function> function is generally used by applications such as file managers
+to improve performance.
+Typical applications should probably use
+&cdeman.DtDtsFileToDataType; or
+&cdeman.DtDtsBufferToDataType; instead.
+</Para>
+<Para>The
+<Emphasis>DtDtsBuffer</Emphasis>* functions assume that the buffer is readable and writable
+by the user, group and other file classes
+and select a type accordingly.
+An application requiring a type based on read-only
+permissions should use
+<Function>DtDtsDataToDataType</Function> with a
+<Emphasis>stat_buff</Emphasis> value created for this purpose:
+all fields should
+<SystemItem Class="Constant">NULL</SystemItem> except for the
+<Emphasis>st_mode</Emphasis> field,
+which should be set to:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>S_IFREG | S_IROTH | S_IRGRP | S_IRUSR
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para><Filename Role="Header">Dt/Dts.h</Filename>, &cdeman.DtDtsLoadDataTypes;, &cdeman.DtDtsFileToDataType;, <![ %CDE.C.CDE; [&cdeman.DtDtsBufferToDataType;, <Function>fstat</Function>(3), <Function>lstat</Function>(2), <Function>stat</Function>(2). ]]><![ %CDE.C.XO; [&cdeman.DtDtsBufferToDataType;; <Function>fstat</Function>(3), <Function>lstat</Function>(2), <Function>stat</Function>(2) in the &str-ZK;.
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

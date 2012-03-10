@@ -1,0 +1,120 @@
+<!-- $XConsortium: create.sgm /main/5 1996/08/30 15:21:06 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN238.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN238.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_spec_create</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_spec_create</Function></RefName>
+<RefPurpose>create an in-memory spec for an object
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: create.sgm /main/5 1996/08/30 15:21:06 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>char <Function>*tt_spec_create</Function></FuncDef>
+<ParamDef>const char *<Parameter>filepath</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_spec_create</Function> function
+creates a spec (in memory) for an object.
+</Para>
+<Para>The application can use the
+objid
+returned in future calls to manipulate the object.
+</Para>
+<Para>The
+<Emphasis>filepath</Emphasis> argument is the name of the file.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_spec_create</Function> function returns the identifier for this object.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned pointer:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBAVAIL</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the
+ToolTalk database needed for this operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_DBEXIST</Term>
+<ListItem>
+<Para>The ToolTalk service could not access the
+specified ToolTalk database in the expected place.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_OTYPE</Term>
+<ListItem>
+<Para>The specified object type is not the name of an installed object type.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PATH</Term>
+<ListItem>
+<Para>The specified pathname included an unsearchable directory.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application should use
+&cdeman.tt.free; to free any data stored in the address returned by the
+ToolTalk API.
+</Para>
+<Para>To make the object a permanent ToolTalk item or one visible to other
+processes, the creating process must call
+&cdeman.tt.spec.write;.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.spec.type.set;, &cdeman.tt.spec.write;, &cdeman.tt.ptr.error;, &cdeman.tt.free;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

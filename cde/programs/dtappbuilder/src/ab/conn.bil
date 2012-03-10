@@ -1,0 +1,828 @@
+
+//       $XConsortium: conn.bil /main/3 1995/11/06 17:25:12 rswiston $
+//
+// @(#)conn.bil	1.2 02 Mar 1994
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module conn
+(
+
+:element conn_dialog
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Connections Editor"
+	:resizable		:true
+	:visible		:false
+	:default-button		connect_button
+	:help-button		help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABConnectionsEditor"
+	:help-text		"The Connections Editor is used to establish application interface behaviors, typically by specifying actions to be taken when objects are manipulated or certain events occur."
+	:children		(
+		ctrl_panel
+		activate_panel
+	)
+)
+:element ctrl_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj conn_dialog 0)
+	:east-attachment	(:obj conn_dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		view_sep
+		view_choices
+		when_choices
+		when_action_sep
+		source_choices
+		source_list
+		target_choices
+		target_list
+		when_label
+		conn_list
+		group
+	)
+)
+:element view_sep
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			1
+	:y			238
+	:width			814
+	:height			2
+	:visible		:true
+	:north-attachment	(:obj group 15)
+	:east-attachment	(:grid-line 100 0)
+	:west-attachment	(:grid-line 0 0)
+)
+:element view_choices
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			5
+	:y			259
+	:label-type		:string
+	:label			"View:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj view_sep 10)
+	:west-attachment	(:point 0 3)
+)
+:element when_choices
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			127
+	:y			131
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj source_list 10)
+	:west-attachment	(:grid-line 14 0)
+)
+:element when_action_sep
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:vertical
+	:x			393
+	:y			0
+	:width			2
+	:height			241
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj view_sep 0)
+	:west-attachment	(:grid-line 50 0)
+)
+:element source_choices
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			0
+	:y			2
+	:label-type		:string
+	:label			"Source:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:true
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:point 0 3)
+)
+:element source_list
+(
+	:type			:list
+	:x			4
+	:y			23
+	:width			395
+	:height			89
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj source_choices 7)
+	:east-attachment	(:grid-line 49 0)
+	:west-attachment	(:point 0 4)
+)
+:element target_choices
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			423
+	:y			5
+	:width			38
+	:height			18
+	:label-type		:string
+	:label			"Target:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:grid-line 51 0)
+)
+:element target_list
+(
+	:type			:list
+	:x			392
+	:y			18
+	:width			392
+	:height			89
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj target_choices 7)
+	:east-attachment	(:grid-line 99 0)
+	:west-attachment	(:grid-line 51 0)
+)
+:element when_label
+(
+	:type			:label
+	:x			3
+	:y			132
+	:label-type		:string
+	:label			"When:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj source_list 10)
+	:west-attachment	(:point 0 3)
+)
+:element conn_list
+(
+	:type			:list
+	:x			0
+	:y			279
+	:width			801
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		6
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj view_choices 5)
+	:south-attachment	(:grid-line 99 0)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:point 0 0)
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			415
+	:y			132
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:obj target_list 10)
+	:west-attachment	(:grid-line 51 0)
+	:children		(
+		action_type_choices
+		predef_act_choices
+		arg_field
+		vol_textf
+		loc_textf
+	)
+)
+:element action_type_choices
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			0
+	:y			0
+	:label-type		:string
+	:label			"Action Type:"
+	:label-position		:north
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:true
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		action_type_choices_Predefined_item
+		action_type_choices_Call_Function_item
+		action_type_choices_Execute_Code_item
+		action_type_choices_Activate_On_Item_Help_item
+		action_type_choices_Access_Help_Volume_item
+	)
+)
+:element action_type_choices_Predefined_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Predefined"
+	:active			:true
+	:selected		:true
+)
+:element action_type_choices_Call_Function_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Call Function"
+	:active			:true
+	:selected		:false
+)
+:element action_type_choices_Execute_Code_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Execute Code"
+	:active			:true
+	:selected		:false
+)
+:element action_type_choices_Activate_On_Item_Help_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Activate On-Item Help"
+	:active			:true
+	:selected		:false
+)
+:element action_type_choices_Access_Help_Volume_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Access Help Volume"
+	:active			:true
+	:selected		:false
+)
+:element predef_act_choices
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			208
+	:y			0
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:west-attachment	(:obj action_type_choices 7)
+)
+:element arg_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			242
+	:y			22
+	:label-type		:string
+	:label			"Argument:"
+	:label-position		:north
+	:num-columns		20
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj predef_act_choices 1)
+	:west-attachment	(:obj action_type_choices 12)
+)
+:element vol_textf
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			8
+	:y			67
+	:label-type		:string
+	:label			"Volume:"
+	:label-position		:west
+	:num-columns		10
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:false
+	:north-attachment	(:obj action_type_choices 15)
+	:west-attachment	(:point 0 0)
+)
+:element loc_textf
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			167
+	:y			67
+	:label-type		:string
+	:label			"Location:"
+	:label-position		:west
+	:num-columns		15
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:false
+	:north-attachment	(:obj action_type_choices 15)
+	:west-attachment	(:obj vol_textf 18)
+)
+:element activate_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		connect_button
+		change_button
+		cancel_button
+		delete_button
+		help_button
+	)
+)
+:element connect_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			16
+	:y			2
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Connect"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 2)
+	:east-attachment	(:grid-line 18 0)
+	:west-attachment	(:grid-line 1 0)
+)
+:element change_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Change"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 2)
+	:east-attachment	(:grid-line 38 0)
+	:west-attachment	(:grid-line 22 0)
+)
+:element cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			346
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 2)
+	:east-attachment	(:grid-line 78 0)
+	:west-attachment	(:grid-line 62 0)
+)
+:element delete_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			505
+	:y			2
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Delete"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 2)
+	:east-attachment	(:grid-line 58 0)
+	:west-attachment	(:grid-line 42 0)
+)
+:element help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			680
+	:y			9
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 2)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 82 0)
+)
+:element no_func_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"A function name was not specified\nfor the call-function connection."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"When creating a call-function connection, a\nfunction name must be supplied. That name will\nbe used by the code generator to create the\ncallback routine."
+)
+:element exec_code_dialog
+(
+	:type			:dialog
+	:width			593
+	:height			187
+	:bg-color		"white"
+	:label			"Application Builder - Execute Code Editor"
+	:resizable		:true
+	:visible		:false
+	:default-button		exec_code_apply_button
+	:help-button		exec_code_help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABConnectionsEditor"
+	:help-text		"The Execute Code Editor provides a way to examine and edit specific C program instructions that are to be executed as the action for a connection."
+	:children		(
+		exec_code_textpane
+		dialog_button_panel
+	)
+)
+:element exec_code_textpane
+(
+	:type			:text-pane
+	:text-type		:alphanumeric
+	:x			0
+	:y			0
+	:border-frame		:none
+	:num-rows		12
+	:num-columns		80
+	:hscrollbar		:always
+	:vscrollbar		:always
+	:word-wrap		:false
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj exec_code_dialog 0)
+	:east-attachment	(:obj exec_code_dialog 0)
+	:west-attachment	(:point 0 0)
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			593
+	:height			48
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		exec_code_help_button
+		exec_code_ok_button
+		exec_code_apply_button
+		exec_code_cancel_button
+	)
+)
+:element exec_code_help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			441
+	:y			14
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 77 0)
+)
+:element exec_code_ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			12
+	:y			5
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 22 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element exec_code_apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			121
+	:y			8
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 48 0)
+	:west-attachment	(:grid-line 27 0)
+)
+:element exec_code_cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			234
+	:y			10
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 73 0)
+	:west-attachment	(:grid-line 52 0)
+)
+:connection
+(
+	:from			cancel_button
+	:when			:activate
+	:action-type		:call-function
+	:action			conn_cancelCB
+)
+:connection
+(
+	:from			connect_button
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_make_connection
+)
+:connection
+(
+	:from			change_button
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_change_connection
+)
+:connection
+(
+	:from			delete_button
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_delete_connection
+)
+:connection
+(
+	:from			connect_button
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_connect_button
+)
+:connection
+(
+	:from			change_button
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_change_button
+)
+:connection
+(
+	:from			cancel_button
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_cancel_button
+)
+:connection
+(
+	:from			delete_button
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_delete_button
+)
+:connection
+(
+	:from			source_choices
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_source_choices
+)
+:connection
+(
+	:from			target_choices
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_target_choices
+)
+:connection
+(
+	:from			when_choices
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_when_choices
+)
+:connection
+(
+	:from			predef_act_choices
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_predef_act_choices
+)
+:connection
+(
+	:from			view_choices
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_view_choices
+)
+:connection
+(
+	:from			source_list
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_source_list
+)
+:connection
+(
+	:from			target_list
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_target_list
+)
+:connection
+(
+	:from			conn_list
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_conn_list
+)
+:connection
+(
+	:from			arg_field
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_arg_field
+)
+:connection
+(
+	:from			action_type_choices_Predefined_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_action_Predefined_item
+)
+:connection
+(
+	:from			action_type_choices_Call_Function_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_action_Call_Function_item
+)
+:connection
+(
+	:from			action_type_choices_Execute_Code_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_action_Execute_Code_item
+)
+:connection
+(
+	:from			action_type_choices_Execute_Code_item
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_show_execute_code
+)
+:connection
+(
+	:from			action_type_choices_Activate_On_Item_Help_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_action_on_item_help_item
+)
+:connection
+(
+	:from			action_type_choices_Access_Help_Volume_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_action_help_vol_item
+)
+:connection
+(
+	:from			loc_textf
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_loc_textf
+)
+:connection
+(
+	:from			vol_textf
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_vol_textf
+)
+:connection
+(
+	:from			action_type_choices
+	:when			:after-create
+	:action-type		:call-function
+	:action			connP_register_action_type_opmenu
+)
+:connection
+(
+	:from			action_type_choices_Predefined_item
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_enable_std_actions
+)
+:connection
+(
+	:from			action_type_choices_Call_Function_item
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_enable_call_function
+)
+:connection
+(
+	:from			action_type_choices_Activate_On_Item_Help_item
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_enable_on_item_help
+)
+:connection
+(
+	:from			action_type_choices_Access_Help_Volume_item
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_enable_access_help_vol
+)
+:connection
+(
+	:from			exec_code_ok_button
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_exec_code_okCB
+)
+:connection
+(
+	:from			exec_code_apply_button
+	:when			:activate
+	:action-type		:call-function
+	:action			connP_exec_code_applyCB
+)
+:connection
+(
+	:from			exec_code_cancel_button
+	:when			:activate
+	:action-type		:call-function
+	:action			exec_code_cancelCB
+)
+:connection
+(
+	:from			exec_code_dialog
+	:when			:hide
+	:action-type		:call-function
+	:action			connP_clear_exec_dlg
+)
+)

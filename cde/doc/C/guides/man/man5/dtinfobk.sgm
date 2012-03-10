@@ -1,0 +1,130 @@
+<!-- $XConsortium: dtinfobk.sgm /main/5 1996/08/30 13:55:04 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<![ %CDE.C.CDE; [<RefEntry Id="CDE.INFO.dtinfoBook.dtd">]]>
+<RefMeta>
+<RefEntryTitle>
+dtinfoBook.dtd
+</RefEntryTitle>
+<ManVolNum>file formats</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><filename>dtinfoBook.dtd</filename></RefName>
+<RefPurpose><command>dtinfo</command> bookcase document type definition
+</RefPurpose>
+</RefNameDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<para>This is the document type definition for bookcases under
+<command>dtinfo</command>. You can also find an ASCII file of the
+<filename>dtinfoBook.dtd</filename> in
+<filename>/usr/dt/infolib/%L/SGML/dtinfoBook.dtd</filename>.
+</para>
+<para>The bookcase DTD is defined as follows:
+</para>
+<LITERALLAYOUT>&lt;!--
+Formal Public Identifier (FPI):
+-//X Consortium//DTD DTINFO Bookcase Description//EN
+ --&gt;
+
+         &lt;!-- DTINFO Architectural Forms --&gt;
+
+&lt;!ENTITY % OLAF PUBLIC
+        &ldquo;-//X Consortium//ENTITIES DTINFO Architectural Forms//EN&rdquo;
+&gt;
+%OLAF;
+
+&lt;!--
+        Describe the BookCase contents.
+</LITERALLAYOUT>
+<LITERALLAYOUT> --&gt;
+&lt;!ELEMENT BookCase - - ( BookcaseName, BookcaseDesc, StyleSheet+, Book+) &gt;
+&lt;!ATTLIST BookCase
+            StyleSheet        IDREF        &num;REQUIRED
+
+            %DTINFO.Bookcase;
+            %DTINFO.Style;                &ldquo;attr( StyleSheet )&rdquo;
+&gt;
+
+&lt;!ELEMENT BookcaseName - - ( &num;PCDATA) &gt;
+&lt;!ATTLIST BookcaseName
+            %DTINFO.BookcaseName;
+&gt;
+
+&lt;!ELEMENT BookcaseDesc - - ( &num;PCDATA) &gt;
+&lt;!ATTLIST BookcaseDesc
+            %DTINFO.BookcaseDesc;
+&gt;
+&lt;!ELEMENT Book - - ( Title, ShortTitle?, Tab*, TOCFile, File+) &gt;
+&lt;!ATTLIST Book
+            StyleSheet        IDREF        &num;IMPLIED
+
+            %DTINFO.Book;
+            %DTINFO.Style;            &ldquo;attr( StyleSheet )&rdquo;
+&gt;
+
+&lt;!ELEMENT Title - - ( &num;PCDATA) &gt;
+&lt;!ATTLIST Title
+        %DTINFO.BookTitle;
+
+&lt;!ELEMENT ShortTitle - - ( &num;PCDATA) &gt;
+&lt;!ATTLIST ShortTitle
+            %DTINFO.BookShortTitle;
+&gt;
+
+&lt;!ELEMENT Access - O EMPTY &gt;
+&lt;!ATTLIST Access
+            Feature            CDATA        &num;REQUIRED
+            VenCode            CDATA        &num;REQUIRED
+            Version            CDATA        &num;REQUIRED
+            Grouping           CDATA        &num;REQUIRED
+            DefaultSection     CDATA        &num;REQUIRED
+            DemoTerms          CDATA        &num;IMPLIED
+
+ %DTINFO.BookAccess;
+&gt;
+
+&lt;!ELEMENT Tab - - ( &num;PCDATA) &gt;
+&lt;!ATTLIST Tab
+            TabLoc        CDATA        &num;REQUIRED
+
+            %DTINFO.BookTab;
+            %DTINFO.IDREF;                &ldquo;attr( TabLoc )&rdquo;
+&gt;
+
+&lt;!--
+        Any section within the file can override the style
+        sheet via a DTD modification.
+ --&gt;
+
+&lt;!ELEMENT TOCFile - - ( &num;PCDATA) &gt;
+&lt;!ATTLIST TOCFile
+&gt;
+
+&lt;!ELEMENT File - - ( &num;PCDATA) &gt;
+&lt;!ATTLIST File
+&gt;
+
+             &lt;!-- Style Sheet DTD --&gt;
+
+&lt;!ENTITY % StyleSheet.dtd PUBLIC
+        &ldquo;-//X Consortium//DTD DTINFO Style Sheet//EN&rdquo;
+&gt;
+%StyleSheet.dtd;</LITERALLAYOUT>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.dtinfo;,
+&cdeman.DtInfoLib;,
+&cdeman.dtinfogen;,
+&cdeman.dtinfoStyle.dtd;,
+&cdeman.dtinfoTOC.dtd;,
+</Para>
+</RefSect1>
+</RefEntry>
+

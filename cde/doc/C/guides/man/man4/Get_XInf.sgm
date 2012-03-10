@@ -1,0 +1,79 @@
+<!-- $XConsortium: Get_XInf.sgm /main/7 1996/09/08 20:14:29 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<![ %CDE.C.CDE; [<refentry id="CDEMX.XCDI.MAN294.rsml.1">]]><![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN294.rsml.1">]]><refmeta>
+<refentrytitle>Get_XInfo</refentrytitle><manvolnum>special file</manvolnum>
+</refmeta><refnamediv><refname><symbol role="Message">Get_XInfo</symbol></refname>
+<refpurpose>get a tool's X11 attributes</refpurpose></refnamediv><!-- $XConsortium:
+Get_XInf.sgm /main/3 1995/08/30 23:39:15 rws $--><!-- CDE Common Source Format,
+Version 1.0.0--><!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company--><!--
+(c) Copyright 1993, 1994, 1995 International Business Machines Corp.--><!--
+(c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.--><!-- (c) Copyright
+1993, 1994, 1995 Novell, Inc.--><refsynopsisdiv>
+<synopsis>Get_XInfo(out string <symbol role="Variable">display</symbol>,
+        out string <emphasis>visual</emphasis>,
+        out integer <symbol role="Variable">depth</symbol>
+        [in messageID <emphasis>commission</emphasis>]);</synopsis>
+</refsynopsisdiv><refsect1>
+<title>DESCRIPTION</title>
+<para>The <symbol role="Message">Get_XInfo</symbol> request reports the X11
+attributes of the optionally specified window, or of the window primarily
+associated with the recipient procid (if no window is specified).</para>
+<para>The <symbol role="Variable">display</symbol> argument is an X11 display.
+</para>
+<para>The <emphasis>visual</emphasis> argument is an X11 visual class (which
+determines how a pixel will be displayed as a color). Valid values are:</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec align="left" colwidth="128*">
+<colspec align="left" colwidth="143*">
+<colspec align="left" colwidth="185*">
+<tbody>
+<row>
+<entry align="left" valign="top"><computeroutput>DirectColor</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>PseudoColor</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>StaticGray</computeroutput></entry>
+</row>
+<row>
+<entry align="left" valign="top"><computeroutput>GrayScale</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>StaticColor</computeroutput></entry>
+<entry align="left" valign="top"><computeroutput>TrueColor</computeroutput></entry>
+</row></tbody></tgroup><?Pub Caret></informaltable>
+<para>The <symbol role="Variable">depth</symbol> argument is the number of
+bits in a pixel.</para>
+<para>The <emphasis>commission</emphasis> argument is the ID of the ongoing
+request with respect to which X11 attributes are being set or reported.</para>
+</refsect1><refsect1>
+<title>APPLICATION USAGE</title>
+<para>The &cdeman.ttdt.session.join;, and &cdeman.ttdt.message.accept;, functions can be used by Xt applications to register for, and
+transparently process, the <symbol role="Message">Get_XInfo</symbol> request.
+Also, <symbol role="Message">Get_XInfo</symbol> can be sent by &cdeman.ttdt.sender.imprint.on;.</para>
+<para>Since the handler may be running on a different host, it is almost always
+better to return a <symbol role="Variable">display</symbol> value of <emphasis>hostname</emphasis>:<symbol role="Variable">n</symbol>[. <symbol role="Variable">n</symbol>] instead of :<symbol role="Variable">n</symbol>[. <symbol role="Variable">n</symbol>].)</para>
+<para>The <emphasis>commission</emphasis> argument is useful to the extent
+that the handler employs different attributes for the different operations
+it may be carrying out.</para>
+</refsect1><refsect1>
+<title>EXAMPLES</title>
+<para>The <symbol role="Message">Get_XInfo</symbol> request can be sent as
+in the following example:</para>
+<informalexample remap="indent">
+<programlisting>Tt_message msg = tttk_message_create(0, TT_REQUEST, TT_SESSION,
+                        the_recipient_procid, TTDT_GET_XINFO,
+                        my_callback);
+tt_message_arg_add(msg, TT_OUT, Tttk_string, 0);
+tt_message_arg_add(msg, TT_OUT, Tttk_string, 0);
+tt_message_iarg_add(msg, TT_OUT, Tttk_integer, 0);
+tt_message_send(msg);</programlisting>
+</informalexample>
+</refsect1><refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.tt.message.iarg.add;, &cdeman.tt.message.send;, &cdeman.ttdt.message.accept;, &cdeman.ttdt.sender.imprint.on;, &cdeman.ttdt.session.join;.</para>
+</refsect1></refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->
+<?Pub *0000033399>

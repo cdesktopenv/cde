@@ -1,0 +1,855 @@
+<!-- $XConsortium: ch09.sgm /main/7 1996/09/08 19:37:22 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="PG.datat.div.1">
+<Title Id="PG.datat.mkr.1">データ型データベースのアクセス</Title>
+<Para>この章では、データ型関数とデータ型データベースの使い方について説明します。
+</Para>
+<InformalTable Id="PG.datat.itbl.1" Frame="All">
+<TGroup Cols="1">
+<ColSpec Colname="1" Colwidth="4.0 in">
+<TBody>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Summary121'-->
+<XRef Role="JumpText" Linkend="PG.datat.mkr.2"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Data Criteria and Data Attributes122'-->
+<XRef Role="JumpText" Linkend="PG.datat.mkr.5"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Data-Typing Functions129'-->
+<XRef Role="JumpText" Linkend="PG.datat.mkr.9"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Registering Objects as Drop Zones133'-->
+<XRef Role="JumpText" Linkend="PG.datat.mkr.12"></Para></Entry>
+</Row>
+<Row Rowsep="1">
+<Entry><Para><!--Original XRef content: 'Example of Using the Data-Typing Database134'-->
+<XRef Role="JumpText" Linkend="PG.datat.mkr.14"></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Sect1 Id="PG.datat.div.2">
+<Title Id="PG.datat.mkr.2">要約</Title> <Para>データ型により、従来のUNIXファイル・システムによって提供される機能を越えて、ファイルとデータの属性が拡張されます。これらの拡張は、アイコン名、記述、アクションなどの属性から成っており、ファイルやデータ上で実行できます。
+この情報は、<Filename>DATA_ATTRIBUTES</Filename>テーブル(またはデータベース)に名前と値の対として格納されます。
+デスクトップは、次のパラグラフで説明する特定の
+<Filename>DATA_ATTRIBUTES</Filename>のセットを使用します。
+<Filename>DATA_ATTRIBUTES</Filename>テーブルは、将来およびアプリケーション固有の成長のために拡張可能ですが、他のアプリケーションでは追加をチェックできないので、このテーブルを拡張することは推奨しません。</Para>
+<Para>データを特定のファイルまたは<Filename>DATA_CRITERIA</Filename>テーブルのデータ・エントリに一致させます。
+<Filename>DATA_CRITERIA</Filename>テーブルのエントリは、具体性が高いものから具体性が低いものへ降順に並べられます。
+たとえば、<Filename>/usr/lib/lib*</Filename>は<Filename>/usr/*</Filename>よりも具体的なので、<Filename>/usr/*</Filename>より前に置かれます。
+ファイルまたはデータの型の検査が要求されると、このテーブルが始めからチェックされ、ファイルまたはデータから与えられた情報を使用してもっとも一致するものが検索されます。
+情報に一致するエントリが見つかると、<Filename>DATA_ATTRIBUTES_NAME</Filename>を使用して、正しい<Filename>DATA_ATTRIBUTES</Filename>エントリが検索されます。</Para>
+<Sect2 Id="PG.datat.div.3">
+<Title Id="PG.datat.mkr.3">ライブラリとヘッダ・ファイル
+<IndexTerm>
+<Primary>データ型</Primary>
+<Secondary>ライブラリ</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ライブラリ</Primary>
+<Secondary>データ型</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>アクション</Primary>
+<Secondary>ライブラリ</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ライブラリ</Primary>
+<Secondary>アクション</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>&lt;Filename>libDtSvc&lt;Default Para Font> ライブラリ</Primary>
+</IndexTerm><IndexTerm>
+<Primary>&lt;Filename>libXm&lt;Default Para Font> ライブラリ</Primary>
+</IndexTerm><IndexTerm>
+<Primary>&lt;Filename>libX11&lt;Default Para Font> ライブラリ</Primary>
+</IndexTerm></Title>
+<Para>データ型を使用するには、<Command>libDtSvc</Command>ライブラリをリンクしてください。
+アクションは、通常はデータ型情報と一緒に読み込まれます。
+アクションは、<Command>libXm</Command>ライブラリと<Filename>libX11</Filename>ライブラリのリンクを必要とします。
+ヘッダ・ファイルは、<ComputerOutput>Dt/Dts.h</ComputerOutput>と
+<ComputerOutput>Dt/Dt.h</ComputerOutput>です。</Para>
+</Sect2>
+<Sect2 Id="PG.datat.div.4">
+<Title Id="PG.datat.mkr.4">デモ・プログラム
+<IndexTerm>
+<Primary>データ型</Primary>
+<Secondary>デモ・プログラム</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>デモ・プログラム</Primary>
+<Secondary>データ型</Secondary>
+</IndexTerm></Title>
+<Para>データ型データベースの使用例が入っているデモ・プログラムが、
+<Filename>/usr/dt/examples/dtdts/datatypes/datatyping.c</Filename>にあります。</Para>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.datat.div.5">
+<Title Id="PG.datat.mkr.5">データの基準とデータの属性
+<IndexTerm>
+<Primary>データ型検査</Primary>
+<Secondary>データの基準</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>データの基準</Primary>
+</IndexTerm><IndexTerm>
+<Primary>データの属性</Primary>
+</IndexTerm><IndexTerm>
+<Primary>データ型検査</Primary>
+<Secondary>データの属性</Secondary>
+</IndexTerm></Title>
+<Para>データ型検査は、次の 2 つの部分から成ります。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para>データの基準とデータの属性を格納するデータベース</Para>
+</ListItem>
+<ListItem>
+<Para>データベースに問い合わせるルーチンの集まり</Para>
+</ListItem>
+</ItemizedList>
+<Para>データ基準の
+<IndexTerm>
+<Primary>データ型検査</Primary>
+<Secondary>基準</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>基準、データ型検査</Primary>
+</IndexTerm>属性は、次のとおりです(アルファベット順)。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>CONTENT</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>DATA_ATTRIBUTES_NAME</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>LINK_NAME</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>LINK_PATH</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Command>MODE</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>NAME_PATTERN</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>PATH_PATTERN</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>データの基準を使用頻度が高いものから順に
+<!--Original XRef content: 'Table&numsp;9&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.datat.mkr.7">に示します。</Para>
+<Table Id="PG.datat.tbl.1" Frame="Topbot">
+<Title Id="PG.datat.mkr.6">データの基準(使用頻度順)</Title>
+<TGroup Cols="3">
+<ColSpec Colname="1" Colwidth="1.82341 in">
+<ColSpec Colname="2" Colwidth="3.44445 in">
+<ColSpec Colname="3" Colwidth="1.72817 in">
+<THead>
+<Row>
+<Entry><Para><Literal>基準</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+<Entry><Para><Literal>使用例</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Filename>DATA_ATTRIBUTES_NAME</Filename></Para></Entry>
+<Entry><Para>このデータ型の名前。
+この値は、データ属性テーブル中の<Filename>record_name</Filename>です。</Para></Entry>
+<Entry><Para>POSTSCRIPT</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>NAME_PATTERN</Filename></Para></Entry>
+<Entry><Para>このデータに一致するファイル名を記述するシェル・パターン照合表現。デフォルトは空の文字列で、照合の際にファイル名のパターンを無視することを意味します。</Para></Entry>
+<Entry><Para><Filename>*.ps</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>CONTENT</Command></Para></Entry>
+<Entry><Para>ファイル・ユーティリティが使用し、マジック・ファイルの開始、型、および値のフィールドとして解釈される 3 つの値。
+詳細については、<Filename>file(1)</Filename>のマニュアル・ページを参照してください。
+デフォルトは空のフィールドで、照合の際に内容を無視することを意味します。
+一致する型の例としては、文字列、バイト、ショート、ロング、およびファイル名があります。</Para></Entry>
+<Entry><Para><Command>0 string !&percnt;</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MODE</Command></Para></Entry>
+<Entry><Para><Command>stat</Command>構造体のモード・フィールドに一致する 0 〜 4 文字の文字列。
+詳細については、<Filename>stat(2)</Filename>のマニュアル・ページを参照してください。
+最初の文字は、次のとおりです。</Para><Para><Command>d</Command>は、ディレクトリに一致します。</Para><Para><Command>s</Command>は、ソケットに一致します。</Para><Para><Command>l</Command>は、シンボリック・リンクに一致します。</Para><Para><Command>f</Command>は、通常ファイルに一致します。</Para><Para><Command>b</Command>は、ブロック・ファイルに一致します。</Para><Para><Command>c</Command>は、文字列特殊ファイルに一致します。</Para></Entry>
+<Entry><Para><Filename>f&amp;!x</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry><Para>次の文字は、最初または後続の文字にすることができます。</Para><Para><Command>r</Command>は、ユーザ、グループ、またはその他の読み取り権ビットが設定されたファイルに一致します。</Para><Para><Command>w</Command>は、ユーザ、グループ、またはその他の書き込み権ビットが設定されたファイルに一致します。</Para><Para><Command>x</Command>は、ユーザ、グループ、またはその他の実行あるいはディレクトリ検索のアクセス権ビットが設定されたファイルに一致します。</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry><Para>たとえば、<Command>frw</Command>の<Command>MODE</Command>フィールドは、読み取り可能または書き込み可能な通常ファイルに一致します。<Command>x</Command>は、実行可能なビットまたは検索ビットが設定されたファイルに一致します。</Para><Para>デフォルトは空の文字列で、照合の際にモードを無視することを意味します。</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>PATH_PATTERN</Filename></Para></Entry>
+<Entry><Para>このデータに一致する絶対パス名を記述するシェル・パターン照合式。
+デフォルトは空の文字列で、照合の際にパス・パターンを無視することを意味します。</Para></Entry>
+<Entry><Para>*/<Symbol Role="Variable">mysubdir</Symbol>/*</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>LINK_NAME</Filename></Para></Entry>
+<Entry><Para><Filename>dtdtsfile(4)</Filename>のマニュアル・ページを参照してください。</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>LINK_PATH</Filename></Para></Entry>
+<Entry><Para><Filename>dtdtsfile(4)</Filename>のマニュアル・ページを参照してください。</Para></Entry>
+<Entry></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>データ型の一般的な属性のいくつかをアルファベット順に示します。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>ACTIONS</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>COPY_TO_ACTION</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DESCRIPTION</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>ICON</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>INSTANCE_ICON</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>IS_EXECUTABLE</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>IS_TEXT</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>LINK_TO_ACTION</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Command>MEDIA</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>MIME_TYPE</Filename></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>MOVE_TO_ACTION</Filename></Para>
+</ListItem>
+<ListItem>
+<Para>NAME_TEMPLATE</Para>
+</ListItem>
+<ListItem>
+<Para><Command>PROPERTIES</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Filename>X400_TYPE</Filename></Para>
+</ListItem>
+</ItemizedList>
+<Para>これらのデータの属性を使用頻度が高い順に<!--Original XRef content: 'Table&numsp;9&hyphen;1'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.datat.mkr.6">に示します。</Para>
+<Table Id="PG.datat.tbl.2" Frame="Topbot">
+<Title Id="PG.datat.mkr.7">データの属性(使用頻度順)</Title>
+<TGroup Cols="3">
+<ColSpec Colname="1" Colwidth="1.82341 in">
+<ColSpec Colname="2" Colwidth="3.20635 in">
+<ColSpec Colname="3" Colwidth="1.9623 in">
+<THead>
+<Row>
+<Entry><Para><Literal>基準</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+<Entry><Para><Literal>使用例</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>DESCRIPTION</Command></Para></Entry>
+<Entry><Para>人間が読める形式で書かれたデータの説明。
+このフィールドが<Command>NULL</Command>か、データ属性レコードに含まれていない場合は、データ属性の名前が使用されます。</Para></Entry>
+<Entry><Para>これは、あと書きのページに記述されています。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ICON</Command></Para></Entry>
+<Entry><Para>このデータに対して使用されるアイコンの名前。
+このフィールドが<Command>NULL</Command>か、データ属性レコードに含まれていない場合は、標準のアイコンが使用されます。
+アイコンの命名の詳細については、<Filename>dtdtsfile(4)</Filename>を参照してください。</Para></Entry>
+<Entry><Para><Command>Dtps</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>PROPERTIES</Command></Para></Entry>
+<Entry><Para>このデータの属性を示すキーワード。
+見える場合と見えない場合があります。
+このフィールドが<Command>NULL</Command>か、データ属性レコードに含まれていない場合は、可視属性とみなされます。
+これは、ファイルをユーザから完全に隠したい場合に使用します。</Para></Entry>
+<Entry><Para><Command>invisible</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>ACTIONS</Command></Para></Entry>
+<Entry><Para>このデータに対して実行できるアクションのリスト。
+このリストは、この型のオブジェクトに対してユーザに提示されるアクションのアクション・テーブル内の名前を参照します。
+このフィールドが<Command>NULL</Command>か、データ属性レコードに含まれていない場合は、どのアクションも使用できません。</Para></Entry>
+<Entry><Para><Filename>Open,Print</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>NAME_TEMPLATE フィールド</Command></Para></Entry>
+<Entry><Para>この型のデータの新規ファイル作成に使用される文字列。
+文字列はファイル名とともに１つの引数として<Filename>sprintf(3)</Filename>に渡されます。
+デフォルトは空です。
+このフィールドをデータ抽出条件テーブルの<Filename>NAME_PATTERN</Filename>フィールドと比較してみてください。
+テンプレートは<Filename>&percnt;s.c</Filename>など、特定のファイルを作成するために使用されますが、パターンは<Filename>*.c</Filename>などのファイルを検索するために使用されます。</Para></Entry>
+<Entry><Para><Filename>&percnt;s.ps</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>IS_EXECUTABLE フィールド</Command></Para></Entry>
+<Entry><Para>この型をアプリケーションとして実行できることをユーザに知らせる文字論理値。
+<Filename>IS_EXECUTABLE</Filename>に<Command>true</Command>が設定されている場合
+<Filename>(</Filename><Filename>DtDtsIsTrue()</Filename>参照)、データは実行可能です。
+このフィールドが<Command>NULL</Command>か、データ属性テーブルに含まれていない、またはtrueに設定されていない場合は、データは実行可能でないとみなされます。</Para></Entry>
+<Entry><Para><Command>true</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>MOVE_TO_ACTION</Filename></Para></Entry>
+<Entry><Para>オブジェクトが現在のオブジェクトに移動されるときに実行されるアクションの名前。</Para></Entry>
+<Entry><Para><Filename>FILESYSTEM_MOVE</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>COPY_TO_ACTION</Filename></Para></Entry>
+<Entry><Para>オブジェクトが現在のオブジェクトにコピーされるときに実行されるアクションの名前。</Para></Entry>
+<Entry><Para><Filename>FILESYSTEM_COPY</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>LINK_TO_ACTION</Filename></Para></Entry>
+<Entry><Para>オブジェクトが現在のオブジェクトにリンクされるときに実行されるアクションの名前。</Para></Entry>
+<Entry><Para><Filename>FILESYSTEM_LINK</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>IS_TEXT</Para></Entry>
+<Entry><Para>このデータ型がテキスト・エディタまたはテキスト・ウィジェットでの操作(表示または編集)に適していることをユーザに知らせる文字列論理値。
+データが本来はテキストである場合や、ユーザに対してテキスト形式で表示される場合、<Filename>IS_TEXT</Filename>フィールドには<Command>true</Command>が設定されます
+<Filename>(</Filename><Filename>DtDtsIsTrue()</Filename>参照)。
+その基準は、データが人間の言語から成るものか、手動で生成および管理されているか、テキスト・エディタでの表示と編集が可能か、構造体と書式の情報をまったく(あるいはごくわずかしか)ないかという点から決定されます。</Para></Entry>
+<Entry><Para>詳細な例については、
+<!--Original XRef content: 'Table&numsp;9&hyphen;3'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.datat.mkr.8">を参照してください。</Para></Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry><Para><Filename>IS_TEXT</Filename>フィールドが<Command>true</Command>の場合、データはアプリケーションから直接表示することができます。
+すなわち、アプリケーションは <Command>XmText</Command>などのテキスト編集ウィジェットにデータを直接読み込むことができます。</Para></Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry><Para>MEDIAフィールド</Para></Entry>
+<Entry><Para><Command>MEDIA</Command>ネーム・スペースの名前は、データそのものの形式について記述します。<Command>MEDIA</Command>名は、ICCCM選択ターゲットとして使用され、データ型レコードの<Command>MEDIA</Command>フィールドで名前が付けられ、ToolTalkメディア交換メッセージの型パラメータの中で使用されます。</Para><Para><Command>MEDIA</Command>ネーム・スペースは、ICCCMによって定義された選択ターゲット・アトムのネーム・スペースのサブセットです。
+データ書式を指定する選択ターゲットはすべて有効な<Command>MEDIA</Command>名で、有効な<Command>MEDIA</Command>名は選択ターゲットとして直接使用することができます。データ書式ではなく、選択の属性(たとえば、<Filename>LIST_LENGTH</Filename>)や発生する副作用(たとえば、<Command>DELETE</Command>)を指定する選択ターゲットもあります。
+これらの属性選択ターゲットは、<Command>MEDIA</Command>ネーム・スペースの一部ではありません。</Para></Entry>
+<Entry><Para><Command>POSTSCRIPT</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>MIME_TYPE</Filename></Para></Entry>
+<Entry><Para><Command>MEDIA</Command>は、デスクトップ内部にあり、データ型を表す一意の名前です。
+ただし、外部の他の命名組織もネーム・スペースを設定しています。
+MIME RFCで述べられているMultipurpose Internet Message Extensions (MIME)は、そのような外部登録の１つであり、デスクトップ・メール・プログラムのための標準的なネーム・スペースです。</Para></Entry>
+<Entry><Para><Filename>application/postscript</Filename></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>X400_TYPE</Filename></Para></Entry>
+<Entry><Para>X.400型は、構造は<Command>MEDIA</Command>型に似ていますが、異なる規則を使用して書式化され、異なる命名組織を持ちます。</Para></Entry>
+<Entry><Para><Command>1 2 840 113556 3 2 850</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>INSTANCE_ICON フィールド</Command></Para></Entry>
+<Entry><Para>データのインスタンスのために使用されるアイコンの名前で、通常は
+<Filename>&percnt;</Filename><Symbol Role="Variable">name</Symbol><Filename>&percnt;.icon</Filename>などの値[<Command>dtdtsfile(4)</Command>のマニュアル・ページの「バグ」も参照]。
+<Filename>INSTANCE_ICON</Filename>が設定されている場合は、アプリケーションは
+<Command>ICON</Command>の代わりにそれを使用しなければなりません。
+このフィールドが<Command>NULL</Command>か、データ属性レコードに含まれていない場合は、<Command>ICON</Command>フィールドが使用されます。</Para></Entry>
+<Entry><Para><Filename>/</Filename><Symbol Role="Variable">myicondir</Symbol><Filename>/&percnt;</Filename><Symbol Role="Variable">name</Symbol><Filename>&percnt;.</Filename>bm</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>DATA_HOST</Filename></Para></Entry>
+<Entry><Para><Filename>DATA_HOST</Filename>属性は、<Filename>*.dt</Filename>ファイルの属性テーブルに追加できるフィールドではありませんが、テーブルから属性を読み込むアプリケーションに返すことができます。
+データ型検査サービスはこの属性を自動的に追加して、データ型の読み込み元のホスト・システムを示します。
+このフィールドが<Command>NULL</Command>か、データ属性レコードに含まれていない場合、データ型はローカル・システムから読み込まれています。</Para></Entry>
+<Entry></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para><Filename>IS_TEXT</Filename>は、<Command>MIME_ RFC</Command>で述べられている<Command>MIME</Command>コンテント・タイプである<Filename>MIME_TYPE</Filename>のテキスト属性とは異なります。
+<Command>MIME</Command>コンテント・タイプからデータがテキスト文字とバイト値のどちらで作成されているかがわかります。
+データがテキスト文字で作成され、データに<Filename>text/*</Filename>というラベルが付けられている場合、<Filename>IS_TEXT</Filename>フィールドはテキスト形式でユーザに表示するのに適したデータかどうかを判別します。</Para>
+<Para>さまざまな<Command>MIME_TYPE</Command>属性での<Filename>IS_TEXT</Filename>の使用例を<!--Original XRef content: 'Table&numsp;9&hyphen;3'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.datat.mkr.8">に示します。</Para>
+<Table Id="PG.datat.tbl.3" Frame="Topbot">
+<Title Id="PG.datat.mkr.8">IS_TEXT 属性の例</Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="3.67858 in">
+<ColSpec Colname="2" Colwidth="1.33134 in">
+<THead>
+<Row>
+<Entry><Para><Literal>説明と MIME_TYPE 属性</Literal></Para></Entry>
+<Entry><Para><Literal>IS_TEXT 値</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>MIME_TYPE text/plain</Command>でASCIIにエンコードされた自然言語</Para></Entry>
+<Entry><Para><Command>IS_TEXT true</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MIME_TYPE text/plain; charset=XXX</Command>でE*UC、JIS、Unicode、またはISOラテン文字セットにエンコードされた自然言語</Para></Entry>
+<Entry><Para><Command>IS_TEXT true</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MIME_TYPE text/plain</Command>による、
+CalendarAppointmentAttrs</Para></Entry>
+<Entry><Para><Command>IS_TEXT false</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MIME_TYPE text/html</Command>による、ハイパーテキスト・マークアップ言語 (HTML)</Para></Entry>
+<Entry><Para><Command>IS_TEXT true</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MIME_TYPE application/postscript</Command>による、PostScript</Para></Entry>
+<Entry><Para><Command>IS_TEXT false</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MIME_TYPE text/plain</Command>による、C プログラム・ソース (<Filename>C_SRC</Filename>)</Para></Entry>
+<Entry><Para><Command>IS_TEXT true</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MIME_TYPE text/plain</Command>による、ビットマップとピックスマップ (<Command>XBM</Command> と <Command>XPM</Command>)</Para></Entry>
+<Entry><Para><Command>IS_TEXT false</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MIME_TYPE text/plain</Command>による、デスクトップ・アプリケーション・ビルド・サービスのためのプロジェクトまたはモジュール・ファイル</Para></Entry>
+<Entry><Para><Command>IS_TEXT false</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>MIME_TYPE text/plain</Command>による、シェル・スクリプト</Para></Entry>
+<Entry><Para><Command>IS_TEXT false</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Filename>uuencode(1)</Filename> により、<Command>MIME_TYPE text/plain</Command>で生成されたエンコード・テキスト</Para></Entry>
+<Entry><Para><Command>IS_TEXT false</Command></Para></Entry>
+</Row>
+<Row>
+<Entry><Para>*<Command>MIME_TYPE text/plain</Command></Para></Entry>
+<Entry><Para><Command>IS_TEXT false</Command></Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>データ型属性の詳細については、<Filename>dtdtsfile(4)</Filename>のマニュアル・ページを参照してください。</Para>
+</Sect1>
+<Sect1 Id="PG.datat.div.6">
+<Title Id="PG.datat.mkr.9">データ型関数
+<IndexTerm>
+<Primary>関数</Primary>
+<Secondary>データ型検査</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>データ型検査</Primary>
+<Secondary>関数</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>データ型</Primary>
+<Secondary>関数</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>関数</Primary>
+<Secondary>データ型</Secondary>
+</IndexTerm></Title>
+<Para>データオブジェクトの属性を調べるためには、まずオブジェクトの型を判断し、その型の適切な属性値を求めなければなりません。
+データベースにデータ情報を問い合わせるための関数を
+<!--Original XRef content: 'Table&numsp;9&hyphen;4'-->
+<XRef Role="CodeOrFigureOrTable" Linkend="PG.datat.mkr.10">に示します。
+これらの関数はそれぞれ、セクション (3) にマニュアル・ページがあります。
+詳細については、該当するマニュアル・ページを参照してください。</Para>
+<Table Id="PG.datat.tbl.4" Frame="Topbot">
+<Title Id="PG.datat.mkr.10">データ型データベース問い合わせ関数
+<IndexTerm>
+<Primary>データ型検査</Primary>
+<Secondary>データベース問い合わせ関数</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>データベース問い合わせ関数、データ型検査</Primary>
+</IndexTerm></Title>
+<TGroup Cols="2">
+<ColSpec Colname="1" Colwidth="2.5 in">
+<ColSpec Colname="2" Colwidth="2.5 in">
+<THead>
+<Row>
+<Entry><Para><Literal>関数</Literal></Para></Entry>
+<Entry><Para><Literal>説明</Literal></Para></Entry>
+</Row>
+</THead>
+<TBody>
+<Row>
+<Entry><Para><Command>DtDtsBufferToAttributeList</Command></Para></Entry>
+<Entry><Para>指定バッファのデータ属性のリストを検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsBufferToAttributeValue</Command></Para></Entry>
+<Entry><Para>指定バッファのデータ属性を検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsBufferToDataType</Command></Para></Entry>
+<Entry><Para>指定バッファのデータ型名を検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsDataToDataType</Command></Para></Entry>
+<Entry><Para>指定データ・セットのデータ型を検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsDataTypeIsAction</Command></Para></Entry>
+<Entry><Para>結果として保存されたディレクトリのデータ型を返します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsDataTypeNames</Command></Para></Entry>
+<Entry><Para>使用可能なデータ型のリストを検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsDataTypeToAttributeList</Command></Para></Entry>
+<Entry><Para>指定データ属性名の属性リストを検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsDataTypeToAttributeValue</Command></Para></Entry>
+<Entry><Para>指定データ属性名の属性値を検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsFileToAttributeList</Command></Para></Entry>
+<Entry><Para>指定ファイルのデータ属性のリストを検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsFileToAttributeValue</Command></Para></Entry>
+<Entry><Para>指定ファイルのデータ属性値を検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsFileToDataType</Command></Para></Entry>
+<Entry><Para>指定ファイルのデータ型を検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsFindAttribute</Command></Para></Entry>
+<Entry><Para>属性<Command>name</Command>が<Command>value</Command>に一致するデータ型のリストを検索します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsFreeAttributeList</Command></Para></Entry>
+<Entry><Para>指定属性リストのメモリを解放します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsFreeAttributeValue</Command></Para></Entry>
+<Entry><Para>指定属性値のメモリを解放します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsFreeDataType</Command></Para></Entry>
+<Entry><Para>指定データ型名のアプリケーション・メモリを解放します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsFreeDataTypeNames</Command></Para></Entry>
+<Entry><Para><Command>DtDtsDataTypeNames</Command>または
+<Command>DtDtsFindAttribute</Command>を呼び出して作成されたメモリを解放します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para>DtDtsIsTrue</Para></Entry>
+<Entry><Para>文字列を論理値に変換する簡易関数。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsRelease</Command></Para></Entry>
+<Entry><Para>一般的には再読み込みの準備として、データ型データベース情報の読み込みを解除します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtDtsSetDataType</Command></Para></Entry>
+<Entry><Para>指定されたディレクトリのデータ型を設定します。</Para></Entry>
+</Row>
+<Row>
+<Entry><Para><Command>DtsLoadDataTypes</Command></Para></Entry>
+<Entry><Para>データ型関数のためにデータベース・フィールドを初期化し、読み込みます。
+アクションまたはアクション型を使用する必要がなく、パフォーマンスを向上させたいとき、<Command>DtDbLoad</Command>の代わりに使用します。
+アクションを使用する必要があるときには<Command>DtDbLoad</Command>を使用します。</Para></Entry>
+</Row>
+</TBody>
+</TGroup>
+</Table>
+<Para>データ型を検査して属性を検索するには、簡易、中間、拡張の３つの方法があります。</Para>
+<Sect2 Id="PG.datat.div.7">
+<Title>簡易データ型検査</Title>
+<Para>データ型を検査するための最も簡単な方法は、次の関数を使用することです。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>DtDtsFileToAttributeList</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtDtsFileToAttributeValue</Command></Para>
+</ListItem>
+</ItemizedList>
+<Para>これらの関数を使用すると、ファイルの型が検査され、単一の属性またはリスト全体が検索されます。
+システム・コールが行われ、データ型の検査と属性の検索が行われます。
+次の関数は、中間データ型検査関数を呼び出します。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>DtDtsBufferToAttributeList</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtDtsBufferToAttributeValue</Command></Para>
+</ListItem>
+</ItemizedList>
+<Para>バッファは、読み取り/書き込み権を持つ通常ファイルに一致するモードを持つと想定されます。
+読み専用バッファの型の検査については、
+<!--Original XRef content: '&xd2;Advanced Data Typing'-->
+<XRef Role="SectionTitle" Linkend="PG.datat.mkr.11">を参照してください。</Para>
+</Sect2>
+<Sect2 Id="PG.datat.div.8">
+<Title>中間データ型検査</Title>
+<Para>データの型を検査して属性を検索する場合、プロセスのデータ型検査部分は、パフォーマンスの点で最もコストがかかります。
+データ型の検査を２番目の方法で行うと、データ型検査のための関数と属性検索のための関数を切り離すことによって、パフォーマンスを改善できます。
+中間データ型検査には、次の関数を使用します。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Command>DtDtsBufferToDataType</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtDtsFileToDataType</Command></Para>
+</ListItem>
+<ListItem>
+<Para><Command>DtDtsDataTypeToAttributeList</Command></Para>
+</ListItem>
+<ListItem>
+<Para>DtDtsDataTypeToAttributeValue</Para>
+</ListItem>
+</ItemizedList>
+<Para>アプリケーションが複数の属性値を問い合わせる場合には、これらの関数を使用します。
+これらの関数を使用すると、オブジェクトの型が検査され、その型を使用して属性リストから１つ以上の属性を検索します。</Para>
+<Para>データ型検査と属性の検索を行うには、中間データ型検査関数を使用するようにしてください。
+これらの関数は、拡張データ型検査関数を呼び出し、バッファについて簡易データ型検査と同様に想定します。</Para>
+</Sect2>
+<Sect2 Id="PG.datat.div.9">
+<Title Id="PG.datat.mkr.11">拡張データ型検査</Title>
+<Para>拡張データ型検査では、システム・コール、データ型、さらには属性検索も別々に行われます。
+拡張データ型検査では、あらかじめ初期化されてデータ型検査関数の一部としては含まれない既存のシステム・コールからのデータを使用するので、コード化が複雑になります。拡張データ型検査には、次の関数を使用してください。</Para>
+<Para><Command>DtDtsDataToDataType</Command></Para>
+<Para>読み取り専用バッファの型を検査するには、
+<Filename>st_mode</Filename>フィールドが
+<Command>S_IFREG | S_IROTH | S_IRGRP | S_IRUSR</Command>に設定された
+<Command>stat</Command>構造体が渡されなければなりません。</Para>
+</Sect2>
+<Sect2 Id="PG.datat.div.10">
+<Title>アクションであるデータ型(DtDtsDataTypeIsAction)</Title>
+<Para>データベースが読み込まれるとアクションの検査ができるようになるため、データベースの各アクションに対して<Emphasis>合成データ型</Emphasis>が生成されます。
+これらのデータ型は、次の２つの追加の属性を持つことができます。</Para>
+<ItemizedList Remap="Bullet1">
+<ListItem>
+<Para><Filename>IS_ACTION</Filename>は、このデータ型がアクションであることをユーザに知らせる文字列論理値です。
+<Filename>IS_ACTION</Filename>に文字列<Command>true</Command>(大文字と小文字の区別はありません)が設定されている場合、データはアクションです。</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>IS_SYNTHETIC</Filename>は、このデータ型が<Command>ACTION</Command>テーブルのエントリから生成されたことをユーザに知らせる文字列論理値です。
+<Filename>IS_SYNTHETIC</Filename>に<Command>true</Command>が設定されている場合、データ型は生成されています。</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="PG.datat.div.11">
+<Title Id="PG.datat.mkr.12">ドロップ領域としてのオブジェクトの登録
+<IndexTerm>
+<Primary>データ型検査</Primary>
+<Secondary>ドロップ領域としてのオブジェクトの登録</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ドロップ領域</Primary>
+<Secondary>オブジェクトの登録</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ドロップ領域としてのオブジェクトの登録</Primary>
+</IndexTerm></Title>
+<Para>アプリケーションがデータ型を定義する場合は、次の手順に従ってプログラマが意図したドラッグ・ドロップ動作のすべてが提供されているか確認してください。</Para>
+<OrderedList>
+<ListItem>
+<Para>アプリケーションの中で、データ型を定義する必要があるかどうかを指定します。</Para>
+</ListItem>
+<ListItem>
+<Para>定義する各データ型について、関連するオブジェクトをドロップ領域にするかどうかを指定します。</Para>
+</ListItem>
+<ListItem>
+<Para>ドロップ領域として登録したい各オブジェクトについて、どの操作(移動、コピー、またはリンク)を定義するかを指定します。</Para>
+</ListItem>
+<ListItem>
+<Para>各オブジェクトに対して有効なドロップ操作について、適切なドロップ・アクションを定義します(<Filename>MOVE_TO_ACTION</Filename>、
+<Filename>COPY_TO_ACTION</Filename>、および
+<Filename>LINK_TO_ACTION</Filename>属性を設定してください)。</Para>
+</ListItem>
+</OrderedList>
+<Para>アプリケーションがデータ・オブジェクトのアイコンを表示する場合、それらのアイコンをドロップ領域としてサポートしなければならないこともあります。
+その場合、<Filename>MOVE_TO_ACTION</Filename>、
+<Filename>COPY_TO_ACTION</Filename>、または
+<Filename>LINK_TO_ACTION</Filename>属性を問い合わせて、それらのデータ・オブジェクトのドロップ動作を指定する必要があります。
+対応する属性値が<Command>NULL</Command>でない場合だけ、オブジェクトはドロップ操作をサポートしなければなりません。
+３つの属性すべてが<Command>NULL</Command>の値を持つ場合、オブジェクトはドロップ領域として登録されません。
+データ型が定義されているオブジェクトの属性を最低１つでも設定すると、アプリケーションはそのオブジェクトをドロップ領域として登録できます。</Para>
+<Para>ユーザがオブジェクトをドロップ領域にドラッグすると、アプリケーションはドロップを行うためにどのジェスチャ(すなわち、どのドラッグ操作)が使用されたかを判断します。
+ドラッグ操作とドロップ領域のデータ型に基づいて、アプリケーションはデータ型データベースからドロップ属性を検索します。
+次に、<Command>DtActionInvoke</Command>を呼び出して、次の２つの規則によってパラメータを判断します。</Para>
+<OrderedList>
+<ListItem>
+<Para Id="PG.datat.mkr.13">ユーザがオブジェクトAとBをオブジェクトCの上にドロップした場合は、C、A、Bを<Symbol Role="Variable">args</Symbol>として
+<Command>DtActionInvoke</Command>を呼び出します。
+<Command>action</Command>はCの
+<Filename>MOVE_TO_ACTION</Filename>、
+<Filename>COPY_TO_ACTION</Filename>、
+<Filename>LINK_TO_ACTION</Filename>のいずれかの値です。
+オブジェクトCがアクションの場合、引き数リストはCを含みません。
+また、<Command>action</Command>はCです。</Para>
+</ListItem>
+</OrderedList>
+<Para>ファイル・マネージャとそのディレクトリおよびフォルダ・オブジェクトは、デスクトップが移動、コピー、およびリンクされたドロップ属性を使用する方法を示す例となります。
+ユーザは、オブジェクト(ファイル)をディレクトリ・フォルダへドラッグ＆ドロップすることができます。
+ファイル・マネージャは、フォルダ・オブジェクトに対して、
+<Filename>MOVE_TO_ACTION</Filename>、
+<Filename>COPY_TO_ACTION</Filename>、および
+<Filename>LINK_TO_ACTION</Filename>アクションを定義します。
+これらのアクションは、適切なファイル・システムの移動、コピー、およびリンクのためのシステム関数を実行します。</Para>
+<Para><Filename>MOVE_TO_ACTION</Filename>、
+<Filename>COPY_TO_ACTION</Filename>、および
+<Filename>LINK_TO_ACTION</Filename>属性の定義の例については、
+<Filename>/usr/dt/appconfig/types/C/dtfile.dt</Filename>を参照してください。
+ドラッグ＆ドロップの使用方法の詳細については、
+<!--Original XRef content: 'Chapter&numsp;5, &xd2;Integrating with Drag and Drop'-->
+<XRef Role="ChapNumAndTitle" Linkend="PG.dndPG.mkr.1">を参照してください。</Para>
+</Sect1>
+<Sect1 Id="PG.datat.div.12">
+<Title Id="PG.datat.mkr.14">データ型データベースの使用例
+<IndexTerm>
+<Primary>データ型検査</Primary>
+<Secondary>コーディング例</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>コーディング例</Primary>
+<Secondary>データ型検査</Secondary>
+</IndexTerm></Title>
+<Para>この節では、データ型検査のコード例を示します。
+このコード例は、<Filename>/usr/dt/examples/dtdts/datatyping.c</Filename>にあります。
+このサンプル・コードは、渡された各ファイルのデータ型、アイコン名、およびサポートされるアクションを表示します。
+<Command>dtaction</Command>クライアントを使用して、サポートされているアクションをファイルで実行することもできます。
+<Command>datatyping</Command>の使い方は、次のとおりです。</Para>
+<ProgramListing>datatyping <Symbol Role="Variable">file1</Symbol> [<Symbol Role="Variable">file2</Symbol> <Symbol Role="Variable">...</Symbol>]
+#include &lt;Xm/Form.h>
+#include &lt;Xm/Text.h>
+#include &lt;Dt/Dts.h>
+
+#define ApplicationClass &ldquo;DtDatatyping&ldquo;
+
+static Widget text;
+
+static void DisplayTypeInfo(int, char**);
+
+int main(int argc, char **argv)
+{
+    XtAppContext appContext;
+    Widget toplevel, form;
+    Arg args[20];
+    int n;
+
+    toplevel = XtAppInitialize(&amp;appContext, ApplicationClass,
+
+ NULL,  0,
+        argc, argv, NULL, NULL, 0);
+
+    if (argc == 1) {
+        printf(&ldquo;&percnt;s: No files specified.\n&ldquo;, argv[0]);
+        exit(1);
+    }
+
+    form = XmCreateForm(toplevel, &ldquo;form&ldquo;, NULL, 0);
+    XtManageChild(form);
+    n = 0;
+    XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
+    XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
+    XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
+    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_FORM); n++;
+    XtSetArg(args[n], XmNeditable, False); n++;
+    XtSetArg(args[n], XmNeditMode, XmMULTI_LINE_EDIT); n++;
+    XtSetArg(args[n], XmNrows, 25); n++;
+    XtSetArg(args[n], XmNcolumns, 90); n++;
+    text = XmCreateScrolledText(form, &ldquo;text&ldquo;, args, n);
+    XtManageChild(text);
+
+    XtRealizeWidget(toplevel);
+ if (DtAppInitialize(appContext, XtDisplay(toplevel), toplevel,
+
+  argv[0],
+                                                ApplicationClass) == False) {
+        printf(&ldquo;&percnt;s: Couldn't initialize Dt\n&ldquo;, argv[0]);
+        exit(1);
+    }
+
+    DtDbLoad();
+
+    DisplayTypeInfo(argc, argv);
+
+    XtAppMainLoop(appContext);
+}
+
+static void DisplayTypeInfo(int argc, char **argv)
+{
+    char *file;
+    char *datatype;
+    char *icon;
+    char *actions;
+    char str[100];
+    int i;
+
+    sprintf(str, &ldquo;&percnt;-30s\t&percnt;-10s\t&percnt;-8s\t&percnt;-20s\n&ldquo;,
+                &ldquo;File&ldquo;,
+                &ldquo;DataType&ldquo;,
+                &ldquo;Icon&ldquo;,
+                &ldquo;Actions&ldquo;);
+    XmTextInsert(text, XmTextGetLastPosition(text), str);
+
+    sprintf(str, &ldquo;&percnt;-30s\t&percnt;-10s\t&percnt;-8s\t&percnt;-20s\n&ldquo;,
+                &ldquo;-------------------&ldquo;,
+                &ldquo;--------&ldquo;,
+                &ldquo;----&ldquo;,
+                &ldquo;-------&ldquo;);
+    XmTextInsert(text, XmTextGetLastPosition(text), str);
+
+      for(i=1; i &lt; argc; i++) {
+        char *file = argv[i];
+
+        /* find out the Dts data type */
+        datatype = DtDtsFileToDataType(file);
+
+        if(datatype) {
+            /* find the icon attribute for the data type */
+            icon = DtDtsDataTypeToAttributeValue(datatype,
+
+   DtDTS_DA_ICON, file);
+        }
+
+  /*  Directly find the action attribute for a file */
+
+        actions = DtDtsFileToAttributeValue(file,
+
+   DtDTS_DA_ACTION_LIST);
+
+        sprintf(str, &ldquo;&percnt;-30s\t&percnt;-10s\t&percnt;-8s\t&percnt;s\n&ldquo;,
+                        file,
+                        datatype?datatype:&ldquo;unknown&ldquo;,
+                        icon?icon:&ldquo;unknown&ldquo;,
+                        actions?actions:&ldquo;unknown&ldquo;);
+        XmTextInsert(text, XmTextGetLastPosition(text), str);
+
+        /* Free the space allocated by Dts */
+
+        DtDtsFreeAttributeValue(icon);
+        DtDtsFreeAttributeValue(actions);
+        DtDtsFreeDataType(datatype);
+    }
+</ProgramListing>
+</Sect1>
+</Chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 09:54:57-->

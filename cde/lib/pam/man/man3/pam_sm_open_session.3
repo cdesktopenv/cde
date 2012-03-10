@@ -1,0 +1,92 @@
+.\" $XConsortium: pam_sm_open_session.3 /main/5 1996/10/29 15:20:14 drk $
+.\" Sccs id goes here
+'\"macro stdmacro
+.\" Copyright (c) 1995, Sun Microsystems, Inc. 
+.\" All Rights Reserved
+.nr X
+.TH pam_sm_open_session 3 "9 Jan 1996"
+.SH NAME
+pam_sm_open_session, pam_sm_close_session
+\- Service provider implementation for pam_open_session and pam_close_session respectively
+.SH SYNOPSIS
+.LP
+.B cc
+.RI "[ " "flag" " \|.\|.\|. ] " "file" " \|.\|.\|."
+.B \-lpam
+.RI "[ " "library" " \|.\|.\|. ]"
+.LP
+.nf
+.ft 3
+#include <security/pam_appl.h>
+#include <security/pam_modules.h>
+.ft
+.fi
+.LP
+.BI "int pam_sm_open_session(pam_handle_t " "*pamh" ,
+.BI "int " "flags" ,
+.BI "int " "argc",
+.BI "const char **" "argv" );
+.LP
+.BI "int pam_sm_close_session(pam_handle_t " "*pamh" ,
+.BI "int " "flags" ,
+.BI "int " "argc",
+.BI "const char **" "argv" );
+.SH DESCRIPTION
+.IX "pam_sm_open_session" "" "\fLpam_open_session\fP \(em session management"
+In response to a call to
+.RB pam_open_session (3)
+and
+.BR pam_close_session (3),
+the PAM framework calls
+.B pam_sm_open_session(\|)
+and
+.BR pam_sm_close_session(\|) ,
+respectively from the modules listed in the
+.BR pam.conf (4)
+file.  The session management provider supplies the back-end functionality for
+this interface function.
+.PP
+.B pam_sm_open_session(\|)
+is called to initiate session management.
+.B pam_sm_close_session(\|) 
+is invoked when a session has terminated.
+The argument
+.IR pamh
+is an authentication handle.
+The following flag may be set in the
+.IR flags
+field:
+.RS
+.IP PAM_SILENT 16
+Session service should not generate any messages
+.RE
+The
+.I argc
+argument
+represents the number of module options passed in from the configuration file
+.BR pam.conf (4).
+.I argv
+specifies the module options, which are interpreted and processed
+by the session management service. If an unknown option is passed in,
+an error should be logged through
+.BR syslog (3)
+and the option ignored.
+.SH "RETURN VALUES"
+.PP
+Upon successful completion, PAM_SUCCESS should be returned.
+The following values may also be returned upon error:
+.RS
+.IP PAM_SESSION_ERR 22
+Can not make/remove an entry for the specified session
+.IP PAM_IGNORE 22
+Ignore underlying session module regardless of whether the control 
+flag is
+.I required, optional
+or
+.I sufficient
+.RE
+.SH "SEE ALSO"
+.BR pam (3),
+.BR pam_open_session (3),
+.BR syslog (3),
+.BR pam.conf (4)

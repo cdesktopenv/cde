@@ -1,0 +1,777 @@
+<!-- $XConsortium: ch06.sgm /main/6 1996/09/08 19:48:37 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="ABUG.afunc.div.1">
+<title id="ABUG.afunc.mkr.1">Adding Functionality to the Interface</title>
+<para>Once you have laid out an interface you may want to add help to interface
+elements, make programmatic connections between objects, specify drag and
+drop behavior, and specify application framework behavior (including internationalization,
+resource file creation, session management, and ToolTalk message handling).
+</para>
+<informaltable id="ABUG.afunc.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating Help and Help Connections67'--><xref
+role="JumpText" linkend="ABUG.afunc.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Making Connections Between Objects72'--><xref
+role="JumpText" linkend="ABUG.afunc.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Connecting Menu Items to Actions74'--><xref
+role="JumpText" linkend="ABUG.afunc.mkr.9"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Editing Existing Connections77'--><xref
+role="JumpText" linkend="ABUG.afunc.mkr.13"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Establishing Drag and Drop Behavior79'--><xref
+role="JumpText" linkend="ABUG.afunc.mkr.14"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Establishing Application Framework
+Behavior83'--><xref role="JumpText" linkend="ABUG.afunc.mkr.16"></para></entry>
+</row></tbody></tgroup></informaltable>
+<sect1 id="ABUG.afunc.div.2">
+<title id="ABUG.afunc.mkr.2">Creating Help and Help Connections</title>
+<para>Two kinds of help&mdash;object help and a help volume&mdash;can be accessed
+from an App Builder application. Object help is created in App Builder, as
+explained in <!--Original XRef content: '&xd2;To Create Help&xd3; on page&numsp;68'--><xref
+role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.4">. A help volume is created
+separately from App Builder, and is accessed in your compiled application
+from the Help menu or by clicking More in a help dialog box. See the <emphasis>Help System Author's and Programmer's Guide</emphasis>, which is included
+in the desktop Help Developer's Kit, for instructions for creating a help
+volume.</para>
+<sect2 id="ABUG.afunc.div.3">
+<title id="ABUG.afunc.mkr.3">About App Builder Help</title>
+<para>With App Builder you can create help for any object in the interface&mdash;a
+control, a pane, or a window. Help is created in the Help Editor, as described
+in <!--Original XRef content: '&xd2;To
+Create Help&xd3; on page&numsp;68'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.4">.
+In test mode or in the compiled application, help is displayed in the following
+ways:<indexterm><primary>help</primary><secondary>displaying</secondary>
+</indexterm><indexterm><primary>displaying</primary><secondary>help</secondary>
+</indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Press F1 with the cursor over
+an interface window.</para>
+<para>If help exists for the object with input focus, it is displayed. If
+there is no help for the object with input focus but help exists for a parent
+window, help for that window will be displayed.</para>
+</listitem>
+<listitem><para>Click the Help button in a window or dialog box.
+</para>
+</listitem>
+<listitem><para>Choose On Item from the Help menu and click on
+an object in the interface.</para>
+</listitem></itemizedlist>
+<para>See <!--Original XRef content: '&xd2;To Test On Item Help&xd3; on page&numsp;103'--><xref
+role="SecTitleAndPageNum" linkend="ABUG.test.mkr.4"> for instructions for
+testing On Item help. If help is not available for a particular child object
+(a control or a pane) but is available for the parent of the child object
+(a pane or a window), help for the parent object is displayed.</para>
+</sect2>
+<sect2 id="ABUG.afunc.div.4" role="Procedure">
+<title id="ABUG.afunc.mkr.4">To Create Help<indexterm><primary>On Item help</primary><secondary>creating</secondary></indexterm><indexterm><primary>creating</primary><secondary>On Item help</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Display the Revolving Property Editor.</para>
+</listitem>
+<listitem><para>Choose the Object Type for which you want to write
+help.</para>
+</listitem>
+<listitem><para>Select the object for which you want to write help.
+</para>
+</listitem>
+<listitem><para>Click Help Text to display the Help Editor with
+the appropriate object selected.</para>
+<graphic id="ABUG.afunc.igrph.1" entityref="ABUG.afunc.fig.1"></graphic>
+</listitem>
+<listitem><para>Type help text in the Help Text pane.<indexterm>
+<primary>editor</primary><secondary>Help</secondary></indexterm><indexterm>
+<primary>Help Editor</primary></indexterm></para>
+<para>Press Return when you want a new line to start in the compiled help
+dialog box.</para>
+</listitem>
+<listitem><para>Type a Volume Name if appropriate.</para>
+<para>This is the name of a help volume.</para>
+</listitem>
+<listitem><para>Type a Location ID, if appropriate.</para>
+<para>This is the helptag location ID that will provide more information about
+the selected object.</para>
+<note>
+<para>You must create help for an object if you want access to a help volume
+from a help dialog box. If you create help for an object and include a Volume
+Name and Location ID, the More button will be active in the help dialog box.
+</para>
+</note>
+</listitem>
+<listitem><para>Click OK or Apply to apply the changes.</para>
+<para>If you want to add help to other objects, choose the appropriate Object
+Type in the menu, select the appropriate object, and repeat the previous
+two steps.</para>
+<para>The Help Editor will be dismissed if you click OK.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.afunc.div.5" role="Procedure">
+<title id="ABUG.afunc.mkr.5">To Connect a Help Menu to On Item Help<indexterm><primary>connecting</primary><secondary>On Item help to Help menu item</secondary></indexterm><indexterm><primary>connections</primary><secondary>On Item help menu item</secondary></indexterm><indexterm><primary>Help menu</primary><secondary>connecting On Item help to</secondary></indexterm><indexterm><primary>creating</primary><secondary>On Item menu item</secondary></indexterm><indexterm><primary>On Item help</primary><secondary>menu item</secondary></indexterm></title>
+<para>One of the standard items in a Help menu is On Item Help, which is used
+to display help for a specific object in an interface. The instructions below
+assume you have included a menu bar in a main window and that you have attached
+a Help menu to the Help item in the menu bar. See <!--Original XRef content:
+'&xd2;To Create and Attach a Help
+Menu&xd3; on page&numsp;54'--><xref role="SecTitleAndPageNum" linkend="ABUG.crobj.mkr.18">
+for instructions.</para>
+<orderedlist><listitem><para>Choose Menus from the Editors menu in the App
+Builder primary window.</para>
+<para>The Menu Property Editor is displayed.</para>
+</listitem><listitem><para>Select the Help menu in the Objects list.</para>
+</listitem><listitem><para>Select one of the items in the Items list as the
+On Item Help item.</para>
+</listitem><listitem><para>Type On Item or other appropriate text in the Label
+text field.</para>
+</listitem><listitem><para>Include an item mnemonic, if appropriate.</para>
+<para>An item mnemonic specifies one of the letters in the selected item as
+a keyboard shortcut for activating the menu item when the menu is posted.
+The letter specified will be underlined in the menu item. Case is significant
+for mnemonics.</para>
+</listitem><listitem><para>Include an item accelerator, if appropriate.</para>
+<para>An item accelerator specifies a keyboard shortcut for choosing the selected
+item. An accelerator is comprised of a prefix (Ctrl, Alt, Meta, or Shift),
+<filename>&lt;key></filename>, and a letter (upper- or lowercase). To make
+Control-x an accelerator, for instance, type <filename>Ctrl&lt;key>x</filename>.
+</para>
+</listitem><listitem><para>Click Apply.</para>
+<para>The changes to the Help menu will be applied.</para>
+</listitem><listitem><para>Click Connections to display the Connections Editor.
+</para>
+<para>The Connections button is at the bottom of the Menu Property Editor.
+</para>
+</listitem><listitem><para>Choose Menu Item in the Source menu.</para>
+</listitem><listitem><para>Select the On Item Help item in the Source list.
+</para>
+</listitem><listitem><para>Choose Activate On Item Help from the Action Type
+menu.</para>
+</listitem><listitem><para>Click Connect.</para>
+</listitem></orderedlist>
+<para>When you choose the On Item Help item in the Help menu in test mode
+or in the compiled application, the cursor will become an arrow with a question
+mark. Move the cursor over an object and click mouse button 1 to display
+On Item help for the selected object (or for one of its parent objects if
+no help is available for the object itself). See <!--Original XRef content:
+'&xd2;To Test On Item Help&xd3; on page&numsp;103'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.test.mkr.4"> for more information.</para>
+</sect2>
+<sect2 id="ABUG.afunc.div.6" role="Procedure">
+<title id="ABUG.afunc.mkr.6">To Connect a Help Menu to a Help Volume<indexterm><primary>help volume</primary></indexterm><indexterm><primary>Help menu</primary></indexterm><indexterm><primary>connecting</primary><secondary>menu item to help topic</secondary></indexterm></title>
+<para>After creating a help menu and attaching it to the
+Help item in a menu bar as explained in <!--Original XRef content: '&xd2;To
+Create and Attach a Help Menu&xd3; on page&numsp;54'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.crobj.mkr.18">, do the following to connect menu items to specific
+locations in a help volume. See <!--Original XRef content: '&xd2;To Connect
+a Help Menu to On Item Help&xd3; on page&numsp;70'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.afunc.mkr.5"> for instructions for connecting the On Item help
+item in the Help menu to the On Item help function.<indexterm><primary>menu items</primary><secondary>attaching help topic to</secondary></indexterm>
+</para>
+<orderedlist><listitem><para>Display the Connections Editor.</para>
+<para>Click Connections in the Revolving Property Editor or in the Menu Property
+Editor or choose Connections from the Editors menu.</para>
+</listitem><listitem><para>Choose Menu Item from the Source option menu.</para>
+</listitem><listitem><para>Select one of the Help menu items from the Source
+scrolling list.</para>
+</listitem><listitem><para>Choose Access Help Volume from the Action Type
+option menu.</para>
+</listitem><listitem><para>Type the name of the help volume in the Volume
+text field.</para>
+</listitem><listitem><para>Type the appropriate location ID in the Location
+text field.</para>
+</listitem><listitem><para>Click Connect to make the connection.</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.7">
+<title id="ABUG.afunc.mkr.7">Making Connections Between Objects</title>
+<para>In its simplest form a connection is a programmatic relationship between
+a source object and a target object: when I click on Button A I want Dialog
+Box B to be displayed. This type of connection is described below in <!--Original
+XRef content: '&xd2;To Make a
+Connection between Two Objects'--><xref role="SectionTitle" linkend="ABUG.afunc.mkr.8">.
+</para>
+<para>Different types of connections from menu items are described in <!--Original
+XRef content: '&xd2;To Connect a
+Menu Item to a Predefined Action&xd3; on page&numsp;74'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.afunc.mkr.10">, <!--Original XRef content: '&xd2;To Connect
+a Menu Item to a
+Call Function&xd3; on page&numsp;75'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.11">,
+and <!--Original XRef content: '&xd2;To Connect a Menu Item to an Execute
+Code
+Action&xd3; on page&numsp;76'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.12">.
+</para>
+<para>Other types of connections (to On Item Help and to a help volume) were
+discussed in <!--Original XRef content: '&xd2;To Connect a Help Menu to
+On Item Help&xd3; on page&numsp;70'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.5">
+and in <!--Original XRef content: '&xd2;To Connect a Help Menu to a Help
+Volume&xd3; on page&numsp;71'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.6">.
+In <!--Original XRef content: '&xd2;To Connect a
+Non-Modal Message to a Function&xd3; on page&numsp;60'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.crobj.mkr.24">, a message dialog box is connected to the function
+which causes the dialog box to be displayed.</para>
+<sect2 id="ABUG.afunc.div.8" role="Procedure">
+<title id="ABUG.afunc.mkr.8">To Make a Connection between Two Objects<indexterm><primary>creating</primary><secondary>connection between two objects &lt;$startrange></secondary></indexterm><indexterm><primary>connecting</primary><secondary>two objects &lt;$startrange></secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Select the source and target objects.</para>
+<itemizedlist remap="Bullet2">
+<listitem>
+<para><emphasis role="Lead-in">By &ldquo;drag-linking&rdquo;</emphasis>: While
+holding down the Control key, position the mouse cursor over the intended
+source object, press mouse button 1, drag the cursor to the intended target
+object, and release the mouse button.</para>
+<para>This can be done in the interface or in the Module Browser (or between
+the interface and the Module Browser). See <!--Original XRef content: '&xd2;Module
+Browser&xd3; on
+page&numsp;128'--><xref role="SecTitleAndPageNum" linkend="ABUG.apWDB.mkr.8">
+for a description of the Browser.</para>
+<para><literal><indexterm><primary>drag-link connection</primary></indexterm></literal>A
+line with a &ldquo;plug&rdquo; at its end will extend from the source as you
+move the mouse. The target object will be highlighted with a dark box. When
+you release the mouse button on the target object, the Connections Editor
+will be displayed, with the source and target objects selected.<literal><indexterm>
+<primary>connections</primary><secondary>selecting objects through drag-linking</secondary></indexterm></literal></para>
+</listitem>
+<listitem><para><emphasis role="Lead-in">Through the Connections Editor</emphasis>:
+Display the Connections Editor by choosing
+Connections in the Editors menu. Choose the object type you want as the source
+object in the Source menu, and select the object you want as the source in
+the Source list. Then choose the object type you want as the target object
+in the Target menu, and select the object you want as the target in the Target
+list.<indexterm><primary>connections</primary><secondary>selecting objects through the Connections Editor</secondary></indexterm>
+</para>
+</listitem></itemizedlist>
+<note>
+<para>If you select an object in the Revolving Property Editor and click the
+Connections button, the Connections Editor will be displayed with the selected
+object selected in the Source list.</para>
+</note>
+<graphic id="ABUG.afunc.igrph.2" entityref="ABUG.afunc.fig.2"></graphic>
+</listitem>
+<listitem><para>Choose an action in the When menu.<indexterm>
+<primary>Connections Editor</primary></indexterm><indexterm><primary>editor</primary><secondary>Connections</secondary></indexterm></para>
+<para>This is the action on the source object that will cause an action to
+be performed on the target object. Choices vary, depending on the source
+object type.</para>
+</listitem>
+<listitem><para>Choose an action to be performed on the target
+in the Action Type menu.</para>
+<para>Different target action types require different subsequent action by
+you:</para>
+<itemizedlist remap="Bullet2"><listitem><para>Predefined: Choose an action
+from a second option menu.</para>
+</listitem><listitem><para>Call Function: Type the name of a function in the
+Function text field. You will also have to write code for the call function,
+as described in <!--Original XRef content: '&xd2;Adding
+User Code to Generated Code&xd3; on page&numsp;112'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.codeg.mkr.6">.</para>
+</listitem><listitem><para>Execute Code: Type the code to be performed in
+the Execute Code Editor and click OK in the editor.</para>
+</listitem></itemizedlist>
+</listitem>
+<listitem><para>Click Connect to make the connection.</para>
+<para><literal><indexterm><primary>connecting</primary><secondary>two objects &lt;$endrange></secondary></indexterm></literal>The
+connection will be displayed in the View list at the bottom of the Connections
+Editor. <literal><indexterm><primary>creating</primary><secondary>connection
+between two objects &lt;$endrange></secondary></indexterm></literal></para>
+</listitem>
+<listitem><para>Click Cancel to dismiss the Connections Editor.
+</para>
+</listitem>
+</orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.9">
+<title id="ABUG.afunc.mkr.9">Connecting Menu Items to Actions</title>
+<para>Once you have created a menu and attached it to an object as described
+in <!--Original XRef content: '&xd2;To
+Create a Menu&xd3; on page&numsp;47'--><xref role="SecTitleAndPageNum" linkend="ABUG.crobj.mkr.13">
+and <!--Original XRef content: '&xd2;To Attach an Existing Menu to an Object&xd3;
+on
+page&numsp;50'--><xref role="SecTitleAndPageNum" linkend="ABUG.crobj.mkr.15">,
+you need to connect a meaningful action to each item in each menu. Choices
+for target actions are Predefined, Call Function, Execute Code, Activate
+On-Item Help, and Access Help Volume.</para>
+<para>Connecting menu items to the first three types of actions are described
+below. See <!--Original XRef content: '&xd2;To Connect a Help Menu to On
+Item Help&xd3; on page&numsp;70'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.5">
+and <!--Original XRef content: '&xd2;To Connect a
+Help Menu to a Help Volume&xd3; on page&numsp;71'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.afunc.mkr.6"> for instructions for making help connections.
+</para>
+<sect2 id="ABUG.afunc.div.10" role="Procedure">
+<title id="ABUG.afunc.mkr.10">To Connect a Menu Item to a Predefined Action</title>
+<para><indexterm><primary>connecting</primary><secondary>menu item and predefined
+action</secondary></indexterm><indexterm><primary>menu items</primary><secondary>connecting to predefined action</secondary></indexterm>Only Predefined target
+actions are described in this section. See <!--Original XRef content: '&xd2;To
+Connect a
+Menu Item to a Call Function&xd3; on page&numsp;75'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.afunc.mkr.11"> and <!--Original XRef content: '&xd2;To Connect
+a Menu Item to an
+Execute Code Action&xd3; on page&numsp;76'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.afunc.mkr.12"> for information about those connections.</para>
+<orderedlist><listitem><para>Display the Connections Editor.</para>
+<para>Click Connections at the bottom of the Revolving Property Editor or
+choose Connections from the Editors menu of the App Builder primary window.
+</para>
+</listitem><listitem><para>Choose Menu Item from the Source menu.</para>
+<para>All of the menu items in the current project will be listed.</para>
+</listitem><listitem><para>Select a menu item from the list below the Source
+menu.</para>
+<para>This is the item from which the connection will be made.</para>
+</listitem><listitem><para>Choose Predefined as the target action type from
+the Action Type menu.</para>
+<para>The Target menu will be activated.</para>
+</listitem><listitem><para>Choose the appropriate type of object from the
+Target menu.</para>
+<para>This is the type of object that will be acted on when the When action
+is performed on the source menu item.</para>
+</listitem><listitem><para>Select an object in the list of Target items.</para>
+<para>This is the specific object that will be acted on when the When action
+is performed on the source menu item.</para>
+</listitem><listitem><para>Choose a When action for the Source menu item.
+</para>
+<para>Choices are Activated, Created, and Destroyed.</para>
+</listitem><listitem><para>Choose a target action from the option menu to
+the right of Action Type.</para>
+<para>The choices vary depending on the target type.</para>
+</listitem><listitem><para>Click Connect to make the connection.</para>
+<para>The connection will be displayed in the View list at the bottom of the
+Connections Editor.</para>
+</listitem><listitem><para>Click Cancel to dismiss the Connections Editor.
+</para>
+</listitem></orderedlist>
+<para>The designated target action will be performed in the compiled application
+when the When action is performed on the menu item.</para>
+<para>Depending on the source When and target action, you may be able to test
+the connection in Test mode. See <!--Original XRef content: '&xd2;To Test
+Menus in a Module&xd3; on page&numsp;104'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.test.mkr.5"> for instructions.</para>
+</sect2>
+<sect2 id="ABUG.afunc.div.11" role="Procedure">
+<title id="ABUG.afunc.mkr.11">To Connect a Menu Item to a Call Function</title>
+<para>Only
+the Call Function target action is described in this section. See <!--Original
+XRef content: '&xd2;To
+Connect a Menu Item to a Predefined Action&xd3; on page&numsp;74'--><xref
+role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.10"> and <!--Original XRef
+content: '&xd2;To Connect a
+Menu Item to an Execute Code Action&xd3; on page&numsp;76'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.afunc.mkr.12"> for information about those connections.<indexterm><primary>connecting</primary><secondary>menu item and Call Function action</secondary></indexterm><indexterm><primary>menu items</primary><secondary>connecting to Call Function action</secondary></indexterm>
+</para>
+<orderedlist><listitem><para>Display the Connections Editor.</para>
+<para>Click Connections at the bottom of the Revolving Property Editor or
+choose Connections from the Editors menu of the App Builder primary window.
+</para>
+</listitem><listitem><para>Choose Menu Item from the Source menu.</para>
+<para>All of the menu items in the current project will be listed.</para>
+</listitem><listitem><para>Select a menu item from the list below the Source
+menu.</para>
+<para>This is the item from which the connection will be made.</para>
+</listitem><listitem><para>Choose Call Function as the target action type
+from the Action Type menu.</para>
+<para>The Function text field will be activated.</para>
+</listitem><listitem><para>Type the name of the function to be called in
+the Call Function text field.</para>
+<para>This is the function that will be called when the When action is performed
+on the source menu item. See <!--Original XRef content: '&xd2;Adding User
+Code to Generated Code&xd3; on
+page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">
+for information about incorporating user code into the generated code.</para>
+</listitem><listitem><para>Choose a When action for the Source menu item.
+</para>
+<para>Choices are Activated, Created, and Destroyed.</para>
+</listitem><listitem><para>Click Connect to make the connection.</para>
+<para>The connection will be displayed in the View list at the bottom of the
+Connections Editor.</para>
+</listitem><listitem><para>Click Cancel to dismiss the Connections Editor.
+</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="ABUG.afunc.div.12" role="Procedure">
+<title id="ABUG.afunc.mkr.12">To Connect a Menu Item to an Execute Code Action</title>
+<para><indexterm><primary>connecting</primary><secondary>menu item and Execute
+Code action</secondary></indexterm><indexterm><primary>menu items</primary>
+<secondary>connecting to Execute Code action</secondary></indexterm>Only the
+Execute Code target action is described in this section. See <!--Original
+XRef content: '&xd2;To
+Connect a Menu Item to a Predefined Action&xd3; on page&numsp;74'--><xref
+role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.10"> and <!--Original XRef
+content: '&xd2;To Connect a
+Menu Item to a Call Function&xd3; on page&numsp;75'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.afunc.mkr.11"> for information about those connections.</para>
+<orderedlist><listitem><para>Display the Connections Editor.</para>
+<para>Click Connections at the bottom of the Revolving Property Editor or
+choose Connections from the Editors menu of the App Builder primary window.
+</para>
+</listitem><listitem><para>Choose Menu Item from the Source menu.</para>
+<para>All of the menu items in the current project will be listed.</para>
+</listitem><listitem><para>Select a menu item from the list below the Source
+menu.</para>
+<para>This is the item from which the connection will be made.</para>
+</listitem><listitem><para>Choose a When action for the Source menu item.
+</para>
+<para>Choices are Activated, Created, and Destroyed.</para>
+</listitem><listitem><para>Choose Execute Code as the target action type from
+the Action Type menu.</para>
+<para>The Execute Code Editor will be displayed.</para>
+</listitem><listitem><para>Type the code to be executed in the Execute Code
+Editor.</para>
+<para>The Execute Code Editor will be displayed. Type the code in the editor.
+See <!--Original XRef content: '&xd2;Adding User Code to Generated Code&xd3;
+on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">
+for information about incorporating user code into the generated code.</para>
+</listitem><listitem><para>Click OK in the Execute Code Editor to apply the
+changes and dismiss the editor.</para>
+</listitem><listitem><para>Click Connect in the Connections Editor to make
+the connection.</para>
+<para>The connection will be displayed in the View list at the bottom of the
+Connections Editor.</para>
+</listitem><listitem><para>Click Cancel to dismiss the Connections Editor.
+</para>
+</listitem></orderedlist>
+<para>The code will be executed in the compiled application when the When
+action is performed on the menu item.</para>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.13">
+<title id="ABUG.afunc.mkr.13">Editing Existing Connections</title>
+<para>Once you have created a connection you can modify the connection, delete
+it, or create a new connection by selecting an existing connection, modifying
+it, and saving it as a new connection.</para>
+<sect2 id="ABUG.afunc.div.14" role="Procedure">
+<title>To Edit an Existing Connection<indexterm><primary>editing</primary><secondary>connections</secondary></indexterm><indexterm><primary>connections</primary><secondary>editing</secondary></indexterm></title>
+<orderedlist><listitem><para>Choose Connections from the Editors menu in the
+App Builder primary window.</para>
+<para>The Connections Editor will be displayed.</para>
+</listitem><listitem><para>Choose the source object type whose connection
+you want to view from the View menu at the bottom of the Connections Editor.
+</para>
+<para>If you want to edit a connection with a button as a source object, for
+instance, choose Button from the View menu. All connections in the current
+project with button as source object will be displayed in the View list.
+</para>
+<para>If you want to view all connections for a particular source object,
+choose Source Object in the View menu and select the object in the Source
+menu. All connections for the selected object will be displayed.</para>
+</listitem><listitem><para>Select the connection you want to edit in the View
+list.</para>
+<para>The source and target objects will be selected in the Source and Target
+lists at the top of the editor. Their When and Action Type choices will be
+displayed.</para>
+</listitem><listitem><para>Edit the connection.</para>
+<itemizedlist remap="Bullet2"><listitem><para>To <symbol role="Variable">delete</symbol> the selected connection, click Delete.</para>
+</listitem><listitem><para>To <emphasis>modify</emphasis> the selected connection,
+make changes to any of the choices (source object, When action, target object,
+Action Type) and click Change.</para>
+</listitem><listitem><para>To <emphasis>add</emphasis> a connection similar
+to the selected connection, modify any of the choices and click Connect.
+A new connection will be created.</para>
+</listitem></itemizedlist>
+</listitem><listitem><para>Click Cancel to dismiss the Connections Editor.
+</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.15">
+<title id="ABUG.afunc.mkr.14">Establishing Drag and Drop Behavior</title>
+<para>Use the Drag and Drop Editor to establish drag and drop behavior for
+interface objects. See <!--Original XRef content: '&xd2;To Establish Drag
+and Drop Behavior&xd3; on page&numsp;81'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.afunc.mkr.15"> for instructions.</para>
+<graphic id="ABUG.afunc.igrph.3" entityref="ABUG.afunc.fig.3"></graphic>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="356*">
+<tbody>
+<row>
+<entry><para>Object Type</para></entry>
+<entry><para>An option menu for choosing the type of object (Control Pane,
+Custom Dialog, Draw Area Pane, Label, or Main Window) for which you wish
+to establish drag and drop behavior.</para></entry></row>
+<row>
+<entry><para>Objects</para></entry>
+<entry><para>A scrolling list for selecting a specific object for which you
+wish to establish drag and drop behavior.</para></entry></row>
+<row>
+<entry><para>Drag Operations</para></entry>
+<entry><para>Check boxes for specifying which types of operations (Copy,
+Move, Link) will be legal for the selected object.</para></entry></row>
+<row>
+<entry><para>Cursor Filename</para></entry>
+<entry><para>A text field for typing the name of the graphics file that contains
+the graphical representation of the cursor that will be displayed as a drag
+from the selected object is being performed.</para></entry></row>
+<row>
+<entry><para>Cursor Mask Filename</para></entry>
+<entry><para>A text field for typing the name of the graphics file that contains
+the bitmap which determines the shape of the visible representation of the
+cursor beneath the cursor mask. The cursor mask acts like a stencil, allowing
+only the pixels in the cursor that correspond to pixels in the mask to be
+visible.</para></entry></row>
+<row>
+<entry><para>Data Types</para></entry>
+<entry><para>Check boxes for specifying Text, Filename, and User Defined
+as legal data types for drag operations.</para></entry></row>
+<row>
+<entry><para>Drag Connection</para></entry>
+<entry><para>A push button to display the Connections Editor for creating
+the Call Function connection that makes the dragged-from operation functional.
+</para></entry></row>
+<row>
+<entry><para>Drop Operations</para></entry>
+<entry><para>Check boxes for specifying which types of operations (Copy,
+Move, Link) will be legal for the selected object.</para></entry></row>
+<row>
+<entry><para>Data Types</para></entry>
+<entry><para>Check boxes for specifying Text, Filename, User Defined, and
+Any Other Type as legal data types for drop operations.</para></entry></row>
+<row>
+<entry><para>Drop on Children</para></entry>
+<entry><para>A check box for specifying whether a child of the selected object
+will be a legal drop site; this is relevant only if the child object is specified
+as a legal drop site.</para></entry></row>
+<row>
+<entry><para>Drop Connection</para></entry>
+<entry><para>A push button to display the Connections Editor for creating
+the Call Function connection that makes the dropped-on operation functional.
+</para></entry></row>
+</tbody></tgroup></informaltable>
+<sect2 id="ABUG.afunc.div.16" role="Procedure">
+<title id="ABUG.afunc.mkr.15">To Establish Drag and Drop Behavior<indexterm><primary>connections</primary><secondary>drop</secondary></indexterm><indexterm><primary>connections</primary><secondary>drag</secondary></indexterm><indexterm><primary>drop connection</primary></indexterm><indexterm><primary>drag connection</primary></indexterm><indexterm><primary>drag and drop</primary><secondary>setting behavior for &lt;$startrange></secondary></indexterm></title>
+<orderedlist><listitem><para>Choose Drag and Drop from the Editors menu of
+the App Builder primary window.</para>
+<para>The Drag and Drop Editor is displayed.<indexterm><primary>editor</primary>
+<secondary>Drag and Drop</secondary></indexterm><indexterm><primary>Drag
+and Drop Editor</primary></indexterm></para>
+</listitem><listitem><para>Choose an Object Type.</para>
+</listitem><listitem><para>Select an object in the Objects list.</para>
+</listitem><listitem><para>Select the Drag Operations you want to be legal
+for the selected object. <literal><indexterm><primary>drag operations</primary>
+</indexterm></literal></para>
+</listitem><listitem><para>To display a special cursor when a drag operation
+is being performed from the selected object, type the names of graphics files
+in the Cursor Filename and Cursor Mask Filename fields.</para>
+</listitem><listitem><para>Select the Data Types that will be legal for drag
+operations.</para>
+</listitem><listitem><para>Click Drag Connection.</para>
+<para>The Connections Editor is displayed.</para>
+</listitem><listitem><para>Choose Dragged From as the When action in the Connections
+Editor.</para>
+</listitem><listitem><para>Choose Call Function as the Action Type in the
+Connections Editor.</para>
+</listitem><listitem><para>Type a name for the called function in the Function
+text field in the Connections Editor.</para>
+<para>This is the name of the function that will be called when a drag operation
+is performed. You will have to edit the <filename>stubs.c</filename> file
+to make the called function do something useful. See <!--Original XRef content:
+'&xd2;Adding User Code to Generated Code&xd3;
+on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">
+for information.</para>
+</listitem><listitem><para>Click Connect in the Connections Editor.</para>
+</listitem><listitem><para>Click Cancel to dismiss the Connections Editor.
+</para>
+</listitem><listitem><para>Select which Drop Operations will be legal.<indexterm>
+<primary>drop operations</primary></indexterm></para>
+</listitem><listitem><para>Select the Data Types that will be legal for drop
+operations.</para>
+</listitem><listitem><para>Check Drop on Children if you want a drop operation
+on a child of the selected object to be legal.</para>
+<para>This is relevant only if the selected object has a child which is designated
+as a legal drop site.</para>
+</listitem><listitem><para>Click Drop Connection to display the Connections
+Editor.</para>
+</listitem><listitem><para>Choose Dropped On as the When action in the Connections
+Editor.</para>
+</listitem><listitem><para>Choose Call Function as the Action Type in the
+Connections Editor.</para>
+</listitem><listitem><para>Type a name for the called function in the Function
+text field in the Connections Editor.</para>
+<para>This is the name of the function that will be called when a drop operation
+is performed. You will have to edit the <filename>stubs.c</filename> file
+to make the called function do something useful. See <!--Original XRef content:
+'&xd2;Adding User Code to Generated Code&xd3;
+on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">
+for information.</para>
+</listitem><listitem><para>Click Connect in the Connections Editor.</para>
+</listitem><listitem><para>Click Cancel to dismiss the Connections Editor.
+</para>
+</listitem><listitem><para>Click OK or Apply in the Drag and Drop Editor to
+apply the changes.<literal><indexterm><primary>drag and drop</primary><secondary>setting behavior for &lt;$endrange></secondary></indexterm></literal></para>
+<para>The Drag and Drop Editor will be dismissed if you click OK.</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+<sect1 id="ABUG.afunc.div.17">
+<title id="ABUG.afunc.mkr.16">Establishing Application Framework Behavior</title>
+<para>Use the Application Framework Editor to specify basic functionality
+in the application for internationalization, resource file attributes, session
+management, and ToolTalk message handling. See <!--Original XRef content:
+'&xd2;To Establish Application
+Framework Behavior&xd3; on page&numsp;86'--><xref role="SecTitleAndPageNum"
+linkend="ABUG.afunc.mkr.17"> for instructions.</para>
+<graphic id="ABUG.afunc.igrph.4" entityref="ABUG.afunc.fig.4"></graphic>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="127*">
+<colspec align="left" colwidth="401*">
+<tbody>
+<row>
+<entry><para>Application Vendor Name</para></entry>
+<entry><para>A text field for typing an optional string, which will be stored
+in the source code. Used in the call to initialize ToolTalk (if ToolTalk
+is enabled).</para></entry></row>
+<row>
+<entry><para>Application Version</para></entry>
+<entry><para>A text field for typing an optional string, which will be stored
+in the source code. Used in the call to initialize ToolTalk.</para></entry>
+</row>
+<row>
+<entry><para>Application Primary Main Window</para></entry>
+<entry><para>An option menu for specifying the primary main window of the
+application being developed. An application may have more than one main window,
+but only one primary window. This window is typically the window which
+is first displayed when the application is opened. By default the first main
+window dropped on the workspace in a new project is the primary window.
+</para></entry></row>
+<row>
+<entry><para>Internationalization Enabled</para></entry>
+<entry><para>A check box for specifying whether internationalization is
+enabled; if checked, turns on XPG4-compliant internationalization in the
+generated code for the project. In the [<symbol role="Variable">module</symbol>]_<filename>ui.c</filename> file, all labels and strings for objects are generated, enclosed
+by the <command>catgets</command>(3C) call, which is used to fetch the appropriate
+localized version of the string at runtime. If internationalization is turned
+on, <command>dtcodegen</command> will also automatically generate and maintain
+the message catalog ([<emphasis>project</emphasis>].<command>msg</command>)
+which maps to the generated <command>catgets</command>(3C) calls.</para></entry>
+</row>
+<row>
+<entry><para>Generated Code</para></entry>
+<entry><para>Check boxes for specifying which categories of object attributes
+(which map to Xt Resources) should be written into a Resource file instead
+of placing them directly in the [<symbol role="Variable">module</symbol>]_<filename>ui.c</filename> file&mdash;which is the default. Any attribute (resource)
+which is specified in a Resource file&mdash;and not directly in the code&mdash;can
+be modified without recompiling the application. The Attribute categories
+are as follows:
+<?Pub _newline>Colors: Background, Foreground
+<?Pub _newline>Label Strings: Label String, Title
+<?Pub _newline>Initial Values: Initial Value
+<?Pub _newline>Geometry: X, Y, Width, Height, all attachment attributes
+<?Pub _newline>Other Strings
+<?Pub _newline>Other</para></entry></row>
+<row>
+<entry><para>Session Management Method</para></entry>
+<entry><para>An option menu for specifying the method of session management
+(None, Command Line, Session File, or Both), and two push buttons (Session
+Save Connection, Session Restore Connection) for displaying the Connections
+Editor and making appropriate connections.</para></entry></row>
+<row>
+<entry><para>ToolTalk Desktop Message Handling</para></entry>
+<entry><para>An option menu for specifying what level of the ToolTalk Desktop
+Message Alliance protocol the application will participate in, and a push
+button (Advanced ToolTalk Connections) for displaying the Connections Editor.
+The ToolTalk desktop protocol is a set of predefined ToolTalk messages which
+communicate desktop-type events or requests to a running application. App
+Builder support for ToolTalk is provided at three levels: None, Basic, or
+Advanced, as described below.
+<?Pub _newline>None. There is no participation in the ToolTalk Desktop Protocol;
+no ToolTalk code is generated.
+<?Pub _newline>Basic. The ToolTalk library responds to Desktop messages in
+categories 1-3 in a predefined and standard way. Code is generated in <filename>main()</filename> which initializes ToolTalk and calls the function which
+tells ToolTalk to handles these messages. At this level, you do not need
+to write any special application code.
+<?Pub _newline>Advanced. The ToolTalk library responds to messages in categories
+1 and 2, but the application is notified (via callback) when messages in
+categories 3 &amp; 4 are received.
+<?Pub _newline>If you choose Advanced, you must use the Connections Editor
+to identify which messages the application wishes to handle. If you click
+the Advanced ToolTalk Connections button, the Connections Editor will be
+displayed with Application as the Source object type. The When option menu
+lists four ToolTalk choices: ToolTalk Do Command, ToolTalk Get Status, ToolTalk
+Pause/Resume, and ToolTalk Quit. The only valid action type for a ToolTalk
+connection is Call Function; your callback function will be called when the
+ToolTalk message is received.
+<?Pub _newline>At this level code is generated in
+[<emphasis>project</emphasis>]<filename>.c:main()</filename>
+which initializes ToolTalk and sets up the Desktop
+Protocol so that the callbacks defined in the Connections Editor will be
+called when the corresponding message is received. Each user-defined callback
+contains descriptive comments describing what the application is expected
+to do in response to the message. These callbacks are also generated in
+[<emphasis>project</emphasis>]<filename>.c</filename>.</para></entry>
+</row>
+</tbody></tgroup></informaltable>
+<sect2 id="ABUG.afunc.div.18" role="Procedure">
+<title id="ABUG.afunc.mkr.17">To Establish Application Framework Behavior<indexterm><primary>application</primary><secondary>setting behavior of &lt;$startrange></secondary></indexterm><indexterm><primary>Application Framework Editor</primary></indexterm><indexterm><primary>editor</primary><secondary>Application Framework</secondary></indexterm></title>
+<orderedlist><listitem><para>Choose Application Framework from the Editors
+menu in the App Builder primary window to display the editor.</para>
+</listitem><listitem><para>Type a Vendor Name and Version number in the text
+fields in the <literal><indexterm><primary>vendor name, setting for application</primary></indexterm><indexterm><primary>setting</primary><secondary>vendor
+name for application</secondary></indexterm></literal>Application section,
+if appropriate.<literal><indexterm><primary>version number, setting for application</primary></indexterm><indexterm><primary>setting</primary><secondary>version
+number for application</secondary></indexterm></literal></para>
+<para>These are used in the call to initialize ToolTalk, if ToolTalk is enabled.
+</para>
+</listitem><listitem><para>Choose a different primary main window, if appropriate.<indexterm><primary>primary main window</primary><secondary>setting for application</secondary></indexterm><indexterm><primary>setting</primary><secondary>primary main window for application</secondary></indexterm>
+</para>
+</listitem><listitem><para>Set Internationalization to Enabled, if appropriate.<literal><indexterm>
+<primary>setting</primary><secondary>internationalization</secondary></indexterm><indexterm>
+<primary>internationalization of application</primary></indexterm></literal></para>
+<para>Internationalization generates labels and strings for objects with a
+call that fetches the appropriate localized version of the string at run
+time. It also generates and maintains a similar message catalog.</para>
+</listitem><listitem><para>Select the attributes you want to be written to
+the Resource file in the Generated Code section.</para>
+<para>The categories you select are written to a resource file instead of
+directly to the module file; these attributes, therefore, can be modified
+without recompiling the application.<indexterm><primary>resource file</primary>
+<secondary>attributes written to</secondary></indexterm></para>
+</listitem><listitem><para>Choose a Method (None, Command Line, Session File,
+or Both) in the Session Management section, as appropriate.<indexterm>
+<primary>session management method</primary></indexterm></para>
+</listitem><listitem><para>Select Session Save Connection and/or Session Restore
+Connection, as appropriate, to make connections in the Connections Editor.
+</para>
+</listitem><listitem><para>Choose a Desktop Message Handling level (None,
+Basic, or Advanced) in the ToolTalk section, as appropriate.<indexterm>
+<primary>ToolTalk message handling</primary></indexterm></para>
+<para>See <!--Original XRef content: '&xd2;Establishing Application Framework
+Behavior&xd3; on page&numsp;83'--><xref role="SecTitleAndPageNum" linkend="ABUG.afunc.mkr.16">
+for more about ToolTalk message handling.</para>
+</listitem><listitem><para>If you did not choose Advanced in the previous
+step, click OK to apply the changes made and dismiss the Application Framework
+Editor.</para>
+</listitem><listitem><para>Click Advanced ToolTalk Connections if you chose
+Advanced in the previous step.</para>
+</listitem><listitem><para>Choose the appropriate ToolTalk function from the
+When menu in the Connections Editor.</para>
+</listitem><listitem><para>Choose Call Function as the Action Type.</para>
+</listitem><listitem><para>Type in the name of the appropriate call function.
+</para>
+<para>This is the name of the function that will be called when a ToolTalk
+operation is performed. You will have to edit the <filename>stubs.c</filename>
+file to make the called function do something useful. See <!--Original XRef
+content: '&xd2;Adding User Code to Generated
+Code&xd3; on page&numsp;112'--><xref role="SecTitleAndPageNum" linkend="ABUG.codeg.mkr.6">
+for information.</para>
+</listitem><listitem><para>Click Connect to make the connection.</para>
+</listitem><listitem><para>Click Cancel to dismiss the Connections Editor.
+</para>
+</listitem><listitem><para>Click OK in the Application Framework Editor to
+apply the changes and dismiss the editor. <literal><indexterm><primary>application</primary><secondary>setting behavior of &lt;$endrange></secondary></indexterm></literal></para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:11:44-->
+<?Pub *0000053823>

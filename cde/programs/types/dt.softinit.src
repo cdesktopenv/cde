@@ -1,0 +1,47 @@
+XCOMM $XConsortium: dt.softinit.src /main/3 1996/04/23 17:35:08 drk $
+XCOMM 
+XCOMM 
+XCOMM     (c) Copyright 1993 Hewlett-Packard Company
+XCOMM     (c) Copyright 1993 International Business Machines Corp.
+XCOMM     (c) Copyright 1993 Sun Microsystems, Inc.
+XCOMM 
+XCOMM 
+XCOMM ####################################################################
+XCOMM ##                                                               ###
+XCOMM ## Invocation Specifications for the DT Applications             ###
+XCOMM ##                                                               ###
+XCOMM ####################################################################
+XCOMM 
+XCOMM 
+XCOMM  Tool        Type  Scope  Filetypes  ExecHost  Invocation
+
+XCOMM  The following tools are visible to users.
+XCOMM 
+FILEMGR      TOOL     NET    *    %Local%    CDE_INSTALLATION_TOP/bin/dtfile -noview
+HELPMGR	     TOOL     NET    *    %Local%    dthelp -unmapped
+STYLEMGR     COMMAND  NET    *    %Local%    CDE_INSTALLATION_TOP/bin/dtstyle
+ANNOTATOR    TOOL     NET    *    %Local%    CDE_INSTALLATION_TOP/bin/dtannotator
+DTPAD       TOOL     NET    *    %Local%     CDE_INSTALLATION_TOP/bin/dtpad -server
+
+XCOMM  The following tools are special cases that should never be auto-started
+XCOMM  due to a request message.  If they were not started during the normal
+XCOMM  DT start-up, requests for them should be ignored instead of causing
+XCOMM  them to be started.  This is because starting them in the middle of
+XCOMM  a session can cause havoc.
+XCOMM 
+XCOMM  To keep them from being auto-started, a "fake" exec-string of /bin/true
+XCOMM  is used.  One side-effect of this is that if these tools aren't running,
+XCOMM  requests messages to them will be held forever in the Execution Manger.
+XCOMM  This is a memory leak, though it is expected to be quite small.
+XCOMM 
+XCOMM  The alternative solution of not listing these tools at all cannot be
+XCOMM  used because the Softbench Tool Manager will produce warning dialog
+XCOMM  boxes for unknown tools.
+XCOMM 
+SESSIONMGR    TOOL  NET    *          %Local%    /bin/true
+WORKSPACEMGR  TOOL  NET    *          %Local%    /bin/true
+
+
+
+
+

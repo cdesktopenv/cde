@@ -1,0 +1,75 @@
+XCOMM $XConsortium: Imakefile /main/3 1995/11/08 10:44:32 rswiston $
+/* eltdef Imakefile */
+
+HTAG2        = ..
+HTAG2SRC     = $(HTAG2)/htag2
+SDLPARSERSRC = $(HTAG2)/parser
+SDLELTDEFSRC = $(HTAG2)/eltdef
+SDLDTDFILE   = $(HTAG2SRC)/sdl.dtd
+SDLUTILSRC   = $(HTAG2)/util
+SDLBUILDSRC  = $(HTAG2)/build
+SDLUTILLIB   = $(HTAG2)/util/libutil.a
+SDLIFFILE    = $(HTAG2SRC)/sdl.if
+
+INCLUDES = -I. -I$(SDLUTILSRC) -I$(SDLBUILDSRC)
+
+SRCS   = eltdef.c eltutil.c entity.c scan.c
+
+OBJS   = eltdef.o eltutil.o entity.o scan.o
+
+CCPRODS = case.c
+ECPRODS = efile.c entfile.c pfile.c sfile.c stfile.c tfile.c
+
+CHPRODS = context.h delim.h
+EHPRODS = entity2.h globdec.h globdef.h if.h pval.h signon.h signonx.h
+
+CPRODS  = $(CCPRODS) $(CHPRODS)
+EPRODS  = $(ECPRODS) $(EHPRODS)
+
+CTRASH  = delim.dat error
+ETRASH  = estring.h error
+TRASH   = delim.dat estring.h error
+
+PRODUCTS = $(CPRODS) $(EPRODS)
+
+LOCAL_LIBRARIES = $(SDLUTILLIB)
+LOCAL_INCLUDES = -I$(SDLUTILSRC)
+
+/* Don't use shared libs for hp */
+#ifdef HPArchitecture
+#if OSMajorVersion > 7
+EXTRA_LOAD_FLAGS = -Wl,-a archive
+#endif
+#endif
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif
+
+all:: $(PRODUCTS)
+
+
+NormalLibraryObjectRule()
+NormalProgramTarget(eltdef,$(OBJS),delim.h $(LOCAL_LIBRARIES),$(LOCAL_LIBRARIES),)
+
+$(EPRODS): eltdef  $(SDLIFFILE)
+	$(RM) $(EPRODS) $(ETRASH)
+	./eltdef $(SDLIFFILE)
+
+$(CPRODS):  $(SDLUTILSRC)/context $(HTAG2SRC)/delim.elt context.dat
+	$(RM) $(CPRODS) $(CTRASH)
+	/* get application-specific delim.dat */
+	$(CP) $(HTAG2SRC)/delim.elt delim.dat
+	$(SDLUTILSRC)/context
+
+$(SDLUTILSRC)/context:
+	cd $(SDLUTILSRC); make context
+
+clean::
+	$(RM) $(PRODUCTS) $(TRASH)
+
+depend::
+
+includes:: $(PRODUCTS)
+
+DependTarget()

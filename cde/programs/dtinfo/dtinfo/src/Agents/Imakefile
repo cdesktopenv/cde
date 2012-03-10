@@ -1,0 +1,58 @@
+XCOMM $XConsortium: Imakefile /main/8 1996/08/21 15:41:09 drk $
+
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+MAKEFILEDEPS=Classlist.mk
+
+LIBNAME=Agents
+
+#ifdef DoLicenseManagement
+INCLUDES=$(BROWSER_INCLUDES) $(MMDB_INCLUDES) $(LICENSE_L_INCLUDES)
+EXTRA_DEFINES=-DLICENSE_MANAGEMENT
+#else
+XCOMM Should remove LICENSE_L_INCLUDES from this list in this case
+INCLUDES=$(BROWSER_INCLUDES) $(COMMON_CLASS_INCLUDES)
+#endif
+#include "Classlist.mk"
+
+OBJS=$(SRCS:.C=.o)
+
+
+make_libfiles($(LIBNAME), $(CLASSES))
+make_msgs($(LIBNAME), $(MSGS))
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#else
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+#endif
+
+#if defined(HPArchitecture)||defined(UXPArchitecture)
+XCOMM
+XCOMM SWM: +i option Hack for HP compiler. Problem is
+XCOMM with things declared as static void _* as class members.
+XCOMM Adding +i fixes problem.
+XCOMM
+SpecialCPlusPlusObjectRule(OutlineListViewMotif.o,,+i)
+
+SpecialCPlusPlusObjectRule(ScopeMenu.o,,)
+#endif
+
+#if defined(UseWideChars) && defined(SunArchitecture) && (OSMajorVersion == 4)
+WC_OBJS=\
+NodeWindowAgentMotif.o \
+PrefAgentMotif.o \
+GraphicAgentMotif.o \
+MarkIconMotif.o \
+AnchorCanvas.o \
+MarkCanvas.o \
+MarkChooser.o \
+ViewportMarks.o
+
+SpecialCPlusPlusObjectRule($(WC_OBJS),,-I/VOB/olias/library/Xwchar/src)
+#endif
+
+clean::
+	$(RM) *..c
+
+DependTarget()

@@ -1,0 +1,1201 @@
+ 
+//       $XConsortium: scale.bil /main/3 1995/11/06 17:50:01 rswiston $
+//
+// @(#)scale.bil	1.18 18 Jan 1995
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module scale
+(
+
+:element prop_dialog
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Scale Property Editor"
+	:resizable		:true
+	:visible		:false
+	:default-button		apply_button
+	:help-button		help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABPropsEditor"
+	:help-text		"This Property Editor allows Scale object attributes to be examined or altered."
+	:children		(
+		objlist_panel
+		attrs_ctrlpanel
+		activate_panel
+	)
+)
+:element objlist_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj prop_dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		objlist_label
+		objlist
+	)
+)
+:element objlist_label
+(
+	:type			:label
+	:x			82
+	:y			3
+	:label-type		:string
+	:label			"Scale\nObjects:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:east-attachment	(:grid-line 32 0)
+)
+:element objlist
+(
+	:type			:list
+	:x			152
+	:y			2
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 4)
+	:south-attachment	(:point 0 4)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:grid-line 32 4)
+)
+:element attrs_ctrlpanel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			76
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:obj objlist_panel 0)
+	:south-attachment	(:obj prop_dialog 0)
+	:east-attachment	(:obj prop_dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		name_cb
+		dir_cb
+		orient_cb
+		istate_cb
+		bg_cb
+		fg_cb
+		labeltype_cb
+		geom_cb
+		label_cb
+		valrange_cb
+		ivalue_cb
+		group7
+		separator
+		separator3
+		scaletype_cb
+		dec_cb
+		group9
+		group10
+		group5
+	)
+)
+:element name_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			5
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:west-attachment	(:point 0 2)
+)
+:element dir_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			176
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 176)
+	:west-attachment	(:point 0 2)
+)
+:element orient_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			132
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 132)
+	:west-attachment	(:point 0 2)
+)
+:element istate_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			352
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 352)
+	:west-attachment	(:point 0 2)
+)
+:element bg_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			385
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 385)
+	:west-attachment	(:point 0 2)
+)
+:element fg_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			416
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 416)
+	:west-attachment	(:point 0 2)
+)
+:element labeltype_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			36
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 36)
+	:west-attachment	(:point 0 2)
+)
+:element geom_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			317
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 317)
+	:west-attachment	(:point 0 2)
+)
+:element label_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			68
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 68)
+	:west-attachment	(:point 0 2)
+)
+:element valrange_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			210
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 210)
+	:west-attachment	(:point 0 2)
+)
+:element ivalue_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			273
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 273)
+	:west-attachment	(:point 0 2)
+)
+:element group7
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			56
+	:y			462
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		10
+	:hattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj group5 15)
+	:south-attachment	(:point 0 15)
+	:west-attachment	(:point 0 66)
+	:children		(
+		attach_button
+		helptxt_button
+		conn_button
+	)
+)
+:element attach_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Attachments..."
+	:active			:false
+	:visible		:true
+)
+:element helptxt_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help Text..."
+	:active			:true
+	:visible		:true
+)
+:element conn_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Connections..."
+	:active			:true
+	:visible		:true
+)
+:element separator
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			7
+	:y			216
+	:width			424
+	:height			10
+	:visible		:true
+	:north-attachment	(:obj group9 5)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:point 0 4)
+)
+:element separator3
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			9
+	:y			329
+	:width			424
+	:height			10
+	:visible		:true
+	:north-attachment	(:obj group10 5)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:point 0 4)
+)
+:element scaletype_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			99
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 99)
+	:west-attachment	(:point 0 2)
+)
+:element dec_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			240
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 240)
+	:west-attachment	(:point 0 2)
+)
+:element group9
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			11
+	:y			0
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		1
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:point 0 4)
+	:west-attachment	(:point 0 11)
+	:children		(
+		name_field
+		group4
+		group8
+		scaletype_rbox
+		orient_rbox
+	)
+)
+:element name_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Object Name:"
+	:label-position		:west
+	:num-columns		30
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element group4
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		4
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		labeltype_opmenu
+		labelpos_opmenu
+	)
+)
+:element labeltype_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:label-type		:string
+	:label			"Label Type:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		labeltype_opmenu_String_item
+		labeltype_opmenu_Graphic_item
+	)
+)
+:element labeltype_opmenu_String_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"String"
+	:active			:true
+	:selected		:true
+)
+:element labeltype_opmenu_Graphic_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Graphic"
+	:active			:true
+	:selected		:false
+)
+:element labelpos_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:label-type		:string
+	:label			"Position:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		labelpos_opmenu_Left_item
+		labelpos_opmenu_Above_item
+	)
+)
+:element labelpos_opmenu_Left_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Left"
+	:active			:true
+	:selected		:true
+)
+:element labelpos_opmenu_Above_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Above"
+	:active			:true
+	:selected		:false
+)
+:element group8
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		4
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		label_field
+		graphic_hint
+	)
+)
+:element label_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Graphic Filename:"
+	:label-position		:west
+	:num-columns		24
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element graphic_hint
+(
+	:type			:label
+	:label-type		:string
+	:label			".pm/.bm"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element scaletype_rbox
+(
+	:type			:choice
+	:choice-type		:exclusive
+	:label-type		:string
+	:label			"Scale Type:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:false
+	:visible		:true
+	:children		(
+		scaletype_rbox_Scale_item
+		scaletype_rbox_Gauge_item
+	)
+)
+:element scaletype_rbox_Scale_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Scale"
+	:active			:true
+	:selected		:true
+)
+:element scaletype_rbox_Gauge_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Gauge"
+	:active			:true
+	:selected		:false
+)
+:element orient_rbox
+(
+	:type			:choice
+	:choice-type		:exclusive
+	:label-type		:string
+	:label			"Orientation:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		orient_rbox_Horizontal_item
+		orient_rbox_Vertical_item
+	)
+)
+:element orient_rbox_Horizontal_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Horizontal"
+	:active			:true
+	:selected		:true
+)
+:element orient_rbox_Vertical_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Vertical"
+	:active			:true
+	:selected		:false
+)
+:element group10
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			29
+	:y			173
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		1
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj separator 4)
+	:west-attachment	(:point 0 29)
+	:children		(
+		dir_opmenu
+		group2
+		decimal_field
+		group3
+	)
+)
+:element dir_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:label-type		:string
+	:label			"Direction:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:false
+	:visible		:true
+	:children		(
+		dir_opmenu_Left_to_Right_item
+		dir_opmenu_Right_to_Left_item
+		dir_opmenu_Top_to_Bottom_item
+		dir_opmenu_Bottom_to_Top_item
+	)
+)
+:element dir_opmenu_Left_to_Right_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Left to Right"
+	:active			:true
+	:selected		:true
+)
+:element dir_opmenu_Right_to_Left_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Right to Left"
+	:active			:true
+	:selected		:false
+)
+:element dir_opmenu_Top_to_Bottom_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Top to Bottom"
+	:active			:true
+	:selected		:false
+)
+:element dir_opmenu_Bottom_to_Top_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Bottom to Top"
+	:active			:true
+	:selected		:false
+)
+:element group2
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		4
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		valrange_label
+		min_field
+		max_field
+		incr_field
+	)
+)
+:element valrange_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Value Range:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element min_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Min:"
+	:label-position		:west
+	:num-columns		5
+	:max-length		8
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element max_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Max:"
+	:label-position		:west
+	:num-columns		5
+	:max-length		8
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element incr_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Incr:"
+	:label-position		:west
+	:num-columns		3
+	:max-length		5
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element decimal_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Decimal Points:"
+	:label-position		:west
+	:num-columns		2
+	:max-length		2
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element group3
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		4
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		ivalue_field
+		showval_ckbox
+	)
+)
+:element ivalue_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Initial Value:"
+	:label-position		:west
+	:num-columns		5
+	:max-length		8
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element showval_ckbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		showval_ckbox_Show_Value_item
+	)
+)
+:element showval_ckbox_Show_Value_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Show Value"
+	:active			:true
+	:selected		:false
+)
+:element group5
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			51
+	:y			312
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		2
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj separator3 4)
+	:west-attachment	(:point 0 51)
+	:children		(
+		group1
+		istate_ckbox
+		group
+	)
+)
+:element group1
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		4
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		geom_label
+		x_field
+		y_field
+		width_field
+		height_field
+	)
+)
+:element geom_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Geometry:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element x_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"X:"
+	:label-position		:west
+	:num-columns		3
+	:max-length		3
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element y_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Y:"
+	:label-position		:west
+	:num-columns		3
+	:max-length		3
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element width_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"W:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		3
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element height_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"H:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		3
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element istate_ckbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Initial State:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		istate_ckbox_Visible_item
+		istate_ckbox_Active_item
+	)
+)
+:element istate_ckbox_Visible_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Visible"
+	:active			:true
+	:selected		:true
+)
+:element istate_ckbox_Active_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Active"
+	:active			:true
+	:selected		:true
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:group-type		:ignore
+	:border-frame		:none
+	:children		(
+		color_label
+		bg_mbutton
+		bg_swatch
+		bg_field
+		fg_mbutton
+		fg_swatch
+		fg_field
+	)
+)
+:element color_label
+(
+	:type			:label
+	:x			0
+	:y			2
+	:label-type		:string
+	:label			"Colors:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:point 0 0)
+)
+:element bg_mbutton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			61
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Background"
+	:menu			bg_mbutton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:obj color_label 4)
+)
+:element bg_swatch
+(
+	:type			:label
+	:x			185
+	:y			4
+	:bg-color		"black"
+	:label-type		:string
+	:label			"  "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge bg_mbutton 3)
+	:south-attachment	(:obj-edge bg_mbutton 3)
+	:west-attachment	(:obj bg_mbutton 4)
+)
+:element bg_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			203
+	:y			0
+	:num-columns		12
+	:max-length		36
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:obj bg_swatch 4)
+)
+:element fg_mbutton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			62
+	:y			32
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Foreground"
+	:menu			fg_mbutton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj bg_mbutton 5)
+	:west-attachment	(:obj color_label 4)
+)
+:element fg_swatch
+(
+	:type			:label
+	:x			184
+	:y			35
+	:bg-color		"white"
+	:label-type		:string
+	:label			"  "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge fg_mbutton 3)
+	:south-attachment	(:obj-edge fg_mbutton 3)
+	:west-attachment	(:obj fg_mbutton 5)
+)
+:element fg_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			202
+	:y			31
+	:num-columns		12
+	:max-length		36
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj bg_mbutton 4)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:obj fg_swatch 5)
+)
+:element activate_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		ok_button
+		apply_button
+		reset_button
+		cancel_button
+		help_button
+	)
+)
+:element ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 19 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element reset_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:element bg_mbutton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		bg_mbutton_menu_None_item
+		bg_mbutton_menu_Color_Chooser_item
+	)
+)
+:element bg_mbutton_menu_None_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"None"
+	:active			:true
+)
+:element bg_mbutton_menu_Color_Chooser_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Color Chooser..."
+	:active			:true
+)
+:element fg_mbutton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		fg_mbutton_menu_None_item
+		fg_mbutton_menu_Color_Chooser_item
+	)
+)
+:element fg_mbutton_menu_None_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"None"
+	:active			:true
+)
+:element fg_mbutton_menu_Color_Chooser_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Color Chooser..."
+	:active			:true
+)
+)

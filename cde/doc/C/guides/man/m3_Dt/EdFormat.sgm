@@ -1,0 +1,165 @@
+<!-- $XConsortium: EdFormat.sgm /main/5 1996/08/30 12:59:13 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCSA.MAN24.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCSA.MAN24.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>DtEditorFormat</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>DtEditorFormat</Function></RefName>
+<RefPurpose>format all or part of the contents of a DtEditor widget
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- *************************************************************************-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- **  (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- **  (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- ***********************************************************************-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Dt/Editor.h>
+</FuncSynopsisInfo>
+<FuncDef>DtEditorErrorCode <Function>DtEditorFormat</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>DtEditorFormatSettings *<Parameter>formatSettings</Parameter></ParamDef>
+<ParamDef>unsigned int <Parameter>amountToFormat</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>DtEditorFormat</Function> function formats all or part of the contents of the DtEditor widget according
+to the current text format settings in the Format
+Settings dialog.
+These options specify which margins and
+alignments (left aligned, right aligned, justified or centered)
+are used.
+Optionally, alternative settings can be passed as an argument to
+<Function>DtEditorFormat</Function> in a
+data structure.
+This function
+formats either the paragraph containing the insertion cursor
+or the entire contents of the DtEditor widget, depending on the value of the
+<Emphasis>amountToFormat</Emphasis> argument.
+</Para>
+<Para>The Format Settings dialog is displayed with
+&cdeman.DtEditorInvokeFormatDialog;. For a complete description of formatting and the Format Settings
+dialog, see
+<Classname>DtEditor</Classname>.</Para>
+<Para>The
+<Symbol Role="Variable">widget</Symbol> argument specifies the editor widget ID.
+</Para>
+<Para>The
+<Emphasis>formatSettings</Emphasis> argument specifies left margin value, right margin value and the
+justification style.
+The LeftMargin and RightMargin fields of
+<StructName Role="typedef">DtEditorFormatSettings</StructName> must be zero or larger.
+The Alignment field can have a value of
+<SystemItem Class="Constant">DtEDITOR_ALIGN_CENTER</SystemItem>, <SystemItem Class="Constant">DtEDITOR_ALIGN_JUSTIFY</SystemItem>, <SystemItem Class="Constant">DtEDITOR_ALIGN_LEFT</SystemItem> or
+<SystemItem Class="Constant">DtEDITOR_ALIGN_RIGHT</SystemItem>. If the
+<Emphasis>formatSettings</Emphasis> argument is
+<SystemItem Class="Constant">NULL</SystemItem>, <Function>DtEditorFormat</Function> uses the last format settings specified in the Format Settings dialog.
+</Para>
+<Para>When the
+<Emphasis>amountToFormat</Emphasis> argument is set to
+<SystemItem Class="Constant">DtEDITOR_FORMAT_ALL</SystemItem>, it reformats all the text in the edit window.
+When this argument is set to
+<SystemItem Class="Constant">DtEDITOR_PARAGRAPH</SystemItem>, only the paragraph
+containing the insertion cursor is formatted.
+</Para><![ %CDE.C.CDE; [<Para>For a complete definition of the DtEditor widget
+and its associated resources, see
+&cdeman.DtEditor;.</Para>]]>
+<Para>For a complete definition of
+<StructName Role="typedef">DtEditorFormatSettings</StructName>, see
+&cdeman.Dt.Editor.h;.</Para><![ %CDE.C.CDE; [
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtEditorFormat</Function> function returns
+<SystemItem Class="Constant">DtEDITOR_NO_ERRORS</SystemItem>; otherwise, it returns one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_NO_TMP_FILE</Term>
+<ListItem>
+<Para>The
+<Function>DtEditorFormat</Function> function cannot create two temporary files in the directory returned by
+<Function>tmpnam</Function>3S.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_ILLEGAL_SIZE</Term>
+<ListItem>
+<Para>The left or right margin values are negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_RANGE</Term>
+<ListItem>
+<Para>The
+<Emphasis>amountToFormat</Emphasis> argument is not recognized.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_TYPE</Term>
+<ListItem>
+<Para>The Alignment field is not recognized.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+]]>
+</RefSect1>
+<![ %CDE.C.XO; [
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>DtEditorFormat</Function> function returns
+<SystemItem Class="Constant">DtEDITOR_NO_ERRORS</SystemItem>; otherwise, it returns one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>DtEDITOR_ILLEGAL_SIZE</Term>
+<ListItem>
+<Para>The left or right margin values are negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_RANGE</Term>
+<ListItem>
+<Para>The
+<Emphasis>amountToFormat</Emphasis> argument is not recognized.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DtEDITOR_INVALID_TYPE</Term>
+<ListItem>
+<Para>The Alignment field is not recognized.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+]]>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Dt.Editor.h;, &cdeman.DtEditor;, &cdeman.DtEditorInvokeFormatDialog;; <![ %CDE.C.CDE; [<Function>tmpnam</Function>3S. ]]><![ %CDE.C.XO; [<Function>tmpnam</Function> in the &str-ZK;.
+]]></Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:40:24-->

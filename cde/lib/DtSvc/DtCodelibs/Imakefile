@@ -1,0 +1,53 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/08/20 14:48:43 drk $
+XCOMM (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM (c) Copyright 1993-1994,1996 Hewlett-Packard Company.
+XCOMM (c) Copyright 1993-1994,1996 International Business Machines Corp.
+XCOMM (c) Copyright 1993-1994,1996 Sun Microsystems, Inc.
+XCOMM (c) Copyright 1993-1994,1996 Novell, Inc. 
+XCOMM (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM (c) Copyright 1996 Hitachi.
+
+#define DoNormalLib	NormalLibDtSvc
+#define DoSharedLib	SharedLibDtSvc
+#define DoDebugLib	DebugLibDtSvc
+#define DoProfileLib	ProfileLibDtSvc
+#define LibName		DtSvc
+#define SoRev		SODTSVCREV
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#include <Threads.tmpl>
+
+#ifndef DtSvcDefines
+# define DtSvcDefines	-DXK_MISCELLANY -DMULTIBYTE
+#endif
+DEFINES = DtSvcDefines
+INCLUDES = -I. -I../include
+
+#if defined(RsArchitecture) 
+CXXEXTRA_DEFINES = -qlanglvl=compat
+#endif
+
+
+SRCS =	buf.C		filegen.C	mbschr.C \
+	pathcollapse.C 	shellscan.C	strend.C \
+	strhash.C 	stringio.C 	strtokx.C \
+	strwcmp.C  	privbuf.C  	strcase.C 
+
+/* WARNING!!!!
+ * Any .o's added to this list need to be added to DTCODELIBS_OBJS3
+ * and SHARED_DTCODELIBS_OBJS3 in the DtSvc Imakefile.
+ */
+OBJS =	buf.o		filegen.o	mbschr.o \
+	pathcollapse.o 	shellscan.o	strend.o \
+	strhash.o 	stringio.o 	strtokx.o \
+	strwcmp.o  	privbuf.o  	strcase.o 
+
+#include <Library.tmpl>
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

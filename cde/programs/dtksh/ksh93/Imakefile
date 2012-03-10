@@ -1,0 +1,80 @@
+XCOMM $XConsortium: Imakefile /main/7 1996/05/09 17:33:38 drk $
+LOCAL_LIBRARIES =
+SRCS =
+SUBCFLAGS = -O
+UFLAGS = $(SUBCFLAGS)
+ULDFLAGS =
+
+#ifdef RsArchitecture
+CCFLAGS = CCFLAGS="   "
+#else
+CCFLAGS =
+#endif
+
+#ifdef SunArchitecture
+.NO_PARALLEL:
+#endif /* SunArchitecture */
+
+FORCE_SHIP = -E
+
+MALLOCOBJ =
+
+KSHSRC = ./src/cmd/ksh93
+
+KSHLIBS = \
+		$(KSHSRC)/../../lib/libcmd/libcmd.a
+
+KSH_OBJS = \
+		$(KSHSRC)/main.o \
+		$(KSHSRC)/timers.o \
+		$(KSHLIBS)
+
+OBJS = $(KSH_OBJS) $(KSH_LIBS)
+
+
+SUIDEXECDEFINES = \
+	-DPROFILEPATH=\"$(CDE_CONFIGURATION_TOP)/config/profile\" \
+	-DSUIDPROFILEPATH=\"$(CDE_CONFIGURATION_TOP)/config/suid_profile\" \
+	-DSUIDEXECPATH=\"$(CDE_INSTALLATION_TOP)/bin/suid_exec\" \
+	-DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\"
+
+CCFLAGS = $(CDEBUGFLAGS) $(SUIDEXECDEFINES) $(STD_DEFINES) $(ANSI_DEFINES)
+
+all:: ksh93src ksh93.o
+
+XCOMM
+XCOMM A temporary hack until we get Imakefiles in the base of ksh-93.
+XCOMM
+XCOMM We test for presense of /bin/ksh because on HP/UX there is a
+XCOMM limitation in the size of environment variables that prevents the
+XCOMM ksh-93 build scripts from functioning.  That will be worked around
+XCOMM in a near future release of ksh-93 as well, but then again this
+XCOMM whole target will change anyway.
+XCOMM
+
+SHIP_DIR = ship
+ALL_SUBS = *
+
+ksh93src:
+	$(RM) $(SHIP_DIR)/$(ALL_SUBS)/$(ALL_SUBS)/BUILT; \
+	if [ -f /bin/ksh ]; \
+	then \
+		SHELL=/bin/ksh CC=$(CC) CCFLAGS="$(CCFLAGS)" /bin/ksh ship/shipin $(FORCE_SHIP); \
+	elif [ -f /bin/sh ]; \
+	then \
+		SHELL=/bin/sh CC=$(CC) CCFLAGS="$(CCFLAGS)"  /bin/sh ship/shipin $(FORCE_SHIP); \
+	else \
+		SHELL="" CC=$(CC) CCFLAGS="$(CCFLAGS)"  ship/shipin $(FORCE_SHIP); \
+	fi
+
+ksh93.o: $(OBJS)
+	$(LD) -r -o $@ $(OBJS)
+
+clobber:: clobmine
+
+clobmine:
+	$(RM) -f libksh93.a
+
+depend::
+
+install::

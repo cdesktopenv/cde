@@ -1,0 +1,153 @@
+XCOMM!/sbin/sh
+XCOMM $XConsortium: dtlogin.rc.src /main/1 1996/07/24 11:40:29 drk $
+XCOMM
+XCOMM This version of the dtlogin.rc script can be used on the HP-UX
+XCOMM operating system to initiate 1DE tasks such as starting the dtlogin
+XCOMM process.
+XCOMM
+XCOMM  Common Desktop Environment
+XCOMM
+XCOMM  (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM  (c) Copyright 1993-1994,1996 Hewlett-Packard Company.
+XCOMM  (c) Copyright 1993-1994,1996 International Business Machines Corp.
+XCOMM  (c) Copyright 1993-1994,1996 Sun Microsystems, Inc.
+XCOMM  (c) Copyright 1993-1994,1996 Novell, Inc. 
+XCOMM  (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM  (c) Copyright 1996 Hitachi.
+XCOMM
+XCOMM When placed in the /sbin/rc3.d directory and named appropriately, such as
+XCOMM "S990dtlogin", this script will automatically start the dtlogin window
+XCOMM after the HP-UX system boots to its multi-user level.
+XCOMM
+XCOMM This script is also called indirectly by the CDE dtconfig command.
+
+PATH=/sbin:/usr/sbin:/usr/bin:/usr/dt/bin
+export PATH
+
+mode=$1
+
+case "$mode" in
+    'start_msg')
+	echo "Start CDE login server"
+	exit 0
+	;;
+
+    'stop_msg')
+	echo "Stop CDE login server"
+	exit 0
+	;;
+esac
+
+
+usage_error() {
+    echo "  $0 start             (start dtlogin process)"
+    echo "  $0 stop              (stop dtlogin process)"
+    echo "  $0 reset             (reset dtlogin process)"
+    echo "  $0 update_printers   (update print actions)"
+    echo " "
+}
+
+if [ ! -d /usr/bin ]; then		# /usr not mounted
+    exit 1
+fi
+
+set `id`
+if [ $1 != "uid=0(root)" ]; then
+    echo "$0: must be run as root"
+    exit 1
+fi
+
+XCOMM update_printers()
+XCOMM
+XCOMM Add print actions to workstation's database for all printers known
+XCOMM to this workstation if action is not already present in the database.
+
+update_printers() {
+    if [ -x /usr/dt/bin/dtprintinfo ]; then
+	/usr/dt/bin/dtprintinfo -populate
+    fi
+}
+
+XCOMM
+XCOMM Find login server pid from the process tree
+XCOMM
+login_server_pid() {
+
+XCOMM In following grep for "dtlogin" processes, explictly exclude any matches
+XCOMM on this shell file named "dtlogin.rc"
+
+#if (OSMAJORVERSION < 10) && (OSMINORVERSION < 20)
+    ps -u 0 -l | grep -v dtlogin. | grep dtlogin | 
+    cut -c1-24 | awk '{print $4 " " $5}' | 
+    while read pid ppid; do
+#else
+XCOMM
+XCOMM Use the new XPG4 features of "ps" (also "-C cmdlist" ) to get the pids.  
+XCOMM
+    UNIX95=1 ps -C dtlogin -o pid= -o ppid= | 
+    while read pid ppid; do
+#endif
+	if [ "$(ps -p $ppid | grep dtlogin)" = "" ]; then
+	    print "$pid"
+	    break
+	fi
+    done
+}
+
+case "$mode" in
+    'start')
+	if [ -f /etc/rc.config ]; then
+	    . /etc/rc.config
+	else
+	    echo "ERROR: /etc/rc.config defaults file MISSING"
+	fi
+ 
+	if [ "CDE" != "${DESKTOP:-}" ]; then
+	    exit 2
+	fi
+ 
+	update_printers
+
+	if [ -x CDE_INSTALLATION_TOP/bin/dtrc ]; then
+	    trap "" 1
+	    CDE_INSTALLATION_TOP/bin/dtrc &
+	elif [ -x CDE_INSTALLATION_TOP/bin/dtlogin ]; then
+	    CDE_INSTALLATION_TOP/bin/dtlogin -daemon
+	fi
+	;;
+
+    'stop')
+XCOMM       get dtlogin pid
+
+	dtlogin_pid=`login_server_pid`
+
+XCOMM       kill dtlogin process
+
+        if [ "$dtlogin_pid" != "" ] ; then
+             kill $dtlogin_pid
+	fi
+	;;
+
+    'reset')
+XCOMM       get dtlogin pid
+
+        dtlogin_pid=`login_server_pid`
+
+XCOMM       reset dtlogin process
+
+        if [ "$dtlogin_pid" != "" ] ; then
+             kill -HUP $dtlogin_pid
+        fi
+	;;
+
+    'update_printers')
+	update_printers
+	;;
+
+    *)
+	usage_error
+	exit 1
+	;;
+esac
+
+exit 0

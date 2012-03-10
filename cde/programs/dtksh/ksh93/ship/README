@@ -1,0 +1,154 @@
+/* $XConsortium: README /main/2 1996/07/15 14:13:29 drk $ */
+Software shipment information.  [better documentation forthcoming ...]
+
+All files and directories, except for those in /usr/spool/uucppublic,
+are rooted at the shipment/installation directory named by
+$INSTALLROOT.  The $INSTALLROOT hierarchy is similar to the System V
+/usr hierarchy.
+
+The $INSTALLROOT/ship subdirectory is automatically maintained by
+shipin and shipout.  If you expect to receive future shipments then
+do not change files in this directory.
+
+pax is the Bell Labs implementation of the proposed POSIX (01/90)
+portable archive interchange command.  The default output format is
+`cpio -c'.  The pax delta format is a Bell Labs extension.
+
+The following assumes:
+
+	INSTALLROOT=<path name of software installation root directory>
+
+After each shipment:
+
+	<follow specific shipment instructions>
+	cd $INSTALLROOT
+	ship/shipin
+
+`ship/shipin -n' shows actions but does not unbundle or build.
+`ship/shipin -s <dir>' unbundles from <dir> rather than /usr/spool/uucppublic.
+`ship/shipin -u' unbundles the shipment but does not build.
+`ship/shipin -i' copies from spool area but does not unbundle or build.
+`ship/shipin -E' rebuild components that failed last time (use after fixes).
+
+Any non-option arguments to shipin are passed as arguments to the
+generating make or shell script for each component.
+
+To pass the shipment to another machine (requires ksh):
+
+	# rcp			# TO=host:ship
+	# uucp			# TO=machine!user
+	# list of files		# TO=%list
+	# remote dk pull script	# TO=%pull
+	cd $INSTALLROOT
+	ship/shipin -i	# if not installed on this machine
+	cd ship
+	shipout $TO
+
+{rcp,uucp} initiate copies whereas {list,pull} generate information on
+stdout.  {uucp} copies to an intermediate spool area on the other machine
+whereas {rcp,list,pull} are relative to $INSTALLROOT on the other machine.
+
+To copy a command <cmd> from $INSTALLROOT to a new root you must copy:
+
+	$INSTALLROOT/bin/<cmd>
+	$INSTALLROOT/lib/<cmd>
+
+to the new root directory for all interdependent <cmd>'s.  Depending on
+<cmd>, only one of the above files/directories may exist.
+
+Be sure to maintain a different $INSTALLROOT for each machine architecture.
+If the same $INSTALLROOT/ship must be reused for a different architecture
+then delete everything except ship from $INSTALLROOT and run ship/shipin -F.
+An alternative would be to use nmake and optionally 3d to viewpath a new
+architecture hierarchy on top of $INSTALLROOT.  In this case nmake would
+be run from within the $INSTALLROOT/src/(cmd|lib) hierarchy.
+
+The files below may appear on the shipment side, the installation side,
+or both.  <installer-login> and <shipper-system> are defined in the
+shipment mail announcement.
+
+Each shipment is identified by a two part version number [R]YYMMDD
+
+	R	release -- if specified then it must match for compatibility
+	YYMMDD	shipment year, month and day number
+
+/usr/spool/uucppublic/<installer-login>/<shipper-system> directory hierarchy:
+
+	<shipper-login>.<YYMMDD>	shipment control directory
+	<shipper-login>.<YYMMDD>/manifest list of all files in shipment
+
+$INSTALLROOT directory hierarchy:
+
+	bin/		executable binaries and scripts
+	include/	common header files
+	lib/		object archives a common data
+	man/		man page subtree
+	    man1/	command man pages
+	    man3/	library man pages
+	    man8/	adminstration and maintenance man pages
+	src/		source subtree
+	    cmd/	command source
+	    lib/	library source
+	ship/		shipment and installation info
+
+$INSTALLROOT/ship contents:
+
+	README		installation info
+	!<mach_user>	shipment installation message for machine!user
+	ship.body	optional shipment announcement main body
+	ship.head	optional shipment announcement header
+	ship.tail	optional shipment announcement trailer
+	shipcost	show relative cost of delta/update shipment
+	shipcrate	crate all components for shipout
+	shipin		unbundle, build and install shipment
+	shiplist	shipout using name-tool list
+	shipop		shipin/shipout support executable
+	shipout		split and send shipment
+	shipslog	shipment log and recipient address info
+	shipswab	clean old stuff from the ship area
+	shipyard	shipment support tools component name
+	lib*		library components
+	*		command components
+
+$INSTALLROOT/ship/<component> contents:
+
+	<[R]YYMMDD>	information for the <[R]YYMMDD> shipment
+	base		link to the newest pax base archive
+	delta		link to the newest pax delta archive
+	in.log		shipin log
+	items		required components (excluding this one)
+	list		optional list of persons to send to
+	message		optional message to include in shipment announcement
+	owner		mail address for installation report
+	release		the the current shipment release number
+	report		optional list of $INSTALLROOT relative files to report
+
+$INSTALLROOT/ship/<component>/<[R]YYMMDD> contents:
+
+	<[R]YYMMDD>	pax delta archive for ../[R]YYMMDD/base
+	<[R]YYMMDD>.<NNN> delta archive split for uucp
+	BUILT		present if release build succeeded
+	ERROR		present if release build failed
+	GENERATED	present if base archive was generated from a delta
+	UNCRATED	present if release uncrate succeeded
+	base		pax base archive
+	base.<NNN>	base archive split for uucp
+	items		items for this release
+	message		message for this release
+	owner		owner for this release
+	report		report for this release
+
+Each component $NAME is extracted into either $INSTALLROOT/src/lib/$NAME
+or $INSTALLROOT/src/cmd/$NAME.  The following are attempted, in order,
+to build and install $NAME under $INSTALLROOT:
+
+	$INSTALLROOT/bin/nmake -f Makefile install
+	mamexec install < Mamfile # mamexec is built into ship/shipin
+	make -f makefile install
+	sh Makescript
+
+where Mamfile, Makescript and makefile are usually generated from the
+corresponding nmake Makefile.
+
+	Glenn Fowler	ulysses!gsf
+	David Korn	ulysses!dgk

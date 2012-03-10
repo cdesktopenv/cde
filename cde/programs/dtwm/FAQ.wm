@@ -1,0 +1,142 @@
+static char rcsid[] = "$XConsortium: FAQ.wm /main/3 1995/11/01 11:26:51 rswiston $";
+
+/*************************************<+>*************************************
+ *****************************************************************************
+ **
+ **  File:        FAQ.wm
+ **
+ **  Project:     Window/Workspace Manager
+ **
+ **  Description:
+ **  -----------
+ **	When we get a call from a "customer" we can refer to this 
+ **	list for an available answer, or, add any new information
+ **	we gain from the call.   Please try to group questions by topic.
+ **	Add new topics as needed.
+ **
+ **
+ *****************************************************************************
+ **
+ **     (c) Copyright 1990, 1991 Hewlett-Packard Company
+ **     All Rights reserved
+ **
+ **
+ *****************************************************************************
+ *************************************<+>*************************************/
+
+
+
+/*
+ * Focus Policy
+ */
+
+
+Q. When the window/workspace manager keyboardFocusPolicy == pointer,
+   how can I help the user dismiss one of my application's modal
+   dialogs without forcing the user to move the mouse?  Should I 
+   warp the pointer?
+
+A. If the user has chosen pointer focus policy, the user has declared that 
+   she wants to control the focus directly.  We believe an application
+   should not warp the pointer.  [ In any case, when the user grows up,
+   he will change to explicit keyboardFocusPolicy  :-) ]
+
+/*
+ * Backdrops
+ */
+
+Q. I set a gif image into my root window, but I can't see it with DT.
+   How come?
+
+A. DT normally covers the root windows with backdrops for each
+   workspace. Your image is there, but the root window is covered, so 
+   you can't see it. To disable backdrops, add a resource like:
+
+       Dtwm*<screen_name>*<workspace_name>*backdrop*image: none
+
+   example:
+
+       Dtwm*HighResHighColor*One*backdrop*image: none
+
+   This disables backdrops for workspace One and lets the root window
+   show through.
+
+
+/*
+ * Killing Windows
+ */
+
+Q. How do I stop the window manager from killing my client when the 
+   user double-clicks on the system menu box?
+
+A. There are two ways of approaching this. 
+
+   1. Set the clientFunctions for your client to disable the "Close"
+      item. This will work with mwm or dtwm. For example:
+
+	  Dtwm*Console*clientFunctions:     -close
+	
+      disables "close" for the Console window.
+
+
+   2. Modify your client to follow the WM_DELETE_WINDOW protocol as
+      described in the ICCCM. This will work with any window manager.
+      If your client is Motif you can:
+
+      a. Call XmAddWMProtocolCallback to add a WM_DELETE_WINDOW
+	 callback.
+
+      b. Set XmNdeleteResponse to XmDO_NOTHING so that VendorShell
+	 won't destroy the window when the WM_DELETE_WINDOW comes
+	 in.
+
+      This allows your client to post a "Are You Sure?" dialog when
+      "Close" is activated. Your client decides when and if it should
+      die in this case.
+
+
+/*
+ * Geometry
+ */
+
+
+/*
+ * Making a window larger than the screen
+ */
+
+
+Q. How can I map a window to be larger than the screen. For example
+   I have a 14 inch monitor and I want my term windows to use a large font.
+   The window manager does not let my term window map to a larger than
+   screen size so I get less than 80 columns.
+
+A. There are a number of resources that affect this behavior
+
+   1) Set the "limitResize" resource to false.
+
+   2) The other thing is to specify an explicit maximum size for your
+      term windows. Mwm/dtwm computes the maximum size to fit on the screen
+      by default. You could do something like:
+
+    Dtwm*xterm*maximumClientSize:  160x66
+
+      so that 80x24 windows will come up regardless of whether they
+      fit on the screen or not. 
+
+   3) There may be other resource lurking out there (such as in 
+      /usr/lib/X11/app-defaults/Dtwm, xrdb, $HOME/Dtwm, etc.) that are more 
+      specific than the "*resource" specs you have given. If so, they'll 
+      win. Try being more specific. If that fixes it, then you'll probably 
+      want to find out where your resources are coming from (app-defaults, 
+      xrdb, $HOME/Dtwm, etc.).
+
+
+/*
+ * Top/Bottom Shadows
+ */
+
+
+
+/*
+ * New Topic
+ */

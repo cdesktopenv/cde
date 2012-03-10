@@ -1,0 +1,1370 @@
+<!-- $XConsortium: ch15.sgm /main/11 1996/12/21 18:57:00 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="SAG.FACol.div.1">
+<title id="SAG.FACol.mkr.1">Gestion des ressources d'applications, des polices
+et des couleurs</title>
+<para>Pour s&eacute;lectionner les couleurs et les polices du Bureau, vous
+pouvez utiliser le Gestionnaire de configuration ou personnaliser des ressources
+de couleurs et de polices suppl&eacute;mentaires; le pr&eacute;sent chapitre
+explique comment modifier ces ressources.</para>
+<para>Il explique &eacute;galement comment d&eacute;finir des correspondances
+de configuration pour les applications du widget <command>DtEditor</command><indexterm>
+<primary>Association de fonctions aux touches</primary><secondary>UNIX</secondary>
+</indexterm> telles que l'Editeur de texte du Bureau (<command>dtpad</command>)
+et le Programme courrier (<command>dtmail</command>). Enfin, il explique comment
+d&eacute;finir d'autres raccourcis pour les applications du widget <command>DtEditor</command>, en cas de conflit avec les correspondances propos&eacute;es.
+</para>
+<informaltable id="SAG.FACol.itbl.1" frame="All">
+<tgroup cols="1" colsep="1" rowsep="1">
+<colspec colwidth="4.25in">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Définition
+de ressources d'applications274'--><xref role="JumpText" linkend="SAG.FACol.mkr.2"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Association
+de fonctions aux touches UNIX275'--><xref role="JumpText" linkend="SAG.FACol.mkr.3"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Gestion
+des polices279'--><xref role="JumpText" linkend="SAG.FACol.mkr.7"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Gestion
+des couleurs284'--><xref role="JumpText" linkend="SAG.FACol.mkr.9"></para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><!--Original XRef content: 'Définition
+de l'épaisseur d'ombrage pour les fenêtres d'applications294'--><xref role="JumpText"
+linkend="SAG.FACol.mkr.11"></para></entry></row></tbody></tgroup></informaltable>
+<sect1 id="SAG.FACol.div.2">
+<title id="SAG.FACol.mkr.2">D&eacute;finition de ressources d'applications<indexterm>
+<primary>Ressources</primary><secondary>d'applications</secondary></indexterm><indexterm>
+<primary>Ressources</primary><secondary>d&eacute;finition</secondary></indexterm></title>
+<para>Les ressources sont utilis&eacute;es par les applications pour d&eacute;finir
+certaines caract&eacute;ristiques d'apparence et de comportement. Par exemple,
+le Gestionnaire de configuration (<computeroutput>dtstyle</computeroutput>)
+fournit des ressources indiquant o&ugrave; rechercher les fichiers relatifs
+aux palettes de couleurs:</para>
+<programlisting>dtstyle*paletteDirectories: /usr/dt/palettes/C \ <symbol>R&eacute;p_personnel</symbol>/.dt/palettes</programlisting>
+<para><indexterm><primary>Ressources</primary><secondary>app-defaults</secondary>
+</indexterm><indexterm><primary>app-defaults</primary><secondary>applications
+du Bureau</secondary></indexterm>Les fichiers app-default associ&eacute;s
+aux applications du Bureau se trouvent dans le r&eacute;pertoire <filename>/usr/dt/app-defaults/</filename><symbol role="Variable">langue</symbol>.</para>
+<sect2 id="SAG.FACol.div.3" role="Procedure">
+<title>D&eacute;finition de ressources syst&egrave;me<indexterm><primary>Ressources</primary><secondary>syst&egrave;me</secondary></indexterm></title>
+<itemizedlist>
+<listitem><para>Ajoutez les ressources au fichier <filename>/etc/dt/config/</filename><symbol role="Variable">langue</symbol><filename>/<indexterm>
+<primary>Fichiers</primary><secondary>sys.resources</secondary></indexterm><indexterm>
+<primary>Ressources</primary><secondary>X</secondary></indexterm> sys.resources</filename> (s'il y a lieu, cr&eacute;ez ce fichier).</para>
+<para>Par exemple, si vous d&eacute;finissez dans le fichier <filename>/etc/dt/config/C/sys.resources</filename> une ressource du type:</para>
+<para remap="CodeIndent1"><systemitem>Mon_application*ressource: <symbol role="Variable">valeur</symbol></systemitem></para>
+<para>La ressource <systemitem>Mon_application*ressource</systemitem> sera
+d&eacute;finie dans la propri&eacute;t&eacute; RESOURCE_MANAGER de tous les
+utilisateurs lors de la prochaine connexion.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.FACol.div.4" role="Procedure">
+<title>D&eacute;finition de ressources personnelles<indexterm><primary>Ressources</primary><secondary>personnelles</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Ajoutez les ressources au fichier <symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.Xdefaults</filename>.<indexterm>
+<primary>Fichiers</primary><secondary>.Xdefaults</secondary></indexterm></para>
+</listitem>
+<listitem><para>Cliquez deux fois sur Recharger ressources, dans le groupe
+d'applications <structname>Outils_Bureau</structname>.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.FACol.div.5">
+<title>Chargement des ressources</title>
+<para>Cette op&eacute;ration est effectu&eacute;e par le Gestionnaire de sessions,
+&agrave; l'ouverture d'une session. Pour plus de d&eacute;tails sur le chargement
+des ressources dans RESOURCE_MANAGER, reportez-vous &agrave; la section <!--Original
+XRef content: '&rdquo;Chargement des ressources d'une session&rdquo;, page&numsp;32'--><xref
+role="SecTitleAndPageNum" linkend="SAG.SesMg.mkr.7">.</para>
+</sect2>
+</sect1>
+<sect1 id="SAG.FACol.div.6">
+<title id="SAG.FACol.mkr.3">Association de fonctions aux touches UNIX<indexterm>
+<primary>Association de fonctions aux touches</primary><secondary>UNIX</secondary>
+</indexterm><indexterm><primary>Correspondances EMACS</primary></indexterm><indexterm>
+<primary>DtEditor</primary><secondary>correspondances de configuration</secondary>
+</indexterm></title>
+<para>Par d&eacute;faut, l'association de fonctions aux touches UNIX n'est
+pas activ&eacute;e.</para>
+<sect2 id="SAG.FACol.div.7" role="Procedure">
+<title>Correspondances<indexterm><primary>Correspondances EMACS</primary>
+</indexterm> EMACS</title>
+<para>La proc&eacute;dure ci-dessous permet d'indiquer:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>les correspondances EMACS pour les applications du widget <command>DtEditor</command> telles que l'Editeur de texte (<command>dtpad</command>)
+et le Programme courrier (<command>dtmail</command>)</para>
+</listitem>
+<listitem><para>des raccourcis diff&eacute;rents pour les menus de ces applications,
+en cas de conflit avec les correspondances propos&eacute;e</para>
+<orderedlist>
+<listitem><para>Ajoutez la ligne suivante au fichier <symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.Xdefaults</filename>:</para>
+<programlisting>#include "/usr/dt/app-defaults/<symbol>langue</symbol>/UNIXbindings&rdquo;
+</programlisting>
+<para>o&ugrave; <symbol>langue</symbol> correspond &agrave; la valeur de la
+variable d'environnement <systemitem>LANG</systemitem>.</para>
+</listitem>
+<listitem><para>Relancez la session.</para>
+</listitem>
+</orderedlist>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.FACol.div.8" role="Procedure">
+<title>Modification des correspondances EMACS</title>
+<orderedlist>
+<listitem><para>Ajoutez le contenu du fichier <filename>/usr/dt/app-defaults/</filename><symbol>langue</symbol><filename>/UNIXbindings</filename> au fichier <symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.Xdefaults</filename>.
+</para>
+</listitem>
+<listitem><para>Modifiez les associations indiqu&eacute;es dans le fichier <filename>.Xdefaults</filename>.</para>
+</listitem>
+<listitem><para>Une fois cette op&eacute;ration effectu&eacute;e, relancez
+la session.</para>
+</listitem>
+</orderedlist>
+</sect2>
+<sect2 id="SAG.FACol.div.9">
+<title>Associations UNIX<indexterm><primary>Fichiers</primary><secondary>UNIXbindings</secondary></indexterm> (fichier UNIXbindings)</title>
+<para>Le fichier <filename>/usr/dt/app-defaults/</filename><symbol>langue</symbol><filename>/UNIXbindings</filename> fournit les associations d&eacute;crites
+ci-apr&egrave;s.</para>
+<note>
+<para>Lorsque l'association de fonctions aux touches UNIX est activ&eacute;e,
+la touche Suppr efface le caract&egrave;re pr&eacute;c&eacute;dent et la combinaison
+Maj+Suppr, le caract&egrave;re suivant.</para>
+</note>
+<itemizedlist remap="Bullet1">
+<listitem><para>Le <!--Original XRef content:
+'Tableau&numsp;15&hyphen;1'--><xref role="CodeOrFigureOrTable" linkend="SAG.FACol.mkr.4">
+liste les s&eacute;quences de substitution <command>dtpad</command> pour les
+raccourcis de menus et les textes de raccourci incompatibles avec les associations
+UNIX.</para>
+</listitem>
+</itemizedlist>
+<table id="SAG.FACol.tbl.1" frame="Topbot">
+<title id="SAG.FACol.mkr.4"><command>dtpad</command> - S&eacute;quences de substitution</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="4.32in">
+<colspec colwidth="1.50in">
+<thead>
+<row><entry align="left" valign="bottom"><para><systemitem>Raccourcis de menus
+et texte de raccourci</systemitem></para></entry><entry align="left" valign="bottom"><para><literal>S&eacute;quence de substitution</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtpad*fileMenu.print.acceleratorText</systemitem>:</para></entry>
+<entry align="left" valign="top"></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtpad*fileMenu.print.accelerator:</systemitem></para></entry>
+<entry align="left" valign="top"></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtpad*editMenu.undo.acceleratorText:</systemitem></para></entry>
+<entry align="left" valign="top"><para>Ctrl+_</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtpad*editMenu.undo.accelerator:</systemitem></para></entry>
+<entry align="left" valign="top"><para>Ctrl&lt;Touche>_</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtpad*editMenu.paste.acceleratorText:</systemitem></para></entry>
+<entry align="left" valign="top"><para>Maj+Inser</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtpad*editMenu.paste.accelerator:</systemitem></para></entry>
+<entry align="left" valign="top"><para>Maj&lt;Touche>Inser</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtpad*editMenu.selectAll.acceleratorText:</systemitem></para></entry>
+<entry align="left" valign="top"><para>Ctrl+/</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>Dtpad*editMenu.selectAll.accelerator:</systemitem></para></entry>
+<entry align="left" valign="top"><para>Ctrl&lt;Touche>/</para></entry></row>
+</tbody></tgroup></table>
+<itemizedlist remap="Bullet1">
+<listitem><para>Le <!--Original XRef content:
+'Tableau&numsp;15&hyphen;2'--><xref role="CodeOrFigureOrTable" linkend="SAG.FACol.mkr.5">
+r&eacute;pertorie les s&eacute;quences de substitution pour la fen&ecirc;tre
+de composition <command>dtmail</command>, en cas de conflit entre les raccourcis
+de menus et les textes de raccourcis d'une part et les associations UNIX d'autre
+part.</para>
+</listitem>
+</itemizedlist>
+<table id="SAG.FACol.tbl.2" frame="Topbot">
+<title id="SAG.FACol.mkr.5">Fen&ecirc;tre de composition <command>dtmail</command>
+- S&eacute;quences de substitution</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="3.89in">
+<colspec colwidth="2.11in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Raccourcis de menus
+et texte de raccourci</literal></para></entry><entry align="left" valign="bottom"><para><literal>S&eacute;quence de substitution</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Undo.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl+_</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Undo.accelerator:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl&lt;Touche>_</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Paste.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"><para>Maj+Inser</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Paste.accelerator:</filename></para></entry>
+<entry align="left" valign="top"><para>Maj&lt;Touche>Inser</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Find/Change.acceleratorText:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl+S</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><filename>Dtmail*ComposeDialog*menubar*Edit.Find/Change.accelerator:</filename></para></entry>
+<entry align="left" valign="top"><para>Ctrl&lt;Touche>s</para></entry></row>
+</tbody></tgroup></table>
+<itemizedlist remap="Bullet1">
+<listitem><para>Les correspondances ci-apr&egrave;s d&eacute;crivent, entre
+autres, les associations de fonctions aux touches Ctrl et Alt EMACS (type
+GNU). Elles permetent &eacute;galement d'associer la touche Maj &agrave; une
+combinaison de touches afin d'inverser la fonction de cette derni&egrave;re.
+Par exemple, Ctrl+Maj+F d&eacute;place le curseur d'un caract&egrave;re vers
+la gauche alors que Ctrl+F le d&eacute;place d'un caract&egrave;re vers la
+droite.</para>
+<para>Les associations suppl&eacute;mentaires sont les suivantes:</para>
+<informaltable>
+<tgroup align="left" cols="2" colsep="0" rowsep="0">
+<colspec colwidth="157*">
+<colspec colwidth="371*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para>Ctrl+virgule</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la gauche</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+Maj+virgule</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la droite</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+point</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la droite</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+Maj+point</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la gauche</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+Entr&eacute;e</para></entry>
+<entry align="left" valign="top"><para>Fin du fichier</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>Ctrl+Maj+Entr&eacute;e</para></entry>
+<entry align="left" valign="top"><para>D&eacute;but du fichier</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>EMACS GNU associe g&eacute;n&eacute;ralement la fonction Suppression
+du caract&egrave;re pr&eacute;c&eacute;dent &agrave; la touche Suppr, au lieu
+de la fonction Suppression du caract&egrave;re suivant. Alt+F correspondant
+habituellement &agrave; la touche mn&eacute;monique du menu Fichier, la fonction
+Un mot vers la droite est ignor&eacute;e. Pour celle-ci, utilisez l'une des
+autres combinaisons, par exemple, Ctrl+point.</para>
+</listitem>
+<listitem><para>Le <!--Original XRef content: 'Tableau&numsp;15&hyphen;3'--><xref
+role="CodeOrFigureOrTable" linkend="SAG.FACol.mkr.6"> liste les correspondances <filename>DtEditor.text</filename>.</para>
+</listitem>
+</itemizedlist>
+<table id="SAG.FACol.tbl.3" frame="Topbot">
+<title id="SAG.FACol.mkr.6"><command>DtEditor.text</command> - Correspondances</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.73in">
+<colspec colwidth="1.54in">
+<colspec colwidth="2.74in">
+<thead>
+<row><entry align="left" valign="bottom"><para>Touche de modification</para></entry>
+<entry align="left" valign="bottom">Touche      </entry><entry align="left"
+valign="bottom">Action </entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>a:</para></entry>
+<entry align="left" valign="top"><para>D&eacute;but de ligne</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>a:</para></entry>
+<entry align="left" valign="top"><para>Fin de ligne</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>b:</para></entry>
+<entry align="left" valign="top"><para>Un caract&egrave;re vers la gauche
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>b:</para></entry>
+<entry align="left" valign="top"><para>Un caract&egrave;re vers la droite
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>b:</para></entry>
+<entry align="left" valign="top"><para>Un caract&egrave;re vers la gauche
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>b:</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la gauche</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>b:</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la gauche</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>b:</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la droite</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>d:</para></entry>
+<entry align="left" valign="top"><para>Suppression du caract&egrave;re suivant
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>d:</para></entry>
+<entry align="left" valign="top"><para>Suppression du caract&egrave;re pr&eacute;c&eacute;dent
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>d:</para></entry>
+<entry align="left" valign="top"><para>Suppression du mot suivant</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>d:</para></entry>
+<entry align="left" valign="top"><para>Suppression du mot pr&eacute;c&eacute;dent
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>e:</para></entry>
+<entry align="left" valign="top"><para>Fin de ligne</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>e:</para></entry>
+<entry align="left" valign="top"><para>D&eacute;but de ligne</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>f:</para></entry>
+<entry align="left" valign="top"><para>Un caract&egrave;re vers la droite
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>f:</para></entry>
+<entry align="left" valign="top"><para>Un caract&egrave;re vers la gauche
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>m ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>f:</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la droite</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>f:</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la gauche</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>j:</para></entry>
+<entry align="left" valign="top"><para>Retour ligne et indentation</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>k:</para></entry>
+<entry align="left" valign="top"><para>Suppression de la fin de ligne</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>k:</para></entry>
+<entry align="left" valign="top"><para>Suppression du d&eacute;but de ligne
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>l:</para></entry>
+<entry align="left" valign="top"><para>R&eacute;g&eacute;n&eacute;ration de
+l'&eacute;cran</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>m:</para></entry>
+<entry align="left" valign="top"><para>Retour &agrave; la ligne</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>n:</para></entry>
+<entry align="left" valign="top"><para>Une ligne vers le haut</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>n:</para></entry>
+<entry align="left" valign="top"><para>Une ligne vers le bas</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>o:</para></entry>
+<entry align="left" valign="top"><para>Retour ligne et enregistrement</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>p:</para></entry>
+<entry align="left" valign="top"><para>Vers l'arri&egrave;re</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>p:</para></entry>
+<entry align="left" valign="top"><para>Vers l'avant</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>u:</para></entry>
+<entry align="left" valign="top"><para>Suppression du d&eacute;but de ligne
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>u:</para></entry>
+<entry align="left" valign="top"><para>Suppression de la fin de ligne</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>v:</para></entry>
+<entry align="left" valign="top"><para>Page suivante</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>v:</para></entry>
+<entry align="left" valign="top"><para>Page pr&eacute;c&eacute;dente</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>v:</para></entry>
+<entry align="left" valign="top"><para>Page pr&eacute;c&eacute;dente</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>v:</para></entry>
+<entry align="left" valign="top"><para>Page suivante</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>w:</para></entry>
+<entry align="left" valign="top"><para>Suppression s&eacute;lection</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>y:</para></entry>
+<entry align="left" valign="top"><para>Annulation suppression</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>]:</para></entry>
+<entry align="left" valign="top"><para>Un paragraphe vers l'avant</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>[:</para></entry>
+<entry align="left" valign="top"><para>Un paragraphe vers l'arri&egrave;re
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>virgule:</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la gauche</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>virgule:</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la droite</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>\\&lt;:</para></entry>
+<entry align="left" valign="top"><para>D&eacute;but du fichier</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>point:</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la droite</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>point:</para></entry>
+<entry align="left" valign="top"><para>Un mot vers la gauche</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>m</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>\\>:</para></entry>
+<entry align="left" valign="top"><para>Fin du fichier</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c ~s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>Entr&eacute;e:</para></entry>
+<entry align="left" valign="top"><para>Fin du fichier</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>c s</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>Entr&eacute;e:</para></entry>
+<entry align="left" valign="top"><para>D&eacute;but du fichier</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>~c ~s ~m ~a</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>Suppr:</para></entry>
+<entry align="left" valign="top"><para>Suppression du caract&egrave;re pr&eacute;c&eacute;dent
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>~c s ~m ~a</para></entry>
+<entry align="left" valign="top"><para>&lt;Touche>Suppr:</para></entry>
+<entry align="left" valign="top"><para>Suppression du caract&egrave;re suivant
+</para></entry></row></tbody></tgroup></table>
+</sect2>
+</sect1>
+<sect1 id="SAG.FACol.div.10">
+<title id="SAG.FACol.mkr.7">Gestion des polices<literal><indexterm><primary>2</primary></indexterm><indexterm><primary>Polices</primary><secondary>gestion</secondary></indexterm></literal></title>
+<para>La bo&icirc;te de dialogue Police du Gestionnaire de configuration permet
+de s&eacute;lectionner &agrave; la taille de police &agrave; utiliser pour
+les applications. Vous pouvez &eacute;galement effectuer les op&eacute;rations
+suivantes &agrave; partir de la ligne de commande ou &agrave; l'aide de ressources:
+</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>d&eacute;finition de ressources de polices pour les applications
+individuelles</para>
+</listitem>
+<listitem><para>affectation de polices diff&eacute;rentes &agrave; la bo&icirc;te
+de dialogue Police</para>
+</listitem>
+</itemizedlist>
+<para>La <emphasis>police</emphasis> correspond au style selon lequel les
+caract&egrave;res sont imprim&eacute;s ou affich&eacute;s. Le Bureau supporte
+de nombreuses polices, disponibles dans plusieurs styles et tailles.</para>
+<para>Une <emphasis>police en mode point</emphasis><indexterm><primary>Polices</primary><secondary>en mode point</secondary></indexterm><indexterm><primary>Polices</primary><secondary>en mode point</secondary></indexterm> est compos&eacute;e
+d'une matrice de points (par d&eacute;faut, le Gestionnaire de configuration
+prend en charge uniquement ce type de police). Elle est stock&eacute;e dans
+un fichier unique. De nombreux fichiers sont requis pour que la gamme compl&egrave;te
+des tailles, inclinaisons et graisses soit disponible.</para>
+<para>Les polices sont identifi&eacute;es par des valeurs de ressources et
+des param&egrave;tres de commandes. La description XLFD (X Logical Font Description)<indexterm>
+<primary>Polices</primary><secondary>description XLFD</secondary></indexterm>
+est utilis&eacute;e pour invoquer une police; le syst&egrave;me recherche
+la police la plus proche de la description fournie.</para>
+<sect2 id="SAG.FACol.div.11">
+<title>D&eacute;finition des ressources de polices du Bureau<indexterm><primary>Ressources</primary><secondary>polices</secondary></indexterm><indexterm>
+<primary>Polices</primary><secondary>d&eacute;finition</secondary></indexterm></title>
+<para>La bo&icirc;te de dialogue Police du Gestionnaire de configuration permet
+de d&eacute;finir la taille de police (7 choix) du texte et des libell&eacute;s.
+</para>
+<sect3 id="SAG.FACol.div.12">
+<title>Ressources d&eacute;finies par la bo&icirc;te de dialogue Police<indexterm>
+<primary>Bo&icirc;tes de dialogue</primary><secondary>Police</secondary></indexterm></title>
+<para>Lorsqu'une police est s&eacute;lectionn&eacute;e, les ressources ci-dessous
+sont &eacute;crites dans la propri&eacute;t&eacute; RESOURCE_MANAGER.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para><systemitem>SystemFont</systemitem> (zones syst&egrave;mes
+telles que les barres de menus, les volets de menus, les plaquettes, les boutons
+de bascule et les libell&eacute;s). La ressource suivante est d&eacute;finie
+par <systemitem>SystemFont</systemitem>:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colwidth="144*">
+<colspec colwidth="384*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>*FontList</systemitem></para></entry>
+<entry align="left" valign="top"><para>Affichage dans les zones syst&egrave;me
+des clients du Bureau et d'autres clients cr&eacute;&eacute;s &agrave; l'aide
+des outils de d&eacute;veloppement Motif.</para></entry></row></tbody>
+</tgroup></informaltable>
+</listitem>
+<listitem><para><systemitem>UserFont</systemitem> s'applique au texte des
+fen&ecirc;tres. Les ressources suivantes sont d&eacute;finies par <systemitem>UserFont</systemitem>:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="264*">
+<colspec colwidth="264*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>*Font</systemitem></para><indexterm>
+<primary>Ressources</primary><secondary>Font</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Supporte les versions pr&eacute;c&eacute;dentes
+des applications X.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>*FontSet</systemitem></para><indexterm>
+<primary>Ressources</primary><secondary>FontSet</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>D&eacute;finition initiale.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>*XmText*FontList</systemitem></para><para><indexterm><primary>Ressources</primary><secondary>XmText*FontList</secondary>
+</indexterm></para></entry>
+<entry align="left" valign="top"><para>Zones d'entr&eacute;e de texte.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><systemitem>*XmTextField*FontList</systemitem></para><para><indexterm><primary>Ressources</primary><secondary>XmTextField*FontList</secondary>
+</indexterm></para></entry>
+<entry align="left" valign="top"><para>Zones d'entr&eacute;e de texte.</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="SAG.FACol.div.13">
+<title>Ressources utilis&eacute;es par la bo&icirc;te de dialogue Police</title>
+<para>Les polices utilis&eacute;es pour les s&eacute;lections de cette bo&icirc;te
+de dialogue sont d&eacute;finies dans le fichier de ressources <filename>/usr/dt/app-defaults/Dtstyle</filename>; sept tailles au maximum peuvent &ecirc;tre
+sp&eacute;cifi&eacute;es.</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="228*">
+<colspec colwidth="228*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><computeroutput><indexterm><primary>Ressources</primary><secondary>NumFonts</secondary></indexterm><indexterm>
+<primary>Polices</primary><secondary>nombre dans le Gestionnaire de configuration</secondary></indexterm> NumFonts</computeroutput></para></entry>
+<entry align="left" valign="top"><para>Nombre de tailles de polices disponibles
+dans la bo&icirc;te de dialogue Police.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>SystemFont[1-7]<indexterm>
+<primary>Polices</primary><secondary>syst&egrave;me</secondary></indexterm></computeroutput></para></entry>
+<entry align="left" valign="top"><para>Ressources (7 au maximum) affectant
+des polices sp&eacute;cifiques &agrave; <computeroutput>SystemFont</computeroutput>
+pour les s&eacute;lections de la bo&icirc;te de dialogue Police.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><computeroutput>UserFont[1-7]<indexterm>
+<primary>Polices</primary><secondary>utilisateur</secondary></indexterm></computeroutput></para></entry>
+<entry align="left" valign="top"><para>Ressources (7 au maximum) affectant
+des polices sp&eacute;cifiques &agrave; <computeroutput>UserFont</computeroutput>
+pour les s&eacute;lections de la bo&icirc;te de dialogue Police.</para></entry>
+</row></tbody></tgroup></informaltable>
+<note>
+<para>Les polices par d&eacute;faut associ&eacute;es &agrave; ces ressources
+ont &eacute;t&eacute; s&eacute;lectionn&eacute;es pour leur lisibilit&eacute;
+sur divers &eacute;crans. Pour affecter une police sp&eacute;cifique &agrave;
+une application, utilisez une ressource de police d'application au lieu de
+modifier les polices du Bureau.</para>
+</note>
+<para>Pour plus de d&eacute;tails sur les polices d'applications, consultez
+les pages de manuel <command>DtStdAppFontNames(5)</command> et <command>DtStdInterfaceFontNames(5)</command>.</para>
+</sect3>
+</sect2>
+<sect2 id="SAG.FACol.div.14" role="Procedure">
+<title>Affichage des polices disponibles<indexterm><primary>Polices</primary>
+<secondary>affichage</secondary></indexterm></title>
+<orderedlist>
+<listitem><para>Entrez la commande suivante:</para>
+<indexterm><primary>Commandes</primary><secondary>xlsfonts</secondary></indexterm>
+<para remap="CodeIndent1"><command>xlsfonts [-</command><symbol role="Variable">options</symbol><command>] [-fn</command> <symbol role="Variable">forme</symbol> <command>]</command></para>
+<para>La liste des descriptions XLFD et des alias de polices disponibles sur
+le syst&egrave;me s'affiche. Des valeurs figurent dans les 14 zones XLFD pour
+les polices en mode point. Dans le cas des polices vectorielles, des z&eacute;ros
+s'affichent dans les zones <command role="Variable">Taille_pixels</command>,<command
+role="Variable"> Taille_points</command>, <command role="Variable">D&eacute;finition_X</command> et <command role="Variable">D&eacute;finition_Y</command>.</para>
+</listitem>
+<listitem><para>Pour rechercher des polices sp&eacute;cifiques, utilisez des
+formes de correspondance dans la commande <command>xlsfonts</command>. Vous
+pouvez inclure des caract&egrave;res g&eacute;n&eacute;riques dans les formes
+de correspondance.</para>
+</listitem>
+<listitem><para>Si le r&eacute;sultat de la commande <command>xlsfonts</command>
+ne comporte aucune police dont le nom commence par <command>dt</command>,
+les polices du Bureau ne sont pas install&eacute;es dans le chemin des polices.
+Pour qu'elles figurent parmi les polices disponibles, entrez la commande suivante
+:</para>
+<para remap="CodeIndent1"><command>xset +fp</command> <symbol role="Variable">nom_r&eacute;pertoire</symbol></para>
+<para><symbol role="Variable">nom_r&eacute;pertoire</symbol> correspond au
+r&eacute;pertoire contenant les polices du Bureau. Le r&eacute;pertoire par
+d&eacute;faut d&eacute;fini au lancement de la session est <filename>/usr/dt/config/xfonts/</filename><symbol>langue</symbol>.</para>
+</listitem>
+</orderedlist>
+<para>Pour plus de d&eacute;tails, consultez:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>les pages de manuel <command>xset</command> et <filename moreinfo="RefEntry">xlsfonts</filename></para>
+</listitem>
+<listitem><para><citetitle>Using the X Window System</citetitle>, qui d&eacute;crit
+les alias de polices et le client <command>xset</command></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.FACol.div.15" role="Procedure">
+<title>D&eacute;finition de polices &agrave; partir de la ligne de commande</title>
+<itemizedlist>
+<listitem><para>Pour d&eacute;finir une ressource de police associ&eacute;e
+&agrave; un client donn&eacute;, utilisez l'option de ligne de commande <command>-xrm</command>. Par exemple:</para>
+</listitem>
+</itemizedlist>
+<programlisting><symbol role="Variable">nom_application</symbol> -xrm "*bitstream-charter-medium-r-normal-8-88-75-75-p-45-iso8859-1"
+</programlisting>
+</sect2>
+<sect2 id="SAG.FACol.div.16">
+<title>Description XLFD (X Logical Font Description)<indexterm><primary>Polices</primary><secondary>description XLFD</secondary></indexterm></title>
+<para>Une police est d&eacute;finie par 14 caract&eacute;ristiques, s&eacute;par&eacute;es
+par des tirets (-); cet identificateur est appel&eacute; description XLFD
+(X Logical Font Description). Dans certains cas, une caract&eacute;ristique
+peut &ecirc;tre remplac&eacute;e par le caract&egrave;re g&eacute;n&eacute;rique
+* et un caract&egrave;re dans une caract&eacute;ristique peut &ecirc;tre remplac&eacute;
+par un point d'interrogation (?). Le <!--Original XRef content: 'Tableau&numsp;15&hyphen;4'--><xref
+role="CodeOrFigureOrTable" linkend="SAG.FACol.mkr.8"> r&eacute;pertorie les
+caract&eacute;ristiques et leur signification.</para>
+<para>Les caract&eacute;ristiques d'une police sont les suivantes:<indexterm>
+<primary>Polices</primary><secondary>cha&icirc;ne de caract&eacute;ristiques</secondary></indexterm></para>
+<para><symbol>&ldquo;-Origine-Nom_famille-Graisse- Inclinaison-Largeur-Style-Taille_pixels-
+Taille_points-D&eacute;finition_X-D&eacute;finition_Y-Espacement- Largeur_moyenne-Enregistrement_police-Codage_police&rdquo;</symbol></para>
+<table id="SAG.FACol.tbl.4" frame="Topbot">
+<title id="SAG.FACol.mkr.8">D&eacute;finition des caract&eacute;ristiques de
+polices</title>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="1.65in">
+<colspec colwidth="4.25in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>Caract&eacute;ristique</literal></para></entry><entry align="left" valign="bottom"><para><literal>D&eacute;finition</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Origine</symbol></para></entry>
+<entry align="left" valign="top"><para>Cha&icirc;ne d&eacute;signant le concepteur
+de la police.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Nom_famille</symbol></para></entry>
+<entry align="left" valign="top"><para>Cha&icirc;ne indiquant le nom sous
+marque d&eacute;pos&eacute;e de la police.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Graisse</symbol></para></entry>
+<entry align="left" valign="top"><para>Cha&icirc;ne indiquant la graisse relative
+de la police, par exemple, bold (gras).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol>Inclinaison</symbol></para></entry>
+<entry align="left" valign="top"><para>Code correspondant au sens de l'inclinaison.
+</para><para>R (Roman&ndash;pas d'inclinaison)</para><para>I (Italique&ndash;inclinaison
+&agrave; droite)</para><para>O (Oblique&ndash;inclinaison &agrave; droite)
+</para><para>RI (Italique invers&eacute;&ndash;inclinaison &agrave; gauche)
+</para><para>RO (Oblique invers&eacute;&ndash;inclinaison &agrave; gauche)
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Largeur</symbol></para></entry>
+<entry align="left" valign="top"><para>Cha&icirc;ne indiquant la largeur,
+par exemple, compressed (comprim&eacute;) ou expanded (&eacute;tendu).</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Style</symbol></para></entry>
+<entry align="left" valign="top"><para>Cha&icirc;ne fournissant des informations
+suppl&eacute;mentaires permettant d'identifier la police.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Taille_pixels</symbol></para></entry>
+<entry align="left" valign="top"><para>Entier indiquant la taille d'un caract&egrave;re-em
+en pixels.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Taille_points</symbol></para></entry>
+<entry align="left" valign="top"><para>Entier indiquant la taille d'un caract&egrave;re-em
+en dixi&egrave;mes de points.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">D&eacute;finition_X</symbol></para></entry>
+<entry align="left" valign="top"><para>Entier indiquant la d&eacute;finition
+horizontale en pixels.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">D&eacute;finition_Y</symbol></para></entry>
+<entry align="left" valign="top"><para>Entier indiquant la d&eacute;finition
+verticale en pixels.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Espacement</symbol></para></entry>
+<entry align="left" valign="top"><para>Code correspondant &agrave; l'espacement
+entre les unit&eacute;s.</para><para><systemitem>M</systemitem> (Monospace--police
+&agrave; chasse fixe)</para><para><systemitem>P</systemitem> (Proportional
+space--police &agrave; espacement proportionnel)</para><para><systemitem>C</systemitem> (Character cell--police d&eacute;finie par une hauteur et une
+largeur de caract&egrave;re).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Largeur_moyenne</symbol></para></entry>
+<entry align="left" valign="top"><para>Entier indiquant la largeur moyenne
+en dixi&egrave;mes de pixels.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Enregistrement_police</symbol></para></entry>
+<entry align="left" valign="top"><para>Cha&icirc;ne d&eacute;signant l'organisme
+ayant homologu&eacute; le codage de la police.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><symbol role="Variable">Codage_police</symbol></para></entry>
+<entry align="left" valign="top"><para>Cha&icirc;ne identifiant le jeu de
+caract&egrave;res dans l'enregistrement sp&eacute;cifi&eacute;.</para></entry>
+</row></tbody></tgroup></table>
+<sect3 id="SAG.FACol.div.17">
+<title>Exemple</title>
+<para>La description XLFD suivante s'applique &agrave; une police appel&eacute;e <systemitem>charter</systemitem>, con&ccedil;ue par Bitstream et supporte l'encodage standard
+ISO8859-1:</para>
+<programlisting>-bitstream-charter-medium-r-normal--8-80-75-75-p-45-iso8859-1
+</programlisting>
+<para>Cette police est de graisse moyenne, elle n'est pas inclin&eacute;e
+et sa largeur est normale; elle est proportionnelle et sa taille de caract&egrave;re-em
+est de 8 pixels (ou 8 points). Les d&eacute;finitions horizontale et verticale
+sont de 75 pixels, et la largeur moyenne d'un caract&egrave;re est de 45 dixi&egrave;mes
+de pixels (ou 4,5 pixels).</para>
+<para>Certains &eacute;l&eacute;ments de cette cha&icirc;ne peuvent &ecirc;tre
+remplac&eacute;s par des caract&egrave;res g&eacute;n&eacute;riques. Le syst&egrave;me
+utilise la premi&egrave;re police correspondant aux &eacute;l&eacute;ments
+indiqu&eacute;s.</para>
+<para>Si vous voulez utiliser une police <systemitem>charter</systemitem>
+8 pixels, vous pouvez indiquer:</para>
+<programlisting>*-charter-*-*-*-*-8-*</programlisting>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.FACol.div.18">
+<title id="SAG.FACol.mkr.9">Gestion des couleurs<indexterm><primary>Couleurs</primary><secondary>gestion</secondary></indexterm></title>
+<para>La pr&eacute;sente section explique comment:</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>le Gestionnaire de configuration d&eacute;finit les couleurs
+</para>
+</listitem>
+<listitem><para>le Gestionnaire de configuration se sert des ressources pour
+g&eacute;rer l'utilisation des couleurs sur le Bureau</para>
+</listitem>
+</itemizedlist>
+<sect2 id="SAG.FACol.div.19">
+<title><indexterm><primary>Palettes</primary></indexterm><indexterm><primary>Palettes de couleurs</primary></indexterm><indexterm><primary>Couleurs</primary>
+<secondary>palettes</secondary></indexterm>Palettes de couleurs</title>
+<para>Une palette se compose d'un ensemble de jeux de couleurs. Les jeux de
+couleurs de la palette en cours sont affich&eacute;s dans la bo&icirc;te de
+dialogue Couleur du Gestionnaire de configuration.</para>
+<para>A chaque palette correspond un fichier (l'emplacement des fichiers de
+palettes est indiqu&eacute; par la ressource <systemitem>paletteDirectories</systemitem> ). Par d&eacute;faut, la valeur de cette ressource est:<indexterm>
+<primary>Jeux de couleurs</primary></indexterm></para>
+<itemizedlist remap="Bullet1">
+<listitem><para>palettes int&eacute;gr&eacute;es: <filename>/usr/dt/palettes</filename></para>
+</listitem>
+<listitem><para>palettes syst&egrave;me: <filename>/etc/dt/palettes</filename></para>
+</listitem>
+<listitem><para>palettes personnelles: <symbol role="Variable">R&eacute;p_personnel</symbol><filename>/.dt/palettes</filename></para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.FACol.div.20">
+<title><indexterm><primary>Jeux de couleurs</primary></indexterm>Jeux de couleurs<indexterm>
+<primary>Couleurs</primary><secondary>jeux</secondary></indexterm></title>
+<para>Chaque jeu de couleurs de la palette en cours est repr&eacute;sent&eacute;
+par un bouton dans la bo&icirc;te de dialogue Couleur du Gestionnaire de configuration.
+Chaque jeu de couleurs est identifi&eacute; par une ID de jeu de couleurs
+(un nombre de 1 &agrave; 8).</para>
+<figure>
+<title>ID des jeux de couleurs (haute d&eacute;finition)</title>
+<graphic id="SAG.FACol.grph.1" entityref="SAG.FACol.fig.1"></graphic>
+</figure>
+<para><indexterm><primary>Couleurs</primary><secondary>ressources</secondary>
+</indexterm>Un jeu de couleurs se compose de 5 couleurs au maximum. Les boutons
+de couleur repr&eacute;sentent la couleur d'arri&egrave;re-plan du jeu de
+couleurs. Les couleurs s'appliquent aux ressources suivantes:<indexterm>
+<primary>Couleurs</primary><secondary>jeux</secondary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="163*">
+<colspec colwidth="365*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>foreground</systemitem></para><indexterm>
+<primary>Ressources</primary><secondary>foreground</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Avant-plan d'une fen&ecirc;tre d'application
+ou d'un cadre de fen&ecirc;tre (toujours noir ou blanc). Cette ressource est
+g&eacute;n&eacute;ralement utilis&eacute;e pour le texte des fen&ecirc;tres
+et les titres.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem><indexterm><primary>Ressources</primary><secondary>background</secondary></indexterm>background</systemitem></para></entry>
+<entry align="left" valign="top"><para>Arri&egrave;re-plan d'une application
+ou d'un cadre de fen&ecirc;tre.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem><indexterm><primary>Ressources</primary><secondary>topShadowColor</secondary></indexterm>topShadowColor</systemitem></para></entry>
+<entry align="left" valign="top"><para>Couleur des angles sup&eacute;rieur
+et gauche des objets de commande d'une application (les boutons de fonction,
+par exemple) et des cadres de fen&ecirc;tres.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem><indexterm><primary>Ressources</primary><secondary>bottomShadowColor</secondary></indexterm>bottomShadowColor</systemitem></para></entry>
+<entry align="left" valign="top"><para>Couleur des angles inf&eacute;rieur
+et droit des objets de commande d'une application et des cadres de fen&ecirc;tres.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem><indexterm><primary>Ressources</primary><secondary>selectColor</secondary></indexterm>selectColor</systemitem></para></entry>
+<entry align="left" valign="top"><para>Couleur indiquant l'&eacute;tat (activ&eacute;
+ou d&eacute;sactiv&eacute;) d'objets de commande tels que les boutons.</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>Le nombre de couleurs utilis&eacute;es par chaque palette est d&eacute;termin&eacute;
+par la ressource <systemitem>colorUse</systemitem>, qui peut &ecirc;tre d&eacute;finie
+&agrave; partir de la bo&icirc;te de dialogue Nombre de couleurs du Gestionnaire
+de configuration.</para>
+<sect3 id="SAG.FACol.div.21">
+<title>D&eacute;finition des valeurs de couleurs<indexterm><primary>Couleurs</primary><secondary>valeurs</secondary></indexterm></title>
+<para>Le Gestionnaire de configuration utilise<indexterm><primary>Valeurs
+RVB</primary></indexterm> des valeurs RVB lors de l'&eacute;criture des informations
+relatives aux couleurs dans les fichiers de palettes. La syntaxe de ces valeurs
+est la suivante:</para>
+<programlisting>#<symbol role="Variable">RougeVertBleu</symbol></programlisting>
+<para><symbol role="Variable">Rouge</symbol>, <symbol role="Variable">Vert</symbol> et <symbol role="Variable">Bleu</symbol> sont des valeurs hexad&eacute;cimales
+de 1 &agrave; 4 chiffres, indiquant la quantit&eacute; de couleur utilis&eacute;e.
+Le nombre de chiffres devant &ecirc;tre le m&ecirc;me pour chacune des composantes
+Rouge, Vert et Bleu, les valeurs correctes comportent 3, 6, 9 ou 12 chiffres
+hexad&eacute;cimaux.</para>
+<para>Par exemple, pour le blanc, vous pouvez utiliser l'une des notations
+suivantes:</para>
+<para><indexterm><primary>Gestionnaire de configuration</primary><secondary>d&eacute;finition des couleurs</secondary></indexterm><indexterm><primary>Couleurs</primary><secondary>valeurs RVB</secondary></indexterm></para>
+<programlisting>#fff
+#ffffff
+#fffffffff
+#fffffffffffff</programlisting>
+<para>Si vous d&eacute;finissez directement une ressource de couleur, vous
+pouvez utiliser son nom ou une valeur RVB. Le fichier <filename>/usr/lib/X11/rgb.txt</filename><indexterm><primary>Fichiers</primary><secondary>rgb.txt</secondary>
+</indexterm> contient la liste des noms de couleurs.</para>
+</sect3>
+<sect3 id="SAG.FACol.div.22">
+<title><indexterm><primary>Jeux de couleurs</primary><secondary>correspondances
+avec les &eacute;l&eacute;ments de l'&eacute;cran</secondary></indexterm>Correspondance
+entre jeux de couleurs et ressources</title>
+<para>Les jeux de couleurs sont associ&eacute;s aux &eacute;l&eacute;ments
+de l'&eacute;cran par l'interm&eacute;diaire de ressources. Les correspondances
+sont les suivantes:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="227*">
+<colspec colwidth="301*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Ressource</para></entry><entry
+align="left" valign="bottom"><para>El&eacute;ment de l'&eacute;cran</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>activeColorSetId</systemitem></para><indexterm>
+<primary>Ressources</primary><secondary>activeColorSetId</secondary></indexterm></entry>
+<entry align="left" valign="top"><para><indexterm><primary>Couleurs</primary>
+<secondary>cadre de fen&ecirc;tre active</secondary></indexterm>Cadre de la
+fen&ecirc;tre active.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>inactiveColorSetId</systemitem></para><indexterm>
+<primary>Ressources</primary><secondary>inactiveFrameColorId</secondary></indexterm></entry>
+<entry align="left" valign="top"><para><indexterm><primary>Couleurs</primary>
+<secondary>cadre de fen&ecirc;tre active</secondary></indexterm>Cadres des
+fen&ecirc;tres inactives.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>textColorSetId</systemitem></para><indexterm>
+<primary>Ressources</primary><secondary>textColorSetId</secondary></indexterm></entry>
+<entry align="left" valign="top"><para><indexterm><primary>Couleurs</primary>
+<secondary>zones de texte</secondary></indexterm>Zones d'entr&eacute;e de
+texte.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>primaryColorSetId</systemitem></para><indexterm>
+<primary>Ressources</primary><secondary>primaryColorSetId</secondary></indexterm></entry>
+<entry align="left" valign="top"><para><indexterm><primary>Couleurs</primary>
+<secondary>fen&ecirc;tres d'applications</secondary></indexterm>Arri&egrave;re-plan
+des applications (couleur principale).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>secondaryColorSetId</systemitem></para><indexterm>
+<primary>Ressources</primary><secondary>secondaryColorSetId</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Barres de menus, menus et bo&icirc;tes
+de dialogue des applications.</para></entry></row></tbody></tgroup></informaltable>
+<para>La valeur de ces ressources est un ID de jeu de couleurs, ce qui permet
+aux modifications de couleurs effectu&eacute;es &agrave; partir du Gestionnaire
+de configuration d'&ecirc;tre r&eacute;percut&eacute;es imm&eacute;diatement
+sur l'&eacute;cran.</para>
+<para>Ces ressources peuvent &ecirc;tre utilis&eacute;es pour les applications
+individuelles. Par exemple, &agrave; l'aide de la ligne suivante, vous pouvez
+regrouper les fen&ecirc;tres <command>dtterm</command> en leur attribuant
+le jeu de couleurs 8 comme couleur principale.</para>
+<programlisting>dtterm*primaryColorSetId: 8</programlisting>
+</sect3>
+<sect3 id="SAG.FACol.div.23">
+<title><indexterm><primary>Jeux de couleurs</primary><secondary>d&eacute;faut</secondary></indexterm><indexterm><primary>Couleurs</primary><secondary>d&eacute;faut</secondary></indexterm>Affectation de jeux de couleurs par d&eacute;faut</title>
+<para>Les ID des jeux de couleurs appliqu&eacute;s aux &eacute;l&eacute;ments
+de l'&eacute;cran sont d&eacute;termin&eacute;es par le param&egrave;tre Nombre
+de couleurs du Gestionnaire de configuration.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Haute d&eacute;finition (8 jeux de couleurs) &mdash; param&egrave;tre
+Maximum de couleurs affect&eacute;es au Bureau du Gestionnaire de configuration:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="104*">
+<colspec colwidth="424*">
+<thead>
+<row><entry align="left" valign="bottom"><para>ID jeu</para></entry><entry
+align="left" valign="bottom"><para>El&eacute;ment de l'&eacute;cran</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>1</para></entry>
+<entry align="left" valign="top"><para>Cadre de la fen&ecirc;tre active.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para>Cadres de fen&ecirc;tres inactives.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>3</para></entry>
+<entry align="left" valign="top"><para>Inutilis&eacute; (par d&eacute;faut).
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>4</para></entry>
+<entry align="left" valign="top"><para>Zones d'entr&eacute;e de texte.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>5</para></entry>
+<entry align="left" valign="top"><para>Arri&egrave;re-plan des applications
+(couleur principale).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>6</para></entry>
+<entry align="left" valign="top"><para>Barres de menus, menus et bo&icirc;tes
+de dialogue des applications.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>7</para></entry>
+<entry align="left" valign="top"><para>Inutilis&eacute; (par d&eacute;faut).
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>8</para></entry>
+<entry align="left" valign="top"><para>Arri&egrave;re-plan du Tableau de bord.
+</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>D&eacute;finition moyenne (4 jeux de couleurs) &mdash; param&egrave;tre
+Maximum de couleurs affect&eacute;es aux applications du Gestionnaire de configuration:
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="106*">
+<colspec colwidth="422*">
+<thead>
+<row><entry align="left" valign="bottom"><para>ID jeu</para></entry><entry
+align="left" valign="bottom"><para>El&eacute;ment de l'&eacute;cran</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>1</para></entry>
+<entry align="left" valign="top"><para>Cadre de la fen&ecirc;tre active.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para>Cadres de fen&ecirc;tres inactives.
+</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>3</para></entry>
+<entry align="left" valign="top"><para>Arri&egrave;re-plan des applications
+et du Tableau de bord.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>4</para></entry>
+<entry align="left" valign="top"><para>Zones d'entr&eacute;e de texte.</para></entry>
+</row></tbody></tgroup></informaltable>
+</listitem>
+<listitem><para>Basse d&eacute;finition (2 jeux de couleurs) &mdash; param&egrave;tre
+Totalit&eacute; des couleurs pour les applications du Gestionnaire de configuration.
+</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="104*">
+<colspec colwidth="424*">
+<thead>
+<row><entry align="left" valign="bottom"><para>ID jeu</para></entry><entry
+align="left" valign="bottom"><para>El&eacute;ment de l'&eacute;cran</para></entry>
+</row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>1</para></entry>
+<entry align="left" valign="top"><para>Cadre de la fen&ecirc;tre active, boutons
+de s&eacute;lection des espaces de travail.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para>Tous les autres &eacute;l&eacute;ments
+de l'&eacute;cran.</para></entry></row></tbody></tgroup></informaltable>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+<sect2 id="SAG.FACol.div.24">
+<title>Gestion des couleurs &agrave; l'aide du Gestionnaire de configuration<indexterm>
+<primary>Couleurs</primary><secondary>gestion &agrave; l'aide du Gestionnaire
+de configuration</secondary></indexterm></title>
+<para>Le Gestionnaire de configuration permet de modifier de fa&ccedil;on
+dynamique les couleurs des applications (du Bureau ou associ&eacute;es); seules
+les couleurs de l'avant-plan et de l'arri&egrave;re-plan sont disponibles
+pour les applications non associ&eacute;es.</para>
+<itemizedlist remap="Bullet1">
+<listitem><para>Pour que ses couleurs puissent &ecirc;tre modifi&eacute;es
+par l'interm&eacute;diaire du Gestionnaire de configuration, un client doit
+utiliser la biblioth&egrave;que Motif du Bureau. Dans le cas des clients utilisant
+d'autres outils de d&eacute;veloppement, la modification dynamique des couleurs
+est impossible; elle n'est prise en compte que lors du red&eacute;marrage
+du client.</para>
+</listitem>
+<listitem><para>Aucune autre ressource de couleur sp&eacute;cifique ne doit
+&ecirc;tre appliqu&eacute;e au client, qu'elle soit d&eacute;finie par l'utilisateur,
+par d&eacute;faut ou int&eacute;gr&eacute;e &agrave; l'application.</para>
+</listitem>
+<listitem><para>Les clients peuvent d&eacute;finir les ressources <systemitem>primaryColorSetId</systemitem><indexterm><primary>Ressources</primary><secondary>primaryColorSetId</secondary></indexterm> et <systemitem>secondaryColorSetId</systemitem><indexterm><primary>Ressources</primary><secondary>secondaryColorSetId</secondary></indexterm> de sorte qu'elles utilisent certaines couleurs d'une
+palette du Bureau.</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="SAG.FACol.div.25">
+<title><indexterm><primary>Couleurs</primary><secondary>nombre</secondary>
+</indexterm>Nombre de couleurs utilis&eacute;es par le Gestionnaire de configuration</title>
+<para>Le nombre de couleurs utilis&eacute;es par le Gestionnaire de configuration
+est d&eacute;termin&eacute; par la valeur des ressources suivantes:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="186*">
+<colspec colwidth="342*">
+<tbody>
+<row>
+<entry align="left" valign="top"><para><systemitem>colorUse</systemitem></para></entry>
+<entry align="left" valign="top"><para>D&eacute;finit le nombre de couleurs
+utilis&eacute;es par le Bureau.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>shadowPixmaps</systemitem></para></entry>
+<entry align="left" valign="top"><para>Remplace les couleurs d'ombrage du
+Bureau par des pixmaps.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>foregroundColor</systemitem></para></entry>
+<entry align="left" valign="top"><para>Indique si la couleur del'avant-plan
+est modifi&eacute;e dynamiquement.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para><systemitem>dynamicColor</systemitem></para><indexterm>
+<primary>Ressources</primary><secondary>dynamicColor</secondary></indexterm></entry>
+<entry align="left" valign="top"><para>Indique si les couleurs des applications
+sont modifi&eacute;es lorsqu'une nouvelle palette est activ&eacute;e.</para></entry>
+</row></tbody></tgroup></informaltable>
+<para>Le <!--Original XRef content: 'Tableau&numsp;15&hyphen;5'--><xref role="CodeOrFigureOrTable"
+linkend="SAG.FACol.mkr.10"> indique le nombre maximal de couleurs prises en
+charge par le Bureau<indexterm><primary>Couleurs</primary><secondary>nombre
+maximal</secondary></indexterm><indexterm><primary>Nombre maximal de couleurs</primary></indexterm>.</para>
+<table id="SAG.FACol.tbl.5" frame="Topbot">
+<title id="SAG.FACol.mkr.10">Nombre de couleurs utilis&eacute;es sur le Bureau</title>
+<tgroup cols="3" colsep="0" rowsep="0">
+<colspec colwidth="1.51in">
+<colspec colwidth="1.10in">
+<colspec colwidth="3.38in">
+<thead>
+<row><entry align="left" valign="bottom"><para><literal>&Eacute;cran</literal></para></entry>
+<entry align="left" valign="bottom"><para><literal>Nombre maximal de couleurs</literal></para></entry><entry align="left" valign="bottom"><para><literal>D&eacute;tail</literal></para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>B_W (noir et blanc)</para></entry>
+<entry align="left" valign="top"><para>2</para></entry>
+<entry align="left" valign="top"><para>Noir en blanc</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>LOW_COLOR (d&eacute;finition faible)
+</para></entry>
+<entry align="left" valign="top"><para>12</para></entry>
+<entry align="left" valign="top"><para>Nombre de jeux de couleurs (2) multipli&eacute;
+par le nombre de couleurs (5), plus le noir et le blanc</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>MEDIUM_COLOR (d&eacute;finition moyenne)
+</para></entry>
+<entry align="left" valign="top"><para>22</para></entry>
+<entry align="left" valign="top"><para>Nombre de jeux de couleurs (4) multipli&eacute;
+par le nombre de couleurs (5), plus le noir et le blanc.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>HIGH_COLOR (haute d&eacute;finition)
+</para></entry>
+<entry align="left" valign="top"><para>42</para></entry>
+<entry align="left" valign="top"><para>Nombre de jeux de couleurs (8) multipli&eacute;
+par le nombre de couleurs (5), plus le noir et le blanc.</para></entry></row>
+</tbody></tgroup></table>
+<para>Pour calculer le nombre maximal de couleurs autoris&eacute;es:</para>
+<orderedlist>
+<listitem><para>Multipliez le nombre de jeux de couleurs de la palette par
+le nombre de couleurs qu'ils contiennent.</para>
+</listitem>
+<listitem><para>Ajoutez 2 (le noir et le blanc).</para>
+</listitem>
+</orderedlist>
+<para>Cependant, les ressources ci-dessous permettent de configurer une palette
+contenant 10 couleurs: 4 jeux de couleurs multipli&eacute;s par 2 couleurs
+dans chaque jeu (<systemitem>background</systemitem> et <systemitem>selectColor</systemitem>) plus le noir et le blanc.</para>
+<programlisting>*colorUse: MEDIUM_COLOR
+*shadowPixmaps: True
+*foregroundColor: White</programlisting>
+<note>
+<para>Les ic&ocirc;nes multicolores utilisent 14 couleurs suppl&eacute;mentaires.
+</para>
+</note>
+<sect3 id="SAG.FACol.div.26">
+<title>Ressource colorUse</title>
+<para>La valeur par d&eacute;faut de la ressource <systemitem>colorUse</systemitem>
+est MEDIUM_COLOR. Cette ressource indique le nombre de jeux de couleurs composant
+une palette. D'autres ressources d&eacute;finissent le nombre de couleurs
+utilis&eacute;es pour les ombrages. La valeur de <systemitem>colorUse</systemitem>
+affecte &eacute;galement l'utilisation des ic&ocirc;nes multicolores<indexterm>
+<primary>HIGH_COLOR (haute d&eacute;finition)</primary></indexterm><indexterm>
+<primary>MEDIUM_COLOR (d&eacute;finition moyenne)</primary></indexterm> .<indexterm>
+<primary>LOW_COLOR (d&eacute;finition faible)</primary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="185*">
+<colspec colwidth="343*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Valeur</para></entry><entry
+align="left" valign="bottom"><para>Description</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>B_W</para></entry>
+<entry align="left" valign="top"><para>Param&egrave;tre Noir et blanc du Gestionnaire
+de configuration. Utilisation de 1 &agrave; 3 plans de m&eacute;moire image.
+Nombre de jeux de couleurs: 2. Nombre maximal de couleurs: 2. Nombre de
+couleurs par d&eacute;faut: 2. Pas d'ic&ocirc;nes multicolores.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>LOW_COLOR</para></entry>
+<entry align="left" valign="top"><para>Param&egrave;tre "Autres couleurs pour
+applications" du Gestionnaire de configuration. Utilisation de 4 &agrave;
+5 plans de m&eacute;moire image. Nombre de jeux de couleurs: 2. Nombre maximal
+de couleurs: 12. Nombre de couleurs par d&eacute;faut: 12. Pas d'ic&ocirc;nes
+multicolores.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>MEDIUM_COLOR</para></entry>
+<entry align="left" valign="top"><para>Param&egrave;tre Totalit&eacute; des
+couleurs pour applications du Gestionnaire de configuration. Utilisation de
+6 plans de m&eacute;moire image. Nombre de jeux de couleurs: 4. Nombre maximal
+de couleurs: 22. Nombre de couleurs par d&eacute;faut: 22. Utilisation d'ic&ocirc;nes
+multicolores.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>HIGH_COLOR</para></entry>
+<entry align="left" valign="top"><para>Param&egrave;tre Autres couleurs pour
+le Bureau du Gestionnaire de configuration. Utilisation de 7 plans de m&eacute;moire
+image (ou plus). Nombre de jeux de couleurs: 8. Nombre maximal de couleurs
+: 42. Nombre de couleurs par d&eacute;faut: 42. Utilisation d'ic&ocirc;nes
+multicolores.</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>default (par d&eacute;faut)</para></entry>
+<entry align="left" valign="top"><para>Le Bureau s&eacute;lectionne la valeur
+correcte pour l'&eacute;cran. Pour limiter le nombre de couleurs utilis&eacute;es
+par le Bureau pour les &eacute;crans haute d&eacute;finition, la valeur MEDIUM_COLOR
+est attribu&eacute;e par d&eacute;faut &agrave; la ressource <systemitem>colorUse</systemitem>.</para></entry></row></tbody></tgroup></informaltable>
+</sect3>
+<sect3 id="SAG.FACol.div.27">
+<title><indexterm><primary>Ressources</primary><secondary>shadowPixmaps</secondary>
+</indexterm>Ressource shadowPixmaps<indexterm><primary>Ressources</primary>
+<secondary>shadowPixmaps</secondary></indexterm><indexterm><primary>Ressources</primary><secondary>shadowPixmaps</secondary></indexterm></title>
+<para>Cette ressource indique au Bureau de remplacer les couleurs d'ombrage
+par des pixmaps. Ceux-ci contiennent un m&eacute;lange de la couleur d'arri&egrave;re-plan
+et de noir et blanc, destin&eacute; &agrave; simuler les valeurs d'ombrage
+du haut et du bas. Cette technique permet de r&eacute;duire de moiti&eacute;
+le nombre de couleurs requises, &eacute;tant donn&eacute; qu'il n'est pas
+n&eacute;cessaire d'allouer des cellules de couleurs pour les couleurs ombrages.<indexterm>
+<primary>Couleur</primary><secondary>cr&eacute;ation d'ombrages</secondary>
+</indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="109*">
+<colspec colwidth="419*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Valeur</para></entry><entry
+align="left" valign="bottom"><para>Description</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>True</para></entry>
+<entry align="left" valign="top"><para>Le Bureau cr&eacute;e des couleurs <systemitem>topShadowPixmap</systemitem> et <systemitem>bottomShadowPixmap</systemitem>
+&agrave; utiliser &agrave; la place des couleurs d'ombrage.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>False</para></entry>
+<entry align="left" valign="top"><para>Les couleurs <systemitem>topShadowColor</systemitem> et <systemitem>bottomShadowColor</systemitem> de la palette
+sont utilis&eacute;es.</para></entry></row></tbody></tgroup></informaltable>
+<para>La valeur par d&eacute;faut de <systemitem>shadowPixmaps</systemitem>
+d&eacute;pend de celle de la ressource <systemitem>colorUse</systemitem> et
+du type d'&eacute;cran utilis&eacute;.</para>
+</sect3>
+<sect3 id="SAG.FACol.div.28">
+<title><indexterm><primary>Ressources</primary><secondary>foregroundColor</secondary></indexterm>Ressource foregroundColor<indexterm><primary>Couleurs</primary><secondary>avant-plan</secondary></indexterm></title>
+<para>La ressource <systemitem>foregroundColor</systemitem> permet de d&eacute;finir
+la configuration de l'avant-plan d'une palette.<indexterm><primary>Ressources</primary><secondary>foregroundColor</secondary></indexterm><indexterm><primary>Ressources</primary><secondary>foregroundColor</secondary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="109*">
+<colspec colwidth="419*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Valeur</para></entry><entry
+align="left" valign="bottom"><para>R&eacute;sultat</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>White</para></entry>
+<entry align="left" valign="top"><para>L'avant-plan est blanc.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Black</para></entry>
+<entry align="left" valign="top"><para>L'avant-plan est noir.</para></entry>
+</row>
+<row>
+<entry align="left" valign="top"><para>Dynamic</para></entry>
+<entry align="left" valign="top"><para>(valeur par d&eacute;faut) La couleur
+de l'avant-plan est d&eacute;finie dynamiquement, en fonction de la valeur
+de <systemitem>background</systemitem>. Par exemple, si l'arri&egrave;re-plan
+est jaune, le syst&egrave;me utilise un avant-plan noir afin de faciliter
+la lisibilit&eacute; du texte.</para></entry></row></tbody></tgroup></informaltable>
+<para>Si la valeur de <systemitem>foregroundColor</systemitem> est Black ou
+White, le jeu de couleurs comporte une couleur de moins, et la couleur de
+l'avant-plan n'est pas modifi&eacute;e suite aux modifications de la couleur
+d'arri&egrave;re-plan.</para>
+<para>La valeur par d&eacute;faut de <systemitem>foregroundColor</systemitem>
+est Dynamic, sauf si celle de <systemitem>colorUse</systemitem> est B_W.</para>
+</sect3>
+<sect3 id="SAG.FACol.div.29">
+<title><indexterm><primary>Ressources</primary><secondary>dynamicColor</secondary>
+</indexterm>Ressource dynamicColor<indexterm><primary>Ressources</primary>
+<secondary>dynamicColor</secondary></indexterm></title>
+<para>La ressource <systemitem>dynamicColor</systemitem> indique si les couleurs
+des applications sont modifi&eacute;es dynamiquement (si les couleurs des
+clients sont modifi&eacute;es lorsque vous activez une nouvelle palette).<indexterm>
+<primary>Couleurs</primary><secondary>ressource dynamicColor</secondary></indexterm></para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec colwidth="104*">
+<colspec colwidth="424*">
+<thead>
+<row><entry align="left" valign="bottom"><para>Valeur</para></entry><entry
+align="left" valign="bottom"><para>Description</para></entry></row></thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><para>True</para></entry>
+<entry align="left" valign="top"><para>Les couleurs des clients sont modifi&eacute;es
+dynamiquement &agrave; la s&eacute;lection d'une nouvelle palette (valeur
+par d&eacute;faut).</para></entry></row>
+<row>
+<entry align="left" valign="top"><para>False</para></entry>
+<entry align="left" valign="top"><para>Les couleurs des clients ne sont pas
+modifi&eacute;es dynamiquement. Pour que la nouvelle palette soit appliqu&eacute;e,
+la session doit &ecirc;tre relanc&eacute;e.</para></entry></row></tbody>
+</tgroup></informaltable>
+<para>Lorsque la valeur de <systemitem>dynamicColor</systemitem> est True,
+les clients pour lesquels la modification dynamique des couleurs est impossible
+(applications non Motif) allouent des cellules de la table de couleurs diff&eacute;rentes
+de celles allou&eacute;es par les clients dont les couleurs sont modifi&eacute;es
+(cependant, cette diff&eacute;rence n'est pas visible &agrave; l'&eacute;cran).
+</para>
+<note>
+<para>Etant donn&eacute; que tous les clients partagent les m&ecirc;mes cellules
+de couleurs, l'affectation de la valeur False &agrave; la ressource <systemitem>dynamicColor</systemitem> permet de r&eacute;duire le nombre de couleurs utilis&eacute;es
+par le Bureau.</para>
+</note>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="SAG.FACol.div.30">
+<title id="SAG.FACol.mkr.11">D&eacute;finition de l'&eacute;paisseur d'ombrage
+pour les fen&ecirc;tres d'applications<indexterm><primary>Ressources</primary>
+<secondary>&eacute;paisseur d'ombrage des fen&ecirc;tres</secondary></indexterm><indexterm>
+<primary>Fen&ecirc;tre</primary><secondary>&eacute;paisseur d'ombrage</secondary>
+</indexterm></title>
+<para>Par d&eacute;faut, l'&eacute;paisseur d'ombrage utilis&eacute;e dans
+les fen&ecirc;tres d'applications (pour les boutons et la mise en &eacute;vidence,
+par exemple) est d'un pixel. Cette valeur est utilis&eacute;e par les applications
+Motif 1.2. Cependant, il est possible que d'autres applications en utilisent
+une autre et se pr&eacute;sentent diff&eacute;remment.</para>
+<para>Pour d&eacute;finir une &eacute;paisseur d'ombrage d'un pixel pour les
+applications non-Motif 1.2:</para>
+<orderedlist>
+<listitem><para>Connectez-vous en tant qu'utilisateur root.</para>
+</listitem>
+<listitem><para>Cr&eacute;ez le fichier <filename>/etc/dt/config/</filename><symbol role="Variable">langue</symbol><filename>/sys.resources</filename>.</para>
+</listitem>
+<listitem><para>Dans ce fichier, d&eacute;finissez comme suit la ressource
+propre &agrave; l'application:</para>
+<para remap="CodeIndent1"><systemitem><symbol role="Variable">nom_classe_application</symbol> *XmCascadeButton*shadowThickness: 1</systemitem></para>
+</listitem>
+</orderedlist>
+<para>Pour plus de d&eacute;tails sur la substitution des valeurs par d&eacute;faut
+des ressources et la d&eacute;finition de ressources suppl&eacute;mentaires
+pour les utilisateurs du Bureau, reportez-vous &agrave; la section <!--Original
+XRef content: '&rdquo;Chargement des ressources d'une session&rdquo;, page&numsp;32'--><xref
+role="SecTitleAndPageNum" linkend="SAG.SesMg.mkr.7">.</para>
+</sect1>
+</chapter><?Pub Caret1>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 15:21:25-->
+<?Pub *0000080609>

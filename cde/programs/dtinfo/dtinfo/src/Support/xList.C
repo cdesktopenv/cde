@@ -1,0 +1,92 @@
+/*
+ * $XConsortium: xList.cc /main/4 1996/08/06 09:21:16 rcs $
+ *
+ * Copyright (c) 1993 HAL Computer Systems International, Ltd.
+ * All rights reserved.  Unpublished -- rights reserved under
+ * the Copyright Laws of the United States.  USE OF A COPYRIGHT
+ * NOTICE IS PRECAUTIONARY ONLY AND DOES NOT IMPLY PUBLICATION
+ * OR DISCLOSURE.
+ * 
+ * THIS SOFTWARE CONTAINS CONFIDENTIAL INFORMATION AND TRADE
+ * SECRETS OF HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.  USE,
+ * DISCLOSURE, OR REPRODUCTION IS PROHIBITED WITHOUT THE
+ * PRIOR EXPRESS WRITTEN PERMISSION OF HAL COMPUTER SYSTEMS
+ * INTERNATIONAL, LTD.
+ * 
+ *                         RESTRICTED RIGHTS LEGEND
+ * Use, duplication, or disclosure by the Government is subject
+ * to the restrictions as set forth in subparagraph (c)(l)(ii)
+ * of the Rights in Technical Data and Computer Software clause
+ * at DFARS 252.227-7013.
+ *
+ *          HAL COMPUTER SYSTEMS INTERNATIONAL, LTD.
+ *                  1315 Dell Avenue
+ *                  Campbell, CA  95008
+ * 
+ */
+
+#ifndef _xList_cc
+#define _xList_cc
+
+// /////////////////////////////////////////////////////////////////
+// class destructor
+// /////////////////////////////////////////////////////////////////
+
+template <class T>
+xList<T>::~xList()
+{
+  List_Iterator<T> i (this);
+  while (i)
+    remove (i);
+}
+
+
+// /////////////////////////////////////////////////////////////////
+// remove - remove an element from the list
+// /////////////////////////////////////////////////////////////////
+
+template<class T> void
+xList<T>::remove (T &element)
+{
+  List_Iterator<T> i (this);
+  while (i)
+    if (i.item() == element)
+      remove (i);
+    else
+      i++;
+}
+
+template<class T> void
+xList<T>::insert_before(List_Iterator<T> &it, const T &element)
+{
+  List_base::insert_before (it, new Link<T> (element));
+}
+
+template<class T> void
+xList<T>::insert_after(List_Iterator<T> &it, const T &element)
+{
+  List_base::insert_after (it, new Link<T> (element));
+}
+
+template<class T> void
+xList<T>::append (const T &element)
+{
+  List_base::append (new Link<T> (element));
+}
+
+template<class T> void
+xList<T>::remove (List_Iterator<T> &it)
+{
+
+#ifndef USL
+   delete (Link<T> *) List_base::remove (it);
+#else
+   // this is obviously a memory leak on novell, but
+   // i can't get the novell compiler to allow this delete
+   // "argument of delete too complicated (must be simple identifier)"
+   List_base::remove (it);
+#endif
+}
+
+#endif /* _xList_cc */
+/* DO NOT ADD ANY LINES AFTER THIS #endif */

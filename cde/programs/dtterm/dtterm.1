@@ -1,0 +1,1471 @@
+.\" $XConsortium: dtterm.1 /main/4 1996/10/29 15:40:28 drk $
+'\" t
+.de LI
+.\" simulate -mm .LIs by turning them into .TPs
+.TP \\n()Jn
+\\$1
+..
+.TH dtterm 1 "21 Apr 1994"
+.BH "21 Apr 1994"
+.\" CDE Common Source Format, Version 1.0.0
+.\" *************************************************************************
+.\" **  (c) Copyright 1993, 1994 Hewlett-Packard Company
+.\" **  (c) Copyright 1993, 1994 International Business Machines Corp.
+.\" **  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+.\" **  (c) Copyright 1993, 1994 Novell, Inc.
+.\" *************************************************************************
+.SH NAME
+dtterm \(mi emulate a terminal window
+.SH SYNOPSIS
+.ft 3
+.fi
+.na
+dtterm
+[\(+-132]
+[\(+-aw]
+[\(mibackground\0\f2background_color\fP]
+[\(mibd\0\f2border_color\fP]
+[\(mibg\0\f2background_color\fP]
+[\(mibordercolor\0\f2border_color\fP]
+[\(miborderwidth\0\f2border_width\fP]
+[\(+-bs]
+[\(mibw\0\f2border_width\fP]
+[\(miC]
+[\(midisplay\0\f2display_name\fP]
+[\(mie\0\f2program_argument\0...\fP]
+[\(mifb\0\f2fontset\fP]
+[\(mifg\0\f2foreground_color\fP]
+[\(mifn\0\f2fontset\fP]
+[\(mifont\0\f2fontset\fP]
+[\(miforeground\0\f2foreground_color\fP]
+[\(migeometry\0\f2geometry_string\fP]
+[\(mihelp]
+[\(+-iconic]
+[\(+-j]
+[\(+-kshMode]
+[\(+-l]
+[\(milf\0\f2file_name\fP]
+[\(+-ls]
+[\(+-map]
+[\(+-mb]
+[\(mims\0\f2pointer_color\fP]
+[\(miname\0\f2prog_name\fP]
+[\(minb\0\f2number\fP]
+[\(+-rw]
+[\(miS\0\f2ccn\fP]
+[\(miS\0\f2c.n\fP]
+[\(+-sb]
+[\(+-sf]
+[\(misl\0\f2screens\fP[s\|\|\(bv\|\|l]]
+[\(miti\0\f2term_id\fP]
+[\(mititle\0\f2title_string\fP]
+[\(mitm\0\f2term_modes\fP]
+[\(mitn\0\f2term_name\fP]
+[\(miusage]
+[\(+-vb]
+[\(miw\0\f2border_width\fP]
+[\(mixrm\0\f2resource_string\fP]
+.PP
+.fi
+.SH DESCRIPTION
+The
+.BR dtterm 
+utility provides runtime support of legacy applications
+written for terminals conforming to \f3ANSI X3.64-1979\fP and
+\f3ISO 6429:1992(E)\fP, such as the DEC VT220.
+.SH OPTIONS
+The following options are available:
+.PP
+.RS 3
+.nr )J 6
+.LI \f3\(mi132\fP
+Recognize the
+.BR \s-1DECCOLM\s+1
+escape sequence and resize the window appropriately.
+Normally,
+.BR dtterm 
+ignores the
+.BR \s-1DECCOLM\s+1
+escape sequence, which
+switches between 80- and 132-column mode.
+.LI \f3\+132\fP
+Ignore the
+.BR \s-1DECCOLM\s+1
+escape sequence.
+This is the default behavior.
+.LI \f3\(miaw\fP
+Allow auto-wraparound.
+This option allows the cursor to automatically wrap to the beginning of the next
+line when it is at the right-most position of a line and text is output.
+This is the default behavior.
+.LI \f3\+aw\fP
+Do not allow auto-wraparound.
+.LI "\f3\(mibackground\fP\0\f2background_color\fP"
+.br
+Specify the terminal window background
+and the default background for the
+scroll bar and the X11 pointer cursor.
+This option defaults to either the primary colorset
+background or select (default) pixel (see
+.BR \(mibs ).
+(When not running under HPVUE,
+it defaults to
+.B *background/*Background
+with an ultimate fallback color of black.)
+The
+.I background_color
+argument describes the background color.
+.LI "\f3\(mibd\fP\0\f2border_color\fP"
+.br
+Specify the border color for all windows.
+The shell widget's window border need not be visible
+when re-parenting window managers, such as
+.BR vuewm (1X),
+and
+.BR mwm (1X),
+are used.
+The default is the color black.
+The
+.I border_color
+argument describes the border color.
+.LI "\f3\(mibg\fP\0\f2background_color\fP"
+.br
+Equivalent to
+.BR \(mibackground .
+The
+.I background_color
+argument describes the background color.
+.LI "\f3\(mibordercolor\fP\0\f2border_color\fP"
+.br
+Equivalent to
+.BR \(mibd .
+The
+.I border_color
+argument describes the border color.
+.LI "\f3\(miborderwidth\fP\0\f2border_width\fP"
+.br
+Specify the border width of the shell widget's window.
+This value may be overridden by re-parenting window managers.
+The default is zero.
+The
+.I border_width
+argument specifies the width of the window border in pixels.
+.LI \f3\(mibs\fP
+Use the Motif
+select color instead of the background color for the terminal window's
+background color.
+This is the default behavior.
+.LI \f3\+bs\fP
+Do not use the Motif
+select color instead of the background color for the terminal window's
+background color.
+.LI "\f3\(mibw\fP\0\f2border_width\fP"
+.br
+Equivalent to
+.BR \(miborderwidth .
+The
+.I border_width
+argument specifies the width of the window border in pixels.
+.LI \f3\(miC\fP
+Specify that output directed to
+.B /dev/console
+be directed instead to the terminal window.
+It is provided as a way to prevent output,
+which would normally be displayed on the
+internal terminal emulator (ITE), from overwriting the X server's display.
+It is not provided as a general purpose mechanism to direct the output from
+an arbitrary system's
+.B /dev/console
+to an arbitrary X server.
+Ownership of, and read-write permission for,
+.B /dev/console
+is required in order to redirect console output.
+.LI "\f3\(midisplay\fP\0\f2display_name\fP"
+.br
+Specify the X11 display server.
+This defaults to the
+.I DISPLAY
+environment variable.
+The
+.I display_name
+argument specifies the X11 display to which
+.BR dtterm 
+connects.
+.LI "\f3\(mie\fP\0\f2program_argument ...\fP"
+.br
+Specify an executable program and any command-line arguments
+.BR dtterm 
+invokes as a subprocess when
+.BR dtterm 
+is started.
+It must be the last option on the command line.
+The
+.I program_argument
+arguments specify the program
+and any command-line arguments
+to be invoked by
+.BR dtterm .
+.LI "\f3\(mifb\fP\0\f2fontset\fP"
+.br
+Specify an
+.B XFontSet
+used by
+.BR dtterm 
+when displaying bold terminal text.
+The
+.B XFontSet
+should be specified as a Motif
+.BR XmFontList (3X).
+The terminal emulator supports only character or mono-spaced fonts.
+When using proportional fonts, the behavior is undefined.
+The terminal emulator generates a default bold font based on the
+XLFD
+name of the
+.BR userFont .
+If that font is not available,
+the terminal emulator
+generates bold text
+by overstriking (with a one pixel offset) the
+.BR userFont .
+The
+.I fontset
+argument specifies the bold terminal
+.B XFontSet
+used by
+.BR dtterm .
+.LI "\f3\(mifg\fP\0\f2foreground_color\fP"
+.br
+Specify the foreground color of the terminal window as
+well as the default foreground color
+used by
+.BR dtterm 
+for the scroll bar and the
+for the X11 pointer cursor.
+This option defaults to either the primary colorset
+foreground (default) or select pixel.
+(When not running under HPVUE,
+it defaults to
+.B *foreground/*Foreground
+with an ultimate fallback color of white.)
+The
+.I foreground_color
+argument specifies the foreground color.
+.LI "\f3\(mifn\fP\0\f2fontset\fP"
+.br
+Specify an
+.B XFontSet
+used by
+.BR dtterm 
+when displaying terminal text.
+It should be specified as a Motif
+.BR XmFontList (3X).
+Only character or mono-spaced fonts are supported.
+When using proportional fonts, the behavior is undefined.
+This font is not used to display non-terminal text (such as menu bar, popup
+menus or dialogs).
+The default uses the
+.B XmNtextFontList
+value of the parent bulletin
+board (see the XmBulletinBoard widget)
+in the same manner as the XmText widget.
+The
+.I fontset
+argument specifies the terminal
+.BR XFontSet .
+.LI "\f3\(mifont\fP\0\f2fontset\fP"
+.br
+Equivalent to
+.BR \(mifn .
+The
+.I fontset
+argument specifies the terminal
+.BR XFontSet .
+.LI "\f3\(miforeground\fP\0\f2foreground_color\fP"
+.br
+Equivalent to
+.BR \(mifg .
+The
+.I foreground_color
+argument specifies the foreground color
+used by
+.BR dtterm .
+.LI "\f3\(migeometry\fP\0\f2geometry_string\fP"
+.br
+Specify the terminal window's preferred size and position.
+Width and height are expressed in characters.
+The default size is 24 lines of 80 characters each.
+There is no default position.
+The
+.I geometry_string
+argument specifies the terminal geometry
+used by
+.BR dtterm .
+.LI \f3\(mihelp\fP
+.br
+Display a message summarizing
+.BR dtterm 
+usage.
+.LI \f3\(miiconic\fP
+.br
+Display the terminal emulator initially in an iconified state.
+.LI \f3\+iconic\fP
+.br
+Display the terminal emulator initially as a normal window.
+This is the default behavior.
+.LI \f3\(mij\fP
+Use jump scrolling.
+With jump scrolling, the screen may be scrolled more than one line at a time.
+This provides for faster screen updates when multiple lines of text are sent
+to the terminal.
+The maximum number of lines that may be
+jump scrolled is limited to the number of lines in the terminal window.
+The
+.BR dtterm 
+terminal emulator guarantees that all lines are displayed.
+This is the default behavior.
+.LI \f3\+j\fP
+Do not use jump scrolling.
+.LI \f3\(mikshMode\fP
+.br
+Enable
+.BR ksh 
+mode.
+In
+.BR ksh 
+mode, a key pressed with the extend modifier bit set generates an
+escape character followed by the character generated by the un-extended
+keystroke.
+This option is provided for use with
+.BR emacs (1)
+and the emacs
+command-line editor mode of
+.BR ksh (1)
+or
+.BR ied (1).
+This option is provided for use with
+.BR emacs 
+command-line editor mode of
+.BR ksh (1).
+It conflicts with the
+normal meta key use for generating extended single byte
+characters and for generating multi-byte Asian characters.
+.LI \f3\+kshMode\fP
+.br
+Do not enable
+.BR ksh (1)
+mode.
+This is the default behavior.
+.LI \f3\(mil\fP
+Enables output logging.
+When
+.BR dtterm 
+enables logging, all output received from the subprocess is
+logged either to a file or to a command pipeline (as specified via the
+.B \(milf
+option described in the following paragraph).
+Since data are logged directly from the subprocess, the log file includes
+all escape characters and carriage-return and newline pairs the terminal
+line discipline sends.
+The application may enable and disable logging via escape sequences.
+.LI \f3\+l\fP
+Disable output logging.
+This is the default behavior.
+.LI "\f3\(milf\fP\0\f2file_name\fP"
+.br
+Name the file to which
+.BR dtterm 
+writes the output log.
+If the
+.I file_name
+argument begins with a pipe symbol
+(\||\|),
+.BR dtterm 
+assumes the rest of the string to be a command
+to be used as the endpoint of a pipe.
+If the
+.I file_name
+argument ends in
+.BR \s-1XXXXX\s+1 ,
+the last five characters are replaced with
+.BR dtterm 's
+process ID.
+The default file name is
+.B DttermLogXXXXX
+and is created in the directory
+from which the subprocess was started.
+The
+.I file_name
+argument specifies the log file name
+used by
+.BR dtterm 
+for logging.
+.LI \f3\(mils\fP
+Start a login shell (the first character of
+.IR argv [0]
+is a dash), indicating
+to the shell that it should read the system's
+.B profile
+and the user's
+.B \&.profile
+files
+(for
+.BR ksh (1)
+and
+.BR sh (1)),
+or the system's
+.B csh.login
+and the user's
+.B \&.login
+(for
+.BR csh (1)).
+.LI \f3\+ls\fP
+Start a normal (non-login) shell.
+This is the default behavior.
+.LI \f3\(mimap\fP
+Map (de-iconify)
+.BR dtterm 
+upon subprocess output if
+.BR dtterm 
+is unmapped (iconified).
+The user can specify, via the
+.B mapOnOutputDelay
+resource,
+an initial period of time during which
+.BR dtterm 
+does not map itself upon
+subprocess output.
+.LI \f3\+map\fP
+Indicate there is no special mapping behavior.
+This is the default behavior.
+.LI \f3\(mimb\fP
+Ring a bell when
+the user types at a specified distance from the right margin.
+The distance from the
+right margin is specified by the
+.B \(minb
+option.
+.LI \f3\+mb\fP
+Do not ring a bell when the user types near the right margin.
+This is the default behavior.
+.LI "\f3\(mims\fP\0\f2pointer_color\fP"
+.br
+Specify the foreground color
+used by
+.BR dtterm 
+for the terminal
+window's (X11) pointer cursor.
+The default is the terminal
+window's foreground color (see
+.BR \(miforeground ).
+The
+.I pointer_color
+argument specifies the pointer foreground color
+used by
+.BR dtterm .
+.LI "\f3\(miname\fP\0\f2prog_name\fP"
+.br
+Specify the X11 name of the
+.BR dtterm 
+window.
+The
+.I prog_name
+argument specifies the name to use.
+.LI "\f3\(minb\fP\0\f2number\fP"
+.br
+Ring the bell this number of characters from the right
+margin when enabled.
+The default is 10.
+The
+.I number
+argument specifies the number of characters.
+.LI \f3\(mirw\fP
+Enable reverse-wraparound.
+.LI \f3\+rw\fP
+Do not enable reverse-wraparound.
+This is the default behavior.
+.LI \f3\(miS\fP\f2ccn\fP
+.br
+Run the terminal emulator against a pre-opened
+.B pty
+or STREAMS
+pseudo-terminal device.
+The terminal emulator provides this option to use when the
+pseudo-terminal device name is of the form
+.B tty??
+(that is, exactly two characters following the
+.BR tty ).
+This option is intended for use when
+.BR dtterm 
+is programmatically invoked from within another application.
+The
+.I cc
+argument specifies the last two characters of the
+pseudo-terminal device's slave name where the
+pseudo-terminal device slave name is of the form
+.BR tty?? .
+This value is ignored, but must be exactly two characters in length.
+The
+.I n
+argument specifies the file descriptor number that corresponds to the
+pseudo-terminal device's already opened master side.
+.LI \f3\(miS\fP\f2c.n\fP
+.br
+Equivalent to \f3\(miS\fP\f2ccn\fP,
+but provided for systems with a larger
+pseudo-terminal device name space.
+The
+.I c
+argument specifies the last component of the
+pseudo-terminal device slave name.
+The terminal emulator ignores this value and the value may be empty.
+The
+.I n
+argument specifies the number of the file descriptor that corresponds to the
+pseudo-terminal device's already opened master side.
+.LI \f3\(misb\fP
+Display a scroll bar.
+This is the default behavior.
+.LI \f3\+sb\fP
+Do not display a scroll bar.
+.LI \f3\(misf\fP
+Generate Sun Function Key escape sequences instead of
+standard ANSI escape sequences
+for the terminal's function keys.
+.LI \f3\+sf\fP
+Generate
+standard ANSI escape sequences
+instead of Sun Function Key escape sequences for the terminal's function keys.
+This is the default behavior.
+.LI "\f3\(misl\fP\0\f2screens\fP[\f3s|l\fP]"
+.br
+Specify the number of lines in the terminal buffer beyond the
+length of the window.
+The option value consists of a number followed by
+an optional suffix.
+If no suffix is included or the suffix is ``l'' (ell), the
+total length of the terminal buffer is
+.I screens
+plus the length of
+the terminal window.
+If the suffix is ``s'' (ess) the total length of the
+terminal buffer is (\c
+.IR screens +1)
+times the length of the terminal window.
+The
+.BR dtterm 
+utility attempts to maintain the same buffer-to-window
+ratio when the window is resized larger.
+The default is
+.BR 4s .
+The
+.I screens
+argument specifies the number of screens or lines to save.
+.LI "\f3\(miti\fP\0\f2term_id\fP"
+.br
+Specify the name used by
+.BR dtterm 
+to select the correct response to terminal ID queries.
+Valid values are
+.BR vt100 ,
+.BR vt101 ,
+.BR vt102 ,
+and
+.BR vt220 .
+The default is
+.BR vt220 .
+The
+.I term_id
+argument specifies the terminal ID to use.
+.LI "\f3\(mititle\fP\0\f2title_string\fP"
+.br
+Specify the window title.
+When used with the
+.B \(mie
+option, the default is the last component of the program's path;
+otherwise, the default is the last
+component of the name used to execute
+.BR dtterm 
+(that is,
+.IR argv [0]).
+The
+.I title_string
+argument specifies the title
+used by
+.BR dterm .
+.LI "\f3\(mitm\fP\0\f2term_modes\fP"
+.br
+Specify a string containing terminal-setting keywords
+and the characters to which they can be bound.
+Allowable keywords include:
+.BR intr ,
+.BR quit ,
+.BR erase ,
+.BR kill ,
+.BR eof ,
+.BR eol ,
+.BR swtch ,
+.BR start ,
+.BR stop ,
+.BR brk ,
+.BR susp ,
+.BR dsusp ,
+.BR rprnt ,
+.BR flush ,
+.B weras
+and
+.BR lnext .
+The terminal emulator
+correctly parses and silently ignores keywords that do not apply
+to a specific architecture.
+Control characters can be specified as
+.BI ^ char
+(for example,
+.B ^c
+or
+.BR ^u ),
+and
+.B ^?
+can be used to indicate Delete.
+This is useful for overriding the default
+terminal settings without having to do an
+.BR stty (1)
+every time a DtTerm widget is created.
+The default is
+.BR \s-1NULL\s+1 .
+The
+.I term_modes
+argument specifies the terminal mode string.
+.LI "\f3\(mitn\fP\0\f2term_name\fP"
+.br
+Specify a name to which
+.BR dtterm 
+sets the
+.I TERM
+environment variable.
+The default is
+.BR dtterm .
+The
+.I term_name
+argument specifies the terminal name
+used by
+.BR dtterm .
+.LI \f3\(miusage\fP
+.br
+Display a usage message on the screen.
+.LI \f3\(mivb\fP
+Use a visual bell instead of an audible one.
+Flash the window instead of ringing the
+terminal bell whenever a <control>\(hyG is received.
+.LI \f3\+vb\fP
+Use an audio bell instead of a visual one.
+This is the default behavior.
+.LI "\f3\(miw\fP\0\f2border_width\fP"
+.br
+Equivalent to
+.BR \(miborderwidth .
+The
+.I border_width
+argument specifies the width of the window border in pixels.
+.LI "\f3\(mixrm\fP\0\f2resource_string\fP"
+.br
+Allow the user to specify the X11 Resource Manager-style
+resources on the command line.
+The
+.I resource_string
+argument specifies an X11 resource string.
+(See
+.BR XrmParseCommand (3X)
+and
+.BR XGetDefault (3X)
+for more information.)
+.PP
+.RE
+.nr )J 0
+.SH OPERANDS
+None.
+.SH STDIN
+Not used.
+.SH "INPUT FILES"
+None.
+.SH "ENVIRONMENT VARIABLES"
+The following environment variables affect the execution of
+.BR dtterm :
+.PP
+.RS 3
+.nr )J 15
+.LI \f2DISPLAY\fP
+Specify the default X Windows display to connect to (see
+.BR \(midisplay ).
+The terminal emulator sets the subprocess's
+.I DISPLAY
+environment variable to the connected X11 display name.
+.LI \f2HOME\fP
+Determine the user's home directory,
+the location of configuration files.
+.LI \f2LANG\fP
+Provide a default value for the internationalization variables
+that are unset or null.
+If
+.I LANG
+is unset or null, the corresponding value from the
+implementation-specific default locale will be used.
+If any of the internationalization variables contains an invalid setting, the
+utility behaves as if none of the variables had been defined.
+.LI \f2LC_ALL\fP
+If set to a non-empty string value,
+override the values of all the other internationalization variables.
+.LI \f2LC_MESSAGES\fP
+Determine the locale that is used to affect
+the format and contents of diagnostic
+messages written to standard error
+and informative messages written to standard output.
+.LI \f2NLSPATH\fP
+Determine the location of message catalogues
+for the processing of
+.IR LC_MESSAGES .
+.LI \f2SHELL\fP
+Determine the default application to run.
+.LI \f2XAPPLRESDIR\fP
+Specify the name of a directory that contains application-specific resources.
+If this environment variable
+is defined, and is set to an existing directory, then it is searched (in
+addition to the standard locations) for files containing
+application-specific resource specifications.
+.LI \f2XENVIRONMENT\fP
+.br
+Specify the name of a resource file with
+user- or machine-specific resources.
+If this variable is not defined,
+.BR dtterm 
+looks for a file named
+.BR $HOME/.Xdefaults- \c
+.I hostname
+instead,
+where
+.I hostname
+is the name of the host where the application is executing.
+.LI \f2XFILESEARCHPATH\fP
+.br
+Define a language-dependent location of
+.BR app-defaults .
+.LI \f2XMODIFIER\fP
+Specify which input method to use.
+.LI \f2XUSERFILESEARCHPATH\fP
+.br
+Control where X applications look for their
+.B app-defaults
+resource files.
+The default is located in the directory
+.BR /usr/dt/app-defaults .
+(Under Motif without CDE, the default is
+.BR /usr/lib/X11/app-defaults ).
+The user must set
+.I XUSERFILESEARCHPATH
+if the user's resource
+files are not in this location.
+.PP
+.RE
+.nr )J 0
+.PP
+The terminal emulator
+creates the following variable when it invokes another process:
+.PP
+.RS 3
+.nr )J 15
+.LI \f2COLUMNS\fP
+.br
+The terminal emulator sets the subprocess's
+.I COLUMNS
+environment variable to the number of columns present in the terminal
+window at creation.
+If the size of the terminal window is subsequently
+changed the terminal emulator uses the
+.I TIOCSWINSZ
+.BR ioctl (\|)
+to inform the applications running against it of the new column count.
+Under normal use, the user's shell updates
+.I COLUMNS
+with the updated value.
+.LI \f2LINES\fP
+.br
+The terminal emulator sets the subprocess's
+.I LINES
+environment variable to the number of lines present in the terminal
+window at creation.
+If the size of the terminal window is subsequently
+changed, the terminal emulator uses the
+.BR \s-1TIOCSWINSZ\s+1
+.BR ioctl (2)
+to inform the applications running against it of the newline count.
+Under normal use, the user's shell updates
+.I LINES
+with the updated value.
+.LI \f2TERM\fP
+The terminal emulator sets the subprocess's
+.I TERM
+environment variable to the
+.B termName
+resource value.
+Applications use this variable to determine the type of escape sequences to use
+when driving the terminal emulator.
+.LI \f2TERMINAL_EMULATOR\fP
+.br
+The terminal emulator sets the subprocess's
+.I TERMINAL_EMULATOR
+environment variable to
+.BR dtterm 
+to indicate that the process is running from a
+.BR dtterm 
+terminal emulator.
+.LI \f2WINDOWID\fP
+The terminal emulator sets the subprocess's
+.I WINDOWID
+environment variable to the window number of the window in which text
+is rendered.
+.PP
+.RE
+.nr )J 0
+.SH RESOURCES
+The
+.BR dtterm 
+utility allows the user to specify behavior through X11 resources
+as well as the command-line interface.
+The following is a list of the defined resources:
+.PP
+.ne 10
+.DS
+.S -1
+.TS
+tab(@);
+cf3 ssss
+lf3 1 lf3 1 lf3 1 lf3 1
+lf3 1 lf3 1 lf3 1 l   1 .
+The dtterm Client Resource Set
+_
+Name@Class@Type@Default
+_
+allowSendEvents@AllowSendEvents@Boolean@False
+appCursorDefault@AppCursorDefault@Boolean@False
+appKeypadDefault@AppKeypadDefault@Boolean@False
+autoWrap@AutoWrap@Boolean@True
+background@Background@String
+.\" !!!! version/config dependent string
+.\" !!!! normal CDE string:
+.\" backgroundIsSelect@BackgroundIsSelect@Boolean@False
+.\" !!!! normal VUE string:
+backgroundIsSelect@BackgroundIsSelect@Boolean@True
+blinkRate@BlinkRate@int@250
+borderColor@BorderColor@String@``black''
+borderWidth@BorderWidth@int@0
+c132@C132@Boolean@False
+charCursorStyle@CharCursorStyle@String@``char_cursor_box''
+consoleMode@ConsoleMode@Boolean@False
+foreground@Foreground@String
+geometry@Geometry@String@NULL
+iconic@Iconic@Boolean@False
+iconName@IconName@String@``dtterm''
+jumpScroll@JumpScroll@Boolean@True
+kshMode@KshMode@Boolean@False
+logging@Logging@Boolean@False
+logFile@LogFile@String@``DttermLogXXXXX''
+logInhibit@LogInhibit@Boolean@False
+loginShell@LoginShell@Boolean@False
+mapOnOutput@AutoMap@Boolean@False
+mapOnOutputDelay@MapDelay@int@0
+marginBell@MarginBell@Boolean@False
+menuBar@MenuBar@Boolean@True
+menuPopup@MenuPopup@Boolean@True
+nMarginBell@NMarginBell@int@10
+pointerBlank@PointerBlank@Boolean@False
+pointerBlankDelay@PointerBlankDelay@int@2
+pointerColor@Foreground@String@foreground color
+pointerColorBackground@Background@String@background color
+pointerShape@PointerShape@String@``xterm''
+reverseWrap@ReverseWrap@Boolean@False
+saveLines@SaveLines@String@4s
+scrollBar@ScrollBar@Boolean@True
+sunFunctionKeys@SunFunctionKeys@Boolean@False
+termId@TermId@String@``vt220''
+termName@TermName@String@``dtterm''
+title@Title@String@``dtterm''
+ttyModes@TtyModes@String@NULL
+userBoldFont@UserBoldFont@XmFontList@dynamic
+userFont@UserFont@XmFontList@dynamic
+visualBell@VisualBell@Boolean@False
+.TE
+.S +1
+.DE
+.PP
+.PP
+.RS 3
+.nr )J 6
+.LI \f3allowSendEvents\fP
+.br
+Specifies that the terminal emulator allow
+synthetic events (generated and sent by another application).
+Enabling this resource opens up a possible security hole.
+.LI \f3appCursorDefault\fP
+.br
+If True,
+the cursor keys are initially in application mode.
+If False,
+the cursor keys are initially in cursor mode.
+.LI \f3appKeypadDefault\fP
+.br
+If True,
+the keypad keys are initially in application mode.
+If False,
+the keypad keys are initially in numeric mode.
+.LI \f3autoWrap\fP
+.br
+Specifies whether or not auto-wraparound is initially
+enabled.
+.LI \f3background\fP
+.br
+Specifies the
+background color of the terminal window as well as the default background
+color for the
+scroll bar.
+This resource defaults to either the primary
+colorset background
+or select
+pixel (see
+.BR backgroundIsSelect ).
+(When not being run under HPVUE,
+this resource defaults to black.)
+.LI \f3backgroundIsSelect\fP
+.br
+Specifies that the terminal window should use the Motif
+select color instead of the background color for the terminal window's
+background color.
+.LI \f3blinkRate\fP
+.br
+Specifies the number of milliseconds the cursor is in the
+on and off states while blinking.
+A value of 250 blinks the cursor two times per second.
+A value of zero turns blinking off.
+.LI \f3borderColor\fP
+.br
+Specifies the border color for the window.
+The window border
+need not be visible when re-parenting window managers are used.
+.LI \f3borderWidth\fP
+.br
+Specifies the border width of the shell widget's window.
+This value may be overridden by re-parenting window managers.
+.LI \f3c132\fP
+Specifies whether or not the
+.BR \s-1DECCOLM\s+1
+escape sequence, which
+switches between a 132- and 80-column window, is honored.
+.LI \f3charCursorStyle\fP
+.br
+This resource specifies the shape of the text cursor.
+A
+.BR char_cursor_box
+value specifies a cursor the width and height of the base
+font's bounding box.
+A
+.BR char_cursor_bar
+value specifies a cursor the
+width of the base font's bounding box, 2 pixels high, and drawn with its
+top on the baseline.
+.LI \f3consoleMode\fP
+.br
+Specifies that output directed at
+.B /dev/console
+be directed instead to the terminal window.
+It is provided as a way to
+prevent output, that would normally be displayed on the internal terminal emulator
+(ITE), from overwriting the X server's display.
+It is not provided as a general mechanism to
+direct the output from an arbitrary system's
+.B /dev/console
+to an arbitrary X server.
+Ownership of, and read-write permission for,
+.B /dev/console
+is required in order to redirect console output.
+.LI \f3foreground\fP
+.br
+Specifies the foreground of the terminal window as well as
+the default
+used by
+.BR dtterm 
+for the scroll bar and the color used for the pointer cursor.
+This resource defaults to the primary
+colorset foreground pixel.
+(When not running under HPVUE,
+this resource defaults to white.)
+.LI \f3geometry\fP
+.br
+Specifies the terminal window's preferred size and position.
+The default size is 24 lines of 80 characters each.
+There is no default position.
+.LI \f3iconGeometry\fP
+.br
+Specifies the preferred position of the terminal emulator's icon.
+Window managers may ignore this value.
+There is no default.
+.LI \f3iconic\fP
+.br
+Specifies whether or not the terminal emulator is initially
+displayed in an iconified state.
+.LI \f3iconName\fP
+.br
+Specifies the name for the icon.
+When used with the
+.B \(mie
+option, the default
+is the last component of the program's path;
+otherwise,
+the default is the last component of the name used to execute
+.BR dtterm 
+(that is,
+.IR argv [0]).
+.LI \f3jumpScroll\fP
+.br
+Specifies that
+.BR dtterm 
+use jump scrolling.
+With jump
+scrolling, the screen may be scrolled more than one line at a time.
+This provides for faster screen updates when multiple lines of text are
+sent to the terminal.
+The maximum number of lines that may be
+jump scrolled is limited to the number of lines in the terminal window.
+The
+.BR dtterm 
+terminal emulator guarantees that all lines are displayed.
+.LI \f3kshMode\fP
+.br
+Enables ksh mode.
+With ksh
+mode, a key pressed with the extend modifier bit set generates an
+escape character followed by the character generated by the un-extended
+keystroke.
+This option is provided for use with
+.BR emacs (1)
+and the emacs
+command-line editor mode of
+.BR ksh (1)
+or
+.BR ied (1).
+This option is provided for use with the
+.BR emacs 
+command-line editor mode of
+.BR ksh (1).
+It conflicts with the
+normal meta key use for generating extended single byte
+characters and for generating multi-byte Asian characters.
+.LI \f3logging\fP
+.br
+Enables output logging.
+When logging is enabled, all
+output received from the subprocess is logged either to a file or to a
+command pipeline (as specified via the
+.B logFile
+option).
+Since the data is logged directly from the subprocess, it includes all
+escape characters and
+carriage-returns and newline pairs
+the terminal line discipline sends.
+Logging may be enabled and disabled via escape sequences.
+.LI \f3logFile\fP
+.br
+Specifies the filename to which
+.BR dtterm 
+writes the output log.
+If the filename begins with a pipe symbol
+(\||\|),
+.BR dtterm 
+assumes
+the rest of the string is a command to be used as the
+endpoint of a pipe.
+If the filename ends in
+.BR \s-1XXXXX\s+1 ,
+the last five characters are replaced with
+.BR dtterm 's
+process ID.
+The default filename is
+.B DttermLogXXXXX
+and is created in the directory from which the subprocess
+was started.
+.LI \f3logInhibit\fP
+.br
+Indicates that
+.BR dtterm 
+inhibit device and file logging.
+.LI \f3loginShell\fP
+.br
+Indicates that the shell that is started be a login
+shell (that is, the first character of
+.IR argv [0]
+is a dash), indicating
+that the shell should read the system's
+.B profile
+and the user's
+.B \&.profile
+files
+(for
+.BR ksh (1)
+and
+.BR sh (1))
+or the system
+.B csh.login
+and the user's
+.B \&.login
+(for
+.BR csh (1)).
+.LI \f3mapOnOutput\fP
+.br
+Indicates that the terminal emulator map
+(de-iconify) itself upon subprocess output if it is unmapped (iconified).
+The user can specify, via the
+.B mapOnOutputDelay
+resource,
+an initial period of time during which
+.BR dtterm 
+does not map itself
+upon subprocess output.
+.LI \f3mapOnOutputDelay\fP
+.br
+Specifies the number of seconds after start-up that
+.BR dtterm 
+does not honor the
+.B mapOnOutput
+resource.
+This allows the application to send
+initial output (for example, shell prompts) to the terminal without
+auto mapping the window.
+The default is zero (no delay).
+.LI \f3marginBell\fP
+.br
+Specifies whether or not the bell rings when the user types near
+the right margin.
+The distance from the right margin is specified by
+the
+.B nMarginBell
+resource.
+.LI \f3menuBar\fP
+.br
+Indicates that
+.BR dtterm 
+displays a pulldown menu bar.
+The
+default is True.
+.LI \f3menuPopup\fP
+.br
+Indicates that
+.BR dtterm 
+displays a popup menu.
+The
+default is True.
+.LI \f3nMarginBell\fP
+.br
+Specifies the number of characters from the right margin at which the
+margin bell rings, when enabled.
+.LI \f3pointerBlank\fP
+.br
+Specifies that
+.BR dtterm 
+puts the pointer cursor into blanking mode.
+In this mode, the cursor turns on when the pointer
+is moved, and is blanked after a selectable number of
+seconds or after keyboard input.
+The
+.B pointerBlankDelay
+resource sets the delay.
+.LI \f3pointerBlankDelay\fP
+.br
+Specifies the number of seconds to wait after the pointer
+has stopped moving before blanking the pointer (see
+.BR pointerBlank ).
+A value of zero delays pointer blanking until a key is pressed.
+.LI \f3pointerColor\fP
+.br
+Specifies the foreground color
+used by
+.BR dtterm 
+for the terminal
+window's pointer (X11) cursor.
+The default is the terminal window's foreground color (see
+.BR foreground ).
+.LI \f3pointerColorBackground\fP
+.br
+Specifies the background color
+used by
+.BR dtterm 
+for the terminal
+window's pointer (X11) cursor.
+The default is the terminal window's background color (see
+.BR background ).
+.LI \f3pointerShape\fP
+.br
+Specifies the X cursor font character
+used by
+.BR dtterm 
+as the
+pointer cursor.
+The font character must be specified as a string from the
+.BR <X11/cursorfont.h> 
+header with the leading
+.B XC_
+removed.
+The default is
+.BR xterm (1X).
+.LI \f3reverseWrap\fP
+.br
+Specifies whether or not reverse-wraparound is
+enabled.
+.LI \f3saveLines\fP
+.br
+Specifies the number of lines in the terminal buffer beyond the
+length of the window.
+The option value consists of a number followed by
+an optional suffix.
+If no suffix is included or the suffix is ``l'' (ell), the
+total length of the terminal buffer is
+.I screens
+plus the length of
+the terminal window.
+If the suffix is ``s'' (ess) the total length of the
+terminal buffer is (\c
+.IR screens +1)
+times the length of the terminal window.
+The
+.BR dtterm 
+utility attempts to maintain the same buffer-to-window
+ratio when the window is resized larger.
+.LI \f3scrollBar\fP
+.br
+Specifies that
+.BR dtterm 
+displays a scroll bar.
+.LI \f3sunFunctionKeys\fP
+.br
+Specifies whether
+.BR dtterm 
+generates Sun Function Key escape sequences instead of
+standard ANSI escape sequences
+for the terminal's function keys.
+.LI \f3termId\fP
+.br
+Supplies the name used to select the correct response to
+terminal ID queries.
+Valid values are
+.BR vt100 ,
+.BR vt101 ,
+.BR vt102 ,
+and
+.BR vt220 .
+.LI \f3termName\fP
+.br
+Specifies a name to which
+.BR dtterm 
+sets the
+.I TERM
+environment variable.
+The default is
+.BR dtterm .
+.LI \f3title\fP
+.br
+Specifies the window title.
+When used with the
+.B \(mie
+option, the default
+is the last component of the program's path;
+otherwise,
+the default is the last component of the name
+used to execute
+.BR dtterm 
+(that is,
+.IR argv [0]).
+.LI \f3ttyModes\fP
+.br
+Specifies a string containing terminal-setting keywords
+and the characters to which they can be bound.
+Allowable keywords include:
+.BR intr ,
+.BR quit ,
+.BR erase ,
+.BR kill ,
+.BR eof ,
+.BR eol ,
+.BR swtch ,
+.BR start ,
+.BR stop ,
+.BR brk ,
+.BR susp ,
+.BR dsusp ,
+.BR rprnt ,
+.BR flush ,
+.B weras
+and
+.BR lnext .
+The terminal emulator
+correctly parses and silently ignores keywords that do not apply
+to a specific architecture.
+Control characters can be specified as
+.BI ^ char
+(for example,
+.B ^c
+or
+.BR ^u ),
+and
+.B ^?
+can be used to indicate Delete.
+This is useful for overriding the default
+terminal settings without having to do an
+.BR stty (1)
+every time a DtTerm widget is created.
+.LI \f3userBoldFont\fP
+.br
+Specifies an
+.B XFontSet
+used by
+.BR dtterm 
+when displaying bold
+terminal text.
+The
+.B XFontSet
+should be specified as a Motif
+.BR XmFontList (3X).
+The terminal emulator supports only character or mono-spaced fonts.
+When using proportional fonts, the behavior is undefined.
+The terminal emulator generates a default bold font based on the
+.B XLFD
+name of the
+.BR userFont .
+If that font is not available,
+.BR dtterm 
+generates bold text
+by overstriking (with a one pixel offset) the
+.BR userFont .
+.LI \f3userFont\fP
+.br
+Specifies an
+.B XFontSet
+used by
+.BR dtterm 
+when displaying terminal text.
+.B XFontSet
+should be specified as a Motif
+.BR XmFontList (3X).
+The terminal emulator supports only character or mono-spaced fonts.
+When using proportional fonts, the behavior is undefined.
+This font is not used
+to display non-terminal text (such as menu bar, popup menu and dialog).
+The default is the
+.B XmNtextFontList
+value of the parent bulletin board
+(see the XmBulletinBoard widget)
+in the same manner as the XmText widget.
+.LI \f3visualBell\fP
+.br
+Indicates that a visual bell is preferred over an audible one.
+Instead of ringing the terminal bell whenever a <control>\(hyG is
+received, the window is flashed.
+.PP
+.RE
+.nr )J 0
+.SS "Resource/Option Correspondence"
+Many of the preceding resources correspond to the command-line arguments.
+The following table describes the relationship between the two:
+.TS
+center;
+cf3	cf3
+lf3w(3c)	lf3w(3c) .
+Command-line option	Resource Setting
+_
+\(mi132	*c132: True
+\+132	*c132: False
+\(miaw	*autoWrap: True
+\+aw	*autoWrap: False
+\(mibackground \f2background_color\fP	*background: \f2background_color\fP
+\(mibd \f2border_color\fP	*borderColor: \f2border_color\fP
+\(mibg \f2background_color\fP	*background: \f2background_color\fP
+\(mibordercolor \f2border_color\fP	*borderColor: \f2border_color\fP
+\(miborderwidth \f2border_width\fP	.borderWidth: \f2border_width\fP
+\(mibs	*backgroundIsSelect: True
+\+bs	*backgroundIsSelect: False
+\(mibw \f2border_width\fP	.borderWidth: \f2border_width\fP
+\(miC	*consoleMode: True
+\(midisplay \f2display_name\fP	.display: \f2display_name\fP
+\(mie \f2program_argument...\fP
+\(mifb \f2fontset\fP	*userBoldFont: \f2fontset\fP
+\(mifg \f2foreground_color\fP	*foreground: \f2foreground_color\fP
+\(mifn \f2fontset\fP	*userFont: \f2fontset\fP
+\(mifont \f2fontset\fP	*userFont: \f2fontset\fP
+\(miforeground \f2foreground_color\fP	*foreground: \f2foreground_color\fP
+\(migeometry \f2geometry_string\fP	.geometry: \f2geometry_string\fP
+\(miiconic	.iconic: True
+\+iconic	.iconic: False
+\(mij	*jumpScroll: True
+\+j	*jumpScroll: False
+\(mikshMode	*kshMode: True
+\+kshMode	*kshMode: False
+\(mil	*logging: True
+\+l	*logging: False
+\(milf \f2file_name\fP	*logFile: \f2file_name\fP
+\(mils	*loginShell: True
+\+ls	*loginShell: False
+\(mimap	*mapOnOutput: True
+\+map	*mapOnOutput: False
+\(mimb	*marginBell: True
+\+mb	*marginBell: False
+\(mims \f2pointer_color\fP	*pointerColor: \f2pointer_color\fP
+\(miname \f2prog_name\fP	.name: \f2prog_name\fP
+\(minb \f2number\fP	*nMarginBell: \f2number\fP
+\(mirw	*reverseWrap: True
+\+rw	*reverseWrap: False
+\(misb	*scrollBar: True
+\+sb	*scrollBar: False
+\(misf	*sunFunctionKeys: True
+\+sf	*sunFunctionKeys: False
+\(misl \f2screens\fPs	*saveLines: \f2screens\fP * lines/screen
+\(misl \f2lines\fP	*saveLines: \f2lines\fP
+\(miti \f2term_id\fP	*termId: \f2term_id\fP
+\(mititle \f2title_string\fP	.title: \f2title_string\fP
+\(mitm \f2term_modes\fP	*ttyModes: \f2term_modes\fP
+\(mitn \f2term_name\fP	*termName: \f2term_name\fP
+\(mivb	*visualBell: True
+\+vb	*visualBell: False
+\(miw \f2border_width\fP	.borderWidth: \f2border_width\fP
+.TE
+.SH "ASYNCHRONOUS EVENTS"
+The
+.BR dtterm 
+utility takes the standard action for all signals.
+.SH STDOUT
+Not used.
+.SH STDERR
+Used only for diagnostic messages.
+.SH "OUTPUT FILES"
+None.
+.SH "EXTENDED DESCRIPTION"
+None.
+.SH "EXIT STATUS"
+.PP
+.RS 3
+.nr )J 4
+.LI \h"\w'>'u"0
+successful completion
+.LI >0
+an error occurred
+.PP
+.RE
+.nr )J 0
+.SH "CONSEQUENCES OF ERRORS"
+Default.
+.SH "APPLICATION USAGE"
+None.
+.SH EXAMPLES
+None.
+.SH "SEE ALSO"
+.na
+.BR stty (1),
+.BR X (1X),
+.BR XmFontList (3X),
+.BR XmText (3X),
+.BR pty (7),
+.BR tty (7).

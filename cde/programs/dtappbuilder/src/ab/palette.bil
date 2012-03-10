@@ -1,0 +1,2152 @@
+
+//       $XConsortium: palette.bil /main/3 1995/11/06 17:43:20 rswiston $
+//
+// @(#)palette.bil	1.46 13 Apr 1995
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module palette
+(
+
+:element ab_palette_main
+(
+	:type			:base-window
+	:icon-label		"dtbuilder"
+	:label			"Application Builder"
+	:resizable		:false
+	:visible		:true
+	:iconic			:false
+	:help-volume		"AppBuilder"
+	:help-location		"ABMainWindow"
+	:help-text		"The Main Window is the starting point for building a graphical user interface.  The interface is created by dragging objects from the App Builder object palette, editing the properties of interface objects, and adjusting the layout of the interface."
+	:children		(
+		palette_menubar
+		palette_command
+		palette_cpanel
+		palette_footer
+	)
+	:win-children		(
+		conn.conn_dialog
+	)
+)
+:element palette_menubar
+(
+	:type			:container
+	:container-type		:menu-bar
+	:active			:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABMenus"
+	:help-text		"Use the Main Window's menu bar to access all of the command menus in App Builder, as well as its help menu."
+	:children		(
+		palette_menubar_File_item
+		palette_menubar_Edit_item
+		palette_menubar_View_item
+		palette_menubar_Layout_item
+		palette_menubar_Editors_item
+		palette_menubar_Help_item
+	)
+)
+:element palette_menubar_File_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"File"
+	:is-help-item		:false
+	:mnemonic		"F"
+	:menu			file_pulldown
+	:active			:true
+)
+:element palette_menubar_Edit_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Edit"
+	:is-help-item		:false
+	:mnemonic		"E"
+	:menu			edit_pulldown
+	:active			:true
+)
+:element palette_menubar_View_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"View"
+	:is-help-item		:false
+	:mnemonic		"V"
+	:menu			view_pulldown
+	:active			:true
+)
+:element palette_menubar_Layout_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Layout"
+	:is-help-item		:false
+	:mnemonic		"L"
+	:menu			layout_pulldown
+	:active			:true
+)
+:element palette_menubar_Editors_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Editors"
+	:is-help-item		:false
+	:mnemonic		"d"
+	:menu			editors_pulldown
+	:active			:true
+)
+:element palette_menubar_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menubar
+	:label-type		:string
+	:label			"Help"
+	:is-help-item		:true
+	:mnemonic		"H"
+	:menu			help_pulldown
+	:active			:true
+)
+:element palette_command
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			2
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 2)
+	:east-attachment	(:obj ab_palette_main -2)
+	:west-attachment	(:point 0 0)
+	:help-volume		"AppBuilder"
+	:help-location		"ABMainWindow"
+	:help-text		"The mode bar includes buttons to control the operational mode of App Builder.  Build mode is used to construct or edit interfaces, and two different test modes allow testing of the interface and project being built."
+	:children		(
+		build_test_choice1
+	)
+)
+:element build_test_choice1
+(
+	:type			:choice
+	:choice-type		:exclusive
+	:x			179
+	:y			6
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 6)
+	:west-attachment	(:point 0 179)
+	:children		(
+		build_test_choice1_Build_item
+		build_test_choice1_Test_Shown_Modules_item
+		build_test_choice1_Test_Project_item
+	)
+)
+:element build_test_choice1_Build_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Build     "
+	:active			:true
+	:selected		:true
+)
+:element build_test_choice1_Test_Shown_Modules_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Test Shown Modules    "
+	:active			:true
+	:selected		:false
+)
+:element build_test_choice1_Test_Project_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Test Project"
+	:active			:true
+	:selected		:false
+)
+:element palette_cpanel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			44
+	:visible		:true
+	:border-frame		:etched-in
+	:north-attachment	(:obj palette_command 2)
+	:east-attachment	(:obj ab_palette_main 0)
+	:west-attachment	(:point 0 0)
+	:help-volume		"AppBuilder"
+	:help-location		"ABMainWindow"
+	:help-text		"App Builder includes three object palettes: Windows, Panes and Controls.  Each contains objects that may be created for use in the interface being built."
+	:children		(
+		panes_label
+		windows_label
+		win_separator
+		pane_separator
+		group
+		group1
+		row_col_obj
+		cpanel_separator
+		group2
+		group4
+		optionmenu
+		menu_bar_obj
+		control_group1
+		control_group3
+		control_group2
+	)
+)
+:element panes_label
+(
+	:type			:label
+	:x			98
+	:y			1
+	:label-type		:string
+	:label			"Panes"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:point 0 98)
+	:help-volume		"AppBuilder"
+	:help-location		"ABPanesPalette"
+	:help-text		"The Panes palette contains four objects: control pane, text pane, draw area pane, and term pane.  Each may be used to create a single or layered pane in the interface.  The control pane may be used to hold other types of panes, or any of the items from the Controls palette."
+)
+:element windows_label
+(
+	:type			:label
+	:x			8
+	:y			1
+	:label-type		:string
+	:label			"Windows"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:point 0 8)
+	:help-volume		"AppBuilder"
+	:help-location		"ABWindowsPalette"
+	:help-text		"The Windows palette contains three objects: main window, custom dialog, and file selection dialog.  Each of these may be used to create a window-type object for use in the application."
+)
+:element win_separator
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:vertical
+	:x			73
+	:y			0
+	:width			12
+	:height			250
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj palette_cpanel 0)
+	:west-attachment	(:point 0 73)
+)
+:element pane_separator
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:vertical
+	:x			158
+	:y			0
+	:width			10
+	:height			254
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj palette_cpanel -4)
+	:west-attachment	(:point 0 158)
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			514
+	:y			115
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 115)
+	:west-attachment	(:point 0 514)
+)
+:element group1
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			514
+	:y			114
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 114)
+	:west-attachment	(:point 0 514)
+)
+:element row_col_obj
+(
+	:type			:button
+	:button-type		:drawn-button
+	:x			93
+	:y			27
+	:label-type		:graphic
+	:label-alignment	:center
+	:label			"DtABcnt"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 27)
+	:west-attachment	(:point 0 93)
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlPane"
+	:help-text		"A Control Pane is used as the foundation upon which controls and other types of panes may be dropped and arranged.   "
+)
+:element cpanel_separator
+(
+	:type			:separator
+	:line-style		:etched-out
+	:orientation		:horizontal
+	:x			88
+	:y			73
+	:width			66
+	:height			4
+	:visible		:true
+	:north-attachment	(:point 0 73)
+	:west-attachment	(:point 0 88)
+)
+:element group2
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			11
+	:y			27
+	:group-type		:column
+	:column-alignment	:left
+	:voffset		15
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:point 0 27)
+	:west-attachment	(:point 0 11)
+	:children		(
+		base_win_obj
+		dialog_obj
+		file_chooser_obj
+	)
+)
+:element base_win_obj
+(
+	:type			:button
+	:button-type		:drawn-button
+	:label-type		:graphic
+	:label-alignment	:center
+	:label			"DtABbw"
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABPalMainWindow"
+	:help-text		"The Main Window object is used to create an application base window, and is the starting point for application interface development."
+)
+:element dialog_obj
+(
+	:type			:button
+	:button-type		:drawn-button
+	:label-type		:graphic
+	:label-alignment	:center
+	:label			"DtABpuw"
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABCustomDialog"
+	:help-text		"A Custom Dialog is a window for displaying information or providing a pop-up for a specific task within an interface."
+)
+:element file_chooser_obj
+(
+	:type			:button
+	:button-type		:drawn-button
+	:label-type		:graphic
+	:label-alignment	:center
+	:label			"DtABfsb"
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABFileSelDialogObj"
+	:help-text		"A File Selection Dialog provides a standard way for accessing files within an application (e.g., Save, Open, etc.)"
+)
+:element group4
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			93
+	:y			83
+	:group-type		:column
+	:column-alignment	:vcenter
+	:voffset		15
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:point 0 83)
+	:west-attachment	(:point 0 93)
+	:children		(
+		text_pane_obj
+		draw_area_obj
+		term_pane_obj
+	)
+)
+:element text_pane_obj
+(
+	:type			:button
+	:button-type		:drawn-button
+	:label-type		:graphic
+	:label-alignment	:center
+	:label			"DtABtxp"
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABTextPane"
+	:help-text		"The Text Pane object provides a multi-line text-entry area, and may be a separate pane or created within a Control Pane."
+)
+:element draw_area_obj
+(
+	:type			:button
+	:button-type		:drawn-button
+	:label-type		:graphic
+	:label-alignment	:center
+	:label			"DtABdrw"
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABDrawAreaPane"
+	:help-text		"A draw area pane is used as a drawing or display area, and has optional scrolling capabilities so that a large display area may be examined through a smaller view area."
+)
+:element term_pane_obj
+(
+	:type			:button
+	:button-type		:drawn-button
+	:label-type		:graphic
+	:label-alignment	:center
+	:label			"DtABtmp"
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABTermPane"
+	:help-text		"A Term Pane provides terminal emulation functional as an object which may be embedded within an application interface."
+)
+:element optionmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			171
+	:y			151
+	:width			102
+	:height			29
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:true
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj control_group1 15)
+	:west-attachment	(:obj-edge control_group1 -6)
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+	:children		(
+		optionmenu_OptionA_item
+	)
+)
+:element optionmenu_OptionA_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"OptionA"
+	:active			:true
+	:selected		:true
+)
+:element menu_bar_obj
+(
+	:type			:button
+	:button-type		:push-button
+	:x			179
+	:y			197
+	:width			234
+	:height			21
+	:label-type		:string
+	:label-alignment	:center
+	:label			"File      Edit                          Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj optionmenu 15)
+	:west-attachment	(:obj-edge optionmenu 6)
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element control_group1
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			180
+	:y			32
+	:group-type		:column
+	:column-alignment	:left
+	:voffset		15
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:point 0 32)
+	:west-attachment	(:point 0 180)
+	:children		(
+		button_obj
+		menu_button_obj
+		combo_box
+	)
+)
+:element button_obj
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Button"
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element menu_button_obj
+(
+	:type			:button
+	:button-type		:menu-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Menu Button"
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element combo_box
+(
+	:type			:combobox
+	:read-only		:true
+	:visible		:true
+	:active			:true
+	:height			27
+)
+:element control_group3
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			438
+	:y			26
+	:group-type		:column
+	:column-alignment	:vcenter
+	:voffset		15
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:point 0 26)
+	:west-attachment	(:obj control_group2 18)
+	:children		(
+		textfield
+		label
+		list
+		spinbox
+	)
+)
+:element textfield
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:width			96
+	:height			35
+	:label-type		:string
+	:label			"Text:"
+	:label-position		:west
+	:num-columns		4
+	:max-length		80
+	:initial-value		"abc"
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Label"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element list
+(
+	:type			:list
+	:selection-mode		:single
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+	:children		(
+		list_itemA_item
+		list_itemB_item
+	)
+)
+:element list_itemA_item
+(
+	:type			:item
+	:item-type		:item-for-list
+	:label			"itemA"
+	:selected		:false
+)
+:element list_itemB_item
+(
+	:type			:item
+	:item-type		:item-for-list
+	:label			"itemB"
+	:selected		:false
+)
+:element spinbox
+(
+	:type			:spinbox
+	:text-type		:numeric
+	:arrow-style		:arrow-end
+	:min-value		0
+	:max-value		0
+	:initial-value		0
+	:increment		1
+	:decimal-points		0
+	:visible		:true
+	:active			:true
+	:width			85
+	:height			29
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element control_group2
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:visible		:true
+	:x			318
+	:y			1
+	:group-type		:column
+	:column-alignment	:vcenter
+	:voffset		11
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:obj control_group1 18)
+	:children		(
+		controls_label
+		radiobox
+		checkbox
+		gauge
+		slider
+		separator_obj
+	)
+)
+:element controls_label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Controls"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element radiobox
+(
+	:type			:choice
+	:choice-type		:exclusive
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+	:children		(
+		radiobox_A_item
+		radiobox_B_item
+	)
+)
+:element radiobox_A_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"A"
+	:active			:true
+	:selected		:true
+)
+:element radiobox_B_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"B"
+	:active			:true
+	:selected		:false
+)
+:element checkbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:width			99
+	:height			31
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+	:children		(
+		checkbox_Checkbox_item
+	)
+)
+:element checkbox_Checkbox_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Checkbox"
+	:active			:true
+	:selected		:true
+)
+:element gauge
+(
+	:type			:scale
+	:read-only		:true
+	:orientation		:horizontal
+	:direction		:left-to-right
+	:min-value		0
+	:max-value		100
+	:initial-value		50
+	:increment		1
+	:decimal-points		0
+	:show-value		:false
+	:width			90
+	:height			18
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element slider
+(
+	:type			:scale
+	:read-only		:false
+	:orientation		:horizontal
+	:direction		:left-to-right
+	:min-value		0
+	:max-value		100
+	:initial-value		50
+	:increment		1
+	:decimal-points		0
+	:show-value		:false
+	:width			90
+	:height			18
+	:active			:true
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element separator_obj
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:width			94
+	:height			12
+	:visible		:true
+	:help-volume		"AppBuilder"
+	:help-location		"ABControlsPalette"
+	:help-text		"The Controls palette contains 14 objects, including buttons, lists, text fields and a menubar.  Each of these represents individual interface objects that may be created for use in the application interface."
+)
+:element palette_footer
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			295
+	:width			562
+	:height			55
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:obj palette_cpanel 0)
+	:east-attachment	(:obj ab_palette_main -1)
+	:west-attachment	(:point 0 0)
+	:help-volume		"AppBuilder"
+	:help-location		"ABObjectInfoArea"
+	:help-text		"The Object Information area provides information about the object directly beneath the cursor, the cursor position, and the module being edited."
+	:children		(
+		position_label
+		position_field
+		size_label
+		size_field
+		cursor_position_label
+		cursor_position_field
+		editing_module_label
+		editing_module_field
+		object_type_label
+		object_type_field
+		object_name_label
+		object_name_field
+	)
+)
+:element position_label
+(
+	:type			:label
+	:x			218
+	:y			3
+	:label-type		:string
+	:label			"Position:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:east-attachment	(:grid-line 50 0)
+)
+:element position_field
+(
+	:type			:label
+	:x			289
+	:y			3
+	:label-type		:string
+	:label			"          "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:west-attachment	(:grid-line 50 0)
+)
+:element size_label
+(
+	:type			:label
+	:x			242
+	:y			25
+	:label-type		:string
+	:label			"Size:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 25)
+	:east-attachment	(:grid-line 50 0)
+)
+:element size_field
+(
+	:type			:label
+	:x			284
+	:y			25
+	:label-type		:string
+	:label			"          "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 25)
+	:west-attachment	(:grid-line 50 0)
+)
+:element cursor_position_label
+(
+	:type			:label
+	:x			360
+	:y			3
+	:label-type		:string
+	:label			"Cursor Position:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:east-attachment	(:grid-line 80 0)
+)
+:element cursor_position_field
+(
+	:type			:label
+	:x			482
+	:y			3
+	:label-type		:string
+	:label			"             "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:west-attachment	(:grid-line 80 0)
+)
+:element editing_module_label
+(
+	:type			:label
+	:x			365
+	:y			25
+	:label-type		:string
+	:label			"Editing Module:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 25)
+	:east-attachment	(:grid-line 80 0)
+)
+:element editing_module_field
+(
+	:type			:label
+	:x			481
+	:y			25
+	:label-type		:string
+	:label			"                 "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 25)
+	:west-attachment	(:grid-line 80 0)
+)
+:element object_type_label
+(
+	:type			:label
+	:x			4
+	:y			3
+	:label-type		:string
+	:label			"Object Type:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:east-attachment	(:grid-line 18 0)
+	:west-attachment	(:grid-line 0 0)
+)
+:element object_type_field
+(
+	:type			:label
+	:x			101
+	:y			3
+	:label-type		:string
+	:label			"          "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:west-attachment	(:grid-line 18 0)
+)
+:element object_name_label
+(
+	:type			:label
+	:x			0
+	:y			25
+	:label-type		:string
+	:label			"Object Name:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 25)
+	:east-attachment	(:grid-line 18 0)
+	:west-attachment	(:grid-line 0 0)
+)
+:element object_name_field
+(
+	:type			:label
+	:x			105
+	:y			25
+	:label-type		:string
+	:label			"          "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 25)
+	:west-attachment	(:grid-line 18 0)
+)
+:element file_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		file_pulldown_New_Project_item
+		file_pulldown_Open_Project_item
+		file_pulldown_Save_Project_item
+		file_pulldown_Save_Project_As_item
+		file_pulldown_separator1_item
+		file_pulldown_New_Module_item
+		file_pulldown_Import_Module_item
+		file_pulldown_Export_Module_item
+		file_pulldown_separator2_item
+		file_pulldown_Code_Generator_item
+		file_pulldown_Project_Organizer_item
+		file_pulldown_Close_Project_item
+		file_pulldown_separator3_item
+		file_pulldown_Exit_item
+	)
+)
+:element file_pulldown_New_Project_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"New Project..."
+	:accelerator		"Ctrl<Key>N"
+	:mnemonic		"N"
+	:active			:true
+)
+:element file_pulldown_Open_Project_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Open Project..."
+	:accelerator		"Ctrl<Key>O"
+	:mnemonic		"O"
+	:active			:true
+)
+:element file_pulldown_Save_Project_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Save Project"
+	:accelerator		"Ctrl<Key>S"
+	:mnemonic		"S"
+	:active			:true
+)
+:element file_pulldown_Save_Project_As_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Save Project As..."
+	:accelerator		"Ctrl<Key>A"
+	:mnemonic		"A"
+	:active			:true
+)
+:element file_pulldown_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element file_pulldown_New_Module_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"New Module..."
+	:mnemonic		"M"
+	:active			:true
+)
+:element file_pulldown_Import_Module_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Import Module..."
+	:mnemonic		"I"
+	:active			:true
+)
+:element file_pulldown_Export_Module_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Export Module"
+	:mnemonic		"E"
+	:menu			export_pulldown
+	:active			:true
+)
+:element file_pulldown_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element file_pulldown_Code_Generator_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Code Generator..."
+	:mnemonic		"G"
+	:active			:true
+)
+:element file_pulldown_Project_Organizer_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Project Organizer..."
+	:mnemonic		"P"
+	:active			:true
+)
+:element file_pulldown_Close_Project_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Close Project"
+	:mnemonic		"C"
+	:active			:true
+)
+:element file_pulldown_separator3_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element file_pulldown_Exit_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Exit"
+	:accelerator		"Alt<Key>F4"
+	:mnemonic		"x"
+	:active			:true
+)
+:element edit_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		edit_pulldown_Undo_item
+		edit_pulldown_Cut_item
+		edit_pulldown_Copy_item
+		edit_pulldown_Paste_item
+		edit_pulldown_Delete_item
+	)
+)
+:element edit_pulldown_Undo_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Undo"
+	:accelerator		"Ctrl<Key>Z"
+	:mnemonic		"U"
+	:active			:true
+)
+:element edit_pulldown_Cut_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Cut"
+	:accelerator		"Ctrl<Key>X"
+	:mnemonic		"t"
+	:active			:true
+)
+:element edit_pulldown_Copy_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Copy"
+	:accelerator		"Ctrl<Key>C"
+	:mnemonic		"C"
+	:active			:true
+)
+:element edit_pulldown_Paste_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Paste"
+	:accelerator		"Ctrl<Key>V"
+	:mnemonic		"P"
+	:active			:true
+)
+:element edit_pulldown_Delete_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Delete"
+	:mnemonic		"D"
+	:active			:true
+)
+:element view_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		view_pulldown_Module_Browser_item
+		view_pulldown_separator1_item
+		view_pulldown_Next_Layer_item
+	)
+)
+:element view_pulldown_Module_Browser_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Module Browser..."
+	:menu			browse_pulldown
+	:active			:true
+)
+:element view_pulldown_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-out
+	:active			:true
+)
+:element view_pulldown_Next_Layer_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Next Layer"
+	:mnemonic		"L"
+	:active			:true
+)
+:element layout_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		layout_pulldown_Item1_item
+	)
+)
+:element layout_pulldown_Item1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Item1"
+	:active			:true
+)
+:element editors_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		editors_pulldown_Properties_item
+		editors_pulldown_Help_item
+		editors_pulldown_Menus_item
+		editors_pulldown_Connections_item
+		editors_pulldown_Messages_item
+		editors_pulldown_separator1_item
+		editors_pulldown_Groups_item
+		editors_pulldown_Attachments_item
+		editors_pulldown_separator2_item
+		editors_pulldown_Drag_and_Drop_item
+		editors_pulldown_Application_Framework_item
+	)
+)
+:element editors_pulldown_Properties_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Properties..."
+	:accelerator		"Ctrl<Key>I"
+	:mnemonic		"P"
+	:active			:true
+)
+:element editors_pulldown_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Help..."
+	:mnemonic		"H"
+	:active			:true
+)
+:element editors_pulldown_Menus_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Menus..."
+	:mnemonic		"M"
+	:active			:true
+)
+:element editors_pulldown_Connections_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Connections..."
+	:mnemonic		"C"
+	:active			:true
+)
+:element editors_pulldown_Messages_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Messages..."
+	:mnemonic		"e"
+	:active			:true
+)
+:element editors_pulldown_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element editors_pulldown_Groups_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Groups..."
+	:mnemonic		"G"
+	:active			:true
+)
+:element editors_pulldown_Attachments_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Attachments..."
+	:mnemonic		"t"
+	:active			:true
+)
+:element editors_pulldown_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element editors_pulldown_Drag_and_Drop_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Drag and Drop..."
+	:mnemonic		"D"
+	:active			:true
+)
+:element editors_pulldown_Application_Framework_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Application Framework..."
+	:mnemonic		"A"
+	:active			:true
+)
+:element help_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		help_pulldown_Overview_item
+		help_pulldown_separator1_item
+		help_pulldown_Tasks_item
+		help_pulldown_Reference_item
+		help_pulldown_separator2_item
+		help_pulldown_On_Item_item
+		help_pulldown_separator3_item
+		help_pulldown_Using_Help_item
+		help_pulldown_separator4_item
+		help_pulldown_About_Application_Builder_item
+	)
+)
+:element help_pulldown_Overview_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Overview..."
+	:mnemonic		"v"
+	:active			:true
+)
+:element help_pulldown_separator1_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_Tasks_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Tasks..."
+	:mnemonic		"T"
+	:active			:true
+)
+:element help_pulldown_Reference_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Reference..."
+	:mnemonic		"R"
+	:active			:true
+)
+:element help_pulldown_separator2_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_On_Item_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"On Item"
+	:mnemonic		"O"
+	:active			:true
+)
+:element help_pulldown_separator3_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_Using_Help_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Using Help..."
+	:mnemonic		"U"
+	:active			:true
+)
+:element help_pulldown_separator4_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:separator
+	:line-style		:etched-in
+	:active			:true
+)
+:element help_pulldown_About_Application_Builder_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"About Application Builder..."
+	:mnemonic		"A"
+	:active			:true
+)
+:element export_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+)
+:element browse_pulldown
+(
+	:type			:menu
+	:tear-off		:false
+)
+:element exit_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"You have unsaved edits. Exiting App Builder\nwill discard your changes. Please confirm."
+	:action1-label		"Discard Changes"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"Changes, which have not been saved, have been\nmade to the currently loaded project. If you\nexit App Builder, those changes will be lost.\nYou have the option of continuing with the exit\noperation or cancelling it."
+)
+:element chld_or_layr_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Application Builder"
+	:message		"Create as child of Control Pane\nor\nas a Layered Pane?"
+	:action1-label		"Child"
+	:action2-label		"Layer"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"A text, term, or draw pane can be created as a\nchild of a control pane, like a control object.\nPanes can also be layered, one on top of the\nother. You have the option of creating the pane\nas a child of the control pane, or as a layered\npane, or you can cancel the operation."
+)
+:element layered_pane_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:message		"Creating as a Layered Pane..."
+	:action2-label		"Continue"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action2-button
+	:help-text		"Panes can be layered, one on top of the other.\nYou have the option of creating the pane as a\nlayer or cancelling the operation."
+)
+:element layr_pw_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Application Builder"
+	:message		"Create as a Layered Pane\nor\nas a new Pane in the Paned Window?"
+	:action1-label		"Layer"
+	:action2-label		"Pane"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"The pane can be created as a layer, meaning it \nwill be stacked on top of the other pane, or it\ncan be created as a new pane in the paned window,\nin which case it will be placed at the bottom of \nthe paned window. You can cancel the operation \nif you do not want to do either."
+)
+:element chld_layr_pw_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Application Builder"
+	:message		"Create as child of Control Pane\nor\nas a Layered Pane\nor\nas a new Pane in the Paned Window?"
+	:action1-label		"Child"
+	:action2-label		"Layer"
+	:action3-label		"Pane"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"A text, term, or draw pane can be created as a\nchild of a control pane, like a control object.\nPanes can also be layered, one on top of the\nother. When dropped within a paned window, a\npane can also be created as another pane in a\npaned window. You have the option of creating\nthe pane in one of the three ways mentioned or\ncancelling the operation."
+)
+:element info_msg
+(
+	:type			:message
+	:message-type		:info
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+)
+:element open_ro_proj_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Application Builder"
+	:action1-label		"Open"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"Opening a read-only project means that any changes\nthat affect the project (.bip) file, such as creation\nof a new module or creation of a cross-module connection,\ncannot be saved. You have the option of continuing\nwith reading in the project or cancelling the operation."
+)
+:element import_ro_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Application Builder"
+	:action1-label		"Import"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"Importing a read-only module means that any changes\nthat affect the module cannot be saved. You have\nthe option of continuing with the import or cancelling\nthe operation."
+)
+:element empty_proj_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The project that was opened does not reference\nany modules."
+)
+:element error_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:false
+	:default-button		:action1-button
+)
+:element import_by_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Application Builder"
+	:message		"You may import by reference or by copy.\nImport by:"
+	:action1-label		"Copy"
+	:action2-label		"Reference"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:cancel-button
+	:help-text		"Importing a module by copy means that a copy of\nthe module is read into App Builder. When it is\nsaved, it is saved to a new file. The original\nmodule file does not change, unless you overwrite\nit. Importing a module by reference means that\nany changes you make to the module will be reflected\nin the imported file when the module is saved. You \nhave the option of importing the module in either of\nthose ways, or you can cancel the operation."
+)
+:element drop_err_msg
+(
+	:type			:message
+	:message-type		:error
+	:label			"Application Builder"
+	:message		"An error occurred in creating a\ntemporary file for the dropped data."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"When App Builder receives a data buffer drop, such\nas a dtmail attachment, a temporary file is created\nthat contains that data. An error in creating that\ntemporary file occurred. The drag-and-drop operation\ncannot be completed.\n"
+)
+:element wrn_msg
+(
+	:type			:message
+	:message-type		:warning
+	:label			"Application Builder"
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:false
+	:default-button		:action1-button
+)
+:element prevent_close_msg
+(
+	:type			:message
+	:message-type		:info
+	:label			"Application Builder"
+	:message		"You may not Close (Quit) this window."
+	:action1-label		"OK"
+	:cancel-button		:false
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"This window is part of the interface you are \ncreating. If you want to remove the window from\nthe interface, delete it by selecting the window\n(in the footer area) and choose Delete from the\npopup menu (displayed by pressing mouse button 3\nin the interface).\n\nIf you want to hide the window, select its module\nin the Project Organizer and choose Hide from the\nModule menu. All windows in the module will be\nhidden."
+)
+:element child_of_group_msg
+(
+	:type			:message
+	:message-type		:question
+	:label			"Application Builder"
+	:message		"Create as child of Group?"
+	:action1-label		"OK"
+	:cancel-button		:true
+	:help-button		:true
+	:default-button		:action1-button
+	:help-text		"The object was dropped on a group in the control\npane.  You have the option of continuing with\ncreating the object as part of the group or\ncancelling the operation."
+)
+:connection
+(
+	:from			file_pulldown_New_Project_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_new_proj_dlgCB
+)
+:connection
+(
+	:from			file_pulldown_Open_Project_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_open_chooserCB
+)
+:connection
+(
+	:from			file_pulldown_Save_Project_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_save_projCB
+)
+:connection
+(
+	:from			file_pulldown_Save_Project_As_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_save_proj_as_chooserCB
+)
+:connection
+(
+	:from			file_pulldown_New_Module_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_new_module_dlgCB
+)
+:connection
+(
+	:from			file_pulldown_Code_Generator_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_cgen_show_dlgCB
+)
+:connection
+(
+	:from			file_pulldown_Project_Organizer_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_proj_orgCB
+)
+:connection
+(
+	:from			file_pulldown_Close_Project_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_close_projCB
+)
+:connection
+(
+	:from			file_pulldown_Exit_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_exit_dtbuilderCB
+)
+:connection
+(
+	:from			edit_pulldown_Undo_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_undoCB
+)
+:connection
+(
+	:from			edit_pulldown_Cut_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_cutCB
+)
+:connection
+(
+	:from			edit_pulldown_Copy_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_copyCB
+)
+:connection
+(
+	:from			edit_pulldown_Paste_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_pasteCB
+)
+:connection
+(
+	:from			edit_pulldown_Delete_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_deleteCB
+)
+:connection
+(
+	:from			editors_pulldown_Application_Framework_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_appfw_edCB
+)
+:connection
+(
+	:from			editors_pulldown_Help_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_help_edCB
+)
+:connection
+(
+	:from			editors_pulldown_Attachments_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_layout_edCB
+)
+:connection
+(
+	:from			editors_pulldown_Menus_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_menu_edCB
+)
+:connection
+(
+	:from			editors_pulldown_Groups_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_group_edCB
+)
+:connection
+(
+	:from			menu_bar_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_menubar_palette_info
+)
+:connection
+(
+	:from			button_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_button_palette_info
+)
+:connection
+(
+	:from			menu_button_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_menubutton_palette_info
+)
+:connection
+(
+	:from			base_win_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_mainwin_palette_info
+)
+:connection
+(
+	:from			dialog_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_dialog_palette_info
+)
+:connection
+(
+	:from			file_chooser_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_file_chooser_palette_info
+)
+:connection
+(
+	:from			text_pane_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_text_pane_palette_info
+)
+:connection
+(
+	:from			draw_area_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_draw_area_palette_info
+)
+:connection
+(
+	:from			term_pane_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_term_pane_palette_info
+)
+:connection
+(
+	:from			optionmenu
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_optionmenu_palette_info
+)
+:connection
+(
+	:from			radiobox
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_radiobox_palette_info
+)
+:connection
+(
+	:from			checkbox
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_checkbox_palette_info
+)
+:connection
+(
+	:from			gauge
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_gauge_palette_info
+)
+:connection
+(
+	:from			slider
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_slider_palette_info
+)
+:connection
+(
+	:from			list
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_list_palette_info
+)
+:connection
+(
+	:from			label
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_label_palette_info
+)
+:connection
+(
+	:from			textfield
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_textfield_palette_info
+)
+:connection
+(
+	:from			row_col_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_container_palette_info
+)
+:connection
+(
+	:from			build_test_choice1_Build_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			palP_change_modeCB
+)
+:connection
+(
+	:from			build_test_choice1_Test_Shown_Modules_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			palP_change_modeCB
+)
+:connection
+(
+	:from			build_test_choice1_Build_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_build_udata
+)
+:connection
+(
+	:from			build_test_choice1_Test_Shown_Modules_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_test_udata
+)
+:connection
+(
+	:from			separator_obj
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_separator_palette_info
+)
+:connection
+(
+	:from			combo_box
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_combobox_palette_info
+)
+:connection
+(
+	:from			spinbox
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_spinbox_palette_info
+)
+:connection
+(
+	:from			spinbox
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_spinbox_width
+)
+:connection
+(
+	:from			editors_pulldown_Properties_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_props_edCB
+)
+:connection
+(
+	:from			editors_pulldown_Messages_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_msg_edCB
+)
+:connection
+(
+	:from			editors_pulldown_Connections_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_conn_edCB
+)
+:connection
+(
+	:from			editors_pulldown_Drag_and_Drop_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_show_dnd_edCB
+)
+:connection
+(
+	:from			build_test_choice1_Test_Shown_Modules_item
+	:to			build_test_choice1_Test_Project_item
+	:when			:toggle
+	:action-type		:builtin
+	:action			:disable
+	:arg-type		:void
+)
+:connection
+(
+	:from			build_test_choice1_Test_Project_item
+	:when			:toggle
+	:action-type		:call-function
+	:action			palP_change_modeCB
+)
+:connection
+(
+	:from			build_test_choice1_Test_Project_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_set_test_proj_udata
+)
+:connection
+(
+	:from			build_test_choice1_Test_Project_item
+	:to			build_test_choice1_Test_Shown_Modules_item
+	:when			:toggle
+	:action-type		:builtin
+	:action			:disable
+	:arg-type		:void
+)
+:connection
+(
+	:from			build_test_choice1_Build_item
+	:to			build_test_choice1_Test_Shown_Modules_item
+	:when			:toggle
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			build_test_choice1_Build_item
+	:to			build_test_choice1_Test_Project_item
+	:when			:toggle
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			file_pulldown_Import_Module_item
+	:when			:activate
+	:action-type		:call-function
+	:action			proj_show_import_chooserCB
+)
+:connection
+(
+	:from			file_pulldown
+	:when			:popup
+	:action-type		:call-function
+	:action			palP_post_file_menuCB
+)
+:connection
+(
+	:from			edit_pulldown
+	:when			:popup
+	:action-type		:call-function
+	:action			palP_post_edit_menuCB
+)
+:connection
+(
+	:from			view_pulldown
+	:when			:popup
+	:action-type		:call-function
+	:action			palP_post_view_menuCB
+)
+:connection
+(
+	:from			help_pulldown_Overview_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"_hometopic"
+)
+:connection
+(
+	:from			help_pulldown_Tasks_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABTasks"
+)
+:connection
+(
+	:from			help_pulldown_Reference_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"AppBuilder"
+	:help-location		"ABReference"
+)
+:connection
+(
+	:from			help_pulldown_On_Item_item
+	:when			:activate
+	:action-type		:on-item-help
+)
+:connection
+(
+	:from			help_pulldown_Using_Help_item
+	:when			:activate
+	:action-type		:access-help-volume
+	:help-volume		"Help4Help"
+	:help-location		"_hometopic"
+)
+:connection
+(
+	:from			layout_pulldown
+	:when			:popup
+	:action-type		:call-function
+	:action			palP_post_layout_menuCB
+)
+:connection
+(
+	:from			view_pulldown_Next_Layer_item
+	:when			:after-create
+	:action-type		:call-function
+	:action			palP_create_next_layer_itemCB
+)
+:connection
+(
+	:from			view_pulldown_Next_Layer_item
+	:when			:activate
+	:action-type		:call-function
+	:action			palP_next_layerCB
+)
+)

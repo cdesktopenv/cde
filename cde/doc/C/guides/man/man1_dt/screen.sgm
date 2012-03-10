@@ -1,0 +1,496 @@
+<!-- $XConsortium: screen.sgm /main/9 1996/10/30 16:29:45 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN30.rsml.1" remap="">
+<refmeta><refentrytitle>dtscreen</refentrytitle><manvolnum>user cmd</manvolnum>
+</refmeta>
+<refnamediv><refname><command>dtscreen</command></refname><refpurpose>the
+Common Desktop Environment animated screen savers</refpurpose></refnamediv>
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>dtscreen</command><arg choice="opt">&minus;display <replaceable>dsp</replaceable></arg><arg choice="opt">&minus;delay <replaceable>usecs</replaceable></arg>
+<arg choice="opt">&minus;batchcount <replaceable>num</replaceable></arg><arg
+choice="opt">&minus;saturation <replaceable>value</replaceable></arg><arg
+choice="opt">&minus;nice <replaceable>nicelevel</replaceable></arg><arg choice="opt">&minus;mode <replaceable>mode</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The dtscreen client supports the following key tasks.</para>
+<!--Start of RS / RE range-->
+<para>- Draws an animated image on a provided window id(s).</para>
+<para>- Does not assume the size of the provided window(s).</para>
+<para>- Provides a set of selectable animated images.</para>
+<para>- Animation parameters such as nice, speed, number and saturation may
+be specified.</para>
+<!--End of RS / RE range-->
+<para>The dtscreen client provides the default screen saver animations for
+the desktop. When launched, it will query the desktop using the API for the
+set for window ids on which to draw. These window ids could be the cover windows
+created by the session manager for session lock, or a window embedded in the
+style manager's session lock customization dialog. Once obtained, the dtscreen
+client will proceed to draw in these windows using the specified options.
+If dtscreen cannot obtain the set of window ids, it will create its own. Normally,
+the dtscreen client will be invoked directly by the session manager, or by
+the style manager.</para>
+<para>Note that the Session Manager, dtsession, is responsible for locking
+the session and prompting for a password to unlock.</para>
+<para>The session manager may launch the dtscreen client to provide screen
+saver animations during session lock. Refer to the session manager specification
+for resources controlling the launching of screen savers by the session manager.
+</para>
+<para>The style manager may launch the dtscreen client to provide a preview
+of a screen saver animation during customization. Refer to the style manager
+specification for information on how to integrate a screen saver client such
+as dtscreen into the desktop.</para>
+<para>The dtsession client provides a selectable set of animations. These
+are:</para>
+<variablelist>
+<varlistentry><term>hop</term>
+<listitem>
+<para>Hopalong iterated fractals.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>life</term>
+<listitem>
+<para>Conway's game of life.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>qix</term>
+<listitem>
+<para>Spinning lines.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>image</term>
+<listitem>
+<para>Random bouncing image.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>swarm</term>
+<listitem>
+<para>Swarm of bees.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>rotor</term>
+<listitem>
+<para>Rotor</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>pyro</term>
+<listitem>
+<para>Fireworks.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>flame</term>
+<listitem>
+<para>Cosmic Flame Fractals.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>worm</term>
+<listitem>
+<para>Wiggly Worms.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>random</term>
+<listitem>
+<para>Random mode.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>The dtscreen client animations are based on xlock(1).</para>
+</refsect1>
+<refsect1>
+<title>OPTIONS</title>
+<para><literal>&minus;display</literal> <emphasis>dsp</emphasis></para>
+<!--Start of RS / RE range-->
+<para>The display on which animations will be drawn.</para>
+<!--End of RS / RE range-->
+<para><literal>&minus;delay</literal> <emphasis>usecs</emphasis></para>
+<!--Start of RS / RE range-->
+<para>The delay option sets the speed at which a mode will operate. It simply
+sets the number of microseconds to delay between batches of "hopalong pixels",
+"qix lines", "life generations", "image blits", and "swarm motions".</para>
+<!--End of RS / RE range-->
+<para><literal>&minus;batchcount</literal> <emphasis>num</emphasis></para>
+<!--Start of RS / RE range-->
+<para>The batchcount option sets the number of things to do per batch to num.
+In qix mode this refers to the number of lines rendered in the same color.
+In hop mode this refers to the number of pixels rendered in the same color.
+In image mode this refers to the number of X logos on the screen at once.
+in swarm mode this refers to the number of bees. In life mode it means nothing.
+</para>
+<!--End of RS / RE range-->
+<para><literal>&minus;saturation</literal> <emphasis>value</emphasis></para>
+<!--Start of RS / RE range-->
+<para>The saturation option sets the saturation of the color ramp used to
+value. 0 is grayscale, 1 is very rich color and 0.4 is a nice pastel.</para>
+<!--End of RS / RE range-->
+<para><literal>&minus;nice</literal> <emphasis>nicelevel</emphasis></para>
+<!--Start of RS / RE range-->
+<para>The nice option sets the system nicelevel of the dtscreen process to
+nicelevel.</para>
+<!--End of RS / RE range-->
+<para><literal>&minus;mode</literal> <emphasis>mode</emphasis></para>
+<!--Start of RS / RE range-->
+<para>The mode option specifies which animation should be displayed. Values
+are:</para>
+<!--End of RS / RE range-->
+<variablelist>
+<varlistentry><term>hop</term>
+<listitem>
+<para>Hopalong iterated fractals.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>life</term>
+<listitem>
+<para>Conway's game of life.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>qix</term>
+<listitem>
+<para>Spinning lines.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>image</term>
+<listitem>
+<para>Random bouncing image.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>swarm</term>
+<listitem>
+<para>Swarm of bees.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>rotor</term>
+<listitem>
+<para>Rotor</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>pyro</term>
+<listitem>
+<para>Fireworks.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>flame</term>
+<listitem>
+<para>Cosmic Flame Fractals.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>worm</term>
+<listitem>
+<para>Wiggly Worms.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>random</term>
+<listitem>
+<para>Random mode.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<para>Exit values are:</para>
+<variablelist>
+<varlistentry><term>0</term>
+<listitem>
+<para>Successful completion.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>>0</term>
+<listitem>
+<para>Error condition occurred.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<refsect2>
+<title>dtscreen -mode swarm</title>
+<para>Display the swarm animation.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<colspec align="left" colwidth="155*">
+<colspec align="left" colwidth="147*">
+<colspec align="left" colwidth="74*">
+<colspec align="left" colwidth="81*">
+<tbody>
+<row>
+<entry><literal>Name</literal></entry>
+<entry><literal>ClassClass</literal></entry>
+<entry><literal>Type</literal></entry>
+<entry><literal>Default</literal></entry></row>
+<row>
+<entry>mode</entry>
+<entry>Mode</entry>
+<entry>String</entry>
+<entry>swarm</entry></row>
+<row>
+<entry>nice</entry>
+<entry>Nice</entry>
+<entry>Int</entry>
+<entry>16</entry></row>
+<row>
+<entry>delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>1000</entry></row>
+<row>
+<entry>batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>100</entry></row>
+<row>
+<entry>saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>1.0</entry></row>
+<row>
+<entry>hop.delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>0</entry></row>
+<row>
+<entry>hop.batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>1000</entry></row>
+<row>
+<entry>hop.saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>1</entry></row>
+<row>
+<entry>image.delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>2000000</entry></row>
+<row>
+<entry>image.batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>8</entry></row>
+<row>
+<entry>image.saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>0.2</entry></row>
+<row>
+<entry>qix.delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>30000</entry></row>
+<row>
+<entry>qix.batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>64</entry></row>
+<row>
+<entry>qix.saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>1</entry></row>
+<row>
+<entry>life.delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>1000000</entry></row>
+<row>
+<entry>life.batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>1</entry></row>
+<row>
+<entry>life.saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>1</entry></row>
+<row>
+<entry>swarm.delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>10000</entry></row>
+<row>
+<entry>swarm.batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>100</entry></row>
+<row>
+<entry>swarm.saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>1</entry></row>
+<row>
+<entry>rotor.delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>10000</entry></row>
+<row>
+<entry>rotor.batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>4</entry></row>
+<row>
+<entry>rotor.saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>0.4</entry></row>
+<row>
+<entry>pyro.delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>15000</entry></row>
+<row>
+<entry>pyro.batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>40</entry></row>
+<row>
+<entry>pyro.saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>1.0</entry></row>
+<row>
+<entry>flame.delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>10000</entry></row>
+<row>
+<entry>flame.batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>20</entry></row>
+<row>
+<entry>flame.saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>1.0</entry></row>
+<row>
+<entry>worm.delay</entry>
+<entry>Delay</entry>
+<entry>Int</entry>
+<entry>10000</entry></row>
+<row>
+<entry>worm.batchcount</entry>
+<entry>Batchcount</entry>
+<entry>Int</entry>
+<entry>20</entry></row>
+<row>
+<entry>worm.saturation</entry>
+<entry>Saturation</entry>
+<entry>Float</entry>
+<entry>1.0</entry></row></tbody></tgroup></informaltable>
+<refsect2>
+<title>delay</title>
+<para>The delay option sets the speed at which a mode will operate. It simply
+sets the number of microseconds to delay between batches of "hopalong pixels",
+"qix lines", "life generations", "image blits", and "swarm motions".</para>
+</refsect2>
+<refsect2>
+<title>batchcount</title>
+<para>The batchcount option sets the number of things to do per batch to num.
+In qix mode this refers to the number of lines rendered in the same color.
+In hop mode this refers to the number of pixels rendered in the same color.
+In image mode this refers to the number of X logos on the screen at once.
+in swarm mode this refers to the number of bees. In life mode it means nothing.
+</para>
+</refsect2>
+<refsect2>
+<title>saturation</title>
+<para>The saturation option sets the saturation of the color ramp used to
+value. 0 is grayscale, 1 is very rich color and 0.4 is a nice pastel.</para>
+</refsect2>
+<refsect2>
+<title>nice</title>
+<para>The nice option sets the system nicelevel of the dtscreen process to
+nicelevel.</para>
+</refsect2>
+<refsect2>
+<title>mode</title>
+<para>The mode option specifies which animation should be displayed. Values
+are:</para>
+<variablelist>
+<varlistentry><term>hop</term>
+<listitem>
+<para>Hopalong iterated fractals.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>life</term>
+<listitem>
+<para>Conway's game of life.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>qix</term>
+<listitem>
+<para>Spinning lines.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>image</term>
+<listitem>
+<para>Random bouncing image.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>swarm</term>
+<listitem>
+<para>Swarm of bees.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>rotor</term>
+<listitem>
+<para>Rotor</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>pyro</term>
+<listitem>
+<para>Fireworks.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>flame</term>
+<listitem>
+<para>Cosmic Flame Fractals.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>worm</term>
+<listitem>
+<para>Wiggly Worms.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>random</term>
+<listitem>
+<para>Random mode.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>SEE</title>
+<variablelist>
+<varlistentry><term>dtsession</term>
+<listitem><?Pub Caret1>
+<para>Launches the dtscreen client during session lock. Provides resources
+that can be used to control this event. Locks and unlocks a session.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>dtstyle</term>
+<listitem>
+<para>Launched the dtscreen client during session lock customization. Provides
+the methods by which additional screen saver clients may be integrated into
+the desktop.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.3 08/21/95 21:30:04-->
+<?Pub *0000043125>

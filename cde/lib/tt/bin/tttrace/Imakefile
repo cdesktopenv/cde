@@ -1,0 +1,28 @@
+XCOMM $XConsortium: Imakefile /main/14 1996/10/09 14:02:22 drk $
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
+
+#include <Threads.tmpl>
+
+#include "../../tooltalk.tmpl"
+
+DEFINES = 
+INCLUDES = -I. -I../../lib
+
+DEPLIBS         = TtClientDepLibs
+LOCAL_LIBRARIES = TtClientLibs
+SYS_LIBRARIES   = 
+
+#ifdef TtClientExtraLibs
+EXTRA_LIBRARIES = TtClientExtraLibs
+#endif
+
+SRCS = tttrace.C tttrace_objs.C
+
+OBJS = tttrace.o tttrace_objs.o
+
+NormalCplusplusObjectRule()
+
+ComplexCplusplusProgramTarget(tttrace)

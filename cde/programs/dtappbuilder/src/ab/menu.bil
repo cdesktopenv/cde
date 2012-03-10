@@ -1,0 +1,1151 @@
+ 
+//       $XConsortium: menu.bil /main/3 1995/11/06 17:32:56 rswiston $
+//
+// @(#)menu.bil	1.17 18 Jan 1995
+//
+//       RESTRICTED CONFIDENTIAL INFORMATION:
+//
+//       The information in this document is subject to special
+//       restrictions in a confidential disclosure agreement between
+//       HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
+//       document outside HP, IBM, Sun, USL, SCO, or Univel without
+//       Sun's specific written approval.  This document and all copies
+//       and derivative works thereof must be returned or destroyed at
+//       Sun's request.
+//
+//       Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
+//
+
+:bil-version	1 0
+:module menu
+(
+
+:element prop_dialog
+(
+	:type			:dialog
+	:bg-color		"white"
+	:label			"Menu Property Editor"
+	:resizable		:true
+	:visible		:false
+	:default-button		apply_button
+	:help-button		help_button
+	:help-volume		"AppBuilder"
+	:help-location		"ABPropsEditor"
+	:help-text		"This Property Editor allows Menu object attributes to be examined or altered.\n"
+	:children		(
+		objlist_panel
+		attrs_ctrlpanel
+		activate_panel
+	)
+)
+:element objlist_panel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:visible		:true
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj prop_dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		objlist
+		objlist_label
+	)
+)
+:element objlist
+(
+	:type			:list
+	:x			152
+	:y			3
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 4)
+	:south-attachment	(:point 0 4)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:grid-line 32 4)
+)
+:element objlist_label
+(
+	:type			:label
+	:x			82
+	:y			3
+	:label-type		:string
+	:label			"Menu \nObjects:"
+	:label-alignment	:right
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 3)
+	:east-attachment	(:grid-line 32 0)
+)
+:element attrs_ctrlpanel
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			77
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:obj objlist_panel 0)
+	:south-attachment	(:obj prop_dialog 0)
+	:east-attachment	(:obj prop_dialog 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		item_attrs_sep1
+		itemlist_cb
+		item_attrs_sep2
+		name_cb
+		tearoff_cb
+		bg_cb
+		fg_cb
+		button_group
+		attrs_group
+		item_editor_group
+		group
+		group2
+		group6
+	)
+)
+:element item_attrs_sep1
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			4
+	:y			103
+	:width			472
+	:height			8
+	:visible		:true
+	:north-attachment	(:obj attrs_group 4)
+	:east-attachment	(:point 0 5)
+	:west-attachment	(:point 0 4)
+)
+:element itemlist_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			117
+	:width			3
+	:height			69
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 117)
+	:west-attachment	(:point 0 2)
+)
+:element item_attrs_sep2
+(
+	:type			:separator
+	:line-style		:etched-in
+	:orientation		:horizontal
+	:x			4
+	:y			399
+	:width			472
+	:height			7
+	:visible		:true
+	:north-attachment	(:obj item_editor_group 4)
+	:east-attachment	(:point 0 5)
+	:west-attachment	(:point 0 4)
+)
+:element name_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			39
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 39)
+	:west-attachment	(:point 0 2)
+)
+:element tearoff_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			70
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 70)
+	:west-attachment	(:point 0 2)
+)
+:element bg_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			398
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 398)
+	:west-attachment	(:point 0 2)
+)
+:element fg_cb
+(
+	:type			:separator
+	:line-style		:none
+	:orientation		:vertical
+	:x			2
+	:y			428
+	:width			3
+	:height			24
+	:bg-color		"white"
+	:visible		:true
+	:north-attachment	(:point 0 428)
+	:west-attachment	(:point 0 2)
+)
+:element button_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			113
+	:y			479
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		14
+	:hattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj group6 15)
+	:south-attachment	(:point 0 15)
+	:west-attachment	(:point 0 127)
+	:children		(
+		helptxt_button
+		conn_button
+	)
+)
+:element helptxt_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help Text..."
+	:active			:true
+	:visible		:true
+)
+:element conn_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Connections..."
+	:active			:true
+	:visible		:true
+)
+:element attrs_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			41
+	:y			35
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		1
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj group 8)
+	:west-attachment	(:point 0 41)
+	:children		(
+		name_field
+		tearoff_rbox
+	)
+)
+:element name_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Object Name:"
+	:label-position		:west
+	:num-columns		30
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element tearoff_rbox
+(
+	:type			:choice
+	:choice-type		:exclusive
+	:label-type		:string
+	:label			"Tearoff:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		tearoff_rbox_Enabled_item
+		tearoff_rbox_Disabled_item
+	)
+)
+:element tearoff_rbox_Enabled_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Enabled"
+	:active			:true
+	:selected		:true
+)
+:element tearoff_rbox_Disabled_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Disabled"
+	:active			:true
+	:selected		:false
+)
+:element item_editor_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			20
+	:y			187
+	:group-type		:column
+	:column-alignment	:labels
+	:voffset		2
+	:vattach_type		:obj
+	:border-frame		:none
+	:north-attachment	(:obj group2 2)
+	:west-attachment	(:point 0 15)
+	:children		(
+		itemlabeltype_opmenu
+		group3
+		group4
+		linestyle_opmenu
+		group5
+		itemstate_ckbox
+	)
+)
+:element itemlabeltype_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:label-type		:string
+	:label			"Item Label Type:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		itemlabeltype_opmenu_String_item
+		itemlabeltype_opmenu_Graphic_item
+		itemlabeltype_opmenu_Separator_item
+	)
+)
+:element itemlabeltype_opmenu_String_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"String"
+	:active			:true
+	:selected		:true
+)
+:element itemlabeltype_opmenu_Graphic_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Graphic"
+	:active			:true
+	:selected		:false
+)
+:element itemlabeltype_opmenu_Separator_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Separator"
+	:active			:true
+	:selected		:false
+)
+:element group3
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		4
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		itemlabel_field
+		graphic_hint
+	)
+)
+:element itemlabel_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Graphic Filename:"
+	:label-position		:west
+	:num-columns		24
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element graphic_hint
+(
+	:type			:label
+	:label-type		:string
+	:label			".pm/.bm"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element group4
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		8
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		mnemonic_field
+		accel_field
+	)
+)
+:element mnemonic_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Item Mnemonic:"
+	:label-position		:west
+	:num-columns		1
+	:max-length		1
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element accel_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:label-type		:string
+	:label			"Accelerator:"
+	:label-position		:west
+	:num-columns		12
+	:max-length		24
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element linestyle_opmenu
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:label-type		:string
+	:label			"Line Style:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		linestyle_opmenu_None_item
+		linestyle_opmenu_Etched_In_item
+		linestyle_opmenu_Etched_Out_item
+		linestyle_opmenu_Etched_In_Dash_item
+		linestyle_opmenu_Single_Line_item
+		linestyle_opmenu_Double_Line_item
+		linestyle_opmenu_Etched_Out_Dash_item
+		linestyle_opmenu_Single_Dashed_Line_item
+		linestyle_opmenu_Double_Dashed_Line_item
+	)
+)
+:element linestyle_opmenu_None_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"None"
+	:active			:true
+	:selected		:true
+)
+:element linestyle_opmenu_Etched_In_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Etched In"
+	:active			:true
+	:selected		:false
+)
+:element linestyle_opmenu_Etched_Out_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Etched Out"
+	:active			:true
+	:selected		:false
+)
+:element linestyle_opmenu_Etched_In_Dash_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Etched In Dash"
+	:active			:true
+	:selected		:false
+)
+:element linestyle_opmenu_Single_Line_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Single Line"
+	:active			:true
+	:selected		:false
+)
+:element linestyle_opmenu_Double_Line_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Double Line"
+	:active			:true
+	:selected		:false
+)
+:element linestyle_opmenu_Etched_Out_Dash_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Etched Out Dash"
+	:active			:true
+	:selected		:false
+)
+:element linestyle_opmenu_Single_Dashed_Line_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Single Dashed Line"
+	:active			:true
+	:selected		:false
+)
+:element linestyle_opmenu_Double_Dashed_Line_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Double Dashed Line"
+	:active			:true
+	:selected		:false
+)
+:element group5
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:group-type		:row
+	:row-alignment		:hcenter
+	:hoffset		4
+	:hattach_type		:obj
+	:border-frame		:none
+	:children		(
+		label
+		item_menu_mbutton
+		item_menu_field
+	)
+)
+:element label
+(
+	:type			:label
+	:label-type		:string
+	:label			"Item SubMenu:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+)
+:element item_menu_mbutton
+(
+	:type			:button
+	:button-type		:menu-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Menus"
+	:active			:true
+	:visible		:true
+)
+:element item_menu_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:num-columns		18
+	:max-length		80
+	:read-only		:false
+	:active			:true
+	:visible		:true
+)
+:element itemstate_ckbox
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:label-type		:string
+	:label			"Item State:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:horizontal
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:children		(
+		itemstate_ckbox_Active_item
+	)
+)
+:element itemstate_ckbox_Active_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Active"
+	:active			:true
+	:selected		:true
+)
+:element group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			152
+	:y			4
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 4)
+	:west-attachment	(:point 0 150)
+	:children		(
+		newbutton
+		menuedit_mbutton
+	)
+)
+:element newbutton
+(
+	:type			:button
+	:button-type		:push-button
+	:x			0
+	:y			2
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add New Menu "
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:south-attachment	(:point 0 1)
+	:west-attachment	(:point 0 0)
+)
+:element menuedit_mbutton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			116
+	:y			0
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Edit"
+	:menu			menu_editmenu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:point 0 0)
+	:west-attachment	(:obj newbutton 8)
+)
+:element group2
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			97
+	:y			115
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:obj item_attrs_sep1 4)
+	:east-attachment	(:point 0 4)
+	:west-attachment	(:point 0 97)
+	:children		(
+		itemlist_label
+		itemlist
+		item_button_group
+	)
+)
+:element itemlist_label
+(
+	:type			:label
+	:x			0
+	:y			0
+	:label-type		:string
+	:label			"Items:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:grid-line 13 0)
+)
+:element itemlist
+(
+	:type			:list
+	:x			53
+	:y			1
+	:selection-mode		:browse
+	:selection-required	:false
+	:num-rows		4
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:obj item_button_group 10)
+	:west-attachment	(:grid-line 13 4)
+)
+:element item_button_group
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			185
+	:y			13
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:children		(
+		item_add_button
+		item_edit_mbutton
+	)
+)
+:element item_add_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			0
+	:y			0
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add Item"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element item_edit_mbutton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			2
+	:y			31
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Edit"
+	:menu			editmenu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj item_add_button 8)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:point 0 0)
+)
+:element group6
+(
+	:type			:container
+	:container-type		:group
+	:active			:true
+	:x			95
+	:y			402
+	:group-type		:ignore
+	:border-frame		:none
+	:north-attachment	(:obj item_attrs_sep2 4)
+	:west-attachment	(:point 0 95)
+	:children		(
+		fg_mbutton
+		fg_swatch
+		fg_field
+		color_label
+		bg_mbutton
+		bg_swatch
+		bg_field
+	)
+)
+:element fg_mbutton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			54
+	:y			31
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Foreground"
+	:menu			fg_mbutton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj bg_mbutton 5)
+	:west-attachment	(:obj color_label 5)
+)
+:element fg_swatch
+(
+	:type			:label
+	:x			176
+	:y			34
+	:bg-color		"white"
+	:label-type		:string
+	:label			"  "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge fg_mbutton 3)
+	:south-attachment	(:obj-edge fg_mbutton 3)
+	:west-attachment	(:obj fg_mbutton 5)
+)
+:element fg_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			194
+	:y			30
+	:num-columns		12
+	:max-length		36
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj bg_mbutton 4)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:obj fg_swatch 5)
+)
+:element color_label
+(
+	:type			:label
+	:x			0
+	:y			4
+	:label-type		:string
+	:label			"Color:"
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:point 0 0)
+)
+:element bg_mbutton
+(
+	:type			:button
+	:button-type		:menu-button
+	:x			53
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Background"
+	:menu			bg_mbutton_menu
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 1)
+	:west-attachment	(:obj color_label 4)
+)
+:element bg_swatch
+(
+	:type			:label
+	:x			177
+	:y			4
+	:bg-color		"black"
+	:label-type		:string
+	:label			"  "
+	:label-alignment	:center
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj-edge bg_mbutton 3)
+	:south-attachment	(:obj-edge bg_mbutton 3)
+	:west-attachment	(:obj bg_mbutton 4)
+)
+:element bg_field
+(
+	:type			:text-field
+	:text-type		:alphanumeric
+	:x			195
+	:y			0
+	:num-columns		12
+	:max-length		36
+	:read-only		:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 0)
+	:east-attachment	(:point 0 0)
+	:west-attachment	(:obj bg_swatch 4)
+)
+:element activate_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:height			36
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		ok_button
+		apply_button
+		reset_button
+		cancel_button
+		help_button
+	)
+)
+:element ok_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"OK"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 19 0)
+	:west-attachment	(:grid-line 2 0)
+)
+:element apply_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Apply"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 39 0)
+	:west-attachment	(:grid-line 21 0)
+)
+:element reset_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Reset"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 59 0)
+	:west-attachment	(:grid-line 41 0)
+)
+:element cancel_button
+(
+	:type			:button
+	:button-type		:push-button
+	:x			36
+	:y			1
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 79 0)
+	:west-attachment	(:grid-line 61 0)
+)
+:element help_button
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 98 0)
+	:west-attachment	(:grid-line 81 0)
+)
+:element menu_editmenu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		menu_editmenu_Cut_item
+		menu_editmenu_Copy_item
+		menu_editmenu_Paste_item
+		menu_editmenu_Delete_item
+	)
+)
+:element menu_editmenu_Cut_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Cut"
+	:active			:true
+)
+:element menu_editmenu_Copy_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Copy"
+	:active			:true
+)
+:element menu_editmenu_Paste_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Paste"
+	:active			:true
+)
+:element menu_editmenu_Delete_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Delete"
+	:active			:true
+)
+:element editmenu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		editmenu_Add_After_item
+		editmenu_Add_Before_item
+		editmenu_Change_item
+		editmenu_Cut_item
+		editmenu_Copy_item
+		editmenu_Paste_item
+		editmenu_Delete_item
+	)
+)
+:element editmenu_Add_After_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Add After"
+	:active			:true
+)
+:element editmenu_Add_Before_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Add Before"
+	:active			:true
+)
+:element editmenu_Change_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Change"
+	:active			:true
+)
+:element editmenu_Cut_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Cut"
+	:active			:true
+)
+:element editmenu_Copy_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Copy"
+	:active			:true
+)
+:element editmenu_Paste_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Paste"
+	:active			:true
+)
+:element editmenu_Delete_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Delete"
+	:active			:true
+)
+:element fg_mbutton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		fg_mbutton_menu_None_item
+		fg_mbutton_menu_Color_Chooser_item
+	)
+)
+:element fg_mbutton_menu_None_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"None"
+	:active			:true
+)
+:element fg_mbutton_menu_Color_Chooser_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Color Chooser..."
+	:active			:true
+)
+:element bg_mbutton_menu
+(
+	:type			:menu
+	:tear-off		:false
+	:children		(
+		bg_mbutton_menu_None_item
+		bg_mbutton_menu_Color_Chooser_item
+	)
+)
+:element bg_mbutton_menu_None_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"None"
+	:active			:true
+)
+:element bg_mbutton_menu_Color_Chooser_item
+(
+	:type			:item
+	:item-type		:item-for-menu
+	:label-type		:string
+	:label			"Color Chooser..."
+	:active			:true
+)
+)

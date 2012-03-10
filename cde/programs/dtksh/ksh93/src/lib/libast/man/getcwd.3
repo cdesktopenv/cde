@@ -1,0 +1,56 @@
+.\" $XConsortium: getcwd.3 /main/2 1996/10/29 15:08:16 drk $
+.de L		\" literal font
+.ft 5
+.it 1 }N
+.if !\\$1 \&\\$1 \\$2 \\$3 \\$4 \\$5 \\$6
+..
+.de LR
+.}S 5 1 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de RL
+.}S 1 5 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de EX		\" start example
+.ta 1i 2i 3i 4i 5i 6i
+.PP
+.RS 
+.PD 0
+.ft 5
+.nf
+..
+.de EE		\" end example
+.fi
+.ft
+.PD
+.RE
+.PP
+..
+.TH GETCWD 3
+.SH NAME
+getcwd \- return absolute path to current directory
+.SH SYNOPSIS
+.EX
+#include <ast.h>
+
+char* getcwd(char* \fIbuf\fP, size_t \fIlen\fP);
+.EE
+.SH DESCRIPTION
+.L getcwd
+copies the absolute path name of the current directory info into
+.I buf
+of length 
+.IR len .
+The return path may be longer than
+.LR PATH_MAX .
+If
+.I "buff == 0"
+then space is allocated via
+.IR malloc (3)
+and 
+.I len
+extra characters are reserved after the generated path name.
+A pointer to the path name is returned, 
+.L 0
+on error.
+.SH "SEE ALSO"
+pathcd(3)

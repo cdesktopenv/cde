@@ -1,0 +1,116 @@
+/*
+ * $XConsortium: ab.tmpl /main/10 1996/10/07 16:57:05 drk $
+ *
+ * 	RESTRICTED CONFIDENTIAL INFORMATION:
+ *	
+ *	The information in this document is subject to special
+ *	restrictions in a confidential disclosure agreement between
+ *	HP, IBM, Sun, USL, Fujitsu,  SCO and Univel.  Do not distribute this
+ *	document outside HP, IBM, Sun, USL, Fujitsu, SCO, or Univel without
+ *	Sun's specific written approval.  This document and all copies
+ *	and derivative works thereof must be returned or destroyed at
+ *	Sun's request.
+ *
+ * (c) Copyright 1996 Digital Equipment Corporation.
+ * (c) Copyright 1996 Hewlett-Packard Company.
+ * (c) Copyright 1996 International Business Machines Corp.
+ * (c) Copyright 1993,1996 Sun Microsystems, Inc.
+ * (c) Copyright 1996 Novell, Inc. 
+ * (c) Copyright 1996 FUJITSU LIMITED.
+ * (c) Copyright 1996 Hitachi.
+ */
+
+/*
+ * Variables private to the App Builder src directory and general imake
+ * variables set for App Builder builds
+ *
+ * ABINCLUDES		path from any one of ab subdirs to include
+ */
+
+/*
+ * App Builder private variables
+ */
+ABINCLUDES = ../include
+
+/*
+ * use only posix-compliant functions
+ * and force ansi compliance
+ */
+
+/*
+ * We're going to add a clean target, so we need this here, so that
+ * clean does not become the default
+ */
+default_target: all
+
+/*
+ * Imake variables
+ */
+#ifdef SunArchitecture
+/*
+ * -xF and -M cause reordering of executable
+ */
+LOCAL_LDFLAGS = -M Mapfile
+EXTRA_DEFINES = -D_POSIX_SOURCE=1 -Xa -xF
+
+clean::
+	touch .make.state
+	$(RM) .make.*
+#endif
+
+#if defined(USLArchitecture)
+EXTRA_DEFINES = -D_POSIX_SOURCE=1
+#elif defined(UXPArchitecture)
+/* Need to define __uxp__ when using -Xc */
+EXTRA_DEFINES = -D_POSIX_SOURCE=1 -Xc -D__uxp__
+#elif defined(AlphaArchitecture)
+EXTRA_DEFINES = -D_XOPEN_SOURCE=1 -D_OSF_SOURCE=1
+/* default storage(40000) is not enough to process ./src/libABil/bil_parse.y */
+YACCFLAGS = -N100000
+#else
+YACC = YaccCmd
+LEX = LexCmd
+#endif
+
+#ifdef HPArchitecture
+/*
+ * use only posix-compliant functions
+ * Set yaccflags here because hp.cf does not have -Nc20000
+ * The YACCFLAGS line will be removed if/when hp.cf is updated
+ */
+EXTRA_DEFINES =  -D_POSIX_SOURCE=1
+YACCFLAGS = -Nm100000 -Nc20000
+
+/*
+ * dtbuilder (e.g. in abmf.c'abmf_init) modifies string constants
+ * declared in lib_func_strings.c, so we must suppress +ESlit.
+ */
+CCOPTIONS = -Ae
+#endif
+
+#ifdef IBMArchitecture
+/*
+ * use only posix-compliant functions
+ * and force ansi compliance
+ */
+EXTRA_DEFINES =  -D_POSIX_SOURCE=1
+YACCFLAGS = -Nm100000
+#endif
+
+
+/*
+ * Create the necesary build-time include directories
+ */
+#ifdef SunArchitecture
+.NO_PARALLEL: $(ABINCLUDES)/ab $(ABINCLUDES)/ab_private
+.NO_PARALLEL: depend install binstall install.man includes shared_includes localincludes $(PROGRAM) $(LIBRARY) $(TARGET)
+#endif
+
+$(ABINCLUDES)/ab_private:
+	$(MKDIRHIER) $(ABINCLUDES)/ab_private
+
+$(ABINCLUDES)/ab:
+	$(MKDIRHIER) $(ABINCLUDES)/ab
+
+includes:: $(ABINCLUDES)/ab $(ABINCLUDES)/ab_private
+

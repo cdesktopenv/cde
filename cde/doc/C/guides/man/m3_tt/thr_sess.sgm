@@ -1,0 +1,114 @@
+<!-- $XConsortium: thr_sess.sgm /main/9 1996/09/08 20:13:36 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+
+
+<![%CDE.C.CDE;[<Refentry Id="CDEMX.XCDI.MAN251c.rsml.1">]]>
+<![%CDE.C.XO;[<Refentry Id="XCDI.MAN251c.rsml.1">]]>
+
+<RefMeta>
+<RefEntryTitle>tt_thread_session</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_thread_session</Function></RefName>
+<RefPurpose>
+retrieve the default session identifier for the currently active thread
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>char *<Function>tt_thread_session</Function></FuncDef>
+<ParamDef></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_thread_session</Function> function
+retrieves the default session
+identifier for the currently active thread. If there is no default
+session set for the currently-active thread, then the process default
+session identifier is returned.
+</para>
+<para>A session can have more than one session identifier.
+This means, for example, that the application cannot compare the
+result of <function>tt_thread_session</function> with the result of
+<function>tt_message_session</function> to verify that the message was
+sent in the default session.
+</Para>
+<para>The returned pointer points to the character string name of
+the session. When no longer needed, it must be
+freed with <function>tt_free</function>.
+</para>
+</RefSect1>
+<RefSect1>
+<Title>ARGUMENTS</Title>
+<Para>None.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<para>Upon successful completion, the
+<Function>tt_thread_session</Function> function returns
+the pointer to a character string that uniquely identifies the default
+session for the currently active thread.
+</para>
+<VariableList>
+<VarListEntry>
+<Term><systemitem class="constant">TT_OK</systemitem></Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarlistEntry>
+<VarListEntry>
+<Term><systemitem class="constant">TT_ERR_NOMP</systemitem></Term>
+<ListItem>
+<Para>The <command>ttsession</command> process is not running
+and the ToolTalk service cannot start it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><systemitem class="constant">TT_ERR_PROCID</systemitem></Term>
+<ListItem>
+<Para>The current default process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><systemitem class="constant">TT_ERR_UNIMP</systemitem></Term>
+<ListItem>
+<Para>The ToolTalk implementation does not support multithreading.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><systemitem class="constant">TT_ERR_TOOLATE</systemitem></Term>
+<ListItem>
+<Para>The multithreading feature has not been enabled.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;,
+&cdeman.tt.free;,
+&cdeman.tt.ptr.error;
+</Para>
+</RefSect1>
+</refentry>

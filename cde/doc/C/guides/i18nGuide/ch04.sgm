@@ -1,0 +1,633 @@
+<!-- $XConsortium: ch04.sgm /main/8 1996/09/08 19:39:21 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="IPG.motif.div.1">
+<title id="IPG.motif.mkr.1">Xt, Xlib, and Motif Dependencies</title>
+<para>For information on Xt and Xlib dependencies, refer to Chapter 13 of <citetitle>Xlib &mdash; C Language Interface</citetitle>.</para>
+<para>The rest of this chapter discusses tasks related to internationalizing
+with Motif.</para>
+<sect1 id="IPG.motif.div.2">
+<title id="IPG.motif.mkr.2">Locale Management<indexterm><primary>language
+environment</primary><secondary>description</secondary></indexterm><indexterm>
+<primary>environment, language</primary></indexterm></title>
+<para>The term <emphasis>language environment</emphasis> refers to the set
+of localized data that the application needs to run correctly in the user-specified
+locale. A language environment supplies the rules associated with a specific
+language. In addition, the language environment consists of any externally
+stored data, such as localized strings or text used by the application. For
+example, the menu items displayed by an application might be stored in separate
+files for each language supported by the application. This type of data can
+be stored in resource files, User Interface Definition (UID) files, or message
+catalogs (on XPG3-compliant systems).</para>
+<para>A single language environment is established when an application runs.
+The language environment in which an application operates is specified by
+the application user, often either by setting an environment variable ( <systemitem>LANG</systemitem> or <systemitem>LC_*</systemitem> on POSIX-based systems)
+or by setting the xnlLanguage resource. The application then sets the language
+environment based on the user's specification. The application can do this
+by using the <computeroutput>setlocale()</computeroutput> function in a language
+procedure established by the <computeroutput>XtSetLanguageProc()</computeroutput>
+function. This causes Xt to cache a per-display language string that is used
+by the <computeroutput>XtResolvePathname()</computeroutput> function to find
+resource, bitmap, and User Interface Language (UIL) files.</para>
+<para>An application that supplies a language procedure can either provide
+its own procedure or use an Xt<indexterm><primary>language procedure</primary>
+</indexterm> default procedure. In either case, the application establishes
+the language procedure by calling the <computeroutput>XtSetLanguageProc()</computeroutput> function before initializing the toolkit and before loading
+the resource databases (such as by calling the <computeroutput>XtAppInitialize()</computeroutput> function). When a language procedure is installed, Xt calls
+it in the process of constructing the initial resource database. Xt uses
+the value returned by the language procedure as its per-display language
+string.</para>
+<para>The default language procedure performs the following tasks:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Sets the locale. This is done
+by using:</para>
+<programlisting>setlocale(LC_ALL, <symbol role="Variable">language</symbol>);</programlisting>
+<para>where <symbol role="Variable">language</symbol> is the value of the <systemitem>xnlLanguage</systemitem> resource, or the empty string (&ldquo;&rdquo;) if
+the <systemitem>xnlLanguage</systemitem> resource is not set. When the <systemitem>xnlLanguage</systemitem> resource is not set, the locale is generally derived
+from an environment variable (<systemitem>LANG</systemitem> on POSIX-based
+systems).</para>
+</listitem><listitem><para>Calls the <computeroutput>XSupportsLocale()</computeroutput>
+function to verify that the locale just set is supported. If not, a warning
+message is issued and the locale is set to C.</para>
+</listitem><listitem><para>Calls the <computeroutput>XSetLocaleModifiers()</computeroutput> function specifying the empty string.</para>
+</listitem><listitem><para>Returns the value of the current locale. On ANSI
+C-based systems, this is the result of calling:</para>
+<programlisting>setlocale(LC_ALL, NULL);</programlisting>
+</listitem></itemizedlist>
+<para>The application can use the default language procedure by making the
+call to the <computeroutput>XtSetLanguageProc()</computeroutput> function
+in the following manner:</para>
+<programlisting>XtSetLanguageProc(NULL, NULL, NULL);
+...
+toplevel = XtAppInitialize(...);</programlisting>
+<para>By default, Xt does not install any language procedure. If the application
+does not call the <computeroutput>XtSetLanguageProc()</computeroutput> function,
+Xt uses as its per-display language string the value of the <systemitem>xnlLanguage</systemitem> resource if it is set. If the <systemitem>xnlLanguage</systemitem> resource is not set, Xt derives the language string from the <systemitem>LANG</systemitem> environment variable. <literal><indexterm><primary>XtSetLanguageProc</primary><secondary>default language</secondary></indexterm></literal></para>
+<note>
+<para>The per-display language string that results from this process is implementation-dependent,
+and Xt provides no public means of examining the language string once it
+is established.</para>
+</note>
+<para>By supplying its own language procedure, an application can use any
+procedure it wants for setting the language string.</para>
+</sect1>
+<sect1 id="IPG.motif.div.3">
+<title id="IPG.motif.mkr.3">Font Management</title>
+<para>The desktop uses render tables to display text. A render table is a tagged
+collection of renditions, each of which specifies the data used in rendering
+compound strings. For information on renditions, and render tables, refer
+to &MotifProgGd;.</para>
+</sect1>
+<sect1 id="IPG.motif.div.11">
+<title id="IPG.motif.mkr.5">Drawing Localized Text<indexterm><primary>compound
+strings</primary><secondary>for international text display</secondary></indexterm><indexterm>
+<primary>compound strings</primary><secondary>structures, interaction with
+render tables</secondary></indexterm></title>
+<para>A compound string (type <classname>XmString</classname>)is a means of
+encoding text so that it can be displayed in many different fonts without
+changing anything in the program. A rendition, which is identified by a rendition
+tag, specifies the font (and other characteristics, such as color) with which
+the compound string with that rendition tag is to be rendered.</para>
+<para>Especially useful for internationalization purposes are render tables,
+which are collections of renditions. Among the renditions in the table may
+be one tagged <systemitem class="constant">_MOTIF_DEFAULT_LOCALE</systemitem>,
+which is the rendition used for the current locale. For internationalized
+applications, render tables should be specified in resource files.</para>
+<para>The foregoing discussion provides only a brief overview of some subjects
+related to drawing localized text; for complete information, refer to &MotifProgGd;.
+</para>
+</sect1>
+<sect1 id="IPG.motif.div.18">
+<title id="IPG.motif.mkr.11">Inputting Localized Text<indexterm><primary>VendorShell widget class</primary><secondary>as input manager</secondary></indexterm><indexterm>
+<primary>input method</primary><secondary>VendorShell widget class</secondary>
+</indexterm><indexterm><primary>VendorShell widget class</primary><secondary>geometry management</secondary></indexterm></title>
+<para>In the system environment, the <computeroutput>VendorShell</computeroutput>
+widget class is enhanced to provide the interface to the input method. While
+the VendorShell class controls only one child widget in its geometry management,
+an extension has been added to the VendorShell class to enhance it for managing
+all components necessary in the interface to an input method. These components
+include the status area, preedit area, and the MainWindow area.<indexterm>
+<primary>VendorShell widget class</primary><secondary>managing components</secondary><tertiary>status area</tertiary></indexterm><indexterm><primary>VendorShell widget class</primary><secondary>managing components</secondary>
+<tertiary>preedit area</tertiary></indexterm><indexterm><primary>VendorShell
+widget class</primary><secondary>managing components</secondary><tertiary>MainWindow area</tertiary></indexterm></para>
+<para>When the input method requires a status area or a preedit area or both,
+the <computeroutput>VendorShell</computeroutput> widget automatically instantiates
+the status and preedit areas and manages their geometry layout. Any status
+area or preedit area is managed by the <computeroutput>VendorShell</computeroutput> widget internally and is not accessible by the client. The widget
+instantiated as the child of the <computeroutput>VendorShell</computeroutput>
+widget is called the MainWindow area.<indexterm><primary>input method</primary>
+<secondary>requirements</secondary></indexterm><indexterm><primary>international
+text input</primary><secondary>input methods</secondary></indexterm><indexterm>
+<primary>input method</primary><secondary>international text input</secondary>
+</indexterm></para>
+<para>The input method to be used by the <computeroutput>VendorShell</computeroutput>
+widget is determined by the <systemitem>XmNinputMethod</systemitem> resource;
+for example, <computeroutput>@im=alt</computeroutput>. The default value of
+Null indicates to choose the default input method associated with the locale
+at the time that VendorShell is created. As such, the user can affect which
+input method is selected by either setting the locale, setting the <systemitem>XmNinputMethod</systemitem> resource, or setting both. The locale name is
+concatenated with the <systemitem>XmNinputMethod</systemitem> resource to
+determine the input method name. The locale name must not be specified in
+this resource. The modifier name for the<systemitem>XmNinputMethod</systemitem>
+resource needs to be in the form <computeroutput>@im=</computeroutput><symbol role="Variable">modifier</symbol>, where modifier is the string used to qualify
+which input method is selected.<indexterm><primary>input method</primary>
+<secondary>determining, XmNinputMethod resource</secondary></indexterm><indexterm>
+<primary>XmNinputMethod resource, determining input method</primary></indexterm></para>
+<para>The <computeroutput>VendorShell</computeroutput> widget can support
+multiple widgets that can share the input method. Yet only one widget can
+have the keyboard focus (for example, receive key press events and send them
+to an input method) at any given time. To support multiple widgets (such
+as <computeroutput>Text</computeroutput> widgets), the widgets need to be
+descendants of the <computeroutput>VendorShell</computeroutput> widget.</para>
+<note>
+<para>The <computeroutput>VendorShell</computeroutput> widget class is a superclass
+of the <computeroutput>TransientShell</computeroutput> and <computeroutput>TopLevelShell</computeroutput> widget classes. As such, an instantiation
+of a <computeroutput>TopLevelShell</computeroutput> or a <computeroutput>DialogShell</computeroutput> is essentially an instantiation of a <computeroutput>VendorShell</computeroutput> widget class.</para>
+</note>
+<para>The <computeroutput>VendorShell</computeroutput> widget behaves as an
+input manager only if one of its descendants is an <computeroutput>XmText[Field]</computeroutput> instance. As soon as an <computeroutput>XmText[Field]</computeroutput>
+instance is created as a descendant of the <computeroutput>VendorShell</computeroutput>
+widget, <computeroutput>VendorShell</computeroutput> creates the necessary
+areas required by the particular input methods dictated by the current locale.
+Even if an <computeroutput>XmText[Field]</computeroutput> instance is not
+mapped but just created, VendorShell has the geometry management behavior
+as described previously.</para>
+<para>A <computeroutput>VendorShell</computeroutput> widget does the following:<indexterm>
+<primary>international text input</primary><secondary>VendorShell widget operations</secondary></indexterm></para>
+<itemizedlist remap="Bullet1"><listitem><para>Enables applications to process
+multibyte character input and output that is supported by the locales installed
+in the system.<indexterm><primary>VendorShell widget operations</primary>
+<secondary>processing multibyte character I/O</secondary></indexterm></para>
+</listitem><listitem><para>Manages an input method instance as defined in
+the <computeroutput>XmIm</computeroutput> reference functions.</para>
+</listitem><listitem><para>Supports preediting within a preedit area in either
+OnTheSpot, OffTheSpot, OverTheSpot, Root, or None mode. Localized text can be entered
+into any <computeroutput>Text</computeroutput> child widget in a multiple <computeroutput>Text</computeroutput> children widget tree by changing the focus.</para>
+</listitem><listitem><para>Provides geometry management for descendant child
+widgets.</para>
+</listitem></itemizedlist>
+<note>
+<para>Input method interactions may also be customized by users through a
+dialog box that is invoked from the Style Manager application. Refer to the <emphasis>CDE User's Guide</emphasis> for more information.</para>
+</note>
+<sect2 id="IPG.motif.div.19">
+<title>Geometry Management<indexterm><primary>international text input</primary>
+<secondary>geometry management</secondary></indexterm><indexterm><primary>geometry management</primary><secondary>international text input</secondary>
+</indexterm></title>
+<para>The <computeroutput>VendorShell</computeroutput> widget provides geometry
+management and focus management for the input method's user interface components,
+as necessary. If the locale warrants it (for example, if the locale is a
+Japanese Extended UNIX Code (EUC) locale), the <computeroutput>VendorShell</computeroutput> widget automatically allocates and manages the geometry
+of any required preedit area or status area or both.</para>
+<para>Depending on the current preediting being done, an auxiliary area may
+be required. If so, the <computeroutput>VendorShell</computeroutput> widget
+also instantiates and manages the auxiliary area. Typically, the child of
+the <computeroutput>VendorShell</computeroutput> widget is a container widget
+(such as the <computeroutput>XmBulletinBoard</computeroutput> or <computeroutput>XmRowColumn</computeroutput> widgets) that can manage
+multiple <computeroutput>Text</computeroutput> and <computeroutput>TextField</computeroutput> widgets, which allow multibyte character
+input from the user. In this scenario, all <computeroutput>Text</computeroutput> widgets share the same input method.</para>
+<note>
+<para><indexterm><primary>geometry management</primary><secondary>XmBulletinBoard
+widget</secondary></indexterm><indexterm><primary>geometry management</primary>
+<secondary>XmRowColumn widget</secondary></indexterm><indexterm><primary>geometry management</primary><secondary>Text widget</secondary></indexterm><indexterm>
+<primary>geometry management</primary><secondary>TextField widget</secondary>
+</indexterm><indexterm><primary>international text input</primary><secondary>multibyte characters</secondary></indexterm><indexterm><primary>input method</primary><secondary>Text widget</secondary></indexterm><indexterm><primary>Text widgets, input method</primary></indexterm>The status, preedit, and auxiliary
+areas are not accessible to the application programmer. For example, it is
+not intended for the application programmer to access the window ID of the
+status area. The user does not need to worry about the instantiation or management
+of these components as they are managed as required by the <computeroutput>VendorShell</computeroutput> widget class.</para>
+</note>
+<para>The application programmer has some control over the behavior of the
+input method user interface components through <systemitem>XmNpreeditType</systemitem> resources of the <computeroutput>VendorShell</computeroutput>
+widget class.<indexterm><primary>geometry management</primary><secondary>application programmer controls</secondary></indexterm><indexterm><primary>application programmer, controlling input method components</primary></indexterm>
+(The <literal>OffTheSpot</literal>, <literal>OnTheSpot</literal>, and <literal>OverTheSpot</literal> modes are described elsewhere in this manual).</para>
+<para>Geometry management extends to all input method user interface components.
+When the application program window (a <computeroutput>TopLevelShell</computeroutput>
+widget) is resized, the input method user interface components are resized
+accordingly, and the preedited strings in them are rearranged as required.
+Of course, this assumes that the shell window has a resize policy of True.
+</para>
+<para>When the <computeroutput>VendorShell</computeroutput> widget is created,
+if a specific input method requires a status area, preedit area, or both,
+the size of the VendorShell considers the areas required by these components.
+The extra areas required by the preedit and status areas are part of the <computeroutput>VendorShell</computeroutput> widget's area. They are also
+managed by the <computeroutput>VendorShell</computeroutput> widget, if resizing
+is necessary.</para>
+<para>Because of the potential instantiation of these areas (status and preedit),
+depending on the input method currently being used, the size of the <computeroutput>VendorShell</computeroutput> widget area does not necessarily grow or shrink
+to accommodate exactly the size of its child. The size of the <computeroutput>VendorShell</computeroutput> widget area grows or shrinks to accommodate
+both its child's geometry <emphasis>and</emphasis> the geometry of these
+input method user interface areas. There may be a difference (for example,
+of 20 pixels) in height between the <computeroutput>VendorShell</computeroutput>
+widget and its child widget (the MainWindow area). The width geometry is <symbol role="Variable">not</symbol> affected by the input method user interface
+components.<indexterm><primary>VendorShell widget class</primary><secondary>size</secondary></indexterm><indexterm><primary>VendorShell widget class</primary><secondary>child widget size</secondary></indexterm></para>
+<para>In summary, the requested size of the child is honored if possible;
+the actual size of the <computeroutput>VendorShell</computeroutput> may be
+larger than its child.</para>
+<para>The requests to specify the geometry of the <computeroutput>VendorShell</computeroutput> widget and its child are honored as long as they do not
+conflict with each other or are within the constraint of the <computeroutput>VendorShell</computeroutput> widget's ability to resize. When they do conflict,
+the child's widget geometry request has higher precedence. For example, if
+the size of the child widget is specified as 100x100, the size of VendorShell
+is also specified as 100x100. The resulting VendorShell has a size of 100x120,
+while its child widget gets a size of 100x100. If the size of the child widget
+is not specified, the VendorShell shrinks its child widget if necessary to
+honor its own size specification. For example, if the size of VendorShell
+is specified as 100x100 and no size is specified for its child, the child
+widget has a size of 100x80. If the <computeroutput>VendorShell</computeroutput> widget is disabled from resizing, regardless of what the geometry
+request of its child is, the <computeroutput>VendorShell</computeroutput>
+widget honors only its own geometry specification.</para>
+</sect2>
+<sect2 id="IPG.motif.div.20">
+<title>Focus Management<indexterm><primary>international text input</primary>
+<secondary>focus management</secondary></indexterm><indexterm><primary>VendorShell
+widget class</primary><secondary>focus management</secondary></indexterm><indexterm>
+<primary>focus management</primary><secondary>international text input</secondary>
+</indexterm></title>
+<para>Languages with large numbers of characters (such as Japanese and Chinese)
+require an input method that allows the user to compose characters in that
+language interactively.<indexterm><primary>input method</primary><secondary>multibyte characters</secondary></indexterm> This is because, for these languages,
+there are many more characters than can be reasonably mapped to a terminal
+keyboard.</para>
+<para>The interactive process of composing characters in such languages is
+called <emphasis>preediting</emphasis>. The preediting itself is handled
+by the input method. However, the user interface of the preediting is determined
+by the system environment. An interface needs to exist between the input
+method and the system environment. This is done through the <computeroutput>VendorShell</computeroutput> widget of the system environment.<indexterm>
+<primary>preediting</primary></indexterm><indexterm><primary>VendorShell
+widget class</primary><secondary>as interface</secondary>
+</indexterm><indexterm><primary>interfaces</primary><secondary>between input method and Common Desktop Environment</secondary>
+</indexterm><indexterm><primary>input method</primary><secondary>Common Desktop
+Environment interface</secondary></indexterm><indexterm><primary>Common Desktop
+Environment</primary><secondary>input method interface</secondary></indexterm><indexterm>
+<primary>preediting</primary></indexterm></para>
+<para><!--Original XRef content: 'Figure&numsp;4&hyphen;3'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.motif.mkr.12"> illustrates a case with Japanese preediting. The
+string shown in reverse video is the string in preediting. This string can
+be moved across different windows by giving focus to the particular window.
+However, only one preediting session can occur at one time.</para>
+<figure>
+<title id="IPG.motif.mkr.12">Japanese preediting example</title>
+<graphic id="IPG.motif.grph.3" entityref="IPG.motif.fig.3"></graphic>
+</figure>
+<para>For an example of focus management, suppose a <computeroutput>TopLevelShell</computeroutput> widget (a subclass of the <computeroutput>VendorShell</computeroutput>
+widget) has an <computeroutput>XmBulletinBoard</computeroutput> widget child
+(MainWindow area), which has five <computeroutput>XmText</computeroutput>
+widgets as children. Assume the locale requires the preedit area, and assume
+the OverTheSpot mode is specified. Because the <computeroutput>VendorShell</computeroutput> widget manages only one instance of an input method, you
+can run only one preedit area at a time inside the <computeroutput>TopLevelShell</computeroutput> widget. If the focus is moved from one <computeroutput>Text</computeroutput> widget to another, the current preedit string under
+construction is also moved on top of the <computeroutput>Text</computeroutput>
+widget that currently has focus. Processing of keys to the old <computeroutput>Text</computeroutput> widget is suspended temporarily. Subsequent interface
+of the input method, such as the delivery of the string at preedit completion,
+is made to the new, focused <computeroutput>Text</computeroutput> widget.<indexterm>
+<primary>focus management</primary><secondary>example description</secondary>
+</indexterm></para>
+<para>The string being preedited can be moved to the location of the focus;
+for example, by clicking the mouse.</para>
+<para>A string that the end user is finished preediting and that is already
+confirmed <emphasis>cannot</emphasis> be reconverted. Once the string is
+composed, it is committed. Refer to Chapter 11 of &MotifProgGd; for information
+on actions that cause a preedit string to be committed.</para>
+</sect2>
+</sect1>
+<sect1 id="IPG.motif.div.21">
+<title id="IPG.motif.mkr.13">Internationalized User Interface Language<indexterm>
+<primary>National Language Support</primary><secondary>User Interface Language
+(UIL)</secondary></indexterm><indexterm><primary>User Interface Language
+(UIL), see UIL &lt;$nopage></primary>
+</indexterm></title>
+<para>The capability to parse a multibyte character string as a string literal
+has been added to the User Interface Language (UIL).<indexterm><primary>programming for international use</primary><secondary>UIL</secondary><tertiary>parsing multibyte character string</tertiary></indexterm> Creation of a UIL
+file is performed by using the characteristics of the target language and
+writing the User Interface Definition (UID) file.</para>
+<sect2 id="IPG.motif.div.22">
+<title>Programming for Internationalized User Interface Language<indexterm>
+<primary>locales</primary><secondary>UIL compiler</secondary></indexterm></title>
+<para>The UIL compiler parses nonstandard charsets as locale text. This requires
+the UIL compiler to be run in the same locale as any locale text.<indexterm>
+<primary>programming for international use</primary><secondary>UIL</secondary>
+<tertiary>parsing nonstandard charsets</tertiary></indexterm><indexterm>
+<primary>programming for international use</primary><secondary>UIL</secondary>
+<tertiary>locale text</tertiary></indexterm></para>
+<para>If the locale text of a widget requires a font set (more than one font),
+the fonts must be specified within the resource file as a render table.</para>
+<para>To use a specific language with UIL, a UIL file is written according
+to characteristics of the target language and compiled into a UID file. The
+UIL file that contains localized text needs to be compiled in the locale
+in which it is to run.</para>
+<sect3 id="IPG.motif.div.23">
+<title>String Literals<indexterm><primary>programming for international use</primary><secondary>UIL</secondary><tertiary>string literals</tertiary></indexterm><indexterm>
+<primary>string literals</primary><secondary>programming for international
+UIL</secondary></indexterm></title>
+<para>The following shows examples of literal strings. The cur_charset value
+is always set to the default_charset value, which allows the string literal
+to contain locale text.</para>
+<para>To set locale text in the string literal with the default_charset value,
+enter the following:</para>
+<programlisting>XmNlabelString = '<symbol>XXXXXX</symbol>';</programlisting>
+<para>OR</para>
+<programlisting>XmNlabelString = #default_charset&ldquo;<symbol>XXXXXX</symbol>&rdquo;;
+</programlisting>
+<para>Compile the UIL file with the <systemitem>LANG</systemitem> environment
+variable matching the encoding of the locale text. Otherwise, the string
+literal is not compiled properly.</para>
+</sect3>
+<sect3 id="IPG.motif.div.24">
+<title>Font<indexterm><primary>font sets</primary><secondary>programming
+for international UIL</secondary></indexterm> Sets<indexterm><primary>programming
+for international use</primary><secondary>UIL</secondary></indexterm><indexterm>
+<primary>programming for international UIL</primary></indexterm><indexterm>
+<primary>font sets</primary><secondary>programming for international UIL</secondary>
+</indexterm></title>
+<para>The font set cannot be set through UIL source programming. Whenever
+the font set is required, you must set it in the resource file as render
+table resource. Refer to &MotifProgGd; for more information.</para>
+</sect3>
+<sect3 id="IPG.motif.div.25">
+<title>Font Lists<indexterm><primary>font lists in UIL, specifying resources
+for</primary></indexterm></title>
+<para>Like font sets, font lists are specified in resource files as render
+tables. Refer to &MotifProgGd; for detailed information.</para>
+</sect3>
+<sect3 id="IPG.motif.div.25a">
+<title>Render Tables<indexterm><primary>render tables in UIL, specifying resources
+for</primary></indexterm></title>
+<para>Render tables, as well as renditions, tab lists,
+and tab stops, are implemented as a special class of objects.
+Refer to &MotifProgGd; for detailed information.</para>
+</sect3>
+<sect3 id="IPG.motif.div.26">
+<title>Creating<indexterm><primary>resource files</primary><secondary>creating
+for international UIL</secondary></indexterm> Resource Files<indexterm><primary>programming for international use</primary><secondary>UIL</secondary></indexterm><indexterm>
+<primary>programming for international UIL</primary></indexterm><indexterm>
+<primary>resource files, creating</primary></indexterm><indexterm><primary>resource files</primary><secondary>creating for international UIL</secondary>
+</indexterm></title>
+<para>If necessary, set the input method-related resources in the resource
+file as shown in the following example:</para>
+<programlisting>*preeditType: OverTheSpot, OnTheSpot, OffTheSpot, Root, or None
+</programlisting>
+</sect3>
+<sect3 id="IPG.motif.div.27">
+<title>Setting the<indexterm><primary>setting the environment</primary><secondary>for international UIL</secondary></indexterm> Environment<indexterm><primary>programming for international use</primary><secondary>UIL</secondary></indexterm><indexterm>
+<primary>programming for international UIL</primary></indexterm><indexterm>
+<primary>setting the environment</primary><secondary>for international UIL</secondary></indexterm></title>
+<para>For a locale-sensitive application, set the UID file to the appropriate
+directory. Set the <systemitem>UIDPATH</systemitem> or <systemitem>XAPPLRESDIR</systemitem> environment variable to the appropriate value.</para>
+<para>For example, to run the <computeroutput>uil_sample</computeroutput>
+program with an English environment (<systemitem>LANG</systemitem> environment
+variable is <computeroutput>en_US</computeroutput>), set <filename>uil_sample.uid</filename> with Latin characters at the <filename>$HOME/en_US</filename>
+directory, or set <filename>uil_sample.uid</filename> to a directory and
+set the <systemitem>UIDPATH</systemitem> environment variable to the full
+path name of the <filename>uil_sample.uid</filename> file.</para>
+<para>To run the <computeroutput>uil_sample</computeroutput> program with
+a Japanese environment (<systemitem>LANG</systemitem> environment variable
+is <systemitem>ja_JP</systemitem>), create a <filename>uil_sample.uid</filename>
+file with Japanese (multibyte) characters at the <filename>$HOME/ja_JP</filename>
+directory, or place <filename>uil_sample.uid</filename> to a unique directory
+and set the <systemitem>UIDPATH</systemitem> environment variable to the
+full path name of the <filename>uil_sample.uid</filename> file. The following
+list specifies the possible variables:</para>
+<informaltable>
+<tgroup cols="2" colsep="0" rowsep="0">
+<colspec align="left" colwidth="100*">
+<colspec align="left" colwidth="356*">
+<tbody>
+<row>
+<entry><para><emphasis>%U</emphasis></para></entry>
+<entry><para>Specifies the UID file string.</para></entry></row>
+<row>
+<entry><para><emphasis>%N</emphasis></para></entry>
+<entry><para>Specifies the class name of the application.</para></entry></row>
+<row>
+<entry><para><emphasis>%L</emphasis></para></entry>
+<entry><para>Specifies the value of the <computeroutput>xnlLanguage</computeroutput>
+resource or <filename>LC_CTYPE</filename> category.</para></entry></row>
+<row>
+<entry><para><emphasis>%l</emphasis></para></entry>
+<entry><para>Specifies the language component of the <computeroutput>xnlLanguage</computeroutput> resource or the <computeroutput>LC_CTYPE</computeroutput>
+category.</para></entry></row></tbody></tgroup></informaltable>
+<para>If the <systemitem>XAPPLRESDIR</systemitem> environment variable is
+set, the <computeroutput>MrmOpenHierarchy()</computeroutput> function searches
+the UID file in the following order:<indexterm><primary>setting the environment</primary><secondary>searching the UID file</secondary></indexterm><indexterm>
+<primary>UID file search</primary></indexterm><indexterm><primary>MrmOpenHierarchy
+function, searching UID file</primary></indexterm><indexterm><primary>UID
+file search</primary></indexterm></para>
+<orderedlist><listitem><para>UID file path name</para>
+</listitem><listitem><para><computeroutput>$UIDPATH</computeroutput></para>
+</listitem><listitem><para>%U</para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/</computeroutput> <emphasis>%L</emphasis><computeroutput>/uid/</computeroutput><emphasis>%N</emphasis> <computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/</computeroutput> <emphasis>%l</emphasis><computeroutput>/uid/</computeroutput><emphasis>%N</emphasis> <computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/uid/</computeroutput> <emphasis>%N</emphasis><computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/</computeroutput> <emphasis>%L</emphasis><computeroutput>/uid/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/</computeroutput> <emphasis>%l</emphasis><computeroutput>/uid/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$XAPPLRESDIR/uid/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$HOME/uid/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>$HOME/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/</computeroutput> <emphasis>%L</emphasis><computeroutput>/uid/</computeroutput><emphasis>%N</emphasis> <computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/</computeroutput> <emphasis>%l</emphasis><computeroutput>/uid/</computeroutput><emphasis>%N</emphasis> <computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/uid/</computeroutput> <emphasis>%N</emphasis><computeroutput>/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/</computeroutput> <emphasis>%L</emphasis><computeroutput>/uid/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/</computeroutput> <emphasis>%l</emphasis><computeroutput>/uid/</computeroutput><emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/lib/X11/uid/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem><listitem><para><computeroutput>/usr/include/X11/uid/</computeroutput> <emphasis>%U</emphasis></para>
+</listitem></orderedlist>
+<para>If the <systemitem>XAPPLRESDIR</systemitem> environment variable is
+not set, the <computeroutput>MrmOpenHierarchy()</computeroutput> function
+uses <computeroutput>$HOME</computeroutput> instead of the<systemitem>XAPPLRESDIR</systemitem> environment variable.</para>
+</sect3>
+</sect2>
+<sect2 id="IPG.motif.div.28">
+<title>default_charset Character Set in UIL<indexterm><primary>User Interface
+Language (UIL), see UIL &lt;$nopage></primary></indexterm><indexterm><primary>default_charset string literal</primary></indexterm><indexterm><primary>string literals</primary><secondary>default_charset in UIL</secondary></indexterm><indexterm><primary>default_charset
+string literal</primary></indexterm></title>
+<para>With the default_charset string literal, any characters can be set as
+a valid string literal. For example, if the <systemitem>LANG</systemitem>
+environment variable is <computeroutput>el_GR</computeroutput>, the string
+literal with default_charset can contain any Greek character. If the <systemitem>LANG</systemitem> environment variable is <computeroutput>ja_JP</computeroutput>,
+the default_charset string literal can contain any Japanese character encoded
+in Japanese EUC.</para>
+<para>If no character set is set to a string literal, the character set of
+the string literal is set as cur_charset. And, in the system environment,
+the cur_charset value is always set as default_charset.</para>
+<sect3 id="IPG.motif.div.29">
+<title>Example<indexterm><primary>UIL (User Interface Language)</primary>
+<secondary>sample Japanese and English program</secondary></indexterm>: uil_sample</title>
+<para><!--Original XRef content: 'Figure&numsp;4&hyphen;4'--><xref role="CodeOrFigureOrTable"
+linkend="IPG.motif.mkr.14"> shows a UIL sample program on English and Japanese
+environments.</para>
+<figure>
+<title id="IPG.motif.mkr.14">Sample UIL program on English and Japanese environments</title>
+<graphic id="IPG.motif.grph.4" entityref="IPG.motif.fig.4"></graphic>
+</figure>
+<para>In the following sample program, <emphasis>LLL</emphasis> indicates
+locale text, which can be Japanese, Korean, Traditional Chinese, Greek, French,
+or others.</para>
+<programlisting>uil_sample.uil
+!
+!  sample uil file - uil_sample.uil
+!
+!   C source file - uil_sample.c
+!
+!    Resource file - uil-sample.resource
+!
+module Test
+  version = 'v1.0'
+  names = case_sensitive
+  objects = {
+   XmPushButton = gadget;
+  }
+!************************************
+!  declare callback procedure
+!************************************
+procedure
+  exit_CB;
+!***************************************************************
+!  declare BulletinBoard as parent of PushButton and Text
+!***************************************************************
+object
+  bb: XmBulletinBoard {
+     arguments{
+      XmNwidth = 500;
+      XmNheight = 200;
+     };
+     controls{
+      XmPushButton    pb1;
+      XmText   text1;
+     };
+  };
+!****************************
+!  declare PushButton
+!****************************
+object
+  pb1: XmPushButton {
+     arguments{
+       XmNlabelString = #Normal &ldquo;<emphasis>LLL</emphasis>exit button <emphasis>LLL</emphasis>&rdquo;;
+       XmNx = 50;
+       XmNy = 50;
+     };
+     callbacks{
+       XmNactivateCallback = procedure exit_CB;
+     };
+  };
+!*********************
+!  declare Text
+!*********************
+  text1: XmText {
+     arguments{
+     XmNx = 50;
+     XmNy = 150;
+   };
+  };
+end module;
+*
+*   C source file - uil_sample.c
+*
+*/
+#include &lt;Mrm/MrmAppl.h>
+#include &lt;locale.h>
+void exit_CB();
+static   MrmHierarchy    hierarchy;
+static   MrmType   *class;
+
+/******************************************/
+/*  specify the UID hierarchy list         */
+/*****************************************/
+static   char   *aray_file[]=
+     {&ldquo;uil_sample.uid&rdquo;
+     };
+static   int  num_file = (sizeof aray_file / sizeof
+aray_file[0]);
+/******************************************************/
+/*  define the mapping between UIL procedure names            */
+/*  and their addresses            */
+
+/******************************************************/
+static   MRMRegisterArg    reglist[]={
+     {&ldquo;exit_CB&rdquo;,(caddr_t) exit_CB}</programlisting>
+</sect3>
+</sect2>
+<sect2 id="IPG.motif.div.30">
+<title>Compound Strings in UIL<indexterm><primary>compound strings</primary>
+<secondary>in UIL</secondary></indexterm></title>
+<para>Three mechanisms exist for specifying strings in UIL files:</para>
+<itemizedlist remap="Bullet1"><listitem><para>As string literals, which may
+be stored in UID files as either null-terminated strings or compound strings
+</para>
+</listitem><listitem><para>As compound strings</para>
+</listitem><listitem><para>As wide character strings</para>
+</listitem></itemizedlist>
+<para>Both string literals and compound strings consist of text, a character
+set, and a writing direction. For string literals and for compound strings
+with no explicit direction, UIL infers the writing direction from the character
+set. The UIL concatenation operator (&amp;) concatenates both string literals
+and compound strings.</para>
+<para>Regardless of whether UIL stores string literals in UID files as null-terminated
+strings or as compound<indexterm><primary>string literals</primary><secondary>in UID files</secondary></indexterm> strings, it stores information about
+each string's character set and writing direction along with the text. In
+general, UIL stores string literals or string expressions as compound strings
+in UID files under the following conditions:</para>
+<itemizedlist remap="Bullet1"><listitem><para>When a string expression consists
+of two or more literals with different character sets or writing directions
+</para>
+</listitem><listitem><para>When the literal or expression is used as a value
+that has a compound string data type (such as the value of a resource whose
+data type is compound string)</para>
+</listitem></itemizedlist>
+<para>UIL recognizes a number of keywords specifying character sets. UIL associates
+parsing<indexterm><primary>character set keywords</primary></indexterm><indexterm>
+<primary>character sets, defining with UIL CHARACTER_SET function</primary>
+</indexterm><indexterm><primary>string literals</primary><secondary>syntax</secondary></indexterm> rules, including parsing direction and whether characters
+have 8 or 16 bits, for each character set it recognizes. It is also possible
+to define a character set using the UIL <command>CHARACTER_SET</command> function.
+</para>
+<para>The syntax of a string literal is one of the following:</para>
+<itemizedlist remap="Bullet1"><listitem><para>'[<symbol role="Variable">character_string</symbol>]'</para>
+</listitem><listitem><para>[#<symbol role="Variable">char_set</symbol>]</para>
+</listitem><listitem><para>&ldquo;[<symbol role="Variable">character_string</symbol>]&rdquo;</para>
+</listitem></itemizedlist>
+<para>For each syntax, the character set of the string is determined as follows:
+</para>
+<itemizedlist remap="Bullet1"><listitem><para>For a string declared as ' <symbol>character_string</symbol>', the character set is the code set component of
+the <systemitem>LANG</systemitem> environment variable, if it is set in the
+UIL compilation environment; or it is the value of <computeroutput>XmFALLBACK_CHARSET</computeroutput> if the <systemitem>LANG</systemitem> environment variable
+is not set or has no code set. By default, the value of <computeroutput>XmFALLBACK_CHARSET</computeroutput> is ISO8859-1, but vendors may supply
+different values.</para>
+</listitem><listitem><para>For a string declared as <literal>#</literal><symbol role="Variable">char_set</symbol> <literal>&ldquo;</literal> <symbol role="Variable">string</symbol><literal>&rdquo;</literal>, the character set is <symbol role="Variable">char_set</symbol>.</para>
+</listitem><listitem><para>For a string declared as <literal>&ldquo;</literal><symbol role="Variable">character</symbol><literal>_</literal> <symbol role="Variable">string</symbol><literal>&rdquo;</literal>, the character set depends on whether
+the module has a <filename>CHARACTER_SET</filename> clause and whether the
+UIL compiler's <filename>use_setlocale_flag</filename> is set.</para>
+<itemizedlist remap="Bullet2"><listitem><para>If the module has a <filename>CHARACTER_SET</filename> clause, the character set is the one specified in
+that clause.</para>
+</listitem><listitem><para>If the module has no <filename>CHARACTER_SET</filename>
+clause but the <command>uil</command> command was started with the <computeroutput>-s</computeroutput> option, or if the <filename>Uil()</filename> function
+was started with <command>use_setlocale_flag set</command>, UIL calls the <filename>setlocale()</filename> function and parses the string
+in the current locale. The character set of the resulting string is <computeroutput>XmFONTLIST_DEFAULT_TAG</computeroutput>.</para>
+</listitem><listitem><para>If the module has no <filename>CHARACTER_SET</filename>
+clause and the <computeroutput>uil</computeroutput> command was started without
+the <computeroutput>-s</computeroutput> option, or if the <filename>Uil()</filename> function was started without <filename>use_setlocale_flag</filename>, the character set is the code set component of the <systemitem>LANG</systemitem> environment variable, if it is set in the UIL compilation
+environment, or the character set is the value of <computeroutput>XmFALLBACK_CHARSET</computeroutput> if <systemitem>LANG</systemitem> is not set or has no code
+set.</para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+<para>UIL always stores a string specified using the <computeroutput>COMPOUND_STRING</computeroutput> function as a compound string. This function takes as arguments
+a string expression and optional specifications of a character set, direction,
+and whether to append a separator to the string. If no character set or direction
+is specified, UIL derives it from the string expression, as described in
+the preceding section.</para>
+<note>
+<para>Certain predefined escape sequences, beginning with a \ (backslash),
+may be displayed in string literals, with the following exceptions: &ndash;
+A string in single quotation marks can span multiple lines, with each
+new line character escaped by a backslash. A string in double quotation
+marks cannot span multiple lines. &ndash; Escape sequences are processed
+literally inside a string that is parsed in the current locale (a localized
+string).</para>
+</note>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:19:51-->

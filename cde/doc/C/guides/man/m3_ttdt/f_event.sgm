@@ -1,0 +1,133 @@
+<!-- $XConsortium: f_event.sgm /main/5 1996/08/30 14:27:01 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN258.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN258.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>ttdt_file_event</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>ttdt_file_event</Function></RefName>
+<RefPurpose>use ToolTalk to announce an event about a file
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: f_event.sgm /main/5 1996/08/30 14:27:01 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tttk.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_status <Function>ttdt_file_event</Function></FuncDef>
+<ParamDef>Tt_message <Parameter>context</Parameter></ParamDef>
+<ParamDef>Tttk_op <Parameter>event</Parameter></ParamDef>
+<ParamDef>Tt_pattern *<Parameter>patterns</Parameter></ParamDef>
+<ParamDef>int <Parameter>send</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>ttdt_file_event</Function> function
+is used to create and send a ToolTalk notice announcing an event
+pertaining to a file.
+The file is indicated by the
+<Symbol Role="Variable">pathname</Symbol> argument that was passed to
+&cdeman.ttdt.file.join; when
+<Emphasis>patterns</Emphasis> was created.
+</Para>
+<Para>The
+<Symbol Role="Variable">event</Symbol> argument identifies the event.
+If
+<Symbol Role="Variable">event</Symbol> is
+<SystemItem Class="Constant">TTDT_MODIFIED</SystemItem>, <Function>ttdt_file_event</Function> registers in the
+<Emphasis>the_scope</Emphasis> argument passed to
+&cdeman.ttdt.file.join; to handle
+<Symbol Role="Message">Get_Modified</Symbol>, <Symbol Role="Message">Save</Symbol>, and
+<Symbol Role="Message">Revert</Symbol> requests.
+<Symbol Role="Message">Get_Modified</Symbol> is handled transparently by associating the
+modified state of the file with
+<Emphasis>patterns</Emphasis>. <Symbol Role="Message">Save</Symbol> and
+<Symbol Role="Message">Revert</Symbol> requests are passed to the
+<StructName Role="typedef">Ttdt_file_cb</StructName> that was given to
+&cdeman.ttdt.file.join;. If
+<Emphasis>send</Emphasis> is True,
+<Function>ttdt_file_event</Function> sends
+<Symbol Role="Message">Modified</Symbol> in
+<Emphasis>the_scope</Emphasis>. If
+<Symbol Role="Variable">event</Symbol> is
+<SystemItem Class="Constant">TTDT_SAVED</SystemItem> or
+<SystemItem Class="Constant">TTDT_REVERTED</SystemItem>, <Function>ttdt_file_event</Function> unregisters handler patterns for
+<Symbol Role="Message">Get_Modified</Symbol>, <Symbol Role="Message">Save</Symbol>, and
+<Symbol Role="Message">Revert</Symbol> requests.
+If
+<Emphasis>send</Emphasis> is True,
+<Function>ttdt_file_event</Function> sends
+<Symbol Role="Message">Saved</Symbol> or
+<Symbol Role="Message">Reverted</Symbol>, respectively, in
+<Emphasis>the_scope</Emphasis>.</Para>
+<Para>The
+<Symbol Role="Variable">context</Symbol> argument describes the environment to use.
+If
+<Symbol Role="Variable">context</Symbol> is not zero, messages created by
+<Function>ttdt_file_event</Function> inherit from
+<Symbol Role="Variable">context</Symbol> all contexts whose slotname begins with the characters
+<SystemItem Class="Constant">ENV_</SystemItem>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>ttdt_file_event</Function> function returns the status of the operation as one of the following
+<StructName Role="typedef">Tt_status</StructName> values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_OVERFLOW</Term>
+<ListItem>
+<Para>The ToolTalk service has more active messages than it can handle.
+(The maximum number of active messages is
+implementation specific, but is at least 2000.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_POINTER</Term>
+<ListItem>
+<Para>The
+<Emphasis>patterns</Emphasis> argument was
+<SystemItem Class="Constant">NULL</SystemItem>.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tttk.h;, &cdeman.ttdt.file.join;, &cdeman.ttdt.Get.Modified;, &cdeman.ttdt.file.quit;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

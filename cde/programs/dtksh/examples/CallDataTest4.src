@@ -1,0 +1,143 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: CallDataTest4.src /main/3 1996/04/23 20:17:51 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates how the CB_WIDGET and CB_CALL_DATA
+XCOMM  convenience environment variables can be referenced within a callback
+XCOMM  function.
+XCOMM 
+
+XCOMM  PushButton Callback: Forces the scale to reset to the origin
+ResetScale()
+{
+   XmScaleSetValue $SCALE 0
+}
+
+XCOMM  PushButton Callback: Forces the scale to its minimum value
+SetScaleMin()
+{
+   XmScaleSetValue $SCALE -200
+}
+
+XCOMM  PushButton Callback: Forces the scale to its maximum value
+SetScaleMax()
+{
+   XmScaleSetValue $SCALE 200
+
+   echo "CB Widget = "$CB_WIDGET
+   echo "CallData = "$CB_CALL_DATA
+   echo "CallData.Reason = "${CB_CALL_DATA.REASON}
+   echo "CallData.Event = "${CB_CALL_DATA.EVENT}
+   echo "CallData.Event.Type = "${CB_CALL_DATA.EVENT.TYPE}
+   echo "CallData.Event.Xbutton.Type = "${CB_CALL_DATA.EVENT.XBUTTON.TYPE}
+   echo "CallData.Event.Xbutton.Serial = "${CB_CALL_DATA.EVENT.XBUTTON.SERIAL}
+   echo "CallData.Event.Xbutton.Send_Event = "${CB_CALL_DATA.EVENT.XBUTTON.SEND_EVENT}
+   echo "CallData.Event.Xbutton.Display = "${CB_CALL_DATA.EVENT.XBUTTON.DISPLAY}
+   echo "CallData.Event.Xbutton.Window = "${CB_CALL_DATA.EVENT.XBUTTON.WINDOW}
+   echo "CallData.Event.Xbutton.Root = "${CB_CALL_DATA.EVENT.XBUTTON.ROOT}
+   echo "CallData.Event.Xbutton.Subwindow = "${CB_CALL_DATA.EVENT.XBUTTON.SUBWINDOW}
+   echo "CallData.Event.Xbutton.Time = "${CB_CALL_DATA.EVENT.XBUTTON.TIME}
+   echo "CallData.Event.Xbutton.X = "${CB_CALL_DATA.EVENT.XBUTTON.X}
+   echo "CallData.Event.Xbutton.Y = "${CB_CALL_DATA.EVENT.XBUTTON.Y}
+   echo "CallData.Event.Xbutton.X_root = "${CB_CALL_DATA.EVENT.XBUTTON.X_ROOT}
+   echo "CallData.Event.Xbutton.Y_root = "${CB_CALL_DATA.EVENT.XBUTTON.Y_ROOT}
+   echo "CallData.Event.Xbutton.State = "${CB_CALL_DATA.EVENT.XBUTTON.STATE}
+   echo "CallData.Event.Xbutton.Button = "${CB_CALL_DATA.EVENT.XBUTTON.BUTTON}
+   echo "CallData.Event.Xbutton.Same_Screen = "${CB_CALL_DATA.EVENT.XBUTTON.SAME_SCREEN}
+   echo
+}
+
+
+XCOMM  Scale Callback: Invoked when the user interactively modified the scale value
+ScaleValueChanged()
+{
+   XmScaleGetValue $CB_WIDGET VALUE
+
+   echo "New Scale Value = "$VALUE
+   echo "CB Widget = "$CB_WIDGET
+   echo "CallData = "$CB_CALL_DATA
+   echo "CallData.Value = "${CB_CALL_DATA.VALUE}
+   echo "CallData.Event = "${CB_CALL_DATA.EVENT}
+   echo "CallData.Event.Xany.Type = "${CB_CALL_DATA.EVENT.XANY.TYPE}
+   echo "CallData.Event.Type = "${CB_CALL_DATA.EVENT.TYPE}
+   echo "CallData.Reason = "${CB_CALL_DATA.REASON}
+   echo
+}
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL command1 Command1 "$0" "$@"
+
+XtCreateManagedWidget FORM form XmForm $TOPLEVEL
+
+XtCreateManagedWidget SCALE scale XmScale $FORM \
+	showValue:True \
+	orientation:HORIZONTAL \
+	maximum:200 \
+	minimum:-200 \
+	topAttachment:ATTACH_FORM \
+	topOffset:10 \
+	leftAttachment:ATTACH_FORM \
+	leftOffset:10 \
+	rightAttachment:ATTACH_FORM \
+	rightOffset:10 
+XtAddCallback $SCALE valueChangedCallback ScaleValueChanged
+
+XtCreateManagedWidget SEP sep XmSeparator $FORM \
+	topAttachment:ATTACH_WIDGET \
+	topWidget:$SCALE \
+	topOffset:10 \
+	leftAttachment:ATTACH_FORM \
+	rightAttachment:ATTACH_FORM
+
+XtCreateManagedWidget PB pb XmPushButton $FORM \
+	labelString:"Reset Scale" \
+	topAttachment:ATTACH_WIDGET \
+	topOffset:10 \
+	topWidget:$SEP \
+	bottomAttachment:ATTACH_FORM \
+	bottomOffset:10 \
+	leftAttachment:ATTACH_POSITION \
+	leftPosition:10 \
+	rightAttachment:ATTACH_POSITION \
+	rightPosition:30 
+XtAddCallback $PB activateCallback ResetScale
+
+XtCreateManagedWidget PB2 pb XmPushButton $FORM \
+	labelString:"Set Scale Max" \
+	topAttachment:ATTACH_WIDGET \
+	topOffset:10 \
+	topWidget:$SEP \
+	bottomAttachment:ATTACH_FORM \
+	bottomOffset:10 \
+	leftAttachment:ATTACH_POSITION \
+	leftPosition:40 \
+	rightAttachment:ATTACH_POSITION \
+	rightPosition:60 
+XtAddCallback $PB2 activateCallback SetScaleMax
+
+XtCreateManagedWidget PB3 pb XmPushButton $FORM \
+	labelString:"Set Scale Min" \
+	topAttachment:ATTACH_WIDGET \
+	topOffset:10 \
+	topWidget:$SEP \
+	bottomAttachment:ATTACH_FORM \
+	bottomOffset:10 \
+	leftAttachment:ATTACH_POSITION \
+	leftPosition:70 \
+	rightAttachment:ATTACH_POSITION \
+	rightPosition:90 
+XtAddCallback $PB3 activateCallback SetScaleMin
+
+XtRealizeWidget $TOPLEVEL
+
+XtMainLoop

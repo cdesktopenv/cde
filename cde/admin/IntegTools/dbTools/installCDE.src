@@ -1,0 +1,964 @@
+XCOMM! /bin/ksh
+XCOMM $XConsortium: installCDE.src /main/20 1996/11/25 14:21:13 drk $
+
+XCOMM
+XCOMM This script uses the 'CDE' databases to install either the Desktop
+XCOMM environment on a specified machine or creates a tar ball to be used
+XCOMM in an install process.
+XCOMM
+XCOMM this script accepts the following parameters:
+XCOMM       -s <source>         -- The top of build tree where the files are
+XCOMM                              gathered from.
+XCOMM       -z <package>        -- The desktop install package
+XCOMM
+XCOMM      Optional parameters:
+XCOMM
+XCOMM       -t  <package destination>     -- where to store install package
+XCOMM       -pI <actual install location> -- where CDE_INSTALLATION_TOP will be linked to.
+XCOMM       -pC <actual config location>  -- where CDE_CONFIGURATION_TOP will be linked to.
+XCOMM       -pV <actual var location>     -- where CDE_LOGFILES_TOP will be linked to.
+XCOMM	 -a  <alternate udb directory>
+XCOMM       -f  <filesets>                -- a quoted, space-separated list of 
+XCOMM                                        filesets to load. The .udb extension
+XCOMM                                        is not required.
+XCOMM
+XCOMM       -clean   -- remove the temporary, configuration and installation 
+XCOMM                   directories
+XCOMM       -cleanTwo-- remove the temporary and installation directories
+XCOMM                   but NOT the configuration directory
+XCOMM       -cleanEtc-- remove the configuration directories
+XCOMM       -prog    -- load only the development environment
+XCOMM       -runtime -- load only the runtime environment
+XCOMM       -pack    -- create packing list
+XCOMM       -pseudo  -- don't configure the desktop
+XCOMM       -nocompress -- don't compress the tarball (-t only)
+XCOMM
+XCOMM       -Lang           -- load the localized filesets
+XCOMM       -LinkStepOnly   -- set up the -pI, -pC, and -pV links
+XCOMM                          then exit
+XCOMM       -DontRunScripts -- stop after installation
+XCOMM       -RunScriptsOnly -- only execute the scripts
+XCOMM       -configureOnly -- only configure the desktop
+XCOMM
+XCOMM ##########################################################################
+
+#define HASH #
+#define STAR *
+
+
+REVISION="$(echo "$Revision: /main/20 $" | awk '{print $2}')"
+
+Log()
+{
+  echo "$1" | tee -a /tmp/installCDE.log
+}
+
+MakeTarball()
+{
+    Log "\nGenerating UNIX Desktop install package $DATE in $TARBALL_LOCATION"
+    HASH
+    HASH create installable tarball
+    HASH
+    Log "Creating tarball..."
+
+    if [ $PLATFORM = "usl" -o "$PLATFORM" = "uxp" ]
+    then
+      ulimit -f unlimited
+    fi
+
+    DIRNAME=build.$DATE
+    mkdir -p $TARBALL_LOCATION/$DIRNAME
+    cd /
+    echo $DATE >$LOGFILES_LOCATION/.build.$DATE
+    chown bin $LOGFILES_LOCATION/.build.$DATE
+
+    if [ "$COMPRESS_TARBALL" = "yes" ]; then
+      tar -cf - $INSTALL_LOCATION/STAR \
+        2>$TARBALL_LOCATION/$DIRNAME/extract.err |
+        compress -c >$TARBALL_LOCATION/$DIRNAME/dttar.Z
+    else
+      tar -cf $TARBALL_LOCATION/$DIRNAME/dt.tar \
+        $INSTALL_LOCATION/STAR \
+        2>$TARBALL_LOCATION/$DIRNAME/extract.err 2>&1
+    fi
+
+    if [ "$ACTUAL_INSTALLATION_LOC" = "" ]; then
+      actualInstallDir=$INSTALL_LOCATION
+    else
+      actualInstallDir=$ACTUAL_INSTALLATION_LOC
+    fi 
+    let size=$(du -s $actualInstallDir | awk '{print $1}')*512
+
+    HASH load installation fileset *after* tarball generated
+    LoadFileSet "" "CDE-INSTALL"
+
+    HASH create config dir
+    destPost=$TARBALL_LOCATION/$DIRNAME/config
+    mkdir $destPost
+
+    HASH copy config and platform config scripts
+    src=$INSTALL_LOCATION/install/$PLATFORM_SCRIPT_DIR
+    cp $src/config/STAR.cfg $destPost
+   
+    HASH copy this script and install.dt platform overrides
+    cp $src/install.dto $TARBALL_LOCATION/$DIRNAME/install.dto
+    cp $src/install.cde $TARBALL_LOCATION/$DIRNAME/install.cde
+    chmod 755 $TARBALL_LOCATION/$DIRNAME/install.cde
+
+    cd /
+
+    Log "done."
+
+    cat >$TARBALL_LOCATION/$DIRNAME/dt.pkg <<FIN
+PLATFORM: $PLATFORM
+VERSION: $REVISION
+TS: $DATE
+COMPRESSED: $COMPRESS_TARBALL
+SIZE: $size
+CL: $ORIGINAL_COMMAND_LINE
+FILESETS: $DATABASE_FILES
+FIN
+
+    cat >$TARBALL_LOCATION/$DIRNAME/build.status <<FIN
+The UNIX Desktop
+
+BUILD: $DATE
+OVERALL STATUS: <not yet tested>
+OVERALL PERFORMANCE: <not yet tested>
+MAJOR PROBLEMS: <not yet tested>
+
+FIN
+
+    chmod g+w $TARBALL_LOCATION/$DIRNAME/build.status
+}
+
+DoFilesetScript()
+{
+  typeset ScriptName
+
+  FilesetName=$1
+  if [ "$BUILD_TREE" = "" ]; then
+    ScriptName=$3	# use short config file name (foo.cfg)
+  else
+    ScriptName=$2	# use long config file name (configFoo)
+  fi
+
+  if [ $CDECONFIGDIR = "CONFIG" ]; then
+    typeset -u ScriptName
+  fi
+
+  test_string=${DATABASE_FILES#*$FilesetName}
+  if (( ${#DATABASE_FILES} > ${#test_string} ))
+  then
+    if [ -x $POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName ]
+    then
+	Log "Executing $PLATFORM specific $FilesetName customize script"
+	$POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName -e 2>&1 | \
+				tee -a /tmp/installCDE.log
+    elif [ -x $POST_INSTALL_DIR/$ScriptName ]
+    then
+	Log "Executing $FilesetName customize script" 
+	$POST_INSTALL_DIR/$ScriptName -e 2>&1 | tee -a /tmp/installCDE.log
+    fi
+  fi
+}
+
+DoScripts()
+{
+  Log " "
+
+  DoFilesetScript CDE-TT       configTT      tt.cfg
+  DoFilesetScript CDE-MIN      configMin     min.cfg
+  DoFilesetScript CDE-SHLIBS   configShlibs  shlibs.cfg
+  DoFilesetScript CDE-RUN      configRun     run.cfg
+}
+
+CreatePackingList()
+{
+    Log " "
+    Log "Creating packing list."
+    touch $INSTALL_LOCATION/Packing_list
+    for i in `echo $DATABASE_FILES`
+    do
+      Log "  for $i"
+      $TOOL_DIR/udbToAny.ksh -toDB -ReleaseStream $PLATFORM $DATABASE_DIR/${i}.udb > /tmp/${i}.db
+      if [ -r /tmp/${i}.db ]
+      then
+        for file in `fgrep install_target /tmp/${i}.db | cut -sf 2 -d \: ` 
+        do
+	  echo "$file" >>$INSTALL_LOCATION/Packing_list
+        done
+      fi
+    done
+}
+
+CleanDaemons()
+{
+  HASH kill these processes so that they can be removed and new ones
+  HASH installed
+
+  for i in inetd rpc.ttdbserver rpc.cmsd
+  do
+    if [ "$PLATFORM" = "aix" -a $i = "inetd" ]
+    then
+      lssrc -s inetd >/dev/null 2>&1
+      if [ $? = "0" ]
+      then
+        stopsrc -s inetd >>/tmp/installCDE.log 2>&1
+      fi
+    else    
+      ps -ef | grep $i | grep -v grep >/tmp/tmppsout
+      if [ -s /tmp/tmppsout ]
+      then
+        awk '{print "kill " $2}' /tmp/tmppsout | /bin/csh -f
+        sleep 2
+      fi
+    fi
+  done
+  rm -f /tmp/tmppsout
+}
+
+RestartInetd()
+{
+  HASH now restart inetd
+
+  OLDPWD=`pwd`
+  cd /
+  if [ "$PLATFORM" = "sun" -o "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ]
+  then
+    /usr/sbin/inetd -s
+  elif [ "$PLATFORM" = "aix" ]
+  then
+    startsrc -s inetd >>/tmp/installCDE.log 2>&1
+  elif [ "$PLATFORM" = "dec" ]
+  then
+    /usr/sbin/inetd
+  else
+#ifdef hpV4
+    /usr/sbin/inetd 
+#else
+    /etc/inetd
+#endif
+  fi
+  cd $OLDPWD
+}
+
+CheckForActualLocations()
+{
+XCOMM
+XCOMM if different actual locations specified, set up the links
+XCOMM
+
+
+  if [ "$CLEAN_DAEMONS" = "yes" ]
+  then
+    CleanDaemons
+  fi
+
+  HASH remove the contents of the installation directory then the directory
+  HASH itself
+
+  if [ "$CLEANING" = "yes" ]
+  then
+    Log "Removing $INSTALL_LOCATION contents... "
+    if [ -d $INSTALL_LOCATION ]
+    then
+      rm -rf $INSTALL_LOCATION/STAR
+      if [ "$LeaveLinks" = "yes" ]
+      then
+	if [ ! -L $INSTALL_LOCATION ]
+	then
+          rm -rf $INSTALL_LOCATION
+	fi
+      else
+        if [ -L $INSTALL_LOCATION ]
+        then
+          rm -f $INSTALL_LOCATION
+        else
+          rm -rf $INSTALL_LOCATION
+        fi
+      fi
+    fi
+  fi
+
+  if [ "$CONFIGURE_ONLY" = "no" ]
+  then
+    if [ "$ACTUAL_INSTALLATION_LOC" != "" ]
+    then
+
+      HASH
+      HASH first create the actual directory - if not there
+      HASH
+
+      if [ ! -d $ACTUAL_INSTALLATION_LOC ]
+      then
+        mkdir -p $ACTUAL_INSTALLATION_LOC
+        if [ ! -d $ACTUAL_INSTALLATION_LOC ]
+        then
+	  Log "cannot create $ACTUAL_INSTALLATION_LOC directory"
+	  exit 1
+        fi
+      fi
+
+      ln -s $ACTUAL_INSTALLATION_LOC $INSTALL_LOCATION
+
+    else
+      if [ ! -d $INSTALL_LOCATION -a ! -L $INSTALL_LOCATION ]; 
+      then
+        mkdir -p $INSTALL_LOCATION
+      fi
+    fi
+  fi
+
+  if [ "$CLEAN_DAEMONS" = "yes" ]
+  then
+    RestartInetd
+  fi
+
+  HASH remove the contents of the configuration directory
+
+  if [ "$CLEANING_ETC" = "yes" ]
+  then
+    Log "Removing $CONFIGURE_LOCATION contents... "
+    if [ -d $CONFIGURE_LOCATION ]
+    then
+      rm -rf $CONFIGURE_LOCATION/STAR
+      if [ "$LeaveLinks" = "yes" ]
+      then
+        if [ ! -L $CONFIGURE_LOCATION ]
+        then
+          rm -rf $CONFIGURE_LOCATION
+        fi
+      else
+        if [ -L $CONFIGURE_LOCATION ]
+        then
+          rm -f $CONFIGURE_LOCATION
+        else
+          rm -rf $CONFIGURE_LOCATION
+        fi
+      fi
+    fi
+  fi
+	
+  if [ "$ACTUAL_CONFIGURATION_LOC" != "" ]
+  then
+    if [ ! -d $ACTUAL_CONFIGURATION_LOC ]
+    then
+      mkdir -p $ACTUAL_CONFIGURATION_LOC
+      if [ ! -d $ACTUAL_CONFIGURATION_LOC ]
+      then
+	Log "cannot create $ACTUAL_CONFIGURATION_LOC directory"
+	exit 1
+      fi
+    fi
+
+    ln -s $ACTUAL_CONFIGURATION_LOC $CONFIGURE_LOCATION
+
+  else
+    if [ ! -d $CONFIGURE_LOCATION -a ! -L $CONFIGURE_LOCATION ];
+    then
+      mkdir -p $CONFIGURE_LOCATION
+    fi
+  fi
+
+  if [ "$CLEANING" = "yes" ]
+  then
+    Log "Removing $LOGFILES_LOCATION contents... "
+    if [ -d $LOGFILES_LOCATION ]
+    then
+      rm -rf $LOGFILES_LOCATION/STAR
+      if [ "$LeaveLinks" = "yes" ]
+      then
+        if [ ! -L $LOGFILES_LOCATION ]
+        then
+          rm -rf $LOGFILES_LOCATION
+        fi
+      else
+        if [ -L $LOGFILES_LOCATION ]
+        then
+          rm -f $LOGFILES_LOCATION
+        else
+          rm -rf $LOGFILES_LOCATION
+        fi
+      fi
+    fi
+  fi
+
+  if [ "$ACTUAL_VAR_LOC" != "" ]
+  then
+    if [ ! -d $ACTUAL_VAR_LOC ]
+    then
+      mkdir -p $ACTUAL_VAR_LOC
+      if [ ! -d $ACTUAL_VAR_LOC ]
+      then
+	Log "cannot create $ACTUAL_VAR_LOC directory"
+	exit 1
+      fi
+    fi
+
+    ln -s $ACTUAL_VAR_LOC $LOGFILES_LOCATION
+    
+  else
+    if [ ! -d $LOGFILES_LOCATION -a ! -L $LOGFILES_LOCATION ]; 
+    then
+      mkdir -p $LOGFILES_LOCATION
+    fi
+  fi
+
+  Log " "
+}
+
+USAGE()
+{
+echo "Usage: $(basename $0) {-s <source>|-z <package>} [options]"
+echo ""
+echo "\t-s <source>\t\t\tthe top of the build tree"
+echo "\t-z <package>\t\tthe desktop install package"
+echo ""
+echo "\tOptions:"
+echo ""
+echo "\t[-t <package_destination>]\tif specified create an"
+echo "\t\t\t\t\tinstall package and store it in the"
+echo "\t\t\t\t\tdestination."
+echo "\t[-pI <actual install location>]\twhere" CDE_INSTALLATION_TOP "will be linked to."
+echo "\t[-pC <actual config location>]\twhere" CDE_CONFIGURATION_TOP "will be linked to."
+echo "\t[-pV <actual var location>]\twhere" CDE_LOGFILES_TOP "will be linked to."
+echo ""
+echo "\t[-a <udb directory>]\t\talternate place to get the"
+echo "\t\t\t\t\tudb files from."
+echo "\t[-f <filesets>]\t\t\tspecify filesets to be loaded."
+echo "\t\t\t\t\tThe list should be double-quoted,"
+echo "\t\t\t\t\tspace-separated, with no .udb"
+echo "\t\t\t\t\textensions."
+echo ""
+echo "\t[-clean]\t\t\tremove the temporary, configuration, and"
+echo "\t\t\t\t\tinstallation directory"
+echo "\t[-cleanTwo]\t\t\tremove the temporary and installation "
+echo "\t\t\t\t\tdirectory, but NOT the configuration directory"
+echo "\t[-cleanEtc]\t\t\tremove the configuration directory, but "
+echo "\t\t\t\t\NOT the temporary and installation directories"
+echo "\t[-prog]\t\t\t\tload only the development environment"
+echo "\t[-runtime]\t\t\tload only the runtime environment"
+echo "\t[-relative]\t\t\trun the relative-located config scripts"
+echo "\t[-pack]\t\t\t\tcreate a packing list"
+echo "\t[-pseudo]\t\t\tdo not configure desktop when installing"
+echo "\t[-nocompress]\t\t\tdo not compress tarball when creating package"
+echo "\t[-lang LANG]\t\t\tspecify LANG to load appropriate localized"
+echo "\t\t\t\t\tfilesets"
+echo "\t[-LeaveLinks]\t\t\t\tdo not delete the links after cleaning"
+echo ""
+echo "\t[-LinkStepOnly]\t\t\tset up the -pI, -pC, and -pV links"
+echo "\t\t\t\t\tthen exit"
+echo "\t[-DontRunScripts]\t\tstop after installation"
+echo "\t[-RunScriptsOnly]\t\tonly execute the scripts"
+echo "\t[-configureOnly]\t\tonly configure the desktop"
+echo ""
+echo "\tExamples:"
+echo ""
+echo "\tinstallCDE -s /x/cde_hp700_90"
+echo "\tinstallCDE -s /x/cde_aix_32 -f \"CDE_MIN CDE-SHLIBS\""
+echo "\tinstallCDE -s /x/cde_sun_52 -pI /bigdisk/opt/dt -clean"
+echo "\tinstallCDE -s /x/cde_sun_52 -pI /dtinstall -clean\\"
+echo "\t\t-pseudo -t /dtpackages -nocompress"
+}
+
+XCOMM
+XCOMM LoadFileSet() - load a UDB file
+XCOMM $1 - fileset number
+XCOMM $2 - fileset name
+XCOMM
+LoadFileSet()
+{
+  if [ "$1" = "" ]; then
+    num=""
+  else
+    num="$1."
+  fi
+
+  Log "  $num installing database $2"
+  Log "      - creating ${2}.lst file"
+  $TOOL_DIR/udbToAny.ksh  -toLst -ReleaseStream $PLATFORM \
+            $DATABASE_DIR/${2}.udb >  /tmp/${2}.lst
+
+  Log "      - installing ... \c"
+  $TOOL_DIR/mkProd -D / -S $BUILD_TREE /tmp/${2}.lst \
+            2>/tmp/${2}.err 1>/tmp/${2}.good
+  Log "done."
+
+  Log "      - checking for errors ..."
+  rm -f /tmp/${2}.missing
+  awk '{if ($1 == "ERROR:") print "           " $4}' \
+            /tmp/${2}.err >> /tmp/${2}.missing
+  if [ -s /tmp/${2}.missing ]
+  then
+    Log "      - missing files:"
+    cat /tmp/${2}.missing | tee -a /tmp/installCDE.log
+  fi
+}
+
+ORIGINAL_COMMAND_LINE="$*"
+
+XCOMM Set which system we are on
+BUILDSYSTEM=$(uname)
+
+PLATFORM=""
+PLATFORM_SCRIPT_DIR=""
+
+XCOMM
+XCOMM Set system
+XCOMM 
+  if [ $BUILDSYSTEM = "AIX" ];
+  then
+    PLATFORM=aix
+    PLATFORM_SCRIPT_DIR=ibm
+  elif [ $BUILDSYSTEM = "SunOS" ];
+  then
+    PLATFORM=sun
+    PLATFORM_SCRIPT_DIR=sun
+  elif [ $BUILDSYSTEM = "UNIX_SV" ];
+  then
+    PLATFORM=usl
+    PLATFORM_SCRIPT_DIR=usl
+  elif [ $BUILDSYSTEM = "UNIX_System_V" ];
+  then
+    PLATFORM=uxp
+    PLATFORM_SCRIPT_DIR=uxp
+  elif [ $BUILDSYSTEM = "OSF1" ];
+  then
+    PLATFORM=dec
+    PLATFORM_SCRIPT_DIR=dec
+  else			# Build system = HP
+    PLATFORM=hp-ux
+    PLATFORM_SCRIPT_DIR=hp
+  fi
+
+  if [ "$PLATFORM" = "aix" ];
+  then
+    USER=`/bin/whoami`
+  elif [ "$PLATFORM" = "sun" -o "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ];
+  then
+    USER=`/usr/ucb/whoami`
+  else
+    USER=`/usr/bin/whoami`
+  fi
+
+  if [ "$USER" != "root" ];
+  then
+    USAGE
+    echo ""
+    echo "You must be root to run this script"
+    echo ""
+    exit 1
+  fi
+
+  if [ "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ]
+  then
+    umask 000
+  fi
+
+  unset TMPDIR
+
+  PATH=/bin:/usr/bin:/etc:/usr/bin/X11:
+  export PATH
+
+  CLEANING="no"
+  CLEANING_ETC="no"
+  TARBALL="no"
+  COMPRESS_TARBALL="yes"
+  USE_ALTERNATE_UDB_DIR="no"
+  DEVELOP_ENV="no"
+  RUNTIME_ENV="no"
+  USE_RELATIVE="no"
+  STARTING_DIR=$PWD
+  ACTUAL_INSTALLATION_LOC=""
+  ACTUAL_CONFIGURATION_LOC=""
+  ACTUAL_VAR_LOC=""
+  CREATE_PACKING_LIST="no"
+  DO_LINK_STEP_ONLY="no"
+  DO_INSTALL_ONLY="no"
+  RUN_SCRIPTS="yes"
+  RUN_SCRIPTS_ONLY="no"
+  DATABASE_FILES=""
+  BUILD_TREE=""
+  TAR_DIR=""
+  LeaveLinks="no"
+  REMOVE_LINKS="no"
+  CLEAN_DAEMONS="yes"
+  theLang=""
+  CONFIGURE_ONLY="no"
+
+  rm -f /tmp/installCDE.log
+
+  Log "Options specified..."
+  while [ $# -ne 0 ]; do
+    case $1 in
+        -s) Log "  - get the build tree to extract from"
+            shift;
+            [ $# -ne 0 ] || {
+                USAGE
+                exit 1;
+            }
+            BUILD_TREE=$1
+            shift;
+            ;;
+	-z) Log "  - get the install package to extract from"
+	    shift;
+            [ $# -ne 0 ] || {
+                USAGE
+                exit 1;
+            }
+	    TAR_TREE=$1
+	    shift;
+	    ;;
+        -t) Log "  - where to put the install package"
+            shift;
+            [ $# -ne 0 ] || {
+                USAGE
+                exit 1;
+            }
+	    if [ "$SOURCE_TAR_FILE" = "" ]
+	    then
+		TARBALL="yes"
+		TARBALL_LOCATION=$1
+	    fi
+            shift;
+            ;;
+	-a) Log "  - alternate place to get the udb files from"
+	    shift;
+	    [ $# -ne 0 ] || {
+		USAGE
+		exit 1;
+	    }
+	    ALTERNATE_UDB_DIR=$1
+	    USE_ALTERNATE_UDB_DIR="yes"
+            shift;
+	    ;;
+	-f) Log "  - load specific filesets"
+	    shift;
+	    [ $# -ne 0 ] || {
+		USAGE
+		exit 1;
+	    }
+	    DATABASE_FILES=$1
+	    shift;
+	    ;;
+	-p) Log "  - get all locations"
+	    shift;
+	    [ $# -ne 0 ] || {
+		USAGE
+		exit 1;
+	    }
+	    ACTUAL_INSTALLATION_LOC=$1
+	    ACTUAL_CONFIGURATION_LOC=$1
+	    ACTUAL_VAR_LOC=$1
+	    shift;
+	    ;;
+        -pI) Log "  - get actual installation location"
+            shift;
+            [ $# -ne 0 ] || {
+                USAGE
+                exit 1;
+            }
+            ACTUAL_INSTALLATION_LOC=$1
+            shift;
+            ;;
+	-pC) Log "  - get actual configuration location"
+	    shift;
+	    [ $# -ne 0 ] || {
+		USAGE
+		exit 1;
+	    }
+	    ACTUAL_CONFIGURATION_LOC=$1
+	    shift;
+	    ;;
+	-pV) Log "  - get actual var location"
+	    shift;
+	    [ $# -ne 0 ] || {
+		USAGE
+		exit 1;
+	    }
+	    ACTUAL_VAR_LOC=$1
+	    shift;
+	    ;;
+	-clean) Log "  - delete all three cde directories"
+	    CLEANING="yes"
+	    CLEANING_ETC="yes"
+	    shift;
+	    ;;
+	-cleanTwo) Log "  - delete only temporary and installation directories"
+	    CLEANING="yes"
+	    shift;
+	    ;;
+	-cleanEtc) Log "  - delete only the configuration directory"
+	    CLEANING_ETC="yes"
+	    shift;
+	    ;;
+	-prog) Log "  - load only the development environment"
+	    DEVELOP_ENV="yes"
+	    RUNTIME_ENV="no"
+	    shift;
+	    ;;
+	-runtime) Log "  - load only the runtime environment"
+	    RUNTIME_ENV="yes"
+	    DEVELOP_ENV="no"
+	    shift;
+	    ;;
+	-relative) Log "  - run the relative-located config scripts"
+	    USE_RELATIVE="yes"
+	    shift;
+	    ;;
+	-pack) Log "  - create a packing list"
+	    CREATE_PACKING_LIST="yes"
+	    shift;
+	    ;;
+	-LeaveLinks) Log "  - do not remove the links"
+	    LeaveLinks="yes"
+	    shift;
+	    ;;
+	-LinkStepOnly) Log "  - do link step only"
+	    DO_LINK_STEP_ONLY="yes"
+	    shift;
+	    ;;
+	-DontRunScripts) Log "  - stop after installation"
+	    DO_INSTALL_ONLY="yes"
+	    shift;
+	    ;;
+	-RunScriptsOnly) Log "  - only run scripts"
+	    RUN_SCRIPTS_ONLY="yes"
+	    shift;
+	    ;;
+        -pseudo) Log "  - pseudo install"
+            RUN_SCRIPTS="no"
+            REMOVE_LINKS="yes"
+            CLEAN_DAEMONS="no"
+            shift;
+            ;; 
+        -nocompress) Log "  - do not compress tarball"
+            COMPRESS_TARBALL="no"
+            shift;
+            ;;
+        -lang) Log "  - load localized filesets"
+            shift;
+            [ $# -ne 0 ] || {
+                USAGE
+                exit 1;
+            }
+            theLang=$1
+            shift;
+            ;;
+        -configureOnly) Log "  - Configure only"
+            CONFIGURE_ONLY="yes"
+            CLEAN_DAEMONS="yes"
+            shift;
+            ;;
+	*) Log "  - unknown option"
+	    USAGE
+	    exit 1;
+	    ;;
+        esac
+  done
+
+  echo ""
+
+  if [ -z "$BUILD_TREE" -a -z "$TAR_TREE" ]
+  then
+    USAGE
+    exit 1
+  fi
+
+  if [ "$BUILD_TREE" != "" -a ! -d "$BUILD_TREE" ]
+  then
+    Log "Build tree does not exist."
+    exit 1
+  fi
+
+  if [ "$TAR_TREE" != "" -a ! -d "$TAR_TREE" ]
+  then
+    Log "Tar tree does not exist."
+    exit 1
+  fi
+
+  CDEPACKAGE=dt.pkg
+  CDETARFILE=dt.tar
+  CDETARFILEZ=dttar.Z
+  CDECONFIGDIR=config
+
+XCOMM
+XCOMM get the current time stamp if going to create a tarball
+XCOMM
+
+  if [ $TARBALL = "yes" ]; 
+  then
+    set -- `/bin/date`
+    DATE=$2_$3_$4_$6
+  fi
+
+  if [ -z "$BUILD_TREE" -a ${0##STAR/} = INSTALL.CDE ]; then
+    typeset -u CDEPACKAGE
+    typeset -u CDETARFILE
+    typeset -u CDETARFILEZ
+    typeset -u CDECONFIGDIR
+  fi
+
+  TOOL_DIR=$BUILD_TREE/admin/IntegTools/dbTools
+  if [ "$USE_RELATIVE" = "yes" ]
+  then
+    POST_INSTALL_DIR=../post_install
+  else
+    if [ -z "$BUILD_TREE" ]
+    then
+      POST_INSTALL_DIR=$TAR_TREE/$CDECONFIGDIR
+    else
+      POST_INSTALL_DIR=$BUILD_TREE/admin/IntegTools/post_install
+    fi
+  fi
+
+  if [ "$USE_ALTERNATE_UDB_DIR" = "yes" ]
+  then
+    DATABASE_DIR=$ALTERNATE_UDB_DIR/databases
+  else
+    DATABASE_DIR=$BUILD_TREE/databases
+  fi
+
+  if [ "$DATABASE_FILES" = "" ]
+  then
+    if [ "$DEVELOP_ENV" = "yes" ]
+    then
+      DATABASE_FILES="CDE-HELP-PRG CDE-PRG CDE-INC CDE-DEMOS \
+		      CDE-MAN-DEV CDE-SHLIBS"
+    elif [ "$RUNTIME_ENV" = "yes" ]
+    then
+      DATABASE_FILES="CDE-RUN CDE-MIN CDE-TT CDE-MAN CDE-HELP-RUN CDE-C \
+                      CDE-HELP-C CDE-MSG-C CDE-SHLIBS CDE-ICONS CDE-FONTS \
+		      CDE-INFO CDE-INFOLIB-C"
+    else
+      DATABASE_FILES="CDE-RUN CDE-MIN CDE-TT CDE-MAN CDE-HELP-RUN CDE-C \
+                      CDE-MSG-C CDE-HELP-C CDE-SHLIBS CDE-HELP-PRG \
+                      CDE-PRG CDE-INC CDE-DEMOS CDE-MAN-DEV CDE-ICONS \
+		      CDE-FONTS CDE-INFO CDE-INFOLIB-C"
+    fi
+
+    HASH now load any localized filesets
+
+    if [ "$DEVELOP_ENV" != "yes" ]
+    then
+      if [ "$theLang" != "" ]
+      then
+        DATABASE_FILES="$DATABASE_FILES CDE-$theLang CDE-MSG-$theLang \
+			CDE-HELP-$theLang"
+      fi
+    fi
+  fi
+
+  INSTALL_LOCATION=CDE_INSTALLATION_TOP
+  CONFIGURE_LOCATION=CDE_CONFIGURATION_TOP
+  LOGFILES_LOCATION=CDE_LOGFILES_TOP
+
+  if [ -L $INSTALL_LOCATION -a "$CONFIGURE_ONLY" != "yes" ]
+  then
+    touch $INSTALL_LOCATION/foo >/dev/null 2>/dev/null
+    if [ ! -f $INSTALL_LOCATION/foo ]
+    then
+      Log "Insufficient permissions to install CDE files in $INSTALL_LOCATION"
+      exit 1
+    fi
+    if [ ! -O $INSTALL_LOCATION/foo ]
+    then
+      Log "Root access to $INSTALL_LOCATION is required for CDE installation."
+      exit 1
+    fi
+    rm $INSTALL_LOCATION/foo
+  fi
+
+  if [ -d $INSTALL_LOCATION ]
+  then
+    if [ -x $INSTALL_LOCATION/bin -a ! -d $INSTALL_LOCATION/bin ]
+    then
+	rm -f $INSTALL_LOCATION/bin
+    fi
+  fi
+
+  if [ "$CONFIGURE_ONLY" = "yes" ]
+  then
+    CheckForActualLocations
+    DoScripts
+    Log "Configuration completed."
+    exit 0
+  fi
+
+  if [ "$RUN_SCRIPTS_ONLY" = "yes" ]
+  then
+    DoScripts
+    exit 0
+  fi
+
+  CheckForActualLocations
+
+  if [ "$DO_LINK_STEP_ONLY" = "yes" ]
+  then
+    exit 0
+  fi
+
+  if [ "$CREATE_PACKING_LIST" = "yes" ]
+  then
+    CreatePackingList
+    exit 0
+  fi
+
+XCOMM
+XCOMM we are ready to load the environment ...
+XCOMM
+
+  if [ "$BUILD_TREE" != "" ]
+  then
+    Log "Load the Desktop from $BUILD_TREE"
+
+    cd $STARTING_DIR
+    let j=1
+    for i in `echo $DATABASE_FILES`
+    do
+      LoadFileSet "$j" "$i"
+      let j=j+1
+    done
+  else
+    Log "Load the Desktop from $TAR_TREE"
+    compressed=$(awk '/COMPRESSED: /{print $2}' $TAR_TREE/$CDEPACKAGE)
+    if [ "$compressed" = "yes" ]; then
+      uncompress <$TAR_TREE/$CDETARFILEZ | tar xvf - $INSTALL_LOCATION
+    else
+      tar -xvf $TAR_TREE/$CDETARFILE $INSTALL_LOCATION
+    fi 
+    DATABASE_FILES=$(awk 'BEGIN {FS=":"} /FILESETS: /{print $2}' $TAR_TREE/$CDEPACKAGE)
+  fi
+
+  Log " "
+  Log "Desktop installed in $INSTALL_LOCATION"
+
+  if [ "$DO_INSTALL_ONLY" = "yes" ]
+  then
+    exit 0
+  fi
+
+  if [ $TARBALL = "yes" ]; 
+  then
+    MakeTarball
+  fi
+
+  cd $STARTING_DIR
+
+  if [ "$RUN_SCRIPTS" = "yes" ]
+  then
+    DoScripts
+  fi
+  
+  if [ "$REMOVE_LINKS" = "yes" ]
+  then
+    [ -L /usr/dt ] && rm /usr/dt
+    [ -L /etc/dt ] && rm /etc/dt
+    [ -L /var/dt ] && rm /var/dt
+  fi
+
+  echo "Done."
+  echo ""
+  echo "See /tmp/installCDE.log for a log of this install session."
+  echo ""

@@ -1,0 +1,722 @@
+startcomment
+  comcon:comcon {
+/* $XConsortium: context.dat /main/3 1995/07/17 18:50:09 lehors $ */
+/*
+              Copyright 1986 Tandem Computers Incorporated.
+This product and information is proprietary of Tandem Computers Incorporated.
+                   Copyright (c) 1986, 1987, 1988, 1989 Hewlett-Packard Co.
+
+Context.dat defines the state transitions for program ELTDEF.
+*/
+                  }
+
+  ;
+
+endcomment
+  incom:incom
+  ;
+
+entstart
+  start:entdec
+  error:entdec
+  ;
+
+entsystem
+  entval:typedec {enttype(M_SYSTEM) ;}
+  ;
+
+entst
+  entval:typedec {enttype(M_STARTTAG) ;}
+  ;
+
+entet
+  entval:typedec {enttype(M_ENDTAG) ;}
+  ;
+
+entmd
+  entval:typedec {enttype(M_MD) ;}
+  ;
+
+entpi
+  entval:piorsdata {enttype(M_PI) ;}
+  ;
+
+entsdata
+  entval:piorsdata {enttype(M_SDATA) ;}
+  ;
+
+entcdata
+  entval:typedec {enttype(M_CDATAENT) ;}
+  ;
+
+typecode
+  piorsdata:codetagc {
+            entity->wheredef = M_DELTDEF ;
+            enttype(entity->type == M_PI ? M_CODEPI : M_CODESDATA) ;
+            entity->codeindex = ++codeent ;
+            }
+  ;
+
+endofcode
+  inentc:start
+  ;
+
+lit
+  value:value,
+  litcon:litcon
+  ;
+
+lita
+  value:value,
+  litcon:litcon
+  ;
+
+entlit
+  entval:declitent,
+  piorsdata:declitent,
+  typedec:declitent {entclen = 0 ;}
+
+  declitent:postent,
+  edeclitent:postent {
+            entcontent[entclen] = M_EOS ;
+            entity->content = 
+              (M_WCHAR *) m_malloc(entclen + 1, "entity content") ;
+            w_strcpy(entity->content, entcontent) ;
+            entity->wheredef = M_DELTDEF ;
+            }
+  ;
+
+entlita
+  entval:declitaent,
+  piorsdata:declitaent,
+  typedec:declitaent {entclen = 0 ;}
+
+  declitaent:postent,
+  edclitaent:postent {
+            entcontent[entclen] = M_EOS ;
+            entity->content = 
+              (M_WCHAR *) m_malloc(entclen + 1, "entity content") ;
+            w_strcpy(entity->content, entcontent) ;
+            entity->wheredef = M_DELTDEF ;
+            }
+  ;
+
+cro
+  litcon:litcon
+  ;
+
+litrs
+  litcon:litcon
+  ;
+
+litrsc
+  litcon:litcon
+  ;
+
+litre
+  litcon:litcon
+  ;
+
+litrec
+  litcon:litcon
+  ;
+
+littab
+  litcon:litcon
+  ;
+
+littabc
+  litcon:litcon
+  ;
+
+litspace
+  litcon:litcon
+  ;
+
+litcspace
+  litcon:litcon
+  ;
+
+refc
+  charent:charent
+  ;
+
+signon
+  start:insignon {restart = RSIGNON ;}
+  error:insignon
+  ;
+
+gdef
+  start:globdef,
+  insignon:globdef {
+            endsignon() ;
+            restart = RGLOBDEF ;
+            /* fprintf(globdef, "#line %d \"%s\"\n", m_line, iffile) ; */
+            }
+
+  error:globdef {
+            endsignon() ;
+            /* fprintf(globdef, "#line %d \"%s\"\n", m_line, iffile) ; */
+            }
+
+  ;
+
+gdec
+  start:globdec,
+  insignon:globdec {
+            endsignon() ;
+            restart = RGLOBDEC ;
+            /* fprintf(globdec, "#line %d \"%s\"\n", m_line, iffile) ; */
+            }
+  globdef:globdec {
+            restart = RGLOBDEC ;
+            /* fprintf(globdec, "#line %d \"%s\"\n", m_line, iffile) ; */
+            }
+
+  error:globdec {
+            if (! signonend) endsignon() ;
+            restart = RGLOBDEC ;
+            /* fprintf(globdec, "#line %d \"%s\"\n", m_line, iffile) ; */
+            }
+  ;
+
+inisstring
+  start:iniss,
+  insignon:iniss {
+            endsignon() ;
+            gss = stringcnt ;
+            instring = TRUE ;
+            }
+
+  inies:iniss {
+            endstring() ;
+            gss = stringcnt ;
+            if (gss) 
+              m_error("Multiple specification of global start string") ;
+            instring = TRUE ;
+            }
+
+  inisc:iniss,
+  iniec:iniss,
+  initc:iniss,
+  inipc:iniss,
+  inistc:iniss {
+            if (gss) 
+              m_error("Multiple specification of global start string") ;
+            gss = stringcnt ;
+            instring = TRUE ;
+            }
+
+  globdef:iniss,
+  globdec:iniss {
+            gss = stringcnt ;
+            instring = TRUE ;
+            }
+  ;
+
+iniestring
+  start:inies,
+  insignon:inies {
+            endsignon() ;
+            ges = stringcnt ;
+            instring = TRUE ;
+            }
+
+  iniss:inies {
+            if (ges) 
+              m_error("Multiple specification of global end string") ;
+            endstring() ;
+            ges = stringcnt ;
+            instring = TRUE ;
+            }
+
+  inisc:inies,
+  iniec:inies,
+  initc:inies,
+  inipc:inies,
+  inistc:inies {
+            if (ges) 
+              m_error("Multiple specification of global end string") ;
+            ges = stringcnt ;
+            instring = TRUE ;
+            }
+
+  globdef:inies,
+  globdec:inies {
+            ges = stringcnt ;
+            instring = TRUE ;
+            }
+  ;
+
+inistring
+  start:inistc,
+  insignon:inistc {
+            endsignon() ;
+            /* fprintf(stfile, "#line %d \"%s\"\n", m_line, iffile) ; */
+            finistc = FALSE ;
+            }
+
+  iniss:inistc,
+  inies:inistc {
+            finistc = FALSE ;
+            endstring() ;
+            if (! finistc) 
+              m_error("Multiple specification of global string code") ;
+            }
+
+  iniec:inistc,
+  initc:inistc,
+  inipc:inistc,
+  inisc:inistc {
+            if (! finistc) 
+              m_error("Multiple specification of global string code") ;
+            /* fprintf(stfile, "#line %d \"%s\"\n", m_line, iffile) ; */
+            finistc = FALSE ;
+            }
+
+  globdef:inistc,
+  globdec:inistc {
+            finistc = FALSE ;
+            /* fprintf(stfile, "#line %d \"%s\"\n", m_line, iffile) ;  */
+            }
+  ;
+
+inistart
+  start:inisc,
+  insignon:inisc {
+            endsignon() ;
+            /* fprintf(sfile, "#line %d \"%s\"\n", m_line, iffile) ; */
+            }
+
+  iniss:inisc,
+  inies:inisc {endstring() ;}
+
+  iniec:inisc,
+  initc:inisc,
+  inipc:inisc,
+  inistc:inisc,
+  globdef:inisc,
+  globdec:inisc {
+	    /* fprintf(sfile, "#line %d \"%s\"\n", m_line, iffile) ; */
+	    }
+  ;
+
+iniend
+  start:iniec,
+  insignon:iniec {
+            endsignon() ;
+            /* fprintf(efile, "#line %d \"%s\"\n", m_line, iffile) ; */
+            }
+
+  iniss:iniec,
+  inies:iniec {endstring() ;}
+
+  inisc:iniec,
+  initc:iniec,
+  inipc:iniec,
+  inistc:iniec,
+  globdef:iniec,
+  globdec:iniec {
+	    /* fprintf(efile, "#line %d \"%s\"\n", m_line, iffile) ; */
+	    }
+  ;
+
+initext
+  start:initc,
+  insignon:initc {
+            endsignon() ;
+            /* fprintf(tfile, "#line %d \"%s\"\n", m_line, iffile) ; */
+            finitext = FALSE ;
+            }
+
+  iniss:initc,
+  inies:initc {endstring() ;}
+
+  inisc:initc,
+  iniec:initc,
+  inipc:initc,
+  inistc:initc,
+  globdef:initc,
+  globdec:initc {
+            /* fprintf(tfile, "#line %d \"%s\"\n", m_line, iffile) ; */
+            finitext = FALSE ;
+            }
+  ;
+
+initpi
+  start:inipc,
+  insignon:inipc {
+            endsignon() ;
+            /* fprintf(pfile, "#line %d \"%s\"\n", m_line, iffile) ; */
+            finipi = FALSE ;
+            }
+
+  iniss:inipc,
+  inies:inipc {endstring() ;}
+
+  inisc:inipc,
+  iniec:inipc,
+  initc:inipc,
+  inistc:inipc,
+  globdef:inipc,
+  globdec:inipc {
+            /* fprintf(pfile, "#line %d \"%s\"\n", m_line, iffile) ; */
+            finipi = FALSE ;
+            }
+  ;
+
+elt
+  start:needn,
+  insignon:needn {
+            endsignon() ;
+            endini() ;
+            }
+
+  inelt:needn
+
+  globdef:needn,
+  globdec:needn,
+  inisc:needn,
+  iniec:needn,
+  initc:needn,
+  inipc:needn {endini() ;}
+
+  inss:needn,
+  ines:needn {endstring() ;}
+
+  insc:needn
+  inec:needn
+  intc:needn
+  inpc:needn
+  instc:needn
+  inparam:needn
+  preparam:needn
+  error:needn
+  ;
+
+tagc
+  postent:start
+  codetagc:inentc {
+            startcode(entity->codeindex, &inent, entfile,
+                      "c", nopar, nopar, "") ;
+            }
+  close:preparam
+  sschain:inss {
+            *getaction(starray) = stringcnt ;
+            instring = TRUE ;
+            }
+  eschain:ines {
+            *getaction(etarray) = stringcnt ;
+            instring = TRUE ;
+            }
+  pcchain:inpc {
+            *getaction(pcarray) = ++pactions ;
+            startcode(pactions, &inpc, pfile, "p", pproto, pformal, pftype) ;
+            }
+  tcchain:intc {
+            *getaction(tcarray) = ++tactions ;
+            startcode(tactions, &intext, tfile, "t", tproto, tformal, 
+                      tftype) ;
+            }
+  scchain:insc {
+            *getaction(scarray) = ++sactions ;
+            startcode(sactions, &insc, sfile, "s", nopar, nopar, "") ;
+            }
+  ecchain:inec {
+            *getaction(ecarray) = ++eactions ;
+            startcode(eactions, &inec, efile, "e", nopar, nopar, "") ;
+            }
+  stcchain:instc {
+            *getaction(stcarray) = ++stactions ;
+            startcode(stactions, &instc, stfile, "st", stproto, stformal, 
+                      stft) ;
+            }
+  ;
+
+sep
+  sschain:sschain {*getaction(starray) = stringcnt ;}
+  eschain:eschain {*getaction(etarray) = stringcnt ;}
+  pcchain:pcchain {*getaction(pcarray) = pactions + 1 ;}
+  tcchain:tcchain {*getaction(tcarray) = tactions + 1 ;}
+  scchain:scchain {*getaction(scarray) = sactions + 1 ;}
+  ecchain:ecchain {*getaction(ecarray) = eactions + 1 ;}
+  stcchain:stcchain {*getaction(stcarray) = stactions + 1 ;}
+  postvalue:invalue
+  ;
+
+param
+  preparam:inparam
+  ;
+
+vi
+  cvar:pname
+  cvalue:value
+  ;
+
+rend
+  postpname:inparam
+  ;
+
+grpo
+  postpname:invalue
+  ;
+
+grpc
+  invalue:postpname
+  postvalue:postpname
+  ;
+
+
+sss
+  inelt:sschain
+  inss:sschain,
+  ines:sschain {endstring() ;}
+
+  inpc:sschain
+  intc:sschain
+  insc:sschain
+  inec:sschain
+  instc:sschain
+  inparam:sschain
+  preparam:sschain
+  ;
+
+ess
+  iniss:inisc,
+  inss:inelt {endstring() ;}
+  ;
+
+ses
+  inelt:eschain 
+  inss:eschain,
+  ines:eschain {endstring() ;}
+
+  inpc:eschain
+  intc:eschain
+  insc:eschain
+  inec:eschain
+  instc:eschain
+  inparam:eschain
+  preparam:eschain
+  ;
+
+ees
+  inies:inisc,
+  ines:inelt {endstring() ;}
+  ;
+
+scode
+  inss:scchain,
+  ines:scchain {endstring() ;}
+
+  inparam:scchain
+  inelt:scchain
+  inpc:scchain
+  intc:scchain
+  insc:scchain
+  inec:scchain
+  instc:scchain
+  preparam:scchain
+  ;
+
+ecode
+  inss:ecchain,
+  ines:ecchain {endstring() ;}
+
+  insc:ecchain
+  inparam:ecchain
+  inelt:ecchain
+  inec:ecchain
+  intc:ecchain
+  inpc:ecchain
+  instc:eschain
+  preparam:ecchain
+  ;
+
+tcode
+  inss:tcchain,
+  ines:tcchain {endstring() ;}
+
+  insc:tcchain
+  inec:tcchain
+  inparam:tcchain
+  inelt:tcchain
+  preparam:tcchain
+  inpc:tcchain
+  intc:tcchain
+  instc:tcchain
+  ;
+
+pcode
+  inelt:pcchain
+  preparam:pcchain
+  inparam:pcchain
+  inss:pcchain,
+  ines:pcchain {endstring() ;}
+  inpc:pcchain
+  intc:pcchain
+  insc:pcchain
+  inec:pcchain
+  instc:pcchain
+  ;
+
+stcode
+  inelt:stcchain
+  preparam:stcchain
+  inparam:stcchain
+  inss:stcchain,
+  ines:stcchain {endstring() ;}
+
+  inpc:stcchain
+  intc:stcchain
+  insc:stcchain
+  inec:stcchain
+  instc:stcchain
+  ;
+
+endfile
+  start:finish,
+  insignon:finish {
+            endsignon() ;
+            endini() ;
+            }
+
+  globdef:finish,
+  globdec:finish,
+  inistc:finish,
+  inisc:finish,
+  iniec:finish,
+  initc:finish,
+  inipc:finish {endini() ;}        
+  ;
+
+wildcard
+  stcchain:stcchain,
+  sschain:sschain,
+  eschain:eschain,
+  scchain:scchain,
+  ecchain:ecchain,
+  tcchain:tcchain,
+  pcchain:pcchain {
+            *nextchain = (CHAIN *) m_malloc(sizeof(CHAIN), "chain") ;
+            (*nextchain)->elt = 1 ;
+            (*nextchain)->next = NULL ;
+            nextchain = &(*nextchain)->next ;
+            }
+  ;
+
+literal
+  value:postvalue {value(literal) ;}
+  ;
+
+name
+  needn:close {startelement() ;}
+  inparam:cvar {storecvar() ;}
+  pname:postpname {storepname() ;}
+  invalue:cvalue {cvalue() ;}
+  value:postvalue {value(name) ;}
+  entdec:entval {addent() ;}
+
+  stcchain:stcchain,
+  sschain:sschain,
+  eschain:eschain,
+  scchain:scchain,
+  ecchain:ecchain,
+  tcchain:tcchain,
+  pcchain:pcchain {
+            *nextchain = (CHAIN *) m_malloc(sizeof(CHAIN), "chain") ;
+            (*nextchain)->next = NULL ;
+            if ((*nextchain)->elt = m_packedlook(m_entree, name))
+                (*nextchain)->elt++ ;
+              else
+                m_err1("Undefined element: %s", name) ;
+            nextchain = &(*nextchain)->next ;
+            }
+  ;
+
+text
+  declitent:declitent {
+            if (entclen >= M_LITLEN) {
+              curcon = EDECLITENT ;
+              m_error("Entity content too long") ;
+              }
+            else entcontent[entclen++] = textchar ;
+            }
+  declitaent:declitaent {
+            if (entclen >= M_LITLEN) {
+              curcon = EDCLITAENT ;
+              m_error("Entity content too long") ;
+              }
+            else entcontent[entclen++] = textchar ;
+            }
+  edeclitent:edeclitent
+  edclitaent:edclitaent
+  insignon:insignon {
+            socr = (LOGICAL) (textchar == '\n') ;
+            signonmsg[sochar++] = textchar ;
+            if (sochar >= SOCHAR) {
+              m_error("Exceeded buffer for sign-on message") ;
+              exit(TRUE) ;
+              }
+            }
+  globdef:globdef {
+            fprintf(globdef, "%c", textchar) ;
+            /* if (textchar == '\n') fprintf(globdef, "#line %d \"%s\"\n", 
+              m_line, iffile) ; */
+            }
+  globdec:globdec {
+            fprintf(globdec, "%c", textchar) ;
+            /* if (textchar == '\n') fprintf(globdec, "#line %d \"%s\"\n",
+              m_line, iffile) ; */
+            }
+  iniss:iniss,
+  inss:inss {
+            if (! stringstart) fprintf(string, ",\n") ;
+            fprintf(string, "  %d", textchar) ;
+            stringstart = FALSE ;
+            stringcnt++ ;
+            }
+  inies:inies,
+  ines:ines {
+            if (! stringstart) fprintf(string, ",\n") ;
+            fprintf(string, "  %d", textchar) ;
+            stringstart = FALSE ;
+            stringcnt++ ;
+            }
+  inisc:inisc,
+  insc:insc {
+            fprintf(sfile, "%c", textchar) ;
+            /* if (textchar == '\n') fprintf(sfile, "#line %d \"%s\"\n",
+              m_line, iffile) ;  */
+            }
+  iniec:iniec,
+  inec:inec {
+            fprintf(efile, "%c", textchar) ;
+            /* if (textchar == '\n') fprintf(efile, "#line %d \"%s\"\n",
+              m_line, iffile) ;  */
+            }
+  initc:initc,
+  intc:intc {
+            fprintf(tfile, "%c", textchar) ;
+            /* if (textchar == '\n') fprintf(tfile, "#line %d \"%s\"\n",
+              m_line, iffile) ;  */
+            }
+  inipc:inipc,
+  inpc:inpc {
+            fprintf(pfile, "%c", textchar) ;
+            /* if (textchar == '\n') fprintf(pfile, "#line %d \"%s\"\n",
+              m_line, iffile) ;  */
+            }
+  inistc:inistc,
+  instc:instc {
+            fprintf(stfile, "%c", textchar) ;
+            /* if (textchar == '\n') fprintf(stfile, "#line %d \"%s\"\n",
+              m_line, iffile) ; */
+            }
+  inentc:inentc {
+            fprintf(entfile, "%c", textchar) ;
+            /* if (textchar == '\n') fprintf(entfile, "#line %d \"%s\"\n",
+              m_line, iffile) ;  */
+            }
+  ;
+

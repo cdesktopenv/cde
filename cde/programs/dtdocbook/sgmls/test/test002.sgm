@@ -1,0 +1,60 @@
+<!-- ENTITY and CHARACTER references: reports 13 errors (14 with /D). --   >
+<!doctype gdoc [
+  <!element gdoc           - - (t1, tag1)>
+  <!element t1             - - (#PCDATA|t2)*>
+  <!element tag1           - - (#PCDATA|t)*><!attlist tag1 att1 CDATA #implied>
+  <!element t2             - - (#PCDATA)>
+  <!element t              - - (#PCDATA)><!attlist t a CDATA #implied>
+
+  <!--Memory entities: references are terminated by a REFC or non-name char.-->
+  <!entity e1 "content of e1">
+  <!entity e2 "content of e2">
+  <!entity e3 "e3 contains the &e1 and the &e2 as well">
+  <!entity e2 "invalid duplicate">
+  <!entity test2e SYSTEM>
+  <!entity phoney SYSTEM>
+  <!entity t2expi pi "processing instruction" >
+  <!entity a 'p1 --c--
+"p2 p3"  3'>
+  <!entity % pe1 "first value" >
+  <!entity   ent2 "ent2 has %pe1 included." >
+  <!entity % qe1       "%dummy;">
+  <!entity   be1  cdata "%qe1;&#212;<notag>">
+  <!entity   be2  sdata "%qe1;&#212;<notag>">
+  <!entity   be3 ms     "[%qe1;&#212;">
+  <!entity   be4 pi     "%qe1;&#212;">
+  <!entity   x  SYSTEM 'test2x.gml'>
+  <!entity   x2 cdata "<notatag>">
+  <!ENTITY % e8 "SYSTEM 'h 2 o o --comment">
+  <!ENTITY   e9 %e8;-- (a,[b, ("q"|"x"),"z"],c)'>
+  <!-- Test public and system fileid generation: set pe=1 -->
+  <!entity   g1 system >
+  <!entity % g2 system >
+  <!entity   g4 public "public name">
+  <!entity % g5 public "-//owner//TEXT public name//EN">
+  <!entity   g7 system               "system name">
+  <!entity % g8 system               "system name">
+  <!entity   g9 public "public name" "filename">
+  <!entity % g0 public "public name" "filename">
+] -- end of gdoc dtd -->
+<gdoc>
+<t1>A reference to the &e1 and the &e2;.
+The entity &e3
+.
+<t2 att1 ="The entity &e3
+."</t2></t1>
+<tag1 att1="valt1a1 is test2e.gml: &test2e">
+&phoney
+&t2expi
+&a;
+&ent2;
+&x;
+a&#x;
+&#tab;&#2&#312;b
+&x2;
+<?a &#2; &#333; &#212;>
+/
+&be1&be2;&be3
+&be4;
+<t a="&a;"></t>
+</tag1></gdoc>

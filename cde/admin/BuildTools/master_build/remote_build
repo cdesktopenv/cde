@@ -1,0 +1,20 @@
+#!/bin/sh
+#this script is set to provide access to remote builds and pass the
+# appropriate options to the remote machines
+# Marc Ayotte 2/5/90
+
+USAGE="USAGE: remote_build <remotehost> [Remoteoptions ..]
+		   see master_build for details on options"
+
+
+
+
+if [ $# -lt 1 ];then
+	echo ""
+	echo "$USAGE"
+	exit 1
+fi
+REMOTEHOST=$1
+shift
+
+remsh $REMOTEHOST "/x/cdesrc/admin/BuildTools/master_build/master_build $*" 

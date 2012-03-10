@@ -1,0 +1,275 @@
+<!-- $XConsortium: unregist.sgm /main/4 1996/08/30 15:39:57 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN74.rsml.1">
+<RefMeta>
+<RefEntryTitle>csa_unregister_callback</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>csa_unregister_callback</Function></RefName>
+<RefPurpose>unregister the specified callback functions
+</RefPurpose>
+</RefNameDiv>
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<!-- (c) Copyright 1994 X.400 API Association-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;xcsa.h>
+</FuncSynopsisInfo>
+<FuncDef>CSA_return_code <Function>csa_unregister_callback</Function></FuncDef>
+<ParamDef>CSA_session_handle <Parameter>session</Parameter></ParamDef>
+<ParamDef>CSA_flags <Parameter>reason</Parameter></ParamDef>
+<ParamDef>CSA_callback <Parameter>callback</Parameter></ParamDef>
+<ParamDef>CSA_buffer <Parameter>client_data</Parameter></ParamDef>
+<ParamDef>CSA_extension *<Parameter>unregister_callback_extensions</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>csa_unregister_callback</Function> function removes the specified callback procedure to the
+specified callback list.
+Both the procedure and the client
+data must match for this function to remove the procedure.
+Specifying a value of
+<SystemItem Class="Constant">NULL</SystemItem> for both callback and client data will cause all callbacks
+on the specified callback list(s) to be removed.
+</Para>
+<RefSect2>
+<Title>Session (Session Handle)</Title>
+<Para>Opaque session handle that represents a session with the
+calendaring service.
+</Para>
+<Para>Session handles are created by a logon function call and
+invalidated with a logoff function call.
+If the session
+handle is invalid, then the error
+<SystemItem Class="Constant">CSA_E_INVALID_SESSION_HANDLE</SystemItem> is returned.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Reason (Flags)</Title>
+<Para>A bitmask of flags.
+Unspecified flags should always be
+passed as 0.
+Undocumented flags are reserved.
+Each flag
+corresponds to a callback list.
+Flag settings include:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_CB_CALENDAR_LOGON</Term>
+<ListItem>
+<Para>If set, the new callback will be invoked when a the
+calendar is accessed by a user.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CB_CALENDAR_DELETED</Term>
+<ListItem>
+<Para>If set, the new callback will be invoked when a user
+requests that the calendar be deleted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CB_CALENDAR_ATTRIBUTE_UPDATED</Term>
+<ListItem>
+<Para>If set, the new callback will be invoked whenever a
+calendar attribute is updated.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CB_ENTRY_ADDED</Term>
+<ListItem>
+<Para>If set, the new callback will be invoked whenever an entry
+is added to the calendar.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CB_ENTRY_DELETED</Term>
+<ListItem>
+<Para>If set, the new callback will be invoked whenever an entry
+is deleted from the calendar.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_CB_ENTRY_UPDATED</Term>
+<ListItem>
+<Para>If set, the new callback will be invoked whenever an entry
+is updated on the calendar.
+It is implementation specific
+if the callback function is invoked before or after the
+specified update type occurs.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Callback (Callback)</Title>
+<Para>Specifies the client procedure that should be removed from
+the specified callback list(s).
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Client Data (Opaque Data)</Title>
+<Para>A pointer to an application specific data structure that
+was specified when the callback procedure was registered.
+This must match for the function to succeed.
+This
+constraint allows the application to register the same
+function on more than one callback list with different
+client_data.
+The instances of the callback function on the
+different callback lists will be treated independently by
+the calendar service.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Unregister Callback Extensions (Extension)</Title>
+<Para>A pointer to an array of
+<StructName Role="typedef">CSA_extension</StructName> structures for this function.
+The array may contain both
+input extensions for providing additional information to
+the function and output extensions for receiving
+information from the function.
+A value of
+<SystemItem Class="Constant">NULL</SystemItem> indicates that the caller is not using any extensions.
+See the extensions structure for more information.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<RefSect2>
+<Title>Unregister Callback Extensions (Extension)</Title>
+<Para>If output extensions were passed to the function in the
+extensions list, the results from the service will be
+available in the extension.
+See the extensions structure for more information.
+Whether the function succeeded or
+not, and, if not, why.
+It may be success or one of the
+values listed under ERRORS below.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The
+<Function>csa_unregister_callback</Function> function returns the following error values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>CSA_E_CALLBACK_NOT_REGISTERED</Term>
+<ListItem>
+<Para>The specified callback function was not registered.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_FAILURE</Term>
+<ListItem>
+<Para>There was a general failure that does not
+fit the description of any other error code.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INSUFFICIENT_MEMORY</Term>
+<ListItem>
+<Para>Insufficient memory was available to complete the requested operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FLAG</Term>
+<ListItem>
+<Para>A flag value in the
+<Symbol Role="Variable">flags</Symbol> argument was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The function extension requested is invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_PARAMETER</Term>
+<ListItem>
+<Para>A function parameter was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_INVALID_SESSION_HANDLE</Term>
+<ListItem>
+<Para>The specified Session Handle is invalid or no longer valid
+(e.g., after logging off).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NO_AUTHORITY</Term>
+<ListItem>
+<Para>The user has insufficient authority for this function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_NOT_SUPPORTED</Term>
+<ListItem>
+<Para>The operation requested is not supported by this implementation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_SERVICE_UNAVAILABLE</Term>
+<ListItem>
+<Para>The requested calendar service is unavailable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FLAG</Term>
+<ListItem>
+<Para>The flag requested is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>CSA_E_UNSUPPORTED_FUNCTION_EXT</Term>
+<ListItem>
+<Para>The specified function extension is not supported or
+<SystemItem Class="Constant">CSA_EXT_REQUIRED</SystemItem> is set.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.csa.csa.h;, &cdeman.csa.add.calendar;, &cdeman.csa.add.entry;, &cdeman.csa.call.callbacks;, &cdeman.csa.delete.calendar;, &cdeman.csa.delete.entry;, &cdeman.csa.free;, &cdeman.csa.free.time.search;, &cdeman.csa.list.calendar.attributes;, &cdeman.csa.list.calendars;, &cdeman.csa.list.entries;, &cdeman.csa.list.entry.attributes;, &cdeman.csa.list.entry.sequence;, &cdeman.csa.logoff;, &cdeman.csa.logon;, &cdeman.csa.look.up;, &cdeman.csa.query.configuration;, &cdeman.csa.read.calendar.attributes;, &cdeman.csa.read.entry.attributes;, &cdeman.csa.read.next.reminder;, &cdeman.csa.register.callback;, <![ %CDE.C.XO; [&cdeman.csa.restore;, &cdeman.csa.save;, ]]>&cdeman.csa.update.calendar.attributes;, &cdeman.csa.update.entry.attributes;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

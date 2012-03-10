@@ -1,0 +1,42 @@
+/* XPM */
+/* $XConsortium: noteicon.pm /main/4 1996/06/19 16:19:36 drk $ */
+static char * noteicon [] = {
+/* width height ncolors cpp [x_hot y_hot] */
+"32 32 3 1 0 0",
+/* colors */
+" 	s none	m none	c none",
+".	s iconColor5	m black	c blue",
+"X    s iconGray2     m white c #bdbdbdbdbdbd",
+/* pixels */
+"            ........            ",
+"         ...XXXXXXXX...         ",
+"       ..XXXXXXXXXXXXXX..       ",
+"      .XXXXXXXXXXXXXXXXXX.      ",
+"     .XXXXXXXXXXXXXXXXXXXX.     ",
+"    .XXXXXXXXX...XXXXXXXXXX.    ",
+"   .XXXXXXXXX.....XXXXXXXXXX.   ",
+"  .XXXXXXXXXX.....XXXXXXXXXXX.  ",
+"  .XXXXXXXXXX.....XXXXXXXXXXX.  ",
+" .XXXXXXXXXXXX...XXXXXXXXXXXXX. ",
+" .XXXXXXXXXXXXXXXXXXXXXXXXXXXX. ",
+" .XXXXXXXXXXXXXXXXXXXXXXXXXXXX. ",
+".XXXXXXXXXXXXX....XXXXXXXXXXXXX.",
+".XXXXXXXXXXX......XXXXXXXXXXXXX.",
+".XXXXXXXXXXX......XXXXXXXXXXXXX.",
+".XXXXXXXXXXX......XXXXXXXXXXXXX.",
+".XXXXXXXXXXXXX....XXXXXXXXXXXXX.",
+".XXXXXXXXXXXXX....XXXXXXXXXXXXX.",
+".XXXXXXXXXXXXX....XXXXXXXXXXXXX.",
+".XXXXXXXXXXXXX....XXXXXXXXXXXXX.",
+" .XXXXXXXXXXXX....XXXXXXXXXXXX. ",
+" .XXXXXXXXXXXX....XXXXXXXXXXXX. ",
+" .XXXXXXXXXXXX....XXXXXXXXXXXX. ",
+"  .XXXXXXXXX........XXXXXXXXX.  ",
+"  .XXXXXXXXX........XXXXXXXXX.  ",
+"   .XXXXXXXX........XXXXXXXX.   ",
+"    .XXXXXXXXXXXXXXXXXXXXXX.    ",
+"     .XXXXXXXXXXXXXXXXXXXX.     ",
+"      .XXXXXXXXXXXXXXXXXX.      ",
+"       ..XXXXXXXXXXXXXX..       ",
+"         ...XXXXXXXX...         ",
+"            ........            "};

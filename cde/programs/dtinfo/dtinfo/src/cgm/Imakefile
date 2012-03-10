@@ -1,0 +1,72 @@
+XCOMM $XConsortium: Imakefile /main/6 1996/10/09 14:11:29 drk $
+/*                                                                      *
+ * (c) Copyright 1995 Hewlett-Packard Company                     *
+ * (c) Copyright 1995 International Business Machines Corp.       *
+ * (c) Copyright 1995 Sun Microsystems, Inc.                      *
+ * (c) Copyright 1995 Novell, Inc.                                *
+ */
+
+DESKTOP_VERSION_STRING = DesktopVersionString
+
+/* General case INCLUDES DEFINES LOCAL_LIBRARIES
+ * Each individual architecture may have more or less of the above.
+ * Use EXTRA_DEFINES and EXTRA_INCLUDES to add defines and includes
+ * to an individual architecture.  There is no equivalent for
+ * LOCAL_LIBRARIES.
+ * USE_libraryname in LOCAL_LIBRARIES is by default empty.
+ * It should be set when necessary to the real library macro name.
+ */
+
+        DEFINES = 
+       INCLUDES = -I$(DTHELP_INCLUDES)/DtI
+
+/* DEPLIBS contains the list of library depencies for a client.
+ * LOCAL_LIBRARIES contains the list of libraries on the link line.
+ * Generally, the dependency form of a library has DEP as a prefix.
+ * e.g. put $(XLIB) in LOCAL_LIBRARIES and $(DEPXLIB) in DEPLIBS.
+ * NOTE: if DEPLIBS is not set here, it is by default null and there
+ *       are no library dependencies for clients.
+ *       You cannot put -Llibpath into DEPLIBS. You must put actual
+ *       paths to the library.
+ */
+DEPLIBS = $(DEPDTHELPLIB) $(DEPDTSVCLIB) $(DEPTTLIB) \
+		$(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTHELP_LIBRARY) $(DTSVCLIB) $(TTLIB) $(XMLIB) \
+		  $(XTOOLLIB) $(XLIB) -L. -lcgm
+SYS_LIBRARIES = -lm
+
+
+LIBNAME=cgm
+
+PROGRAMS=testcgm
+
+EXTRA_INCLUDES=-I/X11/include
+
+OBJS1=	cgmcmds.o \
+	cgmcommon.o \
+	cgmio.o \
+	cgmtext.o \
+	getcgm.o
+
+SRCS1=	cgmcmds.c \
+	cgmcommon.c \
+	cgmio.c \
+	cgmtext.c \
+	getcgm.c
+
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(cgm, $(OBJS1))
+
+
+AllTarget($(PROGRAMS))
+
+SRCS2 = testcgm.c
+OBJS2 = testcgm.o
+
+ComplexProgramTarget_2($(PROGRAMS),$(LOCAL_LIBRARIES),$(SYS_LIBRARIES))
+
+DependTarget3($(SRCS1),$(SRCS2),NullParameter)
+
+clean::
+	RemoveFiles($(PROGRAMS))

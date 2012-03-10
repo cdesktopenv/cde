@@ -1,0 +1,94 @@
+XCOMM! /bin/ksh
+XCOMM $XConsortium: rc.dt.src /main/5 1996/04/23 12:05:38 drk $
+XCOMM *                                                                      *
+XCOMM * (c) Copyright 1996 Digital Equipment Corporation.
+XCOMM * (c) Copyright 1993,1994,1996 Hewlett-Packard Company.
+XCOMM * (c) Copyright 1993,1994,1996 International Business Machines Corp.
+XCOMM * (c) Copyright 1993,1994,1996 Sun Microsystems, Inc.
+XCOMM * (c) Copyright 1993,1994,1996 Novell, Inc. 
+XCOMM * (c) Copyright 1996 FUJITSU LIMITED.
+XCOMM * (c) Copyright 1996 Hitachi.
+#define HASH #
+
+XCOMM COMPONENT_NAME: DESKTOP rc.dt
+XCOMM
+XCOMM FUNCTIONS:
+XCOMM
+XCOMM ORIGINS: 27
+XCOMM
+XCOMM (C) COPYRIGHT International Business Machines Corp. 1994, 1995
+XCOMM All Rights Reserved
+XCOMM Licensed Materials - Property of IBM
+XCOMM
+XCOMM US Government Users Restricted Rights - Use, duplication or
+XCOMM disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+XCOMM
+XCOMM ###################################################################
+XCOMM rc.dt -
+XCOMM       starts the AIX Windows Desktop Login
+XCOMM       waits for the X Server to start
+XCOMM ###################################################################
+
+if [ "$1" != "boot" -a -f /.bootsequence ]
+then
+XCOMM
+XCOMM       clean things up from graphical boot
+XCOMM
+        /usr/bin/rm -f /.bootsequence
+	if [ -f /.bootsequence ]; then
+		echo "\n\nError: Unable to remove /.bootsequence.\n\n"
+	fi
+
+        /usr/bin/ps -ef | /usr/bin/grep "dtlogin" | /usr/bin/grep -v grep >/dev/null
+        if [ "$?" -eq 0 ] ; then
+                exit 0
+        fi
+fi
+
+
+XCOMM
+XCOMM Start the dtsrc subsystem
+XCOMM
+if [ "$1" = "boot" ]; then
+  /usr/dt/bin/dtlogin -daemon
+else
+  /usr/bin/startsrc -s dtsrc 2>/dev/null 1>/dev/null
+fi
+
+XCOMM
+XCOMM Check for error on starting the dtsrc subsystem
+XCOMM
+rc=$?
+if [ "$rc" != "0" ]; then
+	echo "\n\nERROR: The AIX Windows Desktop is not correctly configured\n"
+	exit 1
+fi
+
+echo "Starting AIX Windows Desktop....\c"
+
+XCOMM
+XCOMM Sleep for <= 10 secs for the X server to come up.
+XCOMM
+
+i=10
+while [ "$i" != 0 ]
+do
+	HASH
+	HASH checking if the X server is up and running.
+	HASH
+        XPID=`ps -ef | awk '$8~/^.*\/X$/{print $3}'`
+        if [ -n "$XPID" ]; then                  
+           ps -ef | grep $XPID | grep "dtlogin" | grep -v grep    1>/dev/null
+           rc=$?                                          
+        else                                                                    
+           rc=1                                                                 
+        fi                                                                      
+	if [ "$rc" -eq "0" ]; then
+		break 
+	fi
+	sleep 1
+	echo ".\c"
+	i=`expr $i - 1`  # decrement count
+done
+
+sleep 1

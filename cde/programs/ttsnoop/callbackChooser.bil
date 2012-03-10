@@ -1,0 +1,403 @@
+// $XConsortium: callbackChooser.bil /main/2 1996/11/11 11:57:23 drk $
+:bil-version	1 0
+:module callbackChooser
+(
+
+:element callbackChooser
+(
+	:type			:dialog
+	:x			387
+	:y			421
+	:width			337
+	:height			146
+	:bg-color		"white"
+	:label			"tt_message_callback_add"
+	:resizable		:true
+	:visible		:false
+	:default-button		callbackAddButton
+	:help-button		callbackAddHelpButton
+	:children		(
+		callbackPane
+		dialog_button_panel
+	)
+)
+:element callbackPane
+(
+	:type			:container
+	:container-type		:relative
+	:x			0
+	:y			0
+	:width			333
+	:height			142
+	:visible		:true
+	:border-frame		:shadow-in
+	:north-attachment	(:point 0 0)
+	:south-attachment	(:obj callbackChooser 0)
+	:east-attachment	(:obj callbackChooser 0)
+	:west-attachment	(:point 0 0)
+	:children		(
+		msgDestroyChoice
+		msgReturnChoice
+		msgActionChoice
+	)
+)
+:element msgDestroyChoice
+(
+	:type			:choice
+	:choice-type		:nonexclusive
+	:x			45
+	:y			45
+	:label-type		:string
+	:label			"Then:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj msgActionChoice 5)
+	:west-attachment	(:grid-line 13 0)
+	:children		(
+		msgDestroyChoice_Destroy_item
+	)
+)
+:element msgDestroyChoice_Destroy_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Destroy"
+	:active			:true
+	:selected		:true
+)
+:element msgReturnChoice
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			31
+	:y			83
+	:label-type		:string
+	:label			"Return:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:obj msgDestroyChoice 5)
+	:west-attachment	(:grid-line 9 0)
+	:children		(
+		msgReturnChoice_PROCESSED_item
+		msgReturnChoice_CONTINUE_item
+	)
+)
+:element msgReturnChoice_PROCESSED_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"PROCESSED"
+	:active			:true
+	:selected		:true
+)
+:element msgReturnChoice_CONTINUE_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"CONTINUE"
+	:active			:true
+	:selected		:false
+)
+:element msgActionChoice
+(
+	:type			:choice
+	:choice-type		:option-menu
+	:x			58
+	:y			10
+	:label-type		:string
+	:label			"Do:"
+	:label-position		:west
+	:num-columns		1
+	:orientation		:vertical
+	:selection-required	:false
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 10)
+	:west-attachment	(:grid-line 17 0)
+	:children		(
+		msgActionChoice_Print_item
+		msgActionChoice_Open_item
+		msgActionChoice_Accept_item
+		msgActionChoice_Abstain_item
+		msgActionChoice_Reply_item
+		msgActionChoice_Reject_item
+		msgActionChoice_Fail_item
+	)
+)
+:element msgActionChoice_Print_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Print"
+	:active			:true
+	:selected		:true
+)
+:element msgActionChoice_Open_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Open"
+	:active			:true
+	:selected		:false
+)
+:element msgActionChoice_Accept_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Accept"
+	:active			:true
+	:selected		:false
+)
+:element msgActionChoice_Abstain_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Abstain"
+	:active			:true
+	:selected		:false
+)
+:element msgActionChoice_Reply_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Reply"
+	:active			:true
+	:selected		:false
+)
+:element msgActionChoice_Reject_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Reject"
+	:active			:true
+	:selected		:false
+)
+:element msgActionChoice_Fail_item
+(
+	:type			:item
+	:item-type		:item-for-choice
+	:label-type		:string
+	:label			"Fail"
+	:active			:true
+	:selected		:false
+)
+:element dialog_button_panel
+(
+	:type			:container
+	:container-type		:button-panel
+	:width			337
+	:height			48
+	:visible		:true
+	:border-frame		:none
+	:children		(
+		callbackAddButton
+		callbackAddCancelButton
+		callbackAddHelpButton
+	)
+)
+:element callbackAddButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Add"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 30 0)
+	:west-attachment	(:grid-line 10 0)
+)
+:element callbackAddCancelButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Cancel"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 60 0)
+	:west-attachment	(:grid-line 40 0)
+)
+:element callbackAddHelpButton
+(
+	:type			:button
+	:button-type		:push-button
+	:label-type		:string
+	:label-alignment	:center
+	:label			"Help"
+	:active			:true
+	:visible		:true
+	:north-attachment	(:point 0 5)
+	:east-attachment	(:grid-line 90 0)
+	:west-attachment	(:grid-line 70 0)
+)
+:connection
+(
+	:from			callbackAddCancelButton
+	:to			callbackChooser
+	:when			:activate
+	:action-type		:builtin
+	:action			:hide
+	:arg-type		:void
+)
+:connection
+(
+	:from			callbackAddButton
+	:when			:activate
+	:action-type		:call-function
+	:action			callbackOkayed
+)
+:connection
+(
+	:from			msgActionChoice_Open_item
+	:to			msgDestroyChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:disable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Open_item
+	:to			msgReturnChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:disable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Print_item
+	:to			msgDestroyChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Accept_item
+	:to			msgDestroyChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Accept_item
+	:to			msgReturnChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Print_item
+	:to			msgReturnChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Abstain_item
+	:to			msgReturnChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Abstain_item
+	:to			msgDestroyChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Reply_item
+	:to			msgDestroyChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Reply_item
+	:to			msgReturnChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Reject_item
+	:to			msgReturnChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Reject_item
+	:to			msgDestroyChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Fail_item
+	:to			msgDestroyChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			msgActionChoice_Fail_item
+	:to			msgReturnChoice
+	:when			:activate
+	:action-type		:builtin
+	:action			:enable
+	:arg-type		:void
+)
+:connection
+(
+	:from			callbackAddHelpButton
+	:when			:activate
+	:action-type		:call-function
+	:action			callbackHelp
+)
+)

@@ -1,0 +1,520 @@
+#!/bin/ksh
+################################################################################
+#
+# File:         master_build
+# RCS:          $XConsortium: master_build /main/14 1996/07/18 14:17:16 drk $
+# Author:       Marc Ayotte Hewlett-Packard, OSSD-CV
+# Created:      2/6/90
+# Modified by:  Jim Andreas, Fred Handloser, Marc Ayotte, Ron Voll 
+#                  and others from Hewlett-Packard, OSSD-CV
+# Language:     N/A
+# Package:      N/A
+# Status:       CDE distributed
+#
+# (c) Copyright 1993, Hewlett-Packard Company, all rights reserved.
+#
+# Description:  This file controls the building and cloning of
+#               of source and build trees. Look at the file cron.example
+#               and the usage information below for examples of how
+#               to use this script. There is also a man page
+#               master_build.1
+################################################################################
+
+
+################################################################################
+function DoUsage #
+################################################################################
+{
+    if [ -n $1 ]; then
+	echo "unrecognized option: $1"
+	echo
+    fi
+
+    cat<<eof
+Usage:master_build 
+    [ -src <srcdir> ]  (source directory e.g. /proj/cde, /proj/x11)
+    [ -build <buildir> (build dir. as in /proj/cde, /proj/x11)
+    [ -clone <option> ] (one of:
+              f   -> do a full checkout # TEMPORARILY OBSOLETE!!
+              n   -> clone creating real files (fnrclone -n)
+              s   -> clone without checking files out of RCS
+              c   -> clone checking out newer RCS files
+              sync-> clone checking out newer RCS files (OBSOLETE)
+    [ -cl ] (run cleanLinks)
+    [ -c ] (compile)
+    [ -b ] (run make binstall and use the default path mechanism in imake)
+    [ -bp <path> ] (run make binstall and supply the install location)
+    [ -ba <path> ] (run make binstall and create an automatic install path)
+	    (This path is of the form path/mm_dd).
+    [ -cb <#dirs left> ] (clean binstall directories. must be used
+			  with -ba option)
+    [ -l ] (make lint libraries)
+    [ -n ] (do not make Makefile,Makefiles,includes,depend)
+    [ -w ] (clean the tree before building)
+    [ -be <chrootdir> ] (do a chroot build using chrootdir)
+    [ -ld <ldoptions> ] (pass ld options to build probably obsolete)
+    [ -model <model> ] (necessary for apollo or prism)
+    [ -m ] ( send mail to all in BUILD_WATCH list when finished)
+    [ -noIgnore ] (do not use the -k option to make)
+    [ -log <logdir> ] directs output to <logdir>/mm_dd/cde
+         e.g. -log /proj/cde/logs -> /proj/cde/logs/mm_dd/cde/*
+         if no -log is specified, output is directed to <buildir>/mm_dd/cde/*
+	 if no -build is specified, output is directed to ./mm_dd/cde/*
+    [ -t ] <tooldir> (directory containing master_build, fnrclone 
+		      directories.  Currently $TOOLDIR)
+eof
+
+    # 
+    # if there is a bad option mail to any in the BUILD_WATCH list, 
+    # we don't know if the -m option was used.
+    if [ "$BUILD_WATCH" ]
+    then
+       LETTER=/tmp/optError.$$
+       echo "master_build did not run on machine $SYSNAME" > $LETTER
+       echo "due to bad option '$1'" >> $LETTER
+       echo "" >> $LETTER
+       echo "" >> $LETTER
+       printenv >> $LETTER
+       mailx -s"master_build did not run on $SYSNAME due to bad option '$1'"   $BUILD_WATCH < $LETTER
+       rm $LETTER
+    fi
+
+    exit 1
+} # END DoUsage
+
+
+###########################################################################
+# Initialize Parameters
+# get the architecture and start time
+SYSNAME=`uname -n`
+ARCH=`uname -s`
+
+#
+#  Resolve date call that depend on HP-UX, Apollo sys5.3, or Apollo
+#  bsd4.3. The default for architectures is "date
+#
+if [ -f /hp-ux ]
+then
+        DATECMD="/bin/date"
+elif [ -f /com/ctnode ]
+then
+        DATECMD="/sys5.3/bin/date"
+else
+        DATECMD="date"
+fi
+
+START_TIME_LONG=`$DATECMD`
+
+START_TIME="`$DATECMD +%d`_`$DATECMD +%H`:`$DATECMD +%M`:`$DATECMD +%S`"
+DATE="`$DATECMD +%m`_`$DATECMD +%d`"
+
+SENDMAIL="FALSE"
+TOOLDIR=/x/cdesrc/admin/BuildTools
+IGNORE="-k"
+BASE_LOG_DIR=
+###########################################################################
+
+
+
+###########################################################################
+#  parse command line arguments...
+
+# Prepend options from the MASTERBUILD environment variable.
+set -- $MASTERBUILD $*
+
+if [ $# -lt 1 ]
+then
+  DoUsage $1      # exit on error
+fi
+
+while [ $# -gt 0 ]
+do case $1 in
+       -src) SRC_DIR=$2;shift 2     ;; # source directory
+       -build) OBJ_DIR=$2;shift 2   ;; # build directory
+       -clone) CLONEOPT=$2;shift 2  ;; # clone options if any
+       -cl) CLEANLINKS="TRUE";shift ;; # run clean links
+       -c) COMPILE="TRUE";shift     ;; # Compile object
+       -b) DOBINSTALL="TRUE"; 
+           BINSTALL_PATH=;shift     ;; # run make binstall w/default path
+       -bp) DOBINSTALL="TRUE";
+	    BINSTALL_PATH=$2;
+                          shift 2   ;; # run make binstall w/supplied path
+       -ba) DOBINSTALL="TRUE";
+	    BINSTALL_PATH=$2;
+	    BINSTALL_AUTOPATH="TRUE";  # append /mm_dd to BINSTALL_PATH
+                          shift 2   ;; # run make binstall w/auto path
+       -cb) DOCLEANBINSTALL="TRUE"  ;  # run manageBInstallDirs
+	    NUMBINSTALLDIRSLEFT=$2  ;  # directories to leave when
+                          shift 2   ;; # cleaning binstall subdirs
+       -n) NOMAKEMAKEFILE=TRUE;shift;; # Do not do make Makefile, etc
+       -w) CLEAN="TRUE";shift       ;; # Remove all object files
+       -l) DOLINT="TRUE";shift      ;; # Make lint from top level
+       -ld) LDOPTIONS=$2;shift 2    ;; # LDOPTS passed
+       -be) BE=TRUE;BEDIR=$2;shift 2;; # use pseudo-root BEDIR to build
+       -log) BASE_LOG_DIR=$2;shift 2;; # use alternate log directory
+       -t) TOOLDIR=$2;shift 2        ;; # directory for fnrclone, etc.
+       -model) MODEL=$2;shift 2     ;; # not necessary for hp
+       -noIgnore) IGNORE=; shift    ;; # do not ignore make errors (no -k)
+       -m) SENDMAIL="TRUE";BUILD_WATCH=$2;shift 2 ;; # send mail when finished 
+        *)  DoUsage $1;shift        ;; # exit on error
+    esac
+done
+
+umask 002
+
+
+###########################################################################
+# Set up various log directories
+#
+CLEANBINSTALL=$TOOLDIR/master_build/manageBInstallDirs
+LATESTDIR=$DATE # for manageBInstallDirs
+CLEANBINSTALLPATH=$BINSTALL_PATH # for manageBInstallDirs
+
+# binstall automatic path
+if [ "$BINSTALL_AUTOPATH" ];then
+  BINSTALL_PATH=$BINSTALL_PATH/$DATE
+else
+  if [ "$DOCLEANBINSTALL" ];then
+	echo "ERROR - can't run manageBInstallDirs unless -ba option is used";
+	DoUsage
+  fi
+fi
+
+#
+#  The log directory is determined as follows
+#  
+#	1. The directory specified in the -log flag.
+#	2. The directory specified in the -build flag.
+#	3. The current directory.
+#
+
+if [ "$BASE_LOG_DIR" = "" ]; then
+  if [ "$OBJ_DIR" ]; then
+     BASE_LOG_DIR=$OBJ_DIR;
+  else
+     BASE_LOG_DIR=".";
+  fi
+fi
+
+BASE_LOG_DIR=$BASE_LOG_DIR/$DATE
+
+# set up log directories on build machines
+# use build directory for log file if present, otherwise use source
+# if binstall wanted and no object dir -> error
+if [ "$OBJ_DIR" ];then
+    FOCUS_DIR=$OBJ_DIR
+else
+    if [ "$DOBINSTALL" ];then
+	echo "\n\t----------------------------------------------------------";
+	echo   "\t*** ERROR - must specify -build option with -b options ***"
+	echo   "\t----------------------------------------------------------";
+	DoUsage;
+    fi
+    FOCUS_DIR=$SRC_DIR
+fi
+
+#
+# check the existence of OSVersion.tmpl
+#
+
+if [ ! -a $FOCUS_DIR/config/OSVersion.tmpl ]; then
+   echo "$FOCUS_DIR/config/OSVersion.tmpl does not exist"
+   echo "Abort...."
+   exit 1
+fi
+
+#
+# check the existence of localtree.tmpl
+#
+
+if [ ! -a $FOCUS_DIR/config/localtree.tmpl ]; then
+   echo "$FOCUS_DIR/config/localtree.tmpl does not exist"
+   echo "Abort...."
+   exit 1
+fi
+
+#
+# setup the log directory
+#
+
+LEAF_LOG_DIR=`basename $FOCUS_DIR`
+LOG_DIR=$BASE_LOG_DIR/$LEAF_LOG_DIR
+[ ! -d $LOG_DIR ] && mkdir -p $LOG_DIR
+
+DATE=`$DATECMD +%H%M%S`
+BUILDLOGDATE=`$DATECMD +%a`
+
+# make a daily directory for logs
+CLONE_ERR=$LOG_DIR/cloneerr.$DATE
+CLONE_LOG=$LOG_DIR/clonelog.$DATE
+CLEANLINKS_LOG=$LOG_DIR/cleanlinks.$DATE
+MAKE_FILE=$LOG_DIR/make.$DATE   
+ALL_MAKE=$LOG_DIR/allmake.$DATE
+LINT_LOG=$LOG_DIR/lint.$DATE
+BINSTALL_LOG=$LOG_DIR/binstall.$DATE
+CLEANBINSTALL_LOG=$LOG_DIR/cleanbinstall.$DATE
+SUMMARY_FILE=$LOG_DIR/summary.$DATE
+PROCESSID_FILE=$LOG_DIR/pid.$DATE
+
+echo "$$" > $PROCESSID_FILE
+echo "pid of master_build is $$ for $FOCUS_DIR on $SYSNAME" >> $PROCESSID_FILE
+
+# Log file for a particular build tree
+[ "$OBJ_DIR" ] && [ ! -d $OBJ_DIR/logs ] && mkdir $OBJ_DIR/logs
+OBJ_DIR_LOG=$OBJ_DIR/logs/make.${BUILDLOGDATE}.${DATE}
+
+
+###########################################################################
+# Clone source or build trees
+#
+  # clone if appropriate
+    if [ "$CLONEOPT" ]
+    then
+        cd $FOCUS_DIR #directory which will be cloned if not checkout all
+        echo "\n==== Cloning $FOCUS_DIR on $SYSNAME, pid of master_build is $$ ====\n";
+
+        case $CLONEOPT in 
+            s)    $TOOLDIR/fnrclone/fnrclone $SRC_DIR $FOCUS_DIR -f $CLONE_LOG 1>$CLONE_ERR 2>&1;;
+            n | c) $TOOLDIR/fnrclone/fnrclone $SRC_DIR $FOCUS_DIR -${CLONEOPT} -f $CLONE_LOG 1>$CLONE_ERR 2>&1;;
+            sync) $TOOLDIR/fnrclone/fnrclone $SRC_DIR $FOCUS_DIR -c -f $CLONE_LOG 1>$CLONE_ERR 2>&1;;
+            *)    echo "\n=========== bad clone option $CLONEOPT  on $SYSNAME ========\n";
+               # if there is a bad option mail to any in the BUILD_WATCH list, 
+               # even if the -m option was not used since this is an error
+               if [ "$BUILD_WATCH"  ]; then
+                 LETTER=/tmp/cloneOptError.$$
+                 echo "master_build on machine $SYSNAME exited " > $LETTER
+                 echo "due to bad clone option '$CLONEOPT'" >> $LETTER
+                 echo "" >> $LETTER
+                 echo "" >> $LETTER
+                 printenv >> $LETTER
+                 mailx -s"master_build on $SYSNAME exited due to bad clone option '$CLONEOPT'" $BUILD_WATCH < $LETTER
+                 rm $LETTER
+               fi
+               exit 1;;
+        esac
+
+    fi
+
+#################################
+# Clean symbolic links to nowhere
+#################################
+if [ "$CLEANLINKS" = "TRUE" ]
+then
+   echo "\n= removing symbolic links to nowhere in $FOCUS_DIR  on $SYSNAME =\n";
+   $TOOLDIR/master_build/cleanLinks  $FOCUS_DIR  1>$CLEANLINKS_LOG 2>&1
+fi
+
+###########################################################################
+#
+#  build new stuff...
+#
+
+if [ "$CLEAN" ]
+then
+   CLEAN="make $IGNORE clean"
+   CLEAN_STEPNAME="clean "
+else
+   CLEAN="true"
+fi
+
+if [ "$COMPILE" -o "$DOLINT" ];then
+   if [ "$COMPILE" ]; then
+    BUILD="make $IGNORE"
+    COMPILE_STEPNAME="make"
+   else
+      BUILD="true"
+   fi
+
+   if [ "$DOLINT" ];then
+      LINT="make $IGNORE lintlib"
+      LINT_STEPNAME="lintlib"
+   else
+      LINT="true"
+   fi
+
+   # if only doing make (-n option) ignore everything else
+   if [ "$NOMAKEMAKEFILE" ];then
+      MFILE="true"
+      MFILES="true"
+      MKINCLUDES="true"
+      DEPEND="true"
+   else
+      MFILE="make -f Makefile.ini Makefile"
+      MFILES="make $IGNORE Makefiles"
+      MKINCLUDES="make $IGNORE includes"
+      DEPEND="make $IGNORE depend"
+      MAKEFILES_STEPNAME="Makefiles"
+      INCLUDES_STEPNAME="includes"
+      DEPEND_STEPNAME="depend"
+   fi
+
+   echo "\n================= Building $OBJ_DIR  on $SYSNAME ==================\n"
+   echo "Build Directory:	$OBJ_DIR"
+   echo "Logging Directory:	$LOG_DIR"
+   echo "MasterBuild Steps:	$MAKEFILES_STEPNAME $CLEAN_STEPNAME $INCLUDES_STEPNAME $DEPEND_STEPNAME $COMPILE_STEPNAME $LINT_STEPNAME"
+
+   #
+   # Print out information about the view configuration
+   #
+
+   CLEARTOOL=/usr/atria/bin/cleartool
+   if [ -f $CLEARTOOL -a -x $CLEARTOOL ]; then
+       CWD=`pwd`
+       cd $OBJ_DIR
+       echo "\nBuild view:		" `$CLEARTOOL pwv -wdview -short`
+       echo "\nView config-spec:"
+       $CLEARTOOL catcs | grep -v "^#" | sed 's/.*/    &/'
+       echo "\nChecked out versions:"
+       $CLEARTOOL lsco -cview -avobs -fmt "    %Sd %u %n\n"
+       cd $CWD
+   fi
+
+   #
+   # print out OSVersion.tmpl info if it is a symbolic link
+   #
+
+   echo "\n$FOCUS_DIR/config/OSVersion.tmpl:"
+   if [ -L $FOCUS_DIR/config/OSVersion.tmpl ]; then
+      ls -l $FOCUS_DIR/config/OSVersion.tmpl | \
+          awk '{ print "    Link to -> " $11 }'
+   else
+      ls -l $FOCUS_DIR/config/OSVersion.tmpl
+   fi 
+   awk '/^#define/ { print "    " $2,$3 }' $FOCUS_DIR/config/OSVersion.tmpl
+
+   #
+   # print out localtree.tmpl info if it is a symbolic link
+   #
+
+   echo "\n$FOCUS_DIR/config/localtree.tmpl:"
+   if [ -L $FOCUS_DIR/config/localtree.tmpl ]; then
+      ls -l $FOCUS_DIR/config/localtree.tmpl | \
+          awk '{ print "    Link to -> " $11 }'
+   else
+      ls -l $FOCUS_DIR/config/localtree.tmpl
+   fi 
+  
+   echo ""
+
+######################################################################
+# This section below probably only applies to Hewlett-Packard
+# It concerns using a chroot build environment when building.
+######################################################################
+    #chroot build
+  if [ "$BE" ];then
+    cat<<dernier>$BEDIR/tmp/allmake$$script
+#! /bin/sh
+umask 002
+cd $OBJ_DIR && $MFILE && $MFILES && $CLEAN && $MKINCLUDES && $DEPEND
+dernier
+    chmod +x $BEDIR/tmp/allmake$$script
+    /usr/local/bin/changeroot $BEDIR /tmp/allmake$$script 1>$ALL_MAKE 2>&1
+    rm -f $BEDIR/tmp/allmake$$script
+
+    cat<<dernier>$BEDIR/tmp/make$$script
+#! /bin/sh
+umask 002
+LDOPTS="$LDOPTIONS"
+export LDOPTS
+cd $OBJ_DIR && $BUILD
+dernier
+    chmod +x $BEDIR/tmp/make$$script
+    /usr/local/bin/changeroot $BEDIR /tmp/make$$script 2>&1 | tee $OBJ_DIR_LOG 1>$MAKE_FILE
+    rm -f $BEDIR/tmp/make$$script
+
+    if [ "$DOLINT" ];then
+        cat<<dernier>$BEDIR/tmp/lint$$script
+#! /bin/sh
+umask 002
+cd $OBJ_DIR && $LINT
+dernier
+        chmod +x $BEDIR/tmp/lint$$script
+        /usr/local/bin/changeroot $BEDIR /tmp/lint$$script 1>$LINT_LOG 2>&1
+        rm -f $BEDIR/tmp/lint$$script
+    fi
+######################################################################
+# non chroot (normal) builds
+######################################################################
+  else
+    if [ "$ARCH" = "SunOS" ];then
+	PATH=$PATH:/usr/ccs/bin
+	export PATH
+    fi
+    if [ "$MODEL" = "apollo" -o "$MODEL" = "prism" ]
+    then
+           (  umask 002
+          echo "Preparing to build in: \"$OBJ_DIR\"."
+              cd $OBJ_DIR &&
+              $MFILE      &&
+              $MFILES     &&
+              $CLEAN      &&
+              $MKINCLUDES &&
+              $DEPEND
+           )  1>$ALL_MAKE 2>&1
+
+           (  umask 002
+              echo "Building in \"$OBJ_DIR\"."
+              echo "     X11REV=\"$X11REV\"."
+              echo "     MOTIFREV=\"$MOTIFREV\"."
+              cd $OBJ_DIR &&
+              $BUILD
+           )  2>&1 | tee $OBJ_DIR_LOG 1>$MAKE_FILE
+
+           (  umask 002
+          echo "Linting in \"$OBJ_DIR\"."
+              cd $OBJ_DIR &&
+              $LINT
+           )  1>$LINT_LOG 2>&1
+    else # all other architectures
+       COMMAND="umask 002
+              cd $OBJ_DIR &&
+              $MFILE &&
+              $MFILES &&
+              $CLEAN &&
+              $MKINCLUDES &&
+              $DEPEND &&
+              $BUILD 2>&1 | tee $OBJ_DIR_LOG 1>$MAKE_FILE &&
+              $LINT 1>$LINT_LOG 2>&1"
+           eval "$COMMAND" 1>$ALL_MAKE 2>&1
+    fi # apollo || prism
+  fi # BE
+
+
+  LETTER=/tmp/allOK.$$
+  STORAGEDIR=`/bin/pwd`
+
+  END_TIME="`$DATECMD +%d`_`$DATECMD +%H`:`$DATECMD +%M`:`$DATECMD +%S`"
+
+  END_TIME_LONG=`$DATECMD`
+
+  echo "master_build for $FOCUS_DIR on machine $SYSNAME "   > $LETTER
+  echo " " >> $LETTER
+  echo "          started  at $START_TIME_LONG" >> $LETTER
+  echo " " >> $LETTER
+  echo "      and finished at $END_TIME_LONG" >> $LETTER
+  echo "" >> $LETTER
+  echo "Summary: $SYSNAME  $FOCUS_DIR  $STORAGEDIR  $START_TIME  $END_TIME" >> $LETTER
+  echo "" >> $LETTER
+  cp $LETTER $SUMMARY_FILE
+  if [ "$SENDMAIL" = "TRUE" ] && [ "$BUILD_WATCH" ]
+  then
+     mailx -s"master_build for $FOCUS_DIR finished at `date`" $BUILD_WATCH < $LETTER
+  fi
+  rm -f $LETTER
+fi # COMPILE || DOLINT
+
+if [ "$DOBINSTALL" ];then
+   echo "Running make binstall on \"$OBJ_DIR\"."
+   if [ "$BINSTALL_PATH" ];then
+      BINSTALL="make $IGNORE BINSTALLPATH=$BINSTALL_PATH binstall";
+   else
+      BINSTALL="make $IGNORE binstall";
+   fi
+   cd $OBJ_DIR && $BINSTALL 1>$BINSTALL_LOG 2>&1
+   if [ "$DOCLEANBINSTALL" ];then
+      echo "Running clean binstall on \"$CLEANBINSTALLPATH\""
+      $CLEANBINSTALL $CLEANBINSTALLPATH $LATESTDIR $NUMBINSTALLDIRSLEFT 1>$CLEANBINSTALL_LOG 2>&1
+   fi
+fi
+
+exit 0

@@ -1,0 +1,138 @@
+<!-- $XConsortium: preq_cre.sgm /main/5 1996/08/30 12:50:19 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN216.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN216.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_prequest_create</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>tt_prequest_create</Function></RefName>
+<RefPurpose>create a procedure request message
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: preq_cre.sgm /main/5 1996/08/30 12:50:19 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Tt/tt_c.h>
+</FuncSynopsisInfo>
+<FuncDef>Tt_message <Function>tt_prequest_create</Function></FuncDef>
+<ParamDef>Tt_scope <Parameter>scope</Parameter></ParamDef>
+<ParamDef>const char *<Parameter>op</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>tt_prequest_create</Function> function creates a message.
+The created message created contains the following:
+</Para>
+<Para><StructName Role="typedef">Tt_address</StructName> =
+<SystemItem Class="Constant">TT_PROCEDURE</SystemItem> <StructName Role="typedef">Tt_class</StructName> =
+<SystemItem Class="Constant">TT_REQUEST</SystemItem></Para>
+<Para><![ %CDE.C.XO; []]>The application can use the returned handle to add
+arguments and other attributes, and to send the message.
+</Para>
+<Para>The
+<Emphasis>scope</Emphasis> argument determines which processes are eligible to receive the message.
+The following values are defined:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_SESSION</Term>
+<ListItem>
+<Para>All processes joined to the indicated session are eligible.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_FILE</Term>
+<ListItem>
+<Para>All processes joined to the indicated file are eligible.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_BOTH</Term>
+<ListItem>
+<Para>All processes joined to either indicated file
+or the indicated session are eligible.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_FILE_IN_SESSION</Term>
+<ListItem>
+<Para>All processes joined to both the indicated file
+and the indicated session are eligible.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The
+<Symbol Role="Variable">op</Symbol> argument is the operation to be performed by the receiving process.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>Upon successful completion, the
+<Function>tt_prequest_create</Function> function returns the unique handle that identifies this message.
+The application can use
+&cdeman.tt.ptr.error; to extract one of the following
+<StructName Role="typedef">Tt_status</StructName> values from the returned handle:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_OK</Term>
+<ListItem>
+<Para>The operation completed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_NOMP</Term>
+<ListItem>
+<Para>The
+&cdeman.ttsession; process is not running and the ToolTalk service cannot restart it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>TT_ERR_PROCID</Term>
+<ListItem>
+<Para>The specified process identifier is out of date or invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The application should use
+&cdeman.tt.free; to free any data stored in the address returned by the
+ToolTalk API.
+</Para>
+<Para>If the ToolTalk service is unable to create a message when requested,
+<Function>tt_prequest_create</Function> returns an invalid handle.
+When the application attempts to use this handle with another
+ToolTalk function, the ToolTalk service will return
+<SystemItem Class="Constant">TT_ERR_POINTER</SystemItem>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.Tt.tt.c.h;, &cdeman.tt.ptr.error;, &cdeman.tt.free;.</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

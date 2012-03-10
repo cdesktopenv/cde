@@ -1,0 +1,758 @@
+<!-- $XConsortium: ch01.sgm /main/13 1996/10/30 14:58:57 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<chapter id="RDMAP.archo.div.1">
+<title id="RDMAP.archo.mkr.1">Architectural Overview</title>
+<para>This chapter presents a high-level architectural view of the Common
+Desktop Environment. For details regarding the desktop run-time environment,
+consult the run-time documentation set and the online help volumes. For details
+regarding the desktop development environment components, see
+<!--Original
+XRef content: 'Chapter&numsp;6, &xd2;Recommended Integration'--><xref role="ChapNumAndTitle"
+linkend="RDMAP.recin.mkr.1">, <!--Original XRef content: 'Chapter&numsp;7,
+&xd2;Optional Integration'--><xref role="ChapNumAndTitle" linkend="RDMAP.optin.mkr.1">,
+the development environment documentation set, and the online man pages.
+</para>
+<informaltable id="RDMAP.archo.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Conceptual Overview3'--><xref role="JumpText"
+linkend="RDMAP.archo.mkr.2"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Data Interaction GUIs5'--><xref role="JumpText"
+linkend="RDMAP.archo.mkr.3"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Multiuser Collaboration6'--><xref
+role="JumpText" linkend="RDMAP.archo.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Desktop Management7'--><xref role="JumpText"
+linkend="RDMAP.archo.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Motif GUI Engine12'--><xref role="JumpText"
+linkend="RDMAP.archo.mkr.7"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Integration Technologies15'--><xref
+role="JumpText" linkend="RDMAP.archo.mkr.8"></para></entry></row>
+<row rowsep="1">
+<entry><para>Information Technologies ??
+</para></entry></row>
+</tbody>
+</tgroup></informaltable>
+<sect1 id="RDMAP.archo.div.2">
+<title id="RDMAP.archo.mkr.2">Conceptual Overview</title>
+<para>The Common Desktop Environment<indexterm><primary>architecture, Common
+Desktop Environment</primary></indexterm> architecture has many cross-process
+relationships. The three-process relationship of an X client, a window manager,
+and the X Window System&trade; server seems simple by comparison. The area
+covered by the Common Desktop Environment is broad, but the layering in the
+system is not as rigorous as that of<indexterm><primary>Motif</primary>
+</indexterm> Motif, Xt, and Xlib. The relationships between high-level system
+components are diverse and extensible. This chapter groups the technologies
+to illustrate that each desktop component fits into an overall whole. The
+Common Desktop Environment can be divided into:</para>
+<figure>
+<title>Conceptual overview of Common Desktop Environment</title>
+<graphic id="rdmap.archo.igrph.1" entityref="RDMAP.archo.fig.1"></graphic>
+</figure>
+<itemizedlist remap="Bullet1"><listitem><para>Data interaction graphical user
+interfaces (GUIs)&mdash;Application-level components that are available for
+user interaction, invocable by other applications. Think of these as programming
+components at a larger granularity than widgets.<indexterm><primary>data
+interaction graphical user interfaces</primary></indexterm></para>
+</listitem><listitem><para>Multiuser collaboration&mdash;Defines and uses
+application program interfaces (APIs) that enable collaboration between users
+on the network, particularly in the areas of calendar management, network
+resource naming, and network file sharing.<indexterm><primary>multiuser collaboration</primary></indexterm></para>
+</listitem><listitem><para>Desktop management&mdash;Provides components that
+negotiate the visual relationships between entities on the desktop. These
+include the following: Window Manager, Workspace Manager, Session Manager,
+Application Manager, File Manager, Style Manager, and the Front Panel.<indexterm>
+<primary>desktop management</primary></indexterm></para>
+</listitem><listitem><para>Motif GUI engine&mdash;Includes those components
+that implement the controls available to the user and includes the Common
+Desktop Environment Motif toolkit, additional widgets, a GUI shell (Desktop
+KornShell), and a GUI construction tool (Application Builder).<indexterm>
+<primary>graphical user interface engine</primary></indexterm></para>
+</listitem><listitem><para>Integration technologies&mdash;Represent technologies
+that do not generate GUIs, but are used as infrastructure by the rest of
+the desktop. These technologies include process execution control, application
+messaging (mechanism and protocols), data typing, and method invocation.<indexterm>
+<primary>integration technologies</primary></indexterm></para>
+</listitem></itemizedlist>
+</sect1>
+<sect1 id="RDMAP.archo.div.3">
+<title id="RDMAP.archo.mkr.3">Data Interaction GUIs<indexterm><primary>data
+interaction graphical user interfaces &lt;$startrange></primary></indexterm></title>
+<para>The Common Desktop Environment supplies a registration service, the
+ToolTalk Messaging Service, that enables an application to find an available
+service provider. ToolTalk provides the low-level messaging infrastructure.
+A companion mechanism, called the actions system, provides a consistent
+abstraction layer on top of both the traditional<indexterm><primary>UNIX</primary></indexterm> UNIX&trade; command-line interface to applications
+and the Common Desktop Environment-recommended ToolTalk interface to applications.
+Actions, as semantic entities, are exposed to the end user through higher
+levels of software. Both actions and ToolTalk are discussed in more detail
+in <!--Original XRef content: '&xd2;Integration Technologies&xd3; on page&numsp;15'--><xref
+role="SecTitleAndPageNum" linkend="RDMAP.archo.mkr.8">.</para>
+<para>The desktop contains components that are available through<indexterm>
+<primary>actions</primary></indexterm> action and ToolTalk APIs. Examples
+include GUIs to show a view of a directory, submit a print job, view the
+contents of the Trash Can, edit some text, show help information, compose
+a calendar appointment, and compose a mail message.</para>
+<para>You can also incorporate actions and<indexterm><primary>ToolTalk Messaging
+Service</primary></indexterm> ToolTalk message support into your application
+so that the application-specific services they supply are available to the
+desktop and other applications. Particularly, applications should provide
+the composition, viewing, editing, and printing services for both proprietary
+and standard format data. This way, applications that are coded to accept
+an extensible set of data types automatically gain more capabilities as more <emphasis>media</emphasis> handlers are added to the system. The Common Desktop Environment<indexterm><primary>File Manager</primary></indexterm>
+File Manager,<indexterm>
+<primary>Front Panel</primary></indexterm> Front Panel, and<indexterm><primary>Mailer</primary></indexterm> Mailer attachment GUI are examples of such applications.
+</para>
+<para>Media is used as a generic term for anything that can be presented to
+the user to convey information. The desktop provides media handlers for
+appointments, mail messages, mail folders, text, icons, and help data. Vendors
+have extended the desktop with additional media handlers, including PostScript&trade;,
+many kinds of image file formats, and audio <literal><indexterm><primary>data interaction graphical user interfaces &lt;$endrange></primary></indexterm></literal>data.</para>
+</sect1>
+<sect1 id="RDMAP.archo.div.4">
+<title id="RDMAP.archo.mkr.4">Multiuser Collaboration<indexterm><primary>multiuser collaboration &lt;$startrange></primary></indexterm></title>
+<para>While the ToolTalk and action mechanisms encourage cooperation between
+applications, the desktop also defines cross-user collaboration technologies.
+This means distributed access to shared user data. The desktop has defined
+some basic sharing mechanisms and has also built on top of existing mechanisms.
+</para>
+<para>An example of building on an existing mechanism is the<indexterm>
+<primary>remote procedure call (RPC)</primary></indexterm> remote procedure
+call (RPC) client/service implementation of calendar management. The desktop
+provides a client-side library and API, RPC protocol, and daemon/service
+that enables users to share appointment information. (The API is being standardized
+through<indexterm><primary>X.400 API Association (XAPIA)</primary></indexterm> X.400
+Application Programming Interface Association (XAPIA) to enable a cross-UNIX,
+PC, and palmtop calendar standard.) The RPC protocol enables a user to browse
+and directly edit another user's calendar. Access is controlled by a user-specific
+access control mechanism. Calendars are tied to hosts, and a calendar's data
+is maintained by a host- specific daemon. The desktop names calendars through
+a <computeroutput>user@host</computeroutput> format.</para>
+<para>The Common Desktop Environment uses conventional distributed file systems
+to name files that are sharable on the network. To provide an interface that
+is independent of the distributed file system, the desktop provides an API
+to translate host-relative file names into locally expressible file names.
+Although the desktop is based on the NFS&reg; system, it can be ported to
+run on top of other distributed file systems. Using the desktop file-name
+mapping API, an opaque file name object can be constructed and passed between
+desktop clients across the network and resolved in a host-specific way. Also,
+to simplify the programming task and end user metaphor, Common Desktop Environment
+applications should present remote file references as local file paths.</para>
+<para>One of the fundamentals of building multiuser collaboration applications
+is the ability to share files. The conventions for naming network files,
+in conjunction with a ToolTalk file-sharing mechanism called <emphasis><indexterm>
+<primary>file scoping</primary></indexterm>file scoping</emphasis>, enable
+multiuser collaboration through file sharing. File scoping is more than a
+mechanism for simple, exclusive access control. Cooperating clients can use
+file-scope access to negotiate for access to files. For example, an application
+that has exclusive access to a file could ask whether the user was done with
+the file when another application wanted to gain exclusive access to the file.<literal><indexterm>
+<primary>multiuser collaboration &lt;$endrange></primary></indexterm></literal></para>
+</sect1>
+<sect1 id="RDMAP.archo.div.5">
+<title id="RDMAP.archo.mkr.5">Desktop Management</title>
+<para>The physical metaphor associated with the Common Desktop Environment
+is loosely one of a user sitting in a chair surrounded by a bank of desks
+(workspaces). As the user swivels the chair (by clicking a push button on
+the Front Panel), another desk becomes accessible. On each desk, the following
+is available:</para>
+<itemizedlist remap="Bullet1"><listitem><para>A collection of drawers (<indexterm>
+<primary>File Manager</primary></indexterm> File Manager views) in which folders
+(directories) and reports (files) are organized.</para>
+</listitem><listitem><para>A collection of papers in use on the desktop (windows).
+Some papers are pushed out of the way (as icons), but are within easy reach.
+</para>
+</listitem><listitem><para>Continuous display (through<indexterm><primary>Front Panel</primary></indexterm> Front Panel icons) of a clock, the date,
+an indication of new mail, and an indication of something in the trash can.
+</para>
+</listitem><listitem><para>Direct access (through Front Panel buttons) to
+an appointment book (<indexterm><primary>Calendar</primary></indexterm>Calendar),
+a pad of paper (<indexterm><primary>Text Editor</primary></indexterm>Text
+Editor), a terminal (emulator), a mail box (<indexterm><primary>Mailer</primary>
+</indexterm>Mailer), a printer (<indexterm><primary>Print Manager</primary>
+</indexterm>Print Manager), office lighting controls (<indexterm><primary>Style Manager</primary></indexterm>Style Manager), a list of electronic agents
+(<indexterm><primary>Application Manager</primary></indexterm>Application
+Manager and Front Panel personal tool box), a guide book (<indexterm>
+<primary>Help system</primary></indexterm>Help), and a library (Information
+Manager).</para>
+</listitem></itemizedlist>
+<para>The user drags and drops objects to change their location and make copies
+of them. By dropping objects on services, the user gains assistance with
+appointment scheduling, editing, mail composition, printing, and other tasks.</para>
+<sect2 id="RDMAP.archo.div.6">
+<title>Session Management<indexterm><primary>desktop management</primary>
+<secondary>session management &lt;$startrange></secondary></indexterm><indexterm><primary>Session Manager &lt;$startrange></primary></indexterm></title>
+<para>The state of the desktop can be remembered. At a later time, and perhaps
+at a different X display station, the state of the desktop can be re-created.
+A session is a snapshot of the state of a user's desktop at a point in time.
+The Common Desktop Environment supports the following sessions from which the user
+can choose at login:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Home session&mdash;A snapshot
+of the desktop state that reassembles in the same way each time it is started.
+</para>
+</listitem><listitem><para>Current session&mdash;The state of a desktop saved
+at logout time.</para>
+</listitem>
+<listitem>
+<para>Display-specific Home session&mdash;A Home session created by the user for a specific display;
+if it exists, it takes precedence over the generic Home session.
+</para>
+</listitem>
+<listitem>
+<para>Display-specific Current session&mdash;A Current session created by the user for a specific
+display; if it exists, it takes precedence over the generic Current session.
+</para>
+</listitem>
+<listitem>
+<para>Failsafe session&mdash;A minimal session that can be used to access the system if the normal
+<command>login</command> fails.
+</para>
+</listitem>
+</itemizedlist>
+<para>The Common Desktop Environment Session Manager coordinates these activities,
+but applications are responsible for saving their own state.</para>
+<para>The desktop supports the X11R6 X Session Management Protocol and
+the X11R5 Interclient Communication Conventions style
+of session management. This consists mostly of conventions for setting properties
+on top-level windows. The desktop extends this by providing a facility that
+allocates specific files into which applications can store their state. A
+command-line flag then points to this file when the application is restarted.
+Applications that maintain multiple top-level windows must save the state
+of each of them.</para>
+<para>A session is associated with a particular user. In the Common Desktop
+Environment, the Login Manager is responsible for initial user login. The<indexterm><primary>Login Manager</primary></indexterm>
+Login Manager is
+an alternative GUI for the<indexterm><primary>UNIX</primary></indexterm> UNIX
+login program. Normally, it checks the entered password with the user's registered
+password. However, vendors can provide authentication schemes tuned to their
+platform.</para>
+<para>The Login Manager is network-aware. When faced with an X display that
+is normally served by host A, the user can log into the user's desktop by
+running a session from host B that has full access to the user's normal set
+of files and services on host B. This is possible by Login Manager acting
+as the desktop's<indexterm><primary>X11 Display Manager (XDM)</primary>
+</indexterm> X11 Display Manager (XDM). The XDM Control Protocol (XDMCP) is
+used between X11 window servers and XDMs on the network. The Login Manager
+displays its login window or host chooser window on any X11 server requesting
+either XDM service. This makes the Common Desktop Environment a good match
+for use with XDMCP-aware X terminals.</para>
+<para>For connections to the X server, the desktop uses the X magic cookie
+scheme to control access. If a user on some host machine can read a certain
+file within a session owner's home directory, then access to the X server
+is granted. An alternative to this per-user authorization is per-host authorization.
+This is useful for installations supporting pre-X11R4 clients, which will
+be unable to connect to X servers using the<indexterm><primary>X magic
+cookie scheme</primary></indexterm> X magic cookie scheme.</para>
+<para>X resource files are handled in the context of Common Desktop Environment
+sessions as follows: a set of Common Desktop Environment default resources
+is merged with a host version of this file, followed by the user's <filename>$HOME/.Xdefaults</filename> file, followed by a session-specific file of resources
+that have changed through user interaction with the Style Manager. The result
+is stored in the <filename>RESOURCE_MANAGER</filename> property of the root
+window. To enable fine- grain customization, the C preprocessor is run on
+resource files.<literal><indexterm><primary>desktop management</primary><secondary>session management &lt;$endrange></secondary></indexterm><indexterm><primary>Session Manager &lt;$endrange></primary></indexterm></literal>
+</para>
+</sect2>
+<sect2 id="RDMAP.archo.div.7">
+<title>Application Management<indexterm><primary>desktop management</primary>
+<secondary>application management &lt;$startrange></secondary></indexterm></title>
+<para>One of the obstacles preventing end users from taking full advantage
+of the network environment is the difficulty of accessing remote applications.
+The Common Desktop Environment provides conventions for:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Installation of applications
+so that they can be run remotely</para>
+</listitem><listitem><para>User navigation of available applications</para>
+</listitem><listitem><para>Execution of remote applications</para>
+</listitem></itemizedlist>
+<para>The user can browse the collection of available applications with a
+GUI tool called Application Manager. Applications can be dragged onto the
+desktop for easier access. Even remote applications are started by a simple
+double-click, hiding the network location of a running application. The user
+is not aware of any distinction between local and remote applications.</para>
+<para>This network transparency is accomplished by installing applications
+on network hosts designated as <emphasis><indexterm><primary>application
+servers</primary></indexterm>application servers</emphasis>. The parts of
+the installation relevant to the desktop require placing certain files in
+conventional places in the application's installation hierarchy. The application
+server maintains a list of applications that it is serving. Each host on
+the network maintains a list of the application servers on the network that
+it queries when a user logs into the desktop. This process is referred to
+as <emphasis>application gathering</emphasis>. It results in a dynamically-generated
+file hierarchy of actions arranged in folders. (Actions represent operations
+that end users can invoke, including starting applications.<indexterm><primary>actions</primary></indexterm>)</para>
+<para>The Common Desktop Environment<indexterm><primary>Application Manager</primary></indexterm> Application Manager provides a specialized view of
+the file system for the end user. Applications are arranged into groups and
+groups can be nested (such as in a directory hierarchy). Your application's
+installation script associates the application to a group. This association
+can be overridden by the system administrator as part of application server
+configuration. The set and arrangement of the actions shown through the Application
+Manager is a system resource that is typically shared between multiple users.
+Users cannot modify this view.</para>
+<para>The user can drag an icon from the<indexterm><primary>Application
+Manager</primary></indexterm> Application Manager onto the desktop, File Manager,
+Front Panel, and so on. The associated action remains valid as long as the
+gathered application that it refers to remains valid. Because actions represent
+a form of abstraction and indirection, the actual location of the application
+can change over time. This change remains transparent to the end user (this
+is explained further in <!--Original XRef content: '&xd2;Method Invocation&xd3;
+on page&numsp;18'--><xref role="SecTitleAndPageNum" linkend="RDMAP.archo.mkr.9">).
+The user double-clicks on an action icon to invoke it.<indexterm>
+<primary>desktop management</primary><secondary>application management &lt;$endrange></secondary></indexterm></para>
+</sect2>
+<sect2 id="RDMAP.archo.div.8">
+<title>Object Management</title>
+<para>T<literal><indexterm><primary>desktop management</primary><secondary>object management</secondary></indexterm><indexterm><primary>object management</primary></indexterm></literal>he Common Desktop Environment captures some
+object-oriented system attributes without being dependent upon a completely
+object-oriented infrastructure. The desktop provides graphic onscreen images
+that the user can pick up and move about, dropping them anywhere it makes
+semantic sense. These are viewed as <symbol role="Variable">objects</symbol>
+by the user. The<indexterm><primary>File Manager</primary></indexterm> File
+Manager promotes the object abstraction by providing a graphical way to browse
+and modify file and directory objects within the file system. It also provides
+a GUI to invoke actions. When the user selects a file, the actions that are
+defined for the selected type of file are presented to the user.</para>
+<para>Objects managed by desktop-based applications do not have to be file-based;
+in-memory buffers can represent desktop objects, too. The Common Desktop
+Environment Mailer handles<indexterm><primary>Multipurpose Internet Mail
+Extensions (MIME)</primary></indexterm> Multipurpose Internet Mail Extensions
+(MIME) messages by displaying attachments to a message as icons in a scrollable
+panel. These are objects that behave just like file-based objects during
+activities such as drag and drop. The user can drag between the File Manager
+and the<indexterm><primary>Mailer</primary></indexterm> Mailer. Applications
+that use drag and drop should maintain this important user model by supporting
+both file-based and buffer-based objects. The desktop drag-and-drop API and
+protocol make this straightforward.</para>
+</sect2>
+<sect2 id="RDMAP.archo.div.9">
+<title>Window Management</title>
+<para>The <literal><indexterm><primary>desktop management</primary><secondary>window management</secondary></indexterm><indexterm><primary>Window Manager &lt;$startrange></primary></indexterm></literal>Window
+Manager is essentially the Motif window manager with extensions to provide
+the<indexterm><primary>Front Panel</primary></indexterm> Front Panel GUI
+and workspace abstraction.</para>
+<para>The Front Panel can be thought of as a graphic version of the root window
+menu supported by many window managers. It can also be thought of as a tuned
+object manager in which common objects are readily available to the user.
+The Front Panel can show dynamic system information, and it enables the user
+to invoke actions and system functions. The user dynamically customizes the
+Front Panel by dragging and dropping action icons from the<indexterm><primary>Application Manager</primary></indexterm> Application Manager and<indexterm>
+<primary>File Manager</primary></indexterm> File Manager onto subpanels. Applications
+can come equipped with special configuration files that extend the Front
+Panel, possibly defining drop behavior, drop zone animation feedback, and
+so on. The user can optionally install these configuration files depending
+on customization preferences. <!--Original XRef content: 'Figure&numsp;1&hyphen;2'--><xref
+role="CodeOrFigureOrTable" linkend="RDMAP.archo.mkr.6"> displays a typical
+desktop Front Panel.</para>
+<figure>
+<title id="RDMAP.archo.mkr.6">Typical Front Panel</title>
+<graphic id="RDMAP.archo.grph.1" entityref="RDMAP.archo.fig.2"></graphic>
+</figure>
+<para>Workspaces are abstractions supported by the Window Manager that can
+be thought of as virtual desktops. Application windows exist within one,
+some, or all available workspaces. The user usually determines which workspaces
+an application window exists in as part of the user's customization. You
+should rarely use the workspace API other than to explicitly designate in
+which workspace your application appears on session restart. In general,
+do not place your application within multiple workspaces, because this overrides
+the user's prerogative.<indexterm><primary>desktop management</primary><secondary>window management</secondary></indexterm><indexterm>
+<primary>Window Manager &lt;$endrange></primary></indexterm></para>
+</sect2>
+<sect2 id="RDMAP.archo.div.10">
+<title>Style Management</title>
+<para>The <literal><indexterm><primary>desktop management</primary><secondary>style management</secondary></indexterm><indexterm><primary>Style Manager &lt;$startrange></primary></indexterm></literal>Style
+Manager enables users to customize their desktop using a GUI. Users are shielded
+from advanced concepts, such as X resources, for most common customization
+options. Style Manager provides controls for desktop-wide properties that
+adjust backdrops, keyboard settings, mouse settings, screen saver options,
+window management, and session management. These properties either do not
+affect applications directly or indirectly affect them through the X server
+or window manager.</para>
+<para>You, as an application developer, are more directly influenced by font
+choices, color choices, and input device mappings. The Motif toolkit and
+the Common Desktop Environment handle many of these settings transparently
+for widgets. However, your application will appear more integrated with the
+rest of the desktop if it responds to user font and color preferences. Applications
+that directly interact with the mouse will feel more integrated with the
+rest of the desktop if they are consistent with other applications; for example,
+by using the same mouse button double-click minimum interval value ( <command>multiClickTime</command> resource).</para>
+<para>To accommodate differences between platform vendor's display technology
+and available font sets, the Common Desktop Environment defines font aliases
+that are indirect names to actual font names. Use these aliases in the same
+way as the rest of desktop uses them.</para>
+<para>The Style Manager provides the user with color selection options to
+adjust the desktop color scheme. This color information is private to the
+Common Desktop Environment. Applications doing widget subclassing can indirectly
+access some of the color scheme by looking at inherited background pixel
+values. A call to <computeroutput>XmGetColors()</computeroutput> generates
+3-D shadow colors.</para>
+<para>The Common Desktop Environment does not dictate color usage for static
+colors, such as those used within icons. For these situations, however, your
+application should attempt to use the colors offered by the Common Desktop
+Environment Icon Editor, to enhance color sharing.<indexterm>
+<primary>desktop management</primary><secondary>style management</secondary>
+</indexterm><indexterm><primary>Style Manager &lt;$endrange></primary></indexterm></para>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.archo.div.11">
+<title id="RDMAP.archo.mkr.7">Motif GUI Engine</title>
+<para>Think of the Motif toolkit as the GUI engine of the desktop. This section
+discusses Common Desktop Environment Motif, Common Desktop Environment widgets,
+and alternative modes of Motif programming.</para>
+<sect2 id="RDMAP.archo.div.12">
+<title>Common Desktop Environment Motif Toolkit</title>
+<para>The<indexterm><primary>graphical user interface engine</primary><secondary>Common Desktop Environment Motif Toolkit</secondary></indexterm><indexterm>
+<primary>Common Desktop Environment Motif &lt;$startrange></primary></indexterm> Common Desktop Environment Motif
+toolkit is Motif 1.2.3 with bug fixes, enhancements, and some new features.
+You must explicitly set resources to enable the new features. Functional
+additions include file selection box GUI modifications, different default
+settings of existing resources (primarily to lighten up the default border
+widths), color management enhancements, internationalization of error messages,
+and minor usability fixes (some of which have the effect of easing migration
+of<indexterm><primary>OPEN LOOK</primary></indexterm> OPEN LOOK users to
+the Common Desktop Environment).</para>
+<para>Common Desktop Environment Motif and<indexterm><primary>Motif 2.0</primary></indexterm> Motif 2.0 are also highly compatible. Most functions
+put into Common Desktop Environment Motif have been introduced into Motif
+2.0. As a result, developers have compiled their applications with Common
+Desktop Environment Motif, relinked to Motif 2.0, and ran the applications
+successfully. Widget subclassing that has not followed Motif 1.2 subclassing
+guidelines designed to shield programs from widget size changes are likely
+to fail.</para>
+<para>A drag-and-drop convenience layer has been added on top of the Motif
+1.2 drag-and-drop API. In addition, the Common Desktop Environment uses the
+Motif 1.2 preregister drag feedback protocol. A drop site drag manager process
+keeps track of visible drop zones on the desktop. This data is used by a
+drag source client process to manage drag feedback interaction. Limited drag
+time validation of drop zones is followed by full validation at drop time,
+with <emphasis>snap- back-to-source</emphasis> animation if the drop fails.
+</para>
+<para>Common Desktop Environment Motif includes a GUI style guide and certification
+checklist that has substantially expanded on the Motif 1.2 style guide. Additions
+affect the input models, window management, and GUI design principles.<indexterm>
+<primary>graphical user interface engine</primary><secondary>Common Desktop
+Environment Motif Toolkit</secondary></indexterm><indexterm><primary>Common
+Desktop Environment Motif &lt;$endrange></primary></indexterm></para>
+</sect2>
+<sect2 id="RDMAP.archo.div.13">
+<title>Common Desktop Environment Motif Widgets</title>
+<para><indexterm><primary>graphical user interface engine</primary><secondary>Common Desktop Environment Motif widgets</secondary></indexterm><indexterm>
+<primary>Common Desktop Environment widgets</primary></indexterm>Common Desktop
+Environment Motif provides two types of widgets that are not available in
+Motif 1.2.3:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Low-level control widgets:
+</para>
+<itemizedlist remap="Bullet2"><listitem><para>SpinBox&mdash;A text field and
+arrow button widget</para>
+</listitem><listitem><para>ComboBox&mdash;A text field and list box widget
+</para>
+</listitem><listitem><para>MenuButton&mdash;A menu that doesn't need to be
+in a row column widget</para>
+</listitem></itemizedlist>
+<para>These were added primarily to help you port applications from a Microsoft&reg;
+Windows or OPEN LOOK environment. The SpinBox and ComboBox widgets have equivalents
+in Motif 2.0.</para>
+</listitem><listitem><para>Rich and full-featured widgets:</para>
+<itemizedlist remap="Bullet2"><listitem><para>Terminal Emulator widget&mdash;Useful
+for applications designed to mix the best of a command-line user interface
+with a GUI</para>
+</listitem><listitem><para>Editor widget&mdash;Available for embedding a more
+full-featured plain text editor than that available from the Motif Text widget
+</para>
+</listitem><listitem><para>Help widgets&mdash;Handle navigation and interaction
+with application help volumes</para>
+<para>Help is delivered with an application in the form of<indexterm><primary>Semantic Description Language (SDL)</primary></indexterm> Semantic Description
+Language (SDL) files that have been compiled from <emphasis><indexterm><primary>HelpTag</primary></indexterm>HelpTag</emphasis>, a form of<indexterm><primary>Standard Generalized Markup Language (SGML)</primary></indexterm> Standard
+Generalized Markup Language (SGML) files. The Help system features mixed
+text and graphics, hyper links, dynamic reformatting of text, and structured
+navigation capabilities.</para>
+</listitem></itemizedlist>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="RDMAP.archo.div.14">
+<title>GUI Shell</title>
+<para>The<indexterm><primary>graphical user interface engine</primary><secondary>Desktop KornShell</secondary></indexterm><indexterm><primary>Desktop KornShell
+(dtksh) &lt;$startrange></primary>
+</indexterm> Common Desktop Environment includes Desktop KornShell, an interpreted
+scripting language alternative to C programming of the Motif toolkit. Desktop
+KornShell includes selected frequently-used Common Desktop Environment, Xt,
+and Xlib APIs. You must use a compiled language to access the full power
+of the environment. However, you can write Desktop KornShell scripts that
+participate in desktop integration activities such as drag and drop, session
+management, and ToolTalk messaging.</para>
+<para>If you are comfortable with shell programming, you may prefer to use
+Desktop KornShell for modest programming tasks because it is:</para>
+<itemizedlist remap="Bullet1"><listitem><para>Well suited to system-administration-type
+applications because the shell commands intermix easily with GUI control.
+</para>
+</listitem><listitem><para>Good for putting a GUI control program on top of
+character-based applications because the shell environment handles character-based
+interaction in a natural way.</para>
+</listitem><listitem><para>A good way to deliver instruction-set-independent
+programs to a heterogeneous collection of hosts. For example, use the Common
+Desktop Environment<indexterm><primary>Mailer</primary></indexterm> Mailer
+to attach a script to a message that the recipient simply double-clicks to
+invoke.<indexterm><primary>graphical user interface engine</primary><secondary>Desktop KornShell</secondary></indexterm><indexterm><primary>Desktop KornShell
+(dtksh) &lt;$endrange></primary>
+</indexterm></para>
+</listitem></itemizedlist>
+</sect2>
+<sect2 id="RDMAP.archo.div.15">
+<title>GUI Construction</title>
+<para>The<indexterm><primary>graphical user interface engine</primary><secondary>Application Builder</secondary></indexterm><indexterm><primary>Application
+Builder &lt;$startrange></primary>
+</indexterm> easiest way to produce a Common Desktop Environment application,
+and perhaps the fastest, is to do almost no Motif toolkit programming at
+all. Use the Common Desktop Environment Application Builder, also known as
+App Builder, to construct the GUI control portion of your application. App
+Builder focuses on making default widget behavior easy to access. It does
+this by hiding many of the more esoteric resources that are available on
+most widgets. App Builder also makes it as easy to incorporate desktop integration
+infrastructure into your application, including drag and drop, session management,
+and ToolTalk messaging.</para>
+<para>App Builder maintains the user interface state in<indexterm><primary>Builder Interface Language (BIL)</primary></indexterm> Builder Interface Language
+(BIL) files. A code generator takes the BIL files and produces Motif toolkit
+code. App Builder can also generate<indexterm><primary>User Interface Language
+(UIL)</primary></indexterm> User Interface Language (UIL) files.</para>
+<para>As you make changes to your application's user interface, App Builder
+merges your custom code with the code it generates. Generated code is a good
+source of example code, even if you do not using App Builder to maintain
+your application's GUI state.</para>
+<para>In addition, nonprogrammers can use App Builder to produce an application
+GUI prototype. The prototype can roll forward to programmers for the production
+phase of development.<indexterm><primary>graphical user interface engine</primary><secondary>Application Builder</secondary></indexterm><indexterm>
+<primary>Application Builder &lt;$endrange></primary></indexterm></para>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.archo.div.16">
+<title id="RDMAP.archo.mkr.8">Integration Technologies</title>
+<para>Common Desktop Environment technologies discussed thus far have been
+directly involved with putting a GUI onto the screen. The integration technologies
+described in this section are underlying infrastructure, not GUI providers.
+</para>
+<sect2 id="RDMAP.archo.div.17">
+<title>Process Execution<indexterm><primary>integration technologies</primary>
+<secondary>process execution</secondary></indexterm><indexterm><primary>process
+execution</primary></indexterm></title>
+<para>To provide a network-leveraging environment, the Common Desktop Environment
+provides the<indexterm><primary>Sub Process Control (SPC)</primary></indexterm> Sub
+Process Control (SPC) mechanism to start, manage, and collect results from
+applications running on a remote host. A remote host installs an SPC daemon
+that serves as the remote end of a socket- based control mechanism. This control
+mechanism tries to maintain the illusion that the remote process is a local <symbol role="Variable">child</symbol> to the <symbol role="Variable">parent</symbol>
+process. Authentication of the user that owns the parent process is based
+upon the ability of the parent process to write a <command>setuid</command>
+file to the user's home directory <emphasis>and</emphasis> the ability of
+the child process to read the result.</para>
+<para>The SPC API and associated control programs are private to the Common
+Desktop Environment. Actions represent the public API for running applications
+remotely.</para>
+</sect2>
+<sect2 id="RDMAP.archo.div.18">
+<title>Application Messaging<indexterm><primary>integration technologies</primary>
+<secondary>application messaging</secondary></indexterm><indexterm><primary>ToolTalk Messaging Service &lt;$startrange></primary></indexterm></title>
+<para>The ToolTalk Messaging Service is the application messaging mechanism
+for the Common Desktop Environment. Application messaging addresses inter-
+application control and cooperation for applications working on behalf of
+a single user. The ToolTalk session daemon is a local message-routing process
+whose control scope typically corresponds to that of the X server. This means
+that clients within a session issue requests, the ToolTalk session manager
+finds or starts some client within a session that is able to handle the request,
+and the ToolTalk session daemon tracks the request until completion.</para>
+<para>The desktop provides two standard ToolTalk protocols known as <emphasis>messages sets</emphasis>. A message set contains a number of messages that
+can be exchanged between a sender and a handler process. These messages are
+grouped together because they describe related requests and notices. The
+sender and recipient may be within the same process or on different hosts.
+Message sets have associated utility functions that allow you to concentrate
+on the semantics of the protocol without getting involved in the low-level
+messaging details. Some of the message set functions enable you to defer
+to default behavior with almost no work on your part.</para>
+<sect3 id="RDMAP.archo.div.19">
+<title>Desktop Message Set</title>
+<para>The Desktop Message Set encompasses three areas. The first is windowing
+behavior. The second involves file access and short term file life cycle
+control. The third is specific to applications that have extension languages
+and is not generic enough to warrant library support.</para>
+</sect3>
+<sect3 id="RDMAP.archo.div.20">
+<title>Media Message Set</title>
+<para>The Media Message Set allows an application to be a container for arbitrary
+media, or to be a media player/editor that can be driven from such a container.
+The Media message interface allows a container application (such as<indexterm>
+<primary>Mailer</primary></indexterm> Mailer or<indexterm><primary>File Manager</primary></indexterm> File Manager) to compose, display, edit, or print a
+file or buffer of an arbitrary media type, without understanding anything
+about the format of that media type. ToolTalk routes a container's requests
+to the user's preferred tool for the given media type and operation. This
+includes routing the request to an already-running instance of the tool if
+that instance can best handle the request.<indexterm>
+<primary>integration technologies</primary><secondary>application messaging</secondary></indexterm><indexterm><primary>ToolTalk Messaging Service &lt;$endrange></primary></indexterm></para>
+</sect3>
+</sect2>
+<sect2 id="RDMAP.archo.div.21">
+<title>Data Typing<indexterm><primary>data typing &lt;$startrange></primary></indexterm></title>
+<para>The Common Desktop Environment provides a uniform user interface to
+the objects contained on the desktop. To do this, the desktop has a mechanism,
+called data typing, to determine an object's type using a set of criteria.
+The criteria includes properties potentially shared by file-based and buffer-based
+objects such as name pattern and content pattern. Other criteria are exclusive
+to files, and include path-name pattern and file permissions. Associated
+with every desktop type is an extensible set of attributes, including icon
+name, name template pattern, list of actions suitable for presentation to
+a user, equivalent type names for other type spaces (for example, MIME type),
+and a textual description of this type. The <emphasis>actions and data-types
+database</emphasis> stores data criteria and data attributes.</para>
+<para>The Common Desktop Environment defines, and platform vendors supply,
+a set of desktop type definitions. Your application should augment the database
+with both proprietary and public data types at application installation time.
+</para>
+<para>Information is extracted from the actions and data-types through a Common
+Desktop Environment library API. The data typing API matches an object's
+properties with the database type criteria to determine the object's desktop
+type. The matching algorithm uses a set of precedence rules to resolve conflicts.
+</para>
+<para>The Common Desktop Environment type space is defined by the X/Open
+Common Desktop Environment standard and exists primarily to support desktop-oriented
+activities such as icon display and action association. The MIME type space
+is defined by the Internet Engineering Task Force and exists to deal with
+exchange of mail message parts. A ToolTalk media type space exists in order
+to match data with handlers, and is a subset of X selection target types
+defined by the X Consortium. Thus, to do a complete job of type definition,
+you have to define a Common Desktop Environment type, X selection target,
+and MIME type. For private Common Desktop Environment types, append the type
+name to an organization's name. This partitions the name space without need
+for centralized allocation of types. The Common Desktop Environment claims
+the <emphasis>Dt</emphasis> prefix, for <emphasis>Desktop</emphasis>.<indexterm>
+<primary>data typing &lt;$endrange></primary></indexterm></para>
+</sect2>
+<sect2 id="RDMAP.archo.div.22">
+<title id="RDMAP.archo.mkr.9">Method Invocation<indexterm><primary>actions &lt;$startrange></primary></indexterm></title>
+<para>A Common Desktop Environment type can be thought of as the class of
+a desktop object. Using this analogy, actions can be thought of as the<indexterm>
+<primary>methods, and actions</primary></indexterm> methods available on instances
+of a class. Thus, the actions attribute in a type attribute list describes
+operations that are available for the type. A single action in the actions
+and data-types database has multiple parts, many of which are optional. These
+parts include:</para>
+<itemizedlist remap="Bullet1"><listitem><para>A description of how to invoke
+the operation: for example, through ToolTalk, through an execution string
+passed to the SPC mechanism, from within a terminal emulator, and so on.
+</para>
+</listitem><listitem><para>A description of the type of arguments associated
+with the action. The type of the desktop objects (files and buffers) that
+it accepts is defined by the actions and data-types database. Actions are
+polymorphic with respect to data types. For example, the Open action invokes
+a text editor for arguments that are text files and a graphics editor for
+arguments that are graphics files.</para>
+</listitem><listitem><para>A description of the number of arguments, if any,
+associated with the action.</para>
+</listitem><listitem><para>An optional indication as to where to carry out
+the operation: the local machine, a particular remote machine, the machine
+on which the executable resides, and so on. In addition, these execution
+locations can be included in a list so that if a host is not available then
+the next host on the list is tried. This provides a measure of redundancy
+that can be used to increase the likelihood of application launch, even in
+the face of remote host unavailability. Thus, actions provide network distribution
+guidance, implemented either through built-in ToolTalk facilities or through
+the SPC mechanism directly.</para>
+</listitem><listitem><para>An optional label, help string, and icon that the
+user sees when interacting with the action's GUI. These are hints to an application
+about how to represent the action to the user. These hints may be ignored,
+as the Front Panel does by ignoring the icon if the Front Panel configuration
+file supplies an alternative icon.</para>
+</listitem></itemizedlist>
+<para>The collection of actions available to the user is assembled at the
+same time as the system is collecting type database information. In fact,
+related action and type information usually reside together in the same file.
+Desktop-defined, system-administrator-defined (host-specific), and user-defined
+files are assembled in order into a single (actions and data-types) database,
+with later definitions taking precedence. This ordering of search path precedence
+and traversal is used elsewhere by the desktop for such things as help volume
+and icon file searches.</para>
+<para>The actions and data-types<indexterm><primary>database</primary></indexterm> database
+and the File Manager use action files to instantiate actions as file system
+objects that can be viewed, invoked, moved, copied, and so on. The database
+contains references to an action's implementation (for example &ldquo;run <filename>/usr/bin/app</filename> on machine <filename>net_app_svr</filename>&rdquo;).
+However, a representation is needed of an action as an object that the user
+can directly manipulate. This is achieved by using an object's name, which
+identifies it as an action to any object manager that is looking for actions.
+Thus, if there is an executable file named <command>Dtstyle</command> and
+an action named Dtstyle, the File Manager will interpret that file, regardless
+of its content, as the Dtstyle action reference. In addition, the File Manager
+uses the action's label as the name that the user sees for this file. Action
+labels are localizable, whereas action names are programmatic entities that
+should not be localized.</para>
+<para>The good feature about using files simply as pointers into the actions
+and data- types database is that the underlying implementation can evolve
+without the user having to do anything. However, one user's actions and data-types
+database may not match another user's actions and data-types database. Thus,
+a user cannot exchange an action reference, for example as a mail message
+attachment, and expect another person to have a comparable definition for
+that action. Exchanging a Desktop KornShell script is the best solution to
+this problem.</para>
+<para>Actions are useful because they integrate both legacy command-line
+applications and ToolTalk applications into the desktop as polymorphic, distributed
+operations on desktop objects.<literal><indexterm><primary>actions &lt;$endrange></primary>
+</indexterm></literal></para>
+</sect2>
+</sect1>
+<sect1 id="RDMAP.archo.div.23">
+<title id="RDMAP.archo.mkr.10">Information Technologies</title>
+<para>CDE information technologies comprise
+</para>
+<itemizedlist>
+<listitem>
+<para>The Help system, which provides help on the CDE user interface, and potentially,
+the help you provide for your CDE applications.
+</para>
+</listitem>
+<listitem>
+<para>The Information Manager, an on-line documentation access facility
+that provides access to CDE documentation, and potentially, your application-specific documentation.
+</para>
+</listitem>
+</itemizedlist>
+<sect2 id="RDMAP.archo.div.24">
+<title id="RDMAP.archo.mkr.11">Help System</title>
+<indexterm><primary>help</primary><secondary>general information</secondary></indexterm>
+<para>The Help system provides a complete set of authoring and programming
+tools to develop on-line help for CDE applications:
+</para>
+<itemizedlist>
+<listitem>
+<para>It enables authors to include formatted text, graphics, hyperlinks, and communication
+with the application.
+</para>
+</listitem>
+<listitem>
+<para>It provides programmers with a toolkit for integrating on-line
+help into an application. The toolkit includes specialized Help dialogs and supporting
+routines that enable users to display, navigate, search, and print on-line help.
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="RDMAP.archo.div.25">
+<title id="RDMAP.archo.mkr.12">Information Manager</title>
+<indexterm><primary>information manager</primary><secondary>general information</secondary></indexterm>
+<para>The Information Manager provides on-line access to documentation organized into hierarchies
+of information libraries, bookcases, books, book sections, and smaller divisions of documentation.
+All CDE documentation is shipped with the Information Manager.
+</para>
+<para>To integrate application-specific documentation with the Information Manager,
+a CDE application calls a small API (<Symbol>DtInfo</Symbol>).
+Alternatively, programmers may
+develop their own browsers using the DtInfo Database Engine API (<Symbol>DtMmdb</Symbol>).
+</para>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 04:30:53-->

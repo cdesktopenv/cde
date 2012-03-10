@@ -1,0 +1,46 @@
+#! /bin/sh
+# $XConsortium: findMissingFiles /main/4 1996/08/27 10:11:14 drk $
+# find missing files that a fileset sez we should be delivering
+# desparately need a list of filesets delivered for each product
+
+usage ()
+{
+echo "usage: $PRGNAME -tree buildtree filesets"
+echo "  Uses .db from current directory."
+}
+
+PRGNAME=$0
+
+if [ $# -lt 3 ]
+then
+  usage
+  exit 1
+fi
+
+buildtree=$2
+shift 2
+if [ ! -d $buildtree ]
+then
+  if [ ! -d /x/$buildtree ]
+  then
+    echo Cannot find $buildtree or /x/$buildtree
+    usage
+    exit 2
+  else
+    buildtree=/x/$buildtree
+  fi
+fi
+
+for fileset in $@
+do
+  if [ -r $fileset.db ]
+  then
+    echo ${fileset}:
+    for file in `fgrep a_out_location $fileset.db | cut -sf 2 -d \: ` 
+    do 
+      [ -r $buildtree/$file ] || echo "  $file"
+    done
+  else
+    echo  $fileset.db not found
+  fi
+done

@@ -1,0 +1,79 @@
+XCOMM $XConsortium: Imakefile /main/9 1996/08/29 16:11:24 barstow $
+#define DoNormalLib	NormalLibTt
+#define DoSharedLib	SharedLibTt
+#define DoDebugLib	DebugLibTt
+#define DoProfileLib	ProfileLibTt
+#define LibName		tt
+#define SoRev		SOTTREV
+#define LibHeaders	NO
+#define LibCreate	NO
+
+#define CplusplusSource	YES
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+
+#include <Threads.tmpl>
+
+#include "../../tooltalk.tmpl"
+
+DEFINES =
+INCLUDES = -I../../lib
+
+#ifdef RsArchitecture
+/* To get definitions of iswprint and iswspace */
+CXXEXTRA_DEFINES = -D_ILS_MACROS
+#endif
+
+
+/*** NOTE!
+ *** Every time a .o is added below it needs to be added to
+ *** the lib/tt/lib Imakefile in UTIL_OBJS and SHARED_UTIL_OBJS
+ ***/
+
+SRCS =	copyright.C			    tt_map_entry_utils.C \
+	tt_Xlib.C			    tt_new.C \
+	tt_audit.C			    tt_new_ptr.C \
+	tt_base64.C			    tt_object.C \
+	tt_enumname.C			    tt_object_list.C \
+	tt_file_system.C		    tt_object_table.C \
+	tt_file_system_entry_utils.C	    tt_path.C \
+	tt_gettext.C			    tt_port.C \
+	tt_global_env.C 		    tt_string.C \
+	tt_host.C			    tt_string_map.C \
+	tt_host_equiv.C 		    tt_string_map_utils.C \
+	tt_host_equiv_utils.C		    tt_string_match.C \
+	tt_host_utils.C 		    tt_threadspecific.C \
+	tt_int_rec.C			    tt_trace.C \
+	tt_iostream.C			    tt_trace_parser.C \
+	tt_ldpath.C			    tt_trace_stream.C \
+	tt_log.C			    tt_tracefile_parse.C \
+	tt_map_entry.C			    tt_xdr_utils.C \
+	tt_entry_pt.C
+
+OBJS =	copyright.o			    tt_map_entry_utils.o \
+	tt_Xlib.o			    tt_new.o \
+	tt_audit.o			    tt_new_ptr.o \
+	tt_base64.o			    tt_object.o \
+	tt_enumname.o			    tt_object_list.o \
+	tt_file_system.o		    tt_object_table.o \
+	tt_file_system_entry_utils.o	    tt_path.o \
+	tt_gettext.o			    tt_port.o \
+	tt_global_env.o 		    tt_string.o \
+	tt_host.o			    tt_string_map.o \
+	tt_host_equiv.o 		    tt_string_map_utils.o \
+	tt_host_equiv_utils.o		    tt_string_match.o \
+	tt_host_utils.o 		    tt_threadspecific.o \
+	tt_int_rec.o			    tt_trace.o \
+	tt_iostream.o			    tt_trace_parser.o \
+	tt_ldpath.o			    tt_trace_stream.o \
+	tt_log.o			    tt_tracefile_parse.o \
+	tt_map_entry.o			    tt_xdr_utils.o \
+	tt_entry_pt.o
+
+
+#include <Library.tmpl>
+
+SpecialCplusplusLibObjectRule(copyright,,$(TT_VERSION_DEFINE))
+
+SubdirLibraryRule($(OBJS))
+
+DependTarget()

@@ -1,0 +1,64 @@
+XCOMM $XConsortium: Imakefile /main/10 1996/10/28 12:05:34 cde-hp $
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = dtcopy
+
+MakeSubdirs($(SUBDIRS))
+ForceSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+
+DEFINES = -DMULTIBYTE -DXK_MISCELLANY -DSHAPE -D_ILS_MACROS -DSUN_PERF \
+	-DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
+	-DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\"
+
+INCLUDES = -I./dtcopy
+
+DEPLIBS = DepDtClientLibs
+LOCAL_LIBRARIES = DtClientLibs
+SYS_LIBRARIES = DtClientSysLibs DtClientExtraLibs
+
+#ifdef AlphaArchitecture
+EXTRA_DEFINES = -D_TOOLTALK
+#endif
+
+#if defined (SunArchitecture)
+EXTRA_CCOPTIONS = -xF
+#endif
+
+SRCS =  ChangeDir.c     ChangeDirP.c    Command.c       Common.c \
+        Desktop.c       Directory.c     Encaps.c        File.c \
+        FileDialog.c    FileManip.c     FileMgr.c       FileOp.c \
+        Filter.c        FilterP.c       Find.c          FindP.c \
+        Help.c          HelpCB.c        HelpP.c         IconWindow.c \
+        IconicPath.c    Main.c          Menu.c          MkDir.c \
+        ModAttr.c       ModAttrP.c      MultiView.c     OverWrite.c \
+        Prefs.c         PrefsP.c        SharedMsgs.c    SharedProcs.c \
+        ToolTalk.c      Trash.c         Utils.c         fsDialog.c \
+        version.c
+
+DTCOPY_OBJS = dtcopy/sharedFuncs.o dtcopy/fsrtns.o
+
+OBJS =  ChangeDir.o     ChangeDirP.o    Command.o       Common.o \
+        Desktop.o       Directory.o     Encaps.o        File.o \
+        FileDialog.o    FileManip.o     FileMgr.o       FileOp.o \
+        Filter.o        FilterP.o       Find.o          FindP.o \
+        Help.o          HelpCB.o        HelpP.o         IconWindow.o \
+        IconicPath.o    Main.o          Menu.o          MkDir.o \
+        ModAttr.o       ModAttrP.o      MultiView.o     OverWrite.o \
+        Prefs.o         PrefsP.o        SharedMsgs.o    SharedProcs.o \
+        ToolTalk.o      Trash.o         Utils.o         fsDialog.o \
+        version.o	$(DTCOPY_OBJS)
+
+ComplexProgramTarget(dtfile)
+
+LOCAL_CPP_DEFINES = -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
+                    -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP)
+
+CPP_TARGETS = dtfile.config dtfile_error
+
+AllTarget($(CPP_TARGETS))
+
+CppSourceFile(dtfile.config,dtfile.config.cpp,$(LOCAL_CPP_DEFINES),)
+MakeScriptFromCpp(dtfile_error,$(LOCAL_CPP_DEFINES))

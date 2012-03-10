@@ -1,0 +1,645 @@
+<!-- $XConsortium: Tasks.sgm /main/9 1996/12/20 15:45:18 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<Chapter Id="Tasks">
+<Title>Aktion erstellen - Aufgaben</Title>
+<Procedure>
+<Title>Erstellen und Bearbeiten von Aktionen</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.TSKS.item.1">
+<Para><XRef Linkend="ToCreateAction"></Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.2">
+<Para><XRef Linkend="ToEditAction"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Erstellen und Bearbeiten von Datentypen</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.TSKS.item.3">
+<Para><XRef Linkend="ToCreateAction"></Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.4">
+<Para><XRef Linkend="ToEditDatatype"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Symbole für Aktionen und Datentypen</Title>
+<Step>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.TSKS.item.5">
+<Para><XRef Linkend="ToSpecifyIcon"></Para>
+</ListItem>
+</ItemizedList>
+</Step>
+</Procedure>
+<Sect1 Id="ToCreateAction">
+<Title>Erstellen einer Aktion mit der Anwendung 'Aktion erstellen'</Title>
+<IndexTerm>
+<Primary>Aktion:erstellen</Primary>
+</IndexTerm>
+<OrderedList>
+<ListItem Id="HCRA.TSKS.item.6">
+<Para>Die Anwendungsgruppe 'Desktop-Anwendungen' im Anwendungsmanager öffnen und
+doppelt auf 'Aktion erstellen' klicken.</Para>
+<Para>Dadurch wird das Hauptfenster 'Aktion erstellen' angezeigt.</Para>
+<Graphic Entityref="CAMainWindow" Id="HCRA.TSKS.fig.1"></Graphic>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.7">
+<Para>Im Textfeld 'Aktionsname' den Namen eingeben, der das Aktionssymbol bezeichnet.</Para>
+<Para>Der Aktionsname kann beliebige Zeichen enthalten, mit Ausnahme von Leerzeichen.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.8">
+<Para>Die Steuerelemente für Aktionssymbole verwenden, um das Symbol für die Anwendung
+anzugeben. Anfänglich wird das Standardsymbol angezeigt.</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.9">
+<Para>Um andere bestehende Symbole zu verwenden, auf 'Gruppe suchen' klicken, um
+das Dialogfenster 'Gruppe suchen' zu öffnen. Weitere Informationen befinden
+sich in <XRef Linkend="ToSpecifyIcon">.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.10">
+<Para>Um neue Symbole zu erstellen, auf 'Symbole bearbeiten' klicken, um den
+Symboleditor zu starten. Siehe <XRef Linkend="CreatingNewIcon">.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.11">
+<Para>Im Textfeld 'Befehl beim Öffnen der Aktion' den Befehl eingeben, mit dem die
+Anwendung gestartet wird.</Para>
+<Para>Die Syntax <ComputerOutput>$<Symbol Role="Variable">n</Symbol></ComputerOutput> für ein Dateiargument verwenden. Beispiel:</Para>
+<ProgramListing>emacs
+bitmap $1
+diff $1 $2
+lp -oraw $1
+</ProgramListing>
+<Para>Enthält die Befehlszeile ein Dateiargument (<ComputerOutput>$<Symbol Role="Variable">n</Symbol></ComputerOutput>), wird das Aktionssymbol
+zum Übergabebereich für Dateien.</Para>
+<Para>Die Befehlszeilen werden nicht an eine Shell übergeben, es sei denn, der
+Benutzer gibt die Verwendung einer Shell explizit an. Beispielsweise
+verwenden die folgenden Zeilen die Shell-Verarbeitung:</Para>
+<ProgramListing>/bin/sh -c `ps | lp'
+/bin/sh -c `spell $1 | more'
+</ProgramListing>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.12">
+<Para>Im Textfeld 'Hilfetext für Aktionssymbol' die Hilfeinformationen eingeben,
+die angezeigt werden sollen, wenn der Benutzer die Kontexthilfe zum
+<GlossTerm>Aktionssymbol</GlossTerm> aufruft.</Para>
+<Para>Der Text im Textfeld wird automatisch umgebrochen. Diese Zeilenumbrüche
+werden jedoch online nicht beibehalten. Soll ein "harter" (unveränderlicher)
+Zeilenumbruch angegeben werden, <ComputerOutput>&bsol;n</ComputerOutput> verwenden.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.13">
+<Para>Das Menü der Taste 'Fensterart' verwenden, um die erforderliche unterstützte
+Fenstertechnik auszuwählen.</Para>
+<VariableList>
+<VarListEntry>
+<Term>Grafisch (X-Window)</Term>
+<ListItem>
+<Para>Die Anwendung zeigt ihr eigenes Fenster an.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Terminal (automatisches Schließen)</Term>
+<ListItem>
+<Para>Die Anwendung wird in einem Terminal-Fenster
+ausgeführt, das sich automatisch schließt, wenn der Benutzer die Anwendung
+verläßt.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Terminal (manuelles Schließen)</Term>
+<ListItem>
+<Para>Die Anwendung wird in einem Terminal-Fenster
+ausgeführt, das so lange geöffnet bleibt, bis der Benutzer es schließt.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Keine Ausgabe</Term>
+<ListItem>
+<Para>Die Anwendung erzeugt keine Ausgabe am Bildschirm.</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.14">
+<Para>Wie folgt vorgehen:</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.15">
+<Para>Enthält die Anwendung Datendateien und sollen ein oder mehrere Datentypen
+für die Dateien erstellt werden, siehe <XRef Linkend="ToCreateDatatype">.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.16">
+<Para>Ist es nicht erforderlich, einen Datentyp zu erstellen:</Para>
+<OrderedList>
+<ListItem Id="HCRA.TSKS.item.17">
+<Para>Die Aktion mit der Option 'Speichern' aus dem Menü 'Datei' speichern.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.18">
+<Para>Die neue Aktion testen. Dazu das entsprechende Symbol im
+Standardverzeichnis des Benutzers doppelt klicken.
+</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="ToCreateDatatype">
+<Title>Erstellen eines Datentyps mit der Anwendung 'Aktion erstellen'</Title>
+<IndexTerm>
+<Primary>Datentyp:erstellen</Primary>
+</IndexTerm>
+<OrderedList>
+<ListItem Id="HCRA.TSKS.item.19">
+<Para>Die Aktion für die Anwendung definieren. Siehe Schritt 1 bis 6 des
+Abschnitts <XRef Linkend="ToCreateAction">.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.20">
+<Para>Auf die Taste 'Erweitert' klicken, um das Fenster 'Aktion erstellen' zu
+erweitern.</Para>
+<Graphic Entityref="CAAdvancedMainWIndow" Id="HCRA.TSKS.fig.2"></Graphic>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.21">
+<Para>Soll das <GlossTerm>Aktionssymbol</GlossTerm> eine Eingabeaufforderung ausgeben, wenn
+doppelt auf das Symbol geklickt wird, den Text der Eingabeaufforderung im
+Textfeld 'Beim Öffnen einer Aktion Benutzer nach folgendem fragen' eingeben.</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.22">
+<Para>Dieses Feld muß verwendet werden, wenn in der Befehlszeile der Anwendung
+ein erforderliches Dateiargument vorkommt.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.23">
+<Para>Dieses Feld muß leer bleiben, wenn in der Befehlszeile der Anwendung kein
+Dateiargument vorkommt.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.24">
+<Para>Ist das Dateiargument in der Befehlszeile der Anwendung wahlfrei, kann der
+Benutzer wählen: Stellt er einen Text für die Eingabeaufforderung zur
+Verfügung, fordert das Aktionssymbol beim Doppelklicken zur Eingabe des
+Dateinamens auf. Stellt er keinen Text für die Eingabeaufforderung
+zur Verfügung, wird die Aktion mit einer leeren Zeichenfolge als
+Dateiargument ausgeführt.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.25">
+<Para>Die Typen von Dateien angeben, die die Aktion als Argumente akzeptiert:
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.26">
+<Para>Kann die Aktion alle Dateitypen akzeptieren, auf 'Alle Datentypen'
+klicken.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.27">
+<Para>Kann die Aktion nur die Datentypen akzeptieren, die der Benutzer
+für die Anwendung erstellt hat, auf 'Nur obige Liste' klicken.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Anfänglich ist die Liste 'Datentypen, die diese Aktion verwenden' leer. Erstellt
+der Benutzer Datentypen für die Anwendung, werden diese zur Liste hinzugefügt.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.28">
+<Para>Auf 'Hinzufügen' klicken, um das Dialogfenster 'Datentypen hinzufügen'
+anzuzeigen.</Para>
+<Graphic Entityref="CAAddDataTypesWindow" Id="HCRA.TSKS.fig.3"></Graphic>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.29">
+<Para>Wahlweise: Soll der Standarddatentypname nicht verwendet werden, einen neuen
+Namen für den neuen Datentyp im Textfeld 'Name der Datentypfamilie' eingeben.
+Der Name darf keine Leerzeichen enthalten.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.30">
+<Para>Auf die Taste 'Bearbeiten' neben dem Feld 'Identifizierende Merkmale' klicken,
+um das Dialogfenster 'Identifizierende Merkmale' anzuzeigen.</Para>
+<Graphic Entityref="CAIdentifyingCharWindow" Id="HCRA.TSKS.fig.4"></Graphic>
+<Para>Dieses Dialogfenster verwenden, um die Merkmale festzulegen, die zur
+Unterscheidung des Datentyps von anderen verwendet werden. Der Benutzer
+kann ein Kriterium (z. B. Namensmuster) oder eine Kombination von Kriterien
+(z. B. sowohl Namensmuster als auch Berechtigungsmuster) auswählen.</Para>
+<OrderedList>
+<ListItem Id="HCRA.TSKS.item.31">
+<Para>Entweder auf die Umschalttaste 'Datei' oder 'Ordner' klicken, um anzugeben,
+ob der Datentyp eine Datei oder einen Ordner darstellt.</Para>
+<Graphic Entityref="CAIdenCharFileFolder" Id="HCRA.TSKS.fig.5"></Graphic>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.32">
+<Para>Hängt der Datentyp vom Namen ab, auf das Markierungsfeld 'Namensmuster'
+klicken und das Namensmuster eingeben. Dabei können die Platzhalter
+<ComputerOutput>*</ComputerOutput> und <ComputerOutput>?</ComputerOutput> verwendet werden.</Para>
+<Graphic Entityref="CAIdenCharName" Id="HCRA.TSKS.fig.6"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>*</Term>
+<ListItem>
+<Para>Gleicht jede Folge von Zeichen ab.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>?</Term>
+<ListItem>
+<Para>Gleicht jedes einzelne Zeichen ab.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.33">
+<Para>Hängt der Datentyp von den Zugriffsrechten ab, auf das Markierungsfeld
+'Berechtigungsmuster' klicken und danach auf die für den Datentyp erforderlichen
+Zugriffsrechte klicken.</Para>
+<Graphic Entityref="CAIdenCharPermissionPattern" Id="HCRA.TSKS.fig.7"></Graphic>
+<VariableList>
+<VarListEntry>
+<Term>Ein</Term>
+<ListItem>
+<Para>Die Datei muß über die angegebenen Zugriffsrechte verfügen.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Aus</Term>
+<ListItem>
+<Para>Die Datei darf nicht über die angegebenen Zugriffsrechte verfügen.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Egal</Term>
+<ListItem>
+<Para>(Standardwert) Die Zugriffrechte sind nicht relevant.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.34">
+<Para>Hängt der Datentyp vom Inhalt ab, auf das Markierungsfeld 'Inhalt' klicken,
+das angeforderte Informationsmuster, nach dem gesucht werden soll,
+eingeben und den Typ des Inhalts festlegen. Wahlweise die Byteposition
+angeben, an der mit der Suche begonnen werden soll.</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.35">
+<Para>Auf 'OK' klicken, um das Dialogfenster 'Identifizierende Merkmale' zu schließen.</Para>
+<Para>Die Merkmale werden im Feld 'Identifizierende Merkmale' im Dialogfenster
+'Datentyp hinzufügen' angezeigt.</Para>
+<Para>Die Informationen zu den Zugriffsrechten im Feld 'Identifizierende Merkmale'
+verwenden folgende Codierung:</Para>
+<VariableList>
+<VarListEntry>
+<Term>d</Term>
+<ListItem>
+<Para>Verzeichnis
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>r</Term>
+<ListItem>
+<Para>Lesezugriff
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>w</Term>
+<ListItem>
+<Para>Schreibzugriff
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>x</Term>
+<ListItem>
+<Para>Ausführbar
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>!</Term>
+<ListItem>
+<Para>NICHT
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&amp;</Term>
+<ListItem>
+<Para>UND
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.36">
+<Para>Den Hilfetext für den Datentyp im Textfeld 'Hilfetext für Datentypsymbol'
+eingeben.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.37">
+<Para>Die Steuerelemente für die Datentypsymbole verwenden, um das Symbol für
+die Anwendung anzugeben.</Para>
+<Para>Anfänglich werden die Standardsymbole angezeigt.</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.38">
+<Para>Um ein anderes bestehendes Symbol zu verwenden, auf 'Gruppe suchen' klicken, um
+das Dialogfenster 'Gruppe suchen' zu öffnen. Weitere Informationen befinden
+sich in <XRef Linkend="ToSpecifyIcon">.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.39">
+<Para>Um neue Symbole zu erstellen, auf 'Symbole bearbeiten' klicken, um den
+Symboleditor zu starten. Siehe <XRef Linkend="CreatingNewIcon">.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.40">
+<Para>Wahlweise: Stellt die Anwendung einen Druckbefehl für das Drucken von
+Datendateien von der Befehlszeile aus zur Verfügung, den Befehl im Textfeld
+'Befehl zum Drucken dieses Datentyps' eingeben. Dabei die Syntax
+<ComputerOutput>$<Symbol Role="Variable">n</Symbol></ComputerOutput> für ein Dateiargument verwenden.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.41">
+<Para>Auf 'OK' klicken, um das Dialogfenster 'Datentyp hinzufügen' zu schließen und
+den Datentyp zur Liste der Datentypen im Fenster 'Aktion erstellen'
+hinzuzufügen.</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="CreateActionIconImage">
+<Title>Angeben von Symbolen für Aktionen und Datentypen</Title>
+<Para>Das Hauptfenster 'Aktion erstellen' und das Dialogfenster 'Datentyp hinzufügen'
+enthält Tasten zum Angeben des Symbols, das von Aktionen und Datentypen
+verwendet werden soll.</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.42">
+<Para>Um ein bestehende Symbol zu verwenden, auf 'Gruppe suchen' klicken.
+Siehe <XRef Linkend="ToSpecifyIcon">.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.43">
+<Para>Um mit Hilfe des Symboleditors ein neues Symbol zu erstellen, auf
+'Symbol bearbeiten' klicken. Siehe <XRef Linkend="CreatingNewIcon">.
+</Para>
+</ListItem>
+</ItemizedList>
+<Sect2 Id="ToSpecifyIcon">
+<Title>Verwenden des Dialogfensters 'Gruppe suchen'</Title>
+<Para>Das Dialogfenster 'Gruppe suchen' wird angezeigt, wenn der Benutzer auf
+'Gruppe suchen' im Hauptfenster 'Aktion erstellen' oder im Dialogfenster
+'Datentyp hinzufügen' klickt.</Para>
+<Graphic Entityref="CAFindSetWindow" Id="HCRA.TSKS.fig.8"></Graphic>
+<Para>Im Dialogfenster 'Gruppe suchen' kann der Benutzer folgendes angeben:</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.44">
+<Para>Ein Symbol in einem Ordner in der Liste der Symbolordner. Die Liste der
+Symbolordner enthält alle Ordner im Suchpfad für Symbole.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.45">
+<Para>Ein Symbol, das Teil eines Registrierungspakets ist, das unter Verwendung
+von <ComputerOutput>dtappintegrate</ComputerOutput> in das Desktop integriert wird.</Para>
+</ListItem>
+</ItemizedList>
+<Procedure>
+<Title>Angeben eines Symbols in einem Symbolordner</Title>
+<Step>
+<OrderedList>
+<ListItem Id="HCRA.TSKS.item.46">
+<Para>In der Liste der Symbolordner doppelt auf den Ordnerpfad klicken, in dem
+das Symbol enthalten ist.</Para>
+<Para>In der Liste der Symboldateien werden alle Symboldateien in diesem Ordner
+angezeigt.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.47">
+<Para>In der Liste der Symboldateien auf das Symbol klicken, das verwendet
+werden soll.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.48">
+<Para>Auf 'OK' klicken.
+</Para>
+</ListItem>
+</OrderedList>
+</Step>
+</Procedure>
+<Procedure>
+<Title>Angeben eines Symbols in einem Registrierungspaket</Title>
+<Step>
+<Para>Ist der Benutzer ein Systemadministrator oder Programmierer, der ein
+Registrierungspaket erstellt, befinden sich die Symbolabbilddateien anfänglich
+in einem Verzeichnis im Registrierungspaket:
+</Para>
+<ProgramListing><Symbol Role="Variable">app_root</Symbol>/dt/appconfig/icons/<Symbol Role="Variable">Sprache</Symbol>
+</ProgramListing>
+<Para>Nach der Registrierung sind die Symboldateien in einem
+<GlossTerm>Symbolordner</GlossTerm>. Daher sollten in den Definitionen für Aktion und
+Datentyp die Basisdateinamen verwendet werden.</Para>
+<Para>Die folgende Prozedur verwenden, um einen Basisnamen für ein Symbol anzugeben,
+das sich momentan nicht in einem Symbolordner befindet:</Para>
+<OrderedList>
+<ListItem Id="HCRA.TSKS.item.49">
+<Para>Im Textfeld 'Den Namen der Symboldatei eingeben' den
+<GlossTerm Role="baseform=Basisname">Basisnamen</GlossTerm> der Symboldatei eingeben.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.50">
+<Para>Auf 'OK' klicken.</Para>
+<Para>Ein Fehlerdialogfenster wird angezeigt, das besagt, daß die Symboldatei nicht
+in einem Symbolordner gefunden werden konnte.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.51">
+<Para>Im Fehlerdialogfenster auf 'Name OK' klicken. Dadurch wird das
+Fehlerdialogfenster und das Dialogfenster 'Gruppe suchen' geschlossen.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.52">
+<Para>Ignorieren, daß im Feld für Aktionssymbole oder Datentypsymbole das
+Symbolabbild fehlt. Das Symbolabbild wird gefunden, sobald die
+Anwendung registriert ist.</Para>
+</ListItem>
+</OrderedList>
+</Step>
+</Procedure>
+</Sect2>
+<Sect2 Id="CreatingNewIcon">
+<Title>Erstellen eines neuen Symbolabbilds</Title>
+<OrderedList>
+<ListItem Id="HCRA.TSKS.item.53">
+<Para>Auf 'Symbol bearbeiten' im Fenster 'Aktion erstellen' oder 'Datentyp
+hinzufügen' klicken. Dadurch wird der Symboleditor gestartet.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.54">
+<Para>Den Symboleditor verwenden, um ein neues Symbol zu zeichnen. Siehe</Para>
+<ItemizedList Mark="&bull;" Role="tight">
+<ListItem Id="HCRA.TSKS.item.55">
+<Para><OLink Type="Jump" LocalInfo="Iconed Tasks">Symboleditor - Aufgaben</OLink>
+</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.56">
+<Para><XRef Linkend="IconSizesandNames"></Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.57">
+<Para>'Speichern' aus dem Menü 'Datei' auswählen, im die Symboldatei zu speichern.</Para>
+<Para>Die Symboldatei im Ordner <ComputerOutput><Symbol Role="Variable">Standardverzeichnis</Symbol>/.dt/icons</ComputerOutput> speichern.
+Siehe <XRef Linkend="IconSizesandNames">.</Para>
+</ListItem>
+</OrderedList>
+<Note>
+<Para>Ist der Benutzer ein Systemadministrator oder Programmierer, der ein
+Registrierungspaket erstellt, sollte die Symboldatei im Verzeichnis
+<ComputerOutput><Symbol Role="Variable">approot</Symbol>/dt/appconfig/icons/<Symbol Role="Variable">Sprache</Symbol></ComputerOutput> gespeichert werden.
+</Para>
+</Note>
+</Sect2>
+<Sect2 Id="IconSizesandNames">
+<Title>Symbolgrößen und -Namen</Title>
+<Para>Desktopsymbole verwenden folgende Namenskonvention:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Emphasis Role="heading">Größe (Pixel)</Emphasis></Term>
+<ListItem>
+<Para><Emphasis Role="heading">Name</Emphasis></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>32 x 32</Term>
+<ListItem>
+<Para><ComputerOutput><Symbol Role="Variable">Basisname</Symbol>.m.pm</ComputerOutput> oder <ComputerOutput><Symbol Role="Variable">Basisname</Symbol>.m.bm</ComputerOutput>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>16 x 16</Term>
+<ListItem>
+<Para><ComputerOutput><Symbol Role="Variable">Basisname</Symbol>.s.pm</ComputerOutput> oder <ComputerOutput><Symbol Role="Variable">Basisname</Symbol>.s.bm</ComputerOutput>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.58">
+<Para>Für Aktionssymbole den Aktionsnamen als Basisnamen verwenden.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.59">
+<Para>Für Datentypsymbole den Datentypnamen als Basisnamen verwenden.
+</Para>
+</ListItem>
+</ItemizedList>
+</Sect2>
+</Sect1>
+<Sect1 Id="ToEditAction">
+<Title>Bearbeiten einer bestehenden Aktion</Title>
+<IndexTerm>
+<Primary>Aktion:bearbeiten</Primary>
+</IndexTerm>
+<Para>Die Anwendung 'Aktion erstellen' kann zum Bearbeiten einer bestehenden
+Aktion verwendet werden, wenn:
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.60">
+<Para>Die Aktion mit Hilfe der Anwendung 'Aktion erstellen' erstellt wurde.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.61">
+<Para><Emphasis>Und</Emphasis> die Datei, die die Aktionsdefinition enthält, nicht manuell (mit
+einem Texteditor) bearbeitet wurde.
+</Para>
+</ListItem>
+</ItemizedList>
+<OrderedList>
+<ListItem Id="HCRA.TSKS.item.62">
+<Para>Die Anwendungsgruppe 'Desktop-Anwendungen' im Anwendungsmanager öffnen und
+doppelt auf 'Aktion erstellen' klicken.</Para>
+<Para>Dadurch wird das Hauptfenster 'Aktion erstellen' angezeigt.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.63">
+<Para>'Öffnen' aus dem Menü 'Datei' auswählen. Dadurch wird das Dialogfenster
+'Aktion erstellen - Öffnen' angezeigt.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.64">
+<Para>In der Liste der Dateien die Datei auswählen, die die Aktionsdefinition
+enthält. Sie hat den Namen <ComputerOutput><Symbol Role="Variable">Aktionsname</Symbol>.dt</ComputerOutput>.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.65">
+<Para>'OK' auswählen.</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+<Sect1 Id="ToEditDatatype">
+<Title>Bearbeiten eines bestehenden Datentyps</Title>
+<IndexTerm>
+<Primary>Datentyp:bearbeiten</Primary>
+</IndexTerm>
+<Para>Die Anwendung 'Aktion erstellen' kann zum Bearbeiten eines bestehenden
+Datentyps verwendet werden, wenn:
+</Para>
+<ItemizedList Mark="&bull;">
+<ListItem Id="HCRA.TSKS.item.66">
+<Para>Der Datentyp mit Hilfe der Anwendung 'Aktion erstellen' erstellt wurde.
+</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.67">
+<Para><Emphasis>Und</Emphasis> die Datei, die die Datentypdefinition enthält, nicht manuell (mit
+einem Texteditor) bearbeitet wurde.
+</Para>
+</ListItem>
+</ItemizedList>
+<OrderedList>
+<ListItem Id="HCRA.TSKS.item.68">
+<Para>Die Anwendungsgruppe 'Desktop-Anwendungen' im Anwendungsmanager öffnen und
+doppelt auf 'Aktion erstellen' klicken.</Para>
+<Para>Dadurch wird das Hauptfenster 'Aktion erstellen' angezeigt.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.69">
+<Para>'Öffnen' aus dem Menü 'Datei' auswählen. Dadurch wird das Dialogfenster
+'Aktion erstellen - Öffnen' angezeigt.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.70">
+<Para>In der Liste der Dateien doppelt auf die Datei klicken, die die
+Datentypdefinition enthält.</Para>
+<Para>Der Name der Datei ist <ComputerOutput><Symbol Role="Variable">Aktionsname</Symbol>.dt</ComputerOutput>, wobei <Emphasis>Aktionsname</Emphasis> der
+Name der Aktion ist, die zur gleichen Zeit erstellt wurde wie der
+Datentyp.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.71">
+<Para>Auf 'Erweitert' klicken.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.72">
+<Para>In der Liste 'Datentypen, die diese Aktion verwenden' den Datentyp
+auswählen, der bearbeitet werden soll.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.73">
+<Para>Auf 'Bearbeiten' klicken, um das Dialogfenster 'Datentyp bearbeiten'
+zu öffnen.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.74">
+<Para>Die Änderungen im Dialogfenster 'Datentyp bearbeiten' vornehmen. Danach
+auf 'OK' klicken.</Para>
+</ListItem>
+<ListItem Id="HCRA.TSKS.item.75">
+<Para>Um die bearbeitete Definition zu speichern, 'Speichern' aus dem Menü 'Datei'
+auswählen.</Para>
+</ListItem>
+</OrderedList>
+</Sect1>
+</Chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 17:14:14-->

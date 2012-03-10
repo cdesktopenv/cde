@@ -1,0 +1,66 @@
+.\" $XConsortium: buildAdmin.5 /main/3 1995/10/30 14:07:56 rswiston $
+.TH buildAdmin 5 "" "" HP-UX
+.ds )H Hewlett-Packard Company OSSD-CV
+.ds ]W July 1993
+.SH NAME
+buildAdmin \- man page information for building administration
+.SH SYNOPSIS
+.B buildAdmin
+.SH DESCRIPTION
+This man page is an index to the man pages available for build
+administration.  All of the following man pages are available by setting
+MANPATH to include /x/cdesrc/admin/man. Also see the
+.I cron_example
+file for sample build administration cron entries.
+.SH AVAILABLE MAN PAGES
+.TP 18
+.I master_build.1
+Information on the 
+.I master_build
+ksh script that controls building and cloning of source and build trees.
+This is the key script used for build administration.
+.TP
+.I remote_build.1
+Information on the 
+.I remote_build
+sh script that can remsh the master_build script. This gives the
+advantage of having 1 master build trigger area for cron.
+.TP
+.I cleanLinks.1
+Information on the 
+.I cleanLinks
+perl script that will remove symbolic links to nowhere in a source or
+build tree.  This tool is usually run daily in build trees that are
+cloned from a source tree. If files are removed or moved in the source
+tree
+.I cleanLinks 
+will automatically remove the old links in the build tree.
+.TP
+.I cleanLogs.1
+Information on the 
+.I cleanLogs
+ksh script that cleans older files and directories from a directory.
+This script is usually used to maintain a certain number of logs in
+the /x/logs/build directory.
+.TP
+.I ListTheTree.1
+Information on the 
+.I ListTheTree
+perl script that creates 3 files at the top of a given directory structure:
+.I :TreeListing
+which contains a complete listing of all files in the tree;
+.I :TreeListing.locks
+which contains a list of all files locked and by whom;
+.I :TreeListing.changes
+which contains a list of all the files checked in since the last listing
+and who checked them in.
+This script is automatically run on /x/cdesrc daily and the listings
+come with the automatic source delivery.
+.SH SEE ALSO
+master_build(1),
+remote_build(1),
+cleanLinks(1),
+cleanLogs(1), and ListTheTree(1).
+.SH AUTHOR
+.I buildAdmin
+was developed by Marc Ayotte, OSSD-CV, Hewlett-Packard.

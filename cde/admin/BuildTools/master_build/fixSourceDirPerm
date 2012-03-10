@@ -1,0 +1,50 @@
+#!/bin/sh
+
+#
+#  this script make sure that all dirs in /x80src are
+#  owned by xbuild, and that all directories have permissions
+#  of 755.
+# 
+#   - jim andreas 10/91
+#
+# modified to be more general by Marc Ayotte 11/92
+
+doUsage()
+{
+	cat << eof
+
+	USAGE: fixSourceDirPerm <tree> <owner> <group>
+
+	Note: if owner != bin, files and directories owned by bin
+	will NOT be changed to owner.
+
+eof
+}
+
+if [ $# -lt 3 ];then
+	doUsage;
+	exit 1
+fi
+
+cd $1 || doUsage
+
+# Some dirs in the build trees have to be owned by bin (rcs_tools)
+# if bin is not the chosen group, don't change files that are already bin
+if [ "$2" != "bin" ];then
+	DontDoBin="! -user bin"
+fi
+
+# change ownership of non-conforming dirs
+#
+echo "DIRS not owned by $2"
+find . -type d ! -path "*RCS*" ! -path "*/CRT*" ! -user $2 $DontDoBin -print -exec chown $2 {} \; -exec chgrp $3 {} \;
+
+# chmod mode of non-conforming dirs
+#
+echo "DIRS not 755 permission by $2"
+find . -type d -user $2 ! -path "*/CRT*" $DontDoBin ! -perm 755 -print -exec chmod 755 {} \;
+
+# chown mode of non-conforming files
+#
+echo "FILES not owned by $2"
+find . -type f ! -path "*RCS*" ! -path "*/CRT*" ! -user $2 $DontDoBin -print -exec chown $2 {} \; -exec chgrp $3 {} \;

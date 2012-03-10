@@ -1,0 +1,133 @@
+<!-- $XConsortium: ch02.sgm /main/7 1996/09/08 19:45:49 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="DKSUG.scr1.div.1">
+<title>A Sample Script<indexterm><primary>script</primary><secondary>sample</secondary></indexterm><indexterm><primary>sample script</primary></indexterm></title>
+<para>This chapter shows you how to use what you learned about <command>dtksh</command> in Chapter 1. The two simple scripts described here should give
+you a good start at writing your own scripts.</para>
+<sect1 id="DKSUG.scr1.div.2">
+<title>Writing the Script<indexterm><primary>script</primary><secondary>writing</secondary></indexterm></title>
+<para>This script creates a bulletin board widget within which a push button
+widget is placed. The script is kept simple by not including any callbacks.
+The second script includes a callback.</para>
+<para>Here's the first script:</para>
+<programlisting>#!/usr/dt/bin/dtksh
+XtInitialize TOPLEVEL dttest1 Dtksh $0<indexterm><primary>XtInitialize</primary>
+</indexterm>
+XtSetValues $TOPLEVEL title:&ldquo;dttest1&rdquo;<indexterm><primary>XtSetValues</primary></indexterm>
+XtCreateManagedWidget BBOARD bboard XmBulletinBoard $TOPLEVEL \
+   resizePolicy:RESIZE_NONE height:150 width:250\
+   background:SkyBlue<indexterm><primary>XtCreateManagedWidget</primary></indexterm>
+XtCreateManagedWidget BUTTON pushbutton XmPushButton $BBOARD \<indexterm>
+<primary>XtCreateManagedWidget</primary></indexterm>
+   background:goldenrod \
+   foreground:MidnightBlue \
+   labelString:&rdquo;Push Here&rdquo; \
+   height:30 width:100 x:75 y:60 shadowThickness:3
+XtRealizeWidget $TOPLEVEL<indexterm><primary>XtRealizeWidget</primary></indexterm>XtMainLoop<indexterm>
+<primary>XtMainLoop</primary></indexterm></programlisting>
+<para>Figure 2-1 shows the window that the first script produces.</para>
+<figure>
+<title>Window from script dttest</title>
+<graphic id="DKSUG.scr1.grph.1" entityref="DKSUG.scr1.fig.1"></graphic>
+</figure>
+<para>The first line of the script:</para>
+<programlisting>#!/usr/dt/bin/dtksh</programlisting>
+<para>tells the operating system that this script should be executed using
+<filename>/usr/dt/bin/dtksh</filename> rather than the standard shell.</para>
+<para>The next line initializes the Xt Intrinsics.<indexterm><primary>initialize</primary></indexterm></para>
+<para>XtInitialize TOPLEVEL dttest1 Dtksh $0</para>
+<para>The name of the<indexterm><primary>toplevel widget</primary></indexterm><indexterm>
+<primary>widget</primary><secondary>toplevel</secondary></indexterm> top-level
+widget is saved in the environment variable <filename>$TOPLEVEL</filename>,
+the shell widget name is <filename>dttest1</filename>, the application class
+name is <filename>Dtksh,</filename> and the application name is given by
+the <command>dtksh</command> variable <filename>$0</filename>.</para>
+<para>The next line sets the title resource to the name of the script.</para>
+<programlisting>XtSetValues $TOPLEVEL title:&rdquo;dttest1&rdquo;</programlisting>
+<para>Notice that there is no space between the colon after the resource name
+(title) and its value. An error message appears if you have a space between
+them.</para>
+<para>The next four lines create a<indexterm><primary>bulletin board</primary>
+</indexterm><indexterm><primary>widget</primary><secondary>bulletin board</secondary></indexterm> bulletin board widget and set some of its resources.
+</para>
+<programlisting>XtCreateManagedWidget BBOARD bboard XmBbulletinBoard $TOPLEVEL \
+  resizePolicy:RESIZE_NONE \
+  background:SkyBlue\
+  height:150 width:250</programlisting>
+<para>The bulletin board widget's ID is saved in the environment variable <filename>$BBOARD</filename>. The widget's name is <command>bboard</command>. This
+name is used by the Xt Intrinsics to set the values of resources that might
+be named in an external resource file. The widget class is <command>XmBulletinBoard</command>. The bulletin board's parent widget is the widget ID contained
+in the environment variable <filename>$TOPLEVEL</filename>. This is the topl-
+evel widget created by the initializion command in the first line. The \
+(backslash) at the end of the line tells <command>dtksh</command> that this
+command continues on the next line.</para>
+<para>The next six lines create a<indexterm><primary>pushbutton</primary>
+</indexterm><indexterm><primary>widget</primary><secondary>pushbutton</secondary>
+</indexterm> push button widget as a child of the bulletin board, and set
+some of the push button's resources.</para>
+<programlisting>XtCreateManagedWidget BUTTON pushbutton XmPushButton $BBOARD \
+  background:goldenrod \
+  foreground:MidnightBlue \
+  labelString:&rdquo;Push Here&rdquo;\
+  height:30 width:100 x:75 y:60\
+  shadowThickness:3</programlisting>
+<para>This is basically the same procedure used to create the bulletin board,
+except that the variable, name, class, and parent are different.</para>
+<para>The next line causes the toplevel widget and all its children to be
+realized.</para>
+<programlisting>XtRealizeWidget $TOPLEVEL<indexterm><primary>XtrealizeWidget</primary></indexterm></programlisting>
+<para>Finally, the<indexterm><primary>XtMainLoop</primary></indexterm> <command>XtMainLoop</command> command initiates a loop processing of events for the
+widgets.</para>
+<programlisting>XtMainLoop</programlisting>
+<para>In this script, all that happens is the window appears on the display.
+It stays there until you terminate the script, either by choosing <command>Close</command> on the Window Manager menu or by pressing CTRL C in the terminal
+window from which you executed the script.</para>
+</sect1>
+<sect1 id="DKSUG.scr1.div.3">
+<title>Adding a Callback<indexterm><primary>callback</primary></indexterm></title>
+<para>To provide a function for the push button so that when it is pressed
+a message appears in the terminal window and the script terminates, you have
+to add a callback. Also, you must tell the push button about the existence
+of this callback. The following is the script with the new code added:</para>
+<programlisting>#!/usr/dt/bin/dtksh
+
+activateCB() {
+ echo &ldquo;Pushbutton activated; normal termination.&rdquo;
+ exit 0
+}
+
+XtInitialize TOPLEVEL dttest2 Dtksh $0
+XtSetValues $TOPLEVEL title:&rdquo;dttest2&rdquo;
+XtCreateManagedWidget BBOARD bboard XmBulletinBoard $TOPLEVEL \
+  resizePolicy:RESIZE_NONE \
+  background:SkyBlue \
+  height:150 width:250
+XtCreateManagedWidget BUTTON pushbutton XmPushButton $BBOARD \
+  background:goldenrod \
+  foreground:MidnightBlue \
+  labelString:&rdquo;Push Here&rdquo;\
+  height:30 width:100 x:75 y:60 shadowThickness:3
+
+XtAddCallback $BUTTON activateCallback activateCB
+XtRealizeWidget $TOPLEVEL
+XtMainLoop</programlisting>
+<para>The callback is the function <filename>activateCB()</filename>. You
+typically add the callback to the push button after it (the push button)
+has been created:</para>
+<programlisting>XtAddCallback $BUTTON activateCallback activateCB</programlisting>
+<para>Now the pushbutton knows about the callback. When you click the push
+button, the function <filename>activateCB()</filename> is executed, and the
+message &ldquo;<command>Pushbutton activated; normal termination.</command>&rdquo;
+appears in the terminal window from which you executed the script. The script
+is terminated by the call to the function <command>exit 0</command>.</para>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 10:26:11-->
+<?Pub Caret>
+<?Pub *0000009074>

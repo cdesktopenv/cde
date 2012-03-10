@@ -1,0 +1,129 @@
+XCOMM! /bin/ksh
+XCOMM $XConsortium: updateCDE.src /main/6 1996/04/23 11:10:35 drk $
+XCOMM
+XCOMM  updateCDE  or updateCDE.and.stomp.current.bits
+XCOMM
+XCOMM  Jerrie Andreas  10/5/93
+XCOMM
+XCOMM  This script kills any desktop "dt" clients that are currently running,
+XCOMM  and then calls installCDE to install bits, passing all parameters to
+XCOMM  installCDE.  It then (on hp systems) changes run level to 5, the default
+XCOMM  run level for starting the desktop.
+XCOMM
+XCOMM  This script uses the same options as installCDE.
+XCOMM
+XCOMM  Example: updateCDE -s /x/cde_hp700_90 -t /x/cde_savetars
+XCOMM
+XCOMM #########################################################################
+
+#define HASH #
+
+  if [ $# -eq 0 ]
+  then
+    echo "Usage: updateCDE -s <source> [options]"
+    exit 1
+  fi
+
+  if [ "$1" != "-s" ]
+  then
+    echo "First argument must be the -s option."
+    exit 1
+  fi
+
+  SOURCE_TREE=$2
+
+XCOMM Set which system we are on
+
+  BUILDSYSTEM=$(uname)
+
+XCOMM Set system
+ 
+  if [ $BUILDSYSTEM = "AIX" ]
+  then
+    PLATFORM=aix
+  elif [ $BUILDSYSTEM = "SunOS" ]
+  then
+    PLATFORM=sun
+  elif [ $BUILDSYSTEM = "UNIX_SV" ]
+  then
+    PLATFORM=usl
+  elif [ $BUILDSYSTEM = "UNIX_System_V" ]
+  then
+    PLATFORM=uxp
+  elif [ $BUILDSYSTEM = "OSF1" ]
+  then
+    PLATFORM=dec
+  else		# Build system = HP
+    PLATFORM=hp-ux
+  fi
+
+  if [ $PLATFORM = "aix" ]
+  then
+    USER=`/bin/whoami`
+  elif [ $PLATFORM = "sun" -o $PLATFORM = "uxp" ]
+  then
+    USER=`/usr/ucb/whoami`
+  else
+    USER=`/usr/bin/whoami`
+  fi
+
+  if [ $USER != "root" ]
+  then
+    echo ""
+    echo "You must be root to run this script"
+    echo ""
+    exit 1
+  fi
+
+  echo "updateCDE:  This script re-installs bits from the daily build trees."
+  echo ""
+
+  sleep 2
+
+  PATH=/bin:/usr/bin:/etc:/usr/bin/X11:
+  export PATH
+
+XCOMM Change the run level to kill all dtlogins
+
+  if [ $PLATFORM = "hp-ux" ]
+  then
+    /etc/telinit 2
+  elif [ $PLATFORM = "sun" ]
+  then
+    CDE_INSTALLATION_TOP/config/dtlogin.rc stop
+  fi
+
+  TOOL_DIR=$SOURCE_TREE/admin/IntegTools/updateTools
+  DB_TOOL_DIR=$SOURCE_TREE/admin/IntegTools/dbTools
+  export TOOL_DIR DB_TOOL_DIR
+
+
+XCOMM kill any active Common Desktop Clients
+
+  echo "Stopping any Common Desktop Clients"
+  $TOOL_DIR/kfork.dtclients
+  $TOOL_DIR/kfork.dtclients
+
+XCOMM Send all of the parameters to installDT
+
+  $DB_TOOL_DIR/installCDE $*
+
+XCOMM  Change run level to restart dtlogin
+
+  if [ $PLATFORM = "hp-ux" ];
+  then
+    /etc/telinit 5
+  elif [ $PLATFORM = "sun" ]
+  then
+    CDE_INSTALLATION_TOP/config/dtlogin.rc start
+  fi
+
+  echo "Done updating Common Desktop Bits."
+
+  echo "Updated Common Desktop Bits on: "	 > /etc/motd
+  date						>> /etc/motd
+  echo "via the $TOOL_DIR/updateCDE script" 	>> /etc/motd
+  echo ""					>> /etc/motd
+
+
+XCOMM ###################        eof      #################

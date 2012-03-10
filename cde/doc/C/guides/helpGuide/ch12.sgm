@@ -1,0 +1,274 @@
+<!-- $XConsortium: ch12.sgm /main/11 1996/09/08 19:41:02 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<chapter id="HRDC.Inst.div.1">
+<title id="HRDC.Inst.mkr.1">Preparing an Installation Package</title>
+<para id="HRDC.Inst.mkr.2">This chapter identifies the help files that are
+included in an application installation package. It also describes how help
+files are handled when your application is registered on the desktop.</para>
+<informaltable id="HRDC.Inst.itbl.1" frame="All">
+<tgroup cols="1">
+<colspec colname="1" colwidth="4.0 in">
+<tbody>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Delivering Online Help244'--><xref
+role="JumpText" linkend="HRDC.Inst.mkr.4"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Creating an Installation Package244'--><xref
+role="JumpText" linkend="HRDC.Inst.mkr.5"></para></entry></row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Registering Your Application and
+Its Help247'--><xref role="JumpText" linkend="HRDC.Inst.mkr.9"></para></entry>
+</row>
+<row rowsep="1">
+<entry><para><!--Original XRef content: 'Product Preparation Checklists248'--><xref
+role="JumpText" linkend="HRDC.Inst.mkr.12"></para></entry></row></tbody></tgroup>
+</informaltable>
+<sect1 id="HRDC.Inst.div.2">
+<title id="HRDC.Inst.mkr.3">Overview</title>
+<para>When it comes time to prepare your final product, you must be sure that
+all your help files are created and installed properly. Your product package
+includes both the run-time help file (<symbol>volume</symbol><filename>.sdl</filename>) and its graphic files. Additionally, you can provide a help
+family file that enables your volume to be viewed using the Front Panel Help
+Viewer.</para>
+</sect1>
+<sect1 id="HRDC.Inst.div.3">
+<title id="HRDC.Inst.mkr.4">Delivering Online Help</title>
+<para>Online help can be fully integrated into an application or provided
+as a standalone help volume. Fully integrated help allows a user to directly
+access help information from an application by using a Help menu or Help key.
+A standalone volume on the other hand, can only be displayed using the desktop
+Help Viewer.</para>
+<para>A system administrator may choose to add a standalone help volume to
+the desktop when an application does not provide integrated help or a customized
+environment provides a supplemental help volume. See <xref role="SecTitleAndPageNum"
+linkend="HRDC.Inst.mkr.10"> for instructions to install a standalone volume
+on the desktop.</para>
+</sect1>
+<sect1 id="HRDC.Inst.div.4">
+<title id="HRDC.Inst.mkr.5">Creating an Installation Package</title>
+<para>Your installation package should include these help files:</para>
+<itemizedlist><listitem><para>Run-time help files</para>
+</listitem><listitem><para>Graphics files</para>
+</listitem><listitem><para>Help family file (optional)</para>
+</listitem><listitem><para>Application defaults file (optional)</para>
+</listitem></itemizedlist>
+<para>The run-time help file and any graphics used in the online help are
+included in your installation package. A help family file is optional for
+integrated application help. However, if you want your application help to
+be browsable using the desktop Help Viewer, you must provide a family file.
+If you are delivering a standalone help volume, you must provide a help family
+file. See <xref role="SecTitleAndPageNum" linkend="HRDC.CrHV.mkr.11">.</para>
+<para>If your application's help volume includes execution links, it is recommended
+that the author define execution aliases in an application defaults file.
+This takes advantage of the Help System's default execution policy which will
+automatically execute links with execution aliases. However, if the help volume
+is viewed as an independent volume using a separate information viewer, such
+as the Help Viewer, the Help System will display a confirmation dialog box
+when an execution link is selected.</para>
+<para><xref role="CodeOrFigureOrTable" linkend="HRDC.Inst.mkr.6"> on <xref
+role="Page" linkend="HRDC.Inst.mkr.6"> shows a typical installation package
+for an application and its help files. Help files are grouped in a separate <filename>help</filename> subdirectory which contains a default language directory
+(C is the default). The run-time help file, family file, and graphics files
+are located in this directory.</para>
+<figure>
+<title id="HRDC.Inst.mkr.6">Application installation package</title>
+<graphic id="HRDC.Inst.grph.1" entityref="HRDC.Inst.fig.1"></graphic>
+</figure>
+<para>If your application provides online help in multiple languages, you
+should create a <symbol role="Variable">language</symbol> subdirectory to
+accommodate each language (where <symbol role="Variable">language</symbol>
+matches the user's <systemitem class="resource">LANG</systemitem> environment
+variable). For example, an application that provides both an English and German
+user interface stores its corresponding online help in two subdirectories: <filename>C</filename> for English and <filename>german</filename> for German.</para>
+<sect2 id="HRDC.Inst.div.5">
+<title>Run-Time Help File</title>
+<para>DocBook creates a single run-time help file, <symbol role="Variable">volume</symbol><filename>.sdl</filename>. The base name, <symbol role="Variable">volume</symbol>, is the same as the base name of your <symbol role="Variable">volume</symbol><filename>.sgm</filename> file. The Help Viewer uses information
+stored in this master help file and also accesses any associated graphic files.
+</para>
+<para>You don't need to ship the <symbol role="Variable">volume</symbol><filename>.sgm</filename> or any additional files generated by the DocBook software.
+</para>
+</sect2>
+<sect2 id="HRDC.Inst.div.6">
+<title id="HRDC.Inst.mkr.7">Graphics Files</title>
+<para>If your help volume uses graphics, the image files are typically stored
+in a separate directory for convenience. However, you may choose to store
+them in the same location as your <symbol role="Variable">volume</symbol> <command>.sgm</command> file.</para>
+<para>A run-time help file does not include actual graphic images. Instead,
+it contains a &ldquo;reference&rdquo; to the location of each graphic file.
+When you run DocBook, the <command>dtdocbook</command> compiler incorporates
+the relative path names of the graphics files into the help volume.</para>
+<para>When the help files are installed, the graphics files must be in the
+same relative position as when the run-time file was built. Otherwise, the
+help volume will be unable to locate the graphics files. For example, if your
+graphics files are in a subdirectory named <filename>graphics</filename> one
+level below your <symbol role="Variable">volume</symbol><filename>.sgm</filename>
+file, then your installation package must preserve that relative position.
+The graphics files must be placed in a subdirectory named <filename>graphics</filename> one level below the <symbol role="Variable">volume</symbol><filename>.sdl</filename> file.</para>
+<figure>
+<title>Relationship of build directories and installation package</title>
+<graphic id="HRDC.Inst.grph.2" entityref="HRDC.Inst.fig.2"></graphic>
+</figure>
+</sect2>
+<sect2 id="HRDC.Inst.div.7">
+<title>Help Family File</title>
+<para>You can optionally provide a help family file (<symbol>volume</symbol><filename>.hf</filename>). A family file briefly describes your help volume and includes
+copyright information. It can also be used to group one or more related volumes
+into a single product category.</para>
+<para id="HRDC.Inst.mkr.8">If you want your help volume to be accessible from
+the desktop browser volume, then you must provide a family file in your installation
+package. To create a family file, see <xref role="SecTitleAndPageNum" linkend="HRDC.CrHV.mkr.11">.
+</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Inst.div.8">
+<title id="HRDC.Inst.mkr.9">Registering Your Application and Its Help</title>
+<para>The desktop's integration utility, <command>dtappintegrate</command>,
+registers your application and its help files by creating symbolic links between
+the installed application files and specific desktop directories. Application
+registration ensures that your help files are located in the directory search
+paths used by the Help System.</para>
+<para>Registration enables two important features of the Help System:</para>
+<itemizedlist><listitem><para><emphasis>Cross-volume hyperlinks</emphasis>
+&mdash; A hyperlink in one help volume can refer to another help volume using
+just the volume name and an ID within the volume. If the destination volume
+is registered, the link does not have to specify where the volume is stored
+on the file system.</para>
+</listitem><listitem><para><emphasis>Help family browsing</emphasis> &mdash;
+If you also register a &ldquo;help family&rdquo;, then your help volumes will
+be browsable using the Help Viewer.</para>
+</listitem></itemizedlist>
+<para>Registering your online help makes it easier to access the help you
+provide. For authors and programmers, it's easier because references to your
+volume can use just the volume name, without specifying the volume's actual
+location.</para>
+<para>If you register a help family with one or more help volumes, you make
+your help available for general browsing from the Front Panel Help Viewer.
+This allows access to application-specific help without using the application.
+If you are writing standalone help, this is the only way for users to get
+to your help.</para>
+<sect2 id="HRDC.Inst.div.9">
+<title id="HRDC.Inst.mkr.10">Standalone Help</title>
+<para>A standalone help volume for an application or a customized environment
+can be created using the Help System Developer's Kit. To make the help volume
+accessible from in the desktop index volume, a system administrator installs
+the run-time help file, associated graphics, and family file in the
+<filename>/etc/dt/appconfig/help/</filename><symbol role="Variable">language</symbol>
+directory.</para>
+<para>Remember that the run-time help file and its graphics files must be
+installed in the same relative position as when the help volume was built.
+See <xref role="SecTitleAndPageNum" linkend="HRDC.Inst.mkr.7"> to review the
+installation of graphics files.</para>
+</sect2>
+<sect2 id="HRDC.Inst.div.10">
+<title>What Happens When the Application Is Registered</title>
+<para>Application registration creates symbolic links from the run-time help
+file and family located in <symbol>app_root</symbol>/<filename>dt/appconfig/help</filename> <symbol>language</symbol> to the <filename>/etc/dt/appconfig/help</filename>/<symbol>language</symbol> directory.</para>
+<para>Refer to the <citetitle>Advanced User's and System Administrator's Guide</citetitle> for detailed instructions for application registration.</para>
+</sect2>
+<sect2 id="HRDC.Inst.div.11">
+<title id="HRDC.Inst.mkr.11">How a Help Volume Is Found</title>
+<para>The Help System uses desktop search paths to locate help volumes. When
+help is requested within an application or a help volume is specified in a
+command line, the help volume is found by checking a set of search path directories.
+You can control the directory search path for help volumes by modifying several
+environment variables. Refer to the <citetitle>Advanced User's and System
+Administrator's Guide</citetitle> for detailed information about specifying
+search paths.</para>
+</sect2>
+</sect1>
+<sect1 id="HRDC.Inst.div.12">
+<title id="HRDC.Inst.mkr.12">Product Preparation Checklists</title>
+<para>The following checklists should help you verify that you've prepared
+your product correctly. Of course, there's no substitute for testing your
+product by using it as a user would.</para>
+<sect2 id="HRDC.Inst.div.13">
+<title>For Authors</title>
+<orderedlist><listitem><para><emphasis>A final version of the run-time help
+file was created.</emphasis></para>
+<para>Here are the recommended commands for creating the run-time file:</para>
+<para><command>dtdocbook -r</command> <symbol role="Variable">volume</symbol></para>
+<para><command>dtdocbook</command> <symbol role="Variable">volume</symbol></para>
+<para>The <command>-r</command> option removes files from any previous <command>dtdocbook</command> command. You should not distribute a help volume that
+has any parser errors. If any parser errors have occurred, dtdocbook will
+place them in the intermediate file <symbol role="Variable">volume</symbol><filename>.log</filename>.</para>
+</listitem><listitem><para><emphasis>All hyperlinks have been tested</emphasis>.
+</para>
+<para>Verify that each hyperlink displays the proper topic or performs the
+correct action.</para>
+</listitem><listitem><para><emphasis>Execution aliases have been defined for
+execution links.</emphasis></para>
+<para>Execution aliases are defined as resources in the application's application
+defaults file. An execution alias associates a name with a shell command to
+be executed. If you have used execution links in your help volume, coordinate
+with the application developer to add these resources to the application defaults
+file.</para>
+</listitem><listitem><para><emphasis>All graphics are acceptable.</emphasis></para>
+<para>Make sure that the graphics have been tested on various color, grayscale,
+and monochrome displays.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="HRDC.Inst.div.14">
+<title>For Product Integrators</title>
+<orderedlist><listitem><para><emphasis>The run-time file is installed.</emphasis></para>
+</listitem><listitem><para><emphasis>All graphics are installed in the proper
+locations.</emphasis></para>
+<para>Each graphics file must be installed in the same relative position to
+the <filename>.sdl</filename> file that it was in relative to the<filename>.sgm</filename> file when the DocBook software was run.</para>
+</listitem><listitem><para><emphasis>The help volume is registered.</emphasis></para>
+<para>The <command>dtappintegrate</command> script was run to create symbolic
+links from the installation directory to the registration directory.</para>
+</listitem><listitem><para><emphasis>A product family file is installed and
+registered.</emphasis></para>
+<para>The family file is installed with the other help files. When <command>dtappintegrate</command> is run, it creates a symbolic link for the family
+file. Registering a family file for your help volume is optional, but if you
+choose not to register a family file, your help volume will not be accessible
+from the Front Panel Help Viewer.</para>
+</listitem></orderedlist>
+</sect2>
+<sect2 id="HRDC.Inst.div.15">
+<title>For Programmers</title>
+<orderedlist><listitem><para><emphasis>The application sets the correct values
+for these required resources:</emphasis></para>
+<programlisting><symbol>App-class</symbol>*helpVolume: <symbol>volume</symbol>
+<symbol>App-class</symbol>*helpOnHelpVolume:  <symbol role="Variable">help-on-help-volume</symbol></programlisting>
+<para>The <systemitem class="resource">helpVolume</systemitem> resource identifies
+the help volume for your application. The <systemitem class="resource">helpOnHelpVolume</systemitem> resource identifies the help volume that contains the help on
+using the help system.</para>
+</listitem><listitem><para><emphasis>Execution aliases are included in the
+application defaults file.</emphasis></para>
+<para>An author defines execution aliases as application resources. An execution
+alias associates a name with a shell command to be executed. If execution
+links have been used in the help volume, check with the author to identify
+the resources that need to be added.</para><?Pub Caret1>
+</listitem><listitem><para><emphasis>The application sets the desired values
+for the following optional resources:</emphasis></para>
+<programlisting><symbol>App-class</symbol>*DtHelpDialogWidget*onHelpDialog*rows: <symbol>rows</symbol>
+
+<symbol>App-class</symbol>*DtHelpDialogWidget*onHelpDialog*columns: <symbol role="Variable">columns</symbol>
+
+<symbol>App-class</symbol>*DtHelpDialogWidget*definitionBox*rows:   <symbol role="Variable">rows</symbol>
+
+<symbol>App-class</symbol>*DtHelpDialogWidget*definitionBox*columns: <symbol role="Variable">columns</symbol>
+</programlisting>
+<para>The <systemitem class="resource">onHelpDialog</systemitem> resources
+control the size of the quick help dialogs used to display Help on Help. The <systemitem class="resource">definitionBox</systemitem> resources control the size of
+the quick help dialog used for definition links.</para>
+</listitem><listitem><para><emphasis>The application uses either the default
+font resources or defines font resources in the application's application-defaults
+file.</emphasis></para>
+<para>In most cases an application can rely on the default font resources.
+However, when custom fonts are used, they must be defined in the application-
+defaults file. Sample font schemes are provided in the <filename>/usr/dt/dthelp/fontschemes</filename> directory. See <xref role="ChapNumAndTitle" linkend="HRDC.Lang.mkr.1">,
+for additional information about font schemes.</para>
+</listitem></orderedlist>
+</sect2>
+</sect1>
+</chapter>
+<!--fickle 1.14 mif-to-docbook 1.7 01/02/96 16:48:20-->
+<?Pub *0000023101>

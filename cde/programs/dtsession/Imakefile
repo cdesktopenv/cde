@@ -1,0 +1,189 @@
+XCOMM $TOG: Imakefile /main/22 1998/04/06 13:33:41 mgreess $
+
+        DEFINES = -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
+                  -DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\"
+
+#if defined(SunArchitecture)
+DEPLIBS = $(DEPDTWIDGETLIB) $(DEPDTSVCLIB) $(DEPTTLIB) \
+                  $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) \
+                  $(XMLIB) $(XTOOLLIB) $(USE_XHPLIB) $(XLIB)
+#else
+DEPLIBS = $(DEPDTHELPLIB) $(DEPDTWIDGETLIB) $(DEPDTSVCLIB) $(DEPTTLIB) \
+                  $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(DTHELPLIB) $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) \
+                  $(XMLIB) $(XTOOLLIB) $(USE_XHPLIB) $(XLIB)
+#endif /* SunArchitecture */
+SYS_LIBRARIES = -lm
+
+
+#ifdef AlphaArchitecture
+SYS_LIBRARIES = -lm
+EXTRA_DEFINES = -DMULTIBYTE -DXLIB_ILLEGAL_ACCESS -DSIA
+#endif
+
+#ifdef HPArchitecture
+EXTRA_DEFINES = -DMULTIBYTE -DUSE_HPSSEXT
+USE_XHPLIB = $(XHPLIB)
+#endif
+
+#if defined(RsArchitecture)
+EXTRA_DEFINES = -D_ILS_MACROS -DSBSTDINC_H_NO_REDEFINE
+SYS_LIBRARIES = -lm -lbsd -ls -liconv
+#if (OSMajorVersion == 3)
+EXTRA_SRC = SmHftRing.c SmMigResources.c
+EXTRA_OBJS = $(ALTDIRECTORY)SmHftRing.o $(ALTDIRECTORY)SmMigResources.o
+#else
+EXTRA_SRC = SmMigResources.c
+EXTRA_OBJS = $(ALTDIRECTORY)SmMigResources.o
+#endif
+#endif
+
+#if defined(SCOArchitecture) || defined(LinuxArchitecture)
+SYS_LIBRARIES = -lcrypt -lm
+#endif
+
+#if defined(SunArchitecture)
+EXTRA_SRC = OWsync.c
+EXTRA_OBJS = $(ALTDIRECTORY)OWsync.o
+EXTRA_DEFINES = -D${PROGRAMS}
+SYS_LIBRARIES = -lelf -lm -ldl
+#endif
+
+#if defined(USLArchitecture)
+/* not needed for archive. usl shared libs must resolve every
+ * reference whether used or not.
+ */
+SYS_LIBRARIES = -lelf -lm -ldl -lgen -liaf
+PROTO_DEFINES =
+DEFINES = -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
+          -DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\"
+#endif
+
+#if defined(UXPArchitecture)
+/* not needed for archive. usl shared libs must resolve every
+ * reference whether used or not.
+ */
+SYS_LIBRARIES = -lelf -lm -ldl -lgen
+#endif
+
+PROGRAMS=dtsession
+
+/**** Every .o except version.o may only be built in a remote
+ **** directory as we do with rgy -> $(ALTDIRECTORY)
+ ****/
+OBJS=   $(ALTDIRECTORY)SmMain.o \
+	$(ALTDIRECTORY)SmGlobals.o \
+        $(ALTDIRECTORY)SmHelp.o \
+	$(ALTDIRECTORY)SmCommun.o \
+	$(ALTDIRECTORY)SmError.o \
+	$(ALTDIRECTORY)SmProperty.o \
+	$(ALTDIRECTORY)SmProtocol.o \
+	$(ALTDIRECTORY)SmSave.o \
+	$(ALTDIRECTORY)SmScreen.o \
+	$(ALTDIRECTORY)SmRestore.o \
+	$(ALTDIRECTORY)SmUI.o \
+	$(ALTDIRECTORY)SmWindow.o \
+	$(ALTDIRECTORY)SmLock.o \
+	$(ALTDIRECTORY)SrvPalette.o\
+	$(ALTDIRECTORY)SrvFile_io.o\
+	$(ALTDIRECTORY)SmStrDefs.o \
+	$(ALTDIRECTORY)SmConMgmt.o \
+	$(EXTRA_OBJS) \
+	$(ALTDIRECTORY)SmXSMP.o \
+	$(ALTDIRECTORY)SmAuth.o \
+	$(ALTDIRECTORY)SmWatch.o \
+	$(ALTDIRECTORY)SmProp.o \
+	$(ALTDIRECTORY)SmDB.o \
+	version.o
+
+SRCS=	SmMain.c \
+	SmHelp.c \
+	SmGlobals.c \
+	SmCommun.c \
+	SmError.c \
+        SmProperty.c \
+        SmProtocol.c \
+        SmSave.c \
+        SmScreen.c \
+        SmRestore.c \
+        SmUI.c \
+        SmWindow.c \
+	SmLock.c \
+	SrvPalette.c\
+	SrvFile_io.c\
+	SmStrDefs.c \
+	SmConMgmt.c \
+	$(EXTRA_SRC) \
+	SmXSMP.c \
+	SmAuth.c \
+	SmWatch.c \
+	SmProp.c \
+	SmDB.c \
+	version.c
+
+/**************************************************************************
+ *
+ *  Extra things for the Passwd Etc. version
+ *
+ **************************************************************************/
+
+#ifdef USE_RGY
+      EXTRA_DEFINES = -DMULTIBYTE -DUSE_HPSSEXT -D__PASSWD_ETC +e
+    EXTRA_LIBRARIES = $(RGYLIB) $(NCKLIB) -lndbm -lBSD ExtraLibraries
+#endif
+
+
+/******* RGY or KRB CASE *******************************/
+#if (defined(USE_KRB) || defined(USE_RGY)) && defined(HPArchitecture)
+/*******************************************************/
+ALTDIRECTORY = $(CDESRC)/dtsession/
+SRCS=    version.c
+
+includes::
+        @echo " linking $(ALTDIRECTORY)version.c to version.c";\
+        ln -f -s $(ALTDIRECTORY)version.c .
+version.o: version.c
+        ObjectCompile($(_NOOP_))
+
+/* don't build other .o's */
+.c.o:
+ComplexProgramTarget($(PROGRAMS))
+
+/******* NORMAL NON-RGY CASE *******************************/
+#else
+/***************************************************/
+
+ComplexProgramTarget($(PROGRAMS))
+
+DTSM_CMD1 = $(CDE_INSTALLATION_TOP)/bin/dtaction OpenHomeDir
+DTSM_CMD2 = $(CDE_INSTALLATION_TOP)/bin/dtfile -dir ~ -geometry +700+0
+DTSM_CMD4 = $(CDE_INSTALLATION_TOP)/bin/dthelpview -helpVolume Intromgr
+DTSM_CMD5 = $(CDE_INSTALLATION_TOP)/bin/dtaction Dthelpgen_delay
+
+LOCAL_CPP_DEFINES = -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP) \
+		    -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
+		    -DXBINDIR=$(XPROJECTROOT)/bin \
+		    -DDTSM_CMD1="\"$(DTSM_CMD1)\"" \
+		    -DDTSM_CMD2="\"$(DTSM_CMD2)\"" \
+		    -DDTSM_CMD4="\"$(DTSM_CMD4)\"" \
+		    -DDTSM_CMD5="\"$(DTSM_CMD5)\""
+
+CPP_TARGETS = Dtsession dtloadresources dtsession.msg \
+	sys.font sys.resources sys.resources.ive sys.session sys.session.ive
+
+AllTarget($(CPP_TARGETS))
+
+CppSourceFile(Dtsession,Dtsession.src,$(LOCAL_CPP_DEFINES),)
+CppScriptTarget(dtloadresources,dtloadresources.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(dtsession.msg,dtsession.msg.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(sys.font,sys.font.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(sys.resources,sys.resources.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(sys.resources.ive,sys.resources.src,-DIVE $(LOCAL_CPP_DEFINES),)
+CppSourceFile(sys.session,sys.session.src,$(LOCAL_CPP_DEFINES),)
+CppSourceFile(sys.session.ive,sys.session.src,-DIVE $(LOCAL_CPP_DEFINES),)
+
+#endif /* KRB || RGY */
+
+/* These headers are for using installed build. dthello uses these files */
+HEADERS = Srv.h SrvFile_io.h SrvPalette.h 

@@ -1,0 +1,130 @@
+<!-- $XConsortium: sess_res.sgm /main/9 1996/09/08 19:55:58 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMX.MAN33.rsml.1" Remap="">
+<RefMeta>
+<RefEntryTitle>dtsession_res</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>dtsession_res</Command></RefName>
+<RefPurpose>CDE dtsession resource load utility
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>dtsession_res -load</Command>
+<Arg>-merge</Arg>
+<Arg Choice="opt">-system</Arg>
+<Arg Choice="opt">-xdefaults</Arg>
+<Arg Choice="opt">-file &lt;name></Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<note>
+<para>The Common Desktop Environment (CDE) <command>dtsession_res</command>
+utility is used by <command>dtsession</command> and the
+<literal>ReloadResources</literal> action to load session resources. It
+is not intended to be run directly from the command line.
+</para>
+</note>
+<Para>The CDE dtsession_res utility uses
+<Filename MoreInfo="RefEntry">xrdb</Filename>(1) to load the session resources into the
+RESOURCE_MANAGER property of the root window of the display. The session
+resources are gathered from the following files:
+</Para>
+<!--Start of RS / RE range-->
+<Para>- /usr/dt/config/$LANG/sys.resources
+</Para>
+<Para>- /etc/dt/config/$LANG/sys.resources
+</Para>
+<Para>- $HOME/.Xdefaults
+</Para>
+<Para>- $HOME/.dt/&lt;session dir>/dt.resources
+</Para>
+<!--End of RS / RE range-->
+<Para>Refer to the
+&cdeman.dtsession;
+man page for more information on these files and their content.
+</Para>
+<Para>The
+<Command>dtsession_res</Command> utility provides support for display-specific resources by converting
+the $DISPLAY value into a
+<Filename MoreInfo="RefEntry">cpp</Filename>(1) macro that can be used in a session resource file to limit resource
+definitions to a particular display. It does this by converting all
+&acute;.' (dot) and ':' (colon) characters to '_', stripping off any screen
+specification and finally prefixing 'DISPLAY_' to the result. For example,
+a $DISPLAY of ':0' would be 'DISPLAY_0', and a $DISPLAY of 'blanco.gato.com:0.0'
+would be 'DISPLAY_blanco_gato_com_0'. The resulting value can be used
+as part of a
+<Literal>cpp</Literal> test in a session resource file. For example:
+</Para>
+<programlisting>
+   Myapp*resource: value
+
+   #ifdef DISPLAY_blanco_gato_com_0
+   Myapp*resource: specialvalue1
+   #endif
+
+   #ifdef DISPLAY_pablo_gato_com_0
+   Myapp*resource: specialvalue2
+   #endif
+</programlisting>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<RefSect2>
+<Title>-load</Title>
+<Para>Replace the current RESOURCE_MANAGER content with the session resources.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-merge</Title>
+<Para>Merge the current RESOURCE_MANAGER content with the session resources.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-system</Title>
+<Para>Load or merge the system session resources.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-xdefaults</Title>
+<Para>Load or merge the $HOME/.Xdefault file.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>-file &lt;name></Title>
+<Para>Load or merge the file specified by &lt;name>.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>The
+<Command>dtsession_res</Command> utility is not intended to be run from the command line. Refer to the
+<Literal>ReloadResources</Literal> action for information on how to reload session resources in a
+user's session.
+</Para>
+<Para>dtsession_res -load -system -xdefaults \
+-file $HOME/.dt/sessions/current/dt.resources
+</Para>
+<Para>Replaces the RESOURCE_MANAGER with the content of the following files:
+</Para>
+<Para>- /usr/dt/config/$LANG/sys.resources,
+</Para>
+<Para>- /etc/dt/config/$LANG/sys.resources,
+</Para>
+<Para>- $HOME/.Xdefaults and
+</Para>
+<Para>- $HOME/.dt/sessions/current/dt.resources files.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.3 08/21/95 21:30:04-->

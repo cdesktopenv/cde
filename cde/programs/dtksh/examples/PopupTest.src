@@ -1,0 +1,57 @@
+XCOMM! CDE_INSTALLATION_TOP/bin/dtksh
+XCOMM  $XConsortium: PopupTest.src /main/3 1996/04/23 20:18:36 drk $
+
+XCOMM #########################################################################
+XCOMM   (c) Copyright 1993, 1994 Hewlett-Packard Company	
+XCOMM   (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM   (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM   (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of
+XCOMM       Novell, Inc.
+XCOMM #########################################################################
+
+
+XCOMM 
+XCOMM  This sample shell script demonstrates the steps necessary to create and
+XCOMM  manage a popup menu.
+XCOMM 
+
+
+XCOMM  This event handler positions the menu at the point where the button event
+XCOMM  occurred, and then posts the popup menu.
+EventHandler()
+{
+   XmMenuPosition $POPUP $EH_EVENT
+   XtManageChild $POPUP
+}
+
+
+XCOMM  Menu button callback
+MenuActivated()
+{
+   echo "Menu Activated: "$1
+}
+
+
+
+
+XCOMM ###################### Create the Main UI ###############################
+
+XtInitialize TOPLEVEL popupTest PopupTest "$0" "$@"
+
+XtCreateManagedWidget FORM form XmForm $TOPLEVEL
+XtSetValues $FORM height:300  width:300
+XtAddEventHandler $FORM "ButtonPressMask" False EventHandler
+
+XmCreatePopupMenu POPUP $FORM "popup"
+XmCreatePushButton PB1 $POPUP "pb1" \
+	labelString:"Menu Item 1"
+XtManageChild $PB1
+XtAddCallback $PB1 activateCallback "MenuActivated MenuItem1"
+XmCreatePushButton PB2 $POPUP "pb2" \
+	labelString:"Menu Item 2"
+XtManageChild $PB2
+XtAddCallback $PB2 activateCallback "MenuActivated MenuItem2"
+
+XtRealizeWidget $TOPLEVEL
+
+XtMainLoop

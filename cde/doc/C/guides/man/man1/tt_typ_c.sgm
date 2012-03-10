@@ -1,0 +1,616 @@
+<!-- $XConsortium: tt_typ_c.sgm /main/8 1996/09/08 20:20:59 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN1.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN1.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>tt_type_comp</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>tt_type_comp</Command></RefName>
+<RefPurpose>compile ToolTalk otypes and ptypes
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: tt_typ_c.sgm /main/8 1996/09/08 20:20:59 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<![ %CDE.C.CDE; [
+<CmdSynopsis>
+<Command>tt_type_comp</Command>
+<Arg Choice="opt">&minus;mMs</Arg>
+<Arg Choice="opt">&minus;d&numsp;<Replaceable>db</Replaceable></Arg>
+<Arg><Replaceable>source_file</Replaceable></Arg>
+<!-- -->
+</CmdSynopsis>
+]]>
+<![ %CDE.C.XO; [
+<CmdSynopsis>
+<Command>tt_type_comp</Command>
+<Arg Choice="opt">&minus;mMs</Arg>
+<Arg><Replaceable>source_file</Replaceable></Arg>
+<!-- -->
+</CmdSynopsis>
+]]>
+<![ %CDE.C.CDE; [
+<CmdSynopsis>
+<Command>tt_type_comp</Command>
+<Arg>&minus;r</Arg>
+<Arg Choice="opt">&minus;s</Arg>
+<Arg Choice="opt">&minus;d&numsp;<Replaceable>db</Replaceable></Arg>
+<Arg><Replaceable>type</Replaceable></Arg>
+<Arg>.&thinsp;.&thinsp;.</Arg>
+</CmdSynopsis>
+]]>
+<![ %CDE.C.XO; [
+<CmdSynopsis>
+<Command>tt_type_comp</Command>
+<Arg>&minus;r</Arg>
+<Arg Choice="opt">&minus;s</Arg>
+<Arg><Replaceable>type</Replaceable></Arg>
+<Arg>.&thinsp;.&thinsp;.</Arg>
+</CmdSynopsis>
+]]>
+<![ %CDE.C.CDE; [
+<CmdSynopsis>
+<Command>tt_type_comp</Command>
+<Arg>&minus;p</Arg>
+<Arg>&minus;O</Arg>
+<Arg>&minus;P</Arg>
+<Arg Choice="opt">&minus;sE</Arg>
+<Arg Choice="opt">&minus;d&numsp;<Replaceable>db</Replaceable></Arg>
+</CmdSynopsis>
+]]>
+<![ %CDE.C.XO; [
+<CmdSynopsis>
+<Command>tt_type_comp</Command>
+<Arg>&minus;p</Arg>
+<Arg>&minus;O</Arg>
+<Arg>&minus;P</Arg>
+<Arg Choice="opt">&minus;s</Arg>
+</CmdSynopsis>
+]]>
+<CmdSynopsis>
+<Command>tt_type_comp</Command>
+<Arg>&minus;p</Arg>
+<Arg>&minus;O</Arg>
+<Arg>&minus;P</Arg>
+<Arg Choice="opt">&minus;s</Arg>
+<Arg><Replaceable>source_file</Replaceable></Arg>
+<!-- -->
+</CmdSynopsis>
+<CmdSynopsis>
+<Command>tt_type_comp</Command>
+<Arg>&minus;x</Arg>
+<Arg Choice="opt">&minus;s</Arg>
+<Arg Choice="opt">&minus;o&numsp;<Replaceable>compiled_file</Replaceable></Arg>
+<Arg><Replaceable>source_file</Replaceable></Arg>
+<!-- -->
+</CmdSynopsis>
+<CmdSynopsis>
+<Command>tt_type_comp</Command>
+<Arg Choice="opt">&minus;hv</Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Command>tt_type_comp</Command> utility processes otypes and ptypes.
+The default action of
+<Command>tt_type_comp</Command> is to compile types from source form into compiled form and then
+merge the compiled types into the standard ToolTalk types databases.
+The
+<Command>tt_type_comp</Command> utility preprocesses the source types with
+<Command>cpp</Command>(1), and can optionally write out the compiled types instead of merging
+them into the standard databases.
+The
+<Command>tt_type_comp</Command> utility can also remove types from the standard databases
+or write out the contents of these databases.
+<![ %CDE.C.CDE; [</Para>
+<Para>The
+<Command>tt_type_comp</Command> utility operates in two fundamental modes: XDR and Classing Engine.
+XDR mode is the default.
+In XDR mode, the standard databases are
+simply serialized ToolTalk data structures,
+and the format of
+<Command>tt_type_comp</Command> output files is the same as that of the databases.
+In Classing Engine mode,
+the standard databases are in fact the Classing Engine's
+own databases, and the format of
+<Command>tt_type_comp</Command> output files is that expected for input to
+<Command>ce_db_build</Command>(1) and
+<Command>ce_db_merge</Command>(1). ]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<![ %CDE.C.XO; [
+<Para>The
+<Command>tt_type_comp</Command> utility supports the &str-Zu;.
+</Para>
+]]>
+<Para>The following options are available:
+</Para>
+<VariableList>
+<![ %CDE.C.CDE; [
+<VarListEntry>
+<Term><Literal>&minus;d&numsp;</Literal><Emphasis>db</Emphasis></Term>
+<ListItem>
+<Para>Specify the database to work on, which must be one of
+<Literal>user</Literal>, <Literal>system</Literal> or
+<Literal>network</Literal>. For Classing Engine mode these are defined as:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>user</Literal></Term>
+<ListItem>
+<Para><Filename>$HOME/.cetables/cetables</Filename></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>system</Literal></Term>
+<ListItem>
+<Para><Filename>/etc/cetables/cetables</Filename></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>network</Literal></Term>
+<ListItem>
+<Para><Filename>$OPENWINHOME/lib/cetables/cetables</Filename></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>For the XDR format these are defined as:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>user</Literal></Term>
+<ListItem>
+<Para><Filename>$HOME/.tt/types.xdr</Filename></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>system</Literal></Term>
+<ListItem>
+<Para><Filename>/etc/tt/types.xdr</Filename></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>network</Literal></Term>
+<ListItem>
+<Para><Filename>$OPENWINHOME/etc/tt/types.xdr</Filename></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>These three databases form a hierarchy in which the definition of a
+type in the user database overrides the definition in the system
+database, and so on.
+For the merge and remove options, the default database is
+<Literal>user</Literal>. For the
+<Literal>&minus;p</Literal>, <Literal>&minus;O</Literal> and
+<Literal>&minus;P</Literal> options, the default is all three databases.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;E</Literal></Term>
+<ListItem>
+<Para>Use Classing Engine mode, instead of the default XDR mode.
+</Para>
+</ListItem>
+</VarListEntry>
+]]>
+<VarListEntry>
+<Term><Literal>&minus;h</Literal></Term>
+<ListItem>
+<Para>Write a help message for invoking
+<Command>tt_type_comp</Command> and then exit.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;m</Literal></Term>
+<ListItem>
+<Para>Merge types into the specified database, updating any existing type with
+the new definition given.
+This is the default action.
+<![ %CDE.C.CDE; [This action is not supported for Classing Engine mode.
+]]>The specified database is the first element from the
+<Emphasis>TTPATH</Emphasis> environment variable, or
+<Filename>$HOME/.tt/types.xdr</Filename> if
+<Emphasis>TTPATH</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem> or not set.
+If
+<Emphasis>TTPATH</Emphasis> is
+<SystemItem Class="Constant">NULL</SystemItem> or not set, it is considered to be:
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing>$HOME/.tt/types.xdr:&bsol;
+/etc/tt/types.xdr:&bsol;
+/usr/dt/appconfig/tttypes/types.xdr
+</ProgramListing>
+</InformalExample>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;M</Literal></Term>
+<ListItem>
+<Para>Merge types into the specified database (see
+<Literal>&minus;m</Literal>), but only if they do not already
+exist in that database.
+<![ %CDE.C.CDE; [This action is not supported for Classing Engine mode.
+]]></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;O</Literal></Term>
+<ListItem>
+<Para>Write the names of all otypes read.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;p</Literal></Term>
+<ListItem>
+<Para>Write the ToolTalk types read
+in a source format suitable for recompilation with
+<Command>tt_type_comp</Command>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;P</Literal></Term>
+<ListItem>
+<Para>Write the names of all ptypes read.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;o&numsp;</Literal><Emphasis>compiled_file</Emphasis></Term>
+<ListItem>
+<Para>Write the compiled types into the specified file,
+or to standard output if
+<Emphasis>compiled_file</Emphasis> is &minus;.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;r</Literal></Term>
+<ListItem>
+<Para>Remove the given ptypes or otypes
+from the specified database, as indicated by the
+<Symbol Role="Variable">type</Symbol> operands.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;s</Literal></Term>
+<ListItem>
+<Para>Silent mode.
+Write nothing to standard output.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;v</Literal></Term>
+<ListItem>
+<Para>Write the version number of
+<Command>tt_type_comp</Command> and then exit.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&minus;x</Literal></Term>
+<ListItem>
+<Para>Compile source types into a compiled types file, instead of merging
+them into the standard types databases.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>OPERANDS</Title>
+<Para>The following operands are supported:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Emphasis>source_file</Emphasis></Term>
+<ListItem>
+<Para>A pathname of a text file containing ToolTalk source code.
+If
+<Emphasis>source_file</Emphasis> is &minus;, standard input is used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">type</Symbol></Term>
+<ListItem>
+<Para>A name of a type to be removed by the
+<Literal>&minus;r</Literal> option.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>STDIN</Title>
+<Para>The standard input is used only if a
+<Emphasis>source_file</Emphasis> operand is &minus;.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>INPUT FILES</Title>
+<Para>The input file named by
+<Emphasis>source_file</Emphasis> is a text file containing ToolTalk source
+<![ %CDE.C.CDE; [code.
+]]><![ %CDE.C.XO; [code, which must conform to the format described in
+<![ %CDE.C.XO; [<XRef Linkend="XCDI.TT.anch.4" Role="2">. ]]>]]></Para>
+</RefSect1>
+<RefSect1>
+<Title>ENVIRONMENT VARIABLES</Title>
+<Para>The following environment variables affect the execution of
+<Command>tt_type_comp</Command>:</Para>
+<VariableList>
+<![ %CDE.C.CDE; [
+<VarListEntry>
+<Term><Emphasis>CEPATH</Emphasis></Term>
+<ListItem>
+<Para>In Classing Engine mode, a colon-separated list of directories that
+tells the Classing Engine where to find the databases that
+contain (among other things) ToolTalk types.
+See
+<Command>ce_db_build</Command>(1).</Para>
+</ListItem>
+</VarListEntry>
+]]>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">LANG</SystemItem></Term>
+<ListItem>
+<Para>Provide a default value for the internationalization variables
+that are unset or null.
+If
+<SystemItem Class="EnvironVar">LANG</SystemItem> is unset or null, the corresponding value from the
+implementation-specific default locale will be used.
+If any of the internationalization variables contains an invalid setting, the
+utility behaves as if none of the variables had been defined.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>LC_ALL</Emphasis></Term>
+<ListItem>
+<Para>If set to a non-empty string value,
+override the values of all the other internationalization variables.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>LC_MESSAGES</Emphasis></Term>
+<ListItem>
+<Para>Determine the locale that is used to affect
+the format and contents of diagnostic
+messages written to standard error
+and informative messages written to standard output.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="EnvironVar">NLSPATH</SystemItem></Term>
+<ListItem>
+<Para>Determine the location of message catalogues
+for the processing of
+<Emphasis>LC_MESSAGES</Emphasis>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>TTPATH</Emphasis></Term>
+<ListItem>
+<Para><![ %CDE.C.CDE; [In XDR mode, a
+]]>
+<![ %CDE.C.XO; [A
+]]>
+colon-separated list of directories that tells the ToolTalk service
+where to find the ToolTalk types databases.
+</Para>
+<![ %CDE.C.CDE; [<Para>The format of this variable is
+</Para>
+<InformalExample Remap="indent">
+<ProgramListing><Emphasis>userDir</Emphasis>[:<Emphasis>systemDir</Emphasis>[:<Emphasis>networkDir</Emphasis>]]
+</ProgramListing>
+</InformalExample>
+]]>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RESOURCES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ASYNCHRONOUS EVENTS</Title>
+<![ %CDE.C.XO; [
+<Para>Default.
+</Para>
+]]>
+<![ %CDE.C.CDE; [
+<Para>The
+<Command>tt_type_comp</Command> utility takes the standard action for all signals.
+</Para>
+]]>
+</RefSect1>
+<RefSect1>
+<Title>STDOUT</Title>
+<Para>When the
+<Literal>&minus;h</Literal> option is used,
+<Command>tt_type_comp</Command> writes to standard output a help message
+in an unspecified format.
+</Para>
+<Para>When the
+<Literal>&minus;o</Literal> option is used,
+<Command>tt_type_comp</Command> writes to standard output a listing of all
+otypes
+read.
+</Para>
+<Para>When the
+<Literal>&minus;p</Literal> option is used,
+<Command>tt_type_comp</Command> writes to standard output a listing of
+all the ToolTalk types read,
+in a source format suitable for recompilation with
+<Command>tt_type_comp</Command>.</Para>
+<Para>When the
+<Literal>&minus;P</Literal> option is used,
+<Command>tt_type_comp</Command> writes to standard output a listing of all
+ptypes
+read.
+</Para>
+<Para>When the
+<Literal>&minus;v</Literal> option is used,
+<Command>tt_type_comp</Command> writes to standard output a version number
+in an unspecified format.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>STDERR</Title>
+<Para>Used only for diagnostic messages.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OUTPUT FILES</Title>
+<Para>When the
+<Literal>&minus;x</Literal> or
+<Literal>&minus;d&numsp;user</Literal> option is used,
+<Command>tt_type_comp</Command> writes the compiled types in an unspecified format
+into a user-specified file.
+Otherwise, it writes the compiled types into the
+databases described under
+<Literal>&minus;d</Literal>.</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXTENDED DESCRIPTION</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXIT STATUS</Title>
+<Para>The following exit values are returned:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>0</Term>
+<ListItem>
+<Para>Successful completion.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>1</Term>
+<ListItem>
+<Para>Usage;
+<Command>tt_type_comp</Command> was given invalid command line options.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>2</Term>
+<ListItem>
+<Para>A syntax error was found in the source types given to
+<Command>tt_type_comp</Command>.</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>3</Term>
+<ListItem>
+<Para>System error;
+<Command>tt_type_comp</Command> was interrupted by
+<SystemItem Class="Constant">SIGINT</SystemItem>, or encountered some system or internal error.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>CONSEQUENCES OF ERRORS</Title>
+<Para>Default.
+</Para>
+</RefSect1>
+<![ %CDE.C.CDE; [<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term><Filename>$HOME/.tt/types.xdr</Filename></Term>
+<ListItem>
+<Para>User's ToolTalk types database for XDR mode
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/etc/tt/types.xdr</Filename></Term>
+<ListItem>
+<Para>System ToolTalk types database for XDR mode
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/usr/dt/appconfig/tttypes/types.xdr</Filename></Term>
+<ListItem>
+<Para>Network ToolTalk types database for XDR mode
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>$OPENWINHOME/etc/tt/types.xdr</Filename></Term>
+<ListItem>
+<Para>Network ToolTalk types database for XDR mode
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>$HOME/.cetables/cetables</Filename></Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>/etc/cetables/cetables</Filename></Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Filename>$OPENWINHOME/lib/cetables/cetables</Filename></Term>
+<ListItem>
+<Para>Classing Engine databases containing ToolTalk types for CE mode.
+See
+<Command>ce_db_build</Command>(1).</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+]]>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>None.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.ttsession;, <![ %CDE.C.CDE; [<Command>ce_db_build</Command>(1), <Command>ce_db_merge</Command>(1), ]]><Command>cpp</Command>(1).</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

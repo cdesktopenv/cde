@@ -1,0 +1,276 @@
+<!-- $XConsortium: ttdbck.sgm /main/5 1996/09/08 20:22:38 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMX.MAN44.rsml.1" Remap="">
+<RefMeta>
+<RefEntryTitle>ttdbck</RefEntryTitle>
+<ManVolNum>user cmd</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Command>ttdbck</Command></RefName>
+<RefPurpose>display, check, or repair ToolTalk databases
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: ttdbck.sgm /main/5 1996/09/08 20:22:38 rws $-->
+<!-- (c) Copyright 1993, 1994 Sun Microsystems, Inc.-->
+<!--  (c) Copyright 1993, 1994 Hewlett-Packard Company-->
+<!--  (c) Copyright 1993, 1994 International Business Machines Corp.-->
+<RefSynopsisDiv>
+<CmdSynopsis>
+<Command>ttdbck</Command>
+<Arg Choice="opt"><Replaceable>selection opts</Replaceable></Arg>
+<Arg Choice="opt"><Replaceable>diagnosis opts</Replaceable></Arg>
+<Arg Choice="opt"><Replaceable>display opts</Replaceable></Arg>
+<Arg Choice="opt"><Replaceable>repair opts</Replaceable></Arg>
+<Arg Choice="opt"><Replaceable>data-base-directory</Replaceable></Arg>
+<Arg>...</Arg>
+</CmdSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Command>ttdbck</Command> is the ToolTalk database maintenance tool.
+It allows direct inspection of ToolTalk spec data, detection of
+inconsistencies, and repair of problems.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>OPTIONS</Title>
+<VariableList>
+<VarListEntry>
+<Term>data-base-directory</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Names the directory or directories containing the ToolTalk database to be
+inspected or repaired. If no directories are named, the current directory is
+assumed. If a directory path does not end in ``TT_DB'', ``TT_DB''
+is appended.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term></Term>
+<ListItem>
+<Para>The user running the command must have read access to the files in the
+directory to inspect the data and write access to repair the data.
+Since ToolTalk databases are typically accessible only to root, this
+command is normally run as root.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<RefSect2>
+<Title>Selection options</Title>
+<Para>The selection options determine which specs in the database are displayed
+or modified. If no selection options are given, all specs in the database
+are displayed. To prevent massive accidental changes to ToolTalk
+databases, no repair options except
+<Option>-I</Option> are allowed unless a selection or
+diagnosis option is given.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&minus;f&ensp; filename</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Restricts the set of specs to be inspected or modified to those which
+describe objects in the named file. The file name can contain shell-style
+wildcards which must be escaped to prevent the shell from expanding them.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;k&ensp; objidkey</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>An object id key, specifying a particular spec to be displayed or modified.
+The object id key can be obtained from a previous invocation of
+<Command>ttdbck</Command>; one might display a set of specs, determine the one that needs repair, and
+specify its key here.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;t&ensp; type</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Restricts the set of specs to be inspected or modified to those with
+otype
+<Emphasis>type.</Emphasis> The type name can contain shell-style wildcards which must be escaped
+to prevent the shell from expanding them.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Diagnosis options</Title>
+<Para>These options check for and report on inconsistencies in the selected specs.
+Only specs selected by the selection options are checked. If a diagnosis
+option is given, any display or repair option is applied only to specs which
+fail the diagnostic check.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&minus;b</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Check for badly formed specs: those which have no file or type or those
+which have types not defined in the type database.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;x</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Check for specs which refer to files that no longer exist.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Display options</Title>
+<Para>These options determine which data is printed for each selected spec.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>&minus;i</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Display the object id (including the object id key.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;m</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Display the mandatory data that must appear in every spec: the otype
+of the object described by the spec and the file in which the spec is
+stored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;p</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Display all the properties and values for each selected spec.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;a</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Display all data (equivalent to specifying
+<Literal>&minus;imp</Literal>)</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Repair options</Title>
+<VariableList>
+<VarListEntry>
+<Term>&minus;I</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Invoke the NetISAM isrepair() function for all files accessed.
+This action is applied before any other inspection or repair
+action.
+This option should be used when normal operations
+return EBADFILE (error code 105).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;F &ensp;filename</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Change the file name for the selected specs to the supplied file name.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;T &ensp;otypeid</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Change the type of the selected specs to the given otype.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>&minus;Z</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>Remove the selected specs entirely.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<VariableList>
+<VarListEntry>
+<Term></Term>
+<ListItem>
+<Para><Command>ttdbck</Command> <Literal>-bxi</Literal> <Filename>/home</Filename></Para>
+<Para>In the /home/TT_DB directory, finds all badly formed specs and specs that
+refer to non-existent files and prints their ids.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term></Term>
+<ListItem>
+<Para><Command>ttdbck</Command> <Literal>-f</Literal> <Filename>/home/sample/data</Filename> <Literal>-F</Literal> <Filename>/home/sample/data1</Filename> <Filename>/home</Filename></Para>
+<Para>In the /home/TT_DB directory, finds all specs that refer to objects in
+file /home/sample/data and changes them to refer to /home/sample/data1.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term></Term>
+<ListItem>
+<Para><Command>ttdbck</Command> <Option>-t</Option> <Literal>Sample_Otype_Name</Literal> <Literal>-Z</Literal> <Filename>/export/TT_DB</Filename></Para>
+<Para>In the /export/TT_DB directory, finds all specs that refer to objects
+of type
+<Emphasis>Sample_Otype_Name</Emphasis> and deletes the specs.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>FILES</Title>
+<VariableList>
+<VarListEntry>
+<Term>/path/TT_DB</Term>
+<ListItem>
+<!-- ex-TP-->
+<Para>ToolTalk database
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>NOTES</Title>
+<Para>The
+<Command>ttdbck</Command> command should be run on the same machine where the TT_DB files
+being inspected and repaired physically exist. That is, don't try to access
+the TT_DB files via NFS.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->

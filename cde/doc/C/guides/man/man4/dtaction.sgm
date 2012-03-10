@@ -1,0 +1,796 @@
+<!-- $XConsortium: dtaction.sgm /main/13 1996/09/08 20:17:02 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMX.MAN90.rsml.1">
+<refmeta><refentrytitle>dtactionfile</refentrytitle><manvolnum>special file
+</manvolnum></refmeta>
+<refnamediv><refname><filename>dtactionfile</filename></refname><refpurpose>
+define the content of desktop action definition records</refpurpose></refnamediv>
+<refsynopsisdiv>
+<synopsis>set DtDbVersion=<emphasis>version_number</emphasis>
+set <emphasis>VariableName</emphasis>=<emphasis>variable_value</emphasis>
+ACTION  <emphasis>action_name</emphasis>
+{
+        # <emphasis>Comment</emphasis>
+        <emphasis>FieldName</emphasis> <emphasis>field_value</emphasis>
+        <emphasis>FieldName</emphasis> <emphasis>field_value</emphasis>
+        ...
+}</synopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>&str-XZ; actions define the behavior of icons, front panel controls
+and operations on data objects. Actions are defined in a set of text files
+with the <Filename>.dt</Filename> suffix. Each action definition consists of
+the word <systemitem class="Constant">ACTION</systemitem> followed by an action
+name and a list of Field and Value pairs (one per line) on lines by themselves
+and enclosed in brackets.</para>
+<para>These text files may also contain data typing information as described
+in &cdeman.dtdtsfile;. (See &cdeman.dtdtfile; for
+the general syntax and location of the actions and data types database.)</para>
+<para>Actions are of one of the following classes: command actions, ToolTalk
+message actions or map actions. These action classes are described in the
+following sections.</para>
+<refsect2>
+<title>Command Actions</title>
+<para>Command actions are identified by a <systemitem class="Constant">TYPE</systemitem> <systemitem class="Constant">COMMAND</systemitem> field. This
+field defines an execution string to invoke and a set of related information,
+such as the current working directory for the command and the host where the
+command should be executed. The following field names are unique to command
+actions: <systemitem class="Constant">EXEC_STRING</systemitem>, <systemitem class="Constant">EXEC_HOST</systemitem>, <systemitem class="Constant">CWD</systemitem>, <systemitem class="Constant">WINDOW_TYPE</systemitem> and <systemitem class="Constant">TERM_OPTS</systemitem>.</para>
+</refsect2>
+<refsect2>
+<title>ToolTalk Message Actions</title>
+<para>ToolTalk message actions are identified by a <systemitem class="Constant">TYPE</systemitem> <systemitem class="Constant">TT_MSG</systemitem> field.
+This field defines a ToolTalk message to be sent. The following fields are
+unique to ToolTalk message actions: <systemitem class="Constant">TT_CLASS</systemitem>, <systemitem class="Constant">TT_SCOPE</systemitem>, <systemitem class="Constant">TT_OPERATION</systemitem>, <systemitem class="Constant">TT_FILE</systemitem>, <systemitem class="Constant">TT_ARGn_MODE</systemitem>, <systemitem class="Constant">TT_ARGn_VTYPE</systemitem>, <systemitem class="Constant">TT_ARGn_REP_TYPE</systemitem> and <systemitem class="Constant">TT_ARGn_VALUE</systemitem>.</para>
+</refsect2>
+<refsect2>
+<title>Map Actions</title>
+<para>Map actions are identified by a <systemitem class="Constant">TYPE</systemitem> <systemitem class="Constant">MAP</systemitem> field. This field does not define any specific
+behavior; instead, this field specifies a different action name that should
+be invoked in place of the original action. Multiple map actions can be chained
+together, but the chain must ultimately terminate in a non-map action. The
+following field is unique to map actions: <systemitem class="Constant">MAP_ACTION</systemitem>.</para>
+</refsect2>
+<refsect2>
+<title>Common Fields</title>
+<para>In addition to the unique action fields listed above, all actions support
+the following fields: <systemitem class="Constant">LABEL</systemitem>, <systemitem class="Constant">ICON</systemitem>, <systemitem class="Constant">DESCRIPTION</systemitem>, <systemitem class="Constant">ARG_CLASS</systemitem>, <systemitem class="Constant">ARG_MODE</systemitem>, <systemitem class="Constant">ARG_TYPE</systemitem>, <systemitem class="Constant">ARG_COUNT</systemitem> and <systemitem class="Constant">TYPE</systemitem>.</para>
+</refsect2>
+<refsect2>
+<title>Keywords</title>
+<para>The value string for certain action fields may reference special keywords
+enclosed within percentage character (%) delimiters. These keywords are evaluated
+when the action is invoked and replaced with the appropriate value. In fields
+that do not evaluate keywords, the keyword is taken literally. The valid keywords
+are:</para>
+<variablelist>
+<varlistentry><term>%DatabaseHost%</term>
+<listitem>
+<para>The name of the host where the action definition file is located. This
+hostname is specified by the host portion of the <emphasis>host:/</emphasis> <emphasis>path</emphasis> searchpath used to find the action.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>%DisplayHost%</term>
+<listitem>
+<para>The name of the host where the X server displaying the &str-XZ; session
+is running.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>%LocalHost%</term>
+<listitem>
+<para>The name of the host where the application invoking the action is executing.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>%SessionHost%</term>
+<listitem>
+<para>The name of the host where the controlling login manager ( &cdeman.dtlogin;) runs.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Argument References</title>
+<para>Arguments passed to actions can be referenced in certain action fields
+using special argument keywords enclosed within percent character (%) delimiters.
+These argument keywords are evaluated when the action is invoked and replaced
+with the appropriate value. In fields that do not evaluate keywords, the keyword
+is taken literally. The valid argument keywords are:</para>
+<variablelist>
+<varlistentry><term>%Arg_<emphasis>n%</emphasis></term>
+<listitem>
+<para>The <symbol role="Variable">n</symbol>th (starting with 1) argument
+of the action. If the action was invoked with fewer than <symbol role="Variable">n</symbol> arguments, the value of the keyword is <systemitem class="Constant">NULL</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>%Args%</term>
+<listitem>
+<para>All remaining arguments of the action. If any arguments of the action
+have already been referenced within this field by an %Arg_ <symbol role="Variable">n</symbol>% keyword, those arguments are not referenced a second time by %Args%.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>%"<emphasis>prompt</emphasis>"%</term>
+<listitem>
+<para>Prompt the user for a value, using <emphasis>prompt</emphasis> as the
+label of a text field.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>%Arg_<symbol role="Variable">n</symbol>"<emphasis>prompt</emphasis> "%</term>
+<listitem>
+<para>The <symbol role="Variable">n</symbol>th (starting with 1) argument
+of the action. If the action was invoked with fewer than <symbol role="Variable">n</symbol> arguments, prompt the user for a value using <emphasis>prompt</emphasis>
+as the label of a text field.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>If a keyword references the name of a file argument, the value of the
+keyword is expanded to an absolute pathname prior to substitution. In addition,
+if the file name is to be passed to a remote system, the file name is first
+mapped appropriately (see &cdeman.tt.file.netfile; and &cdeman.tt.netfile.file;).</para>
+<para>If the keyword references a buffer argument, the buffer data is placed
+in a temporary file and the name of the temporary file is substituted, as
+described above. Some action fields provide direct support for data buffers
+and do not require use of a temporary file. This behavior is noted in the
+description of the appropriate fields.</para>
+<para>If the keyword references a string obtained from the user, it is treated
+as a simple string and the value substituted without any transformation.</para>
+<para>Argument references can be forced to be treated as file names or simple
+strings by using the <literal>(File)</literal> or <literal>(String)</literal>
+qualifier immediately after the opening % of the keyword. For example:</para>
+<informalexample remap="indent">
+<programlisting>%(String)Arg_<symbol role="Variable">n</symbol>%
+%(File)"<emphasis>prompt</emphasis>"%</programlisting>
+</informalexample>
+<para>If an action is invoked with more than one argument, and the action
+definition only references one or zero arguments, the action is iteratively
+invoked with each of the supplied arguments. If the action definition references
+more than one argument, any extra arguments are ignored.</para>
+</refsect2>
+<refsect2>
+<title>Action Selection</title>
+<para>Multiple actions can be defined with the same name. When the action
+is invoked, the appropriate action definition is chosen based on the number
+and class of arguments supplied. For example, the <literal>Open</literal>
+action may invoke &cdeman.dtpad; if a text file is supplied as
+an argument, or it may invoke &cdeman.dticon; if a bitmap file
+argument is supplied. The <systemitem class="Constant">ARG_COUNT</systemitem>, <systemitem class="Constant">ARG_CLASS</systemitem>, <systemitem class="Constant">ARG_MODE</systemitem> and <systemitem class="Constant">ARG_TYPE</systemitem> fields
+specify the number, mode and types of arguments that are accepted by a particular
+action. Because these fields can have shell pattern-matching values such as
+*, it is possible that the action database contains multiple actions that
+have the same name and are all capable of accepting the arguments that are
+supplied. In this case, the following precedence rules are used to choose
+a single action definition to invoke:</para>
+<itemizedlist>
+<!-- merged from xo+cde-->
+<listitem><para>Actions with more specific attribute values take precedence
+over more general attribute values.</para>
+</listitem><listitem><para>For the <systemitem class="Constant">ARG_COUNT</systemitem> field, an exact numerical value (<emphasis>N</emphasis>) is
+more specific than a less-than range (<emphasis>&lt;N</emphasis>). A less-than
+range (<emphasis>&lt;N</emphasis>) is more specific than a greater-than range
+(<emphasis>>N</emphasis>). And a greater-than range (<emphasis>>N</emphasis>)
+is more specific than a shell pattern-matching character (*).</para>
+</listitem><listitem><para>For the <systemitem class="Constant">ARG_CLASS</systemitem> and <systemitem class="Constant">ARG_TYPE</systemitem> fields,
+a single item is more specific than a list of items and a list of items is
+more specific than a shell pattern-matching *.</para>
+</listitem><listitem><para>For the <systemitem class="Constant">ARG_MODE</systemitem>
+field, <literal>w</literal> (writable) and <literal>!w</literal> (not writable)
+are more specific than a shell pattern-matching *.</para>
+</listitem><listitem><para>The fields have the following precedence, from
+high to low: <systemitem class="Constant">ARG_CLASS</systemitem>, <systemitem class="Constant">ARG_TYPE</systemitem>, <systemitem class="Constant">ARG_MODE</systemitem>, <systemitem class="Constant">ARG_COUNT</systemitem>.</para>
+</listitem><listitem><para>If two action definitions have equal specificity,
+the action definition appearing first in the database load order takes precedence.
+Database directories are loaded in the order specified by the <systemitem class="EnvironVar">DTDATABASESEARCHPATH</systemitem> environment variable,
+and are loaded in the collation order of their file names.</para>
+</listitem></itemizedlist>
+</refsect2>
+<refsect2>
+<title>ARG_CLASS Field</title>
+<para>The <systemitem class="Constant">ARG_CLASS</systemitem> field is optional
+for all types of actions. This field specifies the class of arguments the
+action accepts. If an action is invoked with more than one argument, the class
+of only the first argument is checked against the value of the <systemitem class="Constant">ARG_CLASS</systemitem> field. The valid values for this field
+are:</para>
+<variablelist>
+<varlistentry><term>BUFFER</term>
+<listitem>
+<para>The action accepts arguments that are blocks of data held in memory.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>FILE</term>
+<listitem>
+<para>The action accepts arguments that are file names.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>*</term>
+<listitem>
+<para>The action is defined for all classes of arguments.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>A comma-separated list of valid values is also allowed and specifies
+that the action accepts arguments of any of the listed classes.</para>
+<para>If an action is defined to accept a buffer argument, yet the implementation
+of the action requires a file name, the buffer is automatically converted
+into a temporary file for the action to use. See the description of the <literal>DtTmpDir</literal> resource for information on configuring the location of
+these temporary files.</para>
+<para>Keywords are not evaluated in the <systemitem class="Constant">ARG_CLASS</systemitem> field. The default value of the <systemitem class="Constant">ARG_CLASS</systemitem> field is <literal>*</literal>.</para>
+</refsect2>
+<refsect2>
+<title>ARG_COUNT Field</title>
+<para>The <systemitem class="Constant">ARG_COUNT</systemitem> field is optional
+for all types of actions. The <systemitem class="Constant">ARG_COUNT</systemitem>
+field specifies the number of arguments that the action accepts. The valid
+values for this field (where <emphasis>N</emphasis> denotes any non-negative
+integer) are:</para>
+<variablelist>
+<varlistentry><term><emphasis>N</emphasis></term>
+<listitem>
+<para>The action accepts exactly <emphasis>N</emphasis> arguments.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>&lt;N</emphasis></term>
+<listitem>
+<para>The action accepts any number of arguments less than <emphasis>N</emphasis>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><emphasis>>N</emphasis></term>
+<listitem>
+<para>The action accepts any number of arguments greater than <emphasis>N</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>*</term>
+<listitem>
+<para>The action accepts any number of arguments.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Keywords are not evaluated in the <systemitem class="Constant">ARG_COUNT</systemitem> field. The default value of the <systemitem class="Constant">ARG_COUNT</systemitem> field is <literal>*</literal>.</para>
+</refsect2>
+<refsect2>
+<title>ARG_MODE Field</title>
+<para>The <systemitem class="Constant">ARG_MODE</systemitem> field is optional
+for all types of actions. This field specifies the mode of arguments the action
+accepts. If an action is invoked with more than one argument, the mode of
+only the first argument is checked against the value of the <systemitem class="Constant">ARG_MODE</systemitem> field. The valid values for this field are:</para>
+<variablelist>
+<varlistentry><term><literal>w</literal></term>
+<listitem>
+<para>The action accepts arguments that writable by the user.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>!w</literal></term>
+<listitem>
+<para>The action accepts arguments that are not writable by the user.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>*</literal></term>
+<listitem>
+<para>The action is defined for all classes of arguments.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Keywords are not evaluated in the <systemitem class="Constant">ARG_MODE</systemitem> field. The default value of the <systemitem class="Constant">ARG_MODE</systemitem> field is <literal>*</literal>.</para>
+</refsect2>
+<refsect2>
+<title>ARG_TYPE Field</title>
+<para>The <systemitem class="Constant">ARG_TYPE</systemitem> field is optional
+for all types of actions. This field specifies the types of arguments the
+action accepts. If the action is invoked with more than one argument, the
+type of only the first argument is checked against the value of this field.
+Valid values for this field are * (all data types are accepted), a single
+data type name or a comma-separated list of data types. The set of valid data
+types are those defined by <systemitem class="Constant">DATA_ATTRIBUTE</systemitem>
+records in the data typing database. (See &cdeman.dtdtsfile;
+for more information.)</para>
+<para>Keywords are not evaluated in the <systemitem class="Constant">ARG_TYPE</systemitem> field. The default value of the <systemitem class="Constant">ARG_TYPE</systemitem> field is <literal>*</literal>.</para>
+</refsect2>
+<refsect2>
+<title>CWD Field</title>
+<para>The <systemitem class="Constant">CWD</systemitem> field is optional
+for all types of actions. This field specifies the current working directory
+to be used when the execution string is invoked. Valid values include any
+absolute pathname. If this field is not specified, the current working directory
+for the execution string is determined by the following:</para>
+<itemizedlist>
+<!-- merged from xo+cde-->
+<listitem><para>If the application invoking the action specifies a current
+working directory, that directory is used.</para>
+</listitem><listitem><para>If arguments are supplied to the action and the
+first argument is a directory, that directory is used.</para>
+</listitem><listitem><para>If arguments are supplied to the action and the
+first argument is a file, the directory where the file is located is used.
+</para>
+</listitem><listitem><para>The current working directory of the application
+invoking the action is used.</para>
+</listitem></itemizedlist>
+<para>Keywords are not evaluated in the <systemitem class="Constant">CWD</systemitem>
+field.</para>
+</refsect2>
+<refsect2>
+<title>DESCRIPTION Field</title>
+<para>The <systemitem class="Constant">DESCRIPTION</systemitem> field is optional
+for <systemitem class="Constant">COMMAND</systemitem> actions. This field
+specifies a textual description of the action that is suitable for presentation
+to a user requesting information about the action. The description should
+contain no formatting information such as tab or newline characters. The application
+that presents the information to the user formats the information.</para>
+<para>Keywords are not evaluated in the <systemitem class="Constant">DESCRIPTION</systemitem> field. There is no default value for the <systemitem class="Constant">DESCRIPTION</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>EXEC_HOST Field</title>
+<para>The <systemitem class="Constant">EXEC_HOST</systemitem> field is optional
+for <systemitem class="Constant">COMMAND</systemitem> actions. This field
+specifies the host where the execution string should be invoked. Valid values
+for this field include actual hostnames, as well as any of the hostname keywords.
+If a comma-separated list of hostnames is provided, execution is attempted
+on each of the hosts in the order specified until execution succeeds.</para>
+<para>Keywords are evaluated in the <systemitem class="Constant">EXEC_HOST</systemitem> field. The default value of the <systemitem class="Constant">EXEC_HOST</systemitem> field is <literal>%DatabaseHost%,%LocalHost%</literal>.
+(See the description of the <literal>ExecutionHosts</literal> resource for
+information on how to change this default value.)</para>
+</refsect2>
+<refsect2>
+<title>EXEC_STRING Field</title>
+<para>The <systemitem class="Constant">EXEC_STRING</systemitem> field is required
+for <systemitem class="Constant">COMMAND</systemitem> actions. This field
+specifies an execution string to be invoked. The string is parsed using the
+same quoting rules as defined by <command>sh</command>(1); however, the execution
+string is not automatically passed to any shell. Therefore, if the execution
+string requires shell features such as redirection of standard input, redirection
+of standard output, or pipes, the appropriate shell must be specified explicitly
+in the execution string. For example:</para>
+<informalexample remap="indent">
+<programlisting>EXEC_STRING       sh &minus;c 'ls &minus;l | more'</programlisting>
+</informalexample>
+<para>Keywords are evaluated in the <systemitem class="Constant">EXEC_STRING</systemitem> field. There is no default value for the <systemitem class="Constant">EXEC_STRING</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>ICON Field</title>
+<para>The <systemitem class="Constant">ICON</systemitem> field is optional
+for all types of actions. This field specifies the name of an icon that represents
+the action. <!--(In &bsol;*(XZ, the file management and front panel
+services show actions as icons.
+Icons inform the user of what
+actions are available and serve as drop sites as part of
+drag-and-drop operations.)
+--></para>
+<para>Icons are found by using the standard &str-XZ; icon search path, so
+the value can be either an absolute pathname (for example, <Filename>/foo/icons/myicon.bm</Filename>), a relative pathname (for example, <literal>icons/myicon.bm</literal>)
+or a partial filename (for example, <literal>myicon</literal>). Partial filenames
+are preferred because they allow the &str-XZ; icon search path to find the
+icon with the optimum size and depth for the current environment.</para>
+<para>Keywords are not evaluated in the <systemitem class="Constant">ICON</systemitem> field. The default value of the <systemitem class="Constant">ICON</systemitem> field is <literal>Dtactn</literal>. (See the description
+of the <literal>ActionIcon</literal> resource for information on how to change
+this default value.)</para>
+</refsect2>
+<refsect2>
+<title>LABEL Field</title>
+<para>The <systemitem class="Constant">LABEL</systemitem> field is optional
+for all types of actions. This field specifies a user-visible label for the
+action. When actions are presented to the user, the localized <systemitem class="Constant">LABEL</systemitem> field is used to identify the action instead
+of the non-localized action name.</para>
+<para>Keywords are not evaluated in the <systemitem class="Constant">LABEL</systemitem> field. The default value of the <systemitem class="Constant">LABEL</systemitem> field is the name of the action.</para>
+</refsect2>
+<refsect2>
+<title>MAP_ACTION Field</title>
+<para>The <systemitem class="Constant">MAP_ACTION</systemitem> field is required
+for <systemitem class="Constant">MAP</systemitem> actions. This field specifies
+the name of an action that should be invoked in place of the current action.
+The specified action is invoked with the same set of arguments that were passed
+to the original action.</para>
+<para>Keywords are not evaluated in the <systemitem class="Constant">MAP_ACTION</systemitem> field. There is no default value for the <systemitem class="Constant">MAP_ACTION</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>TERM_OPTS Field</title>
+<para>The <systemitem class="Constant">TERM_OPTS</systemitem> field is optional
+for <systemitem class="Constant">COMMAND</systemitem> actions. This field
+specifies command-line options that are passed to the terminal emulator for
+all <systemitem class="Constant">COMMAND</systemitem> actions that are terminal
+based. (That is, any <systemitem class="Constant">COMMAND</systemitem> action
+other than those that specify <systemitem class="Constant">WINDOW_TYPE</systemitem> <systemitem class="Constant">NO_STDIO</systemitem>.) These command-line options are typically
+used to specify a unique terminal-window geometry, font, color or title.</para>
+<para>The value of the <systemitem class="Constant">TERM_OPTS</systemitem>
+field must be an option string in a form the terminal emulator supports and
+it must only affect the appearance of the terminal window. For example, options
+such as <literal>&minus;e</literal>, which affect the behavior of the terminal
+window, must not be used.</para>
+<para>Keywords are evaluated in the <systemitem class="Constant">TERM_OPTS</systemitem> field. The default value of the <systemitem class="Constant">TERM_OPTS</systemitem> field is</para>
+<informalexample remap="indent">
+<programlisting>&minus;title action_label</programlisting>
+</informalexample>
+<para>where <emphasis>action_label</emphasis> is the <systemitem class="Constant">LABEL</systemitem> field for the action. See &cdeman.dtterm; (or <command>xterm</command>(1)) for the meaning of <literal>&minus;title</literal>.</para>
+</refsect2>
+<refsect2>
+<title>TT_ARGn_MODE Field</title>
+<para>The <systemitem class="Constant">TT_ARGn_MODE</systemitem> field is
+optional for <systemitem class="Constant">TT_MSG</systemitem> actions. This
+field specifies the value of the ToolTalk mode attribute for the <symbol role="Variable">n</symbol>th message argument, where <symbol role="Variable">n</symbol> is
+zero for the first message argument. The valid values for this field are: <systemitem class="Constant">TT_IN</systemitem>, <systemitem class="Constant">TT_INOUT</systemitem> and <systemitem class="Constant">TT_OUT</systemitem>.</para>
+<para>(See <filename role="Header">Tt/tt_c.h</filename> for a description
+of these values.)</para>
+<para>Keywords are not evaluated in the <systemitem class="Constant">TT_ARGn_MODE</systemitem> field. There is no default value for the <systemitem class="Constant">TT_ARGn_MODE</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>TT_ARGn_REP_TYPE Field</title>
+<para>The <systemitem class="Constant">TT_ARGn_REP_TYPE</systemitem> field
+is optional for <systemitem class="Constant">TT_MSG</systemitem> actions.
+This field specifies the representation type of the <symbol role="Variable">n</symbol>th ToolTalk message argument, where <symbol role="Variable">n</symbol>
+is zero for the first message argument. The valid values for this field are:
+</para>
+<variablelist>
+<varlistentry><term>TT_REP_UNDEFINED</term>
+<listitem>
+<para>If <systemitem class="Constant">TT_ARGn_VALUE</systemitem> references
+a buffer argument, the representation type is a buffer; otherwise, it is a
+string.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>TT_REP_INTEGER</term>
+<listitem>
+<para>The representation type is an integer.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>TT_REP_BUFFER</term>
+<listitem>
+<para>The representation type is a buffer.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>TT_REP_STRING</term>
+<listitem>
+<para>The representation type is string.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Keywords are not evaluated in the <systemitem class="Constant">TT_ARGn_REP_TYPE</systemitem> field. The default value of the <systemitem class="Constant">TT_ARGn_REP_TYPE</systemitem> field is <systemitem class="Constant">TT_REP_UNDEFINED</systemitem>.</para>
+</refsect2>
+<refsect2>
+<title>TT_ARGn_VALUE Field</title>
+<para>The <systemitem class="Constant">TT_ARGn_VALUE</systemitem> field is
+optional for <systemitem class="Constant">TT_MSG</systemitem> actions. If
+there is no corresponding <systemitem class="Constant">TT_ARGn_MODE</systemitem>
+field, the <systemitem class="Constant">TT_ARGn_VALUE</systemitem> field is
+ignored. If there is a <systemitem class="Constant">TT_ARGn_MODE</systemitem>
+field, the <systemitem class="Constant">TT_ARGn_VALUE</systemitem> field specifies
+the value of the <symbol role="Variable">n</symbol>th ToolTalk message argument,
+where <symbol role="Variable">n</symbol> is zero for the first message argument.
+If there is a <systemitem class="Constant">TT_ARGn_MODE</systemitem> field
+with no corresponding <systemitem class="Constant">TT_ARGn_VALUE</systemitem>
+field, the value of the <symbol role="Variable">n</symbol>th ToolTalk message
+argument is set to <systemitem class="Constant">NULL</systemitem>.</para>
+<para>The value of the <systemitem class="Constant">TT_ARGn_VALUE</systemitem>
+field must be a single string or action argument. Keywords that reference
+a single action argument are evaluated in the <systemitem class="Constant">TT_ARGn_VALUE</systemitem> field, however %Args% is not allowed as it references
+multiple action arguments. There is no default value for the <systemitem class="Constant">TT_ARGn_VALUE</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>TT_ARGn_VTYPE Field</title>
+<para>The <systemitem class="Constant">TT_ARGn_VTYPE</systemitem> field is
+required to accompany any <systemitem class="Constant">TT_ARGn_MODE</systemitem>
+fields in <systemitem class="Constant">TT_MSG</systemitem> actions. This field
+specifies the value of the ToolTalk vtype attribute of the <symbol role="Variable">n</symbol>th message argument, where <symbol role="Variable">n</symbol> is
+zero for the first message argument. If this field references an argument
+keyword, the <emphasis>MEDIA</emphasis> attribute of the specified argument
+is used. If the <emphasis>MEDIA</emphasis> attribute is not defined, the <systemitem class="Constant">DATA_ATTRIBUTE</systemitem> name of the data type is used.
+</para>
+<para>Keywords are evaluated in the <systemitem class="Constant">TT_ARGn_VTYPE</systemitem> field. There is no default value for the <systemitem class="Constant">TT_ARGn_VTYPE</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>TT_CLASS Field</title>
+<para>The <systemitem class="Constant">TT_CLASS</systemitem> field is required
+for <systemitem class="Constant">TT_MSG</systemitem> actions. This field specifies
+the value of the ToolTalk class message field. The valid values for this field
+are:</para>
+<variablelist>
+<varlistentry><term>TT_NOTICE</term>
+<listitem>
+<para>The action defines a ToolTalk notification message.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>TT_REQUEST</term>
+<listitem>
+<para>The action defines a ToolTalk request message.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Keywords are not evaluated in the <systemitem class="Constant">TT_CLASS</systemitem> field. There is no default value for the <systemitem class="Constant">TT_CLASS</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>TT_FILE Field</title>
+<para>The <systemitem class="Constant">TT_FILE</systemitem> field is optional
+for <systemitem class="Constant">TT_MSG</systemitem> actions. This field specifies
+the value of the ToolTalk file message field. The value of this field must
+be a single file name and can either be a specific file name (for example, <Filename>/tmp/foo</Filename>) or an argument keyword (for example, %Arg_<emphasis>1</emphasis>%). %Args% is not allowed because it references multiple action
+arguments. If an argument keyword is specified and the corresponding argument
+is not a file (that is, it is a buffer), the action invocation fails.</para>
+<para>Keywords are evaluated in the <systemitem class="Constant">TT_FILE</systemitem>
+field. There is no default value for the <systemitem class="Constant">TT_FILE</systemitem> field; if it is not set, the file attribute of the ToolTalk
+message is set to <systemitem class="Constant">NULL</systemitem>.</para>
+</refsect2>
+<refsect2>
+<title>TT_OPERATION Field</title>
+<para>The <systemitem class="Constant">TT_OPERATION</systemitem> field is
+required for <systemitem class="Constant">TT_MSG</systemitem> actions. This
+field specifies the value of the ToolTalk operation message field. Typical
+values are operations such as <symbol role="Message">Display</symbol> or
+<symbol role="Message">Edit</symbol> that are defined by the Media Exchange Message
+Set.</para>
+<para>Keywords are not evaluated in the <systemitem class="Constant">TT_OPERATION</systemitem> field. There is no default value for the <systemitem class="Constant">TT_OPERATION</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>TT_SCOPE Field</title>
+<para>The <systemitem class="Constant">TT_SCOPE</systemitem> field is required
+for <systemitem class="Constant">TT_MSG</systemitem> actions. This field specifies
+the value of the ToolTalk scope message field. (See <filename role="Header">Tt/tt_c.h</filename> for a description of these values.) The valid values
+for this field are: <systemitem class="Constant">TT_BOTH</systemitem>, <systemitem class="Constant">TT_FILE</systemitem>, <systemitem class="Constant">TT_FILE_IN_SESSION</systemitem> and <systemitem class="Constant">TT_SESSION</systemitem>.</para>
+<para>Keywords are not evaluated in the <systemitem class="Constant">TT_SCOPE</systemitem> field. There is no default value for the <systemitem class="Constant">TT_SCOPE</systemitem> field.</para>
+</refsect2>
+<refsect2>
+<title>TYPE Field</title>
+<para>The <systemitem class="Constant">TYPE</systemitem> field is optional
+for <systemitem class="Constant">COMMAND</systemitem> actions and required
+for <systemitem class="Constant">MAP</systemitem> or <systemitem class="Constant">TT_MSG</systemitem> actions. This field specifies the type of behavior defined
+by the action. Valid values for this field are:</para>
+<variablelist>
+<varlistentry><term>COMMAND</term>
+<listitem>
+<para>The action invokes a command.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>MAP</term>
+<listitem>
+<para>The action specifies a different action name to invoke in place of the
+current action.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>TT_MSG</term>
+<listitem>
+<para>The action defines a ToolTalk message to be sent.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Keywords are not evaluated in the <systemitem class="Constant">TYPE</systemitem> field. The default value of the <systemitem class="Constant">TYPE</systemitem> field is <systemitem class="Constant">COMMAND</systemitem>.
+</para>
+</refsect2>
+<refsect2>
+<title>WINDOW_TYPE Field</title>
+<para>The <systemitem class="Constant">WINDOW_TYPE</systemitem> field is optional
+for <systemitem class="Constant">COMMAND</systemitem> actions. This field
+specifies the type of windowing support the execution string requires. Valid
+values for this field are:</para>
+<variablelist>
+<varlistentry><term>NO_STDIO</term>
+<listitem>
+<para>No windowing support is required. This value is appropriate for execution
+strings that have no output or are X Windows applications.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>PERM_TERMINAL</term>
+<listitem>
+<para>The execution string requires a terminal window. When the execution
+string exits, the terminal window is left open until the user explicitly closes
+it. This value is appropriate for applications that write their output to
+standard output and then terminate, such as <command>ls</command>(1).</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>TERMINAL</term>
+<listitem>
+<para>The execution string requires a terminal window. When the execution
+string exits, the terminal window is closed. If the execution string exits
+``quickly'' (see the description of the <literal>waitTime</literal> resource),
+the terminal window is left open to allow the user to view any error messages
+that were written to standard output or standard error. This value is appropriate
+for full-screen terminal applications such as the <command>vi</command>(1) editor.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Keywords are not evaluated in the <systemitem class="Constant">WINDOW_TYPE</systemitem> field. The default value of the <systemitem class="Constant">WINDOW_TYPE</systemitem> field is <systemitem class="Constant">PERM_TERMINAL</systemitem>.</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>RESOURCES</title>
+<para>The following resources are available to control the behavior of actions.
+These resources must be set for the application that is invoking the action.
+They can be set for all applications that invoke actions by omitting the application
+name or class name.</para>
+<informaltable remap="center" orient="port">
+<tgroup cols="4" colsep="0" rowsep="0">
+<?PubTbl tgroup dispwid="6.19in">
+<colspec align="left" colname="col1" colwidth="2.00in">
+<colspec align="left" colwidth="2.01in">
+<colspec align="left" colwidth="0.94in">
+<colspec align="left" colname="col4" colwidth="2.80in">
+<spanspec nameend="col4" namest="col1" spanname="1to4">
+<tbody>
+<row>
+<entry align="left" spanname="1to4" valign="top"><literal>X11 Resources That
+Modify Action Behavior</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>actionIcon</literal></entry>
+<entry align="left" valign="top"><literal>ActionIcon</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">``Dtactn''</entry></row>
+<row>
+<entry align="left" valign="top"><literal>dtEnvMapForRemote</literal></entry>
+<entry align="left" valign="top"><literal>DtEnvMapForRemote</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">``DTAPPSEARCHPATH:DTHELPSEARCHPATH:DTDATABASESEARCHPATH:XMICONSEARCHPATH:XMICONBMSEARCHPATH''</entry></row>
+<row>
+<entry align="left" valign="top"><literal>dtexecPath</literal></entry>
+<entry align="left" valign="top"><literal>DtexecPath</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">``/usr/dt/bin/dtexec''</entry></row>
+<row>
+<entry align="left" valign="top"><literal>dtTmpDir</literal></entry>
+<entry align="left" valign="top"><literal>DtTempDir</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">``$HOME/.dt/tmp''</entry></row>
+<row>
+<entry align="left" valign="top"><literal>executionHostLogging</literal></entry>
+<entry align="left" valign="top"><literal>ExecutionHostLogging</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">``False''</entry></row>
+<row>
+<entry align="left" valign="top"><literal>executionHosts</literal></entry>
+<entry align="left" valign="top"><literal>ExecutionHosts</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">``%DatabaseHost%, %LocalHost%''</entry></row>
+<row>
+<entry align="left" valign="top"><literal>localTerminal</literal></entry>
+<entry align="left" valign="top"><literal>LocalTerminal</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">``dtterm''</entry></row>
+<row>
+<entry align="left" valign="top"><literal>remoteTerminals</literal></entry>
+<entry align="left" valign="top"><literal>RemoteTerminals</literal></entry>
+<entry align="left" valign="top"><literal>string</literal></entry>
+<entry align="left" valign="top">None</entry></row>
+<row>
+<entry align="left" valign="top"><literal>waitTime</literal></entry>
+<entry align="left" valign="top"><literal>WaitTime</literal></entry>
+<entry align="left" valign="top"><literal>number</literal></entry>
+<entry align="left" valign="top">3</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><literal>actionIcon</literal></term>
+<listitem>
+<para>Specifies the default value of the <systemitem class="Constant">ICON</systemitem> field for actions that do not define the field. The default
+value of this resource is <literal>Dtactn</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>dtEnvMapForRemote</literal></term>
+<listitem>
+<para>Specifies a colon-separated list of environment variables names. Each
+variable contains a colon-separated list of pathnames to be mapped for remote
+actions (see &cdeman.tt.file.netfile; and &cdeman.tt.netfile.file;</para>
+<para>Only environment variables in the user's current environment (see <emphasis>environ</emphasis>(5)) are mapped. Supplemental environment variables such
+as those added by &cdeman.dtspcdenv;, for example, are not
+mapped.</para>
+<para>If a pathname contains substitution characters, only the portion of
+the path up to the first percent character is mapped, with the remaining portion
+appended to the resulting mapped portion. For example, if <systemitem class="EnvironVar">NLSPATH</systemitem> is set to <literal>/system/nlslib/%L/%N.cat</literal>,
+it maps to <literal>/net/host/system/nlslib/%L/%N.cat</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>dtexecPath</literal></term>
+<listitem>
+<para>Specifies the location of the &cdeman.dtexec; command that
+is used for terminal-based actions. The default value is <Filename>/usr/dt/bin/dtexec</Filename>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>dtTmpDir</literal></term>
+<listitem>
+<para>Specifies the full pathname of the directory to be used for holding
+temporary files created during action invocation. The directory must be visible
+to remote hosts used for action execution.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>executionHostLogging</literal></term>
+<listitem>
+<para>Turns on and off detailed logging to the user's <Filename>$HOME/.dt/errorlog</Filename> of action invocation events. The default value is False, which
+disables logging. Logging is enabled if this resource is set to True.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>executionHosts</literal></term>
+<listitem>
+<para>Specifies the default value of the <systemitem class="Constant">EXEC_HOST</systemitem> field for <systemitem class="Constant">COMMAND</systemitem>
+actions that do not define the field. The default value is <literal>%DatabaseHost%,%LocalHost%</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>localTerminal</literal></term>
+<listitem>
+<para>Specifies an alternative terminal emulator for terminal-based actions
+that execute locally. Any terminal emulator specified by this resource must
+support the <literal>&minus;title</literal> and <literal>&minus;e</literal>
+options as described in &cdeman.dtterm;. The default value is &cdeman.dtterm;.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>remoteTerminals</literal></term>
+<listitem>
+<para>Specifies the terminal emulator to use for terminal-based actions that
+execute on the named system. The value of this resource is a comma-separated
+list of the form <symbol role="Variable">host</symbol>:<emphasis>terminal-path</emphasis> where <emphasis>terminal-path</emphasis> is the terminal emulator
+used when invoking terminal-based actions on <symbol role="Variable">host</symbol>
+host. The default terminal emulator used for any host not specified
+by this resource is the emulator specified by the <systemitem class="Constant">localTerminal</systemitem> resource.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>waitTime</literal></term>
+<listitem>
+<para>Specifies the time threshold used for <systemitem class="Constant">COMMAND</systemitem> actions that specify <systemitem class="Constant">WINDOW_TYPE</systemitem> <systemitem class="Constant">TERMINAL</systemitem>. If the command
+exits in less than <emphasis>waitTime</emphasis> seconds, the terminal window
+is left open. The default value is 3.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>The following action is defined to pipe its argument through the <command>pr</command>(1) and <command>lp</command>(1) commands:</para>
+<informalexample remap="indent">
+<programlisting>ACTION PrintText
+{
+        ICON            printer
+        DESCRIPTION     Paginate and print a text file to the \
+                        default printer.
+        ARG_TYPE        Text
+        TYPE            COMMAND
+        EXEC_STRING     sh &minus;c 'pr %Arg_1"File to print:"% | lp'
+        WINDOW_TYPE     NO_STDIO
+}</programlisting>
+</informalexample>
+<para>The following action defines that <emphasis>Open</emphasis> on Text
+files use the EditText action:</para>
+<informalexample remap="indent">
+<programlisting>ACTION Open
+{
+        ARG_TYPE        Text
+        TYPE            MAP
+        MAP_ACTION      EditText
+}</programlisting>
+</informalexample>
+<para>The following action is defined to send the ToolTalk Display request
+message for non-writable objects:</para>
+<informalexample remap="indent">
+<programlisting>ACTION Display
+{
+        ARG_CLASS               BUFFER
+        ARG_MODE                !w
+        TYPE                    TT_MSG
+        TT_CLASS                TT_REQUEST
+        TT_SCOPE                TT_SESSION
+        TT_OPERATION            Display
+        TT_ARG0_MODE            TT_IN
+        TT_ARG0_VTYPE           %Arg_1%
+        TT_ARG0_VALUE           %Arg_1%
+}</programlisting>
+</informalexample>
+</refsect1>
+<refsect1>
+<title>APPLICATION USAGE</title>
+<para>Errors encountered when loading database files are written to the user's <Filename>$HOME/.dt/errorlog</Filename>. Errors encountered in the value of an action
+field cause the field to be rejected. If the field is a required field, the
+entire action definition is rejected. Errors encountered when an action is
+invoked cause an error dialog to be displayed to the user.</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para><filename role="Header">Tt/tt_c.h,</filename> &cdeman.dtdtfile;, &cdeman.dtdtsfile;, &cdeman.DtActionInvoke;, &cdeman.tt.file.netfile;, &cdeman.tt.netfile.file;, &cdeman.dtterm;.
+</para>
+</refsect1>
+</refentry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 01:31:55-->
+<?Pub *0000075778>

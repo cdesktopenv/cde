@@ -1,0 +1,99 @@
+<!-- $XConsortium: Get_Modi.sgm /main/5 1996/08/30 14:50:32 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<![ %CDE.C.CDE; [<RefEntry Id="CDEMX.XCDI.MAN290.rsml.1">]]>
+<![ %CDE.C.XO; [<RefEntry Id="XCDI.MAN290.rsml.1">]]>
+<RefMeta>
+<RefEntryTitle>Get_Modified</RefEntryTitle>
+<ManVolNum>special file</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol Role="Message">Get_Modified</Symbol></RefName>
+<RefPurpose>ask whether an entity has been modified
+</RefPurpose>
+</RefNameDiv>
+<!-- $XConsortium: Get_Modi.sgm /main/5 1996/08/30 14:50:32 rws $-->
+<!-- CDE Common Source Format, Version 1.0.0-->
+<!-- (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company-->
+<!-- (c) Copyright 1993, 1994, 1995 International Business Machines Corp.-->
+<!-- (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.-->
+<!-- (c) Copyright 1993, 1994, 1995 Novell, Inc.-->
+<RefSynopsisDiv>
+<Synopsis>[<Symbol Role="Variable">file</Symbol>] Get_Modified(in <Emphasis>type ID</Emphasis>,
+        out boolean <Emphasis>modified</Emphasis>);
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Symbol Role="Message">Get_Modified</Symbol> request
+asks whether any tool has modified a volatile,
+non-shared (for example, in-memory) representation of the persistent
+state of an entity (such as a file) with the intention of
+eventually making that representation persistent.
+</Para>
+<Para>Thus, a tool should register a dynamic pattern for this request
+when it has modified an entity of possible shared interest.
+</Para>
+<Para>The
+<Emphasis>ID</Emphasis> argument is the identity of the persistent entity being asked about.
+When its
+<Symbol Role="Variable">type</Symbol> is
+<Literal>File</Literal>, then
+<Emphasis>ID</Emphasis> is unset (in other words, has a value of
+<Literal>(char *)0</Literal>), and it refers to the file or directory
+named in the message's file attribute.
+</Para>
+<Para>The
+<Emphasis>modified</Emphasis> argument
+argument is a
+Boolean value indicating whether a volatile, non-shared
+(for example, in-memory) representation of the entity has been
+modified with the intention of eventually making that
+representation persistent.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>ERRORS</Title>
+<Para>The ToolTalk service may return one of the following errors
+in processing the
+<Symbol Role="Message">Get_Modified</Symbol> request:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>TT_ERR_NO_MATCH</Term>
+<ListItem>
+<Para>Since no handler could be found, the entity in question can be assumed
+not to be modified.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>APPLICATION USAGE</Title>
+<Para>The
+&cdeman.ttdt.file.join;, function
+can be used to register for,
+and transparently process, the
+<Symbol Role="Message">Get_Modified</Symbol> request.
+</Para>
+<Para>The
+<Symbol Role="Message">Get_Modified</Symbol> request can be sent with
+&cdeman.ttdt.file.request;; &cdeman.ttdt.Get.Modified;, can send the
+<Symbol Role="Message">Get_Modified</Symbol> request and block on the reply.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>SEE ALSO</Title>
+<Para>&cdeman.ttdt.file.join;, &cdeman.ttdt.file.request;, &cdeman.ttdt.file.request;, &cdeman.ttdt.Get.Modified;; <Emphasis>Set_Modified</Emphasis> request.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.12 mancsf-to-docbook 1.2 08/07/95 23:18:47-->

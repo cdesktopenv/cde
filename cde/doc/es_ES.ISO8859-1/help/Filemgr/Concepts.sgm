@@ -1,0 +1,363 @@
+<!-- $XConsortium: Concepts.sgm /main/12 1996/12/21 12:04:58 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<!-- Help volume: Filemgr  -->
+<!-- File name:   Concepts -->
+<chapter id="Concepts">
+<title>Conceptos del Gestor de archivos</title>
+<para>Para comprender mejor el Gestor de archivos, tal vez le interese leer
+los siguientes temas.</para>
+<itemizedlist mark="&bull;">
+<listitem id="HFMGR.CNCP.item.1"><para><xref linkend="TheHierarchicalFileSystemSI"></para>
+</listitem>
+<listitem id="HFMGR.CNCP.item.2"><para><xref linkend="PathConcepts"></para>
+</listitem>
+<listitem id="HFMGR.CNCP.item.3"><para><xref linkend="FileOwnershipAndSecuritySI"></para>
+</listitem>
+<listitem id="HFMGR.CNCP.item.4"><para><xref linkend="DesktopIntro"></para>
+</listitem>
+<listitem id="HFMGR.CNCP.item.5"><para><xref linkend="MatchingPatterns"></para>
+</listitem>
+<listitem id="HFMGR.CNCP.item.6"><para><xref linkend="IconBrowser"></para>
+</listitem>
+</itemizedlist>
+<sect1 id="TheHierarchicalFileSystemSI">
+<title>Sistema jerárquico de archivos</title>
+<indexterm><primary>Sistema jerárquico de archivos</primary></indexterm>
+<indexterm><primary>archivos: sistema, jerárquico</primary></indexterm>
+<indexterm><primary>definición: archivo</primary></indexterm>
+<para>Si no está familiarizado con los sistemas, la idea de un sistema
+jerárquico de archivos también puede resultarle nueva. Este
+tema describe los componentes básicos del sistema jerárquico
+de archivos.</para>
+<procedure>
+<title>¿Qué es un archivo?</title>
+<step><para>Un <emphasis>archivo</emphasis> es un contenedor que mantiene
+información. La mayoría de los archivos que utiliza contienen
+información (datos) en algún formato determinado&emdash;un documento,
+una hoja de cálculo, un diagrama. El formato es la manera determinada
+en que se disponen los datos dentro del archivo. El formato de un archivo
+se conoce como su tipo de datos.</para>
+<para>Cuando el Gestor de archivos es uno de sus modos de vista de icono,
+puede identificar el tipo de datos de un archivo por el icono que se utiliza
+para representar el archivo. Cada tipo de datos tiene un icono diferente.
+</para>
+<para>La mayoría de los programas de aplicación comprenden un
+número limitado de tipos de datos. Por ejemplo, un editor de documentos
+probablemente no puede leer un archivo de hoja de cálculo. El escritorio
+le ayuda a reconocer diferentes tipos de archivos utilizando una base de datos
+de "data types" tipo de datos. Un tipo de datos identifica los archivos de
+un formato determinado y los asocia con las aplicaciones adecuadas. En la
+mayor parte de los casos, cuando se efectúe una doble pulsación
+en un archivo, el escritorio ejecutará de forma automática la
+aplicación que comprenda el tipo de datos de dicho archivo.</para>
+<para>El tamaño máximo que se permite para un nombre de archivo
+varía de un sistema a otro. Algunos sistemas operativos no permiten
+nombres de archivo superiores a 14 caracteres. Si es necesario, consulte al
+administrador del sistema.</para>
+</step>
+</procedure>
+<procedure>
+<title>¿Qué es una carpeta?</title>
+<indexterm><primary>definición: carpeta</primary></indexterm>
+<step><para>Una <emphasis>carpeta</emphasis> es un contenedor para archivos,
+similar a una carpeta en un archivador. De hecho, el Gestor de archivos utiliza
+un icono de carpeta para representar una carpeta. Una carpeta puede contener
+otras carpetas&emdash; algunas veces se denominan <emphasis>subcarpetas</emphasis>.
+Con carpetas y subcarpetas, puede crear múltiples capas de organización
+que constituyen una jerarquía. (en otros contextos, se suele hacer
+referencia a las carpetas como directorios.)</para>
+<para>Si ha dibujado una imagen de la jerarquía de carpetas con cada
+subcarpeta bajo la carpeta que la contiene&emdash;su carpeta padre&emdash;y
+ha dibujado una línea que vaya de cada carpeta a su carpeta padre,
+la imagen será como un árbol boca abajo. Por tanto, a menudo
+llamamos a la jerarquía de carpetas un <emphasis>árbol</emphasis>
+de carpetas.</para>
+<para>Dentro de cualquier carpeta individual, cada nombre de archivo debe
+tener un nombre exclusivo. Sin embargo, los archivos de diferentes carpetas
+pueden tener el mismo nombre.</para>
+<para>A medida que vaya pasando de una carpeta a otra, se hará referencia
+a su ubicación actual como la <emphasis>carpeta actual</emphasis>.
+</para>
+</step>
+</procedure>
+<procedure>
+<title>¿Qué es una ruta?</title>
+<indexterm><primary>definición: ruta</primary></indexterm><indexterm>
+<primary>ruta: definida</primary></indexterm>
+<step><para>La ubicación de un archivo suele especificarse listando
+los nombres de las carpetas y subcarpetas que conducen al archivo&emdash;esta
+lista se llama una <emphasis>ruta</emphasis>. (Consulte <xref linkend="PathConcepts">.)
+La ruta de un archivo está visible en dos lugares del Gestor de archivos.
+Primero se muestra en la ruta con iconos como una cadena de carpetas. En segundo
+lugar, se muestra en forma de texto en la línea de ruta de texto por
+encima del área de visualización.</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="PathConcepts">
+<title>Rutas y nombres de ruta</title>
+<para>La ruta para un objeto es una forma de especificar el lugar en que está
+ubicado el objeto en el sistema de archivos. Existen tres formas de especificar
+la ruta: ruta absoluta, ruta relativa y ruta completa.</para>
+<procedure>
+<title>Rutas absolutas</title>
+<step><para>Una ruta es una ruta <emphasis>absoluta</emphasis> si empieza
+en la <emphasis>carpeta raíz</emphasis>. La carpeta raíz es
+la carpeta superior en el árbol de jerarquía de carpetas. Si
+una ruta empieza con una barra inclinada (<computeroutput>/</computeroutput>),
+es una ruta absoluta especificada desde la carpeta raíz. Por ejemplo,
+la siguiente es una ruta absoluta para el archivo <computeroutput>carta</computeroutput>:
+</para>
+<programlisting>/usr/dt/config/carta</programlisting>
+</step>
+</procedure>
+<procedure>
+<title>Rutas relativas</title>
+<step><para>Una ruta es una ruta <emphasis>relativa</emphasis> si describe
+la ubicación de un archivo o carpeta tal como se relaciona con la carpeta
+actual. Si se encuentra en una carpeta y desea moverse hacia abajo en el árbol
+de carpetas, no es necesario que escriba el nombre de ruta completo. Sólo
+es necesario que escriba la ruta que empieza con el nombre de la siguiente
+carpeta de la ruta. Si una ruta no empieza con una barra inclinada, se trata
+de una ruta relativa. Por ejemplo, si la carpeta actual es <computeroutput>/usr/dt</computeroutput>, y desea trasladarse a la carpeta ''/usr/dt/config/cartas'',
+utilizará la siguiente ruta relativa:</para>
+<programlisting>config/cartas</programlisting>
+<indexterm><primary>.. (carpeta padre)</primary></indexterm>
+<para>Existen dos nombres de carpeta especiales que son útiles al especificar
+rutas relativas. La carpeta <computeroutput>.</computeroutput> (a veces llamada
+"punto") representa la carpeta actual. La carpeta <computeroutput>..</computeroutput>
+(a veces llamada "punto-punto") representa la carpeta <emphasis>padre</emphasis>&emdash;la
+carpeta que queda un nivel por encima en la jerarquía de carpetas.
+Por ejemplo, si su carpeta actual es <computeroutput>/usr/dt/config/panels</computeroutput>, la ruta relativa para el archivo <computeroutput>sys.dtwmrc</computeroutput> pasa a ser:</para>
+<programlisting>../sys.dtwmrc</programlisting>
+<para>ya que el archivo está en la carpeta <computeroutput>/usr/dt/config</computeroutput>, un nivel por encima de la carpeta actual.</para>
+<!-- ¿Necesitamos la siguiente sección si los Sistemas remotos están     
+fuera? ************************************************************ <procedure>La
+ruta de red  Tanto el nombre de ruta absoluta como el nombre de ruta relativa
+los utilizan el sistema operativo y el escritorio. La ruta de red es una ruta
+especial que sólo utilizan determinadas aplicaciones del escritorio. Incluye
+el nombre del sistema que contiene el sistema de archivos.  He aquí un ejemplo
+de una ruta de red. El nombre del sistema es ``mysystem'':          <ex>mysystem:/usr/dt/config/sys.dtwmrc<\ex>
+************************************************************ -->
+</step>
+</procedure>
+<procedure>
+<title>Vea también</title>
+<step>
+<itemizedlist role="tight" mark="&bull;">
+<listitem id="HFMGR.CNCP.item.7"><para><xref linkend="ToChangeToAnotherDirectoryTA"> <!--
+* <xref ToSpecifyRemotePath> --></para>
+</listitem>
+<listitem id="HFMGR.CNCP.item.8"><para><xref linkend="ToFindAFileByNameTA"></para>
+</listitem>
+<listitem id="HFMGR.CNCP.item.9"><para><xref linkend="ToFindAFileByContentsTA"></para>
+</listitem>
+</itemizedlist>
+</step>
+</procedure>
+</sect1>
+<sect1 id="FileOwnershipAndSecuritySI">
+<title>Propiedad y seguridad del objeto</title>
+<para>Hay tres grupos de usuarios que pueden acceder a objetos: <emphasis>propietario</emphasis>, <emphasis>grupo</emphasis> y <emphasis>otros</emphasis>.
+El acceso se divide en tres funciones: permiso de <emphasis>lectura</emphasis>,
+permiso de <emphasis>escritura</emphasis> y permiso de <emphasis>ejecución</emphasis>.</para>
+<procedure>
+<title>¿Quién dispone de acceso?</title>
+<step><para>Las tres clases básicas de usuarios son:</para>
+<variablelist>
+<varlistentry><term><glossterm role="nogloss">Propietario</glossterm></term>
+<listitem>
+<para>Generalmente la persona que ha creado el archivo.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Grupo</glossterm></term>
+<listitem>
+<para>Varios usuarios que se han sido agrupados por el administrador del sistema.
+Por ejemplo, los miembros de un departamento pueden pertenecer al mismo grupo.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Otros</glossterm></term>
+<listitem>
+<para>Todos los demás usuarios del sistema.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</step>
+</procedure>
+<procedure>
+<title>¿Qué clase de acceso?</title>
+<step><para>Los permisos de acceso de un archivo especifican cómo pueden
+acceder a dicho archivo el propietario, los miembros del grupo y otros usuarios.
+</para>
+<variablelist>
+<varlistentry><term><glossterm role="nogloss">Permiso de lectura</glossterm></term>
+<listitem>
+<para>Permite obtener acceso para copiar o ver el contenido del objeto.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Permiso de escritura</glossterm></term>
+<listitem>
+<para>Permite el acceso para cambiar el contenido del objeto o eliminar el
+objeto.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><glossterm role="nogloss">Permiso de ejecución</glossterm></term>
+<listitem>
+<para>Para un archivo, permite el acceso para <emphasis>ejecutar</emphasis>
+el archivo (para acciones, scripts y archivos ejecutables). Para una carpeta,
+permite el acceso para ejecutar mandatos, scripts y acciones dentro de dicha
+carpeta.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Con el Gestor de archivos, puede examinar y cambiar los permisos de
+acceso para archivos o carpetas. Consulte <xref linkend="ToChangeAnObjectsOwnerTA">
+y <xref linkend="ToChangeAnObjectsPermissionsTA">.</para>
+</step>
+</procedure>
+<procedure>
+<title>Ejemplos</title>
+<step><para>Para hacer que una carpeta sea privada:</para>
+<itemizedlist mark="&bull;">
+<listitem id="HFMGR.CNCP.item.10"><para>Cambie las propiedades de la carpeta,
+otorgándose a usted mismo (el propietario) permiso de lectura, escritura
+y ejecución, pero sin otorgar permisos para el grupo y los demás
+usuarios. Esto significa que sólo usted y el usuario root pueden examinar
+el contenido de la carpeta.</para>
+</listitem>
+</itemizedlist>
+<para>Para hacer que un objeto que ha creado esté disponible para que
+puedan utilizarlo todos los usuarios, y protegerlo para que nadie sobreescriba
+en el mismo de forma inadvertida:</para>
+<itemizedlist mark="&bull;">
+<listitem id="HFMGR.CNCP.item.11"><para>Cambie las propiedades del archivo,
+otorgando permiso de lectura y ejecución al propietario, al grupo y
+a los demás usuarios. No otorgue a nadie permiso de escritura.</para>
+</listitem>
+</itemizedlist>
+</step>
+</procedure>
+<procedure>
+<title>Permisos predeterminados</title>
+<step><para>El administrador del sistema pueda alterar los permisos predeterminados
+que se utilizan cuando crea un nuevo archivo o carpeta.
+Para determinar cuáles son los valores predeterminados
+actuales, cree un nuevo archivo o carpeta, y a continuación
+seleccione Cambiar permisos desde el menú Seleccionado para
+examinar los permisos predeterminados.</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="DesktopIntro">
+<title>Cómo hacer que los objetos sean más accesibles - Introducción &newline;
+Objetos del espacio de trabajo</title>
+<indexterm><primary>objetos del espacio de trabajo</primary></indexterm><indexterm>
+<primary>espacio de trabajo: objetos</primary></indexterm>
+<para>El Gestor de archivos proporciona una forma de examinar todos los objetos
+del sistema de archivos. Sin embargo, el objeto sólo está visible
+cuando se examina la carpeta en la que se encuentra.</para>
+<para>Para hacer que un objeto sea más accesible, puede colocarlo directamente
+en el fondo del espacio de trabajo. El espacio de trabajo es el área
+o superficie en que aparecen las ventanas. (Vea <xref linkend="ToPutAnObjectOnTheDesktopTA">.)
+Cuando se coloca un objeto en este lugar, se denomina un <emphasis>objeto
+del espacio de trabajo</emphasis>.</para>
+<para>Colocar un objeto en el espacio de trabajo no altera el archivo o carpeta
+original. De hecho, el icono que aparece en el escritorio en realidad sólo
+es un método abreviado (enlace) para acceder al archivo o carpeta real.
+Cualquier operación que se realiza en el objeto del espacio de trabajo
+en realidad se realiza en el archivo o carpeta que representa.</para>
+<procedure>
+<title>Objetos del espacio de trabajo que aparecen en un espacio de trabajo</title>
+<step><para>Cuando coloca un objeto en el espacio de trabajo, sólo
+aparece en el espacio de trabajo actual. Si desea que el objeto esté
+en otros espacios de trabajo, debe conmutar a dichos espacios de trabajo y
+colocar el objeto en los mismos.</para>
+</step>
+</procedure>
+<procedure>
+<title>Uso de los objetos del espacio de trabajo</title>
+<step><para>Los objetos del espacio de trabajo se utilizan exactamente igual
+que los objetos de las ventanas del Gestor de archivos o del Gestor de aplicaciones.
+Para ejecutar una acción predeterminada de un objeto, efectúe
+una doble pulsación sobre su icono en el escritorio.</para>
+<para>Cada objeto del espacio de trabajo también tiene un menú
+emergente que contiene mandatos y acciones para el objeto. Para mostrar el
+menú emergente para un objeto del espacio de trabajo utilizando el
+ratón, señale el icono y a continuación pulse y mantenga
+pulsado el botón 3 del ratón. Para mostrar el menú mediante
+el teclado, pulse Alt+Tab hasta que se resalte el icono, y a continuación
+pulse Despl+F10.</para>
+</step>
+</procedure>
+</sect1>
+<sect1 id="MatchingPatterns">
+<title>Patrones de coincidencia para buscar archivos</title>
+<indexterm><primary>caracteres comodín, coincidencia</primary></indexterm>
+<indexterm><primary>coincidencia de caracteres comodín</primary></indexterm>
+<para>Cuando especifica un nombre de archivo o carpeta, puede incluir caracteres
+comodín como por ejemplo el asterisco (<computeroutput>*</computeroutput>)
+y el interrogante (<computeroutput>?</computeroutput>). El <computeroutput>*</computeroutput> coincide con cualquier cadena de cero o más caracteres,
+y <computeroutput>?</computeroutput> coincide con cualquier carácter
+único.</para>
+<procedure>
+<title>Ejemplos</title>
+<step>
+<variablelist>
+<varlistentry><term><computeroutput>ba*</computeroutput></term>
+<listitem>
+<para>Coincide con todos los nombres que empiezan con la cadena <computeroutput>ba</computeroutput></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>ba?</computeroutput></term>
+<listitem>
+<para>Coincide con todos los nombres de tres letras que empiezan con la cadena <computeroutput>ba</computeroutput></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>*.vf</computeroutput></term>
+<listitem>
+<para>Coincide con todos los nombres que terminan con la extensión <computeroutput>.vf</computeroutput></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><computeroutput>*.???</computeroutput></term>
+<listitem>
+<para>Coincide con todos los nombres que tienen una extensión de punto
+de tres caracteres</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<note>
+<para>El nombre y el contenido del archivo pueden especificarse utilizando
+la misma sintaxis de expresión regular que permite el mandato <computeroutput>find</computeroutput>. (Consulte la página manual <computeroutput>find (1)</computeroutput> para obtener más información.)</para>
+</note>
+</step>
+</procedure>
+</sect1>
+<sect1 id="IconBrowser">
+<title>Uso del Gestor de archivos como examinador de iconos</title>
+<para>Los archivos cuyos nombres terminan en <computeroutput>.pm</computeroutput>
+o <computeroutput>.bm</computeroutput> contienen dibujos de icono. Estos son
+los iconos que el Gestor de archivos utiliza cuando crea iconos. De forma
+predeterminada, debe abrir estos archivos para ver los dibujos que contienen.
+Si habilita el examinador de icono, el Gestor de archivos hará que
+el icono de cada archivo sea como el dibujo que está almacenado dentro
+del archivo.</para>
+<para>Para averiguar cómo volver a configurar el Gestor de archivos
+para el examinador de icono, consulte:</para>
+<itemizedlist mark="&bull;">
+<listitem id="HFMGR.CNCP.item.12"><para><xref linkend="ToEnableIconBrowsingTA"></para>
+</listitem>
+<listitem id="HFMGR.CNCP.item.13"><para><xref linkend="ToDisableIconBrowsingTA"></para>
+</listitem>
+</itemizedlist>
+<!-- EOF: Conceptos -->
+</sect1>
+</chapter>
+<!--fickle 1.15 help-to-docbook 1.4 01/17/96 17:55:17-->
+<?Pub *0000022499>
